@@ -288,6 +288,23 @@ create_metadata (const char *key,
 
 
 static void
+add_string_list_to_metadata (GthMetadata        *metadata,
+			     const Exiv2::Value &value)
+{
+	GList         *list = NULL;
+	GthStringList *string_list;
+
+	for (int i = 0; i < value.count(); i++)
+		list = g_list_prepend (list, g_strdup (value.toString(i).c_str()));
+	string_list = gth_string_list_new (g_list_reverse (list));
+	g_object_set (metadata, "string-list", string_list, NULL);
+
+	g_object_unref (string_list);
+	_g_string_list_free (list);
+}
+
+
+static void
 set_file_info (GFileInfo  *info,
 	       const char *key,
 	       const char *description,
@@ -644,6 +661,13 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 						    raw_value.str().c_str(),
 						    "Xmp::Embedded",
 						    md->typeName());
+
+			if ((g_strcmp0 (md->typeName(), "XmpBag") == 0)
+			    || (g_strcmp0 (md->typeName(), "XmpSeq") == 0))
+			{
+				add_string_list_to_metadata (metadata, md->value());
+			}
+
 			add_metadata_to_hash (table, metadata);
 			_g_object_unref (metadata);
 		}
@@ -1101,12 +1125,28 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 					}
 				}
 				else if (GTH_IS_METADATA (metadatum)) {
-					const char *raw_value;
+					const char    *raw_value;
+					GthStringList *string_list;
+					GList         *scan;
 
-					raw_value = gth_metadata_get_raw (GTH_METADATA (metadatum));
-					if ((raw_value != NULL) && (strcmp (raw_value, "") != 0)) {
-						value->read (raw_value);
-						xd.add (xmp_key, value.get());
+					switch (gth_metadata_get_data_type (GTH_METADATA (metadatum))) {
+					case GTH_METADATA_TYPE_STRING:
+						raw_value = gth_metadata_get_raw (GTH_METADATA (metadatum));
+						if ((raw_value != NULL) && (strcmp (raw_value, "") != 0)) {
+							value->read (raw_value);
+							xd.add (xmp_key, value.get());
+						}
+						break;
+
+					case GTH_METADATA_TYPE_STRING_LIST:
+						string_list = gth_metadata_get_string_list (GTH_METADATA (metadatum));
+						for (scan = gth_string_list_get_list (string_list); scan; scan = scan->next) {
+							char *single_value = (char *) scan->data;
+
+							value->read (single_value);
+							xd.add (xmp_key, value.get());
+						}
+						break;
 					}
 				}
 			}
