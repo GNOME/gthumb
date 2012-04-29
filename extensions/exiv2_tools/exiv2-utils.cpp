@@ -847,6 +847,13 @@ exiv2_read_sidecar (GFile     *file,
 							    raw_value.str().c_str(),
 							    "Xmp::Sidecar",
 							    md->typeName());
+
+				if ((g_strcmp0 (md->typeName(), "XmpBag") == 0)
+				    || (g_strcmp0 (md->typeName(), "XmpSeq") == 0))
+				{
+					add_string_list_to_metadata (metadata, *md);
+				}
+
 				add_metadata_to_hash (table, metadata);
 				_g_object_unref (metadata);
 			}
