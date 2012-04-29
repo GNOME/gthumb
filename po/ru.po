@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: gthumb trunk\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-12-13 18:49+0000\n"
-"PO-Revision-Date: 2012-01-05 00:47+0300\n"
+"PO-Revision-Date: 2012-04-29 12:11+0300\n"
 "Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4903,7 +4903,7 @@ msgstr[2] "%d файлов выделено (%s)"
 #: ../gthumb/gth-browser.c:1031
 #, c-format
 msgid "%s of free space"
-msgstr "%s свободного маста"
+msgstr "%s свободного места"
 
 #: ../gthumb/gth-browser.c:1240
 #: ../gthumb/gth-browser.c:1799
