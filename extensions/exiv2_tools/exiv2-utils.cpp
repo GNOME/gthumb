@@ -288,8 +288,8 @@ create_metadata (const char *key,
 
 
 static void
-add_string_list_to_metadata (GthMetadata        *metadata,
-			     const Exiv2::Value &value)
+add_string_list_to_metadata (GthMetadata            *metadata,
+			     const Exiv2::Metadatum &value)
 {
 	GList         *list = NULL;
 	GthStringList *string_list;
@@ -665,7 +665,7 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 			if ((g_strcmp0 (md->typeName(), "XmpBag") == 0)
 			    || (g_strcmp0 (md->typeName(), "XmpSeq") == 0))
 			{
-				add_string_list_to_metadata (metadata, md->value());
+				add_string_list_to_metadata (metadata, *md);
 			}
 
 			add_metadata_to_hash (table, metadata);
@@ -817,6 +817,13 @@ exiv2_read_sidecar (GFile     *file,
 							    raw_value.str().c_str(),
 							    "Xmp::Sidecar",
 							    md->typeName());
+
+				if ((g_strcmp0 (md->typeName(), "XmpBag") == 0)
+				    || (g_strcmp0 (md->typeName(), "XmpSeq") == 0))
+				{
+					add_string_list_to_metadata (metadata, *md);
+				}
+
 				add_metadata_to_hash (table, metadata);
 				_g_object_unref (metadata);
 			}
