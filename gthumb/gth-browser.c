@@ -5204,7 +5204,7 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 
 		case GDK_KEY_f:
 			gth_browser_fullscreen (browser);
-			break;
+			return TRUE;
 		}
 	}
 
