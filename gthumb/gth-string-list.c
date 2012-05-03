@@ -193,11 +193,8 @@ void
 gth_string_list_concat (GthStringList  *list1,
 			GthStringList  *list2)
 {
-	GList *scan;
-
 	if (list2 == NULL)
 		return;
-
 	list1->priv->list = g_list_concat (list1->priv->list, _g_string_list_dup (list2->priv->list));
 }
 
