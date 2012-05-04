@@ -1120,13 +1120,26 @@ gth_folder_tree_set_list (GthFolderTree *folder_tree,
 static void
 emit_fake_motion_notify_event (GthFolderTree *folder_tree)
 {
-	GdkEventMotion event;
-	int            x, y;
+	GtkWidget      *widget = GTK_WIDGET (folder_tree);
+	GdkDevice      *device;
+	GdkWindow      *window;
+	GdkEventMotion  event;
+	int             x, y;
 
-	gtk_widget_get_pointer (GTK_WIDGET (folder_tree), &x, &y);
+	if (! gtk_widget_get_realized (widget))
+		return;
+
+	device = gdk_device_manager_get_client_pointer (
+		   gdk_display_get_device_manager (
+		     gtk_widget_get_display (GTK_WIDGET (folder_tree))));
+	window = gdk_window_get_device_position (gtk_widget_get_window (widget),
+						 device,
+						 &x,
+						 &y,
+						 NULL);
 
 	event.type = GDK_MOTION_NOTIFY;
-	event.window = gtk_tree_view_get_bin_window (GTK_TREE_VIEW (folder_tree));
+	event.window = (window != NULL) ? window : gtk_tree_view_get_bin_window (GTK_TREE_VIEW (folder_tree));
 	event.send_event = TRUE;
 	event.time = GDK_CURRENT_TIME;
 	event.x = x;
@@ -1134,9 +1147,9 @@ emit_fake_motion_notify_event (GthFolderTree *folder_tree)
 	event.axes = NULL;
 	event.state = 0;
 	event.is_hint = FALSE;
-	event.device = NULL;
+	event.device = device;
 
-	GTK_WIDGET_GET_CLASS (folder_tree)->motion_notify_event ((GtkWidget*) folder_tree, &event);
+	GTK_WIDGET_GET_CLASS (folder_tree)->motion_notify_event (widget, &event);
 }
 
 
