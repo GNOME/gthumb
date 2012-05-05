@@ -2866,6 +2866,8 @@ filterbar_changed_cb (GthFilterbar *filterbar,
 
 	if (_gth_browser_reload_required (browser))
 		gth_browser_reload (browser);
+	else if (browser->priv->current_file != NULL)
+		gth_file_list_make_file_visible (GTH_FILE_LIST (browser->priv->file_list), browser->priv->current_file->file);
 }
 
 
