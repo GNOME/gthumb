@@ -710,11 +710,11 @@ _gth_grid_view_layout_line (GthGridView     *self,
 }
 
 
-static void
-_gth_grid_view_add_and_layout_line (GthGridView *self,
-		     	     	    GList       *items,
-		     	     	    int          y,
-		     	     	    int          height)
+static GthGridViewLine *
+_gth_grid_view_line_new (GthGridView *self,
+		     	 GList       *items,
+		     	 int          y,
+		     	 int          height)
 {
 	GthGridViewLine *line;
 
@@ -724,7 +724,7 @@ _gth_grid_view_add_and_layout_line (GthGridView *self,
 	line->height = height;
 	_gth_grid_view_layout_line (self, line);
 
-	self->priv->lines = g_list_prepend (self->priv->lines, line);
+	return line;
 }
 
 
@@ -781,12 +781,14 @@ _gth_grid_view_relayout_at (GthGridView *self,
 		    	    int          pos,
 		    	    int          y)
 {
+	GList *new_lines;
 	int    items_per_line;
 	GList *items;
 	int    max_height;
 	GList *scan;
 	int    n;
 
+	new_lines = NULL;
 	items_per_line = gth_grid_view_get_items_per_line (self);
 	items = NULL;
 	max_height = 0;
@@ -798,7 +800,7 @@ _gth_grid_view_relayout_at (GthGridView *self,
 
 		if ((n % items_per_line) == 0) {
 			if (items != NULL) {
-				_gth_grid_view_add_and_layout_line (self, items, y, max_height);
+				new_lines = g_list_prepend (new_lines, _gth_grid_view_line_new (self, items, y, max_height));
 				items = NULL;
 				y += max_height + self->priv->cell_spacing;
 			}
@@ -812,11 +814,11 @@ _gth_grid_view_relayout_at (GthGridView *self,
 	}
 
 	if (items != NULL) {
-		_gth_grid_view_add_and_layout_line (self, items, y, max_height);
+		new_lines = g_list_prepend (new_lines, _gth_grid_view_line_new (self, items, y, max_height));
 		y += max_height + self->priv->cell_spacing;
 	}
 
-	self->priv->lines = g_list_reverse (self->priv->lines);
+	self->priv->lines = g_list_concat (self->priv->lines, g_list_reverse (new_lines));
 
 	if (y != self->priv->height) {
 		GtkAllocation allocation;
