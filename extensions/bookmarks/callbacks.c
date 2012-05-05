@@ -213,9 +213,17 @@ _gth_browser_update_system_bookmark_list (GthBrowser *browser)
 	GFileInputStream    *input_stream;
 	UpdateBookmarksData *data;
 
-	bookmark_file_path = g_build_filename (g_get_home_dir (), ".gtk-bookmarks", NULL);
+	/* give priority to XDG_CONFIG_HOME/gtk-3.0/bookmarks if not found
+	 * try the old ~/.gtk-bookmarks */
+	bookmark_file_path = gth_user_dir_get_file (GTH_DIR_CONFIG, "gtk-3.0", "bookmarks", NULL);
 	bookmark_file = g_file_new_for_path (bookmark_file_path);
 	g_free (bookmark_file_path);
+	if (! g_file_query_exists (bookmark_file, NULL)) {
+		g_object_unref (bookmark_file);
+		bookmark_file_path = g_build_filename (g_get_home_dir (), ".gtk-bookmarks", NULL);
+		bookmark_file = g_file_new_for_path (bookmark_file_path);
+		g_free (bookmark_file_path);
+	}
 
 	input_stream = g_file_read (bookmark_file, NULL, NULL);
 	g_object_unref (bookmark_file);
