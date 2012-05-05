@@ -462,13 +462,21 @@ cache_image_ready_cb (GObject      *source_object,
 static gboolean
 is_a_cache_file (const char *uri)
 {
-	char     *cache_base_uri;
+	char     *filename;
+	char     *cache_dir_1;
+	char     *cache_dir_2;
 	gboolean  result;
 
-	cache_base_uri = g_strconcat (get_home_uri (), "/.thumbnails", NULL);
-	result = _g_uri_parent_of_uri (cache_base_uri, uri);
+	filename = g_filename_from_uri (uri, NULL, NULL);
+	if (filename == NULL)
+		return FALSE;
 
-	g_free (cache_base_uri);
+	cache_dir_1 = g_build_filename (g_get_home_dir (), ".thumbnails", NULL);
+	cache_dir_2 = g_build_filename (g_get_user_cache_dir (), "thumbnails", NULL);
+	result = _g_uri_parent_of_uri (cache_dir_1, filename) || _g_uri_parent_of_uri (cache_dir_2, filename);
+
+	g_free (cache_dir_1);
+	g_free (cache_dir_2);
 
 	return result;
 }
