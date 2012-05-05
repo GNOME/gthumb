@@ -488,50 +488,24 @@ _gth_thumb_loader_save_to_cache (GthThumbLoader *self,
 				 GdkPixbuf      *pixbuf)
 {
 	char  *uri;
-	char  *cache_path;
-	GFile *cache_file;
-	GFile *cache_dir;
 
 	if ((self == NULL) || (pixbuf == NULL))
 		return FALSE;
 
 	uri = g_file_get_uri (file_data->file);
 
-	if (g_file_is_native (file_data->file)) {
+	/* Do not save thumbnails from the user's thumbnail directory,
+	 * or an endless loop of thumbnailing may be triggered. */
 
-		/* Do not save thumbnails from the user's thumbnail directory,
-		   or an endless loop of thumbnailing may be triggered. */
-
-		if (is_a_cache_file (uri)) {
-			g_free (uri);
-			return FALSE;
-		}
-	}
-
-	cache_path = gnome_desktop_thumbnail_path_for_uri (uri, self->priv->thumb_size);
-	if (cache_path == NULL) {
+	if (is_a_cache_file (uri)) {
 		g_free (uri);
 		return FALSE;
 	}
 
-	cache_file = g_file_new_for_path (cache_path);
-	cache_dir = g_file_get_parent (cache_file);
-
-	if (_g_directory_make (cache_dir, THUMBNAIL_DIR_PERMISSIONS, NULL)) {
-		char *uri;
-
-		uri = g_file_get_uri (file_data->file);
-		gnome_desktop_thumbnail_factory_save_thumbnail (self->priv->thumb_factory,
-								pixbuf,
-								uri,
-								gth_file_data_get_mtime (file_data));
-		g_free (uri);
-	}
-
-	g_object_unref (cache_dir);
-	g_object_unref (cache_file);
-	g_free (cache_path);
-	g_free (uri);
+	gnome_desktop_thumbnail_factory_save_thumbnail (self->priv->thumb_factory,
+							pixbuf,
+							uri,
+							gth_file_data_get_mtime (file_data));
 
 	return TRUE;
 }
