@@ -159,8 +159,8 @@ ok_clicked_cb (GtkWidget  *widget,
 			    MIME_TYPE_COLUMN_TYPE, &mime_type,
 			    -1);
 
-	g_settings_set_boolean (data->settings, PREF_RESIZE_IMAGES_SERIES_WIDTH, resize_data->width);
-	g_settings_set_boolean (data->settings, PREF_RESIZE_IMAGES_SERIES_HEIGHT, resize_data->height);
+	g_settings_set_int (data->settings, PREF_RESIZE_IMAGES_SERIES_WIDTH, resize_data->width);
+	g_settings_set_int (data->settings, PREF_RESIZE_IMAGES_SERIES_HEIGHT, resize_data->height);
 	g_settings_set_enum (data->settings, PREF_RESIZE_IMAGES_UNIT, resize_data->unit);
 	g_settings_set_boolean (data->settings, PREF_RESIZE_IMAGES_KEEP_RATIO, resize_data->keep_aspect_ratio);
 	g_settings_set_string (data->settings, PREF_RESIZE_IMAGES_MIME_TYPE, mime_type ? mime_type : "");
