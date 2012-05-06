@@ -2131,6 +2131,8 @@ _gth_browser_close_final_step (gpointer user_data)
 			}
 		}
 
+		g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_WINDOW_MAXIMIZED, maximized);
+
 		gtk_widget_get_allocation (browser->priv->browser_sidebar, &allocation);
 		if (allocation.width > MIN_SIDEBAR_SIZE)
 			g_settings_set_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH, allocation.width);
@@ -4198,7 +4200,8 @@ gth_browser_init (GthBrowser *browser)
 		window_height = max_height;
 	}
 	gtk_window_set_default_size (GTK_WINDOW (browser), window_width, window_height);
-
+	if (g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_WINDOW_MAXIMIZED))
+		gtk_window_maximize(GTK_WINDOW (browser));
 	gtk_window_set_has_resize_grip (GTK_WINDOW (browser), TRUE);
 
 	/* realize the widget before adding the ui to get the icons from the icon theme */

@@ -67,6 +67,7 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_TOOLBAR_STYLE            "toolbar-style"
 #define PREF_BROWSER_WINDOW_WIDTH             "window-width"
 #define PREF_BROWSER_WINDOW_HEIGHT            "window-height"
+#define PREF_BROWSER_WINDOW_MAXIMIZED         "maximized"
 #define PREF_BROWSER_TOOLBAR_VISIBLE          "toolbar-visible"
 #define PREF_BROWSER_STATUSBAR_VISIBLE        "statusbar-visible"
 #define PREF_BROWSER_FILTERBAR_VISIBLE        "filterbar-visible"
