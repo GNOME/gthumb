@@ -249,8 +249,8 @@ gth_grid_view_item_set_thumbnail (GthGridViewItem *item,
 
 
 #define MAX_TEXT_LENGTH     70
-#define ODD_ROW_ATTR_STYLE  ""
-#define EVEN_ROW_ATTR_STYLE " style='italic'"
+#define ODD_ROW_ATTR_STYLE  " size='small'"
+#define EVEN_ROW_ATTR_STYLE " size='small' style='italic'"
 
 
 static void
@@ -1012,7 +1012,7 @@ gth_grid_view_realize (GtkWidget *widget)
 
 	self->priv->caption_layout = gtk_widget_create_pango_layout (widget, NULL);
 	pango_layout_set_wrap (self->priv->caption_layout, PANGO_WRAP_WORD_CHAR);
-	pango_layout_set_alignment (self->priv->caption_layout, PANGO_ALIGN_CENTER);
+	pango_layout_set_alignment (self->priv->caption_layout, PANGO_ALIGN_LEFT);
 	pango_layout_set_spacing (self->priv->caption_layout, CAPTION_LINE_SPACING);
 
 	/**/
