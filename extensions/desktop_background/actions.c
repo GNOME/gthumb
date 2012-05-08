@@ -80,15 +80,11 @@ static GFile *
 get_wallpaper_file_n (int n)
 {
 	char  *name;
-	char  *filename;
 	GFile *file;
 
 	name = g_strdup_printf ("wallpaper%d.jpeg", n);
-	gth_user_dir_make_dir_for_file (GTH_DIR_DATA, GTHUMB_DIR, name, NULL);
-	filename = gth_user_dir_get_file (GTH_DIR_DATA, GTHUMB_DIR, name, NULL);
-	file = g_file_new_for_path (filename);
+	file = gth_user_dir_get_file_for_write (GTH_DIR_DATA, GTHUMB_DIR, name, NULL);
 
-	g_free (filename);
 	g_free (name);
 
 	return file;

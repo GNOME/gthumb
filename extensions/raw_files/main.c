@@ -236,16 +236,18 @@ static char *
 get_cache_full_path (const char *filename,
 		     const char *extension)
 {
-	char *name;
-	char *cache_filename;
+	char  *name;
+	GFile *file;
+	char  *cache_filename;
 
 	if (extension == NULL)
 		name = g_strdup (filename);
 	else
 		name = g_strconcat (filename, ".", extension, NULL);
-	gth_user_dir_make_dir_for_file (GTH_DIR_CACHE, "gthumb", name, NULL);
-	cache_filename = gth_user_dir_get_file (GTH_DIR_CACHE, "gthumb", name, NULL);
+	file = gth_user_dir_get_file_for_write (GTH_DIR_CACHE, GTHUMB_DIR, name, NULL);
+	cache_filename = g_file_get_path (file);
 
+	g_object_unref (file);
 	g_free (name);
 
 	return cache_filename;

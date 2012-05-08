@@ -82,6 +82,7 @@ migration_for_each_file (GFile     *file,
 	char          *extension;
 	char          *new_buffer;
 	gsize          new_buffer_size;
+	GFile         *catalogs_dir;
 	char          *catalogs_path;
 	char          *relative_path;
 	char          *tmp_path;
@@ -428,7 +429,8 @@ migration_for_each_file (GFile     *file,
 
 	new_buffer = dom_document_dump (document, &new_buffer_size);
 
-	catalogs_path = gth_user_dir_get_file (GTH_DIR_DATA, "gthumb", "catalogs", NULL);
+	catalogs_dir = gth_user_dir_get_file_for_write (GTH_DIR_DATA, GTHUMB_DIR, "catalogs", NULL);
+	catalogs_path = g_file_get_path (catalogs_dir);
 	relative_path = g_file_get_relative_path (data->collections_dir, file);
 	tmp_path = g_strconcat (catalogs_path, G_DIR_SEPARATOR_S, relative_path, NULL);
 	full_path_no_ext = _g_uri_remove_extension (tmp_path);
@@ -463,6 +465,7 @@ migration_for_each_file (GFile     *file,
 	g_free (tmp_path);
 	g_free (relative_path);
 	g_free (catalogs_path);
+	g_object_unref (catalogs_dir);
 	g_free (new_buffer);
 	g_object_unref (document);
 	g_free (buffer);

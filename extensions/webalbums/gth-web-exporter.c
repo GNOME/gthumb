@@ -267,7 +267,6 @@ static GFile *
 get_style_dir (GthWebExporter *self,
 	       const char     *style_name)
 {
-	char  *style_path;
 	GFile *style_dir;
 	GFile *data_dir;
 
@@ -276,9 +275,7 @@ get_style_dir (GthWebExporter *self,
 
 	/* search in local themes */
 
-	style_path = gth_user_dir_get_file (GTH_DIR_DATA, GTHUMB_DIR, "albumthemes", style_name, NULL);
-	style_dir = g_file_new_for_path (style_path);
-	g_free (style_path);
+	style_dir = gth_user_dir_get_file_for_read (GTH_DIR_DATA, GTHUMB_DIR, "albumthemes", style_name, NULL);
 	if (g_file_query_exists (style_dir, NULL))
 		return style_dir;
 

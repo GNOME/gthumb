@@ -755,14 +755,14 @@ GList *
 picasa_web_accounts_load_from_file (char **_default)
 {
 	GList       *accounts = NULL;
-	char        *filename;
+	GFile       *file;
 	char        *buffer;
 	gsize        len;
 	DomDocument *doc;
 
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
-	if (! g_file_get_contents (filename, &buffer, &len, NULL)) {
-		g_free (filename);
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
+	if (! g_load_file_in_buffer (file, (void **) &buffer, &len, NULL, NULL)) {
+		g_object_unref (file);
 		return NULL;
 	}
 
@@ -795,7 +795,7 @@ picasa_web_accounts_load_from_file (char **_default)
 
 	g_object_unref (doc);
 	g_free (buffer);
-	g_free (filename);
+	g_object_unref (file);
 
 	return accounts;
 }
@@ -810,7 +810,6 @@ picasa_web_accounts_save_to_file (GList      *accounts,
 	GList       *scan;
 	char        *buffer;
 	gsize        len;
-	char        *filename;
 	GFile       *file;
 
 	doc = dom_document_new ();
@@ -828,14 +827,11 @@ picasa_web_accounts_save_to_file (GList      *accounts,
 		dom_element_append_child (root, node);
 	}
 
-	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
-	file = g_file_new_for_path (filename);
+	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
 	buffer = dom_document_dump (doc, &len);
 	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
 
 	g_free (buffer);
 	g_object_unref (file);
-	g_free (filename);
 	g_object_unref (doc);
 }

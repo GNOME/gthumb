@@ -23,6 +23,7 @@
 #define GTH_USER_DIR_H
 
 #include <glib.h>
+#include <gio/gio.h>
 
 G_BEGIN_DECLS
 
@@ -34,12 +35,15 @@ typedef enum {
 
 #define GTHUMB_DIR "gthumb"
 
-char *  gth_user_dir_get_file              (GthDir      dir_type,
-					    const char *first_element,
-				            ...);
-void    gth_user_dir_make_dir_for_file     (GthDir      dir_type,
+void    gth_user_dir_mkdir_with_parents     (GthDir      dir_type,
 					    const char *first_element,
                                             ...);
+GFile * gth_user_dir_get_file_for_read     (GthDir      dir_type,
+					    const char *first_element,
+				            ...);
+GFile * gth_user_dir_get_file_for_write    (GthDir      dir_type,
+					    const char *first_element,
+				            ...);
 
 G_END_DECLS
 

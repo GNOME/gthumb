@@ -727,18 +727,18 @@ oauth_accounts_load_from_file (const char *service_name,
 {
 	GList       *accounts = NULL;
 	char        *filename;
-	char        *path;
+	GFile       *file;
 	char        *buffer;
 	gsize        len;
 	GError      *error = NULL;
 	DomDocument *doc;
 
 	filename = g_strconcat (service_name, ".xml", NULL);
-	path = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
-	if (! g_file_get_contents (path, &buffer, &len, &error)) {
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
+	if (! g_load_file_in_buffer (file, (void **) &buffer, &len, NULL, &error)) {
 		g_warning ("%s\n", error->message);
 		g_error_free (error);
-		g_free (path);
+		g_object_unref (file);
 		g_free (filename);
 		return NULL;
 	}
@@ -771,7 +771,7 @@ oauth_accounts_load_from_file (const char *service_name,
 
 	g_object_unref (doc);
 	g_free (buffer);
-	g_free (path);
+	g_object_unref (file);
 	g_free (filename);
 
 	return accounts;
@@ -805,7 +805,6 @@ oauth_accounts_save_to_file (const char   *service_name,
 	char        *buffer;
 	gsize        len;
 	char        *filename;
-	char        *path;
 	GFile       *file;
 
 	doc = dom_document_new ();
@@ -824,15 +823,12 @@ oauth_accounts_save_to_file (const char   *service_name,
 	}
 
 	filename = g_strconcat (service_name, ".xml", NULL);
-	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
-	path = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
-	file = g_file_new_for_path (path);
+	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
 	buffer = dom_document_dump (doc, &len);
 	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
 
 	g_free (buffer);
 	g_object_unref (file);
-	g_free (path);
 	g_free (filename);
 	g_object_unref (doc);
 }

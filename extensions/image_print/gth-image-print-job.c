@@ -1653,6 +1653,7 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 {
 	GthImagePrintJob *self = user_data;
 	GtkPrintSettings *settings;
+	GFile            *file;
 	char             *filename;
 	PangoLayout      *pango_layout;
 
@@ -1664,9 +1665,11 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 
 	/* save the page setup */
 
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, "gthumb", "page_setup", NULL);
+	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, "page_setup", NULL);
+	filename = g_file_get_path (file);
 	gtk_page_setup_to_file (self->priv->page_setup, filename, NULL);
 	g_free (filename);
+	g_object_unref (file);
 
 	self->priv->printing = TRUE;
 
@@ -1737,12 +1740,16 @@ print_operation_done_cb (GtkPrintOperation       *operation,
 	}
 	else if (result == GTK_PRINT_OPERATION_RESULT_APPLY) {
 		GtkPrintSettings *settings;
+		GFile            *file;
 		char             *filename;
 
 		settings = gtk_print_operation_get_print_settings (operation);
-		filename = gth_user_dir_get_file (GTH_DIR_CONFIG, "gthumb", "print_settings", NULL);
+		file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, "print_settings", NULL);
+		filename = g_file_get_path (file);
 		gtk_print_settings_to_file (settings, filename, NULL);
+
 		g_free (filename);
+		g_object_unref (file);
 	}
 
 	g_object_unref (self);
@@ -1836,6 +1843,7 @@ load_image_info_task_completed_cb (GthTask  *task,
 	GthImageInfo            **loaded_images;
 	int                       i, j;
 	GtkPrintOperationResult   result;
+	GFile                    *file;
 	char                     *filename;
 	GtkPrintSettings         *settings;
 
@@ -1878,17 +1886,21 @@ load_image_info_task_completed_cb (GthTask  *task,
 	self->priv->images = loaded_images;
 	self->priv->n_images = n_loaded_images;
 
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, "gthumb", "print_settings", NULL);
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "print_settings", NULL);
+	filename = g_file_get_path (file);
 	settings = gtk_print_settings_new_from_file (filename, NULL);
 	if (settings != NULL)
 		gtk_print_operation_set_print_settings (self->priv->print_operation, settings);
 	g_free (filename);
+	g_object_unref (file);
 
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, "gthumb", "page_setup", NULL);
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "page_setup", NULL);
+	filename = g_file_get_path (file);
 	self->priv->page_setup = gtk_page_setup_new_from_file (filename, NULL);
 	if (self->priv->page_setup != NULL)
 		gtk_print_operation_set_default_page_setup (self->priv->print_operation, self->priv->page_setup);
 	g_free (filename);
+	g_object_unref (file);
 
 	result = gtk_print_operation_run (self->priv->print_operation,
 					  self->priv->action,

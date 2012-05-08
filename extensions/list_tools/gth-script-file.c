@@ -153,7 +153,7 @@ gth_script_file_load_from_data (GthScriptFile  *self,
 
 static gboolean
 gth_script_file_load_from_file (GthScriptFile  *self,
-                                const char     *filename,
+                                GFile          *file,
                                 GError        **error)
 {
 	char     *buffer;
@@ -162,10 +162,10 @@ gth_script_file_load_from_file (GthScriptFile  *self,
 	gboolean  retval;
 
 	g_return_val_if_fail (self != NULL, FALSE);
-	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (file != NULL, FALSE);
 
 	read_error = NULL;
-	g_file_get_contents (filename, &buffer, &len, &read_error);
+	g_load_file_in_buffer (file, (void **) &buffer, &len, NULL, &read_error);
 	if (read_error != NULL) {
 		g_propagate_error (error, read_error);
 		return FALSE;
@@ -191,16 +191,16 @@ gth_script_file_load_from_file (GthScriptFile  *self,
 static void
 _gth_script_file_load_if_needed (GthScriptFile *self)
 {
-	char *default_script_file;
+	GFile *default_script_file;
 
 	if (self->priv->loaded)
 		return;
 
-	default_script_file = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "scripts.xml", NULL);
+	default_script_file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "scripts.xml", NULL);
 	gth_script_file_load_from_file (self, default_script_file, NULL);
 	self->priv->loaded = TRUE;
 
-	g_free (default_script_file);
+	g_object_unref (default_script_file);
 }
 
 
@@ -231,7 +231,7 @@ gth_script_file_to_data (GthScriptFile  *self,
 
 static gboolean
 gth_script_file_to_file (GthScriptFile  *self,
-                         const char     *filename,
+                         GFile          *file,
                          GError        **error)
 {
 	char     *data;
@@ -240,7 +240,7 @@ gth_script_file_to_file (GthScriptFile  *self,
 	gboolean  retval;
 
 	g_return_val_if_fail (self != NULL, FALSE);
-	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (file != NULL, FALSE);
 
 	data_error = NULL;
 	data = gth_script_file_to_data (self, &len, &data_error);
@@ -250,8 +250,7 @@ gth_script_file_to_file (GthScriptFile  *self,
 	}
 
 	write_error = NULL;
-	g_file_set_contents (filename, data, len, &write_error);
-	if (write_error) {
+	if (! g_write_file (file, FALSE, 0, data, len, NULL, &write_error)) {
 		g_propagate_error (error, write_error);
 		retval = FALSE;
 	}
@@ -285,17 +284,17 @@ gboolean
 gth_script_file_save (GthScriptFile  *self,
 		      GError        **error)
 {
-	char     *default_script_file;
+	GFile    *default_script_file;
 	gboolean  result;
 
 	_gth_script_file_load_if_needed (self);
 
-	default_script_file = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, "scripts.xml", NULL);
+	default_script_file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, "scripts.xml", NULL);
 	result = gth_script_file_to_file (self, default_script_file, error);
 	if (result)
 		g_signal_emit (G_OBJECT (self), gth_script_file_signals[CHANGED], 0);
 
-	g_free (default_script_file);
+	g_object_unref (default_script_file);
 
 	return result;
 }

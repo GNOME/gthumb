@@ -1001,18 +1001,20 @@ gth_main_get_registered_object (GType       superclass_type,
 GBookmarkFile *
 gth_main_get_default_bookmarks (void)
 {
-	char *path;
+	GFile *file;
+	char  *filename;
 
 	if (Main->priv->bookmarks != NULL)
 		return Main->priv->bookmarks;
 
 	Main->priv->bookmarks = g_bookmark_file_new ();
 
-	path = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, BOOKMARKS_FILE, NULL);
-	g_bookmark_file_load_from_file (Main->priv->bookmarks,
-					path,
-					NULL);
-	g_free (path);
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, BOOKMARKS_FILE, NULL);
+	filename = g_file_get_path (file);
+	g_bookmark_file_load_from_file (Main->priv->bookmarks, filename, NULL);
+
+	g_free (filename);
+	g_object_unref (file);
 
 	return Main->priv->bookmarks;
 }
@@ -1021,13 +1023,15 @@ gth_main_get_default_bookmarks (void)
 void
 gth_main_bookmarks_changed (void)
 {
-	char *filename;
+	GFile *file;
+	char  *filename;
 
-	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, BOOKMARKS_FILE, NULL);
-
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, BOOKMARKS_FILE, NULL);
+	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, BOOKMARKS_FILE, NULL);
+	filename = g_file_get_path (file);
 	g_bookmark_file_to_file (Main->priv->bookmarks, filename, NULL);
+
 	g_free (filename);
+	g_object_unref (file);
 
 	gth_monitor_bookmarks_changed (gth_main_get_default_monitor ());
 }
@@ -1036,15 +1040,19 @@ gth_main_bookmarks_changed (void)
 GthFilterFile *
 gth_main_get_default_filter_file (void)
 {
-	char *path;
+	GFile *file;
+	char  *filename;
 
 	if (Main->priv->filters != NULL)
 		return Main->priv->filters;
 
 	Main->priv->filters = gth_filter_file_new ();
-	path = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, FILTERS_FILE, NULL);
-	gth_filter_file_load_from_file (Main->priv->filters, path, NULL);
-	g_free (path);
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, FILTERS_FILE, NULL);
+	filename = g_file_get_path (file);
+	gth_filter_file_load_from_file (Main->priv->filters, filename, NULL);
+
+	g_free (filename);
+	g_object_unref (file);
 
 	return Main->priv->filters;
 }
@@ -1096,13 +1104,15 @@ gth_main_get_all_filters (void)
 void
 gth_main_filters_changed (void)
 {
-	char *filename;
+	GFile *file;
+	char  *filename;
 
-	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, FILTERS_FILE, NULL);
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, FILTERS_FILE, NULL);
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, FILTERS_FILE, NULL);
+	filename = g_file_get_path (file);
 	gth_filter_file_to_file (Main->priv->filters, filename, NULL);
 
 	g_free (filename);
+	g_object_unref (file);
 
 	gth_monitor_filters_changed (gth_main_get_default_monitor ());
 }
@@ -1111,15 +1121,19 @@ gth_main_filters_changed (void)
 GthTagsFile *
 gth_main_get_default_tag_file (void)
 {
-	char *path;
+	GFile *file;
+	char  *filename;
 
 	if (Main->priv->tags != NULL)
 		return Main->priv->tags;
 
 	Main->priv->tags = gth_tags_file_new ();
-	path = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
-	gth_tags_file_load_from_file (Main->priv->tags, path, NULL);
-	g_free (path);
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
+	filename = g_file_get_path (file);
+	gth_tags_file_load_from_file (Main->priv->tags, filename, NULL);
+
+	g_free (filename);
+	g_object_unref (file);
 
 	return Main->priv->tags;
 }
@@ -1135,14 +1149,17 @@ gth_main_get_all_tags (void)
 void
 gth_main_tags_changed (void)
 {
-	char *filename;
+	GFile *file;
+	char  *filename;
 
-	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
-	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
+	filename = g_file_get_path (file);
 	gth_tags_file_to_file (Main->priv->tags, filename, NULL);
+
 	gth_monitor_tags_changed (gth_main_get_default_monitor ());
 
 	g_free (filename);
+	g_object_unref (file);
 }
 
 

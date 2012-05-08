@@ -368,7 +368,6 @@ add_themes_from_dir (DialogData *data,
 static void
 load_themes (DialogData *data)
 {
-	char         *style_path;
 	GFile        *style_dir;
 	int           visible_columns;
 	int           col_spacing;
@@ -379,11 +378,9 @@ load_themes (DialogData *data)
 
 	/* local themes */
 
-	style_path = gth_user_dir_get_file (GTH_DIR_DATA, GTHUMB_DIR, "contact_sheet_themes", NULL);
-	style_dir = g_file_new_for_path (style_path);
+	style_dir = gth_user_dir_get_file_for_read (GTH_DIR_DATA, GTHUMB_DIR, "contact_sheet_themes", NULL);
 	add_themes_from_dir (data, style_dir, TRUE);
 	g_object_unref (style_dir);
-	g_free (style_path);
 
 	/* system themes */
 
@@ -472,12 +469,10 @@ theme_dialog_response_cb (GtkDialog *dialog,
 	new_theme = theme->file == NULL;
 
 	if (theme->file == NULL) {
-		char  *themes_path;
 		GFile *themes_dir;
 
-		gth_user_dir_make_dir_for_file (GTH_DIR_DATA, GTHUMB_DIR, "contact_sheet_themes", "themename.cst", NULL);
-		themes_path = gth_user_dir_get_file (GTH_DIR_DATA, GTHUMB_DIR, "contact_sheet_themes", NULL);
-		themes_dir = g_file_new_for_path (themes_path);
+		gth_user_dir_mkdir_with_parents (GTH_DIR_DATA, GTHUMB_DIR, "contact_sheet_themes", NULL);
+		themes_dir = gth_user_dir_get_file_for_read (GTH_DIR_DATA, GTHUMB_DIR, "contact_sheet_themes", NULL);
 		theme->file = _g_file_create_unique (themes_dir,
 						     theme->display_name,
 						     ".cst",
@@ -488,7 +483,6 @@ theme_dialog_response_cb (GtkDialog *dialog,
 		}
 
 		g_object_unref (themes_dir);
-		g_free (themes_path);
 
 		if (theme->file == NULL)
 			return;

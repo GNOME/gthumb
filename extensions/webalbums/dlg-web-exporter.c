@@ -317,7 +317,6 @@ add_themes_from_dir (DialogData *data,
 static void
 load_themes (DialogData *data)
 {
-	char         *style_path;
 	GFile        *style_dir;
 	GFile        *data_dir;
 	char         *default_theme;
@@ -326,11 +325,9 @@ load_themes (DialogData *data)
 
 	/* local themes */
 
-	style_path = gth_user_dir_get_file (GTH_DIR_DATA, GTHUMB_DIR, "albumthemes", NULL);
-	style_dir = g_file_new_for_path (style_path);
+	style_dir = gth_user_dir_get_file_for_read (GTH_DIR_DATA, GTHUMB_DIR, "albumthemes", NULL);
 	add_themes_from_dir (data, style_dir);
 	g_object_unref (style_dir);
-	g_free (style_path);
 
 	/* system themes */
 

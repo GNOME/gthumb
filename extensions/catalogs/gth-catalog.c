@@ -785,15 +785,7 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 GFile *
 gth_catalog_get_base (void)
 {
-	char  *catalogs_dir;
-	GFile *base;
-
-	catalogs_dir = gth_user_dir_get_file (GTH_DIR_DATA, GTHUMB_DIR, "catalogs", NULL);
-	base = g_file_new_for_path (catalogs_dir);
-
-	g_free (catalogs_dir);
-
-	return base;
+	return gth_user_dir_get_file_for_read (GTH_DIR_DATA, GTHUMB_DIR, "catalogs", NULL);
 }
 
 
