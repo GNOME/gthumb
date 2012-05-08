@@ -23,6 +23,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include "dom.h"
+#include "gio-utils.h"
 #include "glib-utils.h"
 #include "gth-tags-file.h"
 
@@ -106,7 +107,7 @@ gth_tags_file_load_from_data (GthTagsFile  *tags,
 
 gboolean
 gth_tags_file_load_from_file (GthTagsFile  *tags,
-                              const char   *filename,
+                              GFile        *file,
                               GError      **error)
 {
 	char     *buffer;
@@ -115,11 +116,10 @@ gth_tags_file_load_from_file (GthTagsFile  *tags,
 	gboolean  retval;
 
 	g_return_val_if_fail (tags != NULL, FALSE);
-	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (file != NULL, FALSE);
 
 	read_error = NULL;
-	g_file_get_contents (filename, &buffer, &len, &read_error);
-	if (read_error != NULL) {
+	if (! g_load_file_in_buffer (file, (void **) &buffer, &len, NULL, &read_error)) {
 		g_propagate_error (error, read_error);
 		return FALSE;
 	}
@@ -170,7 +170,7 @@ gth_tags_file_to_data (GthTagsFile  *tags,
 
 gboolean
 gth_tags_file_to_file (GthTagsFile  *tags,
-                       const char   *filename,
+                       GFile        *file,
                        GError      **error)
 {
 	char     *data;
@@ -179,7 +179,7 @@ gth_tags_file_to_file (GthTagsFile  *tags,
 	gboolean  retval;
 
 	g_return_val_if_fail (tags != NULL, FALSE);
-	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (file != NULL, FALSE);
 
 	data_error = NULL;
 	data = gth_tags_file_to_data (tags, &len, &data_error);
@@ -189,8 +189,7 @@ gth_tags_file_to_file (GthTagsFile  *tags,
 	}
 
 	write_error = NULL;
-	g_file_set_contents (filename, data, len, &write_error);
-	if (write_error) {
+	if (! g_write_file (file, FALSE, 0, data, len, NULL, &write_error)) {
 		g_propagate_error (error, write_error);
 		retval = FALSE;
 	}

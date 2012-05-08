@@ -36,13 +36,13 @@ gboolean       gth_tags_file_load_from_data   (GthTagsFile  *tags,
 					       gsize         length,
 					       GError      **error);
 gboolean       gth_tags_file_load_from_file   (GthTagsFile  *bookmark,
-                                               const char   *filename,
+                                               GFile        *file,
                                                GError      **error);
 char *         gth_tags_file_to_data          (GthTagsFile  *tags,
 					       gsize        *len,
 					       GError      **data_error);
 gboolean       gth_tags_file_to_file          (GthTagsFile  *tags,
-                                               const char   *filename,
+					       GFile        *filename,
                                                GError      **error);
 char **        gth_tags_file_get_tags         (GthTagsFile  *tags);
 gboolean       gth_tags_file_has_tag          (GthTagsFile  *tags,

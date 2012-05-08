@@ -1041,17 +1041,14 @@ GthFilterFile *
 gth_main_get_default_filter_file (void)
 {
 	GFile *file;
-	char  *filename;
 
 	if (Main->priv->filters != NULL)
 		return Main->priv->filters;
 
 	Main->priv->filters = gth_filter_file_new ();
 	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, FILTERS_FILE, NULL);
-	filename = g_file_get_path (file);
-	gth_filter_file_load_from_file (Main->priv->filters, filename, NULL);
+	gth_filter_file_load_from_file (Main->priv->filters, file, NULL);
 
-	g_free (filename);
 	g_object_unref (file);
 
 	return Main->priv->filters;
@@ -1105,16 +1102,12 @@ void
 gth_main_filters_changed (void)
 {
 	GFile *file;
-	char  *filename;
 
 	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, FILTERS_FILE, NULL);
-	filename = g_file_get_path (file);
-	gth_filter_file_to_file (Main->priv->filters, filename, NULL);
-
-	g_free (filename);
-	g_object_unref (file);
-
+	gth_filter_file_to_file (Main->priv->filters, file, NULL);
 	gth_monitor_filters_changed (gth_main_get_default_monitor ());
+
+	g_object_unref (file);
 }
 
 
@@ -1122,17 +1115,14 @@ GthTagsFile *
 gth_main_get_default_tag_file (void)
 {
 	GFile *file;
-	char  *filename;
 
 	if (Main->priv->tags != NULL)
 		return Main->priv->tags;
 
 	Main->priv->tags = gth_tags_file_new ();
 	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
-	filename = g_file_get_path (file);
-	gth_tags_file_load_from_file (Main->priv->tags, filename, NULL);
+	gth_tags_file_load_from_file (Main->priv->tags, file, NULL);
 
-	g_free (filename);
 	g_object_unref (file);
 
 	return Main->priv->tags;
@@ -1150,15 +1140,11 @@ void
 gth_main_tags_changed (void)
 {
 	GFile *file;
-	char  *filename;
 
 	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
-	filename = g_file_get_path (file);
-	gth_tags_file_to_file (Main->priv->tags, filename, NULL);
-
+	gth_tags_file_to_file (Main->priv->tags, file, NULL);
 	gth_monitor_tags_changed (gth_main_get_default_monitor ());
 
-	g_free (filename);
 	g_object_unref (file);
 }
 

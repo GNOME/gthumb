@@ -36,13 +36,13 @@ gboolean         gth_filter_file_load_from_data   (GthFilterFile  *filters,
 						   gsize           length,
 						   GError        **error);
 gboolean         gth_filter_file_load_from_file   (GthFilterFile  *bookmark,
-                                                   const char     *filename,
+						   GFile          *file,
                                                    GError        **error);
 char *           gth_filter_file_to_data          (GthFilterFile  *filters,
 						   gsize          *len,
 			 			   GError        **data_error);
 gboolean         gth_filter_file_to_file          (GthFilterFile  *filters,
-                                                   const gchar    *filename,
+						   GFile          *file,
                                                    GError        **error);
 GList *          gth_filter_file_get_tests        (GthFilterFile  *filters);
 gboolean         gth_filter_file_has_test         (GthFilterFile  *filters,

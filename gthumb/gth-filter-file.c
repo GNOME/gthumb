@@ -112,7 +112,7 @@ gth_filter_file_load_from_data (GthFilterFile  *filters,
 
 gboolean
 gth_filter_file_load_from_file (GthFilterFile  *filters,
-                                const char     *filename,
+				GFile          *file,
                                 GError        **error)
 {
 	char     *buffer;
@@ -121,11 +121,10 @@ gth_filter_file_load_from_file (GthFilterFile  *filters,
 	gboolean  retval;
 
 	g_return_val_if_fail (filters != NULL, FALSE);
-	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (file != NULL, FALSE);
 
 	read_error = NULL;
-	g_file_get_contents (filename, &buffer, &len, &read_error);
-	if (read_error != NULL) {
+	if (! g_load_file_in_buffer (file, (void **) &buffer, &len, NULL, &read_error)) {
 		g_propagate_error (error, read_error);
 		return FALSE;
 	}
@@ -174,7 +173,7 @@ gth_filter_file_to_data (GthFilterFile  *filters,
 
 gboolean
 gth_filter_file_to_file (GthFilterFile  *filters,
-                         const char     *filename,
+                         GFile          *file,
                          GError        **error)
 {
 	char     *data;
@@ -183,7 +182,7 @@ gth_filter_file_to_file (GthFilterFile  *filters,
 	gboolean  retval;
 
 	g_return_val_if_fail (filters != NULL, FALSE);
-	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_val_if_fail (file != NULL, FALSE);
 
 	data_error = NULL;
 	data = gth_filter_file_to_data (filters, &len, &data_error);
@@ -193,8 +192,7 @@ gth_filter_file_to_file (GthFilterFile  *filters,
 	}
 
 	write_error = NULL;
-	g_file_set_contents (filename, data, len, &write_error);
-	if (write_error) {
+	if (! g_write_file (file, FALSE, 0, data, len, NULL, &write_error)) {
 		g_propagate_error (error, write_error);
 		retval = FALSE;
 	}
