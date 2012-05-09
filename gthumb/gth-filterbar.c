@@ -25,9 +25,11 @@
 #include <time.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include "dom.h"
 #include "glib-utils.h"
 #include "gth-filterbar.h"
 #include "gth-main.h"
+#include "gth-user-dir.h"
 
 enum {
 	ITEM_TYPE_NONE,
@@ -281,7 +283,7 @@ update_filter_list (GthFilterbar *filterbar,
 		gtk_list_store_set (filterbar->priv->model, &iter,
 				    TYPE_COLUMN, ITEM_TYPE_FILTER,
 				    FILTER_COLUMN, test,
-				    NAME_COLUMN, gth_test_get_display_name(test),
+				    NAME_COLUMN, gth_test_get_display_name (test),
 				    -1);
 
 		if (g_strcmp0 (current_filter, gth_test_get_id (test)) == 0) {
@@ -449,4 +451,114 @@ gth_filterbar_get_test (GthFilterbar *filterbar)
 		return g_object_ref (filterbar->priv->test);
 	else
 		return NULL;
+}
+
+
+void
+gth_filterbar_save_filter (GthFilterbar *filterbar,
+			   const char   *filename)
+{
+	char  *filter_description;
+	gsize  len;
+	GFile *filter_file;
+
+	if (filterbar->priv->test != NULL) {
+		DomDocument *doc;
+
+		doc = dom_document_new ();
+		dom_element_append_child (DOM_ELEMENT (doc), dom_domizable_create_element (DOM_DOMIZABLE (filterbar->priv->test), doc));
+		filter_description = dom_document_dump (doc, &len);
+
+		g_object_unref (doc);
+	}
+	else {
+		filter_description = g_strdup ("");
+		len = 0;
+	}
+	filter_file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, filename, NULL);
+	_g_file_write (filter_file, FALSE, 0, filter_description, len, NULL, NULL);
+
+	g_object_unref (filter_file);
+	g_free (filter_description);
+}
+
+
+static gboolean
+find_test_by_id (GthFilterbar  *filterbar,
+		 const char    *id,
+		 GthTest      **test,
+		 GtkTreeIter   *iter)
+{
+	g_return_val_if_fail (test != NULL, FALSE);
+	g_return_val_if_fail (iter != NULL, FALSE);
+
+	if (! gtk_tree_model_get_iter_first(GTK_TREE_MODEL (filterbar->priv->model), iter))
+		return FALSE;
+
+	do {
+		int item_type = ITEM_TYPE_NONE;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (filterbar->priv->model),
+				    iter,
+				    TYPE_COLUMN, &item_type,
+				    FILTER_COLUMN, test,
+				    -1);
+
+		if ((item_type == ITEM_TYPE_FILTER) && (*test != NULL) && (g_strcmp0 (gth_test_get_id (*test), id) == 0))
+			return TRUE;
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (filterbar->priv->model), iter));
+
+	return FALSE;
+}
+
+
+void
+gth_filterbar_load_filter (GthFilterbar *filterbar,
+			   const char   *filename)
+{
+	GFile       *filter_file;
+	char        *buffer;
+	gsize        len;
+	DomDocument *doc;
+
+	filter_file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, filename, NULL);
+	if (! _g_file_load_in_buffer (filter_file, (void **) &buffer, &len, NULL, NULL)) {
+		g_object_unref (filter_file);
+		return;
+	}
+
+	doc = dom_document_new ();
+	if (dom_document_load (doc, buffer, len, NULL)) {
+		DomElement *node = DOM_ELEMENT (doc)->first_child;
+
+		if (node != NULL) {
+			GthTest     *test;
+			GtkTreeIter  iter;
+
+			if (find_test_by_id (filterbar,
+					     dom_element_get_attribute (node, "id"),
+					     &test,
+					     &iter))
+			{
+				dom_domizable_load_from_element (DOM_DOMIZABLE (test), node);
+
+				g_signal_handlers_block_by_func (filterbar->priv->test_combo_box, test_combo_box_changed_cb, filterbar);
+				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (filterbar->priv->test_combo_box), &iter);
+				g_signal_handlers_unblock_by_func (filterbar->priv->test_combo_box, test_combo_box_changed_cb, filterbar);
+
+				filterbar->priv->current_iter = iter;
+				_gth_filterbar_set_test (GTH_FILTERBAR (filterbar), test);
+
+				g_signal_connect (test,
+						  "changed",
+						  G_CALLBACK (test_changed_cb),
+						  filterbar);
+			}
+		}
+	}
+
+	g_object_unref (doc);
+	g_free (buffer);
+	g_object_unref (filter_file);
 }

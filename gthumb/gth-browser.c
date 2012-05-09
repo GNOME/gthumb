@@ -2102,12 +2102,12 @@ _gth_browser_close_final_step (gpointer user_data)
 
 	last_window = g_list_length (gtk_application_get_windows (gtk_window_get_application (GTK_WINDOW (browser)))) == 1;
 
-	/* Save visualization options only if the window is not maximized. */
-
 	if (gtk_widget_get_realized (GTK_WIDGET (browser))) {
 		GdkWindowState state;
 		gboolean       maximized;
 		GtkAllocation  allocation;
+
+		/* Save visualization options only if the window is not maximized. */
 
 		state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (browser)));
 		maximized = (state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
@@ -2140,6 +2140,10 @@ _gth_browser_close_final_step (gpointer user_data)
 		gtk_widget_get_allocation (browser->priv->viewer_sidebar_alignment, &allocation);
 		if (allocation.width > MIN_SIDEBAR_SIZE)
 			g_settings_set_int (browser->priv->browser_settings, PREF_BROWSER_VIEWER_SIDEBAR_WIDTH, allocation.width);
+
+		/* Save the current filter */
+
+		gth_filterbar_save_filter (GTH_FILTERBAR (browser->priv->filterbar), "active_filter.xml");
 	}
 
 	/**/
@@ -4529,6 +4533,7 @@ gth_browser_init (GthBrowser *browser)
 
 	general_filter = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_GENERAL_FILTER);
 	browser->priv->filterbar = gth_filterbar_new (general_filter);
+	gth_filterbar_load_filter (GTH_FILTERBAR (browser->priv->filterbar), "active_filter.xml");
 	g_free (general_filter);
 
 	gth_browser_show_filterbar (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_FILTERBAR_VISIBLE));
