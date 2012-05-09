@@ -54,7 +54,7 @@ struct _GthFilterPrivate {
 	GtkSortType   sort_direction;
 	int           current_images;
 	goffset       current_size;
-	GtkWidget    *limit_entry;
+	GtkWidget    *limit_spinbutton;
 	GtkWidget    *size_combo_box;
 };
 
@@ -247,10 +247,10 @@ gth_filter_match (GthTest     *test,
 
 
 static void
-file_limit_entry_activate_cb (GtkEntry  *entry,
-                              GthFilter *filter)
+file_limit_spinbutton_changed_cb (GtkSpinButton *spinbutton,
+				  GthFilter      *filter)
 {
-	filter->priv->limit = atol (gtk_entry_get_text (GTK_ENTRY (filter->priv->limit_entry)));
+	filter->priv->limit = gtk_spin_button_get_value_as_int (spinbutton);
 	gth_test_changed (GTH_TEST (filter));
 }
 
@@ -261,7 +261,6 @@ create_control_for_files (GthFilter *filter)
 	GtkWidget *control;
 	GtkWidget *limit_label;
 	GtkWidget *label;
-	char      *value;
 
 	control = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
@@ -272,19 +271,15 @@ create_control_for_files (GthFilter *filter)
 
 	/* limit entry */
 
-	filter->priv->limit_entry = gtk_entry_new ();
-	gtk_entry_set_width_chars (GTK_ENTRY (filter->priv->limit_entry), 6);
-	value = g_strdup_printf ("%" G_GOFFSET_FORMAT, filter->priv->limit);
-	gtk_entry_set_text (GTK_ENTRY (filter->priv->limit_entry), value);
-	g_free (value);
-	gtk_widget_show (filter->priv->limit_entry);
+	filter->priv->limit_spinbutton = gtk_spin_button_new_with_range (0, G_MAXINT, 1.0);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (filter->priv->limit_spinbutton), filter->priv->limit);
+	gtk_widget_show (filter->priv->limit_spinbutton);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (limit_label), filter->priv->limit_spinbutton);
 
-	g_signal_connect (G_OBJECT (filter->priv->limit_entry),
-			  "activate",
-			  G_CALLBACK (file_limit_entry_activate_cb),
+	g_signal_connect (G_OBJECT (filter->priv->limit_spinbutton),
+			  "value-changed",
+			  G_CALLBACK (file_limit_spinbutton_changed_cb),
 			  filter);
-
-	gtk_label_set_mnemonic_widget (GTK_LABEL (limit_label), filter->priv->limit_entry);
 
 	/* "files" label */
 
@@ -294,7 +289,7 @@ create_control_for_files (GthFilter *filter)
 	/**/
 
 	gtk_box_pack_start (GTK_BOX (control), limit_label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (control), filter->priv->limit_entry, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (control), filter->priv->limit_spinbutton, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (control), label, FALSE, FALSE, 0);
 
 	return control;
@@ -302,13 +297,13 @@ create_control_for_files (GthFilter *filter)
 
 
 static void
-size_limit_entry_activate_cb (GtkEntry  *entry,
-                              GthFilter *filter)
+size_limit_spinbutton_changed_cb (GtkSpinButton *spinbutton,
+				  GthFilter     *filter)
 {
 	GthSizeData size;
 
 	size = size_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter->priv->size_combo_box))];
-	filter->priv->limit = size.size * atol (gtk_entry_get_text (GTK_ENTRY (filter->priv->limit_entry)));
+	filter->priv->limit = gtk_spin_button_get_value (GTK_SPIN_BUTTON (filter->priv->limit_spinbutton)) * size.size;
 
 	gth_test_changed (GTH_TEST (filter));
 }
@@ -321,7 +316,7 @@ size_combo_box_changed_cb (GtkComboBox *combo_box,
 	GthSizeData size;
 
 	size = size_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter->priv->size_combo_box))];
-	filter->priv->limit = size.size * atol (gtk_entry_get_text (GTK_ENTRY (filter->priv->limit_entry)));
+	filter->priv->limit = gtk_spin_button_get_value (GTK_SPIN_BUTTON (filter->priv->limit_spinbutton)) * size.size;
 
 	gth_test_changed (GTH_TEST (filter));
 }
@@ -344,16 +339,10 @@ create_control_for_size (GthFilter *filter)
 
 	/* limit entry */
 
-	filter->priv->limit_entry = gtk_entry_new ();
-	gtk_entry_set_width_chars (GTK_ENTRY (filter->priv->limit_entry), 6);
-	gtk_widget_show (filter->priv->limit_entry);
-
-	g_signal_connect (G_OBJECT (filter->priv->limit_entry),
-			  "activate",
-			  G_CALLBACK (size_limit_entry_activate_cb),
-			  filter);
-
-	gtk_label_set_mnemonic_widget (GTK_LABEL (limit_label), filter->priv->limit_entry);
+	filter->priv->limit_spinbutton = gtk_spin_button_new_with_range (0, G_MAXDOUBLE, 1.0);
+	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (filter->priv->limit_spinbutton), 1);
+	gtk_widget_show (filter->priv->limit_spinbutton);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (limit_label), filter->priv->limit_spinbutton);
 
 	/* size combo box */
 
@@ -365,12 +354,8 @@ create_control_for_size (GthFilter *filter)
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (filter->priv->size_combo_box),
 						_(size_data[i].name));
 		if (! size_set && ((i == G_N_ELEMENTS (size_data) - 1) || (filter->priv->limit < size_data[i + 1].size))) {
-			char *value;
-
 			size_idx = i;
-			value = g_strdup_printf ("%.2f", (double) filter->priv->limit / size_data[i].size);
-			gtk_entry_set_text (GTK_ENTRY (filter->priv->limit_entry), value);
-			g_free (value);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (filter->priv->limit_spinbutton), (double) filter->priv->limit / size_data[i].size);
 			size_set = TRUE;
 		}
 	}
@@ -381,10 +366,15 @@ create_control_for_size (GthFilter *filter)
 			  G_CALLBACK (size_combo_box_changed_cb),
 			  filter);
 
+	g_signal_connect (G_OBJECT (filter->priv->limit_spinbutton),
+			  "value-changed",
+			  G_CALLBACK (size_limit_spinbutton_changed_cb),
+			  filter);
+
 	/**/
 
 	gtk_box_pack_start (GTK_BOX (control), limit_label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (control), filter->priv->limit_entry, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (control), filter->priv->limit_spinbutton, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (control), filter->priv->size_combo_box, FALSE, FALSE, 0);
 
 	return control;
