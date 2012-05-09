@@ -184,9 +184,10 @@ monitor_tags_changed_cb (GthMonitor *monitor,
 static GtkWidget *
 gth_test_category_real_create_control (GthTest *base)
 {
-	GthTestCategory *test;
-	GtkWidget       *control;
-	int              i, op_idx;
+	GthTestCategory    *test;
+	GtkWidget          *control;
+	int                 i, op_idx;
+	GtkEntryCompletion *completion;
 
 	test = (GthTestCategory *) base;
 
@@ -228,6 +229,15 @@ gth_test_category_real_create_control (GthTest *base)
 	if (test->priv->category != NULL)
 		gtk_entry_set_text (GTK_ENTRY (test->priv->text_entry), test->priv->category);
 	gtk_widget_show (test->priv->combo_entry);
+
+	completion = gtk_entry_completion_new ();
+	gtk_entry_completion_set_popup_completion (completion, TRUE);
+	gtk_entry_completion_set_popup_single_match (completion, FALSE);
+	gtk_entry_completion_set_inline_completion (completion, TRUE);
+	gtk_entry_completion_set_model (completion, GTK_TREE_MODEL (test->priv->tag_store));
+	gtk_entry_completion_set_text_column (completion, 0);
+	gtk_entry_set_completion (GTK_ENTRY (test->priv->text_entry), completion);
+	g_object_unref (completion);
 
 	g_signal_connect (G_OBJECT (test->priv->text_entry),
 			  "activate",
