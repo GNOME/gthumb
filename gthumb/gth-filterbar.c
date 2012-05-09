@@ -62,6 +62,7 @@ struct _GthFilterbarPrivate
 	GtkWidget    *control;
 	GtkTreeIter   current_iter;
 	gulong        filters_changed_id;
+	gulong        test_changed_id;
 };
 
 
@@ -80,8 +81,10 @@ gth_filterbar_finalize (GObject *object)
 
 	if (filterbar->priv != NULL) {
 		g_signal_handler_disconnect (gth_main_get_default_monitor (), filterbar->priv->filters_changed_id);
-		if (filterbar->priv->test != NULL)
+		if (filterbar->priv->test != NULL) {
+			g_signal_handler_disconnect (filterbar->priv->test, filterbar->priv->test_changed_id);
 			g_object_unref (filterbar->priv->test);
+		}
 		g_free (filterbar->priv);
 		filterbar->priv = NULL;
 	}
@@ -174,27 +177,35 @@ _gth_filterbar_set_test_control (GthFilterbar *filterbar,
 
 
 static void
+test_changed_cb (GthTest      *test,
+		 GthFilterbar *filterbar)
+{
+	gth_filterbar_changed (filterbar);
+}
+
+
+static void
 _gth_filterbar_set_test (GthFilterbar *filterbar,
 			  GthTest      *test)
 {
 	if (filterbar->priv->test != NULL) {
+		if (filterbar->priv->test_changed_id != 0)
+			g_signal_handler_disconnect (filterbar->priv->test, filterbar->priv->test_changed_id);
 		g_object_unref (filterbar->priv->test);
 		filterbar->priv->test = NULL;
 	}
 
 	if (test != NULL) {
 		filterbar->priv->test = g_object_ref (test);
+		filterbar->priv->test_changed_id = g_signal_connect (test,
+								     "changed",
+								     G_CALLBACK (test_changed_cb),
+								     filterbar);
 		_gth_filterbar_set_test_control (filterbar, gth_test_create_control (filterbar->priv->test));
 	}
 	else
 		_gth_filterbar_set_test_control (filterbar, NULL);
-}
 
-
-static void
-test_changed_cb (GthTest      *test,
-		 GthFilterbar *filterbar)
-{
 	gth_filterbar_changed (filterbar);
 }
 
@@ -215,12 +226,6 @@ test_combo_box_changed_cb (GtkComboBox  *scope_combo_box,
 			    TYPE_COLUMN, &item_type,
 			    FILTER_COLUMN, &test,
 			    -1);
-
-	if (test != NULL)
-		g_signal_connect (test,
-				  "changed",
-				  G_CALLBACK (test_changed_cb),
-				  filterbar);
 
 	switch (item_type) {
 	case ITEM_TYPE_FILTER:
@@ -549,11 +554,6 @@ gth_filterbar_load_filter (GthFilterbar *filterbar,
 
 				filterbar->priv->current_iter = iter;
 				_gth_filterbar_set_test (GTH_FILTERBAR (filterbar), test);
-
-				g_signal_connect (test,
-						  "changed",
-						  G_CALLBACK (test_changed_cb),
-						  filterbar);
 			}
 		}
 	}
