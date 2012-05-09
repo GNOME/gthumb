@@ -365,13 +365,13 @@ end_page (GthContactSheetCreator  *self,
 		return FALSE;
 	}
 
-	if (! g_write_file (self->priv->destination_file,
-			    FALSE,
-			    G_FILE_CREATE_REPLACE_DESTINATION,
-			    buffer,
-			    size,
-			    gth_task_get_cancellable (GTH_TASK (self)),
-			    error))
+	if (! _g_file_write (self->priv->destination_file,
+			     FALSE,
+			     G_FILE_CREATE_REPLACE_DESTINATION,
+			     buffer,
+			     size,
+			     gth_task_get_cancellable (GTH_TASK (self)),
+			     error))
 	{
 		g_object_unref (pixbuf);
 		return FALSE;

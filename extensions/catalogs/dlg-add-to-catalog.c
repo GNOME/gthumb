@@ -144,14 +144,14 @@ catalog_ready_cb (GObject  *catalog,
 
 	buffer = gth_catalog_to_data (add_data->catalog, &length);
 	gio_file = gth_catalog_file_to_gio_file (add_data->catalog_file);
-	g_write_file_async (gio_file,
-			    buffer,
-			    length,
-			    TRUE,
-			    G_PRIORITY_DEFAULT,
-			    NULL,
-			    catalog_save_done_cb,
-			    add_data);
+	_g_file_write_async (gio_file,
+			     buffer,
+			     length,
+			     TRUE,
+			     G_PRIORITY_DEFAULT,
+			     NULL,
+			     catalog_save_done_cb,
+			     add_data);
 
 	g_object_unref (gio_file);
 }

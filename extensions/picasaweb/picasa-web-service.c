@@ -555,11 +555,11 @@ picasa_wev_service_post_current_file (PicasaWebService *self)
 	}
 
 	file_data = self->priv->post_photos->current->data;
-	g_load_file_async (file_data->file,
-			   G_PRIORITY_DEFAULT,
-			   self->priv->post_photos->cancellable,
-			   post_photo_file_buffer_ready_cb,
-			   self);
+	_g_file_load_async (file_data->file,
+			    G_PRIORITY_DEFAULT,
+			    self->priv->post_photos->cancellable,
+			    post_photo_file_buffer_ready_cb,
+			    self);
 }
 
 
@@ -761,7 +761,7 @@ picasa_web_accounts_load_from_file (char **_default)
 	DomDocument *doc;
 
 	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
-	if (! g_load_file_in_buffer (file, (void **) &buffer, &len, NULL, NULL)) {
+	if (! _g_file_load_in_buffer (file, (void **) &buffer, &len, NULL, NULL)) {
 		g_object_unref (file);
 		return NULL;
 	}
@@ -829,7 +829,7 @@ picasa_web_accounts_save_to_file (GList      *accounts,
 
 	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
 	buffer = dom_document_dump (doc, &len);
-	g_write_file (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
+	_g_file_write (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
 
 	g_free (buffer);
 	g_object_unref (file);

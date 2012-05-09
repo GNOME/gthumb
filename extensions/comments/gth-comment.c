@@ -289,7 +289,7 @@ gth_comment_new_for_file (GFile         *file,
 	if (comment_file == NULL)
 		return NULL;
 
-	if (! g_load_file_in_buffer (comment_file, &zipped_buffer, &zipped_size, cancellable, error)) {
+	if (! _g_file_load_in_buffer (comment_file, &zipped_buffer, &zipped_size, cancellable, error)) {
 		g_object_unref (comment_file);
 		return NULL;
 	}
@@ -704,13 +704,13 @@ gth_comment_synchronize_metadata (GList *file_list)
 				g_file_make_directory (comment_directory, NULL, NULL);
 
 			buffer = gth_comment_to_data (comment, &size);
-			g_write_file (comment_file,
-				      FALSE,
-				      G_FILE_CREATE_NONE,
-				      buffer,
-				      size,
-				      NULL,
-				      NULL);
+			_g_file_write (comment_file,
+				       FALSE,
+				       G_FILE_CREATE_NONE,
+				       buffer,
+				       size,
+				       NULL,
+				       NULL);
 
 			{
 				GFile *parent;

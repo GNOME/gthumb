@@ -323,11 +323,11 @@ add_themes_from_dir (DialogData *data,
 		}
 
 		file = g_file_get_child (dir, g_file_info_get_name (file_info));
-		if (! g_load_file_in_buffer (file,
-					     (void **) &buffer,
-					     &size,
-					     NULL,
-					     NULL))
+		if (! _g_file_load_in_buffer (file,
+					      (void **) &buffer,
+					      &size,
+					      NULL,
+					      NULL))
 		{
 			g_object_unref (file);
 			g_object_unref (file_info);
@@ -495,13 +495,13 @@ theme_dialog_response_cb (GtkDialog *dialog,
 		return;
 	}
 
-	if (! g_write_file (theme->file,
-			    FALSE,
-			    G_FILE_CREATE_NONE,
-			    buffer,
-			    buffer_size,
-			    NULL,
-			    &error))
+	if (! _g_file_write (theme->file,
+			     FALSE,
+			     G_FILE_CREATE_NONE,
+			     buffer,
+			     buffer_size,
+			     NULL,
+			     &error))
 	{
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not save the theme"), error);
 		g_clear_error (&error);

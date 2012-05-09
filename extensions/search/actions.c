@@ -149,11 +149,11 @@ gth_browser_activate_action_edit_search_update (GtkAction  *action,
 	search_data->file = g_file_dup (location);
 
 	file = gth_main_get_gio_file (location);
-	g_load_file_async (file,
-			   G_PRIORITY_DEFAULT,
-			   NULL,
-			   search_update_buffer_ready_cb,
-			   search_data);
+	_g_file_load_async (file,
+			    G_PRIORITY_DEFAULT,
+			    NULL,
+			    search_update_buffer_ready_cb,
+			    search_data);
 
 	g_object_unref (file);
 }

@@ -117,14 +117,14 @@ load_file_ready_cb (void     **buffer,
 
 	gth_hook_invoke ("delete-metadata", file, &tmp_buffer, &count);
 
-	g_write_file_async (file,
-			    tmp_buffer,
-	    		    count,
-	    		    TRUE,
-	    		    G_PRIORITY_DEFAULT,
-	    		    gth_task_get_cancellable (GTH_TASK (self)),
-			    write_file_ready_cb,
-			    self);
+	_g_file_write_async (file,
+			     tmp_buffer,
+	    		     count,
+	    		     TRUE,
+	    		     G_PRIORITY_DEFAULT,
+	    		     gth_task_get_cancellable (GTH_TASK (self)),
+			     write_file_ready_cb,
+			     self);
 }
 
 
@@ -139,11 +139,11 @@ import_current_file (GthImportMetadataTask *self)
 	}
 
 	file = self->priv->current->data;
-	g_load_file_async (file,
-			   G_PRIORITY_DEFAULT,
-			   gth_task_get_cancellable (GTH_TASK (self)),
-			   load_file_ready_cb,
-			   self);
+	_g_file_load_async (file,
+			    G_PRIORITY_DEFAULT,
+			    gth_task_get_cancellable (GTH_TASK (self)),
+			    load_file_ready_cb,
+			    self);
 }
 
 

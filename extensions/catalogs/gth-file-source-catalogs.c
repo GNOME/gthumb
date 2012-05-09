@@ -253,14 +253,14 @@ write_metadata_load_buffer_ready_cb (void     **buffer,
 
 	catalog_buffer = gth_catalog_to_data (metadata_op->catalog, &catalog_size);
 	gio_file = gth_catalog_file_to_gio_file (metadata_op->file_data->file);
-	g_write_file_async (gio_file,
-			    catalog_buffer,
-			    catalog_size,
-			    TRUE,
-			    G_PRIORITY_DEFAULT,
-			    gth_file_source_get_cancellable (GTH_FILE_SOURCE (metadata_op->catalogs)),
-			    write_metadata_write_buffer_ready_cb,
-			    metadata_op);
+	_g_file_write_async (gio_file,
+			     catalog_buffer,
+			     catalog_size,
+			     TRUE,
+			     G_PRIORITY_DEFAULT,
+			     gth_file_source_get_cancellable (GTH_FILE_SOURCE (metadata_op->catalogs)),
+			     write_metadata_write_buffer_ready_cb,
+			     metadata_op);
 
 	g_object_unref (gio_file);
 }
@@ -301,11 +301,11 @@ gth_file_source_catalogs_write_metadata (GthFileSource *file_source,
 	metadata_op->catalog = gth_catalog_new ();
 	gio_file = gth_file_source_to_gio_file (file_source, file_data->file);
 	gth_catalog_set_file (metadata_op->catalog, gio_file);
-	g_load_file_async (gio_file,
-			   G_PRIORITY_DEFAULT,
-			   gth_file_source_get_cancellable (file_source),
-			   write_metadata_load_buffer_ready_cb,
-			   metadata_op);
+	_g_file_load_async (gio_file,
+			    G_PRIORITY_DEFAULT,
+			    gth_file_source_get_cancellable (file_source),
+			    write_metadata_load_buffer_ready_cb,
+			    metadata_op);
 
 	g_object_unref (gio_file);
 	g_free (uri);
@@ -837,14 +837,14 @@ catalog_ready_cb (GObject  *catalog,
 
 	buffer = gth_catalog_to_data (cod->catalog, &size);
 	gio_file = gth_catalog_file_to_gio_file (cod->destination->file);
-	g_write_file_async (gio_file,
-			    buffer,
-			    size,
-			    TRUE,
-			    G_PRIORITY_DEFAULT,
-			    NULL,
-			    copy__catalog_save_done_cb,
-			    cod);
+	_g_file_write_async (gio_file,
+			     buffer,
+			     size,
+			     TRUE,
+			     G_PRIORITY_DEFAULT,
+			     NULL,
+			     copy__catalog_save_done_cb,
+			     cod);
 
 	g_object_unref (gio_file);
 }
@@ -1255,14 +1255,14 @@ reorder_catalog_ready_cb (GObject  *object,
 
 	buffer = gth_catalog_to_data (catalog, &size);
 	gio_file = gth_file_source_to_gio_file (reorder_data->file_source, reorder_data->destination->file);
-	g_write_file_async (gio_file,
-			    buffer,
-			    size,
-			    TRUE,
-			    G_PRIORITY_DEFAULT,
-			    gth_file_source_get_cancellable (reorder_data->file_source),
-			    reorder_buffer_ready_cb,
-			    reorder_data);
+	_g_file_write_async (gio_file,
+			     buffer,
+			     size,
+			     TRUE,
+			     G_PRIORITY_DEFAULT,
+			     gth_file_source_get_cancellable (reorder_data->file_source),
+			     reorder_buffer_ready_cb,
+			     reorder_data);
 
 	g_object_unref (gio_file);
 }
@@ -1399,14 +1399,14 @@ catalog_buffer_ready_cb (void     **buffer,
 		return;
 	}
 
-	g_write_file_async (data->gio_file,
-			    catalog_buffer,
-			    catalog_size,
-			    TRUE,
-			    G_PRIORITY_DEFAULT,
-			    NULL,
-			    remove_files__catalog_save_done_cb,
-			    data);
+	_g_file_write_async (data->gio_file,
+			     catalog_buffer,
+			     catalog_size,
+			     TRUE,
+			     G_PRIORITY_DEFAULT,
+			     NULL,
+			     remove_files__catalog_save_done_cb,
+			     data);
 }
 
 
@@ -1422,11 +1422,11 @@ gth_catalog_manager_remove_files (GtkWindow   *parent,
 	data->file_data_list = gth_file_data_list_dup (file_list);
 	data->gio_file = gth_main_get_gio_file (location->file);
 
-	g_load_file_async (data->gio_file,
-			   G_PRIORITY_DEFAULT,
-			   NULL,
-			   catalog_buffer_ready_cb,
-			   data);
+	_g_file_load_async (data->gio_file,
+			    G_PRIORITY_DEFAULT,
+			    NULL,
+			    catalog_buffer_ready_cb,
+			    data);
 }
 
 

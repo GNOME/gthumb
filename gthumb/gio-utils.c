@@ -1934,11 +1934,11 @@ _g_delete_files_async (GList        *file_list,
 
 
 gboolean
-g_load_file_in_buffer (GFile         *file,
-		       void         **buffer,
-		       gsize         *size,
-		       GCancellable  *cancellable,
-		       GError       **error)
+_g_file_load_in_buffer (GFile         *file,
+		        void         **buffer,
+		        gsize         *size,
+		        GCancellable  *cancellable,
+		        GError       **error)
 {
 	GFileInputStream *istream;
 	gboolean          retval;
@@ -2071,11 +2071,11 @@ load_file__file_read_cb (GObject      *source_object,
 
 
 void
-g_load_file_async (GFile               *file,
-		   int                  io_priority,
-		   GCancellable        *cancellable,
-		   BufferReadyCallback  callback,
-		   gpointer             user_data)
+_g_file_load_async (GFile               *file,
+		    int                  io_priority,
+		    GCancellable        *cancellable,
+		    BufferReadyCallback  callback,
+		    gpointer             user_data)
 {
 	LoadData *load_data;
 
@@ -2089,7 +2089,7 @@ g_load_file_async (GFile               *file,
 }
 
 
-/* -- g_write_file_async -- */
+/* -- _g_file_write_async -- */
 
 
 typedef struct {
@@ -2226,14 +2226,14 @@ write_file__create_ready_cb (GObject      *source_object,
 
 
 void
-g_write_file_async (GFile               *file,
-		    void                *buffer,
-		    gsize                count,
-		    gboolean             replace,
-		    int                  io_priority,
-		    GCancellable        *cancellable,
-		    BufferReadyCallback  callback,
-		    gpointer             user_data)
+_g_file_write_async (GFile               *file,
+		     void                *buffer,
+		     gsize                count,
+		     gboolean             replace,
+		     int                  io_priority,
+		     GCancellable        *cancellable,
+		     BufferReadyCallback  callback,
+		     gpointer             user_data)
 {
 	WriteData *write_data;
 
@@ -2398,17 +2398,17 @@ _g_directory_create_tmp (void)
 }
 
 
-/* -- g_write_file -- */
+/* -- _g_file_write -- */
 
 
 gboolean
-g_write_file (GFile             *file,
-	      gboolean           make_backup,
-	      GFileCreateFlags   flags,
-	      void              *buffer,
-	      gsize              count,
-	      GCancellable      *cancellable,
-	      GError           **error)
+_g_file_write (GFile             *file,
+	       gboolean           make_backup,
+	       GFileCreateFlags   flags,
+	       void              *buffer,
+	       gsize              count,
+	       GCancellable      *cancellable,
+	       GError           **error)
 {
 	gboolean       success;
 	GOutputStream *stream;

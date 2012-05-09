@@ -126,14 +126,14 @@ save_current_file (SaveData *save_data)
 	}
 
 	file = save_data->current->data;
-	g_write_file_async (file->file,
-			    file->buffer,
-			    file->buffer_size,
-			    (g_file_equal (save_data->data->file_data->file, file->file) ? save_data->data->replace : TRUE),
-			    G_PRIORITY_DEFAULT,
-			    NULL,
-			    file_saved_cb,
-			    save_data);
+	_g_file_write_async (file->file,
+			     file->buffer,
+			     file->buffer_size,
+			     (g_file_equal (save_data->data->file_data->file, file->file) ? save_data->data->replace : TRUE),
+			     G_PRIORITY_DEFAULT,
+			     NULL,
+			     file_saved_cb,
+			     save_data);
 }
 
 

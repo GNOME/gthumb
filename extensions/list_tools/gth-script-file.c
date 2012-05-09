@@ -165,7 +165,7 @@ gth_script_file_load_from_file (GthScriptFile  *self,
 	g_return_val_if_fail (file != NULL, FALSE);
 
 	read_error = NULL;
-	g_load_file_in_buffer (file, (void **) &buffer, &len, NULL, &read_error);
+	_g_file_load_in_buffer (file, (void **) &buffer, &len, NULL, &read_error);
 	if (read_error != NULL) {
 		g_propagate_error (error, read_error);
 		return FALSE;
@@ -250,7 +250,7 @@ gth_script_file_to_file (GthScriptFile  *self,
 	}
 
 	write_error = NULL;
-	if (! g_write_file (file, FALSE, 0, data, len, NULL, &write_error)) {
+	if (! _g_file_write (file, FALSE, 0, data, len, NULL, &write_error)) {
 		g_propagate_error (error, write_error);
 		retval = FALSE;
 	}

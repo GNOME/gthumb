@@ -135,11 +135,11 @@ picasa_account_properties_dialog_construct (PicasaAccountPropertiesDialog *self,
 
 		url = g_strconcat ("http://www.google.com/accounts/", challange_url, NULL);
 		file = g_file_new_for_uri (url);
-		g_load_file_async (file,
-				   G_PRIORITY_DEFAULT,
-				   self->priv->cancellable,
-				   image_buffer_ready_cb,
-				   self);
+		_g_file_load_async (file,
+				    G_PRIORITY_DEFAULT,
+				    self->priv->cancellable,
+				    image_buffer_ready_cb,
+				    self);
 
 		g_object_unref (file);
 		g_free (url);

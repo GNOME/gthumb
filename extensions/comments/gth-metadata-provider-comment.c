@@ -209,7 +209,7 @@ gth_metadata_provider_comment_write (GthMetadataProvider   *self,
 	comment_folder = g_file_get_parent (comment_file);
 
 	g_file_make_directory (comment_folder, NULL, NULL);
-	g_write_file (comment_file, FALSE, 0, data, length, cancellable, NULL);
+	_g_file_write (comment_file, FALSE, 0, data, length, cancellable, NULL);
 
 	g_object_unref (comment_folder);
 	g_object_unref (comment_file);

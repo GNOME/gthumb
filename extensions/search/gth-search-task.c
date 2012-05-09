@@ -157,14 +157,14 @@ done_func (GObject  *object,
 	data = dom_document_dump (doc, &size);
 
 	search_result_real_file = gth_catalog_file_to_gio_file (task->priv->search_catalog);
-	g_write_file_async (search_result_real_file,
-			    data,
-			    size,
-			    TRUE,
-			    G_PRIORITY_DEFAULT,
-			    gth_task_get_cancellable (GTH_TASK (task)),
-			    save_search_result_copy_done_cb,
-			    task);
+	_g_file_write_async (search_result_real_file,
+			     data,
+			     size,
+			     TRUE,
+			     G_PRIORITY_DEFAULT,
+			     gth_task_get_cancellable (GTH_TASK (task)),
+			     save_search_result_copy_done_cb,
+			     task);
 
 	g_object_unref (search_result_real_file);
 	g_object_unref (doc);
@@ -395,14 +395,14 @@ gth_search_task_exec (GthTask *base)
 	data = dom_document_dump (doc, &size);
 
 	search_result_real_file = gth_catalog_file_to_gio_file (task->priv->search_catalog);
-	g_write_file_async (search_result_real_file,
-			    data,
-			    size,
-			    TRUE,
-			    G_PRIORITY_DEFAULT,
-			    gth_task_get_cancellable (GTH_TASK (task)),
-			    clear_search_result_copy_done_cb,
-			    task);
+	_g_file_write_async (search_result_real_file,
+			     data,
+			     size,
+			     TRUE,
+			     G_PRIORITY_DEFAULT,
+			     gth_task_get_cancellable (GTH_TASK (task)),
+			     clear_search_result_copy_done_cb,
+			     task);
 
 	g_object_unref (search_result_real_file);
 	g_object_unref (doc);

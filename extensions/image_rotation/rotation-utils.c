@@ -298,14 +298,14 @@ file_buffer_ready_cb (void     **buffer,
 			return;
 		}
 
-		g_write_file_async (tdata->file_data->file,
-				    out_buffer,
-		    		    out_buffer_size,
-		    		    TRUE,
-				    G_PRIORITY_DEFAULT,
-				    tdata->cancellable,
-				    write_file_ready_cb,
-				    tdata);
+		_g_file_write_async (tdata->file_data->file,
+				     out_buffer,
+		    		     out_buffer_size,
+		    		     TRUE,
+				     G_PRIORITY_DEFAULT,
+				     tdata->cancellable,
+				     write_file_ready_cb,
+				     tdata);
 	}
 	else
 #endif /* HAVE_LIBJPEG */
@@ -360,9 +360,9 @@ apply_transformation_async (GthFileData   *file_data,
 	tdata->ready_func = ready_func;
 	tdata->user_data = user_data;
 
-	g_load_file_async (tdata->file_data->file,
-			   G_PRIORITY_DEFAULT,
-			   tdata->cancellable,
-			   file_buffer_ready_cb,
-			   tdata);
+	_g_file_load_async (tdata->file_data->file,
+			    G_PRIORITY_DEFAULT,
+			    tdata->cancellable,
+			    file_buffer_ready_cb,
+			    tdata);
 }

@@ -95,11 +95,11 @@ migration_for_each_file (GFile     *file,
 	if (g_file_info_get_file_type (info) != G_FILE_TYPE_REGULAR)
 		return;
 
-	if (! g_load_file_in_buffer (file,
-				     (void **) &buffer,
-				     &buffer_size,
-				     NULL,
-				     &error))
+	if (! _g_file_load_in_buffer (file,
+				      (void **) &buffer,
+				      &buffer_size,
+				      NULL,
+				      &error))
 	{
 		g_warning ("%s", error->message);
 		return;
@@ -446,13 +446,13 @@ migration_for_each_file (GFile     *file,
 	*/
 
 	if (! g_file_query_exists (catalog_file, NULL)) {
-		if (! g_write_file (catalog_file,
-				    FALSE,
-				    G_FILE_CREATE_PRIVATE,
-				    new_buffer,
-				    new_buffer_size,
-				    NULL,
-				    &error))
+		if (! _g_file_write (catalog_file,
+				     FALSE,
+				     G_FILE_CREATE_PRIVATE,
+				     new_buffer,
+				     new_buffer_size,
+				     NULL,
+				     &error))
 		{
 			g_warning ("%s", error->message);
 		}

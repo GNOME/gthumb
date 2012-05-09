@@ -804,13 +804,13 @@ process_rename_data_list (gpointer user_data)
 
 		gio_file = gth_catalog_file_to_gio_file (rename_data->location);
 		catalog_data = gth_catalog_to_data (catalog, &catalog_data_size);
-		if (! g_write_file (gio_file,
-				    FALSE,
-				    G_FILE_CREATE_NONE,
-				    catalog_data,
-				    catalog_data_size,
-				    NULL,
-				    &error))
+		if (! _g_file_write (gio_file,
+				     FALSE,
+				     G_FILE_CREATE_NONE,
+				     catalog_data,
+				     catalog_data_size,
+				     NULL,
+				     &error))
 		{
 			g_warning ("%s", error->message);
 			g_clear_error (&error);

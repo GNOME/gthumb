@@ -551,11 +551,11 @@ photobucket_service_upload_current_file (PhotobucketService *self)
 	}
 
 	file_data = self->priv->post_photos->current->data;
-	g_load_file_async (file_data->file,
-			   G_PRIORITY_DEFAULT,
-			   self->priv->post_photos->cancellable,
-			   upload_photo_file_buffer_ready_cb,
-			   self);
+	_g_file_load_async (file_data->file,
+			    G_PRIORITY_DEFAULT,
+			    self->priv->post_photos->cancellable,
+			    upload_photo_file_buffer_ready_cb,
+			    self);
 }
 
 

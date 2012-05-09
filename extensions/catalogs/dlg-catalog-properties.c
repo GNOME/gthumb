@@ -127,14 +127,14 @@ save_button_clicked_cb (GtkButton  *button,
 
 	gio_file = gth_catalog_file_to_gio_file (data->file_data->file);
 	buffer = gth_catalog_to_data (data->catalog, &size);
-	g_write_file_async (gio_file,
-			    buffer,
-			    size,
-			    TRUE,
-			    G_PRIORITY_DEFAULT,
-			    NULL,
-			    catalog_saved_cb,
-			    data);
+	_g_file_write_async (gio_file,
+			     buffer,
+			     size,
+			     TRUE,
+			     G_PRIORITY_DEFAULT,
+			     NULL,
+			     catalog_saved_cb,
+			     data);
 
 	g_object_unref (gio_file);
 }

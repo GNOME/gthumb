@@ -402,11 +402,11 @@ file_info_ready_cb (GList    *files,
 	updated_file_data = (GthFileData*) files->data;
 	g_file_info_copy_into (updated_file_data->info, source_file_data->info);
 
-	g_load_file_async (source_file_data->file,
-			   G_PRIORITY_DEFAULT,
-			   gth_task_get_cancellable (GTH_TASK (self)),
-			   file_buffer_ready_cb,
-			   self);
+	_g_file_load_async (source_file_data->file,
+			    G_PRIORITY_DEFAULT,
+			    gth_task_get_cancellable (GTH_TASK (self)),
+			    file_buffer_ready_cb,
+			    self);
 }
 
 

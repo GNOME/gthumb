@@ -171,11 +171,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 	image = gth_image_new ();
 
-	if (! g_load_file_in_buffer (file_data->file,
-			      	     &in_buffer,
-			      	     &in_buffer_size,
-			      	     cancellable,
-			      	     error))
+	if (! _g_file_load_in_buffer (file_data->file,
+			      	      &in_buffer,
+			      	      &in_buffer_size,
+			      	      cancellable,
+			      	      error))
 	{
 		return image;
 	}

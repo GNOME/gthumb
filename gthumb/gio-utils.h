@@ -148,24 +148,24 @@ void     _g_delete_files_async       (GList                  *file_list,
 
 /* -- load/write/create file  -- */
 
-gboolean g_load_file_in_buffer       (GFile                 *file,
+gboolean _g_file_load_in_buffer      (GFile                 *file,
 				      void                 **buffer,
 				      gsize                 *size,
 				      GCancellable          *cancellable,
 				      GError               **error);
-void     g_load_file_async           (GFile                 *file,
+void     _g_file_load_async          (GFile                 *file,
 				      int                    io_priority,
 				      GCancellable          *cancellable,
 				      BufferReadyCallback    callback,
 				      gpointer               user_data);
-gboolean g_write_file                (GFile                 *file,
+gboolean _g_file_write               (GFile                 *file,
 				      gboolean               make_backup,
 			              GFileCreateFlags       flags,
 				      void                  *buffer,
 				      gsize                  count,
 				      GCancellable          *cancellable,
 				      GError               **error);
-void     g_write_file_async          (GFile                 *file,
+void     _g_file_write_async         (GFile                 *file,
 				      void                  *buffer,
 		    		      gsize                  count,
 		    		      gboolean               replace,

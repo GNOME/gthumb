@@ -582,11 +582,11 @@ gth_catalog_list_async (GthCatalog           *catalog,
 	list_data->list_ready_func = ready_func;
 	list_data->user_data = user_data;
 
-	g_load_file_async (catalog->priv->file,
-			   G_PRIORITY_DEFAULT,
-			   catalog->priv->cancellable,
-			   list__catalog_buffer_ready_cb,
-			   list_data);
+	_g_file_load_async (catalog->priv->file,
+			    G_PRIORITY_DEFAULT,
+			    catalog->priv->cancellable,
+			    list__catalog_buffer_ready_cb,
+			    list_data);
 }
 
 
@@ -1072,11 +1072,11 @@ gth_catalog_load_from_file_async (GFile         *file,
 	load_data->user_data = user_data;
 
 	gio_file = gth_catalog_file_to_gio_file (file);
-	g_load_file_async (gio_file,
-			   G_PRIORITY_DEFAULT,
-			   cancellable,
-			   load__catalog_buffer_ready_cb,
-			   load_data);
+	_g_file_load_async (gio_file,
+			    G_PRIORITY_DEFAULT,
+			    cancellable,
+			    load__catalog_buffer_ready_cb,
+			    load_data);
 
 	g_object_unref (gio_file);
 }
@@ -1129,7 +1129,7 @@ gth_catalog_load_from_file (GFile *file)
 	gsize       buffer_size;
 
 	gio_file = gth_catalog_file_to_gio_file (file);
-	if (! g_load_file_in_buffer (gio_file, &buffer, &buffer_size, NULL, NULL))
+	if (! _g_file_load_in_buffer (gio_file, &buffer, &buffer_size, NULL, NULL))
 		return NULL;
 
 	catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", buffer);
@@ -1160,13 +1160,13 @@ gth_catalog_save (GthCatalog *catalog)
 	if (gio_parent != NULL)
 		g_file_make_directory_with_parents (gio_parent, NULL, NULL);
 	data = gth_catalog_to_data (catalog, &size);
-	if (! g_write_file (gio_file,
-			    FALSE,
-			    G_FILE_CREATE_NONE,
-			    data,
-			    size,
-			    NULL,
-			    &error))
+	if (! _g_file_write (gio_file,
+			     FALSE,
+			     G_FILE_CREATE_NONE,
+			     data,
+			     size,
+			     NULL,
+			     &error))
 	{
 		g_warning ("%s", error->message);
 		g_clear_error (&error);

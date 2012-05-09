@@ -148,7 +148,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 	if (! exiv2_supports_writes (gth_file_data_get_mime_type (file_data)))
 		return;
 
-	if (! g_load_file_in_buffer (file_data->file, &buffer, &size, cancellable, &error))
+	if (! _g_file_load_in_buffer (file_data->file, &buffer, &size, cancellable, &error))
 		return;
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::description");
@@ -284,13 +284,13 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 	{
 		GFileInfo *tmp_info;
 
-		g_write_file (file_data->file,
-			      FALSE,
-			      G_FILE_CREATE_NONE,
-			      buffer,
-			      size,
-			      cancellable,
-			      &error);
+		_g_file_write (file_data->file,
+			       FALSE,
+			       G_FILE_CREATE_NONE,
+			       buffer,
+			       size,
+			       cancellable,
+			       &error);
 
 		tmp_info = g_file_info_new ();
 		g_file_info_set_attribute_uint64 (tmp_info,

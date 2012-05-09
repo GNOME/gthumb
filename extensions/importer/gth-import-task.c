@@ -482,16 +482,16 @@ write_file_to_destination (GthImportTask *self,
 				   FALSE,
 				   (double) (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0 * 2.0)) / self->priv->tot_size);
 
-		self->priv->buffer = NULL; /* the buffer will be deallocated in g_write_file_async */
+		self->priv->buffer = NULL; /* the buffer will be deallocated in _g_file_write_async */
 
-		g_write_file_async (self->priv->destination_file->file,
-				    buffer,
-				    count,
-				    replace,
-				    G_PRIORITY_DEFAULT,
-				    gth_task_get_cancellable (GTH_TASK (self)),
-				    write_buffer_ready_cb,
-				    self);
+		_g_file_write_async (self->priv->destination_file->file,
+				     buffer,
+				     count,
+				     replace,
+				     G_PRIORITY_DEFAULT,
+				     gth_task_get_cancellable (GTH_TASK (self)),
+				     write_buffer_ready_cb,
+				     self);
 	}
 	else
 		g_file_copy_async (file_data->file,
@@ -575,7 +575,7 @@ file_buffer_ready_cb (void     **buffer,
 				   *buffer,
 				   count,
 				   self->priv->default_response == GTH_OVERWRITE_RESPONSE_ALWAYS_YES);
-	*buffer = NULL; /* g_write_file_async takes ownership of the buffer */
+	*buffer = NULL; /* _g_file_write_async takes ownership of the buffer */
 
 	g_object_unref (destination_file);
 }
@@ -653,11 +653,11 @@ import_current_file (GthImportTask *self)
 				   FALSE,
 				   (double) (self->priv->copied_size + ((double) self->priv->current_file_size / 3.0)) / self->priv->tot_size);
 
-		g_load_file_async (file_data->file,
-				   G_PRIORITY_DEFAULT,
-				   gth_task_get_cancellable (GTH_TASK (self)),
-				   file_buffer_ready_cb,
-				   self);
+		_g_file_load_async (file_data->file,
+				    G_PRIORITY_DEFAULT,
+				    gth_task_get_cancellable (GTH_TASK (self)),
+				    file_buffer_ready_cb,
+				    self);
 	}
 	else {
 		GFile *destination_file;
