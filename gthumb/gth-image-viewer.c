@@ -2597,7 +2597,7 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 		int rx, ry, rw, rh;
 
 		if (self->priv->black_bg) {
-			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+			cairo_set_source_rgb (cr, 0.2, 0.2, 0.2);
 		}
 		else {
 			GdkRGBA color;
