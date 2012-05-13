@@ -1251,6 +1251,8 @@ gfl_enable_thumbs (GthFileList *file_list,
 		gth_file_store_exec_set (file_store);
 	}
 
+	if (enable)
+		file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
 	start_update_next_thumb (file_list);
 }
 
