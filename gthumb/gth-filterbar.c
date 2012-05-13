@@ -533,6 +533,11 @@ gth_filterbar_load_filter (GthFilterbar *filterbar,
 		return;
 	}
 
+	if (buffer == NULL) {
+		g_object_unref (filter_file);
+		return;
+	}
+
 	doc = dom_document_new ();
 	if (dom_document_load (doc, buffer, len, NULL)) {
 		DomElement *node = DOM_ELEMENT (doc)->first_child;
