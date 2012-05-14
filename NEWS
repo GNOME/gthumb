@@ -1,3 +1,13 @@
+version 2.14.4
+--------------
+
+ Bugs fixed:
+
+  * Preserve XMP lists when saving an image (#674908)
+  * Fixed help button in preferences window (Michael J. Chudobiak) 
+    (#671290)
+  * Removed useless and potentially dangerous strncpy (#672866)
+
 version 2.14.3
 --------------
 
