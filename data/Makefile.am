@@ -46,12 +46,15 @@ pkgconfig_DATA = gthumb-$(GTHUMB_API_VERSION).pc
 uidir = $(pkgdatadir)/ui
 ui_DATA = filmholes.png
 
+man_MANS=gthumb.1
+
 EXTRA_DIST =                    	\
 	$(desktop_in_in_files)  	\
 	$(gsettings_schema_in_files)    \
 	$(pkgconfig_DATA)		\
 	$(ui_DATA)			\
-	gthumb.convert
+	gthumb.convert			\
+	$(man_MANS)
 
 DISTCLEANFILES =                	\
 	$(desktop_in_files)		\
