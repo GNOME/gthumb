@@ -1,3 +1,21 @@
+version 3.0.1
+-------------
+
+ Bugs fixed:
+
+  * Resize images: correctly restore the last used width and height
+    (#675498)
+  * Preserve XMP lists when saving an image. (#674908)
+  * Fixed loading of thumbnails after re-enabling thumbnails again.
+  * Fixed mouse wheel navigation with the video viewer.
+  * Added a man page.
+
+ New or updated application translations:
+
+  * French (Claude Paroz)
+  * German (Christian Kirbach)
+  * Russian (Yuri Myasoedov)
+
 version 3.0.0
 -------------
 
