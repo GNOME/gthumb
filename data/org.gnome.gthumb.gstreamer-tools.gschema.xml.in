@@ -22,6 +22,9 @@
     <key name="screenshot-location" type="s">
       <default>'file://~'</default>
     </key>
+    <key name="volume" type="i">
+      <default>100</default>
+    </key>
   </schema>
 
 </schemalist>

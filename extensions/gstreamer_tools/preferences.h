@@ -29,5 +29,6 @@
 /* keys */
 
 #define  PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION "screenshot-location"
+#define  PREF_GSTREAMER_TOOLS_VOLUME             "volume"
 
 #endif /* PREFERENCES_H */

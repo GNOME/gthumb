@@ -29,6 +29,7 @@
 #include <extensions/gstreamer_utils/gstreamer-utils.h>
 #include "actions.h"
 #include "gth-media-viewer-page.h"
+#include "preferences.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -845,6 +846,20 @@ remove_fullscreen_toolbar (GthMediaViewerPage *self)
 
 
 static void
+save_volume (GthMediaViewerPage *self)
+{
+	GSettings *settings;
+	double     volume;
+
+	settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
+	g_object_get (self->priv->playbin, "volume", &volume, NULL);
+	g_settings_set_int (settings, PREF_GSTREAMER_TOOLS_VOLUME, (int) (volume * 100.0));
+
+	g_object_unref (settings);
+}
+
+
+static void
 gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 {
 	GthMediaViewerPage *self;
@@ -862,6 +877,7 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
         }
 
 	if (self->priv->playbin != NULL) {
+		save_volume (self);
 		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
 		gst_object_unref (GST_OBJECT (self->priv->playbin));
 		self->priv->playbin = NULL;
@@ -1069,12 +1085,21 @@ playbin_notify_volume_cb (GObject    *playbin,
 static void
 create_playbin (GthMediaViewerPage *self)
 {
-	GstBus *bus;
+	GSettings *settings;
+	GstBus    *bus;
 
 	if (self->priv->playbin != NULL)
 		return;
 
 	self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
+
+	settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
+	g_object_set (self->priv->playbin,
+		      "volume",
+		      (double) g_settings_get_int (settings, PREF_GSTREAMER_TOOLS_VOLUME) / 100.0,
+		      NULL);
+	g_object_unref (settings);
+
 	g_signal_connect (self->priv->playbin, "notify::volume", G_CALLBACK (playbin_notify_volume_cb), self);
 
 	bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
@@ -1397,6 +1422,7 @@ gth_media_viewer_page_finalize (GObject *obj)
         }
 
 	if (self->priv->playbin != NULL) {
+		save_volume (self);
 		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
 		gst_object_unref (GST_OBJECT (self->priv->playbin));
 		self->priv->playbin = NULL;
