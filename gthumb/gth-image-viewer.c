@@ -40,6 +40,7 @@
 #define MINIMUM_DELAY   10    /* When an animation frame has a 0 milli seconds
 			       * delay use this delay instead. */
 #define STEP_INCREMENT  20.0  /* Scroll increment. */
+#define BLACK_VALUE 0.2
 
 
 G_DEFINE_TYPE_WITH_CODE (GthImageViewer,
@@ -2597,7 +2598,7 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 		int rx, ry, rw, rh;
 
 		if (self->priv->black_bg) {
-			cairo_set_source_rgb (cr, 0.2, 0.2, 0.2);
+			cairo_set_source_rgb (cr, BLACK_VALUE, BLACK_VALUE, BLACK_VALUE);
 		}
 		else {
 			GdkRGBA color;
@@ -2716,7 +2717,7 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 		if ((self->priv->transp_type == GTH_TRANSP_TYPE_BLACK)
 		    || ((self->priv->transp_type == GTH_TRANSP_TYPE_NONE) && self->priv->black_bg))
 		{
-			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+			cairo_set_source_rgb (cr, BLACK_VALUE, BLACK_VALUE, BLACK_VALUE);
 			cairo_rectangle (cr,
 					 self->image_area.x + 0.5,
 					 self->image_area.y + 0.5,
