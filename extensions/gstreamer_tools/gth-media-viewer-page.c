@@ -628,9 +628,13 @@ update_volume_from_playbin (GthMediaViewerPage *self)
 	else
 		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-high-symbolic", GTK_ICON_SIZE_BUTTON);
 
-	g_signal_handlers_block_by_func(GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
+	g_signal_handlers_block_by_func (GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("volume_adjustment")), volume * 100.0);
-	g_signal_handlers_unblock_by_func(GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
+	g_signal_handlers_unblock_by_func (GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
+
+	g_signal_handlers_block_by_func (GET_WIDGET ("volume_togglebutton"), volume_togglebutton_toggled_cb, self);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("volume_togglebutton")), volume == 0.0);
+	g_signal_handlers_unblock_by_func (GET_WIDGET ("volume_togglebutton"), volume_togglebutton_toggled_cb, self);
 }
 
 
