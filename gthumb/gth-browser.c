@@ -55,6 +55,7 @@
 #include "gth-sidebar.h"
 #include "gth-statusbar.h"
 #include "gth-toggle-menu-tool-button.h"
+#include "gth-user-dir.h"
 #include "gth-viewer-page.h"
 #include "gth-window.h"
 #include "gth-window-actions-callbacks.h"
@@ -73,6 +74,7 @@
 #define SHIRNK_WRAP_WIDTH_OFFSET 100
 #define SHIRNK_WRAP_HEIGHT_OFFSET 125
 #define FILE_PROPERTIES_MINIMUM_HEIGHT 100
+#define HISTORY_FILE "history.xbel"
 
 G_DEFINE_TYPE (GthBrowser, gth_browser, GTH_TYPE_WINDOW)
 
@@ -684,7 +686,7 @@ _gth_browser_add_clear_history_menu_item (GthBrowser *browser,
 
 #if 0
 static void
-_gth_browser_print_history (GthBrowser *browser)
+_gth_browser_history_print (GthBrowser *browser)
 {
 	GList *scan;
 
@@ -703,7 +705,7 @@ _gth_browser_print_history (GthBrowser *browser)
 
 
 static void
-_gth_browser_update_history_list (GthBrowser *browser)
+_gth_browser_history_menu (GthBrowser *browser)
 {
 	GtkWidget *menu;
 	GList     *scan;
@@ -790,8 +792,8 @@ _gth_browser_update_history_list (GthBrowser *browser)
 
 
 static void
-_gth_browser_add_to_history (GthBrowser *browser,
-			     GFile      *file)
+_gth_browser_history_add (GthBrowser *browser,
+			  GFile      *file)
 {
 	if (file == NULL)
 		return;
@@ -825,6 +827,68 @@ _gth_browser_add_to_history (GthBrowser *browser,
 		browser->priv->history = g_list_prepend (browser->priv->history, g_object_ref (file));
 		browser->priv->history_current = browser->priv->history;
 	}
+}
+
+
+static void
+_gth_browser_history_save (GthBrowser *browser)
+{
+	GBookmarkFile *bookmarks;
+	GFile         *file;
+	char          *filename;
+	GList         *scan;
+	int            n;
+
+	bookmarks = g_bookmark_file_new ();
+	for (scan = browser->priv->history, n = 0; scan && (n < MAX_HISTORY_LENGTH); scan = scan->next, n++) {
+		GFile *location = scan->data;
+		char  *uri;
+
+		uri = g_file_get_uri (location);
+		_g_bookmark_file_add_uri (bookmarks, uri);
+
+		g_free (uri);
+	}
+	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, HISTORY_FILE, NULL);
+	filename = g_file_get_path (file);
+	g_bookmark_file_to_file (bookmarks, filename, NULL);
+
+	g_free (filename);
+	g_object_unref (file);
+	g_bookmark_file_free (bookmarks);
+}
+
+
+static void
+_gth_browser_history_load (GthBrowser *browser)
+{
+	GBookmarkFile *bookmarks;
+	GFile         *file;
+	char          *filename;
+
+	_g_object_list_unref (browser->priv->history);
+	browser->priv->history = NULL;
+
+	bookmarks = g_bookmark_file_new ();
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, HISTORY_FILE, NULL);
+	filename = g_file_get_path (file);
+	if (g_bookmark_file_load_from_file (bookmarks, filename, NULL)) {
+		char **uris;
+		int    i;
+
+		uris = g_bookmark_file_get_uris (bookmarks, NULL);
+		for (i = 0; (uris[i] != NULL) && (i < MAX_HISTORY_LENGTH); i++)
+			browser->priv->history = g_list_prepend (browser->priv->history, g_file_new_for_uri (uris[i]));
+		browser->priv->history = g_list_reverse (browser->priv->history);
+
+		g_strfreev (uris);
+	}
+
+	browser->priv->history_current = browser->priv->history;
+
+	g_free (filename);
+	g_object_unref (file);
+	g_bookmark_file_free (bookmarks);
 }
 
 
@@ -1947,13 +2011,13 @@ _gth_browser_load (GthBrowser *browser,
 	case GTH_ACTION_GO_TO:
 	case GTH_ACTION_VIEW:
 		_gth_browser_set_location_from_file (browser, load_data->requested_folder->file);
-		_gth_browser_add_to_history (browser, browser->priv->location->file);
-		_gth_browser_update_history_list (browser);
+		_gth_browser_history_add (browser, browser->priv->location->file);
+		_gth_browser_history_menu (browser);
 		break;
 	case GTH_ACTION_GO_BACK:
 	case GTH_ACTION_GO_FORWARD:
 		_gth_browser_set_location_from_file (browser, load_data->requested_folder->file);
-		_gth_browser_update_history_list (browser);
+		_gth_browser_history_menu (browser);
 		break;
 	default:
 		break;
@@ -2140,10 +2204,6 @@ _gth_browser_close_final_step (gpointer user_data)
 		gtk_widget_get_allocation (browser->priv->viewer_sidebar_alignment, &allocation);
 		if (allocation.width > MIN_SIDEBAR_SIZE)
 			g_settings_set_int (browser->priv->browser_settings, PREF_BROWSER_VIEWER_SIDEBAR_WIDTH, allocation.width);
-
-		/* Save the current filter */
-
-		gth_filterbar_save_filter (GTH_FILTERBAR (browser->priv->filterbar), "active_filter.xml");
 	}
 
 	/**/
@@ -2175,6 +2235,10 @@ _gth_browser_close_final_step (gpointer user_data)
 			g_settings_set_string (browser->priv->browser_settings, PREF_BROWSER_SORT_TYPE, browser->priv->default_sort_type->name);
 			g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_SORT_INVERSE, browser->priv->default_sort_inverse);
 		}
+
+		gth_filterbar_save_filter (GTH_FILTERBAR (browser->priv->filterbar), "active_filter.xml");
+
+		_gth_browser_history_save (browser);
 
 		gth_hook_invoke ("gth-browser-close-last-window", browser);
 	}
@@ -4604,6 +4668,13 @@ gth_browser_init (GthBrowser *browser)
 
 	browser->priv->fast_file_type = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_FAST_FILE_TYPE);
 
+	/* load the history only for the first window */
+	{
+		GList * windows = gtk_application_get_windows (Main_Application);
+		if ((windows == NULL) || (windows->next == NULL))
+			_gth_browser_history_load (browser);
+	}
+
 	gth_hook_invoke ("gth-browser-construct", browser);
 
 	performance (DEBUG_INFO, "window initialized");
@@ -4810,8 +4881,8 @@ gth_browser_clear_history (GthBrowser *browser)
 	browser->priv->history = NULL;
 	browser->priv->history_current = NULL;
 
-	_gth_browser_add_to_history (browser, browser->priv->location->file);
-	_gth_browser_update_history_list (browser);
+	_gth_browser_history_add (browser, browser->priv->location->file);
+	_gth_browser_history_menu (browser);
 }
 
 
