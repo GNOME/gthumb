@@ -49,6 +49,19 @@ gth_info_bar_init (GthInfoBar *self)
 
 
 static void
+infobar_response_cb (GtkInfoBar *self,
+		     int         response_id,
+		     gpointer    user_data)
+{
+	switch (response_id) {
+	case GTK_RESPONSE_CLOSE:
+		gtk_widget_hide (GTK_WIDGET (self));
+		break;
+	}
+}
+
+
+static void
 gth_info_bar_construct (GthInfoBar *self)
 {
 	GtkWidget *hbox_content;
@@ -101,6 +114,11 @@ gth_info_bar_construct (GthInfoBar *self)
 	gtk_widget_set_name (GTK_WIDGET (self), "GthInfoBar");
 	gtk_info_bar_set_message_type (GTK_INFO_BAR (self), GTK_MESSAGE_OTHER);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 0);
+
+	g_signal_connect (self,
+			  "response",
+			  G_CALLBACK (infobar_response_cb),
+			  NULL);
 }
 
 
