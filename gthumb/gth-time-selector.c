@@ -21,6 +21,7 @@
 
 #include <config.h>
 #define _XOPEN_SOURCE /* glibc2 needs this */
+#define _XOPEN_SOURCE_EXTENDED 1
 #include <time.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
