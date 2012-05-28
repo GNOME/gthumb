@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-17 18:54+0800\n"
+"POT-Creation-Date: 2012-05-28 18:10+0800\n"
 "PO-Revision-Date: 2012-05-16 16:32+0800\n"
 "Last-Translator: taijuin <taijuin@gmail.com>\n"
 "Language-Team: Chinese/Traditional <ubuntu-l10n-zh-tw@lists.launchpad.net>\n"
@@ -5529,11 +5529,11 @@ msgstr "早於"
 msgid "is after"
 msgstr "晚於"
 
-#: ../gthumb/gth-time-selector.c:477
+#: ../gthumb/gth-time-selector.c:478
 msgid "Today"
 msgstr "今天"
 
-#: ../gthumb/gth-time-selector.c:485
+#: ../gthumb/gth-time-selector.c:486
 msgid "Now"
 msgstr "現在"
 
