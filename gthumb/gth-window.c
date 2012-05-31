@@ -26,7 +26,7 @@
 #include "main.h"
 
 
-G_DEFINE_TYPE (GthWindow, gth_window, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE (GthWindow, gth_window, GTK_TYPE_APPLICATION_WINDOW)
 
 
 enum  {

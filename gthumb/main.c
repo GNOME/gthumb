@@ -36,10 +36,12 @@
 #include "eggdesktopfile.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
+#include "gth-browser-actions-callbacks.h"
 #include "gth-file-data.h"
 #include "gth-file-source-vfs.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
+#include "gth-window-actions-callbacks.h"
 #include "main-migrate.h"
 
 
@@ -317,10 +319,140 @@ gth_application_init (GthApplication *app)
 
 
 static void
+activate_new_window (GSimpleAction *action,
+		     GVariant      *parameter,
+		     gpointer       user_data)
+{
+        GApplication *application = user_data;
+        GList        *windows;
+
+        windows = gtk_application_get_windows (GTK_APPLICATION (application));
+        if (windows != NULL)
+        	gth_browser_activate_action_file_new_window (NULL, windows->data);
+}
+
+
+static void
+activate_preferences (GSimpleAction *action,
+		      GVariant      *parameter,
+		      gpointer       user_data)
+{
+        GApplication *application = user_data;
+        GList        *windows;
+
+        windows = gtk_application_get_windows (GTK_APPLICATION (application));
+        if (windows != NULL)
+        	gth_browser_activate_action_edit_preferences (NULL, windows->data);
+}
+
+
+static void
+activate_help (GSimpleAction *action,
+               GVariant      *parameter,
+               gpointer       user_data)
+{
+        GApplication *application = user_data;
+        GList        *windows;
+
+        windows = gtk_application_get_windows (GTK_APPLICATION (application));
+        if (windows != NULL)
+        	gth_browser_activate_action_help_help (NULL, windows->data);
+}
+
+
+static void
+activate_about (GSimpleAction *action,
+		GVariant      *parameter,
+		gpointer       user_data)
+{
+        GApplication *application = user_data;
+        GList        *windows;
+
+        windows = gtk_application_get_windows (GTK_APPLICATION (application));
+        if (windows != NULL)
+        	gth_browser_activate_action_help_about (NULL, windows->data);
+}
+
+
+static void
+activate_quit (GSimpleAction *action,
+               GVariant      *parameter,
+               gpointer       user_data)
+{
+        GApplication *application = user_data;
+        GList        *windows;
+
+        windows = gtk_application_get_windows (GTK_APPLICATION (application));
+        if (windows != NULL)
+        	gth_window_activate_action_file_quit_application (NULL, windows->data);
+}
+
+
+static const GActionEntry app_menu_entries[] = {
+	{ "new-window",  activate_new_window },
+	{ "preferences",  activate_preferences },
+	{ "help",  activate_help },
+	{ "about", activate_about },
+	{ "quit",  activate_quit }
+};
+
+
+static void
+_gth_application_initialize_app_menu (GApplication *application)
+{
+	GtkBuilder *builder;
+	GError     *error = NULL;
+
+	g_action_map_add_action_entries (G_ACTION_MAP (application),
+					 app_menu_entries,
+					 G_N_ELEMENTS (app_menu_entries),
+					 application);
+
+	builder = gtk_builder_new ();
+	gtk_builder_add_from_string (builder,
+			"<interface>"
+			"  <menu id='app-menu'>"
+			"    <section>"
+			"      <item>"
+			"        <attribute name='label' translatable='yes'>New _Window</attribute>"
+			"        <attribute name='action'>app.new-window</attribute>"
+			"      </item>"
+			"    </section>"
+			"    <section>"
+			"      <item>"
+			"        <attribute name='label' translatable='yes'>_Preferences</attribute>"
+			"        <attribute name='action'>app.preferences</attribute>"
+			"      </item>"
+			"    </section>"
+			"    <section>"
+			"      <item>"
+			"        <attribute name='label' translatable='yes'>_Help</attribute>"
+			"        <attribute name='action'>app.help</attribute>"
+			"      </item>"
+			"      <item>"
+			"        <attribute name='label' translatable='yes'>_About gThumb</attribute>"
+			"        <attribute name='action'>app.about</attribute>"
+			"      </item>"
+			"      <item>"
+			"        <attribute name='label' translatable='yes'>_Quit</attribute>"
+			"        <attribute name='action'>app.quit</attribute>"
+			"      </item>"
+			"    </section>"
+			"  </menu>"
+			"</interface>", -1, &error);
+	gtk_application_set_app_menu (GTK_APPLICATION (application),
+				      G_MENU_MODEL (gtk_builder_get_object (builder, "app-menu")));
+
+	g_object_unref (builder);
+}
+
+
+static void
 gth_application_startup (GApplication *application)
 {
 	G_APPLICATION_CLASS (gth_application_parent_class)->startup (application);
 
+	_gth_application_initialize_app_menu (application);
 	gth_pref_initialize ();
 	migrate_data ();
 	gth_main_initialize ();
@@ -577,7 +709,6 @@ main (int argc, char *argv[])
 
 	program_argv0 = argv[0];
 
-	g_thread_init (NULL);
 	g_type_init ();
 
 	/* text domain */

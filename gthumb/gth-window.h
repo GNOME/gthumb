@@ -54,13 +54,13 @@ typedef struct _GthWindowPrivate GthWindowPrivate;
 
 struct _GthWindow
 {
-	GtkWindow __parent;
+	GtkApplicationWindow __parent;
 	GthWindowPrivate *priv;
 };
 
 struct _GthWindowClass
 {
-	GtkWindowClass __parent_class;
+	GtkApplicationWindowClass __parent_class;
 
 	/*< virtual functions >*/
 
