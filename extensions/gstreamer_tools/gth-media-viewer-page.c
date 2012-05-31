@@ -664,7 +664,7 @@ set_playing_state (GthMediaViewerPage *self,
 	self->priv->playing = playing;
 	if (self->priv->playing)
 		gth_screensaver_inhibit (self->priv->screensaver,
-					 GTK_WIDGET (self->priv->browser),
+					 GTK_WINDOW (self->priv->browser),
 					 _("Playing video"));
 	else
 		gth_screensaver_uninhibit (self->priv->screensaver);

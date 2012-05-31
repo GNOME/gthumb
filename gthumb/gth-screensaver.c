@@ -30,14 +30,13 @@
 /* Properties */
 enum {
         PROP_0,
-        PROP_APP_ID
+        PROP_APPLICATION
 };
 
 
 struct _GthScreensaverPrivate {
-	char       *app_id;
-	guint32     cookie;
-	GDBusProxy *proxy;
+	GApplication *application;
+	guint         cookie;
 };
 
 
@@ -51,9 +50,8 @@ gth_screensaver_finalize (GObject *object)
 
 	self = GTH_SCREENSAVER (object);
 
-	g_free (self->priv->app_id);
-	if (self->priv->proxy != NULL)
-		g_object_unref (self->priv->proxy);
+	if (self->priv->application != NULL)
+		g_object_unref (self->priv->application);
 
 	G_OBJECT_CLASS (gth_screensaver_parent_class)->finalize (object);
 }
@@ -70,9 +68,10 @@ gth_screensaver_set_property (GObject      *object,
 	self = GTH_SCREENSAVER (object);
 
 	switch (property_id) {
-	case PROP_APP_ID:
-		g_free (self->priv->app_id);
-		self->priv->app_id = g_value_dup_string (value);
+	case PROP_APPLICATION:
+		if (self->priv->application != NULL)
+			g_object_unref (self->priv->application);
+		self->priv->application = g_value_dup_object (value);
 		break;
 	default:
 		break;
@@ -91,8 +90,8 @@ gth_screensaver_get_property (GObject    *object,
 	self = GTH_SCREENSAVER (object);
 
 	switch (property_id) {
-	case PROP_APP_ID:
-		g_value_set_string (value, self->priv->app_id);
+	case PROP_APPLICATION:
+		g_value_set_object (value, self->priv->application);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -116,11 +115,11 @@ gth_screensaver_class_init (GthScreensaverClass *klass)
 	/* properties */
 
 	g_object_class_install_property (object_class,
-					 PROP_APP_ID,
-					 g_param_spec_string ("app-id",
-                                                              "Application ID",
-                                                              "The application identifier",
-                                                              NULL,
+					 PROP_APPLICATION,
+					 g_param_spec_object ("application",
+                                                              "Application",
+                                                              "The application",
+                                                              G_TYPE_APPLICATION,
                                                               G_PARAM_READWRITE));
 }
 
@@ -129,162 +128,44 @@ static void
 gth_screensaver_init (GthScreensaver *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SCREENSAVER, GthScreensaverPrivate);
-	self->priv->app_id = NULL;
+	self->priv->application = NULL;
 	self->priv->cookie = 0;
-	self->priv->proxy = NULL;
 }
 
 
 GthScreensaver *
-gth_screensaver_new (const char *application_id)
+gth_screensaver_new (GApplication *application)
 {
-	if (application_id == NULL)
-		application_id = g_get_application_name ();
+	if (application == NULL)
+		application = g_application_get_default ();
 
 	return (GthScreensaver*) g_object_new (GTH_TYPE_SCREENSAVER,
-					       "app-id", application_id,
+					       "application", application,
 					       NULL);
-}
-
-
-static void
-_gth_screensaver_create_sm_proxy (GthScreensaver  *self,
-			          GError         **error)
-{
-	GDBusConnection *connection;
-
-	if (self->priv->proxy != NULL)
-		return;
-
-	connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, error);
-	if (connection == NULL)
-		return;
-
-	self->priv->proxy = g_dbus_proxy_new_sync (connection,
-						   G_DBUS_PROXY_FLAGS_NONE,
-						   NULL,
-						   "org.gnome.SessionManager",
-						   "/org/gnome/SessionManager",
-						   "org.gnome.SessionManager",
-						   NULL,
-						   error);
-}
-
-
-static void
-org_gnome_session_manager_inhibit_ready_cb (GObject      *source_object,
-					    GAsyncResult *res,
-					    gpointer      user_data)
-{
-	GthScreensaver  *self = user_data;
-	GVariant        *value;
-	GError          *error = NULL;
-
-	value = g_dbus_proxy_call_finish (self->priv->proxy, res, &error);
-	if (value == NULL) {
-		g_warning ("%s\n", error->message);
-		g_clear_error (&error);
-	}
-	else {
-		g_variant_get (value, "(u)", &self->priv->cookie);
-		g_variant_unref (value);
-	}
-
-	g_object_unref (self);
 }
 
 
 void
 gth_screensaver_inhibit (GthScreensaver *self,
-			 GtkWidget      *widget,
+			 GtkWindow      *window,
 			 const char     *reason)
 {
-	GError    *error = NULL;
-	guint      xid;
-	GtkWidget *toplevel_window;
-
 	if (self->priv->cookie != 0)
 		return;
 
-	_gth_screensaver_create_sm_proxy (self, &error);
-
-	if (error != NULL) {
-		g_warning ("%s\n", error->message);
-		g_clear_error (&error);
-		return;
-	}
-
-	xid = 0;
-	toplevel_window = gtk_widget_get_toplevel (widget);
-	if (gtk_widget_is_toplevel (toplevel_window))
-		xid = GDK_WINDOW_XID (gtk_widget_get_window (toplevel_window));
-
-	g_object_ref (self);
-	g_dbus_proxy_call (self->priv->proxy,
-			   "Inhibit",
-			   g_variant_new ("(susu)",
-					  self->priv->app_id,
-					  xid,
-					  reason,
-					  GNOME_SESSION_MANAGER_INHIBIT_IDLE),
-			   G_DBUS_CALL_FLAGS_NONE,
-			   G_MAXINT,
-			   NULL,
-			   org_gnome_session_manager_inhibit_ready_cb,
-			   self);
-}
-
-
-static void
-org_gnome_session_manager_uninhibit_ready_cb (GObject      *source_object,
-					      GAsyncResult *res,
-					      gpointer      user_data)
-{
-	GthScreensaver  *self = user_data;
-	GVariant        *value;
-	GError          *error = NULL;
-
-	value = g_dbus_proxy_call_finish (self->priv->proxy, res, &error);
-	if (value == NULL) {
-		g_warning ("%s\n", error->message);
-		g_clear_error (&error);
-	}
-
-	self->priv->cookie = 0;
-
-	if (value != NULL)
-		g_variant_unref (value);
-
-	g_object_unref (self);
+	self->priv->cookie = gtk_application_inhibit (GTK_APPLICATION (self->priv->application),
+						      window,
+						      GTK_APPLICATION_INHIBIT_IDLE,
+						      reason);
 }
 
 
 void
 gth_screensaver_uninhibit (GthScreensaver *self)
 {
-	GError  *error = NULL;
-	guint32  cookie;
-
 	if (self->priv->cookie == 0)
 		return;
-	cookie = self->priv->cookie;
+
+	gtk_application_uninhibit (GTK_APPLICATION (self->priv->application), self->priv->cookie);
 	self->priv->cookie = 0;
-
-	_gth_screensaver_create_sm_proxy (self, &error);
-
-	if (error != NULL) {
-		g_warning ("%s\n", error->message);
-		g_clear_error (&error);
-		return;
-	}
-
-	g_object_ref (self);
-	g_dbus_proxy_call (self->priv->proxy,
-			   "Uninhibit",
-			   g_variant_new ("(u)", cookie),
-			   G_DBUS_CALL_FLAGS_NONE,
-			   G_MAXINT,
-			   NULL,
-			   org_gnome_session_manager_uninhibit_ready_cb,
-			   self);
 }

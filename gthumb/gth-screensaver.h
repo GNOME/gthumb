@@ -48,9 +48,9 @@ struct _GthScreensaverClass {
 };
 
 GType             gth_screensaver_get_type   (void) G_GNUC_CONST;
-GthScreensaver *  gth_screensaver_new        (const char     *application_id);
+GthScreensaver *  gth_screensaver_new        (GApplication   *application);
 void              gth_screensaver_inhibit    (GthScreensaver *self,
-					      GtkWidget      *widget,
+					      GtkWindow      *window,
 					      const char     *reason);
 void              gth_screensaver_uninhibit  (GthScreensaver *self);
 
