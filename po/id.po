@@ -2,14 +2,14 @@
 # Copyright (C) 2004 THE gthumb'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 # Abdul Hamid.A.N <hameed@linuxmail.org>, 2004.
-# Andika Triwidada <andika@gmail.com>, 2010, 2011.
+# Andika Triwidada <andika@gmail.com>, 2010, 2011, 2012.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb master\n"
+"Project-Id-Version: gthumb gthumb-2-14\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-09-26 15:47+0000\n"
-"PO-Revision-Date: 2011-10-10 20:17+0700\n"
+"POT-Creation-Date: 2011-10-20 07:06+0000\n"
+"PO-Revision-Date: 2012-06-02 18:59+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "MIME-Version: 1.0\n"
@@ -352,9 +352,9 @@ msgstr "Ikuti kelakuan Nautilus"
 
 #: ../data/ui/preferences.ui.h:16
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
 #: ../extensions/edit_metadata/gth-edit-comment-page.c:393
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "General"
 msgstr "Umum"
@@ -378,7 +378,7 @@ msgid "Keep previous zoom"
 msgstr "Pertahankan zum"
 
 #: ../data/ui/preferences.ui.h:21
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
 #: ../extensions/file_tools/gth-file-tool-crop.c:422
 #: ../extensions/file_tools/gth-file-tool-crop.c:448
 #: ../extensions/file_tools/gth-file-tool-resize.c:493
@@ -811,10 +811,10 @@ msgid "_Date:"
 msgstr "Tan_ggal:"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:5
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:36
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "_Name:"
@@ -1000,7 +1000,7 @@ msgstr "-"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:3
 msgid "A_djust by"
-msgstr ""
+msgstr "_Setel sebanyak"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:4
 msgid "Change Date"
@@ -1084,13 +1084,13 @@ msgstr "Judul"
 
 #: ../extensions/comments/main.c:40
 #: ../extensions/comments/main.c:245
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:16
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
 #: ../gthumb/gth-main-default-metadata.c:52
 msgid "Description"
 msgstr "Deskripsi"
@@ -1113,305 +1113,279 @@ msgstr "Peringkat"
 
 #: ../extensions/contact_sheet/callbacks.c:59
 msgid "Contact _Sheet"
-msgstr ""
+msgstr "Contact _Sheet"
 
 #: ../extensions/contact_sheet/callbacks.c:61
 msgid "Contact _Sheet..."
-msgstr ""
+msgstr "Contact _Sheet..."
 
 #: ../extensions/contact_sheet/callbacks.c:62
 msgid "Create a contact sheet"
-msgstr ""
+msgstr "Buat contact sheet"
 
 #: ../extensions/contact_sheet/callbacks.c:65
 msgid "Image _Wall..."
-msgstr ""
+msgstr "_Dinding Citra..."
 
 #: ../extensions/contact_sheet/callbacks.c:66
 msgid "Create an image-wall"
-msgstr ""
+msgstr "Buat dinding-citra"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
 msgid "Contact Sheet"
-msgstr ""
+msgstr "Contact Sheet"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:2
 msgid "Create an index image displaying the thumbnails of the selected files."
 msgstr "Buat suatu indeks gambar yang menampilkan gambar miniatur dari berkas-berkas yang dipilih."
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
-msgid "     "
-msgstr "     "
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
 msgid "Background"
 msgstr "Latar belakang"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
 msgid "C_olor:"
 msgstr "_Warna:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:1
 msgid "Caption:"
-msgstr ""
+msgstr "Keterangan:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
 msgid "Frame"
 msgstr "Bingkai"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
 msgid "Inward Shadow"
-msgstr ""
+msgstr "Bayangan Ke Dalam"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
+msgid "Outward Shadow"
+msgstr "Bayangan Ke Luar"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
-msgid "Outward Shadow"
-msgstr ""
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
 msgid "Select a color"
 msgstr "Pilih sebuah warna"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
 msgid "Select a font"
 msgstr "Pilih fonta"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
 msgid "Shadow only"
 msgstr "Hanya bayangan"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
 msgid "Simple"
 msgstr "Sederhana"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
 msgid "Simple with shadow"
 msgstr "Sederhana dengan bayangan"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
-#, fuzzy
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
 msgid "Slide"
 msgstr "Slide"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
 #: ../extensions/rename_series/dlg-rename-series.c:63
 msgid "Text"
 msgstr "Teks"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:37
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
 #: ../extensions/image_print/data/ui/print-layout.ui.h:26
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:47
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
 msgid "_Footer:"
 msgstr "_Kaki:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
 msgid "_Gradient"
 msgstr "_Gradien"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:38
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
 #: ../extensions/image_print/data/ui/print-layout.ui.h:27
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:7
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:48
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
 msgid "_Header:"
 msgstr "_Header:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:5
 msgid "_Horizontal:"
 msgstr "_Horisontal:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
 msgid "_Solid color"
 msgstr "_Warna polos"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
 msgid "_Style:"
 msgstr "_Gaya:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:23
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
 #: ../extensions/pixbuf_savers/data/ui/tiff-options.ui.h:8
 msgid "_Vertical:"
 msgstr "_Vertikal:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:1
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
-msgid "#"
-msgstr "#"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
-msgid "###"
-msgstr "###"
-
 #. translate only the text in the curly brackets
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
 #, no-c-format
 msgid "%D{ format }"
 msgstr "%D{ format }"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
-#, no-c-format
-msgid "%n"
-msgstr "%n"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
-#, no-c-format
-msgid "%p"
-msgstr "%p"
-
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
 msgid "All images on a single page"
 msgstr "Semua gambar pada halaman tunggal"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:6
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:1
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:3
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:10
 msgid "Choose destination folder"
 msgstr "Pilih folder tujuan"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
 #: ../extensions/image_print/data/ui/print-layout.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
 msgid "Columns:"
 msgstr "Kolom:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
 msgid "Create _HTML image map"
 msgstr "Buat peta gambar _HTML"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
 msgid "Create a new theme"
 msgstr "Buat tema baru"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
 msgid "Delete the selected theme"
 msgstr "Hapus tema yang dipilih"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
 msgid "Edit the selected theme"
 msgstr "Sunting tema yang dipilih"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
 msgid "File_name:"
 msgstr "Nama berkas:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Images per page:"
 msgstr "Gambar per halaman:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
 #: ../extensions/image_print/data/ui/print-layout.ui.h:11
 msgid "Layout"
 msgstr "Tampilan"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:15
 msgid "New enumerator digit"
 msgstr "Digit enumerator baru"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
 msgid "Re_verse order"
 msgstr "urutkan Ter_balik"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 msgid "S_ort:"
 msgstr "_Urutkan:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
 #: ../extensions/pixbuf_savers/preferences.c:134
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "Saving"
 msgstr "Menyimpan"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
 #: ../extensions/image_print/data/ui/print-layout.ui.h:17
 #: ../extensions/importer/data/ui/import-preferences.ui.h:2
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:20
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:18
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
 msgid "Special code"
 msgstr "Kode khusus"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
 msgid "Sq_uared"
 msgstr "K_uadrat"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
 #: ../extensions/image_print/data/ui/print-layout.ui.h:18
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
 msgid "The current date"
 msgstr "Tanggal kini"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
 #: ../extensions/image_print/data/ui/print-layout.ui.h:19
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
 msgid "The current page number"
 msgstr "Nomor halaman kini"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
 #: ../extensions/image_print/data/ui/print-layout.ui.h:22
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:40
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
 msgid "The total number of pages"
 msgstr "Total cacah halaman"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:41
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
 msgid "Theme"
 msgstr "Tema"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:34
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
 msgid "Thumbnails"
 msgstr "Gambar miniatur"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:35
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
 msgid "_All pages with the same size"
 msgstr "Semua h_alaman dengan ukuran sama"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:36
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:17
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:46
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
 msgid "_Destination:"
 msgstr "_Tujuan:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:39
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:18
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
 msgid "_Size:"
 msgstr "_Ukuran:"
 
-#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
 msgid "Image Wall"
-msgstr ""
+msgstr "Dinding Citra"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:483
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:495
@@ -1627,12 +1601,12 @@ msgstr "Tag baru"
 
 #: ../extensions/edit_metadata/gth-tag-chooser-dialog.c:223
 msgid "Assign Tags"
-msgstr ""
+msgstr "Berikan Tag"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:115
 #: ../extensions/edit_metadata/gth-tag-task.c:132
 msgid "Assigning tags to the selected files"
-msgstr ""
+msgstr "Berikan tag ke berkas yang dipilih"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:115
 msgid "Writing files"
@@ -1652,7 +1626,7 @@ msgstr "Contoh ekstensi."
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:1
 msgid "Byline _Title:"
-msgstr ""
+msgstr "_Judul Byline:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
 msgid "C_opyright:"
@@ -1667,12 +1641,13 @@ msgid "Cr_edit:"
 msgstr "Kr_edit:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
-msgid "State/Provence:"
+#| msgid "State/Provence:"
+msgid "State/Province:"
 msgstr "Negara Bagian/Propinsi:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
 msgid "_Byline:"
-msgstr ""
+msgstr "_Byline:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
 msgid "_City:"
@@ -1756,9 +1731,8 @@ msgid "date photo was taken"
 msgstr "tanggal foto diambil"
 
 #: ../extensions/export_tools/callbacks.c:59
-#, fuzzy
 msgid "Share"
-msgstr "Bagi-Pakai"
+msgstr "Berbagi"
 
 #: ../extensions/facebook/callbacks.c:54
 msgid "Face_book..."
@@ -1812,7 +1786,8 @@ msgid "Export to Flickr"
 msgstr "Ekspor ke Flickr"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
-msgid "Resize the images if larger then this size"
+#| msgid "Resize the images if larger then this size"
+msgid "Resize the images if larger than this size"
 msgstr "Ubah ukuran gambar jika lebih dari ukuran ini"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
@@ -2343,17 +2318,16 @@ msgstr "Rasio aspek"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 msgid "C_rop"
-msgstr ""
+msgstr "_Potong"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:5
 msgid "Center"
-msgstr ""
+msgstr "Tengah"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:6
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
-#, fuzzy
 msgid "I_nvert aspect ratio"
-msgstr "Jaga rasio aspek"
+msgstr "_Balikkan rasio aspek"
 
 #. after the colon there is a control to select the size in pixels
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:8
@@ -2445,20 +2419,20 @@ msgid "Angle"
 msgstr "Sudut"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:4
-#, fuzzy
 msgid "Bounding box"
-msgstr "kotak cek"
+msgstr "Kotak pembatas"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:5
-#, fuzzy
 msgid "Crop borders"
-msgstr "Tepi putih"
+msgstr "Potong tepi"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:6
 msgid ""
 "Draw a line on the image \n"
 "to set the alignment."
 msgstr ""
+"Gambarlah garis pada citra \n"
+"untuk mengatur perataan."
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:8
 msgid "Grid:"
@@ -2497,7 +2471,6 @@ msgid "Point 2:"
 msgstr "Titik 2:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
-#, fuzzy
 msgid "Reset"
 msgstr "Reset"
 
@@ -2612,21 +2585,18 @@ msgstr "Ubahan"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:449
 #: ../extensions/file_tools/gth-file-tool-rotate.c:415
-#, fuzzy
 msgid "Rule of Thirds"
-msgstr "Aturan generik"
+msgstr "Aturan Sepertiga"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:450
 #: ../extensions/file_tools/gth-file-tool-rotate.c:416
-#, fuzzy
 msgid "Golden Sections"
-msgstr "Golden Rock"
+msgstr "Golden Sections"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:451
 #: ../extensions/file_tools/gth-file-tool-rotate.c:417
-#, fuzzy
 msgid "Center Lines"
-msgstr "Garis Grid"
+msgstr "Garis Tengah"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:452
 #: ../extensions/file_tools/gth-file-tool-rotate.c:418
@@ -2634,13 +2604,12 @@ msgid "Uniform"
 msgstr "Seragam"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:595
-#, fuzzy
 msgid "Crop..."
-msgstr "Potong"
+msgstr "Potong..."
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:595
 msgid "Crop"
-msgstr ""
+msgstr "Potong"
 
 #: ../extensions/file_tools/gth-file-tool-desaturate.c:65
 #: ../extensions/file_tools/gth-file-tool-negative.c:65
@@ -2696,7 +2665,6 @@ msgid "Negative"
 msgstr "Negatif"
 
 #: ../extensions/file_tools/gth-file-tool-redo.c:62
-#, fuzzy
 msgid "Redo"
 msgstr "Jadi lagi"
 
@@ -2727,7 +2695,7 @@ msgstr "Putar Kiri"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:74
 msgid "Rotate the image by 90 degrees counterclockwise"
-msgstr ""
+msgstr "Putar citra 90 derajat berlawanan dengan arah jarum jam"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:73
 #: ../extensions/image_rotation/callbacks.c:49
@@ -2747,22 +2715,18 @@ msgid "Save"
 msgstr "Simpan"
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:100
-#, fuzzy
 msgid "Sharpening image"
-msgstr "Render citra"
+msgstr "Pertajam citra"
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:420
-#, fuzzy
 msgid "Enhance Focus..."
-msgstr "Ambil Fokus"
+msgstr "Tingkatkan Fokus..."
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:420
-#, fuzzy
 msgid "Enhance Focus"
-msgstr "Ambil Fokus"
+msgstr "Tingkatkan Fokus"
 
 #: ../extensions/file_tools/gth-file-tool-undo.c:61
-#, fuzzy
 msgid "Undo"
 msgstr "Tak Jadi"
 
@@ -2938,9 +2902,8 @@ msgid "_Privacy:"
 msgstr "_Privasi:"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
-#, fuzzy
 msgid "_Safety:"
-msgstr "Batas keselamatan"
+msgstr "Ke_selamatan:"
 
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:5
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
@@ -3012,9 +2975,8 @@ msgid "Time:"
 msgstr "Waktu:"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:8
-#, fuzzy
 msgid "Toggle volume"
-msgstr "Tombol Volume"
+msgstr "Jungkitkan volume"
 
 #. this is the separator between current position and duration of a media file
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:10
@@ -3067,7 +3029,7 @@ msgid "Artist"
 msgstr "Artis"
 
 #: ../extensions/gstreamer_tools/main.c:40
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
 msgid "Album"
 msgstr "Album"
 
@@ -3077,7 +3039,7 @@ msgstr "Laju bit"
 
 #: ../extensions/gstreamer_tools/main.c:42
 msgid "Encoder"
-msgstr ""
+msgstr "Enkoder"
 
 #: ../extensions/gstreamer_tools/main.c:44
 #: ../extensions/gstreamer_tools/main.c:49
@@ -3134,7 +3096,6 @@ msgid "Print the selected images"
 msgstr "Cetak gambar yang dipilih"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:5
-#, fuzzy
 msgid "Centered"
 msgstr "Tengah"
 
@@ -3192,9 +3153,8 @@ msgid "Fonts"
 msgstr "Fonta"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:3
-#, fuzzy
 msgid "Select Caption Font"
-msgstr "Pilih Fonta Dasher"
+msgstr "Pilih Fonta Keterangan"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
 msgid "Select Footer Font"
@@ -3240,11 +3200,11 @@ msgstr "Meload gambar"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:1
 msgid "Allow to print images choosing the page layout."
-msgstr ""
+msgstr "Memungkinkan mencetak citra dengan memilih tata letak halaman."
 
 #: ../extensions/image_print/image_print.extension.in.in.h:2
 msgid "Image print"
-msgstr ""
+msgstr "Cetak citra"
 
 #: ../extensions/image_print/preferences.c:76
 msgid "Print"
@@ -3302,11 +3262,15 @@ msgid ""
 "\n"
 "You can also choose to discard (or trim) any untransformable edge pixels. For practical use, this mode gives the best looking results, but the transformation is not strictly lossless anymore."
 msgstr ""
+"Transformasi ini mungkin menambahkan distorsi kecil ke citra pada satu tepi atau lebih, karena dimensi citra bukan kelipatan 8.\n"
+"\n"
+"Namun distorsi ini dapat dibatalkan. Bila citra hasil tak dapat diterima, terapkan saja transformasi balik untuk kembali ke citra asli.\n"
+"\n"
+"Anda juga dapat memilih untuk membuang (atau merapikan) piksel tepi yang tak dapat ditransformasi. Untuk keperluan praktis, mode ini memberikan hasil dengan penampakan terbaik, tapi transformasinya tak lagi lossless."
 
 #: ../extensions/image_rotation/rotation-utils.c:129
-#, fuzzy
 msgid "_Trim"
-msgstr "Potong:"
+msgstr "Po_tong"
 
 #: ../extensions/image_rotation/rotation-utils.c:131
 msgid "_Accept distortion"
@@ -3437,9 +3401,8 @@ msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
 msgstr "Nilai yang mungkin: yyyymmdd, yyyymm, yyyy"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:3
-#, fuzzy
 msgid "The day of the month"
-msgstr "Hari/Bulan/Tahun"
+msgstr "Hari dalam tanggal"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:5
 msgid "The hour"
@@ -3491,11 +3454,11 @@ msgstr "Tanggal berkas"
 #. subfolder format
 #: ../extensions/importer/gth-import-preferences-dialog.c:336
 msgid "year-month-day"
-msgstr ""
+msgstr "year-month-day"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:337
 msgid "year-month"
-msgstr ""
+msgstr "year-month"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:338
 msgid "year"
@@ -3543,6 +3506,8 @@ msgid ""
 "Not enough free space in '%s'.\n"
 "%s of space is required but only %s is available."
 msgstr ""
+"Tak cukup ruang kosong dalam '%s'.\n"
+"Diperlukan %s tapi hanya tersedia %s."
 
 #: ../extensions/list_tools/callbacks.c:65
 #: ../gthumb/gth-filterbar.c:303
@@ -3573,108 +3538,86 @@ msgstr "Perintah"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:2
 #, no-c-format
-msgid "%B"
-msgstr "%B"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:4
-#, no-c-format
 msgid "%E"
 msgstr "%E"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
-#, no-c-format
-msgid "%F"
-msgstr "%F"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:8
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:4
 #, no-c-format
 msgid "%N"
 msgstr "%N"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
-#, no-c-format
-msgid "%P"
-msgstr "%P"
-
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:12
-#, no-c-format
-msgid "%U"
-msgstr "%U"
-
 #. Translate only 'message' and 'default_value'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:15
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:7
 #, no-c-format
 msgid "%ask{ message }{ default value }"
-msgstr ""
+msgstr "%ask{ pesan }{ nilai baku }"
 
 #. Translate only 'attribute name'
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:18
-#, fuzzy, no-c-format
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
+#, no-c-format
 msgid "%attr{ attribute name }"
-msgstr "Nama atribut tambahan yang tak valid"
+msgstr "%attr{ nama atribut }"
 
 #. Translate only 'text'.
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:21
-#, fuzzy, no-c-format
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:13
+#, no-c-format
 msgid "%quote{ text }"
-msgstr "Berkas Teks"
+msgstr "%quote{ teks }"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:22
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:14
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:10
 msgid "A file attribute"
 msgstr "Suatu atribut berkas"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:23
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:15
 msgid "Ask an input value"
 msgstr "Minta masukan suatu nilai"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:17
 msgid "E_xecute command once for every file"
 msgstr "E_ksekusi perintah sekali bagi setiap berkas"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:26
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:18
 msgid "Quote the text "
 msgstr "Kutip teks"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:27
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:19
 msgid "Sh_ortcut:"
 msgstr "Pintasa_n:"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:21
 msgid "The file basename"
 msgstr "Nama dasar berkas"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:22
 msgid "The file basename without extension"
 msgstr "Nama berkas tanpa ekstensi"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:31
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:23
 msgid "The file extension"
 msgstr "Ekstensi berkas"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:32
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 msgid "The file path"
 msgstr "Path berkas"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:33
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
 msgid "The file uri"
 msgstr "URI berkas"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:34
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:26
 msgid "The parent folder path"
 msgstr "Path folder induk"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:35
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:27
 msgid "_Command:"
 msgstr "_Perintah:"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:37
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "_Terminal command (shell script)"
 msgstr "Perintah _terminal (skrip shell)"
 
-#: ../extensions/list_tools/data/ui/script-editor.ui.h:38
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
 msgid "_Wait for the command to finish"
 msgstr "_Tunggu perintah berakhir"
 
@@ -4178,20 +4121,20 @@ msgstr "hapus"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:3
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%A{ identifier }"
-msgstr "Identifair"
+msgstr "%A{ identifier }"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:9
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%M{ format }"
-msgstr "Format:"
+msgstr "%M{ format }"
 
 #. Translators: this is the text case (upper or lower case).
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:12
 msgid "Cas_e:"
-msgstr ""
+msgstr "Huruf B_esar Kecil:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:14
 msgid "Edit template"
@@ -4222,7 +4165,7 @@ msgid "The original extension"
 msgstr "Ekstensi asli"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:24
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
 msgid "The original filename"
 msgstr "Nama berkas asli"
 
@@ -4232,7 +4175,7 @@ msgstr "_Template:"
 
 #: ../extensions/rename_series/dlg-rename-series.c:64
 msgid "Enumerator"
-msgstr ""
+msgstr "Enumerator"
 
 #: ../extensions/rename_series/dlg-rename-series.c:65
 msgid "Original filename"
@@ -4244,7 +4187,7 @@ msgstr "Ekstensi asli"
 
 #: ../extensions/rename_series/dlg-rename-series.c:67
 msgid "Original enumerator"
-msgstr ""
+msgstr "Enumerator asli"
 
 #: ../extensions/rename_series/dlg-rename-series.c:68
 msgid "Modification date"
@@ -4280,19 +4223,16 @@ msgid "New Name"
 msgstr "Nama Baru"
 
 #: ../extensions/rename_series/dlg-rename-series.c:945
-#, fuzzy
 msgid "Keep original case"
-msgstr "Pertahankan item asli?"
+msgstr "Pertahankan huruf besar kecil seperti semula"
 
 #: ../extensions/rename_series/dlg-rename-series.c:946
-#, fuzzy
 msgid "Convert to lower-case"
-msgstr "Ganti teks terpilih ke huruf kecil semua"
+msgstr "Ubah ke huruf kecil"
 
 #: ../extensions/rename_series/dlg-rename-series.c:947
-#, fuzzy
 msgid "Convert to upper-case"
-msgstr "Ganti teks terpilih ke huruf besar semua"
+msgstr "Ubah ke huruf besar"
 
 #: ../extensions/rename_series/gth-rename-task.c:167
 msgid "Renaming files"
@@ -4459,9 +4399,8 @@ msgid "_Transition effect:"
 msgstr "Efek _transisi:"
 
 #: ../extensions/slideshow/gth-slideshow.c:229
-#, fuzzy
 msgid "Playing slideshow"
-msgstr "Tahan Deretan Gambar"
+msgstr "Putar slideshow"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:214
 msgid "Choose the files to play"
@@ -4484,24 +4423,20 @@ msgid "Push from bottom"
 msgstr "Dorong dari dasar"
 
 #: ../extensions/slideshow/main.c:295
-#, fuzzy
 msgid "Slide from right"
 msgstr "Geser dari kanan"
 
 #: ../extensions/slideshow/main.c:301
-#, fuzzy
 msgid "Slide from bottom"
 msgstr "Geser dari dasar"
 
 #: ../extensions/slideshow/main.c:307
-#, fuzzy
 msgid "Fade in"
-msgstr "Fade In:"
+msgstr "Memudar"
 
 #: ../extensions/slideshow/main.c:313
-#, fuzzy
 msgid "Flip page"
-msgstr "halaman tab"
+msgstr "Balik halaman"
 
 #: ../extensions/slideshow/main.c:319
 msgid "Cube from right"
@@ -4571,78 +4506,68 @@ msgstr "Tilik gambar sebelumnya"
 msgid "View the previous page"
 msgstr "Tilik halaman sebelumnya"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:2
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
 #, no-c-format
-msgid "%C"
-msgstr "%C"
+msgid "%P"
+msgstr "%P"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
-#, no-c-format
-msgid "%I"
-msgstr "%I"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
-#, no-c-format
-msgid "%i"
-msgstr "%i"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
 msgid "Adapts to the window width"
 msgstr "Sesuaikan ke lebar jendela"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
 msgid "All images on  a single image"
 msgstr "Semua gambar pada gambar tunggal"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
 msgid "Image Attributes"
 msgstr "Atribut Gambar"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
 msgid "Image Page"
 msgstr "Halaman Gambar"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
 msgid "Index Page"
 msgstr "Halaman Indeks"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Show the description, if available"
 msgstr "Tampilkan penjelasan, bila tersedia"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
 msgid "Show the following attributes:"
 msgstr "Tampilkan atribut berikut:"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
 msgid "The current image number"
 msgstr "Nomor gambar kini"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
 msgid "The file comment"
 msgstr "Komentar berkas"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
 msgid "The total number of images"
 msgstr "Total cacah gambar"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:42
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
 msgid "Thumbnail Caption"
 msgstr "Keterangan Gambar Miniatur"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:43
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
 msgid "Web Album"
 msgstr "Album Web"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:44
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
 msgid "_Adapt to the window width "
 msgstr "Sesuaik_an ke lebar jendela"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:45
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
 msgid "_Copy originals to destination"
 msgstr "_Salin yang asli ke tujuan"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:49
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
 msgid "_Resize if larger than:"
 msgstr "Ubah uku_ran jika lebih besar dari:"
 
@@ -4876,7 +4801,7 @@ msgstr "Sebuah penampil dan browser gambar untuk GNOME"
 msgid "translator_credits"
 msgstr ""
 "Abdul Hamid.A.N <hameed@linuxmail.org>, 2004.\n"
-"Andika Triwidada <andika@gmail.com>, 2010, 2011."
+"Andika Triwidada <andika@gmail.com>, 2010, 2011, 2012."
 
 #: ../gthumb/gth-browser-actions-entries.h:30
 msgid "_File"
@@ -5092,9 +5017,9 @@ msgstr "%s dari ruang bebas"
 
 #: ../gthumb/gth-browser.c:1235
 #: ../gthumb/gth-browser.c:1809
-#: ../gthumb/gth-browser.c:5795
-#: ../gthumb/gth-browser.c:5814
-#: ../gthumb/gth-browser.c:5839
+#: ../gthumb/gth-browser.c:5797
+#: ../gthumb/gth-browser.c:5816
+#: ../gthumb/gth-browser.c:5841
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Tidak dapat memuat posisi \"%s\""
@@ -5136,16 +5061,15 @@ msgid "View the list of visited locations"
 msgstr "Lihat daftar lokasi yang telah dikunjungi"
 
 #: ../gthumb/gth-browser.c:3690
-#, fuzzy
 msgid "View the list of upper locations"
 msgstr "Lihat daftar lokasi pengunggah"
 
-#: ../gthumb/gth-browser.c:5796
+#: ../gthumb/gth-browser.c:5798
 #, c-format
 msgid "File type not supported"
 msgstr "Jenis berkas tidak didukung"
 
-#: ../gthumb/gth-browser.c:5840
+#: ../gthumb/gth-browser.c:5842
 #, c-format
 msgid "No suitable module found"
 msgstr "Tak ditemukan modul yang cocok"
