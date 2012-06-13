@@ -6170,22 +6170,36 @@ gth_browser_unregister_fullscreen_control (GthBrowser *browser,
 
 
 static void
+_gth_browser_move_fullscreen_toolbar (GthBrowser *browser)
+{
+	GdkScreen    *screen;
+	int           n_monitor;
+	GdkRectangle  work_area;
+
+	gtk_widget_realize (browser->priv->fullscreen_toolbar);
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (browser));
+	n_monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (GTK_WIDGET (browser)));
+	gdk_screen_get_monitor_geometry (screen, n_monitor, &work_area);
+
+	gtk_window_set_screen (GTK_WINDOW (browser->priv->fullscreen_toolbar), screen);
+	gtk_window_resize (GTK_WINDOW (browser->priv->fullscreen_toolbar),
+			   work_area.width,
+			   gtk_widget_get_allocated_height (browser->priv->fullscreen_toolbar));
+	gtk_window_move (GTK_WINDOW (browser->priv->fullscreen_toolbar), work_area.x, work_area.y);
+}
+
+
+static void
 _gth_browser_create_fullscreen_toolbar (GthBrowser *browser)
 {
-	GdkScreen *screen;
-
 	if (browser->priv->fullscreen_toolbar != NULL)
 		return;
 
 	browser->priv->fullscreen_toolbar = gtk_window_new (GTK_WINDOW_POPUP);
-
-	screen = gtk_widget_get_screen (GTK_WIDGET (browser));
-	gtk_window_set_screen (GTK_WINDOW (browser->priv->fullscreen_toolbar), screen);
-	gtk_window_set_default_size (GTK_WINDOW (browser->priv->fullscreen_toolbar), gdk_screen_get_width (screen), -1);
 	gtk_container_set_border_width (GTK_CONTAINER (browser->priv->fullscreen_toolbar), 0);
-
-	gtk_container_add (GTK_CONTAINER (browser->priv->fullscreen_toolbar), gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar"));
-
+	gtk_container_add (GTK_CONTAINER (browser->priv->fullscreen_toolbar),
+			   gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar"));
 	gth_browser_register_fullscreen_control (browser, browser->priv->fullscreen_toolbar);
 }
 
@@ -6202,6 +6216,9 @@ hide_mouse_pointer_cb (gpointer data)
 	HideMouseData *hmdata = data;
 	GthBrowser    *browser = hmdata->browser;
 	int            px, py;
+	GdkScreen     *screen;
+	int            n_monitor;
+	GdkRectangle   work_area;
 	GList         *scan;
 
 	gdk_window_get_device_position (gtk_widget_get_window (GTK_WIDGET (browser)),
@@ -6209,6 +6226,14 @@ hide_mouse_pointer_cb (gpointer data)
 					&px,
 					&py,
 					0);
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (browser));
+	n_monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (GTK_WIDGET (browser)));
+	gdk_screen_get_monitor_geometry (screen, n_monitor, &work_area);
+
+	px += work_area.x;
+	py += work_area.y;
+
 	for (scan = browser->priv->fullscreen_controls; scan; scan = scan->next) {
 		GtkWidget *widget = scan->data;
 		int        x, y, w, h;
@@ -6311,6 +6336,7 @@ gth_browser_fullscreen (GthBrowser *browser)
 	_gth_browser_set_thumbnail_list_visibility (browser, FALSE);
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
+	_gth_browser_move_fullscreen_toolbar (browser);
 
 	browser->priv->properties_on_screen = FALSE;
 

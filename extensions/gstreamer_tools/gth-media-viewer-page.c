@@ -1230,7 +1230,8 @@ gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 {
 	GthMediaViewerPage *self = (GthMediaViewerPage*) base;
 	GdkScreen          *screen;
-	GtkAllocation       allocation;
+	int                 n_monitor;
+	GdkRectangle        work_area;
 
 	if (! active) {
 		remove_fullscreen_toolbar (self);
@@ -1240,11 +1241,11 @@ gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 	/* active == TRUE */
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (self->priv->browser));
+	n_monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (GTK_WIDGET (self->priv->browser)));
+	gdk_screen_get_monitor_geometry (screen, n_monitor, &work_area);
 
 	if (self->priv->fullscreen_toolbar == NULL) {
 		self->priv->fullscreen_toolbar = gtk_window_new (GTK_WINDOW_POPUP);
-		gtk_window_set_screen (GTK_WINDOW (self->priv->fullscreen_toolbar), screen);
-		gtk_window_set_default_size (GTK_WINDOW (self->priv->fullscreen_toolbar), gdk_screen_get_width (screen), -1);
 		gtk_container_set_border_width (GTK_CONTAINER (self->priv->fullscreen_toolbar), 0);
 	}
 
@@ -1255,10 +1256,15 @@ gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 		g_object_unref (self->priv->mediabar);
 	}
 
-	gtk_widget_realize (self->priv->mediabar);
-	gtk_window_set_gravity (GTK_WINDOW (self->priv->fullscreen_toolbar), GDK_GRAVITY_SOUTH_EAST);
-	gtk_widget_get_allocation (self->priv->mediabar, &allocation);
-	gtk_window_move (GTK_WINDOW (self->priv->fullscreen_toolbar), 0, gdk_screen_get_height (screen) - allocation.height);
+	gtk_widget_realize (self->priv->fullscreen_toolbar);
+
+	gtk_window_set_screen (GTK_WINDOW (self->priv->fullscreen_toolbar), screen);
+	gtk_window_resize (GTK_WINDOW (self->priv->fullscreen_toolbar),
+			   work_area.width,
+			   gtk_widget_get_allocated_height (self->priv->fullscreen_toolbar));
+	gtk_window_move (GTK_WINDOW (self->priv->fullscreen_toolbar),
+			 work_area.x,
+			 work_area.height - gtk_widget_get_allocated_height (self->priv->fullscreen_toolbar));
 
 	gth_browser_register_fullscreen_control (self->priv->browser, self->priv->fullscreen_toolbar);
 }
