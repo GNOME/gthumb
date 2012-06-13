@@ -694,6 +694,7 @@ gth_application_new (void)
 {
         return g_object_new (gth_application_get_type (),
                              "application-id", "org.gnome.Gthumb",
+                             "register-session", TRUE, /* required to call gtk_application_inhibit */
                              "flags", 0,
                              NULL);
 }
