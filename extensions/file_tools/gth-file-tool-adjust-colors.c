@@ -149,22 +149,24 @@ adjust_colors_exec (GthAsyncTask *task,
 				value = values[channel];
 
 				if (! pixbuf_cache_get (adjust_data->cache, channel + 1, &value)) {
-					int i;
+					int tmp;
 
 					value = gamma_correction (value, adjust_data->gamma);
 
 					if (adjust_data->brightness > 0)
-						value = interpolate_value (value, 0, adjust_data->brightness);
+						tmp = interpolate_value (value, 0, adjust_data->brightness);
 					else
-						value = interpolate_value (value, 255, - adjust_data->brightness);
+						tmp = interpolate_value (value, 255, - adjust_data->brightness);
+					value = CLAMP (tmp, 0, 255);
 
 					if (adjust_data->contrast < 0)
-						value = interpolate_value (value, 127, tan (adjust_data->contrast * G_PI_2));
+						tmp = interpolate_value (value, 127, tan (adjust_data->contrast * G_PI_2));
 					else
-						value = interpolate_value (value, 127, adjust_data->contrast);
+						tmp = interpolate_value (value, 127, adjust_data->contrast);
+					value = CLAMP (tmp, 0, 255);
 
-					i = value + adjust_data->color_level[channel] * adjust_data->midtone_distance[value];
-					value = CLAMP (i, 0, 255);
+					tmp = value + adjust_data->color_level[channel] * adjust_data->midtone_distance[value];
+					value = CLAMP (tmp, 0, 255);
 
 					pixbuf_cache_set (adjust_data->cache, channel + 1, values[channel], value);
 				}
@@ -177,6 +179,7 @@ adjust_colors_exec (GthAsyncTask *task,
 			if (adjust_data->saturation != 0.0) {
 				guchar min, max, lightness;
 				double saturation;
+				int    tmp;
 
 				max = MAX (MAX (values[0], values[1]), values[2]);
 				min = MIN (MIN (values[0], values[1]), values[2]);
@@ -187,9 +190,14 @@ adjust_colors_exec (GthAsyncTask *task,
 				else
 					saturation = adjust_data->saturation;
 
-				values[0] = interpolate_value (values[0], lightness, saturation);
-				values[1] = interpolate_value (values[1], lightness, saturation);
-				values[2] = interpolate_value (values[2], lightness, saturation);
+				tmp = interpolate_value (values[0], lightness, saturation);
+				values[0] = CLAMP (tmp, 0, 255);
+
+				tmp = interpolate_value (values[1], lightness, saturation);
+				values[1] = CLAMP (tmp, 0, 255);
+
+				tmp = interpolate_value (values[2], lightness, saturation);
+				values[2] = CLAMP (tmp, 0, 255);
 			}
 
 			CAIRO_SET_RGBA (p_destination, values[0], values[1], values[2], values[3]);

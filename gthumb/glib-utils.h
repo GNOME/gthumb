@@ -29,7 +29,12 @@
 
 G_BEGIN_DECLS
 
-#define SQR(x) ((x) * (x))
+/* Math */
+
+#define GDOUBLE_ROUND_TO_INT(x)  ((int) floor ((x) + 0.5))
+#define SQR(x)                   ((x) * (x))
+
+/* GFile attributes */
 
 #define GFILE_NAME_TYPE_ATTRIBUTES "standard::name,standard::type"
 #define GFILE_DISPLAY_ATTRIBUTES "standard::display-name,standard::icon"

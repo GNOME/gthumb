@@ -60,7 +60,7 @@ box_blur (cairo_surface_t *source,
 	width_minus_1 = width - 1;
 	for (y = 0; y < height; y++) {
 
-		/* calc the initial sums of the kernel */
+		/* calculate the initial sums of the kernel */
 
 		r = g = b = a = 0;
 
@@ -99,7 +99,7 @@ box_blur (cairo_surface_t *source,
 				i2 = 0;
 			c2 = p_src + (i2 * 4);
 
-			/* calc the new sums of the kernel */
+			/* calculate the new sums of the kernel */
 
 			r += c1[CAIRO_RED] - c2[CAIRO_RED];
 			g += c1[CAIRO_GREEN] - c2[CAIRO_GREEN];
@@ -121,7 +121,7 @@ box_blur (cairo_surface_t *source,
 	height_minus_1 = height - 1;
 	for (x = 0; x < width; x++) {
 
-		/* calc the initial sums of the kernel */
+		/* calculate the initial sums of the kernel */
 
 		r = g = b = a = 0;
 
@@ -160,7 +160,7 @@ box_blur (cairo_surface_t *source,
 				i2 = 0;
 			c2 = p_src + (i2 * src_rowstride);
 
-			/* calc the new sums of the kernel */
+			/* calculate the new sums of the kernel */
 
 			r += c1[CAIRO_RED] - c2[CAIRO_RED];
 			g += c1[CAIRO_GREEN] - c2[CAIRO_GREEN];
@@ -186,6 +186,8 @@ _cairo_image_surface_box_blur (cairo_surface_t *source,
 	cairo_surface_t *tmp;
 
 	kernel_size = 2 * radius + 1;
+
+	/* optimization to avoid divisions: div_kernel_size[x] == x / kernel_size */
 	div_kernel_size = g_new (guchar, 256 * kernel_size);
 	for (i = 0; i < 256 * kernel_size; i++)
 		div_kernel_size[i] = (guchar) (i / kernel_size);
@@ -223,6 +225,7 @@ _cairo_image_surface_sharpen (cairo_surface_t *source,
 	guchar          *p_src_row, *p_blurred_row;
 	guchar           r1, g1, b1;
 	guchar           r2, g2, b2;
+	int              tmp;
 
 	blurred = _cairo_image_surface_copy (source);
 	_cairo_image_surface_blur (blurred, radius);
@@ -234,6 +237,12 @@ _cairo_image_surface_sharpen (cairo_surface_t *source,
 
 	p_src = cairo_image_surface_get_data (source);
 	p_blurred = cairo_image_surface_get_data (blurred);
+
+#define ASSIGN_INTERPOLATED_VALUE(x1, x2)			\
+	if (ABS (x1 - x2) >= threshold) {			\
+		tmp = interpolate_value (x1, x2, amount);	\
+		x1 = CLAMP (tmp, 0, 255);			\
+	}
 
 	for (y = 0; y < height; y++) {
 		p_src_row = p_src;
@@ -248,12 +257,9 @@ _cairo_image_surface_sharpen (cairo_surface_t *source,
 			g2 = p_blurred_row[CAIRO_GREEN];
 			b2 = p_blurred_row[CAIRO_BLUE];
 
-			if (ABS (r1 - r2) >= threshold)
-				r1 = interpolate_value (r1, r2, amount);
-			if (ABS (g1 - g2) >= threshold)
-				g1 = interpolate_value (g1, g2, amount);
-			if (ABS (b1 - b2) >= threshold)
-				b1 = interpolate_value (b1, b2, amount);
+			ASSIGN_INTERPOLATED_VALUE (r1, r2)
+			ASSIGN_INTERPOLATED_VALUE (g1, g2)
+			ASSIGN_INTERPOLATED_VALUE (b1, b2)
 
 			p_src_row[CAIRO_RED] = r1;
 			p_src_row[CAIRO_GREEN] = g1;
@@ -266,6 +272,8 @@ _cairo_image_surface_sharpen (cairo_surface_t *source,
 		p_src += source_rowstride;
 		p_blurred += blurred_rowstride;
 	}
+
+#undef ASSIGN_INTERPOLATED_VALUE
 
 	cairo_surface_destroy (blurred);
 }

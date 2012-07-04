@@ -272,7 +272,8 @@ gth_image_navigator_forall (GtkContainer *container,
 {
 	GthImageNavigator *self = GTH_IMAGE_NAVIGATOR (container);
 
-	(* callback) (GTK_WIDGET (self->priv->viewer), callback_data);
+	if (self->priv->viewer != NULL)
+		(* callback) (GTK_WIDGET (self->priv->viewer), callback_data);
 	if (include_internals) {
 		(* callback) (self->priv->hscrollbar, callback_data);
 		(* callback) (self->priv->vscrollbar, callback_data);

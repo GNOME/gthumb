@@ -24,26 +24,6 @@
 #include "cairo-rotate.h"
 
 
-#define ROUND(x) ((int) floor ((x) + 0.5))
-
-#define INTERPOLATE(v00, v10, v01, v11, fx, fy) ((v00) + ((v10) - (v00)) * (fx) + ((v01) - (v00)) * (fy) + ((v00) - (v10) - (v01) + (v11)) * (fx) * (fy))
-
-#define GET_VALUES(r, g, b, a, x, y) \
-			if (x >= 0 && x < src_width && y >= 0 && y < src_height) { \
-				p_src2 = p_src + src_rowstride * y + 4 * x; \
-				r = p_src2[CAIRO_RED]; \
-				g = p_src2[CAIRO_GREEN]; \
-				b = p_src2[CAIRO_BLUE]; \
-				a = p_src2[CAIRO_ALPHA]; \
-			} \
-			else { \
-				r = r0; \
-				g = g0; \
-				b = b0; \
-				a = a0; \
-			}
-
-
 void
 _cairo_image_surface_rotate_get_cropping_parameters (cairo_surface_t *image,
 						     double           angle,
@@ -138,11 +118,11 @@ _cairo_image_surface_rotate_get_cropping_region (cairo_surface_t       *image,
 		xx2 = new_width - xx2;
 	}
 
-	region->x = ROUND (MIN (xx1, xx2));
-	region->y = ROUND (MIN (yy1, yy2));
+	region->x = GDOUBLE_ROUND_TO_INT (MIN (xx1, xx2));
+	region->y = GDOUBLE_ROUND_TO_INT (MIN (yy1, yy2));
 
-	region->width  = ROUND (MAX (xx1, xx2)) - region->x + 1;
-	region->height = ROUND (MAX (yy1, yy2)) - region->y + 1;
+	region->width  = GDOUBLE_ROUND_TO_INT (MAX (xx1, xx2)) - region->x + 1;
+	region->height = GDOUBLE_ROUND_TO_INT (MAX (yy1, yy2)) - region->y + 1;
 }
 
 
@@ -173,7 +153,7 @@ _cairo_image_surface_rotate_get_align_angle (gboolean  vertical,
 	}
 
 	angle = angle * 180.0 / G_PI;
-	angle = ROUND (angle * 10.0) / 10.0;
+	angle = GDOUBLE_ROUND_TO_INT (angle * 10.0) / 10.0;
 
 	return angle;
 }
@@ -207,6 +187,11 @@ rotate (cairo_surface_t *image,
 	guchar           g00, g01, g10, g11;
 	guchar           b00, b01, b10, b11;
 	guchar           a00, a01, a10, a11;
+	double           half_new_width;
+	double           half_new_height;
+	double           half_src_width;
+	double           half_src_height;
+	int              tmp;
 	guchar           r, g, b, a;
 	guint32          pixel;
 
@@ -214,10 +199,10 @@ rotate (cairo_surface_t *image,
 	angle_rad = angle / 180.0 * G_PI;
 	cos_angle = cos (angle_rad);
 	sin_angle = sin (angle_rad);
-	src_width  = cairo_image_surface_get_width  (image) - 1;
-	src_height = cairo_image_surface_get_height (image) - 1;
-	new_width  = ROUND (      cos_angle  * src_width + fabs(sin_angle) * src_height);
-	new_height = ROUND (fabs (sin_angle) * src_width +      cos_angle  * src_height);
+	src_width  = cairo_image_surface_get_width  (image);
+	src_height = cairo_image_surface_get_height (image);
+	new_width  = GDOUBLE_ROUND_TO_INT (      cos_angle  * src_width + fabs(sin_angle) * src_height);
+	new_height = GDOUBLE_ROUND_TO_INT (fabs (sin_angle) * src_width +      cos_angle  * src_height);
 
 	if (a0 == 0xff) {
 		/* pre-multiply the background color */
@@ -260,38 +245,76 @@ rotate (cairo_surface_t *image,
 	src_rowstride = cairo_image_surface_get_stride (image_with_background);
 	new_rowstride = cairo_image_surface_get_stride (rotated);
 
+/*
+ * bilinear interpolation
+ *            fx
+ *    v00------------v01
+ *    |        |      |
+ * fy |--------v      |
+ *    |               |
+ *    |               |
+ *    |               |
+ *    v10------------v11
+ */
+#define INTERPOLATE(v, v00, v01, v10, v11, fx, fy) \
+	tmp = (1.0 - (fy)) * \
+	      ((1.0 - (fx)) * (v00) + (fx) * (v01)) \
+              + \
+              (fy) * \
+              ((1.0 - (fx)) * (v10) + (fx) * (v11)); \
+	v = CLAMP (tmp, 0, 255);
+
+#define GET_VALUES(r, g, b, a, x, y) \
+	if (x >= 0 && x < src_width && y >= 0 && y < src_height) { \
+		p_src2 = p_src + src_rowstride * y + 4 * x; \
+		r = p_src2[CAIRO_RED]; \
+		g = p_src2[CAIRO_GREEN]; \
+		b = p_src2[CAIRO_BLUE]; \
+		a = p_src2[CAIRO_ALPHA]; \
+	} \
+	else { \
+		r = r0; \
+		g = g0; \
+		b = b0; \
+		a = a0; \
+	}
+
+	half_new_width = new_width / 2.0;
+	half_new_height = new_height / 2.0;
+	half_src_width = src_width / 2.0;
+	half_src_height = src_height / 2.0;
+
 	cairo_surface_flush (rotated);
+
+	y = - half_new_height;
 	for (yi = 0; yi < new_height; yi++) {
 		p_new2 = p_new;
-		y = yi - new_height / 2.0;
 
+		x = - half_new_width;
 		for (xi = 0; xi < new_width; xi++) {
-			x = xi - new_width / 2.0;
-
-			x2 = cos_angle * x - sin_angle * y + src_width  / 2.0;
-			y2 = sin_angle * x + cos_angle * y + src_height / 2.0;
+			x2 = cos_angle * x - sin_angle * y + half_src_width;
+			y2 = sin_angle * x + cos_angle * y + half_src_height;
 
 			if (high_quality) {
-				/* Bilinear interpolation. FIXME: use a gaussian interpolation here */
+				/* Bilinear interpolation. */
 
-				x2min = (int) floor (x2);
-				y2min = (int) floor (y2);
-
+				x2min = (int) x2;
+				y2min = (int) y2;
 				x2max = x2min + 1;
 				y2max = y2min + 1;
-
-				fx = x2 - x2min;
-				fy = y2 - y2min;
 
 				GET_VALUES (r00, g00, b00, a00, x2min, y2min);
 				GET_VALUES (r01, g01, b01, a01, x2max, y2min);
 				GET_VALUES (r10, g10, b10, a10, x2min, y2max);
 				GET_VALUES (r11, g11, b11, a11, x2max, y2max);
 
-				r = CLAMP (INTERPOLATE (r00, r01, r10, r11, fx, fy), 0, 255);
-				g = CLAMP (INTERPOLATE (g00, g01, g10, g11, fx, fy), 0, 255);
-				b = CLAMP (INTERPOLATE (b00, b01, b10, b11, fx, fy), 0, 255);
-				a = CLAMP (INTERPOLATE (a00, a01, a10, a11, fx, fy), 0, 255);
+				fx = x2 - x2min;
+				fy = y2 - y2min;
+
+				INTERPOLATE (r, r00, r01, r10, r11, fx, fy);
+				INTERPOLATE (g, g00, g01, g10, g11, fx, fy);
+				INTERPOLATE (b, b00, b01, b10, b11, fx, fy);
+				INTERPOLATE (a, a00, a01, a10, a11, fx, fy);
 
 				pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, a);
 				memcpy (p_new2, &pixel, sizeof (guint32));
@@ -299,20 +322,30 @@ rotate (cairo_surface_t *image,
 			else {
 				/* Nearest neighbor */
 
-				x2min = ROUND (x2);
-				y2min = ROUND (y2);
+				x2min = GDOUBLE_ROUND_TO_INT (x2);
+				y2min = GDOUBLE_ROUND_TO_INT (y2);
 
-				GET_VALUES (p_new2[CAIRO_RED], p_new2[CAIRO_GREEN], p_new2[CAIRO_BLUE], p_new2[CAIRO_ALPHA], x2min, y2min);
+				GET_VALUES (p_new2[CAIRO_RED],
+					    p_new2[CAIRO_GREEN],
+					    p_new2[CAIRO_BLUE],
+					    p_new2[CAIRO_ALPHA],
+					    x2min,
+					    y2min);
 			}
 
 			p_new2 += 4;
+			x += 1.0;
 		}
 
 		p_new += new_rowstride;
+		y += 1.0;
 	}
-	cairo_surface_mark_dirty (rotated);
 
+	cairo_surface_mark_dirty (rotated);
 	cairo_surface_destroy (image_with_background);
+
+#undef INTERPOLATE
+#undef GET_VALUES
 
 	return rotated;
 }

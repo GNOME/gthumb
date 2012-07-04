@@ -105,7 +105,7 @@
 	(((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue))
 
 #define interpolate_value(original, reference, distance) 			\
-	(CLAMP (((distance) * (reference)) + ((1.0 - (distance)) * (original)), 0, 255))
+	(((distance) * (reference)) + ((1.0 - (distance)) * (original)))
 
 
 /* types */
