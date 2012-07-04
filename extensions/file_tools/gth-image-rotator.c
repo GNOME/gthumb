@@ -921,8 +921,8 @@ gth_image_rotator_get_result_high_quality (GthImageRotator *self)
 		break;
 
 	case GTH_TRANSFORM_RESIZE_CLIP:
-		self->priv->crop_region.x = (cairo_image_surface_get_width (rotated) - self->priv->original_width) / 2;
-		self->priv->crop_region.y = (cairo_image_surface_get_height (rotated) - self->priv->original_height) / 2;
+		self->priv->crop_region.x = MAX (((double) cairo_image_surface_get_width (rotated) - self->priv->original_width) / 2.0, 0);
+		self->priv->crop_region.y = MAX (((double) cairo_image_surface_get_height (rotated) - self->priv->original_height) / 2.0, 0);
 		self->priv->crop_region.width = self->priv->original_width;
 		self->priv->crop_region.height = self->priv->original_height;
 		break;
