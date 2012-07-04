@@ -240,7 +240,7 @@ apply_button_clicked_cb (GtkButton         *button,
 	GtkWidget       *window;
 	GtkWidget       *viewer_page;
 
-	image = gth_image_rotator_get_result (GTH_IMAGE_ROTATOR (self->priv->rotator), TRUE);
+	image = gth_image_rotator_get_result (GTH_IMAGE_ROTATOR (self->priv->rotator), FALSE);
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -402,7 +402,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 
 	self->priv->rotation_angle_adj = gimp_scale_entry_new (GET_WIDGET ("rotation_angle_hbox"),
 							       GTK_LABEL (GET_WIDGET ("rotation_angle_label")),
-							       0.0, -90.0, 90.0, 0.1, 1.0, 1);
+							       0.0, -180.0, 180.0, 0.1, 1.0, 1);
 
 	self->priv->crop_p1_adj = gimp_scale_entry_new (GET_WIDGET ("crop_p1_hbox"),
 							GTK_LABEL (GET_WIDGET ("crop_p1_label")),

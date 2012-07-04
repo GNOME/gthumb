@@ -570,7 +570,7 @@ gth_image_rotator_motion_notify (GthImageViewerTool *base,
 			angle2 = angle2 - G_2_PI;
 		angle = self->priv->angle_before_dragging + (angle2 - angle1);
 
-		g_signal_emit (self, signals[ANGLE_CHANGED], 0, CLAMP (RAD_TO_DEG (angle), -90.0, 90));
+		g_signal_emit (self, signals[ANGLE_CHANGED], 0, CLAMP (RAD_TO_DEG (angle), -180.0, 180));
 	}
 
 	return FALSE;
@@ -865,7 +865,9 @@ gth_image_rotator_get_result_fast (GthImageRotator *self)
 		self->priv->crop_region.height = clip_area.height;
 	}
 
-	output = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, self->priv->crop_region.width, self->priv->crop_region.height);
+	output = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					     self->priv->crop_region.width,
+					     self->priv->crop_region.height);
 
 	/* set the device offset to make the clip area start from the top left
 	 * corner of the output image */
