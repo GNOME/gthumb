@@ -296,7 +296,7 @@ void
 gth_toolbox_deactivate_tool (GthToolbox *toolbox)
 {
 	if (toolbox->priv->active_tool != NULL)
-		gth_file_tool_hide_options (GTH_FILE_TOOL (toolbox->priv->active_tool));
+		gth_file_tool_cancel (GTH_FILE_TOOL (toolbox->priv->active_tool));
 }
 
 

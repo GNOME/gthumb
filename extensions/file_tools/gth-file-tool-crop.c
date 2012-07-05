@@ -67,14 +67,6 @@ gth_file_tool_crop_update_sensitivity (GthFileTool *base)
 
 
 static void
-cancel_button_clicked_cb (GtkButton       *button,
-			  GthFileToolCrop *self)
-{
-	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
-}
-
-
-static void
 crop_button_clicked_cb (GtkButton       *button,
 			GthFileToolCrop *self)
 {
@@ -473,10 +465,10 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 			  "clicked",
 			  G_CALLBACK (crop_button_clicked_cb),
 			  self);
-	g_signal_connect (GET_WIDGET ("cancel_button"),
-			  "clicked",
-			  G_CALLBACK (cancel_button_clicked_cb),
-			  self);
+	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
+				  "clicked",
+				  G_CALLBACK (gth_file_tool_cancel),
+				  self);
 	g_signal_connect (G_OBJECT (self->priv->crop_x_spinbutton),
 			  "value-changed",
 			  G_CALLBACK (selection_x_value_changed_cb),

@@ -289,27 +289,6 @@ ok_button_clicked_cb (GtkButton *button,
 
 
 static void
-cancel_button_clicked_cb (GtkButton *button,
-			  gpointer   user_data)
-{
-	GthFileToolAdjustColors *self = user_data;
-	GtkWidget               *window;
-	GtkWidget               *viewer_page;
-
-	if (self->priv->apply_event != 0) {
-		g_source_remove (self->priv->apply_event);
-		self->priv->apply_event = 0;
-	}
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-
-	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
-}
-
-
-static void
 reset_button_clicked_cb (GtkButton *button,
 		  	 gpointer   user_data)
 {
@@ -454,10 +433,10 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 			  "clicked",
 			  G_CALLBACK (ok_button_clicked_cb),
 			  self);
-	g_signal_connect (GET_WIDGET ("cancel_button"),
-			  "clicked",
-			  G_CALLBACK (cancel_button_clicked_cb),
-			  self);
+	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
+				  "clicked",
+				  G_CALLBACK (gth_file_tool_cancel),
+				  self);
 	g_signal_connect (GET_WIDGET ("reset_button"),
 			  "clicked",
 			  G_CALLBACK (reset_button_clicked_cb),
@@ -530,6 +509,24 @@ gth_file_tool_adjust_colors_activate (GthFileTool *base)
 
 
 static void
+gth_file_tool_adjust_colors_cancel (GthFileTool *file_tool)
+{
+	GthFileToolAdjustColors *self = GTH_FILE_TOOL_ADJUST_COLORS (file_tool);
+	GtkWidget               *window;
+	GtkWidget               *viewer_page;
+
+	if (self->priv->apply_event != 0) {
+		g_source_remove (self->priv->apply_event);
+		self->priv->apply_event = 0;
+	}
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+}
+
+
+static void
 gth_file_tool_adjust_colors_init (GthFileToolAdjustColors *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ADJUST_COLORS, GthFileToolAdjustColorsPrivate);
@@ -573,6 +570,7 @@ gth_file_tool_adjust_colors_class_init (GthFileToolAdjustColorsClass *class)
 	file_tool_class = (GthFileToolClass *) class;
 	file_tool_class->update_sensitivity = gth_file_tool_adjust_colors_update_sensitivity;
 	file_tool_class->activate = gth_file_tool_adjust_colors_activate;
+	file_tool_class->cancel = gth_file_tool_adjust_colors_cancel;
 	file_tool_class->get_options = gth_file_tool_adjust_colors_get_options;
 	file_tool_class->destroy_options = gth_file_tool_adjust_colors_destroy_options;
 }

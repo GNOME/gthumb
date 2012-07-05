@@ -252,21 +252,6 @@ apply_button_clicked_cb (GtkButton         *button,
 
 
 static void
-cancel_button_clicked_cb (GtkButton         *button,
-			  GthFileToolRotate *self)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-
-	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
-}
-
-
-static void
 crop_settings_changed_cb (GtkAdjustment     *adj,
 		          GthFileToolRotate *self)
 {
@@ -468,10 +453,10 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "clicked",
 			  G_CALLBACK (apply_button_clicked_cb),
 			  self);
-	g_signal_connect (GET_WIDGET ("cancel_button"),
-			  "clicked",
-			  G_CALLBACK (cancel_button_clicked_cb),
-			  self);
+	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
+				  "clicked",
+				  G_CALLBACK (gth_file_tool_cancel),
+				  self);
 	g_signal_connect (GET_WIDGET ("reset_button"),
 			  "clicked",
 			  G_CALLBACK (reset_button_clicked_cb),
@@ -590,6 +575,19 @@ gth_file_tool_rotate_activate (GthFileTool *base)
 
 
 static void
+gth_file_tool_rotate_cancel (GthFileTool *base)
+{
+	GthFileToolRotate *self = (GthFileToolRotate *) base;
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+}
+
+
+static void
 gth_file_tool_rotate_finalize (GObject *object)
 {
 	GthFileToolRotate *self;
@@ -622,6 +620,7 @@ gth_file_tool_rotate_class_init (GthFileToolRotateClass *klass)
 	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->update_sensitivity = gth_file_tool_rotate_update_sensitivity;
 	file_tool_class->activate = gth_file_tool_rotate_activate;
+	file_tool_class->cancel = gth_file_tool_rotate_cancel;
 	file_tool_class->get_options = gth_file_tool_rotate_get_options;
 	file_tool_class->destroy_options = gth_file_tool_rotate_destroy_options;
 }

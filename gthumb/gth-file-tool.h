@@ -49,6 +49,7 @@ struct _GthFileToolClass {
 
 	void         (*update_sensitivity) (GthFileTool *self);
 	void         (*activate)           (GthFileTool *self);
+	void         (*cancel)             (GthFileTool *self);
 	GtkWidget *  (*get_options)        (GthFileTool *self);
 	void         (*destroy_options)    (GthFileTool *self);
 
@@ -67,6 +68,7 @@ void          gth_file_tool_construct           (GthFileTool *self,
 GtkWidget *   gth_file_tool_get_window          (GthFileTool *self);
 const char *  gth_file_tool_get_icon_name       (GthFileTool *self);
 void          gth_file_tool_activate            (GthFileTool *self);
+void          gth_file_tool_cancel              (GthFileTool *self);
 void          gth_file_tool_update_sensitivity  (GthFileTool *self);
 GtkWidget *   gth_file_tool_get_options         (GthFileTool *self);
 const char *  gth_file_tool_get_options_title   (GthFileTool *self);

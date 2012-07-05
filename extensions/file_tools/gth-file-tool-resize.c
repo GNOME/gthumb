@@ -71,20 +71,6 @@ gth_file_tool_resize_update_sensitivity (GthFileTool *base)
 
 
 static void
-cancel_button_clicked_cb (GtkButton         *button,
-			  GthFileToolResize *self)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
-}
-
-
-static void
 resize_button_clicked_cb (GtkButton       *button,
 			GthFileToolResize *self)
 {
@@ -532,10 +518,10 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 			  "clicked",
 			  G_CALLBACK (resize_button_clicked_cb),
 			  self);
-	g_signal_connect (GET_WIDGET ("cancel_button"),
-			  "clicked",
-			  G_CALLBACK (cancel_button_clicked_cb),
-			  self);
+	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
+				  "clicked",
+				  G_CALLBACK (gth_file_tool_cancel),
+				  self);
 	g_signal_connect (GET_WIDGET ("resize_width_spinbutton"),
 			  "value-changed",
 			  G_CALLBACK (selection_width_value_changed_cb),
@@ -634,6 +620,19 @@ gth_file_tool_resize_activate (GthFileTool *base)
 
 
 static void
+gth_file_tool_resize_cancel (GthFileTool *base)
+{
+	GthFileToolResize *self = (GthFileToolResize *) base;
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+}
+
+
+static void
 gth_file_tool_resize_finalize (GObject *object)
 {
 	GthFileToolResize *self;
@@ -667,6 +666,7 @@ gth_file_tool_resize_class_init (GthFileToolResizeClass *klass)
 	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->update_sensitivity = gth_file_tool_resize_update_sensitivity;
 	file_tool_class->activate = gth_file_tool_resize_activate;
+	file_tool_class->cancel = gth_file_tool_resize_cancel;
 	file_tool_class->get_options = gth_file_tool_resize_get_options;
 	file_tool_class->destroy_options = gth_file_tool_resize_destroy_options;
 }
@@ -679,3 +679,4 @@ gth_file_tool_resize_init (GthFileToolResize *self)
 	self->priv->settings = g_settings_new (GTHUMB_RESIZE_SCHEMA);
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-resize", _("Resize..."), _("Resize"), FALSE);
 }
+
