@@ -61,6 +61,7 @@ typedef struct {
 	GtkBuilder          *builder;
 	GtkWidget           *dialog;
 	GtkWidget           *progress_dialog;
+	GtkWidget           *list_view;
 	OAuthConnection     *conn;
 	OAuthAuthentication *auth;
 	PhotobucketService  *service;
@@ -72,9 +73,10 @@ typedef struct {
 
 
 static void
-export_dialog_destroy_cb (GtkWidget  *widget,
-			  DialogData *data)
+destroy_dialog (DialogData *data)
 {
+	if (data->dialog != NULL)
+		gtk_widget_destroy (data->dialog);
 	if (data->conn != NULL)
 		gth_task_completed (GTH_TASK (data->conn), NULL);
 	_g_object_unref (data->cancellable);
@@ -203,7 +205,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
-		gtk_widget_destroy (data->dialog);
+		gth_file_list_cancel (GTH_FILE_LIST (data->list_view), (DataFunc) destroy_dialog, data);
 		break;
 
 	case GTK_RESPONSE_OK:
@@ -548,7 +550,6 @@ dlg_export_to_photobucket (GthBrowser *browser,
 	goffset     total_size;
 	char       *total_size_formatted;
 	char       *text;
-	GtkWidget  *list_view;
 	char       *title;
 
 	data = g_new0 (DialogData, 1);
@@ -614,7 +615,7 @@ dlg_export_to_photobucket (GthBrowser *browser,
 		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), error);
 		g_clear_error (&error);
-		gtk_widget_destroy (data->dialog);
+		destroy_dialog (data);
 
 		return;
 	}
@@ -627,15 +628,15 @@ dlg_export_to_photobucket (GthBrowser *browser,
 
 	/* Set the widget data */
 
-	list_view = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_TYPE_NO_SELECTION, FALSE);
-	gth_file_list_set_thumb_size (GTH_FILE_LIST (list_view), 112);
-	gth_file_list_enable_thumbs (GTH_FILE_LIST (list_view), TRUE);
-	gth_file_list_set_ignore_hidden (GTH_FILE_LIST (list_view), TRUE);
-	gth_file_list_set_caption (GTH_FILE_LIST (list_view), "none");
-	gth_file_list_set_sort_func (GTH_FILE_LIST (list_view), gth_main_get_sort_type ("file::name")->cmp_func, FALSE);
-	gtk_widget_show (list_view);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), list_view, TRUE, TRUE, 0);
-	gth_file_list_set_files (GTH_FILE_LIST (list_view), data->file_list);
+	data->list_view = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_TYPE_NO_SELECTION, FALSE);
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->list_view), 112);
+	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->list_view), TRUE);
+	gth_file_list_set_ignore_hidden (GTH_FILE_LIST (data->list_view), TRUE);
+	gth_file_list_set_caption (GTH_FILE_LIST (data->list_view), "none");
+	gth_file_list_set_sort_func (GTH_FILE_LIST (data->list_view), gth_main_get_sort_type ("file::name")->cmp_func, FALSE);
+	gtk_widget_show (data->list_view);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), data->list_view, TRUE, TRUE, 0);
+	gth_file_list_set_files (GTH_FILE_LIST (data->list_view), data->file_list);
 
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
@@ -645,10 +646,6 @@ dlg_export_to_photobucket (GthBrowser *browser,
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog),
-			  "destroy",
-			  G_CALLBACK (export_dialog_destroy_cb),
-			  data);
 	g_signal_connect (data->dialog,
 			  "delete-event",
 			  G_CALLBACK (gtk_true),
