@@ -146,6 +146,7 @@ struct _GthGridViewPrivate {
 	int                    first_focused_item;  /* Used to do multiple selection with the keyboard. */
 	guint                  make_focused_visible : 1;
 	guint                  needs_relayout : 1;
+	guint                  needs_relayout_after_size_allocate : 1;
 
 	guint                  layout_timeout;
 	int                    relayout_from_line;
@@ -1018,6 +1019,12 @@ gth_grid_view_realize (GtkWidget *widget)
 
 	gdk_window_show (self->priv->bin_window);
 	self->priv->needs_relayout = TRUE;
+
+	/* this is used to make make_focused_visible work correctly */
+	if (self->priv->needs_relayout_after_size_allocate) {
+		self->priv->needs_relayout_after_size_allocate = FALSE;
+		_gth_grid_view_queue_relayout (self);
+	}
 }
 
 
@@ -1134,6 +1141,8 @@ gth_grid_view_size_allocate (GtkWidget     *widget,
 		if (self->priv->needs_relayout || (old_cells_per_line != gth_grid_view_get_items_per_line (self)))
 			_gth_grid_view_queue_relayout (self);
 	}
+	else
+		self->priv->needs_relayout_after_size_allocate = TRUE;
 
 	_gth_grid_view_configure_hadjustment (self);
 	_gth_grid_view_configure_vadjustment (self);
@@ -3787,6 +3796,7 @@ gth_grid_view_init (GthGridView *self)
 	self->priv->first_focused_item = -1;
 	self->priv->make_focused_visible = FALSE;
 	self->priv->needs_relayout = FALSE;
+	self->priv->needs_relayout_after_size_allocate = FALSE;
 	self->priv->layout_timeout = 0;
 	self->priv->relayout_from_line = -1;
 	self->priv->update_caption_height = TRUE;
