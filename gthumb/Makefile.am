@@ -322,17 +322,16 @@ gthumb_CFLAGS =							\
 	-DGTHUMB_APPLICATIONS_DIR=\"$(applications_dir)\"	\
 	$(NULL)
 
-gth-enum-types.h: $(PUBLIC_HEADER_FILES) $(GLIB_MKENUMS)
+gth-enum-types.h: $(PUBLIC_HEADER_FILES)
 	$(AM_V_GEN)( $(GLIB_MKENUMS) \
 		--fhead "#ifndef GTH_ENUM_TYPES_H\n#define GTH_ENUM_TYPES_H\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
 		--fprod "/* enumerations from \"@filename@\" */\n" \
 		--vhead "GType @enum_name@_get_type (void);\n#define GTH_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
 		--ftail "G_END_DECLS\n\n#endif /* GTH_ENUM_TYPES_H */" \
 		$^> xgen-$(@F) \
-	&& (cmp -s xgen-$(@F) gth-enum-types.h || cp xgen-$(@F) gth-enum-types.h ) \
-	&& rm -f xgen-$(@F) )
+	&& mv -f xgen-$(@F) gth-enum-types.h )
 
-gth-enum-types.c: $(PUBLIC_HEADER_FILES) gth-enum-types.h
+gth-enum-types.c: $(PUBLIC_HEADER_FILES)
 	$(AM_V_GEN)( $(GLIB_MKENUMS) \
 		--fhead "#include <glib-object.h>\n" \
 		--fprod "\n/* enumerations from \"@filename@\" */\n#include \"@filename@\"" \
@@ -340,8 +339,7 @@ gth-enum-types.c: $(PUBLIC_HEADER_FILES) gth-enum-types.h
 		--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
 		--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
 		$^> xgen-$(@F) \
-	&& (cmp -s xgen-$(@F) gth-enum-types.c || cp xgen-$(@F) gth-enum-types.c ) \
-	&& rm -f xgen-$(@F) )
+	&& mv -f xgen-$(@F) gth-enum-types.c )
 
 gth-marshal.h: gth-marshal.list $(GLIB_GENMARSHAL)
 	$(AM_V_GEN)( $(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --header --prefix=gth_marshal > $@ )

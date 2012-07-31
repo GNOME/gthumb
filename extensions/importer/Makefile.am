@@ -14,17 +14,16 @@ HEADER_FILES = 					\
 	preferences.h				\
 	utils.h
 
-gth-import-enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)
+gth-import-enum-types.h: $(HEADER_FILES)
 	$(AM_V_GEN)( $(GLIB_MKENUMS) \
 		--fhead "#ifndef ENUM_TYPES_H\n#define ENUM_TYPES_H\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
 		--fprod "/* enumerations from \"@filename@\" */\n" \
 		--vhead "GType @enum_name@_get_type (void);\n#define GTH_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
 		--ftail "G_END_DECLS\n\n#endif /* ENUM_TYPES_H */" \
 		$^> xgen-$(@F) \
-	&& (cmp -s xgen-$(@F) gth-import-enum-types.h || cp xgen-$(@F) gth-import-enum-types.h ) \
-	&& rm -f xgen-$(@F) )
+	&& mv -f xgen-$(@F) gth-import-enum-types.h )
 
-gth-import-enum-types.c: $(HEADER_FILES) gth-import-enum-types.h
+gth-import-enum-types.c: $(HEADER_FILES)
 	$(AM_V_GEN)( $(GLIB_MKENUMS) \
 		--fhead "#include <glib-object.h>\n" \
 		--fprod "\n/* enumerations from \"@filename@\" */\n#include \"@filename@\"" \
@@ -32,8 +31,7 @@ gth-import-enum-types.c: $(HEADER_FILES) gth-import-enum-types.h
 		--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
 		--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
 		$^> xgen-$(@F) \
-	&& (cmp -s xgen-$(@F) gth-import-enum-types.c || cp xgen-$(@F) gth-import-enum-types.c ) \
-	&& rm -f xgen-$(@F) )
+	&& mv -f xgen-$(@F) gth-import-enum-types.c )
 
 libimporter_la_SOURCES = 			\
 	$(ENUM_TYPES)				\
