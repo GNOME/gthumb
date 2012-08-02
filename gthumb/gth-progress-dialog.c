@@ -292,7 +292,7 @@ gth_progress_dialog_init (GthProgressDialog *self)
 
 	gtk_widget_set_size_request (GTK_WIDGET (self), DIALOG_WIDTH, -1);
 	gtk_window_set_title (GTK_WINDOW (self), "");
-	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
+	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
