@@ -229,7 +229,7 @@ static gboolean
 gth_file_source_selections_can_cut (GthFileSource *file_source,
 				    GFile         *file)
 {
-	return FALSE;
+	return g_file_has_uri_scheme (file, "selection");
 }
 
 
