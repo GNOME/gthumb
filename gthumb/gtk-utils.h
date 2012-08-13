@@ -80,13 +80,11 @@ void            _gtk_info_dialog_run                       (GtkWindow        *pa
 					    	    	    const gchar      *format,
 					    	    	    ...) G_GNUC_PRINTF (2, 3);
 GdkPixbuf *     _g_icon_get_pixbuf                         (GIcon            *icon,
-		 			    	    	    int               size,
+		 			    	    	    int               icon_size,
 		 			    	    	    GtkIconTheme     *icon_theme);
 GdkPixbuf *     get_mime_type_pixbuf                       (const char       *mime_type,
 					    	    	    int               icon_size,
 					    	    	    GtkIconTheme     *icon_theme);
-int             _gtk_icon_get_pixel_size                   (GtkWidget        *widget,
-					    	    	    GtkIconSize       size);
 void            show_help_dialog                           (GtkWindow        *parent,
 					    	    	    const char       *section);
 void            _gtk_container_remove_children             (GtkContainer     *container,
@@ -111,6 +109,8 @@ void            _gtk_widget_get_screen_size                (GtkWidget        *wi
 					    	    	    int              *height);
 int             _gtk_widget_get_allocated_width            (GtkWidget        *widget);
 int             _gtk_widget_get_allocated_height           (GtkWidget        *widget);
+int             _gtk_widget_lookup_for_size                (GtkWidget        *widget,
+							    GtkIconSize       icon_size);
 void            _gtk_tree_path_list_free                   (GList            *list);
 int             _gtk_paned_get_position2                   (GtkPaned         *paned);
 void            _gtk_paned_set_position2                   (GtkPaned         *paned,

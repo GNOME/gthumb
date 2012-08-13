@@ -982,7 +982,7 @@ gth_folder_tree_construct (GthFolderTree *folder_tree)
 	GtkTreeSelection *selection;
 
 	folder_tree->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (folder_tree))),
-							    _gtk_icon_get_pixel_size (GTK_WIDGET (folder_tree), GTK_ICON_SIZE_MENU));
+							    _gtk_widget_lookup_for_size (GTK_WIDGET (folder_tree), GTK_ICON_SIZE_MENU));
 
 	folder_tree->priv->tree_store = gtk_tree_store_new (NUM_COLUMNS,
 							    PANGO_TYPE_STYLE,

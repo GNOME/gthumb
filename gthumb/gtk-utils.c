@@ -415,87 +415,29 @@ _gtk_info_dialog_run (GtkWindow        *parent,
 }
 
 
-static GdkPixbuf *
-get_themed_icon_pixbuf (GThemedIcon  *icon,
-			int           size,
-			GtkIconTheme *icon_theme)
-{
-	char        **icon_names;
-	GtkIconInfo  *icon_info;
-	GdkPixbuf    *pixbuf;
-	GError       *error = NULL;
-
-	g_object_get (icon, "names", &icon_names, NULL);
-
-	if (icon_theme == NULL)
-		icon_theme = gtk_icon_theme_get_default ();
-	icon_info = gtk_icon_theme_choose_icon (icon_theme, (const char **)icon_names, size, 0);
-	if (icon_info == NULL)
-		icon_info = gtk_icon_theme_lookup_icon (icon_theme, "text-x-generic", size, GTK_ICON_LOOKUP_USE_BUILTIN);
-
-	pixbuf = gtk_icon_info_load_icon (icon_info, &error);
-	if (pixbuf == NULL) {
-		g_warning ("could not load icon pixbuf: %s\n", error->message);
-		g_clear_error (&error);
-	}
-
-	gtk_icon_info_free (icon_info);
-	g_strfreev (icon_names);
-
-	return pixbuf;
-}
-
-
-static GdkPixbuf *
-get_file_icon_pixbuf (GFileIcon *icon,
-		      int        size)
-{
-	GdkPixbuf *pixbuf = NULL;
-	GFile     *file;
-
-	file = g_file_icon_get_file (icon);
-	if (file != NULL) {
-		char *filename;
-
-		filename = g_file_get_path (file);
-		if (filename != NULL)
-			pixbuf = gdk_pixbuf_new_from_file_at_size (filename, size, -1, NULL);
-
-		g_free (filename);
-	}
-
-	return pixbuf;
-}
-
-
 GdkPixbuf *
 _g_icon_get_pixbuf (GIcon        *icon,
-		    int           size,
-		    GtkIconTheme *theme)
+		    int           icon_size,
+		    GtkIconTheme *icon_theme)
 {
-	GdkPixbuf *pixbuf;
-	int        w, h;
+	GdkPixbuf   *pixbuf = NULL;
+	GtkIconInfo *icon_info;
 
-	if (icon == NULL)
-		return NULL;
+	icon_info = gtk_icon_theme_lookup_by_gicon (icon_theme,
+						    icon,
+						    icon_size,
+						    GTK_ICON_LOOKUP_USE_BUILTIN);
 
-	pixbuf = NULL;
-	if (G_IS_THEMED_ICON (icon))
-		pixbuf = get_themed_icon_pixbuf (G_THEMED_ICON (icon), size, theme);
-	else if (G_IS_FILE_ICON (icon))
-		pixbuf = get_file_icon_pixbuf (G_FILE_ICON (icon), size);
+	if (icon_info != NULL) {
+		GError *error = NULL;
 
-	if (pixbuf == NULL)
-		return NULL;
+		pixbuf = gtk_icon_info_load_icon (icon_info, &error);
+		if (error != NULL) {
+			g_print ("%s\n", error->message);
+			g_error_free (error);
+		}
 
-	w = gdk_pixbuf_get_width (pixbuf);
-	h = gdk_pixbuf_get_height (pixbuf);
-	if (scale_keeping_ratio (&w, &h, size, size, FALSE)) {
-		GdkPixbuf *scaled;
-
-		scaled = gdk_pixbuf_scale_simple (pixbuf, w, h, GDK_INTERP_BILINEAR);
-		g_object_unref (pixbuf);
-		pixbuf = scaled;
+		gtk_icon_info_free (icon_info);
 	}
 
 	return pixbuf;
@@ -518,19 +460,6 @@ get_mime_type_pixbuf (const char   *mime_type,
 	g_object_unref (icon);
 
 	return pixbuf;
-}
-
-
-int
-_gtk_icon_get_pixel_size (GtkWidget   *widget,
-			  GtkIconSize  size)
-{
-	int icon_width, icon_height;
-
-	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
-					   size,
-					   &icon_width, &icon_height);
-	return MAX (icon_width, icon_height);
 }
 
 
@@ -787,6 +716,18 @@ _gtk_widget_get_allocated_height (GtkWidget *widget)
 	}
 
 	return height;
+}
+
+
+int
+_gtk_widget_lookup_for_size (GtkWidget   *widget,
+			     GtkIconSize  icon_size)
+{
+	int w, h;
+	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
+					   icon_size,
+					   &w, &h);
+	return MAX (w, h);
 }
 
 

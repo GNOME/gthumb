@@ -23,16 +23,13 @@
 #include "glib-utils.h"
 #include "gth-icon-cache.h"
 #include "gtk-utils.h"
-#include "pixbuf-utils.h"
-
-
-#define VOID_PIXBUF_KEY "void-pixbuf"
 
 
 struct _GthIconCache {
 	GtkIconTheme *icon_theme;
 	int           icon_size;
 	GHashTable   *cache;
+	GIcon        *fallback_icon;
 };
 
 
@@ -47,9 +44,7 @@ gth_icon_cache_new (GtkIconTheme *icon_theme,
 	icon_cache = g_new0 (GthIconCache, 1);
 	icon_cache->icon_theme = icon_theme;
 	icon_cache->icon_size = icon_size;
-	icon_cache->cache = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_object_unref);
-
-	g_hash_table_insert (icon_cache->cache, VOID_PIXBUF_KEY, _gdk_pixbuf_new_void (icon_cache->icon_size, icon_cache->icon_size));
+	icon_cache->cache = g_hash_table_new_full (g_icon_hash, (GEqualFunc) g_icon_equal, g_object_unref, g_object_unref);
 
 	return icon_cache;
 }
@@ -63,9 +58,21 @@ gth_icon_cache_new_for_widget (GtkWidget   *widget,
 	int           pixel_size;
 
 	icon_theme = gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget));
-	pixel_size = _gtk_icon_get_pixel_size (widget, GTK_ICON_SIZE_MENU);
+	pixel_size = _gtk_widget_lookup_for_size (widget, icon_size);
 
 	return gth_icon_cache_new (icon_theme, pixel_size);
+}
+
+
+void
+gth_icon_cache_set_fallback (GthIconCache *icon_cache,
+			     GIcon        *icon)
+{
+	if (icon_cache->fallback_icon != NULL)
+		g_object_unref (icon_cache->fallback_icon);
+	icon_cache->fallback_icon = icon;
+	if (icon_cache->fallback_icon != NULL)
+		g_object_ref (icon_cache->fallback_icon);
 }
 
 
@@ -75,41 +82,17 @@ gth_icon_cache_free (GthIconCache *icon_cache)
 	if (icon_cache == NULL)
 		return;
 	g_hash_table_destroy (icon_cache->cache);
+	if (icon_cache->fallback_icon != NULL)
+		g_object_unref (icon_cache->fallback_icon);
 	g_free (icon_cache);
 }
 
 
-static const char *
-_gth_icon_cache_get_icon_key (GIcon *icon)
+void
+gth_icon_cache_clear (GthIconCache *icon_cache)
 {
-	const char *key = NULL;
-
-	if (G_IS_THEMED_ICON (icon)) {
-		char **icon_names;
-		char  *name;
-
-		g_object_get (icon, "names", &icon_names, NULL);
-		name = g_strjoinv (",", icon_names);
-		key = get_static_string (name);
-
-		g_free (name);
-		g_strfreev (icon_names);
-	}
-	else if (G_IS_FILE_ICON (icon)) {
-		GFile *file;
-
-		file = g_file_icon_get_file (G_FILE_ICON (icon));
-		if (file != NULL) {
-			char *uri;
-
-			uri = g_file_get_uri (file);
-			key = get_static_string (uri);
-
-			g_free (uri);
-		}
-	}
-
-	return key;
+	if (icon_cache != NULL)
+		g_hash_table_remove_all (icon_cache->cache);
 }
 
 
@@ -117,35 +100,20 @@ GdkPixbuf *
 gth_icon_cache_get_pixbuf (GthIconCache *icon_cache,
 			   GIcon        *icon)
 {
-	const char *key;
-	GdkPixbuf  *pixbuf;
+	GdkPixbuf *pixbuf;
 
-	key = NULL;
-	if (icon != NULL)
-		key = _gth_icon_cache_get_icon_key (icon);
-
-	if (key == NULL)
-		key = VOID_PIXBUF_KEY;
-
-	pixbuf = g_hash_table_lookup (icon_cache->cache, key);
-	if (pixbuf != NULL) {
-		g_object_ref (pixbuf);
-		return pixbuf;
-	}
+	pixbuf = g_hash_table_lookup (icon_cache->cache, icon);
+	if (pixbuf != NULL)
+		return g_object_ref (pixbuf);
 
 	if (icon != NULL)
 		pixbuf = _g_icon_get_pixbuf (icon, icon_cache->icon_size, icon_cache->icon_theme);
 
-	if (pixbuf == NULL) {
-		GIcon *unknown_icon;
+	if ((pixbuf == NULL) && (icon_cache->fallback_icon != NULL))
+		pixbuf = _g_icon_get_pixbuf (icon_cache->fallback_icon, icon_cache->icon_size, icon_cache->icon_theme);
 
-		unknown_icon = g_themed_icon_new ("missing-image");
-		pixbuf = _g_icon_get_pixbuf (unknown_icon, icon_cache->icon_size, icon_cache->icon_theme);
-
-		g_object_unref (unknown_icon);
-	}
-
-	g_hash_table_insert (icon_cache->cache, (gpointer) key, g_object_ref (pixbuf));
+	if (pixbuf != NULL)
+		g_hash_table_insert (icon_cache->cache, g_object_ref (icon), g_object_ref (pixbuf));
 
 	return pixbuf;
 }

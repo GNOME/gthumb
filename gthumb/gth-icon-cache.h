@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 #ifndef GTH_ICON_CACHE_H
 #define GTH_ICON_CACHE_H
 
@@ -32,7 +32,10 @@ GthIconCache * gth_icon_cache_new            (GtkIconTheme *icon_theme,
 			                      int           icon_size);
 GthIconCache * gth_icon_cache_new_for_widget (GtkWidget    *widget,
 			                      GtkIconSize   icon_size);
-void           gth_icon_cache_free           (GthIconCache *icon_cache);	                  
+void           gth_icon_cache_set_fallback   (GthIconCache *icon_cache,
+					      GIcon        *icon);
+void           gth_icon_cache_free           (GthIconCache *icon_cache);
+void           gth_icon_cache_clear          (GthIconCache *icon_cache);
 GdkPixbuf *    gth_icon_cache_get_pixbuf     (GthIconCache *icon_cache,
 				              GIcon        *icon);
 
