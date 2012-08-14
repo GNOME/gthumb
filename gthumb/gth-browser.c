@@ -4696,6 +4696,7 @@ gth_browser_init (GthBrowser *browser)
 			_gth_browser_history_load (browser);
 	}
 
+	gtk_widget_realize (browser->priv->file_list);
 	gth_hook_invoke ("gth-browser-construct", browser);
 
 	performance (DEBUG_INFO, "window initialized");
