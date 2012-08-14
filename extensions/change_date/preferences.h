@@ -34,7 +34,6 @@ G_BEGIN_DECLS
 
 #define PREF_CHANGE_DATE_SET_LAST_MODIFIED_DATE          "set-last-modified-date"
 #define PREF_CHANGE_DATE_SET_COMMENT_DATE		 "set-comment-date"
-#define PREF_CHANGE_DATE_SET_EXIF_DATETIMEORIGINAL_TAG   "set-exif-datetimeoriginal-tag"
 #define PREF_CHANGE_DATE_TO_FOLLOWING_DATE               "to-following-date"
 #define PREF_CHANGE_DATE_DATE                            "date"
 #define PREF_CHANGE_DATE_TO_FILE_MODIFIED_DATE           "to-file-modified-date"

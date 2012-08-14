@@ -70,8 +70,6 @@ ok_button_clicked (GtkWidget  *button,
 		change_fields |= GTH_CHANGE_LAST_MODIFIED_DATE;
 	if (IS_ACTIVE (GET_WIDGET ("change_comment_checkbutton")))
 		change_fields |= GTH_CHANGE_COMMENT_DATE;
-	if (IS_ACTIVE (GET_WIDGET ("change_datetimeoriginal_checkbutton")))
-		change_fields |= GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG;
 
 	change_type = 0;
 	time_adjustment = 0;
@@ -99,7 +97,6 @@ ok_button_clicked (GtkWidget  *button,
 
 	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_SET_LAST_MODIFIED_DATE, (change_fields & GTH_CHANGE_LAST_MODIFIED_DATE) == GTH_CHANGE_LAST_MODIFIED_DATE);
 	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_SET_COMMENT_DATE, (change_fields & GTH_CHANGE_COMMENT_DATE) == GTH_CHANGE_COMMENT_DATE);
-	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_SET_EXIF_DATETIMEORIGINAL_TAG, (change_fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) == GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG);
 
 	g_settings_set_boolean (data->settings, PREF_CHANGE_DATE_TO_FOLLOWING_DATE, change_type == GTH_CHANGE_TO_FOLLOWING_DATE);
 	if (change_type == GTH_CHANGE_TO_FOLLOWING_DATE) {
@@ -144,8 +141,7 @@ update_sensitivity (DialogData *data)
 {
 	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"),
 				  (IS_ACTIVE (GET_WIDGET ("change_last_modified_checkbutton"))
-				   || IS_ACTIVE (GET_WIDGET ("change_comment_checkbutton"))
-				   || IS_ACTIVE (GET_WIDGET ("change_datetimeoriginal_checkbutton"))));
+				   || IS_ACTIVE (GET_WIDGET ("change_comment_checkbutton"))));
 	gtk_widget_set_sensitive (data->date_selector, IS_ACTIVE (GET_WIDGET ("to_following_date_radiobutton")));
 	gtk_widget_set_sensitive (GET_WIDGET ("time_box"), IS_ACTIVE (GET_WIDGET ("adjust_time_radiobutton")));
 
@@ -195,8 +191,6 @@ dlg_change_date (GthBrowser *browser,
 				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_SET_LAST_MODIFIED_DATE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("change_comment_checkbutton")),
 				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_SET_COMMENT_DATE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("change_datetimeoriginal_checkbutton")),
-				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_SET_EXIF_DATETIMEORIGINAL_TAG));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("to_following_date_radiobutton")),
 				      g_settings_get_boolean (data->settings, PREF_CHANGE_DATE_TO_FOLLOWING_DATE));
@@ -279,10 +273,6 @@ dlg_change_date (GthBrowser *browser,
 			  G_CALLBACK (radio_button_clicked),
 			  data);
 	g_signal_connect (GET_WIDGET ("change_comment_checkbutton"),
-			  "clicked",
-			  G_CALLBACK (radio_button_clicked),
-			  data);
-	g_signal_connect (GET_WIDGET ("change_datetimeoriginal_checkbutton"),
 			  "clicked",
 			  G_CALLBACK (radio_button_clicked),
 			  data);

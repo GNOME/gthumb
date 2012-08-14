@@ -25,9 +25,6 @@
     <key name="set-comment-date" type="b">
       <default>false</default>
     </key>
-    <key name="set-exif-datetimeoriginal-tag" type="b">
-      <default>false</default>
-    </key>
     <key name="to-following-date" type="b">
       <default>false</default>
     </key>

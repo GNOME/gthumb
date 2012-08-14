@@ -251,14 +251,6 @@ set_date_time_from_field (GthChangeDateTask *self,
 		if ((m != NULL) && _g_time_val_from_exif_date (gth_metadata_get_raw (m), &time_val))
 			gth_datetime_from_timeval (date_time, &time_val);
 	}
-	else if (field & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
-		GthMetadata *m;
-		GTimeVal     time_val;
-
-		m = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Exif::Photo::DateTimeOriginal");
-		if ((m != NULL) && _g_time_val_from_exif_date (gth_metadata_get_raw (m), &time_val))
-			gth_datetime_from_timeval (date_time, &time_val);
-	}
 }
 
 
@@ -294,12 +286,6 @@ info_ready_cb (GList    *files,
 				if (gth_datetime_valid (date_time))
 					set_date_metadata (file_data, "general::datetime", date_time, self->priv->time_offset);
 			}
-			if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
-				gth_datetime_clear (date_time);
-				set_date_time_from_field (self, date_time, GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG, file_data);
-				if (gth_datetime_valid (date_time))
-					set_date_metadata (file_data, "Exif::Photo::DateTimeOriginal", date_time, self->priv->time_offset);
-			}
 		}
 		else {
 			gth_datetime_clear (date_time);
@@ -308,9 +294,6 @@ info_ready_cb (GList    *files,
 				if (self->priv->fields & GTH_CHANGE_COMMENT_DATE) {
 					set_date_metadata (file_data, "general::datetime", date_time, 0);
 				}
-				if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) {
-					set_date_metadata (file_data, "Exif::Photo::DateTimeOriginal", date_time, 0);
-				}
 			}
 		}
 	}
@@ -318,14 +301,12 @@ info_ready_cb (GList    *files,
 	attribute_v = g_ptr_array_new ();
 	if (self->priv->fields & GTH_CHANGE_COMMENT_DATE)
 		g_ptr_array_add (attribute_v, "general::datetime");
-	if (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG)
-		g_ptr_array_add (attribute_v, "Exif::Photo::DateTimeOriginal");
 	if (attribute_v->len > 0) {
 		char *attributes;
 
 		attributes = _g_string_array_join (attribute_v, ",");
 		_g_write_metadata_async (self->priv->file_list,
-					 (self->priv->fields & GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG) ? GTH_METADATA_WRITE_FORCE_EMBEDDED : GTH_METADATA_WRITE_DEFAULT,
+					 GTH_METADATA_WRITE_DEFAULT,
 					 attributes,
 					 gth_task_get_cancellable (GTH_TASK (self)),
 					 write_metadata_ready_cb,

@@ -29,8 +29,7 @@ G_BEGIN_DECLS
 
 typedef enum {
 	GTH_CHANGE_LAST_MODIFIED_DATE = 1 << 0,
-	GTH_CHANGE_COMMENT_DATE = 1 << 1,
-	GTH_CHANGE_EXIF_DATETIMEORIGINAL_TAG = 1 << 2,
+	GTH_CHANGE_COMMENT_DATE = 1 << 1
 } GthChangeFields;
 
 typedef enum {
