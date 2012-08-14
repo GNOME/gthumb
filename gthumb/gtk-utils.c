@@ -137,6 +137,8 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 
 	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
+	if (flags & GTK_DIALOG_MODAL)
+		_gtk_dialog_add_to_window_group (GTK_DIALOG (d));
 
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
@@ -412,6 +414,19 @@ _gtk_info_dialog_run (GtkWindow        *parent,
 			  NULL);
 
 	gtk_widget_show (d);
+}
+
+
+void
+_gtk_dialog_add_to_window_group (GtkDialog *dialog)
+{
+	GtkWidget *toplevel;
+
+	g_return_if_fail (dialog != NULL);
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (dialog));
+	if (gtk_widget_is_toplevel (toplevel) && gtk_window_has_group (GTK_WINDOW (toplevel)))
+		gtk_window_group_add_window (gtk_window_get_group (GTK_WINDOW (toplevel)), GTK_WINDOW (dialog));
 }
 
 

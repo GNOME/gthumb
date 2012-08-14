@@ -79,6 +79,7 @@ void            _gtk_error_dialog_show                     (GtkWindow        *pa
 void            _gtk_info_dialog_run                       (GtkWindow        *parent,
 					    	    	    const gchar      *format,
 					    	    	    ...) G_GNUC_PRINTF (2, 3);
+void            _gtk_dialog_add_to_window_group            (GtkDialog        *dialog);
 GdkPixbuf *     _g_icon_get_pixbuf                         (GIcon            *icon,
 		 			    	    	    int               icon_size,
 		 			    	    	    GtkIconTheme     *icon_theme);
