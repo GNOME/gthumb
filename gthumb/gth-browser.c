@@ -4596,6 +4596,7 @@ gth_browser_init (GthBrowser *browser)
 
 	browser->priv->fast_file_type = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_FAST_FILE_TYPE);
 
+	gtk_widget_realize (browser->priv->file_list);
 	gth_hook_invoke ("gth-browser-construct", browser);
 
 	performance (DEBUG_INFO, "window initialized");
