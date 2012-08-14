@@ -235,6 +235,7 @@ gth_file_data_cmp_date_time_original (GthFileData *a,
 {
 	GTimeVal *pta, *ptb;
 	GTimeVal  ta, tb;
+	int       result;
 
 	pta = NULL;
 	if (gth_file_data_get_digitalization_time (a, &ta))
@@ -248,7 +249,17 @@ gth_file_data_cmp_date_time_original (GthFileData *a,
 	if (ptb == NULL)
 		ptb = gth_file_data_get_modification_time (b);
 
-	return _g_time_val_cmp (pta, ptb);
+	result = _g_time_val_cmp (pta, ptb);
+	if (result == 0) {
+		const char *key_a, *key_b;
+
+		key_a = gth_file_data_get_filename_sort_key (a);
+		key_b = gth_file_data_get_filename_sort_key (b);
+
+		result = strcmp (key_a, key_b);
+	}
+
+	return result;
 }
 
 
