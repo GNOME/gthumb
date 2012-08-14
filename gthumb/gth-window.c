@@ -36,17 +36,18 @@ enum  {
 
 
 struct _GthWindowPrivate {
-	int             n_pages;
-	int             current_page;
-	GtkWidget      *table;
-	GtkWidget      *notebook;
-	GtkWidget      *menubar;
-	GtkWidget      *toolbar;
-	GtkWidget      *infobar;
-	GtkWidget      *statusbar;
-	GtkWidget     **toolbars;
-	GtkWidget     **contents;
-	GthWindowSize  *window_size;
+	int              n_pages;
+	int              current_page;
+	GtkWidget       *table;
+	GtkWidget       *notebook;
+	GtkWidget       *menubar;
+	GtkWidget       *toolbar;
+	GtkWidget       *infobar;
+	GtkWidget       *statusbar;
+	GtkWidget      **toolbars;
+	GtkWidget      **contents;
+	GthWindowSize   *window_size;
+	GtkWindowGroup  *window_group;
 };
 
 
@@ -159,6 +160,7 @@ gth_window_finalize (GObject *object)
 	g_free (window->priv->toolbars);
 	g_free (window->priv->contents);
 	g_free (window->priv->window_size);
+	g_object_unref (window->priv->window_group);
 
 	G_OBJECT_CLASS (gth_window_parent_class)->finalize (object);
 }
@@ -254,6 +256,8 @@ gth_window_init (GthWindow *window)
 	window->priv->toolbar = NULL;
 	window->priv->infobar = NULL;
 	window->priv->statusbar = NULL;
+	window->priv->window_group = gtk_window_group_new ();
+	gtk_window_group_add_window (window->priv->window_group, GTK_WINDOW (window));
 
 	gtk_window_set_application (GTK_WINDOW (window), Main_Application);
 }
