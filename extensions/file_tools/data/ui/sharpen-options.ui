@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkAlignment" id="options">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -80,9 +80,12 @@
                   <object class="GtkLabel" id="threshold_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Threshold:</property>
                     <property name="use_underline">True</property>
+                    <attributes>
+                      <attribute name="size" value="8000"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="top_attach">2</property>
@@ -127,9 +130,12 @@
                   <object class="GtkLabel" id="radius_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Radius:</property>
                     <property name="use_underline">True</property>
+                    <attributes>
+                      <attribute name="size" value="8000"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="top_attach">1</property>
@@ -142,9 +148,12 @@
                   <object class="GtkLabel" id="amount_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Amount:</property>
                     <property name="use_underline">True</property>
+                    <attributes>
+                      <attribute name="size" value="8000"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="x_options">GTK_FILL</property>
@@ -178,13 +187,24 @@
                 <property name="can_focus">False</property>
                 <child>
                   <object class="GtkButton" id="reset_button">
-                    <property name="label" translatable="yes">_Reset</property>
                     <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
+                    <child>
+                      <object class="GtkLabel" id="label1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">_Reset</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">reset_button</property>
+                        <attributes>
+                          <attribute name="size" value="8000"/>
+                        </attributes>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>

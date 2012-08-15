@@ -432,7 +432,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 				     _("Custom"),
 				     NULL);
 	gtk_widget_show (self->priv->ratio_combobox);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, TRUE, TRUE, 0);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox),
 				  g_settings_get_enum (self->priv->settings, PREF_CROP_ASPECT_RATIO));
@@ -453,13 +453,15 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 				  g_settings_get_enum (self->priv->settings, PREF_CROP_GRID_TYPE));
 	gtk_widget_show (self->priv->grid_type_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("grid_type_combobox_box")),
-			    self->priv->grid_type_combobox, FALSE, FALSE, 0);
+			    self->priv->grid_type_combobox, TRUE, TRUE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("grid_label")),
 				       self->priv->grid_type_combobox);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("bind_dimensions_checkbutton")),
 				      g_settings_get_boolean (self->priv->settings, PREF_CROP_BIND_DIMENSIONS));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("bind_factor_spinbutton")),
 				   g_settings_get_int (self->priv->settings, PREF_CROP_BIND_FACTOR));
+
+	gtk_widget_set_vexpand (GET_WIDGET ("options_box"), FALSE);
 
 	g_signal_connect (GET_WIDGET ("crop_button"),
 			  "clicked",

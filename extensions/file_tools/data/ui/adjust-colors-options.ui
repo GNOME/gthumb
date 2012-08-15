@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkAdjustment" id="crop_height_adjustment">
     <property name="upper">100</property>
     <property name="step_increment">1</property>
@@ -89,7 +89,7 @@
                   <object class="GtkLabel" id="brightness_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">B_rightness:</property>
                     <property name="use_underline">True</property>
                     <attributes>
@@ -107,7 +107,7 @@
                   <object class="GtkLabel" id="contrast_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Con_trast:</property>
                     <property name="use_underline">True</property>
                     <attributes>
@@ -125,7 +125,7 @@
                   <object class="GtkLabel" id="saturation_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">_Saturation:</property>
                     <property name="use_underline">True</property>
                     <attributes>
@@ -205,7 +205,7 @@
                   <object class="GtkLabel" id="gamma_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">G_amma:</property>
                     <property name="use_underline">True</property>
                     <attributes>
@@ -221,7 +221,7 @@
                   <object class="GtkLabel" id="cyan_red_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Cyan-_Red:</property>
                     <property name="use_underline">True</property>
                     <attributes>
@@ -239,7 +239,7 @@
                   <object class="GtkLabel" id="magenta_green_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">_Magenta-Green:</property>
                     <property name="use_underline">True</property>
                     <attributes>
@@ -257,7 +257,7 @@
                   <object class="GtkLabel" id="yellow_blue_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
+                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">_Yellow-Blue:</property>
                     <property name="use_underline">True</property>
                     <attributes>
@@ -358,13 +358,24 @@
                 <property name="can_focus">False</property>
                 <child>
                   <object class="GtkButton" id="reset_button">
-                    <property name="label" translatable="yes">_Reset</property>
                     <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
+                    <child>
+                      <object class="GtkLabel" id="label1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">_Reset</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">reset_button</property>
+                        <attributes>
+                          <attribute name="size" value="8000"/>
+                        </attributes>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>

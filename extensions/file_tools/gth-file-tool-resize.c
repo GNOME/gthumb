@@ -502,7 +502,7 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 				     _("Custom"),
 				     NULL);
 	gtk_widget_show (self->priv->ratio_combobox);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, TRUE, TRUE, 0);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("high_quality_checkbutton")),
 				      self->priv->filter != CAIRO_FILTER_NEAREST);
