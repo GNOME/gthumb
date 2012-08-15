@@ -35,7 +35,10 @@ _cairo_image_surface_rotate_get_cropping_parameters (cairo_surface_t *image,
 	double src_width, src_height;
 	double t1, t2;
 
-	angle = CLAMP (angle, -90.0, 90.0);
+	if (angle < -90)
+		angle += 180;
+	else if (angle > 90)
+		angle -= 180;
 
 	angle_rad = fabs (angle) / 180.0 * G_PI;
 
@@ -77,7 +80,11 @@ _cairo_image_surface_rotate_get_cropping_region (cairo_surface_t       *image,
 	double new_width;
 	double xx1, yy1, xx2, yy2;
 
-	angle = CLAMP (angle, -90.0, 90.0);
+	if (angle < -90)
+		angle += 180;
+	else if (angle > 90)
+		angle -= 180;
+
 	p1    = CLAMP (p1,      0.0,  1.0);
 	p2    = CLAMP (p2,      0.0,  1.0);
 
