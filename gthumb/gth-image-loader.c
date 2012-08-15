@@ -190,7 +190,7 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 	else  {
 		GthImageLoaderFunc loader_func;
 
-		loader_func = gth_main_get_image_loader_func (gth_file_data_get_mime_type (load_data->file_data),
+		loader_func = gth_main_get_image_loader_func (gth_file_data_get_mime_type_from_content (load_data->file_data, cancellable),
 							      self->priv->preferred_format);
 		if (loader_func != NULL)
 			image = loader_func (load_data->file_data,

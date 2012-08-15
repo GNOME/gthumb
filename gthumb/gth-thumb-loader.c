@@ -134,7 +134,7 @@ generate_thumbnail (GthFileData   *file_data,
 	uri = g_file_get_uri (file_data->file);
 	pixbuf = gnome_desktop_thumbnail_factory_generate_no_script (self->priv->thumb_factory,
 								     uri,
-								     gth_file_data_get_mime_type (file_data),
+								     gth_file_data_get_mime_type_from_content (file_data, cancellable),
 								     cancellable);
 
 	if (g_cancellable_is_cancelled (cancellable)) {

@@ -76,6 +76,9 @@ void          gth_file_data_set_info                (GthFileData    *self,
 void          gth_file_data_set_mime_type           (GthFileData    *self,
 						     const char     *mime_type);
 const char *  gth_file_data_get_mime_type           (GthFileData    *self);
+const char *  gth_file_data_get_mime_type_from_content
+						    (GthFileData    *self,
+						     GCancellable   *cancellable);
 const char *  gth_file_data_get_filename_sort_key   (GthFileData    *self);
 time_t        gth_file_data_get_mtime               (GthFileData    *self);
 GTimeVal *    gth_file_data_get_modification_time   (GthFileData    *self);
