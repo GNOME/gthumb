@@ -221,6 +221,7 @@ child_hide_options_cb (GtkWidget *tool,
 
 	gth_file_tool_destroy_options (GTH_FILE_TOOL (tool));
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (toolbox), GTH_TOOLBOX_LIST_PAGE);
+	gth_toolbox_update_sensitivity (GTH_TOOLBOX (toolbox));
 
 	toolbox->priv->active_tool = NULL;
 }

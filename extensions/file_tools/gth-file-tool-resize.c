@@ -84,7 +84,11 @@ resize_button_clicked_cb (GtkButton       *button,
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_image, TRUE);
+	gth_image_history_add_image (gth_image_viewer_page_get_history (GTH_IMAGE_VIEWER_PAGE (viewer_page)),
+				    self->priv->new_image,
+				    TRUE);
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (viewer_page));
+
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
