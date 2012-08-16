@@ -10,6 +10,7 @@ ENUM_TYPES =		\
 HEADER_FILES = 				\
 	cairo-blur.h			\
 	cairo-rotate.h			\
+	cairo-scale.h			\
 	gth-file-tool-adjust-colors.h	\
 	gth-file-tool-crop.h		\
 	gth-file-tool-desaturate.h	\
@@ -58,6 +59,7 @@ libfile_tools_la_SOURCES = 		\
 	callbacks.h			\
 	cairo-blur.c			\
 	cairo-rotate.c			\
+	cairo-scale.c			\
 	gth-file-tool-adjust-colors.c	\
 	gth-file-tool-crop.c		\
 	gth-file-tool-desaturate.c	\

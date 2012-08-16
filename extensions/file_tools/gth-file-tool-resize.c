@@ -23,6 +23,8 @@
 #include <math.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
+#include <extensions/image_viewer/preferences.h>
+#include "cairo-scale.h"
 #include "gth-file-tool-resize.h"
 #include "preferences.h"
 
@@ -50,7 +52,7 @@ struct _GthFileToolResizePrivate {
 	double           aspect_ratio;
 	int              new_width;
 	int              new_height;
-	cairo_filter_t   filter;
+	gboolean         high_quality;
 	GthUnit          unit;
 };
 
@@ -113,10 +115,16 @@ update_pixbuf_size (GthFileToolResize *self)
 	GtkWidget *viewer_page;
 
 	cairo_surface_destroy (self->priv->new_image);
-	self->priv->new_image = _cairo_image_surface_scale_to (self->priv->original_image,
+
+	/*self->priv->new_image = _cairo_image_surface_scale_to (self->priv->original_image,
 							       self->priv->new_width,
 							       self->priv->new_height,
-							       self->priv->filter);
+							       self->priv->high_quality ? CAIRO_FILTER_GAUSSIAN : CAIRO_FILTER_NEAREST);*/
+
+	self->priv->new_image = _cairo_image_surface_scale (self->priv->original_image,
+							    self->priv->new_width,
+							    self->priv->new_height,
+							    self->priv->high_quality);
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_image, FALSE);
@@ -184,7 +192,7 @@ static void
 high_quality_checkbutton_toggled_cb (GtkToggleButton   *button,
 				     GthFileToolResize *self)
 {
-	self->priv->filter = gtk_toggle_button_get_active (button) ? CAIRO_FILTER_GAUSSIAN : CAIRO_FILTER_NEAREST;
+	self->priv->high_quality = gtk_toggle_button_get_active (button);
 	update_pixbuf_size (self);
 }
 
@@ -450,7 +458,7 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	self->priv->new_image = NULL;
 	self->priv->new_width = self->priv->original_width;
 	self->priv->new_height = self->priv->original_height;
-	self->priv->filter = g_settings_get_boolean (self->priv->settings, PREF_RESIZE_HIGH_QUALITY) ? CAIRO_FILTER_GAUSSIAN : CAIRO_FILTER_NEAREST;
+	self->priv->high_quality = g_settings_get_boolean (self->priv->settings, PREF_RESIZE_HIGH_QUALITY);
 	self->priv->unit = g_settings_get_enum (self->priv->settings, PREF_RESIZE_UNIT);
 	self->priv->builder = _gtk_builder_new_from_file ("resize-options.ui", "file_tools");
 
@@ -505,7 +513,7 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, TRUE, TRUE, 0);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("high_quality_checkbutton")),
-				      self->priv->filter != CAIRO_FILTER_NEAREST);
+				      self->priv->high_quality);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("invert_ratio_checkbutton")),
 				      g_settings_get_boolean (self->priv->settings, PREF_RESIZE_ASPECT_RATIO_INVERT));
 
@@ -566,6 +574,8 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox),
 				  g_settings_get_enum (self->priv->settings, PREF_RESIZE_ASPECT_RATIO));
 
+	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (viewer), GTH_ZOOM_QUALITY_LOW);
+
 	return options;
 }
 
@@ -577,6 +587,7 @@ gth_file_tool_resize_destroy_options (GthFileTool *base)
 	GtkWidget         *window;
 	GtkWidget         *viewer_page;
 	GtkWidget         *viewer;
+	GSettings         *viewer_settings;
 
 	self = (GthFileToolResize *) base;
 
@@ -609,6 +620,14 @@ gth_file_tool_resize_destroy_options (GthFileTool *base)
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
+
+	/* restore the zoom quality */
+
+	viewer_settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
+	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (viewer),
+					   g_settings_get_enum (viewer_settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
+
+	g_object_unref (viewer_settings);
 }
 
 
