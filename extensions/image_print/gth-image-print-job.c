@@ -1834,6 +1834,39 @@ gth_image_print_job_new (GList        *file_data_list,
 
 
 static void
+_gth_image_print_job_set_output_uri (GthImagePrintJob *self,
+				     GtkPrintSettings *settings)
+{
+	char       *basename;
+	const char *default_dir;
+	const char *ext;
+	char       *path;
+	char       *uri;
+
+	if (self->priv->n_images == 1)
+		basename = _g_uri_remove_extension (g_file_info_get_name (self->priv->images[0]->file_data->info));
+	else
+		basename = g_strdup (g_file_info_get_edit_name (gth_browser_get_location_data (self->priv->browser)->info));
+	default_dir = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+	if (default_dir == NULL)
+		default_dir = g_get_home_dir ();
+	ext = gtk_print_settings_get (settings, GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT);
+	if (ext == NULL) {
+		gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_OUTPUT_FILE_FORMAT, "pdf");
+		ext = "pdf";
+	}
+	path = g_strconcat (default_dir, G_DIR_SEPARATOR_S, basename, ".", ext, NULL);
+	uri = g_filename_to_uri (path, NULL, NULL);
+	if (uri != NULL)
+		gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_OUTPUT_URI, uri);
+
+	g_free (uri);
+	g_free (path);
+	g_free (basename);
+}
+
+
+static void
 load_image_info_task_completed_cb (GthTask  *task,
 				   GError   *error,
 				   gpointer  user_data)
@@ -1889,8 +1922,10 @@ load_image_info_task_completed_cb (GthTask  *task,
 	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "print_settings", NULL);
 	filename = g_file_get_path (file);
 	settings = gtk_print_settings_new_from_file (filename, NULL);
-	if (settings != NULL)
+	if (settings != NULL) {
+		_gth_image_print_job_set_output_uri (self, settings);
 		gtk_print_operation_set_print_settings (self->priv->print_operation, settings);
+	}
 	g_free (filename);
 	g_object_unref (file);
 
