@@ -52,7 +52,7 @@ gth_tga_saver_get_control (GthPixbufSaver *base)
 	GthTgaSaver *self = GTH_TGA_SAVER (base);
 
 	if (self->priv->builder == NULL)
-		self->priv->builder = _gtk_builder_new_from_file ("tga-options.ui", "pixbuf_savers");
+		self->priv->builder = _gtk_builder_new_from_file ("tga-options.ui", "cairo_io");
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tga_rle_compression_checkbutton")),
 				      g_settings_get_boolean (self->priv->settings, PREF_TGA_RLE_COMPRESSION));

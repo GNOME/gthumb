@@ -94,7 +94,7 @@ ci__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	GtkWidget        *label;
 
 	data = g_new0 (BrowserData, 1);
-	data->builder = _gtk_builder_new_from_file ("save-options-preferences.ui", "pixbuf_savers");
+	data->builder = _gtk_builder_new_from_file ("save-options-preferences.ui", "cairo_io");
 
 	notebook = _gtk_builder_get_widget (dialog_builder, "notebook");
 

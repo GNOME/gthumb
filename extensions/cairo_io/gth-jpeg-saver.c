@@ -79,7 +79,7 @@ gth_jpeg_saver_get_control (GthPixbufSaver *base)
 	int            active_idx;
 
 	if (self->priv->builder == NULL)
-		self->priv->builder = _gtk_builder_new_from_file ("jpeg-options.ui", "pixbuf_savers");
+		self->priv->builder = _gtk_builder_new_from_file ("jpeg-options.ui", "cairo_io");
 
 	active_idx = 0;
 	extensions = g_strsplit (gth_pixbuf_saver_get_extensions (base), " ", -1);
