@@ -33,9 +33,10 @@ typedef long gfixed;
 #define GFIXED_TO_INT(x)         ((x) >> 16)
 #define GFIXED_TO_DOUBLE(x)      (((double) (x)) / (1 << 16))
 #define GFIXED_ROUND_TO_INT(x)   (((x) + (1 << (16-1))) >> 16)
+#define GFIXED_0                 0L
 #define GFIXED_1                 65536L
 #define GFIXED_2                 131072L
-#define gfixed_mul(x, y)         ((((x) * (y)) + (1 << (16-1))) >> 16)
+#define gfixed_mul(x, y)         (((x) * (y)) >> 16)
 #define gfixed_div(x, y)         (((x) << 16) / (y))
 
 
@@ -189,14 +190,14 @@ resize_filter_create (filter_type_t filter)
 }
 
 
-static inline double
+static double inline
 resize_filter_get_support (resize_filter_t *resize_filter)
 {
 	return resize_filter->support;
 }
 
 
-static inline double
+static double inline
 resize_filter_get_weight (resize_filter_t *resize_filter,
 			  double           distance)
 {
@@ -219,22 +220,14 @@ reciprocal (double x)
 }
 
 
-static inline int
-clamp_pixel (double v)
-{
-	if (v <= 0.0)
-		return 0.0;
-	if (v >= 255.0)
-		return 255.0;
-	return (int) (v + 0.5);
-}
+#define CLAMP_PIXEL(v) (((v) <= 0) ? 0  : ((v) >= 255) ? 255 : (v));
 
 
 static void
-horizontal_scale_transpose (resize_filter_t *resize_filter,
-			    cairo_surface_t *image,
+horizontal_scale_transpose (cairo_surface_t *image,
 			    cairo_surface_t *scaled,
-			    double           scale_factor)
+			    double           scale_factor,
+			    resize_filter_t *resize_filter)
 {
 	double  scale;
 	double  support;
@@ -244,8 +237,7 @@ horizontal_scale_transpose (resize_filter_t *resize_filter,
         int     src_rowstride;
         int     dest_rowstride;
         double *weights;
-        guchar *p_src_row;
-        guchar *p_dest_pixel;
+        gfixed *fixed_weights;
 
         cairo_surface_flush (scaled);
 
@@ -261,57 +253,63 @@ horizontal_scale_transpose (resize_filter_t *resize_filter,
 	src_rowstride = cairo_image_surface_get_stride (image);
 	dest_rowstride = cairo_image_surface_get_stride (scaled);
 	weights = g_new (double, 2.0 * support + 3.0);
+	fixed_weights = g_new (gfixed, 2.0 * support + 3.0);
 
 	scale = reciprocal (scale);
 	for (y = 0; y < cairo_image_surface_get_height (scaled); y++) {
-		double bisect;
-		int    start;
-		int    stop;
-		double density;
-		int    n;
-		int    x;
+	        guchar *p_src_row;
+	        guchar *p_dest_pixel;
+		double  bisect;
+		int     start;
+		int     stop;
+		double  density;
+		int     n;
+		int     x;
+		int     i;
 
 		bisect = (y + 0.5) / scale_factor + EPSILON;
 		start = MAX (bisect - support + 0.5, 0.0);
 		stop = MIN (bisect + support + 0.5, cairo_image_surface_get_width (image));
-		density = 0.0;
 
+		density = 0.0;
 		for (n = 0; n < stop - start; n++) {
 			weights[n] = resize_filter_get_weight (resize_filter, scale * ((double) (start + n) - bisect + 0.5));
 			density += weights[n];
 		}
 
-		if ((density != 0.0) && (density != 1.0)) {
-			register int i;
-
-			density = reciprocal (density);
-			for (i = 0; i < n; i++)
-				weights[i] *= density;
-		}
+		density = reciprocal (density);
+		for (i = 0; i < n; i++)
+			fixed_weights[i] = GDOUBLE_TO_FIXED (weights[i] * density);
 
 		p_src_row = p_src;
 		p_dest_pixel = p_dest + (y * dest_rowstride);
 		for (x = 0; x < cairo_image_surface_get_width (scaled); x++) {
-			guchar       *p_src_pixel;
-			double        r, g, b, a;
-			register int  i;
+			guchar *p_src_pixel;
+			gfixed  r, g, b, a;
+			gfixed  w;
 
 			p_src_pixel = p_src_row + (start * 4);
-			r = g = b = a = 0.0;
+			r = g = b = a = GFIXED_0;
+
 			for (i = 0; i < n; i++) {
-				double w = weights[i];
-				r += w * p_src_pixel[CAIRO_RED];
-				g += w * p_src_pixel[CAIRO_GREEN];
-				b += w * p_src_pixel[CAIRO_BLUE];
-				a += w * p_src_pixel[CAIRO_ALPHA];
+				w = fixed_weights[i];
+				r += gfixed_mul (w, GINT_TO_FIXED (p_src_pixel[CAIRO_RED]));
+				g += gfixed_mul (w, GINT_TO_FIXED (p_src_pixel[CAIRO_GREEN]));
+				b += gfixed_mul (w, GINT_TO_FIXED (p_src_pixel[CAIRO_BLUE]));
+				a += gfixed_mul (w, GINT_TO_FIXED (p_src_pixel[CAIRO_ALPHA]));
 
 				p_src_pixel += 4;
 			}
 
-			p_dest_pixel[CAIRO_RED] = clamp_pixel (r);
-			p_dest_pixel[CAIRO_GREEN] = clamp_pixel (g);
-			p_dest_pixel[CAIRO_BLUE] = clamp_pixel (b);
-			p_dest_pixel[CAIRO_ALPHA] = clamp_pixel (a);
+			r = GFIXED_TO_INT (r);
+			g = GFIXED_TO_INT (g);
+			b = GFIXED_TO_INT (b);
+			a = GFIXED_TO_INT (a);
+
+			p_dest_pixel[CAIRO_RED] = CLAMP_PIXEL (r);
+			p_dest_pixel[CAIRO_GREEN] = CLAMP_PIXEL (g);
+			p_dest_pixel[CAIRO_BLUE] = CLAMP_PIXEL (b);
+			p_dest_pixel[CAIRO_ALPHA] = CLAMP_PIXEL (a);
 
 			p_dest_pixel += 4;
 			p_src_row += src_rowstride;
@@ -321,6 +319,7 @@ horizontal_scale_transpose (resize_filter_t *resize_filter,
 	cairo_surface_mark_dirty (scaled);
 
 	g_free (weights);
+	g_free (fixed_weights);
 }
 
 
@@ -358,8 +357,8 @@ _cairo_image_surface_scale_filter (cairo_surface_t *image,
 						  CAIRO_FORMAT_ARGB32,
 						  src_height,
 						  new_width);
-	horizontal_scale_transpose (resize_filter, image, tmp, x_factor);
-	horizontal_scale_transpose (resize_filter, tmp, scaled, y_factor);
+	horizontal_scale_transpose (image, tmp, x_factor, resize_filter);
+	horizontal_scale_transpose (tmp, scaled, y_factor, resize_filter);
 
 	resize_filter_destroy (resize_filter);
 	cairo_surface_destroy (tmp);
