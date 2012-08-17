@@ -29,30 +29,30 @@ enum-types.c: $(HEADER_FILES)
 		$^> xgen-$(@F) \
 	&& mv -f xgen-$(@F) enum-types.c )
 
-libcairo_io_la_SOURCES = 	\
-	cairo-io-png.c		\
-	cairo-io-png.h		\
-	gth-png-saver.c         \
-        gth-png-saver.h         \
-        gth-tga-saver.c         \
-        gth-tga-saver.h         \
-        gth-tiff-saver.c        \
-        gth-tiff-saver.h        \
-        preferences.c		\
+libcairo_io_la_SOURCES = 		\
+	cairo-image-surface-png.c	\
+	cairo-image-surface-png.h	\
+	gth-png-saver.c         	\
+        gth-png-saver.h         	\
+        gth-tga-saver.c         	\
+        gth-tga-saver.h         	\
+        gth-tiff-saver.c        	\
+        gth-tiff-saver.h        	\
+        preferences.c			\
 	main.c
 
 if ENABLE_JPEG_TOOLS
-libcairo_io_la_SOURCES +=	\
-	cairo-io-jpeg.c		\
-	cairo-io-jpeg.h		\
-        gth-jpeg-saver.c        \
+libcairo_io_la_SOURCES +=		\
+	cairo-image-surface-jpeg.c	\
+	cairo-image-surface-jpeg.h	\
+        gth-jpeg-saver.c        	\
         gth-jpeg-saver.h
 endif
 
 if ENABLE_LIBRSVG
-libcairo_io_la_SOURCES +=	\
-	cairo-io-svg.c		\
-	cairo-io-svg.h
+libcairo_io_la_SOURCES +=		\
+	cairo-image-surface-svg.c	\
+	cairo-image-surface-svg.h
 endif
 
 libcairo_io_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) $(LIBRSVG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb

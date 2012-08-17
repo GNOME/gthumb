@@ -23,7 +23,7 @@
 #include <gthumb.h>
 #include <librsvg/rsvg.h>
 #include <librsvg/rsvg-cairo.h>
-#include "cairo-io-svg.h"
+#include "cairo-image-surface-svg.h"
 
 
 /* GthImageSvg (private class) */

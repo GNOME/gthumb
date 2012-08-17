@@ -22,7 +22,7 @@
 #include <config.h>
 #include <png.h>
 #include <gthumb.h>
-#include "cairo-io-png.h"
+#include "cairo-image-surface-png.h"
 
 /* starting from libpng version 1.5 it is not possible
  * to access inside the PNG struct directly

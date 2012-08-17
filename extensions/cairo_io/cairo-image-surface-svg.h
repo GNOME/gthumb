@@ -19,8 +19,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAIRO_IO_SVG_H
-#define CAIRO_IO_SVG_H
+#ifndef CAIRO_IMAGE_SURFACE_SVG_H
+#define CAIRO_IMAGE_SURFACE_SVG_H
 
 #include <gtk/gtk.h>
 #include <gthumb.h>
@@ -37,4 +37,4 @@ GthImage *  _cairo_image_surface_create_from_svg (GthFileData   *file_data,
 
 G_END_DECLS
 
-#endif /* CAIRO_IO_SVG_H */
+#endif /* CAIRO_IMAGE_SURFACE_SVG_H */

@@ -28,7 +28,7 @@
 #include <gthumb.h>
 #include <extensions/jpeg_utils/jmemorysrc.h>
 #include <extensions/jpeg_utils/jpeg-info.h>
-#include "cairo-io-jpeg.h"
+#include "cairo-image-surface-jpeg.h"
 
 
 /* error handler data */

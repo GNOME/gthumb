@@ -19,22 +19,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAIRO_IO_PNG_H
-#define CAIRO_IO_PNG_H
+#ifndef CAIRO_IMAGE_SURFACE_JPEG_H
+#define CAIRO_IMAGE_SURFACE_JPEG_H
 
 #include <gtk/gtk.h>
 #include <gthumb.h>
 
 G_BEGIN_DECLS
 
-GthImage *  _cairo_image_surface_create_from_png (GthFileData   *file_data,
-						  int            requested_size,
-						  int           *original_width,
-						  int           *original_height,
-						  gpointer       user_data,
-						  GCancellable  *cancellable,
-						  GError       **error);
+GthImage *  _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
+						   int            requested_size,
+						   int           *original_width,
+						   int           *original_height,
+						   gpointer       user_data,
+						   GCancellable  *cancellable,
+						   GError       **error);
 
 G_END_DECLS
 
-#endif /* CAIRO_IO_PNG_H */
+#endif /* CAIRO_IMAGE_SURFACE_JPEG_H */

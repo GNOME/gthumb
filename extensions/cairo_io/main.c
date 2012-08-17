@@ -22,9 +22,9 @@
 
 #include <config.h>
 #include <gthumb.h>
-#include "cairo-io-jpeg.h"
-#include "cairo-io-png.h"
-#include "cairo-io-svg.h"
+#include "cairo-image-surface-jpeg.h"
+#include "cairo-image-surface-png.h"
+#include "cairo-image-surface-svg.h"
 #include "gth-jpeg-saver.h"
 #include "gth-png-saver.h"
 #include "gth-tga-saver.h"
