@@ -160,10 +160,6 @@ cairo_surface_t *  _cairo_image_surface_copy_subsurface     (cairo_surface_t    
 				      	      	      	     int                    height);
 cairo_surface_t *  _cairo_image_surface_create_from_pixbuf  (GdkPixbuf             *pixbuf);
 cairo_surface_t *  _cairo_image_surface_create_compatible   (cairo_surface_t       *surface);
-cairo_surface_t *  _cairo_image_surface_scale_to            (cairo_surface_t       *surface,
-							     int                    width,
-							     int                    height,
-							     cairo_filter_t         filter);
 void               _cairo_image_surface_transform_get_steps (cairo_format_t         format,
 							     int                    width,
 							     int                    height,
@@ -210,7 +206,7 @@ void              _cairo_draw_slide                         (cairo_t            
 		   	   	   	   	 	     double                 image_height,
 		   	   	   	   	 	     GdkColor              *frame_color,
 		   	   	   	   	 	     gboolean               draw_inner_border);
-void              _cairo_paint_grid                          (cairo_t              *cr,
+void              _cairo_paint_grid                         (cairo_t               *cr,
 							     cairo_rectangle_int_t *rectangle,
 							     GthGridType            grid_type);
 

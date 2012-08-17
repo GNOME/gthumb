@@ -147,7 +147,7 @@ update_image_surface (GthImageLineTool *self)
 	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
 	max_size = MAX (allocation.width, allocation.height) / G_SQRT2 + 2;
 	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE))
-		preview_image = _cairo_image_surface_scale_to (image, width, height, CAIRO_FILTER_BILINEAR);
+		preview_image = _cairo_image_surface_scale (image, width, height, SCALE_FILTER_BEST, NULL);
 	else
 		preview_image = cairo_surface_reference (image);
 

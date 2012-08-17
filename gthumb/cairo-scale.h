@@ -19,19 +19,34 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAIRO_ROTATE_H
-#define CAIRO_ROTATE_H
+#ifndef CAIRO_SCALE_H
+#define CAIRO_SCALE_H
 
 #include <glib.h>
-#include <gdk/gdk.h>
+#include "gth-async-task.h"
 
 G_BEGIN_DECLS
 
-cairo_surface_t *  _cairo_image_surface_scale  (cairo_surface_t *image,
-						int              width,
-						int              height,
-						gboolean         high_quality);
+
+typedef enum /*< skip >*/ {
+	SCALE_FILTER_POINT = 0,
+	SCALE_FILTER_BOX,
+	SCALE_FILTER_TRIANGLE,
+	SCALE_FILTER_LANCZOS,
+	N_SCALE_FILTERS,
+
+	SCALE_FILTER_FAST = SCALE_FILTER_POINT,
+	SCALE_FILTER_GOOD = SCALE_FILTER_BOX,
+	SCALE_FILTER_BEST = SCALE_FILTER_LANCZOS
+} scale_filter_t;
+
+
+cairo_surface_t *  _cairo_image_surface_scale  (cairo_surface_t  *image,
+						int               width,
+						int               height,
+						scale_filter_t    quality,
+						GthAsyncTask     *task);
 
 G_END_DECLS
 
-#endif /* CAIRO_ROTATE_H */
+#endif /* CAIRO_SCALE_H */

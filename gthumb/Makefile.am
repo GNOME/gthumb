@@ -24,6 +24,7 @@ PUBLIC_BUILT_HEADER_FILES =				\
 
 PUBLIC_HEADER_FILES = 					\
 	$(PUBLIC_BUILT_HEADER_FILES)			\
+	cairo-scale.h					\
 	cairo-utils.h					\
 	dom.h						\
 	egg-macros.h					\
@@ -146,6 +147,7 @@ gthumb_SOURCES = 					\
 	$(EXTERNAL)					\
 	$(PUBLIC_HEADER_FILES)				\
 	$(PRIVATE_HEADER_FILES)				\
+	cairo-scale.c					\
 	cairo-utils.c					\
 	dlg-location.c					\
 	dlg-personalize-filters.c			\

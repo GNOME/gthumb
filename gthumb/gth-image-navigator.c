@@ -22,7 +22,7 @@
 #include <config.h>
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
-#include "cairo-utils.h"
+#include "cairo-scale.h"
 #include "gth-image-navigator.h"
 #include "gth-image-viewer.h"
 #include "gtk-utils.h"
@@ -393,10 +393,11 @@ update_popup_geometry (NavigatorPopup *nav_popup)
 	nav_popup->popup_height = MAX ((int) floor (nav_popup->zoom_factor * zoomed_height + 0.5), 1);
 
 	cairo_surface_destroy (nav_popup->image);
-	nav_popup->image = _cairo_image_surface_scale_to (gth_image_viewer_get_current_image (nav_popup->viewer),
-							  nav_popup->popup_width,
-							  nav_popup->popup_height,
-							  CAIRO_FILTER_GOOD);
+	nav_popup->image = _cairo_image_surface_scale (gth_image_viewer_get_current_image (nav_popup->viewer),
+						       nav_popup->popup_width,
+						       nav_popup->popup_height,
+						       SCALE_FILTER_GOOD,
+						       NULL);
 
 	/* visible area size */
 

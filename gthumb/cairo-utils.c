@@ -340,29 +340,6 @@ _cairo_image_surface_create_compatible (cairo_surface_t *surface)
 }
 
 
-cairo_surface_t *
-_cairo_image_surface_scale_to (cairo_surface_t *surface,
-			       int              width,
-			       int              height,
-			       cairo_filter_t   filter)
-{
-	cairo_surface_t *scaled;
-	cairo_t         *cr;
-
-	scaled = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
-	cr = cairo_create (scaled);
-	cairo_scale (cr, (double) width / cairo_image_surface_get_width (surface), (double) height / cairo_image_surface_get_height (surface));
-	cairo_set_source_surface (cr, surface, 0, 0);
-	cairo_pattern_set_filter (cairo_get_source (cr), filter);
-	cairo_rectangle (cr, 0, 0, cairo_image_surface_get_width (surface), cairo_image_surface_get_height (surface));
-	cairo_fill (cr);
-
-	cairo_destroy (cr);
-
-	return scaled;
-}
-
-
 void
 _cairo_image_surface_transform_get_steps (cairo_format_t  format,
 					  int             width,

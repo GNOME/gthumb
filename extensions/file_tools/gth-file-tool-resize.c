@@ -24,7 +24,6 @@
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
 #include <extensions/image_viewer/preferences.h>
-#include "cairo-scale.h"
 #include "gth-file-tool-resize.h"
 #include "preferences.h"
 
@@ -128,7 +127,8 @@ update_pixbuf_size (GthFileToolResize *self)
 	self->priv->new_image = _cairo_image_surface_scale (self->priv->original_image,
 							    self->priv->new_width,
 							    self->priv->new_height,
-							    self->priv->high_quality);
+							    (self->priv->high_quality ? SCALE_FILTER_BEST : SCALE_FILTER_FAST),
+							    NULL);
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_image, FALSE);

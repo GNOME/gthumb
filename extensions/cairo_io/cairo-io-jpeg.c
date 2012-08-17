@@ -497,7 +497,7 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 			width = destination_width;
 			height = destination_height;
 			scale_keeping_ratio (&width, &height, requested_size, requested_size, TRUE);
-			scaled = _cairo_image_surface_scale_to (surface, width, height, CAIRO_FILTER_BILINEAR);
+			scaled = _cairo_image_surface_scale (surface, width, height, SCALE_FILTER_BEST, NULL);
 
 			cairo_surface_destroy (surface);
 			surface = scaled;

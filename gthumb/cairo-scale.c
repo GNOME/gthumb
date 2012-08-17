@@ -19,12 +19,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <config.h>
+#include <string.h>
 #include <math.h>
-#include <gthumb.h>
+#include <cairo.h>
+#include "cairo-utils.h"
 #include "cairo-scale.h"
-
-
-/* -- _cairo_image_surface_scale_nearest -- */
 
 
 typedef long gfixed;
@@ -40,7 +40,13 @@ typedef long gfixed;
 #define gfixed_div(x, y)         (((x) << 16) / (y))
 
 
-cairo_surface_t *
+#if 0
+
+
+/* -- _cairo_image_surface_scale_nearest -- */
+
+
+static cairo_surface_t *
 _cairo_image_surface_scale_nearest (cairo_surface_t *image,
 				    int              new_width,
 				    int              new_height)
@@ -110,22 +116,20 @@ _cairo_image_surface_scale_nearest (cairo_surface_t *image,
 }
 
 
-/* -- _cairo_image_surface_scale_filter -- */
+#endif
+
+
+/* -- _cairo_image_surface_scale_filter --
+ *
+ * Based on code from ImageMagick/magick/resize.c
+ *
+ * */
 
 
 #define EPSILON ((double) 1.0e-16)
 
 
 typedef double (*weight_func_t) (double distance);
-
-
-typedef enum {
-	FILTER_POINT = 0,
-	FILTER_BOX,
-	FILTER_TRIANGLE,
-	FILTER_QUADRATIC,
-	N_FILTERS
-} filter_type_t;
 
 
 static double
@@ -143,16 +147,35 @@ triangle (double x)
 
 
 static double
-quadratic (double x)
+sinc_fast (double x)
 {
-	/*
-	 * 2rd order (quadratic) B-Spline approximation of Gaussian.
-	 */
-	if (x < 0.5)
-		return 0.75 - x * x;
-	if (x < 1.5)
-		return 0.5 * (x - 1.5) * (x - 1.5);
-	return 0.0;
+	if (x > 4.0) {
+		const double alpha = G_PI * x;
+		return sin (alpha) / alpha;
+	}
+
+	{
+		/*
+		 * The approximations only depend on x^2 (sinc is an even function).
+		 */
+
+		const double xx = x*x;
+
+		/*
+		 * Maximum absolute relative error 6.3e-6 < 1/2^17.
+		 */
+		const double c0 = 0.173610016489197553621906385078711564924e-2L;
+		const double c1 = -0.384186115075660162081071290162149315834e-3L;
+		const double c2 = 0.393684603287860108352720146121813443561e-4L;
+		const double c3 = -0.248947210682259168029030370205389323899e-5L;
+		const double c4 = 0.107791837839662283066379987646635416692e-6L;
+		const double c5 = -0.324874073895735800961260474028013982211e-8L;
+		const double c6 = 0.628155216606695311524920882748052490116e-10L;
+		const double c7 = -0.586110644039348333520104379959307242711e-12L;
+		const double p = c0+xx*(c1+xx*(c2+xx*(c3+xx*(c4+xx*(c5+xx*(c6+xx*c7))))));
+
+		return (xx-1.0)*(xx-4.0)*(xx-9.0)*(xx-16.0)*p;
+	}
 }
 
 
@@ -160,11 +183,11 @@ static struct {
 	weight_func_t weight_func;
 	double        support;
 }
-const filters[N_FILTERS] = {
+const filters[N_SCALE_FILTERS] = {
 	{ box,		 .0 },
 	{ box,		 .5 },
 	{ triangle,	1.0 },
-	{ quadratic,	1.5 }
+	{ sinc_fast,	3.0 }
 };
 
 
@@ -172,19 +195,28 @@ const filters[N_FILTERS] = {
 
 
 typedef struct {
-	weight_func_t weight_func;
-	double        support;
+	weight_func_t  weight_func;
+	double         support;
+	GthAsyncTask  *task;
+	gulong         total_lines;
+	gulong         processed_lines;
+	gboolean       cancelled;
 } resize_filter_t;
 
 
 static resize_filter_t *
-resize_filter_create (filter_type_t filter)
+resize_filter_create (scale_filter_t  filter_type,
+		      GthAsyncTask   *task)
 {
 	resize_filter_t *resize_filter;
 
 	resize_filter = g_slice_new (resize_filter_t);
-	resize_filter->weight_func = filters[filter].weight_func;
-	resize_filter->support = filters[filter].support;
+	resize_filter->weight_func = filters[filter_type].weight_func;
+	resize_filter->support = filters[filter_type].support;
+	resize_filter->task = task;
+	resize_filter->total_lines = 0;
+	resize_filter->processed_lines = 0;
+	resize_filter->cancelled = FALSE;
 
 	return resize_filter;
 }
@@ -201,7 +233,12 @@ static double inline
 resize_filter_get_weight (resize_filter_t *resize_filter,
 			  double           distance)
 {
-	return resize_filter->weight_func (fabs (distance));
+	double scale = 1.0;
+
+	if (resize_filter->weight_func == sinc_fast)
+		scale = resize_filter->weight_func (fabs (distance));
+
+	return scale * resize_filter->weight_func (fabs (distance));
 }
 
 
@@ -229,15 +266,18 @@ horizontal_scale_transpose (cairo_surface_t *image,
 			    double           scale_factor,
 			    resize_filter_t *resize_filter)
 {
-	double  scale;
-	double  support;
-	int     y;
-	guchar *p_src;
-        guchar *p_dest;
-        int     src_rowstride;
-        int     dest_rowstride;
-        double *weights;
-        gfixed *fixed_weights;
+	double    scale;
+	double    support;
+	int       y;
+	guchar   *p_src;
+        guchar   *p_dest;
+        int       src_rowstride;
+        int       dest_rowstride;
+        double   *weights;
+        gfixed   *fixed_weights;
+
+	if (resize_filter->cancelled)
+		return;
 
         cairo_surface_flush (scaled);
 
@@ -256,7 +296,7 @@ horizontal_scale_transpose (cairo_surface_t *image,
 	fixed_weights = g_new (gfixed, 2.0 * support + 3.0);
 
 	scale = reciprocal (scale);
-	for (y = 0; y < cairo_image_surface_get_height (scaled); y++) {
+	for (y = 0; ! resize_filter->cancelled && (y < cairo_image_surface_get_height (scaled)); y++) {
 	        guchar *p_src_row;
 	        guchar *p_dest_pixel;
 		double  bisect;
@@ -266,6 +306,11 @@ horizontal_scale_transpose (cairo_surface_t *image,
 		int     n;
 		int     x;
 		int     i;
+
+		if (resize_filter->task != NULL) {
+			double progress = (double) resize_filter->processed_lines++ / resize_filter->total_lines;
+			gth_async_task_set_data (resize_filter->task, NULL, NULL, &progress);
+		}
 
 		bisect = (y + 0.5) / scale_factor + EPSILON;
 		start = MAX (bisect - support + 0.5, 0.0);
@@ -278,8 +323,10 @@ horizontal_scale_transpose (cairo_surface_t *image,
 		}
 
 		density = reciprocal (density);
-		for (i = 0; i < n; i++)
-			fixed_weights[i] = GDOUBLE_TO_FIXED (weights[i] * density);
+		for (i = 0; i < n; i++) {
+			double w = weights[i] * density;
+			fixed_weights[i] = GDOUBLE_TO_FIXED (w);
+		}
 
 		p_src_row = p_src;
 		p_dest_pixel = p_dest + (y * dest_rowstride);
@@ -287,6 +334,12 @@ horizontal_scale_transpose (cairo_surface_t *image,
 			guchar *p_src_pixel;
 			gfixed  r, g, b, a;
 			gfixed  w;
+
+			if (resize_filter->task != NULL) {
+				gth_async_task_get_data (resize_filter->task, NULL, &resize_filter->cancelled, NULL);
+				if (resize_filter->cancelled)
+					break;
+			}
 
 			p_src_pixel = p_src_row + (start * 4);
 			r = g = b = a = GFIXED_0;
@@ -323,11 +376,12 @@ horizontal_scale_transpose (cairo_surface_t *image,
 }
 
 
-cairo_surface_t *
+static cairo_surface_t *
 _cairo_image_surface_scale_filter (cairo_surface_t *image,
 				   int              new_width,
 				   int              new_height,
-				   filter_type_t    filter)
+				   scale_filter_t   filter,
+				   GthAsyncTask    *task)
 {
 	int              src_width;
 	int              src_height;
@@ -350,7 +404,10 @@ _cairo_image_surface_scale_filter (cairo_surface_t *image,
 	if (scaled == NULL)
 		return NULL;
 
-	resize_filter = resize_filter_create (filter);
+	resize_filter = resize_filter_create (filter, task);
+	resize_filter->total_lines = new_width + new_height;
+	resize_filter->processed_lines = 0;
+
 	x_factor = (double) new_width / src_width;
 	y_factor = (double) new_height / src_height;
 	tmp = cairo_surface_create_similar_image (image,
@@ -360,6 +417,12 @@ _cairo_image_surface_scale_filter (cairo_surface_t *image,
 	horizontal_scale_transpose (image, tmp, x_factor, resize_filter);
 	horizontal_scale_transpose (tmp, scaled, y_factor, resize_filter);
 
+	/* FIXME
+	if (resize_filter->task != NULL) {
+		gboolean terminated = TRUE;
+		gth_async_task_set_data (resize_filter->task, &terminated, NULL, NULL);
+	}*/
+
 	resize_filter_destroy (resize_filter);
 	cairo_surface_destroy (tmp);
 
@@ -368,32 +431,15 @@ _cairo_image_surface_scale_filter (cairo_surface_t *image,
 
 
 cairo_surface_t *
-_cairo_image_surface_scale (cairo_surface_t *image,
-			    int              scaled_width,
-			    int              scaled_height,
-			    gboolean         high_quality)
+_cairo_image_surface_scale (cairo_surface_t  *image,
+			    int               scaled_width,
+			    int               scaled_height,
+			    scale_filter_t    filter,
+			    GthAsyncTask     *task)
 {
-#if 0
-
-	GdkPixbuf       *p;
-	GdkPixbuf       *scaled_p;
-	cairo_surface_t *scaled;
-
-	p = _gdk_pixbuf_new_from_cairo_surface (image);
-	scaled_p = _gdk_pixbuf_scale_simple_safe (p, scaled_width, scaled_height, high_quality ? GDK_INTERP_BILINEAR : GDK_INTERP_NEAREST);
-	scaled = _cairo_image_surface_create_from_pixbuf (scaled_p);
-
-	g_object_unref (scaled_p);
-	g_object_unref (p);
-
-	return scaled;
-
-#else
-
-	if (high_quality)
-		return _cairo_image_surface_scale_filter (image, scaled_width, scaled_height, FILTER_TRIANGLE);
-	else
-		return _cairo_image_surface_scale_nearest (image, scaled_width, scaled_height);
-
-#endif
+	return _cairo_image_surface_scale_filter (image,
+						  scaled_width,
+						  scaled_height,
+						  filter,
+						  task);
 }
