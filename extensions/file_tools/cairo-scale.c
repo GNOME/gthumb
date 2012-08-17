@@ -112,7 +112,6 @@ _cairo_image_surface_scale_nearest (cairo_surface_t *image,
 /* -- _cairo_image_surface_scale_filter -- */
 
 
-#define WORKLOAD_FACTOR 0.265
 #define EPSILON ((double) 1.0e-16)
 
 
@@ -232,14 +231,14 @@ clamp_pixel (double v)
 
 
 static void
-horizontal_scale (resize_filter_t *resize_filter,
-		  cairo_surface_t *image,
-		  cairo_surface_t *scaled,
-		  double           x_factor)
+horizontal_scale_transpose (resize_filter_t *resize_filter,
+			    cairo_surface_t *image,
+			    cairo_surface_t *scaled,
+			    double           scale_factor)
 {
 	double  scale;
 	double  support;
-	int     x;
+	int     y;
 	guchar *p_src;
         guchar *p_dest;
         int     src_rowstride;
@@ -250,101 +249,7 @@ horizontal_scale (resize_filter_t *resize_filter,
 
         cairo_surface_flush (scaled);
 
-	scale = MAX (1.0 / x_factor + EPSILON, 1.0);
-	support = scale * resize_filter_get_support (resize_filter);
-	if (support < 0.5) {
-		support = 0.5;
-		scale = 1.0;
-	}
-
-	p_src = cairo_image_surface_get_data (image);
-	p_dest = cairo_image_surface_get_data (scaled);
-	src_rowstride = cairo_image_surface_get_stride (image);
-	dest_rowstride = cairo_image_surface_get_stride (scaled);
-	weights = g_new (double, 2.0 * support + 3.0);
-
-	scale = reciprocal (scale);
-	for (x = 0; x < cairo_image_surface_get_width (scaled); x++) {
-		double bisect;
-		int    start;
-		int    stop;
-		double density;
-		int    n;
-		int    y;
-
-		bisect = (x + 0.5) / x_factor + EPSILON;
-		start = MAX (bisect - support + 0.5, 0.0);
-		stop = MIN (bisect + support + 0.5, cairo_image_surface_get_width (image));
-		density = 0.0;
-
-		for (n = 0; n < stop - start; n++) {
-			weights[n] = resize_filter_get_weight (resize_filter, scale * ((double) (start + n) - bisect + 0.5));
-			density += weights[n];
-		}
-
-		if ((density != 0.0) && (density != 1.0)) {
-			register int i;
-
-			density = reciprocal (density);
-			for (i = 0; i < n; i++)
-				weights[i] *= density;
-		}
-
-		p_src_row = p_src;
-		p_dest_pixel = p_dest + (x * 4);
-		for (y = 0; y < cairo_image_surface_get_height (scaled); y++) {
-			guchar       *p_src_pixel;
-			double        r, g, b, a;
-			register int  i;
-
-			p_src_pixel = p_src_row + (start * 4);
-			r = g = b = a = 0.0;
-			for (i = 0; i < n; i++) {
-				double w = weights[i];
-				r += w * p_src_pixel[CAIRO_RED];
-				g += w * p_src_pixel[CAIRO_GREEN];
-				b += w * p_src_pixel[CAIRO_BLUE];
-				a += w * p_src_pixel[CAIRO_ALPHA];
-
-				p_src_pixel += 4;
-			}
-
-			p_dest_pixel[CAIRO_RED] = clamp_pixel (r);
-			p_dest_pixel[CAIRO_GREEN] = clamp_pixel (g);
-			p_dest_pixel[CAIRO_BLUE] = clamp_pixel (b);
-			p_dest_pixel[CAIRO_ALPHA] = clamp_pixel (a);
-
-			p_dest_pixel += dest_rowstride;
-			p_src_row += src_rowstride;
-		}
-	}
-
-	cairo_surface_mark_dirty (scaled);
-
-	g_free (weights);
-}
-
-
-static void
-vertical_scale (resize_filter_t *resize_filter,
-		cairo_surface_t *image,
-		cairo_surface_t *scaled,
-		double           y_factor)
-{
-	double  scale;
-	double  support;
-	int     y;
-	guchar *p_src;
-        guchar *p_dest;
-        int     src_rowstride;
-        int     dest_rowstride;
-        double *weights;
-        guchar *p_src_col;
-        guchar *p_dest_pixel;
-
-        cairo_surface_flush (scaled);
-
-	scale = MAX (1.0 / y_factor + EPSILON, 1.0);
+	scale = MAX (1.0 / scale_factor + EPSILON, 1.0);
 	support = scale * resize_filter_get_support (resize_filter);
 	if (support < 0.5) {
 		support = 0.5;
@@ -366,9 +271,9 @@ vertical_scale (resize_filter_t *resize_filter,
 		int    n;
 		int    x;
 
-		bisect = (y + 0.5) / y_factor + EPSILON;
+		bisect = (y + 0.5) / scale_factor + EPSILON;
 		start = MAX (bisect - support + 0.5, 0.0);
-		stop = MIN (bisect + support + 0.5, cairo_image_surface_get_height (image));
+		stop = MIN (bisect + support + 0.5, cairo_image_surface_get_width (image));
 		density = 0.0;
 
 		for (n = 0; n < stop - start; n++) {
@@ -384,14 +289,14 @@ vertical_scale (resize_filter_t *resize_filter,
 				weights[i] *= density;
 		}
 
-		p_src_col = p_src + (start * src_rowstride);
+		p_src_row = p_src;
 		p_dest_pixel = p_dest + (y * dest_rowstride);
 		for (x = 0; x < cairo_image_surface_get_width (scaled); x++) {
 			guchar       *p_src_pixel;
 			double        r, g, b, a;
 			register int  i;
 
-			p_src_pixel = p_src_col;
+			p_src_pixel = p_src_row + (start * 4);
 			r = g = b = a = 0.0;
 			for (i = 0; i < n; i++) {
 				double w = weights[i];
@@ -400,7 +305,7 @@ vertical_scale (resize_filter_t *resize_filter,
 				b += w * p_src_pixel[CAIRO_BLUE];
 				a += w * p_src_pixel[CAIRO_ALPHA];
 
-				p_src_pixel += src_rowstride;
+				p_src_pixel += 4;
 			}
 
 			p_dest_pixel[CAIRO_RED] = clamp_pixel (r);
@@ -409,7 +314,7 @@ vertical_scale (resize_filter_t *resize_filter,
 			p_dest_pixel[CAIRO_ALPHA] = clamp_pixel (a);
 
 			p_dest_pixel += 4;
-			p_src_col += 4;
+			p_src_row += src_rowstride;
 		}
 	}
 
@@ -449,23 +354,12 @@ _cairo_image_surface_scale_filter (cairo_surface_t *image,
 	resize_filter = resize_filter_create (filter);
 	x_factor = (double) new_width / src_width;
 	y_factor = (double) new_height / src_height;
-	if (x_factor * y_factor > WORKLOAD_FACTOR) {
-		tmp = cairo_surface_create_similar_image (image,
-							  CAIRO_FORMAT_ARGB32,
-							  new_width,
-							  src_height);
-
-		horizontal_scale (resize_filter, image, tmp, x_factor);
-		vertical_scale (resize_filter, tmp, scaled, y_factor);
-	}
-	else {
-		tmp = cairo_surface_create_similar_image (image,
-							  CAIRO_FORMAT_ARGB32,
-							  src_width,
-							  new_height);
-		vertical_scale (resize_filter, image, tmp, y_factor);
-		horizontal_scale (resize_filter, tmp, scaled, x_factor);
-	}
+	tmp = cairo_surface_create_similar_image (image,
+						  CAIRO_FORMAT_ARGB32,
+						  src_height,
+						  new_width);
+	horizontal_scale_transpose (resize_filter, image, tmp, x_factor);
+	horizontal_scale_transpose (resize_filter, tmp, scaled, y_factor);
 
 	resize_filter_destroy (resize_filter);
 	cairo_surface_destroy (tmp);
