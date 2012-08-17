@@ -79,7 +79,7 @@ treeselection_changed_cb (GtkTreeSelection *treeselection,
 
 
 void
-so__dlg_preferences_construct_cb (GtkWidget  *dialog,
+ci__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				  GthBrowser *browser,
 				  GtkBuilder *dialog_builder)
 {
@@ -144,7 +144,7 @@ so__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 
 void
-so__dlg_preferences_apply_cb (GtkWidget  *dialog,
+ci__dlg_preferences_apply_cb (GtkWidget  *dialog,
 			      GthBrowser *browser,
 			      GtkBuilder *builder)
 {

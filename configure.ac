@@ -5,9 +5,9 @@ m4_define([gthumb_version],
           [gthumb_major_version.gthumb_minor_version.gthumb_micro_version])
 m4_define([gthumb_api_version],
           [gthumb_major_version.gthumb_minor_version])
-                    
+
 AC_PREREQ(2.63)
-AC_INIT([gthumb], [gthumb_version], 
+AC_INIT([gthumb], [gthumb_version],
         [http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb],
         [gthumb])
 AM_INIT_AUTOMAKE([1.11 foreign no-dist-gzip dist-xz tar-ustar])
@@ -452,7 +452,7 @@ if test x$enable_librsvg = xyes ; then
 			  [enable_librsvg=no])
 	if test "x$enable_librsvg" = "xyes"; then
 		AC_DEFINE(HAVE_LIBRSVG, 1, [Define to 1 if librsvg support is included])
-	fi			  
+	fi
 fi
 AC_SUBST(LIBRSVG_LIBS)
 AC_SUBST(LIBRSVG_CFLAGS)
@@ -610,6 +610,8 @@ extensions/burn_disc/Makefile
 extensions/burn_disc/data/Makefile
 extensions/burn_disc/data/ui/Makefile
 extensions/cairo_io/Makefile
+extensions/cairo_io/data/Makefile
+extensions/cairo_io/data/ui/Makefile
 extensions/catalogs/Makefile
 extensions/catalogs/data/Makefile
 extensions/catalogs/data/ui/Makefile
@@ -680,9 +682,6 @@ extensions/photobucket/data/ui/Makefile
 extensions/picasaweb/Makefile
 extensions/picasaweb/data/Makefile
 extensions/picasaweb/data/ui/Makefile
-extensions/pixbuf_savers/Makefile
-extensions/pixbuf_savers/data/Makefile
-extensions/pixbuf_savers/data/ui/Makefile
 extensions/raw_files/Makefile
 extensions/red_eye_removal/Makefile
 extensions/red_eye_removal/data/Makefile

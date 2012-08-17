@@ -64,10 +64,10 @@ typedef enum {
 #define  PREF_TIFF_VERTICAL_RES           "vertical-resolution"
 
 
-void so__dlg_preferences_construct_cb (GtkWidget  *dialog,
+void ci__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				       GthBrowser *browser,
 				       GtkBuilder *builder);
-void so__dlg_preferences_apply_cb     (GtkWidget  *dialog,
+void ci__dlg_preferences_apply_cb     (GtkWidget  *dialog,
 				       GthBrowser *browser,
 				       GtkBuilder *builder);
 

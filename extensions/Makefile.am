@@ -51,7 +51,6 @@ SUBDIRS = 			\
 	list_tools		\
 	map_view		\
 	oauth			\
-	pixbuf_savers		\
 	raw_files		\
 	rename_series 		\
 	resize_images		\

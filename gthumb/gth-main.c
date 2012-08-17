@@ -1202,7 +1202,6 @@ gth_main_activate_extensions (void)
 						"photo_importer",
 						"photobucket",
 						"picasaweb",
-						"pixbuf_savers",
 						"raw_files",
 						"red_eye_removal",
 						"rename_series",

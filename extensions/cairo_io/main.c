@@ -25,27 +25,45 @@
 #include "cairo-io-jpeg.h"
 #include "cairo-io-png.h"
 #include "cairo-io-svg.h"
+#include "gth-jpeg-saver.h"
+#include "gth-png-saver.h"
+#include "gth-tga-saver.h"
+#include "gth-tiff-saver.h"
+#include "preferences.h"
 
 
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
 #ifdef HAVE_LIBJPEG
+
 	gth_main_register_image_loader_func (_cairo_image_surface_create_from_jpeg,
 					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
 					     "image/jpeg",
 					     NULL);
+	gth_main_register_type ("pixbuf-saver", GTH_TYPE_JPEG_SAVER);
+
 #endif
+
 	gth_main_register_image_loader_func (_cairo_image_surface_create_from_png,
 					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
 					     "image/png",
 					     NULL);
+
 #ifdef HAVE_LIBRSVG
+
 	gth_main_register_image_loader_func (_cairo_image_surface_create_from_svg,
 					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
 					     "image/svg+xml",
 					     NULL);
+
 #endif
+
+	gth_main_register_type ("pixbuf-saver", GTH_TYPE_PNG_SAVER);
+	gth_main_register_type ("pixbuf-saver", GTH_TYPE_TGA_SAVER);
+	gth_main_register_type ("pixbuf-saver", GTH_TYPE_TIFF_SAVER);
+	gth_hook_add_callback ("dlg-preferences-construct", 30, G_CALLBACK (ci__dlg_preferences_construct_cb), NULL);
+	gth_hook_add_callback ("dlg-preferences-apply", 10, G_CALLBACK (ci__dlg_preferences_apply_cb), NULL);
 }
 
 
