@@ -26,14 +26,14 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "enum-types.h"
-#include "gth-tiff-saver.h"
+#include "gth-image-saver-tiff.h"
 #include "preferences.h"
 
 
-G_DEFINE_TYPE (GthTiffSaver, gth_tiff_saver, GTH_TYPE_PIXBUF_SAVER)
+G_DEFINE_TYPE (GthImageSaverTiff, gth_image_saver_tiff, GTH_TYPE_PIXBUF_SAVER)
 
 
-struct _GthTiffSaverPrivate {
+struct _GthImageSaverTiffPrivate {
 	GSettings  *settings;
 	GtkBuilder *builder;
 	char       *default_ext;
@@ -41,22 +41,22 @@ struct _GthTiffSaverPrivate {
 
 
 static void
-gth_tiff_saver_finalize (GObject *object)
+gth_image_saver_tiff_finalize (GObject *object)
 {
-	GthTiffSaver *self = GTH_TIFF_SAVER (object);
+	GthImageSaverTiff *self = GTH_IMAGE_SAVER_TIFF (object);
 
 	_g_object_unref (self->priv->settings);
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->default_ext);
 
-	G_OBJECT_CLASS (gth_tiff_saver_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_saver_tiff_parent_class)->finalize (object);
 }
 
 
 static const char *
-gth_tiff_saver_get_default_ext (GthPixbufSaver *base)
+gth_image_saver_tiff_get_default_ext (GthPixbufSaver *base)
 {
-	GthTiffSaver *self = GTH_TIFF_SAVER (base);
+	GthImageSaverTiff *self = GTH_IMAGE_SAVER_TIFF (base);
 
 	if (self->priv->default_ext == NULL)
 		self->priv->default_ext = g_settings_get_string (self->priv->settings, PREF_TIFF_DEFAULT_EXT);
@@ -66,11 +66,11 @@ gth_tiff_saver_get_default_ext (GthPixbufSaver *base)
 
 
 static GtkWidget *
-gth_tiff_saver_get_control (GthPixbufSaver *base)
+gth_image_saver_tiff_get_control (GthPixbufSaver *base)
 {
 #ifdef HAVE_LIBTIFF
 
-	GthTiffSaver       *self = GTH_TIFF_SAVER (base);
+	GthImageSaverTiff  *self = GTH_IMAGE_SAVER_TIFF (base);
 	char              **extensions;
 	int                 i;
 	int                 active_idx;
@@ -117,18 +117,18 @@ gth_tiff_saver_get_control (GthPixbufSaver *base)
 
 #else /* ! HAVE_LIBTIFF */
 
-	return GTH_PIXBUF_SAVER_CLASS (gth_tiff_saver_parent_class)->get_control (base);
+	return GTH_PIXBUF_SAVER_CLASS (gth_image_saver_tiff_parent_class)->get_control (base);
 
 #endif /* HAVE_LIBTIFF */
 }
 
 
 static void
-gth_tiff_saver_save_options (GthPixbufSaver *base)
+gth_image_saver_tiff_save_options (GthPixbufSaver *base)
 {
 #ifdef HAVE_LIBTIFF
 
-	GthTiffSaver       *self = GTH_TIFF_SAVER (base);
+	GthImageSaverTiff  *self = GTH_IMAGE_SAVER_TIFF (base);
 	GtkTreeIter         iter;
 	GthTiffCompression  compression_type;
 
@@ -157,8 +157,8 @@ gth_tiff_saver_save_options (GthPixbufSaver *base)
 
 
 static gboolean
-gth_tiff_saver_can_save (GthPixbufSaver *self,
-			 const char     *mime_type)
+gth_image_saver_tiff_can_save (GthPixbufSaver *self,
+			       const char     *mime_type)
 {
 #ifdef HAVE_LIBTIFF
 
@@ -203,7 +203,7 @@ gth_tiff_saver_can_save (GthPixbufSaver *self,
 #ifdef HAVE_LIBTIFF
 
 
-/* -- gth_tiff_saver_save_pixbuf -- */
+/* -- gth_image_saver_tiff_save_pixbuf -- */
 
 
 #define TILE_HEIGHT 40   /* FIXME */
@@ -453,20 +453,20 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 
 
 static gboolean
-gth_tiff_saver_save_pixbuf (GthPixbufSaver  *base,
-			    GdkPixbuf       *pixbuf,
-			    char           **buffer,
-			    gsize           *buffer_size,
-			    const char      *mime_type,
-			    GError         **error)
+gth_image_saver_tiff_save_pixbuf (GthPixbufSaver  *base,
+				  GdkPixbuf       *pixbuf,
+				  char           **buffer,
+				  gsize           *buffer_size,
+				  const char      *mime_type,
+				  GError         **error)
 {
 #ifdef HAVE_LIBTIFF
-	GthTiffSaver  *self = GTH_TIFF_SAVER (base);
-	char         **option_keys;
-	char         **option_values;
-	int            i = -1;
-	int            i_value;
-	gboolean       result;
+	GthImageSaverTiff  *self = GTH_IMAGE_SAVER_TIFF (base);
+	char    	  **option_keys;
+	char              **option_values;
+	int                 i = -1;
+	int                 i_value;
+	gboolean            result;
 
 	option_keys = g_malloc (sizeof (char *) * 4);
 	option_values = g_malloc (sizeof (char *) * 4);
@@ -522,33 +522,33 @@ gth_tiff_saver_save_pixbuf (GthPixbufSaver  *base,
 
 
 static void
-gth_tiff_saver_class_init (GthTiffSaverClass *klass)
+gth_image_saver_tiff_class_init (GthImageSaverTiffClass *klass)
 {
 	GObjectClass        *object_class;
 	GthPixbufSaverClass *pixbuf_saver_class;
 
-	g_type_class_add_private (klass, sizeof (GthTiffSaverPrivate));
+	g_type_class_add_private (klass, sizeof (GthImageSaverTiffPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gth_tiff_saver_finalize;
+	object_class->finalize = gth_image_saver_tiff_finalize;
 
 	pixbuf_saver_class = GTH_PIXBUF_SAVER_CLASS (klass);
 	pixbuf_saver_class->id = "tiff";
 	pixbuf_saver_class->display_name = _("TIFF");
 	pixbuf_saver_class->mime_type = "image/tiff";
 	pixbuf_saver_class->extensions = "tiff tif";
-	pixbuf_saver_class->get_default_ext = gth_tiff_saver_get_default_ext;
-	pixbuf_saver_class->get_control = gth_tiff_saver_get_control;
-	pixbuf_saver_class->save_options = gth_tiff_saver_save_options;
-	pixbuf_saver_class->can_save = gth_tiff_saver_can_save;
-	pixbuf_saver_class->save_pixbuf = gth_tiff_saver_save_pixbuf;
+	pixbuf_saver_class->get_default_ext = gth_image_saver_tiff_get_default_ext;
+	pixbuf_saver_class->get_control = gth_image_saver_tiff_get_control;
+	pixbuf_saver_class->save_options = gth_image_saver_tiff_save_options;
+	pixbuf_saver_class->can_save = gth_image_saver_tiff_can_save;
+	pixbuf_saver_class->save_pixbuf = gth_image_saver_tiff_save_pixbuf;
 }
 
 
 static void
-gth_tiff_saver_init (GthTiffSaver *self)
+gth_image_saver_tiff_init (GthImageSaverTiff *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIFF_SAVER, GthTiffSaverPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_TIFF, GthImageSaverTiffPrivate);
 	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_TIFF_SCHEMA);
 	self->priv->builder = NULL;
 	self->priv->default_ext = NULL;

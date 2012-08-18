@@ -22,34 +22,34 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
-#include "gth-tga-saver.h"
+#include "gth-image-saver-tga.h"
 #include "preferences.h"
 
 
-G_DEFINE_TYPE (GthTgaSaver, gth_tga_saver, GTH_TYPE_PIXBUF_SAVER)
+G_DEFINE_TYPE (GthImageSaverTga, gth_image_saver_tga, GTH_TYPE_PIXBUF_SAVER)
 
 
-struct _GthTgaSaverPrivate {
+struct _GthImageSaverTgaPrivate {
 	GtkBuilder *builder;
 	GSettings  *settings;
 };
 
 
 static void
-gth_tga_saver_finalize (GObject *object)
+gth_image_saver_tga_finalize (GObject *object)
 {
-	GthTgaSaver *self = GTH_TGA_SAVER (object);
+	GthImageSaverTga *self = GTH_IMAGE_SAVER_TGA (object);
 
 	_g_object_unref (self->priv->builder);
 	_g_object_unref (self->priv->settings);
-	G_OBJECT_CLASS (gth_tga_saver_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_saver_tga_parent_class)->finalize (object);
 }
 
 
 static GtkWidget *
-gth_tga_saver_get_control (GthPixbufSaver *base)
+gth_image_saver_tga_get_control (GthPixbufSaver *base)
 {
-	GthTgaSaver *self = GTH_TGA_SAVER (base);
+	GthImageSaverTga *self = GTH_IMAGE_SAVER_TGA (base);
 
 	if (self->priv->builder == NULL)
 		self->priv->builder = _gtk_builder_new_from_file ("tga-options.ui", "cairo_io");
@@ -62,17 +62,17 @@ gth_tga_saver_get_control (GthPixbufSaver *base)
 
 
 static void
-gth_tga_saver_save_options (GthPixbufSaver *base)
+gth_image_saver_tga_save_options (GthPixbufSaver *base)
 {
-	GthTgaSaver *self = GTH_TGA_SAVER (base);
+	GthImageSaverTga *self = GTH_IMAGE_SAVER_TGA (base);
 
 	g_settings_set_boolean (self->priv->settings, PREF_TGA_RLE_COMPRESSION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tga_rle_compression_checkbutton"))));
 }
 
 
 static gboolean
-gth_tga_saver_can_save (GthPixbufSaver *self,
-			const char     *mime_type)
+gth_image_saver_tga_can_save (GthPixbufSaver *self,
+			      const char     *mime_type)
 {
 	return g_content_type_equals (mime_type, "image/tga") || g_content_type_equals (mime_type, "image/x-tga");
 }
@@ -315,19 +315,19 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 
 
 static gboolean
-gth_tga_saver_save_pixbuf (GthPixbufSaver  *base,
-			   GdkPixbuf       *pixbuf,
-			   char           **buffer,
-			   gsize           *buffer_size,
-			   const char      *mime_type,
-			   GError         **error)
+gth_image_saver_tga_save_pixbuf (GthPixbufSaver  *base,
+				 GdkPixbuf       *pixbuf,
+				 char           **buffer,
+				 gsize           *buffer_size,
+				 const char      *mime_type,
+				 GError         **error)
 {
-	GthTgaSaver  *self = GTH_TGA_SAVER (base);
-	char         *pixbuf_type;
-	char        **option_keys;
-	char        **option_values;
-	int           i = -1;
-	gboolean      result;
+	GthImageSaverTga  *self = GTH_IMAGE_SAVER_TGA (base);
+	char              *pixbuf_type;
+	char             **option_keys;
+	char             **option_values;
+	int                i = -1;
+	gboolean           result;
 
 	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
 
@@ -358,15 +358,15 @@ gth_tga_saver_save_pixbuf (GthPixbufSaver  *base,
 
 
 static void
-gth_tga_saver_class_init (GthTgaSaverClass *klass)
+gth_image_saver_tga_class_init (GthImageSaverTgaClass *klass)
 {
 	GObjectClass        *object_class;
 	GthPixbufSaverClass *pixbuf_saver_class;
 
-	g_type_class_add_private (klass, sizeof (GthTgaSaverPrivate));
+	g_type_class_add_private (klass, sizeof (GthImageSaverTgaPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gth_tga_saver_finalize;
+	object_class->finalize = gth_image_saver_tga_finalize;
 
 	pixbuf_saver_class = GTH_PIXBUF_SAVER_CLASS (klass);
 	pixbuf_saver_class->id = "tga";
@@ -374,16 +374,16 @@ gth_tga_saver_class_init (GthTgaSaverClass *klass)
 	pixbuf_saver_class->mime_type = "image/x-tga";
 	pixbuf_saver_class->extensions = "tga";
 	pixbuf_saver_class->get_default_ext = NULL;
-	pixbuf_saver_class->get_control = gth_tga_saver_get_control;
-	pixbuf_saver_class->save_options = gth_tga_saver_save_options;
-	pixbuf_saver_class->can_save = gth_tga_saver_can_save;
-	pixbuf_saver_class->save_pixbuf = gth_tga_saver_save_pixbuf;
+	pixbuf_saver_class->get_control = gth_image_saver_tga_get_control;
+	pixbuf_saver_class->save_options = gth_image_saver_tga_save_options;
+	pixbuf_saver_class->can_save = gth_image_saver_tga_can_save;
+	pixbuf_saver_class->save_pixbuf = gth_image_saver_tga_save_pixbuf;
 }
 
 
 static void
-gth_tga_saver_init (GthTgaSaver *self)
+gth_image_saver_tga_init (GthImageSaverTga *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TGA_SAVER, GthTgaSaverPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_TGA, GthImageSaverTgaPrivate);
 	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_TGA_SCHEMA);
 }

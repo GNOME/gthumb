@@ -31,14 +31,14 @@
 #endif /* HAVE_LIBJPEG */
 #include <glib/gi18n.h>
 #include <gthumb.h>
-#include "gth-jpeg-saver.h"
+#include "gth-image-saver-jpeg.h"
 #include "preferences.h"
 
 
-G_DEFINE_TYPE (GthJpegSaver, gth_jpeg_saver, GTH_TYPE_PIXBUF_SAVER)
+G_DEFINE_TYPE (GthImageSaverJpeg, gth_image_saver_jpeg, GTH_TYPE_PIXBUF_SAVER)
 
 
-struct _GthJpegSaverPrivate {
+struct _GthImageSaverJpegPrivate {
 	GtkBuilder *builder;
 	GSettings  *settings;
 	char       *default_ext;
@@ -46,22 +46,22 @@ struct _GthJpegSaverPrivate {
 
 
 static void
-gth_jpeg_saver_finalize (GObject *object)
+gth_image_saver_jpeg_finalize (GObject *object)
 {
-	GthJpegSaver *self = GTH_JPEG_SAVER (object);
+	GthImageSaverJpeg *self = GTH_IMAGE_SAVER_JPEG (object);
 
 	_g_object_unref (self->priv->settings);
 	_g_object_unref (self->priv->builder);
 	g_free (self->priv->default_ext);
 
-	G_OBJECT_CLASS (gth_jpeg_saver_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_saver_jpeg_parent_class)->finalize (object);
 }
 
 
 static const char *
-gth_jpeg_saver_get_default_ext (GthPixbufSaver *base)
+gth_image_saver_jpeg_get_default_ext (GthPixbufSaver *base)
 {
-	GthJpegSaver *self = GTH_JPEG_SAVER (base);
+	GthImageSaverJpeg *self = GTH_IMAGE_SAVER_JPEG (base);
 
 	if (self->priv->default_ext == NULL)
 		self->priv->default_ext = g_settings_get_string (self->priv->settings, PREF_JPEG_DEFAULT_EXT);
@@ -71,9 +71,9 @@ gth_jpeg_saver_get_default_ext (GthPixbufSaver *base)
 
 
 static GtkWidget *
-gth_jpeg_saver_get_control (GthPixbufSaver *base)
+gth_image_saver_jpeg_get_control (GthPixbufSaver *base)
 {
-	GthJpegSaver  *self = GTH_JPEG_SAVER (base);
+	GthImageSaverJpeg  *self = GTH_IMAGE_SAVER_JPEG (base);
 	char         **extensions;
 	int            i;
 	int            active_idx;
@@ -111,9 +111,9 @@ gth_jpeg_saver_get_control (GthPixbufSaver *base)
 
 
 static void
-gth_jpeg_saver_save_options (GthPixbufSaver *base)
+gth_image_saver_jpeg_save_options (GthPixbufSaver *base)
 {
-	GthJpegSaver *self = GTH_JPEG_SAVER (base);
+	GthImageSaverJpeg *self = GTH_IMAGE_SAVER_JPEG (base);
 	GtkTreeIter   iter;
 
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (_gtk_builder_get_widget (self->priv->builder, "jpeg_default_extension_combobox")), &iter)) {
@@ -132,8 +132,8 @@ gth_jpeg_saver_save_options (GthPixbufSaver *base)
 
 
 static gboolean
-gth_jpeg_saver_can_save (GthPixbufSaver *self,
-			 const char     *mime_type)
+gth_image_saver_jpeg_can_save (GthPixbufSaver *self,
+			       const char     *mime_type)
 {
 #ifdef HAVE_LIBJPEG
 
@@ -429,15 +429,15 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
 
 
 static gboolean
-gth_jpeg_saver_save_pixbuf (GthPixbufSaver  *base,
-			    GdkPixbuf       *pixbuf,
-			    char           **buffer,
-			    gsize           *buffer_size,
-			    const char      *mime_type,
-			    GError         **error)
+gth_image_saver_jpeg_save_pixbuf (GthPixbufSaver  *base,
+				  GdkPixbuf       *pixbuf,
+				  char           **buffer,
+				  gsize           *buffer_size,
+				  const char      *mime_type,
+				  GError         **error)
 {
 #ifdef HAVE_LIBJPEG
-	GthJpegSaver  *self = GTH_JPEG_SAVER (base);
+	GthImageSaverJpeg  *self = GTH_IMAGE_SAVER_JPEG (base);
 	char         **option_keys;
 	char         **option_values;
 	int            i = -1;
@@ -504,33 +504,33 @@ gth_jpeg_saver_save_pixbuf (GthPixbufSaver  *base,
 
 
 static void
-gth_jpeg_saver_class_init (GthJpegSaverClass *klass)
+gth_image_saver_jpeg_class_init (GthImageSaverJpegClass *klass)
 {
 	GObjectClass        *object_class;
 	GthPixbufSaverClass *pixbuf_saver_class;
 
-	g_type_class_add_private (klass, sizeof (GthJpegSaverPrivate));
+	g_type_class_add_private (klass, sizeof (GthImageSaverJpegPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gth_jpeg_saver_finalize;
+	object_class->finalize = gth_image_saver_jpeg_finalize;
 
 	pixbuf_saver_class = GTH_PIXBUF_SAVER_CLASS (klass);
 	pixbuf_saver_class->id = "jpeg";
 	pixbuf_saver_class->display_name = _("JPEG");
 	pixbuf_saver_class->mime_type = "image/jpeg";
 	pixbuf_saver_class->extensions = "jpeg jpg";
-	pixbuf_saver_class->get_default_ext = gth_jpeg_saver_get_default_ext;
-	pixbuf_saver_class->get_control = gth_jpeg_saver_get_control;
-	pixbuf_saver_class->save_options = gth_jpeg_saver_save_options;
-	pixbuf_saver_class->can_save = gth_jpeg_saver_can_save;
-	pixbuf_saver_class->save_pixbuf = gth_jpeg_saver_save_pixbuf;
+	pixbuf_saver_class->get_default_ext = gth_image_saver_jpeg_get_default_ext;
+	pixbuf_saver_class->get_control = gth_image_saver_jpeg_get_control;
+	pixbuf_saver_class->save_options = gth_image_saver_jpeg_save_options;
+	pixbuf_saver_class->can_save = gth_image_saver_jpeg_can_save;
+	pixbuf_saver_class->save_pixbuf = gth_image_saver_jpeg_save_pixbuf;
 }
 
 
 static void
-gth_jpeg_saver_init (GthJpegSaver *self)
+gth_image_saver_jpeg_init (GthImageSaverJpeg *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_JPEG_SAVER, GthJpegSaverPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_JPEG, GthImageSaverJpegPrivate);
 	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_JPEG_SCHEMA);
 	self->priv->builder = NULL;
 	self->priv->default_ext = NULL;

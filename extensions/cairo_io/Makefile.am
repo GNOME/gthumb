@@ -32,12 +32,12 @@ enum-types.c: $(HEADER_FILES)
 libcairo_io_la_SOURCES = 		\
 	cairo-image-surface-png.c	\
 	cairo-image-surface-png.h	\
-	gth-png-saver.c         	\
-        gth-png-saver.h         	\
-        gth-tga-saver.c         	\
-        gth-tga-saver.h         	\
-        gth-tiff-saver.c        	\
-        gth-tiff-saver.h        	\
+	gth-image-saver-png.c         	\
+        gth-image-saver-png.h         	\
+        gth-image-saver-tga.c         	\
+        gth-image-saver-tga.h         	\
+        gth-image-saver-tiff.c        	\
+        gth-image-saver-tiff.h        	\
         preferences.c			\
 	main.c
 
@@ -45,8 +45,8 @@ if ENABLE_JPEG_TOOLS
 libcairo_io_la_SOURCES +=		\
 	cairo-image-surface-jpeg.c	\
 	cairo-image-surface-jpeg.h	\
-        gth-jpeg-saver.c        	\
-        gth-jpeg-saver.h
+        gth-image-saver-jpeg.c        	\
+        gth-image-saver-jpeg.h
 endif
 
 if ENABLE_LIBRSVG

@@ -22,34 +22,34 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
-#include "gth-png-saver.h"
+#include "gth-image-saver-png.h"
 #include "preferences.h"
 
 
-G_DEFINE_TYPE (GthPngSaver, gth_png_saver, GTH_TYPE_PIXBUF_SAVER)
+G_DEFINE_TYPE (GthImageSaverPng, gth_image_saver_png, GTH_TYPE_PIXBUF_SAVER)
 
 
-struct _GthPngSaverPrivate {
+struct _GthImageSaverPngPrivate {
 	GtkBuilder *builder;
 	GSettings  *settings;
 };
 
 
 static void
-gth_png_saver_finalize (GObject *object)
+gth_image_saver_png_finalize (GObject *object)
 {
-	GthPngSaver *self = GTH_PNG_SAVER (object);
+	GthImageSaverPng *self = GTH_IMAGE_SAVER_PNG (object);
 
 	_g_object_unref (self->priv->builder);
 	_g_object_unref (self->priv->settings);
-	G_OBJECT_CLASS (gth_png_saver_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_saver_png_parent_class)->finalize (object);
 }
 
 
 static GtkWidget *
-gth_png_saver_get_control (GthPixbufSaver *base)
+gth_image_saver_png_get_control (GthPixbufSaver *base)
 {
-	GthPngSaver *self = GTH_PNG_SAVER (base);
+	GthImageSaverPng *self = GTH_IMAGE_SAVER_PNG (base);
 
 	if (self->priv->builder == NULL)
 		self->priv->builder = _gtk_builder_new_from_file ("png-options.ui", "cairo_io");
@@ -62,37 +62,37 @@ gth_png_saver_get_control (GthPixbufSaver *base)
 
 
 static void
-gth_png_saver_save_options (GthPixbufSaver *base)
+gth_image_saver_png_save_options (GthPixbufSaver *base)
 {
-	GthPngSaver *self = GTH_PNG_SAVER (base);
+	GthImageSaverPng *self = GTH_IMAGE_SAVER_PNG (base);
 
 	g_settings_set_int (self->priv->settings, PREF_PNG_COMPRESSION_LEVEL, (int) gtk_adjustment_get_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "png_compression_adjustment"))));
 }
 
 
 static gboolean
-gth_png_saver_can_save (GthPixbufSaver *self,
-			const char     *mime_type)
+gth_image_saver_png_can_save (GthPixbufSaver *self,
+			      const char     *mime_type)
 {
 	return g_content_type_equals (mime_type, "image/png");
 }
 
 
 static gboolean
-gth_png_saver_save_pixbuf (GthPixbufSaver  *base,
-			   GdkPixbuf       *pixbuf,
-			   char           **buffer,
-			   gsize           *buffer_size,
-			   const char      *mime_type,
-			   GError         **error)
+gth_image_saver_png_save_pixbuf (GthPixbufSaver  *base,
+				 GdkPixbuf       *pixbuf,
+				 char           **buffer,
+				 gsize           *buffer_size,
+				 const char      *mime_type,
+				 GError         **error)
 {
-	GthPngSaver  *self = GTH_PNG_SAVER (base);
-	char         *pixbuf_type;
-	char        **option_keys;
-	char        **option_values;
-	int           i = -1;
-	int           i_value;
-	gboolean      result;
+	GthImageSaverPng  *self = GTH_IMAGE_SAVER_PNG (base);
+	char              *pixbuf_type;
+	char             **option_keys;
+	char             **option_values;
+	int                i = -1;
+	int                i_value;
+	gboolean           result;
 
 	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
 
@@ -125,15 +125,15 @@ gth_png_saver_save_pixbuf (GthPixbufSaver  *base,
 
 
 static void
-gth_png_saver_class_init (GthPngSaverClass *klass)
+gth_image_saver_png_class_init (GthImageSaverPngClass *klass)
 {
 	GObjectClass        *object_class;
 	GthPixbufSaverClass *pixbuf_saver_class;
 
-	g_type_class_add_private (klass, sizeof (GthPngSaverPrivate));
+	g_type_class_add_private (klass, sizeof (GthImageSaverPngPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gth_png_saver_finalize;
+	object_class->finalize = gth_image_saver_png_finalize;
 
 	pixbuf_saver_class = GTH_PIXBUF_SAVER_CLASS (klass);
 	pixbuf_saver_class->id = "png";
@@ -141,16 +141,16 @@ gth_png_saver_class_init (GthPngSaverClass *klass)
 	pixbuf_saver_class->mime_type = "image/png";
 	pixbuf_saver_class->extensions = "png";
 	pixbuf_saver_class->get_default_ext = NULL;
-	pixbuf_saver_class->get_control = gth_png_saver_get_control;
-	pixbuf_saver_class->save_options = gth_png_saver_save_options;
-	pixbuf_saver_class->can_save = gth_png_saver_can_save;
-	pixbuf_saver_class->save_pixbuf = gth_png_saver_save_pixbuf;
+	pixbuf_saver_class->get_control = gth_image_saver_png_get_control;
+	pixbuf_saver_class->save_options = gth_image_saver_png_save_options;
+	pixbuf_saver_class->can_save = gth_image_saver_png_can_save;
+	pixbuf_saver_class->save_pixbuf = gth_image_saver_png_save_pixbuf;
 }
 
 
 static void
-gth_png_saver_init (GthPngSaver *self)
+gth_image_saver_png_init (GthImageSaverPng *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PNG_SAVER, GthPngSaverPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_PNG, GthImageSaverPngPrivate);
 	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_PNG_SCHEMA);
 }
