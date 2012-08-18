@@ -1290,6 +1290,7 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 
 	gth_icon_cache_free (file_list->priv->icon_cache);
 	file_list->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (file_list))), size / 2);
+	gth_icon_cache_set_fallback (file_list->priv->icon_cache, g_themed_icon_new ("image-x-generic"));
 
 	gth_file_view_set_thumbnail_size (GTH_FILE_VIEW (file_list->priv->view), file_list->priv->thumb_size);
 

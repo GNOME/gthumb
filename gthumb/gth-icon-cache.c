@@ -71,8 +71,6 @@ gth_icon_cache_set_fallback (GthIconCache *icon_cache,
 	if (icon_cache->fallback_icon != NULL)
 		g_object_unref (icon_cache->fallback_icon);
 	icon_cache->fallback_icon = icon;
-	if (icon_cache->fallback_icon != NULL)
-		g_object_ref (icon_cache->fallback_icon);
 }
 
 
@@ -100,9 +98,14 @@ GdkPixbuf *
 gth_icon_cache_get_pixbuf (GthIconCache *icon_cache,
 			   GIcon        *icon)
 {
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf = NULL;
 
-	pixbuf = g_hash_table_lookup (icon_cache->cache, icon);
+	if (icon == NULL)
+		icon = icon_cache->fallback_icon;
+
+	if (icon != NULL)
+		pixbuf = g_hash_table_lookup (icon_cache->cache, icon);
+
 	if (pixbuf != NULL)
 		return g_object_ref (pixbuf);
 
@@ -112,7 +115,7 @@ gth_icon_cache_get_pixbuf (GthIconCache *icon_cache,
 	if ((pixbuf == NULL) && (icon_cache->fallback_icon != NULL))
 		pixbuf = _g_icon_get_pixbuf (icon_cache->fallback_icon, icon_cache->icon_size, icon_cache->icon_theme);
 
-	if (pixbuf != NULL)
+	if ((icon != NULL) && (pixbuf != NULL))
 		g_hash_table_insert (icon_cache->cache, g_object_ref (icon), g_object_ref (pixbuf));
 
 	return pixbuf;
