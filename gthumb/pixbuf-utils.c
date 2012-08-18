@@ -261,6 +261,21 @@ _gdk_pixbuf_colorshift (GdkPixbuf *dest,
 }
 
 
+char *
+_gdk_pixbuf_get_type_from_mime_type (const char *mime_type)
+{
+	if (mime_type == NULL)
+		return NULL;
+
+	if (g_str_has_prefix (mime_type, "image/x-"))
+		return g_strdup (mime_type + strlen ("image/x-"));
+	else if (g_str_has_prefix (mime_type, "image/"))
+		return g_strdup (mime_type + strlen ("image/"));
+	else
+		return g_strdup (mime_type);
+}
+
+
 gboolean
 scale_keeping_ratio_min (int      *width,
 			 int      *height,

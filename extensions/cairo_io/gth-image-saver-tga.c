@@ -301,7 +301,7 @@ gth_image_saver_tga_save_image (GthImageSaver  *base,
 	cairo_surface_t   *surface;
 	gboolean           result;
 
-	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
+	pixbuf_type = _gdk_pixbuf_get_type_from_mime_type (mime_type);
 
 	option_keys = g_malloc (sizeof (char *) * 2);
 	option_values = g_malloc (sizeof (char *) * 2);

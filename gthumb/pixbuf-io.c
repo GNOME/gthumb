@@ -33,27 +33,6 @@
 #include "pixbuf-utils.h"
 
 
-#define USE_PIXBUF_LOADER 1
-
-
-char *
-get_pixbuf_type_from_mime_type (const char *mime_type)
-{
-	if (mime_type == NULL)
-		return NULL;
-
-	if (g_str_has_prefix (mime_type, "image/x-"))
-		return g_strdup (mime_type + strlen ("image/x-"));
-	else if (g_str_has_prefix (mime_type, "image/"))
-		return g_strdup (mime_type + strlen ("image/"));
-	else
-		return g_strdup (mime_type);
-}
-
-
-#ifdef USE_PIXBUF_LOADER
-
-
 #define LOAD_BUFFER_SIZE (64*1024)
 
 
@@ -160,9 +139,6 @@ pixbuf_loader_size_prepared_cb (GdkPixbufLoader *loader,
 }
 
 
-#endif
-
-
 GthImage *
 gth_pixbuf_new_from_file (GInputStream  *istream,
 			  GthFileData   *file_data,
@@ -173,81 +149,6 @@ gth_pixbuf_new_from_file (GInputStream  *istream,
 			  GCancellable  *cancellable,
 			  GError       **error)
 {
-#ifndef USE_PIXBUF_LOADER
-	GthImage  *image;
-	GdkPixbuf *pixbuf = NULL;
-	char      *path;
-	gboolean   scale_pixbuf;
-	int        original_w;
-	int        original_h;
-
-	if (file_data == NULL) {
-		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
-		return NULL;
-	}
-
-	if (original_width != NULL)
-		*original_width = -1;
-
-	if (original_height != NULL)
-		*original_height = -1;
-
-	path = g_file_get_path (file_data->file);
-	if (path == NULL) {
-		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
-		return NULL;
-	}
-
-	scale_pixbuf = FALSE;
-	original_w = -1;
-	original_h = -1;
-
-	if (requested_size > 0) {
-		if (gdk_pixbuf_get_file_info (path, &original_w, &original_h) == NULL) {
-			original_w = -1;
-			original_h = -1;
-		}
-		if ((original_w > requested_size) || (original_h > requested_size))
-			scale_pixbuf = TRUE;
-	}
-
-	if (scale_pixbuf)
-		pixbuf = gdk_pixbuf_new_from_file_at_scale (path,
-							    requested_size,
-							    requested_size,
-							    TRUE,
-							    error);
-	else
-		pixbuf = gdk_pixbuf_new_from_file (path, error);
-
-	if (pixbuf != NULL) {
-		GdkPixbuf *rotated;
-
-		rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
-		if (rotated != NULL) {
-			original_w = gdk_pixbuf_get_width (rotated);
-			original_h = gdk_pixbuf_get_height (rotated);
-			g_object_unref (pixbuf);
-			pixbuf = rotated;
-		}
-	}
-
-	if (original_width != NULL)
-		*original_width = original_w;
-	if (original_height != NULL)
-		*original_height = original_h;
-
-	image = gth_image_new_for_pixbuf (pixbuf);
-
-	_g_object_unref (pixbuf);
-	g_free (path);
-
-	return image;
-
-#else
-
 	ScaleData        scale_data;
 	GdkPixbufLoader *pixbuf_loader;
 	GdkPixbuf       *pixbuf;
@@ -303,8 +204,6 @@ gth_pixbuf_new_from_file (GInputStream  *istream,
 	_g_object_unref (pixbuf);
 
 	return image;
-
-#endif
 }
 
 

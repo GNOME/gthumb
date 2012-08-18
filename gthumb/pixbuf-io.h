@@ -30,16 +30,6 @@
 
 G_BEGIN_DECLS
 
-typedef GdkPixbufAnimation* (*PixbufLoader) (GthFileData   *file_data,
-					     int            requested_size,
-					     int           *original_width,
-					     int           *original_height,
-					     gpointer       user_data,
-					     GCancellable  *cancellable,
-				   	     GError       **error);
-
-
-char *      get_pixbuf_type_from_mime_type     (const char       *mime_type);
 GthImage  * gth_pixbuf_new_from_file           (GInputStream     *istream,
 						GthFileData      *file,
 						int               requested_size,
