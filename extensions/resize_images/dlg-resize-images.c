@@ -134,8 +134,8 @@ exec_resize (GthAsyncTask *task,
 	gth_image_task_set_destination (GTH_IMAGE_TASK (task), destination_image);
 
 	_g_object_unref (destination_image);
-	_g_object_unref (destination);
-	_g_object_unref (source);
+	cairo_surface_destroy (destination);
+	cairo_surface_destroy (source);
 
 	return NULL;
 }

@@ -323,11 +323,11 @@ gth_pixbuf_animation_new_from_file (GInputStream  *istream,
 	char               *path;
 	GthImage           *image;
 
-	mime_type = gth_file_data_get_mime_type (file_data);
+	mime_type = _g_content_type_get_from_stream (istream, cancellable, error);
 	if (mime_type == NULL)
 		return NULL;
 
-	if (! g_content_type_equals (mime_type, "image/gif"))
+	if ((file_data == NULL) || ! g_content_type_equals (mime_type, "image/gif"))
 		return gth_pixbuf_new_from_file (istream,
 						 file_data,
 						 requested_size,
@@ -336,12 +336,6 @@ gth_pixbuf_animation_new_from_file (GInputStream  *istream,
 						 FALSE,
 						 cancellable,
 						 error);
-
-	if (file_data == NULL) {
-		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
-		return NULL;
-	}
 
 	path = g_file_get_path (file_data->file);
 	if (path == NULL) {
