@@ -439,7 +439,7 @@ _cairo_surface_write_as_tiff (cairo_surface_t  *image,
 	/* Now write the TIFF data. */
 	ptr = pixels;
 	for (row = 0; row < rows; row++) {
-		_cairo_copy_line_as_rgb (buf, ptr, cols, alpha);
+		_cairo_copy_line_as_rgba (buf, ptr, cols, alpha);
 		if (TIFFWriteScanline (tif, buf, row, 0) < 0) {
 			g_set_error (error,
 				     GDK_PIXBUF_ERROR,

@@ -507,7 +507,7 @@ _cairo_image_surface_transform (cairo_surface_t *source,
 
 
 void
-_cairo_copy_line_as_rgb (guchar *dest,
+_cairo_copy_line_as_rgba (guchar *dest,
 			 guchar *src,
 			 guint   width,
 			 guint   alpha)

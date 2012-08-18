@@ -396,7 +396,7 @@ _cairo_surface_write_as_jpeg (cairo_surface_t  *image,
 
 		/* convert scanline from RGBA to RGB packed */
 
-		_cairo_copy_line_as_rgb (buf, pixels, w, FALSE);
+		_cairo_copy_line_as_rgba (buf, pixels, w, FALSE);
 
 		/* write scanline */
 		jbuf = (JSAMPROW *)(&buf);

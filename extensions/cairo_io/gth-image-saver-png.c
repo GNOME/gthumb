@@ -20,10 +20,26 @@
  */
 
 #include <config.h>
+#include <png.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "gth-image-saver-png.h"
 #include "preferences.h"
+
+
+/* starting from libpng version 1.5 it is not possible
+ * to access inside the PNG struct directly
+ */
+#define PNG_SETJMP(ptr) setjmp(png_jmpbuf(ptr))
+
+#ifdef PNG_LIBPNG_VER
+#if PNG_LIBPNG_VER < 10400
+#ifdef PNG_SETJMP
+#undef PNG_SETJMP
+#endif
+#define PNG_SETJMP(ptr) setjmp(ptr->jmpbuf)
+#endif
+#endif
 
 
 G_DEFINE_TYPE (GthImageSaverPng, gth_image_saver_png, GTH_TYPE_IMAGE_SAVER)
@@ -78,6 +94,204 @@ gth_image_saver_png_can_save (GthImageSaver *self,
 }
 
 
+typedef struct {
+	GError        **error;
+	png_struct     *png_ptr;
+	png_info       *png_info_ptr;
+	GthBufferData  *buffer_data;
+} CairoPngData;
+
+
+static void
+_cairo_png_data_destroy (CairoPngData *cairo_png_data)
+{
+	png_destroy_write_struct (&cairo_png_data->png_ptr, &cairo_png_data->png_info_ptr);
+	gth_buffer_data_free (cairo_png_data->buffer_data, FALSE);
+	g_free (cairo_png_data);
+}
+
+
+static void
+gerror_error_func (png_structp     png_ptr,
+		   png_const_charp message)
+{
+	GError ***error_p = png_get_error_ptr (png_ptr);
+	GError  **error = *error_p;
+
+	if (error != NULL)
+		*error = g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "%s", message);
+}
+
+
+static void
+gerror_warning_func (png_structp     png_ptr,
+		     png_const_charp message)
+{
+	/* void: we don't care about warnings */
+}
+
+
+static void
+cairo_png_write_data_func (png_structp png_ptr,
+		  	   png_bytep   buffer,
+		  	   png_size_t  size)
+{
+	CairoPngData *cairo_png_data;
+	GError       *error;
+
+	cairo_png_data = png_get_io_ptr (png_ptr);
+	if (! gth_buffer_data_write (cairo_png_data->buffer_data, buffer, size, &error)) {
+		png_error (png_ptr, error->message);
+		g_error_free (error);
+	}
+}
+
+
+static void
+cairo_png_flush_data_func (png_structp png_ptr)
+{
+	/* we are saving in a buffer, no need to flush */
+}
+
+
+static gboolean
+_cairo_surface_write_as_png (cairo_surface_t  *image,
+			     char            **buffer,
+			     gsize            *buffer_size,
+			     char            **keys,
+			     char            **values,
+			     GError          **error)
+{
+	int            compression_level;
+	int            width, height;
+	gboolean       alpha;
+	guchar        *pixels, *ptr, *buf;
+	int            rowstride;
+	CairoPngData  *cairo_png_data;
+	png_color_8    sig_bit;
+	int            bpp;
+	int            row;
+
+	compression_level = 6;
+
+	if (keys && *keys) {
+		char **kiter = keys;
+		char **viter = values;
+
+		while (*kiter) {
+			if (strcmp (*kiter, "compression") == 0) {
+				if (*viter == NULL) {
+					g_set_error (error,
+						     G_IO_ERROR,
+						     G_IO_ERROR_INVALID_DATA,
+						     "Must specify a compression level");
+					return FALSE;
+				}
+
+				compression_level = atoi (*viter);
+
+				if (compression_level < 0 || compression_level > 9) {
+					g_set_error (error,
+						     G_IO_ERROR,
+						     G_IO_ERROR_INVALID_DATA,
+						     "Unsupported compression level passed to the PNG saver");
+					return FALSE;
+				}
+			}
+			else {
+				g_warning ("Bad option name '%s' passed to the PNG saver", *kiter);
+				return FALSE;
+			}
+
+			++kiter;
+			++viter;
+		}
+	}
+
+	width     = cairo_image_surface_get_width (image);
+	height    = cairo_image_surface_get_height (image);
+	alpha     = _cairo_image_surface_get_has_alpha (image);
+	pixels    = cairo_image_surface_get_data (image);
+	rowstride = cairo_image_surface_get_stride (image);
+
+	cairo_png_data = g_new0 (CairoPngData, 1);
+	cairo_png_data->error = error;
+	cairo_png_data->buffer_data = gth_buffer_data_new ();
+
+	cairo_png_data->png_ptr = png_create_write_struct (PNG_LIBPNG_VER_STRING,
+							   &cairo_png_data->error,
+							   gerror_error_func,
+							   gerror_warning_func);
+	if (cairo_png_data->png_ptr == NULL) {
+		_cairo_png_data_destroy (cairo_png_data);
+	        return FALSE;
+	}
+
+	cairo_png_data->png_info_ptr = png_create_info_struct (cairo_png_data->png_ptr);
+	if (cairo_png_data->png_info_ptr == NULL) {
+		_cairo_png_data_destroy (cairo_png_data);
+	        return FALSE;
+	}
+
+	if (PNG_SETJMP (cairo_png_data->png_ptr)) {
+		_cairo_png_data_destroy (cairo_png_data);
+	        return FALSE;
+	}
+
+	png_set_write_fn (cairo_png_data->png_ptr,
+			  cairo_png_data,
+			  cairo_png_write_data_func,
+			  cairo_png_flush_data_func);
+
+	/* Set the image information here */
+
+	png_set_IHDR (cairo_png_data->png_ptr,
+		      cairo_png_data->png_info_ptr,
+		      width,
+		      height,
+		      8,
+		      (alpha ? PNG_COLOR_TYPE_RGBA : PNG_COLOR_TYPE_RGB),
+		      PNG_INTERLACE_NONE,
+		      PNG_COMPRESSION_TYPE_BASE,
+		      PNG_FILTER_TYPE_BASE);
+
+	/* Options */
+
+	sig_bit.red = 8;
+	sig_bit.green = 8;
+	sig_bit.blue = 8;
+	if (alpha)
+		sig_bit.alpha = 8;
+	png_set_sBIT (cairo_png_data->png_ptr, cairo_png_data->png_info_ptr, &sig_bit);
+
+	png_set_compression_level (cairo_png_data->png_ptr, compression_level);
+
+	/* Write the file header information. */
+
+	png_write_info (cairo_png_data->png_ptr, cairo_png_data->png_info_ptr);
+
+	/* Write the image */
+
+	bpp = alpha ? 4 : 3;
+	buf = g_new (guchar, width * bpp);
+	ptr = pixels;
+	for (row = 0; row < height; ++row) {
+		_cairo_copy_line_as_rgba (buf, ptr, width, alpha);
+		png_write_rows (cairo_png_data->png_ptr, &buf, 1);
+
+		ptr += rowstride;
+	}
+	g_free (buf);
+
+	png_write_end (cairo_png_data->png_ptr, cairo_png_data->png_info_ptr);
+	gth_buffer_data_get (cairo_png_data->buffer_data, buffer, buffer_size);
+
+	_cairo_png_data_destroy (cairo_png_data);
+
+	return TRUE;
+}
+
+
 static gboolean
 gth_image_saver_png_save_image (GthImageSaver  *base,
 				GthImage       *image,
@@ -87,15 +301,12 @@ gth_image_saver_png_save_image (GthImageSaver  *base,
 				GError        **error)
 {
 	GthImageSaverPng  *self = GTH_IMAGE_SAVER_PNG (base);
-	GdkPixbuf         *pixbuf;
-	char              *pixbuf_type;
+	cairo_surface_t   *surface;
 	char             **option_keys;
 	char             **option_values;
 	int                i = -1;
 	int                i_value;
 	gboolean           result;
-
-	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
 
 	option_keys = g_malloc (sizeof (char *) * 2);
 	option_values = g_malloc (sizeof (char *) * 2);
@@ -109,20 +320,17 @@ gth_image_saver_png_save_image (GthImageSaver  *base,
 	option_keys[i] = NULL;
 	option_values[i] = NULL;
 
-	/* FIXME: use libpng directly */
-	pixbuf = gth_image_get_pixbuf (image);
-	result = gdk_pixbuf_save_to_bufferv (pixbuf,
-					     buffer,
-					     buffer_size,
-					     pixbuf_type,
-					     option_keys,
-					     option_values,
-					     error);
+	surface = gth_image_get_cairo_surface (image);
+	result = _cairo_surface_write_as_png (surface,
+					      buffer,
+					      buffer_size,
+					      option_keys,
+					      option_values,
+					      error);
 
-	g_object_unref (pixbuf);
+	cairo_surface_destroy (surface);
 	g_strfreev (option_keys);
 	g_strfreev (option_values);
-	g_free (pixbuf_type);
 
 	return result;
 }

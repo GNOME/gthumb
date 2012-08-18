@@ -171,7 +171,7 @@ void               _cairo_image_surface_transform_get_steps (cairo_format_t     
 							     int                   *pixel_step_p);
 cairo_surface_t *  _cairo_image_surface_transform           (cairo_surface_t       *surface,
 							     GthTransform           transform);
-void               _cairo_copy_line_as_rgb                  (guchar                *dest,
+void               _cairo_copy_line_as_rgba                  (guchar                *dest,
 							     guchar                *src,
 							     guint                  width,
 							     guint                  alpha);

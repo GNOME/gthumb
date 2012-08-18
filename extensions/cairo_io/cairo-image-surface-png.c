@@ -176,7 +176,7 @@ _cairo_image_surface_create_from_png (GInputStream  *istream,
 	        return image;
 	}
 
-	if (PNG_SETJMP(cairo_png_data->png_ptr)) {
+	if (PNG_SETJMP (cairo_png_data->png_ptr)) {
 		_cairo_png_data_destroy (cairo_png_data);
 	        return image;
 	}
