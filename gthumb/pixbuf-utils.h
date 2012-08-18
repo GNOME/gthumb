@@ -30,9 +30,6 @@
 
 G_BEGIN_DECLS
 
-GdkPixbuf * _gdk_pixbuf_new_void               (int              width,
-					        int              height);
-GdkPixbuf *  _gdk_pixbuf_new_compatible        (GdkPixbuf       *src);
 GdkPixbuf * _gdk_pixbuf_new_from_cairo_context (cairo_t         *cr);
 GdkPixbuf * _gdk_pixbuf_new_from_cairo_surface (cairo_surface_t *surface);
 GdkPixbuf * _gdk_pixbuf_scale_simple_safe      (const GdkPixbuf *src,
@@ -43,27 +40,11 @@ GdkPixbuf * _gdk_pixbuf_scale_composite        (const GdkPixbuf *src,
 			     	     	        int              dest_width,
 			     	     	        int              dest_height,
 			     	     	        GdkInterpType    interp_type);
-GdkPixbuf * _gdk_pixbuf_scale_squared          (GdkPixbuf       *src,
-		  	  	  	  	int              size,
-		  	  	  	  	GdkInterpType    interp_type);
 GdkPixbuf * _gdk_pixbuf_transform              (GdkPixbuf       *src,
 					        GthTransform     transform);
 void        _gdk_pixbuf_colorshift             (GdkPixbuf       *dest,
 					        GdkPixbuf       *src,
 					        int              shift);
-GdkPixbuf * _gdk_pixbuf_colorize               (GdkPixbuf       *src,
-						GdkRGBA         *new_color);
-void        _gdk_pixbuf_vertical_gradient      (GdkPixbuf       *pixbuf,
-					        guint32          color1,
-					        guint32          color2);
-void        _gdk_pixbuf_horizontal_gradient    (GdkPixbuf       *pixbuf,
-					        guint32          color1,
-					        guint32          color2);
-void        _gdk_pixbuf_hv_gradient            (GdkPixbuf       *pixbuf,
-					        guint32          hcolor1,
-					        guint32          hcolor2,
-					        guint32          vcolor1,
-					        guint32          vcolor2);
 gboolean    scale_keeping_ratio_min            (int             *width,
 					        int             *height,
 					        int              min_width,
@@ -76,7 +57,6 @@ gboolean    scale_keeping_ratio                (int             *width,
 					        int              max_width,
 					        int              max_height,
 					        gboolean         allow_upscaling);
-gboolean    _g_mime_type_is_writable           (const char      *mime_type);
 
 G_END_DECLS
 
