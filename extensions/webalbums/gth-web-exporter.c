@@ -70,15 +70,16 @@ extern GFileInputStream *yy_istream;
 typedef struct {
 	GthFileData *file_data;
 	char        *dest_filename;
-	GdkPixbuf   *image;
+	GthImage    *image;
 	int          image_width, image_height;
-	GdkPixbuf   *thumb;
+	GthImage    *thumb;
 	int          thumb_width, thumb_height;
-	GdkPixbuf   *preview;
+	GthImage    *preview;
 	int          preview_width, preview_height;
 	gboolean     caption_set;
 	gboolean     no_preview;
 } ImageData;
+
 
 #define IMAGE_DATA(x) ((ImageData*)(x))
 
@@ -2107,9 +2108,9 @@ save_thumbnail (gpointer data)
 
 		destination = get_thumbnail_file (self, image_data, self->priv->tmp_dir);
 		file_data = gth_file_data_new (destination, NULL);
-		_gdk_pixbuf_save_async (image_data->thumb,
-					file_data,
+		gth_image_save_to_file (image_data->thumb,
 					"image/jpeg",
+					file_data,
 					TRUE,
 					save_thumbnail_ready_cb,
 					self);
@@ -2340,9 +2341,9 @@ save_image_preview (gpointer data)
 
 		destination = get_preview_file (self, image_data, self->priv->tmp_dir);
 		file_data = gth_file_data_new (destination, NULL);
-		_gdk_pixbuf_save_async (image_data->preview,
-					file_data,
+		gth_image_save_to_file (image_data->preview,
 					"image/jpeg",
+					file_data,
 					TRUE,
 					save_image_preview_ready_cb,
 					self);
@@ -2447,9 +2448,9 @@ save_resized_image (gpointer data)
 
 		destination = get_image_file (self, image_data, self->priv->tmp_dir);
 		file_data = gth_file_data_new (destination, NULL);
-		_gdk_pixbuf_save_async (image_data->image,
-					file_data,
+		gth_image_save_to_file (image_data->image,
 					"image/jpeg",
+					file_data,
 					TRUE,
 					save_resized_image_ready_cd,
 					self);
@@ -2555,10 +2556,10 @@ image_loader_ready_cb (GObject      *source_object,
                        GAsyncResult *result,
                        gpointer      user_data)
 {
-	GthWebExporter *self = user_data;
-	ImageData      *idata;
-	GthImage       *image = NULL;
-	GdkPixbuf      *pixbuf;
+	GthWebExporter  *self = user_data;
+	ImageData       *idata;
+	GthImage        *image = NULL;
+	cairo_surface_t *surface;
 
 	if (! gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
 					    result,
@@ -2572,33 +2573,45 @@ image_loader_ready_cb (GObject      *source_object,
 	}
 
 	idata = (ImageData *) self->priv->current_file->data;
-	pixbuf = gth_image_get_pixbuf (image);
+	surface = gth_image_get_cairo_surface (image);
 
 	/* image */
 
-	idata->image = g_object_ref (pixbuf);
+	idata->image = g_object_ref (image);
+	idata->image_width = cairo_image_surface_get_width (surface);
+	idata->image_height = cairo_image_surface_get_width (surface);
+
 	if (self->priv->copy_images && self->priv->resize_images) {
-		int w = gdk_pixbuf_get_width (pixbuf);
-		int h = gdk_pixbuf_get_height (pixbuf);
+		int w = cairo_image_surface_get_width (surface);
+		int h = cairo_image_surface_get_height (surface);
+
 		if (scale_keeping_ratio (&w, &h,
 				         self->priv->resize_max_width,
 				         self->priv->resize_max_height,
 				         FALSE))
 		{
-			g_object_unref (idata->image);
-			idata->image = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			cairo_surface_t *scaled;
+
+			g_object_ref (idata->image);
+
+			scaled = _cairo_image_surface_scale (surface, w, h, SCALE_FILTER_BEST, NULL);
+			idata->image = gth_image_new_for_surface (scaled);
+			idata->image_width = cairo_image_surface_get_width (scaled);
+			idata->image_height = cairo_image_surface_get_width (scaled);
+
+			cairo_surface_destroy (scaled);
 		}
 	}
 
-	idata->image_width = gdk_pixbuf_get_width (idata->image);
-	idata->image_height = gdk_pixbuf_get_height (idata->image);
-
 	/* preview */
 
-	idata->preview = g_object_ref (pixbuf);
+	idata->preview = g_object_ref (image);
+	idata->preview_width = cairo_image_surface_get_width (surface);
+	idata->preview_height = cairo_image_surface_get_width (surface);
+
 	if ((self->priv->preview_max_width > 0) && (self->priv->preview_max_height > 0)) {
-		int w = gdk_pixbuf_get_width (pixbuf);
-		int h = gdk_pixbuf_get_height (pixbuf);
+		int w = cairo_image_surface_get_width (surface);
+		int h = cairo_image_surface_get_height (surface);
 
 		if (scale_keeping_ratio_min (&w, &h,
 					     self->priv->preview_min_width,
@@ -2607,13 +2620,18 @@ image_loader_ready_cb (GObject      *source_object,
 					     self->priv->preview_max_height,
 					     FALSE))
 		{
-			g_object_unref (idata->preview);
-			idata->preview = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			cairo_surface_t *scaled;
+
+			g_object_ref (idata->preview);
+
+			scaled = _cairo_image_surface_scale (surface, w, h, SCALE_FILTER_BEST, NULL);
+			idata->preview = gth_image_new_for_surface (scaled);
+			idata->preview_width = cairo_image_surface_get_width (scaled);
+			idata->preview_height = cairo_image_surface_get_width (scaled);
+
+			cairo_surface_destroy (scaled);
 		}
 	}
-
-	idata->preview_width = gdk_pixbuf_get_width (idata->preview);
-	idata->preview_height = gdk_pixbuf_get_height (idata->preview);
 
 	idata->no_preview = ((idata->preview_width == idata->image_width)
 			     && (idata->preview_height == idata->image_height));
@@ -2625,27 +2643,43 @@ image_loader_ready_cb (GObject      *source_object,
 
 	/* thumbnail. */
 
-	idata->thumb = g_object_ref (pixbuf);
+	idata->thumb = g_object_ref (image);
+	idata->thumb_width = cairo_image_surface_get_width (surface);
+	idata->thumb_height = cairo_image_surface_get_width (surface);
+
 	if ((self->priv->thumb_width > 0) && (self->priv->thumb_height > 0)) {
-		int w = gdk_pixbuf_get_width (pixbuf);
-		int h = gdk_pixbuf_get_height (pixbuf);
+		int w = cairo_image_surface_get_width (surface);
+		int h = cairo_image_surface_get_height (surface);
 
 		if (self->priv->squared_thumbnails) {
+			cairo_surface_t *scaled;
+
 			g_object_unref (idata->thumb);
-			idata->thumb = _gdk_pixbuf_scale_squared (idata->thumb, self->priv->thumb_width, GDK_INTERP_BILINEAR);
+
+			scaled = _cairo_image_surface_scale_squared (surface, self->priv->thumb_width, SCALE_FILTER_BEST, NULL);
+			idata->thumb = gth_image_new_for_surface (scaled);
+			idata->thumb_width = cairo_image_surface_get_width (scaled);
+			idata->thumb_height = cairo_image_surface_get_width (scaled);
+
+			cairo_surface_destroy (scaled);
 		}
 		else if (scale_keeping_ratio (&w, &h,
 					      self->priv->thumb_width,
 					      self->priv->thumb_height,
 					      FALSE))
 		{
+			cairo_surface_t *scaled;
+
 			g_object_unref (idata->thumb);
-			idata->thumb = _gdk_pixbuf_scale_composite (pixbuf, w, h, GDK_INTERP_BILINEAR);
+
+			scaled = _cairo_image_surface_scale (surface, w, h, SCALE_FILTER_BEST, NULL);
+			idata->thumb = gth_image_new_for_surface (scaled);
+			idata->thumb_width = cairo_image_surface_get_width (scaled);
+			idata->thumb_height = cairo_image_surface_get_width (scaled);
+
+			cairo_surface_destroy (scaled);
 		}
 	}
-
-	idata->thumb_width = gdk_pixbuf_get_width (idata->thumb);
-	idata->thumb_height = gdk_pixbuf_get_height (idata->thumb);
 
 	/* save the image */
 
@@ -2658,7 +2692,7 @@ image_loader_ready_cb (GObject      *source_object,
 	else
 		self->priv->saving_timeout = g_idle_add (save_image_preview, self);
 
-	g_object_unref (pixbuf);
+	cairo_surface_destroy (surface);
 	g_object_unref (image);
 }
 

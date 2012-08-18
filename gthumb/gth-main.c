@@ -716,23 +716,23 @@ gth_main_get_image_loader_func (const char     *mime_type,
 }
 
 
-GthPixbufSaver *
-gth_main_get_pixbuf_saver (const char *mime_type)
+GthImageSaver *
+gth_main_get_image_saver (const char *mime_type)
 {
 	GArray *savers;
 	int     i;
 
-	savers = gth_main_get_type_set ("pixbuf-saver");
+	savers = gth_main_get_type_set ("image-saver");
 	if (savers == NULL)
 		return NULL;
 
 	for (i = 0; i < savers->len; i++) {
 		GType           saver_type;
-		GthPixbufSaver *saver;
+		GthImageSaver *saver;
 
 		saver_type = g_array_index (savers, GType, i);
 		saver = g_object_new (saver_type, NULL);
-		if (gth_pixbuf_saver_can_save (saver, mime_type))
+		if (gth_image_saver_can_save (saver, mime_type))
 			return saver;
 
 		g_object_unref (saver);

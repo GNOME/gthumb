@@ -154,11 +154,11 @@ equalize_exec (GthAsyncTask *task,
 		p_destination = p_destination_line;
 		for (x = 0; x < width; x++) {
 			CAIRO_GET_RGBA (p_source, red, green, blue, alpha);
-			red   = equalize_func (red, equalize_data->part, RED_PIX);
-			green = equalize_func (green, equalize_data->part, GREEN_PIX);
-			blue  = equalize_func (blue, equalize_data->part, BLUE_PIX);
+			red   = equalize_func (red, equalize_data->part, GTH_CHANNEL_RED);
+			green = equalize_func (green, equalize_data->part, GTH_CHANNEL_GREEN);
+			blue  = equalize_func (blue, equalize_data->part, GTH_CHANNEL_BLUE);
 			if (alpha != 0xff)
-				alpha = equalize_func (alpha, equalize_data->part, ALPHA_PIX);
+				alpha = equalize_func (alpha, equalize_data->part, GTH_CHANNEL_ALPHA);
 			CAIRO_SET_RGBA (p_destination, red, green, blue, alpha);
 
 			p_source += 4;

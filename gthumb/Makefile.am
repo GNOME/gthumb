@@ -67,10 +67,13 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image.h					\
 	gth-image-dragger.h				\
 	gth-image-history.h				\
+	gth-image-list-task.h				\
 	gth-image-loader.h				\
 	gth-image-navigator.h				\
 	gth-image-preloader.h				\
+	gth-image-saver.h				\
 	gth-image-selector.h				\
+	gth-image-task.h				\
 	gth-image-viewer.h				\
 	gth-image-viewer-tool.h				\
 	gth-info-bar.h					\
@@ -85,9 +88,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-monitor.h					\
 	gth-multipage.h					\
 	gth-overwrite-dialog.h				\
-	gth-pixbuf-task.h				\
-	gth-pixbuf-list-task.h				\
-	gth-pixbuf-saver.h				\
 	gth-preferences.h				\
 	gth-progress-dialog.h				\
 	gth-request-dialog.h				\
@@ -192,10 +192,13 @@ gthumb_SOURCES = 					\
 	gth-image.c					\
 	gth-image-dragger.c				\
 	gth-image-history.c				\
+	gth-image-list-task.c				\
 	gth-image-loader.c				\
 	gth-image-navigator.c				\
 	gth-image-preloader.c				\
+	gth-image-saver.c				\
 	gth-image-selector.c				\
+	gth-image-task.c				\
 	gth-image-viewer.c				\
 	gth-image-viewer-tool.c				\
 	gth-info-bar.c					\
@@ -216,9 +219,6 @@ gthumb_SOURCES = 					\
 	gth-monitor.c					\
 	gth-multipage.c					\
 	gth-overwrite-dialog.c				\
-	gth-pixbuf-task.c				\
-	gth-pixbuf-list-task.c				\
-	gth-pixbuf-saver.c				\
 	gth-preferences.c				\
 	gth-progress-dialog.c				\
 	gth-request-dialog.c				\

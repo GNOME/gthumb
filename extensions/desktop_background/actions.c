@@ -266,19 +266,19 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 
 		viewer_page = gth_browser_get_viewer_page (browser);
 		if (viewer_page != NULL) {
-			GdkPixbuf *pixbuf;
+			GthImage *image;
 
-			pixbuf = gth_image_viewer_page_get_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+			image = gth_image_new_for_surface (gth_image_viewer_page_get_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
 			file_data = gth_file_data_new (wdata->new_file, NULL);
-			_gdk_pixbuf_save_async (pixbuf,
-						file_data,
+			gth_image_save_to_file (image,
 						"image/jpeg",
+						file_data,
 						TRUE,
 						wallpaper_save_ready_cb,
 						wdata);
 			saving_wallpaper = TRUE;
 
-			g_object_unref (pixbuf);
+			g_object_unref (image);
 		}
 	}
 

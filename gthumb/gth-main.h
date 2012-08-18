@@ -31,9 +31,9 @@
 #include "gth-filter-file.h"
 #include "gth-hook.h"
 #include "gth-image.h"
+#include "gth-image-saver.h"
 #include "gth-metadata-provider.h"
 #include "gth-monitor.h"
-#include "gth-pixbuf-saver.h"
 #include "gth-tags-file.h"
 #include "gth-test.h"
 #include "pixbuf-io.h"
@@ -92,7 +92,7 @@ void                   gth_main_register_image_loader_func    (GthImageLoaderFun
 						               ...);
 GthImageLoaderFunc     gth_main_get_image_loader_func         (const char           *mime_type,
 							       GthImageFormat        preferred_format);
-GthPixbufSaver *       gth_main_get_pixbuf_saver              (const char           *mime_type);
+GthImageSaver *        gth_main_get_image_saver               (const char           *mime_type);
 GthTest *              gth_main_get_general_filter            (void);
 GthTest *              gth_main_add_general_filter            (GthTest              *filter);
 void		       gth_main_register_object               (GType                 superclass_type,

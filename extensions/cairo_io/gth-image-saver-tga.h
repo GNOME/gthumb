@@ -40,13 +40,13 @@ typedef struct _GthImageSaverTgaPrivate  GthImageSaverTgaPrivate;
 
 struct _GthImageSaverTga
 {
-	GthPixbufSaver __parent;
+	GthImageSaver __parent;
 	GthImageSaverTgaPrivate *priv;
 };
 
 struct _GthImageSaverTgaClass
 {
-	GthPixbufSaverClass __parent_class;
+	GthImageSaverClass __parent_class;
 };
 
 GType  gth_image_saver_tga_get_type (void);

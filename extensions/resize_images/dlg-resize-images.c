@@ -84,16 +84,21 @@ destroy_cb (GtkWidget  *widget,
 }
 
 
-static void
-resize_step (GthPixbufTask *pixbuf_task)
+static gpointer
+exec_resize (GthAsyncTask *task,
+	     gpointer      user_data)
 {
-	ResizeData *resize_data = pixbuf_task->data;
-	int         w, h;
-	int         new_w, new_h;
-	int         max_w, max_h;
+	ResizeData      *resize_data = user_data;
+	cairo_surface_t *source;
+	cairo_surface_t *destination;
+	int              w, h;
+	int              new_w, new_h;
+	int              max_w, max_h;
+	GthImage        *destination_image;
 
-	w = gdk_pixbuf_get_width (pixbuf_task->src);
-	h = gdk_pixbuf_get_height (pixbuf_task->src);
+	source = gth_image_get_cairo_surface (gth_image_task_get_source (GTH_IMAGE_TASK (task)));
+	w = cairo_image_surface_get_width (source);
+	h = cairo_image_surface_get_height (source);
 
 	if (resize_data->allow_swap
 	    && (((h > w) && (resize_data->width > resize_data->height))
@@ -121,11 +126,18 @@ resize_step (GthPixbufTask *pixbuf_task)
 		new_h = max_h;
 	}
 
-	_g_object_unref (pixbuf_task->dest);
 	if ((new_w > 1) && (new_h > 1))
-		pixbuf_task->dest = _gdk_pixbuf_scale_simple_safe (pixbuf_task->src, new_w, new_h, GDK_INTERP_BILINEAR);
+		destination = _cairo_image_surface_scale (source, new_w, new_h, SCALE_FILTER_BEST, task);
 	else
-		pixbuf_task->dest = NULL;
+		destination = NULL;
+	destination_image = gth_image_new_for_surface (destination);
+	gth_image_task_set_destination (GTH_IMAGE_TASK (task), destination_image);
+
+	_g_object_unref (destination_image);
+	_g_object_unref (destination);
+	_g_object_unref (source);
+
+	return NULL;
 }
 
 
@@ -165,23 +177,22 @@ ok_clicked_cb (GtkWidget  *widget,
 	g_settings_set_boolean (data->settings, PREF_RESIZE_IMAGES_KEEP_RATIO, resize_data->keep_aspect_ratio);
 	g_settings_set_string (data->settings, PREF_RESIZE_IMAGES_MIME_TYPE, mime_type ? mime_type : "");
 
-	resize_task = gth_pixbuf_task_new (_("Resizing images"),
-					   TRUE,
-					   NULL,
-					   resize_step,
-					   NULL,
-					   resize_data,
-					   g_free);
-	list_task = gth_pixbuf_list_task_new (data->browser,
-					      data->file_list,
-					      GTH_PIXBUF_TASK (resize_task));
-	gth_pixbuf_list_task_set_overwrite_mode (GTH_PIXBUF_LIST_TASK (list_task), GTH_OVERWRITE_ASK);
-	gth_pixbuf_list_task_set_output_mime_type (GTH_PIXBUF_LIST_TASK (list_task), mime_type);
+	resize_task = gth_image_task_new (_("Resizing images"),
+					  NULL,
+					  exec_resize,
+					  NULL,
+					  resize_data,
+					  g_free);
+	list_task = gth_image_list_task_new (data->browser,
+					     data->file_list,
+					     GTH_IMAGE_TASK (resize_task));
+	gth_image_list_task_set_overwrite_mode (GTH_IMAGE_LIST_TASK (list_task), GTH_OVERWRITE_ASK);
+	gth_image_list_task_set_output_mime_type (GTH_IMAGE_LIST_TASK (list_task), mime_type);
 	if (data->use_destination) {
 		GFile *destination;
 
 		destination = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
-		gth_pixbuf_list_task_set_destination (GTH_PIXBUF_LIST_TASK (list_task), destination);
+		gth_image_list_task_set_destination (GTH_IMAGE_LIST_TASK (list_task), destination);
 
 		g_object_unref (destination);
 	}
@@ -396,7 +407,7 @@ dlg_resize_images (GthBrowser *browser,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("height_spinbutton")), data->latest_height_in_pixel);
 	}
 
-	savers = gth_main_get_type_set ("pixbuf-saver");
+	savers = gth_main_get_type_set ("image-saver");
 	if (savers != NULL) {
 		GtkListStore *list_store;
 		GtkTreeIter   iter;
@@ -418,13 +429,13 @@ dlg_resize_images (GthBrowser *browser,
 
 		for (i = 0; i < savers->len; i++) {
 			GType           saver_type;
-			GthPixbufSaver *saver;
+			GthImageSaver *saver;
 			const char     *mime_type;
 			GdkPixbuf      *pixbuf;
 
 			saver_type = g_array_index (savers, GType, i);
 			saver = g_object_new (saver_type, NULL);
-			mime_type = gth_pixbuf_saver_get_mime_type (saver);
+			mime_type = gth_image_saver_get_mime_type (saver);
 			pixbuf = gth_icon_cache_get_pixbuf (icon_cache, g_content_type_get_icon (mime_type));
 			gtk_list_store_append (list_store, &iter);
 			gtk_list_store_set (list_store, &iter,

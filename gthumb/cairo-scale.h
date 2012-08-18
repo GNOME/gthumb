@@ -37,15 +37,19 @@ typedef enum /*< skip >*/ {
 
 	SCALE_FILTER_FAST = SCALE_FILTER_POINT,
 	SCALE_FILTER_GOOD = SCALE_FILTER_BOX,
-	SCALE_FILTER_BEST = SCALE_FILTER_LANCZOS
+	SCALE_FILTER_BEST = SCALE_FILTER_TRIANGLE
 } scale_filter_t;
 
 
-cairo_surface_t *  _cairo_image_surface_scale  (cairo_surface_t  *image,
-						int               width,
-						int               height,
-						scale_filter_t    quality,
-						GthAsyncTask     *task);
+cairo_surface_t *  _cairo_image_surface_scale		(cairo_surface_t *image,
+							 int              width,
+							 int              height,
+							 scale_filter_t   quality,
+							 GthAsyncTask    *task);
+cairo_surface_t *  _cairo_image_surface_scale_squared   (cairo_surface_t *image,
+							 int              size,
+							 scale_filter_t   quality,
+							 GthAsyncTask    *task);
 
 G_END_DECLS
 

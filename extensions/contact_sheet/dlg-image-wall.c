@@ -268,20 +268,20 @@ dlg_image_wall (GthBrowser *browser,
 
 	default_mime_type = g_settings_get_string (data->settings, PREF_IMAGE_WALL_MIME_TYPE);
 	active_index = 0;
-	savers = gth_main_get_type_set ("pixbuf-saver");
+	savers = gth_main_get_type_set ("image-saver");
 	for (i = 0; (savers != NULL) && (i < savers->len); i++) {
-		GthPixbufSaver *saver;
+		GthImageSaver *saver;
 		GtkTreeIter     iter;
 
 		saver = g_object_new (g_array_index (savers, GType, i), NULL);
 
-		if (g_str_equal (default_mime_type, gth_pixbuf_saver_get_mime_type (saver)))
+		if (g_str_equal (default_mime_type, gth_image_saver_get_mime_type (saver)))
 			active_index = i;
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("filetype_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("filetype_liststore")), &iter,
-				    FILE_TYPE_COLUMN_MIME_TYPE, gth_pixbuf_saver_get_mime_type (saver),
-				    FILE_TYPE_COLUMN_DEFAULT_EXTENSION, gth_pixbuf_saver_get_default_ext (saver),
+				    FILE_TYPE_COLUMN_MIME_TYPE, gth_image_saver_get_mime_type (saver),
+				    FILE_TYPE_COLUMN_DEFAULT_EXTENSION, gth_image_saver_get_default_ext (saver),
 				    -1);
 
 		g_object_unref (saver);

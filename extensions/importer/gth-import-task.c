@@ -334,7 +334,7 @@ after_saving_to_destination (GthImportTask  *self,
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 			if (self->priv->default_response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO) {
 				GInputStream *stream;
-				GdkPixbuf    *pixbuf;
+				GthImage     *image;
 				GtkWidget    *dialog;
 
 				/* take ownership of the buffer */
@@ -353,15 +353,15 @@ after_saving_to_destination (GthImportTask  *self,
 
 				if (self->priv->buffer != NULL) {
 					stream = g_memory_input_stream_new_from_data (self->priv->buffer, self->priv->buffer_size, NULL);
-					pixbuf = gdk_pixbuf_new_from_stream_at_scale (stream, 128, 128, TRUE, NULL, NULL);
+					image = gth_image_new_from_stream (stream, 128, NULL, NULL, NULL, NULL);
 				}
 				else {
 					stream = NULL;
-					pixbuf = NULL;
+					image = NULL;
 				}
 
 				dialog = gth_overwrite_dialog_new (file_data->file,
-								   pixbuf,
+								   image,
 								   self->priv->destination_file->file,
 								   self->priv->default_response,
 								   self->priv->files->next == NULL);
@@ -372,7 +372,7 @@ after_saving_to_destination (GthImportTask  *self,
 				gtk_widget_show (dialog);
 				gth_task_dialog (GTH_TASK (self), TRUE, dialog);
 
-				_g_object_unref (pixbuf);
+				_g_object_unref (image);
 				_g_object_unref (stream);
 			}
 			else

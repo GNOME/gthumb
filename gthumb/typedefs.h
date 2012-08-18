@@ -124,6 +124,14 @@ typedef enum {
 } GthGridType;
 
 
+typedef enum /*< skip >*/ {
+        GTH_CHANNEL_RED   = 0,
+        GTH_CHANNEL_GREEN = 1,
+        GTH_CHANNEL_BLUE  = 2,
+        GTH_CHANNEL_ALPHA = 3
+} GthChannel;
+
+
 typedef void (*DataFunc)         (gpointer    user_data);
 typedef void (*ReadyFunc)        (GError     *error,
 			 	  gpointer    user_data);

@@ -35,7 +35,7 @@
 #include "preferences.h"
 
 
-G_DEFINE_TYPE (GthImageSaverJpeg, gth_image_saver_jpeg, GTH_TYPE_PIXBUF_SAVER)
+G_DEFINE_TYPE (GthImageSaverJpeg, gth_image_saver_jpeg, GTH_TYPE_IMAGE_SAVER)
 
 
 struct _GthImageSaverJpegPrivate {
@@ -59,7 +59,7 @@ gth_image_saver_jpeg_finalize (GObject *object)
 
 
 static const char *
-gth_image_saver_jpeg_get_default_ext (GthPixbufSaver *base)
+gth_image_saver_jpeg_get_default_ext (GthImageSaver *base)
 {
 	GthImageSaverJpeg *self = GTH_IMAGE_SAVER_JPEG (base);
 
@@ -71,7 +71,7 @@ gth_image_saver_jpeg_get_default_ext (GthPixbufSaver *base)
 
 
 static GtkWidget *
-gth_image_saver_jpeg_get_control (GthPixbufSaver *base)
+gth_image_saver_jpeg_get_control (GthImageSaver *base)
 {
 	GthImageSaverJpeg  *self = GTH_IMAGE_SAVER_JPEG (base);
 	char         **extensions;
@@ -82,7 +82,7 @@ gth_image_saver_jpeg_get_control (GthPixbufSaver *base)
 		self->priv->builder = _gtk_builder_new_from_file ("jpeg-options.ui", "cairo_io");
 
 	active_idx = 0;
-	extensions = g_strsplit (gth_pixbuf_saver_get_extensions (base), " ", -1);
+	extensions = g_strsplit (gth_image_saver_get_extensions (base), " ", -1);
 	for (i = 0; extensions[i] != NULL; i++) {
 		GtkTreeIter iter;
 
@@ -91,7 +91,7 @@ gth_image_saver_jpeg_get_control (GthPixbufSaver *base)
 				    &iter,
 				    0, extensions[i],
 				    -1);
-		if (g_str_equal (extensions[i], gth_pixbuf_saver_get_default_ext (base)))
+		if (g_str_equal (extensions[i], gth_image_saver_get_default_ext (base)))
 			active_idx = i;
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (_gtk_builder_get_widget (self->priv->builder, "jpeg_default_extension_combobox")), active_idx);
@@ -111,7 +111,7 @@ gth_image_saver_jpeg_get_control (GthPixbufSaver *base)
 
 
 static void
-gth_image_saver_jpeg_save_options (GthPixbufSaver *base)
+gth_image_saver_jpeg_save_options (GthImageSaver *base)
 {
 	GthImageSaverJpeg *self = GTH_IMAGE_SAVER_JPEG (base);
 	GtkTreeIter   iter;
@@ -132,8 +132,8 @@ gth_image_saver_jpeg_save_options (GthPixbufSaver *base)
 
 
 static gboolean
-gth_image_saver_jpeg_can_save (GthPixbufSaver *self,
-			       const char     *mime_type)
+gth_image_saver_jpeg_can_save (GthImageSaver *self,
+			       const char    *mime_type)
 {
 #ifdef HAVE_LIBJPEG
 
@@ -224,17 +224,16 @@ output_message_handler (j_common_ptr cinfo)
 
 
 static gboolean
-_gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
-			  char       **buffer,
-			  gsize       *buffer_size,
-			  char       **keys,
-			  char       **values,
-			  GError     **error)
+_cairo_surface_write_as_jpeg (cairo_surface_t  *image,
+			      char            **buffer,
+			      gsize            *buffer_size,
+			      char            **keys,
+			      char            **values,
+			      GError          **error)
 {
 	struct jpeg_compress_struct cinfo;
 	struct error_handler_data jerr;
 	guchar            *buf = NULL;
-	guchar            *ptr;
 	guchar            *pixels = NULL;
 	volatile int       quality = 85; /* default; must be between 0 and 100 */
 	volatile int       smoothing = 0;
@@ -242,10 +241,8 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
 #ifdef HAVE_PROGRESSIVE_JPEG
 	volatile gboolean  progressive = FALSE;
 #endif
-	int                i, j;
 	int                w, h = 0;
 	int                rowstride = 0;
-	volatile int       bpp;
 
 	if (keys && *keys) {
 		char **kiter = keys;
@@ -340,19 +337,15 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
 		}
 	}
 
-	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	w = gdk_pixbuf_get_width (pixbuf);
-	h = gdk_pixbuf_get_height (pixbuf);
-	if (gdk_pixbuf_get_has_alpha (pixbuf))
-		bpp = 4;
-	else
-		bpp = 3;
-	pixels = gdk_pixbuf_get_pixels (pixbuf);
+	rowstride = cairo_image_surface_get_stride (image);
+	w = cairo_image_surface_get_width (image);
+	h = cairo_image_surface_get_height (image);
+	pixels = cairo_image_surface_get_data (image);
 	g_return_val_if_fail (pixels != NULL, FALSE);
 
 	/* allocate a small buffer to convert image data */
 
-	buf = g_try_malloc (w * bpp * sizeof (guchar));
+	buf = g_try_malloc (w * 3 * sizeof (guchar));
 	if (! buf) {
 		g_set_error (error,
 			     GDK_PIXBUF_ERROR,
@@ -396,29 +389,26 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
 #endif /* HAVE_PROGRESSIVE_JPEG */
 
 	jpeg_start_compress (&cinfo, TRUE);
-	/* get the start pointer */
-	ptr = pixels;
+
 	/* go one scanline at a time... and save */
-	i = 0;
 	while (cinfo.next_scanline < cinfo.image_height) {
 		JSAMPROW *jbuf;
 
-		/* convert scanline from ARGB to RGB packed */
-		for (j = 0; j < w; j++)
-			memcpy (&(buf[j * 3]),
-				&(ptr[i * rowstride + j * bpp]),
-				3);
+		/* convert scanline from RGBA to RGB packed */
+
+		_cairo_copy_line_as_rgb (buf, pixels, w, FALSE);
 
 		/* write scanline */
 		jbuf = (JSAMPROW *)(&buf);
 		jpeg_write_scanlines (&cinfo, jbuf, 1);
-		i++;
+
+		pixels += rowstride;
 	}
 
 	/* finish off */
 
 	jpeg_finish_compress (&cinfo);
-	jpeg_destroy_compress(&cinfo);
+	jpeg_destroy_compress (&cinfo);
 	g_free (buf);
 
 	return TRUE;
@@ -429,20 +419,21 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf   *pixbuf,
 
 
 static gboolean
-gth_image_saver_jpeg_save_pixbuf (GthPixbufSaver  *base,
-				  GdkPixbuf       *pixbuf,
-				  char           **buffer,
-				  gsize           *buffer_size,
-				  const char      *mime_type,
-				  GError         **error)
+gth_image_saver_jpeg_save_image (GthImageSaver  *base,
+				 GthImage       *image,
+				 char          **buffer,
+				 gsize          *buffer_size,
+				 const char     *mime_type,
+				 GError        **error)
 {
 #ifdef HAVE_LIBJPEG
 	GthImageSaverJpeg  *self = GTH_IMAGE_SAVER_JPEG (base);
-	char         **option_keys;
-	char         **option_values;
-	int            i = -1;
-	int            i_value;
-	gboolean       result;
+	char              **option_keys;
+	char              **option_values;
+	int                 i = -1;
+	int                 i_value;
+	cairo_surface_t    *surface;
+	gboolean            result;
 
 	option_keys = g_malloc (sizeof (char *) * 5);
 	option_values = g_malloc (sizeof (char *) * 5);
@@ -471,21 +462,25 @@ gth_image_saver_jpeg_save_pixbuf (GthPixbufSaver  *base,
 	option_keys[i] = NULL;
 	option_values[i] = NULL;
 
-	result = _gdk_pixbuf_save_as_jpeg (pixbuf,
-					   buffer,
-					   buffer_size,
-					   option_keys,
-					   option_values,
-					   error);
+	surface = gth_image_get_cairo_surface (image);
+	result = _cairo_surface_write_as_jpeg (surface,
+					       buffer,
+					       buffer_size,
+					       option_keys,
+					       option_values,
+					       error);
 
+	cairo_surface_destroy (surface);
 	g_strfreev (option_keys);
 	g_strfreev (option_values);
 
 #else /* ! HAVE_LIBJPEG */
 
-	char     *pixbuf_type;
-	gboolean  result;
+	GdkPixbuf *pixbuf;
+	char      *pixbuf_type;
+	gboolean   result;
 
+	pixbuf = gth_image_get_pixbuf (image);
 	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
 	result = gdk_pixbuf_save_to_bufferv (pixbuf,
 					     buffer,
@@ -496,6 +491,7 @@ gth_image_saver_jpeg_save_pixbuf (GthPixbufSaver  *base,
 					     error);
 
 	g_free (pixbuf_type);
+	g_object_unref (pixbuf);
 
 #endif /* HAVE_LIBJPEG */
 
@@ -507,23 +503,23 @@ static void
 gth_image_saver_jpeg_class_init (GthImageSaverJpegClass *klass)
 {
 	GObjectClass        *object_class;
-	GthPixbufSaverClass *pixbuf_saver_class;
+	GthImageSaverClass *image_saver_class;
 
 	g_type_class_add_private (klass, sizeof (GthImageSaverJpegPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_image_saver_jpeg_finalize;
 
-	pixbuf_saver_class = GTH_PIXBUF_SAVER_CLASS (klass);
-	pixbuf_saver_class->id = "jpeg";
-	pixbuf_saver_class->display_name = _("JPEG");
-	pixbuf_saver_class->mime_type = "image/jpeg";
-	pixbuf_saver_class->extensions = "jpeg jpg";
-	pixbuf_saver_class->get_default_ext = gth_image_saver_jpeg_get_default_ext;
-	pixbuf_saver_class->get_control = gth_image_saver_jpeg_get_control;
-	pixbuf_saver_class->save_options = gth_image_saver_jpeg_save_options;
-	pixbuf_saver_class->can_save = gth_image_saver_jpeg_can_save;
-	pixbuf_saver_class->save_pixbuf = gth_image_saver_jpeg_save_pixbuf;
+	image_saver_class = GTH_IMAGE_SAVER_CLASS (klass);
+	image_saver_class->id = "jpeg";
+	image_saver_class->display_name = _("JPEG");
+	image_saver_class->mime_type = "image/jpeg";
+	image_saver_class->extensions = "jpeg jpg";
+	image_saver_class->get_default_ext = gth_image_saver_jpeg_get_default_ext;
+	image_saver_class->get_control = gth_image_saver_jpeg_get_control;
+	image_saver_class->save_options = gth_image_saver_jpeg_save_options;
+	image_saver_class->can_save = gth_image_saver_jpeg_can_save;
+	image_saver_class->save_image = gth_image_saver_jpeg_save_image;
 }
 
 
@@ -531,7 +527,7 @@ static void
 gth_image_saver_jpeg_init (GthImageSaverJpeg *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_JPEG, GthImageSaverJpegPrivate);
-	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_JPEG_SCHEMA);
+	self->priv->settings = g_settings_new (GTHUMB_IMAGE_SAVERS_JPEG_SCHEMA);
 	self->priv->builder = NULL;
 	self->priv->default_ext = NULL;
 }

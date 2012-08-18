@@ -688,7 +688,6 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	FacebookService *self = user_data;
 	GthFileData     *file_data;
 	SoupMultipart   *multipart;
-	GthPixbufSaver  *saver;
 	char            *uri;
 	SoupBuffer      *body;
 	SoupMessage     *msg;
@@ -740,17 +739,16 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 
 	/* the file part: rotate and scale the image if required */
 
-	saver = gth_main_get_pixbuf_saver (gth_file_data_get_mime_type (file_data));
-	if (saver != NULL) {
-		GInputStream *stream;
-		GdkPixbuf    *pixbuf;
-		GdkPixbuf    *tmp_pixbuf;
-		int           width;
-		int           height;
+	{
+		GInputStream    *stream;
+		GthImage        *image;
+		cairo_surface_t *surface;
+		int              width;
+		int              height;
 
 		stream = g_memory_input_stream_new_from_data (*buffer, count, NULL);
-		pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, &error);
-		if (pixbuf == NULL) {
+		image = gth_image_new_from_stream (stream, -1, NULL, NULL, NULL, &error);
+		if (image == NULL) {
 			g_object_unref (stream);
 			soup_multipart_free (multipart);
 			upload_photos_done (self, error);
@@ -759,42 +757,41 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 
 		g_object_unref (stream);
 
-		tmp_pixbuf = gdk_pixbuf_apply_embedded_orientation (pixbuf);
-		g_object_unref (pixbuf);
-		pixbuf = tmp_pixbuf;
-
-		width = gdk_pixbuf_get_width (pixbuf);
-		height = gdk_pixbuf_get_height (pixbuf);
+		surface = gth_image_get_cairo_surface (image);
+		width = cairo_image_surface_get_width (surface);
+		height = cairo_image_surface_get_height (surface);
 		if (scale_keeping_ratio (&width,
 					 &height,
 					 self->priv->post_photos->max_resolution,
 					 self->priv->post_photos->max_resolution,
 					 FALSE))
 		{
-			tmp_pixbuf = _gdk_pixbuf_scale_simple_safe (pixbuf, width, height, GDK_INTERP_BILINEAR);
-			g_object_unref (pixbuf);
-			pixbuf = tmp_pixbuf;
+			cairo_surface_t *scaled;
+
+			scaled = _cairo_image_surface_scale (surface, width, height, SCALE_FILTER_BEST, NULL);
+			cairo_surface_destroy (surface);
+			surface = scaled;
 		}
 
 		g_free (*buffer);
 		*buffer = NULL;
 
-		if (! gth_pixbuf_saver_save_pixbuf (saver,
-						    pixbuf,
-						    (char **)buffer,
-						    &count,
-						    gth_file_data_get_mime_type (file_data),
-						    &error))
+		gth_image_set_cairo_surface (image, surface);
+		if (! gth_image_save_to_buffer (image,
+						gth_file_data_get_mime_type (file_data),
+					        (char **) buffer,
+					        &count,
+					        &error))
 		{
-			g_object_unref (pixbuf);
-			g_object_unref (saver);
+			cairo_surface_destroy (surface);
+			g_object_unref (image);
 			soup_multipart_free (multipart);
 			upload_photos_done (self, error);
 			return;
 		}
 
-		g_object_unref (pixbuf);
-		g_object_unref (saver);
+		cairo_surface_destroy (surface);
+		g_object_unref (image);
 	}
 
 	uri = g_file_get_uri (file_data->file);

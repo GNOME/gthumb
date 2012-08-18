@@ -24,12 +24,14 @@
 #include "glib-utils.h"
 #include "gth-main.h"
 #include "gth-overwrite-dialog.h"
-#include "gth-pixbuf-list-task.h"
+#include "gth-image.h"
+#include "gth-image-list-task.h"
+#include "gth-image-loader.h"
+#include "gth-image-saver.h"
 #include "gtk-utils.h"
-#include "pixbuf-io.h"
 
 
-struct _GthPixbufListTaskPrivate {
+struct _GthImageListTaskPrivate {
 	GthBrowser           *browser;
 	GList                *file_list;
 	GthTask              *task;
@@ -39,8 +41,8 @@ struct _GthPixbufListTaskPrivate {
 	GList                *current;
 	int                   n_current;
 	int                   n_files;
-	GdkPixbuf            *original_pixbuf;
-	GdkPixbuf            *new_pixbuf;
+	GthImage             *original_image;
+	GthImage             *new_image;
 	GFile                *destination_folder;
 	GthFileData          *destination_file_data;
 	GthOverwriteMode      overwrite_mode;
@@ -49,20 +51,20 @@ struct _GthPixbufListTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthPixbufListTask, gth_pixbuf_list_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE (GthImageListTask, gth_image_list_task, GTH_TYPE_TASK)
 
 
 static void
-gth_pixbuf_list_task_finalize (GObject *object)
+gth_image_list_task_finalize (GObject *object)
 {
-	GthPixbufListTask *self;
+	GthImageListTask *self;
 
-	self = GTH_PIXBUF_LIST_TASK (object);
+	self = GTH_IMAGE_LIST_TASK (object);
 
 	g_free (self->priv->mime_type);
 	_g_object_unref (self->priv->destination_folder);
-	_g_object_unref (self->priv->original_pixbuf);
-	_g_object_unref (self->priv->new_pixbuf);
+	_g_object_unref (self->priv->original_image);
+	_g_object_unref (self->priv->new_image);
 	g_signal_handler_disconnect (self->priv->task, self->priv->task_completed);
 	g_signal_handler_disconnect (self->priv->task, self->priv->task_progress);
 	g_signal_handler_disconnect (self->priv->task, self->priv->task_dialog);
@@ -70,15 +72,15 @@ gth_pixbuf_list_task_finalize (GObject *object)
 	_g_object_list_unref (self->priv->file_list);
 	_g_object_unref (self->priv->destination_file_data);
 
-	G_OBJECT_CLASS (gth_pixbuf_list_task_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_image_list_task_parent_class)->finalize (object);
 }
 
 
-static void process_current_file (GthPixbufListTask *self);
+static void process_current_file (GthImageListTask *self);
 
 
 static void
-process_next_file (GthPixbufListTask *self)
+process_next_file (GthImageListTask *self)
 {
 	self->priv->n_current++;
 	self->priv->current = self->priv->current->next;
@@ -86,9 +88,9 @@ process_next_file (GthPixbufListTask *self)
 }
 
 
-static void pixbuf_task_save_current_pixbuf (GthPixbufListTask *self,
-					     GFile             *file,
-					     gboolean           replace);
+static void image_task_save_current_image (GthImageListTask *self,
+					   GFile            *file,
+					   gboolean          replace);
 
 
 static void
@@ -96,8 +98,8 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
                               gint       response_id,
                               gpointer   user_data)
 {
-	GthPixbufListTask *self = user_data;
-	gboolean           close_overwrite_dialog = TRUE;
+	GthImageListTask *self = user_data;
+	gboolean          close_overwrite_dialog = TRUE;
 
 	if (response_id != GTK_RESPONSE_OK)
 		self->priv->overwrite_response = GTH_OVERWRITE_RESPONSE_CANCEL;
@@ -120,7 +122,7 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 	case GTH_OVERWRITE_RESPONSE_ALWAYS_YES:
 		if (self->priv->overwrite_response == GTH_OVERWRITE_RESPONSE_ALWAYS_YES)
 			self->priv->overwrite_mode = GTH_OVERWRITE_OVERWRITE;
-		pixbuf_task_save_current_pixbuf (self, NULL, TRUE);
+		image_task_save_current_image (self, NULL, TRUE);
 		break;
 
 	case GTH_OVERWRITE_RESPONSE_RENAME:
@@ -143,7 +145,7 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 				close_overwrite_dialog = FALSE;
 			}
 			else
-				pixbuf_task_save_current_pixbuf (self, new_destination, FALSE);
+				image_task_save_current_image (self, new_destination, FALSE);
 
 			g_object_unref (new_destination);
 			g_object_unref (parent);
@@ -166,11 +168,11 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 
 
 static void
-pixbuf_saved_cb (GthFileData *file_data,
-		 GError      *error,
-		 gpointer     user_data)
+image_saved_cb (GthFileData *file_data,
+		GError      *error,
+		gpointer     user_data)
 {
-	GthPixbufListTask *self = user_data;
+	GthImageListTask *self = user_data;
 	GFile             *parent;
 	GList             *file_list;
 
@@ -183,7 +185,7 @@ pixbuf_saved_cb (GthFileData *file_data,
 				GtkWidget *dialog;
 
 				dialog = gth_overwrite_dialog_new (NULL,
-								   self->priv->new_pixbuf,
+								   self->priv->new_image,
 								   self->priv->destination_file_data->file,
 								   GTH_OVERWRITE_RESPONSE_YES,
 								   (self->priv->n_files == 1));
@@ -216,24 +218,24 @@ pixbuf_saved_cb (GthFileData *file_data,
 
 
 static void
-pixbuf_task_dialog_cb (GthTask   *task,
-		       gboolean   opened,
-		       GtkWidget *dialog,
-		       gpointer   user_data)
+image_task_dialog_cb (GthTask   *task,
+		      gboolean   opened,
+		      GtkWidget *dialog,
+		      gpointer   user_data)
 {
 	gth_task_dialog (GTH_TASK (user_data), opened, dialog);
 }
 
 
 static void
-pixbuf_task_progress_cb (GthTask    *task,
-		         const char *description,
-		         const char *details,
-		         gboolean    pulse,
-		         double      fraction,
-		         gpointer    user_data)
+image_task_progress_cb (GthTask    *task,
+		        const char *description,
+		        const char *details,
+		        gboolean    pulse,
+		        double      fraction,
+		        gpointer    user_data)
 {
-	GthPixbufListTask *self = user_data;
+	GthImageListTask *self = user_data;
 	double             total_fraction;
 	double             file_fraction;
 
@@ -249,7 +251,7 @@ pixbuf_task_progress_cb (GthTask    *task,
 	}
 
 	gth_task_progress (GTH_TASK (self),
-			   description,
+			   gth_image_task_get_description (GTH_IMAGE_TASK (task)),
 			   details,
 			   FALSE,
 			   total_fraction + (file_fraction / (self->priv->n_files + 1)));
@@ -257,36 +259,39 @@ pixbuf_task_progress_cb (GthTask    *task,
 
 
 static void
-pixbuf_task_save_current_pixbuf (GthPixbufListTask *self,
-				 GFile             *file,
-				 gboolean           replace)
+image_task_save_current_image (GthImageListTask *self,
+			       GFile             *file,
+			       gboolean           replace)
 {
+	GthImage *destination;
+
 	if (file != NULL)
 		gth_file_data_set_file (self->priv->destination_file_data, file);
 
-	if (GTH_PIXBUF_TASK (self->priv->task)->dest == NULL) {
+	destination = gth_image_task_get_destination (GTH_IMAGE_TASK (self->priv->task));
+	if (destination == NULL) {
 		process_next_file (self);
 		return;
 	}
 
-	/* add a reference before unref-ing new_pixbuf because dest and
-	 * new_pixbuf can be the same object. */
+	/* add a reference before unref-ing new_image because dest and
+	 * new_image can be the same object. */
 
-	g_object_ref (GTH_PIXBUF_TASK (self->priv->task)->dest);
-	_g_object_unref (self->priv->new_pixbuf);
-	self->priv->new_pixbuf = GTH_PIXBUF_TASK (self->priv->task)->dest;
+	g_object_ref (destination);
+	_g_object_unref (self->priv->new_image);
+	self->priv->new_image = destination;
 
-	_gdk_pixbuf_save_async (self->priv->new_pixbuf,
-				self->priv->destination_file_data,
+	gth_image_save_to_file (self->priv->new_image,
 				gth_file_data_get_mime_type (self->priv->destination_file_data),
+				self->priv->destination_file_data,
 				replace,
-				pixbuf_saved_cb,
+				image_saved_cb,
 				self);
 }
 
 
 static void
-set_current_destination_file (GthPixbufListTask *self)
+set_current_destination_file (GthImageListTask *self)
 {
 	char  *display_name;
 	GFile *parent;
@@ -296,14 +301,14 @@ set_current_destination_file (GthPixbufListTask *self)
 	self->priv->destination_file_data = g_object_ref (self->priv->current->data);
 
 	if (self->priv->mime_type != NULL) {
-		char           *no_ext;
-		GthPixbufSaver *saver;
+		char          *no_ext;
+		GthImageSaver *saver;
 
 		no_ext = _g_uri_remove_extension (g_file_info_get_display_name (self->priv->destination_file_data->info));
-		saver = gth_main_get_pixbuf_saver (self->priv->mime_type);
+		saver = gth_main_get_image_saver (self->priv->mime_type);
 		g_return_if_fail (saver != NULL);
 
-		display_name = g_strconcat (no_ext, ".", gth_pixbuf_saver_get_default_ext (saver), NULL);
+		display_name = g_strconcat (no_ext, ".", gth_image_saver_get_default_ext (saver), NULL);
 		gth_file_data_set_mime_type (self->priv->destination_file_data, self->priv->mime_type);
 
 		g_object_unref (saver);
@@ -327,11 +332,11 @@ set_current_destination_file (GthPixbufListTask *self)
 
 
 static void
-pixbuf_task_completed_cb (GthTask  *task,
-			  GError   *error,
-			  gpointer  user_data)
+image_task_completed_cb (GthTask  *task,
+			 GError   *error,
+			 gpointer  user_data)
 {
-	GthPixbufListTask *self = user_data;
+	GthImageListTask *self = user_data;
 
 	if (g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_SKIP_TO_NEXT_FILE)) {
 		process_next_file (self);
@@ -344,7 +349,7 @@ pixbuf_task_completed_cb (GthTask  *task,
 	}
 
 	set_current_destination_file (self);
-	pixbuf_task_save_current_pixbuf (self, NULL, (self->priv->overwrite_mode == GTH_OVERWRITE_OVERWRITE));
+	image_task_save_current_image (self, NULL, (self->priv->overwrite_mode == GTH_OVERWRITE_OVERWRITE));
 }
 
 
@@ -354,9 +359,8 @@ file_buffer_ready_cb (void     **buffer,
 		      GError    *error,
 		      gpointer   user_data)
 {
-	GthPixbufListTask *self = user_data;
-	GInputStream      *istream;
-	GdkPixbuf         *pixbuf;
+	GthImageListTask *self = user_data;
+	GInputStream     *istream;
 
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
@@ -364,22 +368,16 @@ file_buffer_ready_cb (void     **buffer,
 	}
 
 	istream = g_memory_input_stream_new_from_data (*buffer, count, NULL);
-	pixbuf = gdk_pixbuf_new_from_stream (istream, gth_task_get_cancellable (GTH_TASK (self)), &error);
-	if (pixbuf != NULL) {
-		self->priv->original_pixbuf = gdk_pixbuf_apply_embedded_orientation (pixbuf);
-		g_object_unref (pixbuf);
-	}
-	else
-		self->priv->original_pixbuf = NULL;
+	self->priv->original_image = gth_image_new_from_stream (istream, -1, NULL, NULL, gth_task_get_cancellable (GTH_TASK (self)), &error);
 
 	g_object_unref (istream);
 
-	if (self->priv->original_pixbuf == NULL) {
+	if (self->priv->original_image == NULL) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
-	gth_pixbuf_task_set_source (GTH_PIXBUF_TASK (self->priv->task), self->priv->original_pixbuf);
+	gth_image_task_set_source (GTH_IMAGE_TASK (self->priv->task), self->priv->original_image);
 	gth_task_exec (self->priv->task, gth_task_get_cancellable (GTH_TASK (self)));
 }
 
@@ -389,7 +387,7 @@ file_info_ready_cb (GList    *files,
 		    GError   *error,
 		    gpointer  user_data)
 {
-	GthPixbufListTask *self = user_data;
+	GthImageListTask *self = user_data;
 	GthFileData       *updated_file_data;
 	GthFileData       *source_file_data;
 
@@ -411,7 +409,7 @@ file_info_ready_cb (GList    *files,
 
 
 static void
-process_current_file (GthPixbufListTask *self)
+process_current_file (GthImageListTask *self)
 {
 	GthFileData *source_file_data;
 	GList       *source_singleton;
@@ -423,11 +421,11 @@ process_current_file (GthPixbufListTask *self)
 		return;
 	}
 
-	_g_object_unref (self->priv->original_pixbuf);
-	self->priv->original_pixbuf = NULL;
+	_g_object_unref (self->priv->original_image);
+	self->priv->original_image = NULL;
 
-	_g_object_unref (self->priv->new_pixbuf);
-	self->priv->new_pixbuf = NULL;
+	_g_object_unref (self->priv->new_image);
+	self->priv->new_image = NULL;
 
 	gth_task_progress (GTH_TASK (self),
 			   NULL,
@@ -449,13 +447,13 @@ process_current_file (GthPixbufListTask *self)
 
 
 static void
-gth_pixbuf_list_task_exec (GthTask *task)
+gth_image_list_task_exec (GthTask *task)
 {
-	GthPixbufListTask *self;
+	GthImageListTask *self;
 
-	g_return_if_fail (GTH_IS_PIXBUF_LIST_TASK (task));
+	g_return_if_fail (GTH_IS_IMAGE_LIST_TASK (task));
 
-	self = GTH_PIXBUF_LIST_TASK (task);
+	self = GTH_IMAGE_LIST_TASK (task);
 
 	self->priv->current = self->priv->file_list;
 	self->priv->n_current = 0;
@@ -465,27 +463,27 @@ gth_pixbuf_list_task_exec (GthTask *task)
 
 
 static void
-gth_pixbuf_list_task_class_init (GthPixbufListTaskClass *klass)
+gth_image_list_task_class_init (GthImageListTaskClass *klass)
 {
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthPixbufListTaskPrivate));
+	g_type_class_add_private (klass, sizeof (GthImageListTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gth_pixbuf_list_task_finalize;
+	object_class->finalize = gth_image_list_task_finalize;
 
 	task_class = GTH_TASK_CLASS (klass);
-	task_class->exec = gth_pixbuf_list_task_exec;
+	task_class->exec = gth_image_list_task_exec;
 }
 
 
 static void
-gth_pixbuf_list_task_init (GthPixbufListTask *self)
+gth_image_list_task_init (GthImageListTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PIXBUF_LIST_TASK, GthPixbufListTaskPrivate);
-	self->priv->original_pixbuf = NULL;
-	self->priv->new_pixbuf = NULL;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_LIST_TASK, GthImageListTaskPrivate);
+	self->priv->original_image = NULL;
+	self->priv->new_image = NULL;
 	self->priv->destination_folder = NULL;
 	self->priv->overwrite_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
 	self->priv->mime_type = NULL;
@@ -493,30 +491,30 @@ gth_pixbuf_list_task_init (GthPixbufListTask *self)
 
 
 GthTask *
-gth_pixbuf_list_task_new (GthBrowser    *browser,
-			  GList         *file_list,
-			  GthPixbufTask *task)
+gth_image_list_task_new (GthBrowser    *browser,
+			  GList        *file_list,
+			  GthImageTask *task)
 {
-	GthPixbufListTask *self;
+	GthImageListTask *self;
 
 	g_return_val_if_fail (task != NULL, NULL);
-	g_return_val_if_fail (GTH_IS_PIXBUF_TASK (task), NULL);
+	g_return_val_if_fail (GTH_IS_IMAGE_TASK (task), NULL);
 
-	self = GTH_PIXBUF_LIST_TASK (g_object_new (GTH_TYPE_PIXBUF_LIST_TASK, NULL));
+	self = GTH_IMAGE_LIST_TASK (g_object_new (GTH_TYPE_IMAGE_LIST_TASK, NULL));
 	self->priv->browser = browser;
 	self->priv->file_list = _g_object_list_ref (file_list);
 	self->priv->task = g_object_ref (task);
 	self->priv->task_completed = g_signal_connect (self->priv->task,
 						       "completed",
-						       G_CALLBACK (pixbuf_task_completed_cb),
+						       G_CALLBACK (image_task_completed_cb),
 						       self);
 	self->priv->task_progress = g_signal_connect (self->priv->task,
 						      "progress",
-						      G_CALLBACK (pixbuf_task_progress_cb),
+						      G_CALLBACK (image_task_progress_cb),
 						      self);
 	self->priv->task_dialog = g_signal_connect (self->priv->task,
 						    "dialog",
-						    G_CALLBACK (pixbuf_task_dialog_cb),
+						    G_CALLBACK (image_task_dialog_cb),
 						    self);
 
 	return (GthTask *) self;
@@ -524,7 +522,7 @@ gth_pixbuf_list_task_new (GthBrowser    *browser,
 
 
 void
-gth_pixbuf_list_task_set_destination (GthPixbufListTask *self,
+gth_image_list_task_set_destination (GthImageListTask *self,
 				      GFile             *folder)
 {
 	_g_object_unref (self->priv->destination_folder);
@@ -533,7 +531,7 @@ gth_pixbuf_list_task_set_destination (GthPixbufListTask *self,
 
 
 void
-gth_pixbuf_list_task_set_overwrite_mode (GthPixbufListTask    *self,
+gth_image_list_task_set_overwrite_mode (GthImageListTask    *self,
 					 GthOverwriteMode      overwrite_mode)
 {
 	self->priv->overwrite_mode = overwrite_mode;
@@ -541,7 +539,7 @@ gth_pixbuf_list_task_set_overwrite_mode (GthPixbufListTask    *self,
 
 
 void
-gth_pixbuf_list_task_set_output_mime_type (GthPixbufListTask *self,
+gth_image_list_task_set_output_mime_type (GthImageListTask *self,
 					   const char        *mime_type)
 {
 	g_free (self->priv->mime_type);

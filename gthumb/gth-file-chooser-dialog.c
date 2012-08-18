@@ -161,16 +161,16 @@ gth_file_chooser_dialog_construct (GthFileChooserDialog *self,
 
 	/**/
 
-	savers = gth_main_get_type_set (allowed_savers /*"pixbuf-saver"*/);
+	savers = gth_main_get_type_set (allowed_savers /*"image-saver"*/);
 	for (i = 0; (savers != NULL) && (i < savers->len); i++) {
-		GthPixbufSaver *saver;
+		GthImageSaver *saver;
 		Format         *format;
 
 		saver = g_object_new (g_array_index (savers, GType, i), NULL);
 		format = g_new (Format, 1);
-		format->type = get_static_string (gth_pixbuf_saver_get_mime_type (saver));
-		format->extensions = get_static_string (gth_pixbuf_saver_get_extensions (saver));
-		format->default_ext = get_static_string (gth_pixbuf_saver_get_default_ext (saver));
+		format->type = get_static_string (gth_image_saver_get_mime_type (saver));
+		format->extensions = get_static_string (gth_image_saver_get_extensions (saver));
+		format->default_ext = get_static_string (gth_image_saver_get_default_ext (saver));
 		self->priv->supported_formats = g_list_prepend (self->priv->supported_formats, format);
 
 		g_object_unref (saver);

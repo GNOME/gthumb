@@ -443,3 +443,48 @@ _cairo_image_surface_scale (cairo_surface_t  *image,
 						  filter,
 						  task);
 }
+
+
+cairo_surface_t *
+_cairo_image_surface_scale_squared (cairo_surface_t *image,
+				    int              size,
+				    scale_filter_t   quality,
+				    GthAsyncTask    *task)
+{
+	int              width, height;
+	int              scaled_width, scaled_height;
+	cairo_surface_t *scaled;
+	cairo_surface_t *squared;
+
+	width = cairo_image_surface_get_width (image);
+	height = cairo_image_surface_get_height (image);
+
+	if ((width < size) && (height < size))
+		return _cairo_image_surface_copy (image);
+
+	if (width > height) {
+		scaled_height = size;
+		scaled_width = (int) (((double) width / height) * scaled_height);
+	}
+	else {
+		scaled_width = size;
+		scaled_height = (int) (((double) height / width) * scaled_width);
+	}
+
+	if ((scaled_width != width) || (scaled_height != height))
+		scaled = _cairo_image_surface_scale (image, scaled_width, scaled_height, quality, task);
+	else
+		scaled = cairo_surface_reference (image);
+
+	if ((scaled_width == size) && (scaled_height == size))
+		return scaled;
+
+	squared = _cairo_image_surface_copy_subsurface (scaled,
+							(scaled_width - size) / 2,
+							(scaled_height - size) / 2,
+							size,
+							size);
+	cairo_surface_destroy (scaled);
+
+	return squared;
+}

@@ -507,6 +507,26 @@ _cairo_image_surface_transform (cairo_surface_t *source,
 
 
 void
+_cairo_copy_line_as_rgb (guchar *dest,
+			 guchar *src,
+			 guint   width,
+			 guint   alpha)
+{
+	guint x;
+
+	for (x = 0; x < width; x++) {
+		*(dest++) = src[CAIRO_RED];
+		*(dest++) = src[CAIRO_GREEN];
+		*(dest++) = src[CAIRO_BLUE];
+		if (alpha)
+			*(dest++) = src[CAIRO_ALPHA];
+
+		src += 4;
+	}
+}
+
+
+void
 _cairo_paint_full_gradient (cairo_surface_t *surface,
 			    GdkColor        *h_color1,
 			    GdkColor        *h_color2,

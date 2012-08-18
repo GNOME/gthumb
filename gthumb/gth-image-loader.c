@@ -68,7 +68,7 @@ gth_image_loader_init (GthImageLoader *self)
 	self->priv->as_animation = FALSE;
 	self->priv->loader_func = NULL;
 	self->priv->loader_data = NULL;
-	self->priv->preferred_format = GTH_IMAGE_FORMAT_GDK_PIXBUF;
+	self->priv->preferred_format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
 }
 
 
@@ -239,72 +239,6 @@ gth_image_loader_load (GthImageLoader      *loader,
 
 
 gboolean
-gth_image_loader_load_stream_sync (GthImageLoader  *self,
-				   GInputStream    *istream,
-				   int              requested_size,
-				   GthImage       **p_image,
-				   int             *p_original_width,
-				   int             *p_original_height,
-				   GCancellable    *cancellable,
-				   GError         **p_error)
-{
-	GthImage *image;
-	int       original_width;
-	int       original_height;
-	GError   *error = NULL;
-	gboolean  result;
-
-	if (self->priv->loader_func != NULL) {
-		image = (*self->priv->loader_func) (istream,
-						    NULL,
-						    requested_size,
-						    &original_width,
-						    &original_height,
-						    self->priv->loader_data,
-						    cancellable,
-						    &error);
-	}
-	else {
-		const char         *mime_type;
-		GthImageLoaderFunc  loader_func;
-
-		mime_type = _g_content_type_get_from_stream (istream, cancellable, &error);
-		loader_func = gth_main_get_image_loader_func (mime_type, self->priv->preferred_format);
-		if (loader_func != NULL)
-			image = loader_func (istream,
-					     NULL,
-				             requested_size,
-				             &original_width,
-				             &original_height,
-				             NULL,
-				             cancellable,
-				             &error);
-		else
-			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
-	}
-
-	result = (error == NULL);
-
-	if (p_error != NULL)
-		*p_error = error;
-	else
-		_g_error_free (error);
-
-	if (p_image != NULL)
-		*p_image = image;
-	else
-		g_object_unref (image);
-
-	if (p_original_width != NULL)
-		*p_original_width = original_width;
-	if (p_original_height != NULL)
-		*p_original_height = original_height;
-
-	return result;
-}
-
-
-gboolean
 gth_image_loader_load_finish (GthImageLoader   *loader,
 			      GAsyncResult     *result,
 			      GthImage        **image,
@@ -331,4 +265,50 @@ gth_image_loader_load_finish (GthImageLoader   *loader,
 	  	  *original_height = load_data->original_height;
 
 	  return TRUE;
+}
+
+
+GthImage *
+gth_image_new_from_stream (GInputStream  *istream,
+			   int            requested_size,
+			   int           *p_original_width,
+			   int           *p_original_height,
+			   GCancellable  *cancellable,
+			   GError       **p_error)
+{
+	const char         *mime_type;
+	GthImageLoaderFunc  loader_func;
+	GthImage           *image;
+	int                 original_width;
+	int                 original_height;
+	GError             *error = NULL;
+
+	mime_type = _g_content_type_get_from_stream (istream, cancellable, &error);
+	if (mime_type != NULL) {
+		loader_func = gth_main_get_image_loader_func (mime_type, GTH_IMAGE_FORMAT_CAIRO_SURFACE);
+		if (loader_func != NULL)
+			image = loader_func (istream,
+					     NULL,
+					     requested_size,
+					     &original_width,
+					     &original_height,
+					     NULL,
+					     cancellable,
+					     &error);
+	}
+
+	if ((image == NULL) && (error == NULL))
+		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
+
+	if (p_error != NULL)
+		*p_error = error;
+	else
+		_g_error_free (error);
+
+	if (p_original_width != NULL)
+		*p_original_width = original_width;
+	if (p_original_height != NULL)
+		*p_original_height = original_height;
+
+	return image;
 }

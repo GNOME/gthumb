@@ -64,19 +64,17 @@ void              gth_image_loader_load                   (GthImageLoader       
 							   GCancellable         *cancellable,
 							   GAsyncReadyCallback   callback,
 							   gpointer              user_data);
-gboolean          gth_image_loader_load_stream_sync       (GthImageLoader       *loader,
-							   GInputStream         *istream,
-							   int                   requested_size,
-							   GthImage            **image,
-							   int                  *original_width,
-							   int                  *original_height,
-							   GCancellable         *cancellable,
-							   GError              **error);
 gboolean          gth_image_loader_load_finish            (GthImageLoader       *loader,
 							   GAsyncResult         *res,
 							   GthImage            **image,
 							   int                  *original_width,
 							   int                  *original_height,
+							   GError              **error);
+GthImage *        gth_image_new_from_stream               (GInputStream         *istream,
+							   int                   requested_size,
+							   int                  *original_width,
+							   int                  *original_height,
+							   GCancellable         *cancellable,
 							   GError              **error);
 
 G_END_DECLS

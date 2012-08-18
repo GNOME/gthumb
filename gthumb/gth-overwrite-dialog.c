@@ -36,7 +36,7 @@
 struct _GthOverwriteDialogPrivate {
 	GtkBuilder     *builder;
 	GFile          *source;
-	GdkPixbuf      *source_pixbuf;
+	GthImage       *source_image;
 	GFile          *destination;
 	GtkWidget      *old_image_viewer;
 	GtkWidget      *new_image_viewer;
@@ -61,7 +61,7 @@ gth_overwrite_dialog_finalize (GObject *object)
 	_g_object_unref (dialog->priv->destination_data);
 	g_object_unref (dialog->priv->builder);
 	_g_object_unref (dialog->priv->source);
-	_g_object_unref (dialog->priv->source_pixbuf);
+	_g_object_unref (dialog->priv->source_image);
 	g_object_unref (dialog->priv->destination);
 	_g_object_unref (dialog->priv->old_image_loader);
 	_g_object_unref (dialog->priv->new_image_loader);
@@ -174,11 +174,11 @@ info_ready_cb (GList    *files,
 				       image_loader_ready_cb,
 				       self);
 	}
-	else if (self->priv->source_pixbuf != NULL) {
+	else if (self->priv->source_image != NULL) {
 		gtk_widget_hide (_gtk_builder_get_widget (self->priv->builder, "new_filename_label"));
 		gtk_widget_hide (_gtk_builder_get_widget (self->priv->builder, "new_size_label"));
 		gtk_widget_hide (_gtk_builder_get_widget (self->priv->builder, "new_modified_label"));
-		gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), self->priv->source_pixbuf, -1, -1);
+		gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), self->priv->source_image, -1, -1);
 	}
 
 	/* old image  */
@@ -326,7 +326,7 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 
 GtkWidget *
 gth_overwrite_dialog_new (GFile                *source,
-			  GdkPixbuf            *source_pixbuf,
+			  GthImage             *source_image,
 			  GFile                *destination,
 			  GthOverwriteResponse  default_respose,
 			  gboolean              single_file)
@@ -335,7 +335,7 @@ gth_overwrite_dialog_new (GFile                *source,
 
 	self = g_object_new (GTH_TYPE_OVERWRITE_DIALOG, NULL);
 	self->priv->source = _g_object_ref (source);
-	self->priv->source_pixbuf = _g_object_ref (source_pixbuf);
+	self->priv->source_image = _g_object_ref (source_image);
 	self->priv->destination = g_object_ref (destination);
 	gth_overwrite_dialog_construct (self, default_respose, single_file);
 

@@ -1108,7 +1108,7 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	GthImageViewerPage *self;
 	SaveData           *data;
 	GthFileData        *current_file;
-	GdkPixbuf          *pixbuf;
+	GthImage           *image;
 
 	self = (GthImageViewerPage *) base;
 
@@ -1147,15 +1147,15 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	 * wants to save (see load_file_delayed_cb in gth-browser.c). */
 	g_file_info_set_attribute_boolean (data->file_to_save->info, "gth::file::is-modified", FALSE);
 
-	pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
-	_gdk_pixbuf_save_async (pixbuf,
+	image = gth_image_new_for_surface (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)));
+	gth_image_save_to_file (image,
+				mime_type,
 				data->file_to_save,
-			        mime_type,
 			        TRUE,
 				image_saved_cb,
 				data);
 
-	_g_object_unref (pixbuf);
+	_g_object_unref (image);
 }
 
 
@@ -1164,7 +1164,7 @@ gth_image_viewer_page_real_can_save (GthViewerPage *base)
 {
 	GArray *savers;
 
-	savers = gth_main_get_type_set ("pixbuf-saver");
+	savers = gth_main_get_type_set ("image-saver");
 	return (savers != NULL) && (savers->len > 0);
 }
 
@@ -1247,7 +1247,7 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 	self = GTH_IMAGE_VIEWER_PAGE (base);
 	file_sel = gth_file_chooser_dialog_new (_("Save Image"),
 						GTK_WINDOW (self->priv->browser),
-						"pixbuf-saver");
+						"image-saver");
 
 	uri = g_file_get_uri (self->priv->file_data->file);
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), uri);

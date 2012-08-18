@@ -30,7 +30,7 @@
 #include "preferences.h"
 
 
-G_DEFINE_TYPE (GthImageSaverTiff, gth_image_saver_tiff, GTH_TYPE_PIXBUF_SAVER)
+G_DEFINE_TYPE (GthImageSaverTiff, gth_image_saver_tiff, GTH_TYPE_IMAGE_SAVER)
 
 
 struct _GthImageSaverTiffPrivate {
@@ -54,7 +54,7 @@ gth_image_saver_tiff_finalize (GObject *object)
 
 
 static const char *
-gth_image_saver_tiff_get_default_ext (GthPixbufSaver *base)
+gth_image_saver_tiff_get_default_ext (GthImageSaver *base)
 {
 	GthImageSaverTiff *self = GTH_IMAGE_SAVER_TIFF (base);
 
@@ -66,7 +66,7 @@ gth_image_saver_tiff_get_default_ext (GthPixbufSaver *base)
 
 
 static GtkWidget *
-gth_image_saver_tiff_get_control (GthPixbufSaver *base)
+gth_image_saver_tiff_get_control (GthImageSaver *base)
 {
 #ifdef HAVE_LIBTIFF
 
@@ -80,7 +80,7 @@ gth_image_saver_tiff_get_control (GthPixbufSaver *base)
 		self->priv->builder = _gtk_builder_new_from_file ("tiff-options.ui", "cairo_io");
 
 	active_idx = 0;
-	extensions = g_strsplit (gth_pixbuf_saver_get_extensions (base), " ", -1);
+	extensions = g_strsplit (gth_image_saver_get_extensions (base), " ", -1);
 	for (i = 0; extensions[i] != NULL; i++) {
 		GtkTreeIter iter;
 
@@ -89,7 +89,7 @@ gth_image_saver_tiff_get_control (GthPixbufSaver *base)
 				    &iter,
 				    0, extensions[i],
 				    -1);
-		if (g_str_equal (extensions[i], gth_pixbuf_saver_get_default_ext (base)))
+		if (g_str_equal (extensions[i], gth_image_saver_get_default_ext (base)))
 			active_idx = i;
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (_gtk_builder_get_widget (self->priv->builder, "tiff_default_extension_combobox")), active_idx);
@@ -117,14 +117,14 @@ gth_image_saver_tiff_get_control (GthPixbufSaver *base)
 
 #else /* ! HAVE_LIBTIFF */
 
-	return GTH_PIXBUF_SAVER_CLASS (gth_image_saver_tiff_parent_class)->get_control (base);
+	return GTH_IMAGE_SAVER_CLASS (gth_image_saver_tiff_parent_class)->get_control (base);
 
 #endif /* HAVE_LIBTIFF */
 }
 
 
 static void
-gth_image_saver_tiff_save_options (GthPixbufSaver *base)
+gth_image_saver_tiff_save_options (GthImageSaver *base)
 {
 #ifdef HAVE_LIBTIFF
 
@@ -157,8 +157,8 @@ gth_image_saver_tiff_save_options (GthPixbufSaver *base)
 
 
 static gboolean
-gth_image_saver_tiff_can_save (GthPixbufSaver *self,
-			       const char     *mime_type)
+gth_image_saver_tiff_can_save (GthImageSaver *self,
+			       const char    *mime_type)
 {
 #ifdef HAVE_LIBTIFF
 
@@ -250,12 +250,12 @@ tiff_save_size (thandle_t handle)
 
 
 static gboolean
-_gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
-			  char       **buffer,
-			  gsize       *buffer_size,
-			  char       **keys,
-			  char       **values,
-			  GError     **error)
+_cairo_surface_write_as_tiff (cairo_surface_t  *image,
+			      char            **buffer,
+			      gsize            *buffer_size,
+			      char            **keys,
+			      char            **values,
+			      GError          **error)
 {
 	GthBufferData *buffer_data;
 	TIFF          *tif;
@@ -269,7 +269,7 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 	gshort         bitspersample;
 	gushort        extra_samples[1];
 	int            rowstride;
-	guchar        *pixels;
+	guchar        *pixels, *ptr, *buf;
 	int            horizontal_dpi = 72, vertical_dpi = 72;
 	gboolean       save_resolution = FALSE;
 
@@ -380,11 +380,11 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 		return FALSE;
 	}
 
-	cols      = gdk_pixbuf_get_width (pixbuf);
-	rows      = gdk_pixbuf_get_height (pixbuf);
-	alpha     = gdk_pixbuf_get_has_alpha (pixbuf);
-	pixels    = gdk_pixbuf_get_pixels (pixbuf);
-	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+	cols      = cairo_image_surface_get_width (image);
+	rows      = cairo_image_surface_get_height (image);
+	alpha     = _cairo_image_surface_get_has_alpha (image);
+	pixels    = cairo_image_surface_get_data (image);
+	rowstride = cairo_image_surface_get_stride (image);
 
 	predictor       = 2;
 	bitspersample   = 8;
@@ -427,9 +427,20 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 		TIFFSetField (tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
 	}
 
+	buf = g_try_malloc (cols * samplesperpixel * sizeof (guchar));
+	if (! buf) {
+		g_set_error_literal (error,
+				     GDK_PIXBUF_ERROR,
+				     GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY,
+				     _("Insufficient memory"));
+		return FALSE;
+	}
+
 	/* Now write the TIFF data. */
+	ptr = pixels;
 	for (row = 0; row < rows; row++) {
-		if (TIFFWriteScanline (tif, pixels + row * rowstride, row, 0) < 0) {
+		_cairo_copy_line_as_rgb (buf, ptr, cols, alpha);
+		if (TIFFWriteScanline (tif, buf, row, 0) < 0) {
 			g_set_error (error,
 				     GDK_PIXBUF_ERROR,
 				     GDK_PIXBUF_ERROR_FAILED,
@@ -437,7 +448,11 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 				     row);
 			return FALSE;
 		}
+
+		ptr += rowstride;
 	}
+
+	g_free (buf);
 
 	TIFFFlushData (tif);
 	TIFFClose (tif);
@@ -453,12 +468,12 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 
 
 static gboolean
-gth_image_saver_tiff_save_pixbuf (GthPixbufSaver  *base,
-				  GdkPixbuf       *pixbuf,
-				  char           **buffer,
-				  gsize           *buffer_size,
-				  const char      *mime_type,
-				  GError         **error)
+gth_image_saver_tiff_save_image (GthImageSaver  *base,
+				 GthImage       *image,
+				 char          **buffer,
+				 gsize          *buffer_size,
+				 const char     *mime_type,
+				 GError        **error)
 {
 #ifdef HAVE_LIBTIFF
 	GthImageSaverTiff  *self = GTH_IMAGE_SAVER_TIFF (base);
@@ -466,6 +481,7 @@ gth_image_saver_tiff_save_pixbuf (GthPixbufSaver  *base,
 	char              **option_values;
 	int                 i = -1;
 	int                 i_value;
+	cairo_surface_t    *surface;
 	gboolean            result;
 
 	option_keys = g_malloc (sizeof (char *) * 4);
@@ -489,21 +505,25 @@ gth_image_saver_tiff_save_pixbuf (GthPixbufSaver  *base,
 	option_keys[i] = NULL;
 	option_values[i] = NULL;
 
-	result = _gdk_pixbuf_save_as_tiff (pixbuf,
-					   buffer,
-					   buffer_size,
-					   option_keys,
-					   option_values,
-					   error);
+	surface = gth_image_get_cairo_surface (image);
+	result = _cairo_surface_write_as_tiff (surface,
+					       buffer,
+					       buffer_size,
+					       option_keys,
+					       option_values,
+					       error);
 
+	cairo_surface_destroy (surface);
 	g_strfreev (option_keys);
 	g_strfreev (option_values);
 
 #else /* ! HAVE_LIBTIFF */
 
-	char     *pixbuf_type;
-	gboolean  result;
+	GdkPixbuf *pixbuf;
+	char      *pixbuf_type;
+	gboolean   result;
 
+	pixbuf = gth_image_get_pixbuf (image);
 	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
 	result = gdk_pixbuf_save_to_bufferv (pixbuf,
 					     buffer,
@@ -514,6 +534,7 @@ gth_image_saver_tiff_save_pixbuf (GthPixbufSaver  *base,
 					     error);
 
 	g_free (pixbuf_type);
+	g_object_unref (pixbuf);
 
 #endif /* HAVE_LIBTIFF */
 
@@ -524,24 +545,24 @@ gth_image_saver_tiff_save_pixbuf (GthPixbufSaver  *base,
 static void
 gth_image_saver_tiff_class_init (GthImageSaverTiffClass *klass)
 {
-	GObjectClass        *object_class;
-	GthPixbufSaverClass *pixbuf_saver_class;
+	GObjectClass       *object_class;
+	GthImageSaverClass *image_saver_class;
 
 	g_type_class_add_private (klass, sizeof (GthImageSaverTiffPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_image_saver_tiff_finalize;
 
-	pixbuf_saver_class = GTH_PIXBUF_SAVER_CLASS (klass);
-	pixbuf_saver_class->id = "tiff";
-	pixbuf_saver_class->display_name = _("TIFF");
-	pixbuf_saver_class->mime_type = "image/tiff";
-	pixbuf_saver_class->extensions = "tiff tif";
-	pixbuf_saver_class->get_default_ext = gth_image_saver_tiff_get_default_ext;
-	pixbuf_saver_class->get_control = gth_image_saver_tiff_get_control;
-	pixbuf_saver_class->save_options = gth_image_saver_tiff_save_options;
-	pixbuf_saver_class->can_save = gth_image_saver_tiff_can_save;
-	pixbuf_saver_class->save_pixbuf = gth_image_saver_tiff_save_pixbuf;
+	image_saver_class = GTH_IMAGE_SAVER_CLASS (klass);
+	image_saver_class->id = "tiff";
+	image_saver_class->display_name = _("TIFF");
+	image_saver_class->mime_type = "image/tiff";
+	image_saver_class->extensions = "tiff tif";
+	image_saver_class->get_default_ext = gth_image_saver_tiff_get_default_ext;
+	image_saver_class->get_control = gth_image_saver_tiff_get_control;
+	image_saver_class->save_options = gth_image_saver_tiff_save_options;
+	image_saver_class->can_save = gth_image_saver_tiff_can_save;
+	image_saver_class->save_image = gth_image_saver_tiff_save_image;
 }
 
 
@@ -549,7 +570,7 @@ static void
 gth_image_saver_tiff_init (GthImageSaverTiff *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_TIFF, GthImageSaverTiffPrivate);
-	self->priv->settings = g_settings_new (GTHUMB_PIXBUF_SAVERS_TIFF_SCHEMA);
+	self->priv->settings = g_settings_new (GTHUMB_IMAGE_SAVERS_TIFF_SCHEMA);
 	self->priv->builder = NULL;
 	self->priv->default_ext = NULL;
 }

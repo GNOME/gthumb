@@ -957,7 +957,7 @@ dump_exif_data (Exiv2::ExifData &exifData,
 static Exiv2::DataBuf
 exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			      GFileInfo             *info,
-			      GdkPixbuf             *pixbuf)
+			      GthImage              *image_data)
 {
 	static char  *software_name = NULL;
 	char        **attributes;
@@ -1028,15 +1028,19 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 	// Update the dimension tags with actual image values
 
+	cairo_surface_t *surface = NULL;
 	int width = 0;
 	int height = 0;
 
-	if (pixbuf != NULL) {
-		width = gdk_pixbuf_get_width (pixbuf);
+	if (image_data != NULL)
+		surface = gth_image_get_cairo_surface (image_data);
+
+	if (surface != NULL) {
+		width = cairo_image_surface_get_width (surface);
 		if (width > 0)
 			ed["Exif.Photo.PixelXDimension"] = width;
 
-		height = gdk_pixbuf_get_height (pixbuf);
+		height = cairo_image_surface_get_height (surface);
 		if (height > 0)
 			ed["Exif.Photo.PixelYDimension"] = height;
 
@@ -1046,15 +1050,17 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	// Update the thumbnail
 
 	Exiv2::ExifThumb thumb(ed);
-	if ((pixbuf != NULL) && (width > 0) && (height > 0)) {
-		GdkPixbuf *thumb_pixbuf;
-		char      *buffer;
-		gsize      buffer_size;
+	if ((surface != NULL) && (width > 0) && (height > 0)) {
+		cairo_surface_t *thumbnail;
+		GthImage        *thumbnail_data;
+		char            *buffer;
+		gsize            buffer_size;
 
 		scale_keeping_ratio (&width, &height, 128, 128, FALSE);
-		thumb_pixbuf = _gdk_pixbuf_scale_simple_safe (pixbuf, width, height, GDK_INTERP_BILINEAR);
-		if (gdk_pixbuf_save_to_buffer (thumb_pixbuf, &buffer, &buffer_size, "jpeg", NULL, NULL)) {
-			thumb.setJpegThumbnail ((Exiv2::byte*) buffer, buffer_size);
+		thumbnail = _cairo_image_surface_scale (surface, width, height, SCALE_FILTER_BEST, NULL);
+		thumbnail_data = gth_image_new_for_surface (thumbnail);
+		if (gth_image_save_to_buffer (thumbnail_data, "image/jpeg", &buffer, &buffer_size, NULL)) {
+			thumb.setJpegThumbnail ((Exiv2::byte *) buffer, buffer_size);
 			ed["Exif.Thumbnail.XResolution"] = 72;
 			ed["Exif.Thumbnail.YResolution"] = 72;
 			ed["Exif.Thumbnail.ResolutionUnit"] =  2;
@@ -1063,10 +1069,14 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		else
 			thumb.erase();
 
-		g_object_unref (thumb_pixbuf);
+		g_object_unref (thumbnail_data);
+		cairo_surface_destroy (thumbnail);
 	}
 	else
 		thumb.erase();
+
+	if (surface != NULL)
+		cairo_surface_destroy (surface);
 
 	// Update the DateTime tag
 
@@ -1214,14 +1224,14 @@ exiv2_supports_writes (const char *mime_type)
 
 extern "C"
 gboolean
-exiv2_write_metadata (SavePixbufData *data)
+exiv2_write_metadata (GthImageSaveData *data)
 {
 	if (exiv2_supports_writes (data->mime_type)) {
 		try {
 			Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) data->buffer, data->buffer_size);
 			g_assert (image.get() != 0);
 
-			Exiv2::DataBuf buf = exiv2_write_metadata_private (image, data->file_data->info, data->pixbuf);
+			Exiv2::DataBuf buf = exiv2_write_metadata_private (image, data->file_data->info, data->image);
 
 			g_free (data->buffer);
 			data->buffer = g_memdup (buf.pData_, buf.size_);
@@ -1244,14 +1254,14 @@ gboolean
 exiv2_write_metadata_to_buffer (void      **buffer,
 				gsize      *buffer_size,
 				GFileInfo  *info,
-				GdkPixbuf  *pixbuf,
+				GthImage   *image_data,
 				GError    **error)
 {
 	try {
 		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) *buffer, *buffer_size);
 		g_assert (image.get() != 0);
 
-		Exiv2::DataBuf buf = exiv2_write_metadata_private (image, info, pixbuf);
+		Exiv2::DataBuf buf = exiv2_write_metadata_private (image, info, image_data);
 
 		g_free (*buffer);
 		*buffer = g_memdup (buf.pData_, buf.size_);

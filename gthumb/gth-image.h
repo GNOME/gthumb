@@ -77,7 +77,9 @@ typedef GthImage * (*GthImageLoaderFunc) (GInputStream  *istream,
 
 GType                 gth_image_get_type                    (void);
 GthImage *            gth_image_new                         (void);
+GthImage *            gth_image_new_for_surface             (cairo_surface_t    *surface);
 GthImage *            gth_image_new_for_pixbuf              (GdkPixbuf          *value);
+GthImage *            gth_image_copy                        (GthImage           *image);
 void                  gth_image_set_cairo_surface           (GthImage           *image,
 						             cairo_surface_t    *value);
 cairo_surface_t *     gth_image_get_cairo_surface           (GthImage           *image);

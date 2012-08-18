@@ -23,6 +23,7 @@
 #define GTH_OVERWRITE_DIALOG_H
 
 #include <gtk/gtk.h>
+#include "gth-image.h"
 
 G_BEGIN_DECLS
 
@@ -58,7 +59,7 @@ struct _GthOverwriteDialogClass {
 
 GType                 gth_overwrite_dialog_get_type      (void);
 GtkWidget *           gth_overwrite_dialog_new           (GFile                *source,
-							  GdkPixbuf            *source_pixbuf,
+							  GthImage             *source_image,
 						          GFile                *destination,
 						          GthOverwriteResponse  default_respose,
 						          gboolean              single_file);

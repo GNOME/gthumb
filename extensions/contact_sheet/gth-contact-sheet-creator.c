@@ -35,10 +35,10 @@ G_DEFINE_TYPE (GthContactSheetCreator, gth_contact_sheet_creator, GTH_TYPE_TASK)
 
 
 typedef struct {
-	GthFileData *file_data;
-	GdkPixbuf   *thumbnail;
-	int          original_width;
-	int          original_height;
+	GthFileData     *file_data;
+	cairo_surface_t *thumbnail;
+	int              original_width;
+	int              original_height;
 } ItemData;
 
 
@@ -60,7 +60,7 @@ item_data_new (GthFileData *file_data)
 static void
 item_data_free (ItemData *item_data)
 {
-	_g_object_unref (item_data->thumbnail);
+	cairo_surface_destroy (item_data->thumbnail);
 	_g_object_unref (item_data->file_data);
 	g_free (item_data);
 }
@@ -100,7 +100,6 @@ struct _GthContactSheetCreatorPrivate {
 	PangoLayout          *pango_layout;
 
 	GthImageLoader       *image_loader;
-	GthPixbufSaver       *pixbuf_saver;
 	GList                *files;                /* ItemData list */
 	GList                *current_file;         /* Next file to be loaded. */
 	gint                  n_files;              /* Used for the progress signal. */
@@ -349,19 +348,19 @@ end_page (GthContactSheetCreator  *self,
 	  int                      page_n,
 	  GError                 **error)
 {
-	GdkPixbuf *pixbuf;
-	char      *buffer;
-	gsize      size;
+	GthImage *image;
+	char     *buffer;
+	gsize     size;
 
-	pixbuf = _gdk_pixbuf_new_from_cairo_context (self->priv->cr);
-	if (! gth_pixbuf_saver_save_pixbuf (self->priv->pixbuf_saver,
-					    pixbuf,
-					    &buffer,
-					    &size,
-					    self->priv->mime_type,
-					    error))
+	image = gth_image_new ();
+	gth_image_set_cairo_surface (image, cairo_get_target (self->priv->cr));
+	if (! gth_image_save_to_buffer (image,
+					self->priv->mime_type,
+					&buffer,
+					&size,
+					error))
 	{
-		g_object_unref (pixbuf);
+		g_object_unref (image);
 		return FALSE;
 	}
 
@@ -373,13 +372,14 @@ end_page (GthContactSheetCreator  *self,
 			     gth_task_get_cancellable (GTH_TASK (self)),
 			     error))
 	{
-		g_object_unref (pixbuf);
+		g_object_unref (image);
 		return FALSE;
 	}
 
-	self->priv->created_files = g_list_prepend (self->priv->created_files, g_object_ref (self->priv->destination_file));
+	self->priv->created_files = g_list_prepend (self->priv->created_files,
+						    g_object_ref (self->priv->destination_file));
 
-	g_object_unref (pixbuf);
+	g_object_unref (image);
 
 	/* image map file. */
 
@@ -591,10 +591,10 @@ paint_frame (GthContactSheetCreator *self,
 static void
 paint_image (GthContactSheetCreator *self,
 	     cairo_rectangle_int_t  *image_rect,
-	     GdkPixbuf              *image)
+	     cairo_surface_t        *image)
 {
 	cairo_save (self->priv->cr);
-	gdk_cairo_set_source_pixbuf (self->priv->cr, image, image_rect->x, image_rect->y);
+	cairo_set_source_surface (self->priv->cr, image, image_rect->x, image_rect->y);
   	cairo_rectangle (self->priv->cr, image_rect->x, image_rect->y, image_rect->width, image_rect->height);
   	cairo_fill (self->priv->cr);
   	cairo_restore (self->priv->cr);
@@ -612,9 +612,6 @@ export (GthContactSheetCreator *self)
 	int        x, y;
 	GList     *scan;
 	GError    *error = NULL;
-
-	if (self->priv->pixbuf_saver == NULL)
-		self->priv->pixbuf_saver = gth_main_get_pixbuf_saver (self->priv->mime_type);
 
 	columns = ((self->priv->page_width - self->priv->theme->col_spacing) / (self->priv->thumb_width + (self->priv->theme->frame_hpadding * 2) + self->priv->theme->col_spacing));
 	first_row = TRUE;
@@ -724,8 +721,8 @@ export (GthContactSheetCreator *self)
 				int                   thumbnail_height;
 				cairo_rectangle_int_t image_rect;
 
-				thumbnail_width = gdk_pixbuf_get_width (row_item->thumbnail);
-				thumbnail_height = gdk_pixbuf_get_height (row_item->thumbnail);
+				thumbnail_width = cairo_image_surface_get_width (row_item->thumbnail);
+				thumbnail_height = cairo_image_surface_get_height (row_item->thumbnail);
 
 				image_rect.x = x + (frame_width - thumbnail_width) / 2;
 				image_rect.y = y + (frame_height - thumbnail_height) / 2;
@@ -923,7 +920,7 @@ image_loader_ready_cb (GObject      *source_object,
 {
 	GthContactSheetCreator *self = user_data;
 	GthImage               *image = NULL;
-	GdkPixbuf              *pixbuf;
+	cairo_surface_t        *image_surface;
 	int                     original_width;
 	int                     original_height;
 	GError                 *error = NULL;
@@ -940,17 +937,17 @@ image_loader_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	pixbuf = gth_image_get_pixbuf (image);
+	image_surface = gth_image_get_cairo_surface (image);
 
 	item_data = self->priv->current_file->data;
 	if (self->priv->squared_thumbnails)
-		item_data->thumbnail = _gdk_pixbuf_scale_squared (pixbuf, MIN (self->priv->thumb_height, self->priv->thumb_width), GDK_INTERP_BILINEAR);
+		item_data->thumbnail = _cairo_image_surface_scale_squared (image_surface, MIN (self->priv->thumb_height, self->priv->thumb_width), SCALE_FILTER_BEST, NULL);
 	else
-		item_data->thumbnail = g_object_ref (pixbuf);
+		item_data->thumbnail = cairo_surface_reference (image_surface);
 	item_data->original_width = original_width;
 	item_data->original_height = original_height;
 
-	g_object_unref (pixbuf);
+	cairo_surface_destroy (image_surface);
 	g_object_unref (image);
 
 	self->priv->current_file = self->priv->current_file->next;
@@ -1032,7 +1029,6 @@ gth_contact_sheet_creator_finalize (GObject *object)
 	_g_object_list_unref (self->priv->created_files);
 	g_list_foreach (self->priv->files, (GFunc) item_data_free, NULL);
 	g_list_free (self->priv->files);
-	_g_object_unref (self->priv->pixbuf_saver);
 	_g_object_unref (self->priv->image_loader);
 	_g_object_unref (self->priv->pango_layout);
 	_g_object_unref (self->priv->pango_context);
@@ -1084,7 +1080,6 @@ gth_contact_sheet_creator_init (GthContactSheetCreator *self)
 	self->priv->pango_context = NULL;
 	self->priv->pango_layout = NULL;
 	self->priv->image_loader = NULL;
-	self->priv->pixbuf_saver = NULL;
 	self->priv->files = NULL;
 	self->priv->created_files = NULL;
 	self->priv->imagemap_file = NULL;

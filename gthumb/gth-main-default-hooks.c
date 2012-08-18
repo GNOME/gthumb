@@ -189,11 +189,11 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-file-renamed", 3);
 
 	/**
-	 * Called in _gdk_pixbuf_save_async
+	 * Called in gth_image_save_to_file
 	 *
-	 * @data (SavePixbufData*):
+	 * @data (GthImageSaveData*):
 	 **/
-	gth_hook_register ("save-pixbuf", 1);
+	gth_hook_register ("save-image", 1);
 
 	/**
 	 * Called when copying files in _g_copy_files_async with the

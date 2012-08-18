@@ -68,10 +68,12 @@ help_button_clicked_cb (GtkWidget  *widget,
 }
 
 
-static void
-convert_step (GthPixbufTask *pixbuf_task)
+static gpointer
+exec_convert (GthAsyncTask *task,
+	      gpointer      user_data)
 {
-	pixbuf_task->dest = gdk_pixbuf_copy (pixbuf_task->src);
+	gth_image_task_copy_source_to_destination (GTH_IMAGE_TASK (task));
+	return NULL;
 }
 
 
@@ -90,23 +92,22 @@ ok_button_clicked_cb (GtkWidget  *widget,
 			    -1);
 	g_settings_set_string (data->settings, PREF_CONVERT_FORMAT_MIME_TYPE, mime_type);
 
-	convert_task = gth_pixbuf_task_new (_("Converting images"),
-					    TRUE,
+	convert_task = gth_image_task_new (_("Converting images"),
 					    NULL,
-					    convert_step,
+					    exec_convert,
 					    NULL,
 					    NULL,
 					    NULL);
-	list_task = gth_pixbuf_list_task_new (data->browser,
-					      data->file_list,
-					      GTH_PIXBUF_TASK (convert_task));
-	gth_pixbuf_list_task_set_overwrite_mode (GTH_PIXBUF_LIST_TASK (list_task), GTH_OVERWRITE_ASK);
-	gth_pixbuf_list_task_set_output_mime_type (GTH_PIXBUF_LIST_TASK (list_task), mime_type);
+	list_task = gth_image_list_task_new (data->browser,
+					     data->file_list,
+					     GTH_IMAGE_TASK (convert_task));
+	gth_image_list_task_set_overwrite_mode (GTH_IMAGE_LIST_TASK (list_task), GTH_OVERWRITE_ASK);
+	gth_image_list_task_set_output_mime_type (GTH_IMAGE_LIST_TASK (list_task), mime_type);
 	if (data->use_destination) {
 		GFile *destination;
 
 		destination = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
-		gth_pixbuf_list_task_set_destination (GTH_PIXBUF_LIST_TASK (list_task), destination);
+		gth_image_list_task_set_destination (GTH_IMAGE_LIST_TASK (list_task), destination);
 
 		g_object_unref (destination);
 	}
@@ -158,7 +159,7 @@ dlg_convert_format (GthBrowser *browser,
 
 	/* Set widgets data. */
 
-	savers = gth_main_get_type_set ("pixbuf-saver");
+	savers = gth_main_get_type_set ("image-saver");
 	if (savers != NULL) {
 		char         *default_mime_type;
 		GthIconCache *icon_cache;
@@ -170,14 +171,14 @@ dlg_convert_format (GthBrowser *browser,
 		list_store = (GtkListStore *) GET_WIDGET ("mime_type_liststore");
 		for (i = 0; i < savers->len; i++) {
 			GType           saver_type;
-			GthPixbufSaver *saver;
+			GthImageSaver *saver;
 			const char     *mime_type;
 			GdkPixbuf      *pixbuf;
 			GtkTreeIter     iter;
 
 			saver_type = g_array_index (savers, GType, i);
 			saver = g_object_new (saver_type, NULL);
-			mime_type = gth_pixbuf_saver_get_mime_type (saver);
+			mime_type = gth_image_saver_get_mime_type (saver);
 			pixbuf = gth_icon_cache_get_pixbuf (icon_cache, g_content_type_get_icon (mime_type));
 			gtk_list_store_append (list_store, &iter);
 			gtk_list_store_set (list_store, &iter,

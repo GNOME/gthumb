@@ -290,7 +290,7 @@ gthumb_extension_activate (void)
 		gth_main_register_type ("edit-comment-dialog-page", GTH_TYPE_EDIT_IPTC_PAGE);
 		gth_hook_add_callback ("delete-metadata", 10, G_CALLBACK (exiv2_delete_metadata_cb), NULL);
 	}
-	gth_hook_add_callback ("save-pixbuf", 10, G_CALLBACK (exiv2_write_metadata), NULL);
+	gth_hook_add_callback ("save-image", 10, G_CALLBACK (exiv2_write_metadata), NULL);
 	if (gth_hook_present ("jpegtran-after"))
 		gth_hook_add_callback ("jpegtran-after", 10, G_CALLBACK (exiv2_jpeg_tran_cb), NULL);
 	gth_hook_add_callback ("generate-thumbnail", 10, G_CALLBACK (exiv2_generate_thumbnail), NULL);

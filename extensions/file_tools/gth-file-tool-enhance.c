@@ -235,9 +235,9 @@ enhance_exec (GthAsyncTask *task,
 		p_destination = p_destination_line;
 		for (x = 0; x < width; x++) {
 			CAIRO_GET_RGBA (p_source, red, green, blue, alpha);
-			red   = levels_func (red, enhance_data->levels, RED_PIX);
-			green = levels_func (green, enhance_data->levels, GREEN_PIX);
-			blue  = levels_func (blue, enhance_data->levels, BLUE_PIX);
+			red   = levels_func (red, enhance_data->levels, GTH_CHANNEL_RED);
+			green = levels_func (green, enhance_data->levels, GTH_CHANNEL_GREEN);
+			blue  = levels_func (blue, enhance_data->levels, GTH_CHANNEL_BLUE);
 			CAIRO_SET_RGBA (p_destination, red, green, blue, alpha);
 
 			p_source += 4;

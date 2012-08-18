@@ -39,7 +39,7 @@ typedef struct {
 	GSettings          *settings;
 	GthMediaViewerPage *page;
 	gboolean            playing_before_screenshot;
-	GdkPixbuf          *pixbuf;
+	GthImage           *image;
 	GthFileData        *file_data;
 } SaveData;
 
@@ -48,7 +48,7 @@ static void
 save_date_free (SaveData *save_data)
 {
 	_g_object_unref (save_data->file_data);
-	_g_object_unref (save_data->pixbuf);
+	_g_object_unref (save_data->image);
 	_g_object_unref (save_data->settings);
 	g_free (save_data);
 }
@@ -100,9 +100,9 @@ save_as_response_cb (GtkDialog  *file_sel,
 
 	save_data->file_data = gth_file_data_new (file, NULL);
 	gth_file_data_set_mime_type (save_data->file_data, mime_type);
-	_gdk_pixbuf_save_async (save_data->pixbuf,
-				save_data->file_data,
+	gth_image_save_to_file (save_data->image,
 				mime_type,
+				save_data->file_data,
 				TRUE,
 				screenshot_saved_cb,
 				save_data);
@@ -128,8 +128,8 @@ screenshot_ready_cb (GdkPixbuf *pixbuf,
 		return;
 	}
 
-	save_data->pixbuf = pixbuf;
-	file_sel = gth_file_chooser_dialog_new (_("Save Image"), GTK_WINDOW (save_data->browser), "pixbuf-saver");
+	save_data->image = gth_image_new_for_pixbuf (pixbuf);
+	file_sel = gth_file_chooser_dialog_new (_("Save Image"), GTK_WINDOW (save_data->browser), "image-saver");
 
 	{
 		char        *last_uri;

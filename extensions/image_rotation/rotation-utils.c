@@ -310,33 +310,32 @@ file_buffer_ready_cb (void     **buffer,
 	else
 #endif /* HAVE_LIBJPEG */
 	{
-		GInputStream *istream;
-		GdkPixbuf    *original_pixbuf;
-		GdkPixbuf    *tmp;
-		GdkPixbuf    *transformed_pixbuf;
+		GInputStream    *istream;
+		GthImage        *image;
+		cairo_surface_t *surface;
+		cairo_surface_t *transformed;
 
 		istream = g_memory_input_stream_new_from_data (*buffer, count, NULL);
-		original_pixbuf = gdk_pixbuf_new_from_stream (istream, tdata->cancellable, &error);
-		if (original_pixbuf == NULL) {
+		image = gth_image_new_from_stream (istream, -1, NULL, NULL, tdata->cancellable, &error);
+		if (image == NULL) {
 			tdata->ready_func (error, tdata->user_data);
 			transformation_data_free (tdata);
 			return;
 		}
 
-		tmp = gdk_pixbuf_apply_embedded_orientation (original_pixbuf);
-		g_object_unref (original_pixbuf);
-		original_pixbuf = tmp;
-
-		transformed_pixbuf = _gdk_pixbuf_transform (original_pixbuf, tdata->transform);
-		_gdk_pixbuf_save_async (transformed_pixbuf,
-					tdata->file_data,
+		surface = gth_image_get_cairo_surface (image);
+		transformed = _cairo_image_surface_transform (surface, tdata->transform);
+		gth_image_set_cairo_surface (image, transformed);
+		gth_image_save_to_file (image,
 					gth_file_data_get_mime_type (tdata->file_data),
+					tdata->file_data,
 					TRUE,
 					pixbuf_saved_cb,
 					tdata);
 
-		g_object_unref (transformed_pixbuf);
-		g_object_unref (original_pixbuf);
+		cairo_surface_destroy (transformed);
+		cairo_surface_destroy (surface);
+		g_object_unref (image);
 		g_object_unref (istream);
 	}
 }

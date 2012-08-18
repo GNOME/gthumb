@@ -41,7 +41,7 @@ gthumb_extension_activate (void)
 					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
 					     "image/jpeg",
 					     NULL);
-	gth_main_register_type ("pixbuf-saver", GTH_TYPE_IMAGE_SAVER_JPEG);
+	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_JPEG);
 
 #endif
 
@@ -59,9 +59,9 @@ gthumb_extension_activate (void)
 
 #endif
 
-	gth_main_register_type ("pixbuf-saver", GTH_TYPE_IMAGE_SAVER_PNG);
-	gth_main_register_type ("pixbuf-saver", GTH_TYPE_IMAGE_SAVER_TGA);
-	gth_main_register_type ("pixbuf-saver", GTH_TYPE_IMAGE_SAVER_TIFF);
+	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_PNG);
+	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_TGA);
+	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_TIFF);
 	gth_hook_add_callback ("dlg-preferences-construct", 30, G_CALLBACK (ci__dlg_preferences_construct_cb), NULL);
 	gth_hook_add_callback ("dlg-preferences-apply", 10, G_CALLBACK (ci__dlg_preferences_apply_cb), NULL);
 }
