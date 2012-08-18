@@ -1934,32 +1934,22 @@ _g_delete_files_async (GList        *file_list,
 
 
 gboolean
-_g_file_load_in_buffer (GFile         *file,
-		        void         **buffer,
-		        gsize         *size,
-		        GCancellable  *cancellable,
-		        GError       **error)
+_g_input_stream_read_all (GInputStream  *istream,
+			  void         **buffer,
+			  gsize         *size,
+			  GCancellable  *cancellable,
+			  GError       **error)
 {
-	GFileInputStream *istream;
-	gboolean          retval;
-	void             *local_buffer;
-	gsize             count;
-	gssize            n;
-	char              tmp_buffer[BUFFER_SIZE];
+	gboolean  retval = FALSE;
+	void     *local_buffer = NULL;
+	char     *tmp_buffer;
+	gsize     count;
+	gssize    n;
 
-	istream = g_file_read (file, cancellable, error);
-	if (istream == NULL)
-		return FALSE;
-
-	retval = FALSE;
-	local_buffer = NULL;
+	tmp_buffer = g_new (char, BUFFER_SIZE);
 	count = 0;
 	for (;;) {
-		n = g_input_stream_read (G_INPUT_STREAM (istream),
-					 tmp_buffer,
-					 BUFFER_SIZE,
-					 cancellable,
-					 error);
+		n = g_input_stream_read (istream, tmp_buffer, BUFFER_SIZE, cancellable, error);
 		if (n < 0) {
 			g_free (local_buffer);
 			retval = FALSE;
@@ -1979,7 +1969,27 @@ _g_file_load_in_buffer (GFile         *file,
 		count += n;
 	}
 
-	g_object_unref (istream);
+	g_free (tmp_buffer);
+
+	return retval;
+}
+
+
+gboolean
+_g_file_load_in_buffer (GFile         *file,
+		        void         **buffer,
+		        gsize         *size,
+		        GCancellable  *cancellable,
+		        GError       **error)
+{
+	GInputStream *istream;
+	gboolean      retval = FALSE;
+
+	istream = (GInputStream *) g_file_read (file, cancellable, error);
+	if (istream != NULL) {
+		retval = _g_input_stream_read_all (istream, buffer, size, cancellable, error);
+		g_object_unref (istream);
+	}
 
 	return retval;
 }

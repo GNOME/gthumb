@@ -27,7 +27,8 @@
 
 G_BEGIN_DECLS
 
-GthImage *  _cairo_image_surface_create_from_png (GthFileData   *file_data,
+GthImage *  _cairo_image_surface_create_from_png (GInputStream  *istream,
+						  GthFileData   *file_data,
 						  int            requested_size,
 						  int           *original_width,
 						  int           *original_height,

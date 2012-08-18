@@ -39,7 +39,7 @@
 #endif
 
 typedef struct {
-	GFileInputStream  *stream;
+	GInputStream      *stream;
 	GCancellable      *cancellable;
 	GError           **error;
 	png_struct        *png_ptr;
@@ -88,7 +88,7 @@ cairo_png_read_data_func (png_structp png_ptr,
 	GError       *error = NULL;
 
 	cairo_png_data = png_get_io_ptr (png_ptr);
-	n = g_input_stream_read (G_INPUT_STREAM (cairo_png_data->stream),
+	n = g_input_stream_read (cairo_png_data->stream,
 				 buffer,
 				 size,
 				 cairo_png_data->cancellable,
@@ -131,7 +131,8 @@ transform_to_argb32_format_func (png_structp   png,
 
 
 GthImage *
-_cairo_image_surface_create_from_png (GthFileData   *file_data,
+_cairo_image_surface_create_from_png (GInputStream  *istream,
+		       	       	      GthFileData   *file_data,
 				      int            requested_size,
 				      int           *original_width,
 				      int           *original_height,
@@ -154,7 +155,7 @@ _cairo_image_surface_create_from_png (GthFileData   *file_data,
 	cairo_png_data = g_new0 (CairoPngData, 1);
 	cairo_png_data->cancellable = cancellable;
 	cairo_png_data->error = error;
-	cairo_png_data->stream = g_file_read (file_data->file, cancellable, error);
+	cairo_png_data->stream = _g_object_ref (istream);
 	if (cairo_png_data->stream == NULL) {
 		_cairo_png_data_destroy (cairo_png_data);
 		return image;

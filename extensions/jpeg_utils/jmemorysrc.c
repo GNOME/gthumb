@@ -63,7 +63,7 @@ fill_input_buffer (j_decompress_ptr cinfo)
 }
 
 
-void
+static void
 skip_input_data (j_decompress_ptr cinfo,
 		 long             num_bytes)
 {

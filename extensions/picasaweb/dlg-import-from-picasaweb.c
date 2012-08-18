@@ -883,7 +883,8 @@ album_combobox_changed_cb (GtkComboBox *widget,
 
 
 GthImage *
-picasa_web_thumbnail_loader (GthFileData   *file_data,
+picasa_web_thumbnail_loader (GInputStream  *istream,
+			     GthFileData   *file_data,
 			     int            requested_size,
 			     int           *original_width,
 			     int           *original_height,

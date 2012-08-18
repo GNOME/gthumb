@@ -135,7 +135,8 @@ YCbCr_tables_init (void)
 
 
 GthImage *
-_cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
+_cairo_image_surface_create_from_jpeg (GInputStream  *istream,
+				       GthFileData   *file_data,
 				       int            requested_size,
 				       int           *original_width,
 				       int           *original_height,
@@ -171,11 +172,11 @@ _cairo_image_surface_create_from_jpeg (GthFileData   *file_data,
 
 	image = gth_image_new ();
 
-	if (! _g_file_load_in_buffer (file_data->file,
-			      	      &in_buffer,
-			      	      &in_buffer_size,
-			      	      cancellable,
-			      	      error))
+	if (! _g_input_stream_read_all (istream,
+			      	        &in_buffer,
+			      	        &in_buffer_size,
+			      	        cancellable,
+			      	        error))
 	{
 		return image;
 	}

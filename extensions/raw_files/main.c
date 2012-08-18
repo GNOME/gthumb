@@ -269,7 +269,8 @@ get_file_mtime (const char *path)
 
 
 static GthImage *
-openraw_pixbuf_animation_new_from_file (GthFileData   *file_data,
+openraw_pixbuf_animation_new_from_file (GInputStream  *istream,
+					GthFileData   *file_data,
 					int            requested_size,
 					int           *original_width,
 					int           *original_height,
@@ -288,6 +289,12 @@ openraw_pixbuf_animation_new_from_file (GthFileData   *file_data,
 	char	  *cache_file_esc;
 	char	  *local_file_esc;
 	char	  *command = NULL;
+
+	if (file_data == NULL) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
+		return NULL;
+	}
 
 	is_thumbnail = requested_size > 0;
 	is_raw = _g_mime_type_is_raw (gth_file_data_get_mime_type (file_data));

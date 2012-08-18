@@ -33,7 +33,7 @@
 #include "pixbuf-utils.h"
 
 
-#undef USE_PIXBUF_LOADER
+#define USE_PIXBUF_LOADER 1
 
 
 char *
@@ -276,17 +276,18 @@ load_from_stream (GdkPixbufLoader  *loader,
 		if (n_read == 0)
 			break;
 
-		if (!gdk_pixbuf_loader_write (loader,
-					      buffer,
-					      n_read,
-					      error)) {
+		if (! gdk_pixbuf_loader_write (loader,
+					       buffer,
+					       n_read,
+					       error))
+		{
 			res = FALSE;
 			error = NULL;
 			break;
 		}
 	}
 
-	if (!gdk_pixbuf_loader_close (loader, error)) {
+	if (! gdk_pixbuf_loader_close (loader, error)) {
 		res = FALSE;
 		error = NULL;
 	}
@@ -335,7 +336,8 @@ pixbuf_loader_size_prepared_cb (GdkPixbufLoader *loader,
 
 
 GthImage *
-gth_pixbuf_new_from_file (GthFileData   *file_data,
+gth_pixbuf_new_from_file (GInputStream  *istream,
+			  GthFileData   *file_data,
 			  int            requested_size,
 			  int           *original_width,
 			  int           *original_height,
@@ -351,17 +353,17 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 	int        original_w;
 	int        original_h;
 
-	if (original_width != NULL)
-		*original_width = -1;
-
-	if (original_height != NULL)
-		*original_height = -1;
-
 	if (file_data == NULL) {
 		if (error != NULL)
 			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
 		return NULL;
 	}
+
+	if (original_width != NULL)
+		*original_width = -1;
+
+	if (original_height != NULL)
+		*original_height = -1;
 
 	path = g_file_get_path (file_data->file);
 	if (path == NULL) {
@@ -418,22 +420,15 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 
 #else
 
-	GdkPixbuf       *pixbuf = NULL;
 	ScaleData        scale_data;
-	GInputStream    *stream;
 	GdkPixbufLoader *pixbuf_loader;
+	GdkPixbuf       *pixbuf;
+	GthImage        *image;
 
 	if (original_width != NULL)
 		*original_width = -1;
 	if (original_height != NULL)
 		*original_height = -1;
-
-	if (file_data == NULL)
-		return NULL;
-
-	stream = (GInputStream *) g_file_read (file_data->file, cancellable, error);
-	if (stream == NULL)
-		return NULL;
 
 	scale_data.requested_size = requested_size;
 	scale_data.original_width = -1;
@@ -446,16 +441,14 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 			  "size-prepared",
 			  G_CALLBACK (pixbuf_loader_size_prepared_cb),
 			  &scale_data);
-
-	pixbuf = load_from_stream (pixbuf_loader, stream, requested_size, cancellable, error);
+	pixbuf = load_from_stream (pixbuf_loader, istream, requested_size, cancellable, error);
 
 	g_object_unref (pixbuf_loader);
-	g_object_unref (stream);
 
 	if ((pixbuf != NULL) && scale_to_original) {
 		GdkPixbuf *tmp;
 
-		tmp = gdk_pixbuf_scale_simple (pixbuf, scale_data.original_width, scale_data.original_height, GDK_INTERP_NEAREST);
+		tmp = _gdk_pixbuf_scale_simple_safe (pixbuf, scale_data.original_width, scale_data.original_height, GDK_INTERP_NEAREST);
 		g_object_unref (pixbuf);
 		pixbuf = tmp;
 	}
@@ -472,19 +465,24 @@ gth_pixbuf_new_from_file (GthFileData   *file_data,
 		}
 	}
 
+	image = gth_image_new_for_pixbuf (pixbuf);
+
 	if (original_width != NULL)
 		*original_width = scale_data.original_width;
 	if (original_height != NULL)
 		*original_height = scale_data.original_height;
 
-	return pixbuf;
+	_g_object_unref (pixbuf);
+
+	return image;
 
 #endif
 }
 
 
 GthImage *
-gth_pixbuf_animation_new_from_file (GthFileData   *file_data,
+gth_pixbuf_animation_new_from_file (GInputStream  *istream,
+				    GthFileData   *file_data,
 				    int            requested_size,
 				    int           *original_width,
 				    int           *original_height,
@@ -492,35 +490,44 @@ gth_pixbuf_animation_new_from_file (GthFileData   *file_data,
 				    GCancellable  *cancellable,
 				    GError       **error)
 {
-	GthImage   *image = NULL;
-	const char *mime_type;
+	const char         *mime_type;
+	GdkPixbufAnimation *animation;
+	char               *path;
+	GthImage           *image;
 
 	mime_type = gth_file_data_get_mime_type (file_data);
 	if (mime_type == NULL)
 		return NULL;
 
-	if (g_content_type_equals (mime_type, "image/gif")) {
-		GdkPixbufAnimation *animation;
-		char               *path;
+	if (! g_content_type_equals (mime_type, "image/gif"))
+		return gth_pixbuf_new_from_file (istream,
+						 file_data,
+						 requested_size,
+						 original_width,
+						 original_height,
+						 FALSE,
+						 cancellable,
+						 error);
 
-		path = g_file_get_path (file_data->file);
-		if (path != NULL)
-			animation = gdk_pixbuf_animation_new_from_file (path, error);
-
-		image = gth_image_new ();
-		gth_image_set_pixbuf_animation (image, animation);
-
-		g_object_unref (animation);
-		g_free (path);
+	if (file_data == NULL) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
+		return NULL;
 	}
-	else
-		image = gth_pixbuf_new_from_file (file_data,
-						  requested_size,
-						  original_width,
-						  original_height,
-						  FALSE,
-						  cancellable,
-						  error);
+
+	path = g_file_get_path (file_data->file);
+	if (path == NULL) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
+		return NULL;
+	}
+
+	animation = gdk_pixbuf_animation_new_from_file (path, error);
+	image = gth_image_new ();
+	gth_image_set_pixbuf_animation (image, animation);
+
+	g_object_unref (animation);
+	g_free (path);
 
 	return image;
 }

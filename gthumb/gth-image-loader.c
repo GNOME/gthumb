@@ -29,10 +29,6 @@
 #include "gth-main.h"
 
 
-#define USE_G_IO_SCHEDULER
-#define THREAD_STACK_SIZE (512*1024)
-
-
 struct _GthImageLoaderPrivate {
 	gboolean           as_animation;  /* Whether to load the image in a
 				           * GdkPixbufAnimation structure. */
@@ -114,6 +110,9 @@ typedef struct {
 	GthFileData  *file_data;
 	int           requested_size;
 	GCancellable *cancellable;
+	GthImage     *image;
+	int           original_width;
+	int           original_height;
 } LoadData;
 
 
@@ -125,7 +124,7 @@ load_data_new (GthFileData  *file_data,
 	LoadData *load_data;
 
 	load_data = g_new0 (LoadData, 1);
-	load_data->file_data = g_object_ref (file_data);
+	load_data->file_data = _g_object_ref (file_data);
 	load_data->requested_size = requested_size;
 	load_data->cancellable = _g_object_ref (cancellable);
 
@@ -136,29 +135,11 @@ load_data_new (GthFileData  *file_data,
 static void
 load_data_unref (LoadData *load_data)
 {
-	g_object_unref (load_data->file_data);
+	_g_object_unref (load_data->file_data);
 	_g_object_unref (load_data->cancellable);
+	_g_object_unref (load_data->image);
 	g_free (load_data);
 }
-
-
-typedef struct {
-	GthImage *image;
-	int       original_width;
-	int       original_height;
-} LoadResult;
-
-
-static void
-load_result_unref (LoadResult *load_result)
-{
-	if (load_result->image != NULL)
-		g_object_unref (load_result->image);
-	g_free (load_result);
-}
-
-
-#ifdef USE_G_IO_SCHEDULER
 
 
 static void
@@ -168,18 +149,26 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 {
 	GthImageLoader *self = GTH_IMAGE_LOADER (object);
 	LoadData       *load_data;
-	GthImage       *image = NULL;
 	int             original_width;
 	int             original_height;
+	GInputStream   *istream;
+	GthImage       *image = NULL;
 	GError         *error = NULL;
-	LoadResult     *load_result;
 
 	load_data = g_simple_async_result_get_op_res_gpointer (result);
 	original_width = -1;
 	original_height = -1;
 
+	istream = (GInputStream *) g_file_read (load_data->file_data->file, cancellable, &error);
+	if (istream == NULL) {
+		g_simple_async_result_set_from_error (result, error);
+		g_error_free (error);
+		return;
+	}
+
 	if (self->priv->loader_func != NULL) {
-		image = (*self->priv->loader_func) (load_data->file_data,
+		image = (*self->priv->loader_func) (istream,
+						    load_data->file_data,
 						    load_data->requested_size,
 						    &original_width,
 						    &original_height,
@@ -193,7 +182,8 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 		loader_func = gth_main_get_image_loader_func (gth_file_data_get_mime_type_from_content (load_data->file_data, cancellable),
 							      self->priv->preferred_format);
 		if (loader_func != NULL)
-			image = loader_func (load_data->file_data,
+			image = loader_func (istream,
+					     load_data->file_data,
 				             load_data->requested_size,
 				             &original_width,
 				             &original_height,
@@ -204,6 +194,8 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
 	}
 
+	_g_object_unref (istream);
+
 	if (error != NULL) {
 		_g_object_unref (image);
 		g_simple_async_result_set_from_error (result, error);
@@ -211,93 +203,10 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 		return;
 	}
 
-	load_result = g_new0 (LoadResult, 1);
-	load_result->image = image;
-	load_result->original_width = original_width;
-	load_result->original_height = original_height;
-	g_simple_async_result_set_op_res_gpointer (result, load_result, (GDestroyNotify) load_result_unref);
+	load_data->image = image;
+	load_data->original_width = original_width;
+	load_data->original_height = original_height;
 }
-
-
-#else
-
-
-static gpointer
-load_image_thread (gpointer user_data)
-{
-	GSimpleAsyncResult *result = user_data;
-	LoadData           *load_data;
-	GthImageLoader     *self;
-	GthImage           *image;
-	int                 original_width;
-	int                 original_height;
-	GError             *error = NULL;
-	LoadResult         *load_result;
-
-	load_data = g_simple_async_result_get_op_res_gpointer (result);
-
-	if (g_cancellable_is_cancelled (load_data->cancellable)) {
-		g_simple_async_result_set_error (result,
-						 G_IO_ERROR,
-						 G_IO_ERROR_CANCELLED,
-						 "%s",
-						 "");
-		g_simple_async_result_complete_in_idle (result);
-		g_object_unref (result);
-		return NULL;
-	}
-
-	self = (GthImageLoader *) g_async_result_get_source_object (G_ASYNC_RESULT (result));
-	image = NULL;
-	original_width = -1;
-	original_height = -1;
-
-	if (self->priv->loader_func != NULL) {
-		image = (*self->priv->loader_func) (load_data->file_data,
-						    load_data->requested_size,
-						    &original_width,
-						    &original_height,
-						    self->priv->loader_data,
-						    load_data->cancellable,
-						    &error);
-	}
-	else  {
-		GthImageLoaderFunc loader_func;
-
-		loader_func = gth_main_get_image_loader_func (gth_file_data_get_mime_type (load_data->file_data),
-							      self->priv->preferred_format);
-		if (loader_func != NULL)
-			image = loader_func (load_data->file_data,
-					     load_data->requested_size,
-					     &original_width,
-					     &original_height,
-					     NULL,
-					     load_data->cancellable,
-					     &error);
-		else
-			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
-	}
-
-	load_result = g_new0 (LoadResult, 1);
-	load_result->image = image;
-	load_result->original_width = original_width;
-	load_result->original_height = original_height;
-
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
-	}
-	else
-		g_simple_async_result_set_op_res_gpointer (result, load_result, (GDestroyNotify) load_result_unref);
-
-	g_simple_async_result_complete_in_idle (result);
-	g_object_unref (result);
-
-	return NULL;
-}
-
-
-#endif
 
 
 void
@@ -310,10 +219,6 @@ gth_image_loader_load (GthImageLoader      *loader,
 		       gpointer             user_data)
 {
 	GSimpleAsyncResult *result;
-#ifndef USE_G_IO_SCHEDULER
-	GThreadPriority     thread_priority;
-	GError             *error = NULL;
-#endif
 
 	result = g_simple_async_result_new (G_OBJECT (loader),
 					    callback,
@@ -324,52 +229,78 @@ gth_image_loader_load (GthImageLoader      *loader,
 								  requested_size,
 								  cancellable),
 						   (GDestroyNotify) load_data_unref);
-
-#ifdef USE_G_IO_SCHEDULER
-
 	g_simple_async_result_run_in_thread (result,
 					     load_pixbuf_thread,
 					     io_priority,
 					     cancellable);
+
 	g_object_unref (result);
+}
 
-#else
 
-	/* The g_thread_create function assigns a very large default stacksize for each
-	   thread (10 MB on FC6), which is probably excessive. 16k seems to be
-	   sufficient. To be conversative, we'll try 32k. Use g_thread_create_full to
-	   manually specify a small stack size. See Bug 310749 - Memory usage.
-	   This reduces the virtual memory requirements, and the "writeable/private"
-	   figure reported by "pmap -d". */
+gboolean
+gth_image_loader_load_stream_sync (GthImageLoader  *self,
+				   GInputStream    *istream,
+				   int              requested_size,
+				   GthImage       **p_image,
+				   int             *p_original_width,
+				   int             *p_original_height,
+				   GCancellable    *cancellable,
+				   GError         **p_error)
+{
+	GthImage *image;
+	int       original_width;
+	int       original_height;
+	GError   *error = NULL;
+	gboolean  result;
 
-	/* Update: 32k caused crashes with svg images. Boosting to 512k. Bug 410827. */
+	if (self->priv->loader_func != NULL) {
+		image = (*self->priv->loader_func) (istream,
+						    NULL,
+						    requested_size,
+						    &original_width,
+						    &original_height,
+						    self->priv->loader_data,
+						    cancellable,
+						    &error);
+	}
+	else {
+		const char         *mime_type;
+		GthImageLoaderFunc  loader_func;
 
-	switch (io_priority) {
-	case G_PRIORITY_HIGH:
-		thread_priority = G_THREAD_PRIORITY_HIGH;
-		break;
-	case G_PRIORITY_LOW:
-		thread_priority = G_THREAD_PRIORITY_LOW;
-		break;
-	default:
-		thread_priority = G_THREAD_PRIORITY_NORMAL;
-		break;
+		mime_type = _g_content_type_get_from_stream (istream, cancellable, &error);
+		loader_func = gth_main_get_image_loader_func (mime_type, self->priv->preferred_format);
+		if (loader_func != NULL)
+			image = loader_func (istream,
+					     NULL,
+				             requested_size,
+				             &original_width,
+				             &original_height,
+				             NULL,
+				             cancellable,
+				             &error);
+		else
+			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
 	}
 
-	if (! g_thread_create_full (load_image_thread,
-				    result,
-				    THREAD_STACK_SIZE,
-				    FALSE,
-				    TRUE,
-				    thread_priority,
-				    &error))
-	{
-		g_simple_async_result_set_from_error (result, error);
-		g_simple_async_result_complete_in_idle (result);
-		g_error_free (error);
-	}
+	result = (error == NULL);
 
-#endif
+	if (p_error != NULL)
+		*p_error = error;
+	else
+		_g_error_free (error);
+
+	if (p_image != NULL)
+		*p_image = image;
+	else
+		g_object_unref (image);
+
+	if (p_original_width != NULL)
+		*p_original_width = original_width;
+	if (p_original_height != NULL)
+		*p_original_height = original_height;
+
+	return result;
 }
 
 
@@ -382,7 +313,7 @@ gth_image_loader_load_finish (GthImageLoader   *loader,
 			      GError         **error)
 {
 	  GSimpleAsyncResult *simple;
-	  LoadResult         *load_result;
+	  LoadData           *load_data;
 
 	  g_return_val_if_fail (g_simple_async_result_is_valid (result, G_OBJECT (loader), gth_image_loader_load), FALSE);
 
@@ -391,13 +322,13 @@ gth_image_loader_load_finish (GthImageLoader   *loader,
 	  if (g_simple_async_result_propagate_error (simple, error))
 		  return FALSE;
 
-	  load_result = g_simple_async_result_get_op_res_gpointer (simple);
+	  load_data = g_simple_async_result_get_op_res_gpointer (simple);
 	  if (image != NULL)
-		  *image = _g_object_ref (load_result->image);
+		  *image = _g_object_ref (load_data->image);
 	  if (original_width != NULL)
-	  	  *original_width = load_result->original_width;
+	  	  *original_width = load_data->original_width;
 	  if (original_height != NULL)
-	  	  *original_height = load_result->original_height;
+	  	  *original_height = load_data->original_height;
 
 	  return TRUE;
 }

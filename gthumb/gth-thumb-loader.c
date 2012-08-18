@@ -111,7 +111,8 @@ gth_thumb_loader_init (GthThumbLoader *self)
 
 
 static GthImage *
-generate_thumbnail (GthFileData   *file_data,
+generate_thumbnail (GInputStream  *istream,
+		    GthFileData   *file_data,
 		    int            requested_size,
 		    int           *original_width,
 		    int           *original_height,
@@ -121,8 +122,15 @@ generate_thumbnail (GthFileData   *file_data,
 {
 	GthThumbLoader *self = user_data;
 	GdkPixbuf      *pixbuf = NULL;
-	GthImage       *image;
+	GthImage       *image = NULL;
 	char           *uri;
+	const char     *mime_type;
+
+	if (file_data == NULL) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
+		return NULL;
+	}
 
 	if (original_width != NULL)
 		*original_width = -1;
@@ -130,26 +138,45 @@ generate_thumbnail (GthFileData   *file_data,
 	if (original_height != NULL)
 		*original_height = -1;
 
-	image = NULL;
+	mime_type = _g_content_type_get_from_stream (istream, cancellable, error);
+	if (mime_type == NULL) {
+		if ((error != NULL) && (*error == NULL))
+			*error = g_error_new_literal (GTH_ERROR, 0, "Cannot generate the thumbnail: unknown file type");
+		return NULL;
+	}
+
 	uri = g_file_get_uri (file_data->file);
 	pixbuf = gnome_desktop_thumbnail_factory_generate_no_script (self->priv->thumb_factory,
 								     uri,
-								     gth_file_data_get_mime_type_from_content (file_data, cancellable),
+								     mime_type,
 								     cancellable);
 
 	if (g_cancellable_is_cancelled (cancellable)) {
 		_g_object_unref (pixbuf);
+		g_free (uri);
 		if (error != NULL)
 			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
 		return NULL;
 	}
 
-	if (pixbuf == NULL) {
+	if (pixbuf != NULL) {
+		image = gth_image_new_for_pixbuf (pixbuf);
+		if (original_width != NULL)
+			*original_width = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (pixbuf), "gnome-original-width"));
+		if (original_height != NULL)
+			*original_height = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (pixbuf), "gnome-original-height"));
+		if (error != NULL)
+			g_clear_error (error);
+
+		g_object_unref (pixbuf);
+	}
+	else {
 		GthImageLoaderFunc thumbnailer;
 
-		thumbnailer = gth_main_get_image_loader_func (gth_file_data_get_mime_type (file_data), GTH_IMAGE_FORMAT_GDK_PIXBUF);
+		thumbnailer = gth_main_get_image_loader_func (mime_type, GTH_IMAGE_FORMAT_GDK_PIXBUF);
 		if (thumbnailer != NULL)
-			image = thumbnailer (file_data,
+			image = thumbnailer (istream,
+					     file_data,
 					     self->priv->cache_max_size,
 					     original_width,
 					     original_height,
@@ -158,23 +185,8 @@ generate_thumbnail (GthFileData   *file_data,
 					     error);
 	}
 
-	if (pixbuf != NULL) {
-		if (original_width != NULL)
-			*original_width = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (pixbuf), "gnome-original-width"));
-		if (original_height != NULL)
-			*original_height = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (pixbuf), "gnome-original-height"));
-
-		if (error != NULL)
-			g_clear_error (error);
-
-		image = gth_image_new_for_pixbuf (pixbuf);
-
-		g_object_unref (pixbuf);
-	}
-
-	if (image == NULL)
-		if (error != NULL)
-			*error = g_error_new_literal (GTH_ERROR, 0, "Cannot generate the thumbnail");
+	if ((image == NULL) && (error != NULL))
+		*error = g_error_new_literal (GTH_ERROR, 0, "Could not generate the thumbnail");
 
 	g_free (uri);
 
@@ -183,7 +195,8 @@ generate_thumbnail (GthFileData   *file_data,
 
 
 static GthImage *
-load_cached_thumbnail (GthFileData   *file_data,
+load_cached_thumbnail (GInputStream  *istream,
+		       GthFileData   *file_data,
 		       int            requested_size,
 		       int           *original_width,
 		       int           *original_height,
@@ -194,6 +207,12 @@ load_cached_thumbnail (GthFileData   *file_data,
 	GthImage  *image = NULL;
 	char      *filename;
 	GdkPixbuf *pixbuf;
+
+	if (file_data == NULL) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
+		return NULL;
+	}
 
 	filename = g_file_get_path (file_data->file);
 	pixbuf = gdk_pixbuf_new_from_file (filename, error);

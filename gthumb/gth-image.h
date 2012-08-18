@@ -65,7 +65,8 @@ struct _GthImageClass
 };
 
 
-typedef GthImage * (*GthImageLoaderFunc) (GthFileData   *file_data,
+typedef GthImage * (*GthImageLoaderFunc) (GInputStream  *istream,
+					  GthFileData   *file_data,
 					  int            requested_size,
 					  int           *original_width,
 					  int           *original_height,

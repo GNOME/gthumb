@@ -148,6 +148,11 @@ void     _g_delete_files_async       (GList                  *file_list,
 
 /* -- load/write/create file  -- */
 
+gboolean _g_input_stream_read_all    (GInputStream          *istream,
+				      void                 **buffer,
+				      gsize                 *size,
+				      GCancellable          *cancellable,
+				      GError               **error);
 gboolean _g_file_load_in_buffer      (GFile                 *file,
 				      void                 **buffer,
 				      gsize                 *size,

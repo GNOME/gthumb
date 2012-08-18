@@ -309,6 +309,9 @@ void            _g_file_info_swap_attributes     (GFileInfo  *info,
 						  const char *attr2);
 gboolean        _g_content_type_is_a             (const char *type,
 						  const char *supertype);
+const char *    _g_content_type_get_from_stream  (GInputStream  *istream,
+						  GCancellable  *cancellable,
+						  GError       **error);
 gboolean        _g_mime_type_is_image            (const char *mime_type);
 gboolean        _g_mime_type_is_video            (const char *mime_type);
 gboolean        _g_mime_type_is_audio            (const char *mime_type);
@@ -331,6 +334,7 @@ GList *         _g_settings_get_string_list      (GSettings  *settings,
 char *          _g_format_duration_for_display   (gint64      msecs);
 GList *         _g_list_prepend_link             (GList      *list,
 						  GList      *link);
+void            _g_error_free                    (GError     *error);
 
 G_END_DECLS
 

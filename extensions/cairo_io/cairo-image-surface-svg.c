@@ -164,7 +164,8 @@ gth_image_svg_set_handle (GthImageSvg *self,
 
 
 GthImage *
-_cairo_image_surface_create_from_svg (GthFileData   *file_data,
+_cairo_image_surface_create_from_svg (GInputStream  *istream,
+		       	       	      GthFileData   *file_data,
 				      int            requested_size,
 				      int           *original_width,
 				      int           *original_height,
@@ -176,10 +177,11 @@ _cairo_image_surface_create_from_svg (GthFileData   *file_data,
 	RsvgHandle *rsvg;
 
 	image = gth_image_svg_new ();
-	rsvg = rsvg_handle_new_from_gfile_sync (file_data->file,
-						RSVG_HANDLE_FLAGS_NONE,
-						cancellable,
-						error);
+	rsvg = rsvg_handle_new_from_stream_sync (istream,
+						 (file_data != NULL ? file_data->file : NULL),
+						 RSVG_HANDLE_FLAGS_NONE,
+						 cancellable,
+						 error);
 	if (rsvg != NULL) {
 		gth_image_svg_set_handle (GTH_IMAGE_SVG (image), rsvg);
 		g_object_unref (rsvg);

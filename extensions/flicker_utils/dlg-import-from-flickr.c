@@ -417,7 +417,8 @@ photoset_combobox_changed_cb (GtkComboBox *widget,
 
 
 static GthImage *
-flickr_thumbnail_loader (GthFileData   *file_data,
+flickr_thumbnail_loader (GInputStream  *istream,
+			 GthFileData   *file_data,
 			 int            requested_size,
 			 int           *original_width,
 			 int           *original_height,

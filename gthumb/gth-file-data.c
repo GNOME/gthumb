@@ -28,9 +28,6 @@
 #include "gth-string-list.h"
 
 
-#define BUFFER_SIZE_FOR_SNIFFING 32
-
-
 const char *FileDataDigitalizationTags[] = {
 	"Exif::Photo::DateTimeOriginal",
 	"Xmp::exif::DateTimeOriginal",
@@ -236,66 +233,6 @@ gth_file_data_get_mime_type (GthFileData *self)
 }
 
 
-static const char *
-get_mime_type_from_magic_numbers (void  *buffer,
-				  gsize  buffer_size)
-{
-#if ENABLE_MAGIC
-
-	static magic_t magic = NULL;
-
-	if (magic == NULL) {
-		magic = magic_open (MAGIC_MIME_TYPE);
-		if (magic != NULL)
-			magic_load (magic, NULL);
-		else
-			g_warning ("unable to open magic database");
-	}
-
-	if (magic != NULL) {
-		const char * mime_type;
-
-		mime_type = magic_buffer (magic, buffer, buffer_size);
-		if (mime_type)
-			return mime_type;
-
-		g_warning ("unable to detect filetype from magic: %s", magic_error (magic));
-	}
-
-#else
-
-	static const struct magic {
-		const unsigned int off;
-		const unsigned int len;
-		const char * const id;
-		const char * const mime_type;
-	}
-	magic_ids [] = {
-		/* magic ids taken from magic/Magdir/archive from the file-4.21 tarball */
-		{ 0,  8, "\x89PNG\x0d\x0a\x1a\x0a",		"image/png" },
-		{ 0,  4, "MM\x00\x2a",				"image/tiff" },
-		{ 0,  4, "II\x2a\x00",				"image/tiff" },
-		{ 0,  4, "GIF8",				"image/gif" },
-		{ 0,  2, "\xff\xd8",				"image/jpeg" },
-	};
-
-	int  i;
-
-	for (i = 0; i < G_N_ELEMENTS (magic_ids); i++) {
-		const struct magic * const magic = &magic_ids[i];
-
-		if ((magic->off + magic->len) > buffer_size)
-			g_warning ("buffer underrun for mime-type '%s' magic", magic->mime_type);
-		else if (! memcmp (buffer + magic->off, magic->id, magic->len))
-			return magic->mime_type;
-	}
-
-#endif
-
-	return NULL;
-}
-
-
 const char *
 gth_file_data_get_mime_type_from_content (GthFileData  *self,
 					  GCancellable *cancellable)
@@ -307,12 +244,11 @@ gth_file_data_get_mime_type_from_content (GthFileData  *self,
 
 	content_type = g_file_info_get_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
 	if (content_type == NULL) {
-		char             *filename;
-		GFileInputStream *istream;
-		GError           *error = NULL;
-		guchar            buffer[BUFFER_SIZE_FOR_SNIFFING];
-		gssize            n = 0;
-		gboolean          result_uncertain;
+		char         *filename;
+		GInputStream *istream;
+		GError       *error = NULL;
+
+
 
 		if (self->file == NULL)
 			return NULL;
@@ -321,28 +257,21 @@ gth_file_data_get_mime_type_from_content (GthFileData  *self,
 		if (filename == NULL)
 			return NULL;
 
-		istream = g_file_read (self->file, cancellable, &error);
-		if (istream != NULL) {
-			n = g_input_stream_read (G_INPUT_STREAM (istream),
-						 buffer,
-						 BUFFER_SIZE_FOR_SNIFFING,
-						 cancellable,
-						 NULL);
-			g_object_unref (istream);
-		}
-		else {
+		istream = (GInputStream *) g_file_read (self->file, cancellable, &error);
+		if (istream == NULL) {
+			g_free (filename);
 			g_warning ("%s", error->message);
 			g_clear_error (&error);
+			return NULL;
 		}
 
-		result_uncertain = FALSE;
-		content_type = get_mime_type_from_magic_numbers (buffer, n);
-		if (content_type == NULL)
-			content_type = g_content_type_guess (NULL, buffer, n, &result_uncertain);
-		if ((content_type == NULL) || (strcmp (content_type, "application/xml") == 0) || result_uncertain)
-			content_type = g_content_type_guess (filename, NULL, n, NULL);
+		content_type = _g_content_type_get_from_stream (istream, cancellable, &error);
+		if ((content_type == NULL) || (strcmp (content_type, "application/xml") == 0))
+			content_type = g_content_type_guess (filename, NULL, 0, NULL);
+
 		g_file_info_set_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, content_type);
 
+		g_object_unref (istream);
 		g_free (filename);
 	}
 
