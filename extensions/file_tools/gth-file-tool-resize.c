@@ -111,14 +111,6 @@ update_dimensione_info_label (GthFileToolResize *self,
 }
 
 
-static void
-resize_task_init (GthAsyncTask *task,
-	          gpointer      user_data)
-{
-	gth_task_progress (GTH_TASK (task), _("Resizing images"), NULL, TRUE, 0.0);
-}
-
-
 static gpointer
 resize_task_exec (GthAsyncTask *task,
 		  gpointer      user_data)
@@ -185,8 +177,8 @@ update_pixbuf_size (GthFileToolResize *self)
 
 	_cairo_clear_surface (&self->priv->new_image);
 
-	resize_task = gth_image_task_new (NULL,
-					  resize_task_init,
+	resize_task = gth_image_task_new (_("Resizing images"),
+					  NULL,
 					  resize_task_exec,
 					  resize_task_completed,
 					  self,

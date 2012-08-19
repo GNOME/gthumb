@@ -251,7 +251,7 @@ image_task_progress_cb (GthTask    *task,
 	}
 
 	gth_task_progress (GTH_TASK (self),
-			   gth_image_task_get_description (GTH_IMAGE_TASK (task)),
+			   description,
 			   details,
 			   FALSE,
 			   total_fraction + (file_fraction / (self->priv->n_files + 1)));

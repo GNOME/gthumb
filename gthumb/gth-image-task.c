@@ -27,7 +27,6 @@
 struct _GthImageTaskPrivate {
 	GthImage *source;
 	GthImage *destination;
-	char     *description;
 };
 
 
@@ -44,7 +43,6 @@ gth_image_task_finalize (GObject *object)
 	self = GTH_IMAGE_TASK (object);
 	_g_object_unref (self->priv->source);
 	_g_object_unref (self->priv->destination);
-	g_free (self->priv->description);
 
 	G_OBJECT_CLASS (gth_image_task_parent_class)->finalize (object);
 }
@@ -68,7 +66,6 @@ gth_image_task_init (GthImageTask *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_TASK, GthImageTaskPrivate);
 	self->priv->source = NULL;
 	self->priv->destination = NULL;
-	self->priv->description = NULL;
 }
 
 
@@ -88,8 +85,8 @@ gth_image_task_new (const char         *description,
 					      "after-thread", after_func,
 					      "user-data", user_data,
 					      "user-data-destroy-func", user_data_destroy_func,
+					      "description", description,
 					      NULL);
-	self->priv->description = g_strdup (description);
 
 	return (GthTask *) self;
 }
@@ -140,11 +137,4 @@ gth_image_task_copy_source_to_destination (GthImageTask *self)
 
 	_g_object_unref (self->priv->destination);
 	self->priv->destination = gth_image_copy (self->priv->source);
-}
-
-
-const char *
-gth_image_task_get_description (GthImageTask *self)
-{
-	return self->priv->description;
 }

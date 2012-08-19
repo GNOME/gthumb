@@ -35,7 +35,7 @@ enum {
         PROP_THREAD_FUNC,
         PROP_AFTER_THREAD,
         PROP_USER_DATA,
-        PROP_USER_DATA_DESTROY_FUNC,
+        PROP_USER_DATA_DESTROY_FUNC
 };
 
 

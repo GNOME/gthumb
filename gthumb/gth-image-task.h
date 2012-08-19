@@ -63,7 +63,6 @@ void          gth_image_task_set_destination (GthImageTask       *self,
 GthImage *    gth_image_task_get_destination (GthImageTask       *self);
 void          gth_image_task_copy_source_to_destination
 					     (GthImageTask       *self);
-const char *  gth_image_task_get_description (GthImageTask       *self);
 
 G_END_DECLS
 
