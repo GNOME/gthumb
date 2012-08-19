@@ -420,24 +420,24 @@ gth_image_print_job_update_image_layout (GthImagePrintJob    *self,
 	if (self->priv->selected == NULL)
 		self->priv->selected = image_info;
 
-	image_info->boundary.x = (image_info->col - 1) * (self->priv->max_image_width + self->priv->x_padding);
-	image_info->boundary.y = (image_info->row - 1) * (self->priv->max_image_height + self->priv->y_padding);
+	image_info->boundary_box.x = (image_info->col - 1) * (self->priv->max_image_width + self->priv->x_padding);
+	image_info->boundary_box.y = (image_info->row - 1) * (self->priv->max_image_height + self->priv->y_padding);
 	if (self->priv->header_rectangle.height > 0)
-		image_info->boundary.y += self->priv->header_rectangle.height + self->priv->y_padding;
-	image_info->boundary.width = self->priv->max_image_width;
-	image_info->boundary.height = self->priv->max_image_height;
+		image_info->boundary_box.y += self->priv->header_rectangle.height + self->priv->y_padding;
+	image_info->boundary_box.width = self->priv->max_image_width;
+	image_info->boundary_box.height = self->priv->max_image_height;
 
-	max_image_width = image_info->boundary.width;
-	max_image_height = image_info->boundary.height;
+	max_image_width = image_info->boundary_box.width;
+	max_image_height = image_info->boundary_box.height;
 
 	image_info->print_comment = FALSE;
 	g_free (image_info->comment_text);
 	image_info->comment_text = NULL;
 
-	image_info->comment.x = 0.0;
-	image_info->comment.y = 0.0;
-	image_info->comment.width = 0.0;
-	image_info->comment.height = 0.0;
+	image_info->comment_box.x = 0.0;
+	image_info->comment_box.y = 0.0;
+	image_info->comment_box.width = 0.0;
+	image_info->comment_box.height = 0.0;
 
 	if (strcmp (self->priv->caption_attributes, "") != 0) {
 		gboolean  comment_present = FALSE;
@@ -469,54 +469,54 @@ gth_image_print_job_update_image_layout (GthImagePrintJob    *self,
 			pango_layout_set_width (pango_layout, max_image_width * self->priv->scale_factor * PANGO_SCALE);
 			pango_layout_get_pixel_extents (pango_layout, NULL, &logical_rect);
 
-			image_info->comment.x = 0;
-			image_info->comment.y = 0;
-			image_info->comment.width = image_info->boundary.width;
-			image_info->comment.height = logical_rect.height / self->priv->scale_factor;
-			max_image_height -= image_info->comment.height;
+			image_info->comment_box.x = 0;
+			image_info->comment_box.y = 0;
+			image_info->comment_box.width = image_info->boundary_box.width;
+			image_info->comment_box.height = logical_rect.height / self->priv->scale_factor;
+			max_image_height -= image_info->comment_box.height;
 			if (max_image_height < 0) {
 				image_info->print_comment = FALSE;
-				max_image_height = image_info->boundary.height;
+				max_image_height = image_info->boundary_box.height;
 			}
 		}
 	}
 
-	factor = MIN (max_image_width / image_info->pixbuf_width, max_image_height / image_info->pixbuf_height);
-	image_info->maximized.width = (double) image_info->pixbuf_width * factor;
-	image_info->maximized.height = (double) image_info->pixbuf_height * factor;
-	image_info->maximized.x = image_info->boundary.x + ((max_image_width - image_info->maximized.width) / 2);
-	image_info->maximized.y = image_info->boundary.y + ((max_image_height - image_info->maximized.height) / 2);
+	factor = MIN (max_image_width / image_info->image_width, max_image_height / image_info->image_height);
+	image_info->maximized_box.width = (double) image_info->image_width * factor;
+	image_info->maximized_box.height = (double) image_info->image_height * factor;
+	image_info->maximized_box.x = image_info->boundary_box.x + ((max_image_width - image_info->maximized_box.width) / 2);
+	image_info->maximized_box.y = image_info->boundary_box.y + ((max_image_height - image_info->maximized_box.height) / 2);
 
 	if (image_info->reset) {
-		/* calculate the transformation to center the image */
-		image_info->transformation.x = (image_info->maximized.x - image_info->boundary.x) / self->priv->max_image_width;
-		image_info->transformation.y = (image_info->maximized.y - image_info->boundary.y) / self->priv->max_image_height;
+		/* calculate the transformation to center the image_box */
+		image_info->transformation.x = (image_info->maximized_box.x - image_info->boundary_box.x) / self->priv->max_image_width;
+		image_info->transformation.y = (image_info->maximized_box.y - image_info->boundary_box.y) / self->priv->max_image_height;
 		image_info->zoom = 1.0;
 		image_info->reset = FALSE;
 	}
 
-	image_info->image.x = image_info->boundary.x + (self->priv->max_image_width * image_info->transformation.x);
-	image_info->image.y = image_info->boundary.y + (self->priv->max_image_height * image_info->transformation.y);
-	image_info->image.width = image_info->maximized.width * image_info->zoom;
-	image_info->image.height = image_info->maximized.height * image_info->zoom;
+	image_info->image_box.x = image_info->boundary_box.x + (self->priv->max_image_width * image_info->transformation.x);
+	image_info->image_box.y = image_info->boundary_box.y + (self->priv->max_image_height * image_info->transformation.y);
+	image_info->image_box.width = image_info->maximized_box.width * image_info->zoom;
+	image_info->image_box.height = image_info->maximized_box.height * image_info->zoom;
 
 	/* check the limits */
 
-	if (image_info->image.x - image_info->boundary.x + image_info->image.width > image_info->boundary.width) {
-		image_info->image.x = image_info->boundary.x + image_info->boundary.width - image_info->image.width;
-		image_info->transformation.x = (image_info->image.x - image_info->boundary.x) / self->priv->max_image_width;
+	if (image_info->image_box.x - image_info->boundary_box.x + image_info->image_box.width > image_info->boundary_box.width) {
+		image_info->image_box.x = image_info->boundary_box.x + image_info->boundary_box.width - image_info->image_box.width;
+		image_info->transformation.x = (image_info->image_box.x - image_info->boundary_box.x) / self->priv->max_image_width;
 	}
 
-	if (image_info->image.y - image_info->boundary.y + image_info->image.height > image_info->boundary.height) {
-		image_info->image.y = image_info->boundary.y + image_info->boundary.height - image_info->image.height;
-		image_info->transformation.y = (image_info->image.y - image_info->boundary.y) / self->priv->max_image_height;
+	if (image_info->image_box.y - image_info->boundary_box.y + image_info->image_box.height > image_info->boundary_box.height) {
+		image_info->image_box.y = image_info->boundary_box.y + image_info->boundary_box.height - image_info->image_box.height;
+		image_info->transformation.y = (image_info->image_box.y - image_info->boundary_box.y) / self->priv->max_image_height;
 	}
 
-	/* the comment position */
+	/* the comment_box position */
 
 	if (image_info->print_comment) {
-		image_info->comment.x += image_info->boundary.x;
-		image_info->comment.y += image_info->image.y + image_info->image.height;
+		image_info->comment_box.x += image_info->boundary_box.x;
+		image_info->comment_box.y += image_info->image_box.y + image_info->image_box.height;
 	}
 }
 
@@ -586,20 +586,16 @@ gth_image_print_job_update_layout (GthImagePrintJob   *self,
 
 
 static void
-_cairo_paint_pixbuf (cairo_t   *cr,
-		     double     x,
-		     double     y,
-		     double     width,
-		     double     height,
-		     GdkPixbuf *original_pixbuf,
-		     int        dpi)
+_cairo_paint_image (cairo_t         *cr,
+		    double           x,
+		    double           y,
+		    double           width,
+		    double           height,
+		    cairo_surface_t *original_image,
+		    int              dpi)
 {
 	double            scale_factor;
-	GdkPixbuf        *pixbuf;
-	guchar		 *p;
-	int		  pw, ph, rs;
-	guchar           *np;
-	cairo_surface_t  *s;
+	cairo_surface_t  *scaled;
 	cairo_pattern_t	 *pattern;
 	cairo_matrix_t    matrix;
 
@@ -607,68 +603,15 @@ _cairo_paint_pixbuf (cairo_t   *cr,
 	   72 dpi unless we apply a scaling factor. This scaling boosts the output
 	   to 300 dpi (if required). */
 
-	scale_factor = MIN ((double) gdk_pixbuf_get_width (original_pixbuf) / width, (double) dpi / 72.0);
-	pixbuf = gdk_pixbuf_scale_simple (original_pixbuf,
-					  width * scale_factor,
-					  height * scale_factor,
-					  GDK_INTERP_BILINEAR);
-
-	p = gdk_pixbuf_get_pixels (pixbuf);
-	pw = gdk_pixbuf_get_width (pixbuf);
-	ph = gdk_pixbuf_get_height (pixbuf);
-	rs = gdk_pixbuf_get_rowstride (pixbuf);
-	if (gdk_pixbuf_get_has_alpha (pixbuf)) {
-		guchar *kk;
-		guchar *kp;
-		int     i;
-
-		np = g_malloc (pw*ph*4);
-		for (i=0; i<ph; i++) {
-			int j = 0;
-			kk = p + rs*i;
-			kp = np + pw*4*i;
-			for (j=0; j<pw; j++) {
-				if (kk[3] == 0) {
-					*((unsigned int *)kp) = 0;
-				}
-				else {
-					if (kk[3] != 0xff) {
-						int t = (kk[3] * kk[0]) + 0x80;
-						kk[0] = ((t+(t>>8))>>8);
-						t = (kk[3] * kk[1]) + 0x80;
-						kk[1] = ((t+(t>>8))>>8);
-						t = (kk[3] * kk[2]) + 0x80;
-						kk[2] = ((t+(t>>8))>>8);
-					}
-					*((unsigned int *)kp) = kk[2] + (kk[1] << 8) + (kk[0] << 16) + (kk[3] << 24);
-				}
-				kk += 4;
-				kp += 4;
-			}
-		}
-		s = cairo_image_surface_create_for_data (np, CAIRO_FORMAT_ARGB32, pw, ph, pw*4);
-	}
-	else {
-		guchar* kk;
-		guchar* kp;
-		int     i;
-
-		np = g_malloc (pw*ph*4);
-		for (i=0; i<ph; i++) {
-			int j = 0;
-			kk = p + rs*i;
-			kp = np + pw*4*i;
-			for (j=0; j<pw; j++) {
-				*((unsigned int *)kp) = kk[2] + (kk[1] << 8) + (kk[0] << 16);
-				kk += 3;
-				kp += 4;
-			}
-		}
-		s = cairo_image_surface_create_for_data (np, CAIRO_FORMAT_RGB24, pw, ph, pw*4);
-	}
+	scale_factor = MIN ((double) cairo_image_surface_get_width (original_image) / width, (double) dpi / 72.0);
+	scaled = _cairo_image_surface_scale (original_image,
+					     width * scale_factor,
+					     height * scale_factor,
+					     SCALE_FILTER_BEST,
+					     NULL);
 
 	cairo_save (cr);
-	pattern = cairo_pattern_create_for_surface (s);
+	pattern = cairo_pattern_create_for_surface (scaled);
 	cairo_matrix_init_translate (&matrix, -x * scale_factor, -y * scale_factor);
 	cairo_matrix_scale (&matrix, scale_factor, scale_factor);
 	cairo_pattern_set_matrix (pattern, &matrix);
@@ -679,9 +622,7 @@ _cairo_paint_pixbuf (cairo_t   *cr,
 	cairo_restore (cr);
 
 	cairo_pattern_destroy (pattern);
-	cairo_surface_destroy (s);
-	g_free (np);
-	g_object_unref (pixbuf);
+	cairo_surface_destroy (scaled);
 }
 
 
@@ -737,8 +678,8 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 	gth_image_print_job_set_font_options (self, pango_layout, self->priv->caption_font_name, preview);
 
 	for (i = 0; i < self->priv->n_images; i++) {
-		GthImageInfo *image_info = self->priv->images[i];
-		GdkPixbuf    *fullsize_pixbuf;
+		GthImageInfo    *image_info = self->priv->images[i];
+		cairo_surface_t *fullsize_image;
 
 		if (image_info->page != page)
 			continue;
@@ -749,10 +690,10 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 			cairo_set_line_width (cr, 0.5);
 			cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
 			cairo_rectangle (cr,
-					 x_offset + image_info->comment.x,
-					 y_offset + image_info->comment.y,
-					 image_info->comment.width,
-					 image_info->comment.height);
+					 x_offset + image_info->comment_box.x,
+					 y_offset + image_info->comment_box.y,
+					 image_info->comment_box.width,
+					 image_info->comment_box.height);
 			cairo_stroke (cr);
 			cairo_restore (cr);
 #endif
@@ -766,66 +707,68 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 			else
 				cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 			cairo_rectangle (cr,
-					 x_offset + image_info->boundary.x,
-					 y_offset + image_info->boundary.y,
-					 image_info->boundary.width,
-					 image_info->boundary.height);
+					 x_offset + image_info->boundary_box.x,
+					 y_offset + image_info->boundary_box.y,
+					 image_info->boundary_box.width,
+					 image_info->boundary_box.height);
 			cairo_stroke (cr);
 			cairo_restore (cr);
 		}
 
 		if (! preview) {
 			if (image_info->rotation != GTH_TRANSFORM_NONE)
-				fullsize_pixbuf = _gdk_pixbuf_transform (image_info->pixbuf, image_info->rotation);
+				fullsize_image = _cairo_image_surface_transform (image_info->image, image_info->rotation);
 			else
-				fullsize_pixbuf = g_object_ref (image_info->pixbuf);
+				fullsize_image = cairo_surface_reference (image_info->image);
 		}
 		else if (image_info->active)
-			fullsize_pixbuf = g_object_ref (image_info->thumbnail_active);
+			fullsize_image = cairo_surface_reference (image_info->thumbnail_active);
 		else
-			fullsize_pixbuf = g_object_ref (image_info->thumbnail);
+			fullsize_image = cairo_surface_reference (image_info->thumbnail);
 
-		if ((image_info->image.width >= 1.0) && (image_info->image.height >= 1.0)) {
+		if ((image_info->image_box.width >= 1.0) && (image_info->image_box.height >= 1.0)) {
 			if (preview) {
-				GdkPixbuf *pixbuf;
+				cairo_surface_t *scaled;
 
-				pixbuf = gdk_pixbuf_scale_simple (fullsize_pixbuf,
-								  image_info->image.width,
-								  image_info->image.height,
-								  preview ? GDK_INTERP_NEAREST : GDK_INTERP_BILINEAR);
+				scaled = _cairo_image_surface_scale (fullsize_image,
+								     image_info->image_box.width,
+								     image_info->image_box.height,
+								     (preview ? SCALE_FILTER_FAST : SCALE_FILTER_BEST),
+								     NULL);
+
 				cairo_save (cr);
-				gdk_cairo_set_source_pixbuf (cr,
-							     pixbuf,
-							     x_offset + image_info->image.x,
-							     y_offset + image_info->image.y);
+				cairo_set_source_surface (cr,
+							  scaled,
+							  x_offset + image_info->image_box.x,
+							  y_offset + image_info->image_box.y);
 				cairo_rectangle (cr,
-						 x_offset + image_info->image.x,
-						 y_offset + image_info->image.y,
-						 gdk_pixbuf_get_width (pixbuf),
-						 gdk_pixbuf_get_height (pixbuf));
+						 x_offset + image_info->image_box.x,
+						 y_offset + image_info->image_box.y,
+						 cairo_image_surface_get_width (scaled),
+						 cairo_image_surface_get_height (scaled));
 				cairo_clip (cr);
 				cairo_paint (cr);
 				cairo_restore (cr);
 
-				g_object_unref (pixbuf);
+				cairo_surface_destroy (scaled);
 			}
 			else
-				_cairo_paint_pixbuf (cr,
-						     x_offset + image_info->image.x,
-						     y_offset + image_info->image.y,
-						     image_info->image.width,
-						     image_info->image.height,
-						     fullsize_pixbuf,
+				_cairo_paint_image (cr,
+						     x_offset + image_info->image_box.x,
+						     y_offset + image_info->image_box.y,
+						     image_info->image_box.width,
+						     image_info->image_box.height,
+						     fullsize_image,
 						     self->priv->dpi);
 		}
 
 		if (image_info->print_comment) {
 			cairo_save (cr);
 
-			pango_layout_set_width (pango_layout, image_info->comment.width * self->priv->scale_factor * PANGO_SCALE);
+			pango_layout_set_width (pango_layout, image_info->comment_box.width * self->priv->scale_factor * PANGO_SCALE);
 			pango_layout_set_text (pango_layout, image_info->comment_text, -1);
 
-			cairo_move_to (cr, x_offset + image_info->comment.x, y_offset + image_info->comment.y);
+			cairo_move_to (cr, x_offset + image_info->comment_box.x, y_offset + image_info->comment_box.y);
 			if (preview)
 				cairo_scale (cr, 1.0 / self->priv->scale_factor, 1.0 / self->priv->scale_factor);
 
@@ -836,7 +779,7 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 			cairo_restore (cr);
 		}
 
-		g_object_unref (fullsize_pixbuf);
+		cairo_surface_destroy (fullsize_image);
 	}
 }
 
@@ -923,31 +866,31 @@ gth_image_print_job_update_image_controls (GthImagePrintJob *self)
 
 	g_signal_handler_block (GET_WIDGET ("left_adjustment"), self->priv->left_adjustment_value_changed_event);
 	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), 0.0);
-	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), TO_UNIT (self->priv->selected->boundary.width - self->priv->selected->image.width));
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), TO_UNIT (self->priv->selected->image.x - self->priv->selected->boundary.x));
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), TO_UNIT (self->priv->selected->boundary_box.width - self->priv->selected->image_box.width));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), TO_UNIT (self->priv->selected->image_box.x - self->priv->selected->boundary_box.x));
 	g_signal_handler_unblock (GET_WIDGET ("left_adjustment"), self->priv->left_adjustment_value_changed_event);
 
 	g_signal_handler_block (GET_WIDGET ("top_adjustment"), self->priv->top_adjustment_value_changed_event);
 	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), 0.0);
-	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), TO_UNIT (self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height));
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), TO_UNIT (self->priv->selected->image.y - self->priv->selected->boundary.y));
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), TO_UNIT (self->priv->selected->boundary_box.height - self->priv->selected->comment_box.height - self->priv->selected->image_box.height));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), TO_UNIT (self->priv->selected->image_box.y - self->priv->selected->boundary_box.y));
 	g_signal_handler_unblock (GET_WIDGET ("top_adjustment"), self->priv->top_adjustment_value_changed_event);
 
 	g_signal_handler_block (GET_WIDGET ("width_adjustment"), self->priv->width_adjustment_value_changed_event);
 	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), 0.0);
-	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), TO_UNIT (self->priv->selected->maximized.width));
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), TO_UNIT (self->priv->selected->image.width));
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), TO_UNIT (self->priv->selected->maximized_box.width));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), TO_UNIT (self->priv->selected->image_box.width));
 	g_signal_handler_unblock (GET_WIDGET ("width_adjustment"), self->priv->width_adjustment_value_changed_event);
 
 	g_signal_handler_block (GET_WIDGET ("height_adjustment"), self->priv->height_adjustment_value_changed_event);
 	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), 0.0);
-	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), TO_UNIT (self->priv->selected->maximized.height));
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), TO_UNIT (self->priv->selected->image.height));
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), TO_UNIT (self->priv->selected->maximized_box.height));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), TO_UNIT (self->priv->selected->image_box.height));
 	g_signal_handler_unblock (GET_WIDGET ("height_adjustment"), self->priv->height_adjustment_value_changed_event);
 
 	g_signal_handler_block (GET_WIDGET ("position_combobox"), self->priv->position_combobox_changed_event);
-	centered = (self->priv->selected->image.x == ((self->priv->selected->boundary.width - self->priv->selected->image.width) / 2.0))
-		    && (self->priv->selected->image.y == ((self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height) / 2.0));
+	centered = (self->priv->selected->image_box.x == ((self->priv->selected->boundary_box.width - self->priv->selected->image_box.width) / 2.0))
+		    && (self->priv->selected->image_box.y == ((self->priv->selected->boundary_box.height - self->priv->selected->comment_box.height - self->priv->selected->image_box.height) / 2.0));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("position_combobox")), centered ? 0 : 1);
 	g_signal_handler_unblock (GET_WIDGET ("position_combobox"), self->priv->position_combobox_changed_event);
 }
@@ -1059,10 +1002,10 @@ preview_motion_notify_event_cb (GtkWidget      *widget,
 		if (image_info->page != self->priv->current_page)
 			continue;
 
-		if ((x >= image_info->boundary.x)
-		    && (x <= image_info->boundary.x + image_info->boundary.width)
-		    && (y >= image_info->boundary.y )
-		    && (y <= image_info->boundary.y + image_info->boundary.height))
+		if ((x >= image_info->boundary_box.x)
+		    && (x <= image_info->boundary_box.x + image_info->boundary_box.width)
+		    && (y >= image_info->boundary_box.y )
+		    && (y <= image_info->boundary_box.y + image_info->boundary_box.height))
 		{
 			if (! image_info->active) {
 				image_info->active = TRUE;
@@ -1127,10 +1070,10 @@ preview_button_press_event_cb (GtkWidget      *widget,
 		if (image_info->page != self->priv->current_page)
 			continue;
 
-		if ((x >= image_info->boundary.x)
-		    && (x <= image_info->boundary.x + image_info->boundary.width)
-		    && (y >= image_info->boundary.y )
-		    && (y <= image_info->boundary.y + image_info->boundary.height))
+		if ((x >= image_info->boundary_box.x)
+		    && (x <= image_info->boundary_box.x + image_info->boundary_box.width)
+		    && (y >= image_info->boundary_box.y )
+		    && (y <= image_info->boundary_box.y + image_info->boundary_box.height))
 		{
 			self->priv->selected = image_info;
 			gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
@@ -1351,22 +1294,22 @@ gth_image_print_job_set_selected_zoom (GthImagePrintJob *self,
 	double x, y;
 
 	self->priv->selected->zoom = CLAMP (zoom, 0.0, 1.0);
-	self->priv->selected->image.width = self->priv->selected->maximized.width * self->priv->selected->zoom;
-	self->priv->selected->image.height = self->priv->selected->maximized.height * self->priv->selected->zoom;
+	self->priv->selected->image_box.width = self->priv->selected->maximized_box.width * self->priv->selected->zoom;
+	self->priv->selected->image_box.height = self->priv->selected->maximized_box.height * self->priv->selected->zoom;
 
-	x = self->priv->selected->image.x - self->priv->selected->boundary.x;
-	y = self->priv->selected->image.y - self->priv->selected->boundary.y;
-	if (x + self->priv->selected->image.width > self->priv->selected->boundary.width)
-		x = self->priv->selected->boundary.width - self->priv->selected->image.width;
-	if (x + self->priv->selected->image.width > self->priv->selected->boundary.width)
-		self->priv->selected->image.width = self->priv->selected->boundary.width - x;
+	x = self->priv->selected->image_box.x - self->priv->selected->boundary_box.x;
+	y = self->priv->selected->image_box.y - self->priv->selected->boundary_box.y;
+	if (x + self->priv->selected->image_box.width > self->priv->selected->boundary_box.width)
+		x = self->priv->selected->boundary_box.width - self->priv->selected->image_box.width;
+	if (x + self->priv->selected->image_box.width > self->priv->selected->boundary_box.width)
+		self->priv->selected->image_box.width = self->priv->selected->boundary_box.width - x;
 
-	if (y + self->priv->selected->image.height > self->priv->selected->boundary.height - self->priv->selected->comment.height)
-		y = self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height;
-	if (y + self->priv->selected->image.height > self->priv->selected->boundary.height - self->priv->selected->comment.height)
-		self->priv->selected->image.height = self->priv->selected->boundary.height - self->priv->selected->comment.height - y;
+	if (y + self->priv->selected->image_box.height > self->priv->selected->boundary_box.height - self->priv->selected->comment_box.height)
+		y = self->priv->selected->boundary_box.height - self->priv->selected->comment_box.height - self->priv->selected->image_box.height;
+	if (y + self->priv->selected->image_box.height > self->priv->selected->boundary_box.height - self->priv->selected->comment_box.height)
+		self->priv->selected->image_box.height = self->priv->selected->boundary_box.height - self->priv->selected->comment_box.height - y;
 
-	self->priv->selected->zoom = MIN (self->priv->selected->image.width / self->priv->selected->maximized.width, self->priv->selected->image.height / self->priv->selected->maximized.height);
+	self->priv->selected->zoom = MIN (self->priv->selected->image_box.width / self->priv->selected->maximized_box.width, self->priv->selected->image_box.height / self->priv->selected->maximized_box.height);
 	self->priv->selected->transformation.x = x / self->priv->max_image_width;
 	self->priv->selected->transformation.y = y / self->priv->max_image_height;
 
@@ -1424,7 +1367,7 @@ width_adjustment_value_changed_cb (GtkAdjustment *adjustment,
 	if (self->priv->selected == NULL)
 		return;
 
-	gth_image_print_job_set_selected_zoom (self, TO_PIXELS (gtk_adjustment_get_value (adjustment)) / self->priv->selected->maximized.width);
+	gth_image_print_job_set_selected_zoom (self, TO_PIXELS (gtk_adjustment_get_value (adjustment)) / self->priv->selected->maximized_box.width);
 }
 
 
@@ -1437,7 +1380,7 @@ height_adjustment_value_changed_cb (GtkAdjustment *adjustment,
 	if (self->priv->selected == NULL)
 		return;
 
-	gth_image_print_job_set_selected_zoom (self, TO_PIXELS (gtk_adjustment_get_value (adjustment)) / self->priv->selected->maximized.height);
+	gth_image_print_job_set_selected_zoom (self, TO_PIXELS (gtk_adjustment_get_value (adjustment)) / self->priv->selected->maximized_box.height);
 }
 
 
@@ -1451,10 +1394,10 @@ position_combobox_changed_cb (GtkComboBox *combo_box,
 		return;
 
 	if (gtk_combo_box_get_active (combo_box) == 0) {
-		self->priv->selected->image.x = (self->priv->selected->boundary.width - self->priv->selected->image.width) / 2.0;
-		self->priv->selected->image.y = (self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height) / 2.0;
-		self->priv->selected->transformation.x = self->priv->selected->image.x / self->priv->max_image_width;
-		self->priv->selected->transformation.y = self->priv->selected->image.y / self->priv->max_image_height;
+		self->priv->selected->image_box.x = (self->priv->selected->boundary_box.width - self->priv->selected->image_box.width) / 2.0;
+		self->priv->selected->image_box.y = (self->priv->selected->boundary_box.height - self->priv->selected->comment_box.height - self->priv->selected->image_box.height) / 2.0;
+		self->priv->selected->transformation.x = self->priv->selected->image_box.x / self->priv->max_image_width;
+		self->priv->selected->transformation.y = self->priv->selected->image_box.y / self->priv->max_image_height;
 		gth_image_print_job_update_preview (self);
 	}
 }
@@ -1757,11 +1700,11 @@ print_operation_done_cb (GtkPrintOperation       *operation,
 
 
 GthImagePrintJob *
-gth_image_print_job_new (GList        *file_data_list,
-			 GthFileData  *current,
-			 GdkPixbuf    *current_image,
-			 const char   *event_name,
-			 GError      **error)
+gth_image_print_job_new (GList            *file_data_list,
+			 GthFileData      *current,
+			 cairo_surface_t  *current_image,
+			 const char       *event_name,
+			 GError          **error)
 {
 	GthImagePrintJob *self;
 	GList            *scan;
@@ -1779,7 +1722,7 @@ gth_image_print_job_new (GList        *file_data_list,
 
 			image_info = gth_image_info_new (file_data);
 			if ((current_image != NULL) && g_file_equal (file_data->file, current->file))
-				gth_image_info_set_pixbuf (image_info, current_image);
+				gth_image_info_set_image  (image_info, current_image);
 
 			self->priv->images[n++] = image_info;
 		}

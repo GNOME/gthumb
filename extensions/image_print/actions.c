@@ -37,7 +37,7 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	if (file_list != NULL) {
-		GdkPixbuf        *current_image;
+		cairo_surface_t  *current_image;
 		GtkWidget        *viewer_page;
 		GthImagePrintJob *print_job;
 		GError           *error = NULL;
@@ -51,14 +51,14 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 			GtkWidget *viewer;
 
 			viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-			current_image = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
+			current_image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
 		}
 		print_job = gth_image_print_job_new (file_list,
 						     gth_browser_get_current_file (browser),
 						     current_image,
 						     g_file_info_get_display_name (gth_browser_get_location_data (browser)->info),
 						     &error);
-		_g_object_unref (current_image);
+		cairo_surface_destroy (current_image);
 
 		if (print_job != NULL) {
 			gth_image_print_job_run (print_job,

@@ -506,6 +506,59 @@ _cairo_image_surface_transform (cairo_surface_t *source,
 }
 
 
+cairo_surface_t *
+_cairo_image_surface_color_shift (cairo_surface_t *image,
+				  int              shift)
+{
+	cairo_surface_t *shifted;
+	int              i, j;
+	int              width, height, src_stride, dest_stride;
+	guchar          *src_pixels, *src_row, *src_pixel;
+	guchar          *dest_pixels, *dest_row, *dest_pixel;
+	int              val;
+	guchar           r, g, b, a;
+
+	shifted = _cairo_image_surface_create_compatible (image);
+
+	width       = cairo_image_surface_get_width (image);
+	height      = cairo_image_surface_get_height (image);
+	src_stride  = cairo_image_surface_get_stride (image);
+	src_pixels  = cairo_image_surface_get_data (image);
+	dest_stride = cairo_image_surface_get_stride (shifted);
+	dest_pixels = cairo_image_surface_get_data (shifted);
+
+	src_row = src_pixels;
+	dest_row = dest_pixels;
+	for (i = 0; i < height; i++) {
+		src_pixel = src_row;
+		dest_pixel  = dest_row;
+
+		for (j = 0; j < width; j++) {
+			CAIRO_GET_RGBA (src_pixel, r, g, b, a);
+
+			val = r + shift;
+			r = CLAMP (val, 0, 255);
+
+			val = g + shift;
+			g = CLAMP (val, 0, 255);
+
+			val = b + shift;
+			b = CLAMP (val, 0, 255);
+
+			CAIRO_SET_RGBA (dest_pixel, r, g, b, a);
+
+			src_pixel += 4;
+			dest_pixel += 4;
+		}
+
+		src_row += src_stride;
+		dest_row += dest_stride;
+	}
+
+	return shifted;
+}
+
+
 void
 _cairo_copy_line_as_rgba (guchar *dest,
 			 guchar *src,

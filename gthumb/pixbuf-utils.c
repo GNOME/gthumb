@@ -131,41 +131,6 @@ _gdk_pixbuf_scale_simple_safe (const GdkPixbuf *src,
 }
 
 
-GdkPixbuf *
-_gdk_pixbuf_scale_composite (const GdkPixbuf *src,
-			     int              dest_width,
-			     int              dest_height,
-			     GdkInterpType    interp_type)
-{
-	GdkPixbuf *dest;
-
-	if (! gdk_pixbuf_get_has_alpha (src))
-		return _gdk_pixbuf_scale_simple_safe (src, dest_width, dest_height, interp_type);
-
-	g_return_val_if_fail (src != NULL, NULL);
-	g_return_val_if_fail (dest_width > 0, NULL);
-	g_return_val_if_fail (dest_height > 0, NULL);
-
-	dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB, gdk_pixbuf_get_has_alpha (src), 8, dest_width, dest_height);
-	if (dest == NULL)
-		return NULL;
-
-	gdk_pixbuf_composite_color (src,
-				    dest,
-				    0, 0, dest_width, dest_height, 0, 0,
-				    (double) dest_width / gdk_pixbuf_get_width (src),
-				    (double) dest_height / gdk_pixbuf_get_height (src),
-				    interp_type,
-				    255,
-				    0, 0,
-				    200,
-				    0xFFFFFF,
-				    0xFFFFFF);
-
-	return dest;
-}
-
-
 /*
  * Returns a transformed image.
  */
@@ -215,49 +180,6 @@ _gdk_pixbuf_transform (GdkPixbuf    *src,
 	}
 
 	return dest;
-}
-
-
-void
-_gdk_pixbuf_colorshift (GdkPixbuf *dest,
-			GdkPixbuf *src,
-			int        shift)
-{
-	int     i, j;
-	int     width, height, has_alpha, srcrowstride, destrowstride;
-	guchar *target_pixels;
-	guchar *original_pixels;
-	guchar *pixsrc;
-	guchar *pixdest;
-	int     val;
-	guchar  r,g,b;
-
-	has_alpha       = gdk_pixbuf_get_has_alpha (src);
-	width           = gdk_pixbuf_get_width (src);
-	height          = gdk_pixbuf_get_height (src);
-	srcrowstride    = gdk_pixbuf_get_rowstride (src);
-	destrowstride   = gdk_pixbuf_get_rowstride (dest);
-	target_pixels   = gdk_pixbuf_get_pixels (dest);
-	original_pixels = gdk_pixbuf_get_pixels (src);
-
-	for (i = 0; i < height; i++) {
-		pixdest = target_pixels + i*destrowstride;
-		pixsrc  = original_pixels + i*srcrowstride;
-		for (j = 0; j < width; j++) {
-			r            = *(pixsrc++);
-			g            = *(pixsrc++);
-			b            = *(pixsrc++);
-			val          = r + shift;
-			*(pixdest++) = CLAMP (val, 0, 255);
-			val          = g + shift;
-			*(pixdest++) = CLAMP (val, 0, 255);
-			val          = b + shift;
-			*(pixdest++) = CLAMP (val, 0, 255);
-
-			if (has_alpha)
-				*(pixdest++) = *(pixsrc++);
-		}
-	}
 }
 
 

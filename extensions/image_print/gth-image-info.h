@@ -35,40 +35,40 @@ typedef struct {
 } GthRectangle;
 
 typedef struct {
-	int           ref_count;
-	GthFileData  *file_data;
-	int           original_width;
-	int           original_height;
-	int           pixbuf_width;
-	int           pixbuf_height;
-	GdkPixbuf    *pixbuf;
-	GdkPixbuf    *thumbnail_original;
-	GdkPixbuf    *thumbnail;
-	GdkPixbuf    *thumbnail_active;
-	int           page;
-	int           row;
-	int           col;
-	GthTransform  rotation;
-	double        zoom;
-	GthRectangle  transformation;
-	gboolean      active;
-	gboolean      reset;
-	gboolean      print_comment;
-	char         *comment_text;
-	GthRectangle  boundary;
-	GthRectangle  maximized;
-	GthRectangle  image;
-	GthRectangle  comment;
+	int              ref_count;
+	GthFileData     *file_data;
+	int              original_width;
+	int              original_height;
+	int              image_width;
+	int              image_height;
+	cairo_surface_t *image;
+	cairo_surface_t *thumbnail_original;
+	cairo_surface_t *thumbnail;
+	cairo_surface_t *thumbnail_active;
+	int              page;
+	int              row;
+	int              col;
+	GthTransform     rotation;
+	double           zoom;
+	GthRectangle     transformation;
+	gboolean         active;
+	gboolean         reset;
+	gboolean         print_comment;
+	char            *comment_text;
+	GthRectangle     boundary_box;
+	GthRectangle     maximized_box;
+	GthRectangle     image_box;
+	GthRectangle     comment_box;
 } GthImageInfo;
 
-GthImageInfo *  gth_image_info_new        (GthFileData  *file_data);
-GthImageInfo *  gth_image_info_ref        (GthImageInfo *image_info);
-void            gth_image_info_unref      (GthImageInfo *image_info);
-void            gth_image_info_set_pixbuf (GthImageInfo *image_info,
-					   GdkPixbuf    *pixbuf);
-void            gth_image_info_reset      (GthImageInfo *image_info);
-void            gth_image_info_rotate     (GthImageInfo *image_info,
-				           int           angle);
+GthImageInfo *  gth_image_info_new        (GthFileData     *file_data);
+GthImageInfo *  gth_image_info_ref        (GthImageInfo    *image_info);
+void            gth_image_info_unref      (GthImageInfo    *image_info);
+void            gth_image_info_set_image  (GthImageInfo    *image_info,
+					   cairo_surface_t *image);
+void            gth_image_info_reset      (GthImageInfo    *image_info);
+void            gth_image_info_rotate     (GthImageInfo    *image_info,
+				           int              angle);
 
 G_END_DECLS
 

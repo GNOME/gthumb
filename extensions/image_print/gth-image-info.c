@@ -45,7 +45,7 @@ gth_image_info_new (GthFileData *file_data)
 	image_info = g_new0 (GthImageInfo, 1);
 	image_info->ref_count = 1;
 	image_info->file_data = g_object_ref (file_data);
-	image_info->pixbuf = NULL;
+	image_info->image = NULL;
 	image_info->thumbnail_original = NULL;
 	image_info->thumbnail = NULL;
 	image_info->thumbnail_active = NULL;
@@ -57,10 +57,10 @@ gth_image_info_new (GthFileData *file_data)
 	image_info->page = -1;
 	image_info->active = FALSE;
 	image_info->reset = TRUE;
-	gth_rectangle_init (&image_info->boundary);
-	gth_rectangle_init (&image_info->maximized);
-	gth_rectangle_init (&image_info->image);
-	gth_rectangle_init (&image_info->comment);
+	gth_rectangle_init (&image_info->boundary_box);
+	gth_rectangle_init (&image_info->maximized_box);
+	gth_rectangle_init (&image_info->image_box);
+	gth_rectangle_init (&image_info->comment_box);
 
 	return image_info;
 }
@@ -85,43 +85,43 @@ gth_image_info_unref (GthImageInfo *image_info)
 		return;
 
 	_g_object_unref (image_info->file_data);
-	_g_object_unref (image_info->pixbuf);
-	_g_object_unref (image_info->thumbnail_original);
-	_g_object_unref (image_info->thumbnail);
-	_g_object_unref (image_info->thumbnail_active);
+	cairo_surface_destroy (image_info->image);
+	cairo_surface_destroy (image_info->thumbnail_original);
+	cairo_surface_destroy (image_info->thumbnail);
+	cairo_surface_destroy (image_info->thumbnail_active);
 	g_free (image_info->comment_text);
 	g_free (image_info);
 }
 
 
 void
-gth_image_info_set_pixbuf (GthImageInfo *image_info,
-			   GdkPixbuf    *pixbuf)
+gth_image_info_set_image  (GthImageInfo    *image_info,
+			   cairo_surface_t *image)
 {
 	int thumb_w;
 	int thumb_h;
 
-	g_return_if_fail (pixbuf != NULL);
+	g_return_if_fail (image != NULL);
 
-	_g_clear_object (&image_info->pixbuf);
-	_g_clear_object (&image_info->thumbnail_original);
-	_g_clear_object (&image_info->thumbnail);
-	_g_clear_object (&image_info->thumbnail_active);
+	_cairo_clear_surface (&image_info->image);
+	_cairo_clear_surface (&image_info->thumbnail_original);
+	_cairo_clear_surface (&image_info->thumbnail);
+	_cairo_clear_surface (&image_info->thumbnail_active);
 
-	image_info->pixbuf = g_object_ref (pixbuf);
-	thumb_w = image_info->original_width = image_info->pixbuf_width = gdk_pixbuf_get_width (pixbuf);
-	thumb_h = image_info->original_height = image_info->pixbuf_height = gdk_pixbuf_get_height (pixbuf);
+	image_info->image = cairo_surface_reference (image);
+	thumb_w = image_info->original_width = image_info->image_width = cairo_image_surface_get_width (image);
+	thumb_h = image_info->original_height = image_info->image_height = cairo_image_surface_get_height (image);
 	if (scale_keeping_ratio (&thumb_w, &thumb_h, THUMBNAIL_SIZE, THUMBNAIL_SIZE, FALSE))
-		image_info->thumbnail_original = gdk_pixbuf_scale_simple (pixbuf,
-									  thumb_w,
-									  thumb_h,
-									  GDK_INTERP_BILINEAR);
+		image_info->thumbnail_original = _cairo_image_surface_scale (image,
+								 	     thumb_w,
+								 	     thumb_h,
+								 	     SCALE_FILTER_BEST,
+								 	     NULL);
 	else
-		image_info->thumbnail_original = g_object_ref (image_info->pixbuf);
+		image_info->thumbnail_original = cairo_surface_reference (image_info->image);
 
-	image_info->thumbnail = g_object_ref (image_info->thumbnail_original);
-	image_info->thumbnail_active = gdk_pixbuf_copy (image_info->thumbnail);
-	_gdk_pixbuf_colorshift (image_info->thumbnail_active, image_info->thumbnail_active, 30);
+	image_info->thumbnail = cairo_surface_reference (image_info->thumbnail_original);
+	image_info->thumbnail_active = _cairo_image_surface_color_shift (image_info->thumbnail, 30);
 }
 
 
@@ -152,22 +152,20 @@ gth_image_info_rotate (GthImageInfo *image_info,
 		break;
 	}
 
-	_g_clear_object (&image_info->thumbnail);
+	_cairo_clear_surface (&image_info->thumbnail);
 	if (image_info->thumbnail_original != NULL)
-		image_info->thumbnail = _gdk_pixbuf_transform (image_info->thumbnail_original, image_info->rotation);
+		image_info->thumbnail = _cairo_image_surface_transform (image_info->thumbnail_original, image_info->rotation);
 
-	_g_clear_object (&image_info->thumbnail_active);
-	if (image_info->thumbnail != NULL) {
-		image_info->thumbnail_active = gdk_pixbuf_copy (image_info->thumbnail);
-		_gdk_pixbuf_colorshift (image_info->thumbnail_active, image_info->thumbnail_active, 30);
-	}
+	_cairo_clear_surface (&image_info->thumbnail_active);
+	if (image_info->thumbnail != NULL)
+		image_info->thumbnail_active = _cairo_image_surface_color_shift (image_info->thumbnail, 30);
 
 	if ((angle == 90) || (angle == 270)) {
-		image_info->pixbuf_width = image_info->original_height;
-		image_info->pixbuf_height = image_info->original_width;
+		image_info->image_width = image_info->original_height;
+		image_info->image_height = image_info->original_width;
 	}
 	else {
-		image_info->pixbuf_width = image_info->original_width;
-		image_info->pixbuf_height = image_info->original_height;
+		image_info->image_width = image_info->original_width;
+		image_info->image_height = image_info->original_height;
 	}
 }

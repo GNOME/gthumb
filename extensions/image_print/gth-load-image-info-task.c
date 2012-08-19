@@ -125,13 +125,13 @@ image_loader_ready_cb (GObject      *source_object,
 		g_cancellable_set_error_if_cancelled (gth_task_get_cancellable (GTH_TASK (self)), &error);
 
 	if (error == NULL) {
-		GdkPixbuf *pixbuf;
+		cairo_surface_t *surface;
 
 		image_info = self->priv->images[self->priv->current];
-		pixbuf = gth_image_get_pixbuf (image);
-		if (pixbuf != NULL) {
-			gth_image_info_set_pixbuf (image_info, pixbuf);
-			g_object_unref (pixbuf);
+		surface = gth_image_get_cairo_surface (image);
+		if (surface != NULL) {
+			gth_image_info_set_image  (image_info, surface);
+			cairo_surface_destroy (surface);
 		}
 	}
 	else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -168,7 +168,7 @@ load_current_image (GthLoadImageInfoTask *self)
 			   FALSE,
 			   ((double) self->priv->current + 0.5) / self->priv->n_images);
 
-	if (image_info->pixbuf == NULL)
+	if (image_info->image == NULL)
 		gth_image_loader_load (self->priv->loader,
 				       image_info->file_data,
 				       -1,

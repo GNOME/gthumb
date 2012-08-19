@@ -169,9 +169,11 @@ void               _cairo_image_surface_transform_get_steps (cairo_format_t     
 							     int                   *line_start_p,
 							     int                   *line_step_p,
 							     int                   *pixel_step_p);
-cairo_surface_t *  _cairo_image_surface_transform           (cairo_surface_t       *surface,
+cairo_surface_t *  _cairo_image_surface_transform           (cairo_surface_t       *image,
 							     GthTransform           transform);
-void               _cairo_copy_line_as_rgba                  (guchar                *dest,
+cairo_surface_t *  _cairo_image_surface_color_shift         (cairo_surface_t       *image,
+							     int                    shift);
+void               _cairo_copy_line_as_rgba                 (guchar                *dest,
 							     guchar                *src,
 							     guint                  width,
 							     guint                  alpha);
