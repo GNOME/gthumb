@@ -294,14 +294,11 @@ gth_image_saver_tga_save_image (GthImageSaver  *base,
 				GError        **error)
 {
 	GthImageSaverTga  *self = GTH_IMAGE_SAVER_TGA (base);
-	char              *pixbuf_type;
 	char             **option_keys;
 	char             **option_values;
 	int                i = -1;
 	cairo_surface_t   *surface;
 	gboolean           result;
-
-	pixbuf_type = _gdk_pixbuf_get_type_from_mime_type (mime_type);
 
 	option_keys = g_malloc (sizeof (char *) * 2);
 	option_values = g_malloc (sizeof (char *) * 2);
@@ -325,7 +322,6 @@ gth_image_saver_tga_save_image (GthImageSaver  *base,
 	cairo_surface_destroy (surface);
 	g_strfreev (option_keys);
 	g_strfreev (option_values);
-	g_free (pixbuf_type);
 
 	return result;
 }
