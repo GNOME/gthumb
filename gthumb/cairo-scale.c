@@ -69,10 +69,9 @@ _cairo_image_surface_scale_nearest (cairo_surface_t *image,
 
 	g_return_val_if_fail (cairo_image_surface_get_format (image) == CAIRO_FORMAT_ARGB32, NULL);
 
-	scaled = cairo_surface_create_similar_image (image,
-						     CAIRO_FORMAT_ARGB32,
-						     new_width,
-						     new_height);
+	scaled = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					     new_width,
+					     new_height);
 
 	src_width = cairo_image_surface_get_width  (image);
 	src_height = cairo_image_surface_get_height (image);
@@ -397,10 +396,9 @@ _cairo_image_surface_scale_filter (cairo_surface_t *image,
 	if ((src_width == new_width) && (src_height == new_height))
 		return _cairo_image_surface_copy (image);
 
-	scaled = cairo_surface_create_similar_image (image,
-						     CAIRO_FORMAT_ARGB32,
-						     new_width,
-						     new_height);
+	scaled = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					     new_width,
+					     new_height);
 	if (scaled == NULL)
 		return NULL;
 
@@ -410,18 +408,11 @@ _cairo_image_surface_scale_filter (cairo_surface_t *image,
 
 	x_factor = (double) new_width / src_width;
 	y_factor = (double) new_height / src_height;
-	tmp = cairo_surface_create_similar_image (image,
-						  CAIRO_FORMAT_ARGB32,
-						  src_height,
-						  new_width);
+	tmp = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					  src_height,
+					  new_width);
 	horizontal_scale_transpose (image, tmp, x_factor, resize_filter);
 	horizontal_scale_transpose (tmp, scaled, y_factor, resize_filter);
-
-	/* FIXME
-	if (resize_filter->task != NULL) {
-		gboolean terminated = TRUE;
-		gth_async_task_set_data (resize_filter->task, &terminated, NULL, NULL);
-	}*/
 
 	resize_filter_destroy (resize_filter);
 	cairo_surface_destroy (tmp);
