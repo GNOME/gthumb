@@ -1391,7 +1391,7 @@ exiv2_generate_thumbnail (const char *uri,
 					 TRUE))
 		{
 			GdkPixbuf *tmp = pixbuf;
-			pixbuf = gdk_pixbuf_scale_simple (tmp, pixbuf_width, pixbuf_height, GDK_INTERP_BILINEAR);
+			pixbuf = _gdk_pixbuf_scale_simple_safe (tmp, pixbuf_width, pixbuf_height, GDK_INTERP_BILINEAR);
 			g_object_unref (tmp);
 		}
 

@@ -463,7 +463,7 @@ cache_image_ready_cb (GObject      *source_object,
 				    self->priv->cache_max_size);
 	if (modified) {
 		GdkPixbuf *tmp = pixbuf;
-		pixbuf = gdk_pixbuf_scale_simple (tmp, width, height, GDK_INTERP_BILINEAR);
+		pixbuf = _gdk_pixbuf_scale_simple_safe (tmp, width, height, GDK_INTERP_BILINEAR);
 		g_object_unref (tmp);
 	}
 
@@ -575,7 +575,7 @@ original_image_loaded_correctly (GthThumbLoader *self,
 				    self->priv->cache_max_size);
 	if (modified) {
 		GdkPixbuf *tmp = local_pixbuf;
-		local_pixbuf = gdk_pixbuf_scale_simple (tmp, width, height, GDK_INTERP_BILINEAR);
+		local_pixbuf = _gdk_pixbuf_scale_simple_safe (tmp, width, height, GDK_INTERP_BILINEAR);
 		g_object_unref (tmp);
 	}
 
