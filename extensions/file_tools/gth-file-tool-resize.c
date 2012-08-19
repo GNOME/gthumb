@@ -112,23 +112,55 @@ update_dimensione_info_label (GthFileToolResize *self,
 
 
 static void
-update_pixbuf_size (GthFileToolResize *self)
+resize_task_init (GthAsyncTask *task,
+	          gpointer      user_data)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
+	gth_task_progress (GTH_TASK (task), _("Resizing images"), NULL, TRUE, 0.0);
+}
 
-	cairo_surface_destroy (self->priv->new_image);
 
-	/*self->priv->new_image = _cairo_image_surface_scale_to (self->priv->original_image,
-							       self->priv->new_width,
-							       self->priv->new_height,
-							       self->priv->high_quality ? CAIRO_FILTER_GAUSSIAN : CAIRO_FILTER_NEAREST);*/
+static gpointer
+resize_task_exec (GthAsyncTask *task,
+		  gpointer      user_data)
+{
+	GthFileToolResize *self = user_data;
+	cairo_surface_t   *destination;
+	GthImage          *destination_image;
 
-	self->priv->new_image = _cairo_image_surface_scale (self->priv->original_image,
-							    self->priv->new_width,
-							    self->priv->new_height,
-							    (self->priv->high_quality ? SCALE_FILTER_BEST : SCALE_FILTER_FAST),
-							    NULL);
+	destination = _cairo_image_surface_scale (self->priv->original_image,
+			    	    	    	  self->priv->new_width,
+			    	    	    	  self->priv->new_height,
+			    	    	    	  (self->priv->high_quality ? SCALE_FILTER_BEST : SCALE_FILTER_FAST),
+			    	    	    	  task);
+	destination_image = gth_image_new_for_surface (destination);
+	gth_image_task_set_destination (GTH_IMAGE_TASK (task), destination_image);
+
+	_g_object_unref (destination_image);
+	cairo_surface_destroy (destination);
+
+	return NULL;
+}
+
+
+static void
+resize_task_completed (GthAsyncTask *task,
+		       GError       *error,
+		       gpointer      user_data)
+{
+	GthFileToolResize *self = user_data;
+	GthImage          *destination_image;
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+
+	if (error != NULL)
+		return;
+
+	destination_image = gth_image_task_get_destination (GTH_IMAGE_TASK (task));
+	if (destination_image == NULL)
+		return;
+
+	self->priv->new_image = gth_image_get_cairo_surface (destination_image);
+
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->new_image, FALSE);
@@ -143,6 +175,25 @@ update_pixbuf_size (GthFileToolResize *self)
 				      (double) self->priv->new_width / self->priv->original_width,
 				      (double) self->priv->new_height / self->priv->original_height,
 				      FALSE);
+}
+
+
+static void
+update_pixbuf_size (GthFileToolResize *self)
+{
+	GthTask *resize_task;
+
+	_cairo_clear_surface (&self->priv->new_image);
+
+	resize_task = gth_image_task_new (NULL,
+					  resize_task_init,
+					  resize_task_exec,
+					  resize_task_completed,
+					  self,
+					  NULL);
+	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), resize_task, FALSE);
+
+	g_object_unref (resize_task);
 }
 
 
