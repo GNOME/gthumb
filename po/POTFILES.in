@@ -66,14 +66,29 @@ extensions/burn_disc/callbacks.h
 extensions/burn_disc/gth-burn-task.c
 extensions/burn_disc/gth-burn-task.h
 extensions/burn_disc/main.c
+extensions/cairo_io/cairo-image-surface-jpeg.c
+extensions/cairo_io/cairo-image-surface-jpeg.h
+extensions/cairo_io/cairo-image-surface-png.c
+extensions/cairo_io/cairo-image-surface-png.h
+extensions/cairo_io/cairo-image-surface-svg.c
+extensions/cairo_io/cairo-image-surface-svg.h
 [type: gettext/ini]extensions/cairo_io/cairo_io.extension.in.in
-extensions/cairo_io/cairo-io-jpeg.c
-extensions/cairo_io/cairo-io-jpeg.h
-extensions/cairo_io/cairo-io-png.c
-extensions/cairo_io/cairo-io-png.h
-extensions/cairo_io/cairo-io-svg.c
-extensions/cairo_io/cairo-io-svg.h
+[type: gettext/glade]extensions/cairo_io/data/ui/jpeg-options.ui
+[type: gettext/glade]extensions/cairo_io/data/ui/png-options.ui
+[type: gettext/glade]extensions/cairo_io/data/ui/save-options-preferences.ui
+[type: gettext/glade]extensions/cairo_io/data/ui/tga-options.ui
+[type: gettext/glade]extensions/cairo_io/data/ui/tiff-options.ui
+extensions/cairo_io/gth-image-saver-jpeg.c
+extensions/cairo_io/gth-image-saver-jpeg.h
+extensions/cairo_io/gth-image-saver-png.c
+extensions/cairo_io/gth-image-saver-png.h
+extensions/cairo_io/gth-image-saver-tga.c
+extensions/cairo_io/gth-image-saver-tga.h
+extensions/cairo_io/gth-image-saver-tiff.c
+extensions/cairo_io/gth-image-saver-tiff.h
 extensions/cairo_io/main.c
+extensions/cairo_io/preferences.c
+extensions/cairo_io/preferences.h
 extensions/catalogs/actions.c
 extensions/catalogs/actions.h
 extensions/catalogs/callbacks.c
@@ -555,23 +570,6 @@ extensions/picasaweb/picasa-web-types.h
 extensions/picasaweb/picasa-web-user.c
 extensions/picasaweb/picasa-web-user.h
 extensions/picasaweb/preferences.h
-[type: gettext/glade]extensions/pixbuf_savers/data/ui/jpeg-options.ui
-[type: gettext/glade]extensions/pixbuf_savers/data/ui/png-options.ui
-[type: gettext/glade]extensions/pixbuf_savers/data/ui/save-options-preferences.ui
-[type: gettext/glade]extensions/pixbuf_savers/data/ui/tga-options.ui
-[type: gettext/glade]extensions/pixbuf_savers/data/ui/tiff-options.ui
-extensions/pixbuf_savers/gth-jpeg-saver.c
-extensions/pixbuf_savers/gth-jpeg-saver.h
-extensions/pixbuf_savers/gth-png-saver.c
-extensions/pixbuf_savers/gth-png-saver.h
-extensions/pixbuf_savers/gth-tga-saver.c
-extensions/pixbuf_savers/gth-tga-saver.h
-extensions/pixbuf_savers/gth-tiff-saver.c
-extensions/pixbuf_savers/gth-tiff-saver.h
-extensions/pixbuf_savers/main.c
-[type: gettext/ini]extensions/pixbuf_savers/pixbuf_savers.extension.in.in
-extensions/pixbuf_savers/preferences.c
-extensions/pixbuf_savers/preferences.h
 extensions/raw_files/main.c
 [type: gettext/ini]extensions/raw_files/raw_files.extension.in.in
 [type: gettext/glade]extensions/red_eye_removal/data/ui/red-eye-removal-options.ui
@@ -661,6 +659,8 @@ extensions/webalbums/gth-web-exporter.h
 extensions/webalbums/main.c
 extensions/webalbums/preferences.h
 [type: gettext/ini]extensions/webalbums/webalbums.extension.in.in
+gthumb/cairo-scale.c
+gthumb/cairo-scale.h
 gthumb/cairo-utils.c
 gthumb/cairo-utils.h
 gthumb/dlg-location.c
@@ -759,14 +759,20 @@ gthumb/gth-image-dragger.h
 gthumb/gth-image.h
 gthumb/gth-image-history.c
 gthumb/gth-image-history.h
+gthumb/gth-image-list-task.c
+gthumb/gth-image-list-task.h
 gthumb/gth-image-loader.c
 gthumb/gth-image-loader.h
 gthumb/gth-image-navigator.c
 gthumb/gth-image-navigator.h
 gthumb/gth-image-preloader.c
 gthumb/gth-image-preloader.h
+gthumb/gth-image-saver.c
+gthumb/gth-image-saver.h
 gthumb/gth-image-selector.c
 gthumb/gth-image-selector.h
+gthumb/gth-image-task.c
+gthumb/gth-image-task.h
 gthumb/gth-image-viewer.c
 gthumb/gth-image-viewer.h
 gthumb/gth-image-viewer-tool.c
@@ -802,12 +808,6 @@ gthumb/gth-multipage.c
 gthumb/gth-multipage.h
 gthumb/gth-overwrite-dialog.c
 gthumb/gth-overwrite-dialog.h
-gthumb/gth-pixbuf-list-task.c
-gthumb/gth-pixbuf-list-task.h
-gthumb/gth-pixbuf-saver.c
-gthumb/gth-pixbuf-saver.h
-gthumb/gth-pixbuf-task.c
-gthumb/gth-pixbuf-task.h
 gthumb/gth-preferences.c
 gthumb/gth-preferences.h
 gthumb/gth-progress-dialog.c
