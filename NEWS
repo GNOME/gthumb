@@ -1,3 +1,29 @@
+version 3.0.2
+-------------
+
+ Bugs fixed:
+
+  * Fixed fullscreen toolbars with multiple monitors.
+  * Fixed error when rotating keeping the origina size.
+  * Photobucket exporter: fixed crash when closing the dialog.
+  * Fixed broken video thumbnail (#666303)
+  * Delete key does nothing when image first opened (#678441)
+  * Picasa Web exporter: images not displayed in the export dialog (#679546)
+  * Fix parallel build problems with enum generation.
+
+ New or updated application translations:
+
+  * Chinese (Hong Kong) (taijuin)
+  * Chinese (simplified) (tuhaihe)
+  * Chinese/Traditional (taijuin)
+  * Latvian (Rūdolfs Mazurs)
+  * Ελληνικά, Σύγχρονα (Tom Tryfonidis)
+
+ New or updated manual translations:
+
+  * Deutsch (Daniel Winzen)
+  * Slovenian Translation (Andrej Žnidaršič)
+
 version 3.0.1
 -------------
 
@@ -98,17 +124,17 @@ version 2.90.1
     similar to catalogs but their content is lost after closing the application.
     Use Alt-n to add files to selection n, and Control-n to view selection n,
     for n in the 1..3 interval.
-  * High quality zoom for SVG images. Requires librsvg. 
-  * Comment and tags dialogs: allow to save the metadata without closing the 
+  * High quality zoom for SVG images. Requires librsvg.
+  * Comment and tags dialogs: allow to save the metadata without closing the
     dialog.
   * Added option to reuse the active window when opening files from an
     external application.
   * Allow to hide/show the file properties pane.
-  * Allow to change the position of the file properties in browser mode.  
+  * Allow to change the position of the file properties in browser mode.
   * Save the image keyworks in the Xmp.dc.subject tag as well.
   * Save the Exif.Image.Software tag only if the content was modified.
   * Sync the rating with the Xmp.xmp.Rating tag.
-  * Video viewer: jump to the specified position when clicking on the progress 
+  * Video viewer: jump to the specified position when clicking on the progress
     bar.
   * Video viewer: use symbolic icons for the play button and the volume control.
   * Make the 'shrink wrap' command work for the video viewer as well.
@@ -116,12 +142,12 @@ version 2.90.1
   * Image viewer: implemented the checked transparency.
   * Show the Edit button in browser mode as well.
   * Moved the location chooser above the file list.
-  * Preferences: show the slideshow preferences in the viewer tab to save some 
+  * Preferences: show the slideshow preferences in the viewer tab to save some
     horizontal space.
   * Use the PICTURES special dir as the default startup location.
-  
+
  Internal code changes:
-  
+
   * Ported to Gtk+ 3
   * Ported from GConf to GSettings. Automatically convert the GConf values.
   * Ported from libunique to GtkApplication.
@@ -129,7 +155,7 @@ version 2.90.1
   * Removed use of deprecated functions.
   * Use the G_DEFINE_* macros to define GObject classes.
   * Added a custom widget to display the thumbnail list instead of GtkIconView.
-  
+
  New or updated application translations:
 
   * Czech (Marek Černocký)
@@ -171,12 +197,12 @@ version 2.13.90
  Bugs fixed:
 
   * Added ability to import from and export to 23hq.com (#657269)
-  * Web uploaders: update the progress bar during the upload; allow to cancel 
+  * Web uploaders: update the progress bar during the upload; allow to cancel
     an upload.
-  * Fixed selection of the destination folder in the import dialog. 
+  * Fixed selection of the destination folder in the import dialog.
     (#657557)
   * Fixed comment synchronization when a \r character is in the text.
-  * Flickr importer: fixed import of photosets greater then 500 photos. 
+  * Flickr importer: fixed import of photosets greater then 500 photos.
     (#648701)
   * Facebook uploader: allow to upload high resolution images. (#652216)
   * Fixed a crash when loading remote images.
