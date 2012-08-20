@@ -304,49 +304,59 @@ paint_darker_background (GthImageRotator *self,
 			 cairo_t         *cr)
 {
 	cairo_rectangle_int_t crop_region;
+	GtkAllocation         allocation;
 
 	cairo_save (cr);
 	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
 
-	/* the crop_region is not zoomed the clip_area is already zoomed */
+	switch (self->priv->resize) {
+	case GTH_TRANSFORM_RESIZE_BOUNDING_BOX:
+	case GTH_TRANSFORM_RESIZE_CLIP:
+		crop_region = self->priv->clip_area;
+		break;
 
-	crop_region = self->priv->crop_region;
-	crop_region.x = crop_region.x * self->priv->preview_zoom;
-	crop_region.y = crop_region.y * self->priv->preview_zoom;
-	crop_region.width = crop_region.width * self->priv->preview_zoom;
-	crop_region.height = crop_region.height * self->priv->preview_zoom;
+	case GTH_TRANSFORM_RESIZE_CROP:
+		/* the crop_region is not zoomed the clip_area is already zoomed */
+		cairo_scale (cr, self->priv->preview_zoom, self->priv->preview_zoom);
+		crop_region = self->priv->crop_region;
+		crop_region.x += self->priv->clip_area.x / self->priv->preview_zoom;
+		crop_region.y += self->priv->clip_area.y / self->priv->preview_zoom;
+		break;
+	}
+
+	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
 
 	/* left side */
 
 	cairo_rectangle (cr,
-			 self->priv->clip_area.x,
-			 self->priv->clip_area.y,
+			 0,
+			 0,
 			 crop_region.x,
-			 self->priv->clip_area.height);
+			 allocation.height);
 
 	/* right side */
 
 	cairo_rectangle (cr,
-			 self->priv->clip_area.x + crop_region.x + crop_region.width,
-			 self->priv->clip_area.y,
-			 self->priv->clip_area.width - crop_region.x - crop_region.width,
-			 self->priv->clip_area.height);
+			 crop_region.x + crop_region.width,
+			 0,
+			 allocation.width - crop_region.x - crop_region.width,
+			 allocation.height);
 
 	/* top */
 
 	cairo_rectangle (cr,
-			 self->priv->clip_area.x,
-			 self->priv->clip_area.y,
-			 self->priv->clip_area.width,
+			 crop_region.x,
+			 0,
+			 crop_region.width,
 			 crop_region.y);
 
 	/* bottom */
 
 	cairo_rectangle (cr,
-			 self->priv->clip_area.x,
-			 self->priv->clip_area.y + crop_region.y + crop_region.height,
-			 self->priv->clip_area.width,
-			 self->priv->clip_area.height - crop_region.y - crop_region.height);
+			 crop_region.x,
+			 crop_region.y + crop_region.height,
+			 crop_region.width,
+			 allocation.height - crop_region.y - crop_region.height);
 
 	cairo_fill (cr);
 	cairo_restore (cr);
@@ -361,11 +371,20 @@ paint_grid (GthImageRotator *self,
 
 	cairo_save (cr);
 
-	cairo_scale (cr, self->priv->preview_zoom, self->priv->preview_zoom);
+	switch (self->priv->resize) {
+	case GTH_TRANSFORM_RESIZE_BOUNDING_BOX:
+	case GTH_TRANSFORM_RESIZE_CLIP:
+		grid = self->priv->clip_area;
+		break;
 
-	grid = self->priv->crop_region;
-	grid.x += self->priv->clip_area.x / self->priv->preview_zoom;
-	grid.y += self->priv->clip_area.y / self->priv->preview_zoom;
+	case GTH_TRANSFORM_RESIZE_CROP:
+		cairo_scale (cr, self->priv->preview_zoom, self->priv->preview_zoom);
+		grid = self->priv->crop_region;
+		grid.x += self->priv->clip_area.x / self->priv->preview_zoom;
+		grid.y += self->priv->clip_area.y / self->priv->preview_zoom;
+		break;
+	}
+
 	_cairo_paint_grid (cr, &grid, self->priv->grid_type);
 
 	cairo_restore (cr);
@@ -392,46 +411,38 @@ gth_image_rotator_draw (GthImageViewerTool *base,
 			cairo_t            *cr)
 {
 	GthImageRotator *self = GTH_IMAGE_ROTATOR (base);
-	GtkStyleContext *style_context;
-	GdkRGBA          color;
 	GtkAllocation    allocation;
 
 	cairo_save (cr);
 
   	/* background */
 
+	/*
+	GtkStyleContext *style_context;
+	GdkRGBA          color;
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (self->priv->viewer));
 	gtk_style_context_get_background_color (style_context,
 						gtk_widget_get_state (GTK_WIDGET (self->priv->viewer)),
 						&color);
 	gdk_cairo_set_source_rgba (cr, &color);
+	*/
+
 	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
 	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
-	cairo_fill (cr);
 
-	if (self->priv->preview_image == NULL)
-		return;
-
-	/* clip box */
-
-  	cairo_rectangle (cr,
-  			 self->priv->clip_area.x,
-  			 self->priv->clip_area.y,
-  			 self->priv->clip_area.width,
-  			 self->priv->clip_area.height);
-  	cairo_clip_preserve (cr);
   	cairo_set_source_rgba (cr,
   			       self->priv->background_color.r,
   			       self->priv->background_color.g,
   			       self->priv->background_color.b,
   			       self->priv->background_color.a);
-  	cairo_fill (cr);
+	cairo_fill (cr);
+
+	if (self->priv->preview_image == NULL)
+		return;
 
 	paint_image (self, cr);
-	if (self->priv->enable_crop) {
-		paint_darker_background (self, cr);
-		paint_grid (self, cr);
-	}
+	paint_darker_background (self, cr);
+	paint_grid (self, cr);
 
 	if (self->priv->dragging) {
 		GdkPoint center;
