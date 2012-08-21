@@ -438,6 +438,9 @@ _g_icon_get_pixbuf (GIcon        *icon,
 	GdkPixbuf   *pixbuf = NULL;
 	GtkIconInfo *icon_info;
 
+	if (icon_theme == NULL)
+		icon_theme = gtk_icon_theme_get_default ();
+
 	icon_info = gtk_icon_theme_lookup_by_gicon (icon_theme,
 						    icon,
 						    icon_size,
@@ -1052,4 +1055,17 @@ _gdk_rgba_lighter (GdkRGBA *color,
 		   GdkRGBA *result)
 {
 	return _gdk_rgba_shade (color, result, 1.2);
+}
+
+
+GtkIconTheme *
+_gtk_widget_get_icon_theme (GtkWidget *widget)
+{
+	GdkScreen *screen;
+
+	screen = gtk_widget_get_screen (widget);
+	if (screen == NULL)
+		return NULL;
+
+	return gtk_icon_theme_get_for_screen (screen);
 }

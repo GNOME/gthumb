@@ -631,7 +631,7 @@ paint_comment_over_image_func (GthImageViewer *image_viewer,
         	GIcon *gicon;
 
         	gicon = g_themed_icon_new (GTK_STOCK_PROPERTIES);
-        	icon = _g_icon_get_pixbuf (gicon, 24, NULL);
+        	icon = _g_icon_get_pixbuf (gicon, 24, _gtk_widget_get_icon_theme (GTK_WIDGET (image_viewer)));
 
         	g_object_unref (gicon);
         }

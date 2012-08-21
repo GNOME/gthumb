@@ -216,7 +216,7 @@ video_area_draw_cb (GtkWidget *widget,
 		if (size > allocation.height)
 			size = allocation.height;
 		size = size / 3;
-		self->priv->icon = _g_icon_get_pixbuf (icon, size, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)));
+		self->priv->icon = _g_icon_get_pixbuf (icon, size, _gtk_widget_get_icon_theme (widget));
 
 		g_object_unref (icon);
 		g_free (type);

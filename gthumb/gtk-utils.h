@@ -138,6 +138,7 @@ gboolean        _gdk_rgba_darker                           (GdkRGBA          *co
 		 					    GdkRGBA          *result);
 gboolean        _gdk_rgba_lighter                          (GdkRGBA          *color,
 							    GdkRGBA          *result);
+GtkIconTheme *  _gtk_widget_get_icon_theme                 (GtkWidget        *widget);
 
 G_END_DECLS
 

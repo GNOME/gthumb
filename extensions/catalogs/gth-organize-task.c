@@ -798,7 +798,7 @@ gth_organize_task_init (GthOrganizeTask *self)
 	icon = g_themed_icon_new ("file-catalog");
 	self->priv->icon_pixbuf = _g_icon_get_pixbuf (icon,
 						      _gtk_widget_lookup_for_size (GET_WIDGET ("organization_treeview"), GTK_ICON_SIZE_MENU),
-						      gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GET_WIDGET ("organization_treeview"))));
+						      _gtk_widget_get_icon_theme (GET_WIDGET ("organization_treeview")));
 	g_object_unref (icon);
 
 	self->priv->file_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_TYPE_NORMAL, FALSE);
