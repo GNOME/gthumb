@@ -659,9 +659,10 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 						    raw_value.str().c_str(),
 						    "Iptc",
 						    md->typeName());
-
-			add_metadata_to_hash (table, metadata);
-			_g_object_unref (metadata);
+			if (metadata != NULL) {
+				add_metadata_to_hash (table, metadata);
+				g_object_unref (metadata);
+			}
 		}
 
 		set_file_info_from_hash (info, table);
@@ -690,15 +691,16 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 						    raw_value.str().c_str(),
 						    "Xmp::Embedded",
 						    md->typeName());
+			if (metadata != NULL) {
+				if ((g_strcmp0 (md->typeName(), "XmpBag") == 0)
+				    || (g_strcmp0 (md->typeName(), "XmpSeq") == 0))
+				{
+					add_string_list_to_metadata (metadata, *md);
+				}
 
-			if ((g_strcmp0 (md->typeName(), "XmpBag") == 0)
-			    || (g_strcmp0 (md->typeName(), "XmpSeq") == 0))
-			{
-				add_string_list_to_metadata (metadata, *md);
+				add_metadata_to_hash (table, metadata);
+				g_object_unref (metadata);
 			}
-
-			add_metadata_to_hash (table, metadata);
-			_g_object_unref (metadata);
 		}
 
 		set_file_info_from_hash (info, table);
@@ -847,15 +849,16 @@ exiv2_read_sidecar (GFile     *file,
 							    raw_value.str().c_str(),
 							    "Xmp::Sidecar",
 							    md->typeName());
+				if (metadata != NULL) {
+					if ((g_strcmp0 (md->typeName(), "XmpBag") == 0)
+					    || (g_strcmp0 (md->typeName(), "XmpSeq") == 0))
+					{
+						add_string_list_to_metadata (metadata, *md);
+					}
 
-				if ((g_strcmp0 (md->typeName(), "XmpBag") == 0)
-				    || (g_strcmp0 (md->typeName(), "XmpSeq") == 0))
-				{
-					add_string_list_to_metadata (metadata, *md);
+					add_metadata_to_hash (table, metadata);
+					g_object_unref (metadata);
 				}
-
-				add_metadata_to_hash (table, metadata);
-				_g_object_unref (metadata);
 			}
 
 			set_file_info_from_hash (info, table);
