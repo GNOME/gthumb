@@ -752,6 +752,7 @@ _cairo_image_surface_scale_bilinear (cairo_surface_t *image,
 	int              iterations = 0;
 	cairo_surface_t *tmp;
 	cairo_surface_t *tmp2;
+	double           w, h;
 
 	scale = (double) new_width / cairo_image_surface_get_width (image);
 	last_scale = 1.0;
@@ -764,18 +765,20 @@ _cairo_image_surface_scale_bilinear (cairo_surface_t *image,
 	last_scale = last_scale / scale;
 
 	tmp = cairo_surface_reference (image);
+	w = cairo_image_surface_get_width (tmp);
+	h = cairo_image_surface_get_height (tmp);
+
 	while (iterations-- > 0) {
-		/*tmp2 = _cairo_surface_reduce_by_half (tmp);*/
-		tmp2 = _cairo_image_surface_scale_bilinear_2x2 (tmp,
-								cairo_image_surface_get_width (tmp) / 2,
-								cairo_image_surface_get_height (tmp) / 2);
+		w /= 2.0;
+		h /= 2.0;
+		tmp2 = _cairo_image_surface_scale_bilinear_2x2 (tmp, round (w), round (h));
 		cairo_surface_destroy (tmp);
 		tmp = tmp2;
 	}
 
-	tmp2 = _cairo_image_surface_scale_bilinear_2x2 (tmp,
-						        cairo_image_surface_get_width (tmp) / last_scale,
-						        cairo_image_surface_get_height (tmp) / last_scale);
+	w /= last_scale;
+	h /= last_scale;
+	tmp2 = _cairo_image_surface_scale_bilinear_2x2 (tmp, round (w), round (h));
 	cairo_surface_destroy (tmp);
 
 	return tmp2;
