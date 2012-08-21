@@ -309,6 +309,8 @@ paint_darker_background (GthImageRotator *self,
 	cairo_save (cr);
 	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
 
+	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
+
 	switch (self->priv->resize) {
 	case GTH_TRANSFORM_RESIZE_BOUNDING_BOX:
 	case GTH_TRANSFORM_RESIZE_CLIP:
@@ -321,10 +323,10 @@ paint_darker_background (GthImageRotator *self,
 		crop_region = self->priv->crop_region;
 		crop_region.x += self->priv->clip_area.x / self->priv->preview_zoom;
 		crop_region.y += self->priv->clip_area.y / self->priv->preview_zoom;
+		allocation.width /= self->priv->preview_zoom;
+		allocation.height /= self->priv->preview_zoom;
 		break;
 	}
-
-	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
 
 	/* left side */
 
