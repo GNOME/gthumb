@@ -100,7 +100,7 @@ update_progress (gpointer data)
 	progress = self->priv->progress;
 	g_mutex_unlock (self->priv->data_mutex);
 
-	if (terminated || cancelled) {
+	if (terminated) {
 		GError *error = NULL;
 
 		g_source_remove (self->priv->progress_event);
