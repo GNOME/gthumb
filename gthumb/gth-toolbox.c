@@ -218,8 +218,12 @@ child_hide_options_cb (GtkWidget *tool,
 		       gpointer   data)
 {
 	GthToolbox *toolbox = data;
+	GtkWidget  *tool_options;
 
 	gth_file_tool_destroy_options (GTH_FILE_TOOL (tool));
+	tool_options = gtk_bin_get_child (GTK_BIN (toolbox->priv->options));
+	if (tool_options != NULL)
+		gtk_container_remove (GTK_CONTAINER (toolbox->priv->options), tool_options);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (toolbox), GTH_TOOLBOX_LIST_PAGE);
 	gth_toolbox_update_sensitivity (GTH_TOOLBOX (toolbox));
 
