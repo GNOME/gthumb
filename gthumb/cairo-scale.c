@@ -25,28 +25,16 @@
 #include <cairo.h>
 #include "cairo-utils.h"
 #include "cairo-scale.h"
+#include "gfixed.h"
 
 
-typedef long gfixed;
-#define GINT_TO_FIXED(x)         ((gfixed) ((x) << 16))
-#define GDOUBLE_TO_FIXED(x)      ((gfixed) ((x) * (1 << 16) + 0.5))
-#define GFIXED_TO_INT(x)         ((x) >> 16)
-#define GFIXED_TO_DOUBLE(x)      (((double) (x)) / (1 << 16))
-#define GFIXED_ROUND_TO_INT(x)   (((x) + (1 << (16-1))) >> 16)
-#define GFIXED_0                 0L
-#define GFIXED_1                 65536L
-#define GFIXED_2                 131072L
-#define gfixed_mul(x, y)         (((x) * (y)) >> 16)
-#define gfixed_div(x, y)         (((x) << 16) / (y))
-
-
-#if 0
+#if 1
 
 
 /* -- _cairo_image_surface_scale_nearest -- */
 
 
-static cairo_surface_t *
+cairo_surface_t *
 _cairo_image_surface_scale_nearest (cairo_surface_t *image,
 				    int              new_width,
 				    int              new_height)
@@ -478,4 +466,317 @@ _cairo_image_surface_scale_squared (cairo_surface_t *image,
 	cairo_surface_destroy (scaled);
 
 	return squared;
+}
+
+
+/* -- _cairo_image_surface_scale_bilinear -- */
+
+
+#if 0
+
+
+#define BILINEAR_INTERPOLATE(v, v00, v01, v10, v11, fx, fy) \
+	tmp = (1.0 - (fy)) * \
+	      ((1.0 - (fx)) * (v00) + (fx) * (v01)) \
+              + \
+              (fy) * \
+              ((1.0 - (fx)) * (v10) + (fx) * (v11)); \
+	v = CLAMP (tmp, 0, 255);
+
+
+cairo_surface_t *
+_cairo_image_surface_scale_bilinear_2x2 (cairo_surface_t *image,
+					 int              new_width,
+					 int              new_height)
+{
+	cairo_surface_t *scaled;
+	int              src_width;
+	int              src_height;
+	guchar          *p_src;
+	guchar          *p_dest;
+	int              src_rowstride;
+	int              dest_rowstride;
+	double           step_x, step_y;
+	guchar          *p_dest_row;
+	guchar          *p_src_row;
+	guchar          *p_src_col;
+	guchar          *p_dest_col;
+	double           x_src, y_src;
+	int              x, y;
+	guchar           r00, r01, r10, r11;
+	guchar           g00, g01, g10, g11;
+	guchar           b00, b01, b10, b11;
+	guchar           a00, a01, a10, a11;
+	guchar           r, g, b, a;
+	guint32          pixel;
+	double           tmp;
+	double           x_fract, y_fract;
+	int              col, row;
+
+	scaled = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					     new_width,
+					     new_height);
+
+	src_width = cairo_image_surface_get_width  (image);
+	src_height = cairo_image_surface_get_height (image);
+	p_src = cairo_image_surface_get_data (image);
+	p_dest = cairo_image_surface_get_data (scaled);
+	src_rowstride = cairo_image_surface_get_stride (image);
+	dest_rowstride = cairo_image_surface_get_stride (scaled);
+
+	cairo_surface_flush (scaled);
+
+	step_x = (double) src_width / new_width;
+	step_y = (double) src_height / new_height;
+	p_dest_row = p_dest;
+	p_src_row = p_src;
+	y_src = 0;
+
+	for (y = 0; y < new_height; y++) {
+		row = floor (y_src);
+		y_fract = y_src - row;
+		p_src_row = p_src + (row * src_rowstride);
+
+		p_dest_col = p_dest_row;
+		p_src_col = p_src_row;
+		x_src = 0;
+		for (x = 0; x < new_width; x++) {
+			col = floor (x_src);
+			x_fract = x_src - col;
+			p_src_col = p_src_row + (col * 4);
+
+			/* x00 */
+
+			CAIRO_COPY_RGBA (p_src_col, r00, g00, b00, a00);
+
+			/* x01 */
+
+			if (col + 1 < src_width - 1) {
+				p_src_col += 4;
+				CAIRO_COPY_RGBA (p_src_col, r01, g01, b01, a01);
+			}
+			else {
+				r01 = r00;
+				g01 = g00;
+				b01 = b00;
+				a01 = a00;
+			}
+
+			/* x10 */
+
+			if (row + 1 < src_height - 1) {
+				p_src_col = p_src_row + src_rowstride + (col * 4);
+				CAIRO_COPY_RGBA (p_src_col, r10, g10, b10, a10);
+			}
+			else {
+				r10 = r00;
+				g10 = g00;
+				b10 = b00;
+				a10 = a00;
+			}
+
+			/* x11 */
+
+			if ((row + 1 < src_height - 1) && (col + 1 < src_width - 1)) {
+				p_src_col += 4;
+				CAIRO_COPY_RGBA (p_src_col, r11, g11, b11, a11);
+			}
+			else {
+				r11 = r00;
+				g11 = g00;
+				b11 = b00;
+				a11 = a00;
+			}
+
+			BILINEAR_INTERPOLATE (r, r00, r01, r10, r11, x_fract, y_fract);
+			BILINEAR_INTERPOLATE (g, g00, g01, g10, g11, x_fract, y_fract);
+			BILINEAR_INTERPOLATE (b, b00, b01, b10, b11, x_fract, y_fract);
+			BILINEAR_INTERPOLATE (a, a00, a01, a10, a11, x_fract, y_fract);
+			pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, a);
+			memcpy (p_dest_col, &pixel, 4);
+
+			p_dest_col += 4;
+			x_src += step_x;
+		}
+
+		p_dest_row += dest_rowstride;
+		y_src += step_y;
+	}
+
+	cairo_surface_mark_dirty (scaled);
+
+	return scaled;
+}
+
+
+static void
+_cairo_surface_reduce_row (guchar *dest_data,
+			   guchar *src_row0,
+			   guchar *src_row1,
+			   guchar *src_row2,
+			   int     src_width)
+{
+	int     x, b;
+	double  sum;
+	int     col0, col1, col2;
+	guchar  c[4];
+	guint32 pixel;
+
+	/*  Pre calculated gausian matrix
+	 *  Standard deviation = 0.71
+
+		12 32 12
+		32 86 32
+		12 32 12
+
+		Matrix sum is = 262
+		Normalize by dividing with 273
+
+	*/
+
+	for (x = 0; x < src_width - (src_width % 2); x += 2) {
+		for (b = 0; b < 4; b++) {
+
+			col0 = MAX (x - 1, 0) * 4 + b;
+			col1 = x * 4 + b;
+			col2 = MIN (x + 1, src_width - 1) * 4 + b;
+
+			sum = 0.0;
+
+			sum += src_row0[col0] * 12;
+			sum += src_row0[col1] * 32;
+			sum += src_row0[col2] * 12;
+
+			sum += src_row1[col0] * 32;
+			sum += src_row1[col1] * 86;
+			sum += src_row1[col2] * 32;
+
+			sum += src_row2[col0] * 12;
+			sum += src_row2[col1] * 32;
+			sum += src_row2[col2] * 12;
+
+			sum /= 262.0;
+
+			c[b] = CLAMP (sum, 0, 255);
+		}
+
+		pixel = CAIRO_RGBA_TO_UINT32 (c[CAIRO_RED], c[CAIRO_GREEN], c[CAIRO_BLUE], c[CAIRO_ALPHA]);
+		memcpy (dest_data, &pixel, 4);
+
+		dest_data += 4;
+	}
+}
+
+
+static cairo_surface_t *
+_cairo_surface_reduce_by_half (cairo_surface_t *src)
+{
+	int              src_width, src_height;
+	cairo_surface_t *dest;
+	int              src_rowstride, dest_rowstride;
+	guchar          *row0, *row1, *row2;
+	guchar          *src_data, *dest_data;
+	int              y;
+
+	src_width = cairo_image_surface_get_width (src);
+	src_height = cairo_image_surface_get_height (src);
+	dest = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					   src_width / 2,
+					   src_height / 2);
+
+	cairo_surface_flush (dest);
+
+	dest_rowstride = cairo_image_surface_get_stride (dest);
+	dest_data = cairo_image_surface_get_data (dest);
+
+	src_rowstride = cairo_image_surface_get_stride (src);
+	src_data = cairo_image_surface_get_data (src);
+
+	for (y = 0; y < src_height - (src_height % 2); y += 2) {
+		row0 = src_data + (MAX (y - 1, 0) * src_rowstride);
+		row1 = src_data + (y * src_rowstride);
+		row2 = src_data + (MIN (y + 1, src_height - 1) * src_rowstride);
+
+		_cairo_surface_reduce_row (dest_data,
+					   row0,
+					   row1,
+					   row2,
+					   src_width);
+
+		dest_data += dest_rowstride;
+	}
+
+	cairo_surface_mark_dirty (dest);
+
+	return dest;
+}
+
+
+#endif
+
+
+cairo_surface_t *
+_cairo_image_surface_scale_bilinear_2x2 (cairo_surface_t *image,
+				         int              new_width,
+				         int              new_height)
+{
+	cairo_surface_t *output;
+	cairo_t         *cr;
+
+	output = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					     new_width,
+					     new_height);
+	cr = cairo_create (output);
+	cairo_scale (cr,
+		     (double) new_width / cairo_image_surface_get_width (image),
+		     (double) new_height / cairo_image_surface_get_height (image));
+	cairo_set_source_surface (cr, image, 0.0, 0.0);
+	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_BILINEAR);
+	cairo_rectangle (cr, 0.0, 0.0, cairo_image_surface_get_width (image), cairo_image_surface_get_height (image));
+	cairo_fill (cr);
+	cairo_surface_flush (output);
+
+	cairo_destroy (cr);
+
+	return output;
+}
+
+
+
+cairo_surface_t *
+_cairo_image_surface_scale_bilinear (cairo_surface_t *image,
+				     int              new_width,
+				     int              new_height)
+{
+	double           scale, last_scale, s;
+	int              iterations = 0;
+	cairo_surface_t *tmp;
+	cairo_surface_t *tmp2;
+
+	scale = (double) new_width / cairo_image_surface_get_width (image);
+	last_scale = 1.0;
+	s = scale;
+	while (s < 0.5) {
+		s *= 2;
+		last_scale /= 2;
+		iterations++;
+	}
+	last_scale = last_scale / scale;
+
+	tmp = cairo_surface_reference (image);
+	while (iterations-- > 0) {
+		/*tmp2 = _cairo_surface_reduce_by_half (tmp);*/
+		tmp2 = _cairo_image_surface_scale_bilinear_2x2 (tmp,
+								cairo_image_surface_get_width (tmp) / 2,
+								cairo_image_surface_get_height (tmp) / 2);
+		cairo_surface_destroy (tmp);
+		tmp = tmp2;
+	}
+
+	tmp2 = _cairo_image_surface_scale_bilinear_2x2 (tmp,
+						        cairo_image_surface_get_width (tmp) / last_scale,
+						        cairo_image_surface_get_height (tmp) / last_scale);
+	cairo_surface_destroy (tmp);
+
+	return tmp2;
 }

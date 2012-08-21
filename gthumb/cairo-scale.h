@@ -41,6 +41,9 @@ typedef enum /*< skip >*/ {
 } scale_filter_t;
 
 
+cairo_surface_t *  _cairo_image_surface_scale_nearest   (cairo_surface_t *image,
+							 int              new_width,
+							 int              new_height);
 cairo_surface_t *  _cairo_image_surface_scale		(cairo_surface_t *image,
 							 int              width,
 							 int              height,
@@ -50,6 +53,9 @@ cairo_surface_t *  _cairo_image_surface_scale_squared   (cairo_surface_t *image,
 							 int              size,
 							 scale_filter_t   quality,
 							 GthAsyncTask    *task);
+cairo_surface_t *  _cairo_image_surface_scale_bilinear  (cairo_surface_t *image,
+							 int              new_width,
+							 int              new_height);
 
 G_END_DECLS
 

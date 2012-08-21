@@ -93,6 +93,11 @@ _gdk_color_to_cairo_color_255 (GdkColor          *g_color,
 void
 _cairo_clear_surface (cairo_surface_t  **surface)
 {
+	if (surface == NULL)
+		return;
+	if (*surface == NULL)
+		return;
+
 	cairo_surface_destroy (*surface);
 	*surface = NULL;
 }

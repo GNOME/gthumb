@@ -30,6 +30,7 @@ PUBLIC_HEADER_FILES = 					\
 	egg-macros.h					\
 	eggfileformatchooser.h				\
 	gedit-message-area.h				\
+	gfixed.h					\
 	gio-utils.h					\
 	glib-utils.h					\
 	gnome-desktop-thumbnail.h			\

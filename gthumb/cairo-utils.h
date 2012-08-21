@@ -101,6 +101,14 @@
 		}								\
 	} G_STMT_END
 
+#define CAIRO_COPY_RGBA(pixel, red, green, blue, alpha)	\
+	G_STMT_START {					\
+		alpha = pixel[CAIRO_ALPHA];		\
+		red = pixel[CAIRO_RED];			\
+		green = pixel[CAIRO_GREEN];		\
+		blue = pixel[CAIRO_BLUE];		\
+	} G_STMT_END
+
 #define CAIRO_RGBA_TO_UINT32(red, green, blue, alpha) 				\
 	(((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue))
 

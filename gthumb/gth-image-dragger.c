@@ -21,13 +21,16 @@
 
 #include <config.h>
 #include <math.h>
+#include "cairo-scale.h"
+#include "cairo-utils.h"
 #include "glib-utils.h"
 #include "gth-image-dragger.h"
 
 
 struct _GthImageDraggerPrivate {
-	GthImageViewer *viewer;
-	gboolean        draggable;
+	GthImageViewer  *viewer;
+	gboolean         draggable;
+	cairo_surface_t *scaled;
 };
 
 
@@ -44,8 +47,13 @@ G_DEFINE_TYPE_WITH_CODE (GthImageDragger,
 static void
 gth_image_dragger_finalize (GObject *object)
 {
+	GthImageDragger *self;
+
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTH_IS_IMAGE_DRAGGER (object));
+
+	self = GTH_IMAGE_DRAGGER (object);
+	_cairo_clear_surface (&self->priv->scaled);
 
 	/* Chain up */
 	G_OBJECT_CLASS (gth_image_dragger_parent_class)->finalize (object);
@@ -68,6 +76,7 @@ static void
 gth_image_dragger_init (GthImageDragger *dragger)
 {
 	dragger->priv = G_TYPE_INSTANCE_GET_PRIVATE (dragger, GTH_TYPE_IMAGE_DRAGGER, GthImageDraggerPrivate);
+	dragger->priv->scaled = NULL;
 }
 
 
@@ -82,7 +91,7 @@ gth_image_dragger_set_viewer (GthImageViewerTool *base,
 
 static void
 gth_image_dragger_unset_viewer (GthImageViewerTool *base,
-		       	         GthImageViewer     *image_viewer)
+		       	        GthImageViewer     *image_viewer)
 {
 	GthImageDragger *self = GTH_IMAGE_DRAGGER (base);
 	self->priv->viewer = NULL;
@@ -169,14 +178,24 @@ gth_image_dragger_draw (GthImageViewerTool *self,
 	if (gth_image_viewer_get_current_image (viewer) == NULL)
 		return;
 
-	gth_image_viewer_paint_region (viewer,
-				       cr,
-				       gth_image_viewer_get_current_image (viewer),
-				       viewer->x_offset - viewer->image_area.x,
-				       viewer->y_offset - viewer->image_area.y,
-				       &viewer->image_area,
-				       NULL,
-				       gth_image_viewer_get_zoom_quality_filter (viewer));
+	if (dragger->priv->scaled != NULL)
+		gth_image_viewer_paint_region (viewer,
+					       cr,
+					       dragger->priv->scaled,
+					       viewer->x_offset - viewer->image_area.x,
+					       viewer->y_offset - viewer->image_area.y,
+					       &viewer->image_area,
+					       NULL,
+					       CAIRO_FILTER_FAST);
+	else
+		gth_image_viewer_paint_region (viewer,
+					       cr,
+					       gth_image_viewer_get_current_image (viewer),
+					       viewer->x_offset - viewer->image_area.x,
+					       viewer->y_offset - viewer->image_area.y,
+					       &viewer->image_area,
+					       NULL,
+					       gth_image_viewer_get_zoom_quality_filter (viewer));
 
 	gth_image_viewer_apply_painters (viewer, cr);
 }
@@ -275,16 +294,51 @@ gth_image_dragger_motion_notify (GthImageViewerTool *self,
 
 
 static void
+_gth_image_dragger_update_scaled_image (GthImageDragger *self)
+{
+	cairo_surface_t *image;
+	int              image_width, image_height;
+	int              original_width, original_height;
+	double           zoom;
+
+	_cairo_clear_surface (&self->priv->scaled);
+	self->priv->scaled = NULL;
+
+	image = gth_image_viewer_get_current_image (self->priv->viewer);
+	if (image == NULL)
+		return;
+
+	image_width = cairo_image_surface_get_width (image);
+	image_height = cairo_image_surface_get_height (image);
+	gth_image_viewer_get_original_size (self->priv->viewer, &original_width, &original_height);
+
+	if ((original_width != image_width) || (original_height != image_height))
+		return;
+
+	if (gth_image_viewer_get_zoom_quality (self->priv->viewer) == GTH_ZOOM_QUALITY_LOW)
+		return;
+
+	zoom = gth_image_viewer_get_zoom (self->priv->viewer);
+	if (zoom >= 0.5)
+		return;
+
+	self->priv->scaled = _cairo_image_surface_scale_bilinear (image,
+								  zoom * image_width,
+								  zoom * image_height);
+}
+
+
+static void
 gth_image_dragger_image_changed (GthImageViewerTool *self)
 {
-	/* void */
+	_gth_image_dragger_update_scaled_image (GTH_IMAGE_DRAGGER (self));
 }
 
 
 static void
 gth_image_dragger_zoom_changed (GthImageViewerTool *self)
 {
-	/* void */
+	_gth_image_dragger_update_scaled_image (GTH_IMAGE_DRAGGER (self));
 }
 
 
