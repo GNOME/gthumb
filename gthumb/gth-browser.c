@@ -5551,7 +5551,7 @@ load_file_data_new (GthBrowser  *browser,
 	data->ref = 1;
 	data->browser = g_object_ref (browser);
 	if (file_data != NULL)
-		data->file_data = g_object_ref (file_data);
+		data->file_data = gth_file_data_dup (file_data);
 	data->view = view;
 	data->cancellable = g_cancellable_new ();
 
@@ -5787,10 +5787,21 @@ _gth_browser_load_file (GthBrowser  *browser,
 		if (file_pos >= 0) {
 			GtkWidget *view;
 
+			/* the main file list */
+
 			view = gth_browser_get_file_list_view (browser);
 			g_signal_handlers_block_by_func (view, gth_file_view_selection_changed_cb, browser);
 			gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
 			g_signal_handlers_unblock_by_func (view, gth_file_view_selection_changed_cb, browser);
+
+			/* the thumbnail list in viewer mode */
+
+			view = gth_browser_get_thumbnail_list_view (browser);
+			g_signal_handlers_block_by_func (view, gth_thumbnail_view_selection_changed_cb, browser);
+			gth_file_selection_unselect_all (GTH_FILE_SELECTION (view));
+			gth_file_selection_select (GTH_FILE_SELECTION (view), file_pos);
+			gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
+			g_signal_handlers_unblock_by_func (view, gth_thumbnail_view_selection_changed_cb, browser);
 		}
 	}
 
