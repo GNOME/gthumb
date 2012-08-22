@@ -350,8 +350,7 @@ gth-marshal.c: gth-marshal.h gth-marshal.list $(GLIB_GENMARSHAL)
 
 gthumb.h: make-header.sh gthumb.h.template Makefile.am
 	$(AM_V_GEN)( $(srcdir)/make-header.sh $(srcdir)/gthumb.h.template  $(PUBLIC_HEADER_FILES) > xgen-$(@F) \
-	&& (cmp -s xgen-$(@F) gthumb.h || cp xgen-$(@F) gthumb.h ) \
-	&& rm -f xgen-$(@F) )
+	&& mv -f xgen-$(@F) gthumb.h )
 
 AUTHORS.tab : $(top_srcdir)/AUTHORS
 	$(AM_V_GEN)( sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp \
