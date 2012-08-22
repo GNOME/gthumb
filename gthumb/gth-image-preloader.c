@@ -404,7 +404,8 @@ image_loader_ready_cb (GObject      *source_object,
 						 &original_height,
 						 &error);
 
-	if (! g_file_equal (load_request->file_data->file, preloader->file_data->file)
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)
+	    || ! g_file_equal (load_request->file_data->file, preloader->file_data->file)
 	    || (preloader->token != self->priv->token))
 	{
 		load_request_free (load_request);
