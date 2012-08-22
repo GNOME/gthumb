@@ -43,7 +43,6 @@ enum {
 };
 
 enum {
-	CHANNEL_COLUMN_ICON,
 	CHANNEL_COLUMN_NAME,
 	CHANNEL_COLUMN_SENSITIVE
 };
@@ -859,19 +858,9 @@ gth_histogram_view_init (GthHistogramView *self)
 	gtk_label_set_attributes (GTK_LABEL (label), attr_list);
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (sub_box), label, FALSE, FALSE, 0);
-	channel_model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
+	channel_model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_BOOLEAN);
 	self->priv->channel_combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (channel_model));
 	g_object_unref (channel_model);
-
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (self->priv->channel_combo_box),
-				    renderer,
-				    FALSE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (self->priv->channel_combo_box),
-			    	    	renderer,
-			    	    	"icon-name", CHANNEL_COLUMN_ICON,
-			    	    	"sensitive", CHANNEL_COLUMN_SENSITIVE,
-			    	    	NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
 	g_object_set (renderer, "attributes", attr_list, NULL);
@@ -886,38 +875,32 @@ gth_histogram_view_init (GthHistogramView *self)
 
 	gtk_list_store_append (channel_model, &iter);
 	gtk_list_store_set (channel_model, &iter,
-			    CHANNEL_COLUMN_ICON, "channel-value",
 			    CHANNEL_COLUMN_NAME, _("Value"),
 			    CHANNEL_COLUMN_SENSITIVE, TRUE,
 			    -1);
 	gtk_list_store_append (channel_model, &iter);
 	gtk_list_store_set (channel_model, &iter,
-			    CHANNEL_COLUMN_ICON, "channel-red",
 			    CHANNEL_COLUMN_NAME, _("Red"),
 			    CHANNEL_COLUMN_SENSITIVE, TRUE,
 			    -1);
 	gtk_list_store_append (channel_model, &iter);
 	gtk_list_store_set (channel_model, &iter,
-			    CHANNEL_COLUMN_ICON, "channel-green",
 			    CHANNEL_COLUMN_NAME, _("Green"),
 			    CHANNEL_COLUMN_SENSITIVE, TRUE,
 			    -1);
 	gtk_list_store_append (channel_model, &iter);
 	gtk_list_store_set (channel_model, &iter,
-			    CHANNEL_COLUMN_ICON, "channel-blue",
 			    CHANNEL_COLUMN_NAME, _("Blue"),
 			    CHANNEL_COLUMN_SENSITIVE, TRUE,
 			    -1);
 	gtk_list_store_append (channel_model, &iter);
 	gtk_list_store_set (channel_model, &iter,
-			    CHANNEL_COLUMN_ICON, "channel-alpha",
 			    CHANNEL_COLUMN_NAME, _("Alpha"),
 			    CHANNEL_COLUMN_SENSITIVE, FALSE,
 			    -1);
 	gtk_list_store_append (channel_model, &iter);
 	/* Translators: RGB is an acronym for Red Green Blue */
 	gtk_list_store_set (channel_model, &iter,
-			    CHANNEL_COLUMN_ICON, "channel-rgb",
 			    CHANNEL_COLUMN_NAME, _("RGB"),
 			    CHANNEL_COLUMN_SENSITIVE, TRUE,
 			    -1);
