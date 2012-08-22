@@ -319,7 +319,7 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 		return;
 
 	zoom = gth_image_viewer_get_zoom (self->priv->viewer);
-	if (zoom >= 0.5)
+	if (zoom >= 1.0 / _CAIRO_MAX_SCALE_FACTOR)
 		return;
 
 	self->priv->scaled = _cairo_image_surface_scale_bilinear (image,

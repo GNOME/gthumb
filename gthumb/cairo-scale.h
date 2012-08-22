@@ -28,6 +28,9 @@
 G_BEGIN_DECLS
 
 
+#define _CAIRO_MAX_SCALE_FACTOR 2.0
+
+
 typedef enum /*< skip >*/ {
 	SCALE_FILTER_POINT = 0,
 	SCALE_FILTER_BOX,
