@@ -393,11 +393,9 @@ update_popup_geometry (NavigatorPopup *nav_popup)
 	nav_popup->popup_height = MAX ((int) floor (nav_popup->zoom_factor * zoomed_height + 0.5), 1);
 
 	cairo_surface_destroy (nav_popup->image);
-	nav_popup->image = _cairo_image_surface_scale (gth_image_viewer_get_current_image (nav_popup->viewer),
-						       nav_popup->popup_width,
-						       nav_popup->popup_height,
-						       SCALE_FILTER_GOOD,
-						       NULL);
+	nav_popup->image = _cairo_image_surface_scale_bilinear (gth_image_viewer_get_current_image (nav_popup->viewer),
+								nav_popup->popup_width,
+								nav_popup->popup_height);
 
 	/* visible area size */
 
