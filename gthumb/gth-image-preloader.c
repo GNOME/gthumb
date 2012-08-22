@@ -58,6 +58,16 @@ typedef struct {
 } Preloader;
 
 
+typedef struct {
+	GthImagePreloader  *self;
+	GthFileData        *requested;
+	int                 requested_size;
+	GthFileData       **files;
+	int                 n_files;
+	guint               token;
+} LoadData;
+
+
 struct _GthImagePreloaderPrivate {
 	GthLoadPolicy load_policy;
 	int           n_preloaders;
@@ -80,6 +90,7 @@ struct _GthImagePreloaderPrivate {
 	guint         load_id;
 	GCancellable *cancellable;
 	guint         token;
+	LoadData     *next_load_data;
 };
 
 
@@ -218,6 +229,9 @@ preloader_signal_to_emit (Preloader *preloader)
 /* -- GthImagePreloader -- */
 
 
+static void load_data_free (LoadData *load_data);
+
+
 static void
 gth_image_preloader_finalize (GObject *object)
 {
@@ -232,6 +246,11 @@ gth_image_preloader_finalize (GObject *object)
 	if (self->priv->load_id != 0) {
 		g_source_remove (self->priv->load_id);
 		self->priv->load_id = 0;
+	}
+
+	if (self->priv->next_load_data != NULL) {
+		load_data_free (self->priv->next_load_data);
+		self->priv->next_load_data = NULL;
 	}
 
 	for (i = 0; i < self->priv->n_preloaders; i++) {
@@ -375,6 +394,9 @@ load_request_free (LoadRequest *load_request)
 }
 
 
+static void assign_loaders (LoadData *load_data);
+
+
 static void
 image_loader_ready_cb (GObject      *source_object,
 		       GAsyncResult *result,
@@ -412,6 +434,15 @@ image_loader_ready_cb (GObject      *source_object,
 		if (error != NULL)
 			g_error_free (error);
 		_g_object_unref (image);
+
+		if (self->priv->next_load_data != NULL) {
+			assign_loaders (self->priv->next_load_data);
+			start_next_loader (self);
+
+			load_data_free (self->priv->next_load_data);
+			self->priv->next_load_data = NULL;
+		}
+
 		return;
 	}
 
@@ -427,7 +458,7 @@ image_loader_ready_cb (GObject      *source_object,
 
 	if (_g_file_equal (load_request->file_data->file, self->priv->requested_file)) {
 #if DEBUG_PRELOADER
-		debug (DEBUG_INFO, "[requested] %s => %s [size: %d]", (error == NULL) ? "ready" : "error", g_file_get_uri (preloader->file_data->file), preloader->requested_size);
+		debug (DEBUG_INFO, "loaded [requested] %s => %s [size: %d]", (error == NULL) ? "ready" : "error", g_file_get_uri (preloader->file_data->file), preloader->requested_size);
 #endif
 
 		g_signal_emit (G_OBJECT (self),
@@ -451,6 +482,10 @@ image_loader_ready_cb (GObject      *source_object,
 		else
 			interval = REQUESTED_INTERVAL;
 	}
+#if DEBUG_PRELOADER
+	else
+		debug (DEBUG_INFO, "loaded [non-requested] %s => %s [size: %d]", (error == NULL) ? "ready" : "error", g_file_get_uri (preloader->file_data->file), preloader->requested_size);
+#endif
 
 	if (self->priv->load_id == 0)
 		self->priv->load_id = g_timeout_add (interval, load_next, self);
@@ -543,16 +578,6 @@ start_next_loader (GthImagePreloader *self)
 }
 
 
-typedef struct {
-	GthImagePreloader  *self;
-	GthFileData        *requested;
-	int                 requested_size;
-	GthFileData       **files;
-	int                 n_files;
-	guint               token;
-} LoadData;
-
-
 static void
 load_data_free (LoadData *load_data)
 {
@@ -623,7 +648,7 @@ assign_loaders (LoadData *load_data)
 							NULL);
 
 #if DEBUG_PRELOADER
-					debug (DEBUG_INFO, "[requested] preloaded");
+					debug (DEBUG_INFO, "[requested] preloaded %s [size: %d]", g_file_get_uri (preloader->file_data->file), preloader->requested_size);
 #endif
 
 					if (preloader_needs_second_step (preloader)) {
@@ -739,6 +764,11 @@ gth_image_preloader_load (GthImagePreloader *self,
 	_g_object_unref (self->priv->requested_file);
 	self->priv->requested_file = g_file_dup (requested->file);
 
+	if (self->priv->next_load_data != NULL) {
+		load_data_free (self->priv->next_load_data);
+		self->priv->next_load_data = NULL;
+	}
+
 	load_data = g_new0 (LoadData, 1);
 	load_data->self = self;
 	load_data->token = self->priv->token;
@@ -761,8 +791,11 @@ gth_image_preloader_load (GthImagePreloader *self,
 		Preloader *preloader;
 
 		preloader = current_preloader (self);
-		if (preloader != NULL)
+		if (preloader != NULL) {
+			self->priv->next_load_data = load_data;
 			g_cancellable_cancel (preloader->self->priv->cancellable);
+			return;
+		}
 	}
 
 	assign_loaders (load_data);
