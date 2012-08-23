@@ -56,7 +56,6 @@ struct _GthFileToolResizePrivate {
 	GthTask         *resize_task;
 	gboolean         closing;
 	gboolean         final_resize;
-	gboolean         task_cancelled;
 	guint            update_size_id;
 };
 
@@ -148,7 +147,6 @@ resize_task_completed_cb (GthTask  *task,
 	GtkWidget         *viewer_page;
 
 	self->priv->resize_task = NULL;
-	self->priv->task_cancelled = FALSE;
 
 	if (self->priv->closing) {
 		g_object_unref (task);
@@ -209,14 +207,9 @@ update_pixbuf_size_cb (gpointer user_data)
 	self->priv->update_size_id = 0;
 
 	if (self->priv->resize_task != NULL) {
-		if (! self->priv->task_cancelled) {
-			self->priv->task_cancelled = TRUE;
-			gth_task_cancel (self->priv->resize_task);
-		}
+		gth_task_cancel (self->priv->resize_task);
 		return FALSE;
 	}
-
-	self->priv->task_cancelled = FALSE;
 
 	self->priv->resize_task = gth_image_task_new (_("Resizing images"),
 						      NULL,
@@ -565,7 +558,6 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	self->priv->unit = g_settings_get_enum (self->priv->settings, PREF_RESIZE_UNIT);
 	self->priv->builder = _gtk_builder_new_from_file ("resize-options.ui", "file_tools");
 	self->priv->final_resize = FALSE;
-	self->priv->task_cancelled = FALSE;
 
 	update_dimensione_info_label (self,
 				      "original_dimensions_label",
@@ -757,6 +749,11 @@ gth_file_tool_resize_cancel (GthFileTool *base)
 		return;
 	}
 
+	if (self->priv->update_size_id != 0) {
+		g_source_remove (self->priv->update_size_id);
+		self->priv->update_size_id = 0;
+	}
+
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
@@ -810,4 +807,5 @@ gth_file_tool_resize_init (GthFileToolResize *self)
 	self->priv->settings = g_settings_new (GTHUMB_RESIZE_SCHEMA);
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-resize", _("Resize..."), _("Resize"), FALSE);
 }
+
 

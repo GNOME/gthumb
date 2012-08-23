@@ -556,7 +556,6 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
-	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), TRUE);
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
 	cairo_surface_destroy (self->priv->image);
