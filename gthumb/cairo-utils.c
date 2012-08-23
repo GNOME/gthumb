@@ -835,6 +835,7 @@ _cairo_draw_slide (cairo_t  *cr,
 #define GRID_STEP_1         10
 #define GRID_STEP_2         (GRID_STEP_1 * 5)
 #define GRID_STEP_3         (GRID_STEP_2 * 2)
+#define MAX_GRID_LINES      50
 
 
 void
@@ -854,7 +855,7 @@ _cairo_paint_grid (cairo_t               *cr,
 	cairo_clip (cr);
 
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
-	/* cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE); */
+	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
 #endif
 
 	cairo_rectangle (cr, rectangle->x + 0.5, rectangle->y + 0.5, rectangle->width - 0.5, rectangle->height - 0.5);
@@ -865,8 +866,6 @@ _cairo_paint_grid (cairo_t               *cr,
 		cairo_restore (cr);
 		return;
 	}
-
-	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
 	if (grid_type == GTH_GRID_THIRDS) {
 		int i;
@@ -962,44 +961,50 @@ _cairo_paint_grid (cairo_t               *cr,
 		int x;
 		int y;
 
-		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.40);
-		for (x = GRID_STEP_3; x < rectangle->width; x += GRID_STEP_3) {
-			cairo_move_to (cr, rectangle->x + x + 0.5, rectangle->y + 1.5);
-			cairo_line_to (cr, rectangle->x + x + 0.5, rectangle->y + rectangle->height - 0.5);
+		if (rectangle->width / GRID_STEP_3 <= MAX_GRID_LINES) {
+			cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.40);
+			for (x = GRID_STEP_3; x < rectangle->width; x += GRID_STEP_3) {
+				cairo_move_to (cr, rectangle->x + x + 0.5, rectangle->y + 1.5);
+				cairo_line_to (cr, rectangle->x + x + 0.5, rectangle->y + rectangle->height - 0.5);
+			}
+			for (y = GRID_STEP_3; y < rectangle->height; y += GRID_STEP_3) {
+				cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + y + 0.5);
+				cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + y + 0.5);
+			}
+			cairo_stroke (cr);
 		}
-		for (y = GRID_STEP_3; y < rectangle->height; y += GRID_STEP_3) {
-			cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + y + 0.5);
-			cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + y + 0.5);
-		}
-		cairo_stroke (cr);
 
-		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.20);
-		for (x = GRID_STEP_2; x < rectangle->width; x += GRID_STEP_2) {
-			if (x % GRID_STEP_3 == 0)
-				continue;
-			cairo_move_to (cr, rectangle->x + x + 0.5, rectangle->y + 1.5);
-			cairo_line_to (cr, rectangle->x + x + 0.5, rectangle->y + rectangle->height - 0.5);
+		if (rectangle->width / GRID_STEP_2 <= MAX_GRID_LINES) {
+			cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.20);
+			for (x = GRID_STEP_2; x < rectangle->width; x += GRID_STEP_2) {
+				if (x % GRID_STEP_3 == 0)
+					continue;
+				cairo_move_to (cr, rectangle->x + x + 0.5, rectangle->y + 1.5);
+				cairo_line_to (cr, rectangle->x + x + 0.5, rectangle->y + rectangle->height - 0.5);
+			}
+			for (y = GRID_STEP_2; y < rectangle->height; y += GRID_STEP_2) {
+				if (y % GRID_STEP_3 == 0)
+					continue;
+				cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + y + 0.5);
+				cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + y + 0.5);
+			}
+			cairo_stroke (cr);
 		}
-		for (y = GRID_STEP_2; y < rectangle->height; y += GRID_STEP_2) {
-			if (y % GRID_STEP_3 == 0)
-				continue;
-			cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + y + 0.5);
-			cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + y + 0.5);
-		}
-		cairo_stroke (cr);
 
-		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.10);
-		for (x = GRID_STEP_1; x < rectangle->width; x += GRID_STEP_1) {
-			if (x % GRID_STEP_2 == 0)
-				continue;
-			cairo_move_to (cr, rectangle->x + x + 0.5, rectangle->y + 1.5);
-			cairo_line_to (cr, rectangle->x + x + 0.5, rectangle->y + rectangle->height - 0.5);
-		}
-		for (y = GRID_STEP_1; y < rectangle->height; y += GRID_STEP_1) {
-			if (y % GRID_STEP_2 == 0)
-				continue;
-			cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + y + 0.5);
-			cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + y + 0.5);
+		if (rectangle->width / GRID_STEP_1 <= MAX_GRID_LINES) {
+			cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.10);
+			for (x = GRID_STEP_1; x < rectangle->width; x += GRID_STEP_1) {
+				if (x % GRID_STEP_2 == 0)
+					continue;
+				cairo_move_to (cr, rectangle->x + x + 0.5, rectangle->y + 1.5);
+				cairo_line_to (cr, rectangle->x + x + 0.5, rectangle->y + rectangle->height - 0.5);
+			}
+			for (y = GRID_STEP_1; y < rectangle->height; y += GRID_STEP_1) {
+				if (y % GRID_STEP_2 == 0)
+					continue;
+				cairo_move_to (cr, rectangle->x + 1.5, rectangle->y + y + 0.5);
+				cairo_line_to (cr, rectangle->x + rectangle->width - 0.5, rectangle->y + y + 0.5);
+			}
 		}
 		cairo_stroke (cr);
 	}

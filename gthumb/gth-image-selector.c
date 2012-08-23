@@ -347,6 +347,90 @@ get_event_area_from_id (GthImageSelector *self,
 }
 
 
+typedef enum {
+	SIDE_NONE = 0,
+	SIDE_TOP = 1 << 0,
+	SIDE_RIGHT = 1 << 1,
+	SIDE_BOTTOM = 1 << 2,
+	SIDE_LEFT = 1 << 3
+} Sides;
+
+
+static void
+_cairo_rectangle_partial (cairo_t *cr,
+			  double   x,
+			  double   y,
+			  double   w,
+			  double   h,
+			  Sides    sides)
+{
+	if (sides & SIDE_TOP) {
+		cairo_move_to (cr, x, y);
+		cairo_rel_line_to (cr, w, 0);
+	}
+
+	if (sides & SIDE_RIGHT) {
+		cairo_move_to (cr, x + w, y);
+		cairo_rel_line_to (cr, 0, h);
+	}
+
+	if (sides & SIDE_BOTTOM) {
+		cairo_move_to (cr, x, y + h);
+		cairo_rel_line_to (cr, w, 0);
+	}
+
+	if (sides & SIDE_LEFT) {
+		cairo_move_to (cr, x, y);
+		cairo_rel_line_to (cr, 0, h);
+	}
+}
+
+
+static void
+event_area_paint (GthImageSelector *self,
+		  EventArea        *event_area,
+		  cairo_t          *cr)
+{
+	Sides sides = SIDE_NONE;
+
+	switch (event_area->id) {
+	case C_SELECTION_AREA:
+		break;
+	case C_TOP_AREA:
+		sides = SIDE_RIGHT | SIDE_BOTTOM | SIDE_LEFT;
+		break;
+	case C_BOTTOM_AREA:
+		sides = SIDE_TOP | SIDE_RIGHT | SIDE_LEFT;
+		break;
+	case C_LEFT_AREA:
+		sides = SIDE_TOP | SIDE_RIGHT | SIDE_BOTTOM;
+		break;
+	case C_RIGHT_AREA:
+		sides = SIDE_TOP | SIDE_BOTTOM | SIDE_LEFT;
+		break;
+	case C_TOP_LEFT_AREA:
+		sides = SIDE_RIGHT | SIDE_BOTTOM;
+		break;
+	case C_TOP_RIGHT_AREA:
+		sides = SIDE_BOTTOM | SIDE_LEFT;
+		break;
+	case C_BOTTOM_LEFT_AREA:
+		sides = SIDE_TOP | SIDE_RIGHT;
+		break;
+	case C_BOTTOM_RIGHT_AREA:
+		sides = SIDE_TOP | SIDE_LEFT;
+		break;
+	}
+
+	_cairo_rectangle_partial (cr,
+				  event_area->area.x + self->priv->viewer->image_area.x - self->priv->viewer->x_offset + 0.5,
+				  event_area->area.y + self->priv->viewer->image_area.y - self->priv->viewer->y_offset + 0.5,
+				  event_area->area.width - 1.0,
+				  event_area->area.height - 1.0,
+				  sides);
+}
+
+
 /**/
 
 
@@ -660,16 +744,12 @@ paint_selection (GthImageSelector *self,
 
 	_cairo_paint_grid (cr, &selection_area, self->priv->grid_type);
 
-	cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
 	if ((self->priv->current_area != NULL) && (self->priv->current_area->id != C_SELECTION_AREA)) {
 #if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
-		/* cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE); */
+		cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
 #endif
-		cairo_rectangle (cr,
-				 self->priv->current_area->area.x + self->priv->viewer->image_area.x - self->priv->viewer->x_offset + 0.5,
-				 self->priv->current_area->area.y + self->priv->viewer->image_area.y - self->priv->viewer->y_offset + 0.5,
-				 self->priv->current_area->area.width - 1,
-				 self->priv->current_area->area.height - 1);
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
+		event_area_paint (self, self->priv->current_area, cr);
 	}
 	cairo_stroke (cr);
 

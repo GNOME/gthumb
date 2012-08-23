@@ -400,11 +400,19 @@ paint_point (GthImageRotator *self,
 {
 	double radius = 10.0;
 
+	cairo_save (cr);
+
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 9, 2)
+	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
+#endif
+
 	cairo_move_to (cr, p->x - radius, p->y - radius);
 	cairo_line_to (cr, p->x + radius, p->y + radius);
 	cairo_move_to (cr, p->x - radius, p->y + radius);
 	cairo_line_to (cr, p->x + radius, p->y - radius);
 	cairo_stroke (cr);
+
+	cairo_restore (cr);
 }
 
 
