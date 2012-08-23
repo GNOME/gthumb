@@ -30,6 +30,7 @@ HEADER_FILES = 				\
 	gth-file-tool-undo.h		\
 	gth-image-line-tool.h		\
 	gth-image-rotator.h		\
+	gth-preview-tool.h		\
 	preferences.h
 
 enum-types.h: $(HEADER_FILES)
@@ -77,6 +78,7 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-undo.c		\
 	gth-image-line-tool.c		\
 	gth-image-rotator.c		\
+	gth-preview-tool.c		\
 	main.c
 
 libfile_tools_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
