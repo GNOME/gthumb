@@ -49,7 +49,7 @@ typedef struct {
 	int                 requested_size;
 	gboolean            loaded;
 	gboolean            error;
-	gboolean	    canceled;
+	gboolean	    finalized;
 	GthImageLoader     *loader;
 	GthImage           *image;
 	int                 original_width;
@@ -114,7 +114,7 @@ preloader_new (GthImagePreloader *self)
 	preloader->file_data = NULL;
 	preloader->loaded = FALSE;
 	preloader->error = FALSE;
-	preloader->canceled = FALSE;
+	preloader->finalized = FALSE;
 	preloader->loader = gth_image_loader_new (NULL, NULL);
 	gth_image_loader_set_preferred_format (preloader->loader, GTH_IMAGE_FORMAT_CAIRO_SURFACE);
 	preloader->image = NULL;
@@ -254,7 +254,7 @@ gth_image_preloader_finalize (GObject *object)
 	}
 
 	for (i = 0; i < self->priv->n_preloaders; i++) {
-		self->priv->loader[i]->canceled = TRUE;
+		self->priv->loader[i]->finalized = TRUE;
 		preloader_unref (self->priv->loader[i]);
 		self->priv->loader[i] = NULL;
 	}
@@ -412,7 +412,7 @@ image_loader_ready_cb (GObject      *source_object,
 	gboolean            success;
 	int                 interval;
 
-	if (preloader->canceled) {
+	if (preloader->finalized) {
 		load_request_free (load_request);
 		return;
 	}
@@ -601,10 +601,8 @@ assign_loaders (LoadData *load_data)
 	gboolean          *loader_assigned;
 	int                i, j;
 
-	if (load_data->token != self->priv->token) {
-		load_data_free (load_data);
+	if (load_data->token != self->priv->token)
 		return;
-	}
 
 	file_assigned = g_new (gboolean, self->priv->n_preloaders);
 	loader_assigned = g_new (gboolean, self->priv->n_preloaders);
@@ -635,7 +633,7 @@ assign_loaders (LoadData *load_data)
 				loader_assigned[i] = TRUE;
 				file_assigned[j] = TRUE;
 
-				if (file_data == load_data->requested) {
+				if (_g_file_equal (file_data->file, load_data->requested->file)) {
 					self->priv->requested = i;
 
 					g_signal_emit (G_OBJECT (self),
@@ -696,13 +694,13 @@ assign_loaders (LoadData *load_data)
 
 		preloader = self->priv->loader[k];
 		preloader_set_file_data (preloader, file_data);
-		preloader->requested_size = (file_data == load_data->requested) ? load_data->requested_size  : -1;
+		preloader->requested_size = _g_file_equal (file_data->file, load_data->requested->file) ? load_data->requested_size  : -1;
 		/* force the use of the single step policy if the file is not local, in order to speed-up loading. */
 		if (! g_file_is_native (file_data->file))
 			preloader->requested_size = -1;
 		preloader->token = load_data->token;
 
-		if (file_data == load_data->requested) {
+		if (_g_file_equal (file_data->file, load_data->requested->file)) {
 			self->priv->requested = k;
 
 #if DEBUG_PRELOADER
