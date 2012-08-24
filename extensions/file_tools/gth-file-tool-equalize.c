@@ -33,50 +33,9 @@ typedef struct {
 	GtkWidget        *viewer_page;
 	cairo_surface_t  *source;
 	cairo_surface_t  *destination;
-	GthHistogram     *histogram;
-	int             **part;
+	long            **cumulative;
+	double            factor;
 } EqualizeData;
-
-
-static void
-equalize_histogram_setup (GthHistogram  *hist,
-			  int          **part)
-{
-	int  i, k, j;
-	int  pixels_per_value;
-	int  desired;
-	int  sum, dif;
-
-	pixels_per_value = gth_histogram_get_count (hist, 0, 255) / 256.0;
-
-	for (k = 0; k < gth_histogram_get_nchannels (hist); k++) {
-		/* First and last points in partition */
-		part[k][0]   = 0;
-		part[k][256] = 256;
-
-		/* Find intermediate points */
-		j   = 0;
-		sum = (gth_histogram_get_value (hist, k + 1, 0) +
-		       gth_histogram_get_value (hist, k + 1, 1));
-
-		for (i = 1; i < 256; i++) {
-			desired = i * pixels_per_value;
-
-			while (sum <= desired) {
-				j++;
-				sum += gth_histogram_get_value (hist, k + 1, j + 1);
-			}
-
-			/* Nearest sum */
-			dif = sum - gth_histogram_get_value (hist, k + 1, j);
-
-			if ((sum - desired) > (dif / 2.0))
-				part[k][i] = j;
-			else
-				part[k][i] = j + 1;
-		}
-	}
-}
 
 
 static void
@@ -87,15 +46,26 @@ equalize_before (GthAsyncTask *task,
 }
 
 
-static guchar
-equalize_func (guchar   u_value,
-	       int    **part,
-	       int      channel)
+static void
+equalize_histogram_setup (EqualizeData *equalize_data)
 {
-	guchar i = 0;
-	while (part[channel][i + 1] <= u_value)
-		i++;
-	return i;
+	GthHistogram *histogram;
+
+	histogram = gth_histogram_new ();
+	gth_histogram_calculate_for_image (histogram, equalize_data->source);
+	equalize_data->cumulative = gth_histogram_get_cumulative (histogram);
+	equalize_data->factor = 255.0 / (cairo_image_surface_get_width (equalize_data->source) * cairo_image_surface_get_height (equalize_data->source));
+
+	g_object_unref (histogram);
+}
+
+
+static guchar
+equalize_func (EqualizeData *equalize_data,
+	       int           n_channel,
+	       guchar        value)
+{
+	return (guchar) (equalize_data->factor * equalize_data->cumulative[n_channel][value]);
 }
 
 
@@ -104,7 +74,6 @@ equalize_exec (GthAsyncTask *task,
 	       gpointer      user_data)
 {
 	EqualizeData    *equalize_data = user_data;
-	int              i;
 	cairo_format_t   format;
 	int              width;
 	int              height;
@@ -122,13 +91,7 @@ equalize_exec (GthAsyncTask *task,
 
 	/* initialize the extra data */
 
-	equalize_data->histogram = gth_histogram_new ();
-	gth_histogram_calculate_for_image (equalize_data->histogram, equalize_data->source);
-
-	equalize_data->part = g_new0 (int *, GTH_HISTOGRAM_N_CHANNELS);
-	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS; i++)
-		equalize_data->part[i] = g_new0 (int, 257);
-	equalize_histogram_setup (equalize_data->histogram, equalize_data->part);
+	equalize_histogram_setup (equalize_data);
 
 	/* convert the image */
 
@@ -154,11 +117,9 @@ equalize_exec (GthAsyncTask *task,
 		p_destination = p_destination_line;
 		for (x = 0; x < width; x++) {
 			CAIRO_GET_RGBA (p_source, red, green, blue, alpha);
-			red   = equalize_func (red, equalize_data->part, GTH_CHANNEL_RED);
-			green = equalize_func (green, equalize_data->part, GTH_CHANNEL_GREEN);
-			blue  = equalize_func (blue, equalize_data->part, GTH_CHANNEL_BLUE);
-			if (alpha != 0xff)
-				alpha = equalize_func (alpha, equalize_data->part, GTH_CHANNEL_ALPHA);
+			red   = equalize_func (equalize_data, GTH_HISTOGRAM_CHANNEL_RED, red);
+			green = equalize_func (equalize_data, GTH_HISTOGRAM_CHANNEL_GREEN, green);
+			blue  = equalize_func (equalize_data, GTH_HISTOGRAM_CHANNEL_BLUE, blue);
 			CAIRO_SET_RGBA (p_destination, red, green, blue, alpha);
 
 			p_source += 4;
@@ -182,18 +143,12 @@ equalize_after (GthAsyncTask *task,
 	        gpointer      user_data)
 {
 	EqualizeData *equalize_data = user_data;
-	int           i;
 
 	if (error == NULL)
 		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (equalize_data->viewer_page), equalize_data->destination, TRUE);
 
-	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS; i++)
-		g_free (equalize_data->part[i]);
-	g_free (equalize_data->part);
-	equalize_data->part = NULL;
-
-	g_object_unref (equalize_data->histogram);
-	equalize_data->histogram = NULL;
+	gth_cumulative_histogram_free (equalize_data->cumulative);
+	equalize_data->cumulative = NULL;
 }
 
 
