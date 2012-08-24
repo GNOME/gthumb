@@ -26,8 +26,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
+#include "gth-file-tool-adjust-contrast.h"
 #include "gth-file-tool-crop.h"
-#include "gth-file-tool-enhance.h"
 #include "gth-file-tool-flip.h"
 #include "gth-file-tool-mirror.h"
 #include "gth-file-tool-resize.h"
@@ -67,7 +67,7 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 
 	switch (event->keyval) {
 	case GDK_KEY_h:
-		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ENHANCE);
+		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ADJUST_CONTRAST);
 		break;
 	case GDK_KEY_l:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_FLIP);

@@ -166,25 +166,25 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 
 			/* count values for each RGB channel */
 
-			values[1][red] += 1;
-			values[2][green] += 1;
-			values[3][blue] += 1;
+			values[GTH_HISTOGRAM_CHANNEL_RED][red] += 1;
+			values[GTH_HISTOGRAM_CHANNEL_GREEN][green] += 1;
+			values[GTH_HISTOGRAM_CHANNEL_BLUE][blue] += 1;
 			if (has_alpha)
-				values[4][alpha] += 1;
+				values[GTH_HISTOGRAM_CHANNEL_ALPHA][alpha] += 1;
 
 			/* count value for Value channel */
 
 			max = MAX (MAX (red, green), blue);
-			values[0][max] += 1;
+			values[GTH_HISTOGRAM_CHANNEL_VALUE][max] += 1;
 
 			/* track max value for each channel */
 
-			values_max[0] = MAX (values_max[0], values[0][max]);
-			values_max[1] = MAX (values_max[1], values[1][red]);
-			values_max[2] = MAX (values_max[2], values[2][green]);
-			values_max[3] = MAX (values_max[3], values[3][blue]);
+			values_max[GTH_HISTOGRAM_CHANNEL_VALUE] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_VALUE], values[GTH_HISTOGRAM_CHANNEL_VALUE][max]);
+			values_max[GTH_HISTOGRAM_CHANNEL_RED] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_RED], values[GTH_HISTOGRAM_CHANNEL_RED][red]);
+			values_max[GTH_HISTOGRAM_CHANNEL_GREEN] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_GREEN], values[GTH_HISTOGRAM_CHANNEL_GREEN][green]);
+			values_max[GTH_HISTOGRAM_CHANNEL_BLUE] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_BLUE], values[GTH_HISTOGRAM_CHANNEL_BLUE][blue]);
 			if (has_alpha)
-				values_max[4] = MAX (values_max[4], values[4][alpha]);
+				values_max[GTH_HISTOGRAM_CHANNEL_ALPHA] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_ALPHA], values[GTH_HISTOGRAM_CHANNEL_ALPHA][alpha]);
 
 			pixel += 4;
 		}
@@ -274,4 +274,34 @@ gth_histogram_get_nchannels (GthHistogram *self)
 {
 	g_return_val_if_fail (self != NULL, 0.0);
 	return self->priv->n_channels - 1;
+}
+
+
+long **
+gth_histogram_get_cumulative (GthHistogram *self)
+{
+	long **cumulative;
+	int    c, v;
+
+	cumulative = g_new (long *, GTH_HISTOGRAM_N_CHANNELS);
+	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
+		cumulative[c] = g_new (long, 256);
+		cumulative[c][0] = gth_histogram_get_value (self, c, 0);
+		for (v = 1; v < 256; v++) {
+			cumulative[c][v] = gth_histogram_get_value (self, c, v) + cumulative[c][v - 1];
+		}
+	}
+
+	return cumulative;
+}
+
+
+void
+gth_cumulative_histogram_free (long **cumulative)
+{
+	int c;
+
+	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++)
+		g_free (cumulative[c]);
+	g_free (cumulative);
 }

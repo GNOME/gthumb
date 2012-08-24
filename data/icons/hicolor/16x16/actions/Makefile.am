@@ -25,9 +25,9 @@ icons_DATA = 				\
 	site-picasaweb.png		\
 	site-twentythree.png		\
 	tool-adjust-colors.png		\
+	tool-adjust-contrast.png	\
 	tool-crop.png			\
 	tool-desaturate.png		\
-	tool-enhance.png		\
 	tool-flip.png			\
 	tool-invert.png			\
 	tool-mirror.png			\

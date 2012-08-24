@@ -15,9 +15,9 @@ icons_DATA = 				\
 	share.png			\
 	tag.png				\
 	tool-adjust-colors.png		\
+	tool-adjust-contrast.png	\
 	tool-crop.png			\
 	tool-desaturate.png		\
-	tool-enhance.png		\
 	tool-red-eye.png		\
 	tool-resize.png			\
 	tool-rotate.png			\

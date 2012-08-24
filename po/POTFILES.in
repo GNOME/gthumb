@@ -280,12 +280,12 @@ extensions/file_tools/callbacks.h
 [type: gettext/ini]extensions/file_tools/file_tools.extension.in.in
 extensions/file_tools/gth-file-tool-adjust-colors.c
 extensions/file_tools/gth-file-tool-adjust-colors.h
+extensions/file_tools/gth-file-tool-adjust-contrast.c
+extensions/file_tools/gth-file-tool-adjust-contrast.h
 extensions/file_tools/gth-file-tool-crop.c
 extensions/file_tools/gth-file-tool-crop.h
 extensions/file_tools/gth-file-tool-desaturate.c
 extensions/file_tools/gth-file-tool-desaturate.h
-extensions/file_tools/gth-file-tool-enhance.c
-extensions/file_tools/gth-file-tool-enhance.h
 extensions/file_tools/gth-file-tool-equalize.c
 extensions/file_tools/gth-file-tool-equalize.h
 extensions/file_tools/gth-file-tool-flip.c
@@ -316,6 +316,8 @@ extensions/file_tools/gth-image-line-tool.c
 extensions/file_tools/gth-image-line-tool.h
 extensions/file_tools/gth-image-rotator.c
 extensions/file_tools/gth-image-rotator.h
+extensions/file_tools/gth-preview-tool.c
+extensions/file_tools/gth-preview-tool.h
 extensions/file_tools/main.c
 extensions/file_tools/preferences.h
 [type: gettext/ini]extensions/file_viewer/file_viewer.extension.in.in
@@ -680,6 +682,7 @@ gthumb/eggfileformatchooser.h
 gthumb/egg-macros.h
 gthumb/gedit-message-area.c
 gthumb/gedit-message-area.h
+gthumb/gfixed.h
 gthumb/gio-utils.c
 gthumb/gio-utils.h
 gthumb/glib-utils.c
