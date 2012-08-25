@@ -9,9 +9,6 @@ MARSHALLERS =						\
 	gth-marshal.h
 
 EXTERNAL = 						\
-	egg-macros.h					\
-	eggfileformatchooser.c				\
-	eggfileformatchooser.h				\
 	gedit-message-area.c				\
 	gedit-message-area.h				\
 	gnome-desktop-thumbnail.c			\
@@ -27,8 +24,6 @@ PUBLIC_HEADER_FILES = 					\
 	cairo-scale.h					\
 	cairo-utils.h					\
 	dom.h						\
-	egg-macros.h					\
-	eggfileformatchooser.h				\
 	gedit-message-area.h				\
 	gfixed.h					\
 	gio-utils.h					\

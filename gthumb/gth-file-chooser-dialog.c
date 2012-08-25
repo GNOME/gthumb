@@ -21,26 +21,36 @@
 
 #include <config.h>
 #include <stdlib.h>
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include "eggfileformatchooser.h"
 #include "glib-utils.h"
 #include "gth-file-chooser-dialog.h"
 #include "gth-main.h"
 
 
-typedef struct {
-	const char *type;
-	const char *extensions;
-	const char *default_ext;
-} Format;
+#define FORMAT_KEY "gthumb-format"
 
 
 G_DEFINE_TYPE (GthFileChooserDialog, gth_file_chooser_dialog, GTK_TYPE_FILE_CHOOSER_DIALOG)
 
 
+typedef struct {
+	GthImageSaver  *saver;
+	char          **extensions;
+} Format;
+
+
+static void
+format_free (Format *format)
+{
+	g_object_unref (format->saver);
+	g_strfreev (format->extensions);
+	g_free (format);
+}
+
+
 struct _GthFileChooserDialogPrivate {
-	GList                *supported_formats;
-	EggFileFormatChooser *format_chooser;
+	GList *supported_formats;
 };
 
 
@@ -51,7 +61,7 @@ gth_file_chooser_dialog_finalize (GObject *object)
 
 	self = GTH_FILE_CHOOSER_DIALOG (object);
 
-	g_list_foreach (self->priv->supported_formats, (GFunc) g_free, NULL);
+	g_list_foreach (self->priv->supported_formats, (GFunc) format_free, NULL);
 	g_list_free (self->priv->supported_formats);
 
 	G_OBJECT_CLASS (gth_file_chooser_dialog_parent_class)->finalize (object);
@@ -79,72 +89,15 @@ gth_file_chooser_dialog_init (GthFileChooserDialog *self)
 
 
 static void
-format_chooser_selection_changed_cb (EggFileFormatChooser *format_chooser,
-				     GthFileChooserDialog *self)
-{
-	char   *filename;
-	int     n_format;
-	Format *format;
-	char   *basename;
-	char   *basename_noext;
-	char   *new_basename;
-
-	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (self));
-	if (filename == NULL)
-		return;
-
-	n_format = egg_file_format_chooser_get_format (EGG_FILE_FORMAT_CHOOSER (self->priv->format_chooser), filename);
-
-	if ((n_format < 1) || (n_format > g_list_length (self->priv->supported_formats))) {
-		g_free (filename);
-		return;
-	}
-
-	format = g_list_nth_data (self->priv->supported_formats, n_format - 1);
-	basename = g_path_get_basename (filename);
-	basename_noext = _g_uri_remove_extension (basename);
-	new_basename = g_strconcat (basename_noext, ".", format->default_ext, NULL);
-	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (self), new_basename);
-
-	g_free (new_basename);
-	g_free (basename_noext);
-	g_free (basename);
-	g_free (filename);
-}
-
-
-static char *
-get_icon_name_for_type (const char *mime_type)
-{
-	char *name = NULL;
-
-	if (mime_type != NULL) {
-		char *s;
-
-		name = g_strconcat ("gnome-mime-", mime_type, NULL);
-		for (s = name; *s; ++s)
-			if (! g_ascii_isalpha (*s))
-				*s = '-';
-	}
-
-	if ((name == NULL) || ! gtk_icon_theme_has_icon (gtk_icon_theme_get_default (), name)) {
-		g_free (name);
-		name = g_strdup ("image-x-generic");
-	}
-
-	return name;
-}
-
-
-static void
 gth_file_chooser_dialog_construct (GthFileChooserDialog *self,
 				   const char           *title,
 			           GtkWindow            *parent,
 				   const char           *allowed_savers)
 {
-	GArray *savers;
-	int     i;
-	GList  *scan;
+	GtkFileFilter *filter;
+	GArray        *savers;
+	int            i;
+	GList         *scan;
 
 	if (title != NULL)
     		gtk_window_set_title (GTK_WINDOW (self), title);
@@ -161,48 +114,52 @@ gth_file_chooser_dialog_construct (GthFileChooserDialog *self,
 
 	/**/
 
-	savers = gth_main_get_type_set (allowed_savers /*"image-saver"*/);
-	for (i = 0; (savers != NULL) && (i < savers->len); i++) {
-		GthImageSaver *saver;
-		Format         *format;
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, _("All Supported Files"));
 
-		saver = g_object_new (g_array_index (savers, GType, i), NULL);
+	savers = gth_main_get_type_set (allowed_savers);
+	for (i = 0; (savers != NULL) && (i < savers->len); i++) {
+		Format  *format;
+		int      e;
+
 		format = g_new (Format, 1);
-		format->type = get_static_string (gth_image_saver_get_mime_type (saver));
-		format->extensions = get_static_string (gth_image_saver_get_extensions (saver));
-		format->default_ext = get_static_string (gth_image_saver_get_default_ext (saver));
+		format->saver = g_object_new (g_array_index (savers, GType, i), NULL);
+		format->extensions = g_strsplit (gth_image_saver_get_extensions (format->saver), " ", -1);
 		self->priv->supported_formats = g_list_prepend (self->priv->supported_formats, format);
 
-		g_object_unref (saver);
+		for (e = 0; format->extensions[e] != NULL; e++) {
+			char *pattern = g_strconcat ("*.", format->extensions[e], NULL);
+			gtk_file_filter_add_pattern (filter, pattern);
+
+			g_free (pattern);
+		}
+
+		gtk_file_filter_add_mime_type (filter, gth_image_saver_get_mime_type (format->saver));
 	}
 
-	self->priv->format_chooser = (EggFileFormatChooser *) egg_file_format_chooser_new ();
-	for (scan = self->priv->supported_formats; scan != NULL; scan = scan->next) {
-		Format  *format = scan->data;
-		char    *icon_name;
-		char   **extensions;
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (self), filter);
+	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (self), filter);
 
-		icon_name = get_icon_name_for_type (format->type);
-		extensions = g_strsplit (format->extensions, " ", -1);
-		egg_file_format_chooser_add_format (self->priv->format_chooser,
-						    0,
-						    g_content_type_get_description (format->type),
-						    icon_name,
-						    extensions[0],
-						    extensions[1],
-						    extensions[2],
-						    NULL);
+	self->priv->supported_formats = g_list_reverse (self->priv->supported_formats);
+	for (scan = self->priv->supported_formats; scan; scan = scan->next) {
+		Format *format = scan->data;
+		int     i;
 
-		g_strfreev (extensions);
-		g_free (icon_name);
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (filter, gth_image_saver_get_display_name (format->saver));
+
+		for (i = 0; format->extensions[i] != NULL; i++) {
+			char *pattern = g_strconcat ("*.", format->extensions[i], NULL);
+			gtk_file_filter_add_pattern (filter, pattern);
+
+			g_free (pattern);
+		}
+
+		gtk_file_filter_add_mime_type (filter, gth_image_saver_get_mime_type (format->saver));
+		gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (self), filter);
+
+		g_object_set_data (G_OBJECT (filter), FORMAT_KEY, format);
 	}
-
-	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (self), GTK_WIDGET (self->priv->format_chooser));
-
-	g_signal_connect (G_OBJECT (self->priv->format_chooser),
-			  "selection-changed",
-			  G_CALLBACK (format_chooser_selection_changed_cb),
-			  self);
 }
 
 
@@ -220,27 +177,59 @@ gth_file_chooser_dialog_new (const char *title,
 }
 
 
+static Format *
+get_format_from_extension (GthFileChooserDialog *self,
+			   const char           *filename)
+{
+	const char *ext;
+	GList      *scan;
+
+	ext = _g_uri_get_file_extension (filename);
+	if (ext == NULL)
+		return NULL;
+
+	if (ext[0] == '.')
+		ext++;
+
+	for (scan = self->priv->supported_formats; scan; scan = scan->next) {
+		Format *format = scan->data;
+		int     i;
+
+		for (i = 0; format->extensions[i] != NULL; i++)
+			if (strcmp (ext, format->extensions[i]) == 0)
+				return format;
+	}
+
+	return NULL;
+}
+
+
 gboolean
 gth_file_chooser_dialog_get_file (GthFileChooserDialog  *self,
 				  GFile                **file,
 				  const char           **mime_type)
 {
 	char   *filename;
-	int     n_format;
 	Format *format;
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (self));
-	n_format = egg_file_format_chooser_get_format (EGG_FILE_FORMAT_CHOOSER (self->priv->format_chooser), filename);
+	format = get_format_from_extension (self, filename);
 	g_free (filename);
 
-	if ((n_format < 1) || (n_format > g_list_length (self->priv->supported_formats)))
+	if (format == NULL) {
+		GtkFileFilter *filter;
+
+		filter = gtk_file_chooser_get_filter (GTK_FILE_CHOOSER (self));
+		format = g_object_get_data (G_OBJECT (filter), FORMAT_KEY);
+	}
+
+	if (format == NULL)
 		return FALSE;
 
-	format = g_list_nth_data (self->priv->supported_formats, n_format - 1);
 	if (file != NULL)
 		*file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (self));
 	if (mime_type != NULL)
-		*mime_type = format->type;
+		*mime_type = gth_image_saver_get_mime_type (format->saver);
 
 	return TRUE;
 }
