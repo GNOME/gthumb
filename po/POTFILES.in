@@ -274,6 +274,7 @@ extensions/file_tools/callbacks.c
 extensions/file_tools/callbacks.h
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/crop-options.ui
+[type: gettext/glade]extensions/file_tools/data/ui/grayscale-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/resize-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/rotate-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/sharpen-options.ui
@@ -284,12 +285,12 @@ extensions/file_tools/gth-file-tool-adjust-contrast.c
 extensions/file_tools/gth-file-tool-adjust-contrast.h
 extensions/file_tools/gth-file-tool-crop.c
 extensions/file_tools/gth-file-tool-crop.h
-extensions/file_tools/gth-file-tool-desaturate.c
-extensions/file_tools/gth-file-tool-desaturate.h
 extensions/file_tools/gth-file-tool-equalize.c
 extensions/file_tools/gth-file-tool-equalize.h
 extensions/file_tools/gth-file-tool-flip.c
 extensions/file_tools/gth-file-tool-flip.h
+extensions/file_tools/gth-file-tool-grayscale.c
+extensions/file_tools/gth-file-tool-grayscale.h
 extensions/file_tools/gth-file-tool-mirror.c
 extensions/file_tools/gth-file-tool-mirror.h
 extensions/file_tools/gth-file-tool-negative.c
@@ -677,9 +678,6 @@ gthumb/dlg-sort-order.c
 gthumb/dlg-sort-order.h
 gthumb/dom.c
 gthumb/dom.h
-gthumb/eggfileformatchooser.c
-gthumb/eggfileformatchooser.h
-gthumb/egg-macros.h
 gthumb/gedit-message-area.c
 gthumb/gedit-message-area.h
 gthumb/gfixed.h
