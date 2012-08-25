@@ -223,7 +223,7 @@ gth_file_data_get_mime_type (GthFileData *self)
 		if (filename == NULL)
 			return NULL;
 
-		content_type = g_content_type_guess (filename, NULL, 0, NULL);
+		content_type = _g_content_type_guess_from_name (filename);
 		g_file_info_set_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, content_type);
 
 		g_free (filename);
@@ -267,7 +267,7 @@ gth_file_data_get_mime_type_from_content (GthFileData  *self,
 
 		content_type = _g_content_type_get_from_stream (istream, cancellable, &error);
 		if ((content_type == NULL) || (strcmp (content_type, "application/xml") == 0))
-			content_type = g_content_type_guess (filename, NULL, 0, NULL);
+			content_type = _g_content_type_guess_from_name (filename);
 
 		g_file_info_set_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, content_type);
 

@@ -68,6 +68,7 @@ GNOME_KEYRING_REQUIRED=3.2.0
 LIBBRASERO_REQUIRED=3.2.0
 LIBCHAMPLAIN_REQUIRED=0.12.0
 LIBRSVG_REQUIRED=2.34.0
+LIBWEBP_REQUIRED=0.2.0
 
 dnl ===========================================================================
 
@@ -418,6 +419,28 @@ AC_SUBST(TIFF_LIBS)
 
 dnl ===========================================================================
 
+AC_ARG_ENABLE([libwebp],
+	      [AS_HELP_STRING([--enable-libwebp],[compile code that uses the libwebp library])],,
+	      [enable_libwebp=yes])
+
+if test x$enable_libwebp = xyes ; then
+	PKG_CHECK_MODULES(LIBWEBP,
+			  [libwebp >= $LIBWEBP_REQUIRED],
+			  [enable_libwebp=yes],
+			  [enable_libwebp=no])
+fi
+if test x$enable_libwebp = xyes ; then
+	AC_DEFINE(HAVE_LIBWEBP, 1, [Define to 1 if libwebp support is included])
+fi
+
+AC_SUBST(LIBWEBP_LIBS)
+AC_SUBST(LIBWEBP_CFLAGS)
+AM_CONDITIONAL(ENABLE_LIBWEBP, test "x$enable_libwebp" = xyes)
+
+AC_DEFINE(WEBP_IS_UNKNOWN_TO_GLIB, 1, [Define to 1 if webp images area not recognized by the glib functions])
+
+dnl ===========================================================================
+
 AC_MSG_CHECKING(liboperaw)
 AC_ARG_ENABLE([libopenraw],
 	      [AS_HELP_STRING([--enable-libopenraw],[use the libopenraw library to read raw files [default=no]])],,
@@ -739,4 +762,5 @@ Configuration:
 	SM client support    : ${with_smclient}
 	Map support          : ${enable_libchamplain}
 	SVG support          : ${enable_librsvg}
+	WebP support         : ${enable_libwebp}
 "

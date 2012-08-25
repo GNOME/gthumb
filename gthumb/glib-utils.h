@@ -307,6 +307,7 @@ gboolean        _g_file_attributes_matches_any_v (const char *attributes,
 void            _g_file_info_swap_attributes     (GFileInfo  *info,
 						  const char *attr1,
 						  const char *attr2);
+const char *    _g_content_type_guess_from_name  (const char *filename);
 gboolean        _g_content_type_is_a             (const char *type,
 						  const char *supertype);
 const char *    _g_content_type_get_from_stream  (GInputStream  *istream,

@@ -177,6 +177,23 @@ _g_query_metadata_async_thread (GSimpleAsyncResult *result,
 			break;
 		}
 
+#if WEBP_IS_UNKNOWN_TO_GLIB
+		if (_g_file_attributes_matches_any_v (G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE ","
+						      G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE,
+						      qmd->attributes_v))
+		{
+			char       *uri;
+			const char *ext;
+
+			uri = g_file_get_uri (file_data->file);
+			ext = _g_uri_get_file_extension (uri);
+			if (g_strcmp0 (ext, ".webp") == 0)
+				gth_file_data_set_mime_type (file_data, "image/webp");
+
+			g_free (uri);
+		}
+#endif
+
 		for (scan_providers = providers; scan_providers; scan_providers = scan_providers->next) {
 			GthMetadataProvider *metadata_provider = scan_providers->data;
 

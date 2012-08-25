@@ -2799,6 +2799,20 @@ _g_file_info_swap_attributes (GFileInfo  *info,
 }
 
 
+const char *
+_g_content_type_guess_from_name (const char *filename)
+{
+#if WEBP_IS_UNKNOWN_TO_GLIB
+	const char *ext;
+
+	ext = _g_uri_get_file_extension (filename);
+	if (g_strcmp0 (ext, ".webp") == 0)
+		return "image/webp";
+#endif
+	return g_content_type_guess (filename, NULL, 0, NULL);
+}
+
+
 gboolean
 _g_content_type_is_a (const char *type,
 		      const char *supertype)
@@ -2848,12 +2862,13 @@ get_mime_type_from_magic_numbers (void  *buffer,
 		const char * const mime_type;
 	}
 	magic_ids [] = {
-		/* magic ids taken from magic/Magdir/archive from the file-4.21 tarball */
+		/* some magic ids taken from magic/Magdir/archive from the file-4.21 tarball */
 		{ 0,  8, "\x89PNG\x0d\x0a\x1a\x0a",		"image/png" },
 		{ 0,  4, "MM\x00\x2a",				"image/tiff" },
 		{ 0,  4, "II\x2a\x00",				"image/tiff" },
 		{ 0,  4, "GIF8",				"image/gif" },
-		{ 0,  2, "\xff\xd8",				"image/jpeg" },
+		{ 0,  3, "\xff\xd8\xff",			"image/jpeg" },
+		{ 8,  7, "WEBPVP8",				"image/webp" }
 	};
 
 	int  i;

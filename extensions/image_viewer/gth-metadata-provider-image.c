@@ -27,10 +27,13 @@
 #if HAVE_LIBJPEG
 #include <extensions/jpeg_utils/jpeg-info.h>
 #endif /* HAVE_LIBJPEG */
+#if HAVE_LIBWEBP
+#include <webp/decode.h>
+#endif /* HAVE_LIBWEBP */
 #include "gth-metadata-provider-image.h"
 
 
-#define BUFFER_SIZE 32
+#define BUFFER_SIZE 1024
 
 
 G_DEFINE_TYPE (GthMetadataProviderImage, gth_metadata_provider_image, GTH_TYPE_METADATA_PROVIDER)
@@ -104,10 +107,9 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 
 				width  = (buffer[16] << 24) + (buffer[17] << 16) + (buffer[18] << 8) + buffer[19];
 				height = (buffer[20] << 24) + (buffer[21] << 16) + (buffer[22] << 8) + buffer[23];
-
-				format_recognized = TRUE;
-				description = "PNG";
+				description = _("PNG");
 				mime_type = "image/png";
+				format_recognized = TRUE;
 			}
 
 #if HAVE_LIBJPEG
@@ -135,9 +137,9 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 							  cancellable,
 							  NULL))
 				{
-					format_recognized = TRUE;
-					description = "JPEG";
+					description = _("JPEG");
 					mime_type = "image/jpeg";
+					format_recognized = TRUE;
 
 					if ((orientation == GTH_TRANSFORM_ROTATE_90)
 					     ||	(orientation == GTH_TRANSFORM_ROTATE_270)
@@ -151,6 +153,23 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 				}
 			}
 #endif /* HAVE_LIBJPEG */
+
+#if HAVE_LIBWEBP
+			else if ((size > 15) && (memcmp (buffer + 8, "WEBPVP8", 7) == 0)) {
+				WebPDecoderConfig config;
+
+				if (WebPInitDecoderConfig (&config)) {
+					if (WebPGetFeatures (buffer, buffer_size, &config.input) == VP8_STATUS_OK) {
+						width = config.input.width;
+						height = config.input.height;
+						description = _("WebP");
+						mime_type = "image/webp";
+						format_recognized = TRUE;
+					}
+					WebPFreeDecBuffer (&config.output);
+				}
+			}
+#endif /* HAVE_LIBWEBP */
 		}
 
 		g_free (buffer);
