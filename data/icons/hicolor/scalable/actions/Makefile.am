@@ -4,15 +4,16 @@ context = actions
 
 iconsdir = $(themedir)/$(size)/$(context)
 
-icons_DATA = 			\
-	browser-mode.svg	\
-	file-catalog.svg	\
-	file-library.svg	\
-	file-search.svg		\
-	palette.svg		\
-	share.svg		\
-	slideshow-pause.svg	\
-	tag.svg			\
+icons_DATA = 				\
+	browser-mode.svg		\
+	file-catalog.svg		\
+	file-library.svg		\
+	file-search.svg			\
+	palette.svg			\
+	share.svg			\
+	slideshow-pause.svg		\
+	tag.svg				\
+	tool-adjust-contrast.png	\
 	tool-sharpen.svg
 
 EXTRA_DIST = $(icons_DATA)
