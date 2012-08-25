@@ -27,8 +27,8 @@ icons_DATA = 				\
 	tool-adjust-colors.png		\
 	tool-adjust-contrast.png	\
 	tool-crop.png			\
-	tool-desaturate.png		\
 	tool-flip.png			\
+	tool-grayscale.png		\
 	tool-invert.png			\
 	tool-mirror.png			\
 	tool-red-eye.png		\
