@@ -35,19 +35,10 @@ G_DEFINE_TYPE (GthFileToolAdjustContrast, gth_file_tool_adjust_contrast, GTH_TYP
 typedef struct {
 	GtkWidget        *viewer_page;
 	cairo_surface_t  *source;
-	cairo_surface_t  *destination;
 	int              *lowest;
 	int              *highest;
 	double           *factor;
 } AdjustContrastData;
-
-
-static void
-adjust_contrast_before (GthAsyncTask *task,
-			gpointer      user_data)
-{
-	gth_task_progress (GTH_TASK (task), _("Contrast correction"), NULL, TRUE, 0.0);
-}
 
 
 static void
@@ -129,6 +120,7 @@ adjust_contrast_exec (GthAsyncTask *task,
 	int                 width;
 	int                 height;
 	int                 source_stride;
+	cairo_surface_t    *destination;
 	int                 destination_stride;
 	unsigned char      *p_source_line;
 	unsigned char      *p_destination_line;
@@ -136,9 +128,9 @@ adjust_contrast_exec (GthAsyncTask *task,
 	unsigned char      *p_destination;
 	gboolean            cancelled;
 	double              progress;
-	gboolean            terminated;
 	int                 x, y;
 	unsigned char       red, green, blue, alpha;
+	GthImage          *destination_image;
 
 	/* initialize some extra data */
 
@@ -151,11 +143,11 @@ adjust_contrast_exec (GthAsyncTask *task,
 	height = cairo_image_surface_get_height (adjust_data->source);
 	source_stride = cairo_image_surface_get_stride (adjust_data->source);
 
-	adjust_data->destination = cairo_image_surface_create (format, width, height);
-	cairo_surface_flush (adjust_data->destination);
-	destination_stride = cairo_image_surface_get_stride (adjust_data->destination);
+	destination = cairo_image_surface_create (format, width, height);
+	cairo_surface_flush (destination);
+	destination_stride = cairo_image_surface_get_stride (destination);
 	p_source_line = cairo_image_surface_get_data (adjust_data->source);
-	p_destination_line = cairo_image_surface_get_data (adjust_data->destination);
+	p_destination_line = cairo_image_surface_get_data (destination);
 	for (y = 0; y < height; y++) {
 		gth_async_task_get_data (task, NULL, &cancelled, NULL);
 		if (cancelled)
@@ -180,9 +172,13 @@ adjust_contrast_exec (GthAsyncTask *task,
 		p_destination_line += destination_stride;
 	}
 
-	cairo_surface_mark_dirty (adjust_data->destination);
-	terminated = TRUE;
-	gth_async_task_set_data (task, &terminated, NULL, NULL);
+	cairo_surface_mark_dirty (destination);
+
+	destination_image = gth_image_new_for_surface (destination);
+	gth_image_task_set_destination (GTH_IMAGE_TASK (task), destination_image);
+
+	_g_object_unref (destination_image);
+	cairo_surface_destroy (destination);
 
 	return NULL;
 }
@@ -194,9 +190,6 @@ adjust_contrast_after (GthAsyncTask *task,
 		       gpointer      user_data)
 {
 	AdjustContrastData *adjust_data = user_data;
-
-	if (error == NULL)
-		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (adjust_data->viewer_page), adjust_data->destination, TRUE);
 
 	g_free (adjust_data->lowest);
 	adjust_data->lowest = NULL;
@@ -212,9 +205,41 @@ adjust_contrast_data_free (gpointer user_data)
 	AdjustContrastData *adjust_contrast_data = user_data;
 
 	g_object_unref (adjust_contrast_data->viewer_page);
-	cairo_surface_destroy (adjust_contrast_data->destination);
 	cairo_surface_destroy (adjust_contrast_data->source);
 	g_free (adjust_contrast_data);
+}
+
+
+static void
+image_task_completed_cb (GthTask  *task,
+			 GError   *error,
+			 gpointer  user_data)
+{
+	GthFileTool     *base = user_data;
+	GthImage        *destination_image;
+	cairo_surface_t *destination;
+	GtkWidget       *window;
+	GtkWidget       *viewer_page;
+
+	if (error != NULL) {
+		g_object_unref (task);
+		return;
+	}
+
+	destination_image = gth_image_task_get_destination (GTH_IMAGE_TASK (task));
+	if (destination_image == NULL) {
+		g_object_unref (task);
+		return;
+	}
+
+	destination = gth_image_get_cairo_surface (destination_image);
+
+	window = gth_file_tool_get_window (base);
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), destination, TRUE);
+
+	cairo_surface_destroy (destination);
+	g_object_unref (task);
 }
 
 
@@ -244,14 +269,17 @@ gth_file_tool_adjust_contrast_activate (GthFileTool *base)
 	adjust_contrast_data->lowest = NULL;
 	adjust_contrast_data->highest = NULL;
 	adjust_contrast_data->factor = NULL;
-	task = gth_async_task_new (adjust_contrast_before,
+	task = gth_image_task_new (_("Applying changes"),
+				   NULL,
 				   adjust_contrast_exec,
 				   adjust_contrast_after,
 				   adjust_contrast_data,
 				   adjust_contrast_data_free);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (image_task_completed_cb),
+			  base);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
-
-	g_object_unref (task);
 }
 
 
@@ -274,7 +302,7 @@ static void
 gth_file_tool_adjust_contrast_init (GthFileToolAdjustContrast *self)
 {
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-adjust-contrast", _("Adjust Contrast"), NULL, TRUE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic contrast correction"));
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic contrast adjustment"));
 }
 
 
