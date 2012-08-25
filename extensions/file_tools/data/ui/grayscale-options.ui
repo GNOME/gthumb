@@ -44,8 +44,8 @@
                     <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
                     <child>
-                      <object class="GtkRadioButton" id="saturation_radiobutton">
-                        <property name="label" translatable="yes">_Saturation</property>
+                      <object class="GtkRadioButton" id="brightness_radiobutton">
+                        <property name="label" translatable="yes">_Brightness</property>
                         <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -63,8 +63,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkRadioButton" id="brightness_radiobutton">
-                        <property name="label" translatable="yes">_Brightness</property>
+                      <object class="GtkRadioButton" id="saturation_radiobutton">
+                        <property name="label" translatable="yes">_Saturation</property>
                         <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -73,7 +73,7 @@
                         <property name="use_underline">True</property>
                         <property name="xalign">0</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">saturation_radiobutton</property>
+                        <property name="group">brightness_radiobutton</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -92,7 +92,7 @@
                         <property name="use_underline">True</property>
                         <property name="xalign">0</property>
                         <property name="draw_indicator">True</property>
-                        <property name="group">saturation_radiobutton</property>
+                        <property name="group">brightness_radiobutton</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
