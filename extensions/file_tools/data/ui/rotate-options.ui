@@ -569,6 +569,7 @@
               <object class="GtkVBox" id="vbox6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="border_width">12</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkVBox" id="box2">
@@ -609,12 +610,10 @@ to set the alignment.</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="top_padding">6</property>
-                        <property name="left_padding">12</property>
                         <child>
                           <object class="GtkVBox" id="box1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="alignment_parallel_radiobutton">
                                 <property name="label" translatable="yes">Parallel</property>
