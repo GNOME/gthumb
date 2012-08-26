@@ -72,12 +72,15 @@ extensions/cairo_io/cairo-image-surface-png.c
 extensions/cairo_io/cairo-image-surface-png.h
 extensions/cairo_io/cairo-image-surface-svg.c
 extensions/cairo_io/cairo-image-surface-svg.h
+extensions/cairo_io/cairo-image-surface-webp.c
+extensions/cairo_io/cairo-image-surface-webp.h
 [type: gettext/ini]extensions/cairo_io/cairo_io.extension.in.in
 [type: gettext/glade]extensions/cairo_io/data/ui/jpeg-options.ui
 [type: gettext/glade]extensions/cairo_io/data/ui/png-options.ui
 [type: gettext/glade]extensions/cairo_io/data/ui/save-options-preferences.ui
 [type: gettext/glade]extensions/cairo_io/data/ui/tga-options.ui
 [type: gettext/glade]extensions/cairo_io/data/ui/tiff-options.ui
+[type: gettext/glade]extensions/cairo_io/data/ui/webp-options.ui
 extensions/cairo_io/gth-image-saver-jpeg.c
 extensions/cairo_io/gth-image-saver-jpeg.h
 extensions/cairo_io/gth-image-saver-png.c
@@ -86,6 +89,8 @@ extensions/cairo_io/gth-image-saver-tga.c
 extensions/cairo_io/gth-image-saver-tga.h
 extensions/cairo_io/gth-image-saver-tiff.c
 extensions/cairo_io/gth-image-saver-tiff.h
+extensions/cairo_io/gth-image-saver-webp.c
+extensions/cairo_io/gth-image-saver-webp.h
 extensions/cairo_io/main.c
 extensions/cairo_io/preferences.c
 extensions/cairo_io/preferences.h
