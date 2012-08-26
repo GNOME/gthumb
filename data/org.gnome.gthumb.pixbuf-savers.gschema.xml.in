@@ -75,7 +75,7 @@
 
   <schema id="org.gnome.gthumb.pixbuf-savers.webp" path="/org/gnome/gthumb/pixbuf-savers/webp/">
     <key name="lossless" type="b">
-      <default>true</default>
+      <default>false</default>
     </key>
     <key name="quality" type="i">
       <default>75</default>
