@@ -26,6 +26,8 @@
 #include "glib-utils.h"
 #include "gth-file-chooser-dialog.h"
 #include "gth-main.h"
+#include "gth-preferences.h"
+#include "gtk-utils.h"
 
 
 #define FORMAT_KEY "gthumb-format"
@@ -50,7 +52,8 @@ format_free (Format *format)
 
 
 struct _GthFileChooserDialogPrivate {
-	GList *supported_formats;
+	GList     *supported_formats;
+	GtkWidget *options_checkbutton;
 };
 
 
@@ -69,14 +72,34 @@ gth_file_chooser_dialog_finalize (GObject *object)
 
 
 static void
+gth_file_chooser_dialog_unmap (GtkWidget *widget)
+{
+	GthFileChooserDialog *self;
+	GSettings            *settings;
+
+	self = GTH_FILE_CHOOSER_DIALOG (widget);
+
+	settings = g_settings_new (GTHUMB_SAVE_FILE_SCHEMA);
+	g_settings_set_boolean (settings, PREF_SAVE_FILE_SHOW_OPTIONS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->options_checkbutton)));
+	g_object_unref (settings);
+
+	GTK_WIDGET_CLASS (gth_file_chooser_dialog_parent_class)->unmap (widget);
+}
+
+
+static void
 gth_file_chooser_dialog_class_init (GthFileChooserDialogClass *class)
 {
-	GObjectClass *object_class;
+	GObjectClass   *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (GthFileChooserDialogPrivate));
 
 	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_file_chooser_dialog_finalize;
+
+	widget_class = (GtkWidgetClass*) class;
+	widget_class->unmap = gth_file_chooser_dialog_unmap;
 }
 
 
@@ -98,6 +121,7 @@ gth_file_chooser_dialog_construct (GthFileChooserDialog *self,
 	GArray        *savers;
 	int            i;
 	GList         *scan;
+	GSettings     *settings;
 
 	if (title != NULL)
     		gtk_window_set_title (GTK_WINDOW (self), title);
@@ -109,10 +133,12 @@ gth_file_chooser_dialog_construct (GthFileChooserDialog *self,
 	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (self), TRUE);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_ACCEPT);
 
+	_gtk_dialog_add_to_window_group (GTK_DIALOG (self));
+
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_SAVE, GTK_RESPONSE_OK);
 
-	/**/
+	/* filters */
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("All Supported Files"));
@@ -160,6 +186,17 @@ gth_file_chooser_dialog_construct (GthFileChooserDialog *self,
 
 		g_object_set_data (G_OBJECT (filter), FORMAT_KEY, format);
 	}
+
+	/* extra widget */
+
+	settings = g_settings_new (GTHUMB_SAVE_FILE_SCHEMA);
+
+	self->priv->options_checkbutton = gtk_check_button_new_with_mnemonic ("_Show Format Options");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->options_checkbutton), g_settings_get_boolean (settings, PREF_SAVE_FILE_SHOW_OPTIONS));
+	gtk_widget_show (self->priv->options_checkbutton);
+	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (self), self->priv->options_checkbutton);
+
+	g_object_unref (settings);
 }
 
 
@@ -204,6 +241,46 @@ get_format_from_extension (GthFileChooserDialog *self,
 }
 
 
+static gboolean
+_gth_file_chooser_change_format_options (GthFileChooserDialog *self,
+					 GthImageSaver        *saver)
+{
+	GtkWidget *d;
+	GtkWidget *control;
+	gboolean   result;
+
+	d = gtk_dialog_new_with_buttons (_("Options"),
+					 GTK_WINDOW (self),
+					 GTK_DIALOG_MODAL,
+					 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					 GTK_STOCK_OK, GTK_RESPONSE_OK,
+					 NULL);
+	_gtk_dialog_add_to_window_group (GTK_DIALOG (d));
+
+	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 0);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
+	gtk_window_set_default_size (GTK_WINDOW (d), 400, -1);
+
+	control = gth_image_saver_get_control (saver);
+	if (control == NULL) {
+		gtk_widget_destroy (d);
+		return TRUE;
+	}
+
+	gtk_widget_show (control);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), control);
+
+	result = gtk_dialog_run (GTK_DIALOG (d)) == GTK_RESPONSE_OK;
+	if (result)
+		gth_image_saver_save_options (saver);
+
+	gtk_widget_destroy (d);
+
+	return result;
+}
+
+
 gboolean
 gth_file_chooser_dialog_get_file (GthFileChooserDialog  *self,
 				  GFile                **file,
@@ -231,5 +308,8 @@ gth_file_chooser_dialog_get_file (GthFileChooserDialog  *self,
 	if (mime_type != NULL)
 		*mime_type = gth_image_saver_get_mime_type (format->saver);
 
-	return TRUE;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->options_checkbutton)))
+		return _gth_file_chooser_change_format_options (self, format->saver);
+	else
+		return TRUE;
 }

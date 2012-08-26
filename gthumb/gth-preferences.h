@@ -37,6 +37,7 @@ G_BEGIN_DECLS
 #define GTHUMB_DIALOGS_SCHEMA                 GTHUMB_SCHEMA ".dialogs"
 #define GTHUMB_MESSAGES_SCHEMA                GTHUMB_DIALOGS_SCHEMA ".messages"
 #define GTHUMB_ADD_TO_CATALOG_SCHEMA          GTHUMB_DIALOGS_SCHEMA ".add-to-catalog"
+#define GTHUMB_SAVE_FILE_SCHEMA               GTHUMB_DIALOGS_SCHEMA ".save-file"
 
 /* keys: general */
 
@@ -85,6 +86,10 @@ G_BEGIN_DECLS
 
 #define PREF_ADD_TO_CATALOG_LAST_CATALOG      "last-catalog"
 #define PREF_ADD_TO_CATALOG_VIEW              "view"
+
+/* keys: save file */
+
+#define PREF_SAVE_FILE_SHOW_OPTIONS           "show-options"
 
 /* keys: messages */
 

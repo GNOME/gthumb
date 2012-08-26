@@ -1222,12 +1222,15 @@ save_as_response_cb (GtkDialog  *file_sel,
 	if (! gth_file_chooser_dialog_get_file (GTH_FILE_CHOOSER_DIALOG (file_sel), &file, &mime_type))
 		return;
 
+	gtk_widget_hide (GTK_WIDGET (data->file_sel));
+
 	gth_file_data_set_file (data->file_data, file);
 	_gth_image_viewer_page_real_save ((GthViewerPage *) data->self,
 					  file,
 					  mime_type,
 					  data->func,
 					  data->user_data);
+
 	gtk_widget_destroy (GTK_WIDGET (data->file_sel));
 
 	g_object_unref (file);
