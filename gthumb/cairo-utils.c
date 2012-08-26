@@ -566,20 +566,29 @@ _cairo_image_surface_color_shift (cairo_surface_t *image,
 
 void
 _cairo_copy_line_as_rgba (guchar *dest,
-			 guchar *src,
-			 guint   width,
-			 guint   alpha)
+			  guchar *src,
+			  guint   width,
+			  guint   alpha)
 {
 	guint x;
 
-	for (x = 0; x < width; x++) {
-		*(dest++) = src[CAIRO_RED];
-		*(dest++) = src[CAIRO_GREEN];
-		*(dest++) = src[CAIRO_BLUE];
-		if (alpha)
-			*(dest++) = src[CAIRO_ALPHA];
+	if (alpha) {
+		for (x = 0; x < width; x++) {
+			CAIRO_GET_RGBA (src, dest[0], dest[1], dest[2], dest[3]);
 
-		src += 4;
+			src += 4;
+			dest += 4;
+		}
+	}
+	else {
+		for (x = 0; x < width; x++) {
+			dest[0] = src[CAIRO_RED];
+			dest[1] = src[CAIRO_GREEN];
+			dest[2] = src[CAIRO_BLUE];
+
+			src += 4;
+			dest += 3;
+		}
 	}
 }
 

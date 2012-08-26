@@ -30,7 +30,7 @@
 #include "gth-image-saver-png.h"
 #include "gth-image-saver-tga.h"
 #include "gth-image-saver-tiff.h"
-/*#include "gth-image-saver-webp.h"*/
+#include "gth-image-saver-webp.h"
 #include "preferences.h"
 
 
@@ -66,7 +66,7 @@ gthumb_extension_activate (void)
 					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
 					     "image/webp",
 					     NULL);
-	/*gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_WEBP);*/
+	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_WEBP);
 #endif
 
 	gth_hook_add_callback ("dlg-preferences-construct", 30, G_CALLBACK (ci__dlg_preferences_construct_cb), NULL);

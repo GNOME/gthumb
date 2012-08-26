@@ -2877,8 +2877,9 @@ get_mime_type_from_magic_numbers (void  *buffer,
 		const struct magic * const magic = &magic_ids[i];
 
 		if ((magic->off + magic->len) > buffer_size)
-			g_warning ("buffer underrun for mime-type '%s' magic", magic->mime_type);
-		else if (! memcmp (buffer + magic->off, magic->id, magic->len))
+			continue;
+
+		if (! memcmp (buffer + magic->off, magic->id, magic->len))
 			return magic->mime_type;
 	}
 

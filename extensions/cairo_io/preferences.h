@@ -39,6 +39,7 @@ typedef enum {
 #define GTHUMB_IMAGE_SAVERS_PNG_SCHEMA    GTHUMB_IMAGE_SAVERS ".png"
 #define GTHUMB_IMAGE_SAVERS_TGA_SCHEMA    GTHUMB_IMAGE_SAVERS ".tga"
 #define GTHUMB_IMAGE_SAVERS_TIFF_SCHEMA   GTHUMB_IMAGE_SAVERS ".tiff"
+#define GTHUMB_IMAGE_SAVERS_WEBP_SCHEMA   GTHUMB_IMAGE_SAVERS ".webp"
 
 /* keys: jpeg */
 
@@ -62,6 +63,12 @@ typedef enum {
 #define  PREF_TIFF_COMPRESSION            "compression"
 #define  PREF_TIFF_HORIZONTAL_RES         "horizontal-resolution"
 #define  PREF_TIFF_VERTICAL_RES           "vertical-resolution"
+
+/* keys: webp */
+
+#define  PREF_WEBP_LOSSLESS               "lossless"
+#define  PREF_WEBP_QUALITY                "quality"
+#define  PREF_WEBP_METHOD                 "method"
 
 
 void ci__dlg_preferences_construct_cb (GtkWidget  *dialog,

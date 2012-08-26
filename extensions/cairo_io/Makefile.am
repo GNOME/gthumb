@@ -58,7 +58,9 @@ endif
 if ENABLE_LIBWEBP
 libcairo_io_la_SOURCES +=		\
 	cairo-image-surface-webp.c	\
-	cairo-image-surface-webp.h
+	cairo-image-surface-webp.h	\
+	gth-image-saver-webp.c		\
+	gth-image-saver-webp.h
 endif
 
 libcairo_io_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) $(LIBRSVG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
