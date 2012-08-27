@@ -5,6 +5,6 @@ icon_DATA = filmholes.png
 
 EXTRA_DIST = 		\
 	selection.svg	\
-	$(ui_DATA)
+	$(icon_DATA)
 
 -include $(top_srcdir)/git.mk
