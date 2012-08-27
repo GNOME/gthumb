@@ -34,6 +34,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-async-task.h				\
 	gth-buffer-data.h				\
 	gth-browser.h					\
+	gth-color-scale.h				\
 	gth-dumb-notebook.h				\
 	gth-duplicable.h				\
 	gth-embedded-dialog.h				\
@@ -137,12 +138,18 @@ PRIVATE_HEADER_FILES = 					\
 	main-migrate.h					\
 	$(NULL)
 
+RESOURCES = 						\
+	gth-resources.c					\
+	gth-resources.h					\
+	$(NULL)
+
 gthumb_SOURCES = 					\
 	$(ENUM_TYPES)					\
 	$(MARSHALLERS)					\
 	$(EXTERNAL)					\
 	$(PUBLIC_HEADER_FILES)				\
 	$(PRIVATE_HEADER_FILES)				\
+	$(RESOURCES)					\
 	cairo-scale.c					\
 	cairo-utils.c					\
 	dlg-location.c					\
@@ -159,6 +166,7 @@ gthumb_SOURCES = 					\
 	gth-browser.c					\
 	gth-browser-actions-callbacks.c			\
 	gth-buffer-data.c				\
+	gth-color-scale.c				\
 	gth-dumb-notebook.c				\
 	gth-duplicable.c				\
 	gth-embedded-dialog.c				\
@@ -352,18 +360,34 @@ AUTHORS.tab : $(top_srcdir)/AUTHORS
 	$(AM_V_GEN)( sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp \
 	&& mv $@.tmp $@ )
 
+RESOURCES_DEP = $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies gthumb.gresource.xml)
+
+gth-resources.c: gthumb.gresource.xml $(RESOURCES_DEP)
+	$(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate --c-name gth $(srcdir)/gthumb.gresource.xml
+
+gth-resources.h: gthumb.gresource.xml $(RESOURCES_DEP)
+	$(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate --c-name gth $(srcdir)/gthumb.gresource.xml
+
 gthumbincludedir = $(includedir)/gthumb-$(GTHUMB_API_VERSION)
 gthumbinclude_HEADERS = gthumb.h
 
 gthumbsubincludedir = $(includedir)/gthumb-$(GTHUMB_API_VERSION)/gthumb
 gthumbsubinclude_HEADERS = $(PUBLIC_HEADER_FILES)
 
-BUILT_SOURCES = AUTHORS.tab gthumb.h $(MARSHALLERS) $(ENUM_TYPES)
+BUILT_SOURCES = 		\
+	AUTHORS.tab		\
+	gthumb.h		\
+	$(MARSHALLERS)		\
+	$(ENUM_TYPES)		\
+	$(RESOURCES)		\
+	$(NULL)
+	
 CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = 			\
 	gth-marshal.list	\
 	gthumb.h.template	\
+	gthumb.gresource.xml	\
 	make-header.sh
 
 dist-hook:

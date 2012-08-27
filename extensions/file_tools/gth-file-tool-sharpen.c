@@ -309,15 +309,18 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	gtk_widget_show_all (image_navigator);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_hbox")), image_navigator, TRUE, TRUE, 0);
 
-	self->priv->amount_adj = gimp_scale_entry_new (GET_WIDGET ("amount_hbox"),
-						       GTK_LABEL (GET_WIDGET ("amount_label")),
-						       DEFAULT_AMOUNT, 0.0, 500.0, 1.0, 10.0, 0);
-	self->priv->radius_adj = gimp_scale_entry_new (GET_WIDGET ("radius_hbox"),
-						       GTK_LABEL (GET_WIDGET ("radius_label")),
-						       DEFAULT_RADIUS, 0.0, 10.0, 1.0, 1.0, 0);
-	self->priv->threshold_adj = gimp_scale_entry_new (GET_WIDGET ("threshold_hbox"),
-							  GTK_LABEL (GET_WIDGET ("threshold_label")),
-							  DEFAULT_THRESHOLD, 0.0, 255.0, 1.0, 10.0, 0);
+	self->priv->amount_adj = gth_color_scale_label_new (GET_WIDGET ("amount_hbox"),
+						            GTK_LABEL (GET_WIDGET ("amount_label")),
+						            GTH_COLOR_SCALE_DEFAULT,
+						            DEFAULT_AMOUNT, 0.0, 500.0, 1.0, 1.0, "%.0f");
+	self->priv->radius_adj = gth_color_scale_label_new (GET_WIDGET ("radius_hbox"),
+						            GTK_LABEL (GET_WIDGET ("radius_label")),
+						            GTH_COLOR_SCALE_DEFAULT,
+						            DEFAULT_RADIUS, 0.0, 10.0, 1.0, 1.0, "%.0f");
+	self->priv->threshold_adj = gth_color_scale_label_new (GET_WIDGET ("threshold_hbox"),
+							       GTK_LABEL (GET_WIDGET ("threshold_label")),
+							       GTH_COLOR_SCALE_DEFAULT,
+							       DEFAULT_THRESHOLD, 0.0, 255.0, 1.0, 1.0, "%.0f");
 
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",

@@ -385,17 +385,20 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 
 	self->priv->builder = _gtk_builder_new_from_file ("rotate-options.ui", "file_tools");
 
-	self->priv->rotation_angle_adj = gimp_scale_entry_new (GET_WIDGET ("rotation_angle_hbox"),
-							       GTK_LABEL (GET_WIDGET ("rotation_angle_label")),
-							       0.0, -180.0, 180.0, 0.1, 1.0, 1);
+	self->priv->rotation_angle_adj = gth_color_scale_label_new (GET_WIDGET ("rotation_angle_hbox"),
+								    GTK_LABEL (GET_WIDGET ("rotation_angle_label")),
+								    GTH_COLOR_SCALE_DEFAULT,
+								    0.0, -180.0, 180.0, 0.1, 1.0, "%+.1f°");
 
-	self->priv->crop_p1_adj = gimp_scale_entry_new (GET_WIDGET ("crop_p1_hbox"),
-							GTK_LABEL (GET_WIDGET ("crop_p1_label")),
-							1.0, 0.0, 1.0, 0.001, 0.01, 3);
+	self->priv->crop_p1_adj = gth_color_scale_label_new (GET_WIDGET ("crop_p1_hbox"),
+							     GTK_LABEL (GET_WIDGET ("crop_p1_label")),
+							     GTH_COLOR_SCALE_DEFAULT,
+							     1.0, 0.0, 1.0, 0.001, 0.01, "%.3f");
 
-	self->priv->crop_p2_adj = gimp_scale_entry_new (GET_WIDGET ("crop_p2_hbox"),
-							GTK_LABEL (GET_WIDGET ("crop_p2_label")),
-							1.0, 0.0, 1.0, 0.001, 0.01, 3);
+	self->priv->crop_p2_adj = gth_color_scale_label_new (GET_WIDGET ("crop_p2_hbox"),
+							     GTK_LABEL (GET_WIDGET ("crop_p2_label")),
+							     GTH_COLOR_SCALE_DEFAULT,
+							     1.0, 0.0, 1.0, 0.001, 0.01, "%.3f");
 
 	self->priv->crop_grid = _gtk_combo_box_new_with_texts (_("None"),
 							       _("Rule of Thirds"),

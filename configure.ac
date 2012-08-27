@@ -29,7 +29,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 LT_INIT
 
-AC_SEARCH_LIBS([strerror],[cposix])
+AC_SEARCH_LIBS([strerror],[cposix], [])
 
 AC_PROG_CC
 AC_DIAGNOSE([obsolete],[AM_PROG_CC_STDC:
@@ -45,8 +45,9 @@ AC_C_BIGENDIAN
 AC_PROG_CPP
 AC_PROG_CXX
 
-AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
-AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
+AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal, glib-genmarshal)
+AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums, glib-mkenums)
+AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources, glib-compile-resources)
 
 GNOME_COMMON_INIT
 GNOME_DOC_INIT
@@ -153,11 +154,6 @@ PKG_CHECK_MODULES(GTHUMB, [
 ])
 AC_SUBST(GTHUMB_LIBS)
 AC_SUBST(GTHUMB_CFLAGS)
-
-dnl ===========================================================================
-
-AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
-AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
 
 dnl ===========================================================================
 
@@ -733,6 +729,7 @@ extensions/webalbums/data/albumthemes/NeatRound/Makefile
 extensions/webalbums/data/albumthemes/Wiki/Makefile
 extensions/webalbums/data/ui/Makefile
 gthumb/Makefile
+gthumb/resources/Makefile
 po/Makefile.in
 tests/Makefile
 ])

@@ -205,10 +205,36 @@ gth_window_real_set_current_page (GthWindow *window,
 static void
 gth_window_realize (GtkWidget *widget)
 {
+	GdkScreen      *screen;
+	GBytes         *bytes;
+	gconstpointer   css_data;
+	gsize           css_data_size;
+	GtkCssProvider *css_provider;
+	GError         *error = NULL;
+
 	GTK_WIDGET_CLASS (gth_window_parent_class)->realize (widget);
 
-	gtk_icon_theme_append_search_path (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)),
-					   GTHUMB_ICON_DIR);
+	screen = gtk_widget_get_screen (widget);
+	gtk_icon_theme_append_search_path (gtk_icon_theme_get_for_screen (screen), GTHUMB_ICON_DIR);
+
+	bytes = g_resources_lookup_data ("/org/gnome/gThumb/resources/gthumb.css", 0, &error);
+	if (bytes == NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+		return;
+	}
+
+	css_data = g_bytes_get_data (bytes, &css_data_size);
+	css_provider = gtk_css_provider_new ();
+	if (! gtk_css_provider_load_from_data (css_provider, css_data, css_data_size, &error)) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+	gtk_style_context_add_provider_for_screen (screen,
+						   GTK_STYLE_PROVIDER (css_provider),
+						   GTK_STYLE_PROVIDER_PRIORITY_THEME);
+
+	g_object_unref (css_provider);
 }
 
 
