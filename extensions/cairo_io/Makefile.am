@@ -39,6 +39,7 @@ libcairo_io_la_SOURCES = 		\
         gth-image-saver-tiff.c        	\
         gth-image-saver-tiff.h        	\
         preferences.c			\
+        preferences.h			\
 	main.c
 
 if ENABLE_JPEG_TOOLS
