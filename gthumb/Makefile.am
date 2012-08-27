@@ -1,3 +1,5 @@
+SUBDIRS = resources
+
 bin_PROGRAMS = gthumb
 
 ENUM_TYPES =						\
