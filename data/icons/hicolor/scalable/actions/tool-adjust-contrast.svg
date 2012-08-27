@@ -108,8 +108,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="-0.91030125"
-     inkscape:cy="323.18656"
+     inkscape:cx="246.10285"
+     inkscape:cy="673.85148"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -135,24 +135,16 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g3908"
-       transform="translate(848.52814,-608.11183)"
+       id="g3822"
+       transform="matrix(0.91296955,0,0,0.91296955,30.3328,46.913324)"
        inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/22x22/actions/tool-adjust-contrast.png"
-       inkscape:export-xdpi="2.7049181"
-       inkscape:export-ydpi="2.7049181">
+       inkscape:export-xdpi="2.6704361"
+       inkscape:export-ydpi="2.6704361">
       <path
-         inkscape:export-ydpi="2"
-         inkscape:export-xdpi="2"
+         inkscape:export-ydpi="1.9421355"
+         inkscape:export-xdpi="1.9421355"
          inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/16x16/actions/tool-adjust-contrast.png"
-         id="path3100"
-         d="m -499.07464,760.21171 0,22.59375 0,94.09375 c 8.16871,-0.76582 16.44039,-1.15625 24.8125,-1.15625 6.85393,0 13.65522,0.26585 20.375,0.78125 l 0,-93.71875 0,-22.59375 -45.1875,0 z m -220.21875,91.21875 -31.96875,31.9375 15.96875,15.96875 64.9375,64.9375 c 9.93176,-11.3417 20.86815,-21.78166 32.65625,-31.25 l -65.625,-65.625 -15.96875,-15.96875 z m 485.625,0 -15.96875,15.96875 -63.65625,63.65625 c 11.90751,9.32817 22.96149,19.65507 33.03125,30.875 l 62.59375,-62.59375 15.96875,-15.96875 -31.96875,-31.9375 z m -608.8125,252.18754 0,45.1875 22.59375,0 87.28125,0 c -0.40804,-5.8619 -0.625,-11.7548 -0.625,-17.7188 0,-9.2761 0.52192,-18.4486 1.5,-27.4687 l -88.15625,0 -22.59375,0 z m 625.6875,0 c 0.97808,9.0201 1.5,18.1926 1.5,27.4687 0,5.964 -0.21696,11.8569 -0.625,17.7188 l 82.84375,0 22.59375,0 0,-45.1875 -22.59375,0 -83.71875,0 z m -458.03125,188.9687 -60.46875,60.4688 -15.96875,15.9687 31.96875,31.9375 15.96875,-15.9688 60.28125,-60.2812 c -11.51639,-9.768 -22.16045,-20.5255 -31.78125,-32.125 z m 399.09375,2.4063 c -9.75995,11.4791 -20.51976,22.1201 -32.15625,31.75 l 58.25,58.2499 15.96875,15.9688 31.96875,-31.9375 -15.96875,-15.9687 -58.0625,-58.0625 z m -223.34375,90.2499 0,84.375 0,22.5938 45.1875,0 0,-22.5938 0,-83.9687 c -6.71971,0.5154 -13.52114,0.7813 -20.375,0.7813 -8.37233,0 -16.64358,-0.4217 -24.8125,-1.1876 z"
-         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:45.18518448;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
-         inkscape:connector-curvature="0" />
-      <path
-         inkscape:export-ydpi="2.9603195"
-         inkscape:export-xdpi="2.9603195"
-         inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/16x16/actions/tool-adjust-contrast.png"
-         transform="matrix(1.5954303,0,0,1.5954303,-945.70968,100.64768)"
+         transform="matrix(2.3131161,0,0,2.3131161,-309.24545,-954.90928)"
          d="m 438,645.86218 c 0,77.59601 -63.79942,140.5 -142.5,140.5 -78.70058,0 -142.5,-62.90399 -142.5,-140.5 0,-77.596 63.79942,-140.5 142.5,-140.5 78.70058,0 142.5,62.904 142.5,140.5 z"
          sodipodi:ry="140.5"
          sodipodi:rx="142.5"
@@ -162,9 +154,9 @@
          style="fill:#000000;fill-opacity:1;stroke:none"
          sodipodi:type="arc" />
       <g
-         transform="matrix(1.0752139,0,0,1.0752139,-827.16765,310.43055)"
-         inkscape:export-ydpi="2"
-         inkscape:export-xdpi="2"
+         transform="matrix(1.5588864,0,0,1.5588864,-137.37867,-650.75803)"
+         inkscape:export-ydpi="1.9421355"
+         inkscape:export-xdpi="1.9421355"
          inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/16x16/actions/tool-adjust-contrast.png"
          id="g3120">
         <path
@@ -187,5 +179,23 @@
            style="fill:#ffffff;fill-opacity:1;stroke:none" />
       </g>
     </g>
+    <rect
+       style="opacity:0.54316544;fill:none;stroke:none"
+       id="rect3815"
+       width="741.45197"
+       height="741.45197"
+       x="17.4837"
+       y="163.42795"
+       inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/22x22/actions/tool-adjust-contrast.png"
+       inkscape:export-xdpi="2.6704361"
+       inkscape:export-ydpi="2.6704361" />
+    <path
+       inkscape:connector-curvature="0"
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:45.18518448;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       d="m 21.679655,417.26543 21.111004,8.39373 87.918671,34.95645 c 2.31916,-7.91711 5.02734,-15.79101 8.13764,-23.61368 2.54628,-6.40414 5.32139,-12.6603 8.29941,-18.74762 L 59.578104,383.43718 38.467113,375.04345 21.679655,417.26543 z m 3.419626,239.65487 17.964961,41.73574 20.853263,-8.98828 84.800575,-36.55116 c -6.90766,-13.49348 -12.59954,-27.59066 -17.06715,-42.1227 L 45.952557,647.93203 25.0993,656.9203 z M 205.5122,203.16533 l 8.98826,20.85327 35.82998,83.12742 c 13.13971,-7.66059 26.89551,-14.15262 41.12011,-19.39326 l -35.23192,-81.73992 -8.98829,-20.85327 -41.71815,18.00573 z m 9.45937,662.54742 42.22199,16.78747 8.39373,-21.111 32.42558,-81.55327 c -5.62879,-1.79647 -11.21556,-3.783 -16.78816,-5.99867 -8.66735,-3.44614 -17.04399,-7.34144 -25.10877,-11.60636 l -32.75063,82.37084 -8.39374,21.11099 z M 447.41865,281.08712 c 8.7915,2.43714 17.55593,5.35711 26.22327,8.80325 5.5726,2.21567 10.99818,4.60764 16.3238,7.16663 l 30.777,-77.40698 8.39372,-21.11099 -42.22199,-16.78746 -8.39372,21.111 -31.10208,78.22455 z m 6.40563,498.17526 34.03588,78.96494 8.98823,20.85325 41.71814,-18.00573 -8.98831,-20.85329 -33.93025,-78.72006 c -13.40538,7.13174 -27.41123,13.08078 -41.82368,17.7609 z M 604.33865,407.25382 c 7.09988,13.38401 13.04519,27.39088 17.72008,41.84128 l 76.06741,-32.78701 20.85332,-8.98825 -17.96496,-41.73574 -20.85322,8.9883 -75.82265,32.68143 z m 1.3534,242.21486 78.83774,31.34587 21.11104,8.39375 16.78746,-42.22198 -21.11105,-8.39375 -78.45811,-31.19494 c -2.01483,6.4702 -4.29316,12.92405 -6.83941,19.32811 -3.11038,7.82288 -6.57722,15.39465 -10.32767,22.74294 z"
+       id="path3838"
+       inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/22x22/actions/tool-adjust-contrast.png"
+       inkscape:export-xdpi="2.6704361"
+       inkscape:export-ydpi="2.6704361" />
   </g>
 </svg>
