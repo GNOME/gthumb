@@ -707,6 +707,8 @@ gthumb/gth-browser.h
 gthumb/gth-browser-ui.h
 gthumb/gth-buffer-data.c
 gthumb/gth-buffer-data.h
+gthumb/gth-color-scale.c
+gthumb/gth-color-scale.h
 gthumb/gth-dumb-notebook.c
 gthumb/gth-dumb-notebook.h
 gthumb/gth-duplicable.c
