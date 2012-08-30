@@ -134,6 +134,7 @@ static const char *fixed_ui_info =
 "    <toolitem action='View_Prev'/>"
 "    <toolitem action='View_Next'/>"
 "    <separator/>"
+"    <toolitem action='View_Fullscreen'/>"
 "    <placeholder name='ViewerCommands'/>"
 "    <separator/>"
 "    <placeholder name='Edit_Actions'/>"
