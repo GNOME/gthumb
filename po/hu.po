@@ -5,7 +5,7 @@
 # Andras Timar <timar at gnome dot hu>, 2003, 2004.
 # Laszlo Dvornik <dvornik at gnome dot hu>, 2004.
 # Balazs Ur <urbalazs at gmail dot com>, 2011.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2005, 2007, 2009, 2011.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2005, 2007, 2009, 2011, 2012.
 # Balázs Úr <urbalazs at gmail dot com>, 2012.
 msgid ""
 msgstr ""
@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2012-08-30 10:27+0000\n"
-"PO-Revision-Date: 2012-09-02 13:54+0200\n"
-"Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
+"PO-Revision-Date: 2012-09-03 15:57+0200\n"
+"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -663,12 +663,12 @@ msgstr "_Létrehozás"
 #: ../extensions/catalogs/actions.c:290
 #: ../extensions/catalogs/dlg-add-to-catalog.c:471
 msgid "New library"
-msgstr "Új programkönyvtár"
+msgstr "Új gyűjtemény"
 
 #: ../extensions/catalogs/actions.c:291
 #: ../extensions/catalogs/dlg-add-to-catalog.c:472
 msgid "Enter the library name:"
-msgstr "Adja meg a programkönyvtár nevét:"
+msgstr "Adja meg a gyűjtemény nevét:"
 
 #: ../extensions/catalogs/actions.c:326
 msgid "Could not remove the catalog"
@@ -923,7 +923,7 @@ msgstr "A(z) „%s” katalógus már létezik, szeretné felülírni?"
 #: ../extensions/catalogs/gth-file-source-catalogs.c:955
 #, c-format
 msgid "The library '%s' already exists, do you want to overwrite it?"
-msgstr "A(z) „%s” programkönyvtár már létezik, szeretné felülírni?"
+msgstr "A(z) „%s” gyűjtemény már létezik, szeretné felülírni?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:963
 msgid "Over_write"
@@ -1052,7 +1052,7 @@ msgstr "Beágyazott metaadat importálása"
 #: ../extensions/comments/callbacks.c:47
 msgid "Import the metadata stored inside files into the gThumb comment system"
 msgstr ""
-"A fájlokon belül tárolt metaadatok importálása a gThumb megjegyzés rendszerbe"
+"A fájlokon belül tárolt metaadatok importálása a gThumb megjegyzésrendszerébe"
 
 #: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Comments and tags"
@@ -1248,7 +1248,7 @@ msgstr "A jelenlegi oldalszám"
 #: ../extensions/image_print/data/ui/print-layout.ui.h:6
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
 msgid "The total number of pages"
-msgstr "Az összes oldal száma"
+msgstr "Az oldalak teljes száma"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
@@ -1420,7 +1420,7 @@ msgstr "Lábléc"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:193
 msgid "Theme Properties"
-msgstr "Téma tulajdonságok"
+msgstr "Téma tulajdonságai"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:208
 msgid "Copy _From"
@@ -1614,7 +1614,7 @@ msgstr "Ne módosítsa"
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:80
 #, c-format
 msgid "%s Tags"
-msgstr "%s címkék"
+msgstr "%s címkéi"
 
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:189
 msgid "Assign Tags"
@@ -2466,7 +2466,7 @@ msgstr "Rács:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:8
 msgid "Pick a background color"
-msgstr "Háttérszín kiválasztása"
+msgstr "Válasszon háttérszínt"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:9
 msgid "_Transparent"
@@ -2485,7 +2485,7 @@ msgid ""
 "Draw a line on the image \n"
 "to set the alignment."
 msgstr ""
-"Vonal rajzolása a képre \n"
+"Rajzoljon egy vonalat a képre\n"
 "az igazítás beállításához."
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
@@ -2867,7 +2867,7 @@ msgstr "Azonosak"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:997
 msgid "Select"
-msgstr "Kijelölés"
+msgstr "Válasszon"
 
 #: ../extensions/flicker/callbacks.c:59 ../extensions/flicker/callbacks.c:64
 msgid "_Flickr..."
@@ -3125,7 +3125,7 @@ msgstr "Középre igazított"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:13
 msgid "The total number of files"
-msgstr "Az összes fájl száma"
+msgstr "A fájlok teljes száma"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:14
 #: ../extensions/importer/data/ui/import-preferences.ui.h:4
@@ -3174,15 +3174,15 @@ msgstr "hüvelyk"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
 msgid "Select Caption Font"
-msgstr "Felirat betűkészlet kiválasztása"
+msgstr "Válassza ki a felirat betűkészletét"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
 msgid "Select Header Font"
-msgstr "Fejléc betűkészlet kiválasztása"
+msgstr "Válassza ki a fejléc betűkészletét"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:6
 msgid "Select Footer Font"
-msgstr "Lábléc betűkészlet kiválasztása"
+msgstr "Válassza ki a lábléc betűkészletét"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:7
 msgid "Fonts"
@@ -3543,7 +3543,7 @@ msgid ""
 "Not enough free space in '%s'.\n"
 "%s of space is required but only %s is available."
 msgstr ""
-"Nincs elég szabad hely ezen: „%s”.\n"
+"Nincs elég szabad hely itt: „%s”.\n"
 "%s hely szükséges, de csak %s érhető el."
 
 #: ../extensions/list_tools/callbacks.c:76 ../gthumb/gth-filterbar.c:304
@@ -3750,7 +3750,7 @@ msgstr "Térkép"
 #. No GPS label
 #: ../extensions/map_view/gth-map-view.c:276
 msgid "The geographical position information is not available for this image."
-msgstr "A földrajzi pozíció információk nem érhetők el ehhez a képhez."
+msgstr "A földrajzi pozícióinformációi nem érhetők el ehhez a képhez."
 
 #: ../extensions/map_view/map_view.extension.in.in.h:2
 msgid "View the photo position on the map"
@@ -4404,7 +4404,7 @@ msgstr "Kijelölések"
 
 #: ../extensions/selections/selections.extension.in.in.h:2
 msgid "Advanced file selection."
-msgstr "Speciális fájl kiválasztás."
+msgstr "Speciális fájlkijelölés."
 
 #: ../extensions/slideshow/callbacks.c:56
 msgid "_Slideshow"
@@ -4605,7 +4605,7 @@ msgstr "A jelenlegi képszám"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
 msgid "The total number of images"
-msgstr "Az összes kép száma"
+msgstr "A képek teljes száma"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
 msgid "The file comment"
@@ -5545,7 +5545,7 @@ msgstr "_Linkelés ide"
 
 #: ../gthumb/gtk-utils.c:1012
 msgid "Cancel"
-msgstr "Mégsem"
+msgstr "Mégse"
 
 #: ../gthumb/main.c:59
 msgid "Open a new window"
