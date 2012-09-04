@@ -29,7 +29,8 @@ libflicker_utils_la_SOURCES = 			\
 	flickr-types.h				\
 	flickr-user.c				\
 	flickr-user.h				\
-	main.c
+	main.c					\
+	preferences.h
 
 libflicker_utils_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libflicker_utils_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

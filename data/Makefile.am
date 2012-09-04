@@ -18,6 +18,7 @@ gsettings_schema_in_files = 					\
 	org.gnome.gthumb.crop.gschema.xml.in			\
 	org.gnome.gthumb.facebook.gschema.xml.in		\
 	org.gnome.gthumb.file-manager.gschema.xml.in		\
+	org.gnome.gthumb.flickr.gschema.xml.in			\
 	org.gnome.gthumb.gstreamer-tools.gschema.xml.in		\
 	org.gnome.gthumb.image-print.gschema.xml.in		\
 	org.gnome.gthumb.image-viewer.gschema.xml.in		\

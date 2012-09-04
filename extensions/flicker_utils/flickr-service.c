@@ -41,6 +41,8 @@ typedef struct {
 	FlickrPrivacyType    privacy_level;
 	FlickrSafetyType     safety_level;
 	gboolean             hidden;
+	int                  max_width;
+	int                  max_height;
 	GList               *file_list;
 	GCancellable        *cancellable;
         GAsyncReadyCallback  callback;
@@ -765,6 +767,8 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 	SoupMultipart *multipart;
 	char          *uri;
 	SoupBuffer    *body;
+	void          *resized_buffer;
+	gsize          resized_count;
 	SoupMessage   *msg;
 
 	if (error != NULL) {
@@ -823,8 +827,28 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 
 	/* the file part */
 
+	if (_g_buffer_resize_image (*buffer,
+				    count,
+				    file_data,
+				    self->priv->post_photos->max_width,
+				    self->priv->post_photos->max_height,
+				    &resized_buffer,
+				    &resized_count,
+				    self->priv->post_photos->cancellable,
+				    &error))
+	{
+		body = soup_buffer_new (SOUP_MEMORY_TAKE, resized_buffer, resized_count);
+	}
+	else if (error == NULL) {
+		body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
+	}
+	else {
+		soup_multipart_free (multipart);
+		post_photos_done (self, error);
+		return;
+	}
+
 	uri = g_file_get_uri (file_data->file);
-	body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
 	soup_multipart_append_form_file (multipart,
 					 "photo",
 					 uri,
@@ -906,6 +930,8 @@ flickr_service_post_photos (FlickrService       *self,
 			    FlickrPrivacyType    privacy_level,
 			    FlickrSafetyType     safety_level,
 			    gboolean             hidden,
+			    int                  max_width,
+			    int                  max_height,
 			    GList               *file_list, /* GFile list */
 			    GCancellable        *cancellable,
 			    GAsyncReadyCallback  callback,
@@ -918,6 +944,8 @@ flickr_service_post_photos (FlickrService       *self,
 	self->priv->post_photos->privacy_level = privacy_level;
 	self->priv->post_photos->safety_level = safety_level;
 	self->priv->post_photos->hidden = hidden;
+	self->priv->post_photos->max_width = max_width;
+	self->priv->post_photos->max_height = max_height;
 	self->priv->post_photos->cancellable = _g_object_ref (cancellable);
 	self->priv->post_photos->callback = callback;
 	self->priv->post_photos->user_data = user_data;

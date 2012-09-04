@@ -27,6 +27,7 @@
 #include "flickr-photoset.h"
 #include "flickr-service.h"
 #include "flickr-user.h"
+#include "preferences.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (data->builder, (x)))
@@ -50,6 +51,7 @@ enum {
 typedef struct {
 	FlickrServer         *server;
 	GthBrowser           *browser;
+	GSettings            *settings;
 	GthFileData          *location;
 	GList                *file_list;
 	GtkBuilder           *builder;
@@ -86,6 +88,7 @@ destroy_dialog (DialogData *data)
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
+	g_object_unref (data->settings);
 	g_free (data);
 }
 
@@ -301,6 +304,8 @@ export_dialog_response_cb (GtkDialog *dialog,
 		{
 			const char *photoset_title;
 			GList      *file_list;
+			int         max_width;
+			int         max_height;
 
 			gtk_widget_hide (data->dialog);
 			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
@@ -321,10 +326,23 @@ export_dialog_response_cb (GtkDialog *dialog,
 			}
 
 			file_list = gth_file_data_list_to_file_list (data->file_list);
+
+			max_width = -1;
+			max_height = -1;
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_checkbutton")))) {
+				int idx = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")));
+				max_width = ImageSizeValues[idx].width;
+				max_height = ImageSizeValues[idx].height;
+			}
+			g_settings_set_int (data->settings, PREF_FLICKR_RESIZE_WIDTH, max_width);
+			g_settings_set_int (data->settings, PREF_FLICKR_RESIZE_HEIGHT, max_height);
+
 			flickr_service_post_photos (data->service,
 						    gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("privacy_combobox"))),
 						    gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("safety_combobox"))),
 						    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("hidden_checkbutton"))),
+						    max_width,
+						    max_height,
 						    file_list,
 						    data->cancellable,
 						    post_photos_ready_cb,
@@ -479,6 +497,21 @@ account_combobox_changed_cb (GtkComboBox *widget,
 }
 
 
+static void
+update_sensitivity (DialogData *data)
+{
+	gtk_widget_set_sensitive (GET_WIDGET ("resize_combobox"), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_checkbutton"))));
+}
+
+
+static void
+resize_checkbutton_toggled_cb (GtkToggleButton *button,
+			       gpointer         user_data)
+{
+	update_sensitivity (user_data);
+}
+
+
 void
 dlg_export_to_flickr (FlickrServer *server,
 		      GthBrowser   *browser,
@@ -495,6 +528,7 @@ dlg_export_to_flickr (FlickrServer *server,
 	data = g_new0 (DialogData, 1);
 	data->server = server;
 	data->browser = browser;
+	data->settings = g_settings_new (GTHUMB_FLICKR_SCHEMA);
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("export-to-flickr.ui", "flicker_utils");
 	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
@@ -590,6 +624,13 @@ dlg_export_to_flickr (FlickrServer *server,
 	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 	g_free (title);
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_checkbutton")),
+				      g_settings_get_int (data->settings, PREF_FLICKR_RESIZE_WIDTH) != -1);
+
+	_gtk_combo_box_add_image_sizes (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")),
+					g_settings_get_int (data->settings, PREF_FLICKR_RESIZE_WIDTH),
+					g_settings_get_int (data->settings, PREF_FLICKR_RESIZE_HEIGHT));
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (data->dialog,
@@ -608,6 +649,12 @@ dlg_export_to_flickr (FlickrServer *server,
 			  "changed",
 			  G_CALLBACK (account_combobox_changed_cb),
 			  data);
+	g_signal_connect (GET_WIDGET ("resize_checkbutton"),
+			  "toggled",
+			  G_CALLBACK (resize_checkbutton_toggled_cb),
+			  data);
+
+	update_sensitivity (data);
 
 	data->conn = flickr_connection_new (data->server);
 	data->service = flickr_service_new (data->conn);

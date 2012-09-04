@@ -102,6 +102,8 @@ void              flickr_service_post_photos              (FlickrService        
 							   FlickrPrivacyType     privacy_level,
 							   FlickrSafetyType      safety_level,
 							   gboolean              hidden,
+							   int                   max_width,
+							   int                   max_height,
 						           GList                *file_list, /* GFile list */
 						           GCancellable         *cancellable,
 						           GAsyncReadyCallback   callback,
