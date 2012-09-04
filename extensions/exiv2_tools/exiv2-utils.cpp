@@ -1040,12 +1040,16 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 	if (surface != NULL) {
 		width = cairo_image_surface_get_width (surface);
-		if (width > 0)
+		if (width > 0) {
 			ed["Exif.Photo.PixelXDimension"] = width;
+			ed["Exif.Image.ImageWidth"] = width;
+		}
 
 		height = cairo_image_surface_get_height (surface);
-		if (height > 0)
+		if (height > 0) {
 			ed["Exif.Photo.PixelYDimension"] = height;
+			ed["Exif.Image.ImageLength"] = height;
+		}
 
 		ed["Exif.Image.Orientation"] = 1;
 	}
