@@ -21,8 +21,9 @@
 
 #include <config.h>
 #include <string.h>
+#include "gth-image-utils.h"
 #include "gtk-utils.h"
-#include "pixbuf-utils.h"
+
 
 #define REQUEST_ENTRY_WIDTH_IN_CHARS 40
 
@@ -1027,4 +1028,36 @@ _gtk_widget_get_icon_theme (GtkWidget *widget)
 		return NULL;
 
 	return gtk_icon_theme_get_for_screen (screen);
+}
+
+
+void
+_gtk_combo_box_add_image_sizes (GtkComboBox *combo_box,
+				int          active_width,
+				int          active_height)
+{
+	GtkListStore *list_store;
+	int           active_index;
+	int           i;
+
+	list_store = GTK_LIST_STORE (gtk_combo_box_get_model (combo_box));
+	active_index = 0;
+	for (i = 1; i < G_N_ELEMENTS (ImageSizeValues); i++) {
+		GtkTreeIter  iter;
+		char        *name;
+
+		gtk_list_store_append (list_store, &iter);
+
+		if ((ImageSizeValues[i].width == active_width) && (ImageSizeValues[i].height == active_height))
+			active_index = i;
+
+		/* Translators: this is an image size, such as 1024 × 768 */
+		name = g_strdup_printf (_("%d × %d"), ImageSizeValues[i].width, ImageSizeValues[i].height);
+		gtk_list_store_set (list_store, &iter,
+				    0, name,
+				    -1);
+
+		g_free (name);
+	}
+	gtk_combo_box_set_active (combo_box, active_index);
 }

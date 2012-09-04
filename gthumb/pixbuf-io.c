@@ -28,6 +28,7 @@
 #include "gth-error.h"
 #include "gth-hook.h"
 #include "gth-main.h"
+#include "gth-image-utils.h"
 #include "gth-image-saver.h"
 #include "pixbuf-io.h"
 #include "pixbuf-utils.h"

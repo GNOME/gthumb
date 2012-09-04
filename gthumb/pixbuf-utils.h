@@ -40,19 +40,6 @@ GdkPixbuf * _gdk_pixbuf_transform                (GdkPixbuf       *src,
 					          GthTransform     transform);
 char *      _gdk_pixbuf_get_type_from_mime_type  (const char      *mime_type);
 
-gboolean    scale_keeping_ratio_min              (int             *width,
-					          int             *height,
-					          int              min_width,
-					          int              min_height,
-					          int              max_width,
-					          int              max_height,
-					          gboolean         allow_upscaling);
-gboolean    scale_keeping_ratio                  (int             *width,
-					          int             *height,
-					          int              max_width,
-					          int              max_height,
-					          gboolean         allow_upscaling);
-
 G_END_DECLS
 
 #endif

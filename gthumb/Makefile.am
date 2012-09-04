@@ -73,6 +73,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-saver.h				\
 	gth-image-selector.h				\
 	gth-image-task.h				\
+	gth-image-utils.h				\
 	gth-image-viewer.h				\
 	gth-image-viewer-tool.h				\
 	gth-info-bar.h					\
@@ -205,6 +206,7 @@ gthumb_SOURCES = 					\
 	gth-image-saver.c				\
 	gth-image-selector.c				\
 	gth-image-task.c				\
+	gth-image-utils.c				\
 	gth-image-viewer.c				\
 	gth-image-viewer-tool.c				\
 	gth-info-bar.c					\

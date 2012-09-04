@@ -131,6 +131,9 @@ gboolean        _gdk_rgba_darker                           (GdkRGBA          *co
 gboolean        _gdk_rgba_lighter                          (GdkRGBA          *color,
 							    GdkRGBA          *result);
 GtkIconTheme *  _gtk_widget_get_icon_theme                 (GtkWidget        *widget);
+void            _gtk_combo_box_add_image_sizes             (GtkComboBox      *combo_box,
+							    int               active_width,
+							    int               active_height);
 
 G_END_DECLS
 
