@@ -22,10 +22,10 @@
 #ifndef GTH_IMAGE_UTILS_H
 #define GTH_IMAGE_UTILS_H
 
-
 #include <glib.h>
 #include "gth-file-data.h"
 
+G_BEGIN_DECLS
 
 typedef enum /*< skip >*/ {
 	IMAGE_SIZE_320x200,
@@ -72,5 +72,7 @@ gboolean    _g_buffer_resize_image               (void            *buffer,
 						  gsize           *resized_count,
 						  GCancellable    *cancellable,
 						  GError         **error);
+
+G_END_DECLS
 
 #endif /* GTH_IMAGE_UTILS_H */

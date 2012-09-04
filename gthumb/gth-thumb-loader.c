@@ -35,6 +35,7 @@
 #include "gnome-desktop-thumbnail.h"
 #include "gth-error.h"
 #include "gth-image-loader.h"
+#include "gth-image-utils.h"
 #include "gth-main.h"
 #include "gth-thumb-loader.h"
 #include "pixbuf-io.h"
