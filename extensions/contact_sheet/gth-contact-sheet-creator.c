@@ -356,6 +356,7 @@ end_page (GthContactSheetCreator  *self,
 	gth_image_set_cairo_surface (image, cairo_get_target (self->priv->cr));
 	if (! gth_image_save_to_buffer (image,
 					self->priv->mime_type,
+					NULL,
 					&buffer,
 					&size,
 					error))

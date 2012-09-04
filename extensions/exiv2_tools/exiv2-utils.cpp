@@ -1062,7 +1062,13 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		scale_keeping_ratio (&width, &height, 128, 128, FALSE);
 		thumbnail = _cairo_image_surface_scale (surface, width, height, SCALE_FILTER_BEST, NULL);
 		thumbnail_data = gth_image_new_for_surface (thumbnail);
-		if (gth_image_save_to_buffer (thumbnail_data, "image/jpeg", &buffer, &buffer_size, NULL)) {
+		if (gth_image_save_to_buffer (thumbnail_data,
+					      "image/jpeg",
+					      NULL,
+					      &buffer,
+					      &buffer_size,
+					      NULL))
+		{
 			thumb.setJpegThumbnail ((Exiv2::byte *) buffer, buffer_size);
 			ed["Exif.Thumbnail.XResolution"] = 72;
 			ed["Exif.Thumbnail.YResolution"] = 72;
@@ -1229,7 +1235,7 @@ extern "C"
 gboolean
 exiv2_write_metadata (GthImageSaveData *data)
 {
-	if (exiv2_supports_writes (data->mime_type)) {
+	if (exiv2_supports_writes (data->mime_type) && (data->file_data != NULL)) {
 		try {
 			Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) data->buffer, data->buffer_size);
 			g_assert (image.get() != 0);

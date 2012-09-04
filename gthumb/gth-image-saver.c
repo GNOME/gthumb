@@ -163,59 +163,58 @@ gth_image_saver_save_image (GthImageSaver  *self,
 }
 
 
-gboolean
-gth_image_save_to_buffer (GthImage    *image,
-			  const char  *mime_type,
-			  char       **buffer,
-			  gsize       *buffer_size,
-			  GError     **p_error)
+static GthImageSaveData *
+_gth_image_save_to_buffer_common (GthImage     *image,
+				  const char   *mime_type,
+				  GthFileData  *file_data,
+				  GError      **p_error)
 {
-	GthImageSaver *saver;
-	gboolean       result;
-	GError        *error = NULL;
+	GthImageSaver    *saver;
+	char             *buffer;
+	gsize             buffer_size;
+	GError           *error = NULL;
+	GthImageSaveData *save_data = NULL;
 
 	saver = gth_main_get_image_saver (mime_type);
 	if (saver == NULL) {
 		if (p_error != NULL)
 			*p_error = g_error_new (GTH_ERROR, GTH_ERROR_GENERIC, _("Could not find a suitable module to save the image as \"%s\""), mime_type);
-		return FALSE;
+		return NULL;
 	}
 
-	result = gth_image_saver_save_image (saver, image, buffer, buffer_size, mime_type, &error);
+	if (gth_image_saver_save_image (saver,
+					image,
+					&buffer,
+					&buffer_size,
+					mime_type,
+					&error))
+	{
+		save_data = g_new0 (GthImageSaveData, 1);
+		save_data->file_data = _g_object_ref (file_data);
+		save_data->image = gth_image_copy (image);
+		save_data->mime_type = mime_type;
+		save_data->buffer = buffer;
+		save_data->buffer_size = buffer_size;
+		save_data->files = NULL;
+		save_data->error = NULL;
 
-	if (p_error != NULL)
-		*p_error = error;
-	else
-		_g_error_free (error);
+		if (save_data->file_data != NULL)
+			gth_hook_invoke ("save-image", save_data);
+
+		if ((save_data->error != NULL) && (p_error != NULL))
+			*p_error = g_error_copy (*save_data->error);
+	}
+	else {
+		if (p_error != NULL)
+			*p_error = error;
+		else
+			_g_error_free (error);
+	}
 
 	g_object_unref (saver);
 
-	return result;
+	return save_data;
 }
-
-
-/*
-gboolean
-_cairo_image_surface_to_mime_type (cairo_surface_t  *image,
-				   char            **buffer,
-				   gsize            *buffer_size,
-				   const char       *mime_type,
-				   GError          **error)
-{
-
-}
-*/
-
-
-/* -- gth_image_save_to_file -- */
-
-
-typedef struct {
-	GthImageSaveData *data;
-	GthFileDataFunc   ready_func;
-	gpointer          ready_data;
-	GList            *current;
-} SaveData;
 
 
 static void
@@ -230,12 +229,52 @@ gth_image_save_file_free (GthImageSaveFile *file)
 static void
 gth_image_save_data_free (GthImageSaveData *data)
 {
-	g_object_unref (data->file_data);
+	_g_object_unref (data->file_data);
 	g_object_unref (data->image);
 	g_list_foreach (data->files, (GFunc) gth_image_save_file_free, NULL);
 	g_list_free (data->files);
 	g_free (data);
 }
+
+
+gboolean
+gth_image_save_to_buffer (GthImage     *image,
+			  const char   *mime_type,
+			  GthFileData  *file_data,
+			  char        **buffer,
+			  gsize        *buffer_size,
+			  GError      **p_error)
+{
+	GthImageSaveData *save_data;
+
+	g_return_val_if_fail (image != NULL, FALSE);
+
+	save_data = _gth_image_save_to_buffer_common (image,
+						      mime_type,
+						      file_data,
+						      p_error);
+
+	if (save_data != NULL) {
+		*buffer = save_data->buffer;
+		*buffer_size = save_data->buffer_size;
+		gth_image_save_data_free (save_data);
+		return TRUE;
+	}
+
+	return FALSE;
+
+}
+
+
+/* -- gth_image_save_to_file -- */
+
+
+typedef struct {
+	GthImageSaveData *data;
+	GthFileDataFunc   ready_func;
+	gpointer          ready_data;
+	GList            *current;
+} SaveData;
 
 
 static void
@@ -321,31 +360,20 @@ gth_image_save_to_file (GthImage        *image,
 			GthFileDataFunc  ready_func,
 			gpointer         user_data)
 {
-	void             *buffer;
-	gsize             buffer_size;
-	GError           *error = NULL;
 	GthImageSaveData *data;
+	GError           *error = NULL;
 
-	if (! gth_image_save_to_buffer (image,
-					mime_type,
-					(char **) &buffer,
-					&buffer_size,
-					&error))
-	{
+	data = _gth_image_save_to_buffer_common (image,
+						 mime_type,
+						 file_data,
+						 &error);
+
+	if (data == NULL) {
 		gth_file_data_ready_with_error (file_data, ready_func, user_data, error);
 		return;
 	}
 
-	data = g_new0 (GthImageSaveData, 1);
-	data->file_data = g_object_ref (file_data);
-	data->image = gth_image_copy (image);
-	data->mime_type = mime_type;
 	data->replace = replace;
-	data->buffer = buffer;
-	data->buffer_size = buffer_size;
-	data->files = NULL;
-	data->error = NULL;
-	gth_hook_invoke ("save-image", data);
 
 	if (data->error == NULL) {
 		GthImageSaveFile *file;
@@ -358,7 +386,6 @@ gth_image_save_to_file (GthImage        *image,
 	}
 	else {
 		gth_image_save_data_free (data);
-		g_free (buffer);
 		gth_file_data_ready_with_error (file_data, ready_func, user_data, error);
 		return;
 	}

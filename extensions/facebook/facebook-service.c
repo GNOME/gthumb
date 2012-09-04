@@ -779,6 +779,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 		gth_image_set_cairo_surface (image, surface);
 		if (! gth_image_save_to_buffer (image,
 						gth_file_data_get_mime_type (file_data),
+						file_data,
 					        (char **) buffer,
 					        &count,
 					        &error))

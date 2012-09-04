@@ -102,16 +102,10 @@ gboolean      gth_image_saver_can_save          (GthImageSaver    *self,
 					         const char       *mime_type);
 gboolean      gth_image_save_to_buffer          (GthImage         *image,
 						 const char       *mime_type,
+						 GthFileData      *file_data,
 						 char            **buffer,
 						 gsize            *buffer_size,
 						 GError          **error);
-/*
-gboolean      _cairo_image_surface_to_mime_type (cairo_surface_t  *image,
-						 char            **buffer,
-						 gsize            *buffer_size,
-						 const char       *mime_type,
-						 GError          **error);
-*/
 void          gth_image_save_to_file            (GthImage         *image,
 						 const char       *mime_type,
 						 GthFileData      *file_data,
