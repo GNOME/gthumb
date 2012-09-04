@@ -19,6 +19,7 @@ data/org.gnome.gthumb.convert-format.gschema.xml.in
 data/org.gnome.gthumb.crop.gschema.xml.in
 data/org.gnome.gthumb.facebook.gschema.xml.in
 data/org.gnome.gthumb.file-manager.gschema.xml.in
+data/org.gnome.gthumb.flickr.gschema.xml.in
 data/org.gnome.gthumb.gschema.xml.in
 data/org.gnome.gthumb.gstreamer-tools.gschema.xml.in
 data/org.gnome.gthumb.image-print.gschema.xml.in
@@ -383,6 +384,7 @@ extensions/flicker_utils/flickr-types.h
 extensions/flicker_utils/flickr-user.c
 extensions/flicker_utils/flickr-user.h
 extensions/flicker_utils/main.c
+extensions/flicker_utils/preferences.h
 extensions/gstreamer_tools/actions.c
 extensions/gstreamer_tools/actions.h
 [type: gettext/glade]extensions/gstreamer_tools/data/ui/mediabar.ui
@@ -781,6 +783,8 @@ gthumb/gth-image-selector.c
 gthumb/gth-image-selector.h
 gthumb/gth-image-task.c
 gthumb/gth-image-task.h
+gthumb/gth-image-utils.c
+gthumb/gth-image-utils.h
 gthumb/gth-image-viewer.c
 gthumb/gth-image-viewer.h
 gthumb/gth-image-viewer-tool.c
