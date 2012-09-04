@@ -1042,7 +1042,7 @@ _gtk_combo_box_add_image_sizes (GtkComboBox *combo_box,
 
 	list_store = GTK_LIST_STORE (gtk_combo_box_get_model (combo_box));
 	active_index = 0;
-	for (i = 1; i < G_N_ELEMENTS (ImageSizeValues); i++) {
+	for (i = 0; i < G_N_ELEMENTS (ImageSizeValues); i++) {
 		GtkTreeIter  iter;
 		char        *name;
 
