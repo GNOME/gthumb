@@ -33,6 +33,7 @@
 #include "picasa-web-album.h"
 #include "picasa-web-service.h"
 #include "picasa-web-user.h"
+#include "preferences.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (data->builder, (x)))
@@ -58,6 +59,7 @@ enum {
 
 typedef struct {
 	GthBrowser       *browser;
+	GSettings        *settings;
 	GthFileData      *location;
 	GList            *file_list;
 	GtkBuilder       *builder;
@@ -97,6 +99,7 @@ destroy_dialog (DialogData *data)
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
+	g_object_unref (data->settings);
 	g_free (data);
 }
 
@@ -221,6 +224,8 @@ export_dialog_response_cb (GtkDialog *dialog,
 			GtkTreeModel *tree_model;
 			GtkTreeIter   iter;
 			GList        *file_list;
+			int           max_width;
+			int           max_height;
 
 			if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview"))), &tree_model, &iter)) {
 				gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
@@ -236,9 +241,22 @@ export_dialog_response_cb (GtkDialog *dialog,
 			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 
 			file_list = gth_file_data_list_to_file_list (data->file_list);
+
+			max_width = -1;
+			max_height = -1;
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_checkbutton")))) {
+				int idx = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")));
+				max_width = ImageSizeValues[idx].width;
+				max_height = ImageSizeValues[idx].height;
+			}
+			g_settings_set_int (data->settings, PREF_PICASAWEB_RESIZE_WIDTH, max_width);
+			g_settings_set_int (data->settings, PREF_PICASAWEB_RESIZE_HEIGHT, max_height);
+
 			picasa_web_service_post_photos (data->picasaweb,
 							data->album,
 							file_list,
+							max_width,
+							max_height,
 							data->cancellable,
 							post_photos_ready_cb,
 							data);
@@ -927,6 +945,21 @@ albums_treeview_selection_changed_cb (GtkTreeSelection *treeselection,
 }
 
 
+static void
+update_sensitivity (DialogData *data)
+{
+	gtk_widget_set_sensitive (GET_WIDGET ("resize_combobox"), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_checkbutton"))));
+}
+
+
+static void
+resize_checkbutton_toggled_cb (GtkToggleButton *button,
+			       gpointer         user_data)
+{
+	update_sensitivity (user_data);
+}
+
+
 void
 dlg_export_to_picasaweb (GthBrowser *browser,
 		         GList      *file_list)
@@ -941,6 +974,7 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
+	data->settings = g_settings_new (GTHUMB_PICASAWEB_SCHEMA);
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("export-to-picasaweb.ui", "picasaweb");
 	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
@@ -1028,6 +1062,13 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_checkbutton")),
+				      g_settings_get_int (data->settings, PREF_PICASAWEB_RESIZE_WIDTH) != -1);
+
+	_gtk_combo_box_add_image_sizes (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")),
+					g_settings_get_int (data->settings, PREF_PICASAWEB_RESIZE_WIDTH),
+					g_settings_get_int (data->settings, PREF_PICASAWEB_RESIZE_HEIGHT));
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (data->dialog,
@@ -1050,6 +1091,10 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 			  "changed",
 			  G_CALLBACK (account_combobox_changed_cb),
 			  data);
+	g_signal_connect (GET_WIDGET ("resize_checkbutton"),
+			  "toggled",
+			  G_CALLBACK (resize_checkbutton_toggled_cb),
+			  data);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview")));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
@@ -1057,6 +1102,8 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 			  "changed",
 			  G_CALLBACK (albums_treeview_selection_changed_cb),
 			  data);
+
+	update_sensitivity (data);
 
 	data->accounts = picasa_web_accounts_load_from_file (&data->email);
 	auto_select_account (data);

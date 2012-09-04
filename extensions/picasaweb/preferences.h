@@ -28,6 +28,7 @@
 
 /* keys */
 
-#define  PREF_PICASAWEB_SYNCHRONIZE "synchronize"
+#define  PREF_PICASAWEB_RESIZE_WIDTH "resize-width"
+#define  PREF_PICASAWEB_RESIZE_HEIGHT "resize-height"
 
 #endif /* PREFERENCES_H */

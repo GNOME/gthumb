@@ -34,6 +34,8 @@ G_DEFINE_TYPE (PicasaWebService, picasa_web_service, G_TYPE_OBJECT)
 typedef struct {
 	PicasaWebAlbum      *album;
 	GList               *file_list;
+	int                  max_width;
+	int                  max_height;
 	GCancellable        *cancellable;
         GAsyncReadyCallback  callback;
         gpointer             user_data;
@@ -439,6 +441,8 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 	gsize               entry_len;
 	SoupMessageHeaders *headers;
 	SoupBuffer         *body;
+	void               *resized_buffer;
+	gsize               resized_count;
 	char               *url;
 	SoupMessage        *msg;
 
@@ -507,7 +511,27 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 
 	/* the file part */
 
-	body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
+	if (_g_buffer_resize_image (*buffer,
+				    count,
+				    file_data,
+				    self->priv->post_photos->max_width,
+				    self->priv->post_photos->max_height,
+				    &resized_buffer,
+				    &resized_count,
+				    self->priv->post_photos->cancellable,
+				    &error))
+	{
+		body = soup_buffer_new (SOUP_MEMORY_TAKE, resized_buffer, resized_count);
+	}
+	else if (error == NULL) {
+		body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
+	}
+	else {
+		soup_multipart_free (multipart);
+		post_photos_done (self, error);
+		return;
+	}
+
 	soup_multipart_append_form_file (multipart,
 					 "file",
 					 NULL,
@@ -595,6 +619,8 @@ void
 picasa_web_service_post_photos (PicasaWebService    *self,
 			        PicasaWebAlbum      *album,
 			        GList               *file_list, /* GFile list */
+			        int                  max_width,
+			        int                  max_height,
 			        GCancellable        *cancellable,
 			        GAsyncReadyCallback  callback,
 			        gpointer             user_data)
@@ -606,6 +632,8 @@ picasa_web_service_post_photos (PicasaWebService    *self,
 
 	self->priv->post_photos = g_new0 (PostPhotosData, 1);
 	self->priv->post_photos->album = g_object_ref (album);
+	self->priv->post_photos->max_width = max_width;
+	self->priv->post_photos->max_height = max_height;
 	self->priv->post_photos->cancellable = _g_object_ref (cancellable);
 	self->priv->post_photos->callback = callback;
 	self->priv->post_photos->user_data = user_data;

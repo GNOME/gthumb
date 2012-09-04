@@ -71,6 +71,8 @@ PicasaWebAlbum *     picasa_web_service_create_album_finish (PicasaWebService   
 void                 picasa_web_service_post_photos         (PicasaWebService     *self,
 							     PicasaWebAlbum       *album,
 							     GList                *file_list, /* GFile list */
+							     int                   max_width,
+							     int                   max_height,
 							     GCancellable         *cancellable,
 							     GAsyncReadyCallback   callback,
 							     gpointer              user_data);
