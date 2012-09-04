@@ -42,20 +42,6 @@ enum {
 	SORT_TYPE_COLUMN_NAME
 };
 
-static struct {
-	int width;
-	int height;
-} resize_size[] = { { 320, 200 },
-		    { 320, 320 },
-		    { 640, 480 },
-		    { 640, 640 },
-		    { 800, 600 },
-		    { 800, 800 },
-		    { 1024, 768 },
-		    { 1024, 1024 },
-		    { 1280, 960 },
-		    { 1280, 1280 } };
-
 typedef struct {
 	GthBrowser *browser;
 	GSettings  *settings;
@@ -116,8 +102,8 @@ ok_clicked_cb (GtkWidget  *widget,
 	g_settings_set_boolean (data->settings, PREF_WEBALBUMS_RESIZE_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_images_checkbutton"))));
 
 	i_value = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("resize_images_combobox")));
-	g_settings_set_int (data->settings, PREF_WEBALBUMS_RESIZE_WIDTH, resize_size[i_value].width);
-	g_settings_set_int (data->settings, PREF_WEBALBUMS_RESIZE_HEIGHT, resize_size[i_value].height);
+	g_settings_set_int (data->settings, PREF_WEBALBUMS_RESIZE_WIDTH, ImageSizeValues[i_value].width);
+	g_settings_set_int (data->settings, PREF_WEBALBUMS_RESIZE_HEIGHT, ImageSizeValues[i_value].height);
 
 	g_settings_set_int (data->settings, PREF_WEBALBUMS_IMAGES_PER_INDEX, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("images_per_index_spinbutton"))));
 	g_settings_set_boolean (data->settings, PREF_WEBALBUMS_SINGLE_INDEX, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_index_checkbutton"))));
@@ -422,28 +408,9 @@ dlg_web_exporter (GthBrowser *browser,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adapt_column_checkbutton")),
 				      g_settings_get_boolean (data->settings, PREF_WEBALBUMS_ADAPT_TO_WIDTH));
 
-	active_index = 0;
-	for (i = 0; i < G_N_ELEMENTS (resize_size); i++) {
-		GtkTreeIter  iter;
-		char        *name;
-
-		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("size_liststore")), &iter);
-
-		if ((resize_size[i].width == g_settings_get_int (data->settings, PREF_WEBALBUMS_RESIZE_WIDTH))
-		    && (resize_size[i].height == g_settings_get_int (data->settings, PREF_WEBALBUMS_RESIZE_HEIGHT)))
-		{
-			active_index = i;
-		}
-
-		/* Translators: this is an image size, such as 1024 × 768 */
-		name = g_strdup_printf (_("%d × %d"), resize_size[i].width, resize_size[i].height);
-		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("size_liststore")), &iter,
-				    0, name,
-				    -1);
-
-		g_free (name);
-	}
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("resize_images_combobox")), active_index);
+	_gtk_combo_box_add_image_sizes (GTK_COMBO_BOX (GET_WIDGET ("resize_images_combobox")),
+					g_settings_get_int (data->settings, PREF_WEBALBUMS_RESIZE_WIDTH),
+					g_settings_get_int (data->settings, PREF_WEBALBUMS_RESIZE_HEIGHT));
 
 	default_sort_type = g_settings_get_string (data->settings, PREF_WEBALBUMS_SORT_TYPE);
 	active_index = 0;
