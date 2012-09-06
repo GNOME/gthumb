@@ -126,7 +126,7 @@ _g_buffer_resize_image (void          *buffer,
 	}
 
 	istream = g_memory_input_stream_new_from_data (buffer, count, NULL);
-	mime_type = _g_content_type_get_from_stream (istream, cancellable, NULL);
+	mime_type = _g_content_type_get_from_stream (istream, (file_data != NULL ? file_data->file : NULL), cancellable, NULL);
 	if (mime_type == NULL) {
 		g_set_error (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, "%s", _("No suitable loader available for this file type"));
 		return FALSE;

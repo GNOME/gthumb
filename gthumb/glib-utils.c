@@ -2802,6 +2802,9 @@ _g_file_info_swap_attributes (GFileInfo  *info,
 const char *
 _g_content_type_guess_from_name (const char *filename)
 {
+	if (filename == NULL)
+		return NULL;
+
 #if WEBP_IS_UNKNOWN_TO_GLIB
 	const char *ext;
 
@@ -2891,6 +2894,7 @@ get_mime_type_from_magic_numbers (void  *buffer,
 
 const char *
 _g_content_type_get_from_stream (GInputStream  *istream,
+				 GFile         *file,
 				 GCancellable  *cancellable,
 				 GError       **error)
 {
@@ -2912,6 +2916,15 @@ _g_content_type_get_from_stream (GInputStream  *istream,
 		content_type = g_content_type_guess (NULL, buffer, n, &result_uncertain);
 	if (result_uncertain)
 		content_type = NULL;
+
+	if (((content_type == NULL) || (strcmp (content_type, "application/xml") == 0)) && (file != NULL)) {
+		char *filename;
+
+		filename = g_file_get_basename (file);
+		content_type = _g_content_type_guess_from_name (filename);
+
+		g_free (filename);
+	}
 
 	g_seekable_seek (G_SEEKABLE (istream), 0, G_SEEK_SET, cancellable, NULL);
 

@@ -139,7 +139,7 @@ generate_thumbnail (GInputStream  *istream,
 	if (original_height != NULL)
 		*original_height = -1;
 
-	mime_type = _g_content_type_get_from_stream (istream, cancellable, error);
+	mime_type = _g_content_type_get_from_stream (istream, file_data->file, cancellable, error);
 	if (mime_type == NULL) {
 		if ((error != NULL) && (*error == NULL))
 			*error = g_error_new_literal (GTH_ERROR, 0, "Cannot generate the thumbnail: unknown file type");

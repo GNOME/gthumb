@@ -223,7 +223,7 @@ gth_pixbuf_animation_new_from_file (GInputStream  *istream,
 	char               *path;
 	GthImage           *image;
 
-	mime_type = _g_content_type_get_from_stream (istream, cancellable, error);
+	mime_type = _g_content_type_get_from_stream (istream, (file_data != NULL ? file_data->file : NULL), cancellable, error);
 	if (mime_type == NULL)
 		return NULL;
 

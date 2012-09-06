@@ -180,19 +180,19 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 		GthImageLoaderFunc  loader_func = NULL;
 		const char         *mime_type;
 
-		mime_type = _g_content_type_get_from_stream (istream, cancellable, NULL);
+		mime_type = _g_content_type_get_from_stream (istream, load_data->file_data->file, cancellable, NULL);
 		if (mime_type != NULL)
 			loader_func = gth_main_get_image_loader_func (mime_type, self->priv->preferred_format);
 
 		if (loader_func != NULL)
 			image = loader_func (istream,
-					load_data->file_data,
-					load_data->requested_size,
-					&original_width,
-					&original_height,
-					NULL,
-					cancellable,
-					&error);
+					     load_data->file_data,
+					     load_data->requested_size,
+					     &original_width,
+					     &original_height,
+					     NULL,
+					     cancellable,
+					     &error);
 		else
 			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
 	}
@@ -286,7 +286,7 @@ gth_image_new_from_stream (GInputStream  *istream,
 	int                 original_height;
 	GError             *error = NULL;
 
-	mime_type = _g_content_type_get_from_stream (istream, cancellable, &error);
+	mime_type = _g_content_type_get_from_stream (istream, NULL, cancellable, &error);
 	if (mime_type != NULL) {
 		loader_func = gth_main_get_image_loader_func (mime_type, GTH_IMAGE_FORMAT_CAIRO_SURFACE);
 		if (loader_func != NULL)

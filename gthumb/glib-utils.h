@@ -311,6 +311,7 @@ const char *    _g_content_type_guess_from_name  (const char *filename);
 gboolean        _g_content_type_is_a             (const char *type,
 						  const char *supertype);
 const char *    _g_content_type_get_from_stream  (GInputStream  *istream,
+						  GFile         *file, /* optional */
 						  GCancellable  *cancellable,
 						  GError       **error);
 gboolean        _g_mime_type_is_image            (const char *mime_type);
