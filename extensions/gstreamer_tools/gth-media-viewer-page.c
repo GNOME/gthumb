@@ -319,8 +319,7 @@ static void position_value_changed_cb (GtkAdjustment *adjustment,
 
 
 static void
-update_current_position_bar (GthMediaViewerPage *self,
-			     gboolean            update_progressbar)
+update_current_position_bar (GthMediaViewerPage *self)
 {
 	GstFormat format;
         gint64    current_value = 0;
@@ -329,31 +328,29 @@ update_current_position_bar (GthMediaViewerPage *self,
         if (gst_element_query_position (self->priv->playbin, &format, &current_value)) {
         	char *s;
 
-        	if (self->priv->duration <= 0) {
-        		gst_element_query_duration (self->priv->playbin, &format, &self->priv->duration);
-        		s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (self->priv->duration));
-        		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_duration")), s);
+		if (self->priv->duration <= 0) {
+			gst_element_query_duration (self->priv->playbin, &format, &self->priv->duration);
+			s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (self->priv->duration));
+			gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_duration")), s);
 
-        		g_free (s);
-        	}
+			g_free (s);
+		}
 
-        	/*
-        	g_print ("==> %" G_GINT64_FORMAT " / %" G_GINT64_FORMAT " (%0.3g)\n" ,
-        		 current_value,
-        		 self->priv->duration,
-        		 ((double) current_value / self->priv->duration) * 100.0);
+		/*
+		g_print ("==> %" G_GINT64_FORMAT " / %" G_GINT64_FORMAT " (%0.3g)\n" ,
+			 current_value,
+			 self->priv->duration,
+			 ((double) current_value / self->priv->duration) * 100.0);
 		*/
 
-        	if (update_progressbar) {
-			g_signal_handlers_block_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
-			gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment")), (self->priv->duration > 0) ? ((double) current_value / self->priv->duration) * 100.0 : 0.0);
-			g_signal_handlers_unblock_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
-        	}
+		g_signal_handlers_block_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
+		gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment")), (self->priv->duration > 0) ? ((double) current_value / self->priv->duration) * 100.0 : 0.0);
+		g_signal_handlers_unblock_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
 
-        	s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (current_value));
-        	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_position")), s);
+		s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (current_value));
+		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_position")), s);
 
-        	g_free (s);
+		g_free (s);
         }
 }
 
@@ -648,7 +645,7 @@ update_progress_cb (gpointer user_data)
                 self->priv->update_progress_id = 0;
         }
 
-        update_current_position_bar (self, TRUE);
+        update_current_position_bar (self);
 
         self->priv->update_progress_id = gdk_threads_add_timeout (PROGRESS_DELAY, update_progress_cb, self);
 
@@ -1023,7 +1020,7 @@ bus_message_cb (GstBus     *bus,
 		if (GST_MESSAGE_SRC (message) != GST_OBJECT (self->priv->playbin))
 			break;
 
-		update_current_position_bar (self, TRUE);
+		update_current_position_bar (self);
 
 		if ((old_state == GST_STATE_NULL) && (new_state == GST_STATE_READY) && (pending_state != GST_STATE_PAUSED)) {
 			update_stream_info (self);
@@ -1039,15 +1036,6 @@ bus_message_cb (GstBus     *bus,
 			update_volume_from_playbin (self);
 		if ((old_state == GST_STATE_PLAYING) || (new_state == GST_STATE_PLAYING))
 			update_play_button (self, new_state);
-		break;
-	}
-
-	case GST_MESSAGE_DURATION: {
-		GstFormat format;
-
-		format = GST_FORMAT_TIME;
-		gst_message_parse_duration (message, &format, &self->priv->duration);
-		update_current_position_bar (self, TRUE);
 		break;
 	}
 
