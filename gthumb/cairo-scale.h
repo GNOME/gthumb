@@ -28,7 +28,7 @@
 G_BEGIN_DECLS
 
 
-#define _CAIRO_MAX_SCALE_FACTOR 2.0
+#define _CAIRO_MAX_SCALE_FACTOR 1.8
 
 
 typedef enum /*< skip >*/ {
