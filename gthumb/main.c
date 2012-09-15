@@ -400,8 +400,15 @@ static const GActionEntry app_menu_entries[] = {
 static void
 _gth_application_initialize_app_menu (GApplication *application)
 {
+	gboolean    show_app_menu;
 	GtkBuilder *builder;
 	GError     *error = NULL;
+
+	g_object_get (gtk_settings_get_default (),
+		      "gtk-shell-shows-app-menu", &show_app_menu,
+		      NULL);
+	if (! show_app_menu)
+		return;
 
 	g_action_map_add_action_entries (G_ACTION_MAP (application),
 					 app_menu_entries,
