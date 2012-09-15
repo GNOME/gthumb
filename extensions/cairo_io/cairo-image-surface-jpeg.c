@@ -532,8 +532,10 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 		jpeg_finish_decompress (&srcinfo);
 		jpeg_destroy_decompress (&srcinfo);
 	}
-	else
+	else {
 		jpeg_destroy ((j_common_ptr) &srcinfo);
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+	}
 
 	cairo_surface_destroy (surface);
 	g_free (in_buffer);
