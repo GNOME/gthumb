@@ -2293,6 +2293,23 @@ gth_image_viewer_scroll_to (GthImageViewer *self,
 
 
 void
+gth_image_viewer_scroll_to_center (GthImageViewer *self)
+{
+	int zoomed_width;
+	int zoomed_height;
+	int visible_width;
+	int visible_height;
+
+	_gth_image_viewer_get_zoomed_size (self, &zoomed_width, &zoomed_height);
+	_gth_image_viewer_get_visible_area_size (self, &visible_width, &visible_height);
+
+	gth_image_viewer_scroll_to (self,
+				    (zoomed_width - visible_width) / 2,
+				    (zoomed_height - visible_height) / 2);
+}
+
+
+void
 gth_image_viewer_scroll_step_x (GthImageViewer *self,
 				gboolean        increment)
 {

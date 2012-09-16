@@ -252,6 +252,7 @@ void           gth_image_viewer_set_tool                 (GthImageViewer        
 void           gth_image_viewer_scroll_to                (GthImageViewer        *viewer,
 							  int                    x_offset,
 							  int                    y_offset);
+void           gth_image_viewer_scroll_to_center         (GthImageViewer        *viewer);
 void           gth_image_viewer_scroll_step_x            (GthImageViewer        *viewer,
 							  gboolean               increment);
 void           gth_image_viewer_scroll_step_y            (GthImageViewer        *viewer,

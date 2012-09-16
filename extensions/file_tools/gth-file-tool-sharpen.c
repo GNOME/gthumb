@@ -47,6 +47,7 @@ struct _GthFileToolSharpenPrivate {
 	GthTask         *pixbuf_task;
 	guint            apply_event;
 	gboolean         show_preview;
+	gboolean         first_allocation;
 };
 
 
@@ -213,6 +214,9 @@ apply_cb (gpointer user_data)
 		w = MIN (gtk_adjustment_get_page_size (preview->hadj), cairo_image_surface_get_width (self->priv->source));
 		h = MIN (gtk_adjustment_get_page_size (preview->vadj), cairo_image_surface_get_height (self->priv->source));
 
+		if ((w < 0) || (h < 0))
+			return FALSE;
+
 		cairo_surface_destroy (self->priv->destination);
 		self->priv->destination = _cairo_image_surface_copy (self->priv->source);
 
@@ -267,6 +271,21 @@ preview_checkbutton_toggled_cb (GtkToggleButton    *toggle_button,
 }
 
 
+static void
+preview_size_allocate_cb (GtkWidget    *widget,
+			  GdkRectangle *allocation,
+			  gpointer      user_data)
+{
+	GthFileToolSharpen *self = user_data;
+
+	if (! self->priv->first_allocation)
+		return;
+	self->priv->first_allocation = FALSE;
+
+	gth_image_viewer_scroll_to_center (GTH_IMAGE_VIEWER (self->priv->preview));
+}
+
+
 static GtkWidget *
 gth_file_tool_sharpen_get_options (GthFileTool *base)
 {
@@ -293,6 +312,7 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 		return NULL;
 
 	self->priv->destination = NULL;
+	self->priv->first_allocation = TRUE;
 
 	self->priv->builder = _gtk_builder_new_from_file ("sharpen-options.ui", "file_tools");
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
@@ -358,6 +378,10 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 			  "clicked",
 			  G_CALLBACK (preview_checkbutton_toggled_cb),
 			  self);
+	g_signal_connect_after (self->priv->preview,
+				"size-allocate",
+				G_CALLBACK (preview_size_allocate_cb),
+				self);
 
 	return options;
 }
