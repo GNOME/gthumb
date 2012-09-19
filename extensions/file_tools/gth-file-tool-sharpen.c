@@ -432,6 +432,7 @@ gth_file_tool_sharpen_cancel (GthFileTool *base)
 	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 }
 
+
 static void
 gth_file_tool_sharpen_finalize (GObject *object)
 {

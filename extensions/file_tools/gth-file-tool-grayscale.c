@@ -56,9 +56,9 @@ struct _GthFileToolGrayscalePrivate {
 
 typedef struct {
 	GthFileToolGrayscale *self;
-	GtkWidget             *viewer_page;
-	cairo_surface_t       *source;
-	Method                 method;
+	GtkWidget            *viewer_page;
+	cairo_surface_t      *source;
+	Method                method;
 } GrayscaleData;
 
 
@@ -77,7 +77,7 @@ static gpointer
 grayscale_exec (GthAsyncTask *task,
 	         gpointer      user_data)
 {
-	GrayscaleData  *grayscale_data = user_data;
+	GrayscaleData   *grayscale_data = user_data;
 	cairo_format_t   format;
 	int              width;
 	int              height;
@@ -220,7 +220,7 @@ static gboolean
 apply_cb (gpointer user_data)
 {
 	GthFileToolGrayscale *self = user_data;
-	GtkWidget             *window;
+	GtkWidget            *window;
 	GrayscaleData        *grayscale_data;
 
 	if (self->priv->apply_event != 0) {
@@ -355,12 +355,12 @@ static GtkWidget *
 gth_file_tool_grayscale_get_options (GthFileTool *base)
 {
 	GthFileToolGrayscale *self;
-	GtkWidget             *window;
-	GtkWidget             *viewer_page;
-	GtkWidget             *viewer;
-	GtkWidget             *options;
-	int                    width, height;
-	GtkAllocation          allocation;
+	GtkWidget            *window;
+	GtkWidget            *viewer_page;
+	GtkWidget            *viewer;
+	GtkWidget            *options;
+	int                   width, height;
+	GtkAllocation         allocation;
 
 	self = (GthFileToolGrayscale *) base;
 
