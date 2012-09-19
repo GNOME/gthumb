@@ -108,7 +108,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="-147.85664"
+     inkscape:cx="-416.55722"
      inkscape:cy="673.85148"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -136,10 +136,10 @@
      id="layer1">
     <g
        id="g4138"
-       transform="translate(-1.3133981,-16.162441)"
-       inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/22x22/actions/tool-adjust-contrast.png"
-       inkscape:export-xdpi="2.6704361"
-       inkscape:export-ydpi="2.6704361">
+       transform="matrix(1.1985433,0,0,1.1985433,-73.858069,-47.24496)"
+       inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/16x16/actions/tool-adjust-contrast.png"
+       inkscape:export-xdpi="1.9421351"
+       inkscape:export-ydpi="1.9421351">
       <path
          inkscape:export-ydpi="1.9421355"
          inkscape:export-xdpi="1.9421355"
@@ -184,11 +184,11 @@
        id="rect3815"
        width="741.45197"
        height="741.45197"
-       x="17.4837"
-       y="163.42795"
-       inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/22x22/actions/tool-adjust-contrast.png"
-       inkscape:export-xdpi="2.6704361"
-       inkscape:export-ydpi="2.6704361" />
+       x="1.3212585"
+       y="155.45511"
+       inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/16x16/actions/tool-adjust-contrast.png"
+       inkscape:export-xdpi="1.9421351"
+       inkscape:export-ydpi="1.9421351" />
     <path
        inkscape:connector-curvature="0"
        style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:45.18518448;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
@@ -200,7 +200,7 @@
     <path
        sodipodi:nodetypes="cc"
        style="fill:none;stroke:#000000;stroke-width:26.24133873;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 142.00226,821.39799 457.70057,0"
+       d="m -977.24675,568.85986 457.70057,0"
        id="path4132"
        inkscape:connector-curvature="0"
        inkscape:export-filename="/home/paolo/workspace/gthumb/data/icons/hicolor/22x22/actions/tool-adjust-contrast.png"
@@ -208,7 +208,7 @@
        inkscape:export-ydpi="2.6704361" />
     <path
        style="fill:none;stroke:#000000;stroke-width:46.2020607;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 368.20176,859.18801 0,-75.58004"
+       d="m -751.04725,606.64988 0,-75.58004"
        id="path4144"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -222,11 +222,11 @@
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path4156"
-       d="m 596.49623,859.18801 0,-75.58004"
+       d="m -522.75278,606.64988 0,-75.58004"
        style="fill:none;stroke:#000000;stroke-width:46.2020607;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <path
        style="fill:none;stroke:#000000;stroke-width:46.2020607;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 145.9682,859.18801 0,-75.58004"
+       d="m -973.28081,606.64988 0,-75.58004"
        id="path4158"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
