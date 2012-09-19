@@ -160,10 +160,9 @@ void             gth_browser_update_sensitivity     (GthBrowser       *browser);
 void             gth_browser_update_extra_widget    (GthBrowser       *browser);
 void             gth_browser_update_statusbar_file_info
 						    (GthBrowser       *browser);
-void             gth_browser_show_file_properties (GthBrowser       *browser,
-						     gboolean          show);
-void             gth_browser_show_viewer_tools      (GthBrowser       *browser,
-						     gboolean          show);
+void             gth_browser_show_file_properties   (GthBrowser       *browser);
+void             gth_browser_show_viewer_tools      (GthBrowser       *browser);
+void             gth_browser_hide_sidebar           (GthBrowser       *browser);
 void             gth_browser_set_shrink_wrap_viewer (GthBrowser       *browser,
 						     gboolean          value);
 gboolean         gth_browser_get_shrink_wrap_viewer (GthBrowser       *browser);

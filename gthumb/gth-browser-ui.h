@@ -124,7 +124,7 @@ static const char *fixed_ui_info =
 "    <placeholder name='Edit_Actions_2'/>"
 "    <separator expand='true'/>"
 "    <placeholder name='BrowserCommandsSecondary'/>"
-"    <toolitem action='Viewer_Tools'/>"
+"    <toolitem action='Browser_Tools'/>"
 "    <toolitem action='Browser_Properties'/>"
 "  </toolbar>"
 

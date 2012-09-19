@@ -39,6 +39,12 @@ G_BEGIN_DECLS
 #define GTH_IS_PROPERTY_VIEW(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_PROPERTY_VIEW))
 #define GTH_PROPERTY_VIEW_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_PROPERTY_VIEW, GthPropertyViewInterface))
 
+typedef enum {
+	GTH_SIDEBAR_STATE_HIDDEN,
+	GTH_SIDEBAR_STATE_PROPERTIES,
+	GTH_SIDEBAR_STATE_TOOLS
+} GthSidebarState;
+
 typedef struct _GthSidebar        GthSidebar;
 typedef struct _GthSidebarClass   GthSidebarClass;
 typedef struct _GthSidebarPrivate GthSidebarPrivate;

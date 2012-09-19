@@ -709,6 +709,8 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 
 	action = gtk_action_group_get_action (gth_browser_get_actions (browser), "Viewer_Tools");
 	g_object_set (action, "sensitive", TRUE, NULL);
+	action = gtk_action_group_get_action (gth_browser_get_actions (browser), "Browser_Tools");
+	g_object_set (action, "sensitive", TRUE, NULL);
 
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 	self->priv->requested_ready_id = g_signal_connect (G_OBJECT (self->priv->preloader),

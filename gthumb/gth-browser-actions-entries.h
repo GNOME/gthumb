@@ -198,6 +198,12 @@ static GthActionEntryExt gth_browser_action_entries[] = {
 	  " ",
 	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_help_shortcuts) },
+
+	{ "Browser_Tools", "palette",
+	  N_("Edit"), NULL,
+	  N_("Edit file"),
+	  GTH_ACTION_FLAG_NONE,
+	  G_CALLBACK (gth_browser_activate_action_browser_tools) },
 };
 
 

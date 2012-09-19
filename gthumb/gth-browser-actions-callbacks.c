@@ -353,7 +353,18 @@ void
 gth_browser_activate_action_viewer_properties (GtkAction  *action,
 						GthBrowser *browser)
 {
-	gth_browser_show_file_properties (GTH_BROWSER (browser), gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		gth_browser_show_file_properties (GTH_BROWSER (browser));
+	else
+		gth_browser_hide_sidebar (GTH_BROWSER (browser));
+}
+
+
+void
+gth_browser_activate_action_browser_tools (GtkAction  *action,
+					   GthBrowser *browser)
+{
+	gth_browser_show_viewer_tools (GTH_BROWSER (browser));
 }
 
 
@@ -361,7 +372,10 @@ void
 gth_browser_activate_action_viewer_tools (GtkAction  *action,
 					  GthBrowser *browser)
 {
-	gth_browser_show_viewer_tools (GTH_BROWSER (browser), gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		gth_browser_show_viewer_tools (GTH_BROWSER (browser));
+	else
+		gth_browser_hide_sidebar (GTH_BROWSER (browser));
 }
 
 
