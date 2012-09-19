@@ -5949,6 +5949,7 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 {
 	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
 	case GTH_BROWSER_PAGE_BROWSER:
+		g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_VISIBLE, FALSE);
 		_gth_browser_set_action_active (browser, "Browser_Properties", FALSE);
 		gtk_widget_hide (browser->priv->file_properties);
 		break;
