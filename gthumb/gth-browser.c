@@ -2174,8 +2174,6 @@ _gth_browser_deactivate_viewer_page (GthBrowser *browser)
 		gth_viewer_page_deactivate (browser->priv->viewer_page);
 		gtk_ui_manager_ensure_update (browser->priv->ui);
 		gth_browser_set_viewer_widget (browser, NULL);
-		_gth_browser_set_action_sensitive (browser, "Viewer_Tools", FALSE);
-		_gth_browser_set_action_sensitive (browser, "Browser_Tools", FALSE);
 		g_object_unref (browser->priv->viewer_page);
 		browser->priv->viewer_page = NULL;
 	}
@@ -4690,9 +4688,6 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->shrink_wrap_viewer = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SHRINK_WRAP_VIEWER);
 	_gth_browser_set_action_active (browser, "View_ShrinkWrap", browser->priv->shrink_wrap_viewer);
 
-	_gth_browser_set_action_sensitive (browser, "Browser_Tools", FALSE);
-	_gth_browser_set_action_sensitive (browser, "Viewer_Tools", FALSE);
-
 	if (g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_VISIBLE))
 		gth_browser_show_file_properties (browser);
 	else
@@ -5343,11 +5338,6 @@ gth_browser_set_viewer_widget (GthBrowser *browser,
 	_gtk_container_remove_children (GTK_CONTAINER (browser->priv->viewer_container), NULL, NULL);
 	if (widget != NULL)
 		gtk_container_add (GTK_CONTAINER (browser->priv->viewer_container), widget);
-
-	/* deactivate the tools which are not available for every viewer */
-
-	if (browser->priv->viewer_sidebar == GTH_SIDEBAR_STATE_TOOLS)
-		_gth_browser_set_action_active (browser, "Viewer_Tools", FALSE);
 }
 
 

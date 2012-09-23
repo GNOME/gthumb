@@ -693,7 +693,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
 	GthImageViewerPage *self;
-	GtkAction          *action;
 
 	self = (GthImageViewerPage*) base;
 
@@ -706,11 +705,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				      G_N_ELEMENTS (image_viewer_action_entries),
 				      self);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), self->priv->actions, 0);
-
-	action = gtk_action_group_get_action (gth_browser_get_actions (browser), "Viewer_Tools");
-	g_object_set (action, "sensitive", TRUE, NULL);
-	action = gtk_action_group_get_action (gth_browser_get_actions (browser), "Browser_Tools");
-	g_object_set (action, "sensitive", TRUE, NULL);
 
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 	self->priv->requested_ready_id = g_signal_connect (G_OBJECT (self->priv->preloader),
@@ -816,12 +810,8 @@ static void
 gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 {
 	GthImageViewerPage *self;
-	GtkAction          *action;
 
 	self = (GthImageViewerPage*) base;
-
-	action = gtk_action_group_get_action (gth_browser_get_actions (self->priv->browser), "Viewer_Tools");
-	g_object_set (action, "sensitive", FALSE, NULL);
 
 	if (self->priv->browser_merge_id != 0) {
 		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->browser_merge_id);
