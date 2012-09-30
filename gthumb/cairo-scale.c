@@ -113,7 +113,7 @@ _cairo_image_surface_scale_nearest (cairo_surface_t *image,
  * */
 
 
-#define EPSILON ((double) 1.0e-16)
+#define EPSILON ((double) 1.0e-8)
 
 
 typedef double (*weight_func_t) (double distance);
