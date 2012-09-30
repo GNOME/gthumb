@@ -23,7 +23,7 @@
 #define GFIXED_H
 
 
-typedef long gfixed;
+typedef gint64 gfixed;
 #define GINT_TO_FIXED(x)         ((gfixed) ((x) << 16))
 #define GDOUBLE_TO_FIXED(x)      ((gfixed) ((x) * (1 << 16) + 0.5))
 #define GFIXED_TO_INT(x)         ((x) >> 16)
