@@ -56,6 +56,7 @@
 #
 # - 2010-12-06 Add support for Mallard docs
 # - 2010-12-06 Start this change log
+# - 2012-09-28 Remove referances to Doc files
 
 git-all: git-mk-install
 
@@ -88,29 +89,6 @@ git-mk-install:
 $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 	$(AM_V_GEN) \
 	{ \
-		if test "x$(DOC_MODULE)" = x -o "x$(DOC_MAIN_SGML_FILE)" = x; then :; else \
-			for x in \
-				$(DOC_MODULE)-decl-list.txt \
-				$(DOC_MODULE)-decl.txt \
-				tmpl/$(DOC_MODULE)-unused.sgml \
-				"tmpl/*.bak" \
-				xml html \
-			; do echo /$$x; done; \
-		fi; \
-		if test "x$(DOC_MODULE)$(DOC_ID)" = x -o "x$(DOC_LINGUAS)" = x; then :; else \
-			for x in \
-				$(_DOC_C_DOCS) \
-				$(_DOC_LC_DOCS) \
-				$(_DOC_OMF_ALL) \
-				$(_DOC_DSK_ALL) \
-				$(_DOC_HTML_ALL) \
-				$(_DOC_MOFILES) \
-				$(_DOC_POFILES) \
-				$(DOC_H_FILE) \
-				"*/.xml2po.mo" \
-				"*/*.omf.out" \
-			; do echo /$$x; done; \
-		fi; \
 		if test "x$(gsettings_SCHEMAS)" = x; then :; else \
 			for x in \
 				$(gsettings_SCHEMAS:.xml=.valid) \

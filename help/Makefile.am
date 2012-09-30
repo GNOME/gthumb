@@ -1,23 +1,8 @@
-include $(top_srcdir)/gnome-doc-utils.make
-dist-hook: doc-dist-hook
+@YELP_HELP_RULES@
 
-DOC_ID = gthumb
-DOC_INCLUDES = legal.xml
+HELP_ID = gthumb
 
-DOC_FIGURES = \
- 	figures/comment.png \
-	figures/main-win.png \
-	figures/nav-button.png \
-	figures/preferences.png \
-	figures/palette.png \
-	figures/thumbnail-pane.png \
-	figures/general-filter.png \
-	figures/specific-filter.png \
-	figures/import.png \
-	figures/import-pref-auto-folder.png \
-        figures/import-pref-custom-format.png
-
-DOC_PAGES = \
+HELP_FILES = \
 	index.page \
 	attributes.page \
 	strftime.page \
@@ -50,10 +35,22 @@ DOC_PAGES = \
 	bookmarks.page \
 	import.page \
 	slideshow.page \
-	file-copy-move.page
-	
-DOC_LINGUAS = de el es eu fr oc sl sv zh_CN
+	file-copy-move.page \
+	legal.xml
 
-EXTRA_DIST = album-theme-format.txt
+HELP_MEDIA = \
+	figures/comment.png \
+	figures/main-win.png \
+	figures/nav-button.png \
+	figures/preferences.png \
+	figures/palette.png \
+	figures/thumbnail-pane.png \
+	figures/general-filter.png \
+	figures/specific-filter.png \
+	figures/import.png \
+	figures/import-pref-auto-folder.png \
+        figures/import-pref-custom-format.png
 
--include $(top_srcdir)/git.mk
+HELP_EXTRA = album-theme-format.txt
+
+HELP_LINGUAS = de el es eu fr oc sl sv zh_CN

@@ -17,8 +17,7 @@ DISTCLEANFILES =                        \
 	po/.intltool-merge-cache        \
 	intltool-extract                \
 	intltool-merge                  \
-	intltool-update                 \
-	gnome-doc-utils.make
+	intltool-update
 
 MAINTAINERCLEANFILES = 			\
 	$(srcdir)/INSTALL		\
@@ -32,7 +31,6 @@ MAINTAINERCLEANFILES = 			\
 	$(srcdir)/depcomp 		\
 	$(srcdir)/install-sh 		\
 	$(srcdir)/ltmain.sh 		\
-	$(srcdir)/m4/gnome-doc-utils.m4	\
 	$(srcdir)/m4/intltool.m4	\
 	$(srcdir)/m4/libtool.m4		\
 	$(srcdir)/m4/lt~obsolete.m4	\
@@ -41,7 +39,6 @@ MAINTAINERCLEANFILES = 			\
 	$(srcdir)/m4/ltversion.m4	\
 	$(srcdir)/missing 		\
 	$(srcdir)/mkinstalldirs 	\
-	$(srcdir)/omf.make 		\
 	$(srcdir)/xmldocs.make 		\
 	$(srcdir)/gtk-doc.make 		\
 	$(srcdir)/ChangeLog 		\
