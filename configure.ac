@@ -555,7 +555,7 @@ AM_CONDITIONAL(ENABLE_WEB_ALBUMS, test "x$enable_web_albums" = xyes)
 
 dnl ===========================================================================
 
-GDK_TARGET="$($PKG_CONFIG --variable target gdk-2.0)"
+GDK_TARGET="$($PKG_CONFIG --variable targets gdk-3.0)"
 
 AC_MSG_CHECKING([which smclient backend to use])
 AC_ARG_WITH([smclient],
@@ -565,7 +565,7 @@ AC_ARG_WITH([smclient],
 
 if test "$with_smclient" == "auto"; then
   case "$GDK_TARGET" in
-    x11) with_smclient=xsmp ;;
+    *x11*) with_smclient=xsmp ;;
     *) with_smclient=no ;;
   esac
 fi
