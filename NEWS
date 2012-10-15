@@ -1,3 +1,15 @@
+version 3.1.2
+-------------
+
+ Bugs fixed:
+
+  * Fixed images scaling producing black images.
+  * Use gdk-3.0 to check the GDK target (#685674)
+
+ New or updated application translations:
+
+  * Latvian (Rūdolfs Mazurs)
+
 version 3.1.1
 -------------
 
