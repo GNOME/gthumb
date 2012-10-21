@@ -60,15 +60,6 @@ load_from_stream (GdkPixbufLoader  *loader,
 
 	res = TRUE;
 	while (1) {
-		if (requested_size > 0) {
-			if (gdk_pixbuf_loader_get_pixbuf (loader) != NULL) {
-				pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-				g_object_ref (pixbuf);
-				gdk_pixbuf_loader_close (loader, NULL);
-				return pixbuf;
-			}
-		}
-
 		n_read = g_input_stream_read (stream,
 					      buffer,
 					      sizeof (buffer),
