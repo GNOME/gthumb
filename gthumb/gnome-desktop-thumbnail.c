@@ -1076,9 +1076,11 @@ gnome_desktop_thumbnail_factory_generate_no_script (GnomeDesktopThumbnailFactory
   if (pixbuf == NULL)
     pixbuf = gth_hook_invoke_get ("generate-thumbnail", (char *) uri, mime_type, size);
 
+#if 0
   /* ...lastly try the whole file */
   if (pixbuf == NULL)
     pixbuf = _gdk_pixbuf_new_from_uri_at_scale (uri, size, size, TRUE, FALSE, cancellable);
+#endif
 
   if (pixbuf == NULL)
     return NULL;

@@ -172,9 +172,16 @@ generate_thumbnail (GInputStream  *istream,
 		g_object_unref (pixbuf);
 	}
 	else {
+		GthImageFormat     preferred_format;
 		GthImageLoaderFunc thumbnailer;
 
-		thumbnailer = gth_main_get_image_loader_func (mime_type, GTH_IMAGE_FORMAT_GDK_PIXBUF);
+		/* Prefer the internal loader for jpeg images to load rotated
+		 * images correctly. */
+		if (strcmp (mime_type, "image/jpeg") == 0)
+			preferred_format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
+		else
+			preferred_format = GTH_IMAGE_FORMAT_GDK_PIXBUF;
+		thumbnailer = gth_main_get_image_loader_func (mime_type, preferred_format);
 		if (thumbnailer != NULL)
 			image = thumbnailer (istream,
 					     file_data,
