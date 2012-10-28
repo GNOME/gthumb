@@ -51,6 +51,6 @@ HELP_MEDIA = \
 	figures/import-pref-auto-folder.png \
         figures/import-pref-custom-format.png
 
-HELP_EXTRA = album-theme-format.txt
+EXTRA_DIST = album-theme-format.txt
 
 HELP_LINGUAS = de el es eu fr oc sl sv zh_CN
