@@ -266,6 +266,8 @@ file_buffer_ready_cb (void     **buffer,
 		      gpointer   user_data)
 {
 	TransformatioData *tdata = user_data;
+	GthMetadata       *metadata;
+	GthTransform       orientation;
 
 	if (error != NULL) {
 		tdata->ready_func (error, tdata->user_data);
@@ -273,23 +275,22 @@ file_buffer_ready_cb (void     **buffer,
 		return;
 	}
 
+	orientation = GTH_TRANSFORM_NONE;
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (tdata->file_data->info, "Embedded::Image::Orientation");
+	if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL))
+		orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
+	orientation = get_next_transformation (orientation, tdata->transform);
+
 #ifdef HAVE_LIBJPEG
 	if (g_content_type_equals (gth_file_data_get_mime_type (tdata->file_data), "image/jpeg")) {
-		GthMetadata  *metadata;
-		GthTransform  current_orientation;
-		void         *out_buffer;
-		gsize         out_buffer_size;
-
-		current_orientation = 1;
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (tdata->file_data->info, "Embedded::Image::Orientation");
-		if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL))
-			current_orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
+		void  *out_buffer;
+		gsize  out_buffer_size;
 
 		if (! jpegtran (*buffer,
 				count,
 				&out_buffer,
 				&out_buffer_size,
-				get_next_transformation (current_orientation, tdata->transform),
+				orientation,
 				tdata->mcu_action,
 				&error))
 		{
@@ -324,7 +325,7 @@ file_buffer_ready_cb (void     **buffer,
 		}
 
 		surface = gth_image_get_cairo_surface (image);
-		transformed = _cairo_image_surface_transform (surface, tdata->transform);
+		transformed = _cairo_image_surface_transform (surface, orientation);
 		gth_image_set_cairo_surface (image, transformed);
 		gth_image_save_to_file (image,
 					gth_file_data_get_mime_type (tdata->file_data),
