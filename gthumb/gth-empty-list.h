@@ -42,17 +42,17 @@ typedef struct _GthEmptyListClass GthEmptyListClass;
 typedef struct _GthEmptyListPrivate GthEmptyListPrivate;
 
 struct _GthEmptyList {
-	GtkScrolledWindow parent_instance;
+	GtkWidget parent_instance;
 	GthEmptyListPrivate * priv;
 };
 
 struct _GthEmptyListClass {
-	GtkScrolledWindowClass parent_class;
+	GtkWidgetClass parent_class;
 };
 
 GType        gth_empty_list_get_type  (void);
 GtkWidget *  gth_empty_list_new       (const char   *text);
-void         gth_empty_list_set_text  (GthEmptyList *self, 
+void         gth_empty_list_set_text  (GthEmptyList *self,
 				       const char   *text);
 
 G_END_DECLS

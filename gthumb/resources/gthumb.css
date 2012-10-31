@@ -2,3 +2,14 @@ GthColorScale.trough.color {
 	box-shadow: none;
 	background: transparent;
 }
+GthEmptyList.frame {
+	border-style: solid;
+	border-color: @borders;
+	border-width: 1px;
+	border-radius: 2px;
+	padding: 0;
+}
+
+GthEmptyList.frame:backdrop {
+	border-color: @unfocused_borders;
+}

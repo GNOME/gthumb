@@ -33,11 +33,11 @@ struct _GthEmptyListPrivate {
 };
 
 
-G_DEFINE_TYPE (GthEmptyList, gth_empty_list, GTK_TYPE_SCROLLED_WINDOW)
+G_DEFINE_TYPE (GthEmptyList, gth_empty_list, GTK_TYPE_WIDGET)
 
 
-static void 
-gth_empty_list_finalize (GObject *obj) 
+static void
+gth_empty_list_finalize (GObject *obj)
 {
 	g_free (GTH_EMPTY_LIST (obj)->priv->text);
 	G_OBJECT_CLASS (gth_empty_list_parent_class)->finalize (obj);
@@ -137,7 +137,7 @@ gth_empty_list_realize (GtkWidget *widget)
 
 	style_context = gtk_widget_get_style_context (widget);
 	gtk_style_context_set_background (style_context, window);
-	
+
 	/* 'No Image' message Layout */
 
 	if (self->priv->layout != NULL)
@@ -163,9 +163,7 @@ gth_empty_list_unrealize (GtkWidget *widget)
 		self->priv->layout = NULL;
 	}
 
-	/* note the use of g_type_class_peek_parent to skip GtkScrolledWindow::unrealize */
-
-	GTK_WIDGET_CLASS (g_type_class_peek_parent (gth_empty_list_parent_class))->unrealize (widget);
+	GTK_WIDGET_CLASS (gth_empty_list_parent_class)->unrealize (widget);
 }
 
 
@@ -250,19 +248,19 @@ gth_empty_list_button_press (GtkWidget      *widget,
 }
 
 
-static void 
-gth_empty_list_class_init (GthEmptyListClass *klass) 
+static void
+gth_empty_list_class_init (GthEmptyListClass *klass)
 {
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
-	
+
 	g_type_class_add_private (klass, sizeof (GthEmptyListPrivate));
 
 	object_class = (GObjectClass*) (klass);
 	object_class->set_property = gth_empty_list_set_property;
 	object_class->get_property = gth_empty_list_get_property;
 	object_class->finalize = gth_empty_list_finalize;
-	
+
 	widget_class = (GtkWidgetClass*) klass;
 	widget_class->realize = gth_empty_list_realize;
 	widget_class->unrealize = gth_empty_list_unrealize;
@@ -273,7 +271,7 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 	widget_class->button_press_event = gth_empty_list_button_press;
 
 	/* properties */
-	
+
 	g_object_class_install_property (object_class,
 					 PROP_TEXT,
 					 g_param_spec_string ("text",
@@ -284,7 +282,7 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 }
 
 
-static void 
+static void
 gth_empty_list_init (GthEmptyList *self)
 {
 	GtkStyleContext *style_context;
@@ -303,15 +301,15 @@ gth_empty_list_init (GthEmptyList *self)
 
 
 GtkWidget *
-gth_empty_list_new (const char *text) 
+gth_empty_list_new (const char *text)
 {
 	return g_object_new (GTH_TYPE_EMPTY_LIST, "text", text, NULL);
 }
 
 
-void 
+void
 gth_empty_list_set_text (GthEmptyList *self,
-			 const char   *text) 
+			 const char   *text)
 {
 	g_object_set (self, "text", text, NULL);
 }
