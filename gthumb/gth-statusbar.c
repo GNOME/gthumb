@@ -107,7 +107,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 
 	statusbar->priv->secondary_text_frame = gtk_frame_new (NULL);
 	gtk_widget_show (statusbar->priv->secondary_text_frame);
-	gtk_frame_set_shadow_type (GTK_FRAME (statusbar->priv->secondary_text_frame), GTK_SHADOW_IN);
+	gtk_frame_set_shadow_type (GTK_FRAME (statusbar->priv->secondary_text_frame), GTK_SHADOW_NONE);
 	gtk_container_add (GTK_CONTAINER (statusbar->priv->secondary_text_frame), statusbar->priv->secondary_text);
 	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->secondary_text_frame, FALSE, FALSE, 0);
 
@@ -119,7 +119,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	statusbar->priv->primary_text_frame = gtk_frame_new (NULL);
 	gtk_widget_show (statusbar->priv->primary_text_frame);
 
-	gtk_frame_set_shadow_type (GTK_FRAME (statusbar->priv->primary_text_frame), GTK_SHADOW_IN);
+	gtk_frame_set_shadow_type (GTK_FRAME (statusbar->priv->primary_text_frame), GTK_SHADOW_NONE);
 	gtk_container_add (GTK_CONTAINER (statusbar->priv->primary_text_frame), statusbar->priv->primary_text);
 	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->primary_text_frame, FALSE, FALSE, 0);
 }
