@@ -204,18 +204,11 @@ write_metadata_ready_func (GObject      *source_object,
 
 
 static void
-transformation_ready_cb (GError   *error,
-			 gpointer  user_data)
+write_file_tags (GthImportTask *self)
 {
-	GthImportTask *self = user_data;
 	GthStringList *tag_list;
 	GthMetadata   *metadata;
 	GList         *file_list;
-
-	if ((error != NULL) && g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		gth_task_completed (GTH_TASK (self), error);
-		return;
-	}
 
 	if ((self->priv->tags == NULL) || (self->priv->tags[0] == NULL)) {
 		catalog_imported_file (self);
@@ -243,7 +236,7 @@ static void
 write_file_to_destination (GthImportTask *self,
 			   GFile         *destination_file,
 			   void          *buffer,
-			   gsize          count,
+			   gsize          buffer_size,
 			   gboolean       overwrite);
 
 
@@ -326,7 +319,6 @@ after_saving_to_destination (GthImportTask  *self,
 			     GError         *error)
 {
 	GthFileData *file_data;
-	gboolean     appling_tranformation = FALSE;
 
 	file_data = self->priv->current->data;
 
@@ -404,18 +396,7 @@ after_saving_to_destination (GthImportTask  *self,
 		}
 	}
 
-	if (self->priv->adjust_orientation && gth_main_extension_is_active ("image_rotation")) {
-		apply_transformation_async (self->priv->destination_file,
-					    GTH_TRANSFORM_NONE,
-					    JPEG_MCU_ACTION_ABORT,
-					    gth_task_get_cancellable (GTH_TASK (self)),
-					    transformation_ready_cb,
-					    self);
-		appling_tranformation = TRUE;
-	}
-
-	if (! appling_tranformation)
-		transformation_ready_cb (NULL, self);
+	write_file_tags (self);
 }
 
 
@@ -463,7 +444,7 @@ static void
 write_file_to_destination (GthImportTask *self,
 			   GFile         *destination_file,
 			   void          *buffer,
-			   gsize          count,
+			   gsize          buffer_size,
 			   gboolean       replace)
 {
 	GthFileData *file_data;
@@ -484,9 +465,41 @@ write_file_to_destination (GthImportTask *self,
 
 		self->priv->buffer = NULL; /* the buffer will be deallocated in _g_file_write_async */
 
+#ifdef HAVE_LIBJPEG
+		if (self->priv->adjust_orientation && gth_main_extension_is_active ("image_rotation")) {
+			if (g_content_type_equals (gth_file_data_get_mime_type (self->priv->destination_file), "image/jpeg")) {
+				GthTransform  orientation;
+				GthMetadata  *metadata;
+
+				orientation = GTH_TRANSFORM_NONE;
+				metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->destination_file->info, "Embedded::Image::Orientation");
+				if ((metadata != NULL) && (gth_metadata_get_raw (metadata) != NULL))
+					orientation = strtol (gth_metadata_get_raw (metadata), (char **) NULL, 10);
+
+				if (orientation != GTH_TRANSFORM_NONE) {
+					void  *out_buffer;
+					gsize  out_buffer_size;
+
+					if (jpegtran (buffer,
+						      buffer_size,
+						      &out_buffer,
+						      &out_buffer_size,
+						      orientation,
+						      JPEG_MCU_ACTION_ABORT,
+						      NULL))
+					{
+						g_free (buffer);
+						buffer = out_buffer;
+						buffer_size = out_buffer_size;
+					}
+				}
+			}
+		}
+#endif /* HAVE_LIBJPEG */
+
 		_g_file_write_async (self->priv->destination_file->file,
 				     buffer,
-				     count,
+				     buffer_size,
 				     replace,
 				     G_PRIORITY_DEFAULT,
 				     gth_task_get_cancellable (GTH_TASK (self)),
