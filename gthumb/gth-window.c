@@ -38,7 +38,7 @@ enum  {
 struct _GthWindowPrivate {
 	int              n_pages;
 	int              current_page;
-	GtkWidget       *table;
+	GtkWidget       *grid;
 	GtkWidget       *notebook;
 	GtkWidget       *menubar;
 	GtkWidget       *toolbar;
@@ -64,24 +64,19 @@ gth_window_set_n_pages (GthWindow *self,
 
 	self->priv->n_pages = n_pages;
 
-	self->priv->table = gtk_table_new (5, 1, FALSE);
-	gtk_table_set_row_spacings (GTK_TABLE (self->priv->table), 0);
-	gtk_table_set_col_spacings (GTK_TABLE (self->priv->table), 0);
-	gtk_widget_show (self->priv->table);
-	gtk_container_add (GTK_CONTAINER (self), self->priv->table);
+	self->priv->grid = gtk_grid_new ();
+	gtk_widget_show (self->priv->grid);
+	gtk_container_add (GTK_CONTAINER (self), self->priv->grid);
 
 	self->priv->notebook = gtk_notebook_new ();
 	gtk_style_context_remove_class (gtk_widget_get_style_context (self->priv->notebook), GTK_STYLE_CLASS_NOTEBOOK);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (self->priv->notebook), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (self->priv->notebook), FALSE);
 	gtk_widget_show (self->priv->notebook);
-	gtk_table_attach (GTK_TABLE (self->priv->table),
-			  self->priv->notebook,
-			  0, 1,
-			  2, 3,
-			  GTK_EXPAND | GTK_FILL,
-			  GTK_EXPAND | GTK_FILL,
-			  0, 0);
+	gtk_grid_attach (GTK_GRID (self->priv->grid),
+			 self->priv->notebook,
+			 0, 2,
+			 1, 1);
 
 	self->priv->toolbars = g_new0 (GtkWidget *, n_pages);
 	self->priv->contents = g_new0 (GtkWidget *, n_pages);
@@ -274,7 +269,7 @@ static void
 gth_window_init (GthWindow *window)
 {
 	window->priv = G_TYPE_INSTANCE_GET_PRIVATE (window, GTH_TYPE_WINDOW, GthWindowPrivate);
-	window->priv->table = NULL;
+	window->priv->grid = NULL;
 	window->priv->contents = NULL;
 	window->priv->n_pages = 0;
 	window->priv->current_page = GTH_WINDOW_PAGE_UNDEFINED;
@@ -329,13 +324,10 @@ gth_window_attach (GthWindow     *window,
 		return;
 	}
 
-	gtk_table_attach (GTK_TABLE (window->priv->table),
+	gtk_grid_attach (GTK_GRID (window->priv->grid),
 			  child,
-			  0, 1,
-			  position, position + 1,
-			  GTK_EXPAND | GTK_FILL,
-			  GTK_FILL,
-			  0, 0);
+			  0, position,
+			  1, 1);
 }
 
 
