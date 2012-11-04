@@ -3031,8 +3031,6 @@ autoscroll_cb (gpointer user_data)
 	double       max_value;
 	double       value;
 
-	GDK_THREADS_ENTER ();
-
 	max_value = gtk_adjustment_get_upper (self->priv->vadjustment) - gtk_adjustment_get_page_size (self->priv->vadjustment);
 	value = gtk_adjustment_get_value (self->priv->vadjustment) + self->priv->autoscroll_y_delta;
 	if (value > max_value)
@@ -3041,8 +3039,6 @@ autoscroll_cb (gpointer user_data)
 	gtk_adjustment_set_value (self->priv->vadjustment, value);
 	self->priv->event_last_y = self->priv->event_last_y + self->priv->autoscroll_y_delta;
 	_gth_grid_view_update_mouse_selection (self, self->priv->event_last_x, self->priv->event_last_y);
-
-	GDK_THREADS_LEAVE ();
 
 	return TRUE;
 }
@@ -3124,7 +3120,7 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 			self->priv->autoscroll_y_delta /= 2;
 
 			if (self->priv->scroll_timeout == 0)
-				self->priv->scroll_timeout = g_timeout_add (SCROLL_DELAY, autoscroll_cb, self);
+				self->priv->scroll_timeout = gdk_threads_add_timeout (SCROLL_DELAY, autoscroll_cb, self);
 		}
 		else if (self->priv->scroll_timeout != 0) {
 			g_source_remove (self->priv->scroll_timeout);

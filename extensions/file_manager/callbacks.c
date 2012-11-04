@@ -486,8 +486,6 @@ drag_motion_autoscroll_cb (gpointer user_data)
 	double         max_value;
 	double         value;
 
-	GDK_THREADS_ENTER ();
-
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 
 	adj = gth_file_list_get_vadjustment (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
@@ -496,8 +494,6 @@ drag_motion_autoscroll_cb (gpointer user_data)
 	if (value > max_value)
 		value = max_value;
 	gtk_adjustment_set_value (adj, value);
-
-	GDK_THREADS_LEAVE();
 
 	return TRUE;
 }
@@ -549,7 +545,7 @@ gth_file_list_drag_motion (GtkWidget      *file_view,
 
 		if (data->scroll_diff != 0) {
 			if (data->scroll_event == 0)
-				data->scroll_event = g_timeout_add (SCROLL_TIMEOUT, drag_motion_autoscroll_cb, browser);
+				data->scroll_event = gdk_threads_add_timeout (SCROLL_TIMEOUT, drag_motion_autoscroll_cb, browser);
 		}
 		else if (data->scroll_event != 0) {
 			g_source_remove (data->scroll_event);

@@ -1409,8 +1409,6 @@ autoscroll_cb (gpointer data)
 	double            value;
 	double            max_value;
 
-	GDK_THREADS_ENTER ();
-
 	/* drag x */
 
 	value = gtk_adjustment_get_value (self->priv->viewer->hadj) + self->priv->x_value_diff;
@@ -1431,8 +1429,6 @@ autoscroll_cb (gpointer data)
 
 	update_mouse_selection (self);
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
-
-	GDK_THREADS_LEAVE();
 
 	return TRUE;
 }
@@ -1526,9 +1522,9 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 		self->priv->y_value_diff /= 2;
 
 		if (self->priv->timer_id == 0)
-			self->priv->timer_id = g_timeout_add (SCROLL_TIMEOUT,
-							      autoscroll_cb,
-							      self);
+			self->priv->timer_id = gdk_threads_add_timeout (SCROLL_TIMEOUT,
+									autoscroll_cb,
+									self);
 	}
 	else if (self->priv->timer_id != 0) {
 		g_source_remove (self->priv->timer_id);
