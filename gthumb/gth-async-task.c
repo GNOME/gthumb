@@ -45,7 +45,7 @@ struct _GthAsyncTaskPrivate {
 	GthAsyncReadyFunc   after_func;
 	gpointer            user_data;
 	GDestroyNotify      user_data_destroy_func;
-	GMutex             *data_mutex;
+	GMutex              data_mutex;
 	guint               progress_event;
 	gboolean            cancelled;
 	gboolean            terminated;
@@ -72,7 +72,7 @@ gth_async_task_finalize (GObject *object)
 	if ((self->priv->user_data != NULL) && (self->priv->user_data_destroy_func))
 		(*self->priv->user_data_destroy_func) (self->priv->user_data);
 
-	g_mutex_free (self->priv->data_mutex);
+	g_mutex_clear (&self->priv->data_mutex);
 
 	G_OBJECT_CLASS (gth_async_task_parent_class)->finalize (object);
 }
@@ -94,11 +94,11 @@ update_progress (gpointer data)
 	gboolean      cancelled;
 	double        progress;
 
-	g_mutex_lock (self->priv->data_mutex);
+	g_mutex_lock (&self->priv->data_mutex);
 	terminated = self->priv->terminated;
 	cancelled = self->priv->cancelled;
 	progress = self->priv->progress;
-	g_mutex_unlock (self->priv->data_mutex);
+	g_mutex_unlock (&self->priv->data_mutex);
 
 	if (terminated) {
 		GError *error = NULL;
@@ -135,9 +135,9 @@ exec_task (gpointer user_data)
 
 	result = self->priv->exec_func (self, self->priv->user_data);
 
-	g_mutex_lock (self->priv->data_mutex);
+	g_mutex_lock (&self->priv->data_mutex);
 	self->priv->terminated = TRUE;
-	g_mutex_unlock (self->priv->data_mutex);
+	g_mutex_unlock (&self->priv->data_mutex);
 
 	return result;
 }
@@ -150,10 +150,10 @@ gth_async_task_exec (GthTask *task)
 
 	self = GTH_ASYNC_TASK (task);
 
-	g_mutex_lock (self->priv->data_mutex);
+	g_mutex_lock (&self->priv->data_mutex);
 	self->priv->terminated = FALSE;
 	self->priv->cancelled = FALSE;
-	g_mutex_unlock (self->priv->data_mutex);
+	g_mutex_unlock (&self->priv->data_mutex);
 
 	if (self->priv->before_func != NULL)
 		self->priv->before_func (self, self->priv->user_data);
@@ -173,9 +173,9 @@ gth_async_task_cancelled (GthTask *task)
 
 	self = GTH_ASYNC_TASK (task);
 
-	g_mutex_lock (self->priv->data_mutex);
+	g_mutex_lock (&self->priv->data_mutex);
 	self->priv->cancelled = TRUE;
-	g_mutex_unlock (self->priv->data_mutex);
+	g_mutex_unlock (&self->priv->data_mutex);
 }
 
 
@@ -301,7 +301,7 @@ gth_async_task_init (GthAsyncTask *self)
 	self->priv->cancelled = FALSE;
 	self->priv->terminated = FALSE;
 	self->priv->progress_event = 0;
-	self->priv->data_mutex = g_mutex_new ();
+	g_mutex_init (&self->priv->data_mutex);
 	self->priv->user_data = NULL;
 	self->priv->user_data_destroy_func = NULL;
 }
@@ -330,14 +330,14 @@ gth_async_task_set_data (GthAsyncTask *self,
 			 gboolean     *cancelled,
 			 double       *progress)
 {
-	g_mutex_lock (self->priv->data_mutex);
+	g_mutex_lock (&self->priv->data_mutex);
 	if (terminated != NULL)
 		self->priv->terminated = *terminated;
 	if (cancelled != NULL)
 		self->priv->cancelled = *cancelled;
 	if (progress != NULL)
 		self->priv->progress = *progress;
-	g_mutex_unlock (self->priv->data_mutex);
+	g_mutex_unlock (&self->priv->data_mutex);
 }
 
 
@@ -347,12 +347,12 @@ gth_async_task_get_data (GthAsyncTask *self,
 			 gboolean     *cancelled,
 			 double       *progress)
 {
-	g_mutex_lock (self->priv->data_mutex);
+	g_mutex_lock (&self->priv->data_mutex);
 	if (terminated != NULL)
 		*terminated = self->priv->terminated;
 	if (cancelled != NULL)
 		*cancelled = self->priv->cancelled;
 	if (progress != NULL)
 		*progress = self->priv->progress;
-	g_mutex_unlock (self->priv->data_mutex);
+	g_mutex_unlock (&self->priv->data_mutex);
 }

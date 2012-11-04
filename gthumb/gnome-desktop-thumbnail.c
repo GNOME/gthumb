@@ -70,7 +70,7 @@ struct _GnomeDesktopThumbnailFactoryPrivate {
   GnomeDesktopThumbnailSize size;
   gboolean use_xdg_dir;
 
-  GMutex *lock;
+  GMutex lock;
 
   GList *thumbnailers;
   GHashTable *mime_types_map;
@@ -496,7 +496,7 @@ update_or_create_thumbnailer (GnomeDesktopThumbnailFactory *factory,
   Thumbnailer *thumb;
   gboolean found = FALSE;
 
-  g_mutex_lock (priv->lock);
+  g_mutex_lock (&priv->lock);
 
   for (l = priv->thumbnailers; l && !found; l = g_list_next (l))
     {
@@ -524,7 +524,7 @@ update_or_create_thumbnailer (GnomeDesktopThumbnailFactory *factory,
         gnome_desktop_thumbnail_factory_add_thumbnailer (factory, thumb);
     }
 
-  g_mutex_unlock (priv->lock);
+  g_mutex_unlock (&priv->lock);
 }
 
 
@@ -536,7 +536,7 @@ remove_thumbnailer (GnomeDesktopThumbnailFactory *factory,
   GList *l;
   Thumbnailer *thumb;
 
-  g_mutex_lock (priv->lock);
+  g_mutex_lock (&priv->lock);
 
   for (l = priv->thumbnailers; l; l = g_list_next (l))
     {
@@ -554,7 +554,7 @@ remove_thumbnailer (GnomeDesktopThumbnailFactory *factory,
         }
     }
 
-  g_mutex_unlock (priv->lock);
+  g_mutex_unlock (&priv->lock);
 }
 
 
@@ -657,7 +657,7 @@ external_thumbnailers_disabled_all_changed_cb (GSettings                    *set
                                                const gchar                  *key,
                                                GnomeDesktopThumbnailFactory *factory)
 {
-	g_mutex_lock (factory->priv->lock);
+	g_mutex_lock (&factory->priv->lock);
 
 	factory->priv->disabled = g_settings_get_boolean (factory->priv->settings, "disable-all");
 	if (factory->priv->disabled) {
@@ -669,7 +669,7 @@ external_thumbnailers_disabled_all_changed_cb (GSettings                    *set
 		gnome_desktop_thumbnail_factory_load_thumbnailers (factory);
 	}
 
-	g_mutex_unlock (factory->priv->lock);
+	g_mutex_unlock (&factory->priv->lock);
 }
 
 static void
@@ -677,14 +677,14 @@ external_thumbnailers_disabled_changed_cb (GSettings                    *setting
                                            const gchar                  *key,
                                            GnomeDesktopThumbnailFactory *factory)
 {
-	g_mutex_lock (factory->priv->lock);
+	g_mutex_lock (&factory->priv->lock);
 
 	if (factory->priv->disabled)
 		return;
 	g_strfreev (factory->priv->disabled_types);
 	factory->priv->disabled_types = g_settings_get_strv (factory->priv->settings, "disable");
 
-	g_mutex_unlock (factory->priv->lock);
+	g_mutex_unlock (&factory->priv->lock);
 }
 
 
@@ -770,10 +770,7 @@ gnome_desktop_thumbnail_factory_finalize (GObject *object)
 
 	gnome_desktop_thumbnail_factory_finalize_scripts (factory);
 
-	if (factory->priv->lock) {
-		g_mutex_free (factory->priv->lock);
-		factory->priv->lock = NULL;
-	}
+	g_mutex_clear (&factory->priv->lock);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -785,7 +782,7 @@ gnome_desktop_thumbnail_factory_init (GnomeDesktopThumbnailFactory *factory)
 {
 	factory->priv = GNOME_DESKTOP_THUMBNAIL_FACTORY_GET_PRIVATE (factory);
 	factory->priv->size = GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL;
-	factory->priv->lock = g_mutex_new ();
+	g_mutex_init (&factory->priv->lock);
 
 	gnome_desktop_thumbnail_factory_init_scripts (factory);
 
@@ -1174,9 +1171,9 @@ gnome_desktop_thumbnail_factory_generate_from_script (GnomeDesktopThumbnailFacto
 		size = 256;
 
 	script = NULL;
-	g_mutex_lock (factory->priv->lock);
+	g_mutex_lock (&factory->priv->lock);
 	script = gnome_desktop_thumbnail_factory_get_script (factory, mime_type);
-	g_mutex_unlock (factory->priv->lock);
+	g_mutex_unlock (&factory->priv->lock);
 
 	if (script == NULL) {
 		*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, "No script");
