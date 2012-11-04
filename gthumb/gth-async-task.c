@@ -157,7 +157,7 @@ gth_async_task_exec (GthTask *task)
 
 	if (self->priv->before_func != NULL)
 		self->priv->before_func (self, self->priv->user_data);
-	g_thread_create (exec_task, self, FALSE, NULL);
+	g_thread_new ("gth_async_task_exec", exec_task, self);
 
 	if (self->priv->progress_event == 0)
 		self->priv->progress_event = g_timeout_add (PROGRESS_DELAY, update_progress, self);
