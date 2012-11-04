@@ -35,31 +35,31 @@
 
 
 static void
-_g_key_file_get_color (GKeyFile  *key_file,
-		       char      *group_name,
-		       char      *key,
-		       GdkColor  *color,
-		       GError   **error)
+_g_key_file_get_rgba (GKeyFile  *key_file,
+		      char      *group_name,
+		      char      *key,
+		      GdkRGBA   *color,
+		      GError   **error)
 {
 	char *spec;
 
 	spec = g_key_file_get_string (key_file, group_name, key, error);
 	if (spec != NULL)
-		gdk_color_parse (spec, color);
+		gdk_rgba_parse (color, spec);
 
 	g_free (spec);
 }
 
 
 static void
-_g_key_file_set_color (GKeyFile *key_file,
-		       char     *group_name,
-		       char     *key,
-		       GdkColor *color)
+_g_key_file_set_rgba (GKeyFile *key_file,
+		      char     *group_name,
+		      char     *key,
+		      GdkRGBA  *color)
 {
 	char *color_value;
 
-	color_value = gdk_color_to_string (color);
+	color_value = gdk_rgba_to_string (color);
 	g_key_file_set_string (key_file, group_name, key, color_value);
 
 	g_free (color_value);
@@ -99,25 +99,25 @@ gth_contact_sheet_theme_new_from_key_file (GKeyFile *key_file)
 	theme->background_type = _g_enum_type_get_value_by_nick (GTH_TYPE_CONTACT_SHEET_BACKGROUND_TYPE, nick)->value;
 	g_free (nick);
 
-	_g_key_file_get_color (key_file, "Background", "Color1", &theme->background_color1, NULL);
-	_g_key_file_get_color (key_file, "Background", "Color2", &theme->background_color2, NULL);
-	_g_key_file_get_color (key_file, "Background", "Color3", &theme->background_color3, NULL);
-	_g_key_file_get_color (key_file, "Background", "Color4", &theme->background_color4, NULL);
+	_g_key_file_get_rgba (key_file, "Background", "Color1", &theme->background_color1, NULL);
+	_g_key_file_get_rgba (key_file, "Background", "Color2", &theme->background_color2, NULL);
+	_g_key_file_get_rgba (key_file, "Background", "Color3", &theme->background_color3, NULL);
+	_g_key_file_get_rgba (key_file, "Background", "Color4", &theme->background_color4, NULL);
 
 	nick = g_key_file_get_string (key_file, "Frame", "Style", NULL);
 	theme->frame_style = _g_enum_type_get_value_by_nick (GTH_TYPE_CONTACT_SHEET_FRAME_STYLE, nick)->value;
 	g_free (nick);
 
-	_g_key_file_get_color (key_file, "Frame", "Color", &theme->frame_color, NULL);
+	_g_key_file_get_rgba (key_file, "Frame", "Color", &theme->frame_color, NULL);
 
 	theme->header_font_name = g_key_file_get_string (key_file, "Header", "Font", NULL);
-	_g_key_file_get_color (key_file, "Header", "Color", &theme->header_color, NULL);
+	_g_key_file_get_rgba (key_file, "Header", "Color", &theme->header_color, NULL);
 
 	theme->footer_font_name = g_key_file_get_string (key_file, "Footer", "Font", NULL);
-	_g_key_file_get_color (key_file, "Footer", "Color", &theme->footer_color, NULL);
+	_g_key_file_get_rgba (key_file, "Footer", "Color", &theme->footer_color, NULL);
 
 	theme->caption_font_name = g_key_file_get_string (key_file, "Caption", "Font", NULL);
-	_g_key_file_get_color (key_file, "Caption", "Color", &theme->caption_color, NULL);
+	_g_key_file_get_rgba (key_file, "Caption", "Color", &theme->caption_color, NULL);
 
 	return theme;
 }
@@ -159,26 +159,26 @@ gth_contact_sheet_theme_to_data (GthContactSheetTheme  *theme,
 	g_key_file_set_string (key_file, "Theme", "Name", theme->display_name);
 
 	g_key_file_set_string (key_file, "Background", "Type", _g_enum_type_get_value (GTH_TYPE_CONTACT_SHEET_BACKGROUND_TYPE, theme->background_type)->value_nick);
-	_g_key_file_set_color (key_file, "Background", "Color1", &theme->background_color1);
+	_g_key_file_set_rgba (key_file, "Background", "Color1", &theme->background_color1);
 	if (theme->background_type != GTH_CONTACT_SHEET_BACKGROUND_TYPE_SOLID) {
-		_g_key_file_set_color (key_file, "Background", "Color2", &theme->background_color2);
+		_g_key_file_set_rgba (key_file, "Background", "Color2", &theme->background_color2);
 		if (theme->background_type == GTH_CONTACT_SHEET_BACKGROUND_TYPE_FULL) {
-			_g_key_file_set_color (key_file, "Background", "Color3", &theme->background_color3);
-			_g_key_file_set_color (key_file, "Background", "Color4", &theme->background_color4);
+			_g_key_file_set_rgba (key_file, "Background", "Color3", &theme->background_color3);
+			_g_key_file_set_rgba (key_file, "Background", "Color4", &theme->background_color4);
 		}
 	}
 
 	g_key_file_set_string (key_file, "Frame", "Style", _g_enum_type_get_value (GTH_TYPE_CONTACT_SHEET_FRAME_STYLE, theme->frame_style)->value_nick);
-	_g_key_file_set_color (key_file, "Frame", "Color", &theme->frame_color);
+	_g_key_file_set_rgba (key_file, "Frame", "Color", &theme->frame_color);
 
 	g_key_file_set_string (key_file, "Header", "Font", theme->header_font_name);
-	_g_key_file_set_color (key_file, "Header", "Color", &theme->header_color);
+	_g_key_file_set_rgba (key_file, "Header", "Color", &theme->header_color);
 
 	g_key_file_set_string (key_file, "Footer", "Font", theme->footer_font_name);
-	_g_key_file_set_color (key_file, "Footer", "Color", &theme->footer_color);
+	_g_key_file_set_rgba (key_file, "Footer", "Color", &theme->footer_color);
 
 	g_key_file_set_string (key_file, "Caption", "Font", theme->caption_font_name);
-	_g_key_file_set_color (key_file, "Caption", "Color", &theme->caption_color);
+	_g_key_file_set_rgba (key_file, "Caption", "Color", &theme->caption_color);
 
 	*buffer = g_key_file_to_data (key_file, count, error);
 
@@ -223,21 +223,18 @@ gth_contact_sheet_theme_paint_background (GthContactSheetTheme *theme,
 {
 	cairo_surface_t *surface;
 	cairo_pattern_t *pattern;
-	cairo_color_t    color;
 
 	switch (theme->background_type) {
 	case GTH_CONTACT_SHEET_BACKGROUND_TYPE_SOLID:
-		gdk_cairo_set_source_color (cr, &theme->background_color1);
+		gdk_cairo_set_source_rgba (cr, &theme->background_color1);
 		cairo_rectangle (cr, 0, 0, width, height);
 		cairo_fill (cr);
 		break;
 
 	case GTH_CONTACT_SHEET_BACKGROUND_TYPE_VERTICAL:
 		pattern = cairo_pattern_create_linear (0.0, 0.0, 0.0, height);
-		_gdk_color_to_cairo_color (&theme->background_color1, &color);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, color.r, color.g, color.b, 1.0);
-		_gdk_color_to_cairo_color (&theme->background_color2, &color);
-		cairo_pattern_add_color_stop_rgba (pattern, height, color.r, color.g, color.b, 1.0);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, theme->background_color1.red, theme->background_color1.green, theme->background_color1.blue, theme->background_color1.alpha);
+		cairo_pattern_add_color_stop_rgba (pattern, height, theme->background_color2.red, theme->background_color2.green, theme->background_color2.blue, theme->background_color2.alpha);
 		cairo_pattern_set_filter (pattern, CAIRO_FILTER_BEST);
 		cairo_set_source (cr, pattern);
 		cairo_rectangle (cr, 0, 0, width, height);
@@ -247,10 +244,8 @@ gth_contact_sheet_theme_paint_background (GthContactSheetTheme *theme,
 
 	case GTH_CONTACT_SHEET_BACKGROUND_TYPE_HORIZONTAL:
 		pattern = cairo_pattern_create_linear (0.0, 0.0, width, 0.0);
-		_gdk_color_to_cairo_color (&theme->background_color1, &color);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, color.r, color.g, color.b, 1.0);
-		_gdk_color_to_cairo_color (&theme->background_color2, &color);
-		cairo_pattern_add_color_stop_rgba (pattern, width, color.r, color.g, color.b, 1.0);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, theme->background_color1.red, theme->background_color1.green, theme->background_color1.blue, theme->background_color1.alpha);
+		cairo_pattern_add_color_stop_rgba (pattern, width, theme->background_color2.red, theme->background_color2.green, theme->background_color2.blue, theme->background_color2.alpha);
 		cairo_pattern_set_filter (pattern, CAIRO_FILTER_BEST);
 		cairo_set_source (cr, pattern);
 		cairo_rectangle (cr, 0, 0, width, height);
@@ -296,7 +291,7 @@ gth_contact_sheet_theme_paint_frame (GthContactSheetTheme  *theme,
 		break;
 
 	case GTH_CONTACT_SHEET_FRAME_STYLE_SIMPLE:
-		gdk_cairo_set_source_color (cr, &theme->frame_color);
+		gdk_cairo_set_source_rgba (cr, &theme->frame_color);
 		_cairo_draw_frame (cr,
 				   image_rect->x,
 				   image_rect->y,
@@ -313,7 +308,7 @@ gth_contact_sheet_theme_paint_frame (GthContactSheetTheme  *theme,
 					 image_rect->height,
 					 5);
 
-		gdk_cairo_set_source_color (cr, &theme->frame_color);
+		gdk_cairo_set_source_rgba (cr, &theme->frame_color);
 		_cairo_draw_frame (cr,
 				   image_rect->x,
 				   image_rect->y,
@@ -419,7 +414,7 @@ static void
 paint_text (GthContactSheetTheme  *theme,
 	    cairo_t               *cr,
 	    const char            *font_name,
-	    GdkColor              *color,
+	    GdkRGBA               *color,
 	    int                    x,
 	    int                    y,
 	    int                    width,
@@ -463,7 +458,7 @@ paint_text (GthContactSheetTheme  *theme,
 	pango_layout_get_pixel_extents (pango_layout, NULL, &bounds);
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, color);
+	gdk_cairo_set_source_rgba (cr, color);
 	pango_cairo_update_layout (cr, pango_layout);
 	if (footer)
 		cairo_move_to (cr, x, y - bounds.height - 2);

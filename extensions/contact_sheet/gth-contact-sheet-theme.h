@@ -50,25 +50,25 @@ typedef struct {
 	char                          *display_name;
 
 	GthContactSheetBackgroundType  background_type;
-	GdkColor                       background_color1;
-	GdkColor                       background_color2;
-	GdkColor                       background_color3;
-	GdkColor                       background_color4;
+	GdkRGBA                        background_color1;
+	GdkRGBA                        background_color2;
+	GdkRGBA                        background_color3;
+	GdkRGBA                        background_color4;
 
 	GthContactSheetFrameStyle      frame_style;
-	GdkColor                       frame_color;
+	GdkRGBA                        frame_color;
 	int                            frame_hpadding;
 	int                            frame_vpadding;
 	int                            frame_border;
 
 	char                          *header_font_name;
-	GdkColor                       header_color;
+	GdkRGBA                        header_color;
 
 	char                          *footer_font_name;
-	GdkColor                       footer_color;
+	GdkRGBA                        footer_color;
 
 	char                          *caption_font_name;
-	GdkColor                       caption_color;
+	GdkRGBA                        caption_color;
 	int                            caption_spacing;
 
 	int                            row_spacing;

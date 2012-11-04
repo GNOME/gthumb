@@ -478,7 +478,7 @@ get_text (GthContactSheetCreator *self,
 static void
 paint_text (GthContactSheetCreator *self,
 	    const char             *font_name,
-	    GdkColor               *color,
+	    GdkRGBA                *color,
 	    int                     x,
 	    int                     y,
 	    int                     width,
@@ -501,7 +501,7 @@ paint_text (GthContactSheetCreator *self,
 	x += self->priv->theme->frame_border;
 
 	cairo_save (self->priv->cr);
-	gdk_cairo_set_source_color (self->priv->cr, color);
+	gdk_cairo_set_source_rgba (self->priv->cr, color);
 	pango_cairo_update_layout (self->priv->cr, self->priv->pango_layout);
 	cairo_move_to (self->priv->cr, x, y);
 	pango_cairo_show_layout (self->priv->cr, self->priv->pango_layout);

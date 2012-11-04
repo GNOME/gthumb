@@ -152,7 +152,8 @@ void               _gdk_color_to_cairo_color                (GdkColor           
 							     cairo_color_t         *c_color);
 void               _gdk_color_to_cairo_color_255            (GdkColor              *g_color,
 			         	 	 	     cairo_color_255_t     *c_color);
-
+void               _gdk_rgba_to_cairo_color_255             (GdkRGBA               *g_color,
+			         	 	 	     cairo_color_255_t     *c_color);
 
 /* surface */
 
@@ -189,10 +190,10 @@ void               _cairo_copy_line_as_rgba                 (guchar             
 /* paint / draw */
 
 void              _cairo_paint_full_gradient                (cairo_surface_t       *surface,
-				 	 	 	     GdkColor              *h_color1,
-				 	 	 	     GdkColor              *h_color2,
-				 	 	 	     GdkColor              *v_color1,
-				 	 	 	     GdkColor              *v_color2);
+							     GdkRGBA               *h_color1,
+							     GdkRGBA               *h_color2,
+							     GdkRGBA               *v_color1,
+							     GdkRGBA               *v_color2);
 void              _cairo_draw_rounded_box                   (cairo_t               *cr,
 			 	 	 	 	     double                 x,
 			 	 	 	 	     double                 y,
@@ -218,7 +219,7 @@ void              _cairo_draw_slide                         (cairo_t            
 		   	   	   	   	 	     double                 frame_height,
 		   	   	   	   	 	     double                 image_width,
 		   	   	   	   	 	     double                 image_height,
-		   	   	   	   	 	     GdkColor              *frame_color,
+		   	   	   	   	 	     GdkRGBA               *frame_color,
 		   	   	   	   	 	     gboolean               draw_inner_border);
 void              _cairo_paint_grid                         (cairo_t               *cr,
 							     cairo_rectangle_int_t *rectangle,

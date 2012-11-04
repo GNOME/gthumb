@@ -91,6 +91,17 @@ _gdk_color_to_cairo_color_255 (GdkColor          *g_color,
 
 
 void
+_gdk_rgba_to_cairo_color_255 (GdkRGBA           *g_color,
+			      cairo_color_255_t *c_color)
+{
+	c_color->r = (guchar) 255.0 * g_color->red;
+	c_color->g = (guchar) 255.0 * g_color->green;
+	c_color->b = (guchar) 255.0 * g_color->blue;
+	c_color->a = (guchar) 255.0 * g_color->alpha;
+}
+
+
+void
 _cairo_clear_surface (cairo_surface_t  **surface)
 {
 	if (surface == NULL)
@@ -595,10 +606,10 @@ _cairo_copy_line_as_rgba (guchar *dest,
 
 void
 _cairo_paint_full_gradient (cairo_surface_t *surface,
-			    GdkColor        *h_color1,
-			    GdkColor        *h_color2,
-			    GdkColor        *v_color1,
-			    GdkColor        *v_color2)
+			    GdkRGBA         *h_color1,
+			    GdkRGBA         *h_color2,
+			    GdkRGBA         *v_color1,
+			    GdkRGBA         *v_color2)
 {
 	cairo_color_255_t  hcolor1;
 	cairo_color_255_t  hcolor2;
@@ -618,10 +629,10 @@ _cairo_paint_full_gradient (cairo_surface_t *surface,
 
 	cairo_surface_flush (surface);
 
-	_gdk_color_to_cairo_color_255 (h_color1, &hcolor1);
-	_gdk_color_to_cairo_color_255 (h_color2, &hcolor2);
-	_gdk_color_to_cairo_color_255 (v_color1, &vcolor1);
-	_gdk_color_to_cairo_color_255 (v_color2, &vcolor2);
+	_gdk_rgba_to_cairo_color_255 (h_color1, &hcolor1);
+	_gdk_rgba_to_cairo_color_255 (h_color2, &hcolor2);
+	_gdk_rgba_to_cairo_color_255 (v_color1, &vcolor1);
+	_gdk_rgba_to_cairo_color_255 (v_color2, &vcolor2);
 
 	width = cairo_image_surface_get_width (surface);
 	height = cairo_image_surface_get_height (surface);
@@ -735,7 +746,7 @@ _cairo_draw_slide (cairo_t  *cr,
 		   double    frame_height,
 		   double    image_width,
 		   double    image_height,
-		   GdkColor *frame_color,
+		   GdkRGBA  *frame_color,
 		   gboolean  draw_inner_border)
 {
 	const double dark_gray = 0.60;
@@ -757,7 +768,7 @@ _cairo_draw_slide (cairo_t  *cr,
 
 	/* background. */
 
-	gdk_cairo_set_source_color (cr, frame_color);
+	gdk_cairo_set_source_rgba (cr, frame_color);
 	cairo_rectangle (cr,
 			 frame_x,
 			 frame_y,
