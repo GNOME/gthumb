@@ -361,24 +361,30 @@ update_file_list__step2 (gpointer user_data)
 	GList        *scan;
 	GError       *error = NULL;
 
-	if (data->first_update && (data->file_data_list->next == NULL)) {
-		GthFileData *file_data = data->file_data_list->data;
-		const char  *edit_name;
-		const char  *end_pos;
+	if (data->first_update) {
+		if (data->file_data_list->next == NULL) {
+			GthFileData *file_data = data->file_data_list->data;
+			const char  *edit_name;
+			const char  *end_pos;
 
-		g_signal_handlers_block_by_func (GET_WIDGET ("template_entry"), update_preview_cb, data);
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), g_file_info_get_attribute_string (file_data->info, G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME));
-		g_signal_handlers_unblock_by_func (GET_WIDGET ("template_entry"), update_preview_cb, data);
+			g_signal_handlers_block_by_func (GET_WIDGET ("template_entry"), update_preview_cb, data);
+			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), g_file_info_get_attribute_string (file_data->info, G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME));
+			g_signal_handlers_unblock_by_func (GET_WIDGET ("template_entry"), update_preview_cb, data);
 
-		gtk_widget_grab_focus (GET_WIDGET ("template_entry"));
+			gtk_widget_grab_focus (GET_WIDGET ("template_entry"));
 
-		edit_name = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
-		end_pos = g_utf8_strrchr (edit_name, -1, '.');
-		if (end_pos != NULL) {
-			glong nchars;
+			edit_name = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
+			end_pos = g_utf8_strrchr (edit_name, -1, '.');
+			if (end_pos != NULL) {
+				glong nchars;
 
-			nchars = g_utf8_strlen (edit_name, (gssize) (end_pos - edit_name));
-			gtk_editable_select_region (GTK_EDITABLE (GET_WIDGET ("template_entry")), 0, nchars);
+				nchars = g_utf8_strlen (edit_name, (gssize) (end_pos - edit_name));
+				gtk_editable_select_region (GTK_EDITABLE (GET_WIDGET ("template_entry")), 0, nchars);
+			}
+		}
+		else {
+			gtk_widget_grab_focus (GET_WIDGET ("template_entry"));
+			gtk_editable_select_region (GTK_EDITABLE (GET_WIDGET ("template_entry")), 0, -1);
 		}
 	}
 
