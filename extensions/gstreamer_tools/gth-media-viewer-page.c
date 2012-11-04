@@ -414,15 +414,18 @@ position_scale_button_press_event_cb (GtkWidget      *widget,
 				      GdkEventButton *event,
 				      gpointer        user_data)
 {
+#if ! GTK_CHECK_VERSION(3,6,0)
 	/* In a video player when clicking on the progress bar the user expect
 	 * to jump to the specified position directly instead of scrolling one
 	 * page up or down as happens by default in Gtk+.  The button 2
-	 * behavior is what we want by default for button 1. */
+	 * behavior is what we want by default for button 1.  This is the
+	 * default behaviour in Gtk+ 3.6.0 or greater. */
 
 	if (event->button == 1)
 		event->button = 2;
 	else if (event->button == 2)
 		event->button = 1;
+#endif
 
 	return FALSE;
 }
@@ -435,11 +438,13 @@ position_scale_button_release_event_cb (GtkWidget      *widget,
 {
 	GthMediaViewerPage *self = user_data;
 
+#if ! GTK_CHECK_VERSION(3,6,0)
 	/* Swap button 1 and 2 behaviors, see position_scale_button_press_event_cb */
 	if (event->button == 1)
 		event->button = 2;
 	else if (event->button == 2)
 		event->button = 1;
+#endif
 
 	if (self->priv->playing)
 		self->priv->block_next_jump = TRUE;
