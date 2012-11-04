@@ -22,7 +22,6 @@
 #include <config.h>
 #include <gthumb.h>
 #include <librsvg/rsvg.h>
-#include <librsvg/rsvg-cairo.h>
 #include "cairo-image-surface-svg.h"
 
 
