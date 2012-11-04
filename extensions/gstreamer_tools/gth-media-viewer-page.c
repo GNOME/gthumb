@@ -24,7 +24,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 #include <gst/gst.h>
-#include <gst/interfaces/xoverlay.h>
+#include <gst/video/videooverlay.h>
 #include <gthumb.h>
 #include <extensions/gstreamer_utils/gstreamer-utils.h>
 #include "actions.h"
@@ -325,11 +325,11 @@ update_current_position_bar (GthMediaViewerPage *self)
         gint64    current_value = 0;
 
         format = GST_FORMAT_TIME;
-        if (gst_element_query_position (self->priv->playbin, &format, &current_value)) {
+        if (gst_element_query_position (self->priv->playbin, format, &current_value)) {
         	char *s;
 
 		if (self->priv->duration <= 0) {
-			gst_element_query_duration (self->priv->playbin, &format, &self->priv->duration);
+			gst_element_query_duration (self->priv->playbin, format, &self->priv->duration);
 			s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (self->priv->duration));
 			gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_duration")), s);
 
@@ -895,20 +895,15 @@ set_playbin_window (GstBus             *bus,
 		    GthMediaViewerPage *self)
 {
 	/* ignore anything but 'prepare-xwindow-id' element messages */
-
-	if (GST_MESSAGE_TYPE (message) != GST_MESSAGE_ELEMENT)
-		return GST_BUS_PASS;
-	if (! gst_structure_has_name (message->structure, "prepare-xwindow-id"))
+	if (! gst_is_video_overlay_prepare_window_handle_message (message))
 		return GST_BUS_PASS;
 
 	if (self->priv->video_window_xid != 0) {
-		GstXOverlay *xoverlay;
+		GstVideoOverlay *video_overlay;
 
-		xoverlay = GST_X_OVERLAY (GST_MESSAGE_SRC (message));
-		gst_x_overlay_set_window_handle (xoverlay, self->priv->video_window_xid);
+		video_overlay = GST_VIDEO_OVERLAY (GST_MESSAGE_SRC (message));
+		gst_video_overlay_set_window_handle (video_overlay, self->priv->video_window_xid);
 		self->priv->xwin_assigned = TRUE;
-
-		g_object_set (xoverlay, "force-aspect-ratio", TRUE, NULL);
 	}
 	else
 		g_warning ("Should have obtained video_window_xid by now!");
@@ -936,64 +931,46 @@ reset_player_state (GthMediaViewerPage *self)
 static void
 update_stream_info (GthMediaViewerPage *self)
 {
-	GList  *streaminfo;
-	GstPad *videopad;
+	GstElement *audio_sink;
+	GstElement *video_sink;
+	GstPad     *audio_pad;
+	GstPad     *video_pad;
 
-	streaminfo = NULL;
-	videopad = NULL;
+	g_object_get (self->priv->playbin,
+		      "audio-sink", &audio_sink,
+		      "video-sink", &video_sink,
+		      NULL);
 
-	g_object_get (self->priv->playbin, "stream-info", &streaminfo, NULL);
-	streaminfo = g_list_copy (streaminfo);
-	g_list_foreach (streaminfo, (GFunc) g_object_ref, NULL);
-
-	for (/* void */ ; streaminfo; streaminfo = streaminfo->next) {
-		GObject    *info;
-		int         type;
-		GParamSpec *pspec;
-		GEnumValue *val;
-
-		info = streaminfo->data;
-		if (info == NULL)
-			continue;
-
-                type = -1;
-
-		g_object_get (info, "type", &type, NULL);
-		pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (info), "type");
-		val = g_enum_get_value (G_PARAM_SPEC_ENUM (pspec)->enum_class, type);
-
-		if (strcmp (val->value_nick, "audio") == 0) {
+	if (audio_sink != NULL) {
+		audio_pad = gst_element_get_static_pad (GST_ELEMENT (audio_sink), "sink");
+		if (audio_pad != NULL)
 			self->priv->has_audio = TRUE;
-		}
-		else if (strcmp (val->value_nick, "video") == 0) {
+	}
+
+	if (video_sink != NULL) {
+		video_pad = gst_element_get_static_pad (GST_ELEMENT (video_sink), "sink");
+		if (video_pad != NULL) {
+			GstCaps *caps;
+
 			self->priv->has_video = TRUE;
-			if (videopad == NULL)
-				g_object_get (info, "object", &videopad, NULL);
+
+			if ((caps = gst_pad_get_current_caps (video_pad)) != NULL) {
+				GstStructure *structure;
+				int           video_width;
+				int           video_height;
+
+				structure = gst_caps_get_structure (caps, 0);
+				gst_structure_get_fraction (structure, "framerate", &self->priv->video_fps_n, &self->priv->video_fps_d);
+				gst_structure_get_int (structure, "width", &video_width);
+				gst_structure_get_int (structure, "height", &video_height);
+
+				g_file_info_set_attribute_int32 (self->priv->file_data->info, "frame::width", video_width);
+				g_file_info_set_attribute_int32 (self->priv->file_data->info, "frame::height", video_height);
+
+				gst_caps_unref (caps);
+			}
 		}
 	}
-
-	if (videopad != NULL) {
-		GstCaps *caps;
-
-		if ((caps = gst_pad_get_negotiated_caps (videopad)) != NULL) {
-			GstStructure *structure;
-			int           video_width;
-			int           video_height;
-
-			structure = gst_caps_get_structure (caps, 0);
-			gst_structure_get_fraction (structure, "framerate", &self->priv->video_fps_n, &self->priv->video_fps_d);
-			gst_structure_get_int (structure, "width", &video_width);
-			gst_structure_get_int (structure, "height", &video_height);
-
-			g_file_info_set_attribute_int32 (self->priv->file_data->info, "frame::width", video_width);
-			g_file_info_set_attribute_int32 (self->priv->file_data->info, "frame::height", video_height);
-
-			gst_caps_unref (caps);
-		}
-	}
-
-	g_list_foreach (streaminfo, (GFunc) g_object_unref, NULL);
-	g_list_free (streaminfo);
 }
 
 
@@ -1082,8 +1059,8 @@ create_playbin (GthMediaViewerPage *self)
 
 	settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
 	g_object_set (self->priv->playbin,
-		      "volume",
-		      (double) g_settings_get_int (settings, PREF_GSTREAMER_TOOLS_VOLUME) / 100.0,
+		      "volume", (double) g_settings_get_int (settings, PREF_GSTREAMER_TOOLS_VOLUME) / 100.0,
+		      "force-aspect-ratio", TRUE,
 		      NULL);
 	g_object_unref (settings);
 
@@ -1091,7 +1068,7 @@ create_playbin (GthMediaViewerPage *self)
 
 	bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
 	gst_bus_enable_sync_message_emission (bus);
-	gst_bus_set_sync_handler (bus, (GstBusSyncHandler) set_playbin_window, self);
+	gst_bus_set_sync_handler (bus, (GstBusSyncHandler) set_playbin_window, self, NULL);
 	gst_bus_add_signal_watch (bus);
 	g_signal_connect (bus, "message", G_CALLBACK (bus_message_cb), self);
 

@@ -62,7 +62,7 @@ GTK_REQUIRED=3.4.0
 EXIV2_REQUIRED=0.21
 CLUTTER_REQUIRED=1.0.0
 CLUTTER_GTK_REQUIRED=1.0.0
-GSTREAMER_REQUIRED=0.10
+GSTREAMER_REQUIRED=1.0.0
 OPENRAW_REQUIRED=0.0.8
 LIBSOUP_REQUIRED=2.36
 GNOME_KEYRING_REQUIRED=3.2.0
@@ -213,8 +213,8 @@ AC_ARG_ENABLE([gstreamer],
 
 if test x$enable_gstreamer = xyes ; then
 	PKG_CHECK_MODULES(GSTREAMER,
-			  [gstreamer-0.10 >= $GSTREAMER_REQUIRED
-			   gstreamer-interfaces-0.10],
+			  [gstreamer-1.0 >= $GSTREAMER_REQUIRED
+			   gstreamer-plugins-base-1.0 >= $GSTREAMER_REQUIRED],
 			  [AC_DEFINE(HAVE_GSTREAMER, 1, [Have gstreamer])
 			   enable_gstreamer=yes],
 			  [enable_gstreamer=no])

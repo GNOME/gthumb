@@ -44,7 +44,6 @@
 #include <gst/gst.h>
 #include <gthumb.h>
 #include "gstreamer-utils.h"
-#include "gstscreenshot.h"
 
 
 static gboolean gstreamer_initialized = FALSE;
@@ -189,14 +188,14 @@ add_metadata_from_tag (GFileInfo         *info,
 	}
 
         if (tag_type == G_TYPE_UCHAR) {
-                guchar ret = 0;
-                if (gst_tag_list_get_uchar (list, tag, &ret))
+                guint ret = 0;
+                if (gst_tag_list_get_uint (list, tag, &ret))
                         add_metadata (info, tag_key, g_strdup_printf ("%u", ret), NULL);
         }
 
         if (tag_type == G_TYPE_CHAR) {
-                gchar ret = 0;
-                if (gst_tag_list_get_char (list, tag, &ret))
+                int ret = 0;
+                if (gst_tag_list_get_int (list, tag, &ret))
                         add_metadata (info, tag_key, g_strdup_printf ("%d", ret), NULL);
         }
 
@@ -213,15 +212,15 @@ add_metadata_from_tag (GFileInfo         *info,
         }
 
         if (tag_type == G_TYPE_ULONG) {
-                gulong ret = 0;
-                if (gst_tag_list_get_ulong (list, tag, &ret))
-                        add_metadata (info, tag_key, g_strdup_printf ("%lu", ret), NULL);
+                guint64 ret = 0;
+                if (gst_tag_list_get_uint64 (list, tag, &ret))
+                        add_metadata (info, tag_key, g_strdup_printf ("%" G_GUINT64_FORMAT, ret), NULL);
         }
 
         if (tag_type == G_TYPE_LONG) {
-                glong ret = 0;
-                if (gst_tag_list_get_long (list, tag, &ret))
-                        add_metadata (info, tag_key, g_strdup_printf ("%ld", ret), NULL);
+                gint64 ret = 0;
+                if (gst_tag_list_get_int64 (list, tag, &ret))
+                        add_metadata (info, tag_key, g_strdup_printf ("%" G_GINT64_FORMAT, ret), NULL);
         }
 
         if (tag_type == G_TYPE_INT64) {
@@ -343,7 +342,7 @@ get_media_duration (MetadataExtractor *extractor)
 
 	fmt = GST_FORMAT_TIME;
 	duration = -1;
-	if (gst_element_query_duration (extractor->playbin, &fmt, &duration) && (duration >= 0))
+	if (gst_element_query_duration (extractor->playbin, fmt, &duration) && (duration >= 0))
 		return duration / GST_SECOND;
 	else
 		return -1;
@@ -428,7 +427,7 @@ caps_set (GstPad           *pad,
 	GstCaps	     *caps;
 	GstStructure *structure;
 
-	if ((caps = gst_pad_get_negotiated_caps (pad)) == NULL)
+	if ((caps = gst_pad_get_current_caps (pad)) == NULL)
 		return;
 
 	structure = gst_caps_get_structure (caps, 0);
@@ -456,67 +455,43 @@ caps_set (GstPad           *pad,
 static void
 update_stream_info (MetadataExtractor *extractor)
 {
-	GList  *streaminfo;
-	GstPad *audiopad;
-	GstPad *videopad;
+	GstElement *audio_sink;
+	GstElement *video_sink;
 
-	g_return_if_fail (extractor);
+	g_object_get (extractor->playbin,
+		      "audio-sink", &audio_sink,
+		      "video-sink", &video_sink,
+		      NULL);
 
-	streaminfo = NULL;
-	audiopad = videopad = NULL;
+	if (audio_sink != NULL) {
+		GstPad *audio_pad;
 
-	g_object_get (extractor->playbin, "stream-info", &streaminfo, NULL);
-	streaminfo = g_list_copy (streaminfo);
-	g_list_foreach (streaminfo, (GFunc) g_object_ref, NULL);
+		audio_pad = gst_element_get_static_pad (GST_ELEMENT (audio_sink), "sink");
+		if (audio_pad != NULL) {
+			GstCaps *caps;
 
-	for (/* void */ ; streaminfo; streaminfo = streaminfo->next) {
-		GObject    *info;
-		int         type;
-		GParamSpec *pspec;
-		GEnumValue *val;
-
-		info = streaminfo->data;
-		if (info == NULL)
-			continue;
-
-                type = -1;
-
-		g_object_get (info, "type", &type, NULL);
-		pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (info), "type");
-		val = g_enum_get_value (G_PARAM_SPEC_ENUM (pspec)->enum_class, type);
-
-		if (strcmp (val->value_nick, "audio") == 0) {
-			extractor->has_audio = TRUE;
-			if (audiopad == NULL)
-				g_object_get (info, "object", &audiopad, NULL);
-		}
-		else if (strcmp (val->value_nick, "video") == 0) {
-			extractor->has_video = TRUE;
-			if (videopad == NULL)
-				g_object_get (info, "object", &videopad, NULL);
+			if ((caps = gst_pad_get_current_caps (audio_pad)) != NULL) {
+				extractor->has_audio = TRUE;
+				caps_set (audio_pad, extractor, "audio");
+				gst_caps_unref (caps);
+			}
 		}
 	}
 
-	if (audiopad != NULL) {
-		GstCaps *caps;
+	if (video_sink != NULL) {
+		GstPad *video_pad;
 
-		if ((caps = gst_pad_get_negotiated_caps (audiopad)) != NULL) {
-			caps_set (audiopad, extractor, "audio");
-			gst_caps_unref (caps);
+		video_pad = gst_element_get_static_pad (GST_ELEMENT (video_sink), "sink");
+		if (video_pad != NULL) {
+			GstCaps *caps;
+
+			if ((caps = gst_pad_get_current_caps (video_pad)) != NULL) {
+				extractor->has_video = TRUE;
+				caps_set (video_pad, extractor, "video");
+				gst_caps_unref (caps);
+			}
 		}
 	}
-
-	if (videopad != NULL) {
-		GstCaps *caps;
-
-		if ((caps = gst_pad_get_negotiated_caps (videopad)) != NULL) {
-			caps_set (videopad, extractor, "video");
-			gst_caps_unref (caps);
-		}
-	}
-
-	g_list_foreach (streaminfo, (GFunc) g_object_unref, NULL);
-	g_list_free (streaminfo);
 }
 
 
@@ -675,7 +650,6 @@ gstreamer_read_metadata_from_file (GFile       *file,
 
 
 typedef struct {
-
 	GdkPixbuf          *pixbuf;
 	FrameReadyCallback  cb;
 	gpointer            user_data;
@@ -694,54 +668,7 @@ screenshot_data_finalize (ScreenshotData *data)
 static void
 destroy_pixbuf (guchar *pix, gpointer data)
 {
-	gst_buffer_unref (GST_BUFFER (data));
-}
-
-
-static void
-get_current_frame_step2 (GstBuffer *buf,
-			 gpointer   user_data)
-{
-	ScreenshotData *data = user_data;
-	GstStructure   *s;
-	int             outwidth = 0;
-	int             outheight = 0;
-
-	if (buf == NULL) {
-		g_warning ("Could not take screenshot: %s", "conversion failed");
-		screenshot_data_finalize (data);
-		return;
-	}
-
-	if (GST_BUFFER_CAPS (buf) == NULL) {
-		g_warning ("Could not take screenshot: %s", "no caps on output buffer");
-		screenshot_data_finalize (data);
-		return;
-	}
-
-	s = gst_caps_get_structure (GST_BUFFER_CAPS (buf), 0);
-	gst_structure_get_int (s, "width", &outwidth);
-	gst_structure_get_int (s, "height", &outheight);
-
-	g_return_if_fail (outwidth > 0 && outheight > 0);
-
-	/* create pixbuf from that - use our own destroy function */
-
-	data->pixbuf = gdk_pixbuf_new_from_data (GST_BUFFER_DATA (buf),
-						 GDK_COLORSPACE_RGB,
-						 FALSE,
-						 8,
-						 outwidth,
-						 outheight,
-						 GST_ROUND_UP_4 (outwidth * 3),
-						 destroy_pixbuf,
-						 buf);
-	if (data->pixbuf == NULL) {
-		g_warning ("Could not take screenshot: %s", "could not create pixbuf");
-		gst_buffer_unref (buf);
-	}
-
-	screenshot_data_finalize (data);
+	gst_sample_unref (GST_SAMPLE (data));
 }
 
 
@@ -753,46 +680,73 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 				gpointer             user_data)
 {
 	ScreenshotData *data;
-	GstBuffer      *buf;
 	GstCaps        *to_caps;
-
-	g_object_get (playbin, "frame", &buf, NULL);
-
-	if (buf == NULL) {
-		g_warning ("Could not take screenshot: %s", "no last video frame");
-		return FALSE;
-	}
-
-	if (GST_BUFFER_CAPS (buf) == NULL) {
-		g_warning ("Could not take screenshot: %s", "no caps on buffer");
-		return FALSE;
-	}
-
-	/* convert to our desired format (RGB24) */
+	GstSample      *sample;
+	GstCaps        *sample_caps;
+	GstStructure   *s;
+	int             outwidth;
+	int             outheight;
 
 	data = g_new0 (ScreenshotData, 1);
 	data->cb = cb;
 	data->user_data = user_data;
 
-	to_caps = gst_caps_new_simple ("video/x-raw-rgb",
-				       "bpp", G_TYPE_INT, 24,
-				       "depth", G_TYPE_INT, 24,
+	/* our desired output format (RGB24) */
+	to_caps = gst_caps_new_simple ("video/x-raw",
+				       "format", G_TYPE_STRING, "RGB",
 				       /* Note: we don't ask for a specific width/height here, so that
 				        * videoscale can adjust dimensions from a non-1/1 pixel aspect
-				        * ratio to a 1/1 pixel-aspect-ratio */
+				        * ratio to a 1/1 pixel-aspect-ratio. We also don't ask for a
+				        * specific framerate, because the input framerate won't
+				        * necessarily match the output framerate if there's a deinterlacer
+				        * in the pipeline. */
 				       "pixel-aspect-ratio", GST_TYPE_FRACTION, 1, 1,
-				       "endianness", G_TYPE_INT, G_BIG_ENDIAN,
-				       "red_mask", G_TYPE_INT, 0xff0000,
-				       "green_mask", G_TYPE_INT, 0x00ff00,
-				       "blue_mask", G_TYPE_INT, 0x0000ff,
 				       NULL);
 
-	if (video_fps_n > 0 && video_fps_d > 0) {
-		gst_caps_set_simple (to_caps, "framerate",
-				     GST_TYPE_FRACTION, video_fps_n, video_fps_d,
-				     NULL);
+	/* get frame */
+	sample = NULL;
+	g_signal_emit_by_name (playbin, "convert-sample", to_caps, &sample);
+	gst_caps_unref (to_caps);
+
+	if (sample == NULL) {
+		g_warning ("Could not take screenshot: %s", "failed to retrieve or convert video frame");
+		screenshot_data_finalize (data);
+		return FALSE;
 	}
 
-	return bvw_frame_conv_convert (buf, to_caps, get_current_frame_step2, data);
+	sample_caps = gst_sample_get_caps (sample);
+	if (sample_caps == NULL) {
+		g_warning ("Could not take screenshot: %s", "no caps on output buffer");
+		return FALSE;
+	}
+
+	s = gst_caps_get_structure (sample_caps, 0);
+	gst_structure_get_int (s, "width", &outwidth);
+	gst_structure_get_int (s, "height", &outheight);
+	if ((outwidth > 0) && (outheight > 0)) {
+		GstMemory  *memory;
+		GstMapInfo  info;
+
+		memory = gst_buffer_get_memory (gst_sample_get_buffer (sample), 0);
+		gst_memory_map (memory, &info, GST_MAP_READ);
+		data->pixbuf = gdk_pixbuf_new_from_data (info.data,
+							 GDK_COLORSPACE_RGB,
+							 FALSE,
+							 8,
+							 outwidth,
+							 outheight,
+							 GST_ROUND_UP_4 (outwidth * 3),
+							 destroy_pixbuf,
+							 sample);
+
+		gst_memory_unmap (memory, &info);
+	}
+
+	if (data->pixbuf == NULL)
+		g_warning ("Could not take screenshot: %s", "could not create pixbuf");
+
+	screenshot_data_finalize (data);
+
+	return TRUE;
 }
 

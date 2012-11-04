@@ -6,8 +6,6 @@ extension_LTLIBRARIES = libgstreamer_utils.la
 libgstreamer_utils_la_SOURCES = 		\
 	gstreamer-utils.c			\
 	gstreamer-utils.h			\
-	gstscreenshot.c				\
-	gstscreenshot.h				\
 	main.c
 
 libgstreamer_utils_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(GSTREAMER_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
