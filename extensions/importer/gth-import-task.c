@@ -598,6 +598,8 @@ static void
 import_current_file (GthImportTask *self)
 {
 	GthFileData *file_data;
+	gboolean     adjust_image_orientation;
+	gboolean     need_image_metadata;
 
 	g_free (self->priv->buffer);
 	self->priv->buffer = NULL;
@@ -657,9 +659,10 @@ import_current_file (GthImportTask *self)
 	file_data = self->priv->current->data;
 	self->priv->current_file_size = g_file_info_get_size (file_data->info);
 
-	if (_g_mime_type_is_image (gth_file_data_get_mime_type (file_data))
-	    && (self->priv->subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE))
-	{
+	adjust_image_orientation = self->priv->adjust_orientation && gth_main_extension_is_active ("image_rotation");
+	need_image_metadata = (self->priv->subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE) || adjust_image_orientation;
+
+	if (_g_mime_type_is_image (gth_file_data_get_mime_type (file_data)) && need_image_metadata) {
 		gth_task_progress (GTH_TASK (self),
 				   _("Importing files"),
 				   g_file_info_get_display_name (file_data->info),
