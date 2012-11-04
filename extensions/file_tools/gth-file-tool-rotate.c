@@ -292,16 +292,11 @@ static void
 background_colorbutton_color_set_cb (GtkColorButton    *color_button,
 		             	     GthFileToolRotate *self)
 {
-	GdkColor      color;
-	cairo_color_t background_color;
+	GdkRGBA  background_color;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("background_transparent_checkbutton")), FALSE);
 
-	gtk_color_button_get_color (color_button, &color);
-	background_color.r = (double) color.red / 65535;
-	background_color.g = (double) color.green / 65535;
-	background_color.b = (double) color.blue / 65535;
-	background_color.a = 1.0;
+	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (color_button), &background_color);
 	gth_image_rotator_set_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
 
 	apply_changes (self);
@@ -313,12 +308,12 @@ background_transparent_toggled_cb (GtkToggleButton   *toggle_button,
 		             	   GthFileToolRotate *self)
 {
 	if (gtk_toggle_button_get_active (toggle_button)) {
-		cairo_color_t background_color;
+		GdkRGBA background_color;
 
-		background_color.r = 0.0;
-		background_color.g = 0.0;
-		background_color.b = 0.0;
-		background_color.a = 0.0;
+		background_color.red = 0.0;
+		background_color.green = 0.0;
+		background_color.blue = 0.0;
+		background_color.alpha = 0.0;
 		gth_image_rotator_set_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
 	}
 	else
@@ -364,8 +359,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	GtkWidget         *viewer_page;
 	GtkWidget         *viewer;
 	char              *color_spec;
-	GdkColor           color;
-	cairo_color_t      background_color;
+	GdkRGBA            background_color;
 
 	self = (GthFileToolRotate *) base;
 
@@ -432,14 +426,14 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	}
 
 	color_spec = g_settings_get_string (self->priv->settings, PREF_ROTATE_BACKGROUND_COLOR);
-	if (! self->priv->has_alpha && gdk_color_parse (color_spec, &color)) {
-		_gdk_color_to_cairo_color (&color, &background_color);
+	if (! self->priv->has_alpha) {
+		gdk_rgba_parse (&background_color, color_spec);
 	}
 	else {
-		background_color.r = 0.0;
-		background_color.g = 0.0;
-		background_color.b = 0.0;
-		background_color.a = self->priv->has_alpha ? 0.0 : 1.0;
+		background_color.red = 0.0;
+		background_color.green = 0.0;
+		background_color.blue = 0.0;
+		background_color.alpha = 1.0;
 	}
 	gth_image_rotator_set_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
 
@@ -536,9 +530,8 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 	self = (GthFileToolRotate *) base;
 
 	if (self->priv->builder != NULL) {
-		cairo_color_t  background_color;
-		GdkColor       color;
-		char          *color_spec;
+		GdkRGBA  background_color;
+		char    *color_spec;
 
 		/* save the dialog options */
 
@@ -547,11 +540,9 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 		g_settings_set_enum (self->priv->settings, PREF_ROTATE_GRID_TYPE, gth_image_rotator_get_grid_type (GTH_IMAGE_ROTATOR (self->priv->rotator)));
 
 		gth_image_rotator_get_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
-		color.red = background_color.r * 255.0;
-		color.green = background_color.g * 255.0;
-		color.blue = background_color.b * 255.0;
-		color_spec = gdk_color_to_string (&color);
+		color_spec = gdk_rgba_to_string (&background_color);
 		g_settings_set_string (self->priv->settings, PREF_ROTATE_BACKGROUND_COLOR, color_spec);
+
 		g_free (color_spec);
 	}
 

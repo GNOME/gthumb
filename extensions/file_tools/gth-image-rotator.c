@@ -63,7 +63,7 @@ struct _GthImageRotatorPrivate {
 
 	GdkPoint               center;
 	double                 angle;
-	cairo_color_t          background_color;
+	GdkRGBA                background_color;
 	gboolean               enable_crop;
 	cairo_rectangle_int_t  crop_region;
 	GthGridType            grid_type;
@@ -441,10 +441,10 @@ gth_image_rotator_draw (GthImageViewerTool *base,
 	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 
   	cairo_set_source_rgba (cr,
-  			       self->priv->background_color.r,
-  			       self->priv->background_color.g,
-  			       self->priv->background_color.b,
-  			       self->priv->background_color.a);
+  			       self->priv->background_color.red,
+  			       self->priv->background_color.green,
+  			       self->priv->background_color.blue,
+  			       self->priv->background_color.alpha);
 	cairo_fill (cr);
 
 	if (self->priv->preview_image == NULL)
@@ -695,10 +695,10 @@ gth_image_rotator_init (GthImageRotator *self)
 	self->priv->preview_image = NULL;
 	self->priv->grid_type = GTH_GRID_NONE;
 	self->priv->resize = GTH_TRANSFORM_RESIZE_BOUNDING_BOX;
-	self->priv->background_color.r = 0.0;
-	self->priv->background_color.g = 0.0;
-	self->priv->background_color.b = 0.0;
-	self->priv->background_color.a = 1.0;
+	self->priv->background_color.red = 0.0;
+	self->priv->background_color.green = 0.0;
+	self->priv->background_color.blue = 0.0;
+	self->priv->background_color.alpha = 1.0;
 	self->priv->enable_crop = FALSE;
 	self->priv->crop_region.x = 0;
 	self->priv->crop_region.y = 0;
@@ -831,7 +831,7 @@ gth_image_rotator_set_crop_region (GthImageRotator       *self,
 
 void
 gth_image_rotator_set_background (GthImageRotator *self,
-			          cairo_color_t   *color)
+			          GdkRGBA         *color)
 {
 	self->priv->background_color = *color;
 
@@ -844,7 +844,7 @@ gth_image_rotator_set_background (GthImageRotator *self,
 
 void
 gth_image_rotator_get_background (GthImageRotator *self,
-			          cairo_color_t   *color)
+			          GdkRGBA   *color)
 {
 	*color = self->priv->background_color;
 }
@@ -903,10 +903,10 @@ gth_image_rotator_get_result_fast (GthImageRotator *self)
   	cairo_rectangle (cr, clip_area.x, clip_area.y, clip_area.width, clip_area.height);
   	cairo_clip_preserve (cr);
   	cairo_set_source_rgba (cr,
-  			       self->priv->background_color.r,
-  			       self->priv->background_color.g,
-  			       self->priv->background_color.b,
-  			       self->priv->background_color.a);
+  			       self->priv->background_color.red,
+  			       self->priv->background_color.green,
+  			       self->priv->background_color.blue,
+  			       self->priv->background_color.alpha);
   	cairo_fill (cr);
 
   	/* paint the rotated image */

@@ -154,7 +154,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	theme = gth_contact_sheet_theme_new ();
 	theme->background_type = GTH_CONTACT_SHEET_BACKGROUND_TYPE_SOLID;
-	gdk_color_parse ("#000", &theme->background_color1);
+	gdk_rgba_parse (&theme->background_color1, "#000");
 	theme->frame_style = GTH_CONTACT_SHEET_FRAME_STYLE_NONE;
 	theme->frame_hpadding = 0;
 	theme->frame_vpadding = 0;

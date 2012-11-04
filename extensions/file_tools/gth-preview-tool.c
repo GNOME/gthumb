@@ -43,7 +43,7 @@ struct _GthPreviewToolPrivate {
 	gboolean               original_zoom_enabled;
 	cairo_surface_t       *preview_image;
 	cairo_rectangle_int_t  preview_image_area;
-	cairo_color_t          background_color;
+	GdkRGBA                background_color;
 };
 
 
@@ -193,10 +193,10 @@ gth_preview_tool_draw (GthImageViewerTool *base,
 	cairo_rectangle (cr, 0, 0, allocation.width, allocation.height);
 
   	cairo_set_source_rgba (cr,
-  			       self->priv->background_color.r,
-  			       self->priv->background_color.g,
-  			       self->priv->background_color.b,
-  			       self->priv->background_color.a);
+  			       self->priv->background_color.red,
+  			       self->priv->background_color.green,
+  			       self->priv->background_color.blue,
+  			       self->priv->background_color.alpha);
 	cairo_fill (cr);
 	cairo_restore (cr);
 
@@ -318,10 +318,10 @@ gth_preview_tool_init (GthPreviewTool *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PREVIEW_TOOL, GthPreviewToolPrivate);
 	self->priv->preview_image = NULL;
-	self->priv->background_color.r = 0.2;
-	self->priv->background_color.g = 0.2;
-	self->priv->background_color.b = 0.2;
-	self->priv->background_color.a = 1.0;
+	self->priv->background_color.red = 0.2;
+	self->priv->background_color.green = 0.2;
+	self->priv->background_color.blue = 0.2;
+	self->priv->background_color.alpha = 1.0;
 }
 
 

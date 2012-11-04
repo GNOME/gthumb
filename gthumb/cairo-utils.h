@@ -119,13 +119,6 @@
 /* types */
 
 typedef struct {
-	double r;
-	double g;
-	double b;
-	double a;
-} cairo_color_t;
-
-typedef struct {
 	guchar r;
 	guchar g;
 	guchar b;
@@ -149,7 +142,7 @@ gboolean           _cairo_rectangle_contains_point          (cairo_rectangle_int
 /* colors */
 
 void               _gdk_color_to_cairo_color                (GdkColor              *g_color,
-							     cairo_color_t         *c_color);
+							     GdkRGBA               *c_color);
 void               _gdk_color_to_cairo_color_255            (GdkColor              *g_color,
 			         	 	 	     cairo_color_255_t     *c_color);
 void               _gdk_rgba_to_cairo_color_255             (GdkRGBA               *g_color,

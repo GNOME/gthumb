@@ -69,13 +69,13 @@ _cairo_rectangle_contains_point (cairo_rectangle_int_t *rect,
 
 
 void
-_gdk_color_to_cairo_color (GdkColor      *g_color,
-			   cairo_color_t *c_color)
+_gdk_color_to_cairo_color (GdkColor *g_color,
+			   GdkRGBA  *c_color)
 {
-	c_color->r = (double) g_color->red / 65535;
-	c_color->g = (double) g_color->green / 65535;
-	c_color->b = (double) g_color->blue / 65535;
-	c_color->a = 1.0;
+	c_color->red = (double) g_color->red / 65535;
+	c_color->green = (double) g_color->green / 65535;
+	c_color->blue = (double) g_color->blue / 65535;
+	c_color->alpha = 1.0;
 }
 
 

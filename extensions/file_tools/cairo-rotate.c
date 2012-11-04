@@ -362,7 +362,7 @@ cairo_surface_t *
 _cairo_image_surface_rotate (cairo_surface_t *image,
 		    	     double           angle,
 		    	     gboolean         high_quality,
-		    	     cairo_color_t   *background_color)
+		    	     GdkRGBA         *background_color)
 {
 	cairo_surface_t *rotated;
 	cairo_surface_t *tmp = NULL;
@@ -380,10 +380,10 @@ _cairo_image_surface_rotate (cairo_surface_t *image,
 		rotated = rotate (image,
 				  -angle,
 				  high_quality,
-				  background_color->r * 255.0,
-				  background_color->g * 255.0,
-				  background_color->b * 255.0,
-				  background_color->a * 255.0);
+				  background_color->red * 255.0,
+				  background_color->green * 255.0,
+				  background_color->blue * 255.0,
+				  background_color->alpha * 255.0);
 	else
 		rotated = cairo_surface_reference (image);
 
