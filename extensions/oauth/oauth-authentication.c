@@ -21,9 +21,9 @@
 
 #include <config.h>
 #include <glib.h>
-#ifdef HAVE_GNOME_KEYRING
-#include <gnome-keyring.h>
-#endif /* HAVE_GNOME_KEYRING */
+#ifdef HAVE_LIBSECRET
+#include <libsecret/secret.h>
+#endif /* HAVE_LIBSECRET */
 #include "oauth-account.h"
 #include "oauth-account-chooser-dialog.h"
 #include "oauth-account-manager-dialog.h"
@@ -248,14 +248,16 @@ connect_to_server_step2 (OAuthAuthentication *self)
 }
 
 
-#ifdef HAVE_GNOME_KEYRING
+#ifdef HAVE_LIBSECRET
 static void
-find_password_cb (GnomeKeyringResult  result,
-                  const char         *string,
-                  gpointer            user_data)
+password_lookup_ready_cb (GObject      *source_object,
+			  GAsyncResult *result,
+			  gpointer      user_data)
 {
 	OAuthAuthentication *self = user_data;
+	char                *string;
 
+	string = secret_password_lookup_finish (result, NULL);
 	if (string != NULL) {
 		char **values;
 
@@ -266,6 +268,7 @@ find_password_cb (GnomeKeyringResult  result,
 		}
 
 		g_strfreev (values);
+		g_free (string);
 	}
 
 	connect_to_server_step2 (self);
@@ -278,16 +281,16 @@ connect_to_server (OAuthAuthentication *self)
 {
 	g_return_if_fail (self->priv->account != NULL);
 
-#ifdef HAVE_GNOME_KEYRING
-	if (((self->priv->account->token == NULL) || (self->priv->account->token_secret == NULL)) && gnome_keyring_is_available ()) {
-		gnome_keyring_find_password (GNOME_KEYRING_NETWORK_PASSWORD,
-					     find_password_cb,
-					     self,
-					     NULL,
-					     "user", self->priv->account->username,
-					     "server", self->priv->conn->consumer->url,
-					     "protocol", self->priv->conn->consumer->protocol,
-					     NULL);
+#ifdef HAVE_LIBSECRET
+	if ((self->priv->account->token == NULL) || (self->priv->account->token_secret == NULL)) {
+		secret_password_lookup (SECRET_SCHEMA_COMPAT_NETWORK,
+					self->priv->cancellable,
+					password_lookup_ready_cb,
+					self,
+					"user", self->priv->account->username,
+					"server", self->priv->conn->consumer->url,
+					"protocol", self->priv->conn->consumer->protocol,
+					NULL);
 		return;
 	}
 #endif
@@ -318,12 +321,15 @@ set_account (OAuthAuthentication *self,
 }
 
 
-#ifdef HAVE_GNOME_KEYRING
+#ifdef HAVE_LIBSECRET
 static void
-store_password_done_cb (GnomeKeyringResult result,
-			gpointer           user_data)
+password_store_ready_cb (GObject      *source_object,
+			 GAsyncResult *result,
+			 gpointer      user_data)
 {
 	OAuthAuthentication *self = user_data;
+
+	secret_password_store_finish (result, NULL);
 	connect_to_server (self);
 }
 #endif
@@ -346,31 +352,31 @@ get_access_token_ready_cb (GObject      *source_object,
 
 	set_account (self, account);
 
-#ifdef HAVE_GNOME_KEYRING
-	if (gnome_keyring_is_available ()) {
+#ifdef HAVE_LIBSECRET
+	{
 		char *secret;
 
 		secret = g_strconcat (account->token,
 				      TOKEN_SECRET_SEPARATOR,
 				      account->token_secret,
 				      NULL);
-		gnome_keyring_store_password (GNOME_KEYRING_NETWORK_PASSWORD,
-					      NULL,
-					      self->priv->conn->consumer->display_name,
-					      secret,
-					      store_password_done_cb,
-					      self,
-					      NULL,
-					      "user", account->username,
-					      "server", self->priv->conn->consumer->url,
-					      "protocol", self->priv->conn->consumer->protocol,
-					      NULL);
-		return;
-	}
-#endif
+		secret_password_store (SECRET_SCHEMA_COMPAT_NETWORK,
+				       NULL,
+				       self->priv->conn->consumer->display_name,
+				       secret,
+				       self->priv->cancellable,
+				       password_store_ready_cb,
+				       "user", account->username,
+				       "server", self->priv->conn->consumer->url,
+				       "protocol", self->priv->conn->consumer->protocol,
+				       NULL);
 
+		g_free (secret);
+	}
+#else
 	g_object_unref (account);
 	connect_to_server (self);
+#endif
 }
 
 

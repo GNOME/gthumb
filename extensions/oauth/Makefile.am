@@ -18,9 +18,9 @@ liboauth_la_SOURCES = 				\
 	oauth-connection.c			\
 	oauth-connection.h
 
-liboauth_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+liboauth_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(LIBSECRET_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 liboauth_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-liboauth_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS) $(GNOME_KEYRING_LIBS) $(LIBSOUP_LIBS)
+liboauth_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS) $(LIBSECRET_LIBS) $(LIBSOUP_LIBS)
 liboauth_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

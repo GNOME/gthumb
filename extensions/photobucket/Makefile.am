@@ -26,9 +26,9 @@ libphotobucket_la_SOURCES = 			\
 	photobucket-service.c			\
 	photobucket-service.h
 
-libphotobucket_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libphotobucket_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(LIBSECRET_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libphotobucket_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libphotobucket_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) $(GNOME_KEYRING_LIBS) ../oauth/liboauth.la ../export_tools/libexport_tools.la
+libphotobucket_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) $(LIBSECRET_LIBS) ../oauth/liboauth.la ../export_tools/libexport_tools.la
 libphotobucket_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

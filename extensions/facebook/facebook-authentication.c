@@ -21,9 +21,9 @@
 
 #include <config.h>
 #include <glib.h>
-#ifdef HAVE_GNOME_KEYRING
-#include <gnome-keyring.h>
-#endif /* HAVE_GNOME_KEYRING */
+#ifdef HAVE_LIBSECRET
+#include <libsecret/secret.h>
+#endif /* HAVE_LIBSECRET */
 #include "facebook-account-chooser-dialog.h"
 #include "facebook-account-manager-dialog.h"
 #include "facebook-authentication.h"
@@ -296,14 +296,16 @@ connect_to_server_step2 (FacebookAuthentication *self)
 }
 
 
-#ifdef HAVE_GNOME_KEYRING
+#ifdef HAVE_LIBSECRET
 static void
-find_password_cb (GnomeKeyringResult  result,
-                  const char         *string,
-                  gpointer            user_data)
+password_lookup_ready_cb (GObject      *source_object,
+			  GAsyncResult *result,
+			  gpointer      user_data)
 {
 	FacebookAuthentication *self = user_data;
+	char                   *string;
 
+	string = secret_password_lookup_finish (result, NULL);
 	if (string != NULL) {
 		char **values;
 
@@ -314,6 +316,7 @@ find_password_cb (GnomeKeyringResult  result,
 		}
 
 		g_strfreev (values);
+		g_free (string);
 	}
 
 	connect_to_server_step2 (self);
@@ -326,16 +329,16 @@ connect_to_server (FacebookAuthentication *self)
 {
 	g_return_if_fail (self->priv->account != NULL);
 
-#ifdef HAVE_GNOME_KEYRING
-	if (((self->priv->account->session_key == NULL) || (self->priv->account->secret == NULL)) && gnome_keyring_is_available ()) {
-		gnome_keyring_find_password (GNOME_KEYRING_NETWORK_PASSWORD,
-					     find_password_cb,
-					     self,
-					     NULL,
-					     "user", self->priv->account->user_id,
-					     "server", FACEBOOK_HTTPS_REST_SERVER,
-					     "protocol", "https",
-					     NULL);
+#ifdef HAVE_LIBSECRET
+	if ((self->priv->account->session_key == NULL) || (self->priv->account->secret == NULL)) {
+		secret_password_lookup (SECRET_SCHEMA_COMPAT_NETWORK,
+					self->priv->cancellable,
+					password_lookup_ready_cb,
+					self,
+					"user", self->priv->account->user_id,
+					"server", FACEBOOK_HTTPS_REST_SERVER,
+					"protocol", "https",
+					NULL);
 		return;
 	}
 #endif
@@ -366,12 +369,15 @@ set_account (FacebookAuthentication *self,
 }
 
 
-#ifdef HAVE_GNOME_KEYRING
+#ifdef HAVE_LIBSECRET
 static void
-store_password_done_cb (GnomeKeyringResult result,
-			gpointer           user_data)
+password_store_ready_cb (GObject      *source_object,
+			 GAsyncResult *result,
+			 gpointer      user_data)
 {
 	FacebookAuthentication *self = user_data;
+
+	secret_password_store_finish (result, NULL);
 	connect_to_server (self);
 }
 #endif
@@ -397,29 +403,29 @@ get_session_ready_cb (GObject      *source_object,
 	facebook_account_set_user_id (account, facebook_connection_get_user_id (self->priv->conn));
 	set_account (self, account);
 
-#ifdef HAVE_GNOME_KEYRING
-	if (gnome_keyring_is_available ()) {
+#ifdef HAVE_LIBSECRET
+	{
 		char *secret;
 
 		secret = g_strconcat (account->session_key, SECRET_SEPARATOR, account->secret, NULL);
-		gnome_keyring_store_password (GNOME_KEYRING_NETWORK_PASSWORD,
-					      NULL,
-					      "Facebook",
-					      secret,
-					      store_password_done_cb,
-					      self,
-					      NULL,
-					      "user", account->user_id,
-					      "server", FACEBOOK_HTTPS_REST_SERVER,
-					      "protocol", "https",
-					      NULL);
-		g_free (secret);
-		return;
-	}
-#endif
+		secret_password_store (SECRET_SCHEMA_COMPAT_NETWORK,
+				       NULL,
+				       "Facebook",
+				       secret,
+				       self->priv->cancellable,
+				       password_store_ready_cb,
+				       self,
+				       "user", account->user_id,
+				       "server", FACEBOOK_HTTPS_REST_SERVER,
+				       "protocol", "https",
+				       NULL);
 
+		g_free (secret);
+	}
+#else
 	g_object_unref (account);
 	connect_to_server (self);
+#endif
 }
 
 

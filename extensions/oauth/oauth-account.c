@@ -22,9 +22,9 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_GNOME_KEYRING
-#include <gnome-keyring.h>
-#endif /* HAVE_GNOME_KEYRING */
+#ifdef HAVE_LIBSECRET
+#include <libsecret/secret.h>
+#endif /* HAVE_LIBSECRET */
 #include <gthumb.h>
 #include "oauth-account.h"
 
@@ -75,14 +75,15 @@ oauth_account_create_element (DomDomizable *base,
 	if (self->username != NULL)
 		dom_element_set_attribute (element, "username", self->username);
 
-	/* Don't save the token in the configuration file if gnome-keyring is
+	/* Don't save the token in the configuration file if the keyring is
 	 * available. */
 
+#ifdef HAVE_LIBSECRET
+	set_token = FALSE;
+#else
 	set_token = TRUE;
-#ifdef HAVE_GNOME_KEYRING
-	if (gnome_keyring_is_available ())
-		set_token = FALSE;
 #endif
+
 	if (set_token && (self->token != NULL))
 		dom_element_set_attribute (element, "token", self->token);
 

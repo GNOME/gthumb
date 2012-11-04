@@ -21,9 +21,9 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
-#ifdef HAVE_GNOME_KEYRING
-#include <gnome-keyring.h>
-#endif /* HAVE_GNOME_KEYRING */
+#ifdef HAVE_LIBSECRET
+#include <libsecret/secret.h>
+#endif /* HAVE_LIBSECRET */
 #include <gthumb.h>
 #include "dlg-export-to-picasaweb.h"
 #include "picasa-account-chooser-dialog.h"
@@ -401,12 +401,16 @@ get_album_list (DialogData *data)
 }
 
 
-#ifdef HAVE_GNOME_KEYRING
+#ifdef HAVE_LIBSECRET
 static void
-store_password_done_cb (GnomeKeyringResult result,
-			gpointer           user_data)
+password_store_ready_cb (GObject      *source_object,
+			 GAsyncResult *result,
+			 gpointer      user_data)
 {
-	get_album_list ((DialogData *) user_data);
+	DialogData *data = user_data;
+
+	secret_password_store_finish (result, NULL);
+	get_album_list (data);
 }
 #endif
 
@@ -449,24 +453,21 @@ connection_ready_cb (GObject      *source_object,
 	if (! g_list_find_custom (data->accounts, data->email, (GCompareFunc) strcmp))
 		data->accounts = g_list_append (data->accounts, g_strdup (data->email));
 
-#ifdef HAVE_GNOME_KEYRING
-	if (gnome_keyring_is_available ()) {
-		gnome_keyring_store_password (GNOME_KEYRING_NETWORK_PASSWORD,
-					      NULL,
-					      _("Picasa Web Album"),
-					      data->password,
-					      store_password_done_cb,
-					      data,
-					      NULL,
-					      "user", data->email,
-					      "server", "picasaweb.google.com",
-					      "protocol", "http",
-					      NULL);
-		return;
-	}
-#endif
-
+#ifdef HAVE_LIBSECRET
+	secret_password_store (SECRET_SCHEMA_COMPAT_NETWORK,
+			       NULL,
+			       _("Picasa Web Album"),
+			       data->password,
+			       data->cancellable,
+			       password_store_ready_cb,
+			       data,
+			       "user", data->email,
+			       "server", "picasaweb.google.com",
+			       "protocol", "http",
+			       NULL);
+#else
 	get_album_list (data);
+#endif
 }
 
 
@@ -567,16 +568,21 @@ connect_to_server_step2 (DialogData *data)
 }
 
 
-#ifdef HAVE_GNOME_KEYRING
+#ifdef HAVE_LIBSECRET
 static void
-find_password_cb (GnomeKeyringResult result,
-                  const char        *string,
-                  gpointer           user_data)
+password_lookup_ready_cb (GObject      *source_object,
+			  GAsyncResult *result,
+			  gpointer      user_data)
 {
 	DialogData *data = user_data;
+	char       *string;
 
-	if (string != NULL)
+	string = secret_password_lookup_finish (result, NULL);
+	if (string != NULL) {
 		data->password = g_strdup (string);
+		g_free (string);
+	}
+
 	connect_to_server_step2 (data);
 }
 #endif
@@ -591,16 +597,16 @@ connect_to_server (DialogData *data)
 		gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->conn));
 	}
 
-#ifdef HAVE_GNOME_KEYRING
-	if ((data->password == NULL) && gnome_keyring_is_available ()) {
-		gnome_keyring_find_password (GNOME_KEYRING_NETWORK_PASSWORD,
-					     find_password_cb,
-					     data,
-					     NULL,
-					     "user", data->email,
-					     "server", "picasaweb.google.com",
-					     "protocol", "http",
-					     NULL);
+#ifdef HAVE_LIBSECRET
+	if (data->password == NULL) {
+		secret_password_lookup (SECRET_SCHEMA_COMPAT_NETWORK,
+				        data->cancellable,
+				        password_lookup_ready_cb,
+				        data,
+				        "user", data->email,
+				        "server", "picasaweb.google.com",
+				        "protocol", "http",
+				        NULL);
 		return;
 	}
 #endif

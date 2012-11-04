@@ -65,7 +65,7 @@ CLUTTER_GTK_REQUIRED=1.0.0
 GSTREAMER_REQUIRED=1.0.0
 OPENRAW_REQUIRED=0.0.8
 LIBSOUP_REQUIRED=2.36
-GNOME_KEYRING_REQUIRED=3.2.0
+LIBSECRET_REQUIRED=0.11
 LIBBRASERO_REQUIRED=3.2.0
 LIBCHAMPLAIN_REQUIRED=0.12.0
 LIBRSVG_REQUIRED=2.34.0
@@ -479,19 +479,19 @@ AM_CONDITIONAL(ENABLE_LIBRSVG, test "x$enable_librsvg" = xyes)
 
 dnl ===========================================================================
 
-AC_ARG_ENABLE([gnome-keyring],
-	      [AS_HELP_STRING([--disable-gnome-keyring],[do not compile code that uses the gnome-keyring library])],,
-	      [enable_gnome_keyring=yes])
+AC_ARG_ENABLE([libsecret],
+	      [AS_HELP_STRING([--disable-libsecret],[do not compile code that uses the libsecret library])],,
+	      [enable_libsecret=yes])
 
-if test x$enable_gnome_keyring = xyes ; then
-	PKG_CHECK_MODULES(GNOME_KEYRING,
-			  [gnome-keyring-1 >= $GNOME_KEYRING_REQUIRED],
-			  [AC_DEFINE(HAVE_GNOME_KEYRING, 1, [Have gnome-keyring])
-			   enable_gnome_keyring=yes],
-			  [enable_gnome_keyring=no])
+if test x$enable_libsecret = xyes ; then
+	PKG_CHECK_MODULES(LIBSECRET,
+			  [libsecret-1 >= $LIBSECRET_REQUIRED],
+			  [AC_DEFINE(HAVE_LIBSECRET, 1, [Have libsecret])
+			   enable_libsecret=yes],
+			  [enable_libsecret=no])
 fi
-AC_SUBST(GNOME_KEYRING_CFLAGS)
-AC_SUBST(GNOME_KEYRING_LIBS)
+AC_SUBST(LIBSECRET_CFLAGS)
+AC_SUBST(LIBSECRET_LIBS)
 
 dnl ===========================================================================
 
@@ -753,7 +753,7 @@ Configuration:
 	GStreamer support    : ${enable_gstreamer}
 	Use libopenraw       : ${enable_libopenraw}
 	Web services support : ${enable_libsoup}
-	Use GNOME Keyring    : ${enable_gnome_keyring}
+	Use libsecret        : ${enable_libsecret}
 	Burn disc support    : ${enable_libbrasero}
 	Web albums           : ${enable_web_albums}
 	SM client support    : ${with_smclient}

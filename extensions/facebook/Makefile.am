@@ -36,9 +36,9 @@ libfacebook_la_SOURCES = 			\
 	main.c					\
 	preferences.h
 
-libfacebook_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(GNOME_KEYRING_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libfacebook_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(LIBSECRET_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libfacebook_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libfacebook_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) $(GNOME_KEYRING_LIBS) ../export_tools/libexport_tools.la
+libfacebook_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) $(LIBSECRET_LIBS) ../export_tools/libexport_tools.la
 libfacebook_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

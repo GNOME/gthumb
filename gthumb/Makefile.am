@@ -279,7 +279,7 @@ gthumb_LDADD =						\
 	$(TIFF_LIBS)					\
 	$(CLUTTER_LIBS)					\
 	$(SMCLIENT_LIBS)				\
-	$(GNOME_KEYRING_LIBS)				\
+	$(LIBSECRET_LIBS)				\
 	$(GSTREAMER_LIBS)				\
 	$(LIBBRASERO_LIBS)				\
 	$(LIBOPENRAW_LIBS)				\
@@ -310,7 +310,7 @@ gthumb_CFLAGS =							\
 	$(JPEG_CFLAGS)						\
 	$(TIFF_CFLAGS)						\
 	$(CLUTTER_CFLAGS)					\
-	$(GNOME_KEYRING_CFLAGS)					\
+	$(LIBSECRET_CFLAGS)					\
 	$(GSTREAMER_CFLAGS)					\
 	$(LIBBRASERO_CFLAGS)					\
 	$(LIBOPENRAW_CFLAGS)					\
