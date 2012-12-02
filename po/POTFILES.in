@@ -399,8 +399,6 @@ extensions/gstreamer_tools/preferences.h
 extensions/gstreamer_utils/gstreamer-utils.c
 [type: gettext/ini]extensions/gstreamer_utils/gstreamer_utils.extension.in.in
 extensions/gstreamer_utils/gstreamer-utils.h
-extensions/gstreamer_utils/gstscreenshot.c
-extensions/gstreamer_utils/gstscreenshot.h
 extensions/gstreamer_utils/main.c
 extensions/image_print/actions.c
 extensions/image_print/actions.h
