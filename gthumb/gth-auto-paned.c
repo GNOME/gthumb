@@ -79,11 +79,11 @@ gth_auto_paned_size_allocate (GtkWidget     *widget,
 }
 
 
-static void 
+static void
 gth_auto_paned_class_init (GthAutoPanedClass *klass)
 {
 	GtkWidgetClass *widget_class;
-	
+
 	g_type_class_add_private (klass, sizeof (GthAutoPanedPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (klass);
@@ -94,7 +94,7 @@ gth_auto_paned_class_init (GthAutoPanedClass *klass)
 static void
 gth_auto_paned_init (GthAutoPaned *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PANED, GthAutoPanedPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_AUTO_PANED, GthAutoPanedPrivate);
 	self->priv->child1_visible = FALSE;
 	self->priv->child2_visible = FALSE;
 }
@@ -103,7 +103,7 @@ gth_auto_paned_init (GthAutoPaned *self)
 GtkWidget *
 gth_auto_paned_new (GtkOrientation orientation)
 {
-	return g_object_new (GTH_TYPE_PANED,
+	return g_object_new (GTH_TYPE_AUTO_PANED,
 			     "orientation", orientation,
 			     NULL);
 }
