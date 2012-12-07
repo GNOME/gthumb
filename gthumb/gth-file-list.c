@@ -125,7 +125,7 @@ typedef struct {
 struct _GthFileListPrivateData
 {
 	GSettings        *settings;
-	GthFileListType   type;
+	GthFileListMode   type;
 	GtkAdjustment    *vadj;
 	GtkWidget        *notebook;
 	GtkWidget        *view;
@@ -322,7 +322,7 @@ gth_file_list_get_preferred_width (GtkWidget *widget,
 		*natural_width += border * 2;
 
 	vscrollbar = gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
-	if (gtk_widget_get_visible (vscrollbar) || (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR)) {
+	if (gtk_widget_get_visible (vscrollbar) || (file_list->priv->type == GTH_FILE_LIST_MODE_V_SIDEBAR)) {
 		int vscrollbar_minimum_width;
 		int vscrollbar_natural_width;
 		int scrollbar_spacing;
@@ -566,11 +566,11 @@ _gth_file_list_update_orientation (GthFileList *file_list)
 	hscrollbar_policy = GTK_POLICY_AUTOMATIC;
 	vscrollbar_policy = GTK_POLICY_AUTOMATIC;
 
-	if (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR) {
+	if (file_list->priv->type == GTH_FILE_LIST_MODE_V_SIDEBAR) {
 		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_VERTICAL);
 		vscrollbar_policy = GTK_POLICY_ALWAYS;
 	}
-	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR)
+	else if (file_list->priv->type == GTH_FILE_LIST_MODE_H_SIDEBAR)
 		gtk_orientable_set_orientation (GTK_ORIENTABLE (file_list), GTK_ORIENTATION_HORIZONTAL);
 
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window),
@@ -603,7 +603,7 @@ file_store_rows_reordered_cb (GtkTreeModel *tree_model,
 static void
 gth_file_list_construct (GthFileList     *file_list,
 			 GtkWidget       *file_view,
-			 GthFileListType  list_type,
+			 GthFileListMode  list_type,
 			 gboolean         enable_drag_drop)
 {
 	GthFileStore *model;
@@ -672,7 +672,7 @@ gth_file_list_construct (GthFileList     *file_list,
 				  file_list);
 	}
 
-	gth_file_list_set_type (file_list, list_type);
+	gth_file_list_set_mode (file_list, list_type);
 
 	/* pack the widgets together */
 
@@ -694,7 +694,7 @@ gth_file_list_construct (GthFileList     *file_list,
 
 GtkWidget *
 gth_file_list_new (GtkWidget       *file_view,
-		   GthFileListType  list_type,
+		   GthFileListMode  list_type,
 		   gboolean         enable_drag_drop)
 {
 	GtkWidget *widget;
@@ -707,21 +707,28 @@ gth_file_list_new (GtkWidget       *file_view,
 
 
 void
-gth_file_list_set_type (GthFileList     *file_list,
-			GthFileListType  list_type)
+gth_file_list_set_mode (GthFileList     *file_list,
+			GthFileListMode  list_type)
 {
 	g_return_if_fail (GTH_IS_FILE_LIST (file_list));
 
 	file_list->priv->type = list_type;
 
-	if ((file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_NO_SELECTION))
+	if ((file_list->priv->type == GTH_FILE_LIST_MODE_SELECTOR) || (file_list->priv->type == GTH_FILE_LIST_MODE_NO_SELECTION))
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_NONE);
-	else if ((file_list->priv->type == GTH_FILE_LIST_TYPE_H_SIDEBAR) || (file_list->priv->type == GTH_FILE_LIST_TYPE_V_SIDEBAR))
+	else if ((file_list->priv->type == GTH_FILE_LIST_MODE_H_SIDEBAR) || (file_list->priv->type == GTH_FILE_LIST_MODE_V_SIDEBAR))
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_SINGLE);
 	else
 		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_MULTIPLE);
 
 	_gth_file_list_update_orientation (file_list);
+}
+
+
+GthFileListMode
+gth_file_list_get_mode (GthFileList *file_list)
+{
+	return file_list->priv->type;
 }
 
 

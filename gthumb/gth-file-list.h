@@ -33,13 +33,13 @@
 G_BEGIN_DECLS
 
 typedef enum {
-	GTH_FILE_LIST_TYPE_NORMAL,
-	GTH_FILE_LIST_TYPE_BROWSER,
-	GTH_FILE_LIST_TYPE_SELECTOR,
-	GTH_FILE_LIST_TYPE_NO_SELECTION,
-	GTH_FILE_LIST_TYPE_V_SIDEBAR,
-	GTH_FILE_LIST_TYPE_H_SIDEBAR
-} GthFileListType;
+	GTH_FILE_LIST_MODE_NORMAL,
+	GTH_FILE_LIST_MODE_BROWSER,
+	GTH_FILE_LIST_MODE_SELECTOR,
+	GTH_FILE_LIST_MODE_NO_SELECTION,
+	GTH_FILE_LIST_MODE_V_SIDEBAR,
+	GTH_FILE_LIST_MODE_H_SIDEBAR
+} GthFileListMode;
 
 #define GTH_TYPE_FILE_LIST            (gth_file_list_get_type ())
 #define GTH_FILE_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FILE_LIST, GthFileList))
@@ -63,10 +63,11 @@ struct _GthFileListClass {
 
 GType             gth_file_list_get_type          (void);
 GtkWidget *       gth_file_list_new               (GtkWidget            *file_view,
-						   GthFileListType       list_type,
+						   GthFileListMode       list_type,
 						   gboolean              enable_drag_drop);
-void              gth_file_list_set_type          (GthFileList          *file_list,
-						   GthFileListType       list_type);
+void              gth_file_list_set_mode          (GthFileList          *file_list,
+						   GthFileListMode       list_type);
+GthFileListMode   gth_file_list_get_mode          (GthFileList          *file_list);
 void              gth_file_list_cancel            (GthFileList          *file_list,
 					           DataFunc              done_func,
 					           gpointer              user_data);

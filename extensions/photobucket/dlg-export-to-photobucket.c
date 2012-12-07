@@ -628,7 +628,7 @@ dlg_export_to_photobucket (GthBrowser *browser,
 
 	/* Set the widget data */
 
-	data->list_view = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_TYPE_NO_SELECTION, FALSE);
+	data->list_view = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_MODE_NO_SELECTION, FALSE);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->list_view), 112);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->list_view), TRUE);
 	gth_file_list_set_ignore_hidden (GTH_FILE_LIST (data->list_view), TRUE);

@@ -1292,7 +1292,7 @@ gth_find_duplicates_exec (GthBrowser *browser,
 	}
 
 	self->priv->builder = _gtk_builder_new_from_file ("find-duplicates-dialog.ui", "find_duplicates");
-	self->priv->duplicates_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_TYPE_NORMAL, FALSE);
+	self->priv->duplicates_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_MODE_NORMAL, FALSE);
 	gtk_tree_model_filter_set_visible_column (GTK_TREE_MODEL_FILTER (GET_WIDGET ("files_treemodelfilter")), FILE_LIST_COLUMN_VISIBLE);
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("files_liststore")), FILE_LIST_COLUMN_FILENAME, GTK_SORT_ASCENDING);
 	gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (gth_file_list_get_view (GTH_FILE_LIST (self->priv->duplicates_list))), GTK_SELECTION_MULTIPLE);

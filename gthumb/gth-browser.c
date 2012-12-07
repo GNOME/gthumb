@@ -3949,9 +3949,9 @@ pref_ui_viewer_thumbnails_orient_changed (GSettings  *settings,
 	browser->priv->viewer_thumbnails_pane = viewer_thumbnails_pane;
 
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
-		gth_file_list_set_type (GTH_FILE_LIST (browser->priv->thumbnail_list), GTH_FILE_LIST_TYPE_H_SIDEBAR);
+		gth_file_list_set_mode (GTH_FILE_LIST (browser->priv->thumbnail_list), GTH_FILE_LIST_MODE_H_SIDEBAR);
 	else
-		gth_file_list_set_type (GTH_FILE_LIST (browser->priv->thumbnail_list), GTH_FILE_LIST_TYPE_V_SIDEBAR);
+		gth_file_list_set_mode (GTH_FILE_LIST (browser->priv->thumbnail_list), GTH_FILE_LIST_MODE_V_SIDEBAR);
 
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_thumbnails_pane);
 
@@ -4351,13 +4351,13 @@ gth_browser_init (GthBrowser *browser)
 
 	viewer_thumbnails_orientation = g_settings_get_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT);
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
-		browser->priv->viewer_thumbnails_pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+		browser->priv->viewer_thumbnails_pane = gth_paned_new (GTK_ORIENTATION_VERTICAL);
 	else
-		browser->priv->viewer_thumbnails_pane = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+		browser->priv->viewer_thumbnails_pane = gth_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_widget_show (browser->priv->viewer_thumbnails_pane);
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_thumbnails_pane);
 
-	browser->priv->viewer_sidebar_pane = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	browser->priv->viewer_sidebar_pane = gth_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar_pane, -1, MIN_VIEWER_SIZE);
 	gtk_widget_show (browser->priv->viewer_sidebar_pane);
 	if (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
@@ -4374,7 +4374,7 @@ gth_browser_init (GthBrowser *browser)
 	_gtk_paned_set_position2 (GTK_PANED (browser->priv->viewer_sidebar_pane), g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH));
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_alignment, FALSE, FALSE);
 
-	browser->priv->thumbnail_list = gth_file_list_new (gth_grid_view_new (), (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_TYPE_H_SIDEBAR : GTH_FILE_LIST_TYPE_V_SIDEBAR, TRUE);
+	browser->priv->thumbnail_list = gth_file_list_new (gth_grid_view_new (), (viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_MODE_H_SIDEBAR : GTH_FILE_LIST_MODE_V_SIDEBAR, TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
 	gth_grid_view_set_cell_spacing (GTH_GRID_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
@@ -4574,7 +4574,7 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the file list */
 
-	browser->priv->file_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_TYPE_NORMAL, TRUE);
+	browser->priv->file_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_MODE_NORMAL, TRUE);
 	sort_type = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_SORT_TYPE);
 	gth_browser_set_sort_order (browser,
 				    gth_main_get_sort_type (sort_type),
