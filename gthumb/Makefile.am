@@ -88,6 +88,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-monitor.h					\
 	gth-multipage.h					\
 	gth-overwrite-dialog.h				\
+	gth-paned.h					\
 	gth-preferences.h				\
 	gth-progress-dialog.h				\
 	gth-request-dialog.h				\
@@ -227,6 +228,7 @@ gthumb_SOURCES = 					\
 	gth-monitor.c					\
 	gth-multipage.c					\
 	gth-overwrite-dialog.c				\
+	gth-paned.c					\
 	gth-preferences.c				\
 	gth-progress-dialog.c				\
 	gth-request-dialog.c				\

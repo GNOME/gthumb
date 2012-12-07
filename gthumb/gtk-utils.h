@@ -114,8 +114,6 @@ int             _gtk_widget_lookup_for_size                (GtkWidget        *wi
 							    GtkIconSize       icon_size);
 void            _gtk_tree_path_list_free                   (GList            *list);
 int             _gtk_paned_get_position2                   (GtkPaned         *paned);
-void            _gtk_paned_set_position2                   (GtkPaned         *paned,
-					    	    	    int               pos);
 void            _g_launch_command                          (GtkWidget        *parent,
 					    	    	    const char       *command,
 					    	    	    const char       *name,
