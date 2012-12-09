@@ -73,6 +73,8 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	char       *comment_time;
 
 	comment = gth_comment_new_for_file (file_data->file, cancellable, NULL);
+	g_file_info_set_attribute_boolean (file_data->info, "comment::no-comment-file", (comment == NULL));
+
 	if (comment == NULL)
 		return;
 

@@ -94,21 +94,34 @@ gth_metadata_provider_exiv2_can_write (GthMetadataProvider  *self,
 
 
 static void
-gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
+gth_metadata_provider_exiv2_read (GthMetadataProvider *base,
 				  GthFileData         *file_data,
 				  const char          *attributes,
 				  GCancellable        *cancellable)
 {
-	GFile       *sidecar;
-	GthFileData *sidecar_file_data;
+	GthMetadataProviderExiv2 *self = GTH_METADATA_PROVIDER_EXIV2 (base);
+	GFile                    *sidecar;
+	GthFileData              *sidecar_file_data;
+	gboolean                  update_general_attributes;
 
 	if (! g_content_type_is_a (gth_file_data_get_mime_type (file_data), "image/*"))
 		return;
 
+	/* The embedded metadata is likely to be outdated if the user chooses to
+	 * not store metadata in files. */
+
+	if (self->priv->general_settings == NULL)
+		self->priv->general_settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
+	update_general_attributes = g_settings_get_boolean (self->priv->general_settings, PREF_GENERAL_STORE_METADATA_IN_FILES);
+
 	/* this function is executed in a secondary thread, so calling
 	 * slow sync functions is not a problem. */
 
-	exiv2_read_metadata_from_file (file_data->file, file_data->info, cancellable, NULL);
+	exiv2_read_metadata_from_file (file_data->file,
+				       file_data->info,
+				       update_general_attributes,
+				       cancellable,
+				       NULL);
 
 	/* sidecar data */
 
@@ -117,7 +130,9 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 	if (g_file_query_exists (sidecar_file_data->file, cancellable)) {
 		gth_file_data_update_info (sidecar_file_data, "time::*");
 		if (g_file_query_exists (sidecar_file_data->file, cancellable))
-			exiv2_read_sidecar (sidecar_file_data->file, file_data->info);
+			exiv2_read_sidecar (sidecar_file_data->file,
+					    file_data->info,
+					    update_general_attributes);
 	}
 
 	g_object_unref (sidecar_file_data);
@@ -142,7 +157,8 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider   *base,
 	if (self->priv->general_settings == NULL)
 		self->priv->general_settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
 
-	if (! (flags & GTH_METADATA_WRITE_FORCE_EMBEDDED) && ! g_settings_get_boolean (self->priv->general_settings, PREF_GENERAL_STORE_METADATA_IN_FILES))
+	if (! (flags & GTH_METADATA_WRITE_FORCE_EMBEDDED)
+	    && ! g_settings_get_boolean (self->priv->general_settings, PREF_GENERAL_STORE_METADATA_IN_FILES))
 		return;
 
 	if (! exiv2_supports_writes (gth_file_data_get_mime_type (file_data)))

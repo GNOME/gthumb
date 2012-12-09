@@ -176,8 +176,12 @@ metadata_ready_cb (GObject      *source_object,
 	/* Synchronization is done in _g_query_metadata_async if both
 	 * PREF_GENERAL_STORE_METADATA_IN_FILES and PREF_COMMENTS_SYNCHRONIZE
 	 * are true. */
-	if (! store_metadata_in_files || ! synchronize)
-		gth_comment_synchronize_metadata (file_data_list);
+	if (! store_metadata_in_files || ! synchronize) {
+		GList *scan;
+
+		for (scan = file_data_list; scan; scan = scan->next)
+			gth_comment_update_from_general_attributes ((GthFileData *) scan->data);
+	}
 
 	gth_task_completed (GTH_TASK (self), NULL);
 }

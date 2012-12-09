@@ -22,6 +22,9 @@ libcomments_la_SOURCES = 			\
 libcomments_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libcomments_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libcomments_la_LIBADD = $(GTHUMB_LIBS)
+if ENABLE_EXIV2
+libcomments_la_LIBADD += ../exiv2_tools/libexiv2_tools.la
+endif 
 libcomments_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

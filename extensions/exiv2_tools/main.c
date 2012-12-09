@@ -204,7 +204,12 @@ exiv2_jpeg_tran_cb (JpegTranInfo *tran_info)
 	GFileInfo *info;
 
 	info = g_file_info_new ();
-	if (exiv2_read_metadata_from_buffer (tran_info->in_buffer, tran_info->in_buffer_size, info, NULL)) {
+	if (exiv2_read_metadata_from_buffer (tran_info->in_buffer,
+					     tran_info->in_buffer_size,
+					     info,
+					     FALSE,
+					     NULL))
+	{
 		GthMetadata *metadata;
 
 		update_exif_dimensions (info, tran_info->transformation);

@@ -1,3 +1,7 @@
+AFTER_EXIV2 =			\
+	comments		\
+	$(NULL)
+	
 FLICKR_EXPORTERS = 		\
 	23hq			\
 	flicker			\
@@ -37,10 +41,10 @@ SUBDIRS = 			\
 	bookmarks		\
 	catalogs		\
 	change_date		\
-	comments		\
 	convert_format		\
 	edit_metadata		\
 	exiv2_tools		\
+	$(AFTER_EXIV2)		\
 	file_manager		\
 	file_viewer		\
 	gstreamer_utils		\

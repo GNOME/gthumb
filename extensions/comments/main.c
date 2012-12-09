@@ -23,6 +23,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include <extensions/exiv2_tools/exiv2-utils.h>
 #include "callbacks.h"
 #include "dlg-comments-preferences.h"
 #include "gth-comment.h"
@@ -83,6 +84,7 @@ comments__read_metadata_ready_cb (GList      *file_list,
 {
 	GSettings *settings;
 	gboolean   store_metadata_in_files;
+	GList     *scan;
 	gboolean   synchronize;
 
 	settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
@@ -90,28 +92,49 @@ comments__read_metadata_ready_cb (GList      *file_list,
 	g_object_unref (settings);
 
 	if (! store_metadata_in_files) {
-		GList *scan;
-
 		/* if PREF_GENERAL_STORE_METADATA_IN_FILES is false, avoid to
 		 * synchronize the .comment metadata because the embedded
 		 * metadata is likely to be out-of-date.
 		 * Give priority to the .comment metadata which, if present,
 		 * is the most up-to-date. */
 
-		for (scan = file_list; scan; scan = scan->next)
-			gth_comment_update_general_attributes ((GthFileData *) scan->data);
+		gboolean can_read_embedded_attributes;
 
-		return;
+		can_read_embedded_attributes = gth_main_extension_is_active ("exiv2_tools");
+
+		for (scan = file_list; scan; scan = scan->next) {
+			GthFileData *file_data = scan->data;
+
+			/* If PREF_GENERAL_STORE_METADATA_IN_FILES is false and
+			 * there is no comment file then we are reading
+			 * the image metadata for the first time, in this
+			 * case update the .comment metadata with the
+			 * embedded metadata. */
+			if (g_file_info_get_attribute_boolean (file_data->info, "comment::no-comment-file")) {
+				if (can_read_embedded_attributes) {
+					exiv2_update_general_attributes (file_data->info);
+					gth_comment_update_from_general_attributes (file_data);
+				}
+			}
+			else
+				gth_comment_update_general_attributes ((GthFileData *) scan->data);
+		}
 	}
+	else {
+		/* if PREF_GENERAL_STORE_METADATA_IN_FILES is true, update the .comment
+		 * metadata with the embedded metadata.
+		 */
 
-	settings = g_settings_new (GTHUMB_COMMENTS_SCHEMA);
-	synchronize = g_settings_get_boolean (settings, PREF_COMMENTS_SYNCHRONIZE);
-	g_object_unref (settings);
+		settings = g_settings_new (GTHUMB_COMMENTS_SCHEMA);
+		synchronize = g_settings_get_boolean (settings, PREF_COMMENTS_SYNCHRONIZE);
+		g_object_unref (settings);
 
-	if (! synchronize)
-		return;
+		if (! synchronize)
+			return;
 
-	gth_comment_synchronize_metadata (file_list);
+		for (scan = file_list; scan; scan = scan->next)
+			gth_comment_update_from_general_attributes ((GthFileData *) scan->data);
+	}
 }
 
 

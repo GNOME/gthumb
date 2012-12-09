@@ -542,12 +542,10 @@ clear_studip_comments_from_tagset (GFileInfo  *info,
 }
 
 
-static void
-set_attributes_from_tagsets (GFileInfo *info)
+extern "C"
+void
+exiv2_update_general_attributes (GFileInfo *info)
 {
-	clear_studip_comments_from_tagset (info, _DESCRIPTION_TAG_NAMES);
-	clear_studip_comments_from_tagset (info, _TITLE_TAG_NAMES);
-
 	set_attribute_from_tagset (info, "general::datetime", _ORIGINAL_DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::description", _DESCRIPTION_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::title", _TITLE_TAG_NAMES);
@@ -574,6 +572,19 @@ set_attributes_from_tagsets (GFileInfo *info)
 	set_attribute_from_tagset (info, "general::location", _LOCATION_TAG_NAMES);
 	set_string_list_attribute_from_tagset (info, "general::tags", _KEYWORDS_TAG_NAMES);
 	set_attribute_from_tagset (info, "general::rating", _RATING_TAG_NAMES);
+}
+
+
+static void
+set_attributes_from_tagsets (GFileInfo *info,
+			     gboolean   update_general_attributes)
+{
+	clear_studip_comments_from_tagset (info, _DESCRIPTION_TAG_NAMES);
+	clear_studip_comments_from_tagset (info, _TITLE_TAG_NAMES);
+
+	if (update_general_attributes)
+		exiv2_update_general_attributes (info);
+
 	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Image::Orientation", _ORIENTATION_TAG_NAMES);
 }
@@ -602,7 +613,8 @@ get_exif_default_category (const Exiv2::Exifdatum &md)
 
 static void
 exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
-		     GFileInfo             *info)
+		     GFileInfo             *info,
+		     gboolean               update_general_attributes)
 {
 	image->readMetadata();
 
@@ -707,7 +719,7 @@ exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
 		g_hash_table_unref (table);
 	}
 
-	set_attributes_from_tagsets (info);
+	set_attributes_from_tagsets (info, update_general_attributes);
 }
 
 
@@ -721,6 +733,7 @@ extern "C"
 gboolean
 exiv2_read_metadata_from_file (GFile         *file,
 			       GFileInfo     *info,
+			       gboolean       update_general_attributes,
 			       GCancellable  *cancellable,
 			       GError       **error)
 {
@@ -744,7 +757,7 @@ exiv2_read_metadata_from_file (GFile         *file,
 		}
 		// Set the log level to only show errors (and suppress warnings, informational and debug messages)
 		Exiv2::LogMsg::setLevel(Exiv2::LogMsg::error);
-		exiv2_read_metadata (image, info);
+		exiv2_read_metadata (image, info, update_general_attributes);
 	}
 	catch (Exiv2::AnyError& e) {
 		if (error != NULL)
@@ -761,6 +774,7 @@ gboolean
 exiv2_read_metadata_from_buffer (void       *buffer,
 				 gsize       buffer_size,
 				 GFileInfo  *info,
+				 gboolean    update_general_attributes,
 				 GError    **error)
 {
 	try {
@@ -772,7 +786,7 @@ exiv2_read_metadata_from_buffer (void       *buffer,
 			return FALSE;
 		}
 
-		exiv2_read_metadata (image, info);
+		exiv2_read_metadata (image, info, update_general_attributes);
 	}
 	catch (Exiv2::AnyError& e) {
 		if (error != NULL)
@@ -809,7 +823,8 @@ exiv2_get_sidecar (GFile *file)
 extern "C"
 gboolean
 exiv2_read_sidecar (GFile     *file,
-		    GFileInfo *info)
+		    GFileInfo *info,
+		    gboolean   update_general_attributes)
 {
 	try {
 		char *path;
@@ -866,7 +881,7 @@ exiv2_read_sidecar (GFile     *file,
 		}
 		Exiv2::XmpParser::terminate();
 
-		set_attributes_from_tagsets (info);
+		set_attributes_from_tagsets (info, update_general_attributes);
 	}
 	catch (Exiv2::AnyError& e) {
 		std::cerr << "Caught Exiv2 exception '" << e << "'\n";
