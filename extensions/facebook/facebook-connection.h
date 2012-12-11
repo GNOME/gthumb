@@ -23,6 +23,7 @@
 #define FACEBOOK_CONNECTION_H
 
 #include <glib-object.h>
+#include <json-glib/json-glib.h>
 #ifdef HAVE_LIBSOUP_GNOME
 #include <libsoup/soup-gnome.h>
 #else
@@ -35,14 +36,13 @@ typedef enum {
 	FACEBOOK_ACCESS_WRITE
 } FacebookAccessType;
 
-#define FACEBOOK_REST_SERVER "api.facebook.com/restserver.php"
-#define FACEBOOK_HTTP_REST_SERVER "http://" FACEBOOK_REST_SERVER
-#define FACEBOOK_HTTPS_REST_SERVER "https://" FACEBOOK_REST_SERVER
+#define FACEBOOK_REDIRECT_URI "https://www.facebook.com/connect/login_success.html"
+#define FACEBOOK_HTTP_SERVER "https://www.facebook.com"
 
 #define FACEBOOK_CONNECTION_ERROR facebook_connection_error_quark ()
 GQuark facebook_connection_error_quark (void);
 
-#define FACEBOOK_CONNECTION_ERROR_SESSION_KEY_INVALID 102
+#define FACEBOOK_CONNECTION_ERROR_TOKEN_EXPIRED 190
 
 #define FACEBOOK_TYPE_CONNECTION         (facebook_connection_get_type ())
 #define FACEBOOK_CONNECTION(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), FACEBOOK_TYPE_CONNECTION, FacebookConnection))
@@ -68,6 +68,11 @@ struct _FacebookConnectionClass
 
 GType                facebook_connection_get_type             (void) G_GNUC_CONST;
 FacebookConnection * facebook_connection_new                  (void);
+void                 facebook_connection_set_access_token     (FacebookConnection    *self,
+							       const char            *token);
+const char *         facebook_connection_get_access_token     (FacebookConnection    *self);
+void                 facebook_connection_add_access_token     (FacebookConnection    *self,
+							       GHashTable            *data_set);
 void		     facebook_connection_send_message         (FacebookConnection    *self,
 						               SoupMessage           *msg,
 						               GCancellable          *cancellable,
@@ -78,35 +83,12 @@ void		     facebook_connection_send_message         (FacebookConnection    *self
 						               gpointer               soup_session_cb_data);
 GSimpleAsyncResult * facebook_connection_get_result           (FacebookConnection    *self);
 void                 facebook_connection_reset_result         (FacebookConnection    *self);
-void                 facebook_connection_add_api_sig          (FacebookConnection    *self,
-						               GHashTable            *data_set);
-void                 facebook_connection_create_token         (FacebookConnection    *self,
-						               GCancellable          *cancellable,
-						               GAsyncReadyCallback    callback,
-						               gpointer               user_data);
-gboolean             facebook_connection_create_token_finish  (FacebookConnection    *self,
-							       GAsyncResult          *result,
-							       GError               **error);
-char *               facebook_connection_get_login_link       (FacebookConnection    *self,
-							       FacebookAccessType     access_type);
-void                 facebook_connection_get_session          (FacebookConnection    *self,
-						               GCancellable          *cancellable,
-						               GAsyncReadyCallback    callback,
-						               gpointer               user_data);
-gboolean             facebook_connection_get_session_finish   (FacebookConnection    *self,
-							       GAsyncResult          *result,
-							       GError               **error);
-void                 facebook_connection_set_session          (FacebookConnection    *self,
-							       const char            *session_key,
-							       const char            *secret);
-const char *         facebook_connection_get_session_key      (FacebookConnection    *self);
-const char *         facebook_connection_get_secret           (FacebookConnection    *self);
-const char *         facebook_connection_get_user_id          (FacebookConnection    *self);
 
 /* utilities */
 
-gboolean             facebook_utils_parse_response            (SoupBuffer            *body,
-							       DomDocument          **doc_p,
+char *               facebook_utils_get_authorization_url     (FacebookAccessType     access_type);
+gboolean             facebook_utils_parse_response            (SoupMessage           *msg,
+							       JsonNode             **node,
 							       GError               **error);
 
 #endif /* FACEBOOK_CONNECTION_H */

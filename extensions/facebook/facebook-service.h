@@ -53,23 +53,14 @@ struct _FacebookServiceClass
 
 GType             facebook_service_get_type                   (void) G_GNUC_CONST;
 FacebookService * facebook_service_new                        (FacebookConnection   *conn);
-void              facebook_service_get_logged_in_user         (FacebookService      *self,
+void              facebook_service_get_user                   (FacebookService      *self,
 							       GCancellable         *cancellable,
 							       GAsyncReadyCallback   callback,
 							       gpointer              user_data);
-char *            facebook_service_get_logged_in_user_finish  (FacebookService      *self,
-						               GAsyncResult         *result,
-						               GError              **error);
-void              facebook_service_get_user_info              (FacebookService      *self,
-							       const char           *fields,
-							       GCancellable         *cancellable,
-							       GAsyncReadyCallback   callback,
-							       gpointer              user_data);
-FacebookUser *    facebook_service_get_user_info_finish       (FacebookService      *self,
+FacebookUser *    facebook_service_get_user_finish            (FacebookService      *self,
 						               GAsyncResult         *result,
 						               GError              **error);
 void              facebook_service_get_albums                 (FacebookService      *self,
-							       const char           *user_id,
 							       GCancellable         *cancellable,
 							       GAsyncReadyCallback   callback,
 							       gpointer              user_data);

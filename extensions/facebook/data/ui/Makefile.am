@@ -4,8 +4,6 @@ ui_DATA = 					\
 	facebook-account-chooser.ui		\
 	facebook-account-manager.ui		\
 	facebook-album-properties.ui		\
-	facebook-ask-authorization.ui		\
-	facebook-complete-authorization.ui	\
 	facebook-export-completed.ui
 
 EXTRA_DIST = $(ui_DATA)

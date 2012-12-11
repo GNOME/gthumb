@@ -70,8 +70,8 @@ LIBBRASERO_REQUIRED=3.2.0
 LIBCHAMPLAIN_REQUIRED=0.12.0
 LIBRSVG_REQUIRED=2.34.0
 LIBWEBP_REQUIRED=0.2.0
-LIBJSON_GLIB_REQUIRED=0.15.0
-WEBKITGTK_REQUIRED=1.10.0
+JSON_GLIB_REQUIRED=0.15.0
+WEBKIT2_REQUIRED=1.10.0
 
 dnl ===========================================================================
 
@@ -518,19 +518,19 @@ AC_SUBST(LIBSOUP_LIBS)
 
 dnl ===========================================================================
 
-AC_ARG_ENABLE([libjson_glib],
+AC_ARG_ENABLE([json_glib],
 	      [AS_HELP_STRING([--disable-libjson-glib],[do not compile code that uses the libjson-glib library])],,
-	      [enable_libjson_glib=yes])
+	      [enable_json_glib=yes])
 
-if test x$enable_libjson_glib = xyes ; then
-	PKG_CHECK_MODULES(LIBJSON_GLIB,
-			  [libjson-glib-1.0 >= $LIBJSON_GLIB_REQUIRED],
-			  [AC_DEFINE(HAVE_LIBJSON_GLIB, 1, [Have libjson-glib])
-			   enable_libjson_glib=yes],
-			  [enable_libjson_glib=no])
+if test x$enable_json_glib = xyes ; then
+	PKG_CHECK_MODULES(JSON_GLIB,
+			  [json-glib-1.0 >= $JSON_GLIB_REQUIRED],
+			  [AC_DEFINE(HAVE_JSON_GLIB, 1, [Have libjson-glib])
+			   enable_json_glib=yes],
+			  [enable_json_glib=no])
 fi
-AC_SUBST(LIBJSON_GLIB_CFLAGS)
-AC_SUBST(LIBJSON_GLIB_LIBS)
+AC_SUBST(JSON_GLIB_CFLAGS)
+AC_SUBST(JSON_GLIB_LIBS)
 
 dnl ===========================================================================
 
@@ -548,7 +548,13 @@ fi
 AC_SUBST(WEBKIT2_CFLAGS)
 AC_SUBST(WEBKIT2_LIBS)
 
-AM_CONDITIONAL(ENABLE_WEB_SERVICES, test "x$enable_libsoup" = xyes && test "x$enable_libjson_glib" = xyes && test "x$enable_webkit2" = xyes)
+if [ test "x$enable_libsoup" = xyes && test "x$enable_json_glib" = xyes && test "x$enable_webkit2" = xyes ] ; then
+  enable_web_services=yes
+else
+  enable_web_services=no
+fi
+
+AM_CONDITIONAL(ENABLE_WEB_SERVICES, test "x$enable_web_services" = xyes)
 
 dnl ===========================================================================
 
@@ -787,7 +793,7 @@ Configuration:
 	Clutter support      : ${enable_clutter}
 	GStreamer support    : ${enable_gstreamer}
 	Use libopenraw       : ${enable_libopenraw}
-	Web services support : ${enable_libsoup}
+	Web services support : ${enable_web_services}
 	Use libsecret        : ${enable_libsecret}
 	Burn disc support    : ${enable_libbrasero}
 	Web albums           : ${enable_web_albums}

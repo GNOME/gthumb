@@ -289,7 +289,7 @@ gthumb_LDADD =						\
 	$(LIBCHAMPLAIN_LIBS)				\
 	$(LIBRSVG_LIBS)					\
 	$(LIBWEBP_LIBS)					\
-	$(LIBJSON_GLIB_LIBS)				\
+	$(JSON_GLIB_LIBS)				\
 	$(WEBKIT2_LIBS)					\
 	$(NULL)
 

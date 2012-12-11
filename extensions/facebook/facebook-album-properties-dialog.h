@@ -50,13 +50,11 @@ struct _FacebookAlbumPropertiesDialogClass {
 
 GType               facebook_album_properties_dialog_get_type        (void);
 GtkWidget *         facebook_album_properties_dialog_new             (const char                    *name,
-								      const char                    *location,
 								      const char                    *description,
 								      FacebookVisibility             visibility);
 const char *        facebook_album_properties_dialog_get_name        (FacebookAlbumPropertiesDialog *self);
-const char *        facebook_album_properties_dialog_get_location    (FacebookAlbumPropertiesDialog *self);
 const char *        facebook_album_properties_dialog_get_description (FacebookAlbumPropertiesDialog *self);
-FacebookVisibility  facebook_album_properties_dialog_get_visibility  (FacebookAlbumPropertiesDialog *self);
+const char *        facebook_album_properties_dialog_get_visibility  (FacebookAlbumPropertiesDialog *self);
 
 G_END_DECLS
 

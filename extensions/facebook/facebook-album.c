@@ -26,14 +26,19 @@
 #include "facebook-album.h"
 
 
-static void facebook_album_dom_domizable_interface_init (DomDomizableInterface *iface);
+G_DEFINE_TYPE (FacebookAlbum, facebook_album, G_TYPE_OBJECT)
 
 
-G_DEFINE_TYPE_WITH_CODE (FacebookAlbum,
-			 facebook_album,
-			 G_TYPE_OBJECT,
-			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					        facebook_album_dom_domizable_interface_init))
+enum {
+        PROP_0,
+        PROP_ID,
+        PROP_NAME,
+        PROP_DESCRIPTION,
+        PROP_LINK,
+        PROP_PRIVACY,
+        PROP_COUNT,
+        PROP_CAN_UPLOAD
+};
 
 
 static void
@@ -46,111 +51,153 @@ facebook_album_finalize (GObject *obj)
 	g_free (self->id);
 	g_free (self->name);
 	g_free (self->description);
-	g_free (self->location);
 	g_free (self->link);
+	g_free (self->privacy);
 
 	G_OBJECT_CLASS (facebook_album_parent_class)->finalize (obj);
 }
 
 
 static void
-facebook_album_class_init (FacebookAlbumClass *klass)
-{
-	G_OBJECT_CLASS (klass)->finalize = facebook_album_finalize;
-}
-
-
-static DomElement*
-facebook_album_create_element (DomDomizable *base,
-			       DomDocument  *doc)
+facebook_album_set_property (GObject      *object,
+			     guint         property_id,
+			     const GValue *value,
+			     GParamSpec   *pspec)
 {
 	FacebookAlbum *self;
-	DomElement    *element;
 
-	self = FACEBOOK_ALBUM (base);
+        self = FACEBOOK_ALBUM (object);
 
-	element = dom_document_create_element (doc, "photoset", NULL);
-	if (self->id != NULL)
-		dom_element_set_attribute (element, "aid", self->id);
-	if (self->name != NULL)
-		dom_element_append_child (element, dom_document_create_element_with_text (doc, self->name, "name", NULL));
-	if (self->description != NULL)
-		dom_element_append_child (element, dom_document_create_element_with_text (doc, self->description, "description", NULL));
-
-	return element;
-}
-
-
-static FacebookVisibility
-get_visibility_by_name (const char *name)
-{
-	if (name == NULL)
-		return FACEBOOK_VISIBILITY_EVERYONE;
-	if (g_strcmp0 (name, "everyone") == 0)
-		return FACEBOOK_VISIBILITY_EVERYONE;
-	if (g_strcmp0 (name, "networks_friends") == 0)
-		return FACEBOOK_VISIBILITY_NETWORKS_FRIENDS;
-	if (g_strcmp0 (name, "friends_of_friends") == 0)
-		return FACEBOOK_VISIBILITY_FRIENDS_OF_FRIENDS;
-	if (g_strcmp0 (name, "all_friends") == 0)
-		return FACEBOOK_VISIBILITY_ALL_FRIENDS;
-	if (g_strcmp0 (name, "self") == 0)
-		return FACEBOOK_VISIBILITY_SELF;
-	if (g_strcmp0 (name, "custom") == 0)
-		return FACEBOOK_VISIBILITY_CUSTOM;
-
-	return FACEBOOK_VISIBILITY_EVERYONE;
-}
-
-
-static void
-facebook_album_load_from_element (DomDomizable *base,
-				   DomElement   *element)
-{
-	FacebookAlbum *self;
-	DomElement     *node;
-
-	self = FACEBOOK_ALBUM (base);
-
-	_g_strset (&self->id, NULL);
-	_g_strset (&self->name, NULL);
-	_g_strset (&self->description, NULL);
-	_g_strset (&self->location, NULL);
-	_g_strset (&self->link, NULL);
-	self->size = 0;
-	self->visibility = FACEBOOK_VISIBILITY_SELF;
-
-	for (node = element->first_child; node; node = node->next_sibling) {
-		if (g_strcmp0 (node->tag_name, "aid") == 0) {
-			_g_strset (&self->id, dom_element_get_inner_text (node));
-		}
-		else if (g_strcmp0 (node->tag_name, "name") == 0) {
-			_g_strset (&self->name, dom_element_get_inner_text (node));
-		}
-		else if (g_strcmp0 (node->tag_name, "description") == 0) {
-			_g_strset (&self->description, dom_element_get_inner_text (node));
-		}
-		else if (g_strcmp0 (node->tag_name, "location") == 0) {
-			_g_strset (&self->location, dom_element_get_inner_text (node));
-		}
-		else if (g_strcmp0 (node->tag_name, "link") == 0) {
-			_g_strset (&self->link, dom_element_get_inner_text (node));
-		}
-		else if (g_strcmp0 (node->tag_name, "size") == 0) {
-			self->size = atoi (dom_element_get_inner_text (node));
-		}
-		else if (g_strcmp0 (node->tag_name, "visible") == 0) {
-			self->visibility = get_visibility_by_name (dom_element_get_inner_text (node));
-		}
+	switch (property_id) {
+	case PROP_ID:
+		_g_strset (&self->id, g_value_get_string (value));
+		break;
+	case PROP_NAME:
+		_g_strset (&self->name, g_value_get_string (value));
+		break;
+	case PROP_DESCRIPTION:
+		_g_strset (&self->description, g_value_get_string (value));
+		break;
+	case PROP_LINK:
+		_g_strset (&self->link, g_value_get_string (value));
+		break;
+	case PROP_PRIVACY:
+		_g_strset (&self->privacy, g_value_get_string (value));
+		break;
+	case PROP_COUNT:
+		self->count = g_value_get_int (value);
+		break;
+	case PROP_CAN_UPLOAD:
+		self->can_upload = g_value_get_boolean (value);
+		break;
+	default:
+		break;
 	}
 }
 
 
 static void
-facebook_album_dom_domizable_interface_init (DomDomizableInterface *iface)
+facebook_album_get_property (GObject    *object,
+			     guint       property_id,
+			     GValue     *value,
+			     GParamSpec *pspec)
 {
-	iface->create_element = facebook_album_create_element;
-	iface->load_from_element = facebook_album_load_from_element;
+	FacebookAlbum *self;
+
+        self = FACEBOOK_ALBUM (object);
+
+	switch (property_id) {
+	case PROP_ID:
+		g_value_set_string (value, self->id);
+		break;
+	case PROP_NAME:
+		g_value_set_string (value, self->name);
+		break;
+	case PROP_DESCRIPTION:
+		g_value_set_string (value, self->description);
+		break;
+	case PROP_LINK:
+		g_value_set_string (value, self->link);
+		break;
+	case PROP_PRIVACY:
+		g_value_set_string (value, self->privacy);
+		break;
+	case PROP_COUNT:
+		g_value_set_int (value, self->count);
+		break;
+	case PROP_CAN_UPLOAD:
+		 g_value_set_boolean (value, self->can_upload);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+static void
+facebook_album_class_init (FacebookAlbumClass *klass)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = facebook_album_finalize;
+	object_class->set_property = facebook_album_set_property;
+	object_class->get_property = facebook_album_get_property;
+
+	/* properties */
+
+	g_object_class_install_property (object_class,
+					 PROP_ID,
+					 g_param_spec_string ("id",
+                                                              "ID",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_NAME,
+					 g_param_spec_string ("name",
+                                                              "Name",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_DESCRIPTION,
+					 g_param_spec_string ("description",
+                                                              "Description",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_LINK,
+					 g_param_spec_string ("link",
+                                                              "Link",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_PRIVACY,
+					 g_param_spec_string ("privacy",
+                                                              "Privacy",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_COUNT,
+					 g_param_spec_int ("count",
+                                                           "Count",
+                                                           "",
+                                                           0,
+                                                           G_MAXINT,
+                                                           0,
+                                                           G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_CAN_UPLOAD,
+					 g_param_spec_boolean ("can_upload",
+                                                               "Can upload",
+                                                               "",
+                                                               FALSE,
+                                                               G_PARAM_READWRITE));
 }
 
 
@@ -160,10 +207,10 @@ facebook_album_init (FacebookAlbum *self)
 	self->id = NULL;
 	self->name = NULL;
 	self->description = NULL;
-	self->location = NULL;
 	self->link = NULL;
-	self->size = 0;
-	self->visibility = FACEBOOK_VISIBILITY_SELF;
+	self->privacy = NULL;
+	self->count = 0;
+	self->can_upload = FALSE;
 }
 
 
@@ -171,28 +218,4 @@ FacebookAlbum *
 facebook_album_new (void)
 {
 	return g_object_new (FACEBOOK_TYPE_ALBUM, NULL);
-}
-
-
-void
-facebook_album_set_name (FacebookAlbum *self,
-			 const char    *value)
-{
-	_g_strset (&self->name, value);
-}
-
-
-void
-facebook_album_set_location (FacebookAlbum *self,
-			     const char    *value)
-{
-	_g_strset (&self->location, value);
-}
-
-
-void
-facebook_album_set_description (FacebookAlbum *self,
-				const char    *value)
-{
-	_g_strset (&self->description, value);
 }

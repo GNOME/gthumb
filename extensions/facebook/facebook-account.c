@@ -48,8 +48,7 @@ facebook_account_finalize (GObject *obj)
 
 	g_free (self->user_id);
 	g_free (self->username);
-	g_free (self->session_key);
-	g_free (self->secret);
+	g_free (self->token);
 
 	G_OBJECT_CLASS (facebook_account_parent_class)->finalize (obj);
 }
@@ -88,10 +87,8 @@ facebook_account_create_element (DomDomizable *base,
 #endif
 
 	if (set_secret) {
-		if (self->session_key != NULL)
-			dom_element_set_attribute (element, "session_key", self->session_key);
-		if (self->secret != NULL)
-			dom_element_set_attribute (element, "secret", self->secret);
+		if (self->token != NULL)
+			dom_element_set_attribute (element, "token", self->token);
 	}
 	if (self->is_default)
 		dom_element_set_attribute (element, "default", "1");
@@ -110,8 +107,7 @@ facebook_account_load_from_element (DomDomizable *base,
 
 	_g_strset (&self->user_id, dom_element_get_attribute (element, "uid"));
 	_g_strset (&self->username, dom_element_get_attribute (element, "username"));
-	_g_strset (&self->session_key, dom_element_get_attribute (element, "session_key"));
-	_g_strset (&self->secret, dom_element_get_attribute (element, "secret"));
+	_g_strset (&self->token, dom_element_get_attribute (element, "token"));
 	self->is_default = (g_strcmp0 (dom_element_get_attribute (element, "default"), "1") == 0);
 }
 
@@ -129,8 +125,7 @@ facebook_account_init (FacebookAccount *self)
 {
 	self->user_id = NULL;
 	self->username = NULL;
-	self->session_key = NULL;
-	self->secret = NULL;
+	self->token = NULL;
 	self->is_default = FALSE;
 }
 
@@ -143,18 +138,10 @@ facebook_account_new (void)
 
 
 void
-facebook_account_set_session_key (FacebookAccount *self,
+facebook_account_set_token (FacebookAccount *self,
 				  const char      *value)
 {
-	_g_strset (&self->session_key, value);
-}
-
-
-void
-facebook_account_set_secret (FacebookAccount *self,
-			     const char      *value)
-{
-	_g_strset (&self->secret, value);
+	_g_strset (&self->token, value);
 }
 
 

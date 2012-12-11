@@ -7,6 +7,8 @@ extension_LTLIBRARIES = liboauth.la
 
 liboauth_la_SOURCES = 				\
 	main.c					\
+	oauth2-ask-authorization-dialog.c	\
+	oauth2-ask-authorization-dialog.h	\
 	oauth-account.c				\
 	oauth-account.h				\
 	oauth-account-chooser-dialog.c		\
@@ -18,9 +20,9 @@ liboauth_la_SOURCES = 				\
 	oauth-connection.c			\
 	oauth-connection.h
 
-liboauth_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(LIBSECRET_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+liboauth_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(LIBSECRET_CFLAGS) $(WEBKIT2_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 liboauth_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-liboauth_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS) $(LIBSECRET_LIBS) $(LIBSOUP_LIBS)
+liboauth_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS) $(LIBSECRET_LIBS) $(LIBSOUP_LIBS) $(WEBKIT2_LIBS)
 liboauth_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)

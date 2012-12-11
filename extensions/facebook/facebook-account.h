@@ -44,8 +44,7 @@ struct _FacebookAccount {
 
 	char     *user_id;
 	char     *username;
-	char     *session_key;
-	char     *secret;
+	char     *token;
 	gboolean  is_default;
 };
 
@@ -55,9 +54,7 @@ struct _FacebookAccountClass {
 
 GType             facebook_account_get_type         (void);
 FacebookAccount * facebook_account_new              (void);
-void              facebook_account_set_session_key  (FacebookAccount *self,
-						     const char      *value);
-void              facebook_account_set_secret       (FacebookAccount *self,
+void              facebook_account_set_token        (FacebookAccount *self,
 						     const char      *value);
 void              facebook_account_set_user_id      (FacebookAccount *self,
 						     const char      *value);

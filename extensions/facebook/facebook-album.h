@@ -41,27 +41,21 @@ typedef struct _FacebookAlbumClass FacebookAlbumClass;
 struct _FacebookAlbum {
 	GObject parent_instance;
 
-	char               *id;
-	char               *name;
-	char               *location;
-	char               *description;
-	char               *link;
-	int                 size;
-	FacebookVisibility  visibility;
+	char     *id;
+	char     *name;
+	char     *description;
+	char     *link;
+	char     *privacy;
+	int       count;
+	gboolean  can_upload;
 };
 
 struct _FacebookAlbumClass {
 	GObjectClass parent_class;
 };
 
-GType           facebook_album_get_type        (void);
-FacebookAlbum * facebook_album_new             (void);
-void            facebook_album_set_name        (FacebookAlbum *self,
-					        const char    *value);
-void            facebook_album_set_location    (FacebookAlbum *self,
-					        const char    *value);
-void            facebook_album_set_description (FacebookAlbum *self,
-						const char    *value);
+GType           facebook_album_get_type  (void);
+FacebookAlbum * facebook_album_new       (void);
 
 G_END_DECLS
 

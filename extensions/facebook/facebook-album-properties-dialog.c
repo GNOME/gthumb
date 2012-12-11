@@ -86,7 +86,6 @@ facebook_album_properties_dialog_init (FacebookAlbumPropertiesDialog *self)
 static void
 facebook_album_properties_dialog_construct (FacebookAlbumPropertiesDialog *self,
 				            const char                    *name,
-				            const char                    *location,
 				            const char                    *description,
 				            FacebookVisibility             visibility)
 {
@@ -94,8 +93,6 @@ facebook_album_properties_dialog_construct (FacebookAlbumPropertiesDialog *self,
 
 	if (name != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), name);
-	if (location != NULL)
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("location_entry")), location);
 	if (description != NULL)
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("description_entry")), description);
 
@@ -119,14 +116,13 @@ facebook_album_properties_dialog_construct (FacebookAlbumPropertiesDialog *self,
 
 GtkWidget *
 facebook_album_properties_dialog_new (const char         *name,
-				      const char         *location,
 				      const char         *description,
 				      FacebookVisibility  visibility)
 {
 	FacebookAlbumPropertiesDialog *self;
 
 	self = g_object_new (FACEBOOK_TYPE_ALBUM_PROPERTIES_DIALOG, NULL);
-	facebook_album_properties_dialog_construct (self, name, location, description, visibility);
+	facebook_album_properties_dialog_construct (self, name, description, visibility);
 
 	return (GtkWidget *) self;
 }
@@ -140,32 +136,51 @@ facebook_album_properties_dialog_get_name (FacebookAlbumPropertiesDialog *self)
 
 
 const char *
-facebook_album_properties_dialog_get_location (FacebookAlbumPropertiesDialog *self)
-{
-	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("location_entry")));
-}
-
-
-const char *
 facebook_album_properties_dialog_get_description (FacebookAlbumPropertiesDialog *self)
 {
 	return gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("description_entry")));
 }
 
 
-FacebookVisibility
+static const char *
+get_privacy_from_visibility (FacebookVisibility visibility)
+{
+	char *value = NULL;
+
+	switch (visibility) {
+	case FACEBOOK_VISIBILITY_EVERYONE:
+		value = "{ 'value': 'EVERYONE' }";
+		break;
+
+	case FACEBOOK_VISIBILITY_ALL_FRIENDS:
+		value = "{ 'value': 'ALL_FRIENDS' }";
+		break;
+
+	case FACEBOOK_VISIBILITY_SELF:
+		value = "{ 'value': 'SELF' }";
+		break;
+
+	default:
+		break;
+	}
+
+	return value;
+}
+
+
+const char *
 facebook_album_properties_dialog_get_visibility (FacebookAlbumPropertiesDialog *self)
 {
 	GtkTreeIter        iter;
 	FacebookVisibility value;
 
-	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("visibility_combobox")), &iter))
-		return FACEBOOK_VISIBILITY_SELF;
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("visibility_combobox")), &iter))
+		gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (GET_WIDGET ("visibility_combobox"))),
+				    &iter,
+				    1, &value,
+				    -1);
+	else
+		value = FACEBOOK_VISIBILITY_SELF;
 
-	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (GET_WIDGET ("visibility_combobox"))),
-			    &iter,
-			    1, &value,
-			    -1);
-
-	return value;
+	return get_privacy_from_visibility (value);
 }

@@ -54,8 +54,7 @@ struct _FacebookAuthenticationClass {
 
 	/*< signals >*/
 
-	void  (*ready)             (FacebookAuthentication *auth,
-				    FacebookUser           *user);
+	void  (*ready)             (FacebookAuthentication *auth);
 	void  (*accounts_changed)  (FacebookAuthentication *auth);
 };
 

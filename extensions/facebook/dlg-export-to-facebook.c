@@ -67,7 +67,7 @@ typedef struct {
 	FacebookConnection     *conn;
 	FacebookAuthentication *auth;
 	FacebookService        *service;
-	FacebookUser           *user;
+	FacebookAccount        *account;
 	GList                  *albums;
 	FacebookAlbum          *album;
 	GList                  *photos_ids;
@@ -86,7 +86,7 @@ destroy_dialog (DialogData *data)
 	_g_string_list_free (data->photos_ids);
 	_g_object_unref (data->album);
 	_g_object_list_unref (data->albums);
-	_g_object_unref (data->user);
+	_g_object_unref (data->account);
 	_g_object_unref (data->service);
 	_g_object_unref (data->auth);
 	_g_object_unref (data->conn);
@@ -177,7 +177,7 @@ upload_photos_ready_cb (GObject      *source_object,
 	DialogData *data = user_data;
 	GError     *error = NULL;
 
-	data->photos_ids = facebook_service_upload_photos_finish (FACEBOOK_SERVICE (source_object), result, &error);
+	data->photos_ids = facebook_service_upload_photos_finish (data->service, result, &error);
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), error);
 		g_clear_error (&error);
@@ -197,10 +197,6 @@ export_dialog_response_cb (GtkDialog *dialog,
 	DialogData *data = user_data;
 
 	switch (response_id) {
-	case GTK_RESPONSE_HELP:
-		show_help_dialog (GTK_WINDOW (data->browser), "gthumb-export-social");
-		break;
-
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gth_file_list_cancel (GTH_FILE_LIST (data->list_view), (DataFunc) destroy_dialog, data);
@@ -212,9 +208,6 @@ export_dialog_response_cb (GtkDialog *dialog,
 			GList       *file_list;
 			int          max_resolution;
 
-			gtk_widget_hide (data->dialog);
-			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
-
 			data->album = NULL;
 			if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("album_combobox")), &iter)) {
 				gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (GET_WIDGET ("album_combobox"))),
@@ -222,6 +215,12 @@ export_dialog_response_cb (GtkDialog *dialog,
 						    ALBUM_DATA_COLUMN, &data->album,
 						    -1);
 			}
+
+			if (data->album == NULL)
+				return;
+
+			gtk_widget_hide (data->dialog);
+			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
 
 			max_resolution = 0;
 			if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), &iter)) {
@@ -301,7 +300,7 @@ update_album_list (DialogData    *data,
 		char          *size;
 		GtkTreeIter    iter;
 
-		size = g_strdup_printf ("(%d)", album->size);
+		size = g_strdup_printf ("(%d)", album->count);
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
@@ -328,7 +327,7 @@ get_albums_ready_cb (GObject      *source_object,
 	GError     *error = NULL;
 
 	_g_object_list_unref (data->albums);
-	data->albums = facebook_service_get_albums_finish (FACEBOOK_SERVICE (source_object), res, &error);
+	data->albums = facebook_service_get_albums_finish (data->service, res, &error);
 	if (error != NULL) {
 		if (data->conn != NULL)
 			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
@@ -338,7 +337,6 @@ get_albums_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), TRUE);
 	update_album_list (data, NULL);
 
 	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
@@ -350,15 +348,13 @@ get_albums_ready_cb (GObject      *source_object,
 
 static void
 authentication_ready_cb (FacebookAuthentication *auth,
-			 FacebookUser           *user,
 			 DialogData             *data)
 {
-	_g_object_unref (data->user);
-	data->user = g_object_ref (user);
+	_g_object_unref (data->account);
+	data->account = _g_object_ref (facebook_authentication_get_account (auth));
 	update_account_list (data);
 
 	facebook_service_get_albums (data->service,
-				     data->user->id,
 				     data->cancellable,
 				     get_albums_ready_cb,
 				     data);
@@ -436,11 +432,11 @@ new_album_dialog_response_cb (GtkDialog *dialog,
 		{
 			FacebookAlbum *album;
 
-			album = facebook_album_new ();
-			facebook_album_set_name (album, facebook_album_properties_dialog_get_name (FACEBOOK_ALBUM_PROPERTIES_DIALOG (dialog)));
-			facebook_album_set_location (album, facebook_album_properties_dialog_get_location (FACEBOOK_ALBUM_PROPERTIES_DIALOG (dialog)));
-			facebook_album_set_description (album, facebook_album_properties_dialog_get_description (FACEBOOK_ALBUM_PROPERTIES_DIALOG (dialog)));
-			album->visibility = facebook_album_properties_dialog_get_visibility (FACEBOOK_ALBUM_PROPERTIES_DIALOG (dialog));
+			album = g_object_new (FACEBOOK_TYPE_ALBUM,
+					      "name", facebook_album_properties_dialog_get_name (FACEBOOK_ALBUM_PROPERTIES_DIALOG (dialog)),
+					      "description", facebook_album_properties_dialog_get_description (FACEBOOK_ALBUM_PROPERTIES_DIALOG (dialog)),
+					      "privacy", facebook_album_properties_dialog_get_visibility (FACEBOOK_ALBUM_PROPERTIES_DIALOG (dialog)),
+					      NULL);
 			facebook_service_create_album (data->service,
 						       album,
 						       data->cancellable,
@@ -467,7 +463,6 @@ add_album_button_clicked_cb (GtkButton *button,
 
 	dialog = facebook_album_properties_dialog_new (g_file_info_get_edit_name (data->location->info),
 						       NULL,
-						       NULL,
 						       FACEBOOK_VISIBILITY_SELF);
 	g_signal_connect (dialog,
 			  "delete-event",
@@ -482,6 +477,18 @@ add_album_button_clicked_cb (GtkButton *button,
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
+}
+
+
+static void
+album_combobox_changed_cb (GtkComboBox *combo_box,
+			   gpointer     user_data)
+{
+	DialogData *data = user_data;
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog),
+					   GTK_RESPONSE_OK,
+					   gtk_combo_box_get_active (combo_box) >= 0);
 }
 
 
@@ -586,7 +593,7 @@ dlg_export_to_facebook (GthBrowser *browser,
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), data->list_view, TRUE, TRUE, 0);
 	gth_file_list_set_files (GTH_FILE_LIST (data->list_view), data->file_list);
 
-	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, FALSE);
 
 	title = g_strdup_printf (_("Export to %s"), "Facebook");
 	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
@@ -641,6 +648,10 @@ dlg_export_to_facebook (GthBrowser *browser,
 	g_signal_connect (GET_WIDGET ("add_album_button"),
 			  "clicked",
 			  G_CALLBACK (add_album_button_clicked_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("album_combobox"),
+			  "changed",
+			  G_CALLBACK (album_combobox_changed_cb),
 			  data);
 
 	data->conn = facebook_connection_new ();

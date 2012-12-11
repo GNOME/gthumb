@@ -41,6 +41,8 @@ struct _FacebookUser {
 	GObject parent_instance;
 
 	char *id;
+	char *name;
+	char *link;
 	char *username;
 };
 
@@ -50,10 +52,6 @@ struct _FacebookUserClass {
 
 GType          facebook_user_get_type     (void);
 FacebookUser * facebook_user_new          (void);
-void           facebook_user_set_id       (FacebookUser *self,
-				           const char   *value);
-void           facebook_user_set_username (FacebookUser *self,
-				           const char   *value);
 
 G_END_DECLS
 

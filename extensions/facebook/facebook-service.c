@@ -22,6 +22,7 @@
 #include <config.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <json-glib/json-glib.h>
 #include <gthumb.h>
 #include "facebook-account.h"
 #include "facebook-album.h"
@@ -117,7 +118,7 @@ facebook_service_new (FacebookConnection *conn)
 	FacebookService *self;
 
 	self = (FacebookService *) g_object_new (FACEBOOK_TYPE_SERVICE, NULL);
-	self->priv->conn = g_object_ref (conn);
+	self->priv->conn = _g_object_ref (conn);
 
 	return self;
 }
@@ -127,181 +128,58 @@ facebook_service_new (FacebookConnection *conn)
 
 
 static void
-get_logged_in_user_ready_cb (SoupSession *session,
-			     SoupMessage *msg,
-			     gpointer     user_data)
+facebook_service_get_user_ready_cb (SoupSession *session,
+				    SoupMessage *msg,
+				    gpointer     user_data)
 {
 	FacebookService    *self = user_data;
 	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
-	DomDocument        *doc = NULL;
 	GError             *error = NULL;
+	JsonNode           *node;
 
 	result = facebook_connection_get_result (self->priv->conn);
 
-	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
-		return;
-	}
+	if (facebook_utils_parse_response (msg, &node, &error)) {
+		_g_object_unref (self->priv->user);
+		self->priv->user = (FacebookUser *) json_gobject_deserialize (FACEBOOK_TYPE_USER, node);
+		g_simple_async_result_set_op_res_gpointer (result,
+							   g_object_ref (self->priv->user),
+							   (GDestroyNotify) g_object_unref);
 
-	body = soup_message_body_flatten (msg->response_body);
-	if (facebook_utils_parse_response (body, &doc, &error)) {
-		DomElement *root;
-		char       *uid = NULL;
-
-		root = DOM_ELEMENT (doc)->first_child;
-		if (g_strcmp0 (root->tag_name, "users_getLoggedInUser_response") == 0)
-			uid = g_strdup (dom_element_get_inner_text (root));
-
-		if (uid == NULL) {
-			error = g_error_new_literal (FACEBOOK_CONNECTION_ERROR, 0, _("Unknown error"));
-			g_simple_async_result_set_from_error (result, error);
-		}
-		else
-			g_simple_async_result_set_op_res_gpointer (result, uid, g_free);
-
-		g_object_unref (doc);
+		json_node_free (node);
 	}
 	else
 		g_simple_async_result_set_from_error (result, error);
 
 	g_simple_async_result_complete_in_idle (result);
-
-	soup_buffer_free (body);
 }
 
 
 void
-facebook_service_get_logged_in_user (FacebookService     *self,
-				     GCancellable        *cancellable,
-				     GAsyncReadyCallback  callback,
-				     gpointer             user_data)
+facebook_service_get_user (FacebookService     *self,
+			   GCancellable        *cancellable,
+			   GAsyncReadyCallback  callback,
+			   gpointer	        user_data)
 {
 	GHashTable  *data_set;
 	SoupMessage *msg;
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Connecting to the server"), _("Getting account information"), TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self->priv->conn),
+			   _("Connecting to the server"),
+			   _("Getting account information"),
+			   TRUE,
+			   0.0);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "facebook.users.getLoggedInUser");
-	facebook_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("POST", FACEBOOK_HTTPS_REST_SERVER, data_set);
+	facebook_connection_add_access_token (self->priv->conn, data_set);
+	msg = soup_form_request_new_from_hash ("GET", "https://graph.facebook.com/me", data_set);
 	facebook_connection_send_message (self->priv->conn,
 					  msg,
 					  cancellable,
 					  callback,
 					  user_data,
-					  facebook_service_get_logged_in_user,
-					  get_logged_in_user_ready_cb,
-					  self);
-
-	g_hash_table_destroy (data_set);
-}
-
-
-char *
-facebook_service_get_logged_in_user_finish (FacebookService  *self,
-					    GAsyncResult     *result,
-					    GError          **error)
-{
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
-	else
-		return g_strdup (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
-}
-
-
-/* -- facebook_service_get_user_info -- */
-
-
-static void
-get_user_info_ready_cb (SoupSession *session,
-			SoupMessage *msg,
-			gpointer     user_data)
-{
-	FacebookService      *self = user_data;
-	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
-	DomDocument        *doc = NULL;
-	GError             *error = NULL;
-
-	result = facebook_connection_get_result (self->priv->conn);
-
-	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
-		return;
-	}
-
-	body = soup_message_body_flatten (msg->response_body);
-	if (facebook_utils_parse_response (body, &doc, &error)) {
-		DomElement   *node;
-		FacebookUser *user = NULL;
-
-		for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "users_getInfo_response") == 0) {
-				DomElement *child;
-
-				for (child = node->first_child; child; child = child->next_sibling) {
-					if (g_strcmp0 (child->tag_name, "user") == 0) {
-						user = facebook_user_new ();
-						dom_domizable_load_from_element (DOM_DOMIZABLE (user), child);
-						g_simple_async_result_set_op_res_gpointer (result, user, (GDestroyNotify) g_object_unref);
-					}
-				}
-			}
-		}
-
-		if (user == NULL) {
-			error = g_error_new_literal (FACEBOOK_CONNECTION_ERROR, 0, _("Unknown error"));
-			g_simple_async_result_set_from_error (result, error);
-		}
-
-		g_object_unref (doc);
-	}
-	else
-		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
-
-	soup_buffer_free (body);
-}
-
-
-void
-facebook_service_get_user_info (FacebookService     *self,
-				const char          *fields,
-				GCancellable        *cancellable,
-				GAsyncReadyCallback  callback,
-				gpointer             user_data)
-{
-	GHashTable  *data_set;
-	SoupMessage *msg;
-
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Connecting to the server"), _("Getting account information"), TRUE, 0.0);
-
-	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "facebook.users.getInfo");
-	g_hash_table_insert (data_set, "uids", (char *) facebook_connection_get_user_id (self->priv->conn));
-	g_hash_table_insert (data_set, "fields", (char *) fields);
-	facebook_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("POST", FACEBOOK_HTTPS_REST_SERVER, data_set);
-	facebook_connection_send_message (self->priv->conn,
-					  msg,
-					  cancellable,
-					  callback,
-					  user_data,
-					  facebook_service_get_user_info,
-					  get_user_info_ready_cb,
+					  facebook_service_get_user,
+					  facebook_service_get_user_ready_cb,
 					  self);
 
 	g_hash_table_destroy (data_set);
@@ -309,9 +187,9 @@ facebook_service_get_user_info (FacebookService     *self,
 
 
 FacebookUser *
-facebook_service_get_user_info_finish (FacebookService  *self,
-				       GAsyncResult     *result,
-				       GError          **error)
+facebook_service_get_user_finish (FacebookService  *self,
+				  GAsyncResult     *result,
+				  GError          **error)
 {
 	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
 		return NULL;
@@ -324,91 +202,78 @@ facebook_service_get_user_info_finish (FacebookService  *self,
 
 
 static void
-get_albums_ready_cb (SoupSession *session,
-		     SoupMessage *msg,
-		     gpointer     user_data)
+facebook_service_get_albums_ready_cb (SoupSession *session,
+				      SoupMessage *msg,
+				      gpointer     user_data)
 {
 	FacebookService    *self = user_data;
 	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
-	DomDocument        *doc = NULL;
+	JsonNode           *node;
 	GError             *error = NULL;
 
 	result = facebook_connection_get_result (self->priv->conn);
 
-	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
-		return;
-	}
-
-	body = soup_message_body_flatten (msg->response_body);
-	if (facebook_utils_parse_response (body, &doc, &error)) {
-		DomElement *node;
+	if (facebook_utils_parse_response (msg, &node, &error)) {
 		GList      *albums = NULL;
+		JsonObject *obj;
+		JsonArray  *data;
+		int         i;
 
-		for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "photos_getAlbums_response") == 0) {
-				DomElement *child;
+		obj = json_node_get_object (node);
+		data = json_object_get_array_member (obj, "data");
+		for (i = 0; i < json_array_get_length (data); i++) {
+			JsonNode      *album_node;
+			FacebookAlbum *album;
 
-				for (child = node->first_child; child; child = child->next_sibling) {
-					if (g_strcmp0 (child->tag_name, "album") == 0) {
-						FacebookAlbum *album;
-
-						album = facebook_album_new ();
-						dom_domizable_load_from_element (DOM_DOMIZABLE (album), child);
-						albums = g_list_prepend (albums, album);
-					}
-				}
-			}
+			album_node = json_array_get_element (data, i);
+			album = (FacebookAlbum *) json_gobject_deserialize (FACEBOOK_TYPE_ALBUM, album_node);
+			albums = g_list_prepend (albums, album);
 		}
 
 		albums = g_list_reverse (albums);
 		g_simple_async_result_set_op_res_gpointer (result, albums, (GDestroyNotify) _g_object_list_unref);
 
-		g_object_unref (doc);
+		json_node_free (node);
 	}
 	else
 		g_simple_async_result_set_from_error (result, error);
 
 	g_simple_async_result_complete_in_idle (result);
-
-	soup_buffer_free (body);
 }
 
 
 void
 facebook_service_get_albums (FacebookService     *self,
-			     const char          *user_id,
 			     GCancellable        *cancellable,
 			     GAsyncReadyCallback  callback,
 			     gpointer             user_data)
 {
 	GHashTable  *data_set;
+	char        *uri;
 	SoupMessage *msg;
 
-	g_return_if_fail (user_id != NULL);
+	g_return_if_fail (self->priv->user != NULL);
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the album list"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self->priv->conn),
+			   _("Getting the album list"),
+			   NULL,
+			   TRUE,
+			   0.0);
 
+	uri = g_strdup_printf ("https://graph.facebook.com/%s/albums", self->priv->user->id);
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "facebook.photos.getAlbums");
-	g_hash_table_insert (data_set, "uid", (char *) user_id);
-	facebook_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("GET", FACEBOOK_HTTPS_REST_SERVER, data_set);
+	facebook_connection_add_access_token (self->priv->conn, data_set);
+	msg = soup_form_request_new_from_hash ("GET", uri, data_set);
 	facebook_connection_send_message (self->priv->conn,
 					  msg,
 					  cancellable,
 					  callback,
 					  user_data,
 					  facebook_service_get_albums,
-					  get_albums_ready_cb,
+					  facebook_service_get_albums_ready_cb,
 					  self);
 
+	g_free (uri);
 	g_hash_table_destroy (data_set);
 }
 
@@ -428,83 +293,67 @@ facebook_service_get_albums_finish (FacebookService  *service,
 /* -- facebook_service_create_album -- */
 
 
-static void
-create_album_ready_cb (SoupSession *session,
-		       SoupMessage *msg,
-		       gpointer     user_data)
+typedef struct {
+	FacebookService *service;
+	FacebookAlbum   *album;
+} CreateAlbumData;
+
+
+static CreateAlbumData *
+create_album_data_new (FacebookService *service,
+		       FacebookAlbum   *album)
 {
-	FacebookService    *self = user_data;
+	CreateAlbumData *ca_data;
+
+	ca_data = g_new0 (CreateAlbumData, 1);
+	ca_data->service = g_object_ref (service);
+	ca_data->album = g_object_ref (album);
+
+	return ca_data;
+}
+
+
+static void
+create_album_data_free (CreateAlbumData *ca_data)
+{
+	_g_object_unref (ca_data->service);
+	_g_object_unref (ca_data->album);
+	g_free (ca_data);
+}
+
+
+static void
+facebook_service_create_album_ready_cb (SoupSession *session,
+					SoupMessage *msg,
+					gpointer     user_data)
+{
+	CreateAlbumData    *ca_data = user_data;
+	FacebookService    *self = ca_data->service;
 	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
-	DomDocument        *doc = NULL;
+	JsonNode           *node;
 	GError             *error = NULL;
 
 	result = facebook_connection_get_result (self->priv->conn);
 
-	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
-		return;
-	}
+	if (facebook_utils_parse_response (msg, &node, &error)) {
+		FacebookAlbum *album;
+		JsonObject    *obj;
+		const char    *id;
 
-	body = soup_message_body_flatten (msg->response_body);
-	if (facebook_utils_parse_response (body, &doc, &error)) {
-		DomElement    *node;
-		FacebookAlbum *album = NULL;
+		album = g_object_ref (ca_data->album);
+		obj = json_node_get_object (node);
+		id = json_object_get_string_member (obj, "id");
+		g_object_set (album, "id", id, NULL);
+		g_simple_async_result_set_op_res_gpointer (result, album, (GDestroyNotify) _g_object_unref);
 
-		for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "photos_createAlbum_response") == 0) {
-				album = facebook_album_new ();
-				dom_domizable_load_from_element (DOM_DOMIZABLE (album), node);
-				break;
-			}
-		}
-
-		if (album == NULL) {
-			error = g_error_new_literal (FACEBOOK_CONNECTION_ERROR, 0, _("Unknown error"));
-			g_simple_async_result_set_from_error (result, error);
-		}
-		else
-			g_simple_async_result_set_op_res_gpointer (result, album, (GDestroyNotify) _g_object_unref);
-
-		g_object_unref (doc);
+		json_node_free (node);
 	}
 	else
 		g_simple_async_result_set_from_error (result, error);
 
 	g_simple_async_result_complete_in_idle (result);
 
-	soup_buffer_free (body);
-}
-
-
-static const char *
-get_privacy_from_visibility (FacebookVisibility visibility)
-{
-	char *value = NULL;
-
-	switch (visibility) {
-	case FACEBOOK_VISIBILITY_EVERYONE:
-		value = "{ value: \"EVERYONE\" }";
-		break;
-
-	case FACEBOOK_VISIBILITY_ALL_FRIENDS:
-		value = "{ value: \"ALL_FRIENDS\" }";
-		break;
-
-	case FACEBOOK_VISIBILITY_SELF:
-		value = "{ value: \"SELF\" }";
-		break;
-
-	default:
-		break;
-	}
-
-	return value;
+	create_album_data_free (ca_data);
 }
 
 
@@ -515,35 +364,36 @@ facebook_service_create_album (FacebookService     *self,
 			       GAsyncReadyCallback  callback,
 			       gpointer             user_data)
 {
-	GHashTable  *data_set;
-	const char  *privacy;
-	SoupMessage *msg;
+	CreateAlbumData *ca_data;
+	char            *uri;
+	GHashTable      *data_set;
+	SoupMessage     *msg;
 
+	g_return_if_fail (self->priv->user != NULL);
 	g_return_if_fail (album != NULL);
 	g_return_if_fail (album->name != NULL);
 
 	gth_task_progress (GTH_TASK (self->priv->conn), _("Creating the new album"), NULL, TRUE, 0.0);
 
+	ca_data = create_album_data_new (self, album);
+
+	uri = g_strdup_printf ("https://graph.facebook.com/%s/albums", self->priv->user->id);
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "facebook.photos.createAlbum");
 	g_hash_table_insert (data_set, "name", album->name);
 	if (album->description != NULL)
-		g_hash_table_insert (data_set, "description", album->description);
-	if (album->location != NULL)
-		g_hash_table_insert (data_set, "location", album->location);
-	privacy = get_privacy_from_visibility (album->visibility);
-	if (privacy != NULL)
-		g_hash_table_insert (data_set, "privacy", (char *) privacy);
-	facebook_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("POST", FACEBOOK_HTTPS_REST_SERVER, data_set);
+		g_hash_table_insert (data_set, "message", album->description);
+	if (album->privacy != NULL)
+		g_hash_table_insert (data_set, "privacy", album->privacy);
+	facebook_connection_add_access_token (self->priv->conn, data_set);
+	msg = soup_form_request_new_from_hash ("POST", uri, data_set);
 	facebook_connection_send_message (self->priv->conn,
 					  msg,
 					  cancellable,
 					  callback,
 					  user_data,
 					  facebook_service_create_album,
-					  create_album_ready_cb,
-					  self);
+					  facebook_service_create_album_ready_cb,
+					  ca_data);
 
 	g_hash_table_destroy (data_set);
 }
@@ -601,45 +451,24 @@ upload_photo_ready_cb (SoupSession *session,
 		       gpointer     user_data)
 {
 	FacebookService *self = user_data;
-	SoupBuffer    *body;
-	DomDocument   *doc = NULL;
-	GError        *error = NULL;
-	GthFileData   *file_data;
+	JsonNode        *node;
+	GError          *error = NULL;
+	GthFileData     *file_data;
 
-	if (msg->status_code != 200) {
-		GError *error;
+	if (facebook_utils_parse_response (msg, &node, &error)) {
+		JsonObject *obj;
+		const char *id;
 
-		error = g_error_new_literal (SOUP_HTTP_ERROR, msg->status_code, soup_status_get_phrase (msg->status_code));
-		upload_photos_done (self, error);
-		g_error_free (error);
+		obj = json_node_get_object (node);
+		id = json_object_get_string_member (obj, "id");
+		self->priv->post_photos->ids = g_list_prepend (self->priv->post_photos->ids, g_strdup (id));
 
-		return;
-	}
-
-	body = soup_message_body_flatten (msg->response_body);
-	if (facebook_utils_parse_response (body, &doc, &error)) {
-		DomElement *node;
-
-		/* save the photo id */
-
-		for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "pid") == 0) {
-				const char *id;
-
-				id = dom_element_get_inner_text (node);
-				self->priv->post_photos->ids = g_list_prepend (self->priv->post_photos->ids, g_strdup (id));
-			}
-		}
-
-		g_object_unref (doc);
+		json_node_free (node);
 	}
 	else {
-		soup_buffer_free (body);
 		upload_photos_done (self, error);
 		return;
 	}
-
-	soup_buffer_free (body);
 
 	file_data = self->priv->post_photos->current->data;
 	self->priv->post_photos->uploaded_size += g_file_info_get_size (file_data->info);
@@ -711,19 +540,14 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 
 		data_set = g_hash_table_new (g_str_hash, g_str_equal);
 
-		g_hash_table_insert (data_set, "method", "facebook.photos.upload");
-
 		title = gth_file_data_get_attribute_as_string (file_data, "general::title");
 		description = gth_file_data_get_attribute_as_string (file_data, "general::description");
 		if (description != NULL)
-			g_hash_table_insert (data_set, "caption", description);
+			g_hash_table_insert (data_set, "message", description);
 		else if (title != NULL)
-			g_hash_table_insert (data_set, "caption", title);
+			g_hash_table_insert (data_set, "message", title);
 
-		if (self->priv->post_photos->album != NULL)
-			g_hash_table_insert (data_set, "aid", self->priv->post_photos->album->id);
-
-		facebook_connection_add_api_sig (self->priv->conn, data_set);
+		facebook_connection_add_access_token (self->priv->conn, data_set);
 
 		keys = g_hash_table_get_keys (data_set);
 		for (scan = keys; scan; scan = scan->next) {
@@ -798,7 +622,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	uri = g_file_get_uri (file_data->file);
 	body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
 	soup_multipart_append_form_file (multipart,
-					 "filename",
+					 "source",
 					 _g_uri_get_basename (uri),
 					 gth_file_data_get_mime_type (file_data),
 					 body);
@@ -809,7 +633,8 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	/* send the file */
 
 	self->priv->post_photos->wrote_body_data_size = 0;
-	msg = soup_form_request_new_from_multipart (FACEBOOK_HTTPS_REST_SERVER, multipart);
+	uri = g_strdup_printf ("https://graph.facebook.com/%s/photos", self->priv->post_photos->album->id);
+	msg = soup_form_request_new_from_multipart (uri, multipart);
 	g_signal_connect (msg,
 			  "wrote-body-data",
 			  (GCallback) upload_photo_wrote_body_data_cb,
@@ -823,6 +648,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 					  upload_photo_ready_cb,
 					  self);
 
+	g_free (uri);
 	soup_multipart_free (multipart);
 }
 
@@ -881,7 +707,11 @@ facebook_service_upload_photos (FacebookService     *self,
 				GAsyncReadyCallback  callback,
 				gpointer             user_data)
 {
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Uploading the files to the server"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self->priv->conn),
+			   _("Uploading the files to the server"),
+			   NULL,
+			   TRUE,
+			   0.0);
 
 	post_photos_data_free (self->priv->post_photos);
 	self->priv->post_photos = g_new0 (PostPhotosData, 1);

@@ -24,6 +24,7 @@
 #ifdef HAVE_LIBSECRET
 #include <libsecret/secret.h>
 #endif /* HAVE_LIBSECRET */
+#include <extensions/oauth/oauth2-ask-authorization-dialog.h>
 #include "facebook-account-chooser-dialog.h"
 #include "facebook-account-manager-dialog.h"
 #include "facebook-authentication.h"
@@ -31,7 +32,6 @@
 #include "facebook-service.h"
 
 
-#define SECRET_SEPARATOR ("::")
 #define FACEBOOK_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT 2
 
 
@@ -94,10 +94,9 @@ facebook_authentication_class_init (FacebookAuthenticationClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (FacebookAuthenticationClass, ready),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
-			      1,
-			      G_TYPE_OBJECT);
+			      0);
 	facebook_authentication_signals[ACCOUNTS_CHANGED] =
 		g_signal_new ("accounts_changed",
 			      G_TYPE_FROM_CLASS (class),
@@ -181,7 +180,7 @@ show_authentication_error_dialog (FacebookAuthentication  *self,
 {
 	GtkWidget *dialog;
 
-	if (g_error_matches (*error, FACEBOOK_CONNECTION_ERROR, FACEBOOK_CONNECTION_ERROR_SESSION_KEY_INVALID)) {
+	if (g_error_matches (*error, FACEBOOK_CONNECTION_ERROR, FACEBOOK_CONNECTION_ERROR_TOKEN_EXPIRED)) {
 		start_authorization_process (self);
 		return;
 	}
@@ -211,145 +210,9 @@ show_authentication_error_dialog (FacebookAuthentication  *self,
 }
 
 
-/* -- facebook_authentication_auto_connect -- */
-
-
 static void
-get_user_info_ready_cb (GObject      *source_object,
-			GAsyncResult *res,
-			gpointer      user_data)
-{
-	FacebookAuthentication *self = user_data;
-	FacebookUser           *user;
-	GError                 *error = NULL;
-
-	user = facebook_service_get_user_info_finish (FACEBOOK_SERVICE (source_object), res, &error);
-	if (error != NULL) {
-		show_authentication_error_dialog (self, &error);
-		return;
-	}
-
-	facebook_account_set_username (self->priv->account, user->username);
-	facebook_accounts_save_to_file (self->priv->accounts, self->priv->account);
-
-	g_signal_emit (self, facebook_authentication_signals[READY], 0, user);
-
-	g_object_unref (user);
-}
-
-
-static void
-get_logged_in_user_ready_cb (GObject      *source_object,
-			     GAsyncResult *res,
-			     gpointer      user_data)
-{
-	FacebookAuthentication *self = user_data;
-	char                   *uid;
-	GError                 *error = NULL;
-
-	uid = facebook_service_get_logged_in_user_finish (FACEBOOK_SERVICE (source_object), res, &error);
-	if (error != NULL) {
-		show_authentication_error_dialog (self, &error);
-		return;
-	}
-
-	if (g_strcmp0 (uid, self->priv->account->user_id) == 0) {
-		FacebookUser *user;
-
-		user = facebook_user_new ();
-		facebook_user_set_id (user, uid);
-		facebook_user_set_username (user, self->priv->account->username);
-		g_signal_emit (self, facebook_authentication_signals[READY], 0, user);
-
-		g_object_unref (user);
-	}
-	else {
-		/* Authorization required */
-		start_authorization_process (self);
-	}
-
-	g_free (uid);
-}
-
-
-static void
-connect_to_server_step2 (FacebookAuthentication *self)
-{
-	if ((self->priv->account->session_key == NULL) || (self->priv->account->secret == NULL)) {
-		start_authorization_process (self);
-		return;
-	}
-	facebook_connection_set_session (self->priv->conn,
-					 self->priv->account->session_key,
-					 self->priv->account->secret);
-	if (self->priv->account->username == NULL)
-		facebook_service_get_user_info (self->priv->service,
-						"first_name,middle_name,last_name,name",
-						self->priv->cancellable,
-						get_user_info_ready_cb,
-						self);
-	else
-		facebook_service_get_logged_in_user (self->priv->service,
-						     self->priv->cancellable,
-						     get_logged_in_user_ready_cb,
-						     self);
-}
-
-
-#ifdef HAVE_LIBSECRET
-static void
-password_lookup_ready_cb (GObject      *source_object,
-			  GAsyncResult *result,
-			  gpointer      user_data)
-{
-	FacebookAuthentication *self = user_data;
-	char                   *string;
-
-	string = secret_password_lookup_finish (result, NULL);
-	if (string != NULL) {
-		char **values;
-
-		values = g_strsplit (string, SECRET_SEPARATOR, 2);
-		if ((values[0] != NULL) && (values[1] != NULL)) {
-			self->priv->account->session_key = g_strdup (values[0]);
-			self->priv->account->secret = g_strdup (values[1]);
-		}
-
-		g_strfreev (values);
-		g_free (string);
-	}
-
-	connect_to_server_step2 (self);
-}
-#endif
-
-
-static void
-connect_to_server (FacebookAuthentication *self)
-{
-	g_return_if_fail (self->priv->account != NULL);
-
-#ifdef HAVE_LIBSECRET
-	if ((self->priv->account->session_key == NULL) || (self->priv->account->secret == NULL)) {
-		secret_password_lookup (SECRET_SCHEMA_COMPAT_NETWORK,
-					self->priv->cancellable,
-					password_lookup_ready_cb,
-					self,
-					"user", self->priv->account->user_id,
-					"server", FACEBOOK_HTTPS_REST_SERVER,
-					"protocol", "https",
-					NULL);
-		return;
-	}
-#endif
-
-	connect_to_server_step2 (self);
-}
-
-
-static void
-set_account (FacebookAuthentication *self,
-	     FacebookAccount        *account)
+set_current_account (FacebookAuthentication *self,
+		     FacebookAccount        *account)
 {
 	GList *link;
 
@@ -369,6 +232,16 @@ set_account (FacebookAuthentication *self,
 }
 
 
+/* -- facebook_authentication_auto_connect -- */
+
+
+static void
+facebook_authentication_account_ready (FacebookAuthentication *self)
+{
+	g_signal_emit (self, facebook_authentication_signals[READY], 0);
+}
+
+
 #ifdef HAVE_LIBSECRET
 static void
 password_store_ready_cb (GObject      *source_object,
@@ -378,61 +251,120 @@ password_store_ready_cb (GObject      *source_object,
 	FacebookAuthentication *self = user_data;
 
 	secret_password_store_finish (result, NULL);
-	connect_to_server (self);
+	facebook_authentication_account_ready (self);
 }
 #endif
 
 
 static void
-get_session_ready_cb (GObject      *source_object,
-		      GAsyncResult *res,
-		      gpointer      user_data)
+get_user_ready_cb (GObject      *source_object,
+		   GAsyncResult *res,
+		   gpointer      user_data)
 {
 	FacebookAuthentication *self = user_data;
 	GError                 *error = NULL;
+	FacebookUser           *user;
 	FacebookAccount        *account;
 
-	if (! facebook_connection_get_session_finish (FACEBOOK_CONNECTION (source_object), res, &error)) {
+	user = facebook_service_get_user_finish (self->priv->service, res, &error);
+	if (user == NULL) {
 		show_authentication_error_dialog (self, &error);
 		return;
 	}
 
 	account = facebook_account_new ();
-	facebook_account_set_session_key (account, facebook_connection_get_session_key (self->priv->conn));
-	facebook_account_set_secret (account, facebook_connection_get_secret (self->priv->conn));
-	facebook_account_set_user_id (account, facebook_connection_get_user_id (self->priv->conn));
-	set_account (self, account);
+	facebook_account_set_username (account, user->name);
+	facebook_account_set_user_id (account, user->id);
+	facebook_account_set_token (account, facebook_connection_get_access_token (self->priv->conn));
+	set_current_account (self, account);
+	facebook_accounts_save_to_file (self->priv->accounts, self->priv->account);
 
 #ifdef HAVE_LIBSECRET
 	{
-		char *secret;
-
-		secret = g_strconcat (account->session_key, SECRET_SEPARATOR, account->secret, NULL);
 		secret_password_store (SECRET_SCHEMA_COMPAT_NETWORK,
 				       NULL,
 				       "Facebook",
-				       secret,
+				       account->token,
 				       self->priv->cancellable,
 				       password_store_ready_cb,
 				       self,
 				       "user", account->user_id,
-				       "server", FACEBOOK_HTTPS_REST_SERVER,
+				       "server", FACEBOOK_HTTP_SERVER,
 				       "protocol", "https",
 				       NULL);
-
-		g_free (secret);
 	}
 #else
-	g_object_unref (account);
-	connect_to_server (self);
+	facebook_authentication_account_ready (self);
 #endif
+
+	g_object_unref (account);
+	g_object_unref (user);
 }
 
 
 static void
-complete_authorization_messagedialog_response_cb (GtkDialog *dialog,
-						  int        response_id,
-						  gpointer   user_data)
+connect_to_server_step2 (FacebookAuthentication *self)
+{
+	if (self->priv->account->token == NULL) {
+		start_authorization_process (self);
+		return;
+	}
+	facebook_connection_set_access_token (self->priv->conn, self->priv->account->token);
+	facebook_service_get_user (self->priv->service,
+				   self->priv->cancellable,
+				   get_user_ready_cb,
+				   self);
+}
+
+
+#ifdef HAVE_LIBSECRET
+static void
+password_lookup_ready_cb (GObject      *source_object,
+			  GAsyncResult *result,
+			  gpointer      user_data)
+{
+	FacebookAuthentication *self = user_data;
+	char                   *secret;
+
+	secret = secret_password_lookup_finish (result, NULL);
+	if (secret != NULL) {
+		facebook_account_set_token (self->priv->account, secret);
+		g_free (secret);
+	}
+
+	connect_to_server_step2 (self);
+}
+#endif
+
+
+static void
+connect_to_server (FacebookAuthentication *self)
+{
+	g_return_if_fail (self->priv->account != NULL);
+	g_return_if_fail (self->priv->account->user_id != NULL);
+
+#ifdef HAVE_LIBSECRET
+	if (self->priv->account->token == NULL) {
+		secret_password_lookup (SECRET_SCHEMA_COMPAT_NETWORK,
+					self->priv->cancellable,
+					password_lookup_ready_cb,
+					self,
+					"user", self->priv->account->user_id,
+					"server", FACEBOOK_HTTP_SERVER,
+					"protocol", "https",
+					NULL);
+		return;
+	}
+#endif
+
+	connect_to_server_step2 (self);
+}
+
+
+static void
+ask_authorization_dialog_response_cb (GtkDialog *dialog,
+				      int        response_id,
+				      gpointer   user_data)
 {
 	FacebookAuthentication *self = user_data;
 
@@ -450,10 +382,10 @@ complete_authorization_messagedialog_response_cb (GtkDialog *dialog,
 	case GTK_RESPONSE_OK:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		gth_task_dialog (GTH_TASK (self->priv->conn), FALSE, NULL);
-		facebook_connection_get_session (self->priv->conn,
-						 self->priv->cancellable,
-						 get_session_ready_cb,
-						 self);
+		facebook_service_get_user (self->priv->service,
+					   self->priv->cancellable,
+					   get_user_ready_cb,
+					   self);
 		break;
 
 	default:
@@ -463,144 +395,60 @@ complete_authorization_messagedialog_response_cb (GtkDialog *dialog,
 
 
 static void
-complete_authorization (FacebookAuthentication *self)
-{
-	GtkBuilder *builder;
-	GtkWidget  *dialog;
-	char       *text;
-	char       *secondary_text;
-
-	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
-
-	builder = _gtk_builder_new_from_file ("facebook-complete-authorization.ui", "facebook");
-	dialog = _gtk_builder_get_widget (builder, "complete_authorization_messagedialog");
-	text = g_strdup_printf (_("Return to this window when you have finished the authorization process on %s"), "Facebook");
-	secondary_text = g_strdup (_("Once you're done, click the 'Continue' button below."));
-	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
-	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
-	g_signal_connect (dialog,
-			  "delete-event",
-			  G_CALLBACK (gtk_true),
-			  NULL);
-	g_signal_connect (dialog,
-			  "response",
-			  G_CALLBACK (complete_authorization_messagedialog_response_cb),
-			  self);
-
-	if (gtk_widget_get_visible (self->priv->dialog))
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
-	else
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_window_present (GTK_WINDOW (dialog));
-
-	g_free (secondary_text);
-	g_free (text);
-}
-
-
-static void
-ask_authorization_messagedialog_response_cb (GtkDialog *dialog,
-					     int        response_id,
-					     gpointer   user_data)
+ask_authorization_dialog_redirected_cb (OAuth2AskAuthorizationDialog *dialog,
+					gpointer                      user_data)
 {
 	FacebookAuthentication *self = user_data;
+	const char             *uri;
 
-	switch (response_id) {
-	case GTK_RESPONSE_HELP:
-		show_help_dialog (GTK_WINDOW (dialog), "facebook-ask-authorization");
-		break;
+	uri = oauth2_ask_authorization_dialog_get_uri (dialog);
+	if (g_str_has_prefix (uri, FACEBOOK_REDIRECT_URI)) {
+		const char *uri_data;
+		GHashTable *data;
+		const char *access_token;
 
-	case GTK_RESPONSE_DELETE_EVENT:
-	case GTK_RESPONSE_CANCEL:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_dialog_response (GTK_DIALOG (self->priv->dialog), GTK_RESPONSE_DELETE_EVENT);
-		break;
+		uri_data = uri + strlen (FACEBOOK_REDIRECT_URI "#");
 
-	case GTK_RESPONSE_OK:
-		{
-			GdkScreen *screen;
-			char      *url;
-			GError    *error = NULL;
+		data = soup_form_decode (uri_data);
+		access_token = g_hash_table_lookup (data, "access_token");
+		facebook_connection_set_access_token (self->priv->conn, access_token);
+		gtk_dialog_response (GTK_DIALOG (dialog),
+				     (access_token != NULL) ? GTK_RESPONSE_OK : GTK_RESPONSE_CANCEL);
 
-			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
-			gtk_widget_destroy (GTK_WIDGET (dialog));
-
-			url = facebook_connection_get_login_link (self->priv->conn, FACEBOOK_ACCESS_WRITE);
-			if (gtk_show_uri (screen, url, 0, &error))
-				complete_authorization (self);
-			else
-				show_authentication_error_dialog (self, &error);
-
-			g_free (url);
-		}
-		break;
-
-	default:
-		break;
+		g_hash_table_destroy (data);
 	}
-}
-
-
-static void
-ask_authorization (FacebookAuthentication *self)
-{
-	GtkBuilder *builder;
-	GtkWidget  *dialog;
-	char       *text;
-	char       *secondary_text;
-
-	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
-
-	builder = _gtk_builder_new_from_file ("facebook-ask-authorization.ui", "facebook");
-	dialog = _gtk_builder_get_widget (builder, "ask_authorization_messagedialog");
-	if (gtk_widget_get_visible (self->priv->dialog))
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
-	else
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
-
-	text = g_strdup_printf (_("gthumb requires your authorization to upload the photos to %s"), "Facebook");
-	secondary_text = g_strdup_printf (_("Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."), "Facebook");
-	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
-	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
-	g_signal_connect (dialog,
-			  "delete-event",
-			  G_CALLBACK (gtk_true),
-			  NULL);
-	g_signal_connect (dialog,
-			  "response",
-			  G_CALLBACK (ask_authorization_messagedialog_response_cb),
-			  self);
-
-	gtk_widget_show (dialog);
-
-	g_free (secondary_text);
-	g_free (text);
-}
-
-
-static void
-create_token_ready_cb (GObject      *source_object,
-		       GAsyncResult *res,
-		       gpointer      user_data)
-{
-	FacebookAuthentication *self = user_data;
-	GError                 *error = NULL;
-
-	if (! facebook_connection_create_token_finish (FACEBOOK_CONNECTION (source_object), res, &error))
-		show_authentication_error_dialog (self, &error);
-	else
-		ask_authorization (self);
 }
 
 
 static void
 start_authorization_process (FacebookAuthentication *self)
 {
-	facebook_connection_create_token (self->priv->conn,
-					  self->priv->cancellable,
-					  create_token_ready_cb,
-					  self);
+	GtkWidget *dialog;
+
+	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
+
+	dialog = oauth2_ask_authorization_dialog_new (_("Authorization Required"),
+						      facebook_utils_get_authorization_url (FACEBOOK_ACCESS_WRITE));
+	if (gtk_widget_get_visible (self->priv->dialog))
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
+	else
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+
+	g_signal_connect (dialog,
+			  "delete-event",
+			  G_CALLBACK (gtk_true),
+			  NULL);
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (ask_authorization_dialog_response_cb),
+			  self);
+	g_signal_connect (OAUTH2_ASK_AUTHORIZATION_DIALOG (dialog),
+			  "redirected",
+			  G_CALLBACK (ask_authorization_dialog_redirected_cb),
+			  self);
+
+	gtk_widget_show (dialog);
 }
 
 
@@ -625,7 +473,6 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 			connect_to_server (self);
 		}
-
 		break;
 
 	case FACEBOOK_ACCOUNT_CHOOSER_RESPONSE_NEW:
@@ -688,7 +535,7 @@ void
 facebook_authentication_connect (FacebookAuthentication *self,
 			         FacebookAccount        *account)
 {
-	set_account (self, account);
+	set_current_account (self, account);
 	facebook_authentication_auto_connect (self);
 }
 

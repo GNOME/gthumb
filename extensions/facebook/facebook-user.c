@@ -26,14 +26,16 @@
 #include "facebook-user.h"
 
 
-static void facebook_user_dom_domizable_interface_init (DomDomizableInterface *iface);
+G_DEFINE_TYPE (FacebookUser, facebook_user, G_TYPE_OBJECT)
 
 
-G_DEFINE_TYPE_WITH_CODE (FacebookUser,
-			 facebook_user,
-			 G_TYPE_OBJECT,
-			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					        facebook_user_dom_domizable_interface_init))
+enum {
+        PROP_0,
+        PROP_ID,
+        PROP_NAME,
+        PROP_LINK,
+        PROP_USERNAME
+};
 
 
 static void
@@ -44,6 +46,8 @@ facebook_user_finalize (GObject *obj)
 	self = FACEBOOK_USER (obj);
 
 	g_free (self->id);
+	g_free (self->name);
+	g_free (self->link);
 	g_free (self->username);
 
 	G_OBJECT_CLASS (facebook_user_parent_class)->finalize (obj);
@@ -51,56 +55,104 @@ facebook_user_finalize (GObject *obj)
 
 
 static void
-facebook_user_class_init (FacebookUserClass *klass)
-{
-	G_OBJECT_CLASS (klass)->finalize = facebook_user_finalize;
-}
-
-
-static DomElement*
-facebook_user_create_element (DomDomizable *base,
-			      DomDocument  *doc)
+facebook_user_set_property (GObject      *object,
+			    guint         property_id,
+			    const GValue *value,
+			    GParamSpec   *pspec)
 {
 	FacebookUser *self;
-	DomElement *element;
 
-	self = FACEBOOK_USER (base);
+        self = FACEBOOK_USER (object);
 
-	element = dom_document_create_element (doc, "user", NULL);
-	if (self->id != NULL)
-		dom_element_set_attribute (element, "id", self->id);
-	if (self->username != NULL)
-		dom_element_set_attribute (element, "name", self->username);
-
-	return element;
-}
-
-
-static void
-facebook_user_load_from_element (DomDomizable *base,
-			         DomElement   *element)
-{
-	FacebookUser *self;
-	DomElement *node;
-
-	self = FACEBOOK_USER (base);
-
-	for (node = element->first_child; node; node = node->next_sibling) {
-		if (g_strcmp0 (node->tag_name, "uid") == 0) {
-			_g_strset (&self->id, dom_element_get_inner_text (node));
-		}
-		else if (g_strcmp0 (node->tag_name, "name") == 0) {
-			_g_strset (&self->username, dom_element_get_inner_text (node));
-		}
+	switch (property_id) {
+	case PROP_ID:
+		_g_strset (&self->id, g_value_get_string (value));
+		break;
+	case PROP_NAME:
+		_g_strset (&self->name, g_value_get_string (value));
+		break;
+	case PROP_LINK:
+		_g_strset (&self->link, g_value_get_string (value));
+		break;
+	case PROP_USERNAME:
+		_g_strset (&self->username, g_value_get_string (value));
+		break;
+	default:
+		break;
 	}
 }
 
 
 static void
-facebook_user_dom_domizable_interface_init (DomDomizableInterface *iface)
+facebook_user_get_property (GObject    *object,
+			    guint       property_id,
+			    GValue     *value,
+			    GParamSpec *pspec)
 {
-	iface->create_element = facebook_user_create_element;
-	iface->load_from_element = facebook_user_load_from_element;
+	FacebookUser *self;
+
+        self = FACEBOOK_USER (object);
+
+	switch (property_id) {
+	case PROP_ID:
+		g_value_set_string (value, self->id);
+		break;
+	case PROP_NAME:
+		g_value_set_string (value, self->name);
+		break;
+	case PROP_LINK:
+		g_value_set_string (value, self->link);
+		break;
+	case PROP_USERNAME:
+		g_value_set_string (value, self->username);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+static void
+facebook_user_class_init (FacebookUserClass *klass)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = facebook_user_finalize;
+	object_class->set_property = facebook_user_set_property;
+	object_class->get_property = facebook_user_get_property;
+
+	/* properties */
+
+	g_object_class_install_property (object_class,
+					 PROP_ID,
+					 g_param_spec_string ("id",
+                                                              "ID",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_NAME,
+					 g_param_spec_string ("name",
+                                                              "Name",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_LINK,
+					 g_param_spec_string ("link",
+                                                              "Link",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_USERNAME,
+					 g_param_spec_string ("username",
+                                                              "Username",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
 }
 
 
@@ -108,7 +160,9 @@ static void
 facebook_user_init (FacebookUser *self)
 {
 	self->id = NULL;
+	self->name = NULL;
 	self->username = NULL;
+	self->link = NULL;
 }
 
 
@@ -116,20 +170,4 @@ FacebookUser *
 facebook_user_new (void)
 {
 	return g_object_new (FACEBOOK_TYPE_USER, NULL);
-}
-
-
-void
-facebook_user_set_id (FacebookUser *self,
-		      const char   *value)
-{
-	_g_strset (&self->id, value);
-}
-
-
-void
-facebook_user_set_username (FacebookUser *self,
-			    const char   *value)
-{
-	_g_strset (&self->username, value);
 }
