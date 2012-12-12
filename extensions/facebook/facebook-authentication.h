@@ -24,7 +24,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include "facebook-account.h"
+#include <extensions/oauth/oauth.h>
 #include "facebook-connection.h"
 #include "facebook-service.h"
 #include "facebook-user.h"
@@ -67,8 +67,8 @@ FacebookAuthentication *  facebook_authentication_new            (FacebookConnec
 								  GtkWidget              *dialog);
 void                      facebook_authentication_auto_connect   (FacebookAuthentication *auth);
 void                      facebook_authentication_connect        (FacebookAuthentication *auth,
-								  FacebookAccount        *account);
-FacebookAccount *         facebook_authentication_get_account    (FacebookAuthentication *auth);
+								  OAuthAccount           *account);
+OAuthAccount *            facebook_authentication_get_account    (FacebookAuthentication *auth);
 GList *                   facebook_authentication_get_accounts   (FacebookAuthentication *auth);
 void                      facebook_authentication_edit_accounts  (FacebookAuthentication *auth,
 								  GtkWindow              *parent);

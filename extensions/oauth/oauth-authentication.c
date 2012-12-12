@@ -30,6 +30,7 @@
 #include "oauth-authentication.h"
 
 
+#define ACCOUNTS_FORMAT_VERSION "2.0"
 #define TOKEN_SECRET_SEPARATOR ("::")
 #define OAUTH_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT 1
 
@@ -739,6 +740,9 @@ oauth_accounts_load_from_file (const char *service_name,
 	GError      *error = NULL;
 	DomDocument *doc;
 
+	if (account_type == 0)
+		account_type = OAUTH_TYPE_ACCOUNT;
+
 	filename = g_strconcat (service_name, ".xml", NULL);
 	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
 	if (! _g_file_load_in_buffer (file, (void **) &buffer, &len, NULL, &error)) {
@@ -754,7 +758,10 @@ oauth_accounts_load_from_file (const char *service_name,
 		DomElement *node;
 
 		node = DOM_ELEMENT (doc)->first_child;
-		if ((node != NULL) && (g_strcmp0 (node->tag_name, "accounts") == 0)) {
+		if ((node != NULL)
+		    && (g_strcmp0 (node->tag_name, "accounts") == 0)
+		    && (g_strcmp0 (dom_element_get_attribute (node, "version"), ACCOUNTS_FORMAT_VERSION) == 0))
+		{
 			DomElement *child;
 
 			for (child = node->first_child;
@@ -814,7 +821,9 @@ oauth_accounts_save_to_file (const char   *service_name,
 	GFile       *file;
 
 	doc = dom_document_new ();
-	root = dom_document_create_element (doc, "accounts", NULL);
+	root = dom_document_create_element (doc, "accounts",
+					    "version", ACCOUNTS_FORMAT_VERSION,
+					    NULL);
 	dom_element_append_child (DOM_ELEMENT (doc), root);
 	for (scan = accounts; scan; scan = scan->next) {
 		OAuthAccount *account = scan->data;

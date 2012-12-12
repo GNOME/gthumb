@@ -7,6 +7,7 @@ extension_LTLIBRARIES = liboauth.la
 
 liboauth_la_SOURCES = 				\
 	main.c					\
+	oauth.h					\
 	oauth2-ask-authorization-dialog.c	\
 	oauth2-ask-authorization-dialog.h	\
 	oauth-account.c				\

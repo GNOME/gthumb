@@ -23,7 +23,6 @@
 #define FACEBOOK_SERVICE_H
 
 #include <glib-object.h>
-#include "facebook-account.h"
 #include "facebook-connection.h"
 #include "facebook-album.h"
 #include "facebook-types.h"
@@ -94,12 +93,5 @@ GList *           facebook_service_list_photos_finish         (FacebookService  
 							       GAsyncResult         *result,
 							       GError              **error);
 #endif
-
-/* utilities */
-
-GList *            facebook_accounts_load_from_file  (void);
-FacebookAccount *  facebook_accounts_find_default    (GList           *accounts);
-void               facebook_accounts_save_to_file    (GList           *accounts,
-						      FacebookAccount *default_account);
 
 #endif /* FACEBOOK_SERVICE_H */

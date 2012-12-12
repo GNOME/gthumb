@@ -22,6 +22,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include <extensions/oauth/oauth.h>
 #include "dlg-export-to-facebook.h"
 #include "facebook-authentication.h"
 #include "facebook-album.h"
@@ -67,7 +68,7 @@ typedef struct {
 	FacebookConnection     *conn;
 	FacebookAuthentication *auth;
 	FacebookService        *service;
-	FacebookAccount        *account;
+	OAuthAccount           *account;
 	GList                  *albums;
 	FacebookAlbum          *album;
 	GList                  *photos_ids;
@@ -254,18 +255,18 @@ export_dialog_response_cb (GtkDialog *dialog,
 static void
 update_account_list (DialogData *data)
 {
-	int              current_account_idx;
-	FacebookAccount *current_account;
-	int              idx;
-	GList           *scan;
-	GtkTreeIter      iter;
+	int           current_account_idx;
+	OAuthAccount *current_account;
+	int           idx;
+	GList        *scan;
+	GtkTreeIter   iter;
 
 	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("account_liststore")));
 
 	current_account_idx = 0;
 	current_account = facebook_authentication_get_account (data->auth);
 	for (scan = facebook_authentication_get_accounts (data->auth), idx = 0; scan; scan = scan->next, idx++) {
-		FacebookAccount *account = scan->data;
+		OAuthAccount *account = scan->data;
 
 		if ((current_account != NULL) && (g_strcmp0 (current_account->username, account->username) == 0))
 			current_account_idx = idx;
@@ -273,7 +274,7 @@ update_account_list (DialogData *data)
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
 				    ACCOUNT_DATA_COLUMN, account,
-				    ACCOUNT_NAME_COLUMN, account->username,
+				    ACCOUNT_NAME_COLUMN, account->name,
 				    -1);
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), current_account_idx);
@@ -373,9 +374,9 @@ static void
 account_combobox_changed_cb (GtkComboBox *widget,
 			     gpointer     user_data)
 {
-	DialogData      *data = user_data;
-	GtkTreeIter      iter;
-	FacebookAccount *account;
+	DialogData   *data = user_data;
+	GtkTreeIter   iter;
+	OAuthAccount *account;
 
 	if (! gtk_combo_box_get_active_iter (widget, &iter))
 		return;
@@ -385,7 +386,7 @@ account_combobox_changed_cb (GtkComboBox *widget,
 			    ACCOUNT_DATA_COLUMN, &account,
 			    -1);
 
-	if (facebook_account_cmp (account, facebook_authentication_get_account (data->auth)) != 0)
+	if (oauth_account_cmp (account, facebook_authentication_get_account (data->auth)) != 0)
 		facebook_authentication_connect (data->auth, account);
 
 	g_object_unref (account);

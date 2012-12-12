@@ -24,7 +24,7 @@
 #include <glib/gi18n.h>
 #include <json-glib/json-glib.h>
 #include <gthumb.h>
-#include "facebook-account.h"
+#include <extensions/oauth/oauth.h>
 #include "facebook-album.h"
 #include "facebook-connection.h"
 #include "facebook-photo.h"
@@ -873,106 +873,3 @@ facebook_service_list_photos_finish (FacebookService  *self,
 
 #endif
 
-
-/* utilities */
-
-
-GList *
-facebook_accounts_load_from_file (void)
-{
-	GList       *accounts = NULL;
-	GFile       *file;
-	char        *buffer;
-	gsize        len;
-	DomDocument *doc;
-
-	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "facebook.xml", NULL);
-	if (! _g_file_load_in_buffer (file, (void **) &buffer, &len, NULL, NULL)) {
-		g_object_unref (file);
-		return NULL;
-	}
-
-	doc = dom_document_new ();
-	if (dom_document_load (doc, buffer, len, NULL)) {
-		DomElement *node;
-
-		node = DOM_ELEMENT (doc)->first_child;
-		if ((node != NULL) && (g_strcmp0 (node->tag_name, "accounts") == 0)) {
-			DomElement *child;
-
-			for (child = node->first_child;
-			     child != NULL;
-			     child = child->next_sibling)
-			{
-				if (strcmp (child->tag_name, "account") == 0) {
-					FacebookAccount *account;
-
-					account = facebook_account_new ();
-					dom_domizable_load_from_element (DOM_DOMIZABLE (account), child);
-
-					accounts = g_list_prepend (accounts, account);
-				}
-			}
-
-			accounts = g_list_reverse (accounts);
-		}
-	}
-
-	g_object_unref (doc);
-	g_free (buffer);
-	g_object_unref (file);
-
-	return accounts;
-}
-
-
-FacebookAccount *
-facebook_accounts_find_default (GList *accounts)
-{
-	GList *scan;
-
-	for (scan = accounts; scan; scan = scan->next) {
-		FacebookAccount *account = scan->data;
-
-		if (account->is_default)
-			return g_object_ref (account);
-	}
-
-	return NULL;
-}
-
-
-void
-facebook_accounts_save_to_file (GList         *accounts,
-			      FacebookAccount *default_account)
-{
-	DomDocument *doc;
-	DomElement  *root;
-	GList       *scan;
-	char        *buffer;
-	gsize        len;
-	GFile       *file;
-
-	doc = dom_document_new ();
-	root = dom_document_create_element (doc, "accounts", NULL);
-	dom_element_append_child (DOM_ELEMENT (doc), root);
-	for (scan = accounts; scan; scan = scan->next) {
-		FacebookAccount *account = scan->data;
-		DomElement    *node;
-
-		if ((default_account != NULL) && g_strcmp0 (account->username, default_account->username) == 0)
-			account->is_default = TRUE;
-		else
-			account->is_default = FALSE;
-		node = dom_domizable_create_element (DOM_DOMIZABLE (account), doc);
-		dom_element_append_child (root, node);
-	}
-
-	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "facebook.xml", NULL);
-	buffer = dom_document_dump (doc, &len);
-	_g_file_write (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
-
-	g_free (buffer);
-	g_object_unref (file);
-	g_object_unref (doc);
-}

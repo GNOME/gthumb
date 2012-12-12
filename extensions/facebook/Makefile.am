@@ -12,12 +12,6 @@ libfacebook_la_SOURCES = 			\
 	callbacks.h				\
 	dlg-export-to-facebook.c		\
 	dlg-export-to-facebook.h		\
-	facebook-account.c			\
-	facebook-account.h			\
-	facebook-account-chooser-dialog.c	\
-	facebook-account-chooser-dialog.h	\
-	facebook-account-manager-dialog.c	\
-	facebook-account-manager-dialog.h	\
 	facebook-album.c			\
 	facebook-album.h			\
 	facebook-album-properties-dialog.c	\

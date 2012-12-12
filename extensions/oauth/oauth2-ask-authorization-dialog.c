@@ -113,7 +113,9 @@ oauth2_ask_authorization_dialog_new (const char *title,
 {
 	OAuth2AskAuthorizationDialog *self;
 
-	self = g_object_new (OAUTH2_TYPE_ASK_AUTHORIZATION_DIALOG, "title", title, NULL);
+	self = g_object_new (OAUTH2_TYPE_ASK_AUTHORIZATION_DIALOG,
+			     "title", title,
+			     NULL);
 	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (self->priv->view), uri);
 
 	return (GtkWidget *) self;

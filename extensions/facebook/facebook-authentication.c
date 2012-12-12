@@ -24,9 +24,7 @@
 #ifdef HAVE_LIBSECRET
 #include <libsecret/secret.h>
 #endif /* HAVE_LIBSECRET */
-#include <extensions/oauth/oauth2-ask-authorization-dialog.h>
-#include "facebook-account-chooser-dialog.h"
-#include "facebook-account-manager-dialog.h"
+#include <extensions/oauth/oauth.h>
 #include "facebook-authentication.h"
 #include "facebook-user.h"
 #include "facebook-service.h"
@@ -48,7 +46,7 @@ struct _FacebookAuthenticationPrivate
 	FacebookService    *service;
 	GCancellable       *cancellable;
 	GList              *accounts;
-	FacebookAccount    *account;
+	OAuthAccount       *account;
 	GtkWidget          *browser;
 	GtkWidget          *dialog;
 };
@@ -134,8 +132,8 @@ facebook_authentication_new (FacebookConnection *conn,
 	self->priv->conn = g_object_ref (conn);
 	self->priv->service = g_object_ref (service);
 	self->priv->cancellable = _g_object_ref (cancellable);
-	self->priv->accounts = facebook_accounts_load_from_file ();
-	self->priv->account = facebook_accounts_find_default (self->priv->accounts);
+	self->priv->accounts = oauth_accounts_load_from_file ("facebook", 0);
+	self->priv->account = oauth_accounts_find_default (self->priv->accounts);
 	self->priv->browser = browser;
 	self->priv->dialog = dialog;
 
@@ -212,11 +210,11 @@ show_authentication_error_dialog (FacebookAuthentication  *self,
 
 static void
 set_current_account (FacebookAuthentication *self,
-		     FacebookAccount        *account)
+		     OAuthAccount           *account)
 {
 	GList *link;
 
-	link = g_list_find_custom (self->priv->accounts, self->priv->account, (GCompareFunc) facebook_account_cmp);
+	link = g_list_find_custom (self->priv->accounts, self->priv->account, (GCompareFunc) oauth_account_cmp);
 	if (link != NULL) {
 		self->priv->accounts = g_list_remove_link (self->priv->accounts, link);
 		_g_object_list_unref (link);
@@ -264,7 +262,7 @@ get_user_ready_cb (GObject      *source_object,
 	FacebookAuthentication *self = user_data;
 	GError                 *error = NULL;
 	FacebookUser           *user;
-	FacebookAccount        *account;
+	OAuthAccount           *account;
 
 	user = facebook_service_get_user_finish (self->priv->service, res, &error);
 	if (user == NULL) {
@@ -272,12 +270,14 @@ get_user_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	account = facebook_account_new ();
-	facebook_account_set_username (account, user->name);
-	facebook_account_set_user_id (account, user->id);
-	facebook_account_set_token (account, facebook_connection_get_access_token (self->priv->conn));
+	account = g_object_new (OAUTH_TYPE_ACCOUNT,
+				"id", user->id,
+				"username", user->username,
+				"name", user->name,
+				"token", facebook_connection_get_access_token (self->priv->conn),
+				NULL);
 	set_current_account (self, account);
-	facebook_accounts_save_to_file (self->priv->accounts, self->priv->account);
+	oauth_accounts_save_to_file ("facebook", self->priv->accounts, self->priv->account);
 
 #ifdef HAVE_LIBSECRET
 	{
@@ -288,7 +288,7 @@ get_user_ready_cb (GObject      *source_object,
 				       self->priv->cancellable,
 				       password_store_ready_cb,
 				       self,
-				       "user", account->user_id,
+				       "user", account->id,
 				       "server", FACEBOOK_HTTP_SERVER,
 				       "protocol", "https",
 				       NULL);
@@ -328,7 +328,7 @@ password_lookup_ready_cb (GObject      *source_object,
 
 	secret = secret_password_lookup_finish (result, NULL);
 	if (secret != NULL) {
-		facebook_account_set_token (self->priv->account, secret);
+		g_object_set (G_OBJECT (self->priv->account), "token", secret, NULL);
 		g_free (secret);
 	}
 
@@ -341,7 +341,7 @@ static void
 connect_to_server (FacebookAuthentication *self)
 {
 	g_return_if_fail (self->priv->account != NULL);
-	g_return_if_fail (self->priv->account->user_id != NULL);
+	g_return_if_fail (self->priv->account->id != NULL);
 
 #ifdef HAVE_LIBSECRET
 	if (self->priv->account->token == NULL) {
@@ -349,7 +349,7 @@ connect_to_server (FacebookAuthentication *self)
 					self->priv->cancellable,
 					password_lookup_ready_cb,
 					self,
-					"user", self->priv->account->user_id,
+					"user", self->priv->account->id,
 					"server", FACEBOOK_HTTP_SERVER,
 					"protocol", "https",
 					NULL);
@@ -434,6 +434,7 @@ start_authorization_process (FacebookAuthentication *self)
 	else
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->browser));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 800, 600);
 
 	g_signal_connect (dialog,
 			  "delete-event",
@@ -468,14 +469,14 @@ account_chooser_dialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_OK:
 		_g_object_unref (self->priv->account);
-		self->priv->account = facebook_account_chooser_dialog_get_active (FACEBOOK_ACCOUNT_CHOOSER_DIALOG (dialog));
+		self->priv->account = oauth_account_chooser_dialog_get_active (OAUTH_ACCOUNT_CHOOSER_DIALOG (dialog));
 		if (self->priv->account != NULL) {
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 			connect_to_server (self);
 		}
 		break;
 
-	case FACEBOOK_ACCOUNT_CHOOSER_RESPONSE_NEW:
+	case OAUTH_ACCOUNT_CHOOSER_RESPONSE_NEW:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		start_authorization_process (self);
 		break;
@@ -492,7 +493,7 @@ show_choose_account_dialog (FacebookAuthentication *self)
 	GtkWidget *dialog;
 
 	gth_task_dialog (GTH_TASK (self->priv->conn), TRUE, NULL);
-	dialog = facebook_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
+	dialog = oauth_account_chooser_dialog_new (self->priv->accounts, self->priv->account);
 	g_signal_connect (dialog,
 			  "delete-event",
 			  G_CALLBACK (gtk_true),
@@ -533,14 +534,14 @@ facebook_authentication_auto_connect (FacebookAuthentication *self)
 
 void
 facebook_authentication_connect (FacebookAuthentication *self,
-			         FacebookAccount        *account)
+				 OAuthAccount           *account)
 {
 	set_current_account (self, account);
 	facebook_authentication_auto_connect (self);
 }
 
 
-FacebookAccount *
+OAuthAccount *
 facebook_authentication_get_account (FacebookAuthentication *self)
 {
 	return self->priv->account;
@@ -572,19 +573,19 @@ account_manager_dialog_response_cb (GtkDialog *dialog,
 
 	case GTK_RESPONSE_OK:
 		_g_object_list_unref (self->priv->accounts);
-		self->priv->accounts = facebook_account_manager_dialog_get_accounts (FACEBOOK_ACCOUNT_MANAGER_DIALOG (dialog));
-		if (! g_list_find_custom (self->priv->accounts, self->priv->account, (GCompareFunc) facebook_account_cmp)) {
+		self->priv->accounts = oauth_account_manager_dialog_get_accounts (OAUTH_ACCOUNT_MANAGER_DIALOG (dialog));
+		if (! g_list_find_custom (self->priv->accounts, self->priv->account, (GCompareFunc) oauth_account_cmp)) {
 			_g_object_unref (self->priv->account);
 			self->priv->account = NULL;
 			facebook_authentication_auto_connect (self);
 		}
 		else
 			g_signal_emit (self, facebook_authentication_signals[ACCOUNTS_CHANGED], 0);
-		facebook_accounts_save_to_file (self->priv->accounts, self->priv->account);
+		oauth_accounts_save_to_file ("facebook", self->priv->accounts, self->priv->account);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 
-	case FACEBOOK_ACCOUNT_MANAGER_RESPONSE_NEW:
+	case OAUTH_ACCOUNT_CHOOSER_RESPONSE_NEW:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		start_authorization_process (self);
 		break;
@@ -601,7 +602,7 @@ facebook_authentication_edit_accounts (FacebookAuthentication *self,
 {
 	GtkWidget  *dialog;
 
-	dialog = facebook_account_manager_dialog_new (self->priv->accounts);
+	dialog = oauth_account_manager_dialog_new (self->priv->accounts);
 	g_signal_connect (dialog,
 			  "delete-event",
 			  G_CALLBACK (gtk_true),

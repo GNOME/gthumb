@@ -72,8 +72,8 @@ delete_button_clicked_cb (GtkWidget *button,
 		          gpointer   user_data)
 {
 	OAuthAccountManagerDialog *self = user_data;
-	GtkTreeModel               *tree_model;
-	GtkTreeIter                 iter;
+	GtkTreeModel              *tree_model;
+	GtkTreeIter                iter;
 
 	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("account_treeview"))),
 					     &tree_model,
@@ -91,8 +91,8 @@ text_renderer_edited_cb (GtkCellRendererText *renderer,
 			 gpointer             user_data)
 {
 	OAuthAccountManagerDialog *self = user_data;
-	GtkTreePath                *tree_path;
-	GtkTreeIter                 iter;
+	GtkTreePath               *tree_path;
+	GtkTreeIter                iter;
 	OAuthAccount              *account;
 
 	tree_path = gtk_tree_path_new_from_string (path);
@@ -109,7 +109,7 @@ text_renderer_edited_cb (GtkCellRendererText *renderer,
 	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("accounts_liststore")), &iter,
 			    ACCOUNT_DATA_COLUMN, &account,
 			    -1);
-	oauth_account_set_username (account, new_text);
+	g_object_set (account, "name", new_text, NULL);
 
 	gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("accounts_liststore")), &iter,
 			    ACCOUNT_DATA_COLUMN, account,
@@ -161,7 +161,7 @@ oauth_account_manager_dialog_init (OAuthAccountManagerDialog *self)
 
 static void
 oauth_account_manager_dialog_construct (OAuthAccountManagerDialog *self,
-				         GList                      *accounts)
+				        GList                     *accounts)
 {
 	GtkListStore *list_store;
 	GtkTreeIter   iter;
@@ -175,7 +175,7 @@ oauth_account_manager_dialog_construct (OAuthAccountManagerDialog *self,
 		gtk_list_store_append (list_store, &iter);
 		gtk_list_store_set (list_store, &iter,
 				    ACCOUNT_DATA_COLUMN, account,
-				    ACCOUNT_NAME_COLUMN, account->username,
+				    ACCOUNT_NAME_COLUMN, account->name,
 				    -1);
 	}
 }

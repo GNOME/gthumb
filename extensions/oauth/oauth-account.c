@@ -29,6 +29,17 @@
 #include "oauth-account.h"
 
 
+enum {
+        PROP_0,
+        PROP_ID,
+        PROP_USERNAME,
+        PROP_NAME,
+        PROP_TOKEN,
+        PROP_TOKEN_SECRET,
+        PROP_IS_DEFAULT
+};
+
+
 static void oauth_account_dom_domizable_interface_init (DomDomizableInterface *iface);
 
 
@@ -46,7 +57,9 @@ oauth_account_finalize (GObject *obj)
 
 	self = OAUTH_ACCOUNT (obj);
 
+	g_free (self->id);
 	g_free (self->username);
+	g_free (self->name);
 	g_free (self->token);
 	g_free (self->token_secret);
 
@@ -55,13 +68,136 @@ oauth_account_finalize (GObject *obj)
 
 
 static void
-oauth_account_class_init (OAuthAccountClass *klass)
+oauth_account_set_property (GObject      *object,
+			    guint         property_id,
+			    const GValue *value,
+			    GParamSpec   *pspec)
 {
-	G_OBJECT_CLASS (klass)->finalize = oauth_account_finalize;
+	OAuthAccount *self;
+
+        self = OAUTH_ACCOUNT (object);
+
+	switch (property_id) {
+	case PROP_ID:
+		_g_strset (&self->id, g_value_get_string (value));
+		break;
+	case PROP_USERNAME:
+		_g_strset (&self->username, g_value_get_string (value));
+		if (self->name == NULL)
+			_g_strset (&self->name, g_value_get_string (value));
+		break;
+	case PROP_NAME:
+		_g_strset (&self->name, g_value_get_string (value));
+		break;
+	case PROP_TOKEN:
+		_g_strset (&self->token, g_value_get_string (value));
+		break;
+	case PROP_TOKEN_SECRET:
+		_g_strset (&self->token_secret, g_value_get_string (value));
+		break;
+	case PROP_IS_DEFAULT:
+		self->is_default = g_value_get_boolean (value);
+		break;
+	default:
+		break;
+	}
 }
 
 
-DomElement*
+static void
+oauth_account_get_property (GObject    *object,
+			    guint       property_id,
+			    GValue     *value,
+			    GParamSpec *pspec)
+{
+	OAuthAccount *self;
+
+        self = OAUTH_ACCOUNT (object);
+
+	switch (property_id) {
+	case PROP_ID:
+		g_value_set_string (value, self->id);
+		break;
+	case PROP_USERNAME:
+		g_value_set_string (value, self->username);
+		break;
+	case PROP_NAME:
+		g_value_set_string (value, self->name);
+		break;
+	case PROP_TOKEN:
+		g_value_set_string (value, self->token);
+		break;
+	case PROP_TOKEN_SECRET:
+		g_value_set_string (value, self->token_secret);
+		break;
+	case PROP_IS_DEFAULT:
+		g_value_set_boolean (value, self->is_default);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+static void
+oauth_account_class_init (OAuthAccountClass *klass)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = oauth_account_finalize;
+	object_class->set_property = oauth_account_set_property;
+	object_class->get_property = oauth_account_get_property;
+
+	/* properties */
+
+	g_object_class_install_property (object_class,
+					 PROP_ID,
+					 g_param_spec_string ("id",
+                                                              "ID",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_USERNAME,
+					 g_param_spec_string ("username",
+                                                              "Username",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_NAME,
+					 g_param_spec_string ("name",
+                                                              "Name",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_TOKEN,
+					 g_param_spec_string ("token",
+                                                              "Token",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_TOKEN_SECRET,
+					 g_param_spec_string ("token-secret",
+                                                              "Token secret",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_IS_DEFAULT,
+					 g_param_spec_boolean ("is-default",
+                                                               "Is default",
+                                                               "",
+                                                               FALSE,
+                                                               G_PARAM_READWRITE));
+}
+
+
+static DomElement *
 oauth_account_create_element (DomDomizable *base,
 			      DomDocument  *doc)
 {
@@ -72,8 +208,12 @@ oauth_account_create_element (DomDomizable *base,
 	self = OAUTH_ACCOUNT (base);
 
 	element = dom_document_create_element (doc, "account", NULL);
+	if (self->id != NULL)
+		dom_element_set_attribute (element, "id", self->id);
 	if (self->username != NULL)
 		dom_element_set_attribute (element, "username", self->username);
+	if (self->name != NULL)
+		dom_element_set_attribute (element, "name", self->name);
 
 	/* Don't save the token in the configuration file if the keyring is
 	 * available. */
@@ -94,7 +234,7 @@ oauth_account_create_element (DomDomizable *base,
 }
 
 
-void
+static void
 oauth_account_load_from_element (DomDomizable *base,
 			         DomElement   *element)
 {
@@ -102,9 +242,13 @@ oauth_account_load_from_element (DomDomizable *base,
 
 	self = OAUTH_ACCOUNT (base);
 
-	oauth_account_set_username (self, dom_element_get_attribute (element, "username"));
-	oauth_account_set_token (self, dom_element_get_attribute (element, "token"));
-	self->is_default = (g_strcmp0 (dom_element_get_attribute (element, "default"), "1") == 0);
+	g_object_set (self,
+		      "id", dom_element_get_attribute (element, "id"),
+		      "username", dom_element_get_attribute (element, "username"),
+		      "name", dom_element_get_attribute (element, "name"),
+		      "token", dom_element_get_attribute (element, "token"),
+		      "is-default", (g_strcmp0 (dom_element_get_attribute (element, "default"), "1") == 0),
+		      NULL);
 }
 
 
@@ -119,7 +263,12 @@ oauth_account_dom_domizable_interface_init (DomDomizableInterface *iface)
 static void
 oauth_account_init (OAuthAccount *self)
 {
-	/* void */
+	self->id = NULL;
+	self->username = NULL;
+	self->name = NULL;
+	self->token = NULL;
+	self->token_secret = NULL;
+	self->is_default = FALSE;
 }
 
 
@@ -164,6 +313,10 @@ oauth_account_cmp (OAuthAccount *a,
 		return 1;
 	else if (b == NULL)
 		return -1;
-	else
+	else if ((a->id != NULL) || (b->id != NULL))
+		return g_strcmp0 (a->id, b->id);
+	else if ((a->username != NULL) || (b->username != NULL))
 		return g_strcmp0 (a->username, b->username);
+	else
+		return g_strcmp0 (a->name, b->name);
 }

@@ -157,9 +157,12 @@ photobucket_get_access_token_response (OAuthConnection    *self,
 		oauth_connection_set_token (self, token, token_secret);
 
 		account = photobucket_account_new ();
-		oauth_account_set_username (account, username);
-		oauth_account_set_token (account, token);
-		oauth_account_set_token_secret (account, token_secret);
+		g_object_set (account,
+			      "name", username,
+			      "username", username,
+			      "token", token,
+			      "token-secret", token_secret,
+			      NULL);
 		photobucket_account_set_subdomain (PHOTOBUCKET_ACCOUNT (account), g_hash_table_lookup (values, "subdomain"));
 		photobucket_account_set_home_url (PHOTOBUCKET_ACCOUNT (account), g_hash_table_lookup (values, "homeurl"));
 		g_simple_async_result_set_op_res_gpointer (result, account, g_object_unref);

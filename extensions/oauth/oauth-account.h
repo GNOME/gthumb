@@ -43,7 +43,9 @@ struct _OAuthAccount {
 	GObject parent_instance;
 	OAuthAccountPrivate *priv;
 
+	char     *id;
 	char     *username;
+	char     *name;
 	char     *token;
 	char     *token_secret;
 	gboolean  is_default;
@@ -63,10 +65,6 @@ void              oauth_account_set_token_secret   (OAuthAccount *self,
 						    const char   *value);
 int               oauth_account_cmp                (OAuthAccount *a,
 						    OAuthAccount *b);
-DomElement *      oauth_account_create_element     (DomDomizable *base,
-					            DomDocument  *doc);
-void              oauth_account_load_from_element  (DomDomizable *base,
-						    DomElement   *element);
 
 G_END_DECLS
 
