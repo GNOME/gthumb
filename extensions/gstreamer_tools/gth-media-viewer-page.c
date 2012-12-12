@@ -879,7 +879,7 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 
 	if (self->priv->playbin != NULL) {
 		save_volume (self);
-		gst_element_set_state (self->priv->playbin, GST_STATE_READY);
+		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
 		gst_object_unref (GST_OBJECT (self->priv->playbin));
 		self->priv->playbin = NULL;
 	}
