@@ -65,7 +65,7 @@ struct _GthMediaViewerPagePrivate {
 	gboolean        has_video;
 	gboolean        has_audio;
 	gulong          update_progress_id;
-	guint           set_to_pause_id;
+	gulong          update_volume_id;
 	gdouble         rate;
 	GtkWidget      *mediabar;
 	GtkWidget      *fullscreen_toolbar;
@@ -611,13 +611,18 @@ play_faster_button_clicked_cb (GtkButton *button,
 }
 
 
-static void
+static gboolean
 update_volume_from_playbin (GthMediaViewerPage *self)
 {
 	double volume;
 
+	if (self->priv->update_volume_id != 0) {
+		g_source_remove (self->priv->update_volume_id);
+		self->priv->update_volume_id = 0;
+	}
+
 	if ((self->priv->builder == NULL) || (self->priv->playbin == NULL))
-		return;
+		return FALSE;
 
 	g_object_get (self->priv->playbin, "volume", &volume, NULL);
 
@@ -637,6 +642,8 @@ update_volume_from_playbin (GthMediaViewerPage *self)
 	g_signal_handlers_block_by_func (GET_WIDGET ("volume_togglebutton"), volume_togglebutton_toggled_cb, self);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("volume_togglebutton")), volume == 0.0);
 	g_signal_handlers_unblock_by_func (GET_WIDGET ("volume_togglebutton"), volume_togglebutton_toggled_cb, self);
+
+	return FALSE;
 }
 
 
@@ -821,7 +828,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	gtk_widget_show (self->priv->area_box);
 	gth_browser_set_viewer_widget (browser, self->priv->area_box);
 
-	gtk_widget_realize (self->priv->area_box);
+	gtk_widget_realize (self->priv->area);
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 }
@@ -875,6 +882,11 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
         if (self->priv->update_progress_id != 0) {
                 g_source_remove (self->priv->update_progress_id);
                 self->priv->update_progress_id = 0;
+        }
+
+        if (self->priv->update_volume_id != 0) {
+                g_source_remove (self->priv->update_volume_id);
+                self->priv->update_volume_id = 0;
         }
 
 	if (self->priv->playbin != NULL) {
@@ -1021,6 +1033,11 @@ bus_message_cb (GstBus     *bus,
 		break;
 	}
 
+	case GST_MESSAGE_DURATION_CHANGED:
+		self->priv->duration = 0;
+		update_current_position_bar (self);
+		break;
+
 	case GST_MESSAGE_EOS:
 		reset_player_state (self);
 		break;
@@ -1028,13 +1045,13 @@ bus_message_cb (GstBus     *bus,
 	case GST_MESSAGE_BUFFERING: {
 		int percent = 0;
 		gst_message_parse_buffering (message, &percent);
-		/* g_print ("Buffering (%%%u percent done)", percent); */
+		gst_element_set_state(self->priv->playbin, (percent == 100) ? GST_STATE_PLAYING : GST_STATE_PAUSED);
 		break;
+	}
 
 	case GST_MESSAGE_ERROR:
 		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, FALSE);
 		break;
-	}
 
 	default:
 		break;
@@ -1047,7 +1064,10 @@ playbin_notify_volume_cb (GObject    *playbin,
 			  GParamSpec *pspec,
 			  gpointer    user_data)
 {
-	update_volume_from_playbin ((GthMediaViewerPage *) user_data);
+	GthMediaViewerPage *self = user_data;
+
+	if (self->priv->update_volume_id == 0)
+		self->priv->update_volume_id = g_idle_add ((GSourceFunc) update_volume_from_playbin, user_data);
 }
 
 
@@ -1069,14 +1089,34 @@ create_playbin (GthMediaViewerPage *self)
 		      NULL);
 	g_object_unref (settings);
 
-	g_signal_connect (self->priv->playbin, "notify::volume", G_CALLBACK (playbin_notify_volume_cb), self);
-
 	bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
 	gst_bus_enable_sync_message_emission (bus);
 	gst_bus_set_sync_handler (bus, (GstBusSyncHandler) set_playbin_window, self, NULL);
 	gst_bus_add_signal_watch (bus);
-	g_signal_connect (bus, "message", G_CALLBACK (bus_message_cb), self);
 
+	g_signal_connect (self->priv->playbin,
+			  "notify::volume",
+			  G_CALLBACK (playbin_notify_volume_cb),
+			  self);
+	g_signal_connect (bus,
+			  "message",
+			  G_CALLBACK (bus_message_cb),
+			  self);
+}
+
+
+static void
+_gth_media_viewer_page_set_uri (GthMediaViewerPage *self,
+				const char         *uri,
+				GstState            state)
+{
+	g_return_if_fail (self->priv->playbin != NULL);
+
+	gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
+
+	g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
+	gst_element_set_state (self->priv->playbin, GST_STATE_READY);
+	gst_element_set_state (self->priv->playbin, state);
 }
 
 
@@ -1102,8 +1142,7 @@ gth_media_viewer_page_real_show (GthViewerPage *base)
 		char *uri;
 
 		uri = g_file_get_uri (self->priv->file_data->file);
-		g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
-		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+		_gth_media_viewer_page_set_uri (self, uri, GST_STATE_PLAYING);
 
 		g_free (uri);
 	}
@@ -1136,19 +1175,6 @@ gth_media_viewer_page_real_can_view (GthViewerPage *base,
 	g_return_val_if_fail (file_data != NULL, FALSE);
 
 	return _g_mime_type_is_video (gth_file_data_get_mime_type (file_data)) || _g_mime_type_is_audio (gth_file_data_get_mime_type (file_data));
-}
-
-
-static gboolean
-set_to_paused (gpointer user_data)
-{
-	GthMediaViewerPage *self = user_data;
-
-	self->priv->set_to_pause_id = 0;
-	if (self->priv->playbin != NULL)
-		gst_element_set_state (self->priv->playbin, self->priv->visible ? GST_STATE_PLAYING : GST_STATE_READY);
-
-	return FALSE;
 }
 
 
@@ -1199,13 +1225,8 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	if (self->priv->playbin == NULL)
 		return;
 
-	gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
 	uri = g_file_get_uri (self->priv->file_data->file);
-	g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
-
-	if (self->priv->set_to_pause_id != 0)
-		g_source_remove (self->priv->set_to_pause_id);
-	self->priv->set_to_pause_id = gdk_threads_add_idle (set_to_paused, self);
+	_gth_media_viewer_page_set_uri (self, uri, self->priv->visible ? GST_STATE_PLAYING : GST_STATE_PAUSED);
 
 	g_free (uri);
 }
@@ -1380,14 +1401,14 @@ gth_media_viewer_page_finalize (GObject *obj)
 
 	self = GTH_MEDIA_VIEWER_PAGE (obj);
 
-	if (self->priv->set_to_pause_id != 0) {
-		g_source_remove (self->priv->set_to_pause_id);
-		self->priv->set_to_pause_id = 0;
-	}
-
         if (self->priv->update_progress_id != 0) {
                 g_source_remove (self->priv->update_progress_id);
                 self->priv->update_progress_id = 0;
+        }
+
+        if (self->priv->update_volume_id != 0) {
+                g_source_remove (self->priv->update_volume_id);
+                self->priv->update_volume_id = 0;
         }
 
 	if (self->priv->playbin != NULL) {
@@ -1443,7 +1464,7 @@ gth_media_viewer_page_init (GthMediaViewerPage *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_MEDIA_VIEWER_PAGE, GthMediaViewerPagePrivate);
 	self->priv->update_progress_id = 0;
-	self->priv->set_to_pause_id = 0;
+	self->priv->update_volume_id = 0;
 	self->priv->video_window_xid = 0;
 	self->priv->xwin_assigned = FALSE;
 	self->priv->has_video = FALSE;
