@@ -1115,8 +1115,8 @@ _gth_media_viewer_page_set_uri (GthMediaViewerPage *self,
 	gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
 
 	g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
-	gst_element_set_state (self->priv->playbin, GST_STATE_READY);
 	gst_element_set_state (self->priv->playbin, state);
+	gst_element_get_state (self->priv->playbin, NULL, NULL, GST_CLOCK_TIME_NONE);
 }
 
 
