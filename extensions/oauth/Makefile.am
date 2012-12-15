@@ -19,7 +19,9 @@ liboauth_la_SOURCES = 				\
 	oauth-authentication.c			\
 	oauth-authentication.h			\
 	oauth-connection.c			\
-	oauth-connection.h
+	oauth-connection.h			\
+	web-service.c				\
+	web-service.h
 
 liboauth_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(LIBSECRET_CFLAGS) $(WEBKIT2_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 liboauth_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

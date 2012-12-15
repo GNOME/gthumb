@@ -215,7 +215,7 @@ oauth_account_create_element (DomDomizable *base,
 	if (self->name != NULL)
 		dom_element_set_attribute (element, "name", self->name);
 
-	/* Don't save the token in the configuration file if the keyring is
+	/* Do not save the token in the configuration file if the keyring is
 	 * available. */
 
 #ifdef HAVE_LIBSECRET
@@ -224,8 +224,8 @@ oauth_account_create_element (DomDomizable *base,
 	set_token = TRUE;
 #endif
 
-	if (set_token && (self->token != NULL))
-		dom_element_set_attribute (element, "token", self->token);
+	if (set_token && (self->token_secret != NULL))
+		dom_element_set_attribute (element, "token-secret", self->token_secret);
 
 	if (self->is_default)
 		dom_element_set_attribute (element, "default", "1");
@@ -246,7 +246,7 @@ oauth_account_load_from_element (DomDomizable *base,
 		      "id", dom_element_get_attribute (element, "id"),
 		      "username", dom_element_get_attribute (element, "username"),
 		      "name", dom_element_get_attribute (element, "name"),
-		      "token", dom_element_get_attribute (element, "token"),
+		      "token-secret", dom_element_get_attribute (element, "token-secret"),
 		      "is-default", (g_strcmp0 (dom_element_get_attribute (element, "default"), "1") == 0),
 		      NULL);
 }

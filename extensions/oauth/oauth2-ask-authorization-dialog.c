@@ -108,13 +108,12 @@ oauth2_ask_authorization_dialog_init (OAuth2AskAuthorizationDialog *self)
 
 
 GtkWidget *
-oauth2_ask_authorization_dialog_new (const char *title,
-				     const char *uri)
+oauth2_ask_authorization_dialog_new (const char *uri)
 {
 	OAuth2AskAuthorizationDialog *self;
 
 	self = g_object_new (OAUTH2_TYPE_ASK_AUTHORIZATION_DIALOG,
-			     "title", title,
+			     "title", _("Authorization Required"),
 			     NULL);
 	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (self->priv->view), uri);
 

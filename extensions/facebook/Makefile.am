@@ -16,17 +16,11 @@ libfacebook_la_SOURCES = 			\
 	facebook-album.h			\
 	facebook-album-properties-dialog.c	\
 	facebook-album-properties-dialog.h	\
-	facebook-authentication.c		\
-	facebook-authentication.h		\
-	facebook-connection.c			\
-	facebook-connection.h			\
 	facebook-photo.c			\
 	facebook-photo.h			\
 	facebook-service.c			\
 	facebook-service.h			\
 	facebook-types.h			\
-	facebook-user.c				\
-	facebook-user.h				\
 	main.c					\
 	preferences.h
 

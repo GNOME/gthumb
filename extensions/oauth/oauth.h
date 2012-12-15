@@ -28,5 +28,6 @@
 #include <extensions/oauth/oauth-account-manager-dialog.h>
 #include <extensions/oauth/oauth-authentication.h>
 #include <extensions/oauth/oauth-connection.h>
+#include <extensions/oauth/web-service.h>
 
 #endif /* OAUTH_H */

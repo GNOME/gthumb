@@ -22,11 +22,11 @@
 #ifndef FACEBOOK_SERVICE_H
 #define FACEBOOK_SERVICE_H
 
-#include <glib-object.h>
-#include "facebook-connection.h"
+#include <gtk/gtk.h>
+#include <gthumb.h>
+#include <extensions/oauth/oauth.h>
 #include "facebook-album.h"
 #include "facebook-types.h"
-#include "facebook-user.h"
 
 #define FACEBOOK_TYPE_SERVICE         (facebook_service_get_type ())
 #define FACEBOOK_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), FACEBOOK_TYPE_SERVICE, FacebookService))
@@ -41,24 +41,19 @@ typedef struct _FacebookServiceClass    FacebookServiceClass;
 
 struct _FacebookService
 {
-	GObject __parent;
+	WebService __parent;
 	FacebookServicePrivate *priv;
 };
 
 struct _FacebookServiceClass
 {
-	GObjectClass __parent_class;
+	WebServiceClass __parent_class;
 };
 
 GType             facebook_service_get_type                   (void) G_GNUC_CONST;
-FacebookService * facebook_service_new                        (FacebookConnection   *conn);
-void              facebook_service_get_user                   (FacebookService      *self,
-							       GCancellable         *cancellable,
-							       GAsyncReadyCallback   callback,
-							       gpointer              user_data);
-FacebookUser *    facebook_service_get_user_finish            (FacebookService      *self,
-						               GAsyncResult         *result,
-						               GError              **error);
+FacebookService * facebook_service_new                        (GCancellable         *cancellable,
+							       GtkWidget            *browser,
+							       GtkWidget            *dialog);
 void              facebook_service_get_albums                 (FacebookService      *self,
 							       GCancellable         *cancellable,
 							       GAsyncReadyCallback   callback,

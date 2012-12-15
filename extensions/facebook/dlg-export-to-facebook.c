@@ -24,11 +24,9 @@
 #include <gthumb.h>
 #include <extensions/oauth/oauth.h>
 #include "dlg-export-to-facebook.h"
-#include "facebook-authentication.h"
 #include "facebook-album.h"
 #include "facebook-album-properties-dialog.h"
 #include "facebook-service.h"
-#include "facebook-user.h"
 #include "preferences.h"
 
 
@@ -65,10 +63,7 @@ typedef struct {
 	GtkWidget              *dialog;
 	GtkWidget              *list_view;
 	GtkWidget              *progress_dialog;
-	FacebookConnection     *conn;
-	FacebookAuthentication *auth;
 	FacebookService        *service;
-	OAuthAccount           *account;
 	GList                  *albums;
 	FacebookAlbum          *album;
 	GList                  *photos_ids;
@@ -81,16 +76,13 @@ destroy_dialog (DialogData *data)
 {
 	if (data->dialog != NULL)
 		gtk_widget_destroy (data->dialog);
-	if (data->conn != NULL)
-		gth_task_completed (GTH_TASK (data->conn), NULL);
+	if (data->service != NULL)
+		gth_task_completed (GTH_TASK (data->service), NULL);
 	_g_object_unref (data->cancellable);
 	_g_string_list_free (data->photos_ids);
 	_g_object_unref (data->album);
 	_g_object_list_unref (data->albums);
-	_g_object_unref (data->account);
 	_g_object_unref (data->service);
-	_g_object_unref (data->auth);
-	_g_object_unref (data->conn);
 	_g_object_unref (data->settings);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
@@ -126,8 +118,7 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 				url = g_strdup (data->album->link);
 
 			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
-				if (data->conn != NULL)
-					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+				gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
 				g_clear_error (&error);
 			}
@@ -150,7 +141,7 @@ export_completed_with_success (DialogData *data)
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+	gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("facebook-export-completed.ui", "facebook");
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
@@ -221,7 +212,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 				return;
 
 			gtk_widget_hide (data->dialog);
-			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
+			gth_task_dialog (GTH_TASK (data->service), FALSE, NULL);
 
 			max_resolution = 0;
 			if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), &iter)) {
@@ -264,8 +255,8 @@ update_account_list (DialogData *data)
 	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("account_liststore")));
 
 	current_account_idx = 0;
-	current_account = facebook_authentication_get_account (data->auth);
-	for (scan = facebook_authentication_get_accounts (data->auth), idx = 0; scan; scan = scan->next, idx++) {
+	current_account = web_service_get_current_account (WEB_SERVICE (data->service));
+	for (scan = web_service_get_accounts (WEB_SERVICE (data->service)), idx = 0; scan; scan = scan->next, idx++) {
 		OAuthAccount *account = scan->data;
 
 		if ((current_account != NULL) && (g_strcmp0 (current_account->username, account->username) == 0))
@@ -282,8 +273,8 @@ update_account_list (DialogData *data)
 
 
 static void
-authentication_accounts_changed_cb (FacebookAuthentication *auth,
-				    gpointer              user_data)
+service_accounts_changed_cb (FacebookService *service,
+			     gpointer         user_data)
 {
 	update_account_list ((DialogData *) user_data);
 }
@@ -330,8 +321,7 @@ get_albums_ready_cb (GObject      *source_object,
 	_g_object_list_unref (data->albums);
 	data->albums = facebook_service_get_albums_finish (data->service, res, &error);
 	if (error != NULL) {
-		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+		gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
 		g_clear_error (&error);
 		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
@@ -340,7 +330,7 @@ get_albums_ready_cb (GObject      *source_object,
 
 	update_album_list (data, NULL);
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+	gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_window_present (GTK_WINDOW (data->dialog));
@@ -348,13 +338,10 @@ get_albums_ready_cb (GObject      *source_object,
 
 
 static void
-authentication_ready_cb (FacebookAuthentication *auth,
-			 DialogData             *data)
+service_account_ready_cb (FacebookService *service,
+			  DialogData      *data)
 {
-	_g_object_unref (data->account);
-	data->account = _g_object_ref (facebook_authentication_get_account (auth));
 	update_account_list (data);
-
 	facebook_service_get_albums (data->service,
 				     data->cancellable,
 				     get_albums_ready_cb,
@@ -366,7 +353,7 @@ static void
 edit_accounts_button_clicked_cb (GtkButton  *button,
 				 DialogData *data)
 {
-	facebook_authentication_edit_accounts (data->auth, GTK_WINDOW (data->dialog));
+	web_service_edit_accounts (WEB_SERVICE (data->service), GTK_WINDOW (data->dialog));
 }
 
 
@@ -386,8 +373,8 @@ account_combobox_changed_cb (GtkComboBox *widget,
 			    ACCOUNT_DATA_COLUMN, &account,
 			    -1);
 
-	if (oauth_account_cmp (account, facebook_authentication_get_account (data->auth)) != 0)
-		facebook_authentication_connect (data->auth, account);
+	if (oauth_account_cmp (account, web_service_get_current_account (WEB_SERVICE (data->service))) != 0)
+		web_service_connect (WEB_SERVICE (data->service), account);
 
 	g_object_unref (account);
 }
@@ -404,8 +391,8 @@ create_album_ready_cb (GObject      *source_object,
 
 	album = facebook_service_create_album_finish (data->service, result, &error);
 	if (error != NULL) {
-		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+		if (data->service != NULL)
+			gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), error);
 		g_clear_error (&error);
 		return;
@@ -655,24 +642,20 @@ dlg_export_to_facebook (GthBrowser *browser,
 			  G_CALLBACK (album_combobox_changed_cb),
 			  data);
 
-	data->conn = facebook_connection_new ();
-	data->service = facebook_service_new (data->conn);
-	data->auth = facebook_authentication_new (data->conn,
-						  data->service,
-						  data->cancellable,
-						  GTK_WIDGET (data->browser),
-						  data->dialog);
-	g_signal_connect (data->auth,
-			  "ready",
-			  G_CALLBACK (authentication_ready_cb),
+	data->service = facebook_service_new (data->cancellable,
+					      GTK_WIDGET (data->browser),
+					      data->dialog);
+	g_signal_connect (data->service,
+			  "account-ready",
+			  G_CALLBACK (service_account_ready_cb),
 			  data);
-	g_signal_connect (data->auth,
-			  "accounts_changed",
-			  G_CALLBACK (authentication_accounts_changed_cb),
+	g_signal_connect (data->service,
+			  "accounts-changed",
+			  G_CALLBACK (service_accounts_changed_cb),
 			  data);
 
 	data->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (data->browser));
-	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->conn));
+	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->service));
 
-	facebook_authentication_auto_connect (data->auth);
+	web_service_autoconnect (WEB_SERVICE (data->service));
 }

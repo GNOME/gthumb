@@ -52,8 +52,7 @@ struct _OAuth2AskAuthorizationDialogClass {
 };
 
 GType          oauth2_ask_authorization_dialog_get_type     (void);
-GtkWidget *    oauth2_ask_authorization_dialog_new          (const char *title,
-							     const char *url);
+GtkWidget *    oauth2_ask_authorization_dialog_new          (const char                   *url);
 GtkWidget *    oauth2_ask_authorization_dialog_get_view     (OAuth2AskAuthorizationDialog *self);
 const char *   oauth2_ask_authorization_dialog_get_uri      (OAuth2AskAuthorizationDialog *self);
 
