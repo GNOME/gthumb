@@ -439,7 +439,7 @@ get_user_info_ready_cb (GObject      *source_object,
 	{
 		secret_password_store (SECRET_SCHEMA_COMPAT_NETWORK,
 				       NULL,
-				       "Web",
+				       self->priv->service_name,
 				       account->token_secret,
 				       self->priv->cancellable,
 				       password_store_ready_cb,
