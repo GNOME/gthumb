@@ -536,24 +536,13 @@ extensions/picasaweb/callbacks.c
 extensions/picasaweb/callbacks.h
 [type: gettext/glade]extensions/picasaweb/data/ui/export-to-picasaweb.ui
 [type: gettext/glade]extensions/picasaweb/data/ui/import-from-picasaweb.ui
-[type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-account-chooser.ui
-[type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-account-manager.ui
-[type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-account-properties.ui
 [type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-album-properties.ui
 [type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-export-completed.ui
 extensions/picasaweb/dlg-export-to-picasaweb.c
 extensions/picasaweb/dlg-export-to-picasaweb.h
 extensions/picasaweb/dlg-import-from-picasaweb.c
 extensions/picasaweb/dlg-import-from-picasaweb.h
-extensions/picasaweb/google-connection.c
-extensions/picasaweb/google-connection.h
 extensions/picasaweb/main.c
-extensions/picasaweb/picasa-account-chooser-dialog.c
-extensions/picasaweb/picasa-account-chooser-dialog.h
-extensions/picasaweb/picasa-account-manager-dialog.c
-extensions/picasaweb/picasa-account-manager-dialog.h
-extensions/picasaweb/picasa-account-properties-dialog.c
-extensions/picasaweb/picasa-account-properties-dialog.h
 extensions/picasaweb/picasa-album-properties-dialog.c
 extensions/picasaweb/picasa-album-properties-dialog.h
 extensions/picasaweb/picasa-web-album.c
@@ -564,8 +553,6 @@ extensions/picasaweb/picasa-web-photo.h
 extensions/picasaweb/picasa-web-service.c
 extensions/picasaweb/picasa-web-service.h
 extensions/picasaweb/picasa-web-types.h
-extensions/picasaweb/picasa-web-user.c
-extensions/picasaweb/picasa-web-user.h
 extensions/picasaweb/preferences.h
 extensions/raw_files/main.c
 [type: gettext/ini]extensions/raw_files/raw_files.extension.in.in

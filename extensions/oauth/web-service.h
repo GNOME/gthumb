@@ -27,14 +27,17 @@
 #include "oauth.h"
 
 #define WEB_SERVICE_ERROR web_service_error_quark()
-#define WEB_SERVICE_ERROR_TOKEN_EXPIRED 1
-
 GQuark web_service_error_quark (void);
+
+typedef enum {
+	WEB_SERVICE_ERROR_GENERIC,
+	WEB_SERVICE_ERROR_TOKEN_EXPIRED
+} WebSericeError;
 
 typedef enum {
 	WEB_AUTHORIZATION_READ,
 	WEB_AUTHORIZATION_WRITE
-} WebAuthorizationType;
+} WebAuthorization;
 
 #define WEB_TYPE_SERVICE         (web_service_get_type ())
 #define WEB_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), WEB_TYPE_SERVICE, WebService))
@@ -106,6 +109,7 @@ GSimpleAsyncResult *
 SoupMessage *	_web_service_get_message	(WebService		 *self);
 void            _web_service_set_auth_dialog	(WebService		 *self,
 						 GtkDialog               *dialog);
+GtkWidget *     _web_service_get_auth_dialog    (WebService		 *self);
 
 #endif /* WEB_SERVICE_H */
 

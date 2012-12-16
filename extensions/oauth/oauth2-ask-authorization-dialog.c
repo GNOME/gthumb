@@ -33,6 +33,7 @@ G_DEFINE_TYPE (OAuth2AskAuthorizationDialog, oauth2_ask_authorization_dialog, GT
 
 /* Signals */
 enum {
+	LOADED,
 	REDIRECTED,
 	LAST_SIGNAL
 };
@@ -51,6 +52,15 @@ oauth2_ask_authorization_dialog_class_init (OAuth2AskAuthorizationDialogClass *k
 {
 	g_type_class_add_private (klass, sizeof (OAuth2AskAuthorizationDialogPrivate));
 
+	oauth2_ask_authorization_dialog_signals[LOADED] =
+		g_signal_new ("loaded",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (OAuth2AskAuthorizationDialogClass, loaded),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
 	oauth2_ask_authorization_dialog_signals[REDIRECTED] =
 		g_signal_new ("redirected",
 			      G_TYPE_FROM_CLASS (klass),
@@ -70,8 +80,16 @@ webkit_view_load_changed_cb (WebKitWebView   *web_view,
 {
 	OAuth2AskAuthorizationDialog *self = user_data;
 
-	if (load_event == WEBKIT_LOAD_REDIRECTED)
+	switch (load_event) {
+	case WEBKIT_LOAD_REDIRECTED:
 		g_signal_emit (self, oauth2_ask_authorization_dialog_signals[REDIRECTED], 0);
+		break;
+	case WEBKIT_LOAD_FINISHED:
+		g_signal_emit (self, oauth2_ask_authorization_dialog_signals[LOADED], 0);
+		break;
+	default:
+		break;
+	}
 }
 
 
@@ -132,4 +150,11 @@ const char *
 oauth2_ask_authorization_dialog_get_uri (OAuth2AskAuthorizationDialog *self)
 {
 	return webkit_web_view_get_uri (WEBKIT_WEB_VIEW (self->priv->view));
+}
+
+
+const char *
+oauth2_ask_authorization_dialog_get_title (OAuth2AskAuthorizationDialog *self)
+{
+	return webkit_web_view_get_title (WEBKIT_WEB_VIEW (self->priv->view));
 }

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2010-2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,13 +22,28 @@
 #include <config.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <json-glib/json-glib.h>
 #include <gthumb.h>
+#include <extensions/oauth/oauth.h>
 #include "picasa-web-album.h"
 #include "picasa-web-photo.h"
 #include "picasa-web-service.h"
 
 
-G_DEFINE_TYPE (PicasaWebService, picasa_web_service, G_TYPE_OBJECT)
+#define ATOM_ENTRY_MIME_TYPE "application/atom+xml; charset=UTF-8; type=entry"
+/*#define PICASA_WEB_API_VERSION "1.0"
+#define PICASA_WEB_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT 2
+#define PICASA_WEB_HTTP_SERVER "https://www.picasa_web.com"
+#define PICASA_WEB_MAX_IMAGE_SIZE 2048
+#define PICASA_WEB_MIN_IMAGE_SIZE 720 FIXME */
+#define PICASA_WEB_REDIRECT_URI "urn:ietf:wg:oauth:2.0:oob"
+#define PICASA_WEB_REDIRECT_TITLE "Success code="
+#define PICASA_WEB_SERVICE_ERROR_TOKEN_EXPIRED 190
+#define GTHUMB_PICASA_WEB_CLIENT_ID "499958842898.apps.googleusercontent.com"
+#define GTHUMB_PICASA_WEB_CLIENT_SECRET "-DdIqzDxVRc_Wkobuf-2g-of"
+
+
+/* -- post_photos_data -- */
 
 
 typedef struct {
@@ -40,9 +55,9 @@ typedef struct {
         GAsyncReadyCallback  callback;
         gpointer             user_data;
 	GList               *current;
-	goffset              total_size;
-	goffset              uploaded_size;
-	goffset              wrote_body_data_size;
+	guint64              total_size;
+	guint64              uploaded_size;
+	guint64              wrote_body_data_size;
 	int                  n_files;
 	int                  uploaded_files;
 } PostPhotosData;
@@ -60,38 +75,511 @@ post_photos_data_free (PostPhotosData *post_photos)
 }
 
 
-struct _PicasaWebServicePrivate
-{
-	GoogleConnection *conn;
-	PicasaWebUser    *user;
-	PostPhotosData   *post_photos;
+/* -- picasa_web_service -- */
+
+
+G_DEFINE_TYPE (PicasaWebService, picasa_web_service, WEB_TYPE_SERVICE)
+
+
+struct _PicasaWebServicePrivate {
+	char                    *access_token;
+	char                    *refresh_token;
+	guint64         	 quota_limit;
+	guint64       		 quota_used;
+	PostPhotosData		*post_photos;
 };
 
 
 static void
 picasa_web_service_finalize (GObject *object)
 {
-	PicasaWebService *self;
+	PicasaWebService *self = PICASA_WEB_SERVICE (object);
 
-	self = PICASA_WEB_SERVICE (object);
-
-	_g_object_unref (self->priv->conn);
-	_g_object_unref (self->priv->user);
 	post_photos_data_free (self->priv->post_photos);
+	g_free (self->priv->access_token);
+	g_free (self->priv->refresh_token);
 
 	G_OBJECT_CLASS (picasa_web_service_parent_class)->finalize (object);
+}
+
+
+/* -- connection utilities -- */
+
+
+static void
+_picasa_web_service_add_headers (PicasaWebService *self,
+				 SoupMessage      *msg)
+{
+	if (self->priv->access_token != NULL) {
+		char *value;
+
+		value = g_strconcat ("Bearer ", self->priv->access_token, NULL);
+		soup_message_headers_replace (msg->request_headers, "Authorization", value);
+		g_free (value);
+	}
+
+	soup_message_headers_replace (msg->request_headers, "GData-Version", "2");
+}
+
+
+static gboolean
+picasa_web_utils_parse_json_response (SoupMessage  *msg,
+				      JsonNode    **node,
+				      GError      **error)
+{
+	JsonParser *parser;
+	SoupBuffer *body;
+
+	g_return_val_if_fail (msg != NULL, FALSE);
+	g_return_val_if_fail (node != NULL, FALSE);
+
+	*node = NULL;
+
+	if ((msg->status_code != 200) && (msg->status_code != 400)) {
+		*error = g_error_new (SOUP_HTTP_ERROR,
+				      msg->status_code,
+				      "%s",
+				      soup_status_get_phrase (msg->status_code));
+		return FALSE;
+	}
+
+	body = soup_message_body_flatten (msg->response_body);
+	parser = json_parser_new ();
+	if (json_parser_load_from_data (parser, body->data, body->length, error)) {
+		JsonObject *obj;
+
+		*node = json_node_copy (json_parser_get_root (parser));
+
+		obj = json_node_get_object (*node);
+		if (json_object_has_member (obj, "error")) {
+			JsonObject *error_obj;
+
+			error_obj = json_object_get_object_member (obj, "error");
+			*error = g_error_new (WEB_SERVICE_ERROR,
+					      json_object_get_int_member (error_obj, "code"),
+					      "%s",
+					      json_object_get_string_member (error_obj, "message"));
+
+			json_node_free (*node);
+			*node = NULL;
+		}
+	}
+
+	g_object_unref (parser);
+	soup_buffer_free (body);
+
+	return *node != NULL;
+}
+
+
+/* -- _picasa_web_service_get_refresh_token -- */
+
+static void
+_picasa_web_service_get_refresh_token_ready_cb (SoupSession *session,
+						SoupMessage *msg,
+						gpointer     user_data)
+{
+	PicasaWebService   *self = user_data;
+	GSimpleAsyncResult *result;
+	GError             *error = NULL;
+	JsonNode           *node;
+
+	result = _web_service_get_result (WEB_SERVICE (self));
+
+	if (picasa_web_utils_parse_json_response (msg, &node, &error)) {
+		JsonObject *obj;
+
+		obj = json_node_get_object (node);
+		_g_strset (&self->priv->access_token, json_object_get_string_member (obj, "access_token"));
+		_g_strset (&self->priv->refresh_token, json_object_get_string_member (obj, "refresh_token"));
+	}
+	else
+		g_simple_async_result_set_from_error (result, error);
+
+	g_simple_async_result_complete_in_idle (result);
+}
+
+
+static void
+_picasa_web_service_get_refresh_token (PicasaWebService    *self,
+				       const char          *authorization_code,
+				       GCancellable        *cancellable,
+				       GAsyncReadyCallback  callback,
+				       gpointer             user_data)
+{
+	GHashTable  *data_set;
+	SoupMessage *msg;
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "code", (gpointer) authorization_code);
+	g_hash_table_insert (data_set, "client_id", GTHUMB_PICASA_WEB_CLIENT_ID);
+	g_hash_table_insert (data_set, "client_secret", GTHUMB_PICASA_WEB_CLIENT_SECRET);
+	g_hash_table_insert (data_set, "redirect_uri", PICASA_WEB_REDIRECT_URI);
+	g_hash_table_insert (data_set, "grant_type", "authorization_code");
+	msg = soup_form_request_new_from_hash ("POST", "https://accounts.google.com/o/oauth2/token", data_set);
+	_picasa_web_service_add_headers (self, msg);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   _picasa_web_service_get_refresh_token,
+				   _picasa_web_service_get_refresh_token_ready_cb,
+				   self);
+
+	g_hash_table_destroy (data_set);
+}
+
+
+static gboolean
+_picasa_web_service_get_refresh_token_finish (PicasaWebService  *service,
+					      GAsyncResult      *result,
+					      GError           **error)
+{
+	return ! g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error);
+}
+
+
+/* -- picasa_web_service_ask_authorization -- */
+
+
+static void
+refresh_token_ready_cb (GObject      *source_object,
+		        GAsyncResult *result,
+		        gpointer      user_data)
+{
+	PicasaWebService *self = user_data;
+	GError           *error = NULL;
+	GtkWidget        *dialog;
+	gboolean          success;
+
+	dialog = _web_service_get_auth_dialog (WEB_SERVICE (self));
+	success = _picasa_web_service_get_refresh_token_finish (self, result, &error);
+	gtk_dialog_response (GTK_DIALOG (dialog), success ? GTK_RESPONSE_OK : GTK_RESPONSE_CANCEL);
+}
+
+
+static void
+ask_authorization_dialog_loaded_cb (OAuth2AskAuthorizationDialog *dialog,
+				    gpointer                      user_data)
+{
+	PicasaWebService *self = user_data;
+	const char       *title;
+
+	title = oauth2_ask_authorization_dialog_get_title (dialog);
+	if (title == NULL)
+		return;
+
+	if (g_str_has_prefix (title, PICASA_WEB_REDIRECT_TITLE)) {
+		const char *authorization_code;
+
+		authorization_code = title + strlen (PICASA_WEB_REDIRECT_TITLE);
+		_picasa_web_service_get_refresh_token (self,
+						       authorization_code,
+						       gth_task_get_cancellable (GTH_TASK (self)),
+						       refresh_token_ready_cb,
+						       self);
+	}
+}
+
+
+static char *
+picasa_web_service_get_authorization_url (PicasaWebService *self)
+{
+	GHashTable *data_set;
+	GString    *link;
+	GList      *keys;
+	GList      *scan;
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "response_type", "code");
+	g_hash_table_insert (data_set, "client_id", GTHUMB_PICASA_WEB_CLIENT_ID);
+	g_hash_table_insert (data_set, "redirect_uri", PICASA_WEB_REDIRECT_URI);
+	g_hash_table_insert (data_set, "scope", "https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.profile");
+
+	link = g_string_new ("https://accounts.google.com/o/oauth2/auth?");
+	keys = g_hash_table_get_keys (data_set);
+	for (scan = keys; scan; scan = scan->next) {
+		char *key = scan->data;
+		char *encoded;
+
+		if (scan != keys)
+			g_string_append (link, "&");
+		g_string_append (link, key);
+		g_string_append (link, "=");
+		encoded = soup_uri_encode (g_hash_table_lookup (data_set, key), NULL);
+		g_string_append (link, encoded);
+
+		g_free (encoded);
+	}
+
+	g_list_free (keys);
+	g_hash_table_destroy (data_set);
+
+	return g_string_free (link, FALSE);
+}
+
+
+static void
+picasa_web_service_ask_authorization (WebService *base)
+{
+	PicasaWebService *self = PICASA_WEB_SERVICE (base);
+	GtkWidget        *dialog;
+
+	_g_strset (&self->priv->refresh_token, NULL);
+	_g_strset (&self->priv->access_token, NULL);
+
+	gth_task_dialog (GTH_TASK (self), TRUE, NULL);
+
+	dialog = oauth2_ask_authorization_dialog_new (picasa_web_service_get_authorization_url (self));
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 680, 580);
+	_web_service_set_auth_dialog (WEB_SERVICE (self), GTK_DIALOG (dialog));
+
+	g_signal_connect (OAUTH2_ASK_AUTHORIZATION_DIALOG (dialog),
+			  "loaded",
+			  G_CALLBACK (ask_authorization_dialog_loaded_cb),
+			  self);
+
+	gtk_widget_show (dialog);
+}
+
+
+/* -- _picasa_web_service_get_access_token -- */
+
+
+static void
+_picasa_web_service_get_access_token_ready_cb (SoupSession *session,
+					       SoupMessage *msg,
+					       gpointer     user_data)
+{
+	PicasaWebService   *self = user_data;
+	GSimpleAsyncResult *result;
+	GError             *error = NULL;
+	JsonNode           *node;
+
+	result = _web_service_get_result (WEB_SERVICE (self));
+
+	if (picasa_web_utils_parse_json_response (msg, &node, &error)) {
+		JsonObject   *obj;
+		OAuthAccount *account;
+
+		obj = json_node_get_object (node);
+		account = web_service_get_current_account (WEB_SERVICE (self));
+		if (account != NULL)
+			g_object_set (account,
+				      "token", json_object_get_string_member (obj, "access_token"),
+				      NULL);
+		else
+			_g_strset (&self->priv->access_token, json_object_get_string_member (obj, "access_token"));
+	}
+	else
+		g_simple_async_result_set_from_error (result, error);
+
+	g_simple_async_result_complete_in_idle (result);
+}
+
+
+static void
+_picasa_web_service_get_access_token (PicasaWebService    *self,
+				      const char          *refresh_token,
+				      GCancellable        *cancellable,
+				      GAsyncReadyCallback  callback,
+				      gpointer             user_data)
+{
+	GHashTable  *data_set;
+	SoupMessage *msg;
+
+	_g_strset (&self->priv->access_token, NULL);
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "refresh_token", (gpointer) refresh_token);
+	g_hash_table_insert (data_set, "client_id", GTHUMB_PICASA_WEB_CLIENT_ID);
+	g_hash_table_insert (data_set, "client_secret", GTHUMB_PICASA_WEB_CLIENT_SECRET);
+	g_hash_table_insert (data_set, "grant_type", "refresh_token");
+	msg = soup_form_request_new_from_hash ("POST", "https://accounts.google.com/o/oauth2/token", data_set);
+	_picasa_web_service_add_headers (self, msg);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   _picasa_web_service_get_access_token,
+				   _picasa_web_service_get_access_token_ready_cb,
+				   self);
+
+	g_hash_table_destroy (data_set);
+}
+
+
+static gboolean
+_picasa_web_service_get_access_token_finish (PicasaWebService  *service,
+					     GAsyncResult      *result,
+					     GError           **error)
+{
+	return ! g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error);
+}
+
+
+/* -- picasa_web_service_get_user_info -- */
+
+
+static void
+picasa_web_service_get_user_info_ready_cb (SoupSession *session,
+				           SoupMessage *msg,
+				           gpointer     user_data)
+{
+	PicasaWebService   *self = user_data;
+	GSimpleAsyncResult *result;
+	GError             *error = NULL;
+	JsonNode           *node;
+
+	result = _web_service_get_result (WEB_SERVICE (self));
+
+	if (picasa_web_utils_parse_json_response (msg, &node, &error)) {
+		OAuthAccount *account;
+
+		account = (OAuthAccount *) json_gobject_deserialize (OAUTH_TYPE_ACCOUNT, node);
+		g_object_set (account,
+			      "token", self->priv->access_token,
+			      "token-secret", self->priv->refresh_token,
+			      NULL);
+		web_service_set_current_account (WEB_SERVICE (self), account);
+
+		g_simple_async_result_set_op_res_gpointer (result,
+							   g_object_ref (account),
+							   (GDestroyNotify) g_object_unref);
+
+		_g_object_unref (account);
+		json_node_free (node);
+	}
+	else
+		g_simple_async_result_set_from_error (result, error);
+
+	g_simple_async_result_complete_in_idle (result);
+}
+
+
+typedef struct {
+	PicasaWebService    *service;
+	GCancellable        *cancellable;
+	GAsyncReadyCallback  callback;
+	gpointer	     user_data;
+} AccessTokenData;
+
+
+static void
+access_token_data_free (AccessTokenData *data)
+{
+	_g_object_unref (data->cancellable);
+	g_free (data);
+}
+
+
+static void
+picasa_web_service_get_user_info (WebService          *base,
+				  GCancellable        *cancellable,
+				  GAsyncReadyCallback  callback,
+				  gpointer	       user_data);
+
+
+static void
+access_token_ready_cb (GObject      *source_object,
+		       GAsyncResult *result,
+		       gpointer      user_data)
+{
+	AccessTokenData  *data = user_data;
+	PicasaWebService *self = data->service;
+	GError           *error = NULL;
+
+	if (! _picasa_web_service_get_access_token_finish (self, result, &error)) {
+		GSimpleAsyncResult *result;
+
+		result = g_simple_async_result_new (G_OBJECT (self),
+						    data->callback,
+						    data->user_data,
+						    picasa_web_service_get_user_info);
+		g_simple_async_result_take_error (result, error);
+		g_simple_async_result_complete_in_idle (result);
+
+		access_token_data_free (data);
+		return;
+	}
+
+	/* call get_user_info again, now that we have the access token */
+	picasa_web_service_get_user_info (WEB_SERVICE (self),
+					  data->cancellable,
+					  data->callback,
+					  data->user_data);
+
+	access_token_data_free (data);
+}
+
+
+static void
+picasa_web_service_get_user_info (WebService          *base,
+				  GCancellable        *cancellable,
+				  GAsyncReadyCallback  callback,
+				  gpointer	       user_data)
+{
+	PicasaWebService *self = PICASA_WEB_SERVICE (base);
+	OAuthAccount     *account;
+	GHashTable       *data_set;
+	SoupMessage      *msg;
+
+	account = web_service_get_current_account (WEB_SERVICE (self));
+	if (account != NULL) {
+		_g_strset (&self->priv->refresh_token, account->token_secret);
+		_g_strset (&self->priv->access_token, account->token);
+	}
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	if (self->priv->access_token != NULL) {
+		msg = soup_form_request_new_from_hash ("GET", "https://www.googleapis.com/oauth2/v2/userinfo", data_set);
+		_picasa_web_service_add_headers (self, msg);
+		_web_service_send_message (WEB_SERVICE (self),
+					   msg,
+					   cancellable,
+					   callback,
+					   user_data,
+					   picasa_web_service_get_user_info,
+					   picasa_web_service_get_user_info_ready_cb,
+					   self);
+	}
+	else {
+		/* Get the access token from the refresh token */
+
+		AccessTokenData *data;
+
+		data = g_new0 (AccessTokenData, 1);
+		data->service = self;
+		data->cancellable = _g_object_ref (cancellable);
+		data->callback = callback;
+		data->user_data = user_data;
+		_picasa_web_service_get_access_token (self,
+						      self->priv->refresh_token,
+						      cancellable,
+						      access_token_ready_cb,
+						      data);
+	}
+
+	g_hash_table_destroy (data_set);
 }
 
 
 static void
 picasa_web_service_class_init (PicasaWebServiceClass *klass)
 {
-	GObjectClass *object_class;
+	GObjectClass    *object_class;
+	WebServiceClass *service_class;
 
 	g_type_class_add_private (klass, sizeof (PicasaWebServicePrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = picasa_web_service_finalize;
+
+	service_class = (WebServiceClass*) klass;
+	service_class->ask_authorization = picasa_web_service_ask_authorization;
+	service_class->get_user_info = picasa_web_service_get_user_info;
 }
 
 
@@ -99,28 +587,37 @@ static void
 picasa_web_service_init (PicasaWebService *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PICASA_TYPE_WEB_SERVICE, PicasaWebServicePrivate);
-	self->priv->conn = NULL;
-	self->priv->user = NULL;
+	self->priv->refresh_token = NULL;
+	self->priv->access_token = NULL;
+	self->priv->quota_limit = 0;
+	self->priv->quota_used = 0;
 	self->priv->post_photos = NULL;
 }
 
 
 PicasaWebService *
-picasa_web_service_new (GoogleConnection *conn)
+picasa_web_service_new (GCancellable	*cancellable,
+		        GtkWidget	*browser,
+		        GtkWidget	*dialog)
 {
-	PicasaWebService *self;
-
-	self = (PicasaWebService *) g_object_new (PICASA_TYPE_WEB_SERVICE, NULL);
-	self->priv->conn = g_object_ref (conn);
-
-	return self;
+	return g_object_new (PICASA_TYPE_WEB_SERVICE,
+			     "service-name", "picasaweb",
+			     "service-address", "picasaweb.google.com",
+			     "service-protocol", "https",
+			     "cancellable", cancellable,
+			     "browser", browser,
+			     "dialog", dialog,
+			     NULL);
 }
 
 
-PicasaWebUser *
-picasa_web_service_get_user (PicasaWebService *self)
+guint64
+picasa_web_service_get_free_space (PicasaWebService *self)
 {
-	return self->priv->user;
+	if (self->priv->quota_limit >= self->priv->quota_used)
+		return (guint64) (self->priv->quota_limit - self->priv->quota_used);
+	else
+		return 0;
 }
 
 
@@ -138,7 +635,7 @@ list_albums_ready_cb (SoupSession *session,
 	DomDocument        *doc;
 	GError             *error = NULL;
 
-	result = google_connection_get_result (self->priv->conn);
+	result = _web_service_get_result (WEB_SERVICE (self));
 
 	if (msg->status_code != 200) {
 		g_simple_async_result_set_error (result,
@@ -164,9 +661,6 @@ list_albums_ready_cb (SoupSession *session,
 			DomElement     *node;
 			PicasaWebAlbum *album;
 
-			self->priv->user = picasa_web_user_new ();
-			dom_domizable_load_from_element (DOM_DOMIZABLE (self->priv->user), feed_node);
-
 			album = NULL;
 			for (node = feed_node->first_child;
 			     node != NULL;
@@ -177,6 +671,12 @@ list_albums_ready_cb (SoupSession *session,
 						albums = g_list_prepend (albums, album);
 					album = picasa_web_album_new ();
 					dom_domizable_load_from_element (DOM_DOMIZABLE (album), node);
+				}
+				else if (g_strcmp0 (node->tag_name, "gphoto:quotalimit") == 0) {
+					self->priv->quota_limit = g_ascii_strtoull (dom_element_get_inner_text (node), NULL, 10);
+				}
+				else if (g_strcmp0 (node->tag_name, "gphoto:quotacurrent") == 0) {
+					self->priv->quota_used = g_ascii_strtoull (dom_element_get_inner_text (node), NULL, 10);
 				}
 			}
 			if (album != NULL)
@@ -198,28 +698,30 @@ list_albums_ready_cb (SoupSession *session,
 
 void
 picasa_web_service_list_albums (PicasaWebService    *self,
-			        const char          *user_id,
 			        GCancellable        *cancellable,
 			        GAsyncReadyCallback  callback,
 			        gpointer             user_data)
 {
-	char        *url;
-	SoupMessage *msg;
+	OAuthAccount *account;
+	SoupMessage  *msg;
+	char         *url;
 
-	g_return_if_fail (user_id != NULL);
+	account = web_service_get_current_account (WEB_SERVICE (self));
+	g_return_if_fail (account != NULL);
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the album list"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self), _("Getting the album list"), NULL, TRUE, 0.0);
 
-	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/", user_id, NULL);
+	url = g_strconcat ("https://picasaweb.google.com/data/feed/api/user/", account->id, NULL);
 	msg = soup_message_new ("GET", url);
-	google_connection_send_message (self->priv->conn,
-					msg,
-					cancellable,
-					callback,
-					user_data,
-					picasa_web_service_list_albums,
-					list_albums_ready_cb,
-					self);
+	_picasa_web_service_add_headers (self, msg);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   picasa_web_service_list_albums,
+				   list_albums_ready_cb,
+				   self);
 
 	g_free (url);
 }
@@ -251,7 +753,7 @@ create_album_ready_cb (SoupSession *session,
 	DomDocument        *doc;
 	GError             *error = NULL;
 
-	result = google_connection_get_result (self->priv->conn);
+	result = _web_service_get_result (WEB_SERVICE (self));
 
 	if (msg->status_code != 201) {
 		g_simple_async_result_set_error (result,
@@ -290,36 +792,36 @@ picasa_web_service_create_album (PicasaWebService     *self,
 				 GAsyncReadyCallback   callback,
 				 gpointer              user_data)
 {
-	DomDocument *doc;
-	DomElement  *entry;
-	char        *buffer;
-	gsize        len;
-	char        *url;
-	SoupMessage *msg;
+	OAuthAccount *account;
+	DomDocument  *doc;
+	DomElement   *entry;
+	char         *buffer;
+	gsize         len;
+	char         *url;
+	SoupMessage  *msg;
 
-	g_return_if_fail (self->priv->user != NULL);
+	account = web_service_get_current_account (WEB_SERVICE (self));
+	g_return_if_fail (account != NULL);
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Creating the new album"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self), _("Creating the new album"), NULL, TRUE, 0.0);
 
 	doc = dom_document_new ();
 	entry = dom_domizable_create_element (DOM_DOMIZABLE (album), doc);
-	dom_element_set_attribute (entry, "xmlns", "http://www.w3.org/2005/Atom");
-	dom_element_set_attribute (entry, "xmlns:media", "http://search.yahoo.com/mrss/");
-	dom_element_set_attribute (entry, "xmlns:gphoto", "http://schemas.google.com/photos/2007");
 	dom_element_append_child (DOM_ELEMENT (doc), entry);
 	buffer = dom_document_dump (doc, &len);
 
-	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/", self->priv->user->id, NULL);
+	url = g_strconcat ("https://picasaweb.google.com/data/feed/api/user/", account->id, NULL);
 	msg = soup_message_new ("POST", url);
 	soup_message_set_request (msg, ATOM_ENTRY_MIME_TYPE, SOUP_MEMORY_TAKE, buffer, len);
-	google_connection_send_message (self->priv->conn,
-					msg,
-					cancellable,
-					callback,
-					user_data,
-					picasa_web_service_create_album,
-					create_album_ready_cb,
-					self);
+	_picasa_web_service_add_headers (self, msg);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   picasa_web_service_create_album,
+				   create_album_ready_cb,
+				   self);
 
 	g_free (url);
 	g_object_unref (doc);
@@ -347,7 +849,7 @@ post_photos_done (PicasaWebService *self,
 {
 	GSimpleAsyncResult *result;
 
-	result = google_connection_get_result (self->priv->conn);
+	result = _web_service_get_result (WEB_SERVICE (self));
 	if (error == NULL) {
 		g_simple_async_result_set_op_res_gboolean (result, TRUE);
 	}
@@ -380,7 +882,9 @@ post_photo_ready_cb (SoupSession *session,
 	if (msg->status_code != 201) {
 		GError *error;
 
-		error = g_error_new_literal (SOUP_HTTP_ERROR, msg->status_code, soup_status_get_phrase (msg->status_code));
+		error = g_error_new_literal (SOUP_HTTP_ERROR,
+					     msg->status_code,
+					     soup_status_get_phrase (msg->status_code));
 		post_photos_done (self, error);
 		g_error_free (error);
 
@@ -413,7 +917,7 @@ upload_photo_wrote_body_data_cb (SoupMessage *msg,
 	/* Translators: %s is a filename */
 	details = g_strdup_printf (_("Uploading '%s'"), g_file_info_get_display_name (file_data->info));
 	current_file_fraction = (double) self->priv->post_photos->wrote_body_data_size / msg->request_body->length;
-	gth_task_progress (GTH_TASK (self->priv->conn),
+	gth_task_progress (GTH_TASK (self),
 			   NULL,
 			   details,
 			   FALSE,
@@ -430,6 +934,7 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 				 gpointer   user_data)
 {
 	PicasaWebService   *self = user_data;
+	OAuthAccount       *account;
 	GthFileData        *file_data;
 	SoupMultipart      *multipart;
 	const char         *filename;
@@ -451,6 +956,7 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 		return;
 	}
 
+	account = web_service_get_current_account (WEB_SERVICE (self));
 	file_data = self->priv->post_photos->current->data;
 	multipart = soup_multipart_new ("multipart/related");
 
@@ -543,8 +1049,8 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 	/* send the file */
 
 	self->priv->post_photos->wrote_body_data_size = 0;
-	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/",
-			   self->priv->user->id,
+	url = g_strconcat ("https://picasaweb.google.com/data/feed/api/user/",
+			   account->id,
 			   "/albumid/",
 			   self->priv->post_photos->album->id,
 			   NULL);
@@ -554,14 +1060,15 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 			  (GCallback) upload_photo_wrote_body_data_cb,
 			  self);
 
-	google_connection_send_message (self->priv->conn,
-					msg,
-					self->priv->post_photos->cancellable,
-					self->priv->post_photos->callback,
-					self->priv->post_photos->user_data,
-					picasa_web_service_post_photos,
-					post_photo_ready_cb,
-					self);
+	_picasa_web_service_add_headers (self, msg);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   self->priv->post_photos->cancellable,
+				   self->priv->post_photos->callback,
+				   self->priv->post_photos->user_data,
+				   picasa_web_service_post_photos,
+				   post_photo_ready_cb,
+				   self);
 
 	g_free (url);
 	soup_multipart_free (multipart);
@@ -628,7 +1135,11 @@ picasa_web_service_post_photos (PicasaWebService    *self,
 	g_return_if_fail (album != NULL);
 	g_return_if_fail (self->priv->post_photos == NULL);
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Uploading the files to the server"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self),
+			   _("Uploading the files to the server"),
+			   NULL,
+			   TRUE,
+			   0.0);
 
 	self->priv->post_photos = g_new0 (PostPhotosData, 1);
 	self->priv->post_photos->album = g_object_ref (album);
@@ -673,7 +1184,7 @@ list_photos_ready_cb (SoupSession *session,
 	DomDocument        *doc;
 	GError             *error = NULL;
 
-	result = google_connection_get_result (self->priv->conn);
+	result = _web_service_get_result (WEB_SERVICE (self));
 
 	if (msg->status_code != 200) {
 		g_simple_async_result_set_error (result,
@@ -698,9 +1209,6 @@ list_photos_ready_cb (SoupSession *session,
 		if (feed_node != NULL) {
 			DomElement     *node;
 			PicasaWebPhoto *photo;
-
-			self->priv->user = picasa_web_user_new ();
-			dom_domizable_load_from_element (DOM_DOMIZABLE (self->priv->user), feed_node);
 
 			photo = NULL;
 			for (node = feed_node->first_child;
@@ -738,27 +1246,35 @@ picasa_web_service_list_photos (PicasaWebService    *self,
 				GAsyncReadyCallback  callback,
 				gpointer             user_data)
 {
-	char        *url;
-	SoupMessage *msg;
+	OAuthAccount *account;
+	char         *url;
+	SoupMessage  *msg;
 
+	account = web_service_get_current_account (WEB_SERVICE (self));
+	g_return_if_fail (account != NULL);
 	g_return_if_fail (album != NULL);
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the photo list"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self),
+			   _("Getting the photo list"),
+			   NULL,
+			   TRUE,
+			   0.0);
 
-	url = g_strconcat ("http://picasaweb.google.com/data/feed/api/user/",
-			   self->priv->user->id,
+	url = g_strconcat ("https://picasaweb.google.com/data/feed/api/user/",
+			   account->id,
 			   "/albumid/",
 			   album->id,
 			   NULL);
 	msg = soup_message_new ("GET", url);
-	google_connection_send_message (self->priv->conn,
-					msg,
-					cancellable,
-					callback,
-					user_data,
-					picasa_web_service_list_photos,
-					list_photos_ready_cb,
-					self);
+	_picasa_web_service_add_headers (self, msg);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   picasa_web_service_list_photos,
+				   list_photos_ready_cb,
+				   self);
 
 	g_free (url);
 }
@@ -773,93 +1289,4 @@ picasa_web_service_list_photos_finish (PicasaWebService  *self,
 		return NULL;
 	else
 		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
-}
-
-
-/* utilities */
-
-
-GList *
-picasa_web_accounts_load_from_file (char **_default)
-{
-	GList       *accounts = NULL;
-	GFile       *file;
-	char        *buffer;
-	gsize        len;
-	DomDocument *doc;
-
-	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
-	if (! _g_file_load_in_buffer (file, (void **) &buffer, &len, NULL, NULL)) {
-		g_object_unref (file);
-		return NULL;
-	}
-
-	doc = dom_document_new ();
-	if (dom_document_load (doc, buffer, len, NULL)) {
-		DomElement *node;
-
-		node = DOM_ELEMENT (doc)->first_child;
-		if ((node != NULL) && (g_strcmp0 (node->tag_name, "accounts") == 0)) {
-			DomElement *child;
-
-			for (child = node->first_child;
-			     child != NULL;
-			     child = child->next_sibling)
-			{
-				if (strcmp (child->tag_name, "account") == 0) {
-					const char *value;
-
-					value = dom_element_get_attribute (child, "email");
-					if (value != NULL)
-						accounts = g_list_prepend (accounts, g_strdup (value));
-					if ((_default != NULL)  && (g_strcmp0 (dom_element_get_attribute (child, "default"), "1") == 0))
-						*_default = g_strdup (value);
-				}
-			}
-
-			accounts = g_list_reverse (accounts);
-		}
-	}
-
-	g_object_unref (doc);
-	g_free (buffer);
-	g_object_unref (file);
-
-	return accounts;
-}
-
-
-void
-picasa_web_accounts_save_to_file (GList      *accounts,
-				  const char *_default)
-{
-	DomDocument *doc;
-	DomElement  *root;
-	GList       *scan;
-	char        *buffer;
-	gsize        len;
-	GFile       *file;
-
-	doc = dom_document_new ();
-	root = dom_document_create_element (doc, "accounts", NULL);
-	dom_element_append_child (DOM_ELEMENT (doc), root);
-	for (scan = accounts; scan; scan = scan->next) {
-		const char *email = scan->data;
-		DomElement *node;
-
-		node = dom_document_create_element (doc, "account",
-						    "email", email,
-						    NULL);
-		if (g_strcmp0 (email, _default) == 0)
-			dom_element_set_attribute (node, "default", "1");
-		dom_element_append_child (root, node);
-	}
-
-	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", "picasaweb.xml", NULL);
-	buffer = dom_document_dump (doc, &len);
-	_g_file_write (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
-
-	g_free (buffer);
-	g_object_unref (file);
-	g_object_unref (doc);
 }

@@ -2,9 +2,6 @@ uidir = $(pkgdatadir)/ui
 ui_DATA = 					\
 	export-to-picasaweb.ui			\
 	import-from-picasaweb.ui		\
-	picasa-web-account-chooser.ui		\
-	picasa-web-account-manager.ui		\
-	picasa-web-account-properties.ui	\
 	picasa-web-album-properties.ui		\
 	picasa-web-export-completed.ui
 EXTRA_DIST = $(ui_DATA)

@@ -127,7 +127,7 @@ _facebook_service_add_access_token (FacebookService *self,
 
 
 static char *
-get_access_type_name (WebAuthorizationType access_type)
+get_access_type_name (WebAuthorization access_type)
 {
 	char *name = NULL;
 
@@ -146,7 +146,7 @@ get_access_type_name (WebAuthorizationType access_type)
 
 
 static char *
-facebook_utils_get_authorization_url (WebAuthorizationType access_type)
+facebook_utils_get_authorization_url (WebAuthorization access_type)
 {
 	GHashTable *data_set;
 	GString    *link;
@@ -213,10 +213,20 @@ facebook_utils_parse_response (SoupMessage  *msg,
 		obj = json_node_get_object (*node);
 		if (json_object_has_member (obj, "error")) {
 			JsonObject *error_obj;
+			int         error_code;
 
 			error_obj = json_object_get_object_member (obj, "error");
+			switch (json_object_get_int_member (error_obj, "code")) {
+			case FACEBOOK_SERVICE_ERROR_TOKEN_EXPIRED:
+				error_code = WEB_SERVICE_ERROR_TOKEN_EXPIRED;
+				break;
+			default:
+				error_code = WEB_SERVICE_ERROR_GENERIC;
+				break;
+			}
+
 			*error = g_error_new (WEB_SERVICE_ERROR,
-					      json_object_get_int_member (error_obj, "code"),
+					      error_code,
 					      "%s",
 					      json_object_get_string_member (error_obj, "message"));
 
@@ -333,7 +343,8 @@ facebook_service_get_user_info (WebService          *base,
 	SoupMessage     *msg;
 
 	account = web_service_get_current_account (WEB_SERVICE (self));
-	_facebook_service_set_access_token (self, account->token_secret);
+	if (account != NULL)
+		_facebook_service_set_access_token (self, account->token_secret);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	_facebook_service_add_access_token (self, data_set);

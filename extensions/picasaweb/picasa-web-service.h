@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2010-2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,10 +22,11 @@
 #ifndef PICASA_WEB_SERVICE_H
 #define PICASA_WEB_SERVICE_H
 
-#include <glib-object.h>
-#include "google-connection.h"
+#include <gtk/gtk.h>
+#include <gthumb.h>
+#include <extensions/oauth/oauth.h>
 #include "picasa-web-album.h"
-#include "picasa-web-user.h"
+#include "picasa-web-types.h"
 
 #define PICASA_TYPE_WEB_SERVICE         (picasa_web_service_get_type ())
 #define PICASA_WEB_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PICASA_TYPE_WEB_SERVICE, PicasaWebService))
@@ -40,20 +41,21 @@ typedef struct _PicasaWebServiceClass    PicasaWebServiceClass;
 
 struct _PicasaWebService
 {
-	GObject __parent;
+	WebService __parent;
 	PicasaWebServicePrivate *priv;
 };
 
 struct _PicasaWebServiceClass
 {
-	GObjectClass __parent_class;
+	WebServiceClass __parent_class;
 };
 
 GType                picasa_web_service_get_type            (void) G_GNUC_CONST;
-PicasaWebService *   picasa_web_service_new                 (GoogleConnection     *conn);
-PicasaWebUser *      picasa_web_service_get_user            (PicasaWebService     *self);
+PicasaWebService *   picasa_web_service_new                 (GCancellable         *cancellable,
+							     GtkWidget            *browser,
+							     GtkWidget            *dialog);
+guint64              picasa_web_service_get_free_space      (PicasaWebService     *self);
 void                 picasa_web_service_list_albums         (PicasaWebService     *self,
-						             const char           *user_id,
 						             GCancellable         *cancellable,
 						             GAsyncReadyCallback   callback,
 						             gpointer              user_data);
@@ -87,11 +89,5 @@ void                 picasa_web_service_list_photos         (PicasaWebService   
 GList *              picasa_web_service_list_photos_finish  (PicasaWebService     *self,
 							     GAsyncResult         *result,
 							     GError              **error);
-
-/* utilities */
-
-GList *              picasa_web_accounts_load_from_file    (char       **_default);
-void                 picasa_web_accounts_save_to_file      (GList       *accounts,
-							    const char  *_default);
 
 #endif /* PICASA_WEB_SERVICE_H */

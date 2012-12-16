@@ -21,18 +21,12 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
-#ifdef HAVE_LIBSECRET
-#include <libsecret/secret.h>
-#endif /* HAVE_LIBSECRET */
 #include <gthumb.h>
+#include <extensions/oauth/oauth.h>
 #include "dlg-export-to-picasaweb.h"
-#include "picasa-account-chooser-dialog.h"
-#include "picasa-account-manager-dialog.h"
-#include "picasa-account-properties-dialog.h"
 #include "picasa-album-properties-dialog.h"
 #include "picasa-web-album.h"
 #include "picasa-web-service.h"
-#include "picasa-web-user.h"
 #include "preferences.h"
 
 
@@ -41,9 +35,8 @@
 
 
 enum {
-	ACCOUNT_EMAIL_COLUMN,
-	ACCOUNT_NAME_COLUMN,
-	ACCOUNT_ICON_COLUMN
+	ACCOUNT_DATA_COLUMN,
+	ACCOUNT_NAME_COLUMN
 };
 
 
@@ -66,14 +59,8 @@ typedef struct {
 	GtkWidget        *dialog;
 	GtkWidget        *list_view;
 	GtkWidget        *progress_dialog;
-	GList            *accounts;
-	PicasaWebUser    *user;
-	char             *email;
-	char             *password;
-	char             *challange;
+	PicasaWebService *service;
 	GList            *albums;
-	GoogleConnection *conn;
-	PicasaWebService *picasaweb;
 	PicasaWebAlbum   *album;
 	GCancellable     *cancellable;
 } DialogData;
@@ -84,18 +71,11 @@ destroy_dialog (DialogData *data)
 {
 	if (data->dialog != NULL)
 		gtk_widget_destroy (data->dialog);
-	if (data->conn != NULL)
-		gth_task_completed (GTH_TASK (data->conn), NULL);
+	gth_task_completed (GTH_TASK (data->service), NULL);
 	_g_object_unref (data->cancellable);
 	_g_object_unref (data->album);
-	_g_object_unref (data->picasaweb);
-	_g_object_unref (data->conn);
+	_g_object_unref (data->service);
 	_g_object_list_unref (data->albums);
-	g_free (data->challange);
-	g_free (data->password);
-	g_free (data->email);
-	_g_object_unref (data->user);
-	_g_string_list_free (data->accounts);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
@@ -120,10 +100,12 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 
 	case _OPEN_IN_BROWSER_RESPONSE:
 		{
-			GdkScreen *screen;
-			char      *url = NULL;
-			GError    *error = NULL;
+			OAuthAccount *account;
+			GdkScreen    *screen;
+			char         *url = NULL;
+			GError       *error = NULL;
 
+			account = web_service_get_current_account (WEB_SERVICE (data->service));
 			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 
@@ -131,14 +113,13 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 				if (data->album->alternate_url != NULL)
 					url = g_strdup (data->album->alternate_url);
 				else
-					url = g_strconcat ("http://picasaweb.google.com/", data->user->id, "/", data->album->id, NULL);
+					url = g_strconcat ("http://picasaweb.google.com/", account->id, "/", data->album->id, NULL);
 			}
 			else
-				url = g_strconcat ("http://picasaweb.google.com/", data->user->id, NULL);
+				url = g_strconcat ("http://picasaweb.google.com/", account->id, NULL);
 
 			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
-				if (data->conn != NULL)
-					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+				gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
 				g_clear_error (&error);
 			}
@@ -160,7 +141,7 @@ export_completed_with_success (DialogData *data)
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+	gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("picasa-web-export-completed.ui", "picasaweb");
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
@@ -190,8 +171,7 @@ post_photos_ready_cb (GObject      *source_object,
 	GError           *error = NULL;
 
 	if (! picasa_web_service_post_photos_finish (picasaweb, result, &error)) {
-		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+		gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not upload the files"), error);
 		g_clear_error (&error);
 		return;
@@ -209,13 +189,8 @@ export_dialog_response_cb (GtkDialog *dialog,
 	DialogData *data = user_data;
 
 	switch (response_id) {
-	case GTK_RESPONSE_HELP:
-		show_help_dialog (GTK_WINDOW (data->browser), "gthumb-export-social");
-		break;
-
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
-		picasa_web_accounts_save_to_file (data->accounts, data->email);
 		gth_file_list_cancel (GTH_FILE_LIST (data->list_view), (DataFunc) destroy_dialog, data);
 		break;
 
@@ -228,7 +203,9 @@ export_dialog_response_cb (GtkDialog *dialog,
 			int           max_height;
 
 			if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (GET_WIDGET ("albums_treeview"))), &tree_model, &iter)) {
-				gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
+				gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog),
+								   GTK_RESPONSE_OK,
+								   FALSE);
 				return;
 			}
 
@@ -238,7 +215,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 					    -1);
 
 			gtk_widget_hide (data->dialog);
-			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
+			gth_task_dialog (GTH_TASK (data->service), FALSE, NULL);
 
 			file_list = gth_file_data_list_to_file_list (data->file_list);
 
@@ -252,7 +229,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 			g_settings_set_int (data->settings, PREF_PICASAWEB_RESIZE_WIDTH, max_width);
 			g_settings_set_int (data->settings, PREF_PICASAWEB_RESIZE_HEIGHT, max_height);
 
-			picasa_web_service_post_photos (data->picasaweb,
+			picasa_web_service_post_photos (data->service,
 							data->album,
 							file_list,
 							max_width,
@@ -272,42 +249,13 @@ export_dialog_response_cb (GtkDialog *dialog,
 
 
 static void
-update_account_list (DialogData *data)
-{
-	GtkTreeIter  iter;
-	int          current_account;
-	int          idx;
-	GList       *scan;
-
-	current_account = 0;
-	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("account_liststore")));
-	for (scan = data->accounts, idx = 0; scan; scan = scan->next, idx++) {
-		char *account = scan->data;
-
-		if (g_strcmp0 (account, data->email) == 0)
-			current_account = idx;
-
-		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
-		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
-				    ACCOUNT_EMAIL_COLUMN, account,
-				    ACCOUNT_NAME_COLUMN, account,
-				    -1);
-	}
-
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), current_account);
-}
-
-
-static void
 update_album_list (DialogData *data)
 {
 	GtkTreeIter  iter;
 	GList       *scan;
 	char        *free_space;
 
-	g_return_if_fail (data->user != NULL);
-
-	free_space = g_format_size (data->user->quota_limit - data->user->quota_current);
+	free_space = g_format_size (picasa_web_service_get_free_space (PICASA_WEB_SERVICE (data->service)));
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("free_space_label")), free_space);
 	g_free (free_space);
 
@@ -338,389 +286,9 @@ update_album_list (DialogData *data)
 		g_free (n_photos_remaining);
 	}
 
-	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
-}
-
-
-static void
-show_export_dialog (DialogData *data)
-{
-	update_account_list (data);
-	update_album_list (data);
-	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
-	gtk_window_present (GTK_WINDOW (data->dialog));
-}
-
-
-static void
-list_albums_ready_cb (GObject      *source_object,
-		      GAsyncResult *result,
-		      gpointer      user_data)
-{
-	DialogData       *data = user_data;
-	PicasaWebService *picasaweb = PICASA_WEB_SERVICE (source_object);
-	GError           *error = NULL;
-
-	_g_object_list_unref (data->albums);
-	data->albums = picasa_web_service_list_albums_finish (picasaweb, result, &error);
-	if (error != NULL) {
-		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), error);
-		g_clear_error (&error);
-		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
-		return;
-	}
-
-	_g_object_unref (data->user);
-	data->user = g_object_ref (picasa_web_service_get_user (picasaweb));
-	show_export_dialog (data);
-}
-
-
-static void
-get_album_list (DialogData *data)
-{
-	char *user_id;
-
-	gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
-
-	if (data->picasaweb == NULL)
-		data->picasaweb = picasa_web_service_new (data->conn);
-	user_id = google_utils_get_user_id_from_email (data->email);
-	picasa_web_service_list_albums (data->picasaweb,
-					user_id,
-				        data->cancellable,
-				        list_albums_ready_cb,
-				        data);
-
-	g_free (user_id);
-}
-
-
-#ifdef HAVE_LIBSECRET
-static void
-password_store_ready_cb (GObject      *source_object,
-			 GAsyncResult *result,
-			 gpointer      user_data)
-{
-	DialogData *data = user_data;
-
-	secret_password_store_finish (result, NULL);
-	get_album_list (data);
-}
-#endif
-
-
-static void account_properties_dialog (DialogData *data,
-			               const char *email,
-			               GError     *error);
-static void challange_account_dialog  (DialogData *data,
-	        		       GError     *error);
-
-
-static void
-connection_ready_cb (GObject      *source_object,
-		     GAsyncResult *result,
-		     gpointer      user_data)
-{
-	DialogData       *data = user_data;
-	GoogleConnection *conn = GOOGLE_CONNECTION (source_object);
-	GError           *error = NULL;
-
-	if (! google_connection_connect_finish (conn, result, &error)) {
-		if (g_error_matches (error, GOOGLE_CONNECTION_ERROR, GOOGLE_CONNECTION_ERROR_CAPTCHA_REQUIRED)) {
-			challange_account_dialog (data, error);
-			g_clear_error (&error);
-		}
-		else if (g_error_matches (error, GOOGLE_CONNECTION_ERROR, GOOGLE_CONNECTION_ERROR_BAD_AUTHENTICATION)) {
-			account_properties_dialog (data, data->email, error);
-			g_clear_error (&error);
-		}
-		else {
-			if (data->conn != NULL)
-				gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
-			g_clear_error (&error);
-			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
-		}
-		return;
-	}
-
-	if (! g_list_find_custom (data->accounts, data->email, (GCompareFunc) strcmp))
-		data->accounts = g_list_append (data->accounts, g_strdup (data->email));
-
-#ifdef HAVE_LIBSECRET
-	secret_password_store (SECRET_SCHEMA_COMPAT_NETWORK,
-			       NULL,
-			       _("Picasa Web Album"),
-			       data->password,
-			       data->cancellable,
-			       password_store_ready_cb,
-			       data,
-			       "user", data->email,
-			       "server", "picasaweb.google.com",
-			       "protocol", "http",
-			       NULL);
-#else
-	get_album_list (data);
-#endif
-}
-
-
-static void connect_to_server (DialogData *data);
-static void auto_select_account (DialogData *data);
-
-
-static void
-account_properties_dialog_response_cb (GtkDialog *dialog,
-				       int        response_id,
-				       gpointer   user_data)
-{
-	DialogData *data = user_data;
-
-	switch (response_id) {
-	case GTK_RESPONSE_HELP:
-		show_help_dialog (GTK_WINDOW (dialog), "picasaweb-account-properties");
-		break;
-
-	case GTK_RESPONSE_DELETE_EVENT:
-	case GTK_RESPONSE_CANCEL:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
-		break;
-
-	case GTK_RESPONSE_OK:
-		g_free (data->email);
-		g_free (data->password);
-		g_free (data->challange);
-		data->email = g_strdup (picasa_account_properties_dialog_get_email (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
-		data->password = g_strdup (picasa_account_properties_dialog_get_password (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
-		data->challange = NULL;
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		connect_to_server (data);
-		break;
-
-	case PICASA_ACCOUNT_PROPERTIES_RESPONSE_CHOOSE:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		g_free (data->email);
-		data->email = NULL;
-		auto_select_account (data);
-		break;
-
-	default:
-		break;
-	}
-}
-
-
-static void
-account_properties_dialog (DialogData *data,
-			   const char *email,
-			   GError     *error)
-{
-	GtkWidget *dialog;
-
-	if (data->conn != NULL)
-		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-
-	dialog = picasa_account_properties_dialog_new (email, NULL, NULL);
-	picasa_account_properties_dialog_set_error (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), error);
-	if ((error != NULL) && (data->accounts != NULL) && (data->accounts->next != NULL))
-		picasa_account_properties_dialog_can_choose (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), TRUE);
-
-	g_signal_connect (dialog,
-			  "delete-event",
-			  G_CALLBACK (gtk_true),
-			  NULL);
-	g_signal_connect (dialog,
-			  "response",
-			  G_CALLBACK (account_properties_dialog_response_cb),
-			  data);
-
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Account"));
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_window_present (GTK_WINDOW (dialog));
-}
-
-
-static void
-connect_to_server_step2 (DialogData *data)
-{
-	if ((data->password == NULL) || g_str_equal (data->password, "")) {
-		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-		account_properties_dialog (data, data->email, NULL);
-	}
-	else {
-		gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
-		google_connection_connect (data->conn,
-					   data->email,
-					   data->password,
-					   data->challange,
-					   data->cancellable,
-					   connection_ready_cb,
-					   data);
-	}
-}
-
-
-#ifdef HAVE_LIBSECRET
-static void
-password_lookup_ready_cb (GObject      *source_object,
-			  GAsyncResult *result,
-			  gpointer      user_data)
-{
-	DialogData *data = user_data;
-	char       *string;
-
-	string = secret_password_lookup_finish (result, NULL);
-	if (string != NULL) {
-		data->password = g_strdup (string);
-		g_free (string);
-	}
-
-	connect_to_server_step2 (data);
-}
-#endif
-
-
-static void
-connect_to_server (DialogData *data)
-{
-	if (data->conn == NULL) {
-		data->conn = google_connection_new (GOOGLE_SERVICE_PICASA_WEB_ALBUM);
-		data->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (data->browser));
-		gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->conn));
-	}
-
-#ifdef HAVE_LIBSECRET
-	if (data->password == NULL) {
-		secret_password_lookup (SECRET_SCHEMA_COMPAT_NETWORK,
-				        data->cancellable,
-				        password_lookup_ready_cb,
-				        data,
-				        "user", data->email,
-				        "server", "picasaweb.google.com",
-				        "protocol", "http",
-				        NULL);
-		return;
-	}
-#endif
-
-	connect_to_server_step2 (data);
-}
-
-
-static void
-challange_account_dialog_response_cb (GtkDialog *dialog,
-				      int        response_id,
-				      gpointer   user_data)
-{
-	DialogData *data = user_data;
-
-	switch (response_id) {
-	case GTK_RESPONSE_HELP:
-		show_help_dialog (GTK_WINDOW (dialog), "picasaweb-account-challange");
-		break;
-
-	case GTK_RESPONSE_DELETE_EVENT:
-	case GTK_RESPONSE_CANCEL:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
-		break;
-
-	case GTK_RESPONSE_OK:
-		g_free (data->email);
-		g_free (data->password);
-		data->email = g_strdup (picasa_account_properties_dialog_get_email (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
-		data->password = g_strdup (picasa_account_properties_dialog_get_password (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
-		data->challange = g_strdup (picasa_account_properties_dialog_get_challange (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog)));
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		connect_to_server (data);
-		break;
-
-	case PICASA_ACCOUNT_PROPERTIES_RESPONSE_CHOOSE:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		g_free (data->email);
-		data->email = NULL;
-		auto_select_account (data);
-		break;
-
-	default:
-		break;
-	}
-}
-
-
-static void
-challange_account_dialog (DialogData *data,
-			  GError     *error)
-{
-	GtkWidget *dialog;
-
-	if (data->conn != NULL)
-		gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-
-	dialog = picasa_account_properties_dialog_new (data->email, data->password, google_connection_get_challange_url (data->conn));
-	picasa_account_properties_dialog_set_error (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), error);
-	if ((error != NULL) && (data->accounts != NULL) && (data->accounts->next != NULL))
-		picasa_account_properties_dialog_can_choose (PICASA_ACCOUNT_PROPERTIES_DIALOG (dialog), TRUE);
-
-	g_signal_connect (dialog,
-			  "delete-event",
-			  G_CALLBACK (gtk_true),
-			  NULL);
-	g_signal_connect (dialog,
-			  "response",
-			  G_CALLBACK (challange_account_dialog_response_cb),
-			  data);
-
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_window_present (GTK_WINDOW (dialog));
-}
-
-
-static void
-account_chooser_dialog_response_cb (GtkDialog *dialog,
-				    int        response_id,
-				    gpointer   user_data)
-{
-	DialogData *data = user_data;
-
-	switch (response_id) {
-	case GTK_RESPONSE_DELETE_EVENT:
-	case GTK_RESPONSE_CANCEL:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
-		break;
-
-	case GTK_RESPONSE_OK:
-		g_free (data->password);
-		data->password = NULL;
-		g_free (data->challange);
-		data->challange = NULL;
-		g_free (data->email);
-		data->email = picasa_account_chooser_dialog_get_active (PICASA_ACCOUNT_CHOOSER_DIALOG (dialog));
-		if (data->email != NULL) {
-			gtk_widget_destroy (GTK_WIDGET (dialog));
-			connect_to_server (data);
-		}
-
-		break;
-
-	case PICASA_ACCOUNT_CHOOSER_RESPONSE_NEW:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		account_properties_dialog (data, NULL, NULL);
-		break;
-
-	default:
-		break;
-	}
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog),
+					   GTK_RESPONSE_OK,
+					   FALSE);
 }
 
 
@@ -736,8 +304,7 @@ create_album_ready_cb (GObject      *source_object,
 
 	album = picasa_web_service_create_album_finish (picasaweb, result, &error);
 	if (error != NULL) {
-		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+		gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), error);
 		g_clear_error (&error);
 		return;
@@ -768,7 +335,7 @@ new_album_dialog_response_cb (GtkDialog *dialog,
 			album = picasa_web_album_new ();
 			picasa_web_album_set_title (album, picasa_album_properties_dialog_get_name (PICASA_ALBUM_PROPERTIES_DIALOG (dialog)));
 			album->access = picasa_album_properties_dialog_get_access (PICASA_ALBUM_PROPERTIES_DIALOG (dialog));
-			picasa_web_service_create_album (data->picasaweb,
+			picasa_web_service_create_album (data->service,
 							 album,
 							 data->cancellable,
 							 create_album_ready_cb,
@@ -812,100 +379,12 @@ add_album_button_clicked_cb (GtkButton *button,
 
 
 static void
-auto_select_account (DialogData *data)
-{
-	gtk_widget_hide (data->dialog);
-	if (data->conn != NULL)
-		gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
-
-	if (data->accounts != NULL) {
-		if (data->email != NULL) {
-			connect_to_server (data);
-		}
-		else if (data->accounts->next == NULL) {
-			data->email = g_strdup ((char *)data->accounts->data);
-			connect_to_server (data);
-		}
-		else {
-			GtkWidget *dialog;
-
-			if (data->conn != NULL)
-				gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
-			dialog = picasa_account_chooser_dialog_new (data->accounts, data->email);
-			g_signal_connect (dialog,
-					  "delete-event",
-					  G_CALLBACK (gtk_true),
-					  NULL);
-			g_signal_connect (dialog,
-					  "response",
-					  G_CALLBACK (account_chooser_dialog_response_cb),
-					  data);
-
-			gtk_window_set_title (GTK_WINDOW (dialog), _("Choose Account"));
-			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
-			gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-			gtk_window_present (GTK_WINDOW (dialog));
-		}
-	}
-	else
-		account_properties_dialog (data, NULL, NULL);
-}
-
-
-static void
-account_manager_dialog_response_cb (GtkDialog *dialog,
-			            int        response_id,
-			            gpointer   user_data)
-{
-	DialogData *data = user_data;
-
-	switch (response_id) {
-	case GTK_RESPONSE_DELETE_EVENT:
-	case GTK_RESPONSE_CANCEL:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		break;
-
-	case GTK_RESPONSE_OK:
-		_g_string_list_free (data->accounts);
-		data->accounts = picasa_account_manager_dialog_get_accounts (PICASA_ACCOUNT_MANAGER_DIALOG (dialog));
-		if (! g_list_find_custom (data->accounts, data->email, (GCompareFunc) strcmp)) {
-			g_free (data->email);
-			data->email = NULL;
-			auto_select_account (data);
-		}
-		else
-			update_account_list (data);
-		picasa_web_accounts_save_to_file (data->accounts, data->email);
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		break;
-
-	default:
-		break;
-	}
-}
-
-
-static void
 edit_accounts_button_clicked_cb (GtkButton *button,
 			         gpointer   user_data)
 {
 	DialogData *data = user_data;
-	GtkWidget  *dialog;
 
-	dialog = picasa_account_manager_dialog_new (data->accounts);
-	g_signal_connect (dialog,
-			  "delete-event",
-			  G_CALLBACK (gtk_true),
-			  NULL);
-	g_signal_connect (dialog,
-			  "response",
-			  G_CALLBACK (account_manager_dialog_response_cb),
-			  data);
-
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Accounts"));
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_window_present (GTK_WINDOW (dialog));
+	web_service_edit_accounts (WEB_SERVICE (data->service), GTK_WINDOW (data->dialog));
 }
 
 
@@ -913,29 +392,22 @@ static void
 account_combobox_changed_cb (GtkComboBox *widget,
 			     gpointer     user_data)
 {
-	DialogData  *data = user_data;
-	GtkTreeIter  iter;
-	char        *email;
+	DialogData   *data = user_data;
+	GtkTreeIter   iter;
+	OAuthAccount *account;
 
 	if (! gtk_combo_box_get_active_iter (widget, &iter))
 		return;
 
 	gtk_tree_model_get (gtk_combo_box_get_model (widget),
 			    &iter,
-			    ACCOUNT_EMAIL_COLUMN, &email,
+			    ACCOUNT_DATA_COLUMN, &account,
 			    -1);
 
-	if (g_strcmp0 (email, data->email) != 0) {
-		g_free (data->email);
-		g_free (data->password);
-		g_free (data->challange);
-		data->email = email;
-		data->password = NULL;
-		data->challange = NULL;
-		auto_select_account (data);
-	}
-	else
-		g_free (email);
+	if (oauth_account_cmp (account, web_service_get_current_account (WEB_SERVICE (data->service))) != 0)
+		web_service_connect (WEB_SERVICE (data->service), account);
+
+	g_object_unref (account);
 }
 
 
@@ -947,14 +419,17 @@ albums_treeview_selection_changed_cb (GtkTreeSelection *treeselection,
 	gboolean    selected;
 
 	selected = gtk_tree_selection_get_selected (treeselection, NULL, NULL);
-	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), selected);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog),
+					   GTK_RESPONSE_OK,
+					   selected);
 }
 
 
 static void
 update_sensitivity (DialogData *data)
 {
-	gtk_widget_set_sensitive (GET_WIDGET ("resize_combobox"), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_checkbutton"))));
+	gtk_widget_set_sensitive (GET_WIDGET ("resize_combobox"),
+				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("resize_checkbutton"))));
 }
 
 
@@ -963,6 +438,86 @@ resize_checkbutton_toggled_cb (GtkToggleButton *button,
 			       gpointer         user_data)
 {
 	update_sensitivity (user_data);
+}
+
+
+static void
+list_albums_ready_cb (GObject      *source_object,
+		      GAsyncResult *result,
+		      gpointer      user_data)
+{
+	DialogData       *data = user_data;
+	PicasaWebService *picasaweb = PICASA_WEB_SERVICE (source_object);
+	GError           *error = NULL;
+
+	_g_object_list_unref (data->albums);
+	data->albums = picasa_web_service_list_albums_finish (picasaweb, result, &error);
+	if (error != NULL) {
+		gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not get the album list"), error);
+		g_clear_error (&error);
+		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
+		return;
+	}
+
+	update_album_list (data);
+
+	gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
+	gtk_window_present (GTK_WINDOW (data->dialog));
+}
+
+
+static void
+update_account_list (DialogData *data)
+{
+	int           current_account_idx;
+	OAuthAccount *current_account;
+	int           idx;
+	GList        *scan;
+	GtkTreeIter   iter;
+
+	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("account_liststore")));
+
+	current_account_idx = 0;
+	current_account = web_service_get_current_account (WEB_SERVICE (data->service));
+	for (scan = web_service_get_accounts (WEB_SERVICE (data->service)), idx = 0; scan; scan = scan->next, idx++) {
+		OAuthAccount *account = scan->data;
+
+		if ((current_account != NULL) && (g_strcmp0 (current_account->id, account->id) == 0))
+			current_account_idx = idx;
+
+		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
+				    ACCOUNT_DATA_COLUMN, account,
+				    ACCOUNT_NAME_COLUMN, account->name,
+				    -1);
+	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), current_account_idx);
+}
+
+
+static void
+service_account_ready_cb (WebService *service,
+			  gpointer    user_data)
+{
+	DialogData *data = user_data;
+
+	update_account_list (data);
+	picasa_web_service_list_albums (data->service,
+				        data->cancellable,
+				        list_albums_ready_cb,
+				        data);
+}
+
+
+static void
+service_accounts_changed_cb (WebService *service,
+			     gpointer    user_data)
+{
+	DialogData *data = user_data;
+	update_account_list (data);
 }
 
 
@@ -1036,8 +591,7 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 	if (data->file_list == NULL) {
 		GError *error;
 
-		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+		gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 
 		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), error);
@@ -1111,6 +665,20 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 
 	update_sensitivity (data);
 
-	data->accounts = picasa_web_accounts_load_from_file (&data->email);
-	auto_select_account (data);
+	data->service = picasa_web_service_new (data->cancellable,
+						GTK_WIDGET (data->browser),
+						data->dialog);
+	g_signal_connect (data->service,
+			  "account-ready",
+			  G_CALLBACK (service_account_ready_cb),
+			  data);
+	g_signal_connect (data->service,
+			  "accounts-changed",
+			  G_CALLBACK (service_accounts_changed_cb),
+			  data);
+
+	data->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (data->browser));
+	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->service));
+
+	web_service_autoconnect (WEB_SERVICE (data->service));
 }

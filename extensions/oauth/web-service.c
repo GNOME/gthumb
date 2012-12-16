@@ -87,6 +87,7 @@ struct _WebServicePrivate
 	OAuthAccount       *account;
 	GtkWidget          *browser;
 	GtkWidget          *dialog;
+	GtkWidget          *auth_dialog;
 };
 
 
@@ -307,6 +308,7 @@ web_service_init (WebService *self)
 	self->priv->cancellable = NULL;
 	self->priv->browser = NULL;
 	self->priv->dialog = NULL;
+	self->priv->auth_dialog = NULL;
 }
 
 
@@ -702,6 +704,7 @@ web_service_account_ready (WebService *self)
 void
 web_service_ask_authorization (WebService *self)
 {
+	web_service_set_current_account (self, NULL);
 	WEB_SERVICE_GET_CLASS (self)->ask_authorization (self);
 }
 
@@ -835,6 +838,9 @@ void
 _web_service_set_auth_dialog (WebService *self,
 			      GtkDialog  *dialog)
 {
+	self->priv->auth_dialog = GTK_WIDGET (dialog);
+	g_object_add_weak_pointer (G_OBJECT (dialog), (gpointer *) &self->priv->auth_dialog);
+
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	if (gtk_widget_get_visible (self->priv->dialog))
 		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
@@ -849,4 +855,11 @@ _web_service_set_auth_dialog (WebService *self,
 			  "response",
 			  G_CALLBACK (ask_authorization_dialog_response_cb),
 			  self);
+}
+
+
+GtkWidget *
+_web_service_get_auth_dialog (WebService *self)
+{
+	return self->priv->auth_dialog;
 }
