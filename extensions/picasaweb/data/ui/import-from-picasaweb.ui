@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkListStore" id="account_liststore">
     <columns>
-      <!-- column-name email -->
-      <column type="gchararray"/>
+      <!-- column-name account -->
+      <column type="GObject"/>
       <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name icon -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -46,11 +44,9 @@
             <child>
               <object class="GtkButton" id="button1">
                 <property name="label">gtk-help</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -63,11 +59,9 @@
             <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -79,11 +73,9 @@
             <child>
               <object class="GtkButton" id="download_button">
                 <property name="label" translatable="yes">_Import</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="image">download_image</property>
                 <property name="use_underline">True</property>
               </object>
@@ -151,17 +143,15 @@
                             </child>
                             <child>
                               <object class="GtkButton" id="edit_accounts_button">
-                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="tooltip_text" translatable="yes">Edit accounts</property>
-                                <property name="use_action_appearance">False</property>
                                 <child>
                                   <object class="GtkImage" id="image2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="stock">gtk-edit</property>
+                                    <property name="icon_name">view-list-symbolic</property>
                                   </object>
                                 </child>
                               </object>

@@ -496,13 +496,13 @@ update_account_list (DialogData *data)
 	for (scan = web_service_get_accounts (WEB_SERVICE (data->service)), idx = 0; scan; scan = scan->next, idx++) {
 		OAuthAccount *account = scan->data;
 
-		if ((current_account != NULL) && (g_strcmp0 (current_account->username, account->username) == 0))
+		if ((current_account != NULL) && (g_strcmp0 (current_account->id, account->id) == 0))
 			current_account_idx = idx;
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
 				    ACCOUNT_DATA_COLUMN, account,
-				    ACCOUNT_NAME_COLUMN, account->username,
+				    ACCOUNT_NAME_COLUMN, account->name,
 				    -1);
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), current_account_idx);
