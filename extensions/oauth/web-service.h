@@ -24,7 +24,7 @@
 
 #include <gtk/gtk.h>
 #include <gthumb.h>
-#include "oauth.h"
+#include "oauth-account.h"
 
 #define WEB_SERVICE_ERROR web_service_error_quark()
 GQuark web_service_error_quark (void);
@@ -50,14 +50,12 @@ typedef struct _WebService         WebService;
 typedef struct _WebServicePrivate  WebServicePrivate;
 typedef struct _WebServiceClass    WebServiceClass;
 
-struct _WebService
-{
+struct _WebService {
 	GthTask __parent;
 	WebServicePrivate *priv;
 };
 
-struct _WebServiceClass
-{
+struct _WebServiceClass {
 	GthTaskClass __parent_class;
 
 	/*< signals >*/
@@ -106,6 +104,7 @@ void            _web_service_send_message	(WebService		 *self,
 						 gpointer		  soup_session_cb_data);
 GSimpleAsyncResult *
 		_web_service_get_result		(WebService		 *self);
+void            _web_service_reset_result       (WebService		 *self);
 SoupMessage *	_web_service_get_message	(WebService		 *self);
 void            _web_service_set_auth_dialog	(WebService		 *self,
 						 GtkDialog               *dialog);

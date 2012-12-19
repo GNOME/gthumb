@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2010-2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,11 +29,10 @@
 #include "photobucket-service.h"
 
 
-G_DEFINE_TYPE (PhotobucketService, photobucket_service, G_TYPE_OBJECT)
+G_DEFINE_TYPE (PhotobucketService, photobucket_service, OAUTH_TYPE_SERVICE)
 
 
 typedef struct {
-	PhotobucketAccount  *account;
 	PhotobucketAlbum    *album;
 	int                  size;
 	gboolean             scramble;
@@ -58,14 +57,11 @@ post_photos_data_free (PostPhotosData *post_photos)
 	_g_object_unref (post_photos->cancellable);
 	_g_object_list_unref (post_photos->file_list);
 	_g_object_unref (post_photos->album);
-	g_object_unref (post_photos->account);
 	g_free (post_photos);
 }
 
 
-struct _PhotobucketServicePrivate
-{
-	OAuthConnection *conn;
+struct _PhotobucketServicePrivate {
 	PostPhotosData  *post_photos;
 };
 
@@ -77,22 +73,121 @@ photobucket_service_finalize (GObject *object)
 
 	self = PHOTOBUCKET_SERVICE (object);
 
-	_g_object_unref (self->priv->conn);
 	post_photos_data_free (self->priv->post_photos);
 
 	G_OBJECT_CLASS (photobucket_service_parent_class)->finalize (object);
 }
 
 
+/* -- flickr_service_get_user_info -- */
+
+
+static void
+get_user_info_ready_cb (SoupSession *session,
+			SoupMessage *msg,
+			gpointer     user_data)
+{
+	PhotobucketService *self = user_data;
+	GSimpleAsyncResult *result;
+	DomDocument        *doc = NULL;
+	GError             *error = NULL;
+
+	result = _web_service_get_result (WEB_SERVICE (self));
+
+	if (msg->status_code != 200) {
+		g_simple_async_result_set_error (result,
+						 SOUP_HTTP_ERROR,
+						 msg->status_code,
+						 "%s",
+						 soup_status_get_phrase (msg->status_code));
+		g_simple_async_result_complete_in_idle (result);
+		return;
+	}
+
+	if (photobucket_utils_parse_response (msg, &doc, &error)) {
+		OAuthAccount *account;
+		gboolean      success;
+		DomElement   *node;
+
+		account = web_service_get_current_account (WEB_SERVICE (self));
+		success = FALSE;
+
+		for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
+			if (g_strcmp0 (node->tag_name, "response") == 0) {
+				DomElement *child;
+
+				for (child = DOM_ELEMENT (node)->first_child; child; child = child->next_sibling) {
+					if (g_strcmp0 (child->tag_name, "content") == 0) {
+						success = TRUE;
+						dom_domizable_load_from_element (DOM_DOMIZABLE (account), child);
+						g_simple_async_result_set_op_res_gpointer (result, account, (GDestroyNotify) g_object_unref);
+						break;
+					}
+				}
+				break;
+			}
+		}
+
+		if (! success) {
+			error = g_error_new_literal (WEB_SERVICE_ERROR, WEB_SERVICE_ERROR_GENERIC, _("Unknown error"));
+			g_simple_async_result_set_from_error (result, error);
+		}
+
+		g_object_unref (doc);
+	}
+	else
+		g_simple_async_result_set_from_error (result, error);
+
+	g_simple_async_result_complete_in_idle (result);
+}
+
+
+static void
+photobucket_service_get_user_info (WebService          *base,
+				   GCancellable        *cancellable,
+				   GAsyncReadyCallback  callback,
+				   gpointer             user_data)
+{
+	PhotobucketService *self = PHOTOBUCKET_SERVICE (base);
+	OAuthAccount       *account;
+	char               *url;
+	GHashTable         *data_set;
+	SoupMessage        *msg;
+
+	account = web_service_get_current_account (WEB_SERVICE (self));
+	if (account != NULL)
+		url = g_strconcat ("http://api.photobucket.com/user/", account->username, NULL);
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	oauth_service_add_signature (OAUTH_SERVICE (self), "GET", url, data_set);
+	msg = soup_form_request_new_from_hash ("GET", url, data_set);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   photobucket_service_get_user_info,
+				   get_user_info_ready_cb,
+				   self);
+
+	g_hash_table_destroy (data_set);
+	g_free (url);
+}
+
+
 static void
 photobucket_service_class_init (PhotobucketServiceClass *klass)
 {
-	GObjectClass *object_class;
+	GObjectClass    *object_class;
+	WebServiceClass *service_class;
 
 	g_type_class_add_private (klass, sizeof (PhotobucketServicePrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = photobucket_service_finalize;
+
+	service_class = (WebServiceClass*) klass;
+	service_class->get_user_info = photobucket_service_get_user_info;
 }
 
 
@@ -100,20 +195,24 @@ static void
 photobucket_service_init (PhotobucketService *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PHOTOBUCKET_TYPE_SERVICE, PhotobucketServicePrivate);
-	self->priv->conn = NULL;
 	self->priv->post_photos = NULL;
 }
 
 
 PhotobucketService *
-photobucket_service_new (OAuthConnection *conn)
+photobucket_service_new (GCancellable  *cancellable,
+			 GtkWidget     *browser,
+			 GtkWidget     *dialog)
 {
-	PhotobucketService *self;
-
-	self = (PhotobucketService *) g_object_new (PHOTOBUCKET_TYPE_SERVICE, NULL);
-	self->priv->conn = g_object_ref (conn);
-
-	return self;
+	return g_object_new (PHOTOBUCKET_TYPE_SERVICE,
+			     "service-name", "photobucket",
+			     "service-address", "www.photobucket.com",
+			     "service-protocol", "http",
+			     "account-type", PHOTOBUCKET_TYPE_ACCOUNT,
+			     "cancellable", cancellable,
+			     "browser", browser,
+			     "dialog", dialog,
+			     NULL);
 }
 
 
@@ -172,7 +271,7 @@ get_albums_ready_cb (SoupSession *session,
 	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 
-	result = oauth_connection_get_result (self->priv->conn);
+	result = _web_service_get_result (WEB_SERVICE (self));
 
 	if (photobucket_utils_parse_response (msg, &doc, &error)) {
 		GList *albums = NULL;
@@ -192,38 +291,43 @@ get_albums_ready_cb (SoupSession *session,
 
 void
 photobucket_service_get_albums (PhotobucketService  *self,
-			        PhotobucketAccount  *account,
 			        GCancellable        *cancellable,
 			        GAsyncReadyCallback  callback,
 			        gpointer             user_data)
 {
-	GHashTable  *data_set;
-	char        *url;
-	SoupMessage *msg;
+	OAuthAccount *account;
+	GHashTable   *data_set;
+	char         *url;
+	SoupMessage  *msg;
 
+	account = web_service_get_current_account (WEB_SERVICE (self));
 	g_return_if_fail (account != NULL);
-	g_return_if_fail (account->subdomain != NULL);
+	g_return_if_fail (PHOTOBUCKET_ACCOUNT (account)->subdomain != NULL);
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the album list"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self),
+			   _("Getting the album list"),
+			   NULL,
+			   TRUE,
+			   0.0);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "recurse", "true");
 	g_hash_table_insert (data_set, "view", "nested");
 	g_hash_table_insert (data_set, "media", "none");
-	url = g_strconcat ("http://api.photobucket.com/album/", OAUTH_ACCOUNT (account)->username, NULL);
-	oauth_connection_add_signature (self->priv->conn, "GET", url, data_set);
+	url = g_strconcat ("http://api.photobucket.com/album/", account->username, NULL);
+	oauth_service_add_signature (OAUTH_SERVICE (self), "GET", url, data_set);
 	g_free (url);
 
-	url = g_strconcat ("http://", account->subdomain, "/album/", OAUTH_ACCOUNT (account)->username, NULL);
+	url = g_strconcat ("http://", PHOTOBUCKET_ACCOUNT (account)->subdomain, "/album/", account->username, NULL);
 	msg = soup_form_request_new_from_hash ("GET", url, data_set);
-	oauth_connection_send_message (self->priv->conn,
-				       msg,
-				       cancellable,
-				       callback,
-				       user_data,
-				       photobucket_service_get_albums,
-				       get_albums_ready_cb,
-				       self);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   photobucket_service_get_albums,
+				   get_albums_ready_cb,
+				   self);
 
 	g_free (url);
 	g_hash_table_destroy (data_set);
@@ -271,7 +375,7 @@ create_album_ready_cb (SoupSession *session,
 	DomDocument        *doc = NULL;
 	GError             *error = NULL;
 
-	result = oauth_connection_get_result (self->priv->conn);
+	result = _web_service_get_result (WEB_SERVICE (self));
 
 	if (photobucket_utils_parse_response (msg, &doc, &error)) {
 		g_simple_async_result_set_op_res_gpointer (result, g_object_ref (create_album_data->album), g_object_unref);
@@ -288,7 +392,6 @@ create_album_ready_cb (SoupSession *session,
 
 void
 photobucket_service_create_album (PhotobucketService  *self,
-				  PhotobucketAccount  *account,
 				  const char          *parent_album,
 			          PhotobucketAlbum    *album,
 			          GCancellable        *cancellable,
@@ -299,6 +402,7 @@ photobucket_service_create_album (PhotobucketService  *self,
 	char            *path;
 	GHashTable      *data_set;
 	char            *identifier;
+	OAuthAccount    *account;
 	char            *url;
 	SoupMessage     *msg;
 
@@ -313,27 +417,33 @@ photobucket_service_create_album (PhotobucketService  *self,
 	photobucket_album_set_name (create_album_data->album, path);
 	g_free (path);
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Creating the new album"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self),
+			   _("Creating the new album"),
+			   NULL,
+			   TRUE,
+			   0.0);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "name", album->name);
 	identifier = soup_uri_encode (parent_album, NULL);
 	url = g_strconcat ("http://api.photobucket.com/album/", identifier, NULL);
-	oauth_connection_add_signature (self->priv->conn, "POST", url, data_set);
+	oauth_service_add_signature (OAUTH_SERVICE (self), "POST", url, data_set);
 
 	g_free (identifier);
 	g_free (url);
 
-	url = g_strconcat ("http://", account->subdomain, "/album/", parent_album, NULL);
+	account = web_service_get_current_account (WEB_SERVICE (self));
+
+	url = g_strconcat ("http://", PHOTOBUCKET_ACCOUNT (account)->subdomain, "/album/", parent_album, NULL);
 	msg = soup_form_request_new_from_hash ("POST", url, data_set);
-	oauth_connection_send_message (self->priv->conn,
-				       msg,
-				       cancellable,
-				       callback,
-				       user_data,
-				       photobucket_service_create_album,
-				       create_album_ready_cb,
-				       create_album_data);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   photobucket_service_create_album,
+				   create_album_ready_cb,
+				   create_album_data);
 
 	g_free (url);
 	g_hash_table_destroy (data_set);
@@ -361,7 +471,7 @@ upload_photos_done (PhotobucketService *self,
 {
 	GSimpleAsyncResult *result;
 
-	result = oauth_connection_get_result (self->priv->conn);
+	result = _web_service_get_result (WEB_SERVICE (self));
 	if (error == NULL) {
 		g_simple_async_result_set_op_res_gboolean (result, TRUE);
 	}
@@ -429,7 +539,7 @@ upload_photo_wrote_body_data_cb (SoupMessage *msg,
 	/* Translators: %s is a filename */
 	details = g_strdup_printf (_("Uploading '%s'"), g_file_info_get_display_name (file_data->info));
 	current_file_fraction = (double) self->priv->post_photos->wrote_body_data_size / msg->request_body->length;
-	gth_task_progress (GTH_TASK (self->priv->conn),
+	gth_task_progress (GTH_TASK (self),
 			   NULL,
 			   details,
 			   FALSE,
@@ -449,6 +559,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	GthFileData        *file_data;
 	SoupMultipart      *multipart;
 	char               *identifier;
+	OAuthAccount       *account;
 	char               *uri;
 	SoupBuffer         *body;
 	char               *url;
@@ -489,7 +600,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 		if (self->priv->post_photos->scramble)
 			g_hash_table_insert (data_set, "scramble", "true");
 		url = g_strconcat ("http://api.photobucket.com", "/album/", identifier, "/upload", NULL);
-		oauth_connection_add_signature (self->priv->conn, "POST", url, data_set);
+		oauth_service_add_signature (OAUTH_SERVICE (self), "POST", url, data_set);
 
 		keys = g_hash_table_get_keys (data_set);
 		for (scan = keys; scan; scan = scan->next) {
@@ -518,22 +629,24 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 
 	/* send the file */
 
+	account = web_service_get_current_account (WEB_SERVICE (self));
+
 	self->priv->post_photos->wrote_body_data_size = 0;
-	url = g_strconcat ("http://", self->priv->post_photos->account->subdomain, "/album/", identifier, "/upload", NULL);
+	url = g_strconcat ("http://", PHOTOBUCKET_ACCOUNT (account)->subdomain, "/album/", identifier, "/upload", NULL);
 	msg = soup_form_request_new_from_multipart (url, multipart);
 	g_signal_connect (msg,
 			  "wrote-body-data",
 			  (GCallback) upload_photo_wrote_body_data_cb,
 			  self);
 
-	oauth_connection_send_message (self->priv->conn,
-				       msg,
-				       self->priv->post_photos->cancellable,
-				       self->priv->post_photos->callback,
-				       self->priv->post_photos->user_data,
-				       photobucket_service_upload_photos,
-				       upload_photo_ready_cb,
-				       self);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   self->priv->post_photos->cancellable,
+				   self->priv->post_photos->callback,
+				   self->priv->post_photos->user_data,
+				   photobucket_service_upload_photos,
+				   upload_photo_ready_cb,
+				   self);
 
 	g_free (url);
 	soup_multipart_free (multipart);
@@ -587,7 +700,6 @@ upload_photos_info_ready_cb (GList    *files,
 
 void
 photobucket_service_upload_photos (PhotobucketService  *self,
-				   PhotobucketAccount  *account,
 				   PhotobucketAlbum    *album,
 				   int                  size,
 				   gboolean             scramble,
@@ -596,11 +708,14 @@ photobucket_service_upload_photos (PhotobucketService  *self,
 				   GAsyncReadyCallback  callback,
 				   gpointer             user_data)
 {
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Uploading the files to the server"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self),
+			   _("Uploading the files to the server"),
+			   NULL,
+			   TRUE,
+			   0.0);
 
 	post_photos_data_free (self->priv->post_photos);
 	self->priv->post_photos = g_new0 (PostPhotosData, 1);
-	self->priv->post_photos->account = g_object_ref (account);
 	self->priv->post_photos->album = _g_object_ref (album);
 	self->priv->post_photos->size = size;
 	self->priv->post_photos->scramble = scramble;

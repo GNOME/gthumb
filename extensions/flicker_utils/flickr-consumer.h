@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,16 +19,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PHOTOBUCKET_CONSUMER_H
-#define PHOTOBUCKET_CONSUMER_H
+#ifndef FLICKR_CONSUMER_H
+#define FLICKR_CONSUMER_H
 
 #include <gthumb.h>
 #include <extensions/oauth/oauth.h>
 
-extern OAuthConsumer photobucket_consumer;
+extern OAuthConsumer flickr_consumer;
 
-gboolean  photobucket_utils_parse_response (SoupMessage  *msg,
-					    DomDocument **doc_p,
-					    GError      **error);
+gboolean  flickr_utils_parse_response (SoupBuffer   *body,
+				       DomDocument **doc_p,
+				       GError      **error);
 
-#endif /* PHOTOBUCKET_CONSUMER_H */
+#endif /* FLICKR_CONSUMER_H */

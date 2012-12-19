@@ -30,13 +30,19 @@
 
 static FlickrServer www_flickr_com = {
 	"Flickr",
+	"flickr",
 	"http://www.flickr.com",
-	"http://www.flickr.com/services/auth/",
-	"http://api.flickr.com/services/rest",
-	"http://api.flickr.com/services/upload/",
-	"static.flickr.com",
+	"http",
+
+	"http://www.flickr.com/services/oauth/request_token",
+	"http://www.flickr.com/services/oauth/authorize",
+	"http://www.flickr.com/services/oauth/access_token",
 	"8960706ee7f4151e893b11837e9c24ce",
 	"1ff8d1e45c873423",
+
+	"http://api.flickr.com/services/rest",
+	"http://api.flickr.com/services/upload",
+	"static.flickr.com",
 	FALSE
 };
 

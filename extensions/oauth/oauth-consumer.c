@@ -19,15 +19,34 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAUTH_H
-#define OAUTH_H
+#include <config.h>
+#include <glib.h>
+#include <glib/gi18n.h>
+#include "oauth-consumer.h"
 
-#include <extensions/oauth/oauth-account.h>
-#include <extensions/oauth/oauth-account-chooser-dialog.h>
-#include <extensions/oauth/oauth-account-manager-dialog.h>
-#include <extensions/oauth/oauth-ask-authorization-dialog.h>
-#include <extensions/oauth/oauth-consumer.h>
-#include <extensions/oauth/oauth-service.h>
-#include <extensions/oauth/web-service.h>
 
-#endif /* OAUTH_H */
+OAuthConsumer *
+oauth_consumer_copy (OAuthConsumer *consumer)
+{
+	OAuthConsumer *consumer_2;
+
+	consumer_2 = g_new0 (OAuthConsumer, 1);
+	consumer_2->consumer_key = consumer->consumer_key;
+	consumer_2->consumer_secret = consumer->consumer_secret;
+	consumer_2->request_token_url = consumer->request_token_url;
+	consumer_2->request_token_response = consumer->request_token_response;
+	consumer_2->get_authorization_url = consumer->get_authorization_url;
+	consumer_2->access_token_url = consumer->access_token_url;
+	consumer_2->access_token_response = consumer->access_token_response;
+
+	return consumer_2;
+}
+
+
+void
+oauth_consumer_free (OAuthConsumer *consumer)
+{
+	if (consumer == NULL)
+		return;
+	g_free (consumer);
+}

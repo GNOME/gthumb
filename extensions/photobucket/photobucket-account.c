@@ -62,11 +62,10 @@ static DomElement*
 photobucket_account_create_element (DomDomizable *base,
 				    DomDocument  *doc)
 {
-	PhotobucketAccount *self;
+	PhotobucketAccount *self = PHOTOBUCKET_ACCOUNT (base);
 	DomElement         *element;
 
-	self = PHOTOBUCKET_ACCOUNT (base);
-	element = dom_domizable_create_element (DOM_DOMIZABLE (self), doc);
+	element = oauth_account_create_element (base, doc);
 	if (self->subdomain != NULL)
 		dom_element_set_attribute (element, "subdomain", self->subdomain);
 
@@ -78,9 +77,7 @@ static void
 photobucket_account_load_from_element (DomDomizable *base,
 				       DomElement   *element)
 {
-	PhotobucketAccount *self;
-
-	self = PHOTOBUCKET_ACCOUNT (base);
+	PhotobucketAccount *self = PHOTOBUCKET_ACCOUNT (base);
 
 	if (g_str_equal (element->tag_name, "content")) {
 		DomElement *node;
@@ -104,7 +101,7 @@ photobucket_account_load_from_element (DomDomizable *base,
 		}
 	}
 	else if (g_str_equal (element->tag_name, "account")) {
-		dom_domizable_load_from_element (DOM_DOMIZABLE (self), element);
+		oauth_account_load_from_element (base, element);
 		photobucket_account_set_subdomain (self, dom_element_get_attribute (element, "subdomain"));
 	}
 }

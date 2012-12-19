@@ -22,50 +22,60 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <webkit2/webkit2.h>
-#include "oauth2-ask-authorization-dialog.h"
+#include "oauth-ask-authorization-dialog.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (OAuth2AskAuthorizationDialog, oauth2_ask_authorization_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE (OAuthAskAuthorizationDialog, oauth_ask_authorization_dialog, GTK_TYPE_DIALOG)
 
 
 /* Signals */
 enum {
+	LOAD_REQUEST,
 	LOADED,
 	REDIRECTED,
 	LAST_SIGNAL
 };
 
 
-static guint oauth2_ask_authorization_dialog_signals[LAST_SIGNAL] = { 0 };
+static guint oauth_ask_authorization_dialog_signals[LAST_SIGNAL] = { 0 };
 
 
-struct _OAuth2AskAuthorizationDialogPrivate {
+struct _OAuthAskAuthorizationDialogPrivate {
 	GtkWidget *view;
 };
 
 
 static void
-oauth2_ask_authorization_dialog_class_init (OAuth2AskAuthorizationDialogClass *klass)
+oauth_ask_authorization_dialog_class_init (OAuthAskAuthorizationDialogClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (OAuth2AskAuthorizationDialogPrivate));
+	g_type_class_add_private (klass, sizeof (OAuthAskAuthorizationDialogPrivate));
 
-	oauth2_ask_authorization_dialog_signals[LOADED] =
-		g_signal_new ("loaded",
+	oauth_ask_authorization_dialog_signals[LOAD_REQUEST] =
+		g_signal_new ("load-request",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (OAuth2AskAuthorizationDialogClass, loaded),
+			      G_STRUCT_OFFSET (OAuthAskAuthorizationDialogClass, load_request),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
-	oauth2_ask_authorization_dialog_signals[REDIRECTED] =
+	oauth_ask_authorization_dialog_signals[LOADED] =
+		g_signal_new ("loaded",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (OAuthAskAuthorizationDialogClass, loaded),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
+	oauth_ask_authorization_dialog_signals[REDIRECTED] =
 		g_signal_new ("redirected",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (OAuth2AskAuthorizationDialogClass, redirected),
+			      G_STRUCT_OFFSET (OAuthAskAuthorizationDialogClass, redirected),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
@@ -78,14 +88,18 @@ webkit_view_load_changed_cb (WebKitWebView   *web_view,
                 	     WebKitLoadEvent  load_event,
                 	     gpointer         user_data)
 {
-	OAuth2AskAuthorizationDialog *self = user_data;
+	OAuthAskAuthorizationDialog *self = user_data;
 
 	switch (load_event) {
+	case WEBKIT_LOAD_STARTED:
+	case WEBKIT_LOAD_COMMITTED:
+		g_signal_emit (self, oauth_ask_authorization_dialog_signals[LOAD_REQUEST], 0);
+		break;
 	case WEBKIT_LOAD_REDIRECTED:
-		g_signal_emit (self, oauth2_ask_authorization_dialog_signals[REDIRECTED], 0);
+		g_signal_emit (self, oauth_ask_authorization_dialog_signals[REDIRECTED], 0);
 		break;
 	case WEBKIT_LOAD_FINISHED:
-		g_signal_emit (self, oauth2_ask_authorization_dialog_signals[LOADED], 0);
+		g_signal_emit (self, oauth_ask_authorization_dialog_signals[LOADED], 0);
 		break;
 	default:
 		break;
@@ -94,11 +108,11 @@ webkit_view_load_changed_cb (WebKitWebView   *web_view,
 
 
 static void
-oauth2_ask_authorization_dialog_init (OAuth2AskAuthorizationDialog *self)
+oauth_ask_authorization_dialog_init (OAuthAskAuthorizationDialog *self)
 {
 	GtkWidget *box;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH2_TYPE_ASK_AUTHORIZATION_DIALOG, OAuth2AskAuthorizationDialogPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ASK_AUTHORIZATION_DIALOG, OAuthAskAuthorizationDialogPrivate);
 
 	gtk_window_set_default_size (GTK_WINDOW (self), 500, 500);
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
@@ -126,11 +140,11 @@ oauth2_ask_authorization_dialog_init (OAuth2AskAuthorizationDialog *self)
 
 
 GtkWidget *
-oauth2_ask_authorization_dialog_new (const char *uri)
+oauth_ask_authorization_dialog_new (const char *uri)
 {
-	OAuth2AskAuthorizationDialog *self;
+	OAuthAskAuthorizationDialog *self;
 
-	self = g_object_new (OAUTH2_TYPE_ASK_AUTHORIZATION_DIALOG,
+	self = g_object_new (OAUTH_TYPE_ASK_AUTHORIZATION_DIALOG,
 			     "title", _("Authorization Required"),
 			     NULL);
 	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (self->priv->view), uri);
@@ -140,21 +154,21 @@ oauth2_ask_authorization_dialog_new (const char *uri)
 
 
 GtkWidget *
-oauth2_ask_authorization_dialog_get_view (OAuth2AskAuthorizationDialog *self)
+oauth_ask_authorization_dialog_get_view (OAuthAskAuthorizationDialog *self)
 {
 	return self->priv->view;
 }
 
 
 const char *
-oauth2_ask_authorization_dialog_get_uri (OAuth2AskAuthorizationDialog *self)
+oauth_ask_authorization_dialog_get_uri (OAuthAskAuthorizationDialog *self)
 {
 	return webkit_web_view_get_uri (WEBKIT_WEB_VIEW (self->priv->view));
 }
 
 
 const char *
-oauth2_ask_authorization_dialog_get_title (OAuth2AskAuthorizationDialog *self)
+oauth_ask_authorization_dialog_get_title (OAuthAskAuthorizationDialog *self)
 {
 	return webkit_web_view_get_title (WEBKIT_WEB_VIEW (self->priv->view));
 }

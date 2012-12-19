@@ -22,11 +22,22 @@
 #ifndef FLICKR_TYPES_H
 #define FLICKR_TYPES_H
 
-typedef enum  {
-	FLICKR_SAFETY_LEVEL_SAFE = 1,
-	FLICKR_SAFETY_LEVEL_MODERATE = 2,
-	FLICKR_SAFETY_LEVEL_RESTRICTED = 3
-} FlickrSafetyLevel;
+
+typedef enum {
+	FLICKR_PRIVACY_PUBLIC,
+	FLICKR_PRIVACY_FRIENDS_FAMILY,
+	FLICKR_PRIVACY_FRIENDS,
+	FLICKR_PRIVACY_FAMILY,
+	FLICKR_PRIVACY_PRIVATE
+} FlickrPrivacy;
+
+
+typedef enum {
+	FLICKR_SAFETY_SAFE = 1,
+	FLICKR_SAFETY_MODERATE = 2,
+	FLICKR_SAFETY_RESTRICTED = 3
+} FlickrSafety;
+
 
 typedef enum  {
 	FLICKR_CONTENT_TYPE_PHOTO = 1,
@@ -34,10 +45,12 @@ typedef enum  {
 	FLICKR_CONTENT_TYPE_OTHER = 3
 } FlickrContentType;
 
+
 typedef enum  {
 	FLICKR_HIDDEN_PUBLIC = 1,
 	FLICKR_HIDDEN_HIDDEN = 2,
 } FlickrHiddenType;
+
 
 typedef enum {
 	FLICKR_SIZE_SMALL_SQUARE = 75,
@@ -47,16 +60,24 @@ typedef enum {
 	FLICKR_SIZE_LARGE = 1024
 } FlickrSize;
 
+
 typedef struct {
+	const char *display_name;
 	const char *name;
 	const char *url;
-	const char *authentication_url;
+	const char *protocol;
+
+	const char *request_token_url;
+	const char *authorization_url;
+	const char *access_token_url;
+	const char *consumer_key;
+	const char *consumer_secret;
+
 	const char *rest_url;
 	const char *upload_url;
 	const char *static_url;
-	const char *api_key;
-	const char *shared_secret;
 	gboolean    automatic_urls;
 } FlickrServer;
+
 
 #endif /* FLICKR_TYPES_H */

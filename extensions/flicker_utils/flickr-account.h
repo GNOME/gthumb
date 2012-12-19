@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <extensions/oauth/oauth.h>
 
 G_BEGIN_DECLS
 
@@ -36,30 +37,44 @@ G_BEGIN_DECLS
 
 typedef struct _FlickrAccount FlickrAccount;
 typedef struct _FlickrAccountClass FlickrAccountClass;
-typedef struct _FlickrAccountPrivate FlickrAccountPrivate;
 
 struct _FlickrAccount {
-	GObject parent_instance;
-	FlickrAccountPrivate *priv;
+	OAuthAccount parent_instance;
 
-	char     *username;
-	char     *token;
-	gboolean  is_default;
+	gboolean  is_pro;
+	char     *accountname;
+	goffset   max_bandwidth;
+	goffset   used_bandwidth;
+	goffset   max_filesize;
+	goffset   max_videosize;
+	int       n_sets;
+	int       n_videos;
 };
 
 struct _FlickrAccountClass {
-	GObjectClass parent_class;
+	OAuthAccountClass parent_class;
 };
 
-GType             flickr_account_get_type       (void);
-FlickrAccount *   flickr_account_new            (void);
-void              flickr_account_set_username   (FlickrAccount *self,
-						 const char    *value);
-void              flickr_account_set_token      (FlickrAccount *self,
-						 const char    *value);
-void              flickr_account_reset          (FlickrAccount *self);
-int               flickr_account_cmp            (FlickrAccount *a,
-						 FlickrAccount *b);
+GType             flickr_account_get_type		(void);
+OAuthAccount *    flickr_account_new			(void);
+void              flickr_account_set_is_pro		(FlickrAccount *self,
+							 const char    *value);
+void              flickr_account_set_accountname	(FlickrAccount *self,
+							 const char    *value);
+void              flickr_account_set_max_bandwidth	(FlickrAccount *self,
+							 const char    *value);
+void              flickr_account_set_used_bandwidth	(FlickrAccount *self,
+							 const char    *value);
+void              flickr_account_set_max_filesize	(FlickrAccount *self,
+							 const char    *value);
+void              flickr_account_set_max_videosize	(FlickrAccount *self,
+							 const char    *value);
+void              flickr_account_set_n_sets		(FlickrAccount *self,
+							 const char    *value);
+void              flickr_account_set_n_videos		(FlickrAccount *self,
+							 const char    *value);
+void              flickr_account_load_extra_data        (FlickrAccount *self,
+							 DomElement    *element);
 
 G_END_DECLS
 

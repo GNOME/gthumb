@@ -23,10 +23,9 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "dlg-export-to-flickr.h"
-#include "flickr-authentication.h"
+#include "flickr-account.h"
 #include "flickr-photoset.h"
 #include "flickr-service.h"
-#include "flickr-user.h"
 #include "preferences.h"
 
 
@@ -59,10 +58,7 @@ typedef struct {
 	GtkWidget            *list_view;
 	GtkWidget            *progress_dialog;
 	GtkWidget            *photoset_combobox;
-	FlickrConnection     *conn;
-	FlickrAuthentication *auth;
 	FlickrService        *service;
-	FlickrUser           *user;
 	GList                *photosets;
 	FlickrPhotoset       *photoset;
 	GList                *photos_ids;
@@ -75,16 +71,13 @@ destroy_dialog (DialogData *data)
 {
 	if (data->dialog != NULL)
 		gtk_widget_destroy (data->dialog);
-	if (data->conn != NULL)
-		gth_task_completed (GTH_TASK (data->conn), NULL);
+	if (data->service != NULL)
+		gth_task_completed (GTH_TASK (data->service), NULL);
 	_g_object_unref (data->cancellable);
 	_g_string_list_free (data->photos_ids);
 	_g_object_unref (data->photoset);
 	_g_object_list_unref (data->photosets);
-	_g_object_unref (data->user);
 	_g_object_unref (data->service);
-	_g_object_unref (data->auth);
-	_g_object_unref (data->conn);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
@@ -109,12 +102,15 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 
 	case _OPEN_IN_BROWSER_RESPONSE:
 		{
-			GdkScreen *screen;
-			char      *url = NULL;
-			GError    *error = NULL;
+			GdkScreen    *screen;
+			OAuthAccount *account;
+			char         *url = NULL;
+			GError       *error = NULL;
 
 			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
 			gtk_widget_destroy (GTK_WIDGET (dialog));
+
+			account = web_service_get_current_account (WEB_SERVICE (data->service));
 
 			if (data->photoset == NULL) {
 				GString *ids;
@@ -133,11 +129,11 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 			else if (data->photoset->url != NULL)
 				url = g_strdup (data->photoset->url);
 			else if (data->photoset->id != NULL)
-				url = g_strconcat (data->server->url, "/photos/", data->user->id, "/sets/", data->photoset->id, NULL);
+				url = g_strconcat (data->server->url, "/photos/", account->id, "/sets/", data->photoset->id, NULL);
 
 			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
-				if (data->conn != NULL)
-					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+				if (data->service != NULL)
+					gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
 				g_clear_error (&error);
 			}
@@ -159,7 +155,7 @@ export_completed_with_success (DialogData *data)
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+	gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("flicker-export-completed.ui", "flicker_utils");
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
@@ -308,7 +304,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 			int         max_height;
 
 			gtk_widget_hide (data->dialog);
-			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
+			gth_task_dialog (GTH_TASK (data->service), FALSE, NULL);
 
 			data->photoset = NULL;
 			photoset_title = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (data->photoset_combobox))));
@@ -361,40 +357,40 @@ export_dialog_response_cb (GtkDialog *dialog,
 static void
 update_account_list (DialogData *data)
 {
-	int            current_account_idx;
-	FlickrAccount *current_account;
-	int            idx;
-	GList         *scan;
-	GtkTreeIter    iter;
-	char          *free_space;
+	int           current_account_idx;
+	OAuthAccount *current_account;
+	int           idx;
+	GList        *scan;
+	GtkTreeIter   iter;
+	char         *free_space;
 
 	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("account_liststore")));
 
 	current_account_idx = 0;
-	current_account = flickr_authentication_get_account (data->auth);
-	for (scan = flickr_authentication_get_accounts (data->auth), idx = 0; scan; scan = scan->next, idx++) {
-		FlickrAccount *account = scan->data;
+	current_account = web_service_get_current_account (WEB_SERVICE (data->service));
+	for (scan = web_service_get_accounts (WEB_SERVICE (data->service)), idx = 0; scan; scan = scan->next, idx++) {
+		OAuthAccount *account = scan->data;
 
-		if ((current_account != NULL) && (g_strcmp0 (current_account->username, account->username) == 0))
+		if (oauth_account_cmp (current_account, account) == 0)
 			current_account_idx = idx;
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
 				    ACCOUNT_DATA_COLUMN, account,
-				    ACCOUNT_NAME_COLUMN, account->username,
+				    ACCOUNT_NAME_COLUMN, account->name,
 				    -1);
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), current_account_idx);
 
-	free_space = g_format_size (data->user->max_bandwidth - data->user->used_bandwidth);
+	free_space = g_format_size (FLICKR_ACCOUNT (current_account)->max_bandwidth - FLICKR_ACCOUNT (current_account)->used_bandwidth);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("free_space_label")), free_space);
 	g_free (free_space);
 }
 
 
 static void
-authentication_accounts_changed_cb (FlickrAuthentication *auth,
-				    gpointer              user_data)
+authentication_accounts_changed_cb (WebService *service,
+				    gpointer    user_data)
 {
 	update_account_list ((DialogData *) user_data);
 }
@@ -412,8 +408,8 @@ photoset_list_ready_cb (GObject      *source_object,
 	_g_object_list_unref (data->photosets);
 	data->photosets = flickr_service_list_photosets_finish (FLICKR_SERVICE (source_object), res, &error);
 	if (error != NULL) {
-		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+		if (data->service != NULL)
+			gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
 		g_clear_error (&error);
 		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
@@ -441,7 +437,7 @@ photoset_list_ready_cb (GObject      *source_object,
 
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), TRUE);
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+	gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
@@ -450,16 +446,11 @@ photoset_list_ready_cb (GObject      *source_object,
 
 
 static void
-authentication_ready_cb (FlickrAuthentication *auth,
-			 FlickrUser           *user,
-			 DialogData           *data)
+authentication_ready_cb (WebService *service,
+			 DialogData *data)
 {
-	_g_object_unref (data->user);
-	data->user = g_object_ref (user);
 	update_account_list (data);
-
 	flickr_service_list_photosets (data->service,
-				       NULL,
 				       data->cancellable,
 				       photoset_list_ready_cb,
 				       data);
@@ -470,7 +461,7 @@ static void
 edit_accounts_button_clicked_cb (GtkButton  *button,
 				 DialogData *data)
 {
-	flickr_authentication_edit_accounts (data->auth, GTK_WINDOW (data->dialog));
+	web_service_edit_accounts (WEB_SERVICE (data->service), GTK_WINDOW (data->dialog));
 }
 
 
@@ -478,9 +469,9 @@ static void
 account_combobox_changed_cb (GtkComboBox *widget,
 			     gpointer     user_data)
 {
-	DialogData    *data = user_data;
-	GtkTreeIter    iter;
-	FlickrAccount *account;
+	DialogData   *data = user_data;
+	GtkTreeIter   iter;
+	OAuthAccount *account;
 
 	if (! gtk_combo_box_get_active_iter (widget, &iter))
 		return;
@@ -490,8 +481,8 @@ account_combobox_changed_cb (GtkComboBox *widget,
 			    ACCOUNT_DATA_COLUMN, &account,
 			    -1);
 
-	if (flickr_account_cmp (account, flickr_authentication_get_account (data->auth)) != 0)
-		flickr_authentication_connect (data->auth, account);
+	if (oauth_account_cmp (account, web_service_get_current_account (WEB_SERVICE (data->service))) != 0)
+		web_service_connect (WEB_SERVICE (data->service), OAUTH_ACCOUNT (account));
 
 	g_object_unref (account);
 }
@@ -656,24 +647,21 @@ dlg_export_to_flickr (FlickrServer *server,
 
 	update_sensitivity (data);
 
-	data->conn = flickr_connection_new (data->server);
-	data->service = flickr_service_new (data->conn);
-	data->auth = flickr_authentication_new (data->conn,
-						data->service,
-						data->cancellable,
-						GTK_WIDGET (data->browser),
-						data->dialog);
-	g_signal_connect (data->auth,
-			  "ready",
+	data->service = flickr_service_new (server,
+					    data->cancellable,
+					    GTK_WIDGET (data->browser),
+					    data->dialog);
+	g_signal_connect (data->service,
+			  "account-ready",
 			  G_CALLBACK (authentication_ready_cb),
 			  data);
-	g_signal_connect (data->auth,
-			  "accounts_changed",
+	g_signal_connect (data->service,
+			  "accounts-changed",
 			  G_CALLBACK (authentication_accounts_changed_cb),
 			  data);
 
 	data->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (data->browser));
-	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->conn));
+	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->service));
 
-	flickr_authentication_auto_connect (data->auth);
+	web_service_autoconnect (WEB_SERVICE (data->service));
 }

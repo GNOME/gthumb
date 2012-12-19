@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,10 +22,7 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_LIBSECRET
-#include <libsecret/secret.h>
-#endif /* HAVE_LIBSECRET */
-#include <gthumb.h>
+#include <extensions/oauth/oauth.h>
 #include "flickr-account.h"
 
 
@@ -34,7 +31,7 @@ static void flickr_account_dom_domizable_interface_init (DomDomizableInterface *
 
 G_DEFINE_TYPE_WITH_CODE (FlickrAccount,
 			 flickr_account,
-			 G_TYPE_OBJECT,
+			 OAUTH_TYPE_ACCOUNT,
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
 					        flickr_account_dom_domizable_interface_init))
 
@@ -46,8 +43,7 @@ flickr_account_finalize (GObject *obj)
 
 	self = FLICKR_ACCOUNT (obj);
 
-	g_free (self->username);
-	g_free (self->token);
+	g_free (self->accountname);
 
 	G_OBJECT_CLASS (flickr_account_parent_class)->finalize (obj);
 }
@@ -60,50 +56,22 @@ flickr_account_class_init (FlickrAccountClass *klass)
 }
 
 
-static DomElement*
-flickr_account_create_element (DomDomizable *base,
+static DomElement *
+flickr_account_create_element (DomDomizable *self,
 			       DomDocument  *doc)
 {
-	FlickrAccount *self;
-	DomElement    *element;
-	gboolean       set_token;
-
-	self = FLICKR_ACCOUNT (base);
-
-	element = dom_document_create_element (doc, "account", NULL);
-	if (self->username != NULL)
-		dom_element_set_attribute (element, "username", self->username);
-
-	/* Don't save the token in the configuration file if the keyring is
-	 * available. */
-
-#ifdef HAVE_LIBSECRET
-	set_token = FALSE;
-#else
-	set_token = TRUE;
-#endif
-
-	if (set_token && (self->token != NULL))
-		dom_element_set_attribute (element, "token", self->token);
-
-	if (self->is_default)
-		dom_element_set_attribute (element, "default", "1");
-
-	return element;
+	return oauth_account_create_element (self, doc);
 }
 
 
 static void
 flickr_account_load_from_element (DomDomizable *base,
-			          DomElement   *element)
+				  DomElement   *element)
 {
-	FlickrAccount *self;
+	FlickrAccount *self = FLICKR_ACCOUNT (base);
 
-	self = FLICKR_ACCOUNT (base);
-
-	flickr_account_set_username (self, dom_element_get_attribute (element, "username"));
-	flickr_account_set_token (self, dom_element_get_attribute (element, "token"));
-	self->is_default = (g_strcmp0 (dom_element_get_attribute (element, "default"), "1") == 0);
+	oauth_account_load_from_element (base, element);
+	flickr_account_load_extra_data (self, element);
 }
 
 
@@ -118,11 +86,18 @@ flickr_account_dom_domizable_interface_init (DomDomizableInterface *iface)
 static void
 flickr_account_init (FlickrAccount *self)
 {
-	/* void */
+	self->is_pro = FALSE;
+	self->accountname = NULL;
+	self->max_bandwidth = 0;
+	self->used_bandwidth = 0;
+	self->max_filesize = 0;
+	self->max_videosize = 0;
+	self->n_sets = 0;
+	self->n_videos = 0;
 }
 
 
-FlickrAccount *
+OAuthAccount *
 flickr_account_new (void)
 {
 	return g_object_new (FLICKR_TYPE_ACCOUNT, NULL);
@@ -130,39 +105,103 @@ flickr_account_new (void)
 
 
 void
-flickr_account_set_username (FlickrAccount *self,
+flickr_account_set_is_pro (FlickrAccount *self,
+			   const char    *value)
+{
+	self->is_pro = (g_strcmp0 (value, "1") == 0);
+}
+
+
+void
+flickr_account_set_accountname (FlickrAccount *self,
+				const char    *value)
+{
+	_g_strset (&self->accountname, value);
+}
+
+
+void
+flickr_account_set_max_bandwidth (FlickrAccount *self,
+				  const char    *value)
+{
+	self->max_bandwidth = g_ascii_strtoull (value, NULL, 10);
+}
+
+
+void
+flickr_account_set_used_bandwidth (FlickrAccount *self,
+				   const char    *value)
+{
+	self->used_bandwidth = g_ascii_strtoull (value, NULL, 10);
+}
+
+
+void
+flickr_account_set_max_filesize (FlickrAccount *self,
+				 const char    *value)
+{
+	self->max_filesize = g_ascii_strtoull (value, NULL, 10);
+}
+
+
+void
+flickr_account_set_max_videosize (FlickrAccount *self,
+				  const char    *value)
+{
+	self->max_videosize = g_ascii_strtoull (value, NULL, 10);
+}
+
+
+void
+flickr_account_set_n_sets (FlickrAccount *self,
+			   const char    *value)
+{
+	if (value != NULL)
+		self->n_sets = atoi (value);
+	else
+		self->n_sets = 0;
+}
+
+
+void
+flickr_account_set_n_videos (FlickrAccount *self,
 			     const char    *value)
 {
-	_g_strset (&self->username, value);
-}
-
-
-void
-flickr_account_set_token (FlickrAccount *self,
-			  const char    *value)
-{
-	_g_strset (&self->token, value);
-}
-
-
-void
-flickr_account_reset (FlickrAccount *self)
-{
-	flickr_account_set_username (self, NULL);
-	flickr_account_set_token (self, NULL);
-}
-
-
-int
-flickr_account_cmp (FlickrAccount *a,
-		    FlickrAccount *b)
-{
-	if ((a == NULL) && (b == NULL))
-		return 0;
-	else if (a == NULL)
-		return 1;
-	else if (b == NULL)
-		return -1;
+	if (value != NULL)
+		self->n_videos = atoi (value);
 	else
-		return g_strcmp0 (a->username, b->username);
+		self->n_videos = 0;
+}
+
+
+void
+flickr_account_load_extra_data (FlickrAccount *self,
+				DomElement    *element)
+{
+	DomElement *node;
+
+	flickr_account_set_is_pro (self, dom_element_get_attribute (element, "ispro"));
+
+	for (node = element->first_child; node; node = node->next_sibling) {
+		if (g_strcmp0 (node->tag_name, "accountname") == 0) {
+			flickr_account_set_accountname (self, dom_element_get_inner_text (node));
+		}
+		else if (g_strcmp0 (node->tag_name, "bandwidth") == 0) {
+			flickr_account_set_max_bandwidth (self, dom_element_get_attribute (node, "maxbytes"));
+			flickr_account_set_used_bandwidth (self, dom_element_get_attribute (node, "usedbytes"));
+		}
+		else if (g_strcmp0 (node->tag_name, "filesize") == 0) {
+			flickr_account_set_max_filesize (self, dom_element_get_attribute (node, "maxbytes"));
+		}
+		else if (g_strcmp0 (node->tag_name, "videosize") == 0) {
+			flickr_account_set_max_videosize (self, dom_element_get_attribute (node, "maxbytes"));
+		}
+		else if (g_strcmp0 (node->tag_name, "sets") == 0) {
+			flickr_account_set_n_sets (self, dom_element_get_attribute (node, "created"));
+		}
+		else if (g_strcmp0 (node->tag_name, "videos") == 0) {
+			flickr_account_set_n_videos (self, dom_element_get_attribute (node, "uploaded"));
+		}
+	}
+
 }

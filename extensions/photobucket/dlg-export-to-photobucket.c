@@ -22,7 +22,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
-#include <extensions/oauth/oauth-authentication.h>
+#include <extensions/oauth/oauth.h>
 #include "dlg-export-to-photobucket.h"
 #include "photobucket-account.h"
 #include "photobucket-album-properties-dialog.h"
@@ -62,10 +62,7 @@ typedef struct {
 	GtkWidget           *dialog;
 	GtkWidget           *progress_dialog;
 	GtkWidget           *list_view;
-	OAuthConnection     *conn;
-	OAuthAuthentication *auth;
 	PhotobucketService  *service;
-	PhotobucketAccount  *account;
 	GList               *albums;
 	PhotobucketAlbum    *album;
 	GCancellable        *cancellable;
@@ -77,14 +74,11 @@ destroy_dialog (DialogData *data)
 {
 	if (data->dialog != NULL)
 		gtk_widget_destroy (data->dialog);
-	if (data->conn != NULL)
-		gth_task_completed (GTH_TASK (data->conn), NULL);
+	if (data->service != NULL)
+		gth_task_completed (GTH_TASK (data->service), NULL);
 	_g_object_unref (data->cancellable);
 	_g_object_unref (data->album);
 	_g_object_list_unref (data->albums);
-	_g_object_unref (data->account);
-	_g_object_unref (data->auth);
-	_g_object_unref (data->conn);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
@@ -108,28 +102,31 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 
 	case _OPEN_IN_BROWSER_RESPONSE:
 		{
-			GdkScreen *screen;
-			char      *url = NULL;
-			GError    *error = NULL;
+			GdkScreen    *screen;
+			OAuthAccount *account;
+			char         *url = NULL;
+			GError       *error = NULL;
 
 			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
 			gtk_widget_destroy (GTK_WIDGET (dialog));
 
-			if (data->account->album_url != NULL) {
+			account = web_service_get_current_account (WEB_SERVICE (data->service));
+
+			if (PHOTOBUCKET_ACCOUNT (account)->album_url != NULL) {
 				char *username;
 
-				username = OAUTH_ACCOUNT (data->account)->username;
+				username = account->username;
 				if (g_str_equal (data->album->name, username))
-					url = g_strdup (data->account->album_url);
+					url = g_strdup (PHOTOBUCKET_ACCOUNT (account)->album_url);
 				else
-					url = g_strconcat (data->account->album_url,
+					url = g_strconcat (PHOTOBUCKET_ACCOUNT (account)->album_url,
 							   data->album->name + strlen (username) + 1,
 							   NULL);
 			}
 
 			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
-				if (data->conn != NULL)
-					gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+				if (data->service != NULL)
+					gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
 				g_clear_error (&error);
 			}
@@ -152,7 +149,7 @@ export_completed_with_success (DialogData *data)
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+	gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 
 	builder = _gtk_builder_new_from_file ("photobucket-export-completed.ui", "photobucket");
 	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
@@ -215,7 +212,7 @@ export_dialog_response_cb (GtkDialog *dialog,
 			int          size;
 
 			gtk_widget_hide (data->dialog);
-			gth_task_dialog (GTH_TASK (data->conn), FALSE, NULL);
+			gth_task_dialog (GTH_TASK (data->service), FALSE, NULL);
 
 			_g_clear_object (&data->album);
 			if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("album_combobox")), &iter)) {
@@ -235,7 +232,6 @@ export_dialog_response_cb (GtkDialog *dialog,
 
 			file_list = gth_file_data_list_to_file_list (data->file_list);
 			photobucket_service_upload_photos (data->service,
-							   data->account,
 							   data->album,
 							   size,
 							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("scramble_checkbutton"))),
@@ -267,11 +263,11 @@ update_account_list (DialogData *data)
 	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("account_liststore")));
 
 	current_account_idx = 0;
-	current_account = oauth_authentication_get_account (data->auth);
-	for (scan = oauth_authentication_get_accounts (data->auth), idx = 0; scan; scan = scan->next, idx++) {
+	current_account = web_service_get_current_account (WEB_SERVICE (data->service));
+	for (scan = web_service_get_accounts (WEB_SERVICE (data->service)), idx = 0; scan; scan = scan->next, idx++) {
 		OAuthAccount *account = scan->data;
 
-		if ((current_account != NULL) && (g_strcmp0 (current_account->username, account->username) == 0))
+		if (oauth_account_cmp (current_account, account) == 0)
 			current_account_idx = idx;
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
@@ -282,11 +278,11 @@ update_account_list (DialogData *data)
 	}
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), current_account_idx);
 
-	free_space = g_format_size ((data->account->megabytes_allowed - data->account->megabytes_used) * (1024 * 1024));
+	free_space = g_format_size ((PHOTOBUCKET_ACCOUNT (current_account)->megabytes_allowed - PHOTOBUCKET_ACCOUNT (current_account)->megabytes_used) * (1024 * 1024));
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("free_space_label")), free_space);
 	g_free (free_space);
 
-	if (data->account != NULL) {
+	if (current_account != NULL) {
 		struct {
 			char *name;
 			int   size;
@@ -307,7 +303,7 @@ update_account_list (DialogData *data)
 		int i;
 
 		gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("resize_liststore")));
-		for (i = 0; i <= (data->account->is_premium ? 13 : 6); i++) {
+		for (i = 0; i <= (PHOTOBUCKET_ACCOUNT (current_account)->is_premium ? 13 : 6); i++) {
 			gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("resize_liststore")), &iter);
 			gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("resize_liststore")), &iter,
 					    RESIZE_NAME_COLUMN, _(sizes[i].name),
@@ -315,16 +311,16 @@ update_account_list (DialogData *data)
 					    -1);
 		}
 
-		gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), (data->account->is_premium ? 13 : 5));
+		gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("resize_combobox")), (PHOTOBUCKET_ACCOUNT (current_account)->is_premium ? 13 : 5));
 	}
 }
 
 
 static void
-authentication_accounts_changed_cb (OAuthAuthentication *auth,
-				    gpointer             user_data)
+authentication_accounts_changed_cb (WebService *service,
+				    DialogData *data)
 {
-	update_account_list ((DialogData *) user_data);
+	update_account_list (data);
 }
 
 
@@ -373,8 +369,8 @@ album_list_ready_cb (GObject      *source_object,
 	_g_object_list_unref (data->albums);
 	data->albums = photobucket_service_get_albums_finish (data->service, res, &error);
 	if (error != NULL) {
-		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+		if (data->service != NULL)
+			gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
 		g_clear_error (&error);
 		gtk_widget_destroy (data->dialog);
@@ -382,7 +378,7 @@ album_list_ready_cb (GObject      *source_object,
 	}
 	update_album_list (data);
 
-	gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+	gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
@@ -391,15 +387,11 @@ album_list_ready_cb (GObject      *source_object,
 
 
 static void
-authentication_ready_cb (OAuthAuthentication *auth,
-			 DialogData          *data)
+authentication_ready_cb (WebService *service,
+			 DialogData *data)
 {
-	_g_object_unref (data->account);
-	data->account = g_object_ref (oauth_authentication_get_account (auth));
 	update_account_list (data);
-
 	photobucket_service_get_albums (data->service,
-					data->account,
 				        data->cancellable,
 				        album_list_ready_cb,
 				        data);
@@ -410,7 +402,7 @@ static void
 edit_accounts_button_clicked_cb (GtkButton  *button,
 				 DialogData *data)
 {
-	oauth_authentication_edit_accounts (data->auth, GTK_WINDOW (data->dialog));
+	web_service_edit_accounts (WEB_SERVICE (data->service), GTK_WINDOW (data->dialog));
 }
 
 
@@ -430,8 +422,8 @@ account_combobox_changed_cb (GtkComboBox *widget,
 			    ACCOUNT_DATA_COLUMN, &account,
 			    -1);
 
-	if (oauth_account_cmp (account, oauth_authentication_get_account (data->auth)) != 0)
-		oauth_authentication_connect (data->auth, account);
+	if (oauth_account_cmp (account, web_service_get_current_account (WEB_SERVICE (data->service))) != 0)
+		web_service_connect (WEB_SERVICE (data->service), account);
 
 	g_object_unref (account);
 }
@@ -459,8 +451,8 @@ create_album_ready_cb (GObject      *source_object,
 	_g_object_unref (data->album);
 	data->album = photobucket_service_create_album_finish (data->service, result, &error);
 	if (error != NULL) {
-		if (data->conn != NULL)
-			gth_task_dialog (GTH_TASK (data->conn), TRUE, NULL);
+		if (data->service != NULL)
+			gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), error);
 		g_clear_error (&error);
 		return;
@@ -496,7 +488,6 @@ new_album_dialog_response_cb (GtkDialog *dialog,
 			album = photobucket_album_new ();
 			photobucket_album_set_name (album, photobucket_album_properties_dialog_get_name (PHOTOBUCKET_ALBUM_PROPERTIES_DIALOG (dialog)));
 			photobucket_service_create_album (data->service,
-							  data->account,
 							  parent_album,
 						          album,
 						          data->cancellable,
@@ -640,7 +631,7 @@ dlg_export_to_photobucket (GthBrowser *browser,
 
 	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
 
-	title = g_strdup_printf (_("Export to %s"), photobucket_consumer.display_name);
+	title = g_strdup_printf (_("Export to %s"), "Photobucket");
 	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 	g_free (title);
 
@@ -671,25 +662,21 @@ dlg_export_to_photobucket (GthBrowser *browser,
 			  G_CALLBACK (album_combobox_changed_cb),
 			  data);
 
-	data->conn = oauth_connection_new (&photobucket_consumer);
-	data->auth = oauth_authentication_new (data->conn,
-					       PHOTOBUCKET_TYPE_ACCOUNT,
-					       data->cancellable,
-					       GTK_WIDGET (data->browser),
-					       data->dialog);
-	g_signal_connect (data->auth,
-			  "ready",
+
+	data->service = photobucket_service_new (data->cancellable,
+						 GTK_WIDGET (data->browser),
+						 data->dialog);
+	g_signal_connect (data->service,
+			  "account-ready",
 			  G_CALLBACK (authentication_ready_cb),
 			  data);
-	g_signal_connect (data->auth,
-			  "accounts_changed",
+	g_signal_connect (data->service,
+			  "accounts-changed",
 			  G_CALLBACK (authentication_accounts_changed_cb),
 			  data);
 
-	data->service = photobucket_service_new (data->conn);
-
 	data->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (data->browser));
-	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->conn));
+	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->service));
 
-	oauth_authentication_auto_connect (data->auth);
+	web_service_autoconnect (WEB_SERVICE (data->service));
 }

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2012 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,67 +19,43 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 #include <config.h>
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
-#include "photobucket-account.h"
-#include "photobucket-consumer.h"
+#include "flickr-account.h"
+#include "flickr-consumer.h"
+#include "flickr-service.h"
 
 
 gboolean
-photobucket_utils_parse_response (SoupMessage         *msg,
-				  DomDocument        **doc_p,
-				  GError             **error)
+flickr_utils_parse_response (SoupBuffer   *body,
+			     DomDocument **doc_p,
+			     GError      **error)
 {
-	SoupBuffer  *body;
 	DomDocument *doc;
 	DomElement  *node;
 
-	body = soup_message_body_flatten (msg->response_body);
-
 	doc = dom_document_new ();
 	if (! dom_document_load (doc, body->data, body->length, error)) {
-		if (msg->status_code != 200) {
-			g_clear_error (error);
-			*error = g_error_new_literal (SOUP_HTTP_ERROR, msg->status_code, soup_status_get_phrase (msg->status_code));
-		}
 		g_object_unref (doc);
-		soup_buffer_free (body);
 		return FALSE;
 	}
 
-	soup_buffer_free (body);
-
 	for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
-		if (g_strcmp0 (node->tag_name, "response") == 0) {
-			DomElement *child;
-			const char *status = NULL;
-			const char *message = NULL;
-			const char *code = NULL;
+		if (g_strcmp0 (node->tag_name, "rsp") == 0) {
+			if (g_strcmp0 (dom_element_get_attribute (node, "stat"), "ok") != 0) {
+				DomElement *child;
 
-			for (child = node->first_child; child; child = child->next_sibling) {
-				if (g_strcmp0 (child->tag_name, "status") == 0) {
-					status = dom_element_get_inner_text (child);
+				for (child = node->first_child; child; child = child->next_sibling) {
+					if (g_strcmp0 (child->tag_name, "err") == 0) {
+						*error = g_error_new_literal (WEB_SERVICE_ERROR,
+									      atoi (dom_element_get_attribute (child, "code")),
+									      dom_element_get_attribute (child, "msg"));
+					}
 				}
-				else if (g_strcmp0 (child->tag_name, "message") == 0) {
-					message = dom_element_get_inner_text (child);
-				}
-				else if (g_strcmp0 (child->tag_name, "code") == 0) {
-					code = dom_element_get_inner_text (child);
-				}
-			}
 
-			if (status == NULL) {
-				*error = g_error_new_literal (WEB_SERVICE_ERROR, 999, _("Unknown error"));
-			}
-			else if (strcmp (status, "Exception") == 0) {
-				*error = g_error_new_literal (WEB_SERVICE_ERROR,
-							      (code != NULL) ? atoi (code) : 999,
-							      (message != NULL) ? message : _("Unknown error"));
-			}
-
-			if (*error != NULL) {
 				g_object_unref (doc);
 				return FALSE;
 			}
@@ -93,10 +69,10 @@ photobucket_utils_parse_response (SoupMessage         *msg,
 
 
 static void
-photobucket_request_token_response (OAuthService       *self,
-				    SoupMessage        *msg,
-				    SoupBuffer         *body,
-				    GSimpleAsyncResult *result)
+flickr_request_token_response (OAuthService       *self,
+			       SoupMessage        *msg,
+			       SoupBuffer         *body,
+			       GSimpleAsyncResult *result)
 {
 	GHashTable *values;
 	char       *token;
@@ -122,14 +98,17 @@ photobucket_request_token_response (OAuthService       *self,
 
 
 static char *
-photobucket_get_authorization_url (OAuthService *self)
+flickr_get_authorization_url (OAuthService *self)
 {
-	char *escaped_token;
-	char *uri;
+	FlickrServer *server;
+	char         *escaped_token;
+	char         *uri;
 
+	server = flickr_service_get_server (FLICKR_SERVICE (self));
 	escaped_token = soup_uri_encode (oauth_service_get_token (self), NULL);
-	uri = g_strconcat ("http://photobucket.com/apilogin/login?oauth_token=",
-			   escaped_token,
+	uri = g_strconcat (server->authorization_url,
+			   "?oauth_token=", escaped_token,
+			   "&perms=write",
 			   NULL);
 
 	g_free (escaped_token);
@@ -139,10 +118,10 @@ photobucket_get_authorization_url (OAuthService *self)
 
 
 static void
-photobucket_access_token_response (OAuthService       *self,
-				   SoupMessage        *msg,
-				   SoupBuffer         *body,
-				   GSimpleAsyncResult *result)
+flickr_access_token_response (OAuthService       *self,
+			      SoupMessage        *msg,
+			      SoupBuffer         *body,
+			      GSimpleAsyncResult *result)
 {
 	GHashTable *values;
 	char       *username;
@@ -155,19 +134,19 @@ photobucket_access_token_response (OAuthService       *self,
 	token = g_hash_table_lookup (values, "oauth_token");
 	token_secret = g_hash_table_lookup (values, "oauth_token_secret");
 	if ((username != NULL) && (token != NULL) && (token_secret != NULL)) {
-		OAuthAccount *account;
+		FlickrAccount *account;
 
-		oauth_service_set_token (self, token);
-		oauth_service_set_token_secret (self, token_secret);
+		oauth_service_set_token (OAUTH_SERVICE (self), token);
+		oauth_service_set_token_secret (OAUTH_SERVICE (self), token_secret);
 
-		account = g_object_new (PHOTOBUCKET_TYPE_ACCOUNT,
+		account = g_object_new (FLICKR_TYPE_ACCOUNT,
+					"id", g_hash_table_lookup (values, "user_nsid"),
 					"name", username,
-					"username", username,
 					"token", token,
 					"token-secret", token_secret,
 					NULL);
-		photobucket_account_set_subdomain (PHOTOBUCKET_ACCOUNT (account), g_hash_table_lookup (values, "subdomain"));
-		photobucket_account_set_home_url (PHOTOBUCKET_ACCOUNT (account), g_hash_table_lookup (values, "homeurl"));
+		web_service_set_current_account (WEB_SERVICE (self), OAUTH_ACCOUNT (account));
+
 		g_simple_async_result_set_op_res_gpointer (result, account, g_object_unref);
 	}
 	else {
@@ -181,12 +160,12 @@ photobucket_access_token_response (OAuthService       *self,
 }
 
 
-OAuthConsumer photobucket_consumer = {
-	"149829931",
-	"b4e542229836cc59b66489c6d2d8ca04",
-	"http://api.photobucket.com/login/request",
-	photobucket_request_token_response,
-	photobucket_get_authorization_url,
-	"http://api.photobucket.com/login/access",
-	photobucket_access_token_response
+OAuthConsumer flickr_consumer = {
+	NULL,
+	NULL,
+	NULL,
+	flickr_request_token_response,
+	flickr_get_authorization_url,
+	NULL,
+	flickr_access_token_response
 };

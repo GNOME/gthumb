@@ -22,25 +22,10 @@
 #ifndef FLICKR_SERVICE_H
 #define FLICKR_SERVICE_H
 
-#include <glib-object.h>
-#include "flickr-account.h"
-#include "flickr-connection.h"
+#include <gthumb.h>
+#include <extensions/oauth/oauth.h>
 #include "flickr-photoset.h"
-#include "flickr-user.h"
-
-typedef enum {
-	FLICKR_PRIVACY_PUBLIC,
-	FLICKR_PRIVACY_FRIENDS_FAMILY,
-	FLICKR_PRIVACY_FRIENDS,
-	FLICKR_PRIVACY_FAMILY,
-	FLICKR_PRIVACY_PRIVATE
-} FlickrPrivacyType;
-
-typedef enum {
-	FLICKR_SAFETY_SAFE,
-	FLICKR_SAFETY_MODERATE,
-	FLICKR_SAFETY_RESTRICTED
-} FlickrSafetyType;
+#include "flickr-types.h"
 
 #define FLICKR_TYPE_SERVICE         (flickr_service_get_type ())
 #define FLICKR_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), FLICKR_TYPE_SERVICE, FlickrService))
@@ -53,28 +38,22 @@ typedef struct _FlickrService         FlickrService;
 typedef struct _FlickrServicePrivate  FlickrServicePrivate;
 typedef struct _FlickrServiceClass    FlickrServiceClass;
 
-struct _FlickrService
-{
-	GObject __parent;
+struct _FlickrService {
+	OAuthService __parent;
 	FlickrServicePrivate *priv;
 };
 
-struct _FlickrServiceClass
-{
-	GObjectClass __parent_class;
+struct _FlickrServiceClass {
+	OAuthServiceClass __parent_class;
 };
 
 GType             flickr_service_get_type                 (void) G_GNUC_CONST;
-FlickrService *   flickr_service_new                      (FlickrConnection     *conn);
-void              flickr_service_get_upload_status        (FlickrService        *self,
+FlickrService *   flickr_service_new                      (FlickrServer         *server,
 							   GCancellable         *cancellable,
-							   GAsyncReadyCallback   callback,
-							   gpointer              user_data);
-FlickrUser *      flickr_service_get_upload_status_finish (FlickrService        *self,
-						           GAsyncResult         *result,
-						           GError              **error);
+							   GtkWidget            *browser,
+							   GtkWidget            *dialog);
+FlickrServer *    flickr_service_get_server               (FlickrService        *self);
 void              flickr_service_list_photosets           (FlickrService        *self,
-							   const char           *user_id,
 						           GCancellable         *cancellable,
 						           GAsyncReadyCallback   callback,
 						           gpointer              user_data);
@@ -99,8 +78,8 @@ gboolean          flickr_service_add_photos_to_set_finish (FlickrService        
 						           GAsyncResult         *result,
 						           GError              **error);
 void              flickr_service_post_photos              (FlickrService        *self,
-							   FlickrPrivacyType     privacy_level,
-							   FlickrSafetyType      safety_level,
+							   FlickrPrivacy         privacy_level,
+							   FlickrSafety          safety_level,
 							   gboolean              hidden,
 							   int                   max_width,
 							   int                   max_height,
@@ -120,13 +99,5 @@ void              flickr_service_list_photos              (FlickrService        
 GList *           flickr_service_list_photos_finish       (FlickrService        *self,
 						           GAsyncResult         *result,
 						           GError              **error);
-
-/* utilities */
-
-GList *          flickr_accounts_load_from_file  (const char    *server_name);
-FlickrAccount *  flickr_accounts_find_default    (GList         *accounts);
-void             flickr_accounts_save_to_file    (const char    *server_name,
-						  GList         *accounts,
-						  FlickrAccount *default_account);
 
 #endif /* FLICKR_SERVICE_H */

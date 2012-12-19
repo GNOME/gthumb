@@ -246,13 +246,13 @@ facebook_utils_parse_response (SoupMessage  *msg,
 
 
 static void
-ask_authorization_dialog_redirected_cb (OAuth2AskAuthorizationDialog *dialog,
-					gpointer                      user_data)
+ask_authorization_dialog_redirected_cb (OAuthAskAuthorizationDialog *dialog,
+					gpointer                     user_data)
 {
 	FacebookService *self = user_data;
 	const char      *uri;
 
-	uri = oauth2_ask_authorization_dialog_get_uri (dialog);
+	uri = oauth_ask_authorization_dialog_get_uri (dialog);
 	if (g_str_has_prefix (uri, FACEBOOK_REDIRECT_URI)) {
 		const char *uri_data;
 		GHashTable *data;
@@ -279,11 +279,11 @@ facebook_service_ask_authorization (WebService *base)
 
 	gth_task_dialog (GTH_TASK (self), TRUE, NULL);
 
-	dialog = oauth2_ask_authorization_dialog_new (facebook_utils_get_authorization_url (WEB_AUTHORIZATION_WRITE));
+	dialog = oauth_ask_authorization_dialog_new (facebook_utils_get_authorization_url (WEB_AUTHORIZATION_WRITE));
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 800, 600);
 	_web_service_set_auth_dialog (WEB_SERVICE (self), GTK_DIALOG (dialog));
 
-	g_signal_connect (OAUTH2_ASK_AUTHORIZATION_DIALOG (dialog),
+	g_signal_connect (OAUTH_ASK_AUTHORIZATION_DIALOG (dialog),
 			  "redirected",
 			  G_CALLBACK (ask_authorization_dialog_redirected_cb),
 			  self);
@@ -315,8 +315,6 @@ facebook_service_get_user_info_ready_cb (SoupSession *session,
 			      "token", _facebook_service_get_access_token (self),
 			      "token-secret", _facebook_service_get_access_token (self),
 			      NULL);
-		web_service_set_current_account (WEB_SERVICE (self), account);
-
 		g_simple_async_result_set_op_res_gpointer (result,
 							   g_object_ref (account),
 							   (GDestroyNotify) g_object_unref);

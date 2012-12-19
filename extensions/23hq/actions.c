@@ -30,13 +30,19 @@
 
 static FlickrServer www_23hq_com = {
 	"23",
+	"23",
 	"http://www.23hq.com",
-	"http://www.23hq.com/services/auth/",
-	"http://www.23hq.com/services/rest",
-	"http://www.23hq.com/services/upload/",
-	"www.23hq.com",
+	"http",
+
+	"http://www.23hq.com/services/oauth/request_token",
+	"http://www.23hq.com/services/oauth/authorize",
+	"http://www.23hq.comm/services/oauth/access_token",
 	"8960706ee7f4151e893b11837e9c24ce",
 	"1ff8d1e45c873423",
+
+	"http://www.23hq.com/services/rest",
+	"http://www.23hq.com/services/upload",
+	"www.23hq.com",
 	TRUE
 };
 

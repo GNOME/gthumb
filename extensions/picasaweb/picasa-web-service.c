@@ -260,13 +260,13 @@ refresh_token_ready_cb (GObject      *source_object,
 
 
 static void
-ask_authorization_dialog_loaded_cb (OAuth2AskAuthorizationDialog *dialog,
-				    gpointer                      user_data)
+ask_authorization_dialog_loaded_cb (OAuthAskAuthorizationDialog *dialog,
+				    gpointer                     user_data)
 {
 	PicasaWebService *self = user_data;
 	const char       *title;
 
-	title = oauth2_ask_authorization_dialog_get_title (dialog);
+	title = oauth_ask_authorization_dialog_get_title (dialog);
 	if (title == NULL)
 		return;
 
@@ -331,11 +331,11 @@ picasa_web_service_ask_authorization (WebService *base)
 
 	gth_task_dialog (GTH_TASK (self), TRUE, NULL);
 
-	dialog = oauth2_ask_authorization_dialog_new (picasa_web_service_get_authorization_url (self));
+	dialog = oauth_ask_authorization_dialog_new (picasa_web_service_get_authorization_url (self));
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 680, 580);
 	_web_service_set_auth_dialog (WEB_SERVICE (self), GTK_DIALOG (dialog));
 
-	g_signal_connect (OAUTH2_ASK_AUTHORIZATION_DIALOG (dialog),
+	g_signal_connect (OAUTH_ASK_AUTHORIZATION_DIALOG (dialog),
 			  "loaded",
 			  G_CALLBACK (ask_authorization_dialog_loaded_cb),
 			  self);
@@ -443,8 +443,6 @@ picasa_web_service_get_user_info_ready_cb (SoupSession *session,
 			      "token", self->priv->access_token,
 			      "token-secret", self->priv->refresh_token,
 			      NULL);
-		web_service_set_current_account (WEB_SERVICE (self), account);
-
 		g_simple_async_result_set_op_res_gpointer (result,
 							   g_object_ref (account),
 							   (GDestroyNotify) g_object_unref);

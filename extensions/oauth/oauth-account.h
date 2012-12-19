@@ -65,6 +65,19 @@ void              oauth_account_set_token_secret   (OAuthAccount *self,
 						    const char   *value);
 int               oauth_account_cmp                (OAuthAccount *a,
 						    OAuthAccount *b);
+DomElement *      oauth_account_create_element     (DomDomizable *base,
+						    DomDocument  *doc);
+void              oauth_account_load_from_element  (DomDomizable *base,
+						    DomElement   *element);
+
+/* -- utilities -- */
+
+GList *           oauth_accounts_load_from_file    (const char   *service_name,
+						    GType         account_type);
+OAuthAccount *    oauth_accounts_find_default      (GList        *accounts);
+void              oauth_accounts_save_to_file      (const char   *service_name,
+						    GList        *accounts,
+						    OAuthAccount *default_account);
 
 G_END_DECLS
 

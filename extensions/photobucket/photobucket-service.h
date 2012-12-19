@@ -23,7 +23,7 @@
 #define PHOTOBUCKET_SERVICE_H
 
 #include <glib-object.h>
-#include <extensions/oauth/oauth-connection.h>
+#include <extensions/oauth/oauth.h>
 #include "photobucket-album.h"
 #include "photobucket-account.h"
 
@@ -40,19 +40,20 @@ typedef struct _PhotobucketServiceClass    PhotobucketServiceClass;
 
 struct _PhotobucketService
 {
-	GObject __parent;
+	OAuthService __parent;
 	PhotobucketServicePrivate *priv;
 };
 
 struct _PhotobucketServiceClass
 {
-	GObjectClass __parent_class;
+	OAuthServiceClass __parent_class;
 };
 
 GType                photobucket_service_get_type                   (void) G_GNUC_CONST;
-PhotobucketService * photobucket_service_new                        (OAuthConnection        *conn);
+PhotobucketService * photobucket_service_new                        (GCancellable           *cancellable,
+								     GtkWidget              *browser,
+								     GtkWidget              *dialog);
 void                 photobucket_service_get_albums                 (PhotobucketService     *self,
-								     PhotobucketAccount     *account,
 							             GCancellable           *cancellable,
 							             GAsyncReadyCallback     callback,
 							             gpointer                user_data);
@@ -60,7 +61,6 @@ GList *              photobucket_service_get_albums_finish          (Photobucket
 							             GAsyncResult           *result,
 							             GError                **error);
 void                 photobucket_service_create_album               (PhotobucketService     *self,
-								     PhotobucketAccount     *account,
 								     const char             *parent_album,
 						                     PhotobucketAlbum       *album,
 						                     GCancellable           *cancellable,
@@ -70,7 +70,6 @@ PhotobucketAlbum *   photobucket_service_create_album_finish        (Photobucket
 						                     GAsyncResult           *result,
 						                     GError                **error);
 void                 photobucket_service_upload_photos              (PhotobucketService     *self,
-								     PhotobucketAccount     *account,
 							             PhotobucketAlbum       *album,
 							             int                     size,
 							             gboolean                scramble,

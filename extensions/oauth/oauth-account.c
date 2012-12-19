@@ -29,6 +29,9 @@
 #include "oauth-account.h"
 
 
+#define ACCOUNTS_FORMAT_VERSION "2.0"
+
+
 enum {
         PROP_0,
         PROP_ID,
@@ -197,13 +200,13 @@ oauth_account_class_init (OAuthAccountClass *klass)
 }
 
 
-static DomElement *
+DomElement *
 oauth_account_create_element (DomDomizable *base,
 			      DomDocument  *doc)
 {
 	OAuthAccount *self;
-	DomElement    *element;
-	gboolean       set_token;
+	DomElement   *element;
+	gboolean      set_token;
 
 	self = OAUTH_ACCOUNT (base);
 
@@ -234,7 +237,7 @@ oauth_account_create_element (DomDomizable *base,
 }
 
 
-static void
+void
 oauth_account_load_from_element (DomDomizable *base,
 			         DomElement   *element)
 {
@@ -319,4 +322,124 @@ oauth_account_cmp (OAuthAccount *a,
 		return g_strcmp0 (a->username, b->username);
 	else
 		return g_strcmp0 (a->name, b->name);
+}
+
+
+GList *
+oauth_accounts_load_from_file (const char *service_name,
+			       GType       account_type)
+{
+	GList       *accounts = NULL;
+	char        *filename;
+	GFile       *file;
+	char        *buffer;
+	gsize        len;
+	GError      *error = NULL;
+	DomDocument *doc;
+
+	if (account_type == 0)
+		account_type = OAUTH_TYPE_ACCOUNT;
+
+	filename = g_strconcat (service_name, ".xml", NULL);
+	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
+	if (! _g_file_load_in_buffer (file, (void **) &buffer, &len, NULL, &error)) {
+		g_error_free (error);
+		g_object_unref (file);
+		g_free (filename);
+		return NULL;
+	}
+
+	doc = dom_document_new ();
+	if (dom_document_load (doc, buffer, len, NULL)) {
+		DomElement *node;
+
+		node = DOM_ELEMENT (doc)->first_child;
+		if ((node != NULL)
+		    && (g_strcmp0 (node->tag_name, "accounts") == 0)
+		    && (g_strcmp0 (dom_element_get_attribute (node, "version"), ACCOUNTS_FORMAT_VERSION) == 0))
+		{
+			DomElement *child;
+
+			for (child = node->first_child;
+			     child != NULL;
+			     child = child->next_sibling)
+			{
+				if (strcmp (child->tag_name, "account") == 0) {
+					OAuthAccount *account;
+
+					account = g_object_new (account_type, NULL);
+					dom_domizable_load_from_element (DOM_DOMIZABLE (account), child);
+
+					accounts = g_list_prepend (accounts, account);
+				}
+			}
+
+			accounts = g_list_reverse (accounts);
+		}
+	}
+
+	g_object_unref (doc);
+	g_free (buffer);
+	g_object_unref (file);
+	g_free (filename);
+
+	return accounts;
+}
+
+
+OAuthAccount *
+oauth_accounts_find_default (GList *accounts)
+{
+	GList *scan;
+
+	for (scan = accounts; scan; scan = scan->next) {
+		OAuthAccount *account = scan->data;
+
+		if (account->is_default)
+			return g_object_ref (account);
+	}
+
+	return NULL;
+}
+
+
+void
+oauth_accounts_save_to_file (const char   *service_name,
+			     GList        *accounts,
+			     OAuthAccount *default_account)
+{
+	DomDocument *doc;
+	DomElement  *root;
+	GList       *scan;
+	char        *buffer;
+	gsize        len;
+	char        *filename;
+	GFile       *file;
+
+	doc = dom_document_new ();
+	root = dom_document_create_element (doc, "accounts",
+					    "version", ACCOUNTS_FORMAT_VERSION,
+					    NULL);
+	dom_element_append_child (DOM_ELEMENT (doc), root);
+	for (scan = accounts; scan; scan = scan->next) {
+		OAuthAccount *account = scan->data;
+		DomElement    *node;
+
+		if ((default_account != NULL) && g_strcmp0 (account->username, default_account->username) == 0)
+			account->is_default = TRUE;
+		else
+			account->is_default = FALSE;
+		node = dom_domizable_create_element (DOM_DOMIZABLE (account), doc);
+		dom_element_append_child (root, node);
+	}
+
+	filename = g_strconcat (service_name, ".xml", NULL);
+	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, "accounts", filename, NULL);
+	buffer = dom_document_dump (doc, &len);
+	_g_file_write (file, FALSE, G_FILE_CREATE_PRIVATE | G_FILE_CREATE_REPLACE_DESTINATION, buffer, len, NULL, NULL);
+
+	g_free (buffer);
+	g_object_unref (file);
+	g_free (filename);
+	g_object_unref (doc);
 }

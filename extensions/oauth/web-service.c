@@ -30,6 +30,8 @@
 #ifdef HAVE_LIBSECRET
 #include <libsecret/secret.h>
 #endif /* HAVE_LIBSECRET */
+#include "oauth-account-manager-dialog.h"
+#include "oauth-account-chooser-dialog.h"
 #include "web-service.h"
 
 
@@ -57,6 +59,7 @@ enum {
         PROP_SERVICE_NAME,
         PROP_SERVICE_ADDRESS,
         PROP_SERVICE_PROTOCOL,
+        PROP_ACCOUNT_TYPE,
 	PROP_CANCELLABLE,
 	PROP_BROWSER,
 	PROP_DIALOG
@@ -79,6 +82,7 @@ struct _WebServicePrivate
 	char               *service_name;
 	char               *service_address;
 	char               *service_protocol;
+	GType               account_type;
 	SoupSession        *session;
 	SoupMessage        *msg;
 	GCancellable       *cancellable;
@@ -127,6 +131,9 @@ web_service_set_property (GObject      *object,
 	case PROP_SERVICE_PROTOCOL:
 		_g_strset (&self->priv->service_protocol, g_value_get_string (value));
 		break;
+	case PROP_ACCOUNT_TYPE:
+		self->priv->account_type = g_value_get_gtype (value);
+		break;
 	case PROP_CANCELLABLE:
 		_g_object_unref (self->priv->cancellable);
 		self->priv->cancellable = g_value_dup_object (value);
@@ -161,6 +168,9 @@ web_service_get_property (GObject    *object,
 	case PROP_SERVICE_PROTOCOL:
 		g_value_set_string (value, self->priv->service_protocol);
 		break;
+	case PROP_ACCOUNT_TYPE:
+		g_value_set_gtype (value, self->priv->account_type);
+		break;
 	case PROP_CANCELLABLE:
 		g_value_set_object (value, self->priv->cancellable);
 		break;
@@ -182,7 +192,7 @@ web_service_constructed (GObject *object)
 {
 	WebService *self = WEB_SERVICE (object);
 
-	self->priv->accounts = oauth_accounts_load_from_file (self->priv->service_name, 0);
+	self->priv->accounts = oauth_accounts_load_from_file (self->priv->service_name, self->priv->account_type);
 	self->priv->account = oauth_accounts_find_default (self->priv->accounts);
 
 	if (G_OBJECT_CLASS (web_service_parent_class)->constructed != NULL)
@@ -253,6 +263,13 @@ web_service_class_init (WebServiceClass *klass)
                                                               NULL,
                                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 	g_object_class_install_property (object_class,
+					 PROP_ACCOUNT_TYPE,
+					 g_param_spec_gtype ("account-type",
+                                                             "Account type",
+                                                             "",
+                                                             OAUTH_TYPE_ACCOUNT,
+                                                             G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+	g_object_class_install_property (object_class,
 					 PROP_CANCELLABLE,
 					 g_param_spec_object ("cancellable",
                                                               "Cancellable",
@@ -299,13 +316,16 @@ static void
 web_service_init (WebService *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, WEB_TYPE_SERVICE, WebServicePrivate);
+	self->priv->service_name = NULL;
+	self->priv->service_address = NULL;
+	self->priv->service_protocol = NULL;
+	self->priv->account_type = OAUTH_TYPE_ACCOUNT;
 	self->priv->session = NULL;
 	self->priv->msg = NULL;
 	self->priv->cancellable = NULL;
 	self->priv->result = NULL;
 	self->priv->accounts = NULL;
 	self->priv->account = NULL;
-	self->priv->cancellable = NULL;
 	self->priv->browser = NULL;
 	self->priv->dialog = NULL;
 	self->priv->auth_dialog = NULL;
@@ -382,10 +402,13 @@ show_authentication_error_dialog (WebService  *self,
 
 
 static void
-set_current_account (WebService *self,
-		     OAuthAccount    *account)
+set_current_account (WebService   *self,
+		     OAuthAccount *account)
 {
 	GList *link;
+
+	if (self->priv->account == account)
+		return;
 
 	link = g_list_find_custom (self->priv->accounts, self->priv->account, (GCompareFunc) oauth_account_cmp);
 	if (link != NULL) {
@@ -404,6 +427,54 @@ set_current_account (WebService *self,
 
 
 #ifdef HAVE_LIBSECRET
+
+
+static char *
+serialize_secret (const char *token,
+		  const char *token_secret)
+{
+	GVariantBuilder *builder;
+	GVariant        *variant;
+	char            *secret;
+
+	builder = g_variant_builder_new (G_VARIANT_TYPE_ARRAY);
+	g_variant_builder_add (builder, "ms", token);
+	g_variant_builder_add (builder, "ms", token_secret);
+	variant = g_variant_builder_end (builder);
+	secret = g_variant_print (variant, TRUE);
+
+	g_variant_unref (variant);
+
+	return secret;
+}
+
+
+static gboolean
+deserialize_secret (const char  *secret,
+		    char       **token,
+		    char       **token_secret)
+{
+	GError   *error = NULL;
+	GVariant *variant;
+
+	variant = g_variant_parse (NULL, secret, NULL, NULL, &error);
+	if (variant == NULL) {
+		g_warning ("%s", error->message);
+		g_clear_error (&error);
+		return FALSE;
+	}
+
+	if (token != NULL)
+		g_variant_get_child (variant, 0, "ms", token, NULL);
+	if (token_secret != NULL)
+		g_variant_get_child (variant, 1, "ms", token_secret, NULL);
+
+	g_variant_unref (variant);
+
+	return TRUE;
+}
+
+
 static void
 password_store_ready_cb (GObject      *source_object,
 			 GAsyncResult *result,
@@ -414,6 +485,8 @@ password_store_ready_cb (GObject      *source_object,
 	secret_password_store_finish (result, NULL);
 	web_service_account_ready (self);
 }
+
+
 #endif
 
 
@@ -439,10 +512,13 @@ get_user_info_ready_cb (GObject      *source_object,
 
 #ifdef HAVE_LIBSECRET
 	{
+		char *secret;
+
+		secret = serialize_secret (account->token, account->token_secret);
 		secret_password_store (SECRET_SCHEMA_COMPAT_NETWORK,
 				       NULL,
 				       self->priv->service_name,
-				       account->token_secret,
+				       secret,
 				       self->priv->cancellable,
 				       password_store_ready_cb,
 				       self,
@@ -450,6 +526,8 @@ get_user_info_ready_cb (GObject      *source_object,
 				       "server", self->priv->service_address,
 				       "protocol", self->priv->service_protocol,
 				       NULL);
+
+		g_free (secret);
 	}
 #else
 	web_service_account_ready (self);
@@ -462,7 +540,7 @@ get_user_info_ready_cb (GObject      *source_object,
 static void
 connect_to_server_step2 (WebService *self)
 {
-	if (self->priv->account->token_secret == NULL) {
+	if ((self->priv->account->token == NULL) && (self->priv->account->token_secret == NULL)) {
 		web_service_ask_authorization (self);
 		return;
 	}
@@ -474,6 +552,8 @@ connect_to_server_step2 (WebService *self)
 
 
 #ifdef HAVE_LIBSECRET
+
+
 static void
 password_lookup_ready_cb (GObject      *source_object,
 			  GAsyncResult *result,
@@ -484,12 +564,26 @@ password_lookup_ready_cb (GObject      *source_object,
 
 	secret = secret_password_lookup_finish (result, NULL);
 	if (secret != NULL) {
-		g_object_set (G_OBJECT (self->priv->account), "token-secret", secret, NULL);
+		char *token;
+		char *token_secret;
+
+		if (deserialize_secret (secret, &token, &token_secret)) {
+			g_object_set (G_OBJECT (self->priv->account),
+				      "token", token,
+				      "token-secret", token_secret,
+				      NULL);
+
+			g_free (token);
+			g_free (token_secret);
+		}
+
 		g_free (secret);
 	}
 
 	connect_to_server_step2 (self);
 }
+
+
 #endif
 
 
@@ -609,10 +703,7 @@ void
 web_service_set_current_account (WebService   *self,
 				 OAuthAccount *account)
 {
-	if (account == self->priv->account)
-		return;
-	_g_object_unref (self->priv->account);
-	self->priv->account = _g_object_ref (account);
+	set_current_account (self, account);
 }
 
 
@@ -792,6 +883,13 @@ GSimpleAsyncResult *
 _web_service_get_result (WebService *self)
 {
 	return self->priv->result;
+}
+
+
+void
+_web_service_reset_result (WebService *self)
+{
+	self->priv->result = NULL;
 }
 
 

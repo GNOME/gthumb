@@ -12,14 +12,8 @@ libflicker_utils_la_SOURCES = 			\
 	dlg-import-from-flickr.h		\
 	flickr-account.c			\
 	flickr-account.h			\
-	flickr-account-chooser-dialog.c		\
-	flickr-account-chooser-dialog.h		\
-	flickr-account-manager-dialog.c		\
-	flickr-account-manager-dialog.h		\
-	flickr-authentication.c			\
-	flickr-authentication.h			\
-	flickr-connection.c			\
-	flickr-connection.h			\
+	flickr-consumer.c			\
+	flickr-consumer.h			\
 	flickr-photo.c				\
 	flickr-photo.h				\
 	flickr-photoset.c			\
@@ -27,8 +21,6 @@ libflicker_utils_la_SOURCES = 			\
 	flickr-service.c			\
 	flickr-service.h			\
 	flickr-types.h				\
-	flickr-user.c				\
-	flickr-user.h				\
 	main.c					\
 	preferences.h
 

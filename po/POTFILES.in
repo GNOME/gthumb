@@ -337,8 +337,6 @@ extensions/flicker/callbacks.h
 [type: gettext/ini]extensions/flicker/flicker.extension.in.in
 extensions/flicker/main.c
 [type: gettext/glade]extensions/flicker_utils/data/ui/export-to-flickr.ui
-[type: gettext/glade]extensions/flicker_utils/data/ui/flicker-account-chooser.ui
-[type: gettext/glade]extensions/flicker_utils/data/ui/flicker-account-manager.ui
 [type: gettext/glade]extensions/flicker_utils/data/ui/flicker-ask-authorization.ui
 [type: gettext/glade]extensions/flicker_utils/data/ui/flicker-complete-authorization.ui
 [type: gettext/glade]extensions/flicker_utils/data/ui/flicker-export-completed.ui
@@ -349,15 +347,9 @@ extensions/flicker_utils/dlg-import-from-flickr.c
 extensions/flicker_utils/dlg-import-from-flickr.h
 [type: gettext/ini]extensions/flicker_utils/flicker_utils.extension.in.in
 extensions/flicker_utils/flickr-account.c
-extensions/flicker_utils/flickr-account-chooser-dialog.c
-extensions/flicker_utils/flickr-account-chooser-dialog.h
 extensions/flicker_utils/flickr-account.h
-extensions/flicker_utils/flickr-account-manager-dialog.c
-extensions/flicker_utils/flickr-account-manager-dialog.h
-extensions/flicker_utils/flickr-authentication.c
-extensions/flicker_utils/flickr-authentication.h
-extensions/flicker_utils/flickr-connection.c
-extensions/flicker_utils/flickr-connection.h
+extensions/flicker_utils/flickr-consumer.c
+extensions/flicker_utils/flickr-consumer.h
 extensions/flicker_utils/flickr-photo.c
 extensions/flicker_utils/flickr-photo.h
 extensions/flicker_utils/flickr-photoset.c
@@ -365,8 +357,6 @@ extensions/flicker_utils/flickr-photoset.h
 extensions/flicker_utils/flickr-service.c
 extensions/flicker_utils/flickr-service.h
 extensions/flicker_utils/flickr-types.h
-extensions/flicker_utils/flickr-user.c
-extensions/flicker_utils/flickr-user.h
 extensions/flicker_utils/main.c
 extensions/flicker_utils/preferences.h
 extensions/gstreamer_tools/actions.c
@@ -480,20 +470,20 @@ extensions/map_view/main.c
 [type: gettext/glade]extensions/oauth/data/ui/oauth-ask-authorization.ui
 [type: gettext/glade]extensions/oauth/data/ui/oauth-complete-authorization.ui
 extensions/oauth/main.c
-extensions/oauth/oauth2-ask-authorization-dialog.c
-extensions/oauth/oauth2-ask-authorization-dialog.h
 extensions/oauth/oauth-account.c
 extensions/oauth/oauth-account-chooser-dialog.c
 extensions/oauth/oauth-account-chooser-dialog.h
 extensions/oauth/oauth-account.h
 extensions/oauth/oauth-account-manager-dialog.c
 extensions/oauth/oauth-account-manager-dialog.h
-extensions/oauth/oauth-authentication.c
-extensions/oauth/oauth-authentication.h
-extensions/oauth/oauth-connection.c
-extensions/oauth/oauth-connection.h
+extensions/oauth/oauth-ask-authorization-dialog.c
+extensions/oauth/oauth-ask-authorization-dialog.h
+extensions/oauth/oauth-consumer.c
+extensions/oauth/oauth-consumer.h
 [type: gettext/ini]extensions/oauth/oauth.extension.in.in
 extensions/oauth/oauth.h
+extensions/oauth/oauth-service.c
+extensions/oauth/oauth-service.h
 extensions/oauth/web-service.c
 extensions/oauth/web-service.h
 extensions/photobucket/actions.c

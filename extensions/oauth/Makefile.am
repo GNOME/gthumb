@@ -8,18 +8,18 @@ extension_LTLIBRARIES = liboauth.la
 liboauth_la_SOURCES = 				\
 	main.c					\
 	oauth.h					\
-	oauth2-ask-authorization-dialog.c	\
-	oauth2-ask-authorization-dialog.h	\
+	oauth-ask-authorization-dialog.c	\
+	oauth-ask-authorization-dialog.h	\
 	oauth-account.c				\
 	oauth-account.h				\
 	oauth-account-chooser-dialog.c		\
 	oauth-account-chooser-dialog.h		\
 	oauth-account-manager-dialog.c		\
 	oauth-account-manager-dialog.h		\
-	oauth-authentication.c			\
-	oauth-authentication.h			\
-	oauth-connection.c			\
-	oauth-connection.h			\
+	oauth-consumer.c			\
+	oauth-consumer.h			\
+	oauth-service.c				\
+	oauth-service.h				\
 	web-service.c				\
 	web-service.h
 
