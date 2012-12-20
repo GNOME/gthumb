@@ -287,9 +287,6 @@ ask_authorization_dialog_load_request_cb (OAuthAskAuthorizationDialog *dialog,
 	if (uri == NULL)
 		return;
 
-	g_print ("--> %s\n", oauth_ask_authorization_dialog_get_uri (dialog));
-	g_print (" `--> %s\n", oauth_ask_authorization_dialog_get_title (dialog));
-
 	if (g_str_has_prefix (uri, OAUTH_CALLBACK)) {
 		const char *uri_data;
 		GHashTable *data;
