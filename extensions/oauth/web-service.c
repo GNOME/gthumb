@@ -795,6 +795,12 @@ web_service_account_ready (WebService *self)
 void
 web_service_ask_authorization (WebService *self)
 {
+	gth_task_progress (GTH_TASK (self),
+			   _("Connecting to the server"),
+			   _("Asking authorization"),
+			   TRUE,
+			   0.0);
+
 	web_service_set_current_account (self, NULL);
 	WEB_SERVICE_GET_CLASS (self)->ask_authorization (self);
 }
