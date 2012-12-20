@@ -74,6 +74,7 @@ import_dialog_destroy_cb (GtkWidget  *widget,
 	_g_object_unref (data->album);
 	_g_object_list_unref (data->photos);
 	_g_object_unref (data->builder);
+	gtk_widget_destroy (data->progress_dialog);
 	g_free (data);
 }
 

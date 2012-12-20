@@ -78,6 +78,7 @@ import_dialog_destroy_cb (GtkWidget  *widget,
 	_g_object_list_unref (data->photosets);
 	_g_object_unref (data->photoset);
 	_g_object_list_unref (data->photos);
+	gtk_widget_destroy (data->progress_dialog);
 	_g_object_unref (data->builder);
 	_g_object_unref (data->location);
 	g_free (data);

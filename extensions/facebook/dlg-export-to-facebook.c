@@ -84,6 +84,7 @@ destroy_dialog (DialogData *data)
 	_g_object_list_unref (data->albums);
 	_g_object_unref (data->service);
 	_g_object_unref (data->settings);
+	gtk_widget_destroy (data->progress_dialog);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
