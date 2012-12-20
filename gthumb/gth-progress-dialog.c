@@ -43,7 +43,7 @@ typedef struct _GthTaskProgress GthTaskProgress;
 typedef struct _GthTaskProgressClass GthTaskProgressClass;
 
 struct _GthTaskProgress {
-	GtkBox    parent_instance;
+	GtkBox     parent_instance;
 	GthTask   *task;
 	GtkWidget *description_label;
 	GtkWidget *details_label;
@@ -340,10 +340,10 @@ _show_dialog_cb (gpointer data)
 
 
 static void
-task_dialog_cb (GthTask   *task,
-		gboolean   opened,
-		GtkWidget *dialog,
-		gpointer   user_data)
+progress_dialog_task_dialog_cb (GthTask   *task,
+				gboolean   opened,
+				GtkWidget *dialog,
+				gpointer   user_data)
 {
 	GthProgressDialog *self = user_data;
 
@@ -364,12 +364,12 @@ task_dialog_cb (GthTask   *task,
 
 
 static void
-main_dialog_task_progress_cb (GthTask    *task,
-			      const char *description,
-			      const char *details,
-			      gboolean    pulse,
-			      double      fraction,
-			      gpointer    user_data)
+progress_dialog_task_progress_cb (GthTask    *task,
+				  const char *description,
+				  const char *details,
+				  gboolean    pulse,
+				  double      fraction,
+				  gpointer    user_data)
 {
 	GthProgressDialog *self = user_data;
 	GString           *title;
@@ -392,6 +392,20 @@ main_dialog_task_progress_cb (GthTask    *task,
 }
 
 
+static void
+progress_dialog_task_completed_cb (GthTask  *task,
+		   	   	   GError   *error,
+		   	   	   gpointer  user_data)
+{
+	GthProgressDialog *self = user_data;
+
+	if ((error != NULL) && ! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
+		_gtk_error_dialog_from_gerror_show (self->priv->parent,
+						    _("Could not perform the operation"),
+						    error);
+}
+
+
 void
 gth_progress_dialog_add_task (GthProgressDialog *self,
 			      GthTask           *task)
@@ -400,11 +414,15 @@ gth_progress_dialog_add_task (GthProgressDialog *self,
 
 	g_signal_connect (task,
 			  "dialog",
-			  G_CALLBACK (task_dialog_cb),
+			  G_CALLBACK (progress_dialog_task_dialog_cb),
 			  self);
 	g_signal_connect (task,
 			  "progress",
-			  G_CALLBACK (main_dialog_task_progress_cb),
+			  G_CALLBACK (progress_dialog_task_progress_cb),
+			  self);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (progress_dialog_task_completed_cb),
 			  self);
 
 	gtk_window_set_title (GTK_WINDOW (self), "");
