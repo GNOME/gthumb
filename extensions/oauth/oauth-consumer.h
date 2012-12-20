@@ -41,13 +41,12 @@ typedef char * (*OAuthStringFunc)      (OAuthService        *self);
 
 
 typedef struct {
-	const char               *consumer_key;
-	const char               *consumer_secret;
-	const char               *request_token_url;
-	OAuthResponseFunc         request_token_response;
-	OAuthStringFunc           get_authorization_url;
-	const char               *access_token_url;
-	OAuthResponseFunc         access_token_response;
+	const char		*consumer_key;
+	const char		*consumer_secret;
+	const char		*request_token_url;
+	OAuthStringFunc		 get_authorization_url;
+	const char		*access_token_url;
+	OAuthResponseFunc	 access_token_response;
 } OAuthConsumer;
 
 

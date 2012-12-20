@@ -123,6 +123,9 @@ _oauth_service_get_request_token_ready_cb (SoupSession *session,
 	OAuthService       *self = user_data;
 	GSimpleAsyncResult *result;
 	SoupBuffer         *body;
+	GHashTable         *values;
+	char               *token;
+	char               *token_secret;
 
 	result = _web_service_get_result (WEB_SERVICE (self));
 
@@ -137,9 +140,24 @@ _oauth_service_get_request_token_ready_cb (SoupSession *session,
 	}
 
 	body = soup_message_body_flatten (msg->response_body);
-	self->priv->consumer->request_token_response (self, msg, body, result);
+	values = soup_form_decode (body->data);
+	token = g_hash_table_lookup (values, "oauth_token");
+	token_secret = g_hash_table_lookup (values, "oauth_token_secret");
+	if ((token != NULL) && (token_secret != NULL)) {
+		oauth_service_set_token (self, token);
+		oauth_service_set_token_secret (self, token_secret);
+		g_simple_async_result_set_op_res_gboolean (result, TRUE);
+	}
+	else {
+		GError *error;
+
+		error = g_error_new_literal (WEB_SERVICE_ERROR, WEB_SERVICE_ERROR_GENERIC, _("Unknown error"));
+		g_simple_async_result_set_from_error (result, error);
+	}
+
 	g_simple_async_result_complete_in_idle (result);
 
+	g_hash_table_destroy (values);
 	soup_buffer_free (body);
 }
 
@@ -264,15 +282,20 @@ get_access_token_ready_cb (GObject      *source_object,
 	OAuthService *self = user_data;
 	GError       *error = NULL;
 	GtkWidget    *dialog;
+	OAuthAccount *account;
 
 	dialog = _web_service_get_auth_dialog (WEB_SERVICE (self));
-
-	if (! _oauth_service_get_access_token_finish (self, result, &error)) {
+	account = _oauth_service_get_access_token_finish (self, result, &error);
+	if (account == NULL) {
+		gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
+	web_service_set_current_account (WEB_SERVICE (self), account);
 	gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+	g_object_unref (account);
 }
 
 
@@ -336,7 +359,7 @@ get_request_token_ready_cb (GObject      *source_object,
 
 	url = self->priv->consumer->get_authorization_url (self);
 	dialog = oauth_ask_authorization_dialog_new (url);
-	_gtk_window_resize_to_fit_screen_height (dialog, 800);
+	_gtk_window_resize_to_fit_screen_height (dialog, 1024);
 	_web_service_set_auth_dialog (WEB_SERVICE (self), GTK_DIALOG (dialog));
 	g_signal_connect (OAUTH_ASK_AUTHORIZATION_DIALOG (dialog),
 			  "load-request",

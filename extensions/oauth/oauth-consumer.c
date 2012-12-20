@@ -34,7 +34,6 @@ oauth_consumer_copy (OAuthConsumer *consumer)
 	consumer_2->consumer_key = consumer->consumer_key;
 	consumer_2->consumer_secret = consumer->consumer_secret;
 	consumer_2->request_token_url = consumer->request_token_url;
-	consumer_2->request_token_response = consumer->request_token_response;
 	consumer_2->get_authorization_url = consumer->get_authorization_url;
 	consumer_2->access_token_url = consumer->access_token_url;
 	consumer_2->access_token_response = consumer->access_token_response;

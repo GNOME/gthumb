@@ -92,35 +92,6 @@ photobucket_utils_parse_response (SoupMessage         *msg,
 }
 
 
-static void
-photobucket_request_token_response (OAuthService       *self,
-				    SoupMessage        *msg,
-				    SoupBuffer         *body,
-				    GSimpleAsyncResult *result)
-{
-	GHashTable *values;
-	char       *token;
-	char       *token_secret;
-
-	values = soup_form_decode (body->data);
-	token = g_hash_table_lookup (values, "oauth_token");
-	token_secret = g_hash_table_lookup (values, "oauth_token_secret");
-	if ((token != NULL) && (token_secret != NULL)) {
-		oauth_service_set_token (self, token);
-		oauth_service_set_token_secret (self, token_secret);
-		g_simple_async_result_set_op_res_gboolean (result, TRUE);
-	}
-	else {
-		GError *error;
-
-		error = g_error_new_literal (WEB_SERVICE_ERROR, WEB_SERVICE_ERROR_GENERIC, _("Unknown error"));
-		g_simple_async_result_set_from_error (result, error);
-	}
-
-	g_hash_table_destroy (values);
-}
-
-
 static char *
 photobucket_get_authorization_url (OAuthService *self)
 {
@@ -185,7 +156,6 @@ OAuthConsumer photobucket_consumer = {
 	"149829931",
 	"b4e542229836cc59b66489c6d2d8ca04",
 	"http://api.photobucket.com/login/request",
-	photobucket_request_token_response,
 	photobucket_get_authorization_url,
 	"http://api.photobucket.com/login/access",
 	photobucket_access_token_response
