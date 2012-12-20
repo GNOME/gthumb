@@ -155,8 +155,9 @@ photobucket_service_get_user_info (WebService          *base,
 	SoupMessage        *msg;
 
 	account = web_service_get_current_account (WEB_SERVICE (self));
-	if (account != NULL)
-		url = g_strconcat ("http://api.photobucket.com/user/", account->username, NULL);
+	g_return_if_fail (account != NULL);
+
+	url = g_strconcat ("http://api.photobucket.com/user/", account->username, NULL);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	oauth_service_add_signature (OAUTH_SERVICE (self), "GET", url, data_set);
@@ -209,6 +210,7 @@ photobucket_service_new (GCancellable  *cancellable,
 			     "service-address", "www.photobucket.com",
 			     "service-protocol", "http",
 			     "account-type", PHOTOBUCKET_TYPE_ACCOUNT,
+			     "consumer", &photobucket_consumer,
 			     "cancellable", cancellable,
 			     "browser", browser,
 			     "dialog", dialog,

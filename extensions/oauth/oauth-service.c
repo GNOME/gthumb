@@ -243,7 +243,8 @@ _oauth_service_get_access_token (OAuthService        *self,
 	SoupMessage *msg;
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "oauth_verifier", (gpointer) verifier);
+	if (verifier != NULL)
+		g_hash_table_insert (data_set, "oauth_verifier", (gpointer) verifier);
 	oauth_service_add_signature (self, "POST", self->priv->consumer->access_token_url, data_set);
 	msg = soup_form_request_new_from_hash ("POST", self->priv->consumer->access_token_url, data_set);
 	_web_service_send_message (WEB_SERVICE (self),
@@ -321,17 +322,12 @@ ask_authorization_dialog_load_request_cb (OAuthAskAuthorizationDialog *dialog,
 		_g_strset (&self->priv->token, g_hash_table_lookup (data, "oauth_token"));
 
 		if (self->priv->token != NULL) {
-			const char *oauth_verifier;
-
-			oauth_verifier = g_hash_table_lookup (data, "oauth_verifier");
-			if (oauth_verifier != NULL) {
-				success = TRUE;
-				_oauth_service_get_access_token (self,
-								 oauth_verifier,
-								 gth_task_get_cancellable (GTH_TASK (self)),
-								 get_access_token_ready_cb,
-								 self);
-			}
+			success = TRUE;
+			_oauth_service_get_access_token (self,
+							 g_hash_table_lookup (data, "oauth_verifier"),
+							 gth_task_get_cancellable (GTH_TASK (self)),
+							 get_access_token_ready_cb,
+							 self);
 		}
 
 		if (! success)

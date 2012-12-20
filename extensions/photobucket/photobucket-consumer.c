@@ -74,8 +74,11 @@ photobucket_utils_parse_response (SoupMessage         *msg,
 				*error = g_error_new_literal (WEB_SERVICE_ERROR, 999, _("Unknown error"));
 			}
 			else if (strcmp (status, "Exception") == 0) {
+				int error_code = (code != NULL) ? atoi (code) : 999;
+				if (error_code == 7)
+					error_code = WEB_SERVICE_ERROR_TOKEN_EXPIRED;
 				*error = g_error_new_literal (WEB_SERVICE_ERROR,
-							      (code != NULL) ? atoi (code) : 999,
+							      error_code,
 							      (message != NULL) ? message : _("Unknown error"));
 			}
 

@@ -110,7 +110,8 @@ webkit_view_load_changed_cb (WebKitWebView   *web_view,
 static void
 oauth_ask_authorization_dialog_init (OAuthAskAuthorizationDialog *self)
 {
-	GtkWidget *box;
+	GtkWidget        *box;
+	WebKitWebContext *context;
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ASK_AUTHORIZATION_DIALOG, OAuthAskAuthorizationDialogPrivate);
 
@@ -125,6 +126,23 @@ oauth_ask_authorization_dialog_init (OAuthAskAuthorizationDialog *self)
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), box, TRUE, TRUE, 0);
 
 	self->priv->view = webkit_web_view_new ();
+	context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (self->priv->view));
+	if (context != NULL) {
+		WebKitCookieManager *cookie_manager;
+		GFile               *file;
+		char                *cookie_filename;
+
+		file = gth_user_dir_get_file_for_write (GTH_DIR_CACHE, GTHUMB_DIR, "cookies", NULL);
+		cookie_filename = g_file_get_path (file);
+
+		cookie_manager = webkit_web_context_get_cookie_manager (context);
+		webkit_cookie_manager_set_accept_policy (cookie_manager, WEBKIT_COOKIE_POLICY_ACCEPT_ALWAYS);
+		webkit_cookie_manager_set_persistent_storage (cookie_manager, cookie_filename, WEBKIT_COOKIE_PERSISTENT_STORAGE_TEXT);
+		webkit_web_context_set_cache_model (context, WEBKIT_CACHE_MODEL_DOCUMENT_BROWSER);
+
+		g_free (cookie_filename);
+		g_object_unref (file);
+	}
 	gtk_widget_show (self->priv->view);
 	gtk_box_pack_start (GTK_BOX (box), self->priv->view, TRUE, TRUE, 0);
 
