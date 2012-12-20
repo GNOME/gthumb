@@ -938,6 +938,7 @@ _web_service_set_auth_dialog (WebService *self,
 {
 	self->priv->auth_dialog = GTK_WIDGET (dialog);
 	g_object_add_weak_pointer (G_OBJECT (dialog), (gpointer *) &self->priv->auth_dialog);
+	gth_task_dialog (GTH_TASK (self), TRUE, self->priv->auth_dialog);
 
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	if (gtk_widget_get_visible (self->priv->dialog))

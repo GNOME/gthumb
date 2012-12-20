@@ -329,8 +329,6 @@ picasa_web_service_ask_authorization (WebService *base)
 	_g_strset (&self->priv->refresh_token, NULL);
 	_g_strset (&self->priv->access_token, NULL);
 
-	gth_task_dialog (GTH_TASK (self), TRUE, NULL);
-
 	dialog = oauth_ask_authorization_dialog_new (picasa_web_service_get_authorization_url (self));
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 680, 580);
 	_web_service_set_auth_dialog (WEB_SERVICE (self), GTK_DIALOG (dialog));

@@ -277,8 +277,6 @@ facebook_service_ask_authorization (WebService *base)
 	FacebookService *self = FACEBOOK_SERVICE (base);
 	GtkWidget       *dialog;
 
-	gth_task_dialog (GTH_TASK (self), TRUE, NULL);
-
 	dialog = oauth_ask_authorization_dialog_new (facebook_utils_get_authorization_url (WEB_AUTHORIZATION_WRITE));
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 800, 600);
 	_web_service_set_auth_dialog (WEB_SERVICE (self), GTK_DIALOG (dialog));

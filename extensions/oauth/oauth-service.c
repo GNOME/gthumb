@@ -337,8 +337,6 @@ get_request_token_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	gth_task_dialog (GTH_TASK (self), TRUE, NULL);
-
 	url = self->priv->consumer->get_authorization_url (self);
 	dialog = oauth_ask_authorization_dialog_new (url);
 	_gtk_window_resize_to_fit_screen_height (dialog, 800);
