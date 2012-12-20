@@ -454,15 +454,11 @@ deserialize_secret (const char  *secret,
 		    char       **token,
 		    char       **token_secret)
 {
-	GError   *error = NULL;
 	GVariant *variant;
 
-	variant = g_variant_parse (NULL, secret, NULL, NULL, &error);
-	if (variant == NULL) {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
+	variant = g_variant_parse (NULL, secret, NULL, NULL, NULL);
+	if (variant == NULL)
 		return FALSE;
-	}
 
 	if (token != NULL)
 		g_variant_get_child (variant, 0, "ms", token, NULL);
