@@ -26,6 +26,13 @@
 #include "photobucket-account.h"
 
 
+enum {
+        PROP_0,
+        PROP_SUBDOMAIN,
+        PROP_HOME_URL
+};
+
+
 static void photobucket_account_dom_domizable_interface_init (DomDomizableInterface *iface);
 
 
@@ -52,9 +59,78 @@ photobucket_account_finalize (GObject *obj)
 
 
 static void
+photobucket_account_set_property (GObject      *object,
+				  guint         property_id,
+				  const GValue *value,
+				  GParamSpec   *pspec)
+{
+	PhotobucketAccount *self;
+
+	self = PHOTOBUCKET_ACCOUNT (object);
+
+	switch (property_id) {
+	case PROP_SUBDOMAIN:
+		_g_strset (&self->subdomain, g_value_get_string (value));
+		break;
+	case PROP_HOME_URL:
+		_g_strset (&self->home_url, g_value_get_string (value));
+		break;
+	default:
+		break;
+	}
+}
+
+
+static void
+photobucket_account_get_property (GObject    *object,
+				  guint       property_id,
+				  GValue     *value,
+				  GParamSpec *pspec)
+{
+	PhotobucketAccount *self;
+
+	self = PHOTOBUCKET_ACCOUNT (object);
+
+	switch (property_id) {
+	case PROP_SUBDOMAIN:
+		g_value_set_string (value, self->subdomain);
+		break;
+	case PROP_HOME_URL:
+		g_value_set_string (value, self->home_url);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+static void
 photobucket_account_class_init (PhotobucketAccountClass *klass)
 {
-	G_OBJECT_CLASS (klass)->finalize = photobucket_account_finalize;
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = photobucket_account_finalize;
+	object_class->set_property = photobucket_account_set_property;
+	object_class->get_property = photobucket_account_get_property;
+
+	/* properties */
+
+	g_object_class_install_property (object_class,
+					 PROP_SUBDOMAIN,
+					 g_param_spec_string ("subdomain",
+                                                              "Subdomain",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_HOME_URL,
+					 g_param_spec_string ("home-url",
+                                                              "Home URL",
+                                                              "",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
 }
 
 

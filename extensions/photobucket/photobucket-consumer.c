@@ -116,29 +116,28 @@ photobucket_access_token_response (OAuthService       *self,
 				   GSimpleAsyncResult *result)
 {
 	GHashTable *values;
-	char       *username;
 	char       *token;
 	char       *token_secret;
 
 	values = soup_form_decode (body->data);
 
-	username = g_hash_table_lookup (values, "username");
 	token = g_hash_table_lookup (values, "oauth_token");
 	token_secret = g_hash_table_lookup (values, "oauth_token_secret");
-	if ((username != NULL) && (token != NULL) && (token_secret != NULL)) {
+	if ((token != NULL) && (token_secret != NULL)) {
 		OAuthAccount *account;
 
 		oauth_service_set_token (self, token);
 		oauth_service_set_token_secret (self, token_secret);
 
 		account = g_object_new (PHOTOBUCKET_TYPE_ACCOUNT,
-					"name", username,
-					"username", username,
+					"id", g_hash_table_lookup (values, "username"),
+					"name", g_hash_table_lookup (values, "username"),
+					"username", g_hash_table_lookup (values, "username"),
 					"token", token,
 					"token-secret", token_secret,
+					"subdomain", g_hash_table_lookup (values, "subdomain"),
+					"home-url", g_hash_table_lookup (values, "homeurl"),
 					NULL);
-		photobucket_account_set_subdomain (PHOTOBUCKET_ACCOUNT (account), g_hash_table_lookup (values, "subdomain"));
-		photobucket_account_set_home_url (PHOTOBUCKET_ACCOUNT (account), g_hash_table_lookup (values, "homeurl"));
 		g_simple_async_result_set_op_res_gpointer (result, account, g_object_unref);
 	}
 	else {
