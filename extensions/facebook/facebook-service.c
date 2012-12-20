@@ -278,7 +278,7 @@ facebook_service_ask_authorization (WebService *base)
 	GtkWidget       *dialog;
 
 	dialog = oauth_ask_authorization_dialog_new (facebook_utils_get_authorization_url (WEB_AUTHORIZATION_WRITE));
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 800, 600);
+	_gtk_window_resize_to_fit_screen_height (dialog, 1024);
 	_web_service_set_auth_dialog (WEB_SERVICE (self), GTK_DIALOG (dialog));
 
 	g_signal_connect (OAUTH_ASK_AUTHORIZATION_DIALOG (dialog),
