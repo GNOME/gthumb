@@ -337,9 +337,8 @@ extensions/flicker/callbacks.h
 [type: gettext/ini]extensions/flicker/flicker.extension.in.in
 extensions/flicker/main.c
 [type: gettext/glade]extensions/flicker_utils/data/ui/export-to-flickr.ui
-[type: gettext/glade]extensions/flicker_utils/data/ui/flicker-ask-authorization.ui
-[type: gettext/glade]extensions/flicker_utils/data/ui/flicker-complete-authorization.ui
 [type: gettext/glade]extensions/flicker_utils/data/ui/flicker-export-completed.ui
+[type: gettext/glade]extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui
 [type: gettext/glade]extensions/flicker_utils/data/ui/import-from-flickr.ui
 extensions/flicker_utils/dlg-export-to-flickr.c
 extensions/flicker_utils/dlg-export-to-flickr.h
@@ -468,7 +467,6 @@ extensions/map_view/main.c
 [type: gettext/glade]extensions/oauth/data/ui/oauth-account-chooser.ui
 [type: gettext/glade]extensions/oauth/data/ui/oauth-account-manager.ui
 [type: gettext/glade]extensions/oauth/data/ui/oauth-ask-authorization.ui
-[type: gettext/glade]extensions/oauth/data/ui/oauth-complete-authorization.ui
 extensions/oauth/main.c
 extensions/oauth/oauth-account.c
 extensions/oauth/oauth-account-chooser-dialog.c
