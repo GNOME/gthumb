@@ -1,9 +1,8 @@
 uidir = $(pkgdatadir)/ui
 ui_DATA = 					\
 	export-to-flickr.ui			\
-	flicker-ask-authorization.ui		\
-	flicker-complete-authorization.ui	\
 	flicker-export-completed.ui		\
+	flickr-ask-authorization-old.ui		\
 	import-from-flickr.ui
 
 EXTRA_DIST = $(ui_DATA)

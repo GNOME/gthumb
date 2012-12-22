@@ -77,6 +77,7 @@ typedef struct {
 	const char *upload_url;
 	const char *static_url;
 	gboolean    automatic_urls;
+	gboolean    new_authentication;
 } FlickrServer;
 
 

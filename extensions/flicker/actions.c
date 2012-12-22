@@ -43,7 +43,8 @@ static FlickrServer www_flickr_com = {
 	"http://api.flickr.com/services/rest",
 	"http://api.flickr.com/services/upload",
 	"static.flickr.com",
-	FALSE
+	FALSE,
+	TRUE
 };
 
 

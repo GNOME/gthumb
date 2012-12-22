@@ -107,6 +107,8 @@ struct _FlickrServicePrivate {
 	AddPhotosData  *add_photos;
 	FlickrServer   *server;
 	OAuthConsumer  *consumer;
+	GChecksum      *checksum;
+	char           *frob;
 };
 
 
@@ -167,8 +169,453 @@ flickr_service_finalize (GObject *object)
 	post_photos_data_free (self->priv->post_photos);
 	add_photos_data_free (self->priv->add_photos);
 	oauth_consumer_free (self->priv->consumer);
+	g_checksum_free (self->priv->checksum);
+	g_free (self->priv->frob);
 
 	G_OBJECT_CLASS (flickr_service_parent_class)->finalize (object);
+}
+
+
+/* -- flickr_service_old_auth_get_frob -- */
+
+
+static void
+flickr_service_old_auth_add_api_sig (FlickrService *self,
+				     GHashTable    *data_set)
+{
+	GList *keys;
+	GList *scan;
+
+	g_hash_table_insert (data_set, "api_key", (gpointer) self->priv->server->consumer_key);
+	if (oauth_service_get_token (OAUTH_SERVICE (self)) != NULL)
+		g_hash_table_insert (data_set, "auth_token", (gpointer) oauth_service_get_token (OAUTH_SERVICE (self)));
+
+	g_checksum_reset (self->priv->checksum);
+	g_checksum_update (self->priv->checksum, (guchar *) self->priv->server->consumer_secret, -1);
+
+	keys = g_hash_table_get_keys (data_set);
+	keys = g_list_sort (keys, (GCompareFunc) strcmp);
+	for (scan = keys; scan; scan = scan->next) {
+		char *key = scan->data;
+
+		g_checksum_update (self->priv->checksum, (guchar *) key, -1);
+		g_checksum_update (self->priv->checksum, g_hash_table_lookup (data_set, key), -1);
+	}
+	g_hash_table_insert (data_set, "api_sig", (gpointer) g_checksum_get_string (self->priv->checksum));
+
+	g_list_free (keys);
+}
+
+
+static void
+flickr_service_old_auth_get_frob_ready_cb (SoupSession *session,
+					   SoupMessage *msg,
+					   gpointer     user_data)
+{
+	FlickrService      *self = user_data;
+	GSimpleAsyncResult *result;
+	SoupBuffer         *body;
+	DomDocument        *doc = NULL;
+	GError             *error = NULL;
+
+	g_free (self->priv->frob);
+	self->priv->frob = NULL;
+
+	result = _web_service_get_result (WEB_SERVICE (self));
+
+	body = soup_message_body_flatten (msg->response_body);
+	if (flickr_utils_parse_response (body, &doc, &error)) {
+		DomElement *root;
+		DomElement *child;
+
+		root = DOM_ELEMENT (doc)->first_child;
+		for (child = root->first_child; child; child = child->next_sibling)
+			if (g_strcmp0 (child->tag_name, "frob") == 0)
+				self->priv->frob = g_strdup (dom_element_get_inner_text (child));
+
+		if (self->priv->frob == NULL) {
+			error = g_error_new_literal (WEB_SERVICE_ERROR, WEB_SERVICE_ERROR_GENERIC, _("Unknown error"));
+			g_simple_async_result_set_from_error (result, error);
+		}
+		else
+			g_simple_async_result_set_op_res_gboolean (result, TRUE);
+
+		g_object_unref (doc);
+	}
+	else
+		g_simple_async_result_set_from_error (result, error);
+
+	g_simple_async_result_complete_in_idle (result);
+
+	soup_buffer_free (body);
+}
+
+
+void
+flickr_service_old_auth_get_frob (FlickrService       *self,
+				  GCancellable        *cancellable,
+				  GAsyncReadyCallback  callback,
+				  gpointer             user_data)
+{
+	GHashTable  *data_set;
+	SoupMessage *msg;
+
+	oauth_service_set_token (OAUTH_SERVICE (self), NULL);
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "method", "flickr.auth.getFrob");
+	flickr_service_old_auth_add_api_sig (self, data_set);
+	msg = soup_form_request_new_from_hash ("GET", self->priv->server->rest_url, data_set);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   flickr_service_old_auth_get_frob,
+				   flickr_service_old_auth_get_frob_ready_cb,
+				   self);
+
+	g_hash_table_destroy (data_set);
+}
+
+
+static gboolean
+flickr_service_old_auth_get_frob_finish (FlickrService  *self,
+					 GAsyncResult   *result,
+					 GError        **error)
+{
+	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
+		return FALSE;
+	else
+		return TRUE;
+}
+
+
+/* -- flickr_service_old_auth_get_token -- */
+
+
+static void
+flickr_service_old_auth_get_token_ready_cb (SoupSession *session,
+					    SoupMessage *msg,
+					    gpointer     user_data)
+{
+	FlickrService      *self = user_data;
+	GSimpleAsyncResult *result;
+	SoupBuffer         *body;
+	DomDocument        *doc = NULL;
+	GError             *error = NULL;
+
+	result = _web_service_get_result (WEB_SERVICE (self));
+
+	body = soup_message_body_flatten (msg->response_body);
+	if (flickr_utils_parse_response (body, &doc, &error)) {
+		DomElement *response;
+		DomElement *auth;
+		const char *token;
+
+		token = NULL;
+		response = DOM_ELEMENT (doc)->first_child;
+		for (auth = response->first_child; auth; auth = auth->next_sibling) {
+			if (g_strcmp0 (auth->tag_name, "auth") == 0) {
+				DomElement *node;
+
+				for (node = auth->first_child; node; node = node->next_sibling) {
+					if (g_strcmp0 (node->tag_name, "token") == 0) {
+						token = dom_element_get_inner_text (node);
+						oauth_service_set_token (OAUTH_SERVICE (self), token);
+						break;
+					}
+				}
+
+				for (node = auth->first_child; node; node = node->next_sibling) {
+					if (g_strcmp0 (node->tag_name, "user") == 0) {
+						FlickrAccount *account;
+
+						account = g_object_new (FLICKR_TYPE_ACCOUNT,
+									"id", dom_element_get_attribute (node, "nsid"),
+									"username", dom_element_get_attribute (node, "username"),
+									"name", dom_element_get_attribute (node, "fullname"),
+									"token", token,
+									NULL);
+						g_simple_async_result_set_op_res_gpointer (result, account, g_object_unref);
+						break;
+					}
+				}
+			}
+		}
+
+		if (token == NULL) {
+			error = g_error_new_literal (WEB_SERVICE_ERROR, WEB_SERVICE_ERROR_GENERIC, _("Unknown error"));
+			g_simple_async_result_set_from_error (result, error);
+		}
+
+		g_object_unref (doc);
+	}
+	else
+		g_simple_async_result_set_from_error (result, error);
+
+	g_simple_async_result_complete_in_idle (result);
+
+	soup_buffer_free (body);
+}
+
+
+static void
+flickr_service_old_auth_get_token (FlickrService       *self,
+				   GCancellable        *cancellable,
+				   GAsyncReadyCallback  callback,
+				   gpointer             user_data)
+{
+	GHashTable  *data_set;
+	SoupMessage *msg;
+
+	oauth_service_set_token (OAUTH_SERVICE (self), NULL);
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "method", "flickr.auth.getToken");
+	g_hash_table_insert (data_set, "frob", self->priv->frob);
+	flickr_service_old_auth_add_api_sig (self, data_set);
+	msg = soup_form_request_new_from_hash ("GET", self->priv->server->rest_url, data_set);
+	_web_service_send_message (WEB_SERVICE (self),
+				   msg,
+				   cancellable,
+				   callback,
+				   user_data,
+				   flickr_service_old_auth_get_token,
+				   flickr_service_old_auth_get_token_ready_cb,
+				   self);
+
+	g_hash_table_destroy (data_set);
+}
+
+
+static OAuthAccount *
+flickr_service_old_auth_get_token_finish (FlickrService  *self,
+					  GAsyncResult   *result,
+					  GError        **error)
+{
+	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
+		return FALSE;
+	else
+		return g_object_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+}
+
+
+static char *
+old_auth_get_access_type_name (WebAuthorization access_type)
+{
+	char *name = NULL;
+
+	switch (access_type) {
+	case WEB_AUTHORIZATION_READ:
+		name = "read";
+		break;
+
+	case WEB_AUTHORIZATION_WRITE:
+		name = "write";
+		break;
+	}
+
+	return name;
+}
+
+
+char *
+flickr_service_old_auth_get_login_link (FlickrService    *self,
+					WebAuthorization  access_type)
+{
+	GHashTable *data_set;
+	GString    *link;
+	GList      *keys;
+	GList      *scan;
+
+	g_return_val_if_fail (self->priv->frob != NULL, NULL);
+
+	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	g_hash_table_insert (data_set, "frob", self->priv->frob);
+	g_hash_table_insert (data_set, "perms", old_auth_get_access_type_name (access_type));
+	flickr_service_old_auth_add_api_sig (self, data_set);
+
+	link = g_string_new (self->priv->server->authorization_url);
+	g_string_append (link, "?");
+	keys = g_hash_table_get_keys (data_set);
+	for (scan = keys; scan; scan = scan->next) {
+		char *key = scan->data;
+
+		if (scan != keys)
+			g_string_append (link, "&");
+		g_string_append (link, key);
+		g_string_append (link, "=");
+		g_string_append (link, g_hash_table_lookup (data_set, key));
+	}
+
+	g_list_free (keys);
+	g_hash_table_destroy (data_set);
+
+	return g_string_free (link, FALSE);
+}
+
+
+/* -- flickr_service_ask_authorization -- */
+
+
+#define _RESPONSE_CONTINUE 1
+#define _RESPONSE_AUTHORIZE 2
+
+
+static void
+old_auth_token_ready_cb (GObject      *source_object,
+			 GAsyncResult *res,
+			 gpointer      user_data)
+{
+	FlickrService *self = user_data;
+	GError        *error = NULL;
+	OAuthAccount  *account;
+
+	account = flickr_service_old_auth_get_token_finish (self, res, &error);
+
+	if (account == NULL) {
+		gtk_dialog_response (GTK_DIALOG (_web_service_get_auth_dialog (WEB_SERVICE (self))), GTK_RESPONSE_CANCEL);
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
+
+	web_service_set_current_account (WEB_SERVICE (self), account);
+	gtk_dialog_response (GTK_DIALOG (_web_service_get_auth_dialog (WEB_SERVICE (self))), GTK_RESPONSE_OK);
+
+	g_object_unref (account);
+}
+
+
+static void
+old_authorization_complete (FlickrService *self)
+{
+	GtkWidget  *dialog;
+	GtkBuilder *builder;
+	char       *text;
+	char       *secondary_text;
+
+	dialog = _web_service_get_auth_dialog (WEB_SERVICE (self));
+	builder = g_object_get_data (G_OBJECT (dialog), "builder");
+	gtk_widget_hide (_gtk_builder_get_widget (builder, "authorize_button"));
+	gtk_widget_show (_gtk_builder_get_widget (builder, "complete_button"));
+	text = g_strdup_printf (_("Return to this window when you have finished the authorization process on %s"), self->priv->server->display_name);
+	secondary_text = g_strdup (_("Once you're done, click the 'Continue' button below."));
+	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
+	gtk_window_present (GTK_WINDOW (dialog));
+
+	g_free (secondary_text);
+	g_free (text);
+}
+
+
+static void
+old_authorization_dialog_response_cb (GtkDialog *dialog,
+				      int        response_id,
+				      gpointer   user_data)
+{
+	FlickrService *self = user_data;
+
+	switch (response_id) {
+	case _RESPONSE_AUTHORIZE:
+		{
+			GdkScreen *screen;
+			char      *url;
+			GError    *error = NULL;
+
+			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
+			url = flickr_service_old_auth_get_login_link (self, WEB_AUTHORIZATION_WRITE);
+			if (gtk_show_uri (screen, url, 0, &error))
+				old_authorization_complete (self);
+			else
+				gth_task_completed (GTH_TASK (self), error);
+
+			g_free (url);
+		}
+		break;
+
+	case _RESPONSE_CONTINUE:
+		gtk_widget_hide (GTK_WIDGET (dialog));
+		gth_task_dialog (GTH_TASK (self), FALSE, NULL);
+		flickr_service_old_auth_get_token (self,
+						   gth_task_get_cancellable (GTH_TASK (self)),
+						   old_auth_token_ready_cb,
+						   self);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+old_auth_frob_ready_cb (GObject      *source_object,
+			GAsyncResult *result,
+			gpointer      user_data)
+{
+	FlickrService *self = user_data;
+	GError        *error = NULL;
+	GtkBuilder    *builder;
+	GtkWidget     *dialog;
+	char          *text;
+	char          *secondary_text;
+
+	if (! flickr_service_old_auth_get_frob_finish (self, result, &error)) {
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
+
+	builder = _gtk_builder_new_from_file ("flickr-ask-authorization-old.ui", "flicker_utils");
+	dialog = _gtk_builder_get_widget (builder, "ask_authorization_dialog");
+	text = g_strdup_printf (_("gThumb requires your authorization to upload the photos to %s"), self->priv->server->display_name);
+	secondary_text = g_strdup_printf (_("Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."), self->priv->server->display_name);
+	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
+	gtk_widget_show (_gtk_builder_get_widget (builder, "authorize_button"));
+	gtk_widget_hide (_gtk_builder_get_widget (builder, "complete_button"));
+	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (old_authorization_dialog_response_cb),
+			  self);
+
+	_web_service_set_auth_dialog (WEB_SERVICE (self), GTK_DIALOG (dialog));
+	gtk_window_present (GTK_WINDOW (dialog));
+
+	g_free (secondary_text);
+	g_free (text);
+}
+
+
+static void
+flickr_service_ask_authorization (WebService *base)
+{
+	FlickrService *self = FLICKR_SERVICE (base);
+
+	if (self->priv->server->new_authentication) {
+		WEB_SERVICE_CLASS (flickr_service_parent_class)->ask_authorization (base);
+		return;
+	}
+
+	/* old authentication process, still used by 23hq.com */
+
+	flickr_service_old_auth_get_frob (self,
+					  gth_task_get_cancellable (GTH_TASK (self)),
+					  old_auth_frob_ready_cb,
+					  self);
+}
+
+
+static void
+flickr_service_add_signature (FlickrService *self,
+			      const char    *method,
+			      const char    *url,
+			      GHashTable    *parameters)
+{
+	if (self->priv->server->new_authentication)
+		flickr_service_add_signature (self, method, url, parameters);
+	else
+		flickr_service_old_auth_add_api_sig (self, parameters);
 }
 
 
@@ -258,7 +705,7 @@ flickr_service_get_user_info (WebService          *base,
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "format", RESPONSE_FORMAT);
 	g_hash_table_insert (data_set, "method", "flickr.people.getUploadStatus");
-	oauth_service_add_signature (OAUTH_SERVICE (self), "GET", self->priv->server->rest_url, data_set);
+	flickr_service_add_signature (self, "GET", self->priv->server->rest_url, data_set);
 	msg = soup_form_request_new_from_hash ("GET", self->priv->server->rest_url, data_set);
 	_web_service_send_message (WEB_SERVICE (self),
 				   msg,
@@ -287,6 +734,7 @@ flickr_service_class_init (FlickrServiceClass *klass)
 	object_class->finalize = flickr_service_finalize;
 
 	service_class = (WebServiceClass*) klass;
+	service_class->ask_authorization = flickr_service_ask_authorization;
 	service_class->get_user_info = flickr_service_get_user_info;
 
 	/* properties */
@@ -307,6 +755,8 @@ flickr_service_init (FlickrService *self)
 	self->priv->post_photos = NULL;
 	self->priv->add_photos = NULL;
 	self->priv->server = NULL;
+	self->priv->checksum = g_checksum_new (G_CHECKSUM_MD5);
+	self->priv->frob = NULL;
 }
 
 
@@ -415,7 +865,7 @@ flickr_service_list_photosets (FlickrService       *self,
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "format", RESPONSE_FORMAT);
 	g_hash_table_insert (data_set, "method", "flickr.photosets.getList");
-	oauth_service_add_signature (OAUTH_SERVICE (self), "GET", self->priv->server->rest_url, data_set);
+	flickr_service_add_signature (self, "GET", self->priv->server->rest_url, data_set);
 	msg = soup_form_request_new_from_hash ("GET", self->priv->server->rest_url, data_set);
 	_web_service_send_message (WEB_SERVICE (self),
 				   msg,
@@ -519,7 +969,7 @@ flickr_service_create_photoset (FlickrService       *self,
 	g_hash_table_insert (data_set, "method", "flickr.photosets.create");
 	g_hash_table_insert (data_set, "title", photoset->title);
 	g_hash_table_insert (data_set, "primary_photo_id", photoset->primary);
-	oauth_service_add_signature (OAUTH_SERVICE (self), "GET", self->priv->server->rest_url, data_set);
+	flickr_service_add_signature (self, "GET", self->priv->server->rest_url, data_set);
 	msg = soup_form_request_new_from_hash ("GET", self->priv->server->rest_url, data_set);
 	_web_service_send_message (WEB_SERVICE (self),
 				   msg,
@@ -650,7 +1100,7 @@ add_current_photo_to_set (FlickrService *self)
 	g_hash_table_insert (data_set, "method", "flickr.photosets.addPhoto");
 	g_hash_table_insert (data_set, "photoset_id", self->priv->add_photos->photoset->id);
 	g_hash_table_insert (data_set, "photo_id", photo_id);
-	oauth_service_add_signature (OAUTH_SERVICE (self), "POST", self->priv->server->rest_url, data_set);
+	flickr_service_add_signature (self, "POST", self->priv->server->rest_url, data_set);
 	msg = soup_form_request_new_from_hash ("POST", self->priv->server->rest_url, data_set);
 	_web_service_send_message (WEB_SERVICE (self),
 				   msg,
@@ -903,7 +1353,7 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 		g_hash_table_insert (data_set, "is_family", ((self->priv->post_photos->privacy_level == FLICKR_PRIVACY_FAMILY) || (self->priv->post_photos->privacy_level == FLICKR_PRIVACY_FRIENDS_FAMILY)) ? "1" : "0");
 		g_hash_table_insert (data_set, "safety_level", get_safety_value (self->priv->post_photos->safety_level));
 		g_hash_table_insert (data_set, "hidden", self->priv->post_photos->hidden ? "2" : "1");
-		oauth_service_add_signature (OAUTH_SERVICE (self), "POST", self->priv->server->upload_url, data_set);
+		flickr_service_add_signature (self, "POST", self->priv->server->upload_url, data_set);
 
 		keys = g_hash_table_get_keys (data_set);
 		for (scan = keys; scan; scan = scan->next) {
@@ -1018,8 +1468,8 @@ post_photos_info_ready_cb (GList    *files,
 
 void
 flickr_service_post_photos (FlickrService       *self,
-			    FlickrPrivacy    privacy_level,
-			    FlickrSafety     safety_level,
+			    FlickrPrivacy	 privacy_level,
+			    FlickrSafety	 safety_level,
 			    gboolean             hidden,
 			    int                  max_width,
 			    int                  max_height,
@@ -1030,7 +1480,7 @@ flickr_service_post_photos (FlickrService       *self,
 {
 	gth_task_progress (GTH_TASK (self),
 			   _("Uploading the files to the server"),
-			   NULL,
+			   "",
 			   TRUE,
 			   0.0);
 
@@ -1218,7 +1668,7 @@ flickr_service_list_photoset_page (FlickrListPhotosData *data,
 		g_hash_table_insert (data_set, "page", per_page);
 	}
 
-	oauth_service_add_signature (OAUTH_SERVICE (self), "GET", self->priv->server->rest_url, data_set);
+	flickr_service_add_signature (self, "GET", self->priv->server->rest_url, data_set);
 	msg = soup_form_request_new_from_hash ("GET", self->priv->server->rest_url, data_set);
 	_web_service_send_message (WEB_SERVICE (self),
 				   msg,
