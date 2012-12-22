@@ -26,6 +26,8 @@
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
+#define _LOADING_PAGE 1
+#define _WEB_VIEW_PAGE 0
 
 
 G_DEFINE_TYPE (OAuthAskAuthorizationDialog, oauth_ask_authorization_dialog, GTK_TYPE_DIALOG)
@@ -44,14 +46,36 @@ static guint oauth_ask_authorization_dialog_signals[LAST_SIGNAL] = { 0 };
 
 
 struct _OAuthAskAuthorizationDialogPrivate {
-	GtkWidget *view;
+	GtkWidget  *view;
+	GtkBuilder *builder;
+	gulong      load_changed_id;
 };
+
+
+static void
+oauth_ask_authorization_dialog_finalize (GObject *obj)
+{
+	OAuthAskAuthorizationDialog *self;
+
+	self = OAUTH_ASK_AUTHORIZATION_DIALOG (obj);
+	if (g_signal_handler_is_connected (self->priv->view, self->priv->load_changed_id))
+		g_signal_handler_disconnect (self->priv->view, self->priv->load_changed_id);
+	webkit_web_view_stop_loading (WEBKIT_WEB_VIEW (self->priv->view));
+	_g_object_unref (self->priv->builder);
+
+	G_OBJECT_CLASS (oauth_ask_authorization_dialog_parent_class)->finalize (obj);
+}
 
 
 static void
 oauth_ask_authorization_dialog_class_init (OAuthAskAuthorizationDialogClass *klass)
 {
+	GObjectClass *object_class;
+
 	g_type_class_add_private (klass, sizeof (OAuthAskAuthorizationDialogPrivate));
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = oauth_ask_authorization_dialog_finalize;
 
 	oauth_ask_authorization_dialog_signals[LOAD_REQUEST] =
 		g_signal_new ("load-request",
@@ -93,12 +117,14 @@ webkit_view_load_changed_cb (WebKitWebView   *web_view,
 	switch (load_event) {
 	case WEBKIT_LOAD_STARTED:
 	case WEBKIT_LOAD_COMMITTED:
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(GET_WIDGET ("dialog_content")), _LOADING_PAGE);
 		g_signal_emit (self, oauth_ask_authorization_dialog_signals[LOAD_REQUEST], 0);
 		break;
 	case WEBKIT_LOAD_REDIRECTED:
 		g_signal_emit (self, oauth_ask_authorization_dialog_signals[REDIRECTED], 0);
 		break;
 	case WEBKIT_LOAD_FINISHED:
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(GET_WIDGET ("dialog_content")), _WEB_VIEW_PAGE);
 		g_signal_emit (self, oauth_ask_authorization_dialog_signals[LOADED], 0);
 		break;
 	default:
@@ -110,20 +136,21 @@ webkit_view_load_changed_cb (WebKitWebView   *web_view,
 static void
 oauth_ask_authorization_dialog_init (OAuthAskAuthorizationDialog *self)
 {
-	GtkWidget        *box;
+	GtkWidget        *dialog_content;
 	WebKitWebContext *context;
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ASK_AUTHORIZATION_DIALOG, OAuthAskAuthorizationDialogPrivate);
+	self->priv->builder = _gtk_builder_new_from_file ("oauth-ask-authorization.ui", "oauth");
 
 	gtk_window_set_default_size (GTK_WINDOW (self), 500, 500);
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
-	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_widget_show (box);
-	gtk_container_set_border_width (GTK_CONTAINER (box), 5);
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), box, TRUE, TRUE, 0);
+	dialog_content = GET_WIDGET ("dialog_content");
+	gtk_widget_show (dialog_content);
+	gtk_container_set_border_width (GTK_CONTAINER (dialog_content), 5);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), dialog_content, TRUE, TRUE, 0);
 
 	self->priv->view = webkit_web_view_new ();
 	context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (self->priv->view));
@@ -144,12 +171,12 @@ oauth_ask_authorization_dialog_init (OAuthAskAuthorizationDialog *self)
 		g_object_unref (file);
 	}
 	gtk_widget_show (self->priv->view);
-	gtk_box_pack_start (GTK_BOX (box), self->priv->view, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("webkit_view_container")), self->priv->view, TRUE, TRUE, 0);
 
-	g_signal_connect (self->priv->view,
-			  "load-changed",
-			  G_CALLBACK (webkit_view_load_changed_cb),
-			  self);
+	self->priv->load_changed_id = g_signal_connect (self->priv->view,
+			  	  	  	  	"load-changed",
+			  	  	  	  	G_CALLBACK (webkit_view_load_changed_cb),
+			  	  	  	  	self);
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
 			       GTK_STOCK_CANCEL,
