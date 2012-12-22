@@ -613,7 +613,7 @@ flickr_service_add_signature (FlickrService *self,
 			      GHashTable    *parameters)
 {
 	if (self->priv->server->new_authentication)
-		flickr_service_add_signature (self, method, url, parameters);
+		oauth_service_add_signature (OAUTH_SERVICE (self), method, url, parameters);
 	else
 		flickr_service_old_auth_add_api_sig (self, parameters);
 }
