@@ -26,7 +26,8 @@
 
 #define DIALOG_WIDTH 450
 #define SHOW_DELAY 500
-#define PULSE_INTERVAL 500
+#define PULSE_INTERVAL (1000 / 12)
+#define PULSE_STEP (1.0 / 20.0)
 
 
 /* -- gth_task_progress -- */
@@ -121,6 +122,7 @@ gth_task_progress_init (GthTaskProgress *self)
 	gtk_box_pack_start (GTK_BOX (vbox), self->description_label, FALSE, FALSE, 0);
 
 	self->fraction_progressbar = gtk_progress_bar_new ();
+	gtk_progress_bar_set_pulse_step (GTK_PROGRESS_BAR (self->fraction_progressbar), PULSE_STEP);
 	gtk_widget_set_size_request (self->fraction_progressbar, -1, 15);
 	gtk_widget_show (self->fraction_progressbar);
 	gtk_box_pack_start (GTK_BOX (vbox), self->fraction_progressbar, FALSE, FALSE, 0);
