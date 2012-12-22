@@ -322,6 +322,9 @@ ask_authorization_dialog_load_request_cb (OAuthAskAuthorizationDialog *dialog,
 		_g_strset (&self->priv->token, g_hash_table_lookup (data, "oauth_token"));
 
 		if (self->priv->token != NULL) {
+			gtk_widget_hide (GTK_WIDGET (dialog));
+			gth_task_dialog (GTH_TASK (self), FALSE, NULL);
+
 			success = TRUE;
 			_oauth_service_get_access_token (self,
 							 g_hash_table_lookup (data, "oauth_verifier"),

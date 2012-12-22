@@ -273,6 +273,9 @@ ask_authorization_dialog_loaded_cb (OAuthAskAuthorizationDialog *dialog,
 	if (g_str_has_prefix (title, PICASA_WEB_REDIRECT_TITLE)) {
 		const char *authorization_code;
 
+		gtk_widget_hide (GTK_WIDGET (dialog));
+		gth_task_dialog (GTH_TASK (self), FALSE, NULL);
+
 		authorization_code = title + strlen (PICASA_WEB_REDIRECT_TITLE);
 		_picasa_web_service_get_refresh_token (self,
 						       authorization_code,
