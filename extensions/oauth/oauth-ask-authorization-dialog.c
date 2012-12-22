@@ -58,9 +58,6 @@ oauth_ask_authorization_dialog_finalize (GObject *obj)
 	OAuthAskAuthorizationDialog *self;
 
 	self = OAUTH_ASK_AUTHORIZATION_DIALOG (obj);
-	if (g_signal_handler_is_connected (self->priv->view, self->priv->load_changed_id))
-		g_signal_handler_disconnect (self->priv->view, self->priv->load_changed_id);
-	webkit_web_view_stop_loading (WEBKIT_WEB_VIEW (self->priv->view));
 	_g_object_unref (self->priv->builder);
 
 	G_OBJECT_CLASS (oauth_ask_authorization_dialog_parent_class)->finalize (obj);
@@ -70,7 +67,7 @@ oauth_ask_authorization_dialog_finalize (GObject *obj)
 static void
 oauth_ask_authorization_dialog_class_init (OAuthAskAuthorizationDialogClass *klass)
 {
-	GObjectClass *object_class;
+	GObjectClass   *object_class;
 
 	g_type_class_add_private (klass, sizeof (OAuthAskAuthorizationDialogPrivate));
 
@@ -125,6 +122,7 @@ webkit_view_load_changed_cb (WebKitWebView   *web_view,
 		break;
 	case WEBKIT_LOAD_FINISHED:
 		gtk_notebook_set_current_page (GTK_NOTEBOOK(GET_WIDGET ("dialog_content")), _WEB_VIEW_PAGE);
+		gtk_widget_grab_focus (self->priv->view);
 		g_signal_emit (self, oauth_ask_authorization_dialog_signals[LOADED], 0);
 		break;
 	default:
