@@ -1136,7 +1136,7 @@ picasa_web_service_post_photos (PicasaWebService    *self,
 
 	gth_task_progress (GTH_TASK (self),
 			   _("Uploading the files to the server"),
-			   NULL,
+			   "",
 			   TRUE,
 			   0.0);
 

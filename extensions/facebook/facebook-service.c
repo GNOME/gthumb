@@ -920,7 +920,7 @@ facebook_service_upload_photos (FacebookService     *self,
 {
 	gth_task_progress (GTH_TASK (self),
 			   _("Uploading the files to the server"),
-			   NULL,
+			   "",
 			   TRUE,
 			   0.0);
 
