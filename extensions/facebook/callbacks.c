@@ -34,6 +34,11 @@ static const char *ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
+"      <menu name='Import' action='ImportMenu'>"
+"        <placeholder name='Web_Services'>"
+"          <menuitem action='File_Import_Facebook'/>"
+"        </placeholder>"
+"      </menu>"
 "      <menu name='Export' action='ExportMenu'>"
 "        <placeholder name='Web_Services'>"
 "          <menuitem action='File_Export_Facebook'/>"
@@ -50,6 +55,11 @@ static const char *ui_info =
 
 
 static GthActionEntryExt action_entries[] = {
+	{ "File_Import_Facebook", "site-facebook",
+	  N_("Face_book..."), NULL,
+	  N_("Download photos from Facebook"),
+	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
+	  G_CALLBACK (gth_browser_activate_action_import_facebook) },
 	{ "File_Export_Facebook", "site-facebook",
 	  N_("Face_book..."), NULL,
 	  N_("Upload photos to Facebook"),

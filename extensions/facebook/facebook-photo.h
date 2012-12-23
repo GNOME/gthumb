@@ -38,53 +38,37 @@ typedef struct _FacebookPhoto FacebookPhoto;
 typedef struct _FacebookPhotoClass FacebookPhotoClass;
 typedef struct _FacebookPhotoPrivate FacebookPhotoPrivate;
 
+typedef struct {
+	char *source;
+	int   width;
+	int   height;
+} FacebookImage;
+
 struct _FacebookPhoto {
 	GObject parent_instance;
 	FacebookPhotoPrivate *priv;
 
-	char            *id;
-	char            *secret;
-	char            *server;
-	char            *title;
-	gboolean         is_primary;
-	char            *url_sq;
-	char            *url_t;
-	char            *url_s;
-	char            *url_m;
-	char            *url_o;
-	char            *original_format;
-	char            *mime_type;
-	int              position;
+	char        *id;
+	char        *picture;
+	char        *source;
+	int          width;
+	int          height;
+	char        *link;
+	GthDateTime *created_time;
+	GthDateTime *updated_time;
+	GList       *images; /* FacebookImage list */
+	int          position;
 };
 
 struct _FacebookPhotoClass {
 	GObjectClass parent_class;
 };
 
-GType             facebook_photo_get_type             (void);
-FacebookPhoto *     facebook_photo_new                  (void);
-void              facebook_photo_set_id               (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_secret           (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_server           (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_title            (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_is_primary       (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_url_sq           (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_url_t            (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_url_s            (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_url_m            (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_url_o            (FacebookPhoto *self,
-					             const char  *value);
-void              facebook_photo_set_original_format  (FacebookPhoto *self,
-					             const char  *value);
+GType             facebook_photo_get_type		(void);
+FacebookPhoto *   facebook_photo_new			(void);
+const char *      facebook_photo_get_original_url	(FacebookPhoto *photo);
+const char *      facebook_photo_get_thumbnail_url	(FacebookPhoto *photo,
+							 int            requested_size);
 
 G_END_DECLS
 

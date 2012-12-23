@@ -11,4 +11,4 @@ Category=Exporter
 Type=module
 File=%LIBRARY%
 API=%GTHUMB_API_VERSION%
-Requires=export_tools;oauth
+Requires=importer;export_tools;oauth

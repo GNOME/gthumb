@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 #include <config.h>
 #include <stdlib.h>
 #include "glib-utils.h"
@@ -31,14 +31,29 @@
 #define INVALID_USEC (1000000)
 
 
-GthTime * 
+static GthDateTime *
+gth_datetime_copy_for_boxed (GthDateTime *source)
+{
+	GthDateTime *dest;
+
+	dest = gth_datetime_new ();
+	gth_datetime_copy (source, dest);
+
+	return dest;
+}
+
+
+G_DEFINE_BOXED_TYPE (GthDateTime, gth_datetime, gth_datetime_copy_for_boxed, gth_datetime_free)
+
+
+GthTime *
 gth_time_new (void)
 {
 	GthTime *time;
-	
+
 	time = g_new (GthTime, 1);
 	gth_time_clear (time);
-	
+
 	return time;
 }
 
@@ -60,17 +75,17 @@ gth_time_clear (GthTime *time)
 }
 
 
-gboolean 
+gboolean
 gth_time_valid (GthTime *time)
-{ 
+{
 	return (time->hour < INVALID_HOUR) && (time->min < INVALID_MIN) && (time->sec < INVALID_SEC) && (time->usec < INVALID_USEC);
 }
 
 
 void
-gth_time_set_hms (GthTime *time, 
-	 	  guint8   hour, 
-		  guint8   min, 
+gth_time_set_hms (GthTime *time,
+	 	  guint8   hour,
+		  guint8   min,
 		  guint8   sec,
 		  guint    usec)
 {
@@ -183,46 +198,46 @@ gth_datetime_from_exif_date (GthDateTime *dt,
 
 	val = g_ascii_strtoull (exif_date, (char **)&exif_date, 10);
 	year = val;
-	
+
 	if (*exif_date != ':')
 		return FALSE;
-	
+
 	/* MM */
-	
+
 	exif_date++;
 	month = g_ascii_strtoull (exif_date, (char **)&exif_date, 10);
-      
+
 	if (*exif_date != ':')
 		return FALSE;
 
 	/* DD */
-      
+
 	exif_date++;
 	day = g_ascii_strtoull (exif_date, (char **)&exif_date, 10);
-	
+
   	if (*exif_date != ' ')
 		return FALSE;
-  	
+
 	g_date_set_dmy (dt->date, day, month, year);
 
   	/* hh */
-  	
+
   	val = g_ascii_strtoull (exif_date, (char **)&exif_date, 10);
   	dt->time->hour = val;
-  	
+
   	if (*exif_date != ':')
 		return FALSE;
-  	
+
   	/* mm */
-  	
+
 	exif_date++;
 	dt->time->min = g_ascii_strtoull (exif_date, (char **)&exif_date, 10);
-      
+
 	if (*exif_date != ':')
 		return FALSE;
-      
+
       	/* ss */
-      
+
 	exif_date++;
 	dt->time->sec = strtoul (exif_date, (char **)&exif_date, 10);
 

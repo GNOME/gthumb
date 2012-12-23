@@ -955,119 +955,97 @@ facebook_service_upload_photos_finish (FacebookService  *self,
 }
 
 
-#if 0
-
 /* -- facebook_service_list_photos -- */
 
 
 static void
-list_photos_ready_cb (SoupSession *session,
-		      SoupMessage *msg,
-		      gpointer     user_data)
+facebook_service_list_photos_ready_cb (SoupSession *session,
+				       SoupMessage *msg,
+				       gpointer     user_data)
 {
-	FacebookService      *self = user_data;
+	FacebookService    *self = user_data;
 	GSimpleAsyncResult *result;
-	SoupBuffer         *body;
-	DomDocument        *doc = NULL;
+	JsonNode           *node;
 	GError             *error = NULL;
 
 	result = _web_service_get_result (WEB_SERVICE (self));
 
-	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
-		return;
-	}
-
-	body = soup_message_body_flatten (msg->response_body);
-	if (facebook_utils_parse_response (body, &doc, &error)) {
-		DomElement *response;
-		DomElement *node;
+	if (facebook_utils_parse_response (msg, &node, &error)) {
 		GList      *photos = NULL;
+		JsonObject *obj;
+		JsonObject *obj_photos;
+		JsonArray  *data;
+		int         i;
 
-		response = DOM_ELEMENT (doc)->first_child;
-		for (node = response->first_child; node; node = node->next_sibling) {
-			if (g_strcmp0 (node->tag_name, "photoset") == 0) {
-				DomElement *child;
-				int         position;
+		obj = json_node_get_object (node);
+		obj_photos = json_object_get_object_member (obj, "photos");
+		data = json_object_get_array_member (obj_photos, "data");
+		for (i = 0; i < json_array_get_length (data); i++) {
+			JsonNode      *photo_node;
+			FacebookPhoto *photo;
 
-				position = 0;
-				for (child = node->first_child; child; child = child->next_sibling) {
-					if (g_strcmp0 (child->tag_name, "photo") == 0) {
-						FacebookPhoto *photo;
-
-						photo = facebook_photo_new ();
-						dom_domizable_load_from_element (DOM_DOMIZABLE (photo), child);
-						photo->position = position++;
-						photos = g_list_prepend (photos, photo);
-					}
-				}
-			}
+			photo_node = json_array_get_element (data, i);
+			photo = (FacebookPhoto *) json_gobject_deserialize (FACEBOOK_TYPE_PHOTO, photo_node);
+			photo->position = i;
+			photos = g_list_prepend (photos, photo);
 		}
 
 		photos = g_list_reverse (photos);
 		g_simple_async_result_set_op_res_gpointer (result, photos, (GDestroyNotify) _g_object_list_unref);
 
-		g_object_unref (doc);
+		json_node_free (node);
 	}
 	else
 		g_simple_async_result_set_from_error (result, error);
 
 	g_simple_async_result_complete_in_idle (result);
-
-	soup_buffer_free (body);
 }
 
 
 void
-facebook_service_list_photos (FacebookService       *self,
-			    FacebookPhotoset      *photoset,
-			    const char          *extras,
-			    int                  per_page,
-			    int                  page,
-			    GCancellable        *cancellable,
-			    GAsyncReadyCallback  callback,
-			    gpointer             user_data)
+facebook_service_list_photos (FacebookService     *self,
+			      FacebookAlbum       *album,
+			      int                  limit,
+			      const char          *after,
+			      GCancellable        *cancellable,
+			      GAsyncReadyCallback  callback,
+			      gpointer             user_data)
 {
+	char        *uri;
 	GHashTable  *data_set;
-	char        *s;
 	SoupMessage *msg;
 
-	g_return_if_fail (photoset != NULL);
+	g_return_if_fail (album != NULL);
 
-	gth_task_progress (GTH_TASK (self->priv->conn), _("Getting the photo list"), NULL, TRUE, 0.0);
+	gth_task_progress (GTH_TASK (self),
+			   _("Getting the photo list"),
+			   NULL,
+			   TRUE,
+			   0.0);
 
+	uri = g_strdup_printf ("https://graph.facebook.com/%s", album->id);
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "method", "facebook.photosets.getPhotos");
-	g_hash_table_insert (data_set, "photoset_id", photoset->id);
-	if (extras != NULL)
-		g_hash_table_insert (data_set, "extras", (char *) extras);
-	if (per_page > 0) {
-		s = g_strdup_printf ("%d", per_page);
-		g_hash_table_insert (data_set, "per_page", s);
-		g_free (s);
+	g_hash_table_insert (data_set, "fields", "photos");
+	if (limit > 0) {
+		char *s_limit = g_strdup_printf ("%d", limit);
+		g_hash_table_insert (data_set, "limit", s_limit);
+		g_free (s_limit);
 	}
-	if (page > 0) {
-		s = g_strdup_printf ("%d", page);
-		g_hash_table_insert (data_set, "page", s);
-		g_free (s);
-	}
-	facebook_connection_add_api_sig (self->priv->conn, data_set);
-	msg = soup_form_request_new_from_hash ("GET", "http://api.facebook.com/services/rest", data_set);
-	_web_service_send_message (self,
+	if (after != NULL)
+		g_hash_table_insert (data_set, "after", (gpointer) after);
+	_facebook_service_add_access_token (self, data_set);
+	msg = soup_form_request_new_from_hash ("GET", uri, data_set);
+	_web_service_send_message (WEB_SERVICE (self),
 				   msg,
 				   cancellable,
 				   callback,
 				   user_data,
 				   facebook_service_list_photos,
-				   list_photos_ready_cb,
+				   facebook_service_list_photos_ready_cb,
 				   self);
 
 	g_hash_table_destroy (data_set);
+	g_free (uri);
 }
 
 
@@ -1081,6 +1059,3 @@ facebook_service_list_photos_finish (FacebookService  *self,
 	else
 		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
 }
-
-#endif
-

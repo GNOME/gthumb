@@ -79,14 +79,15 @@ void              facebook_service_upload_photos              (FacebookService  
 GList *           facebook_service_upload_photos_finish       (FacebookService      *self,
 						               GAsyncResult         *result,
 						               GError              **error);
-#if 0
 void              facebook_service_list_photos                (FacebookService      *self,
 							       FacebookAlbum        *album,
+							       int                   limit,
+							       const char           *after,
+							       GCancellable         *cancellable,
 							       GAsyncReadyCallback   callback,
 							       gpointer              user_data);
 GList *           facebook_service_list_photos_finish         (FacebookService      *self,
 							       GAsyncResult         *result,
 							       GError              **error);
-#endif
 
 #endif /* FACEBOOK_SERVICE_H */

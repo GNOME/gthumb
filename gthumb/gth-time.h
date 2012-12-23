@@ -18,13 +18,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-  
+
 #ifndef GTH_TIME_H
 #define GTH_TIME_H
 
 #include <glib.h>
 
 G_BEGIN_DECLS
+
+
+#define GTH_TYPE_DATETIME (gth_datetime_get_type ())
+
 
 typedef struct {
 	guint8 hour;
@@ -39,13 +43,14 @@ typedef struct {
 } GthDateTime;
 
 
+GType         gth_datetime_get_type	   (void);
 GthTime *     gth_time_new     		   (void);
 void          gth_time_free    		   (GthTime     *time);
 void          gth_time_clear   		   (GthTime     *time);
 gboolean      gth_time_valid   		   (GthTime     *time);
-void          gth_time_set_hms 		   (GthTime     *time, 
-	 		 		    guint8       hour, 
-		 			    guint8       min, 
+void          gth_time_set_hms 		   (GthTime     *time,
+	 		 		    guint8       hour,
+		 			    guint8       min,
 					    guint8       sec,
 				 	    guint        usec);
 GthDateTime * gth_datetime_new             (void);

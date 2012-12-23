@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2010 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,14 +19,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef DLG_IMPORT_FROM_FACEBOOK_H
+#define DLG_IMPORT_FROM_FACEBOOK_H
 
-#include <gtk/gtk.h>
+#include <gthumb.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
+void dlg_import_from_facebook (GthBrowser *browser);
 
-DEFINE_ACTION(gth_browser_activate_action_export_facebook)
-DEFINE_ACTION(gth_browser_activate_action_import_facebook)
-
-#endif /* ACTIONS_H */
+#endif /* DLG_IMPORT_FROM_FACEBOOK_H */
