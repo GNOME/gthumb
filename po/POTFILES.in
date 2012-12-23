@@ -227,8 +227,11 @@ extensions/facebook/callbacks.h
 [type: gettext/glade]extensions/facebook/data/ui/export-to-facebook.ui
 [type: gettext/glade]extensions/facebook/data/ui/facebook-album-properties.ui
 [type: gettext/glade]extensions/facebook/data/ui/facebook-export-completed.ui
+[type: gettext/glade]extensions/facebook/data/ui/import-from-facebook.ui
 extensions/facebook/dlg-export-to-facebook.c
 extensions/facebook/dlg-export-to-facebook.h
+extensions/facebook/dlg-import-from-facebook.c
+extensions/facebook/dlg-import-from-facebook.h
 extensions/facebook/facebook-album.c
 extensions/facebook/facebook-album.h
 extensions/facebook/facebook-album-properties-dialog.c
