@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-23 02:52+0100\n"
-"PO-Revision-Date: 2012-12-23 02:53+0100\n"
+"POT-Creation-Date: 2012-12-23 22:17+0100\n"
+"PO-Revision-Date: 2012-12-23 22:18+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -1375,6 +1375,7 @@ msgstr "Bieżąca data"
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:6
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:5
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
@@ -1658,6 +1659,7 @@ msgstr "Metadane pliku %s"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:83
+#: ../extensions/facebook/dlg-import-from-facebook.c:319
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:324
 #, c-format
 msgid "%d file"
@@ -1840,13 +1842,17 @@ msgstr "data wykonania zdjęcia"
 msgid "Share"
 msgstr "Współdziel"
 
-#: ../extensions/facebook/callbacks.c:54
+#: ../extensions/facebook/callbacks.c:59 ../extensions/facebook/callbacks.c:64
 msgid "Face_book..."
 msgstr "Face_book..."
 
-#: ../extensions/facebook/callbacks.c:55
+#: ../extensions/facebook/callbacks.c:60
+msgid "Download photos from Facebook"
+msgstr "Pobieranie zdjęć z serwisu Facebook"
+
+#: ../extensions/facebook/callbacks.c:65
 msgid "Upload photos to Facebook"
-msgstr "Wysyła zdjęcia do serwisu Facebook"
+msgstr "Wysyłanie zdjęć do serwisu Facebook"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
@@ -1867,6 +1873,7 @@ msgid "_Account:"
 msgstr "_Konto:"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:3
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:3
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:2
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
@@ -1951,8 +1958,34 @@ msgstr "Pomyślnie wysłano pliki do serwera."
 msgid "_Open in the Browser"
 msgstr "_Otwórz w przeglądarce"
 
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+msgid "Import from Picasa Web Album"
+msgstr "Zaimportuj z serwisu Picasa Web Album"
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:2
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
+msgid "_Import"
+msgstr "Za_importuj"
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:4
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
+#: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
+msgid "A_ccount:"
+msgstr "_Konto:"
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:5
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
+msgid "_Album:"
+msgstr "_Album:"
+
 #: ../extensions/facebook/dlg-export-to-facebook.c:123
 #: ../extensions/facebook/dlg-export-to-facebook.c:326
+#: ../extensions/facebook/dlg-import-from-facebook.c:226
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:138
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:414
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:231
@@ -2021,6 +2054,28 @@ msgstr[2] "%d plików (%s)"
 msgid "Export to %s"
 msgstr "Eksport do serwisu %s"
 
+#: ../extensions/facebook/dlg-import-from-facebook.c:344
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:349
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:279
+msgid "Could not get the photo list"
+msgstr "Nie można pobrać listy zdjęć"
+
+#: ../extensions/facebook/dlg-import-from-facebook.c:378
+#: ../extensions/facebook/dlg-import-from-facebook.c:533
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:386
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:551
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:586
+msgid "No album selected"
+msgstr "Nie wybrano albumu"
+
+#: ../extensions/facebook/dlg-import-from-facebook.c:551
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:569
+#, c-format
+msgid "Import from %s"
+msgstr "Import zdjęć z serwisu %s"
+
+#: ../extensions/facebook/dlg-import-from-facebook.c:551
 #: ../extensions/facebook/facebook.extension.in.in.h:1
 msgid "Facebook"
 msgstr "Facebook"
@@ -2069,7 +2124,7 @@ msgstr "Wysyłanie \"%s\""
 msgid "Uploading the files to the server"
 msgstr "Wysyłanie plików na serwer"
 
-#: ../extensions/facebook/facebook-service.c:1042
+#: ../extensions/facebook/facebook-service.c:1021
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
@@ -2923,36 +2978,6 @@ msgstr "K_ontynuuj"
 #: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:2
 msgid "_Authorize..."
 msgstr "_Upoważnij..."
-
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
-msgid "_Import"
-msgstr "Za_importuj"
-
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
-#: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
-msgid "A_ccount:"
-msgstr "_Konto:"
-
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:349
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:279
-msgid "Could not get the photo list"
-msgstr "Nie można pobrać listy zdjęć"
-
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:386
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:551
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:586
-msgid "No album selected"
-msgstr "Nie wybrano albumu"
-
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:569
-#, c-format
-msgid "Import from %s"
-msgstr "Import zdjęć z serwisu %s"
 
 #: ../extensions/flicker_utils/flickr-consumer.c:124
 #: ../extensions/flicker_utils/flickr-service.c:237
@@ -4021,14 +4046,6 @@ msgstr "Wyeksportuj do serwisu Picasa Web Album"
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
 msgid "_Albums:"
 msgstr "_Albumy:"
-
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
-msgid "Import from Picasa Web Album"
-msgstr "Zaimportuj z serwisu Picasa Web Album"
-
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-msgid "_Album:"
-msgstr "_Album:"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "Public"
