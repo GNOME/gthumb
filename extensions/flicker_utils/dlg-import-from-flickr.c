@@ -566,7 +566,7 @@ dlg_import_from_flickr (FlickrServer *server,
 			    0);
 	gtk_widget_show_all (GET_WIDGET ("destination_button_box"));
 
-	title = g_strdup_printf (_("Import from %s"), data->server->name);
+	title = g_strdup_printf (_("Import from %s"), data->server->display_name);
 	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 	g_free (title);
 

@@ -28,7 +28,7 @@ libpicasaweb_la_SOURCES = 			\
 
 libpicasaweb_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBSOUP_CFLAGS) $(LIBSECRET_CFLAGS) $(JSON_GLIB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libpicasaweb_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
-libpicasaweb_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) $(LIBSECRET_LIBS) $(JSON_GLIB_LIBS) ../importer/libimporter.la ../export_tools/libexport_tools.la
+libpicasaweb_la_LIBADD = $(GTHUMB_LIBS) $(LIBSOUP_LIBS) $(LIBSECRET_LIBS) $(JSON_GLIB_LIBS) ../importer/libimporter.la ../export_tools/libexport_tools.la ../oauth/liboauth.la
 libpicasaweb_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
 
 extensioninidir = $(extensiondir)
