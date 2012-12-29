@@ -74,6 +74,8 @@ enum {
 struct _GthFolderTreePrivate
 {
 	GFile            *root;
+	GHashTable       *entry_points;		/* An entry point is a root child */
+	gboolean          recalc_entry_points;
 	GtkTreeStore     *tree_store;
 	GthIconCache     *icon_cache;
 	GtkCellRenderer  *text_renderer;
@@ -111,9 +113,11 @@ gth_folder_tree_finalize (GObject *object)
 			gtk_target_list_unref (folder_tree->priv->drag_target_list);
 			folder_tree->priv->drag_target_list = NULL;
 		}
+		g_hash_table_unref (folder_tree->priv->entry_points);
 		if (folder_tree->priv->root != NULL)
 			g_object_unref (folder_tree->priv->root);
 		gth_icon_cache_free (folder_tree->priv->icon_cache);
+
 		g_free (folder_tree->priv);
 		folder_tree->priv = NULL;
 	}
@@ -942,6 +946,59 @@ _gth_folder_tree_iter_has_no_child (GthFolderTree *folder_tree,
 }
 
 
+static void
+_gth_folder_tree_update_entry_points (GthFolderTree *folder_tree)
+{
+	GtkTreeIter iter;
+
+	if (! folder_tree->priv->recalc_entry_points)
+		return;
+
+	folder_tree->priv->recalc_entry_points = FALSE;
+
+	g_hash_table_remove_all (folder_tree->priv->entry_points);
+
+	if (! gtk_tree_model_iter_children (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter, NULL))
+		return;
+
+	do {
+		GthFileData *file_data;
+		EntryType    file_entry_type;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter,
+				    COLUMN_FILE_DATA, &file_data,
+				    COLUMN_TYPE, &file_entry_type,
+				    -1);
+		if ((file_entry_type == ENTRY_TYPE_FILE) && (file_data != NULL))
+			g_hash_table_add (folder_tree->priv->entry_points, g_object_ref (file_data->file));
+
+		_g_object_unref (file_data);
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter));
+}
+
+
+/*
+ * Returns TRUE if file_data points to a folder contained in the entry point
+ * list but it's not real entry point, for example it returns TRUE for
+ * '/home/user/Images' or '/home/user/Documents'.
+ * This entries are duplicates of the entry points and are treated in a special
+ * way to avoid confusion.
+ * */
+static gboolean
+_gth_folder_tree_is_entry_point_dup (GthFolderTree *folder_tree,
+				     GtkTreeIter   *iter,
+				     GthFileData   *file_data)
+{
+	_gth_folder_tree_update_entry_points (folder_tree);
+
+	if (g_hash_table_lookup (folder_tree->priv->entry_points, file_data->file) == NULL)
+		return FALSE;
+
+	return ! g_file_info_get_attribute_boolean (file_data->info, "gthumb::entry-point");
+}
+
+
 static gboolean
 _gth_folder_tree_add_file (GthFolderTree *folder_tree,
 			   GtkTreeIter   *parent,
@@ -969,8 +1026,11 @@ _gth_folder_tree_add_file (GthFolderTree *folder_tree,
 				    COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL,
 				    -1);
 
-	if (! g_file_info_get_attribute_boolean (fd->info, "gthumb::no-child"))
+	if (! g_file_info_get_attribute_boolean (fd->info, "gthumb::no-child")
+	    && ! _gth_folder_tree_is_entry_point_dup (folder_tree, &iter, fd))
+	{
 		_gth_folder_tree_add_loading_item (folder_tree, &iter, TRUE);
+	}
 
 	return TRUE;
 }
@@ -1318,8 +1378,8 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 		gtk_tree_store_set (folder_tree->priv->tree_store, p_parent_iter,
 				    COLUMN_LOADED, TRUE,
 				    -1);
-
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (folder_tree->priv->tree_store), COLUMN_NAME, GTK_SORT_ASCENDING);
+	folder_tree->priv->recalc_entry_points = TRUE;
 
 	emit_fake_motion_notify_event (folder_tree);
 }
@@ -1422,6 +1482,8 @@ gth_folder_tree_add_children (GthFolderTree *folder_tree,
 
 	if (! is_empty)
 		_gth_folder_tree_remove_child_type (folder_tree, p_parent_iter, ENTRY_TYPE_EMPTY);
+
+	folder_tree->priv->recalc_entry_points = TRUE;
 }
 
 
@@ -1517,6 +1579,8 @@ gth_folder_tree_delete_children (GthFolderTree *folder_tree,
 
 	if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (folder_tree->priv->tree_store), p_parent_iter) > 1)
 		_gth_folder_tree_remove_child_type (folder_tree, p_parent_iter, ENTRY_TYPE_EMPTY);
+
+	folder_tree->priv->recalc_entry_points = TRUE;
 }
 
 
