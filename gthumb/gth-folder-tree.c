@@ -906,6 +906,7 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 	name = g_file_info_get_display_name (file_data->info);
 	if (name == NULL)
 		return FALSE;
+
 	sort_key = g_utf8_collate_key_for_filename (name, -1);
 	icon = g_file_info_get_icon (file_data->info);
 	pixbuf = gth_icon_cache_get_pixbuf (folder_tree->priv->icon_cache, icon);
@@ -1037,10 +1038,17 @@ _gth_folder_tree_add_file (GthFolderTree *folder_tree,
 
 
 static void
-gth_folder_tree_construct (GthFolderTree *folder_tree)
+gth_folder_tree_init (GthFolderTree *folder_tree)
 {
 	GtkTreeSelection *selection;
 
+	folder_tree->priv = g_new0 (GthFolderTreePrivate, 1);
+	folder_tree->priv->drag_source_enabled = FALSE;
+	folder_tree->priv->dragging = FALSE;
+	folder_tree->priv->drag_started = FALSE;
+	folder_tree->priv->drag_target_list = NULL;
+	folder_tree->priv->entry_points = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
+	folder_tree->priv->recalc_entry_points = FALSE;
 	folder_tree->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (folder_tree))),
 							    _gtk_widget_lookup_for_size (GTK_WIDGET (folder_tree), GTK_ICON_SIZE_MENU));
 
@@ -1099,18 +1107,6 @@ gth_folder_tree_construct (GthFolderTree *folder_tree)
 			  "row-expanded",
 			  G_CALLBACK (row_expanded_cb),
 			  folder_tree);
-}
-
-
-static void
-gth_folder_tree_init (GthFolderTree *folder_tree)
-{
-	folder_tree->priv = g_new0 (GthFolderTreePrivate, 1);
-	folder_tree->priv->drag_source_enabled = FALSE;
-	folder_tree->priv->dragging = FALSE;
-	folder_tree->priv->drag_started = FALSE;
-	folder_tree->priv->drag_target_list = NULL;
-	gth_folder_tree_construct (folder_tree);
 }
 
 
@@ -1834,4 +1830,3 @@ gth_folder_tree_unset_drag_source (GthFolderTree *self)
 {
 	self->priv->drag_source_enabled = FALSE;
 }
-
