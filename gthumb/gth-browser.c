@@ -1747,7 +1747,6 @@ load_data_continue (LoadData *load_data,
 		if (load_data->file_to_select != NULL)
 			gth_file_list_make_file_visible (GTH_FILE_LIST (browser->priv->file_list), load_data->file_to_select);
 
-		gth_browser_update_sensitivity (browser);
 		_gth_browser_update_statusbar_list_info (browser);
 
 		g_assert (browser->priv->location_source != NULL);
@@ -1781,6 +1780,8 @@ load_data_continue (LoadData *load_data,
 			gth_browser_fullscreen (browser);
 		}
 	}
+
+	gth_browser_update_sensitivity (browser);
 
 	if (path != NULL)
 		gtk_tree_path_free (path);
