@@ -1675,7 +1675,6 @@ load_data_continue (LoadData *load_data,
 		return;
 	}
 
-	browser->priv->recalc_location_free_space = TRUE;
 	load_data_done (load_data, NULL);
 
 	switch (load_data->action) {
@@ -1714,6 +1713,7 @@ load_data_continue (LoadData *load_data,
 			_g_object_list_unref (entry_points);
 		}
 		break;
+
 	default:
 		break;
 	}
@@ -1726,6 +1726,7 @@ load_data_continue (LoadData *load_data,
 	case GTH_ACTION_GO_UP:
 	case GTH_ACTION_VIEW:
 		changed_current_location = TRUE;
+		browser->priv->recalc_location_free_space = TRUE;
 		break;
 	default:
 		break;
