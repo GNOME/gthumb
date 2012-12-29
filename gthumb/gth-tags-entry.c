@@ -65,6 +65,7 @@ typedef struct  {
 	GtkWidget     *container;
 	GtkWidget     *tree_view;
 	GtkListStore  *store;
+	GtkWidget     *popup_menu;
 } ExpandedList;
 
 
@@ -102,6 +103,7 @@ gth_tags_entry_finalize (GObject *obj)
 	g_object_unref (self->priv->completion);
 	g_strfreev (self->priv->tags);
 	g_strfreev (self->priv->expanded_list.last_used);
+	gtk_widget_destroy (self->priv->expanded_list.popup_menu);
 	g_hash_table_unref (self->priv->inconsistent);
 
 	G_OBJECT_CLASS (gth_tags_entry_parent_class)->finalize (obj);
@@ -681,11 +683,88 @@ expand_button_toggled_cb (GtkToggleButton *button,
 
 
 static void
+_gth_tags_entry_delete_selected_tag (GthTagsEntry *self)
+{
+	GtkTreeModel *model;
+	GtkTreeIter   iter;
+	char         *tag;
+	GthTagsFile  *tags_file;
+
+	if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->expanded_list.tree_view)),
+					       &model,
+					       &iter))
+	{
+		return;
+	}
+
+	gtk_tree_model_get (model, &iter, EXPANDED_LIST_NAME_COLUMN, &tag, -1);
+
+	tags_file = gth_main_get_default_tag_file ();
+	if (gth_tags_file_remove (tags_file, tag))
+		gth_main_tags_changed ();
+
+	g_free (tag);
+}
+
+
+static gboolean
+expanded_list_key_press_event_cb (GtkWidget   *widget,
+				  GdkEventKey *event,
+				  gpointer     user_data)
+{
+	GthTagsEntry *self = user_data;
+	guint         modifiers;
+
+	modifiers = gtk_accelerator_get_default_mod_mask ();
+	if ((event->state & modifiers) == 0) {
+		switch (event->keyval) {
+		case GDK_KEY_Delete:
+			_gth_tags_entry_delete_selected_tag (self);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+
+static void
+delete_tag_activate_cb (GtkMenuItem *menuitem,
+			gpointer     user_data)
+{
+	_gth_tags_entry_delete_selected_tag (GTH_TAGS_ENTRY (user_data));
+}
+
+
+static gboolean
+expanded_list_button_press_event_cb (GtkStatusIcon  *status_icon,
+		 	 	     GdkEventButton *event,
+				     gpointer        user_data)
+{
+	GthTagsEntry *self = user_data;
+
+	if (event->button == 3) {
+		gtk_menu_popup (GTK_MENU (self->priv->expanded_list.popup_menu),
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+				event->button,
+				event->time);
+		return FALSE;
+	}
+
+	return FALSE;
+}
+
+
+static void
 gth_tags_entry_init (GthTagsEntry *self)
 {
 	GtkWidget         *hbox;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *renderer;
+	GtkWidget         *menu_item;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
@@ -786,6 +865,17 @@ gth_tags_entry_init (GthTagsEntry *self)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (self->priv->expanded_list.tree_view), column);
 	gtk_widget_show (self->priv->expanded_list.tree_view);
 
+	/* expanded list, popup menu */
+
+	self->priv->expanded_list.popup_menu = gtk_menu_new ();
+	menu_item = gtk_menu_item_new_with_mnemonic (_("_Delete"));
+	g_signal_connect (menu_item,
+			  "activate",
+			  G_CALLBACK (delete_tag_activate_cb),
+			  self);
+	gtk_widget_show (menu_item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->expanded_list.popup_menu), menu_item);
+
 	/**/
 
 	self->priv->expanded_list.container = g_object_new (GTK_TYPE_SCROLLED_WINDOW,
@@ -807,6 +897,14 @@ gth_tags_entry_init (GthTagsEntry *self)
 	g_signal_connect (self->priv->entry,
 			  "notify::text",
 			  G_CALLBACK (text_changed_cb),
+			  self);
+	g_signal_connect (self->priv->expanded_list.tree_view,
+			  "key-press-event",
+			  G_CALLBACK (expanded_list_key_press_event_cb),
+			  self);
+	g_signal_connect (self->priv->expanded_list.tree_view,
+			  "button-press-event",
+			  G_CALLBACK (expanded_list_button_press_event_cb),
 			  self);
 }
 
