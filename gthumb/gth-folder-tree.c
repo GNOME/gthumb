@@ -111,6 +111,9 @@ static guint gth_folder_tree_signals[LAST_SIGNAL] = { 0 };
 G_DEFINE_TYPE (GthFolderTree, gth_folder_tree, GTK_TYPE_TREE_VIEW)
 
 
+static void remove_all_locations_from_the_monitor (GthFolderTree *folder_tree);
+
+
 static void
 gth_folder_tree_finalize (GObject *object)
 {
@@ -124,6 +127,7 @@ gth_folder_tree_finalize (GObject *object)
 			folder_tree->priv->drag_target_list = NULL;
 		}
 		g_hash_table_unref (folder_tree->priv->entry_points);
+		remove_all_locations_from_the_monitor (folder_tree);
 		g_hash_table_unref (folder_tree->priv->monitor.locations);
 		_g_object_list_unref (folder_tree->priv->monitor.sources);
 		if (folder_tree->priv->root != NULL)
@@ -425,6 +429,20 @@ _gth_folder_tree_remove_from_monitor (GthFolderTree *folder_tree,
 
 	gth_file_source_monitor_directory (file_source, file, FALSE);
 	g_hash_table_remove (folder_tree->priv->monitor.locations, file);
+}
+
+
+static void
+remove_all_locations_from_the_monitor (GthFolderTree *folder_tree)
+{
+	GList *locations;
+	GList *scan;
+
+	locations = g_hash_table_get_keys (folder_tree->priv->monitor.locations);
+	for (scan = locations; scan; scan = scan->next)
+		_gth_folder_tree_remove_from_monitor (folder_tree, G_FILE (scan->data));
+
+	g_list_free (locations);
 }
 
 
