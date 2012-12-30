@@ -71,6 +71,12 @@ enum {
 };
 
 
+typedef struct {
+	GHashTable *locations;
+	GList      *sources;
+} MonitorData;
+
+
 struct _GthFolderTreePrivate
 {
 	GFile            *root;
@@ -92,6 +98,10 @@ struct _GthFolderTreePrivate
 	gboolean         drag_started : 1;    /* Whether the drag has started. */
 	int              drag_start_x;        /* The position where the drag started. */
 	int              drag_start_y;
+
+	/* monitored locations  */
+
+	MonitorData      monitor;
 };
 
 
@@ -114,6 +124,8 @@ gth_folder_tree_finalize (GObject *object)
 			folder_tree->priv->drag_target_list = NULL;
 		}
 		g_hash_table_unref (folder_tree->priv->entry_points);
+		g_hash_table_unref (folder_tree->priv->monitor.locations);
+		_g_object_list_unref (folder_tree->priv->monitor.sources);
 		if (folder_tree->priv->root != NULL)
 			g_object_unref (folder_tree->priv->root);
 		gth_icon_cache_free (folder_tree->priv->icon_cache);
@@ -375,6 +387,135 @@ row_activated_cb (GtkTreeView       *tree_view,
 }
 
 
+/* -- update_monitored_locations  -- */
+
+
+static GthFileSource *
+get_monitor_file_source_for_file (GthFolderTree *folder_tree,
+				  GFile         *file)
+{
+	GList *scan;
+	char  *uri;
+
+	uri = g_file_get_uri (file);
+	for (scan = folder_tree->priv->monitor.sources; scan; scan = scan->next) {
+		GthFileSource *file_source = scan->data;
+
+		if (gth_file_source_supports_scheme (file_source, uri)) {
+			g_free (uri);
+			return file_source;
+		}
+	}
+
+	g_free (uri);
+
+	return NULL;
+}
+
+
+static void
+_gth_folder_tree_remove_from_monitor (GthFolderTree *folder_tree,
+				      GFile         *file)
+{
+	GthFileSource *file_source;
+
+	file_source = get_monitor_file_source_for_file (folder_tree, file);
+	if (file_source == NULL)
+		return;
+
+	gth_file_source_monitor_directory (file_source, file, FALSE);
+	g_hash_table_remove (folder_tree->priv->monitor.locations, file);
+}
+
+
+static void
+_gth_folder_tree_add_to_monitor (GthFolderTree *folder_tree,
+				 GFile         *file)
+{
+	GthFileSource *file_source;
+
+	file_source = get_monitor_file_source_for_file (folder_tree, file);
+	if (file_source == NULL) {
+		file_source = gth_main_get_file_source (file);
+		if (file_source == NULL)
+			return;
+
+		folder_tree->priv->monitor.sources = g_list_prepend (folder_tree->priv->monitor.sources, file_source);
+	}
+
+	gth_file_source_monitor_directory (file_source, file, TRUE);
+	g_hash_table_add (folder_tree->priv->monitor.locations, file);
+}
+
+
+static void
+add_to_open_locations (GtkTreeView *tree_view,
+		       GtkTreePath *path,
+		       gpointer     user_data)
+{
+	GHashTable  *open_locations = user_data;
+	GthFileData *file_data;
+
+	file_data = gth_folder_tree_get_file (GTH_FOLDER_TREE (tree_view), path);
+	if (file_data != NULL) {
+		g_hash_table_add (open_locations, g_object_ref (file_data->file));
+		g_object_unref (file_data);
+	}
+}
+
+
+static void
+update_monitored_locations (GthFolderTree *folder_tree)
+{
+	GHashTable *open_locations;
+	GList      *locations;
+	GList      *scan;
+
+	open_locations = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
+	gtk_tree_view_map_expanded_rows (GTK_TREE_VIEW (folder_tree),
+					 add_to_open_locations,
+					 open_locations);
+
+#if 0
+	{
+		g_print ("** expanded locations **\n");
+
+		locations = g_hash_table_get_keys (open_locations);
+		for (scan = locations; scan; scan = scan->next) {
+			GFile *file = scan->data;
+
+			g_print ("\t%s\n", g_file_get_uri (file));
+		}
+		g_list_free (locations);
+	}
+#endif
+
+	/* remove the old locations */
+
+	locations = g_hash_table_get_keys (folder_tree->priv->monitor.locations);
+	for (scan = locations; scan; scan = scan->next) {
+		GFile *file = scan->data;
+
+		if (! g_hash_table_contains (open_locations, file))
+			_gth_folder_tree_remove_from_monitor (folder_tree, file);
+	}
+	g_list_free (locations);
+
+	/* add the new locations */
+
+	locations = g_hash_table_get_keys (open_locations);
+	for (scan = locations; scan; scan = scan->next) {
+		GFile *file = scan->data;
+
+		if (! g_hash_table_contains (folder_tree->priv->monitor.locations, file))
+			_gth_folder_tree_add_to_monitor (folder_tree, file);
+	}
+
+	g_list_free (locations);
+	g_hash_table_unref (open_locations);
+}
+
+
 static gboolean
 row_expanded_cb (GtkTreeView  *tree_view,
 		 GtkTreeIter  *expanded_iter,
@@ -396,8 +537,21 @@ row_expanded_cb (GtkTreeView  *tree_view,
 	if ((entry_type == ENTRY_TYPE_FILE) && ! loaded)
 		g_signal_emit (folder_tree, gth_folder_tree_signals[LIST_CHILDREN], 0, file_data->file);
 
+	update_monitored_locations (folder_tree);
+
 	_g_object_unref (file_data);
 
+	return FALSE;
+}
+
+
+static gboolean
+row_collapsed_cb (GtkTreeView *tree_view,
+		  GtkTreeIter *iter,
+		  GtkTreePath *path,
+		  gpointer     user_data)
+{
+	update_monitored_locations (GTH_FOLDER_TREE (user_data));
 	return FALSE;
 }
 
@@ -1049,6 +1203,8 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 	folder_tree->priv->drag_target_list = NULL;
 	folder_tree->priv->entry_points = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 	folder_tree->priv->recalc_entry_points = FALSE;
+	folder_tree->priv->monitor.locations = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
+	folder_tree->priv->monitor.sources = NULL;
 	folder_tree->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (folder_tree))),
 							    _gtk_widget_lookup_for_size (GTK_WIDGET (folder_tree), GTK_ICON_SIZE_MENU));
 
@@ -1106,6 +1262,10 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 	g_signal_connect (folder_tree,
 			  "row-expanded",
 			  G_CALLBACK (row_expanded_cb),
+			  folder_tree);
+	g_signal_connect (folder_tree,
+			  "row-collapsed",
+			  G_CALLBACK (row_collapsed_cb),
 			  folder_tree);
 }
 
