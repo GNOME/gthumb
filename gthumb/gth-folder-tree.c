@@ -288,6 +288,8 @@ text_renderer_editing_started_cb (GtkCellRenderer *cell,
 
 	if (GTK_IS_ENTRY (editable))
 	      gtk_entry_set_text (GTK_ENTRY (editable), g_file_info_get_edit_name (file_data->info));
+
+	_g_object_unref (file_data);
 }
 
 
@@ -1417,7 +1419,9 @@ _gth_folder_tree_get_children (GthFolderTree *folder_tree,
 				    COLUMN_TYPE, &file_type,
 				    -1);
 		if ((file_type == ENTRY_TYPE_FILE) && (file_data != NULL))
-			list = g_list_prepend (list, file_data);
+			list = g_list_prepend (list, g_object_ref (file_data));
+
+		_g_object_unref (file_data);
 	}
 	while (gtk_tree_model_iter_next (tree_model, &iter));
 
