@@ -105,6 +105,9 @@ void              gth_file_list_set_caption       (GthFileList          *file_li
 					           const char           *attribute);
 void              gth_file_list_make_file_visible (GthFileList          *file_list,
 						   GFile                *file);
+void              gth_file_list_restore_state     (GthFileList          *file_list,
+						   GList                *selected,
+						   double                vscroll);
 GtkWidget *       gth_file_list_get_view          (GthFileList          *file_list);
 GtkWidget *       gth_file_list_get_empty_view    (GthFileList          *file_list);
 GtkAdjustment *   gth_file_list_get_vadjustment   (GthFileList          *file_list);

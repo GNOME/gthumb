@@ -34,10 +34,18 @@ gth_browser_activate_action_show_selection (GthBrowser *browser,
 
 	uri = g_strdup_printf ("selection:///%d", n_selection);
 	location = g_file_new_for_uri (uri);
-	gth_browser_load_location (browser, location);
 
-	g_free (uri);
+	if (_g_file_equal_uris (location, gth_browser_get_location (browser))) {
+		if (! gth_browser_restore_state (browser))
+			gth_browser_load_location (browser, location);
+	}
+	else {
+		gth_browser_save_state (browser);
+		gth_browser_load_location (browser, location);
+	}
+
 	g_object_unref (location);
+	g_free (uri);
 }
 
 

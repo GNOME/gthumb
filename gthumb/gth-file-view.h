@@ -65,6 +65,8 @@ struct _GthFileViewInterface {
 	void            (*scroll_to)                     (GthFileView              *self,
 							  int                       pos,
 							  double                    yalign);
+	void            (*set_vscroll)                   (GthFileView              *self,
+							  double                    vscroll);
 	GthVisibility   (*get_visibility)                (GthFileView              *self,
 							  int                       pos);
 	int             (*get_at_position)               (GthFileView              *self,
@@ -108,6 +110,8 @@ gboolean        gth_file_view_get_thumbnail_size (GthFileView             *self)
 void            gth_file_view_scroll_to          (GthFileView             *self,
 						  int                      pos,
 						  double                   yalign);
+void            gth_file_view_set_vscroll        (GthFileView             *self,
+						  double                   vscroll);
 GthVisibility   gth_file_view_get_visibility     (GthFileView             *self,
 						  int                      pos);
 int             gth_file_view_get_at_position    (GthFileView             *self,

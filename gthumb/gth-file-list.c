@@ -55,7 +55,8 @@ typedef enum {
 	GTH_FILE_LIST_OP_TYPE_SET_SORT_FUNC,
 	GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS,
 	GTH_FILE_LIST_OP_TYPE_RENAME_FILE,
-	GTH_FILE_LIST_OP_TYPE_MAKE_FILE_VISIBLE
+	GTH_FILE_LIST_OP_TYPE_MAKE_FILE_VISIBLE,
+	GTH_FILE_LIST_OP_TYPE_RESTORE_STATE
 } GthFileListOpType;
 
 
@@ -72,6 +73,8 @@ typedef struct {
 	GFile               *file;
 	GthFileData         *file_data;
 	int                  position;
+	GList               *selected;
+	double               vscroll;
 } GthFileListOp;
 
 
@@ -197,6 +200,9 @@ gth_file_list_op_free (GthFileListOp *op)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_MAKE_FILE_VISIBLE:
 		g_object_unref (op->file);
+		break;
+	case GTH_FILE_LIST_OP_TYPE_RESTORE_STATE:
+		g_list_free_full (op->selected, (GDestroyNotify) gtk_tree_path_free);
 		break;
 	default:
 		break;
@@ -1321,6 +1327,7 @@ gfl_make_file_visible (GthFileList *file_list,
 
 	pos = gth_file_store_get_pos ((GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)), file);
 	if (pos >= 0) {
+		gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
 		gth_file_selection_select (GTH_FILE_SELECTION (file_list->priv->view), pos);
 		gth_file_view_set_cursor (GTH_FILE_VIEW (file_list->priv->view), pos);
 	}
@@ -1335,6 +1342,39 @@ gth_file_list_make_file_visible (GthFileList *file_list,
 
 	op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_MAKE_FILE_VISIBLE);
 	op->file = g_object_ref (file);
+	_gth_file_list_queue_op (file_list, op);
+}
+
+
+static void
+gfl_restore_state (GthFileList *file_list,
+		   GList       *selected,
+		   double       vscroll)
+{
+	GList *scan;
+
+	for (scan = selected; scan; scan = scan->next) {
+		GtkTreePath *path = scan->data;
+		int          pos;
+
+		pos = gtk_tree_path_get_indices (path)[0];
+		gth_file_selection_select (GTH_FILE_SELECTION (file_list->priv->view), pos);
+	}
+
+	gth_file_view_set_vscroll (GTH_FILE_VIEW (file_list->priv->view), vscroll);
+}
+
+
+void
+gth_file_list_restore_state (GthFileList *file_list,
+			     GList       *selected,
+			     double       vscroll)
+{
+	GthFileListOp *op;
+
+	op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_RESTORE_STATE);
+	op->selected = g_list_copy_deep (selected, (GCopyFunc) gtk_tree_path_copy, NULL);
+	op->vscroll = vscroll;
 	_gth_file_list_queue_op (file_list, op);
 }
 
@@ -1941,6 +1981,9 @@ _gth_file_list_exec_next_op (GthFileList *file_list)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_MAKE_FILE_VISIBLE:
 		gfl_make_file_visible (file_list, op->file);
+		break;
+	case GTH_FILE_LIST_OP_TYPE_RESTORE_STATE:
+		gfl_restore_state (file_list, op->selected, op->vscroll);
 		break;
 	default:
 		exec_next_op = FALSE;

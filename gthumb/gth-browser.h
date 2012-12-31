@@ -188,6 +188,8 @@ void             gth_browser_ask_whether_to_save    (GthBrowser       *browser,
 				 	 	     GthBrowserCallback
 				 	 	     	     	       callback,
 				 	 	     gpointer          user_data);
+void             gth_browser_save_state             (GthBrowser       *browser);
+gboolean         gth_browser_restore_state          (GthBrowser       *browser);
 
 /* protected methods */
 

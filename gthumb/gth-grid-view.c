@@ -145,6 +145,7 @@ struct _GthGridViewPrivate {
 	int                    focused_item;
 	int                    first_focused_item;  /* Used to do multiple selection with the keyboard. */
 	guint                  make_focused_visible : 1;
+	double                 initial_vscroll;
 	guint                  needs_relayout : 1;
 	guint                  needs_relayout_after_size_allocate : 1;
 
@@ -518,6 +519,18 @@ gth_grid_view_scroll_to (GthFileView *file_view,
 			       self->priv->height - gtk_widget_get_allocated_height (GTK_WIDGET (self)));
 		gtk_adjustment_set_value (self->priv->vadjustment, value);
 	}
+}
+
+
+
+static void
+gth_grid_view_set_vscroll (GthFileView *file_view,
+			   double       vscroll)
+{
+	GthGridView *self = GTH_GRID_VIEW (file_view);
+
+	self->priv->initial_vscroll = vscroll;
+	gtk_adjustment_set_value (self->priv->vadjustment, vscroll);
 }
 
 
@@ -908,6 +921,11 @@ _gth_grid_view_relayout_cb (gpointer data)
 	if (self->priv->make_focused_visible) {
 		self->priv->make_focused_visible = FALSE;
 		_gth_grid_view_make_item_fully_visible (self, self->priv->focused_item);
+	}
+
+	if (self->priv->initial_vscroll > 0) {
+		gtk_adjustment_set_value (self->priv->vadjustment, self->priv->initial_vscroll);
+		self->priv->initial_vscroll = 0;
 	}
 
 	return FALSE;
@@ -2005,7 +2023,6 @@ gth_grid_view_select (GthFileSelection *selection,
 	case GTK_SELECTION_MULTIPLE:
 		self->priv->select_pending = FALSE;
 
-		_gth_grid_view_unselect_all (self, NULL);
 		_gth_grid_view_set_item_selected_and_emit_signal (self, TRUE, pos);
 		self->priv->last_selected_pos = pos;
 		self->priv->last_selected_item = g_list_nth (self->priv->items, pos)->data;
@@ -3761,6 +3778,7 @@ static void
 gth_grid_view_gth_file_view_interface_init (GthFileViewInterface *iface)
 {
 	iface->scroll_to = gth_grid_view_scroll_to;
+	iface->set_vscroll = gth_grid_view_set_vscroll;
 	iface->get_visibility = gth_grid_view_get_visibility;
 	iface->get_at_position = gth_grid_view_get_at_position;
 	iface->get_first_visible = gth_grid_view_get_first_visible;
@@ -3791,6 +3809,7 @@ gth_grid_view_init (GthGridView *self)
 	self->priv->focused_item = -1;
 	self->priv->first_focused_item = -1;
 	self->priv->make_focused_visible = FALSE;
+	self->priv->initial_vscroll = 0.0;
 	self->priv->needs_relayout = FALSE;
 	self->priv->needs_relayout_after_size_allocate = FALSE;
 	self->priv->layout_timeout = 0;

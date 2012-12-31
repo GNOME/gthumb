@@ -86,6 +86,16 @@ enum {
 };
 
 
+typedef struct {
+	gboolean        saved;
+	GthBrowserPage  page;
+	GFile          *location;
+	GFile          *current_file;
+	GList          *selected;
+	double          vscroll;
+} BrowserState;
+
+
 struct _GthBrowserPrivate {
 	/* UI staff */
 
@@ -169,6 +179,7 @@ struct _GthBrowserPrivate {
 	gboolean           shrink_wrap_viewer;
 	gboolean           file_properties_on_the_right;
 	GthSidebarState    viewer_sidebar;
+	BrowserState       state;
 
 	/* settings */
 
@@ -203,6 +214,38 @@ struct _GthBrowserPrivate {
 
 
 static guint gth_browser_signals[LAST_SIGNAL] = { 0 };
+
+
+/* -- browser_state -- */
+
+
+static void
+browser_state_init (BrowserState *state)
+{
+	state->saved = FALSE;
+	state->page = 0;
+	state->location = NULL;
+	state->current_file = NULL;
+	state->selected = NULL;
+}
+
+
+static void
+browser_state_free (BrowserState *state)
+{
+	if (! state->saved)
+		return;
+
+	_g_object_unref (state->location);
+	_g_object_unref (state->current_file);
+	g_list_foreach (state->selected, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (state->selected);
+
+	state->location = NULL;
+	state->current_file = NULL;
+	state->selected = NULL;
+	state->saved = FALSE;
+}
 
 
 /* -- monitor_event_data -- */
@@ -1154,6 +1197,8 @@ typedef struct {
 	GthFileData   *requested_folder;
 	GFile         *requested_folder_parent;
 	GFile         *file_to_select;
+	GList         *selected;
+	double         vscroll;
 	GthAction      action;
 	gboolean       automatic;
 	GList         *list;
@@ -1168,6 +1213,8 @@ static LoadData *
 load_data_new (GthBrowser *browser,
 	       GFile      *location,
 	       GFile      *file_to_select,
+	       GList      *selected,
+	       double      vscroll,
 	       GthAction   action,
 	       gboolean    automatic,
 	       GFile      *entry_point)
@@ -1183,6 +1230,8 @@ load_data_new (GthBrowser *browser,
 		load_data->file_to_select = g_file_dup (file_to_select);
 	else if (browser->priv->current_file != NULL)
 		load_data->file_to_select = g_file_dup (browser->priv->current_file->file);
+	load_data->selected = g_list_copy_deep (selected, (GCopyFunc) gtk_tree_path_copy, NULL);
+	load_data->vscroll = vscroll;
 	load_data->action = action;
 	load_data->automatic = automatic;
 	load_data->cancellable = g_cancellable_new ();
@@ -1221,6 +1270,7 @@ load_data_free (LoadData *data)
 	g_object_unref (data->requested_folder);
 	_g_object_unref (data->requested_folder_parent);
 	_g_object_unref (data->file_to_select);
+	g_list_free_full (data->selected, (GDestroyNotify) gtk_tree_path_free);
 	_g_object_unref (data->file_source);
 	_g_object_list_unref (data->list);
 	_g_object_unref (data->entry_point);
@@ -1229,7 +1279,14 @@ load_data_free (LoadData *data)
 }
 
 
-static void _gth_browser_load (GthBrowser *browser, GFile *location, GFile *file_to_select, GthAction action, gboolean automatic);
+static void
+_gth_browser_load (GthBrowser *browser,
+		   GFile      *location,
+		   GFile      *file_to_select,
+		   GList      *selected,
+		   double      vscroll,
+		   GthAction   action,
+		   gboolean    automatic);
 
 
 static char *
@@ -1326,6 +1383,8 @@ load_data_done (LoadData *load_data,
 			_gth_browser_load (load_data->browser,
 					   parent,
 					   NULL,
+					   NULL,
+					   0,
 					   load_data->action,
 					   TRUE);
 			g_object_unref (parent);
@@ -1747,6 +1806,8 @@ load_data_continue (LoadData *load_data,
 
 		if (load_data->file_to_select != NULL)
 			gth_file_list_make_file_visible (GTH_FILE_LIST (browser->priv->file_list), load_data->file_to_select);
+		else if ((load_data->selected != NULL) || (load_data->vscroll > 0))
+			gth_file_list_restore_state (GTH_FILE_LIST (browser->priv->file_list), load_data->selected, load_data->vscroll);
 
 		_gth_browser_update_statusbar_list_info (browser);
 
@@ -1922,6 +1983,8 @@ mount_volume_ready_cb (GObject      *source_object,
 	_gth_browser_load (load_data->browser,
 			   load_data->requested_folder->file,
 			   load_data->file_to_select,
+			   NULL,
+			   0,
 			   load_data->action,
 			   load_data->automatic);
 
@@ -1941,6 +2004,8 @@ static void
 _gth_browser_load (GthBrowser *browser,
 		   GFile      *location,
 		   GFile      *file_to_select,
+		   GList      *selected,
+		   double      vscroll,
 		   GthAction   action,
 		   gboolean    automatic)
 {
@@ -1968,7 +2033,14 @@ _gth_browser_load (GthBrowser *browser,
 	}
 
 	entry_point = get_nearest_entry_point (location);
-	load_data = load_data_new (browser, location, file_to_select, action, automatic, entry_point);
+	load_data = load_data_new (browser,
+				   location,
+				   file_to_select,
+				   selected,
+				   vscroll,
+				   action,
+				   automatic,
+				   entry_point);
 
 	if (entry_point == NULL) {
 		GMountOperation *mount_op;
@@ -2612,6 +2684,7 @@ gth_browser_finalize (GObject *object)
 {
 	GthBrowser *browser = GTH_BROWSER (object);
 
+	browser_state_free (&browser->priv->state);
 	_g_object_unref (browser->priv->browser_settings);
 	_g_object_unref (browser->priv->messages_settings);
 	_g_object_unref (browser->priv->desktop_interface_settings);
@@ -2851,7 +2924,7 @@ folder_tree_list_children_cb (GthFolderTree *folder_tree,
 			      GFile         *file,
 			      GthBrowser    *browser)
 {
-	_gth_browser_load (browser, file, NULL, GTH_ACTION_LIST_CHILDREN, FALSE);
+	_gth_browser_load (browser, file, NULL, NULL, 0, GTH_ACTION_LIST_CHILDREN, FALSE);
 }
 
 
@@ -2860,7 +2933,7 @@ folder_tree_load_cb (GthFolderTree *folder_tree,
 		     GFile         *file,
 		     GthBrowser    *browser)
 {
-	_gth_browser_load (browser, file, NULL, GTH_ACTION_VIEW, FALSE);
+	_gth_browser_load (browser, file, NULL, NULL, 0, GTH_ACTION_VIEW, FALSE);
 }
 
 
@@ -3120,10 +3193,10 @@ folder_changed_cb (GthMonitor      *monitor,
 		return;
 
 	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL))
-		_gth_browser_load (browser, parent, NULL, GTH_ACTION_GO_TO, TRUE);
+		_gth_browser_load (browser, parent, NULL, NULL, 0, GTH_ACTION_GO_TO, TRUE);
 
 	if ((event == GTH_MONITOR_EVENT_CHANGED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL)) {
-		_gth_browser_load (browser, browser->priv->location->file, NULL, GTH_ACTION_GO_TO, TRUE);
+		_gth_browser_load (browser, browser->priv->location->file, NULL, NULL, 0, GTH_ACTION_GO_TO, TRUE);
 		return;
 	}
 
@@ -4278,6 +4351,8 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->desktop_interface_settings = g_settings_new (GNOME_DESKTOP_INTERFACE_SCHEMA);
 	browser->priv->file_properties_on_the_right = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT);
 
+	browser_state_init (&browser->priv->state);
+
 	/* find a suitable size for the window */
 
 	window_width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_WIDTH);
@@ -4850,7 +4925,18 @@ gth_browser_go_to (GthBrowser *browser,
 		   GFile      *file_to_select)
 {
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
-	_gth_browser_load (browser, location, file_to_select, GTH_ACTION_GO_TO, FALSE);
+	_gth_browser_load (browser, location, file_to_select, NULL, 0, GTH_ACTION_GO_TO, FALSE);
+}
+
+
+static void
+gth_browser_go_to_with_state (GthBrowser  *browser,
+			      GFile       *location,
+			      GList       *selected,
+			      double       vscroll)
+{
+	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
+	_gth_browser_load (browser, location, NULL, selected, vscroll, GTH_ACTION_GO_TO, FALSE);
 }
 
 
@@ -4868,7 +4954,7 @@ gth_browser_go_back (GthBrowser *browser,
 		return;
 
 	browser->priv->history_current = new_current;
-	_gth_browser_load (browser, (GFile*) browser->priv->history_current->data, NULL, GTH_ACTION_GO_BACK, FALSE);
+	_gth_browser_load (browser, (GFile*) browser->priv->history_current->data, NULL, NULL, 0, GTH_ACTION_GO_BACK, FALSE);
 }
 
 
@@ -4886,7 +4972,7 @@ gth_browser_go_forward (GthBrowser *browser,
 		return;
 
 	browser->priv->history_current = new_current;
-	_gth_browser_load (browser, (GFile *) browser->priv->history_current->data, NULL, GTH_ACTION_GO_FORWARD, FALSE);
+	_gth_browser_load (browser, (GFile *) browser->priv->history_current->data, NULL, NULL, 0, GTH_ACTION_GO_FORWARD, FALSE);
 }
 
 
@@ -5703,7 +5789,7 @@ file_metadata_ready_cb (GList    *files,
 		GFile *parent;
 
 		parent = g_file_get_parent (file_data->file);
-		_gth_browser_load (browser, parent, file_data->file, GTH_ACTION_GO_TO, FALSE);
+		_gth_browser_load (browser, parent, file_data->file, NULL, 0, GTH_ACTION_GO_TO, FALSE);
 		g_object_unref (parent);
 	}
 
@@ -6572,4 +6658,54 @@ gth_browser_file_menu_popup (GthBrowser     *browser,
 			NULL,
 			button,
 			event_time);
+}
+
+
+void
+gth_browser_save_state (GthBrowser *browser)
+{
+	browser_state_free (&browser->priv->state);
+
+	browser->priv->state.saved = TRUE;
+	browser->priv->state.page = gth_window_get_current_page (GTH_WINDOW (browser));
+	if (browser->priv->location != NULL)
+		browser->priv->state.location = g_object_ref (browser->priv->location->file);
+	if (browser->priv->current_file != NULL)
+		browser->priv->state.current_file = g_object_ref (browser->priv->current_file->file);
+	browser->priv->state.selected = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))));
+	browser->priv->state.vscroll = gtk_adjustment_get_value (gth_file_list_get_vadjustment (GTH_FILE_LIST (browser->priv->file_list)));
+}
+
+
+gboolean
+gth_browser_restore_state (GthBrowser *browser)
+{
+	if (! browser->priv->state.saved)
+		return FALSE;
+
+	switch (browser->priv->state.page) {
+	case GTH_BROWSER_PAGE_BROWSER:
+		if (browser->priv->state.current_file != NULL) {
+			gth_browser_go_to (browser,
+					   browser->priv->state.location,
+					   browser->priv->state.current_file);
+		}
+		else {
+			_gth_browser_load_file (browser, NULL, FALSE);
+			gth_browser_go_to_with_state (browser,
+						      browser->priv->state.location,
+						      browser->priv->state.selected,
+						      browser->priv->state.vscroll);
+		}
+		break;
+
+	case GTH_BROWSER_PAGE_VIEWER:
+		gth_browser_load_location (browser, browser->priv->state.current_file);
+		break;
+
+	default:
+		break;
+	}
+
+	return TRUE;
 }

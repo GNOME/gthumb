@@ -167,6 +167,14 @@ gth_file_view_scroll_to (GthFileView *self,
 }
 
 
+void
+gth_file_view_set_vscroll (GthFileView *self,
+			   double       vscroll)
+{
+	GTH_FILE_VIEW_GET_INTERFACE (self)->set_vscroll (self, vscroll);
+}
+
+
 GthVisibility
 gth_file_view_get_visibility (GthFileView *self,
 			      int          pos)
