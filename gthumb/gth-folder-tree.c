@@ -428,7 +428,6 @@ _gth_folder_tree_remove_from_monitor (GthFolderTree *folder_tree,
 		return;
 
 	gth_file_source_monitor_directory (file_source, file, FALSE);
-	g_hash_table_remove (folder_tree->priv->monitor.locations, file);
 }
 
 
@@ -441,6 +440,7 @@ remove_all_locations_from_the_monitor (GthFolderTree *folder_tree)
 	locations = g_hash_table_get_keys (folder_tree->priv->monitor.locations);
 	for (scan = locations; scan; scan = scan->next)
 		_gth_folder_tree_remove_from_monitor (folder_tree, G_FILE (scan->data));
+	g_hash_table_remove_all (folder_tree->priv->monitor.locations);
 
 	g_list_free (locations);
 }
@@ -510,14 +510,22 @@ update_monitored_locations (GthFolderTree *folder_tree)
 
 	/* remove the old locations */
 
+	locations_to_remove = NULL;
 	locations = g_hash_table_get_keys (folder_tree->priv->monitor.locations);
 	for (scan = locations; scan; scan = scan->next) {
 		GFile *file = scan->data;
 
-		if (! g_hash_table_contains (open_locations, file))
+		if (! g_hash_table_contains (open_locations, file)) {
 			_gth_folder_tree_remove_from_monitor (folder_tree, file);
+			locations_to_remove = g_list_prepend (locations_to_remove, g_object_ref (file));
+		}
 	}
+
+	for (scan = locations_to_remove; scan; scan = scan->next)
+		g_hash_table_remove (folder_tree->priv->monitor.locations, G_FILE (scan->data));
+
 	g_list_free (locations);
+	g_list_free (locations_to_remove);
 
 	/* add the new locations */
 
