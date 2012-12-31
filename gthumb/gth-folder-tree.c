@@ -36,6 +36,7 @@
 #define EMPTY_URI   "..."
 #define LOADING_URI "."
 #define PARENT_URI  ".."
+#define UPDATE_MONITORED_LOCATIONS_DELAY 500
 
 
 typedef enum {
@@ -74,6 +75,7 @@ enum {
 typedef struct {
 	GHashTable *locations;
 	GList      *sources;
+	guint       update_id;
 } MonitorData;
 
 
@@ -125,6 +127,10 @@ gth_folder_tree_finalize (GObject *object)
 		if (folder_tree->priv->drag_target_list != NULL) {
 			gtk_target_list_unref (folder_tree->priv->drag_target_list);
 			folder_tree->priv->drag_target_list = NULL;
+		}
+		if (folder_tree->priv->monitor.update_id != 0) {
+			g_source_remove (folder_tree->priv->monitor.update_id);
+			folder_tree->priv->monitor.update_id = 0;
 		}
 		g_hash_table_unref (folder_tree->priv->entry_points);
 		remove_all_locations_from_the_monitor (folder_tree);
@@ -484,12 +490,19 @@ add_to_open_locations (GtkTreeView *tree_view,
 }
 
 
-static void
-update_monitored_locations (GthFolderTree *folder_tree)
+static gboolean
+update_monitored_locations (gpointer user_data)
 {
-	GHashTable *open_locations;
-	GList      *locations;
-	GList      *scan;
+	GthFolderTree *folder_tree = user_data;
+	GHashTable    *open_locations;
+	GList         *locations;
+	GList         *locations_to_remove;
+	GList         *scan;
+
+	if (folder_tree->priv->monitor.update_id != 0) {
+		g_source_remove (folder_tree->priv->monitor.update_id);
+		folder_tree->priv->monitor.update_id = 0;
+	}
 
 	open_locations = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 	gtk_tree_view_map_expanded_rows (GTK_TREE_VIEW (folder_tree),
@@ -541,6 +554,17 @@ update_monitored_locations (GthFolderTree *folder_tree)
 
 	g_list_free (locations);
 	g_hash_table_unref (open_locations);
+
+	return FALSE;
+}
+
+
+static void
+queue_update_monitored_locations (GthFolderTree *folder_tree)
+{
+	if (folder_tree->priv->monitor.update_id != 0)
+		g_source_remove (folder_tree->priv->monitor.update_id);
+	folder_tree->priv->monitor.update_id = g_timeout_add (UPDATE_MONITORED_LOCATIONS_DELAY, update_monitored_locations, folder_tree);
 }
 
 
@@ -565,7 +589,7 @@ row_expanded_cb (GtkTreeView  *tree_view,
 	if ((entry_type == ENTRY_TYPE_FILE) && ! loaded)
 		g_signal_emit (folder_tree, gth_folder_tree_signals[LIST_CHILDREN], 0, file_data->file);
 
-	update_monitored_locations (folder_tree);
+	queue_update_monitored_locations (folder_tree);
 
 	_g_object_unref (file_data);
 
@@ -579,7 +603,7 @@ row_collapsed_cb (GtkTreeView *tree_view,
 		  GtkTreePath *path,
 		  gpointer     user_data)
 {
-	update_monitored_locations (GTH_FOLDER_TREE (user_data));
+	queue_update_monitored_locations (GTH_FOLDER_TREE (user_data));
 	return FALSE;
 }
 
@@ -1233,6 +1257,7 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 	folder_tree->priv->recalc_entry_points = FALSE;
 	folder_tree->priv->monitor.locations = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 	folder_tree->priv->monitor.sources = NULL;
+	folder_tree->priv->monitor.update_id = 0;
 	folder_tree->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (folder_tree))),
 							    _gtk_widget_lookup_for_size (GTK_WIDGET (folder_tree), GTK_ICON_SIZE_MENU));
 
