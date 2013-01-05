@@ -24,7 +24,7 @@
       <ul class="page-navigation">
         <li class="status">
           <%= translate 'Image %d of %d', image_idx, images %>
-        </li>      
+        </li>
         <% if image_idx > 1  %>
         <li>
           <a href="<%= image_link idx_relative="-1" %>" title="<%= translate 'View the previous image' %>">
@@ -34,8 +34,8 @@
         <% else %>
         <li class="disabled">
           <span><%= translate 'Previous' %></span>
-        </li>        
-        <% end %>        
+        </li>
+        <% end %>
         <% if image_idx < images %>
         <li class="separator">
           <a href="<%= image_link idx_relative="+1" %>" title="<%= translate 'View the next image' %>">
@@ -45,40 +45,40 @@
         <% else %>
         <li class="disabled separator">
           <span><%= translate 'Next' %></span>
-        </li> 
-        <% end %>      
+        </li>
+        <% end %>
         <li>
-          <a href="<%= page_link idx_relative="0" image_idx %>" title="<%= translate 'Go back to the index' %>"">
+          <a href="<%= page_link idx_relative="0" image_idx %>" title="<%= translate 'Go back to the index' %>">
             <%= translate 'Index' %>
           </a>
-        </li>      
+        </li>
         <li class="ultimo">
         </li>
       </ul>
-      <% end %> 
-      
+      <% end %>
+
       <% if image_description_enabled || image_attributes_enabled %>
       <div class="image-preview">
-      <% else %>      
+      <% else %>
       <div class="image-preview image-preview-centered">
       <% end %>
         <div class="image-preview-container">
-        <% if copy_originals %>    
+        <% if copy_originals %>
         <a href="<%= file_name with_relative_path %>"><%= image preview class="preview" %></a>
         <% else %>
         <%= image preview class="preview" %>
         <% end %>
         </div>
-      </div>      
-    
+      </div>
+
       <% for_each image_caption %>
         <% if first_item %>
           <dl class="caption-container">
         <% end %>
-    
+
             <dt class="property"> <%= item_attribute display_name %> </dt>
             <dd class="property-value"> <%= item_attribute value %> </dd>
-    
+
         <% if last_item %>
             <dt class="last property"></dt>
             <dd class="last property-value"></dd>
@@ -92,7 +92,7 @@
       </div>
       <% end %>
 
-    </div>    
+    </div>
   </div>
   <div id="footer">
     <div id="footer-2">

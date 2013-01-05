@@ -20,10 +20,10 @@
       <h1 class="image-title">
         <%= header %>
       </h1>
-      
+
       <ul class="navigation-bar">
         <li class="index">
-          <a href="<%= page_link idx_relative="0" image_idx %>" title="<%= translate 'Go back to the index' %>"">
+          <a href="<%= page_link idx_relative="0" image_idx %>" title="<%= translate 'Go back to the index' %>">
             <span><%= translate 'Go back to the index' %></span>
           </a>
         </li>
@@ -52,11 +52,11 @@
         <% end %>
         <li class="last">
         </li>
-      </ul> 
-      
+      </ul>
+
       <% if image_description_enabled || image_attributes_enabled %>
       <div class="image-preview">
-      <% else %>      
+      <% else %>
       <div class="image-preview image-preview-centered">
       <% end %>
         <% if copy_originals %>
@@ -65,15 +65,15 @@
         <%= image preview class="preview" %>
         <% end %>
       </div>
-    
+
       <% for_each image_caption %>
         <% if first_item %>
           <dl class="caption-container">
         <% end %>
-    
+
             <dt class="property"> <%= item_attribute display_name %> </dt>
             <dd class="property-value"> <%= item_attribute value %> </dd>
-    
+
         <% if last_item %>
             <dt class="last property"></dt>
             <dd class="last property-value"></dd>
