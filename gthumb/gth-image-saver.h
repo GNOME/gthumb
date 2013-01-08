@@ -68,6 +68,7 @@ struct _GthImageSaverClass
 				         char           **buffer,
 				         gsize           *buffer_size,
 				         const char      *mime_type,
+				         GCancellable    *cancellable,
 				         GError         **error);
 };
 
@@ -83,6 +84,7 @@ typedef struct {
 	GthFileData  *file_data;
 	const char   *mime_type;
 	gboolean      replace;
+	GCancellable *cancellable;
 	void         *buffer;
 	gsize         buffer_size;
 	GList        *files; 		/* GthImageSaveFile list */
@@ -105,11 +107,13 @@ gboolean      gth_image_save_to_buffer          (GthImage         *image,
 						 GthFileData      *file_data,
 						 char            **buffer,
 						 gsize            *buffer_size,
+						 GCancellable     *cancellable,
 						 GError          **error);
 void          gth_image_save_to_file            (GthImage         *image,
 						 const char       *mime_type,
 						 GthFileData      *file_data,
 						 gboolean          replace,
+						 GCancellable     *cancellable,
 						 GthFileDataFunc   ready_func,
 						 gpointer          user_data);
 

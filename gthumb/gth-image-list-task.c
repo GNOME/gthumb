@@ -260,8 +260,8 @@ image_task_progress_cb (GthTask    *task,
 
 static void
 image_task_save_current_image (GthImageListTask *self,
-			       GFile             *file,
-			       gboolean           replace)
+			       GFile            *file,
+			       gboolean          replace)
 {
 	GthImage *destination;
 
@@ -285,6 +285,7 @@ image_task_save_current_image (GthImageListTask *self,
 				gth_file_data_get_mime_type (self->priv->destination_file_data),
 				self->priv->destination_file_data,
 				replace,
+				gth_task_get_cancellable (GTH_TASK (self)),
 				image_saved_cb,
 				self);
 }

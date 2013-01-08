@@ -331,6 +331,7 @@ file_buffer_ready_cb (void     **buffer,
 					gth_file_data_get_mime_type (tdata->file_data),
 					tdata->file_data,
 					TRUE,
+					tdata->cancellable,
 					pixbuf_saved_cb,
 					tdata);
 

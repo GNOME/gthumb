@@ -817,6 +817,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 						file_data,
 					        (char **) buffer,
 					        &count,
+					        self->priv->post_photos->cancellable,
 					        &error))
 		{
 			cairo_surface_destroy (surface);

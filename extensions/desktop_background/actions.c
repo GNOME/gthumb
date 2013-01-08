@@ -274,6 +274,7 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 						"image/jpeg",
 						file_data,
 						TRUE,
+						NULL,
 						wallpaper_save_ready_cb,
 						wdata);
 			saving_wallpaper = TRUE;

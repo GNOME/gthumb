@@ -61,6 +61,7 @@ base_save_image (GthImageSaver  *self,
 		 char          **buffer,
 		 gsize          *buffer_size,
 		 const char     *mime_type,
+		 GCancellable   *cancellable,
 		 GError        **error)
 {
 	return FALSE;
@@ -152,6 +153,7 @@ gth_image_saver_save_image (GthImageSaver  *self,
 			    char          **buffer,
 			    gsize          *buffer_size,
 			    const char     *mime_type,
+			    GCancellable   *cancellable,
 			    GError        **error)
 {
 	return GTH_IMAGE_SAVER_GET_CLASS (self)->save_image (self,
@@ -159,15 +161,17 @@ gth_image_saver_save_image (GthImageSaver  *self,
 							     buffer,
 							     buffer_size,
 							     mime_type,
+							     cancellable,
 							     error);
 }
 
 
 static GthImageSaveData *
-_gth_image_save_to_buffer_common (GthImage     *image,
-				  const char   *mime_type,
-				  GthFileData  *file_data,
-				  GError      **p_error)
+_gth_image_save_to_buffer_common (GthImage      *image,
+				  const char    *mime_type,
+				  GthFileData   *file_data,
+				  GCancellable  *cancellable,
+				  GError       **p_error)
 {
 	GthImageSaver    *saver;
 	char             *buffer;
@@ -187,6 +191,7 @@ _gth_image_save_to_buffer_common (GthImage     *image,
 					&buffer,
 					&buffer_size,
 					mime_type,
+					cancellable,
 					&error))
 	{
 		save_data = g_new0 (GthImageSaveData, 1);
@@ -197,6 +202,7 @@ _gth_image_save_to_buffer_common (GthImage     *image,
 		save_data->buffer_size = buffer_size;
 		save_data->files = NULL;
 		save_data->error = NULL;
+		save_data->cancellable = _g_object_ref (cancellable);
 
 		if (save_data->file_data != NULL)
 			gth_hook_invoke ("save-image", save_data);
@@ -229,6 +235,7 @@ gth_image_save_file_free (GthImageSaveFile *file)
 static void
 gth_image_save_data_free (GthImageSaveData *data)
 {
+	_g_object_unref (data->cancellable);
 	_g_object_unref (data->file_data);
 	g_object_unref (data->image);
 	g_list_foreach (data->files, (GFunc) gth_image_save_file_free, NULL);
@@ -238,12 +245,13 @@ gth_image_save_data_free (GthImageSaveData *data)
 
 
 gboolean
-gth_image_save_to_buffer (GthImage     *image,
-			  const char   *mime_type,
-			  GthFileData  *file_data,
-			  char        **buffer,
-			  gsize        *buffer_size,
-			  GError      **p_error)
+gth_image_save_to_buffer (GthImage      *image,
+			  const char    *mime_type,
+			  GthFileData   *file_data,
+			  char         **buffer,
+			  gsize         *buffer_size,
+			  GCancellable  *cancellable,
+			  GError       **p_error)
 {
 	GthImageSaveData *save_data;
 
@@ -252,6 +260,7 @@ gth_image_save_to_buffer (GthImage     *image,
 	save_data = _gth_image_save_to_buffer_common (image,
 						      mime_type,
 						      file_data,
+						      cancellable,
 						      p_error);
 
 	if (save_data != NULL) {
@@ -329,7 +338,7 @@ save_current_file (SaveData *save_data)
 			     file->buffer_size,
 			     (g_file_equal (save_data->data->file_data->file, file->file) ? save_data->data->replace : TRUE),
 			     G_PRIORITY_DEFAULT,
-			     NULL,
+			     save_data->data->cancellable,
 			     file_saved_cb,
 			     save_data);
 }
@@ -357,6 +366,7 @@ gth_image_save_to_file (GthImage        *image,
 			const char      *mime_type,
 			GthFileData     *file_data,
 			gboolean         replace,
+			GCancellable    *cancellable,
 			GthFileDataFunc  ready_func,
 			gpointer         user_data)
 {
@@ -366,6 +376,7 @@ gth_image_save_to_file (GthImage        *image,
 	data = _gth_image_save_to_buffer_common (image,
 						 mime_type,
 						 file_data,
+						 cancellable,
 						 &error);
 
 	if (data == NULL) {

@@ -2112,6 +2112,7 @@ save_thumbnail (gpointer data)
 					"image/jpeg",
 					file_data,
 					TRUE,
+					gth_task_get_cancellable (GTH_TASK (self)),
 					save_thumbnail_ready_cb,
 					self);
 
@@ -2345,6 +2346,7 @@ save_image_preview (gpointer data)
 					"image/jpeg",
 					file_data,
 					TRUE,
+					gth_task_get_cancellable (GTH_TASK (self)),
 					save_image_preview_ready_cb,
 					self);
 
@@ -2452,6 +2454,7 @@ save_resized_image (gpointer data)
 					"image/jpeg",
 					file_data,
 					TRUE,
+					gth_task_get_cancellable (GTH_TASK (self)),
 					save_resized_image_ready_cd,
 					self);
 

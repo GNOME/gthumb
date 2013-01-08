@@ -1086,6 +1086,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 					      NULL,
 					      &buffer,
 					      &buffer_size,
+					      NULL,
 					      NULL))
 		{
 			thumb.setJpegThumbnail ((Exiv2::byte *) buffer, buffer_size);

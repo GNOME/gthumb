@@ -291,6 +291,7 @@ gth_image_saver_tga_save_image (GthImageSaver  *base,
 				char          **buffer,
 				gsize          *buffer_size,
 				const char     *mime_type,
+				GCancellable   *cancellable,
 				GError        **error)
 {
 	GthImageSaverTga  *self = GTH_IMAGE_SAVER_TGA (base);

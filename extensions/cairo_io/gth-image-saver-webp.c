@@ -317,6 +317,7 @@ gth_image_saver_webp_save_image (GthImageSaver   *base,
 				 char           **buffer,
 				 gsize           *buffer_size,
 				 const char      *mime_type,
+				 GCancellable    *cancellable,
 				 GError         **error)
 {
 	GthImageSaverWebp  *self = GTH_IMAGE_SAVER_WEBP (base);

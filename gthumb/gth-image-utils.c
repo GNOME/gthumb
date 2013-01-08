@@ -167,6 +167,7 @@ _g_buffer_resize_image (void          *buffer,
 					   file_data,
 					   (char **) resized_buffer,
 					   resized_count,
+					   cancellable,
 					   error);
 
 	cairo_surface_destroy (scaled);

@@ -1144,6 +1144,7 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 				mime_type,
 				data->file_to_save,
 			        TRUE,
+			        NULL,
 				image_saved_cb,
 				data);
 

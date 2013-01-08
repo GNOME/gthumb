@@ -359,6 +359,7 @@ end_page (GthContactSheetCreator  *self,
 					NULL,
 					&buffer,
 					&size,
+					gth_task_get_cancellable (GTH_TASK (self)),
 					error))
 	{
 		g_object_unref (image);

@@ -104,6 +104,7 @@ save_as_response_cb (GtkDialog  *file_sel,
 				mime_type,
 				save_data->file_data,
 				TRUE,
+				NULL,
 				screenshot_saved_cb,
 				save_data);
 
