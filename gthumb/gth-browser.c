@@ -4015,10 +4015,12 @@ pref_ui_viewer_thumbnails_orient_changed (GSettings  *settings,
 	child2 = gtk_paned_get_child2 (GTK_PANED (browser->priv->viewer_thumbnails_pane));
 
 	g_object_ref (child1);
+	gtk_widget_set_visible (child1, FALSE);
 	gtk_widget_unrealize (child1);
 	gtk_container_remove (GTK_CONTAINER (browser->priv->viewer_thumbnails_pane), child1);
 
 	g_object_ref (child2);
+	gtk_widget_set_visible (child2, FALSE);
 	gtk_widget_unrealize (child2);
 	gtk_container_remove (GTK_CONTAINER (browser->priv->viewer_thumbnails_pane), child2);
 
@@ -4030,6 +4032,9 @@ pref_ui_viewer_thumbnails_orient_changed (GSettings  *settings,
 		gtk_paned_pack1 (GTK_PANED (viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
 		gtk_paned_pack2 (GTK_PANED (viewer_thumbnails_pane), browser->priv->viewer_sidebar_pane, TRUE, FALSE);
 	}
+
+	gtk_widget_set_visible (child1, TRUE);
+	gtk_widget_set_visible (child2, TRUE);
 
 	g_object_notify (G_OBJECT (child1), "parent");
 	g_object_unref (child1);
