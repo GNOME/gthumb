@@ -795,6 +795,8 @@ gthumb/gth-request-dialog.c
 gthumb/gth-request-dialog.h
 gthumb/gth-save-file-data-task.c
 gthumb/gth-save-file-data-task.h
+gthumb/gth-save-image-task.c
+gthumb/gth-save-image-task.h
 gthumb/gth-screensaver.c
 gthumb/gth-screensaver.h
 gthumb/gth-sidebar.c
