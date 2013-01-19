@@ -304,6 +304,9 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 	_cairo_clear_surface (&self->priv->scaled);
 	self->priv->scaled = NULL;
 
+	if (gth_image_viewer_is_animation (self->priv->viewer))
+		return;
+
 	image = gth_image_viewer_get_current_image (self->priv->viewer);
 	if (image == NULL)
 		return;
