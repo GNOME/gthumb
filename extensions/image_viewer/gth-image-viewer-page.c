@@ -1051,9 +1051,9 @@ save_data_free (SaveData *data)
 
 
 static void
-image_saved_cb (GthFileData *file_data,
-		GError      *error,
-		gpointer     user_data)
+save_image_task_completed_cb (GthTask *task,
+			      GError      *error,
+			      gpointer     user_data)
 {
 	SaveData           *data = user_data;
 	GthImageViewerPage *self = data->self;
@@ -1101,6 +1101,7 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	SaveData           *data;
 	GthFileData        *current_file;
 	GthImage           *image;
+	GthTask            *task;
 
 	self = (GthImageViewerPage *) base;
 
@@ -1140,14 +1141,14 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	g_file_info_set_attribute_boolean (data->file_to_save->info, "gth::file::is-modified", FALSE);
 
 	image = gth_image_new_for_surface (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)));
-	gth_image_save_to_file (image,
-				mime_type,
-				data->file_to_save,
-			        TRUE,
-			        NULL,
-				image_saved_cb,
-				data);
+	task = gth_save_image_task_new (image, mime_type, data->file_to_save, GTH_OVERWRITE_RESPONSE_YES);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (save_image_task_completed_cb),
+			  data);
+	gth_browser_exec_task (GTH_BROWSER (self->priv->browser), task, FALSE);
 
+	_g_object_unref (task);
 	_g_object_unref (image);
 }
 

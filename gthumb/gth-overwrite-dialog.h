@@ -37,6 +37,8 @@ typedef enum {
 	GTH_OVERWRITE_RESPONSE_CANCEL
 } GthOverwriteResponse;
 
+#define GTH_OVERWRITE_RESPONSE_ASK GTH_OVERWRITE_RESPONSE_UNSPECIFIED
+
 #define GTH_TYPE_OVERWRITE_DIALOG            (gth_overwrite_dialog_get_type ())
 #define GTH_OVERWRITE_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_OVERWRITE_DIALOG, GthOverwriteDialog))
 #define GTH_OVERWRITE_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_OVERWRITE_DIALOG, GthOverwriteDialogClass))

@@ -55,9 +55,9 @@ save_date_free (SaveData *save_data)
 
 
 static void
-screenshot_saved_cb (GthFileData *file_data,
-		     GError      *error,
-		     gpointer     user_data)
+save_screenshot_task_completed_cb (GthTask  *task,
+				   GError   *error,
+				   gpointer  user_data)
 {
 	SaveData           *save_data = user_data;
 	GthMediaViewerPage *page = save_data->page;
@@ -80,6 +80,7 @@ save_as_response_cb (GtkDialog  *file_sel,
 	GFile       *folder;
 	char        *folder_uri;
 	const char  *mime_type;
+	GthTask     *task;
 
 	if (response != GTK_RESPONSE_OK) {
 		GthMediaViewerPage *page = save_data->page;
@@ -100,13 +101,15 @@ save_as_response_cb (GtkDialog  *file_sel,
 
 	save_data->file_data = gth_file_data_new (file, NULL);
 	gth_file_data_set_mime_type (save_data->file_data, mime_type);
-	gth_image_save_to_file (save_data->image,
-				mime_type,
-				save_data->file_data,
-				TRUE,
-				NULL,
-				screenshot_saved_cb,
-				save_data);
+	task = gth_save_image_task_new (save_data->image,
+					mime_type,
+					save_data->file_data,
+					GTH_OVERWRITE_RESPONSE_YES);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (save_screenshot_task_completed_cb),
+			  save_data);
+	gth_browser_exec_task (GTH_BROWSER (save_data->browser), task, FALSE);
 
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
 

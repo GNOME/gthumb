@@ -93,6 +93,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-progress-dialog.h				\
 	gth-request-dialog.h				\
 	gth-save-file-data-task.h			\
+	gth-save-image-task.h				\
 	gth-screensaver.h				\
 	gth-sidebar.h					\
 	gth-statusbar.h					\
@@ -233,6 +234,7 @@ gthumb_SOURCES = 					\
 	gth-progress-dialog.c				\
 	gth-request-dialog.c				\
 	gth-save-file-data-task.c			\
+	gth-save-image-task.c				\
 	gth-screensaver.c				\
 	gth-sidebar.c					\
 	gth-source-tree.c				\

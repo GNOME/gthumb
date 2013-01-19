@@ -214,9 +214,9 @@ wallpaper_data_set (WallpaperData *wdata)
 
 
 static void
-wallpaper_save_ready_cb (GthFileData *a,
-			 GError      *error,
-			 gpointer     user_data)
+save_wallpaper_task_completed_cb (GthTask  *task,
+				  GError   *error,
+				  gpointer  user_data)
 {
 	WallpaperData *wdata = user_data;
 
@@ -267,18 +267,23 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 		viewer_page = gth_browser_get_viewer_page (browser);
 		if (viewer_page != NULL) {
 			GthImage *image;
+			GthTask  *task;
 
 			image = gth_image_new_for_surface (gth_image_viewer_page_get_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
 			file_data = gth_file_data_new (wdata->new_file, NULL);
-			gth_image_save_to_file (image,
-						"image/jpeg",
-						file_data,
-						TRUE,
-						NULL,
-						wallpaper_save_ready_cb,
-						wdata);
+			task = gth_save_image_task_new (image,
+							"image/jpeg",
+							file_data,
+							GTH_OVERWRITE_RESPONSE_YES);
+			g_signal_connect (task,
+					  "completed",
+					  G_CALLBACK (save_wallpaper_task_completed_cb),
+					  wdata);
+			gth_browser_exec_task (GTH_BROWSER (browser), task, FALSE);
+
 			saving_wallpaper = TRUE;
 
+			_g_object_unref (task);
 			g_object_unref (image);
 		}
 	}
