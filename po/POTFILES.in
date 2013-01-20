@@ -861,6 +861,7 @@ gthumb/pixbuf-io.c
 gthumb/pixbuf-io.h
 gthumb/pixbuf-utils.c
 gthumb/pixbuf-utils.h
+[type: gettext/glade]gthumb/resources/message-dialog.ui
 gthumb/typedefs.h
 gthumb/zlib-utils.c
 gthumb/zlib-utils.h
