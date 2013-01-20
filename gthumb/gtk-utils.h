@@ -96,6 +96,7 @@ int             _gtk_container_get_pos                     (GtkContainer     *co
 guint           _gtk_container_get_n_children              (GtkContainer     *container);
 GtkBuilder *    _gtk_builder_new_from_file                 (const char       *filename,
 					    	    	    const char       *extension);
+GtkBuilder *    _gtk_builder_new_from_resource             (const char       *resource_path);
 GtkWidget *     _gtk_builder_get_widget                    (GtkBuilder       *builder,
 	 		 		    	    	    const char       *name);
 GtkWidget *     _gtk_combo_box_new_with_texts              (const char       *first_text,

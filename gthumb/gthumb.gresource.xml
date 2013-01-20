@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/org/gnome/gThumb">
     <file compressed="true">resources/gthumb.css</file>
+    <file compressed="true">resources/message-dialog.ui</file>
   </gresource>
 </gresources>

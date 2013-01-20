@@ -26,6 +26,7 @@
 
 
 #define REQUEST_ENTRY_WIDTH_IN_CHARS 40
+#define GTHUMB_RESOURCE_BASE_PATH "/org/gnome/gThumb/resources/"
 
 
 void
@@ -122,72 +123,64 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 			 const char       *first_button_text,
 			 ...)
 {
-	GtkWidget    *d;
-	GtkWidget    *label;
-	GtkWidget    *image;
-	GtkWidget    *hbox;
-	va_list       args;
-	const gchar  *text;
-	int           response_id;
-	char         *escaped_message, *markup_text;
+	GtkBuilder  *builder;
+	GtkWidget   *dialog;
+	GtkWidget   *label;
+	va_list      args;
+	const gchar *text;
+	int          response_id;
+	char        *markup_text;
 
-	g_return_val_if_fail (message != NULL, NULL);
+	builder = _gtk_builder_new_from_resource ("message-dialog.ui");
+	dialog = _gtk_builder_get_widget (builder, "message_dialog");
+	gtk_window_set_title (GTK_WINDOW (dialog), "");
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
+	gtk_window_set_modal (GTK_WINDOW (dialog), (flags & GTK_DIALOG_MODAL));
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), (flags & GTK_DIALOG_DESTROY_WITH_PARENT));
+	g_object_weak_ref (G_OBJECT (dialog), (GWeakNotify) g_object_unref, builder);
 
-	if (stock_id == NULL)
-		stock_id = GTK_STOCK_DIALOG_INFO;
-
-	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL, NULL);
-	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 	if (flags & GTK_DIALOG_MODAL)
-		_gtk_dialog_add_to_window_group (GTK_DIALOG (d));
+		_gtk_dialog_add_to_window_group (GTK_DIALOG (dialog));
 
-	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
+	/* set the icon */
 
-	/* Add label and image */
+	gtk_image_set_from_stock (GTK_IMAGE (_gtk_builder_get_widget (builder, "icon_image")),
+				  stock_id,
+				  GTK_ICON_SIZE_DIALOG);
 
-	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_DIALOG);
-	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
+	/* set the message */
 
-	label = gtk_label_new ("");
+	label = _gtk_builder_get_widget (builder, "message_label");
 
-	escaped_message = g_markup_escape_text (message, -1);
-	if (secondary_message != NULL) {
-		char *escaped_secondary_message = g_markup_escape_text (secondary_message, -1);
-		markup_text = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>\n\n%s",
-					       escaped_message,
-					       escaped_secondary_message);
-		g_free (escaped_secondary_message);
+	if (message != NULL) {
+		char *escaped_message;
+
+		escaped_message = g_markup_escape_text (message, -1);
+		if (secondary_message != NULL) {
+			char *escaped_secondary_message;
+
+			escaped_secondary_message = g_markup_escape_text (secondary_message, -1);
+			markup_text = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>\n\n%s",
+						       escaped_message,
+						       escaped_secondary_message);
+
+			g_free (escaped_secondary_message);
+		}
+		else
+			markup_text = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>", escaped_message);
+
+		g_free (escaped_message);
 	}
 	else
-		markup_text = g_strdup (escaped_message);
+		markup_text = g_markup_escape_text (secondary_message, -1);
+
 	gtk_label_set_markup (GTK_LABEL (label), markup_text);
 	g_free (markup_text);
-	g_free (escaped_message);
 
-	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
-
-	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 18);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
-
-	gtk_box_pack_start (GTK_BOX (hbox), image,
-			    FALSE, FALSE, 0);
-
-	gtk_box_pack_start (GTK_BOX (hbox), label,
-			    TRUE, TRUE, 0);
-
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
-			    hbox,
-			    FALSE, FALSE, 0);
-
-	gtk_widget_show_all (hbox);
-
-	/* Add buttons */
+	/* add the buttons */
 
 	if (first_button_text == NULL)
-		return d;
+		return dialog;
 
 	va_start (args, first_button_text);
 
@@ -195,9 +188,9 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	response_id = va_arg (args, gint);
 
 	while (text != NULL) {
-		gtk_dialog_add_button (GTK_DIALOG (d), text, response_id);
+		gtk_dialog_add_button (GTK_DIALOG (dialog), text, response_id);
 
-		text = va_arg (args, gchar*);
+		text = va_arg (args, char*);
 		if (text == NULL)
 			break;
 		response_id = va_arg (args, int);
@@ -205,9 +198,7 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 
 	va_end (args);
 
-	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
-
-	return d;
+	return dialog;
 }
 
 
@@ -603,6 +594,25 @@ _gtk_builder_new_from_file (const char *ui_file,
 	g_free (filename);
 
 	return builder;
+}
+
+
+GtkBuilder *
+_gtk_builder_new_from_resource (const char *resource_path)
+{
+	GtkBuilder *builder;
+	char       *full_path;
+	GError     *error = NULL;
+
+	builder = gtk_builder_new ();
+	full_path = g_strconcat (GTHUMB_RESOURCE_BASE_PATH, resource_path, NULL);
+        if (! gtk_builder_add_from_resource (builder, full_path, &error)) {
+                g_warning ("%s\n", error->message);
+                g_clear_error (&error);
+        }
+	g_free (full_path);
+
+        return builder;
 }
 
 
