@@ -1203,19 +1203,23 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 				location = NULL;
 			}
 
-			if (source != NULL) {
-				items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-				file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-				gth_file_source_remove (source,
-							location,
-							file_data_list,
-							(event->state & modifiers) == GDK_SHIFT_MASK,
-							GTK_WINDOW (browser));
+			if (source == NULL)
+				return result;
 
-				_g_object_list_unref (file_data_list);
-				_gtk_tree_path_list_free (items);
-				result = GINT_TO_POINTER (1);
-			}
+			items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+			if (items == NULL)
+				return result;
+
+			file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+			gth_file_source_remove (source,
+						location,
+						file_data_list,
+						(event->state & modifiers) == GDK_SHIFT_MASK,
+						GTK_WINDOW (browser));
+			result = GINT_TO_POINTER (1);
+
+			_g_object_list_unref (file_data_list);
+			_gtk_tree_path_list_free (items);
 		}
 		break;
 	}
