@@ -6,14 +6,14 @@
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Artur Flinta <aflinta@at.kernel.pl>, 2003-2004.
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2007.
-# Piotr Drąg <piotrdrag@gmail.com>, 2011-2012.
-# Aviary.pl <gnomepl@aviary.pl>, 2007-2012.
+# Piotr Drąg <piotrdrag@gmail.com>, 2011-2013.
+# Aviary.pl <gnomepl@aviary.pl>, 2007-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-23 22:17+0100\n"
-"PO-Revision-Date: 2012-12-23 22:18+0100\n"
+"POT-Creation-Date: 2013-01-20 02:04+0100\n"
+"PO-Revision-Date: 2013-01-20 02:05+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -94,7 +94,7 @@ msgid "Show session management options"
 msgstr "Wyświetla opcje zarządzania sesją"
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:535
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:578
 #: ../gthumb/gth-progress-dialog.c:390 ../gthumb/main.c:315
 msgid "gThumb"
 msgstr "gThumb"
@@ -693,12 +693,12 @@ msgstr "_Metoda:"
 msgid "_Lossless"
 msgstr "_Bezstratna"
 
-#: ../extensions/cairo_io/gth-image-saver-jpeg.c:515
+#: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:140
 msgid "JPEG"
 msgstr "JPEG"
 
-#: ../extensions/cairo_io/gth-image-saver-png.c:352
+#: ../extensions/cairo_io/gth-image-saver-png.c:353
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:110
 msgid "PNG"
 msgstr "PNG"
@@ -709,15 +709,15 @@ msgstr "PNG"
 msgid "Insufficient memory"
 msgstr "Brak pamięci"
 
-#: ../extensions/cairo_io/gth-image-saver-tga.c:343
+#: ../extensions/cairo_io/gth-image-saver-tga.c:344
 msgid "TGA"
 msgstr "TGA"
 
-#: ../extensions/cairo_io/gth-image-saver-tiff.c:558
+#: ../extensions/cairo_io/gth-image-saver-tiff.c:559
 msgid "TIFF"
 msgstr "TIFF"
 
-#: ../extensions/cairo_io/gth-image-saver-webp.c:381
+#: ../extensions/cairo_io/gth-image-saver-webp.c:382
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:165
 msgid "WebP"
 msgstr "WebP"
@@ -850,7 +850,7 @@ msgstr "Wiersz poleceń"
 #: ../extensions/catalogs/callbacks.c:501
 #: ../extensions/photo_importer/dlg-photo-importer.c:364
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
-#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:883
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1093
 msgid "(Empty)"
 msgstr "(Pusty)"
 
@@ -1065,7 +1065,7 @@ msgstr "Nie można usunąć plików z katalogu"
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:746
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:755
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:785
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1319
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1320
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Nieprawidłowy format pliku"
@@ -1497,7 +1497,7 @@ msgstr "Nie można usunąć motywu"
 msgid "Creating images"
 msgstr "Tworzenie obrazów"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:895
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:896
 msgid "Generating thumbnails"
 msgstr "Tworzenie miniatur"
 
@@ -2039,7 +2039,7 @@ msgstr "Nie można wyeksportować plików"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:616
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:1073
+#: ../gthumb/gth-browser.c:1116
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2117,14 +2117,14 @@ msgstr "Nie można wysłać \"%s\": %s"
 msgid "Uploading '%s'"
 msgstr "Wysyłanie \"%s\""
 
-#: ../extensions/facebook/facebook-service.c:922
+#: ../extensions/facebook/facebook-service.c:923
 #: ../extensions/flicker_utils/flickr-service.c:1482
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "Wysyłanie plików na serwer"
 
-#: ../extensions/facebook/facebook-service.c:1021
+#: ../extensions/facebook/facebook-service.c:1022
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
@@ -2235,6 +2235,7 @@ msgstr "Przenosi zaznaczone pliki do kosza"
 #: ../extensions/file_manager/callbacks.c:187
 #: ../extensions/file_manager/callbacks.c:223
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
+#: ../gthumb/gth-tags-entry.c:871
 msgid "_Delete"
 msgstr "_Usuń"
 
@@ -2288,7 +2289,7 @@ msgstr "Przenosi zaznaczone pliki do innego katalogu"
 
 #: ../extensions/file_manager/callbacks.c:999
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5141 ../gthumb/gth-browser.c:5175
+#: ../gthumb/gth-browser.c:5234 ../gthumb/gth-browser.c:5268
 #: ../gthumb/gth-progress-dialog.c:406
 msgid "Could not perform the operation"
 msgstr "Nie można wykonać działania"
@@ -3021,20 +3022,20 @@ msgstr ""
 
 #: ../extensions/gstreamer_tools/actions.c:66
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1072
-#: ../gthumb/gth-browser.c:2101
+#: ../gthumb/gth-browser.c:2175
 msgid "Could not save the file"
 msgstr "Nie można zapisać pliku"
 
-#: ../extensions/gstreamer_tools/actions.c:126
+#: ../extensions/gstreamer_tools/actions.c:130
 msgid "Could not take a screenshot"
 msgstr "Nie można wykonać zrzutu ekranu"
 
-#: ../extensions/gstreamer_tools/actions.c:132
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1243
+#: ../extensions/gstreamer_tools/actions.c:136
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1245
 msgid "Save Image"
 msgstr "Zapis obrazu"
 
-#: ../extensions/gstreamer_tools/actions.c:152
+#: ../extensions/gstreamer_tools/actions.c:156
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Zrzut ekranu"
@@ -3163,9 +3164,9 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:395
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1298
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1300
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:209
-#: ../extensions/webalbums/gth-web-exporter.c:2444 ../gthumb/gtk-utils.c:1027
+#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1027
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3278,7 +3279,7 @@ msgid "Loading \"%s\""
 msgstr "Wczytywanie \"%s\""
 
 #: ../extensions/image_print/gth-load-image-info-task.c:166
-#: ../extensions/webalbums/gth-web-exporter.c:2716
+#: ../extensions/webalbums/gth-web-exporter.c:2719
 msgid "Loading images"
 msgstr "Wczytywanie obrazów"
 
@@ -3320,8 +3321,8 @@ msgstr "Przywraca osadzone ułożenie bez obracania obrazów"
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:141
-#: ../extensions/webalbums/gth-web-exporter.c:2337
-#: ../extensions/webalbums/gth-web-exporter.c:2421
+#: ../extensions/webalbums/gth-web-exporter.c:2338
+#: ../extensions/webalbums/gth-web-exporter.c:2423
 msgid "Saving images"
 msgstr "Zapisywanie obrazów"
 
@@ -3823,7 +3824,7 @@ msgid "A_ccounts:"
 msgstr "_Konta:"
 
 #: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
-#: ../gthumb/gth-folder-tree.c:857
+#: ../gthumb/gth-folder-tree.c:1067
 msgid "Loading..."
 msgstr "Wczytywanie..."
 
@@ -4002,7 +4003,7 @@ msgid "Could not load the folder"
 msgstr "Nie można wczytać katalogu"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
-#: ../gthumb/gth-browser.c:2015
+#: ../gthumb/gth-browser.c:2089
 msgid "Getting folder listing..."
 msgstr "Pobieranie listy katalogu..."
 
@@ -4606,27 +4607,27 @@ msgid "The album has been created successfully."
 msgstr "Pomyślnie utworzono album."
 
 #: ../extensions/webalbums/gth-web-exporter.c:2104
-#: ../extensions/webalbums/gth-web-exporter.c:2131
+#: ../extensions/webalbums/gth-web-exporter.c:2132
 msgid "Saving thumbnails"
 msgstr "Zapisywanie miniatur"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2159
+#: ../extensions/webalbums/gth-web-exporter.c:2160
 msgid "Saving HTML pages: Images"
 msgstr "Zapisywanie stron HTML: obrazy"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2217
+#: ../extensions/webalbums/gth-web-exporter.c:2218
 msgid "Saving HTML pages: Indexes"
 msgstr "Zapisywanie stron HTML: indeksy"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2500
+#: ../extensions/webalbums/gth-web-exporter.c:2503
 msgid "Copying original images"
 msgstr "Kopiowanie oryginalnych obrazów"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2960
+#: ../extensions/webalbums/gth-web-exporter.c:2963
 msgid "Could not find the style folder"
 msgstr "Nie można odnaleźć katalogu stylów"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2998
+#: ../extensions/webalbums/gth-web-exporter.c:3001
 msgid "Could not create a temporary folder"
 msgstr "Nie można utworzyć katalogu tymczasowego"
 
@@ -4638,9 +4639,9 @@ msgstr "Albumy WWW"
 msgid "Create static web albums."
 msgstr "Tworzenie statycznych albumów WWW."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1337
-#: ../gthumb/gth-browser.c:1906 ../gthumb/gth-browser.c:6121
-#: ../gthumb/gth-browser.c:6140 ../gthumb/gth-browser.c:6164
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1396
+#: ../gthumb/gth-browser.c:1969 ../gthumb/gth-browser.c:6214
+#: ../gthumb/gth-browser.c:6233 ../gthumb/gth-browser.c:6257
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nie można wczytać położenia \"%s\""
@@ -4820,8 +4821,8 @@ msgid "translator_credits"
 msgstr ""
 "Artur Flinta <aflinta@at.kernel.pl>, 2003-2004\n"
 "Tomasz Dominikowski <dominikowski@gmail.com>, 2007\n"
-"Piotr Drąg <piotrdrag@gmail.com>, 2011-2012\n"
-"Aviary.pl <gnomepl@aviary.pl>, 2007-2012"
+"Piotr Drąg <piotrdrag@gmail.com>, 2011-2013\n"
+"Aviary.pl <gnomepl@aviary.pl>, 2007-2013"
 
 #: ../gthumb/gth-browser-actions-entries.h:31
 msgid "_File"
@@ -4903,15 +4904,15 @@ msgstr "Przełącza na tryb pełnoekranowy"
 msgid "Leave Fullscreen"
 msgstr "Opuść tryb pełnoekranowy"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3766
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3841
 msgid "Go to the previous visited location"
 msgstr "Przechodzi do poprzednio odwiedzonego położenia"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3784
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3859
 msgid "Go to the next visited location"
 msgstr "Przechodzi do kolejnej odwiedzonego położenia"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3802
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3877
 msgid "Go up one level"
 msgstr "Przechodzi o jeden poziom do góry"
 
@@ -4923,7 +4924,7 @@ msgstr "_Położenie..."
 msgid "Specify a location to open"
 msgstr "Określa położenie do otwarcia"
 
-#: ../gthumb/gth-browser-actions-entries.h:173 ../gthumb/gth-browser.c:678
+#: ../gthumb/gth-browser-actions-entries.h:173 ../gthumb/gth-browser.c:721
 msgid "_Delete History"
 msgstr "_Usuń historię"
 
@@ -5030,16 +5031,16 @@ msgstr "_Dopasowanie okna do obrazu"
 msgid "Resize the window to the size of the image"
 msgstr "Zmienia rozmiar okna na rozmiar obrazu"
 
-#: ../gthumb/gth-browser.c:375
+#: ../gthumb/gth-browser.c:418
 #, c-format
 msgid "Open %s"
 msgstr "Otwórz %s"
 
-#: ../gthumb/gth-browser.c:515
+#: ../gthumb/gth-browser.c:558
 msgid "[modified]"
 msgstr "[zmodyfikowano]"
 
-#: ../gthumb/gth-browser.c:1074
+#: ../gthumb/gth-browser.c:1117
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -5047,52 +5048,52 @@ msgstr[0] "Wybrano %d plik (%s)"
 msgstr[1] "Wybrano %d pliki (%s)"
 msgstr[2] "Wybrano %d plików (%s)"
 
-#: ../gthumb/gth-browser.c:1109
+#: ../gthumb/gth-browser.c:1152
 #, c-format
 msgid "%s of free space"
 msgstr "Wolne miejsce: %s"
 
-#: ../gthumb/gth-browser.c:1999 ../gthumb/gth-browser.c:2026
+#: ../gthumb/gth-browser.c:2073 ../gthumb/gth-browser.c:2100
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nie odnaleziono odpowiedniego modułu dla %s"
 
-#: ../gthumb/gth-browser.c:2145
+#: ../gthumb/gth-browser.c:2219
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Zapisać zmiany w pliku \"%s\"?"
 
-#: ../gthumb/gth-browser.c:2150
+#: ../gthumb/gth-browser.c:2224
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr ""
 "Jeśli nie zostanie zapisane, to wszystkie zmiany zostaną trwale utracone."
 
-#: ../gthumb/gth-browser.c:2151
+#: ../gthumb/gth-browser.c:2225
 msgid "Do _Not Save"
 msgstr "_Nie zapisuj"
 
-#: ../gthumb/gth-browser.c:2945 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:3020 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nie można zmienić nazwy"
 
-#: ../gthumb/gth-browser.c:3376 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3451 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Zmodyfikowano"
 
-#: ../gthumb/gth-browser.c:3767 ../gthumb/gth-browser.c:3785
+#: ../gthumb/gth-browser.c:3842 ../gthumb/gth-browser.c:3860
 msgid "View the list of visited locations"
 msgstr "Wyświetla listę odwiedzonych położeń"
 
-#: ../gthumb/gth-browser.c:3803
+#: ../gthumb/gth-browser.c:3878
 msgid "View the list of upper locations"
 msgstr "Wyświetla listę wyższych położeń"
 
-#: ../gthumb/gth-browser.c:6122
+#: ../gthumb/gth-browser.c:6215
 #, c-format
 msgid "File type not supported"
 msgstr "Nieobsługiwany typ pliku"
 
-#: ../gthumb/gth-browser.c:6165
+#: ../gthumb/gth-browser.c:6258
 #, c-format
 msgid "No suitable module found"
 msgstr "Nie odnaleziono odpowiedniego modułu"
@@ -5188,7 +5189,7 @@ msgstr "malejąco"
 msgid "No limit specified"
 msgstr "Nie podano ograniczenia"
 
-#: ../gthumb/gth-folder-tree.c:1100
+#: ../gthumb/gth-folder-tree.c:1369
 msgid "(Open Parent)"
 msgstr "(Otwórz nadrzędny)"
 
@@ -5236,7 +5237,7 @@ msgstr "Nie można zmienić nazwy pliku"
 msgid "No options available for this file type"
 msgstr "Brak dostępnych opcji dla tego typu pliku"
 
-#: ../gthumb/gth-image-saver.c:181
+#: ../gthumb/gth-image-saver.c:185
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr ""
@@ -5327,12 +5328,18 @@ msgstr "Anuluj działanie"
 msgid "Saving file information"
 msgstr "Zapisywanie informacji o pliku"
 
-#: ../gthumb/gth-tags-entry.c:388
+#. Translators: %s is a filename
+#: ../gthumb/gth-save-image-task.c:162
+#, c-format
+msgid "Saving '%s'"
+msgstr "Zapisywanie pliku \"%s\""
+
+#: ../gthumb/gth-tags-entry.c:390
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Utwórz etykietę \"%s\""
 
-#: ../gthumb/gth-tags-entry.c:735
+#: ../gthumb/gth-tags-entry.c:814
 msgid "Show all the tags"
 msgstr "Wyświetl wszystkie etykiety"
 
