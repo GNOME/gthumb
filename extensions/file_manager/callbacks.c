@@ -1180,12 +1180,34 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		break;
 
 	case GDK_KEY_Delete:
-		if (((event->state & modifiers) == 0) || ((event->state & modifiers) == GDK_SHIFT_MASK)) {
-			if (gth_browser_get_location_source (browser) != NULL) {
+		if (((event->state & modifiers) == 0)
+		    || ((event->state & modifiers) == GDK_SHIFT_MASK)
+		    || ((event->state & modifiers) == GDK_CONTROL_MASK))
+		{
+			GthFileSource *source;
+			GthFileData   *location;
+
+			if ((event->state & modifiers) == 0) {
+				/* Removes the files from the current location,
+				 * for example: when viewing a catalog removes
+				 * the files from the catalog; when viewing a
+				 * folder removes the files from the folder. */
+				source = gth_browser_get_location_source (browser);
+				location = gth_browser_get_location_data (browser);
+			}
+			else {
+				/* When a key modifier is active, use the VFS
+				 * file source to delete the files from the
+				 * disk. */
+				source = gth_main_get_file_source_for_uri ("file:///");
+				location = NULL;
+			}
+
+			if (source != NULL) {
 				items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 				file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-				gth_file_source_remove (gth_browser_get_location_source (browser),
-							gth_browser_get_location_data (browser),
+				gth_file_source_remove (source,
+							location,
 							file_data_list,
 							(event->state & modifiers) == GDK_SHIFT_MASK,
 							GTK_WINDOW (browser));
