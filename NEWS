@@ -1,3 +1,53 @@
+version 3.1.3
+-------------
+
+ New features and user visible changes:
+
+  * Fixed uploading to Facebook and all other web services.
+  * Added ability to import photos from Facebook.
+  * Save and restore the thumbnail list size.
+  * Selections: pressing control-n (with n in 1,2,3) again goes back to the
+    previous view.
+  * Monitor all the expanded locations in the folder tree.
+  * Show a progress dialog for long saving operations.
+  * Added keybindings to delete files in catalog view: control+delete moves to
+    trash; shift+delete deletes from disk.
+  * Allow to delete the tags from the default tag list.
+
+ Bugs fixed:
+
+  * Web album export produces invalid HTML. (#691123)
+  * Fixed thumbnail generation for rotated images.
+  * Fixed the thumbnail style in gtk 3.6
+  * Video viewer: fixed progress bar for gtk 3.6
+  * webp: fixed build for Big-Endian systems
+
+ Internal code changes:
+
+  * Ported to GStreamer 1.0
+  * Ported to libsecret
+
+ New or updated application translations:
+
+  * Chinese (Hong Kong) (taijuin)
+  * Chinese/Traditional (taijuin)
+  * Español; Castellano (Daniel Mustieles)
+  * Hungarian (Balázs Úr)
+  * Polish (Piotr Drąg)
+  * Serbian (Саша Петровић)
+  * Serbian (Saša Petrović)
+  * Slovenian Translation (Matej Urbančič)
+  * čeština (Marek Černocký)
+
+ New or updated manual translations:
+
+  * Español; Castellano (Daniel Mustieles)
+  * Occitan (Yannig Marchegay (Kokoyaya))
+  * Slovenian (Andrej Žnidaršič)
+  * Swedish (Daniel Nylander)
+  * čeština (Marek Černocký)
+  * Ελληνικά (Sterios Prosiniklis)
+
 version 3.1.2
 -------------
 
