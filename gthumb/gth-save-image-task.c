@@ -155,9 +155,7 @@ save_image (GthSaveImageTask *self)
 	char *filename;
 	char *description;
 
-	filename = g_strdup (g_file_info_get_display_name (self->priv->file_data->info));
-	if (filename == NULL)
-		filename = g_file_get_parse_name (self->priv->file_data->file);
+	filename = g_file_get_parse_name (self->priv->file_data->file);
 	/* Translators: %s is a filename */
 	description = g_strdup_printf (_("Saving '%s'"), filename);
 	gth_task_progress (GTH_TASK (self), description, NULL, TRUE, 0.0);
