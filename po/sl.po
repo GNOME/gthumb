@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-01-08 08:57+0000\n"
-"PO-Revision-Date: 2013-01-10 21:08+0100\n"
+"POT-Creation-Date: 2013-01-24 15:43+0000\n"
+"PO-Revision-Date: 2013-01-26 20:31+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -691,12 +691,12 @@ msgstr "_Način:"
 msgid "_Lossless"
 msgstr "Brez _izgub"
 
-#: ../extensions/cairo_io/gth-image-saver-jpeg.c:515
+#: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:140
 msgid "JPEG"
 msgstr "JPEG"
 
-#: ../extensions/cairo_io/gth-image-saver-png.c:352
+#: ../extensions/cairo_io/gth-image-saver-png.c:353
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:110
 msgid "PNG"
 msgstr "PNG"
@@ -707,15 +707,15 @@ msgstr "PNG"
 msgid "Insufficient memory"
 msgstr "Nezadostna količina pomnilnika"
 
-#: ../extensions/cairo_io/gth-image-saver-tga.c:343
+#: ../extensions/cairo_io/gth-image-saver-tga.c:344
 msgid "TGA"
 msgstr "TGA"
 
-#: ../extensions/cairo_io/gth-image-saver-tiff.c:558
+#: ../extensions/cairo_io/gth-image-saver-tiff.c:559
 msgid "TIFF"
 msgstr "TIFF"
 
-#: ../extensions/cairo_io/gth-image-saver-webp.c:381
+#: ../extensions/cairo_io/gth-image-saver-webp.c:382
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:165
 msgid "WebP"
 msgstr "WebP"
@@ -1063,7 +1063,7 @@ msgstr "Ni mogoče odstraniti datotek iz kataloga"
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:746
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:755
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:785
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1319
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1320
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Neveljavna vrsta datoteke"
@@ -1494,7 +1494,7 @@ msgstr "Teme ni mogoče izbrisati"
 msgid "Creating images"
 msgstr "Ustvarjanje slik"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:895
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:896
 msgid "Generating thumbnails"
 msgstr "Ustvarjanje sličic"
 
@@ -2117,14 +2117,14 @@ msgstr "Ni mogoče poslati '%s': %s"
 msgid "Uploading '%s'"
 msgstr "Pošiljanje '%s'"
 
-#: ../extensions/facebook/facebook-service.c:922
+#: ../extensions/facebook/facebook-service.c:923
 #: ../extensions/flicker_utils/flickr-service.c:1482
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "Pošiljanje datotek na strežnik"
 
-#: ../extensions/facebook/facebook-service.c:1021
+#: ../extensions/facebook/facebook-service.c:1022
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
@@ -2290,7 +2290,7 @@ msgstr "Premakni izbrane datoteke v drugo mapo"
 
 #: ../extensions/file_manager/callbacks.c:999
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5229 ../gthumb/gth-browser.c:5263
+#: ../gthumb/gth-browser.c:5234 ../gthumb/gth-browser.c:5268
 #: ../gthumb/gth-progress-dialog.c:406
 msgid "Could not perform the operation"
 msgstr "Ni mogoče izvesti opravila"
@@ -3028,16 +3028,16 @@ msgstr ""
 msgid "Could not save the file"
 msgstr "Ni mogoče shraniti datoteke"
 
-#: ../extensions/gstreamer_tools/actions.c:126
+#: ../extensions/gstreamer_tools/actions.c:130
 msgid "Could not take a screenshot"
 msgstr "Ni mogoče zajeti zaslonske slike"
 
-#: ../extensions/gstreamer_tools/actions.c:132
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1243
+#: ../extensions/gstreamer_tools/actions.c:136
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1245
 msgid "Save Image"
 msgstr "Shrani sliko"
 
-#: ../extensions/gstreamer_tools/actions.c:152
+#: ../extensions/gstreamer_tools/actions.c:156
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Zaslonska slika"
@@ -3166,9 +3166,9 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:395
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1298
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1300
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:209
-#: ../extensions/webalbums/gth-web-exporter.c:2444 ../gthumb/gtk-utils.c:1027
+#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1037
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3280,7 +3280,7 @@ msgid "Loading \"%s\""
 msgstr "Nalaganje \"%s\""
 
 #: ../extensions/image_print/gth-load-image-info-task.c:166
-#: ../extensions/webalbums/gth-web-exporter.c:2716
+#: ../extensions/webalbums/gth-web-exporter.c:2719
 msgid "Loading images"
 msgstr "Nalaganje slik"
 
@@ -3322,8 +3322,8 @@ msgstr "Ponastavi vključeno usmerjenost brez vrtenja slik"
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:141
-#: ../extensions/webalbums/gth-web-exporter.c:2337
-#: ../extensions/webalbums/gth-web-exporter.c:2421
+#: ../extensions/webalbums/gth-web-exporter.c:2338
+#: ../extensions/webalbums/gth-web-exporter.c:2423
 msgid "Saving images"
 msgstr "Shranjevanje slik"
 
@@ -4605,27 +4605,27 @@ msgid "The album has been created successfully."
 msgstr "Album je bil uspešno ustvarjen."
 
 #: ../extensions/webalbums/gth-web-exporter.c:2104
-#: ../extensions/webalbums/gth-web-exporter.c:2131
+#: ../extensions/webalbums/gth-web-exporter.c:2132
 msgid "Saving thumbnails"
 msgstr "Shranjevanje sličic"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2159
+#: ../extensions/webalbums/gth-web-exporter.c:2160
 msgid "Saving HTML pages: Images"
 msgstr "Shranjevanje strani HTML: slike"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2217
+#: ../extensions/webalbums/gth-web-exporter.c:2218
 msgid "Saving HTML pages: Indexes"
 msgstr "Shranjevanje strani HTML: kazala"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2500
+#: ../extensions/webalbums/gth-web-exporter.c:2503
 msgid "Copying original images"
 msgstr "Kopiranje izvirnih slik"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2960
+#: ../extensions/webalbums/gth-web-exporter.c:2963
 msgid "Could not find the style folder"
 msgstr "Ni mogoče najti mape slogov"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2998
+#: ../extensions/webalbums/gth-web-exporter.c:3001
 msgid "Could not create a temporary folder"
 msgstr "Začasne mape ni mogoče ustvariti"
 
@@ -4638,8 +4638,8 @@ msgid "Create static web albums."
 msgstr "Ustvari statične spletne albume."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1396
-#: ../gthumb/gth-browser.c:1969 ../gthumb/gth-browser.c:6209
-#: ../gthumb/gth-browser.c:6228 ../gthumb/gth-browser.c:6252
+#: ../gthumb/gth-browser.c:1969 ../gthumb/gth-browser.c:6214
+#: ../gthumb/gth-browser.c:6233 ../gthumb/gth-browser.c:6257
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Ni mogoče naložiti položaja  \"%s\""
@@ -5082,12 +5082,12 @@ msgstr "Pogled seznama obiskanih mest"
 msgid "View the list of upper locations"
 msgstr "Pogled seznama zgornjih mest"
 
-#: ../gthumb/gth-browser.c:6210
+#: ../gthumb/gth-browser.c:6215
 #, c-format
 msgid "File type not supported"
 msgstr "Vrsta datoteke ni podprta"
 
-#: ../gthumb/gth-browser.c:6253
+#: ../gthumb/gth-browser.c:6258
 #, c-format
 msgid "No suitable module found"
 msgstr "Ni mogoče najti primernega modula"
@@ -5241,7 +5241,7 @@ msgstr "Datoteke ni mogoče preimenovati"
 msgid "No options available for this file type"
 msgstr "Za to vrsto datotek ni razpoložljivih možnosti"
 
-#: ../gthumb/gth-image-saver.c:181
+#: ../gthumb/gth-image-saver.c:185
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Ni mogoče najti primernega modula za shranjevanje slike kot \"%s\""
@@ -5330,6 +5330,12 @@ msgstr "Prekliči opravilo"
 #: ../gthumb/gth-save-file-data-task.c:102
 msgid "Saving file information"
 msgstr "Shranjevanje podrobnosti datoteke"
+
+#. Translators: %s is a filename
+#: ../gthumb/gth-save-image-task.c:160
+#, c-format
+msgid "Saving '%s'"
+msgstr "Shranjevanje '%s'"
 
 #: ../gthumb/gth-tags-entry.c:390
 #, c-format
@@ -5473,27 +5479,27 @@ msgstr "Zapre to okno"
 msgid "Close _All Windows"
 msgstr "Zapri _vsa okna"
 
-#: ../gthumb/gtk-utils.c:499
+#: ../gthumb/gtk-utils.c:490
 msgid "Could not display help"
 msgstr "Pomoči ni mogoče prikazati"
 
-#: ../gthumb/gtk-utils.c:800 ../gthumb/gtk-utils.c:807
+#: ../gthumb/gtk-utils.c:810 ../gthumb/gtk-utils.c:817
 msgid "Could not launch the application"
 msgstr "Programa ni mogoče zagnati"
 
-#: ../gthumb/gtk-utils.c:910
+#: ../gthumb/gtk-utils.c:920
 msgid "_Copy Here"
 msgstr "_Kopiraj sem"
 
-#: ../gthumb/gtk-utils.c:915
+#: ../gthumb/gtk-utils.c:925
 msgid "_Move Here"
 msgstr "_Premakni sem"
 
-#: ../gthumb/gtk-utils.c:920
+#: ../gthumb/gtk-utils.c:930
 msgid "_Link Here"
 msgstr "_Poveži sem"
 
-#: ../gthumb/gtk-utils.c:929
+#: ../gthumb/gtk-utils.c:939
 msgid "Cancel"
 msgstr "Prekliči"
 
