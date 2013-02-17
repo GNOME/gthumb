@@ -205,7 +205,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 		for (srcinfo.scale_denom = 1; srcinfo.scale_denom <= 16; srcinfo.scale_denom++) {
 			jpeg_calc_output_dimensions (&srcinfo);
 			if ((srcinfo.output_width < requested_size) || (srcinfo.output_height < requested_size)) {
-				srcinfo.scale_denom += 1;
+				srcinfo.scale_denom -= 1;
 				break;
 			}
 		}
