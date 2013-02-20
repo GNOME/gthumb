@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb"
 "&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-12-23 20:43+0000\n"
-"PO-Revision-Date: 2013-01-12 21:59+0200\n"
-"Last-Translator: Саша Петровић <salepetronije@gmail.com>\n"
+"POT-Creation-Date: 2013-02-16 21:21+0000\n"
+"PO-Revision-Date: 2013-02-20 20:15+0200\n"
+"Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,8 @@ msgstr "Нисам препознао могућност покретања: %d"
 #: ../copy-n-paste/eggdesktopfile.c:1391
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr "Не могу да проследим адресе докумената на „Type=Link“ улаз радне површи"
+msgstr ""
+"Не могу да проследим адресе докумената на „Type=Link“ улаз радне површи"
 
 #: ../copy-n-paste/eggdesktopfile.c:1412
 #, c-format
@@ -90,13 +91,12 @@ msgid "Show session management options"
 msgstr "Приказује могућности управљања сесијом"
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:535
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:578
 #: ../gthumb/gth-progress-dialog.c:390 ../gthumb/main.c:315
 msgid "gThumb"
 msgstr "Гномов сличко"
 
 #: ../data/gthumb.desktop.in.in.h:2
-#| msgid "gThumb Image Viewer"
 msgid "Image Viewer"
 msgstr "Прегледник слика"
 
@@ -109,12 +109,10 @@ msgid "View and organize your images"
 msgstr "Погледајте и средите своје слике"
 
 #: ../data/gthumb-import.desktop.in.in.h:1
-#| msgid "View with GThumb"
 msgid "Import with gThumb"
 msgstr "Увезите са Гномовим сличком"
 
 #: ../data/gthumb-import.desktop.in.in.h:2
-#| msgid "Import Photos"
 msgid "Photo Import Tool"
 msgstr "Алатка за увоз слика"
 
@@ -123,7 +121,6 @@ msgid "gThumb Photo Import Tool"
 msgstr "Алатка за увоз слика Гномов сличко"
 
 #: ../data/gthumb-import.desktop.in.in.h:4
-#| msgid "Import photos from a digital camera"
 msgid "Import the photos on your camera card"
 msgstr "Увези слике из картице фотоапарата"
 
@@ -140,7 +137,6 @@ msgid "Whether to resize the window to fit the size of the image"
 msgstr "Да ли изменити прозор да се уклопи са величином слике"
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:3
-#| msgid "Open in New Window"
 msgid "Open files in the active window"
 msgstr "Отвори датотеке у радном прозору"
 
@@ -157,12 +153,10 @@ msgid "Whether to always use a black background."
 msgstr "Да ли да увек користи црну позадину."
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
-#| msgid "Possible values are: png, jpeg."
 msgid "Possible values are: jpeg, jpg."
 msgstr "Дозвољене вредности су: png, jpeg."
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:2
-#| msgid "Possible values are: mm, in."
 msgid "Possible values are: tiff, tif."
 msgstr "Дозвољене вредности су: tiff, tif."
 
@@ -171,16 +165,14 @@ msgid ""
 "Possible values include: general::unsorted, file::name, file::size, file::"
 "mtime, exif::photo::datetimeoriginal"
 msgstr ""
-"У могуће вредности спадају: general::unsorted, file::name, file::size, "
-"file::mtime, exif::photo::datetimeoriginal"
+"У могуће вредности спадају: general::unsorted, file::name, file::size, file::"
+"mtime, exif::photo::datetimeoriginal"
 
 #: ../data/ui/extensions-preferences.ui.h:1
-#| msgid "Dimensions"
 msgid "_Extensions:"
 msgstr "_Проширења:"
 
 #: ../data/ui/extensions-preferences.ui.h:2
-#| msgid "Determine by extension"
 msgid "More extensions..."
 msgstr "Још проширења..."
 
@@ -189,7 +181,6 @@ msgid "Some extensions are configurable."
 msgstr "Нека проширења се могу подешавати."
 
 #: ../data/ui/filter-editor.ui.h:1
-#| msgid "File _name:"
 msgid "Filter _Name:"
 msgstr "Услов је _назив:"
 
@@ -205,7 +196,6 @@ msgid "_Limit to"
 msgstr "_Ограничи на"
 
 #: ../data/ui/filter-editor.ui.h:4
-#| msgid "1 selected (%s)"
 msgid "selected by"
 msgstr "одабрана по"
 
@@ -224,7 +214,6 @@ msgstr "Средња вредност:"
 
 #. After the colon there is the total number of pixels
 #: ../data/ui/histogram-info.ui.h:6
-#| msgid "Pi_xels"
 msgid "Pixels:"
 msgstr "Тачкице:"
 
@@ -236,79 +225,64 @@ msgstr "Највише:"
 
 #. After the colon there is the percentile of selected pixels.
 #: ../data/ui/histogram-info.ui.h:10
-#| msgid "_Select"
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "Означено:"
 
 #: ../data/ui/location.ui.h:1
-#| msgid "Location"
 msgid "_Location:"
 msgstr "_Место:"
 
 #: ../data/ui/overwrite-dialog.ui.h:1
-#| msgid "<b>Overwrite the old image with the new one?</b>"
 msgid "Overwrite the old file with the new one?"
 msgstr "Заменити стару датотеку са новом?"
 
 #: ../data/ui/overwrite-dialog.ui.h:2
-#| msgid "Old Image:"
 msgid "Old File:"
 msgstr "Стара датотека:"
 
 #: ../data/ui/overwrite-dialog.ui.h:3
-#| msgid "Filename"
 msgid "Filename:"
 msgstr "Назив датотеке:"
 
 #: ../data/ui/overwrite-dialog.ui.h:4
 #: ../extensions/image_print/data/ui/print-layout.ui.h:23
-#| msgid "Size"
 msgid "Size:"
 msgstr "Величина:"
 
 #: ../data/ui/overwrite-dialog.ui.h:5
-#| msgid "Modified"
 msgid "Modified:"
 msgstr "Измењена:"
 
 #: ../data/ui/overwrite-dialog.ui.h:6
-#| msgid "New Folder"
 msgid "New File:"
 msgstr "Нова датотека:"
 
 #: ../data/ui/overwrite-dialog.ui.h:7
-#| msgid "Over_write the old image"
 msgid "Over_write the old file"
 msgstr "Препиши _стару датотеку"
 
 #: ../data/ui/overwrite-dialog.ui.h:8
-#| msgid "Do not overwrite _the old image"
 msgid "Do not overwrite _the old file"
 msgstr "Немој преписати _стару датотеку"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
-#| msgid "Overwrite _all images"
 msgid "Overwrite _all files"
 msgstr "Препиши _све датотеке"
 
 #: ../data/ui/overwrite-dialog.ui.h:10
-#| msgid "_Do not overwrite any image"
 msgid "_Do not overwrite any file"
 msgstr "_Немој преписати ни једну датотеку"
 
 #: ../data/ui/overwrite-dialog.ui.h:11
-#| msgid "_Save the new image as:"
 msgid "_Save the new file as:"
 msgstr "_Сачувај нову датотеку као:"
 
 #: ../data/ui/personalize-filters.ui.h:1
-#| msgid "Millimeters"
 msgid "Filters"
 msgstr "Услови"
 
 #: ../data/ui/personalize-filters.ui.h:2
-#| msgid "_General"
 msgid "_General filter:"
 msgstr "_Општи услови:"
 
@@ -317,7 +291,6 @@ msgid "_Other filters:"
 msgstr "Други _услови:"
 
 #: ../data/ui/preferences.ui.h:1
-#| msgid "View the folders"
 msgid "below the folder list"
 msgstr "испод списка фасцикли"
 
@@ -334,7 +307,6 @@ msgid "_Toolbar style:"
 msgstr "Изглед _траке алата:"
 
 #: ../data/ui/preferences.ui.h:5
-#| msgid "Th_umbnail size:"
 msgid "T_humbnails in viewer:"
 msgstr "Умањен_и приказ у прегледнику:"
 
@@ -363,7 +335,6 @@ msgid "on the bottom"
 msgstr "на дну"
 
 #: ../data/ui/preferences.ui.h:12
-#| msgid "Redo the search"
 msgid "on the side"
 msgstr "бочно"
 
@@ -376,7 +347,6 @@ msgid "Appearance"
 msgstr "Изглед"
 
 #: ../data/ui/preferences.ui.h:15
-#| msgid "Go to the next visited location"
 msgid "Go to last _visited location"
 msgstr "Иди на _задње посећено место"
 
@@ -397,17 +367,14 @@ msgid "_Reuse the active window to open files"
 msgstr "_Поново користи радни прозор за отварање датотека"
 
 #: ../data/ui/preferences.ui.h:20
-#| msgid "<b>On startup:</b>"
 msgid "On startup:"
 msgstr "На покретању:"
 
 #: ../data/ui/preferences.ui.h:21
-#| msgid "As_k confirmation before deleting images or catalogs"
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "Зат_ражи потврду пре брисања датотека или збирки"
 
 #: ../data/ui/preferences.ui.h:22
-#| msgid "Ask whether to save _modified images"
 msgid "Ask whether to save _modified files"
 msgstr "Да питам да ли да сачувам _измењене датотеке"
 
@@ -438,7 +405,6 @@ msgid "Caption"
 msgstr "Наслов"
 
 #: ../data/ui/preferences.ui.h:27
-#| msgid "Th_umbnail size:"
 msgid "Thumbnail _size:"
 msgstr "Величина умањеног _приказа:"
 
@@ -488,23 +454,19 @@ msgid "Browser"
 msgstr "Прегледник"
 
 #: ../data/ui/sort-order.ui.h:1
-#| msgid "Sort"
 msgid "Sort By"
 msgstr "Поређај по"
 
 #: ../data/ui/sort-order.ui.h:2
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:4
-#| msgid "_Sort:"
 msgid "_Sort by:"
 msgstr "_Поређај по:"
 
 #: ../data/ui/sort-order.ui.h:3
-#| msgid "Re_verse order"
 msgid "_Inverse order"
 msgstr "_Обрнути поредак"
 
 #: ../extensions/23hq/23hq.extension.in.in.h:1
-#| msgid "2"
 msgid "23"
 msgstr "23"
 
@@ -526,7 +488,6 @@ msgid "Bookmarks"
 msgstr "Обележивачи"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
-#| msgid "_Add Bookmark"
 msgid "Add bookmarks support."
 msgstr "Додај подршку обележивача."
 
@@ -565,7 +526,6 @@ msgid "_Bookmarks"
 msgstr "_Обележивачи"
 
 #: ../extensions/bookmarks/callbacks.c:55
-#| msgid "_Edit Bookmarks"
 msgid "_System Bookmarks"
 msgstr "_Системски обележивачи"
 
@@ -578,7 +538,6 @@ msgid "Add current location to bookmarks"
 msgstr "Додати тренутно место у обележиваче"
 
 #: ../extensions/bookmarks/callbacks.c:63
-#| msgid "_Edit Bookmarks"
 msgid "_Edit Bookmarks..."
 msgstr "_Уреди обележиваче..."
 
@@ -591,17 +550,14 @@ msgid "_Bookmarks:"
 msgstr "_Обележивачи:"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
-#| msgid "Name"
 msgid "_Name"
 msgstr "_Назив"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
-#| msgid "Location"
 msgid "_Location"
 msgstr "_Место"
 
 #: ../extensions/bookmarks/dlg-bookmarks.c:70
-#| msgid "Could not move the image:"
 msgid "Could not remove the bookmark"
 msgstr "Не могу уклонити обележивач"
 
@@ -622,12 +578,10 @@ msgid "Write files to an optical disc"
 msgstr "Упиши датотеке на оптички диск"
 
 #: ../extensions/burn_disc/data/ui/burn-disc-options.ui.h:1
-#| msgid "by Name"
 msgid "Disc Name"
 msgstr "Назив диска"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:1
-#| msgid "Current _Folder"
 msgid "Current _folder"
 msgstr "Тренутна _фасцикла"
 
@@ -636,7 +590,6 @@ msgid "Current folder and its s_ub-folders"
 msgstr "Тренутна фасцикла и њене под_фасцикле"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:3
-#| msgid "_Selected Images"
 msgid "_Selected files"
 msgstr "_Означене датотеке"
 
@@ -647,13 +600,11 @@ msgstr "Извор"
 #: ../extensions/burn_disc/gth-burn-task.c:238
 #: ../extensions/burn_disc/gth-burn-task.c:259
 #: ../extensions/burn_disc/gth-burn-task.c:397
-#| msgid "Write To CD"
 msgid "Write to Disc"
 msgstr "Упиши на диск"
 
 #: ../extensions/cairo_io/cairo-image-surface-jpeg.c:62
 #, c-format
-#| msgid "Converting image: %s"
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Грешка приликом тумачења ЈПЕГ сликовне датотеке: %s"
 
@@ -664,7 +615,6 @@ msgstr "Непознато ЈПЕГ окружење боја (%d)"
 
 #: ../extensions/cairo_io/data/ui/jpeg-options.ui.h:1
 #: ../extensions/cairo_io/data/ui/tiff-options.ui.h:1
-#| msgid "Determine by extension"
 msgid "_Default extension:"
 msgstr "_Подразумевани наставак:"
 
@@ -698,7 +648,6 @@ msgid "_RLE compression"
 msgstr "_РЛЕ сажимање"
 
 #: ../extensions/cairo_io/data/ui/tiff-options.ui.h:2
-#| msgid "_No compression"
 msgid "Compression"
 msgstr "Сажимање"
 
@@ -715,7 +664,6 @@ msgid "_Loss compression (JPEG)"
 msgstr "_Сажимање са губицима (JPEG)"
 
 #: ../extensions/cairo_io/data/ui/tiff-options.ui.h:6
-#| msgid "<b>Resolution</b>"
 msgid "Resolution"
 msgstr "Размера"
 
@@ -741,15 +689,13 @@ msgstr "_Начин:"
 msgid "_Lossless"
 msgstr "_Без губљења квалитета"
 
-#: ../extensions/cairo_io/gth-image-saver-jpeg.c:515
+#: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:140
-#| msgid "_JPEG"
 msgid "JPEG"
 msgstr "JPEG"
 
-#: ../extensions/cairo_io/gth-image-saver-png.c:352
+#: ../extensions/cairo_io/gth-image-saver-png.c:353
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:110
-#| msgid "_PNG"
 msgid "PNG"
 msgstr "PNG"
 
@@ -759,17 +705,15 @@ msgstr "PNG"
 msgid "Insufficient memory"
 msgstr "Недовољна меморија"
 
-#: ../extensions/cairo_io/gth-image-saver-tga.c:343
-#| msgid "T_GA"
+#: ../extensions/cairo_io/gth-image-saver-tga.c:344
 msgid "TGA"
 msgstr "TGA"
 
-#: ../extensions/cairo_io/gth-image-saver-tiff.c:558
-#| msgid "_TIFF"
+#: ../extensions/cairo_io/gth-image-saver-tiff.c:559
 msgid "TIFF"
 msgstr "TIFF"
 
-#: ../extensions/cairo_io/gth-image-saver-webp.c:381
+#: ../extensions/cairo_io/gth-image-saver-webp.c:382
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:165
 msgid "WebP"
 msgstr "WebP"
@@ -778,7 +722,6 @@ msgstr "WebP"
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
-#| msgid "<b>Saving</b>"
 msgid "Saving"
 msgstr "Снимање"
 
@@ -789,7 +732,6 @@ msgstr "Снимање"
 #: ../extensions/list_tools/gth-script-editor-dialog.c:290
 #: ../gthumb/gth-filter-editor-dialog.c:461
 #, c-format
-#| msgid "New names _preview:"
 msgid "No name specified"
 msgstr "Није одређен назив"
 
@@ -811,13 +753,11 @@ msgstr "Назив је већ у употреби"
 
 #: ../extensions/catalogs/actions.c:178
 #: ../extensions/catalogs/dlg-add-to-catalog.c:359
-#| msgid "New Catalog"
 msgid "New catalog"
 msgstr "Нова збирка"
 
 #: ../extensions/catalogs/actions.c:179
 #: ../extensions/catalogs/dlg-add-to-catalog.c:360
-#| msgid "Enter the catalog name: "
 msgid "Enter the catalog name:"
 msgstr "Унесите назив за збирку:"
 
@@ -830,18 +770,15 @@ msgstr "Нап_рави"
 
 #: ../extensions/catalogs/actions.c:290
 #: ../extensions/catalogs/dlg-add-to-catalog.c:471
-#| msgid "New Library"
 msgid "New library"
 msgstr "Нова библиотека"
 
 #: ../extensions/catalogs/actions.c:291
 #: ../extensions/catalogs/dlg-add-to-catalog.c:472
-#| msgid "Enter the library name: "
 msgid "Enter the library name:"
 msgstr "Унесите име за библиотеку:"
 
 #: ../extensions/catalogs/actions.c:326
-#| msgid "Could not rename the catalog \"%s\": %s"
 msgid "Could not remove the catalog"
 msgstr "Нисам успео да уклоним збирку"
 
@@ -851,7 +788,6 @@ msgid "Are you sure you want to remove \"%s\"?"
 msgstr "Да ли сте сигурни да желите да уклоните „%s“?"
 
 #: ../extensions/catalogs/callbacks.c:102
-#| msgid "_Add to Catalog..."
 msgid "_Add to Catalog"
 msgstr "_Додај у збирку"
 
@@ -862,7 +798,6 @@ msgstr "Отвори _фасциклу"
 
 #: ../extensions/catalogs/callbacks.c:106
 #: ../extensions/selections/callbacks.c:81
-#| msgid "Go to the folder that contains the selected image"
 msgid "Go to the folder that contains the selected file"
 msgstr "Иди у фасциклу који садржи означену датотеку"
 
@@ -871,7 +806,6 @@ msgid "Other..."
 msgstr "Друго..."
 
 #: ../extensions/catalogs/callbacks.c:111
-#| msgid "Choose a Catalog"
 msgid "Choose another catalog"
 msgstr "Одаберите другу збирку"
 
@@ -892,17 +826,14 @@ msgid "Remove selected images from the catalog"
 msgstr "Уклони одабране слике из збирке"
 
 #: ../extensions/catalogs/callbacks.c:125
-#| msgid "Create a new catalog"
 msgid "Create _Catalog"
 msgstr "Направи нову _збирку"
 
 #: ../extensions/catalogs/callbacks.c:130
-#| msgid "New _Library"
 msgid "Create _Library"
 msgstr "Направи _библиотеку"
 
 #: ../extensions/catalogs/callbacks.c:140
-#| msgid "Rename"
 msgid "Rena_me"
 msgstr "Преиме_нуј"
 
@@ -915,12 +846,11 @@ msgstr "Наредбена линија"
 #: ../extensions/catalogs/callbacks.c:501
 #: ../extensions/photo_importer/dlg-photo-importer.c:364
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
-#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:883
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1093
 msgid "(Empty)"
 msgstr "(Празно)"
 
 #: ../extensions/catalogs/callbacks.c:700
-#| msgid "%s Properties"
 msgid "Catalog Properties"
 msgstr "Поставке збирке"
 
@@ -929,7 +859,6 @@ msgid "Organize"
 msgstr "Среди"
 
 #: ../extensions/catalogs/callbacks.c:715
-#| msgid "Automatically normalize the contrast"
 msgid "Automatically organize files by date"
 msgstr "Сам среди датотеке по датуму"
 
@@ -938,7 +867,6 @@ msgstr "Сам среди датотеке по датуму"
 #: ../extensions/catalogs/gth-catalog.c:662
 #: ../extensions/catalogs/gth-catalog.c:1016
 #: ../extensions/catalogs/gth-catalog.c:1017
-#| msgid "_Catalogs"
 msgid "Catalogs"
 msgstr "Збирке"
 
@@ -947,7 +875,6 @@ msgid "Create file collections."
 msgstr "Направите збирке датотека."
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:1
-#| msgid "_Add to Catalog..."
 msgid "Add to Catalog"
 msgstr "Додај у збирку"
 
@@ -966,13 +893,11 @@ msgstr "Нова _библиотека"
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
 #: ../extensions/file_manager/actions.c:945
 #: ../extensions/webalbums/gth-web-exporter.c:1840
-#| msgid "Choose the destination folder"
 msgid "_View the destination"
 msgstr "_Погледај одредиште"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
 #: ../gthumb/gth-file-properties.c:209
-#| msgid "Proper_ties"
 msgid "Properties"
 msgstr "Особине"
 
@@ -983,7 +908,6 @@ msgstr "Особине"
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:1
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
-#| msgid "Name"
 msgid "_Name:"
 msgstr "_Назив:"
 
@@ -1010,17 +934,14 @@ msgid "Organization:"
 msgstr "Сређивање:"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
-#| msgid "_Select All"
 msgid "Select All"
 msgstr "Означи све"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
-#| msgid "Select a font"
 msgid "Select None"
 msgstr "Ништа не означуј"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
-#| msgid "Style Preview"
 msgid "Catalog _Preview:"
 msgstr "_Преглед збирке:"
 
@@ -1032,7 +953,6 @@ msgstr "Датум снимања фотографије"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:2
 #: ../gthumb/gth-main-default-tests.c:292
-#| msgid "Last modified date"
 msgid "File modified date"
 msgstr "Датум последње измене"
 
@@ -1042,7 +962,6 @@ msgid "Tag"
 msgstr "Ознака"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:4
-#| msgid "Catalog"
 msgid "tag"
 msgstr "ознака"
 
@@ -1075,23 +994,19 @@ msgstr "Појединачне"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:105
 #: ../extensions/catalogs/dlg-add-to-catalog.c:136
-#| msgid "Could not create the catalog \"%s\": %s"
 msgid "Could not add the files to the catalog"
 msgstr "Не могу да додам датотеке у збирку"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:217
 #: ../extensions/search/gth-search-task.c:356
-#| msgid "Could not create the catalog \"%s\": %s"
 msgid "Could not create the catalog"
 msgstr "Нисам успео да направим збирку"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:80
-#| msgid "Could not rename the catalog \"%s\": %s"
 msgid "Could not save the catalog"
 msgstr "Нисам успео да сачувам збирку"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:159
-#| msgid "Could not rename the catalog \"%s\": %s"
 msgid "Could not load the catalog"
 msgstr "Нисам успео да учитам збирку"
 
@@ -1108,46 +1023,36 @@ msgstr "Ознаке"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:953
 #, c-format
-#| msgid ""
-#| "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgid "The catalog '%s' already exists, do you want to overwrite it?"
 msgstr "Збирка са именом „%s“ већ постоји, да ли желите да је препишете?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:955
 #, c-format
-#| msgid ""
-#| "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgid "The library '%s' already exists, do you want to overwrite it?"
 msgstr "Библиотека са именом „%s“ већ постоји, да ли желите да је препишете?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:963
-#| msgid "Overwrite"
 msgid "Over_write"
 msgstr "_Препиши"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1081
-#| msgid "Could not move the items:"
 msgid "Cannot move the files"
 msgstr "Не могу преместити датотеке"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1083
-#| msgid "Could not copy the image:"
 msgid "Cannot copy the files"
 msgstr "Не могу умножити датотеке"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1088
-#| msgid "source contains destination"
 msgid "Invalid destination."
 msgstr "Неисправно одредиште."
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1135
 #, c-format
-#| msgid "Copying file %d of %d"
 msgid "Copying files to '%s'"
 msgstr "Умножавам датотеке у „%s“"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1322
-#| msgid "Remove selected images from the catalog"
 msgid "Could not remove the files from the catalog"
 msgstr "Нисам успео да уклоним датотеке из збирке"
 
@@ -1155,7 +1060,7 @@ msgstr "Нисам успео да уклоним датотеке из збир
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:746
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:755
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:785
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1319
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1320
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Неисправан облик датотеке"
@@ -1166,7 +1071,6 @@ msgid "Operation completed. Catalogs: %d. Images: %d."
 msgstr "Поступак завршен. Збирки: %d. Слика: %d."
 
 #: ../extensions/change_date/callbacks.c:44
-#| msgid "Change _Date"
 msgid "Change _Date..."
 msgstr "Измени _датум..."
 
@@ -1175,12 +1079,10 @@ msgid "Change images last modified date"
 msgstr "Промени датум последње измене слика"
 
 #: ../extensions/change_date/change_date.extension.in.in.h:1
-#| msgid "Change Date"
 msgid "Change date"
 msgstr "Промени датум"
 
 #: ../extensions/change_date/change_date.extension.in.in.h:2
-#| msgid "Change the last modified date to:"
 msgid "Change the files date"
 msgstr "Промени датум датотека"
 
@@ -1197,36 +1099,30 @@ msgid "Change Date"
 msgstr "Промени датум"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:4
-#| msgid "Could not rename the following images:"
 msgid "Change the following values:"
 msgstr "Измени следеће вредности:"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:5
-#| msgid "Last modified date"
 msgid "_Last modified date"
 msgstr "Датум _последње измене"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:6
-#| msgid "C_urrent date"
 msgid "Co_mment date"
 msgstr "Датум _напомене"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:7
-#| msgid "Change Date"
 msgid "Change to:"
 msgstr "Промени у:"
 
-#: ../extensions/change_date/data/ui/change-date.ui.h:7
+#: ../extensions/change_date/data/ui/change-date.ui.h:8
 msgid "The _following date:"
 msgstr "Следећи _датум:"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:9
-#| msgid "Last modified date"
 msgid "File _modified date"
 msgstr "Датум _последње измене"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:10
-#| msgid "Image c_reation date"
 msgid "File c_reation date"
 msgstr "Датум н_астанка датотеке"
 
@@ -1261,7 +1157,6 @@ msgstr ""
 "Увози метаподатке сачуване у датотекама у систем напомена Гномовог сличка"
 
 #: ../extensions/comments/comments.extension.in.in.h:1
-#| msgid "Comment _font:"
 msgid "Comments and tags"
 msgstr "Напомене и ознаке"
 
@@ -1271,7 +1166,6 @@ msgstr "Додај напомене и ознаке у све врсте дат�
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
-#| msgid "gThumb Preferences"
 msgid "Preferences"
 msgstr "Поставке"
 
@@ -1297,13 +1191,11 @@ msgstr "Наслов"
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:12
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
 #: ../gthumb/gth-main-default-metadata.c:52
-#| msgid "_Destination:"
 msgid "Description"
 msgstr "Опис"
 
 #: ../extensions/comments/main.c:43 ../extensions/comments/main.c:174
 #: ../gthumb/gth-main-default-metadata.c:50
-#| msgid "_Place:"
 msgid "Place"
 msgstr "Место"
 
@@ -1324,17 +1216,14 @@ msgid "Contact _Sheet..."
 msgstr "_Списак познаника..."
 
 #: ../extensions/contact_sheet/callbacks.c:62
-#| msgid "Create a new category"
 msgid "Create a contact sheet"
 msgstr "Направи нови списак познаника"
 
 #: ../extensions/contact_sheet/callbacks.c:65
-#| msgid "I_mage Caption..."
 msgid "Image _Wall..."
 msgstr "Мозаик _слика..."
 
 #: ../extensions/contact_sheet/callbacks.c:66
-#| msgid "Create Index Image"
 msgid "Create an image-wall"
 msgstr "Направите мозаик слика"
 
@@ -1383,7 +1272,6 @@ msgid "Outward Shadow"
 msgstr "Спољашња сенка"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
-#| msgid "<b>Background style</b>"
 msgid "Background"
 msgstr "Позадина"
 
@@ -1404,7 +1292,6 @@ msgid "Frame"
 msgstr "Оквир"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
-#| msgid "Frame _style:"
 msgid "_Style:"
 msgstr "_Начин:"
 
@@ -1414,7 +1301,6 @@ msgstr "Б_оја:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
 #: ../extensions/rename_series/dlg-rename-series.c:57
-#| msgid "Text only"
 msgid "Text"
 msgstr "Текст"
 
@@ -1423,7 +1309,6 @@ msgstr "Текст"
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:2
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
-#| msgid "H_eader:"
 msgid "_Header:"
 msgstr "_Заглавље:"
 
@@ -1436,21 +1321,18 @@ msgstr "Изаберите словни лик"
 #: ../extensions/image_print/data/ui/print-layout.ui.h:4
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:3
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
-#| msgid "F_ooter:"
 msgid "_Footer:"
 msgstr "_Подножје:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:1
-#| msgid "Caption"
 msgid "Caption:"
 msgstr "Наслов:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
 #: ../extensions/image_print/data/ui/print-layout.ui.h:5
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
-#| msgid "Save current image"
 msgid "The current page number"
 msgstr "Тренутни број странице"
 
@@ -1482,7 +1364,6 @@ msgstr "%D{ облик }"
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:12
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
-#| msgid "Current date"
 msgid "The current date"
 msgstr "Текући датум"
 
@@ -1508,7 +1389,6 @@ msgstr "Одаберите одредишну фасциклу"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
-#| msgid "File _name:"
 msgid "File_name:"
 msgstr "И_ме датотеке:"
 
@@ -1523,17 +1403,14 @@ msgid "Create _HTML image map"
 msgstr "Направи _HTML мапу слике"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
-#| msgid "Create a new category"
 msgid "Create a new theme"
 msgstr "Направите нову тему"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
-#| msgid "Open the selected folder"
 msgid "Edit the selected theme"
 msgstr "Уредите обележену тему"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
-#| msgid "Delete selected images from the camera"
 msgid "Delete the selected theme"
 msgstr "Брише изабрану тему"
 
@@ -1546,7 +1423,6 @@ msgstr "Тема"
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:16
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
-#| msgid "Col_umns:"
 msgid "Columns:"
 msgstr "Колоне:"
 
@@ -1575,7 +1451,6 @@ msgstr "Распоред"
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
-#| msgid "_Port:"
 msgid "S_ort:"
 msgstr "_Разврставање:"
 
@@ -1587,45 +1462,37 @@ msgstr "О_брнути поредак"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
-#| msgid "Size"
 msgid "_Size:"
 msgstr "_Величина:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
-#| msgid "Square"
 msgid "Sq_uared"
 msgstr "К_вадрирани"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
-#| msgid "_Thumbnails"
 msgid "Thumbnails"
 msgstr "Умањене сличице"
 
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
-#| msgid "Image data"
 msgid "Image Wall"
 msgstr "Мозаик слика"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:481
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:492
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:506
-#| msgid "Could not move the items:"
 msgid "Could not save the theme"
 msgstr "Нисам успео да сачувам тему"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:651
-#| msgid "Could not delete the images:"
 msgid "Could not delete the theme"
 msgstr "Нисам успео обрисати тему"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-creator.c:247
-#| msgid "Creating image: %s.%s"
 msgid "Creating images"
 msgstr "Стварање слика"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:895
-#| msgid "Saving thumbnails"
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:896
 msgid "Generating thumbnails"
 msgstr "Стварање умањених приказа"
 
@@ -1638,7 +1505,6 @@ msgid "Footer"
 msgstr "Подножје"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:193
-#| msgid "%s Properties"
 msgid "Theme Properties"
 msgstr "Особине теме"
 
@@ -1647,22 +1513,18 @@ msgid "Copy _From"
 msgstr "Умножи _из"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:316
-#| msgid "New Name"
 msgid "New theme"
 msgstr "Нова тема"
 
 #: ../extensions/convert_format/callbacks.c:45
-#| msgid "Convert Format"
 msgid "Convert Format..."
 msgstr "Претвори облик..."
 
 #: ../extensions/convert_format/callbacks.c:46
-#| msgid "Convert Format"
 msgid "Convert image format"
 msgstr "Претвори облик слике"
 
 #: ../extensions/convert_format/convert_format.extension.in.in.h:1
-#| msgid "Convert Format"
 msgid "Convert format"
 msgstr "Облик претварања"
 
@@ -1675,46 +1537,38 @@ msgid "Convert Format"
 msgstr "Облик претварања"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:2
-#| msgid "New Image:"
 msgid "New format"
 msgstr "Нови облик"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:3
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:6
-#| msgid "_Destination:"
 msgid "Destination"
 msgstr "Одредиште"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:5
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:8
-#| msgid "Browse the image folder"
 msgid "_Use the original image folder"
 msgstr "_Користи изворну фасциклу са сликама"
 
 #: ../extensions/convert_format/dlg-convert-format.c:95
-#| msgid "Converting image: %s"
 msgid "Converting images"
 msgstr "Претварање слика"
 
 #: ../extensions/desktop_background/actions.c:158
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Could not show the desktop background properties"
 msgstr "Нисам успео да прикажем поставке позадине радне површи"
 
 #: ../extensions/desktop_background/actions.c:224
 #: ../extensions/desktop_background/actions.c:242
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Could not set the desktop background"
 msgstr "Нисам успео да поставим позадину радне површи"
 
 #: ../extensions/desktop_background/callbacks.c:49
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Set as Desktop Background"
 msgstr "Постави за позадину радне површи"
 
 #: ../extensions/desktop_background/callbacks.c:50
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Set the image as desktop background"
 msgstr "Постави слику за позадину радне површи"
 
@@ -1742,7 +1596,6 @@ msgid "Edit the comment and other information of the selected files"
 msgstr "Уреди напомене и остале податке означених датотека"
 
 #: ../extensions/edit_metadata/callbacks.c:107
-#| msgid "Assign categories to the selected folder"
 msgid "Set the tags of the selected files"
 msgstr "Додели ознаке изабраним датотекама"
 
@@ -1757,7 +1610,6 @@ msgstr "Брише напомене и угњежђене метаподатке
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
-#| msgid "_Destination:"
 msgid "D_escription:"
 msgstr "Опи_с:"
 
@@ -1771,17 +1623,14 @@ msgid "T_ags:"
 msgstr "О_знаке:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:5
-#| msgid "_Smoothing:"
 msgid "_Rating:"
 msgstr "_Оцена:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:6
-#| msgid "Title"
 msgid "_Title:"
 msgstr "_Наслов:"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:121
-#| msgid "Could not move the image:"
 msgid "Could not save the file metadata"
 msgstr "Нисам успео да сачувам метаподатке датотека"
 
@@ -1809,7 +1658,6 @@ msgstr "%s метаподатак"
 #: ../extensions/facebook/dlg-import-from-facebook.c:319
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:324
 #, c-format
-#| msgid "Inde_x file:"
 msgid "%d file"
 msgid_plural "%d files"
 msgstr[0] "%d датотека"
@@ -1844,7 +1692,6 @@ msgid "Last modified date"
 msgstr "Датум последње измене"
 
 #: ../extensions/edit_metadata/gth-edit-general-page.c:560
-#| msgid "Image creation date"
 msgid "File creation date"
 msgstr "Датум настанка датотеке"
 
@@ -1864,7 +1711,6 @@ msgstr "Додели ознаке"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:119
 #: ../extensions/edit_metadata/gth-tag-task.c:136
-#| msgid "Assign categories to the selected folder"
 msgid "Assigning tags to the selected files"
 msgstr "Додели ознаке изабраним дадотекама"
 
@@ -1873,12 +1719,10 @@ msgid "Writing files"
 msgstr "Уписујем датотеке"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:136
-#| msgid "Loading images"
 msgid "Reading files"
 msgstr "Учитавам датотеке"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
-#| msgid "Simple"
 msgid "Example"
 msgstr "Пример"
 
@@ -1887,7 +1731,6 @@ msgid "Extension example."
 msgstr "Пример наставка."
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:1
-#| msgid "_Right:"
 msgid "C_opyright:"
 msgstr "Ауторска _права:"
 
@@ -1913,7 +1756,6 @@ msgid "_Urgency:"
 msgstr "_Важност:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
-#| msgid "by Name"
 msgid "_Object Name:"
 msgstr "Име _предмета:"
 
@@ -1926,7 +1768,6 @@ msgid "_Byline:"
 msgstr "_Аутор:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
-#| msgid "_Quality:"
 msgid "_City:"
 msgstr "_Град:"
 
@@ -1947,7 +1788,6 @@ msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Читај и пиши егзиф, иптц, и иксмп метаподатке."
 
 #: ../extensions/exiv2_tools/main.c:33
-#| msgid "General"
 msgid "Exif General"
 msgstr "Општи егзиф"
 
@@ -1960,7 +1800,6 @@ msgid "Exif Structure"
 msgstr "Егзиф састав"
 
 #: ../extensions/exiv2_tools/main.c:36
-#| msgid "_Thumbnails"
 msgid "Exif Thumbnail"
 msgstr "Егзиф умањени прикази"
 
@@ -1973,7 +1812,6 @@ msgid "Exif Maker Notes"
 msgstr "Егзиф белешке"
 
 #: ../extensions/exiv2_tools/main.c:39
-#| msgid "Dimensions"
 msgid "Exif Versions"
 msgstr "Егзиф издање"
 
@@ -2022,7 +1860,6 @@ msgstr "Извези у Фликр"
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:1
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
-#| msgid "_Reload"
 msgid "_Upload"
 msgstr "_Отпреми"
 
@@ -2043,7 +1880,6 @@ msgstr "Уреди налоге"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
-#| msgid "Web Album"
 msgid "A_lbum:"
 msgstr "А_лбум:"
 
@@ -2053,7 +1889,6 @@ msgid "Add a new album"
 msgstr "Додајте нови албум"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
-#| msgid "Resi_ze if larger than:"
 msgid "Resize the images if larger than this size"
 msgstr "Промени величину слике ако је већа од ове величине"
 
@@ -2062,12 +1897,10 @@ msgstr "Промени величину слике ако је већа од о�
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
-#| msgid "Resi_ze if larger than:"
 msgid "_Resize if larger than:"
 msgstr "Промени _величину ако је веће од:"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
-#| msgid "320 x 200"
 msgid "720 x 720"
 msgstr "720 x 720"
 
@@ -2080,12 +1913,10 @@ msgid "1280 x 1280"
 msgstr "1280 x 1280"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:12
-#| msgid "800 x 600"
 msgid "1600 x 1600"
 msgstr "1600 x 1600"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:13
-#| msgid "48 x 48"
 msgid "2048 x 2048"
 msgstr "2048 x 2048"
 
@@ -2121,7 +1952,6 @@ msgstr "Датотека је успешно отпремљена на серв�
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
 #: ../extensions/webalbums/gth-web-exporter.c:1839
-#| msgid "Open in New Window"
 msgid "_Open in the Browser"
 msgstr "_Отвори у прегледнику"
 
@@ -2147,7 +1977,6 @@ msgstr "Н_алог:"
 
 #: ../extensions/facebook/data/ui/import-from-facebook.ui.h:5
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-#| msgid "Web Album"
 msgid "_Album:"
 msgstr "_Албум:"
 
@@ -2161,7 +1990,6 @@ msgstr "_Албум:"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:131
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:375
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
-#| msgid "Could not copy the image:"
 msgid "Could not connect to the server"
 msgstr "Нисам успео да се повежем на сервер"
 
@@ -2169,7 +1997,6 @@ msgstr "Нисам успео да се повежем на сервер"
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:246
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:182
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:176
-#| msgid "Could not move the items:"
 msgid "Could not upload the files"
 msgstr "Нисам успео да отпремим датотеке"
 
@@ -2178,14 +2005,12 @@ msgstr "Нисам успео да отпремим датотеке"
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:223
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:457
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:309
-#| msgid "Could not rename the image:"
 msgid "Could not create the album"
 msgstr "Нисам успео да направим албум"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:465
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:528
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:375
-#| msgid "Web Album"
 msgid "New Album"
 msgstr "Нови албум"
 
@@ -2201,7 +2026,6 @@ msgstr "Није означена исправна датотека."
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:584
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:608
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:598
-#| msgid "Could not move the items:"
 msgid "Could not export the files"
 msgstr "Нисам успео да извезем датотеке"
 
@@ -2212,9 +2036,8 @@ msgstr "Нисам успео да извезем датотеке"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:616
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:1073
+#: ../gthumb/gth-browser.c:1116
 #, c-format
-#| msgid "%d images (%s)"
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
 msgstr[0] "%d датотека (%s)"
@@ -2226,14 +2049,12 @@ msgstr[3] "%d датотека (%s)"
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:615
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:635
 #, c-format
-#| msgid "Import Photos"
 msgid "Export to %s"
 msgstr "Извези у %s"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:344
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:349
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:279
-#| msgid "Could not import photos"
 msgid "Could not get the photo list"
 msgstr "Нисам успео да добавим списак слика"
 
@@ -2243,14 +2064,12 @@ msgstr "Нисам успео да добавим списак слика"
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:551
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:586
-#| msgid "No camera detected"
 msgid "No album selected"
 msgstr "Није одређен албум"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:551
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:569
 #, c-format
-#| msgid "Import Photos"
 msgid "Import from %s"
 msgstr "Увези из %s"
 
@@ -2276,7 +2095,6 @@ msgstr "Добављам списак албума"
 #: ../extensions/flicker_utils/flickr-service.c:1126
 #: ../extensions/photobucket/photobucket-service.c:423
 #: ../extensions/picasaweb/picasa-web-service.c:805
-#| msgid "Create _Web Album"
 msgid "Creating the new album"
 msgstr "Правим нов албум"
 
@@ -2285,7 +2103,6 @@ msgstr "Правим нов албум"
 #: ../extensions/photobucket/photobucket-service.c:485
 #: ../extensions/picasaweb/picasa-web-service.c:860
 #, c-format
-#| msgid "Could not display help: %s"
 msgid "Could not upload '%s': %s"
 msgstr "Нисам успео отпремити „%s“: %s"
 
@@ -2298,33 +2115,30 @@ msgstr "Нисам успео отпремити „%s“: %s"
 msgid "Uploading '%s'"
 msgstr "Отпремам „%s“"
 
-#: ../extensions/facebook/facebook-service.c:922
+#: ../extensions/facebook/facebook-service.c:923
 #: ../extensions/flicker_utils/flickr-service.c:1482
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "Отпремам датотеке на севрер"
 
-#: ../extensions/facebook/facebook-service.c:1021
+#: ../extensions/facebook/facebook-service.c:1022
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
 msgstr "Добављам списак слика"
 
 #: ../extensions/file_manager/actions.c:133
-#| msgid "New Folder"
 msgid "New folder"
 msgstr "Нова фасцикла"
 
 #: ../extensions/file_manager/actions.c:134
-#| msgid "Enter the folder name: "
 msgid "Enter the folder name:"
 msgstr "Унесите име фасцикле:"
 
 #: ../extensions/file_manager/actions.c:400
 #: ../extensions/file_manager/callbacks.c:380
 #: ../extensions/file_manager/callbacks.c:838
-#| msgid "Could not move the items:"
 msgid "Could not move the files"
 msgstr "Нисам успео преместити датотеке"
 
@@ -2339,14 +2153,10 @@ msgstr ""
 "изабрати да их умножите."
 
 #: ../extensions/file_manager/actions.c:563
-#| msgid "Could not move the image:"
 msgid "Could not open the location"
 msgstr "Нисам успео да отворим место"
 
 #: ../extensions/file_manager/actions.c:696
-#| msgid ""
-#| "The images cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
@@ -2354,21 +2164,16 @@ msgstr ""
 "Фасцикла није празна. Да ли желите трајно обрисати фасциклу и њен садржај?"
 
 #: ../extensions/file_manager/actions.c:712
-#| msgid "Could not delete the folder \"%s\": %s"
 msgid "Could not delete the folder"
 msgstr "Нисам успео да обришем фасциклу"
 
 #: ../extensions/file_manager/actions.c:773
-#| msgid ""
-#| "The images cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
 msgstr "Не могу преместити фасциклу у ђубре. Желите ли је трајно обрисати?"
 
 #: ../extensions/file_manager/actions.c:780
-#| msgid "Could not move the folder \"%s\": %s"
 msgid "Could not move the folder to the Trash"
 msgstr "Не могу да преместим фасциклу у ђубре"
 
@@ -2384,7 +2189,6 @@ msgid "If you delete a file, it will be permanently lost."
 msgstr "Ако обришете датотеку, биће трајно изгубљена."
 
 #: ../extensions/file_manager/actions.c:920
-#| msgid "_Move"
 msgid "Move To"
 msgstr "Премести у"
 
@@ -2393,24 +2197,20 @@ msgid "Copy To"
 msgstr "Умножи у"
 
 #: ../extensions/file_manager/actions.c:924
-#| msgid "_Move"
 msgid "Move"
 msgstr "Премести"
 
 #: ../extensions/file_manager/actions.c:924
-#| msgid "_Copy..."
 msgid "Copy"
 msgstr "Умножи"
 
 #: ../extensions/file_manager/callbacks.c:163
 #: ../extensions/file_manager/callbacks.c:199
-#| msgid "Current _Folder"
 msgid "Create _Folder"
 msgstr "Направи _фасциклу"
 
 #: ../extensions/file_manager/callbacks.c:164
 #: ../extensions/file_manager/callbacks.c:200
-#| msgid "Create a new folder"
 msgid "Create a new empty folder inside this folder"
 msgstr "Направи нову празну фасциклу у овој фасцикли"
 
@@ -2419,30 +2219,27 @@ msgid "D_uplicate"
 msgstr "_Удвостручи"
 
 #: ../extensions/file_manager/callbacks.c:180
-#| msgid "Duplicate selected image"
 msgid "Duplicate the selected files"
 msgstr "Удвостручи одабране датотеке"
 
 #: ../extensions/file_manager/callbacks.c:183
 #: ../extensions/file_manager/callbacks.c:219
 #: ../gthumb/gth-file-source-vfs.c:813
-#| msgid "Move to _Trash"
 msgid "Mo_ve to Trash"
 msgstr "Пр_емести у Ђубре"
 
 #: ../extensions/file_manager/callbacks.c:184
-#| msgid "Move the selected images to the Trash"
 msgid "Move the selected files to the Trash"
 msgstr "Премести означене датотеке у Ђубре"
 
 #: ../extensions/file_manager/callbacks.c:187
 #: ../extensions/file_manager/callbacks.c:223
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
+#: ../gthumb/gth-tags-entry.c:871
 msgid "_Delete"
 msgstr "_Обриши"
 
 #: ../extensions/file_manager/callbacks.c:188
-#| msgid "Open the selected folder"
 msgid "Delete the selected files"
 msgstr "Отвори означене датотеке"
 
@@ -2453,7 +2250,6 @@ msgid "_Rename"
 msgstr "_Преименуј"
 
 #: ../extensions/file_manager/callbacks.c:192
-#| msgid "Rename selected folder"
 msgid "Rename the selected files"
 msgstr "Промени име означеним датотекама"
 
@@ -2462,62 +2258,51 @@ msgid "Open with the _File Manager"
 msgstr "Отвори _управником датотека"
 
 #: ../extensions/file_manager/callbacks.c:215
-#| msgid "Current _Folder"
 msgid "_Paste Into Folder"
 msgstr "_Спусти у фасциклу"
 
 #: ../extensions/file_manager/callbacks.c:227
 #: ../extensions/file_manager/callbacks.c:236
-#| msgid "_Copy..."
 msgid "Copy to..."
 msgstr "Умножи у..."
 
 #: ../extensions/file_manager/callbacks.c:228
-#| msgid "Move the selected folder to the Trash"
 msgid "Copy the selected folder to another folder"
 msgstr "Умножи означену фасциклу у другу фасциклу"
 
 #: ../extensions/file_manager/callbacks.c:231
 #: ../extensions/file_manager/callbacks.c:240
-#| msgid "_Move..."
 msgid "Move to..."
 msgstr "Премести у..."
 
 #: ../extensions/file_manager/callbacks.c:232
-#| msgid "Move the selected folder to the Trash"
 msgid "Move the selected folder to another folder"
 msgstr "Премести означену фасциклу у другу фасциклу"
 
 #: ../extensions/file_manager/callbacks.c:237
-#| msgid "Copy selected images to another location"
 msgid "Copy the selected files to another folder"
 msgstr "Умножи означене датотеке у другу фасциклу"
 
 #: ../extensions/file_manager/callbacks.c:241
-#| msgid "Move the selected folder to the Trash"
 msgid "Move the selected files to another folder"
 msgstr "Премести означене датотеке у другу фасциклу"
 
 #: ../extensions/file_manager/callbacks.c:999
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5141 ../gthumb/gth-browser.c:5175
+#: ../gthumb/gth-browser.c:5234 ../gthumb/gth-browser.c:5268
 #: ../gthumb/gth-progress-dialog.c:406
-#| msgid "Could not import photos"
 msgid "Could not perform the operation"
 msgstr "Нисам успео да изведем радњу"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:1
-#| msgid "File _name"
 msgid "File manager"
 msgstr "Управник датотека"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
-#| msgid "View image properties"
 msgid "File manager operations."
 msgstr "Радње управника датотека."
 
 #: ../extensions/file_manager/gth-delete-task.c:62
-#| msgid "Deleting file %ld of %ld"
 msgid "Deleting files"
 msgstr "Брисање датотека"
 
@@ -2527,7 +2312,6 @@ msgid "_Preview"
 msgstr "_Преглед"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:2
-#| msgid "_Brightness:"
 msgid "B_rightness:"
 msgstr "_Светлина:"
 
@@ -2556,7 +2340,6 @@ msgid "_Yellow-Blue:"
 msgstr "_Жута-плава:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:9
-#| msgid "<b>Color levels</b>"
 msgid "Color Levels"
 msgstr "Нивои боја"
 
@@ -2567,7 +2350,6 @@ msgstr "_Поново постави"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
-#| msgid "Font Selection"
 msgid "Selection"
 msgstr "Избор"
 
@@ -2579,12 +2361,10 @@ msgstr "_Ширина:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:3
-#| msgid "Height:"
 msgid "Heigh_t:"
 msgstr "Висин_а:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:4
-#| msgid "_Destination:"
 msgid "_Position:"
 msgstr "_Положај:"
 
@@ -2593,19 +2373,16 @@ msgid "Maximize"
 msgstr "Увећај"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:6
-#| msgid "_Centered"
 msgid "Center"
 msgstr "По средини"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:5
-#| msgid "<b>Aspect ratio</b>"
 msgid "Aspect ratio"
 msgstr "Однос висине и ширине"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:6
-#| msgid "_Keep aspect ratio"
 msgid "I_nvert aspect ratio"
 msgstr "_Изврни пропорције"
 
@@ -2623,7 +2400,6 @@ msgstr "px"
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:7
 #: ../gthumb/gth-file-chooser-dialog.c:252
-#| msgid "PNG Options"
 msgid "Options"
 msgstr "Могућности"
 
@@ -2640,12 +2416,10 @@ msgid "Method"
 msgstr "Начин"
 
 #: ../extensions/file_tools/data/ui/grayscale-options.ui.h:2
-#| msgid "_Brightness:"
 msgid "_Brightness"
 msgstr "_Светлина"
 
 #: ../extensions/file_tools/data/ui/grayscale-options.ui.h:3
-#| msgid "_Saturation:"
 msgid "_Saturation"
 msgstr "_Засићеност"
 
@@ -2659,7 +2433,6 @@ msgid "Dimensions"
 msgstr "Величине"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:4
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Set the image size to this value"
 msgstr "Постави величину слике на ову вредност"
 
@@ -2668,17 +2441,14 @@ msgid "High _quality"
 msgstr "Добар _квалитет"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:9
-#| msgid "<b>Original dimensions</b>"
 msgid "Original dimensions:"
 msgstr "Изворна величина:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:10
-#| msgid "_Scale:"
 msgid "Scale factor:"
 msgstr "Однос сразмерне промене величине:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:11
-#| msgid "<b>New dimensions</b>"
 msgid "New dimensions:"
 msgstr "Нова величина:"
 
@@ -2694,15 +2464,14 @@ msgid "%"
 msgstr "%"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
-msgid "Align"
-msgstr "Поравнај"
-
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:2
 msgid "Angle"
 msgstr "Угао"
 
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:2
+msgid "Align"
+msgstr "Поравнај"
+
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:3
-#| msgid "_Image size:"
 msgid "Image size"
 msgstr "Величина слике"
 
@@ -2715,7 +2484,6 @@ msgid "Point 2:"
 msgstr "Тачка 2:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:6
-#| msgid "_Keep aspect ratio"
 msgid "Keep aspect ratio"
 msgstr "Задржи сразмеру"
 
@@ -2732,12 +2500,10 @@ msgid "Pick a background color"
 msgstr "Одабери боју позадине"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:11
-#| msgid "Transparency _type:"
 msgid "_Transparent"
 msgstr "_Провидан"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:12
-#| msgid "_Reset"
 msgid "Reset"
 msgstr "Врати на задате вредности"
 
@@ -2775,13 +2541,11 @@ msgstr "Острижи ивице"
 
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:28
-#| msgid "_Preview"
 msgid "_Preview:"
 msgstr "_Преглед:"
 
 # Праг?
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:2
-#| msgid "_Threshold"
 msgid "Threshold:"
 msgstr "Задршка:"
 
@@ -2794,7 +2558,6 @@ msgid "Amount:"
 msgstr "Количина:"
 
 #: ../extensions/file_tools/file_tools.extension.in.in.h:1
-#| msgid "Images"
 msgid "Image tools"
 msgstr "Алатке за слике"
 
@@ -2810,12 +2573,10 @@ msgid "Applying changes"
 msgstr "Примењујем измене"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:618
-#| msgid "Adjust color balance"
 msgid "Adjust Colors..."
 msgstr "Подеси боје..."
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:618
-#| msgid "Adjust color balance"
 msgid "Adjust Colors"
 msgstr "Подеси боје"
 
@@ -2824,7 +2585,6 @@ msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Подеси осветљење, супротност, засићење, и распон боја слике"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:304
-#| msgid "Con_trast:"
 msgid "Adjust Contrast"
 msgstr "Подеси контраст"
 
@@ -2846,7 +2606,6 @@ msgstr "%d x %d (слика)"
 #: ../extensions/file_tools/gth-file-tool-crop.c:420
 #: ../extensions/file_tools/gth-file-tool-resize.c:594
 #, c-format
-#| msgid "%d x %d (Image)"
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (екран)"
 
@@ -2862,13 +2621,11 @@ msgstr "4:3 (ДВД, слика)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:426
 #: ../extensions/file_tools/gth-file-tool-resize.c:601
-#| msgid "75"
 msgid "7:5"
 msgstr "7:5"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:427
 #: ../extensions/file_tools/gth-file-tool-resize.c:602
-#| msgid "4 x 6 (Postcard)"
 msgid "3:2 (Postcard)"
 msgstr "3 x 2 (разгледница)"
 
@@ -2906,13 +2663,11 @@ msgstr "Правило трећине"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:448
 #: ../extensions/file_tools/gth-file-tool-rotate.c:399
-#| msgid "Font Selection"
 msgid "Golden Sections"
 msgstr "Златни пресек"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:449
 #: ../extensions/file_tools/gth-file-tool-rotate.c:400
-#| msgid "Center _on Page"
 msgid "Center Lines"
 msgstr "Симетрале"
 
@@ -2922,7 +2677,6 @@ msgid "Uniform"
 msgstr "Једнообразно"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:608
-#| msgid "Crop"
 msgid "Crop..."
 msgstr "Острижи ивице..."
 
@@ -2931,17 +2685,14 @@ msgid "Crop"
 msgstr "Острижи ивице"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:45
-#| msgid "Automatically equalize the image histogram"
 msgid "Equalizing image histogram"
 msgstr "Изједначавање хистограма слике"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:230
-#| msgid "_Equalize"
 msgid "Equalize"
 msgstr "Изједначи"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:231
-#| msgid "Automatically equalize the image histogram"
 msgid "Equalize image histogram"
 msgstr "Изједначи хистограм слике"
 
@@ -2950,7 +2701,6 @@ msgid "Flip"
 msgstr "Преокрени"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:88
-#| msgid "Flip the image"
 msgid "Flip the image vertically"
 msgstr "Преокрени слику усправно"
 
@@ -2967,12 +2717,10 @@ msgid "Mirror"
 msgstr "Одраз"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:88
-#| msgid "Mirror image horizontally (left-right)"
 msgid "Mirror the image horizontally"
 msgstr "Одрази слику водоравно (лево-десно)"
 
 #: ../extensions/file_tools/gth-file-tool-negative.c:197
-#| msgid "_Negative"
 msgid "Negative"
 msgstr "Негатив"
 
@@ -2982,22 +2730,18 @@ msgstr "Напред"
 
 #: ../extensions/file_tools/gth-file-tool-resize.c:214
 #: ../extensions/resize_images/dlg-resize-images.c:180
-#| msgid "Resize image"
 msgid "Resizing images"
 msgstr "Промени величину слике"
 
 #: ../extensions/file_tools/gth-file-tool-resize.c:808
-#| msgid "_Resize"
 msgid "Resize..."
 msgstr "Промени величину..."
 
 #: ../extensions/file_tools/gth-file-tool-resize.c:808
-#| msgid "_Resize"
 msgid "Resize"
 msgstr "Промени величину"
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:628
-#| msgid "Rotate"
 msgid "Rotate..."
 msgstr "Окрени..."
 
@@ -3006,44 +2750,36 @@ msgid "Rotate"
 msgstr "Окрени"
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:629
-#| msgid "Mirror the image"
 msgid "Freely rotate the image"
 msgstr "Слободно окрећи слику"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:87
 #: ../extensions/image_rotation/callbacks.c:55
-#| msgid "Rotate _Left"
 msgid "Rotate Left"
 msgstr "Окрећи лево"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:88
-#| msgid "Rotate image 90 degrees counter-clockwise"
 msgid "Rotate the image by 90 degrees counterclockwise"
 msgstr "Окрећи слику 90 степени супротно кретању казаљке на сату"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:87
 #: ../extensions/image_rotation/callbacks.c:49
-#| msgid "Rotate Ri_ght"
 msgid "Rotate Right"
 msgstr "Окрећи десно"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:88
-#| msgid "Rotate image 90 degrees clockwise"
 msgid "Rotate the image by 90 degrees clockwise"
 msgstr "Окрећи 90 степени у правцу казаљке на сату"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:70
-#| msgid "Save _As..."
 msgid "Save As"
 msgstr "Сачувај као"
 
 #: ../extensions/file_tools/gth-file-tool-save.c:66
-#| msgid "_Save"
 msgid "Save"
 msgstr "Сачувај"
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:101
-#| msgid "Saving images"
 msgid "Sharpening image"
 msgstr "Изоштравање слике"
 
@@ -3052,7 +2788,6 @@ msgid "Enhance Focus..."
 msgstr "Побољшај жижу..."
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:484
-#| msgid "_Enhance"
 msgid "Enhance Focus"
 msgstr "Побољшај жижу"
 
@@ -3061,32 +2796,26 @@ msgid "Undo"
 msgstr "Опозови"
 
 #: ../extensions/find_duplicates/callbacks.c:48
-#| msgid "Fi_nd Duplicates..."
 msgid "Find _Duplicates..."
 msgstr "Нађи _двојнике..."
 
 #: ../extensions/find_duplicates/callbacks.c:49
-#| msgid "Reload the current location"
 msgid "Find duplicated files in the current location"
 msgstr "Нађи удвостручене датотеке на тренутној путањи"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-choose-folders.ui.h:1
-#| msgid "_Folders"
 msgid "_Folders:"
 msgstr "_Фасцикле:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:1
-#| msgid "Duplicates"
 msgid "Search for Duplicates"
 msgstr "Тражи удвостручене датотеке"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:2
-#| msgid "Duplicates"
 msgid "Duplicates:"
 msgstr "Двојници:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
-#| msgid "_File"
 msgid "Files:"
 msgstr "Датотеке:"
 
@@ -3096,7 +2825,6 @@ msgid "_View"
 msgstr "П_реглед"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
-#| msgid "No images found"
 msgid "No duplicates found."
 msgstr "Нисам пронашао двојнике."
 
@@ -3112,17 +2840,14 @@ msgid "Start _at:"
 msgstr "Почни _са:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:4
-#| msgid "_File"
 msgid "_Filter:"
 msgstr "_Услов:"
 
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:2
-#| msgid "Find Duplicates"
 msgid "Find duplicated files."
 msgstr "Проналази удвостручене датотеке."
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:65
-#| msgid "_Save the new image as:"
 msgid "leave the newest duplicates"
 msgstr "остави најновије двојнике"
 
@@ -3131,7 +2856,6 @@ msgid "leave the oldest duplicates"
 msgstr "оставите најстарије двојнике"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:67
-#| msgid "_New Folder..."
 msgid "by folder..."
 msgstr "по фасцикли..."
 
@@ -3140,14 +2864,12 @@ msgid "all files"
 msgstr "све датотеке"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:69
-#| msgid "Inde_x file:"
 msgid "no file"
 msgstr "нема датотека"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:560
 #: ../extensions/find_duplicates/gth-find-duplicates.c:668
 #, c-format
-#| msgid "Found duplicates:"
 msgid "%d duplicate"
 msgid_plural "%d duplicates"
 msgstr[0] "%d двојник"
@@ -3156,12 +2878,10 @@ msgstr[2] "%d двојника"
 msgstr[3] "%d двојник"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:712
-#| msgid "<b>Search scope</b>"
 msgid "Search completed"
 msgstr "Претрага је завршена"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:725
-#| msgid "Search terminated, no duplicates found."
 msgid "Searching for duplicates"
 msgstr "Тражим двојнике"
 
@@ -3185,7 +2905,6 @@ msgid "Duplicates"
 msgstr "Двојници"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:1306
-#| msgid "_Select"
 msgid "Select"
 msgstr "Изабери"
 
@@ -3245,7 +2964,6 @@ msgid "Private photos"
 msgstr "Личне фотографије"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
-#| msgid "Image comment"
 msgid "Safe content"
 msgstr "Безбедан садржај"
 
@@ -3258,7 +2976,6 @@ msgid "Restricted content"
 msgstr "Ограничени садржај"
 
 #: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:1
-#| msgid "Continue"
 msgid "C_ontinue"
 msgstr "_Настави"
 
@@ -3307,23 +3024,20 @@ msgstr ""
 
 #: ../extensions/gstreamer_tools/actions.c:66
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1072
-#: ../gthumb/gth-browser.c:2101
-#| msgid "Could not move the image:"
+#: ../gthumb/gth-browser.c:2175
 msgid "Could not save the file"
 msgstr "Нисам успео да сачувам датотеку"
 
-#: ../extensions/gstreamer_tools/actions.c:126
-#| msgid "Could not import photos"
+#: ../extensions/gstreamer_tools/actions.c:130
 msgid "Could not take a screenshot"
 msgstr "Нисам успео да сликам екран"
 
-#: ../extensions/gstreamer_tools/actions.c:132
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1243
+#: ../extensions/gstreamer_tools/actions.c:136
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1245
 msgid "Save Image"
 msgstr "Сачувај слику"
 
-#: ../extensions/gstreamer_tools/actions.c:152
-#| msgid "Screenshots"
+#: ../extensions/gstreamer_tools/actions.c:156
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Снимак екрана"
@@ -3342,7 +3056,6 @@ msgid "Faster"
 msgstr "Брже"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
-#| msgid "by _Time"
 msgid "Time:"
 msgstr "Време:"
 
@@ -3361,7 +3074,6 @@ msgstr "Промени гласноћу"
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:3
 #: ../extensions/photo_importer/actions.c:67
 #: ../extensions/photo_importer/dlg-photo-importer.c:620
-#| msgid "Choose startup folder"
 msgid "Choose a folder"
 msgstr "Изаберите фасциклу"
 
@@ -3374,12 +3086,10 @@ msgid "Play audio and video files."
 msgstr "Изведи звучне и видео датотеке."
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:104
-#| msgid "Screenshots"
 msgid "Screenshot"
 msgstr "Снимак екрана"
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:105
-#| msgid "Screenshots"
 msgid "Take a screenshot"
 msgstr "Направи снимак екрана"
 
@@ -3407,7 +3117,6 @@ msgstr "Извођач"
 
 #: ../extensions/gstreamer_tools/main.c:40
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
-#| msgid "Web Album"
 msgid "Album"
 msgstr "Албум"
 
@@ -3425,20 +3134,17 @@ msgid "Codec"
 msgstr "Кодек"
 
 #: ../extensions/gstreamer_tools/main.c:45
-#| msgid "Frame _style:"
 msgid "Framerate"
 msgstr "Проток кадрова"
 
 #: ../extensions/gstreamer_tools/main.c:46
 #: ../extensions/image_print/data/ui/print-layout.ui.h:24
 #: ../extensions/image_viewer/gth-image-viewer-page.c:209
-#| msgid "Width:"
 msgid "Width"
 msgstr "Ширина"
 
 #: ../extensions/gstreamer_tools/main.c:47
 #: ../extensions/image_print/data/ui/print-layout.ui.h:25
-#| msgid "Height:"
 msgid "Height"
 msgstr "Висина"
 
@@ -3460,30 +3166,26 @@ msgstr "Моно"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:395
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1298
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1300
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:209
-#: ../extensions/webalbums/gth-web-exporter.c:2444 ../gthumb/gtk-utils.c:1027
+#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1037
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
 
 #: ../extensions/image_print/actions.c:69
-#| msgid "Open the selected folder"
 msgid "Could not print the selected files"
 msgstr "Нисам успео да штампам означене датотеке"
 
 #: ../extensions/image_print/callbacks.c:65
-#| msgid "Print the current image"
 msgid "Print the selected images"
 msgstr "Штампај означене слике"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:1
-#| msgid "_Centered"
 msgid "Centered"
 msgstr "На средини"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:13
-#| msgid "Reduce the number of colors"
 msgid "The total number of files"
 msgstr "Укупан број датотека"
 
@@ -3501,27 +3203,22 @@ msgid "Image"
 msgstr "Слика"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:20
-#| msgid "_Destination:"
 msgid "Position:"
 msgstr "Положај:"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:21
-#| msgid "_Left:"
 msgid "Left"
 msgstr "Лево"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:22
-#| msgid "_Top:"
 msgid "Top"
 msgstr "Врх"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:26
-#| msgid "Location"
 msgid "Rotation:"
 msgstr "Обртање:"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:27
-#| msgid "_Unit:"
 msgid "Unit:"
 msgstr "Јединица:"
 
@@ -3530,32 +3227,26 @@ msgid "Preview"
 msgstr "Преглед"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:30
-#| msgid "Millimeters"
 msgid "millimeters"
 msgstr "милиметри"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:31
-#| msgid "Inches"
 msgid "inches"
 msgstr "инчи"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
-#| msgid "Select a font"
 msgid "Select Caption Font"
 msgstr "Одаберите словни лик натписа"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
-#| msgid "Select a font"
 msgid "Select Header Font"
 msgstr "Одаберите словни лик заглавља"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:6
-#| msgid "Select a font"
 msgid "Select Footer Font"
 msgstr "Одаберите словни лик подножја"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:7
-#| msgid "Font"
 msgid "Fonts"
 msgstr "Словни ликови"
 
@@ -3568,7 +3259,6 @@ msgstr "Страна %d од %d"
 #: ../extensions/image_print/gth-image-print-job.c:1680
 #: ../extensions/image_print/gth-image-print-job.c:1845
 #: ../extensions/image_print/gth-image-print-job.c:1888
-#| msgid "Could not import photos"
 msgid "Could not print"
 msgstr "Нисам успео штампати"
 
@@ -3586,17 +3276,15 @@ msgstr "Нема одговарајућег утоваривача за ову �
 #. translators: %s is a filename
 #: ../extensions/image_print/gth-load-image-info-task.c:164
 #, c-format
-#| msgid "Loading images"
 msgid "Loading \"%s\""
 msgstr "Учитавам „%s“"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:166
-#: ../extensions/webalbums/gth-web-exporter.c:2716
+#: ../extensions/webalbums/gth-web-exporter.c:2719
 msgid "Loading images"
 msgstr "Учитавање слика"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:1
-#| msgid "Image preview"
 msgid "Image print"
 msgstr "Штампање слика"
 
@@ -3609,27 +3297,22 @@ msgid "Print"
 msgstr "Штампај"
 
 #: ../extensions/image_rotation/callbacks.c:50
-#| msgid "Move the selected images to the Trash"
 msgid "Rotate the selected images 90° to the right"
 msgstr "Окрени означене слике 90° у десно"
 
 #: ../extensions/image_rotation/callbacks.c:56
-#| msgid "Move the selected images to the Trash"
 msgid "Rotate the selected images 90° to the left"
 msgstr "Обрни означене слике 90° у лево"
 
 #: ../extensions/image_rotation/callbacks.c:61
-#| msgid "Rotate image"
 msgid "Rotate Physically"
 msgstr "Окрени физички"
 
 #: ../extensions/image_rotation/callbacks.c:62
-#| msgid "Move the selected images to the Trash"
 msgid "Rotate the selected images according to the embedded orientation"
 msgstr "Окрени одабране слике према угњежђеном усмерењу"
 
 #: ../extensions/image_rotation/callbacks.c:67
-#| msgid "Reload the current location"
 msgid "Reset the EXIF Orientation"
 msgstr "Поништи ЕГЗИФ усмерење"
 
@@ -3639,24 +3322,21 @@ msgstr "Поништи угњежђено усмерење без окретањ
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:141
-#: ../extensions/webalbums/gth-web-exporter.c:2337
-#: ../extensions/webalbums/gth-web-exporter.c:2421
+#: ../extensions/webalbums/gth-web-exporter.c:2338
+#: ../extensions/webalbums/gth-web-exporter.c:2423
 msgid "Saving images"
 msgstr "Снима слике"
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:1
-#| msgid "Image Caption"
 msgid "Image rotation"
 msgstr "Обртање слике"
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:2
-#| msgid "Rotate images without loss of quality"
 msgid "Rotate images without data loss."
 msgstr "Обрћи слике без губитка на квалитету."
 
 #: ../extensions/image_rotation/rotation-utils.c:117
 #, c-format
-#| msgid "Could not rename the image \"%s\": %s"
 msgid "Problem transforming the image: %s"
 msgstr "Грешка приликом измене слике: %s"
 
@@ -3692,7 +3372,6 @@ msgid "_Accept distortion"
 msgstr "_Прихвати изобличења"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
-#| msgid "Set image to actual size"
 msgid "Set to actual size"
 msgstr "Постави на праву величину"
 
@@ -3701,7 +3380,6 @@ msgid "Keep previous zoom"
 msgstr "Задржи претходно увећање"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
-#| msgid "Fit image to window"
 msgid "Fit to window"
 msgstr "Поравнај по прозору"
 
@@ -3710,12 +3388,10 @@ msgid "Fit to window if larger"
 msgstr "Поравнај по прозору ако је већа"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
-#| msgid "Fit image to window"
 msgid "Fit to width"
 msgstr "Поравнај по ширини"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
-#| msgid "Fit to window if larger"
 msgid "Fit to width if larger"
 msgstr "Поравнај по ширини ако је већа"
 
@@ -3724,12 +3400,10 @@ msgid "Reset scrollbar positions"
 msgstr "Поништи положај шина премицања"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
-#| msgid "After _loading an image:"
 msgid "After loading an image:"
 msgstr "После учитавања слике:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
-#| msgid "_Zoom Quality"
 msgid "_Zoom quality:"
 msgstr "_Квалитет увећања:"
 
@@ -3758,27 +3432,22 @@ msgid "Checked"
 msgstr "Проверено"
 
 #: ../extensions/image_viewer/gth-image-histogram.c:84
-#| msgid "_Histogram"
 msgid "Histogram"
 msgstr "Хистограм"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:179
-#| msgid "Crop image"
 msgid "Copy Image"
 msgstr "Умножи слику"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:180
-#| msgid "Copy this image to another location"
 msgid "Copy the image to the clipboard"
 msgstr "Умножите слику у оставу исечака"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:184
-#| msgid "Save Image"
 msgid "Paste Image"
 msgstr "Налепи слику"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:185
-#| msgid "Delete selected images from the camera"
 msgid "Paste the image from the clipboard"
 msgstr "Налепи слику из оставе исечака"
 
@@ -3815,12 +3484,10 @@ msgid "Zoom to fit window"
 msgstr "Увећај до поравнања прозора"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:210
-#| msgid "Zoom to fit window"
 msgid "Zoom to fit width"
 msgstr "Увећај до поравнања ширине"
 
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:1
-#| msgid "Image preview"
 msgid "Image viewer"
 msgstr "Прегледник слика"
 
@@ -3833,17 +3500,14 @@ msgid "Viewer"
 msgstr "Прегледач"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
-#| msgid "_Destination:"
 msgid "_Destination"
 msgstr "О_дредиште"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:2
-#| msgid "_Include sub-folders"
 msgid "_Automatic subfolder"
 msgstr "_Самостална подфасцикла"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:3
-#| msgid "_Include sub-folders"
 msgid "as _single subfolder"
 msgstr "као _једна подфасцикла"
 
@@ -3868,12 +3532,10 @@ msgid "The minutes"
 msgstr "Минути"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:12
-#| msgid "seconds"
 msgid "The seconds"
 msgstr "Секунде"
 
 #: ../extensions/importer/gth-import-destination-button.c:183
-#| msgid "_Destination:"
 msgid "Invalid Destination"
 msgstr "Неисправно одредиште"
 
@@ -3884,7 +3546,6 @@ msgstr "пример; %s"
 
 #. subfolder type
 #: ../extensions/importer/gth-import-preferences-dialog.c:330
-#| msgid "File _name"
 msgid "File date"
 msgstr "Датум датотеке"
 
@@ -3922,17 +3583,14 @@ msgstr "Означене датотеке су већ присутне на од
 
 #: ../extensions/importer/gth-import-task.c:644
 #: ../gthumb/gth-file-source-vfs.c:694
-#| msgid "Could not delete the images:"
 msgid "Could not delete the files"
 msgstr "Нисам успео обрисати слике"
 
 #: ../extensions/importer/gth-import-task.c:645
-#| msgid "Image type not supported: %s"
 msgid "Delete operation not supported."
 msgstr "Радња брисања није подржана."
 
 #: ../extensions/importer/gth-import-task.c:732
-#| msgid "Last modified"
 msgid "Last imported"
 msgstr "Последње увезено"
 
@@ -3955,7 +3613,6 @@ msgid "Personalize..."
 msgstr "Прилагодите..."
 
 #: ../extensions/list_tools/callbacks.c:320
-#| msgid "_Tools"
 msgid "Tools"
 msgstr "Алатке"
 
@@ -3964,17 +3621,14 @@ msgid "Batch tools for multiple files"
 msgstr "Прибори за масовну обраду датотека"
 
 #: ../extensions/list_tools/data/ui/ask-value.ui.h:1
-#| msgid "Skip"
 msgid "_Skip"
 msgstr "_Прескочи"
 
 #: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:1
-#| msgid "Command Line"
 msgid "Commands"
 msgstr "Наредбе"
 
 #: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:2
-#| msgid "Co_mment:"
 msgid "Co_mmands:"
 msgstr "_Наредбе:"
 
@@ -3999,7 +3653,6 @@ msgid "The file uri"
 msgstr "Адреса датотеке"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:7
-#| msgid "File pa_th"
 msgid "The file path"
 msgstr "Путања до датотеке"
 
@@ -4008,7 +3661,6 @@ msgid "The file basename"
 msgstr "Основни назив датотеке"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:9
-#| msgid "Move current folder"
 msgid "The parent folder path"
 msgstr "Путања родитељске фасцикле"
 
@@ -4035,7 +3687,6 @@ msgstr "Својство датотеке"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:21
 #, no-c-format
-#| msgid "%"
 msgid "%N"
 msgstr "%N"
 
@@ -4045,12 +3696,10 @@ msgstr "Основни назив датотеке без наставка"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
 #, no-c-format
-#| msgid "%"
 msgid "%E"
 msgstr "%E"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:25
-#| msgid "Determine by extension"
 msgid "The file extension"
 msgstr "Наставак датотека"
 
@@ -4065,7 +3714,6 @@ msgid "Quote the text "
 msgstr "Наведи текст "
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:30
-#| msgid "Command Line"
 msgid "_Command:"
 msgstr "_Наредба:"
 
@@ -4079,22 +3727,18 @@ msgstr "Пречица"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:285
 #: ../gthumb/dlg-personalize-filters.c:252
-#| msgid "Show size"
 msgid "Show"
 msgstr "Прикажи"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:355
-#| msgid "Could not move the items:"
 msgid "Could not save the script"
 msgstr "Нисам успео сачувати скрипту"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:406
-#| msgid "Command Line"
 msgid "New Command"
 msgstr "Нова наредба"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:433
-#| msgid "Edit bookmarks"
 msgid "Edit Command"
 msgstr "Измени наредбу"
 
@@ -4175,17 +3819,15 @@ msgid "View the photo position on the map"
 msgstr "Преглед положаја слике на карти"
 
 #: ../extensions/oauth/data/ui/oauth-account-manager.ui.h:1
-#| msgid "_Recents:"
 msgid "A_ccounts:"
 msgstr "_Налози:"
 
 #: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
-#: ../gthumb/gth-folder-tree.c:857
+#: ../gthumb/gth-folder-tree.c:1067
 msgid "Loading..."
 msgstr "Учитавам..."
 
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:200
-#| msgid "_New Catalog..."
 msgid "New authentication..."
 msgstr "Нова пријава..."
 
@@ -4226,7 +3868,6 @@ msgid "Upload photos to Photobucket"
 msgstr "Отпреми фотке на Фотобукет"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
-#| msgid "_Keep original filenames"
 msgid "_Scramble filenames"
 msgstr "_Шифруј имена датотека"
 
@@ -4243,7 +3884,6 @@ msgid "Medium ( 320 x 240 )"
 msgstr "средња ( 320 x 240 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
-#| msgid "640 x 480"
 msgid "Large ( 640 x 480 )"
 msgstr "велика ( 640 x 480 )"
 
@@ -4257,12 +3897,10 @@ msgstr "17ʺ екран ( 1024 x 768 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:296
-#| msgid "Sort images by file size"
 msgid "1 megabyte file size"
 msgstr "Величина датотеке 1 мегабајт"
 
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
-#| msgid "_Continue"
 msgid "_Container:"
 msgstr "_Садржалац:"
 
@@ -4291,7 +3929,6 @@ msgid "17ʺ screen ( 1024 × 768 )"
 msgstr "17ʺ екран ( 1024 × 768 )"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:303
-#| msgid "Sort images by file size"
 msgid "2 megabyte file size"
 msgstr "Величина датотеке 2 мегабајта"
 
@@ -4304,7 +3941,6 @@ msgid "Upload images to PhotoBucket"
 msgstr "Отпреми слике на Фотобукет"
 
 #: ../extensions/photo_importer/actions.c:71
-#| msgid "_Import"
 msgid "Import"
 msgstr "Увези"
 
@@ -4317,17 +3953,14 @@ msgid "Import photos and other files from a removable device"
 msgstr "Увези фотографије и друге датотеке са уклоњивог уређаја"
 
 #: ../extensions/photo_importer/callbacks.c:56
-#| msgid "_New Folder..."
 msgid "F_older..."
 msgstr "_Фасцикла..."
 
 #: ../extensions/photo_importer/callbacks.c:57
-#| msgid "Import photos from a digital camera"
 msgid "Import photos and other files from a folder"
 msgstr "Увези слике и друге датотеке из фасцикле"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
-#| msgid "Rotate the image clockwise"
 msgid "_Rotate the images physically"
 msgstr "_Окрените слике физички"
 
@@ -4346,18 +3979,15 @@ msgid "_Tags:"
 msgstr "_Ознаке:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
-#| msgid "Co_mment:"
 msgid "_Event:"
 msgstr "_Догађај:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
-#| msgid "_Delete imported images from the camera"
 msgid "_Delete the imported files from the source"
 msgstr "О_бриши увезене слике са извора"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:227
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:149
-#| msgid "Could not move the items:"
 msgid "Could not import the files"
 msgstr "Не могу да увезем датотеке"
 
@@ -4368,12 +3998,11 @@ msgid "Files to import: %d (%s)"
 msgstr "Датотеке за увоз: %d (%s)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:339
-#| msgid "Could not move the folder \"%s\": %s"
 msgid "Could not load the folder"
 msgstr "Нисам успео да учитам фасциклу"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
-#: ../gthumb/gth-browser.c:2015
+#: ../gthumb/gth-browser.c:2089
 msgid "Getting folder listing..."
 msgstr "Прибављање списка фасцикли..."
 
@@ -4390,18 +4019,15 @@ msgid "Import from Folder"
 msgstr "Увоз из фасцикле"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:1
-#| msgid "Import Photos"
 msgid "Import photos"
 msgstr "Увези слике"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:2
-#| msgid "Import photos from a digital camera"
 msgid "Import photos from removable devices."
 msgstr "Увези слике са уклоњивих уређаја."
 
 #: ../extensions/picasaweb/callbacks.c:59
 #: ../extensions/picasaweb/callbacks.c:64
-#| msgid "Web Album"
 msgid "_Picasa Web Album..."
 msgstr "Веб албум _Пикаса..."
 
@@ -4427,12 +4053,10 @@ msgstr "Јавно"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:458
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:469
-#| msgid "Could not move the items:"
 msgid "Could not get the album list"
 msgstr "Не могу да добавим списак албума"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:1
-#| msgid "Web Album"
 msgid "Picasa Web Albums"
 msgstr "Веб албум Пикаса"
 
@@ -4485,7 +4109,6 @@ msgid "format:"
 msgstr "облик:"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:3
-#| msgid "_Remove"
 msgid "remove"
 msgstr "уклони"
 
@@ -4503,23 +4126,19 @@ msgid "Cas_e:"
 msgstr "_Величина слова:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:7
-#| msgid "_Template:"
 msgid "Edit template"
 msgstr "Уредите предлошке"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:9
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
-#| msgid "_Keep original filenames"
 msgid "The original filename"
 msgstr "Задржи изворна имена датотека"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:10
-#| msgid "Determine by extension"
 msgid "The original extension"
 msgstr "Изворни наставак"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
-#| msgid "_Keep original filenames"
 msgid "The original enumerator"
 msgstr "Изворни бројач"
 
@@ -4530,12 +4149,10 @@ msgid "%M{ format }"
 msgstr "%M{ облик }"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:17
-#| msgid "by Modification date"
 msgid "The modification date"
 msgstr "Датум измене"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:21
-#| msgid "by Modification date"
 msgid "The digitalization date"
 msgstr "Датум дигитализације"
 
@@ -4558,12 +4175,10 @@ msgid "Enumerator"
 msgstr "Бројач"
 
 #: ../extensions/rename_series/dlg-rename-series.c:59
-#| msgid "_Keep original filenames"
 msgid "Original filename"
 msgstr "Изворна имена датотека"
 
 #: ../extensions/rename_series/dlg-rename-series.c:60
-#| msgid "<b>Original dimensions</b>"
 msgid "Original extension"
 msgstr "Изворни наставак"
 
@@ -4572,12 +4187,10 @@ msgid "Original enumerator"
 msgstr "Изворни бројач"
 
 #: ../extensions/rename_series/dlg-rename-series.c:62
-#| msgid "by Modification date"
 msgid "Modification date"
 msgstr "Датум измене"
 
 #: ../extensions/rename_series/dlg-rename-series.c:63
-#| msgid "by Modification date"
 msgid "Digitalization date"
 msgstr "Датум дигитализације"
 
@@ -4587,17 +4200,14 @@ msgstr "Својство датотеке"
 
 #: ../extensions/rename_series/dlg-rename-series.c:558
 #: ../extensions/rename_series/dlg-rename-series.c:689
-#| msgid "Could not rename the image:"
 msgid "Could not rename the files"
 msgstr "Нисам успео променити имена датотекама"
 
 #: ../extensions/rename_series/dlg-rename-series.c:786
-#| msgid "Could not move the image:"
 msgid "Could not save the template"
 msgstr "Не могу да сачувам шаблон"
 
 #: ../extensions/rename_series/dlg-rename-series.c:804
-#| msgid "_Template:"
 msgid "Edit Template"
 msgstr "Уреди шаблон"
 
@@ -4610,52 +4220,42 @@ msgid "New Name"
 msgstr "Ново име"
 
 #: ../extensions/rename_series/dlg-rename-series.c:950
-#| msgid "_Keep original filenames"
 msgid "Keep original case"
 msgstr "Задржи изворну величину слова"
 
 #: ../extensions/rename_series/dlg-rename-series.c:951
-#| msgid "Convert Format"
 msgid "Convert to lower-case"
 msgstr "Претвори у мала слова"
 
 #: ../extensions/rename_series/dlg-rename-series.c:952
-#| msgid "Convert Format"
 msgid "Convert to upper-case"
 msgstr "Претвори у велика слова"
 
 #: ../extensions/rename_series/gth-rename-task.c:167
-#| msgid "Rename Series"
 msgid "Renaming files"
 msgstr "Преименовање датотека"
 
 #: ../extensions/rename_series/rename_series.extension.in.in.h:1
-#| msgid "Rename Series"
 msgid "Rename files"
 msgstr "Преименуј датотеке"
 
 #: ../extensions/rename_series/rename_series.extension.in.in.h:2
-#| msgid "Rename Series"
 msgid "Rename series of files."
 msgstr "Преименуј низове датотека."
 
 #: ../extensions/resize_images/callbacks.c:45
-#| msgid "Resize image"
 msgid "Resize Images..."
 msgstr "Промени величину слика..."
 
 #: ../extensions/resize_images/callbacks.c:46
-#| msgid "Rename selected image"
 msgid "Resize the selected images"
 msgstr "Промени величину означеним сликама"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:1
-#| msgid "Resize image"
 msgid "Resize Images"
 msgstr "Промени величину сликама"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:2
-#| msgid "<b>New dimensions</b>"
 msgid "New dimensions"
 msgstr "Нова размера"
 
@@ -4664,39 +4264,32 @@ msgid "_Height:"
 msgstr "_Висина:"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:5
-#| msgid "_Keep aspect ratio"
 msgid "_Preserve original aspect ratios"
 msgstr "_Задржавај изворне сразмере"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:9
 #: ../gthumb/gth-main-default-metadata.c:49
-#| msgid "Convert Format"
 msgid "Format"
 msgstr "Облик"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:10
-#| msgid "pixels"
 msgid "pixel"
 msgstr "тачка"
 
 #: ../extensions/resize_images/dlg-resize-images.c:423
-#| msgid "_Keep original filenames"
 msgid "Keep the original format"
 msgstr "Задржи изворни облик"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:1
-#| msgid "Resize image"
 msgid "Resize images"
 msgstr "Промени величину сликама"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:2
-#| msgid "Resize image"
 msgid "Resize series of images."
 msgstr "Промени величину низу слика."
 
 #: ../extensions/search/actions.c:49 ../extensions/search/actions.c:117
 #: ../extensions/search/actions.c:123
-#| msgid "Could not rename the image:"
 msgid "Could not perform the search"
 msgstr "Нисам успео извршити претрагу"
 
@@ -4709,31 +4302,26 @@ msgid "Find"
 msgstr "Пронађи"
 
 #: ../extensions/search/callbacks.c:59
-#| msgid "Find images"
 msgid "Find files"
 msgstr "Нађи датотеке"
 
 #: ../extensions/search/callbacks.c:132
-#| msgid "Searching in:"
 msgid "Search again"
 msgstr "Претражи опет"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
 #: ../extensions/search/callbacks.c:174
 #: ../extensions/search/search.extension.in.in.h:1
-#| msgid "_Search"
 msgid "Search"
 msgstr "Претражи"
 
 #: ../extensions/search/gth-search-editor.c:112
 #: ../gthumb/gth-filter-editor-dialog.c:165
-#| msgid "The following date"
 msgid "all the following rules"
 msgstr "сва следећа правила"
 
 #: ../extensions/search/gth-search-editor.c:113
 #: ../gthumb/gth-filter-editor-dialog.c:166
-#| msgid "The following date"
 msgid "any of the following rules"
 msgstr "било које следеће правило"
 
@@ -4743,7 +4331,6 @@ msgid "Files found until now: %s"
 msgstr "Пронађених датотека до сад: %s"
 
 #: ../extensions/search/gth-search-task.c:271
-#| msgid "Searching in:"
 msgid "Searching..."
 msgstr "Претраживање..."
 
@@ -4756,22 +4343,18 @@ msgid "File search tool."
 msgstr "Алат претраге."
 
 #: ../extensions/selections/callbacks.c:77
-#| msgid "Font Selection"
 msgid "Add to _Selection"
 msgstr "Додај у _избор"
 
 #: ../extensions/selections/callbacks.c:86
-#| msgid "Font Selection"
 msgid "Selection 1"
 msgstr "Избор 1"
 
 #: ../extensions/selections/callbacks.c:91
-#| msgid "Font Selection"
 msgid "Selection 2"
 msgstr "Избор 2"
 
 #: ../extensions/selections/callbacks.c:96
-#| msgid "Font Selection"
 msgid "Selection 3"
 msgstr "Избор 3"
 
@@ -4785,13 +4368,11 @@ msgstr ""
 
 #: ../extensions/selections/gth-selections-manager.c:239
 #, c-format
-#| msgid "Font Selection"
 msgid "Selection %d"
 msgstr "Избор %d"
 
 #: ../extensions/selections/gth-selections-manager.c:242
 #: ../extensions/selections/selections.extension.in.in.h:1
-#| msgid "Font Selection"
 msgid "Selections"
 msgstr "Избори"
 
@@ -4800,12 +4381,10 @@ msgid "Advanced file selection."
 msgstr "Напредни одабир датотека."
 
 #: ../extensions/slideshow/callbacks.c:56
-#| msgid "_Slide Show"
 msgid "_Slideshow"
 msgstr "По_кретни приказ"
 
 #: ../extensions/slideshow/callbacks.c:57
-#| msgid "View as a slide show"
 msgid "View as a slideshow"
 msgstr "Прегледај у покретном приказу"
 
@@ -4813,12 +4392,10 @@ msgstr "Прегледај у покретном приказу"
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
 #: ../extensions/slideshow/preferences.c:162
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
-#| msgid "Slide Show"
 msgid "Slideshow"
 msgstr "Покретни приказ"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:1
-#| msgid "_Normalize"
 msgid "_Personalize"
 msgstr "_Прилагодите"
 
@@ -4832,7 +4409,6 @@ msgid "_Change automatically, every"
 msgstr "Самостално _мењај, сваких"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
-#| msgid "Resta_rt when finished"
 msgid "_Restart when finished"
 msgstr "_Поново покрени када се заврши"
 
@@ -4849,7 +4425,6 @@ msgid "Add files to the playlist"
 msgstr "Додај датотке у списак за извођење"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
-#| msgid "Open the selected folder"
 msgid "Remove the selected files"
 msgstr "Уклони одабране датотеке"
 
@@ -4858,7 +4433,6 @@ msgid "Playing slideshow"
 msgstr "Извођење покретног приказа"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:184
-#| msgid "Choose the destination folder"
 msgid "Choose the files to play"
 msgstr "Одаберите датотеке за извођење"
 
@@ -4891,7 +4465,6 @@ msgid "Fade in"
 msgstr "Појави се"
 
 #: ../extensions/slideshow/main.c:313
-#| msgid "Flip the image"
 msgid "Flip page"
 msgstr "Изврни страну"
 
@@ -4904,22 +4477,18 @@ msgid "Cube from bottom"
 msgstr "Коцкај с лева"
 
 #: ../extensions/slideshow/slideshow.extension.in.in.h:2
-#| msgid "View as a slide show"
 msgid "View images as a slideshow."
 msgstr "Погледај слике у покретном приказу."
 
 #: ../extensions/webalbums/callbacks.c:71
-#| msgid "Web Album"
 msgid "_Web Album..."
 msgstr "_Веб албум..."
 
 #: ../extensions/webalbums/callbacks.c:72
-#| msgid "Create _Web Album"
 msgid "Create a static web album"
 msgstr "Направи непроменљив веб албум"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:26
-#| msgid "Could not move the image:"
 msgid "Click to view the image"
 msgstr "Кликните за преглед слике"
 
@@ -4929,7 +4498,6 @@ msgstr "Врати се на садржај"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:28
 #, c-format
-#| msgid "Page %d of %d"
 msgid "Image %d of %d"
 msgstr "Слика %d од %d"
 
@@ -4949,27 +4517,22 @@ msgstr "Претходно"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:33
 #, c-format
-#| msgid "View the image"
 msgid "View page %d"
 msgstr "Погледај страницу %d"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:34
-#| msgid "View next image"
 msgid "View the next image"
 msgstr "Погледај следећу слику"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:35
-#| msgid "View next image"
 msgid "View the next page"
 msgstr "Погледај следећу страну"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:36
-#| msgid "View previous image"
 msgid "View the previous image"
 msgstr "Погледај претходну слику"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:37
-#| msgid "View previous image"
 msgid "View the previous page"
 msgstr "Погледај претходну слику"
 
@@ -4987,7 +4550,6 @@ msgstr "Веб албум"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
 #, no-c-format
-#| msgid "%"
 msgid "%P"
 msgstr "%P"
 
@@ -5000,17 +4562,14 @@ msgid "_Adapt to the window width "
 msgstr "_Прилагоди ширини прозора "
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
-#| msgid "Index Image Style"
 msgid "Index Page"
 msgstr "Страница садржаја"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
-#| msgid "_Thumbnail Caption..."
 msgid "Thumbnail Caption"
 msgstr "Наслов умањеног приказа"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
-#| msgid "Save current image"
 msgid "The current image number"
 msgstr "Број тренутне слике"
 
@@ -5019,32 +4578,26 @@ msgid "The total number of images"
 msgstr "Укупан број слика"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
-#| msgid "View image comment"
 msgid "The file comment"
 msgstr "Напомена слике"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
-#| msgid "Image data"
 msgid "Image Page"
 msgstr "Страна слике"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
-#| msgid "Choose the destination folder"
 msgid "Show the description, if available"
 msgstr "Приказује опис, ако је доступан"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
-#| msgid "The _following date:"
 msgid "Show the following attributes:"
 msgstr "Приказује следећа својства:"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
-#| msgid "Image preview"
 msgid "Image Attributes"
 msgstr "Својства слика"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1800
-#| msgid "Choose the destination folder"
 msgid "Could not show the destination"
 msgstr "Нисам успео да прикажем одредиште"
 
@@ -5053,47 +4606,42 @@ msgid "The album has been created successfully."
 msgstr "Албум је успешно направљен."
 
 #: ../extensions/webalbums/gth-web-exporter.c:2104
-#: ../extensions/webalbums/gth-web-exporter.c:2131
+#: ../extensions/webalbums/gth-web-exporter.c:2132
 msgid "Saving thumbnails"
 msgstr "Снимање умањених приказа"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2159
+#: ../extensions/webalbums/gth-web-exporter.c:2160
 msgid "Saving HTML pages: Images"
 msgstr "Снимање HTML страница: слике"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2217
+#: ../extensions/webalbums/gth-web-exporter.c:2218
 msgid "Saving HTML pages: Indexes"
 msgstr "Снимање HTML страница: садржаји"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2500
-#| msgid "_Keep original filenames"
+#: ../extensions/webalbums/gth-web-exporter.c:2503
 msgid "Copying original images"
 msgstr "Умножавам изворне слике"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2960
-#| msgid "Could not delete the folder \"%s\": %s"
+#: ../extensions/webalbums/gth-web-exporter.c:2963
 msgid "Could not find the style folder"
 msgstr "Нисам успео да пронађем фасциклу за начине"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2998
+#: ../extensions/webalbums/gth-web-exporter.c:3001
 msgid "Could not create a temporary folder"
 msgstr "Не могу направити привремени директоријум"
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:1
-#| msgid "Web Album"
 msgid "Web Albums"
 msgstr "Веб албуми"
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:2
-#| msgid "Create _Web Album"
 msgid "Create static web albums."
 msgstr "Направи неизменљиве веб албуме."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1337
-#: ../gthumb/gth-browser.c:1906 ../gthumb/gth-browser.c:6121
-#: ../gthumb/gth-browser.c:6140 ../gthumb/gth-browser.c:6164
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1396
+#: ../gthumb/gth-browser.c:1969 ../gthumb/gth-browser.c:6214
+#: ../gthumb/gth-browser.c:6233 ../gthumb/gth-browser.c:6257
 #, c-format
-#| msgid "Could not move the folder \"%s\": %s"
 msgid "Could not load the position \"%s\""
 msgstr "Нисам успео да учитам положај „%s“"
 
@@ -5102,17 +4650,14 @@ msgid "Filter"
 msgstr "Услов"
 
 #: ../gthumb/dlg-personalize-filters.c:315
-#| msgid "Could not move the items:"
 msgid "Could not save the filter"
 msgstr "Нисам успео да сачувам услов"
 
 #: ../gthumb/dlg-personalize-filters.c:358
-#| msgid "New Folder"
 msgid "New Filter"
 msgstr "Нови услов"
 
 #: ../gthumb/dlg-personalize-filters.c:387
-#| msgid "_Edit Search"
 msgid "Edit Filter"
 msgstr "Измени услов"
 
@@ -5129,7 +4674,6 @@ msgid "Disabled"
 msgstr "Онемогућен"
 
 #: ../gthumb/dlg-preferences-extensions.c:72
-#| msgid "Viewer"
 msgid "Viewers"
 msgstr "Прегледачи"
 
@@ -5138,7 +4682,6 @@ msgid "Metadata"
 msgstr "Метаподаци"
 
 #: ../gthumb/dlg-preferences-extensions.c:74
-#| msgid "File pa_th"
 msgid "File tools"
 msgstr "Алатке за датотеке"
 
@@ -5147,33 +4690,27 @@ msgid "List tools"
 msgstr "Алатке за спискове"
 
 #: ../gthumb/dlg-preferences-extensions.c:76
-#| msgid "_Import"
 msgid "Importers"
 msgstr "Увозници"
 
 #: ../gthumb/dlg-preferences-extensions.c:77
-#| msgid "Exposure time"
 msgid "Exporters"
 msgstr "Извозници"
 
 #: ../gthumb/dlg-preferences-extensions.c:216
-#| msgid "Could not move the items:"
 msgid "Could not activate the extension"
 msgstr "Нисам успео да покренем проширење"
 
 #: ../gthumb/dlg-preferences-extensions.c:226
-#| msgid "Could not move the items:"
 msgid "Could not deactivate the extension"
 msgstr "Нисам успео да искључим проширење"
 
 #. add the page to the preferences dialog
 #: ../gthumb/dlg-preferences-extensions.c:772
-#| msgid "Dimensions"
 msgid "Extensions"
 msgstr "Проширења"
 
 #: ../gthumb/dlg-preferences-extensions.c:819
-#| msgid "Resta_rt when finished"
 msgid "Restart required"
 msgstr "Потребно је поновно покретање"
 
@@ -5187,7 +4724,6 @@ msgid "_Continue"
 msgstr "_Настави"
 
 #: ../gthumb/dlg-preferences-extensions.c:822
-#| msgid "_Restore"
 msgid "_Restart"
 msgstr "_Поново покрени"
 
@@ -5204,17 +4740,14 @@ msgstr "Премештање „%s“ у „%s“"
 
 #: ../gthumb/gio-utils.c:1388
 #, c-format
-#| msgid "Copying file %d of %d"
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Умножавање „%s“ у „%s“"
 
 #: ../gthumb/gio-utils.c:1750
-#| msgid "Moving file %ld of %ld"
 msgid "Moving files"
 msgstr "Премештање датотека"
 
 #: ../gthumb/gio-utils.c:1750
-#| msgid "Copying file %d of %d"
 msgid "Copying files"
 msgstr "Умножавање датотека"
 
@@ -5307,17 +4840,14 @@ msgid "_Help"
 msgstr "_Помоћ"
 
 #: ../gthumb/gth-browser-actions-entries.h:36
-#| msgid "_Open With"
 msgid "Open _With"
 msgstr "_Отвори са"
 
 #: ../gthumb/gth-browser-actions-entries.h:37
-#| msgid "Import Photos"
 msgid "I_mport From"
 msgstr "У_вези из"
 
 #: ../gthumb/gth-browser-actions-entries.h:38
-#| msgid "E_xposure mode"
 msgid "E_xport To"
 msgstr "Извези _у"
 
@@ -5326,7 +4856,6 @@ msgid "New _Window"
 msgstr "Нови _прозор"
 
 #: ../gthumb/gth-browser-actions-entries.h:42
-#| msgid "Open in New Window"
 msgid "Open another window"
 msgstr "Отвори још један прозор"
 
@@ -5343,17 +4872,14 @@ msgid "Edit various preferences"
 msgstr "Измени разна подешавања"
 
 #: ../gthumb/gth-browser-actions-entries.h:95
-#| msgid "_Copy..."
 msgid "_Sort By..."
 msgstr "_Разврстај по..."
 
 #: ../gthumb/gth-browser-actions-entries.h:101
-#| msgid "_New Folder..."
 msgid "_Filter..."
 msgstr "_Услов..."
 
 #: ../gthumb/gth-browser-actions-entries.h:108
-#| msgid "Stop loading current location"
 msgid "Stop loading the current location"
 msgstr "Прекини учитавање тренутне путање"
 
@@ -5370,24 +4896,22 @@ msgid "View next image"
 msgstr "Погледај следећу слику"
 
 #: ../gthumb/gth-browser-actions-entries.h:132
-#| msgid "Start in fullscreen mode"
 msgid "Switch to fullscreen"
 msgstr "Пребаци на цео екран"
 
 #: ../gthumb/gth-browser-actions-entries.h:138
-#| msgid "_Full Screen"
 msgid "Leave Fullscreen"
 msgstr "Напусти цео екран"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3766
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3841
 msgid "Go to the previous visited location"
 msgstr "Иди на претходно посећено место"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3784
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3859
 msgid "Go to the next visited location"
 msgstr "Иди на следеће посећено место"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3802
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3877
 msgid "Go up one level"
 msgstr "Иди горе за један ниво"
 
@@ -5396,11 +4920,10 @@ msgid "_Location..."
 msgstr "_Место..."
 
 #: ../gthumb/gth-browser-actions-entries.h:162
-#| msgid "Specify a location to visit"
 msgid "Specify a location to open"
 msgstr "Наведи место за отварање"
 
-#: ../gthumb/gth-browser-actions-entries.h:173 ../gthumb/gth-browser.c:678
+#: ../gthumb/gth-browser-actions-entries.h:173 ../gthumb/gth-browser.c:721
 msgid "_Delete History"
 msgstr "_Обриши историјат"
 
@@ -5413,12 +4936,10 @@ msgid "View the folders"
 msgstr "Погледај фасцикле"
 
 #: ../gthumb/gth-browser-actions-entries.h:186
-#| msgid "Show information about gThumb"
 msgid "Show information about gthumb"
 msgstr "Приказује информације о Гномовом сличку"
 
 #: ../gthumb/gth-browser-actions-entries.h:191
-#| msgid "Co_mments"
 msgid "Contents"
 msgstr "Сaдржај"
 
@@ -5432,7 +4953,6 @@ msgstr "Пречице на _тастатури"
 
 #: ../gthumb/gth-browser-actions-entries.h:203
 #: ../gthumb/gth-browser-actions-entries.h:257
-#| msgid "_Edit"
 msgid "Edit"
 msgstr "Уреди"
 
@@ -5458,12 +4978,10 @@ msgid "View or hide the statusbar of this window"
 msgstr "Погледај или склони траку стања овог прозора"
 
 #: ../gthumb/gth-browser-actions-entries.h:222
-#| msgid "_File"
 msgid "_Filterbar"
 msgstr "_Трака услова"
 
 #: ../gthumb/gth-browser-actions-entries.h:223
-#| msgid "View or hide the toolbar of this window"
 msgid "View or hide the filterbar of this window"
 msgstr "Погледај или склони траку услова овог прозора"
 
@@ -5472,17 +4990,14 @@ msgid "_Sidebar"
 msgstr "_Бочна трака"
 
 #: ../gthumb/gth-browser-actions-entries.h:228
-#| msgid "View or hide the statusbar of this window"
 msgid "View or hide the sidebar of this window"
 msgstr "Погледај или склони бочну траку овог прозора"
 
 #: ../gthumb/gth-browser-actions-entries.h:232
-#| msgid "_Thumbnails"
 msgid "_Thumbnail Pane"
 msgstr "Окно _умањених приказа"
 
 #: ../gthumb/gth-browser-actions-entries.h:233
-#| msgid "View or hide the statusbar of this window"
 msgid "View or hide the thumbnail pane in viewer mode"
 msgstr "Погледај или склони окно умањених приказа у начину прегледа"
 
@@ -5504,12 +5019,10 @@ msgstr "Прикажи скривене датотеке и фасцикле"
 
 #: ../gthumb/gth-browser-actions-entries.h:248
 #: ../gthumb/gth-browser-actions-entries.h:253
-#| msgid "View image properties"
 msgid "View file properties"
 msgstr "Погледај особине датотеке"
 
 #: ../gthumb/gth-browser-actions-entries.h:262
-#| msgid "Fit to window if larger"
 msgid "_Fit Window to Image"
 msgstr "_Прилагоди величину прозора слици"
 
@@ -5517,19 +5030,17 @@ msgstr "_Прилагоди величину прозора слици"
 msgid "Resize the window to the size of the image"
 msgstr "Подеси величину прозора величини слике"
 
-#: ../gthumb/gth-browser.c:375
+#: ../gthumb/gth-browser.c:418
 #, c-format
-#| msgid "Open"
 msgid "Open %s"
 msgstr "Отвори %s"
 
-#: ../gthumb/gth-browser.c:515
+#: ../gthumb/gth-browser.c:558
 msgid "[modified]"
 msgstr "[измењено]"
 
-#: ../gthumb/gth-browser.c:1074
+#: ../gthumb/gth-browser.c:1117
 #, c-format
-#| msgid "%d selected (%s)"
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d означена датотека (%s)"
@@ -5537,65 +5048,57 @@ msgstr[1] "%d означене датотеке (%s)"
 msgstr[2] "%d означених датотека (%s)"
 msgstr[3] "%d означена датотека (%s)"
 
-#: ../gthumb/gth-browser.c:1109
+#: ../gthumb/gth-browser.c:1152
 #, c-format
 msgid "%s of free space"
 msgstr "%s слободног простора"
 
-#: ../gthumb/gth-browser.c:1999 ../gthumb/gth-browser.c:2026
+#: ../gthumb/gth-browser.c:2073 ../gthumb/gth-browser.c:2100
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Није пронађена одговарајућа јединица за %s"
 
-#: ../gthumb/gth-browser.c:2145
+#: ../gthumb/gth-browser.c:2219
 #, c-format
-#| msgid "Save only cha_nged fields"
 msgid "Save changes to file '%s'?"
 msgstr "Сачувај измене на датотеци „%s“?"
 
-#: ../gthumb/gth-browser.c:2150
+#: ../gthumb/gth-browser.c:2224
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Ако не сачувате, измене на датотеци ће бити заувек изгубљене."
 
-#: ../gthumb/gth-browser.c:2151
-#| msgid "Do Not Save"
+#: ../gthumb/gth-browser.c:2225
 msgid "Do _Not Save"
 msgstr "Не _чувај"
 
-#: ../gthumb/gth-browser.c:2945 ../gthumb/gth-source-tree.c:182
-#| msgid "Could not copy the image:"
+#: ../gthumb/gth-browser.c:3020 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Не могу изменити назив"
 
-#: ../gthumb/gth-browser.c:3376 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3451 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Измењено"
 
-#: ../gthumb/gth-browser.c:3767 ../gthumb/gth-browser.c:3785
-#| msgid "Delete the list of visited locations"
+#: ../gthumb/gth-browser.c:3842 ../gthumb/gth-browser.c:3860
 msgid "View the list of visited locations"
 msgstr "Погледајте списак посећених места"
 
-#: ../gthumb/gth-browser.c:3803
-#| msgid "Delete the list of visited locations"
+#: ../gthumb/gth-browser.c:3878
 msgid "View the list of upper locations"
 msgstr "Прегледај списак родитељских места"
 
-#: ../gthumb/gth-browser.c:6122
+#: ../gthumb/gth-browser.c:6215
 #, c-format
-#| msgid "Image type not supported: %s"
 msgid "File type not supported"
 msgstr "Врста датотеке није подржана"
 
-#: ../gthumb/gth-browser.c:6165
+#: ../gthumb/gth-browser.c:6258
 #, c-format
-#| msgid "No images found"
 msgid "No suitable module found"
 msgstr "Није пронађен одговарајућа јединица"
 
 #: ../gthumb/gth-extensions.c:203
 #, c-format
-#| msgid "Could not move the folder \"%s\": %s"
 msgid "Could not open the module `%s`: %s"
 msgstr "Нисам успео да отворим јединицу „%s“: %s"
 
@@ -5609,26 +5112,20 @@ msgid "All Supported Files"
 msgstr "Све подржане датотеке"
 
 #: ../gthumb/gth-file-source-vfs.c:121
-#| msgid "New Folder"
 msgid "Home Folder"
 msgstr "Лична фасцикла"
 
 #: ../gthumb/gth-file-source-vfs.c:126
-#| msgid "File si_ze"
 msgid "File System"
 msgstr "Систем датотека"
 
 #: ../gthumb/gth-file-source-vfs.c:739
-#| msgid ""
-#| "The images cannot be moved to the Trash. Do you want to delete them "
-#| "permanently?"
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Датотеке не могу бити пребачене у Ђубре. Желите ли их трајно обрисати?"
 
 #: ../gthumb/gth-file-source-vfs.c:750
-#| msgid "Could not move the items:"
 msgid "Could not move the files to the Trash"
 msgstr "Не могу преместити датотеке у смеће"
 
@@ -5657,7 +5154,6 @@ msgstr[2] "Да ли сигурно желите да трајно обрише�
 msgstr[3] "Да ли сигурно желите да трајно обришете %'d изабрану датотеку?"
 
 #: ../gthumb/gth-filterbar.c:413
-#| msgid "View the folders"
 msgid "Hide the filterbar"
 msgstr "Сакриј траку услова"
 
@@ -5694,7 +5190,7 @@ msgstr "силазно"
 msgid "No limit specified"
 msgstr "Није наведено ограничење"
 
-#: ../gthumb/gth-folder-tree.c:1100
+#: ../gthumb/gth-folder-tree.c:1369
 msgid "(Open Parent)"
 msgstr "(Отвори надфасциклу)"
 
@@ -5735,7 +5231,6 @@ msgid "RGB"
 msgstr "РГБ"
 
 #: ../gthumb/gth-image-list-task.c:141
-#| msgid "Could not rename the image:"
 msgid "Could not rename the file"
 msgstr "Не могу променити име слике"
 
@@ -5743,9 +5238,8 @@ msgstr "Не могу променити име слике"
 msgid "No options available for this file type"
 msgstr "Нема доступних могућности за ову врсту датотеке"
 
-#: ../gthumb/gth-image-saver.c:181
+#: ../gthumb/gth-image-saver.c:185
 #, c-format
-#| msgid "Could not duplicate the image \"%s\": %s"
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Не могу пронађем одговарајућу јединицу за чување слике као„%s“"
 
@@ -5754,7 +5248,6 @@ msgid "Reading file information"
 msgstr "Читање података датотека"
 
 #: ../gthumb/gth-main-default-metadata.c:32
-#| msgid "_File"
 msgid "File"
 msgstr "Датотека"
 
@@ -5772,32 +5265,26 @@ msgid "Type"
 msgstr "Врста"
 
 #: ../gthumb/gth-main-default-metadata.c:44
-#| msgid "Old Name"
 msgid "Full Name"
 msgstr "Потпуно име"
 
 #: ../gthumb/gth-main-default-metadata.c:48
-#| msgid "_Saturation:"
 msgid "Duration"
 msgstr "Трајање"
 
 #: ../gthumb/gth-main-default-sort-types.c:131
-#| msgid "File _name"
 msgid "file name"
 msgstr "назив датотеке"
 
 #: ../gthumb/gth-main-default-sort-types.c:132
-#| msgid "File pa_th"
 msgid "file path"
 msgstr "путања датотеке"
 
 #: ../gthumb/gth-main-default-sort-types.c:133
-#| msgid "File si_ze"
 msgid "file size"
 msgstr "величина датотеке"
 
 #: ../gthumb/gth-main-default-sort-types.c:134
-#| msgid "Last modified date"
 msgid "file modified date"
 msgstr "датум последње измене"
 
@@ -5806,7 +5293,6 @@ msgid "no sorting"
 msgstr "без разврставања"
 
 #: ../gthumb/gth-main-default-sort-types.c:136
-#| msgid "Dimensions"
 msgid "dimensions"
 msgstr "величина"
 
@@ -5819,7 +5305,6 @@ msgid "Media"
 msgstr "Носач садржаја"
 
 #: ../gthumb/gth-main-default-tests.c:268
-#| msgid "Text only"
 msgid "Text Files"
 msgstr "Текст датотеке"
 
@@ -5836,7 +5321,6 @@ msgid "Description (embedded)"
 msgstr "Опис (угњежђен)"
 
 #: ../gthumb/gth-progress-dialog.c:146
-#| msgid "Caption"
 msgid "Cancel operation"
 msgstr "Обустави радњу"
 
@@ -5844,12 +5328,19 @@ msgstr "Обустави радњу"
 msgid "Saving file information"
 msgstr "Чување података датотеке"
 
-#: ../gthumb/gth-tags-entry.c:388
+#. Translators: %s is a filename
+#: ../gthumb/gth-save-image-task.c:160
+#, c-format
+#| msgid "Starting %s"
+msgid "Saving '%s'"
+msgstr "Чувам „%s“"
+
+#: ../gthumb/gth-tags-entry.c:390
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Направи ознаку «%s»"
 
-#: ../gthumb/gth-tags-entry.c:735
+#: ../gthumb/gth-tags-entry.c:814
 msgid "Show all the tags"
 msgstr "Прикажи све ознаке"
 
@@ -5870,7 +5361,6 @@ msgid "Science"
 msgstr "Наука"
 
 #: ../gthumb/gth-tags-file.c:239
-#| msgid "Favourite"
 msgid "Favorite"
 msgstr "Омиљено"
 
@@ -5908,7 +5398,6 @@ msgid "is"
 msgstr "је"
 
 #: ../gthumb/gth-test-category.c:47
-#| msgid "Icons only"
 msgid "is only"
 msgstr "је само"
 
@@ -5929,7 +5418,6 @@ msgid "Add a new rule"
 msgstr "Додај ново правило"
 
 #: ../gthumb/gth-test-selector.c:263
-#| msgid "Rename this image"
 msgid "Remove this rule"
 msgstr "Уклони ово правило"
 
@@ -5950,7 +5438,6 @@ msgid "does not contain"
 msgstr "не садржи"
 
 #: ../gthumb/gth-test-simple.c:52
-#| msgid "Inches"
 msgid "matches"
 msgstr "поклапа се"
 
@@ -5963,17 +5450,14 @@ msgid "is greater than"
 msgstr "је веће од"
 
 #: ../gthumb/gth-test-simple.c:58
-#| msgid "Equal to"
 msgid "is equal to"
 msgstr "је једнако са"
 
 #: ../gthumb/gth-test-simple.c:62
-#| msgid "Before"
 msgid "is before"
 msgstr "је пре"
 
 #: ../gthumb/gth-test-simple.c:63
-#| msgid "After"
 msgid "is after"
 msgstr "је након"
 
@@ -5982,7 +5466,6 @@ msgid "Today"
 msgstr "Данас"
 
 #: ../gthumb/gth-time-selector.c:486
-#| msgid "Low"
 msgid "Now"
 msgstr "Сада"
 
@@ -5991,39 +5474,34 @@ msgid "Close this window"
 msgstr "Затвори овај прозор"
 
 #: ../gthumb/gth-window-actions-entries.h:36
-#| msgid "Close this window"
 msgid "Close _All Windows"
 msgstr "Затвори _све прозоре"
 
-#: ../gthumb/gtk-utils.c:499
-#| msgid "Could not display help: %s"
+#: ../gthumb/gtk-utils.c:490
 msgid "Could not display help"
 msgstr "Не могу приказати помоћ"
 
-#: ../gthumb/gtk-utils.c:800 ../gthumb/gtk-utils.c:807
-#| msgid "Could not copy the image:"
+#: ../gthumb/gtk-utils.c:810 ../gthumb/gtk-utils.c:817
 msgid "Could not launch the application"
 msgstr "Не могу покренути програм"
 
-#: ../gthumb/gtk-utils.c:910
+#: ../gthumb/gtk-utils.c:920
 msgid "_Copy Here"
 msgstr "Умножи _овде"
 
-#: ../gthumb/gtk-utils.c:915
-#| msgid "_Move"
+#: ../gthumb/gtk-utils.c:925
 msgid "_Move Here"
 msgstr "_Премести овде"
 
-#: ../gthumb/gtk-utils.c:920
+#: ../gthumb/gtk-utils.c:930
 msgid "_Link Here"
 msgstr "_Повежи овде"
 
-#: ../gthumb/gtk-utils.c:929
+#: ../gthumb/gtk-utils.c:939
 msgid "Cancel"
 msgstr "Откажи"
 
 #: ../gthumb/main.c:61
-#| msgid "Open in New Window"
 msgid "Open a new window"
 msgstr "Отвори нови прозор"
 
@@ -6040,1293 +5518,9 @@ msgid "Automatically import digital camera photos"
 msgstr "Сам увези слике са дигиталног фотоапарата"
 
 #: ../gthumb/main.c:77
-#| msgid "Show size"
 msgid "Show version"
 msgstr "Приказује издање"
 
 #: ../gthumb/main.c:483
-#| msgid "Image preview"
 msgid "- Image browser and viewer"
 msgstr " — Прегледник и претраживач слика"
-
-#~ msgid "GThumb Catalog View"
-#~ msgstr "GThumb Каталошки преглед"
-
-#~ msgid "View as Catalog"
-#~ msgstr "Погледај као каталог"
-
-#~ msgid "_Print"
-#~ msgstr "_Штампај"
-
-#~ msgid "GThumb Image"
-#~ msgstr "GThumb слика"
-
-#~ msgid "GThumb Viewer"
-#~ msgstr "GThumb прегледач"
-
-#~ msgid "Rotate 180 _Degrees"
-#~ msgstr "Окрени за 180 степени"
-
-#~ msgid "Rotate the image of 180 degrees"
-#~ msgstr "Окрени слику за 180 степени"
-
-#~ msgid "Start or stop current animation"
-#~ msgstr "Покрени или заустави тренутну анимацију"
-
-#~ msgid "Start/Stop _Animation"
-#~ msgstr "Покрени/Заустави _анимацију"
-
-#~ msgid "Transparency T_ype"
-#~ msgstr "Вр_ста провидности"
-
-#~ msgid "View next animation frame"
-#~ msgstr "Погледај следећи оквир анимације"
-
-#~ msgid "_Black"
-#~ msgstr "_Црно"
-
-#~ msgid "_Checked"
-#~ msgstr "_Потврђено"
-
-#~ msgid "_Flip"
-#~ msgstr "_Преокрени"
-
-#~ msgid "_Image"
-#~ msgstr "_Слика"
-
-#~ msgid "_Mirror"
-#~ msgstr "_Одраз"
-
-#~ msgid "_None"
-#~ msgstr "_Ниједнa"
-
-#~ msgid "_Rotate Clockwise"
-#~ msgstr "_Окрени у правцу казаљке на сату"
-
-#~ msgid "_Step Animation"
-#~ msgstr "Анимација у _корацима"
-
-#~ msgid "_White"
-#~ msgstr "_Бело"
-
-#~ msgid "%d %b %Y, %H:%M"
-#~ msgstr "%d %b %Y, %H:%M"
-
-#~ msgid "%d x %d pixels"
-#~ msgstr "%d x %d тачака"
-
-#~ msgid "GThumb Application"
-#~ msgstr "GThumb програм"
-
-#~ msgid "GThumb Application Factory"
-#~ msgstr "Фабрика GThumb програма"
-
-#~ msgid "Bytes"
-#~ msgstr "Бајтова"
-
-#~ msgid "Exposure mode"
-#~ msgstr "Начин експозиције"
-
-#~ msgid "Flash"
-#~ msgstr "Блиц"
-
-#~ msgid "Shutter speed"
-#~ msgstr "Брзина затварача"
-
-#~ msgid "Aperture value"
-#~ msgstr "Величина отвора"
-
-#~ msgid "Focal length"
-#~ msgstr "Жижна даљина"
-
-#~ msgid "Camera model"
-#~ msgstr "Модел камере"
-
-#~ msgid "    "
-#~ msgstr "    "
-
-#~ msgid "*"
-#~ msgstr "*"
-
-#~ msgid "<b>Categories:</b>"
-#~ msgstr "<b>Категорије:</b>"
-
-#~ msgid "<b>Information on Channel:</b>"
-#~ msgstr "<b>Информација о каналу:</b>"
-
-#~ msgid "A_vailable applications:"
-#~ msgstr "_Доступни програми:"
-
-#~ msgid "Comm_ent"
-#~ msgstr "Ком_ентар"
-
-#~ msgid "Open Images"
-#~ msgstr "Отворити слике"
-
-#~ msgid "Overwrite Image"
-#~ msgstr "Препиши слику"
-
-#~ msgid "Photo _Data (EXIF)"
-#~ msgstr "Фотографски _подаци (EXIF)"
-
-#~ msgid "R_ecent applications:"
-#~ msgstr "_Скорији програми:"
-
-#~ msgid "_Application:"
-#~ msgstr "_Програм:"
-
-#~ msgid "_Next"
-#~ msgstr "_Следеће"
-
-#~ msgid "_Previous"
-#~ msgstr "_Претходно"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "Ca_tegories:"
-#~ msgstr "Ка_тегорије:"
-
-#~ msgid "Camera Model"
-#~ msgstr "Модел камере"
-
-#~ msgid "Select a camera model"
-#~ msgstr "Изаберите модел камере"
-
-#~ msgid "Update previews"
-#~ msgstr "Допуни прегледе"
-
-#~ msgid "_Auto Detect"
-#~ msgstr "_Сам нађи"
-
-#~ msgid "_Film:"
-#~ msgstr "_Филм:"
-
-#~ msgid "_Model:"
-#~ msgstr "_Модел:"
-
-#~ msgid "A_vailable categories:"
-#~ msgstr "Доступне категорије:"
-
-#~ msgid "Categories"
-#~ msgstr "Категорије"
-
-#~ msgid "Photo digitalization date (From EXIF data)"
-#~ msgstr "Датум _фото дигитализације (из EXIF података)"
-
-#~ msgid "Remove selected category"
-#~ msgstr "Уклонити изабрану категорију"
-
-#~ msgid "_New"
-#~ msgstr "_Нова"
-
-#~ msgid "_Selected categories:"
-#~ msgstr "_Означене категорије:"
-
-#~ msgid "<b>Compression</b>"
-#~ msgstr "<b>Сажимање</b>"
-
-#~ msgid "<b>Image type</b>"
-#~ msgstr "<b>Врста слике</b>"
-
-#~ msgid "Ask"
-#~ msgstr "Питај"
-
-#~ msgid "JPEG Options"
-#~ msgstr "JPEG поставке"
-
-#~ msgid "Overwrite mode:"
-#~ msgstr "Начин преписа:"
-
-#~ msgid "R_emove original"
-#~ msgstr "Ук_лони оригинал"
-
-#~ msgid "TGA Options"
-#~ msgstr "TGA поставке"
-
-#~ msgid "TIFF Options"
-#~ msgstr "TIFF поставке"
-
-#~ msgid "4 x 3 (Book, DVD)"
-#~ msgstr "10 x 7,5 (књига, ДВД)"
-
-#~ msgid "5 x 7"
-#~ msgstr "13 x 18"
-
-#~ msgid "8 x 10"
-#~ msgstr "20 x 25"
-
-#~ msgid "<b>Selection</b>"
-#~ msgstr "<b>Избор</b>"
-
-#~ msgid "_Crop"
-#~ msgstr "_Исечак"
-
-#~ msgid "     "
-#~ msgstr "     "
-
-#~ msgid "<b>Scale ratio</b>"
-#~ msgstr "<b>Пропорције</b>"
-
-#~ msgid "Brightness - Contrast"
-#~ msgstr "Светлина - контраст"
-
-#~ msgid "Color Balance"
-#~ msgstr "Однос боје"
-
-#~ msgid "Hue - Saturation"
-#~ msgstr "Нијансе - засићеност"
-
-#~ msgid "Posterize"
-#~ msgstr "Направи плакат"
-
-#~ msgid "Preserve l_uminosity"
-#~ msgstr "Задржи о_светљеност"
-
-#~ msgid "Scale Image"
-#~ msgstr "Скалирана слика"
-
-#~ msgid "_Hue:"
-#~ msgstr "_Нијанса:"
-
-#~ msgid "_Levels:"
-#~ msgstr "_Нивои:"
-
-#~ msgid "_Lightness:"
-#~ msgstr "_Осветљеност:"
-
-#~ msgid "_Scale"
-#~ msgstr "_Скала"
-
-#~ msgid "<b>Caption</b>"
-#~ msgstr "<b>Наслов</b>"
-
-#~ msgid "<b>Footer</b>"
-#~ msgstr "<b>Подножје</b>"
-
-#~ msgid "<b>Header and footer</b>"
-#~ msgstr "<b>Заглавље и подножје</b>"
-
-#~ msgid "<b>Header</b>"
-#~ msgstr "<b>Заглавље</b>"
-
-#~ msgid "<b>Index images</b>"
-#~ msgstr "<b>Индексирај слике</b>"
-
-#~ msgid "<b>Page size</b>"
-#~ msgstr "<b>Величина странице</b>"
-
-#~ msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-#~ msgstr "<small><i><b>Пажња:</b> # (бројач)</i>.</small>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
-#~ "small>"
-#~ msgstr ""
-#~ "<small><i><b>Пажња:</b> %p (број стране), %n (укупан број страна)</i>.</"
-#~ "small>"
-
-#~ msgid "Co_mment"
-#~ msgstr "Пре_длог"
-
-#~ msgid "Colo_r:"
-#~ msgstr "Бо_ја:"
-
-#~ msgid "Frame co_lor:"
-#~ msgstr "Бо_ја оквира:"
-
-#~ msgid "Header/Footer"
-#~ msgstr "Заглавље/Подножје"
-
-#~ msgid "Hei_ght:"
-#~ msgstr "Ви_сина:"
-
-#~ msgid "Image dim_ensions"
-#~ msgstr "В_еличина слике"
-
-#~ msgid "Page"
-#~ msgstr "Страница"
-
-#~ msgid "Rows a_nd columns"
-#~ msgstr "Редови и коло_не"
-
-#~ msgid "Shadow in"
-#~ msgstr "Сенка у"
-
-#~ msgid "Shadow out"
-#~ msgstr "Сенка из"
-
-#~ msgid "Sor_t:"
-#~ msgstr "По_ређај:"
-
-#~ msgid "St_yle"
-#~ msgstr "Ст_ил"
-
-#~ msgid "Wi_dth:"
-#~ msgstr "Ши_рина:"
-
-#~ msgid "_Draw frame"
-#~ msgstr "_Исцртај оквир"
-
-#~ msgid "_Font:"
-#~ msgstr "_Писмо:"
-
-#~ msgid "by name"
-#~ msgstr "по имену"
-
-#~ msgid "by path"
-#~ msgstr "по путањи"
-
-#~ msgid "by size"
-#~ msgstr "по величини"
-
-#~ msgid "by time"
-#~ msgstr "по времену"
-
-#~ msgid "jpeg"
-#~ msgstr "jpeg"
-
-#~ msgid "png"
-#~ msgstr "png"
-
-#~ msgid "112 x 112"
-#~ msgstr "112 x 112"
-
-#~ msgid "128 x 128"
-#~ msgstr "128 x 128"
-
-#~ msgid "164 x 164"
-#~ msgstr "164 x 164"
-
-#~ msgid "200 x 200"
-#~ msgstr "200 x 200"
-
-#~ msgid "256 x 256"
-#~ msgstr "256 x 256"
-
-#~ msgid "64 x 64"
-#~ msgstr "64 x 64"
-
-#~ msgid "85 x 85"
-#~ msgstr "85 x 85"
-
-#~ msgid "95 x 95"
-#~ msgstr "95 x 95"
-
-#~ msgid "<b>Direction</b>"
-#~ msgstr "<b>Правац</b>"
-
-#~ msgid "<b>Hide/Show</b>"
-#~ msgstr "<b>Склони/Прикажи</b>"
-
-#~ msgid "<b>Interface</b>"
-#~ msgstr "<b>Изглед</b>"
-
-#~ msgid "<b>Other</b>"
-#~ msgstr "<b>Остало</b>"
-
-#~ msgid "<b>Slide show</b>"
-#~ msgstr "<b>Покретни приказ</b>"
-
-#~ msgid "<b>View images as</b>"
-#~ msgstr "<b>Гледај слике као</b>"
-
-#~ msgid "<b>Viewer</b>"
-#~ msgstr "<b>Прегледач</b>"
-
-#~ msgid "<b>Zoom quality</b>"
-#~ msgstr "<b>Квалитет увећања</b>"
-
-#~ msgid "Activate items with a double click"
-#~ msgstr "Активирај ставке са двоструким притиском миша"
-
-#~ msgid "Activate items with a single click"
-#~ msgstr "Активирај ставке са једним притиском миша"
-
-#~ msgid "C_lick policy:"
-#~ msgstr "Политика клика:"
-
-#~ msgid "D_elay before changing image:"
-#~ msgstr "Од_ложи пре промене слике:"
-
-#~ msgid "Do _not change folder"
-#~ msgstr "_Не мењај директоријум"
-
-#~ msgid "Follow Nautilus behaviour"
-#~ msgstr "Прати понашање Наутилуса"
-
-#~ msgid "For_ward"
-#~ msgstr "На_пред"
-
-#~ msgid "Go to last _visited folder or catalog"
-#~ msgstr "Иди у последње _посећени директоријум или каталог"
-
-#~ msgid "H_igh"
-#~ msgstr "В_исоко"
-
-#~ msgid "Layout:"
-#~ msgstr "Распоред:"
-
-#~ msgid "Lo_w"
-#~ msgstr "Нис_ко"
-
-#~ msgid "Ran_dom"
-#~ msgstr "С_лучајно"
-
-#~ msgid "Re_verse"
-#~ msgstr "Об_рнуто"
-
-#~ msgid "_Filenames"
-#~ msgstr "_Имена датотека"
-
-#~ msgid "_List"
-#~ msgstr "_Списак"
-
-#~ msgid "_Slides"
-#~ msgstr "_Слајдови"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "16"
-#~ msgstr "16"
-
-#~ msgid "4"
-#~ msgstr "4"
-
-#~ msgid "8"
-#~ msgstr "8"
-
-#~ msgid "<b>Margins</b>"
-#~ msgstr "<b>Маргине</b>"
-
-#~ msgid "<b>Orientation</b>"
-#~ msgstr "<b>Усмерење</b>"
-
-#~ msgid "<b>Size</b>"
-#~ msgstr "<b>Величина</b>"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
-#~ "Click on an image to rotate it.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Пажња:</b> Превуците слику да је преместите на страни.\n"
-#~ "Кликните на слику да је ротирате.</i></small>"
-
-#~ msgid "A4"
-#~ msgstr "А4"
-
-#~ msgid "Executive"
-#~ msgstr "Извршни"
-
-#~ msgid "I_nclude comment"
-#~ msgstr "У_кључи примедбу"
-
-#~ msgid "Lan_dscape"
-#~ msgstr "Поп_реко"
-
-#~ msgid "Legal"
-#~ msgstr "Правни"
-
-#~ msgid "Letter"
-#~ msgstr "Писмо"
-
-#~ msgid "P_ortrait"
-#~ msgstr "У_здуж"
-
-#~ msgid "Paper Details"
-#~ msgstr "Детаљи за папир"
-
-#~ msgid "Postcard"
-#~ msgstr "Разгледница"
-
-#~ msgid "Tabloid"
-#~ msgstr "Таблоид"
-
-#~ msgid "_Bottom:"
-#~ msgstr "_Дно:"
-
-#~ msgid "<b>Search criteria</b>"
-#~ msgstr "<b>Критеријум претраге</b>"
-
-#~ msgid "Any"
-#~ msgstr "Било које"
-
-#~ msgid "Choose categories from the saved list"
-#~ msgstr "Одабери категорије из сачуваног списка"
-
-#~ msgid "Found images:"
-#~ msgstr "Пронађене слике:"
-
-#~ msgid "Match a_ll selected categories"
-#~ msgstr "Поклапање са с_вим изабраним категоријама"
-
-#~ msgid "Match a_ny selected category"
-#~ msgstr "Поклапање са _било којом изабраном категоријом"
-
-#~ msgid "New _Search..."
-#~ msgstr "Нова _претрага..."
-
-#~ msgid "Search Progress"
-#~ msgstr "НАпредак претраге"
-
-#~ msgid "<b>Write to CD</b>"
-#~ msgstr "<b>Упиши на ЦД</b>"
-
-#~ msgid ""
-#~ "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Пажња:</b> JPEG трансформације не умањују квалитет.</i></"
-#~ "small>"
-
-#~ msgid ""
-#~ "<small><i><b>Special characters:</b> # (enumerator), %f (original "
-#~ "filename), %d (image date), %s (image size).</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Нарочити знаци:</b> # (бројач), %f (изворно име), %d (датум "
-#~ "слике), %s (величина слике).</i></small>"
-
-#~ msgid "Adjust photo _orientation"
-#~ msgstr "Подеси ус_мерење слике"
-
-#~ msgid "Apply to _all images"
-#~ msgstr "Примени на _све слике"
-
-#~ msgid "Ca_talog"
-#~ msgstr "Ка_талог"
-
-#~ msgid "Check _All"
-#~ msgstr "Провери _све"
-
-#~ msgid "Check _None"
-#~ msgstr "Провери _ништа"
-
-#~ msgid "Checking image:"
-#~ msgstr "Проверавање слике:"
-
-#~ msgid "Equal images:"
-#~ msgstr "Изједначи слике:"
-
-#~ msgid "Mirror image vertically (top-bottom)"
-#~ msgstr "Одрази слику вертикално (врх-дно)"
-
-#~ msgid "P_hoto digitalization date (From EXIF data)"
-#~ msgstr "Датум _фото дигитализације (из EXIF података)"
-
-#~ msgid "Rotate Images"
-#~ msgstr "Ротирај слике"
-
-#~ msgid "by Size"
-#~ msgstr "по величини"
-
-#~ msgid "1024 x 768"
-#~ msgstr "1024 x 768"
-
-#~ msgid "1280 x 960"
-#~ msgstr "1280 x 960"
-
-#~ msgid "320 x 320"
-#~ msgstr "320 x 320"
-
-#~ msgid "640 x 640"
-#~ msgstr "640 x 640"
-
-#~ msgid "800 x 800"
-#~ msgstr "800 x 800"
-
-#~ msgid "<b>Album</b>"
-#~ msgstr "<b>Албум</b>"
-
-#~ msgid "<b>Index Layout</b>"
-#~ msgstr "<b>Распоред индекса</b>"
-
-#~ msgid "<b>Personalize theme</b>"
-#~ msgstr "<b>Прилагоди тему</b>"
-
-#~ msgid "<b>Photo data</b>"
-#~ msgstr "<b>Подаци о фотографији</b>"
-
-#~ msgid "<b>Theme</b>"
-#~ msgstr "<b>Тема</b>"
-
-#~ msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-#~ msgstr "<small><i><b>Пажња:</b> %d (текући датум).</i></small>"
-
-#~ msgid "Came_ra Model"
-#~ msgstr "Модел каме_ре"
-
-#~ msgid "Exposure _time"
-#~ msgstr "Дужина _експозиције"
-
-#~ msgid "Focal _length"
-#~ msgstr "Жижна даљ_ина"
-
-#~ msgid "Si_ze :"
-#~ msgstr "_Величина:"
-
-#~ msgid "Th_eme:"
-#~ msgstr "Т_ема"
-
-#~ msgid "Web Album Theme"
-#~ msgstr "Тема веб албума"
-
-#~ msgid "_Aperture value"
-#~ msgstr "Величина о_твора"
-
-#~ msgid "_Date and Time"
-#~ msgstr "_Датум и време"
-
-#~ msgid "_Flash"
-#~ msgstr "_Блиц"
-
-#~ msgid "_Go to Theme Folder"
-#~ msgstr "_Иди у директоријум са темама"
-
-#~ msgid "_Install Theme..."
-#~ msgstr "Инсталирај тему..."
-
-#~ msgid "_Shutter speed"
-#~ msgstr "_Брзина затварача"
-
-#~ msgid "by modified time"
-#~ msgstr "по времену измене"
-
-#~ msgid "columns"
-#~ msgstr "колоне"
-
-#~ msgid "index.html"
-#~ msgstr "index.html"
-
-#~ msgid "rows"
-#~ msgstr "реда"
-
-#~ msgid "Possible values are: 1, 2, 3, 4."
-#~ msgstr "Дозвољене вредности су: 1, 2, 3, 4."
-
-#~ msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
-#~ msgstr "Дозвољене вредности су: actual_size, fit, keep_prev, fit_if_larger."
-
-#~ msgid "Possible values are: ascending, descending."
-#~ msgstr "Дозвољене вредности су: ascending, descending."
-
-#~ msgid "Possible values are: forward, backward, random."
-#~ msgstr "Дозвољене вредности су: forward, backward, random."
-
-#~ msgid "Possible values are: high, low."
-#~ msgstr "Дозвољене вредности су: high, low."
-
-#~ msgid "Possible values are: image, data, comment."
-#~ msgstr "Дозвољене вредности су: image, data, comment."
-
-#~ msgid "Possible values are: jpeg, png, tga, tiff."
-#~ msgstr "Дозвољене вредности су: jpeg, png, tga, tiff."
-
-#~ msgid "Possible values are: light, midtone, dark."
-#~ msgstr "Дозвољене вредности су: light, midtone, dark."
-
-#~ msgid "Possible values are: list, thumbnails."
-#~ msgstr "Дозвољене вредности су: list, thumbnails."
-
-#~ msgid "Possible values are: name, path, size, time."
-#~ msgstr "Дозвољене вредности су: name, path, size, time."
-
-#~ msgid "Possible values are: name, size, time."
-#~ msgstr "Дозвољене вредности су: name, size, time."
-
-#~ msgid "Possible values are: nautilus, single, double."
-#~ msgstr "Дозвољене вредности су: nautilus, single, double."
-
-#~ msgid "Possible values are: none, deflate, jpeg."
-#~ msgstr "Дозвољене вредности су: none, deflate, jpeg."
-
-#~ msgid "Possible values are: none, name, path, size, time."
-#~ msgstr "Дозвољене вредности су: none, name, path, size, time."
-
-#~ msgid ""
-#~ "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
-#~ "shadow_in, shadow_out."
-#~ msgstr ""
-#~ "Дозвољене вредности су: none, simple, simple_with_shadow, shadow, slide, "
-#~ "shadow_in, shadow_out."
-
-#~ msgid ""
-#~ "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-#~ "custom."
-#~ msgstr ""
-#~ "Дозвољене вредности су: none, square, image, display, 4x3, 4x6, 5x7, "
-#~ "8x10, custom."
-
-#~ msgid "Possible values are: pixels, percentage."
-#~ msgstr "Дозвољене вредности су: pixels, percentage."
-
-#~ msgid "Possible values are: skip, rename, ask, overwrite."
-#~ msgstr "Дозвољене вредности су: skip, rename, ask, overwrite."
-
-#~ msgid "Possible values are: small, medium, large."
-#~ msgstr "Дозвољене вредности су: small, medium, large."
-
-#~ msgid ""
-#~ "Possible values are: system, text_below, text_beside, text_only, "
-#~ "icons_only."
-#~ msgstr ""
-#~ "Дозвољене вредности су: system, text_below, text_beside, text_only, "
-#~ "icons_only."
-
-#~ msgid "Library not empty"
-#~ msgstr "Библиотека није празна"
-
-#~ msgid "Cannot remove library \"%s\": %s"
-#~ msgstr "Не могу да уклоним библиотеку „%s“: %s"
-
-#~ msgid "Cannot remove catalog \"%s\": %s"
-#~ msgstr "Не могу да уклоним каталог „%s“: %s"
-
-#~ msgid "Cannot open catalog \"%s\": %s"
-#~ msgstr "Не могу да отворим каталог „%s“: %s"
-
-#~ msgid "Cannot save catalog \"%s\": %s"
-#~ msgstr "Не могу да сачувам каталог „%s“: %s"
-
-#~ msgid "Deleting all comments, wait please..."
-#~ msgstr "Брисање свих предлога, сачекајте..."
-
-#~ msgid "Deleting old comments, wait please..."
-#~ msgstr "Брисање старих предлога, молим сачекајте..."
-
-#~ msgid "%d %B %Y"
-#~ msgstr "%d %B %Y"
-
-#~ msgid "%d %B %Y, %H:%M"
-#~ msgstr "%d %B %Y, %H:%M"
-
-#~ msgid "(No Comment)"
-#~ msgstr "(Без коментара)"
-
-#~ msgid ""
-#~ "You don't have the right permissions to create images in the folder \"%s\""
-#~ msgstr ""
-#~ "Немате одговарајућа овлашћења да направите слике у „%s“ директоријуму"
-
-#~ msgid "Image type:"
-#~ msgstr "Врста слике:"
-
-#~ msgid "_Insert a new preview phrase."
-#~ msgstr "_Убаци нову фразу за приказ."
-
-#~ msgid "Modify preview phrase..."
-#~ msgstr "Измени фразу за приказ..."
-
-#~ msgid "_Modify preview phrase..."
-#~ msgstr "_Измени фразу за приказ..."
-
-#~ msgid "Sans Regular 12"
-#~ msgstr "Sans Regular 12"
-
-#~ msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-#~ msgstr "АаБбВвГгДдЂђЕеЖжЗзИиЈјКкЛлЉљМмНнЊњОоПпРрСсТтЋћУуФфХхЦцЧчЏџШшDdFfGgQqWwYy"
-
-#~ msgid "Pick a Font"
-#~ msgstr "Изаберите фонт"
-
-#~ msgid "The title of the selection dialog box"
-#~ msgstr "Наслов прозорчета за избор"
-
-#~ msgid "Font name"
-#~ msgstr "Име фонта"
-
-#~ msgid "Name of the selected font"
-#~ msgstr "Име изабраног фонта"
-
-#~ msgid "Preview text"
-#~ msgstr "Текст за приказ"
-
-#~ msgid "Preview text shown in the dialog"
-#~ msgstr "Текст за приказ који се појављује у прозорчету"
-
-#~ msgid "Use font in label"
-#~ msgstr "Користи фонт у ознаци"
-
-#~ msgid "Use font in the label in font info mode"
-#~ msgstr "Користи фонт у ознаци у режиму за приказ података о фонту"
-
-#~ msgid "Font size for label"
-#~ msgstr "Величина фонта за ознаку"
-
-#~ msgid "Font size for label in font info mode"
-#~ msgstr "Величина фонта за ознаку у режиму за приказ података о фонту"
-
-#~ msgid "Show size in font info mode"
-#~ msgstr "Прикажи величину у режиму за приказ података о фонту"
-
-#~ msgid "Wait please..."
-#~ msgstr "Молим сачекајте..."
-
-#~ msgid "No image"
-#~ msgstr "Нема слике"
-
-#~ msgid "(Invalid Name)"
-#~ msgstr "(Неисправно име)"
-
-#~ msgid "Loading image: %s"
-#~ msgstr "Учитавање слике: %s"
-
-#~ msgid "Deleting all thumbnails, wait please..."
-#~ msgstr "Брисање свих умањених слика, сачекајте..."
-
-#~ msgid "Deleting old thumbnails, wait please..."
-#~ msgstr "Брисање старих умањених слика, сачекајте..."
-
-#~ msgid "Move Catalog to..."
-#~ msgstr "Пребаци каталог у ..."
-
-#~ msgid "Enter the new category name"
-#~ msgstr "Унети ново име за категорију"
-
-#~ msgid ""
-#~ "The name \"%s\" is not valid because it contains the character \",\". "
-#~ "Please use a different name."
-#~ msgstr ""
-#~ "Име „%s“ није добро зато што садржи знак „/“. Молим користите неко друго "
-#~ "име."
-
-#~ msgid "The category \"%s\" is already present. Please use a different name."
-#~ msgstr "Категорија „%s“ већ постоји. Молим користите неко друго име."
-
-#~ msgid ""
-#~ "An image named \"%s\" is already present. Please specify a different name."
-#~ msgstr "Слика са именом „%s“ већ постоји. Молим наведите неко друго име."
-
-#~ msgid "_Overwrite"
-#~ msgstr "_Препиши"
-
-#~ msgid "%d x %d (Display)"
-#~ msgstr "%d x %d (екран)"
-
-#~ msgid "Duplicates Size"
-#~ msgstr "Величина дупликата"
-
-#~ msgid "Checked images will be moved to the Trash, are you sure?"
-#~ msgstr "Одабране слике ће бити пребачене у Ђубре, да ли сте сигурни?"
-
-#~ msgid "The destination folder does not exist. Do you want to create it?"
-#~ msgstr "Одредишни директоријум не постоји. Желите ли да направити?"
-
-#~ msgid "Could not create folder \"%s\": %s."
-#~ msgstr "Не могу да направим директоријум „%s“: %s."
-
-#~ msgid "_Do not display this message again"
-#~ msgstr "_Не приказуј више ову поруку"
-
-#~ msgid "You didn't enter the new name"
-#~ msgstr "Нисте унели ново име"
-
-#~ msgid ""
-#~ "The name \"%s\" is already used in this folder. Please use a different "
-#~ "name."
-#~ msgstr ""
-#~ "Име „%s“ је већ у употреби у овом директоријуму. Молим користите "
-#~ "другачије име."
-
-#~ msgid "_Abort"
-#~ msgstr "_Одустати"
-
-#~ msgid "Collecting images info"
-#~ msgstr "Сакуљање информација о сликама"
-
-#~ msgid "Copying file %ld of %ld"
-#~ msgstr "Умножавање датотеке %ld од %ld"
-
-#~ msgid "Information on Channel"
-#~ msgstr "Информација о каналу"
-
-#~ msgid "Film"
-#~ msgstr "Филм"
-
-#~ msgid "Could not create the folder \"%s\": %s"
-#~ msgstr "Не могу да направим директоријум „%s“: %s"
-
-#~ msgid "Folder"
-#~ msgstr "Директоријум"
-
-#~ msgid "Select Album Theme"
-#~ msgstr "Одаберите тему албума"
-
-#~ msgid "Enter the new name: "
-#~ msgstr "Унети ново име датотеке:"
-
-#~ msgid ""
-#~ "The name \"%s\" is not valid because it contains the character \"/\". "
-#~ "Please use a different name."
-#~ msgstr ""
-#~ "Име „%s“ није добро зато што садржи знак „/“. Молим користите неко друго "
-#~ "име."
-
-#~ msgid "source and destination are the same"
-#~ msgstr "извор и одредиште су исти"
-
-#~ msgid "The image will be moved to the Trash, are you sure?"
-#~ msgstr "Слика ће бити пребачена у Ђубре, да ли сте сигурни?"
-
-#~ msgid "Stop"
-#~ msgstr "Заустави"
-
-#~ msgid "The selected images will be moved to the Trash, are you sure?"
-#~ msgstr "Ознечене слике ће бити пребачене у Ђубре, да ли сте сигурни?"
-
-#~ msgid "The name \"%s\" is already used. Please use a different name."
-#~ msgstr "Име „%s“ је већ у употреби. Молим користите неко друго име."
-
-#~ msgid "Could not rename the library \"%s\": %s"
-#~ msgstr "Не могу да преименујем библиотеку „%s“: %s"
-
-#~ msgid "The selected library will be removed, are you sure?"
-#~ msgstr "Означена библиотека ће бити уклоњена, да ли сте сигурни?"
-
-#~ msgid "The selected catalog will be removed, are you sure?"
-#~ msgstr "Означени каталог ће бити уклоњен, да ли сте сигурни?"
-
-#~ msgid "Could not create the library \"%s\": %s"
-#~ msgstr "Не могу да направим библиотеку „%s“: %s"
-
-#~ msgid "Could not rename the folder \"%s\": %s"
-#~ msgstr "Не могу да променим име директоријума „%s“: %s"
-
-#~ msgid ""
-#~ "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-#~ msgstr ""
-#~ "„%s“ не може бити пребачен у смеће. Желите ли да га трајно обришете?"
-
-#~ msgid "The selected folder will be moved to the Trash, are you sure?"
-#~ msgstr "Означени директоријум ће бити пребачен у Ђубре, да ли сте сигурни?"
-
-#~ msgid "Could not copy the folder \"%s\": %s"
-#~ msgstr "Не могу да умножим директоријум „%s“: %s"
-
-#~ msgid "a folder with that name is already present."
-#~ msgstr "директоријум са тим именом већ постоји."
-
-#~ msgid "_Folder"
-#~ msgstr "_Директоријум"
-
-#~ msgid "Show/_Hide"
-#~ msgstr "Прикажи/_Склони"
-
-#~ msgid "S_ort Images"
-#~ msgstr "П_оређај слике"
-
-#~ msgid "_Zoom"
-#~ msgstr "У_већање"
-
-#~ msgid "_Transform"
-#~ msgstr "_Трансформиши"
-
-#~ msgid "Auto"
-#~ msgstr "Сам"
-
-#~ msgid "Set Image as _Wallpaper"
-#~ msgstr "Постави слику као _Тапет"
-
-#~ msgid "Create a new window"
-#~ msgstr "Направи нови прозор"
-
-#~ msgid "Open the selecte image in a new window"
-#~ msgstr "Отвори одабрану слику у новом прозору"
-
-#~ msgid "_Import Photos..."
-#~ msgstr "_Увези слике..."
-
-#~ msgid "_Write To CD"
-#~ msgstr "Упиши на _ЦД"
-
-#~ msgid "Write selection to CD"
-#~ msgstr "Упиши избор на ЦД"
-
-#~ msgid "_Rename..."
-#~ msgstr "_Промени име..."
-
-#~ msgid "Move this image to the Trash"
-#~ msgstr "Премести ову слику у Ђубре"
-
-#~ msgid "Move this image to another location"
-#~ msgstr "Премести ову слику на друго место"
-
-#~ msgid "Move selected images to another location"
-#~ msgstr "Премести одабране слике на друго место"
-
-#~ msgid "Select all images"
-#~ msgstr "Означи све слике"
-
-#~ msgid "Rename selected catalog"
-#~ msgstr "Промени име одабраног каталога"
-
-#~ msgid "Rem_ove"
-#~ msgstr "Укл_они"
-
-#~ msgid "Remove selected catalog"
-#~ msgstr "Уклони одабрани каталог"
-
-#~ msgid "Move selected catalog to another location"
-#~ msgstr "Премести тренутни каталог на друго место"
-
-#~ msgid "Modify search criteria"
-#~ msgstr "Измени критеријум претраге"
-
-#~ msgid "Redo _Search"
-#~ msgstr "Понови _претрагу"
-
-#~ msgid "New _Library..."
-#~ msgstr "Нова _библиотека..."
-
-#~ msgid "Create a new catalog library"
-#~ msgstr "Направи нову библиотеку каталога"
-
-#~ msgid "Rename current catalog"
-#~ msgstr "Промени име тренутног каталога"
-
-#~ msgid "Remove current catalog"
-#~ msgstr "Уклони тренутни каталог"
-
-#~ msgid "Move current catalog to another location"
-#~ msgstr "Премести тренутни директоријум на друго место"
-
-#~ msgid "Open the selected folder in a new window"
-#~ msgstr "Отвори одабрани директоријум у новом прозору"
-
-#~ msgid "Open the selected folder with the Nautilus file manager"
-#~ msgstr "Отвори означени директоријум са Наутилусом управником датотека"
-
-#~ msgid "Copy selected folder"
-#~ msgstr "Умножи означени директоријум"
-
-#~ msgid "Move selected folder"
-#~ msgstr "Премести одабрани директоријум"
-
-#~ msgid "Ca_tegories"
-#~ msgstr "Ка_тегорија"
-
-#~ msgid "Open current folder with the Nautilus file manager"
-#~ msgstr "Отвори тренутни директоријум са Наутилус управником датотека"
-
-#~ msgid "Rename current folder"
-#~ msgstr "Промени име треунтог директоријума"
-
-#~ msgid "Move the current folder to the Trash"
-#~ msgstr "Премести тренутни тиректоријум у Ђубре"
-
-#~ msgid "Copy current folder"
-#~ msgstr "Умножи тренутни директоријум"
-
-#~ msgid "Assign categories to the current folder"
-#~ msgstr "Додели категорије текућем директоријуму"
-
-#~ msgid "Go to the home folder"
-#~ msgstr "Иди у лични директоријум"
-
-#~ msgid "_Go to the Image Folder"
-#~ msgstr "_Иди у директоријум са сликама"
-
-#~ msgid "Create _Index Image"
-#~ msgstr "Направи _индекс слике"
-
-#~ msgid "_Rename Series"
-#~ msgstr "Преименуј _серије"
-
-#~ msgid "Convert F_ormat"
-#~ msgstr "Ф_ормат претварања"
-
-#~ msgid "Ro_tate Images"
-#~ msgstr "Ро_тирај слике"
-
-#~ msgid "_Image Preview"
-#~ msgstr "Пре_глед слике"
-
-#~ msgid "Image _Comment"
-#~ msgstr "_Примедба уз слику"
-
-#~ msgid "_Reversed Order"
-#~ msgstr "_Обрнути редослед"
-
-#~ msgid "Reverse images order"
-#~ msgstr "Обрни поредак слика"
-
-#~ msgid "by _Name"
-#~ msgstr "по _имену"
-
-#~ msgid "Sort images by name"
-#~ msgstr "Поређај слике по имену"
-
-#~ msgid "by _Path"
-#~ msgstr "по _путањи"
-
-#~ msgid "Sort images by path"
-#~ msgstr "Поређај слике по путањи"
-
-#~ msgid "by _Size"
-#~ msgstr "по _величини"
-
-#~ msgid "Sort images by modification time"
-#~ msgstr "Поређеј слике по времену измене"
-
-#~ msgid "View the catalogs"
-#~ msgstr "Погледај каталоге"
-
-#~ msgid "[Press 'c' to add a comment]"
-#~ msgstr "[Притисните „ц“ да додате примедбу]"
-
-#~ msgid "1 image (%s)"
-#~ msgstr "1 слика (%s)"
-
-#~ msgid "The current image has been modified, do you want to save it?"
-#~ msgstr "Текућа слика је измењена, желите ли да је сачувате?"
-
-#~ msgid "Dragged Images"
-#~ msgstr "Превучене слике"
-
-#~ msgid "Back"
-#~ msgstr "Назад"
-
-#~ msgid "Close"
-#~ msgstr "Затвори"
-
-#~ msgid "Cannot load folder \"%s\": %s\n"
-#~ msgstr "Не могу да учитам директоријум „%s“: %s\n"
-
-#~ msgid "The specified catalog does not exist."
-#~ msgstr "Наведени каталог не постоји."
-
-#~ msgid "Field"
-#~ msgstr "Поље"
-
-#~ msgid "Value "
-#~ msgstr "Вредност "
-
-#~ msgid "_Browse..."
-#~ msgstr "_Претражи..."
-
-#~ msgid "Restore Normal View"
-#~ msgstr "Врати нормални преглед"
-
-#~ msgid "Image Info"
-#~ msgstr "Подаци о слици"
-
-#~ msgid "Open selected images with an application"
-#~ msgstr "Отвори означене слике програмом"
-
-#~ msgid "Revert to saved image"
-#~ msgstr "Врати на сачувану слику"
-
-#~ msgid "Open this image with an application"
-#~ msgstr "Отвори ову слику са програмом"
-
-#~ msgid "Add a comment to selected images"
-#~ msgstr "Додати коментар означеним сликама"
-
-#~ msgid "Rem_ove Comment"
-#~ msgstr "Укл_они коментар"
-
-#~ msgid "Remove comments of selected images"
-#~ msgstr "Уклони коментаре одабраних слика"
-
-#~ msgid "Assign categories to selected images"
-#~ msgstr "Додели категорије одабраним сликама"
-
-#~ msgid "View the image rotated clockwise"
-#~ msgstr "Погледај слику ротирану у правцу кретања казаљке на сату"
-
-#~ msgid "View the image rotated counter-clockwise"
-#~ msgstr "Погледај слику ротирану у супротном правцу кретања казаљке на сату"
-
-#~ msgid "View the image flipped"
-#~ msgstr "Погледај преокренуту слику"
-
-#~ msgid "View the image mirrored"
-#~ msgstr "Погледај слику у одразу"
-
-#~ msgid "_Desaturate"
-#~ msgstr "_Незасићен"
-
-#~ msgid "View the image in black and white"
-#~ msgstr "Погледај слику као црно-белу"
-
-#~ msgid "View the image with negative colors"
-#~ msgstr "Погледај слику са бојама негатива"
-
-#~ msgid "Automatically adjust the color levels"
-#~ msgstr "Сам прилагоди нивое боја"
-
-#~ msgid "_Stretch Contrast"
-#~ msgstr "_Развуци контраст"
-
-#~ msgid "Automatically stretch the contrast"
-#~ msgstr "Аутоматски развући контраст"
-
-#~ msgid "_Posterize"
-#~ msgstr "_Направи плакат"
-
-#~ msgid "_Brightness-Contrast"
-#~ msgstr "_Светлина-контраст"
-
-#~ msgid "Adjust brightness and contrast"
-#~ msgstr "Подесити светлину и контраст"
-
-#~ msgid "_Hue-Saturation"
-#~ msgstr "_Нијанса-засићеност"
-
-#~ msgid "Adjust hue and saturation"
-#~ msgstr "Подеси нијансу и засићеност"
-
-#~ msgid "_Color Balance"
-#~ msgstr "_Однос боја"
-
-#~ msgid "Apply threshold"
-#~ msgstr "Примени праг"
-
-#~ msgid "_Rotate"
-#~ msgstr "_Ротирај"
-
-#~ msgid "Step A_nimation"
-#~ msgstr "А_нимација у корацима"
-
-#~ msgid "View image in fullscreen mode"
-#~ msgstr "Погледај слику преко целог екрана"
-
-#~ msgid "Set the image as desktop background (centered)"
-#~ msgstr "Намести слику у позадину радне површине (центирано)"
-
-#~ msgid "_Tiled"
-#~ msgstr "_Поравнато"
-
-#~ msgid "_Scaled"
-#~ msgstr "_Пропорционално"
-
-#~ msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-#~ msgstr ""
-#~ "Намести слику у позадину радне површине (пропорционално задржати "
-#~ "пропорције)"
-
-#~ msgid "Str_etched"
-#~ msgstr "Рашир_ено"
-
-#~ msgid "Set the image as desktop background (stretched)"
-#~ msgstr "Намести слику у позадину радне површине (раширено)"
-
-#~ msgid "Restore the original desktop wallpaper"
-#~ msgstr "Врати оригинални тапет на радној површини"
-
-#~ msgid "Play _Animation"
-#~ msgstr "Пусти _анимацију"
-
-#~ msgid "_High Quality"
-#~ msgstr "_Добар квалитет"
-
-#~ msgid "Use high quality zoom"
-#~ msgstr "Користи увећање доброг квалитета"
-
-#~ msgid "_Low Quality"
-#~ msgstr "_Лош квалитет"
-
-#~ msgid "Use low quality zoom"
-#~ msgstr "Користи увећање лошег квалитета"
-
-#~ msgid "Open the selected image in a new window"
-#~ msgstr "Отвори одабрану слику у новом прозору"
