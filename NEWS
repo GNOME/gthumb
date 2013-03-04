@@ -1,3 +1,20 @@
+version 3.1.4
+-------------
+
+ Bugs fixed:
+
+ * Fixed creation of blur thumbnails for jpeg images
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Rafael Ferreira)
+  * Español (Daniel Mustieles)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Serbian (Мирослав Николић)
+  * Serbian (Miroslav Nikolić)
+  * Slovenian (Matej Urbančič)
+
 version 3.1.3
 -------------
 
