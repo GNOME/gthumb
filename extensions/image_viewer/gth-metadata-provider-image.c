@@ -170,6 +170,40 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 				}
 			}
 #endif /* HAVE_LIBWEBP */
+
+			else if ((size >= 26)
+				 && (strncmp ((char *) buffer, "gimp xcf ", 9) == 0))
+			{
+				/* XCF */
+
+				GInputStream      *mem_stream;
+				GDataInputStream  *data_stream;
+
+				mem_stream = g_memory_input_stream_new_from_data (buffer, BUFFER_SIZE, NULL);
+				data_stream = g_data_input_stream_new (mem_stream);
+				g_data_input_stream_set_byte_order (data_stream, G_DATA_STREAM_BYTE_ORDER_BIG_ENDIAN);
+
+				if (g_seekable_seek (G_SEEKABLE (data_stream), 14, G_SEEK_SET, NULL, NULL)) {
+					int base_type;
+
+					width  = g_data_input_stream_read_uint32 (data_stream, NULL, NULL);
+					height = g_data_input_stream_read_uint32 (data_stream, NULL, NULL);
+					base_type = g_data_input_stream_read_uint32 (data_stream, NULL, NULL);
+					if (base_type == 0)
+						description = "XCF RGB";
+					else if (base_type == 1)
+						description = "XCF grayscale";
+					else if (base_type == 2)
+						description = "XCF indexed";
+					else
+						description = "XCF";
+					mime_type = "image/x-xcf";
+					format_recognized = TRUE;
+				}
+
+				g_object_unref (data_stream);
+				g_object_unref (mem_stream);
+			}
 		}
 
 		g_free (buffer);

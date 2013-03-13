@@ -32,6 +32,8 @@ enum-types.c: $(HEADER_FILES)
 libcairo_io_la_SOURCES = 		\
 	cairo-image-surface-png.c	\
 	cairo-image-surface-png.h	\
+	cairo-image-surface-xcf.c	\
+	cairo-image-surface-xcf.h	\
 	gth-image-saver-png.c         	\
         gth-image-saver-png.h         	\
         gth-image-saver-tga.c         	\
