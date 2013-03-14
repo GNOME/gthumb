@@ -196,3 +196,38 @@ _gdk_pixbuf_get_type_from_mime_type (const char *mime_type)
 	else
 		return g_strdup (mime_type);
 }
+
+
+gboolean
+_gdk_pixbuf_mime_type_is_readable (const char *mime_type)
+{
+	GSList   *formats;
+	GSList   *scan;
+	gboolean  result;
+
+	if (mime_type == NULL)
+		return FALSE;
+
+	result = FALSE;
+	formats = gdk_pixbuf_get_formats ();
+	for (scan = formats; ! result && scan; scan = scan->next) {
+		GdkPixbufFormat  *format = scan->data;
+		char            **mime_types;
+		int               i;
+
+		if (gdk_pixbuf_format_is_disabled (format))
+			continue;
+
+		mime_types = gdk_pixbuf_format_get_mime_types (format);
+		for (i = 0; mime_types[i] != NULL; i++) {
+			if (strcmp (mime_type, mime_types[i]) == 0) {
+				result = TRUE;
+				break;
+			}
+		}
+	}
+
+	g_slist_free (formats);
+
+	return result;
+}

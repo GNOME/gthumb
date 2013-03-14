@@ -255,13 +255,21 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 {
 	WallpaperData *wdata;
 	gboolean       saving_wallpaper = FALSE;
-	GthFileData   *file_data;
 	GList         *items;
 	GList         *file_list;
+	GthFileData   *file_data;
+	const char    *mime_type;
 
 	wdata = wallpaper_data_new (browser);
 
-	if (gth_main_extension_is_active ("image_viewer") && gth_browser_get_file_modified (browser)) {
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	file_data = (file_list != NULL) ? file_list->data : NULL;
+	mime_type = (file_data != NULL) ? gth_file_data_get_mime_type (file_data) : NULL;
+
+	if (gth_main_extension_is_active ("image_viewer")
+	    && (gth_browser_get_file_modified (browser) || ! _gdk_pixbuf_mime_type_is_readable (mime_type)))
+	{
 		GtkWidget *viewer_page;
 
 		viewer_page = gth_browser_get_viewer_page (browser);
@@ -291,12 +299,6 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 	if (saving_wallpaper)
 		return;
 
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	if (file_list == NULL)
-		return;
-
-	file_data = file_list->data;
 	if (file_data == NULL)
 		return;
 

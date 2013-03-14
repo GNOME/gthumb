@@ -39,6 +39,7 @@ GdkPixbuf * _gdk_pixbuf_scale_simple_safe        (const GdkPixbuf *src,
 GdkPixbuf * _gdk_pixbuf_transform                (GdkPixbuf       *src,
 					          GthTransform     transform);
 char *      _gdk_pixbuf_get_type_from_mime_type  (const char      *mime_type);
+gboolean    _gdk_pixbuf_mime_type_is_readable    (const char      *mime_type);
 
 G_END_DECLS
 
