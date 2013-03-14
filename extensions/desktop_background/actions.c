@@ -28,39 +28,75 @@
 
 #define DESKTOP_BACKGROUND_PROPERTIES_COMMAND "gnome-control-center background"
 #define DESKTOP_BACKGROUND_SCHEMA "org.gnome.desktop.background"
-#define DESKTOP_BACKGROUND_KEY "picture-uri"
+#define DESKTOP_BACKGROUND_FILE_KEY "picture-uri"
+#define DESKTOP_BACKGROUND_STYLE_KEY "picture-options"
 
 
-static GFile *
-get_current_wallpaper (void)
+typedef enum {
+	BACKGROUND_STYLE_NONE,
+	BACKGROUND_STYLE_WALLPAPER,
+	BACKGROUND_STYLE_CENTERED,
+	BACKGROUND_STYLE_SCALED,
+	BACKGROUND_STYLE_STRETCHED,
+	BACKGROUND_STYLE_ZOOM,
+	BACKGROUND_STYLE_SPANNED
+} BackgroundStyle;
+
+
+typedef struct {
+	GFile           *file;
+	BackgroundStyle  background_style;
+} WallpaperStyle;
+
+
+typedef struct {
+	GthBrowser     *browser;
+	WallpaperStyle  old_style;
+	WallpaperStyle  new_style;
+	gulong          response_id;
+} WallpaperData;
+
+
+static void
+wallpaper_style_init (WallpaperStyle *style)
 {
-	GFile     *file = NULL;
-	GSettings *settings;
-	char      *uri;
-
-	settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
-	uri = g_settings_get_string (settings, DESKTOP_BACKGROUND_KEY);
-	if (uri != NULL)
-		file = g_file_new_for_uri (uri);
-
-	g_free (uri);
-	g_object_unref (settings);
-
-	return file;
+	style->file = NULL;
+	style->background_style = BACKGROUND_STYLE_WALLPAPER;
 }
 
 
 static void
-set_current_wallpaper_file (GFile *file)
+wallpaper_style_init_from_current (WallpaperStyle *style)
+{
+	GSettings *settings;
+	char      *uri;
+
+	settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
+	uri = g_settings_get_string (settings, DESKTOP_BACKGROUND_FILE_KEY);
+	style->file = (uri != NULL) ? g_file_new_for_uri (uri) : NULL;
+	style->background_style = g_settings_get_enum (settings, DESKTOP_BACKGROUND_STYLE_KEY);
+
+	g_free (uri);
+	g_object_unref (settings);
+}
+
+
+static void
+wallpaper_style_set_as_current (WallpaperStyle *style)
 {
 	char *uri;
 
-	uri = g_file_get_uri (file);
+	if (style->file == NULL)
+		return;
+
+	uri = g_file_get_uri (style->file);
 	if (uri != NULL) {
 		GSettings *settings;
 
 		settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
-		g_settings_set_string (settings, DESKTOP_BACKGROUND_KEY, uri);
+		g_settings_set_string (settings, DESKTOP_BACKGROUND_FILE_KEY, uri);
+		g_settings_set_enum (settings, DESKTOP_BACKGROUND_STYLE_KEY, style->background_style);
+
 		g_object_unref (settings);
 	}
 
@@ -68,12 +104,12 @@ set_current_wallpaper_file (GFile *file)
 }
 
 
-typedef struct {
-	GthBrowser *browser;
-	GFile      *old_file;
-	GFile      *new_file;
-	gulong      response_id;
-} WallpaperData;
+static void
+wallpaper_style_free (WallpaperStyle *style)
+{
+	_g_object_unref (style->file);
+	wallpaper_style_init (style);
+}
 
 
 static GFile *
@@ -92,7 +128,7 @@ get_wallpaper_file_n (int n)
 
 
 static GFile *
-get_wallpaper_file (void)
+get_new_wallpaper_file (void)
 {
 	GFile *wallpaper_file;
 
@@ -107,7 +143,7 @@ get_wallpaper_file (void)
 			g_file_delete (wallpaper_file, NULL, NULL);
 	}
 
-	return 	wallpaper_file;
+	return wallpaper_file;
 }
 
 
@@ -116,11 +152,11 @@ wallpaper_data_new (GthBrowser *browser)
 {
 	WallpaperData *wdata;
 
-
 	wdata = g_new0 (WallpaperData, 1);
 	wdata->browser = browser;
-	wdata->old_file = get_current_wallpaper ();
-	wdata->new_file = get_wallpaper_file ();
+	wallpaper_style_init_from_current (&wdata->old_style);
+	wallpaper_style_init (&wdata->new_style);
+	wdata->new_style.file = get_new_wallpaper_file ();
 
 	return wdata;
 }
@@ -130,8 +166,8 @@ static void
 wallpaper_data_free (WallpaperData *wdata)
 {
 	g_signal_handler_disconnect (gth_browser_get_infobar (wdata->browser), wdata->response_id);
-	_g_object_unref (wdata->old_file);
-	_g_object_unref (wdata->new_file);
+	wallpaper_style_free (&wdata->old_style);
+	wallpaper_style_free (&wdata->new_style);
 	g_free (wdata);
 }
 
@@ -161,8 +197,7 @@ infobar_response_cb (GtkInfoBar *info_bar,
 		break;
 
 	case _RESPONSE_UNDO:
-		if (wdata->old_file != NULL)
-			set_current_wallpaper_file (wdata->old_file);
+		wallpaper_style_set_as_current (&wdata->old_style);
 		break;
 	}
 
@@ -176,7 +211,7 @@ wallpaper_data_set (WallpaperData *wdata)
 {
 	GtkWidget *infobar;
 
-	set_current_wallpaper_file (wdata->new_file);
+	wallpaper_style_set_as_current (&wdata->new_style);
 
 	infobar = gth_browser_get_infobar (wdata->browser);
 	gth_info_bar_set_icon (GTH_INFO_BAR (infobar), GTK_STOCK_DIALOG_INFO);
@@ -185,7 +220,7 @@ wallpaper_data_set (WallpaperData *wdata)
 		char *name;
 		char *msg;
 
-		name = _g_file_get_display_name (wdata->new_file);
+		name = _g_file_get_display_name (wdata->new_style.file);
 		msg = g_strdup_printf ("The image \"%s\" has been set as desktop background", name);
 		gth_info_bar_set_primary_text (GTH_INFO_BAR (infobar), msg);
 
@@ -203,7 +238,7 @@ wallpaper_data_set (WallpaperData *wdata)
 				  NULL);
 	gtk_info_bar_set_response_sensitive (GTK_INFO_BAR (infobar),
 					     _RESPONSE_UNDO,
-					     wdata->old_file != NULL);
+					     wdata->old_style.file != NULL);
 	wdata->response_id = g_signal_connect (infobar,
 			  	  	       "response",
 			  	  	       G_CALLBACK (infobar_response_cb),
@@ -278,7 +313,7 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 			GthTask  *task;
 
 			image = gth_image_new_for_surface (gth_image_viewer_page_get_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
-			file_data = gth_file_data_new (wdata->new_file, NULL);
+			file_data = gth_file_data_new (wdata->new_style.file, NULL);
 			task = gth_save_image_task_new (image,
 							"image/jpeg",
 							file_data,
@@ -303,13 +338,13 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 		return;
 
 	if (g_file_is_native (file_data->file)) {
-		_g_object_unref (wdata->new_file);
-		wdata->new_file = g_file_dup (file_data->file);
+		_g_object_unref (wdata->new_style.file);
+		wdata->new_style.file = g_file_dup (file_data->file);
 		wallpaper_data_set (wdata);
 	}
 	else
 		g_file_copy_async (file_data->file,
-				   wdata->new_file,
+				   wdata->new_style.file,
 				   G_FILE_COPY_OVERWRITE,
 				   G_PRIORITY_DEFAULT,
 				   NULL,
