@@ -132,36 +132,6 @@ static int cairo_indexed[2] = { 0, CAIRO_ALPHA };
 /* -- GDataInputStream functions -- */
 
 
-static gsize
-_g_data_input_stream_read_byte_array (GDataInputStream  *stream,
-				      guchar            *byte_array,
-				      gsize              size,
-				      GCancellable      *cancellable,
-				      GError           **error)
-{
-	GError *local_error = NULL;
-	gsize   i;
-
-	for (i = 0; i < size; i++) {
-		guchar byte;
-
-		byte = g_data_input_stream_read_byte (stream, cancellable, &local_error);
-		if (local_error != NULL) {
-			/* ignore end-of-stream errors */
-			if (local_error->code != G_IO_ERROR_FAILED)
-				g_propagate_error (error, local_error);
-			else
-				g_error_free (local_error);
-			break;
-		}
-
-		byte_array[i] = byte;
-	}
-
-	return i;
-}
-
-
 static char *
 _g_data_input_stream_read_c_string (GDataInputStream  *stream,
 				    gsize              size,
@@ -169,13 +139,12 @@ _g_data_input_stream_read_c_string (GDataInputStream  *stream,
 				    GError           **error)
 {
 	char *string;
-	int   i;
 
 	g_return_val_if_fail (size > 0, NULL);
 
-	string = g_new0 (char, size + 1);
-	for (i = 0; i < size; i++)
-		string[i] = (char) g_data_input_stream_read_byte (stream, cancellable, error);
+	string = g_new (char, size + 1);
+	g_input_stream_read (G_INPUT_STREAM (stream), string, size, cancellable, error);
+	string[size] = 0;
 
 	return string;
 }
@@ -974,7 +943,7 @@ _cairo_image_surface_create_from_hierarchy (GDataInputStream  *data_stream,
 			}
 
 			tile_data = g_malloc (tile_data_size);
-			data_read = _g_data_input_stream_read_byte_array (data_stream, tile_data, tile_data_size, cancellable, error);
+			data_read = g_input_stream_read (G_INPUT_STREAM (data_stream), tile_data, tile_data_size, cancellable, error);
 			if (*error != NULL)
 				goto rle_error;
 
@@ -1172,7 +1141,7 @@ rle_error:
 			}
 
 			tile_data = g_malloc (tile_data_size);
-			data_read = _g_data_input_stream_read_byte_array (data_stream, tile_data, tile_data_size, cancellable, error);
+			data_read = g_input_stream_read (G_INPUT_STREAM (data_stream), tile_data, tile_data_size, cancellable, error);
 			if (*error != NULL) {
 				g_free (tile_data);
 				goto read_error;
