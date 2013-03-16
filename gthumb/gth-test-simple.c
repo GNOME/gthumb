@@ -109,6 +109,7 @@ struct _GthTestSimplePrivate
 	GtkWidget       *date_op_combo_box;
 	GtkWidget       *size_combo_box;
 	GtkWidget       *time_selector;
+	GtkWidget       *spinbutton;
 };
 
 
@@ -174,13 +175,6 @@ gth_test_simple_finalize (GObject *object)
 }
 
 
-static GtkWidget *
-create_control_for_integer (GthTestSimple *test)
-{
-	return NULL;
-}
-
-
 static gboolean
 text_entry_focus_in_event_cb (GtkEntry      *entry,
 			      GdkEventFocus *event,
@@ -225,6 +219,84 @@ size_combo_box_changed_cb (GtkComboBox   *combo_box,
 {
 	gth_test_update_from_control (GTH_TEST (test), NULL);
 	gth_test_changed (GTH_TEST (test));
+}
+
+
+static void
+spinbutton_changed_cb (GtkSpinButton *spinbutton,
+                       GthTestSimple *test)
+{
+	gth_test_update_from_control (GTH_TEST (test), NULL);
+	gth_test_changed (GTH_TEST (test));
+}
+
+
+static void
+focus_event_cb (GtkWidget     *widget,
+                GdkEvent      *event,
+                GthTestSimple *test)
+{
+	gth_test_update_from_control (GTH_TEST (test), NULL);
+	gth_test_changed (GTH_TEST (test));
+}
+
+
+static GtkWidget *
+create_control_for_integer (GthTestSimple *test)
+{
+	GtkWidget *control;
+	int        i, op_idx;
+
+	control = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+
+	/* text operation combo box */
+
+	test->priv->text_op_combo_box = gtk_combo_box_text_new ();
+	gtk_widget_show (test->priv->text_op_combo_box);
+
+	op_idx = 0;
+	for (i = 0; i < G_N_ELEMENTS (int_op_data); i++) {
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (test->priv->text_op_combo_box),
+						_(int_op_data[i].name));
+		if ((int_op_data[i].op == test->priv->op) && (int_op_data[i].negative == test->priv->negative))
+			op_idx = i;
+	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX (test->priv->text_op_combo_box), op_idx);
+
+	g_signal_connect (G_OBJECT (test->priv->text_op_combo_box),
+			  "changed",
+			  G_CALLBACK (size_op_combo_box_changed_cb),
+			  test);
+
+	/* spin button */
+
+	test->priv->spinbutton = gtk_spin_button_new_with_range (0, 5, 1);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (test->priv->spinbutton), 0);
+	gtk_widget_show (test->priv->spinbutton);
+
+	g_signal_connect (G_OBJECT (test->priv->spinbutton),
+			  "change-value",
+			  G_CALLBACK (spinbutton_changed_cb),
+			  test);
+	g_signal_connect (G_OBJECT (test->priv->spinbutton),
+			  "activate",
+			  G_CALLBACK (size_text_entry_activate_cb),
+			  test);
+	g_signal_connect (G_OBJECT (test->priv->spinbutton),
+			  "focus-in-event",
+			  G_CALLBACK (focus_event_cb),
+			  test);
+	g_signal_connect (G_OBJECT (test->priv->spinbutton),
+			  "focus-out-event",
+			  G_CALLBACK (focus_event_cb),
+			  test);
+
+	/**/
+
+	gtk_box_pack_start (GTK_BOX (control), test->priv->text_op_combo_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (control), test->priv->spinbutton, FALSE, FALSE, 0);
+
+	return control;
 }
 
 
@@ -805,13 +877,7 @@ update_from_control_for_integer (GthTestSimple  *self,
 	op_data = int_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->text_op_combo_box))];
 	self->priv->op = op_data.op;
 	self->priv->negative = op_data.negative;
-	gth_test_simple_set_data_as_int (self, atol (gtk_entry_get_text (GTK_ENTRY (self->priv->text_entry))));
-
-	if (self->priv->data.i == 0) {
-		if (error != NULL)
-			*error = g_error_new (GTH_TEST_ERROR, 0, _("The test definition is incomplete"));
-		return FALSE;
-	}
+	gth_test_simple_set_data_as_int (self, gtk_spin_button_get_value_as_int  (GTK_ENTRY (self->priv->spinbutton)));
 
 	return TRUE;
 }
