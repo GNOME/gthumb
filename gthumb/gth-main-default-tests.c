@@ -224,6 +224,27 @@ get_embedded_description_for_test (GthTest        *test,
 }
 
 
+static gint64
+get_embedded_rating_for_test (GthTest        *test,
+			      GthFileData    *file,
+			      gconstpointer  *data,
+			      GDestroyNotify *data_destroy_func)
+{
+	GthMetadata *metadata;
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file->info, "general::rating");
+	if (metadata != NULL) {
+		int rating;
+
+		sscanf (gth_metadata_get_raw (metadata), "%d", &rating);
+		fprintf(stderr, "Rating: %d\n", rating);
+		return rating;
+	}
+
+	return 0;
+}
+
+
 void
 gth_main_register_default_tests (void)
 {
@@ -316,6 +337,13 @@ gth_main_register_default_tests (void)
 				  "display-name", _("Description (embedded)"),
 				  "data-type", GTH_TEST_DATA_TYPE_STRING,
 				  "get-data-func", get_embedded_description_for_test,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "general::rating", GTH_TYPE_TEST_SIMPLE,
+				  "attributes", "general::rating",
+				  "display-name", _("Rating"),
+				  "data-type", GTH_TEST_DATA_TYPE_INT,
+				  "get-data-func", get_embedded_rating_for_test,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "general::tags",
