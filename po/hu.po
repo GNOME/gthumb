@@ -6,14 +6,14 @@
 # Laszlo Dvornik <dvornik at gnome dot hu>, 2004.
 # Balazs Ur <urbalazs at gmail dot com>, 2011.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2005, 2007, 2009, 2011, 2012.
-# Balázs Úr <urbalazs at gmail dot com>, 2012.
+# Balázs Úr <urbalazs at gmail dot com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-12-23 20:43+0000\n"
-"PO-Revision-Date: 2012-12-29 13:23+0100\n"
+"POT-Creation-Date: 2013-02-16 21:21+0000\n"
+"PO-Revision-Date: 2013-03-20 22:25+0100\n"
 "Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -92,7 +92,7 @@ msgid "Show session management options"
 msgstr "Munkamenet-kezelési kapcsolók megjelenítése"
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:535
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:578
 #: ../gthumb/gth-progress-dialog.c:390 ../gthumb/main.c:315
 msgid "gThumb"
 msgstr "gThumb"
@@ -690,12 +690,12 @@ msgstr "_Módszer:"
 msgid "_Lossless"
 msgstr "_Veszteségmentes"
 
-#: ../extensions/cairo_io/gth-image-saver-jpeg.c:515
+#: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:140
 msgid "JPEG"
 msgstr "JPEG"
 
-#: ../extensions/cairo_io/gth-image-saver-png.c:352
+#: ../extensions/cairo_io/gth-image-saver-png.c:353
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:110
 msgid "PNG"
 msgstr "PNG"
@@ -706,15 +706,15 @@ msgstr "PNG"
 msgid "Insufficient memory"
 msgstr "Kevés a memória"
 
-#: ../extensions/cairo_io/gth-image-saver-tga.c:343
+#: ../extensions/cairo_io/gth-image-saver-tga.c:344
 msgid "TGA"
 msgstr "TGA"
 
-#: ../extensions/cairo_io/gth-image-saver-tiff.c:558
+#: ../extensions/cairo_io/gth-image-saver-tiff.c:559
 msgid "TIFF"
 msgstr "TIFF"
 
-#: ../extensions/cairo_io/gth-image-saver-webp.c:381
+#: ../extensions/cairo_io/gth-image-saver-webp.c:382
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:165
 msgid "WebP"
 msgstr "WebP"
@@ -847,7 +847,7 @@ msgstr "Parancssor"
 #: ../extensions/catalogs/callbacks.c:501
 #: ../extensions/photo_importer/dlg-photo-importer.c:364
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
-#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:883
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1093
 msgid "(Empty)"
 msgstr "(Üres)"
 
@@ -1062,7 +1062,7 @@ msgstr "Nem lehet eltávolítani a fájlokat a katalógusból"
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:746
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:755
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:785
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1319
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1320
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Érvénytelen fájlformátum"
@@ -1494,7 +1494,7 @@ msgstr "Nem sikerült törölni a témát"
 msgid "Creating images"
 msgstr "Képek létrehozása"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:895
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:896
 msgid "Generating thumbnails"
 msgstr "Bélyegképek előállítása"
 
@@ -1844,7 +1844,6 @@ msgid "Face_book..."
 msgstr "Face_book…"
 
 #: ../extensions/facebook/callbacks.c:60
-#| msgid "Download photos from Flickr"
 msgid "Download photos from Facebook"
 msgstr "Fényképek letöltése a Facebookról"
 
@@ -2037,7 +2036,7 @@ msgstr "Nem lehet exportálni a fájlokat"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:616
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:1073
+#: ../gthumb/gth-browser.c:1116
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2114,14 +2113,14 @@ msgstr "Nem sikerült feltölteni a(z) „%s” fájlt: %s"
 msgid "Uploading '%s'"
 msgstr "„%s” feltöltése"
 
-#: ../extensions/facebook/facebook-service.c:922
+#: ../extensions/facebook/facebook-service.c:923
 #: ../extensions/flicker_utils/flickr-service.c:1482
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "Fájlok feltöltése a kiszolgálóra"
 
-#: ../extensions/facebook/facebook-service.c:1021
+#: ../extensions/facebook/facebook-service.c:1022
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
@@ -2235,6 +2234,7 @@ msgstr "A kijelölt fájlok áthelyezése a Kukába"
 #: ../extensions/file_manager/callbacks.c:187
 #: ../extensions/file_manager/callbacks.c:223
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
+#: ../gthumb/gth-tags-entry.c:871
 msgid "_Delete"
 msgstr "_Törlés"
 
@@ -2288,7 +2288,7 @@ msgstr "A kijelölt fájlok áthelyezése egy másik mappába"
 
 #: ../extensions/file_manager/callbacks.c:999
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5141 ../gthumb/gth-browser.c:5175
+#: ../gthumb/gth-browser.c:5234 ../gthumb/gth-browser.c:5268
 #: ../gthumb/gth-progress-dialog.c:406
 msgid "Could not perform the operation"
 msgstr "Nem sikerült végrehajtani a műveletet"
@@ -2415,12 +2415,10 @@ msgid "Method"
 msgstr "Módszer"
 
 #: ../extensions/file_tools/data/ui/grayscale-options.ui.h:2
-#| msgid "B_rightness:"
 msgid "_Brightness"
 msgstr "_Fényerősség"
 
 #: ../extensions/file_tools/data/ui/grayscale-options.ui.h:3
-#| msgid "_Saturation:"
 msgid "_Saturation"
 msgstr "_Telítettség"
 
@@ -2585,7 +2583,6 @@ msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Fényerő, kontraszt, telítettség és gamma szintek állítása a képen"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:304
-#| msgid "Adjust Colors"
 msgid "Adjust Contrast"
 msgstr "Kontraszt beállítása"
 
@@ -2706,7 +2703,6 @@ msgid "Flip the image vertically"
 msgstr "Kép tükrözése függőlegesen"
 
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:507
-#| msgid "Personalize..."
 msgid "Grayscale..."
 msgstr "Szürkeárnyalatos…"
 
@@ -3008,7 +3004,6 @@ msgstr "Ha készen van, kattintson a lenti „Folytatás” gombra."
 
 #: ../extensions/flicker_utils/flickr-service.c:571
 #, c-format
-#| msgid "gthumb requires your authorization to upload the photos to %s"
 msgid "gThumb requires your authorization to upload the photos to %s"
 msgstr "A gThumb megköveteli az engedélyezést a fotók feltöltéséhez ide: %s"
 
@@ -3025,20 +3020,20 @@ msgstr ""
 
 #: ../extensions/gstreamer_tools/actions.c:66
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1072
-#: ../gthumb/gth-browser.c:2101
+#: ../gthumb/gth-browser.c:2175
 msgid "Could not save the file"
 msgstr "Nem lehet elmenteni a fájlt"
 
-#: ../extensions/gstreamer_tools/actions.c:126
+#: ../extensions/gstreamer_tools/actions.c:130
 msgid "Could not take a screenshot"
 msgstr "Nem lehet képernyőképet készíteni"
 
-#: ../extensions/gstreamer_tools/actions.c:132
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1243
+#: ../extensions/gstreamer_tools/actions.c:136
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1245
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: ../extensions/gstreamer_tools/actions.c:152
+#: ../extensions/gstreamer_tools/actions.c:156
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Képernyőkép"
@@ -3167,9 +3162,9 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:395
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1298
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1300
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:209
-#: ../extensions/webalbums/gth-web-exporter.c:2444 ../gthumb/gtk-utils.c:1027
+#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1037
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3281,7 +3276,7 @@ msgid "Loading \"%s\""
 msgstr "„%s” betöltése"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:166
-#: ../extensions/webalbums/gth-web-exporter.c:2716
+#: ../extensions/webalbums/gth-web-exporter.c:2719
 msgid "Loading images"
 msgstr "Képek betöltése"
 
@@ -3323,8 +3318,8 @@ msgstr "A beágyazott tájolás visszaállítása a képek elforgatása nélkül
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:141
-#: ../extensions/webalbums/gth-web-exporter.c:2337
-#: ../extensions/webalbums/gth-web-exporter.c:2421
+#: ../extensions/webalbums/gth-web-exporter.c:2338
+#: ../extensions/webalbums/gth-web-exporter.c:2423
 msgid "Saving images"
 msgstr "Képek mentése"
 
@@ -3825,7 +3820,7 @@ msgid "A_ccounts:"
 msgstr "F_iókok:"
 
 #: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
-#: ../gthumb/gth-folder-tree.c:857
+#: ../gthumb/gth-folder-tree.c:1067
 msgid "Loading..."
 msgstr "Betöltés…"
 
@@ -4004,7 +3999,7 @@ msgid "Could not load the folder"
 msgstr "Nem lehet betölteni a mappát"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
-#: ../gthumb/gth-browser.c:2015
+#: ../gthumb/gth-browser.c:2089
 msgid "Getting folder listing..."
 msgstr "Mappafelsorolás lekérdezése…"
 
@@ -4609,27 +4604,27 @@ msgid "The album has been created successfully."
 msgstr "Az album sikeresen létrejött."
 
 #: ../extensions/webalbums/gth-web-exporter.c:2104
-#: ../extensions/webalbums/gth-web-exporter.c:2131
+#: ../extensions/webalbums/gth-web-exporter.c:2132
 msgid "Saving thumbnails"
 msgstr "Bélyegképek mentése"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2159
+#: ../extensions/webalbums/gth-web-exporter.c:2160
 msgid "Saving HTML pages: Images"
 msgstr "HTML-oldalak mentése: képek"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2217
+#: ../extensions/webalbums/gth-web-exporter.c:2218
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML-oldalak mentése: mutatók"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2500
+#: ../extensions/webalbums/gth-web-exporter.c:2503
 msgid "Copying original images"
 msgstr "Eredeti képek másolása"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2960
+#: ../extensions/webalbums/gth-web-exporter.c:2963
 msgid "Could not find the style folder"
 msgstr "Nem található a stílus mappa"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2998
+#: ../extensions/webalbums/gth-web-exporter.c:3001
 msgid "Could not create a temporary folder"
 msgstr "Nem lehet létrehozni az átmeneti könyvtárat"
 
@@ -4641,9 +4636,9 @@ msgstr "Webalbumok"
 msgid "Create static web albums."
 msgstr "Statikus webalbumok létrehozása."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1337
-#: ../gthumb/gth-browser.c:1906 ../gthumb/gth-browser.c:6121
-#: ../gthumb/gth-browser.c:6140 ../gthumb/gth-browser.c:6164
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1396
+#: ../gthumb/gth-browser.c:1969 ../gthumb/gth-browser.c:6214
+#: ../gthumb/gth-browser.c:6233 ../gthumb/gth-browser.c:6257
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nem lehet betölteni a(z) „%s” pozíciót"
@@ -4904,15 +4899,15 @@ msgstr "Átváltás teljes képernyőre"
 msgid "Leave Fullscreen"
 msgstr "Teljes képernyő elhagyása"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3766
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3841
 msgid "Go to the previous visited location"
 msgstr "Ugrás az előző meglátogatott helyre"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3784
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3859
 msgid "Go to the next visited location"
 msgstr "Ugrás a következő meglátogatott helyre"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3802
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3877
 msgid "Go up one level"
 msgstr "Ugrás egy szinttel feljebb"
 
@@ -4924,7 +4919,7 @@ msgstr "_Hely…"
 msgid "Specify a location to open"
 msgstr "Adja meg a megnyitandó helyet"
 
-#: ../gthumb/gth-browser-actions-entries.h:173 ../gthumb/gth-browser.c:678
+#: ../gthumb/gth-browser-actions-entries.h:173 ../gthumb/gth-browser.c:721
 msgid "_Delete History"
 msgstr "Előzmények _törlése"
 
@@ -5032,67 +5027,67 @@ msgstr "_Ablak igazítása a képhez"
 msgid "Resize the window to the size of the image"
 msgstr "Az ablak átméretezése a kép méretéhez"
 
-#: ../gthumb/gth-browser.c:375
+#: ../gthumb/gth-browser.c:418
 #, c-format
 msgid "Open %s"
 msgstr "%s megnyitása"
 
-#: ../gthumb/gth-browser.c:515
+#: ../gthumb/gth-browser.c:558
 msgid "[modified]"
 msgstr "[módosítva]"
 
-#: ../gthumb/gth-browser.c:1074
+#: ../gthumb/gth-browser.c:1117
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d fájl kijelölve (%s)"
 msgstr[1] "%d fájl kijelölve (%s)"
 
-#: ../gthumb/gth-browser.c:1109
+#: ../gthumb/gth-browser.c:1152
 #, c-format
 msgid "%s of free space"
 msgstr "%s szabad hely"
 
-#: ../gthumb/gth-browser.c:1999 ../gthumb/gth-browser.c:2026
+#: ../gthumb/gth-browser.c:2073 ../gthumb/gth-browser.c:2100
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nem található megfelelő modul ehhez: %s"
 
-#: ../gthumb/gth-browser.c:2145
+#: ../gthumb/gth-browser.c:2219
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Menti a módosításokat a(z) „%s” fájlba?"
 
-#: ../gthumb/gth-browser.c:2150
+#: ../gthumb/gth-browser.c:2224
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Ha nem menti, a fájl módosításai azonnal elvesznek."
 
-#: ../gthumb/gth-browser.c:2151
+#: ../gthumb/gth-browser.c:2225
 msgid "Do _Not Save"
 msgstr "_Ne mentse"
 
-#: ../gthumb/gth-browser.c:2945 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:3020 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nem lehet megváltoztatni a nevet"
 
-#: ../gthumb/gth-browser.c:3376 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3451 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Módosítva"
 
-#: ../gthumb/gth-browser.c:3767 ../gthumb/gth-browser.c:3785
+#: ../gthumb/gth-browser.c:3842 ../gthumb/gth-browser.c:3860
 msgid "View the list of visited locations"
 msgstr "A meglátogatott helyek listájának megtekintése"
 
-#: ../gthumb/gth-browser.c:3803
+#: ../gthumb/gth-browser.c:3878
 msgid "View the list of upper locations"
 msgstr "A felső helyek listájának megtekintése"
 
-#: ../gthumb/gth-browser.c:6122
+#: ../gthumb/gth-browser.c:6215
 #, c-format
 msgid "File type not supported"
 msgstr "A fájltípus nem támogatott"
 
-#: ../gthumb/gth-browser.c:6165
+#: ../gthumb/gth-browser.c:6258
 #, c-format
 msgid "No suitable module found"
 msgstr "Nem található megfelelő modul"
@@ -5187,7 +5182,7 @@ msgstr "csökkenő"
 msgid "No limit specified"
 msgstr "Nincs korlát meghatározva"
 
-#: ../gthumb/gth-folder-tree.c:1100
+#: ../gthumb/gth-folder-tree.c:1369
 msgid "(Open Parent)"
 msgstr "(Szülő megnyitása)"
 
@@ -5235,7 +5230,7 @@ msgstr "Nem lehet átnevezni fájlt"
 msgid "No options available for this file type"
 msgstr "Nincs elérhető beállítás ehhez a fájltípushoz"
 
-#: ../gthumb/gth-image-saver.c:181
+#: ../gthumb/gth-image-saver.c:185
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Nem található megfelelő modul a kép „%s”-ként való mentéséhez"
@@ -5325,12 +5320,19 @@ msgstr "Művelet megszakítása"
 msgid "Saving file information"
 msgstr "Fájlinformációk mentése"
 
-#: ../gthumb/gth-tags-entry.c:388
+#. Translators: %s is a filename
+#: ../gthumb/gth-save-image-task.c:160
+#, c-format
+#| msgid "Starting %s"
+msgid "Saving '%s'"
+msgstr "„%s” mentése"
+
+#: ../gthumb/gth-tags-entry.c:390
 #, c-format
 msgid "Create tag «%s»"
 msgstr "„%s” címke létrehozása"
 
-#: ../gthumb/gth-tags-entry.c:735
+#: ../gthumb/gth-tags-entry.c:814
 msgid "Show all the tags"
 msgstr "Minden címke megjelenítése"
 
@@ -5467,27 +5469,27 @@ msgstr "A jelenlegi ablak bezárása"
 msgid "Close _All Windows"
 msgstr "Min_den ablak bezárása"
 
-#: ../gthumb/gtk-utils.c:499
+#: ../gthumb/gtk-utils.c:490
 msgid "Could not display help"
 msgstr "Nem jeleníthető meg a súgó"
 
-#: ../gthumb/gtk-utils.c:800 ../gthumb/gtk-utils.c:807
+#: ../gthumb/gtk-utils.c:810 ../gthumb/gtk-utils.c:817
 msgid "Could not launch the application"
 msgstr "Nem indítható el az alkalmazás"
 
-#: ../gthumb/gtk-utils.c:910
+#: ../gthumb/gtk-utils.c:920
 msgid "_Copy Here"
 msgstr "_Másolás ide"
 
-#: ../gthumb/gtk-utils.c:915
+#: ../gthumb/gtk-utils.c:925
 msgid "_Move Here"
 msgstr "Á_thelyezés ide"
 
-#: ../gthumb/gtk-utils.c:920
+#: ../gthumb/gtk-utils.c:930
 msgid "_Link Here"
 msgstr "_Linkelés ide"
 
-#: ../gthumb/gtk-utils.c:929
+#: ../gthumb/gtk-utils.c:939
 msgid "Cancel"
 msgstr "Mégse"
 
