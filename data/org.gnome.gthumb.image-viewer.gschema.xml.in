@@ -39,10 +39,6 @@
     <key name="check-size" enum="org.gnome.gthumb.GthCheckSize">
       <default>'medium'</default>
     </key>
-    <key name="black-background" type="b">
-      <default>true</default>
-      <_description>Whether to always use a black background.</_description>
-    </key>
   </schema>
 
 </schemalist>

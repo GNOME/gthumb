@@ -518,19 +518,6 @@ pref_check_size_changed (GSettings *settings,
 
 
 static void
-pref_black_background_changed (GSettings *settings,
-		   	       char      *key,
-		   	       gpointer   user_data)
-{
-	GthImageViewerPage *self = user_data;
-
-	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer),
-					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_BLACK_BACKGROUND));
-	gtk_widget_queue_draw (self->priv->viewer);
-}
-
-
-static void
 pref_reset_scrollbars_changed (GSettings *settings,
 		   	       char      *key,
 		   	       gpointer   user_data)
@@ -727,8 +714,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_TYPE));
 	gth_image_viewer_set_check_size (GTH_IMAGE_VIEWER (self->priv->viewer),
 					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_SIZE));
-	gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer),
-					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_BLACK_BACKGROUND));
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
 					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
 
@@ -794,10 +779,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_CHECK_SIZE,
 			  G_CALLBACK (pref_check_size_changed),
-			  self);
-	g_signal_connect (self->priv->settings,
-			  "changed::" PREF_IMAGE_VIEWER_BLACK_BACKGROUND,
-			  G_CALLBACK (pref_black_background_changed),
 			  self);
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_RESET_SCROLLBARS,
@@ -973,19 +954,8 @@ static void
 gth_image_viewer_page_real_fullscreen (GthViewerPage *base,
 				       gboolean       active)
 {
-	GthImageViewerPage *self;
-
-	self = (GthImageViewerPage *) base;
-
-	if (active) {
-		gth_image_navigator_set_automatic_scrollbars (GTH_IMAGE_NAVIGATOR (self->priv->image_navigator), FALSE);
-		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), TRUE);
-	}
-	else {
-		gth_image_navigator_set_automatic_scrollbars (GTH_IMAGE_NAVIGATOR (self->priv->image_navigator), TRUE);
-		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer),
-						       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_BLACK_BACKGROUND));
-	}
+	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (base);
+	gth_image_navigator_set_automatic_scrollbars (GTH_IMAGE_NAVIGATOR (self->priv->image_navigator), ! active);
 }
 
 

@@ -36,7 +36,6 @@
 #define PREF_IMAGE_VIEWER_RESET_SCROLLBARS  "reset-scrollbars"
 #define PREF_IMAGE_VIEWER_CHECK_TYPE        "check-type"
 #define PREF_IMAGE_VIEWER_CHECK_SIZE        "check-size"
-#define PREF_IMAGE_VIEWER_BLACK_BACKGROUND  "black-background"
 
 void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 						 GthBrowser *browser,

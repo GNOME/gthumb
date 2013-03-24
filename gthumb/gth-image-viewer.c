@@ -1527,9 +1527,9 @@ gth_image_viewer_init (GthImageViewer *self)
 	self->priv->play_animation = TRUE;
 	self->priv->cursor_visible = TRUE;
 
-	self->priv->frame_visible = TRUE;
-	self->priv->frame_border = GTH_IMAGE_VIEWER_FRAME_BORDER;
-	self->priv->frame_border2 = GTH_IMAGE_VIEWER_FRAME_BORDER2;
+	self->priv->frame_visible = FALSE;
+	self->priv->frame_border = 0;
+	self->priv->frame_border2 = 0;
 
 	self->priv->anim_id = 0;
 	self->priv->iter = NULL;
@@ -1552,7 +1552,7 @@ gth_image_viewer_init (GthImageViewer *self)
 	self->priv->double_click = FALSE;
 	self->priv->just_focused = FALSE;
 
-	self->priv->black_bg = FALSE;
+	self->priv->black_bg = TRUE;
 
 	self->priv->cursor = NULL;
 	self->priv->cursor_void = NULL;
