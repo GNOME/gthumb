@@ -1,3 +1,24 @@
+version 3.2.0
+-------------
+
+ New features and user visible changes:
+
+  * added ability load xcf images
+  * always use a dark background in the image viewer
+
+ New or updated application translations:
+
+  * Deutsch (Christian Kirbach)
+  * French (Claude Paroz)
+  * Hungarian (Balázs Úr)
+  * Italiano (Gianvito Cavasoli)
+
+ New or updated manual translations:
+
+  * Deutsch (Mario Blättermann)
+  * French (Bruno Brouard)
+  * čeština (Marek Černocký)
+
 version 3.1.4
 -------------
 
