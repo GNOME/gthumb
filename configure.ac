@@ -518,16 +518,16 @@ AC_SUBST(LIBSOUP_LIBS)
 
 dnl ===========================================================================
 
-AC_ARG_ENABLE([json_glib],
+AC_ARG_ENABLE([libjson_glib],
 	      [AS_HELP_STRING([--disable-libjson-glib],[do not compile code that uses the libjson-glib library])],,
-	      [enable_json_glib=yes])
+	      [enable_libjson_glib=yes])
 
-if test x$enable_json_glib = xyes ; then
+if test x$enable_libjson_glib = xyes ; then
 	PKG_CHECK_MODULES(JSON_GLIB,
 			  [json-glib-1.0 >= $JSON_GLIB_REQUIRED],
 			  [AC_DEFINE(HAVE_JSON_GLIB, 1, [Have libjson-glib])
-			   enable_json_glib=yes],
-			  [enable_json_glib=no])
+			   enable_libjson_glib=yes],
+			  [enable_libjson_glib=no])
 fi
 AC_SUBST(JSON_GLIB_CFLAGS)
 AC_SUBST(JSON_GLIB_LIBS)
@@ -548,7 +548,7 @@ fi
 AC_SUBST(WEBKIT2_CFLAGS)
 AC_SUBST(WEBKIT2_LIBS)
 
-if [ test "x$enable_libsoup" = xyes && test "x$enable_json_glib" = xyes && test "x$enable_webkit2" = xyes ] ; then
+if [ test "x$enable_libsoup" = xyes && test "x$enable_libjson_glib" = xyes && test "x$enable_webkit2" = xyes ] ; then
   enable_web_services=yes
 else
   enable_web_services=no
