@@ -418,7 +418,7 @@ AC_SUBST(TIFF_LIBS)
 dnl ===========================================================================
 
 AC_ARG_ENABLE([libwebp],
-	      [AS_HELP_STRING([--enable-libwebp],[compile code that uses the libwebp library])],,
+	      [AS_HELP_STRING([--disable-libwebp],[do not compile code that uses the libwebp library])],,
 	      [enable_libwebp=yes])
 
 if test x$enable_libwebp = xyes ; then
