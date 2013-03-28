@@ -108,8 +108,14 @@ gboolean
 gstreamer_init (void)
 {
 	if (! gstreamer_initialized) {
-		if (! gst_init_check (NULL, NULL, NULL))
+		GError *error = NULL;
+
+		if (! gst_init_check (NULL, NULL, &error)) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
 			return FALSE;
+		}
+
 		gstreamer_initialized = TRUE;
 	}
 

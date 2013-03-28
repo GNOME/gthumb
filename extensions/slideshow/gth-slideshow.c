@@ -36,6 +36,7 @@
 #define HIDE_CURSOR_DELAY 1
 #define HIDE_PAUSED_SIGN_DELAY 1
 #define DEFAULT_DELAY 2000
+#define _GST_PLAY_FLAG_AUDIO (1 << 1)
 
 
 G_DEFINE_TYPE (GthSlideshow, gth_slideshow, GTK_TYPE_WINDOW)
@@ -353,25 +354,36 @@ _gth_slideshow_toggle_pause (GthSlideshow *self)
 
 
 #if HAVE_GSTREAMER
-static void
-bus_message_cb (GstBus     *bus,
-                GstMessage *message,
-                gpointer    user_data)
+
+
+static gboolean
+player_done_cb (gpointer user_data)
 {
 	GthSlideshow *self = user_data;
 
-	if (GST_MESSAGE_TYPE (message) == GST_MESSAGE_EOS) {
-		self->priv->current_audio_file++;
-		if ((self->priv->audio_files[self->priv->current_audio_file] == NULL)
-		    && self->priv->audio_loop)
-		{
-			self->priv->current_audio_file = 0;
-		}
-		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
-		g_object_set (G_OBJECT (self->priv->playbin), "uri", self->priv->audio_files[self->priv->current_audio_file], NULL);
-		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+	self->priv->current_audio_file++;
+	if ((self->priv->audio_files[self->priv->current_audio_file] == NULL)
+	    && self->priv->audio_loop)
+	{
+		self->priv->current_audio_file = 0;
 	}
+	gst_element_set_state (self->priv->playbin, GST_STATE_READY);
+	g_object_set (G_OBJECT (self->priv->playbin), "uri", self->priv->audio_files[self->priv->current_audio_file], NULL);
+	gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+
+	return FALSE;
 }
+
+
+static void
+pipeline_eos_cb (GstBus     *bus,
+                 GstMessage *message,
+                 gpointer    user_data)
+{
+	g_idle_add (player_done_cb, user_data);
+}
+
+
 #endif
 
 
@@ -394,12 +406,17 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 			GstBus *bus;
 
 			self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
+			g_object_set (self->priv->playbin,
+				      "audio-sink", gst_element_factory_make ("gsettingsaudiosink", "audiosink"),
+				      "flags", _GST_PLAY_FLAG_AUDIO,
+				      "volume", 1.0,
+				      NULL);
 			bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
 			gst_bus_add_signal_watch (bus);
-			g_signal_connect (bus, "message", G_CALLBACK (bus_message_cb), self);
+			g_signal_connect (bus, "message::eos", G_CALLBACK (pipeline_eos_cb), self);
 		}
 		else
-			gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
+			gst_element_set_state (self->priv->playbin, GST_STATE_READY);
 		g_object_set (G_OBJECT (self->priv->playbin), "uri", self->priv->audio_files[self->priv->current_audio_file], NULL);
 		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
 	}
