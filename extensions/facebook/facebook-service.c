@@ -30,15 +30,16 @@
 #include "facebook-service.h"
 
 
+#define GTHUMB_FACEBOOK_NAMESPACE "gthumbviewer"
+#define GTHUMB_FACEBOOK_APP_ID "110609985627460"
+#define GTHUMB_FACEBOOK_APP_SECRET "8c0b99672a9bbc159ebec3c9a8240679"
 #define FACEBOOK_API_VERSION "1.0"
 #define FACEBOOK_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT 2
 #define FACEBOOK_HTTP_SERVER "https://www.facebook.com"
 #define FACEBOOK_MAX_IMAGE_SIZE 2048
 #define FACEBOOK_MIN_IMAGE_SIZE 720
-#define FACEBOOK_REDIRECT_URI "https://www.facebook.com/connect/login_success.html"
+#define FACEBOOK_REDIRECT_URI "https://apps.facebook.com/" GTHUMB_FACEBOOK_NAMESPACE
 #define FACEBOOK_SERVICE_ERROR_TOKEN_EXPIRED 190
-#define GTHUMB_FACEBOOK_API_KEY "1536ca726857c69843423d0312b9b356"
-#define GTHUMB_FACEBOOK_SHARED_SECRET "8c0b99672a9bbc159ebec3c9a8240679"
 
 
 /* -- post_photos_data -- */
@@ -81,6 +82,7 @@ G_DEFINE_TYPE (FacebookService, facebook_service, WEB_TYPE_SERVICE)
 
 
 struct _FacebookServicePrivate {
+	char           *state;
 	char           *token;
 	PostPhotosData *post_photos;
 };
@@ -93,6 +95,7 @@ facebook_service_finalize (GObject *object)
 
 	post_photos_data_free (self->priv->post_photos);
 	g_free (self->priv->token);
+	g_free (self->priv->state);
 
 	G_OBJECT_CLASS (facebook_service_parent_class)->finalize (object);
 }
@@ -146,7 +149,8 @@ get_access_type_name (WebAuthorization access_type)
 
 
 static char *
-facebook_utils_get_authorization_url (WebAuthorization access_type)
+facebook_utils_get_authorization_url (WebAuthorization  access_type,
+				      const char       *state)
 {
 	GHashTable *data_set;
 	GString    *link;
@@ -154,10 +158,11 @@ facebook_utils_get_authorization_url (WebAuthorization access_type)
 	GList      *scan;
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (data_set, "client_id", GTHUMB_FACEBOOK_API_KEY);
+	g_hash_table_insert (data_set, "client_id", GTHUMB_FACEBOOK_APP_ID);
 	g_hash_table_insert (data_set, "redirect_uri", FACEBOOK_REDIRECT_URI);
 	g_hash_table_insert (data_set, "scope", get_access_type_name (access_type));
 	g_hash_table_insert (data_set, "response_type", "token");
+	g_hash_table_insert (data_set, "state", (char *) state);
 
 	link = g_string_new ("https://www.facebook.com/dialog/oauth?");
 	keys = g_hash_table_get_keys (data_set);
@@ -257,17 +262,40 @@ ask_authorization_dialog_redirected_cb (OAuthAskAuthorizationDialog *dialog,
 		const char *uri_data;
 		GHashTable *data;
 		const char *access_token;
+		const char *state;
 
 		uri_data = uri + strlen (FACEBOOK_REDIRECT_URI "#");
 
 		data = soup_form_decode (uri_data);
-		access_token = g_hash_table_lookup (data, "access_token");
-		_facebook_service_set_access_token (self, access_token);
+		access_token = NULL;
+		state = g_hash_table_lookup (data, "state");
+		if (g_strcmp0 (state, self->priv->state) == 0) {
+			access_token = g_hash_table_lookup (data, "access_token");
+			_facebook_service_set_access_token (self, access_token);
+		}
+
 		gtk_dialog_response (GTK_DIALOG (dialog),
 				     (access_token != NULL) ? GTK_RESPONSE_OK : GTK_RESPONSE_CANCEL);
 
 		g_hash_table_destroy (data);
 	}
+}
+
+
+static char *
+facebook_create_state_for_authorization (void)
+{
+	GTimeVal  t;
+	char     *s;
+	char     *v;
+
+	g_get_current_time (&t);
+	s = g_strdup_printf ("%ld%u", t.tv_usec, g_random_int ());
+	v = g_compute_checksum_for_string (G_CHECKSUM_MD5, s, -1);
+
+	g_free (s);
+
+	return v;
 }
 
 
@@ -277,7 +305,10 @@ facebook_service_ask_authorization (WebService *base)
 	FacebookService *self = FACEBOOK_SERVICE (base);
 	GtkWidget       *dialog;
 
-	dialog = oauth_ask_authorization_dialog_new (facebook_utils_get_authorization_url (WEB_AUTHORIZATION_WRITE));
+	g_free (self->priv->state);
+	self->priv->state = facebook_create_state_for_authorization ();
+
+	dialog = oauth_ask_authorization_dialog_new (facebook_utils_get_authorization_url (WEB_AUTHORIZATION_WRITE, self->priv->state));
 	_gtk_window_resize_to_fit_screen_height (dialog, 1024);
 	_web_service_set_auth_dialog (WEB_SERVICE (self), GTK_DIALOG (dialog));
 
@@ -379,6 +410,7 @@ static void
 facebook_service_init (FacebookService *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FACEBOOK_TYPE_SERVICE, FacebookServicePrivate);
+	self->priv->state = NULL;
 	self->priv->token = NULL;
 	self->priv->post_photos = NULL;
 }
