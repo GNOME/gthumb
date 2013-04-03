@@ -344,6 +344,7 @@ gth_main_register_default_tests (void)
 				  "display-name", _("Rating"),
 				  "data-type", GTH_TEST_DATA_TYPE_INT,
 				  "get-data-func", get_embedded_rating_for_test,
+				  "int-max", 5,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "general::tags",

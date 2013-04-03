@@ -86,7 +86,8 @@ enum {
         PROP_DATA_AS_DATE,
         PROP_GET_DATA,
         PROP_OP,
-        PROP_NEGATIVE
+        PROP_NEGATIVE,
+        PROP_INT_MAX
 };
 
 
@@ -101,6 +102,7 @@ struct _GthTestSimplePrivate
 	GthTestGetData   get_data;
 	GthTestOp        op;
 	gboolean         negative;
+	gint64           int_max;
 	GPatternSpec    *pattern;
 	gboolean         has_focus;
 	GtkWidget       *text_entry;
@@ -270,7 +272,7 @@ create_control_for_integer (GthTestSimple *test)
 
 	/* spin button */
 
-	test->priv->spinbutton = gtk_spin_button_new_with_range (0, 5, 1);
+	test->priv->spinbutton = gtk_spin_button_new_with_range (0, test->priv->int_max, 1);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (test->priv->spinbutton), 0);
 	gtk_widget_show (test->priv->spinbutton);
 
@@ -1076,6 +1078,10 @@ gth_test_simple_set_property (GObject      *object,
 		test->priv->negative = g_value_get_boolean (value);
 		break;
 
+	case PROP_INT_MAX:
+		test->priv->int_max = g_value_get_int (value);
+		break;
+
 	default:
 		break;
 	}
@@ -1119,6 +1125,10 @@ gth_test_simple_get_property (GObject    *object,
 
 	case PROP_NEGATIVE:
 		g_value_set_boolean (value, test->priv->negative);
+		break;
+
+	case PROP_INT_MAX:
+		g_value_set_int (value, test->priv->int_max);
 		break;
 
 	default:
@@ -1198,6 +1208,16 @@ gth_test_simple_class_init (GthTestSimpleClass *class)
                                                                "Whether to negate the test result",
                                                                FALSE,
                                                                G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class,
+					 PROP_INT_MAX,
+					 g_param_spec_int ("int-max",
+                                                           "Integer Max",
+                                                           "Max integer value",
+                                                           G_MININT,
+                                                           G_MAXINT,
+                                                           0,
+                                                           G_PARAM_READWRITE));
 }
 
 
