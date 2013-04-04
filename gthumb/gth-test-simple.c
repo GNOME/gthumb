@@ -1031,6 +1031,7 @@ gth_test_simple_real_duplicate (GthDuplicable *duplicable)
 	new_test->priv->get_data = test->priv->get_data;
 	new_test->priv->op = test->priv->op;
 	new_test->priv->negative = test->priv->negative;
+	new_test->priv->int_max = test->priv->int_max;
 
 	return (GObject *) new_test;
 }
