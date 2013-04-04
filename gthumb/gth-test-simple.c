@@ -87,7 +87,7 @@ enum {
         PROP_GET_DATA,
         PROP_OP,
         PROP_NEGATIVE,
-        PROP_INT_MAX
+        PROP_MAX_INT
 };
 
 
@@ -102,7 +102,7 @@ struct _GthTestSimplePrivate
 	GthTestGetData   get_data;
 	GthTestOp        op;
 	gboolean         negative;
-	gint64           int_max;
+	gint64           max_int;
 	GPatternSpec    *pattern;
 	gboolean         has_focus;
 	GtkWidget       *text_entry;
@@ -272,7 +272,7 @@ create_control_for_integer (GthTestSimple *test)
 
 	/* spin button */
 
-	test->priv->spinbutton = gtk_spin_button_new_with_range (0, test->priv->int_max, 1);
+	test->priv->spinbutton = gtk_spin_button_new_with_range (0, test->priv->max_int, 1);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (test->priv->spinbutton), 0);
 	gtk_widget_show (test->priv->spinbutton);
 
@@ -1031,7 +1031,7 @@ gth_test_simple_real_duplicate (GthDuplicable *duplicable)
 	new_test->priv->get_data = test->priv->get_data;
 	new_test->priv->op = test->priv->op;
 	new_test->priv->negative = test->priv->negative;
-	new_test->priv->int_max = test->priv->int_max;
+	new_test->priv->max_int = test->priv->max_int;
 
 	return (GObject *) new_test;
 }
@@ -1079,8 +1079,8 @@ gth_test_simple_set_property (GObject      *object,
 		test->priv->negative = g_value_get_boolean (value);
 		break;
 
-	case PROP_INT_MAX:
-		test->priv->int_max = g_value_get_int (value);
+	case PROP_MAX_INT:
+		test->priv->max_int = g_value_get_int (value);
 		break;
 
 	default:
@@ -1128,8 +1128,8 @@ gth_test_simple_get_property (GObject    *object,
 		g_value_set_boolean (value, test->priv->negative);
 		break;
 
-	case PROP_INT_MAX:
-		g_value_set_int (value, test->priv->int_max);
+	case PROP_MAX_INT:
+		g_value_set_int (value, test->priv->max_int);
 		break;
 
 	default:
@@ -1211,10 +1211,10 @@ gth_test_simple_class_init (GthTestSimpleClass *class)
                                                                G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class,
-					 PROP_INT_MAX,
-					 g_param_spec_int ("int-max",
-                                                           "Integer Max",
-                                                           "Max integer value",
+					 PROP_MAX_INT,
+					 g_param_spec_int ("max-int",
+                                                           "Max integer",
+                                                           "Max value for integers",
                                                            G_MININT,
                                                            G_MAXINT,
                                                            0,

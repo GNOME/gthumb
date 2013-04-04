@@ -339,12 +339,13 @@ gth_main_register_default_tests (void)
 				  "get-data-func", get_embedded_description_for_test,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
-				  "general::rating", GTH_TYPE_TEST_SIMPLE,
+				  "general::rating",
+				  GTH_TYPE_TEST_SIMPLE,
 				  "attributes", "general::rating",
 				  "display-name", _("Rating"),
 				  "data-type", GTH_TEST_DATA_TYPE_INT,
 				  "get-data-func", get_embedded_rating_for_test,
-				  "int-max", 5,
+				  "max-int", 5,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "general::tags",
