@@ -339,7 +339,7 @@ create_control_for_size (GthFilter *filter)
 
 	/* limit entry */
 
-	filter->priv->limit_spinbutton = gtk_spin_button_new_with_range (0, G_MAXDOUBLE, 1.0);
+	filter->priv->limit_spinbutton = gtk_spin_button_new_with_range (0, G_MAXINT, 1.0);
 	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (filter->priv->limit_spinbutton), 1);
 	gtk_widget_show (filter->priv->limit_spinbutton);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (limit_label), filter->priv->limit_spinbutton);
