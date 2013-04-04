@@ -879,7 +879,7 @@ update_from_control_for_integer (GthTestSimple  *self,
 	op_data = int_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->text_op_combo_box))];
 	self->priv->op = op_data.op;
 	self->priv->negative = op_data.negative;
-	gth_test_simple_set_data_as_int (self, gtk_spin_button_get_value_as_int  (GTK_ENTRY (self->priv->spinbutton)));
+	gth_test_simple_set_data_as_int (self, gtk_spin_button_get_value_as_int  (GTK_SPIN_BUTTON (self->priv->spinbutton)));
 
 	return TRUE;
 }
