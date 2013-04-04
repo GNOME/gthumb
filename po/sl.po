@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-01-24 15:43+0000\n"
-"PO-Revision-Date: 2013-01-26 20:31+0100\n"
+"POT-Creation-Date: 2013-04-04 10:36+0000\n"
+"PO-Revision-Date: 2013-04-04 21:18+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -149,10 +149,6 @@ msgstr "Mogoče vrednosti so: bela, črna, šahovnica, brez."
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:2
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr "Ali naj se položaji drsnika po spremembi slike ponastavi"
-
-#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
-msgid "Whether to always use a black background."
-msgstr "Ali naj bo vedno uporabljeno črno ozadje."
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
 msgid "Possible values are: jpeg, jpg."
@@ -949,12 +945,12 @@ msgstr "_Predogled kataloga:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
 #: ../extensions/edit_metadata/gth-edit-general-page.c:558
-#: ../gthumb/gth-main-default-tests.c:300
+#: ../gthumb/gth-main-default-tests.c:321
 msgid "Date photo was taken"
 msgstr "Datum zajema fotografije"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:2
-#: ../gthumb/gth-main-default-tests.c:292
+#: ../gthumb/gth-main-default-tests.c:313
 msgid "File modified date"
 msgstr "Datum spremembe datoteke"
 
@@ -968,7 +964,7 @@ msgid "tag"
 msgstr "oznaka"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:5
-#: ../gthumb/gth-main-default-tests.c:324
+#: ../gthumb/gth-main-default-tests.c:354
 msgid "Tag (embedded)"
 msgstr "Oznaka (vključena)"
 
@@ -1207,6 +1203,7 @@ msgid "Date"
 msgstr "Datum"
 
 #: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:54
+#: ../gthumb/gth-main-default-tests.c:345
 msgid "Rating"
 msgstr "Ocena"
 
@@ -1556,12 +1553,12 @@ msgstr "Uporabi _privzeto mapo slik"
 msgid "Converting images"
 msgstr "Pretvarjanje slik"
 
-#: ../extensions/desktop_background/actions.c:158
+#: ../extensions/desktop_background/actions.c:194
 msgid "Could not show the desktop background properties"
 msgstr "Lastnosti ozadja namizja ni mogoče pokazati"
 
-#: ../extensions/desktop_background/actions.c:224
-#: ../extensions/desktop_background/actions.c:242
+#: ../extensions/desktop_background/actions.c:259
+#: ../extensions/desktop_background/actions.c:277
 msgid "Could not set the desktop background"
 msgstr "Ozadja namizja ni mogoče nastaviti"
 
@@ -2084,14 +2081,14 @@ msgstr "Facebook"
 msgid "Upload images to Facebook"
 msgstr "Pošiljanje fotografij na Facebook"
 
-#: ../extensions/facebook/facebook-service.c:462
+#: ../extensions/facebook/facebook-service.c:494
 #: ../extensions/flicker_utils/flickr-service.c:863
 #: ../extensions/photobucket/photobucket-service.c:310
 #: ../extensions/picasaweb/picasa-web-service.c:711
 msgid "Getting the album list"
 msgstr "Pridobivanje seznama albumov"
 
-#: ../extensions/facebook/facebook-service.c:584
+#: ../extensions/facebook/facebook-service.c:616
 #: ../extensions/flicker_utils/flickr-service.c:965
 #: ../extensions/flicker_utils/flickr-service.c:1087
 #: ../extensions/flicker_utils/flickr-service.c:1126
@@ -2100,7 +2097,7 @@ msgstr "Pridobivanje seznama albumov"
 msgid "Creating the new album"
 msgstr "Ustvarjanje novega albuma"
 
-#: ../extensions/facebook/facebook-service.c:645
+#: ../extensions/facebook/facebook-service.c:677
 #: ../extensions/flicker_utils/flickr-service.c:1176
 #: ../extensions/photobucket/photobucket-service.c:485
 #: ../extensions/picasaweb/picasa-web-service.c:860
@@ -2109,7 +2106,7 @@ msgid "Could not upload '%s': %s"
 msgstr "Ni mogoče poslati '%s': %s"
 
 #. Translators: %s is a filename
-#: ../extensions/facebook/facebook-service.c:710
+#: ../extensions/facebook/facebook-service.c:742
 #: ../extensions/flicker_utils/flickr-service.c:1287
 #: ../extensions/photobucket/photobucket-service.c:542
 #: ../extensions/picasaweb/picasa-web-service.c:917
@@ -2117,14 +2114,14 @@ msgstr "Ni mogoče poslati '%s': %s"
 msgid "Uploading '%s'"
 msgstr "Pošiljanje '%s'"
 
-#: ../extensions/facebook/facebook-service.c:923
+#: ../extensions/facebook/facebook-service.c:955
 #: ../extensions/flicker_utils/flickr-service.c:1482
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "Pošiljanje datotek na strežnik"
 
-#: ../extensions/facebook/facebook-service.c:1022
+#: ../extensions/facebook/facebook-service.c:1054
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
@@ -3023,7 +3020,7 @@ msgstr ""
 "dokončanje pooblastitve."
 
 #: ../extensions/gstreamer_tools/actions.c:66
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1072
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1042
 #: ../gthumb/gth-browser.c:2175
 msgid "Could not save the file"
 msgstr "Ni mogoče shraniti datoteke"
@@ -3033,7 +3030,7 @@ msgid "Could not take a screenshot"
 msgstr "Ni mogoče zajeti zaslonske slike"
 
 #: ../extensions/gstreamer_tools/actions.c:136
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1245
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1215
 msgid "Save Image"
 msgstr "Shrani sliko"
 
@@ -3102,12 +3099,12 @@ msgid "Pause"
 msgstr "Premor"
 
 #: ../extensions/gstreamer_tools/main.c:31
-#: ../gthumb/gth-main-default-tests.c:247
+#: ../gthumb/gth-main-default-tests.c:268
 msgid "Video"
 msgstr "Video"
 
 #: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:254
+#: ../gthumb/gth-main-default-tests.c:275
 msgid "Audio"
 msgstr "Zvok"
 
@@ -3156,18 +3153,18 @@ msgstr "Kanali"
 msgid "Sample rate"
 msgstr "Vzorčna hitrost"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:362
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
 msgid "Stereo"
 msgstr "Stereo"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:362
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
 msgid "Mono"
 msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:395
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1300
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:209
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:401
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1270
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:243
 #: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1037
 #, c-format
 msgid "%d × %d"
@@ -3263,7 +3260,7 @@ msgid "Could not print"
 msgstr "Ni mogoče natisniti"
 
 #: ../extensions/image_print/gth-image-print-job.c:1746
-#: ../gthumb/gth-main-default-tests.c:240
+#: ../gthumb/gth-main-default-tests.c:261
 msgid "Images"
 msgstr "Slike"
 
@@ -4427,7 +4424,7 @@ msgstr "Dodaj datoteke na seznam predvajanja"
 msgid "Remove the selected files"
 msgstr "Odstrani izbrane datoteke"
 
-#: ../extensions/slideshow/gth-slideshow.c:231
+#: ../extensions/slideshow/gth-slideshow.c:232
 msgid "Playing slideshow"
 msgstr "Predvajanje predstavitve"
 
@@ -5161,17 +5158,17 @@ msgid "Hide the filterbar"
 msgstr "Skrij vrstico filtra"
 
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
-#: ../gthumb/gth-test-simple.c:75
+#: ../gthumb/gth-test-simple.c:77
 msgid "kB"
 msgstr "kB"
 
 #: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
-#: ../gthumb/gth-test-simple.c:76
+#: ../gthumb/gth-test-simple.c:78
 msgid "MB"
 msgstr "MB"
 
 #: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:180
-#: ../gthumb/gth-test-simple.c:77
+#: ../gthumb/gth-test-simple.c:79
 msgid "GB"
 msgstr "GB"
 
@@ -5259,7 +5256,7 @@ msgid "Name"
 msgstr "Ime"
 
 #: ../gthumb/gth-main-default-metadata.c:40
-#: ../gthumb/gth-main-default-tests.c:284
+#: ../gthumb/gth-main-default-tests.c:305
 msgid "Size"
 msgstr "Velikost"
 
@@ -5299,27 +5296,27 @@ msgstr "brez razvrščanja"
 msgid "dimensions"
 msgstr "mere"
 
-#: ../gthumb/gth-main-default-tests.c:233
+#: ../gthumb/gth-main-default-tests.c:254
 msgid "All Files"
 msgstr "Vse datoteke"
 
-#: ../gthumb/gth-main-default-tests.c:261
+#: ../gthumb/gth-main-default-tests.c:282
 msgid "Media"
 msgstr "Večpredstavnostna datoteka"
 
-#: ../gthumb/gth-main-default-tests.c:268
+#: ../gthumb/gth-main-default-tests.c:289
 msgid "Text Files"
 msgstr "Besedilne datoteke"
 
-#: ../gthumb/gth-main-default-tests.c:276
+#: ../gthumb/gth-main-default-tests.c:297
 msgid "Filename"
 msgstr "Ime datoteke"
 
-#: ../gthumb/gth-main-default-tests.c:308
+#: ../gthumb/gth-main-default-tests.c:329
 msgid "Title (embedded)"
 msgstr "Naslov (vključen)"
 
-#: ../gthumb/gth-main-default-tests.c:316
+#: ../gthumb/gth-main-default-tests.c:337
 msgid "Description (embedded)"
 msgstr "Opis (vključen)"
 
@@ -5395,7 +5392,7 @@ msgid "Family"
 msgstr "Družina"
 
 #: ../gthumb/gth-test-category.c:46 ../gthumb/gth-test-simple.c:49
-#: ../gthumb/gth-test-simple.c:64
+#: ../gthumb/gth-test-simple.c:66
 msgid "is"
 msgstr "je"
 
@@ -5404,13 +5401,12 @@ msgid "is only"
 msgstr "je le"
 
 #: ../gthumb/gth-test-category.c:48 ../gthumb/gth-test-simple.c:50
-#: ../gthumb/gth-test-simple.c:65
+#: ../gthumb/gth-test-simple.c:67
 msgid "is not"
 msgstr "ni"
 
-#: ../gthumb/gth-test-category.c:407 ../gthumb/gth-test-simple.c:812
-#: ../gthumb/gth-test-simple.c:838 ../gthumb/gth-test-simple.c:859
-#: ../gthumb/gth-test-simple.c:885
+#: ../gthumb/gth-test-category.c:407 ../gthumb/gth-test-simple.c:908
+#: ../gthumb/gth-test-simple.c:929 ../gthumb/gth-test-simple.c:955
 #, c-format
 msgid "The test definition is incomplete"
 msgstr "Preizkusna definicija ni končana"
@@ -5455,11 +5451,19 @@ msgstr "je večje kot"
 msgid "is equal to"
 msgstr "je enako"
 
-#: ../gthumb/gth-test-simple.c:62
+#: ../gthumb/gth-test-simple.c:59
+msgid "is greater than or equal to"
+msgstr "je večje ali enako"
+
+#: ../gthumb/gth-test-simple.c:60
+msgid "is lower than or equal to"
+msgstr "je manjše ali enako"
+
+#: ../gthumb/gth-test-simple.c:64
 msgid "is before"
 msgstr "je pred"
 
-#: ../gthumb/gth-test-simple.c:63
+#: ../gthumb/gth-test-simple.c:65
 msgid "is after"
 msgstr "je po"
 
@@ -5526,6 +5530,9 @@ msgstr "Pokaži različico"
 #: ../gthumb/main.c:483
 msgid "- Image browser and viewer"
 msgstr "- Brskalnik in pregledovalnik slik"
+
+#~ msgid "Whether to always use a black background."
+#~ msgstr "Ali naj bo vedno uporabljeno črno ozadje."
 
 #~ msgid "_Resize to:"
 #~ msgstr "Sp_remeni velikost v:"
