@@ -55,7 +55,9 @@ GthOpData text_op_data[] = {
 GthOpData int_op_data[] = {
 	{ N_("is lower than"), GTH_TEST_OP_LOWER, FALSE },
 	{ N_("is greater than"), GTH_TEST_OP_GREATER, FALSE },
-	{ N_("is equal to"), GTH_TEST_OP_EQUAL, FALSE }
+	{ N_("is equal to"), GTH_TEST_OP_EQUAL, FALSE },
+	{ N_("is greater than or equal to"), GTH_TEST_OP_LOWER, TRUE },
+	{ N_("is lower than or equal to"), GTH_TEST_OP_GREATER, TRUE }
 };
 
 GthOpData date_op_data[] = {
