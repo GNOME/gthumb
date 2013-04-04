@@ -45,7 +45,7 @@ typedef gint64 (*GthTestGetData) (GthTest        *test,
 				  gpointer       *data,
 				  GDestroyNotify *data_destroy_func);
 
-typedef enum { 
+typedef enum {
 	GTH_TEST_DATA_TYPE_NONE,
 	GTH_TEST_DATA_TYPE_INT,
 	GTH_TEST_DATA_TYPE_SIZE,
@@ -68,7 +68,7 @@ GType  gth_test_simple_get_type           (void) G_GNUC_CONST;
 void   gth_test_simple_set_data_as_string (GthTestSimple *test,
 					   const char    *s);
 void   gth_test_simple_set_data_as_int    (GthTestSimple *test,
-					   guint64        i);
+					   gint64         i);
 void   gth_test_simple_set_data_as_size   (GthTestSimple *test,
 					   guint64        i);
 void   gth_test_simple_set_data_as_date   (GthTestSimple *test,

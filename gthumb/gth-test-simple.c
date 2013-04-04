@@ -1258,7 +1258,7 @@ gth_test_simple_set_data_as_string (GthTestSimple *test,
 
 void
 gth_test_simple_set_data_as_int (GthTestSimple *test,
-			         guint64        i)
+			         gint64         i)
 {
 	_gth_test_simple_free_data (test);
 	test->priv->data_type = GTH_TEST_DATA_TYPE_INT;
