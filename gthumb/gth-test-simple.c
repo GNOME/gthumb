@@ -277,7 +277,7 @@ create_control_for_integer (GthTestSimple *test)
 	gtk_widget_show (test->priv->spinbutton);
 
 	g_signal_connect (G_OBJECT (test->priv->spinbutton),
-			  "change-value",
+			  "value-changed",
 			  G_CALLBACK (spinbutton_changed_cb),
 			  test);
 	g_signal_connect (G_OBJECT (test->priv->spinbutton),
