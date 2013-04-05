@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: lt\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-02-16 21:21+0000\n"
-"PO-Revision-Date: 2013-03-02 16:55+0200\n"
+"POT-Creation-Date: 2013-04-04 10:36+0000\n"
+"PO-Revision-Date: 2013-04-05 22:31+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -147,10 +147,6 @@ msgstr "Galimos reikšmės yra: white, black, checked, none."
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:2
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr "Ar pakeitus paveikslėlį atstatyti slinkties juostų pozicijas"
-
-#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
-msgid "Whether to always use a black background."
-msgstr "Ar visada naudoti juodą foną."
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
 msgid "Possible values are: jpeg, jpg."
@@ -947,12 +943,12 @@ msgstr "Katalogo _peržiūra:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
 #: ../extensions/edit_metadata/gth-edit-general-page.c:558
-#: ../gthumb/gth-main-default-tests.c:300
+#: ../gthumb/gth-main-default-tests.c:321
 msgid "Date photo was taken"
 msgstr "Fotografavimo data"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:2
-#: ../gthumb/gth-main-default-tests.c:292
+#: ../gthumb/gth-main-default-tests.c:313
 msgid "File modified date"
 msgstr "Failo pakeitimo data"
 
@@ -966,7 +962,7 @@ msgid "tag"
 msgstr "žyma"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:5
-#: ../gthumb/gth-main-default-tests.c:324
+#: ../gthumb/gth-main-default-tests.c:354
 msgid "Tag (embedded)"
 msgstr "Žyma (įtaisyta)"
 
@@ -1202,6 +1198,7 @@ msgid "Date"
 msgstr "Data"
 
 #: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:54
+#: ../gthumb/gth-main-default-tests.c:345
 msgid "Rating"
 msgstr "Įvertinimas"
 
@@ -1551,12 +1548,12 @@ msgstr "Na_udoti originalų paveikslėlio aplanką"
 msgid "Converting images"
 msgstr "Konvertuojami paveikslėliai"
 
-#: ../extensions/desktop_background/actions.c:158
+#: ../extensions/desktop_background/actions.c:194
 msgid "Could not show the desktop background properties"
 msgstr "Nepavyko parodyti darbastalio fono savybių"
 
-#: ../extensions/desktop_background/actions.c:224
-#: ../extensions/desktop_background/actions.c:242
+#: ../extensions/desktop_background/actions.c:259
+#: ../extensions/desktop_background/actions.c:277
 msgid "Could not set the desktop background"
 msgstr "Nepavyko nustatyti darbastalio fono"
 
@@ -1839,7 +1836,6 @@ msgid "Face_book..."
 msgstr "Face_book..."
 
 #: ../extensions/facebook/callbacks.c:60
-#| msgid "Download photos from Flickr"
 msgid "Download photos from Facebook"
 msgstr "Parsisiųsti fotografijas iš Facebook"
 
@@ -2077,14 +2073,14 @@ msgstr "Facebook"
 msgid "Upload images to Facebook"
 msgstr "Įkelti paveikslėlius į Facebook"
 
-#: ../extensions/facebook/facebook-service.c:462
+#: ../extensions/facebook/facebook-service.c:494
 #: ../extensions/flicker_utils/flickr-service.c:863
 #: ../extensions/photobucket/photobucket-service.c:310
 #: ../extensions/picasaweb/picasa-web-service.c:711
 msgid "Getting the album list"
 msgstr "Gaunamas albumų sąrašas"
 
-#: ../extensions/facebook/facebook-service.c:584
+#: ../extensions/facebook/facebook-service.c:616
 #: ../extensions/flicker_utils/flickr-service.c:965
 #: ../extensions/flicker_utils/flickr-service.c:1087
 #: ../extensions/flicker_utils/flickr-service.c:1126
@@ -2093,7 +2089,7 @@ msgstr "Gaunamas albumų sąrašas"
 msgid "Creating the new album"
 msgstr "Kuriamas naujas albumas"
 
-#: ../extensions/facebook/facebook-service.c:645
+#: ../extensions/facebook/facebook-service.c:677
 #: ../extensions/flicker_utils/flickr-service.c:1176
 #: ../extensions/photobucket/photobucket-service.c:485
 #: ../extensions/picasaweb/picasa-web-service.c:860
@@ -2102,7 +2098,7 @@ msgid "Could not upload '%s': %s"
 msgstr "Nepavyko įkelti „%s“: %s"
 
 #. Translators: %s is a filename
-#: ../extensions/facebook/facebook-service.c:710
+#: ../extensions/facebook/facebook-service.c:742
 #: ../extensions/flicker_utils/flickr-service.c:1287
 #: ../extensions/photobucket/photobucket-service.c:542
 #: ../extensions/picasaweb/picasa-web-service.c:917
@@ -2110,14 +2106,14 @@ msgstr "Nepavyko įkelti „%s“: %s"
 msgid "Uploading '%s'"
 msgstr "Įkeliama „%s“"
 
-#: ../extensions/facebook/facebook-service.c:923
+#: ../extensions/facebook/facebook-service.c:955
 #: ../extensions/flicker_utils/flickr-service.c:1482
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "Failai siunčiami serveriui"
 
-#: ../extensions/facebook/facebook-service.c:1022
+#: ../extensions/facebook/facebook-service.c:1054
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
@@ -3001,7 +2997,6 @@ msgstr "Kai baigsite, spustelėkite žemiau esantį mygtuką „Tęsti“."
 
 #: ../extensions/flicker_utils/flickr-service.c:571
 #, c-format
-#| msgid "gthumb requires your authorization to upload the photos to %s"
 msgid "gThumb requires your authorization to upload the photos to %s"
 msgstr "gThumb reikalauja nustatyti jūsų tapatybę fotografijų siuntimui į %s"
 
@@ -3017,7 +3012,7 @@ msgstr ""
 "grįžkite į šį langą tapatybės nustatymo procedūrai baigti."
 
 #: ../extensions/gstreamer_tools/actions.c:66
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1072
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1042
 #: ../gthumb/gth-browser.c:2175
 msgid "Could not save the file"
 msgstr "Nepavyko įrašyti failo"
@@ -3027,7 +3022,7 @@ msgid "Could not take a screenshot"
 msgstr "Nepavyko nufotografuoti ekrano"
 
 #: ../extensions/gstreamer_tools/actions.c:136
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1245
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1215
 msgid "Save Image"
 msgstr "Įrašyti paveikslėlį"
 
@@ -3096,12 +3091,12 @@ msgid "Pause"
 msgstr "Pauzė"
 
 #: ../extensions/gstreamer_tools/main.c:31
-#: ../gthumb/gth-main-default-tests.c:247
+#: ../gthumb/gth-main-default-tests.c:268
 msgid "Video"
 msgstr "Vaizdo įrašas"
 
 #: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:254
+#: ../gthumb/gth-main-default-tests.c:275
 msgid "Audio"
 msgstr "Garso įrašas"
 
@@ -3150,18 +3145,18 @@ msgstr "Kanalai"
 msgid "Sample rate"
 msgstr "Imties dažnis"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:362
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
 msgid "Stereo"
 msgstr "Stereo"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:362
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
 msgid "Mono"
 msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:395
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1300
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:209
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:401
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1270
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:243
 #: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1037
 #, c-format
 msgid "%d × %d"
@@ -3257,7 +3252,7 @@ msgid "Could not print"
 msgstr "Nepavyko išspausdinti"
 
 #: ../extensions/image_print/gth-image-print-job.c:1746
-#: ../gthumb/gth-main-default-tests.c:240
+#: ../gthumb/gth-main-default-tests.c:261
 msgid "Images"
 msgstr "Paveikslėliai"
 
@@ -4422,7 +4417,7 @@ msgstr "Įtraukti failus į grojaraštį"
 msgid "Remove the selected files"
 msgstr "Pašalinti pasirinktus failus"
 
-#: ../extensions/slideshow/gth-slideshow.c:231
+#: ../extensions/slideshow/gth-slideshow.c:232
 msgid "Playing slideshow"
 msgstr "Rodymos skaidrės"
 
@@ -5147,17 +5142,17 @@ msgid "Hide the filterbar"
 msgstr "Slėpti filtravimo juostą"
 
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
-#: ../gthumb/gth-test-simple.c:75
+#: ../gthumb/gth-test-simple.c:77
 msgid "kB"
 msgstr "kB"
 
 #: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
-#: ../gthumb/gth-test-simple.c:76
+#: ../gthumb/gth-test-simple.c:78
 msgid "MB"
 msgstr "MB"
 
 #: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:180
-#: ../gthumb/gth-test-simple.c:77
+#: ../gthumb/gth-test-simple.c:79
 msgid "GB"
 msgstr "GB"
 
@@ -5245,7 +5240,7 @@ msgid "Name"
 msgstr "Pavadinimas"
 
 #: ../gthumb/gth-main-default-metadata.c:40
-#: ../gthumb/gth-main-default-tests.c:284
+#: ../gthumb/gth-main-default-tests.c:305
 msgid "Size"
 msgstr "Dydis"
 
@@ -5285,27 +5280,27 @@ msgstr "nėra rikiavimo"
 msgid "dimensions"
 msgstr "matmenys"
 
-#: ../gthumb/gth-main-default-tests.c:233
+#: ../gthumb/gth-main-default-tests.c:254
 msgid "All Files"
 msgstr "Visi failai"
 
-#: ../gthumb/gth-main-default-tests.c:261
+#: ../gthumb/gth-main-default-tests.c:282
 msgid "Media"
 msgstr "Laikmena"
 
-#: ../gthumb/gth-main-default-tests.c:268
+#: ../gthumb/gth-main-default-tests.c:289
 msgid "Text Files"
 msgstr "Tekstiniai failai"
 
-#: ../gthumb/gth-main-default-tests.c:276
+#: ../gthumb/gth-main-default-tests.c:297
 msgid "Filename"
 msgstr "Failo pavadinimas"
 
-#: ../gthumb/gth-main-default-tests.c:308
+#: ../gthumb/gth-main-default-tests.c:329
 msgid "Title (embedded)"
 msgstr "Pavadinimas (įtaisytas)"
 
-#: ../gthumb/gth-main-default-tests.c:316
+#: ../gthumb/gth-main-default-tests.c:337
 msgid "Description (embedded)"
 msgstr "Aprašymas (įtaisytas)"
 
@@ -5320,7 +5315,6 @@ msgstr "Įrašomi failo duomenys"
 #. Translators: %s is a filename
 #: ../gthumb/gth-save-image-task.c:160
 #, c-format
-#| msgid "Starting %s"
 msgid "Saving '%s'"
 msgstr "Įrašoma '%s'"
 
@@ -5382,7 +5376,7 @@ msgid "Family"
 msgstr "Šeima"
 
 #: ../gthumb/gth-test-category.c:46 ../gthumb/gth-test-simple.c:49
-#: ../gthumb/gth-test-simple.c:64
+#: ../gthumb/gth-test-simple.c:66
 msgid "is"
 msgstr "yra"
 
@@ -5391,13 +5385,12 @@ msgid "is only"
 msgstr "yra tik"
 
 #: ../gthumb/gth-test-category.c:48 ../gthumb/gth-test-simple.c:50
-#: ../gthumb/gth-test-simple.c:65
+#: ../gthumb/gth-test-simple.c:67
 msgid "is not"
 msgstr "nėra"
 
-#: ../gthumb/gth-test-category.c:407 ../gthumb/gth-test-simple.c:812
-#: ../gthumb/gth-test-simple.c:838 ../gthumb/gth-test-simple.c:859
-#: ../gthumb/gth-test-simple.c:885
+#: ../gthumb/gth-test-category.c:407 ../gthumb/gth-test-simple.c:908
+#: ../gthumb/gth-test-simple.c:929 ../gthumb/gth-test-simple.c:955
 #, c-format
 msgid "The test definition is incomplete"
 msgstr "Bandomasis apibrėžimas yra nevisas"
@@ -5442,11 +5435,21 @@ msgstr "didesnis nei"
 msgid "is equal to"
 msgstr "lygus"
 
-#: ../gthumb/gth-test-simple.c:62
+#: ../gthumb/gth-test-simple.c:59
+#| msgid "is greater than"
+msgid "is greater than or equal to"
+msgstr "didesnis arba lygus"
+
+#: ../gthumb/gth-test-simple.c:60
+#| msgid "is lower than"
+msgid "is lower than or equal to"
+msgstr "mažesnis arba lygus"
+
+#: ../gthumb/gth-test-simple.c:64
 msgid "is before"
 msgstr "prieš"
 
-#: ../gthumb/gth-test-simple.c:63
+#: ../gthumb/gth-test-simple.c:65
 msgid "is after"
 msgstr "po"
 
