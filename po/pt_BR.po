@@ -1,5 +1,5 @@
 # Brazilian Portuguese translation of gthumb.
-# Copyright (C) 2001-2007 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 # Gustavo Noronha Silva <kov@debian.org>, 2001-2003.
 # Joao Paulo Gomes Vanzuita <joaopaulo99@terra.com.br>, 2004.
@@ -8,15 +8,16 @@
 # Igor Pires Soares <igor@projetofedora.org>, 2007,2008.
 # Leonardo Ferreira Fontenelle <leonardof@gnome.org>, 2009.
 # Rafael Ferreira <rafael.f.f1@gmail.com>, 2013.
+# Enrico Nicoletto <liverig@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-02-04 13:44+0000\n"
-"PO-Revision-Date: 2013-02-14 23:36-0300\n"
-"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
+"POT-Creation-Date: 2013-04-05 19:32+0000\n"
+"PO-Revision-Date: 2013-04-05 16:54-0300\n"
+"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -152,10 +153,6 @@ msgstr "Valores possíveis são: white, black, checked, none."
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:2
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr "Restaurar as posições da barra de rolagem após modificar a imagem"
-
-#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
-msgid "Whether to always use a black background."
-msgstr "Sempre usar plano de fundo preto."
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
 msgid "Possible values are: jpeg, jpg."
@@ -955,12 +952,12 @@ msgstr "_Visualização do catálogo:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
 #: ../extensions/edit_metadata/gth-edit-general-page.c:558
-#: ../gthumb/gth-main-default-tests.c:300
+#: ../gthumb/gth-main-default-tests.c:321
 msgid "Date photo was taken"
 msgstr "Data na qual a foto foi tirada"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:2
-#: ../gthumb/gth-main-default-tests.c:292
+#: ../gthumb/gth-main-default-tests.c:313
 msgid "File modified date"
 msgstr "Data de modificação do arquivo"
 
@@ -974,7 +971,7 @@ msgid "tag"
 msgstr "etiqueta"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:5
-#: ../gthumb/gth-main-default-tests.c:324
+#: ../gthumb/gth-main-default-tests.c:354
 msgid "Tag (embedded)"
 msgstr "Etiqueta (embutida)"
 
@@ -1215,6 +1212,7 @@ msgid "Date"
 msgstr "Data"
 
 #: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:54
+#: ../gthumb/gth-main-default-tests.c:345
 msgid "Rating"
 msgstr "Classificação"
 
@@ -1567,14 +1565,14 @@ msgstr "_Usar a pasta de imagens original"
 msgid "Converting images"
 msgstr "Convertendo imagens"
 
-#: ../extensions/desktop_background/actions.c:158
+#: ../extensions/desktop_background/actions.c:194
 msgid "Could not show the desktop background properties"
 msgstr ""
 "Não foi possível mostrar as propriedades de plano de fundo da área de "
 "trabalho"
 
-#: ../extensions/desktop_background/actions.c:224
-#: ../extensions/desktop_background/actions.c:242
+#: ../extensions/desktop_background/actions.c:259
+#: ../extensions/desktop_background/actions.c:277
 msgid "Could not set the desktop background"
 msgstr "Não foi possível definir o plano de fundo da área de trabalho"
 
@@ -2097,14 +2095,14 @@ msgstr "Facebook"
 msgid "Upload images to Facebook"
 msgstr "Envia imagens para o Facebook"
 
-#: ../extensions/facebook/facebook-service.c:462
+#: ../extensions/facebook/facebook-service.c:494
 #: ../extensions/flicker_utils/flickr-service.c:863
 #: ../extensions/photobucket/photobucket-service.c:310
 #: ../extensions/picasaweb/picasa-web-service.c:711
 msgid "Getting the album list"
 msgstr "Obtendo a lista de álbuns"
 
-#: ../extensions/facebook/facebook-service.c:584
+#: ../extensions/facebook/facebook-service.c:616
 #: ../extensions/flicker_utils/flickr-service.c:965
 #: ../extensions/flicker_utils/flickr-service.c:1087
 #: ../extensions/flicker_utils/flickr-service.c:1126
@@ -2113,7 +2111,7 @@ msgstr "Obtendo a lista de álbuns"
 msgid "Creating the new album"
 msgstr "Criando o novo álbum"
 
-#: ../extensions/facebook/facebook-service.c:645
+#: ../extensions/facebook/facebook-service.c:677
 #: ../extensions/flicker_utils/flickr-service.c:1176
 #: ../extensions/photobucket/photobucket-service.c:485
 #: ../extensions/picasaweb/picasa-web-service.c:860
@@ -2122,7 +2120,7 @@ msgid "Could not upload '%s': %s"
 msgstr "Não foi possível enviar \"%s\": %s"
 
 #. Translators: %s is a filename
-#: ../extensions/facebook/facebook-service.c:710
+#: ../extensions/facebook/facebook-service.c:742
 #: ../extensions/flicker_utils/flickr-service.c:1287
 #: ../extensions/photobucket/photobucket-service.c:542
 #: ../extensions/picasaweb/picasa-web-service.c:917
@@ -2130,14 +2128,14 @@ msgstr "Não foi possível enviar \"%s\": %s"
 msgid "Uploading '%s'"
 msgstr "Enviando \"%s\""
 
-#: ../extensions/facebook/facebook-service.c:923
+#: ../extensions/facebook/facebook-service.c:955
 #: ../extensions/flicker_utils/flickr-service.c:1482
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "Enviando os arquivos para o servidor"
 
-#: ../extensions/facebook/facebook-service.c:1022
+#: ../extensions/facebook/facebook-service.c:1054
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
@@ -3040,7 +3038,7 @@ msgstr ""
 "janela para concluir a autorização."
 
 #: ../extensions/gstreamer_tools/actions.c:66
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1072
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1042
 #: ../gthumb/gth-browser.c:2175
 msgid "Could not save the file"
 msgstr "Não foi possível salvar o arquivo"
@@ -3050,7 +3048,7 @@ msgid "Could not take a screenshot"
 msgstr "Não foi possível capturar uma imagem"
 
 #: ../extensions/gstreamer_tools/actions.c:136
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1245
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1215
 msgid "Save Image"
 msgstr "Salvar imagem"
 
@@ -3119,12 +3117,12 @@ msgid "Pause"
 msgstr "Pausar"
 
 #: ../extensions/gstreamer_tools/main.c:31
-#: ../gthumb/gth-main-default-tests.c:247
+#: ../gthumb/gth-main-default-tests.c:268
 msgid "Video"
 msgstr "Vídeo"
 
 #: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:254
+#: ../gthumb/gth-main-default-tests.c:275
 msgid "Audio"
 msgstr "Áudio"
 
@@ -3173,18 +3171,18 @@ msgstr "Canais"
 msgid "Sample rate"
 msgstr "Taxa de amostragem"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:362
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
 msgid "Stereo"
 msgstr "Estéreo"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:362
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
 msgid "Mono"
 msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:395
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1300
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:209
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:401
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1270
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:243
 #: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1037
 #, c-format
 msgid "%d × %d"
@@ -3280,7 +3278,7 @@ msgid "Could not print"
 msgstr "Não foi possível imprimir"
 
 #: ../extensions/image_print/gth-image-print-job.c:1746
-#: ../gthumb/gth-main-default-tests.c:240
+#: ../gthumb/gth-main-default-tests.c:261
 msgid "Images"
 msgstr "Imagens"
 
@@ -4455,7 +4453,7 @@ msgstr "Adiciona arquivos à lista de reprodução"
 msgid "Remove the selected files"
 msgstr "Remove arquivos selecionados"
 
-#: ../extensions/slideshow/gth-slideshow.c:231
+#: ../extensions/slideshow/gth-slideshow.c:232
 msgid "Playing slideshow"
 msgstr "Reproduzindo apresentação de slides"
 
@@ -5195,17 +5193,17 @@ msgid "Hide the filterbar"
 msgstr "Oculta o barra de filtros"
 
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
-#: ../gthumb/gth-test-simple.c:75
+#: ../gthumb/gth-test-simple.c:77
 msgid "kB"
 msgstr "kB"
 
 #: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
-#: ../gthumb/gth-test-simple.c:76
+#: ../gthumb/gth-test-simple.c:78
 msgid "MB"
 msgstr "MB"
 
 #: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:180
-#: ../gthumb/gth-test-simple.c:77
+#: ../gthumb/gth-test-simple.c:79
 msgid "GB"
 msgstr "GB"
 
@@ -5295,7 +5293,7 @@ msgid "Name"
 msgstr "Nome"
 
 #: ../gthumb/gth-main-default-metadata.c:40
-#: ../gthumb/gth-main-default-tests.c:284
+#: ../gthumb/gth-main-default-tests.c:305
 msgid "Size"
 msgstr "Tamanho"
 
@@ -5335,27 +5333,27 @@ msgstr "nenhuma ordem"
 msgid "dimensions"
 msgstr "dimensões"
 
-#: ../gthumb/gth-main-default-tests.c:233
+#: ../gthumb/gth-main-default-tests.c:254
 msgid "All Files"
 msgstr "Todos arquivos"
 
-#: ../gthumb/gth-main-default-tests.c:261
+#: ../gthumb/gth-main-default-tests.c:282
 msgid "Media"
 msgstr "Mídia"
 
-#: ../gthumb/gth-main-default-tests.c:268
+#: ../gthumb/gth-main-default-tests.c:289
 msgid "Text Files"
 msgstr "Arquivos de texto"
 
-#: ../gthumb/gth-main-default-tests.c:276
+#: ../gthumb/gth-main-default-tests.c:297
 msgid "Filename"
 msgstr "Nome de arquivo"
 
-#: ../gthumb/gth-main-default-tests.c:308
+#: ../gthumb/gth-main-default-tests.c:329
 msgid "Title (embedded)"
 msgstr "Título (embutido)"
 
-#: ../gthumb/gth-main-default-tests.c:316
+#: ../gthumb/gth-main-default-tests.c:337
 msgid "Description (embedded)"
 msgstr "Descrição (embutida)"
 
@@ -5431,7 +5429,7 @@ msgid "Family"
 msgstr "Família"
 
 #: ../gthumb/gth-test-category.c:46 ../gthumb/gth-test-simple.c:49
-#: ../gthumb/gth-test-simple.c:64
+#: ../gthumb/gth-test-simple.c:66
 msgid "is"
 msgstr "é"
 
@@ -5440,13 +5438,12 @@ msgid "is only"
 msgstr "é apenas"
 
 #: ../gthumb/gth-test-category.c:48 ../gthumb/gth-test-simple.c:50
-#: ../gthumb/gth-test-simple.c:65
+#: ../gthumb/gth-test-simple.c:67
 msgid "is not"
 msgstr "não é"
 
-#: ../gthumb/gth-test-category.c:407 ../gthumb/gth-test-simple.c:812
-#: ../gthumb/gth-test-simple.c:838 ../gthumb/gth-test-simple.c:859
-#: ../gthumb/gth-test-simple.c:885
+#: ../gthumb/gth-test-category.c:407 ../gthumb/gth-test-simple.c:908
+#: ../gthumb/gth-test-simple.c:929 ../gthumb/gth-test-simple.c:955
 #, c-format
 msgid "The test definition is incomplete"
 msgstr "A definição de teste está incompleta"
@@ -5491,11 +5488,19 @@ msgstr "é maior que"
 msgid "is equal to"
 msgstr "é igual a"
 
-#: ../gthumb/gth-test-simple.c:62
+#: ../gthumb/gth-test-simple.c:59
+msgid "is greater than or equal to"
+msgstr "é maior que ou igual a"
+
+#: ../gthumb/gth-test-simple.c:60
+msgid "is lower than or equal to"
+msgstr "é menor que ou igual a"
+
+#: ../gthumb/gth-test-simple.c:64
 msgid "is before"
 msgstr "é anterior a"
 
-#: ../gthumb/gth-test-simple.c:63
+#: ../gthumb/gth-test-simple.c:65
 msgid "is after"
 msgstr "é posterior a"
 
@@ -5562,6 +5567,9 @@ msgstr "Mostra a versão"
 #: ../gthumb/main.c:483
 msgid "- Image browser and viewer"
 msgstr "- Visualizador e navegador de imagens"
+
+#~ msgid "Whether to always use a black background."
+#~ msgstr "Sempre usar plano de fundo preto."
 
 #~ msgid "Exif DateTimeOriginal tag"
 #~ msgstr "Etiqueta Exif DateTimeOriginal"
@@ -5865,8 +5873,8 @@ msgstr "- Visualizador e navegador de imagens"
 #~ "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 #~ "small>"
 #~ msgstr ""
-#~ "<small><i><b>Nota:</b> %p (número da página), %n (número total de "
-#~ "páginas)</i>.</small>"
+#~ "<small><i><b>Nota:</b> %p (número da página), %n (número total de páginas)"
+#~ "</i>.</small>"
 
 #~ msgid "Co_mment"
 #~ msgstr "_Comentário"
