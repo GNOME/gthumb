@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 #ifndef GTH_URI_LIST_H
 #define GTH_URI_LIST_H
 
@@ -46,7 +46,7 @@ struct _GthUriList {
 
 struct _GthUriListClass {
 	GtkTreeViewClass parent_class;
-	
+
 	/*< signals >*/
 
 	void   (*order_changed)  (GthUriList *uri_list);
@@ -64,6 +64,14 @@ char *           gth_uri_list_get_selected     (GthUriList     *uri_list);
 GList *          gth_uri_list_get_uris         (GthUriList     *uri_list);
 void             gth_uri_list_update_bookmarks (GthUriList     *uri_list,
 						GBookmarkFile  *bookmarks);
+gboolean         gth_uri_list_remove_uri       (GthUriList     *uri_list,
+				                const char     *uri);
+gboolean         gth_uri_list_select_uri       (GthUriList     *uri_list,
+						const char     *uri);
+gboolean         gth_uri_list_update_uri       (GthUriList     *uri_list,
+				                const char     *uri,
+				                const char     *new_uri,
+				                const char     *new_name);
 
 G_END_DECLS
 

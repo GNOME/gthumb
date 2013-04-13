@@ -205,6 +205,47 @@ gth_uri_list_new (void)
 }
 
 
+static void
+_gth_uri_list_set_iter (GthUriList  *uri_list,
+		        GtkTreeIter *iter,
+		        const char  *uri,
+		        const char  *name)
+{
+	GFile         *file;
+	GthFileSource *file_source;
+	GFileInfo     *info;
+	const char    *display_name;
+	GIcon         *icon;
+	GdkPixbuf     *pixbuf;
+
+	file = g_file_new_for_uri (uri);
+	file_source = gth_main_get_file_source (file);
+	info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
+
+	if (info != NULL) {
+		display_name = (name != NULL) ? name : g_file_info_get_display_name (info);
+		icon = g_file_info_get_icon (info);
+	}
+	else {
+		display_name = (name != NULL) ? name : _g_file_get_display_name (file);
+		icon = _g_file_get_icon (file);
+	}
+	pixbuf = gth_icon_cache_get_pixbuf (uri_list->priv->icon_cache, icon);
+
+
+	gtk_list_store_set (uri_list->priv->list_store, iter,
+			    URI_LIST_COLUMN_ICON, pixbuf,
+			    URI_LIST_COLUMN_NAME, display_name,
+			    URI_LIST_COLUMN_URI, uri,
+			    -1);
+
+	_g_object_unref (pixbuf);
+	g_object_unref (file_source);
+	g_object_unref (file);
+
+}
+
+
 void
 gth_uri_list_set_uris (GthUriList  *uri_list,
 		       char       **uris)
@@ -220,38 +261,10 @@ gth_uri_list_set_uris (GthUriList  *uri_list,
 
 	for (i = 0; uris[i] != NULL; i++) {
 		char          *uri = uris[i];
-		GFile         *file;
-		GthFileSource *file_source;
-		GFileInfo     *info;
-		const char    *display_name;
-		GIcon         *icon;
-		GdkPixbuf     *pixbuf;
 		GtkTreeIter    iter;
 
-		file = g_file_new_for_uri (uri);
-		file_source = gth_main_get_file_source (file);
-		info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
-
-		if (info != NULL) {
-			display_name = g_file_info_get_display_name (info);
-			icon = g_file_info_get_icon (info);
-		}
-		else {
-			display_name = _g_file_get_display_name (file);
-			icon = _g_file_get_icon (file);
-		}
-		pixbuf = gth_icon_cache_get_pixbuf (uri_list->priv->icon_cache, icon);
-
 		gtk_list_store_append (uri_list->priv->list_store, &iter);
-		gtk_list_store_set (uri_list->priv->list_store, &iter,
-				    URI_LIST_COLUMN_ICON, pixbuf,
-				    URI_LIST_COLUMN_NAME, display_name,
-				    URI_LIST_COLUMN_URI, uri,
-				    -1);
-
-		g_object_unref (pixbuf);
-		g_object_unref (file_source);
-		g_object_unref (file);
+		_gth_uri_list_set_iter (uri_list, &iter, uri, NULL);
 	}
 
 	g_signal_handlers_unblock_by_func (uri_list->priv->list_store, row_deleted_cb, uri_list);
@@ -309,7 +322,7 @@ gth_uri_list_set_bookmarks (GthUriList    *uri_list,
 				    URI_LIST_COLUMN_URI, uri,
 				    -1);
 
-		g_object_unref (pixbuf);
+		_g_object_unref (pixbuf);
 		g_object_unref (file_source);
 		g_object_unref (file);
 	}
@@ -407,4 +420,76 @@ gth_uri_list_update_bookmarks (GthUriList    *uri_list,
 		g_bookmark_file_set_title (bookmarks, uri, name);
 	}
 	while (gtk_tree_model_iter_next (model, &iter));
+}
+
+
+static gboolean
+_gth_uri_list_get_iter (GthUriList  *uri_list,
+			const char  *uri,
+			GtkTreeIter *iter)
+{
+	GtkTreeModel *model = GTK_TREE_MODEL (uri_list->priv->list_store);
+
+	if (! gtk_tree_model_get_iter_first (model, iter))
+		return FALSE;
+
+	do {
+		char *iter_uri;
+
+		gtk_tree_model_get (model, iter, URI_LIST_COLUMN_URI, &iter_uri, -1);
+		if (g_strcmp0 (iter_uri, uri) == 0) {
+			g_free (iter_uri);
+			return TRUE;
+		}
+
+		g_free (iter_uri);
+	}
+	while (gtk_tree_model_iter_next (model, iter));
+
+	return FALSE;
+}
+
+
+gboolean
+gth_uri_list_remove_uri (GthUriList *uri_list,
+			 const char *uri)
+{
+	GtkTreeIter iter;
+
+	if (! _gth_uri_list_get_iter (uri_list, uri, &iter))
+		return FALSE;
+
+	return gtk_list_store_remove (uri_list->priv->list_store, &iter);
+}
+
+
+gboolean
+gth_uri_list_select_uri (GthUriList *uri_list,
+			 const char *uri)
+{
+	GtkTreeIter iter;
+
+	if (! _gth_uri_list_get_iter (uri_list, uri, &iter))
+		return FALSE;
+
+	gtk_tree_selection_select_iter (gtk_tree_view_get_selection (GTK_TREE_VIEW (uri_list)), &iter);
+
+	return TRUE;
+}
+
+
+gboolean
+gth_uri_list_update_uri (GthUriList *uri_list,
+			 const char *uri,
+			 const char *new_uri,
+			 const char *new_name)
+{
+	GtkTreeIter iter;
+
+	if (! _gth_uri_list_get_iter (uri_list, uri, &iter))
+		return FALSE;
+
+	_gth_uri_list_set_iter (uri_list, &iter, new_uri, new_name);
+
+	return TRUE;
 }
