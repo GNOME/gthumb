@@ -216,7 +216,8 @@ gth_image_dragger_button_press (GthImageViewerTool *self,
 	if (! dragger->priv->draggable)
 		return FALSE;
 
-	if ((event->button == 1) && ! viewer->dragging) {
+	if (((event->button == 1) || (event->button == 2)) &&
+			! viewer->dragging) {
 		GdkCursor     *cursor;
 		GdkGrabStatus  retval;
 
@@ -254,7 +255,7 @@ gth_image_dragger_button_release (GthImageViewerTool *self,
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
 
-	if (event->button != 1)
+	if ((event->button != 1) && (event->button != 2))
 		return FALSE;
 
 	dragger = (GthImageDragger *) self;
