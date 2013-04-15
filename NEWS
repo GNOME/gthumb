@@ -1,3 +1,15 @@
+version 3.2.1
+-------------
+
+ Bugs fixed:
+
+  * Facebook: fixed authentication.
+  * Slideshow: fixed audio playback.
+  * Filter-bar: fixed the spin button width for the file size control.
+  * Bookmarks: fixed ability to modify the bookmarks.
+  * Image viewer: allow to use button 2 to drag the image.
+  * Fixed unrecognized configure option --disable-libjson-glib (#696783)
+
 version 3.2.0
 -------------
 
