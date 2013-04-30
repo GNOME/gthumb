@@ -370,7 +370,7 @@ AUTHORS.tab : $(top_srcdir)/AUTHORS
 	$(AM_V_GEN)( sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp \
 	&& mv $@.tmp $@ )
 
-RESOURCES_DEP = $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies gthumb.gresource.xml)
+RESOURCES_DEP = $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(srcdir) $(srcdir)/gthumb.gresource.xml)
 
 gth-resources.c: gthumb.gresource.xml $(RESOURCES_DEP)
 	$(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate --c-name gth $(srcdir)/gthumb.gresource.xml
