@@ -199,9 +199,9 @@ dlg_convert_format (GthBrowser *browser,
 	}
 
 	first_file_data = (GthFileData *) data->file_list->data;
-	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
-				   first_file_data->file,
-				   NULL);
+	_gtk_file_chooser_set_file_parent (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
+				   	   first_file_data->file,
+				   	   NULL);
 
 	/* Set the signals handlers. */
 

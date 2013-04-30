@@ -355,9 +355,9 @@ dlg_resize_images (GthBrowser *browser,
 	/* Set widgets data. */
 
 	first_file_data = (GthFileData *) data->file_list->data;
-	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
-				   first_file_data->file,
-				   NULL);
+	_gtk_file_chooser_set_file_parent (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
+				   	   first_file_data->file,
+				   	   NULL);
 
 	unit = g_settings_get_enum (data->settings, PREF_RESIZE_IMAGES_UNIT);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), unit);

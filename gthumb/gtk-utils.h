@@ -133,6 +133,9 @@ GtkIconTheme *  _gtk_widget_get_icon_theme                 (GtkWidget        *wi
 void            _gtk_combo_box_add_image_sizes             (GtkComboBox      *combo_box,
 							    int               active_width,
 							    int               active_height);
+gboolean        _gtk_file_chooser_set_file_parent          (GtkFileChooser   *chooser,
+							    GFile            *file,
+							    GError          **error);
 
 G_END_DECLS
 
