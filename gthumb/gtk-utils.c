@@ -1043,3 +1043,22 @@ _gtk_combo_box_add_image_sizes (GtkComboBox *combo_box,
 	}
 	gtk_combo_box_set_active (combo_box, active_index);
 }
+
+
+gboolean
+_gtk_file_chooser_set_file_parent (GtkFileChooser   *chooser,
+				   GFile            *file,
+				   GError          **error)
+{
+	GFile *parent;
+	gboolean result;
+
+	parent = g_file_get_parent (file);
+	result = gtk_file_chooser_set_file (chooser, parent, error);
+
+	if (parent != NULL)
+		g_object_unref (parent);
+
+	return result;
+}
+
