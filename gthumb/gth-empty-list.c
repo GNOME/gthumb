@@ -213,6 +213,12 @@ gth_empty_list_draw (GtkWidget *widget,
 
 	gtk_widget_get_allocation (widget, &allocation);
 
+	gtk_render_background (style_context, cr,
+			       0,
+			       0,
+			       allocation.width,
+			       allocation.height);
+
 	gtk_render_frame (style_context, cr,
 			  0,
 			  0,
