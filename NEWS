@@ -1,3 +1,11 @@
+version 3.2.2
+-------------
+
+ Bugs fixed:
+
+  * Resize, Convert: correctly set the destination folder.
+  * Fixed the file list style with Gtk+ 3.8
+
 version 3.2.1
 -------------
 
