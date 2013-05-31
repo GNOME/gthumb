@@ -2728,7 +2728,7 @@ msgstr "画像を時計回りに90°回転します"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:70
 msgid "Save As"
-msgstr "別名で保存する"
+msgstr "名前を付けて保存する"
 
 #: ../extensions/file_tools/gth-file-tool-save.c:66
 msgid "Save"
