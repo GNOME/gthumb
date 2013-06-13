@@ -72,7 +72,7 @@ gth_import_task_finalize (GObject *object)
 
 	self = GTH_IMPORT_TASK (object);
 
-	if (ImportPhotos)
+	if (gth_browser_get_close_with_task (self->priv->browser))
 		gtk_window_present (GTK_WINDOW (self->priv->browser));
 
 	g_free (self->priv->buffer);

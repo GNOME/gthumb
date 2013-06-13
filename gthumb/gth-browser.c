@@ -165,6 +165,7 @@ struct _GthBrowserPrivate {
 	gulong             task_completed;
 	gulong             task_progress;
 	GList             *background_tasks;
+	gboolean           close_with_task;
 	GList             *load_data_queue;
 	GList             *load_file_data_queue;
 	guint              load_file_timeout;
@@ -187,7 +188,7 @@ struct _GthBrowserPrivate {
 	GSettings         *messages_settings;
 	GSettings         *desktop_interface_settings;
 
-	/* fulscreen */
+	/* fullscreen */
 
 	gboolean           fullscreen;
 	GtkWidget         *fullscreen_toolbar;
@@ -4328,6 +4329,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->task_completed = 0;
 	browser->priv->task_progress = 0;
 	browser->priv->background_tasks = NULL;
+	browser->priv->close_with_task = FALSE;
 	browser->priv->load_data_queue = NULL;
 	browser->priv->load_file_data_queue = NULL;
 	browser->priv->load_file_timeout = 0;
@@ -5323,6 +5325,21 @@ gth_browser_exec_task (GthBrowser *browser,
 	browser->priv->activity_ref++;
 	gth_browser_update_sensitivity (browser);
 	gth_task_exec (browser->priv->task, NULL);
+}
+
+
+void
+gth_browser_set_close_with_task (GthBrowser *browser,
+				 gboolean    value)
+{
+	browser->priv->close_with_task = value;
+}
+
+
+gboolean
+gth_browser_get_close_with_task (GthBrowser *browser)
+{
+	return browser->priv->close_with_task;
 }
 
 

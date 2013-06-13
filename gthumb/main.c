@@ -128,6 +128,7 @@ import_photos_from_location (GFile *location)
 	GtkWidget *window;
 
 	window = gth_browser_new (NULL, NULL);
+	gth_browser_set_close_with_task (GTH_BROWSER (window), TRUE);
 	gth_hook_invoke ("import-photos", window, location, NULL);
 }
 
