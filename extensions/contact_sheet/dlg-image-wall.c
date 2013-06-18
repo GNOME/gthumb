@@ -184,6 +184,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	gth_browser_exec_task (data->browser, task, FALSE);
 	gtk_widget_destroy (data->dialog);
 
+	g_object_unref (task);
 	gth_contact_sheet_theme_unref (theme);
 	g_free (file_extension);
 	g_free (mime_type);

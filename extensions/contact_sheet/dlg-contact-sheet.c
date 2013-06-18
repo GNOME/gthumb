@@ -238,6 +238,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	gth_browser_exec_task (data->browser, task, FALSE);
 	gtk_widget_destroy (data->dialog);
 
+	g_object_unref (task);
 	g_free (thumbnail_caption);
 	g_free (theme_name);
 	g_free (file_extension);

@@ -113,6 +113,7 @@ save_as_response_cb (GtkDialog  *file_sel,
 
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
 
+	g_object_unref (task);
 	g_free (folder_uri);
 	g_object_unref (folder);
 	g_object_unref (file);
