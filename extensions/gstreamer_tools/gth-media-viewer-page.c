@@ -998,6 +998,9 @@ bus_message_cb (GstBus     *bus,
 {
 	GthMediaViewerPage *self = user_data;
 
+	if (GST_MESSAGE_SRC (message) != GST_OBJECT (self->priv->playbin))
+		return;
+
 	switch (GST_MESSAGE_TYPE (message)) {
 	case GST_MESSAGE_STATE_CHANGED: {
 		GstState old_state;
@@ -1006,14 +1009,10 @@ bus_message_cb (GstBus     *bus,
 
 		old_state = new_state = GST_STATE_NULL;
 		gst_message_parse_state_changed (message, &old_state, &new_state, &pending_state);
-
-		self->priv->paused = (new_state == GST_STATE_PAUSED);
-
 		if (old_state == new_state)
 			break;
-		if (GST_MESSAGE_SRC (message) != GST_OBJECT (self->priv->playbin))
-			break;
 
+		self->priv->paused = (new_state == GST_STATE_PAUSED);
 		update_current_position_bar (self);
 
 		if ((old_state == GST_STATE_NULL) && (new_state == GST_STATE_READY) && (pending_state != GST_STATE_PAUSED)) {
