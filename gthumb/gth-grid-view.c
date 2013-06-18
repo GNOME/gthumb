@@ -1322,6 +1322,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 
 		/* ...draw a frame with a drop-shadow effect */
 
+		cairo_save (cr);
 		cairo_translate (cr, 0.5, 0.5);
 		cairo_set_line_width (cr, 0.5);
 		cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
@@ -1384,7 +1385,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		cairo_stroke (cr);
 		*/
 
-		cairo_identity_matrix (cr);
+		cairo_restore (cr);
 	}
 
 	if (! item->is_icon && item->is_video) {
