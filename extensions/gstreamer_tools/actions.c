@@ -76,11 +76,11 @@ save_as_response_cb (GtkDialog  *file_sel,
 		     int         response,
 		     SaveData   *save_data)
 {
-	GFile       *file;
-	GFile       *folder;
-	char        *folder_uri;
-	const char  *mime_type;
-	GthTask     *task;
+	GFile      *file;
+	const char *mime_type;
+	GFile      *folder;
+	char       *folder_uri;
+	GthTask    *task;
 
 	if (response != GTK_RESPONSE_OK) {
 		GthMediaViewerPage *page = save_data->page;
@@ -135,6 +135,7 @@ screenshot_ready_cb (GdkPixbuf *pixbuf,
 
 	save_data->image = gth_image_new_for_pixbuf (pixbuf);
 	file_sel = gth_file_chooser_dialog_new (_("Save Image"), GTK_WINDOW (save_data->browser), "image-saver");
+	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 
 	{
 		char        *last_uri;
