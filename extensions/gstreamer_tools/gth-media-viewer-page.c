@@ -1044,7 +1044,7 @@ bus_message_cb (GstBus     *bus,
 	case GST_MESSAGE_BUFFERING: {
 		int percent = 0;
 		gst_message_parse_buffering (message, &percent);
-		gst_element_set_state(self->priv->playbin, (percent == 100) ? GST_STATE_PLAYING : GST_STATE_PAUSED);
+		gst_element_set_state (self->priv->playbin, (percent == 100) ? GST_STATE_PLAYING : GST_STATE_PAUSED);
 		break;
 	}
 
