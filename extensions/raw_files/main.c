@@ -209,13 +209,16 @@ _libraw_get_tranform (libraw_data_t *raw_data)
 }
 
 
-static void
-swap_int (int *a,
-	  int *b)
+#endif
+
+
+static int
+_libraw_progress_cb (void                 *callback_data,
+		     enum LibRaw_progress  stage,
+		     int                   iteration,
+		     int                   expected)
 {
-	int tmp = *a;
-	*a = *b;
-	*b = tmp;
+	return g_cancellable_is_cancelled ((GCancellable *) callback_data) ? 1 : 0;
 }
 
 
@@ -241,6 +244,7 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 		goto fatal_error;
 	}
 
+	libraw_set_progress_handler (raw_data, _libraw_progress_cb, cancellable);
 
 	if (! _g_input_stream_read_all (istream, &buffer, &size, cancellable, error))
 		goto fatal_error;
