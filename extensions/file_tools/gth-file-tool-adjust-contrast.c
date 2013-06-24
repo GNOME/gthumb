@@ -280,8 +280,6 @@ gth_file_tool_adjust_contrast_activate (GthFileTool *base)
 			  G_CALLBACK (image_task_completed_cb),
 			  base);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
-
-	g_object_unref (task);
 }
 
 
