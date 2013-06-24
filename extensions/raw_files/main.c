@@ -67,6 +67,8 @@ _libraw_read_jpeg_thumbnail (libraw_data_t  *raw_data,
 	GInputStream       *istream;
 	GthImage           *image;
 
+	g_return_val_if_fail (raw_data->thumbnail.tformat == LIBRAW_THUMBNAIL_JPEG, NULL);
+
 	loader_func = gth_main_get_image_loader_func ("image/jpeg", GTH_IMAGE_FORMAT_CAIRO_SURFACE);
 	if (loader_func == NULL)
 		return NULL;
@@ -91,11 +93,56 @@ _libraw_read_jpeg_thumbnail (libraw_data_t  *raw_data,
 
 
 static cairo_surface_t *
+_cairo_surface_create_from_ppm (int     width,
+				int     height,
+				guchar *buffer,
+				gsize   buffer_size)
+{
+	cairo_surface_t *surface;
+	int              stride;
+	guchar          *buffer_p;
+	int              r, c;
+	guchar          *row;
+	guchar          *column;
+	guint32          pixel;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
+	stride = cairo_image_surface_get_stride (surface);
+
+	cairo_surface_flush (surface);
+
+	buffer_p = buffer;
+	row = cairo_image_surface_get_data (surface);
+	for (r = 0; r < height; r++) {
+		column = row;
+		for (c = 0; c < width; c++) {
+			pixel = CAIRO_RGBA_TO_UINT32 (buffer_p[0], buffer_p[1], buffer_p[2], 0xff);
+			memcpy (column, &pixel, sizeof (guint32));
+
+			column += 4;
+			buffer_p += 3;
+		}
+		row += stride;
+	}
+
+	cairo_surface_mark_dirty (surface);
+
+	return NULL;
+}
+
+
+static GthImage *
 _libraw_read_bitmap_thumbnail (libraw_data_t *raw_data)
 {
 	GthImage        *image = NULL;
 	cairo_surface_t *surface = NULL;
 
+	g_return_val_if_fail (raw_data->thumbnail.tformat == LIBRAW_THUMBNAIL_BITMAP, NULL);
+
+	surface = _cairo_surface_create_from_ppm (raw_data->thumbnail.twidth,
+						  raw_data->thumbnail.theight,
+						  (guchar *) raw_data->thumbnail.thumb,
+						  raw_data->thumbnail.tlength);
 	if (surface != NULL) {
 		image = gth_image_new_for_surface (surface);
 		cairo_surface_destroy (surface);
@@ -126,6 +173,16 @@ _libraw_get_tranform (libraw_data_t *raw_data)
 	}
 
 	return transform;
+}
+
+
+static void
+swap_int (int *a,
+	  int *b)
+{
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
 
@@ -169,18 +226,16 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 
 	width = raw_data->sizes.iwidth;
 	height = raw_data->sizes.iheight;
+
 	switch (raw_data->sizes.flip) {
 	case 5: /* 270 degrees */
 	case 6: /* 90 degrees */
-	{
-		int tmp = width;
-		width = height;
-		height = tmp;
+		swap_int (&width, &height);
 		break;
-	}
 	default:
 		break;
 	}
+
 	if (original_width)
 		*original_width = width;
 	if (original_height)
