@@ -63,7 +63,7 @@ EXIV2_REQUIRED=0.21
 CLUTTER_REQUIRED=1.0.0
 CLUTTER_GTK_REQUIRED=1.0.0
 GSTREAMER_REQUIRED=1.0.0
-OPENRAW_REQUIRED=0.0.8
+LIBRAW_REQUIRED=0.14
 LIBSOUP_REQUIRED=2.36
 LIBSECRET_REQUIRED=0.11
 LIBBRASERO_REQUIRED=3.2.0
@@ -439,26 +439,26 @@ AC_DEFINE(WEBP_IS_UNKNOWN_TO_GLIB, 1, [Define to 1 if webp images area not recog
 
 dnl ===========================================================================
 
-AC_MSG_CHECKING(liboperaw)
-AC_ARG_ENABLE([libopenraw],
-	      [AS_HELP_STRING([--enable-libopenraw],[use the libopenraw library to read raw files [default=no]])],,
-	      [enable_libopenraw=no])
+AC_MSG_CHECKING(libraw)
+AC_ARG_ENABLE([libraw],
+	      [AS_HELP_STRING([--disable-libraw],[do not use libraw to read raw files (will use dcraw directly)])],,
+	      [enable_libraw=yes])
 
-if test x$enable_libopenraw = xyes ; then
-	PKG_CHECK_MODULES(LIBOPENRAW,
-			  libopenraw-1.0 >= $OPENRAW_REQUIRED,
-			  [enable_libopenraw=yes],
-			  [enable_libopenraw=no])
-	if test "x$enable_libopenraw" = "xyes"; then
-		AC_DEFINE(ENABLE_LIBOPENRAW, 1, [Define to 1 if libopenraw must be used to read raw files instead of dcraw])
+if test x$enable_libraw = xyes ; then
+	PKG_CHECK_MODULES(LIBRAW,
+			  libraw >= $LIBRAW_REQUIRED,
+			  [enable_libraw=yes],
+			  [enable_libraw=no])
+	if test "x$enable_libraw" = "xyes"; then
+		AC_DEFINE(HAVE_LIBRAW, 1, [Define to 1 if libraw is used to read raw files instead of dcraw])
 	fi
 fi
-if test x$enable_libopenraw = xno ; then
-	enable_libopenraw='no (uses dcraw)'
+if test x$enable_libraw = xno ; then
+	enable_libraw='no (uses dcraw)'
 fi
-AC_SUBST(LIBOPENRAW_LIBS)
-AC_SUBST(LIBOPENRAW_CFLAGS)
-AC_MSG_RESULT($enable_libopenraw)
+AC_SUBST(LIBRAW_LIBS)
+AC_SUBST(LIBRAW_CFLAGS)
+AM_CONDITIONAL(ENABLE_LIBRAW, test "x$enable_libraw" = xyes)
 
 dnl ===========================================================================
 
@@ -792,7 +792,7 @@ Configuration:
 	TIFF tools           : ${enable_tiff}
 	Clutter support      : ${enable_clutter}
 	GStreamer support    : ${enable_gstreamer}
-	Use libopenraw       : ${enable_libopenraw}
+	Use libraw           : ${enable_libraw}
 	Web services support : ${enable_web_services}
 	Use libsecret        : ${enable_libsecret}
 	Burn disc support    : ${enable_libbrasero}

@@ -23,187 +23,28 @@
 #include <config.h>
 
 
-#ifdef ENABLE_LIBOPENRAW
+#ifdef ENABLE_LIBRAW
 
 
-#define GDK_PIXBUF_ENABLE_BACKEND
 #include <gtk/gtk.h>
 #include <gthumb.h>
-#include <libopenraw/libopenraw.h>
-
-
-static void
-free_pixels (guchar   *pixels,
-	     gpointer  data)
-{
-	free (pixels);
-}
-
-
-static GdkPixbuf *
-_or_thumbnail_to_pixbuf (ORThumbnailRef thumbnail,
-			 int32_t        orientation)
-{
-	GdkPixbuf    *pixbuf = NULL;
-	const guchar *buf;
-	size_t        buf_size;
-	or_data_type  format;
-
-	buf = (const guchar *) or_thumbnail_data (thumbnail);
-	buf_size = or_thumbnail_data_size (thumbnail);
-	format = or_thumbnail_format (thumbnail);
-	switch (format) {
-	case OR_DATA_TYPE_PIXMAP_8RGB: {
-		guchar   *data;
-		uint32_t  x, y;
-
-		data = (guchar*) malloc (buf_size);
-		memcpy (data, buf, buf_size);
-		or_thumbnail_dimensions (thumbnail, &x, &y);
-		pixbuf = gdk_pixbuf_new_from_data (data,
-						   GDK_COLORSPACE_RGB,
-						   FALSE,
-						   8,
-						   x,
-						   y,
-						   x * 3,
-						   free_pixels,
-						   NULL);
-		break;
-	}
-	case OR_DATA_TYPE_JPEG:
-	case OR_DATA_TYPE_TIFF:
-	case OR_DATA_TYPE_PNG: {
-		GdkPixbufLoader *loader;
-
-		loader = gdk_pixbuf_loader_new ();
-		gdk_pixbuf_loader_write (loader, buf, buf_size, NULL);
-		gdk_pixbuf_loader_close (loader, NULL);
-		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-		break;
-	}
-	default:
-		break;
-	}
-
-	return pixbuf;
-}
-
-
-static GdkPixbuf *
-openraw_extract_thumbnail_from_file (GthFileData  *file_data,
-				     int           requested_size,
-				     GError      **error)
-{
-	GdkPixbuf    *pixbuf = NULL;
-	char         *filename;
-	ORRawFileRef  raw_file = NULL;
-
-	filename = g_file_get_path (file_data->file);
-	if (filename == NULL)
-		return NULL;
-
-	raw_file = or_rawfile_new (filename, OR_DATA_TYPE_NONE);
-	if (raw_file != NULL) {
-		int32_t        orientation;
-		ORThumbnailRef thumbnail;
-		or_error       err;
-
-		orientation = or_rawfile_get_orientation (raw_file);
-		thumbnail = or_thumbnail_new ();
-		err = or_rawfile_get_thumbnail (raw_file, requested_size, thumbnail);
-		if (err == OR_ERROR_NONE) {
-			GdkPixbuf *tmp;
-
-			tmp = _or_thumbnail_to_pixbuf (thumbnail, orientation);
-			pixbuf = _gdk_pixbuf_transform (tmp, orientation);
-			g_object_unref (tmp);
-		}
-
-		or_thumbnail_release (thumbnail);
-		or_rawfile_release (raw_file);
-	}
-
-	g_free (filename);
-
-	return pixbuf;
-}
-
-
-static void
-free_bitmapdata (guchar   *pixels,
-		 gpointer  data)
-{
-	or_bitmapdata_release ((ORBitmapDataRef) data);
-}
-
-
-static GdkPixbuf *
-openraw_get_pixbuf_from_file (GthFileData  *file_data,
-			      GError      **error)
-{
-	GdkPixbuf    *pixbuf = NULL;
-	char         *filename;
-	ORRawFileRef  raw_file = NULL;
-
-	filename = g_file_get_path (file_data->file);
-	if (filename == NULL)
-		return NULL;
-
-	raw_file = or_rawfile_new (filename, OR_DATA_TYPE_NONE);
-	if (raw_file != NULL) {
-		ORBitmapDataRef bitmapdata;
-		or_error        err;
-
-		bitmapdata = or_bitmapdata_new ();
-		err = or_rawfile_get_rendered_image (raw_file, bitmapdata, 0);
-		if (err == OR_ERROR_NONE) {
-			uint32_t x, y;
-
-			or_bitmapdata_dimensions (bitmapdata, &x, &y);
-			pixbuf = gdk_pixbuf_new_from_data (or_bitmapdata_data (bitmapdata),
-							   GDK_COLORSPACE_RGB,
-							   FALSE,
-							   8,
-							   x,
-							   y,
-							   (x - 2) * 3,
-							   free_bitmapdata,
-							   bitmapdata);
-		}
-
-		or_rawfile_release (raw_file);
-	}
-
-	g_free (filename);
-
-	return pixbuf;
-}
 
 
 static GthImage *
-openraw_pixbuf_animation_new_from_file (GthFileData  *file_data,
-					int           requested_size,
-					GError      **error)
+openraw_pixbuf_animation_new_from_file (GInputStream  *istream,
+					GthFileData   *file_data,
+					int            requested_size,
+					int           *original_width,
+					int           *original_height,
+					gpointer       user_data,
+					GCancellable  *cancellable,
+					GError       **error)
 {
-	GthImage  *image = NULL;
-	GdkPixbuf *pixbuf;
-
-	if (requested_size == 0)
-		pixbuf = openraw_extract_thumbnail_from_file (file_data, requested_size, error);
-	else
-		pixbuf = openraw_get_pixbuf_from_file (file_data, error);
-
-	if (pixbuf != NULL) {
-		image = gth_image_new_for_pixbuf (pixbuf);
-		g_object_unref (pixbuf);
-	}
-
-	return image;
+	return NULL;
 }
 
 
-#else /* ! ENABLE_LIBOPENRAW */
+#else /* ! ENABLE_LIBRAW */
 
 
 #define GDK_PIXBUF_ENABLE_BACKEND
@@ -278,17 +119,17 @@ openraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 					GCancellable  *cancellable,
 					GError       **error)
 {
-	GthImage  *image = NULL;
-	GdkPixbuf *pixbuf;
-	gboolean   is_thumbnail;
-	gboolean   is_raw;
-	gboolean   is_hdr;
-	char      *local_file;
-	char      *local_file_md5;
-	char	  *cache_file;
-	char	  *cache_file_esc;
-	char	  *local_file_esc;
-	char	  *command = NULL;
+	GthImage    *image = NULL;
+	GdkPixbuf   *pixbuf;
+	gboolean     is_thumbnail;
+	gboolean     is_raw;
+	gboolean     is_hdr;
+	char        *local_file;
+	char         *local_file_md5;
+	char	     *cache_file;
+	char	     *cache_file_esc;
+	char	     *local_file_esc;
+	char	     *command = NULL;
 
 	if (file_data == NULL) {
 		if (error != NULL)

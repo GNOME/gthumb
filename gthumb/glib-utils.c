@@ -2917,7 +2917,11 @@ _g_content_type_get_from_stream (GInputStream  *istream,
 	if (result_uncertain)
 		content_type = NULL;
 
-	if (((content_type == NULL) || (strcmp (content_type, "application/xml") == 0)) && (file != NULL)) {
+	if (((content_type == NULL)
+	     || (strcmp (content_type, "application/xml") == 0)
+	     || (strcmp (content_type, "image/tiff") == 0))
+	    && (file != NULL))
+	{
 		char *filename;
 
 		filename = g_file_get_basename (file);

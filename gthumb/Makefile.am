@@ -286,7 +286,7 @@ gthumb_LDADD =						\
 	$(LIBSECRET_LIBS)				\
 	$(GSTREAMER_LIBS)				\
 	$(LIBBRASERO_LIBS)				\
-	$(LIBOPENRAW_LIBS)				\
+	$(LIBRAW_LIBS)					\
 	$(LIBSOUP_LIBS)					\
 	$(LIBCHAMPLAIN_LIBS)				\
 	$(LIBRSVG_LIBS)					\
@@ -319,7 +319,7 @@ gthumb_CFLAGS =							\
 	$(LIBSECRET_CFLAGS)					\
 	$(GSTREAMER_CFLAGS)					\
 	$(LIBBRASERO_CFLAGS)					\
-	$(LIBOPENRAW_CFLAGS)					\
+	$(LIBRAW_CFLAGS)					\
 	$(LIBSOUP_CFLAGS)					\
 	$(LIBCHAMPLAIN_CFLAGS)					\
 	$(SMCLIENT_CFLAGS)					\
