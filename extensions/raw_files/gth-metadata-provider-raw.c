@@ -92,21 +92,16 @@ gth_metadata_provider_raw_read (GthMetadataProvider *self,
 	if (LIBRAW_FATAL_ERROR (result))
 		goto fatal_error;
 
+	result = libraw_unpack (raw_data);
+	if (result != LIBRAW_SUCCESS)
+		goto fatal_error;
+
+	result = libraw_adjust_sizes_info_only (raw_data);
+	if (result != LIBRAW_SUCCESS)
+		goto fatal_error;
+
 	width = raw_data->sizes.iwidth;
 	height = raw_data->sizes.iheight;
-
-	switch (raw_data->sizes.flip) {
-	case 5: /* 270 degrees */
-	case 6: /* 90 degrees */
-	{
-		int tmp = width;
-		width = height;
-		height = tmp;
-		break;
-	}
-	default:
-		break;
-	}
 
 	g_file_info_set_attribute_string (file_data->info, "general::format", _("RAW Format"));
 	g_file_info_set_attribute_int32 (file_data->info, "image::width", width);

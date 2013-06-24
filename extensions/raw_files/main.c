@@ -200,7 +200,6 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 	int            result;
 	void          *buffer = NULL;
 	size_t         size;
-	int            width, height;
 	GthImage      *image = NULL;
 
 	raw_data = libraw_init (LIBRAW_OPIONS_NO_MEMERR_CALLBACK | LIBRAW_OPIONS_NO_DATAERR_CALLBACK);
@@ -222,24 +221,9 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 		goto fatal_error;
 	}
 
-	/* get the original size */
 
-	width = raw_data->sizes.iwidth;
-	height = raw_data->sizes.iheight;
 
-	switch (raw_data->sizes.flip) {
-	case 5: /* 270 degrees */
-	case 6: /* 90 degrees */
-		swap_int (&width, &height);
-		break;
-	default:
-		break;
-	}
 
-	if (original_width)
-		*original_width = width;
-	if (original_height)
-		*original_height = height;
 
 	/* read the thumbnail */
 
@@ -275,6 +259,17 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 
 	if ((image != NULL) && (raw_data->sizes.pixel_aspect != 1.0)) {
 		/* FIXME: scale */
+	/* get the original size */
+
+	if ((original_width != NULL) && (original_height != NULL)) {
+		result = libraw_adjust_sizes_info_only (raw_data);
+		if (result != LIBRAW_SUCCESS) {
+			_libraw_set_gerror (error, result);
+			goto fatal_error;
+		}
+
+		*original_width = raw_data->sizes.iwidth;
+		*original_height = raw_data->sizes.iheight;
 	}
 
 	fatal_error:
