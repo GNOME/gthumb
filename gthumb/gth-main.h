@@ -90,6 +90,9 @@ void                   gth_main_register_image_loader_func    (GthImageLoaderFun
 							       GthImageFormat        native_format,
 						               const char           *first_mime_type,
 						               ...);
+void                   gth_main_register_image_loader_func_v  (GthImageLoaderFunc    loader,
+							       GthImageFormat        native_format,
+							       const char          **mime_types);
 GthImageLoaderFunc     gth_main_get_image_loader_func         (const char           *mime_type,
 							       GthImageFormat        preferred_format);
 GthImageSaver *        gth_main_get_image_saver               (const char           *mime_type);

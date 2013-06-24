@@ -21,13 +21,31 @@
 
 
 #include <config.h>
+#include <glib.h>
+#include "main.h"
 
 
-#ifdef ENABLE_LIBRAW
+const char *raw_mime_types[] = {
+	"image/x-adobe-dng",
+	"image/x-canon-cr2",
+	"image/x-canon-crw",
+	"image/x-epson-erf",
+	"image/x-minolta-mrw",
+	"image/x-nikon-nef",
+	"image/x-olympus-orf",
+	"image/x-pentax-pef",
+	"image/x-sony-arw",
+	NULL };
 
 
+#ifdef HAVE_LIBRAW
+
+#include <cairo.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include <libraw.h>
+#include "gth-metadata-provider-raw.h"
+
 
 
 static GthImage *
@@ -39,12 +57,15 @@ openraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 					gpointer       user_data,
 					GCancellable  *cancellable,
 					GError       **error)
+
+G_MODULE_EXPORT void
+gthumb_extension_activate (void)
 {
-	return NULL;
+	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_RAW);
 }
 
 
-#else /* ! ENABLE_LIBRAW */
+#else /* ! HAVE_LIBRAW */
 
 
 #define GDK_PIXBUF_ENABLE_BACKEND
@@ -110,7 +131,7 @@ get_file_mtime (const char *path)
 
 
 static GthImage *
-openraw_pixbuf_animation_new_from_file (GInputStream  *istream,
+dcraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 					GthFileData   *file_data,
 					int            requested_size,
 					int           *original_width,
@@ -285,25 +306,16 @@ openraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 }
 
 
-#endif
-
-
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
-	gth_main_register_image_loader_func (openraw_pixbuf_animation_new_from_file,
-					     GTH_IMAGE_FORMAT_GDK_PIXBUF,
-					     "image/x-adobe-dng",
-					     "image/x-canon-cr2",
-					     "image/x-canon-crw",
-					     "image/x-epson-erf",
-					     "image/x-minolta-mrw",
-					     "image/x-nikon-nef",
-					     "image/x-olympus-orf",
-					     "image/x-pentax-pef",
-					     "image/x-sony-arw",
-					     NULL);
+	gth_main_register_image_loader_func_v (dcraw_pixbuf_animation_new_from_file,
+					       GTH_IMAGE_FORMAT_GDK_PIXBUF,
+					       raw_mime_types);
 }
+
+
+#endif
 
 
 G_MODULE_EXPORT void

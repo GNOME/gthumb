@@ -1,8 +1,15 @@
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libraw_files.la
 
-libraw_files_la_SOURCES = \
-	main.c
+libraw_files_la_SOURCES =	\
+	main.c			\
+	main.h
+
+if ENABLE_LIBRAW
+libraw_files_la_SOURCES += 		\
+	gth-metadata-provider-raw.c	\
+	gth-metadata-provider-raw.h	
+endif
 
 libraw_files_la_CFLAGS = $(GTHUMB_CFLAGS) $(LIBRAW_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libraw_files_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

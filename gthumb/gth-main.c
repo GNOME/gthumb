@@ -661,6 +661,18 @@ _gth_main_create_type_spec (GType       object_type,
 }
 
 
+static void
+_register_image_loader_func (GthImageLoaderFunc  loader,
+			     GthImageFormat      native_format,
+			     const char         *mime_type)
+{
+	char *key;
+
+	key = g_strdup_printf ("%s-%d", mime_type, native_format);
+	g_hash_table_insert (Main->priv->image_loaders, (gpointer) key, loader);
+}
+
+
 void
 gth_main_register_image_loader_func (GthImageLoaderFunc  loader,
 				     GthImageFormat      native_format,
@@ -675,14 +687,26 @@ gth_main_register_image_loader_func (GthImageLoaderFunc  loader,
 	va_start (var_args, first_mime_type);
 	mime_type = first_mime_type;
   	while (mime_type != NULL) {
-  		char *key;
-
-  		key = g_strdup_printf ("%s-%d", mime_type, native_format);
-		g_hash_table_insert (Main->priv->image_loaders, (gpointer) key, loader);
-
+  		_register_image_loader_func (loader, native_format, mime_type);
 		mime_type = va_arg (var_args, const char *);
   	}
 	va_end (var_args);
+
+	g_static_mutex_unlock (&register_mutex);
+}
+
+
+void
+gth_main_register_image_loader_func_v (GthImageLoaderFunc   loader,
+				       GthImageFormat       native_format,
+				       const char         **mime_types)
+{
+	int i;
+
+	g_static_mutex_lock (&register_mutex);
+
+	for (i = 0; mime_types[i] != NULL; i++)
+		_register_image_loader_func (loader, native_format, mime_types[i]);
 
 	g_static_mutex_unlock (&register_mutex);
 }
