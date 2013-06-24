@@ -68,6 +68,7 @@ save_screenshot_task_completed_cb (GthTask  *task,
 		gst_element_set_state (gth_media_viewer_page_get_playbin (page), GST_STATE_PLAYING);
 
 	save_date_free (save_data);
+	g_object_unref (task);
 }
 
 
@@ -113,7 +114,6 @@ save_as_response_cb (GtkDialog  *file_sel,
 
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
 
-	g_object_unref (task);
 	g_free (folder_uri);
 	g_object_unref (folder);
 	g_object_unref (file);
