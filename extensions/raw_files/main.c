@@ -40,11 +40,25 @@ const char *raw_mime_types[] = {
 
 #ifdef HAVE_LIBRAW
 
+
 #include <cairo.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include <libraw.h>
 #include "gth-metadata-provider-raw.h"
+
+
+#define RAW_USE_EMBEDDED_THUMBNAIL 1
+
+
+typedef enum {
+	RAW_OUTPUT_COLOR_RAW = 0,
+	RAW_OUTPUT_COLOR_SRGB = 1,
+	RAW_OUTPUT_COLOR_ADOBE = 2,
+	RAW_OUTPUT_COLOR_WIDE = 3,
+	RAW_OUTPUT_COLOR_PROPHOTO = 4,
+	RAW_OUTPUT_COLOR_XYZ = 5
+} RawOutputColor;
 
 
 static void
@@ -59,27 +73,27 @@ _libraw_set_gerror (GError **error,
 
 
 static GthImage *
-_libraw_read_jpeg_thumbnail (libraw_data_t  *raw_data,
-			     GCancellable   *cancellable,
-			     GError        **error)
+_libraw_read_jpeg_data (void           *buffer,
+			gsize           buffer_size,
+			int             requested_size,
+			GCancellable   *cancellable,
+			GError        **error)
 {
 	GthImageLoaderFunc  loader_func;
 	GInputStream       *istream;
 	GthImage           *image;
 
-	g_return_val_if_fail (raw_data->thumbnail.tformat == LIBRAW_THUMBNAIL_JPEG, NULL);
-
 	loader_func = gth_main_get_image_loader_func ("image/jpeg", GTH_IMAGE_FORMAT_CAIRO_SURFACE);
 	if (loader_func == NULL)
 		return NULL;
 
-	istream = g_memory_input_stream_new_from_data (raw_data->thumbnail.thumb, raw_data->thumbnail.tlength, NULL);
+	istream = g_memory_input_stream_new_from_data (buffer, buffer_size, NULL);
 	if (istream == NULL)
 		return NULL;
 
 	image = loader_func (istream,
 			     NULL,
-			     -1,
+			     requested_size,
 			     NULL,
 			     NULL,
 			     NULL,
@@ -95,6 +109,8 @@ _libraw_read_jpeg_thumbnail (libraw_data_t  *raw_data,
 static cairo_surface_t *
 _cairo_surface_create_from_ppm (int     width,
 				int     height,
+				int     colors,
+				int     bits,
 				guchar *buffer,
 				gsize   buffer_size)
 {
@@ -106,6 +122,9 @@ _cairo_surface_create_from_ppm (int     width,
 	guchar          *column;
 	guint32          pixel;
 
+	if (bits != 8)
+		return NULL;
+
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	stride = cairo_image_surface_get_stride (surface);
 
@@ -116,33 +135,44 @@ _cairo_surface_create_from_ppm (int     width,
 	for (r = 0; r < height; r++) {
 		column = row;
 		for (c = 0; c < width; c++) {
-			pixel = CAIRO_RGBA_TO_UINT32 (buffer_p[0], buffer_p[1], buffer_p[2], 0xff);
+			switch (colors) {
+			case 4:
+				pixel = CAIRO_RGBA_TO_UINT32 (buffer_p[0], buffer_p[1], buffer_p[2], buffer_p[3]);
+				break;
+			case 3:
+				pixel = CAIRO_RGBA_TO_UINT32 (buffer_p[0], buffer_p[1], buffer_p[2], 0xff);
+				break;
+			case 1:
+				pixel = CAIRO_RGBA_TO_UINT32 (buffer_p[0], buffer_p[0], buffer_p[0], 0xff);
+				break;
+			}
+
 			memcpy (column, &pixel, sizeof (guint32));
 
 			column += 4;
-			buffer_p += 3;
+			buffer_p += colors;
 		}
 		row += stride;
 	}
 
 	cairo_surface_mark_dirty (surface);
 
-	return NULL;
+	return surface;
 }
 
 
 static GthImage *
-_libraw_read_bitmap_thumbnail (libraw_data_t *raw_data)
+_libraw_read_bitmap_data (int     width,
+			  int     height,
+			  int     colors,
+			  int     bits,
+			  guchar *buffer,
+			  gsize   buffer_size)
 {
 	GthImage        *image = NULL;
 	cairo_surface_t *surface = NULL;
 
-	g_return_val_if_fail (raw_data->thumbnail.tformat == LIBRAW_THUMBNAIL_BITMAP, NULL);
-
-	surface = _cairo_surface_create_from_ppm (raw_data->thumbnail.twidth,
-						  raw_data->thumbnail.theight,
-						  (guchar *) raw_data->thumbnail.thumb,
-						  raw_data->thumbnail.tlength);
+	surface = _cairo_surface_create_from_ppm (width, height, colors, bits, buffer, buffer_size);
 	if (surface != NULL) {
 		image = gth_image_new_for_surface (surface);
 		cairo_surface_destroy (surface);
@@ -150,6 +180,9 @@ _libraw_read_bitmap_thumbnail (libraw_data_t *raw_data)
 
 	return image;
 }
+
+
+#ifdef RAW_USE_EMBEDDED_THUMBNAIL
 
 
 static GthTransform
@@ -208,12 +241,18 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 		goto fatal_error;
 	}
 
-	raw_data->params.output_tiff = 1;
-	raw_data->params.use_camera_wb = 1;
-	raw_data->params.use_rawspeed = 1;
 
 	if (! _g_input_stream_read_all (istream, &buffer, &size, cancellable, error))
 		goto fatal_error;
+
+	raw_data->params.output_tiff = FALSE;
+	raw_data->params.use_camera_wb = TRUE;
+	raw_data->params.use_rawspeed = TRUE;
+	raw_data->params.highlight = FALSE;
+	raw_data->params.use_camera_matrix = TRUE;
+	raw_data->params.output_color = RAW_OUTPUT_COLOR_SRGB;
+	raw_data->params.output_bps = 8;
+	raw_data->params.half_size = (requested_size > 0);
 
 	result = libraw_open_buffer (raw_data, buffer, size);
 	if (LIBRAW_FATAL_ERROR (result)) {
@@ -221,44 +260,104 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 		goto fatal_error;
 	}
 
+	/*  */
 
+#if RAW_USE_EMBEDDED_THUMBNAIL
 
+	if (requested_size > 0) {
 
+		/* read the thumbnail */
 
-	/* read the thumbnail */
+		result = libraw_unpack_thumb (raw_data);
+		if (result != LIBRAW_SUCCESS) {
+			_libraw_set_gerror (error, result);
+			goto fatal_error;
+		}
 
-	result = libraw_unpack_thumb (raw_data);
-	if (LIBRAW_FATAL_ERROR (result)) {
-		_libraw_set_gerror (error, result);
-		goto fatal_error;
+		switch (raw_data->thumbnail.tformat) {
+		case LIBRAW_THUMBNAIL_JPEG:
+			image = _libraw_read_jpeg_data (raw_data->thumbnail.thumb,
+							raw_data->thumbnail.tlength,
+							requested_size,
+							cancellable,
+							error);
+			break;
+		case LIBRAW_THUMBNAIL_BITMAP:
+			image = _libraw_read_bitmap_data (raw_data->thumbnail.twidth,
+							  raw_data->thumbnail.theight,
+							  raw_data->thumbnail.tcolors,
+							  8,
+							  (guchar *) raw_data->thumbnail.thumb,
+							  raw_data->thumbnail.tlength);
+			break;
+		default:
+			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "Unsupported data format");
+			break;
+		}
+
+		if ((image != NULL) && (_libraw_get_tranform (raw_data) != GTH_TRANSFORM_NONE)) {
+			cairo_surface_t *surface;
+			cairo_surface_t *rotated;
+
+			surface = gth_image_get_cairo_surface (image);
+			rotated = _cairo_image_surface_transform (surface, _libraw_get_tranform (raw_data));
+			gth_image_set_cairo_surface (image, rotated);
+
+			cairo_surface_destroy (rotated);
+			cairo_surface_destroy (surface);
+		}
+	}
+	else
+
+#endif
+
+	{
+		/* read the image */
+
+		libraw_processed_image_t *processed_image;
+
+		result = libraw_unpack (raw_data);
+		if (result != LIBRAW_SUCCESS) {
+			_libraw_set_gerror (error, result);
+			goto fatal_error;
+		}
+
+		result = libraw_dcraw_process (raw_data);
+		if (result != LIBRAW_SUCCESS) {
+			_libraw_set_gerror (error, result);
+			goto fatal_error;
+		}
+
+		processed_image = libraw_dcraw_make_mem_image (raw_data, &result);
+		if (result != LIBRAW_SUCCESS) {
+			_libraw_set_gerror (error, result);
+			goto fatal_error;
+		}
+
+		switch (processed_image->type) {
+		case LIBRAW_IMAGE_JPEG:
+			image = _libraw_read_jpeg_data (processed_image->data,
+							processed_image->data_size,
+							-1,
+							cancellable,
+							error);
+			break;
+		case LIBRAW_IMAGE_BITMAP:
+			image = _libraw_read_bitmap_data (processed_image->width,
+							  processed_image->height,
+							  processed_image->colors,
+							  processed_image->bits,
+							  processed_image->data,
+							  processed_image->data_size);
+			break;
+		default:
+			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "Unsupported data format");
+			break;
+		}
+
+		libraw_dcraw_clear_mem (processed_image);
 	}
 
-	switch (raw_data->thumbnail.tformat) {
-	case LIBRAW_THUMBNAIL_JPEG:
-		image = _libraw_read_jpeg_thumbnail (raw_data, cancellable, error);
-		break;
-	case LIBRAW_THUMBNAIL_BITMAP:
-		image = _libraw_read_bitmap_thumbnail (raw_data);
-		break;
-	default:
-		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "Unsupported data format");
-		break;
-	}
-
-	if ((image != NULL) && (_libraw_get_tranform (raw_data) != GTH_TRANSFORM_NONE)) {
-		cairo_surface_t *surface;
-		cairo_surface_t *rotated;
-
-		surface = gth_image_get_cairo_surface (image);
-		rotated = _cairo_image_surface_transform (surface, _libraw_get_tranform (raw_data));
-		gth_image_set_cairo_surface (image, rotated);
-
-		cairo_surface_destroy (rotated);
-		cairo_surface_destroy (surface);
-	}
-
-	if ((image != NULL) && (raw_data->sizes.pixel_aspect != 1.0)) {
-		/* FIXME: scale */
 	/* get the original size */
 
 	if ((original_width != NULL) && (original_height != NULL)) {
