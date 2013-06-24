@@ -29,6 +29,7 @@
 #define GDK_PIXBUF_ENABLE_BACKEND
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include "cairo-scale.h"
 #include "cairo-utils.h"
 #include "gio-utils.h"
 #include "glib-utils.h"
@@ -419,6 +420,15 @@ normalize_thumb (int *width,
 }
 
 
+static cairo_surface_t *
+_cairo_image_surface_scale_for_thumbnail (cairo_surface_t *image,
+					  int              new_width,
+					  int              new_height)
+{
+	return _cairo_image_surface_scale (image, new_width, new_height, SCALE_FILTER_BOX, NULL);
+}
+
+
 static void
 cache_image_ready_cb (GObject      *source_object,
 		      GAsyncResult *res,
@@ -468,9 +478,9 @@ cache_image_ready_cb (GObject      *source_object,
 				    self->priv->requested_size,
 				    self->priv->cache_max_size);
 	if (modified) {
-		GdkPixbuf *tmp = pixbuf;
-		pixbuf = _gdk_pixbuf_scale_simple_safe (tmp, width, height, GDK_INTERP_BILINEAR);
-		g_object_unref (tmp);
+		cairo_surface_t *tmp = surface;
+		surface = _cairo_image_surface_scale_for_thumbnail (tmp, width, height);
+		cairo_surface_destroy (tmp);
 	}
 
 	load_result = g_new0 (LoadResult, 1);
@@ -572,9 +582,9 @@ original_image_loaded_correctly (GthThumbLoader *self,
 						self->priv->cache_max_size,
 						FALSE);
 		if (modified) {
-			GdkPixbuf *tmp = local_pixbuf;
-			local_pixbuf = _gdk_pixbuf_scale_simple_safe (tmp, width, height, GDK_INTERP_BILINEAR);
-			g_object_unref (tmp);
+			cairo_surface_t *tmp = local_image;
+			local_image = _cairo_image_surface_scale_for_thumbnail (tmp, width, height);
+			cairo_surface_destroy (tmp);
 		}
 
 		_gth_thumb_loader_save_to_cache (self, load_data->file_data, local_image);
@@ -587,9 +597,9 @@ original_image_loaded_correctly (GthThumbLoader *self,
 				    self->priv->requested_size,
 				    self->priv->cache_max_size);
 	if (modified) {
-		GdkPixbuf *tmp = local_pixbuf;
-		local_pixbuf = _gdk_pixbuf_scale_simple_safe (tmp, width, height, GDK_INTERP_BILINEAR);
-		g_object_unref (tmp);
+		cairo_surface_t *tmp = local_image;
+		local_image = _cairo_image_surface_scale_for_thumbnail (tmp, width, height);
+		cairo_surface_destroy (tmp);
 	}
 
 	load_result = g_new0 (LoadResult, 1);
