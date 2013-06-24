@@ -47,21 +47,198 @@ const char *raw_mime_types[] = {
 #include "gth-metadata-provider-raw.h"
 
 
+static void
+_libraw_set_gerror (GError **error,
+		    int      error_code)
+{
+	g_set_error_literal (error,
+			     G_IO_ERROR,
+			     G_IO_ERROR_FAILED,
+			     libraw_strerror (error_code));
+}
+
 
 static GthImage *
-openraw_pixbuf_animation_new_from_file (GInputStream  *istream,
-					GthFileData   *file_data,
-					int            requested_size,
-					int           *original_width,
-					int           *original_height,
-					gpointer       user_data,
-					GCancellable  *cancellable,
-					GError       **error)
+_libraw_read_jpeg_thumbnail (libraw_data_t  *raw_data,
+			     GCancellable   *cancellable,
+			     GError        **error)
+{
+	GthImageLoaderFunc  loader_func;
+	GInputStream       *istream;
+	GthImage           *image;
+
+	loader_func = gth_main_get_image_loader_func ("image/jpeg", GTH_IMAGE_FORMAT_CAIRO_SURFACE);
+	if (loader_func == NULL)
+		return NULL;
+
+	istream = g_memory_input_stream_new_from_data (raw_data->thumbnail.thumb, raw_data->thumbnail.tlength, NULL);
+	if (istream == NULL)
+		return NULL;
+
+	image = loader_func (istream,
+			     NULL,
+			     -1,
+			     NULL,
+			     NULL,
+			     NULL,
+			     cancellable,
+			     error);
+
+	g_object_unref (istream);
+
+	return image;
+}
+
+
+static cairo_surface_t *
+_libraw_read_bitmap_thumbnail (libraw_data_t *raw_data)
+{
+	GthImage        *image = NULL;
+	cairo_surface_t *surface = NULL;
+
+	if (surface != NULL) {
+		image = gth_image_new_for_surface (surface);
+		cairo_surface_destroy (surface);
+	}
+
+	return image;
+}
+
+
+static GthTransform
+_libraw_get_tranform (libraw_data_t *raw_data)
+{
+	GthTransform transform;
+
+	switch (raw_data->sizes.flip) {
+	case 3:
+		transform = GTH_TRANSFORM_ROTATE_180;
+		break;
+	case 5:
+		transform = GTH_TRANSFORM_ROTATE_270;
+		break;
+	case 6:
+		transform = GTH_TRANSFORM_ROTATE_90;
+		break;
+	default:
+		transform = GTH_TRANSFORM_NONE;
+		break;
+	}
+
+	return transform;
+}
+
+
+static GthImage *
+_cairo_image_surface_create_from_raw (GInputStream  *istream,
+				      GthFileData   *file_data,
+				      int            requested_size,
+				      int           *original_width,
+				      int           *original_height,
+				      gpointer       user_data,
+				      GCancellable  *cancellable,
+				      GError       **error)
+{
+	libraw_data_t *raw_data;
+	int            result;
+	void          *buffer = NULL;
+	size_t         size;
+	int            width, height;
+	GthImage      *image = NULL;
+
+	raw_data = libraw_init (LIBRAW_OPIONS_NO_MEMERR_CALLBACK | LIBRAW_OPIONS_NO_DATAERR_CALLBACK);
+	if (raw_data == NULL) {
+		_libraw_set_gerror (error, errno);
+		goto fatal_error;
+	}
+
+	raw_data->params.output_tiff = 1;
+	raw_data->params.use_camera_wb = 1;
+	raw_data->params.use_rawspeed = 1;
+
+	if (! _g_input_stream_read_all (istream, &buffer, &size, cancellable, error))
+		goto fatal_error;
+
+	result = libraw_open_buffer (raw_data, buffer, size);
+	if (LIBRAW_FATAL_ERROR (result)) {
+		_libraw_set_gerror (error, result);
+		goto fatal_error;
+	}
+
+	/* get the original size */
+
+	width = raw_data->sizes.iwidth;
+	height = raw_data->sizes.iheight;
+	switch (raw_data->sizes.flip) {
+	case 5: /* 270 degrees */
+	case 6: /* 90 degrees */
+	{
+		int tmp = width;
+		width = height;
+		height = tmp;
+		break;
+	}
+	default:
+		break;
+	}
+	if (original_width)
+		*original_width = width;
+	if (original_height)
+		*original_height = height;
+
+	/* read the thumbnail */
+
+	result = libraw_unpack_thumb (raw_data);
+	if (LIBRAW_FATAL_ERROR (result)) {
+		_libraw_set_gerror (error, result);
+		goto fatal_error;
+	}
+
+	switch (raw_data->thumbnail.tformat) {
+	case LIBRAW_THUMBNAIL_JPEG:
+		image = _libraw_read_jpeg_thumbnail (raw_data, cancellable, error);
+		break;
+	case LIBRAW_THUMBNAIL_BITMAP:
+		image = _libraw_read_bitmap_thumbnail (raw_data);
+		break;
+	default:
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "Unsupported data format");
+		break;
+	}
+
+	if ((image != NULL) && (_libraw_get_tranform (raw_data) != GTH_TRANSFORM_NONE)) {
+		cairo_surface_t *surface;
+		cairo_surface_t *rotated;
+
+		surface = gth_image_get_cairo_surface (image);
+		rotated = _cairo_image_surface_transform (surface, _libraw_get_tranform (raw_data));
+		gth_image_set_cairo_surface (image, rotated);
+
+		cairo_surface_destroy (rotated);
+		cairo_surface_destroy (surface);
+	}
+
+	if ((image != NULL) && (raw_data->sizes.pixel_aspect != 1.0)) {
+		/* FIXME: scale */
+	}
+
+	fatal_error:
+
+	if (raw_data != NULL)
+		libraw_close (raw_data);
+	g_free (buffer);
+
+	return image;
+}
+
 
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_RAW);
+	gth_main_register_image_loader_func_v (_cairo_image_surface_create_from_raw,
+					       GTH_IMAGE_FORMAT_CAIRO_SURFACE,
+					       raw_mime_types);
 }
 
 
