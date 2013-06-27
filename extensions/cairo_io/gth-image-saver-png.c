@@ -276,7 +276,7 @@ _cairo_surface_write_as_png (cairo_surface_t  *image,
 	buf = g_new (guchar, width * bpp);
 	ptr = pixels;
 	for (row = 0; row < height; ++row) {
-		_cairo_copy_line_as_rgba (buf, ptr, width, alpha);
+		_cairo_copy_line_as_rgba_big_endian (buf, ptr, width, alpha);
 		png_write_rows (cairo_png_data->png_ptr, &buf, 1);
 
 		ptr += rowstride;

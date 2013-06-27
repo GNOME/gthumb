@@ -586,10 +586,10 @@ _cairo_image_surface_color_shift (cairo_surface_t *image,
 
 
 void
-_cairo_copy_line_as_rgba (guchar *dest,
-			  guchar *src,
-			  guint   width,
-			  guint   alpha)
+_cairo_copy_line_as_rgba_big_endian (guchar *dest,
+				     guchar *src,
+				     guint   width,
+				     guint   alpha)
 {
 	guint x;
 
@@ -603,9 +603,41 @@ _cairo_copy_line_as_rgba (guchar *dest,
 	}
 	else {
 		for (x = 0; x < width; x++) {
-			dest[0] = src[CAIRO_RED];
+			CAIRO_GET_RGB (src, dest[0], dest[1], dest[2]);
+
+			src += 4;
+			dest += 3;
+		}
+	}
+}
+
+
+void
+_cairo_copy_line_as_rgba_little_endian (guchar *dest,
+					guchar *src,
+					guint   width,
+					guint   alpha)
+{
+	guint x;
+
+	if (alpha) {
+		int r, g, b, a;
+		for (x = 0; x < width; x++) {
+			CAIRO_GET_RGBA (src, r, g, b, a);
+			dest[0] = b;
+			dest[1] = g;
+			dest[2] = r;
+			dest[3] = a;
+
+			src += 4;
+			dest += 4;
+		}
+	}
+	else {
+		for (x = 0; x < width; x++) {
+			dest[0] = src[CAIRO_BLUE];
 			dest[1] = src[CAIRO_GREEN];
-			dest[2] = src[CAIRO_BLUE];
+			dest[2] = src[CAIRO_RED];
 
 			src += 4;
 			dest += 3;

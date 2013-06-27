@@ -181,7 +181,11 @@ cairo_surface_t *  _cairo_image_surface_transform           (cairo_surface_t    
 							     GthTransform           transform);
 cairo_surface_t *  _cairo_image_surface_color_shift         (cairo_surface_t       *image,
 							     int                    shift);
-void               _cairo_copy_line_as_rgba                 (guchar                *dest,
+void               _cairo_copy_line_as_rgba_big_endian      (guchar                *dest,
+							     guchar                *src,
+							     guint                  width,
+							     guint                  alpha);
+void               _cairo_copy_line_as_rgba_little_endian   (guchar                *dest,
 							     guchar                *src,
 							     guint                  width,
 							     guint                  alpha);

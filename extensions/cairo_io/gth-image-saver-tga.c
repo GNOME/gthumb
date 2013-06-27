@@ -260,7 +260,7 @@ _cairo_surface_write_as_tga (cairo_surface_t  *image,
 
 	ptr = pixels;
 	for (row = 0; row < height; ++row) {
-		_cairo_copy_line_as_rgba (buf, ptr, width, alpha);
+		_cairo_copy_line_as_rgba_little_endian (buf, ptr, width, alpha);
 
 		if (rle_compression)
 			rle_write (buffer_data, buf, width, out_bpp, error);
