@@ -232,8 +232,7 @@ _cairo_image_surface_create_from_png (GInputStream  *istream,
 
 	/* Read the image */
 
-	cairo_surface_flush (cairo_png_data->surface);
-	surface_row = cairo_image_surface_get_data (cairo_png_data->surface);
+	surface_row = _cairo_image_surface_flush_and_get_data (cairo_png_data->surface);
 	rowstride = cairo_image_surface_get_stride (cairo_png_data->surface);
 	row_pointers = g_new (png_bytep, height);
 	for (row = 0; row < height; row++) {

@@ -63,8 +63,8 @@ _cairo_image_surface_scale_nearest (cairo_surface_t *image,
 
 	src_width = cairo_image_surface_get_width  (image);
 	src_height = cairo_image_surface_get_height (image);
-	p_src = cairo_image_surface_get_data (image);
-	p_dest = cairo_image_surface_get_data (scaled);
+	p_src = _cairo_image_surface_flush_and_get_data (image);
+	p_dest = _cairo_image_surface_flush_and_get_data (scaled);
 	src_rowstride = cairo_image_surface_get_stride (image);
 	dest_rowstride = cairo_image_surface_get_stride (scaled);
 
@@ -266,8 +266,6 @@ horizontal_scale_transpose (cairo_surface_t *image,
 	if (resize_filter->cancelled)
 		return;
 
-        cairo_surface_flush (scaled);
-
 	scale = MAX (1.0 / scale_factor + EPSILON, 1.0);
 	support = scale * resize_filter_get_support (resize_filter);
 	if (support < 0.5) {
@@ -275,8 +273,8 @@ horizontal_scale_transpose (cairo_surface_t *image,
 		scale = 1.0;
 	}
 
-	p_src = cairo_image_surface_get_data (image);
-	p_dest = cairo_image_surface_get_data (scaled);
+	p_src = _cairo_image_surface_flush_and_get_data (image);
+	p_dest = _cairo_image_surface_flush_and_get_data (scaled);
 	src_rowstride = cairo_image_surface_get_stride (image);
 	dest_rowstride = cairo_image_surface_get_stride (scaled);
 	weights = g_new (double, 2.0 * support + 3.0);
@@ -519,8 +517,8 @@ _cairo_image_surface_scale_bilinear_2x2 (cairo_surface_t *image,
 
 	src_width = cairo_image_surface_get_width  (image);
 	src_height = cairo_image_surface_get_height (image);
-	p_src = cairo_image_surface_get_data (image);
-	p_dest = cairo_image_surface_get_data (scaled);
+	p_src = _cairo_image_surface_flush_and_get_data (image);
+	p_dest = _cairo_image_surface_flush_and_get_data (scaled);
 	src_rowstride = cairo_image_surface_get_stride (image);
 	dest_rowstride = cairo_image_surface_get_stride (scaled);
 
@@ -684,13 +682,11 @@ _cairo_surface_reduce_by_half (cairo_surface_t *src)
 					   src_width / 2,
 					   src_height / 2);
 
-	cairo_surface_flush (dest);
-
 	dest_rowstride = cairo_image_surface_get_stride (dest);
-	dest_data = cairo_image_surface_get_data (dest);
+	dest_data = _cairo_image_surface_flush_and_get_data (dest);
 
 	src_rowstride = cairo_image_surface_get_stride (src);
-	src_data = cairo_image_surface_get_data (src);
+	src_data = _cairo_image_surface_flush_and_get_data (src);
 
 	for (y = 0; y < src_height - (src_height % 2); y += 2) {
 		row0 = src_data + (MAX (y - 1, 0) * src_rowstride);

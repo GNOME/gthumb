@@ -340,7 +340,7 @@ _cairo_surface_write_as_jpeg (cairo_surface_t  *image,
 	rowstride = cairo_image_surface_get_stride (image);
 	w = cairo_image_surface_get_width (image);
 	h = cairo_image_surface_get_height (image);
-	pixels = cairo_image_surface_get_data (image);
+	pixels = _cairo_image_surface_flush_and_get_data (image);
 	g_return_val_if_fail (pixels != NULL, FALSE);
 
 	/* allocate a small buffer to convert image data */

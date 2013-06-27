@@ -156,6 +156,7 @@ void               _gdk_rgba_to_cairo_color_255             (GdkRGBA            
 /* surface */
 
 void               _cairo_clear_surface                     (cairo_surface_t      **surface);
+unsigned char *    _cairo_image_surface_flush_and_get_data  (cairo_surface_t       *surface);
 cairo_surface_metadata_t *
 		   _cairo_image_surface_get_metadata        (cairo_surface_t       *surface);
 gboolean           _cairo_image_surface_get_has_alpha       (cairo_surface_t       *surface);

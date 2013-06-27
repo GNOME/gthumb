@@ -53,8 +53,8 @@ box_blur (cairo_surface_t *source,
 
 	/* horizontal blur */
 
-	p_src = cairo_image_surface_get_data (source);
-	p_dest = cairo_image_surface_get_data (destination);
+	p_src = _cairo_image_surface_flush_and_get_data (source);
+	p_dest = _cairo_image_surface_flush_and_get_data (destination);
 	src_rowstride = cairo_image_surface_get_stride (source);
 	dest_rowstride = cairo_image_surface_get_stride (destination);
 	width_minus_1 = width - 1;
@@ -114,8 +114,8 @@ box_blur (cairo_surface_t *source,
 
 	/* vertical blur */
 
-	p_src = cairo_image_surface_get_data (destination);
-	p_dest = cairo_image_surface_get_data (source);
+	p_src = _cairo_image_surface_flush_and_get_data (destination);
+	p_dest = _cairo_image_surface_flush_and_get_data (source);
 	src_rowstride = cairo_image_surface_get_stride (destination);
 	dest_rowstride = cairo_image_surface_get_stride (source);
 	height_minus_1 = height - 1;
@@ -235,8 +235,8 @@ _cairo_image_surface_sharpen (cairo_surface_t *source,
 	source_rowstride = cairo_image_surface_get_stride (source);
 	blurred_rowstride = cairo_image_surface_get_stride (blurred);
 
-	p_src = cairo_image_surface_get_data (source);
-	p_blurred = cairo_image_surface_get_data (blurred);
+	p_src = _cairo_image_surface_flush_and_get_data (source);
+	p_blurred = _cairo_image_surface_flush_and_get_data (blurred);
 
 #define ASSIGN_INTERPOLATED_VALUE(x1, x2)			\
 	if (ABS (x1 - x2) >= threshold) {			\

@@ -128,10 +128,8 @@ _cairo_surface_create_from_ppm (int     width,
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	stride = cairo_image_surface_get_stride (surface);
 
-	cairo_surface_flush (surface);
-
 	buffer_p = buffer;
-	row = cairo_image_surface_get_data (surface);
+	row = _cairo_image_surface_flush_and_get_data (surface);
 	for (r = 0; r < height; r++) {
 		column = row;
 		for (c = 0; c < width; c++) {

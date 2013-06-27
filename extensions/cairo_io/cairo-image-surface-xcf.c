@@ -534,8 +534,6 @@ _cairo_image_surface_paint_layer (cairo_surface_t *image,
 	if ((image == NULL) || (layer->pixels == NULL))
 		return;
 
-	cairo_surface_flush (image);
-
 	image_width = cairo_image_surface_get_width (image);
 	image_height = cairo_image_surface_get_height (image);
 	image_row_stride = cairo_image_surface_get_stride (image);
@@ -573,7 +571,7 @@ _cairo_image_surface_paint_layer (cairo_surface_t *image,
 		height = rect.height;
 	}
 
-	image_row = cairo_image_surface_get_data (image) + (y * image_row_stride) + (x * 4);
+	image_row = _cairo_image_surface_flush_and_get_data (image) + (y * image_row_stride) + (x * 4);
 
 	x = (layer->h_offset < 0) ? -layer->h_offset : 0;
 	y = (layer->v_offset < 0) ? -layer->v_offset : 0;

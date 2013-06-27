@@ -138,7 +138,7 @@ _WebPPictureImportCairoSurface (WebPPicture     *const picture,
 		return 0;
 
 	stride = cairo_image_surface_get_stride (image);
-	src_row = cairo_image_surface_get_data (image);
+	src_row = _cairo_image_surface_flush_and_get_data (image);
 	dest_row = picture->argb;
 
 	for (y= 0; y < cairo_image_surface_get_height (image); y++) {

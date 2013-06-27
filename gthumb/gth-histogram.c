@@ -151,7 +151,7 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 
 	has_alpha  = _cairo_image_surface_get_has_alpha (image);
 	rowstride  = cairo_image_surface_get_stride (image);
-	line       = cairo_image_surface_get_data (image);
+	line       = _cairo_image_surface_flush_and_get_data (image);
 	width      = cairo_image_surface_get_width (image);
 	height     = cairo_image_surface_get_height (image);
 

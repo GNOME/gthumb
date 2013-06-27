@@ -144,10 +144,9 @@ adjust_contrast_exec (GthAsyncTask *task,
 	source_stride = cairo_image_surface_get_stride (adjust_data->source);
 
 	destination = cairo_image_surface_create (format, width, height);
-	cairo_surface_flush (destination);
 	destination_stride = cairo_image_surface_get_stride (destination);
-	p_source_line = cairo_image_surface_get_data (adjust_data->source);
-	p_destination_line = cairo_image_surface_get_data (destination);
+	p_source_line = _cairo_image_surface_flush_and_get_data (adjust_data->source);
+	p_destination_line = _cairo_image_surface_flush_and_get_data (destination);
 	for (y = 0; y < height; y++) {
 		gth_async_task_get_data (task, NULL, &cancelled, NULL);
 		if (cancelled)

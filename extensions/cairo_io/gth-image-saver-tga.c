@@ -219,7 +219,7 @@ _cairo_surface_write_as_tga (cairo_surface_t  *image,
 	width     = cairo_image_surface_get_width (image);
 	height    = cairo_image_surface_get_height (image);
 	alpha     = _cairo_image_surface_get_has_alpha (image);
-	pixels    = cairo_image_surface_get_data (image);
+	pixels    = _cairo_image_surface_flush_and_get_data (image);
 	rowstride = cairo_image_surface_get_stride (image);
 
 	buffer_data = gth_buffer_data_new ();

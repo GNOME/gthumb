@@ -215,8 +215,8 @@ rotate (cairo_surface_t *image,
 		/* pre-multiply the background color */
 
 		image_with_background = _cairo_image_surface_copy (image);
-		p_src = cairo_image_surface_get_data (image);
-		p_new = cairo_image_surface_get_data (image_with_background);
+		p_src = _cairo_image_surface_flush_and_get_data (image);
+		p_new = _cairo_image_surface_flush_and_get_data (image_with_background);
 		src_rowstride = cairo_image_surface_get_stride (image);
 		new_rowstride = cairo_image_surface_get_stride (image_with_background);
 
@@ -247,8 +247,8 @@ rotate (cairo_surface_t *image,
 
 	rotated = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, new_width, new_height);
 
-	p_src = cairo_image_surface_get_data (image_with_background);
-	p_new = cairo_image_surface_get_data (rotated);
+	p_src = _cairo_image_surface_flush_and_get_data (image_with_background);
+	p_new = _cairo_image_surface_flush_and_get_data (rotated);
 	src_rowstride = cairo_image_surface_get_stride (image_with_background);
 	new_rowstride = cairo_image_surface_get_stride (rotated);
 

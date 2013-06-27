@@ -95,10 +95,9 @@ negative_exec (GthAsyncTask *task,
 	source_stride = cairo_image_surface_get_stride (negative_data->source);
 
 	negative_data->destination = cairo_image_surface_create (format, width, height);
-	cairo_surface_flush (negative_data->destination);
 	destination_stride = cairo_image_surface_get_stride (negative_data->destination);
-	p_source_line = cairo_image_surface_get_data (negative_data->source);
-	p_destination_line = cairo_image_surface_get_data (negative_data->destination);
+	p_source_line = _cairo_image_surface_flush_and_get_data (negative_data->source);
+	p_destination_line = _cairo_image_surface_flush_and_get_data (negative_data->destination);
 	for (y = 0; y < height; y++) {
 		gth_async_task_get_data (task, NULL, &cancelled, NULL);
 		if (cancelled)

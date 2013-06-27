@@ -383,7 +383,7 @@ _cairo_surface_write_as_tiff (cairo_surface_t  *image,
 	cols      = cairo_image_surface_get_width (image);
 	rows      = cairo_image_surface_get_height (image);
 	alpha     = _cairo_image_surface_get_has_alpha (image);
-	pixels    = cairo_image_surface_get_data (image);
+	pixels    = _cairo_image_surface_flush_and_get_data (image);
 	rowstride = cairo_image_surface_get_stride (image);
 
 	predictor       = 2;
