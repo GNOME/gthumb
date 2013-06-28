@@ -82,7 +82,10 @@ static void
 task_completed (GError  *error,
 		gpointer user_data)
 {
-	gth_task_completed (GTH_TASK (user_data), error);
+	GthAsyncTask *self = user_data;
+
+	gth_task_completed (GTH_TASK (self), error);
+	g_object_unref (self);
 }
 
 
@@ -108,6 +111,8 @@ update_progress (gpointer data)
 
 		if (cancelled)
 			error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
+
+		g_object_ref (self);
 
 		if (self->priv->after_func != NULL)
 			self->priv->after_func (self, error, self->priv->user_data);
