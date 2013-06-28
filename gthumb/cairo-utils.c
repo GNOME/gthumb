@@ -556,6 +556,8 @@ _cairo_image_surface_color_shift (cairo_surface_t *image,
 		dest_row += dest_stride;
 	}
 
+	cairo_surface_mark_dirty (shifted);
+
 	return shifted;
 }
 
