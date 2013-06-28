@@ -2274,7 +2274,7 @@ _gth_browser_close_final_step (gpointer user_data)
 
 		state = gdk_window_get_state (gtk_widget_get_window (GTK_WIDGET (browser)));
 		maximized = (state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
-		if (! maximized && gtk_widget_get_visible (GTK_WIDGET (browser))) {
+		if (! maximized && ! browser->priv->fullscreen && gtk_widget_get_visible (GTK_WIDGET (browser))) {
 			int width, height;
 			int size_set = FALSE;
 
