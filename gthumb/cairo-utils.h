@@ -160,6 +160,9 @@ unsigned char *    _cairo_image_surface_flush_and_get_data  (cairo_surface_t    
 cairo_surface_metadata_t *
 		   _cairo_image_surface_get_metadata        (cairo_surface_t       *surface);
 gboolean           _cairo_image_surface_get_has_alpha       (cairo_surface_t       *surface);
+cairo_surface_t *  _cairo_image_surface_create              (cairo_format_t         format,
+							     int                    width,
+							     int                    height);
 cairo_surface_t *  _cairo_image_surface_copy                (cairo_surface_t       *surface);
 cairo_surface_t *  _cairo_image_surface_copy_subsurface     (cairo_surface_t       *surface,
 				      	      	      	     int                    src_x,

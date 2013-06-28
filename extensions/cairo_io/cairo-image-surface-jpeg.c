@@ -247,16 +247,14 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 			destination_height);
 #endif
 
-	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, destination_width, destination_height);
-	if (cairo_surface_status (surface) != CAIRO_STATUS_SUCCESS) {
-		/* g_warning ("%s", cairo_status_to_string (cairo_surface_status (surface))); */
-
-		jpeg_destroy ((j_common_ptr) &srcinfo);
-		cairo_surface_destroy (surface);
+	surface = _cairo_image_surface_create (CAIRO_FORMAT_ARGB32, destination_width, destination_height);
+	if (surface == NULL) {
+		jpeg_destroy_decompress (&srcinfo);
 		g_free (in_buffer);
 
 		return image;
 	}
+
 	metadata = _cairo_image_surface_get_metadata (surface);
 	metadata->has_alpha = FALSE;
 

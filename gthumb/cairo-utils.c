@@ -35,7 +35,6 @@ const unsigned char cairo_channel[4] = { CAIRO_RED, CAIRO_GREEN, CAIRO_BLUE, CAI
 
 
 static cairo_user_data_key_t surface_metadata_key;
-static cairo_user_data_key_t surface_pixels_key;
 
 
 static void
@@ -43,13 +42,6 @@ surface_metadata_free (void *data)
 {
 	cairo_surface_metadata_t *metadata = data;
 	g_free (metadata);
-}
-
-
-static void
-surface_pixels_free (void *data)
-{
-	g_free (data);
 }
 
 
@@ -160,61 +152,44 @@ _cairo_image_surface_get_has_alpha (cairo_surface_t *surface)
 
 
 cairo_surface_t *
+_cairo_image_surface_create (cairo_format_t format,
+			     int            width,
+			     int            height)
+{
+	cairo_surface_t *result;
+	cairo_status_t   status;
+
+	result = cairo_image_surface_create (format, width, height);
+	status = cairo_surface_status (result);
+	if (status != CAIRO_STATUS_SUCCESS) {
+		g_warning ("_cairo_image_surface_create: could not create the surface: %s", cairo_status_to_string (status));
+		cairo_surface_destroy (result);
+		return NULL;
+	}
+
+	return result;
+}
+
+
+cairo_surface_t *
 _cairo_image_surface_copy (cairo_surface_t *source)
 {
 	cairo_surface_t *result;
-	cairo_format_t   format;
-	int              width;
-	int              height;
-	int              stride;
-	unsigned char   *pixels;
-	cairo_status_t   status;
-	int              source_stride;
-	int              destination_stride;
 	unsigned char   *p_source;
 	unsigned char   *p_destination;
-	int              row_size;
 
 	if (source == NULL)
 		return NULL;
 
-	format = cairo_image_surface_get_format (source);
-	width = cairo_image_surface_get_width (source);
-	height = cairo_image_surface_get_height (source);
-	stride = cairo_format_stride_for_width (format, width);
-	pixels = g_try_malloc (stride * height);
-        if (pixels == NULL)
-                return NULL;
-
-	result = cairo_image_surface_create_for_data (pixels, format, width, height, stride);
-	status = cairo_surface_status (result);
-	if (status != CAIRO_STATUS_SUCCESS) {
-		g_warning ("_cairo_image_surface_copy: could not create the surface: %s", cairo_status_to_string (status));
-		cairo_surface_destroy (result);
+	result = _cairo_image_surface_create (cairo_image_surface_get_format (source),
+					      cairo_image_surface_get_width (source),
+					      cairo_image_surface_get_height (source));
+	if (result == NULL)
 		return NULL;
-	}
 
-	status = cairo_surface_set_user_data (result, &surface_pixels_key, pixels, surface_pixels_free);
-	if (status != CAIRO_STATUS_SUCCESS) {
-		g_warning ("_cairo_image_surface_copy: could not set the user data: %s", cairo_status_to_string (status));
-		cairo_surface_destroy (result);
-		return NULL;
-	}
-
-	cairo_surface_flush (result);
-
-	source_stride = cairo_image_surface_get_stride (source);
-	destination_stride = cairo_image_surface_get_stride (result);
-	p_source = cairo_image_surface_get_data (source);
-	p_destination = cairo_image_surface_get_data (result);
-	row_size = width * 4;
-	while (height-- > 0) {
-		memcpy (p_destination, p_source, row_size);
-
-		p_source += source_stride;
-		p_destination += destination_stride;
-	}
-
+	p_source = _cairo_image_surface_flush_and_get_data (source);
+	p_destination = _cairo_image_surface_flush_and_get_data (result);
+	memcpy (p_destination, p_source, cairo_image_surface_get_stride (source) * cairo_image_surface_get_height (source));
 	cairo_surface_mark_dirty (result);
 
 	return result;
