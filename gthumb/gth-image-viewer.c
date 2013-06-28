@@ -1705,12 +1705,15 @@ _set_surface (GthImageViewer  *self,
 	      int              original_height,
 	      gboolean         better_quality)
 {
-	_cairo_clear_surface (&self->priv->surface);
+	if (self->priv->surface != surface) {
+		_cairo_clear_surface (&self->priv->surface);
+		self->priv->surface = cairo_surface_reference (surface);
+	}
+
 	_cairo_clear_surface (&self->priv->iter_surface);
 	_g_clear_object (&self->priv->animation);
 	_g_clear_object (&self->priv->iter);
 
-	self->priv->surface = cairo_surface_reference (surface);
 	self->priv->is_void = (self->priv->surface == NULL);
 	self->priv->is_animation = FALSE;
 	_gth_image_viewer_set_original_size (self, original_width, original_height);
