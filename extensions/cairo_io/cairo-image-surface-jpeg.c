@@ -221,9 +221,12 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 		if (srcinfo.scale_denom == 0)
 			srcinfo.scale_denom = srcinfo.scale_num;
-
-		jpeg_calc_output_dimensions (&srcinfo);
 	}
+
+	jpeg_calc_output_dimensions (&srcinfo);
+
+	buffer_stride = srcinfo.output_width * srcinfo.output_components;
+	buffer = (*srcinfo.mem->alloc_sarray) ((j_common_ptr) &srcinfo, JPOOL_IMAGE, buffer_stride, srcinfo.rec_outbuf_height);
 
 	jpeg_start_decompress (&srcinfo);
 
@@ -257,9 +260,6 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 	metadata = _cairo_image_surface_get_metadata (surface);
 	metadata->has_alpha = FALSE;
-
-	buffer_stride = srcinfo.output_width * srcinfo.output_components;
-	buffer = (*srcinfo.mem->alloc_sarray) ((j_common_ptr) &srcinfo, JPOOL_IMAGE, buffer_stride, srcinfo.rec_outbuf_height);
 	surface_row = _cairo_image_surface_flush_and_get_data (surface) + line_start;
 
 	switch (srcinfo.out_color_space) {
