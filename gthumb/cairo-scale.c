@@ -341,10 +341,10 @@ horizontal_scale_transpose (cairo_surface_t *image,
 				p_src_pixel += 4;
 			}
 
-			r = GFIXED_TO_INT (r);
-			g = GFIXED_TO_INT (g);
-			b = GFIXED_TO_INT (b);
-			a = GFIXED_TO_INT (a);
+			r = GFIXED_ROUND_TO_INT (r);
+			g = GFIXED_ROUND_TO_INT (g);
+			b = GFIXED_ROUND_TO_INT (b);
+			a = GFIXED_ROUND_TO_INT (a);
 
 			p_dest_pixel[CAIRO_RED] = CLAMP_PIXEL (r);
 			p_dest_pixel[CAIRO_GREEN] = CLAMP_PIXEL (g);
