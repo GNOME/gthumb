@@ -6435,6 +6435,7 @@ _gth_browser_move_fullscreen_toolbar (GthBrowser *browser)
 	GdkScreen    *screen;
 	int           n_monitor;
 	GdkRectangle  work_area;
+	int           preferred_height;
 
 	gtk_widget_realize (browser->priv->fullscreen_toolbar);
 
@@ -6443,9 +6444,10 @@ _gth_browser_move_fullscreen_toolbar (GthBrowser *browser)
 	gdk_screen_get_monitor_geometry (screen, n_monitor, &work_area);
 
 	gtk_window_set_screen (GTK_WINDOW (browser->priv->fullscreen_toolbar), screen);
+	gtk_widget_get_preferred_height (browser->priv->fullscreen_toolbar, &preferred_height, NULL);
 	gtk_window_resize (GTK_WINDOW (browser->priv->fullscreen_toolbar),
 			   work_area.width,
-			   gtk_widget_get_allocated_height (browser->priv->fullscreen_toolbar));
+			   preferred_height);
 	gtk_window_move (GTK_WINDOW (browser->priv->fullscreen_toolbar), work_area.x, work_area.y);
 }
 
