@@ -596,6 +596,25 @@ AM_CONDITIONAL(ENABLE_WEB_ALBUMS, test "x$enable_web_albums" = xyes)
 
 dnl ===========================================================================
 
+AC_MSG_CHECKING([[if gcc supports vector operations]])
+AC_COMPILE_IFELSE([ AC_LANG_SOURCE(
+			  [[
+#include <ansidecl.h>
+#if GCC_VERSION < 4007
+#error "wrong version"
+#endif
+int main(int c, char**v) { return 0; }
+			  ]]) ],
+			  [AC_MSG_RESULT(yes)
+			   have_vector_operations=yes],
+		          [AC_MSG_RESULT(no)
+		           have_vector_operations=no])
+if test "x$have_vector_operations" = "xyes"; then
+	AC_DEFINE(HAVE_VECTOR_OPERATIONS, 1, [Define to 1 if the compiler supports vector operations])
+fi
+
+dnl ===========================================================================
+
 GDK_TARGET="$($PKG_CONFIG --variable targets gdk-3.0)"
 
 AC_MSG_CHECKING([which smclient backend to use])
