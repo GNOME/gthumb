@@ -729,6 +729,8 @@ gth_main_get_image_loader_func (const char     *mime_type,
 	 * format. */
 
 	for (format = 0; (loader == NULL) && (format < GTH_IMAGE_N_FORMATS); format++) {
+		if (format == preferred_format)
+			continue;
 		g_free (key);
 		key = g_strdup_printf ("%s-%d", mime_type, format);
 		loader = g_hash_table_lookup (Main->priv->image_loaders, key);
