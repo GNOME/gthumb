@@ -82,8 +82,6 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 	metadata = _cairo_image_surface_get_metadata (surface);
 	metadata->has_alpha = (config.input.has_alpha);
 
-	cairo_surface_flush (surface);
-
 	config.options.no_fancy_upsampling = 1;
 
 #if SCALING_WORKS
@@ -99,7 +97,7 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 #elif G_BYTE_ORDER == G_BIG_ENDIAN
 	config.output.colorspace = MODE_ARGB;
 #endif
-	config.output.u.RGBA.rgba = (uint8_t *) cairo_image_surface_get_data (surface);
+	config.output.u.RGBA.rgba = (uint8_t *) _cairo_image_surface_flush_and_get_data (surface);
 	config.output.u.RGBA.stride = cairo_image_surface_get_stride (surface);
 	config.output.u.RGBA.size = cairo_image_surface_get_stride (surface) * height;
 	config.output.is_external_memory = 1;
