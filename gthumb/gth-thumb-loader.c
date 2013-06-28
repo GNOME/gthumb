@@ -425,7 +425,7 @@ _cairo_image_surface_scale_for_thumbnail (cairo_surface_t *image,
 					  int              new_width,
 					  int              new_height)
 {
-	return _cairo_image_surface_scale (image, new_width, new_height, SCALE_FILTER_BOX, NULL);
+	return _cairo_image_surface_scale (image, new_width, new_height, SCALE_FILTER_GOOD, NULL);
 }
 
 

@@ -333,7 +333,7 @@ _gth_image_dragger_scale_exec (GthAsyncTask *task,
 	scale_data->scaled = _cairo_image_surface_scale (scale_data->image,
 							 scale_data->new_width,
 							 scale_data->new_height,
-							 SCALE_FILTER_TRIANGLE,
+							 SCALE_FILTER_GOOD,
 							 task);
 
 	return NULL;
