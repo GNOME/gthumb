@@ -39,6 +39,7 @@ _cairo_image_surface_scale_nearest (cairo_surface_t *image,
 				    int              new_width,
 				    int              new_height)
 {
+#if 0
 	cairo_surface_t *scaled;
 	int              src_width;
 	int              src_height;
@@ -76,7 +77,7 @@ _cairo_image_surface_scale_nearest (cairo_surface_t *image,
 	p_dest_row = p_dest;
 	p_src_row = p_src;
 	max_row = GINT_TO_FIXED (src_height - 1);
-	max_col= GINT_TO_FIXED (src_width - 1);
+	max_col = GINT_TO_FIXED (src_width - 1);
 	/* pick the pixel in the middle to avoid the shift effect. */
 	y_src = gfixed_div (step_y, GFIXED_2);
 	for (y = 0; y < new_height; y++) {
@@ -100,10 +101,30 @@ _cairo_image_surface_scale_nearest (cairo_surface_t *image,
 	cairo_surface_mark_dirty (scaled);
 
 	return scaled;
-}
+#else
 
+	cairo_surface_t *output;
+	cairo_t         *cr;
+
+	output = cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					     new_width,
+					     new_height);
+	cr = cairo_create (output);
+	cairo_scale (cr,
+		     (double) new_width / cairo_image_surface_get_width (image),
+		     (double) new_height / cairo_image_surface_get_height (image));
+	cairo_set_source_surface (cr, image, 0.0, 0.0);
+	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_NEAREST);
+	cairo_rectangle (cr, 0.0, 0.0, cairo_image_surface_get_width (image), cairo_image_surface_get_height (image));
+	cairo_fill (cr);
+	cairo_surface_flush (output);
+
+	cairo_destroy (cr);
+
+	return output;
 
 #endif
+}
 
 
 /* -- _cairo_image_surface_scale_filter --
