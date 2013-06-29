@@ -326,7 +326,7 @@ horizontal_scale_transpose (cairo_surface_t *image,
 		int        x;
 		int        i;
 #ifdef HAVE_VECTOR_OPERATIONS
-		r4vector   v_pixel, v_weight, v_rgba;
+		r4vector   v_pixel, v_rgba;
 #endif /* HAVE_VECTOR_OPERATIONS */
 
 		if (resize_filter->task != NULL) {
@@ -374,24 +374,17 @@ horizontal_scale_transpose (cairo_surface_t *image,
 
 			v_rgba.v = (v4r) { 0.0, 0.0, 0.0, 0.0 };
 			for (i = 0; i < n; i++) {
-				v_pixel.v = (v4r) { p_src_pixel[CAIRO_RED],
-						    p_src_pixel[CAIRO_GREEN],
-						    p_src_pixel[CAIRO_BLUE],
-						    p_src_pixel[CAIRO_ALPHA] };
-				v_weight.v = (v4r) { weights[i],
-						     weights[i],
-						     weights[i],
-						     weights[i]};
-				v_rgba.v = v_rgba.v + (v_pixel.v * v_weight.v);
+				v_pixel.v = (v4r) { p_src_pixel[0], p_src_pixel[1], p_src_pixel[2], p_src_pixel[3] };
+				v_rgba.v = v_rgba.v + (v_pixel.v * weights[i]);
 
 				p_src_pixel += 4;
 			}
 			v_rgba.v = v_rgba.v + 0.5;
 
-			p_dest_pixel[CAIRO_RED] = CLAMP_PIXEL (v_rgba.r[0]);
-			p_dest_pixel[CAIRO_GREEN] = CLAMP_PIXEL (v_rgba.r[1]);
-			p_dest_pixel[CAIRO_BLUE] = CLAMP_PIXEL (v_rgba.r[2]);
-			p_dest_pixel[CAIRO_ALPHA] = CLAMP_PIXEL (v_rgba.r[3]);
+			p_dest_pixel[0] = CLAMP_PIXEL (v_rgba.r[0]);
+			p_dest_pixel[1] = CLAMP_PIXEL (v_rgba.r[1]);
+			p_dest_pixel[2] = CLAMP_PIXEL (v_rgba.r[2]);
+			p_dest_pixel[3] = CLAMP_PIXEL (v_rgba.r[3]);
 
 #else /* ! HAVE_VECTOR_OPERATIONS */
 
