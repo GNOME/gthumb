@@ -166,6 +166,37 @@ triangle (ScaleReal x)
 }
 
 
+static ScaleReal Cubic_P0, Cubic_P2, Cubic_P3;
+static ScaleReal Cubic_Q0, Cubic_Q1, Cubic_Q2, Cubic_Q3;
+static gsize coefficients_initialization = 0;
+
+
+static void
+initialize_coefficients (ScaleReal B,
+			 ScaleReal C)
+{
+	Cubic_P0 = (6.0 - 2.0 * B) / 6.0;
+	/*Cubic_P1 = 0.0;*/
+	Cubic_P2 = (-18.0 + 12.0 * B + 6.0 * C) / 6.0;
+	Cubic_P3 = ( 12.0 - 9.0 * B - 6.0 * C) / 6.0;
+	Cubic_Q0 = (8.0 * B + 24.0 * C) / 6.0;
+	Cubic_Q1 = (-12.0 * B - 48.0 * C) / 6.0;
+	Cubic_Q2 = (6.0 * B + 30.0 * C) / 6.0;
+	Cubic_Q3 = (-1.0 * B - 6.0 * C) / 6.0;
+}
+
+
+static ScaleReal inline
+cubic (ScaleReal x)
+{
+	if (x < 1.0)
+		return Cubic_P0 + x * (x * (Cubic_P2 + x * Cubic_P3));
+	if (x < 2.0)
+		return Cubic_Q0 + x * (Cubic_Q1 + x * (Cubic_Q2 + x * Cubic_Q3));
+	return 0.0;
+}
+
+
 static ScaleReal inline
 sinc_fast (ScaleReal x)
 {
@@ -207,6 +238,7 @@ const filters[N_SCALE_FILTERS] = {
 	{ box,		 .0 },
 	{ box,		 .5 },
 	{ triangle,	1.0 },
+	{ cubic,        2.0 },
 	{ sinc_fast,	3.0 }
 };
 
@@ -448,6 +480,11 @@ _cairo_image_surface_scale (cairo_surface_t  *image,
 					      scaled_height);
 	if (scaled == NULL)
 		return NULL;
+
+	if (g_once_init_enter (&coefficients_initialization)) {
+		initialize_coefficients (1.0, 0.0);
+		g_once_init_leave (&coefficients_initialization, 1);
+	}
 
 	resize_filter = resize_filter_create (filter, task);
 	resize_filter->total_lines = scaled_width + scaled_height;
