@@ -431,8 +431,8 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 	if (zoom >= 1.0)
 		return;
 
-	new_width = round (zoom * image_width);
-	new_height = round (zoom * image_height);
+	new_width = zoom * image_width;
+	new_height = zoom * image_height;
 
 	/*self->priv->scaled = _cairo_image_surface_scale_nearest (image, new_width, new_height);*/
 	self->priv->scaled = _cairo_image_surface_scale_bilinear (image, new_width, new_height);
