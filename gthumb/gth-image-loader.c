@@ -199,6 +199,11 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 
 	_g_object_unref (istream);
 
+	if (g_cancellable_is_cancelled (cancellable)) {
+		g_clear_error (&error);
+		g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+	}
+
 	if (error != NULL) {
 		_g_object_unref (image);
 		g_simple_async_result_set_from_error (result, error);
