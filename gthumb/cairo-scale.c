@@ -300,10 +300,8 @@ horizontal_scale_transpose (cairo_surface_t *image,
 
 	scale = MAX ((ScaleReal) 1.0 / scale_factor + EPSILON, 1.0);
 	support = scale * resize_filter_get_support (resize_filter);
-	if (support < 0.5) {
+	if (support < 0.5)
 		support = 0.5;
-		scale = 1.0;
-	}
 
 	image_width = cairo_image_surface_get_width (image);
 	scaled_width = cairo_image_surface_get_width (scaled);
