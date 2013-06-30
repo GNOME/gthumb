@@ -28,6 +28,9 @@
 #include "pixbuf-utils.h"
 
 
+#define SIZE_TOO_BIG_FOR_SCALE_BILINEAR (3000 * 3000)
+
+
 struct _GthImageDraggerPrivate {
 	GthImageViewer  *viewer;
 	gboolean         draggable;
@@ -310,6 +313,7 @@ typedef struct {
 	int              new_width;
 	int              new_height;
 	cairo_surface_t *scaled;
+	scale_filter_t   filter;
 } ScaleData;
 
 
@@ -333,7 +337,7 @@ _gth_image_dragger_scale_exec (GthAsyncTask *task,
 	scale_data->scaled = _cairo_image_surface_scale (scale_data->image,
 							 scale_data->new_width,
 							 scale_data->new_height,
-							 SCALE_FILTER_GOOD,
+							 scale_data->filter,
 							 task);
 
 	return NULL;
@@ -367,7 +371,8 @@ static void
 _gth_image_dragger_create_scaled_high_quality (GthImageDragger *self,
 					       cairo_surface_t *image,
 					       int              new_width,
-					       int              new_height)
+					       int              new_height,
+					       scale_filter_t   filter)
 {
 	ScaleData *scale_data;
 
@@ -380,6 +385,7 @@ _gth_image_dragger_create_scaled_high_quality (GthImageDragger *self,
 	scale_data->new_width = new_width;
 	scale_data->new_height = new_height;
 	scale_data->scaled = NULL;
+	scale_data->filter = filter;
 
 	self->priv->scale_task = gth_async_task_new (NULL,
 						     _gth_image_dragger_scale_exec,
@@ -399,6 +405,7 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 	int              original_width, original_height;
 	double           zoom;
 	int              new_width, new_height;
+	scale_filter_t   filter;
 
 	if (self->priv->scale_task != NULL) {
 		gth_task_cancel (self->priv->scale_task);
@@ -434,10 +441,16 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 	new_width = zoom * image_width;
 	new_height = zoom * image_height;
 
-	/*self->priv->scaled = _cairo_image_surface_scale_nearest (image, new_width, new_height);*/
-	self->priv->scaled = _cairo_image_surface_scale_bilinear (image, new_width, new_height);
+	if (image_width * image_height > SIZE_TOO_BIG_FOR_SCALE_BILINEAR) {
+		self->priv->scaled = _cairo_image_surface_scale_nearest (image, new_width, new_height);
+		filter = SCALE_FILTER_BOX;
+	}
+	else {
+		self->priv->scaled = _cairo_image_surface_scale_bilinear (image, new_width, new_height);
+		filter = SCALE_FILTER_TRIANGLE;
+	}
 
-	_gth_image_dragger_create_scaled_high_quality (self, image, new_width, new_height);
+	_gth_image_dragger_create_scaled_high_quality (self, image, new_width, new_height, filter);
 }
 
 
