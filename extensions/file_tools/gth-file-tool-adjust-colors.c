@@ -466,31 +466,31 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	self->priv->brightness_adj    = gth_color_scale_label_new (GET_WIDGET ("brightness_hbox"),
 								   GTK_LABEL (GET_WIDGET ("brightness_label")),
 								   GTH_COLOR_SCALE_BLACK_WHITE,
-								   0.0, -100.0, 100.0, 1.0, 1.0, "%+.0f");
+								   0.0, -99.0, 99.0, 1.0, 1.0, "%+.0f");
 	self->priv->contrast_adj      = gth_color_scale_label_new (GET_WIDGET ("contrast_hbox"),
 								   GTK_LABEL (GET_WIDGET ("contrast_label")),
 								   GTH_COLOR_SCALE_GRAY_BLACK,
-								   0.0, -100.0, 100.0, 1.0, 1.0, "%+.0f");
+								   0.0, -99.0, 99.0, 1.0, 1.0, "%+.0f");
 	self->priv->gamma_adj         = gth_color_scale_label_new (GET_WIDGET ("gamma_hbox"),
 								   GTK_LABEL (GET_WIDGET ("gamma_label")),
 								   GTH_COLOR_SCALE_WHITE_BLACK,
-								   0.0, -100.0, 100.0, 1.0, 1.0, "%+.0f");
+								   0.0, -99.0, 99.0, 1.0, 1.0, "%+.0f");
 	self->priv->saturation_adj    = gth_color_scale_label_new (GET_WIDGET ("saturation_hbox"),
 								   GTK_LABEL (GET_WIDGET ("saturation_label")),
 								   GTH_COLOR_SCALE_GRAY_WHITE,
-								   0.0, -100.0, 100.0, 1.0, 1.0, "%+.0f");
+								   0.0, -99.0, 99.0, 1.0, 1.0, "%+.0f");
 	self->priv->cyan_red_adj      = gth_color_scale_label_new (GET_WIDGET ("cyan_red_hbox"),
 								   GTK_LABEL (GET_WIDGET ("cyan_red_label")),
 								   GTH_COLOR_SCALE_CYAN_RED,
-								   0.0, -100.0, 100.0, 1.0, 1.0, "%+.0f");
+								   0.0, -99.0, 99.0, 1.0, 1.0, "%+.0f");
 	self->priv->magenta_green_adj = gth_color_scale_label_new (GET_WIDGET ("magenta_green_hbox"),
 								   GTK_LABEL (GET_WIDGET ("magenta_green_label")),
 								   GTH_COLOR_SCALE_MAGENTA_GREEN,
-								   0.0, -100.0, 100.0, 1.0, 1.0, "%+.0f");
+								   0.0, -99.0, 99.0, 1.0, 1.0, "%+.0f");
 	self->priv->yellow_blue_adj   = gth_color_scale_label_new (GET_WIDGET ("yellow_blue_hbox"),
 								   GTK_LABEL (GET_WIDGET ("yellow_blue_label")),
 								   GTH_COLOR_SCALE_YELLOW_BLUE,
-								   0.0, -100.0, 100.0, 1.0, 1.0, "%+.0f");
+								   0.0, -99.0, 99.0, 1.0, 1.0, "%+.0f");
 
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",
