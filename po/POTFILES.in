@@ -548,7 +548,9 @@ extensions/picasaweb/picasa-web-service.h
 extensions/picasaweb/picasa-web-types.h
 extensions/picasaweb/preferences.h
 extensions/raw_files/gth-metadata-provider-raw.c
+extensions/raw_files/gth-metadata-provider-raw.h
 extensions/raw_files/main.c
+extensions/raw_files/main.h
 [type: gettext/ini]extensions/raw_files/raw_files.extension.in.in
 [type: gettext/glade]extensions/red_eye_removal/data/ui/red-eye-removal-options.ui
 extensions/red_eye_removal/gth-file-tool-red-eye.c
