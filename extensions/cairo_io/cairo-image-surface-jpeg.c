@@ -85,7 +85,7 @@ static int           *YCbCr_R_Cr_Tab = NULL;
 static int           *YCbCr_G_Cb_Tab = NULL;
 static int           *YCbCr_G_Cr_Tab = NULL;
 static int           *YCbCr_B_Cb_Tab = NULL;
-static GStaticMutex   Tables_Mutex = G_STATIC_MUTEX_INIT;
+static GMutex         Tables_Mutex;
 
 
 #define SCALE_FACTOR   16
@@ -97,7 +97,7 @@ static GStaticMutex   Tables_Mutex = G_STATIC_MUTEX_INIT;
 static void
 CMYK_table_init (void)
 {
-	g_static_mutex_lock (&Tables_Mutex);
+	g_mutex_lock (&Tables_Mutex);
 
 	if (CMYK_Tab == NULL) {
 		int    v, k, i;
@@ -114,14 +114,14 @@ CMYK_table_init (void)
 		}
 	}
 
-	g_static_mutex_unlock (&Tables_Mutex);
+	g_mutex_unlock (&Tables_Mutex);
 }
 
 
 static void
 YCbCr_tables_init (void)
 {
-	g_static_mutex_lock (&Tables_Mutex);
+	g_mutex_lock (&Tables_Mutex);
 
 	if (YCbCr_R_Cr_Tab == NULL) {
 		int i, v;
@@ -139,7 +139,7 @@ YCbCr_tables_init (void)
 		}
 	}
 
-	g_static_mutex_unlock (&Tables_Mutex);
+	g_mutex_unlock (&Tables_Mutex);
 }
 
 

@@ -64,7 +64,7 @@ CLUTTER_REQUIRED=1.0.0
 CLUTTER_GTK_REQUIRED=1.0.0
 GSTREAMER_REQUIRED=1.0.0
 LIBRAW_REQUIRED=0.14
-LIBSOUP_REQUIRED=2.36
+LIBSOUP_REQUIRED=2.42
 LIBSECRET_REQUIRED=0.11
 LIBBRASERO_REQUIRED=3.2.0
 LIBCHAMPLAIN_REQUIRED=0.12.0
@@ -502,16 +502,10 @@ AC_ARG_ENABLE([libsoup],
 	      [enable_libsoup=yes])
 
 if test x$enable_libsoup = xyes ; then
-	PKG_CHECK_MODULES(LIBSOUP_GNOME,
-			  [libsoup-gnome-2.4 >= $LIBSOUP_REQUIRED],
-			  [LIBSOUP_CFLAGS="$LIBSOUP_GNOME_CFLAGS"
-			   LIBSOUP_LIBS="$LIBSOUP_GNOME_LIBS"
-			   AC_DEFINE(HAVE_LIBSOUP_GNOME, 1, [Have libsoup-gnome])
-			   enable_libsoup=yes],
-			  [PKG_CHECK_MODULES(LIBSOUP,
-					     [libsoup-2.4 >= $LIBSOUP_REQUIRED],
-					     [enable_libsoup=yes],
-					     [enable_libsoup=no])])
+	  PKG_CHECK_MODULES(LIBSOUP,
+			    [libsoup-2.4 >= $LIBSOUP_REQUIRED],
+			    [enable_libsoup=yes],
+			    [enable_libsoup=no])
 fi
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)

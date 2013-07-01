@@ -643,6 +643,8 @@ gthumb/cairo-scale.c
 gthumb/cairo-scale.h
 gthumb/cairo-utils.c
 gthumb/cairo-utils.h
+gthumb/color-utils.c
+gthumb/color-utils.h
 gthumb/dlg-location.c
 gthumb/dlg-location.h
 gthumb/dlg-personalize-filters.c

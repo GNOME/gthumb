@@ -72,7 +72,6 @@ int
 main (int   argc,
       char *argv[])
 {
-	g_type_init ();
 	g_test_init (&argc, &argv, NULL);
 
 	g_test_add_func ("/glib-utils/_g_rand_string/1", test_g_rand_string);

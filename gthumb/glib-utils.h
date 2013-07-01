@@ -31,8 +31,10 @@ G_BEGIN_DECLS
 
 /* Math */
 
-#define GDOUBLE_ROUND_TO_INT(x)  ((int) floor ((x) + 0.5))
-#define SQR(x)                   ((x) * (x))
+#define GDOUBLE_ROUND_TO_INT(x)	((int) floor ((x) + 0.5))
+#define SQR(x)			((x) * (x))
+#define MIN3(x,y,z)		((y) <= (z) ? MIN ((x), (y)) : MIN ((x), (z)))
+#define MAX3(x,y,z)		((y) >= (z) ? MAX ((x), (y)) : MAX ((x), (z)))
 
 /* GFile attributes */
 

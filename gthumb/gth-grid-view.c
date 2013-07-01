@@ -1239,9 +1239,9 @@ _cairo_film_pattern_create (void)
 {
 	static cairo_pattern_t *film_pattern = NULL;
 	cairo_pattern_t        *pattern;
-	static GStaticMutex     mutex = G_STATIC_MUTEX_INIT;
+	static GMutex           mutex;
 
-	g_static_mutex_lock (&mutex);
+	g_mutex_lock (&mutex);
 	if (film_pattern == NULL) {
 		char            *filename;
 		cairo_surface_t *surface;
@@ -1257,7 +1257,7 @@ _cairo_film_pattern_create (void)
 
 	}
 	pattern = cairo_pattern_reference (film_pattern);
-	g_static_mutex_unlock (&mutex);
+	g_mutex_unlock (&mutex);
 
 	return pattern;
 }

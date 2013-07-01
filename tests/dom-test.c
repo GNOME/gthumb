@@ -23,17 +23,17 @@
 #include "dom.h"
 
 
-static void 
-compare_loaded_and_dumped_xml (DomDocument *doc) 
+static void
+compare_loaded_and_dumped_xml (DomDocument *doc)
 {
 	char        *xml;
 	gsize        len;
 	DomDocument *loaded_doc;
 	char        *loaded_xml;
-	
+
 	xml = dom_document_dump (doc, &len);
 	/*g_print ("%s", xml);*/
-	
+
 	loaded_doc = dom_document_new ();
 	dom_document_load (loaded_doc, xml, len, NULL);
 	loaded_xml = dom_document_dump (loaded_doc, NULL);
@@ -47,12 +47,12 @@ compare_loaded_and_dumped_xml (DomDocument *doc)
 }
 
 
-static void 
+static void
 check_dumped_xml (DomDocument *doc,
-		  const char  *expected_xml) 
+		  const char  *expected_xml)
 {
 	char *xml;
-	
+
 	xml = dom_document_dump (doc, NULL);
 	/*g_print ("%s", xml);*/
 	g_assert_cmpstr (xml, ==, expected_xml);
@@ -61,39 +61,39 @@ check_dumped_xml (DomDocument *doc,
 
 
 static void
-test_dom_1 (void) 
+test_dom_1 (void)
 {
 	DomDocument *doc;
-	
-	doc = dom_document_new ();	
-	
+
+	doc = dom_document_new ();
+
 	compare_loaded_and_dumped_xml (doc);
 	check_dumped_xml (doc, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-	
+
 	g_object_unref (doc);
 }
 
 
 static void
-test_dom_2 (void) 
+test_dom_2 (void)
 {
 	DomDocument *doc;
 	DomElement  *filters;
-	
-	doc = dom_document_new ();	
-	filters = dom_document_create_element (doc, "filters", "version", "1.0", NULL);	
+
+	doc = dom_document_new ();
+	filters = dom_document_create_element (doc, "filters", "version", "1.0", NULL);
 	dom_element_append_child (DOM_ELEMENT (doc), filters);
-	
-	compare_loaded_and_dumped_xml (doc);	
+
+	compare_loaded_and_dumped_xml (doc);
 	check_dumped_xml (doc,  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 				"<filters version=\"1.0\"/>\n");
-	
+
 	g_object_unref (doc);
 }
 
 
 static void
-test_dom_3 (void) 
+test_dom_3 (void)
 {
 	DomDocument *doc;
 	DomElement  *filters;
@@ -101,39 +101,39 @@ test_dom_3 (void)
 	DomElement  *match;
 	DomElement  *test;
 	DomElement  *limit;
-	
-	doc = dom_document_new ();	
-	filters = dom_document_create_element (doc, "filters", NULL);	
+
+	doc = dom_document_new ();
+	filters = dom_document_create_element (doc, "filters", NULL);
 	dom_element_set_attribute (filters, "version", "1.0");
 	dom_element_append_child (DOM_ELEMENT (doc), filters);
-	
+
 	filter = dom_document_create_element (doc, "filter", NULL);
 	dom_element_set_attribute (filter, "name", "test1");
 	dom_element_append_child (filters, filter);
-	
+
 	match = dom_document_create_element (doc, "match", NULL);
 	dom_element_set_attribute (match, "type", "all");
 	dom_element_append_child (filter, match);
-	
+
 	test = dom_document_create_element (doc, "test", NULL);
 	dom_element_set_attribute (test, "id", "::filesize");
 	dom_element_set_attribute (test, "op", "lt");
 	dom_element_set_attribute (test, "value", "10");
 	dom_element_set_attribute (test, "unit", "kB");
 	dom_element_append_child (match, test);
-	
+
 	test = dom_document_create_element (doc, "test", NULL);
 	dom_element_set_attribute (test, "id", "::filename");
 	dom_element_set_attribute (test, "op", "contains");
 	dom_element_set_attribute (test, "value", "logo");
 	dom_element_append_child (match, test);
-	
+
 	limit = dom_document_create_element (doc, "limit", NULL);
 	dom_element_set_attribute (limit, "value", "25");
 	dom_element_set_attribute (limit, "type", "files");
 	dom_element_set_attribute (limit, "selected_by", "more_recent");
 	dom_element_append_child (filter, limit);
-	
+
 	filter = dom_document_create_element (doc, "filter", NULL);
 	dom_element_set_attribute (filter, "name", "test2");
 	dom_element_append_child (filters, filter);
@@ -143,9 +143,9 @@ test_dom_3 (void)
 	dom_element_set_attribute (limit, "type", "files");
 	dom_element_set_attribute (limit, "selected_by", "more_recent");
 	dom_element_append_child (filter, limit);
-	
+
 	compare_loaded_and_dumped_xml (doc);
-	
+
 	check_dumped_xml (doc,  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			        "<filters version=\"1.0\">\n"
 				"  <filter name=\"test1\">\n"
@@ -159,21 +159,20 @@ test_dom_3 (void)
 				"    <limit value=\"25\" type=\"files\" selected_by=\"more_recent\"/>\n"
 				"  </filter>\n"
 				"</filters>\n");
-	
+
 	g_object_unref (doc);
 }
 
 
-int 
+int
 main (int   argc,
       char *argv[])
 {
-	g_type_init ();
 	g_test_init (&argc, &argv, NULL);
-	
+
 	g_test_add_func ("/dom/1", test_dom_1);
 	g_test_add_func ("/dom/2", test_dom_2);
 	g_test_add_func ("/dom/3", test_dom_3);
-	 
+
 	return g_test_run ();
 }

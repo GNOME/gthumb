@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <string.h>
+#include "color-utils.h"
 #include "gth-image-utils.h"
 #include "gtk-utils.h"
 
@@ -447,7 +448,7 @@ _g_icon_get_pixbuf (GIcon        *icon,
 			g_error_free (error);
 		}
 
-		gtk_icon_info_free (icon_info);
+		g_object_unref (icon_info);
 	}
 
 	return pixbuf;
@@ -968,19 +969,31 @@ _gdk_rgba_shade (GdkRGBA *color,
 		 GdkRGBA *result,
 		 gdouble  factor)
 {
-	GtkSymbolicColor *sym_color;
-	GtkSymbolicColor *sym_result;
-	gboolean          retval;
+	guchar hue, sat, lum;
+	guchar red, green, blue;
+	double tmp;
 
-	sym_color = gtk_symbolic_color_new_literal (color);
-	sym_result = gtk_symbolic_color_new_shade (sym_color, factor);
+	gimp_rgb_to_hsl (color->red * 255,
+			 color->green * 255,
+			 color->blue * 255,
+			 &hue,
+			 &sat,
+			 &lum);
 
-	retval = gtk_symbolic_color_resolve (sym_result, NULL, result);
+	tmp = factor * (double) sat;
+	sat = (guchar) CLAMP (tmp, 0, 255);
 
-	gtk_symbolic_color_unref (sym_result);
-	gtk_symbolic_color_unref (sym_color);
+	tmp = factor * (double) lum;
+	lum = (guchar) CLAMP (tmp, 0, 255);
 
-	return retval;
+	gimp_hsl_to_rgb (hue, sat, lum, &red, &green, &blue);
+
+	result->red = (double) red / 255.0;
+	result->green = (double) green / 255.0;
+	result->blue = (double) blue / 255.0;
+	result->alpha = color->alpha;
+
+	return TRUE;
 }
 
 

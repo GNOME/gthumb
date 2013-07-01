@@ -718,8 +718,6 @@ main (int argc, char *argv[])
 
 	program_argv0 = argv[0];
 
-	g_type_init ();
-
 	/* text domain */
 
 	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);

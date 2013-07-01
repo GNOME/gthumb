@@ -24,11 +24,7 @@
 
 
 #include <glib.h>
-#ifdef HAVE_LIBSOUP_GNOME
-#include <libsoup/soup-gnome.h>
-#else
 #include <libsoup/soup.h>
-#endif /* HAVE_LIBSOUP_GNOME */
 #include "oauth-account.h"
 #include "oauth-service.h"
 

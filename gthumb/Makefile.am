@@ -25,6 +25,7 @@ PUBLIC_HEADER_FILES = 					\
 	$(PUBLIC_BUILT_HEADER_FILES)			\
 	cairo-scale.h					\
 	cairo-utils.h					\
+	color-utils.h					\
 	dom.h						\
 	gedit-message-area.h				\
 	gfixed.h					\
@@ -157,6 +158,7 @@ gthumb_SOURCES = 					\
 	$(RESOURCES)					\
 	cairo-scale.c					\
 	cairo-utils.c					\
+	color-utils.c					\
 	dlg-location.c					\
 	dlg-personalize-filters.c			\
 	dlg-preferences.c				\

@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include "cairo-utils.h"
 #include "gth-color-scale.h"
 #include "gth-enum-types.h"
 

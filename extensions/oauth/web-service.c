@@ -22,11 +22,7 @@
 #include <config.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#ifdef HAVE_LIBSOUP_GNOME
-#include <libsoup/soup-gnome.h>
-#else
 #include <libsoup/soup.h>
-#endif /* HAVE_LIBSOUP_GNOME */
 #ifdef HAVE_LIBSECRET
 #include <libsecret/secret.h>
 #endif /* HAVE_LIBSECRET */
@@ -844,11 +840,7 @@ _web_service_send_message (WebService          *self,
 			   gpointer             soup_session_cb_data)
 {
 	if (self->priv->session == NULL) {
-		self->priv->session = soup_session_async_new_with_options (
-#ifdef HAVE_LIBSOUP_GNOME
-			SOUP_SESSION_ADD_FEATURE_BY_TYPE, SOUP_TYPE_PROXY_RESOLVER_GNOME,
-#endif
-			NULL);
+		self->priv->session = soup_session_new ();
 
 #ifdef DEBUG_WEB_CONNECTION
 		{

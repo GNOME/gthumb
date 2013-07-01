@@ -41,7 +41,7 @@
 #endif
 
 
-static GStaticMutex register_mutex = G_STATIC_MUTEX_INIT;
+static GMutex register_mutex;
 
 
 typedef struct {
@@ -206,12 +206,12 @@ gth_main_register_file_source (GType file_source_type)
 {
 	GObject *file_source;
 
-	g_static_mutex_lock (&register_mutex);
+	g_mutex_lock (&register_mutex);
 
 	file_source = g_object_new (file_source_type, NULL);
 	Main->priv->file_sources = g_list_append (Main->priv->file_sources, file_source);
 
-	g_static_mutex_unlock (&register_mutex);
+	g_mutex_unlock (&register_mutex);
 }
 
 
@@ -320,17 +320,17 @@ gth_main_register_metadata_category (GthMetadataCategory *metadata_category)
 {
 	int i;
 
-	g_static_mutex_lock (&register_mutex);
+	g_mutex_lock (&register_mutex);
 
 	for (i = 0; metadata_category[i].id != NULL; i++)
 		if (gth_main_get_metadata_category (metadata_category[i].id) == NULL)
 			g_ptr_array_add (Main->priv->metadata_category, &metadata_category[i]);
 
-	g_static_mutex_unlock (&register_mutex);
+	g_mutex_unlock (&register_mutex);
 }
 
 
-static GStaticMutex metadata_info_mutex = G_STATIC_MUTEX_INIT;
+static GMutex metadata_info_mutex;
 
 
 GthMetadataInfo *
@@ -341,14 +341,14 @@ gth_main_register_metadata_info (GthMetadataInfo *metadata_info)
 	if ((metadata_info->display_name != NULL) && (strstr (metadata_info->display_name, "0x") != NULL))
 		metadata_info->flags = GTH_METADATA_ALLOW_NOWHERE;
 
-	g_static_mutex_lock (&metadata_info_mutex);
+	g_mutex_lock (&metadata_info_mutex);
 
 	info = gth_metadata_info_dup (metadata_info);
 	g_ptr_array_add (Main->priv->metadata_info, info);
 	g_hash_table_insert (Main->priv->metadata_info_hash, (gpointer) info->id, info);
 	Main->priv->metadata_info_sorted = FALSE;
 
-	g_static_mutex_unlock (&metadata_info_mutex);
+	g_mutex_unlock (&metadata_info_mutex);
 
 	return info;
 }
@@ -359,7 +359,7 @@ gth_main_register_metadata_info_v (GthMetadataInfo metadata_info[])
 {
 	int i;
 
-	g_static_mutex_lock (&metadata_info_mutex);
+	g_mutex_lock (&metadata_info_mutex);
 
 	for (i = 0; metadata_info[i].id != NULL; i++)
 		if ((metadata_info[i].display_name == NULL) || (strstr (metadata_info[i].display_name, "0x") == NULL)) {
@@ -369,7 +369,7 @@ gth_main_register_metadata_info_v (GthMetadataInfo metadata_info[])
 			g_hash_table_insert (Main->priv->metadata_info_hash, (gpointer) (&metadata_info[i])->id, &metadata_info[i]);
 		}
 
-	g_static_mutex_unlock (&metadata_info_mutex);
+	g_mutex_unlock (&metadata_info_mutex);
 }
 
 
@@ -378,12 +378,12 @@ gth_main_register_metadata_provider (GType metadata_provider_type)
 {
 	GObject *metadata;
 
-	g_static_mutex_lock (&register_mutex);
+	g_mutex_lock (&register_mutex);
 
 	metadata = g_object_new (metadata_provider_type, NULL);
 	Main->priv->metadata_provider = g_list_append (Main->priv->metadata_provider, metadata);
 
-	g_static_mutex_unlock (&register_mutex);
+	g_mutex_unlock (&register_mutex);
 }
 
 
@@ -425,7 +425,7 @@ gth_main_get_metadata_attributes (const char *mask)
 	GList                  *scan;
 	char                  **values;
 
-	g_static_mutex_lock (&metadata_info_mutex);
+	g_mutex_lock (&metadata_info_mutex);
 
 	if (! Main->priv->metadata_info_sorted) {
 		g_ptr_array_sort (Main->priv->metadata_info, metadata_info_sort_func);
@@ -443,7 +443,7 @@ gth_main_get_metadata_attributes (const char *mask)
 	}
 	list = g_list_reverse (list);
 
-	g_static_mutex_unlock (&metadata_info_mutex);
+	g_mutex_unlock (&metadata_info_mutex);
 
 	values = g_new (char *, n + 1);
 	for (i = 0, scan = list; scan; i++, scan = scan->next)
@@ -539,7 +539,7 @@ gth_main_get_all_metadata_info (void)
 	GList *list = NULL;
 	int    i;
 
-	g_static_mutex_lock (&metadata_info_mutex);
+	g_mutex_lock (&metadata_info_mutex);
 
 	for (i = 0; i < Main->priv->metadata_info->len; i++) {
 		GthMetadataInfo *metadata_info = g_ptr_array_index (Main->priv->metadata_info, i);
@@ -548,7 +548,7 @@ gth_main_get_all_metadata_info (void)
 	}
 	list = g_list_reverse (list);
 
-	g_static_mutex_unlock (&metadata_info_mutex);
+	g_mutex_unlock (&metadata_info_mutex);
 
 	return list;
 }
@@ -557,9 +557,9 @@ gth_main_get_all_metadata_info (void)
 void
 gth_main_register_sort_type (GthFileDataSort *sort_type)
 {
-	g_static_mutex_lock (&register_mutex);
+	g_mutex_lock (&register_mutex);
 	g_hash_table_insert (Main->priv->sort_types, (gpointer) sort_type->name, sort_type);
-	g_static_mutex_unlock (&register_mutex);
+	g_mutex_unlock (&register_mutex);
 }
 
 
@@ -682,7 +682,7 @@ gth_main_register_image_loader_func (GthImageLoaderFunc  loader,
 	va_list     var_args;
 	const char *mime_type;
 
-	g_static_mutex_lock (&register_mutex);
+	g_mutex_lock (&register_mutex);
 
 	va_start (var_args, first_mime_type);
 	mime_type = first_mime_type;
@@ -692,7 +692,7 @@ gth_main_register_image_loader_func (GthImageLoaderFunc  loader,
   	}
 	va_end (var_args);
 
-	g_static_mutex_unlock (&register_mutex);
+	g_mutex_unlock (&register_mutex);
 }
 
 
@@ -703,12 +703,12 @@ gth_main_register_image_loader_func_v (GthImageLoaderFunc   loader,
 {
 	int i;
 
-	g_static_mutex_lock (&register_mutex);
+	g_mutex_lock (&register_mutex);
 
 	for (i = 0; mime_types[i] != NULL; i++)
 		_register_image_loader_func (loader, native_format, mime_types[i]);
 
-	g_static_mutex_unlock (&register_mutex);
+	g_mutex_unlock (&register_mutex);
 }
 
 
@@ -864,7 +864,7 @@ gth_main_register_type (const char *set_name,
 {
 	GArray *set;
 
-	g_static_mutex_lock (&register_mutex);
+	g_mutex_lock (&register_mutex);
 
 	if (Main->priv->types == NULL)
 		Main->priv->types = g_hash_table_new_full (g_str_hash,
@@ -880,7 +880,7 @@ gth_main_register_type (const char *set_name,
 
 	g_array_append_val (set, object_type);
 
-	g_static_mutex_unlock (&register_mutex);
+	g_mutex_unlock (&register_mutex);
 }
 
 
@@ -912,7 +912,7 @@ gth_main_register_object (GType       superclass_type,
 	GthTypeSpec *spec;
 	char        *id;
 
-	g_static_mutex_lock (&register_mutex);
+	g_mutex_lock (&register_mutex);
 
 	if (object_id == NULL)
 		object_id = g_type_name (object_type);
@@ -951,7 +951,7 @@ gth_main_register_object (GType       superclass_type,
 	g_hash_table_insert (object_hash, id, spec);
 	g_ptr_array_add (object_order, id);
 
-	g_static_mutex_unlock (&register_mutex);
+	g_mutex_unlock (&register_mutex);
 }
 
 

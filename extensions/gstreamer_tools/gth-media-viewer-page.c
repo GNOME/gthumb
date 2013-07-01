@@ -226,11 +226,12 @@ video_area_draw_cb (GtkWidget *widget,
 	cairo_fill (cr);
 
 	if (self->priv->icon != NULL) {
-		int            icon_w, icon_h;
-		int            text_w;
-		int            icon_x, icon_y;
-		PangoRectangle logical_rect;
-		int            x, y;
+		int                   icon_w, icon_h;
+		int                   text_w;
+		int                   icon_x, icon_y;
+		PangoRectangle        logical_rect;
+		int                   x, y;
+		PangoFontDescription *font;
 
 		icon_w = gdk_pixbuf_get_width (self->priv->icon);
 		icon_h = gdk_pixbuf_get_height (self->priv->icon);
@@ -250,7 +251,8 @@ video_area_draw_cb (GtkWidget *widget,
 		cairo_fill (cr);
 
 		cairo_move_to (cr, x, y);
-		pango_layout_set_font_description (self->priv->caption_layout, gtk_style_context_get_font (style_context, gtk_widget_get_state (widget)));
+		gtk_style_context_get (style_context, gtk_widget_get_state (widget), "font", &font, NULL);
+		pango_layout_set_font_description (self->priv->caption_layout, font);
 		pango_cairo_layout_path (cr, self->priv->caption_layout);
 		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 		cairo_fill (cr);
