@@ -62,7 +62,6 @@ struct _GthSlideshowPrivate {
 	GthSlideshowDirection  direction;
 #if HAVE_CLUTTER
 	ClutterTimeline       *timeline;
-	ClutterAlpha          *alpha;
 	ClutterActor          *image1;
 	ClutterActor          *image2;
 	ClutterActor          *paused_actor;
@@ -790,26 +789,11 @@ reset_texture_transformation (GthSlideshow *self,
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
-	clutter_actor_set_anchor_point (texture, 0.0, 0.0);
+	clutter_actor_set_pivot_point (texture, stage_w / 2.0, stage_h / 2.0);
 	clutter_actor_set_opacity (texture, 255);
-	clutter_actor_set_rotation (texture,
-				    CLUTTER_X_AXIS,
-				    0.0,
-				    stage_w / 2.0,
-				    stage_h / 2.0,
-				    0.0);
-	clutter_actor_set_rotation (texture,
-				    CLUTTER_Y_AXIS,
-				    0.0,
-				    stage_w / 2.0,
-				    stage_h / 2.0,
-				    0.0);
-	clutter_actor_set_rotation (texture,
-				    CLUTTER_Z_AXIS,
-				    0.0,
-				    stage_w / 2.0,
-				    stage_h / 2.0,
-				    0.0);
+	clutter_actor_set_rotation_angle (texture, CLUTTER_X_AXIS, 0.0);
+	clutter_actor_set_rotation_angle (texture, CLUTTER_Y_AXIS, 0.0);
+	clutter_actor_set_rotation_angle (texture, CLUTTER_Z_AXIS, 0.0);
 	clutter_actor_set_scale (texture, 1.0, 1.0);
 }
 
@@ -828,7 +812,7 @@ _gth_slideshow_reset_textures_position (GthSlideshow *self)
 	}
 
 	if ((self->current_image != NULL) && (self->next_image != NULL)) {
-		clutter_actor_raise (self->current_image, self->next_image);
+		clutter_actor_set_child_above_sibling (CLUTTER_ACTOR (self->stage), self->current_image, self->next_image);
 		clutter_actor_hide (self->next_image);
 	}
 
@@ -889,7 +873,7 @@ animation_frame_cb (ClutterTimeline *timeline,
 	if (self->priv->transition != NULL)
 		gth_transition_frame (self->priv->transition,
 				      self,
-				      clutter_alpha_get_alpha (self->priv->alpha));
+				      clutter_timeline_get_progress (self->priv->timeline));
 
 	if (self->first_frame)
 		self->first_frame = FALSE;
@@ -1017,18 +1001,18 @@ clutter_projector_paused (GthSlideshow *self)
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 	clutter_actor_set_position (self->priv->paused_actor, stage_w / 2.0, stage_h / 2.0);
-	clutter_actor_set_anchor_point_from_gravity (self->priv->paused_actor, CLUTTER_GRAVITY_CENTER);
+	clutter_actor_set_pivot_point (self->priv->paused_actor, 0.5, 0.5);
 	clutter_actor_set_scale (self->priv->paused_actor, 1.0, 1.0);
 	clutter_actor_set_opacity (self->priv->paused_actor, 255);
-	clutter_actor_raise_top (self->priv->paused_actor);
+	clutter_actor_set_child_above_sibling (CLUTTER_ACTOR (self->stage), self->priv->paused_actor, NULL);
 	clutter_actor_show (self->priv->paused_actor);
 
-	clutter_actor_animate (self->priv->paused_actor,
-			       CLUTTER_LINEAR, 500,
-	                       "opacity", 0,
-	                       "scale-x", 3.0,
-	                       "scale-y", 3.0,
-	                       NULL);
+	clutter_actor_save_easing_state (self->priv->paused_actor);
+	clutter_actor_set_easing_mode (self->priv->paused_actor, CLUTTER_LINEAR);
+	clutter_actor_set_easing_duration (self->priv->paused_actor, 500);
+	clutter_actor_set_scale (self->priv->paused_actor, 3.0, 3.0);
+	clutter_actor_set_opacity (self->priv->paused_actor, 0);
+	clutter_actor_restore_easing_state (self->priv->paused_actor);
 }
 
 
@@ -1181,7 +1165,7 @@ clutter_projector_construct (GthSlideshow *self)
 	embed = gtk_clutter_embed_new ();
 	self->stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (embed));
 	clutter_stage_hide_cursor (CLUTTER_STAGE (self->stage));
-	clutter_stage_set_color (CLUTTER_STAGE (self->stage), &background_color);
+	clutter_actor_set_background_color (CLUTTER_ACTOR (self->stage), &background_color);
 
 	self->priv->last_button_event_time = 0;
 	g_signal_connect (self->stage, "button-press-event", G_CALLBACK (stage_input_cb), self);
@@ -1191,21 +1175,20 @@ clutter_projector_construct (GthSlideshow *self)
 
 	self->priv->image1 = gtk_clutter_texture_new ();
 	clutter_actor_hide (self->priv->image1);
-	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->image1);
+	clutter_actor_add_child (CLUTTER_ACTOR (self->stage), self->priv->image1);
 
 	self->priv->image2 = gtk_clutter_texture_new ();
 	clutter_actor_hide (self->priv->image2);
-	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->image2);
+	clutter_actor_add_child (CLUTTER_ACTOR (self->stage), self->priv->image2);
 
 	self->current_image = NULL;
 	self->next_image = self->priv->image1;
 
 	self->priv->timeline = clutter_timeline_new (GTH_TRANSITION_DURATION);
+	clutter_timeline_set_progress_mode (self->priv->timeline, CLUTTER_EASE_IN_OUT_SINE);
 	g_signal_connect (self->priv->timeline, "completed", G_CALLBACK (animation_completed_cb), self);
 	g_signal_connect (self->priv->timeline, "new-frame", G_CALLBACK (animation_frame_cb), self);
 	g_signal_connect (self->priv->timeline, "started", G_CALLBACK (animation_started_cb), self);
-
-	self->priv->alpha = clutter_alpha_new_full (self->priv->timeline, CLUTTER_EASE_IN_OUT_SINE);
 
 	self->priv->paused_actor = gtk_clutter_texture_new ();
 	if (self->priv->pause_pixbuf != NULL)
@@ -1219,7 +1202,7 @@ clutter_projector_construct (GthSlideshow *self)
 						    GTK_ICON_SIZE_DIALOG,
 						    NULL);
 	clutter_actor_hide (self->priv->paused_actor);
-	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->paused_actor);
+	clutter_actor_add_child (CLUTTER_ACTOR (self->stage), self->priv->paused_actor);
 
 	g_signal_connect (self, "size-allocate", G_CALLBACK (gth_slideshow_size_allocate_cb), self);
 

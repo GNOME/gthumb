@@ -101,7 +101,7 @@ slide_from_right_transition (GthSlideshow *self,
 	if (self->first_frame) {
 		if (self->current_image != NULL) {
 			clutter_actor_show (self->current_image);
-			clutter_actor_raise (self->next_image, self->current_image);
+			clutter_actor_set_child_above_sibling (self->stage, self->next_image, self->current_image);
 		}
 		clutter_actor_show (self->next_image);
 	}
@@ -124,7 +124,7 @@ slide_from_bottom_transition (GthSlideshow *self,
 	if (self->first_frame) {
 		if (self->current_image != NULL) {
 			clutter_actor_show (self->current_image);
-			clutter_actor_raise (self->next_image, self->current_image);
+			clutter_actor_set_child_above_sibling (self->stage, self->next_image, self->current_image);
 		}
 		clutter_actor_show (self->next_image);
 	}
@@ -142,10 +142,24 @@ fade_transition (GthSlideshow *self,
 	if (self->first_frame) {
 		if (self->current_image != NULL) {
 			clutter_actor_show (self->current_image);
-			clutter_actor_raise (self->next_image, self->current_image);
+			clutter_actor_set_child_above_sibling (self->stage, self->next_image, self->current_image);
 		}
 		clutter_actor_show (self->next_image);
 	}
+}
+
+
+static void
+_clutter_actor_set_rotation (ClutterActor *self,
+			     ClutterRotateAxis axis,
+			     gdouble angle,
+			     gfloat x,
+			     gfloat y,
+			     gfloat z)
+{
+	clutter_actor_set_pivot_point (self, x, y);
+	clutter_actor_set_pivot_point_z (self, z);
+	clutter_actor_set_rotation_angle (self, axis, angle);
 }
 
 
@@ -164,26 +178,26 @@ flip_transition (GthSlideshow *self,
 			clutter_actor_show (self->current_image);
 	}
 
-	clutter_actor_set_rotation (self->next_image,
-				    CLUTTER_Y_AXIS,
-				    VALUE_AT_PROGRESS (180.0, 1.0 - progress),
-				    0.0,
-				    0.0,
-				    0.0);
+	_clutter_actor_set_rotation (self->next_image,
+				     CLUTTER_Y_AXIS,
+				     VALUE_AT_PROGRESS (180.0, 1.0 - progress),
+				     0.5,
+				     0.5,
+				     0.0);
 	if (self->current_image != NULL)
-		clutter_actor_set_rotation (self->current_image,
-					    CLUTTER_Y_AXIS,
-					    VALUE_AT_PROGRESS (180.0, - progress),
-					    0.0,
-					    0.0,
-					    0.0);
+		_clutter_actor_set_rotation (self->current_image,
+					     CLUTTER_Y_AXIS,
+					     VALUE_AT_PROGRESS (180.0, - progress),
+					     0.5,
+					     0.5,
+					     0.0);
 
 	if (self->first_frame) {
 		if (self->current_image != NULL) {
-			clutter_actor_raise (self->next_image, self->current_image);
-			clutter_actor_move_anchor_point_from_gravity (self->current_image, CLUTTER_GRAVITY_CENTER);
+			clutter_actor_set_child_above_sibling (self->stage, self->next_image, self->current_image);
+			clutter_actor_set_pivot_point (self->current_image, 0.5, 0.5);
 		}
-		clutter_actor_move_anchor_point_from_gravity (self->next_image, CLUTTER_GRAVITY_CENTER);
+		clutter_actor_set_pivot_point (self->next_image, 0.5, 0.5);
 	}
 }
 
@@ -198,30 +212,30 @@ cube_from_right_transition (GthSlideshow *self,
 
 	if (self->current_image != NULL) {
 		if (progress >= 0.5)
-			clutter_actor_raise (self->next_image, self->current_image);
+			clutter_actor_set_child_above_sibling (self->stage, self->next_image, self->current_image);
 		else
-			clutter_actor_raise (self->current_image, self->next_image);
+			clutter_actor_set_child_above_sibling (self->stage, self->current_image, self->next_image);
 	}
 
-	clutter_actor_set_rotation (self->next_image,
-				    CLUTTER_Y_AXIS,
-				    VALUE_AT_PROGRESS (90.0, - progress) - 270.0,
-				    0.0,
-				    0.0,
-				    - stage_w / 2.0);
+	_clutter_actor_set_rotation (self->next_image,
+				     CLUTTER_Y_AXIS,
+				     VALUE_AT_PROGRESS (90.0, - progress) - 270.0,
+				     0.5,
+				     0.5,
+				     - stage_w / 2.0);
 	if (self->current_image != NULL)
-		clutter_actor_set_rotation (self->current_image,
-					    CLUTTER_Y_AXIS,
-					    VALUE_AT_PROGRESS (90.0, - progress),
-					    0.0,
-					    0.0,
-					    - stage_w / 2.0);
+		_clutter_actor_set_rotation (self->current_image,
+					     CLUTTER_Y_AXIS,
+					     VALUE_AT_PROGRESS (90.0, - progress),
+					     0.5,
+					     0.5,
+					     - stage_w / 2.0);
 
 	if (self->first_frame) {
 		if (self->current_image != NULL)
-			clutter_actor_move_anchor_point_from_gravity (self->current_image, CLUTTER_GRAVITY_CENTER);
+			clutter_actor_set_pivot_point (self->current_image, 0.5, 0.5);
 		clutter_actor_show (self->next_image);
-		clutter_actor_move_anchor_point_from_gravity (self->next_image, CLUTTER_GRAVITY_CENTER);
+		clutter_actor_set_pivot_point (self->next_image, 0.5, 0.5);
 	}
 }
 
@@ -236,30 +250,30 @@ cube_from_bottom_transition (GthSlideshow *self,
 
 	if (self->current_image != NULL) {
 		if (progress >= 0.5)
-			clutter_actor_raise (self->next_image, self->current_image);
+			clutter_actor_set_child_above_sibling (self->stage, self->next_image, self->current_image);
 		else
-			clutter_actor_raise (self->current_image, self->next_image);
+			clutter_actor_set_child_above_sibling (self->stage, self->current_image, self->next_image);
 	}
 
-	clutter_actor_set_rotation (self->next_image,
-				    CLUTTER_X_AXIS,
-				    VALUE_AT_PROGRESS (90.0, progress) + 270.0,
-				    0.0,
-				    0.0,
-				    - stage_w / 2.0);
+	_clutter_actor_set_rotation (self->next_image,
+				     CLUTTER_X_AXIS,
+				     VALUE_AT_PROGRESS (90.0, progress) + 270.0,
+				     0.5,
+				     0.5,
+				     - stage_w / 2.0);
 	if (self->current_image != NULL)
-		clutter_actor_set_rotation (self->current_image,
-					    CLUTTER_X_AXIS,
-					    VALUE_AT_PROGRESS (90.0, progress),
-					    0.0,
-					    0.0,
-					    - stage_w / 2.0);
+		_clutter_actor_set_rotation (self->current_image,
+					     CLUTTER_X_AXIS,
+					     VALUE_AT_PROGRESS (90.0, progress),
+					     0.5,
+					     0.5,
+					     - stage_w / 2.0);
 
 	if (self->first_frame) {
 		if (self->current_image != NULL)
-			clutter_actor_move_anchor_point_from_gravity (self->current_image, CLUTTER_GRAVITY_CENTER);
+			clutter_actor_set_pivot_point (self->current_image, 0.5, 0.5);
 		clutter_actor_show (self->next_image);
-		clutter_actor_move_anchor_point_from_gravity (self->next_image, CLUTTER_GRAVITY_CENTER);
+		clutter_actor_set_pivot_point (self->next_image, 0.5, 0.5);
 	}
 }
 
