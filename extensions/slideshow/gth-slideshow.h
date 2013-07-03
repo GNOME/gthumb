@@ -63,6 +63,7 @@ struct _GthSlideshowClass
 typedef struct {
 	void (* construct)       (GthSlideshow *self);
 	void (* paused)          (GthSlideshow *self);
+	void (* show_cursor)     (GthSlideshow *self);
 	void (* hide_cursor)     (GthSlideshow *self);
 	void (* finalize)        (GthSlideshow *self);
 	void (* image_ready)     (GthSlideshow *self,
