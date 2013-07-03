@@ -100,6 +100,7 @@ _gth_slideshow_close (GthSlideshow *self)
 
 	browser = self->priv->browser;
 	close_browser = ! gtk_widget_get_visible (GTK_WIDGET (browser));
+	self->priv->projector->show_cursor (self);
 	self->priv->projector->finalize (self);
 	gtk_widget_destroy (GTK_WIDGET (self));
 
@@ -588,6 +589,13 @@ default_projector_finalize (GthSlideshow *self)
 
 
 static void
+default_projector_show_cursor (GthSlideshow *self)
+{
+	gth_image_viewer_show_cursor (GTH_IMAGE_VIEWER (self->priv->viewer));
+}
+
+
+static void
 default_projector_hide_cursor (GthSlideshow *self)
 {
 	gth_image_viewer_hide_cursor (GTH_IMAGE_VIEWER (self->priv->viewer));
@@ -739,6 +747,7 @@ default_projector_construct (GthSlideshow *self)
 GthProjector default_projector = {
 	default_projector_construct,
 	default_projector_paused,
+	default_projector_show_cursor,
 	default_projector_hide_cursor,
 	default_projector_finalize,
 	default_projector_image_ready,
@@ -978,7 +987,13 @@ static void
 clutter_projector_finalize (GthSlideshow *self)
 {
 	_g_object_unref (self->priv->timeline);
-	_g_object_unref (self->priv->alpha);
+}
+
+
+static void
+clutter_projector_show_cursor (GthSlideshow *self)
+{
+	clutter_stage_show_cursor (CLUTTER_STAGE (self->stage));
 }
 
 
@@ -1216,6 +1231,7 @@ clutter_projector_construct (GthSlideshow *self)
 GthProjector clutter_projector = {
 	clutter_projector_construct,
 	clutter_projector_paused,
+	clutter_projector_show_cursor,
 	clutter_projector_hide_cursor,
 	clutter_projector_finalize,
 	clutter_projector_image_ready,
