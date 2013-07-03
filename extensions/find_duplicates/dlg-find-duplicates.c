@@ -108,9 +108,9 @@ dlg_find_duplicates (GthBrowser *browser)
 
 	file_chooser = _gtk_builder_get_widget (data->builder, "location_filechooserbutton");
 	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
-		gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (file_chooser), gth_browser_get_location (browser), NULL);
+		gtk_file_chooser_set_file (GTK_FILE_CHOOSER (file_chooser), gth_browser_get_location (browser), NULL);
 	else
-		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (file_chooser), get_home_uri ());
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_chooser), get_home_uri ());
 
 	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
 	general_filter = g_settings_get_string (settings, PREF_BROWSER_GENERAL_FILTER);

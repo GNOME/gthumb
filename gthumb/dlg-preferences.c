@@ -137,7 +137,7 @@ set_to_current_cb (GtkWidget  *widget,
 
 		gio_file = gth_file_source_to_gio_file (file_source, gth_browser_get_location (data->browser));
 		uri = g_file_get_uri (gio_file);
-		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (GET_WIDGET ("startup_dir_filechooserbutton")), uri);
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("startup_dir_filechooserbutton")), uri);
 
 		g_free (uri);
 		g_object_unref (gio_file);
@@ -280,7 +280,7 @@ dlg_preferences (GthBrowser *browser)
 		location = g_file_new_for_uri (startup_location);
 		folder = gth_file_source_to_gio_file (file_source, location);
 		folder_uri = g_file_get_uri (folder);
-		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (GET_WIDGET ("startup_dir_filechooserbutton")), folder_uri);
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("startup_dir_filechooserbutton")), folder_uri);
 
 		g_free (folder_uri);
 		g_object_unref (folder);

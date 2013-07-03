@@ -260,7 +260,7 @@ dlg_image_wall (GthBrowser *browser,
 		else
 			s_value = g_strdup (get_home_uri ());
 	}
-	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), s_value);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), s_value);
 	g_free (s_value);
 
 	s_value = _g_settings_get_uri (data->settings, PREF_IMAGE_WALL_TEMPLATE);
