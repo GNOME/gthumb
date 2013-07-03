@@ -929,7 +929,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 		g_free (start_uri);
 		start_uri = g_strdup (get_home_uri ());
 	}
-	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (dialog), start_uri);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (dialog), start_uri);
 	g_free(start_uri);
 
 	history = _g_settings_get_string_list (settings, PREF_FILE_MANAGER_COPY_HISTORY);
