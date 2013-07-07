@@ -652,7 +652,7 @@ get_user_info_ready_cb (SoupSession *session,
 		DomElement   *node;
 		gboolean      success = FALSE;
 
-		account = web_service_get_current_account (WEB_SERVICE (self));
+		account = _g_object_ref (web_service_get_current_account (WEB_SERVICE (self)));
 		if (account == NULL)
 			account = g_object_new (FLICKR_TYPE_ACCOUNT,
 						"token", oauth_service_get_token (OAUTH_SERVICE (self)),
@@ -664,7 +664,7 @@ get_user_info_ready_cb (SoupSession *session,
 			if (g_strcmp0 (node->tag_name, "user") == 0) {
 				success = TRUE;
 				flickr_account_load_extra_data (FLICKR_ACCOUNT (account), node);
-				g_simple_async_result_set_op_res_gpointer (result, account, (GDestroyNotify) g_object_unref);
+				g_simple_async_result_set_op_res_gpointer (result, g_object_ref (account), (GDestroyNotify) g_object_unref);
 			}
 		}
 
