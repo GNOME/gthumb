@@ -410,7 +410,7 @@ set_current_account (WebService   *self,
 	if (self->priv->account == account)
 		return;
 
-	link = g_list_find_custom (self->priv->accounts, self->priv->account, (GCompareFunc) oauth_account_cmp);
+	link = g_list_find_custom (self->priv->accounts, account, (GCompareFunc) oauth_account_cmp);
 	if (link != NULL) {
 		self->priv->accounts = g_list_remove_link (self->priv->accounts, link);
 		_g_object_list_unref (link);
