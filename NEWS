@@ -1,3 +1,20 @@
+version 3.2.3
+-------------
+
+ Bugs fixed:
+
+  * Flickr: allow to use a facebook or google account. (#703534)
+  * Thumbnail list: images drawn with wrong offset. (#702538)
+  * Fixed the video player stopping after saving a screenshot.
+  * Fixed saving of TGA images.
+  * Fixed the size of the toolbar in fullscreen mode.
+  * Show the cursor again after stopping the slideshow.
+  * Web services: do not delete the previous account when creating a new one.
+
+ New or updated application translations:
+
+  * Russian (Yuri Myasoedov)
+
 version 3.2.2
 -------------
 
