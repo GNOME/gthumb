@@ -146,8 +146,15 @@ screenshot_ready_cb (GdkPixbuf *pixbuf,
 		int          attempt;
 
 		last_uri = g_settings_get_string (save_data->settings, PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION);
-		if ((last_uri == NULL) || (strcmp (last_uri, "~") == 0))
-			last_folder = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP));
+		if ((last_uri == NULL) || (strcmp (last_uri, "~") == 0) || (strcmp (last_uri, "file://~") == 0)) {
+			const char *dir;
+
+			dir = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+			if (dir != NULL)
+				last_folder = g_file_new_for_path (dir);
+			else
+				last_folder = g_file_new_for_uri (get_home_uri ());
+		}
 		else
 			last_folder = g_file_new_for_uri (last_uri);
 		gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (file_sel), last_folder, NULL);
