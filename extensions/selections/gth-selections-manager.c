@@ -536,6 +536,26 @@ gth_selections_manager_file_exists (int    n_selection,
 }
 
 
+gboolean
+gth_selections_manager_get_is_empty (int n_selection)
+{
+	GthSelectionsManager *self;
+	guint                 size;
+
+	if ((n_selection <= 0) || (n_selection > GTH_SELECTIONS_MANAGER_N_SELECTIONS))
+		return TRUE;
+
+	self = gth_selections_manager_get_default ();
+	g_mutex_lock (&self->priv->mutex);
+
+	size = g_hash_table_size (self->priv->files_hash[n_selection - 1]);
+
+	g_mutex_unlock (&self->priv->mutex);
+
+	return size == 0;
+}
+
+
 int
 _g_file_get_n_selection (GFile *file)
 {
