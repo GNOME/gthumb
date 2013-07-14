@@ -391,13 +391,13 @@ gth_selections_manager_add_files (GFile *folder,
 	else
 		self->priv->files[n_selection - 1] = g_list_concat (self->priv->files[n_selection - 1], new_list);
 
+	g_mutex_unlock (&self->priv->mutex);
+
 	gth_monitor_emblems_changed (gth_main_get_default_monitor (), file_list);
 	gth_monitor_folder_changed (gth_main_get_default_monitor (),
 				    folder,
 				    file_list,
 				    GTH_MONITOR_EVENT_CREATED);
-
-	g_mutex_unlock (&self->priv->mutex);
 
 	return TRUE;
 }
@@ -442,13 +442,13 @@ gth_selections_manager_remove_files (GFile *folder,
 	_g_object_list_unref (self->priv->files[n_selection - 1]);
 	self->priv->files[n_selection - 1] = new_list;
 
+	g_mutex_unlock (&self->priv->mutex);
+
 	gth_monitor_folder_changed (gth_main_get_default_monitor (),
 				    folder,
 				    file_list,
 				    GTH_MONITOR_EVENT_REMOVED);
 	gth_monitor_emblems_changed (gth_main_get_default_monitor (), file_list);
-
-	g_mutex_unlock (&self->priv->mutex);
 }
 
 
