@@ -60,6 +60,7 @@ struct _GthFilterbarPrivate
 	GthTest      *test;
 	GtkWidget    *control_box;
 	GtkWidget    *control;
+	GtkWidget    *extra_area;
 	GtkTreeIter   current_iter;
 	gulong        filters_changed_id;
 	gulong        test_changed_id;
@@ -143,14 +144,6 @@ static void
 gth_filterbar_changed (GthFilterbar *filterbar)
 {
 	g_signal_emit (filterbar, gth_filterbar_signals[CHANGED], 0);
-}
-
-
-static void
-close_button_clicked_cb (GtkWidget    *button,
-			 GthFilterbar *filterbar)
-{
-	g_signal_emit (filterbar, gth_filterbar_signals[CLOSE_BUTTON_CLICKED], 0);
 }
 
 
@@ -345,8 +338,6 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 {
 	GtkCellRenderer *renderer;
 	GtkWidget       *label;
-	GtkWidget       *button;
-	GtkWidget       *image;
 
 	gtk_box_set_spacing (GTK_BOX (filterbar), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (filterbar), 2);
@@ -403,18 +394,10 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 	filterbar->priv->control_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (filterbar->priv->control_box);
 
-	/* close button */
+	/* extra widgets container */
 
-	button = gtk_button_new ();
-	image = gtk_image_new_from_stock (GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-	gtk_container_add (GTK_CONTAINER (button), image);
-	gtk_widget_hide (button);
-	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_widget_set_tooltip_text (button, _("Hide the filterbar"));
-	g_signal_connect (G_OBJECT (button),
-			  "clicked",
-			  G_CALLBACK (close_button_clicked_cb),
-			  filterbar);
+	filterbar->priv->extra_area = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (filterbar->priv->extra_area);
 
 	/* view label */
 
@@ -433,7 +416,7 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 	gtk_box_pack_start (GTK_BOX (filterbar), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filterbar), filterbar->priv->test_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filterbar), filterbar->priv->control_box, FALSE, FALSE, 0);
-	gtk_box_pack_end (GTK_BOX (filterbar), button, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (filterbar), filterbar->priv->extra_area, FALSE, FALSE, 0);
 }
 
 
@@ -566,4 +549,11 @@ gth_filterbar_load_filter (GthFilterbar *filterbar,
 	g_object_unref (doc);
 	g_free (buffer);
 	g_object_unref (filter_file);
+}
+
+
+GtkWidget *
+gth_filterbar_get_extra_area (GthFilterbar *filterbar)
+{
+	return filterbar->priv->extra_area;
 }
