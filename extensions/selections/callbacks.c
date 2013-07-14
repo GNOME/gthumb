@@ -30,6 +30,7 @@
 
 
 #define BROWSER_DATA_KEY "selections-browser-data"
+#define N_SELECTIONS 3
 
 
 static const char *fixed_ui_info =
@@ -121,13 +122,106 @@ typedef struct {
 	GthBrowser     *browser;
 	GtkActionGroup *actions;
 	guint           vfs_merge_id;
+	GtkWidget      *selection_buttons[N_SELECTIONS];
+	gulong          folder_changed_id;
 } BrowserData;
 
 
 static void
 browser_data_free (BrowserData *data)
 {
+	g_signal_handler_disconnect (gth_main_get_default_monitor (), data->folder_changed_id);
 	g_free (data);
+}
+
+
+static void
+selection_clicked_cb (GtkWidget *button,
+		      gpointer   user_data)
+{
+	BrowserData *data = user_data;
+	int          n_selection = 0;
+
+	for (n_selection = 0; n_selection < N_SELECTIONS; n_selection++)
+		if (button == data->selection_buttons[n_selection])
+			break;
+
+	g_return_if_fail (n_selection >= 0 && n_selection <= N_SELECTIONS - 1);
+
+	gth_browser_activate_action_show_selection (data->browser, n_selection + 1);
+}
+
+
+static GtkWidget *
+_selection_button_new (int      n_selection,
+		       gpointer user_data)
+{
+	GtkWidget *button;
+	char      *icon_name;
+	char      *tooltip;
+
+	icon_name = g_strdup_printf ("selection%d", n_selection);
+	tooltip = g_strdup_printf (_("Show selection %d"), n_selection);
+
+	button = gtk_button_new ();
+	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	gtk_widget_show_all (button);
+	gtk_widget_set_sensitive (button, FALSE);
+	gtk_widget_set_tooltip_text (button, tooltip);
+
+	g_signal_connect (button,
+			  "clicked",
+			  G_CALLBACK (selection_clicked_cb),
+			  user_data);
+
+	g_free (tooltip);
+	g_free (icon_name);
+
+	return button;
+}
+
+
+static GtkWidget *
+create_selection_buttons (BrowserData *data)
+{
+	GtkWidget *box;
+	int        i;
+
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (box);
+
+	for (i = 0; i < N_SELECTIONS; i++) {
+		data->selection_buttons[i] = _selection_button_new (i + 1, data);
+		gtk_box_pack_start (GTK_BOX (box), data->selection_buttons[i], FALSE, FALSE, 0);
+	}
+
+	return box;
+}
+
+
+static void
+folder_changed_cb (GthMonitor      *monitor,
+		   GFile           *parent,
+		   GList           *list /* GFile list */,
+		   int              position,
+		   GthMonitorEvent  event,
+		   gpointer         user_data)
+{
+	BrowserData *data = user_data;
+	int          n_selection;
+
+	if (event == GTH_MONITOR_EVENT_CHANGED)
+		return;
+
+	if (! g_file_has_uri_scheme (parent, "selection"))
+		return;
+
+	n_selection = _g_file_get_n_selection (parent);
+	if (n_selection <= 0)
+		return;
+
+	gtk_widget_set_sensitive (data->selection_buttons[n_selection - 1], ! gth_selections_manager_get_is_empty (n_selection));
 }
 
 
@@ -136,6 +230,9 @@ selections__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
 	GError      *error = NULL;
+	GtkWidget   *filter_bar;
+	GtkWidget   *filter_bar_extra_area;
+	GtkWidget   *selection_buttons;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
@@ -156,6 +253,16 @@ selections__gth_browser_construct_cb (GthBrowser *browser)
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
+
+	filter_bar = gth_browser_get_filterbar (browser);
+	filter_bar_extra_area = gth_filterbar_get_extra_area (GTH_FILTERBAR (filter_bar));
+	selection_buttons = create_selection_buttons (data);
+	gtk_box_pack_start (GTK_BOX (filter_bar_extra_area), selection_buttons, FALSE, FALSE, 0);
+
+	data->folder_changed_id = g_signal_connect (gth_main_get_default_monitor (),
+						    "folder-changed",
+						    G_CALLBACK (folder_changed_cb),
+						    data);
 }
 
 
