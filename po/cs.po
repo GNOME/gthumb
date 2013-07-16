@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-30 15:13+0000\n"
-"PO-Revision-Date: 2013-04-14 07:13+0200\n"
+"POT-Creation-Date: 2013-07-14 11:25+0000\n"
+"PO-Revision-Date: 2013-07-16 10:41+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -794,12 +794,12 @@ msgid "_Add to Catalog"
 msgstr "Přid_at do katalogu"
 
 #: ../extensions/catalogs/callbacks.c:105
-#: ../extensions/selections/callbacks.c:80
+#: ../extensions/selections/callbacks.c:81
 msgid "Open _Folder"
 msgstr "Otevřít s_ložku"
 
 #: ../extensions/catalogs/callbacks.c:106
-#: ../extensions/selections/callbacks.c:81
+#: ../extensions/selections/callbacks.c:82
 msgid "Go to the folder that contains the selected file"
 msgstr "Přejít do složky obsahující vybrané soubory"
 
@@ -1246,7 +1246,7 @@ msgstr "Vytváření indexu obrázků v podobě náhledů vybraných souborů."
 #: ../extensions/file_tools/gth-file-tool-resize.c:589
 #: ../extensions/file_tools/gth-file-tool-rotate.c:397
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:14
-#: ../extensions/slideshow/main.c:277
+#: ../extensions/slideshow/main.c:291
 msgid "None"
 msgstr "Nic"
 
@@ -1990,7 +1990,7 @@ msgstr "_Album:"
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:138
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:414
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:231
-#: ../extensions/oauth/web-service.c:380
+#: ../extensions/oauth/web-service.c:376
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:131
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:375
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
@@ -3036,7 +3036,7 @@ msgstr "Nelze pořídit snímek obrazovky"
 msgid "Save Image"
 msgstr "Uložení obrázku"
 
-#: ../extensions/gstreamer_tools/actions.c:158
+#: ../extensions/gstreamer_tools/actions.c:165
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Snímek obrazovky"
@@ -3046,7 +3046,7 @@ msgid "Slower"
 msgstr "Pomaleji"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:2
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:699
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:701
 msgid "Play"
 msgstr "Přehrát"
 
@@ -3092,11 +3092,11 @@ msgstr "Snímek obrazovky"
 msgid "Take a screenshot"
 msgstr "Pořídit snímek obrazovky"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:676
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:678
 msgid "Playing video"
 msgstr "Přehrávání videa"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:689
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:691
 msgid "Pause"
 msgstr "Pozastavit"
 
@@ -3168,7 +3168,7 @@ msgstr "Mono"
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1270
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:243
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1037
+#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1050
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3611,7 +3611,7 @@ msgstr ""
 "Nedostatek volného místa na „%s“.\n"
 "Je požadováno %s místa, ale k dispozici je jen %s."
 
-#: ../extensions/list_tools/callbacks.c:76 ../gthumb/gth-filterbar.c:311
+#: ../extensions/list_tools/callbacks.c:76 ../gthumb/gth-filterbar.c:304
 msgid "Personalize..."
 msgstr "Přizpůsobit…"
 
@@ -3835,31 +3835,31 @@ msgstr "Načítá se…"
 msgid "New authentication..."
 msgstr "Nové ověření…"
 
-#: ../extensions/oauth/oauth-ask-authorization-dialog.c:191
+#: ../extensions/oauth/oauth-ask-authorization-dialog.c:245
 msgid "Authorization Required"
 msgstr "Požadováno ověření"
 
-#: ../extensions/oauth/web-service.c:382
+#: ../extensions/oauth/web-service.c:378
 msgid "Choose _Account..."
 msgstr "Vybr_at účet…"
 
-#: ../extensions/oauth/web-service.c:660
+#: ../extensions/oauth/web-service.c:656
 msgid "Choose Account"
 msgstr "Vybrat účet"
 
-#: ../extensions/oauth/web-service.c:777
+#: ../extensions/oauth/web-service.c:773
 msgid "Edit Accounts"
 msgstr "Upravit účty"
 
-#: ../extensions/oauth/web-service.c:795 ../extensions/oauth/web-service.c:812
+#: ../extensions/oauth/web-service.c:791 ../extensions/oauth/web-service.c:808
 msgid "Connecting to the server"
 msgstr "Připojuje se k serveru"
 
-#: ../extensions/oauth/web-service.c:796
+#: ../extensions/oauth/web-service.c:792
 msgid "Asking authorization"
 msgstr "Dotazuje se na ověření"
 
-#: ../extensions/oauth/web-service.c:813
+#: ../extensions/oauth/web-service.c:809
 msgid "Getting account information"
 msgstr "Získávají se informace účtu"
 
@@ -3974,7 +3974,7 @@ msgstr "Po naimportování ze zařízení:"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#: ../gthumb/gth-filterbar.c:421
+#: ../gthumb/gth-filterbar.c:404
 msgid "S_how:"
 msgstr "_Zobrazit:"
 
@@ -4350,23 +4350,28 @@ msgstr "Zrušit operaci"
 msgid "File search tool."
 msgstr "Nástroj na vyhledávání souborů."
 
-#: ../extensions/selections/callbacks.c:77
+#: ../extensions/selections/callbacks.c:78
 msgid "Add to _Selection"
 msgstr "Přidat do vý_běru"
 
-#: ../extensions/selections/callbacks.c:86
+#: ../extensions/selections/callbacks.c:87
 msgid "Selection 1"
 msgstr "Výběr 1"
 
-#: ../extensions/selections/callbacks.c:91
+#: ../extensions/selections/callbacks.c:92
 msgid "Selection 2"
 msgstr "Výběr 2"
 
-#: ../extensions/selections/callbacks.c:96
+#: ../extensions/selections/callbacks.c:97
 msgid "Selection 3"
 msgstr "Výběr 3"
 
-#: ../extensions/selections/callbacks.c:285
+#: ../extensions/selections/callbacks.c:164
+#, c-format
+msgid "Show selection %d"
+msgstr "Zobrazit výběr %d"
+
+#: ../extensions/selections/callbacks.c:392
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -4452,35 +4457,35 @@ msgstr "Zvukové soubory"
 msgid "Random"
 msgstr "Náhodně"
 
-#: ../extensions/slideshow/main.c:283
+#: ../extensions/slideshow/main.c:297
 msgid "Push from right"
 msgstr "Odtlačit zprava"
 
-#: ../extensions/slideshow/main.c:289
+#: ../extensions/slideshow/main.c:303
 msgid "Push from bottom"
 msgstr "Odtlačit zdola"
 
-#: ../extensions/slideshow/main.c:295
+#: ../extensions/slideshow/main.c:309
 msgid "Slide from right"
 msgstr "Překrýt zprava"
 
-#: ../extensions/slideshow/main.c:301
+#: ../extensions/slideshow/main.c:315
 msgid "Slide from bottom"
 msgstr "Překrýt zdola"
 
-#: ../extensions/slideshow/main.c:307
+#: ../extensions/slideshow/main.c:321
 msgid "Fade in"
 msgstr "Prolnutí"
 
-#: ../extensions/slideshow/main.c:313
+#: ../extensions/slideshow/main.c:327
 msgid "Flip page"
 msgstr "Překlopit stránku"
 
-#: ../extensions/slideshow/main.c:319
+#: ../extensions/slideshow/main.c:333
 msgid "Cube from right"
 msgstr "Kostka zprava"
 
-#: ../extensions/slideshow/main.c:325
+#: ../extensions/slideshow/main.c:339
 msgid "Cube from bottom"
 msgstr "Kostka zdola"
 
@@ -4669,7 +4674,7 @@ msgstr "Nový filtr"
 msgid "Edit Filter"
 msgstr "Upravit filtr"
 
-#: ../gthumb/dlg-preferences-extensions.c:67 ../gthumb/gth-filterbar.c:277
+#: ../gthumb/dlg-preferences-extensions.c:67 ../gthumb/gth-filterbar.c:270
 msgid "All"
 msgstr "Vše"
 
@@ -5157,10 +5162,6 @@ msgstr[0] "Opravdu chcete trvale smazat %'d vybraný soubor?"
 msgstr[1] "Opravdu chcete trvale smazat %'d vybrané soubory?"
 msgstr[2] "Opravdu chcete trvale smazat %'d vybraných souborů?"
 
-#: ../gthumb/gth-filterbar.c:413
-msgid "Hide the filterbar"
-msgstr "Skrýt panel filtru"
-
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
 #: ../gthumb/gth-test-simple.c:77
 msgid "kB"
@@ -5487,27 +5488,27 @@ msgstr "Zavřít toto okno"
 msgid "Close _All Windows"
 msgstr "Zavřít všechn_a okna"
 
-#: ../gthumb/gtk-utils.c:490
+#: ../gthumb/gtk-utils.c:491
 msgid "Could not display help"
 msgstr "Nelze zobrazit nápovědu"
 
-#: ../gthumb/gtk-utils.c:810 ../gthumb/gtk-utils.c:817
+#: ../gthumb/gtk-utils.c:811 ../gthumb/gtk-utils.c:818
 msgid "Could not launch the application"
 msgstr "Nelze spustit aplikaci"
 
-#: ../gthumb/gtk-utils.c:920
+#: ../gthumb/gtk-utils.c:921
 msgid "_Copy Here"
 msgstr "_Kopírovat sem"
 
-#: ../gthumb/gtk-utils.c:925
+#: ../gthumb/gtk-utils.c:926
 msgid "_Move Here"
 msgstr "Přesunout se_m"
 
-#: ../gthumb/gtk-utils.c:930
+#: ../gthumb/gtk-utils.c:931
 msgid "_Link Here"
 msgstr "Vytvořit zde _odkaz"
 
-#: ../gthumb/gtk-utils.c:939
+#: ../gthumb/gtk-utils.c:940
 msgid "Cancel"
 msgstr "Zrušit"
 
