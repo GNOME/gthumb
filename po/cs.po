@@ -4641,7 +4641,7 @@ msgstr "Nelze najít složku se styly"
 
 #: ../extensions/webalbums/gth-web-exporter.c:3001
 msgid "Could not create a temporary folder"
-msgstr "Nelze vytvořit dočasný adresář"
+msgstr "Nelze vytvořit dočasnou složku"
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:1
 msgid "Web Albums"
