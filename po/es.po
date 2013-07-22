@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-30 15:13+0000\n"
-"PO-Revision-Date: 2013-07-03 16:23+0200\n"
+"POT-Creation-Date: 2013-07-18 13:08+0000\n"
+"PO-Revision-Date: 2013-07-22 13:40+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -794,12 +794,12 @@ msgid "_Add to Catalog"
 msgstr "_Añadir al catálogo"
 
 #: ../extensions/catalogs/callbacks.c:105
-#: ../extensions/selections/callbacks.c:80
+#: ../extensions/selections/callbacks.c:81
 msgid "Open _Folder"
 msgstr "Abrir _carpeta"
 
 #: ../extensions/catalogs/callbacks.c:106
-#: ../extensions/selections/callbacks.c:81
+#: ../extensions/selections/callbacks.c:82
 msgid "Go to the folder that contains the selected file"
 msgstr "Ir a la carpeta que contiene el archivo seleccionado"
 
@@ -1249,7 +1249,7 @@ msgstr ""
 #: ../extensions/file_tools/gth-file-tool-resize.c:589
 #: ../extensions/file_tools/gth-file-tool-rotate.c:397
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:14
-#: ../extensions/slideshow/main.c:277
+#: ../extensions/slideshow/main.c:291
 msgid "None"
 msgstr "Ninguna"
 
@@ -1993,7 +1993,7 @@ msgstr "Á_lbum:"
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:138
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:414
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:231
-#: ../extensions/oauth/web-service.c:380
+#: ../extensions/oauth/web-service.c:376
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:131
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:375
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
@@ -3040,7 +3040,7 @@ msgstr "No se pudo hacer la captura de pantalla"
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: ../extensions/gstreamer_tools/actions.c:158
+#: ../extensions/gstreamer_tools/actions.c:165
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Captura de pantalla"
@@ -3050,7 +3050,7 @@ msgid "Slower"
 msgstr "Más lento"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:2
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:699
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:701
 msgid "Play"
 msgstr "Reproducir"
 
@@ -3096,11 +3096,11 @@ msgstr "Capturar pantalla"
 msgid "Take a screenshot"
 msgstr "Capturar la pantalla"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:676
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:678
 msgid "Playing video"
 msgstr "Reproduciendo vídeo"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:689
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:691
 msgid "Pause"
 msgstr "Pausar"
 
@@ -3172,7 +3172,7 @@ msgstr "Mono"
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1270
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:243
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1037
+#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1050
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3614,7 +3614,7 @@ msgstr ""
 "No hay espacio libre suficiente en «%s».\n"
 "se requieren %s , pero sólo hay %s disponibles."
 
-#: ../extensions/list_tools/callbacks.c:76 ../gthumb/gth-filterbar.c:311
+#: ../extensions/list_tools/callbacks.c:76 ../gthumb/gth-filterbar.c:304
 msgid "Personalize..."
 msgstr "Personalizar…"
 
@@ -3839,31 +3839,31 @@ msgstr "Cargando…"
 msgid "New authentication..."
 msgstr "Nueva autenticación…"
 
-#: ../extensions/oauth/oauth-ask-authorization-dialog.c:191
+#: ../extensions/oauth/oauth-ask-authorization-dialog.c:245
 msgid "Authorization Required"
 msgstr "Se requiere autoriación"
 
-#: ../extensions/oauth/web-service.c:382
+#: ../extensions/oauth/web-service.c:378
 msgid "Choose _Account..."
 msgstr "Seleccionar c_uenta…"
 
-#: ../extensions/oauth/web-service.c:660
+#: ../extensions/oauth/web-service.c:656
 msgid "Choose Account"
 msgstr "Seleccionar cuenta"
 
-#: ../extensions/oauth/web-service.c:777
+#: ../extensions/oauth/web-service.c:773
 msgid "Edit Accounts"
 msgstr "Editar cuentas"
 
-#: ../extensions/oauth/web-service.c:795 ../extensions/oauth/web-service.c:812
+#: ../extensions/oauth/web-service.c:791 ../extensions/oauth/web-service.c:808
 msgid "Connecting to the server"
 msgstr "Conectando con el servidor"
 
-#: ../extensions/oauth/web-service.c:796
+#: ../extensions/oauth/web-service.c:792
 msgid "Asking authorization"
 msgstr "Solicitando autorización"
 
-#: ../extensions/oauth/web-service.c:813
+#: ../extensions/oauth/web-service.c:809
 msgid "Getting account information"
 msgstr "Obteniendo información de la cuenta"
 
@@ -3978,7 +3978,7 @@ msgstr "Después de importar desde un dispositivo:"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#: ../gthumb/gth-filterbar.c:421
+#: ../gthumb/gth-filterbar.c:404
 msgid "S_how:"
 msgstr "M_ostrar:"
 
@@ -4073,7 +4073,6 @@ msgid "Upload images to Picasa Web Albums"
 msgstr "Subir imágenes a álbumes web Picasa"
 
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:106
-#| msgid "Format"
 msgid "RAW Format"
 msgstr "Formato RAW"
 
@@ -4355,23 +4354,29 @@ msgstr "Cancelar la operación"
 msgid "File search tool."
 msgstr "Herramienta de búsqueda de archivos."
 
-#: ../extensions/selections/callbacks.c:77
+#: ../extensions/selections/callbacks.c:78
 msgid "Add to _Selection"
 msgstr "Añadir a _selección"
 
-#: ../extensions/selections/callbacks.c:86
+#: ../extensions/selections/callbacks.c:87
 msgid "Selection 1"
 msgstr "Selección 1"
 
-#: ../extensions/selections/callbacks.c:91
+#: ../extensions/selections/callbacks.c:92
 msgid "Selection 2"
 msgstr "Selección 2"
 
-#: ../extensions/selections/callbacks.c:96
+#: ../extensions/selections/callbacks.c:97
 msgid "Selection 3"
 msgstr "Selección 3"
 
-#: ../extensions/selections/callbacks.c:285
+#: ../extensions/selections/callbacks.c:164
+#, c-format
+#| msgid "Selection %d"
+msgid "Show selection %d"
+msgstr "Mostrar la selección %d"
+
+#: ../extensions/selections/callbacks.c:392
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -4457,35 +4462,35 @@ msgstr "Archivos de sonido"
 msgid "Random"
 msgstr "Aleatorio"
 
-#: ../extensions/slideshow/main.c:283
+#: ../extensions/slideshow/main.c:297
 msgid "Push from right"
 msgstr "Empujar desde la derecha"
 
-#: ../extensions/slideshow/main.c:289
+#: ../extensions/slideshow/main.c:303
 msgid "Push from bottom"
 msgstr "Empujar desde abajo"
 
-#: ../extensions/slideshow/main.c:295
+#: ../extensions/slideshow/main.c:309
 msgid "Slide from right"
 msgstr "Deslizar desde la derecha"
 
-#: ../extensions/slideshow/main.c:301
+#: ../extensions/slideshow/main.c:315
 msgid "Slide from bottom"
 msgstr "Deslizar desde abajo"
 
-#: ../extensions/slideshow/main.c:307
+#: ../extensions/slideshow/main.c:321
 msgid "Fade in"
 msgstr "Sombra entrante"
 
-#: ../extensions/slideshow/main.c:313
+#: ../extensions/slideshow/main.c:327
 msgid "Flip page"
 msgstr "Voltear página"
 
-#: ../extensions/slideshow/main.c:319
+#: ../extensions/slideshow/main.c:333
 msgid "Cube from right"
 msgstr "Cubo desde la derecha"
 
-#: ../extensions/slideshow/main.c:325
+#: ../extensions/slideshow/main.c:339
 msgid "Cube from bottom"
 msgstr "Cubo desde abajo"
 
@@ -4674,7 +4679,7 @@ msgstr "Filtro nuevo"
 msgid "Edit Filter"
 msgstr "Editar filtro"
 
-#: ../gthumb/dlg-preferences-extensions.c:67 ../gthumb/gth-filterbar.c:277
+#: ../gthumb/dlg-preferences-extensions.c:67 ../gthumb/gth-filterbar.c:270
 msgid "All"
 msgstr "Todas"
 
@@ -5168,10 +5173,6 @@ msgstr[1] ""
 "¿Está seguro de que quiere eliminar permanentemente los %'d archivos "
 "seleccionados?"
 
-#: ../gthumb/gth-filterbar.c:413
-msgid "Hide the filterbar"
-msgstr "Ocultar la barra de filtros"
-
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
 #: ../gthumb/gth-test-simple.c:77
 msgid "kB"
@@ -5499,27 +5500,27 @@ msgstr "Cerrar esta ventana"
 msgid "Close _All Windows"
 msgstr "Cerrar _todas las ventanas"
 
-#: ../gthumb/gtk-utils.c:490
+#: ../gthumb/gtk-utils.c:491
 msgid "Could not display help"
 msgstr "No se pudo mostrar la ayuda"
 
-#: ../gthumb/gtk-utils.c:810 ../gthumb/gtk-utils.c:817
+#: ../gthumb/gtk-utils.c:811 ../gthumb/gtk-utils.c:818
 msgid "Could not launch the application"
 msgstr "No se pudo lanzar la aplicación"
 
-#: ../gthumb/gtk-utils.c:920
+#: ../gthumb/gtk-utils.c:921
 msgid "_Copy Here"
 msgstr "_Copiar aquí"
 
-#: ../gthumb/gtk-utils.c:925
+#: ../gthumb/gtk-utils.c:926
 msgid "_Move Here"
 msgstr "_Mover aquí"
 
-#: ../gthumb/gtk-utils.c:930
+#: ../gthumb/gtk-utils.c:931
 msgid "_Link Here"
 msgstr "En_lazar aquí"
 
-#: ../gthumb/gtk-utils.c:939
+#: ../gthumb/gtk-utils.c:940
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -5546,6 +5547,9 @@ msgstr "Mostrar versión"
 #: ../gthumb/main.c:484
 msgid "- Image browser and viewer"
 msgstr "- Explorador de imágenes y visor"
+
+#~ msgid "Hide the filterbar"
+#~ msgstr "Ocultar la barra de filtros"
 
 #~ msgid "Whether to always use a black background."
 #~ msgstr "Indica si se debe usar siempre fondo negro."
