@@ -897,7 +897,6 @@ copy_files_to_folder (GthBrowser *browser,
 			  data);
 	gth_browser_exec_task (browser, task, FALSE);
 
-	g_object_unref (task);
 	g_object_unref (file_source);
 }
 
