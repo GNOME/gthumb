@@ -63,7 +63,10 @@ ok_clicked_cb (GtkWidget  *widget,
 {
 	GFile *folder;
 
-	folder = gtk_file_chooser_get_current_folder_file (GTK_FILE_CHOOSER ( _gtk_builder_get_widget (data->builder, "location_filechooserbutton")));
+	folder = gtk_file_chooser_get_file (GTK_FILE_CHOOSER ( _gtk_builder_get_widget (data->builder, "location_filechooserbutton")));
+	if (folder == NULL)
+		return;
+
 	gth_find_duplicates_exec (data->browser,
 				  folder,
 				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolder_checkbutton"))),

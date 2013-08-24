@@ -1270,6 +1270,8 @@ gth_find_duplicates_exec (GthBrowser *browser,
 	const char        *test_attributes;
 	int                i;
 
+	g_return_if_fail (location != NULL);
+
 	self = (GthFindDuplicates *) g_object_new (GTH_TYPE_FIND_DUPLICATES, NULL);
 
 	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
