@@ -671,7 +671,7 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox),
 				  g_settings_get_enum (self->priv->settings, PREF_RESIZE_ASPECT_RATIO));
 
-	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (viewer), GTH_ZOOM_QUALITY_LOW);
+	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (viewer), GTH_ZOOM_QUALITY_HIGH);
 
 	return options;
 }

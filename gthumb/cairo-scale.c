@@ -32,7 +32,7 @@
 #define EPSILON ((ScaleReal) 1.0e-16)
 
 
-typedef float ScaleReal;
+typedef double ScaleReal;
 typedef ScaleReal (*weight_func_t) (ScaleReal distance);
 
 
@@ -202,7 +202,7 @@ sinc_fast (ScaleReal x)
 {
 	if (x > 4.0) {
 		const ScaleReal alpha = G_PI * x;
-		return sin (alpha) / alpha;
+		return sin ((double) alpha) / alpha;
 	}
 
 	{
@@ -213,20 +213,45 @@ sinc_fast (ScaleReal x)
 		const ScaleReal xx = x*x;
 
 		/*
-		 * Maximum absolute relative error 6.3e-6 < 1/2^17.
+		 * Maximum absolute relative error 1.2e-12 < 1/2^39.
 		 */
-		const ScaleReal c0 = 0.173610016489197553621906385078711564924e-2L;
-		const ScaleReal c1 = -0.384186115075660162081071290162149315834e-3L;
-		const ScaleReal c2 = 0.393684603287860108352720146121813443561e-4L;
-		const ScaleReal c3 = -0.248947210682259168029030370205389323899e-5L;
-		const ScaleReal c4 = 0.107791837839662283066379987646635416692e-6L;
-		const ScaleReal c5 = -0.324874073895735800961260474028013982211e-8L;
-		const ScaleReal c6 = 0.628155216606695311524920882748052490116e-10L;
-		const ScaleReal c7 = -0.586110644039348333520104379959307242711e-12L;
-		const ScaleReal p = c0+xx*(c1+xx*(c2+xx*(c3+xx*(c4+xx*(c5+xx*(c6+xx*c7))))));
 
-		return (xx-1.0)*(xx-4.0)*(xx-9.0)*(xx-16.0)*p;
+		const ScaleReal c0 = 0.173611111110910715186413700076827593074e-2L;
+		const ScaleReal c1 = -0.289105544717893415815859968653611245425e-3L;
+		const ScaleReal c2 = 0.206952161241815727624413291940849294025e-4L;
+		const ScaleReal c3 = -0.834446180169727178193268528095341741698e-6L;
+		const ScaleReal c4 = 0.207010104171026718629622453275917944941e-7L;
+		const ScaleReal c5 = -0.319724784938507108101517564300855542655e-9L;
+		const ScaleReal c6 = 0.288101675249103266147006509214934493930e-11L;
+		const ScaleReal c7 = -0.118218971804934245819960233886876537953e-13L;
+		const ScaleReal p = c0+xx*(c1+xx*(c2+xx*(c3+xx*(c4+xx*(c5+xx*(c6+xx*c7))))));
+		const ScaleReal d0 = 1.0L;
+		const ScaleReal d1 = 0.547981619622284827495856984100563583948e-1L;
+		const ScaleReal d2 = 0.134226268835357312626304688047086921806e-2L;
+		const ScaleReal d3 = 0.178994697503371051002463656833597608689e-4L;
+		const ScaleReal d4 = 0.114633394140438168641246022557689759090e-6L;
+		const ScaleReal q = d0+xx*(d1+xx*(d2+xx*(d3+xx*d4)));
+
+		return ((xx-1.0)*(xx-4.0)*(xx-9.0)*(xx-16.0)/q*p);
 	}
+}
+
+
+static ScaleReal inline
+mitchell_netravali (ScaleReal x)
+{
+	ScaleReal xx;
+
+	if (x >= 2.0)
+		return 0.0;
+
+	xx = x * x;
+	if ((x >= 0.0) && (x < 1.0))
+		x  = (21 * xx * x) - (36 * xx) + 16;
+	else /* (x >= 1.0) && (x < 2.0) */
+		x  = (-7 * xx * x) + (36 * xx) - (60 * x) + 32;
+
+	return x / 18.0;
 }
 
 
@@ -235,11 +260,13 @@ static struct {
 	ScaleReal     support;
 }
 const filters[N_SCALE_FILTERS] = {
-	{ box,		 .0 },
-	{ box,		 .5 },
-	{ triangle,	1.0 },
-	{ cubic,        2.0 },
-	{ sinc_fast,	3.0 }
+	{ box,			.0 },
+	{ box,			.5 },
+	{ triangle,		1.0 },
+	{ cubic,		2.0 },
+	{ sinc_fast,		2.0 },
+	{ sinc_fast,		3.0 },
+	{ mitchell_netravali,	2.0 }
 };
 
 
@@ -256,19 +283,26 @@ typedef struct {
 } resize_filter_t;
 
 
+static void
+resize_filter_set_type (resize_filter_t *resize_filter,
+			scale_filter_t   filter_type)
+{
+	resize_filter->weight_func = filters[filter_type].weight_func;
+	resize_filter->support = filters[filter_type].support;
+}
+
+
 static resize_filter_t *
-resize_filter_create (scale_filter_t  filter_type,
-		      GthAsyncTask   *task)
+resize_filter_create (GthAsyncTask *task)
 {
 	resize_filter_t *resize_filter;
 
 	resize_filter = g_new (resize_filter_t, 1);
-	resize_filter->weight_func = filters[filter_type].weight_func;
-	resize_filter->support = filters[filter_type].support;
 	resize_filter->task = task;
 	resize_filter->total_lines = 0;
 	resize_filter->processed_lines = 0;
 	resize_filter->cancelled = FALSE;
+	resize_filter_set_type (resize_filter, SCALE_FILTER_TRIANGLE);
 
 	return resize_filter;
 }
@@ -285,12 +319,20 @@ static ScaleReal inline
 resize_filter_get_weight (resize_filter_t *resize_filter,
 			  ScaleReal        distance)
 {
-	ScaleReal scale = 1.0;
+	ScaleReal window = 1.0;
 
-	if (resize_filter->weight_func == sinc_fast)
-		scale = resize_filter->weight_func (fabs (distance));
+	if (resize_filter->weight_func == sinc_fast) {
+		ScaleReal x = fabs (distance);
 
-	return scale * resize_filter->weight_func (fabs (distance));
+		if (x == 0)
+			window = 1.0;
+		else if ((x > 0) && (x < resize_filter->support))
+			window = resize_filter->weight_func (x / resize_filter->support);
+		else
+			window = 0.0;
+	}
+
+	return window * resize_filter->weight_func (fabs (distance));
 }
 
 
@@ -332,8 +374,10 @@ horizontal_scale_transpose (cairo_surface_t *image,
 
 	scale = MAX ((ScaleReal) 1.0 / scale_factor + EPSILON, 1.0);
 	support = scale * resize_filter_get_support (resize_filter);
-	if (support < 0.5)
+	if (support < 0.5) {
 		support = 0.5;
+		scale = 1.0;
+	}
 
 	image_width = cairo_image_surface_get_width (image);
 	scaled_width = cairo_image_surface_get_width (scaled);
@@ -364,11 +408,9 @@ horizontal_scale_transpose (cairo_surface_t *image,
 			gth_async_task_set_data (resize_filter->task, NULL, NULL, &progress);
 		}
 
-		bisect = ((ScaleReal) y + 0.5) / scale + EPSILON;
-		start = bisect - support + 0.5;
-		start = CLAMP (start, 0, image_width - 1);
-		stop = bisect + support + 0.5;
-		stop = CLAMP (stop, 0, image_width - 1);
+		bisect = ((ScaleReal) y + 0.5) / scale_factor + EPSILON;
+		start = MAX (bisect - support + 0.5, 0);
+		stop = MIN (bisect + support + 0.5, (ScaleReal) image_width);
 
 		density = 0.0;
 		for (n = 0; n < stop - start; n++) {
@@ -432,10 +474,10 @@ horizontal_scale_transpose (cairo_surface_t *image,
 				p_src_pixel += 4;
 			}
 
-			p_dest_pixel[CAIRO_RED] = CLAMP_PIXEL (r+0.5);
-			p_dest_pixel[CAIRO_GREEN] = CLAMP_PIXEL (g+0.5);
-			p_dest_pixel[CAIRO_BLUE] = CLAMP_PIXEL (b+0.5);
-			p_dest_pixel[CAIRO_ALPHA] = CLAMP_PIXEL (a+0.5);
+			p_dest_pixel[CAIRO_RED] = CLAMP_PIXEL (r + 0.5);
+			p_dest_pixel[CAIRO_GREEN] = CLAMP_PIXEL (g + 0.5);
+			p_dest_pixel[CAIRO_BLUE] = CLAMP_PIXEL (b + 0.5);
+			p_dest_pixel[CAIRO_ALPHA] = CLAMP_PIXEL (a + 0.5);
 
 #endif /* HAVE_VECTOR_OPERATIONS */
 
@@ -486,7 +528,8 @@ _cairo_image_surface_scale (cairo_surface_t  *image,
 		g_once_init_leave (&coefficients_initialization, 1);
 	}
 
-	resize_filter = resize_filter_create (filter, task);
+	resize_filter = resize_filter_create (task);
+	resize_filter_set_type (resize_filter, filter);
 	resize_filter->total_lines = scaled_width + scaled_height;
 	resize_filter->processed_lines = 0;
 
