@@ -210,27 +210,17 @@ load_cached_thumbnail (GInputStream  *istream,
 		       GCancellable  *cancellable,
 		       GError       **error)
 {
-	GthImage        *image = NULL;
-	char            *filename;
-	cairo_surface_t *surface;
-
 	if (file_data == NULL) {
-		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
 		return NULL;
 	}
 
-	filename = g_file_get_path (file_data->file);
-	surface = cairo_image_surface_create_from_png (filename);
-	if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS)
-		image = gth_image_new_for_surface (surface);
-	else
-		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, cairo_status_to_string (cairo_surface_status (surface)));
-
-	cairo_surface_destroy (surface);
-	g_free (filename);
-
-	return image;
+	return gth_image_new_from_stream (istream,
+				          requested_size,
+				          original_width,
+				          original_height,
+				          cancellable,
+				          error);
 }
 
 
@@ -425,7 +415,12 @@ _cairo_image_surface_scale_for_thumbnail (cairo_surface_t *image,
 					  int              new_width,
 					  int              new_height)
 {
-	return _cairo_image_surface_scale (image, new_width, new_height, SCALE_FILTER_GOOD, NULL);
+	cairo_surface_t *scaled;
+
+	scaled = _cairo_image_surface_scale (image, new_width, new_height, SCALE_FILTER_GOOD, NULL);
+	_cairo_image_surface_copy_metadata (image, scaled);
+
+	return scaled;
 }
 
 
@@ -520,10 +515,13 @@ is_a_cache_file (const char *uri)
 static gboolean
 _gth_thumb_loader_save_to_cache (GthThumbLoader  *self,
 				 GthFileData     *file_data,
-				 cairo_surface_t *image)
+				 cairo_surface_t *image,
+				 int              original_width,
+				 int              original_height)
 {
-	char      *uri;
-	GdkPixbuf *pixbuf;
+	char                     *uri;
+	cairo_surface_metadata_t *metadata;
+	GdkPixbuf                *pixbuf;
 
 	if ((self == NULL) || (image == NULL))
 		return FALSE;
@@ -538,6 +536,11 @@ _gth_thumb_loader_save_to_cache (GthThumbLoader  *self,
 		return FALSE;
 	}
 
+	if ((original_width > 0) && (original_height > 0)) {
+		metadata = _cairo_image_surface_get_metadata (image);
+		metadata->thumbnail.image_width = original_width;
+		metadata->thumbnail.image_height = original_height;
+	}
 	pixbuf = _gdk_pixbuf_new_from_cairo_surface (image);
 	if (pixbuf == NULL)
 		return FALSE;
@@ -556,7 +559,9 @@ _gth_thumb_loader_save_to_cache (GthThumbLoader  *self,
 static void
 original_image_loaded_correctly (GthThumbLoader *self,
 				 LoadData        *load_data,
-				 cairo_surface_t *image)
+				 cairo_surface_t *image,
+				 int              original_width,
+				 int              original_height)
 {
 	cairo_surface_t *local_image;
 	int              width;
@@ -587,7 +592,11 @@ original_image_loaded_correctly (GthThumbLoader *self,
 			cairo_surface_destroy (tmp);
 		}
 
-		_gth_thumb_loader_save_to_cache (self, load_data->file_data, local_image);
+		_gth_thumb_loader_save_to_cache (self,
+						 load_data->file_data,
+						 local_image,
+						 original_width,
+						 original_height);
 	}
 
 	/* Scale if the user wants a different size. */
@@ -720,7 +729,7 @@ watch_thumbnailer_cb (GPid     pid,
 		cairo_surface_t *surface;
 
 		surface = _cairo_image_surface_create_from_pixbuf (pixbuf);
-		original_image_loaded_correctly (self, load_data, surface);
+		original_image_loaded_correctly (self, load_data, surface, 0, 0);
 
 		cairo_surface_destroy (surface);
 		g_object_unref (pixbuf);
@@ -738,14 +747,16 @@ original_image_ready_cb (GObject      *source_object,
 	LoadData        *load_data = user_data;
 	GthThumbLoader  *self = load_data->thumb_loader;
 	GthImage        *image = NULL;
+	int              original_width;
+	int              original_height;
 	cairo_surface_t *surface = NULL;
 	GError          *error = NULL;
 
 	if (! gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
 					    res,
 					    &image,
-					    NULL,
-					    NULL,
+					    &original_width,
+					    &original_height,
 					    &error))
 	{
 		/* error loading the original image, try with the system
@@ -791,7 +802,11 @@ original_image_ready_cb (GObject      *source_object,
 	}
 
 	surface = gth_image_get_cairo_surface (image);
-	original_image_loaded_correctly (self, load_data, surface);
+	original_image_loaded_correctly (self,
+					 load_data,
+					 surface,
+					 original_width,
+					 original_height);
 
 	cairo_surface_destroy (surface);
 	g_object_unref (image);

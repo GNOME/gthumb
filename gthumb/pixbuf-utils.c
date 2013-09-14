@@ -24,6 +24,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#define GDK_PIXBUF_ENABLE_BACKEND 1
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include "cairo-utils.h"
 #include "pixbuf-utils.h"
 
@@ -85,6 +87,25 @@ _gdk_pixbuf_new_from_cairo_surface (cairo_surface_t *surface)
 
 		s_pixels += s_stride;
 		p_pixels += p_stride;
+	}
+
+	/* copy the known metadata from the surface to the pixbuf */
+
+	{
+		cairo_surface_metadata_t *metadata;
+
+		metadata = _cairo_image_surface_get_metadata (surface);
+		if ((metadata->thumbnail.image_width > 0) && (metadata->thumbnail.image_height > 0)) {
+			char *value;
+
+			value = g_strdup_printf ("%d", metadata->thumbnail.image_width);
+			gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Width", value);
+			g_free (value);
+
+			value = g_strdup_printf ("%d", metadata->thumbnail.image_height);
+			gdk_pixbuf_set_option (pixbuf, "tEXt::Thumb::Image::Height", value);
+			g_free (value);
+		}
 	}
 
 	return pixbuf;

@@ -149,6 +149,8 @@ _cairo_image_surface_create_from_png (GInputStream  *istream,
 	int                       rowstride;
 	png_bytep                *row_pointers;
 	int                       row;
+	png_textp                 text_ptr;
+	int                       num_texts;
 
 	image = gth_image_new ();
 
@@ -202,6 +204,8 @@ _cairo_image_surface_create_from_png (GInputStream  *istream,
 
 	metadata = _cairo_image_surface_get_metadata (cairo_png_data->surface);
 	metadata->has_alpha = (color_type & PNG_COLOR_MASK_ALPHA);
+	metadata->original_width = width;
+	metadata->original_height = height;
 
 	/* Set the data transformations */
 
@@ -244,6 +248,26 @@ _cairo_image_surface_create_from_png (GInputStream  *istream,
 	cairo_surface_mark_dirty (cairo_png_data->surface);
 	if (cairo_surface_status (cairo_png_data->surface) == CAIRO_STATUS_SUCCESS)
 		gth_image_set_cairo_surface (image, cairo_png_data->surface);
+
+	if (original_width != NULL)
+		*original_width = png_get_image_width (cairo_png_data->png_ptr, cairo_png_data->png_info_ptr);
+	if (original_height != NULL)
+		*original_height = png_get_image_height (cairo_png_data->png_ptr, cairo_png_data->png_info_ptr);
+
+	if (png_get_text (cairo_png_data->png_ptr,
+			  cairo_png_data->png_info_ptr,
+			  &text_ptr,
+			  &num_texts))
+	{
+		int i;
+
+		for (i = 0; i < num_texts; i++) {
+			if (strcmp (text_ptr[i].key, "Thumb::Image::Width") == 0)
+				metadata->thumbnail.image_width = atoi (text_ptr[i].text);
+			else if (strcmp (text_ptr[i].key, "Thumb::Image::Height") == 0)
+				metadata->thumbnail.image_height = atoi (text_ptr[i].text);
+		}
+	}
 
 	g_free (row_pointers);
 	_cairo_png_data_destroy (cairo_png_data);

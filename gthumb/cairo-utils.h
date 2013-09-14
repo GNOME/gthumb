@@ -131,7 +131,15 @@ typedef struct {
 } cairo_color_255_t;
 
 typedef struct {
-	gboolean has_alpha;
+	int image_width;
+	int image_height;
+} thumbnail_metadata_t;
+
+typedef struct {
+	gboolean		has_alpha;
+	int			original_width;
+	int			original_height;
+	thumbnail_metadata_t	thumbnail;
 } cairo_surface_metadata_t;
 
 extern const unsigned char cairo_channel[4];
@@ -159,6 +167,8 @@ void               _cairo_clear_surface                     (cairo_surface_t    
 unsigned char *    _cairo_image_surface_flush_and_get_data  (cairo_surface_t       *surface);
 cairo_surface_metadata_t *
 		   _cairo_image_surface_get_metadata        (cairo_surface_t       *surface);
+void               _cairo_image_surface_copy_metadata       (cairo_surface_t	   *src,
+							     cairo_surface_t	   *dest);
 gboolean           _cairo_image_surface_get_has_alpha       (cairo_surface_t       *surface);
 cairo_surface_t *  _cairo_image_surface_create              (cairo_format_t         format,
 							     int                    width,

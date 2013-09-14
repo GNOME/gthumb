@@ -147,8 +147,8 @@ GthImage *
 _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 				       GthFileData   *file_data,
 				       int            requested_size,
-				       int           *original_width,
-				       int           *original_height,
+				       int           *original_width_p,
+				       int           *original_height_p,
 				       gpointer       user_data,
 				       GCancellable  *cancellable,
 				       GError       **error)
@@ -511,6 +511,8 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	cairo_surface_mark_dirty (surface);
 
 	if (! g_cancellable_is_cancelled (cancellable)) {
+		int original_width;
+		int original_height;
 
 		/* Set the original dimensions */
 
@@ -519,35 +521,24 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 		     ||	(orientation == GTH_TRANSFORM_TRANSPOSE)
 		     ||	(orientation == GTH_TRANSFORM_TRANSVERSE))
 		{
-			if (original_width != NULL)
-				*original_width = srcinfo.image_height;
-			if (original_height != NULL)
-				*original_height = srcinfo.image_width;
+			original_width = srcinfo.image_height;
+			original_height = srcinfo.image_width;
 		}
 		else {
-			if (original_width != NULL)
-				*original_width = srcinfo.image_width;
-			if (original_height != NULL)
-				*original_height = srcinfo.image_height;
+			original_width = srcinfo.image_width;
+			original_height = srcinfo.image_height;
 		}
+
+		metadata->original_width = original_width;
+		metadata->original_height = original_height;
+
+		if (original_width_p != NULL)
+			*original_width_p = original_width;
+		if (original_height_p != NULL)
+			*original_height_p = original_height;
+
 		jpeg_finish_decompress (&srcinfo);
 		jpeg_destroy_decompress (&srcinfo);
-
-		/* Scale to the requested size */
-
-		if (load_scaled) {
-			cairo_surface_t *scaled;
-			int              width;
-			int              height;
-
-			width = destination_width;
-			height = destination_height;
-			scale_keeping_ratio (&width, &height, requested_size, requested_size, TRUE);
-			scaled = _cairo_image_surface_scale (surface, width, height, SCALE_FILTER_GOOD, NULL);
-
-			cairo_surface_destroy (surface);
-			surface = scaled;
-		}
 
 		/*_cairo_image_surface_set_attribute_int (surface, "Image::Rotation", rotation); FIXME*/
 		/* FIXME _cairo_image_surface_set_attribute (surface, "Jpeg::ColorSpace", jpeg_color_space_name (srcinfo.jpeg_color_space)); */

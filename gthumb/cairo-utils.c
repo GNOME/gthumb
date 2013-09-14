@@ -128,10 +128,34 @@ _cairo_image_surface_get_metadata (cairo_surface_t *surface)
 	metadata = cairo_surface_get_user_data (surface, &surface_metadata_key);
 	if (metadata == NULL) {
 		metadata = g_new0 (cairo_surface_metadata_t, 1);
+		metadata->has_alpha = FALSE;
+		metadata->original_width = 0;
+		metadata->original_height = 0;
+		metadata->thumbnail.image_width = 0;
+		metadata->thumbnail.image_height = 0;
 		cairo_surface_set_user_data (surface, &surface_metadata_key, metadata, surface_metadata_free);
 	}
 
 	return metadata;
+}
+
+
+void
+_cairo_image_surface_copy_metadata (cairo_surface_t *src,
+				    cairo_surface_t *dest)
+{
+	cairo_surface_metadata_t *src_metadata;
+	cairo_surface_metadata_t *dest_metadata;
+
+	src_metadata = _cairo_image_surface_get_metadata (src);
+	dest_metadata = _cairo_image_surface_get_metadata (dest);
+
+	dest_metadata->has_alpha = src_metadata->has_alpha;
+	dest_metadata->original_width = src_metadata->original_width;
+	dest_metadata->original_height = src_metadata->original_height;
+	dest_metadata->thumbnail.image_width = src_metadata->thumbnail.image_width;
+	dest_metadata->thumbnail.image_height = src_metadata->thumbnail.image_height;
+
 }
 
 
