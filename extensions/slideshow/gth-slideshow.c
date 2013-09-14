@@ -130,6 +130,52 @@ _gth_slideshow_reset_current (GthSlideshow *self)
 }
 
 
+static void _gth_slideshow_load_next_image (GthSlideshow *self);
+
+
+static void
+preloader_load_ready_cb (GObject	*source_object,
+			 GAsyncResult	*result,
+			 gpointer	 user_data)
+{
+	GthSlideshow *self = user_data;
+	GthFileData  *requested;
+	GthImage     *image;
+	int	      requested_size;
+	int	      original_width;
+	int	      original_height;
+	GError	     *error = NULL;
+
+	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
+					       result,
+					       &requested,
+					       &image,
+					       &requested_size,
+					       &original_width,
+					       &original_height,
+					       &error))
+	{
+		g_clear_error (&error);
+		_gth_slideshow_load_next_image (self);
+		return;
+	}
+
+	_g_object_unref (self->priv->current_pixbuf);
+	self->priv->current_pixbuf = gth_image_get_pixbuf (image);
+
+	if (self->priv->current_pixbuf == NULL) {
+		_gth_slideshow_load_next_image (self);
+		return;
+	}
+
+	self->priv->one_loaded = TRUE;
+	self->priv->projector->image_ready (self, self->priv->current_pixbuf);
+
+	_g_object_unref (requested);
+	_g_object_unref (image);
+}
+
+
 static void
 _gth_slideshow_load_current_image (GthSlideshow *self)
 {
@@ -174,9 +220,12 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 	gth_image_preloader_load (self->priv->preloader,
 				  requested_file,
 				  MAX (screen_width, screen_height),
+				  NULL,
+				  preloader_load_ready_cb,
+				  self,
+				  2,
 				  next_file,
-				  prev_file,
-				  NULL);
+				  prev_file);
 }
 
 
@@ -238,36 +287,6 @@ view_next_image_automatically (GthSlideshow *self)
 			g_source_remove (self->priv->next_event);
 		self->priv->next_event = g_timeout_add (self->priv->delay, next_image_cb, self);
 	}
-}
-
-
-static void
-image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
-				    GthFileData        *requested,
-				    GthImage           *image,
-				    int                 original_width,
-				    int                 original_height,
-				    GError             *error,
-				    gpointer            user_data)
-{
-	GthSlideshow *self = user_data;
-
-	if (error != NULL) {
-		g_clear_error (&error);
-		_gth_slideshow_load_next_image (self);
-		return;
-	}
-
-	_g_object_unref (self->priv->current_pixbuf);
-	self->priv->current_pixbuf = gth_image_get_pixbuf (image);
-
-	if (self->priv->current_pixbuf == NULL) {
-		_gth_slideshow_load_next_image (self);
-		return;
-	}
-
-	self->priv->one_loaded = TRUE;
-	self->priv->projector->image_ready (self, self->priv->current_pixbuf);
 }
 
 
@@ -447,12 +466,7 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->random_order = FALSE;
 	self->priv->current_pixbuf = NULL;
 	self->priv->screensaver = gth_screensaver_new (NULL);
-
-	self->priv->preloader = gth_image_preloader_new (GTH_LOAD_POLICY_ONE_STEP, 3);
-	g_signal_connect (self->priv->preloader,
-			  "requested_ready",
-			  G_CALLBACK (image_preloader_requested_ready_cb),
-			  self);
+	self->priv->preloader = gth_image_preloader_new ();
 }
 
 
