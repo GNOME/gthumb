@@ -178,6 +178,7 @@ resize_task_completed_cb (GthTask  *task,
 	if (self->priv->final_resize) {
 		gth_image_history_add_image (gth_image_viewer_page_get_history (GTH_IMAGE_VIEWER_PAGE (viewer_page)),
 					     self->priv->new_image,
+					     -1,
 					     TRUE);
 		gth_viewer_page_focus (GTH_VIEWER_PAGE (viewer_page));
 		gth_file_tool_hide_options (GTH_FILE_TOOL (self));

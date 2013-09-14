@@ -34,6 +34,7 @@ G_DEFINE_TYPE (GthImageHistory, gth_image_history, G_TYPE_OBJECT)
 
 GthImageData *
 gth_image_data_new (cairo_surface_t *image,
+		    int              requested_size,
 		    gboolean         unsaved)
 {
 	GthImageData *idata;
@@ -44,6 +45,7 @@ gth_image_data_new (cairo_surface_t *image,
 
 	idata->ref = 1;
 	idata->image = cairo_surface_reference (image);
+	idata->requested_size = requested_size;
 	idata->unsaved = unsaved;
 
 	return idata;
@@ -172,6 +174,7 @@ remove_first_image (GList **list)
 static GList*
 add_image_to_list (GList           *list,
 		   cairo_surface_t *image,
+		   int              requested_size,
 		   gboolean         unsaved)
 {
 	if (g_list_length (list) > MAX_UNDO_HISTORY_LEN) {
@@ -187,17 +190,19 @@ add_image_to_list (GList           *list,
 	if (image == NULL)
 		return list;
 
-	return g_list_prepend (list, gth_image_data_new (image, unsaved));
+	return g_list_prepend (list, gth_image_data_new (image, requested_size, unsaved));
 }
 
 
 static void
 add_image_to_undo_history (GthImageHistory *history,
 			   cairo_surface_t *image,
+			   int              requested_size,
 		   	   gboolean         unsaved)
 {
 	history->priv->undo_history = add_image_to_list (history->priv->undo_history,
 							 image,
+							 requested_size,
 							 unsaved);
 }
 
@@ -205,10 +210,12 @@ add_image_to_undo_history (GthImageHistory *history,
 static void
 add_image_to_redo_history (GthImageHistory *history,
 			   cairo_surface_t *image,
+			   int              requested_size,
 	   		   gboolean         unsaved)
 {
 	history->priv->redo_history = add_image_to_list (history->priv->redo_history,
 							 image,
+							 requested_size,
 							 unsaved);
 }
 
@@ -216,9 +223,10 @@ add_image_to_redo_history (GthImageHistory *history,
 void
 gth_image_history_add_image (GthImageHistory *history,
 			     cairo_surface_t *image,
+			     int              requested_size,
 			     gboolean         unsaved)
 {
-	add_image_to_undo_history (history, image, unsaved);
+	add_image_to_undo_history (history, image, requested_size, unsaved);
 	gth_image_data_list_free (history->priv->redo_history);
 	history->priv->redo_history = NULL;
 
@@ -237,7 +245,7 @@ gth_image_history_undo (GthImageHistory *history)
 		return NULL;
 
 	idata = remove_first_image (&(history->priv->undo_history));
-	add_image_to_redo_history (history, idata->image, idata->unsaved);
+	add_image_to_redo_history (history, idata->image, idata->requested_size, idata->unsaved);
 	gth_image_data_unref (idata);
 
 	g_signal_emit (G_OBJECT (history),
@@ -257,7 +265,7 @@ gth_image_history_redo (GthImageHistory *history)
 		return NULL;
 
 	idata = remove_first_image (&(history->priv->redo_history));
-	add_image_to_undo_history (history, idata->image, idata->unsaved);
+	add_image_to_undo_history (history, idata->image, idata->requested_size, idata->unsaved);
 	gth_image_data_unref (idata);
 
 	g_signal_emit (G_OBJECT (history),

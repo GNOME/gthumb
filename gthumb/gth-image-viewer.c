@@ -79,6 +79,7 @@ struct _GthImageViewerPrivate {
 	GdkPixbufAnimation     *animation;
 	int                     original_width;
 	int                     original_height;
+	int                     requested_size;
 
 	GdkPixbufAnimationIter *iter;
 	GTimeVal                time;               /* Timer used to get the current frame. */
@@ -1595,18 +1596,33 @@ _gth_image_viewer_set_original_size (GthImageViewer *self,
 				     int             original_height)
 {
 	cairo_surface_t *image;
+	int              image_width;
+	int              image_height;
 
 	image = gth_image_viewer_get_current_image (self);
+	image_width = cairo_image_surface_get_width (image);
+	image_height = cairo_image_surface_get_height (image);
+
+	if (original_width <= 0 || original_height <= 0)
+		_cairo_image_surface_get_original_size (image, &original_width, &original_height);
 
 	if (original_width > 0)
 		self->priv->original_width = original_width;
 	else
-		self->priv->original_width = (image != NULL) ? cairo_image_surface_get_width (image) : 0;
+		self->priv->original_width = (image != NULL) ? image_width : 0;
 
 	if (original_height > 0)
 		self->priv->original_height = original_height;
 	else
-		self->priv->original_height = (image != NULL) ? cairo_image_surface_get_height (image) : 0;
+		self->priv->original_height = (image != NULL) ? image_height : 0;
+
+	if ((self->priv->original_width > image_width)
+	    && (self->priv->original_height > image_height))
+	{
+		self->priv->requested_size = MAX (image_width, image_height);
+	}
+	else
+		self->priv->requested_size = -1;
 }
 
 
@@ -1932,6 +1948,21 @@ gth_image_viewer_get_original_size (GthImageViewer *self,
 		*width = self->priv->original_width;
 	if (height != NULL)
 		*height = self->priv->original_height;
+}
+
+
+void
+gth_image_viewer_set_requested_size (GthImageViewer *self,
+				     int             requested_size)
+{
+	self->priv->requested_size = requested_size;
+}
+
+
+int
+gth_image_viewer_get_requested_size (GthImageViewer *self)
+{
+	return self->priv->requested_size;
 }
 
 

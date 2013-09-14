@@ -175,6 +175,32 @@ _cairo_image_surface_get_has_alpha (cairo_surface_t *surface)
 }
 
 
+gboolean
+_cairo_image_surface_get_original_size (cairo_surface_t *surface,
+					int             *original_width,
+					int             *original_height)
+{
+	cairo_surface_metadata_t *metadata;
+
+	if (surface == NULL)
+		return FALSE;
+
+	metadata = cairo_surface_get_user_data (surface, &surface_metadata_key);
+	if (metadata == NULL)
+		return FALSE;
+
+	if ((metadata->original_width <= 0) || (metadata->original_height <= 0))
+		return FALSE;
+
+	if (original_width)
+		*original_width = metadata->original_width;
+	if (original_height)
+		*original_height = metadata->original_height;
+
+	return TRUE;
+}
+
+
 cairo_surface_t *
 _cairo_image_surface_create (cairo_format_t format,
 			     int            width,

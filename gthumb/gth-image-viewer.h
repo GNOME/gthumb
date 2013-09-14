@@ -194,6 +194,9 @@ cairo_surface_t *
 void           gth_image_viewer_get_original_size        (GthImageViewer        *viewer,
 				    	    	    	  int                   *width,
 				    	    	    	  int                   *height);
+void           gth_image_viewer_set_requested_size       (GthImageViewer        *viewer,
+							  int                    requested_size);
+int            gth_image_viewer_get_requested_size       (GthImageViewer        *viewer);
 
 /* animation. */
 
