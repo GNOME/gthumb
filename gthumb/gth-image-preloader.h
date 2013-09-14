@@ -25,10 +25,8 @@
 #include "gth-image-loader.h"
 #include "gth-file-data.h"
 
-typedef enum {
-	GTH_LOAD_POLICY_ONE_STEP,
-	GTH_LOAD_POLICY_TWO_STEPS,
-} GthLoadPolicy;
+#define GTH_ORIGINAL_SIZE -1
+#define GTH_NO_PRELOADERS 0
 
 #define GTH_TYPE_IMAGE_PRELOADER            (gth_image_preloader_get_type ())
 #define GTH_IMAGE_PRELOADER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_IMAGE_PRELOADER, GthImagePreloader))
@@ -37,50 +35,36 @@ typedef enum {
 #define GTH_IS_IMAGE_PRELOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_IMAGE_PRELOADER))
 #define GTH_IMAGE_PRELOADER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_IMAGE_PRELOADER, GthImagePreloaderClass))
 
-
 typedef struct _GthImagePreloader        GthImagePreloader;
 typedef struct _GthImagePreloaderClass   GthImagePreloaderClass;
 typedef struct _GthImagePreloaderPrivate GthImagePreloaderPrivate;
-
 
 struct _GthImagePreloader {
 	GObject __parent;
 	GthImagePreloaderPrivate *priv;
 };
 
-
 struct _GthImagePreloaderClass {
 	GObjectClass __parent_class;
-
-	/*< signals >*/
-
-	void  (* requested_ready)      (GthImagePreloader  *preloader,
-					GthFileData        *requested,
-					GthImage           *image,
-					int                 original_width,
-					int                 original_height,
-					GError             *error);
-	void  (* original_size_ready)  (GthImagePreloader  *preloader,
-					GthFileData        *requested,
-					GthImage           *image,
-					int                 original_width,
-					int                 original_height,
-					GError             *error);
 };
 
-
 GType               gth_image_preloader_get_type         (void) G_GNUC_CONST;
-GthImagePreloader * gth_image_preloader_new              (GthLoadPolicy       load_policy,
-							  int                 max_preloaders);
-void                gth_image_prelaoder_set_load_policy  (GthImagePreloader  *self,
-						          GthLoadPolicy       policy);
-GthLoadPolicy       gth_image_prelaoder_get_load_policy  (GthImagePreloader  *self);
-void                gth_image_preloader_load             (GthImagePreloader  *self,
-						          GthFileData        *requested,
-						          int                 requested_size,
+GthImagePreloader * gth_image_preloader_new              (void);
+void                gth_image_preloader_load             (GthImagePreloader		 *self,
+						          GthFileData			 *requested,
+						          int				  requested_size,
+						          GCancellable			 *cancellable,
+						          GAsyncReadyCallback		  callback,
+						          gpointer			  user_data,
+						          int				  n_files,
 						          ...);
-GthImageLoader *    gth_image_preloader_get_loader       (GthImagePreloader  *self,
-						          GthFileData        *file_data);
-GthFileData *       gth_image_preloader_get_requested    (GthImagePreloader  *self);
+gboolean            gth_image_preloader_load_finish      (GthImagePreloader		 *self,
+							  GAsyncResult			 *result,
+							  GthFileData			**requested,
+							  GthImage			**image,
+							  int				 *requested_size,
+							  int				 *original_width,
+							  int				 *original_height,
+							  GError			**error);
 
 #endif /* GTH_IMAGE_PRELOADER_H */
