@@ -257,7 +257,6 @@ _gth_image_preloader_lookup_request (GthImagePreloader	*self,
 	for (scan = self->priv->cache->head; scan; scan = scan->next) {
 		CacheData *cache_data = scan->data;
 		if (cache_data_is_valid_for_request (cache_data, requested_file, requested_size)) {
-			g_print ("cached\n");
 			return cache_data;
 		}
 	}
@@ -438,8 +437,6 @@ _gth_image_preloader_load_current_file (GthImagePreloader *self,
 
 		return;
 	}
-
-	g_print ("load @ %d\n", request->requested_size);
 
 	load_request_ref (request);
 	gth_image_loader_load (self->priv->loader,

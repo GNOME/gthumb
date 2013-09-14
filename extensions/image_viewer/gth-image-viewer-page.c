@@ -310,7 +310,6 @@ update_image_quality_if_required (GthImageViewerPage *self)
 						    &original_width,
 						    &original_height);
 		if ((requested_size > 0) && (MAX (original_width, original_height) > requested_size)) {
-			/*g_print ("request size %d\n", GTH_ORIGINAL_SIZE);*/
 			gth_image_preloader_load (self->priv->preloader,
 						  self->priv->file_data,
 						  GTH_ORIGINAL_SIZE,
@@ -327,7 +326,6 @@ update_image_quality_if_required (GthImageViewerPage *self)
 		requested_size = gth_image_viewer_get_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer));
 		if (requested_size == -1) {
 			requested_size = _gth_image_preloader_get_requested_size (self);
-			/*g_print ("request size %d\n", requested_size);*/
 			gth_image_preloader_load (self->priv->preloader,
 						  self->priv->file_data,
 						  requested_size,
