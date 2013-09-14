@@ -66,6 +66,7 @@
 #define GTH_BROWSER_CALLBACK(f) ((GthBrowserCallback) (f))
 #define MAX_HISTORY_LENGTH 15
 #define LOAD_FILE_DELAY 150
+#define LOAD_METADATA_DELAY 150
 #define HIDE_MOUSE_DELAY 1000
 #define MOTION_THRESHOLD 0
 #define UPDATE_SELECTION_DELAY 200
@@ -170,6 +171,7 @@ struct _GthBrowserPrivate {
 	GList             *load_data_queue;
 	GList             *load_file_data_queue;
 	guint              load_file_timeout;
+	guint              load_metadata_timeout;
 	char              *list_attributes;
 	gboolean           constructed;
 	guint              construct_step2_event;
@@ -4306,7 +4308,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (browser, GTH_TYPE_BROWSER, GthBrowserPrivate);
 	browser->priv->viewer_pages = NULL;
 	browser->priv->viewer_page = NULL;
-	browser->priv->image_preloader = gth_image_preloader_new (GTH_LOAD_POLICY_TWO_STEPS, 10);
+	browser->priv->image_preloader = gth_image_preloader_new ();
 	browser->priv->progress_dialog = NULL;
 	browser->priv->named_dialogs = g_hash_table_new (g_str_hash, g_str_equal);
 	for (i = 0; i < GTH_BROWSER_N_PAGES; i++)
@@ -4336,6 +4338,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->load_data_queue = NULL;
 	browser->priv->load_file_data_queue = NULL;
 	browser->priv->load_file_timeout = 0;
+	browser->priv->load_metadata_timeout = 0;
 	browser->priv->list_attributes = NULL;
 	browser->priv->constructed = FALSE;
 	browser->priv->selection_changed_event = 0;
@@ -5697,6 +5700,16 @@ load_file_data_new (GthBrowser  *browser,
 	data->view = view;
 	data->cancellable = g_cancellable_new ();
 
+	/* cancel all other file data operations */
+	{
+		GList *scan;
+
+		for (scan = browser->priv->load_file_data_queue; scan; scan = scan->next) {
+			LoadFileData *data = scan->data;
+			g_cancellable_cancel (data->cancellable);
+		}
+	}
+
 	browser->priv->load_file_data_queue = g_list_prepend (browser->priv->load_file_data_queue, data);
 
 	return data;
@@ -5822,6 +5835,27 @@ file_metadata_ready_cb (GList    *files,
 }
 
 
+static gboolean
+load_metadata_cb (gpointer user_data)
+{
+	LoadFileData *data = user_data;
+	GList        *files;
+
+	load_file_data_ref (data);
+	files = g_list_prepend (NULL, data->browser->priv->current_file->file);
+	_g_query_all_metadata_async (files,
+				     GTH_LIST_DEFAULT,
+				     "*",
+				     data->cancellable,
+				     file_metadata_ready_cb,
+				     data);
+
+	g_list_free (files);
+
+	return FALSE;
+}
+
+
 static void
 gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 				GthFileData   *file_data,
@@ -5830,7 +5864,6 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 {
 	GthBrowser   *browser = user_data;
 	LoadFileData *data;
-	GList        *files;
 
 	if ((browser->priv->current_file == NULL) || ! g_file_equal (file_data->file, browser->priv->current_file->file))
 		return;
@@ -5864,16 +5897,15 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 		gth_browser_set_shrink_wrap_viewer (browser, TRUE);
 	}
 
-	data = load_file_data_new (browser, browser->priv->current_file, FALSE);
-	files = g_list_prepend (NULL, browser->priv->current_file->file);
-	_g_query_all_metadata_async (files,
-				     GTH_LIST_DEFAULT,
-				     "*",
-				     data->cancellable,
-				     file_metadata_ready_cb,
-				     data);
+	if (browser->priv->load_metadata_timeout != 0)
+		g_source_remove (browser->priv->load_metadata_timeout);
 
-	g_list_free (files);
+	data = load_file_data_new (browser, browser->priv->current_file, FALSE);
+	browser->priv->load_metadata_timeout = g_timeout_add_full (G_PRIORITY_DEFAULT,
+								   LOAD_METADATA_DELAY,
+								   load_metadata_cb,
+								   data,
+								   (GDestroyNotify) load_file_data_unref);
 }
 
 
@@ -6007,26 +6039,28 @@ gth_browser_load_file (GthBrowser  *browser,
 
 	_gth_browser_hide_infobar (browser);
 
-	data = load_file_data_new (browser, file_data, view);
+	if (browser->priv->load_file_timeout != 0) {
+		g_source_remove (browser->priv->load_file_timeout);
+		browser->priv->load_file_timeout = 0;
+	}
 
+	if (browser->priv->load_metadata_timeout != 0) {
+		g_source_remove (browser->priv->load_metadata_timeout);
+		browser->priv->load_metadata_timeout = 0;
+	}
+
+	data = load_file_data_new (browser, file_data, view);
 	if (view) {
-		if (browser->priv->load_file_timeout != 0) {
-			g_source_remove (browser->priv->load_file_timeout);
-			browser->priv->load_file_timeout = 0;
-		}
 		load_file_delayed_cb (data);
 		load_file_data_unref (data);
 	}
-	else {
-		if (browser->priv->load_file_timeout != 0)
-			g_source_remove (browser->priv->load_file_timeout);
+	else
 		browser->priv->load_file_timeout =
 				g_timeout_add_full (G_PRIORITY_DEFAULT,
 						    LOAD_FILE_DELAY,
 						    load_file_delayed_cb,
 						    data,
 						    (GDestroyNotify) load_file_data_unref);
-	}
 }
 
 
@@ -6353,6 +6387,11 @@ _gth_browser_cancel (GthBrowser *browser,
 	if (browser->priv->load_file_timeout != 0) {
 		g_source_remove (browser->priv->load_file_timeout);
 		browser->priv->load_file_timeout = 0;
+	}
+
+	if (browser->priv->load_metadata_timeout != 0) {
+		g_source_remove (browser->priv->load_metadata_timeout);
+		browser->priv->load_metadata_timeout = 0;
 	}
 
 	for (scan = browser->priv->load_data_queue; scan; scan = scan->next) {
