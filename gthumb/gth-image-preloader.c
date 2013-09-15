@@ -256,9 +256,8 @@ _gth_image_preloader_lookup_request (GthImagePreloader	*self,
 
 	for (scan = self->priv->cache->head; scan; scan = scan->next) {
 		CacheData *cache_data = scan->data;
-		if (cache_data_is_valid_for_request (cache_data, requested_file, requested_size)) {
+		if (cache_data_is_valid_for_request (cache_data, requested_file, requested_size))
 			return cache_data;
-		}
 	}
 
 	return NULL;
