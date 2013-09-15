@@ -51,6 +51,7 @@ struct _GthImageViewerPagePrivate {
 	guint              hide_mouse_timeout;
 	guint              motion_signal;
 	gboolean           image_changed;
+	gboolean           loading_image;
 	GFile             *last_loaded;
 	gboolean           can_paste;
 };
@@ -296,7 +297,7 @@ update_image_quality_if_required (GthImageViewerPage *self)
 {
 	double zoom;
 
-	if (self->priv->image_changed)
+	if (self->priv->image_changed || self->priv->loading_image)
 		return;
 
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
@@ -902,6 +903,8 @@ preloader_load_ready_cb (GObject	*source_object,
 	int		    original_height;
 	GError		   *error = NULL;
 
+	self->priv->loading_image = FALSE;
+
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
 					       &requested,
@@ -996,6 +999,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	_g_object_unref (self->priv->file_data);
 	self->priv->file_data = gth_file_data_dup (file_data);
 	self->priv->image_changed = FALSE;
+	self->priv->loading_image = TRUE;
 
 	for (i = 0; i < N_PRELOADERS; i++) {
 		next_file_data[i] = NULL;
@@ -1527,6 +1531,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->history = gth_image_history_new ();
 	self->priv->last_loaded = NULL;
 	self->priv->image_changed = FALSE;
+	self->priv->loading_image = FALSE;
 	self->priv->can_paste = FALSE;
 	self->priv->viewer_merge_id = 0;
 	self->priv->browser_merge_id = 0;
