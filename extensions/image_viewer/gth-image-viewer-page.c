@@ -914,6 +914,8 @@ preloader_load_ready_cb (GObject	*source_object,
 					       &original_height,
 					       &error))
 	{
+		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+			gth_image_viewer_page_file_loaded (self, FALSE);
 		g_clear_error (&error);
 		return;
 	}
