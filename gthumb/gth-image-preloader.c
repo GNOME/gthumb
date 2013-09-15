@@ -126,7 +126,7 @@ cache_data_is_valid_for_request (CacheData   *cache_data,
 				 GthFileData *file_data,
 				 int          requested_size)
 {
-	return (((cache_data->requested_size == requested_size) || ((requested_size > 0) && (cache_data->requested_size > requested_size)))
+	return ((cache_data->requested_size == requested_size)
 	        && g_file_equal (cache_data->file_data->file, file_data->file)
 	        && (_g_time_val_cmp (gth_file_data_get_modification_time (file_data),
 	        		     gth_file_data_get_modification_time (cache_data->file_data)) == 0));

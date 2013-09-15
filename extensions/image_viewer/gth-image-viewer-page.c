@@ -321,14 +321,15 @@ update_image_quality_if_required (GthImageViewerPage *self)
 		}
 	}
 	else {
-		int requested_size;
+		int old_requested_size;
+		int new_requested_size;
 
-		requested_size = gth_image_viewer_get_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer));
-		if (requested_size == -1) {
-			requested_size = _gth_image_preloader_get_requested_size (self);
+		old_requested_size = gth_image_viewer_get_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer));
+		new_requested_size = _gth_image_preloader_get_requested_size (self);
+		if (old_requested_size != new_requested_size) {
 			gth_image_preloader_load (self->priv->preloader,
 						  self->priv->file_data,
-						  requested_size,
+						  new_requested_size,
 						  NULL,
 						  different_quality_ready_cb,
 						  self,
