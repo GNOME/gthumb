@@ -5685,6 +5685,18 @@ typedef struct {
 } LoadFileData;
 
 
+static void
+cancel_all_metadata_operations (GthBrowser  *browser)
+{
+	GList *scan;
+
+	for (scan = browser->priv->load_file_data_queue; scan; scan = scan->next) {
+		LoadFileData *data = scan->data;
+		g_cancellable_cancel (data->cancellable);
+	}
+}
+
+
 static LoadFileData *
 load_file_data_new (GthBrowser  *browser,
 		    GthFileData *file_data,
@@ -5700,16 +5712,7 @@ load_file_data_new (GthBrowser  *browser,
 	data->view = view;
 	data->cancellable = g_cancellable_new ();
 
-	/* cancel all other file data operations */
-	{
-		GList *scan;
-
-		for (scan = browser->priv->load_file_data_queue; scan; scan = scan->next) {
-			LoadFileData *data = scan->data;
-			g_cancellable_cancel (data->cancellable);
-		}
-	}
-
+	cancel_all_metadata_operations (browser);
 	browser->priv->load_file_data_queue = g_list_prepend (browser->priv->load_file_data_queue, data);
 
 	return data;
@@ -5839,10 +5842,22 @@ static gboolean
 load_metadata_cb (gpointer user_data)
 {
 	LoadFileData *data = user_data;
+	GthBrowser   *browser = data->browser;
 	GList        *files;
 
+	if (browser->priv->load_metadata_timeout != 0) {
+		g_source_remove (browser->priv->load_metadata_timeout);
+		browser->priv->load_metadata_timeout = 0;
+	}
+
+	if ((browser->priv->current_file == NULL) ||
+	    ! _g_file_equal (data->file_data->file, browser->priv->current_file->file))
+	{
+		return FALSE;
+	}
+
 	load_file_data_ref (data);
-	files = g_list_prepend (NULL, data->browser->priv->current_file->file);
+	files = g_list_prepend (NULL, data->file_data->file);
 	_g_query_all_metadata_async (files,
 				     GTH_LIST_DEFAULT,
 				     "*",
