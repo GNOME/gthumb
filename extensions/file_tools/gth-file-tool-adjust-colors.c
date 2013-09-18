@@ -237,7 +237,51 @@ adjust_data_free (gpointer user_data)
 }
 
 
+static void
+gth_file_tool_adjust_colors_update_sensitivity (GthFileTool *base)
+{
+	GtkWidget *window;
+	GtkWidget *viewer_page;
+
+	window = gth_file_tool_get_window (base);
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
+	else
+		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
+}
+
+
 static void apply_changes (GthFileToolAdjustColors *self);
+
+
+static void
+ok_button_clicked_cb (GtkButton *button,
+		      gpointer   user_data)
+{
+	GthFileToolAdjustColors *self = user_data;
+
+	self->priv->apply_to_original = TRUE;
+	apply_changes (self);
+}
+
+
+static void
+reset_button_clicked_cb (GtkButton *button,
+		  	 gpointer   user_data)
+{
+	GthFileToolAdjustColors *self = user_data;
+
+	gtk_adjustment_set_value (self->priv->gamma_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->brightness_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->contrast_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->saturation_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->cyan_red_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->magenta_green_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->yellow_blue_adj, 0.0);
+}
+
+
 static void gth_file_tool_adjust_colors_cancel (GthFileTool *file_tool);
 
 
@@ -296,70 +340,18 @@ image_task_completed_cb (GthTask  *task,
 
 
 static void
-gth_file_tool_adjust_colors_update_sensitivity (GthFileTool *base)
+apply_to_surface (GthFileToolAdjustColors *self,
+		  cairo_surface_t         *surface)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
-}
-
-
-static void
-ok_button_clicked_cb (GtkButton *button,
-		      gpointer   user_data)
-{
-	GthFileToolAdjustColors *self = user_data;
-
-	self->priv->apply_to_original = TRUE;
-	apply_changes (self);
-}
-
-
-static void
-reset_button_clicked_cb (GtkButton *button,
-		  	 gpointer   user_data)
-{
-	GthFileToolAdjustColors *self = user_data;
-
-	gtk_adjustment_set_value (self->priv->gamma_adj, 0.0);
-	gtk_adjustment_set_value (self->priv->brightness_adj, 0.0);
-	gtk_adjustment_set_value (self->priv->contrast_adj, 0.0);
-	gtk_adjustment_set_value (self->priv->saturation_adj, 0.0);
-	gtk_adjustment_set_value (self->priv->cyan_red_adj, 0.0);
-	gtk_adjustment_set_value (self->priv->magenta_green_adj, 0.0);
-	gtk_adjustment_set_value (self->priv->yellow_blue_adj, 0.0);
-}
-
-
-static gboolean
-apply_cb (gpointer user_data)
-{
-	GthFileToolAdjustColors *self = user_data;
-	GtkWidget               *window;
-	AdjustData              *adjust_data;
-
-	if (self->priv->apply_event != 0) {
-		g_source_remove (self->priv->apply_event);
-		self->priv->apply_event = 0;
-	}
-
-	if (self->priv->image_task != NULL) {
-		gth_task_cancel (self->priv->image_task);
-		return FALSE;
-	}
+	GtkWidget  *window;
+	AdjustData *adjust_data;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 
 	adjust_data = g_new0 (AdjustData, 1);
 	adjust_data->self = self;
 	adjust_data->viewer_page = g_object_ref (gth_browser_get_viewer_page (GTH_BROWSER (window)));
-	adjust_data->source = cairo_surface_reference (self->priv->apply_to_original ? self->priv->source : self->priv->preview);
+	adjust_data->source = cairo_surface_reference (surface);
 	adjust_data->gamma = pow (10, - (gtk_adjustment_get_value (self->priv->gamma_adj) / 100.0));
 	adjust_data->brightness = gtk_adjustment_get_value (self->priv->brightness_adj) / 100.0 * -1.0;
 	adjust_data->contrast = gtk_adjustment_get_value (self->priv->contrast_adj) / 100.0 * -1.0;
@@ -379,6 +371,69 @@ apply_cb (gpointer user_data)
 			  G_CALLBACK (image_task_completed_cb),
 			  self);
 	gth_browser_exec_task (GTH_BROWSER (window), self->priv->image_task, FALSE);
+}
+
+
+
+static void
+original_image_task_completed_cb (GthTask  *task,
+				  GError   *error,
+				  gpointer  user_data)
+{
+	GthFileToolAdjustColors *self = user_data;
+	cairo_surface_t         *image;
+
+	self->priv->image_task = NULL;
+
+	if (self->priv->closing) {
+		g_object_unref (task);
+		gth_file_tool_adjust_colors_cancel (GTH_FILE_TOOL (self));
+		return;
+	}
+
+	if (error != NULL) {
+		g_object_unref (task);
+		return;
+	}
+
+	image = gth_original_image_task_get_image (task);
+	if (image != NULL) {
+		apply_to_surface (self, image);
+		cairo_surface_destroy (image);
+	}
+
+	g_object_unref (task);
+}
+
+
+static gboolean
+apply_cb (gpointer user_data)
+{
+	GthFileToolAdjustColors *self = user_data;
+
+	if (self->priv->apply_event != 0) {
+		g_source_remove (self->priv->apply_event);
+		self->priv->apply_event = 0;
+	}
+
+	if (self->priv->image_task != NULL) {
+		gth_task_cancel (self->priv->image_task);
+		return FALSE;
+	}
+
+	if (self->priv->apply_to_original) {
+		GtkWidget *window;
+
+		window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+		self->priv->image_task = gth_original_image_task_new (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (GTH_BROWSER (window))));
+		g_signal_connect (self->priv->image_task,
+				  "completed",
+				  G_CALLBACK (original_image_task_completed_cb),
+				  self);
+		gth_browser_exec_task (GTH_BROWSER (window), self->priv->image_task, FALSE);
+	}
+	else
+		apply_to_surface (self, self->priv->preview);
 
 	return FALSE;
 }
