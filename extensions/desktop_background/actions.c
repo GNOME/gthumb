@@ -128,20 +128,23 @@ get_wallpaper_file_n (int n)
 
 
 static GFile *
-get_new_wallpaper_file (void)
+get_new_wallpaper_file (WallpaperData *wdata)
 {
 	GFile *wallpaper_file;
+	int    i;
 
-	wallpaper_file = get_wallpaper_file_n (1);
-	if (g_file_query_exists (wallpaper_file, NULL)) {
-		/* Use a new filename to force an update. */
+	/* Use a new filename to force an update. */
 
+	wallpaper_file = NULL;
+	for (i = 1; i <= 2; i++) {
+		wallpaper_file = get_wallpaper_file_n (i);
+		if ((wdata->old_style.file != NULL) && g_file_equal (wallpaper_file, wdata->old_style.file))
+			break;
 		g_object_unref (wallpaper_file);
-
-		wallpaper_file = get_wallpaper_file_n (2);
-		if (g_file_query_exists (wallpaper_file, NULL))
-			g_file_delete (wallpaper_file, NULL, NULL);
 	}
+
+	if (wallpaper_file != NULL)
+		g_file_delete (wallpaper_file, NULL, NULL);
 
 	return wallpaper_file;
 }
@@ -156,7 +159,7 @@ wallpaper_data_new (GthBrowser *browser)
 	wdata->browser = browser;
 	wallpaper_style_init_from_current (&wdata->old_style);
 	wallpaper_style_init (&wdata->new_style);
-	wdata->new_style.file = get_new_wallpaper_file ();
+	wdata->new_style.file = get_new_wallpaper_file (wdata);
 
 	return wdata;
 }
