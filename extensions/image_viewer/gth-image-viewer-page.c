@@ -1677,3 +1677,242 @@ gth_image_viewer_page_paste_image (GthImageViewerPage *self)
 				     clipboard_image_received_cb,
 				     g_object_ref (self));
 }
+
+
+/* -- gth_image_viewer_page_get_original -- */
+
+
+typedef struct {
+	GthImageViewerPage *viewer_page;
+	GSimpleAsyncResult *result;
+	GCancellable       *cancellable;
+} OriginalImageData;
+
+
+static OriginalImageData *
+get_original_data_new (void)
+{
+	OriginalImageData *data;
+
+	data = g_new0 (OriginalImageData, 1);
+	data->result = NULL;
+	data->cancellable = NULL;
+
+	return data;
+}
+
+
+static void
+get_original_data_free (OriginalImageData *data)
+{
+	if (data == NULL)
+		return;
+
+	_g_object_unref (data->cancellable);
+	_g_object_unref (data->result);
+	g_free (data);
+}
+
+
+static void
+original_image_ready_cb (GObject	*source_object,
+			 GAsyncResult	*result,
+			 gpointer	 user_data)
+{
+	OriginalImageData *data = user_data;
+	GthImage        *image = NULL;
+	GError          *error = NULL;
+
+	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
+					       result,
+					       NULL,
+					       &image,
+					       NULL,
+					       NULL,
+					       NULL,
+					       &error))
+	{
+		g_simple_async_result_take_error (data->result, error);
+	}
+	else
+		g_simple_async_result_set_op_res_gpointer (data->result,
+							   image,
+							   (GDestroyNotify) g_object_unref);
+	g_simple_async_result_complete_in_idle (data->result);
+
+	get_original_data_free (data);
+}
+
+
+void
+gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
+				    GCancellable	 *cancellable,
+				    GAsyncReadyCallback	  ready_callback,
+				    gpointer		  user_data)
+{
+	OriginalImageData *data;
+
+	data = get_original_data_new ();
+	data->viewer_page = self;
+	data->result = g_simple_async_result_new (G_OBJECT (self),
+						  ready_callback,
+						  user_data,
+						  gth_image_viewer_page_get_original);
+	data->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
+
+	if (self->priv->image_changed) {
+		cairo_surface_t *image;
+
+		image = gth_image_viewer_page_get_image (self);
+		g_simple_async_result_set_op_res_gpointer (data->result,
+							   cairo_surface_reference (image),
+							   (GDestroyNotify) cairo_surface_destroy);
+		g_simple_async_result_complete_in_idle (data->result);
+
+		return;
+	}
+
+	gth_image_preloader_load (self->priv->preloader,
+				  self->priv->file_data,
+				  -1,
+				  data->cancellable,
+				  original_image_ready_cb,
+				  data,
+				  GTH_NO_PRELOADERS,
+				  NULL);
+}
+
+
+gboolean
+gth_image_viewer_page_get_original_finish (GthImageViewerPage	 *self,
+					   GAsyncResult		 *result,
+					   cairo_surface_t	**image_p,
+					   GError		**error)
+{
+	GthImage *image;
+
+	g_return_val_if_fail (g_simple_async_result_is_valid (result, G_OBJECT (self), gth_image_viewer_page_get_original), FALSE);
+
+	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
+		return FALSE;
+
+	image = g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
+	g_return_val_if_fail (image != NULL, FALSE);
+
+	if (image_p != NULL)
+		*image_p = gth_image_get_cairo_surface (image);
+
+	return TRUE;
+}
+
+
+/* -- GthOriginalImageTask -- */
+
+
+#define GTH_TYPE_ORIGINAL_IMAGE_TASK	(gth_original_image_task_get_type ())
+#define GTH_ORIGINAL_IMAGE_TASK(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GTH_TYPE_ORIGINAL_IMAGE_TASK, GthOriginalImageTask))
+
+
+typedef struct _GthOriginalImageTask        GthOriginalImageTask;
+typedef struct _GthOriginalImageTaskClass   GthOriginalImageTaskClass;
+
+
+struct _GthOriginalImageTask {
+	GthTask __parent;
+
+	GthImageViewerPage	*viewer_page;
+	cairo_surface_t		*image;
+};
+
+
+struct _GthOriginalImageTaskClass {
+	GthTaskClass __parent;
+};
+
+
+G_DEFINE_TYPE (GthOriginalImageTask, gth_original_image_task, GTH_TYPE_TASK)
+
+
+static void
+get_original_image_ready_cb (GObject		*source_object,
+			    GAsyncResult	*result,
+			    gpointer		 user_data)
+{
+	GthOriginalImageTask *self = user_data;
+	GError               *error = NULL;
+
+	gth_image_viewer_page_get_original_finish (self->viewer_page,
+						   result,
+						   &self->image,
+						   &error);
+	gth_task_completed (GTH_TASK (self), error);
+
+	_g_error_free (error);
+}
+
+
+static void
+gth_original_image_task_exec (GthTask *base)
+{
+	GthOriginalImageTask *self = GTH_ORIGINAL_IMAGE_TASK (base);
+
+	gth_task_progress (base, _("Loading the image"), NULL, TRUE, 0.0);
+	gth_image_viewer_page_get_original (self->viewer_page,
+					    gth_task_get_cancellable (base),
+					    get_original_image_ready_cb,
+					    self);
+}
+
+
+static void
+gth_original_image_task_finalize (GObject *object)
+{
+	GthOriginalImageTask *self;
+
+	self = GTH_ORIGINAL_IMAGE_TASK (object);
+	cairo_surface_destroy (self->image);
+
+	G_OBJECT_CLASS (gth_original_image_task_parent_class)->finalize (object);
+}
+
+
+static void
+gth_original_image_task_class_init (GthOriginalImageTaskClass *class)
+{
+	GObjectClass *object_class;
+	GthTaskClass *task_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = gth_original_image_task_finalize;
+
+	task_class = GTH_TASK_CLASS (class);
+	task_class->exec = gth_original_image_task_exec;
+}
+
+
+static void
+gth_original_image_task_init (GthOriginalImageTask *self)
+{
+	self->viewer_page = NULL;
+	self->image = NULL;
+}
+
+
+GthTask *
+gth_original_image_task_new (GthImageViewerPage *self)
+{
+	GthOriginalImageTask *task;
+
+	task = g_object_new (GTH_TYPE_ORIGINAL_IMAGE_TASK, NULL);
+	task->viewer_page = self;
+
+	return GTH_TASK (task);
+}
+
+
+cairo_surface_t *
+gth_original_image_task_get_image (GthTask *task)
+{
+	GthOriginalImageTask *image_task = GTH_ORIGINAL_IMAGE_TASK (task);
+	return (image_task->image != NULL) ? cairo_surface_reference (image_task->image) : NULL;
+}
