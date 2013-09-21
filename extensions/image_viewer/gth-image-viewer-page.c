@@ -1761,12 +1761,12 @@ gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
 	data->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
 
 	if (self->priv->image_changed) {
-		cairo_surface_t *image;
+		GthImage *image;
 
-		image = gth_image_viewer_page_get_image (self);
+		image = gth_image_new_for_surface (gth_image_viewer_page_get_image (self));
 		g_simple_async_result_set_op_res_gpointer (data->result,
-							   cairo_surface_reference (image),
-							   (GDestroyNotify) cairo_surface_destroy);
+							   image,
+							   (GDestroyNotify) g_object_unref);
 		g_simple_async_result_complete_in_idle (data->result);
 
 		return;
