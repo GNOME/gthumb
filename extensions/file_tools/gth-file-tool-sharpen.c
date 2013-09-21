@@ -21,7 +21,7 @@
 
 #include <config.h>
 #include <gthumb.h>
-#include <extensions/image_viewer/gth-image-viewer-page.h>
+#include <extensions/image_viewer/image-viewer.h>
 #include "gth-file-tool-sharpen.h"
 #include "cairo-blur.h"
 
@@ -67,13 +67,9 @@ gth_file_tool_sharpen_update_sensitivity (GthFileTool *base)
 
 
 typedef struct {
-	GthFileToolSharpen *self;
-	cairo_surface_t    *source;
-	cairo_surface_t    *destination;
-	GtkWidget          *viewer_page;
-	int                 radius;
-	double              amount;
-	int                 threshold;
+	int    radius;
+	double amount;
+	int    threshold;
 } SharpenData;
 
 
@@ -83,9 +79,6 @@ sharpen_data_new (GthFileToolSharpen *self)
 	SharpenData *sharpen_data;
 
 	sharpen_data = g_new0 (SharpenData, 1);
-	sharpen_data->source = NULL;
-	sharpen_data->destination = NULL;
-	sharpen_data->viewer_page = NULL;
 	sharpen_data->radius = gtk_adjustment_get_value (self->priv->radius_adj);
 	sharpen_data->amount = - gtk_adjustment_get_value (self->priv->amount_adj) / 100.0;
 	sharpen_data->threshold = gtk_adjustment_get_value (self->priv->threshold_adj);
@@ -95,10 +88,10 @@ sharpen_data_new (GthFileToolSharpen *self)
 
 
 static void
-sharpen_before (GthAsyncTask *task,
-	        gpointer      user_data)
+sharpen_data_free (gpointer user_data)
 {
-	gth_task_progress (GTH_TASK (task), _("Sharpening image"), NULL, TRUE, 0.0);
+	SharpenData *sharpen_data = user_data;
+	g_free (sharpen_data);
 }
 
 
@@ -106,42 +99,23 @@ static gpointer
 sharpen_exec (GthAsyncTask *task,
 	      gpointer      user_data)
 {
-	SharpenData *sharpen_data = user_data;
+	SharpenData     *sharpen_data = user_data;
+	cairo_surface_t *source;
+	cairo_surface_t *destination;
 
-	sharpen_data->destination = _cairo_image_surface_copy (sharpen_data->source);
-
-	/* FIXME: set progress info and allow cancellation */
-
-	_cairo_image_surface_sharpen (sharpen_data->destination,
+	source = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	destination = _cairo_image_surface_copy (source);
+	_cairo_image_surface_sharpen (destination,
 				      sharpen_data->radius,
 				      sharpen_data->amount,
-				      sharpen_data->threshold);
+				      sharpen_data->threshold,
+				      task);
+	gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), destination);
+
+	cairo_surface_destroy (destination);
+	cairo_surface_destroy (source);
 
 	return NULL;
-}
-
-
-static void
-sharpen_after (GthAsyncTask *task,
-	       GError       *error,
-	       gpointer      user_data)
-{
-	SharpenData *sharpen_data = user_data;
-
-	if (error == NULL)
-		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (sharpen_data->viewer_page), sharpen_data->destination, TRUE);
-}
-
-
-static void
-sharpen_data_free (gpointer user_data)
-{
-	SharpenData *sharpen_data = user_data;
-
-	_g_object_unref (sharpen_data->viewer_page);
-	cairo_surface_destroy (sharpen_data->destination);
-	cairo_surface_destroy (sharpen_data->source);
-	g_free (sharpen_data);
 }
 
 
@@ -165,16 +139,18 @@ ok_button_clicked_cb (GtkButton          *button,
 		return;
 
 	sharpen_data = sharpen_data_new (self);
-	sharpen_data->viewer_page = g_object_ref (viewer_page);
-	sharpen_data->source = cairo_surface_reference (self->priv->source);
-	task = gth_async_task_new (sharpen_before,
-				   sharpen_exec,
-				   sharpen_after,
-				   sharpen_data,
-				   sharpen_data_free);
-	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, FALSE);
-
-	g_object_unref (task);
+	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
+					  _("Sharpening image"),
+					  NULL,
+					  sharpen_exec,
+					  NULL,
+					  sharpen_data,
+					  sharpen_data_free);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (gth_image_viewer_task_set_destination),
+			  NULL);
+	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
@@ -209,8 +185,7 @@ apply_cb (gpointer user_data)
 		cairo_t         *cr;
 
 		sharpen_data = sharpen_data_new (self);
-		x = MAX (gtk_adjustment_get_value (preview->hadj), 0);
-		y = MAX (gtk_adjustment_get_value (preview->vadj), 0);
+		gth_image_viewer_get_scroll_offset (preview, &x, &y);
 		w = MIN (gtk_adjustment_get_page_size (preview->hadj), cairo_image_surface_get_width (self->priv->source));
 		h = MIN (gtk_adjustment_get_page_size (preview->vadj), cairo_image_surface_get_height (self->priv->source));
 
@@ -219,14 +194,19 @@ apply_cb (gpointer user_data)
 
 		cairo_surface_destroy (self->priv->destination);
 		self->priv->destination = _cairo_image_surface_copy (self->priv->source);
+		_cairo_image_surface_copy_metadata (self->priv->source, self->priv->destination);
 
 		/* FIXME: use a cairo sub-surface when cairo 1.10 will be requiered */
 
 		preview_surface = _cairo_image_surface_copy_subsurface (self->priv->destination, x, y, w, h);
+		if (preview_surface == NULL)
+			return FALSE;
+
 		_cairo_image_surface_sharpen (preview_surface,
 					      sharpen_data->radius,
 					      sharpen_data->amount,
-					      sharpen_data->threshold);
+					      sharpen_data->threshold,
+					      NULL);
 
 		cr = cairo_create (self->priv->destination);
 		cairo_set_source_surface (cr, preview_surface, x, y);
