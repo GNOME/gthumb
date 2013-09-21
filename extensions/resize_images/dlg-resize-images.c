@@ -96,7 +96,7 @@ exec_resize (GthAsyncTask *task,
 	int              max_w, max_h;
 	GthImage        *destination_image;
 
-	source = gth_image_get_cairo_surface (gth_image_task_get_source (GTH_IMAGE_TASK (task)));
+	source = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
 	w = cairo_image_surface_get_width (source);
 	h = cairo_image_surface_get_height (source);
 
