@@ -57,6 +57,10 @@ GthTask *     gth_image_viewer_task_new			(GthImageViewerPage	*viewer_page,
 							 GDestroyNotify		 user_data_destroy_func);
 void	      gth_image_viewer_task_set_load_original   (GthImageViewerTask	*self,
 							 gboolean		 load_original);
+void	      gth_image_viewer_task_set_destination	(GthTask		*task,
+							 GError			*error,
+							 gpointer		 user_data);
+
 G_END_DECLS
 
 #endif /* GTH_IMAGE_VIEWER_TASK_H */

@@ -171,3 +171,28 @@ gth_image_viewer_task_set_load_original (GthImageViewerTask *self,
 {
 	self->priv->load_original = load_original;
 }
+
+
+void
+gth_image_viewer_task_set_destination  (GthTask  *task,
+					GError   *error,
+					gpointer  user_data)
+{
+	cairo_surface_t *destination;
+
+	if (error != NULL) {
+		g_object_unref (task);
+		return;
+	}
+
+	destination = gth_image_task_get_destination_surface (GTH_IMAGE_TASK (task));
+	if (destination == NULL) {
+		g_object_unref (task);
+		return;
+	}
+
+	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_TASK (task)->priv->viewer_page, destination, TRUE);
+
+	cairo_surface_destroy (destination);
+	g_object_unref (task);
+}

@@ -208,36 +208,6 @@ adjust_contrast_data_free (gpointer user_data)
 
 
 static void
-image_task_completed_cb (GthTask  *task,
-			 GError   *error,
-			 gpointer  user_data)
-{
-	GthFileTool     *base = user_data;
-	cairo_surface_t *destination;
-	GtkWidget       *window;
-	GtkWidget       *viewer_page;
-
-	if (error != NULL) {
-		g_object_unref (task);
-		return;
-	}
-
-	destination = gth_image_task_get_destination_surface (GTH_IMAGE_TASK (task));
-	if (destination == NULL) {
-		g_object_unref (task);
-		return;
-	}
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), destination, TRUE);
-
-	cairo_surface_destroy (destination);
-	g_object_unref (task);
-}
-
-
-static void
 gth_file_tool_adjust_contrast_activate (GthFileTool *base)
 {
 	GtkWidget          *window;
@@ -264,8 +234,8 @@ gth_file_tool_adjust_contrast_activate (GthFileTool *base)
 					  adjust_contrast_data_free);
 	g_signal_connect (task,
 			  "completed",
-			  G_CALLBACK (image_task_completed_cb),
-			  base);
+			  G_CALLBACK (gth_image_viewer_task_set_destination),
+			  NULL);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 }
 
