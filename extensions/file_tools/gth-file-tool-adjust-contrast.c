@@ -22,7 +22,7 @@
 #include <config.h>
 #include <math.h>
 #include <gthumb.h>
-#include <extensions/image_viewer/gth-image-viewer-page.h>
+#include <extensions/image_viewer/image-viewer.h>
 #include "gth-file-tool-adjust-contrast.h"
 
 
@@ -34,7 +34,6 @@ G_DEFINE_TYPE (GthFileToolAdjustContrast, gth_file_tool_adjust_contrast, GTH_TYP
 
 typedef struct {
 	GtkWidget        *viewer_page;
-	cairo_surface_t  *source;
 	int              *lowest;
 	int              *highest;
 	double           *factor;
@@ -42,19 +41,20 @@ typedef struct {
 
 
 static void
-adjust_contrast_setup (AdjustContrastData *adjust_data)
+adjust_contrast_setup (AdjustContrastData *adjust_data,
+		       cairo_surface_t    *source)
 {
-	GthHistogram  *histogram;
-	long         **cumulative;
-	int            c, v;
-	glong          n_pixels;
-	double         lower_threshold;
-	double         higher_threshold;
+	GthHistogram     *histogram;
+	long            **cumulative;
+	int               c, v;
+	glong             n_pixels;
+	double            lower_threshold;
+	double            higher_threshold;
 
 	/* histogram */
 
 	histogram = gth_histogram_new ();
-	gth_histogram_calculate_for_image (histogram, adjust_data->source);
+	gth_histogram_calculate_for_image (histogram, source);
 	cumulative = gth_histogram_get_cumulative (histogram);
 
 	/* lowest and highest values for each channel */
@@ -62,7 +62,7 @@ adjust_contrast_setup (AdjustContrastData *adjust_data)
 	adjust_data->lowest = g_new (int, GTH_HISTOGRAM_N_CHANNELS);
 	adjust_data->highest = g_new (int, GTH_HISTOGRAM_N_CHANNELS);
 
-	n_pixels = cairo_image_surface_get_width (adjust_data->source) * cairo_image_surface_get_height (adjust_data->source);
+	n_pixels = cairo_image_surface_get_width (source) * cairo_image_surface_get_height (source);
 	lower_threshold = HISTOGRAM_CROP * n_pixels;
 	higher_threshold = (1.0 - HISTOGRAM_CROP) * n_pixels;
 
@@ -116,6 +116,7 @@ adjust_contrast_exec (GthAsyncTask *task,
 		      gpointer      user_data)
 {
 	AdjustContrastData *adjust_data = user_data;
+	cairo_surface_t    *source;
 	cairo_format_t      format;
 	int                 width;
 	int                 height;
@@ -130,22 +131,22 @@ adjust_contrast_exec (GthAsyncTask *task,
 	double              progress;
 	int                 x, y;
 	unsigned char       red, green, blue, alpha;
-	GthImage          *destination_image;
 
 	/* initialize some extra data */
 
-	adjust_contrast_setup (adjust_data);
+	source = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	adjust_contrast_setup (adjust_data, source);
 
 	/* convert the image */
 
-	format = cairo_image_surface_get_format (adjust_data->source);
-	width = cairo_image_surface_get_width (adjust_data->source);
-	height = cairo_image_surface_get_height (adjust_data->source);
-	source_stride = cairo_image_surface_get_stride (adjust_data->source);
+	format = cairo_image_surface_get_format (source);
+	width = cairo_image_surface_get_width (source);
+	height = cairo_image_surface_get_height (source);
+	source_stride = cairo_image_surface_get_stride (source);
 
 	destination = cairo_image_surface_create (format, width, height);
 	destination_stride = cairo_image_surface_get_stride (destination);
-	p_source_line = _cairo_image_surface_flush_and_get_data (adjust_data->source);
+	p_source_line = _cairo_image_surface_flush_and_get_data (source);
 	p_destination_line = _cairo_image_surface_flush_and_get_data (destination);
 	for (y = 0; y < height; y++) {
 		gth_async_task_get_data (task, NULL, &cancelled, NULL);
@@ -172,12 +173,10 @@ adjust_contrast_exec (GthAsyncTask *task,
 	}
 
 	cairo_surface_mark_dirty (destination);
+	gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), destination);
 
-	destination_image = gth_image_new_for_surface (destination);
-	gth_image_task_set_destination (GTH_IMAGE_TASK (task), destination_image);
-
-	_g_object_unref (destination_image);
 	cairo_surface_destroy (destination);
+	cairo_surface_destroy (source);
 
 	return NULL;
 }
@@ -204,7 +203,6 @@ adjust_contrast_data_free (gpointer user_data)
 	AdjustContrastData *adjust_contrast_data = user_data;
 
 	g_object_unref (adjust_contrast_data->viewer_page);
-	cairo_surface_destroy (adjust_contrast_data->source);
 	g_free (adjust_contrast_data);
 }
 
@@ -215,7 +213,6 @@ image_task_completed_cb (GthTask  *task,
 			 gpointer  user_data)
 {
 	GthFileTool     *base = user_data;
-	GthImage        *destination_image;
 	cairo_surface_t *destination;
 	GtkWidget       *window;
 	GtkWidget       *viewer_page;
@@ -225,13 +222,11 @@ image_task_completed_cb (GthTask  *task,
 		return;
 	}
 
-	destination_image = gth_image_task_get_destination (GTH_IMAGE_TASK (task));
-	if (destination_image == NULL) {
+	destination = gth_image_task_get_destination_surface (GTH_IMAGE_TASK (task));
+	if (destination == NULL) {
 		g_object_unref (task);
 		return;
 	}
-
-	destination = gth_image_get_cairo_surface (destination_image);
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -264,16 +259,16 @@ gth_file_tool_adjust_contrast_activate (GthFileTool *base)
 
 	adjust_contrast_data = g_new0 (AdjustContrastData, 1);
 	adjust_contrast_data->viewer_page = g_object_ref (viewer_page);
-	adjust_contrast_data->source = cairo_surface_reference (image);
 	adjust_contrast_data->lowest = NULL;
 	adjust_contrast_data->highest = NULL;
 	adjust_contrast_data->factor = NULL;
-	task = gth_image_task_new (_("Applying changes"),
-				   NULL,
-				   adjust_contrast_exec,
-				   adjust_contrast_after,
-				   adjust_contrast_data,
-				   adjust_contrast_data_free);
+	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
+					  _("Applying changes"),
+					  NULL,
+					  adjust_contrast_exec,
+					  adjust_contrast_after,
+					  adjust_contrast_data,
+					  adjust_contrast_data_free);
 	g_signal_connect (task,
 			  "completed",
 			  G_CALLBACK (image_task_completed_cb),
