@@ -192,7 +192,7 @@ gth_image_preloader_finalize (GObject *object)
 
 	self = GTH_IMAGE_PRELOADER (object);
 
-	if (self->priv->load_next_id == 0)
+	if (self->priv->load_next_id != 0)
 		g_source_remove (self->priv->load_next_id);
 	load_request_unref (self->priv->last_request);
 	load_request_unref (self->priv->current_request);
