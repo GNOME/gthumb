@@ -1635,6 +1635,13 @@ gth_image_viewer_page_reset (GthImageViewerPage *self)
 }
 
 
+gboolean
+gth_image_viewer_page_get_is_modified (GthImageViewerPage *self)
+{
+	return self->priv->image_changed;
+}
+
+
 void
 gth_image_viewer_page_copy_image (GthImageViewerPage *self)
 {

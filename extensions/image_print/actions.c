@@ -46,7 +46,8 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 		viewer_page = gth_browser_get_viewer_page (browser);
 		if ((gth_main_extension_is_active ("image_viewer"))
 		    && (viewer_page != NULL)
-		    && GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		    && GTH_IS_IMAGE_VIEWER_PAGE (viewer_page)
+		    && gth_image_viewer_page_get_is_modified (GTH_IMAGE_VIEWER_PAGE (viewer_page)))
 		{
 			GtkWidget *viewer;
 
