@@ -22,7 +22,7 @@
 #include <config.h>
 #include <math.h>
 #include <gthumb.h>
-#include <extensions/image_viewer/gth-image-viewer-page.h>
+#include <extensions/image_viewer/image-viewer.h>
 #include "gth-file-tool-equalize.h"
 
 
@@ -30,37 +30,28 @@ G_DEFINE_TYPE (GthFileToolEqualize, gth_file_tool_equalize, GTH_TYPE_FILE_TOOL)
 
 
 typedef struct {
-	GtkWidget        *viewer_page;
-	cairo_surface_t  *source;
-	cairo_surface_t  *destination;
-	long            **cumulative;
-	double            factor;
+	GtkWidget  *viewer_page;
+	long      **cumulative;
+	double      factor;
 } EqualizeData;
 
 
 static void
-equalize_before (GthAsyncTask *task,
-	         gpointer      user_data)
-{
-	gth_task_progress (GTH_TASK (task), _("Equalizing image histogram"), NULL, TRUE, 0.0);
-}
-
-
-static void
-equalize_histogram_setup (EqualizeData *equalize_data)
+equalize_histogram_setup (EqualizeData    *equalize_data,
+			  cairo_surface_t *source)
 {
 	GthHistogram *histogram;
 
 	histogram = gth_histogram_new ();
-	gth_histogram_calculate_for_image (histogram, equalize_data->source);
+	gth_histogram_calculate_for_image (histogram, source);
 	equalize_data->cumulative = gth_histogram_get_cumulative (histogram);
-	equalize_data->factor = 255.0 / (cairo_image_surface_get_width (equalize_data->source) * cairo_image_surface_get_height (equalize_data->source));
+	equalize_data->factor = 255.0 / (cairo_image_surface_get_width (source) * cairo_image_surface_get_height (source));
 
 	g_object_unref (histogram);
 }
 
 
-static guchar
+static inline guchar
 equalize_func (EqualizeData *equalize_data,
 	       int           n_channel,
 	       guchar        value)
@@ -74,10 +65,12 @@ equalize_exec (GthAsyncTask *task,
 	       gpointer      user_data)
 {
 	EqualizeData    *equalize_data = user_data;
+	cairo_surface_t *source;
 	cairo_format_t   format;
 	int              width;
 	int              height;
 	int              source_stride;
+	cairo_surface_t *destination;
 	int              destination_stride;
 	unsigned char   *p_source_line;
 	unsigned char   *p_destination_line;
@@ -85,25 +78,25 @@ equalize_exec (GthAsyncTask *task,
 	unsigned char   *p_destination;
 	gboolean         cancelled;
 	double           progress;
-	gboolean         terminated;
 	int              x, y;
 	unsigned char    red, green, blue, alpha;
 
 	/* initialize the extra data */
 
-	equalize_histogram_setup (equalize_data);
+	source = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	equalize_histogram_setup (equalize_data, source);
 
 	/* convert the image */
 
-	format = cairo_image_surface_get_format (equalize_data->source);
-	width = cairo_image_surface_get_width (equalize_data->source);
-	height = cairo_image_surface_get_height (equalize_data->source);
-	source_stride = cairo_image_surface_get_stride (equalize_data->source);
+	format = cairo_image_surface_get_format (source);
+	width = cairo_image_surface_get_width (source);
+	height = cairo_image_surface_get_height (source);
+	source_stride = cairo_image_surface_get_stride (source);
 
-	equalize_data->destination = cairo_image_surface_create (format, width, height);
-	destination_stride = cairo_image_surface_get_stride (equalize_data->destination);
-	p_source_line = _cairo_image_surface_flush_and_get_data (equalize_data->source);
-	p_destination_line = _cairo_image_surface_flush_and_get_data (equalize_data->destination);
+	destination = cairo_image_surface_create (format, width, height);
+	destination_stride = cairo_image_surface_get_stride (destination);
+	p_source_line = _cairo_image_surface_flush_and_get_data (source);
+	p_destination_line = _cairo_image_surface_flush_and_get_data (destination);
 	for (y = 0; y < height; y++) {
 		gth_async_task_get_data (task, NULL, &cancelled, NULL);
 		if (cancelled)
@@ -128,26 +121,13 @@ equalize_exec (GthAsyncTask *task,
 		p_destination_line += destination_stride;
 	}
 
-	cairo_surface_mark_dirty (equalize_data->destination);
-	terminated = TRUE;
-	gth_async_task_set_data (task, &terminated, NULL, NULL);
+	cairo_surface_mark_dirty (destination);
+	gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), destination);
+
+	cairo_surface_destroy (destination);
+	cairo_surface_destroy (source);
 
 	return NULL;
-}
-
-
-static void
-equalize_after (GthAsyncTask *task,
-	        GError       *error,
-	        gpointer      user_data)
-{
-	EqualizeData *equalize_data = user_data;
-
-	if (error == NULL)
-		gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (equalize_data->viewer_page), equalize_data->destination, TRUE);
-
-	gth_cumulative_histogram_free (equalize_data->cumulative);
-	equalize_data->cumulative = NULL;
 }
 
 
@@ -156,9 +136,8 @@ equalize_destroy_data (gpointer user_data)
 {
 	EqualizeData *equalize_data = user_data;
 
+	gth_cumulative_histogram_free (equalize_data->cumulative);
 	g_object_unref (equalize_data->viewer_page);
-	cairo_surface_destroy (equalize_data->destination);
-	cairo_surface_destroy (equalize_data->source);
 	g_free (equalize_data);
 }
 
@@ -166,34 +145,30 @@ equalize_destroy_data (gpointer user_data)
 static void
 gth_file_tool_equalize_activate (GthFileTool *base)
 {
-	GtkWidget       *window;
-	GtkWidget       *viewer_page;
-	GtkWidget       *viewer;
-	cairo_surface_t *image;
-	EqualizeData    *equalize_data;
-	GthTask         *task;
+	GtkWidget    *window;
+	GtkWidget    *viewer_page;
+	EqualizeData *equalize_data;
+	GthTask      *task;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
 		return;
 
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
-	if (image == NULL)
-		return;
-
 	equalize_data = g_new0 (EqualizeData, 1);
 	equalize_data->viewer_page = g_object_ref (viewer_page);
-	equalize_data->source = cairo_surface_reference (image);
-	task = gth_async_task_new (equalize_before,
-				   equalize_exec,
-				   equalize_after,
-				   equalize_data,
-				   equalize_destroy_data);
+	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
+					  _("Equalizing image histogram"),
+					  NULL,
+					  equalize_exec,
+					  NULL,
+					  equalize_data,
+					  equalize_destroy_data);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (gth_image_viewer_task_set_destination),
+			  NULL);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
-
-	g_object_unref (task);
 }
 
 
