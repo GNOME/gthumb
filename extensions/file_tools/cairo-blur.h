@@ -24,15 +24,18 @@
 
 #include <glib.h>
 #include <cairo.h>
+#include <gthumb.h>
 
 G_BEGIN_DECLS
 
-void _cairo_image_surface_blur     (cairo_surface_t *source,
-	 	                    int              radius);
-void _cairo_image_surface_sharpen  (cairo_surface_t *source,
-				    int              radius,
-				    double           amount,
-				    guchar           threshold);
+gboolean _cairo_image_surface_blur     (cairo_surface_t *source,
+	 	                        int              radius,
+	 	                        GthAsyncTask    *task);
+gboolean _cairo_image_surface_sharpen  (cairo_surface_t *source,
+				        int              radius,
+				        double           amount,
+				        guchar           threshold,
+				        GthAsyncTask    *task);
 
 G_END_DECLS
 

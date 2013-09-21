@@ -26,20 +26,49 @@
 #include "cairo-blur.h"
 
 
+typedef struct {
+	GthAsyncTask *task;
+	gulong        total_lines;
+	gulong        processed_lines;
+	gboolean      cancelled;
+} ProgressData;
 
-static void
-_cairo_image_surface_gaussian_blur (cairo_surface_t *source,
-				    int              radius)
+
+static inline gboolean
+progress_data_inc_processed_lines (ProgressData *progress_data)
 {
-	/* FIXME: to do */
+	double progress;
+
+	if (progress_data->task == NULL)
+		return TRUE;
+
+	gth_async_task_get_data (progress_data->task, NULL, &progress_data->cancelled, NULL);
+	if (progress_data->cancelled)
+		return FALSE;
+
+	progress = (double) progress_data->processed_lines++ / progress_data->total_lines;
+	gth_async_task_set_data (progress_data->task, NULL, NULL, &progress);
+
+	return TRUE;
 }
 
 
-static void
+static gboolean
+_cairo_image_surface_gaussian_blur (cairo_surface_t *source,
+				    int              radius,
+				    ProgressData    *progress_data)
+{
+	/* FIXME: to do */
+	return FALSE;
+}
+
+
+static gboolean
 box_blur (cairo_surface_t *source,
 	  cairo_surface_t *destination,
 	  int              radius,
-	  guchar          *div_kernel_size)
+	  guchar          *div_kernel_size,
+	  ProgressData    *progress_data)
 {
 	int     width, height, src_rowstride, dest_rowstride;
 	guchar *p_src, *p_dest, *c1, *c2;
@@ -59,6 +88,9 @@ box_blur (cairo_surface_t *source,
 	dest_rowstride = cairo_image_surface_get_stride (destination);
 	width_minus_1 = width - 1;
 	for (y = 0; y < height; y++) {
+
+		if (! progress_data_inc_processed_lines (progress_data))
+			return FALSE;
 
 		/* calculate the initial sums of the kernel */
 
@@ -111,6 +143,7 @@ box_blur (cairo_surface_t *source,
 		p_src += src_rowstride;
 		p_dest += dest_rowstride;
 	}
+	cairo_surface_mark_dirty (destination);
 
 	/* vertical blur */
 
@@ -120,6 +153,9 @@ box_blur (cairo_surface_t *source,
 	dest_rowstride = cairo_image_surface_get_stride (source);
 	height_minus_1 = height - 1;
 	for (x = 0; x < width; x++) {
+
+		if (! progress_data_inc_processed_lines (progress_data))
+			return FALSE;
 
 		/* calculate the initial sums of the kernel */
 
@@ -172,18 +208,23 @@ box_blur (cairo_surface_t *source,
 		p_src += 4;
 		p_dest += 4;
 	}
+	cairo_surface_mark_dirty (source);
+
+	return TRUE;
 }
 
 
-static void
+static gboolean
 _cairo_image_surface_box_blur (cairo_surface_t *source,
 			       int              radius,
-			       int              iterations)
+			       int              iterations,
+			       ProgressData    *progress_data)
 {
 	gint64           kernel_size;
 	guchar          *div_kernel_size;
 	int              i;
 	cairo_surface_t *tmp;
+	gboolean         completed;
 
 	kernel_size = 2 * radius + 1;
 
@@ -192,31 +233,54 @@ _cairo_image_surface_box_blur (cairo_surface_t *source,
 	for (i = 0; i < 256 * kernel_size; i++)
 		div_kernel_size[i] = (guchar) (i / kernel_size);
 
+	completed = TRUE;
 	tmp = _cairo_image_surface_create_compatible (source);
-	while (iterations-- > 0)
-		box_blur (source, tmp, radius, div_kernel_size);
+	while (completed && (iterations-- > 0)) {
+		completed = box_blur (source, tmp, radius, div_kernel_size, progress_data);
+	}
 
 	cairo_surface_destroy (tmp);
+
+	return completed;
 }
 
 
-void
-_cairo_image_surface_blur (cairo_surface_t *source,
-			   int              radius)
+static gboolean
+_cairo_image_surface_blur_with_progress (cairo_surface_t *source,
+					 int              radius,
+					 ProgressData    *progress_data)
 {
 	if (radius <= 10)
-		_cairo_image_surface_box_blur (source, radius, 3);
+		return _cairo_image_surface_box_blur (source, radius, 3, progress_data);
 	else
-		_cairo_image_surface_gaussian_blur (source, radius);
+		return _cairo_image_surface_gaussian_blur (source, radius, progress_data);
 }
 
 
-void
+gboolean
+_cairo_image_surface_blur (cairo_surface_t *source,
+			   int              radius,
+			   GthAsyncTask    *task)
+{
+	ProgressData progress_data;
+
+	progress_data.task = task;
+	progress_data.total_lines = (cairo_image_surface_get_width (source) * 3) + (cairo_image_surface_get_height (source) * 3);
+	progress_data.processed_lines = 0;
+	progress_data.cancelled = FALSE;
+
+	return _cairo_image_surface_blur_with_progress (source, radius, &progress_data);
+}
+
+
+gboolean
 _cairo_image_surface_sharpen (cairo_surface_t *source,
 			      int              radius,
 			      double           amount,
-			      guchar           threshold)
+			      guchar           threshold,
+			      GthAsyncTask    *task)
 {
+	ProgressData     progress_data;
 	cairo_surface_t *blurred;
 	int              width, height;
 	int              source_rowstride, blurred_rowstride;
@@ -227,8 +291,16 @@ _cairo_image_surface_sharpen (cairo_surface_t *source,
 	guchar           r2, g2, b2;
 	int              tmp;
 
+	progress_data.task = task;
+	progress_data.total_lines = (cairo_image_surface_get_width (source) * 3) + (cairo_image_surface_get_height (source) * 3) + cairo_image_surface_get_height (source);
+	progress_data.processed_lines = 0;
+	progress_data.cancelled = FALSE;
+
 	blurred = _cairo_image_surface_copy (source);
-	_cairo_image_surface_blur (blurred, radius);
+	if (! _cairo_image_surface_blur_with_progress (blurred, radius, &progress_data)) {
+		cairo_surface_destroy (blurred);
+		return FALSE;
+	}
 
 	width = cairo_image_surface_get_width (source);
 	height = cairo_image_surface_get_height (source);
@@ -247,6 +319,11 @@ _cairo_image_surface_sharpen (cairo_surface_t *source,
 	for (y = 0; y < height; y++) {
 		p_src_row = p_src;
 		p_blurred_row = p_blurred;
+
+		if (! progress_data_inc_processed_lines (&progress_data)) {
+			cairo_surface_destroy (blurred);
+			return FALSE;
+		}
 
 		for (x = 0; x < width; x++) {
 			r1 = p_src_row[CAIRO_RED];
@@ -275,5 +352,8 @@ _cairo_image_surface_sharpen (cairo_surface_t *source,
 
 #undef ASSIGN_INTERPOLATED_VALUE
 
+	cairo_surface_mark_dirty (source);
 	cairo_surface_destroy (blurred);
+
+	return TRUE;
 }
