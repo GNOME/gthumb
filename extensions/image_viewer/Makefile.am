@@ -8,8 +8,11 @@ libimage_viewer_la_SOURCES = 		\
 	gth-image-histogram.h		\
 	gth-image-viewer-page.c		\
 	gth-image-viewer-page.h		\
+	gth-image-viewer-task.c		\
+	gth-image-viewer-task.h		\
 	gth-metadata-provider-image.c	\
 	gth-metadata-provider-image.h	\
+	image-viewer.h			\
 	main.c				\
 	preferences.c			\
 	preferences.h

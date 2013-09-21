@@ -104,10 +104,30 @@ gth_image_task_set_source (GthImageTask *self,
 }
 
 
+void
+gth_image_task_set_source_surface (GthImageTask    *self,
+				   cairo_surface_t *surface)
+{
+	GthImage *image;
+
+	image = gth_image_new_for_surface (surface);
+	gth_image_task_set_source (self, image);
+
+	g_object_unref (image);
+}
+
+
 GthImage *
 gth_image_task_get_source (GthImageTask *self)
 {
 	return self->priv->source;
+}
+
+
+cairo_surface_t *
+gth_image_task_get_source_surface (GthImageTask *self)
+{
+	return gth_image_get_cairo_surface (self->priv->source);
 }
 
 
@@ -123,10 +143,30 @@ gth_image_task_set_destination (GthImageTask *self,
 }
 
 
+void
+gth_image_task_set_destination_surface (GthImageTask    *self,
+					cairo_surface_t *surface)
+{
+	GthImage *image;
+
+	image = gth_image_new_for_surface (surface);
+	gth_image_task_set_destination (self, image);
+
+	g_object_unref (image);
+}
+
+
 GthImage *
 gth_image_task_get_destination (GthImageTask *self)
 {
 	return self->priv->destination;
+}
+
+
+cairo_surface_t *
+gth_image_task_get_destination_surface (GthImageTask *self)
+{
+	return gth_image_get_cairo_surface (self->priv->destination);
 }
 
 

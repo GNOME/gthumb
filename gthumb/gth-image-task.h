@@ -48,21 +48,26 @@ struct _GthImageTaskClass {
 	GthAsyncTaskClass __parent;
 };
 
-GType         gth_image_task_get_type        (void);
-GthTask *     gth_image_task_new             (const char         *description,
-					      GthAsyncInitFunc    before_func,
-					      GthAsyncThreadFunc  exec_func,
-					      GthAsyncReadyFunc   after_func,
-					      gpointer            user_data,
-					      GDestroyNotify      user_data_destroy_func);
-void          gth_image_task_set_source      (GthImageTask       *self,
-					      GthImage           *source);
-GthImage *    gth_image_task_get_source      (GthImageTask       *self);
-void          gth_image_task_set_destination (GthImageTask       *self,
-					      GthImage           *destination);
-GthImage *    gth_image_task_get_destination (GthImageTask       *self);
-void          gth_image_task_copy_source_to_destination
-					     (GthImageTask       *self);
+GType			gth_image_task_get_type				(void);
+GthTask *		gth_image_task_new				(const char		*description,
+									 GthAsyncInitFunc	 before_func,
+									 GthAsyncThreadFunc	 exec_func,
+									 GthAsyncReadyFunc	 after_func,
+									 gpointer		 user_data,
+									 GDestroyNotify		 user_data_destroy_func);
+void			gth_image_task_set_source			(GthImageTask		*self,
+								 	 GthImage		*source);
+void			gth_image_task_set_source_surface		(GthImageTask		*self,
+								 	 cairo_surface_t	*surface);
+GthImage *		gth_image_task_get_source			(GthImageTask		*self);
+cairo_surface_t *	gth_image_task_get_source_surface		(GthImageTask		*self);
+void			gth_image_task_set_destination			(GthImageTask		*self,
+								 	 GthImage		*destination);
+void			gth_image_task_set_destination_surface		(GthImageTask		*self,
+								 	 cairo_surface_t	*surface);
+GthImage *		gth_image_task_get_destination			(GthImageTask		*self);
+cairo_surface_t *	gth_image_task_get_destination_surface		(GthImageTask		*self);
+void			gth_image_task_copy_source_to_destination	(GthImageTask		*self);
 
 G_END_DECLS
 
