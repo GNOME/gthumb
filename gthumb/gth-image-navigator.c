@@ -30,8 +30,8 @@
 
 
 #define VISIBLE_AREA_BORDER 2.0
-#define POPUP_BORDER        4
-#define POPUP_BORDER_2      8
+#define POPUP_BORDER        2
+#define POPUP_BORDER_2      (POPUP_BORDER*2)
 #define POPUP_MAX_WIDTH     112
 #define POPUP_MAX_HEIGHT    112
 
@@ -460,7 +460,7 @@ popup_window_event_cb (GtkWidget *widget,
 
 		mx = (int) (x / nav_popup->zoom_factor);
 		my = (int) (y / nav_popup->zoom_factor);
-		gth_image_viewer_scroll_to (viewer, mx, my);
+		gth_image_viewer_set_scroll_offset (viewer, mx, my);
 
 		gtk_widget_queue_draw (widget);
 		gdk_window_process_updates (gtk_widget_get_window (widget), TRUE);
@@ -620,9 +620,9 @@ navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 
 	nav_popup->x_root = event->x_root;
 	nav_popup->y_root = event->y_root;
-	gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer),
-					    &nav_popup->image_width,
-					    &nav_popup->image_height);
+
+	nav_popup->image_width = gth_image_viewer_get_image_width (GTH_IMAGE_VIEWER (self->priv->viewer));
+	nav_popup->image_height = gth_image_viewer_get_image_height (GTH_IMAGE_VIEWER (self->priv->viewer));
 	update_popup_geometry (nav_popup);
 
 	g_signal_connect (G_OBJECT (nav_popup->popup_win),

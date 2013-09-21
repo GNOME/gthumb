@@ -219,6 +219,19 @@ get_prev_zoom (double zoom)
 }
 
 
+static double
+_gth_image_viewer_get_quality_zoom (GthImageViewer *self)
+{
+	cairo_surface_t *image;
+
+	image = gth_image_viewer_get_current_image (self);
+	if (self->priv->original_width <= 0)
+		return 1.0;
+
+	return (double) cairo_image_surface_get_width (image) / self->priv->original_width;
+}
+
+
 static void
 _gth_image_viewer_get_zoomed_size_for_zoom (GthImageViewer *self,
 					    int            *width,
@@ -2384,12 +2397,27 @@ gth_image_viewer_scroll_page_y (GthImageViewer *self,
 
 
 void
+gth_image_viewer_set_scroll_offset (GthImageViewer *self,
+				    int             x,
+				    int             y)
+{
+	double quality_zoom;
+
+	quality_zoom = _gth_image_viewer_get_quality_zoom (self);
+	gth_image_viewer_scroll_to (self, x / quality_zoom, y / quality_zoom);
+}
+
+
+void
 gth_image_viewer_get_scroll_offset (GthImageViewer *self,
 				    int            *x,
 				    int            *y)
 {
-	*x = self->x_offset;
-	*y = self->y_offset;
+	double quality_zoom;
+
+	quality_zoom = _gth_image_viewer_get_quality_zoom (self);
+	*x = self->x_offset * quality_zoom;
+	*y = self->y_offset * quality_zoom;
 }
 
 

@@ -264,6 +264,9 @@ void           gth_image_viewer_scroll_page_x            (GthImageViewer        
 							  gboolean               increment);
 void           gth_image_viewer_scroll_page_y            (GthImageViewer        *viewer,
 							  gboolean               increment);
+void           gth_image_viewer_set_scroll_offset        (GthImageViewer        *self,
+							  int                    x,
+							  int                    y);
 void           gth_image_viewer_get_scroll_offset        (GthImageViewer        *viewer,
 							  int                   *x,
 							  int                   *y);
