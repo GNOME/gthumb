@@ -58,7 +58,6 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 						     current_image,
 						     g_file_info_get_display_name (gth_browser_get_location_data (browser)->info),
 						     &error);
-		cairo_surface_destroy (current_image);
 
 		if (print_job != NULL) {
 			gth_image_print_job_run (print_job,
