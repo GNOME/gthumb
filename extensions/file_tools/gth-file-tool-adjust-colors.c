@@ -35,7 +35,6 @@ G_DEFINE_TYPE (GthFileToolAdjustColors, gth_file_tool_adjust_colors, GTH_TYPE_FI
 
 
 struct _GthFileToolAdjustColorsPrivate {
-	cairo_surface_t    *source;
 	cairo_surface_t    *destination;
 	cairo_surface_t    *preview;
 	GtkBuilder         *builder;
@@ -427,6 +426,7 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	GtkWidget               *window;
 	GtkWidget               *viewer_page;
 	GtkWidget               *viewer;
+	cairo_surface_t         *source;
 	GtkWidget               *options;
 	int                      width, height;
 	GtkAllocation            allocation;
@@ -438,22 +438,21 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
 		return NULL;
 
-	cairo_surface_destroy (self->priv->source);
 	cairo_surface_destroy (self->priv->destination);
 	cairo_surface_destroy (self->priv->preview);
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	self->priv->source = cairo_surface_reference (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer)));
-	if (self->priv->source == NULL)
+	source = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	if (source == NULL)
 		return NULL;
 
-	width = cairo_image_surface_get_width (self->priv->source);
-	height = cairo_image_surface_get_height (self->priv->source);
+	width = cairo_image_surface_get_width (source);
+	height = cairo_image_surface_get_height (source);
 	gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 	if (scale_keeping_ratio (&width, &height, PREVIEW_SIZE * allocation.width, PREVIEW_SIZE * allocation.height, FALSE))
-		self->priv->preview = _cairo_image_surface_scale_bilinear (self->priv->source, width, height);
+		self->priv->preview = _cairo_image_surface_scale_bilinear (source, width, height);
 	else
-		self->priv->preview = cairo_surface_reference (self->priv->source);
+		self->priv->preview = cairo_surface_reference (source);
 
 	self->priv->destination = cairo_surface_reference (self->priv->preview);
 	self->priv->apply_to_original = FALSE;
@@ -572,7 +571,6 @@ gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
 	_cairo_clear_surface (&self->priv->preview);
-	_cairo_clear_surface (&self->priv->source);
 	_cairo_clear_surface (&self->priv->destination);
 	_g_clear_object (&self->priv->builder);
 }
@@ -614,7 +612,6 @@ gth_file_tool_adjust_colors_init (GthFileToolAdjustColors *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ADJUST_COLORS, GthFileToolAdjustColorsPrivate);
 	self->priv->histogram = gth_histogram_new ();
 	self->priv->preview = NULL;
-	self->priv->source = NULL;
 	self->priv->destination = NULL;
 	self->priv->builder = NULL;
 
@@ -634,7 +631,6 @@ gth_file_tool_adjust_colors_finalize (GObject *object)
 	self = (GthFileToolAdjustColors *) object;
 
 	cairo_surface_destroy (self->priv->preview);
-	cairo_surface_destroy (self->priv->source);
 	cairo_surface_destroy (self->priv->destination);
 	_g_object_unref (self->priv->builder);
 	_g_object_unref (self->priv->histogram);
