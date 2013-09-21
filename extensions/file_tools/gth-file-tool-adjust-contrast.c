@@ -242,19 +242,12 @@ gth_file_tool_adjust_contrast_activate (GthFileTool *base)
 {
 	GtkWidget          *window;
 	GtkWidget          *viewer_page;
-	GtkWidget          *viewer;
-	cairo_surface_t    *image;
 	AdjustContrastData *adjust_contrast_data;
 	GthTask            *task;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		return;
-
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
-	if (image == NULL)
 		return;
 
 	adjust_contrast_data = g_new0 (AdjustContrastData, 1);
