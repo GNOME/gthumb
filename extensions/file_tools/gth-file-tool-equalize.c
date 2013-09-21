@@ -30,9 +30,8 @@ G_DEFINE_TYPE (GthFileToolEqualize, gth_file_tool_equalize, GTH_TYPE_FILE_TOOL)
 
 
 typedef struct {
-	GtkWidget  *viewer_page;
-	long      **cumulative;
-	double      factor;
+	long   **cumulative;
+	double   factor;
 } EqualizeData;
 
 
@@ -137,7 +136,6 @@ equalize_destroy_data (gpointer user_data)
 	EqualizeData *equalize_data = user_data;
 
 	gth_cumulative_histogram_free (equalize_data->cumulative);
-	g_object_unref (equalize_data->viewer_page);
 	g_free (equalize_data);
 }
 
@@ -156,7 +154,6 @@ gth_file_tool_equalize_activate (GthFileTool *base)
 		return;
 
 	equalize_data = g_new0 (EqualizeData, 1);
-	equalize_data->viewer_page = g_object_ref (viewer_page);
 	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
 					  _("Equalizing image histogram"),
 					  NULL,
