@@ -21,7 +21,7 @@
 
 #include <config.h>
 #include <gthumb.h>
-#include <extensions/image_viewer/gth-image-viewer-page.h>
+#include <extensions/image_viewer/image-viewer.h>
 #include "gth-file-tool-grayscale.h"
 #include "gth-preview-tool.h"
 
@@ -42,7 +42,6 @@ typedef enum {
 
 
 struct _GthFileToolGrayscalePrivate {
-	cairo_surface_t    *source;
 	cairo_surface_t    *destination;
 	cairo_surface_t    *preview;
 	GtkBuilder         *builder;
@@ -55,10 +54,7 @@ struct _GthFileToolGrayscalePrivate {
 
 
 typedef struct {
-	GthFileToolGrayscale *self;
-	GtkWidget            *viewer_page;
-	cairo_surface_t      *source;
-	Method                method;
+	Method method;
 } GrayscaleData;
 
 
@@ -66,22 +62,21 @@ static void
 grayscale_data_free (gpointer user_data)
 {
 	GrayscaleData *grayscale_data = user_data;
-
-	g_object_unref (grayscale_data->viewer_page);
-	cairo_surface_destroy (grayscale_data->source);
 	g_free (grayscale_data);
 }
 
 
 static gpointer
 grayscale_exec (GthAsyncTask *task,
-	         gpointer      user_data)
+	        gpointer      user_data)
 {
 	GrayscaleData   *grayscale_data = user_data;
+	cairo_surface_t *source;
 	cairo_format_t   format;
 	int              width;
 	int              height;
 	int              source_stride;
+	cairo_surface_t *destination;
 	int              destination_stride;
 	unsigned char   *p_source_line;
 	unsigned char   *p_destination_line;
@@ -92,17 +87,16 @@ grayscale_exec (GthAsyncTask *task,
 	int              x, y;
 	unsigned char    red, green, blue, alpha;
 	unsigned char    min, max, value;
-	cairo_surface_t *destination;
-	GthImage        *destination_image;
 
-	format = cairo_image_surface_get_format (grayscale_data->source);
-	width = cairo_image_surface_get_width (grayscale_data->source);
-	height = cairo_image_surface_get_height (grayscale_data->source);
-	source_stride = cairo_image_surface_get_stride (grayscale_data->source);
+	source = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	format = cairo_image_surface_get_format (source);
+	width = cairo_image_surface_get_width (source);
+	height = cairo_image_surface_get_height (source);
+	source_stride = cairo_image_surface_get_stride (source);
 
 	destination = cairo_image_surface_create (format, width, height);
 	destination_stride = cairo_image_surface_get_stride (destination);
-	p_source_line = _cairo_image_surface_flush_and_get_data (grayscale_data->source);
+	p_source_line = _cairo_image_surface_flush_and_get_data (source);
 	p_destination_line = _cairo_image_surface_flush_and_get_data (destination);
 	for (y = 0; y < height; y++) {
 		gth_async_task_get_data (task, NULL, &cancelled, NULL);
@@ -147,12 +141,10 @@ grayscale_exec (GthAsyncTask *task,
 	}
 
 	cairo_surface_mark_dirty (destination);
+	gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), destination);
 
-	destination_image = gth_image_new_for_surface (destination);
-	gth_image_task_set_destination (GTH_IMAGE_TASK (task), destination_image);
-
-	_g_object_unref (destination_image);
 	cairo_surface_destroy (destination);
+	cairo_surface_destroy (source);
 
 	return NULL;
 }
@@ -235,8 +227,6 @@ apply_cb (gpointer user_data)
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 
 	grayscale_data = g_new0 (GrayscaleData, 1);
-	grayscale_data->viewer_page = g_object_ref (gth_browser_get_viewer_page (GTH_BROWSER (window)));
-	grayscale_data->source = cairo_surface_reference (self->priv->apply_to_original ? self->priv->source : self->priv->preview);
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("brightness_radiobutton"))))
 		grayscale_data->method = METHOD_BRIGHTNESS;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("saturation_radiobutton"))))
@@ -244,12 +234,17 @@ apply_cb (gpointer user_data)
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("average_radiobutton"))))
 		grayscale_data->method = METHOD_AVARAGE;
 
-	self->priv->image_task = gth_image_task_new (_("Applying changes"),
-						     NULL,
-						     grayscale_exec,
-						     NULL,
-						     grayscale_data,
-						     grayscale_data_free);
+	self->priv->image_task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (GTH_BROWSER (window))),
+							    _("Applying changes"),
+							    NULL,
+							    grayscale_exec,
+							    NULL,
+							    grayscale_data,
+							    grayscale_data_free);
+	if (! self->priv->apply_to_original) {
+		gth_image_viewer_task_set_load_original (GTH_IMAGE_VIEWER_TASK (self->priv->image_task), FALSE);
+		gth_image_task_set_source_surface (GTH_IMAGE_TASK (self->priv->image_task), self->priv->preview);
+	}
 	g_signal_connect (self->priv->image_task,
 			  "completed",
 			  G_CALLBACK (image_task_completed_cb),
@@ -357,6 +352,7 @@ gth_file_tool_grayscale_get_options (GthFileTool *base)
 	GtkWidget            *window;
 	GtkWidget            *viewer_page;
 	GtkWidget            *viewer;
+	cairo_surface_t      *source;
 	GtkWidget            *options;
 	int                   width, height;
 	GtkAllocation         allocation;
@@ -368,22 +364,21 @@ gth_file_tool_grayscale_get_options (GthFileTool *base)
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
 		return NULL;
 
-	cairo_surface_destroy (self->priv->source);
 	cairo_surface_destroy (self->priv->destination);
 	cairo_surface_destroy (self->priv->preview);
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	self->priv->source = cairo_surface_reference (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer)));
-	if (self->priv->source == NULL)
+	source = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	if (source == NULL)
 		return NULL;
 
-	width = cairo_image_surface_get_width (self->priv->source);
-	height = cairo_image_surface_get_height (self->priv->source);
+	width = cairo_image_surface_get_width (source);
+	height = cairo_image_surface_get_height (source);
 	gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 	if (scale_keeping_ratio (&width, &height, PREVIEW_SIZE * allocation.width, PREVIEW_SIZE * allocation.height, FALSE))
-		self->priv->preview = _cairo_image_surface_scale_bilinear (self->priv->source, width, height);
+		self->priv->preview = _cairo_image_surface_scale_bilinear (source, width, height);
 	else
-		self->priv->preview = cairo_surface_reference (self->priv->source);
+		self->priv->preview = cairo_surface_reference (source);
 
 	self->priv->destination = cairo_surface_reference (self->priv->preview);
 	self->priv->apply_to_original = FALSE;
@@ -449,7 +444,6 @@ gth_file_tool_grayscale_destroy_options (GthFileTool *base)
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
 	_cairo_clear_surface (&self->priv->preview);
-	_cairo_clear_surface (&self->priv->source);
 	_cairo_clear_surface (&self->priv->destination);
 	_g_clear_object (&self->priv->builder);
 }
@@ -466,7 +460,6 @@ gth_file_tool_grayscale_finalize (GObject *object)
 	self = (GthFileToolGrayscale *) object;
 
 	cairo_surface_destroy (self->priv->preview);
-	cairo_surface_destroy (self->priv->source);
 	cairo_surface_destroy (self->priv->destination);
 	_g_object_unref (self->priv->builder);
 
@@ -499,7 +492,6 @@ gth_file_tool_grayscale_init (GthFileToolGrayscale *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_GRAYSCALE, GthFileToolGrayscalePrivate);
 	self->priv->preview = NULL;
-	self->priv->source = NULL;
 	self->priv->destination = NULL;
 	self->priv->builder = NULL;
 
