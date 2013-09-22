@@ -1403,8 +1403,10 @@ _gth_image_viewer_page_set_image (GthImageViewerPage *self,
 	self->priv->image_changed = modified;
 	g_file_info_set_attribute_boolean (file_data->info, "gth::file::is-modified", modified);
 
-	width = cairo_image_surface_get_width (image);
-	height = cairo_image_surface_get_height (image);
+	if (! _cairo_image_surface_get_original_size (image, &width, &height)) {
+		width = cairo_image_surface_get_width (image);
+		height = cairo_image_surface_get_height (image);
+	}
 	g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
 	g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
 
