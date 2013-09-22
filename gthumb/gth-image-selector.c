@@ -1535,6 +1535,20 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 }
 
 
+static gboolean
+selection_is_valid (GthImageSelector *self)
+{
+	cairo_region_t *surface_region;
+	gboolean        valid;
+
+	surface_region = cairo_region_create_rectangle (&self->priv->surface_area);
+	valid = cairo_region_contains_rectangle (surface_region, &self->priv->selection_area) == CAIRO_REGION_OVERLAP_IN;
+	cairo_region_destroy (surface_region);
+
+	return valid;
+}
+
+
 static void
 gth_image_selector_image_changed (GthImageViewerTool *base)
 {
@@ -1550,10 +1564,16 @@ gth_image_selector_image_changed (GthImageViewerTool *base)
 	}
 
 	self->priv->surface = cairo_surface_reference (self->priv->surface);
-	self->priv->surface_area.width = cairo_image_surface_get_width (self->priv->surface);
-	self->priv->surface_area.height = cairo_image_surface_get_height (self->priv->surface);
+	if (! _cairo_image_surface_get_original_size (self->priv->surface,
+						      &self->priv->surface_area.width,
+						      &self->priv->surface_area.height))
+	{
+		self->priv->surface_area.width = cairo_image_surface_get_width (self->priv->surface);
+		self->priv->surface_area.height = cairo_image_surface_get_height (self->priv->surface);
+	}
 
-	init_selection (self);
+	if (! selection_is_valid (self))
+		init_selection (self);
 }
 
 
