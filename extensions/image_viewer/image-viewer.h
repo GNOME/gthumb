@@ -24,5 +24,6 @@
 
 #include "gth-image-viewer-page.h"
 #include "gth-image-viewer-task.h"
+#include "preferences.h"
 
 #endif /* IMAGE_VIEWER_H */
