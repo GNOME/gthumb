@@ -45,6 +45,7 @@ gth_image_viewer_task_finalize (GObject *object)
 
 	self = GTH_IMAGE_VIEWER_TASK (object);
 	_g_object_unref (self->priv->original_image_task);
+	_g_object_unref (self->priv->viewer_page);
 
 	G_OBJECT_CLASS (gth_image_viewer_task_parent_class)->finalize (object);
 }
@@ -132,6 +133,7 @@ static void
 gth_image_viewer_task_init (GthImageViewerTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_VIEWER_TASK, GthImageViewerTaskPrivate);
+	self->priv->viewer_page = NULL;
 	self->priv->original_image_task = NULL;
 	self->priv->load_original = TRUE;
 	self->priv->loading_image = FALSE;
@@ -159,7 +161,7 @@ gth_image_viewer_task_new (GthImageViewerPage *viewer_page,
 						    "user-data-destroy-func", user_data_destroy_func,
 						    "description", description,
 						    NULL);
-	self->priv->viewer_page = viewer_page;
+	self->priv->viewer_page = g_object_ref (viewer_page);
 
 	return (GthTask *) self;
 }
