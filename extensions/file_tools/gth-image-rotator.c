@@ -850,7 +850,7 @@ gth_image_rotator_get_background (GthImageRotator *self,
 }
 
 
-static cairo_surface_t *
+G_GNUC_UNUSED static cairo_surface_t *
 gth_image_rotator_get_result_fast (GthImageRotator *self)
 {
 	double                 tx, ty;
@@ -925,15 +925,19 @@ gth_image_rotator_get_result_fast (GthImageRotator *self)
 
 
 static cairo_surface_t *
-gth_image_rotator_get_result_high_quality (GthImageRotator *self)
+gth_image_rotator_get_result_high_quality (GthImageRotator *self,
+					   cairo_surface_t *image,
+					   GthAsyncTask    *task)
 {
 	cairo_surface_t *rotated;
 	cairo_surface_t *result;
+	double           zoom;
 
-	rotated = _cairo_image_surface_rotate (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
+	rotated = _cairo_image_surface_rotate (image,
 					       self->priv->angle / G_PI * 180.0,
 					       TRUE,
-					       &self->priv->background_color);
+					       &self->priv->background_color,
+					       task);
 
 	switch (self->priv->resize) {
 	case GTH_TRANSFORM_RESIZE_BOUNDING_BOX:
@@ -944,14 +948,23 @@ gth_image_rotator_get_result_high_quality (GthImageRotator *self)
 		break;
 
 	case GTH_TRANSFORM_RESIZE_CLIP:
-		self->priv->crop_region.x = MAX (((double) cairo_image_surface_get_width (rotated) - self->priv->original_width) / 2.0, 0);
-		self->priv->crop_region.y = MAX (((double) cairo_image_surface_get_height (rotated) - self->priv->original_height) / 2.0, 0);
-		self->priv->crop_region.width = self->priv->original_width;
-		self->priv->crop_region.height = self->priv->original_height;
+		self->priv->crop_region.x = MAX (((double) cairo_image_surface_get_width (rotated) - cairo_image_surface_get_width (image)) / 2.0, 0);
+		self->priv->crop_region.y = MAX (((double) cairo_image_surface_get_height (rotated) - cairo_image_surface_get_height (image)) / 2.0, 0);
+		self->priv->crop_region.width = cairo_image_surface_get_width (image);
+		self->priv->crop_region.height = cairo_image_surface_get_height (image);
 		break;
 
 	case GTH_TRANSFORM_RESIZE_CROP:
 		/* set by the user */
+
+		zoom = (double) cairo_image_surface_get_width (image) / self->priv->original_width;
+		self->priv->crop_region.x *= zoom;
+		self->priv->crop_region.width *= zoom;
+
+		zoom = (double) cairo_image_surface_get_height (image) / self->priv->original_height;
+		self->priv->crop_region.y *= zoom;
+		self->priv->crop_region.height *= zoom;
+
 		break;
 	}
 
@@ -969,10 +982,8 @@ gth_image_rotator_get_result_high_quality (GthImageRotator *self)
 
 cairo_surface_t *
 gth_image_rotator_get_result (GthImageRotator *self,
-			      gboolean         high_quality)
+			      cairo_surface_t *image,
+			      GthAsyncTask    *task)
 {
-	if (high_quality)
-		return gth_image_rotator_get_result_high_quality (self);
-	else
-		return gth_image_rotator_get_result_fast (self);
+	return gth_image_rotator_get_result_high_quality (self, image, task);
 }

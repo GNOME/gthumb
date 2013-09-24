@@ -89,7 +89,8 @@ void                  gth_image_rotator_set_background  (GthImageRotator       *
 void                  gth_image_rotator_get_background  (GthImageRotator       *self,
 		 	 	 	 	 	 GdkRGBA               *color);
 cairo_surface_t *     gth_image_rotator_get_result      (GthImageRotator       *self,
-							 gboolean               high_quality);
+							 cairo_surface_t       *image,
+							 GthAsyncTask          *task);
 
 G_END_DECLS
 

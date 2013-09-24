@@ -22,7 +22,7 @@
 #include <math.h>
 #include <config.h>
 #include <gthumb.h>
-#include <extensions/image_viewer/gth-image-viewer-page.h>
+#include <extensions/image_viewer/image-viewer.h>
 #include "cairo-rotate.h"
 #include "enum-types.h"
 #include "gth-file-tool-rotate.h"
@@ -232,22 +232,49 @@ reset_button_clicked_cb (GtkButton         *button,
 }
 
 
+static gpointer
+rotate_exec (GthAsyncTask *task,
+	     gpointer      user_data)
+{
+	GthImageViewerTool *rotator = user_data;
+	cairo_surface_t    *source;
+	cairo_surface_t    *destination;
+
+	source = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	destination = gth_image_rotator_get_result (GTH_IMAGE_ROTATOR (rotator), source, task);
+	gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), destination);
+
+	cairo_surface_destroy (destination);
+	cairo_surface_destroy (source);
+
+	return NULL;
+}
+
+
 static void
 apply_button_clicked_cb (GtkButton         *button,
 			 GthFileToolRotate *self)
 {
-	cairo_surface_t *image;
-	GtkWidget       *window;
-	GtkWidget       *viewer_page;
-
-	image = gth_image_rotator_get_result (GTH_IMAGE_ROTATOR (self->priv->rotator), FALSE);
+	GtkWidget   *window;
+	GtkWidget   *viewer_page;
+	GthTask     *task;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), image, TRUE);
-	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
+	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
+					  _("Applying changes"),
+					  NULL,
+					  rotate_exec,
+					  NULL,
+					  g_object_ref (self->priv->rotator),
+					  g_object_unref);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (gth_image_viewer_task_set_destination),
+			  NULL);
+	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
-	cairo_surface_destroy (image);
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
 
