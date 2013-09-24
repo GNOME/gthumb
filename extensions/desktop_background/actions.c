@@ -138,7 +138,7 @@ get_new_wallpaper_file (WallpaperData *wdata)
 	wallpaper_file = NULL;
 	for (i = 1; i <= 2; i++) {
 		wallpaper_file = get_wallpaper_file_n (i);
-		if ((wdata->old_style.file != NULL) && g_file_equal (wallpaper_file, wdata->old_style.file))
+		if ((wdata->old_style.file == NULL) || ! g_file_equal (wallpaper_file, wdata->old_style.file))
 			break;
 		g_object_unref (wallpaper_file);
 	}
@@ -261,10 +261,11 @@ save_wallpaper_task_completed_cb (GthTask  *task,
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not set the desktop background"), error);
 		wallpaper_data_free (wdata);
-		return;
 	}
+	else
+		wallpaper_data_set (wdata);
 
-	wallpaper_data_set (wdata);
+	_g_object_unref (task);
 }
 
 
@@ -329,7 +330,6 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 
 			saving_wallpaper = TRUE;
 
-			_g_object_unref (task);
 			g_object_unref (image);
 		}
 	}
