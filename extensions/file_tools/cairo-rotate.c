@@ -173,7 +173,8 @@ rotate (cairo_surface_t *image,
 	guchar           r0,
 	guchar           g0,
 	guchar           b0,
-	guchar           a0)
+	guchar           a0,
+	GthAsyncTask    *task)
 {
 	cairo_surface_t *image_with_background;
 	cairo_surface_t *rotated;
@@ -295,6 +296,18 @@ rotate (cairo_surface_t *image,
 
 	y = - half_new_height;
 	for (yi = 0; yi < new_height; yi++) {
+		if (task != NULL) {
+			gboolean cancelled;
+			double   progress;
+
+			gth_async_task_get_data (task, NULL, &cancelled, NULL);
+			if (cancelled)
+				goto out;
+
+			progress = (double) yi / new_height;
+			gth_async_task_set_data (task, NULL, NULL, &progress);
+		}
+
 		p_new2 = p_new;
 
 		x = - half_new_width;
@@ -348,6 +361,8 @@ rotate (cairo_surface_t *image,
 		y += 1.0;
 	}
 
+	out:
+
 	cairo_surface_mark_dirty (rotated);
 	cairo_surface_destroy (image_with_background);
 
@@ -362,7 +377,8 @@ cairo_surface_t *
 _cairo_image_surface_rotate (cairo_surface_t *image,
 		    	     double           angle,
 		    	     gboolean         high_quality,
-		    	     GdkRGBA         *background_color)
+		    	     GdkRGBA         *background_color,
+		    	     GthAsyncTask    *task)
 {
 	cairo_surface_t *rotated;
 	cairo_surface_t *tmp = NULL;
@@ -383,7 +399,8 @@ _cairo_image_surface_rotate (cairo_surface_t *image,
 				  background_color->red * 255.0,
 				  background_color->green * 255.0,
 				  background_color->blue * 255.0,
-				  background_color->alpha * 255.0);
+				  background_color->alpha * 255.0,
+				  task);
 	else
 		rotated = cairo_surface_reference (image);
 
