@@ -404,7 +404,13 @@ horizontal_scale_transpose (cairo_surface_t *image,
 #endif /* HAVE_VECTOR_OPERATIONS */
 
 		if (resize_filter->task != NULL) {
-			double progress = (double) resize_filter->processed_lines++ / resize_filter->total_lines;
+			double progress;
+
+			gth_async_task_get_data (resize_filter->task, NULL, &resize_filter->cancelled, NULL);
+			if (resize_filter->cancelled)
+				goto out;
+
+			progress = (double) resize_filter->processed_lines++ / resize_filter->total_lines;
 			gth_async_task_set_data (resize_filter->task, NULL, NULL, &progress);
 		}
 
@@ -433,12 +439,6 @@ horizontal_scale_transpose (cairo_surface_t *image,
 		p_dest_pixel = p_dest;
 		for (x = 0; x < scaled_width; x++) {
 			guchar *p_src_pixel;
-
-			if (resize_filter->task != NULL) {
-				gth_async_task_get_data (resize_filter->task, NULL, &resize_filter->cancelled, NULL);
-				if (resize_filter->cancelled)
-					goto out;
-			}
 
 			p_src_pixel = p_src_row;
 
