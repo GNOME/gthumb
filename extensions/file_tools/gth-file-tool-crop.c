@@ -421,7 +421,6 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	GtkWidget       *window;
 	GtkWidget       *viewer_page;
 	GtkWidget       *viewer;
-	cairo_surface_t *image;
 	GtkWidget       *options;
 	char            *text;
 
@@ -433,8 +432,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 		return NULL;
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
-	if (image == NULL)
+	if (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer)) == NULL)
 		return NULL;
 
 	gth_image_viewer_get_original_size(GTH_IMAGE_VIEWER (viewer), &self->priv->original_width, &self->priv->original_height);
