@@ -740,7 +740,13 @@ original_image_task_completed_cb (GthTask  *task,
 
 	self->priv->resize_task = NULL;
 
-	if (self->priv->closing || (error != NULL)) {
+	if (self->priv->closing) {
+		g_object_unref (task);
+		gth_file_tool_resize_cancel (GTH_FILE_TOOL (self));
+		return;
+	}
+
+	if (error != NULL) {
 		g_object_unref (task);
 		return;
 	}
