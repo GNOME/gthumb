@@ -38,16 +38,16 @@ G_DEFINE_TYPE (GthFileToolSharpen, gth_file_tool_sharpen, GTH_TYPE_FILE_TOOL)
 
 struct _GthFileToolSharpenPrivate {
 	cairo_surface_t *source;
-	cairo_surface_t *destination;
 	GtkBuilder      *builder;
 	GtkAdjustment   *radius_adj;
 	GtkAdjustment   *amount_adj;
 	GtkAdjustment   *threshold_adj;
 	GtkWidget       *preview;
-	GthTask         *pixbuf_task;
+	GthTask         *image_task;
 	guint            apply_event;
 	gboolean         show_preview;
 	gboolean         first_allocation;
+	gboolean         closing;
 };
 
 
@@ -181,6 +181,7 @@ apply_cb (gpointer user_data)
 	if (self->priv->show_preview) {
 		SharpenData     *sharpen_data;
 		int              x, y, w ,h;
+		cairo_surface_t *destination;
 		cairo_surface_t *preview_surface;
 		cairo_t         *cr;
 
@@ -192,31 +193,30 @@ apply_cb (gpointer user_data)
 		if ((w < 0) || (h < 0))
 			return FALSE;
 
-		cairo_surface_destroy (self->priv->destination);
-		self->priv->destination = _cairo_image_surface_copy (self->priv->source);
-		_cairo_image_surface_copy_metadata (self->priv->source, self->priv->destination);
+		destination = _cairo_image_surface_copy (self->priv->source);
+		_cairo_image_surface_copy_metadata (self->priv->source, destination);
 
 		/* FIXME: use a cairo sub-surface when cairo 1.10 will be requiered */
 
-		preview_surface = _cairo_image_surface_copy_subsurface (self->priv->destination, x, y, w, h);
-		if (preview_surface == NULL)
-			return FALSE;
+		preview_surface = _cairo_image_surface_copy_subsurface (destination, x, y, w, h);
+		if (preview_surface != NULL) {
+			_cairo_image_surface_sharpen (preview_surface,
+						      sharpen_data->radius,
+						      sharpen_data->amount,
+						      sharpen_data->threshold,
+						      NULL);
 
-		_cairo_image_surface_sharpen (preview_surface,
-					      sharpen_data->radius,
-					      sharpen_data->amount,
-					      sharpen_data->threshold,
-					      NULL);
+			cr = cairo_create (destination);
+			cairo_set_source_surface (cr, preview_surface, x, y);
+			cairo_rectangle (cr, x, y, w, h);
+			cairo_fill (cr);
+			cairo_destroy (cr);
+		}
 
-		cr = cairo_create (self->priv->destination);
-		cairo_set_source_surface (cr, preview_surface, x, y);
-		cairo_rectangle (cr, x, y, w, h);
-		cairo_fill (cr);
-		cairo_destroy (cr);
-
-		gth_image_viewer_set_surface (preview, self->priv->destination, -1, -1);
+		gth_image_viewer_set_surface (preview, destination, -1, -1);
 
 		cairo_surface_destroy (preview_surface);
+		cairo_surface_destroy (destination);
 		sharpen_data_free (sharpen_data);
 	}
 	else
@@ -270,30 +270,15 @@ static GtkWidget *
 gth_file_tool_sharpen_get_options (GthFileTool *base)
 {
 	GthFileToolSharpen *self;
-	GtkWidget          *window;
-	GtkWidget          *viewer_page;
-	GtkWidget          *viewer;
 	GtkWidget          *options;
 	GtkWidget          *image_navigator;
 
 	self = (GthFileToolSharpen *) base;
 
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		return NULL;
-
-	cairo_surface_destroy (self->priv->source);
-	cairo_surface_destroy (self->priv->destination);
-
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	self->priv->source = cairo_surface_reference (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer)));
 	if (self->priv->source == NULL)
 		return NULL;
 
-	self->priv->destination = NULL;
 	self->priv->first_allocation = TRUE;
-
 	self->priv->builder = _gtk_builder_new_from_file ("sharpen-options.ui", "file_tools");
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
@@ -379,19 +364,64 @@ gth_file_tool_sharpen_destroy_options (GthFileTool *base)
 		self->priv->apply_event = 0;
 	}
 
-	cairo_surface_destroy (self->priv->source);
-	cairo_surface_destroy (self->priv->destination);
-	_g_object_unref (self->priv->builder);
-	self->priv->source = NULL;
-	self->priv->destination = NULL;
-	self->priv->builder = NULL;
+	_cairo_clear_surface (&self->priv->source);
+	_g_clear_object (&self->priv->builder);
+}
+
+
+static void gth_file_tool_sharpen_cancel (GthFileTool *base);
+
+
+static void
+original_image_task_completed_cb (GthTask  *task,
+				  GError   *error,
+				  gpointer  user_data)
+{
+	GthFileToolSharpen *self = user_data;
+
+	self->priv->image_task = NULL;
+
+	if (self->priv->closing) {
+		g_object_unref (task);
+		gth_file_tool_sharpen_cancel (GTH_FILE_TOOL (self));
+		return;
+	}
+
+	if (error != NULL) {
+		g_object_unref (task);
+		return;
+	}
+
+	self->priv->source = gth_original_image_task_get_image (task);
+	if (self->priv->source != NULL)
+		gth_file_tool_show_options (GTH_FILE_TOOL (self));
+
+	g_object_unref (task);
 }
 
 
 static void
 gth_file_tool_sharpen_activate (GthFileTool *base)
 {
-	gth_file_tool_show_options (base);
+	GthFileToolSharpen *self = (GthFileToolSharpen *) base;
+	GtkWidget          *window;
+	GtkWidget          *viewer_page;
+
+	/* load the original image */
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		return;
+
+	self->priv->image_task = gth_original_image_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	g_signal_connect (self->priv->image_task,
+			  "completed",
+			  G_CALLBACK (original_image_task_completed_cb),
+			  self);
+	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))),
+			       self->priv->image_task,
+			       FALSE);
 }
 
 
@@ -401,6 +431,12 @@ gth_file_tool_sharpen_cancel (GthFileTool *base)
 	GthFileToolSharpen *self = (GthFileToolSharpen *) base;
 	GtkWidget          *window;
 	GtkWidget          *viewer_page;
+
+	if (self->priv->image_task != NULL) {
+		self->priv->closing = TRUE;
+		gth_task_cancel (self->priv->image_task);
+		return;
+	}
 
 	if (self->priv->apply_event != 0) {
 		g_source_remove (self->priv->apply_event);
@@ -424,7 +460,6 @@ gth_file_tool_sharpen_finalize (GObject *object)
 	self = (GthFileToolSharpen *) object;
 
 	cairo_surface_destroy (self->priv->source);
-	cairo_surface_destroy (self->priv->destination);
 	_g_object_unref (self->priv->builder);
 
 	/* Chain up */
@@ -457,9 +492,10 @@ gth_file_tool_sharpen_init (GthFileToolSharpen *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_SHARPEN, GthFileToolSharpenPrivate);
 	self->priv->source = NULL;
-	self->priv->destination = NULL;
 	self->priv->builder = NULL;
 	self->priv->show_preview = TRUE;
+	self->priv->closing = FALSE;
+	self->priv->image_task = NULL;
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-sharpen", _("Enhance Focus..."), _("Enhance Focus"), FALSE);
 }
