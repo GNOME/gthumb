@@ -432,7 +432,7 @@ gth_browser_activate_action_help_about (GtkAction *action,
 	logo = gtk_icon_theme_load_icon (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (window))),
 					 "gthumb",
 					 128,
-					 0,
+					 GTK_ICON_LOOKUP_NO_SVG,
 					 NULL);
 
 	gtk_show_about_dialog (GTK_WINDOW (window),
