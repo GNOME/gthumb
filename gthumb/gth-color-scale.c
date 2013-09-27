@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include "cairo-utils.h"
 #include "gth-color-scale.h"
 #include "gth-enum-types.h"
 
@@ -34,10 +35,15 @@ enum {
 
 
 struct _GthColorScalePrivate {
-	GthColorScaleType  scale_type;
-	cairo_surface_t   *surface;
-	int                width;
-	int                height;
+	GthColorScaleType      scale_type;
+	cairo_surface_t       *surface;
+	int                    width;
+	int                    height;
+	cairo_rectangle_int_t  slider;
+	gboolean               update_slider;
+	gboolean               mouse_on_slider;
+	gboolean               dragging_slider;
+	GtkAdjustment         *adj;
 };
 
 
@@ -53,6 +59,8 @@ gth_color_scale_finalize (GObject *object)
 
 	self = GTH_COLOR_SCALE (object);
 	cairo_surface_destroy (self->priv->surface);
+	if (self->priv->adj != NULL)
+		g_object_unref (self->priv->adj);
 
 	G_OBJECT_CLASS (gth_color_scale_parent_class)->finalize (object);
 }
@@ -71,8 +79,6 @@ gth_color_scale_set_property (GObject      *object,
 	switch (property_id) {
 	case PROP_SCALE_TYPE:
 		self->priv->scale_type = g_value_get_enum (value);
-		if (self->priv->scale_type != GTH_COLOR_SCALE_DEFAULT)
-			gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), _GTK_STYLE_CLASS_COLOR);
 		break;
 	default:
 		break;
@@ -106,13 +112,16 @@ _gth_color_scale_get_surface_size (GthColorScale *self,
 				   int           *x_out,
 				   int           *y_out,
 				   int           *width_out,
-				   int           *height_out)
+				   int           *height_out,
+				   int           *slider_width_out,
+				   int           *slider_length_out,
+				   int           *slider_spacing_out)
 {
 	GtkWidget             *widget = GTK_WIDGET (self);
 	int                    focus_line_width;
 	int                    focus_padding;
 	int                    slider_width;
-	int                    slider_height;
+	int                    slider_length;
 	cairo_rectangle_int_t  bounding_box;
 	cairo_rectangle_int_t  trough_rect;
 
@@ -120,7 +129,7 @@ _gth_color_scale_get_surface_size (GthColorScale *self,
 			      "focus-line-width", &focus_line_width,
 			      "focus-padding", &focus_padding,
 			      "slider-width", &slider_width,
-			      "slider-length", &slider_height,
+			      "slider-length", &slider_length,
 			      NULL);
 
 	bounding_box.width = gtk_widget_get_allocated_width (widget) - 2 * (focus_line_width + focus_padding);
@@ -129,22 +138,25 @@ _gth_color_scale_get_surface_size (GthColorScale *self,
 	bounding_box.y = focus_line_width + focus_padding;
 
 	if (gtk_orientable_get_orientation (GTK_ORIENTABLE (widget)) == GTK_ORIENTATION_HORIZONTAL) {
-		trough_rect.x = bounding_box.x + 1;
-		trough_rect.width = bounding_box.width - 2;
-		trough_rect.height = 3;
-		trough_rect.y = bounding_box.y + ((bounding_box.height - trough_rect.height) / 2);
+		trough_rect.x = bounding_box.x;
+		trough_rect.width = bounding_box.width;
+		trough_rect.height = bounding_box.height / 2;
+		trough_rect.y = bounding_box.y;
 	}
 	else {
-		trough_rect.y = bounding_box.y + 1;
-		trough_rect.height = bounding_box.height - 2;
-		trough_rect.width = 3;
-		trough_rect.x = bounding_box.x + ((bounding_box.width - trough_rect.width) / 2);
+		trough_rect.y = bounding_box.y;
+		trough_rect.height = bounding_box.height;
+		trough_rect.width = bounding_box.width / 2;
+		trough_rect.x = bounding_box.x;
 	}
 
 	if (x_out) *x_out = trough_rect.x;
 	if (y_out) *y_out = trough_rect.y;
 	if (width_out) *width_out = trough_rect.width;
 	if (height_out) *height_out = trough_rect.height;
+	if (slider_width_out) *slider_width_out = slider_width;
+	if (slider_length_out) *slider_length_out = slider_length;
+	if (slider_spacing_out) *slider_spacing_out = focus_line_width + focus_padding;
 }
 
 
@@ -162,7 +174,7 @@ _gth_color_scale_update_surface (GthColorScale *self)
 	if (self->priv->scale_type == GTH_COLOR_SCALE_DEFAULT)
 		return;
 
-	_gth_color_scale_get_surface_size (self, NULL, NULL, &width, &height);
+	_gth_color_scale_get_surface_size (self, NULL, NULL, &width, &height, NULL, NULL, NULL);
 
 	if ((self->priv->surface != NULL)
 	    && (self->priv->width == width)
@@ -228,6 +240,38 @@ _gth_color_scale_update_surface (GthColorScale *self)
 }
 
 
+static void
+_gth_color_scale_update_slider_position (GthColorScale *self)
+{
+	int focus_line_width;
+	int focus_padding;
+	int slider_width;
+	int slider_length;
+	int slider_start;
+	int slider_end;
+
+	if (! self->priv->update_slider)
+		return;
+
+	gtk_widget_style_get (GTK_WIDGET (self),
+			      "focus-line-width", &focus_line_width,
+			      "focus-padding", &focus_padding,
+			      "slider-width", &slider_width,
+			      "slider-length", &slider_length,
+			      NULL);
+	gtk_range_get_slider_range (GTK_RANGE (self), &slider_start, &slider_end);
+
+	if (gtk_orientable_get_orientation (GTK_ORIENTABLE (self)) == GTK_ORIENTATION_HORIZONTAL) {
+		self->priv->slider.x = slider_start;
+		self->priv->slider.y = focus_line_width + focus_padding;
+		self->priv->slider.width = slider_length;
+		self->priv->slider.height = slider_width;
+	}
+
+	self->priv->update_slider = FALSE;
+}
+
+
 static gboolean
 gth_color_scale_draw (GtkWidget *widget,
 		      cairo_t   *cr)
@@ -235,6 +279,16 @@ gth_color_scale_draw (GtkWidget *widget,
 	GthColorScale         *self;
 	cairo_rectangle_int_t  surface_rect;
 	cairo_pattern_t       *pattern;
+	GtkStyleContext       *context;
+	GtkOrientation         orientation;
+	GdkRectangle           range_rect;
+	int                    slider_width;
+	int                    slider_length;
+	int                    slider_start;
+	int                    slider_end;
+	int                    slider_spacing;
+	GtkStateFlags          widget_state;
+	GtkStateFlags          slider_state;
 
 	self = GTH_COLOR_SCALE (widget);
 
@@ -243,18 +297,29 @@ gth_color_scale_draw (GtkWidget *widget,
 		return FALSE;
 	}
 
+	context = gtk_widget_get_style_context (widget);
+	orientation = gtk_orientable_get_orientation (GTK_ORIENTABLE (widget));
+	widget_state = gtk_widget_get_state_flags (widget);
+	gtk_range_get_range_rect (GTK_RANGE (self), &range_rect);
+	gtk_range_get_slider_range (GTK_RANGE (self), &slider_start, &slider_end);
+
+	/* background */
+
 	_gth_color_scale_update_surface (self);
 	_gth_color_scale_get_surface_size (self,
 					   &surface_rect.x,
 					   &surface_rect.y,
 					   &surface_rect.width,
-					   &surface_rect.height);
+					   &surface_rect.height,
+					   &slider_width,
+					   &slider_length,
+					   &slider_spacing);
 
 	cairo_save (cr);
 	cairo_translate (cr, surface_rect.x, surface_rect.y);
-	cairo_rectangle (cr, 0, 0, surface_rect.width, surface_rect.height);
 	pattern = cairo_pattern_create_for_surface (self->priv->surface);
-	if ((gtk_orientable_get_orientation (GTK_ORIENTABLE (widget)) == GTK_ORIENTATION_HORIZONTAL)
+	cairo_rectangle (cr, 0.0, 0.0, surface_rect.width, surface_rect.height);
+	if ((orientation == GTK_ORIENTATION_HORIZONTAL)
 	    && (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL))
 	{
 		cairo_matrix_t matrix;
@@ -265,13 +330,93 @@ gth_color_scale_draw (GtkWidget *widget,
 	}
 	cairo_set_source (cr, pattern);
 	cairo_fill (cr);
+	cairo_pattern_destroy (pattern);
 	cairo_restore (cr);
 
-	cairo_pattern_destroy (pattern);
+	/* focus */
 
-	GTK_WIDGET_CLASS (gth_color_scale_parent_class)->draw (widget, cr);
+	if (! (widget_state & GTK_STATE_FLAG_INSENSITIVE) && gtk_widget_has_visible_focus (widget))
+	          gtk_render_focus (context, cr,
+	                            range_rect.x,
+	                            range_rect.y,
+	                            range_rect.width,
+	                            range_rect.height);
+
+	/* slider */
+
+	slider_state = widget_state;
+	slider_state &= ~(GTK_STATE_FLAG_PRELIGHT | GTK_STATE_FLAG_ACTIVE);
+	if (self->priv->mouse_on_slider && ! (slider_state & GTK_STATE_FLAG_INSENSITIVE))
+		slider_state |= GTK_STATE_FLAG_PRELIGHT;
+	if (self->priv->dragging_slider)
+		slider_state |= GTK_STATE_FLAG_ACTIVE;
+
+	_gth_color_scale_update_slider_position (self);
+
+	gtk_style_context_save (context);
+	gtk_style_context_add_class (context, GTK_STYLE_CLASS_SLIDER);
+	gtk_style_context_set_state (context, slider_state);
+	gtk_render_slider (context,
+			   cr,
+			   self->priv->slider.x,
+			   self->priv->slider.y,
+			   self->priv->slider.width,
+			   self->priv->slider.height,
+			   orientation);
+	gtk_style_context_restore (context);
 
 	return FALSE;
+}
+
+
+static gboolean
+gth_color_scale_motion_notify_event (GtkWidget      *widget,
+				     GdkEventMotion *event)
+{
+	GthColorScale *self = GTH_COLOR_SCALE (widget);
+
+	GTK_WIDGET_CLASS (gth_color_scale_parent_class)->motion_notify_event (widget, event);
+	_gth_color_scale_update_slider_position (self);
+	self->priv->mouse_on_slider = _cairo_rectangle_contains_point (&self->priv->slider, event->x, event->y);
+
+	return FALSE;
+}
+
+
+static gboolean
+gth_color_scale_button_press_event (GtkWidget      *widget,
+				    GdkEventButton *event)
+{
+	GthColorScale *self = GTH_COLOR_SCALE (widget);
+
+	GTK_WIDGET_CLASS (gth_color_scale_parent_class)->button_press_event (widget, event);
+	self->priv->dragging_slider = self->priv->mouse_on_slider;
+
+	return FALSE;
+}
+
+
+static gboolean
+gth_color_scale_button_release_event (GtkWidget      *widget,
+				      GdkEventButton *event)
+{
+	GthColorScale *self = GTH_COLOR_SCALE (widget);
+
+	GTK_WIDGET_CLASS (gth_color_scale_parent_class)->button_release_event (widget, event);
+	self->priv->dragging_slider = FALSE;
+
+	return FALSE;
+}
+
+
+static void
+gth_color_scale_size_allocate (GtkWidget     *widget,
+			       GtkAllocation *allocation)
+{
+	GthColorScale *self = GTH_COLOR_SCALE (widget);
+
+	GTK_WIDGET_CLASS (gth_color_scale_parent_class)->size_allocate (widget, allocation);
+	self->priv->update_slider = TRUE;
 }
 
 
@@ -290,6 +435,10 @@ gth_color_scale_class_init (GthColorScaleClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->draw = gth_color_scale_draw;
+	widget_class->motion_notify_event = gth_color_scale_motion_notify_event;
+	widget_class->button_press_event = gth_color_scale_button_press_event;
+	widget_class->button_release_event = gth_color_scale_button_release_event;
+	widget_class->size_allocate = gth_color_scale_size_allocate;
 
 	g_object_class_install_property (object_class,
 					 PROP_SCALE_TYPE,
@@ -303,12 +452,77 @@ gth_color_scale_class_init (GthColorScaleClass *class)
 
 
 static void
+adjustment_changed_cb (GtkRange *range,
+		       gpointer  user_data)
+{
+	GthColorScale *self = user_data;
+	self->priv->update_slider = TRUE;
+}
+
+
+static void
+notify_adjustment_cb (GObject    *gobject,
+		      GParamSpec *pspec,
+		      gpointer    user_data)
+{
+	GthColorScale *self = user_data;
+	GtkAdjustment *adj;
+
+	if (self->priv->adj != NULL) {
+		g_signal_handlers_disconnect_by_data (self->priv->adj, self);
+		g_object_unref (self->priv->adj);
+		self->priv->adj = NULL;
+	}
+
+	adj = gtk_range_get_adjustment (GTK_RANGE (self));
+	if (adj == NULL)
+		return;
+
+	self->priv->adj = g_object_ref (adj);
+
+	g_signal_connect (self->priv->adj,
+			  "value-changed",
+			  G_CALLBACK (adjustment_changed_cb),
+			  self);
+	g_signal_connect (self->priv->adj,
+			  "changed",
+			  G_CALLBACK (adjustment_changed_cb),
+			  self);
+}
+
+
+static void
 gth_color_scale_init (GthColorScale *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_COLOR_SCALE, GthColorScalePrivate);
 	self->priv->surface = NULL;
 	self->priv->width = -1;
 	self->priv->height = -1;
+	self->priv->slider.x = 0;
+	self->priv->slider.y = 0;
+	self->priv->slider.width = 0;
+	self->priv->slider.height = 0;
+	self->priv->update_slider = TRUE;
+	self->priv->adj = NULL;
+
+	g_signal_connect (self,
+			  "notify::adjustment",
+			  G_CALLBACK (notify_adjustment_cb),
+			  self);
+
+	if (gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL)
+		gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)),
+					     GTK_STYLE_CLASS_SCALE_HAS_MARKS_BELOW);
+	else
+		gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)),
+					     GTK_STYLE_CLASS_SCALE_HAS_MARKS_ABOVE);
+
+	if (gtk_orientable_get_orientation (GTK_ORIENTABLE (self)) == GTK_ORIENTATION_HORIZONTAL)
+		gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)),
+					     GTK_STYLE_CLASS_HORIZONTAL);
+	else
+		gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)),
+					     GTK_STYLE_CLASS_VERTICAL);
 }
 
 
