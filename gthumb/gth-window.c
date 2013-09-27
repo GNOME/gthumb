@@ -324,6 +324,7 @@ gth_window_attach (GthWindow     *window,
 		return;
 	}
 
+	gtk_widget_set_vexpand (child, FALSE);
 	gtk_grid_attach (GTK_GRID (window->priv->grid),
 			  child,
 			  0, position,
@@ -362,6 +363,7 @@ gth_window_attach_content (GthWindow *window,
 
 	_gtk_container_remove_children (GTK_CONTAINER (window->priv->contents[page]), NULL, NULL);
 	gtk_widget_set_hexpand (child, TRUE);
+	gtk_widget_set_vexpand (child, TRUE);
 	gtk_container_add (GTK_CONTAINER (window->priv->contents[page]), child);
 }
 
