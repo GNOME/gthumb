@@ -5,6 +5,7 @@ context = actions
 iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 				\
+	browser-mode.png		\
 	zoom-fit-height.png		\
 	zoom-fit-width.png
 
