@@ -27,6 +27,9 @@
 #include "preferences.h"
 
 
+#define UPDATE_QUALITY_DELAY 200
+
+
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
 
 
@@ -48,12 +51,11 @@ struct _GthImageViewerPagePrivate {
 	guint              browser_merge_id;
 	GthImageHistory   *history;
 	GthFileData       *file_data;
-	guint              hide_mouse_timeout;
-	guint              motion_signal;
 	gboolean           image_changed;
 	gboolean           loading_image;
 	GFile             *last_loaded;
 	gboolean           can_paste;
+	guint              update_quality_event;
 };
 
 
@@ -292,18 +294,24 @@ clear_data:
 }
 
 
-static void
-update_image_quality_if_required (GthImageViewerPage *self)
+static gboolean
+update_quality_cb (gpointer user_data)
 {
-	GthFileData *file_data;
-	double       zoom;
+	GthImageViewerPage *self = user_data;
+	GthFileData        *file_data;
+	double              zoom;
+
+	if (self->priv->update_quality_event != 0) {
+		g_source_remove (self->priv->update_quality_event);
+		self->priv->update_quality_event = 0;
+	}
 
 	if (self->priv->loading_image)
-		return;
+		return FALSE;
 
 	file_data = self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data;
-
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
+
 	if (zoom >= 1.0) {
 		int requested_size;
 		int original_width;
@@ -341,6 +349,26 @@ update_image_quality_if_required (GthImageViewerPage *self)
 						  NULL);
 		}
 	}
+
+
+	return FALSE;
+}
+
+
+static void
+update_image_quality_if_required (GthImageViewerPage *self)
+{
+	if (self->priv->loading_image)
+		return;
+
+	if (self->priv->update_quality_event != 0) {
+		g_source_remove (self->priv->update_quality_event);
+		self->priv->update_quality_event = 0;
+	}
+
+	self->priv->update_quality_event = g_timeout_add (UPDATE_QUALITY_DELAY,
+							  update_quality_cb,
+							  self);
 }
 
 
@@ -1491,6 +1519,10 @@ gth_image_viewer_page_finalize (GObject *obj)
 
 	self = GTH_IMAGE_VIEWER_PAGE (obj);
 
+	if (self->priv->update_quality_event != 0) {
+		g_source_remove (self->priv->update_quality_event);
+		self->priv->update_quality_event = 0;
+	}
 	g_object_unref (self->priv->settings);
 	g_object_unref (self->priv->history);
 	_g_object_unref (self->priv->file_data);
@@ -1544,6 +1576,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->can_paste = FALSE;
 	self->priv->viewer_merge_id = 0;
 	self->priv->browser_merge_id = 0;
+	self->priv->update_quality_event = 0;
 }
 
 
