@@ -119,6 +119,7 @@ image_loader_ready_cb (GObject      *source_object,
 				      &image,
 				      NULL,
 				      NULL,
+				      NULL,
 				      &error);
 
 	if (error == NULL)

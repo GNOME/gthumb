@@ -954,6 +954,7 @@ _cairo_image_surface_create_from_xcf (GInputStream  *istream,
 				      int            requested_size,
 				      int           *original_width,
 				      int           *original_height,
+				      gboolean      *loaded_original,
 				      gpointer       user_data,
 				      GCancellable  *cancellable,
 				      GError       **error)

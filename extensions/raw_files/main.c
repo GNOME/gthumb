@@ -97,6 +97,7 @@ _libraw_read_jpeg_data (void           *buffer,
 			     NULL,
 			     NULL,
 			     NULL,
+			     NULL,
 			     cancellable,
 			     error);
 
@@ -226,6 +227,7 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 				      int            requested_size,
 				      int           *original_width,
 				      int           *original_height,
+				      gboolean      *loaded_original,
 				      gpointer       user_data,
 				      GCancellable  *cancellable,
 				      GError       **error)
@@ -267,6 +269,9 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 #if RAW_USE_EMBEDDED_THUMBNAIL
 
 	if (requested_size > 0) {
+
+		if (loaded_original != NULL)
+			*loaded_original = FALSE;
 
 		/* read the thumbnail */
 
@@ -464,6 +469,7 @@ dcraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 					int            requested_size,
 					int           *original_width,
 					int           *original_height,
+					gboolean      *loaded_original,
 					gpointer       user_data,
 					GCancellable  *cancellable,
 					GError       **error)

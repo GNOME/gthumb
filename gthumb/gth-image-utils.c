@@ -145,6 +145,7 @@ _g_buffer_resize_image (void          *buffer,
 			     &width,
 			     &height,
 			     NULL,
+			     NULL,
 			     cancellable,
 			     error);
 	if (image == NULL) {

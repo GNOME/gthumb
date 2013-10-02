@@ -119,6 +119,7 @@ generate_thumbnail (GInputStream  *istream,
 		    int            requested_size,
 		    int           *original_width,
 		    int           *original_height,
+		    gboolean      *loaded_original,
 		    gpointer       user_data,
 		    GCancellable  *cancellable,
 		    GError       **error)
@@ -187,6 +188,7 @@ generate_thumbnail (GInputStream  *istream,
 					     original_width,
 					     original_height,
 					     NULL,
+					     NULL,
 					     cancellable,
 					     error);
 	}
@@ -206,6 +208,7 @@ load_cached_thumbnail (GInputStream  *istream,
 		       int            requested_size,
 		       int           *original_width,
 		       int           *original_height,
+		       gboolean      *loaded_original,
 		       gpointer       user_data,
 		       GCancellable  *cancellable,
 		       GError       **error)
@@ -441,6 +444,7 @@ cache_image_ready_cb (GObject      *source_object,
 	if (! gth_image_loader_load_finish (GTH_IMAGE_LOADER (source_object),
 					    res,
 					    &image,
+					    NULL,
 					    NULL,
 					    NULL,
 					    NULL))
@@ -757,6 +761,7 @@ original_image_ready_cb (GObject      *source_object,
 					    &image,
 					    &original_width,
 					    &original_height,
+					    NULL,
 					    &error))
 	{
 		/* error loading the original image, try with the system

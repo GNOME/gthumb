@@ -26,6 +26,7 @@
 #include "cairo-utils.h"
 #include "cairo-scale.h"
 #include "gfixed.h"
+#include "glib-utils.h"
 
 
 #define CLAMP_PIXEL(v) (((v) <= 0) ? 0  : ((v) >= 255) ? 255 : (v));
@@ -503,13 +504,14 @@ _cairo_image_surface_scale (cairo_surface_t  *image,
 			    scale_filter_t    filter,
 			    GthAsyncTask     *task)
 {
-	int              src_width;
-	int              src_height;
-	cairo_surface_t *scaled;
-	resize_filter_t *resize_filter;
-	ScaleReal        x_factor;
-	ScaleReal        y_factor;
-	cairo_surface_t *tmp;
+	int                       src_width;
+	int                       src_height;
+	cairo_surface_t          *scaled;
+	cairo_surface_metadata_t *metadata;
+	resize_filter_t          *resize_filter;
+	ScaleReal                 x_factor;
+	ScaleReal                 y_factor;
+	cairo_surface_t          *tmp;
 
 	src_width = cairo_image_surface_get_width (image);
 	src_height = cairo_image_surface_get_height (image);
@@ -520,6 +522,10 @@ _cairo_image_surface_scale (cairo_surface_t  *image,
 	scaled = _cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
 					      scaled_width,
 					      scaled_height);
+	metadata = _cairo_image_surface_get_metadata (scaled);
+	metadata->original_width = src_width;
+	metadata->original_height = src_height;
+
 	if (scaled == NULL)
 		return NULL;
 
@@ -904,4 +910,116 @@ _cairo_image_surface_scale_bilinear (cairo_surface_t *image,
 	cairo_surface_destroy (tmp);
 
 	return tmp2;
+}
+
+
+/* -- _cairo_image_surface_scale_async -- */
+
+
+typedef struct {
+	cairo_surface_t *original;
+	int		 new_width;
+	int		 new_height;
+	scale_filter_t   quality;
+	cairo_surface_t *scaled;
+	GthTask         *task;
+} ScaleData;
+
+
+static ScaleData *
+scale_data_new (cairo_surface_t	 *image,
+		int		  new_width,
+		int		  new_height,
+		scale_filter_t    quality,
+		GCancellable     *cancellable)
+{
+	ScaleData *scale_data;
+
+	scale_data = g_new0 (ScaleData, 1);
+	scale_data->original = cairo_surface_reference (image);
+	scale_data->new_width = new_width;
+	scale_data->new_height = new_height;
+	scale_data->quality = quality;
+	scale_data->scaled = NULL;
+	scale_data->task = gth_async_task_new (NULL, NULL, NULL, NULL, NULL);
+	gth_task_set_cancellable (scale_data->task, cancellable);
+
+	return scale_data;
+}
+
+
+static void
+scale_data_free (ScaleData *scale_data)
+{
+	_g_object_unref (scale_data->task);
+	cairo_surface_destroy (scale_data->scaled);
+	cairo_surface_destroy (scale_data->original);
+	g_free (scale_data);
+}
+
+
+static void
+scale_image_thread (GSimpleAsyncResult *result,
+		    GObject            *object,
+		    GCancellable       *cancellable)
+{
+	ScaleData *scale_data;
+
+	scale_data = g_simple_async_result_get_op_res_gpointer (result);
+	scale_data->scaled = _cairo_image_surface_scale (scale_data->original,
+							 scale_data->new_width,
+							 scale_data->new_height,
+							 scale_data->quality,
+							 GTH_ASYNC_TASK (scale_data->task));
+}
+
+
+void
+_cairo_image_surface_scale_async (cairo_surface_t 	 *image,
+				  int		 	  new_width,
+				  int		  	  new_height,
+				  scale_filter_t   	  quality,
+				  GCancellable    	 *cancellable,
+				  GAsyncReadyCallback	  ready_callback,
+				  gpointer		  user_data)
+{
+	GSimpleAsyncResult *result;
+
+	result = g_simple_async_result_new (NULL,
+					    ready_callback,
+					    user_data,
+					    _cairo_image_surface_scale_async);
+	g_simple_async_result_set_op_res_gpointer (result,
+						   scale_data_new (image,
+								   new_width,
+								   new_height,
+								   quality,
+								   cancellable),
+						   (GDestroyNotify) scale_data_free);
+	g_simple_async_result_run_in_thread (result,
+					     scale_image_thread,
+					     G_PRIORITY_DEFAULT,
+					     cancellable);
+
+	g_object_unref (result);
+}
+
+
+cairo_surface_t *
+_cairo_image_surface_scale_finish (GAsyncResult	 *result,
+				   GError	**error)
+{
+	  GSimpleAsyncResult *simple;
+	  ScaleData          *scale_data;
+
+	  g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, _cairo_image_surface_scale_async), NULL);
+
+	  simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	  if (g_simple_async_result_propagate_error (simple, error))
+		  return NULL;
+
+	  scale_data = g_simple_async_result_get_op_res_gpointer (simple);
+
+	  return cairo_surface_reference (scale_data->scaled);
 }

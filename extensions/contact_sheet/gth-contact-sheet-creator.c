@@ -933,6 +933,7 @@ image_loader_ready_cb (GObject      *source_object,
 					    &image,
 					    &original_width,
 					    &original_height,
+					    NULL,
 					    &error))
 	{
 		gth_task_completed (GTH_TASK (self), error);

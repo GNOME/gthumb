@@ -2569,6 +2569,7 @@ image_loader_ready_cb (GObject      *source_object,
 					    &image,
 					    NULL,
 					    NULL,
+					    NULL,
 					    NULL))
 	{
 		load_next_file (self);

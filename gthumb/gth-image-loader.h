@@ -69,6 +69,7 @@ gboolean          gth_image_loader_load_finish            (GthImageLoader       
 							   GthImage            **image,
 							   int                  *original_width,
 							   int                  *original_height,
+							   gboolean             *loaded_original,
 							   GError              **error);
 GthImage *        gth_image_new_from_stream               (GInputStream         *istream,
 							   int                   requested_size,

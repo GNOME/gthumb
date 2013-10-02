@@ -214,6 +214,30 @@ gth_task_init (GthTask *self)
 }
 
 
+void
+gth_task_exec (GthTask      *task,
+	       GCancellable *cancellable)
+{
+	if (task->priv->running)
+		return;
+
+	gth_task_set_cancellable (task, cancellable);
+
+	if (task->priv->description != NULL)
+		gth_task_progress (task, task->priv->description, NULL, TRUE, 0.0);
+
+	task->priv->running = TRUE;
+	GTH_TASK_GET_CLASS (task)->exec (task);
+}
+
+
+gboolean
+gth_task_is_running (GthTask *task)
+{
+	return task->priv->running;
+}
+
+
 static void
 cancellable_cancelled_cb (GCancellable *cancellable,
 			  gpointer      user_data)
@@ -225,8 +249,18 @@ cancellable_cancelled_cb (GCancellable *cancellable,
 
 
 void
-gth_task_exec (GthTask      *task,
-	       GCancellable *cancellable)
+gth_task_cancel (GthTask *task)
+{
+	if (task->priv->cancellable != NULL)
+		g_cancellable_cancel (task->priv->cancellable);
+	else
+		cancellable_cancelled_cb (NULL, task);
+}
+
+
+void
+gth_task_set_cancellable (GthTask      *task,
+			  GCancellable *cancellable)
 {
 	if (task->priv->running)
 		return;
@@ -244,29 +278,6 @@ gth_task_exec (GthTask      *task,
 								   G_CALLBACK (cancellable_cancelled_cb),
 							           task,
 							           NULL);
-
-	if (task->priv->description != NULL)
-		gth_task_progress (task, task->priv->description, NULL, TRUE, 0.0);
-
-	task->priv->running = TRUE;
-	GTH_TASK_GET_CLASS (task)->exec (task);
-}
-
-
-gboolean
-gth_task_is_running (GthTask *task)
-{
-	return task->priv->running;
-}
-
-
-void
-gth_task_cancel (GthTask *task)
-{
-	if (task->priv->cancellable != NULL)
-		g_cancellable_cancel (task->priv->cancellable);
-	else
-		cancellable_cancelled_cb (NULL, task);
 }
 
 

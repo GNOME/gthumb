@@ -267,7 +267,7 @@ different_quality_ready_cb (GObject		*source_object,
 		return;
 	}
 
-	if (! _g_file_equal (requested->file, self->priv->file_data->file))
+	if (! (self->priv->image_changed && requested == NULL) && ! _g_file_equal (requested->file, self->priv->file_data->file))
 		goto clear_data;
 
 	if (image == NULL)
@@ -295,10 +295,13 @@ clear_data:
 static void
 update_image_quality_if_required (GthImageViewerPage *self)
 {
-	double zoom;
+	GthFileData *file_data;
+	double       zoom;
 
-	if (self->priv->image_changed || self->priv->loading_image)
+	if (self->priv->loading_image)
 		return;
+
+	file_data = self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data;
 
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
 	if (zoom >= 1.0) {
@@ -312,7 +315,7 @@ update_image_quality_if_required (GthImageViewerPage *self)
 						    &original_height);
 		if ((requested_size > 0) && (MAX (original_width, original_height) > requested_size)) {
 			gth_image_preloader_load (self->priv->preloader,
-						  self->priv->file_data,
+						  file_data,
 						  GTH_ORIGINAL_SIZE,
 						  NULL,
 						  different_quality_ready_cb,
@@ -329,7 +332,7 @@ update_image_quality_if_required (GthImageViewerPage *self)
 		new_requested_size = _gth_image_preloader_get_requested_size (self);
 		if (old_requested_size != new_requested_size) {
 			gth_image_preloader_load (self->priv->preloader,
-						  self->priv->file_data,
+						  file_data,
 						  new_requested_size,
 						  NULL,
 						  different_quality_ready_cb,
@@ -1395,6 +1398,8 @@ _gth_image_viewer_page_set_image (GthImageViewerPage *self,
 	if (image == NULL)
 		return;
 
+	if (requested_size == -1)
+		gth_image_preloader_set_modified_image (self->priv->preloader, image);
 	gth_image_viewer_set_surface (GTH_IMAGE_VIEWER (self->priv->viewer), image, -1, -1);
 	gth_image_viewer_set_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer), requested_size);
 

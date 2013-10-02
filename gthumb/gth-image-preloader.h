@@ -27,6 +27,7 @@
 
 #define GTH_ORIGINAL_SIZE -1
 #define GTH_NO_PRELOADERS 0
+#define GTH_MODIFIED_IMAGE NULL
 
 #define GTH_TYPE_IMAGE_PRELOADER            (gth_image_preloader_get_type ())
 #define GTH_IMAGE_PRELOADER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_IMAGE_PRELOADER, GthImagePreloader))
@@ -48,23 +49,25 @@ struct _GthImagePreloaderClass {
 	GObjectClass __parent_class;
 };
 
-GType               gth_image_preloader_get_type         (void) G_GNUC_CONST;
-GthImagePreloader * gth_image_preloader_new              (void);
-void                gth_image_preloader_load             (GthImagePreloader		 *self,
-						          GthFileData			 *requested,
-						          int				  requested_size,
-						          GCancellable			 *cancellable,
-						          GAsyncReadyCallback		  callback,
-						          gpointer			  user_data,
-						          int				  n_files,
-						          ...);
-gboolean            gth_image_preloader_load_finish      (GthImagePreloader		 *self,
-							  GAsyncResult			 *result,
-							  GthFileData			**requested,
-							  GthImage			**image,
-							  int				 *requested_size,
-							  int				 *original_width,
-							  int				 *original_height,
-							  GError			**error);
+GType               gth_image_preloader_get_type		 (void) G_GNUC_CONST;
+GthImagePreloader * gth_image_preloader_new			 (void);
+void                gth_image_preloader_load			 (GthImagePreloader		 *self,
+								  GthFileData			 *requested,
+								  int				  requested_size,
+								  GCancellable			 *cancellable,
+								  GAsyncReadyCallback		  callback,
+								  gpointer			  user_data,
+								  int				  n_files,
+								  ...);
+gboolean            gth_image_preloader_load_finish    		 (GthImagePreloader		 *self,
+							  	  GAsyncResult			 *result,
+							  	  GthFileData			**requested,
+							  	  GthImage			**image,
+							  	  int				 *requested_size,
+							  	  int				 *original_width,
+							  	  int				 *original_height,
+							  	  GError			**error);
+void                gth_image_preloader_set_modified_image	 (GthImagePreloader		 *self,
+								  cairo_surface_t		 *image);
 
 #endif /* GTH_IMAGE_PRELOADER_H */

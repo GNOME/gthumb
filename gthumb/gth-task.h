@@ -81,6 +81,8 @@ void            gth_task_exec            (GthTask      *task,
 					  GCancellable *cancellable);
 gboolean        gth_task_is_running      (GthTask      *task);
 void            gth_task_cancel          (GthTask      *task);
+void	 	gth_task_set_cancellable (GthTask      *task,
+					  GCancellable *cancellable);
 GCancellable *  gth_task_get_cancellable (GthTask      *task);
 void            gth_task_completed       (GthTask      *task,
 					  GError       *error);

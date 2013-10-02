@@ -149,6 +149,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 				       int            requested_size,
 				       int           *original_width_p,
 				       int           *original_height_p,
+				       gboolean      *loaded_original_p,
 				       gpointer       user_data,
 				       GCancellable  *cancellable,
 				       GError       **error)
@@ -536,6 +537,8 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 			*original_width_p = original_width;
 		if (original_height_p != NULL)
 			*original_height_p = original_height;
+		if (loaded_original_p != NULL)
+			*loaded_original_p = ! load_scaled;
 
 		jpeg_finish_decompress (&srcinfo);
 		jpeg_destroy_decompress (&srcinfo);

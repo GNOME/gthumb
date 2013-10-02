@@ -113,6 +113,7 @@ typedef struct {
 	GthImage     *image;
 	int           original_width;
 	int           original_height;
+	gboolean      loaded_original;
 } LoadData;
 
 
@@ -127,6 +128,7 @@ load_data_new (GthFileData  *file_data,
 	load_data->file_data = _g_object_ref (file_data);
 	load_data->requested_size = requested_size;
 	load_data->cancellable = _g_object_ref (cancellable);
+	load_data->loaded_original = TRUE;
 
 	return load_data;
 }
@@ -143,14 +145,15 @@ load_data_unref (LoadData *load_data)
 
 
 static void
-load_pixbuf_thread (GSimpleAsyncResult *result,
-		    GObject            *object,
-		    GCancellable       *cancellable)
+load_image_thread (GSimpleAsyncResult *result,
+		   GObject            *object,
+		   GCancellable       *cancellable)
 {
 	GthImageLoader *self = GTH_IMAGE_LOADER (object);
 	LoadData       *load_data;
 	int             original_width;
 	int             original_height;
+	gboolean        loaded_original;
 	GInputStream   *istream;
 	GthImage       *image = NULL;
 	GError         *error = NULL;
@@ -166,12 +169,15 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 		return;
 	}
 
+	loaded_original = TRUE;
+
 	if (self->priv->loader_func != NULL) {
 		image = (*self->priv->loader_func) (istream,
 						    load_data->file_data,
 						    load_data->requested_size,
 						    &original_width,
 						    &original_height,
+						    &loaded_original,
 						    self->priv->loader_data,
 						    cancellable,
 						    &error);
@@ -190,6 +196,7 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 					     load_data->requested_size,
 					     &original_width,
 					     &original_height,
+					     &loaded_original,
 					     NULL,
 					     cancellable,
 					     &error);
@@ -214,6 +221,7 @@ load_pixbuf_thread (GSimpleAsyncResult *result,
 	load_data->image = image;
 	load_data->original_width = original_width;
 	load_data->original_height = original_height;
+	load_data->loaded_original = loaded_original;
 }
 
 
@@ -238,7 +246,7 @@ gth_image_loader_load (GthImageLoader      *loader,
 								  cancellable),
 						   (GDestroyNotify) load_data_unref);
 	g_simple_async_result_run_in_thread (result,
-					     load_pixbuf_thread,
+					     load_image_thread,
 					     io_priority,
 					     cancellable);
 
@@ -252,6 +260,7 @@ gth_image_loader_load_finish (GthImageLoader   *loader,
 			      GthImage        **image,
 			      int              *original_width,
 			      int              *original_height,
+			      gboolean         *loaded_original,
 			      GError         **error)
 {
 	  GSimpleAsyncResult *simple;
@@ -271,6 +280,8 @@ gth_image_loader_load_finish (GthImageLoader   *loader,
 	  	  *original_width = load_data->original_width;
 	  if (original_height != NULL)
 	  	  *original_height = load_data->original_height;
+	  if (loaded_original != NULL)
+	  	  *loaded_original = load_data->loaded_original;
 
 	  return TRUE;
 }
@@ -300,6 +311,7 @@ gth_image_new_from_stream (GInputStream  *istream,
 					     requested_size,
 					     &original_width,
 					     &original_height,
+					     NULL,
 					     NULL,
 					     cancellable,
 					     &error);

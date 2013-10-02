@@ -23,8 +23,11 @@
 #include <config.h>
 #include <string.h>
 #include <glib.h>
+#include "cairo-scale.h"
+#include "cairo-utils.h"
 #include "glib-utils.h"
 #include "gth-image-preloader.h"
+#include "gth-image-utils.h"
 #include "gth-marshal.h"
 
 
@@ -121,15 +124,51 @@ cache_data_unref (CacheData *cache_data)
 }
 
 
+static inline gboolean
+cache_data_file_matches (CacheData   *cache_data,
+			 GthFileData *file_data)
+{
+	if ((file_data == GTH_MODIFIED_IMAGE) && (cache_data->file_data == GTH_MODIFIED_IMAGE))
+		return TRUE;
+
+	if ((file_data == GTH_MODIFIED_IMAGE) || (cache_data->file_data == GTH_MODIFIED_IMAGE))
+		return FALSE;
+
+	if (g_file_equal (cache_data->file_data->file, file_data->file)
+            && (_g_time_val_cmp (gth_file_data_get_modification_time (file_data),
+        		         gth_file_data_get_modification_time (cache_data->file_data)) == 0))
+	{
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
 static gboolean
 cache_data_is_valid_for_request (CacheData   *cache_data,
 				 GthFileData *file_data,
 				 int          requested_size)
 {
-	return ((cache_data->requested_size == requested_size)
-	        && g_file_equal (cache_data->file_data->file, file_data->file)
-	        && (_g_time_val_cmp (gth_file_data_get_modification_time (file_data),
-	        		     gth_file_data_get_modification_time (cache_data->file_data)) == 0));
+	if (! cache_data_file_matches (cache_data, file_data))
+		return FALSE;
+
+	return cache_data->requested_size == requested_size;
+}
+
+
+static gboolean
+cache_data_has_better_quality_for_request (CacheData   *cache_data,
+					   GthFileData *file_data,
+					   int          requested_size)
+{
+	if (! cache_data_file_matches (cache_data, file_data))
+		return FALSE;
+
+	if (requested_size == GTH_ORIGINAL_SIZE)
+		return FALSE;
+
+	return (cache_data->requested_size > requested_size) || (cache_data->requested_size == GTH_ORIGINAL_SIZE);
 }
 
 
@@ -147,7 +186,7 @@ load_request_new (GthImagePreloader *preloader)
 	request->preloader = preloader;
 	request->files = NULL;
 	request->current_file = NULL;
-	request->requested_size = -1;
+	request->requested_size = GTH_ORIGINAL_SIZE;
 	request->result = NULL;
 	request->cancellable = NULL;
 
@@ -248,15 +287,32 @@ gth_image_preloader_new (void)
 
 
 static CacheData *
-_gth_image_preloader_lookup_request (GthImagePreloader	*self,
-				     GthFileData	*requested_file,
-				     int		 requested_size)
+_gth_image_preloader_lookup_same_size (GthImagePreloader	*self,
+				       GthFileData		*requested_file,
+				       int			 requested_size)
 {
 	GList *scan;
 
 	for (scan = self->priv->cache->head; scan; scan = scan->next) {
 		CacheData *cache_data = scan->data;
 		if (cache_data_is_valid_for_request (cache_data, requested_file, requested_size))
+			return cache_data;
+	}
+
+	return NULL;
+}
+
+
+static CacheData *
+_gth_image_preloader_lookup_bigger_size (GthImagePreloader	*self,
+					 GthFileData		*requested_file,
+					 int			 requested_size)
+{
+	GList *scan;
+
+	for (scan = self->priv->cache->head; scan; scan = scan->next) {
+		CacheData *cache_data = scan->data;
+		if (cache_data_has_better_quality_for_request (cache_data, requested_file, requested_size))
 			return cache_data;
 	}
 
@@ -300,13 +356,32 @@ load_current_file (gpointer user_data)
 
 
 static void
-queue_load_next_file (GthImagePreloader *self,
-		      LoadRequest       *request)
+_gth_image_preloader_request_completed (GthImagePreloader *self,
+					LoadRequest       *request,
+					CacheData	  *cache_data)
 {
-	CacheData *cache_data;
+	if (request->current_file == request->requested_file) {
+		if (cache_data != NULL) {
+			g_simple_async_result_set_op_res_gpointer (request->result,
+								   cache_data_ref (cache_data),
+								   (GDestroyNotify) cache_data_unref);
+			g_simple_async_result_complete_in_idle (request->result);
+		}
+		else {
+			GError *error;
+
+			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_FOUND, NULL);
+			g_simple_async_result_set_from_error (request->result, error);
+
+			g_error_free (error);
+		}
+	}
+
+	/* queue the next file */
 
 	g_return_if_fail (request->current_file != NULL);
 
+	cache_data = NULL;
 	do {
 		GthFileData *requested_file;
 
@@ -317,9 +392,9 @@ queue_load_next_file (GthImagePreloader *self,
 		}
 
 		requested_file = (GthFileData *) request->current_file->data;
-		cache_data = _gth_image_preloader_lookup_request (self,
-								  requested_file,
-								  request->requested_size);
+		cache_data = _gth_image_preloader_lookup_same_size (self,
+								    requested_file,
+								    request->requested_size);
 	}
 	while (cache_data != NULL);
 
@@ -348,22 +423,137 @@ _gth_image_preloader_add_to_cache (GthImagePreloader *self,
 }
 
 
+typedef struct {
+	LoadRequest *request;
+	gboolean     resize_to_requested_size;
+} LoadData;
+
+
+static LoadData *
+load_data_new (LoadRequest *request,
+	       gboolean     resize_image)
+{
+	LoadData *load_data;
+
+	load_data = g_new0 (LoadData, 1);
+	load_data->request = load_request_ref (request);
+	load_data->resize_to_requested_size = resize_image;
+
+	return load_data;
+}
+
+
+static void
+load_data_free (LoadData *load_data)
+{
+	load_request_unref (load_data->request);
+	g_free (load_data);
+}
+
+
+static void
+image_scale_ready_cb (GObject      *source_object,
+		      GAsyncResult *result,
+		      gpointer      user_data)
+{
+	LoadData          *load_data = user_data;
+	LoadRequest       *request = load_data->request;
+	GthImagePreloader *self = request->preloader;
+	cairo_surface_t   *surface;
+	GError            *error = NULL;
+	int                original_width;
+	int                original_height;
+	CacheData         *cache_data;
+
+	if (request->finalized) {
+		load_data_free (load_data);
+		return;
+	}
+
+	surface = _cairo_image_surface_scale_finish (result, &error);
+
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)
+	    || (self->priv->last_request != request))
+	{
+		load_data_free (load_data);
+		if (error != NULL)
+			g_error_free (error);
+		cairo_surface_destroy (surface);
+		_gth_image_preloader_request_finished (self, request);
+
+		if (self->priv->last_request != NULL)
+			_gth_image_preloader_start_request (self, self->priv->last_request);
+
+		return;
+	}
+
+	if (! _cairo_image_surface_get_original_size (surface, &original_width, &original_height)) {
+		original_width = cairo_image_surface_get_width (surface);
+		original_height = cairo_image_surface_get_height (surface);
+	}
+	cache_data = cache_data_new ();
+	cache_data->file_data = _g_object_ref (request->current_file->data);
+	cache_data->image = (surface != NULL) ? gth_image_new_for_surface (surface) : NULL;
+	cache_data->original_width = (surface != NULL) ? original_width : -1;
+	cache_data->original_height = (surface != NULL) ? original_height : -1;
+	cache_data->requested_size = request->requested_size;
+	cache_data->error = error;
+	_gth_image_preloader_add_to_cache (self, cache_data);
+	_gth_image_preloader_request_completed (self, request, cache_data);
+
+	cairo_surface_destroy (surface);
+	load_data_free (load_data);
+}
+
+
+static void
+_gth_image_preloader_resize_at_requested_size (GthImagePreloader *self,
+					       LoadRequest       *request,
+					       GthImage          *image)
+{
+	cairo_surface_t *surface;
+	int              new_width;
+	int              new_height;
+
+	surface = gth_image_get_cairo_surface (image);
+	new_width = cairo_image_surface_get_width (surface);
+	new_height = cairo_image_surface_get_height (surface);
+	scale_keeping_ratio (&new_width,
+			     &new_height,
+			     request->requested_size,
+			     request->requested_size,
+			     FALSE);
+
+	_cairo_image_surface_scale_async (surface,
+					  new_width,
+					  new_height,
+					  SCALE_FILTER_GOOD,
+					  request->cancellable,
+					  image_scale_ready_cb,
+					  load_data_new (request, FALSE));
+
+	cairo_surface_destroy (surface);
+}
+
+
 static void
 image_loader_ready_cb (GObject      *source_object,
 		       GAsyncResult *result,
 		       gpointer      user_data)
 {
-	LoadRequest       *request = user_data;
+	LoadData          *load_data = user_data;
+	LoadRequest       *request = load_data->request;
 	GthImagePreloader *self = request->preloader;
 	GthImage          *image = NULL;
 	int                original_width;
 	int                original_height;
+	gboolean           loaded_original;
 	GError            *error = NULL;
 	gboolean           success;
 	CacheData         *cache_data;
 
 	if (request->finalized) {
-		load_request_unref (request);
+		load_data_free (load_data);
 		return;
 	}
 
@@ -372,12 +562,13 @@ image_loader_ready_cb (GObject      *source_object,
 						 &image,
 						 &original_width,
 						 &original_height,
+						 &loaded_original,
 						 &error);
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)
 	    || (self->priv->last_request != request))
 	{
-		load_request_unref (request);
+		load_data_free (load_data);
 		if (error != NULL)
 			g_error_free (error);
 		_g_object_unref (image);
@@ -398,17 +589,16 @@ image_loader_ready_cb (GObject      *source_object,
 	cache_data->error = error;
 	_gth_image_preloader_add_to_cache (self, cache_data);
 
-	if (request->current_file == request->requested_file) {
-		g_simple_async_result_set_op_res_gpointer (request->result,
-							   cache_data_ref (cache_data),
-							   (GDestroyNotify) cache_data_unref);
-		g_simple_async_result_complete_in_idle (request->result);
-	}
+	if ((request->requested_size > 0) && loaded_original)
+		load_data->resize_to_requested_size = TRUE;
 
-	queue_load_next_file (self, request);
+	if (load_data->resize_to_requested_size)
+		_gth_image_preloader_resize_at_requested_size (self, request, cache_data->image);
+	else
+		_gth_image_preloader_request_completed (self, request, cache_data);
 
 	_g_object_unref (image);
-	load_request_unref (request);
+	load_data_free (load_data);
 }
 
 
@@ -418,33 +608,46 @@ _gth_image_preloader_load_current_file (GthImagePreloader *self,
 {
 	GthFileData *requested_file;
 	CacheData   *cache_data;
+	gboolean     ignore_requested_size;
 
 	g_return_if_fail (request->current_file != NULL);
-
 	requested_file = (GthFileData *) request->current_file->data;
-	cache_data = _gth_image_preloader_lookup_request (self,
-							  requested_file,
-							  request->requested_size);
-	if (cache_data != NULL) {
-		if (request->current_file == request->requested_file) {
-			g_simple_async_result_set_op_res_gpointer (request->result,
-								   cache_data_ref (cache_data),
-								   (GDestroyNotify) cache_data_unref);
-			g_simple_async_result_complete_in_idle (request->result);
-		}
-		queue_load_next_file (self, request);
 
+	/* search the file at the requested size */
+
+	cache_data = _gth_image_preloader_lookup_same_size (self,
+							    requested_file,
+							    request->requested_size);
+	if (cache_data != NULL) {
+		_gth_image_preloader_request_completed (self, request, cache_data);
 		return;
 	}
 
-	load_request_ref (request);
+	/* search the file at a bigger size */
+
+	cache_data = _gth_image_preloader_lookup_bigger_size (self,
+							      requested_file,
+							      request->requested_size);
+	if (cache_data != NULL) {
+		_gth_image_preloader_resize_at_requested_size (self, request, cache_data->image);
+		return;
+	}
+
+	/* load the file at the requested size */
+
+	if (requested_file == GTH_MODIFIED_IMAGE) {
+		_gth_image_preloader_request_completed (self, request, NULL);
+		return;
+	}
+
+	ignore_requested_size = (request->requested_size > 0) && ! g_file_is_native (requested_file->file);
 	gth_image_loader_load (self->priv->loader,
 			       requested_file,
-			       request->requested_size,
+			       ignore_requested_size ? -1 : request->requested_size,
 			       (request->current_file == request->files) ? G_PRIORITY_HIGH : G_PRIORITY_DEFAULT,
 			       request->cancellable,
 			       image_loader_ready_cb,
-			       request);
+			       load_data_new (request, ignore_requested_size));
 }
 
 
@@ -572,4 +775,38 @@ gth_image_preloader_load_finish (GthImagePreloader	 *self,
 		*original_height = cache_data->original_height;
 
 	return TRUE;
+}
+
+
+void
+gth_image_preloader_set_modified_image (GthImagePreloader *self,
+					cairo_surface_t	  *image)
+{
+	GList     *scan;
+	CacheData *cache_data;
+
+	/* delete the modified image from the cache */
+
+	for (scan = self->priv->cache->head; scan; /* void */) {
+		GList *next = scan->next;
+
+		cache_data = scan->data;
+		if (cache_data->file_data == GTH_MODIFIED_IMAGE)
+			g_queue_delete_link (self->priv->cache, scan);
+		scan = next;
+	}
+
+	if (image == NULL)
+		return;
+
+	/* add the modified image to the cache */
+
+	cache_data = cache_data_new ();
+	cache_data->file_data = GTH_MODIFIED_IMAGE;
+	cache_data->image = gth_image_new_for_surface (image);
+	cache_data->original_width = -1;
+	cache_data->original_height = -1;
+	cache_data->requested_size = -1;
+	cache_data->error = NULL;
+	_gth_image_preloader_add_to_cache (self, cache_data);
 }
