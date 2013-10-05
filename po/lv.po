@@ -5,20 +5,21 @@
 #
 # Artis Trops  <hornet@navigator.lv>, 2002.
 # Raivis Dejus <orvils@gmail.com>, 2006, 2007.
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: lv\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-13 00:53+0300\n"
-"PO-Revision-Date: 2012-10-13 01:15+0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-07-18 13:08+0000\n"
+"PO-Revision-Date: 2013-10-05 12:56+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
@@ -91,8 +92,8 @@ msgid "Show session management options"
 msgstr "Rādīt sesiju pārvaldības opcijas"
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:534
-#: ../gthumb/gth-progress-dialog.c:388 ../gthumb/main.c:315
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:580
+#: ../gthumb/gth-progress-dialog.c:390 ../gthumb/main.c:316
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -147,10 +148,6 @@ msgstr "Iespējamās vērtības ir: white, black, checked, none."
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:2
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr "Vai atstatīt ritjoslas novietojumu pēc attēla nomaiņas"
-
-#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:3
-msgid "Whether to always use a black background."
-msgstr "Vai vienmēr lietot melnu fonu."
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
 msgid "Possible values are: jpeg, jpg."
@@ -230,7 +227,6 @@ msgid "Selected:"
 msgstr "Izvēlēts:"
 
 #: ../data/ui/location.ui.h:1
-#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:7
 msgid "_Location:"
 msgstr "_Atrašanās vieta:"
 
@@ -558,7 +554,7 @@ msgstr "_Nosaukums"
 msgid "_Location"
 msgstr "_Vieta"
 
-#: ../extensions/bookmarks/dlg-bookmarks.c:70
+#: ../extensions/bookmarks/dlg-bookmarks.c:191
 msgid "Could not remove the bookmark"
 msgstr "Nevarēja izņemt grāmatzīmi"
 
@@ -609,7 +605,7 @@ msgstr "Rakstīt diskā"
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Kļūda, interpretējot JPEG attēla datni — %s"
 
-#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:483
+#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:504
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Nezināma JPEG krāsu telpa (%d)"
@@ -690,12 +686,12 @@ msgstr "_Metode:"
 msgid "_Lossless"
 msgstr "_Bezzudumu"
 
-#: ../extensions/cairo_io/gth-image-saver-jpeg.c:515
+#: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:140
 msgid "JPEG"
 msgstr "JPEG"
 
-#: ../extensions/cairo_io/gth-image-saver-png.c:352
+#: ../extensions/cairo_io/gth-image-saver-png.c:353
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:110
 msgid "PNG"
 msgstr "PNG"
@@ -706,15 +702,15 @@ msgstr "PNG"
 msgid "Insufficient memory"
 msgstr "Nepietiek atmiņas"
 
-#: ../extensions/cairo_io/gth-image-saver-tga.c:343
+#: ../extensions/cairo_io/gth-image-saver-tga.c:344
 msgid "TGA"
 msgstr "TGA"
 
-#: ../extensions/cairo_io/gth-image-saver-tiff.c:558
+#: ../extensions/cairo_io/gth-image-saver-tiff.c:559
 msgid "TIFF"
 msgstr "TIFF"
 
-#: ../extensions/cairo_io/gth-image-saver-webp.c:381
+#: ../extensions/cairo_io/gth-image-saver-webp.c:382
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:165
 msgid "WebP"
 msgstr "WebP"
@@ -793,17 +789,16 @@ msgid "_Add to Catalog"
 msgstr "Pievienot k_atalogam"
 
 #: ../extensions/catalogs/callbacks.c:105
-#: ../extensions/selections/callbacks.c:80
+#: ../extensions/selections/callbacks.c:81
 msgid "Open _Folder"
 msgstr "Atvērt _mapi"
 
 #: ../extensions/catalogs/callbacks.c:106
-#: ../extensions/selections/callbacks.c:81
+#: ../extensions/selections/callbacks.c:82
 msgid "Go to the folder that contains the selected file"
 msgstr "Iet uz mapi, kas satur izvēlēto datni"
 
 #: ../extensions/catalogs/callbacks.c:110
-#: ../extensions/picasaweb/picasa-account-properties-dialog.c:85
 msgid "Other..."
 msgstr "Citi..."
 
@@ -848,7 +843,7 @@ msgstr "Komandrinda"
 #: ../extensions/catalogs/callbacks.c:501
 #: ../extensions/photo_importer/dlg-photo-importer.c:364
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
-#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:883
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1093
 msgid "(Empty)"
 msgstr "(Tukšs)"
 
@@ -893,7 +888,7 @@ msgid "New _Library"
 msgstr "Jauna _bibliotēka"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-#: ../extensions/file_manager/actions.c:945
+#: ../extensions/file_manager/actions.c:944
 #: ../extensions/webalbums/gth-web-exporter.c:1840
 msgid "_View the destination"
 msgstr "_Skatīt mērķi"
@@ -949,17 +944,17 @@ msgstr "Kataloga _priekšskatījums:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
 #: ../extensions/edit_metadata/gth-edit-general-page.c:558
-#: ../gthumb/gth-main-default-tests.c:300
+#: ../gthumb/gth-main-default-tests.c:321
 msgid "Date photo was taken"
 msgstr "Fotogrāfijas uzņemšanas datums"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:2
-#: ../gthumb/gth-main-default-tests.c:292
+#: ../gthumb/gth-main-default-tests.c:313
 msgid "File modified date"
 msgstr "Datņu izmaiņu datums"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:3
-#: ../extensions/comments/main.c:159
+#: ../extensions/comments/main.c:182
 msgid "Tag"
 msgstr "Birka"
 
@@ -968,7 +963,7 @@ msgid "tag"
 msgstr "birka"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:5
-#: ../gthumb/gth-main-default-tests.c:324
+#: ../gthumb/gth-main-default-tests.c:354
 msgid "Tag (embedded)"
 msgstr "Birka (iegulta)"
 
@@ -1017,7 +1012,7 @@ msgid "Files will be organized in catalogs. No file will be moved on disk."
 msgstr ""
 "Datnes tiks organizēti katalogos. Uz diska neviena datne netiks pārvietota."
 
-#: ../extensions/catalogs/gth-catalog.c:1114 ../extensions/comments/main.c:44
+#: ../extensions/catalogs/gth-catalog.c:1114 ../extensions/comments/main.c:45
 #: ../extensions/edit_metadata/callbacks.c:106
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Tags"
@@ -1059,10 +1054,10 @@ msgid "Could not remove the files from the catalog"
 msgstr "Nevarēja izņemt datnes no kataloga"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1380
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:733
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:742
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:771
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1304
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:746
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:755
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:785
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1320
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Nederīgs datnes formāts"
@@ -1174,16 +1169,16 @@ msgstr "Iestatījumi"
 msgid "_Synchronize with the embedded metadata"
 msgstr "_Sinhronizēt ar iegultajiem metadatiem"
 
-#: ../extensions/comments/main.c:34
+#: ../extensions/comments/main.c:35
 #: ../extensions/edit_metadata/callbacks.c:100
 msgid "Comment"
 msgstr "Komentārs"
 
-#: ../extensions/comments/main.c:40 ../gthumb/gth-main-default-metadata.c:46
+#: ../extensions/comments/main.c:41 ../gthumb/gth-main-default-metadata.c:46
 msgid "Title"
 msgstr "Nosaukums"
 
-#: ../extensions/comments/main.c:41 ../extensions/comments/main.c:143
+#: ../extensions/comments/main.c:42 ../extensions/comments/main.c:166
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
@@ -1195,16 +1190,17 @@ msgstr "Nosaukums"
 msgid "Description"
 msgstr "Apraksts"
 
-#: ../extensions/comments/main.c:42 ../extensions/comments/main.c:151
+#: ../extensions/comments/main.c:43 ../extensions/comments/main.c:174
 #: ../gthumb/gth-main-default-metadata.c:50
 msgid "Place"
 msgstr "Vieta"
 
-#: ../extensions/comments/main.c:43 ../gthumb/gth-main-default-metadata.c:51
+#: ../extensions/comments/main.c:44 ../gthumb/gth-main-default-metadata.c:51
 msgid "Date"
 msgstr "Datums"
 
-#: ../extensions/comments/main.c:45 ../gthumb/gth-main-default-metadata.c:54
+#: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:54
+#: ../gthumb/gth-main-default-tests.c:345
 msgid "Rating"
 msgstr "Vērtējums"
 
@@ -1241,9 +1237,9 @@ msgstr "Izveido indeksa attēlu, kas attēlo izvēlēto datņu sīktēlus."
 #: ../extensions/file_tools/gth-file-tool-crop.c:416
 #: ../extensions/file_tools/gth-file-tool-crop.c:446
 #: ../extensions/file_tools/gth-file-tool-resize.c:589
-#: ../extensions/file_tools/gth-file-tool-rotate.c:403
+#: ../extensions/file_tools/gth-file-tool-rotate.c:397
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:14
-#: ../extensions/slideshow/main.c:277
+#: ../extensions/slideshow/main.c:291
 msgid "None"
 msgstr "Nekas"
 
@@ -1370,6 +1366,7 @@ msgstr "Pašreizējais datums"
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:6
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:5
 #: ../extensions/gstreamer_tools/data/ui/save-screenshot.ui.h:2
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
@@ -1477,13 +1474,13 @@ msgstr "Sīktēli"
 msgid "Image Wall"
 msgstr "Attēlu siena"
 
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:481
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:492
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:506
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:482
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:493
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:507
 msgid "Could not save the theme"
 msgstr "Nevarēja saglabāt motīvu"
 
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:651
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:652
 msgid "Could not delete the theme"
 msgstr "Nevarēja izdzēst motīvu"
 
@@ -1491,7 +1488,7 @@ msgstr "Nevarēja izdzēst motīvu"
 msgid "Creating images"
 msgstr "Veido attēlus"
 
-#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:895
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:896
 msgid "Generating thumbnails"
 msgstr "Veido sīktēlus"
 
@@ -1553,12 +1550,12 @@ msgstr "_Izmantot sākotnējo attēla mapi"
 msgid "Converting images"
 msgstr "Pārveido attēlus"
 
-#: ../extensions/desktop_background/actions.c:158
+#: ../extensions/desktop_background/actions.c:194
 msgid "Could not show the desktop background properties"
 msgstr "Nevarēja parādīt darbvirsmas fona īpašības"
 
-#: ../extensions/desktop_background/actions.c:224
-#: ../extensions/desktop_background/actions.c:242
+#: ../extensions/desktop_background/actions.c:259
+#: ../extensions/desktop_background/actions.c:277
 msgid "Could not set the desktop background"
 msgstr "Nevarēja iestatīt darbvirsmas fonu"
 
@@ -1653,7 +1650,8 @@ msgstr "%s metadati"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:83
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:335
+#: ../extensions/facebook/dlg-import-from-facebook.c:319
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:324
 #, c-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -1827,7 +1825,7 @@ msgstr "XMP iegults"
 msgid "XMP Attached"
 msgstr "XMP pievienots"
 
-#: ../extensions/exiv2_tools/main.c:267
+#: ../extensions/exiv2_tools/main.c:272
 msgid "date photo was taken"
 msgstr "fotogrāfijas uzņemšanas datums"
 
@@ -1835,11 +1833,16 @@ msgstr "fotogrāfijas uzņemšanas datums"
 msgid "Share"
 msgstr "Koplietot"
 
-#: ../extensions/facebook/callbacks.c:54
+#: ../extensions/facebook/callbacks.c:59 ../extensions/facebook/callbacks.c:64
 msgid "Face_book..."
 msgstr "Face_book..."
 
-#: ../extensions/facebook/callbacks.c:55
+#: ../extensions/facebook/callbacks.c:60
+#| msgid "Download photos from Flickr"
+msgid "Download photos from Facebook"
+msgstr "Lejupielādēt fotogrāfijas no Facebook"
+
+#: ../extensions/facebook/callbacks.c:65
 msgid "Upload photos to Facebook"
 msgstr "Augšupielādēt fotogrāfijas uz Facebook"
 
@@ -1862,6 +1865,7 @@ msgid "_Account:"
 msgstr "_Konts:"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:3
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:3
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:2
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
@@ -1911,23 +1915,6 @@ msgstr "1600 x 1600"
 msgid "2048 x 2048"
 msgstr "2048 x 2048"
 
-#: ../extensions/facebook/data/ui/facebook-account-chooser.ui.h:1
-#: ../extensions/flicker_utils/data/ui/flicker-account-chooser.ui.h:1
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
-#: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
-#: ../extensions/picasaweb/data/ui/picasa-web-account-chooser.ui.h:1
-msgid "A_ccount:"
-msgstr "_Konts:"
-
-#: ../extensions/facebook/data/ui/facebook-account-manager.ui.h:1
-#: ../extensions/flicker_utils/data/ui/flicker-account-manager.ui.h:1
-#: ../extensions/oauth/data/ui/oauth-account-manager.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-account-manager.ui.h:1
-msgid "A_ccounts:"
-msgstr "_Konti:"
-
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
 msgid "Public photos"
@@ -1948,25 +1935,6 @@ msgstr "Privāts"
 msgid "_Visibility:"
 msgstr "_Redzamība:"
 
-#: ../extensions/facebook/data/ui/facebook-ask-authorization.ui.h:1
-#: ../extensions/flicker_utils/data/ui/flicker-ask-authorization.ui.h:1
-#: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
-msgid "_Authorize..."
-msgstr "Pilnv_arot..."
-
-#: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:1
-#: ../extensions/facebook/facebook-authentication.c:472
-#: ../extensions/flicker_utils/flickr-authentication.c:408
-#: ../extensions/oauth/oauth-authentication.c:423
-msgid "Once you're done, click the 'Continue' button below."
-msgstr "Kad pabeigsiet, spiediet pogu “Turpināt” zemāk."
-
-#: ../extensions/facebook/data/ui/facebook-complete-authorization.ui.h:2
-#: ../extensions/flicker_utils/data/ui/flicker-complete-authorization.ui.h:1
-#: ../extensions/oauth/data/ui/oauth-complete-authorization.ui.h:1
-msgid "C_ontinue"
-msgstr "T_urpināt"
-
 #: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:1
 #: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:1
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:1
@@ -1982,66 +1950,88 @@ msgstr "Datnes tika veiksmīgi augšupielādētas uz serveri."
 msgid "_Open in the Browser"
 msgstr "_Atvērt pārlūkā"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:130
-#: ../extensions/facebook/dlg-export-to-facebook.c:335
-#: ../extensions/facebook/facebook-authentication.c:192
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:141
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:417
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:237
-#: ../extensions/flicker_utils/flickr-authentication.c:191
-#: ../extensions/oauth/oauth-authentication.c:187
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:133
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:378
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:142
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:442
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:380
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+msgid "Import from Picasa Web Album"
+msgstr "Importēt no Picasa tīmekļa albuma"
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:2
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
+msgid "_Import"
+msgstr "_Importēt"
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:4
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
+#: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
+msgid "A_ccount:"
+msgstr "_Konts:"
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:5
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
+msgid "_Album:"
+msgstr "_Albums:"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:123
+#: ../extensions/facebook/dlg-export-to-facebook.c:326
+#: ../extensions/facebook/dlg-import-from-facebook.c:226
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:138
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:414
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:231
+#: ../extensions/oauth/web-service.c:376
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:131
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:375
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
 msgid "Could not connect to the server"
 msgstr "Nevarēja savienoties ar serveri"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:182
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:249
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:184
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:195
+#: ../extensions/facebook/dlg-export-to-facebook.c:175
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:246
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:182
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:176
 msgid "Could not upload the files"
 msgstr "Nevarēja augšupielādēt datnes"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:412
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:191
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:226
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:464
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:735
+#: ../extensions/facebook/dlg-export-to-facebook.c:397
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:188
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:223
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:457
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:309
 msgid "Could not create the album"
 msgstr "Nevarēja izveidot albumu"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:481
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:536
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:801
+#: ../extensions/facebook/dlg-export-to-facebook.c:465
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:528
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:375
 msgid "New Album"
 msgstr "Jauns albums"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:561
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:591
+#: ../extensions/facebook/dlg-export-to-facebook.c:557
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:583
 #: ../extensions/image_print/gth-image-print-job.c:1739
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:615
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1036
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:607
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:597
 msgid "No valid file selected."
 msgstr "Nav izvēlēta derīga datne."
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:562
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:616
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1037
+#: ../extensions/facebook/dlg-export-to-facebook.c:558
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:584
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:608
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:598
 msgid "Could not export the files"
 msgstr "Nevarēja eksportēt datnes"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:570
+#: ../extensions/facebook/dlg-export-to-facebook.c:566
 #: ../extensions/find_duplicates/gth-find-duplicates.c:277
 #: ../extensions/find_duplicates/gth-find-duplicates.c:470
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:600
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:624
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:1044
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:803
-#: ../gthumb/gth-browser.c:1072
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:592
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:616
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
+#: ../gthumb/gth-browser.c:1118
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2049,99 +2039,35 @@ msgstr[0] "%d datne (%s)"
 msgstr[1] "%d datnes (%s)"
 msgstr[2] "%d datņu (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:591
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:623
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:643
+#: ../extensions/facebook/dlg-export-to-facebook.c:587
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:615
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:635
 #, c-format
 msgid "Export to %s"
 msgstr "Eksportēt uz %s"
 
-#: ../extensions/facebook/facebook-account-chooser-dialog.c:200
-#: ../extensions/flicker_utils/flickr-account-chooser-dialog.c:200
-#: ../extensions/oauth/oauth-account-chooser-dialog.c:200
-msgid "New authentication..."
-msgstr "Jauna autentificēšana..."
+#: ../extensions/facebook/dlg-import-from-facebook.c:344
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:349
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:279
+msgid "Could not get the photo list"
+msgstr "Nevarēja saņemt fotogrāfiju sarakstu"
 
-#: ../extensions/facebook/facebook-authentication.c:194
-#: ../extensions/flicker_utils/flickr-authentication.c:193
-#: ../extensions/oauth/oauth-authentication.c:189
-msgid "Choose _Account..."
-msgstr "Izvēlieties _kontu..."
+#: ../extensions/facebook/dlg-import-from-facebook.c:378
+#: ../extensions/facebook/dlg-import-from-facebook.c:533
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:386
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:551
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:586
+msgid "No album selected"
+msgstr "Nav izvēlēts neviens albums"
 
-#: ../extensions/facebook/facebook-authentication.c:471
-#: ../extensions/flicker_utils/flickr-authentication.c:407
-#: ../extensions/oauth/oauth-authentication.c:422
+#: ../extensions/facebook/dlg-import-from-facebook.c:551
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:569
 #, c-format
-msgid ""
-"Return to this window when you have finished the authorization process on %s"
-msgstr "Atgriezieties pie šī loga, kad pabeigsiet pilnvarošanas procesu uz %s"
+msgid "Import from %s"
+msgstr "Importēt no %s"
 
-#: ../extensions/facebook/facebook-authentication.c:556
-#: ../extensions/flicker_utils/flickr-authentication.c:487
-#: ../extensions/oauth/oauth-authentication.c:502
-#, c-format
-msgid "gthumb requires your authorization to upload the photos to %s"
-msgstr "gthumb pieprasa pilnvarojumu, lai augšupielādētu fotogrāfijas uz %s"
-
-#: ../extensions/facebook/facebook-authentication.c:557
-#: ../extensions/flicker_utils/flickr-authentication.c:488
-#: ../extensions/oauth/oauth-authentication.c:503
-#, c-format
-msgid ""
-"Click 'Authorize' to open your web browser and authorize gthumb to upload "
-"photos to %s. When you're finished, return to this window to complete the "
-"authorization."
-msgstr ""
-"Spiediet “Autorizēt”, lai atvērtu tīmekļa pārlūku un autorizētu gthumb "
-"fotogrāfiju augšupielādei uz %s. Kad pabeigsiet, atgriezieties uz šo logu, "
-"lai pabeigtu autorizēšanu."
-
-#: ../extensions/facebook/facebook-authentication.c:652
-#: ../extensions/flicker_utils/flickr-authentication.c:588
-#: ../extensions/oauth/oauth-authentication.c:605
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:838
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:684
-msgid "Choose Account"
-msgstr "Izvēlieties kontu"
-
-#: ../extensions/facebook/facebook-authentication.c:761
-#: ../extensions/flicker_utils/flickr-authentication.c:697
-#: ../extensions/oauth/oauth-authentication.c:714
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:899
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:745
-msgid "Edit Accounts"
-msgstr "Rediģēt kontus"
-
-#: ../extensions/facebook/facebook-connection.c:275
-#: ../extensions/facebook/facebook-connection.c:435
-#: ../extensions/facebook/facebook-service.c:162
-#: ../extensions/facebook/facebook-service.c:265
-#: ../extensions/facebook/facebook-service.c:468
-#: ../extensions/flicker_utils/flickr-connection.c:266
-#: ../extensions/flicker_utils/flickr-connection.c:413
-#: ../extensions/flicker_utils/flickr-service.c:197
-#: ../extensions/flicker_utils/flickr-service.c:400
-#: ../extensions/photobucket/photobucket-consumer.c:74
-#: ../extensions/photobucket/photobucket-consumer.c:79
-#: ../extensions/photobucket/photobucket-consumer.c:115
-#: ../extensions/photobucket/photobucket-consumer.c:170
-msgid "Unknown error"
-msgstr "Nezināma kļūda"
-
-#: ../extensions/facebook/facebook-connection.c:310
-#: ../extensions/facebook/facebook-connection.c:461
-#: ../extensions/facebook/facebook-service.c:188
-#: ../extensions/facebook/facebook-service.c:290
-#: ../extensions/flicker_utils/flickr-connection.c:292
-#: ../extensions/flicker_utils/flickr-connection.c:439
-#: ../extensions/flicker_utils/flickr-service.c:221
-#: ../extensions/oauth/oauth-connection.c:356
-#: ../extensions/oauth/oauth-connection.c:431
-#: ../extensions/oauth/oauth-connection.c:535
-#: ../extensions/picasaweb/google-connection.c:344
-msgid "Connecting to the server"
-msgstr "Savienojas ar serveri"
-
+#: ../extensions/facebook/dlg-import-from-facebook.c:551
 #: ../extensions/facebook/facebook.extension.in.in.h:1
 msgid "Facebook"
 msgstr "Facebook"
@@ -2150,58 +2076,49 @@ msgstr "Facebook"
 msgid "Upload images to Facebook"
 msgstr "Augšupielādēt attēlus uz Facebook"
 
-#: ../extensions/facebook/facebook-service.c:188
-#: ../extensions/facebook/facebook-service.c:290
-#: ../extensions/flicker_utils/flickr-service.c:221
-#: ../extensions/oauth/oauth-connection.c:356
-#: ../extensions/oauth/oauth-connection.c:431
-#: ../extensions/oauth/oauth-connection.c:535
-msgid "Getting account information"
-msgstr "Saņem konta informāciju"
-
-#: ../extensions/facebook/facebook-service.c:396
-#: ../extensions/flicker_utils/flickr-service.c:325
-#: ../extensions/photobucket/photobucket-service.c:207
-#: ../extensions/picasaweb/picasa-web-service.c:211
+#: ../extensions/facebook/facebook-service.c:494
+#: ../extensions/flicker_utils/flickr-service.c:863
+#: ../extensions/photobucket/photobucket-service.c:310
+#: ../extensions/picasaweb/picasa-web-service.c:711
 msgid "Getting the album list"
 msgstr "Saņem albumu sarakstu"
 
-#: ../extensions/facebook/facebook-service.c:525
-#: ../extensions/flicker_utils/flickr-service.c:428
-#: ../extensions/flicker_utils/flickr-service.c:548
-#: ../extensions/flicker_utils/flickr-service.c:586
-#: ../extensions/photobucket/photobucket-service.c:316
-#: ../extensions/picasaweb/picasa-web-service.c:302
+#: ../extensions/facebook/facebook-service.c:616
+#: ../extensions/flicker_utils/flickr-service.c:965
+#: ../extensions/flicker_utils/flickr-service.c:1087
+#: ../extensions/flicker_utils/flickr-service.c:1126
+#: ../extensions/photobucket/photobucket-service.c:423
+#: ../extensions/picasaweb/picasa-web-service.c:805
 msgid "Creating the new album"
 msgstr "Izveido jaunu albumu"
 
-#: ../extensions/facebook/facebook-service.c:584
-#: ../extensions/flicker_utils/flickr-service.c:636
-#: ../extensions/photobucket/photobucket-service.c:373
-#: ../extensions/picasaweb/picasa-web-service.c:359
+#: ../extensions/facebook/facebook-service.c:677
+#: ../extensions/flicker_utils/flickr-service.c:1176
+#: ../extensions/photobucket/photobucket-service.c:485
+#: ../extensions/picasaweb/picasa-web-service.c:860
 #, c-format
 msgid "Could not upload '%s': %s"
 msgstr "Nevarēja augšupielādēt “%s” — %s"
 
 #. Translators: %s is a filename
-#: ../extensions/facebook/facebook-service.c:670
-#: ../extensions/flicker_utils/flickr-service.c:747
-#: ../extensions/photobucket/photobucket-service.c:430
-#: ../extensions/picasaweb/picasa-web-service.c:414
+#: ../extensions/facebook/facebook-service.c:742
+#: ../extensions/flicker_utils/flickr-service.c:1287
+#: ../extensions/photobucket/photobucket-service.c:542
+#: ../extensions/picasaweb/picasa-web-service.c:917
 #, c-format
 msgid "Uploading '%s'"
 msgstr "Augšupielādē “%s”"
 
-#: ../extensions/facebook/facebook-service.c:884
-#: ../extensions/flicker_utils/flickr-service.c:940
-#: ../extensions/photobucket/photobucket-service.c:599
-#: ../extensions/picasaweb/picasa-web-service.c:631
+#: ../extensions/facebook/facebook-service.c:955
+#: ../extensions/flicker_utils/flickr-service.c:1482
+#: ../extensions/photobucket/photobucket-service.c:714
+#: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "Augšupielādē datnes uz serveri"
 
-#: ../extensions/facebook/facebook-service.c:1001
-#: ../extensions/flicker_utils/flickr-service.c:1105
-#: ../extensions/picasaweb/picasa-web-service.c:746
+#: ../extensions/facebook/facebook-service.c:1054
+#: ../extensions/flicker_utils/flickr-service.c:1651
+#: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
 msgstr "Saņem fotogrāfiju sarakstu"
 
@@ -2215,13 +2132,13 @@ msgstr "Ievadiet mapes nosaukumu:"
 
 #: ../extensions/file_manager/actions.c:400
 #: ../extensions/file_manager/callbacks.c:380
-#: ../extensions/file_manager/callbacks.c:842
+#: ../extensions/file_manager/callbacks.c:838
 msgid "Could not move the files"
 msgstr "Nevarēja pārvietot datnes"
 
 #: ../extensions/file_manager/actions.c:401
 #: ../extensions/file_manager/callbacks.c:381
-#: ../extensions/file_manager/callbacks.c:843
+#: ../extensions/file_manager/callbacks.c:839
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -2263,19 +2180,19 @@ msgstr "Vai tiešām vēlaties neatgriezeniski dzēst “%s”?"
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Ja izdzēsīsiet datni, tā tiks neatgriezeniski zaudēta."
 
-#: ../extensions/file_manager/actions.c:920
+#: ../extensions/file_manager/actions.c:919
 msgid "Move To"
 msgstr "Pārvietot uz"
 
-#: ../extensions/file_manager/actions.c:920
+#: ../extensions/file_manager/actions.c:919
 msgid "Copy To"
 msgstr "Kopēt uz"
 
-#: ../extensions/file_manager/actions.c:924
+#: ../extensions/file_manager/actions.c:923
 msgid "Move"
 msgstr "Pārvietot"
 
-#: ../extensions/file_manager/actions.c:924
+#: ../extensions/file_manager/actions.c:923
 msgid "Copy"
 msgstr "Kopēt"
 
@@ -2310,6 +2227,7 @@ msgstr "Pārvietot izvēlētos attēlus uz miskasti"
 #: ../extensions/file_manager/callbacks.c:187
 #: ../extensions/file_manager/callbacks.c:223
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
+#: ../gthumb/gth-tags-entry.c:871
 msgid "_Delete"
 msgstr "_Dzēst"
 
@@ -2361,9 +2279,10 @@ msgstr "Kopēt izvēlētās datnes uz citu mapi"
 msgid "Move the selected files to another folder"
 msgstr "Pārvietot izvēlētās datnes uz citu mapi"
 
-#: ../extensions/file_manager/callbacks.c:1003
+#: ../extensions/file_manager/callbacks.c:999
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5120 ../gthumb/gth-browser.c:5154
+#: ../gthumb/gth-browser.c:5239 ../gthumb/gth-browser.c:5273
+#: ../gthumb/gth-progress-dialog.c:406
 msgid "Could not perform the operation"
 msgstr "Nevarēja veikt darbību"
 
@@ -2637,30 +2556,30 @@ msgstr "Attēlu rīki"
 msgid "Basic tools to modify images."
 msgstr "Pamatrīki attēlu pārveidošanai."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:372
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:272
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:248
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:371
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:271
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:247
 #: ../extensions/file_tools/gth-file-tool-negative.c:68
 msgid "Applying changes"
 msgstr "Pielieto izmaiņas"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:618
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:617
 msgid "Adjust Colors..."
 msgstr "Mainīt krāsas..."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:618
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:617
 msgid "Adjust Colors"
 msgstr "Mainīt krāsas"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:619
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:618
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Mainīt gaišumu, kontrastu, piesātinājumu un gamma līmeni attēlam"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:304
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:303
 msgid "Adjust Contrast"
 msgstr "Pielāgot kontrastu"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:305
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:304
 msgid "Automatic contrast adjustment"
 msgstr "Automātiska kontrasta pielabošana"
 
@@ -2729,22 +2648,22 @@ msgid "Custom"
 msgstr "Pielāgots"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:447
-#: ../extensions/file_tools/gth-file-tool-rotate.c:404
+#: ../extensions/file_tools/gth-file-tool-rotate.c:398
 msgid "Rule of Thirds"
 msgstr "Trešdaļu likums"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:448
-#: ../extensions/file_tools/gth-file-tool-rotate.c:405
+#: ../extensions/file_tools/gth-file-tool-rotate.c:399
 msgid "Golden Sections"
 msgstr "Zelta griezums"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:449
-#: ../extensions/file_tools/gth-file-tool-rotate.c:406
+#: ../extensions/file_tools/gth-file-tool-rotate.c:400
 msgid "Center Lines"
 msgstr "Viduslīnijas"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:450
-#: ../extensions/file_tools/gth-file-tool-rotate.c:407
+#: ../extensions/file_tools/gth-file-tool-rotate.c:401
 msgid "Uniform"
 msgstr "Vienmērīgs"
 
@@ -2760,11 +2679,11 @@ msgstr "Apcirst"
 msgid "Equalizing image histogram"
 msgstr "Izlīdzina attēla histogrammu"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:230
+#: ../extensions/file_tools/gth-file-tool-equalize.c:229
 msgid "Equalize"
 msgstr "Izlīdzināt"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:231
+#: ../extensions/file_tools/gth-file-tool-equalize.c:230
 msgid "Equalize image histogram"
 msgstr "Izlīdzināt attēla histogrammu"
 
@@ -2776,11 +2695,11 @@ msgstr "Apmest"
 msgid "Flip the image vertically"
 msgstr "Apmest attēlu vertikāli"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:507
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:506
 msgid "Grayscale..."
 msgstr "Pelēktoņu..."
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:507
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:506
 msgid "Grayscale"
 msgstr "Pelēktoņu"
 
@@ -2792,7 +2711,7 @@ msgstr "Spoguļot"
 msgid "Mirror the image horizontally"
 msgstr "Atspoguļot attēlu horizontāli"
 
-#: ../extensions/file_tools/gth-file-tool-negative.c:197
+#: ../extensions/file_tools/gth-file-tool-negative.c:196
 msgid "Negative"
 msgstr "Negatīvs"
 
@@ -2813,15 +2732,15 @@ msgstr "Mainīt izmēru..."
 msgid "Resize"
 msgstr "Mainīt izmēru"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:637
+#: ../extensions/file_tools/gth-file-tool-rotate.c:628
 msgid "Rotate..."
 msgstr "Pagriezt..."
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:637
+#: ../extensions/file_tools/gth-file-tool-rotate.c:628
 msgid "Rotate"
 msgstr "Pagriezt"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:638
+#: ../extensions/file_tools/gth-file-tool-rotate.c:629
 msgid "Freely rotate the image"
 msgstr "Brīvi pagriezt attēlu"
 
@@ -3045,45 +2964,70 @@ msgstr "Mērens saturs"
 msgid "Restricted content"
 msgstr "Ierobežots saturs"
 
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
-msgid "_Import"
-msgstr "_Importēt"
+#: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:1
+msgid "C_ontinue"
+msgstr "T_urpināt"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:360
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:830
-msgid "Could not get the photo list"
-msgstr "Nevarēja saņemt fotogrāfiju sarakstu"
+#: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:2
+msgid "_Authorize..."
+msgstr "Pilnv_arot..."
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:397
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:562
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:864
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:1027
-msgid "No album selected"
-msgstr "Nav izvēlēts neviens albums"
+#: ../extensions/flicker_utils/flickr-consumer.c:124
+#: ../extensions/flicker_utils/flickr-service.c:237
+#: ../extensions/flicker_utils/flickr-service.c:348
+#: ../extensions/flicker_utils/flickr-service.c:672
+#: ../extensions/flicker_utils/flickr-service.c:937
+#: ../extensions/oauth/oauth-service.c:154
+#: ../extensions/photobucket/photobucket-consumer.c:74
+#: ../extensions/photobucket/photobucket-consumer.c:82
+#: ../extensions/photobucket/photobucket-consumer.c:149
+#: ../extensions/photobucket/photobucket-service.c:132
+msgid "Unknown error"
+msgstr "Nezināma kļūda"
 
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:580
+#: ../extensions/flicker_utils/flickr-service.c:502
 #, c-format
-msgid "Import from %s"
-msgstr "Importēt no %s"
+msgid ""
+"Return to this window when you have finished the authorization process on %s"
+msgstr "Atgriezieties pie šī loga, kad pabeigsiet pilnvarošanas procesu uz %s"
+
+#: ../extensions/flicker_utils/flickr-service.c:503
+msgid "Once you're done, click the 'Continue' button below."
+msgstr "Kad pabeigsiet, spiediet pogu “Turpināt” zemāk."
+
+#: ../extensions/flicker_utils/flickr-service.c:571
+#, c-format
+#| msgid "gthumb requires your authorization to upload the photos to %s"
+msgid "gThumb requires your authorization to upload the photos to %s"
+msgstr "gThumb pieprasa pilnvarojumu, lai augšupielādētu fotogrāfijas uz %s"
+
+#: ../extensions/flicker_utils/flickr-service.c:572
+#, c-format
+msgid ""
+"Click 'Authorize' to open your web browser and authorize gthumb to upload "
+"photos to %s. When you're finished, return to this window to complete the "
+"authorization."
+msgstr ""
+"Spiediet “Pilnvarot”, lai atvērtu tīmekļa pārlūku un autorizētu gthumb "
+"fotogrāfiju augšupielādei uz %s. Kad pabeigsiet, atgriezieties uz šo logu, "
+"lai pabeigtu pilnvarošanu."
 
 #: ../extensions/gstreamer_tools/actions.c:66
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1072
-#: ../gthumb/gth-browser.c:2100
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1042
+#: ../gthumb/gth-browser.c:2177
 msgid "Could not save the file"
 msgstr "Nevarēja saglabāt datni"
 
-#: ../extensions/gstreamer_tools/actions.c:126
+#: ../extensions/gstreamer_tools/actions.c:131
 msgid "Could not take a screenshot"
 msgstr "Nevarēja uzņemt ekrānattēlu"
 
-#: ../extensions/gstreamer_tools/actions.c:132
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1243
+#: ../extensions/gstreamer_tools/actions.c:137
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1215
 msgid "Save Image"
 msgstr "Saglabāt attēlu"
 
-#: ../extensions/gstreamer_tools/actions.c:152
+#: ../extensions/gstreamer_tools/actions.c:165
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Ekrānattēls"
@@ -3093,7 +3037,7 @@ msgid "Slower"
 msgstr "Lēnāk"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:2
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:687
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:701
 msgid "Play"
 msgstr "Atskaņot"
 
@@ -3139,21 +3083,21 @@ msgstr "Ekrānattēls"
 msgid "Take a screenshot"
 msgstr "Uzņemt ekrānattēlu"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:664
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:678
 msgid "Playing video"
 msgstr "Atskaņo video"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:677
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:691
 msgid "Pause"
 msgstr "Pauzēt"
 
 #: ../extensions/gstreamer_tools/main.c:31
-#: ../gthumb/gth-main-default-tests.c:247
+#: ../gthumb/gth-main-default-tests.c:268
 msgid "Video"
 msgstr "Video"
 
 #: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:254
+#: ../gthumb/gth-main-default-tests.c:275
 msgid "Audio"
 msgstr "Audio"
 
@@ -3202,19 +3146,20 @@ msgstr "Kanāli"
 msgid "Sample rate"
 msgstr "Nolases ātrums"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:363
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
 msgid "Stereo"
 msgstr "Stereo"
 
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:363
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
 msgid "Mono"
 msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
-#: ../extensions/gstreamer_utils/gstreamer-utils.c:396
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1298
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:209
-#: ../extensions/webalbums/gth-web-exporter.c:2444 ../gthumb/gtk-utils.c:1055
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:401
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1270
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:243
+#: ../extensions/raw_files/gth-metadata-provider-raw.c:112
+#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1050
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3309,12 +3254,12 @@ msgid "Could not print"
 msgstr "Nevarēja izdrukāt"
 
 #: ../extensions/image_print/gth-image-print-job.c:1746
-#: ../gthumb/gth-main-default-tests.c:240
+#: ../gthumb/gth-main-default-tests.c:261
 msgid "Images"
 msgstr "Attēli"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
-#: ../gthumb/gth-image-loader.c:197 ../gthumb/gth-image-loader.c:304
+#: ../gthumb/gth-image-loader.c:197 ../gthumb/gth-image-loader.c:309
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "Šim datņu tipam nav atrasts piemērots ielādētājs"
@@ -3326,7 +3271,7 @@ msgid "Loading \"%s\""
 msgstr "Ielādē “%s”"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:166
-#: ../extensions/webalbums/gth-web-exporter.c:2716
+#: ../extensions/webalbums/gth-web-exporter.c:2719
 msgid "Loading images"
 msgstr "Ielādē attēlus"
 
@@ -3368,8 +3313,8 @@ msgstr "Atstatīt iegulto virzienu, nepagriežot attēlus"
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:141
-#: ../extensions/webalbums/gth-web-exporter.c:2337
-#: ../extensions/webalbums/gth-web-exporter.c:2421
+#: ../extensions/webalbums/gth-web-exporter.c:2338
+#: ../extensions/webalbums/gth-web-exporter.c:2423
 msgid "Saving images"
 msgstr "Saglabā attēlus"
 
@@ -3613,39 +3558,39 @@ msgstr "gads"
 msgid "custom format"
 msgstr "pielāgots formāts"
 
-#: ../extensions/importer/gth-import-task.c:445
-#: ../extensions/importer/gth-import-task.c:480
-#: ../extensions/importer/gth-import-task.c:651
+#: ../extensions/importer/gth-import-task.c:426
+#: ../extensions/importer/gth-import-task.c:461
+#: ../extensions/importer/gth-import-task.c:671
 msgid "Importing files"
 msgstr "Importē datnes"
 
-#: ../extensions/importer/gth-import-task.c:601
+#: ../extensions/importer/gth-import-task.c:620
 msgid "No file imported"
 msgstr "Nav importētu datņu"
 
-#: ../extensions/importer/gth-import-task.c:602
+#: ../extensions/importer/gth-import-task.c:621
 msgid "The selected files are already present in the destination."
 msgstr "Izvēlētās datnes jau atrodas mērķī."
 
-#: ../extensions/importer/gth-import-task.c:625
+#: ../extensions/importer/gth-import-task.c:644
 #: ../gthumb/gth-file-source-vfs.c:694
 msgid "Could not delete the files"
 msgstr "Nevarēja izdzēst datnes"
 
-#: ../extensions/importer/gth-import-task.c:626
+#: ../extensions/importer/gth-import-task.c:645
 msgid "Delete operation not supported."
 msgstr "Dzēšanas darbība nav atbalstīta."
 
-#: ../extensions/importer/gth-import-task.c:712
+#: ../extensions/importer/gth-import-task.c:732
 msgid "Last imported"
 msgstr "Pēdējoreiz importēts"
 
-#: ../extensions/importer/gth-import-task.c:818
+#: ../extensions/importer/gth-import-task.c:838
 msgid "No file specified."
 msgstr "Nav norādīta datne."
 
 #. Translators: For example: Not enough free space in '/home/user/Images'.\n1.3 GB of space is required but only 300 MB is available.
-#: ../extensions/importer/gth-import-task.c:855
+#: ../extensions/importer/gth-import-task.c:875
 #, c-format
 msgid ""
 "Not enough free space in '%s'.\n"
@@ -3654,7 +3599,7 @@ msgstr ""
 "“%s” nepietiek brīvas vietas.\n"
 "Vajadzīgs %s brīvas vietas, bet ir pieejams tikai %s."
 
-#: ../extensions/list_tools/callbacks.c:76 ../gthumb/gth-filterbar.c:311
+#: ../extensions/list_tools/callbacks.c:76 ../gthumb/gth-filterbar.c:304
 msgid "Personalize..."
 msgstr "Personalizēt..."
 
@@ -3792,11 +3737,11 @@ msgstr "Rediģēt komandu"
 msgid "Are you sure you want to delete the selected command?"
 msgstr "Vai tiešām vēlaties dzēst izvēlēto komandu?"
 
-#: ../extensions/list_tools/gth-script.c:610
+#: ../extensions/list_tools/gth-script.c:615
 msgid "Enter a value:"
 msgstr "Ievadiet vērtību:"
 
-#: ../extensions/list_tools/gth-script.c:745
+#: ../extensions/list_tools/gth-script.c:750
 #: ../extensions/webalbums/gth-web-exporter.c:558
 #: ../extensions/webalbums/gth-web-exporter.c:570
 #: ../extensions/webalbums/gth-web-exporter.c:578
@@ -3864,6 +3809,47 @@ msgstr "Šim attēlam nav pieejama ģeogrāfiskās pozīcijas informācija"
 msgid "View the photo position on the map"
 msgstr "Skatīt fotogrāfijas novietojumu uz kartes"
 
+#: ../extensions/oauth/data/ui/oauth-account-manager.ui.h:1
+msgid "A_ccounts:"
+msgstr "_Konti:"
+
+#: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
+#: ../gthumb/gth-folder-tree.c:1067
+msgid "Loading..."
+msgstr "Ielādē..."
+
+#: ../extensions/oauth/oauth-account-chooser-dialog.c:200
+msgid "New authentication..."
+msgstr "Jauna autentificēšana..."
+
+#: ../extensions/oauth/oauth-ask-authorization-dialog.c:245
+msgid "Authorization Required"
+msgstr "Nepieciešama pilnvarošana"
+
+#: ../extensions/oauth/web-service.c:378
+msgid "Choose _Account..."
+msgstr "Izvēlieties _kontu..."
+
+#: ../extensions/oauth/web-service.c:656
+msgid "Choose Account"
+msgstr "Izvēlieties kontu"
+
+#: ../extensions/oauth/web-service.c:773
+msgid "Edit Accounts"
+msgstr "Rediģēt kontus"
+
+#: ../extensions/oauth/web-service.c:791 ../extensions/oauth/web-service.c:808
+msgid "Connecting to the server"
+msgstr "Savienojas ar serveri"
+
+#: ../extensions/oauth/web-service.c:792
+msgid "Asking authorization"
+msgstr "Prasa pilnvarošanu"
+
+#: ../extensions/oauth/web-service.c:809
+msgid "Getting account information"
+msgstr "Saņem konta informāciju"
+
 #: ../extensions/photobucket/callbacks.c:54
 msgid "Photobucket..."
 msgstr "Photobucket..."
@@ -3901,7 +3887,7 @@ msgid "17ʺ screen ( 1024 x 768 )"
 msgstr "17ʺ ekrāns ( 1024 x 768 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:299
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:296
 msgid "1 megabyte file size"
 msgstr "1 megabaita datņu izmērs"
 
@@ -3909,31 +3895,31 @@ msgstr "1 megabaita datņu izmērs"
 msgid "_Container:"
 msgstr "_Konteineris:"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:293
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
 msgid "Tiny ( 100 × 75 )"
 msgstr "Sīks ( 100 × 75 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:294
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
 msgid "Small ( 160 × 120 )"
 msgstr "Mazs ( 160 × 120 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:295
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:292
 msgid "Medium ( 320 × 240 )"
 msgstr "Vidējs ( 320 × 240 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:296
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:293
 msgid "Large ( 640 × 480 )"
 msgstr "Liels ( 640 × 480 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:297
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:294
 msgid "15ʺ screen ( 800 × 600 )"
 msgstr "15ʺ ekrāns ( 800 × 600 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:298
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:295
 msgid "17ʺ screen ( 1024 × 768 )"
 msgstr "17ʺ ekrāns ( 1024 × 768 )"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:306
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:303
 msgid "2 megabyte file size"
 msgstr "2 megabaitu datņu izmērs"
 
@@ -3975,7 +3961,7 @@ msgstr "Pēc importēšanas no ierīces:"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#: ../gthumb/gth-filterbar.c:421
+#: ../gthumb/gth-filterbar.c:404
 msgid "S_how:"
 msgstr "Rā_dīt:"
 
@@ -3992,7 +3978,7 @@ msgid "_Delete the imported files from the source"
 msgstr "_Dzēst importētos attēlus no avota"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:227
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:174
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:149
 msgid "Could not import the files"
 msgstr "Nevarēja importēt datnes"
 
@@ -4007,7 +3993,7 @@ msgid "Could not load the folder"
 msgstr "Nevarēja ielādēt mapi"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
-#: ../gthumb/gth-browser.c:2014
+#: ../gthumb/gth-browser.c:2091
 msgid "Getting folder listing..."
 msgstr "Saņem mapju sarakstu..."
 
@@ -4052,50 +4038,14 @@ msgstr "Eksportēt uz Picasa tīmekļa albumu"
 msgid "_Albums:"
 msgstr "_Albumi:"
 
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
-msgid "Import from Picasa Web Album"
-msgstr "Importēt no Picasa tīmekļa albuma"
-
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
-msgid "_Album:"
-msgstr "_Albums:"
-
-#: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:1
-msgid "_E-Mail:"
-msgstr "_E-pasts:"
-
-#: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:2
-msgid ""
-"Type the characters you see in the picture below. Letters are not case-"
-"sensitive."
-msgstr "Ievadiet rakstzīmes, ko redzat attēlā zemāk. Burti nav reģistrjutīgi."
-
-#: ../extensions/picasaweb/data/ui/picasa-web-account-properties.ui.h:3
-msgid "_Password:"
-msgstr "_Parole:"
-
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "Public"
 msgstr "Publisks"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:372
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:310
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:458
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:469
 msgid "Could not get the album list"
 msgstr "Nevarēja saņemt albumu sarakstu"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:456
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:394
-msgid "Picasa Web Album"
-msgstr "Picasa tīmekļa albums"
-
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:543
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:481
-msgid "Account"
-msgstr "Konts"
-
-#: ../extensions/picasaweb/picasa-account-properties-dialog.c:104
-msgid "Could not load the file"
-msgstr "Nevarēja ielādēt datni"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:1
 msgid "Picasa Web Albums"
@@ -4104,6 +4054,11 @@ msgstr "Picasa tīmekļa albums"
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
 msgstr "Augšupielādēt attēlus uz Picasa tīmekļa albumu"
+
+#: ../extensions/raw_files/gth-metadata-provider-raw.c:106
+#| msgid "Format"
+msgid "RAW Format"
+msgstr "Jēls (RAW) formāts"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:1
 msgid "Raw format support"
@@ -4239,36 +4194,36 @@ msgstr "Digitalizēšanas datums"
 msgid "File attribute"
 msgstr "Datnes atribūts"
 
-#: ../extensions/rename_series/dlg-rename-series.c:552
-#: ../extensions/rename_series/dlg-rename-series.c:683
+#: ../extensions/rename_series/dlg-rename-series.c:558
+#: ../extensions/rename_series/dlg-rename-series.c:689
 msgid "Could not rename the files"
 msgstr "Nevarēja pārsaukt datnes"
 
-#: ../extensions/rename_series/dlg-rename-series.c:780
+#: ../extensions/rename_series/dlg-rename-series.c:786
 msgid "Could not save the template"
 msgstr "Nevarēja saglabāt veidni"
 
-#: ../extensions/rename_series/dlg-rename-series.c:798
+#: ../extensions/rename_series/dlg-rename-series.c:804
 msgid "Edit Template"
 msgstr "Rediģēt veidni"
 
-#: ../extensions/rename_series/dlg-rename-series.c:856
+#: ../extensions/rename_series/dlg-rename-series.c:862
 msgid "Old Name"
 msgstr "Vecais nosaukums"
 
-#: ../extensions/rename_series/dlg-rename-series.c:867
+#: ../extensions/rename_series/dlg-rename-series.c:873
 msgid "New Name"
 msgstr "Jauns nosaukums"
 
-#: ../extensions/rename_series/dlg-rename-series.c:944
+#: ../extensions/rename_series/dlg-rename-series.c:950
 msgid "Keep original case"
 msgstr "Paturēt sākotnējo reģistru"
 
-#: ../extensions/rename_series/dlg-rename-series.c:945
+#: ../extensions/rename_series/dlg-rename-series.c:951
 msgid "Convert to lower-case"
 msgstr "Pārveidot uz mazajiem burtiem"
 
-#: ../extensions/rename_series/dlg-rename-series.c:946
+#: ../extensions/rename_series/dlg-rename-series.c:952
 msgid "Convert to upper-case"
 msgstr "Pārveidot uz lielajiem burtiem"
 
@@ -4383,23 +4338,29 @@ msgstr "Atcelt darbību"
 msgid "File search tool."
 msgstr "Datņu meklēšanas rīks."
 
-#: ../extensions/selections/callbacks.c:77
+#: ../extensions/selections/callbacks.c:78
 msgid "Add to _Selection"
 msgstr "Pievienot _izvēlei"
 
-#: ../extensions/selections/callbacks.c:86
+#: ../extensions/selections/callbacks.c:87
 msgid "Selection 1"
 msgstr "Izvēle 1"
 
-#: ../extensions/selections/callbacks.c:91
+#: ../extensions/selections/callbacks.c:92
 msgid "Selection 2"
 msgstr "Izvēle 2"
 
-#: ../extensions/selections/callbacks.c:96
+#: ../extensions/selections/callbacks.c:97
 msgid "Selection 3"
 msgstr "Izvēle 3"
 
-#: ../extensions/selections/callbacks.c:285
+#: ../extensions/selections/callbacks.c:164
+#, c-format
+#| msgid "Selection %d"
+msgid "Show selection %d"
+msgstr "Rādīt izvēli %d"
+
+#: ../extensions/selections/callbacks.c:392
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -4469,7 +4430,7 @@ msgstr "Pievienot datnes repertuāram"
 msgid "Remove the selected files"
 msgstr "Izņemt izvēlētās datnes"
 
-#: ../extensions/slideshow/gth-slideshow.c:231
+#: ../extensions/slideshow/gth-slideshow.c:232
 msgid "Playing slideshow"
 msgstr "Rada slaidrādi"
 
@@ -4485,35 +4446,35 @@ msgstr "Audio datnes"
 msgid "Random"
 msgstr "Nejaušs"
 
-#: ../extensions/slideshow/main.c:283
+#: ../extensions/slideshow/main.c:297
 msgid "Push from right"
 msgstr "Grūst no labās puses"
 
-#: ../extensions/slideshow/main.c:289
+#: ../extensions/slideshow/main.c:303
 msgid "Push from bottom"
 msgstr "Grūst no apakšas"
 
-#: ../extensions/slideshow/main.c:295
+#: ../extensions/slideshow/main.c:309
 msgid "Slide from right"
 msgstr "Slīdēt no labās puses"
 
-#: ../extensions/slideshow/main.c:301
+#: ../extensions/slideshow/main.c:315
 msgid "Slide from bottom"
 msgstr "Slīdēt no apakšas"
 
-#: ../extensions/slideshow/main.c:307
+#: ../extensions/slideshow/main.c:321
 msgid "Fade in"
 msgstr "Ieplūst iekšā"
 
-#: ../extensions/slideshow/main.c:313
+#: ../extensions/slideshow/main.c:327
 msgid "Flip page"
 msgstr "Pāršķirt lapu"
 
-#: ../extensions/slideshow/main.c:319
+#: ../extensions/slideshow/main.c:333
 msgid "Cube from right"
 msgstr "Kubs no labās puses"
 
-#: ../extensions/slideshow/main.c:325
+#: ../extensions/slideshow/main.c:339
 msgid "Cube from bottom"
 msgstr "Kubs no apakšas"
 
@@ -4647,27 +4608,27 @@ msgid "The album has been created successfully."
 msgstr "Albums ir veiksmīgi izveidots."
 
 #: ../extensions/webalbums/gth-web-exporter.c:2104
-#: ../extensions/webalbums/gth-web-exporter.c:2131
+#: ../extensions/webalbums/gth-web-exporter.c:2132
 msgid "Saving thumbnails"
 msgstr "Saglabā sīktēlus"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2159
+#: ../extensions/webalbums/gth-web-exporter.c:2160
 msgid "Saving HTML pages: Images"
 msgstr "Saglabā HTML lapas — attēlus"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2217
+#: ../extensions/webalbums/gth-web-exporter.c:2218
 msgid "Saving HTML pages: Indexes"
 msgstr "Saglabā HTML lapas — indeksus"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2500
+#: ../extensions/webalbums/gth-web-exporter.c:2503
 msgid "Copying original images"
 msgstr "Kopē sākotnējos attēlus"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2960
+#: ../extensions/webalbums/gth-web-exporter.c:2963
 msgid "Could not find the style folder"
 msgstr "Nevarēja atrast stila mapi"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2998
+#: ../extensions/webalbums/gth-web-exporter.c:3001
 msgid "Could not create a temporary folder"
 msgstr "Nevarēja izveidot pagaidu mapi"
 
@@ -4679,9 +4640,9 @@ msgstr "Tīmekļa albums"
 msgid "Create static web albums."
 msgstr "Izveidot statisku tīmekļa albumu."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1336
-#: ../gthumb/gth-browser.c:1905 ../gthumb/gth-browser.c:6100
-#: ../gthumb/gth-browser.c:6119 ../gthumb/gth-browser.c:6143
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1398
+#: ../gthumb/gth-browser.c:1971 ../gthumb/gth-browser.c:6234
+#: ../gthumb/gth-browser.c:6253 ../gthumb/gth-browser.c:6277
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nevarēja ielādēt pozīciju “%s”"
@@ -4702,7 +4663,7 @@ msgstr "Jauns filtrs"
 msgid "Edit Filter"
 msgstr "Rediģēt filtru"
 
-#: ../gthumb/dlg-preferences-extensions.c:67 ../gthumb/gth-filterbar.c:277
+#: ../gthumb/dlg-preferences-extensions.c:67 ../gthumb/gth-filterbar.c:270
 msgid "All"
 msgstr "Visi"
 
@@ -4801,7 +4762,7 @@ msgstr "Saņem informāciju par datni"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3068
+#: ../gthumb/glib-utils.c:3072
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4813,7 +4774,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3077
+#: ../gthumb/glib-utils.c:3081
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4939,15 +4900,15 @@ msgstr "Pārslēgties uz pilnekrānu"
 msgid "Leave Fullscreen"
 msgstr "Iziet no pilnekrāna režīma"
 
-#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3749
+#: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3843
 msgid "Go to the previous visited location"
 msgstr "Doties uz iepriekš apmeklēto vietu"
 
-#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3767
+#: ../gthumb/gth-browser-actions-entries.h:150 ../gthumb/gth-browser.c:3861
 msgid "Go to the next visited location"
 msgstr "Doties uz nākamo apmeklēto vietu"
 
-#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3785
+#: ../gthumb/gth-browser-actions-entries.h:156 ../gthumb/gth-browser.c:3879
 msgid "Go up one level"
 msgstr "Doties vienu līmeni uz augšu"
 
@@ -4959,7 +4920,7 @@ msgstr "_Atrašanās vieta..."
 msgid "Specify a location to open"
 msgstr "Norādiet vietu, ko atvērt"
 
-#: ../gthumb/gth-browser-actions-entries.h:173 ../gthumb/gth-browser.c:677
+#: ../gthumb/gth-browser-actions-entries.h:173 ../gthumb/gth-browser.c:723
 msgid "_Delete History"
 msgstr "_Dzēst vēsturi"
 
@@ -5066,16 +5027,16 @@ msgstr "_Pielāgot logu attēlam"
 msgid "Resize the window to the size of the image"
 msgstr "Mainīt loga izmēru, lai tas pielāgotos attēla izmēram"
 
-#: ../gthumb/gth-browser.c:374
+#: ../gthumb/gth-browser.c:420
 #, c-format
 msgid "Open %s"
 msgstr "Atvērt %s"
 
-#: ../gthumb/gth-browser.c:514
+#: ../gthumb/gth-browser.c:560
 msgid "[modified]"
 msgstr "[pārveidots]"
 
-#: ../gthumb/gth-browser.c:1073
+#: ../gthumb/gth-browser.c:1119
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -5083,51 +5044,51 @@ msgstr[0] "Izvēlēta %d datne (%s)"
 msgstr[1] "Izvēlētas %d datnes (%s)"
 msgstr[2] "Izvēlētas %d datnes (%s)"
 
-#: ../gthumb/gth-browser.c:1108
+#: ../gthumb/gth-browser.c:1154
 #, c-format
 msgid "%s of free space"
 msgstr "%s brīvas vietas"
 
-#: ../gthumb/gth-browser.c:1998 ../gthumb/gth-browser.c:2025
+#: ../gthumb/gth-browser.c:2075 ../gthumb/gth-browser.c:2102
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "%s nav atrasts piemērots modulis"
 
-#: ../gthumb/gth-browser.c:2144
+#: ../gthumb/gth-browser.c:2221
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Saglabāt izmaiņas datnē “%s”?"
 
-#: ../gthumb/gth-browser.c:2149
+#: ../gthumb/gth-browser.c:2226
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Ja nesaglabāsiet datnē, izmaiņas neatgriezeniski pazudīs."
 
-#: ../gthumb/gth-browser.c:2150
+#: ../gthumb/gth-browser.c:2227
 msgid "Do _Not Save"
 msgstr "_Nesaglabāt"
 
-#: ../gthumb/gth-browser.c:2928 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:3022 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nevarēja mainīt nosaukumu"
 
-#: ../gthumb/gth-browser.c:3359 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3453 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Pārveidots"
 
-#: ../gthumb/gth-browser.c:3750 ../gthumb/gth-browser.c:3768
+#: ../gthumb/gth-browser.c:3844 ../gthumb/gth-browser.c:3862
 msgid "View the list of visited locations"
 msgstr "Skatīt apmeklēto vietu sarakstu"
 
-#: ../gthumb/gth-browser.c:3786
+#: ../gthumb/gth-browser.c:3880
 msgid "View the list of upper locations"
 msgstr "Skatīt augšējo vietu sarakstu"
 
-#: ../gthumb/gth-browser.c:6101
+#: ../gthumb/gth-browser.c:6235
 #, c-format
 msgid "File type not supported"
 msgstr "Datņu tips nav atbalstīts"
 
-#: ../gthumb/gth-browser.c:6144
+#: ../gthumb/gth-browser.c:6278
 #, c-format
 msgid "No suitable module found"
 msgstr "Nav atrasts piemērots modulis"
@@ -5186,22 +5147,18 @@ msgstr[0] "Vai tiešām vēlaties neatgriezeniski dzēst %'d izvēlēto datni?"
 msgstr[1] "Vai tiešām vēlaties neatgriezeniski dzēst %'d izvēlētās datnes?"
 msgstr[2] "Vai tiešām vēlaties neatgriezeniski dzēst %'d izvēlēto datņu?"
 
-#: ../gthumb/gth-filterbar.c:413
-msgid "Hide the filterbar"
-msgstr "Slēpt filtru joslu"
-
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
-#: ../gthumb/gth-test-simple.c:75
+#: ../gthumb/gth-test-simple.c:77
 msgid "kB"
 msgstr "kB"
 
 #: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
-#: ../gthumb/gth-test-simple.c:76
+#: ../gthumb/gth-test-simple.c:78
 msgid "MB"
 msgstr "MB"
 
 #: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:180
-#: ../gthumb/gth-test-simple.c:77
+#: ../gthumb/gth-test-simple.c:79
 msgid "GB"
 msgstr "GB"
 
@@ -5223,11 +5180,7 @@ msgstr "dilstoši"
 msgid "No limit specified"
 msgstr "Nav norādīts limits"
 
-#: ../gthumb/gth-folder-tree.c:857
-msgid "Loading..."
-msgstr "Ielādē..."
-
-#: ../gthumb/gth-folder-tree.c:1100
+#: ../gthumb/gth-folder-tree.c:1369
 msgid "(Open Parent)"
 msgstr "(atvērt virsmapi)"
 
@@ -5275,7 +5228,7 @@ msgstr "Nevarēja pārsaukt datni"
 msgid "No options available for this file type"
 msgstr "Šim datņu tipam nav pieejamu opciju"
 
-#: ../gthumb/gth-image-saver.c:181
+#: ../gthumb/gth-image-saver.c:185
 #, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
 msgstr "Nevarēja atrast piemērotu moduli, lai saglabātu attēlu kā “%s”"
@@ -5293,7 +5246,7 @@ msgid "Name"
 msgstr "Nosaukums"
 
 #: ../gthumb/gth-main-default-metadata.c:40
-#: ../gthumb/gth-main-default-tests.c:284
+#: ../gthumb/gth-main-default-tests.c:305
 msgid "Size"
 msgstr "Izmērs"
 
@@ -5333,31 +5286,31 @@ msgstr "bez kārtošanas"
 msgid "dimensions"
 msgstr "izmēri"
 
-#: ../gthumb/gth-main-default-tests.c:233
+#: ../gthumb/gth-main-default-tests.c:254
 msgid "All Files"
 msgstr "Visas datnes"
 
-#: ../gthumb/gth-main-default-tests.c:261
+#: ../gthumb/gth-main-default-tests.c:282
 msgid "Media"
 msgstr "Skaņa un video"
 
-#: ../gthumb/gth-main-default-tests.c:268
+#: ../gthumb/gth-main-default-tests.c:289
 msgid "Text Files"
 msgstr "Teksta datnes"
 
-#: ../gthumb/gth-main-default-tests.c:276
+#: ../gthumb/gth-main-default-tests.c:297
 msgid "Filename"
 msgstr "Datnes nosaukums"
 
-#: ../gthumb/gth-main-default-tests.c:308
+#: ../gthumb/gth-main-default-tests.c:329
 msgid "Title (embedded)"
 msgstr "Virsraksts (iegults)"
 
-#: ../gthumb/gth-main-default-tests.c:316
+#: ../gthumb/gth-main-default-tests.c:337
 msgid "Description (embedded)"
 msgstr "Apraksts (iegults)"
 
-#: ../gthumb/gth-progress-dialog.c:144
+#: ../gthumb/gth-progress-dialog.c:146
 msgid "Cancel operation"
 msgstr "Atcelt darbību"
 
@@ -5365,12 +5318,19 @@ msgstr "Atcelt darbību"
 msgid "Saving file information"
 msgstr "Saglabā informāciju par datni"
 
-#: ../gthumb/gth-tags-entry.c:388
+#. Translators: %s is a filename
+#: ../gthumb/gth-save-image-task.c:160
+#, c-format
+#| msgid "Starting %s"
+msgid "Saving '%s'"
+msgstr "Saglabā “%s”"
+
+#: ../gthumb/gth-tags-entry.c:390
 #, c-format
 msgid "Create tag «%s»"
 msgstr "Izveidot birku “%s”"
 
-#: ../gthumb/gth-tags-entry.c:735
+#: ../gthumb/gth-tags-entry.c:814
 msgid "Show all the tags"
 msgstr "Rādīt visas birkas"
 
@@ -5423,7 +5383,7 @@ msgid "Family"
 msgstr "Ģimene"
 
 #: ../gthumb/gth-test-category.c:46 ../gthumb/gth-test-simple.c:49
-#: ../gthumb/gth-test-simple.c:64
+#: ../gthumb/gth-test-simple.c:66
 msgid "is"
 msgstr "ir"
 
@@ -5432,13 +5392,12 @@ msgid "is only"
 msgstr "ir tikai"
 
 #: ../gthumb/gth-test-category.c:48 ../gthumb/gth-test-simple.c:50
-#: ../gthumb/gth-test-simple.c:65
+#: ../gthumb/gth-test-simple.c:67
 msgid "is not"
 msgstr "nav"
 
-#: ../gthumb/gth-test-category.c:407 ../gthumb/gth-test-simple.c:812
-#: ../gthumb/gth-test-simple.c:838 ../gthumb/gth-test-simple.c:859
-#: ../gthumb/gth-test-simple.c:885
+#: ../gthumb/gth-test-category.c:407 ../gthumb/gth-test-simple.c:908
+#: ../gthumb/gth-test-simple.c:929 ../gthumb/gth-test-simple.c:955
 #, c-format
 msgid "The test definition is incomplete"
 msgstr "Testa definīcija ir nepabeigta"
@@ -5483,11 +5442,21 @@ msgstr "ir lielāks par"
 msgid "is equal to"
 msgstr "ir vienāds ar"
 
-#: ../gthumb/gth-test-simple.c:62
+#: ../gthumb/gth-test-simple.c:59
+#| msgid "is greater than"
+msgid "is greater than or equal to"
+msgstr "ir lielāks vai vienāds ar"
+
+#: ../gthumb/gth-test-simple.c:60
+#| msgid "is lower than"
+msgid "is lower than or equal to"
+msgstr "ir mazāks vai vienāds ar"
+
+#: ../gthumb/gth-test-simple.c:64
 msgid "is before"
 msgstr "ir pirms"
 
-#: ../gthumb/gth-test-simple.c:63
+#: ../gthumb/gth-test-simple.c:65
 msgid "is after"
 msgstr "ir pēc"
 
@@ -5507,27 +5476,27 @@ msgstr "Aizvērt šo logu"
 msgid "Close _All Windows"
 msgstr "_Aizvērt visus logus"
 
-#: ../gthumb/gtk-utils.c:499
+#: ../gthumb/gtk-utils.c:491
 msgid "Could not display help"
 msgstr "Nevarēja parādīt palīdzību"
 
-#: ../gthumb/gtk-utils.c:828 ../gthumb/gtk-utils.c:835
+#: ../gthumb/gtk-utils.c:811 ../gthumb/gtk-utils.c:818
 msgid "Could not launch the application"
 msgstr "Nevarēja palaist lietotni"
 
-#: ../gthumb/gtk-utils.c:938
+#: ../gthumb/gtk-utils.c:921
 msgid "_Copy Here"
 msgstr "_Kopēt šeit"
 
-#: ../gthumb/gtk-utils.c:943
+#: ../gthumb/gtk-utils.c:926
 msgid "_Move Here"
 msgstr "_Pārvietot šeit"
 
-#: ../gthumb/gtk-utils.c:948
+#: ../gthumb/gtk-utils.c:931
 msgid "_Link Here"
 msgstr "_Veidot saiti šeit"
 
-#: ../gthumb/gtk-utils.c:957
+#: ../gthumb/gtk-utils.c:940
 msgid "Cancel"
 msgstr "Atcelt"
 
@@ -5551,9 +5520,36 @@ msgstr "Automātiski importēt digitālās fotokameras fotogrāfijas"
 msgid "Show version"
 msgstr "Rādīt versiju"
 
-#: ../gthumb/main.c:483
+#: ../gthumb/main.c:484
 msgid "- Image browser and viewer"
 msgstr "- Attēlu pārlūks un skatītājs"
+
+#~ msgid "Whether to always use a black background."
+#~ msgstr "Vai vienmēr lietot melnu fonu."
+
+#~ msgid "_E-Mail:"
+#~ msgstr "_E-pasts:"
+
+#~ msgid ""
+#~ "Type the characters you see in the picture below. Letters are not case-"
+#~ "sensitive."
+#~ msgstr ""
+#~ "Ievadiet rakstzīmes, ko redzat attēlā zemāk. Burti nav reģistrjutīgi."
+
+#~ msgid "_Password:"
+#~ msgstr "_Parole:"
+
+#~ msgid "Picasa Web Album"
+#~ msgstr "Picasa tīmekļa albums"
+
+#~ msgid "Account"
+#~ msgstr "Konts"
+
+#~ msgid "Could not load the file"
+#~ msgstr "Nevarēja ielādēt datni"
+
+#~ msgid "Hide the filterbar"
+#~ msgstr "Slēpt filtru joslu"
 
 #~ msgid "Exif DateTimeOriginal tag"
 #~ msgstr "Exif DateTimeOriginal birka"
