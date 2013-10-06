@@ -183,6 +183,7 @@ resize_task_exec (GthAsyncTask *task,
 						  self->priv->new_height,
 						  (self->priv->high_quality ? SCALE_FILTER_BEST : SCALE_FILTER_FAST),
 						  task);
+	_cairo_image_surface_clear_metadata (destination);
 	gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), destination);
 
 	cairo_surface_destroy (destination);

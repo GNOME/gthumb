@@ -169,6 +169,7 @@ cairo_surface_metadata_t *
 		   _cairo_image_surface_get_metadata        (cairo_surface_t       *surface);
 void               _cairo_image_surface_copy_metadata       (cairo_surface_t	   *src,
 							     cairo_surface_t	   *dest);
+void               _cairo_image_surface_clear_metadata      (cairo_surface_t	   *surface);
 gboolean           _cairo_image_surface_get_has_alpha       (cairo_surface_t       *surface);
 gboolean           _cairo_image_surface_get_original_size   (cairo_surface_t       *surface,
 							     int                   *original_width,

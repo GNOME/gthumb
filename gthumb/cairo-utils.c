@@ -120,6 +120,17 @@ _cairo_image_surface_flush_and_get_data (cairo_surface_t *surface)
 }
 
 
+static void
+_cairo_surface_metadata_init (cairo_surface_metadata_t *metadata)
+{
+	metadata->has_alpha = FALSE;
+	metadata->original_width = 0;
+	metadata->original_height = 0;
+	metadata->thumbnail.image_width = 0;
+	metadata->thumbnail.image_height = 0;
+}
+
+
 cairo_surface_metadata_t *
 _cairo_image_surface_get_metadata (cairo_surface_t *surface)
 {
@@ -128,11 +139,7 @@ _cairo_image_surface_get_metadata (cairo_surface_t *surface)
 	metadata = cairo_surface_get_user_data (surface, &surface_metadata_key);
 	if (metadata == NULL) {
 		metadata = g_new0 (cairo_surface_metadata_t, 1);
-		metadata->has_alpha = FALSE;
-		metadata->original_width = 0;
-		metadata->original_height = 0;
-		metadata->thumbnail.image_width = 0;
-		metadata->thumbnail.image_height = 0;
+		_cairo_surface_metadata_init (metadata);
 		cairo_surface_set_user_data (surface, &surface_metadata_key, metadata, surface_metadata_free);
 	}
 
@@ -156,6 +163,16 @@ _cairo_image_surface_copy_metadata (cairo_surface_t *src,
 	dest_metadata->thumbnail.image_width = src_metadata->thumbnail.image_width;
 	dest_metadata->thumbnail.image_height = src_metadata->thumbnail.image_height;
 
+}
+
+
+void
+_cairo_image_surface_clear_metadata (cairo_surface_t *surface)
+{
+	cairo_surface_metadata_t *metadata;
+
+	metadata = _cairo_image_surface_get_metadata (surface);
+	_cairo_surface_metadata_init (metadata);
 }
 
 
