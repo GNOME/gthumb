@@ -232,14 +232,48 @@ gth_image_viewer_page_file_loaded (GthImageViewerPage *self,
 static int
 _gth_image_preloader_get_requested_size (GthImageViewerPage *self)
 {
-	int window_width;
-	int window_height;
+	int    requested_size;
+	int    original_width;
+	int    original_height;
+	double zoom;
+	int    window_width;
+	int    window_height;
 
-	gtk_window_get_size (GTK_WINDOW (self->priv->browser),
-			     &window_width,
-			     &window_height);
+	requested_size = -1;
 
-	return MAX (window_width, window_height);
+	switch (gth_image_viewer_get_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer))) {
+	case GTH_ZOOM_CHANGE_ACTUAL_SIZE:
+		requested_size = -1;
+		break;
+
+	case GTH_ZOOM_CHANGE_KEEP_PREV:
+		if (gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer)) == GTH_FIT_NONE) {
+			gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer),
+							    &original_width,
+							    &original_height);
+			zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
+			requested_size = (zoom < 1.0) ? MAX (original_width, original_height) * zoom : -1;
+		}
+		else {
+			gtk_window_get_size (GTK_WINDOW (self->priv->browser),
+					     &window_width,
+					     &window_height);
+			requested_size = MAX (window_width, window_height);
+		}
+		break;
+
+	case GTH_ZOOM_CHANGE_FIT_SIZE:
+	case GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER:
+	case GTH_ZOOM_CHANGE_FIT_WIDTH:
+	case GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER:
+		gtk_window_get_size (GTK_WINDOW (self->priv->browser),
+				     &window_width,
+				     &window_height);
+		requested_size = MAX (window_width, window_height);
+		break;
+	}
+
+	return requested_size;
 }
 
 
@@ -276,7 +310,6 @@ different_quality_ready_cb (GObject		*source_object,
 		goto clear_data;
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
-
 	gth_image_viewer_set_better_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
 					     image,
 					     original_width,
@@ -298,8 +331,8 @@ static gboolean
 update_quality_cb (gpointer user_data)
 {
 	GthImageViewerPage *self = user_data;
-	GthFileData        *file_data;
-	double              zoom;
+	int                 old_requested_size;
+	int                 new_requested_size;
 
 	if (self->priv->update_quality_event != 0) {
 		g_source_remove (self->priv->update_quality_event);
@@ -309,47 +342,17 @@ update_quality_cb (gpointer user_data)
 	if (self->priv->loading_image)
 		return FALSE;
 
-	file_data = self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data;
-	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
-
-	if (zoom >= 1.0) {
-		int requested_size;
-		int original_width;
-		int original_height;
-
-		requested_size = gth_image_viewer_get_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer));
-		gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer),
-						    &original_width,
-						    &original_height);
-		if ((requested_size > 0) && (MAX (original_width, original_height) > requested_size)) {
-			gth_image_preloader_load (self->priv->preloader,
-						  file_data,
-						  GTH_ORIGINAL_SIZE,
-						  NULL,
-						  different_quality_ready_cb,
-						  self,
-						  GTH_NO_PRELOADERS,
-						  NULL);
-		}
-	}
-	else {
-		int old_requested_size;
-		int new_requested_size;
-
-		old_requested_size = gth_image_viewer_get_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer));
-		new_requested_size = _gth_image_preloader_get_requested_size (self);
-		if (old_requested_size != new_requested_size) {
-			gth_image_preloader_load (self->priv->preloader,
-						  file_data,
-						  new_requested_size,
-						  NULL,
-						  different_quality_ready_cb,
-						  self,
-						  GTH_NO_PRELOADERS,
-						  NULL);
-		}
-	}
-
+	old_requested_size = gth_image_viewer_get_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer));
+	new_requested_size = _gth_image_preloader_get_requested_size (self);
+	if (old_requested_size != new_requested_size)
+		gth_image_preloader_load (self->priv->preloader,
+					  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
+					  new_requested_size,
+					  NULL,
+					  different_quality_ready_cb,
+					  self,
+					  GTH_NO_PRELOADERS,
+					  NULL);
 
 	return FALSE;
 }
