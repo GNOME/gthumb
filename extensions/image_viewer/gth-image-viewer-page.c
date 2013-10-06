@@ -1435,7 +1435,7 @@ _gth_image_viewer_page_set_image (GthImageViewerPage *self,
 	if (image == NULL)
 		return;
 
-	if (requested_size == -1)
+	if (modified)
 		gth_image_preloader_set_modified_image (self->priv->preloader, image);
 	gth_image_viewer_set_surface (GTH_IMAGE_VIEWER (self->priv->viewer), image, -1, -1);
 	gth_image_viewer_set_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer), requested_size);
