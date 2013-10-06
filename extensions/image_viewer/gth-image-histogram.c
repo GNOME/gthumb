@@ -74,7 +74,7 @@ gth_image_histogram_real_set_file (GthPropertyView *base,
 		return;
 	}
 
-	gth_histogram_calculate_for_image (self->priv->histogram, gth_image_viewer_page_get_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+	gth_histogram_calculate_for_image (self->priv->histogram, gth_image_viewer_page_get_current_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
 }
 
 

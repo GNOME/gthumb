@@ -1618,9 +1618,16 @@ gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
 
 
 cairo_surface_t *
-gth_image_viewer_page_get_image (GthImageViewerPage *self)
+gth_image_viewer_page_get_current_image (GthImageViewerPage *self)
 {
 	return gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+}
+
+
+cairo_surface_t *
+gth_image_viewer_page_get_modified_image (GthImageViewerPage *self)
+{
+	return gth_image_preloader_get_modified_image (self->priv->preloader);
 }
 
 
@@ -1629,7 +1636,7 @@ gth_image_viewer_page_set_image (GthImageViewerPage *self,
 			 	 cairo_surface_t    *image,
 			 	 gboolean            add_to_history)
 {
-	if (gth_image_viewer_page_get_image (self) == image)
+	if (gth_image_viewer_page_get_current_image (self) == image)
 		return;
 
 	if (add_to_history)
@@ -1816,20 +1823,8 @@ gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
 						  gth_image_viewer_page_get_original);
 	data->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
 
-	if (self->priv->image_changed) {
-		GthImage *image;
-
-		image = gth_image_new_for_surface (gth_image_viewer_page_get_image (self));
-		g_simple_async_result_set_op_res_gpointer (data->result,
-							   image,
-							   (GDestroyNotify) g_object_unref);
-		g_simple_async_result_complete_in_idle (data->result);
-
-		return;
-	}
-
 	gth_image_preloader_load (self->priv->preloader,
-				  self->priv->file_data,
+				  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
 				  -1,
 				  data->cancellable,
 				  original_image_ready_cb,

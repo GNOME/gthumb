@@ -828,3 +828,19 @@ gth_image_preloader_set_modified_image (GthImagePreloader *self,
 	cache_data->error = NULL;
 	_gth_image_preloader_add_to_cache (self, cache_data);
 }
+
+
+cairo_surface_t *
+gth_image_preloader_get_modified_image (GthImagePreloader *self)
+{
+	GList *scan;
+
+	for (scan = self->priv->cache->head; scan; scan = scan->next) {
+		CacheData *cache_data = scan->data;
+
+		if ((cache_data->file_data == GTH_MODIFIED_IMAGE) && (cache_data->requested_size == -1))
+			return gth_image_get_cairo_surface (cache_data->image);
+	}
+
+	return NULL;
+}

@@ -69,5 +69,6 @@ gboolean            gth_image_preloader_load_finish    		 (GthImagePreloader		 *
 							  	  GError			**error);
 void                gth_image_preloader_set_modified_image	 (GthImagePreloader		 *self,
 								  cairo_surface_t		 *image);
+cairo_surface_t *   gth_image_preloader_get_modified_image	 (GthImagePreloader		 *self);
 
 #endif /* GTH_IMAGE_PRELOADER_H */
