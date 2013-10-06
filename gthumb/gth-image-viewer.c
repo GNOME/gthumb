@@ -1986,6 +1986,13 @@ gth_image_viewer_get_has_alpha (GthImageViewer *self)
 }
 
 
+GthImage *
+gth_image_viewer_get_image (GthImageViewer *self)
+{
+	return self->priv->image;
+}
+
+
 GdkPixbuf *
 gth_image_viewer_get_current_pixbuf (GthImageViewer *self)
 {
