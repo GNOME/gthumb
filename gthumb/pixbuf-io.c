@@ -23,6 +23,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #define GDK_PIXBUF_ENABLE_BACKEND 1
+#include "cairo-utils.h"
 #include "gio-utils.h"
 #include "glib-utils.h"
 #include "gth-error.h"
@@ -137,6 +138,7 @@ gth_pixbuf_new_from_file (GInputStream  *istream,
 			  int            requested_size,
 			  int           *original_width,
 			  int           *original_height,
+			  gboolean      *loaded_original,
 			  gboolean       scale_to_original,
 			  GCancellable  *cancellable,
 			  GError       **error)
@@ -145,6 +147,7 @@ gth_pixbuf_new_from_file (GInputStream  *istream,
 	GdkPixbufLoader *pixbuf_loader;
 	GdkPixbuf       *pixbuf;
 	GthImage        *image;
+	gboolean         original_size_rotated = FALSE;
 
 	if (original_width != NULL)
 		*original_width = -1;
@@ -174,24 +177,55 @@ gth_pixbuf_new_from_file (GInputStream  *istream,
 		pixbuf = tmp;
 	}
 
+	if ((original_width != NULL) && (original_height != NULL)) {
+		if (file_data != NULL) {
+			char *path;
+
+			path = g_file_get_path (file_data->file);
+			if (path != NULL) {
+				gdk_pixbuf_get_file_info (path, &scale_data.original_width, &scale_data.original_height);
+				original_size_rotated = TRUE;
+				g_free (path);
+			}
+		}
+	}
+
 	if (pixbuf != NULL) {
 		GdkPixbuf *rotated;
 
 		rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
 		if (rotated != NULL) {
-			scale_data.original_width = gdk_pixbuf_get_width (rotated);
-			scale_data.original_height = gdk_pixbuf_get_height (rotated);
+			if (! original_size_rotated) {
+				/* swap width and height */
+				int tmp = scale_data.original_width;
+				scale_data.original_width = scale_data.original_height;
+				scale_data.original_height =tmp;
+			}
+
 			g_object_unref (pixbuf);
 			pixbuf = rotated;
 		}
 	}
 
-	image = gth_image_new_for_pixbuf (pixbuf);
+	image = gth_image_new ();
+	if (pixbuf != NULL) {
+		cairo_surface_t          *surface;
+		cairo_surface_metadata_t *metadata;
+
+		surface = _cairo_image_surface_create_from_pixbuf (pixbuf);
+		metadata = _cairo_image_surface_get_metadata (surface);
+		metadata->original_width = scale_data.original_width;
+		metadata->original_height = scale_data.original_height;
+		metadata->has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
+		gth_image_set_cairo_surface (image, surface);
+	}
 
 	if (original_width != NULL)
 		*original_width = scale_data.original_width;
 	if (original_height != NULL)
 		*original_height = scale_data.original_height;
+	if (loaded_original != NULL)
+		*loaded_original = (pixbuf != NULL) && (scale_data.original_width == gdk_pixbuf_get_width (pixbuf)) && (scale_data.original_height == gdk_pixbuf_get_height (pixbuf));
 
 	_g_object_unref (pixbuf);
 
@@ -225,6 +259,7 @@ gth_pixbuf_animation_new_from_file (GInputStream  *istream,
 						 requested_size,
 						 original_width,
 						 original_height,
+						 loaded_original,
 						 FALSE,
 						 cancellable,
 						 error);

@@ -35,6 +35,7 @@ GthImage  * gth_pixbuf_new_from_file           (GInputStream     *istream,
 						int               requested_size,
 						int              *original_width,
 						int              *original_height,
+						gboolean         *loaded_original,
 						gboolean          scale_to_original,
 						GCancellable     *cancellable,
 						GError          **error);
