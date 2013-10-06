@@ -27,7 +27,7 @@
 #include "preferences.h"
 
 
-#define UPDATE_QUALITY_DELAY 200
+#define UPDATE_QUALITY_DELAY 100
 
 
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
