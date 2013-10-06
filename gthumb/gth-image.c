@@ -343,7 +343,7 @@ gth_image_get_pixbuf_animation (GthImage *image)
 
 
 gboolean
-gth_image_is_animation (GthImage *image)
+gth_image_get_is_animation (GthImage *image)
 {
 	return ((image->priv->format == GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION)
 	        && (! gdk_pixbuf_animation_is_static_image (image->priv->data.pixbuf_animation)));

@@ -96,7 +96,7 @@ GdkPixbuf *           gth_image_get_pixbuf                  (GthImage           
 void                  gth_image_set_pixbuf_animation        (GthImage           *image,
 						             GdkPixbufAnimation *value);
 GdkPixbufAnimation *  gth_image_get_pixbuf_animation        (GthImage           *image);
-gboolean              gth_image_is_animation                (GthImage           *image);
+gboolean              gth_image_get_is_animation            (GthImage           *image);
 
 G_END_DECLS
 

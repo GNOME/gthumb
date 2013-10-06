@@ -1757,7 +1757,7 @@ gth_image_viewer_set_better_quality (GthImageViewer *self,
 				     int             original_width,
 				     int             original_height)
 {
-	if (gth_image_is_animation (image)) {
+	if (gth_image_get_is_animation (image)) {
 		GdkPixbufAnimation *animation;
 
 		animation = gth_image_get_pixbuf_animation (image);
@@ -1813,7 +1813,7 @@ gth_image_viewer_set_image (GthImageViewer *self,
 	if (self->priv->image != image)
 		_g_clear_object (&self->priv->image);
 
-	if (gth_image_is_animation (image)) {
+	if (gth_image_get_is_animation (image)) {
 		GdkPixbufAnimation *animation;
 
 		animation = gth_image_get_pixbuf_animation (image);

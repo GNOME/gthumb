@@ -592,6 +592,9 @@ image_loader_ready_cb (GObject      *source_object,
 	if ((request->requested_size > 0) && loaded_original)
 		load_data->resize_to_requested_size = TRUE;
 
+	if (gth_image_get_is_zoomable (image) || gth_image_get_is_animation (image))
+		load_data->resize_to_requested_size = FALSE;
+
 	if (load_data->resize_to_requested_size)
 		_gth_image_preloader_resize_at_requested_size (self, request, cache_data->image);
 	else

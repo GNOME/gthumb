@@ -358,7 +358,13 @@ update_quality_cb (gpointer user_data)
 static void
 update_image_quality_if_required (GthImageViewerPage *self)
 {
+	GthImage *image;
+
 	if (self->priv->loading_image)
+		return;
+
+	image = gth_image_viewer_get_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+	if ((image != NULL) && (gth_image_get_is_zoomable (image) || gth_image_get_is_animation (image)))
 		return;
 
 	if (self->priv->update_quality_event != 0) {
