@@ -313,6 +313,35 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 			cairo_surface_destroy (rotated);
 			cairo_surface_destroy (surface);
 		}
+
+		/* get the original size */
+
+		if ((original_width != NULL) && (original_height != NULL)) {
+			libraw_close (raw_data);
+
+			raw_data = libraw_init (LIBRAW_OPIONS_NO_MEMERR_CALLBACK | LIBRAW_OPIONS_NO_DATAERR_CALLBACK);
+			if (raw_data == NULL)
+				goto fatal_error;
+
+			result = libraw_open_buffer (raw_data, buffer, size);
+			if (LIBRAW_FATAL_ERROR (result))
+				goto fatal_error;
+
+			result = libraw_unpack (raw_data);
+			if (result != LIBRAW_SUCCESS) {
+				_libraw_set_gerror (error, result);
+				goto fatal_error;
+			}
+
+			result = libraw_adjust_sizes_info_only (raw_data);
+			if (result != LIBRAW_SUCCESS) {
+				_libraw_set_gerror (error, result);
+				goto fatal_error;
+			}
+
+			*original_width = raw_data->sizes.iwidth;
+			*original_height = raw_data->sizes.iheight;
+		}
 	}
 	else
 
@@ -363,19 +392,19 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 		}
 
 		libraw_dcraw_clear_mem (processed_image);
-	}
 
-	/* get the original size */
+		/* get the original size */
 
-	if ((original_width != NULL) && (original_height != NULL)) {
-		result = libraw_adjust_sizes_info_only (raw_data);
-		if (result != LIBRAW_SUCCESS) {
-			_libraw_set_gerror (error, result);
-			goto fatal_error;
+		if ((original_width != NULL) && (original_height != NULL)) {
+			result = libraw_adjust_sizes_info_only (raw_data);
+			if (result != LIBRAW_SUCCESS) {
+				_libraw_set_gerror (error, result);
+				goto fatal_error;
+			}
+
+			*original_width = raw_data->sizes.iwidth;
+			*original_height = raw_data->sizes.iheight;
 		}
-
-		*original_width = raw_data->sizes.iwidth;
-		*original_height = raw_data->sizes.iheight;
 	}
 
 	fatal_error:

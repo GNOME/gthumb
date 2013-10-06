@@ -69,7 +69,7 @@ gth_metadata_provider_raw_read (GthMetadataProvider *self,
 	libraw_data_t *raw_data;
 	GInputStream  *istream = NULL;
 	int            result;
-	void          *buffer;
+	void          *buffer = NULL;
 	size_t         buffer_size;
 	char          *size;
 	guint          width, height;
