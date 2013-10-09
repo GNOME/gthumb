@@ -24,7 +24,7 @@
 #include "gth-file-tool-save-as.h"
 
 
-G_DEFINE_TYPE (GthFileToolSaveAs, gth_file_tool_save_as, GTH_TYPE_FILE_TOOL)
+G_DEFINE_TYPE (GthFileToolSaveAs, gth_file_tool_save_as, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
 
 
 static void

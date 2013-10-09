@@ -23,6 +23,7 @@
 #define GTH_FILE_TOOL_GRAYSCALE_H
 
 #include <gthumb.h>
+#include <extensions/image_viewer/image-viewer.h>
 
 G_BEGIN_DECLS
 
@@ -38,12 +39,12 @@ typedef struct _GthFileToolGrayscaleClass GthFileToolGrayscaleClass;
 typedef struct _GthFileToolGrayscalePrivate GthFileToolGrayscalePrivate;
 
 struct _GthFileToolGrayscale {
-	GthFileTool parent_instance;
+	GthImageViewerPageTool parent_instance;
 	GthFileToolGrayscalePrivate *priv;
 };
 
 struct _GthFileToolGrayscaleClass {
-	GthFileToolClass parent_class;
+	GthImageViewerPageToolClass parent_class;
 };
 
 GType  gth_file_tool_grayscale_get_type  (void);

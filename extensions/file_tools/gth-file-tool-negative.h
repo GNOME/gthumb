@@ -23,6 +23,7 @@
 #define GTH_FILE_TOOL_NEGATIVE_H
 
 #include <gthumb.h>
+#include <extensions/image_viewer/image-viewer.h>
 
 G_BEGIN_DECLS
 
@@ -37,11 +38,11 @@ typedef struct _GthFileToolNegative GthFileToolNegative;
 typedef struct _GthFileToolNegativeClass GthFileToolNegativeClass;
 
 struct _GthFileToolNegative {
-	GthFileTool parent_instance;
+	GthImageViewerPageTool parent_instance;
 };
 
 struct _GthFileToolNegativeClass {
-	GthFileToolClass parent_class;
+	GthImageViewerPageToolClass parent_class;
 };
 
 GType  gth_file_tool_negative_get_type  (void);

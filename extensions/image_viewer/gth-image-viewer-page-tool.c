@@ -43,7 +43,7 @@ original_image_task_completed_cb (GthTask  *task,
 	self->priv->image_task = NULL;
 
 	if (gth_file_tool_is_cancelled (GTH_FILE_TOOL (self))) {
-		GTH_IMAGE_VIEWER_PAGE_TOOL_GET_CLASS (self)->reset_image (self);
+		gth_image_viewer_page_tool_reset_image (self);
 		g_object_unref (task);
 		return;
 	}
@@ -54,10 +54,8 @@ original_image_task_completed_cb (GthTask  *task,
 	}
 
 	self->priv->source = gth_original_image_task_get_image (task);
-	if (self->priv->source != NULL) {
+	if (self->priv->source != NULL)
 		GTH_IMAGE_VIEWER_PAGE_TOOL_GET_CLASS (self)->modify_image (self);
-		/*gth_file_tool_show_options (GTH_FILE_TOOL (self)); FIXME */
-	}
 
 	g_object_unref (task);
 }
@@ -103,16 +101,26 @@ gth_image_viewer_page_tool_cancel (GthFileTool *base)
 
 
 static void
+gth_image_viewer_page_tool_update_sensitivity (GthFileTool *base)
+{
+	GtkWidget *viewer_page;
+
+	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (base));
+	gtk_widget_set_sensitive (GTK_WIDGET (base), viewer_page != NULL);
+}
+
+
+static void
 base_modify_image (GthImageViewerPageTool *self)
 {
-	/* virtual */
+	gth_file_tool_show_options (GTH_FILE_TOOL (self));
 }
 
 
 static void
 base_reset_image (GthImageViewerPageTool *self)
 {
-	/* virtual */
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
 
@@ -147,6 +155,7 @@ gth_image_viewer_page_tool_class_init (GthImageViewerPageToolClass *klass)
 	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->activate = gth_image_viewer_page_tool_activate;
 	file_tool_class->cancel = gth_image_viewer_page_tool_cancel;
+	file_tool_class->update_sensitivity = gth_image_viewer_page_tool_update_sensitivity;
 
 	klass->modify_image = base_modify_image;
 	klass->reset_image = base_reset_image;

@@ -46,21 +46,6 @@ struct _GthFileToolSharpenPrivate {
 };
 
 
-static void
-gth_file_tool_sharpen_update_sensitivity (GthFileTool *base)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
-}
-
-
 typedef struct {
 	int    radius;
 	double amount;
@@ -367,13 +352,6 @@ gth_file_tool_sharpen_destroy_options (GthFileTool *base)
 
 
 static void
-gth_file_tool_sharpen_modify_image (GthImageViewerPageTool *base)
-{
-	gth_file_tool_show_options (GTH_FILE_TOOL (base));
-}
-
-
-static void
 gth_file_tool_sharpen_reset_image (GthImageViewerPageTool *base)
 {
 	GthFileToolSharpen *self = (GthFileToolSharpen *) base;
@@ -406,9 +384,9 @@ gth_file_tool_sharpen_finalize (GObject *object)
 static void
 gth_file_tool_sharpen_class_init (GthFileToolSharpenClass *klass)
 {
-	GObjectClass			*gobject_class;
-	GthFileToolClass 		*file_tool_class;
-	GthImageViewerPageToolClass	*image_viewer_page_tool_class;
+	GObjectClass                *gobject_class;
+	GthFileToolClass            *file_tool_class;
+	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
 	g_type_class_add_private (klass, sizeof (GthFileToolSharpenPrivate));
 
@@ -416,12 +394,10 @@ gth_file_tool_sharpen_class_init (GthFileToolSharpenClass *klass)
 	gobject_class->finalize = gth_file_tool_sharpen_finalize;
 
 	file_tool_class = (GthFileToolClass *) klass;
-	file_tool_class->update_sensitivity = gth_file_tool_sharpen_update_sensitivity;
 	file_tool_class->get_options = gth_file_tool_sharpen_get_options;
 	file_tool_class->destroy_options = gth_file_tool_sharpen_destroy_options;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
-	image_viewer_page_tool_class->modify_image = gth_file_tool_sharpen_modify_image;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_sharpen_reset_image;
 }
 

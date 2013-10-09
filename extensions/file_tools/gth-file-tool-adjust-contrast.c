@@ -21,22 +21,20 @@
 
 #include <config.h>
 #include <math.h>
-#include <gthumb.h>
-#include <extensions/image_viewer/image-viewer.h>
 #include "gth-file-tool-adjust-contrast.h"
 
 
 #define HISTOGRAM_CROP 0.005
 
 
-G_DEFINE_TYPE (GthFileToolAdjustContrast, gth_file_tool_adjust_contrast, GTH_TYPE_FILE_TOOL)
+G_DEFINE_TYPE (GthFileToolAdjustContrast, gth_file_tool_adjust_contrast, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
 
 
 typedef struct {
-	GtkWidget        *viewer_page;
-	int              *lowest;
-	int              *highest;
-	double           *factor;
+	GtkWidget *viewer_page;
+	int       *lowest;
+	int       *highest;
+	double    *factor;
 } AdjustContrastData;
 
 
@@ -241,21 +239,6 @@ gth_file_tool_adjust_contrast_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_adjust_contrast_update_sensitivity (GthFileTool *base)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
-}
-
-
-static void
 gth_file_tool_adjust_contrast_init (GthFileToolAdjustContrast *self)
 {
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-adjust-contrast", _("Adjust Contrast"), NULL, TRUE);
@@ -269,6 +252,5 @@ gth_file_tool_adjust_contrast_class_init (GthFileToolAdjustContrastClass *klass)
 	GthFileToolClass *file_tool_class;
 
 	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
-	file_tool_class->update_sensitivity = gth_file_tool_adjust_contrast_update_sensitivity;
 	file_tool_class->activate = gth_file_tool_adjust_contrast_activate;
 }

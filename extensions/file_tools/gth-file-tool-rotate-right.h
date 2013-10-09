@@ -23,6 +23,7 @@
 #define GTH_FILE_TOOL_ROTATE_RIGHT_H
 
 #include <gthumb.h>
+#include <extensions/image_viewer/image-viewer.h>
 
 G_BEGIN_DECLS
 
@@ -37,11 +38,11 @@ typedef struct _GthFileToolRotateRight GthFileToolRotateRight;
 typedef struct _GthFileToolRotateRightClass GthFileToolRotateRightClass;
 
 struct _GthFileToolRotateRight {
-	GthFileTool parent_instance;
+	GthImageViewerPageTool parent_instance;
 };
 
 struct _GthFileToolRotateRightClass {
-	GthFileToolClass parent_class;
+	GthImageViewerPageToolClass parent_class;
 };
 
 GType  gth_file_tool_rotate_right_get_type  (void);

@@ -231,21 +231,6 @@ adjust_data_free (gpointer user_data)
 }
 
 
-static void
-gth_file_tool_adjust_colors_update_sensitivity (GthFileTool *base)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
-}
-
-
 static void apply_changes (GthFileToolAdjustColors *self);
 
 
@@ -286,7 +271,7 @@ image_task_completed_cb (GthTask  *task,
 
 	self->priv->image_task = NULL;
 
-	if (gth_file_tool_is_cancelled (GTH_FILE_TOOL (self))) {
+	if (self->priv->closing) {
 		g_object_unref (task);
 		gth_image_viewer_page_tool_reset_image (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 		return;
@@ -565,18 +550,12 @@ gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 
 
 static void
-gth_file_tool_sharpen_modify_image (GthImageViewerPageTool *base)
-{
-	gth_file_tool_show_options (GTH_FILE_TOOL (base));
-}
-
-
-static void
 gth_file_tool_sharpen_reset_image (GthImageViewerPageTool *base)
 {
 	GthFileToolAdjustColors *self = (GthFileToolAdjustColors *) base;
 
 	if (self->priv->image_task != NULL) {
+		self->priv->closing = TRUE;
 		gth_task_cancel (self->priv->image_task);
 		return;
 	}
@@ -637,12 +616,10 @@ gth_file_tool_adjust_colors_class_init (GthFileToolAdjustColorsClass *klass)
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_adjust_colors_finalize;
 
-	file_tool_class->update_sensitivity = gth_file_tool_adjust_colors_update_sensitivity;
 	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->get_options = gth_file_tool_adjust_colors_get_options;
 	file_tool_class->destroy_options = gth_file_tool_adjust_colors_destroy_options;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
-	image_viewer_page_tool_class->modify_image = gth_file_tool_sharpen_modify_image;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_sharpen_reset_image;
 }

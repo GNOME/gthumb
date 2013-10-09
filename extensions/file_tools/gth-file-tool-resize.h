@@ -23,6 +23,7 @@
 #define GTH_FILE_TOOL_RESIZE_H
 
 #include <gthumb.h>
+#include <extensions/image_viewer/image-viewer.h>
 
 G_BEGIN_DECLS
 
@@ -38,12 +39,12 @@ typedef struct _GthFileToolResizeClass GthFileToolResizeClass;
 typedef struct _GthFileToolResizePrivate GthFileToolResizePrivate;
 
 struct _GthFileToolResize {
-	GthFileTool parent_instance;
+	GthImageViewerPageTool parent_instance;
 	GthFileToolResizePrivate *priv;
 };
 
 struct _GthFileToolResizeClass {
-	GthFileToolClass parent_class;
+	GthImageViewerPageToolClass parent_class;
 };
 
 GType  gth_file_tool_resize_get_type  (void);

@@ -1907,7 +1907,7 @@ gth_original_image_task_exec (GthTask *base)
 {
 	GthOriginalImageTask *self = GTH_ORIGINAL_IMAGE_TASK (base);
 
-	gth_task_progress (base, _("Loading the image"), NULL, TRUE, 0.0);
+	gth_task_progress (base, _("Loading the original image"), NULL, TRUE, 0.0);
 	gth_image_viewer_page_get_original (self->viewer_page,
 					    gth_task_get_cancellable (base),
 					    get_original_image_ready_cb,

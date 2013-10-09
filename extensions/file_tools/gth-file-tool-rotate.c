@@ -34,7 +34,7 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (GthFileToolRotate, gth_file_tool_rotate, GTH_TYPE_FILE_TOOL)
+G_DEFINE_TYPE (GthFileToolRotate, gth_file_tool_rotate, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
 
 
 struct _GthFileToolRotatePrivate {
@@ -52,21 +52,6 @@ struct _GthFileToolRotatePrivate {
 	GthImageViewerTool    *alignment;
 	GthImageViewerTool    *rotator;
 };
-
-
-static void
-gth_file_tool_rotate_update_sensitivity (GthFileTool *base)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
-}
 
 
 static void
@@ -268,6 +253,9 @@ apply_button_clicked_cb (GtkButton         *button,
 					  NULL,
 					  g_object_ref (self->priv->rotator),
 					  g_object_unref);
+	gth_image_viewer_task_set_load_original (GTH_IMAGE_VIEWER_TASK (task), FALSE);
+	gth_image_task_set_source_surface (GTH_IMAGE_TASK (task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
+
 	g_signal_connect (task,
 			  "completed",
 			  G_CALLBACK (gth_image_viewer_task_set_destination),
@@ -397,8 +385,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 
 	cairo_surface_destroy (self->priv->image);
 
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	self->priv->image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	self->priv->image = gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	if (self->priv->image == NULL)
 		return NULL;
 
@@ -464,6 +451,8 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	}
 	gth_image_rotator_set_background (GTH_IMAGE_ROTATOR (self->priv->rotator), &background_color);
 
+	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->image, FALSE);
+	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->rotator);
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
@@ -588,22 +577,10 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 
 
 static void
-gth_file_tool_rotate_activate (GthFileTool *base)
+gth_file_tool_rotate_reset_image (GthImageViewerPageTool *self)
 {
-	gth_file_tool_show_options (base);
-}
-
-
-static void
-gth_file_tool_rotate_cancel (GthFileTool *base)
-{
-	GthFileToolRotate *self = (GthFileToolRotate *) base;
-	GtkWidget         *window;
-	GtkWidget         *viewer_page;
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self))));
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
 
@@ -629,8 +606,9 @@ gth_file_tool_rotate_finalize (GObject *object)
 static void
 gth_file_tool_rotate_class_init (GthFileToolRotateClass *klass)
 {
-	GObjectClass     *gobject_class;
-	GthFileToolClass *file_tool_class;
+	GObjectClass                *gobject_class;
+	GthFileToolClass            *file_tool_class;
+	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
 	g_type_class_add_private (klass, sizeof (GthFileToolRotatePrivate));
 
@@ -638,11 +616,11 @@ gth_file_tool_rotate_class_init (GthFileToolRotateClass *klass)
 	gobject_class->finalize = gth_file_tool_rotate_finalize;
 
 	file_tool_class = (GthFileToolClass *) klass;
-	file_tool_class->update_sensitivity = gth_file_tool_rotate_update_sensitivity;
-	file_tool_class->activate = gth_file_tool_rotate_activate;
-	file_tool_class->cancel = gth_file_tool_rotate_cancel;
 	file_tool_class->get_options = gth_file_tool_rotate_get_options;
 	file_tool_class->destroy_options = gth_file_tool_rotate_destroy_options;
+
+	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
+	image_viewer_page_tool_class->reset_image = gth_file_tool_rotate_reset_image;
 }
 
 

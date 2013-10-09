@@ -23,6 +23,7 @@
 #define GTH_FILE_TOOL_ADJUST_CONTRAST_H
 
 #include <gthumb.h>
+#include <extensions/image_viewer/image-viewer.h>
 
 G_BEGIN_DECLS
 
@@ -37,11 +38,11 @@ typedef struct _GthFileToolAdjustContrast GthFileToolAdjustContrast;
 typedef struct _GthFileToolAdjustContrastClass GthFileToolAdjustContrastClass;
 
 struct _GthFileToolAdjustContrast {
-	GthFileTool parent_instance;
+	GthImageViewerPageTool parent_instance;
 };
 
 struct _GthFileToolAdjustContrastClass {
-	GthFileToolClass parent_class;
+	GthImageViewerPageToolClass parent_class;
 };
 
 GType  gth_file_tool_adjust_contrast_get_type  (void);

@@ -232,10 +232,12 @@ update_image_surface (GthImageRotator *self)
 	if (image == NULL)
 		return;
 
-	self->priv->original_width = cairo_image_surface_get_width (image);
-	self->priv->original_height = cairo_image_surface_get_height (image);
-	width = self->priv->original_width;
-	height = self->priv->original_height;
+	if (! _cairo_image_surface_get_original_size (image, &self->priv->original_width, &self->priv->original_height)) {
+		self->priv->original_width = cairo_image_surface_get_width (image);
+		self->priv->original_height = cairo_image_surface_get_height (image);
+	}
+	width = cairo_image_surface_get_width (image);
+	height = cairo_image_surface_get_height (image);
 	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
 	max_size = MAX (allocation.width, allocation.height) / G_SQRT2 + 2;
 	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE))
@@ -280,21 +282,21 @@ static void
 paint_image (GthImageRotator *self,
 	     cairo_t         *cr)
 {
-	cairo_save (cr);
+	cairo_matrix_t matrix;
 
-	cairo_set_matrix (cr, &self->priv->matrix);
-	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+	cairo_save (cr);
+	cairo_get_matrix (cr, &matrix);
+	cairo_matrix_multiply (&matrix, &self->priv->matrix, &matrix);
+	cairo_set_matrix (cr, &matrix);
 	cairo_set_source_surface (cr, self->priv->preview_image,
 				  self->priv->preview_image_area.x,
 				  self->priv->preview_image_area.y);
-	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
   	cairo_rectangle (cr,
   			 self->priv->preview_image_area.x,
   			 self->priv->preview_image_area.y,
   			 self->priv->preview_image_area.width,
   			 self->priv->preview_image_area.height);
   	cairo_fill (cr);
-
   	cairo_restore (cr);
 }
 
@@ -446,6 +448,7 @@ gth_image_rotator_draw (GthImageViewerTool *base,
   			       self->priv->background_color.blue,
   			       self->priv->background_color.alpha);
 	cairo_fill (cr);
+	cairo_restore (cr);
 
 	if (self->priv->preview_image == NULL)
 		return;
@@ -457,8 +460,10 @@ gth_image_rotator_draw (GthImageViewerTool *base,
 	if (self->priv->dragging) {
 		GdkPoint center;
 
+		cairo_save (cr);
 		cairo_set_antialias (cr, CAIRO_ANTIALIAS_DEFAULT);
 		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+		cairo_restore (cr);
 
 		center.x = self->priv->center.x * self->priv->preview_zoom + self->priv->preview_image_area.x;
 		center.y = self->priv->center.y * self->priv->preview_zoom + self->priv->preview_image_area.y;
@@ -469,8 +474,6 @@ gth_image_rotator_draw (GthImageViewerTool *base,
 		paint_point (self, cr, &self->priv->drag_p2);
 		*/
 	}
-
-	cairo_restore (cr);
 }
 
 

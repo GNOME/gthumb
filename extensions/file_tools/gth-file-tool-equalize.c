@@ -26,7 +26,7 @@
 #include "gth-file-tool-equalize.h"
 
 
-G_DEFINE_TYPE (GthFileToolEqualize, gth_file_tool_equalize, GTH_TYPE_FILE_TOOL)
+G_DEFINE_TYPE (GthFileToolEqualize, gth_file_tool_equalize, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
 
 
 typedef struct {
@@ -170,27 +170,11 @@ gth_file_tool_equalize_activate (GthFileTool *base)
 
 
 static void
-gth_file_tool_equalize_update_sensitivity (GthFileTool *base)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
-}
-
-
-static void
 gth_file_tool_equalize_class_init (GthFileToolEqualizeClass *klass)
 {
 	GthFileToolClass *file_tool_class;
 
 	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
-	file_tool_class->update_sensitivity = gth_file_tool_equalize_update_sensitivity;
 	file_tool_class->activate = gth_file_tool_equalize_activate;
 }
 

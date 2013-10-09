@@ -33,12 +33,11 @@
 #define PIXELS_UNIT_POSITION 0
 
 
-G_DEFINE_TYPE (GthFileToolResize, gth_file_tool_resize, GTH_TYPE_FILE_TOOL)
+G_DEFINE_TYPE (GthFileToolResize, gth_file_tool_resize, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
 
 
 struct _GthFileToolResizePrivate {
 	GSettings       *settings;
-	cairo_surface_t *original_image;
 	cairo_surface_t *preview;
 	cairo_surface_t *new_image;
 	GtkBuilder      *builder;
@@ -58,21 +57,6 @@ struct _GthFileToolResizePrivate {
 	gboolean         apply_to_original;
 	guint            update_size_id;
 };
-
-
-static void
-gth_file_tool_resize_update_sensitivity (GthFileTool *base)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
-}
 
 
 static void update_image_size (GthFileToolResize *self);
@@ -106,9 +90,6 @@ update_dimensione_info_label (GthFileToolResize *self,
 }
 
 
-static void gth_file_tool_resize_cancel (GthFileTool *base);
-
-
 static void
 resize_task_completed_cb (GthTask  *task,
 			  GError   *error,
@@ -122,7 +103,7 @@ resize_task_completed_cb (GthTask  *task,
 
 	if (self->priv->closing) {
 		g_object_unref (task);
-		gth_file_tool_resize_cancel (GTH_FILE_TOOL (self));
+		gth_image_viewer_page_tool_reset_image (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 		return;
 	}
 
@@ -211,7 +192,10 @@ update_image_size_cb (gpointer user_data)
 						      NULL,
 						      self,
 						      NULL);
-	gth_image_task_set_source_surface (GTH_IMAGE_TASK (self->priv->resize_task), self->priv->apply_to_original ? self->priv->original_image : self->priv->preview);
+	if (self->priv->apply_to_original)
+		gth_image_task_set_source_surface (GTH_IMAGE_TASK (self->priv->resize_task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
+	else
+		gth_image_task_set_source_surface (GTH_IMAGE_TASK (self->priv->resize_task), self->priv->preview);
 
 	g_signal_connect (self->priv->resize_task,
 			  "completed",
@@ -524,6 +508,7 @@ static GtkWidget *
 gth_file_tool_resize_get_options (GthFileTool *base)
 {
 	GthFileToolResize *self = (GthFileToolResize *) base;
+	cairo_surface_t   *source;
 	GtkWidget         *window;
 	GtkWidget         *viewer_page;
 	GtkWidget         *viewer;
@@ -533,11 +518,12 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	GtkWidget         *options;
 	char              *text;
 
-	if (self->priv->original_image == NULL)
+	source = gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
+	if (source == NULL)
 		return NULL;
 
-	self->priv->original_width = cairo_image_surface_get_width (self->priv->original_image);
-	self->priv->original_height = cairo_image_surface_get_height (self->priv->original_image);
+	self->priv->original_width = cairo_image_surface_get_width (source);
+	self->priv->original_height = cairo_image_surface_get_height (source);
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -547,9 +533,9 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	preview_width = self->priv->original_width;
 	preview_height = self->priv->original_height;
 	if (scale_keeping_ratio (&preview_width, &preview_height, allocation.width, allocation.height, FALSE))
-		self->priv->preview = _cairo_image_surface_scale_bilinear (self->priv->original_image, preview_width, preview_height);
+		self->priv->preview = _cairo_image_surface_scale_bilinear (source, preview_width, preview_height);
 	else
-		self->priv->preview = cairo_surface_reference (self->priv->original_image);
+		self->priv->preview = cairo_surface_reference (source);
 
 	_gtk_widget_get_screen_size (window, &self->priv->screen_width, &self->priv->screen_height);
 	self->priv->new_image = NULL;
@@ -713,7 +699,6 @@ gth_file_tool_resize_destroy_options (GthFileTool *base)
 
 		_cairo_clear_surface (&self->priv->new_image);
 		_cairo_clear_surface (&self->priv->preview);
-		_cairo_clear_surface (&self->priv->original_image);
 		_g_clear_object (&self->priv->builder);
 	}
 
@@ -733,64 +718,9 @@ gth_file_tool_resize_destroy_options (GthFileTool *base)
 
 
 static void
-original_image_task_completed_cb (GthTask  *task,
-				  GError   *error,
-				  gpointer  user_data)
-{
-	GthFileToolResize *self = user_data;
-
-	self->priv->resize_task = NULL;
-
-	if (self->priv->closing) {
-		g_object_unref (task);
-		gth_file_tool_resize_cancel (GTH_FILE_TOOL (self));
-		return;
-	}
-
-	if (error != NULL) {
-		g_object_unref (task);
-		return;
-	}
-
-	self->priv->original_image = gth_original_image_task_get_image (task);
-	if (self->priv->original_image != NULL)
-		gth_file_tool_show_options (GTH_FILE_TOOL (self));
-
-	g_object_unref (task);
-}
-
-
-static void
-gth_file_tool_resize_activate (GthFileTool *base)
+gth_file_tool_resize_reset_image (GthImageViewerPageTool *base)
 {
 	GthFileToolResize *self = (GthFileToolResize *) base;
-	GtkWidget         *window;
-	GtkWidget         *viewer_page;
-
-	/* load the original image */
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		return;
-
-	self->priv->resize_task = gth_original_image_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	g_signal_connect (self->priv->resize_task,
-			  "completed",
-			  G_CALLBACK (original_image_task_completed_cb),
-			  self);
-	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))),
-			       self->priv->resize_task,
-			       FALSE);
-}
-
-
-static void
-gth_file_tool_resize_cancel (GthFileTool *base)
-{
-	GthFileToolResize *self = (GthFileToolResize *) base;
-	GtkWidget         *window;
-	GtkWidget         *viewer_page;
 
 	if (self->priv->resize_task != NULL) {
 		self->priv->closing = TRUE;
@@ -803,9 +733,8 @@ gth_file_tool_resize_cancel (GthFileTool *base)
 		self->priv->update_size_id = 0;
 	}
 
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self))));
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
 
@@ -821,7 +750,6 @@ gth_file_tool_resize_finalize (GObject *object)
 
 	cairo_surface_destroy (self->priv->new_image);
 	cairo_surface_destroy (self->priv->preview);
-	cairo_surface_destroy (self->priv->original_image);
 	_g_object_unref (self->priv->builder);
 	_g_object_unref (self->priv->settings);
 
@@ -833,8 +761,9 @@ gth_file_tool_resize_finalize (GObject *object)
 static void
 gth_file_tool_resize_class_init (GthFileToolResizeClass *klass)
 {
-	GObjectClass     *gobject_class;
-	GthFileToolClass *file_tool_class;
+	GObjectClass                *gobject_class;
+	GthFileToolClass            *file_tool_class;
+	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
 	g_type_class_add_private (klass, sizeof (GthFileToolResizePrivate));
 
@@ -842,11 +771,11 @@ gth_file_tool_resize_class_init (GthFileToolResizeClass *klass)
 	gobject_class->finalize = gth_file_tool_resize_finalize;
 
 	file_tool_class = (GthFileToolClass *) klass;
-	file_tool_class->update_sensitivity = gth_file_tool_resize_update_sensitivity;
-	file_tool_class->activate = gth_file_tool_resize_activate;
-	file_tool_class->cancel = gth_file_tool_resize_cancel;
 	file_tool_class->get_options = gth_file_tool_resize_get_options;
 	file_tool_class->destroy_options = gth_file_tool_resize_destroy_options;
+
+	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
+	image_viewer_page_tool_class->reset_image = gth_file_tool_resize_reset_image;
 }
 
 
@@ -856,7 +785,6 @@ gth_file_tool_resize_init (GthFileToolResize *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RESIZE, GthFileToolResizePrivate);
 	self->priv->settings = g_settings_new (GTHUMB_RESIZE_SCHEMA);
 	self->priv->builder = NULL;
-	self->priv->original_image = NULL;
 	self->priv->preview = NULL;
 	self->priv->new_image = NULL;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-resize", _("Resize..."), _("Resize"), FALSE);

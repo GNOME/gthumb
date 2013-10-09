@@ -23,6 +23,7 @@
 #define GTH_FILE_TOOL_CROP_H
 
 #include <gthumb.h>
+#include <extensions/image_viewer/image-viewer.h>
 
 G_BEGIN_DECLS
 
@@ -38,12 +39,12 @@ typedef struct _GthFileToolCropClass GthFileToolCropClass;
 typedef struct _GthFileToolCropPrivate GthFileToolCropPrivate;
 
 struct _GthFileToolCrop {
-	GthFileTool parent_instance;
+	GthImageViewerPageTool parent_instance;
 	GthFileToolCropPrivate *priv;
 };
 
 struct _GthFileToolCropClass {
-	GthFileToolClass parent_class;
+	GthImageViewerPageToolClass parent_class;
 };
 
 GType  gth_file_tool_crop_get_type  (void);

@@ -30,7 +30,7 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (GthFileToolCrop, gth_file_tool_crop, GTH_TYPE_FILE_TOOL)
+G_DEFINE_TYPE (GthFileToolCrop, gth_file_tool_crop, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
 
 
 struct _GthFileToolCropPrivate {
@@ -48,21 +48,6 @@ struct _GthFileToolCropPrivate {
 	GtkWidget        *crop_height_spinbutton;
 	GtkWidget	 *grid_type_combobox;
 };
-
-
-static void
-gth_file_tool_crop_update_sensitivity (GthFileTool *base)
-{
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
-	else
-		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
-}
 
 
 static gpointer
@@ -99,10 +84,26 @@ image_task_completed_cb (GthTask  *task,
 			 gpointer  user_data)
 {
 	GthFileToolCrop *self = user_data;
+	cairo_surface_t *destination;
+	GtkWidget       *viewer_page;
 
-	gth_image_viewer_task_set_destination (task, error, user_data);
-	if (error == NULL)
-		gth_file_tool_hide_options (GTH_FILE_TOOL (self));
+	if (error != NULL) {
+		g_object_unref (task);
+		return;
+	}
+
+	destination = gth_image_task_get_destination_surface (GTH_IMAGE_TASK (task));
+	if (destination == NULL) {
+		g_object_unref (task);
+		return;
+	}
+
+	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
+	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), destination, TRUE);
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
+
+	cairo_surface_destroy (destination);
+	g_object_unref (task);
 }
 
 
@@ -111,29 +112,24 @@ crop_button_clicked_cb (GtkButton       *button,
 			GthFileToolCrop *self)
 {
 	cairo_rectangle_int_t  selection;
-	GtkWidget             *window;
-	GtkWidget             *viewer_page;
 	GthTask               *task;
 
 	gth_image_selector_get_selection (self->priv->selector, &selection);
 	if ((selection.width == 0) || (selection.height == 0))
 		return;
 
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-
-	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
-					  _("Applying changes"),
-					  NULL,
-					  crop_exec,
-					  NULL,
-					  self,
-					  NULL);
+	task = gth_image_task_new (_("Applying changes"),
+				   NULL,
+				   crop_exec,
+				   NULL,
+				   self,
+				   NULL);
+	gth_image_task_set_source_surface (GTH_IMAGE_TASK (task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
 	g_signal_connect (task,
 			  "completed",
 			  G_CALLBACK (image_task_completed_cb),
 			  self);
-	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
+	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, FALSE);
 }
 
 
@@ -421,6 +417,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	GtkWidget       *window;
 	GtkWidget       *viewer_page;
 	GtkWidget       *viewer;
+	cairo_surface_t *source;
 	GtkWidget       *options;
 	char            *text;
 
@@ -432,10 +429,11 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 		return NULL;
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	if (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer)) == NULL)
+	source = gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
+	if (source == NULL)
 		return NULL;
 
-	gth_image_viewer_get_original_size(GTH_IMAGE_VIEWER (viewer), &self->priv->original_width, &self->priv->original_height);
+	gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (viewer), &self->priv->original_width, &self->priv->original_height);
 	_gtk_widget_get_screen_size (window, &self->priv->screen_width, &self->priv->screen_height);
 
 	self->priv->builder = _gtk_builder_new_from_file ("crop-options.ui", "file_tools");
@@ -568,7 +566,8 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 			  G_CALLBACK (selector_selection_changed_cb),
 			  self);
 
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector);
+	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), source, FALSE);
+	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), GTH_IMAGE_VIEWER_TOOL (self->priv->selector));
 	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (viewer), GTH_ZOOM_QUALITY_LOW);
 	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (viewer), GTH_FIT_SIZE_IF_LARGER);
 	ratio_combobox_changed_cb (NULL, self);
@@ -628,9 +627,12 @@ gth_file_tool_crop_destroy_options (GthFileTool *base)
 
 
 static void
-gth_file_tool_crop_activate (GthFileTool *base)
+gth_file_tool_crop_reset_image (GthImageViewerPageTool *base)
 {
-	gth_file_tool_show_options (base);
+	GthFileToolCrop *self = (GthFileToolCrop *) base;
+
+	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self))));
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
 
@@ -663,19 +665,21 @@ gth_file_tool_crop_finalize (GObject *object)
 
 
 static void
-gth_file_tool_crop_class_init (GthFileToolCropClass *class)
+gth_file_tool_crop_class_init (GthFileToolCropClass *klass)
 {
-	GObjectClass     *gobject_class;
-	GthFileToolClass *file_tool_class;
+	GObjectClass                *gobject_class;
+	GthFileToolClass            *file_tool_class;
+	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
-	g_type_class_add_private (class, sizeof (GthFileToolCropPrivate));
+	g_type_class_add_private (klass, sizeof (GthFileToolCropPrivate));
 
-	gobject_class = (GObjectClass*) class;
+	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_crop_finalize;
 
-	file_tool_class = (GthFileToolClass *) class;
-	file_tool_class->update_sensitivity = gth_file_tool_crop_update_sensitivity;
-	file_tool_class->activate = gth_file_tool_crop_activate;
+	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->get_options = gth_file_tool_crop_get_options;
 	file_tool_class->destroy_options = gth_file_tool_crop_destroy_options;
+
+	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
+	image_viewer_page_tool_class->reset_image = gth_file_tool_crop_reset_image;
 }

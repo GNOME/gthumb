@@ -23,6 +23,7 @@
 #define GTH_FILE_TOOL_MIRROR_H
 
 #include <gthumb.h>
+#include <extensions/image_viewer/image-viewer.h>
 
 G_BEGIN_DECLS
 
@@ -37,11 +38,11 @@ typedef struct _GthFileToolMirror GthFileToolMirror;
 typedef struct _GthFileToolMirrorClass GthFileToolMirrorClass;
 
 struct _GthFileToolMirror {
-	GthFileTool parent_instance;
+	GthImageViewerPageTool parent_instance;
 };
 
 struct _GthFileToolMirrorClass {
-	GthFileToolClass parent_class;
+	GthImageViewerPageToolClass parent_class;
 };
 
 GType  gth_file_tool_mirror_get_type  (void);

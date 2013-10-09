@@ -23,6 +23,7 @@
 #define GTH_FILE_TOOL_EQUALIZE_H
 
 #include <gthumb.h>
+#include <extensions/image_viewer/image-viewer.h>
 
 G_BEGIN_DECLS
 
@@ -37,11 +38,11 @@ typedef struct _GthFileToolEqualize GthFileToolEqualize;
 typedef struct _GthFileToolEqualizeClass GthFileToolEqualizeClass;
 
 struct _GthFileToolEqualize {
-	GthFileTool parent_instance;
+	GthImageViewerPageTool parent_instance;
 };
 
 struct _GthFileToolEqualizeClass {
-	GthFileToolClass parent_class;
+	GthImageViewerPageToolClass parent_class;
 };
 
 GType  gth_file_tool_equalize_get_type  (void);
