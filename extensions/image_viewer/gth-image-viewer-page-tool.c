@@ -189,3 +189,10 @@ gth_image_viewer_page_tool_get_page (GthImageViewerPageTool *self)
 
 	return viewer_page;
 }
+
+
+void
+gth_image_viewer_page_tool_reset_image (GthImageViewerPageTool *self)
+{
+	GTH_IMAGE_VIEWER_PAGE_TOOL_GET_CLASS (self)->reset_image (self);
+}

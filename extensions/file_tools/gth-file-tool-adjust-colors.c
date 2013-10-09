@@ -21,8 +21,6 @@
 
 #include <config.h>
 #include <math.h>
-#include <gthumb.h>
-#include <extensions/image_viewer/image-viewer.h>
 #include "gth-file-tool-adjust-colors.h"
 #include "gth-preview-tool.h"
 
@@ -31,7 +29,7 @@
 #define APPLY_DELAY 150
 #define PREVIEW_SIZE 0.9
 
-G_DEFINE_TYPE (GthFileToolAdjustColors, gth_file_tool_adjust_colors, GTH_TYPE_FILE_TOOL)
+G_DEFINE_TYPE (GthFileToolAdjustColors, gth_file_tool_adjust_colors, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
 
 
 struct _GthFileToolAdjustColorsPrivate {
@@ -278,9 +276,6 @@ reset_button_clicked_cb (GtkButton *button,
 }
 
 
-static void gth_file_tool_adjust_colors_cancel (GthFileTool *file_tool);
-
-
 static void
 image_task_completed_cb (GthTask  *task,
 			 GError   *error,
@@ -291,9 +286,9 @@ image_task_completed_cb (GthTask  *task,
 
 	self->priv->image_task = NULL;
 
-	if (self->priv->closing) {
+	if (gth_file_tool_is_cancelled (GTH_FILE_TOOL (self))) {
 		g_object_unref (task);
-		gth_file_tool_adjust_colors_cancel (GTH_FILE_TOOL (self));
+		gth_image_viewer_page_tool_reset_image (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 		return;
 	}
 
@@ -315,11 +310,9 @@ image_task_completed_cb (GthTask  *task,
 
 	if (self->priv->apply_to_original) {
 		if (self->priv->destination != NULL) {
-			GtkWidget *window;
 			GtkWidget *viewer_page;
 
-			window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-			viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+			viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 			gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->destination, TRUE);
 		}
 
@@ -365,17 +358,16 @@ apply_cb (gpointer user_data)
 	adjust_data->color_level[1] = gtk_adjustment_get_value (self->priv->magenta_green_adj);
 	adjust_data->color_level[2] = gtk_adjustment_get_value (self->priv->yellow_blue_adj);
 
-	self->priv->image_task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (adjust_data->viewer_page),
-							    _("Applying changes"),
-							    adjust_colors_before,
-							    adjust_colors_exec,
-							    NULL,
-							    adjust_data,
-							    adjust_data_free);
-	if (! self->priv->apply_to_original) {
-		gth_image_viewer_task_set_load_original (GTH_IMAGE_VIEWER_TASK (self->priv->image_task), FALSE);
+	self->priv->image_task = gth_image_task_new (_("Applying changes"),
+						     adjust_colors_before,
+						     adjust_colors_exec,
+						     NULL,
+						     adjust_data,
+						     adjust_data_free);
+	if (self->priv->apply_to_original)
+		gth_image_task_set_source_surface (GTH_IMAGE_TASK (self->priv->image_task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
+	else
 		gth_image_task_set_source_surface (GTH_IMAGE_TASK (self->priv->image_task), self->priv->preview);
-	}
 
 	g_signal_connect (self->priv->image_task,
 			  "completed",
@@ -423,7 +415,6 @@ static GtkWidget *
 gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 {
 	GthFileToolAdjustColors *self;
-	GtkWidget               *window;
 	GtkWidget               *viewer_page;
 	GtkWidget               *viewer;
 	cairo_surface_t         *source;
@@ -433,21 +424,20 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 
 	self = (GthFileToolAdjustColors *) base;
 
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
+	if (viewer_page == NULL)
 		return NULL;
 
 	cairo_surface_destroy (self->priv->destination);
 	cairo_surface_destroy (self->priv->preview);
 
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	source = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+	source = gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	if (source == NULL)
 		return NULL;
 
 	width = cairo_image_surface_get_width (source);
 	height = cairo_image_surface_get_height (source);
+	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 	if (scale_keeping_ratio (&width, &height, PREVIEW_SIZE * allocation.width, PREVIEW_SIZE * allocation.height, FALSE))
 		self->priv->preview = _cairo_image_surface_scale_bilinear (source, width, height);
@@ -553,7 +543,6 @@ static void
 gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 {
 	GthFileToolAdjustColors *self;
-	GtkWidget               *window;
 	GtkWidget               *viewer_page;
 	GtkWidget               *viewer;
 
@@ -564,8 +553,7 @@ gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 		self->priv->apply_event = 0;
 	}
 
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
@@ -577,21 +565,19 @@ gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 
 
 static void
-gth_file_tool_adjust_colors_activate (GthFileTool *base)
+gth_file_tool_sharpen_modify_image (GthImageViewerPageTool *base)
 {
-	gth_file_tool_show_options (base);
+	gth_file_tool_show_options (GTH_FILE_TOOL (base));
 }
 
 
 static void
-gth_file_tool_adjust_colors_cancel (GthFileTool *file_tool)
+gth_file_tool_sharpen_reset_image (GthImageViewerPageTool *base)
 {
-	GthFileToolAdjustColors *self = GTH_FILE_TOOL_ADJUST_COLORS (file_tool);
-	GtkWidget               *window;
-	GtkWidget               *viewer_page;
+	GthFileToolAdjustColors *self = (GthFileToolAdjustColors *) base;
 
 	if (self->priv->image_task != NULL) {
-		self->priv->closing = TRUE;
+		gth_task_cancel (self->priv->image_task);
 		return;
 	}
 
@@ -600,9 +586,8 @@ gth_file_tool_adjust_colors_cancel (GthFileTool *file_tool)
 		self->priv->apply_event = 0;
 	}
 
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self))));
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }
 
 
@@ -614,6 +599,7 @@ gth_file_tool_adjust_colors_init (GthFileToolAdjustColors *self)
 	self->priv->preview = NULL;
 	self->priv->destination = NULL;
 	self->priv->builder = NULL;
+	self->priv->image_task = NULL;
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-adjust-colors", _("Adjust Colors..."), _("Adjust Colors"), FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Change brightness, contrast, saturation and gamma level of the image"));
@@ -640,20 +626,23 @@ gth_file_tool_adjust_colors_finalize (GObject *object)
 
 
 static void
-gth_file_tool_adjust_colors_class_init (GthFileToolAdjustColorsClass *class)
+gth_file_tool_adjust_colors_class_init (GthFileToolAdjustColorsClass *klass)
 {
-	GObjectClass     *gobject_class;
-	GthFileToolClass *file_tool_class;
+	GObjectClass                *gobject_class;
+	GthFileToolClass            *file_tool_class;
+	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
-	g_type_class_add_private (class, sizeof (GthFileToolAdjustColorsPrivate));
+	g_type_class_add_private (klass, sizeof (GthFileToolAdjustColorsPrivate));
 
-	gobject_class = (GObjectClass*) class;
+	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_adjust_colors_finalize;
 
-	file_tool_class = (GthFileToolClass *) class;
 	file_tool_class->update_sensitivity = gth_file_tool_adjust_colors_update_sensitivity;
-	file_tool_class->activate = gth_file_tool_adjust_colors_activate;
-	file_tool_class->cancel = gth_file_tool_adjust_colors_cancel;
+	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->get_options = gth_file_tool_adjust_colors_get_options;
 	file_tool_class->destroy_options = gth_file_tool_adjust_colors_destroy_options;
+
+	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
+	image_viewer_page_tool_class->modify_image = gth_file_tool_sharpen_modify_image;
+	image_viewer_page_tool_class->reset_image = gth_file_tool_sharpen_reset_image;
 }

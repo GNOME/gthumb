@@ -56,6 +56,7 @@ GType			gth_image_viewer_page_tool_get_type		(void);
 cairo_surface_t *	gth_image_viewer_page_tool_get_source		(GthImageViewerPageTool *self);
 GthTask *		gth_image_viewer_page_tool_get_task		(GthImageViewerPageTool *self);
 GtkWidget *		gth_image_viewer_page_tool_get_page		(GthImageViewerPageTool *self);
+void			gth_image_viewer_page_tool_reset_image		(GthImageViewerPageTool *self);
 
 G_END_DECLS
 

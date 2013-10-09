@@ -23,6 +23,7 @@
 #define GTH_FILE_TOOL_ADJUST_COLORS_H
 
 #include <gthumb.h>
+#include <extensions/image_viewer/image-viewer.h>
 
 G_BEGIN_DECLS
 
@@ -38,12 +39,12 @@ typedef struct _GthFileToolAdjustColorsClass GthFileToolAdjustColorsClass;
 typedef struct _GthFileToolAdjustColorsPrivate GthFileToolAdjustColorsPrivate;
 
 struct _GthFileToolAdjustColors {
-	GthFileTool parent_instance;
+	GthImageViewerPageTool parent_instance;
 	GthFileToolAdjustColorsPrivate *priv;
 };
 
 struct _GthFileToolAdjustColorsClass {
-	GthFileToolClass parent_class;
+	GthImageViewerPageToolClass parent_class;
 };
 
 GType  gth_file_tool_adjust_colors_get_type  (void);
