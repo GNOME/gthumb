@@ -39,7 +39,7 @@ struct _GthFileToolPrivate {
 	const char *button_text;
 	const char *options_title;
 	gboolean    separator;
-	gboolean    canceled;
+	gboolean    cancelled;
 };
 
 
@@ -136,7 +136,7 @@ gth_file_tool_init (GthFileTool *self)
 	self->priv->icon_name = NULL;
 	self->priv->button_text = NULL;
 	self->priv->options_title = NULL;
-	self->priv->canceled = FALSE;
+	self->priv->cancelled = FALSE;
 
 	gtk_button_set_relief (GTK_BUTTON (self), GTK_RELIEF_NONE);
 }
@@ -195,7 +195,7 @@ gth_file_tool_get_icon_name (GthFileTool *self)
 void
 gth_file_tool_activate (GthFileTool *self)
 {
-	self->priv->canceled = FALSE;
+	self->priv->cancelled = FALSE;
 	GTH_FILE_TOOL_GET_CLASS (self)->activate (self);
 }
 
@@ -203,12 +203,19 @@ gth_file_tool_activate (GthFileTool *self)
 void
 gth_file_tool_cancel (GthFileTool *self)
 {
-	if (self->priv->canceled)
+	if (self->priv->cancelled)
 		return;
 
-	self->priv->canceled = TRUE;
+	self->priv->cancelled = TRUE;
 	GTH_FILE_TOOL_GET_CLASS (self)->cancel (self);
-	gth_file_tool_hide_options (self);
+	/*gth_file_tool_hide_options (self); FIXME */
+}
+
+
+gboolean
+gth_file_tool_is_cancelled (GthFileTool *self)
+{
+	return self->priv->cancelled;
 }
 
 
