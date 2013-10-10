@@ -880,6 +880,7 @@ dlg_rename_series (GthBrowser *browser,
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->list_view), column);
 
 	gtk_widget_show (data->list_view);
+	gtk_widget_set_vexpand (data->list_view, TRUE);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("preview_scrolledwindow")), data->list_view);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("preview_label")), data->list_view);
