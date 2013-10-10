@@ -49,10 +49,7 @@ gth_browser_activate_action_file_print (GtkAction  *action,
 		    && GTH_IS_IMAGE_VIEWER_PAGE (viewer_page)
 		    && gth_image_viewer_page_get_is_modified (GTH_IMAGE_VIEWER_PAGE (viewer_page)))
 		{
-			GtkWidget *viewer;
-
-			viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-			current_image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+			current_image = gth_image_viewer_page_get_modified_image (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 		}
 		print_job = gth_image_print_job_new (file_list,
 						     gth_browser_get_current_file (browser),
