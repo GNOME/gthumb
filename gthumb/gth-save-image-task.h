@@ -24,8 +24,8 @@
 
 #include <glib.h>
 #include "gth-image.h"
+#include "gth-image-task.h"
 #include "gth-overwrite-dialog.h"
-#include "gth-task.h"
 
 G_BEGIN_DECLS
 
@@ -41,12 +41,12 @@ typedef struct _GthSaveImageTaskClass   GthSaveImageTaskClass;
 typedef struct _GthSaveImageTaskPrivate GthSaveImageTaskPrivate;
 
 struct _GthSaveImageTask {
-	GthTask __parent;
+	GthImageTask __parent;
 	GthSaveImageTaskPrivate *priv;
 };
 
 struct _GthSaveImageTaskClass {
-	GthTaskClass __parent;
+	GthImageTaskClass __parent;
 };
 
 GType       gth_save_image_task_get_type   (void);

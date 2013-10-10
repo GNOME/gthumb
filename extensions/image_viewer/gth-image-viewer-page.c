@@ -1248,7 +1248,6 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	GthImageViewerPage *self;
 	SaveData           *data;
 	GthFileData        *current_file;
-	GthImage           *image;
 	GthTask            *task;
 
 	self = (GthImageViewerPage *) base;
@@ -1288,8 +1287,10 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	 * wants to save (see load_file_delayed_cb in gth-browser.c). */
 	g_file_info_set_attribute_boolean (data->file_to_save->info, "gth::file::is-modified", FALSE);
 
-	image = gth_image_new_for_surface (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)));
-	task = gth_save_image_task_new (image, mime_type, data->file_to_save, GTH_OVERWRITE_RESPONSE_YES);
+	task = gth_image_task_chain_new (_("Saving"),
+					 gth_original_image_task_new (self),
+					 gth_save_image_task_new (NULL, mime_type, data->file_to_save, GTH_OVERWRITE_RESPONSE_YES),
+					 NULL);
 	g_signal_connect (task,
 			  "completed",
 			  G_CALLBACK (save_image_task_completed_cb),
@@ -1297,7 +1298,6 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	gth_browser_exec_task (GTH_BROWSER (self->priv->browser), task, FALSE);
 
 	_g_object_unref (task);
-	_g_object_unref (image);
 }
 
 
@@ -1698,22 +1698,45 @@ gth_image_viewer_page_get_is_modified (GthImageViewerPage *self)
 }
 
 
+/* -- gth_image_viewer_page_copy_image -- */
+
+
+static void
+copy_image_original_image_ready_cb (GthTask  *task,
+				    GError   *error,
+				    gpointer  user_data)
+{
+	GthImageViewerPage *self = user_data;
+	cairo_surface_t    *image;
+
+	image = gth_original_image_task_get_image (task);
+	if (image != NULL) {
+		GtkClipboard *clipboard;
+		GdkPixbuf    *pixbuf;
+
+		clipboard = gtk_clipboard_get_for_display (gtk_widget_get_display (self->priv->viewer), GDK_SELECTION_CLIPBOARD);
+		pixbuf = _gdk_pixbuf_new_from_cairo_surface (image);
+		gtk_clipboard_set_image (clipboard, pixbuf);
+
+		g_object_unref (pixbuf);
+	}
+
+	cairo_surface_destroy (image);
+	g_object_unref (task);
+}
+
+
 void
 gth_image_viewer_page_copy_image (GthImageViewerPage *self)
 {
-	cairo_surface_t *image;
-	GtkClipboard    *clipboard;
-	GdkPixbuf       *pixbuf;
+	GthTask *task;
 
-	image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
-	if (image == NULL)
-		return;
-
-	clipboard = gtk_clipboard_get_for_display (gtk_widget_get_display (self->priv->viewer), GDK_SELECTION_CLIPBOARD);
-	pixbuf = _gdk_pixbuf_new_from_cairo_surface (image);
-	gtk_clipboard_set_image (clipboard, pixbuf);
-
-	g_object_unref (pixbuf);
+	task = gth_original_image_task_new (self);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (copy_image_original_image_ready_cb),
+			  self);
+	gth_browser_exec_task (self->priv->browser, task, FALSE);
 }
 
 
@@ -1869,19 +1892,17 @@ typedef struct _GthOriginalImageTaskClass   GthOriginalImageTaskClass;
 
 
 struct _GthOriginalImageTask {
-	GthTask __parent;
-
-	GthImageViewerPage	*viewer_page;
-	cairo_surface_t		*image;
+	GthImageTask __parent;
+	GthImageViewerPage *viewer_page;
 };
 
 
 struct _GthOriginalImageTaskClass {
-	GthTaskClass __parent;
+	GthImageTaskClass __parent;
 };
 
 
-G_DEFINE_TYPE (GthOriginalImageTask, gth_original_image_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE (GthOriginalImageTask, gth_original_image_task, GTH_TYPE_IMAGE_TASK)
 
 
 static void
@@ -1890,14 +1911,17 @@ get_original_image_ready_cb (GObject		*source_object,
 			    gpointer		 user_data)
 {
 	GthOriginalImageTask *self = user_data;
+	cairo_surface_t      *image = NULL;
 	GError               *error = NULL;
 
 	gth_image_viewer_page_get_original_finish (self->viewer_page,
 						   result,
-						   &self->image,
+						   &image,
 						   &error);
+	gth_image_task_set_destination_surface (GTH_IMAGE_TASK (self), image);
 	gth_task_completed (GTH_TASK (self), error);
 
+	cairo_surface_destroy (image);
 	_g_error_free (error);
 }
 
@@ -1916,25 +1940,9 @@ gth_original_image_task_exec (GthTask *base)
 
 
 static void
-gth_original_image_task_finalize (GObject *object)
-{
-	GthOriginalImageTask *self;
-
-	self = GTH_ORIGINAL_IMAGE_TASK (object);
-	cairo_surface_destroy (self->image);
-
-	G_OBJECT_CLASS (gth_original_image_task_parent_class)->finalize (object);
-}
-
-
-static void
 gth_original_image_task_class_init (GthOriginalImageTaskClass *class)
 {
-	GObjectClass *object_class;
 	GthTaskClass *task_class;
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = gth_original_image_task_finalize;
 
 	task_class = GTH_TASK_CLASS (class);
 	task_class->exec = gth_original_image_task_exec;
@@ -1945,7 +1953,6 @@ static void
 gth_original_image_task_init (GthOriginalImageTask *self)
 {
 	self->viewer_page = NULL;
-	self->image = NULL;
 }
 
 
@@ -1964,6 +1971,5 @@ gth_original_image_task_new (GthImageViewerPage *self)
 cairo_surface_t *
 gth_original_image_task_get_image (GthTask *task)
 {
-	GthOriginalImageTask *image_task = GTH_ORIGINAL_IMAGE_TASK (task);
-	return (image_task->image != NULL) ? cairo_surface_reference (image_task->image) : NULL;
+	return gth_image_task_get_destination_surface (GTH_IMAGE_TASK (task));
 }

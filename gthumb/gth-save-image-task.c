@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2012 Free Software Foundation, Inc.
+ *  Copyright (C) 2012, 2013 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,14 +27,13 @@
 
 
 struct _GthSaveImageTaskPrivate {
-	GthImage             *image;
 	char                 *mime_type;
 	GthFileData          *file_data;
 	GthOverwriteResponse  overwrite_mode;
 };
 
 
-G_DEFINE_TYPE (GthSaveImageTask, gth_save_image_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE (GthSaveImageTask, gth_save_image_task, GTH_TYPE_IMAGE_TASK)
 
 
 static void
@@ -44,7 +43,6 @@ gth_save_image_task_finalize (GObject *object)
 
 	self = GTH_SAVE_IMAGE_TASK (object);
 
-	_g_object_unref (self->priv->image);
 	g_free (self->priv->mime_type);
 	_g_object_unref (self->priv->file_data);
 
@@ -127,7 +125,7 @@ save_to_file_ready_cb (GthFileData *file_data,
 			GtkWidget *d;
 
 			d = gth_overwrite_dialog_new (NULL,
-						      self->priv->image,
+						      gth_image_task_get_source (GTH_IMAGE_TASK (self)),
 						      self->priv->file_data->file,
 						      self->priv->overwrite_mode,
 						      TRUE);
@@ -160,7 +158,7 @@ save_image (GthSaveImageTask *self)
 	description = g_strdup_printf (_("Saving '%s'"), filename);
 	gth_task_progress (GTH_TASK (self), description, NULL, TRUE, 0.0);
 
-	gth_image_save_to_file (self->priv->image,
+	gth_image_save_to_file (gth_image_task_get_source (GTH_IMAGE_TASK (self)),
 			        self->priv->mime_type,
 			        self->priv->file_data,
 			        ((self->priv->overwrite_mode == GTH_OVERWRITE_RESPONSE_YES)
@@ -177,6 +175,7 @@ save_image (GthSaveImageTask *self)
 static void
 gth_save_image_task_exec (GthTask *task)
 {
+	gth_image_task_set_destination (GTH_IMAGE_TASK (task), gth_image_task_get_source (GTH_IMAGE_TASK (task)));
 	save_image (GTH_SAVE_IMAGE_TASK (task));
 }
 
@@ -201,7 +200,6 @@ static void
 gth_save_image_task_init (GthSaveImageTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SAVE_IMAGE_TASK, GthSaveImageTaskPrivate);
-	self->priv->image = NULL;
 	self->priv->mime_type = NULL;
 	self->priv->file_data = NULL;
 }
@@ -215,14 +213,13 @@ gth_save_image_task_new (GthImage             *image,
 {
 	GthSaveImageTask *self;
 
-	g_return_val_if_fail (image != NULL, NULL);
 	g_return_val_if_fail (file_data != NULL, NULL);
 
 	self = (GthSaveImageTask *) g_object_new (GTH_TYPE_SAVE_IMAGE_TASK, NULL);
-	self->priv->image = g_object_ref (image);
 	self->priv->mime_type = g_strdup (mime_type);
 	self->priv->file_data = gth_file_data_dup (file_data);
 	self->priv->overwrite_mode = overwrite_mode;
+	gth_image_task_set_source (GTH_IMAGE_TASK (self), image);
 
 	return (GthTask *) self;
 }

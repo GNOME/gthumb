@@ -96,8 +96,6 @@ void
 gth_image_task_set_source (GthImageTask *self,
 			   GthImage     *source)
 {
-	g_return_if_fail (GTH_IS_IMAGE (source));
-
 	_g_object_ref (source);
 	_g_object_unref (self->priv->source);
 	self->priv->source = source;
@@ -135,8 +133,6 @@ void
 gth_image_task_set_destination (GthImageTask *self,
 				GthImage     *destination)
 {
-	g_return_if_fail (GTH_IS_IMAGE (destination));
-
 	_g_object_ref (destination);
 	_g_object_unref (self->priv->destination);
 	self->priv->destination = destination;
