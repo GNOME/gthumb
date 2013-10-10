@@ -408,6 +408,8 @@ get_category_cardinality (BrowserData *data,
 				n += original_status_is_active ? 0 : 1;
 			else if (g_strcmp0 (category_name, description->category) == 0)
 				n += 1;
+
+			g_object_unref (description);
 		}
 		while (gtk_tree_model_iter_next (tree_model, &iter));
 	}
@@ -618,6 +620,8 @@ category_model_visible_func (GtkTreeModel *model,
 	else
 		visible = g_strcmp0 (description->category, data->current_category) == 0;
 
+	g_object_unref (description);
+
 	return visible;
 }
 
@@ -671,19 +675,9 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	data->list_store = gtk_list_store_new (EXTENSION_COLUMNS,
 					       G_TYPE_OBJECT,
 					       G_TYPE_BOOLEAN);
-	data->model_filter = gtk_tree_model_filter_new (GTK_TREE_MODEL (data->list_store), NULL);
-	data->list_view = gtk_tree_view_new_with_model (data->model_filter);
-	g_object_unref (data->model_filter);
-	g_object_unref (data->list_store);
-        gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (data->list_view), FALSE);
-        gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (data->list_view), TRUE);
 
-        add_columns (GTK_TREE_VIEW (data->list_view), data);
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (data->list_store), 0, extension_compare_func, NULL, NULL);
         gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->list_store), 0, GTK_SORT_ASCENDING);
-
-	gtk_widget_show (data->list_view);
-	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("extensions_scrolledwindow")), data->list_view);
 
 	extensions = gth_extension_manager_get_extensions (manager);
 	for (scan = extensions; scan; scan = scan->next) {
@@ -702,6 +696,17 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				    -1);
 	}
 	g_list_free (extensions);
+
+	data->model_filter = gtk_tree_model_filter_new (GTK_TREE_MODEL (data->list_store), NULL);
+	data->list_view = gtk_tree_view_new_with_model (data->model_filter);
+        gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (data->list_view), FALSE);
+        gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (data->list_view), TRUE);
+        add_columns (GTK_TREE_VIEW (data->list_view), data);
+	gtk_widget_show (data->list_view);
+	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("extensions_scrolledwindow")), data->list_view);
+
+	g_object_unref (data->model_filter);
+	g_object_unref (data->list_store);
 
 	/* the category combobox */
 
