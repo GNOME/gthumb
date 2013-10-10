@@ -358,6 +358,7 @@ dlg_bookmarks (GthBrowser *browser)
 
 	data->uri_list = gth_uri_list_new ();
 	gtk_widget_show (data->uri_list);
+	gtk_widget_set_vexpand (data->uri_list, TRUE);
 	gtk_container_add (GTK_CONTAINER (bm_list_container), data->uri_list);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (bm_bookmarks_label), data->uri_list);
 
