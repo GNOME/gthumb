@@ -494,7 +494,6 @@ dom_document_new (void)
 DomElement *
 dom_document_create_element (DomDocument *self,
 			     const char  *tag_name,
-			     const char  *first_attr,
 			     ...)
 {
 	DomElement *element;
@@ -506,12 +505,10 @@ dom_document_create_element (DomDocument *self,
 	g_return_val_if_fail (tag_name != NULL, NULL);
 
 	element = dom_element_new (tag_name);
-	va_start (var_args, first_attr);
-	attr = first_attr;
-        while (attr != NULL) {
+	va_start (var_args, tag_name);
+        while ((attr = va_arg (var_args, const char *)) != NULL) {
         	value = va_arg (var_args, const char *);
 		dom_element_set_attribute (element, attr, value);
-                attr = va_arg (var_args, const char *);
         }
 	va_end (var_args);
 
@@ -534,7 +531,6 @@ DomElement *
 dom_document_create_element_with_text (DomDocument  *self,
 				       const char   *text_data,
 				       const char   *tag_name,
-				       const char   *first_attr,
 				       ...)
 {
 	DomElement *element;
@@ -546,12 +542,10 @@ dom_document_create_element_with_text (DomDocument  *self,
 	g_return_val_if_fail (tag_name != NULL, NULL);
 
 	element = dom_element_new (tag_name);
-	va_start (var_args, first_attr);
-	attr = first_attr;
-        while (attr != NULL) {
+	va_start (var_args, tag_name);
+        while ((attr = va_arg (var_args, const char *)) != NULL) {
         	value = va_arg (var_args, const char *);
 		dom_element_set_attribute (element, attr, value);
-                attr = va_arg (var_args, const char *);
         }
 	va_end (var_args);
 

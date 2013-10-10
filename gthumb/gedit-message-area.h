@@ -2,7 +2,7 @@
  * gedit-message-area.h
  * This file is part of gedit
  *
- * Copyright (C) 2005 - Paolo Maggi 
+ * Copyright (C) 2005 - Paolo Maggi
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /*
- * Modified by the gedit Team, 2005. See the AUTHORS file for a 
- * list of people on the gedit Team.  
- * See the ChangeLog files for a list of changes. 
+ * Modified by the gedit Team, 2005. See the AUTHORS file for a
+ * list of people on the gedit Team.
+ * See the ChangeLog files for a list of changes.
  *
  * $Id: gedit-message-area.h 6631 2008-11-29 11:06:49Z pborelli $
  */
@@ -51,7 +51,7 @@ typedef struct _GeditMessageAreaPrivate GeditMessageAreaPrivate;
  */
 typedef struct _GeditMessageArea GeditMessageArea;
 
-struct _GeditMessageArea 
+struct _GeditMessageArea
 {
 	GtkBox parent;
 
@@ -64,7 +64,7 @@ struct _GeditMessageArea
  */
 typedef struct _GeditMessageAreaClass GeditMessageAreaClass;
 
-struct _GeditMessageAreaClass 
+struct _GeditMessageAreaClass
 {
 	GtkBoxClass parent_class;
 
@@ -76,7 +76,7 @@ struct _GeditMessageAreaClass
 
 	/* Padding for future expansion */
 	void (*_gedit_reserved1) (void);
-	void (*_gedit_reserved2) (void);	
+	void (*_gedit_reserved2) (void);
 };
 
 /*
@@ -87,34 +87,34 @@ GType 		 gedit_message_area_get_type 		(void) G_GNUC_CONST;
 GtkWidget	*gedit_message_area_new      		(void);
 
 GtkWidget	*gedit_message_area_new_with_buttons	(const gchar      *first_button_text,
-                                        		 ...);
+                                        		 ...) G_GNUC_NULL_TERMINATED;
 
 void		 gedit_message_area_set_contents	(GeditMessageArea *message_area,
                                              		 GtkWidget        *contents);
-                              		 
+
 void		 gedit_message_area_add_action_widget	(GeditMessageArea *message_area,
                                          		 GtkWidget        *child,
                                          		 gint              response_id);
-                                         		 
+
 GtkWidget	*gedit_message_area_add_button        	(GeditMessageArea *message_area,
                                          		 const gchar      *button_text,
                                          		 gint              response_id);
-             		 
-GtkWidget	*gedit_message_area_add_stock_button_with_text 
-							(GeditMessageArea *message_area, 
-				    			 const gchar      *text, 
-				    			 const gchar      *stock_id, 
+
+GtkWidget	*gedit_message_area_add_stock_button_with_text
+							(GeditMessageArea *message_area,
+				    			 const gchar      *text,
+				    			 const gchar      *stock_id,
 				    			 gint              response_id);
 
 void       	 gedit_message_area_add_buttons 	(GeditMessageArea *message_area,
                                          		 const gchar      *first_button_text,
-                                         		 ...);
+                                         		 ...) G_GNUC_NULL_TERMINATED;
 
-void		 gedit_message_area_set_response_sensitive 
+void		 gedit_message_area_set_response_sensitive
 							(GeditMessageArea *message_area,
                                         		 gint              response_id,
                                         		 gboolean          setting);
-void 		 gedit_message_area_set_default_response 
+void 		 gedit_message_area_set_default_response
 							(GeditMessageArea *message_area,
                                         		 gint              response_id);
 

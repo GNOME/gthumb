@@ -161,15 +161,13 @@ GType         dom_document_get_type                 (void);
 DomDocument * dom_document_new                      (void);
 DomElement *  dom_document_create_element           (DomDocument  *self,
 					             const char   *tag_name,
-					             const char   *first_attr,
-					             ...);
+					             ...) G_GNUC_NULL_TERMINATED;
 DomElement *  dom_document_create_text_node         (DomDocument  *self,
 					             const char   *data);
 DomElement *  dom_document_create_element_with_text (DomDocument  *self,
 						     const char   *text,
 						     const char   *tag_name,
-						     const char   *first_attr,
-						     ...);
+						     ...) G_GNUC_NULL_TERMINATED;
 char *        dom_document_dump                     (DomDocument  *self,
 					             gsize        *len);
 gboolean      dom_document_load                     (DomDocument  *self,

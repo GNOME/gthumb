@@ -58,12 +58,11 @@ struct _GthTestChainClass
 
 GType          gth_test_chain_get_type        (void) G_GNUC_CONST;
 GthTest *      gth_test_chain_new             (GthMatchType   match_type,
-					       GthTest       *first_test,
-					       ...);
+					       ...) G_GNUC_NULL_TERMINATED;
 void           gth_test_chain_set_match_type  (GthTestChain  *chain,
 					       GthMatchType   match_type);
 GthMatchType   gth_test_chain_get_match_type  (GthTestChain  *chain);
-void           gth_test_chain_clear_tests     (GthTestChain  *chain);					      
+void           gth_test_chain_clear_tests     (GthTestChain  *chain);
 void           gth_test_chain_add_test        (GthTestChain  *chain,
 				               GthTest       *test);
 GList *        gth_test_chain_get_tests       (GthTestChain  *chain);

@@ -88,8 +88,7 @@ GthFileDataSort *      gth_main_get_sort_type                 (const char       
 GList *                gth_main_get_all_sort_types            (void);
 void                   gth_main_register_image_loader_func    (GthImageLoaderFunc    loader,
 							       GthImageFormat        native_format,
-						               const char           *first_mime_type,
-						               ...);
+						               ...) G_GNUC_NULL_TERMINATED;
 void                   gth_main_register_image_loader_func_v  (GthImageLoaderFunc    loader,
 							       GthImageFormat        native_format,
 							       const char          **mime_types);
@@ -101,8 +100,7 @@ GthTest *              gth_main_add_general_filter            (GthTest          
 void		       gth_main_register_object               (GType                 superclass_type,
 							       const char           *object_id,
 							       GType                 object_type,
-							       const char           *first_property,
-							       ...);
+							       ...) G_GNUC_NULL_TERMINATED;
 GList *                gth_main_get_registered_objects        (GType                 superclass_type);
 GList *                gth_main_get_registered_objects_id     (GType                 superclass_type);
 gpointer               gth_main_get_registered_object         (GType                 superclass_type,

@@ -251,19 +251,18 @@ gth_test_chain_init (GthTestChain *test)
 
 GthTest *
 gth_test_chain_new (GthMatchType  match_type,
-		    GthTest      *test,
 		    ...)
 {
 	GthTestChain *chain;
 	va_list       args;
+	GthTest      *test;
 
 	chain = g_object_new (GTH_TYPE_TEST_CHAIN, NULL);
 	chain->priv->match_type = match_type;
 
-	va_start (args, test);
-	while (test != NULL) {
+	va_start (args, match_type);
+	while ((test = va_arg (args, GthTest *)) != NULL) {
 		gth_test_chain_add_test (chain, g_object_ref (test));
-		test = va_arg (args, GthTest *);
 	}
 	va_end (args);
 

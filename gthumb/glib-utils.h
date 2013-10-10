@@ -250,7 +250,7 @@ gboolean        _g_uri_parent_of_uri             (const char *dir,
 char *          _g_uri_get_parent                (const char *uri);
 char *          _g_uri_remove_extension          (const char *uri);
 char *          _g_build_uri                     (const char *base,
-						  ...);
+						  ...) G_GNUC_NULL_TERMINATED;
 char *          _g_uri_get_scheme                (const char *uri);
 const char *    _g_uri_remove_host               (const char *uri);
 char *          _g_uri_get_host                  (const char *uri);
@@ -272,7 +272,7 @@ GFile *         _g_file_get_destination          (GFile      *source,
 						  GFile      *destination_folder);
 GFile *         _g_file_get_duplicated           (GFile      *file);
 GFile *         _g_file_get_child                (GFile      *file,
-						  ...);
+						  ...) G_GNUC_NULL_TERMINATED;
 GIcon *         _g_file_get_icon                 (GFile      *file);
 GList *         _g_file_list_dup                 (GList      *l);
 void            _g_file_list_free                (GList      *l);

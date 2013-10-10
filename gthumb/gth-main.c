@@ -612,7 +612,6 @@ gth_main_get_all_sort_types (void)
 
 static GthTypeSpec *
 _gth_main_create_type_spec (GType       object_type,
-			    const char *first_property_name,
 			    va_list     var_args)
 {
 	GObject     *object;
@@ -622,16 +621,14 @@ _gth_main_create_type_spec (GType       object_type,
 
 	type_spec = gth_type_spec_new (object_type);
 
-	if (first_property_name == NULL)
-    		return type_spec;
-
     	object = g_object_new (object_type, NULL);
 
-    	type_spec->params = g_new (GParameter, n_alloced_params);
-  	name = first_property_name;
-  	while (name != NULL) {
+  	while ((name = va_arg (var_args, char *)) != NULL) {
 		GParamSpec *pspec;
 		char       *error = NULL;
+
+		if (type_spec->params == NULL)
+			type_spec->params = g_new (GParameter, n_alloced_params);
 
 		pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (object), name);
 		if (pspec == NULL) {
@@ -652,7 +649,6 @@ _gth_main_create_type_spec (GType       object_type,
 			break;
 		}
 		type_spec->n_params++;
-		name = va_arg (var_args, char*);
 	}
 
 	g_object_unref (object);
@@ -676,7 +672,6 @@ _register_image_loader_func (GthImageLoaderFunc  loader,
 void
 gth_main_register_image_loader_func (GthImageLoaderFunc  loader,
 				     GthImageFormat      native_format,
-				     const char         *first_mime_type,
 				     ...)
 {
 	va_list     var_args;
@@ -684,12 +679,9 @@ gth_main_register_image_loader_func (GthImageLoaderFunc  loader,
 
 	g_mutex_lock (&register_mutex);
 
-	va_start (var_args, first_mime_type);
-	mime_type = first_mime_type;
-  	while (mime_type != NULL) {
+	va_start (var_args, native_format);
+  	while ((mime_type = va_arg (var_args, const char *)) != NULL)
   		_register_image_loader_func (loader, native_format, mime_type);
-		mime_type = va_arg (var_args, const char *);
-  	}
 	va_end (var_args);
 
 	g_mutex_unlock (&register_mutex);
@@ -902,7 +894,6 @@ void
 gth_main_register_object (GType       superclass_type,
 			  const char *object_id,
 			  GType       object_type,
-			  const char *first_property_name,
 			  ...)
 {
 	const char  *superclass_name;
@@ -943,8 +934,8 @@ gth_main_register_object (GType       superclass_type,
 		g_hash_table_insert (Main->priv->objects_order, g_strdup (superclass_name), object_order);
 	}
 
-	va_start (var_args, first_property_name);
-	spec = _gth_main_create_type_spec (object_type, first_property_name, var_args);
+	va_start (var_args, object_type);
+	spec = _gth_main_create_type_spec (object_type, var_args);
 	va_end (var_args);
 
 	id = g_strdup (object_id);
