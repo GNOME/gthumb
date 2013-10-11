@@ -5238,7 +5238,7 @@ background_task_completed_cb (GthTask  *task,
 	if (error == NULL)
 		return;
 
-	if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if ((error->domain == G_IO_ERROR) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		_gth_browser_show_error (browser, _("Could not perform the operation"), error);
 }
 
