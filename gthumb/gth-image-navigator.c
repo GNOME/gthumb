@@ -32,8 +32,8 @@
 #define VISIBLE_AREA_BORDER 2.0
 #define POPUP_BORDER        2
 #define POPUP_BORDER_2      (POPUP_BORDER*2)
-#define POPUP_MAX_WIDTH     112
-#define POPUP_MAX_HEIGHT    112
+#define POPUP_MAX_WIDTH     180
+#define POPUP_MAX_HEIGHT    180
 
 
 /* Properties */
