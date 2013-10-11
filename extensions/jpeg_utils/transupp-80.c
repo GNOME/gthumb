@@ -45,6 +45,13 @@
 #include <ctype.h>		/* to declare isdigit() */
 
 
+#ifdef LIBJPEG_TURBO_VERSION
+# define info_slow_hflip info->slow_hflip
+#else
+# define info_slow_hflip 0
+#endif
+
+
 #if TRANSFORMS_SUPPORTED
 
 /*
@@ -1002,10 +1009,16 @@ jtransform_request_workspace (j_decompress_ptr srcinfo,
     else
       yoffset = info->crop_yoffset;
     /* Now adjust so that upper left corner falls at an iMCU boundary */
-    info->output_width =
-      info->crop_width + (xoffset % info->iMCU_sample_width);
-    info->output_height =
-      info->crop_height + (yoffset % info->iMCU_sample_height);
+    if (info->crop_width_set == JCROP_FORCE)
+      info->output_width = info->crop_width;
+    else
+      info->output_width =
+        info->crop_width + (xoffset % info->iMCU_sample_width);
+    if (info->crop_height_set == JCROP_FORCE)
+      info->output_height = info->crop_height;
+    else
+      info->output_height =
+        info->crop_height + (yoffset % info->iMCU_sample_height);
     /* Save x/y offsets measured in iMCUs */
     info->x_crop_offset = xoffset / info->iMCU_sample_width;
     info->y_crop_offset = yoffset / info->iMCU_sample_height;
@@ -1028,7 +1041,7 @@ jtransform_request_workspace (j_decompress_ptr srcinfo,
   case JXFORM_FLIP_H:
     if (info->trim)
       trim_right_edge(info, srcinfo->output_width);
-    if (info->y_crop_offset != 0)
+    if (info->y_crop_offset != 0 || info_slow_hflip)
       need_workspace = TRUE;
     /* do_flip_h_no_crop doesn't need a workspace array */
     break;
@@ -1440,7 +1453,7 @@ jtransform_execute_transform (j_decompress_ptr srcinfo,
 	      src_coef_arrays, dst_coef_arrays);
     break;
   case JXFORM_FLIP_H:
-    if (info->y_crop_offset != 0)
+    if (info->y_crop_offset != 0 || info_slow_hflip)
       do_flip_h(srcinfo, dstinfo, info->x_crop_offset, info->y_crop_offset,
 		src_coef_arrays, dst_coef_arrays);
     else
