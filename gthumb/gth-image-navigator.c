@@ -335,10 +335,12 @@ typedef struct {
 	GtkWidget             *preview;
 	cairo_surface_t       *image;
 	int                    image_width, image_height;
+	int                    original_width, original_height;
 	int                    window_max_width, window_max_height;
 	int                    popup_x, popup_y, popup_width, popup_height;
 	cairo_rectangle_int_t  visible_area;
 	double                 zoom_factor;
+	double                 quality_zoom;
 } NavigatorPopup;
 
 
@@ -378,14 +380,14 @@ update_popup_geometry (NavigatorPopup *nav_popup)
 	int           scroll_offset_x;
 	int           scroll_offset_y;
 
-	zoomed_width = nav_popup->image_width * gth_image_viewer_get_zoom (nav_popup->viewer);
-	zoomed_height = nav_popup->image_height * gth_image_viewer_get_zoom (nav_popup->viewer);
+	zoomed_width = nav_popup->original_width * gth_image_viewer_get_zoom (nav_popup->viewer);
+	zoomed_height = nav_popup->original_height * gth_image_viewer_get_zoom (nav_popup->viewer);
 
 	nav_popup->window_max_width = MIN (zoomed_width, POPUP_MAX_WIDTH);
 	nav_popup->window_max_height = MIN (zoomed_width, POPUP_MAX_HEIGHT);
-
 	nav_popup->zoom_factor = MIN ((double) (nav_popup->window_max_width) / zoomed_width,
-				    (double) (nav_popup->window_max_height) / zoomed_height);
+				      (double) (nav_popup->window_max_height) / zoomed_height);
+	nav_popup->quality_zoom = (double) nav_popup->original_width / nav_popup->image_width;
 
 	/* popup window size */
 
@@ -411,8 +413,8 @@ update_popup_geometry (NavigatorPopup *nav_popup)
 	/* visible area position */
 
 	gth_image_viewer_get_scroll_offset (nav_popup->viewer, &scroll_offset_x, &scroll_offset_y);
-	nav_popup->visible_area.x = scroll_offset_x * nav_popup->zoom_factor;
-	nav_popup->visible_area.y = scroll_offset_y * nav_popup->zoom_factor;
+	nav_popup->visible_area.x = scroll_offset_x * (nav_popup->zoom_factor * nav_popup->quality_zoom);
+	nav_popup->visible_area.y = scroll_offset_y * (nav_popup->zoom_factor * nav_popup->quality_zoom);
 
 	/* popup window position */
 
@@ -458,8 +460,8 @@ popup_window_event_cb (GtkWidget *widget,
 		nav_popup->visible_area.x = (int) x;
 		nav_popup->visible_area.y = (int) y;
 
-		mx = (int) (x / nav_popup->zoom_factor);
-		my = (int) (y / nav_popup->zoom_factor);
+		mx = (int) (x / (nav_popup->quality_zoom * nav_popup->zoom_factor));
+		my = (int) (y / (nav_popup->quality_zoom * nav_popup->zoom_factor));
 		gth_image_viewer_set_scroll_offset (viewer, mx, my);
 
 		gtk_widget_queue_draw (widget);
@@ -540,18 +542,22 @@ navigator_popup_draw_cb (GtkWidget      *widget,
 	if (nav_popup->image == NULL)
 		return FALSE;
 
-	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
-
 	cairo_save (cr);
+	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
 	cairo_set_source_surface (cr, nav_popup->image, 0, 0);
 	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
-	cairo_rectangle (cr, 0, 0, nav_popup->image_width, nav_popup->image_height);
+	cairo_rectangle (cr,
+			 0, 0,
+			 cairo_image_surface_get_width (nav_popup->image),
+			 cairo_image_surface_get_height (nav_popup->image));
   	cairo_fill (cr);
   	cairo_restore (cr);
 
+  	cairo_save (cr);
 	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
 	cairo_rectangle (cr, 0, 0, nav_popup->popup_width, nav_popup->popup_height);
 	cairo_fill (cr);
+	cairo_restore (cr);
 
 	if ((nav_popup->visible_area.width < nav_popup->popup_width)
 	    || (nav_popup->visible_area.height < nav_popup->popup_height))
@@ -565,7 +571,10 @@ navigator_popup_draw_cb (GtkWidget      *widget,
 		cairo_clip (cr);
 		cairo_set_source_surface (cr, nav_popup->image, 0, 0);
 		cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
-	  	cairo_rectangle (cr, 0, 0, nav_popup->image_width, nav_popup->image_width);
+		cairo_rectangle (cr,
+				 0, 0,
+				 cairo_image_surface_get_width (nav_popup->image),
+				 cairo_image_surface_get_height (nav_popup->image));
 	  	cairo_fill (cr);
 	  	cairo_restore (cr);
 
@@ -623,6 +632,9 @@ navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 
 	nav_popup->image_width = gth_image_viewer_get_image_width (GTH_IMAGE_VIEWER (self->priv->viewer));
 	nav_popup->image_height = gth_image_viewer_get_image_height (GTH_IMAGE_VIEWER (self->priv->viewer));
+	gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer),
+					    &nav_popup->original_width,
+					    &nav_popup->original_height);
 	update_popup_geometry (nav_popup);
 
 	g_signal_connect (G_OBJECT (nav_popup->popup_win),
