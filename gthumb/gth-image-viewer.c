@@ -350,6 +350,8 @@ set_zoom (GthImageViewer *self,
 	/* try to keep the center of the view visible. */
 	_gth_image_viewer_get_visible_area_size (self, &visible_width, &visible_height);
 	zoom_ratio = zoom_level / self->priv->zoom_level;
+	center_x = center_x - self->image_area.x;
+	center_y = center_y - self->image_area.y;
 	self->x_offset = ((self->x_offset + center_x) * zoom_ratio - visible_width / 2);
 	self->y_offset = ((self->y_offset + center_y) * zoom_ratio - visible_height / 2);
 
