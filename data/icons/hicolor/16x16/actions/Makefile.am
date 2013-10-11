@@ -24,6 +24,7 @@ icons_DATA = 				\
 	site-photobucket.png		\
 	site-picasaweb.png		\
 	site-twentythree.png		\
+	tag.png				\
 	tool-adjust-colors.png		\
 	tool-adjust-contrast.png	\
 	tool-crop.png			\

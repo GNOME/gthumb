@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.0 on Fri Oct 11 20:06:34 2013 -->
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkListStore" id="group_by_liststore">
     <columns>
       <!-- column-name type -->
@@ -10,28 +11,6 @@
       <!-- column-name icon-name -->
       <column type="gchararray"/>
     </columns>
-    <data>
-      <row>
-        <col id="0">0</col>
-        <col id="1" translatable="yes">Date photo was taken</col>
-        <col id="2">camera-photo</col>
-      </row>
-      <row>
-        <col id="0">1</col>
-        <col id="1" translatable="yes">File modified date</col>
-        <col id="2">appointment-soon</col>
-      </row>
-      <row>
-        <col id="0">2</col>
-        <col id="1" translatable="yes">Tag</col>
-        <col id="2" translatable="yes">tag</col>
-      </row>
-      <row>
-        <col id="0">3</col>
-        <col id="1" translatable="yes">Tag (embedded)</col>
-        <col id="2" translatable="yes">tag</col>
-      </row>
-    </data>
   </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
@@ -62,7 +41,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -79,7 +57,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -95,7 +72,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="use_stock">True</property>
               </object>
@@ -137,7 +113,7 @@
                         <property name="yalign">0</property>
                         <property name="pixel_size">48</property>
                         <property name="icon_name">file-catalog</property>
-                        <property name="icon-size">6</property>
+                        <property name="icon_size">6</property>
                       </object>
                     </child>
                   </object>
@@ -233,7 +209,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="xalign">0</property>
                             <property name="draw_indicator">True</property>
@@ -251,7 +226,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="xalign">0</property>
                             <property name="draw_indicator">True</property>
                           </object>
@@ -278,7 +252,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="xalign">0</property>
                                     <property name="draw_indicator">True</property>
                                   </object>
