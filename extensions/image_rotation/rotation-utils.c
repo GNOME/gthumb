@@ -37,8 +37,6 @@ enum {
 
 typedef struct {
 	GtkWidget        *dialog;
-	GtkWindow        *parent_window;
-	gboolean          parent_is_modal;
 	TrimResponseFunc  done_func;
 	gpointer          done_data;
 } AskTrimData;
@@ -52,8 +50,6 @@ ask_whether_to_trim_response_cb (GtkDialog *dialog,
 	AskTrimData *data = user_data;
 
  	gtk_widget_destroy (data->dialog);
-	if (data->parent_is_modal)
-		gtk_window_set_modal (data->parent_window, TRUE);
 
 	if (data->done_func != NULL) {
 		JpegMcuAction action;
@@ -76,7 +72,7 @@ ask_whether_to_trim_response_cb (GtkDialog *dialog,
 }
 
 
-void
+GtkWidget *
 ask_whether_to_trim (GtkWindow        *parent_window,
 		     GthFileData      *file_data,
 		     TrimResponseFunc  done_func,
@@ -104,14 +100,6 @@ ask_whether_to_trim (GtkWindow        *parent_window,
 	data = g_new0 (AskTrimData, 1);
 	data->done_func = done_func;
 	data->done_data = done_data;
-	data->parent_window = parent_window;
-	data->parent_is_modal = FALSE;
-
-	if (parent_window != NULL) {
-		data->parent_is_modal = gtk_window_get_modal (parent_window);
-		if (data->parent_is_modal)
-			gtk_window_set_modal (data->parent_window, FALSE);
-	}
 
 	filename = g_file_get_parse_name (file_data->file);
 	msg = g_strdup_printf (_("Problem transforming the image: %s"), filename);
@@ -138,6 +126,8 @@ ask_whether_to_trim (GtkWindow        *parent_window,
 
 	g_free (msg);
 	g_free (filename);
+
+	return data->dialog;
 }
 
 

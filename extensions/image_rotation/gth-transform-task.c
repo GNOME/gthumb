@@ -93,13 +93,15 @@ transform_file_ready_cb (GError   *error,
 
 	if (error != NULL) {
 		if (g_error_matches (error, JPEG_ERROR, JPEG_ERROR_MCU)) {
+			GtkWidget *dialog;
+
 			g_clear_error (&error);
 
-			gth_task_dialog (GTH_TASK (self), TRUE, NULL);
-			ask_whether_to_trim (GTK_WINDOW (self->priv->browser),
-					     self->priv->file_data,
-					     trim_response_cb,
-					     self);
+			dialog = ask_whether_to_trim (GTK_WINDOW (self->priv->browser),
+						      self->priv->file_data,
+						      trim_response_cb,
+						      self);
+			gth_task_dialog (GTH_TASK (self), TRUE, dialog);
 
 			return;
 		}
