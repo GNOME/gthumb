@@ -122,6 +122,41 @@ dlg_organize_files (GthBrowser *browser,
 	gtk_widget_show (info_bar);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("info_alignment")), info_bar);
 
+	{
+		GtkListStore *list_store = (GtkListStore *) GET_WIDGET ("group_by_liststore");
+		GtkTreeIter   iter;
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+				    0, GTH_GROUP_POLICY_DIGITALIZED_DATE,
+				    1, _("Date photo was taken"),
+				    2, "camera-photo",
+				    -1);
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+				    0, GTH_GROUP_POLICY_MODIFIED_DATE,
+				    1, _("File modified date"),
+				    2, "appointment-soon",
+				    -1);
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+				    0, GTH_GROUP_POLICY_TAG,
+				    1, _("Tag"),
+				    2, "tag",
+				    -1);
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+				    0, GTH_GROUP_POLICY_TAG_EMBEDDED,
+				    1, _("Tag (embedded)"),
+				    2, "tag",
+				    -1);
+	}
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("group_by_combobox")), 0);
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),
