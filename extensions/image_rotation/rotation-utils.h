@@ -30,7 +30,7 @@
 
 typedef void (*TrimResponseFunc) (JpegMcuAction action, gpointer user_data);
 
-void            ask_whether_to_trim            (GtkWindow        *parent_window,
+GtkWidget *     ask_whether_to_trim            (GtkWindow        *parent_window,
 		     				GthFileData      *file_data,
 		     				TrimResponseFunc  done_func,
 		     				gpointer          done_data);
