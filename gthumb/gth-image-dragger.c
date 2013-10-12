@@ -35,6 +35,7 @@ struct _GthImageDraggerPrivate {
 	GthImageViewer  *viewer;
 	gboolean         draggable;
 	cairo_surface_t *scaled;
+	double           scaled_zoom;
 	GthTask         *scale_task;
 };
 
@@ -84,6 +85,7 @@ gth_image_dragger_init (GthImageDragger *dragger)
 {
 	dragger->priv = G_TYPE_INSTANCE_GET_PRIVATE (dragger, GTH_TYPE_IMAGE_DRAGGER, GthImageDraggerPrivate);
 	dragger->priv->scaled = NULL;
+	dragger->priv->scaled_zoom = 0;
 	dragger->priv->scale_task = NULL;
 	dragger->priv->viewer = NULL;
 	dragger->priv->draggable = FALSE;
@@ -401,18 +403,19 @@ static void
 _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 {
 	cairo_surface_t *image;
+	double           zoom;
 	int              image_width, image_height;
 	int              original_width, original_height;
-	double           zoom;
 	int              new_width, new_height;
 	scale_filter_t   filter;
+
+	self->priv->scaled_zoom = 0;
+	_cairo_clear_surface (&self->priv->scaled);
 
 	if (self->priv->scale_task != NULL) {
 		gth_task_cancel (self->priv->scale_task);
 		self->priv->scale_task = NULL;
 	}
-
-	_cairo_clear_surface (&self->priv->scaled);
 
 	if (self->priv->viewer == NULL)
 		return;
@@ -424,13 +427,6 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 	if ((image == NULL) || (cairo_surface_status (image) != CAIRO_STATUS_SUCCESS))
 		return;
 
-	image_width = cairo_image_surface_get_width (image);
-	image_height = cairo_image_surface_get_height (image);
-	gth_image_viewer_get_original_size (self->priv->viewer, &original_width, &original_height);
-
-	if ((original_width != image_width) || (original_height != image_height))
-		return;
-
 	if (gth_image_viewer_get_zoom_quality (self->priv->viewer) == GTH_ZOOM_QUALITY_LOW)
 		return;
 
@@ -438,33 +434,42 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 	if (zoom >= 1.0)
 		return;
 
-	new_width = zoom * image_width;
-	new_height = zoom * image_height;
+	image_width = cairo_image_surface_get_width (image);
+	image_height = cairo_image_surface_get_height (image);
+	gth_image_viewer_get_original_size (self->priv->viewer, &original_width, &original_height);
+	new_width = zoom * original_width;
+	new_height = zoom * original_height;
 
-	if (image_width * image_height > SIZE_TOO_BIG_FOR_SCALE_BILINEAR) {
-		self->priv->scaled = _cairo_image_surface_scale_nearest (image, new_width, new_height);
-		filter = SCALE_FILTER_BOX;
-	}
-	else {
+	if (image_width * image_height <= SIZE_TOO_BIG_FOR_SCALE_BILINEAR) {
 		self->priv->scaled = _cairo_image_surface_scale_bilinear (image, new_width, new_height);
 		filter = SCALE_FILTER_TRIANGLE;
 	}
+	else
+		filter = SCALE_FILTER_BOX;
 
+	self->priv->scaled_zoom = zoom;
 	_gth_image_dragger_create_scaled_high_quality (self, image, new_width, new_height, filter);
 }
 
 
 static void
-gth_image_dragger_image_changed (GthImageViewerTool *self)
+gth_image_dragger_image_changed (GthImageViewerTool *base)
 {
-	_gth_image_dragger_update_scaled_image (GTH_IMAGE_DRAGGER (self));
+	_gth_image_dragger_update_scaled_image (GTH_IMAGE_DRAGGER (base));
 }
 
 
 static void
-gth_image_dragger_zoom_changed (GthImageViewerTool *self)
+gth_image_dragger_zoom_changed (GthImageViewerTool *base)
 {
-	_gth_image_dragger_update_scaled_image (GTH_IMAGE_DRAGGER (self));
+	GthImageDragger *self = GTH_IMAGE_DRAGGER (base);
+
+	if ((self->priv->viewer == NULL)
+		|| (gth_image_viewer_get_zoom_quality (self->priv->viewer) == GTH_ZOOM_QUALITY_LOW)
+		|| (self->priv->scaled_zoom != gth_image_viewer_get_zoom (self->priv->viewer)))
+	{
+		_gth_image_dragger_update_scaled_image (self);
+	}
 }
 
 
