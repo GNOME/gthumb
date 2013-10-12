@@ -410,6 +410,18 @@ center_button_clicked_cb (GtkButton *button,
 }
 
 
+static void
+options_button_clicked_cb (GtkButton       *button,
+			   GthFileToolCrop *self)
+{
+	GtkWidget *dialog;
+
+	dialog = GET_WIDGET ("options_dialog");
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (gth_file_tool_get_window (GTH_FILE_TOOL (self))));
+	gtk_widget_show (dialog);
+}
+
+
 static GtkWidget *
 gth_file_tool_crop_get_options (GthFileTool *base)
 {
@@ -493,8 +505,6 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("bind_factor_spinbutton")),
 				   g_settings_get_int (self->priv->settings, PREF_CROP_BIND_FACTOR));
 
-	gtk_widget_set_vexpand (GET_WIDGET ("options_box"), FALSE);
-
 	g_signal_connect (GET_WIDGET ("crop_button"),
 			  "clicked",
 			  G_CALLBACK (crop_button_clicked_cb),
@@ -503,6 +513,18 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 				  "clicked",
 				  G_CALLBACK (gth_file_tool_cancel),
 				  self);
+	g_signal_connect (GET_WIDGET ("options_button"),
+			  "clicked",
+			  G_CALLBACK (options_button_clicked_cb),
+			  self);
+	g_signal_connect_swapped (GET_WIDGET ("options_close_button"),
+				  "clicked",
+				  G_CALLBACK (gtk_widget_hide),
+				  GET_WIDGET ("options_dialog"));
+	g_signal_connect (GET_WIDGET ("options_dialog"),
+			  "delete-event",
+			  G_CALLBACK (gtk_widget_hide_on_delete),
+			  NULL);
 	g_signal_connect (G_OBJECT (self->priv->crop_x_spinbutton),
 			  "value-changed",
 			  G_CALLBACK (selection_x_value_changed_cb),

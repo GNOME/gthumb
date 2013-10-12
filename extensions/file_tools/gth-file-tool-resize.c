@@ -504,6 +504,18 @@ screen_size_button_clicked_cb (GtkButton         *button,
 }
 
 
+static void
+options_button_clicked_cb (GtkButton         *button,
+			   GthFileToolResize *self)
+{
+	GtkWidget *dialog;
+
+	dialog = GET_WIDGET ("options_dialog");
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (gth_file_tool_get_window (GTH_FILE_TOOL (self))));
+	gtk_widget_show (dialog);
+}
+
+
 static GtkWidget *
 gth_file_tool_resize_get_options (GthFileTool *base)
 {
@@ -614,6 +626,18 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 				  "clicked",
 				  G_CALLBACK (gth_file_tool_cancel),
 				  self);
+	g_signal_connect (GET_WIDGET ("options_button"),
+			  "clicked",
+			  G_CALLBACK (options_button_clicked_cb),
+			  self);
+	g_signal_connect_swapped (GET_WIDGET ("options_close_button"),
+				  "clicked",
+				  G_CALLBACK (gtk_widget_hide),
+				  GET_WIDGET ("options_dialog"));
+	g_signal_connect (GET_WIDGET ("options_dialog"),
+			  "delete-event",
+			  G_CALLBACK (gtk_widget_hide_on_delete),
+			  NULL);
 	g_signal_connect (GET_WIDGET ("resize_width_spinbutton"),
 			  "value-changed",
 			  G_CALLBACK (selection_width_value_changed_cb),

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.0 on Sat Oct 12 13:11:37 2013 -->
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkAdjustment" id="crop_height_adjustment">
@@ -58,7 +59,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="active">True</property>
@@ -362,18 +362,14 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="use_action_appearance">False</property>
+                    <property name="tooltip_text" translatable="yes">Reset</property>
                     <property name="use_underline">True</property>
                     <child>
-                      <object class="GtkLabel" id="label1">
+                      <object class="GtkImage" id="image1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">_Reset</property>
-                        <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">reset_button</property>
-                        <attributes>
-                          <attribute name="size" value="8000"/>
-                        </attributes>
+                        <property name="icon_name">edit-undo-symbolic</property>
+                        <property name="icon_size">1</property>
                       </object>
                     </child>
                   </object>
@@ -422,7 +418,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
                 <property name="use_stock">True</property>
               </object>
@@ -439,7 +434,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>

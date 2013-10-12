@@ -494,6 +494,10 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 				  "clicked",
 				  G_CALLBACK (gtk_widget_hide),
 				  GET_WIDGET ("options_dialog"));
+	g_signal_connect (GET_WIDGET ("options_dialog"),
+			  "delete-event",
+			  G_CALLBACK (gtk_widget_hide_on_delete),
+			  NULL);
 	g_signal_connect (GET_WIDGET ("align_button"),
 			  "clicked",
 			  G_CALLBACK (align_button_clicked_cb),
