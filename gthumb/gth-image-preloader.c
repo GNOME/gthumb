@@ -603,7 +603,7 @@ image_loader_ready_cb (GObject      *source_object,
 	if ((request->requested_size > 0) && loaded_original)
 		load_data->resize_to_requested_size = TRUE;
 
-	if (gth_image_get_is_zoomable (image) || gth_image_get_is_animation (image))
+	if ((image != NULL) && (gth_image_get_is_zoomable (image) || gth_image_get_is_animation (image)))
 		load_data->resize_to_requested_size = FALSE;
 
 	resized = FALSE;
