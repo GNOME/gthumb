@@ -220,8 +220,10 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 			}
 		}
 
-		if (srcinfo.scale_denom == 0)
+		if (srcinfo.scale_denom <= 0) {
 			srcinfo.scale_denom = srcinfo.scale_num;
+			load_scaled = FALSE;
+		}
 	}
 
 	jpeg_calc_output_dimensions (&srcinfo);
