@@ -217,6 +217,18 @@ reset_button_clicked_cb (GtkButton         *button,
 }
 
 
+static void
+options_button_clicked_cb (GtkButton         *button,
+			       GthFileToolRotate *self)
+{
+	GtkWidget *dialog;
+
+	dialog = GET_WIDGET ("options_dialog");
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (gth_file_tool_get_window (GTH_FILE_TOOL (self))));
+	gtk_widget_show (dialog);
+}
+
+
 static gpointer
 rotate_exec (GthAsyncTask *task,
 	     gpointer      user_data)
@@ -474,6 +486,14 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 			  "clicked",
 			  G_CALLBACK (reset_button_clicked_cb),
 			  self);
+	g_signal_connect (GET_WIDGET ("options_button"),
+			  "clicked",
+			  G_CALLBACK (options_button_clicked_cb),
+			  self);
+	g_signal_connect_swapped (GET_WIDGET ("options_close_button"),
+				  "clicked",
+				  G_CALLBACK (gtk_widget_hide),
+				  GET_WIDGET ("options_dialog"));
 	g_signal_connect (GET_WIDGET ("align_button"),
 			  "clicked",
 			  G_CALLBACK (align_button_clicked_cb),
