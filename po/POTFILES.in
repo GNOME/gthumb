@@ -411,9 +411,14 @@ extensions/image_viewer/gth-image-histogram.c
 extensions/image_viewer/gth-image-histogram.h
 extensions/image_viewer/gth-image-viewer-page.c
 extensions/image_viewer/gth-image-viewer-page.h
+extensions/image_viewer/gth-image-viewer-page-tool.c
+extensions/image_viewer/gth-image-viewer-page-tool.h
+extensions/image_viewer/gth-image-viewer-task.c
+extensions/image_viewer/gth-image-viewer-task.h
 extensions/image_viewer/gth-metadata-provider-image.c
 extensions/image_viewer/gth-metadata-provider-image.h
 [type: gettext/ini]extensions/image_viewer/image_viewer.extension.in.in
+extensions/image_viewer/image-viewer.h
 extensions/image_viewer/main.c
 extensions/image_viewer/preferences.c
 extensions/image_viewer/preferences.h
@@ -754,6 +759,8 @@ gthumb/gth-image-saver.h
 gthumb/gth-image-selector.c
 gthumb/gth-image-selector.h
 gthumb/gth-image-task.c
+gthumb/gth-image-task-chain.c
+gthumb/gth-image-task-chain.h
 gthumb/gth-image-task.h
 gthumb/gth-image-utils.c
 gthumb/gth-image-utils.h
@@ -868,6 +875,7 @@ gthumb/pixbuf-io.c
 gthumb/pixbuf-io.h
 gthumb/pixbuf-utils.c
 gthumb/pixbuf-utils.h
+[type: gettext/glade]gthumb/resources/app-menu.ui
 [type: gettext/glade]gthumb/resources/message-dialog.ui
 gthumb/typedefs.h
 gthumb/zlib-utils.c
