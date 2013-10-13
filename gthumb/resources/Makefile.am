@@ -1,4 +1,5 @@
 EXTRA_DIST =			\
+	app-menu.ui		\
 	gthumb.css		\
 	message-dialog.ui
 	

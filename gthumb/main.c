@@ -42,6 +42,7 @@
 #include "gth-main.h"
 #include "gth-preferences.h"
 #include "gth-window-actions-callbacks.h"
+#include "gtk-utils.h"
 #include "main-migrate.h"
 
 
@@ -403,7 +404,6 @@ _gth_application_initialize_app_menu (GApplication *application)
 {
 	gboolean    show_app_menu;
 	GtkBuilder *builder;
-	GError     *error = NULL;
 
 	g_object_get (gtk_settings_get_default (),
 		      "gtk-shell-shows-app-menu", &show_app_menu,
@@ -416,38 +416,7 @@ _gth_application_initialize_app_menu (GApplication *application)
 					 G_N_ELEMENTS (app_menu_entries),
 					 application);
 
-	builder = gtk_builder_new ();
-	gtk_builder_add_from_string (builder,
-			"<interface>"
-			"  <menu id='app-menu'>"
-			"    <section>"
-			"      <item>"
-			"        <attribute name='label' translatable='yes'>New _Window</attribute>"
-			"        <attribute name='action'>app.new-window</attribute>"
-			"      </item>"
-			"    </section>"
-			"    <section>"
-			"      <item>"
-			"        <attribute name='label' translatable='yes'>_Preferences</attribute>"
-			"        <attribute name='action'>app.preferences</attribute>"
-			"      </item>"
-			"    </section>"
-			"    <section>"
-			"      <item>"
-			"        <attribute name='label' translatable='yes'>_Help</attribute>"
-			"        <attribute name='action'>app.help</attribute>"
-			"      </item>"
-			"      <item>"
-			"        <attribute name='label' translatable='yes'>_About gThumb</attribute>"
-			"        <attribute name='action'>app.about</attribute>"
-			"      </item>"
-			"      <item>"
-			"        <attribute name='label' translatable='yes'>_Quit</attribute>"
-			"        <attribute name='action'>app.quit</attribute>"
-			"      </item>"
-			"    </section>"
-			"  </menu>"
-			"</interface>", -1, &error);
+	builder = _gtk_builder_new_from_resource ("app-menu.ui");
 	gtk_application_set_app_menu (GTK_APPLICATION (application),
 				      G_MENU_MODEL (gtk_builder_get_object (builder, "app-menu")));
 
