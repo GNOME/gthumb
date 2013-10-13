@@ -31,6 +31,7 @@
 #include "gth-marshal.h"
 
 
+#undef  RESIZE_TO_REQUESTED_SIZE
 #define GTH_IMAGE_PRELOADER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_IMAGE_PRELOADER, GthImagePreloaderPrivate))
 #define LOAD_NEXT_FILE_DELAY 100
 #define CACHE_MAX_SIZE 10
@@ -457,6 +458,8 @@ load_data_free (LoadData *load_data)
 }
 
 
+#ifdef RESIZE_TO_REQUESTED_SIZE
+
 static void
 image_scale_ready_cb (GObject      *source_object,
 		      GAsyncResult *result,
@@ -545,6 +548,8 @@ _gth_image_preloader_resize_at_requested_size (GthImagePreloader *self,
 	return scaled;
 }
 
+#endif
+
 
 static void
 image_loader_ready_cb (GObject      *source_object,
@@ -607,8 +612,10 @@ image_loader_ready_cb (GObject      *source_object,
 		load_data->resize_to_requested_size = FALSE;
 
 	resized = FALSE;
+#ifdef RESIZE_TO_REQUESTED_SIZE
 	if (load_data->resize_to_requested_size)
 		resized = _gth_image_preloader_resize_at_requested_size (self, request, cache_data->image);
+#endif
 
 	if (! resized)
 		_gth_image_preloader_request_completed (self, request, cache_data);
@@ -645,8 +652,10 @@ _gth_image_preloader_load_current_file (GthImagePreloader *self,
 							      requested_file,
 							      request->requested_size);
 	if (cache_data != NULL) {
+#ifdef RESIZE_TO_REQUESTED_SIZE
 		if (! _gth_image_preloader_resize_at_requested_size (self, request, cache_data->image))
-			_gth_image_preloader_request_completed (self, request, cache_data);
+#endif
+		_gth_image_preloader_request_completed (self, request, cache_data);
 		return;
 	}
 
