@@ -120,6 +120,7 @@ struct _GthImageViewerPrivate {
 	gboolean                just_focused;
 	gboolean                black_bg;
 	gboolean                skip_zoom_change;
+	gboolean                update_image_after_zoom;
 	gboolean                reset_scrollbars;
 
 	GList                  *painters;
@@ -358,7 +359,10 @@ set_zoom (GthImageViewer *self,
 	self->priv->zoom_level = zoom_level;
 
 	_gth_image_viewer_update_image_area (self);
-	gth_image_viewer_tool_zoom_changed (self->priv->tool);
+	if (self->priv->update_image_after_zoom)
+		gth_image_viewer_tool_image_changed (self->priv->tool);
+	else
+		gth_image_viewer_tool_zoom_changed (self->priv->tool);
 
 	if (! self->priv->skip_zoom_change)
 		g_signal_emit (G_OBJECT (self),
@@ -1560,6 +1564,7 @@ gth_image_viewer_init (GthImageViewer *self)
 	self->priv->doing_zoom_fit = FALSE;
 
 	self->priv->skip_zoom_change = FALSE;
+	self->priv->update_image_after_zoom = FALSE;
 
 	self->priv->is_void = TRUE;
 	self->x_offset = 0;
@@ -1652,10 +1657,12 @@ _gth_image_viewer_content_changed (GthImageViewer *self,
 		self->y_offset = 0;
 	}
 
-	gth_image_viewer_tool_image_changed (self->priv->tool);
-
-	if (better_quality)
+	if (better_quality || ! self->priv->zoom_enabled) {
+		gth_image_viewer_tool_image_changed (self->priv->tool);
 		return;
+	}
+
+	self->priv->update_image_after_zoom = TRUE;
 
 	switch (self->priv->zoom_change) {
 	case GTH_ZOOM_CHANGE_ACTUAL_SIZE:
