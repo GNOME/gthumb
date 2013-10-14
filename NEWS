@@ -1,3 +1,22 @@
+version 3.2.4
+-------------
+
+ Bugs fixed:
+
+  * Fixed error when rotating jpeg images. (#709698)
+  * Fixed broken window layout with gtk+ 3.10 (#708800)
+  * Fixed crash when opening the preferences dialog.
+  * Find duplicates: fixed crash when using a predefined directory
+    (Christian Krause) (#706697)
+  * Fixed crash when attempting to play a video under special 
+    circumstances. (Christian Krause) (#706343)
+  * Fixed crash when copying or moving files. (#705877)
+
+ New or updated application translations:
+
+  * Indonesian Translation (Andika Triwidada)
+  * Latvian (Rūdolfs Mazurs)
+
 version 3.2.3
 -------------
 
