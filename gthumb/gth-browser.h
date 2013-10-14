@@ -25,6 +25,7 @@
 #include "gth-file-source.h"
 #include "gth-file-store.h"
 #include "gth-icon-cache.h"
+#include "gth-menu-manager.h"
 #include "gth-task.h"
 #include "gth-window.h"
 #include "typedefs.h"
@@ -64,6 +65,12 @@ typedef enum { /*< skip >*/
 	GTH_BROWSER_HEADER_SECTION_VIEWER_PROPERTIES,
 	GTH_BROWSER_N_HEADER_SECTIONS
 } GthBrowserHeaderSection;
+
+typedef enum { /*< skip >*/
+	GTH_BROWSER_MENU_MANAGER_GEARS,
+	GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS,
+	GTH_BROWSER_N_MENU_MANAGERS
+} GthBrowserMenuManager;
 
 typedef enum {
 	GTH_ACTION_GO_TO,
@@ -123,6 +130,9 @@ GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_filterbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_headerbar_section  (GthBrowser       *browser,
 						     GthBrowserHeaderSection section);
+GthMenuManager * gth_browser_get_menu_manager       (GthBrowser       *browser,
+						     GthBrowserMenuManager
+						     	     	       manager);
 GtkWidget *      gth_browser_get_file_list          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list_view     (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_thumbnail_list     (GthBrowser       *browser);

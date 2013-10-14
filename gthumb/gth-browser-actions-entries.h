@@ -27,6 +27,15 @@
 #include "gth-stock.h"
 #include "gtk-utils.h"
 
+static const GActionEntry gth_browser_actions[] = {
+	{ "save", gth_browser_activate_save },
+	{ "save-as", gth_browser_activate_save_as },
+	{ "revert-to-saved", gth_browser_activate_revert_to_saved },
+	{ "close", gth_browser_activate_close },
+	{ "quit", gth_browser_activate_quit },
+};
+
+
 static GthActionEntryExt gth_browser_action_entries[] = {
 	{ "FileMenu", NULL, N_("_File") },
 	{ "EditMenu", NULL, N_("_Edit") },

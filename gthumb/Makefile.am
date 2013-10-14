@@ -84,6 +84,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-main.h					\
 	gth-menu-action.h				\
 	gth-menu-button.h				\
+	gth-menu-manager.h				\
 	gth-metadata.h					\
 	gth-metadata-chooser.h				\
 	gth-metadata-provider.h				\
@@ -226,6 +227,7 @@ gthumb_SOURCES = 					\
 	gth-main-default-types.c			\
 	gth-menu-action.c				\
 	gth-menu-button.c				\
+	gth-menu-manager.c				\
 	gth-metadata.c					\
 	gth-metadata-chooser.c				\
 	gth-metadata-provider.c				\

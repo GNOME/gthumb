@@ -122,6 +122,11 @@ static const char *browser_vfs_ui_info =
 "</ui>";
 
 
+static const GthMenuEntry browser_vfs_entries[] = {
+	{ N_("Create _Folder"), "win.create-folder", "<Ctrl><Shift>N" }
+};
+
+
 static const char *folder_popup_ui_info =
 "<ui>"
 "  <popup name='FolderListPopup'>"
@@ -701,6 +706,7 @@ file_manager_update_ui (BrowserData *data,
 		data->browser_merge_id = 0;
 	}
 
+#if 0
 	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))
 	    && (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER))
 	{
@@ -716,6 +722,21 @@ file_manager_update_ui (BrowserData *data,
 	}
 	else if (data->browser_vfs_merge_id != 0) {
 		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->browser_vfs_merge_id);
+		data->browser_vfs_merge_id = 0;
+	}
+#endif
+
+	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))
+	    && (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER))
+	{
+		if (data->browser_vfs_merge_id == 0) {
+			data->browser_vfs_merge_id = gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS),
+										      browser_vfs_entries,
+										      G_N_ELEMENTS (browser_vfs_entries));
+		}
+	}
+	else  if (data->browser_vfs_merge_id != 0) {
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS), data->browser_vfs_merge_id);
 		data->browser_vfs_merge_id = 0;
 	}
 }

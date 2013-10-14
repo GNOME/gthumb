@@ -1,5 +1,6 @@
 EXTRA_DIST =			\
 	app-menu.ui		\
+	gears-menu.ui		\
 	gthumb.css		\
 	message-dialog.ui
 	

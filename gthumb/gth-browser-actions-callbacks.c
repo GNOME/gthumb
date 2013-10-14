@@ -467,3 +467,73 @@ gth_browser_activate_action_help_shortcuts (GtkAction *action,
 {
 	show_help_dialog (GTK_WINDOW (data), "gthumb-shortcuts");
 }
+
+
+/* -- GAction callbacks -- */
+
+
+void
+gth_browser_activate_save (GSimpleAction *action,
+			   GVariant      *parameter,
+			   gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+	GtkWidget  *viewer_page;
+
+	viewer_page = gth_browser_get_viewer_page (browser);
+	if (viewer_page == NULL)
+		return;
+
+	gth_viewer_page_save (GTH_VIEWER_PAGE (viewer_page), NULL, NULL, browser);
+}
+
+
+void
+gth_browser_activate_save_as (GSimpleAction *action,
+			      GVariant      *parameter,
+			      gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+	GtkWidget  *viewer_page;
+
+	viewer_page = gth_browser_get_viewer_page (browser);
+	if (viewer_page == NULL)
+		return;
+
+	gth_viewer_page_save_as (GTH_VIEWER_PAGE (viewer_page), NULL, NULL);
+}
+
+
+void
+gth_browser_activate_revert_to_saved (GSimpleAction *action,
+				      GVariant      *parameter,
+				      gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+	GtkWidget  *viewer_page;
+
+	viewer_page = gth_browser_get_viewer_page (browser);
+	if (viewer_page == NULL)
+		return;
+
+	gth_viewer_page_revert (GTH_VIEWER_PAGE (viewer_page));
+}
+
+void
+gth_browser_activate_close (GSimpleAction *action,
+			    GVariant      *parameter,
+			    gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+
+	gth_window_close (GTH_WINDOW (browser));
+}
+
+
+void
+gth_browser_activate_quit (GSimpleAction *action,
+			   GVariant      *parameter,
+			   gpointer       user_data)
+{
+
+}

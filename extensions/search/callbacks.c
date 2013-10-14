@@ -100,6 +100,16 @@ search__gth_browser_construct_cb (GthBrowser *browser)
 		g_error_free (error);
 	}
 
+	{
+		GtkWidget *button;
+
+		button = gtk_button_new_from_icon_name ("edit-find-symbolic", GTK_ICON_SIZE_MENU);
+		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
+		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (data->find_action, "Edit_Find"));
+		gtk_widget_show (button);
+		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS)), button, FALSE, FALSE, 0);
+	}
+
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
 

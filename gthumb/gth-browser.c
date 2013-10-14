@@ -119,6 +119,7 @@ struct _GthBrowserPrivate {
 	GtkWidget         *list_extra_widget;
 	GtkWidget         *file_properties;
 	GtkWidget         *header_sections[GTH_BROWSER_N_HEADER_SECTIONS];
+	GthMenuManager    *menu_managers[GTH_BROWSER_N_MENU_MANAGERS];
 
 	GtkWidget         *thumbnail_list;
 
@@ -304,6 +305,18 @@ monitor_event_data_unref (MonitorEventData *monitor_data)
 
 
 /* -- gth_browser -- */
+
+
+static void
+_gth_browser_enable_action (GthBrowser  *browser,
+			    const char  *action_name,
+			    gboolean     enabled)
+{
+	GAction *action;
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (browser), action_name);
+	g_object_set (action, "enabled", enabled, NULL);
+}
 
 
 static void
@@ -630,6 +643,10 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	_gth_browser_set_action_sensitive (browser, "View_Thumbnail_List", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER);
 	_gth_browser_set_action_sensitive (browser, "View_Sidebar", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);
 	_gth_browser_set_action_sensitive (browser, "View_Reload", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);
+
+	_gth_browser_enable_action (browser, "save", viewer_can_save && modified);
+	_gth_browser_enable_action (browser, "save-as", viewer_can_save);
+	_gth_browser_enable_action (browser, "revert-to-saved", viewer_can_save && modified);
 
 	gth_sidebar_update_sensitivity (GTH_SIDEBAR (browser->priv->file_properties));
 
@@ -2715,7 +2732,10 @@ static void
 gth_browser_finalize (GObject *object)
 {
 	GthBrowser *browser = GTH_BROWSER (object);
+	int         i;
 
+	for (i = 0; i < GTH_BROWSER_N_MENU_MANAGERS; i++)
+		_g_object_unref (browser->priv->menu_managers[i]);
 	browser_state_free (&browser->priv->state);
 	_g_object_unref (browser->priv->browser_settings);
 	_g_object_unref (browser->priv->messages_settings);
@@ -4395,6 +4415,9 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->desktop_interface_settings = g_settings_new (GNOME_DESKTOP_INTERFACE_SCHEMA);
 	browser->priv->file_properties_on_the_right = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT);
 
+	for (i = 0; i < GTH_BROWSER_N_MENU_MANAGERS; i++)
+		browser->priv->menu_managers[i] = NULL;
+
 	browser_state_init (&browser->priv->state);
 
 	/* find a suitable size for the window */
@@ -4600,6 +4623,25 @@ gth_browser_init (GthBrowser *browser)
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_PROPERTIES]);
+
+		/* gears menu */
+
+		{
+			GtkBuilder *builder;
+			GMenuModel *menu;
+			GtkWidget  *gears_menu_button;
+
+			builder = _gtk_builder_new_from_resource ("gears-menu.ui");
+			menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
+			gears_menu_button = gtk_menu_button_new ();
+			gtk_container_add (GTK_CONTAINER (gears_menu_button), gtk_image_new_from_icon_name ("emblem-system-symbolic", GTK_ICON_SIZE_MENU));
+			gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (gears_menu_button), menu);
+			gtk_widget_show_all (gears_menu_button);
+			gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), gears_menu_button);
+
+			browser->priv->menu_managers[GTH_BROWSER_MENU_MANAGER_GEARS] = gth_menu_manager_new (G_MENU (menu));
+			browser->priv->menu_managers[GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS] = gth_menu_manager_new (G_MENU (gtk_builder_get_object (builder, "folder-actions")));
+		}
 
 		/* browser navigation */
 
