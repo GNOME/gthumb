@@ -110,18 +110,6 @@ static const char *browser_ui_info =
 "</ui>";
 
 
-static const char *browser_vfs_ui_info =
-"<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='File' action='FileMenu'>"
-"      <placeholder name='Folder_Actions'>"
-"        <menuitem action='File_NewFolder'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-
 static const GthMenuEntry browser_vfs_entries[] = {
 	{ N_("Create _Folder"), "win.create-folder", "<Ctrl><Shift>N" }
 };
