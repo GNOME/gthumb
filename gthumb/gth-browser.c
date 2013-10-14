@@ -118,6 +118,7 @@ struct _GthBrowserPrivate {
 	GtkWidget         *list_extra_widget_container;
 	GtkWidget         *list_extra_widget;
 	GtkWidget         *file_properties;
+	GtkWidget         *header_sections[GTH_BROWSER_N_HEADER_SECTIONS];
 
 	GtkWidget         *thumbnail_list;
 
@@ -545,10 +546,12 @@ void
 gth_browser_update_title (GthBrowser *browser)
 {
 	GString      *title;
+	GString      *subtitle;
 	const char   *name = NULL;
 	GthFileStore *file_store;
 
 	title = g_string_new (NULL);
+	subtitle = g_string_new (NULL);
 
 	if (browser->priv->current_file != NULL)
 		name = g_file_info_get_display_name (browser->priv->current_file->info);
@@ -573,17 +576,17 @@ gth_browser_update_title (GthBrowser *browser)
 		pos = gth_file_store_get_pos (file_store, browser->priv->current_file->file);
 		if (pos >= 0) {
 			browser->priv->current_file_position = pos;
-			g_string_append_printf (title, " - %d/%d", browser->priv->current_file_position + 1, browser->priv->n_visibles);
+			g_string_append_printf (subtitle, "%d/%d", browser->priv->current_file_position + 1, browser->priv->n_visibles);
 		}
 	}
 
-	if (title->len > 0)
-		g_string_append (title, " - ");
-	g_string_append (title, _("gThumb"));
+	if (title->len == 0)
+		g_string_append (title, _("gThumb"));
 
-	gtk_window_set_title (GTK_WINDOW (browser), title->str);
+	_gth_window_set_title (GTH_WINDOW (browser), title->str, subtitle->str);
 
 	g_string_free (title, TRUE);
+	g_string_free (subtitle, TRUE);
 }
 
 
@@ -2553,6 +2556,18 @@ _gth_browser_get_browser_file_properties_container (GthBrowser *browser)
 
 
 static void
+_gth_browser_update_header_section_visibility (GthBrowser              *browser,
+					       GthBrowserHeaderSection  section,
+					       gboolean                 visible)
+{
+	GtkWidget *header_section;
+
+	header_section = browser->priv->header_sections[section];
+	gtk_widget_set_visible (header_section, visible && (_gtk_container_get_n_children (GTK_CONTAINER (header_section)) > 0));
+}
+
+
+static void
 _gth_browser_real_set_current_page (GthWindow *window,
 				    int        page)
 {
@@ -2572,6 +2587,19 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	_gth_browser_update_viewer_ui (browser, page);
 	_gth_browser_update_browser_ui (browser, page);
 	_gth_browser_hide_infobar (browser);
+
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION, page == GTH_BROWSER_PAGE_BROWSER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS, page == GTH_BROWSER_PAGE_BROWSER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW, page == GTH_BROWSER_PAGE_BROWSER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT, page == GTH_BROWSER_PAGE_BROWSER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS, page == GTH_BROWSER_PAGE_BROWSER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_PROPERTIES, page == GTH_BROWSER_PAGE_BROWSER);
+
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION, page == GTH_BROWSER_PAGE_VIEWER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW, page == GTH_BROWSER_PAGE_VIEWER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT, page == GTH_BROWSER_PAGE_VIEWER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS, page == GTH_BROWSER_PAGE_VIEWER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_PROPERTIES, page == GTH_BROWSER_PAGE_VIEWER);
 
 	/* move the sidebar from the browser to the viewer and vice-versa */
 
@@ -4303,7 +4331,10 @@ gth_browser_init (GthBrowser *browser)
 	char           *caption;
 	int             i;
 
-	g_object_set (browser, "n-pages", GTH_BROWSER_N_PAGES, NULL);
+	g_object_set (browser,
+		      "n-pages", GTH_BROWSER_N_PAGES,
+		      "use-header-bar", TRUE,
+		      NULL);
 
 	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (browser, GTH_TYPE_BROWSER, GthBrowserPrivate);
 	browser->priv->viewer_pages = NULL;
@@ -4411,6 +4442,11 @@ gth_browser_init (GthBrowser *browser)
 	gtk_widget_realize (GTK_WIDGET (browser));
 
 	/* ui actions */
+
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 gth_browser_actions,
+					 G_N_ELEMENTS (gth_browser_actions),
+					 browser);
 
 	browser->priv->actions = gtk_action_group_new ("Actions");
 	gtk_action_group_set_translation_domain (browser->priv->actions, NULL);
@@ -4536,6 +4572,73 @@ gth_browser_init (GthBrowser *browser)
 			  "hide",
 			  G_CALLBACK (folder_popup_hide_cb),
 			  browser);
+
+	/* headerbar */
+
+	{
+		GtkWidget *header_bar;
+		GtkWidget *button;
+
+		header_bar = gth_window_get_header_bar (GTH_WINDOW (browser));
+
+		/* dynamic sections */
+
+		for (i = 0; i < GTH_BROWSER_N_HEADER_SECTIONS; i++) {
+			browser->priv->header_sections[i] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+			gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->header_sections[i]), GTK_STYLE_CLASS_LINKED);
+		}
+
+		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]);
+		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_PROPERTIES]);
+
+		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_PROPERTIES]);
+
+		/* browser navigation */
+
+		button = gtk_button_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_MENU);
+		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
+		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "Go_Back"));
+		gtk_widget_show (button);
+		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]), button, FALSE, FALSE, 0);
+
+		button = gtk_button_new_from_icon_name ("go-next-symbolic", GTK_ICON_SIZE_MENU);
+		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
+		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "Go_Forward"));
+		gtk_widget_show (button);
+		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]), button, FALSE, FALSE, 0);
+
+		/* browser commands */
+
+		button = gtk_button_new_from_icon_name ("view-fullscreen-symbolic", GTK_ICON_SIZE_MENU);
+		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
+		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "View_Fullscreen"));
+		gtk_widget_show (button);
+		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW]), button, FALSE, FALSE, 0);
+
+		/* viewer navigation */
+
+		button = gtk_button_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_MENU);
+		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
+		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "View_BrowserMode"));
+		gtk_widget_show (button);
+		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION]), button, FALSE, FALSE, 0);
+
+		/* viewer view */
+
+		button = gtk_button_new_from_icon_name ("view-fullscreen-symbolic", GTK_ICON_SIZE_MENU);
+		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
+		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "View_Fullscreen"));
+		gtk_widget_show (button);
+		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW]), button, FALSE, FALSE, 0);
+	}
 
 	/* toolbar */
 
@@ -5101,6 +5204,22 @@ GtkWidget *
 gth_browser_get_filterbar (GthBrowser *browser)
 {
 	return browser->priv->filterbar;
+}
+
+
+GtkWidget *
+gth_browser_get_headerbar_section (GthBrowser			*browser,
+				   GthBrowserHeaderSection	 section)
+{
+	return browser->priv->header_sections[section];
+}
+
+
+GthMenuManager *
+gth_browser_get_menu_manager (GthBrowser		*browser,
+			      GthBrowserMenuManager      manager)
+{
+	return browser->priv->menu_managers[manager];
 }
 
 

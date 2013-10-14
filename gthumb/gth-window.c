@@ -31,15 +31,18 @@ G_DEFINE_TYPE (GthWindow, gth_window, GTK_TYPE_APPLICATION_WINDOW)
 
 enum  {
 	PROP_0,
-	PROP_N_PAGES
+	PROP_N_PAGES,
+	PROP_USE_HEADER_BAR
 };
 
 
 struct _GthWindowPrivate {
 	int              n_pages;
+	gboolean         use_header_bar;
 	int              current_page;
 	GtkWidget       *grid;
 	GtkWidget       *notebook;
+	GtkWidget       *headerbar;
 	GtkWidget       *menubar;
 	GtkWidget       *toolbar;
 	GtkWidget       *infobar;
@@ -106,6 +109,16 @@ gth_window_set_n_pages (GthWindow *self,
 
 
 static void
+_gth_window_add_header_bar (GthWindow *self)
+{
+	self->priv->headerbar = gtk_header_bar_new ();
+	gtk_widget_show (self->priv->headerbar);
+	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->priv->headerbar), TRUE);
+	gtk_window_set_titlebar (GTK_WINDOW (self), self->priv->headerbar);
+}
+
+
+static void
 gth_window_set_property (GObject      *object,
 			 guint         property_id,
 			 const GValue *value,
@@ -118,6 +131,11 @@ gth_window_set_property (GObject      *object,
 	switch (property_id) {
 	case PROP_N_PAGES:
 		gth_window_set_n_pages (self, g_value_get_int (value));
+		break;
+	case PROP_USE_HEADER_BAR:
+		self->priv->use_header_bar = g_value_get_boolean (value);
+		if (self->priv->use_header_bar)
+			_gth_window_add_header_bar (self);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -139,6 +157,9 @@ gth_window_get_property (GObject    *object,
 	switch (property_id) {
 	case PROP_N_PAGES:
 		g_value_set_int (value, self->priv->n_pages);
+		break;
+	case PROP_USE_HEADER_BAR:
+		g_value_set_boolean (value, self->priv->use_header_bar);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -262,6 +283,13 @@ gth_window_class_init (GthWindowClass *klass)
 							   G_MAXINT,
 							   1,
 							   G_PARAM_READWRITE));
+	g_object_class_install_property (G_OBJECT_CLASS (klass),
+					 PROP_USE_HEADER_BAR,
+					 g_param_spec_boolean ("use-header-bar",
+							       "use-header-bar",
+							       "use-header-bar",
+							       FALSE,
+							       G_PARAM_READWRITE));
 }
 
 
@@ -277,6 +305,9 @@ gth_window_init (GthWindow *window)
 	window->priv->toolbar = NULL;
 	window->priv->infobar = NULL;
 	window->priv->statusbar = NULL;
+	window->priv->headerbar = NULL;
+	window->priv->use_header_bar = FALSE;
+
 	window->priv->window_group = gtk_window_group_new ();
 	gtk_window_group_add_window (window->priv->window_group, GTK_WINDOW (window));
 
@@ -447,6 +478,13 @@ gth_window_get_area (GthWindow     *window,
 }
 
 
+GtkWidget *
+gth_window_get_header_bar (GthWindow *window)
+{
+	return window->priv->headerbar;
+}
+
+
 void
 gth_window_save_page_size (GthWindow *window,
 			   int        page,
@@ -511,4 +549,28 @@ gth_window_get_page_size (GthWindow *window,
 		*height = window->priv->window_size[page].height;
 
 	return TRUE;
+}
+
+
+void
+_gth_window_set_title (GthWindow  *window,
+		       const char *title,
+		       const char *subtitle)
+{
+	if (window->priv->use_header_bar) {
+		gtk_header_bar_set_title (GTK_HEADER_BAR (window->priv->headerbar), title);
+		gtk_header_bar_set_subtitle (GTK_HEADER_BAR (window->priv->headerbar), subtitle);
+	}
+	else {
+		GString *complete_title;
+
+		complete_title = g_string_new (title);
+		if (subtitle != NULL) {
+			g_string_append (complete_title, " - ");
+			g_string_append (complete_title, subtitle);
+		}
+		gtk_window_set_title (GTK_WINDOW (window), complete_title->str);
+
+		g_string_free (complete_title, TRUE);
+	}
 }

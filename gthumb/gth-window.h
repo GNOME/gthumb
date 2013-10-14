@@ -87,6 +87,7 @@ void           gth_window_show_only_content  (GthWindow     *window,
 					      gboolean       only_content);
 GtkWidget *    gth_window_get_area           (GthWindow     *window,
 					      GthWindowArea  area);
+GtkWidget *    gth_window_get_header_bar     (GthWindow     *window);
 void           gth_window_save_page_size     (GthWindow     *window,
 					      int            page,
 					      int            width,
@@ -99,6 +100,9 @@ gboolean       gth_window_get_page_size      (GthWindow     *window,
 		      	      	      	      int           *height);
 void           gth_window_clear_saved_size   (GthWindow     *window,
       	      	      	      	      	      int            page);
+void           _gth_window_set_title         (GthWindow     *window,
+					      const char    *title,
+					      const char    *subtitle);
 
 G_END_DECLS
 

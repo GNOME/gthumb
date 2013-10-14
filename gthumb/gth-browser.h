@@ -50,6 +50,21 @@ typedef enum { /*< skip >*/
 	GTH_BROWSER_N_PAGES
 } GthBrowserPage;
 
+typedef enum { /*< skip >*/
+	GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION,
+	GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS,
+	GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
+	GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT,
+	GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS,
+	GTH_BROWSER_HEADER_SECTION_BROWSER_PROPERTIES,
+	GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION,
+	GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+	GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
+	GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS,
+	GTH_BROWSER_HEADER_SECTION_VIEWER_PROPERTIES,
+	GTH_BROWSER_N_HEADER_SECTIONS
+} GthBrowserHeaderSection;
+
 typedef enum {
 	GTH_ACTION_GO_TO,
 	GTH_ACTION_GO_BACK,
@@ -106,6 +121,8 @@ GtkWidget *      gth_browser_get_browser_toolbar    (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_infobar            (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_filterbar          (GthBrowser       *browser);
+GtkWidget *      gth_browser_get_headerbar_section  (GthBrowser       *browser,
+						     GthBrowserHeaderSection section);
 GtkWidget *      gth_browser_get_file_list          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list_view     (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_thumbnail_list     (GthBrowser       *browser);

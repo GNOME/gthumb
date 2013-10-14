@@ -736,6 +736,15 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	/* video area */
 
 	self->priv->area = gtk_drawing_area_new ();
+
+	/* do not use the rgba visual on the drawing area */
+	{
+	        GdkVisual *visual;
+	        visual = gdk_screen_get_system_visual (gtk_widget_get_screen (GTK_WIDGET (self->priv->area)));
+        	if (visual != NULL)
+                	gtk_widget_set_visual (GTK_WIDGET (self->priv->area), visual);
+	}
+
 	gtk_widget_set_double_buffered (self->priv->area, FALSE);
 	gtk_widget_add_events (self->priv->area, (gtk_widget_get_events (self->priv->area)
 						  | GDK_EXPOSURE_MASK
