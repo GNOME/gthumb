@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
-#define ACTION_CALLBACK(x) void x (GSimpleAction *action, GVariant *parameter, gpointer user_data);
 
 DEFINE_ACTION(gth_browser_activate_action_bookmarks_add)
 DEFINE_ACTION(gth_browser_activate_action_bookmarks_edit)
@@ -69,10 +68,10 @@ DEFINE_ACTION(gth_browser_activate_action_browser_tools)
 DEFINE_ACTION(gth_browser_activate_action_viewer_tools)
 DEFINE_ACTION(gth_browser_activate_action_view_shrink_wrap)
 
-ACTION_CALLBACK (gth_browser_activate_save)
-ACTION_CALLBACK (gth_browser_activate_save_as)
-ACTION_CALLBACK (gth_browser_activate_revert_to_saved)
-ACTION_CALLBACK (gth_browser_activate_close)
-ACTION_CALLBACK (gth_browser_activate_quit)
+DEF_ACTION_CALLBACK (gth_browser_activate_save)
+DEF_ACTION_CALLBACK (gth_browser_activate_save_as)
+DEF_ACTION_CALLBACK (gth_browser_activate_revert_to_saved)
+DEF_ACTION_CALLBACK (gth_browser_activate_close)
+DEF_ACTION_CALLBACK (gth_browser_activate_quit)
 
 #endif /* GTH_BROWSER_ACTIONS_CALLBACK_H */

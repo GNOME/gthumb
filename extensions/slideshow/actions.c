@@ -138,3 +138,12 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
 }
+
+
+void
+gth_browser_activate_slideshow (GSimpleAction *action,
+				GVariant      *parameter,
+				gpointer       user_data)
+{
+	gth_browser_activate_action_view_slideshow (NULL, GTH_BROWSER (user_data));
+}

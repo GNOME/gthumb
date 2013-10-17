@@ -76,6 +76,7 @@ G_BEGIN_DECLS
 #endif
 
 #define DEFAULT_STRFTIME_FORMAT "%Y-%m-%d--%H.%M.%S"
+#define DEF_ACTION_CALLBACK(x) void x (GSimpleAction *action, GVariant *parameter, gpointer user_data);
 
 /* signals */
 

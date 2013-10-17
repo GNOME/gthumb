@@ -14,7 +14,8 @@ icons_DATA = 				\
 	slideshow-pause.svg		\
 	tag.svg				\
 	tool-adjust-contrast.svg	\
-	tool-sharpen.svg
+	tool-sharpen.svg		\
+	view-presentation-symbolic.svg
 
 EXTRA_DIST = $(icons_DATA)
 

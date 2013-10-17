@@ -27,5 +27,6 @@
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
 DEFINE_ACTION(gth_browser_activate_action_view_slideshow)
+DEF_ACTION_CALLBACK (gth_browser_activate_slideshow)
 
 #endif /* ACTIONS_H */

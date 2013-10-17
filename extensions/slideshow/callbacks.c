@@ -33,6 +33,11 @@
 #define BROWSER_DATA_KEY "slideshow-browser-data"
 
 
+static const GActionEntry actions[] = {
+	{ "slideshow", gth_browser_activate_slideshow }
+};
+
+
 static const char *ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
@@ -96,6 +101,22 @@ ss__gth_browser_construct_cb (GthBrowser *browser)
 		g_error_free (error);
 	}
 
+	g_action_map_add_action_entries (G_ACTION_MAP (browser), actions, G_N_ELEMENTS (actions), browser);
+
+	{
+		GtkWidget *button;
+
+		button = _gtk_image_button_new_for_header_bar ("view-presentation-symbolic");
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.slideshow");
+		gtk_widget_show (button);
+		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW)), button, FALSE, FALSE, 0);
+
+		button = _gtk_image_button_new_for_header_bar ("view-presentation-symbolic");
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.slideshow");
+		gtk_widget_show (button);
+		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW)), button, FALSE, FALSE, 0);
+	}
+
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
 
@@ -125,6 +146,8 @@ ss__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	file_store = gth_file_view_get_model (GTH_FILE_VIEW (gth_browser_get_file_list_view (browser)));
 	sensitive = (gth_file_store_n_visibles (GTH_FILE_STORE (file_store)) > 0);
 	set_action_sensitive (data, "View_Slideshow", sensitive);
+
+	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "slideshow"), "enabled", sensitive, NULL);
 }
 
 
