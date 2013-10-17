@@ -1075,3 +1075,38 @@ _gtk_file_chooser_set_file_parent (GtkFileChooser   *chooser,
 	return result;
 }
 
+
+static void
+_gtk_menu_button_set_style_for_header_bar (GtkWidget *button)
+{
+	GtkStyleContext *context;
+
+	gtk_widget_set_valign (button, GTK_ALIGN_CENTER);
+	context = gtk_widget_get_style_context (button);
+	gtk_style_context_add_class (context, "image-button");
+	gtk_style_context_remove_class (context, "text-button");
+}
+
+
+GtkWidget *
+_gtk_menu_button_new_for_header_bar (void)
+{
+	GtkWidget *button;
+
+	button = gtk_menu_button_new ();
+	_gtk_menu_button_set_style_for_header_bar (button);
+
+	return button;
+}
+
+
+GtkWidget *
+_gtk_image_button_new_for_header_bar (const char *icon_name)
+{
+	GtkWidget *button;
+
+	button = gtk_button_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU);
+	_gtk_menu_button_set_style_for_header_bar (button);
+
+	return button;
+}

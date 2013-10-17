@@ -4608,6 +4608,7 @@ gth_browser_init (GthBrowser *browser)
 
 		for (i = 0; i < GTH_BROWSER_N_HEADER_SECTIONS; i++) {
 			browser->priv->header_sections[i] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+			gtk_widget_set_valign (browser->priv->header_sections[i], GTK_ALIGN_CENTER);
 			gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->header_sections[i]), GTK_STYLE_CLASS_LINKED);
 		}
 
@@ -4633,7 +4634,7 @@ gth_browser_init (GthBrowser *browser)
 
 			builder = _gtk_builder_new_from_resource ("gears-menu.ui");
 			menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
-			gears_menu_button = gtk_menu_button_new ();
+			gears_menu_button = _gtk_menu_button_new_for_header_bar ();
 			gtk_container_add (GTK_CONTAINER (gears_menu_button), gtk_image_new_from_icon_name ("emblem-system-symbolic", GTK_ICON_SIZE_MENU));
 			gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (gears_menu_button), menu);
 			gtk_widget_show_all (gears_menu_button);
@@ -4645,13 +4646,13 @@ gth_browser_init (GthBrowser *browser)
 
 		/* browser navigation */
 
-		button = gtk_button_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_MENU);
+		button = _gtk_image_button_new_for_header_bar ("go-previous-symbolic");
 		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
 		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "Go_Back"));
 		gtk_widget_show (button);
 		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]), button, FALSE, FALSE, 0);
 
-		button = gtk_button_new_from_icon_name ("go-next-symbolic", GTK_ICON_SIZE_MENU);
+		button = _gtk_image_button_new_for_header_bar ("go-next-symbolic");
 		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
 		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "Go_Forward"));
 		gtk_widget_show (button);
@@ -4659,7 +4660,7 @@ gth_browser_init (GthBrowser *browser)
 
 		/* browser commands */
 
-		button = gtk_button_new_from_icon_name ("view-fullscreen-symbolic", GTK_ICON_SIZE_MENU);
+		button = _gtk_image_button_new_for_header_bar ("view-fullscreen-symbolic");
 		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
 		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "View_Fullscreen"));
 		gtk_widget_show (button);
@@ -4667,7 +4668,7 @@ gth_browser_init (GthBrowser *browser)
 
 		/* viewer navigation */
 
-		button = gtk_button_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_MENU);
+		button = _gtk_image_button_new_for_header_bar ("go-previous-symbolic");
 		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
 		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "View_BrowserMode"));
 		gtk_widget_show (button);
@@ -4675,7 +4676,7 @@ gth_browser_init (GthBrowser *browser)
 
 		/* viewer view */
 
-		button = gtk_button_new_from_icon_name ("view-fullscreen-symbolic", GTK_ICON_SIZE_MENU);
+		button = _gtk_image_button_new_for_header_bar ("view-fullscreen-symbolic");
 		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
 		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "View_Fullscreen"));
 		gtk_widget_show (button);

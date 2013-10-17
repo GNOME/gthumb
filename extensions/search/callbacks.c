@@ -103,7 +103,7 @@ search__gth_browser_construct_cb (GthBrowser *browser)
 	{
 		GtkWidget *button;
 
-		button = gtk_button_new_from_icon_name ("edit-find-symbolic", GTK_ICON_SIZE_MENU);
+		button = _gtk_image_button_new_for_header_bar ("edit-find-symbolic");
 		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
 		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (data->find_action, "Edit_Find"));
 		gtk_widget_show (button);
