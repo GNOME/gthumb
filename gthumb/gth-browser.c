@@ -746,10 +746,6 @@ _gth_browser_history_print (GthBrowser *browser)
 static void
 _gth_browser_history_menu (GthBrowser *browser)
 {
-	GtkWidget *menu;
-	GList     *scan;
-	GtkWidget *separator;
-
 	_gth_browser_update_go_sensitivity (browser);
 
 	/* Update the history menu model for the headerbar button */
@@ -757,7 +753,8 @@ _gth_browser_history_menu (GthBrowser *browser)
 	g_menu_remove_all (browser->priv->history_menu);
 
 	if (browser->priv->history != NULL) {
-		int i;
+		GList *scan;
+		int    i;
 
 		for (i = 0, scan = browser->priv->history;
 		     scan;
@@ -793,36 +790,7 @@ _gth_browser_history_menu (GthBrowser *browser)
 			g_free (label);
 			g_object_unref (file_source);
 		}
-
-		/* if (i > 0)
-			_gth_browser_add_clear_history_menu_item (browser, menu); FIXME */
 	}
-
-	/* Update the history list in the go menu */
-
-	separator = gtk_ui_manager_get_widget (browser->priv->ui, "/MenuBar/Go/HistoryList");
-	menu = gtk_widget_get_parent (separator);
-
-	_gtk_container_remove_children (GTK_CONTAINER (menu), separator, NULL);
-
-	if (browser->priv->history != NULL) {
-		int i;
-
-		for (i = 0, scan = browser->priv->history;
-		     scan && (i < MAX_HISTORY_LENGTH);
-		     scan = scan->next)
-		{
-			_gth_browser_add_file_menu_item (browser,
-							 menu,
-							 scan->data,
-							 NULL,
-							 GTH_ACTION_GO_TO,
-							 ++i);
-		}
-	}
-
-	separator = gtk_ui_manager_get_widget (browser->priv->ui, "/MenuBar/Go/BeforeHistoryList");
-	gtk_widget_show (separator);
 }
 
 

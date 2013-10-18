@@ -93,7 +93,6 @@ static const char *fixed_ui_info =
 "      <separator name='EntryPointListSeparator'/>"
 "      <menuitem action='Go_Clear_History'/>"
 "      <separator name='BeforeHistoryList'/>"
-"      <placeholder name='HistoryList'/>"
 "    </menu>"
 "    <placeholder name='OtherMenus'/>"
 "    <menu name='Help' action='HelpMenu'>"
