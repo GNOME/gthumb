@@ -29,9 +29,11 @@
 
 
 void
-gth_browser_activate_action_view_slideshow (GtkAction  *action,
-					    GthBrowser *browser)
+gth_browser_activate_slideshow (GSimpleAction *action,
+				GVariant      *parameter,
+				gpointer       user_data)
 {
+	GthBrowser   *browser = user_data;
 	GSettings    *settings;
 	GList        *items;
 	GList        *file_list;
@@ -137,13 +139,4 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 	_g_object_list_unref (filtered_list);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
-}
-
-
-void
-gth_browser_activate_slideshow (GSimpleAction *action,
-				GVariant      *parameter,
-				gpointer       user_data)
-{
-	gth_browser_activate_action_view_slideshow (NULL, GTH_BROWSER (user_data));
 }

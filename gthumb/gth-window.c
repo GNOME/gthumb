@@ -51,6 +51,7 @@ struct _GthWindowPrivate {
 	GtkWidget      **contents;
 	GthWindowSize   *window_size;
 	GtkWindowGroup  *window_group;
+	GtkAccelGroup   *accel_group;
 };
 
 
@@ -177,6 +178,7 @@ gth_window_finalize (GObject *object)
 	g_free (window->priv->contents);
 	g_free (window->priv->window_size);
 	g_object_unref (window->priv->window_group);
+	g_object_unref (window->priv->accel_group);
 
 	G_OBJECT_CLASS (gth_window_parent_class)->finalize (object);
 }
@@ -310,6 +312,9 @@ gth_window_init (GthWindow *window)
 
 	window->priv->window_group = gtk_window_group_new ();
 	gtk_window_group_add_window (window->priv->window_group, GTK_WINDOW (window));
+
+	window->priv->accel_group = gtk_accel_group_new ();
+	gtk_window_add_accel_group (GTK_WINDOW (window), window->priv->accel_group);
 
 	gtk_window_set_application (GTK_WINDOW (window), Main_Application);
 }
@@ -553,9 +558,9 @@ gth_window_get_page_size (GthWindow *window,
 
 
 void
-_gth_window_set_title (GthWindow  *window,
-		       const char *title,
-		       const char *subtitle)
+gth_window_set_title (GthWindow  *window,
+		      const char *title,
+		      const char *subtitle)
 {
 	if (window->priv->use_header_bar) {
 		gtk_header_bar_set_title (GTK_HEADER_BAR (window->priv->headerbar), title);
@@ -573,4 +578,18 @@ _gth_window_set_title (GthWindow  *window,
 
 		g_string_free (complete_title, TRUE);
 	}
+}
+
+
+void
+gth_window_add_accelerator (GthWindow     *window,
+			    GtkWidget     *widget,
+			    const char    *accel_signal,
+			    const char    *accelerator)
+{
+	guint           accel_key;
+	GdkModifierType accel_mods;
+
+	gtk_accelerator_parse (accelerator, &accel_key, &accel_mods);
+	gtk_widget_add_accelerator (widget, accel_signal, window->priv->accel_group, accel_key, accel_mods, 0);
 }

@@ -128,8 +128,14 @@ GtkWidget *      gth_browser_get_browser_toolbar    (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_infobar            (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_filterbar          (GthBrowser       *browser);
-GtkWidget *      gth_browser_get_headerbar_section  (GthBrowser       *browser,
-						     GthBrowserHeaderSection section);
+GtkWidget *      gth_browser_get_headerbar_section  (GthBrowser			*browser,
+						     GthBrowserHeaderSection	 section);
+void		 gth_browser_add_header_bar_button  (GthBrowser			*browser,
+						     GthBrowserHeaderSection	 section,
+						     const char			*icon_name,
+						     const char			*tooltip,
+						     const char 		*action_name,
+						     const char			*accelerator);
 GthMenuManager * gth_browser_get_menu_manager       (GthBrowser       *browser,
 						     GthBrowserMenuManager
 						     	     	       manager);

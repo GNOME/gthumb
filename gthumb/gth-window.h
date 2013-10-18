@@ -100,9 +100,13 @@ gboolean       gth_window_get_page_size      (GthWindow     *window,
 		      	      	      	      int           *height);
 void           gth_window_clear_saved_size   (GthWindow     *window,
       	      	      	      	      	      int            page);
-void           _gth_window_set_title         (GthWindow     *window,
+void           gth_window_set_title          (GthWindow     *window,
 					      const char    *title,
 					      const char    *subtitle);
+void           gth_window_add_accelerator    (GthWindow     *window,
+					      GtkWidget     *widget,
+					      const char    *accel_signal,
+					      const char    *accelerator);
 
 G_END_DECLS
 

@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+	/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  *  GThumb
@@ -30,123 +30,44 @@
 #include "preferences.h"
 
 
-#define BROWSER_DATA_KEY "slideshow-browser-data"
-
-
 static const GActionEntry actions[] = {
 	{ "slideshow", gth_browser_activate_slideshow }
 };
 
 
-static const char *ui_info =
-"<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='View' action='ViewMenu'>"
-"      <placeholder name='View_Actions'>"
-"        <menuitem action='View_Slideshow'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"  <toolbar name='ToolBar'>"
-"      <placeholder name='BrowserCommands'>"
-"        <toolitem action='View_Fullscreen'/>"
-"        <toolitem action='View_Slideshow'/>"
-"      </placeholder>"
-"  </toolbar>"
-"</ui>";
-
-
-static GtkActionEntry action_entries[] = {
-	{ "View_Slideshow", "x-office-presentation",
-	  N_("_Slideshow"), "F5",
-	  N_("View as a slideshow"),
-	  G_CALLBACK (gth_browser_activate_action_view_slideshow) }
-};
-
-
-typedef struct {
-	GtkActionGroup *action_group;
-	guint           actions_merge_id;
-} BrowserData;
-
-
-static void
-browser_data_free (BrowserData *data)
-{
-	g_free (data);
-}
-
-
 void
 ss__gth_browser_construct_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	GError      *error = NULL;
-
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
-	data = g_new0 (BrowserData, 1);
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
 
-	data->action_group = gtk_action_group_new ("Slideshow Action");
-	gtk_action_group_set_translation_domain (data->action_group, NULL);
-	gtk_action_group_add_actions (data->action_group,
-				      action_entries,
-				      G_N_ELEMENTS (action_entries),
-				      browser);
-	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
-
-	data->actions_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), ui_info, -1, &error);
-	if (data->actions_merge_id == 0) {
-		g_warning ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-
-	g_action_map_add_action_entries (G_ACTION_MAP (browser), actions, G_N_ELEMENTS (actions), browser);
-
-	{
-		GtkWidget *button;
-
-		button = _gtk_image_button_new_for_header_bar ("view-presentation-symbolic");
-		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.slideshow");
-		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW)), button, FALSE, FALSE, 0);
-
-		button = _gtk_image_button_new_for_header_bar ("view-presentation-symbolic");
-		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.slideshow");
-		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW)), button, FALSE, FALSE, 0);
-	}
-
-	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
-}
-
-
-static void
-set_action_sensitive (BrowserData *data,
-		      const char  *action_name,
-		      gboolean     sensitive)
-{
-	GtkAction *action;
-
-	action = gtk_action_group_get_action (data->action_group, action_name);
-	g_object_set (action, "sensitive", sensitive, NULL);
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
+					   "view-presentation-symbolic",
+					   _("View as a slideshow"),
+					   "win.slideshow",
+					   "F5");
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+					   "view-presentation-symbolic",
+					   _("View as a slideshow"),
+					   "win.slideshow",
+					   "F5");
 }
 
 
 void
 ss__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 {
-	BrowserData  *data;
 	GtkTreeModel *file_store;
 	gboolean      sensitive;
 
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
-
 	file_store = gth_file_view_get_model (GTH_FILE_VIEW (gth_browser_get_file_list_view (browser)));
 	sensitive = (gth_file_store_n_visibles (GTH_FILE_STORE (file_store)) > 0);
-	set_action_sensitive (data, "View_Slideshow", sensitive);
-
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "slideshow"), "enabled", sensitive, NULL);
 }
 
@@ -154,7 +75,7 @@ ss__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 void
 ss__slideshow_cb (GthBrowser *browser)
 {
-	gth_browser_activate_action_view_slideshow (NULL, browser);
+	gth_browser_activate_slideshow (NULL, NULL, browser);
 }
 
 

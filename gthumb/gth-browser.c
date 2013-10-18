@@ -596,7 +596,7 @@ gth_browser_update_title (GthBrowser *browser)
 	if (title->len == 0)
 		g_string_append (title, _("gThumb"));
 
-	_gth_window_set_title (GTH_WINDOW (browser), title->str, subtitle->str);
+	gth_window_set_title (GTH_WINDOW (browser), title->str, subtitle->str);
 
 	g_string_free (title, TRUE);
 	g_string_free (subtitle, TRUE);
@@ -5255,6 +5255,30 @@ gth_browser_get_headerbar_section (GthBrowser			*browser,
 				   GthBrowserHeaderSection	 section)
 {
 	return browser->priv->header_sections[section];
+}
+
+
+void
+gth_browser_add_header_bar_button (GthBrowser			*browser,
+				   GthBrowserHeaderSection	 section,
+				   const char			*icon_name,
+				   const char			*tooltip,
+				   const char 			*action_name,
+				   const char			*accelerator)
+{
+	GtkWidget *button;
+
+	g_return_if_fail (icon_name != NULL);
+	g_return_if_fail (action_name != NULL);
+
+	button = _gtk_image_button_new_for_header_bar (icon_name);
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (button),action_name);
+	if (tooltip != NULL)
+		gtk_widget_set_tooltip_text (button, tooltip);
+	if (accelerator != NULL)
+		gth_window_add_accelerator (GTH_WINDOW (browser), button, "activate", accelerator);
+	gtk_widget_show (button);
+	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, section)), button, FALSE, FALSE, 0);
 }
 
 
