@@ -213,9 +213,8 @@ struct _GthBrowserPrivate {
 
 	GList             *history;
 	GList             *history_current;
-	GtkWidget         *back_history_menu;
-	GtkWidget         *forward_history_menu;
 	GtkWidget         *go_parent_menu;
+	GMenu             *history_menu;
 };
 
 
@@ -647,6 +646,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	_gth_browser_enable_action (browser, "save", viewer_can_save && modified);
 	_gth_browser_enable_action (browser, "save-as", viewer_can_save);
 	_gth_browser_enable_action (browser, "revert-to-saved", viewer_can_save && modified);
+	_gth_browser_enable_action (browser, "clear-history", browser->priv->history != NULL);
 
 	gth_sidebar_update_sensitivity (GTH_SIDEBAR (browser->priv->file_properties));
 
@@ -712,45 +712,14 @@ _gth_browser_set_location_from_file (GthBrowser *browser,
 static void
 _gth_browser_update_go_sensitivity (GthBrowser *browser)
 {
-	gboolean  sensitive;
-
-	sensitive = (browser->priv->history_current != NULL) && (browser->priv->history_current->next != NULL);
-	_gth_browser_set_action_sensitive (browser, "Go_Back", sensitive);
-	_gth_browser_set_action_sensitive (browser, "Toolbar_Go_Back", sensitive);
-
-	sensitive = (browser->priv->history_current != NULL) && (browser->priv->history_current->prev != NULL);
-	_gth_browser_set_action_sensitive (browser, "Go_Forward", sensitive);
-	_gth_browser_set_action_sensitive (browser, "Toolbar_Go_Forward", sensitive);
-}
-
-
-static void
-activate_clear_history_menu_item (GtkMenuItem *menuitem,
-				  gpointer     data)
-{
-	gth_browser_clear_history ((GthBrowser *)data);
-}
-
-
-static void
-_gth_browser_add_clear_history_menu_item (GthBrowser *browser,
-					  GtkWidget  *menu)
-{
-	GtkWidget *menu_item;
-
-	menu_item = gtk_separator_menu_item_new ();
-	gtk_widget_show (menu_item);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-
-	menu_item = gtk_image_menu_item_new_with_mnemonic (_("_Delete History"));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_stock (GTK_STOCK_CLEAR, GTK_ICON_SIZE_MENU));
-	gtk_widget_show (menu_item);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-
-	g_signal_connect (menu_item,
-			  "activate",
-			  G_CALLBACK (activate_clear_history_menu_item),
-		  	  browser);
+	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "go-back"),
+		      "enabled",
+		      (browser->priv->history_current != NULL) && (browser->priv->history_current->next != NULL),
+		      NULL);
+	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "go-forward"),
+		      "enabled",
+		      (browser->priv->history_current != NULL) && (browser->priv->history_current->prev != NULL),
+		      NULL);
 }
 
 
@@ -783,54 +752,50 @@ _gth_browser_history_menu (GthBrowser *browser)
 
 	_gth_browser_update_go_sensitivity (browser);
 
-	/* Update the back history menu. */
+	/* Update the history menu model for the headerbar button */
 
-	menu = browser->priv->back_history_menu;
-	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
+	g_menu_remove_all (browser->priv->history_menu);
 
-	if ((browser->priv->history != NULL)
-	    && (browser->priv->history_current->next != NULL))
-	{
+	if (browser->priv->history != NULL) {
 		int i;
 
-		for (i = 0, scan = browser->priv->history_current->next;
-		     scan && (i < MAX_HISTORY_LENGTH);
-		     scan = scan->next)
+		for (i = 0, scan = browser->priv->history;
+		     scan;
+		     scan = scan->next, i++)
 		{
-			_gth_browser_add_file_menu_item (browser,
-							 menu,
-							 scan->data,
-							 NULL,
-							 GTH_ACTION_GO_BACK,
-							 ++i);
+			GFile         *file = scan->data;
+			GthFileSource *file_source;
+			GFileInfo     *info;
+			char          *label;
+			GMenuItem     *item;
+			char          *target;
+
+			file_source = gth_main_get_file_source (file);
+			info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
+			if (info != NULL) {
+				label = g_strdup (g_file_info_get_display_name (info));
+				g_object_unref (info);
+			}
+			else
+				label =  _g_file_get_display_name (file);
+
+			item = g_menu_item_new (label, NULL);
+			target = g_strdup_printf ("%d", i);
+			g_menu_item_set_action_and_target (item, "win.go-to-history-position", "s", target);
+			g_menu_append_item (browser->priv->history_menu, item);
+
+			if (browser->priv->history_current == scan) {
+				GAction *action = g_action_map_lookup_action (G_ACTION_MAP (browser), "go-to-history-position");
+				g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_string (target));
+			}
+
+			g_free (target);
+			g_free (label);
+			g_object_unref (file_source);
 		}
-		if (i > 0)
-			_gth_browser_add_clear_history_menu_item (browser, menu);
-	}
 
-	/* Update the forward history menu. */
-
-	menu = browser->priv->forward_history_menu;
-	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
-
-	if ((browser->priv->history != NULL)
-	    && (browser->priv->history_current->prev != NULL))
-	{
-		int i;
-
-		for (i = 0, scan = browser->priv->history_current->prev;
-		     scan && (i < MAX_HISTORY_LENGTH);
-		     scan = scan->prev)
-		{
-			_gth_browser_add_file_menu_item (browser,
-							 menu,
-							 scan->data,
-							 NULL,
-							 GTH_ACTION_GO_FORWARD,
-							 ++i);
-		}
-		if (i > 0)
-			_gth_browser_add_clear_history_menu_item (browser, menu);
+		/* if (i > 0)
+			_gth_browser_add_clear_history_menu_item (browser, menu); FIXME */
 	}
 
 	/* Update the history list in the go menu */
@@ -2753,9 +2718,8 @@ gth_browser_finalize (GObject *object)
 	g_hash_table_unref (browser->priv->named_dialogs);
 	g_free (browser->priv->list_attributes);
 	_g_object_unref (browser->priv->folder_popup_file_data);
-	_g_object_unref (browser->priv->back_history_menu);
-	_g_object_unref (browser->priv->forward_history_menu);
 	_g_object_unref (browser->priv->go_parent_menu);
+	_g_object_unref (browser->priv->history_menu);
 
 	G_OBJECT_CLASS (gth_browser_parent_class)->finalize (object);
 }
@@ -3884,42 +3848,6 @@ _gth_browser_add_custom_actions (GthBrowser     *browser,
 {
 	GtkAction *action;
 
-	/* Go Back */
-
-	browser->priv->back_history_menu = gtk_menu_new ();
-	action = g_object_new (GTH_TYPE_MENU_ACTION,
-			       "name", "Toolbar_Go_Back",
-			       "stock-id", GTK_STOCK_GO_BACK,
-			       "button-tooltip", _("Go to the previous visited location"),
-			       "arrow-tooltip", _("View the list of visited locations"),
-			       "is-important", TRUE,
-			       "menu", browser->priv->back_history_menu,
-			       NULL);
-	g_signal_connect (action,
-			  "activate",
-			  G_CALLBACK (gth_browser_activate_action_go_back),
-			  browser);
-	gtk_action_group_add_action (actions, action);
-	g_object_unref (action);
-
-	/* Go Forward */
-
-	browser->priv->forward_history_menu = gtk_menu_new ();
-	action = g_object_new (GTH_TYPE_MENU_ACTION,
-			       "name", "Toolbar_Go_Forward",
-			       "stock-id", GTK_STOCK_GO_FORWARD,
-			       "button-tooltip", _("Go to the next visited location"),
-			       "arrow-tooltip", _("View the list of visited locations"),
-			       "is-important", TRUE,
-			       "menu", browser->priv->forward_history_menu,
-			       NULL);
-	g_signal_connect (action,
-			  "activate",
-			  G_CALLBACK (gth_browser_activate_action_go_forward),
-			  browser);
-	gtk_action_group_add_action (actions, action);
-	g_object_unref (action);
-
 	/* Go Up */
 
 	browser->priv->go_parent_menu = gtk_menu_new ();
@@ -4406,8 +4334,6 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->last_mouse_y = 0.0;
 	browser->priv->history = NULL;
 	browser->priv->history_current = NULL;
-	browser->priv->back_history_menu = NULL;
-	browser->priv->forward_history_menu = NULL;
 	browser->priv->go_parent_menu = NULL;
 	browser->priv->shrink_wrap_viewer = FALSE;
 	browser->priv->browser_settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
@@ -4601,6 +4527,7 @@ gth_browser_init (GthBrowser *browser)
 	{
 		GtkWidget *header_bar;
 		GtkWidget *button;
+		GMenu     *menu;
 
 		header_bar = gth_window_get_header_bar (GTH_WINDOW (browser));
 
@@ -4646,41 +4573,57 @@ gth_browser_init (GthBrowser *browser)
 
 		/* browser navigation */
 
-		button = _gtk_image_button_new_for_header_bar ("go-previous-symbolic");
-		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
-		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "Go_Back"));
-		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]), button, FALSE, FALSE, 0);
+		gth_browser_add_header_bar_button (browser,
+						   GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION,
+						   "go-previous-symbolic",
+						   _("Go to the previous visited location"),
+						   "win.go-back",
+						   "<alt>Left");
+		gth_browser_add_header_bar_button (browser,
+						   GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION,
+						   "go-next-symbolic",
+						   _("Go to the next visited location"),
+						   "win.go-forward",
+						   "<alt>Right");
 
-		button = _gtk_image_button_new_for_header_bar ("go-next-symbolic");
-		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
-		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "Go_Forward"));
-		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]), button, FALSE, FALSE, 0);
+		button = _gtk_menu_button_new_for_header_bar ();
+		gtk_widget_set_tooltip_text (button, _("Visited Locations"));
+		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-open-recent-symbolic", GTK_ICON_SIZE_MENU));
+		browser->priv->history_menu = g_menu_new ();
+		menu = g_menu_new ();
+		g_menu_append_section (menu, _("Visited Locations"), G_MENU_MODEL (browser->priv->history_menu));
+		gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (menu));
+		g_object_unref (menu);
+		g_menu_append (menu, _("_Delete History"), "win.clear-history");
+		gtk_widget_show_all (button);
+		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS)), button, FALSE, FALSE, 0);
 
 		/* browser commands */
 
-		button = _gtk_image_button_new_for_header_bar ("view-fullscreen-symbolic");
-		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
-		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "View_Fullscreen"));
-		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW]), button, FALSE, FALSE, 0);
+		gth_browser_add_header_bar_button (browser,
+						   GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
+						   "view-fullscreen-symbolic",
+						   _("Switch to fullscreen"),
+						   "win.fullscreen",
+						   "F11");
 
 		/* viewer navigation */
 
-		button = _gtk_image_button_new_for_header_bar ("go-previous-symbolic");
-		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
-		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "View_BrowserMode"));
-		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION]), button, FALSE, FALSE, 0);
+		gth_browser_add_header_bar_button (browser,
+						   GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION,
+						   "go-previous-symbolic",
+						   _("View the folders"),
+						   "win.browser-mode",
+						   "Escape");
 
 		/* viewer view */
 
-		button = _gtk_image_button_new_for_header_bar ("view-fullscreen-symbolic");
-		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
-		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (browser->priv->actions, "View_Fullscreen"));
-		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW]), button, FALSE, FALSE, 0);
+		gth_browser_add_header_bar_button (browser,
+						   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+						   "view-fullscreen-symbolic",
+						   _("Switch to fullscreen"),
+						   "win.fullscreen",
+						   "F11");
 	}
 
 	/* toolbar */
@@ -5132,6 +5075,24 @@ gth_browser_go_forward (GthBrowser *browser,
 
 	browser->priv->history_current = new_current;
 	_gth_browser_load (browser, (GFile *) browser->priv->history_current->data, NULL, NULL, 0, GTH_ACTION_GO_FORWARD, FALSE);
+}
+
+
+void
+gth_browser_go_to_history_pos (GthBrowser *browser,
+			       int         pos)
+{
+	GList *new_current;
+
+	new_current = g_list_nth (browser->priv->history, pos);
+	if (new_current == NULL)
+		return;
+
+	if (new_current == browser->priv->history_current)
+		return;
+
+	browser->priv->history_current = new_current;
+	_gth_browser_load (browser, (GFile*) browser->priv->history_current->data, NULL, NULL, 0, GTH_ACTION_GO_BACK, FALSE);
 }
 
 

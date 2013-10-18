@@ -110,6 +110,8 @@ void             gth_browser_go_back                (GthBrowser       *browser,
 						     int               steps);
 void             gth_browser_go_forward             (GthBrowser       *browser,
 						     int               steps);
+void             gth_browser_go_to_history_pos      (GthBrowser       *browser,
+						     int               pos);
 void             gth_browser_go_up                  (GthBrowser       *browser,
 						     int               steps);
 void             gth_browser_go_home                (GthBrowser       *browser);

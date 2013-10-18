@@ -28,11 +28,18 @@
 #include "gtk-utils.h"
 
 static const GActionEntry gth_browser_actions[] = {
+	{ "browser-mode", gth_browser_activate_browser_mode },
+	{ "clear-history", gth_browser_activate_clear_history },
+	{ "close", gth_browser_activate_close },
+	{ "fullscreen", gth_browser_activate_fullscreen },
+	{ "go-back", gth_browser_activate_go_back },
+	{ "go-forward", gth_browser_activate_go_forward },
+	{ "go-to-history-position", gth_browser_activate_go_to_history_pos, "s", "''", NULL },
+	{ "quit", gth_browser_activate_quit },
+	{ "revert-to-saved", gth_browser_activate_revert_to_saved },
 	{ "save", gth_browser_activate_save },
 	{ "save-as", gth_browser_activate_save_as },
-	{ "revert-to-saved", gth_browser_activate_revert_to_saved },
-	{ "close", gth_browser_activate_close },
-	{ "quit", gth_browser_activate_quit },
+	{ "unfullscreen", gth_browser_activate_unfullscreen },
 };
 
 
@@ -136,29 +143,11 @@ static GthActionEntryExt gth_browser_action_entries[] = {
 	  GTH_ACTION_FLAG_IS_IMPORTANT,
 	  G_CALLBACK (gth_browser_activate_action_view_next) },
 
-	{ "View_Fullscreen", GTK_STOCK_FULLSCREEN,
-	  NULL, "F11",
-	  N_("Switch to fullscreen"),
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_view_fullscreen) },
-
 	{ "View_Leave_Fullscreen", GTK_STOCK_LEAVE_FULLSCREEN,
 	  NULL, NULL,
 	  N_("Leave Fullscreen"),
 	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_view_fullscreen) },
-
-	{ "Go_Back", GTK_STOCK_GO_BACK,
-	  NULL, "<alt>Left",
-	  N_("Go to the previous visited location"),
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_go_back) },
-
-	{ "Go_Forward", GTK_STOCK_GO_FORWARD,
-	  NULL, "<alt>Right",
-	  N_("Go to the next visited location"),
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_go_forward) },
 
 	{ "Go_Up", GTK_STOCK_GO_UP,
 	  NULL, "<alt>Up",
@@ -183,12 +172,6 @@ static GthActionEntryExt gth_browser_action_entries[] = {
 	  N_("Delete the list of visited locations"),
 	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_go_clear_history) },
-
-	{ "View_BrowserMode", GTH_STOCK_BROWSER_MODE,
-	  N_("Browser"), "Escape",
-	  N_("View the folders"),
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_browser_mode) },
 
 	{ "Help_About", GTK_STOCK_ABOUT,
 	  NULL, NULL,

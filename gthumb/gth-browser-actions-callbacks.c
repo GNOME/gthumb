@@ -117,22 +117,6 @@ gth_browser_activate_action_edit_preferences (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_go_back (GtkAction  *action,
-				     GthBrowser *browser)
-{
-	gth_browser_go_back (browser, 1);
-}
-
-
-void
-gth_browser_activate_action_go_forward (GtkAction  *action,
-					GthBrowser *browser)
-{
-	gth_browser_go_forward (browser, 1);
-}
-
-
-void
 gth_browser_activate_action_go_up (GtkAction  *action,
 				   GthBrowser *browser)
 {
@@ -336,20 +320,6 @@ gth_browser_activate_action_folder_open_in_new_window (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_browser_mode (GtkAction  *action,
-					  GthBrowser *browser)
-{
-	GtkWidget *viewer_sidebar;
-
-	viewer_sidebar = gth_browser_get_viewer_sidebar (browser);
-	if (gth_sidebar_tool_is_active (GTH_SIDEBAR (viewer_sidebar)))
-		gth_sidebar_deactivate_tool (GTH_SIDEBAR (viewer_sidebar));
-	else
-		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
-}
-
-
-void
 gth_browser_activate_action_viewer_properties (GtkAction  *action,
 						GthBrowser *browser)
 {
@@ -473,6 +443,104 @@ gth_browser_activate_action_help_shortcuts (GtkAction *action,
 
 
 void
+gth_browser_activate_browser_mode (GSimpleAction *action,
+				   GVariant      *parameter,
+				   gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+	GtkWidget  *viewer_sidebar;
+
+	viewer_sidebar = gth_browser_get_viewer_sidebar (browser);
+	if (gth_sidebar_tool_is_active (GTH_SIDEBAR (viewer_sidebar)))
+		gth_sidebar_deactivate_tool (GTH_SIDEBAR (viewer_sidebar));
+	else
+		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
+}
+
+
+void
+gth_browser_activate_clear_history (GSimpleAction *action,
+				    GVariant      *parameter,
+				    gpointer       user_data)
+{
+	gth_browser_clear_history (GTH_BROWSER (user_data));
+}
+
+
+void
+gth_browser_activate_close (GSimpleAction *action,
+			    GVariant      *parameter,
+			    gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+
+	gth_window_close (GTH_WINDOW (browser));
+}
+
+
+void
+gth_browser_activate_fullscreen (GSimpleAction *action,
+				 GVariant      *parameter,
+				 gpointer       user_data)
+{
+	gth_browser_fullscreen (GTH_BROWSER (user_data));
+}
+
+
+void
+gth_browser_activate_go_back (GSimpleAction *action,
+			      GVariant      *parameter,
+			      gpointer       user_data)
+{
+	gth_browser_go_back (GTH_BROWSER (user_data), 1);
+}
+
+
+void
+gth_browser_activate_go_forward (GSimpleAction *action,
+			         GVariant      *parameter,
+			         gpointer       user_data)
+{
+	gth_browser_go_forward (GTH_BROWSER (user_data), 1);
+}
+
+
+void
+gth_browser_activate_go_to_history_pos (GSimpleAction *action,
+					GVariant      *parameter,
+					gpointer       user_data)
+{
+	gth_browser_go_to_history_pos (GTH_BROWSER (user_data), atoi (g_variant_get_string (parameter, NULL)));
+}
+
+
+void
+gth_browser_activate_quit (GSimpleAction *action,
+			   GVariant      *parameter,
+			   gpointer       user_data)
+{
+	/* FIXME */
+
+}
+
+
+void
+gth_browser_activate_revert_to_saved (GSimpleAction *action,
+				      GVariant      *parameter,
+				      gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+	GtkWidget  *viewer_page;
+
+	viewer_page = gth_browser_get_viewer_page (browser);
+	if (viewer_page == NULL)
+		return;
+
+	gth_viewer_page_revert (GTH_VIEWER_PAGE (viewer_page));
+}
+
+
+void
 gth_browser_activate_save (GSimpleAction *action,
 			   GVariant      *parameter,
 			   gpointer       user_data)
@@ -505,35 +573,9 @@ gth_browser_activate_save_as (GSimpleAction *action,
 
 
 void
-gth_browser_activate_revert_to_saved (GSimpleAction *action,
-				      GVariant      *parameter,
-				      gpointer       user_data)
+gth_browser_activate_unfullscreen (GSimpleAction *action,
+				   GVariant      *parameter,
+				   gpointer       user_data)
 {
-	GthBrowser *browser = user_data;
-	GtkWidget  *viewer_page;
-
-	viewer_page = gth_browser_get_viewer_page (browser);
-	if (viewer_page == NULL)
-		return;
-
-	gth_viewer_page_revert (GTH_VIEWER_PAGE (viewer_page));
-}
-
-void
-gth_browser_activate_close (GSimpleAction *action,
-			    GVariant      *parameter,
-			    gpointer       user_data)
-{
-	GthBrowser *browser = user_data;
-
-	gth_window_close (GTH_WINDOW (browser));
-}
-
-
-void
-gth_browser_activate_quit (GSimpleAction *action,
-			   GVariant      *parameter,
-			   gpointer       user_data)
-{
-
+	gth_browser_unfullscreen (GTH_BROWSER (user_data));
 }
