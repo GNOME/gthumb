@@ -515,6 +515,24 @@ gth_browser_activate_go_to_history_pos (GSimpleAction *action,
 
 
 void
+gth_browser_activate_go_home (GSimpleAction *action,
+			      GVariant      *parameter,
+			      gpointer       user_data)
+{
+	gth_browser_go_home (GTH_BROWSER (user_data));
+}
+
+
+void
+gth_browser_activate_go_up (GSimpleAction *action,
+			    GVariant      *parameter,
+			    gpointer       user_data)
+{
+	gth_browser_go_up (GTH_BROWSER (user_data), 1);
+}
+
+
+void
 gth_browser_activate_quit (GSimpleAction *action,
 			   GVariant      *parameter,
 			   gpointer       user_data)

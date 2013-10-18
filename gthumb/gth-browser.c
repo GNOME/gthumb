@@ -647,6 +647,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	_gth_browser_enable_action (browser, "save-as", viewer_can_save);
 	_gth_browser_enable_action (browser, "revert-to-saved", viewer_can_save && modified);
 	_gth_browser_enable_action (browser, "clear-history", browser->priv->history != NULL);
+	_gth_browser_enable_action (browser, "go-up", parent_available);
 
 	gth_sidebar_update_sensitivity (GTH_SIDEBAR (browser->priv->file_properties));
 
@@ -4553,6 +4554,18 @@ gth_browser_init (GthBrowser *browser)
 						   _("Go to the next visited location"),
 						   "win.go-forward",
 						   "<alt>Right");
+		gth_browser_add_header_bar_button (browser,
+						   GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION,
+						   "go-up-symbolic",
+						   _("Go up one level"),
+						   "win.go-up",
+						   "<alt>Up");
+		gth_browser_add_header_bar_button (browser,
+						   GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION,
+						   "user-home-symbolic",
+						   NULL,
+						   "win.go-home",
+						   "<alt>Home");
 
 		button = _gtk_menu_button_new_for_header_bar ();
 		gtk_widget_set_tooltip_text (button, _("Visited Locations"));
