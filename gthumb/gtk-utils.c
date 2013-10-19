@@ -1265,3 +1265,16 @@ _gtk_window_add_accelerators_from_menu (GtkWindow  *window,
 	add_accelerators_from_menu (window, accel_group, menu);
 	gtk_window_add_accel_group (window, accel_group);
 }
+
+
+gboolean
+_gtk_window_get_is_maximized (GtkWindow *window)
+{
+	GdkWindow *gdk_win;
+
+	gdk_win = gtk_widget_get_window (GTK_WIDGET (window));
+	if (gdk_win == NULL)
+		return FALSE;
+
+	return (gdk_window_get_state (gdk_win) & GDK_WINDOW_STATE_MAXIMIZED) != 0;
+}

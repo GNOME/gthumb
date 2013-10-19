@@ -150,6 +150,7 @@ void		_gtk_window_add_accelerator_for_action     (GtkWindow		*window,
 							    GVariant		*target);
 void		_gtk_window_add_accelerators_from_menu	   (GtkWindow		*window,
 							    GMenuModel		*menu);
+gboolean	_gtk_window_get_is_maximized 		   (GtkWindow		*window);
 
 G_END_DECLS
 
