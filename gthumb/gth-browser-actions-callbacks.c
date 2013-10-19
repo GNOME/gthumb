@@ -426,6 +426,8 @@ gth_browser_activate_browser_mode (GSimpleAction *action,
 	GthBrowser *browser = user_data;
 	GtkWidget  *viewer_sidebar;
 
+	gth_browser_stop (browser);
+
 	viewer_sidebar = gth_browser_get_viewer_sidebar (browser);
 	if (gth_sidebar_tool_is_active (GTH_SIDEBAR (viewer_sidebar)))
 		gth_sidebar_deactivate_tool (GTH_SIDEBAR (viewer_sidebar));
