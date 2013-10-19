@@ -205,6 +205,7 @@ struct _GthBrowserPrivate {
 		gboolean viewer_properties;
 		gboolean viewer_tools;
 		gboolean thumbnail_list;
+		gboolean browser_properties;
 	} before_fullscreen;
 
 	/* history */
@@ -4292,17 +4293,10 @@ gth_browser_init (GthBrowser *browser)
 			gtk_widget_set_tooltip_text (button, _("Visited Locations"));
 			gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-open-recent-symbolic", GTK_ICON_SIZE_MENU));
 
-			/*browser->priv->history_menu = g_menu_new ();
-			menu = g_menu_new ();
-			g_menu_append_section (menu, _("Visited Locations"), G_MENU_MODEL (browser->priv->history_menu));
-			gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (menu));
-			g_object_unref (menu);
-			g_menu_append (menu, _("_Delete History"), "win.clear-history");*/
-
 			browser->priv->history_menu = G_MENU (gtk_builder_get_object (builder, "visited-locations"));
 			gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (gtk_builder_get_object (builder, "menu")));
 			gtk_widget_show_all (button);
-			gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS)), button, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS)), button, FALSE, FALSE, 0);
 
 			g_object_unref (builder);
 		}
@@ -6504,6 +6498,7 @@ gth_browser_fullscreen (GthBrowser *browser)
 	browser->priv->before_fullscreen.viewer_properties = _gth_browser_get_action_active (browser, "Viewer_Properties");
 	browser->priv->before_fullscreen.viewer_tools = _gth_browser_get_action_active (browser, "Viewer_Tools");
 	browser->priv->before_fullscreen.thumbnail_list = _gth_browser_get_action_active (browser, "View_Thumbnail_List");
+	browser->priv->before_fullscreen.browser_properties = _gth_browser_get_action_active (browser, "Browser_Properties");
 
 	gth_browser_hide_sidebar (browser);
 	_gth_browser_set_thumbnail_list_visibility (browser, FALSE);
@@ -6545,12 +6540,20 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	gth_window_set_current_page (GTH_WINDOW (browser), browser->priv->before_fullscreen.page);
 	_gth_browser_set_thumbnail_list_visibility (browser, browser->priv->before_fullscreen.thumbnail_list);
 
-	if (browser->priv->before_fullscreen.viewer_properties)
-		gth_browser_show_file_properties (browser);
-	else if (browser->priv->before_fullscreen.viewer_tools)
-		gth_browser_show_viewer_tools (browser);
-	else
-		gth_browser_hide_sidebar (browser);
+	if (browser->priv->before_fullscreen.page == GTH_BROWSER_PAGE_BROWSER) {
+		if (browser->priv->before_fullscreen.browser_properties)
+			gth_browser_show_file_properties (browser);
+		else
+			gth_browser_hide_sidebar (browser);
+	}
+	else if (browser->priv->before_fullscreen.page == GTH_BROWSER_PAGE_VIEWER) {
+		if (browser->priv->before_fullscreen.viewer_properties)
+			gth_browser_show_file_properties (browser);
+		else if (browser->priv->before_fullscreen.viewer_tools)
+			gth_browser_show_viewer_tools (browser);
+		else
+			gth_browser_hide_sidebar (browser);
+	}
 
 	browser->priv->properties_on_screen = FALSE;
 	if (GTH_VIEWER_PAGE_GET_INTERFACE (browser->priv->viewer_page)->show_properties != NULL)
@@ -6568,6 +6571,13 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->viewer_sidebar_alignment), 0, 0, 0, 0);
 
 	gth_browser_update_sensitivity (browser);
+}
+
+
+gboolean
+gth_browser_get_is_fullscreen (GthBrowser *browser)
+{
+	return browser->priv->fullscreen;
 }
 
 
