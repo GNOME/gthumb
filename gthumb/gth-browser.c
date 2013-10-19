@@ -4206,7 +4206,6 @@ gth_browser_init (GthBrowser *browser)
 	{
 		GtkWidget *header_bar;
 		GtkWidget *button;
-		GMenu     *menu;
 
 		header_bar = gth_window_get_header_bar (GTH_WINDOW (browser));
 
@@ -4231,25 +4230,27 @@ gth_browser_init (GthBrowser *browser)
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_PROPERTIES]);
 
-		/* gears menu */
+		/* gears menu button */
 
 		{
 			GtkBuilder *builder;
 			GMenuModel *menu;
-			GtkWidget  *gears_menu_button;
+			GtkWidget  *button;
 
 			builder = _gtk_builder_new_from_resource ("gears-menu.ui");
 			menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
-			gears_menu_button = _gtk_menu_button_new_for_header_bar ();
-			gtk_container_add (GTK_CONTAINER (gears_menu_button), gtk_image_new_from_icon_name ("emblem-system-symbolic", GTK_ICON_SIZE_MENU));
-			gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (gears_menu_button), menu);
-			gtk_widget_show_all (gears_menu_button);
-			gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), gears_menu_button);
+			button = _gtk_menu_button_new_for_header_bar ();
+			gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("emblem-system-symbolic", GTK_ICON_SIZE_MENU));
+			gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
+			gtk_widget_show_all (button);
+			gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), button);
 
 			browser->priv->menu_managers[GTH_BROWSER_MENU_MANAGER_GEARS] = gth_menu_manager_new (G_MENU (menu));
 			browser->priv->menu_managers[GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS] = gth_menu_manager_new (G_MENU (gtk_builder_get_object (builder, "folder-actions")));
 
 			_gtk_window_add_accelerators_from_menu ((GTK_WINDOW (browser)), menu);
+
+			g_object_unref (builder);
 		}
 
 		/* browser navigation */
@@ -4279,17 +4280,30 @@ gth_browser_init (GthBrowser *browser)
 						   "win.go-home",
 						   "<alt>Home");
 
-		button = _gtk_menu_button_new_for_header_bar ();
-		gtk_widget_set_tooltip_text (button, _("Visited Locations"));
-		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-open-recent-symbolic", GTK_ICON_SIZE_MENU));
-		browser->priv->history_menu = g_menu_new ();
-		menu = g_menu_new ();
-		g_menu_append_section (menu, _("Visited Locations"), G_MENU_MODEL (browser->priv->history_menu));
-		gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (menu));
-		g_object_unref (menu);
-		g_menu_append (menu, _("_Delete History"), "win.clear-history");
-		gtk_widget_show_all (button);
-		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS)), button, FALSE, FALSE, 0);
+		/* history menu button */
+
+		{
+			GtkBuilder *builder;
+
+			builder = _gtk_builder_new_from_resource ("history-menu.ui");
+			button = _gtk_menu_button_new_for_header_bar ();
+			gtk_widget_set_tooltip_text (button, _("Visited Locations"));
+			gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-open-recent-symbolic", GTK_ICON_SIZE_MENU));
+
+			/*browser->priv->history_menu = g_menu_new ();
+			menu = g_menu_new ();
+			g_menu_append_section (menu, _("Visited Locations"), G_MENU_MODEL (browser->priv->history_menu));
+			gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (menu));
+			g_object_unref (menu);
+			g_menu_append (menu, _("_Delete History"), "win.clear-history");*/
+
+			browser->priv->history_menu = G_MENU (gtk_builder_get_object (builder, "visited-locations"));
+			gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (gtk_builder_get_object (builder, "menu")));
+			gtk_widget_show_all (button);
+			gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS)), button, FALSE, FALSE, 0);
+
+			g_object_unref (builder);
+		}
 
 		/* browser commands */
 

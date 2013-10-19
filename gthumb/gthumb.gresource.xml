@@ -4,6 +4,7 @@
     <file compressed="true">resources/app-menu.ui</file>
     <file compressed="true">resources/gears-menu.ui</file>
     <file compressed="true">resources/gthumb.css</file>
+    <file compressed="true">resources/history-menu.ui</file>
     <file compressed="true">resources/message-dialog.ui</file>
   </gresource>
 </gresources>
