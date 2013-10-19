@@ -49,9 +49,6 @@ static const char *fixed_ui_info =
 "        <placeholder name='Misc_Actions'/>"
 "      </menu>"
 "      <placeholder name='Misc_Actions'/>"
-"      <separator/>"
-"      <menuitem action='File_Quit'/>"
-"      <menuitem action='File_CloseWindow'/>"
 "    </menu>"
 "    <menu name='Edit' action='EditMenu'>"
 "      <placeholder name='File_Actions_1'/>"
@@ -85,28 +82,10 @@ static const char *fixed_ui_info =
 "      <separator/>"
 "      <placeholder name='Folder_Actions'/>"
 "    </menu>"
-"    <menu name='Go' action='GoMenu'>"
-"      <menuitem action='Go_Up'/>"
-"      <menuitem action='Go_Location'/>"
-"      <separator name='BeforeEntryPointList'/>"
-"      <placeholder name='EntryPointList'/>"
-"      <separator name='EntryPointListSeparator'/>"
-"      <menuitem action='Go_Clear_History'/>"
-"      <separator name='BeforeHistoryList'/>"
-"    </menu>"
 "    <placeholder name='OtherMenus'/>"
-"    <menu name='Help' action='HelpMenu'>"
-"      <menuitem action='Help_Help'/>"
-"      <menuitem action='Help_Shortcuts'/>"
-"      <separator/>"
-"      <menuitem name='About' action='Help_About'/>"
-"    </menu>"
 "  </menubar>"
 
 "  <toolbar name='ToolBar'>"
-"    <toolitem action='Toolbar_Go_Up'/>"
-"    <toolitem action='View_Stop'/>"
-"    <separator/>"
 "    <placeholder name='Export_Actions'/>"
 "    <placeholder name='SourceCommands'/>"
 "    <separator/>"
@@ -151,15 +130,6 @@ static const char *fixed_ui_info =
 "    <toolitem action='Viewer_Properties'/>"
 "  </toolbar>"
 
-"  <popup name='GoBackHistoryPopup'>"
-"  </popup>"
-
-"  <popup name='GoForwardHistoryPopup'>"
-"  </popup>"
-
-"  <popup name='GoParentPopup'>"
-"  </popup>"
-
 "  <popup name='FileListPopup'>"
 "    <placeholder name='Screen_Actions'/>"
 "    <separator/>"
@@ -201,8 +171,6 @@ static const char *fixed_ui_info =
 "    <separator/>"
 "    <placeholder name='SourceCommands'/>"
 "  </popup>"
-
-"  <accelerator action=\"Go_Home\" />"
 
 "</ui>";
 

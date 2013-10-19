@@ -63,11 +63,13 @@ search_editor_dialog__response_cb (GtkDialog *dialog,
 
 
 void
-gth_browser_activate_action_edit_find (GtkAction  *action,
-				       GthBrowser *browser)
+gth_browser_activate_find (GSimpleAction *action,
+			   GVariant      *parameter,
+			   gpointer       user_data)
 {
-	GthSearch *search;
-	GtkWidget *dialog;
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	GthSearch  *search;
+	GtkWidget  *dialog;
 
 	search = gth_search_new ();
 	gth_search_set_folder (search, gth_browser_get_location (browser));

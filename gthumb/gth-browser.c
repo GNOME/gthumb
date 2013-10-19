@@ -59,8 +59,6 @@
 #include "gth-user-dir.h"
 #include "gth-viewer-page.h"
 #include "gth-window.h"
-#include "gth-window-actions-callbacks.h"
-#include "gth-window-actions-entries.h"
 #include "main.h"
 
 #define GTH_BROWSER_CALLBACK(f) ((GthBrowserCallback) (f))
@@ -213,7 +211,6 @@ struct _GthBrowserPrivate {
 
 	GList             *history;
 	GList             *history_current;
-	GtkWidget         *go_parent_menu;
 	GMenu             *history_menu;
 };
 
@@ -520,40 +517,6 @@ _gth_browser_add_file_menu_item (GthBrowser *browser,
 }
 
 
-static void
-_gth_browser_update_parent_list (GthBrowser *browser)
-{
-	GtkWidget *menu;
-	int        i;
-	GFile     *parent;
-
-	menu = browser->priv->go_parent_menu;
-	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
-
-	if (browser->priv->location == NULL)
-		return;
-
-	/* Update the parent list menu. */
-
-	i = 0;
-	parent = g_file_get_parent (browser->priv->location->file);
-	while (parent != NULL) {
-		GFile *parent_parent;
-
-		_gth_browser_add_file_menu_item (browser,
-						 menu,
-						 parent,
-						 NULL,
-						 GTH_ACTION_GO_UP,
-						 ++i);
-
-		parent_parent = g_file_get_parent (parent);
-		g_object_unref (parent);
-		parent = parent_parent;
-	}
-}
-
-
 void
 gth_browser_update_title (GthBrowser *browser)
 {
@@ -634,8 +597,6 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	_gth_browser_set_action_sensitive (browser, "File_Save", viewer_can_save && modified);
 	_gth_browser_set_action_sensitive (browser, "File_SaveAs", viewer_can_save);
 	_gth_browser_set_action_sensitive (browser, "File_Revert", viewer_can_save && modified);
-	_gth_browser_set_action_sensitive (browser, "Go_Up", parent_available);
-	_gth_browser_set_action_sensitive (browser, "Toolbar_Go_Up", parent_available);
 	_gth_browser_set_action_sensitive (browser, "View_Stop", browser->priv->fullscreen || (browser->priv->activity_ref > 0));
 	_gth_browser_set_action_sensitive (browser, "View_Prev", current_file_pos > 0);
 	_gth_browser_set_action_sensitive (browser, "View_Next", (current_file_pos != -1) && (current_file_pos < n_files - 1));
@@ -681,7 +642,6 @@ _gth_browser_set_location (GthBrowser  *browser,
 	browser->priv->location = gth_file_data_dup (location);
 
 	gth_browser_update_title (browser);
-	_gth_browser_update_parent_list (browser);
 	gth_browser_update_sensitivity (browser);
 
 	location_chooser = gth_embedded_dialog_get_chooser (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget));
@@ -911,39 +871,10 @@ _gth_browser_monitor_entry_points (GthBrowser *browser)
 static void
 _gth_browser_update_entry_point_list (GthBrowser *browser)
 {
-	GtkWidget *separator1;
-	GtkWidget *separator2;
-	GtkWidget *menu;
-	GList     *entry_points;
-	GList     *scan;
-	int        position;
-	GFile     *root;
+	GList *entry_points;
+	GFile *root;
 
-	separator1 = gtk_ui_manager_get_widget (browser->priv->ui, "/MenuBar/Go/BeforeEntryPointList");
-	separator2 = gtk_ui_manager_get_widget (browser->priv->ui, "/MenuBar/Go/EntryPointList");
-	menu = gtk_widget_get_parent (separator1);
-	_gtk_container_remove_children (GTK_CONTAINER (menu), separator1, separator2);
-
-	separator1 = separator2;
-	separator2 = gtk_ui_manager_get_widget (browser->priv->ui, "/MenuBar/Go/EntryPointListSeparator");
-	_gtk_container_remove_children (GTK_CONTAINER (menu), separator1, separator2);
-
-	position = 6;
 	entry_points = gth_main_get_all_entry_points ();
-	for (scan = entry_points; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-
-		g_file_info_set_attribute_boolean (file_data->info, "gthumb::entry-point", TRUE);
-		g_file_info_set_sort_order (file_data->info, position);
-		_gth_browser_add_file_menu_item_full (browser,
-						      menu,
-						      file_data->file,
-						      g_file_info_get_icon (file_data->info),
-						      g_file_info_get_display_name (file_data->info),
-						      GTH_ACTION_GO_TO,
-						      0,
-						      position++);
-	}
 	root = g_file_new_for_uri ("gthumb-vfs:///");
 	gth_folder_tree_set_children (GTH_FOLDER_TREE (browser->priv->folder_tree), root, entry_points);
 
@@ -2687,7 +2618,6 @@ gth_browser_finalize (GObject *object)
 	g_hash_table_unref (browser->priv->named_dialogs);
 	g_free (browser->priv->list_attributes);
 	_g_object_unref (browser->priv->folder_popup_file_data);
-	_g_object_unref (browser->priv->go_parent_menu);
 	_g_object_unref (browser->priv->history_menu);
 
 	G_OBJECT_CLASS (gth_browser_parent_class)->finalize (object);
@@ -3811,32 +3741,6 @@ gth_file_list_key_press_cb (GtkWidget   *widget,
 }
 
 
-static void
-_gth_browser_add_custom_actions (GthBrowser     *browser,
-				 GtkActionGroup *actions)
-{
-	GtkAction *action;
-
-	/* Go Up */
-
-	browser->priv->go_parent_menu = gtk_menu_new ();
-	action = g_object_new (GTH_TYPE_MENU_ACTION,
-			       "name", "Toolbar_Go_Up",
-			       "stock-id", GTK_STOCK_GO_UP,
-			       "button-tooltip", _("Go up one level"),
-			       "arrow-tooltip", _("View the list of upper locations"),
-			       "is-important", FALSE,
-			       "menu", browser->priv->go_parent_menu,
-			       NULL);
-	g_signal_connect (action,
-			  "activate",
-			  G_CALLBACK (gth_browser_activate_action_go_up),
-			  browser);
-	gtk_action_group_add_action (actions, action);
-	g_object_unref (action);
-}
-
-
 typedef struct {
 	GthBrowser *browser;
 	GFile      *location;
@@ -4303,7 +4207,6 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->last_mouse_y = 0.0;
 	browser->priv->history = NULL;
 	browser->priv->history_current = NULL;
-	browser->priv->go_parent_menu = NULL;
 	browser->priv->shrink_wrap_viewer = FALSE;
 	browser->priv->browser_settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 	browser->priv->messages_settings = g_settings_new (GTHUMB_MESSAGES_SCHEMA);
@@ -4368,10 +4271,6 @@ gth_browser_init (GthBrowser *browser)
 
 	browser->priv->actions = gtk_action_group_new ("Actions");
 	gtk_action_group_set_translation_domain (browser->priv->actions, NULL);
-	gtk_action_group_add_actions (browser->priv->actions,
-				      gth_window_action_entries,
-				      G_N_ELEMENTS (gth_window_action_entries),
-				      browser);
 	_gtk_action_group_add_actions_with_flags (browser->priv->actions,
 						  gth_browser_action_entries,
 						  G_N_ELEMENTS (gth_browser_action_entries),
@@ -4380,7 +4279,6 @@ gth_browser_init (GthBrowser *browser)
 					     gth_browser_action_toggle_entries,
 					     G_N_ELEMENTS (gth_browser_action_toggle_entries),
 					     browser);
-	_gth_browser_add_custom_actions (browser, browser->priv->actions);
 
 	browser->priv->ui = gtk_ui_manager_new ();
 	g_signal_connect (browser->priv->ui,

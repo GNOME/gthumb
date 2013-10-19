@@ -141,8 +141,6 @@ PRIVATE_HEADER_FILES = 					\
 	dlg-personalize-filters.h			\
 	dlg-preferences.h				\
 	dlg-sort-order.h				\
-	gth-window-actions-callbacks.h			\
-	gth-window-actions-entries.h			\
 	main-migrate.h					\
 	$(NULL)
 
@@ -264,7 +262,6 @@ gthumb_SOURCES = 					\
 	gth-user-dir.c					\
 	gth-viewer-page.c				\
 	gth-window.c					\
-	gth-window-actions-callbacks.c			\
 	gtk-utils.c					\
 	gvaluehash.c					\
 	main.c						\

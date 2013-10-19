@@ -36,36 +36,13 @@
 #define _RESPONSE_REFRESH 2
 
 
-static const char *find_ui_info =
-"<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='Edit' action='EditMenu'>"
-"      <placeholder name='Edit_Actions'>"
-"        <menuitem action='Edit_Find'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"  <toolbar name='ToolBar'>"
-"    <placeholder name='SourceCommands'>"
-"      <toolitem action='Edit_Find'/>"
-"    </placeholder>"
-"  </toolbar>"
-"</ui>";
-
-
-static GtkActionEntry find_action_entries[] = {
-	{ "Edit_Find", GTK_STOCK_FIND,
-	  NULL, NULL,
-	  N_("Find files"),
-	  G_CALLBACK (gth_browser_activate_action_edit_find) }
+static const GActionEntry actions[] = {
+	{ "find", gth_browser_activate_find }
 };
-static guint find_action_entries_size = G_N_ELEMENTS (find_action_entries);
 
 
 typedef struct {
-	GtkActionGroup *find_action;
-	guint           find_merge_id;
-	GtkWidget      *refresh_button;
+	GtkWidget *refresh_button;
 } BrowserData;
 
 
@@ -80,36 +57,21 @@ void
 search__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
-	GError      *error = NULL;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS,
+					   "edit-find-symbolic",
+					   _("Find files"),
+					   "win.find",
+					   "<Control>F");
+
 	data = g_new0 (BrowserData, 1);
-
-	data->find_action = gtk_action_group_new ("Find Action");
-	gtk_action_group_set_translation_domain (data->find_action, NULL);
-	gtk_action_group_add_actions (data->find_action,
-				      find_action_entries,
-				      find_action_entries_size,
-				      browser);
-	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->find_action, 0);
-
-	data->find_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), find_ui_info, -1, &error);
-	if (data->find_merge_id == 0) {
-		g_warning ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-
-	{
-		GtkWidget *button;
-
-		button = _gtk_image_button_new_for_header_bar ("edit-find-symbolic");
-		gtk_activatable_set_use_action_appearance (GTK_ACTIVATABLE (button), FALSE);
-		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_action_group_get_action (data->find_action, "Edit_Find"));
-		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS)), button, FALSE, FALSE, 0);
-	}
-
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
 

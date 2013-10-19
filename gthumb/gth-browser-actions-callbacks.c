@@ -35,6 +35,7 @@
 #include "gth-sidebar.h"
 #include "gtk-utils.h"
 #include "gth-viewer-page.h"
+#include "main.h"
 
 
 void
@@ -369,12 +370,108 @@ void
 gth_browser_activate_action_help_about (GtkAction *action,
 				        gpointer   data)
 {
-	GthWindow  *window = GTH_WINDOW (data);
-	const char *authors[] = {
+
+}
+
+
+void
+gth_browser_activate_action_help_help (GtkAction *action,
+				       gpointer   data)
+{
+	show_help_dialog (GTK_WINDOW (data), NULL);
+}
+
+
+void
+gth_browser_activate_action_help_shortcuts (GtkAction *action,
+					    gpointer   data)
+{
+	show_help_dialog (GTK_WINDOW (data), "gthumb-shortcuts");
+}
+
+
+/* -- GAction callbacks -- */
+
+
+GtkWidget *
+_gth_application_get_current_window (GApplication *application)
+{
+        GList *windows;
+
+        windows = gtk_application_get_windows (GTK_APPLICATION (application));
+        if (windows == NULL)
+        	return NULL;
+
+        return GTK_WIDGET (windows->data);
+}
+
+
+void
+gth_application_activate_new_window (GSimpleAction *action,
+				     GVariant      *parameter,
+				     gpointer       user_data)
+{
+        GApplication *application = user_data;
+        GtkWidget    *browser;
+        GtkWidget    *window;
+
+        browser = _gth_application_get_current_window (application);
+        window = gth_browser_new (gth_browser_get_location (GTH_BROWSER (browser)), NULL);
+        gtk_window_present (GTK_WINDOW (window));
+}
+
+
+void
+gth_application_activate_preferences (GSimpleAction *action,
+				      GVariant      *parameter,
+				      gpointer       user_data)
+{
+        GApplication *application = user_data;
+        GtkWidget    *browser;
+
+        browser = _gth_application_get_current_window (application);
+        dlg_preferences (GTH_BROWSER (browser));
+}
+
+
+void
+gth_application_activate_show_help (GSimpleAction *action,
+				    GVariant      *parameter,
+				    gpointer       user_data)
+{
+        GApplication *application = user_data;
+        GtkWidget    *browser;
+
+        browser = _gth_application_get_current_window (application);
+        show_help_dialog (GTK_WINDOW (browser), NULL);
+}
+
+
+void
+gth_application_activate_show_shortcuts (GSimpleAction *action,
+					 GVariant      *parameter,
+					 gpointer       user_data)
+{
+        GApplication *application = user_data;
+        GtkWidget    *browser;
+
+        browser = _gth_application_get_current_window (application);
+        show_help_dialog (GTK_WINDOW (browser), "gthumb-shortcuts");
+}
+
+
+void
+gth_application_activate_about (GSimpleAction *action,
+				GVariant      *parameter,
+				gpointer       user_data)
+{
+        GApplication *application = user_data;
+	GthWindow    *window;
+	const char   *authors[] = {
 #include "AUTHORS.tab"
 		NULL
 	};
-	const char *documenters [] = {
+	const char   *documenters [] = {
 		"Paolo Bacchilega",
 		"Alexander Kirillov",
 		NULL
@@ -394,6 +491,7 @@ gth_browser_activate_action_help_about (GtkAction *action,
 	};
 	GdkPixbuf *logo;
 
+	window = (GthWindow *) _gth_application_get_current_window (application);
 	license_text = g_strconcat (_(license[0]), "\n\n",
 				    _(license[1]), "\n\n",
 				    _(license[2]),
@@ -424,22 +522,17 @@ gth_browser_activate_action_help_about (GtkAction *action,
 
 
 void
-gth_browser_activate_action_help_help (GtkAction *action,
-				       gpointer   data)
+gth_application_activate_quit (GSimpleAction *action,
+			       GVariant      *parameter,
+			       gpointer       user_data)
 {
-	show_help_dialog (GTK_WINDOW (data), NULL);
+        GApplication *application = user_data;
+        GList        *windows;
+
+        windows = gtk_application_get_windows (GTK_APPLICATION (application));
+        if (windows != NULL)
+        	gth_quit (FALSE);
 }
-
-
-void
-gth_browser_activate_action_help_shortcuts (GtkAction *action,
-					    gpointer   data)
-{
-	show_help_dialog (GTK_WINDOW (data), "gthumb-shortcuts");
-}
-
-
-/* -- GAction callbacks -- */
 
 
 void
@@ -533,12 +626,11 @@ gth_browser_activate_go_up (GSimpleAction *action,
 
 
 void
-gth_browser_activate_quit (GSimpleAction *action,
-			   GVariant      *parameter,
-			   gpointer       user_data)
+gth_browser_activate_open_location (GSimpleAction *action,
+				    GVariant      *parameter,
+				    gpointer       user_data)
 {
-	/* FIXME */
-
+	dlg_location (GTH_BROWSER (user_data));
 }
 
 

@@ -41,7 +41,6 @@
 #include "gth-file-source-vfs.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
-#include "gth-window-actions-callbacks.h"
 #include "gtk-utils.h"
 #include "main-migrate.h"
 
@@ -320,82 +319,13 @@ gth_application_init (GthApplication *app)
 }
 
 
-static void
-activate_new_window (GSimpleAction *action,
-		     GVariant      *parameter,
-		     gpointer       user_data)
-{
-        GApplication *application = user_data;
-        GList        *windows;
-
-        windows = gtk_application_get_windows (GTK_APPLICATION (application));
-        if (windows != NULL)
-        	gth_browser_activate_action_file_new_window (NULL, windows->data);
-}
-
-
-static void
-activate_preferences (GSimpleAction *action,
-		      GVariant      *parameter,
-		      gpointer       user_data)
-{
-        GApplication *application = user_data;
-        GList        *windows;
-
-        windows = gtk_application_get_windows (GTK_APPLICATION (application));
-        if (windows != NULL)
-        	gth_browser_activate_action_edit_preferences (NULL, windows->data);
-}
-
-
-static void
-activate_help (GSimpleAction *action,
-               GVariant      *parameter,
-               gpointer       user_data)
-{
-        GApplication *application = user_data;
-        GList        *windows;
-
-        windows = gtk_application_get_windows (GTK_APPLICATION (application));
-        if (windows != NULL)
-        	gth_browser_activate_action_help_help (NULL, windows->data);
-}
-
-
-static void
-activate_about (GSimpleAction *action,
-		GVariant      *parameter,
-		gpointer       user_data)
-{
-        GApplication *application = user_data;
-        GList        *windows;
-
-        windows = gtk_application_get_windows (GTK_APPLICATION (application));
-        if (windows != NULL)
-        	gth_browser_activate_action_help_about (NULL, windows->data);
-}
-
-
-static void
-activate_quit (GSimpleAction *action,
-               GVariant      *parameter,
-               gpointer       user_data)
-{
-        GApplication *application = user_data;
-        GList        *windows;
-
-        windows = gtk_application_get_windows (GTK_APPLICATION (application));
-        if (windows != NULL)
-        	gth_window_activate_action_file_quit_application (NULL, windows->data);
-}
-
-
 static const GActionEntry app_menu_entries[] = {
-	{ "new-window",  activate_new_window },
-	{ "preferences",  activate_preferences },
-	{ "help",  activate_help },
-	{ "about", activate_about },
-	{ "quit",  activate_quit }
+	{ "new-window", gth_application_activate_new_window },
+	{ "preferences", gth_application_activate_preferences },
+	{ "shortcuts", gth_application_activate_show_shortcuts },
+	{ "help", gth_application_activate_show_help },
+	{ "about", gth_application_activate_about },
+	{ "quit", gth_application_activate_quit }
 };
 
 
