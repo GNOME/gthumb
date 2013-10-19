@@ -46,6 +46,12 @@ static const GActionEntry gth_browser_actions[] = {
 };
 
 
+static const GthAccelerator gth_browser_accelerators[] = {
+	{ "browser-mode", "Escape" },
+	{ "fullscreen", "F11" },
+};
+
+
 static GthActionEntryExt gth_browser_action_entries[] = {
 	{ "FileMenu", NULL, N_("_File") },
 	{ "EditMenu", NULL, N_("_Edit") },
@@ -91,7 +97,7 @@ static GthActionEntryExt gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_view_filter) },
 
 	{ "View_Stop", GTK_STOCK_STOP,
-	  NULL, "Escape",
+	  NULL, NULL,
 	  N_("Stop loading the current location"),
 	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_view_stop) },

@@ -23,6 +23,7 @@
 #define GTH_WINDOW_H
 
 #include <gtk/gtk.h>
+#include "gtk-utils.h"
 
 G_BEGIN_DECLS
 
@@ -103,10 +104,10 @@ void           gth_window_clear_saved_size   (GthWindow     *window,
 void           gth_window_set_title          (GthWindow     *window,
 					      const char    *title,
 					      const char    *subtitle);
-void           gth_window_add_accelerator    (GthWindow     *window,
-					      GtkWidget     *widget,
-					      const char    *accel_signal,
-					      const char    *accelerator);
+GtkAccelGroup *gth_window_get_accel_group	(GthWindow		*window);
+void           gth_window_add_accelerators	(GthWindow		*window,
+						 const GthAccelerator	*accelerators,
+						 int			 n_accelerators);
 
 G_END_DECLS
 

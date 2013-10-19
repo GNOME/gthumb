@@ -4252,6 +4252,9 @@ gth_browser_init (GthBrowser *browser)
 					 gth_browser_actions,
 					 G_N_ELEMENTS (gth_browser_actions),
 					 browser);
+	gth_window_add_accelerators (GTH_WINDOW (browser),
+				     gth_browser_accelerators,
+				     G_N_ELEMENTS (gth_browser_accelerators));
 
 	browser->priv->actions = gtk_action_group_new ("Actions");
 	gtk_action_group_set_translation_domain (browser->priv->actions, NULL);
@@ -4420,6 +4423,8 @@ gth_browser_init (GthBrowser *browser)
 
 			browser->priv->menu_managers[GTH_BROWSER_MENU_MANAGER_GEARS] = gth_menu_manager_new (G_MENU (menu));
 			browser->priv->menu_managers[GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS] = gth_menu_manager_new (G_MENU (gtk_builder_get_object (builder, "folder-actions")));
+
+			_gtk_window_add_accelerators_from_menu ((GTK_WINDOW (browser)), menu);
 		}
 
 		/* browser navigation */
@@ -4468,7 +4473,7 @@ gth_browser_init (GthBrowser *browser)
 						   "view-fullscreen-symbolic",
 						   _("Switch to fullscreen"),
 						   "win.fullscreen",
-						   "F11");
+						   NULL);
 
 		/* viewer navigation */
 
@@ -4477,7 +4482,7 @@ gth_browser_init (GthBrowser *browser)
 						   "go-previous-symbolic",
 						   _("View the folders"),
 						   "win.browser-mode",
-						   "Escape");
+						   NULL);
 
 		/* viewer view */
 
@@ -4486,7 +4491,7 @@ gth_browser_init (GthBrowser *browser)
 						   "view-fullscreen-symbolic",
 						   _("Switch to fullscreen"),
 						   "win.fullscreen",
-						   "F11");
+						   NULL);
 	}
 
 	/* toolbar */
@@ -5100,7 +5105,11 @@ gth_browser_add_header_bar_button (GthBrowser			*browser,
 	if (tooltip != NULL)
 		gtk_widget_set_tooltip_text (button, tooltip);
 	if (accelerator != NULL)
-		gth_window_add_accelerator (GTH_WINDOW (browser), button, "activate", accelerator);
+		_gtk_window_add_accelerator_for_action (GTK_WINDOW (browser),
+							gth_window_get_accel_group (GTH_WINDOW (browser)),
+							action_name,
+							accelerator,
+							NULL);
 	gtk_widget_show (button);
 	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, section)), button, FALSE, FALSE, 0);
 }

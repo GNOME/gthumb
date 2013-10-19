@@ -6,19 +6,18 @@
       <item>
         <attribute name="label" translatable="yes">New _Window</attribute>
         <attribute name="action">app.new-window</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>N]]></attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Open…</attribute>
         <attribute name="action">win.open-location</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>O]]></attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>o]]></attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">_Save</attribute>
         <attribute name="action">win.save</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>S]]></attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>s]]></attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Save _As</attribute>
@@ -27,7 +26,7 @@
       <item>
         <attribute name="label" translatable="yes">_Revert</attribute>
         <attribute name="action">win.revert-to-saved</attribute>
-        <attribute name="accel"><![CDATA[F4]]></attribute>
+        <attribute name="accel">F4</attribute>
       </item>
     </section>
     <section id="folder-actions">
@@ -36,12 +35,11 @@
       <item>
         <attribute name="label" translatable="yes">Close _All Windows</attribute>
         <attribute name="action">app.quit</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>Q]]></attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Close</attribute>
         <attribute name="action">win.close</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>W]]></attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>w]]></attribute>
       </item>
     </section>
   </menu>

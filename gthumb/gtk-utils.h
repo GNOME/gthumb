@@ -44,6 +44,11 @@ typedef struct {
 	GCallback       callback;
 } GthActionEntryExt;
 
+typedef struct {
+	const char *action_name;
+	const char *accelerator;
+} GthAccelerator;
+
 void            _gtk_action_group_add_actions_with_flags   (GtkActionGroup   *action_group,
 							    const GthActionEntryExt
 									     *entries,
@@ -138,6 +143,13 @@ gboolean        _gtk_file_chooser_set_file_parent          (GtkFileChooser   *ch
 							    GError          **error);
 GtkWidget *     _gtk_menu_button_new_for_header_bar        (void);
 GtkWidget *     _gtk_image_button_new_for_header_bar       (const char       *icon_name);
+void		_gtk_window_add_accelerator_for_action     (GtkWindow		*window,
+							    GtkAccelGroup	*accel_group,
+							    const char		*action_name,
+							    const char		*accel,
+							    GVariant		*target);
+void		_gtk_window_add_accelerators_from_menu	   (GtkWindow		*window,
+							    GMenuModel		*menu);
 
 G_END_DECLS
 

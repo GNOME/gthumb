@@ -319,6 +319,7 @@ bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 	{
 		GtkWidget  *button;
 		GtkBuilder *builder;
+		GMenuModel *menu;
 
 		button = _gtk_menu_button_new_for_header_bar ();
 		gtk_widget_set_tooltip_text (button, _("Bookmarks"));
@@ -329,7 +330,9 @@ bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 		data->entry_points_menu = G_MENU (gtk_builder_get_object (builder, "entry-points"));
 		data->bookmarks_menu = G_MENU (gtk_builder_get_object (builder, "bookmarks"));
 
-		gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (gtk_builder_get_object (builder, "bookmarks-menu")));
+		menu = G_MENU_MODEL (gtk_builder_get_object (builder, "bookmarks-menu"));
+		gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
+		_gtk_window_add_accelerators_from_menu ((GTK_WINDOW (browser)), menu);
 
 		gtk_widget_show_all (button);
 		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS)), button, FALSE, FALSE, 0);

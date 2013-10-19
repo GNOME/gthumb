@@ -581,15 +581,34 @@ gth_window_set_title (GthWindow  *window,
 }
 
 
-void
-gth_window_add_accelerator (GthWindow     *window,
-			    GtkWidget     *widget,
-			    const char    *accel_signal,
-			    const char    *accelerator)
+GtkAccelGroup *
+gth_window_get_accel_group (GthWindow *window)
 {
-	guint           accel_key;
-	GdkModifierType accel_mods;
+	if (window->priv->accel_group == NULL) {
+		window->priv->accel_group = gtk_accel_group_new ();
+		gtk_window_add_accel_group (GTK_WINDOW (window), window->priv->accel_group);
+	}
 
-	gtk_accelerator_parse (accelerator, &accel_key, &accel_mods);
-	gtk_widget_add_accelerator (widget, accel_signal, window->priv->accel_group, accel_key, accel_mods, 0);
+	return window->priv->accel_group;
+}
+
+
+void
+gth_window_add_accelerators (GthWindow			*window,
+			     const GthAccelerator	*accelerators,
+			     int		 	 n_accelerators)
+{
+	GtkAccelGroup *accel_group;
+	int            i;
+
+	accel_group = gth_window_get_accel_group (window);
+	for (i = 0; i < n_accelerators; i++) {
+		const GthAccelerator *acc = accelerators + i;
+
+		_gtk_window_add_accelerator_for_action (GTK_WINDOW (window),
+							accel_group,
+							acc->action_name,
+							acc->accelerator,
+							NULL);
+	}
 }

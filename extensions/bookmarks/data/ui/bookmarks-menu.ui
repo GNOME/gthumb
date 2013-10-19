@@ -6,12 +6,12 @@
       <item>
         <attribute name="label" translatable="yes">_Add Bookmark</attribute>
         <attribute name="action">win.bookmarks-add</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>D]]></attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>d]]></attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Edit Bookmarks…</attribute>
         <attribute name="action">win.bookmarks-edit</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>B]]></attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>b]]></attribute>
       </item>
     </section>
     <submenu id="system-bookmarks">

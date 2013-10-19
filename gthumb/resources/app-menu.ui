@@ -6,6 +6,7 @@
       <item>
         <attribute name="label" translatable="yes">New _Window</attribute>
         <attribute name="action">app.new-window</attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>n]]></attribute>
       </item>
     </section>
     <section>
@@ -22,6 +23,7 @@
       <item>
         <attribute name="label" translatable="yes">_Help</attribute>
         <attribute name="action">app.help</attribute>
+        <attribute name="accel">F1</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_About</attribute>
@@ -30,6 +32,7 @@
       <item>
         <attribute name="label" translatable="yes">_Quit</attribute>
         <attribute name="action">app.quit</attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>q]]></attribute>
       </item>
     </section>
   </menu>
