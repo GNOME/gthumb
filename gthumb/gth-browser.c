@@ -2289,6 +2289,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	_gth_browser_hide_infobar (browser);
 
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION, page == GTH_BROWSER_PAGE_BROWSER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS, page == GTH_BROWSER_PAGE_BROWSER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS, page == GTH_BROWSER_PAGE_BROWSER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW, page == GTH_BROWSER_PAGE_BROWSER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT, page == GTH_BROWSER_PAGE_BROWSER);
@@ -4218,6 +4219,7 @@ gth_browser_init (GthBrowser *browser)
 		}
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]);
+		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT]);
@@ -4274,7 +4276,7 @@ gth_browser_init (GthBrowser *browser)
 						   "win.go-up",
 						   "<alt>Up");
 		gth_browser_add_header_bar_button (browser,
-						   GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION,
+						   GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS,
 						   "user-home-symbolic",
 						   NULL,
 						   "win.go-home",
