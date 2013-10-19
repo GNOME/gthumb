@@ -57,99 +57,6 @@ gth_browser_activate_action_file_open (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_file_revert (GtkAction  *action,
-					 GthBrowser *browser)
-{
-	GthFileData *file_data;
-
-	file_data = gth_browser_get_current_file (browser);
-	if (file_data == NULL)
-		return;
-	g_file_info_set_attribute_boolean (file_data->info, "gth::file::is-modified", FALSE);
-	gth_browser_load_file (browser, file_data, TRUE);
-}
-
-
-void
-gth_browser_activate_action_file_save (GtkAction  *action,
-				       GthBrowser *browser)
-{
-	GtkWidget *viewer_page;
-
-	viewer_page = gth_browser_get_viewer_page (browser);
-	if (viewer_page == NULL)
-		return;
-
-	gth_viewer_page_save (GTH_VIEWER_PAGE (viewer_page), NULL, NULL, browser);
-}
-
-
-void
-gth_browser_activate_action_file_save_as (GtkAction  *action,
-					  GthBrowser *browser)
-{
-	GtkWidget *viewer_page;
-
-	viewer_page = gth_browser_get_viewer_page (browser);
-	if (viewer_page == NULL)
-		return;
-
-	gth_viewer_page_save_as (GTH_VIEWER_PAGE (viewer_page), NULL, NULL);
-}
-
-
-void
-gth_browser_activate_action_file_new_window (GtkAction  *action,
-					     GthBrowser *browser)
-{
-	GtkWidget *window;
-
-	window = gth_browser_new (gth_browser_get_location (browser), NULL);
-	gtk_window_present (GTK_WINDOW (window));
-}
-
-
-void
-gth_browser_activate_action_edit_preferences (GtkAction  *action,
-					      GthBrowser *browser)
-{
-	dlg_preferences (browser);
-}
-
-
-void
-gth_browser_activate_action_go_up (GtkAction  *action,
-				   GthBrowser *browser)
-{
-	gth_browser_go_up (browser, 1);
-}
-
-
-void
-gth_browser_activate_action_go_location (GtkAction  *action,
-					 GthBrowser *browser)
-{
-	dlg_location (browser);
-}
-
-
-void
-gth_browser_activate_action_go_home (GtkAction  *action,
-				     GthBrowser *browser)
-{
-	gth_browser_go_home (browser);
-}
-
-
-void
-gth_browser_activate_action_go_clear_history (GtkAction  *action,
-					      GthBrowser *browser)
-{
-	gth_browser_clear_history (browser);
-}
-
-
-void
 gth_browser_activate_action_view_filter (GtkAction  *action,
 					 GthBrowser *browser)
 {
@@ -363,30 +270,6 @@ gth_browser_activate_action_edit_select_all (GtkAction  *action,
 				 	     GthBrowser *browser)
 {
 	gth_file_selection_select_all (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-}
-
-
-void
-gth_browser_activate_action_help_about (GtkAction *action,
-				        gpointer   data)
-{
-
-}
-
-
-void
-gth_browser_activate_action_help_help (GtkAction *action,
-				       gpointer   data)
-{
-	show_help_dialog (GTK_WINDOW (data), NULL);
-}
-
-
-void
-gth_browser_activate_action_help_shortcuts (GtkAction *action,
-					    gpointer   data)
-{
-	show_help_dialog (GTK_WINDOW (data), "gthumb-shortcuts");
 }
 
 
@@ -604,6 +487,20 @@ gth_browser_activate_go_to_history_pos (GSimpleAction *action,
 					gpointer       user_data)
 {
 	gth_browser_go_to_history_pos (GTH_BROWSER (user_data), atoi (g_variant_get_string (parameter, NULL)));
+}
+
+
+void
+gth_browser_activate_go_to_location (GSimpleAction *action,
+				     GVariant      *parameter,
+				     gpointer       user_data)
+{
+	GFile *file;
+
+	file = g_file_new_for_uri (g_variant_get_string (parameter, NULL));
+	gth_browser_go_to (GTH_BROWSER (user_data), file, NULL);
+
+	g_object_unref (file);
 }
 
 

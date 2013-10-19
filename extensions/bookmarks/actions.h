@@ -29,4 +29,7 @@
 DEFINE_ACTION(gth_browser_activate_action_bookmarks_add)
 DEFINE_ACTION(gth_browser_activate_action_bookmarks_edit)
 
+DEF_ACTION_CALLBACK (gth_browser_activate_bookmarks_add)
+DEF_ACTION_CALLBACK (gth_browser_activate_bookmarks_edit)
+
 #endif /* ACTIONS_H */

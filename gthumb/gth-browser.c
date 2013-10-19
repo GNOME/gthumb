@@ -594,9 +594,6 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
 	_gth_browser_set_action_sensitive (browser, "File_Open", n_selected == 1);
-	_gth_browser_set_action_sensitive (browser, "File_Save", viewer_can_save && modified);
-	_gth_browser_set_action_sensitive (browser, "File_SaveAs", viewer_can_save);
-	_gth_browser_set_action_sensitive (browser, "File_Revert", viewer_can_save && modified);
 	_gth_browser_set_action_sensitive (browser, "View_Stop", browser->priv->fullscreen || (browser->priv->activity_ref > 0));
 	_gth_browser_set_action_sensitive (browser, "View_Prev", current_file_pos > 0);
 	_gth_browser_set_action_sensitive (browser, "View_Next", (current_file_pos != -1) && (current_file_pos < n_files - 1));
@@ -721,23 +718,11 @@ _gth_browser_history_menu (GthBrowser *browser)
 		     scan;
 		     scan = scan->next, i++)
 		{
-			GFile         *file = scan->data;
-			GthFileSource *file_source;
-			GFileInfo     *info;
-			char          *label;
-			GMenuItem     *item;
-			char          *target;
+			GFile     *file = scan->data;
+			GMenuItem *item;
+			char      *target;
 
-			file_source = gth_main_get_file_source (file);
-			info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
-			if (info != NULL) {
-				label = g_strdup (g_file_info_get_display_name (info));
-				g_object_unref (info);
-			}
-			else
-				label =  _g_file_get_display_name (file);
-
-			item = g_menu_item_new (label, NULL);
+			item = _g_menu_item_new_for_file (file, NULL);
 			target = g_strdup_printf ("%d", i);
 			g_menu_item_set_action_and_target (item, "win.go-to-history-position", "s", target);
 			g_menu_append_item (browser->priv->history_menu, item);
@@ -748,8 +733,7 @@ _gth_browser_history_menu (GthBrowser *browser)
 			}
 
 			g_free (target);
-			g_free (label);
-			g_object_unref (file_source);
+			g_object_unref (item);
 		}
 	}
 }
@@ -6815,4 +6799,38 @@ gth_browser_restore_state (GthBrowser *browser)
 	}
 
 	return TRUE;
+}
+
+
+GMenuItem *
+_g_menu_item_new_for_file (GFile      *file,
+			   const char *custom_label)
+{
+	GMenuItem     *item;
+	GthFileSource *file_source;
+	GFileInfo     *info;
+
+	item = g_menu_item_new (NULL, NULL);
+	file_source = gth_main_get_file_source (file);
+	info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
+	if (info != NULL) {
+		g_menu_item_set_label (item, (custom_label != NULL) ? custom_label : g_file_info_get_display_name (info));
+		g_menu_item_set_icon (item, g_file_info_get_icon (info));
+	}
+	else {
+		char  *label;
+		GIcon *icon;
+
+		label = _g_file_get_display_name (file);
+		icon = _g_file_get_icon (file);
+		g_menu_item_set_label (item, (custom_label != NULL) ? custom_label : label);
+		g_menu_item_set_icon (item, icon);
+
+		g_object_unref (icon);
+		g_free (label);
+	}
+
+	_g_object_unref (info);
+
+	return item;
 }

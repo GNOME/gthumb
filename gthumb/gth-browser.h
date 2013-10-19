@@ -246,6 +246,11 @@ void             _gth_browser_add_file_menu_item_full (GthBrowser *browser,
 						       int         steps,
 						       int         position);
 
+/* utilities */
+
+GMenuItem *	_g_menu_item_new_for_file		(GFile      *file,
+							 const char *custom_label);
+
 G_END_DECLS
 
 #endif /* GTH_BROWSER_H */

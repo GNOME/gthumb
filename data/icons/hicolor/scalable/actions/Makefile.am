@@ -5,6 +5,7 @@ context = actions
 iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 				\
+	bookmarks-symbolic.svg		\
 	browser-mode.svg		\
 	file-catalog.svg		\
 	file-library.svg		\

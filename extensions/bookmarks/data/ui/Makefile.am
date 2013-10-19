@@ -1,5 +1,5 @@
-uidir = $(pkgdatadir)/ui
-ui_DATA = bookmarks.ui
-EXTRA_DIST = $(ui_DATA)
+EXTRA_DIST =			\
+	bookmarks.ui		\
+	bookmarks-menu.ui
 
 -include $(top_srcdir)/git.mk
