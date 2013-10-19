@@ -1,4 +1,4 @@
-SUBDIRS = m4 copy-n-paste data po gthumb extensions tests help
+SUBDIRS = m4 copy-n-paste data po gthumb extensions help
 
 ACLOCAL_AMFLAGS = -I m4
 

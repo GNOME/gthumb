@@ -411,4 +411,24 @@ install-exec-hook:
 	$(INSTALL_DATA) .libs/libgthumb.a $(DESTDIR)$(pkglibdir)/libgthumb.a
 endif
 
+if BUILD_TEST_SUITE
+noinst_PROGRAMS = test-dom test-glib-utils test-gsignature test-oauth
+endif
+
+test_dom_SOURCES = test-dom.c dom.c
+test_dom_LDADD = $(GTHUMB_LIBS) 
+test_dom_CFLAGS = $(GTHUMB_CFLAGS)
+
+test_glib_utils_SOURCES = test-glib-utils.c glib-utils.c
+test_glib_utils_LDADD = $(GTHUMB_LIBS) 
+test_glib_utils_CFLAGS = $(GTHUMB_CFLAGS)
+
+test_gsignature_SOURCES = test-gsignature.c gsignature.c
+test_gsignature_LDADD = $(GTHUMB_LIBS) 
+test_gsignature_CFLAGS = $(GTHUMB_CFLAGS)
+
+test_oauth_SOURCES = test-oauth.c gsignature.c
+test_oauth_LDADD = $(GTHUMB_LIBS)
+test_oauth_CFLAGS = $(GTHUMB_CFLAGS)
+
 -include $(top_srcdir)/git.mk

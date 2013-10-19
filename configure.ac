@@ -10,7 +10,7 @@ AC_PREREQ(2.63)
 AC_INIT([gthumb], [gthumb_version],
         [http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb],
         [gthumb])
-AM_INIT_AUTOMAKE([1.11 foreign no-dist-gzip dist-xz tar-ustar subdir-objects])
+AM_INIT_AUTOMAKE([1.11 foreign no-dist-gzip dist-xz tar-ustar])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -788,7 +788,6 @@ extensions/webalbums/data/ui/Makefile
 gthumb/Makefile
 gthumb/resources/Makefile
 po/Makefile.in
-tests/Makefile
 ])
 
 AC_OUTPUT
