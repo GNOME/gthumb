@@ -53,6 +53,7 @@ extensions/bookmarks/actions.h
 [type: gettext/ini]extensions/bookmarks/bookmarks.extension.in.in
 extensions/bookmarks/callbacks.c
 extensions/bookmarks/callbacks.h
+[type: gettext/glade]extensions/bookmarks/data/ui/bookmarks-menu.ui
 [type: gettext/glade]extensions/bookmarks/data/ui/bookmarks.ui
 extensions/bookmarks/dlg-bookmarks.c
 extensions/bookmarks/dlg-bookmarks.h
@@ -785,6 +786,8 @@ gthumb/gth-menu-action.c
 gthumb/gth-menu-action.h
 gthumb/gth-menu-button.c
 gthumb/gth-menu-button.h
+gthumb/gth-menu-manager.c
+gthumb/gth-menu-manager.h
 gthumb/gth-metadata.c
 gthumb/gth-metadata-chooser.c
 gthumb/gth-metadata-chooser.h
@@ -856,9 +859,6 @@ gthumb/gth-user-dir.c
 gthumb/gth-user-dir.h
 gthumb/gth-viewer-page.c
 gthumb/gth-viewer-page.h
-gthumb/gth-window-actions-callbacks.c
-gthumb/gth-window-actions-callbacks.h
-gthumb/gth-window-actions-entries.h
 gthumb/gth-window.c
 gthumb/gth-window.h
 gthumb/gtk-utils.c
@@ -876,11 +876,13 @@ gthumb/pixbuf-io.h
 gthumb/pixbuf-utils.c
 gthumb/pixbuf-utils.h
 [type: gettext/glade]gthumb/resources/app-menu.ui
+[type: gettext/glade]gthumb/resources/gears-menu.ui
+[type: gettext/glade]gthumb/resources/history-menu.ui
 [type: gettext/glade]gthumb/resources/message-dialog.ui
+gthumb/test-dom.c
+gthumb/test-glib-utils.c
+gthumb/test-gsignature.c
+gthumb/test-oauth.c
 gthumb/typedefs.h
 gthumb/zlib-utils.c
 gthumb/zlib-utils.h
-tests/dom-test.c
-tests/glib-utils-test.c
-tests/gsignature-test.c
-tests/oauth-test.c
