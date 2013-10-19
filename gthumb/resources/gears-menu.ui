@@ -6,11 +6,12 @@
       <item>
         <attribute name="label" translatable="yes">New _Window</attribute>
         <attribute name="action">app.new-window</attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>n]]></attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_Open…</attribute>
+        <attribute name="label" translatable="yes">Open _Location…</attribute>
         <attribute name="action">win.open-location</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>o]]></attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>l]]></attribute>
       </item>
     </section>
     <section>
@@ -35,6 +36,7 @@
       <item>
         <attribute name="label" translatable="yes">Close _All Windows</attribute>
         <attribute name="action">app.quit</attribute>
+        <attribute name="accel"><![CDATA[<Ctrl>q]]></attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Close</attribute>
