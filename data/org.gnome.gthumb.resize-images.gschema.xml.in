@@ -20,10 +20,10 @@
 
   <schema id="org.gnome.gthumb.resize-images" path="/org/gnome/gthumb/resize-images/">
     <key name="width" type="i">
-      <default>640</default>
+      <default>100</default>
     </key>
     <key name="height" type="i">
-      <default>480</default>
+      <default>100</default>
     </key>
     <key name="unit" enum="org.gnome.gthumb.GthUnit">
       <default>'percentage'</default>
