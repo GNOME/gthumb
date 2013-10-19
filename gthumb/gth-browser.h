@@ -229,23 +229,6 @@ void             gth_browser_ask_whether_to_save    (GthBrowser       *browser,
 void             gth_browser_save_state             (GthBrowser       *browser);
 gboolean         gth_browser_restore_state          (GthBrowser       *browser);
 
-/* protected methods */
-
-void             _gth_browser_add_file_menu_item      (GthBrowser *browser,
-						       GtkWidget  *menu,
-						       GFile      *file,
-						       const char *display_name,
-						       GthAction   action,
-						       int         steps);
-void             _gth_browser_add_file_menu_item_full (GthBrowser *browser,
-						       GtkWidget  *menu,
-						       GFile      *file,
-						       GIcon      *icon,
-						       const char *display_name,
-						       GthAction   action,
-						       int         steps,
-						       int         position);
-
 /* utilities */
 
 GMenuItem *	_g_menu_item_new_for_file		(GFile      *file,
