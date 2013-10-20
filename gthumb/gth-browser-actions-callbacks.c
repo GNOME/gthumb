@@ -178,22 +178,6 @@ gth_browser_activate_action_view_reload (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_view_prev (GtkAction  *action,
-				       GthBrowser *browser)
-{
-	gth_browser_show_prev_image (browser, FALSE, FALSE);
-}
-
-
-void
-gth_browser_activate_action_view_next (GtkAction  *action,
-				       GthBrowser *browser)
-{
-	gth_browser_show_next_image (browser, FALSE, FALSE);
-}
-
-
-void
 gth_browser_activate_action_folder_open (GtkAction  *action,
 					 GthBrowser *browser)
 {
@@ -228,36 +212,6 @@ gth_browser_activate_action_folder_open_in_new_window (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_viewer_properties (GtkAction  *action,
-						GthBrowser *browser)
-{
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		gth_browser_show_file_properties (GTH_BROWSER (browser));
-	else
-		gth_browser_hide_sidebar (GTH_BROWSER (browser));
-}
-
-
-void
-gth_browser_activate_action_browser_tools (GtkAction  *action,
-					   GthBrowser *browser)
-{
-	gth_browser_show_viewer_tools (GTH_BROWSER (browser));
-}
-
-
-void
-gth_browser_activate_action_viewer_tools (GtkAction  *action,
-					  GthBrowser *browser)
-{
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		gth_browser_show_viewer_tools (GTH_BROWSER (browser));
-	else
-		gth_browser_hide_sidebar (GTH_BROWSER (browser));
-}
-
-
-void
 gth_browser_activate_action_view_shrink_wrap (GtkAction  *action,
 					      GthBrowser *browser)
 {
@@ -274,6 +228,20 @@ gth_browser_activate_action_edit_select_all (GtkAction  *action,
 
 
 /* -- GAction callbacks -- */
+
+
+void
+toggle_action_activated (GSimpleAction *action,
+			 GVariant      *parameter,
+			 gpointer       data)
+{
+	GVariant *state;
+
+	state = g_action_get_state (G_ACTION (action));
+	g_action_change_state (G_ACTION (action), g_variant_new_boolean (! g_variant_get_boolean (state)));
+
+	g_variant_unref (state);
+}
 
 
 GtkWidget *
@@ -439,6 +407,30 @@ gth_browser_activate_browser_mode (GSimpleAction *action,
 
 
 void
+gth_browser_activate_browser_edit_file (GSimpleAction *action,
+					GVariant      *parameter,
+					gpointer       user_data)
+{
+	gth_browser_show_viewer_tools (GTH_BROWSER (user_data));
+}
+
+
+void
+gth_browser_activate_browser_properties (GSimpleAction *action,
+					 GVariant      *state,
+					 gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+
+	g_simple_action_set_state (action, state);
+	if (g_variant_get_boolean (state))
+		gth_browser_show_file_properties (GTH_BROWSER (browser));
+	else
+		gth_browser_hide_sidebar (GTH_BROWSER (browser));
+}
+
+
+void
 gth_browser_activate_clear_history (GSimpleAction *action,
 				    GVariant      *parameter,
 				    gpointer       user_data)
@@ -580,6 +572,36 @@ gth_browser_activate_save_as (GSimpleAction *action,
 		return;
 
 	gth_viewer_page_save_as (GTH_VIEWER_PAGE (viewer_page), NULL, NULL);
+}
+
+
+void
+gth_browser_activate_viewer_edit_file (GSimpleAction *action,
+				       GVariant      *state,
+				       gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+
+	g_simple_action_set_state (action, state);
+	if (g_variant_get_boolean (state))
+		gth_browser_show_viewer_tools (browser);
+	else
+		gth_browser_hide_sidebar (browser);
+}
+
+
+void
+gth_browser_activate_viewer_properties (GSimpleAction *action,
+				        GVariant      *state,
+				        gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+
+	g_simple_action_set_state (action, state);
+	if (g_variant_get_boolean (state))
+		gth_browser_show_file_properties (browser);
+	else
+		gth_browser_hide_sidebar (browser);
 }
 
 

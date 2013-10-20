@@ -31,7 +31,7 @@
 #define MAX_ATTEMPTS 1024
 
 
-/* -- media_viewer_activate_action_screenshot -- */
+/* -- gth_browser_activate_video_screenshot -- */
 
 
 typedef struct {
@@ -197,14 +197,18 @@ screenshot_ready_cb (GdkPixbuf *pixbuf,
 
 
 void
-media_viewer_activate_action_screenshot (GtkAction          *action,
-				         GthMediaViewerPage *page)
+gth_browser_activate_video_screenshot (GSimpleAction	*action,
+				       GVariant		*parameter,
+				       gpointer		 user_data)
 {
-	GstElement *playbin;
-	SaveData   *save_data;
-	int         video_fps_n;
-	int         video_fps_d;
+	GthBrowser		*browser = GTH_BROWSER (user_data);
+	GthMediaViewerPage	*page;
+	GstElement		*playbin;
+	SaveData		*save_data;
+	int			 video_fps_n;
+	int			 video_fps_d;
 
+	page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 	playbin = gth_media_viewer_page_get_playbin (page);
 	if (playbin == NULL)
 		return;

@@ -41,16 +41,6 @@ static const char *fixed_ui_info =
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
-"  <toolbar name='ToolBar'>"
-"    <placeholder name='Edit_Actions'>"
-"      <toolitem action='Edit_Metadata'/>"
-"    </placeholder>"
-"  </toolbar>"
-"  <toolbar name='ViewerToolBar'>"
-"    <placeholder name='Edit_Actions'>"
-"      <toolitem action='Edit_Metadata'/>"
-"    </placeholder>"
-"  </toolbar>"
 "  <toolbar name='Fullscreen_ToolBar'>"
 "    <placeholder name='Edit_Actions'>"
 "      <toolitem action='Edit_Metadata'/>"
@@ -81,18 +71,6 @@ static const char *fixed_ui_file_tools_info =
 "</ui>";
 
 
-static const char *viewer_ui_info =
-"<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='Edit' action='EditMenu'>"
-"      <placeholder name='Edit_Actions'>"
-"        <menuitem action='Edit_Metadata'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-
 static GthActionEntryExt edit_metadata_action_entries[] = {
 	{ "Edit_QuickTag", "tag", N_("T_ags") },
 
@@ -113,6 +91,13 @@ static GthActionEntryExt edit_metadata_action_entries[] = {
 	  N_("Delete the comment and the embedded metadata of the selected files"),
 	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_tool_delete_metadata) }
+};
+
+
+static const GActionEntry actions[] = {
+	{ "edit-metadata", gth_browser_activate_edit_metadata },
+	{ "edit-tags", gth_browser_activate_edit_tags },
+	{ "delete-metadata", gth_browser_activate_delete_metadata },
 };
 
 
@@ -160,39 +145,36 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 	}
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
-}
 
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
 
-void
-edit_metadata__gth_browser_set_current_page_cb (GthBrowser *browser)
-{
-	BrowserData *data;
-	GError      *error = NULL;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
-
-	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
-	case GTH_BROWSER_PAGE_BROWSER:
-		if (data->viewer_ui_merge_id != 0) {
-			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->viewer_ui_merge_id);
-			data->viewer_ui_merge_id = 0;
-		}
-		break;
-
-	case GTH_BROWSER_PAGE_VIEWER:
-		if (data->viewer_ui_merge_id != 0)
-			return;
-		data->viewer_ui_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), viewer_ui_info, -1, &error);
-		if (data->viewer_ui_merge_id == 0) {
-			g_warning ("ui building failed: %s", error->message);
-			g_clear_error (&error);
-		}
-		break;
-
-	default:
-		break;
-	}
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT,
+					   "comment-symbolic",
+					   _("Comment"),
+					   "win.edit-metadata",
+					   NULL);
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT,
+					   "tag-symbolic",
+					   _("Tags"),
+					   "win.edit-tags",
+					   NULL);
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
+					   "comment-symbolic",
+					   _("Comment"),
+					   "win.edit-metadata",
+					   NULL);
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
+					   "tag-symbolic",
+					   _("Tags"),
+					   "win.edit-tags",
+					   NULL);
 }
 
 
@@ -211,6 +193,10 @@ edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	sensitive = (n_selected > 0);
 	g_object_set (gtk_action_group_get_action (data->actions, "Edit_Metadata"), "sensitive", sensitive, NULL);
 	g_object_set (gtk_action_group_get_action (data->actions, "Tool_DeleteMetadata"), "sensitive", sensitive, NULL);
+
+	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (data->browser), "edit-metadata"), "enabled", sensitive, NULL);
+	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (data->browser), "edit-tags"), "enabled", sensitive, NULL);
+	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (data->browser), "delete-metadata"), "enabled", sensitive, NULL);
 }
 
 

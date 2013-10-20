@@ -48,8 +48,6 @@ G_DEFINE_TYPE_WITH_CODE (GthMediaViewerPage,
 
 struct _GthMediaViewerPagePrivate {
 	GthBrowser     *browser;
-	GtkActionGroup *actions;
-	guint           merge_id;
 	GthFileData    *file_data;
 	GstElement     *playbin;
 	GtkBuilder     *builder;
@@ -78,32 +76,15 @@ struct _GthMediaViewerPagePrivate {
 	GdkCursor      *cursor_void;
 	gboolean        cursor_visible;
 	GthScreensaver *screensaver;
+	GtkWidget      *screenshot_button;
 };
 
 
 static double default_rates[] = { 0.03, 0.06, 0.12, 0.25, 0.33, 0.50, 0.66, 1.0, 1.50, 2.0, 3.0, 4.0, 8.0, 16.0, 32.0 };
 
 
-static const char *media_viewer_ui_info =
-"<ui>"
-"  <toolbar name='ViewerToolBar'>"
-"    <placeholder name='ViewerCommands'>"
-"      <toolitem action='MediaViewer_Screenshot'/>"
-"    </placeholder>"
-"  </toolbar>"
-"  <toolbar name='Fullscreen_ToolBar'>"
-"    <placeholder name='ViewerCommands'>"
-"      <toolitem action='MediaViewer_Screenshot'/>"
-"    </placeholder>"
-"  </toolbar>"
-"</ui>";
-
-
-static GtkActionEntry media_viewer_action_entries[] = {
-	{ "MediaViewer_Screenshot", "camera-photo",
-	  N_("Screenshot"), NULL,
-	  N_("Take a screenshot"),
-	  G_CALLBACK (media_viewer_activate_action_screenshot) },
+static const GActionEntry actions[] = {
+	{ "video-screenshot", gth_browser_activate_video_screenshot }
 };
 
 
@@ -724,14 +705,17 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	self = (GthMediaViewerPage*) base;
 
 	self->priv->browser = browser;
-
-	self->priv->actions = gtk_action_group_new ("Video Viewer Actions");
-	gtk_action_group_set_translation_domain (self->priv->actions, NULL);
-	gtk_action_group_add_actions (self->priv->actions,
-				      media_viewer_action_entries,
-				      G_N_ELEMENTS (media_viewer_action_entries),
-				      self);
-	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), self->priv->actions, 0);
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
+	self->priv->screenshot_button =
+			gth_browser_add_header_bar_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+							   "camera-photo-symbolic",
+							   _("Take a screenshot"),
+							   "win.video-screenshot",
+							   NULL);
 
 	/* video area */
 
@@ -907,9 +891,8 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 		self->priv->playbin = NULL;
 	}
 
-	gtk_ui_manager_remove_action_group (gth_browser_get_ui_manager (self->priv->browser), self->priv->actions);
-	g_object_unref (self->priv->actions);
-	self->priv->actions = NULL;
+	gtk_widget_destroy (self->priv->screenshot_button);
+	self->priv->screenshot_button = NULL;
 
 	remove_fullscreen_toolbar (self);
 
@@ -1134,17 +1117,8 @@ static void
 gth_media_viewer_page_real_show (GthViewerPage *base)
 {
 	GthMediaViewerPage *self = GTH_MEDIA_VIEWER_PAGE (base);
-	GError             *error = NULL;
 
 	self->priv->visible = TRUE;
-
-	if (self->priv->merge_id == 0) {
-		self->priv->merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (self->priv->browser), media_viewer_ui_info, -1, &error);
-		if (self->priv->merge_id == 0) {
-			g_warning ("ui building failed: %s", error->message);
-			g_error_free (error);
-		}
-	}
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
 	create_playbin (self);
@@ -1167,11 +1141,6 @@ gth_media_viewer_page_real_hide (GthViewerPage *base)
 	self = (GthMediaViewerPage*) base;
 
 	self->priv->visible = FALSE;
-
-	if (self->priv->merge_id != 0) {
-		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->merge_id);
-		self->priv->merge_id = 0;
-	}
 
 	if ((self->priv->playbin != NULL) && self->priv->playing)
 		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
@@ -1323,24 +1292,12 @@ gth_media_viewer_page_real_show_pointer (GthViewerPage *base,
 
 
 static void
-set_action_sensitive (GthMediaViewerPage *self,
-		      const char         *action_name,
-		      gboolean            sensitive)
-{
-	GtkAction *action;
-
-	action = gtk_action_group_get_action (self->priv->actions, action_name);
-	g_object_set (action, "sensitive", sensitive, NULL);
-}
-
-
-static void
 gth_media_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
 	GthMediaViewerPage *self = (GthMediaViewerPage *) base;
 
 	gtk_widget_set_sensitive (GET_WIDGET ("volume_box"), self->priv->has_audio);
-	set_action_sensitive (self, "MediaViewer_Screenshot", self->priv->has_video);
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "video-screenshot", self->priv->has_video);
 }
 
 
@@ -1485,6 +1442,7 @@ gth_media_viewer_page_init (GthMediaViewerPage *self)
 	self->priv->cursor_visible = TRUE;
 	self->priv->screensaver = gth_screensaver_new (NULL);
 	self->priv->visible = FALSE;
+	self->priv->screenshot_button = NULL;
 }
 
 

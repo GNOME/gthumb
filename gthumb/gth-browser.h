@@ -58,12 +58,11 @@ typedef enum { /*< skip >*/
 	GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
 	GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT,
 	GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS,
-	GTH_BROWSER_HEADER_SECTION_BROWSER_PROPERTIES,
 	GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION,
+	GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
 	GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
 	GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
 	GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS,
-	GTH_BROWSER_HEADER_SECTION_VIEWER_PROPERTIES,
 	GTH_BROWSER_N_HEADER_SECTIONS
 } GthBrowserHeaderSection;
 
@@ -133,12 +132,18 @@ GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_filterbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_headerbar_section  (GthBrowser			*browser,
 						     GthBrowserHeaderSection	 section);
-void		 gth_browser_add_header_bar_button  (GthBrowser			*browser,
+GtkWidget *	 gth_browser_add_header_bar_button  (GthBrowser			*browser,
 						     GthBrowserHeaderSection	 section,
 						     const char			*icon_name,
 						     const char			*tooltip,
 						     const char 		*action_name,
 						     const char			*accelerator);
+GtkWidget * gth_browser_add_header_bar_toggle_button	 (GthBrowser			*browser,
+					  	  	  GthBrowserHeaderSection	 section,
+					  	  	  const char			*icon_name,
+					  	  	  const char			*tooltip,
+					  	  	  const char 			*action_name,
+					  	  	  const char			*accelerator);
 GthMenuManager * gth_browser_get_menu_manager       (GthBrowser       *browser,
 						     GthBrowserMenuManager
 						     	     	       manager);

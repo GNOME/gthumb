@@ -41,7 +41,6 @@ gthumb_extension_activate (void)
 
 	gth_main_register_type ("edit-comment-dialog-page", GTH_TYPE_EDIT_GENERAL_PAGE);
 	gth_hook_add_callback ("gth-browser-construct", 7, G_CALLBACK (edit_metadata__gth_browser_construct_cb), NULL);
-	gth_hook_add_callback ("gth-browser-set-current-page", 5, G_CALLBACK (edit_metadata__gth_browser_set_current_page_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (edit_metadata__gth_browser_update_sensitivity_cb), NULL);
 	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (edit_metadata__gth_browser_file_list_key_press_cb), NULL);
 }

@@ -30,4 +30,8 @@ DEFINE_ACTION(gth_browser_activate_action_edit_comment)
 DEFINE_ACTION(gth_browser_activate_action_edit_tags)
 DEFINE_ACTION(gth_browser_activate_action_tool_delete_metadata)
 
+DEF_ACTION_CALLBACK (gth_browser_activate_edit_metadata)
+DEF_ACTION_CALLBACK (gth_browser_activate_edit_tags)
+DEF_ACTION_CALLBACK (gth_browser_activate_delete_metadata)
+
 #endif /* ACTIONS_H */

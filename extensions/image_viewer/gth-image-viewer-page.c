@@ -27,6 +27,7 @@
 #include "preferences.h"
 
 
+#define HEADER_BUTTONS 5
 #define UPDATE_QUALITY_DELAY 100
 
 
@@ -47,7 +48,6 @@ struct _GthImageViewerPagePrivate {
 	GtkWidget         *viewer;
 	GthImagePreloader *preloader;
 	GtkActionGroup    *actions;
-	guint              viewer_merge_id;
 	guint              browser_merge_id;
 	GthImageHistory   *history;
 	GthFileData       *file_data;
@@ -56,6 +56,7 @@ struct _GthImageViewerPagePrivate {
 	GFile             *last_loaded;
 	gboolean           can_paste;
 	guint              update_quality_event;
+	GtkWidget         *buttons[HEADER_BUTTONS];
 };
 
 
@@ -72,65 +73,7 @@ static const char *image_viewer_ui_info =
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
-"  <toolbar name='ViewerToolBar'>"
-"    <placeholder name='ViewerCommands'>"
-"      <toolitem action='ImageViewer_View_ZoomIn'/>"
-"      <toolitem action='ImageViewer_View_ZoomOut'/>"
-"      <toolitem action='ImageViewer_View_Zoom100'/>"
-"      <toolitem action='ImageViewer_View_ZoomFit'/>"
-"      <toolitem action='ImageViewer_View_ZoomFitWidth'/>"
-"    </placeholder>"
-"  </toolbar>"
-"  <toolbar name='Fullscreen_ToolBar'>"
-"    <placeholder name='ViewerCommands'>"
-"      <toolitem action='ImageViewer_View_ZoomIn'/>"
-"      <toolitem action='ImageViewer_View_ZoomOut'/>"
-"      <toolitem action='ImageViewer_View_Zoom100'/>"
-"      <toolitem action='ImageViewer_View_ZoomFit'/>"
-"      <toolitem action='ImageViewer_View_ZoomFitWidth'/>"
-"    </placeholder>"
-"  </toolbar>"
 "</ui>";
-
-
-static void
-image_viewer_activate_action_view_zoom_in (GtkAction          *action,
-					   GthImageViewerPage *self)
-{
-	gth_image_viewer_zoom_in (GTH_IMAGE_VIEWER (self->priv->viewer));
-}
-
-
-static void
-image_viewer_activate_action_view_zoom_out (GtkAction          *action,
-					    GthImageViewerPage *self)
-{
-	gth_image_viewer_zoom_out (GTH_IMAGE_VIEWER (self->priv->viewer));
-}
-
-
-static void
-image_viewer_activate_action_view_zoom_100 (GtkAction          *action,
-					    GthImageViewerPage *self)
-{
-	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->viewer), 1.0);
-}
-
-
-static void
-image_viewer_activate_action_view_zoom_fit (GtkAction          *action,
-					    GthImageViewerPage *self)
-{
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE);
-}
-
-
-static void
-image_viewer_activate_action_view_zoom_fit_width (GtkAction          *action,
-						  GthImageViewerPage *self)
-{
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_WIDTH);
-}
 
 
 static void
@@ -185,31 +128,82 @@ static GtkActionEntry image_viewer_action_entries[] = {
 	  N_("Paste Image"), "<control>p",
 	  N_("Paste the image from the clipboard"),
 	  G_CALLBACK (image_viewer_activate_action_edit_paste_image) },
+};
 
-	{ "ImageViewer_View_ZoomIn", GTK_STOCK_ZOOM_IN,
-	  N_("In"), "<control>plus",
-	  N_("Zoom in"),
-	  G_CALLBACK (image_viewer_activate_action_view_zoom_in) },
 
-	{ "ImageViewer_View_ZoomOut", GTK_STOCK_ZOOM_OUT,
-	  N_("Out"), "<control>minus",
-	  N_("Zoom out"),
-	  G_CALLBACK (image_viewer_activate_action_view_zoom_out) },
+static void
+gth_browser_activate_image_zoom_in (GSimpleAction	*action,
+				    GVariant		*parameter,
+				    gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
 
-	{ "ImageViewer_View_Zoom100", GTK_STOCK_ZOOM_100,
-	  N_("1:1"), "<control>0",
-	  N_("Actual size"),
-	  G_CALLBACK (image_viewer_activate_action_view_zoom_100) },
+	gth_image_viewer_zoom_in (GTH_IMAGE_VIEWER (self->priv->viewer));
+}
 
-	{ "ImageViewer_View_ZoomFit", GTK_STOCK_ZOOM_FIT,
-	  N_("Fit"), "",
-	  N_("Zoom to fit window"),
-	  G_CALLBACK (image_viewer_activate_action_view_zoom_fit) },
 
-	{ "ImageViewer_View_ZoomFitWidth", GTH_STOCK_ZOOM_FIT_WIDTH,
-	  N_("Width"), "",
-	  N_("Zoom to fit width"),
-	  G_CALLBACK (image_viewer_activate_action_view_zoom_fit_width) },
+static void
+gth_browser_activate_image_zoom_out (GSimpleAction	*action,
+				     GVariant		*parameter,
+				     gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
+
+	gth_image_viewer_zoom_out (GTH_IMAGE_VIEWER (self->priv->viewer));
+}
+
+
+static void
+gth_browser_activate_image_zoom_100 (GSimpleAction	*action,
+				     GVariant		*parameter,
+				     gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
+
+	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->viewer), 1.0);
+}
+
+
+static void
+gth_browser_activate_image_zoom_fit (GSimpleAction	*action,
+				     GVariant		*parameter,
+				     gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE);
+}
+
+
+static void
+gth_browser_activate_image_zoom_fit_width (GSimpleAction	*action,
+					   GVariant		*parameter,
+					   gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_WIDTH);
+}
+
+
+static const GActionEntry actions[] = {
+	{ "image-zoom-in", gth_browser_activate_image_zoom_in },
+	{ "image-zoom-out", gth_browser_activate_image_zoom_out },
+	{ "image-zoom-100", gth_browser_activate_image_zoom_100 },
+	{ "image-zoom-fit", gth_browser_activate_image_zoom_fit },
+	{ "image-zoom-fit-width", gth_browser_activate_image_zoom_fit_width }
+};
+
+
+static const GthAccelerator accelerators[] = {
+	{ "image-zoom-in", "<control>plus" },
+	{ "image-zoom-out", "<control>minus" },
+	{ "image-zoom-100", "<control>0" },
 };
 
 
@@ -766,14 +760,45 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	self = (GthImageViewerPage*) base;
 
 	self->priv->browser = browser;
-
-	self->priv->actions = gtk_action_group_new ("Image Viewer Actions");
-	gtk_action_group_set_translation_domain (self->priv->actions, NULL);
-	gtk_action_group_add_actions (self->priv->actions,
-				      image_viewer_action_entries,
-				      G_N_ELEMENTS (image_viewer_action_entries),
-				      self);
-	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), self->priv->actions, 0);
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
+	self->priv->buttons[0] =
+			gth_browser_add_header_bar_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+							   "view-zoom-in-symbolic",
+							   _("Zoom in"),
+							   "win.image-zoom-in",
+							   NULL);
+	self->priv->buttons[1] =
+			gth_browser_add_header_bar_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+							   "view-zoom-out-symbolic",
+							   _("Zoom out"),
+							   "win.image-zoom-out",
+							   NULL);
+	self->priv->buttons[2] =
+			gth_browser_add_header_bar_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+							   "view-zoom-original-symbolic",
+							   _("Actual size"),
+							   "win.image-zoom-100",
+							   NULL);
+	self->priv->buttons[3] =
+			gth_browser_add_header_bar_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+							   "view-zoom-fit-symbolic",
+							   _("Zoom to fit window"),
+							   "win.image-zoom-fit",
+							   NULL);
+	self->priv->buttons[4] =
+			gth_browser_add_header_bar_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+							   "view-zoom-fit-width-symbolic",
+							   _("Zoom to fit width"),
+							   "win.image-zoom-fit-width",
+							   NULL);
 
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 
@@ -865,17 +890,14 @@ static void
 gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 {
 	GthImageViewerPage *self;
+	int                 i;
 
 	self = (GthImageViewerPage*) base;
 
-	if (self->priv->browser_merge_id != 0) {
-		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->browser_merge_id);
-		self->priv->browser_merge_id = 0;
+	for (i = 0; i < HEADER_BUTTONS; i++) {
+		gtk_widget_destroy (self->priv->buttons[i]);
+		self->priv->buttons[i] = NULL;
 	}
-
-	gtk_ui_manager_remove_action_group (gth_browser_get_ui_manager (self->priv->browser), self->priv->actions);
-	g_object_unref (self->priv->actions);
-	self->priv->actions = NULL;
 
 	g_object_unref (self->priv->preloader);
 	self->priv->preloader = NULL;
@@ -887,35 +909,14 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 static void
 gth_image_viewer_page_real_show (GthViewerPage *base)
 {
-	GthImageViewerPage *self;
-	GError             *error = NULL;
-
-	self = (GthImageViewerPage*) base;
-
-	if (self->priv->viewer_merge_id != 0)
-		return;
-
-	self->priv->viewer_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (self->priv->browser), image_viewer_ui_info, -1, &error);
-	if (self->priv->viewer_merge_id == 0) {
-		g_warning ("ui building failed: %s", error->message);
-		g_error_free (error);
-	}
-
-	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (base));
 }
 
 
 static void
 gth_image_viewer_page_real_hide (GthViewerPage *base)
 {
-	GthImageViewerPage *self;
-
-	self = (GthImageViewerPage*) base;
-
-	if (self->priv->viewer_merge_id != 0) {
-		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->viewer_merge_id);
-		self->priv->viewer_merge_id = 0;
-	}
+	/* void */
 }
 
 
@@ -924,10 +925,8 @@ gth_image_viewer_page_real_can_view (GthViewerPage *base,
 				     GthFileData   *file_data)
 {
 	g_return_val_if_fail (file_data != NULL, FALSE);
-
 	return _g_mime_type_is_image (gth_file_data_get_mime_type (file_data));
 }
-
 
 
 static void
@@ -1583,8 +1582,6 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->image_changed = FALSE;
 	self->priv->loading_image = FALSE;
 	self->priv->can_paste = FALSE;
-	self->priv->viewer_merge_id = 0;
-	self->priv->browser_merge_id = 0;
 	self->priv->update_quality_event = 0;
 }
 

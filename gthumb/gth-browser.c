@@ -305,18 +305,6 @@ monitor_event_data_unref (MonitorEventData *monitor_data)
 
 
 static void
-_gth_browser_enable_action (GthBrowser  *browser,
-			    const char  *action_name,
-			    gboolean     enabled)
-{
-	GAction *action;
-
-	action = g_action_map_lookup_action (G_ACTION_MAP (browser), action_name);
-	g_object_set (action, "enabled", enabled, NULL);
-}
-
-
-static void
 _gth_browser_set_action_sensitive (GthBrowser  *browser,
 				   const char  *action_name,
 				   gboolean     sensitive)
@@ -409,8 +397,6 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	gboolean  parent_available;
 	gboolean  viewer_can_save;
 	gboolean  modified;
-	int       current_file_pos;
-	int       n_files;
 	int       n_selected;
 
 	if (browser->priv->location != NULL)
@@ -423,26 +409,19 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	viewer_can_save = (browser->priv->location != NULL) && (browser->priv->viewer_page != NULL) && gth_viewer_page_can_save (GTH_VIEWER_PAGE (browser->priv->viewer_page));
 	modified = gth_browser_get_file_modified (browser);
 
-	if (browser->priv->current_file != NULL)
-		current_file_pos = gth_file_store_get_pos (gth_browser_get_file_store (browser), browser->priv->current_file->file);
-	else
-		current_file_pos = -1;
-	n_files = gth_file_store_n_visibles (gth_browser_get_file_store (browser));
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
 	_gth_browser_set_action_sensitive (browser, "File_Open", n_selected == 1);
 	_gth_browser_set_action_sensitive (browser, "View_Stop", browser->priv->fullscreen || (browser->priv->activity_ref > 0));
-	_gth_browser_set_action_sensitive (browser, "View_Prev", current_file_pos > 0);
-	_gth_browser_set_action_sensitive (browser, "View_Next", (current_file_pos != -1) && (current_file_pos < n_files - 1));
 	_gth_browser_set_action_sensitive (browser, "View_Thumbnail_List", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER);
 	_gth_browser_set_action_sensitive (browser, "View_Sidebar", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);
 	_gth_browser_set_action_sensitive (browser, "View_Reload", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);
 
-	_gth_browser_enable_action (browser, "save", viewer_can_save && modified);
-	_gth_browser_enable_action (browser, "save-as", viewer_can_save);
-	_gth_browser_enable_action (browser, "revert-to-saved", viewer_can_save && modified);
-	_gth_browser_enable_action (browser, "clear-history", browser->priv->history != NULL);
-	_gth_browser_enable_action (browser, "go-up", parent_available);
+	gth_window_enable_action (GTH_WINDOW (browser), "save", viewer_can_save && modified);
+	gth_window_enable_action (GTH_WINDOW (browser), "save-as", viewer_can_save);
+	gth_window_enable_action (GTH_WINDOW (browser), "revert-to-saved", viewer_can_save && modified);
+	gth_window_enable_action (GTH_WINDOW (browser), "clear-history", browser->priv->history != NULL);
+	gth_window_enable_action (GTH_WINDOW (browser), "go-up", parent_available);
 
 	gth_sidebar_update_sensitivity (GTH_SIDEBAR (browser->priv->file_properties));
 
@@ -2264,7 +2243,7 @@ _gth_browser_update_header_section_visibility (GthBrowser              *browser,
 	GtkWidget *header_section;
 
 	header_section = browser->priv->header_sections[section];
-	gtk_widget_set_visible (header_section, visible && (_gtk_container_get_n_children (GTK_CONTAINER (header_section)) > 0));
+	gtk_widget_set_visible (header_section, visible /* && (_gtk_container_get_n_children (GTK_CONTAINER (header_section)) > 0) FIXME */);
 }
 
 
@@ -2295,13 +2274,12 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW, page == GTH_BROWSER_PAGE_BROWSER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT, page == GTH_BROWSER_PAGE_BROWSER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS, page == GTH_BROWSER_PAGE_BROWSER);
-	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_PROPERTIES, page == GTH_BROWSER_PAGE_BROWSER);
 
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION, page == GTH_BROWSER_PAGE_VIEWER);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS, page == GTH_BROWSER_PAGE_VIEWER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW, page == GTH_BROWSER_PAGE_VIEWER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT, page == GTH_BROWSER_PAGE_VIEWER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS, page == GTH_BROWSER_PAGE_VIEWER);
-	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_PROPERTIES, page == GTH_BROWSER_PAGE_VIEWER);
 
 	/* move the sidebar from the browser to the viewer and vice-versa */
 
@@ -2325,7 +2303,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 
 	if (page == GTH_BROWSER_PAGE_BROWSER) {
 		gth_sidebar_show_properties (GTH_SIDEBAR (browser->priv->file_properties));
-		if (_gth_browser_get_action_active (browser, "Browser_Properties"))
+		if (gth_window_get_action_state (GTH_WINDOW (browser), "browser-properties"))
 			gth_browser_show_file_properties (browser);
 		else
 			gth_browser_hide_sidebar (browser);
@@ -3533,7 +3511,7 @@ gth_file_list_key_press_cb (GtkWidget   *widget,
 			break;
 
 		case GDK_KEY_i:
-			if (_gth_browser_get_action_active (browser, "Browser_Properties"))
+			if (gth_window_get_action_state (GTH_WINDOW (browser), "browser-properties"))
 				gth_browser_hide_sidebar (browser);
 			else
 				gth_browser_show_file_properties (browser);
@@ -4225,13 +4203,12 @@ gth_browser_init (GthBrowser *browser)
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS]);
-		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_PROPERTIES]);
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION]);
+		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS]);
-		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_PROPERTIES]);
 
 		/* gears menu button */
 
@@ -4270,7 +4247,7 @@ gth_browser_init (GthBrowser *browser)
 						   _("Go to the next visited location"),
 						   "win.go-forward",
 						   "<alt>Right");
-		gth_browser_add_header_bar_button (browser,
+		/*gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION,
 						   "go-up-symbolic",
 						   _("Go up one level"),
@@ -4281,7 +4258,7 @@ gth_browser_init (GthBrowser *browser)
 						   "user-home-symbolic",
 						   NULL,
 						   "win.go-home",
-						   "<alt>Home");
+						   "<alt>Home"); FIXME */
 
 		/* history menu button */
 
@@ -4303,11 +4280,23 @@ gth_browser_init (GthBrowser *browser)
 
 		/* browser commands */
 
+		gth_browser_add_header_bar_toggle_button (browser,
+							  GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
+							  "document-properties-symbolic",
+							  _("View file properties"),
+							  "win.browser-properties",
+							  NULL);
 		gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
 						   "view-fullscreen-symbolic",
 						   _("Switch to fullscreen"),
 						   "win.fullscreen",
+						   NULL);
+		gth_browser_add_header_bar_button (browser,
+						   GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT,
+						   "palette-symbolic",
+						   _("Edit file"),
+						   "win.browser-edit-file",
 						   NULL);
 
 		/* viewer navigation */
@@ -4321,12 +4310,27 @@ gth_browser_init (GthBrowser *browser)
 
 		/* viewer view */
 
+		gth_browser_add_header_bar_toggle_button (browser,
+							  GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+							  "document-properties-symbolic",
+							  _("View file properties"),
+							  "win.viewer-properties",
+							  NULL);
 		gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
 						   "view-fullscreen-symbolic",
 						   _("Switch to fullscreen"),
 						   "win.fullscreen",
 						   NULL);
+
+		/* viewer edit */
+
+		gth_browser_add_header_bar_toggle_button (browser,
+							  GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
+							  "palette-symbolic",
+							  _("Edit file"),
+							  "win.viewer-edit-file",
+							  NULL);
 	}
 
 	/* toolbar */
@@ -4922,7 +4926,30 @@ gth_browser_get_headerbar_section (GthBrowser			*browser,
 }
 
 
-void
+static void
+_gth_browser_setup_header_bar_button (GthBrowser			*browser,
+				      GthBrowserHeaderSection		 section,
+				      const char			*icon_name,
+				      const char			*tooltip,
+				      const char 			*action_name,
+				      const char			*accelerator,
+				      GtkWidget *button)
+{
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (button),action_name);
+	if (tooltip != NULL)
+		gtk_widget_set_tooltip_text (button, tooltip);
+	if (accelerator != NULL)
+		_gtk_window_add_accelerator_for_action (GTK_WINDOW (browser),
+							gth_window_get_accel_group (GTH_WINDOW (browser)),
+							action_name,
+							accelerator,
+							NULL);
+	gtk_widget_show (button);
+	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, section)), button, FALSE, FALSE, 0);
+}
+
+
+GtkWidget *
 gth_browser_add_header_bar_button (GthBrowser			*browser,
 				   GthBrowserHeaderSection	 section,
 				   const char			*icon_name,
@@ -4936,17 +4963,29 @@ gth_browser_add_header_bar_button (GthBrowser			*browser,
 	g_return_if_fail (action_name != NULL);
 
 	button = _gtk_image_button_new_for_header_bar (icon_name);
-	gtk_actionable_set_action_name (GTK_ACTIONABLE (button),action_name);
-	if (tooltip != NULL)
-		gtk_widget_set_tooltip_text (button, tooltip);
-	if (accelerator != NULL)
-		_gtk_window_add_accelerator_for_action (GTK_WINDOW (browser),
-							gth_window_get_accel_group (GTH_WINDOW (browser)),
-							action_name,
-							accelerator,
-							NULL);
-	gtk_widget_show (button);
-	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, section)), button, FALSE, FALSE, 0);
+	_gth_browser_setup_header_bar_button (browser, section, icon_name, tooltip, action_name, accelerator, button);
+
+	return button;
+}
+
+
+GtkWidget *
+gth_browser_add_header_bar_toggle_button (GthBrowser			*browser,
+					  GthBrowserHeaderSection	 section,
+					  const char			*icon_name,
+					  const char			*tooltip,
+					  const char 			*action_name,
+					  const char			*accelerator)
+{
+	GtkWidget *button;
+
+	g_return_if_fail (icon_name != NULL);
+	g_return_if_fail (action_name != NULL);
+
+	button = _gtk_toggle_image_button_new_for_header_bar (icon_name);
+	_gth_browser_setup_header_bar_button (browser, section, icon_name, tooltip, action_name, accelerator, button);
+
+	return button;
 }
 
 
@@ -5936,17 +5975,17 @@ gth_browser_show_file_properties (GthBrowser *browser)
 {
 	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
 	case GTH_BROWSER_PAGE_BROWSER:
-	case GTH_WINDOW_PAGE_UNDEFINED: /* when called from gth_browser_init */
+	case GTH_WINDOW_PAGE_UNDEFINED: /* --> when called from gth_browser_init */
 		g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_VISIBLE, TRUE);
-		_gth_browser_set_action_active (browser, "Browser_Properties", TRUE);
+		gth_window_change_action_state (GTH_WINDOW (browser), "browser-properties", TRUE);
 		if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_WINDOW_PAGE_UNDEFINED)
 			gtk_widget_show (browser->priv->file_properties);
 		break;
 
 	case GTH_BROWSER_PAGE_VIEWER:
-		_gth_browser_set_action_active (browser, "Viewer_Tools", FALSE);
+		gth_window_change_action_state (GTH_WINDOW (browser), "viewer-edit-file", FALSE);
 		browser->priv->viewer_sidebar = GTH_SIDEBAR_STATE_PROPERTIES;
-		_gth_browser_set_action_active (browser, "Viewer_Properties", TRUE);
+		gth_window_change_action_state (GTH_WINDOW (browser), "viewer-properties", TRUE);
 		gtk_widget_show (browser->priv->viewer_sidebar_alignment);
 		gtk_widget_show (browser->priv->file_properties);
 		gth_sidebar_show_properties (GTH_SIDEBAR (browser->priv->file_properties));
@@ -5960,9 +5999,9 @@ gth_browser_show_viewer_tools (GthBrowser *browser)
 {
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 
-	_gth_browser_set_action_active (browser, "Viewer_Properties", FALSE);
+	gth_window_change_action_state (GTH_WINDOW (browser), "viewer-properties", FALSE);
 	browser->priv->viewer_sidebar = GTH_SIDEBAR_STATE_TOOLS;
-	_gth_browser_set_action_active (browser, "Viewer_Tools", TRUE);
+	gth_window_change_action_state (GTH_WINDOW (browser), "viewer-edit-file", TRUE);
 	gtk_widget_show (browser->priv->viewer_sidebar_alignment);
 	gtk_widget_show (browser->priv->file_properties);
 	gth_sidebar_show_tools (GTH_SIDEBAR (browser->priv->file_properties));
@@ -5975,15 +6014,15 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
 	case GTH_BROWSER_PAGE_BROWSER:
 		g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_VISIBLE, FALSE);
-		_gth_browser_set_action_active (browser, "Browser_Properties", FALSE);
+		gth_window_change_action_state (GTH_WINDOW (browser), "browser-properties", FALSE);
 		gtk_widget_hide (browser->priv->file_properties);
 		break;
 
 	case GTH_BROWSER_PAGE_VIEWER:
 		if (browser->priv->viewer_sidebar == GTH_SIDEBAR_STATE_PROPERTIES)
-			_gth_browser_set_action_active (browser, "Viewer_Properties", FALSE);
+			gth_window_change_action_state (GTH_WINDOW (browser), "viewer-properties", FALSE);
 		else if (browser->priv->viewer_sidebar == GTH_SIDEBAR_STATE_TOOLS)
-			_gth_browser_set_action_active (browser, "Viewer_Tools", FALSE);
+			gth_window_change_action_state (GTH_WINDOW (browser), "viewer-edit-file", FALSE);
 		browser->priv->viewer_sidebar = GTH_SIDEBAR_STATE_HIDDEN;
 		gtk_widget_hide (browser->priv->viewer_sidebar_alignment);
 		break;
@@ -6495,10 +6534,10 @@ gth_browser_fullscreen (GthBrowser *browser)
 	browser->priv->fullscreen_controls = g_list_append (NULL, browser->priv->fullscreen_toolbar);
 
 	browser->priv->before_fullscreen.page = gth_window_get_current_page (GTH_WINDOW (browser));
-	browser->priv->before_fullscreen.viewer_properties = _gth_browser_get_action_active (browser, "Viewer_Properties");
-	browser->priv->before_fullscreen.viewer_tools = _gth_browser_get_action_active (browser, "Viewer_Tools");
+	browser->priv->before_fullscreen.viewer_properties = gth_window_get_action_state (GTH_WINDOW (browser), "viewer-properties");
+	browser->priv->before_fullscreen.viewer_tools = gth_window_get_action_state (GTH_WINDOW (browser), "viewer-edit-file");
 	browser->priv->before_fullscreen.thumbnail_list = _gth_browser_get_action_active (browser, "View_Thumbnail_List");
-	browser->priv->before_fullscreen.browser_properties = _gth_browser_get_action_active (browser, "Browser_Properties");
+	browser->priv->before_fullscreen.browser_properties = gth_window_get_action_state (GTH_WINDOW (browser), "browser-properties");
 
 	gth_browser_hide_sidebar (browser);
 	_gth_browser_set_thumbnail_list_visibility (browser, FALSE);

@@ -612,3 +612,56 @@ gth_window_add_accelerators (GthWindow			*window,
 							NULL);
 	}
 }
+
+
+void
+gth_window_enable_action (GthWindow  *window,
+			  const char *action_name,
+			  gboolean    enabled)
+{
+	GAction *action;
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (window), action_name);
+	g_object_set (action, "enabled", enabled, NULL);
+}
+
+
+gboolean
+gth_window_get_action_state (GthWindow  *window,
+			     const char *action_name)
+{
+	GAction  *action;
+	GVariant *state;
+	gboolean  value;
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (window), action_name);
+	g_return_val_if_fail (action != NULL, FALSE);
+	state = g_action_get_state (action);
+	value = g_variant_get_boolean (state);
+
+	g_variant_unref (state);
+
+	return value;
+}
+
+
+void
+gth_window_change_action_state (GthWindow  *window,
+			        const char *action_name,
+			        gboolean    value)
+{
+	GAction  *action;
+	GVariant *old_state;
+	GVariant *new_state;
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (window), action_name);
+	g_return_if_fail (action != NULL);
+
+	old_state = g_action_get_state (action);
+	new_state = g_variant_new_boolean (value);
+	if ((old_state == NULL) || ! g_variant_equal (old_state, new_state))
+		g_action_change_state (action, new_state);
+
+	if (old_state != NULL)
+		g_variant_unref (old_state);
+}

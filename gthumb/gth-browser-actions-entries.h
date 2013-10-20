@@ -29,6 +29,8 @@
 
 static const GActionEntry gth_browser_actions[] = {
 	{ "browser-mode", gth_browser_activate_browser_mode },
+	{ "browser-edit-file", gth_browser_activate_browser_edit_file },
+	{ "browser-properties", toggle_action_activated, NULL, "false", gth_browser_activate_browser_properties },
 	{ "clear-history", gth_browser_activate_clear_history },
 	{ "close", gth_browser_activate_close },
 	{ "fullscreen", gth_browser_activate_fullscreen },
@@ -42,6 +44,8 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "revert-to-saved", gth_browser_activate_revert_to_saved },
 	{ "save", gth_browser_activate_save },
 	{ "save-as", gth_browser_activate_save_as },
+	{ "viewer-edit-file", toggle_action_activated, NULL, "false", gth_browser_activate_viewer_edit_file },
+	{ "viewer-properties", toggle_action_activated, NULL, "false", gth_browser_activate_viewer_properties },
 	{ "unfullscreen", gth_browser_activate_unfullscreen },
 };
 
@@ -49,6 +53,7 @@ static const GActionEntry gth_browser_actions[] = {
 static const GthAccelerator gth_browser_accelerators[] = {
 	{ "browser-mode", "Escape" },
 	{ "fullscreen", "F11" },
+	{ "browser-properties", "<Ctrl>i" },
 };
 
 
@@ -107,30 +112,6 @@ static GthActionEntryExt gth_browser_action_entries[] = {
 	  N_("Reload the current location"),
 	  GTH_ACTION_FLAG_NONE,
 	  G_CALLBACK (gth_browser_activate_action_view_reload) },
-
-	{ "View_Prev", GTK_STOCK_GO_UP,
-	  N_("Previous"), NULL,
-	  N_("View previous image"),
-	  GTH_ACTION_FLAG_IS_IMPORTANT,
-	  G_CALLBACK (gth_browser_activate_action_view_prev) },
-
-	{ "View_Next", GTK_STOCK_GO_DOWN,
-	  N_("Next"), NULL,
-	  N_("View next image"),
-	  GTH_ACTION_FLAG_IS_IMPORTANT,
-	  G_CALLBACK (gth_browser_activate_action_view_next) },
-
-	{ "View_Leave_Fullscreen", GTK_STOCK_LEAVE_FULLSCREEN,
-	  NULL, NULL,
-	  N_("Leave Fullscreen"),
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_view_fullscreen) },
-
-	{ "Browser_Tools", "palette",
-	  N_("Edit"), NULL,
-	  N_("Edit file"),
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_browser_tools) },
 };
 
 
@@ -169,21 +150,6 @@ static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
 	  N_("_Hidden Files"), "<control>H",
 	  N_("Show hidden files and folders"),
 	  G_CALLBACK (gth_browser_activate_action_view_show_hidden_files),
-	  FALSE },
-	{ "Viewer_Properties", GTK_STOCK_PROPERTIES,
-	  NULL, "<control>I",
-	  N_("View file properties"),
-	  G_CALLBACK (gth_browser_activate_action_viewer_properties),
-	  FALSE },
-	{ "Browser_Properties", GTK_STOCK_PROPERTIES,
-	  NULL, "<control>I",
-	  N_("View file properties"),
-	  G_CALLBACK (gth_browser_activate_action_viewer_properties),
-	  FALSE },
-	{ "Viewer_Tools", "palette",
-	  N_("Edit"), NULL,
-	  N_("Edit file"),
-	  G_CALLBACK (gth_browser_activate_action_viewer_tools),
 	  FALSE },
 	{ "View_ShrinkWrap", NULL,
 	  N_("_Fit Window to Image"), "<control>e",

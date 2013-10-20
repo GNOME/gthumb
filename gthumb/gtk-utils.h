@@ -143,6 +143,7 @@ gboolean        _gtk_file_chooser_set_file_parent          (GtkFileChooser   *ch
 							    GError          **error);
 GtkWidget *     _gtk_menu_button_new_for_header_bar        (void);
 GtkWidget *     _gtk_image_button_new_for_header_bar       (const char       *icon_name);
+GtkWidget *     _gtk_toggle_image_button_new_for_header_bar(const char       *icon_name);
 void		_gtk_window_add_accelerator_for_action     (GtkWindow		*window,
 							    GtkAccelGroup	*accel_group,
 							    const char		*action_name,

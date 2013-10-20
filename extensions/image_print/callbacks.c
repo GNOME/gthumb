@@ -33,18 +33,6 @@
 
 static const char *fixed_ui_info =
 "<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='File' action='FileMenu'>"
-"      <placeholder name='File_Actions_2'>"
-"        <menuitem action='File_Print'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"  <toolbar name='ToolBar'>"
-"      <placeholder name='Export_Actions'>"
-"        <toolitem action='File_Print'/>"
-"      </placeholder>"
-"  </toolbar>"
 "  <popup name='FileListPopup'>"
 "    <placeholder name='Open_Actions'>"
 "      <menuitem action='File_Print'/>"

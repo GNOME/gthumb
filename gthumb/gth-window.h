@@ -108,6 +108,14 @@ GtkAccelGroup *gth_window_get_accel_group	(GthWindow		*window);
 void           gth_window_add_accelerators	(GthWindow		*window,
 						 const GthAccelerator	*accelerators,
 						 int			 n_accelerators);
+void		gth_window_enable_action	(GthWindow		*window,
+						 const char		*action_name,
+						 gboolean		 enabled);
+gboolean	gth_window_get_action_state	(GthWindow		*window,
+						 const char		*action_name);
+void		gth_window_change_action_state	(GthWindow		*window,
+						 const char		*action_name,
+						 gboolean		 value);
 
 G_END_DECLS
 

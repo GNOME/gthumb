@@ -1112,6 +1112,22 @@ _gtk_image_button_new_for_header_bar (const char *icon_name)
 }
 
 
+GtkWidget *
+_gtk_toggle_image_button_new_for_header_bar (const char *icon_name)
+{
+	GtkWidget *button;
+	GtkWidget *image;
+
+	button = gtk_toggle_button_new ();
+	image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU);
+	gtk_widget_show (image);
+	gtk_container_add (GTK_CONTAINER (button), image);
+	_gtk_menu_button_set_style_for_header_bar (button);
+
+	return button;
+}
+
+
 /* -- _gtk_window_add_accelerator_for_action -- */
 
 
