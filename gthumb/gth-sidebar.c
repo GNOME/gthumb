@@ -30,12 +30,8 @@
 
 
 #define GTH_SIDEBAR_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_SIDEBAR, GthSidebarPrivate))
-
-
-enum {
-	GTH_SIDEBAR_PAGE_PROPERTIES,
-	GTH_SIDEBAR_PAGE_TOOLS
-};
+#define GTH_SIDEBAR_PAGE_PROPERTIES "GthSidebar.Properties"
+#define GTH_SIDEBAR_PAGE_TOOLS "GthSidebar.Tools"
 
 
 struct _GthSidebarPrivate {
@@ -46,7 +42,7 @@ struct _GthSidebarPrivate {
 };
 
 
-G_DEFINE_TYPE (GthSidebar, gth_sidebar, GTK_TYPE_NOTEBOOK)
+G_DEFINE_TYPE (GthSidebar, gth_sidebar, GTK_TYPE_STACK)
 
 
 static void
@@ -65,7 +61,7 @@ static gboolean
 _gth_sidebar_properties_visible (GthSidebar *sidebar)
 {
 	return (gtk_widget_get_mapped (GTK_WIDGET (sidebar->priv->properties))
-		&& (gtk_notebook_get_current_page (GTK_NOTEBOOK (sidebar)) == GTH_SIDEBAR_PAGE_PROPERTIES));
+		&& (g_strcmp0 (gtk_stack_get_visible_child_name (GTK_STACK (sidebar)), GTH_SIDEBAR_PAGE_PROPERTIES) == 0));
 }
 
 
@@ -112,9 +108,6 @@ gth_sidebar_init (GthSidebar *sidebar)
 	sidebar->priv = GTH_SIDEBAR_GET_PRIVATE (sidebar);
 	sidebar->priv->dirty = NULL;
 	sidebar->priv->file_data = NULL;
-
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (sidebar), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (sidebar), FALSE);
 }
 
 
@@ -146,7 +139,7 @@ _gth_sidebar_construct (GthSidebar *sidebar,
 {
 	sidebar->priv->properties = gth_multipage_new ();
 	gtk_widget_show (sidebar->priv->properties);
-	gtk_notebook_append_page (GTK_NOTEBOOK (sidebar), sidebar->priv->properties, NULL);
+	gtk_stack_add_named (GTK_STACK (sidebar), sidebar->priv->properties, GTH_SIDEBAR_PAGE_PROPERTIES);
 
 	g_signal_connect_swapped (sidebar->priv->properties,
 			  	  "map",
@@ -159,7 +152,7 @@ _gth_sidebar_construct (GthSidebar *sidebar,
 
 	sidebar->priv->toolbox = gth_toolbox_new (name);
 	gtk_widget_show (sidebar->priv->toolbox);
-	gtk_notebook_append_page (GTK_NOTEBOOK (sidebar), sidebar->priv->toolbox, NULL);
+	gtk_stack_add_named (GTK_STACK (sidebar), sidebar->priv->toolbox, GTH_SIDEBAR_PAGE_TOOLS);
 }
 
 
@@ -226,14 +219,14 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 void
 gth_sidebar_show_properties (GthSidebar *sidebar)
 {
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (sidebar), GTH_SIDEBAR_PAGE_PROPERTIES);
+	gtk_stack_set_visible_child_name (GTK_STACK (sidebar), GTH_SIDEBAR_PAGE_PROPERTIES);
 }
 
 
 void
 gth_sidebar_show_tools (GthSidebar *sidebar)
 {
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (sidebar), GTH_SIDEBAR_PAGE_TOOLS);
+	gtk_stack_set_visible_child_name (GTK_STACK (sidebar), GTH_SIDEBAR_PAGE_TOOLS);
 }
 
 

@@ -27,10 +27,8 @@
 #include "gtk-utils.h"
 
 
-enum {
-	GTH_TOOLBOX_LIST_PAGE = 0,
-	GTH_TOOLBOX_OPTIONS_PAGE
-};
+#define GTH_TOOLBOX_PAGE_TOOLS "GthToolbox.Tools"
+#define GTH_TOOLBOX_PAGE_OPTIONS "GthToolbox.Options"
 
 
 enum  {
@@ -49,7 +47,7 @@ struct _GthToolboxPrivate {
 };
 
 
-G_DEFINE_TYPE (GthToolbox, gth_toolbox, GTK_TYPE_NOTEBOOK)
+G_DEFINE_TYPE (GthToolbox, gth_toolbox, GTK_TYPE_STACK)
 
 
 static void
@@ -128,18 +126,16 @@ gth_toolbox_init (GthToolbox *toolbox)
 	GtkWidget *header_align;
 
 	toolbox->priv = G_TYPE_INSTANCE_GET_PRIVATE (toolbox, GTH_TYPE_TOOLBOX, GthToolboxPrivate);
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (toolbox), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (toolbox), FALSE);
 
 	/* tool list page */
 
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_NONE);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_widget_show (scrolled);
-	gtk_notebook_append_page (GTK_NOTEBOOK (toolbox), scrolled, NULL);
+	gtk_stack_add_named (GTK_STACK (toolbox), scrolled, GTH_TOOLBOX_PAGE_TOOLS);
 
 	toolbox->priv->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_set_spacing (GTK_BOX (toolbox->priv->box), 0);
@@ -150,7 +146,7 @@ gth_toolbox_init (GthToolbox *toolbox)
 
 	options_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (options_box);
-	gtk_notebook_append_page (GTK_NOTEBOOK (toolbox), options_box, NULL);
+	gtk_stack_add_named (GTK_STACK (toolbox), options_box, GTH_TOOLBOX_PAGE_OPTIONS);
 
 	header_align = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
 	gtk_alignment_set_padding (GTK_ALIGNMENT (header_align), 5, 5, 0, 0);
@@ -207,7 +203,7 @@ child_show_options_cb (GtkWidget *tool,
 	gtk_label_set_markup (GTK_LABEL (toolbox->priv->options_title), markup);
 	gtk_image_set_from_icon_name (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_container_add (GTK_CONTAINER (toolbox->priv->options), options);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (toolbox), GTH_TOOLBOX_OPTIONS_PAGE);
+	gtk_stack_set_visible_child_name (GTK_STACK (toolbox), GTH_TOOLBOX_PAGE_OPTIONS);
 
 	g_free (markup);
 }
@@ -224,7 +220,7 @@ child_hide_options_cb (GtkWidget *tool,
 	tool_options = gtk_bin_get_child (GTK_BIN (toolbox->priv->options));
 	if (tool_options != NULL)
 		gtk_container_remove (GTK_CONTAINER (toolbox->priv->options), tool_options);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (toolbox), GTH_TOOLBOX_LIST_PAGE);
+	gtk_stack_set_visible_child_name (GTK_STACK (toolbox), GTH_TOOLBOX_PAGE_TOOLS);
 	gth_toolbox_update_sensitivity (GTH_TOOLBOX (toolbox));
 
 	toolbox->priv->active_tool = NULL;

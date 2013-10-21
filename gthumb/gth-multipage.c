@@ -27,6 +27,7 @@
 
 #define GTH_MULTIPAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_MULTIPAGE, GthMultipagePrivate))
 
+
 enum {
 	CHANGED,
 	LAST_SIGNAL
@@ -36,6 +37,7 @@ enum {
 enum {
 	ICON_COLUMN,
 	NAME_COLUMN,
+	CHILD_COLUMN,
 	N_COLUMNS
 };
 
@@ -46,7 +48,7 @@ static guint gth_multipage_signals[LAST_SIGNAL] = { 0 };
 struct _GthMultipagePrivate {
 	GtkListStore *model;
 	GtkWidget    *combobox;
-	GtkWidget    *notebook;
+	GtkWidget    *stack;
 	GList        *children;
 };
 
@@ -96,9 +98,16 @@ combobox_changed_cb (GtkComboBox *widget,
 		     gpointer     user_data)
 {
 	GthMultipage *multipage = user_data;
+	GtkTreeIter   iter;
+	GtkWidget    *child;
 
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (multipage->priv->notebook),
-				       gtk_combo_box_get_active (GTK_COMBO_BOX (multipage->priv->combobox)));
+	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (multipage->priv->combobox), &iter))
+		return;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (multipage->priv->model), &iter,
+			    CHILD_COLUMN, &child,
+			    -1);
+	gtk_stack_set_visible_child (GTK_STACK (multipage->priv->stack), child);
 	g_signal_emit (G_OBJECT (multipage), gth_multipage_signals[CHANGED], 0);
 }
 
@@ -150,7 +159,8 @@ gth_multipage_init (GthMultipage *multipage)
 			  multipage);
 	multipage->priv->model = gtk_list_store_new (N_COLUMNS,
 						     G_TYPE_STRING,
-						     G_TYPE_STRING);
+						     G_TYPE_STRING,
+						     G_TYPE_POINTER);
 	multipage->priv->combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (multipage->priv->model));
 	gtk_widget_show (multipage->priv->combobox);
 	gtk_box_pack_start (GTK_BOX (multipage), multipage->priv->combobox, FALSE, FALSE, 0);
@@ -183,13 +193,11 @@ gth_multipage_init (GthMultipage *multipage)
 					 "text", NAME_COLUMN,
 					 NULL);
 
-	/* notebook */
+	/* stack */
 
-	multipage->priv->notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (multipage->priv->notebook), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (multipage->priv->notebook), FALSE);
-	gtk_widget_show (multipage->priv->notebook);
-	gtk_box_pack_start (GTK_BOX (multipage), multipage->priv->notebook, TRUE, TRUE, 0);
+	multipage->priv->stack = gtk_stack_new ();
+	gtk_widget_show (multipage->priv->stack);
+	gtk_box_pack_start (GTK_BOX (multipage), multipage->priv->stack, TRUE, TRUE, 0);
 }
 
 
@@ -213,12 +221,13 @@ gth_multipage_add_child (GthMultipage      *multipage,
 	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (child), TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (child));
 	gtk_widget_show (box);
-	gtk_notebook_append_page (GTK_NOTEBOOK (multipage->priv->notebook), box, NULL);
+	gtk_container_add (GTK_CONTAINER (multipage->priv->stack), box);
 
 	gtk_list_store_append (GTK_LIST_STORE (multipage->priv->model), &iter);
 	gtk_list_store_set (GTK_LIST_STORE (multipage->priv->model), &iter,
 			    NAME_COLUMN, gth_multipage_child_get_name (child),
 			    ICON_COLUMN, gth_multipage_child_get_icon (child),
+			    CHILD_COLUMN, box,
 			    -1);
 }
 

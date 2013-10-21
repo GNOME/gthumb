@@ -51,13 +51,13 @@ typedef struct _GthSidebarPrivate GthSidebarPrivate;
 
 struct _GthSidebar
 {
-	GtkNotebook __parent;
+	GtkStack __parent;
 	GthSidebarPrivate *priv;
 };
 
 struct _GthSidebarClass
 {
-	GtkNotebookClass __parent_class;
+	GtkStackClass __parent_class;
 };
 
 typedef struct _GthPropertyView GthPropertyView;

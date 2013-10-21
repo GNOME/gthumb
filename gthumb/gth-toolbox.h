@@ -39,13 +39,13 @@ typedef struct _GthToolboxPrivate GthToolboxPrivate;
 
 struct _GthToolbox
 {
-	GtkNotebook __parent;
+	GtkStack __parent;
 	GthToolboxPrivate *priv;
 };
 
 struct _GthToolboxClass
 {
-	GtkNotebookClass __parent_class;
+	GtkStackClass __parent_class;
 };
 
 GType          gth_toolbox_get_type              (void);
