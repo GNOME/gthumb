@@ -117,7 +117,7 @@ struct _GthBrowserPrivate {
 	GtkWidget         *list_extra_widget;
 	GtkWidget         *file_properties;
 	GtkWidget         *header_sections[GTH_BROWSER_N_HEADER_SECTIONS];
-	GthMenuManager    *menu_managers[GTH_BROWSER_N_MENU_MANAGERS];
+	GHashTable	  *menu_managers;
 
 	GtkWidget         *thumbnail_list;
 
@@ -2386,10 +2386,8 @@ static void
 gth_browser_finalize (GObject *object)
 {
 	GthBrowser *browser = GTH_BROWSER (object);
-	int         i;
 
-	for (i = 0; i < GTH_BROWSER_N_MENU_MANAGERS; i++)
-		_g_object_unref (browser->priv->menu_managers[i]);
+	g_hash_table_destroy (browser->priv->menu_managers);
 	browser_state_free (&browser->priv->state);
 	_g_object_unref (browser->priv->browser_settings);
 	_g_object_unref (browser->priv->messages_settings);
@@ -4001,9 +3999,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->messages_settings = g_settings_new (GTHUMB_MESSAGES_SCHEMA);
 	browser->priv->desktop_interface_settings = g_settings_new (GNOME_DESKTOP_INTERFACE_SCHEMA);
 	browser->priv->file_properties_on_the_right = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT);
-
-	for (i = 0; i < GTH_BROWSER_N_MENU_MANAGERS; i++)
-		browser->priv->menu_managers[i] = NULL;
+	browser->priv->menu_managers = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
 	browser_state_init (&browser->priv->state);
 
@@ -4225,8 +4221,8 @@ gth_browser_init (GthBrowser *browser)
 			gtk_widget_show_all (button);
 			gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), button);
 
-			browser->priv->menu_managers[GTH_BROWSER_MENU_MANAGER_GEARS] = gth_menu_manager_new (G_MENU (menu));
-			browser->priv->menu_managers[GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS] = gth_menu_manager_new (G_MENU (gtk_builder_get_object (builder, "folder-actions")));
+			gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS, G_MENU (menu));
+			gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "folder-actions")));
 
 			_gtk_window_add_accelerators_from_menu ((GTK_WINDOW (browser)), menu);
 
@@ -4252,13 +4248,13 @@ gth_browser_init (GthBrowser *browser)
 						   "go-up-symbolic",
 						   _("Go up one level"),
 						   "win.go-up",
-						   "<alt>Up");
+						   "<alt>Up");*/
 		gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS,
 						   "user-home-symbolic",
 						   NULL,
 						   "win.go-home",
-						   "<alt>Home"); FIXME */
+						   "<alt>Home");
 
 		/* history menu button */
 
@@ -4267,7 +4263,7 @@ gth_browser_init (GthBrowser *browser)
 
 			builder = _gtk_builder_new_from_resource ("history-menu.ui");
 			button = _gtk_menu_button_new_for_header_bar ();
-			gtk_widget_set_tooltip_text (button, _("Visited Locations"));
+			gtk_widget_set_tooltip_text (button, _("History"));
 			gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-open-recent-symbolic", GTK_ICON_SIZE_MENU));
 
 			browser->priv->history_menu = G_MENU (gtk_builder_get_object (builder, "visited-locations"));
@@ -4989,11 +4985,20 @@ gth_browser_add_header_bar_toggle_button (GthBrowser			*browser,
 }
 
 
-GthMenuManager *
-gth_browser_get_menu_manager (GthBrowser		*browser,
-			      GthBrowserMenuManager      manager)
+void
+gth_browser_add_menu_manager_for_menu (GthBrowser *browser,
+				       const char *menu_id,
+				       GMenu	  *menu)
 {
-	return browser->priv->menu_managers[manager];
+	g_hash_table_insert (browser->priv->menu_managers, g_strdup (menu_id), gth_menu_manager_new (menu));
+}
+
+
+GthMenuManager *
+gth_browser_get_menu_manager (GthBrowser *browser,
+			      const char *menu_id)
+{
+	return g_hash_table_lookup (browser->priv->menu_managers, menu_id);
 }
 
 

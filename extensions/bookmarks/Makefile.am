@@ -10,15 +10,9 @@ libbookmarks_la_SOURCES = 		\
 	callbacks.h			\
 	dlg-bookmarks.c			\
 	dlg-bookmarks.h			\
+	main.c				\
 	resources.c			\
-	resources.h			\
-	main.c
-
-RESOURCES_DEP = $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(srcdir) $(srcdir)/gresource.xml)
-resources.c: gresource.xml $(RESOURCES_DEP)
-	$(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate --c-name gth $(srcdir)/gresource.xml
-resources.h: gresource.xml $(RESOURCES_DEP)
-	$(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --generate --c-name gth $(srcdir)/gresource.xml
+	resources.h
 
 libbookmarks_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libbookmarks_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
@@ -33,9 +27,10 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 @GTHUMB_EXTENSION_RULE@
 
 EXTRA_DIST =				\
-	 $(extensionini_in_files)	\
-	 gresource.xml 
+	$(extensionini_in_files)	\
+	resources.xml 
 
 DISTCLEANFILES = $(extensionini_DATA)
 
 -include $(top_srcdir)/git.mk
+-include $(top_srcdir)/extension-resources.mk

@@ -34,7 +34,7 @@ ifelse([$1], [], [AC_MSG_ERROR([Required gthumb API version not supplied])], [])
 _gthumb_api_version=$1
 
 AC_MSG_CHECKING([whether gthumb-$_gthumb_api_version is available])
-PKG_CHECK_EXISTS([gthumb-$_gthumb_api_version], [result=yes],[result=no]) 
+PKG_CHECK_EXISTS([gthumb-$_gthumb_api_version], [result=yes],[result=no])
 AC_MSG_RESULT([$result])
 
 if test $result = "no" ; then
@@ -65,7 +65,7 @@ dnl set the GTHUMB_EXTENSIONS_DIR variable
 GTHUMB_EXTENSIONS_DIR="`$PKG_CONFIG --variable=extensionsdir gthumb-$_gthumb_api_version`"
 AC_SUBST([GTHUMB_EXTENSIONS_DIR])
 
-GTHUMB_EXTENSION_RULES
+AC_SUBST([GTHUMB_EXTENSION_RULES])
 
 ])
 

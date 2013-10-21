@@ -18,7 +18,10 @@ liblist_tools_la_SOURCES = 		\
 	gth-script-file.h		\
 	gth-script-task.h		\
 	gth-script-task.c		\
-	main.c
+	list-tools.h			\
+	main.c				\
+	resources.c			\
+	resources.h
 
 liblist_tools_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 liblist_tools_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
@@ -32,8 +35,11 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 @GTHUMB_EXTENSION_IN_RULE@
 @GTHUMB_EXTENSION_RULE@
 
-EXTRA_DIST = $(extensionini_in_files) 
+EXTRA_DIST =				\
+	$(extensionini_in_files)	\
+	resources.xml
 
 DISTCLEANFILES = $(extensionini_DATA)
 
 -include $(top_srcdir)/git.mk
+-include $(top_srcdir)/extension-resources.mk

@@ -618,7 +618,7 @@ ask_value (ReplaceData  *replace_data,
 	else
 		default_value = "";
 
-	builder = _gtk_builder_new_from_file ("ask-value.ui", "list_tools");
+	builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/list_tools/data/ui/ask-value.ui");
 	dialog = _gtk_builder_get_widget (builder, "ask_value_dialog");
 	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "title_label")), gth_script_get_display_name (replace_data->script));
 	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "filename_label")), g_file_info_get_display_name (file_data->info));

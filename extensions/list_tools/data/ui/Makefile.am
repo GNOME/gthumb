@@ -1,5 +1,7 @@
-uidir = $(pkgdatadir)/ui
-ui_DATA = ask-value.ui personalize-scripts.ui script-editor.ui
-EXTRA_DIST = $(ui_DATA)
+EXTRA_DIST =			\
+	ask-value.ui		\
+	personalize-scripts.ui	\
+	script-editor.ui	\
+	tools-menu.ui
 
 -include $(top_srcdir)/git.mk

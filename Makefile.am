@@ -11,7 +11,8 @@ EXTRA_DIST =                    \
 	config.rpath		\
 	intltool-merge.in       \
 	intltool-update.in      \
-	intltool-extract.in
+	intltool-extract.in	\
+	extension-resources.mk
 
 DISTCLEANFILES =                        \
 	po/.intltool-merge-cache        \

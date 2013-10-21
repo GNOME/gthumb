@@ -24,6 +24,9 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "dlg-personalize-scripts.h"
+#include "gth-script.h"
+#include "gth-script-file.h"
+#include "gth-script-task.h"
 
 
 void
@@ -31,4 +34,52 @@ gth_browser_action_edit_scripts (GtkAction  *action,
 				 GthBrowser *browser)
 {
 	dlg_personalize_scripts (browser);
+}
+
+
+void
+gth_browser_exec_script (GthBrowser *browser,
+			 GthScript  *script)
+{
+	GList *items;
+	GList *file_list;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	if (file_list != NULL) {
+		GthTask *task;
+
+		task = gth_script_task_new (GTK_WINDOW (browser), script, file_list);
+		gth_browser_exec_task (browser, task, FALSE);
+
+		g_object_unref (task);
+	}
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
+void
+gth_browser_activate_exec_script (GSimpleAction *action,
+				  GVariant	*parameter,
+				  gpointer	 user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	const char *script_id;
+	GthScript  *script;
+
+	script_id = g_variant_get_string (parameter, NULL);
+	script = gth_script_file_get_script (gth_script_file_get (), script_id);
+	if (script != NULL)
+		gth_browser_exec_script (browser, script);
+}
+
+
+void
+gth_browser_activate_personalize_tools (GSimpleAction	*action,
+					GVariant	*parameter,
+					gpointer	 user_data)
+{
+	dlg_personalize_scripts (GTH_BROWSER (user_data));
 }

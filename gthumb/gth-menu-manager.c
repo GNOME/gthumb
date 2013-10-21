@@ -43,6 +43,15 @@ G_DEFINE_TYPE (GthMenuManager, gth_menu_manager, G_TYPE_OBJECT)
 
 
 static void
+free_items_list (gpointer key,
+		 gpointer value,
+		 gpointer user_data)
+{
+	_g_string_list_free (value);
+}
+
+
+static void
 gth_menu_manager_finalize (GObject *object)
 {
 	GthMenuManager *self;
@@ -50,6 +59,7 @@ gth_menu_manager_finalize (GObject *object)
 	self = GTH_MENU_MANAGER (object);
 
 	_g_object_unref (self->priv->menu);
+	g_hash_table_foreach (self->priv->items, free_items_list, NULL);
 	g_hash_table_destroy (self->priv->items);
 
 	G_OBJECT_CLASS (gth_menu_manager_parent_class)->finalize (object);
@@ -126,7 +136,7 @@ static void
 gth_menu_manager_init (GthMenuManager *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_MENU_MANAGER, GthMenuManagerPrivate);
-	self->priv->items = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) _g_string_list_free);
+	self->priv->items = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, NULL);
 	self->priv->last_id = 1;
 	self->priv->menu = NULL;
 }
@@ -139,6 +149,30 @@ gth_menu_manager_new (GMenu *menu)
 }
 
 
+static GMenuItem *
+create_menu_item (const char *label,
+		  const char *detailed_action,
+		  const char *accel,
+		  const char *icon_name)
+{
+	GMenuItem *item;
+
+	item = g_menu_item_new (label,detailed_action);
+	if (accel != NULL)
+		g_menu_item_set_attribute (item, "accel", "s", accel, NULL);
+	if (icon_name != NULL) {
+		GIcon *icon;
+
+		icon = g_themed_icon_new (icon_name);
+		g_menu_item_set_icon (item, icon);
+
+		g_object_unref (icon);
+	}
+
+	return item;
+}
+
+
 guint
 gth_menu_manager_append_entries (GthMenuManager     *menu_manager,
 				 const GthMenuEntry *entries,
@@ -148,15 +182,13 @@ gth_menu_manager_append_entries (GthMenuManager     *menu_manager,
 	GList *items;
 	int    i;
 
-	merge_id = menu_manager->priv->last_id++;
+	merge_id = gth_menu_manager_new_merge_id (menu_manager);
 	items = NULL;
 	for (i = 0; i < n_entries; i++) {
 		const GthMenuEntry *entry = entries + i;
 		GMenuItem          *item;
 
-		item = g_menu_item_new (_(entry->label), entry->detailed_action);
-		if (entry->accel != NULL)
-			g_menu_item_set_attribute (item, "accel", "s", entry->accel, NULL);
+		item = create_menu_item (_(entry->label), entry->detailed_action, entry->accel, entry->icon_name);
 		g_menu_append_item (menu_manager->priv->menu, item);
 
 		items = g_list_prepend (items, g_strdup (entry->detailed_action));
@@ -216,5 +248,33 @@ gth_menu_manager_remove_entries (GthMenuManager     *menu_manager,
 			g_menu_remove (menu_manager->priv->menu, pos);
 	}
 
+	_g_string_list_free (items);
 	g_hash_table_remove (menu_manager->priv->items, GINT_TO_POINTER (merge_id));
+}
+
+
+guint
+gth_menu_manager_new_merge_id (GthMenuManager *menu_manager)
+{
+	return menu_manager->priv->last_id++;
+}
+
+
+void
+gth_menu_manager_append_entry (GthMenuManager  	*menu_manager,
+			       guint		 merge_id,
+			       const char	*label,
+			       const char	*detailed_action,
+			       const char	*accel,
+			       const char	*icon_name)
+{
+	GMenuItem *item;
+	GList     *items;
+
+	item = create_menu_item (label, detailed_action, accel, icon_name);
+	g_menu_append_item (menu_manager->priv->menu, item);
+
+	items = g_hash_table_lookup (menu_manager->priv->items, GINT_TO_POINTER (merge_id));
+	items = g_list_append (items, g_strdup (detailed_action));
+	g_hash_table_insert (menu_manager->priv->items, GINT_TO_POINTER (merge_id), items);
 }

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2013 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,14 +19,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef LIST_TOOLS_H
+#define LIST_TOOLS_H
 
-#include <gthumb.h>
+#define GTH_BROWSER_MENU_MANAGER_TOOLS1 "tools.tools1"
+#define GTH_BROWSER_MENU_MANAGER_TOOLS2 "tools.tools2"
+#define GTH_BROWSER_MENU_MANAGER_TOOLS3 "tools.tools3"
 
-DEF_ACTION_CALLBACK (gth_browser_activate_rotate_right)
-DEF_ACTION_CALLBACK (gth_browser_activate_rotate_left)
-DEF_ACTION_CALLBACK (gth_browser_activate_apply_orientation)
-DEF_ACTION_CALLBACK (gth_browser_activate_reset_orientation)
-
-#endif /* ACTIONS_H */
+#endif /* LIST_TOOLS_H */

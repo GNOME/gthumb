@@ -37,6 +37,7 @@ typedef struct {
 	const char *label;
 	const char *detailed_action;
 	const char *accel;
+	const char *icon_name;
 } GthMenuEntry;
 
 typedef struct _GthMenuManager         GthMenuManager;
@@ -61,6 +62,13 @@ guint			gth_menu_manager_append_entries		(GthMenuManager   	*menu_manager,
 								 int                	 n_entries);
 void			gth_menu_manager_remove_entries		(GthMenuManager		*menu_manager,
 								 guint			 merge_id);
+guint			gth_menu_manager_new_merge_id		(GthMenuManager		*menu_manager);
+void			gth_menu_manager_append_entry		(GthMenuManager   	*menu_manager,
+								 guint			 merge_id,
+								 const char		*label,
+								 const char		*detailed_action,
+								 const char		*accel,
+								 const char		*icon_name);
 
 G_END_DECLS
 

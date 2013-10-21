@@ -25,115 +25,54 @@
 #include <glib-object.h>
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
+#include <extensions/list_tools/list-tools.h>
 #include "actions.h"
 
-#define BROWSER_DATA_KEY "image-rotation-browser-data"
 
-
-static const char *fixed_ui_info =
-"<ui>"
-"  <popup name='ListToolsPopup'>"
-"    <placeholder name='Tools'>"
-"      <menuitem name='RotateRight' action='Tool_RotateRight'/>"
-"      <menuitem name='RotateLeft' action='Tool_RotateLeft'/>"
-"      <menuitem name='ApplyOrientation' action='Tool_ApplyOrientation'/>"
-"      <menuitem name='ResetOrientation' action='Tool_ResetOrientation'/>"
-"      <separator />"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-
-static GthActionEntryExt action_entries[] = {
-	{ "Tool_RotateRight", "object-rotate-right",
-	  N_("Rotate Right"), "<control><alt>R",
-	  N_("Rotate the selected images 90° to the right"),
-	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
-	  G_CALLBACK (gth_browser_activate_action_tool_rotate_right) },
-
-	{ "Tool_RotateLeft", "object-rotate-left",
-	  N_("Rotate Left"), "<control><alt>L",
-	  N_("Rotate the selected images 90° to the left"),
-	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
-	  G_CALLBACK (gth_browser_activate_action_tool_rotate_left) },
-
-	{ "Tool_ApplyOrientation", NULL,
-	  N_("Rotate Physically"), NULL,
-	  N_("Rotate the selected images according to the embedded orientation"),
-	  0,
-	  G_CALLBACK (gth_browser_activate_action_tool_apply_orientation) },
-
-	{ "Tool_ResetOrientation", NULL,
-	  N_("Reset the EXIF Orientation"), NULL,
-	  N_("Reset the embedded orientation without rotating the images"),
-	  0,
-	  G_CALLBACK (gth_browser_activate_action_tool_reset_orientation) }
+static const GActionEntry actions[] = {
+	{ "rotate-right", gth_browser_activate_rotate_right },
+	{ "rotate-left", gth_browser_activate_rotate_left },
+	{ "apply-orientation", gth_browser_activate_apply_orientation },
+	{ "reset-orientation", gth_browser_activate_reset_orientation }
 };
 
 
-typedef struct {
-	GtkActionGroup *action_group;
-} BrowserData;
-
-
-static void
-browser_data_free (BrowserData *data)
-{
-	g_free (data);
-}
+static const GthMenuEntry tools_action_entries[] = {
+	{ N_("Rotate Right"), "win.rotate-right", "<control><alt>R", "object-rotate-right-symbolic" },
+	{ N_("Rotate Left"), "win.rotate-left", "<control><alt>L", "object-rotate-left-symbolic" },
+	{ N_("Rotate Physically"), "win.apply-orientation", NULL },
+	{ N_("Reset the EXIF Orientation"), "win.reset-orientation", NULL }
+};
 
 
 void
 ir__gth_browser_construct_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	GError      *error = NULL;
-
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
-	data = g_new0 (BrowserData, 1);
-	data->action_group = gtk_action_group_new ("Image Rotation Actions");
-	gtk_action_group_set_translation_domain (data->action_group, NULL);
-	_gtk_action_group_add_actions_with_flags (data->action_group,
-						  action_entries,
-						  G_N_ELEMENTS (action_entries),
-						  browser);
-	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
-
-	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_clear_error (&error);
-	}
-
-	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_TOOLS1),
+					 tools_action_entries,
+					 G_N_ELEMENTS (tools_action_entries));
 }
 
 
 void
 ir__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	GtkAction   *action;
-	int          n_selected;
-	gboolean     sensitive;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
+	int      n_selected;
+	gboolean sensitive;
 
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	sensitive = n_selected > 0;
 
-	action = gtk_action_group_get_action (data->action_group, "Tool_RotateRight");
-	g_object_set (action, "sensitive", sensitive, NULL);
-
-	action = gtk_action_group_get_action (data->action_group, "Tool_RotateLeft");
-	g_object_set (action, "sensitive", sensitive, NULL);
-
-	action = gtk_action_group_get_action (data->action_group, "Tool_ApplyOrientation");
-	g_object_set (action, "sensitive", sensitive, NULL);
-
-	action = gtk_action_group_get_action (data->action_group, "Tool_ResetOrientation");
-	g_object_set (action, "sensitive", sensitive, NULL);
+	gth_window_enable_action (GTH_WINDOW (browser), "rotate-right", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "rotate-left", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "apply-orientation", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "reset-orientation", sensitive);
 }
 
 
@@ -145,12 +84,12 @@ ir__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 
 	switch (event->keyval) {
 	case GDK_KEY_bracketright:
-		gth_browser_activate_action_tool_rotate_right (NULL, browser);
+		gth_browser_activate_rotate_right (NULL, NULL, browser);
 		result = GINT_TO_POINTER (1);
 		break;
 
 	case GDK_KEY_bracketleft:
-		gth_browser_activate_action_tool_rotate_left (NULL, browser);
+		gth_browser_activate_rotate_left (NULL, NULL, browser);
 		result = GINT_TO_POINTER (1);
 		break;
 

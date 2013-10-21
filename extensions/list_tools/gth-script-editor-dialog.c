@@ -131,7 +131,7 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_SAVE, GTK_RESPONSE_OK);
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_HELP, GTK_RESPONSE_HELP);
 
-	self->priv->builder = _gtk_builder_new_from_file ("script-editor.ui", "list_tools");
+	self->priv->builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/list_tools/data/ui/script-editor.ui");
 
 	content = _gtk_builder_get_widget (self->priv->builder, "script_editor");
 	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
