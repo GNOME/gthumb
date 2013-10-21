@@ -68,7 +68,6 @@ ir__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	sensitive = n_selected > 0;
-
 	gth_window_enable_action (GTH_WINDOW (browser), "rotate-right", sensitive);
 	gth_window_enable_action (GTH_WINDOW (browser), "rotate-left", sensitive);
 	gth_window_enable_action (GTH_WINDOW (browser), "apply-orientation", sensitive);

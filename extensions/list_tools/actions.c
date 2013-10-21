@@ -30,14 +30,6 @@
 
 
 void
-gth_browser_action_edit_scripts (GtkAction  *action,
-				 GthBrowser *browser)
-{
-	dlg_personalize_scripts (browser);
-}
-
-
-void
 gth_browser_exec_script (GthBrowser *browser,
 			 GthScript  *script)
 {

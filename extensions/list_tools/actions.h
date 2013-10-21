@@ -26,12 +26,9 @@
 #include <gthumb.h>
 #include "gth-script.h"
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
-
-DEFINE_ACTION(gth_browser_action_edit_scripts)
 DEF_ACTION_CALLBACK (gth_browser_activate_exec_script)
 DEF_ACTION_CALLBACK (gth_browser_activate_personalize_tools)
 
-void	gth_browser_exec_script (GthBrowser *browser, GthScript  *script);
+void gth_browser_exec_script (GthBrowser *browser, GthScript  *script);
 
 #endif /* ACTIONS_H */

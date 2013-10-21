@@ -22,10 +22,8 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 
-#include <gtk/gtk.h>
+#include <gthumb.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
-
-DEFINE_ACTION(gth_browser_activate_action_tool_resize_images)
+DEF_ACTION_CALLBACK (gth_browser_activate_resize_images)
 
 #endif /* ACTIONS_H */

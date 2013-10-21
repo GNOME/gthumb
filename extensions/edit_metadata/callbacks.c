@@ -25,11 +25,24 @@
 #include <glib-object.h>
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
+#include <extensions/list_tools/list-tools.h>
 #include "actions.h"
 #include "gth-tag-task.h"
 
 
 #define BROWSER_DATA_KEY "edit-metadata-data"
+
+
+static const GActionEntry actions[] = {
+	{ "edit-metadata", gth_browser_activate_edit_metadata },
+	{ "edit-tags", gth_browser_activate_edit_tags },
+	{ "delete-metadata", gth_browser_activate_delete_metadata },
+};
+
+
+static const GthMenuEntry action_entries[] = {
+	{ N_("Delete Metadata"), "win.delete-metadata" }
+};
 
 
 static const char *fixed_ui_info =
@@ -61,16 +74,6 @@ static const char *fixed_ui_info =
 "</ui>";
 
 
-static const char *fixed_ui_file_tools_info =
-"<ui>"
-"  <popup name='ListToolsPopup'>"
-"    <placeholder name='Tools_2'>"
-"      <menuitem name='DeleteMetadata' action='Tool_DeleteMetadata'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-
 static GthActionEntryExt edit_metadata_action_entries[] = {
 	{ "Edit_QuickTag", "tag", N_("T_ags") },
 
@@ -84,20 +87,7 @@ static GthActionEntryExt edit_metadata_action_entries[] = {
 	  N_("Tags"), NULL,
 	  N_("Set the tags of the selected files"),
 	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_edit_tags) },
-
-	{ "Tool_DeleteMetadata", NULL,
-	  N_("Delete Metadata"), NULL,
-	  N_("Delete the comment and the embedded metadata of the selected files"),
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_tool_delete_metadata) }
-};
-
-
-static const GActionEntry actions[] = {
-	{ "edit-metadata", gth_browser_activate_edit_metadata },
-	{ "edit-tags", gth_browser_activate_edit_tags },
-	{ "delete-metadata", gth_browser_activate_delete_metadata },
+	  G_CALLBACK (gth_browser_activate_action_edit_tags) }
 };
 
 
@@ -123,6 +113,16 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
+	if (gth_main_extension_is_active ("list_tools")) {
+		g_action_map_add_action_entries (G_ACTION_MAP (browser),
+						 actions,
+						 G_N_ELEMENTS (actions),
+						 browser);
+		gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_TOOLS2),
+						 action_entries,
+						 G_N_ELEMENTS (action_entries));
+	}
+
 	data = g_new0 (BrowserData, 1);
 	data->browser = browser;
 
@@ -135,11 +135,6 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->actions, 0);
 
 	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-
-	if (gth_main_extension_is_active ("list_tools") && ! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_file_tools_info, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
@@ -192,7 +187,6 @@ edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 
 	sensitive = (n_selected > 0);
 	g_object_set (gtk_action_group_get_action (data->actions, "Edit_Metadata"), "sensitive", sensitive, NULL);
-	g_object_set (gtk_action_group_get_action (data->actions, "Tool_DeleteMetadata"), "sensitive", sensitive, NULL);
 
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (data->browser), "edit-metadata"), "enabled", sensitive, NULL);
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (data->browser), "edit-tags"), "enabled", sensitive, NULL);
