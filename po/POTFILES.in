@@ -221,7 +221,9 @@ extensions/exiv2_tools/gth-metadata-provider-exiv2.h
 extensions/exiv2_tools/main.c
 extensions/export_tools/callbacks.c
 extensions/export_tools/callbacks.h
+[type: gettext/glade]extensions/export_tools/data/ui/export-menu.ui
 [type: gettext/ini]extensions/export_tools/export_tools.extension.in.in
+extensions/export_tools/export-tools.h
 extensions/export_tools/main.c
 extensions/facebook/actions.c
 extensions/facebook/actions.h
@@ -459,6 +461,7 @@ extensions/list_tools/callbacks.h
 [type: gettext/glade]extensions/list_tools/data/ui/ask-value.ui
 [type: gettext/glade]extensions/list_tools/data/ui/personalize-scripts.ui
 [type: gettext/glade]extensions/list_tools/data/ui/script-editor.ui
+[type: gettext/glade]extensions/list_tools/data/ui/tools-menu.ui
 extensions/list_tools/dlg-personalize-scripts.c
 extensions/list_tools/dlg-personalize-scripts.h
 extensions/list_tools/gth-script.c
@@ -470,6 +473,7 @@ extensions/list_tools/gth-script.h
 extensions/list_tools/gth-script-task.c
 extensions/list_tools/gth-script-task.h
 [type: gettext/ini]extensions/list_tools/list_tools.extension.in.in
+extensions/list_tools/list-tools.h
 extensions/list_tools/main.c
 extensions/map_view/gth-map-view.c
 extensions/map_view/gth-map-view.h
@@ -522,12 +526,14 @@ extensions/photo_importer/actions.c
 extensions/photo_importer/actions.h
 extensions/photo_importer/callbacks.c
 extensions/photo_importer/callbacks.h
+[type: gettext/glade]extensions/photo_importer/data/ui/import-menu.ui
 [type: gettext/glade]extensions/photo_importer/data/ui/photo-importer-options.ui
 [type: gettext/glade]extensions/photo_importer/data/ui/photo-importer.ui
 extensions/photo_importer/dlg-photo-importer.c
 extensions/photo_importer/dlg-photo-importer.h
 extensions/photo_importer/main.c
 [type: gettext/ini]extensions/photo_importer/photo_importer.extension.in.in
+extensions/photo_importer/photo-importer.h
 extensions/photo_importer/preferences.h
 extensions/picasaweb/actions.c
 extensions/picasaweb/actions.h

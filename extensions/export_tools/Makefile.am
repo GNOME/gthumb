@@ -1,11 +1,16 @@
+SUBDIRS = data
+
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libexport_tools.la
 
 libexport_tools_la_SOURCES = 		\
 	callbacks.c			\
 	callbacks.h			\
-	main.c
-
+	export-tools.h			\
+	main.c				\
+	resources.c			\
+	resources.h
+	
 libexport_tools_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libexport_tools_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libexport_tools_la_LIBADD = $(GTHUMB_LIBS)
@@ -18,8 +23,11 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 @GTHUMB_EXTENSION_IN_RULE@
 @GTHUMB_EXTENSION_RULE@
 
-EXTRA_DIST = $(extensionini_in_files) 
+EXTRA_DIST = 				\
+	$(extensionini_in_files) 	\
+	resources.xml
 
 DISTCLEANFILES = $(extensionini_DATA)
 
 -include $(top_srcdir)/git.mk
+-include $(top_srcdir)/extension-resources.mk

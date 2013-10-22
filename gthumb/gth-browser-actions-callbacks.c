@@ -97,19 +97,6 @@ gth_browser_activate_action_view_thumbnails (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_view_toolbar (GtkAction  *action,
-					  GthBrowser *browser)
-{
-	GSettings *settings;
-
-	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
-	g_settings_set_boolean (settings, PREF_BROWSER_TOOLBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-
-	g_object_unref (settings);
-}
-
-
-void
 gth_browser_activate_action_view_show_hidden_files (GtkAction  *action,
 						    GthBrowser *browser)
 {

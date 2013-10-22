@@ -33,7 +33,8 @@
 G_BEGIN_DECLS
 
 #define GTH_BROWSER_MENU_MANAGER_GEARS			"gears"
-#define GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS	"folder-actions"
+#define GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS	"gears.folder-actions"
+#define GTH_BROWSER_MENU_MANAGER_GEARS_OTHER_ACTIONS	"gears.other-actions"
 
 #define GTH_TYPE_BROWSER              (gth_browser_get_type ())
 #define GTH_BROWSER(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_BROWSER, GthBrowser))
@@ -123,7 +124,6 @@ GtkWidget *      gth_browser_get_dialog             (GthBrowser       *browser,
 GtkUIManager *   gth_browser_get_ui_manager         (GthBrowser       *browser);
 GtkActionGroup * gth_browser_get_actions            (GthBrowser       *browser);
 GthIconCache *   gth_browser_get_menu_icon_cache    (GthBrowser       *browser);
-GtkWidget *      gth_browser_get_browser_toolbar    (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_infobar            (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_filterbar          (GthBrowser       *browser);
@@ -181,7 +181,6 @@ void             gth_browser_set_viewer_widget      (GthBrowser       *browser,
 						     GtkWidget        *widget);
 GtkWidget *      gth_browser_get_viewer_widget      (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_viewer_page        (GthBrowser       *browser);
-GtkWidget *      gth_browser_get_viewer_toolbar     (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_viewer_sidebar     (GthBrowser       *browser);
 gboolean         gth_browser_show_next_image        (GthBrowser       *browser,
 						     gboolean          skip_broken,

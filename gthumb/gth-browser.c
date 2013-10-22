@@ -102,7 +102,6 @@ struct _GthBrowserPrivate {
 	GtkActionGroup    *actions;
 	GtkWidget         *infobar;
 	GtkWidget         *statusbar;
-	GtkWidget         *browser_toolbar;
 	GtkWidget         *browser_right_container;
 	GtkWidget         *browser_left_container;
 	GtkWidget         *browser_sidebar;
@@ -127,14 +126,12 @@ struct _GthBrowserPrivate {
 	GtkWidget         *viewer_sidebar_pane;
 	GtkWidget         *viewer_sidebar_alignment;
 	GtkWidget         *viewer_container;
-	GtkWidget         *viewer_toolbar;
 	GthViewerPage     *viewer_page;
 	GthImagePreloader *image_preloader;
 
 	GtkWidget         *progress_dialog;
 
 	GHashTable        *named_dialogs;
-	GList             *toolbar_menu_buttons[GTH_BROWSER_N_PAGES];
 
 	guint              browser_ui_merge_id;
 	guint              viewer_ui_merge_id;
@@ -3569,45 +3566,6 @@ _gth_browser_construct_step2 (gpointer user_data)
 
 
 static void
-_gth_browser_update_toolbar_style (GthBrowser *browser)
-{
-	GthToolbarStyle toolbar_style;
-	GtkToolbarStyle prop = GTK_TOOLBAR_BOTH;
-
-	toolbar_style = gth_pref_get_real_toolbar_style ();
-	switch (toolbar_style) {
-	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
-		prop = GTK_TOOLBAR_BOTH;
-		break;
-	case GTH_TOOLBAR_STYLE_TEXT_BESIDE:
-		prop = GTK_TOOLBAR_BOTH_HORIZ;
-		break;
-	case GTH_TOOLBAR_STYLE_ICONS:
-		prop = GTK_TOOLBAR_ICONS;
-		break;
-	case GTH_TOOLBAR_STYLE_TEXT:
-		prop = GTK_TOOLBAR_TEXT;
-		break;
-	default:
-		break;
-	}
-
-	gtk_toolbar_set_style (GTK_TOOLBAR (browser->priv->browser_toolbar), prop);
-	gtk_toolbar_set_style (GTK_TOOLBAR (browser->priv->viewer_toolbar), prop);
-}
-
-
-static void
-pref_ui_toolbar_style_changed (GSettings  *settings,
-			       const char *key,
-			       gpointer    user_data)
-{
-	GthBrowser *browser = user_data;
-	_gth_browser_update_toolbar_style (browser);
-}
-
-
-static void
 pref_browser_properties_on_the_right_changed (GSettings  *settings,
 					      const char *key,
 					      gpointer    user_data)
@@ -3699,34 +3657,6 @@ pref_ui_viewer_thumbnails_orient_changed (GSettings  *settings,
 		gtk_widget_show (browser->priv->thumbnail_list);
 	gtk_widget_show (browser->priv->viewer_sidebar_pane);
 	gtk_widget_show (browser->priv->viewer_thumbnails_pane);
-}
-
-
-static void
-_gth_browser_set_toolbar_visibility (GthBrowser *browser,
-				    gboolean    visible)
-{
-	g_return_if_fail (browser != NULL);
-
-	_gth_browser_set_action_active (browser, "View_Toolbar", visible);
-	if (visible) {
-		gtk_widget_show (browser->priv->browser_toolbar);
-		gtk_widget_show (browser->priv->viewer_toolbar);
-	}
-	else {
-		gtk_widget_hide (browser->priv->browser_toolbar);
-		gtk_widget_hide (browser->priv->viewer_toolbar);
-	}
-}
-
-
-static void
-pref_ui_toolbar_visible_changed (GSettings  *settings,
-				 const char *key,
-				 gpointer    user_data)
-{
-	GthBrowser *browser = user_data;
-	_gth_browser_set_toolbar_visibility (browser, g_settings_get_boolean (settings, key));
 }
 
 
@@ -3950,8 +3880,6 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->image_preloader = gth_image_preloader_new ();
 	browser->priv->progress_dialog = NULL;
 	browser->priv->named_dialogs = g_hash_table_new (g_str_hash, g_str_equal);
-	for (i = 0; i < GTH_BROWSER_N_PAGES; i++)
-		browser->priv->toolbar_menu_buttons[i] = NULL;
 	browser->priv->browser_ui_merge_id = 0;
 	browser->priv->viewer_ui_merge_id = 0;
 	browser->priv->location = NULL;
@@ -4088,12 +4016,6 @@ gth_browser_init (GthBrowser *browser)
 
 	/* -- image page -- */
 
-	/* toolbar */
-
-	browser->priv->viewer_toolbar = gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar");
-	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (browser->priv->viewer_toolbar), TRUE);
-	gth_window_attach_toolbar (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_toolbar);
-
 	/* content */
 
 	browser->priv->viewer_thumbnails_orientation = g_settings_get_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT);
@@ -4223,6 +4145,7 @@ gth_browser_init (GthBrowser *browser)
 
 			gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS, G_MENU (menu));
 			gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "folder-actions")));
+			gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS_OTHER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "other-actions")));
 
 			_gtk_window_add_accelerators_from_menu ((GTK_WINDOW (browser)), menu);
 
@@ -4269,7 +4192,7 @@ gth_browser_init (GthBrowser *browser)
 			browser->priv->history_menu = G_MENU (gtk_builder_get_object (builder, "visited-locations"));
 			gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (gtk_builder_get_object (builder, "menu")));
 			gtk_widget_show_all (button);
-			gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS)), button, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION)), button, FALSE, FALSE, 0);
 
 			g_object_unref (builder);
 		}
@@ -4328,12 +4251,6 @@ gth_browser_init (GthBrowser *browser)
 							  "win.viewer-edit-file",
 							  NULL);
 	}
-
-	/* toolbar */
-
-	browser->priv->browser_toolbar = gtk_ui_manager_get_widget (browser->priv->ui, "/ToolBar");
-	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (browser->priv->browser_toolbar), TRUE);
-	gth_window_attach_toolbar (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER, browser->priv->browser_toolbar);
 
 	/* infobar */
 
@@ -4582,8 +4499,6 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->file_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FilePopup");
 
 	_gth_browser_set_sidebar_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SIDEBAR_VISIBLE));
-	_gth_browser_set_toolbar_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_TOOLBAR_VISIBLE));
-	_gth_browser_update_toolbar_style (browser);
 
 	browser->priv->show_hidden_files = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_HIDDEN_FILES);
 	_gth_browser_set_action_active (browser, "View_ShowHiddenFiles", browser->priv->show_hidden_files);
@@ -4619,24 +4534,12 @@ gth_browser_init (GthBrowser *browser)
 			  G_CALLBACK (pref_general_filter_changed),
 			  browser);
 	g_signal_connect (browser->priv->browser_settings,
-			  "changed::" PREF_BROWSER_TOOLBAR_STYLE,
-			  G_CALLBACK (pref_ui_toolbar_style_changed),
-			  browser);
-	g_signal_connect (browser->priv->browser_settings,
 			  "changed::" PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT,
 			  G_CALLBACK (pref_ui_viewer_thumbnails_orient_changed),
 			  browser);
 	g_signal_connect (browser->priv->browser_settings,
 			  "changed::" PREF_BROWSER_PROPERTIES_ON_THE_RIGHT,
 			  G_CALLBACK (pref_browser_properties_on_the_right_changed),
-			  browser);
-	g_signal_connect (browser->priv->desktop_interface_settings,
-			  "changed::" PREF_BROWSER_TOOLBAR_STYLE,
-			  G_CALLBACK (pref_ui_toolbar_style_changed),
-			  browser);
-	g_signal_connect (browser->priv->browser_settings,
-			  "changed::" PREF_BROWSER_TOOLBAR_VISIBLE,
-			  G_CALLBACK (pref_ui_toolbar_visible_changed),
 			  browser);
 	g_signal_connect (browser->priv->browser_settings,
 			  "changed::" PREF_BROWSER_STATUSBAR_VISIBLE,
@@ -4829,7 +4732,11 @@ gth_browser_go_home (GthBrowser *browser)
 {
 	GFile *location;
 
-	location = g_file_new_for_uri (gth_pref_get_startup_location ());
+	if (g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_USE_STARTUP_LOCATION))
+		location = g_file_new_for_uri (gth_pref_get_startup_location ());
+	else
+		location = g_file_new_for_uri (get_home_uri ());
+
 	gth_browser_go_to (browser, location, NULL);
 
 	g_object_unref (location);
@@ -4883,13 +4790,6 @@ GthIconCache *
 gth_browser_get_menu_icon_cache (GthBrowser *browser)
 {
 	return browser->priv->menu_icon_cache;
-}
-
-
-GtkWidget *
-gth_browser_get_browser_toolbar (GthBrowser *browser)
-{
-	return browser->priv->browser_toolbar;
 }
 
 
@@ -5393,13 +5293,6 @@ GtkWidget *
 gth_browser_get_viewer_page (GthBrowser *browser)
 {
 	return (GtkWidget *) browser->priv->viewer_page;
-}
-
-
-GtkWidget *
-gth_browser_get_viewer_toolbar (GthBrowser *browser)
-{
-	return browser->priv->viewer_toolbar;
 }
 
 
@@ -6083,9 +5976,7 @@ gth_browser_set_shrink_wrap_viewer (GthBrowser *browser,
 	other_width = 0;
 	other_height = 0;
 	other_height += _gtk_widget_get_allocated_height (gth_window_get_area (GTH_WINDOW (browser), GTH_WINDOW_MENUBAR));
-	other_height += _gtk_widget_get_allocated_height (gth_window_get_area (GTH_WINDOW (browser), GTH_WINDOW_TOOLBAR));
 	other_height += _gtk_widget_get_allocated_height (gth_window_get_area (GTH_WINDOW (browser), GTH_WINDOW_STATUSBAR));
-	other_height += _gtk_widget_get_allocated_height (gth_browser_get_viewer_toolbar (browser));
 	if (g_settings_get_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT) == GTK_ORIENTATION_HORIZONTAL)
 		other_height += _gtk_widget_get_allocated_height (gth_browser_get_thumbnail_list (browser));
 	else

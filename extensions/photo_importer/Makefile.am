@@ -11,7 +11,9 @@ libphoto_importer_la_SOURCES = 		\
 	dlg-photo-importer.c		\
 	dlg-photo-importer.h		\
 	main.c				\
-	preferences.h
+	preferences.h			\
+	resources.c			\
+	resources.h
 	
 libphoto_importer_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libphoto_importer_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
@@ -35,3 +37,4 @@ dist-hook:
 	cd $(distdir); rm -f $(CLEANFILES)
 
 -include $(top_srcdir)/git.mk
+-include $(top_srcdir)/extension-resources.mk

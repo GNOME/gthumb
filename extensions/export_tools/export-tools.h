@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2010 Free Software Foundation, Inc.
+ *  Copyright (C) 2013 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,11 +19,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef EXPORT_TOOLS_H
+#define EXPORT_TOOLS_H
 
-#include <gthumb.h>
+#define GTH_BROWSER_MENU_MANAGER_WEB_EXPORTERS "exporters.web-exporters"
+#define GTH_BROWSER_MENU_MANAGER_OTHER_EXPORTERS "exporters.other-exporters"
 
-DEF_ACTION_CALLBACK (gth_browser_activate_export_23)
-
-#endif /* ACTIONS_H */
+#endif /* EXPORT_TOOLS_H */

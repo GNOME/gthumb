@@ -58,12 +58,9 @@ static const GthAccelerator gth_browser_accelerators[] = {
 
 
 static GthActionEntryExt gth_browser_action_entries[] = {
-	{ "FileMenu", NULL, N_("_File") },
 	{ "EditMenu", NULL, N_("_Edit") },
 	{ "ViewMenu", NULL, N_("_View") },
 	{ "OpenWithMenu", NULL, N_("Open _With") },
-	{ "ImportMenu", NULL, N_("I_mport From") },
-	{ "ExportMenu", NULL, N_("E_xport To") },
 
 	{ "File_Open", GTK_STOCK_OPEN,
 	  NULL, NULL,
@@ -116,11 +113,6 @@ static GthActionEntryExt gth_browser_action_entries[] = {
 
 
 static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
-	{ "View_Toolbar", NULL,
-	  N_("_Toolbar"), NULL,
-	  N_("View or hide the toolbar of this window"),
-	  G_CALLBACK (gth_browser_activate_action_view_toolbar),
-	  TRUE },
 	{ "View_Statusbar", NULL,
 	  N_("_Statusbar"), NULL,
 	  N_("View or hide the statusbar of this window"),

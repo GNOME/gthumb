@@ -714,6 +714,8 @@ extensions/exiv2_tools/Makefile
 extensions/exiv2_tools/data/Makefile
 extensions/exiv2_tools/data/ui/Makefile
 extensions/export_tools/Makefile
+extensions/export_tools/data/Makefile
+extensions/export_tools/data/ui/Makefile
 extensions/facebook/Makefile
 extensions/facebook/data/Makefile
 extensions/facebook/data/ui/Makefile

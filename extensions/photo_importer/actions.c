@@ -27,10 +27,11 @@
 
 
 void
-gth_browser_activate_action_import_from_device (GtkAction  *action,
-						GthBrowser *browser)
+gth_browser_activate_import_device (GSimpleAction	*action,
+				    GVariant		*parameter,
+				    gpointer		 user_data)
 {
-	dlg_photo_importer_from_device (browser, NULL);
+	dlg_photo_importer_from_device (GTH_BROWSER (user_data), NULL);
 }
 
 
@@ -58,11 +59,13 @@ folder_chooser_response_cb (GtkDialog *dialog,
 
 
 void
-gth_browser_activate_action_import_from_folder (GtkAction  *action,
-						GthBrowser *browser)
+gth_browser_activate_import_folder (GSimpleAction	*action,
+				    GVariant		*parameter,
+				    gpointer		 user_data)
 {
-	GtkWidget *chooser;
-	GFile     *folder;
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	GtkWidget  *chooser;
+	GFile      *folder;
 
 	chooser = gtk_file_chooser_dialog_new (_("Choose a folder"),
 					       GTK_WINDOW (browser),

@@ -61,8 +61,8 @@ SUBDIRS = 			\
 	search			\
 	selections		\
 	slideshow		\
-	$(EXPORTERS)		\
 	$(IMPORTERS)		\
+	$(EXPORTERS)		\
 	$(OTHER_TOOLS)		\
 	$(NULL)
 

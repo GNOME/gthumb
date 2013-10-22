@@ -26,6 +26,8 @@
 
 G_BEGIN_DECLS
 
+#define GTH_MENU_MANAGER_NEW_MERGE_ID -1
+
 #define GTH_TYPE_MENU_MANAGER         (gth_menu_manager_get_type ())
 #define GTH_MENU_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GTH_TYPE_MENU_MANAGER, GthMenuManager))
 #define GTH_MENU_MANAGER_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GTH_TYPE_MENU_MANAGER, GthMenuManagerClass))
@@ -57,6 +59,7 @@ struct _GthMenuManagerClass
 
 GType			gth_menu_manager_get_type          	(void) G_GNUC_CONST;
 GthMenuManager *	gth_menu_manager_new                	(GMenu 			*menu);
+GMenu *			gth_menu_manager_get_menu		(GthMenuManager		*menu_manager);
 guint			gth_menu_manager_append_entries		(GthMenuManager   	*menu_manager,
 								 const GthMenuEntry 	*entries,
 								 int                	 n_entries);

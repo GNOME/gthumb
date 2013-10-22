@@ -22,11 +22,11 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 
-#include <gtk/gtk.h>
+#include <gthumb.h>
 
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-DEFINE_ACTION(gth_browser_activate_action_export_facebook)
-DEFINE_ACTION(gth_browser_activate_action_import_facebook)
+DEF_ACTION_CALLBACK (gth_browser_activate_export_facebook)
+DEF_ACTION_CALLBACK (gth_browser_activate_import_facebook)
 
 #endif /* ACTIONS_H */

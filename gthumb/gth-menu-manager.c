@@ -149,6 +149,13 @@ gth_menu_manager_new (GMenu *menu)
 }
 
 
+GMenu *
+gth_menu_manager_get_menu (GthMenuManager *menu_manager)
+{
+	return menu_manager->priv->menu;
+}
+
+
 static GMenuItem *
 create_menu_item (const char *label,
 		  const char *detailed_action,
@@ -181,6 +188,8 @@ gth_menu_manager_append_entries (GthMenuManager     *menu_manager,
 	guint  merge_id;
 	GList *items;
 	int    i;
+
+	g_return_if_fail (menu_manager != NULL);
 
 	merge_id = gth_menu_manager_new_merge_id (menu_manager);
 	items = NULL;
@@ -236,6 +245,8 @@ gth_menu_manager_remove_entries (GthMenuManager     *menu_manager,
 	GList *items;
 	GList *scan;
 
+	g_return_if_fail (menu_manager != NULL);
+
 	items = g_hash_table_lookup (menu_manager->priv->items, GINT_TO_POINTER (merge_id));
 	g_return_if_fail (items != NULL);
 
@@ -270,6 +281,11 @@ gth_menu_manager_append_entry (GthMenuManager  	*menu_manager,
 {
 	GMenuItem *item;
 	GList     *items;
+
+	g_return_if_fail (menu_manager != NULL);
+
+	if (merge_id == GTH_MENU_MANAGER_NEW_MERGE_ID)
+		merge_id = gth_menu_manager_new_merge_id (menu_manager);
 
 	item = create_menu_item (label, detailed_action, accel, icon_name);
 	g_menu_append_item (menu_manager->priv->menu, item);

@@ -24,111 +24,38 @@
 #include <glib/gi18n.h>
 #include <glib-object.h>
 #include <gthumb.h>
+#include <extensions/export_tools/export-tools.h>
 #include "actions.h"
 
 
-#define BROWSER_DATA_KEY "webalbums-browser-data"
-
-
-static const char *ui_info =
-"<ui>"
-/* FIXME
-"  <menubar name='MenuBar'>"
-"    <menu name='File' action='FileMenu'>"
-"      <placeholder name='Misc_Actions'>"
-"        <menuitem action='Tool_CreateWebAlbum'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-*/
-"  <menubar name='MenuBar'>"
-"    <menu name='File' action='FileMenu'>"
-"      <menu name='Export' action='ExportMenu'>"
-"        <placeholder name='Web_Services'>"
-"          <menuitem action='Tool_CreateWebAlbum'/>"
-"        </placeholder>"
-"      </menu>"
-"    </menu>"
-"  </menubar>"
-/*
-"  <popup name='ListToolsPopup'>"
-"    <placeholder name='Tools'>"
-"      <menuitem name='CreateWebAlbum' action='Tool_CreateWebAlbum'/>"
-"    </placeholder>"
-"  </popup>"
-*/
-
-"  <popup name='ExportPopup'>"
-"    <placeholder name='Web_Services'>"
-"      <menuitem action='Tool_CreateWebAlbum'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-
-static GtkActionEntry action_entries[] = {
-	{ "Tool_CreateWebAlbum", "webalbums",
-	  N_("_Web Album..."), NULL,
-	  N_("Create a static web album"),
-	  G_CALLBACK (gth_browser_activate_action_export_webalbum) },
+static const GActionEntry actions[] = {
+	{ "create-web-album", gth_browser_activate_create_web_album }
 };
-
-
-typedef struct {
-	GtkActionGroup *action_group;
-} BrowserData;
-
-
-static void
-browser_data_free (BrowserData *data)
-{
-	g_free (data);
-}
 
 
 void
 wa__gth_browser_construct_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	GError      *error = NULL;
-	guint        merge_id;
-
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
-	data = g_new0 (BrowserData, 1);
-
-	data->action_group = gtk_action_group_new ("Web Albums Actions");
-	gtk_action_group_set_translation_domain (data->action_group, NULL);
-	gtk_action_group_add_actions (data->action_group,
-				      action_entries,
-				      G_N_ELEMENTS (action_entries),
-				      browser);
-	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
-
-	merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), ui_info, -1, &error);
-	if (merge_id == 0) {
-		g_warning ("building ui failed: %s", error->message);
-		g_clear_error (&error);
-	}
-
-	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
+	gth_menu_manager_append_entry (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_OTHER_EXPORTERS),
+				       GTH_MENU_MANAGER_NEW_MERGE_ID,
+				       _("_Web Album..."),
+				       "win.create-web-album",
+				       NULL,
+				       NULL);
 }
 
 
 void
 wa__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	GtkAction   *action;
-	int          n_selected;
-	gboolean     sensitive;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
+	int n_selected;
 
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	sensitive = n_selected > 0;
-
-	action = gtk_action_group_get_action (data->action_group, "File_CreateWebAlbum");
-	g_object_set (action, "sensitive", sensitive, NULL);
+	gth_window_enable_action (GTH_WINDOW (browser), "export-web-album", n_selected > 0);
 }

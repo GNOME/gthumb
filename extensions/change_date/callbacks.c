@@ -27,8 +27,6 @@
 #include <extensions/list_tools/list-tools.h>
 #include "actions.h"
 
-#define BROWSER_DATA_KEY "change-date-browser-data"
-
 
 static const GActionEntry actions[] = {
 	{ "change-date", gth_browser_activate_change_date }

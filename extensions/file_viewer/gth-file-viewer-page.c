@@ -25,22 +25,12 @@
 #define GTH_FILE_VIEWER_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_VIEWER_PAGE, GthFileViewerPagePrivate))
 
 
-static const char *file_viewer_ui_info =
-"<ui>"
-"  <toolbar name='ViewerToolBar'>"
-"    <placeholder name='ViewerCommands'>"
-"    </placeholder>"
-"  </toolbar>"
-"</ui>";
-
-
 struct _GthFileViewerPagePrivate {
 	GthBrowser     *browser;
 	GtkWidget      *viewer;
 	GtkWidget      *icon;
 	GtkWidget      *label;
 	GthFileData    *file_data;
-	guint           merge_id;
 	GthThumbLoader *thumb_loader;
 };
 
@@ -160,30 +150,14 @@ gth_file_viewer_page_real_deactivate (GthViewerPage *base)
 static void
 gth_file_viewer_page_real_show (GthViewerPage *base)
 {
-	GthFileViewerPage *self;
-	GError            *error = NULL;
-
-	self = (GthFileViewerPage*) base;
-
-	self->priv->merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (self->priv->browser), file_viewer_ui_info, -1, &error);
-	if (self->priv->merge_id == 0) {
-		g_warning ("ui building failed: %s", error->message);
-		g_error_free (error);
-	}
+	/* void */
 }
 
 
 static void
 gth_file_viewer_page_real_hide (GthViewerPage *base)
 {
-	GthFileViewerPage *self;
-
-	self = (GthFileViewerPage*) base;
-
-	if (self->priv->merge_id != 0) {
-		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->merge_id);
-		self->priv->merge_id = 0;
-	}
+	/* void */
 }
 
 
