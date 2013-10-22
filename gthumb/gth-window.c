@@ -41,7 +41,7 @@ struct _GthWindowPrivate {
 	gboolean         use_header_bar;
 	int              current_page;
 	GtkWidget       *grid;
-	GtkWidget       *notebook;
+	GtkWidget       *stack;
 	GtkWidget       *headerbar;
 	GtkWidget       *menubar;
 	GtkWidget       *toolbar;
@@ -49,6 +49,7 @@ struct _GthWindowPrivate {
 	GtkWidget       *statusbar;
 	GtkWidget      **toolbars;
 	GtkWidget      **contents;
+	GtkWidget      **pages;
 	GthWindowSize   *window_size;
 	GtkWindowGroup  *window_group;
 	GtkAccelGroup   *accel_group;
@@ -72,27 +73,24 @@ gth_window_set_n_pages (GthWindow *self,
 	gtk_widget_show (self->priv->grid);
 	gtk_container_add (GTK_CONTAINER (self), self->priv->grid);
 
-	self->priv->notebook = gtk_notebook_new ();
-	gtk_style_context_remove_class (gtk_widget_get_style_context (self->priv->notebook), GTK_STYLE_CLASS_NOTEBOOK);
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (self->priv->notebook), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (self->priv->notebook), FALSE);
-	gtk_widget_show (self->priv->notebook);
+	self->priv->stack = gtk_stack_new ();
+	gtk_stack_set_transition_type (GTK_STACK (self->priv->stack), GTK_STACK_TRANSITION_TYPE_CROSSFADE);
+	gtk_widget_show (self->priv->stack);
 	gtk_grid_attach (GTK_GRID (self->priv->grid),
-			 self->priv->notebook,
+			 self->priv->stack,
 			 0, 2,
 			 1, 1);
 
 	self->priv->toolbars = g_new0 (GtkWidget *, n_pages);
 	self->priv->contents = g_new0 (GtkWidget *, n_pages);
+	self->priv->pages = g_new0 (GtkWidget *, n_pages);
 
 	for (i = 0; i < n_pages; i++) {
 		GtkWidget *page;
 
-		page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		self->priv->pages[i] = page = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 		gtk_widget_show (page);
-		gtk_notebook_append_page (GTK_NOTEBOOK (self->priv->notebook),
-					  page,
-					  NULL);
+		gtk_container_add (GTK_CONTAINER (self->priv->stack), page);
 
 		self->priv->toolbars[i] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_widget_show (self->priv->toolbars[i]);
@@ -176,6 +174,7 @@ gth_window_finalize (GObject *object)
 
 	g_free (window->priv->toolbars);
 	g_free (window->priv->contents);
+	g_free (window->priv->pages);
 	g_free (window->priv->window_size);
 	g_object_unref (window->priv->window_group);
 	g_object_unref (window->priv->accel_group);
@@ -210,7 +209,7 @@ gth_window_real_set_current_page (GthWindow *window,
 		return;
 
 	window->priv->current_page = page;
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (window->priv->notebook), page);
+	gtk_stack_set_visible_child (GTK_STACK (window->priv->stack), window->priv->pages[page]);
 
 	for (i = 0; i < window->priv->n_pages; i++)
 		if (i == page)
@@ -301,6 +300,7 @@ gth_window_init (GthWindow *window)
 	window->priv = G_TYPE_INSTANCE_GET_PRIVATE (window, GTH_TYPE_WINDOW, GthWindowPrivate);
 	window->priv->grid = NULL;
 	window->priv->contents = NULL;
+	window->priv->pages = NULL;
 	window->priv->n_pages = 0;
 	window->priv->current_page = GTH_WINDOW_PAGE_UNDEFINED;
 	window->priv->menubar = NULL;
