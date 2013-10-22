@@ -394,7 +394,6 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	gboolean  parent_available;
 	gboolean  viewer_can_save;
 	gboolean  modified;
-	int       n_selected;
 
 	if (browser->priv->location != NULL)
 		parent = g_file_get_parent (browser->priv->location->file);
@@ -406,9 +405,6 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	viewer_can_save = (browser->priv->location != NULL) && (browser->priv->viewer_page != NULL) && gth_viewer_page_can_save (GTH_VIEWER_PAGE (browser->priv->viewer_page));
 	modified = gth_browser_get_file_modified (browser);
 
-	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-
-	_gth_browser_set_action_sensitive (browser, "File_Open", n_selected == 1);
 	_gth_browser_set_action_sensitive (browser, "View_Stop", browser->priv->fullscreen || (browser->priv->activity_ref > 0));
 	_gth_browser_set_action_sensitive (browser, "View_Thumbnail_List", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER);
 	_gth_browser_set_action_sensitive (browser, "View_Sidebar", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);

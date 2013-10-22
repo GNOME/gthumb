@@ -27,7 +27,6 @@
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
 DEFINE_ACTION(gth_browser_activate_action_edit_select_all)
-DEFINE_ACTION(gth_browser_activate_action_file_open)
 DEFINE_ACTION(gth_browser_activate_action_folder_open)
 DEFINE_ACTION(gth_browser_activate_action_folder_open_in_new_window)
 DEFINE_ACTION(gth_browser_activate_action_folder_open_in_file_manager)

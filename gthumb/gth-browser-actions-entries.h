@@ -62,12 +62,6 @@ static GthActionEntryExt gth_browser_action_entries[] = {
 	{ "ViewMenu", NULL, N_("_View") },
 	{ "OpenWithMenu", NULL, N_("Open _With") },
 
-	{ "File_Open", GTK_STOCK_OPEN,
-	  NULL, NULL,
-	  NULL,
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_file_open) },
-
 	{ "Folder_Open", GTK_STOCK_OPEN,
 	  N_("Open"), "",
 	  NULL,
