@@ -289,9 +289,11 @@ copy_wallpaper_ready_cb (GObject      *source_object,
 
 
 void
-gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
-					             GthBrowser *browser)
+gth_browser_activate_set_desktop_background (GSimpleAction *action,
+					     GVariant      *parameter,
+					     gpointer       user_data)
 {
+	GthBrowser    *browser = GTH_BROWSER (user_data);
 	WallpaperData *wdata;
 	gboolean       saving_wallpaper = FALSE;
 	GList         *items;
@@ -358,4 +360,12 @@ gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
 
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
+}
+
+
+void
+gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
+					             GthBrowser *browser)
+{
+	gth_browser_activate_set_desktop_background (NULL, NULL, browser);
 }

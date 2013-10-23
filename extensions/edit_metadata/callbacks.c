@@ -45,106 +45,20 @@ static const GthMenuEntry action_entries[] = {
 };
 
 
-static const char *fixed_ui_info =
-"<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='Edit' action='EditMenu'>"
-"      <placeholder name='Edit_Actions'>"
-"        <menuitem action='Edit_Metadata'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"  <toolbar name='Fullscreen_ToolBar'>"
-"    <placeholder name='Edit_Actions'>"
-"      <toolitem action='Edit_Metadata'/>"
-"    </placeholder>"
-"  </toolbar>"
-"  <popup name='FileListPopup'>"
-"    <placeholder name='File_LastActions'>"
-"      <menuitem action='Edit_Tags'/>"
-"      <menuitem action='Edit_Metadata'/>"
-"    </placeholder>"
-"  </popup>"
-"  <popup name='FilePopup'>"
-"    <placeholder name='File_LastActions'>"
-"      <menuitem action='Edit_Tags'/>"
-"      <menuitem action='Edit_Metadata'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-
-static GthActionEntryExt edit_metadata_action_entries[] = {
-	{ "Edit_QuickTag", "tag", N_("T_ags") },
-
-	{ "Edit_Metadata", GTK_STOCK_EDIT,
-	  N_("Comment"), "<control>M",
-	  N_("Edit the comment and other information of the selected files"),
-	  GTH_ACTION_FLAG_IS_IMPORTANT,
-	  G_CALLBACK (gth_browser_activate_action_edit_comment) },
-
-        { "Edit_Tags", "tag",
-	  N_("Tags"), NULL,
-	  N_("Set the tags of the selected files"),
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_edit_tags) }
-};
-
-
-typedef struct {
-	GthBrowser     *browser;
-	GtkActionGroup *actions;
-	guint           viewer_ui_merge_id;
-} BrowserData;
-
-
-static void
-browser_data_free (BrowserData *data)
-{
-	g_free (data);
-}
-
-
 void
 edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	GError      *error = NULL;
-
 	g_return_if_fail (GTH_IS_BROWSER (browser));
-
-	if (gth_main_extension_is_active ("list_tools")) {
-		g_action_map_add_action_entries (G_ACTION_MAP (browser),
-						 actions,
-						 G_N_ELEMENTS (actions),
-						 browser);
-		gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_TOOLS2),
-						 action_entries,
-						 G_N_ELEMENTS (action_entries));
-	}
-
-	data = g_new0 (BrowserData, 1);
-	data->browser = browser;
-
-	data->actions = gtk_action_group_new ("Edit Metadata Actions");
-	gtk_action_group_set_translation_domain (data->actions, NULL);
-	_gtk_action_group_add_actions_with_flags (data->actions,
-						  edit_metadata_action_entries,
-						  G_N_ELEMENTS (edit_metadata_action_entries),
-						  browser);
-	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->actions, 0);
-
-	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-
-	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 
 	g_action_map_add_action_entries (G_ACTION_MAP (browser),
 					 actions,
 					 G_N_ELEMENTS (actions),
 					 browser);
+
+	if (gth_main_extension_is_active ("list_tools"))
+		gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_TOOLS2),
+						 action_entries,
+						 G_N_ELEMENTS (action_entries));
 
 	gth_browser_add_header_bar_button (browser,
 					   GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT,
@@ -176,21 +90,15 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 void
 edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	int          n_selected;
-	gboolean     sensitive;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
+	int      n_selected;
+	gboolean sensitive;
 
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-
 	sensitive = (n_selected > 0);
-	g_object_set (gtk_action_group_get_action (data->actions, "Edit_Metadata"), "sensitive", sensitive, NULL);
 
-	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (data->browser), "edit-metadata"), "enabled", sensitive, NULL);
-	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (data->browser), "edit-tags"), "enabled", sensitive, NULL);
-	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (data->browser), "delete-metadata"), "enabled", sensitive, NULL);
+	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "edit-metadata"), "enabled", sensitive, NULL);
+	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "edit-tags"), "enabled", sensitive, NULL);
+	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "delete-metadata"), "enabled", sensitive, NULL);
 }
 
 

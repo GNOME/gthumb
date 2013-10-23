@@ -27,8 +27,9 @@
 
 
 void
-gth_browser_activate_action_edit_find_duplicates (GtkAction  *action,
-						  GthBrowser *browser)
+gth_browser_activate_find_duplicates (GSimpleAction	*action,
+				      GVariant		*parameter,
+				      gpointer		 user_data)
 {
-	dlg_find_duplicates (browser);
+	dlg_find_duplicates (GTH_BROWSER (user_data));
 }

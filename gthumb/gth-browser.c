@@ -106,7 +106,6 @@ struct _GthBrowserPrivate {
 	GtkWidget         *browser_left_container;
 	GtkWidget         *browser_sidebar;
 	GtkWidget         *folder_tree;
-	GtkWidget         *history_list_popup_menu;
 	GtkWidget         *folder_popup;
 	GtkWidget         *file_list_popup;
 	GtkWidget         *file_popup;
@@ -394,6 +393,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	gboolean  parent_available;
 	gboolean  viewer_can_save;
 	gboolean  modified;
+	int       n_selected;
 
 	if (browser->priv->location != NULL)
 		parent = g_file_get_parent (browser->priv->location->file);
@@ -404,6 +404,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 
 	viewer_can_save = (browser->priv->location != NULL) && (browser->priv->viewer_page != NULL) && gth_viewer_page_can_save (GTH_VIEWER_PAGE (browser->priv->viewer_page));
 	modified = gth_browser_get_file_modified (browser);
+	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
 	_gth_browser_set_action_sensitive (browser, "View_Stop", browser->priv->fullscreen || (browser->priv->activity_ref > 0));
 	_gth_browser_set_action_sensitive (browser, "View_Thumbnail_List", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER);
@@ -415,6 +416,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	gth_window_enable_action (GTH_WINDOW (browser), "revert-to-saved", viewer_can_save && modified);
 	gth_window_enable_action (GTH_WINDOW (browser), "clear-history", browser->priv->history != NULL);
 	gth_window_enable_action (GTH_WINDOW (browser), "go-up", parent_available);
+	gth_window_enable_action (GTH_WINDOW (browser), "browser-edit-file", n_selected == 1);
 
 	gth_sidebar_update_sensitivity (GTH_SIDEBAR (browser->priv->file_properties));
 
@@ -428,7 +430,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 void
 gth_browser_update_extra_widget (GthBrowser *browser)
 {
-	gedit_message_area_clear_action_area (GEDIT_MESSAGE_AREA (browser->priv->list_extra_widget));
+	_gtk_info_bar_clear_action_area (GTK_INFO_BAR (browser->priv->list_extra_widget));
 	gth_embedded_dialog_set_from_file (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), browser->priv->location->file);
 	gth_hook_invoke ("gth-browser-update-extra-widget", browser);
 }
@@ -2043,13 +2045,6 @@ _gth_browser_close_final_step (gpointer user_data)
 		gtk_widget_destroy (browser->priv->progress_dialog);
 	}
 
-	if (browser->priv->folder_popup != NULL)
-		gtk_widget_destroy (browser->priv->folder_popup);
-	if (browser->priv->file_list_popup != NULL)
-		gtk_widget_destroy (browser->priv->file_list_popup);
-	if (browser->priv->file_popup != NULL)
-		gtk_widget_destroy (browser->priv->file_popup);
-
 	gtk_widget_destroy (GTK_WIDGET (browser));
 }
 
@@ -2639,12 +2634,9 @@ folder_tree_folder_popup_cb (GthFolderTree *folder_tree,
 			     gpointer       user_data)
 {
 	GthBrowser    *browser = user_data;
-	gboolean       sensitive;
 	GthFileSource *file_source;
 
-	sensitive = (file_data != NULL);
-	_gth_browser_set_action_sensitive (browser, "Folder_Open", sensitive);
-	_gth_browser_set_action_sensitive (browser, "Folder_OpenInNewWindow", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "open-folder-in-new-window", (file_data != NULL));
 
 	_g_object_unref (browser->priv->folder_popup_file_data);
 	browser->priv->folder_popup_file_data = _g_object_ref (file_data);
@@ -4089,11 +4081,6 @@ gth_browser_init (GthBrowser *browser)
 	}
 #endif
 	gth_window_attach (GTH_WINDOW (browser), menubar, GTH_WINDOW_MENUBAR);
-	browser->priv->folder_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FolderListPopup");
-	g_signal_connect (browser->priv->folder_popup,
-			  "hide",
-			  G_CALLBACK (folder_popup_hide_cb),
-			  browser);
 
 	/* headerbar */
 
@@ -4432,8 +4419,6 @@ gth_browser_init (GthBrowser *browser)
 			  G_CALLBACK (gth_file_list_key_press_cb),
 			  browser);
 
-	browser->priv->file_list_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FileListPopup");
-
 	/* the filter bar */
 
 	general_filter = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_GENERAL_FILTER);
@@ -4492,7 +4477,71 @@ gth_browser_init (GthBrowser *browser)
 
 	/* init browser data */
 
-	browser->priv->file_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FilePopup");
+	/* file popup menu */
+	{
+		GtkBuilder *builder;
+		GMenuModel *menu;
+
+		builder = _gtk_builder_new_from_resource ("file-menu.ui");
+		menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
+		browser->priv->file_popup = gtk_menu_new_from_model (menu);
+		gtk_menu_attach_to_widget (GTK_MENU (browser->priv->file_popup), GTK_WIDGET (browser), NULL);
+
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE, G_MENU (menu));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_SCREEN_ACTIONS, G_MENU (gtk_builder_get_object (builder, "screen-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_OPEN_ACTIONS, G_MENU (gtk_builder_get_object (builder, "open-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_EDIT_ACTIONS, G_MENU (gtk_builder_get_object (builder, "edit-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_FILE_ACTIONS, G_MENU (gtk_builder_get_object (builder, "file-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_FOLDER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "folder-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_OTHER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "other-actions")));
+
+		g_object_unref (builder);
+	}
+
+	/* file list popup menu */
+	{
+		GtkBuilder *builder;
+		GMenuModel *menu;
+
+		builder = _gtk_builder_new_from_resource ("file-list-menu.ui");
+		menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
+		browser->priv->file_list_popup = gtk_menu_new_from_model (menu);
+		gtk_menu_attach_to_widget (GTK_MENU (browser->priv->file_list_popup), GTK_WIDGET (browser), NULL);
+
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST, G_MENU (menu));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_SCREEN_ACTIONS, G_MENU (gtk_builder_get_object (builder, "screen-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS, G_MENU (gtk_builder_get_object (builder, "open-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_EDIT_ACTIONS, G_MENU (gtk_builder_get_object (builder, "edit-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_FILE_ACTIONS, G_MENU (gtk_builder_get_object (builder, "file-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_FOLDER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "folder-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OTHER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "other-actions")));
+
+		g_object_unref (builder);
+	}
+
+	/* folder popup menu */
+	{
+		GtkBuilder *builder;
+		GMenuModel *menu;
+
+		builder = _gtk_builder_new_from_resource ("folder-menu.ui");
+		menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
+		browser->priv->folder_popup = gtk_menu_new_from_model (menu);
+		gtk_menu_attach_to_widget (GTK_MENU (browser->priv->folder_popup), GTK_WIDGET (browser), NULL);
+		g_signal_connect (browser->priv->folder_popup,
+				  "hide",
+				  G_CALLBACK (folder_popup_hide_cb),
+				  browser);
+
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FOLDER, G_MENU (menu));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_OPEN_ACTIONS, G_MENU (gtk_builder_get_object (builder, "open-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_CREATE_ACTIONS, G_MENU (gtk_builder_get_object (builder, "create-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_EDIT_ACTIONS, G_MENU (gtk_builder_get_object (builder, "edit-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_FOLDER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "folder-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_OTHER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "other-actions")));
+
+		g_object_unref (builder);
+	}
 
 	_gth_browser_set_sidebar_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SIDEBAR_VISIBLE));
 

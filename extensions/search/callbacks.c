@@ -103,9 +103,9 @@ search__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 		gtk_button_set_relief (GTK_BUTTON (data->refresh_button), GTK_RELIEF_NONE);
 		gtk_widget_set_tooltip_text (data->refresh_button, _("Search again"));
 		gtk_widget_show_all (data->refresh_button);
-		gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)),
-					              data->refresh_button,
-					              _RESPONSE_REFRESH);
+		gtk_info_bar_add_action_widget (GTK_INFO_BAR (gth_browser_get_list_extra_widget (browser)),
+						data->refresh_button,
+						_RESPONSE_REFRESH);
 		g_signal_connect (data->refresh_button,
 				  "clicked",
 				  G_CALLBACK (refresh_button_clicked_cb),

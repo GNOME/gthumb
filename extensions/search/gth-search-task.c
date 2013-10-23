@@ -270,15 +270,15 @@ browser_location_ready_cb (GthBrowser    *browser,
 	gth_embedded_dialog_set_icon (GTH_EMBEDDED_DIALOG (task->priv->dialog), GTK_STOCK_FIND, GTK_ICON_SIZE_DIALOG);
 	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), _("Searching..."));
 	update_secondary_text (task);
-	gedit_message_area_clear_action_area (GEDIT_MESSAGE_AREA (task->priv->dialog));
+	_gtk_info_bar_clear_action_area (GTK_INFO_BAR (task->priv->dialog));
 	button = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_stock (GTK_STOCK_STOP, GTK_ICON_SIZE_BUTTON));
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_set_tooltip_text (button, _("Cancel the operation"));
 	gtk_widget_show_all (button);
-	gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (task->priv->dialog),
-					      button,
-					      GTK_RESPONSE_CANCEL);
+	gtk_info_bar_add_action_widget (GTK_INFO_BAR (task->priv->dialog),
+					button,
+					GTK_RESPONSE_CANCEL);
 
 	dialog_data = g_new0 (EmbeddedDialogData, 1);
 	dialog_data->browser = task->priv->browser;

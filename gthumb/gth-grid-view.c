@@ -149,6 +149,9 @@ struct _GthGridViewPrivate {
 	guint                  needs_relayout : 1;
 	guint                  needs_relayout_after_size_allocate : 1;
 
+	gboolean               activate_on_single_click;
+	guint                  activate_pending : 1; /* postpone activation on button release */
+
 	guint                  layout_timeout;
 	int                    relayout_from_line;
 	guint                  update_caption_height : 1;
@@ -2692,6 +2695,9 @@ _gth_grid_view_select_single (GthGridView     *self,
 		_gth_grid_view_set_item_selected_and_emit_signal (self, TRUE, pos);
 		self->priv->last_selected_pos = pos;
 		self->priv->last_selected_item = item;
+
+		if (self->priv->activate_on_single_click)
+			self->priv->activate_pending = TRUE;
 	}
 
 	gth_file_view_set_cursor (GTH_FILE_VIEW (self), pos);
@@ -3026,6 +3032,7 @@ gth_grid_view_button_release (GtkWidget      *widget,
 
 	if (self->priv->dragging) {
 		self->priv->select_pending = self->priv->select_pending && ! self->priv->drag_started;
+		self->priv->activate_pending = self->priv->activate_pending && ! self->priv->drag_started;
 		_gth_grid_view_stop_dragging (self);
 	}
 
@@ -3040,6 +3047,12 @@ gth_grid_view_button_release (GtkWidget      *widget,
 		_gth_grid_view_set_item_selected_and_emit_signal (self, TRUE, self->priv->select_pending_pos);
 		self->priv->last_selected_pos = self->priv->select_pending_pos;
 		self->priv->last_selected_item = self->priv->select_pending_item;
+		gth_file_view_activated (GTH_FILE_VIEW (self), self->priv->last_selected_pos);
+	}
+
+	if (self->priv->activate_pending) {
+		self->priv->activate_pending = FALSE;
+		gth_file_view_activated (GTH_FILE_VIEW (self), self->priv->last_selected_pos);
 	}
 
 	return FALSE;
@@ -3838,6 +3851,8 @@ gth_grid_view_init (GthGridView *self)
 
 	self->priv->selecting = FALSE;
 	self->priv->select_pending = FALSE;
+	self->priv->activate_pending = FALSE;
+	self->priv->activate_on_single_click = TRUE;
 	self->priv->select_pending_pos = -1;
 	self->priv->select_pending_item = NULL;
 	gth_grid_view_set_selection_mode (GTH_FILE_SELECTION (self), GTK_SELECTION_MULTIPLE);

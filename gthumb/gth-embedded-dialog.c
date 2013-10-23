@@ -34,7 +34,7 @@ struct _GthEmbeddedDialogPrivate {
 };
 
 
-G_DEFINE_TYPE (GthEmbeddedDialog, gth_embedded_dialog, GEDIT_TYPE_MESSAGE_AREA)
+G_DEFINE_TYPE (GthEmbeddedDialog, gth_embedded_dialog, GTK_TYPE_INFO_BAR)
 
 
 static void
@@ -53,7 +53,7 @@ gth_embedded_dialog_init (GthEmbeddedDialog *self)
 	GtkWidget *label_box;
 	GtkWidget *primary_label;
 	GtkWidget *secondary_label;
-	
+
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMBEDDED_DIALOG, GthEmbeddedDialogPrivate);
 
 	hbox_content = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
@@ -82,7 +82,7 @@ gth_embedded_dialog_init (GthEmbeddedDialog *self)
 	gtk_misc_set_alignment (GTK_MISC (primary_label), 0, 0.5);
 	gtk_widget_set_can_focus (primary_label, TRUE);
 	gtk_label_set_selectable (GTK_LABEL (primary_label), TRUE);
-	
+
 	self->priv->secondary_text_label = secondary_label = gtk_label_new (NULL);
 	gtk_box_pack_start (GTK_BOX (label_box), secondary_label, FALSE, FALSE, 0);
 	gtk_widget_set_can_focus (secondary_label, TRUE);
@@ -91,14 +91,14 @@ gth_embedded_dialog_init (GthEmbeddedDialog *self)
 	gtk_label_set_selectable (GTK_LABEL (secondary_label), TRUE);
 	gtk_label_set_ellipsize (GTK_LABEL (secondary_label), PANGO_ELLIPSIZE_END);
 	gtk_misc_set_alignment (GTK_MISC (secondary_label), 0, 0.5);
-	
+
 	self->priv->location_chooser = g_object_new (GTH_TYPE_LOCATION_CHOOSER,
 						     "show-entry-points", FALSE,
 						     "relief", GTK_RELIEF_NONE,
 						     NULL);
 	gtk_box_pack_start (GTK_BOX (hbox_content), self->priv->location_chooser, FALSE, FALSE, 0);
 
-	gedit_message_area_set_contents (GEDIT_MESSAGE_AREA (self), hbox_content);
+	gtk_container_add (GTK_CONTAINER (gtk_info_bar_get_content_area (GTK_INFO_BAR (self))), hbox_content);
 }
 
 
@@ -148,17 +148,20 @@ gth_embedded_dialog_set_primary_text (GthEmbeddedDialog *self,
 
 	gtk_widget_hide (self->priv->location_chooser);
 	gtk_widget_show (self->priv->info_box);
+	gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_TOOLBAR);
+	gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_INFO);
 
 	if (text == NULL) {
 		gtk_widget_hide (self->priv->primary_text_label);
 		return;
 	}
-	
+
 	escaped = g_markup_escape_text (text, -1);
 	markup = g_strdup_printf ("<b>%s</b>", escaped);
 	gtk_label_set_markup (GTK_LABEL (self->priv->primary_text_label), markup);
 	gtk_widget_show (self->priv->primary_text_label);
-	
+
 	g_free (markup);
 	g_free (escaped);
 }
@@ -175,12 +178,12 @@ gth_embedded_dialog_set_secondary_text (GthEmbeddedDialog *self,
 		gtk_widget_hide (self->priv->secondary_text_label);
 		return;
 	}
-	
+
 	escaped = g_markup_escape_text (text, -1);
 	markup = g_strdup_printf ("<small>%s</small>", escaped);
 	gtk_label_set_markup (GTK_LABEL (self->priv->secondary_text_label), markup);
 	gtk_widget_show (self->priv->secondary_text_label);
-	
+
 	g_free (markup);
 	g_free (escaped);
 }
@@ -192,6 +195,10 @@ gth_embedded_dialog_set_from_file (GthEmbeddedDialog *self,
 {
 	gtk_widget_hide (self->priv->info_box);
 	gtk_widget_show (self->priv->location_chooser);
+	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_TOOLBAR);
+	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+	gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_INFO);
+
 	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (self->priv->location_chooser), file);
 }
 

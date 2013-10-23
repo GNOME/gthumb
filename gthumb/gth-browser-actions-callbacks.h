@@ -29,7 +29,6 @@
 DEFINE_ACTION(gth_browser_activate_action_edit_select_all)
 DEFINE_ACTION(gth_browser_activate_action_folder_open)
 DEFINE_ACTION(gth_browser_activate_action_folder_open_in_new_window)
-DEFINE_ACTION(gth_browser_activate_action_folder_open_in_file_manager)
 DEFINE_ACTION(gth_browser_activate_action_view_sort_by)
 DEFINE_ACTION(gth_browser_activate_action_view_filter)
 DEFINE_ACTION(gth_browser_activate_action_view_filterbar)
@@ -68,5 +67,6 @@ DEF_ACTION_CALLBACK (gth_browser_activate_save_as)
 DEF_ACTION_CALLBACK (gth_browser_activate_viewer_edit_file)
 DEF_ACTION_CALLBACK (gth_browser_activate_viewer_properties)
 DEF_ACTION_CALLBACK (gth_browser_activate_unfullscreen)
+DEF_ACTION_CALLBACK (gth_browser_activate_open_folder_in_new_window)
 
 #endif /* GTH_BROWSER_ACTIONS_CALLBACK_H */

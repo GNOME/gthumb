@@ -32,9 +32,29 @@
 
 G_BEGIN_DECLS
 
-#define GTH_BROWSER_MENU_MANAGER_GEARS			"gears"
-#define GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS	"gears.folder-actions"
-#define GTH_BROWSER_MENU_MANAGER_GEARS_OTHER_ACTIONS	"gears.other-actions"
+#define GTH_BROWSER_MENU_MANAGER_GEARS				"gears"
+#define GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS		"gears.folder-actions"
+#define GTH_BROWSER_MENU_MANAGER_GEARS_OTHER_ACTIONS		"gears.other-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE				"file"
+#define GTH_BROWSER_MENU_MANAGER_FILE_SCREEN_ACTIONS		"file.screen-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_OPEN_ACTIONS		"file.open-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_EDIT_ACTIONS		"file.edit-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_FILE_ACTIONS		"file.file-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_FOLDER_ACTIONS		"file.folder-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_OTHER_ACTIONS		"file.other-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_LIST			"file-list"
+#define GTH_BROWSER_MENU_MANAGER_FILE_LIST_SCREEN_ACTIONS	"file-list.screen-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS		"file-list.open-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_LIST_EDIT_ACTIONS		"file-list.edit-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_LIST_FILE_ACTIONS		"file-list.file-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_LIST_FOLDER_ACTIONS	"file-list.folder-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_LIST_OTHER_ACTIONS	"file-list.other-actions"
+#define GTH_BROWSER_MENU_MANAGER_FOLDER				"folder"
+#define GTH_BROWSER_MENU_MANAGER_FOLDER_OPEN_ACTIONS		"folder.open-actions"
+#define GTH_BROWSER_MENU_MANAGER_FOLDER_CREATE_ACTIONS		"folder.create-actions"
+#define GTH_BROWSER_MENU_MANAGER_FOLDER_EDIT_ACTIONS		"folder.edit-actions"
+#define GTH_BROWSER_MENU_MANAGER_FOLDER_FOLDER_ACTIONS		"folder.folder-actions"
+#define GTH_BROWSER_MENU_MANAGER_FOLDER_OTHER_ACTIONS		"folder.other-actions"
 
 #define GTH_TYPE_BROWSER              (gth_browser_get_type ())
 #define GTH_BROWSER(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_BROWSER, GthBrowser))

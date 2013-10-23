@@ -23,7 +23,6 @@
 #define GTH_INFO_BAR_H
 
 #include <gtk/gtk.h>
-#include "gedit-message-area.h"
 
 G_BEGIN_DECLS
 

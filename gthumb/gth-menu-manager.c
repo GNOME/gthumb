@@ -246,6 +246,8 @@ gth_menu_manager_remove_entries (GthMenuManager     *menu_manager,
 	GList *scan;
 
 	g_return_if_fail (menu_manager != NULL);
+	if (merge_id == 0)
+		return;
 
 	items = g_hash_table_lookup (menu_manager->priv->items, GINT_TO_POINTER (merge_id));
 	g_return_if_fail (items != NULL);

@@ -47,6 +47,7 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "viewer-edit-file", toggle_action_activated, NULL, "false", gth_browser_activate_viewer_edit_file },
 	{ "viewer-properties", toggle_action_activated, NULL, "false", gth_browser_activate_viewer_properties },
 	{ "unfullscreen", gth_browser_activate_unfullscreen },
+	{ "open-folder-in-new-window", gth_browser_activate_open_folder_in_new_window },
 };
 
 

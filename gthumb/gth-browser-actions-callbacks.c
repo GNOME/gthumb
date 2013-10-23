@@ -581,3 +581,23 @@ gth_browser_activate_unfullscreen (GSimpleAction *action,
 {
 	gth_browser_unfullscreen (GTH_BROWSER (user_data));
 }
+
+
+void
+gth_browser_activate_open_folder_in_new_window (GSimpleAction *action,
+						GVariant      *parameter,
+						gpointer       user_data)
+{
+	GthBrowser  *browser = GTH_BROWSER (user_data);
+	GthFileData *file_data;
+	GtkWidget   *new_browser;
+
+	file_data = gth_browser_get_folder_popup_file_data (browser);
+	if (file_data == NULL)
+		return;
+
+	new_browser = gth_browser_new (file_data->file, NULL);
+	gtk_window_present (GTK_WINDOW (new_browser));
+
+	g_object_unref (file_data);
+}

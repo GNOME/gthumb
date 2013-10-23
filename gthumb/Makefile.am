@@ -11,8 +11,6 @@ MARSHALLERS =						\
 	gth-marshal.h
 
 EXTERNAL = 						\
-	gedit-message-area.c				\
-	gedit-message-area.h				\
 	gnome-desktop-thumbnail.c			\
 	gnome-desktop-thumbnail.h			\
 	gnome-thumbnail-pixbuf-utils.c
@@ -27,7 +25,6 @@ PUBLIC_HEADER_FILES = 					\
 	cairo-utils.h					\
 	color-utils.h					\
 	dom.h						\
-	gedit-message-area.h				\
 	gfixed.h					\
 	gio-utils.h					\
 	glib-utils.h					\

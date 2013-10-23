@@ -38,105 +38,81 @@
 #define SCROLL_TIMEOUT               30 /* autoscroll timeout in milliseconds */
 
 
-static const char *fixed_ui_info =
-"<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='Edit' action='EditMenu'>"
-"      <placeholder name='Folder_Actions'>"
-"        <menuitem action='Edit_Rename'/>"
-"      </placeholder>"
-"      <placeholder name='Folder_Actions_2'>"
-"        <menuitem action='Edit_Trash'/>"
-"        <menuitem action='Edit_Delete'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"  <popup name='FileListPopup'>"
-"    <placeholder name='File_Actions'>"
-"      <menuitem action='Edit_CutFiles'/>"
-"      <menuitem action='Edit_CopyFiles'/>"
-"      <menuitem action='Edit_PasteInFolder'/>"
-"    </placeholder>"
-"    <placeholder name='Folder_Actions'>"
-"      <menuitem action='Tool_CopyToFolder'/>"
-"      <menuitem action='Tool_MoveToFolder'/>"
-"    </placeholder>"
-"  </popup>"
-"  <popup name='FilePopup'>"
-"    <placeholder name='File_Actions'>"
-"      <menuitem action='Edit_CutFiles'/>"
-"      <menuitem action='Edit_CopyFiles'/>"
-"      <menuitem action='Edit_PasteInFolder'/>"
-"    </placeholder>"
-"    <placeholder name='Folder_Actions'>"
-"      <menuitem action='Tool_CopyToFolder'/>"
-"      <menuitem action='Tool_MoveToFolder'/>"
-"      <menuitem action='Edit_Trash'/>"
-"      <menuitem action='Edit_Delete'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-
-static const char *vfs_ui_info =
-"<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='Edit' action='EditMenu'>"
-"      <placeholder name='Folder_Actions'>"
-"        <menuitem action='Edit_Duplicate'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-
-static const char *browser_ui_info =
-"<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='Edit' action='EditMenu'>"
-"    <placeholder name='File_Actions_1'>"
-"      <menuitem action='Edit_CutFiles'/>"
-"      <menuitem action='Edit_CopyFiles'/>"
-"      <menuitem action='Edit_PasteInFolder'/>"
-"    </placeholder>"
-"    </menu>"
-"  </menubar>"
-"  <popup name='FileListPopup'>"
-"    <placeholder name='Folder_Actions'>"
-"      <menuitem action='Edit_Trash'/>"
-"      <menuitem action='Edit_Delete'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-
-static const GthMenuEntry browser_vfs_entries[] = {
-	{ N_("Create _Folder"), "win.create-folder", "<Ctrl><Shift>N" }
+static const GActionEntry actions[] = {
+	{ "edit-cut", gth_browser_activate_edit_cut },
+	{ "edit-copy", gth_browser_activate_edit_copy },
+	{ "edit-paste", gth_browser_activate_edit_paste },
+	{ "trash", gth_browser_activate_trash },
+	{ "delete", gth_browser_activate_delete },
+	{ "rename", gth_browser_activate_rename },
+	{ "duplicate", gth_browser_activate_duplicate },
+	{ "copy-to-folder", gth_browser_activate_copy_to_folder },
+	{ "move-to-folder", gth_browser_activate_move_to_folder },
+	{ "create-folder", gth_browser_activate_create_folder },
+	{ "folder-context-open-with-fm", gth_browser_activate_folder_context_open_in_file_manager },
+	{ "folder-context-create", gth_browser_activate_folder_context_create },
+	{ "folder-context-rename", gth_browser_activate_folder_context_rename },
+	{ "folder-context-cut", gth_browser_activate_folder_context_cut },
+	{ "folder-context-copy", gth_browser_activate_folder_context_copy },
+	{ "folder-context-paste-into-folder", gth_browser_activate_folder_context_paste_into_folder },
+	{ "folder-context-copy-to", gth_browser_activate_folder_context_copy_to },
+	{ "folder-context-move-to", gth_browser_activate_folder_context_move_to },
+	{ "folder-context-trash", gth_browser_activate_folder_context_trash },
+	{ "folder-context-delete", gth_browser_activate_folder_context_delete },
+	{ "open-with-application", gth_browser_activate_open_with_application, "i" }
 };
 
 
-static const char *folder_popup_ui_info =
-"<ui>"
-"  <popup name='FolderListPopup'>"
-"    <placeholder name='OpenCommands'>"
-"      <menuitem action='Folder_OpenInFileManager'/>"
-"    </placeholder>"
-"    <placeholder name='SourceCommands'>"
-"      <menuitem action='Folder_Create'/>"
-"      <separator />"
-"      <menuitem action='Folder_Cut'/>"
-"      <menuitem action='Folder_Copy'/>"
-"      <menuitem action='Folder_Paste'/>"
-"      <separator />"
-"      <menuitem action='Folder_Rename'/>"
-"      <separator />"
-"      <menuitem action='Folder_CopyToFolder'/>"
-"      <menuitem action='Folder_MoveToFolder'/>"
-"      <menuitem action='Folder_Trash'/>"
-"      <menuitem action='Folder_Delete'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
+static const GthMenuEntry fixed_menu_entries_edit[] = {
+	{ N_("Cut"), "win.edit-cut", "<Control>x" },
+	{ N_("Copy"), "win.edit-copy", "<Control>c" },
+	{ N_("Paste"), "win.edit-paste", "<Control>v" },
+};
+
+
+static const GthMenuEntry fixed_menu_entries_file[] = {
+	{ N_("Copy to..."), "win.copy-to-folder" },
+	{ N_("Move to..."), "win.move-to-folder" },
+	{ N_("Rename"), "win.rename", "F2" },
+	{ N_("Move to Trash"), "win.trash" },
+	{ N_("Delete"), "win.delete" },
+};
+
+
+static const GthMenuEntry folder_context_open_entries[] = {
+	{ N_("Open with the File Manager"), "win.folder-context-open-with-fm" }
+};
+
+
+static const GthMenuEntry folder_context_create_entries[] = {
+	{ N_("Create Folder"), "win.folder-context-create" }
+};
+
+
+static const GthMenuEntry folder_context_edit_entries[] = {
+	{ N_("Cut"), "win.folder-context-cut" },
+	{ N_("Copy"), "win.folder-context-copy" },
+	{ N_("Paste Into Folder"), "win.folder-context-paste-into-folder" }
+};
+
+
+static const GthMenuEntry folder_context_folder_entries[] = {
+	{ N_("Rename"), "win.folder-context-rename" },
+	{ N_("Copy to..."), "win.folder-context-copy-to" },
+	{ N_("Move to..."), "win.folder-context-move-to" },
+	{ N_("Move to Trash"), "win.folder-context-trash" },
+	{ N_("Delete"), "win.folder-context-delete" }
+};
+
+
+static const GthMenuEntry create_folder_entries[] = {
+	{ N_("Create Folder"), "win.create-folder", "<Control><Shift>n" }
+};
+
+
+static const GthMenuEntry vfs_entries[] = {
+	{ N_("Duplicate"), "win.duplicate", "<Control><Shift>d" }
+};
 
 
 static GtkTargetEntry reorderable_drag_dest_targets[] = {
@@ -151,121 +127,28 @@ static GtkTargetEntry non_reorderable_drag_dest_targets[] = {
 };
 
 
-static GtkActionEntry action_entries[] = {
-	{ "File_NewFolder", "folder-new",
-	  N_("Create _Folder"), "<control><shift>N",
-	  N_("Create a new empty folder inside this folder"),
-	  G_CALLBACK (gth_browser_action_new_folder) },
-        { "Edit_CutFiles", GTK_STOCK_CUT,
-	  NULL, NULL,
-	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_edit_cut_files) },
-	{ "Edit_CopyFiles", GTK_STOCK_COPY,
-	  NULL, NULL,
-	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_edit_copy_files) },
-	{ "Edit_PasteInFolder", GTK_STOCK_PASTE,
-	  NULL, NULL,
-	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_edit_paste) },
-	{ "Edit_Duplicate", NULL,
-	  N_("D_uplicate"), "<control><shift>D",
-	  N_("Duplicate the selected files"),
-	  G_CALLBACK (gth_browser_activate_action_edit_duplicate) },
-	{ "Edit_Trash", "user-trash",
-	  N_("Mo_ve to Trash"), NULL,
-	  N_("Move the selected files to the Trash"),
-	  G_CALLBACK (gth_browser_activate_action_edit_trash) },
-	{ "Edit_Delete", "edit-delete",
-	  N_("_Delete"), NULL,
-	  N_("Delete the selected files"),
-	  G_CALLBACK (gth_browser_activate_action_edit_delete) },
-	{ "Edit_Rename", NULL,
-	  N_("_Rename"), "F2",
-	  N_("Rename the selected files"),
-	  G_CALLBACK (gth_browser_activate_action_edit_rename) },
-	{ "Folder_OpenInFileManager", NULL,
-	  N_("Open with the _File Manager"), "",
-	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_folder_open_in_file_manager) },
-	{ "Folder_Create", NULL,
-	  N_("Create _Folder"), NULL,
-	  N_("Create a new empty folder inside this folder"),
-	  G_CALLBACK (gth_browser_activate_action_folder_create) },
-	{ "Folder_Rename", NULL,
-	  N_("_Rename"), NULL,
-  	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_folder_rename) },
-	{ "Folder_Cut", GTK_STOCK_CUT,
-	  NULL, NULL,
-  	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_folder_cut) },
-	{ "Folder_Copy", GTK_STOCK_COPY,
-	  NULL, NULL,
-  	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_folder_copy) },
-	{ "Folder_Paste", GTK_STOCK_PASTE,
-	  N_("_Paste Into Folder"), NULL,
-  	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_folder_paste) },
-	{ "Folder_Trash", "user-trash",
-	  N_("Mo_ve to Trash"), NULL,
-	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_folder_trash) },
-	{ "Folder_Delete", "edit-delete",
-	  N_("_Delete"), NULL,
-	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_folder_delete) },
-	{ "Folder_CopyToFolder", NULL,
-	  N_("Copy to..."), NULL,
-	  N_("Copy the selected folder to another folder"),
-	  G_CALLBACK (gth_browser_activate_action_folder_copy_to_folder) },
-	{ "Folder_MoveToFolder", NULL,
-	  N_("Move to..."), NULL,
-	  N_("Move the selected folder to another folder"),
-	  G_CALLBACK (gth_browser_activate_action_folder_move_to_folder) },
-
-	{ "Tool_CopyToFolder", NULL,
-	  N_("Copy to..."), NULL,
-	  N_("Copy the selected files to another folder"),
-	  G_CALLBACK (gth_browser_activate_action_tool_copy_to_folder) },
-	{ "Tool_MoveToFolder", NULL,
-	  N_("Move to..."), NULL,
-	  N_("Move the selected files to another folder"),
-	  G_CALLBACK (gth_browser_activate_action_tool_move_to_folder) }
-};
-
-
 typedef struct {
-	GtkActionGroup *action_group;
-	guint           fixed_merge_id;
-	guint           vfs_merge_id;
-	guint           browser_merge_id;
-	guint           browser_vfs_merge_id;
-	guint           folder_popup_merge_id;
-	gboolean        can_paste;
-	int             drop_pos;
-	int             scroll_diff;
-	guint           scroll_event;
+	guint     vfs_merge_id;
+	guint     browser_vfs_merge_id;
+	guint     folder_context_open_id;
+	guint     folder_context_create_id;
+	guint     folder_context_edit_id;
+	guint     folder_context_folder_id;
+	GMenu    *open_with_menu;
+	GList    *applications;
+	gboolean  can_paste;
+	int       drop_pos;
+	int       scroll_diff;
+	guint     scroll_event;
 } BrowserData;
 
 
 static void
 browser_data_free (BrowserData *data)
 {
+	_g_object_unref (data->open_with_menu);
+	_g_object_list_unref (data->applications);
 	g_free (data);
-}
-
-
-static void
-set_action_sensitive (BrowserData *data,
-		      const char  *action_name,
-		      gboolean     sensitive)
-{
-	GtkAction *action;
-
-	action = gtk_action_group_get_action (data->action_group, action_name);
-	g_object_set (action, "sensitive", sensitive, NULL);
 }
 
 
@@ -588,27 +471,33 @@ void
 fm__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
-	GError      *error = NULL;
 	GtkWidget   *file_view;
+	GMenu       *open_actions;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
 	data = g_new0 (BrowserData, 1);
 
-	data->action_group = gtk_action_group_new ("File Manager Actions");
-	gtk_action_group_set_translation_domain (data->action_group, NULL);
-	gtk_action_group_add_actions (data->action_group,
-				      action_entries,
-				      G_N_ELEMENTS (action_entries),
-				      browser);
-	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
-	set_action_sensitive (data, "Edit_PasteInFolder", FALSE);
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_EDIT_ACTIONS),
+					 fixed_menu_entries_edit,
+				         G_N_ELEMENTS (fixed_menu_entries_edit));
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_FILE_ACTIONS),
+					 fixed_menu_entries_file,
+				         G_N_ELEMENTS (fixed_menu_entries_file));
 
-	data->fixed_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error);
-	if (data->fixed_merge_id == 0) {
-		g_warning ("building ui failed: %s", error->message);
-		g_error_free (error);
-	}
+	data->open_with_menu = g_menu_new ();
+
+	open_actions = gth_menu_manager_get_menu (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS));
+	g_menu_append_submenu (open_actions, _("Open _With"), G_MENU_MODEL (data->open_with_menu));
+
+	open_actions = gth_menu_manager_get_menu (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_OPEN_ACTIONS));
+	g_menu_append_submenu (open_actions, _("Open _With"), G_MENU_MODEL (data->open_with_menu));
+
+	gth_window_enable_action (GTH_WINDOW (browser), "edit-paste", FALSE);
 
 	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 	g_signal_connect (file_view,
@@ -663,67 +552,27 @@ file_manager_update_ui (BrowserData *data,
 			GthBrowser  *browser)
 {
 	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))) {
-		if (data->vfs_merge_id == 0) {
-			GError *local_error = NULL;
-
-			data->vfs_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), vfs_ui_info, -1, &local_error);
-			if (data->vfs_merge_id == 0) {
-				g_warning ("building ui failed: %s", local_error->message);
-				g_error_free (local_error);
-			}
-		}
+		if (data->vfs_merge_id == 0)
+			data->vfs_merge_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_FILE_ACTIONS),
+									 vfs_entries,
+									 G_N_ELEMENTS (vfs_entries));
 	}
-	else if (data->vfs_merge_id != 0) {
-			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->vfs_merge_id);
-			data->vfs_merge_id = 0;
+	else {
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_FILE_ACTIONS), data->vfs_merge_id);
+		data->vfs_merge_id = 0;
 	}
-
-	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER) {
-		if (data->browser_merge_id == 0) {
-			GError *local_error = NULL;
-
-			data->browser_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), browser_ui_info, -1, &local_error);
-			if (data->browser_merge_id == 0) {
-				g_warning ("building ui failed: %s", local_error->message);
-				g_error_free (local_error);
-			}
-		}
-	}
-	else if (data->browser_merge_id != 0) {
-		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->browser_merge_id);
-		data->browser_merge_id = 0;
-	}
-
-#if 0
-	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))
-	    && (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER))
-	{
-		if (data->browser_vfs_merge_id == 0) {
-			GError *local_error = NULL;
-
-			data->browser_vfs_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), browser_vfs_ui_info, -1, &local_error);
-			if (data->browser_vfs_merge_id == 0) {
-				g_warning ("building ui failed: %s", local_error->message);
-				g_error_free (local_error);
-			}
-		}
-	}
-	else if (data->browser_vfs_merge_id != 0) {
-		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->browser_vfs_merge_id);
-		data->browser_vfs_merge_id = 0;
-	}
-#endif
 
 	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))
 	    && (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER))
 	{
-		if (data->browser_vfs_merge_id == 0) {
-			data->browser_vfs_merge_id = gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS),
-										      browser_vfs_entries,
-										      G_N_ELEMENTS (browser_vfs_entries));
-		}
+		if (data->browser_vfs_merge_id == 0)
+			data->browser_vfs_merge_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS),
+									 create_folder_entries,
+									 G_N_ELEMENTS (create_folder_entries));
 	}
-	else  if (data->browser_vfs_merge_id != 0) {
+	else {
 		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS), data->browser_vfs_merge_id);
 		data->browser_vfs_merge_id = 0;
 	}
@@ -800,23 +649,42 @@ fm__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 	g_return_if_fail (data != NULL);
 
 	if (GTH_IS_FILE_SOURCE_VFS (file_source)) {
-		if (data->folder_popup_merge_id == 0) {
-			GError *error = NULL;
-
-			data->folder_popup_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), folder_popup_ui_info, -1, &error);
-			if (data->folder_popup_merge_id == 0) {
-				g_message ("building menus failed: %s", error->message);
-				g_error_free (error);
-			}
-		}
+		if (data->folder_context_open_id == 0)
+			data->folder_context_open_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_OPEN_ACTIONS),
+									 folder_context_open_entries,
+									 G_N_ELEMENTS (folder_context_open_entries));
+		if (data->folder_context_create_id == 0)
+			data->folder_context_create_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_CREATE_ACTIONS),
+									 folder_context_create_entries,
+									 G_N_ELEMENTS (folder_context_create_entries));
+		if (data->folder_context_edit_id == 0)
+			data->folder_context_edit_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_EDIT_ACTIONS),
+									 folder_context_edit_entries,
+									 G_N_ELEMENTS (folder_context_edit_entries));
+		if (data->folder_context_folder_id == 0)
+			data->folder_context_folder_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_FOLDER_ACTIONS),
+									 folder_context_folder_entries,
+									 G_N_ELEMENTS (folder_context_folder_entries));
 
 		fm__gth_browser_update_sensitivity_cb (browser);
 	}
 	else {
-		if (data->folder_popup_merge_id != 0) {
-			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->folder_popup_merge_id);
-			data->folder_popup_merge_id = 0;
-		}
+		if (data->folder_context_open_id != 0)
+			gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_OPEN_ACTIONS), data->folder_context_open_id);
+		if (data->folder_context_create_id != 0)
+			gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_CREATE_ACTIONS), data->folder_context_create_id);
+		if (data->folder_context_edit_id != 0)
+			gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_EDIT_ACTIONS), data->folder_context_edit_id);
+		if (data->folder_context_folder_id != 0)
+			gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_FOLDER_ACTIONS), data->folder_context_folder_id);
+		data->folder_context_open_id = 0;
+		data->folder_context_create_id = 0;
+		data->folder_context_edit_id = 0;
+		data->folder_context_folder_id = 0;
 	}
 }
 
@@ -895,10 +763,10 @@ clipboard_targets_received_cb (GtkClipboard *clipboard,
 		if (atoms[i] == GNOME_COPIED_FILES)
 			data->can_paste = TRUE;
 
-	set_action_sensitive (data, "Edit_PasteInFolder", data->can_paste);
+	gth_window_enable_action (GTH_WINDOW (browser), "edit-paste", data->can_paste);
 
 	folder = gth_browser_get_folder_popup_file_data (browser);
-	set_action_sensitive (data, "Folder_Paste", (folder != NULL) && data->can_paste && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
+	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-paste-into-folder", (folder != NULL) && data->can_paste && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
 
 	_g_object_unref (folder);
 	g_object_unref (browser);
@@ -915,7 +783,7 @@ _gth_browser_update_paste_command_sensitivity (GthBrowser   *browser,
 	g_return_if_fail (data != NULL);
 
 	data->can_paste = FALSE;
-        set_action_sensitive (data, "Edit_PasteInFolder", FALSE);
+	gth_window_enable_action (GTH_WINDOW (browser), "edit-paste", data->can_paste);
 
 	if (clipboard == NULL)
 		clipboard = gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD);
@@ -943,28 +811,22 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 
 	location_data = gth_browser_get_location_data (browser);
 	sensitive = (n_selected > 0) && (file_source != NULL) && (location_data != NULL) && gth_file_source_can_cut (file_source, location_data->file);
-	set_action_sensitive (data, "Edit_CutFiles", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "edit-cut", sensitive);
 
 	sensitive = (n_selected > 0) && (file_source != NULL);
-	set_action_sensitive (data, "Edit_CopyFiles", sensitive);
-	set_action_sensitive (data, "Edit_Trash", sensitive);
-	set_action_sensitive (data, "Edit_Delete", sensitive);
-	set_action_sensitive (data, "Edit_Duplicate", sensitive);
-	set_action_sensitive (data, "Tool_MoveToFolder", sensitive);
-	set_action_sensitive (data, "Tool_CopyToFolder", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "edit-copy", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "trash", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "delete", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "duplicate", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "move-to-folder", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "copy-to-folder", sensitive);
 
 	folder = gth_browser_get_folder_popup_file_data (browser);
-	set_action_sensitive (data, "Folder_Create", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
-	set_action_sensitive (data, "Folder_Rename", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME));
-	set_action_sensitive (data, "Folder_Delete", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
-	set_action_sensitive (data, "Folder_Trash", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_TRASH));
-	set_action_sensitive (data, "Folder_Cut", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
-
-	/*
-	folder = gth_browser_get_location_data (browser);
-	set_action_sensitive (data, "File_NewFolder", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
-	*/
-
+	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-create", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
+	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-rename", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME));
+	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-delete", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
+	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-trash", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_TRASH));
+	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-cut", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
 	_g_object_unref (folder);
 
 	_gth_browser_update_paste_command_sensitivity (browser, NULL);
@@ -974,18 +836,30 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 /* -- selection_changed -- */
 
 
-static void
-activate_open_with_application_item (GtkMenuItem *menuitem,
-				     gpointer     data)
+void
+gth_browser_activate_open_with_application (GSimpleAction *action,
+					    GVariant      *parameter,
+					    gpointer       user_data)
 {
-	GthBrowser          *browser = data;
+	GthBrowser          *browser = user_data;
+	BrowserData         *data;
+	GList               *appinfo_link;
+	GAppInfo            *appinfo;
 	GList               *items;
 	GList               *file_list;
 	GList               *uris;
 	GList               *scan;
-	GAppInfo            *appinfo;
 	GdkAppLaunchContext *context;
 	GError              *error = NULL;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	appinfo_link = g_list_nth (data->applications, g_variant_get_int32 (parameter));
+	g_return_if_fail (appinfo_link != NULL);
+
+	appinfo = appinfo_link->data;
+	g_return_if_fail (G_IS_APP_INFO (appinfo));
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
@@ -996,9 +870,6 @@ activate_open_with_application_item (GtkMenuItem *menuitem,
 		uris = g_list_prepend (uris, g_file_get_uri (file_data->file));
 	}
 	uris = g_list_reverse (uris);
-
-	appinfo = g_object_get_data (G_OBJECT (menuitem), "appinfo");
-	g_return_if_fail (G_IS_APP_INFO (appinfo));
 
 	context = gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (browser)));
 	gdk_app_launch_context_set_timestamp (context, 0);
@@ -1017,28 +888,40 @@ activate_open_with_application_item (GtkMenuItem *menuitem,
 }
 
 
-static void
-_gth_browser_update_open_menu (GthBrowser *browser,
-			       const char *path)
+static int
+sort_app_info_by_display_name (gconstpointer a,
+			       gconstpointer b)
 {
-	GtkWidget    *openwith_item;
-	GtkWidget    *menu;
+	GAppInfo *app_info_a = G_APP_INFO (a);
+	GAppInfo *app_info_b = G_APP_INFO (b);
+
+	return g_utf8_collate (g_app_info_get_display_name (app_info_a),
+			       g_app_info_get_display_name (app_info_b));
+}
+
+
+static void
+_gth_browser_update_open_menu (GthBrowser *browser)
+{
+	BrowserData  *data;
 	GList        *items;
 	GList        *file_list;
 	GList        *scan;
-	GList        *appinfo_list;
+	int           n;
 	GHashTable   *used_mime_types;
-	GthIconCache *icon_cache;
 	GHashTable   *used_apps;
 
-	openwith_item = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), path);
-	menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (openwith_item));
-	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	g_menu_remove_all (data->open_with_menu);
+	_g_object_list_unref (data->applications);
+	data->applications = NULL;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 
-	appinfo_list = NULL;
+	data->applications = NULL;
 	used_mime_types = g_hash_table_new (g_str_hash, g_str_equal);
 	for (scan = file_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
@@ -1050,70 +933,44 @@ _gth_browser_update_open_menu (GthBrowser *browser,
 		if (g_hash_table_lookup (used_mime_types, mime_type) != NULL)
 			continue;
 
-		appinfo_list = g_list_concat (appinfo_list, g_app_info_get_all_for_type (mime_type));
+		data->applications = g_list_concat (data->applications, g_app_info_get_all_for_type (mime_type));
 
 		g_hash_table_insert (used_mime_types, (gpointer) mime_type, GINT_TO_POINTER (1));
 	}
 	g_hash_table_destroy (used_mime_types);
 
-	icon_cache = gth_browser_get_menu_icon_cache (browser);
-	used_apps = g_hash_table_new (g_str_hash, g_str_equal);
-	for (scan = appinfo_list; scan; scan = scan->next) {
-		GAppInfo  *appinfo = scan->data;
-		char      *label;
-		GtkWidget *menu_item;
-		GIcon     *icon;
+	data->applications = g_list_sort (data->applications, sort_app_info_by_display_name);
 
-		if (strcmp (g_app_info_get_executable (appinfo), "gthumb") == 0)
+	used_apps = g_hash_table_new (g_str_hash, g_str_equal);
+	for (scan = data->applications, n = 0; scan; scan = scan->next, n++) {
+		GAppInfo  *appinfo = scan->data;
+		GIcon     *icon;
+		GMenuItem *item;
+
+		if (strstr (g_app_info_get_executable (appinfo), "gthumb") != NULL)
 			continue;
 		if (g_hash_table_lookup (used_apps, g_app_info_get_id (appinfo)) != NULL)
 			continue;
 		g_hash_table_insert (used_apps, (gpointer) g_app_info_get_id (appinfo), GINT_TO_POINTER (1));
 
-		label = g_strdup_printf ("%s", g_app_info_get_name (appinfo));
-		menu_item = gtk_image_menu_item_new_with_label (label);
-
+		item = g_menu_item_new (g_app_info_get_display_name (appinfo), NULL);
+		g_menu_item_set_action_and_target (item, "win.open-with-application", "i", n);
 		icon = g_app_info_get_icon (appinfo);
-		if (icon != NULL) {
-			GdkPixbuf *pixbuf;
-
-			pixbuf = gth_icon_cache_get_pixbuf (icon_cache, icon);
-			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_pixbuf (pixbuf));
-			gtk_image_menu_item_set_always_show_image (GTK_IMAGE_MENU_ITEM (menu_item), TRUE);
-
-			g_object_unref (pixbuf);
+		if (icon == NULL) {
+			icon = g_themed_icon_new ("application-x-executable");
+			if (icon != NULL) {
+				g_menu_item_set_icon (item, icon);
+				g_object_unref (icon);
+			}
 		}
-
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-
-		g_object_set_data_full (G_OBJECT (menu_item),
-					"appinfo",
-					g_object_ref (appinfo),
-					g_object_unref);
-		g_signal_connect (menu_item,
-				  "activate",
-				  G_CALLBACK (activate_open_with_application_item),
-			  	  browser);
-
-		g_free (label);
+		else
+			g_menu_item_set_icon (item, icon);
+		g_menu_append_item (data->open_with_menu, item);
 	}
 
-	/*
-	if (appinfo_list == NULL) {
-		GtkWidget *menu_item;
-
-		menu_item = gtk_image_menu_item_new_with_label (_("No application available"));
-		gtk_widget_set_sensitive (menu_item, FALSE);
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-	}*/
-
-	gtk_widget_set_sensitive (openwith_item, appinfo_list != NULL);
-	gtk_widget_show (openwith_item);
+	gth_window_enable_action (GTH_WINDOW (browser), "open-with-application", data->applications != NULL);
 
 	g_hash_table_destroy (used_apps);
-	_g_object_list_unref (appinfo_list);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
 }
@@ -1122,8 +979,7 @@ _gth_browser_update_open_menu (GthBrowser *browser,
 void
 fm__gth_browser_selection_changed_cb (GthBrowser *browser)
 {
-	_gth_browser_update_open_menu (browser, "/FileListPopup/OpenWith");
-	_gth_browser_update_open_menu (browser, "/FilePopup/OpenWith");
+	_gth_browser_update_open_menu (browser);
 }
 
 

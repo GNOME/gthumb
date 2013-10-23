@@ -23,7 +23,6 @@
 #define GTH_EMBEDDED_DIALOG_H
 
 #include <gtk/gtk.h>
-#include "gedit-message-area.h"
 
 G_BEGIN_DECLS
 
@@ -40,13 +39,13 @@ typedef struct _GthEmbeddedDialogClass    GthEmbeddedDialogClass;
 
 struct _GthEmbeddedDialog
 {
-	GeditMessageArea __parent;
+	GtkInfoBar __parent;
 	GthEmbeddedDialogPrivate *priv;
 };
 
 struct _GthEmbeddedDialogClass
 {
-	GeditMessageAreaClass __parent_class;
+	GtkInfoBarClass __parent_class;
 };
 
 GType         gth_embedded_dialog_get_type           (void) G_GNUC_CONST;
