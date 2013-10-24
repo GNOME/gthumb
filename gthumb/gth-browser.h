@@ -47,6 +47,7 @@ G_BEGIN_DECLS
 #define GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS		"file-list.open-actions"
 #define GTH_BROWSER_MENU_MANAGER_FILE_LIST_EDIT_ACTIONS		"file-list.edit-actions"
 #define GTH_BROWSER_MENU_MANAGER_FILE_LIST_FILE_ACTIONS		"file-list.file-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_LIST_DELETE_ACTIONS	"file-list.delete-actions"
 #define GTH_BROWSER_MENU_MANAGER_FILE_LIST_FOLDER_ACTIONS	"file-list.folder-actions"
 #define GTH_BROWSER_MENU_MANAGER_FILE_LIST_OTHER_ACTIONS	"file-list.other-actions"
 #define GTH_BROWSER_MENU_MANAGER_FOLDER				"folder"
@@ -141,8 +142,6 @@ void             gth_browser_set_dialog             (GthBrowser       *browser,
 						     GtkWidget        *dialog);
 GtkWidget *      gth_browser_get_dialog             (GthBrowser       *browser,
 						     const char       *dialog_name);
-GtkUIManager *   gth_browser_get_ui_manager         (GthBrowser       *browser);
-GtkActionGroup * gth_browser_get_actions            (GthBrowser       *browser);
 GthIconCache *   gth_browser_get_menu_icon_cache    (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_infobar            (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);

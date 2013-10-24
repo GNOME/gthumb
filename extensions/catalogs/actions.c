@@ -29,9 +29,11 @@
 
 
 void
-gth_browser_activate_action_edit_add_to_catalog (GtkAction  *action,
-						 GthBrowser *browser)
+gth_browser_activate_add_to_catalog (GSimpleAction 	*action,
+				     GVariant		*parameter,
+				     gpointer		 user_data)
 {
+	GthBrowser *browser = GTH_BROWSER (user_data);
 	GList *items;
 	GList *file_list = NULL;
 	GList *files;
@@ -48,9 +50,11 @@ gth_browser_activate_action_edit_add_to_catalog (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_edit_remove_from_catalog (GtkAction  *action,
-						      GthBrowser *browser)
+gth_browser_activate_remove_from_catalog (GSimpleAction	 *action,
+					  GVariant	 *parameter,
+					  gpointer	  user_data)
 {
+	GthBrowser *browser = GTH_BROWSER (user_data);
 	GList *items;
 	GList *file_data_list;
 
@@ -168,9 +172,11 @@ catalog_new_dialog_response_cb (GtkWidget *dialog,
 
 
 void
-gth_browser_activate_action_catalog_new (GtkAction  *action,
-					 GthBrowser *browser)
+gth_browser_activate_create_catalog (GSimpleAction	 *action,
+				  GVariant	 *parameter,
+				  gpointer	 user_data)
 {
+	GthBrowser *browser = GTH_BROWSER (user_data);
 	GtkWidget *dialog;
 
 	dialog = gth_request_dialog_new (GTK_WINDOW (browser),
@@ -280,9 +286,11 @@ new_library_dialog_response_cb (GtkWidget *dialog,
 
 
 void
-gth_browser_activate_action_catalog_new_library (GtkAction  *action,
-						 GthBrowser *browser)
+gth_browser_activate_create_library (GSimpleAction	 *action,
+					  GVariant	 *parameter,
+					  gpointer	  user_data)
 {
+	GthBrowser *browser = GTH_BROWSER (user_data);
 	GtkWidget *dialog;
 
 	dialog = gth_request_dialog_new (GTK_WINDOW (browser),
@@ -347,9 +355,11 @@ remove_catalog_response_cb (GtkDialog *dialog,
 
 
 void
-gth_browser_activate_action_catalog_remove (GtkAction  *action,
-					    GthBrowser *browser)
+gth_browser_activate_remove_catalog (GSimpleAction	 *action,
+				     GVariant		 *parameter,
+				     gpointer		  user_data)
 {
+	GthBrowser *browser = GTH_BROWSER (user_data);
 	GthFileData *file_data;
 	GSettings   *settings;
 
@@ -384,9 +394,11 @@ gth_browser_activate_action_catalog_remove (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_catalog_rename (GtkAction  *action,
-					    GthBrowser *browser)
+gth_browser_activate_rename_catalog (GSimpleAction	 *action,
+				     GVariant		 *parameter,
+				     gpointer		  user_data)
 {
+	GthBrowser *browser = GTH_BROWSER (user_data);
 	GthFileData *file_data;
 
 	file_data = gth_browser_get_folder_popup_file_data (browser);
@@ -397,9 +409,11 @@ gth_browser_activate_action_catalog_rename (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_catalog_properties (GtkAction  *action,
-						GthBrowser *browser)
+gth_browser_activate_catalog_properties (GSimpleAction	 *action,
+					 GVariant	 *parameter,
+					 gpointer	  user_data)
 {
+	GthBrowser *browser = GTH_BROWSER (user_data);
 	GthFileData *file_data;
 
 	file_data = gth_browser_get_folder_popup_file_data (browser);
@@ -410,9 +424,11 @@ gth_browser_activate_action_catalog_properties (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_go_to_container (GtkAction  *action,
-					     GthBrowser *browser)
+gth_browser_activate_go_to_container_from_catalog (GSimpleAction	 *action,
+						   GVariant		 *parameter,
+						   gpointer		  user_data)
 {
+	GthBrowser *browser = GTH_BROWSER (user_data);
 	GList *items;
 	GList *file_list = NULL;
 

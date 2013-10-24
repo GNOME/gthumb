@@ -6,7 +6,6 @@
       <item>
         <attribute name="label" translatable="yes">_Add Bookmark</attribute>
         <attribute name="action">win.bookmarks-add</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>d]]></attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_Edit Bookmarks…</attribute>

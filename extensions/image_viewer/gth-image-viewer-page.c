@@ -23,6 +23,7 @@
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
+#include "actions.h"
 #include "gth-image-viewer-page.h"
 #include "preferences.h"
 
@@ -41,14 +42,41 @@ G_DEFINE_TYPE_WITH_CODE (GthImageViewerPage,
 					        gth_viewer_page_interface_init))
 
 
+static const GActionEntry actions[] = {
+	{ "image-zoom-in", gth_browser_activate_image_zoom_in },
+	{ "image-zoom-out", gth_browser_activate_image_zoom_out },
+	{ "image-zoom-100", gth_browser_activate_image_zoom_100 },
+	{ "image-zoom-fit", gth_browser_activate_image_zoom_fit },
+	{ "image-zoom-fit-width", gth_browser_activate_image_zoom_fit_width },
+	{ "image-undo", gth_browser_activate_image_undo },
+	{ "image-redo", gth_browser_activate_image_redo },
+	{ "copy-image", gth_browser_activate_copy_image },
+	{ "paste-image", gth_browser_activate_paste_image },
+};
+
+
+static const GthAccelerator accelerators[] = {
+	{ "image-zoom-in", "<control>plus" },
+	{ "image-zoom-out", "<control>minus" },
+	{ "image-zoom-100", "<control>0" },
+	{ "image-undo", "<control>z" },
+	{ "image-redo", "<shift><control>z" },
+};
+
+
+static const GthMenuEntry file_popup_entries[] = {
+	{ N_("Copy Image"), "win.copy-image", "<control>c" },
+	{ N_("Paste Image"), "win.paste-image", "<control>v" },
+};
+
+
 struct _GthImageViewerPagePrivate {
 	GthBrowser        *browser;
 	GSettings         *settings;
 	GtkWidget         *image_navigator;
 	GtkWidget         *viewer;
 	GthImagePreloader *preloader;
-	GtkActionGroup    *actions;
-	guint              browser_merge_id;
+	guint              file_popup_merge_id;
 	GthImageHistory   *history;
 	GthFileData       *file_data;
 	gboolean           image_changed;
@@ -57,153 +85,6 @@ struct _GthImageViewerPagePrivate {
 	gboolean           can_paste;
 	guint              update_quality_event;
 	GtkWidget         *buttons[HEADER_BUTTONS];
-};
-
-
-static const char *image_viewer_ui_info =
-"<ui>"
-"  <menubar name='MenuBar'>"
-"    <menu name='Edit' action='EditMenu'>"
-"      <placeholder name='File_Actions_1'>"
-"        <menuitem action='ImageViewer_Edit_Undo'/>"
-"        <menuitem action='ImageViewer_Edit_Redo'/>"
-"        <separator />"
-"        <menuitem action='ImageViewer_Edit_Copy_Image'/>"
-"        <menuitem action='ImageViewer_Edit_Paste_Image'/>"
-"      </placeholder>"
-"    </menu>"
-"  </menubar>"
-"</ui>";
-
-
-static void
-image_viewer_activate_action_edit_undo (GtkAction          *action,
-					GthImageViewerPage *self)
-{
-	gth_image_viewer_page_undo (self);
-}
-
-
-static void
-image_viewer_activate_action_edit_redo (GtkAction          *action,
-					GthImageViewerPage *self)
-{
-	gth_image_viewer_page_redo (self);
-}
-
-
-static void
-image_viewer_activate_action_edit_copy_image (GtkAction          *action,
-					      GthImageViewerPage *self)
-{
-	gth_image_viewer_page_copy_image (self);
-}
-
-
-static void
-image_viewer_activate_action_edit_paste_image (GtkAction          *action,
-					       GthImageViewerPage *self)
-{
-	gth_image_viewer_page_paste_image (self);
-}
-
-
-static GtkActionEntry image_viewer_action_entries[] = {
-	{ "ImageViewer_Edit_Undo", GTK_STOCK_UNDO,
-	  NULL, "<control>z",
-	  NULL,
-	  G_CALLBACK (image_viewer_activate_action_edit_undo) },
-
-	{ "ImageViewer_Edit_Redo", GTK_STOCK_REDO,
-	  NULL, "<shift><control>z",
-	  NULL,
-	  G_CALLBACK (image_viewer_activate_action_edit_redo) },
-
-	{ "ImageViewer_Edit_Copy_Image", GTK_STOCK_COPY,
-	  N_("Copy Image"), "<control>c",
-	  N_("Copy the image to the clipboard"),
-	  G_CALLBACK (image_viewer_activate_action_edit_copy_image) },
-
-	{ "ImageViewer_Edit_Paste_Image", GTK_STOCK_PASTE,
-	  N_("Paste Image"), "<control>p",
-	  N_("Paste the image from the clipboard"),
-	  G_CALLBACK (image_viewer_activate_action_edit_paste_image) },
-};
-
-
-static void
-gth_browser_activate_image_zoom_in (GSimpleAction	*action,
-				    GVariant		*parameter,
-				    gpointer		 user_data)
-{
-	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
-
-	gth_image_viewer_zoom_in (GTH_IMAGE_VIEWER (self->priv->viewer));
-}
-
-
-static void
-gth_browser_activate_image_zoom_out (GSimpleAction	*action,
-				     GVariant		*parameter,
-				     gpointer		 user_data)
-{
-	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
-
-	gth_image_viewer_zoom_out (GTH_IMAGE_VIEWER (self->priv->viewer));
-}
-
-
-static void
-gth_browser_activate_image_zoom_100 (GSimpleAction	*action,
-				     GVariant		*parameter,
-				     gpointer		 user_data)
-{
-	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
-
-	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->viewer), 1.0);
-}
-
-
-static void
-gth_browser_activate_image_zoom_fit (GSimpleAction	*action,
-				     GVariant		*parameter,
-				     gpointer		 user_data)
-{
-	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
-
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE);
-}
-
-
-static void
-gth_browser_activate_image_zoom_fit_width (GSimpleAction	*action,
-					   GVariant		*parameter,
-					   gpointer		 user_data)
-{
-	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = (GthImageViewerPage *) gth_browser_get_viewer_page (browser);
-
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_WIDTH);
-}
-
-
-static const GActionEntry actions[] = {
-	{ "image-zoom-in", gth_browser_activate_image_zoom_in },
-	{ "image-zoom-out", gth_browser_activate_image_zoom_out },
-	{ "image-zoom-100", gth_browser_activate_image_zoom_100 },
-	{ "image-zoom-fit", gth_browser_activate_image_zoom_fit },
-	{ "image-zoom-fit-width", gth_browser_activate_image_zoom_fit_width }
-};
-
-
-static const GthAccelerator accelerators[] = {
-	{ "image-zoom-in", "<control>plus" },
-	{ "image-zoom-out", "<control>minus" },
-	{ "image-zoom-100", "<control>0" },
 };
 
 
@@ -442,20 +323,6 @@ viewer_key_press_cb (GtkWidget          *widget,
 
 
 static void
-_set_action_sensitive (GthImageViewerPage *self,
-		       const char         *action_name,
-		       gboolean            sensitive)
-{
-	GtkAction *action;
-
-	if (self->priv->actions == NULL)
-		return;
-	action = gtk_action_group_get_action (self->priv->actions, action_name);
-	g_object_set (action, "sensitive", sensitive, NULL);
-}
-
-
-static void
 clipboard_targets_received_cb (GtkClipboard *clipboard,
 			       GdkAtom      *atoms,
                                int           n_atoms,
@@ -469,7 +336,7 @@ clipboard_targets_received_cb (GtkClipboard *clipboard,
 		if (atoms[i] == gdk_atom_intern_static_string ("image/png"))
 			self->priv->can_paste = TRUE;
 
-	_set_action_sensitive (self, "ImageViewer_Edit_Paste_Image", self->priv->can_paste);
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "paste-image", self->priv->can_paste);
 
 	g_object_unref (self);
 }
@@ -480,7 +347,7 @@ _gth_image_viewer_page_update_paste_command_sensitivity (GthImageViewerPage *sel
 							 GtkClipboard       *clipboard)
 {
 	self->priv->can_paste = FALSE;
-        _set_action_sensitive (self, "ImageViewer_Edit_Paste_Image", FALSE);
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "paste-image", self->priv->can_paste);
 
 	if (clipboard == NULL)
 		clipboard = gtk_widget_get_clipboard (GTK_WIDGET (self->priv->viewer), GDK_SELECTION_CLIPBOARD);
@@ -909,14 +776,24 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 static void
 gth_image_viewer_page_real_show (GthViewerPage *base)
 {
-	gth_viewer_page_focus (GTH_VIEWER_PAGE (base));
+	GthImageViewerPage *self = (GthImageViewerPage*) base;
+
+	if (self->priv->file_popup_merge_id == 0)
+		self->priv->file_popup_merge_id =
+				gth_menu_manager_append_entries (gth_browser_get_menu_manager (self->priv->browser, GTH_BROWSER_MENU_MANAGER_FILE_EDIT_ACTIONS),
+								 file_popup_entries,
+								 G_N_ELEMENTS (file_popup_entries));
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 }
 
 
 static void
 gth_image_viewer_page_real_hide (GthViewerPage *base)
 {
-	/* void */
+	GthImageViewerPage *self = (GthImageViewerPage*) base;
+
+	gth_menu_manager_remove_entries (gth_browser_get_menu_manager (self->priv->browser, GTH_BROWSER_MENU_MANAGER_FILE_EDIT_ACTIONS), self->priv->file_popup_merge_id);
+	self->priv->file_popup_merge_id = 0;
 }
 
 
@@ -1161,19 +1038,19 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 
 	self = (GthImageViewerPage*) base;
 
-	_set_action_sensitive (self, "ImageViewer_Edit_Undo", gth_image_history_can_undo (self->priv->history));
-	_set_action_sensitive (self, "ImageViewer_Edit_Redo", gth_image_history_can_redo (self->priv->history));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-undo", gth_image_history_can_undo (self->priv->history));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-redo", gth_image_history_can_redo (self->priv->history));
 
 	zoom_enabled = gth_image_viewer_get_zoom_enabled (GTH_IMAGE_VIEWER (self->priv->viewer));
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
 
-	_set_action_sensitive (self, "ImageViewer_View_Zoom100", zoom_enabled && ! FLOAT_EQUAL (zoom, 1.0));
-	_set_action_sensitive (self, "ImageViewer_View_ZoomOut", zoom_enabled && (zoom > 0.05));
-	_set_action_sensitive (self, "ImageViewer_View_ZoomIn", zoom_enabled && (zoom < 100.0));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-100", zoom_enabled && ! FLOAT_EQUAL (zoom, 1.0));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-out", zoom_enabled && (zoom > 0.05));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-in", zoom_enabled && (zoom < 100.0));
 
 	fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer));
-	_set_action_sensitive (self, "ImageViewer_View_ZoomFit", zoom_enabled && (fit_mode != GTH_FIT_SIZE));
-	_set_action_sensitive (self, "ImageViewer_View_ZoomFitWidth", zoom_enabled && (fit_mode != GTH_FIT_WIDTH));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit", zoom_enabled && (fit_mode != GTH_FIT_SIZE));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-width", zoom_enabled && (fit_mode != GTH_FIT_WIDTH));
 
 	_gth_image_viewer_page_update_paste_command_sensitivity (self, NULL);
 }

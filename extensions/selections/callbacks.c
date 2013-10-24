@@ -33,94 +33,31 @@
 #define N_SELECTIONS 3
 
 
-static const char *fixed_ui_info =
-"<ui>"
-"  <popup name='FileListPopup'>"
-"    <placeholder name='Folder_Actions2'>"
-"      <menu action='Edit_AddToSelection'>"
-"        <menuitem action='Edit_AddToSelection_1'/>"
-"        <menuitem action='Edit_AddToSelection_2'/>"
-"        <menuitem action='Edit_AddToSelection_3'/>"
-"      </menu>"
-"    </placeholder>"
-"  </popup>"
-"  <popup name='FilePopup'>"
-"    <placeholder name='Folder_Actions2'>"
-"      <menu action='Edit_AddToSelection'>"
-"        <menuitem action='Edit_AddToSelection_1'/>"
-"        <menuitem action='Edit_AddToSelection_2'/>"
-"        <menuitem action='Edit_AddToSelection_3'/>"
-"      </menu>"
-"    </placeholder>"
-"  </popup>"
-"  <accelerator action=\"Go_Selection_1\" />"
-"  <accelerator action=\"Go_Selection_2\" />"
-"  <accelerator action=\"Go_Selection_3\" />"
-"</ui>";
-
-
-static const char *vfs_ui_info =
-"<ui>"
-"  <popup name='FileListPopup'>"
-"    <placeholder name='Open_Actions'>"
-"      <menuitem action='Go_FileContainer'/>"
-"    </placeholder>"
-"  </popup>"
-"  <popup name='FilePopup'>"
-"    <placeholder name='Open_Actions'>"
-"      <menuitem action='Go_FileContainer'/>"
-"    </placeholder>"
-"  </popup>"
-"</ui>";
-
-
-static GthActionEntryExt selections_action_entries[] = {
-	{ "Edit_AddToSelection", GTK_STOCK_ADD, N_("Add to _Selection") },
-
-        { "Go_FileContainer", GTK_STOCK_JUMP_TO,
-          N_("Open _Folder"), "<alt>End",
-          N_("Go to the folder that contains the selected file"),
-       	  GTH_ACTION_FLAG_NONE,
-          G_CALLBACK (gth_browser_activate_action_selection_go_to_container) },
-
-	{ "Edit_AddToSelection_1", "selection1",
-	  N_("Selection 1"), NULL,
-	  NULL,
-	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
-	  G_CALLBACK (gth_browser_activate_action_add_to_selection_1) },
-	{ "Edit_AddToSelection_2", "selection2",
-	  N_("Selection 2"), NULL,
-	  NULL,
-	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
-	  G_CALLBACK (gth_browser_activate_action_add_to_selection_2) },
-	{ "Edit_AddToSelection_3", "selection3",
-	  N_("Selection 3"), NULL,
-	  NULL,
-	  GTH_ACTION_FLAG_ALWAYS_SHOW_IMAGE,
-	  G_CALLBACK (gth_browser_activate_action_add_to_selection_3) },
-	{ "Go_Selection_1", NULL,
-	  NULL, "<control>1",
-	  NULL,
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_go_selection_1) },
-	{ "Go_Selection_2", NULL,
-	  NULL, "<control>2",
-	  NULL,
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_go_selection_2) },
-	{ "Go_Selection_3", NULL,
-	  NULL, "<control>3",
-	  NULL,
-	  GTH_ACTION_FLAG_NONE,
-	  G_CALLBACK (gth_browser_activate_action_go_selection_3) }
-
+static const GActionEntry actions[] = {
+	{ "add-to-selection-1", gth_browser_activate_add_to_selection_1 },
+	{ "add-to-selection-2", gth_browser_activate_add_to_selection_2 },
+	{ "add-to-selection-3", gth_browser_activate_add_to_selection_3 },
+	{ "go-to-selection-1", gth_browser_activate_go_to_selection_1 },
+	{ "go-to-selection-2", gth_browser_activate_go_to_selection_2 },
+	{ "go-to-selection-3", gth_browser_activate_go_to_selection_3 },
+	{ "go-to-file-container", gth_browser_activate_go_to_file_container_from_selection },
 };
-static guint selections_action_entries_size = G_N_ELEMENTS (selections_action_entries);
+
+
+static const GthAccelerator accelerators[] = {
+	{ "go-to-selection-1", "<control>1" },
+	{ "go-to-selection-2", "<control>2" },
+	{ "go-to-selection-3", "<control>3" },
+};
+
+
+static const GthMenuEntry file_list_popup_entries[] = {
+	{ N_("Open Folder"), "win.go-to-container-from-selection", "<Alt>end" },
+};
 
 
 typedef struct {
 	GthBrowser     *browser;
-	GtkActionGroup *actions;
 	guint           vfs_merge_id;
 	GtkWidget      *selection_buttons[N_SELECTIONS];
 	gulong          folder_changed_id;
@@ -148,7 +85,7 @@ selection_clicked_cb (GtkWidget *button,
 
 	g_return_if_fail (n_selection >= 0 && n_selection <= N_SELECTIONS - 1);
 
-	gth_browser_activate_action_show_selection (data->browser, n_selection + 1);
+	gth_browser_activate_show_selection (data->browser, n_selection + 1);
 }
 
 
@@ -229,7 +166,6 @@ void
 selections__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
-	GError      *error = NULL;
 	GtkWidget   *filter_bar;
 	GtkWidget   *filter_bar_extra_area;
 	GtkWidget   *selection_buttons;
@@ -241,18 +177,10 @@ selections__gth_browser_construct_cb (GthBrowser *browser)
 
 	data->browser = browser;
 
-	data->actions = gtk_action_group_new ("Selections Actions");
-	gtk_action_group_set_translation_domain (data->actions, NULL);
-	_gtk_action_group_add_actions_with_flags (data->actions,
-						  selections_action_entries,
-						  selections_action_entries_size,
-						  browser);
-	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->actions, 0);
-
-	if (! gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), fixed_ui_info, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
 
 	filter_bar = gth_browser_get_filterbar (browser);
 	filter_bar_extra_area = gth_filterbar_get_extra_area (GTH_FILTERBAR (filter_bar));
@@ -313,9 +241,9 @@ selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		case GDK_KEY_3:
 			/* Alt+Shift+n => remove from selection n */
 			if ((event->state & modifiers) == (GDK_SHIFT_MASK|GDK_MOD1_MASK))
-				gth_browser_activate_action_remove_from_selection (browser, keyval - GDK_KEY_1 + 1);
+				gth_browser_activate_remove_from_selection (browser, keyval - GDK_KEY_1 + 1);
 			else /* Alt+n => add to selection n */
-				gth_browser_activate_action_add_to_selection (browser, keyval - GDK_KEY_1 + 1);
+				gth_browser_activate_add_to_selection (browser, keyval - GDK_KEY_1 + 1);
 			result = GINT_TO_POINTER (1);
 			break;
 		}
@@ -330,7 +258,7 @@ selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		case GDK_KEY_2:
 		case GDK_KEY_3:
 			/* Control+n => go to selection n */
-			gth_browser_activate_action_show_selection (browser, keyval - GDK_KEY_1 + 1);
+			gth_browser_activate_show_selection (browser, keyval - GDK_KEY_1 + 1);
 			result = GINT_TO_POINTER (1);
 			break;
 		}
@@ -353,21 +281,15 @@ selections__gth_browser_load_location_after_cb (GthBrowser   *browser,
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 
 	if (GTH_IS_FILE_SOURCE_SELECTIONS (gth_browser_get_location_source (browser))) {
-		if (data->vfs_merge_id == 0) {
-			GError *error = NULL;
-
-			data->vfs_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), vfs_ui_info, -1, &error);
-			if (data->vfs_merge_id == 0) {
-				g_message ("building menus failed: %s", error->message);
-				g_error_free (error);
-			}
-		}
+		if (data->vfs_merge_id == 0)
+			data->vfs_merge_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS),
+									 file_list_popup_entries,
+									 G_N_ELEMENTS (file_list_popup_entries));
 	}
 	else {
-		if (data->vfs_merge_id != 0) {
-			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->vfs_merge_id);
-			data->vfs_merge_id = 0;
-		}
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS), data->vfs_merge_id);
+		data->vfs_merge_id = 0;
 	}
 }
 

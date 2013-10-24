@@ -148,9 +148,6 @@ gth_embedded_dialog_set_primary_text (GthEmbeddedDialog *self,
 
 	gtk_widget_hide (self->priv->location_chooser);
 	gtk_widget_show (self->priv->info_box);
-	gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_TOOLBAR);
-	gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
-	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_INFO);
 
 	if (text == NULL) {
 		gtk_widget_hide (self->priv->primary_text_label);
@@ -195,9 +192,6 @@ gth_embedded_dialog_set_from_file (GthEmbeddedDialog *self,
 {
 	gtk_widget_hide (self->priv->info_box);
 	gtk_widget_show (self->priv->location_chooser);
-	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_TOOLBAR);
-	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
-	gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_INFO);
 
 	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (self->priv->location_chooser), file);
 }

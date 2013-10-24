@@ -30,7 +30,6 @@
 #include "gth-browser.h"
 #include "gth-browser-actions-callbacks.h"
 #include "gth-browser-actions-entries.h"
-#include "gth-browser-ui.h"
 #include "gth-duplicable.h"
 #include "gth-embedded-dialog.h"
 #include "gth-enum-types.h"
@@ -98,8 +97,6 @@ typedef struct {
 struct _GthBrowserPrivate {
 	/* UI staff */
 
-	GtkUIManager      *ui;
-	GtkActionGroup    *actions;
 	GtkWidget         *infobar;
 	GtkWidget         *statusbar;
 	GtkWidget         *browser_right_container;
@@ -131,9 +128,6 @@ struct _GthBrowserPrivate {
 	GtkWidget         *progress_dialog;
 
 	GHashTable        *named_dialogs;
-
-	guint              browser_ui_merge_id;
-	guint              viewer_ui_merge_id;
 
 	/* Browser data */
 
@@ -300,44 +294,6 @@ monitor_event_data_unref (MonitorEventData *monitor_data)
 /* -- gth_browser -- */
 
 
-static void
-_gth_browser_set_action_sensitive (GthBrowser  *browser,
-				   const char  *action_name,
-				   gboolean     sensitive)
-{
-	GtkAction *action;
-
-	action = gtk_action_group_get_action (browser->priv->actions, action_name);
-	g_object_set (action, "sensitive", sensitive, NULL);
-}
-
-
-static void
-_gth_browser_set_action_active (GthBrowser  *browser,
-				const char  *action_name,
-				gboolean     active)
-{
-	GtkAction *action;
-
-	action = gtk_action_group_get_action (browser->priv->actions, action_name);
-	g_object_set (action, "active", active, NULL);
-}
-
-
-static gboolean
-_gth_browser_get_action_active (GthBrowser  *browser,
-				const char  *action_name)
-{
-	GtkAction *action;
-	gboolean   active;
-
-	action = gtk_action_group_get_action (browser->priv->actions, action_name);
-	g_object_get (action, "active", &active, NULL);
-
-	return active;
-}
-
-
 void
 gth_browser_update_title (GthBrowser *browser)
 {
@@ -406,11 +362,9 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	modified = gth_browser_get_file_modified (browser);
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
-	_gth_browser_set_action_sensitive (browser, "View_Stop", browser->priv->fullscreen || (browser->priv->activity_ref > 0));
-	_gth_browser_set_action_sensitive (browser, "View_Thumbnail_List", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER);
-	_gth_browser_set_action_sensitive (browser, "View_Sidebar", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);
-	_gth_browser_set_action_sensitive (browser, "View_Reload", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);
-
+	gth_window_enable_action (GTH_WINDOW (browser), "show-thumbnail-list", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER);
+	gth_window_enable_action (GTH_WINDOW (browser), "show-sidebar", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);
+	/* gth_window_enable_action (GTH_WINDOW (browser), "view-reload", gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER);*/ /* FIXME add view-reload */
 	gth_window_enable_action (GTH_WINDOW (browser), "save", viewer_can_save && modified);
 	gth_window_enable_action (GTH_WINDOW (browser), "save-as", viewer_can_save);
 	gth_window_enable_action (GTH_WINDOW (browser), "revert-to-saved", viewer_can_save && modified);
@@ -1931,7 +1885,6 @@ _gth_browser_deactivate_viewer_page (GthBrowser *browser)
 		if (browser->priv->fullscreen)
 			gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), TRUE);
 		gth_viewer_page_deactivate (browser->priv->viewer_page);
-		gtk_ui_manager_ensure_update (browser->priv->ui);
 		gth_browser_set_viewer_widget (browser, NULL);
 		g_object_unref (browser->priv->viewer_page);
 		browser->priv->viewer_page = NULL;
@@ -2155,61 +2108,6 @@ _gth_browser_close (GthWindow *window)
 }
 
 
-static void
-_gth_browser_update_viewer_ui (GthBrowser *browser,
-			       int         page)
-{
-	if (page == GTH_BROWSER_PAGE_VIEWER) {
-		GError *error = NULL;
-
-		if (browser->priv->viewer_ui_merge_id != 0)
-			return;
-		browser->priv->viewer_ui_merge_id = gtk_ui_manager_add_ui_from_string (browser->priv->ui, viewer_ui_info, -1, &error);
-		if (browser->priv->viewer_ui_merge_id == 0) {
-			g_warning ("ui building failed: %s", error->message);
-			g_clear_error (&error);
-		}
-		gtk_ui_manager_ensure_update (gth_browser_get_ui_manager (browser));
-	}
-	else if (browser->priv->viewer_ui_merge_id != 0) {
-		gtk_ui_manager_remove_ui (browser->priv->ui, browser->priv->viewer_ui_merge_id);
-		browser->priv->viewer_ui_merge_id = 0;
-		gtk_ui_manager_ensure_update (gth_browser_get_ui_manager (browser));
-	}
-
-	if (browser->priv->viewer_page != NULL) {
-		if (page == GTH_BROWSER_PAGE_VIEWER)
-			gth_viewer_page_show (browser->priv->viewer_page);
-		else
-			gth_viewer_page_hide (browser->priv->viewer_page);
-	}
-}
-
-
-static void
-_gth_browser_update_browser_ui (GthBrowser *browser,
-				int         page)
-{
-	if (page == GTH_BROWSER_PAGE_BROWSER) {
-		GError *error = NULL;
-
-		if (browser->priv->browser_ui_merge_id != 0)
-			return;
-		browser->priv->browser_ui_merge_id = gtk_ui_manager_add_ui_from_string (browser->priv->ui, browser_ui_info, -1, &error);
-		if (browser->priv->browser_ui_merge_id == 0) {
-			g_warning ("ui building failed: %s", error->message);
-			g_clear_error (&error);
-		}
-		gtk_ui_manager_ensure_update (gth_browser_get_ui_manager (browser));
-	}
-	else if (browser->priv->browser_ui_merge_id != 0) {
-		gtk_ui_manager_remove_ui (browser->priv->ui, browser->priv->browser_ui_merge_id);
-		browser->priv->browser_ui_merge_id = 0;
-		gtk_ui_manager_ensure_update (gth_browser_get_ui_manager (browser));
-	}
-}
-
-
 /* --- _gth_browser_set_current_page --- */
 
 
@@ -2252,8 +2150,6 @@ _gth_browser_real_set_current_page (GthWindow *window,
 
 	/* update the ui commands */
 
-	_gth_browser_update_viewer_ui (browser, page);
-	_gth_browser_update_browser_ui (browser, page);
 	_gth_browser_hide_infobar (browser);
 
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION, page == GTH_BROWSER_PAGE_BROWSER);
@@ -2431,65 +2327,6 @@ gth_browser_class_init (GthBrowserClass *klass)
 
 
 static void
-menu_item_select_cb (GtkMenuItem *proxy,
-		     GthBrowser  *browser)
-{
-	GtkAction *action;
-	char      *message;
-
-	action = g_object_get_data (G_OBJECT (proxy),  "gtk-action");
-	g_return_if_fail (action != NULL);
-
-	g_object_get (G_OBJECT (action), "tooltip", &message, NULL);
-	if (message != NULL) {
-		gtk_statusbar_push (GTK_STATUSBAR (browser->priv->statusbar),
-				    browser->priv->help_message_cid,
-				    message);
-		g_free (message);
-	}
-}
-
-
-static void
-menu_item_deselect_cb (GtkMenuItem *proxy,
-		       GthBrowser  *browser)
-{
-	gtk_statusbar_pop (GTK_STATUSBAR (browser->priv->statusbar),
-			   browser->priv->help_message_cid);
-}
-
-
-static void
-disconnect_proxy_cb (GtkUIManager *manager,
-		     GtkAction    *action,
-		     GtkWidget    *proxy,
-		     GthBrowser   *browser)
-{
-	if (GTK_IS_MENU_ITEM (proxy)) {
-		g_signal_handlers_disconnect_by_func
-			(proxy, G_CALLBACK (menu_item_select_cb), browser);
-		g_signal_handlers_disconnect_by_func
-			(proxy, G_CALLBACK (menu_item_deselect_cb), browser);
-	}
-}
-
-
-static void
-connect_proxy_cb (GtkUIManager *manager,
-		  GtkAction    *action,
-		  GtkWidget    *proxy,
-		  GthBrowser   *browser)
-{
-	if (GTK_IS_MENU_ITEM (proxy)) {
-		g_signal_connect (proxy, "select",
-				  G_CALLBACK (menu_item_select_cb), browser);
-		g_signal_connect (proxy, "deselect",
-				  G_CALLBACK (menu_item_deselect_cb), browser);
-	}
-}
-
-
-static void
 folder_tree_drag_data_received (GtkWidget        *tree_view,
 				GdkDragContext   *context,
 				int               x,
@@ -2646,7 +2483,6 @@ folder_tree_folder_popup_cb (GthFolderTree *folder_tree,
 	else
 		file_source = NULL;
 	gth_hook_invoke ("gth-browser-folder-tree-popup-before", browser, file_source, file_data);
-	gtk_ui_manager_ensure_update (browser->priv->ui);
 
 	gtk_menu_popup (GTK_MENU (browser->priv->folder_popup),
 			NULL,
@@ -2747,14 +2583,6 @@ filterbar_personalize_cb (GthFilterbar *filterbar,
 			  GthBrowser   *browser)
 {
 	dlg_personalize_filters (browser);
-}
-
-
-static void
-filterbar_close_button_clicked_cb (GthFilterbar *filterbar,
-				   GthBrowser   *browser)
-{
-	gth_browser_show_filterbar (browser, FALSE);
 }
 
 
@@ -3281,7 +3109,6 @@ gth_file_list_popup_menu (GthBrowser     *browser,
 	int button, event_time;
 
 	gth_hook_invoke ("gth-browser-file-list-popup-before", browser);
-	gtk_ui_manager_ensure_update (browser->priv->ui);
 
 	if (event != NULL) {
 		button = event->button;
@@ -3641,7 +3468,7 @@ pref_ui_viewer_thumbnails_orient_changed (GSettings  *settings,
 
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_thumbnails_pane);
 
-	if (_gth_browser_get_action_active (browser, "View_Thumbnail_List"))
+	if (gth_window_get_action_state (GTH_WINDOW (browser), "show-thumbnail-list"))
 		gtk_widget_show (browser->priv->thumbnail_list);
 	gtk_widget_show (browser->priv->viewer_sidebar_pane);
 	gtk_widget_show (browser->priv->viewer_thumbnails_pane);
@@ -3654,7 +3481,7 @@ _gth_browser_set_statusbar_visibility (GthBrowser *browser,
 {
 	g_return_if_fail (browser != NULL);
 
-	_gth_browser_set_action_active (browser, "View_Statusbar", visible);
+	gth_window_change_action_state (GTH_WINDOW (browser), "show-statusbar", visible);
 	if (visible)
 		gtk_widget_show (browser->priv->statusbar);
 	else
@@ -3678,7 +3505,7 @@ _gth_browser_set_sidebar_visibility  (GthBrowser *browser,
 {
 	g_return_if_fail (browser != NULL);
 
-	_gth_browser_set_action_active (browser, "View_Sidebar", visible);
+	gth_window_change_action_state (GTH_WINDOW (browser), "show-sidebar", visible);
 	if (visible) {
 		gtk_widget_show (browser->priv->browser_sidebar);
 		gtk_paned_set_position (GTK_PANED (browser->priv->browser_left_container),
@@ -3742,7 +3569,7 @@ _gth_browser_set_thumbnail_list_visibility (GthBrowser *browser,
 {
 	g_return_if_fail (browser != NULL);
 
-	_gth_browser_set_action_active (browser, "View_Thumbnail_List", visible);
+	gth_window_change_action_state (GTH_WINDOW (browser), "show-thumbnail-list", visible);
 	if (visible) {
 		gtk_widget_show (browser->priv->thumbnail_list);
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
@@ -3774,7 +3601,7 @@ pref_show_hidden_files_changed (GSettings  *settings,
 	if (show_hidden_files == browser->priv->show_hidden_files)
 		return;
 
-	_gth_browser_set_action_active (browser, "View_ShowHiddenFiles", show_hidden_files);
+	gth_window_change_action_state (GTH_WINDOW (browser), "show-hidden-files", show_hidden_files);
 	browser->priv->show_hidden_files = show_hidden_files;
 	gth_folder_tree_reset_loaded (GTH_FOLDER_TREE (browser->priv->folder_tree));
 	gth_browser_reload (browser);
@@ -3848,10 +3675,8 @@ gth_browser_init (GthBrowser *browser)
 {
 	int             window_width;
 	int             window_height;
-	GError         *error = NULL;
 	GtkWidget      *vbox;
 	GtkWidget      *scrolled_window;
-	GtkWidget      *menubar;
 	char           *general_filter;
 	char           *sort_type;
 	char           *caption;
@@ -3868,8 +3693,6 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->image_preloader = gth_image_preloader_new ();
 	browser->priv->progress_dialog = NULL;
 	browser->priv->named_dialogs = g_hash_table_new (g_str_hash, g_str_equal);
-	browser->priv->browser_ui_merge_id = 0;
-	browser->priv->viewer_ui_merge_id = 0;
 	browser->priv->location = NULL;
 	browser->priv->current_file = NULL;
 	browser->priv->location_source = NULL;
@@ -3973,35 +3796,6 @@ gth_browser_init (GthBrowser *browser)
 				     gth_browser_accelerators,
 				     G_N_ELEMENTS (gth_browser_accelerators));
 
-	browser->priv->actions = gtk_action_group_new ("Actions");
-	gtk_action_group_set_translation_domain (browser->priv->actions, NULL);
-	_gtk_action_group_add_actions_with_flags (browser->priv->actions,
-						  gth_browser_action_entries,
-						  G_N_ELEMENTS (gth_browser_action_entries),
-						  browser);
-	gtk_action_group_add_toggle_actions (browser->priv->actions,
-					     gth_browser_action_toggle_entries,
-					     G_N_ELEMENTS (gth_browser_action_toggle_entries),
-					     browser);
-
-	browser->priv->ui = gtk_ui_manager_new ();
-	g_signal_connect (browser->priv->ui,
-			  "connect_proxy",
-			  G_CALLBACK (connect_proxy_cb),
-			  browser);
-	g_signal_connect (browser->priv->ui,
-			  "disconnect_proxy",
-			  G_CALLBACK (disconnect_proxy_cb),
-			  browser);
-
-	gtk_ui_manager_insert_action_group (browser->priv->ui, browser->priv->actions, 0);
-	gtk_window_add_accel_group (GTK_WINDOW (browser), gtk_ui_manager_get_accel_group (browser->priv->ui));
-
-	if (! gtk_ui_manager_add_ui_from_string (browser->priv->ui, fixed_ui_info, -1, &error)) {
-		g_message ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
-
 	/* -- image page -- */
 
 	/* content */
@@ -4054,7 +3848,6 @@ gth_browser_init (GthBrowser *browser)
 
 	/* menus */
 
-	menubar = gtk_ui_manager_get_widget (browser->priv->ui, "/MenuBar");
 #ifdef USE_MACOSMENU
 	{
 		GtkWidget *widget;
@@ -4080,7 +3873,6 @@ gth_browser_init (GthBrowser *browser)
 		}
 	}
 #endif
-	gth_window_attach (GTH_WINDOW (browser), menubar, GTH_WINDOW_MENUBAR);
 
 	/* headerbar */
 
@@ -4423,10 +4215,9 @@ gth_browser_init (GthBrowser *browser)
 
 	general_filter = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_GENERAL_FILTER);
 	browser->priv->filterbar = gth_filterbar_new (general_filter);
+	gtk_widget_show (browser->priv->filterbar);
 	gth_filterbar_load_filter (GTH_FILTERBAR (browser->priv->filterbar), "active_filter.xml");
 	g_free (general_filter);
-
-	gth_browser_show_filterbar (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_FILTERBAR_VISIBLE));
 	gtk_box_pack_end (GTK_BOX (vbox), browser->priv->filterbar, FALSE, FALSE, 0);
 
 	g_signal_connect (browser->priv->filterbar,
@@ -4436,10 +4227,6 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (browser->priv->filterbar,
 			  "personalize",
 			  G_CALLBACK (filterbar_personalize_cb),
-			  browser);
-	g_signal_connect (browser->priv->filterbar,
-			  "close_button_clicked",
-			  G_CALLBACK (filterbar_close_button_clicked_cb),
 			  browser);
 
 	/* monitor signals */
@@ -4513,6 +4300,7 @@ gth_browser_init (GthBrowser *browser)
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS, G_MENU (gtk_builder_get_object (builder, "open-actions")));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_EDIT_ACTIONS, G_MENU (gtk_builder_get_object (builder, "edit-actions")));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_FILE_ACTIONS, G_MENU (gtk_builder_get_object (builder, "file-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_DELETE_ACTIONS, G_MENU (gtk_builder_get_object (builder, "delete-actions")));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_FOLDER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "folder-actions")));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OTHER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "other-actions")));
 
@@ -4546,10 +4334,10 @@ gth_browser_init (GthBrowser *browser)
 	_gth_browser_set_sidebar_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SIDEBAR_VISIBLE));
 
 	browser->priv->show_hidden_files = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_HIDDEN_FILES);
-	_gth_browser_set_action_active (browser, "View_ShowHiddenFiles", browser->priv->show_hidden_files);
+	gth_window_change_action_state (GTH_WINDOW (browser), "show-hidden-files", browser->priv->show_hidden_files);
 
 	browser->priv->shrink_wrap_viewer = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SHRINK_WRAP_VIEWER);
-	_gth_browser_set_action_active (browser, "View_ShrinkWrap", browser->priv->shrink_wrap_viewer);
+	gth_window_change_action_state (GTH_WINDOW (browser), "shrink-wrap", browser->priv->shrink_wrap_viewer);
 
 	if (g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_VISIBLE))
 		gth_browser_show_file_properties (browser);
@@ -4814,20 +4602,6 @@ gth_browser_get_dialog (GthBrowser *browser,
 			const char *dialog_name)
 {
 	return g_hash_table_lookup (browser->priv->named_dialogs, dialog_name);
-}
-
-
-GtkUIManager *
-gth_browser_get_ui_manager (GthBrowser *browser)
-{
-	return browser->priv->ui;
-}
-
-
-GtkActionGroup *
-gth_browser_get_actions (GthBrowser *browser)
-{
-	return browser->priv->actions;
 }
 
 
@@ -5593,7 +5367,6 @@ _gth_browser_set_current_viewer_page (GthBrowser    *browser,
 		gth_viewer_page_activate (browser->priv->viewer_page, browser);
 		if (browser->priv->fullscreen)
 			gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), FALSE);
-		gtk_ui_manager_ensure_update (browser->priv->ui);
 
 		g_signal_connect (browser->priv->viewer_page,
 				  "file-loaded",
@@ -6274,21 +6047,8 @@ gth_browser_enable_thumbnails (GthBrowser *browser,
 			       gboolean    show)
 {
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (browser->priv->file_list), show);
-	_gth_browser_set_action_active (browser, "View_Thumbnails", show);
+	gth_window_change_action_state (GTH_WINDOW (browser), "show-thumbnails", show);
 	g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_THUMBNAILS, show);
-}
-
-
-void
-gth_browser_show_filterbar (GthBrowser *browser,
-			    gboolean    show)
-{
-	if (show)
-		gtk_widget_show (browser->priv->filterbar);
-	else
-		gtk_widget_hide (browser->priv->filterbar);
-	_gth_browser_set_action_active (browser, "View_Filterbar", show);
-	g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_FILTERBAR_VISIBLE, show);
 }
 
 
@@ -6346,8 +6106,6 @@ _gth_browser_create_fullscreen_toolbar (GthBrowser *browser)
 
 	browser->priv->fullscreen_toolbar = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_container_set_border_width (GTK_CONTAINER (browser->priv->fullscreen_toolbar), 0);
-	gtk_container_add (GTK_CONTAINER (browser->priv->fullscreen_toolbar),
-			   gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar"));
 	gth_browser_register_fullscreen_control (browser, browser->priv->fullscreen_toolbar);
 }
 
@@ -6477,7 +6235,7 @@ gth_browser_fullscreen (GthBrowser *browser)
 	browser->priv->before_fullscreen.page = gth_window_get_current_page (GTH_WINDOW (browser));
 	browser->priv->before_fullscreen.viewer_properties = gth_window_get_action_state (GTH_WINDOW (browser), "viewer-properties");
 	browser->priv->before_fullscreen.viewer_tools = gth_window_get_action_state (GTH_WINDOW (browser), "viewer-edit-file");
-	browser->priv->before_fullscreen.thumbnail_list = _gth_browser_get_action_active (browser, "View_Thumbnail_List");
+	browser->priv->before_fullscreen.thumbnail_list = gth_window_get_action_state (GTH_WINDOW (browser), "show-thumbnail-list");
 	browser->priv->before_fullscreen.browser_properties = gth_window_get_action_state (GTH_WINDOW (browser), "browser-properties");
 
 	gth_browser_hide_sidebar (browser);
@@ -6578,7 +6336,6 @@ gth_browser_file_menu_popup (GthBrowser     *browser,
 	}
 
 	gth_hook_invoke ("gth-browser-file-popup-before", browser);
-	gtk_ui_manager_ensure_update (browser->priv->ui);
 	gtk_menu_popup (GTK_MENU (browser->priv->file_popup),
 			NULL,
 			NULL,

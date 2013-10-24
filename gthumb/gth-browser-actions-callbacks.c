@@ -39,167 +39,6 @@
 
 
 void
-gth_browser_activate_action_view_filter (GtkAction  *action,
-					 GthBrowser *browser)
-{
-	dlg_personalize_filters (browser);
-}
-
-
-void
-gth_browser_activate_action_view_filterbar (GtkAction  *action,
-					    GthBrowser *browser)
-{
-	gth_browser_show_filterbar (browser, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-}
-
-
-void
-gth_browser_activate_action_view_fullscreen (GtkAction  *action,
-					     GthBrowser *browser)
-{
-	gth_browser_fullscreen (browser);
-}
-
-
-void
-gth_browser_activate_action_view_sort_by (GtkAction  *action,
-					  GthBrowser *browser)
-{
-	dlg_sort_order (browser);
-}
-
-
-void
-gth_browser_activate_action_view_thumbnails (GtkAction  *action,
-					     GthBrowser *browser)
-{
-	gth_browser_enable_thumbnails (browser, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-}
-
-
-void
-gth_browser_activate_action_view_show_hidden_files (GtkAction  *action,
-						    GthBrowser *browser)
-{
-	GSettings *settings;
-
-	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
-	g_settings_set_boolean (settings, PREF_BROWSER_SHOW_HIDDEN_FILES, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-
-	g_object_unref (settings);
-}
-
-
-void
-gth_browser_activate_action_view_statusbar (GtkAction  *action,
-					    GthBrowser *browser)
-{
-	GSettings *settings;
-
-	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
-	g_settings_set_boolean (settings, PREF_BROWSER_STATUSBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-
-	g_object_unref (settings);
-}
-
-
-void
-gth_browser_activate_action_view_sidebar (GtkAction  *action,
-					  GthBrowser *browser)
-{
-	GSettings *settings;
-
-	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
-	g_settings_set_boolean (settings, PREF_BROWSER_SIDEBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-
-	g_object_unref (settings);
-}
-
-
-void
-gth_browser_activate_action_view_thumbnail_list (GtkAction  *action,
-						 GthBrowser *browser)
-{
-	GSettings *settings;
-
-	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
-	g_settings_set_boolean (settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-
-	g_object_unref (settings);
-}
-
-
-void
-gth_browser_activate_action_view_stop (GtkAction  *action,
-				       GthBrowser *browser)
-{
-	gth_browser_stop (browser);
-}
-
-
-void
-gth_browser_activate_action_view_reload (GtkAction  *action,
-					 GthBrowser *browser)
-{
-	gth_browser_reload (browser);
-}
-
-
-void
-gth_browser_activate_action_folder_open (GtkAction  *action,
-					 GthBrowser *browser)
-{
-	GthFileData *file_data;
-
-	file_data = gth_browser_get_folder_popup_file_data (browser);
-	if (file_data == NULL)
-		return;
-
-	gth_browser_load_location (browser, file_data->file);
-
-	g_object_unref (file_data);
-}
-
-
-void
-gth_browser_activate_action_folder_open_in_new_window (GtkAction  *action,
-						       GthBrowser *browser)
-{
-	GthFileData *file_data;
-	GtkWidget   *new_browser;
-
-	file_data = gth_browser_get_folder_popup_file_data (browser);
-	if (file_data == NULL)
-		return;
-
-	new_browser = gth_browser_new (file_data->file, NULL);
-	gtk_window_present (GTK_WINDOW (new_browser));
-
-	g_object_unref (file_data);
-}
-
-
-void
-gth_browser_activate_action_view_shrink_wrap (GtkAction  *action,
-					      GthBrowser *browser)
-{
-	gth_browser_set_shrink_wrap_viewer (GTH_BROWSER (browser), gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-}
-
-
-void
-gth_browser_activate_action_edit_select_all (GtkAction  *action,
-				 	     GthBrowser *browser)
-{
-	gth_file_selection_select_all (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-}
-
-
-/* -- GAction callbacks -- */
-
-
-void
 toggle_action_activated (GSimpleAction *action,
 			 GVariant      *parameter,
 			 gpointer       data)
@@ -600,4 +439,93 @@ gth_browser_activate_open_folder_in_new_window (GSimpleAction *action,
 	gtk_window_present (GTK_WINDOW (new_browser));
 
 	g_object_unref (file_data);
+}
+
+
+void
+gth_browser_activate_shrink_wrap (GSimpleAction *action,
+				  GVariant      *state,
+				  gpointer       user_data)
+{
+	g_simple_action_set_state (action, state);
+	gth_browser_set_shrink_wrap_viewer (GTH_BROWSER (user_data), g_variant_get_boolean (state));
+}
+
+
+void
+gth_browser_activate_show_hidden_files (GSimpleAction *action,
+					GVariant      *state,
+					gpointer       user_data)
+{
+	GSettings *settings;
+
+	g_simple_action_set_state (action, state);
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_SHOW_HIDDEN_FILES, g_variant_get_boolean (state));
+	g_object_unref (settings);
+}
+
+
+void
+gth_browser_activate_show_thumbnails (GSimpleAction *action,
+				      GVariant      *state,
+				      gpointer       user_data)
+{
+	g_simple_action_set_state (action, state);
+	gth_browser_enable_thumbnails (GTH_BROWSER (user_data), g_variant_get_boolean (state));
+}
+
+
+void
+gth_browser_activate_sort_by (GSimpleAction *action,
+			      GVariant      *parameter,
+			      gpointer       user_data)
+{
+	dlg_sort_order (GTH_BROWSER (user_data));
+}
+
+
+void
+gth_browser_activate_show_statusbar (GSimpleAction *action,
+				     GVariant      *state,
+				     gpointer       user_data)
+{
+	GSettings *settings;
+
+	g_simple_action_set_state (action, state);
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_STATUSBAR_VISIBLE, g_variant_get_boolean (state));
+	g_object_unref (settings);
+}
+
+
+void
+gth_browser_activate_show_sidebar (GSimpleAction *action,
+				   GVariant      *state,
+				   gpointer       user_data)
+{
+	GSettings *settings;
+
+	g_simple_action_set_state (action, state);
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_SIDEBAR_VISIBLE, g_variant_get_boolean (state));
+	g_object_unref (settings);
+}
+
+
+void
+gth_browser_activate_show_thumbnail_list (GSimpleAction *action,
+					  GVariant      *state,
+					  gpointer       user_data)
+{
+	GSettings *settings;
+
+	g_simple_action_set_state (action, state);
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE, g_variant_get_boolean (state));
+	g_object_unref (settings);
 }

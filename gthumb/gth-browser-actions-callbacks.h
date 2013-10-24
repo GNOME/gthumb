@@ -23,23 +23,7 @@
 #define GTH_BROWSER_ACTIONS_CALLBACKS_H
 
 #include <gtk/gtk.h>
-
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
-
-DEFINE_ACTION(gth_browser_activate_action_edit_select_all)
-DEFINE_ACTION(gth_browser_activate_action_folder_open)
-DEFINE_ACTION(gth_browser_activate_action_folder_open_in_new_window)
-DEFINE_ACTION(gth_browser_activate_action_view_sort_by)
-DEFINE_ACTION(gth_browser_activate_action_view_filter)
-DEFINE_ACTION(gth_browser_activate_action_view_filterbar)
-DEFINE_ACTION(gth_browser_activate_action_view_thumbnails)
-DEFINE_ACTION(gth_browser_activate_action_view_show_hidden_files)
-DEFINE_ACTION(gth_browser_activate_action_view_statusbar)
-DEFINE_ACTION(gth_browser_activate_action_view_sidebar)
-DEFINE_ACTION(gth_browser_activate_action_view_thumbnail_list)
-DEFINE_ACTION(gth_browser_activate_action_view_stop)
-DEFINE_ACTION(gth_browser_activate_action_view_reload)
-DEFINE_ACTION(gth_browser_activate_action_view_shrink_wrap)
+#include "glib-utils.h"
 
 DEF_ACTION_CALLBACK (toggle_action_activated)
 DEF_ACTION_CALLBACK (gth_application_activate_new_window)
@@ -68,5 +52,12 @@ DEF_ACTION_CALLBACK (gth_browser_activate_viewer_edit_file)
 DEF_ACTION_CALLBACK (gth_browser_activate_viewer_properties)
 DEF_ACTION_CALLBACK (gth_browser_activate_unfullscreen)
 DEF_ACTION_CALLBACK (gth_browser_activate_open_folder_in_new_window)
+DEF_ACTION_CALLBACK (gth_browser_activate_shrink_wrap)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_hidden_files)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_thumbnails)
+DEF_ACTION_CALLBACK (gth_browser_activate_sort_by)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_statusbar)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_sidebar)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_thumbnail_list)
 
 #endif /* GTH_BROWSER_ACTIONS_CALLBACK_H */

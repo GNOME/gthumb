@@ -4,6 +4,8 @@ extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libimage_viewer.la
 
 libimage_viewer_la_SOURCES = 		\
+	actions.c			\
+	actions.h			\
 	gth-image-histogram.c		\
 	gth-image-histogram.h		\
 	gth-image-viewer-page.c		\

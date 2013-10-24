@@ -69,7 +69,6 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_WINDOW_HEIGHT            "window-height"
 #define PREF_BROWSER_WINDOW_MAXIMIZED         "maximized"
 #define PREF_BROWSER_STATUSBAR_VISIBLE        "statusbar-visible"
-#define PREF_BROWSER_FILTERBAR_VISIBLE        "filterbar-visible"
 #define PREF_BROWSER_SIDEBAR_VISIBLE          "sidebar-visible"
 #define PREF_BROWSER_PROPERTIES_VISIBLE       "properties-visible"
 #define PREF_BROWSER_PROPERTIES_ON_THE_RIGHT  "properties-on-the-right"

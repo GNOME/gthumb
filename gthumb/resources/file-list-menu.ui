@@ -6,6 +6,7 @@
       <item>
         <attribute name="label" translatable="yes">Fullscreen</attribute>
         <attribute name="action">win.fullscreen</attribute>
+        <attribute name="accel">F11</attribute>
       </item>
     </section>
     <section id="open-actions">
@@ -13,6 +14,8 @@
     <section id="edit-actions">
     </section>
     <section id="file-actions">
+    </section>
+    <section id="delete-actions">
     </section>
     <section id="folder-actions">
     </section>

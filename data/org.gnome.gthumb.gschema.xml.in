@@ -104,9 +104,6 @@
     <key name="statusbar-visible" type="b">
       <default>true</default>
     </key>
-    <key name="filterbar-visible" type="b">
-      <default>true</default>
-    </key>
     <key name="sidebar-visible" type="b">
       <default>true</default>
     </key>

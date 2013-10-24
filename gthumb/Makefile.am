@@ -133,7 +133,6 @@ PRIVATE_HEADER_FILES = 					\
 	dlg-preferences-extensions.h			\
 	gth-browser-actions-callbacks.h			\
 	gth-browser-actions-entries.h			\
-	gth-browser-ui.h				\
 	gth-metadata-provider-file.h			\
 	dlg-personalize-filters.h			\
 	dlg-preferences.h				\

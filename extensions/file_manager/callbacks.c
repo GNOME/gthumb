@@ -71,13 +71,16 @@ static const GthMenuEntry fixed_menu_entries_edit[] = {
 
 
 static const GthMenuEntry fixed_menu_entries_file[] = {
-	{ N_("Copy to..."), "win.copy-to-folder" },
-	{ N_("Move to..."), "win.move-to-folder" },
+	{ N_("Copy to…"), "win.copy-to-folder" },
+	{ N_("Move to…"), "win.move-to-folder" },
 	{ N_("Rename"), "win.rename", "F2" },
+};
+
+
+static const GthMenuEntry fixed_menu_entries_delete[] = {
 	{ N_("Move to Trash"), "win.trash" },
 	{ N_("Delete"), "win.delete" },
 };
-
 
 static const GthMenuEntry folder_context_open_entries[] = {
 	{ N_("Open with the File Manager"), "win.folder-context-open-with-fm" }
@@ -98,8 +101,8 @@ static const GthMenuEntry folder_context_edit_entries[] = {
 
 static const GthMenuEntry folder_context_folder_entries[] = {
 	{ N_("Rename"), "win.folder-context-rename" },
-	{ N_("Copy to..."), "win.folder-context-copy-to" },
-	{ N_("Move to..."), "win.folder-context-move-to" },
+	{ N_("Copy to…"), "win.folder-context-copy-to" },
+	{ N_("Move to…"), "win.folder-context-move-to" },
 	{ N_("Move to Trash"), "win.folder-context-trash" },
 	{ N_("Delete"), "win.folder-context-delete" }
 };
@@ -111,7 +114,7 @@ static const GthMenuEntry create_folder_entries[] = {
 
 
 static const GthMenuEntry vfs_entries[] = {
-	{ N_("Duplicate"), "win.duplicate", "<Control><Shift>d" }
+	{ N_("Duplicate"), "win.duplicate", "<Control>d" }
 };
 
 
@@ -488,6 +491,9 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_FILE_ACTIONS),
 					 fixed_menu_entries_file,
 				         G_N_ELEMENTS (fixed_menu_entries_file));
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_DELETE_ACTIONS),
+					 fixed_menu_entries_delete,
+				         G_N_ELEMENTS (fixed_menu_entries_delete));
 
 	data->open_with_menu = g_menu_new ();
 

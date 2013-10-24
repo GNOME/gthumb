@@ -43,13 +43,13 @@ db__gth_browser_construct_cb (GthBrowser *browser)
 					 browser);
 	gth_menu_manager_append_entry (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_SCREEN_ACTIONS),
 				       GTH_MENU_MANAGER_NEW_MERGE_ID,
-				       _("Set as Desktop Background"),
+				       _("Desktop Background"),
 				       "win.set-desktop-background",
 				       NULL,
 				       NULL);
 	gth_menu_manager_append_entry (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_SCREEN_ACTIONS),
 				       GTH_MENU_MANAGER_NEW_MERGE_ID,
-				       _("Set as Desktop Background"),
+				       _("Desktop Background"),
 				       "win.set-desktop-background",
 				       NULL,
 				       NULL);

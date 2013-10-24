@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2013 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,19 +24,14 @@
 
 #include <gthumb.h>
 
-void gth_browser_activate_show_selection        (GthBrowser *browser,
-						 int         n_selection);
-void gth_browser_activate_add_to_selection      (GthBrowser *browser,
-						 int         n_selection);
-void gth_browser_activate_remove_from_selection (GthBrowser *browser,
-						 int         n_selection);
-
-DEF_ACTION_CALLBACK (gth_browser_activate_go_to_selection_1)
-DEF_ACTION_CALLBACK (gth_browser_activate_go_to_selection_2)
-DEF_ACTION_CALLBACK (gth_browser_activate_go_to_selection_3)
-DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection_1)
-DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection_2)
-DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection_3)
-DEF_ACTION_CALLBACK (gth_browser_activate_go_to_file_container_from_selection)
+DEF_ACTION_CALLBACK (gth_browser_activate_image_zoom_in)
+DEF_ACTION_CALLBACK (gth_browser_activate_image_zoom_out)
+DEF_ACTION_CALLBACK (gth_browser_activate_image_zoom_100)
+DEF_ACTION_CALLBACK (gth_browser_activate_image_zoom_fit)
+DEF_ACTION_CALLBACK (gth_browser_activate_image_zoom_fit_width)
+DEF_ACTION_CALLBACK (gth_browser_activate_image_undo)
+DEF_ACTION_CALLBACK (gth_browser_activate_image_redo)
+DEF_ACTION_CALLBACK (gth_browser_activate_copy_image)
+DEF_ACTION_CALLBACK (gth_browser_activate_paste_image)
 
 #endif /* ACTIONS_H */
