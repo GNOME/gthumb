@@ -3846,34 +3846,6 @@ gth_browser_init (GthBrowser *browser)
 
 	/* -- browser page -- */
 
-	/* menus */
-
-#ifdef USE_MACOSMENU
-	{
-		GtkWidget *widget;
-
-		ige_mac_menu_install_key_handler ();
-		ige_mac_menu_set_menu_bar (GTK_MENU_SHELL (menubar));
-		gtk_widget_hide (menubar);
-		widget = gtk_ui_manager_get_widget(ui, "/MenuBar/File/Close");
-		if (widget != NULL) {
-			ige_mac_menu_set_quit_menu_item (GTK_MENU_ITEM (widget));
-		}
-		widget = gtk_ui_manager_get_widget(ui, "/MenuBar/Help/About");
-		if (widget != NULL) {
-			ige_mac_menu_add_app_menu_item  (ige_mac_menu_add_app_menu_group (),
-			GTK_MENU_ITEM (widget),
-			NULL);
-		}
-		widget = gtk_ui_manager_get_widget(ui, "/MenuBar/Edit/Preferences");
-			if (widget != NULL) {
-			ige_mac_menu_add_app_menu_item  (ige_mac_menu_add_app_menu_group (),
-			GTK_MENU_ITEM (widget),
-			NULL);
-		}
-	}
-#endif
-
 	/* headerbar */
 
 	{
