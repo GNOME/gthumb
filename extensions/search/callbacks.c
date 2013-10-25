@@ -33,7 +33,6 @@
 
 
 #define BROWSER_DATA_KEY "search-browser-data"
-#define _RESPONSE_REFRESH 2
 
 
 static const GActionEntry actions[] = {
@@ -80,7 +79,7 @@ static void
 refresh_button_clicked_cb (GtkButton  *button,
 			   GthBrowser *browser)
 {
-	gth_browser_activate_action_edit_search_update (NULL, browser);
+	gth_browser_update_search (browser);
 }
 
 
@@ -98,14 +97,16 @@ search__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 
 	if (data->refresh_button == NULL) {
 		data->refresh_button = gtk_button_new ();
-		gtk_container_add (GTK_CONTAINER (data->refresh_button), gtk_image_new_from_stock (GTK_STOCK_REFRESH, GTK_ICON_SIZE_MENU));
+		gtk_container_add (GTK_CONTAINER (data->refresh_button), gtk_image_new_from_icon_name ("view-refresh-symbolic", GTK_ICON_SIZE_MENU));
 		g_object_add_weak_pointer (G_OBJECT (data->refresh_button), (gpointer *)&data->refresh_button);
 		gtk_button_set_relief (GTK_BUTTON (data->refresh_button), GTK_RELIEF_NONE);
 		gtk_widget_set_tooltip_text (data->refresh_button, _("Search again"));
 		gtk_widget_show_all (data->refresh_button);
-		gtk_info_bar_add_action_widget (GTK_INFO_BAR (gth_browser_get_list_extra_widget (browser)),
-						data->refresh_button,
-						_RESPONSE_REFRESH);
+		gtk_box_pack_start (GTK_BOX (gth_location_bar_get_action_area (GTH_LOCATION_BAR (gth_browser_get_location_bar (browser)))),
+				    data->refresh_button,
+				    FALSE,
+				    FALSE,
+				    0);
 		g_signal_connect (data->refresh_button,
 				  "clicked",
 				  G_CALLBACK (refresh_button_clicked_cb),

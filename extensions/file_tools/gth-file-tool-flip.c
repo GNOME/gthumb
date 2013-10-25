@@ -87,6 +87,6 @@ gth_file_tool_flip_class_init (GthFileToolFlipClass *klass)
 static void
 gth_file_tool_flip_init (GthFileToolFlip *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-flip", _("Flip"), NULL, FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "object-flip-vertical-symbolic", _("Flip"), NULL, FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Flip the image vertically"));
 }

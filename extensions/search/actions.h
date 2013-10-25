@@ -22,11 +22,9 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 
-#include <gtk/gtk.h>
-
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
+#include <gthumb.h>
 
 DEF_ACTION_CALLBACK (gth_browser_activate_find)
-DEFINE_ACTION (gth_browser_activate_action_edit_search_update)
+void gth_browser_update_search (GthBrowser *browser);
 
 #endif /* ACTIONS_H */

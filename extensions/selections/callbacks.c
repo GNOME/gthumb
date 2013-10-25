@@ -298,7 +298,7 @@ void
 selections__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 {
 	GthFileData *location_data;
-	GtkWidget   *extra_widget;
+	GtkWidget   *info_bar;
 	int          n_selection;
 	char        *msg;
 
@@ -307,14 +307,16 @@ selections__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 		return;
 
 	n_selection = g_file_info_get_attribute_int32 (location_data->info, "gthumb::n-selection");
-	extra_widget = gth_browser_get_list_extra_widget (browser);
-	gth_embedded_dialog_set_gicon (GTH_EMBEDDED_DIALOG (extra_widget), g_file_info_get_icon (location_data->info), GTK_ICON_SIZE_DIALOG);
-	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (extra_widget), g_file_info_get_display_name (location_data->info));
-	if (n_selection > 0)
-		msg = g_strdup_printf (_("Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."), n_selection, n_selection);
-	else
-		msg = NULL;
-	gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (extra_widget), msg);
+	if (n_selection <= 0)
+		return;
+
+	info_bar = gth_browser_get_list_info_bar (browser);
+	gtk_info_bar_set_message_type (GTK_INFO_BAR(info_bar), GTK_MESSAGE_INFO);
+	gth_info_bar_set_icon_name (GTH_INFO_BAR (info_bar), "dialog-information-symbolic", GTK_ICON_SIZE_MENU);
+	gth_info_bar_set_primary_text (GTH_INFO_BAR (info_bar), NULL);
+	msg = g_strdup_printf (_("Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."), n_selection, n_selection);
+	gth_info_bar_set_secondary_text (GTH_INFO_BAR (info_bar), msg);
+	gtk_widget_show (info_bar);
 
 	g_free (msg);
 }

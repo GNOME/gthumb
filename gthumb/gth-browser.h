@@ -189,7 +189,8 @@ void             gth_browser_exec_task              (GthBrowser       *browser,
 void             gth_browser_set_close_with_task    (GthBrowser       *browser,
 						     gboolean          value);
 gboolean         gth_browser_get_close_with_task    (GthBrowser       *browser);
-GtkWidget *      gth_browser_get_list_extra_widget  (GthBrowser       *browser);
+GtkWidget *      gth_browser_get_location_bar	    (GthBrowser       *browser);
+GtkWidget *      gth_browser_get_list_info_bar	    (GthBrowser       *browser);
 gboolean         gth_browser_viewer_button_press_cb (GthBrowser       *browser,
 						     GdkEventButton   *event);
 gboolean	 gth_browser_viewer_scroll_event_cb (GthBrowser       *browser,

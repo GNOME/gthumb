@@ -38,12 +38,12 @@ typedef struct _GthStatusbarClass GthStatusbarClass;
 typedef struct _GthStatusbarPrivate GthStatusbarPrivate;
 
 struct _GthStatusbar {
-	GtkStatusbar parent_instance;
+	GtkBox parent_instance;
 	GthStatusbarPrivate *priv;
 };
 
 struct _GthStatusbarClass {
-	GtkStatusbarClass parent_class;
+	GtkBoxClass parent_class;
 };
 
 GType        gth_statusbar_get_type             (void);
@@ -58,6 +58,7 @@ void         gth_statusbar_set_progress         (GthStatusbar *statusbar,
 						 const char   *text,
 						 gboolean      pulse,
 						 double        fraction);
+GtkWidget *  gth_statubar_get_action_area       (GthStatusbar *statusbar);
 
 G_END_DECLS
 

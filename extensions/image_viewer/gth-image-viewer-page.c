@@ -65,8 +65,8 @@ static const GthAccelerator accelerators[] = {
 
 
 static const GthMenuEntry file_popup_entries[] = {
-	{ N_("Copy Image"), "win.copy-image", "<control>c" },
-	{ N_("Paste Image"), "win.paste-image", "<control>v" },
+	{ N_("Copy Image"), "win.copy-image" },
+	{ N_("Paste Image"), "win.paste-image" },
 };
 
 

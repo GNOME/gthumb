@@ -37,7 +37,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-color-scale.h				\
 	gth-dumb-notebook.h				\
 	gth-duplicable.h				\
-	gth-embedded-dialog.h				\
 	gth-empty-list.h				\
 	gth-extensions.h				\
 	gth-file-chooser-dialog.h			\
@@ -77,6 +76,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-viewer-tool.h				\
 	gth-info-bar.h					\
 	gth-load-file-data-task.h			\
+	gth-location-bar.h				\
 	gth-location-chooser.h				\
 	gth-main.h					\
 	gth-menu-action.h				\
@@ -111,8 +111,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-thumb-loader.h				\
 	gth-time.h					\
 	gth-time-selector.h				\
-	gth-toggle-menu-action.h			\
-	gth-toggle-menu-tool-button.h			\
 	gth-toolbox.h					\
 	gth-uri-list.h					\
 	gth-user-dir.h					\
@@ -172,7 +170,6 @@ gthumb_SOURCES = 					\
 	gth-color-scale.c				\
 	gth-dumb-notebook.c				\
 	gth-duplicable.c				\
-	gth-embedded-dialog.c				\
 	gth-empty-list.c				\
 	gth-error.c					\
 	gth-extensions.c				\
@@ -212,6 +209,7 @@ gthumb_SOURCES = 					\
 	gth-image-viewer-tool.c				\
 	gth-info-bar.c					\
 	gth-load-file-data-task.c			\
+	gth-location-bar.c				\
 	gth-location-chooser.c				\
 	gth-main.c					\
 	gth-main-default-hooks.c			\
@@ -251,8 +249,6 @@ gthumb_SOURCES = 					\
 	gth-thumb-loader.c				\
 	gth-time.c					\
 	gth-time-selector.c				\
-	gth-toggle-menu-action.c			\
-	gth-toggle-menu-tool-button.c			\
 	gth-toolbox.c					\
 	gth-uri-list.c					\
 	gth-user-dir.c					\

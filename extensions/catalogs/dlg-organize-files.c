@@ -111,7 +111,7 @@ dlg_organize_files (GthBrowser *browser,
 	data->builder = _gtk_builder_new_from_file ("organize-files.ui", "catalogs");
 	data->dialog = GET_WIDGET ("organize_files_dialog");
 
-	info_bar = gth_info_bar_new (NULL, NULL, NULL);
+	info_bar = gth_info_bar_new ();
 	gtk_info_bar_set_message_type (GTK_INFO_BAR (info_bar), GTK_MESSAGE_INFO);
 	info_label = gth_info_bar_get_primary_label (GTH_INFO_BAR (info_bar));
 	gtk_label_set_ellipsize (GTK_LABEL (info_label), PANGO_ELLIPSIZE_NONE);

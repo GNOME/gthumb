@@ -32,8 +32,6 @@
 
 
 #define BROWSER_DATA_KEY "catalogs-browser-data"
-#define _RESPONSE_PROPERTIES 1
-#define _RESPONSE_ORGANIZE 2
 #define UPDATE_RENAMED_FILES_DELAY 500
 
 
@@ -308,9 +306,11 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 			gtk_button_set_relief (GTK_BUTTON (data->properties_button), GTK_RELIEF_NONE);
 			gtk_widget_set_tooltip_text (data->properties_button, _("Catalog Properties"));
 			gtk_widget_show_all (data->properties_button);
-			gtk_info_bar_add_action_widget (GTK_INFO_BAR (gth_browser_get_list_extra_widget (browser)),
-							data->properties_button,
-							_RESPONSE_PROPERTIES);
+			gtk_box_pack_start (GTK_BOX (gth_location_bar_get_action_area (GTH_LOCATION_BAR (gth_browser_get_location_bar (browser)))),
+					    data->properties_button,
+					    FALSE,
+					    FALSE,
+					    0);
 			g_signal_connect (data->properties_button,
 					  "clicked",
 					  G_CALLBACK (properties_button_clicked_cb),
@@ -325,9 +325,11 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 			g_object_add_weak_pointer (G_OBJECT (data->organize_button), (gpointer *)&data->organize_button);
 			gtk_button_set_relief (GTK_BUTTON (data->organize_button), GTK_RELIEF_NONE);
 			gtk_widget_show_all (data->organize_button);
-			gtk_info_bar_add_action_widget (GTK_INFO_BAR (gth_browser_get_list_extra_widget (browser)),
-							data->organize_button,
-							_RESPONSE_ORGANIZE);
+			gtk_box_pack_start (GTK_BOX (gth_location_bar_get_action_area (GTH_LOCATION_BAR (gth_browser_get_location_bar (browser)))),
+					    data->organize_button,
+					    FALSE,
+					    FALSE,
+					    0);
 			g_signal_connect (data->organize_button,
 					  "clicked",
 					  G_CALLBACK (organize_button_clicked_cb),

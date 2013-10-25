@@ -88,7 +88,7 @@ static const GthMenuEntry folder_context_open_entries[] = {
 
 
 static const GthMenuEntry folder_context_create_entries[] = {
-	{ N_("Create Folder"), "win.folder-context-create" }
+	{ N_("Create Folder"), "win.folder-context-create", "<Control><Shift>n" }
 };
 
 
@@ -105,11 +105,6 @@ static const GthMenuEntry folder_context_folder_entries[] = {
 	{ N_("Move to…"), "win.folder-context-move-to" },
 	{ N_("Move to Trash"), "win.folder-context-trash" },
 	{ N_("Delete"), "win.folder-context-delete" }
-};
-
-
-static const GthMenuEntry create_folder_entries[] = {
-	{ N_("Create Folder"), "win.create-folder", "<Control><Shift>n" }
 };
 
 
@@ -132,7 +127,6 @@ static GtkTargetEntry non_reorderable_drag_dest_targets[] = {
 
 typedef struct {
 	guint     vfs_merge_id;
-	guint     browser_vfs_merge_id;
 	guint     folder_context_open_id;
 	guint     folder_context_create_id;
 	guint     folder_context_edit_id;
@@ -567,20 +561,6 @@ file_manager_update_ui (BrowserData *data,
 	else {
 		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_FILE_ACTIONS), data->vfs_merge_id);
 		data->vfs_merge_id = 0;
-	}
-
-	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))
-	    && (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER))
-	{
-		if (data->browser_vfs_merge_id == 0)
-			data->browser_vfs_merge_id =
-					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS),
-									 create_folder_entries,
-									 G_N_ELEMENTS (create_folder_entries));
-	}
-	else {
-		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS), data->browser_vfs_merge_id);
-		data->browser_vfs_merge_id = 0;
 	}
 }
 

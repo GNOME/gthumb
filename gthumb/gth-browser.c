@@ -31,7 +31,6 @@
 #include "gth-browser-actions-callbacks.h"
 #include "gth-browser-actions-entries.h"
 #include "gth-duplicable.h"
-#include "gth-embedded-dialog.h"
 #include "gth-enum-types.h"
 #include "gth-error.h"
 #include "gth-file-list.h"
@@ -44,6 +43,7 @@
 #include "gth-icon-cache.h"
 #include "gth-info-bar.h"
 #include "gth-image-preloader.h"
+#include "gth-location-bar.h"
 #include "gth-location-chooser.h"
 #include "gth-main.h"
 #include "gth-marshal.h"
@@ -54,7 +54,6 @@
 #include "gth-progress-dialog.h"
 #include "gth-sidebar.h"
 #include "gth-statusbar.h"
-#include "gth-toggle-menu-tool-button.h"
 #include "gth-user-dir.h"
 #include "gth-viewer-page.h"
 #include "gth-window.h"
@@ -74,6 +73,8 @@
 #define SHIRNK_WRAP_HEIGHT_OFFSET 125
 #define FILE_PROPERTIES_MINIMUM_HEIGHT 100
 #define HISTORY_FILE "history.xbel"
+#define SECTION_BIG_MARGIN 12
+
 
 G_DEFINE_TYPE (GthBrowser, gth_browser, GTH_TYPE_WINDOW)
 
@@ -109,9 +110,12 @@ struct _GthBrowserPrivate {
 	GtkWidget         *filterbar;
 	GtkWidget         *file_list;
 	GtkWidget         *list_extra_widget_container;
-	GtkWidget         *list_extra_widget;
+	GtkWidget         *list_info_bar;
+	GtkWidget         *location_bar;
 	GtkWidget         *file_properties;
 	GtkWidget         *header_sections[GTH_BROWSER_N_HEADER_SECTIONS];
+	GtkWidget         *browser_status_commands;
+	GtkWidget         *viewer_status_commands;
 	GHashTable	  *menu_managers;
 
 	GtkWidget         *thumbnail_list;
@@ -131,7 +135,6 @@ struct _GthBrowserPrivate {
 
 	/* Browser data */
 
-	guint              help_message_cid;
 	gulong             folder_changed_id;
 	gulong             file_renamed_id;
 	gulong             metadata_changed_id;
@@ -384,8 +387,10 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 void
 gth_browser_update_extra_widget (GthBrowser *browser)
 {
-	_gtk_info_bar_clear_action_area (GTK_INFO_BAR (browser->priv->list_extra_widget));
-	gth_embedded_dialog_set_from_file (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget), browser->priv->location->file);
+	gtk_widget_hide (browser->priv->list_info_bar);
+	gtk_widget_show (browser->priv->location_bar);
+	_gtk_container_remove_children (GTK_CONTAINER (gth_location_bar_get_action_area (GTH_LOCATION_BAR (browser->priv->location_bar))), NULL, NULL);
+	gth_location_bar_set_from_file (GTH_LOCATION_BAR (browser->priv->location_bar), browser->priv->location->file);
 	gth_hook_invoke ("gth-browser-update-extra-widget", browser);
 }
 
@@ -406,7 +411,7 @@ _gth_browser_set_location (GthBrowser  *browser,
 	gth_browser_update_title (browser);
 	gth_browser_update_sensitivity (browser);
 
-	location_chooser = gth_embedded_dialog_get_chooser (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget));
+	location_chooser = gth_location_bar_get_chooser (GTH_LOCATION_BAR (browser->priv->location_bar));
 	g_signal_handlers_block_by_data (location_chooser, browser);
 	gth_browser_update_extra_widget (browser);
 	g_signal_handlers_unblock_by_data (location_chooser, browser);
@@ -954,7 +959,7 @@ _gth_browser_show_error (GthBrowser *browser,
 	gth_info_bar_set_secondary_text (GTH_INFO_BAR (browser->priv->infobar), error->message);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (gtk_info_bar_get_action_area (GTK_INFO_BAR (browser->priv->infobar))), GTK_ORIENTATION_HORIZONTAL);
-	gth_info_bar_set_icon (GTH_INFO_BAR (browser->priv->infobar), GTK_STOCK_DIALOG_ERROR);
+	gth_info_bar_set_icon_name (GTH_INFO_BAR (browser->priv->infobar), "dialog-error-symbolic", GTK_ICON_SIZE_DIALOG);
 	gtk_info_bar_set_message_type (GTK_INFO_BAR (browser->priv->infobar), GTK_MESSAGE_ERROR);
 	_gtk_info_bar_clear_action_area (GTK_INFO_BAR (browser->priv->infobar));
 	gtk_info_bar_add_buttons (GTK_INFO_BAR (browser->priv->infobar),
@@ -2164,6 +2169,9 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW, page == GTH_BROWSER_PAGE_VIEWER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT, page == GTH_BROWSER_PAGE_VIEWER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS, page == GTH_BROWSER_PAGE_VIEWER);
+
+	gtk_widget_set_visible (browser->priv->browser_status_commands, page == GTH_BROWSER_PAGE_BROWSER);
+	gtk_widget_set_visible (browser->priv->viewer_status_commands, page == GTH_BROWSER_PAGE_VIEWER);
 
 	/* move the sidebar from the browser to the viewer and vice-versa */
 
@@ -3862,6 +3870,12 @@ gth_browser_init (GthBrowser *browser)
 			gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->header_sections[i]), GTK_STYLE_CLASS_LINKED);
 		}
 
+		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT], SECTION_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT], SECTION_BIG_MARGIN);
+
+		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], SECTION_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], SECTION_BIG_MARGIN);
+
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS]);
@@ -3946,18 +3960,6 @@ gth_browser_init (GthBrowser *browser)
 
 		/* browser commands */
 
-		gth_browser_add_header_bar_toggle_button (browser,
-							  GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
-							  "document-properties-symbolic",
-							  _("View file properties"),
-							  "win.browser-properties",
-							  NULL);
-		gth_browser_add_header_bar_button (browser,
-						   GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
-						   "view-fullscreen-symbolic",
-						   _("Switch to fullscreen"),
-						   "win.fullscreen",
-						   NULL);
 		gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT,
 						   "palette-symbolic",
@@ -3974,21 +3976,6 @@ gth_browser_init (GthBrowser *browser)
 						   "win.browser-mode",
 						   NULL);
 
-		/* viewer view */
-
-		gth_browser_add_header_bar_toggle_button (browser,
-							  GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
-							  "document-properties-symbolic",
-							  _("View file properties"),
-							  "win.viewer-properties",
-							  NULL);
-		gth_browser_add_header_bar_button (browser,
-						   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
-						   "view-fullscreen-symbolic",
-						   _("Switch to fullscreen"),
-						   "win.fullscreen",
-						   NULL);
-
 		/* viewer edit */
 
 		gth_browser_add_header_bar_toggle_button (browser,
@@ -4001,15 +3988,53 @@ gth_browser_init (GthBrowser *browser)
 
 	/* infobar */
 
-	browser->priv->infobar = gth_info_bar_new (NULL, NULL, NULL);
+	browser->priv->infobar = gth_info_bar_new ();
 	gth_window_attach (GTH_WINDOW (browser), browser->priv->infobar, GTH_WINDOW_INFOBAR);
 
 	/* statusbar */
 
 	browser->priv->statusbar = gth_statusbar_new ();
-	browser->priv->help_message_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (browser->priv->statusbar), "gth_help_message");
 	_gth_browser_set_statusbar_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_STATUSBAR_VISIBLE));
 	gth_window_attach (GTH_WINDOW (browser), browser->priv->statusbar, GTH_WINDOW_STATUSBAR);
+
+	{
+		GtkWidget *button;
+
+		/* statusbar commands in browser mode */
+
+		browser->priv->browser_status_commands = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+		gtk_widget_show (browser->priv->browser_status_commands);
+		/*gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->browser_status_commands), GTK_STYLE_CLASS_LINKED);*/
+		gtk_box_pack_start (GTK_BOX (gth_statubar_get_action_area (GTH_STATUSBAR (browser->priv->statusbar))), browser->priv->browser_status_commands, FALSE, FALSE, 0);
+
+		button = gtk_toggle_button_new ();
+		/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
+		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-properties-symbolic", GTK_ICON_SIZE_MENU));
+		gtk_widget_show_all (button);
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.browser-properties");
+		gtk_box_pack_end (GTK_BOX (browser->priv->browser_status_commands), button, FALSE, FALSE, 0);
+
+		/* statusbar commands in viewer mode */
+
+		browser->priv->viewer_status_commands = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+		gtk_widget_show (browser->priv->viewer_status_commands);
+		/*gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->viewer_status_commands), GTK_STYLE_CLASS_LINKED);*/
+		gtk_box_pack_start (GTK_BOX (gth_statubar_get_action_area (GTH_STATUSBAR (browser->priv->statusbar))), browser->priv->viewer_status_commands, FALSE, FALSE, 0);
+
+		button = gtk_toggle_button_new ();
+		/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
+		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-properties-symbolic", GTK_ICON_SIZE_MENU));
+		gtk_widget_show_all (button);
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.viewer-properties");
+		gtk_box_pack_end (GTK_BOX (browser->priv->viewer_status_commands), button, FALSE, FALSE, 0);
+
+		button = gtk_toggle_button_new ();
+		/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
+		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("view-grid-symbolic", GTK_ICON_SIZE_MENU));
+		gtk_widget_show_all (button);
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.show-thumbnail-list");
+		gtk_box_pack_end (GTK_BOX (browser->priv->viewer_status_commands), button, FALSE, FALSE, 0);
+	}
 
 	/* main content */
 
@@ -4125,19 +4150,24 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the list extra widget container */
 
-	browser->priv->list_extra_widget_container = gtk_alignment_new (0, 0.5, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->list_extra_widget_container), 0, 0, 0, 0);
+	browser->priv->list_extra_widget_container = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (browser->priv->list_extra_widget_container);
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->list_extra_widget_container, FALSE, FALSE, 0);
 
-	browser->priv->list_extra_widget = gth_embedded_dialog_new ();
-	gtk_widget_show (browser->priv->list_extra_widget);
-	gtk_container_add (GTK_CONTAINER (browser->priv->list_extra_widget_container), browser->priv->list_extra_widget);
+	/* location bar */
 
-	g_signal_connect (gth_embedded_dialog_get_chooser (GTH_EMBEDDED_DIALOG (browser->priv->list_extra_widget)),
+	browser->priv->location_bar = gth_location_bar_new ();
+	gtk_widget_show (browser->priv->location_bar);
+	gtk_box_pack_start (GTK_BOX (browser->priv->list_extra_widget_container), browser->priv->location_bar, TRUE, TRUE, 0);
+	g_signal_connect (gth_location_bar_get_chooser (GTH_LOCATION_BAR (browser->priv->location_bar)),
 			  "changed",
 			  G_CALLBACK (location_chooser_changed_cb),
 			  browser);
+
+	/* list info bar */
+
+	browser->priv->list_info_bar = gth_info_bar_new ();
+	gtk_box_pack_start (GTK_BOX (browser->priv->list_extra_widget_container), browser->priv->list_info_bar, TRUE, TRUE, 0);
 
 	/* the file list */
 
@@ -4622,7 +4652,7 @@ _gth_browser_setup_header_bar_button (GthBrowser			*browser,
 				      const char			*accelerator,
 				      GtkWidget *button)
 {
-	gtk_actionable_set_action_name (GTK_ACTIONABLE (button),action_name);
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (button), action_name);
 	if (tooltip != NULL)
 		gtk_widget_set_tooltip_text (button, tooltip);
 	if (accelerator != NULL)
@@ -4857,7 +4887,6 @@ foreground_task_completed_cb (GthTask    *task,
 	g_signal_handler_disconnect (browser->priv->task, browser->priv->task_completed);
 	g_signal_handler_disconnect (browser->priv->task, browser->priv->task_progress);
 
-	gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), NULL, FALSE, 0.0);
 	gth_browser_update_sensitivity (browser);
 	if ((error != NULL) && ! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
 		_gth_browser_show_error (browser, _("Could not perform the operation"), error);
@@ -4875,7 +4904,7 @@ foreground_task_progress_cb (GthTask    *task,
 			     double      fraction,
 			     GthBrowser *browser)
 {
-	gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), description, pulse, fraction);
+	/* void */
 }
 
 
@@ -4937,9 +4966,16 @@ gth_browser_get_close_with_task (GthBrowser *browser)
 
 
 GtkWidget *
-gth_browser_get_list_extra_widget (GthBrowser *browser)
+gth_browser_get_location_bar (GthBrowser *browser)
 {
-	return browser->priv->list_extra_widget;
+	return browser->priv->location_bar;
+}
+
+
+GtkWidget *
+gth_browser_get_list_info_bar (GthBrowser *browser)
+{
+	return browser->priv->list_info_bar;
 }
 
 

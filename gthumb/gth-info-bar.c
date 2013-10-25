@@ -42,13 +42,6 @@ gth_info_bar_class_init (GthInfoBarClass *klass)
 
 
 static void
-gth_info_bar_init (GthInfoBar *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_INFO_BAR, GthInfoBarPrivate);
-}
-
-
-static void
 infobar_response_cb (GtkInfoBar *self,
 		     int         response_id,
 		     gpointer    user_data)
@@ -62,7 +55,7 @@ infobar_response_cb (GtkInfoBar *self,
 
 
 static void
-gth_info_bar_construct (GthInfoBar *self)
+gth_info_bar_init (GthInfoBar *self)
 {
 	GtkWidget *hbox_content;
 	GtkWidget *image;
@@ -70,7 +63,9 @@ gth_info_bar_construct (GthInfoBar *self)
 	GtkWidget *primary_label;
 	GtkWidget *secondary_label;
 	GtkWidget *area;
-	
+
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_INFO_BAR, GthInfoBarPrivate);
+
 	hbox_content = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
 	gtk_widget_show (hbox_content);
 
@@ -91,7 +86,7 @@ gth_info_bar_construct (GthInfoBar *self)
 	gtk_label_set_ellipsize (GTK_LABEL (primary_label), PANGO_ELLIPSIZE_MIDDLE);
 	gtk_misc_set_alignment (GTK_MISC (primary_label), 0, 0.5);
 	gtk_label_set_selectable (GTK_LABEL (primary_label), TRUE);
-	
+
 	self->priv->secondary_text_label = secondary_label = gtk_label_new (NULL);
 	gtk_box_pack_start (GTK_BOX (vbox), secondary_label, TRUE, TRUE, 0);
 	gtk_widget_set_can_focus (secondary_label, TRUE);
@@ -101,7 +96,7 @@ gth_info_bar_construct (GthInfoBar *self)
 	gtk_label_set_ellipsize (GTK_LABEL (secondary_label), PANGO_ELLIPSIZE_END);
 	gtk_misc_set_alignment (GTK_MISC (secondary_label), 0, 0.5);
 	gtk_label_set_selectable (GTK_LABEL (secondary_label), TRUE);
-	
+
 	area = gtk_info_bar_get_action_area (GTK_INFO_BAR (self));
 	gtk_container_set_border_width (GTK_CONTAINER (self), 0);
 	gtk_box_set_homogeneous (GTK_BOX (area), FALSE);
@@ -113,7 +108,6 @@ gth_info_bar_construct (GthInfoBar *self)
 
 	gtk_widget_set_name (GTK_WIDGET (self), "GthInfoBar");
 	gtk_info_bar_set_message_type (GTK_INFO_BAR (self), GTK_MESSAGE_OTHER);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 0);
 
 	g_signal_connect (self,
 			  "response",
@@ -123,19 +117,9 @@ gth_info_bar_construct (GthInfoBar *self)
 
 
 GtkWidget *
-gth_info_bar_new (const char *icon_stock_id,
-		  const char *primary_text,
-		  const char *secondary_text)
+gth_info_bar_new (void)
 {
-	GthInfoBar *self;
-
-	self = g_object_new (GTH_TYPE_INFO_BAR, NULL);
-	gth_info_bar_construct (self);
-	gth_info_bar_set_icon (self, icon_stock_id);
-	gth_info_bar_set_primary_text (self, primary_text);
-	gth_info_bar_set_secondary_text (self, secondary_text);
-	
-	return (GtkWidget *) self;
+	return GTK_WIDGET (g_object_new (GTH_TYPE_INFO_BAR, NULL));
 }
 
 
@@ -147,29 +131,31 @@ gth_info_bar_get_primary_label (GthInfoBar *dialog)
 
 
 void
-gth_info_bar_set_icon (GthInfoBar *self,
-		       const char *icon_stock_id)
+gth_info_bar_set_icon_name (GthInfoBar  *self,
+			    const char  *icon_name,
+			    GtkIconSize  icon_size)
 {
-	if (icon_stock_id == NULL) {
+	if (icon_name == NULL) {
 		gtk_widget_hide (self->priv->icon_image);
 		return;
 	}
 
-	gtk_image_set_from_stock (GTK_IMAGE (self->priv->icon_image), icon_stock_id, GTK_ICON_SIZE_BUTTON);
+	gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->icon_image), icon_name, icon_size);
 	gtk_widget_show (self->priv->icon_image);
 }
 
 
 void
-gth_info_bar_set_gicon (GthInfoBar *self,
-			GIcon      *icon)
+gth_info_bar_set_gicon (GthInfoBar  *self,
+			GIcon       *icon,
+			GtkIconSize  icon_size)
 {
 	if (icon == NULL) {
 		gtk_widget_hide (self->priv->icon_image);
 		return;
 	}
 
-	gtk_image_set_from_gicon (GTK_IMAGE (self->priv->icon_image), icon, GTK_ICON_SIZE_BUTTON);
+	gtk_image_set_from_gicon (GTK_IMAGE (self->priv->icon_image), icon, icon_size);
 	gtk_widget_show (self->priv->icon_image);
 }
 
@@ -185,12 +171,12 @@ gth_info_bar_set_primary_text (GthInfoBar *self,
 		gtk_widget_hide (self->priv->primary_text_label);
 		return;
 	}
-	
+
 	escaped = g_markup_escape_text (text, -1);
 	markup = g_strdup_printf ("<b>%s</b>", escaped);
 	gtk_label_set_markup (GTK_LABEL (self->priv->primary_text_label), markup);
 	gtk_widget_show (self->priv->primary_text_label);
-	
+
 	g_free (markup);
 	g_free (escaped);
 }
@@ -207,12 +193,12 @@ gth_info_bar_set_secondary_text (GthInfoBar *self,
 		gtk_widget_hide (self->priv->secondary_text_label);
 		return;
 	}
-	
+
 	escaped = g_markup_escape_text (text, -1);
 	markup = g_strdup_printf ("<small>%s</small>", escaped);
 	gtk_label_set_markup (GTK_LABEL (self->priv->secondary_text_label), markup);
 	gtk_widget_show (self->priv->secondary_text_label);
-	
+
 	g_free (markup);
 	g_free (escaped);
 }

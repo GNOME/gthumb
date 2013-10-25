@@ -137,8 +137,7 @@ search_update_buffer_ready_cb (void     **buffer,
 
 
 void
-gth_browser_activate_action_edit_search_update (GtkAction  *action,
-						GthBrowser *browser)
+gth_browser_update_search (GthBrowser *browser)
 {
 	GFile      *location;
 	SearchData *search_data;

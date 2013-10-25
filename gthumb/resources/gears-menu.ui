@@ -32,6 +32,10 @@
     </section>
     <section id="view-actions">
       <item>
+        <attribute name="label" translatable="yes">Sort By…</attribute>
+        <attribute name="action">win.sort-by</attribute>
+      </item>
+      <item>
         <attribute name="label" translatable="yes">Hidden Files</attribute>
         <attribute name="action">win.show-hidden-files</attribute>
       </item>
@@ -42,24 +46,8 @@
       </item>
     </section>
     <section id="folder-actions">
-      <item>
-        <attribute name="label" translatable="yes">Sort By…</attribute>
-        <attribute name="action">win.sort-by</attribute>
-      </item>
     </section>
     <section id="other-actions">
-    </section>
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Close All Windows</attribute>
-        <attribute name="action">app.quit</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>q]]></attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Close</attribute>
-        <attribute name="action">win.close</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>w]]></attribute>
-      </item>
     </section>
   </menu>
 </interface>
