@@ -74,7 +74,6 @@ struct _GthLocationChooserPrivate
 	GtkWidget      *arrow;
 	GtkTreeStore   *model;
 	GFile          *location;
-	GthIconCache   *icon_cache;
 	GthFileSource  *file_source;
 	gulong          entry_points_changed_id;
 	guint           update_entry_list_id;
@@ -242,23 +241,20 @@ add_file_source_entries (GthLocationChooser *self,
 			 int                 iter_type)
 {
 	GtkTreeIter  iter;
-	GdkPixbuf   *pixbuf;
 	char        *uri;
 
-	pixbuf = gth_icon_cache_get_pixbuf (self->priv->icon_cache, icon);
 	uri = g_file_get_uri (file);
 
 	gtk_tree_store_insert (self->priv->model, &iter, NULL, position);
 	gtk_tree_store_set (self->priv->model, &iter,
 			    TYPE_COLUMN, iter_type,
-			    ICON_COLUMN, pixbuf,
+			    ICON_COLUMN, icon,
 			    NAME_COLUMN, name,
 			    URI_COLUMN, uri,
 			    ELLIPSIZE_COLUMN, PANGO_ELLIPSIZE_END,
 			    -1);
 
 	g_free (uri);
-	g_object_unref (pixbuf);
 
 	if (update_active_iter && g_file_equal (self->priv->location, file)) {
 		g_signal_handlers_block_by_func (self->priv->combo, combo_changed_cb, self);
@@ -492,22 +488,8 @@ gth_location_chooser_realize (GtkWidget *widget)
 	GthLocationChooser *self = GTH_LOCATION_CHOOSER (widget);
 
 	GTK_WIDGET_CLASS (gth_location_chooser_parent_class)->realize (widget);
-	self->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))),
-						     _gtk_widget_lookup_for_size (GTK_WIDGET (self), GTK_ICON_SIZE_MENU));
 	entry_points_changed_cb (NULL, self);
 	current_location_changed (self);
-}
-
-
-static void
-gth_location_chooser_unrealize (GtkWidget *widget)
-{
-	GthLocationChooser *self = GTH_LOCATION_CHOOSER (widget);
-
-	gth_icon_cache_free (self->priv->icon_cache);
-	self->priv->icon_cache = NULL;
-
-	GTK_WIDGET_CLASS (gth_location_chooser_parent_class)->unrealize (widget);
 }
 
 
@@ -527,7 +509,6 @@ gth_location_chooser_class_init (GthLocationChooserClass *klass)
 	widget_class = (GtkWidgetClass *) klass;
 	widget_class->grab_focus = gth_location_chooser_grab_focus;
 	widget_class->realize = gth_location_chooser_realize;
-	widget_class->unrealize = gth_location_chooser_unrealize;
 
 	/* properties */
 
@@ -581,14 +562,13 @@ gth_location_chooser_init (GthLocationChooser *self)
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOCATION_CHOOSER, GthLocationChooserPrivate);
-	self->priv->icon_cache = NULL;
 	self->priv->entry_points_changed_id = 0;
 	self->priv->arrow = NULL;
 	self->priv->show_entry_points = TRUE;
 	self->priv->relief = GTK_RELIEF_NORMAL;
 
 	self->priv->model = gtk_tree_store_new (N_COLUMNS,
-						GDK_TYPE_PIXBUF,
+						G_TYPE_ICON,
 						G_TYPE_STRING,
 						G_TYPE_STRING,
 						G_TYPE_INT,
@@ -613,7 +593,7 @@ gth_location_chooser_init (GthLocationChooser *self)
 				    FALSE);
 	gtk_cell_layout_set_attributes  (GTK_CELL_LAYOUT (self->priv->combo),
 					 renderer,
-					 "pixbuf", ICON_COLUMN,
+					 "gicon", ICON_COLUMN,
 					 NULL);
 
 	/* path column */
