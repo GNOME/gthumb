@@ -628,6 +628,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 							   _("Zoom to fit width"),
 							   "win.image-zoom-fit-width",
 							   NULL);
+	gth_window_add_accelerators (GTH_WINDOW (browser), accelerators, G_N_ELEMENTS (accelerators));
 
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 
