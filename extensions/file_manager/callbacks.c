@@ -113,6 +113,15 @@ static const GthMenuEntry vfs_entries[] = {
 };
 
 
+static const GthAccelerator accelerators[] = {
+	{ "win.rename", "F2" },
+	{ "win.edit-cut", "<Control>x" },
+	{ "win.edit-copy", "<Control>c" },
+	{ "win.edit-paste", "<Control>v" },
+	{ "win.duplicate", "<Control>d" },
+};
+
+
 static GtkTargetEntry reorderable_drag_dest_targets[] = {
         { "text/uri-list", 0, 0 },
         { "text/uri-list", GTK_TARGET_SAME_WIDGET, 0 }
@@ -488,6 +497,9 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_DELETE_ACTIONS),
 					 fixed_menu_entries_delete,
 				         G_N_ELEMENTS (fixed_menu_entries_delete));
+	gth_window_add_accelerators (GTH_WINDOW (browser),
+				     accelerators,
+				     G_N_ELEMENTS (accelerators));
 
 	data->open_with_menu = g_menu_new ();
 

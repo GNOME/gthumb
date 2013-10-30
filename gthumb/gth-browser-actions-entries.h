@@ -63,8 +63,13 @@ static const GActionEntry gth_browser_actions[] = {
 
 static const GthAccelerator gth_browser_accelerators[] = {
 	{ "browser-mode", "Escape" },
+	{ "browser-properties", "<Control>i" },
+	{ "close", "<Control>w" },
 	{ "fullscreen", "F11" },
-	{ "browser-properties", "<Ctrl>i" },
+	{ "revert-to-saved", "F4" },
+	{ "show-sidebar", "F9" },
+	{ "show-thumbnail-list", "F8" },
+	{ "shrink-wrap", "<Control>e" }
 };
 
 
