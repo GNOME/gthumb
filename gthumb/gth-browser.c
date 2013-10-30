@@ -4014,7 +4014,7 @@ gth_browser_init (GthBrowser *browser)
 
 		button = gtk_toggle_button_new ();
 		/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
-		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-properties-symbolic", GTK_ICON_SIZE_MENU));
+		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("dialog-information-symbolic", GTK_ICON_SIZE_MENU));
 		gtk_widget_show_all (button);
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.browser-properties");
 		gtk_box_pack_end (GTK_BOX (browser->priv->browser_status_commands), button, FALSE, FALSE, 0);
@@ -4028,7 +4028,7 @@ gth_browser_init (GthBrowser *browser)
 
 		button = gtk_toggle_button_new ();
 		/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
-		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-properties-symbolic", GTK_ICON_SIZE_MENU));
+		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("dialog-information-symbolic", GTK_ICON_SIZE_MENU));
 		gtk_widget_show_all (button);
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.viewer-properties");
 		gtk_box_pack_end (GTK_BOX (browser->priv->viewer_status_commands), button, FALSE, FALSE, 0);
@@ -4060,6 +4060,7 @@ gth_browser_init (GthBrowser *browser)
 	/* the box that contains the folder list.  */
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_style_context_add_class (gtk_widget_get_style_context (vbox), GTK_STYLE_CLASS_SIDEBAR);
 	gtk_widget_set_size_request (vbox, -1, FILE_PROPERTIES_MINIMUM_HEIGHT);
 	gtk_widget_show (vbox);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_sidebar), vbox, TRUE, FALSE);
@@ -4071,7 +4072,7 @@ gth_browser_init (GthBrowser *browser)
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
-					     GTK_SHADOW_ETCHED_IN);
+					     GTK_SHADOW_NONE);
 	gtk_widget_show (scrolled_window);
 
 	browser->priv->folder_tree = gth_folder_tree_new ("gthumb-vfs:///");
