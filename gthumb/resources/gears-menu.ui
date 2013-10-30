@@ -42,7 +42,6 @@
       <item>
         <attribute name="label" translatable="yes">Thumbnails</attribute>
         <attribute name="action">win.show-thumbnails</attribute>
-        <attribute name="accel"><![CDATA[<Control>t]]></attribute>
       </item>
     </section>
     <section id="folder-actions">

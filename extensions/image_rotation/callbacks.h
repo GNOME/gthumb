@@ -24,9 +24,11 @@
 
 #include <gthumb.h>
 
-void      ir__gth_browser_construct_cb           (GthBrowser  *browser);
-void      ir__gth_browser_update_sensitivity_cb  (GthBrowser  *browser);
-gpointer  ir__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
-						  GdkEventKey *event);
+void      ir__gth_browser_construct_cb              (GthBrowser  *browser);
+void      ir__gth_browser_update_sensitivity_cb     (GthBrowser  *browser);
+gpointer  ir__gth_browser_file_list_key_press_cb    (GthBrowser  *browser,
+						     GdkEventKey *event);
+void	  ir__gth_browser_activate_viewer_page_cb   (GthBrowser  *browser);
+void	  ir__gth_browser_deactivate_viewer_page_cb (GthBrowser  *browser);
 
 #endif /* CALLBACKS_H */

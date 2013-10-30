@@ -49,7 +49,7 @@ comments__gth_browser_construct_cb (GthBrowser *browser)
 						 actions,
 						 G_N_ELEMENTS (actions),
 						 browser);
-		gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_TOOLS2),
+		gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_OTHER_ACTIONS),
 						 action_entries,
 						 G_N_ELEMENTS (action_entries));
 	}

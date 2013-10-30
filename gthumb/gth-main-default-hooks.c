@@ -97,6 +97,20 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-set-current-page", 1);
 
 	/**
+	 *  Called when after the activation of a viewer page
+	 *
+	 * @browser (GthBrowser*): the relative window.
+	 **/
+	gth_hook_register ("gth-browser-activate-viewer-page", 1);
+
+	/**
+	 *  Called before the deactivation of a viewer page.
+	 *
+	 * @browser (GthBrowser*): the relative window.
+	 **/
+	gth_hook_register ("gth-browser-deactivate-viewer-page", 1);
+
+	/**
 	 * Called before loading a folder.
 	 *
 	 * @browser (GthBrowser*): the window

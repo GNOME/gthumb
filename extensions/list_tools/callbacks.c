@@ -162,8 +162,8 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 					 browser);
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/list_tools/data/ui/tools-menu.ui");
-	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_TOOLS1, G_MENU (gtk_builder_get_object (builder, "tools1")));
-	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_TOOLS2, G_MENU (gtk_builder_get_object (builder, "tools2")));
+	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_TOOLS, G_MENU (gtk_builder_get_object (builder, "tools1")));
+	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_MORE_TOOLS, G_MENU (gtk_builder_get_object (builder, "tools2")));
 	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_TOOLS3, G_MENU (gtk_builder_get_object (builder, "tools3")));
 	menu = G_MENU_MODEL (gtk_builder_get_object (builder, "tools-menu"));
 
@@ -172,20 +172,10 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	button = _gtk_menu_button_new_for_header_bar ();
 	g_signal_connect (button, "toggled", G_CALLBACK (tools_menu_button_toggled_cb), data);
 	gtk_widget_set_tooltip_text (button, _("Tools"));
-	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("system-run-symbolic", GTK_ICON_SIZE_MENU));
+	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("tools-symbolic", GTK_ICON_SIZE_MENU));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
 	gtk_widget_show_all (button);
 	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS)), button, FALSE, FALSE, 0);
-
-	/* viewer tools */
-
-	button = _gtk_menu_button_new_for_header_bar ();
-	g_signal_connect (button, "toggled", G_CALLBACK (tools_menu_button_toggled_cb), data);
-	gtk_widget_set_tooltip_text (button, _("Tools"));
-	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("system-run-symbolic", GTK_ICON_SIZE_MENU));
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
-	gtk_widget_show_all (button);
-	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS)), button, FALSE, FALSE, 0);
 
 	g_object_unref (builder);
 }

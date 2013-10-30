@@ -26,6 +26,9 @@
 #include "gth-menu-manager.h"
 
 
+#define _G_MENU_ATTRIBUTE_DETAILED_ACTION "gthumb-detailed-action"
+
+
 /* Properties */
 enum {
         PROP_0,
@@ -165,6 +168,7 @@ create_menu_item (const char *label,
 	GMenuItem *item;
 
 	item = g_menu_item_new (label,detailed_action);
+	g_menu_item_set_attribute (item, _G_MENU_ATTRIBUTE_DETAILED_ACTION, "s", detailed_action, NULL);
 	if (accel != NULL)
 		g_menu_item_set_attribute (item, "accel", "s", accel, NULL);
 	if (icon_name != NULL) {
@@ -221,7 +225,7 @@ _g_menu_model_get_item_position_from_action (GMenuModel *model,
 
 		if (g_menu_model_get_item_attribute (model,
 						     i,
-						     G_MENU_ATTRIBUTE_ACTION,
+						     _G_MENU_ATTRIBUTE_DETAILED_ACTION,
 						     "s",
 						     &item_action))
 		{
@@ -250,7 +254,10 @@ gth_menu_manager_remove_entries (GthMenuManager     *menu_manager,
 		return;
 
 	items = g_hash_table_lookup (menu_manager->priv->items, GINT_TO_POINTER (merge_id));
-	g_return_if_fail (items != NULL);
+	if (items == NULL) {
+		g_hash_table_remove (menu_manager->priv->items, GINT_TO_POINTER (merge_id));
+		return;
+	}
 
 	for (scan = items; scan; scan = scan->next) {
 		char *detailed_action = scan->data;

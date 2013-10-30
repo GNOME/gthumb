@@ -1889,6 +1889,7 @@ _gth_browser_deactivate_viewer_page (GthBrowser *browser)
 	if (browser->priv->viewer_page != NULL) {
 		if (browser->priv->fullscreen)
 			gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), TRUE);
+		gth_hook_invoke ("gth-browser-deactivate-viewer-page", browser);
 		gth_viewer_page_deactivate (browser->priv->viewer_page);
 		gth_browser_set_viewer_widget (browser, NULL);
 		g_object_unref (browser->priv->viewer_page);
@@ -3865,29 +3866,33 @@ gth_browser_init (GthBrowser *browser)
 		/* dynamic sections */
 
 		for (i = 0; i < GTH_BROWSER_N_HEADER_SECTIONS; i++) {
-			browser->priv->header_sections[i] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+			gboolean separated_buttons;
+
+			separated_buttons = (i == GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS) || (i == GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS);
+
+			browser->priv->header_sections[i] = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, separated_buttons ? 6 : 0);
 			gtk_widget_set_valign (browser->priv->header_sections[i], GTK_ALIGN_CENTER);
-			gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->header_sections[i]), GTK_STYLE_CLASS_LINKED);
+			if (! separated_buttons)
+				gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->header_sections[i]), GTK_STYLE_CLASS_LINKED);
 		}
 
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT], SECTION_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW], SECTION_BIG_MARGIN);
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT], SECTION_BIG_MARGIN);
-
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], SECTION_BIG_MARGIN);
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], SECTION_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS], SECTION_BIG_MARGIN);
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT]);
-		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS]);
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT]);
-		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS]);
 
 		/* gears menu button */
 
@@ -5373,6 +5378,7 @@ _gth_browser_set_current_viewer_page (GthBrowser    *browser,
 	if (browser->priv->viewer_page == NULL) {
 		browser->priv->viewer_page = g_object_new (G_OBJECT_TYPE (registered_viewer_page), NULL);
 		gth_viewer_page_activate (browser->priv->viewer_page, browser);
+		gth_hook_invoke ("gth-browser-activate-viewer-page", browser);
 		if (browser->priv->fullscreen)
 			gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), FALSE);
 

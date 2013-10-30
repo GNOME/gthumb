@@ -22,8 +22,8 @@
 #ifndef LIST_TOOLS_H
 #define LIST_TOOLS_H
 
-#define GTH_BROWSER_MENU_MANAGER_TOOLS1 "tools.tools1"
-#define GTH_BROWSER_MENU_MANAGER_TOOLS2 "tools.tools2"
+#define GTH_BROWSER_MENU_MANAGER_TOOLS "tools.tools1"
+#define GTH_BROWSER_MENU_MANAGER_MORE_TOOLS "tools.tools2"
 #define GTH_BROWSER_MENU_MANAGER_TOOLS3 "tools.tools3"
 
 #endif /* LIST_TOOLS_H */
