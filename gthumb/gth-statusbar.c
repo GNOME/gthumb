@@ -58,6 +58,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	/* List info */
 
 	statusbar->priv->list_info_label = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (statusbar->priv->list_info_label), PANGO_ELLIPSIZE_END);
 	gtk_widget_show (statusbar->priv->list_info_label);
 	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->list_info_label, FALSE, FALSE, 0);
 
@@ -70,6 +71,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	/* Primary text */
 
 	statusbar->priv->primary_text = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (statusbar->priv->primary_text), PANGO_ELLIPSIZE_END);
 	gtk_widget_show (statusbar->priv->primary_text);
 
 	statusbar->priv->primary_text_frame = gtk_frame_new (NULL);
@@ -82,6 +84,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	/* Secondary text */
 
 	statusbar->priv->secondary_text = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (statusbar->priv->secondary_text), PANGO_ELLIPSIZE_END);
 	gtk_widget_show (statusbar->priv->secondary_text);
 
 	statusbar->priv->secondary_text_frame = gtk_frame_new (NULL);
