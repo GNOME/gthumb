@@ -6,7 +6,6 @@ iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 				\
 	application-extension.png	\
-	browser-mode.png		\
 	file-catalog.png		\
 	file-library.png		\
 	file-search.png			\
@@ -21,8 +20,7 @@ icons_DATA = 				\
 	tool-red-eye.png		\
 	tool-resize.png			\
 	tool-rotate.png			\
-	tool-sharpen.png		\
-	zoom-fit-width.png
+	tool-sharpen.png
 
 EXTRA_DIST = $(icons_DATA)	
 

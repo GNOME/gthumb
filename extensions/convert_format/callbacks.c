@@ -34,7 +34,7 @@ static const GActionEntry actions[] = {
 
 
 static const GthMenuEntry action_entries[] = {
-	{ N_("Convert Format..."), "win.convert-format" }
+	{ N_("Convert Format..."), "win.convert-format", NULL, "convert-format-symbolic" }
 };
 
 

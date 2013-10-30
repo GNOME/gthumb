@@ -7,10 +7,27 @@ iconsdir = $(themedir)/$(size)/$(context)
 icons_DATA = 					\
 	bookmarks-symbolic.svg			\
 	browser-mode.svg			\
+	change-date-symbolic.svg		\
 	comment-symbolic.svg			\
+	convert-format-symbolic.svg		\
+	emblem-flag-blue.svg			\
+	emblem-flag-gray.svg			\
+	emblem-flag-green.svg			\
+	emblem-flag-red.svg			\
+	emblem-flag-symbolic.svg		\
 	file-catalog.svg			\
 	file-library.svg			\
 	file-search.svg				\
+	image-adjust-colors-symbolic.svg	\
+	image-adjust-contrast-symbolic.svg	\
+	image-crop-symbolic.svg			\
+	image-equalize-symbolic.svg		\
+	image-grayscale-symbolic.svg		\
+	image-invert-symbolic.svg		\
+	image-red-eye-symbolic.svg		\
+	image-resize-symbolic.svg		\
+	image-rotate-symbolic.svg		\
+	image-sharpen-symbolic.svg		\
 	palette.svg				\
 	palette-symbolic.svg			\
 	share.svg				\
@@ -19,6 +36,7 @@ icons_DATA = 					\
 	tag-symbolic.svg			\
 	tool-adjust-contrast.svg		\
 	tool-sharpen.svg			\
+	tools-symbolic.svg			\
 	view-presentation-symbolic.svg		\
 	view-zoom-fit-symbolic.svg		\
 	view-zoom-fit-width-symbolic.svg	\
