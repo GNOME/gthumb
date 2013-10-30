@@ -6062,6 +6062,7 @@ gth_browser_enable_thumbnails (GthBrowser *browser,
 			       gboolean    show)
 {
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (browser->priv->file_list), show);
+	gth_file_list_enable_thumbs (GTH_FILE_LIST (browser->priv->thumbnail_list), show);
 	gth_window_change_action_state (GTH_WINDOW (browser), "show-thumbnails", show);
 	g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_THUMBNAILS, show);
 }
