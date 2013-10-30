@@ -94,14 +94,12 @@ _selection_button_new (int      n_selection,
 		       gpointer user_data)
 {
 	GtkWidget *button;
-	char      *icon_name;
 	char      *tooltip;
 
-	icon_name = g_strdup_printf ("selection%d", n_selection);
 	tooltip = g_strdup_printf (_("Show selection %d"), n_selection);
 
 	button = gtk_button_new ();
-	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
+	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name (gth_selection_get_icon_name (n_selection), GTK_ICON_SIZE_MENU));
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show_all (button);
 	gtk_widget_set_sensitive (button, FALSE);
@@ -113,7 +111,6 @@ _selection_button_new (int      n_selection,
 			  user_data);
 
 	g_free (tooltip);
-	g_free (icon_name);
 
 	return button;
 }

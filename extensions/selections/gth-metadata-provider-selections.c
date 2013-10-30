@@ -62,7 +62,7 @@ gth_metadata_provider_selections_read (GthMetadataProvider *self,
 	emblem_list = NULL;
 	for (i = GTH_SELECTIONS_MANAGER_N_SELECTIONS; i >= 0; i--) {
 		if (gth_selections_manager_file_exists (i, file_data->file))
-			emblem_list = g_list_prepend (emblem_list, g_strdup_printf ("selection%d", i));
+			emblem_list = g_list_prepend (emblem_list, g_strdup (gth_selection_get_icon_name (i)));
 	}
 
 	emblems = gth_string_list_new (emblem_list);

@@ -219,15 +219,13 @@ gth_selections_manager_update_file_info (GFile     *file,
 	if (n_selection > 0) {
 		GIcon *icon;
 
-		name = g_strdup_printf ("selection%d", n_selection);
-		icon = g_themed_icon_new (name);
+		icon = g_themed_icon_new (gth_selection_get_icon_name (n_selection));
 		g_file_info_set_icon (info, icon);
 
 		g_object_unref (icon);
-		g_free (name);
 	}
 	else {
-		GIcon *icon = g_themed_icon_new ("selection");
+		GIcon *icon = g_themed_icon_new ("emblem-flag-gray");
 		g_file_info_set_icon (info, icon);
 		g_object_unref (icon);
 	}
@@ -576,4 +574,20 @@ _g_file_get_n_selection (GFile *file)
 		n = -1;
 
 	return n;
+}
+
+
+static const char * selection_icons[] = {
+	"emblem-flag-gray",
+	"emblem-flag-green",
+	"emblem-flag-red",
+	"emblem-flag-blue"
+};
+
+
+const char *
+gth_selection_get_icon_name (int n_selection)
+{
+	g_return_val_if_fail (n_selection >= 1 && n_selection <= GTH_SELECTIONS_MANAGER_N_SELECTIONS, NULL);
+	return selection_icons[n_selection];
 }
