@@ -458,8 +458,8 @@ paint_comment_over_image_func (GthImageViewer *image_viewer,
 	int                 icon_height;
 	int                 image_width;
 	int                 image_height;
-	const int           x_padding = 10;
-	const int           y_padding = 10;
+	const int           x_padding = 20;
+	const int           y_padding = 20;
 	int                 max_text_width;
 	PangoRectangle      bounds;
 	int                 text_x;
@@ -521,7 +521,7 @@ paint_comment_over_image_func (GthImageViewer *image_viewer,
         if (icon == NULL) {
         	GIcon *gicon;
 
-        	gicon = g_themed_icon_new (GTK_STOCK_PROPERTIES);
+        	gicon = g_themed_icon_new ("dialog-information-symbolic");
         	icon = _g_icon_get_pixbuf (gicon, 24, _gtk_widget_get_icon_theme (GTK_WIDGET (image_viewer)));
 
         	g_object_unref (gicon);
@@ -551,7 +551,7 @@ paint_comment_over_image_func (GthImageViewer *image_viewer,
 	/* background */
 
 	_cairo_draw_rounded_box (cr, bounds.x, bounds.y, bounds.width, bounds.height, 8.0);
-	cairo_set_source_rgba (cr, 0.94, 0.94, 0.94, 0.81);
+	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.80);
 	cairo_fill (cr);
 	cairo_set_line_width (cr, 1.0);
 	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
@@ -565,7 +565,7 @@ paint_comment_over_image_func (GthImageViewer *image_viewer,
 
 	/* text */
 
-	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 	pango_cairo_update_layout (cr, layout);
 	cairo_move_to (cr, text_x, text_y);
 	pango_cairo_show_layout (cr, layout);
