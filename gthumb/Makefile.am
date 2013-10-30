@@ -66,6 +66,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-list-task.h				\
 	gth-image-loader.h				\
 	gth-image-navigator.h				\
+	gth-image-overview.h				\
 	gth-image-preloader.h				\
 	gth-image-saver.h				\
 	gth-image-selector.h				\
@@ -199,6 +200,7 @@ gthumb_SOURCES = 					\
 	gth-image-list-task.c				\
 	gth-image-loader.c				\
 	gth-image-navigator.c				\
+	gth-image-overview.c				\
 	gth-image-preloader.c				\
 	gth-image-saver.c				\
 	gth-image-selector.c				\
