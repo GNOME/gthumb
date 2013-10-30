@@ -87,6 +87,6 @@ gth_file_tool_mirror_class_init (GthFileToolMirrorClass *klass)
 static void
 gth_file_tool_mirror_init (GthFileToolMirror *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "object-flip-horizontal-symbolic", _("Mirror"), NULL, FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-flip-horizontal-symbolic", _("Mirror"), GTH_TOOLBOX_SECTION_ROTATION);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Mirror the image horizontally"));
 }

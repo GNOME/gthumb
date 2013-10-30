@@ -133,5 +133,5 @@ gth_file_tool_negative_class_init (GthFileToolNegativeClass *klass)
 static void
 gth_file_tool_negative_init (GthFileToolNegative *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-invert", _("Negative"), _("Negative"), FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-invert-symbolic", _("Negative"), GTH_TOOLBOX_SECTION_COLORS);
 }

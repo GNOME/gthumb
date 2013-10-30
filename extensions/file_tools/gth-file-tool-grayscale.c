@@ -470,8 +470,7 @@ gth_file_tool_grayscale_init (GthFileToolGrayscale *self)
 	self->priv->builder = NULL;
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self),
-				 "tool-grayscale",
-				 _("Grayscale..."),
+				 "image-grayscale-symbolic",
 				 _("Grayscale"),
-				 FALSE);
+				 GTH_TOOLBOX_SECTION_COLORS);
 }

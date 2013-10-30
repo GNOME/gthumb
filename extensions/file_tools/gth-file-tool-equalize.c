@@ -182,6 +182,6 @@ gth_file_tool_equalize_class_init (GthFileToolEqualizeClass *klass)
 static void
 gth_file_tool_equalize_init (GthFileToolEqualize *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "histogram", _("Equalize"), NULL, FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-equalize-symbolic", _("Equalize"), GTH_TOOLBOX_SECTION_COLORS);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Equalize image histogram"));
 }

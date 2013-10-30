@@ -580,7 +580,7 @@ gth_file_tool_adjust_colors_init (GthFileToolAdjustColors *self)
 	self->priv->builder = NULL;
 	self->priv->image_task = NULL;
 
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-adjust-colors", _("Adjust Colors..."), _("Adjust Colors"), FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-adjust-colors-symbolic", _("Adjust Colors"), GTH_TOOLBOX_SECTION_COLORS);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Change brightness, contrast, saturation and gamma level of the image"));
 }
 

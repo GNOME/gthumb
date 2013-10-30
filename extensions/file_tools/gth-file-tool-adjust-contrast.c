@@ -241,7 +241,7 @@ gth_file_tool_adjust_contrast_activate (GthFileTool *base)
 static void
 gth_file_tool_adjust_contrast_init (GthFileToolAdjustContrast *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-adjust-contrast", _("Adjust Contrast"), NULL, TRUE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-adjust-contrast-symbolic", _("Adjust Contrast"), GTH_TOOLBOX_SECTION_COLORS);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic contrast adjustment"));
 }
 

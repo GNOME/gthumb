@@ -34,7 +34,7 @@ static const GActionEntry actions[] = {
 
 
 static const GthMenuEntry action_entries[] = {
-	{ N_("Resize Images..."), "win.resize-images" }
+	{ N_("Resize Images..."), "win.resize-images", NULL, "image-resize-symbolic" }
 };
 
 

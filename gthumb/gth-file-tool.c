@@ -34,12 +34,11 @@ static guint gth_file_tool_signals[LAST_SIGNAL] = { 0 };
 
 
 struct _GthFileToolPrivate {
-	GtkWidget  *window;
-	const char *icon_name;
-	const char *button_text;
-	const char *options_title;
-	gboolean    separator;
-	gboolean    cancelled;
+	GtkWidget		*window;
+	const char		*icon_name;
+	const char		*options_title;
+	GthToolboxSection	 section;
+	gboolean		 cancelled;
 };
 
 
@@ -134,39 +133,35 @@ gth_file_tool_init (GthFileTool *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL, GthFileToolPrivate);
 	self->priv->icon_name = NULL;
-	self->priv->button_text = NULL;
 	self->priv->options_title = NULL;
 	self->priv->cancelled = FALSE;
+	self->priv->section = GTH_TOOLBOX_SECTION_COLORS;
 
-	gtk_button_set_relief (GTK_BUTTON (self), GTK_RELIEF_NONE);
+	/*gtk_button_set_relief (GTK_BUTTON (self), GTK_RELIEF_NONE);*/
 }
 
 
 void
-gth_file_tool_construct (GthFileTool *self,
-			 const char  *icon_name,
-			 const char  *button_text,
-			 const char  *options_title,
-			 gboolean     separator)
+gth_file_tool_construct (GthFileTool		*self,
+			 const char		*icon_name,
+			 const char		*options_title,
+			 GthToolboxSection       section)
 {
 	GtkWidget *hbox;
 	GtkWidget *icon;
-	GtkWidget *label;
 
 	self->priv->icon_name = icon_name;
-	self->priv->button_text = button_text;
 	self->priv->options_title = options_title;
-	self->priv->separator = separator;
+	self->priv->section = section;
 
-	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 
 	icon = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU);
 	gtk_widget_show (icon);
 	gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
 
-	label = gtk_label_new (button_text);
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), options_title);
 
 	gtk_widget_show (hbox);
 	gtk_container_add (GTK_CONTAINER (self), hbox);
@@ -247,17 +242,17 @@ gth_file_tool_get_options (GthFileTool *self)
 }
 
 
+GthToolboxSection
+gth_file_tool_get_section (GthFileTool *self)
+{
+	return self->priv->section;
+}
+
+
 const char *
 gth_file_tool_get_options_title (GthFileTool *self)
 {
 	return self->priv->options_title;
-}
-
-
-gboolean
-gth_file_tool_has_separator (GthFileTool *self)
-{
-	return self->priv->separator;
 }
 
 

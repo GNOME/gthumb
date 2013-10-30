@@ -26,6 +26,14 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GTH_TOOLBOX_SECTION_FILE,
+	GTH_TOOLBOX_SECTION_COLORS,
+	GTH_TOOLBOX_SECTION_ROTATION,
+	GTH_TOOLBOX_SECTION_FORMAT,
+	GTH_TOOLBOX_N_SECTIONS
+} GthToolboxSection;
+
 #define GTH_TYPE_TOOLBOX              (gth_toolbox_get_type ())
 #define GTH_TOOLBOX(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_TOOLBOX, GthToolbox))
 #define GTH_TOOLBOX_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_TOOLBOX, GthToolboxClass))

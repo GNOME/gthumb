@@ -29,6 +29,8 @@
 
 #define GTH_TOOLBOX_PAGE_TOOLS "GthToolbox.Tools"
 #define GTH_TOOLBOX_PAGE_OPTIONS "GthToolbox.Options"
+#define GRID_COLUMNS 4
+#define GRID_SPACING 20
 
 
 enum  {
@@ -39,7 +41,7 @@ enum  {
 
 struct _GthToolboxPrivate {
 	char      *name;
-	GtkWidget *box;
+	GtkWidget *tool_grid[GTH_TOOLBOX_N_SECTIONS];
 	GtkWidget *options;
 	GtkWidget *options_icon;
 	GtkWidget *options_title;
@@ -117,15 +119,26 @@ gth_toolbox_class_init (GthToolboxClass *klass)
 }
 
 
+static const char * section_title[] = {
+	NULL,
+	N_("Colors"),
+	N_("Rotation"),
+	N_("Format")
+};
+
+
 static void
 gth_toolbox_init (GthToolbox *toolbox)
 {
 	GtkWidget *scrolled;
+	int        i;
+	GtkWidget *grid_box;
 	GtkWidget *options_box;
 	GtkWidget *options_header;
 	GtkWidget *header_align;
 
 	toolbox->priv = G_TYPE_INSTANCE_GET_PRIVATE (toolbox, GTH_TYPE_TOOLBOX, GthToolboxPrivate);
+	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (toolbox)), GTK_STYLE_CLASS_SIDEBAR);
 
 	/* tool list page */
 
@@ -137,10 +150,43 @@ gth_toolbox_init (GthToolbox *toolbox)
 	gtk_widget_show (scrolled);
 	gtk_stack_add_named (GTK_STACK (toolbox), scrolled, GTH_TOOLBOX_PAGE_TOOLS);
 
-	toolbox->priv->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_box_set_spacing (GTK_BOX (toolbox->priv->box), 0);
-	gtk_widget_show (toolbox->priv->box);
-	gtk_container_add (GTK_CONTAINER (scrolled), toolbox->priv->box);
+	grid_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (scrolled), grid_box);
+	gtk_widget_set_margin_top (grid_box, GRID_SPACING * 2);
+	gtk_widget_set_halign (grid_box, GTK_ALIGN_CENTER);
+
+	for (i = 0; i < GTH_TOOLBOX_N_SECTIONS; i++) {
+		GtkWidget *box;
+
+		if (i > 0) {
+			PangoAttrList *attrs;
+			GtkWidget     *label;
+
+			attrs = pango_attr_list_new ();
+			pango_attr_list_insert (attrs, pango_attr_weight_new (PANGO_WEIGHT_BOLD));
+
+			label = gtk_label_new (_(section_title[i]));
+			gtk_label_set_attributes (GTK_LABEL (label), attrs);
+			gtk_widget_set_halign (label, GTK_ALIGN_START);
+			gtk_widget_set_margin_bottom (label, GRID_SPACING);
+			gtk_box_pack_start (GTK_BOX (grid_box), label, FALSE, FALSE, 0);
+
+			pango_attr_list_unref (attrs);
+		}
+		toolbox->priv->tool_grid[i] = gtk_grid_new ();
+		gtk_widget_set_margin_bottom (toolbox->priv->tool_grid[i], GRID_SPACING);
+		gtk_style_context_add_class (gtk_widget_get_style_context (toolbox->priv->tool_grid[i]), "toolbox");
+		gtk_grid_set_row_spacing (GTK_GRID (toolbox->priv->tool_grid[i]), GRID_SPACING);
+		gtk_grid_set_column_spacing (GTK_GRID (toolbox->priv->tool_grid[i]), GRID_SPACING);
+		gtk_grid_set_column_homogeneous (GTK_GRID (toolbox->priv->tool_grid[i]), TRUE);
+		gtk_grid_set_row_homogeneous (GTK_GRID (toolbox->priv->tool_grid[i]), TRUE);
+
+		box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+		gtk_box_pack_start (GTK_BOX (box), toolbox->priv->tool_grid[i], FALSE, FALSE, 0);
+
+		gtk_box_pack_start (GTK_BOX (grid_box), box, FALSE, FALSE, 0);
+	}
+	gtk_widget_show_all (grid_box);
 
 	/* tool options page */
 
@@ -200,7 +246,7 @@ child_show_options_cb (GtkWidget *tool,
 
 	markup = g_markup_printf_escaped ("<span size='large' weight='bold'>%s</span>", gth_file_tool_get_options_title (GTH_FILE_TOOL (tool)));
 	gtk_label_set_markup (GTK_LABEL (toolbox->priv->options_title), markup);
-	gtk_image_set_from_icon_name (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_LARGE_TOOLBAR);
+	gtk_image_set_from_icon_name (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (toolbox->priv->options), options);
 	gtk_stack_set_visible_child_name (GTK_STACK (toolbox), GTH_TOOLBOX_PAGE_OPTIONS);
 
@@ -231,14 +277,22 @@ _gth_toolbox_add_children (GthToolbox *toolbox)
 {
 	GArray *children;
 	int     i;
+	int     row[GTH_TOOLBOX_N_SECTIONS];
+	int     column[GTH_TOOLBOX_N_SECTIONS];
 
 	children = gth_main_get_type_set (toolbox->priv->name);
 	if (children == NULL)
 		return;
 
+	for (i = 0; i < GTH_TOOLBOX_N_SECTIONS; i++) {
+		row[i] = 0;
+		column[i] = -1;
+	}
+
 	for (i = 0; i < children->len; i++) {
 		GType      child_type;
 		GtkWidget *child;
+		int        section;
 
 		child_type = g_array_index (children, GType, i);
 		child = g_object_new (child_type, NULL);
@@ -247,15 +301,17 @@ _gth_toolbox_add_children (GthToolbox *toolbox)
 		g_signal_connect (child, "hide-options", G_CALLBACK (child_hide_options_cb), toolbox);
 		gtk_widget_show (child);
 
-		if (gth_file_tool_has_separator (GTH_FILE_TOOL (child))) {
-			GtkWidget *separator;
-
-			separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-			gtk_widget_show (separator);
-			gtk_box_pack_start (GTK_BOX (toolbox->priv->box), separator, FALSE, FALSE, 0);
+		section = gth_file_tool_get_section (GTH_FILE_TOOL (child));
+		column[section] = column[section] + 1;
+		if (column[section] == GRID_COLUMNS) {
+			column[section] = 0;
+			row[section] = row[section] + 1;
 		}
 
-		gtk_box_pack_start (GTK_BOX (toolbox->priv->box), child, FALSE, FALSE, 0);
+		gtk_grid_attach (GTK_GRID (toolbox->priv->tool_grid[section]),
+				 child,
+				 column[section], row[section],
+				 1, 1);
 	}
 }
 
@@ -275,20 +331,24 @@ gth_toolbox_new (const char *name)
 void
 gth_toolbox_update_sensitivity (GthToolbox *toolbox)
 {
-	GList *children;
-	GList *scan;
+	int i;
 
-	children = gtk_container_get_children (GTK_CONTAINER (toolbox->priv->box));
-	for (scan = children; scan; scan = scan->next) {
-		GtkWidget *child = scan->data;
+	for (i = 0; i < GTH_TOOLBOX_N_SECTIONS; i++) {
+		GList *children;
+		GList *scan;
 
-		if (! GTH_IS_FILE_TOOL (child))
-			continue;
+		children = gtk_container_get_children (GTK_CONTAINER (toolbox->priv->tool_grid[i]));
+		for (scan = children; scan; scan = scan->next) {
+			GtkWidget *child = scan->data;
 
-		gth_file_tool_update_sensitivity (GTH_FILE_TOOL (child));
+			if (! GTH_IS_FILE_TOOL (child))
+				continue;
+
+			gth_file_tool_update_sensitivity (GTH_FILE_TOOL (child));
+		}
+
+		g_list_free (children);
 	}
-
-	g_list_free (children);
 }
 
 
@@ -312,20 +372,24 @@ gth_toolbox_get_tool (GthToolbox *toolbox,
 		      GType       tool_type)
 {
 	GtkWidget *tool = NULL;
-	GList     *children;
-	GList     *scan;
+	int        i;
 
-	children = gtk_container_get_children (GTK_CONTAINER (toolbox->priv->box));
-	for (scan = children; scan; scan = scan->next) {
-		GtkWidget *child = scan->data;
+	for (i = 0; (tool == NULL) && (i < GTH_TOOLBOX_N_SECTIONS); i++) {
+		GList *children;
+		GList *scan;
 
-		if (G_OBJECT_TYPE (child) == tool_type) {
-			tool = child;
-			break;
+		children = gtk_container_get_children (GTK_CONTAINER (toolbox->priv->tool_grid[i]));
+		for (scan = children; scan; scan = scan->next) {
+			GtkWidget *child = scan->data;
+
+			if (G_OBJECT_TYPE (child) == tool_type) {
+				tool = child;
+				break;
+			}
 		}
-	}
 
-	g_list_free (children);
+		g_list_free (children);
+	}
 
 	return tool;
 }

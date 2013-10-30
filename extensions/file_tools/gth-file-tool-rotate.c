@@ -654,6 +654,5 @@ gth_file_tool_rotate_init (GthFileToolRotate *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ROTATE, GthFileToolRotatePrivate);
 	self->priv->settings = g_settings_new (GTHUMB_ROTATE_SCHEMA);
 
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "tool-rotate", _("Rotate..."), _("Rotate"), TRUE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Freely rotate the image"));
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-rotate-symbolic", _("Rotate"), GTH_TOOLBOX_SECTION_ROTATION);
 }

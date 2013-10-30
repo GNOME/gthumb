@@ -410,8 +410,7 @@ gth_file_tool_sharpen_init (GthFileToolSharpen *self)
 	self->priv->show_preview = TRUE;
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self),
-				 "tool-sharpen",
-				 _("Enhance Focus..."),
+				 "image-sharpen-symbolic",
 				 _("Enhance Focus"),
-				 FALSE);
+				 GTH_TOOLBOX_SECTION_COLORS);
 }
