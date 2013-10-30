@@ -43,8 +43,6 @@ G_BEGIN_DECLS
 typedef struct _GthImageViewerClass    GthImageViewerClass;
 typedef struct _GthImageViewerPrivate  GthImageViewerPrivate;
 
-#define GTH_IMAGE_VIEWER_FRAME_BORDER    1
-#define GTH_IMAGE_VIEWER_FRAME_BORDER2   (GTH_IMAGE_VIEWER_FRAME_BORDER * 2)
 
 typedef void (*GthImageViewerPaintFunc) (GthImageViewer *image_viewer,
 					 cairo_t        *cr,
@@ -75,28 +73,6 @@ typedef enum {
 } GthZoomChange;
 
 
-typedef enum {
-	GTH_TRANSP_TYPE_WHITE,
-	GTH_TRANSP_TYPE_NONE,
-	GTH_TRANSP_TYPE_BLACK,
-	GTH_TRANSP_TYPE_CHECKED
-} GthTranspType;
-
-
-typedef enum {
-	GTH_CHECK_TYPE_LIGHT,
-	GTH_CHECK_TYPE_MIDTONE,
-	GTH_CHECK_TYPE_DARK
-} GthCheckType;
-
-
-typedef enum {
-	GTH_CHECK_SIZE_SMALL  = 4,
-	GTH_CHECK_SIZE_MEDIUM = 8,
-	GTH_CHECK_SIZE_LARGE  = 16
-} GthCheckSize;
-
-
 struct _GthImageViewer
 {
 	GtkWidget __parent;
@@ -105,8 +81,13 @@ struct _GthImageViewer
 	/*< protected, used by the tools >*/
 
 	cairo_rectangle_int_t  image_area;
+	cairo_rectangle_int_t  frame_area;
+	cairo_rectangle_int_t  visible_area;       /* x,y: scroll offsets */
+						   /* width,height: allocation size */
+#if 0
 	int                    x_offset;           /* Scroll offsets. */
 	int                    y_offset;
+#endif
 	gboolean               pressed;
 	int                    event_x_start;
 	int                    event_y_start;
@@ -230,24 +211,9 @@ gboolean       gth_image_viewer_get_zoom_enabled         (GthImageViewer        
 void           gth_image_viewer_enable_zoom_with_keys    (GthImageViewer        *viewer,
 							  gboolean               value);
 
-/* visualization options. */
-
-void           gth_image_viewer_set_transp_type          (GthImageViewer        *viewer,
-							  GthTranspType          transp_type);
-GthTranspType  gth_image_viewer_get_transp_type          (GthImageViewer        *viewer);
-void           gth_image_viewer_set_check_type           (GthImageViewer        *viewer,
-							  GthCheckType           check_type);
-GthCheckType   gth_image_viewer_get_check_type           (GthImageViewer        *viewer);
-void           gth_image_viewer_set_check_size           (GthImageViewer        *view,
-							  GthCheckSize           check_size);
-GthCheckSize   gth_image_viewer_get_check_size           (GthImageViewer        *viewer);
-
 /* misc. */
 
 void           gth_image_viewer_clicked                  (GthImageViewer        *viewer);
-void           gth_image_viewer_set_black_background     (GthImageViewer        *viewer,
-							  gboolean               set_black);
-gboolean       gth_image_viewer_is_black_background      (GthImageViewer        *viewer);
 void           gth_image_viewer_set_tool                 (GthImageViewer        *viewer,
 							  GthImageViewerTool    *tool);
 
@@ -291,9 +257,11 @@ gboolean       gth_image_viewer_is_cursor_visible        (GthImageViewer        
 
 /* Frame. */
 
-void           gth_image_viewer_show_frame               (GthImageViewer        *viewer);
+void           gth_image_viewer_show_frame               (GthImageViewer        *viewer,
+							  int                    frame_border);
 void           gth_image_viewer_hide_frame               (GthImageViewer        *viewer);
 gboolean       gth_image_viewer_is_frame_visible         (GthImageViewer        *viewer);
+int            gth_image_viewer_get_frame_border         (GthImageViewer        *self);
 
 /*< protected, used by the tools >*/
 
@@ -313,7 +281,6 @@ void           gth_image_viewer_paint_region             (GthImageViewer        
 							  int                    src_x,
 							  int                    src_y,
 							  cairo_rectangle_int_t *pixbuf_area,
-							  cairo_region_t        *region,
 							  cairo_filter_t         filter);
 void           gth_image_viewer_paint_background         (GthImageViewer        *self,
 				   	   	          cairo_t               *cr);

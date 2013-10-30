@@ -422,45 +422,6 @@ pref_zoom_change_changed (GSettings *settings,
 
 
 static void
-pref_transp_type_changed (GSettings *settings,
-			  char      *key,
-			  gpointer   user_data)
-{
-	GthImageViewerPage *self = user_data;
-
-	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->viewer),
-					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_TRANSP_TYPE));
-	gtk_widget_queue_draw (self->priv->viewer);
-}
-
-
-static void
-pref_check_type_changed (GSettings *settings,
-		   	 char      *key,
-		   	 gpointer   user_data)
-{
-	GthImageViewerPage *self = user_data;
-
-	gth_image_viewer_set_check_type (GTH_IMAGE_VIEWER (self->priv->viewer),
-					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_TYPE));
-	gtk_widget_queue_draw (self->priv->viewer);
-}
-
-
-static void
-pref_check_size_changed (GSettings *settings,
-		   	 char      *key,
-		   	 gpointer   user_data)
-{
-	GthImageViewerPage *self = user_data;
-
-	gth_image_viewer_set_check_size (GTH_IMAGE_VIEWER (self->priv->viewer),
-					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_SIZE));
-	gtk_widget_queue_draw (self->priv->viewer);
-}
-
-
-static void
 pref_reset_scrollbars_changed (GSettings *settings,
 		   	       char      *key,
 		   	       gpointer   user_data)
@@ -623,6 +584,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
 	GthImageViewerPage *self;
+	GthImageViewerTool *dragger;
 
 	self = (GthImageViewerPage*) base;
 
@@ -674,14 +636,12 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 					   g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
 	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer),
 					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
-	gth_image_viewer_set_transp_type (GTH_IMAGE_VIEWER (self->priv->viewer),
-					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_TRANSP_TYPE));
-	gth_image_viewer_set_check_type (GTH_IMAGE_VIEWER (self->priv->viewer),
-					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_TYPE));
-	gth_image_viewer_set_check_size (GTH_IMAGE_VIEWER (self->priv->viewer),
-					 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_CHECK_SIZE));
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
 					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
+
+	dragger = gth_image_dragger_new (TRUE);
+	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (self->priv->viewer), dragger);
+	g_object_unref (dragger);
 
 	gtk_widget_show (self->priv->viewer);
 
@@ -733,18 +693,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_ZOOM_CHANGE,
 			  G_CALLBACK (pref_zoom_change_changed),
-			  self);
-	g_signal_connect (self->priv->settings,
-			  "changed::" PREF_IMAGE_VIEWER_TRANSP_TYPE,
-			  G_CALLBACK (pref_transp_type_changed),
-			  self);
-	g_signal_connect (self->priv->settings,
-			  "changed::" PREF_IMAGE_VIEWER_CHECK_TYPE,
-			  G_CALLBACK (pref_check_type_changed),
-			  self);
-	g_signal_connect (self->priv->settings,
-			  "changed::" PREF_IMAGE_VIEWER_CHECK_SIZE,
-			  G_CALLBACK (pref_check_size_changed),
 			  self);
 	g_signal_connect (self->priv->settings,
 			  "changed::" PREF_IMAGE_VIEWER_RESET_SCROLLBARS,

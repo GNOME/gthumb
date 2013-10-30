@@ -29,11 +29,20 @@
 
 
 #define SIZE_TOO_BIG_FOR_SCALE_BILINEAR (3000 * 3000)
+#define FRAME_BORDER 25
+
+
+/* Properties */
+enum {
+        PROP_0,
+        PROP_SHOW_FRAME
+};
 
 
 struct _GthImageDraggerPrivate {
 	GthImageViewer  *viewer;
 	gboolean         draggable;
+	gboolean         show_frame;
 	cairo_surface_t *scaled;
 	double           scaled_zoom;
 	GthTask         *scale_task;
@@ -69,6 +78,53 @@ gth_image_dragger_finalize (GObject *object)
 
 
 static void
+gth_image_dragger_set_property (GObject      *object,
+				guint         property_id,
+				const GValue *value,
+				GParamSpec   *pspec)
+{
+	GthImageDragger *self;
+
+        self = GTH_IMAGE_DRAGGER (object);
+
+	switch (property_id) {
+	case PROP_SHOW_FRAME:
+		self->priv->show_frame = g_value_get_boolean (value);
+		if (self->priv->viewer != NULL) {
+			if (self->priv->show_frame)
+				gth_image_viewer_show_frame (self->priv->viewer, FRAME_BORDER);
+			else
+				gth_image_viewer_hide_frame (self->priv->viewer);
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+
+static void
+gth_image_dragger_get_property (GObject    *object,
+				guint       property_id,
+				GValue     *value,
+				GParamSpec *pspec)
+{
+	GthImageDragger *self;
+
+        self = GTH_IMAGE_DRAGGER (object);
+
+	switch (property_id) {
+	case PROP_SHOW_FRAME:
+		g_value_set_boolean (value, self->priv->show_frame);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+static void
 gth_image_dragger_class_init (GthImageDraggerClass *class)
 {
 	GObjectClass *gobject_class;
@@ -77,6 +133,18 @@ gth_image_dragger_class_init (GthImageDraggerClass *class)
 
 	gobject_class = (GObjectClass*) class;
 	gobject_class->finalize = gth_image_dragger_finalize;
+	gobject_class->set_property = gth_image_dragger_set_property;
+	gobject_class->get_property = gth_image_dragger_get_property;
+
+	/* properties */
+
+	g_object_class_install_property (gobject_class,
+					 PROP_SHOW_FRAME,
+					 g_param_spec_boolean ("show-frame",
+							       "Show Frame",
+							       "Whether to show a frame around the image",
+							       FALSE,
+							       G_PARAM_READWRITE));
 }
 
 
@@ -89,6 +157,7 @@ gth_image_dragger_init (GthImageDragger *dragger)
 	dragger->priv->scale_task = NULL;
 	dragger->priv->viewer = NULL;
 	dragger->priv->draggable = FALSE;
+	dragger->priv->show_frame = FALSE;
 }
 
 
@@ -98,6 +167,8 @@ gth_image_dragger_set_viewer (GthImageViewerTool *base,
 {
 	GthImageDragger *self = GTH_IMAGE_DRAGGER (base);
 	self->priv->viewer = image_viewer;
+	if (self->priv->show_frame)
+		gth_image_viewer_show_frame (self->priv->viewer, FRAME_BORDER);
 }
 
 
@@ -106,6 +177,9 @@ gth_image_dragger_unset_viewer (GthImageViewerTool *base,
 		       	        GthImageViewer     *image_viewer)
 {
 	GthImageDragger *self = GTH_IMAGE_DRAGGER (base);
+
+	if ((self->priv->viewer != NULL) &&  self->priv->show_frame)
+		gth_image_viewer_hide_frame (self->priv->viewer);
 	self->priv->viewer = NULL;
 }
 
@@ -175,6 +249,21 @@ gth_image_dragger_unmap (GthImageViewerTool *base)
 }
 
 
+static gboolean
+image_has_alpha (GthImageViewer *viewer)
+{
+	cairo_surface_t *image;
+	guchar          *first_pixel;
+
+	image = gth_image_viewer_get_current_image (viewer);
+	if (image == NULL)
+		return FALSE;
+
+	first_pixel = cairo_image_surface_get_data (image);
+	return first_pixel[CAIRO_ALPHA] < 255;
+}
+
+
 static void
 gth_image_dragger_draw (GthImageViewerTool *self,
 		        cairo_t            *cr)
@@ -190,23 +279,68 @@ gth_image_dragger_draw (GthImageViewerTool *self,
 	if (gth_image_viewer_get_current_image (viewer) == NULL)
 		return;
 
+	/* draw a frame around the image */
+
+	if (gth_image_viewer_is_frame_visible (viewer)
+	    && ! gth_image_viewer_is_animation (viewer)
+	    && ! image_has_alpha (viewer))
+	{
+		int x_ofs, y_ofs;
+
+		cairo_save (cr);
+
+		x_ofs = (viewer->frame_area.x < 0) ? viewer->frame_area.x + viewer->visible_area.x : 0;
+		y_ofs = (viewer->frame_area.y < 0) ? viewer->frame_area.y + viewer->visible_area.y : 0;
+		cairo_translate (cr, -x_ofs, -y_ofs);
+
+		/* drop shadow */
+
+		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+		cairo_rectangle (cr,
+				 viewer->image_area.x + 2 + 0.5,
+				 viewer->image_area.y + 2 + 0.5,
+				 viewer->image_area.width + 2,
+				 viewer->image_area.height + 2);
+		cairo_fill (cr);
+
+		/* frame */
+
+		cairo_set_line_width (cr, 2.0);
+		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+		cairo_rectangle (cr,
+				 viewer->image_area.x - 1,
+				 viewer->image_area.y - 1,
+				 viewer->image_area.width + 1,
+				 viewer->image_area.height + 1);
+		cairo_stroke (cr);
+
+		cairo_set_line_width (cr, 1.0);
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		cairo_rectangle (cr,
+				 viewer->image_area.x - 2,
+				 viewer->image_area.y - 2,
+				 viewer->image_area.width + 4,
+				 viewer->image_area.height + 4);
+		cairo_stroke (cr);
+
+		cairo_restore (cr);
+	}
+
 	if (dragger->priv->scaled != NULL)
 		gth_image_viewer_paint_region (viewer,
 					       cr,
 					       dragger->priv->scaled,
-					       viewer->x_offset - viewer->image_area.x,
-					       viewer->y_offset - viewer->image_area.y,
-					       &viewer->image_area,
-					       NULL,
+					       viewer->image_area.x > 0 ? viewer->image_area.x : viewer->visible_area.x,
+					       viewer->image_area.y > 0 ? viewer->image_area.y : viewer->visible_area.y,
+					       &viewer->visible_area,
 					       CAIRO_FILTER_FAST);
 	else
 		gth_image_viewer_paint_region (viewer,
 					       cr,
 					       gth_image_viewer_get_current_image (viewer),
-					       viewer->x_offset - viewer->image_area.x,
-					       viewer->y_offset - viewer->image_area.y,
-					       &viewer->image_area,
-					       NULL,
+					       viewer->image_area.x > 0 ? viewer->image_area.x : viewer->visible_area.x,
+					       viewer->image_area.y > 0 ? viewer->image_area.y : viewer->visible_area.y,
+					       &viewer->visible_area,
 					       gth_image_viewer_get_zoom_quality_filter (viewer));
 
 	gth_image_viewer_apply_painters (viewer, cr);
@@ -495,7 +629,9 @@ gth_image_dragger_gth_image_tool_interface_init (GthImageViewerToolInterface *if
 
 
 GthImageViewerTool *
-gth_image_dragger_new (void)
+gth_image_dragger_new (gboolean show_frame)
 {
-	return (GthImageViewerTool *) g_object_new (GTH_TYPE_IMAGE_DRAGGER, NULL);
+	return (GthImageViewerTool *) g_object_new (GTH_TYPE_IMAGE_DRAGGER,
+						    "show-frame", show_frame,
+						    NULL);
 }

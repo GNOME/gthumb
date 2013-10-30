@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.0 on Tue Oct 29 20:36:21 2013 -->
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkBox" id="preferences_page">
@@ -62,7 +63,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
@@ -107,43 +107,9 @@
             <property name="top_padding">6</property>
             <property name="left_padding">12</property>
             <child>
-              <object class="GtkGrid" id="grid1">
+              <object class="GtkBox" id="box6">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="row_spacing">6</property>
-                <property name="column_spacing">6</property>
-                <child>
-                  <object class="GtkLabel" id="label3">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">_Zoom quality:</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">zoom_quality_combobox</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label4">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">Transparency _type:</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">transp_type_combobox</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
                 <child>
                   <object class="GtkComboBoxText" id="zoom_quality_combobox">
                     <property name="visible">True</property>
@@ -154,28 +120,9 @@
                     </items>
                   </object>
                   <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkComboBoxText" id="transp_type_combobox">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <items>
-                      <item translatable="yes">White</item>
-                      <item translatable="yes">None</item>
-                      <item translatable="yes">Black</item>
-                      <item translatable="yes">Checked</item>
-                    </items>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
               </object>
@@ -186,7 +133,7 @@
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Other</property>
+            <property name="label" translatable="yes">Zoom quality:</property>
             <property name="use_markup">True</property>
             <attributes>
               <attribute name="weight" value="bold"/>

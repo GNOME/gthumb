@@ -25,19 +25,9 @@
     <key name="zoom-change" enum="org.gnome.gthumb.GthZoomChange">
       <default>'fit-size-if-larger'</default>
     </key>
-    <key name="transparency-type" enum="org.gnome.gthumb.GthTranspType">
-      <default>'none'</default>
-      <_description>Possible values are: white, black, checked, none.</_description>
-    </key>
     <key name="reset-scrollbars" type="b">
       <default>true</default>
       <_description>Whether to reset the scrollbars position after changing image</_description>
-    </key>
-    <key name="check-type" enum="org.gnome.gthumb.GthCheckType">
-      <default>'midtone'</default>
-    </key>
-    <key name="check-size" enum="org.gnome.gthumb.GthCheckSize">
-      <default>'medium'</default>
     </key>
   </schema>
 

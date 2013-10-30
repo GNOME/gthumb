@@ -68,14 +68,6 @@ reset_scrollbars_toggled_cb (GtkToggleButton *button,
 }
 
 
-static void
-transp_type_changed_cb (GtkComboBox *combo_box,
-			BrowserData *data)
-{
-	g_settings_set_enum (data->settings, PREF_IMAGE_VIEWER_TRANSP_TYPE, gtk_combo_box_get_active (combo_box));
-}
-
-
 void
 image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 					    GthBrowser *browser,
@@ -100,8 +92,6 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				  g_settings_get_enum (data->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("toggle_reset_scrollbars")),
 				      g_settings_get_boolean (data->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("transp_type_combobox")),
-				  g_settings_get_enum (data->settings, PREF_IMAGE_VIEWER_TRANSP_TYPE));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("zoom_quality_combobox")),
 				  g_settings_get_enum (data->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
 
@@ -112,10 +102,6 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	g_signal_connect (GET_WIDGET ("change_zoom_combobox"),
 			  "changed",
 			  G_CALLBACK (zoom_change_changed_cb),
-			  data);
-	g_signal_connect (GET_WIDGET ("transp_type_combobox"),
-			  "changed",
-			  G_CALLBACK (transp_type_changed_cb),
 			  data);
 	g_signal_connect (GET_WIDGET ("toggle_reset_scrollbars"),
 			  "toggled",

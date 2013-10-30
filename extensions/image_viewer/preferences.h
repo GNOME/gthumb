@@ -32,10 +32,7 @@
 
 #define PREF_IMAGE_VIEWER_ZOOM_QUALITY      "zoom-quality"
 #define PREF_IMAGE_VIEWER_ZOOM_CHANGE       "zoom-change"
-#define PREF_IMAGE_VIEWER_TRANSP_TYPE       "transparency-type"
 #define PREF_IMAGE_VIEWER_RESET_SCROLLBARS  "reset-scrollbars"
-#define PREF_IMAGE_VIEWER_CHECK_TYPE        "check-type"
-#define PREF_IMAGE_VIEWER_CHECK_SIZE        "check-size"
 
 void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 						 GthBrowser *browser,

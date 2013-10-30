@@ -1,3 +1,4 @@
+
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
@@ -51,7 +52,7 @@ struct _GthImageDraggerClass
 };
 
 GType                 gth_image_dragger_get_type (void);
-GthImageViewerTool *  gth_image_dragger_new      (void);
+GthImageViewerTool *  gth_image_dragger_new      (gboolean show_frame);
 
 G_END_DECLS
 
