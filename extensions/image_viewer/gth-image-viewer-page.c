@@ -1519,6 +1519,8 @@ gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage *self)
 	dragger = gth_image_dragger_new (TRUE);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (self->priv->viewer), dragger);
 	g_object_unref (dragger);
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
 }
 
 
