@@ -145,7 +145,7 @@
      transform="translate(-31.97559,-220.36218)">
     <path
        style="fill:#bebebe;fill-opacity:1;stroke:none"
-       d="m 31.996971,230.37 10,0 0,5 -10,-4 z"
+       d="m 31.996971,235.37 10,0 0,-5 -10,4 z"
        id="path5813-7"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
@@ -158,7 +158,8 @@
     <path
        style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#bebebe;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
        d="m 40.00684,221.36218 c -1.487955,0 -2.570868,-0.0195 -3.40625,0.0312 -0.835382,0.0507 -1.484412,0.16931 -1.9375,0.625 -0.453088,0.45569 -0.574871,1.09872 -0.625,1.9375 -0.05013,0.83878 -0.03125,1.94285 -0.03125,3.4375 l 1,0 c 0,-1.50817 -0.01412,-2.61584 0.03125,-3.375 0.04537,-0.75916 0.171261,-1.10777 0.34375,-1.28125 0.172489,-0.17348 0.526402,-0.29793 1.28125,-0.34375 0.754848,-0.0458 1.842243,-0.0312 3.34375,-0.0312 l 0,-1 z"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       id="path3034" />
     <path
        style="fill:#bebebe;fill-opacity:1;stroke:none"
        d="m 34.491767,229.3622 2.508233,-3 -5,0"
