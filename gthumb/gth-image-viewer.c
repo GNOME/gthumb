@@ -2491,7 +2491,7 @@ gth_image_viewer_paint (GthImageViewer  *self,
 	cairo_scale (cr, zoom_level, zoom_level);
 	cairo_set_source_surface (cr, surface, dest_dx - src_dx, dest_dy - src_dy);
 	cairo_pattern_set_filter (cairo_get_source (cr), filter);
-	cairo_rectangle (cr, dest_dx, dest_dy, dwidth - 0.5, dheight - 0.5);
+	cairo_rectangle (cr, dest_dx, dest_dy, dwidth, dheight);
 	cairo_clip_preserve (cr);
   	cairo_fill (cr);
 
