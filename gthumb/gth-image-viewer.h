@@ -284,6 +284,8 @@ void           gth_image_viewer_paint_region             (GthImageViewer        
 							  cairo_filter_t         filter);
 void           gth_image_viewer_paint_background         (GthImageViewer        *self,
 				   	   	          cairo_t               *cr);
+void	       gth_image_viewer_paint_frame		 (GthImageViewer	*self,
+							  cairo_t		*cr);
 void           gth_image_viewer_apply_painters           (GthImageViewer        *image_viewer,
 							  cairo_t               *cr);
 void           gth_image_viewer_crop_area                (GthImageViewer        *viewer,

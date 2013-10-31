@@ -320,8 +320,8 @@ get_event_area_from_position (GthImageSelector *self,
 		cairo_rectangle_int_t  widget_area;
 
 		widget_area = event_area->area;
-		widget_area.x += self->priv->viewer->image_area.x;
-		widget_area.y += self->priv->viewer->image_area.y;
+		widget_area.x += MAX (self->priv->viewer->image_area.x, gth_image_viewer_get_frame_border (self->priv->viewer));
+		widget_area.y += MAX (self->priv->viewer->image_area.y, gth_image_viewer_get_frame_border (self->priv->viewer));
 
 		if (point_in_rectangle (x, y, widget_area))
 			return event_area;
@@ -423,8 +423,8 @@ event_area_paint (GthImageSelector *self,
 	}
 
 	_cairo_rectangle_partial (cr,
-				  event_area->area.x + self->priv->viewer->image_area.x - self->priv->viewer->x_offset + 0.5,
-				  event_area->area.y + self->priv->viewer->image_area.y - self->priv->viewer->y_offset + 0.5,
+				  self->priv->viewer->image_area.x + event_area->area.x - self->priv->viewer->visible_area.x + 0.5,
+				  self->priv->viewer->image_area.y + event_area->area.y - self->priv->viewer->visible_area.y + 0.5,
 				  event_area->area.width - 1.0,
 				  event_area->area.height - 1.0,
 				  sides);
@@ -524,8 +524,8 @@ queue_draw (GthImageSelector      *self,
 		return;
 
 	gtk_widget_queue_draw_area (GTK_WIDGET (self->priv->viewer),
-				    self->priv->viewer->image_area.x + area.x - self->priv->viewer->x_offset,
-				    self->priv->viewer->image_area.y + area.y - self->priv->viewer->y_offset,
+				    self->priv->viewer->image_area.x + area.x - self->priv->viewer->visible_area.x,
+				    self->priv->viewer->image_area.y + area.y - self->priv->viewer->visible_area.y,
 				    area.width,
 				    area.height);
 }
@@ -612,7 +612,9 @@ gth_image_selector_set_viewer (GthImageViewerTool *base,
 			       GthImageViewer     *image_viewer)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
+
 	self->priv->viewer = image_viewer;
+	gth_image_viewer_show_frame (self->priv->viewer, 25);
 }
 
 
@@ -621,6 +623,9 @@ gth_image_selector_unset_viewer (GthImageViewerTool *base,
 		       	         GthImageViewer     *image_viewer)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
+
+	if (self->priv->viewer != NULL)
+		gth_image_viewer_hide_frame (self->priv->viewer);
 	self->priv->viewer = NULL;
 }
 
@@ -697,16 +702,19 @@ paint_background (GthImageSelector *self,
 	gth_image_viewer_paint_region (self->priv->viewer,
 				       cr,
 				       self->priv->surface,
-				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
-				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
-				       &self->priv->viewer->image_area,
-				       NULL,
+				       self->priv->viewer->image_area.x,
+				       self->priv->viewer->image_area.y,
+				       &self->priv->viewer->visible_area,
 				       gth_image_viewer_get_zoom_quality_filter (self->priv->viewer));
 
 	/* make the background darker */
 
 	cairo_save (cr);
-	gdk_cairo_rectangle (cr, &self->priv->viewer->image_area);
+	cairo_rectangle (cr,
+			 self->priv->viewer->image_area.x - self->priv->viewer->visible_area.x,
+			 self->priv->viewer->image_area.y - self->priv->viewer->visible_area.y,
+			 self->priv->viewer->image_area.width,
+			 self->priv->viewer->image_area.height);
 	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
 	cairo_fill (cr);
 	cairo_restore (cr);
@@ -719,22 +727,26 @@ paint_selection (GthImageSelector *self,
 {
 	cairo_rectangle_int_t selection_area;
 
-	selection_area = self->priv->selection_area;
-	selection_area.x += self->priv->viewer->image_area.x - self->priv->viewer->x_offset;
-	selection_area.y += self->priv->viewer->image_area.y - self->priv->viewer->y_offset;
+	if (! self->priv->viewer->dragging) {
+		int frame_border = gth_image_viewer_get_frame_border (self->priv->viewer);
 
-	if (! self->priv->viewer->dragging)
+		selection_area = self->priv->selection_area;
+		selection_area.x += frame_border;
+		selection_area.y += frame_border;
 		gth_image_viewer_paint_region (self->priv->viewer,
 					       cr,
 					       self->priv->surface,
-					       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
-					       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
+					       selection_area.x + self->priv->viewer->image_area.x - self->priv->viewer->visible_area.x,
+					       selection_area.y + self->priv->viewer->image_area.y - self->priv->viewer->visible_area.y,
 					       &selection_area,
-					       NULL,
 					       gth_image_viewer_get_zoom_quality_filter (self->priv->viewer));
+	}
 
 	cairo_save (cr);
 
+	selection_area = self->priv->selection_area;
+	selection_area.x += self->priv->viewer->image_area.x - self->priv->viewer->visible_area.x;
+	selection_area.y += self->priv->viewer->image_area.y - self->priv->viewer->visible_area.y;
 	cairo_rectangle (cr,
 			 selection_area.x + 0.5,
 			 selection_area.y + 0.5,
@@ -764,10 +776,9 @@ paint_image (GthImageSelector *self,
 	gth_image_viewer_paint_region (self->priv->viewer,
 				       cr,
 				       self->priv->surface,
-				       self->priv->viewer->x_offset - self->priv->viewer->image_area.x,
-				       self->priv->viewer->y_offset - self->priv->viewer->image_area.y,
-				       &self->priv->viewer->image_area,
-				       NULL,
+				       self->priv->viewer->image_area.x,
+				       self->priv->viewer->image_area.y,
+				       &self->priv->viewer->visible_area,
 				       gth_image_viewer_get_zoom_quality_filter (self->priv->viewer));
 }
 
@@ -782,6 +793,8 @@ gth_image_selector_draw (GthImageViewerTool *base,
 
 	if (self->priv->surface == NULL)
 		return;
+
+	gth_image_viewer_paint_frame (self->priv->viewer, cr);
 
 	if (self->priv->mask_visible) {
 		if (self->priv->viewer->dragging)
@@ -857,8 +870,8 @@ gth_image_selector_button_release (GthImageViewerTool *base,
 	}
 
 	update_cursor (self,
-		       event->x + self->priv->viewer->x_offset,
-		       event->y + self->priv->viewer->y_offset);
+		       event->x + self->priv->viewer->visible_area.x,
+		       event->y + self->priv->viewer->visible_area.y);
 	gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 
 	return FALSE;
@@ -1009,8 +1022,8 @@ gth_image_selector_button_press (GthImageViewerTool *base,
 	if (! point_in_rectangle (event->x, event->y, self->priv->viewer->image_area))
 		return FALSE;
 
-	x = event->x + self->priv->viewer->x_offset;
-	y = event->y + self->priv->viewer->y_offset;
+	x = event->x + self->priv->viewer->visible_area.x;
+	y = event->y + self->priv->viewer->visible_area.y;
 
 	if (self->priv->current_area == NULL) {
 		cairo_rectangle_int_t new_selection;
@@ -1445,8 +1458,8 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 	int               absolute_x, absolute_y;
 
 	widget = GTK_WIDGET (self->priv->viewer);
-	x = event->x + self->priv->viewer->x_offset;
-	y = event->y + self->priv->viewer->y_offset;
+	x = event->x + self->priv->viewer->visible_area.x;
+	y = event->y + self->priv->viewer->visible_area.y;
 
 	if (self->priv->type == GTH_SELECTOR_TYPE_POINT) {
 		x = selector_to_real (self, x - self->priv->viewer->image_area.x);

@@ -287,8 +287,8 @@ _gth_image_viewer_update_image_area (GthImageViewer *self)
 
 	_gth_image_viewer_get_zoomed_size (self, &zoomed_width, &zoomed_height);
 
-	self->frame_area.x = (self->visible_area.width - zoomed_width) / 2;
-	self->frame_area.y = (self->visible_area.height - zoomed_height) / 2;
+	self->frame_area.x = MAX (0, (self->visible_area.width - zoomed_width) / 2);
+	self->frame_area.y = MAX (0, (self->visible_area.height - zoomed_height) / 2);
 	self->frame_area.width = zoomed_width;
 	self->frame_area.height = zoomed_height;
 
@@ -347,8 +347,10 @@ set_zoom (GthImageViewer *self,
 	self->priv->zoom_level = zoom_level;
 
 	_gth_image_viewer_update_image_area (self);
-	if (self->priv->update_image_after_zoom)
+	if (self->priv->update_image_after_zoom) {
 		gth_image_viewer_tool_image_changed (self->priv->tool);
+		self->priv->update_image_after_zoom = FALSE;
+	}
 	else
 		gth_image_viewer_tool_zoom_changed (self->priv->tool);
 
@@ -761,6 +763,21 @@ queue_animation_frame_change (GthImageViewer *self)
 
 
 static gboolean
+image_has_alpha (GthImageViewer *viewer)
+{
+	cairo_surface_t *image;
+	guchar          *first_pixel;
+
+	image = gth_image_viewer_get_current_image (viewer);
+	if (image == NULL)
+		return FALSE;
+
+	first_pixel = cairo_image_surface_get_data (image);
+	return first_pixel[CAIRO_ALPHA] < 255;
+}
+
+
+static gboolean
 gth_image_viewer_draw (GtkWidget *widget,
 		       cairo_t   *cr)
 {
@@ -770,6 +787,9 @@ gth_image_viewer_draw (GtkWidget *widget,
 
 	cairo_set_line_width (cr, 0.5);
 	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+
+	/* draw a frame around the image */
+
 
 	/* delegate the rest to the tool  */
 
@@ -2479,6 +2499,9 @@ gth_image_viewer_paint (GthImageViewer  *self,
 
 	cairo_save (cr);
 
+	cairo_rectangle (cr, 0, 0, self->visible_area.width, self->visible_area.height);
+	cairo_clip (cr);
+
 	gth_image_viewer_get_original_size (self, &original_width, NULL);
 	zoom_level = self->priv->zoom_level * ((double) original_width / cairo_image_surface_get_width (surface));
 	src_dx = (double) src_x / zoom_level;
@@ -2492,8 +2515,7 @@ gth_image_viewer_paint (GthImageViewer  *self,
 	cairo_set_source_surface (cr, surface, dest_dx - src_dx, dest_dy - src_dy);
 	cairo_pattern_set_filter (cairo_get_source (cr), filter);
 	cairo_rectangle (cr, dest_dx, dest_dy, dwidth, dheight);
-	cairo_clip_preserve (cr);
-  	cairo_fill (cr);
+	cairo_fill (cr);
 
   	cairo_restore (cr);
 }
@@ -2516,8 +2538,8 @@ gth_image_viewer_paint_region (GthImageViewer        *self,
 				surface,
 				paint_area->x - frame_border,
 				paint_area->y - frame_border,
-				MAX (0, self->frame_area.x),
-				MAX (0, self->frame_area.y),
+				dest_x - frame_border,
+				dest_y - frame_border,
 				MIN (paint_area->width, self->image_area.width + frame_border),
 				MIN (paint_area->height, self->image_area.height + frame_border),
 				filter);
@@ -2539,6 +2561,56 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 			 allocation.width,
 			 allocation.height);
 	cairo_fill (cr);
+	cairo_restore (cr);
+}
+
+
+void
+gth_image_viewer_paint_frame (GthImageViewer *self,
+			      cairo_t        *cr)
+{
+	if (! gth_image_viewer_is_frame_visible (self)
+	    || gth_image_viewer_is_animation (self)
+	    || image_has_alpha (self))
+	{
+		return;
+
+	}
+
+	cairo_save (cr);
+
+	cairo_translate (cr, -self->visible_area.x, -self->visible_area.y);
+
+	/* drop shadow */
+
+	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+	cairo_rectangle (cr,
+			 self->image_area.x + 2 + 0.5,
+			 self->image_area.y + 2 + 0.5,
+			 self->image_area.width + 2,
+			 self->image_area.height + 2);
+	cairo_fill (cr);
+
+	/* frame */
+
+	cairo_set_line_width (cr, 2.0);
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	cairo_rectangle (cr,
+			 self->image_area.x - 1,
+			 self->image_area.y - 1,
+			 self->image_area.width + 2,
+			 self->image_area.height + 2);
+	cairo_stroke (cr);
+
+	cairo_set_line_width (cr, 1.0);
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	cairo_rectangle (cr,
+			 self->image_area.x - 2,
+			 self->image_area.y - 2,
+			 self->image_area.width + 5,
+			 self->image_area.height + 5);
+	cairo_stroke (cr);
+
 	cairo_restore (cr);
 }
 

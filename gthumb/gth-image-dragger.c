@@ -178,7 +178,7 @@ gth_image_dragger_unset_viewer (GthImageViewerTool *base,
 {
 	GthImageDragger *self = GTH_IMAGE_DRAGGER (base);
 
-	if ((self->priv->viewer != NULL) &&  self->priv->show_frame)
+	if ((self->priv->viewer != NULL) && self->priv->show_frame)
 		gth_image_viewer_hide_frame (self->priv->viewer);
 	self->priv->viewer = NULL;
 }
@@ -249,21 +249,6 @@ gth_image_dragger_unmap (GthImageViewerTool *base)
 }
 
 
-static gboolean
-image_has_alpha (GthImageViewer *viewer)
-{
-	cairo_surface_t *image;
-	guchar          *first_pixel;
-
-	image = gth_image_viewer_get_current_image (viewer);
-	if (image == NULL)
-		return FALSE;
-
-	first_pixel = cairo_image_surface_get_data (image);
-	return first_pixel[CAIRO_ALPHA] < 255;
-}
-
-
 static void
 gth_image_dragger_draw (GthImageViewerTool *self,
 		        cairo_t            *cr)
@@ -279,67 +264,22 @@ gth_image_dragger_draw (GthImageViewerTool *self,
 	if (gth_image_viewer_get_current_image (viewer) == NULL)
 		return;
 
-	/* draw a frame around the image */
-
-	if (gth_image_viewer_is_frame_visible (viewer)
-	    && ! gth_image_viewer_is_animation (viewer)
-	    && ! image_has_alpha (viewer))
-	{
-		int x_ofs, y_ofs;
-
-		cairo_save (cr);
-
-		x_ofs = (viewer->frame_area.x < 0) ? viewer->frame_area.x + viewer->visible_area.x : 0;
-		y_ofs = (viewer->frame_area.y < 0) ? viewer->frame_area.y + viewer->visible_area.y : 0;
-		cairo_translate (cr, -x_ofs, -y_ofs);
-
-		/* drop shadow */
-
-		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
-		cairo_rectangle (cr,
-				 viewer->image_area.x + 2 + 0.5,
-				 viewer->image_area.y + 2 + 0.5,
-				 viewer->image_area.width + 2,
-				 viewer->image_area.height + 2);
-		cairo_fill (cr);
-
-		/* frame */
-
-		cairo_set_line_width (cr, 2.0);
-		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-		cairo_rectangle (cr,
-				 viewer->image_area.x - 1,
-				 viewer->image_area.y - 1,
-				 viewer->image_area.width + 1,
-				 viewer->image_area.height + 1);
-		cairo_stroke (cr);
-
-		cairo_set_line_width (cr, 1.0);
-		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-		cairo_rectangle (cr,
-				 viewer->image_area.x - 2,
-				 viewer->image_area.y - 2,
-				 viewer->image_area.width + 4,
-				 viewer->image_area.height + 4);
-		cairo_stroke (cr);
-
-		cairo_restore (cr);
-	}
+	gth_image_viewer_paint_frame (viewer, cr);
 
 	if (dragger->priv->scaled != NULL)
 		gth_image_viewer_paint_region (viewer,
 					       cr,
 					       dragger->priv->scaled,
-					       viewer->image_area.x > 0 ? viewer->image_area.x : viewer->visible_area.x,
-					       viewer->image_area.y > 0 ? viewer->image_area.y : viewer->visible_area.y,
+					       viewer->image_area.x,
+					       viewer->image_area.y,
 					       &viewer->visible_area,
 					       CAIRO_FILTER_FAST);
 	else
 		gth_image_viewer_paint_region (viewer,
 					       cr,
 					       gth_image_viewer_get_current_image (viewer),
-					       viewer->image_area.x > 0 ? viewer->image_area.x : viewer->visible_area.x,
-					       viewer->image_area.y > 0 ? viewer->image_area.y : viewer->visible_area.y,
+					       viewer->image_area.x,
+					       viewer->image_area.y,
 					       &viewer->visible_area,
 					       gth_image_viewer_get_zoom_quality_filter (viewer));
 
