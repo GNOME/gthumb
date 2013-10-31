@@ -601,6 +601,7 @@ get_zoom_level_for_allocation (GthImageViewer *self,
 	cairo_surface_t *current_image;
 	int              original_width;
 	int              original_height;
+	int              frame_border_2;
 
 	zoom_level = self->priv->zoom_level;
 	current_image = gth_image_viewer_get_current_image (self);
@@ -608,6 +609,7 @@ get_zoom_level_for_allocation (GthImageViewer *self,
 		return zoom_level;
 
 	gth_image_viewer_get_original_size (self, &original_width, &original_height);
+	frame_border_2 = _gth_image_viewer_get_frame_border (self) * 2;
 
 	switch (self->priv->fit) {
 	case GTH_FIT_SIZE:
@@ -615,7 +617,7 @@ get_zoom_level_for_allocation (GthImageViewer *self,
 		break;
 
 	case GTH_FIT_SIZE_IF_LARGER:
-		if ((allocation->width < original_width) || (allocation->height < original_height))
+		if ((allocation->width < original_width + frame_border_2) || (allocation->height < original_height + frame_border_2))
 			zoom_level = get_zoom_to_fit (self, allocation);
 		else
 			zoom_level = 1.0;
@@ -626,7 +628,7 @@ get_zoom_level_for_allocation (GthImageViewer *self,
 		break;
 
 	case GTH_FIT_WIDTH_IF_LARGER:
-		if (allocation->width < original_width)
+		if (allocation->width < original_width + frame_border_2)
 			zoom_level = get_zoom_to_fit_width (self, allocation);
 		else
 			zoom_level = 1.0;
