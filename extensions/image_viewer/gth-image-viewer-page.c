@@ -238,7 +238,7 @@ update_image_quality_if_required (GthImageViewerPage *self)
 {
 	GthImage *image;
 
-	if (self->priv->loading_image)
+	if (self->priv->loading_image || gth_sidebar_tool_is_active (GTH_SIDEBAR (gth_browser_get_viewer_sidebar (self->priv->browser))))
 		return;
 
 	image = gth_image_viewer_get_image (GTH_IMAGE_VIEWER (self->priv->viewer));
