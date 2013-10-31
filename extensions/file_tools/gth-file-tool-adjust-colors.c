@@ -529,7 +529,6 @@ gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 {
 	GthFileToolAdjustColors *self;
 	GtkWidget               *viewer_page;
-	GtkWidget               *viewer;
 
 	self = (GthFileToolAdjustColors *) base;
 
@@ -539,8 +538,7 @@ gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 	}
 
 	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
+	gth_image_viewer_page_reset_viewer_tool (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
 	_cairo_clear_surface (&self->priv->preview);

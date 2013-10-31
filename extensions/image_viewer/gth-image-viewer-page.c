@@ -639,10 +639,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
 					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
-
-	dragger = gth_image_dragger_new (TRUE);
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (self->priv->viewer), dragger);
-	g_object_unref (dragger);
+	gth_image_viewer_page_reset_viewer_tool (self);
 
 	gtk_widget_show (self->priv->viewer);
 
@@ -1511,6 +1508,17 @@ gth_image_viewer_page_reset (GthImageViewerPage *self)
 		return;
 
 	_gth_image_viewer_page_set_image (self, last_image->image, last_image->requested_size, last_image->unsaved);
+}
+
+
+void
+gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage *self)
+{
+	GthImageViewerTool *dragger;
+
+	dragger = gth_image_dragger_new (TRUE);
+	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (self->priv->viewer), dragger);
+	g_object_unref (dragger);
 }
 
 

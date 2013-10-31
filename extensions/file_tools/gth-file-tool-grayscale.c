@@ -401,7 +401,6 @@ gth_file_tool_grayscale_destroy_options (GthFileTool *base)
 	GthFileToolGrayscale *self;
 	GtkWidget             *window;
 	GtkWidget             *viewer_page;
-	GtkWidget             *viewer;
 
 	self = (GthFileToolGrayscale *) base;
 
@@ -412,8 +411,7 @@ gth_file_tool_grayscale_destroy_options (GthFileTool *base)
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
+	gth_image_viewer_page_reset_viewer_tool (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
 	_cairo_clear_surface (&self->priv->preview);

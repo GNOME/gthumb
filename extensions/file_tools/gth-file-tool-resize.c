@@ -728,11 +728,11 @@ gth_file_tool_resize_destroy_options (GthFileTool *base)
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
+	gth_image_viewer_page_reset_viewer_tool (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 
 	/* restore the zoom quality */
 
+	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	viewer_settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
 	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (viewer),
 					   g_settings_get_enum (viewer_settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
