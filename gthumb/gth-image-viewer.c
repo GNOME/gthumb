@@ -812,17 +812,18 @@ gth_image_viewer_draw (GtkWidget *widget,
 {
 	GthImageViewer *self = GTH_IMAGE_VIEWER (widget);
 
+	cairo_save (cr);
+
 	/* set the default values of the cairo context */
 
 	cairo_set_line_width (cr, 0.5);
 	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
 
-	/* draw a frame around the image */
-
-
 	/* delegate the rest to the tool  */
 
 	gth_image_viewer_tool_draw (self->priv->tool, cr);
+
+	cairo_restore (cr);
 
 	queue_animation_frame_change (self);
 
@@ -919,61 +920,7 @@ scroll_to (GthImageViewer *self,
 	self->visible_area.y = y_offset;
 
 	window = gtk_widget_get_window (GTK_WIDGET (self));
-
-	if (self->priv->painters != NULL) {
-		cairo_rectangle_int_t area;
-
-		area.x = 0;
-		area.y = 0;
-		area.width = self->visible_area.width;
-		area.height = self->visible_area.height;
-		gdk_window_invalidate_rect (window, &area, TRUE);
-		gdk_window_process_updates (window, TRUE);
-
-		return;
-	}
-
-	/* move without invalidating the frame */
-
-	{
-		cairo_rectangle_int_t  area;
-		cairo_region_t        *region;
-
-		area.x = (delta_x < 0) ? 0 : delta_x;
-		area.y = (delta_y < 0) ? 0 : delta_y;
-		area.width = self->visible_area.width - abs (delta_x);
-		area.height = self->visible_area.height - abs (delta_y);
-		region = cairo_region_create_rectangle (&area);
-		gdk_window_move_region (window, region, -delta_x, -delta_y);
-
-		cairo_region_destroy (region);
-	}
-
-	/* invalidate the exposed areas */
-
-	{
-		cairo_region_t        *region;
-		cairo_rectangle_int_t  area;
-
-		region = cairo_region_create ();
-
-		area.x = 0;
-		area.y = (delta_y < 0) ? 0 : self->visible_area.height - delta_y;
-		area.width = self->visible_area.width;
-		area.height = abs (delta_y);
-		cairo_region_union_rectangle (region, &area);
-
-		area.x = (delta_x < 0) ? 0 : self->visible_area.width - delta_x;
-		area.y = 0;
-		area.width = abs (delta_x);
-		area.height = self->visible_area.height;
-		cairo_region_union_rectangle (region, &area);
-
-		gdk_window_invalidate_region (window, region, TRUE);
-
-		cairo_region_destroy (region);
-	}
-
+	gdk_window_scroll (window, -delta_x, -delta_y);
 	gdk_window_process_updates (window, TRUE);
 }
 
