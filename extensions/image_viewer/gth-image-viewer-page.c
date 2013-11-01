@@ -1081,8 +1081,8 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-in", zoom_enabled && (zoom < 100.0));
 
 	fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit", zoom_enabled && (fit_mode != GTH_FIT_SIZE));
-	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-width", zoom_enabled && (fit_mode != GTH_FIT_WIDTH));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit", zoom_enabled && (fit_mode != GTH_FIT_SIZE_IF_LARGER));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-width", zoom_enabled && (fit_mode != GTH_FIT_WIDTH_IF_LARGER));
 
 	_gth_image_viewer_page_update_paste_command_sensitivity (self, NULL);
 }
