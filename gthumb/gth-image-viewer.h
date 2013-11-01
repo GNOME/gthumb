@@ -112,6 +112,7 @@ struct _GthImageViewerClass
 	/* -- Signals -- */
 
 	void (* clicked)                (GthImageViewer     *viewer);
+	void (* image_changed)          (GthImageViewer     *viewer);
 	void (* zoom_changed)           (GthImageViewer     *viewer);
 
 	/* -- Key binding signals -- */
@@ -246,6 +247,7 @@ void           gth_image_viewer_needs_scrollbars         (GthImageViewer        
 							  GtkWidget             *vscrollbar,
 							  gboolean              *hscrollbar_visible,
 							  gboolean              *vscrollbar_visible);
+gboolean       gth_image_viewer_has_scrollbars           (GthImageViewer        *self);
 
 /* Cursor. */
 

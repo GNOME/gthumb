@@ -64,6 +64,7 @@ enum {
 	ZOOM_OUT,
 	SET_ZOOM,
 	SET_FIT_MODE,
+	IMAGE_CHANGED,
 	ZOOM_CHANGED,
 	SCROLL,
 	LAST_SIGNAL
@@ -299,6 +300,15 @@ _gth_image_viewer_update_image_area (GthImageViewer *self)
 }
 
 
+static void
+_gth_image_viewer_image_changed (GthImageViewer *self)
+{
+	if (self->priv->tool != NULL)
+		gth_image_viewer_tool_image_changed (self->priv->tool);
+	g_signal_emit (G_OBJECT (self), gth_image_viewer_signals[IMAGE_CHANGED], 0);
+}
+
+
 static void _set_surface (GthImageViewer  *self,
 			  cairo_surface_t *surface,
 			  int              original_width,
@@ -348,16 +358,14 @@ set_zoom (GthImageViewer *self,
 
 	_gth_image_viewer_update_image_area (self);
 	if (self->priv->update_image_after_zoom) {
-		gth_image_viewer_tool_image_changed (self->priv->tool);
+		_gth_image_viewer_image_changed (self);
 		self->priv->update_image_after_zoom = FALSE;
 	}
 	else
 		gth_image_viewer_tool_zoom_changed (self->priv->tool);
 
 	if (! self->priv->skip_zoom_change)
-		g_signal_emit (G_OBJECT (self),
-			       gth_image_viewer_signals[ZOOM_CHANGED],
-			       0);
+		g_signal_emit (G_OBJECT (self), gth_image_viewer_signals[ZOOM_CHANGED], 0);
 	else
 		self->priv->skip_zoom_change = FALSE;
 }
@@ -1318,6 +1326,15 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      G_TYPE_NONE,
 			      1,
 			      GTH_TYPE_FIT);
+	gth_image_viewer_signals[IMAGE_CHANGED] =
+		g_signal_new ("image_changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthImageViewerClass, image_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
 	gth_image_viewer_signals[ZOOM_CHANGED] =
 		g_signal_new ("zoom_changed",
 			      G_TYPE_FROM_CLASS (class),
@@ -1616,7 +1633,7 @@ _gth_image_viewer_content_changed (GthImageViewer *self,
 	}
 
 	if (better_quality || ! self->priv->zoom_enabled) {
-		gth_image_viewer_tool_image_changed (self->priv->tool);
+		_gth_image_viewer_image_changed (self);
 		return;
 	}
 
@@ -1629,7 +1646,7 @@ _gth_image_viewer_content_changed (GthImageViewer *self,
 		break;
 
 	case GTH_ZOOM_CHANGE_KEEP_PREV:
-		gth_image_viewer_tool_image_changed (self->priv->tool);
+		_gth_image_viewer_image_changed (self);
 		gtk_widget_queue_resize (GTK_WIDGET (self));
 		break;
 
@@ -2203,7 +2220,7 @@ gth_image_viewer_set_tool (GthImageViewer     *self,
 	gth_image_viewer_tool_set_viewer (self->priv->tool, self);
 	if (gtk_widget_get_realized (GTK_WIDGET (self)))
 		gth_image_viewer_tool_realize (self->priv->tool);
-	gth_image_viewer_tool_image_changed (self->priv->tool);
+	_gth_image_viewer_image_changed (self);
 	gtk_widget_queue_resize (GTK_WIDGET (self));
 }
 
@@ -2385,6 +2402,15 @@ gth_image_viewer_needs_scrollbars (GthImageViewer *self,
 		*hscrollbar_visible_p = hscrollbar_visible;
 	if (vscrollbar_visible_p != NULL)
 		*vscrollbar_visible_p = vscrollbar_visible;
+}
+
+
+gboolean
+gth_image_viewer_has_scrollbars (GthImageViewer *self)
+{
+	int zoomed_width, zoomed_height;
+	_gth_image_viewer_get_zoomed_size (self, &zoomed_width, &zoomed_height);
+	return (self->visible_area.width < zoomed_width) || (self->visible_area.height < zoomed_height);
 }
 
 
@@ -2576,7 +2602,6 @@ gth_image_viewer_paint_frame (GthImageViewer *self,
 	    || image_has_alpha (self))
 	{
 		return;
-
 	}
 
 	cairo_save (cr);

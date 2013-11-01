@@ -28,8 +28,8 @@
 #include "preferences.h"
 
 
-#define HEADER_BUTTONS 5
 #define UPDATE_QUALITY_DELAY 100
+#define N_HEADER_BAR_BUTTONS 2
 
 
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
@@ -74,6 +74,8 @@ struct _GthImageViewerPagePrivate {
 	GthBrowser        *browser;
 	GSettings         *settings;
 	GtkWidget         *image_navigator;
+	GtkWidget         *overview_revealer;
+	GtkWidget         *overview;
 	GtkWidget         *viewer;
 	GthImagePreloader *preloader;
 	guint              file_popup_merge_id;
@@ -84,7 +86,9 @@ struct _GthImageViewerPagePrivate {
 	GFile             *last_loaded;
 	gboolean           can_paste;
 	guint              update_quality_event;
-	GtkWidget         *buttons[HEADER_BUTTONS];
+	GtkWidget         *buttons[N_HEADER_BAR_BUTTONS];
+	gboolean           pointer_on_viewer;
+	gboolean           pointer_on_overview;
 };
 
 
@@ -256,7 +260,15 @@ update_image_quality_if_required (GthImageViewerPage *self)
 }
 
 
-static gboolean
+static void
+update_overview_visibility (GthImageViewerPage *self)
+{
+	gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->overview_revealer),
+				       self->priv->pointer_on_overview || (self->priv->pointer_on_viewer && gth_image_viewer_has_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer))));
+}
+
+
+static void
 viewer_zoom_changed_cb (GtkWidget          *widget,
 			GthImageViewerPage *self)
 {
@@ -265,14 +277,22 @@ viewer_zoom_changed_cb (GtkWidget          *widget,
 
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
 	update_image_quality_if_required (self);
+	self->priv->pointer_on_viewer = TRUE;
+	update_overview_visibility (self);
 
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
 	text = g_strdup_printf ("  %d%%  ", (int) (zoom * 100));
 	gth_statusbar_set_secondary_text (GTH_STATUSBAR (gth_browser_get_statusbar (self->priv->browser)), text);
 
 	g_free (text);
+}
 
-	return TRUE;
+
+static void
+viewer_image_changed_cb (GtkWidget          *widget,
+			 GthImageViewerPage *self)
+{
+	update_overview_visibility (self);
 }
 
 
@@ -282,6 +302,40 @@ viewer_button_press_event_cb (GtkWidget          *widget,
 			      GthImageViewerPage *self)
 {
 	return gth_browser_viewer_button_press_cb (self->priv->browser, event);
+}
+
+
+static gboolean
+viewer_button_enter_notify_event_cb (GtkWidget *widget,
+				     GdkEvent  *event,
+				     gpointer   user_data)
+{
+	GthImageViewerPage *self = user_data;
+
+	if (widget == self->priv->overview)
+		self->priv->pointer_on_overview = TRUE;
+	else if (widget == self->priv->viewer)
+		self->priv->pointer_on_viewer = TRUE;
+	update_overview_visibility (self);
+
+	return FALSE;
+}
+
+
+static gboolean
+viewer_button_leave_notify_event_cb (GtkWidget *widget,
+				     GdkEvent  *event,
+				     gpointer   user_data)
+{
+	GthImageViewerPage *self = user_data;
+
+	if (widget == self->priv->overview)
+		self->priv->pointer_on_overview = gth_image_overview_get_scrolling_is_active (GTH_IMAGE_OVERVIEW (self->priv->overview));
+	else if (widget == self->priv->viewer)
+		self->priv->pointer_on_viewer = FALSE;
+	update_overview_visibility (self);
+
+	return FALSE;
 }
 
 
@@ -296,8 +350,8 @@ viewer_popup_menu_cb (GtkWidget          *widget,
 
 static gboolean
 viewer_scroll_event_cb (GtkWidget 	   *widget,
-		        GdkEventScroll      *event,
-		        GthImageViewerPage  *self)
+		        GdkEventScroll     *event,
+		        GthImageViewerPage *self)
 {
 	return gth_browser_viewer_scroll_event_cb (self->priv->browser, event);
 }
@@ -579,12 +633,35 @@ paint_comment_over_image_func (GthImageViewer *image_viewer,
 }
 
 
+static gboolean
+image_navigator_get_child_position_cb	(GtkOverlay   *overlay,
+					 GtkWidget    *widget,
+					 GdkRectangle *allocation,
+					 gpointer      user_data)
+{
+	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (user_data);
+
+	if (widget == self->priv->overview_revealer) {
+		GtkAllocation main_alloc;
+
+		gtk_widget_get_allocation (gtk_bin_get_child (GTK_BIN (overlay)), &main_alloc);
+		gtk_widget_get_preferred_width (widget, NULL, &allocation->width);
+		gtk_widget_get_preferred_height (widget, NULL, &allocation->height);
+		allocation->x = main_alloc.width - allocation->width - 10;
+		allocation->y = 10;
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
 static void
 gth_image_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
 	GthImageViewerPage *self;
-	GthImageViewerTool *dragger;
 
 	self = (GthImageViewerPage*) base;
 
@@ -595,51 +672,34 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 					 browser);
 	self->priv->buttons[0] =
 			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
-							   "view-zoom-in-symbolic",
-							   _("Zoom in"),
-							   "win.image-zoom-in",
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+							   "view-zoom-original-symbolic",
+							   NULL,
+							   "win.image-zoom-100",
 							   NULL);
 	self->priv->buttons[1] =
 			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
-							   "view-zoom-out-symbolic",
-							   _("Zoom out"),
-							   "win.image-zoom-out",
-							   NULL);
-	self->priv->buttons[2] =
-			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
-							   "view-zoom-original-symbolic",
-							   _("Actual size"),
-							   "win.image-zoom-100",
-							   NULL);
-	self->priv->buttons[3] =
-			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
 							   "view-zoom-fit-symbolic",
-							   _("Zoom to fit window"),
+							   NULL,
 							   "win.image-zoom-fit",
-							   NULL);
-	self->priv->buttons[4] =
-			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
-							   "view-zoom-fit-width-symbolic",
-							   _("Zoom to fit width"),
-							   "win.image-zoom-fit-width",
 							   NULL);
 	gth_window_add_accelerators (GTH_WINDOW (browser), accelerators, G_N_ELEMENTS (accelerators));
 
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 
 	self->priv->viewer = gth_image_viewer_new ();
+	gtk_widget_add_events (self->priv->viewer, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 	gth_image_viewer_page_reset_viewer_tool (self);
-
 	gtk_widget_show (self->priv->viewer);
 
 	g_signal_connect (G_OBJECT (self->priv->viewer),
-			  "zoom_changed",
+			  "zoom-changed",
 			  G_CALLBACK (viewer_zoom_changed_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->viewer),
+			  "image-changed",
+			  G_CALLBACK (viewer_image_changed_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "popup-menu",
@@ -648,6 +708,14 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
 				"button_press_event",
 				G_CALLBACK (viewer_button_press_event_cb),
+				self);
+	g_signal_connect_after (G_OBJECT (self->priv->viewer),
+				"enter-notify-event",
+				G_CALLBACK (viewer_button_enter_notify_event_cb),
+				self);
+	g_signal_connect_after (G_OBJECT (self->priv->viewer),
+				"leave-notify-event",
+				G_CALLBACK (viewer_button_leave_notify_event_cb),
 				self);
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
 				"scroll_event",
@@ -670,8 +738,33 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 			  G_CALLBACK (viewer_unrealize_cb),
 			  self);
 
-	self->priv->image_navigator = gth_image_navigator_new (GTH_IMAGE_VIEWER (self->priv->viewer));
+	self->priv->image_navigator = gtk_overlay_new ();
+	g_signal_connect (self->priv->image_navigator,
+			  "get-child-position",
+			  G_CALLBACK (image_navigator_get_child_position_cb),
+			  self);
+	gtk_container_add (GTK_CONTAINER (self->priv->image_navigator), self->priv->viewer);
 	gtk_widget_show (self->priv->image_navigator);
+
+	self->priv->overview_revealer = gtk_revealer_new ();
+	gtk_revealer_set_transition_duration (GTK_REVEALER (self->priv->overview_revealer), 500);
+	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->overview_revealer), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
+	gtk_widget_show (self->priv->overview_revealer);
+	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->image_navigator), self->priv->overview_revealer);
+
+	self->priv->overview = gth_image_overview_new (GTH_IMAGE_VIEWER (self->priv->viewer));
+	gtk_widget_add_events (self->priv->overview, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
+	gtk_widget_show (self->priv->overview);
+	gtk_container_add (GTK_CONTAINER (self->priv->overview_revealer), self->priv->overview);
+
+	g_signal_connect_after (G_OBJECT (self->priv->overview),
+				"enter-notify-event",
+				G_CALLBACK (viewer_button_enter_notify_event_cb),
+				self);
+	g_signal_connect_after (G_OBJECT (self->priv->overview),
+				"leave-notify-event",
+				G_CALLBACK (viewer_button_leave_notify_event_cb),
+				self);
 
 	gth_browser_set_viewer_widget (browser, self->priv->image_navigator);
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
@@ -701,7 +794,7 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 
 	self = (GthImageViewerPage*) base;
 
-	for (i = 0; i < HEADER_BUTTONS; i++) {
+	for (i = 0; i < N_HEADER_BAR_BUTTONS; i++) {
 		gtk_widget_destroy (self->priv->buttons[i]);
 		self->priv->buttons[i] = NULL;
 	}
@@ -948,8 +1041,7 @@ static void
 gth_image_viewer_page_real_fullscreen (GthViewerPage *base,
 				       gboolean       active)
 {
-	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (base);
-	gth_image_navigator_set_automatic_scrollbars (GTH_IMAGE_NAVIGATOR (self->priv->image_navigator), ! active);
+	/* void */
 }
 
 

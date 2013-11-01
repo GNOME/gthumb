@@ -60,6 +60,8 @@ void            gth_image_overview_get_visible_area	(GthImageOverview	*viewer,
 void		gth_image_overview_activate_scrolling	(GthImageOverview	*self,
 							 gboolean		 active,
 							 GdkEventButton		*event);
+gboolean	gth_image_overview_get_scrolling_is_active
+							(GthImageOverview	*self);
 
 G_END_DECLS
 

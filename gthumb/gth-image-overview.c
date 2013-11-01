@@ -24,11 +24,14 @@
 #include <gdk/gdkkeysyms.h>
 #include "cairo-scale.h"
 #include "gth-image-overview.h"
+#include "gth-image-utils.h"
 #include "gth-image-viewer.h"
 
 
-#define VISIBLE_AREA_BORDER 2.0
-#define MAX_SIZE 180
+#define MAX_ALLOCATION_SIZE	180
+#define IMAGE_BORDER		3.0
+#define VISIBLE_AREA_BORDER	2.0
+#define MAX_IMAGE_SIZE		(MAX_ALLOCATION_SIZE - (IMAGE_BORDER * 2))
 
 
 /* Properties */
@@ -40,17 +43,21 @@ enum {
 
 struct _GthImageOverviewPrivate {
 	GthImageViewer		*viewer;
-	cairo_surface_t		*image;
-	int                      original_width;
-	int                      original_height;
-	int                      max_width;
-	int                      max_height;
-	int                      overview_width;
-	int                      overview_height;
+	cairo_surface_t		*preview;
+	int                      preview_width;
+	double			 preview_frame_border;
+	int			 preview_image_width;
+	int			 preview_image_height;
+	int                      preview_height;
 	cairo_rectangle_int_t	 visible_area;
 	double			 zoom_factor;
 	double                   quality_zoom;
 	gulong			 zoom_changed_id;
+	gulong			 image_changed_id;
+	gulong			 vadj_vchanged_id;
+	gulong			 hadj_vchanged_id;
+	gulong			 vadj_changed_id;
+	gulong			 hadj_changed_id;
 	gboolean                 scrolling_active;
 };
 
@@ -68,34 +75,27 @@ gth_image_overview_finalize (GObject *object)
 
 	self = GTH_IMAGE_OVERVIEW (object);
 
-	if (self->priv->zoom_changed_id > 0) {
-		g_signal_handler_disconnect (self->priv->viewer, self->priv->zoom_changed_id);
-		self->priv->zoom_changed_id = 0;
-	}
-	cairo_surface_destroy (self->priv->image);
+	cairo_surface_destroy (self->priv->preview);
 
 	G_OBJECT_CLASS (gth_image_overview_parent_class)->finalize (object);
 }
 
 
 static void
-_gth_image_overview_update_visible_area (GthImageOverview *self)
+_gth_image_overview_update_preview (GthImageOverview *self)
 {
 	cairo_surface_t  *image;
-	int               zoomed_width;
-	int               zoomed_height;
-	GtkAllocation     allocation;
-	int               scroll_offset_x;
-	int               scroll_offset_y;
+	int               width, height;
+	int               frame_border;
+	double            zoom_factor;
+
+	cairo_surface_destroy (self->priv->preview);
+	self->priv->preview = NULL;
 
 	image = gth_image_viewer_get_current_image (self->priv->viewer);
 	if (image == NULL) {
-		cairo_surface_destroy (self->priv->image);
-		self->priv->image = NULL;
-		self->priv->max_width = 0;
-		self->priv->max_height = 0;
-		self->priv->overview_width = 0;
-		self->priv->overview_height = 0;
+		self->priv->preview_width = 0;
+		self->priv->preview_height = 0;
 		self->priv->visible_area.width = 0;
 		self->priv->visible_area.height = 0;
 		gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -103,35 +103,73 @@ _gth_image_overview_update_visible_area (GthImageOverview *self)
 		return;
 	}
 
-	gth_image_viewer_get_original_size (self->priv->viewer, &self->priv->original_width, &self->priv->original_height);
-	zoomed_width = self->priv->original_width * gth_image_viewer_get_zoom (self->priv->viewer);
-	zoomed_height = self->priv->original_height * gth_image_viewer_get_zoom (self->priv->viewer);
-	self->priv->max_width = MIN (zoomed_width, MAX_SIZE);
-	self->priv->max_height = MIN (zoomed_width, MAX_SIZE);
-	self->priv->zoom_factor = MIN ((double) (self->priv->max_width) / zoomed_width,
-				       (double) (self->priv->max_height) / zoomed_height);
-	self->priv->quality_zoom = (double) self->priv->original_width / cairo_image_surface_get_width (image);
-	self->priv->overview_width = MAX ((int) floor (self->priv->zoom_factor * zoomed_width + 0.5), 1);
-	self->priv->overview_height = MAX ((int) floor (self->priv->zoom_factor * zoomed_height + 0.5), 1);
+	gth_image_viewer_get_original_size (self->priv->viewer, &width, &height);
+	frame_border = gth_image_viewer_get_frame_border (self->priv->viewer);
+	width += (frame_border * 2);
+	height += (frame_border * 2);
 
-	cairo_surface_destroy (self->priv->image);
-	self->priv->image = _cairo_image_surface_scale_bilinear (image,
-								 self->priv->overview_width,
-								 self->priv->overview_height);
+	self->priv->preview_width = width;
+	self->priv->preview_height = height;
+	scale_keeping_ratio (&self->priv->preview_width,
+			     &self->priv->preview_height,
+			     MAX_IMAGE_SIZE,
+			     MAX_IMAGE_SIZE,
+			     FALSE);
 
+	zoom_factor = MIN ((double) (self->priv->preview_width) / width,
+			   (double) (self->priv->preview_height) / height);
+	self->priv->preview_frame_border = frame_border * zoom_factor;
+	self->priv->preview_image_width = self->priv->preview_width - (self->priv->preview_frame_border * 2);
+	self->priv->preview_image_height = self->priv->preview_height - (self->priv->preview_frame_border * 2);
+
+	self->priv->preview = _cairo_image_surface_scale_bilinear (image,
+								   self->priv->preview_image_width,
+								   self->priv->preview_image_height);
+}
+
+
+static void
+_gth_image_overview_update_zoom_info (GthImageOverview *self)
+{
+	cairo_surface_t *image;
+	int              width, height;
+	double           zoom;
+	int              frame_border;
+
+	if (self->priv->preview == NULL)
+		return;
+
+	image = gth_image_viewer_get_current_image (self->priv->viewer);
+	if (image == NULL)
+		return;
+
+	gth_image_viewer_get_original_size (self->priv->viewer, &width, &height);
+	self->priv->quality_zoom = (double) width / cairo_image_surface_get_width (image);
+
+	zoom = gth_image_viewer_get_zoom (self->priv->viewer);
+	frame_border = gth_image_viewer_get_frame_border (self->priv->viewer);
+	width = width * zoom + (frame_border * 2);
+	height = height * zoom + (frame_border * 2);
+
+	self->priv->zoom_factor = MIN ((double) (self->priv->preview_width) / width,
+				       (double) (self->priv->preview_height) / height);
+}
+
+
+static void
+_gth_image_overview_update_visible_area (GthImageOverview *self)
+{
 	/* visible area size */
 
-	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
-	self->priv->visible_area.width = (allocation.width - (gth_image_viewer_get_frame_border (self->priv->viewer) * 2)) * self->priv->zoom_factor;
-	self->priv->visible_area.width = MIN (self->priv->visible_area.width, self->priv->max_width);
-	self->priv->visible_area.height = (allocation.height - (gth_image_viewer_get_frame_border (self->priv->viewer) * 2)) * self->priv->zoom_factor;
-	self->priv->visible_area.height = MIN (self->priv->visible_area.height, self->priv->max_height);
+	self->priv->visible_area.width = self->priv->viewer->visible_area.width * self->priv->zoom_factor;
+	self->priv->visible_area.width = MIN (self->priv->visible_area.width, self->priv->preview_width);
+	self->priv->visible_area.height = self->priv->viewer->visible_area.height * self->priv->zoom_factor;
+	self->priv->visible_area.height = MIN (self->priv->visible_area.height, self->priv->preview_height);
 
 	/* visible area position */
 
-	gth_image_viewer_get_scroll_offset (self->priv->viewer, &scroll_offset_x, &scroll_offset_y);
-	self->priv->visible_area.x = scroll_offset_x * (self->priv->zoom_factor * self->priv->quality_zoom);
-	self->priv->visible_area.y = scroll_offset_y * (self->priv->zoom_factor * self->priv->quality_zoom);
+	self->priv->visible_area.x = self->priv->viewer->visible_area.x * self->priv->zoom_factor;
+	self->priv->visible_area.y = self->priv->viewer->visible_area.y * self->priv->zoom_factor;
 
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
@@ -140,6 +178,31 @@ _gth_image_overview_update_visible_area (GthImageOverview *self)
 static void
 viewer_zoom_changed_cb (GthImageViewer *viewer,
 			gpointer        user_data)
+{
+	GthImageOverview *self = GTH_IMAGE_OVERVIEW (user_data);
+
+	_gth_image_overview_update_zoom_info (self);
+	_gth_image_overview_update_visible_area (self);
+}
+
+
+static void
+viewer_image_changed_cb (GthImageViewer *viewer,
+			 gpointer        user_data)
+{
+	GthImageOverview *self = GTH_IMAGE_OVERVIEW (user_data);
+
+	_gth_image_overview_update_preview (self);
+	_gth_image_overview_update_zoom_info (self);
+	_gth_image_overview_update_visible_area (self);
+
+	gtk_widget_queue_resize (GTK_WIDGET (user_data));
+}
+
+
+static void
+viewer_adj_value_changed_cb (GtkAdjustment *adjustment,
+			     gpointer       user_data)
 {
 	_gth_image_overview_update_visible_area (GTH_IMAGE_OVERVIEW (user_data));
 }
@@ -153,8 +216,34 @@ _gth_image_overview_set_viewer (GthImageOverview *self,
 		return;
 
 	if (self->priv->zoom_changed_id > 0) {
-		g_signal_handler_disconnect (self->priv->viewer, self->priv->zoom_changed_id);
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer, self->priv->zoom_changed_id);
 		self->priv->zoom_changed_id = 0;
+	}
+	if (self->priv->image_changed_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer, self->priv->image_changed_id);
+		self->priv->image_changed_id = 0;
+	}
+	if (self->priv->vadj_vchanged_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer->vadj, self->priv->vadj_vchanged_id);
+		self->priv->vadj_vchanged_id = 0;
+	}
+	if (self->priv->hadj_vchanged_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer->hadj, self->priv->hadj_vchanged_id);
+		self->priv->hadj_vchanged_id = 0;
+	}
+	if (self->priv->vadj_changed_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer->vadj, self->priv->vadj_changed_id);
+		self->priv->vadj_changed_id = 0;
+	}
+	if (self->priv->hadj_changed_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer->hadj, self->priv->hadj_changed_id);
+		self->priv->hadj_changed_id = 0;
 	}
 	self->priv->viewer = NULL;
 
@@ -167,6 +256,26 @@ _gth_image_overview_set_viewer (GthImageOverview *self,
 							"zoom-changed",
 							G_CALLBACK (viewer_zoom_changed_cb),
 							self);
+	self->priv->image_changed_id = g_signal_connect (self->priv->viewer,
+							 "image-changed",
+							 G_CALLBACK (viewer_image_changed_cb),
+							 self);
+	self->priv->vadj_vchanged_id = g_signal_connect (self->priv->viewer->vadj,
+						         "value-changed",
+						         G_CALLBACK (viewer_adj_value_changed_cb),
+						         self);
+	self->priv->hadj_vchanged_id = g_signal_connect (self->priv->viewer->hadj,
+						         "value-changed",
+						         G_CALLBACK (viewer_adj_value_changed_cb),
+						         self);
+	self->priv->vadj_changed_id = g_signal_connect (self->priv->viewer->vadj,
+						        "changed",
+						        G_CALLBACK (viewer_adj_value_changed_cb),
+						        self);
+	self->priv->hadj_changed_id = g_signal_connect (self->priv->viewer->hadj,
+						        "changed",
+						        G_CALLBACK (viewer_adj_value_changed_cb),
+						        self);
 
 	g_object_notify (G_OBJECT (self), "viewer");
 }
@@ -237,7 +346,8 @@ gth_image_overview_realize (GtkWidget *widget)
 				  | GDK_BUTTON_RELEASE_MASK
 				  | GDK_POINTER_MOTION_MASK
 				  | GDK_POINTER_MOTION_HINT_MASK
-				  | GDK_BUTTON_MOTION_MASK);
+				  | GDK_BUTTON_MOTION_MASK
+				  | GDK_SCROLL_MASK);
 	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 	window = gdk_window_new (gtk_widget_get_parent_window (widget), &attributes, attributes_mask);
 	gtk_widget_register_window (widget, window);
@@ -266,77 +376,57 @@ gth_image_overview_draw (GtkWidget *widget,
 			 cairo_t   *cr)
 {
 	GthImageOverview *self;
+	GtkAllocation     allocation;
 
 	self = GTH_IMAGE_OVERVIEW (widget);
 
-	if (self->priv->image == NULL)
+	if (self->priv->preview == NULL)
 		return FALSE;
 
-	cairo_save (cr);
-	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
-	cairo_set_source_surface (cr, self->priv->image, 0, 0);
-	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
-	cairo_rectangle (cr, 0, 0, self->priv->overview_width, self->priv->overview_height);
-  	cairo_fill (cr);
-  	cairo_restore (cr);
+	gtk_widget_get_allocation (widget, &allocation);
 
   	cairo_save (cr);
-	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
-	cairo_rectangle (cr, 0, 0, self->priv->overview_width, self->priv->overview_height);
+	cairo_rectangle (cr, 0.5, 0.5, allocation.width - 1, allocation.height - 1);
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	cairo_stroke_preserve (cr);
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 	cairo_fill (cr);
 	cairo_restore (cr);
 
-	if ((self->priv->visible_area.width < self->priv->overview_width)
-	    || (self->priv->visible_area.height < self->priv->overview_height))
+	cairo_save (cr);
+	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+	cairo_set_source_surface (cr, self->priv->preview,
+			          IMAGE_BORDER + self->priv->preview_frame_border,
+			          IMAGE_BORDER + self->priv->preview_frame_border);
+	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
+	cairo_rectangle (cr,
+			 IMAGE_BORDER + self->priv->preview_frame_border,
+			 IMAGE_BORDER + self->priv->preview_frame_border,
+			 self->priv->preview_image_width,
+			 self->priv->preview_image_height);
+  	cairo_fill_preserve (cr);
+  	cairo_set_line_width (cr, 1.0);
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	cairo_stroke (cr);
+  	cairo_restore (cr);
+
+	if ((self->priv->visible_area.width < self->priv->preview_width)
+	    || (self->priv->visible_area.height < self->priv->preview_height))
 	{
 		cairo_save (cr);
+		cairo_set_line_width (cr, VISIBLE_AREA_BORDER);
+		cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
 		cairo_rectangle (cr,
-				 self->priv->visible_area.x,
-				 self->priv->visible_area.y,
+				 self->priv->visible_area.x + IMAGE_BORDER,
+				 self->priv->visible_area.y + IMAGE_BORDER,
 				 self->priv->visible_area.width,
 				 self->priv->visible_area.height);
-		cairo_clip (cr);
-		cairo_set_source_surface (cr, self->priv->image, 0, 0);
-		cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
-		cairo_rectangle (cr, 0, 0, self->priv->overview_width, self->priv->overview_height);
-	  	cairo_fill (cr);
-	  	cairo_restore (cr);
-
-		cairo_save (cr);
-		cairo_set_line_width (cr, VISIBLE_AREA_BORDER);
-		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-		cairo_rectangle (cr,
-				 self->priv->visible_area.x + 1.0,
-				 self->priv->visible_area.y + 1.0,
-				 self->priv->visible_area.width - VISIBLE_AREA_BORDER,
-				 self->priv->visible_area.height - VISIBLE_AREA_BORDER);
 		cairo_stroke (cr);
 		cairo_restore (cr);
 	}
 
 	return TRUE;
 }
-
-
-static gboolean
-gth_image_overview_button_press_event (GtkWidget       *widget,
-				       GdkEventButton  *event)
-{
-	gth_image_overview_activate_scrolling (GTH_IMAGE_OVERVIEW (widget), TRUE, event);
-        return FALSE;
-}
-
-
-static gboolean
-gth_image_overview_button_release_event (GtkWidget      *widget,
-					 GdkEventButton *event)
-{
-	gth_image_overview_activate_scrolling (GTH_IMAGE_OVERVIEW (widget), FALSE, event);
-	return FALSE;
-}
-
-
-/* -- gth_image_overview_motion_notify_event -- */
 
 
 static void
@@ -346,8 +436,8 @@ get_visible_area_origin_as_double (GthImageOverview *self,
 				   double           *x,
 				   double           *y)
 {
-	*x = MIN (mx, self->priv->max_width);
-	*y = MIN (my, self->priv->max_height);
+	*x = MIN (mx, self->priv->preview_width);
+	*y = MIN (my, self->priv->preview_height);
 
 	if (*x - self->priv->visible_area.width / 2.0 < 0.0)
 		*x = self->priv->visible_area.width / 2.0;
@@ -355,14 +445,58 @@ get_visible_area_origin_as_double (GthImageOverview *self,
 	if (*y - self->priv->visible_area.height / 2.0 < 0.0)
 		*y = self->priv->visible_area.height / 2.0;
 
-	if (*x + self->priv->visible_area.width / 2.0 > self->priv->overview_width - 0)
-		*x = self->priv->overview_width - 0 - self->priv->visible_area.width / 2.0;
+	if (*x + self->priv->visible_area.width / 2.0 > self->priv->preview_width - 0)
+		*x = self->priv->preview_width - 0 - self->priv->visible_area.width / 2.0;
 
-	if (*y + self->priv->visible_area.height / 2.0 > self->priv->overview_height - 0)
-		*y = self->priv->overview_height - 0 - self->priv->visible_area.height / 2.0;
+	if (*y + self->priv->visible_area.height / 2.0 > self->priv->preview_height - 0)
+		*y = self->priv->preview_height - 0 - self->priv->visible_area.height / 2.0;
 
 	*x = *x - self->priv->visible_area.width / 2.0;
 	*y = *y - self->priv->visible_area.height / 2.0;
+}
+
+
+static void
+update_offset (GthImageOverview *self,
+	       GdkEvent         *event)
+{
+	int    mx, my;
+	double x, y;
+
+	gdk_window_get_device_position (gtk_widget_get_window (GTK_WIDGET (self)),
+					gdk_event_get_device (event),
+					&mx,
+					&my,
+					NULL);
+
+	get_visible_area_origin_as_double (self, mx, my, &x, &y);
+
+	mx = (int) (x / (self->priv->quality_zoom * self->priv->zoom_factor));
+	my = (int) (y / (self->priv->quality_zoom * self->priv->zoom_factor));
+	gth_image_viewer_set_scroll_offset (self->priv->viewer, mx, my);
+}
+
+
+static gboolean
+gth_image_overview_button_press_event (GtkWidget       *widget,
+				       GdkEventButton  *event)
+{
+	if (event->window != gtk_widget_get_window (widget))
+		return FALSE;
+
+	gth_image_overview_activate_scrolling (GTH_IMAGE_OVERVIEW (widget), TRUE, event);
+	update_offset (GTH_IMAGE_OVERVIEW (widget), (GdkEvent*) event);
+
+        return TRUE;
+}
+
+
+static gboolean
+gth_image_overview_button_release_event (GtkWidget      *widget,
+					 GdkEventButton *event)
+{
+	gth_image_overview_activate_scrolling (GTH_IMAGE_OVERVIEW (widget), FALSE, event);
+	return TRUE;
 }
 
 
@@ -371,29 +505,81 @@ gth_image_overview_motion_notify_event (GtkWidget      *widget,
 					GdkEventMotion *event)
 {
 	GthImageOverview *self;
-	int               mx, my;
-	double            x, y;
 
 	self = GTH_IMAGE_OVERVIEW (widget);
 
-	if (! self->priv->scrolling_active)
-		return FALSE;
-
-	gdk_window_get_device_position (gtk_widget_get_window (widget),
-					gdk_event_get_device ((GdkEvent *) event),
-					&mx,
-					&my,
-					NULL);
-
-	get_visible_area_origin_as_double (self, mx, my, &x, &y);
-	self->priv->visible_area.x = (int) x;
-	self->priv->visible_area.y = (int) y;
-
-	mx = (int) (x / (self->priv->quality_zoom * self->priv->zoom_factor));
-	my = (int) (y / (self->priv->quality_zoom * self->priv->zoom_factor));
-	gth_image_viewer_set_scroll_offset (self->priv->viewer, mx, my);
+	if (self->priv->scrolling_active) {
+		update_offset (self, (GdkEvent*) event);
+		return TRUE;
+	}
 
 	return FALSE;
+}
+
+
+static gboolean
+gth_image_overview_scroll_event (GtkWidget      *widget,
+				 GdkEventScroll *event)
+{
+	GthImageOverview *self;
+
+	self = GTH_IMAGE_OVERVIEW (widget);
+
+	switch (event->direction) {
+	case GDK_SCROLL_UP:
+	case GDK_SCROLL_DOWN:
+		if (event->direction == GDK_SCROLL_UP)
+			gth_image_viewer_zoom_in (self->priv->viewer);
+		else
+			gth_image_viewer_zoom_out (self->priv->viewer);
+		return TRUE;
+		break;
+
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+
+static GtkSizeRequestMode
+gth_image_overview_get_request_mode (GtkWidget *widget)
+{
+	return GTK_SIZE_REQUEST_CONSTANT_SIZE;
+}
+
+
+static void
+gth_image_overview_get_preferred_width (GtkWidget *widget,
+				        int       *minimum_width,
+				        int       *natural_width)
+{
+	GthImageOverview *self = GTH_IMAGE_OVERVIEW (widget);
+	int		  size;
+
+	if (self->priv->viewer != NULL)
+		size = self->priv->preview_width + (IMAGE_BORDER * 2);
+	else
+		size = MAX_ALLOCATION_SIZE;
+	*minimum_width = *natural_width = size;
+}
+
+
+static void
+gth_image_overview_get_preferred_height (GtkWidget *widget,
+				        int       *minimum_height,
+				        int       *natural_height)
+{
+	GthImageOverview *self = GTH_IMAGE_OVERVIEW (widget);
+	int		  size;
+
+	if (self->priv->viewer != NULL)
+		size = self->priv->preview_height + (IMAGE_BORDER * 2);
+	else
+		size = MAX_ALLOCATION_SIZE;
+
+	*minimum_height = *natural_height = size;
 }
 
 
@@ -415,6 +601,10 @@ gth_image_overview_class_init (GthImageOverviewClass *klass)
 	widget_class->button_press_event = gth_image_overview_button_press_event;
 	widget_class->button_release_event = gth_image_overview_button_release_event;
 	widget_class->motion_notify_event = gth_image_overview_motion_notify_event;
+	widget_class->scroll_event = gth_image_overview_scroll_event;
+	widget_class->get_request_mode = gth_image_overview_get_request_mode;
+	widget_class->get_preferred_width = gth_image_overview_get_preferred_width;
+	widget_class->get_preferred_height = gth_image_overview_get_preferred_height;
 
 	/* properties */
 
@@ -433,12 +623,25 @@ gth_image_overview_init (GthImageOverview *self)
 {
 	self->priv = gth_image_overview_get_instance_private (self);
 	self->priv->viewer = NULL;
-	self->priv->image = NULL;
+	self->priv->preview = NULL;
 	self->priv->visible_area.width = 0;
 	self->priv->visible_area.height = 0;
 	self->priv->zoom_factor = 1.0;
 	self->priv->zoom_changed_id = 0;
+	self->priv->image_changed_id = 0;
+	self->priv->vadj_vchanged_id = 0;
+	self->priv->hadj_vchanged_id = 0;
+	self->priv->vadj_changed_id = 0;
+	self->priv->hadj_changed_id = 0;
 	self->priv->scrolling_active = FALSE;
+
+	/* do not use the rgba visual on the drawing area */
+	{
+	        GdkVisual *visual;
+	        visual = gdk_screen_get_system_visual (gtk_widget_get_screen (GTK_WIDGET (self)));
+        	if (visual != NULL)
+                	gtk_widget_set_visual (GTK_WIDGET (self), visual);
+	}
 }
 
 
@@ -455,8 +658,8 @@ gth_image_overview_get_size (GthImageOverview	*self,
 			     int		*width,
 			     int		*height)
 {
-	if (width != NULL) *width = self->priv->overview_width;
-	if (height != NULL) *height = self->priv->overview_height;
+	if (width != NULL) *width = self->priv->preview_width;
+	if (height != NULL) *height = self->priv->preview_height;
 }
 
 
@@ -507,7 +710,15 @@ gth_image_overview_activate_scrolling (GthImageOverview	*self,
 	else if (! active && self->priv->scrolling_active) {
 		gdk_device_ungrab (gdk_event_get_device ((GdkEvent *) event), event->time);
 		gdk_keyboard_ungrab (event->time);
+		gtk_grab_remove (GTK_WIDGET (self));
 	}
 
 	self->priv->scrolling_active = active;
+}
+
+
+gboolean
+gth_image_overview_get_scrolling_is_active (GthImageOverview	*self)
+{
+	return self->priv->scrolling_active;
 }
