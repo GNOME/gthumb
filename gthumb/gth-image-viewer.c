@@ -322,8 +322,6 @@ set_zoom (GthImageViewer *self,
 	  int             center_x,
 	  int             center_y)
 {
-	gdouble zoom_ratio;
-
 	g_return_if_fail (self != NULL);
 
 	if (gth_image_get_is_zoomable (self->priv->image)) {
@@ -350,9 +348,30 @@ set_zoom (GthImageViewer *self,
 	}
 
 	/* try to keep the center of the view visible. */
-	zoom_ratio = zoom_level / self->priv->zoom_level;
-	self->visible_area.x = ((self->visible_area.x + center_x) * zoom_ratio - self->visible_area.width / 2);
-	self->visible_area.y = ((self->visible_area.y + center_y) * zoom_ratio - self->visible_area.height / 2);
+
+	{
+		cairo_surface_t *image;
+
+		image = gth_image_viewer_get_current_image (self);
+		if (image != NULL) {
+			double quality_zoom;
+			double zoom;
+			int    x, y;
+			int    frame_border;
+			int    new_center_x, new_center_y;
+
+			quality_zoom = (double) self->priv->original_width / cairo_image_surface_get_width (image);
+			zoom = self->priv->zoom_level * quality_zoom;
+			x = (center_x + self->visible_area.x - self->image_area.x) / zoom;
+			y = (center_y + self->visible_area.y - self->image_area.y) / zoom;
+			frame_border = _gth_image_viewer_get_frame_border (self);
+			new_center_x = x * zoom_level * quality_zoom + frame_border;
+			new_center_y = y * zoom_level * quality_zoom + frame_border;
+
+			self->visible_area.x = new_center_x - (self->visible_area.width / 2);
+			self->visible_area.y = new_center_y - (self->visible_area.height / 2);
+		}
+	}
 
 	self->priv->zoom_level = zoom_level;
 
