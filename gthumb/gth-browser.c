@@ -3879,6 +3879,7 @@ gth_browser_init (GthBrowser *browser)
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW], SECTION_BIG_MARGIN);
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT], SECTION_BIG_MARGIN);
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], SECTION_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW], SECTION_BIG_MARGIN);
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS], SECTION_BIG_MARGIN);
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]);
@@ -3889,9 +3890,9 @@ gth_browser_init (GthBrowser *browser)
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT]);
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION]);
+		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS]);
-		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT]);
 
 		/* gears menu button */
@@ -4013,7 +4014,6 @@ gth_browser_init (GthBrowser *browser)
 		gtk_box_pack_start (GTK_BOX (gth_statubar_get_action_area (GTH_STATUSBAR (browser->priv->statusbar))), browser->priv->browser_status_commands, FALSE, FALSE, 0);
 
 		button = gtk_toggle_button_new ();
-		/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
 		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("dialog-information-symbolic", GTK_ICON_SIZE_MENU));
 		gtk_widget_show_all (button);
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.browser-properties");
@@ -4027,14 +4027,12 @@ gth_browser_init (GthBrowser *browser)
 		gtk_box_pack_start (GTK_BOX (gth_statubar_get_action_area (GTH_STATUSBAR (browser->priv->statusbar))), browser->priv->viewer_status_commands, FALSE, FALSE, 0);
 
 		button = gtk_toggle_button_new ();
-		/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
 		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("dialog-information-symbolic", GTK_ICON_SIZE_MENU));
 		gtk_widget_show_all (button);
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.viewer-properties");
 		gtk_box_pack_end (GTK_BOX (browser->priv->viewer_status_commands), button, FALSE, FALSE, 0);
 
 		button = gtk_toggle_button_new ();
-		/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
 		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("view-grid-symbolic", GTK_ICON_SIZE_MENU));
 		gtk_widget_show_all (button);
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.show-thumbnail-list");
