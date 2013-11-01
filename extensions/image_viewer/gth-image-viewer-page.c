@@ -633,12 +633,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 
 	self->priv->viewer = gth_image_viewer_new ();
-	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
-					   g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
-	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer),
-					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
-	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
-					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
 	gth_image_viewer_page_reset_viewer_tool (self);
 
 	gtk_widget_show (self->priv->viewer);
@@ -1521,6 +1515,12 @@ gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage *self)
 	g_object_unref (dragger);
 
 	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
+	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
+					   g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
+	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer),
+					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
+	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
+					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
 }
 
 
