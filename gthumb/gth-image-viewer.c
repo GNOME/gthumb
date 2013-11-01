@@ -1541,6 +1541,14 @@ gth_image_viewer_init (GthImageViewer *self)
 			  "value_changed",
 			  G_CALLBACK (vadj_value_changed),
 			  self);
+
+	/* do not use the rgba visual on the drawing area */
+	{
+		GdkVisual *visual;
+		visual = gdk_screen_get_system_visual (gtk_widget_get_screen (GTK_WIDGET (self)));
+		if (visual != NULL)
+			gtk_widget_set_visual (GTK_WIDGET (self), visual);
+	}
 }
 
 
