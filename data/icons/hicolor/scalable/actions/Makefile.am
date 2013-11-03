@@ -6,7 +6,6 @@ iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 					\
 	bookmarks-symbolic.svg			\
-	browser-mode.svg			\
 	change-date-symbolic.svg		\
 	comment-symbolic.svg			\
 	convert-format-symbolic.svg		\
@@ -28,14 +27,10 @@ icons_DATA = 					\
 	image-resize-symbolic.svg		\
 	image-rotate-symbolic.svg		\
 	image-sharpen-symbolic.svg		\
-	palette.svg				\
 	palette-symbolic.svg			\
-	share.svg				\
 	slideshow-pause.svg			\
 	tag.svg					\
 	tag-symbolic.svg			\
-	tool-adjust-contrast.svg		\
-	tool-sharpen.svg			\
 	tools-symbolic.svg			\
 	view-presentation-symbolic.svg		\
 	view-zoom-fit-symbolic.svg		\
