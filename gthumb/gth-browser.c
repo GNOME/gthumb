@@ -296,29 +296,10 @@ monitor_event_data_unref (MonitorEventData *monitor_data)
 /* -- gth_browser -- */
 
 
-void
-gth_browser_update_title (GthBrowser *browser)
+static void
+_gth_browser_update_current_file_position (GthBrowser *browser)
 {
-	GString      *title;
-	GString      *subtitle;
-	const char   *name = NULL;
 	GthFileStore *file_store;
-
-	title = g_string_new (NULL);
-	subtitle = g_string_new (NULL);
-
-	if (browser->priv->current_file != NULL)
-		name = g_file_info_get_display_name (browser->priv->current_file->info);
-	else if (browser->priv->location != NULL)
-		name = g_file_info_get_display_name (browser->priv->location->info);
-
-	if (name != NULL) {
-		g_string_append (title, name);
-		if (gth_browser_get_file_modified (browser)) {
-			g_string_append (title, " ");
-			g_string_append (title, _("[modified]"));
-		}
-	}
 
 	file_store = gth_browser_get_file_store (browser);
 	browser->priv->n_visibles = gth_file_store_n_visibles (file_store);
@@ -328,19 +309,48 @@ gth_browser_update_title (GthBrowser *browser)
 		int pos;
 
 		pos = gth_file_store_get_pos (file_store, browser->priv->current_file->file);
-		if (pos >= 0) {
+		if (pos >= 0)
 			browser->priv->current_file_position = pos;
-			g_string_append_printf (subtitle, "%d/%d", browser->priv->current_file_position + 1, browser->priv->n_visibles);
+	}
+}
+
+
+void
+gth_browser_update_title (GthBrowser *browser)
+{
+	GString      *title;
+	const char   *name = NULL;
+
+
+	title = g_string_new (NULL);
+
+	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
+	case GTH_BROWSER_PAGE_BROWSER:
+		if (browser->priv->location != NULL)
+			name = g_file_info_get_display_name (browser->priv->location->info);
+		if (name != NULL)
+			g_string_append (title, name);
+		break;
+
+	case GTH_BROWSER_PAGE_VIEWER:
+		if (browser->priv->current_file != NULL)
+			name = g_file_info_get_display_name (browser->priv->current_file->info);
+		if (name != NULL)
+			g_string_append (title, name);
+
+		if (gth_browser_get_file_modified (browser)) {
+			g_string_append (title, " ");
+			g_string_append (title, _("[modified]"));
 		}
+		break;
 	}
 
 	if (title->len == 0)
 		g_string_append (title, _("gThumb"));
 
-	gth_window_set_title (GTH_WINDOW (browser), title->str, subtitle->str);
+	gth_window_set_title (GTH_WINDOW (browser), title->str, NULL);
 
 	g_string_free (title, TRUE);
-	g_string_free (subtitle, TRUE);
 }
 
 
@@ -407,6 +417,7 @@ _gth_browser_set_location (GthBrowser  *browser,
 		g_object_unref (browser->priv->location);
 	browser->priv->location = gth_file_data_dup (location);
 
+	_gth_browser_update_current_file_position (browser);
 	gth_browser_update_title (browser);
 	gth_browser_update_sensitivity (browser);
 
@@ -1192,6 +1203,7 @@ _gth_browser_set_sort_order (GthBrowser      *browser,
 	gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->thumbnail_list),
 				     sort_type->cmp_func,
 				     inverse);
+	_gth_browser_update_current_file_position (browser);
 	gth_browser_update_title (browser);
 
 	if (! browser->priv->constructed || (browser->priv->location == NULL))
@@ -1463,6 +1475,7 @@ load_data_continue (LoadData *load_data,
 						   TRUE);
 
 		if (browser->priv->current_file != NULL) {
+			_gth_browser_update_current_file_position (browser);
 			gth_browser_update_title (browser);
 			gth_browser_update_statusbar_file_info (browser);
 			if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
@@ -2602,6 +2615,7 @@ _gth_browser_change_file_list_order (GthBrowser *browser,
 	g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", "general::unsorted");
 	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", FALSE);
 	gth_file_store_reorder (gth_browser_get_file_store (browser), new_order);
+	_gth_browser_update_current_file_position (browser);
 	gth_browser_update_title (browser);
 }
 
@@ -2658,7 +2672,7 @@ file_attributes_ready_cb (GthFileSource *file_source,
 		}
 	}
 
-	_gth_browser_update_statusbar_list_info (browser);
+	_gth_browser_update_current_file_position (browser);
 	gth_browser_update_title (browser);
 	gth_browser_update_sensitivity (browser);
 
@@ -2951,40 +2965,32 @@ gth_browser_update_statusbar_file_info (GthBrowser *browser)
 
 	extra_info = g_file_info_get_attribute_string (browser->priv->current_file->info, "gthumb::statusbar-extra-info");
 	image_size = g_file_info_get_attribute_string (browser->priv->current_file->info, "general::dimensions");
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (browser->priv->current_file->info, "general::datetime");
-	if (metadata != NULL)
-		file_date = gth_metadata_get_formatted (metadata);
-	else
-		file_date = g_file_info_get_attribute_string (browser->priv->current_file->info, "gth::file::display-mtime");
 	file_size = g_file_info_get_attribute_string (browser->priv->current_file->info, "gth::file::display-size");
 
 	status = g_string_new ("");
 
-	if (extra_info != NULL)
-		g_string_append (status, extra_info);
+	if (browser->priv->current_file_position >= 0)
+		g_string_append_printf (status, "%d/%d", browser->priv->current_file_position + 1, browser->priv->n_visibles);
 
 	if (image_size != NULL) {
-		if (status->len > 0)
-			g_string_append (status, STATUSBAR_SEPARATOR);
+		g_string_append (status, STATUSBAR_SEPARATOR);
 		g_string_append (status, image_size);
 	}
 
 	if (gth_browser_get_file_modified (browser)) {
-		if (status->len > 0)
-			g_string_append (status, STATUSBAR_SEPARATOR);
+		g_string_append (status, STATUSBAR_SEPARATOR);
 		g_string_append (status, _("Modified"));
 	}
 	else {
 		if (file_size != NULL) {
-			if (status->len > 0)
-				g_string_append (status, STATUSBAR_SEPARATOR);
+			g_string_append (status, STATUSBAR_SEPARATOR);
 			g_string_append (status, file_size);
 		}
-		if (file_date != NULL) {
-			if (status->len > 0)
-				g_string_append (status, STATUSBAR_SEPARATOR);
-			g_string_append (status, file_date);
-		}
+	}
+
+	if (extra_info != NULL) {
+		g_string_append (status, STATUSBAR_SEPARATOR);
+		g_string_append (status, extra_info);
 	}
 
 	gth_statusbar_set_primary_text (GTH_STATUSBAR (browser->priv->statusbar), status->str);
@@ -5551,6 +5557,9 @@ _gth_browser_load_file (GthBrowser  *browser,
 
 	_g_object_unref (browser->priv->current_file);
 	browser->priv->current_file = gth_file_data_dup (file_data);
+
+	_gth_browser_update_current_file_position (browser);
+	gth_browser_update_statusbar_file_info (browser);
 
 	if (browser->priv->viewer_pages == NULL)
 		browser->priv->viewer_pages = g_list_reverse (gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE));
