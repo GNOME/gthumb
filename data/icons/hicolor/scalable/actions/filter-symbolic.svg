@@ -14,9 +14,43 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="bookmarks-symbolic.svg">
+   sodipodi:docname="filter-symbolic.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <linearGradient
+       id="linearGradient3946">
+      <stop
+         id="stop3948"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:0.74698794;" />
+      <stop
+         id="stop3950"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:0.02409638;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3830-9">
+      <stop
+         style="stop-color:#000000;stop-opacity:0.74698794;"
+         offset="0"
+         id="stop3832-7" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.02409638;"
+         offset="1"
+         id="stop3834-5" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3984">
+      <stop
+         style="stop-color:#f4deba;stop-opacity:1;"
+         offset="0"
+         id="stop3986" />
+      <stop
+         style="stop-color:#de9625;stop-opacity:0;"
+         offset="1"
+         id="stop3988" />
+    </linearGradient>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#555753"
@@ -24,9 +58,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="32"
-     inkscape:cx="4.3217014"
-     inkscape:cy="10.284634"
+     inkscape:zoom="64"
+     inkscape:cx="5.3999678"
+     inkscape:cy="9.1241393"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -41,7 +75,8 @@
      fit-margin-right="0"
      fit-margin-left="0"
      fit-margin-bottom="0"
-     showguides="true">
+     showguides="true"
+     inkscape:guide-bbox="true">
     <inkscape:grid
        type="xygrid"
        id="grid7044"
@@ -60,7 +95,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -71,10 +106,15 @@
      transform="translate(-31.97559,-220.36218)">
     <path
        style="fill:#bebebe;fill-opacity:1;stroke:none"
-       d="m 5.02441,1.00002 0,14 3.06934,-4.03127 2.93066,4.03127 0,-14 z"
-       id="path2996"
+       d="m 38.989619,233.3622 0,-5 -5,-5 0,-1 12,0 0,1 -5,5 0,5 z"
+       id="path2994"
        inkscape:connector-curvature="0"
-       transform="translate(31.97559,220.36218)"
-       sodipodi:nodetypes="cccccc" />
+       sodipodi:nodetypes="ccccccccc" />
+    <path
+       style="fill:#bebebe;fill-opacity:1;stroke:none"
+       d="m 38.989619,233.3622 1.00684,1.99998 0.99316,2e-5 0.0068,-2 z"
+       id="rect2993"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
   </g>
 </svg>

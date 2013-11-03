@@ -14,6 +14,7 @@ icons_DATA = 					\
 	emblem-flag-green.svg			\
 	emblem-flag-red.svg			\
 	emblem-flag-symbolic.svg		\
+	export-symbolic.svg			\
 	file-catalog.svg			\
 	file-library.svg			\
 	file-search.svg				\
@@ -21,10 +22,14 @@ icons_DATA = 					\
 	image-adjust-contrast-symbolic.svg	\
 	image-crop-symbolic.svg			\
 	image-equalize-symbolic.svg		\
+	image-flip-horizontal-symbolic.svg	\
+	image-flip-vertical-symbolic.svg	\
 	image-grayscale-symbolic.svg		\
 	image-invert-symbolic.svg		\
 	image-red-eye-symbolic.svg		\
 	image-resize-symbolic.svg		\
+	image-rotate-left-symbolic.svg		\
+	image-rotate-right-symbolic.svg		\
 	image-rotate-symbolic.svg		\
 	image-sharpen-symbolic.svg		\
 	palette-symbolic.svg			\
