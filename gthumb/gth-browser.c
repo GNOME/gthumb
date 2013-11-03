@@ -68,7 +68,7 @@
 #define UPDATE_SELECTION_DELAY 200
 #define MIN_SIDEBAR_SIZE 100
 #define MIN_VIEWER_SIZE 256
-#define STATUSBAR_SEPARATOR " · "
+#define STATUSBAR_SEPARATOR "  ·  "
 #define SHIRNK_WRAP_WIDTH_OFFSET 100
 #define SHIRNK_WRAP_HEIGHT_OFFSET 125
 #define FILE_PROPERTIES_MINIMUM_HEIGHT 100
@@ -2155,6 +2155,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 
 	/* update the ui commands */
 
+	gth_statusbar_show_section (GTH_STATUSBAR (browser->priv->statusbar), (page == GTH_BROWSER_PAGE_BROWSER) ? GTH_STATUSBAR_SECTION_FILE_LIST : GTH_STATUSBAR_SECTION_FILE);
 	_gth_browser_hide_infobar (browser);
 
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION, page == GTH_BROWSER_PAGE_BROWSER);

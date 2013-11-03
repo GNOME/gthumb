@@ -26,6 +26,11 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GTH_STATUSBAR_SECTION_FILE_LIST,
+	GTH_STATUSBAR_SECTION_FILE
+} GthStatusbarSection;
+
 #define GTH_TYPE_STATUSBAR            (gth_statusbar_get_type ())
 #define GTH_STATUSBAR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_STATUSBAR, GthStatusbar))
 #define GTH_STATUSBAR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_STATUSBAR, GthStatusbarClass))
@@ -46,19 +51,21 @@ struct _GthStatusbarClass {
 	GtkBoxClass parent_class;
 };
 
-GType        gth_statusbar_get_type             (void);
-GtkWidget *  gth_statusbar_new                  (void);
-void         gth_statusbar_set_list_info        (GthStatusbar *statusbar,
-						 const char   *text);
-void         gth_statusbar_set_primary_text     (GthStatusbar *statusbar,
-						 const char   *text);
-void         gth_statusbar_set_secondary_text   (GthStatusbar *statusbar,
-						 const char   *text);
-void         gth_statusbar_set_progress         (GthStatusbar *statusbar,
-						 const char   *text,
-						 gboolean      pulse,
-						 double        fraction);
-GtkWidget *  gth_statubar_get_action_area       (GthStatusbar *statusbar);
+GType		gth_statusbar_get_type			(void);
+GtkWidget *	gth_statusbar_new			(void);
+void		gth_statusbar_set_list_info		(GthStatusbar		*statusbar,
+							 const char		*text);
+void		gth_statusbar_set_primary_text		(GthStatusbar		*statusbar,
+							 const char		*text);
+void		gth_statusbar_set_secondary_text	(GthStatusbar		*statusbar,
+							 const char		*text);
+void		gth_statusbar_set_progress		(GthStatusbar		*statusbar,
+							 const char		*text,
+							 gboolean		 pulse,
+							 double			 fraction);
+void		gth_statusbar_show_section		(GthStatusbar		*statusbar,
+							 GthStatusbarSection	 section);
+GtkWidget *	gth_statubar_get_action_area		(GthStatusbar		*statusbar);
 
 G_END_DECLS
 

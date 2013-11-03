@@ -25,11 +25,9 @@
 
 
 struct _GthStatusbarPrivate {
-	GtkWidget *list_info_label;
+	GtkWidget *list_info;
 	GtkWidget *primary_text;
-	GtkWidget *primary_text_frame;
 	GtkWidget *secondary_text;
-	GtkWidget *secondary_text_frame;
 	GtkWidget *action_area;
 };
 
@@ -57,10 +55,21 @@ gth_statusbar_init (GthStatusbar *statusbar)
 
 	/* List info */
 
-	statusbar->priv->list_info_label = gtk_label_new (NULL);
-	gtk_label_set_ellipsize (GTK_LABEL (statusbar->priv->list_info_label), PANGO_ELLIPSIZE_END);
-	gtk_widget_show (statusbar->priv->list_info_label);
-	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->list_info_label, FALSE, FALSE, 0);
+	statusbar->priv->list_info = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (statusbar->priv->list_info), PANGO_ELLIPSIZE_END);
+	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->list_info, FALSE, FALSE, 0);
+
+	/* Primary text */
+
+	statusbar->priv->primary_text = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (statusbar->priv->primary_text), PANGO_ELLIPSIZE_END);
+	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->primary_text, FALSE, FALSE, 0);
+
+	/* Secondary text */
+
+	statusbar->priv->secondary_text = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (statusbar->priv->secondary_text), PANGO_ELLIPSIZE_END);
+	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->secondary_text, FALSE, FALSE, 12);
 
 	/* Action area */
 
@@ -68,30 +77,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	gtk_widget_show (statusbar->priv->action_area);
 	gtk_box_pack_end (GTK_BOX (statusbar), statusbar->priv->action_area, FALSE, FALSE, 0);
 
-	/* Primary text */
-
-	statusbar->priv->primary_text = gtk_label_new (NULL);
-	gtk_label_set_ellipsize (GTK_LABEL (statusbar->priv->primary_text), PANGO_ELLIPSIZE_END);
-	gtk_widget_show (statusbar->priv->primary_text);
-
-	statusbar->priv->primary_text_frame = gtk_frame_new (NULL);
-	gtk_widget_show (statusbar->priv->primary_text_frame);
-
-	gtk_frame_set_shadow_type (GTK_FRAME (statusbar->priv->primary_text_frame), GTK_SHADOW_NONE);
-	gtk_container_add (GTK_CONTAINER (statusbar->priv->primary_text_frame), statusbar->priv->primary_text);
-	gtk_box_pack_end (GTK_BOX (statusbar), statusbar->priv->primary_text_frame, FALSE, FALSE, 0);
-
-	/* Secondary text */
-
-	statusbar->priv->secondary_text = gtk_label_new (NULL);
-	gtk_label_set_ellipsize (GTK_LABEL (statusbar->priv->secondary_text), PANGO_ELLIPSIZE_END);
-	gtk_widget_show (statusbar->priv->secondary_text);
-
-	statusbar->priv->secondary_text_frame = gtk_frame_new (NULL);
-	gtk_widget_show (statusbar->priv->secondary_text_frame);
-	gtk_frame_set_shadow_type (GTK_FRAME (statusbar->priv->secondary_text_frame), GTK_SHADOW_NONE);
-	gtk_container_add (GTK_CONTAINER (statusbar->priv->secondary_text_frame), statusbar->priv->secondary_text);
-	gtk_box_pack_end (GTK_BOX (statusbar), statusbar->priv->secondary_text_frame, FALSE, FALSE, 0);
+	gth_statusbar_show_section (statusbar, GTH_STATUSBAR_SECTION_FILE_LIST);
 }
 
 
@@ -106,7 +92,7 @@ void
 gth_statusbar_set_list_info (GthStatusbar *statusbar,
 			     const char   *text)
 {
-	gtk_label_set_text (GTK_LABEL (statusbar->priv->list_info_label), text);
+	gtk_label_set_text (GTK_LABEL (statusbar->priv->list_info), text);
 }
 
 
@@ -114,12 +100,7 @@ void
 gth_statusbar_set_primary_text (GthStatusbar *statusbar,
 				const char   *text)
 {
-	if (text != NULL) {
-		gtk_label_set_text (GTK_LABEL (statusbar->priv->primary_text), text);
-		gtk_widget_show (statusbar->priv->primary_text_frame);
-	}
-	else
-		gtk_widget_hide (statusbar->priv->primary_text_frame);
+	gtk_label_set_text (GTK_LABEL (statusbar->priv->primary_text), text);
 }
 
 
@@ -127,12 +108,17 @@ void
 gth_statusbar_set_secondary_text (GthStatusbar *statusbar,
 				  const char   *text)
 {
-	if (text != NULL) {
-		gtk_label_set_text (GTK_LABEL (statusbar->priv->secondary_text), text);
-		gtk_widget_show (statusbar->priv->secondary_text_frame);
-	}
-	else
-		gtk_widget_hide (statusbar->priv->secondary_text_frame);
+	gtk_label_set_text (GTK_LABEL (statusbar->priv->secondary_text), text);
+}
+
+
+void
+gth_statusbar_show_section (GthStatusbar		*statusbar,
+			    GthStatusbarSection		 section)
+{
+	gtk_widget_set_visible (statusbar->priv->list_info, section == GTH_STATUSBAR_SECTION_FILE_LIST);
+	gtk_widget_set_visible (statusbar->priv->primary_text, section == GTH_STATUSBAR_SECTION_FILE);
+	gtk_widget_set_visible (statusbar->priv->secondary_text, section == GTH_STATUSBAR_SECTION_FILE);
 }
 
 
