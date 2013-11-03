@@ -45,20 +45,20 @@ struct _GthImageOverviewPrivate {
 	GthImageViewer		*viewer;
 	cairo_surface_t		*preview;
 	int                      preview_width;
-	double			 preview_frame_border;
-	int			 preview_image_width;
-	int			 preview_image_height;
 	int                      preview_height;
+	cairo_rectangle_int_t    preview_area;
 	cairo_rectangle_int_t	 visible_area;
 	double			 zoom_factor;
-	double                   quality_zoom;
+	double			 quality_zoom;
 	gulong			 zoom_changed_id;
+	gulong			 better_quality_id;
 	gulong			 image_changed_id;
 	gulong			 vadj_vchanged_id;
 	gulong			 hadj_vchanged_id;
 	gulong			 vadj_changed_id;
 	gulong			 hadj_changed_id;
 	gboolean                 scrolling_active;
+	gboolean		 update_preview;
 };
 
 
@@ -82,12 +82,52 @@ gth_image_overview_finalize (GObject *object)
 
 
 static void
+_gth_image_overview_update_zoom_info (GthImageOverview *self)
+{
+	cairo_surface_t *image;
+	int              width, height;
+	double           zoom;
+
+	image = gth_image_viewer_get_current_image (self->priv->viewer);
+	if (image == NULL)
+		return;
+
+	gth_image_viewer_get_original_size (self->priv->viewer, &width, &height);
+	self->priv->quality_zoom = (double) width / cairo_image_surface_get_width (image);
+	zoom = gth_image_viewer_get_zoom (self->priv->viewer);
+	width = width * zoom;
+	height = height * zoom;
+
+	self->priv->preview_width = width;
+	self->priv->preview_height = height;
+	scale_keeping_ratio (&self->priv->preview_width,
+			     &self->priv->preview_height,
+			     MAX_IMAGE_SIZE,
+			     MAX_IMAGE_SIZE,
+			     TRUE);
+
+	self->priv->zoom_factor = MIN ((double) (self->priv->preview_width) / width,
+				       (double) (self->priv->preview_height) / height);
+
+	self->priv->preview_area.x = IMAGE_BORDER;
+	self->priv->preview_area.y = IMAGE_BORDER;
+	self->priv->preview_area.width = self->priv->preview_width;
+	self->priv->preview_area.height = self->priv->preview_height;
+}
+
+
+static void
 _gth_image_overview_update_preview (GthImageOverview *self)
 {
 	cairo_surface_t  *image;
-	int               width, height;
-	int               frame_border;
-	double            zoom_factor;
+
+	if (self->priv->viewer == NULL)
+		return;
+
+	if (! self->priv->update_preview)
+		return;
+
+	self->priv->update_preview = FALSE;
 
 	cairo_surface_destroy (self->priv->preview);
 	self->priv->preview = NULL;
@@ -103,73 +143,32 @@ _gth_image_overview_update_preview (GthImageOverview *self)
 		return;
 	}
 
-	gth_image_viewer_get_original_size (self->priv->viewer, &width, &height);
-	frame_border = gth_image_viewer_get_frame_border (self->priv->viewer);
-	width += (frame_border * 2);
-	height += (frame_border * 2);
-
-	self->priv->preview_width = width;
-	self->priv->preview_height = height;
-	scale_keeping_ratio (&self->priv->preview_width,
-			     &self->priv->preview_height,
-			     MAX_IMAGE_SIZE,
-			     MAX_IMAGE_SIZE,
-			     FALSE);
-
-	zoom_factor = MIN ((double) (self->priv->preview_width) / width,
-			   (double) (self->priv->preview_height) / height);
-	self->priv->preview_frame_border = frame_border * zoom_factor;
-	self->priv->preview_image_width = self->priv->preview_width - (self->priv->preview_frame_border * 2);
-	self->priv->preview_image_height = self->priv->preview_height - (self->priv->preview_frame_border * 2);
-
+	_gth_image_overview_update_zoom_info (self);
 	self->priv->preview = _cairo_image_surface_scale_bilinear (image,
-								   self->priv->preview_image_width,
-								   self->priv->preview_image_height);
-}
-
-
-static void
-_gth_image_overview_update_zoom_info (GthImageOverview *self)
-{
-	cairo_surface_t *image;
-	int              width, height;
-	double           zoom;
-	int              frame_border;
-
-	if (self->priv->preview == NULL)
-		return;
-
-	image = gth_image_viewer_get_current_image (self->priv->viewer);
-	if (image == NULL)
-		return;
-
-	gth_image_viewer_get_original_size (self->priv->viewer, &width, &height);
-	self->priv->quality_zoom = (double) width / cairo_image_surface_get_width (image);
-
-	zoom = gth_image_viewer_get_zoom (self->priv->viewer);
-	frame_border = gth_image_viewer_get_frame_border (self->priv->viewer);
-	width = width * zoom + (frame_border * 2);
-	height = height * zoom + (frame_border * 2);
-
-	self->priv->zoom_factor = MIN ((double) (self->priv->preview_width) / width,
-				       (double) (self->priv->preview_height) / height);
+								   self->priv->preview_area.width,
+								   self->priv->preview_area.height);
 }
 
 
 static void
 _gth_image_overview_update_visible_area (GthImageOverview *self)
 {
+	int frame_border;
+
+	if (self->priv->viewer == NULL)
+		return;
+
+	frame_border = gth_image_viewer_get_frame_border (self->priv->viewer);
+
 	/* visible area size */
 
 	self->priv->visible_area.width = self->priv->viewer->visible_area.width * self->priv->zoom_factor;
-	self->priv->visible_area.width = MIN (self->priv->visible_area.width, self->priv->preview_width);
 	self->priv->visible_area.height = self->priv->viewer->visible_area.height * self->priv->zoom_factor;
-	self->priv->visible_area.height = MIN (self->priv->visible_area.height, self->priv->preview_height);
 
 	/* visible area position */
 
-	self->priv->visible_area.x = self->priv->viewer->visible_area.x * self->priv->zoom_factor;
-	self->priv->visible_area.y = self->priv->viewer->visible_area.y * self->priv->zoom_factor;
+	self->priv->visible_area.x = (self->priv->viewer->visible_area.x - frame_border) * self->priv->zoom_factor + IMAGE_BORDER;
+	self->priv->visible_area.y = (self->priv->viewer->visible_area.y - frame_border) * self->priv->zoom_factor + IMAGE_BORDER;
 
 	gtk_widget_queue_draw (GTK_WIDGET (self));
 }
@@ -180,6 +179,9 @@ viewer_zoom_changed_cb (GthImageViewer *viewer,
 			gpointer        user_data)
 {
 	GthImageOverview *self = GTH_IMAGE_OVERVIEW (user_data);
+
+	if (! gtk_widget_get_visible (GTK_WIDGET (self)))
+		return;
 
 	_gth_image_overview_update_zoom_info (self);
 	_gth_image_overview_update_visible_area (self);
@@ -192,8 +194,12 @@ viewer_image_changed_cb (GthImageViewer *viewer,
 {
 	GthImageOverview *self = GTH_IMAGE_OVERVIEW (user_data);
 
+	self->priv->update_preview = TRUE;
+
+	if (! gtk_widget_get_visible (GTK_WIDGET (self)))
+		return;
+
 	_gth_image_overview_update_preview (self);
-	_gth_image_overview_update_zoom_info (self);
 	_gth_image_overview_update_visible_area (self);
 
 	gtk_widget_queue_resize (GTK_WIDGET (user_data));
@@ -204,7 +210,11 @@ static void
 viewer_adj_value_changed_cb (GtkAdjustment *adjustment,
 			     gpointer       user_data)
 {
-	_gth_image_overview_update_visible_area (GTH_IMAGE_OVERVIEW (user_data));
+	GthImageOverview *self = GTH_IMAGE_OVERVIEW (user_data);
+
+	if (! gtk_widget_get_visible (GTK_WIDGET (self)))
+		return;
+	_gth_image_overview_update_visible_area (self);
 }
 
 
@@ -224,6 +234,11 @@ _gth_image_overview_set_viewer (GthImageOverview *self,
 		if (self->priv->viewer != NULL)
 			g_signal_handler_disconnect (self->priv->viewer, self->priv->image_changed_id);
 		self->priv->image_changed_id = 0;
+	}
+	if (self->priv->better_quality_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer, self->priv->better_quality_id);
+		self->priv->better_quality_id = 0;
 	}
 	if (self->priv->vadj_vchanged_id > 0) {
 		if (self->priv->viewer != NULL)
@@ -256,6 +271,10 @@ _gth_image_overview_set_viewer (GthImageOverview *self,
 							"zoom-changed",
 							G_CALLBACK (viewer_zoom_changed_cb),
 							self);
+	self->priv->better_quality_id = g_signal_connect (self->priv->viewer,
+							  "better-quality",
+							  G_CALLBACK (viewer_zoom_changed_cb),
+							  self);
 	self->priv->image_changed_id = g_signal_connect (self->priv->viewer,
 							 "image-changed",
 							 G_CALLBACK (viewer_image_changed_cb),
@@ -375,8 +394,10 @@ static gboolean
 gth_image_overview_draw (GtkWidget *widget,
 			 cairo_t   *cr)
 {
-	GthImageOverview *self;
-	GtkAllocation     allocation;
+	GthImageOverview      *self;
+	GtkAllocation          allocation;
+	cairo_region_t        *region;
+	cairo_rectangle_int_t  visible_area;
 
 	self = GTH_IMAGE_OVERVIEW (widget);
 
@@ -384,6 +405,8 @@ gth_image_overview_draw (GtkWidget *widget,
 		return FALSE;
 
 	gtk_widget_get_allocation (widget, &allocation);
+
+	/* frame */
 
   	cairo_save (cr);
 	cairo_rectangle (cr, 0.5, 0.5, allocation.width - 1, allocation.height - 1);
@@ -393,66 +416,44 @@ gth_image_overview_draw (GtkWidget *widget,
 	cairo_fill (cr);
 	cairo_restore (cr);
 
+	/* image */
+
 	cairo_save (cr);
 	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
 	cairo_set_source_surface (cr, self->priv->preview,
-			          IMAGE_BORDER + self->priv->preview_frame_border,
-			          IMAGE_BORDER + self->priv->preview_frame_border);
+			          IMAGE_BORDER,
+			          IMAGE_BORDER);
 	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
 	cairo_rectangle (cr,
-			 IMAGE_BORDER + self->priv->preview_frame_border,
-			 IMAGE_BORDER + self->priv->preview_frame_border,
-			 self->priv->preview_image_width,
-			 self->priv->preview_image_height);
+			 self->priv->preview_area.x,
+			 self->priv->preview_area.y,
+			 self->priv->preview_area.width,
+			 self->priv->preview_area.height);
   	cairo_fill_preserve (cr);
   	cairo_set_line_width (cr, 1.0);
 	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 	cairo_stroke (cr);
   	cairo_restore (cr);
 
-	if ((self->priv->visible_area.width < self->priv->preview_width)
-	    || (self->priv->visible_area.height < self->priv->preview_height))
-	{
-		cairo_save (cr);
-		cairo_set_line_width (cr, VISIBLE_AREA_BORDER);
-		cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
-		cairo_rectangle (cr,
-				 self->priv->visible_area.x + IMAGE_BORDER,
-				 self->priv->visible_area.y + IMAGE_BORDER,
-				 self->priv->visible_area.width,
-				 self->priv->visible_area.height);
-		cairo_stroke (cr);
-		cairo_restore (cr);
-	}
+  	/* visible area */
+
+  	region = cairo_region_create_rectangle (&self->priv->preview_area);
+  	cairo_region_intersect_rectangle (region, &self->priv->visible_area);
+  	cairo_region_get_extents (region, &visible_area);
+  	cairo_region_destroy (region);
+
+	cairo_save (cr);
+	cairo_set_line_width (cr, VISIBLE_AREA_BORDER);
+	cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
+	cairo_rectangle (cr,
+			 visible_area.x,
+			 visible_area.y,
+			 visible_area.width,
+			 visible_area.height);
+	cairo_stroke (cr);
+	cairo_restore (cr);
 
 	return TRUE;
-}
-
-
-static void
-get_visible_area_origin_as_double (GthImageOverview *self,
-				   int               mx,
-				   int               my,
-				   double           *x,
-				   double           *y)
-{
-	*x = MIN (mx, self->priv->preview_width);
-	*y = MIN (my, self->priv->preview_height);
-
-	if (*x - self->priv->visible_area.width / 2.0 < 0.0)
-		*x = self->priv->visible_area.width / 2.0;
-
-	if (*y - self->priv->visible_area.height / 2.0 < 0.0)
-		*y = self->priv->visible_area.height / 2.0;
-
-	if (*x + self->priv->visible_area.width / 2.0 > self->priv->preview_width - 0)
-		*x = self->priv->preview_width - 0 - self->priv->visible_area.width / 2.0;
-
-	if (*y + self->priv->visible_area.height / 2.0 > self->priv->preview_height - 0)
-		*y = self->priv->preview_height - 0 - self->priv->visible_area.height / 2.0;
-
-	*x = *x - self->priv->visible_area.width / 2.0;
-	*y = *y - self->priv->visible_area.height / 2.0;
 }
 
 
@@ -460,8 +461,7 @@ static void
 update_offset (GthImageOverview *self,
 	       GdkEvent         *event)
 {
-	int    mx, my;
-	double x, y;
+	int mx, my;
 
 	gdk_window_get_device_position (gtk_widget_get_window (GTK_WIDGET (self)),
 					gdk_event_get_device (event),
@@ -469,10 +469,11 @@ update_offset (GthImageOverview *self,
 					&my,
 					NULL);
 
-	get_visible_area_origin_as_double (self, mx, my, &x, &y);
+	mx = mx - self->priv->visible_area.width / 2.0;
+	my = my - self->priv->visible_area.height / 2.0;
+	mx = mx / (self->priv->quality_zoom * self->priv->zoom_factor);
+	my = my / (self->priv->quality_zoom * self->priv->zoom_factor);
 
-	mx = (int) (x / (self->priv->quality_zoom * self->priv->zoom_factor));
-	my = (int) (y / (self->priv->quality_zoom * self->priv->zoom_factor));
 	gth_image_viewer_set_scroll_offset (self->priv->viewer, mx, my);
 }
 
@@ -487,7 +488,7 @@ gth_image_overview_button_press_event (GtkWidget       *widget,
 	gth_image_overview_activate_scrolling (GTH_IMAGE_OVERVIEW (widget), TRUE, event);
 	update_offset (GTH_IMAGE_OVERVIEW (widget), (GdkEvent*) event);
 
-        return TRUE;
+        return FALSE;
 }
 
 
@@ -496,7 +497,7 @@ gth_image_overview_button_release_event (GtkWidget      *widget,
 					 GdkEventButton *event)
 {
 	gth_image_overview_activate_scrolling (GTH_IMAGE_OVERVIEW (widget), FALSE, event);
-	return TRUE;
+	return FALSE;
 }
 
 
@@ -619,6 +620,21 @@ gth_image_overview_class_init (GthImageOverviewClass *klass)
 
 
 static void
+notify_visible_cb (GObject    *gobject,
+		   GParamSpec *pspec,
+		   gpointer    user_data)
+{
+	GthImageOverview *self = GTH_IMAGE_OVERVIEW (gobject);
+
+	if (self->priv->viewer == NULL)
+		return;
+
+	_gth_image_overview_update_preview (self);
+	_gth_image_overview_update_visible_area (self);
+}
+
+
+static void
 gth_image_overview_init (GthImageOverview *self)
 {
 	self->priv = gth_image_overview_get_instance_private (self);
@@ -628,12 +644,16 @@ gth_image_overview_init (GthImageOverview *self)
 	self->priv->visible_area.height = 0;
 	self->priv->zoom_factor = 1.0;
 	self->priv->zoom_changed_id = 0;
+	self->priv->better_quality_id = 0;
 	self->priv->image_changed_id = 0;
 	self->priv->vadj_vchanged_id = 0;
 	self->priv->hadj_vchanged_id = 0;
 	self->priv->vadj_changed_id = 0;
 	self->priv->hadj_changed_id = 0;
 	self->priv->scrolling_active = FALSE;
+	self->priv->update_preview = TRUE;
+
+	g_signal_connect (self, "notify::visible", G_CALLBACK (notify_visible_cb), NULL);
 
 	/* do not use the rgba visual on the drawing area */
 	{
@@ -648,7 +668,6 @@ gth_image_overview_init (GthImageOverview *self)
 GtkWidget *
 gth_image_overview_new (GthImageViewer *viewer)
 {
-	g_return_val_if_fail (viewer != NULL, NULL);
 	return (GtkWidget *) g_object_new (GTH_TYPE_IMAGE_OVERVIEW, "viewer", viewer, NULL);
 }
 
@@ -658,6 +677,9 @@ gth_image_overview_get_size (GthImageOverview	*self,
 			     int		*width,
 			     int		*height)
 {
+	_gth_image_overview_update_preview (self);
+	_gth_image_overview_update_visible_area (self);
+
 	if (width != NULL) *width = self->priv->preview_width;
 	if (height != NULL) *height = self->priv->preview_height;
 }
@@ -670,8 +692,8 @@ gth_image_overview_get_visible_area (GthImageOverview	*self,
 				     int		*width,
 				     int		*height)
 {
-	if (x != NULL) *x = self->priv->visible_area.x;
-	if (y != NULL) *y = self->priv->visible_area.y;
+	if (x != NULL) *x = self->priv->visible_area.x - IMAGE_BORDER;
+	if (y != NULL) *y = self->priv->visible_area.y - IMAGE_BORDER;
 	if (width != NULL) *width = self->priv->visible_area.width;
 	if (height != NULL) *height = self->priv->visible_area.height;
 }

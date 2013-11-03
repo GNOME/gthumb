@@ -114,6 +114,7 @@ struct _GthImageViewerClass
 	void (* clicked)                (GthImageViewer     *viewer);
 	void (* image_changed)          (GthImageViewer     *viewer);
 	void (* zoom_changed)           (GthImageViewer     *viewer);
+	void (* better_quality)		(GthImageViewer     *viewer);
 
 	/* -- Key binding signals -- */
 

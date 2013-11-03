@@ -66,6 +66,7 @@ enum {
 	SET_FIT_MODE,
 	IMAGE_CHANGED,
 	ZOOM_CHANGED,
+	BETTER_QUALITY,
 	SCROLL,
 	LAST_SIGNAL
 };
@@ -300,15 +301,6 @@ _gth_image_viewer_update_image_area (GthImageViewer *self)
 }
 
 
-static void
-_gth_image_viewer_image_changed (GthImageViewer *self)
-{
-	if (self->priv->tool != NULL)
-		gth_image_viewer_tool_image_changed (self->priv->tool);
-	g_signal_emit (G_OBJECT (self), gth_image_viewer_signals[IMAGE_CHANGED], 0);
-}
-
-
 static void _set_surface (GthImageViewer  *self,
 			  cairo_surface_t *surface,
 			  int              original_width,
@@ -377,7 +369,7 @@ set_zoom (GthImageViewer *self,
 
 	_gth_image_viewer_update_image_area (self);
 	if (self->priv->update_image_after_zoom) {
-		_gth_image_viewer_image_changed (self);
+		gth_image_viewer_tool_image_changed (self->priv->tool);
 		self->priv->update_image_after_zoom = FALSE;
 	}
 	else
@@ -1273,7 +1265,7 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      G_TYPE_NONE,
 			      0);
 	gth_image_viewer_signals[SET_ZOOM] =
-		g_signal_new ("set_zoom",
+		g_signal_new ("set-zoom",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 			      G_STRUCT_OFFSET (GthImageViewerClass, set_zoom),
@@ -1283,7 +1275,7 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      1,
 			      G_TYPE_DOUBLE);
 	gth_image_viewer_signals[SET_FIT_MODE] =
-		g_signal_new ("set_fit_mode",
+		g_signal_new ("set-fit-mode",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 			      G_STRUCT_OFFSET (GthImageViewerClass, set_fit_mode),
@@ -1293,7 +1285,7 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      1,
 			      GTH_TYPE_FIT);
 	gth_image_viewer_signals[IMAGE_CHANGED] =
-		g_signal_new ("image_changed",
+		g_signal_new ("image-changed",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthImageViewerClass, image_changed),
@@ -1302,10 +1294,19 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      G_TYPE_NONE,
 			      0);
 	gth_image_viewer_signals[ZOOM_CHANGED] =
-		g_signal_new ("zoom_changed",
+		g_signal_new ("zoom-changed",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthImageViewerClass, zoom_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
+	gth_image_viewer_signals[BETTER_QUALITY] =
+		g_signal_new ("better-quality",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthImageViewerClass, better_quality),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
@@ -1601,13 +1602,18 @@ _gth_image_viewer_content_changed (GthImageViewer *self,
 {
 	halt_animation (self);
 
+	if (better_quality)
+		g_signal_emit (G_OBJECT (self), gth_image_viewer_signals[BETTER_QUALITY], 0);
+	else
+		g_signal_emit (G_OBJECT (self), gth_image_viewer_signals[IMAGE_CHANGED], 0);
+
 	if (! better_quality && self->priv->reset_scrollbars) {
 		self->visible_area.x = 0;
 		self->visible_area.y = 0;
 	}
 
 	if (better_quality || ! self->priv->zoom_enabled) {
-		_gth_image_viewer_image_changed (self);
+		gth_image_viewer_tool_image_changed (self->priv->tool);
 		return;
 	}
 
@@ -1620,7 +1626,7 @@ _gth_image_viewer_content_changed (GthImageViewer *self,
 		break;
 
 	case GTH_ZOOM_CHANGE_KEEP_PREV:
-		_gth_image_viewer_image_changed (self);
+		gth_image_viewer_tool_image_changed (self->priv->tool);
 		gtk_widget_queue_resize (GTK_WIDGET (self));
 		break;
 
@@ -2194,7 +2200,7 @@ gth_image_viewer_set_tool (GthImageViewer     *self,
 	gth_image_viewer_tool_set_viewer (self->priv->tool, self);
 	if (gtk_widget_get_realized (GTK_WIDGET (self)))
 		gth_image_viewer_tool_realize (self->priv->tool);
-	_gth_image_viewer_image_changed (self);
+	gth_image_viewer_tool_image_changed (self->priv->tool);
 	gtk_widget_queue_resize (GTK_WIDGET (self));
 }
 
