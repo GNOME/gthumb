@@ -497,6 +497,9 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_DELETE_ACTIONS),
 					 fixed_menu_entries_delete,
 				         G_N_ELEMENTS (fixed_menu_entries_delete));
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_FILE_ACTIONS),
+					 fixed_menu_entries_delete,
+				         G_N_ELEMENTS (fixed_menu_entries_delete));
 	gth_window_add_accelerators (GTH_WINDOW (browser),
 				     accelerators,
 				     G_N_ELEMENTS (accelerators));
