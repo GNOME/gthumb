@@ -885,6 +885,9 @@ _cairo_image_surface_scale_bilinear (cairo_surface_t *image,
 	cairo_surface_t *tmp2;
 	double           w, h;
 
+	if ((new_width == 0) || (new_height == 0))
+		return NULL;
+
 	scale = (double) new_width / cairo_image_surface_get_width (image);
 	last_scale = 1.0;
 	s = scale;
