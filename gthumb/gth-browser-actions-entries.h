@@ -51,7 +51,6 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "open-folder-in-new-window", gth_browser_activate_open_folder_in_new_window },
 
 	{ "show-hidden-files", toggle_action_activated, NULL, "false", gth_browser_activate_show_hidden_files },
-	{ "show-thumbnails", toggle_action_activated, NULL, "false", gth_browser_activate_show_thumbnails },
 	{ "sort-by", gth_browser_activate_sort_by },
 
 	{ "show-statusbar", toggle_action_activated, NULL, "false", gth_browser_activate_show_statusbar },

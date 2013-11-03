@@ -39,10 +39,6 @@
         <attribute name="label" translatable="yes">Hidden Files</attribute>
         <attribute name="action">win.show-hidden-files</attribute>
       </item>
-      <item>
-        <attribute name="label" translatable="yes">Thumbnails</attribute>
-        <attribute name="action">win.show-thumbnails</attribute>
-      </item>
     </section>
     <section id="folder-actions">
     </section>

@@ -135,8 +135,6 @@ void             gth_browser_go_up                  (GthBrowser       *browser,
 						     int               steps);
 void             gth_browser_go_home                (GthBrowser       *browser);
 void             gth_browser_clear_history          (GthBrowser       *browser);
-void             gth_browser_enable_thumbnails      (GthBrowser       *browser,
-						     gboolean          enable);
 void             gth_browser_set_dialog             (GthBrowser       *browser,
 						     const char       *dialog_name,
 						     GtkWidget        *dialog);
@@ -227,8 +225,6 @@ void             gth_browser_show_viewer_tools      (GthBrowser       *browser);
 void             gth_browser_hide_sidebar           (GthBrowser       *browser);
 void             gth_browser_load_location          (GthBrowser       *browser,
 						     GFile            *location);
-void             gth_browser_enable_thumbnails      (GthBrowser       *browser,
-						     gboolean          enable);
 void             gth_browser_show_filterbar         (GthBrowser       *browser,
 						     gboolean          show);
 gpointer         gth_browser_get_image_preloader    (GthBrowser       *browser);

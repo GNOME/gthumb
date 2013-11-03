@@ -56,7 +56,6 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_STARTUP_CURRENT_FILE     "startup-current-file"
 #define PREF_BROWSER_GENERAL_FILTER           "general-filter"
 #define PREF_BROWSER_SHOW_HIDDEN_FILES        "show-hidden-files"
-#define PREF_BROWSER_SHOW_THUMBNAILS          "show-thumbnails"
 #define PREF_BROWSER_FAST_FILE_TYPE           "fast-file-type"
 #define PREF_BROWSER_SAVE_THUMBNAILS          "save-thumbnails"
 #define PREF_BROWSER_THUMBNAIL_SIZE           "thumbnail-size"

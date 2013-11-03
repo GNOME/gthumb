@@ -4178,7 +4178,6 @@ gth_browser_init (GthBrowser *browser)
 	gth_browser_set_sort_order (browser,
 				    gth_main_get_sort_type (sort_type),
 				    g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SORT_INVERSE));
-	gth_browser_enable_thumbnails (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_THUMBNAILS));
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list),
 				      g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE));
 	caption = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_CAPTION);
@@ -5947,17 +5946,6 @@ _gth_browser_cancel (GthBrowser *browser,
 	cancel_data->check_id = g_timeout_add (CHECK_CANCELLABLE_INTERVAL,
 					       check_cancellable_cb,
 					       cancel_data);
-}
-
-
-void
-gth_browser_enable_thumbnails (GthBrowser *browser,
-			       gboolean    show)
-{
-	gth_file_list_enable_thumbs (GTH_FILE_LIST (browser->priv->file_list), show);
-	gth_file_list_enable_thumbs (GTH_FILE_LIST (browser->priv->thumbnail_list), show);
-	gth_window_change_action_state (GTH_WINDOW (browser), "show-thumbnails", show);
-	g_settings_set_boolean (browser->priv->browser_settings, PREF_BROWSER_SHOW_THUMBNAILS, show);
 }
 
 
