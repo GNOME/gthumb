@@ -164,7 +164,6 @@ apply_cb (gpointer user_data)
 		int              x, y, w ,h;
 		cairo_surface_t *destination;
 		cairo_surface_t *preview_surface;
-		cairo_t         *cr;
 
 		sharpen_data = sharpen_data_new (self);
 		gth_image_viewer_get_scroll_offset (preview, &x, &y);
@@ -177,10 +176,10 @@ apply_cb (gpointer user_data)
 		destination = _cairo_image_surface_copy (source);
 		_cairo_image_surface_copy_metadata (source, destination);
 
-		/* FIXME: use a cairo sub-surface when cairo 1.10 will be requiered */
-
 		preview_surface = _cairo_image_surface_copy_subsurface (destination, x, y, w, h);
 		if (preview_surface != NULL) {
+			cairo_t *cr;
+
 			_cairo_image_surface_sharpen (preview_surface,
 						      sharpen_data->radius,
 						      sharpen_data->amount,
@@ -271,7 +270,7 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->preview), GTH_FIT_NONE);
 	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->preview), GTH_ZOOM_CHANGE_KEEP_PREV);
 	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->preview), 1.0);
-	gth_image_viewer_enable_zoom_with_keys (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
+	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
 	gth_image_viewer_set_surface (GTH_IMAGE_VIEWER (self->priv->preview), source, -1, -1);
 	image_navigator = gth_image_navigator_new (GTH_IMAGE_VIEWER (self->priv->preview));
 	gtk_widget_show_all (image_navigator);
