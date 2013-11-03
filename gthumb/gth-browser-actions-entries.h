@@ -49,7 +49,6 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "viewer-properties", toggle_action_activated, NULL, "false", gth_browser_activate_viewer_properties },
 	{ "unfullscreen", gth_browser_activate_unfullscreen },
 	{ "open-folder-in-new-window", gth_browser_activate_open_folder_in_new_window },
-	{ "shrink-wrap", toggle_action_activated, NULL, "false", gth_browser_activate_shrink_wrap },
 
 	{ "show-hidden-files", toggle_action_activated, NULL, "false", gth_browser_activate_show_hidden_files },
 	{ "show-thumbnails", toggle_action_activated, NULL, "false", gth_browser_activate_show_thumbnails },
@@ -69,7 +68,6 @@ static const GthAccelerator gth_browser_accelerators[] = {
 	{ "revert-to-saved", "F4" },
 	{ "show-sidebar", "F9" },
 	{ "show-thumbnail-list", "F8" },
-	{ "shrink-wrap", "<Control>e" }
 };
 
 

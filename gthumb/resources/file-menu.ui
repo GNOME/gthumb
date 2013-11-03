@@ -12,11 +12,6 @@
     <section id="open-actions">
     </section>
     <section id="view-actions">
-      <item>
-        <attribute name="label" translatable="yes">_Fit Window to Image</attribute>
-        <attribute name="action">win.shrink-wrap</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>e]]></attribute>
-      </item>
     </section>
     <section id="edit-actions">
     </section>

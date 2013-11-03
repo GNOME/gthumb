@@ -443,16 +443,6 @@ gth_browser_activate_open_folder_in_new_window (GSimpleAction *action,
 
 
 void
-gth_browser_activate_shrink_wrap (GSimpleAction *action,
-				  GVariant      *state,
-				  gpointer       user_data)
-{
-	g_simple_action_set_state (action, state);
-	gth_browser_set_shrink_wrap_viewer (GTH_BROWSER (user_data), g_variant_get_boolean (state));
-}
-
-
-void
 gth_browser_activate_show_hidden_files (GSimpleAction *action,
 					GVariant      *state,
 					gpointer       user_data)

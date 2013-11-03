@@ -1419,27 +1419,21 @@ gth_image_viewer_page_real_show_properties (GthViewerPage *base,
 
 
 static void
-gth_image_viewer_page_real_shrink_wrap (GthViewerPage *base,
-					gboolean       activate,
-					int           *other_width,
-					int           *other_height)
-{
-	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (base);
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE_IF_LARGER);
-}
-
-
-static void
 gth_image_viewer_page_finalize (GObject *obj)
 {
 	GthImageViewerPage *self;
 
 	self = GTH_IMAGE_VIEWER_PAGE (obj);
 
-	if (self->priv->update_quality_event != 0) {
-		g_source_remove (self->priv->update_quality_event);
-		self->priv->update_quality_event = 0;
+	if (self->priv->update_quality_id != 0) {
+		g_source_remove (self->priv->update_quality_id);
+		self->priv->update_quality_id = 0;
 	}
+	if (self->priv->update_visibility_id != 0) {
+		g_source_remove (self->priv->update_visibility_id);
+		self->priv->update_visibility_id = 0;
+	}
+
 	g_object_unref (self->priv->settings);
 	g_object_unref (self->priv->history);
 	_g_object_unref (self->priv->file_data);
@@ -1477,7 +1471,6 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->revert = gth_image_viewer_page_real_revert;
 	iface->update_info = gth_image_viewer_page_real_update_info;
 	iface->show_properties = gth_image_viewer_page_real_show_properties;
-	iface->shrink_wrap = gth_image_viewer_page_real_shrink_wrap;
 }
 
 

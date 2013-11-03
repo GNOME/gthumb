@@ -78,7 +78,6 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_VIEWER_SIDEBAR           "viewer-sidebar"
 #define PREF_BROWSER_VIEWER_SIDEBAR_WIDTH     "viewer-sidebar-width"
 #define PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT "viewer-thumbnails-orientation"
-#define PREF_BROWSER_SHRINK_WRAP_VIEWER       "shrink-wrap-viewer"
 #define PREF_BROWSER_REUSE_ACTIVE_WINDOW      "reuse-active-window"
 
 /* keys: add to catalog */

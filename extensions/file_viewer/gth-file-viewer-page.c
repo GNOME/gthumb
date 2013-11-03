@@ -304,16 +304,6 @@ gth_file_viewer_page_real_update_info (GthViewerPage *base,
 
 
 static void
-gth_file_viewer_page_real_shrink_wrap (GthViewerPage *base,
-				       gboolean       value,
-				       int           *other_width,
-				       int           *other_height)
-{
-	/* void */
-}
-
-
-static void
 gth_file_viewer_page_finalize (GObject *obj)
 {
 	GthFileViewerPage *self;
@@ -350,7 +340,6 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->update_sensitivity = gth_file_viewer_page_real_update_sensitivity;
 	iface->can_save = gth_file_viewer_page_real_can_save;
 	iface->update_info = gth_file_viewer_page_real_update_info;
-	iface->shrink_wrap = gth_file_viewer_page_real_shrink_wrap;
 }
 
 

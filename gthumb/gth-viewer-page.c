@@ -191,17 +191,6 @@ gth_viewer_page_show_properties (GthViewerPage *self,
 
 
 void
-gth_viewer_page_shrink_wrap (GthViewerPage *self,
-			     gboolean       value,
-			     int           *other_width,
-			     int           *other_height)
-{
-	if (GTH_VIEWER_PAGE_GET_INTERFACE (self)->shrink_wrap != NULL)
-		GTH_VIEWER_PAGE_GET_INTERFACE (self)->shrink_wrap (self, value, other_width, other_height);
-}
-
-
-void
 gth_viewer_page_file_loaded (GthViewerPage *self,
 			     GthFileData   *file_data,
 			     gboolean       success)

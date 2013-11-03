@@ -131,10 +131,6 @@
     <key name="viewer-thumbnails-orientation" enum="org.gnome.gthumb.GtkOrientation">
       <default>'horizontal'</default>
     </key>
-    <key name="shrink-wrap-viewer" type="b">
-      <default>false</default>
-      <_description>Whether to resize the window to fit the size of the image</_description>
-    </key>
     <key name="reuse-active-window" type="b">
       <default>false</default>
       <_description>Open files in the active window</_description>
