@@ -2171,6 +2171,13 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	gth_statusbar_show_section (GTH_STATUSBAR (browser->priv->statusbar), (page == GTH_BROWSER_PAGE_BROWSER) ? GTH_STATUSBAR_SECTION_FILE_LIST : GTH_STATUSBAR_SECTION_FILE);
 	_gth_browser_hide_infobar (browser);
 
+        if (browser->priv->viewer_page != NULL) {
+                if (page == GTH_BROWSER_PAGE_VIEWER)
+                        gth_viewer_page_show (browser->priv->viewer_page);
+                else
+                        gth_viewer_page_hide (browser->priv->viewer_page);
+        }
+
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION, page == GTH_BROWSER_PAGE_BROWSER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS, page == GTH_BROWSER_PAGE_BROWSER);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS, page == GTH_BROWSER_PAGE_BROWSER);
