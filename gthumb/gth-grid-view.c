@@ -1367,55 +1367,28 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 
 		/* the drop shadow */
 
-		/*gdk_cairo_set_source_rgba (cr, &darker_color);*/
 		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.33);
 		_cairo_draw_rounded_box (cr,
 					 frame_rect.x + 2,
 					 frame_rect.y + 2,
-					 frame_rect.width - 2,
-					 frame_rect.height - 2,
+					 frame_rect.width - 1,
+					 frame_rect.height - 1,
 					 0);
 		cairo_fill (cr);
 
 		/* the outer frame */
 
-		/*gdk_cairo_set_source_rgba (cr, &background_color);*/
 		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 		_cairo_draw_rounded_box (cr,
 					 frame_rect.x,
 					 frame_rect.y,
-					 frame_rect.width - 2,
-					 frame_rect.height - 2,
+					 frame_rect.width - 1,
+					 frame_rect.height - 1,
 					 0);
 		cairo_fill_preserve (cr);
 
-		/*if (item_state == GTK_STATE_FLAG_SELECTED)
-			gdk_cairo_set_source_rgba (cr, &darker_color);
-		else
-			gdk_cairo_set_source_rgba (cr, &lighter_color);*/
-		/*cairo_set_source_rgb (cr, .55, .55, .55);*/
 		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.55);
 		cairo_stroke (cr);
-
-#if 0
-		/* the inner frame */
-
-		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-		cairo_rectangle (cr,
-				 item->pixbuf_area.x,
-				 item->pixbuf_area.y,
-				 item->pixbuf_area.width,
-				 item->pixbuf_area.height);
-		cairo_fill (cr);
-
-		gdk_cairo_set_source_rgba (cr, &lighter_color);
-		cairo_move_to (cr,
-			       item->pixbuf_area.x - 1,
-			       item->pixbuf_area.y + item->pixbuf_area.height + 1);
-		cairo_rel_line_to (cr, 0, - item->pixbuf_area.height - 2);
-		cairo_rel_line_to (cr, item->pixbuf_area.width + 2, 0);
-		cairo_stroke (cr);
-#endif
 
 		cairo_restore (cr);
 	}
@@ -1493,7 +1466,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	/* thumbnail */
 
 	cairo_set_source_surface (cr, image, item->pixbuf_area.x, item->pixbuf_area.y);
-	cairo_rectangle (cr, item->pixbuf_area.x, item->pixbuf_area.y, item->pixbuf_area.width - 1, item->pixbuf_area.height - 1);
+	cairo_rectangle (cr, item->pixbuf_area.x, item->pixbuf_area.y, item->pixbuf_area.width, item->pixbuf_area.height);
 	cairo_fill (cr);
 
 	if (item_state & GTK_STATE_FLAG_SELECTED) {
