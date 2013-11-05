@@ -138,7 +138,6 @@ gth_toolbox_init (GthToolbox *toolbox)
 	GtkWidget *header_align;
 
 	toolbox->priv = G_TYPE_INSTANCE_GET_PRIVATE (toolbox, GTH_TYPE_TOOLBOX, GthToolboxPrivate);
-	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (toolbox)), GTK_STYLE_CLASS_SIDEBAR);
 
 	/* tool list page */
 

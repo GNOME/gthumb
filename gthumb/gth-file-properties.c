@@ -341,7 +341,7 @@ gth_file_properties_init (GthFileProperties *self)
 
 	scrolled_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_ETCHED_IN);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_NONE);
 	gtk_widget_show (scrolled_win);
 	gtk_widget_set_size_request (scrolled_win, -1, MIN_HEIGHT);
 	gtk_paned_pack1 (GTK_PANED (vpaned), scrolled_win, TRUE, FALSE);
