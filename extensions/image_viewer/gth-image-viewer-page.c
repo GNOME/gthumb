@@ -352,8 +352,10 @@ update_visibility_cb (gpointer user_data)
 	}
 
 	visible = self->priv->pointer_on_overview || (self->priv->pointer_on_viewer && gth_image_viewer_has_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer)));
-	gtk_widget_set_visible (self->priv->overview, TRUE);
-	gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->overview_revealer), visible);
+	if (visible != gtk_revealer_get_child_revealed (GTK_REVEALER (self->priv->overview_revealer))) {
+		gtk_widget_show (self->priv->overview_revealer);
+		gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->overview_revealer), visible);
+	}
 
 	return FALSE;
 }
@@ -767,7 +769,7 @@ overview_revealer_notify_child_revealed_cb (GObject    *gobject,
 
 	visible = gtk_revealer_get_child_revealed (GTK_REVEALER (self->priv->overview_revealer));
 	if (! visible)
-		gtk_widget_hide (self->priv->overview);
+		gtk_widget_hide (self->priv->overview_revealer);
 }
 
 
@@ -863,7 +865,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->overview_revealer = gtk_revealer_new ();
 	gtk_revealer_set_transition_duration (GTK_REVEALER (self->priv->overview_revealer), 500);
 	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->overview_revealer), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
-	gtk_widget_show (self->priv->overview_revealer);
 	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->image_navigator), self->priv->overview_revealer);
 
 	g_signal_connect (G_OBJECT (self->priv->overview_revealer),
@@ -873,6 +874,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 
 	self->priv->overview = gth_image_overview_new (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gtk_widget_add_events (self->priv->overview, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
+	gtk_widget_show (self->priv->overview);
 	gtk_container_add (GTK_CONTAINER (self->priv->overview_revealer), self->priv->overview);
 
 	g_signal_connect_after (G_OBJECT (self->priv->overview),
