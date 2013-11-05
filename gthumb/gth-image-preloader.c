@@ -31,7 +31,8 @@
 #include "gth-marshal.h"
 
 
-#undef  RESIZE_TO_REQUESTED_SIZE
+#undef DEBUG_PRELOADER
+#undef RESIZE_TO_REQUESTED_SIZE
 #define GTH_IMAGE_PRELOADER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_IMAGE_PRELOADER, GthImagePreloaderPrivate))
 #define LOAD_NEXT_FILE_DELAY 100
 #define CACHE_MAX_SIZE 10
@@ -51,6 +52,7 @@ typedef struct {
 	int			 original_width;
 	int			 original_height;
 	int			 requested_size;
+	gboolean		 loaded_original;
 	GError			*error;
 } CacheData;
 
@@ -97,6 +99,7 @@ cache_data_new (void)
 	cache_data->original_height = -1;
 	cache_data->requested_size = -1;
 	cache_data->error = NULL;
+	cache_data->loaded_original = FALSE;
 
 	return cache_data;
 }
@@ -369,6 +372,30 @@ _gth_image_preloader_request_completed (GthImagePreloader *self,
 {
 	if (request->current_file == request->requested_file) {
 		if (cache_data != NULL) {
+#ifdef DEBUG_PRELOADER
+			{
+				cairo_surface_t	*image;
+				int		 w, h;
+
+				image = NULL;
+				if (cache_data->image != NULL)
+					image = gth_image_get_cairo_surface (cache_data->image);
+				if (image != NULL) {
+					w = cairo_image_surface_get_width (image);
+					h = cairo_image_surface_get_height (image);
+				}
+				else {
+					w = 0;
+					h = 0;
+				}
+
+				g_print (" --> done @%d [%dx%d]\n",
+						cache_data->requested_size,
+						w,
+						h);
+			}
+#endif
+
 			g_simple_async_result_set_op_res_gpointer (request->result,
 								   cache_data_ref (cache_data),
 								   (GDestroyNotify) cache_data_unref);
@@ -569,6 +596,9 @@ image_loader_ready_cb (GObject      *source_object,
 	gboolean           resized;
 
 	if (request->finalized) {
+#ifdef DEBUG_PRELOADER
+		g_print (" --> cancelled\n");
+#endif
 		load_data_free (load_data);
 		return;
 	}
@@ -584,6 +614,9 @@ image_loader_ready_cb (GObject      *source_object,
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)
 	    || (self->priv->last_request != request))
 	{
+#ifdef DEBUG_PRELOADER
+		g_print (" --> cancelled\n");
+#endif
 		load_data_free (load_data);
 		if (error != NULL)
 			g_error_free (error);
@@ -602,6 +635,7 @@ image_loader_ready_cb (GObject      *source_object,
 	cache_data->original_width = success ? original_width : -1;
 	cache_data->original_height = success ? original_height : -1;
 	cache_data->requested_size = request->requested_size;
+	cache_data->loaded_original = loaded_original;
 	cache_data->error = error;
 	_gth_image_preloader_add_to_cache (self, cache_data);
 
@@ -668,6 +702,11 @@ _gth_image_preloader_load_current_file (GthImagePreloader *self,
 	}
 
 	ignore_requested_size = (request->requested_size > 0) && ! g_file_is_native (requested_file->file);
+
+#ifdef DEBUG_PRELOADER
+	g_print ("load %s @%d\n", g_file_get_uri (requested_file->file), ignore_requested_size ? -1 : request->requested_size);
+#endif
+
 	gth_image_loader_load (self->priv->loader,
 			       requested_file,
 			       ignore_requested_size ? -1 : request->requested_size,
