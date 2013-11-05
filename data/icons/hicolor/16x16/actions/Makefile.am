@@ -11,7 +11,6 @@ icons_DATA = 				\
 	histogram.png			\
 	histogram-linear.png		\
 	histogram-logarithmic.png	\
-	image-navigator.png		\
 	application-extension.png	\
 	map.png				\
 	site-facebook.png		\

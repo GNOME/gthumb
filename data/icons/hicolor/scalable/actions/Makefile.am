@@ -26,6 +26,7 @@ icons_DATA = 					\
 	image-flip-vertical-symbolic.svg	\
 	image-grayscale-symbolic.svg		\
 	image-invert-symbolic.svg		\
+	image-navigator-symbolic.svg		\
 	image-red-eye-symbolic.svg		\
 	image-resize-symbolic.svg		\
 	image-rotate-left-symbolic.svg		\

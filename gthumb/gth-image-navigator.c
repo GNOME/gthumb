@@ -483,7 +483,7 @@ gth_image_navigator_init (GthImageNavigator *self)
 
 	/* navigator event area */
 
-	navigator_icon = gtk_image_new_from_icon_name ("image-navigator", GTK_ICON_SIZE_MENU);
+	navigator_icon = gtk_image_new_from_icon_name ("image-navigator-symbolic", GTK_ICON_SIZE_MENU);
 	gtk_image_set_pixel_size (GTK_IMAGE (navigator_icon), 12);
 
 	self->priv->navigator_event_area = gtk_event_box_new ();
