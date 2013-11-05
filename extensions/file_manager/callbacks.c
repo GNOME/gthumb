@@ -88,7 +88,7 @@ static const GthMenuEntry folder_context_open_entries[] = {
 
 
 static const GthMenuEntry folder_context_create_entries[] = {
-	{ N_("Create Folder"), "win.folder-context-create", "<Control><Shift>n" }
+	{ N_("Create Folder"), "win.folder-context-create" }
 };
 
 

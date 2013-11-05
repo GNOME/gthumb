@@ -62,18 +62,28 @@ static const GthMenuEntry vfs_other_actions_entries[] = {
 };
 
 
-static const GthMenuEntry folder_popup_entries[] = {
+static const GthMenuEntry folder_popup_create_entries[] = {
 	{ N_("Create Catalog"), "win.create-catalog" },
-	{ N_("Create Library"), "win.create-library" },
+	{ N_("Create Library"), "win.create-library" }
+};
+
+static const GthMenuEntry folder_popup_edit_entries[] = {
 	{ N_("Remove"), "win.remove-catalog" },
-	{ N_("Rename"), "win.rename-catalog" },
+	{ N_("Rename"), "win.rename-catalog" }
+};
+
+
+static const GthMenuEntry folder_popup_other_entries[] = {
 	{ N_("Properties"), "win.catalog-properties" }
 };
 
 
+
 typedef struct {
 	GthBrowser     *browser;
-	guint           folder_popup_merge_id;
+	guint           folder_popup_create_merge_id;
+	guint           folder_popup_edit_merge_id;
+	guint           folder_popup_other_merge_id;
 	guint           vfs_open_actions_merge_id;
 	guint           vfs_other_actions_merge_id;
 	gboolean        catalog_menu_loaded;
@@ -225,12 +235,21 @@ catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 	if (GTH_IS_FILE_SOURCE_CATALOGS (file_source)) {
 		gboolean sensitive;
 
-		if (data->folder_popup_merge_id == 0)
-			data->folder_popup_merge_id =
-					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER),
-									 folder_popup_entries,
-									 G_N_ELEMENTS (folder_popup_entries));
-
+		if (data->folder_popup_create_merge_id == 0)
+			data->folder_popup_create_merge_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_CREATE_ACTIONS),
+									 folder_popup_create_entries,
+									 G_N_ELEMENTS (folder_popup_create_entries));
+		if (data->folder_popup_edit_merge_id == 0)
+			data->folder_popup_edit_merge_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_EDIT_ACTIONS),
+									 folder_popup_edit_entries,
+									 G_N_ELEMENTS (folder_popup_edit_entries));
+		if (data->folder_popup_other_merge_id == 0)
+			data->folder_popup_other_merge_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_OTHER_ACTIONS),
+									 folder_popup_other_entries,
+									 G_N_ELEMENTS (folder_popup_other_entries));
 
 		sensitive = (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE);
 		gth_window_enable_action (GTH_WINDOW (browser), "remove-catalog", sensitive);
@@ -244,8 +263,14 @@ catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 		gth_window_enable_action (GTH_WINDOW (browser), "catalog-properties", sensitive);
 	}
 	else {
-		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER), data->folder_popup_merge_id);
-		data->folder_popup_merge_id = 0;
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_CREATE_ACTIONS), data->folder_popup_create_merge_id);
+		data->folder_popup_create_merge_id = 0;
+
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_EDIT_ACTIONS), data->folder_popup_edit_merge_id);
+		data->folder_popup_edit_merge_id = 0;
+
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_CREATE_ACTIONS), data->folder_popup_other_merge_id);
+		data->folder_popup_other_merge_id = 0;
 	}
 }
 
