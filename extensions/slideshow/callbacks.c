@@ -48,7 +48,7 @@ ss__gth_browser_construct_cb (GthBrowser *browser)
 	gth_browser_add_header_bar_button (browser,
 					   GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
 					   "view-presentation-symbolic",
-					   _("View as a slideshow"),
+					   _("Presentation"),
 					   "win.slideshow",
 					   "F5");
 }

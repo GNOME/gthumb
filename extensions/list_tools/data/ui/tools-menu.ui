@@ -4,9 +4,8 @@
   <menu id="tools-menu">
     <section id="tools1">
     </section>
-    <submenu id="tools2">
-      <attribute name="label" translatable="yes">More</attribute>
-    </submenu>
+    <section id="tools2">
+    </section>
     <section id="tools3">
     </section>
     <section>

@@ -711,7 +711,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 					 browser);
 	self->priv->screenshot_button =
 			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
 							   "camera-photo-symbolic",
 							   _("Take a screenshot"),
 							   "win.video-screenshot",

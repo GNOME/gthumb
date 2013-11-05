@@ -61,18 +61,6 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 						 G_N_ELEMENTS (action_entries));
 
 	gth_browser_add_header_bar_button (browser,
-					   GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT,
-					   "comment-symbolic",
-					   _("Comment"),
-					   "win.edit-metadata",
-					   NULL);
-	gth_browser_add_header_bar_button (browser,
-					   GTH_BROWSER_HEADER_SECTION_BROWSER_EDIT,
-					   "tag-symbolic",
-					   _("Tags"),
-					   "win.edit-tags",
-					   NULL);
-	gth_browser_add_header_bar_button (browser,
 					   GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
 					   "comment-symbolic",
 					   _("Comment"),

@@ -42,8 +42,8 @@ static const GActionEntry actions[] = {
 
 
 static const GthMenuEntry tools1_action_entries[] = {
-	{ N_("Rotate Right"), "win.rotate-right", "bracketright", "object-rotate-right-symbolic" },
 	{ N_("Rotate Left"), "win.rotate-left", "bracketleft", "object-rotate-left-symbolic" },
+	{ N_("Rotate Right"), "win.rotate-right", "bracketright", "object-rotate-right-symbolic" },
 };
 
 

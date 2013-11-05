@@ -52,8 +52,12 @@ static const GthMenuEntry fixed_menu_entries[] = {
 };
 
 
-static const GthMenuEntry file_list_popup_entries[] = {
+static const GthMenuEntry vfs_open_actions_entries[] = {
 	{ N_("Open Folder"), "win.go-to-container-from-catalog", "<Alt>end" },
+};
+
+
+static const GthMenuEntry vfs_other_actions_entries[] = {
 	{ N_("Remove from Catalog"), "win.remove-from-catalog" },
 };
 
@@ -70,7 +74,8 @@ static const GthMenuEntry folder_popup_entries[] = {
 typedef struct {
 	GthBrowser     *browser;
 	guint           folder_popup_merge_id;
-	guint           vfs_merge_id;
+	guint           vfs_open_actions_merge_id;
+	guint           vfs_other_actions_merge_id;
 	gboolean        catalog_menu_loaded;
 	guint           n_top_catalogs;
 	guint           monitor_events;
@@ -274,15 +279,23 @@ catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 
 	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser))) {
-		if (data->vfs_merge_id == 0)
-			data->vfs_merge_id =
+		if (data->vfs_open_actions_merge_id == 0)
+			data->vfs_open_actions_merge_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS),
+									 vfs_open_actions_entries,
+									 G_N_ELEMENTS (vfs_open_actions_entries));
+		if (data->vfs_other_actions_merge_id == 0)
+			data->vfs_other_actions_merge_id =
 					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OTHER_ACTIONS),
-									 file_list_popup_entries,
-									 G_N_ELEMENTS (file_list_popup_entries));
+									 vfs_other_actions_entries,
+									 G_N_ELEMENTS (vfs_other_actions_entries));
 	}
 	else {
-		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OTHER_ACTIONS), data->vfs_merge_id);
-		data->vfs_merge_id = 0;
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS), data->vfs_open_actions_merge_id);
+		data->vfs_open_actions_merge_id = 0;
+
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OTHER_ACTIONS), data->vfs_other_actions_merge_id);
+		data->vfs_other_actions_merge_id = 0;
 	}
 }
 

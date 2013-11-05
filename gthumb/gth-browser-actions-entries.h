@@ -67,6 +67,10 @@ static const GthAccelerator gth_browser_accelerators[] = {
 	{ "revert-to-saved", "F4" },
 	{ "show-sidebar", "F9" },
 	{ "show-thumbnail-list", "F8" },
+	{ "go-back", "<Alt>Left" },
+	{ "go-forward", "<Alt>Right" },
+	{ "go-up", "<Alt>Up" },
+	{ "go-home", "<Alt>Home" }
 };
 
 
