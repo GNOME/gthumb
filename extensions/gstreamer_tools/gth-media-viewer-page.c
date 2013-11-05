@@ -367,15 +367,6 @@ position_value_changed_cb (GtkAdjustment *adjustment,
 }
 
 
-static char *
-volume_scale_format_value_cb (GtkScale *scale,
-			       double    value,
-			       gpointer  user_data)
-{
-	return g_strdup_printf ("%0.0f%%", value);
-}
-
-
 static gboolean
 position_scale_change_value_cb (GtkRange      *range,
 				 GtkScrollType  scroll,
@@ -522,24 +513,6 @@ play_button_clicked_cb (GtkButton *button,
 }
 
 
-static void
-volume_togglebutton_toggled_cb (GtkToggleButton *button,
-				gpointer         user_data)
-{
-	GthMediaViewerPage *self = user_data;
-
-	if (self->priv->playbin == NULL)
-		return;
-
-	if (gtk_toggle_button_get_active (button)) {
-		g_object_get (self->priv->playbin, "volume", &self->priv->last_volume, NULL);
-		g_object_set (self->priv->playbin, "volume", 0.0, NULL);
-	}
-	else
-		g_object_set (self->priv->playbin, "volume", self->priv->last_volume, NULL);
-}
-
-
 static int
 get_nearest_rate (double rate)
 {
@@ -610,22 +583,9 @@ update_volume_from_playbin (GthMediaViewerPage *self)
 
 	g_object_get (self->priv->playbin, "volume", &volume, NULL);
 
-	if (volume == 0.0)
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-muted-symbolic", GTK_ICON_SIZE_BUTTON);
-	else if (volume < 0.33)
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-low-symbolic", GTK_ICON_SIZE_BUTTON);
-	else if (volume < 0.66)
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-medium-symbolic", GTK_ICON_SIZE_BUTTON);
-	else
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("volume_togglebutton_image")), "audio-volume-high-symbolic", GTK_ICON_SIZE_BUTTON);
-
 	g_signal_handlers_block_by_func (GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("volume_adjustment")), volume * 100.0);
 	g_signal_handlers_unblock_by_func (GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
-
-	g_signal_handlers_block_by_func (GET_WIDGET ("volume_togglebutton"), volume_togglebutton_toggled_cb, self);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("volume_togglebutton")), volume == 0.0);
-	g_signal_handlers_unblock_by_func (GET_WIDGET ("volume_togglebutton"), volume_togglebutton_toggled_cb, self);
 
 	return FALSE;
 }
@@ -786,10 +746,6 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 			  "value-changed",
 			  G_CALLBACK (position_value_changed_cb),
 			  self);
-	g_signal_connect (GET_WIDGET ("volume_scale"),
-			  "format-value",
-			  G_CALLBACK (volume_scale_format_value_cb),
-			  self);
 	g_signal_connect (GET_WIDGET ("position_scale"),
 			  "change-value",
 			  G_CALLBACK (position_scale_change_value_cb),
@@ -805,10 +761,6 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (GET_WIDGET ("play_button"),
 			  "clicked",
 			  G_CALLBACK (play_button_clicked_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("volume_togglebutton"),
-			  "toggled",
-			  G_CALLBACK (volume_togglebutton_toggled_cb),
 			  self);
 	g_signal_connect (GET_WIDGET ("play_slower_button"),
 			  "clicked",
