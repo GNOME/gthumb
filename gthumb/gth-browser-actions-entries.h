@@ -41,6 +41,7 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "go-to-history-position", gth_browser_activate_go_to_history_pos, "s", "''", NULL },
 	{ "go-to-location", gth_browser_activate_go_to_location, "s", "''", NULL },
 	{ "go-up", gth_browser_activate_go_up },
+	{ "reload", gth_browser_activate_reload },
 	{ "open-location", gth_browser_activate_open_location },
 	{ "revert-to-saved", gth_browser_activate_revert_to_saved },
 	{ "save", gth_browser_activate_save },
@@ -70,7 +71,8 @@ static const GthAccelerator gth_browser_accelerators[] = {
 	{ "go-back", "<Alt>Left" },
 	{ "go-forward", "<Alt>Right" },
 	{ "go-up", "<Alt>Up" },
-	{ "go-home", "<Alt>Home" }
+	{ "go-home", "<Alt>Home" },
+	{ "reload", "<Control>r" }
 };
 
 

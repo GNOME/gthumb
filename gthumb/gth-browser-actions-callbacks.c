@@ -327,6 +327,15 @@ gth_browser_activate_go_up (GSimpleAction *action,
 
 
 void
+gth_browser_activate_reload (GSimpleAction *action,
+			     GVariant      *parameter,
+			     gpointer       user_data)
+{
+	gth_browser_reload (GTH_BROWSER (user_data));
+}
+
+
+void
 gth_browser_activate_open_location (GSimpleAction *action,
 				    GVariant      *parameter,
 				    gpointer       user_data)
