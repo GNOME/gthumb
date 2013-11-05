@@ -3095,9 +3095,7 @@ gth_browser_update_statusbar_file_info (GthBrowser *browser)
 {
 	const char  *extra_info;
 	const char  *image_size;
-	const char  *file_date;
 	const char  *file_size;
-	GthMetadata *metadata;
 	GString     *status;
 
 	if (browser->priv->current_file == NULL) {
