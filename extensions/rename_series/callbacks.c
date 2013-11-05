@@ -44,10 +44,3 @@ rs__gth_browser_file_list_rename_cb (GthBrowser *browser)
 	_g_object_list_unref (file_data_list);
 	_gtk_tree_path_list_free (items);
 }
-
-
-void
-rs__gth_browser_selection_changed_cb (GthBrowser *browser)
-{
-
-}

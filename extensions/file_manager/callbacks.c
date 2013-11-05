@@ -821,6 +821,7 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	gth_window_enable_action (GTH_WINDOW (browser), "duplicate", sensitive);
 	gth_window_enable_action (GTH_WINDOW (browser), "move-to-folder", sensitive);
 	gth_window_enable_action (GTH_WINDOW (browser), "copy-to-folder", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "rename", n_selected > 0);
 
 	folder = gth_browser_get_folder_popup_file_data (browser);
 	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-create", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
