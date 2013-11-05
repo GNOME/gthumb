@@ -44,7 +44,7 @@ wa__gth_browser_construct_cb (GthBrowser *browser)
 					 browser);
 	gth_menu_manager_append_entry (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_OTHER_EXPORTERS),
 				       GTH_MENU_MANAGER_NEW_MERGE_ID,
-				       _("_Web Album..."),
+				       _("_Web Album…"),
 				       "win.create-web-album",
 				       NULL,
 				       NULL);

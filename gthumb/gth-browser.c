@@ -1743,7 +1743,7 @@ _gth_browser_load (GthBrowser *browser,
 	case GTH_ACTION_GO_FORWARD:
 	case GTH_ACTION_GO_TO:
 	case GTH_ACTION_VIEW:
-		gth_file_list_clear (GTH_FILE_LIST (browser->priv->file_list), _("Getting folder listing..."));
+		gth_file_list_clear (GTH_FILE_LIST (browser->priv->file_list), _("Getting the folder content…"));
 		break;
 	default:
 		break;

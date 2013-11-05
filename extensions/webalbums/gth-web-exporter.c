@@ -742,7 +742,7 @@ get_image_attribute (GthWebExporter    *self,
 
 		truncated = g_strndup (value, max_length);
 		if (strlen (truncated) < strlen (value))
-			line = g_strconcat (truncated, "...", NULL);
+			line = g_strconcat (truncated, "…", NULL);
 		else
 			line = g_strdup (truncated);
 

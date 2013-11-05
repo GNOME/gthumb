@@ -34,8 +34,8 @@ static const GActionEntry actions[] = {
 };
 
 static const GthMenuEntry action_entries[] = {
-	{ N_("Contact _Sheet..."), "win.create-contact-sheet" },
-	{ N_("Image _Wall..."), "win.create-image-wall" }
+	{ N_("Contact _Sheet…"), "win.create-contact-sheet" },
+	{ N_("Image _Wall…"), "win.create-image-wall" }
 };
 
 

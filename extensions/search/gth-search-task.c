@@ -268,7 +268,7 @@ browser_location_ready_cb (GthBrowser    *browser,
 
 	task->priv->dialog = gth_browser_get_list_info_bar (browser);
 	gth_info_bar_set_icon_name (GTH_INFO_BAR (task->priv->dialog), "edit-find-symbolic", GTK_ICON_SIZE_BUTTON);
-	gth_info_bar_set_primary_text (GTH_INFO_BAR (task->priv->dialog), _("Searching..."));
+	gth_info_bar_set_primary_text (GTH_INFO_BAR (task->priv->dialog), _("Searching…"));
 	update_secondary_text (task);
 	_gtk_info_bar_clear_action_area (GTK_INFO_BAR (task->priv->dialog));
 	gtk_widget_show (task->priv->dialog);

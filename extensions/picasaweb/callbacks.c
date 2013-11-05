@@ -46,13 +46,13 @@ pw__gth_browser_construct_cb (GthBrowser *browser)
 					 browser);
 	gth_menu_manager_append_entry (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_WEB_EXPORTERS),
 				       GTH_MENU_MANAGER_NEW_MERGE_ID,
-				       _("_Picasa Web Album..."),
+				       _("_Picasa Web Album…"),
 				       "win.export-picasaweb",
 				       NULL,
 				       "site-picasaweb");
 	gth_menu_manager_append_entry (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_WEB_IMPORTERS),
 				       GTH_MENU_MANAGER_NEW_MERGE_ID,
-				       _("_Picasa Web Album..."),
+				       _("_Picasa Web Album…"),
 				       "win.import-picasaweb",
 				       NULL,
 				       "site-picasaweb");

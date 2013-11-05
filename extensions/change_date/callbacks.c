@@ -34,7 +34,7 @@ static const GActionEntry actions[] = {
 
 
 static const GthMenuEntry action_entries[] = {
-	{ N_("Change _Date..."), "win.change-date", NULL, "change-date-symbolic" }
+	{ N_("Change _Date…"), "win.change-date", NULL, "change-date-symbolic" }
 };
 
 

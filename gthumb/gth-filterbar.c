@@ -301,7 +301,7 @@ update_filter_list (GthFilterbar *filterbar,
 	gtk_list_store_append (filterbar->priv->model, &iter);
 	gtk_list_store_set (filterbar->priv->model, &iter,
 			    TYPE_COLUMN, ITEM_TYPE_PERSONALIZE,
-			    NAME_COLUMN, _("Personalize..."),
+			    NAME_COLUMN, _("Personalize…"),
 			    -1);
 
 	if (no_filter_selected) {

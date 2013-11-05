@@ -64,7 +64,7 @@ typedef struct {
 SelectCommand select_commands[] = {
 	{ N_("leave the newest duplicates"), SELECT_LEAVE_NEWEST },
 	{ N_("leave the oldest duplicates"), SELECT_LEAVE_OLDEST },
-	{ N_("by folder..."), SELECT_BY_FOLDER },
+	{ N_("by folder…"), SELECT_BY_FOLDER },
 	{ N_("all files"), SELECT_ALL },
 	{ N_("no file"), SELECT_NONE }
 };

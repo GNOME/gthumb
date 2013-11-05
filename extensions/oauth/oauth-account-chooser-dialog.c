@@ -197,7 +197,7 @@ oauth_account_chooser_dialog_construct (OAuthAccountChooserDialog *self,
 	gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
 	gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
 			    ACCOUNT_DATA_COLUMN, NULL,
-			    ACCOUNT_NAME_COLUMN, _("New authentication..."),
+			    ACCOUNT_NAME_COLUMN, _("New authentication…"),
 			    ACCOUNT_SEPARATOR_COLUMN, FALSE,
 			    ACCOUNT_ICON_COLUMN, GTK_STOCK_NEW,
 			    -1);

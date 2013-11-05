@@ -665,7 +665,7 @@ _g_strdup_with_max_size (const char *s,
 		offset = half_max_size + l - max_size;
 		second_half = g_strndup (s + offset, half_max_size);
 
-		result = g_strconcat (first_half, "...", second_half, NULL);
+		result = g_strconcat (first_half, "…", second_half, NULL);
 
 		g_free (first_half);
 		g_free (second_half);

@@ -1064,7 +1064,7 @@ _gth_folder_tree_add_loading_item (GthFolderTree *folder_tree,
 	gtk_tree_store_set (folder_tree->priv->tree_store, &iter,
 			    COLUMN_STYLE, PANGO_STYLE_ITALIC,
 			    COLUMN_TYPE, ENTRY_TYPE_LOADING,
-			    COLUMN_NAME, _("Loading..."),
+			    COLUMN_NAME, _("Loading…"),
 			    COLUMN_SORT_KEY, sort_key,
 			    COLUMN_SORT_ORDER, 0,
 			    -1);

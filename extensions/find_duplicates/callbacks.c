@@ -34,7 +34,7 @@ static const GActionEntry actions[] = {
 
 
 static const GthMenuEntry action_entries[] = {
-	{ N_("Find _Duplicates..."), "win.find-duplicates" }
+	{ N_("Find _Duplicates…"), "win.find-duplicates" }
 };
 
 
