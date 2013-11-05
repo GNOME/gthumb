@@ -40,6 +40,7 @@
 
 
 enum {
+	SCALE_SET_COLUMN,
 	WEIGHT_COLUMN,
 	ID_COLUMN,
 	DISPLAY_NAME_COLUMN,
@@ -151,6 +152,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 			category = gth_main_get_metadata_category (info->category);
 			gtk_list_store_append (self->priv->tree_model, &iter);
 			gtk_list_store_set (self->priv->tree_model, &iter,
+					    SCALE_SET_COLUMN, FALSE,
 					    WEIGHT_COLUMN, PANGO_WEIGHT_BOLD,
 					    ID_COLUMN, category->id,
 					    DISPLAY_NAME_COLUMN, _(category->display_name),
@@ -162,6 +164,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 		gtk_list_store_append (self->priv->tree_model, &iter);
 		gtk_list_store_set (self->priv->tree_model,
 				    &iter,
+				    SCALE_SET_COLUMN, TRUE,
 				    WEIGHT_COLUMN, PANGO_WEIGHT_NORMAL,
 				    ID_COLUMN, info->id,
 				    DISPLAY_NAME_COLUMN, _(info->display_name),
@@ -348,6 +351,7 @@ gth_file_properties_init (GthFileProperties *self)
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (self->priv->tree_view), TRUE);
 	gtk_tree_view_set_tooltip_column (GTK_TREE_VIEW (self->priv->tree_view), TOOLTIP_COLUMN);
 	self->priv->tree_model = gtk_list_store_new (NUM_COLUMNS,
+						     G_TYPE_BOOLEAN,
 						     PANGO_TYPE_WEIGHT,
 						     G_TYPE_STRING,
 						     G_TYPE_STRING,
@@ -388,6 +392,7 @@ gth_file_properties_init (GthFileProperties *self)
 	column = gtk_tree_view_column_new_with_attributes ("",
 							   renderer,
 							   "text", DISPLAY_NAME_COLUMN,
+							   "scale-set", SCALE_SET_COLUMN,
 							   "weight", WEIGHT_COLUMN,
 							   NULL);
 	g_object_set (renderer,
