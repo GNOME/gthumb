@@ -36,6 +36,7 @@
 #define COMMENT_DEFAULT_HEIGHT 100
 #define CATEGORY_SIZE 1000
 #define MAX_ATTRIBUTE_LENGTH 128
+#define GTH_STYLE_CLASS_COMMENT "comment"
 
 
 enum {
@@ -424,12 +425,15 @@ gth_file_properties_init (GthFileProperties *self)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (self->priv->comment_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (self->priv->comment_win), GTK_SHADOW_ETCHED_IN);
 	gtk_widget_set_size_request (self->priv->comment_win, -1, COMMENT_DEFAULT_HEIGHT);
+	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->comment_win), GTH_STYLE_CLASS_COMMENT);
 	gtk_paned_pack2 (GTK_PANED (vpaned), self->priv->comment_win, FALSE, FALSE);
 
 	self->priv->comment_view = gtk_text_view_new ();
+	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->comment_view), GTH_STYLE_CLASS_COMMENT);
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (self->priv->comment_view), FALSE);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (self->priv->comment_view), GTK_WRAP_WORD);
 	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self->priv->comment_view), TRUE);
+
 	gtk_widget_show (self->priv->comment_view);
 	gtk_container_add (GTK_CONTAINER (self->priv->comment_win), self->priv->comment_view);
 }

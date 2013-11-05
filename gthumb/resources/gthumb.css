@@ -20,3 +20,31 @@ GthEmptyList.frame {
 GthEmptyList.frame:backdrop {
 	border-color: @unfocused_borders;
 }
+
+/* -- comment -- */
+
+@define-color comment_bg #f5fabf;
+@define-color comment_border #a3a684;
+
+GtkScrolledWindow.comment {
+	background-color: @comment_bg;
+	padding: 5px 0 5px 5px;
+}
+
+GtkScrolledWindow.comment.frame {
+	border-color: @comment_border;
+}
+
+GtkScrolledWindow.comment .scrollbar.trough {
+	background-color: @comment_bg;
+}
+
+GtkScrolledWindow.comment .scrollbar.slider {
+	background-color: @comment_border;
+}
+
+.comment .view,
+.comment.view {
+	background-color: @comment_bg;
+	color: #000000;
+}
