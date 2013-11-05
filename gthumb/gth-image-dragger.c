@@ -524,10 +524,8 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 		return;
 	}
 
-	if (image_width * image_height <= SIZE_TOO_BIG_FOR_SCALE_BILINEAR) {
-		self->priv->scaled = _cairo_image_surface_scale_bilinear (image, new_width, new_height);
+	if (image_width * image_height <= SIZE_TOO_BIG_FOR_SCALE_BILINEAR)
 		filter = SCALE_FILTER_TRIANGLE;
-	}
 	else
 		filter = SCALE_FILTER_BOX;
 
