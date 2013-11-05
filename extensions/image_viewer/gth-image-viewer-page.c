@@ -28,7 +28,7 @@
 #include "preferences.h"
 
 
-#define UPDATE_QUALITY_DELAY 100
+#define UPDATE_QUALITY_DELAY 500
 #define N_HEADER_BAR_BUTTONS 2
 
 
@@ -85,7 +85,7 @@ struct _GthImageViewerPagePrivate {
 	gboolean           loading_image;
 	GFile             *last_loaded;
 	gboolean           can_paste;
-	guint              update_quality_event;
+	guint              update_quality_id;
 	GtkWidget         *buttons[N_HEADER_BAR_BUTTONS];
 	gboolean           pointer_on_viewer;
 	gboolean           pointer_on_overview;
@@ -109,14 +109,30 @@ gth_image_viewer_page_file_loaded (GthImageViewerPage *self,
 
 
 static int
-_gth_image_preloader_get_requested_size (GthImageViewerPage *self)
+get_viewer_size (GthImageViewerPage *self)
 {
-	int    requested_size;
-	int    original_width;
-	int    original_height;
-	double zoom;
-	int    window_width;
-	int    window_height;
+	GtkAllocation allocation;
+	int           size;
+
+	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
+	size = MAX (allocation.width, allocation.height);
+	if (size <= 1) {
+		int window_width;
+		int window_height;
+		gtk_window_get_size (GTK_WINDOW (self->priv->browser),
+				     &window_width,
+				     &window_height);
+		size = MAX (window_width, window_height);;
+	}
+
+	return size;
+}
+
+
+static int
+_gth_image_preloader_get_requested_size_for_next_images (GthImageViewerPage *self)
+{
+	int requested_size;
 
 	requested_size = -1;
 
@@ -126,29 +142,45 @@ _gth_image_preloader_get_requested_size (GthImageViewerPage *self)
 		break;
 
 	case GTH_ZOOM_CHANGE_KEEP_PREV:
-		if (gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer)) == GTH_FIT_NONE) {
-			gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer),
-							    &original_width,
-							    &original_height);
-			zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
-			requested_size = (zoom < 1.0) ? MAX (original_width, original_height) * zoom : -1;
-		}
-		else {
-			gtk_window_get_size (GTK_WINDOW (self->priv->browser),
-					     &window_width,
-					     &window_height);
-			requested_size = MAX (window_width, window_height);
-		}
-		break;
-
 	case GTH_ZOOM_CHANGE_FIT_SIZE:
 	case GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER:
 	case GTH_ZOOM_CHANGE_FIT_WIDTH:
 	case GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER:
-		gtk_window_get_size (GTK_WINDOW (self->priv->browser),
-				     &window_width,
-				     &window_height);
-		requested_size = MAX (window_width, window_height);
+		requested_size = get_viewer_size (self);
+		break;
+	}
+
+	return requested_size;
+}
+
+
+static int
+_gth_image_preloader_get_requested_size_for_current_image (GthImageViewerPage *self)
+{
+	int	requested_size;
+	double	zoom;
+
+	requested_size = -1;
+
+	switch (gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer))) {
+	case GTH_FIT_NONE:
+		zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
+		if (zoom < 1.0) {
+			int original_width;
+			int original_height;
+
+			gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer), &original_width, &original_height);
+			requested_size = MAX (original_width * zoom, original_height * zoom);
+		}
+		else
+			requested_size = -1;
+		break;
+
+	case GTH_FIT_SIZE:
+	case GTH_FIT_SIZE_IF_LARGER:
+	case GTH_FIT_WIDTH:
+	case GTH_FIT_WIDTH_IF_LARGER:
+		requested_size = get_viewer_size (self);
 		break;
 	}
 
@@ -188,6 +220,25 @@ different_quality_ready_cb (GObject		*source_object,
 	if (image == NULL)
 		goto clear_data;
 
+	/* check whether the image is of different quality */
+	{
+		cairo_surface_t *s1;
+		cairo_surface_t *s2;
+		int              w1, h1, w2, h2;
+
+		s1 = gth_image_get_cairo_surface (image);
+		s2 = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+		w1 = cairo_image_surface_get_width (s1);
+		h1 = cairo_image_surface_get_height (s1);
+		w2 = cairo_image_surface_get_width (s2);
+		h2 = cairo_image_surface_get_height (s2);
+
+		cairo_surface_destroy (s1);
+
+		if ((w1 == w2) && (h1 == h2))
+			goto clear_data;
+	}
+
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 	gth_image_viewer_set_better_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
 					     image,
@@ -207,31 +258,58 @@ clear_data:
 
 
 static gboolean
+_g_mime_type_can_load_different_quality (const char *mime_type)
+{
+	static const char *supported[] = {
+		"image/jpeg",
+		"image/x-portable-pixmap"
+
+		/* RAW formats: to keep in sync with raw_mime_types in extensions/raw_files/main.c */
+
+		"image/x-adobe-dng",
+		"image/x-canon-cr2",
+		"image/x-canon-crw",
+		"image/x-epson-erf",
+		"image/x-minolta-mrw",
+		"image/x-nikon-nef",
+		"image/x-olympus-orf",
+		"image/x-pentax-pef",
+		"image/x-sony-arw"
+	};
+	int i;
+
+	for (i = 0; i < G_N_ELEMENTS (supported); i++)
+		if (g_strcmp0 (mime_type, supported[i]) == 0)
+			return TRUE;
+
+	return FALSE;
+}
+
+
+static gboolean
 update_quality_cb (gpointer user_data)
 {
 	GthImageViewerPage *self = user_data;
-	int                 old_requested_size;
-	int                 new_requested_size;
 
-	if (self->priv->update_quality_event != 0) {
-		g_source_remove (self->priv->update_quality_event);
-		self->priv->update_quality_event = 0;
+	if (self->priv->update_quality_id != 0) {
+		g_source_remove (self->priv->update_quality_id);
+		self->priv->update_quality_id = 0;
 	}
 
 	if (self->priv->loading_image)
 		return FALSE;
 
-	old_requested_size = gth_image_viewer_get_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer));
-	new_requested_size = _gth_image_preloader_get_requested_size (self);
-	if (old_requested_size != new_requested_size)
-		gth_image_preloader_load (self->priv->preloader,
-					  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
-					  new_requested_size,
-					  NULL,
-					  different_quality_ready_cb,
-					  self,
-					  GTH_NO_PRELOADERS,
-					  NULL);
+	if (! self->priv->image_changed && ! _g_mime_type_can_load_different_quality (gth_file_data_get_mime_type (self->priv->file_data)))
+		return FALSE;
+
+	gth_image_preloader_load (self->priv->preloader,
+				  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
+				  _gth_image_preloader_get_requested_size_for_current_image (self),
+				  NULL,
+				  different_quality_ready_cb,
+				  self,
+				  GTH_NO_PRELOADERS,
+				  NULL);
 
 	return FALSE;
 }
@@ -1010,7 +1088,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->file_data,
-				  _gth_image_preloader_get_requested_size (self),
+				  _gth_image_preloader_get_requested_size_for_next_images (self),
 				  NULL,
 				  preloader_load_ready_cb,
 				  self,
@@ -1484,7 +1562,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->image_changed = FALSE;
 	self->priv->loading_image = FALSE;
 	self->priv->can_paste = FALSE;
-	self->priv->update_quality_event = 0;
+	self->priv->update_quality_id = 0;
 }
 
 
@@ -1766,7 +1844,7 @@ gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
 
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
-				  -1,
+				  GTH_ORIGINAL_SIZE,
 				  data->cancellable,
 				  original_image_ready_cb,
 				  data,
