@@ -401,7 +401,7 @@ gth_file_properties_init (GthFileProperties *self)
 		      NULL);
 
 	gtk_tree_view_column_set_expand (column, TRUE);
-	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (self->priv->tree_view),
 				     column);
 
@@ -418,7 +418,7 @@ gth_file_properties_init (GthFileProperties *self)
 		      NULL);
 
 	gtk_tree_view_column_set_expand (column, TRUE);
-	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_FIXED);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (self->priv->tree_view),
 				     column);
 
