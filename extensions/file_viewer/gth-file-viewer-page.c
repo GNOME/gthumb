@@ -230,7 +230,7 @@ gth_file_viewer_page_real_view (GthViewerPage *base,
 	g_return_if_fail (file_data != NULL);
 
 	gtk_label_set_text (GTK_LABEL (self->priv->label), g_file_info_get_display_name (file_data->info));
-	icon = g_file_info_get_icon (file_data->info);
+	icon = g_file_info_get_symbolic_icon (file_data->info);
 	if (icon != NULL)
 		gtk_image_set_from_gicon (GTK_IMAGE (self->priv->icon), icon, GTK_ICON_SIZE_DIALOG);
 

@@ -2184,6 +2184,28 @@ _g_file_get_icon (GFile *file)
 	return icon;
 }
 
+GIcon *
+_g_file_get_symbolic_icon (GFile *file)
+{
+	GIcon     *icon = NULL;
+	GFileInfo *file_info;
+
+	file_info = g_file_query_info (file,
+				       G_FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON,
+				       G_FILE_QUERY_INFO_NONE,
+				       NULL,
+				       NULL);
+	if (file_info != NULL) {
+		icon = (GIcon*) g_object_ref (g_file_info_get_attribute_object (file_info, G_FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON));
+		g_object_unref (file_info);
+	}
+
+	if (icon == NULL)
+		icon = g_themed_icon_new ("text-x-generic-symbolic");
+
+	return icon;
+}
+
 
 GList *
 _g_file_list_dup (GList *l)

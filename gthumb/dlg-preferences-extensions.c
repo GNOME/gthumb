@@ -30,7 +30,7 @@
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
-#define DEFAULT_ICON "application-extension"
+#define DEFAULT_ICON "application-extension-symbolic"
 #define EXTENSION_CATEGORY_ALL "*"
 #define EXTENSION_CATEGORY_ENABLED "+"
 #define EXTENSION_CATEGORY_DISABLED "-"
@@ -156,26 +156,6 @@ extension_description_data_func_cb (GtkTreeViewColumn *tree_column,
 
 
 static void
-extension_icon_data_func_cb (GtkTreeViewColumn *tree_column,
-		 	     GtkCellRenderer   *cell,
-			     GtkTreeModel      *tree_model,
-			     GtkTreeIter       *iter,
-			     gpointer           user_data)
-{
-	GthExtensionDescription *description;
-
-	gtk_tree_model_get (tree_model, iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
-	if (description->icon_name != NULL)
-		g_object_set (G_OBJECT (cell), "icon-name", description->icon_name, NULL);
-	else
-		g_object_set (G_OBJECT (cell), "icon-name", DEFAULT_ICON, NULL);
-	g_object_set (G_OBJECT (cell), "sensitive", gth_extension_description_is_active (description), NULL);
-
-	g_object_unref (description);
-}
-
-
-static void
 extension_active_data_func_cb (GtkTreeViewColumn *tree_column,
 		 	       GtkCellRenderer   *cell,
 			       GtkTreeModel      *tree_model,
@@ -264,11 +244,6 @@ add_columns (GtkTreeView *treeview,
 	/* the name column. */
 
 	column = gtk_tree_view_column_new ();
-
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	gtk_tree_view_column_pack_start (column, renderer, FALSE);
-	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_BUTTON, "xpad", 6, NULL);
-	gtk_tree_view_column_set_cell_data_func (column, renderer, extension_icon_data_func_cb, data, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
         gtk_tree_view_column_pack_start (column, renderer, TRUE);

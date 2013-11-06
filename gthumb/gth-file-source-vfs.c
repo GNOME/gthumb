@@ -61,7 +61,7 @@ G_DEFINE_TYPE (GthFileSourceVfs, gth_file_source_vfs, GTH_TYPE_FILE_SOURCE)
 
 
 static GList *
-gth_file_source_vfs_add_special_dir (GList         *list, 
+gth_file_source_vfs_add_special_dir (GList         *list,
 				     GthFileSource *file_source,
 				     GUserDirectory special_dir)
 {
@@ -122,8 +122,8 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_PICTURES);
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_VIDEOS);
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_DESKTOP);
-	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_DOCUMENTS);
-        list = gth_file_source_vfs_add_uri (list, file_source, "file:///", _("File System"));
+	/*list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_DOCUMENTS);*/
+        /*list = gth_file_source_vfs_add_uri (list, file_source, "file:///", _("File System"));*/
 
 	mounts = g_volume_monitor_get_mounts (g_volume_monitor_get ());
 	for (scan = mounts; scan; scan = scan->next) {
@@ -146,7 +146,7 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 
 		info = g_file_query_info (file, GFILE_BASIC_ATTRIBUTES ",access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
 
-		icon = g_mount_get_icon (mount);
+		icon = g_mount_get_symbolic_icon (mount);
 		name = g_mount_get_name (mount);
 
 		drive = g_mount_get_drive (mount);
@@ -163,7 +163,7 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 			g_free (drive_name);
 		}
 
-		g_file_info_set_icon (info, icon);
+		g_file_info_set_symbolic_icon (info, icon);
 		g_file_info_set_display_name (info, name);
 
 		list = g_list_append (list, gth_file_data_new (file, info));

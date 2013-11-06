@@ -130,28 +130,28 @@ dlg_organize_files (GthBrowser *browser,
 		gtk_list_store_set (list_store, &iter,
 				    0, GTH_GROUP_POLICY_DIGITALIZED_DATE,
 				    1, _("Date photo was taken"),
-				    2, "camera-photo",
+				    2, "camera-photo-symbolic",
 				    -1);
 
 		gtk_list_store_append (list_store, &iter);
 		gtk_list_store_set (list_store, &iter,
 				    0, GTH_GROUP_POLICY_MODIFIED_DATE,
 				    1, _("File modified date"),
-				    2, "appointment-soon",
+				    2, "change-date-symbolic",
 				    -1);
 
 		gtk_list_store_append (list_store, &iter);
 		gtk_list_store_set (list_store, &iter,
 				    0, GTH_GROUP_POLICY_TAG,
 				    1, _("Tag"),
-				    2, "tag",
+				    2, "tag-symbolic",
 				    -1);
 
 		gtk_list_store_append (list_store, &iter);
 		gtk_list_store_set (list_store, &iter,
 				    0, GTH_GROUP_POLICY_TAG_EMBEDDED,
 				    1, _("Tag (embedded)"),
-				    2, "tag",
+				    2, "tag-symbolic",
 				    -1);
 	}
 

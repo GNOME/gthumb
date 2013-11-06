@@ -5,33 +5,11 @@ context = actions
 iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 				\
-	file-catalog.png		\
-	file-library.png		\
-	file-search.png			\
-	histogram.png			\
-	histogram-linear.png		\
-	histogram-logarithmic.png	\
-	application-extension.png	\
-	map.png				\
 	site-facebook.png		\
 	site-flickr.png			\
 	site-photobucket.png		\
 	site-picasaweb.png		\
-	site-twentythree.png		\
-	tag.png				\
-	tool-adjust-colors.png		\
-	tool-adjust-contrast.png	\
-	tool-crop.png			\
-	tool-flip.png			\
-	tool-grayscale.png		\
-	tool-invert.png			\
-	tool-mirror.png			\
-	tool-red-eye.png		\
-	tool-resize.png			\
-	tool-rotate.png			\
-	tool-rotate-270.png		\
-	tool-rotate-90.png		\
-	tool-sharpen.png
+	site-twentythree.png
 
 EXTRA_DIST = $(icons_DATA)	
 

@@ -81,6 +81,8 @@ gboolean gth_selections_manager_get_is_empty     (int                   n_select
 int      _g_file_get_n_selection                 (GFile                *file);
 const char *
 	 gth_selection_get_icon_name		 (int			n_selection);
+const char *
+	gth_selection_get_symbolic_icon_name	 (int			n_selection);
 
 G_END_DECLS
 

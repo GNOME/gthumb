@@ -224,14 +224,13 @@ _gth_uri_list_set_iter (GthUriList  *uri_list,
 
 	if (info != NULL) {
 		display_name = (name != NULL) ? name : g_file_info_get_display_name (info);
-		icon = g_file_info_get_icon (info);
+		icon = g_file_info_get_symbolic_icon (info);
 	}
 	else {
 		display_name = (name != NULL) ? name : _g_file_get_display_name (file);
-		icon = _g_file_get_icon (file);
+		icon = _g_file_get_symbolic_icon (file);
 	}
 	pixbuf = gth_icon_cache_get_pixbuf (uri_list->priv->icon_cache, icon);
-
 
 	gtk_list_store_set (uri_list->priv->list_store, iter,
 			    URI_LIST_COLUMN_ICON, pixbuf,
@@ -306,12 +305,12 @@ gth_uri_list_set_bookmarks (GthUriList    *uri_list,
 		if (info != NULL) {
 			if (display_name == NULL)
 				display_name = g_strdup (g_file_info_get_display_name (info));
-			icon = g_file_info_get_icon (info);
+			icon = g_file_info_get_symbolic_icon (info);
 		}
 		else {
 			if (display_name == NULL)
 				display_name = g_strdup (_g_file_get_display_name (file));
-			icon = _g_file_get_icon (file);
+			icon = _g_file_get_symbolic_icon (file);
 		}
 		pixbuf = gth_icon_cache_get_pixbuf (uri_list->priv->icon_cache, icon);
 

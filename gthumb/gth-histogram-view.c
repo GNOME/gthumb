@@ -824,7 +824,7 @@ gth_histogram_view_init (GthHistogramView *self)
 	self->priv->linear_histogram_button = gtk_toggle_button_new ();
 	gtk_widget_set_tooltip_text (self->priv->linear_histogram_button, _("Linear scale"));
 	gtk_button_set_relief (GTK_BUTTON (self->priv->linear_histogram_button), GTK_RELIEF_NONE);
-	gtk_container_add (GTK_CONTAINER (self->priv->linear_histogram_button), gtk_image_new_from_icon_name ("histogram-linear", GTK_ICON_SIZE_MENU));
+	gtk_container_add (GTK_CONTAINER (self->priv->linear_histogram_button), gtk_image_new_from_icon_name ("format-linear-symbolic", GTK_ICON_SIZE_MENU));
 	gtk_widget_show_all (self->priv->linear_histogram_button);
 	gtk_box_pack_start (GTK_BOX (sub_box), self->priv->linear_histogram_button, FALSE, FALSE, 0);
 
@@ -836,7 +836,7 @@ gth_histogram_view_init (GthHistogramView *self)
 	self->priv->logarithmic_histogram_button = gtk_toggle_button_new ();
 	gtk_widget_set_tooltip_text (self->priv->logarithmic_histogram_button, _("Logarithmic scale"));
 	gtk_button_set_relief (GTK_BUTTON (self->priv->logarithmic_histogram_button), GTK_RELIEF_NONE);
-	gtk_container_add (GTK_CONTAINER (self->priv->logarithmic_histogram_button), gtk_image_new_from_icon_name ("histogram-logarithmic", GTK_ICON_SIZE_MENU));
+	gtk_container_add (GTK_CONTAINER (self->priv->logarithmic_histogram_button), gtk_image_new_from_icon_name ("format-logarithmic-symbolic", GTK_ICON_SIZE_MENU));
 	gtk_widget_show_all (self->priv->logarithmic_histogram_button);
 	gtk_box_pack_start (GTK_BOX (sub_box), self->priv->logarithmic_histogram_button, FALSE, FALSE, 0);
 

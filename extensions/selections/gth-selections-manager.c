@@ -198,8 +198,9 @@ void
 gth_selections_manager_update_file_info (GFile     *file,
 					 GFileInfo *info)
 {
-	int   n_selection;
-	char *name;
+	int    n_selection;
+	GIcon *icon;
+	char  *name;
 
 	n_selection = _g_file_get_n_selection (file);
 
@@ -216,19 +217,9 @@ gth_selections_manager_update_file_info (GFile     *file,
 
 	/* icon */
 
-	if (n_selection > 0) {
-		GIcon *icon;
-
-		icon = g_themed_icon_new (gth_selection_get_icon_name (n_selection));
-		g_file_info_set_icon (info, icon);
-
-		g_object_unref (icon);
-	}
-	else {
-		GIcon *icon = g_themed_icon_new ("emblem-flag-gray");
-		g_file_info_set_icon (info, icon);
-		g_object_unref (icon);
-	}
+	icon = g_themed_icon_new (gth_selection_get_symbolic_icon_name (n_selection));
+	g_file_info_set_symbolic_icon (info, icon);
+	g_object_unref (icon);
 
 	/* display name */
 
@@ -588,6 +579,22 @@ static const char * selection_icons[] = {
 const char *
 gth_selection_get_icon_name (int n_selection)
 {
-	g_return_val_if_fail (n_selection >= 1 && n_selection <= GTH_SELECTIONS_MANAGER_N_SELECTIONS, NULL);
+	g_return_val_if_fail (n_selection >= 0 && n_selection <= GTH_SELECTIONS_MANAGER_N_SELECTIONS, NULL);
 	return selection_icons[n_selection];
+}
+
+
+static const char * selection_symbolic_icons[] = {
+	"emblem-flag-symbolic",
+	"emblem-flag-symbolic",
+	"emblem-flag-symbolic",
+	"emblem-flag-symbolic"
+};
+
+
+const char *
+gth_selection_get_symbolic_icon_name (int n_selection)
+{
+	g_return_val_if_fail (n_selection >= 0 && n_selection <= GTH_SELECTIONS_MANAGER_N_SELECTIONS, NULL);
+	return selection_symbolic_icons[n_selection];
 }

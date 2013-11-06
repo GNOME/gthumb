@@ -15,9 +15,13 @@ icons_DATA = 					\
 	emblem-flag-red.svg			\
 	emblem-flag-symbolic.svg		\
 	export-symbolic.svg			\
-	file-catalog.svg			\
-	file-library.svg			\
-	file-search.svg				\
+	file-catalog-symbolic.svg		\
+	file-library-symbolic.svg		\
+	file-search-symbolic.svg		\
+	filter-symbolic.svg			\
+	format-linear-symbolic.svg		\
+	format-logarithmic-symbolic.svg		\
+	histogram-symbolic.svg			\
 	image-adjust-colors-symbolic.svg	\
 	image-adjust-contrast-symbolic.svg	\
 	image-crop-symbolic.svg			\
@@ -33,9 +37,9 @@ icons_DATA = 					\
 	image-rotate-right-symbolic.svg		\
 	image-rotate-symbolic.svg		\
 	image-sharpen-symbolic.svg		\
+	map-symbolic.svg			\
 	palette-symbolic.svg			\
 	slideshow-pause.svg			\
-	tag.svg					\
 	tag-symbolic.svg			\
 	tools-symbolic.svg			\
 	view-presentation-symbolic.svg		\

@@ -911,7 +911,7 @@ gfl_add_files (GthFileList *file_list,
 				     g_object_ref (file_data->file),
 				     thumb_data);
 
-		icon = g_file_info_get_icon (file_data->info);
+		icon = g_file_info_get_symbolic_icon (file_data->info);
 		image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
 		gth_file_store_queue_add (file_store,
 					  file_data,
@@ -1249,7 +1249,7 @@ gfl_enable_thumbs (GthFileList *file_list,
 			g_assert (thumb_data != NULL);
 			thumb_data->thumb_loaded = FALSE;
 
-			icon = g_file_info_get_icon (file_data->info);
+			icon = g_file_info_get_symbolic_icon (file_data->info);
 			image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
 			gth_file_store_queue_set (file_store,
 						  &iter,
@@ -1302,7 +1302,7 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 
 	gth_icon_cache_free (file_list->priv->icon_cache);
 	file_list->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (file_list))), size / 2);
-	gth_icon_cache_set_fallback (file_list->priv->icon_cache, g_themed_icon_new ("image-x-generic"));
+	gth_icon_cache_set_fallback (file_list->priv->icon_cache, g_themed_icon_new ("text-x-generic-symbolic"));
 
 	gth_file_view_set_thumbnail_size (GTH_FILE_VIEW (file_list->priv->view), file_list->priv->thumb_size);
 
@@ -1501,7 +1501,7 @@ set_mime_type_icon (GthFileList *file_list,
 	if (! get_file_data_iter_with_suggested_pos (file_store, file_data, try_pos, &iter))
 		return;
 
-	icon = g_file_info_get_icon (file_data->info);
+	icon = g_file_info_get_symbolic_icon (file_data->info);
 	image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
 	gth_file_store_queue_set (file_store,
 				  &iter,
@@ -1590,7 +1590,7 @@ set_loading_icon (GthFileList *file_list,
 	if (! get_file_data_iter_with_suggested_pos (file_store, file_data, try_pos, &iter))
 		return;
 
-	icon = g_themed_icon_new ("image-loading");
+	icon = g_themed_icon_new ("content-loading-symbolic");
 	image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
 	gth_file_store_queue_set (file_store,
 				  &iter,

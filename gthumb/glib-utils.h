@@ -39,7 +39,7 @@ G_BEGIN_DECLS
 /* GFile attributes */
 
 #define GFILE_NAME_TYPE_ATTRIBUTES "standard::name,standard::type"
-#define GFILE_DISPLAY_ATTRIBUTES "standard::display-name,standard::icon"
+#define GFILE_DISPLAY_ATTRIBUTES "standard::display-name,standard::icon,standard::symbolic-icon"
 #define GFILE_BASIC_ATTRIBUTES GFILE_DISPLAY_ATTRIBUTES ",standard::name,standard::type"
 
 #define DEFINE_STANDARD_ATTRIBUTES(a) ( \
@@ -50,6 +50,7 @@ G_BEGIN_DECLS
 	"standard::display-name," \
 	"standard::edit-name," \
 	"standard::icon," \
+	"standard::symbolic-icon," \
 	"standard::size," \
 	"thumbnail::path" \
 	"time::created," \
@@ -275,6 +276,7 @@ GFile *         _g_file_get_duplicated           (GFile      *file);
 GFile *         _g_file_get_child                (GFile      *file,
 						  ...) G_GNUC_NULL_TERMINATED;
 GIcon *         _g_file_get_icon                 (GFile      *file);
+GIcon *		_g_file_get_symbolic_icon	 (GFile      *file);
 GList *         _g_file_list_dup                 (GList      *l);
 void            _g_file_list_free                (GList      *l);
 GList *         _g_file_list_new_from_uri_list   (GList      *uris);

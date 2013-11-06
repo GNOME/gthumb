@@ -209,7 +209,7 @@ gth_map_view_real_get_name (GthMultipageChild *self)
 const char *
 gth_map_view_real_get_icon (GthMultipageChild *self)
 {
-	return "map";
+	return "map-symbolic";
 }
 
 

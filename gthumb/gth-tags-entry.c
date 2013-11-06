@@ -854,7 +854,7 @@ gth_tags_entry_init (GthTagsEntry *self)
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
-	g_object_set (renderer, "icon-name", "tag", NULL);
+	g_object_set (renderer, "icon-name", "tag-symbolic", NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
         gtk_tree_view_column_pack_start (column, renderer, TRUE);

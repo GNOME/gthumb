@@ -85,7 +85,6 @@ struct _GthFolderTreePrivate
 	GHashTable       *entry_points;		/* An entry point is a root child */
 	gboolean          recalc_entry_points;
 	GtkTreeStore     *tree_store;
-	GthIconCache     *icon_cache;
 	GtkCellRenderer  *text_renderer;
 	GtkTreePath      *hover_path;
 
@@ -138,7 +137,6 @@ gth_folder_tree_finalize (GObject *object)
 		_g_object_list_unref (folder_tree->priv->monitor.sources);
 		if (folder_tree->priv->root != NULL)
 			g_object_unref (folder_tree->priv->root);
-		gth_icon_cache_free (folder_tree->priv->icon_cache);
 
 		g_free (folder_tree->priv);
 		folder_tree->priv = NULL;
@@ -321,9 +319,12 @@ add_columns (GthFolderTree *folder_tree,
 	column = gtk_tree_view_column_new ();
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (renderer,
+		      "follow-state", TRUE,
+		      NULL);
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes (column, renderer,
-					     "pixbuf", COLUMN_ICON,
+					     "gicon", COLUMN_ICON,
 					     NULL);
 
 	folder_tree->priv->text_renderer = renderer = gtk_cell_renderer_text_new ();
@@ -1106,20 +1107,15 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 {
 	const char *name;
 	char       *sort_key;
-	GIcon      *icon;
-	GdkPixbuf  *pixbuf;
 
 	name = g_file_info_get_display_name (file_data->info);
 	if (name == NULL)
 		return FALSE;
 
 	sort_key = g_utf8_collate_key_for_filename (name, -1);
-	icon = g_file_info_get_icon (file_data->info);
-	pixbuf = gth_icon_cache_get_pixbuf (folder_tree->priv->icon_cache, icon);
-
 	gtk_tree_store_set (folder_tree->priv->tree_store, iter,
 			    COLUMN_STYLE, PANGO_STYLE_NORMAL,
-			    COLUMN_ICON, pixbuf,
+			    COLUMN_ICON, g_file_info_get_symbolic_icon (file_data->info),
 			    COLUMN_TYPE, ENTRY_TYPE_FILE,
 			    COLUMN_FILE_DATA, file_data,
 			    COLUMN_NAME, name,
@@ -1130,7 +1126,6 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 			    -1);
 
 	g_free (sort_key);
-	_g_object_unref (pixbuf);
 
 	return TRUE;
 }
@@ -1258,13 +1253,11 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 	folder_tree->priv->monitor.locations = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 	folder_tree->priv->monitor.sources = NULL;
 	folder_tree->priv->monitor.update_id = 0;
-	folder_tree->priv->icon_cache = gth_icon_cache_new (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (folder_tree))),
-							    _gtk_widget_lookup_for_size (GTK_WIDGET (folder_tree), GTK_ICON_SIZE_MENU));
 
 	folder_tree->priv->tree_store = gtk_tree_store_new (NUM_COLUMNS,
 							    PANGO_TYPE_STYLE,
 							    PANGO_TYPE_WEIGHT,
-							    GDK_TYPE_PIXBUF,
+							    G_TYPE_ICON,
 							    G_TYPE_INT,
 							    G_TYPE_OBJECT,
 							    G_TYPE_STRING,
@@ -1355,23 +1348,23 @@ gth_folder_tree_set_list (GthFolderTree *folder_tree,
 
 	if (open_parent) {
 		char        *sort_key;
-		GdkPixbuf   *pixbuf;
+		GIcon       *icon;
 		GtkTreeIter  iter;
 
 		sort_key = g_utf8_collate_key_for_filename (PARENT_URI, -1);
-		pixbuf = gtk_widget_render_icon_pixbuf (GTK_WIDGET (folder_tree), GTK_STOCK_GO_UP, GTK_ICON_SIZE_MENU);
+		icon = g_themed_icon_new ("go-up-symbolic");
 
 		gtk_tree_store_append (folder_tree->priv->tree_store, &iter, NULL);
 		gtk_tree_store_set (folder_tree->priv->tree_store, &iter,
 				    COLUMN_STYLE, PANGO_STYLE_ITALIC,
-				    COLUMN_ICON, pixbuf,
+				    COLUMN_ICON, icon,
 				    COLUMN_TYPE, ENTRY_TYPE_PARENT,
 				    COLUMN_NAME, _("(Open Parent)"),
 				    COLUMN_SORT_KEY, sort_key,
 				    COLUMN_SORT_ORDER, 0,
 				    -1);
 
-		g_object_unref (pixbuf);
+		g_object_unref (icon);
 		g_free (sort_key);
 	}
 

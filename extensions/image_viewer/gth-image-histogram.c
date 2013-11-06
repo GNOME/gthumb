@@ -88,7 +88,7 @@ gth_image_histogram_real_get_name (GthMultipageChild *self)
 const char *
 gth_image_histogram_real_get_icon (GthMultipageChild *self)
 {
-	return "histogram";
+	return "histogram-symbolic";
 }
 
 

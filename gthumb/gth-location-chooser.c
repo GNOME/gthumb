@@ -27,7 +27,6 @@
 #include <gtk/gtk.h>
 #include "glib-utils.h"
 #include "gth-file-source.h"
-#include "gth-icon-cache.h"
 #include "gth-location-chooser.h"
 #include "gth-main.h"
 #include "gtk-utils.h"
@@ -325,7 +324,7 @@ update_entry_point_list (GthLocationChooser *self)
 		add_file_source_entries (self,
 					 file_data->file,
 					 g_file_info_get_display_name (file_data->info),
-					 g_file_info_get_icon (file_data->info),
+					 g_file_info_get_symbolic_icon (file_data->info),
 					 position++,
 					 FALSE,
 					 ITEM_TYPE_ENTRY_POINT);
@@ -460,7 +459,7 @@ update_location_list (gpointer user_data)
 			add_file_source_entries (self,
 						 file,
 						 g_file_info_get_display_name (info),
-						 g_file_info_get_icon (info),
+						 g_file_info_get_symbolic_icon (info),
 						 position++,
 						 TRUE,
 						 ITEM_TYPE_LOCATION);
@@ -588,6 +587,9 @@ gth_location_chooser_init (GthLocationChooser *self)
 	/* icon column */
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (renderer,
+		      "follow-state", TRUE,
+		      NULL);
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (self->priv->combo),
 				    renderer,
 				    FALSE);

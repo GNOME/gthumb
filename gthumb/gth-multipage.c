@@ -174,6 +174,7 @@ gth_multipage_init (GthMultipage *multipage)
 	/* icon renderer */
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (renderer, "follow-state", TRUE, NULL);
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (multipage->priv->combobox),
 				    renderer,
 				    FALSE);
