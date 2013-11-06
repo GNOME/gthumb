@@ -663,10 +663,12 @@ gth_comment_update_from_general_attributes (GthFileData *file_data)
 
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::datetime");
 	if (metadata != NULL) {
+		GthMetadata *comment_time;
+
 		text = gth_metadata_get_raw (metadata);
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
-		if (metadata != NULL) {
-			if (! dom_str_equal (gth_metadata_get_raw (metadata), text)) {
+		comment_time = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
+		if (comment_time != NULL) {
+			if (! dom_str_equal (gth_metadata_get_raw (comment_time), text)) {
 				gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
 				write_comment = TRUE;
 			}
