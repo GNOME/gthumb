@@ -269,11 +269,22 @@ GList *
 gth_main_get_all_entry_points (void)
 {
 	GList *list = NULL;
+	int    sort_order = 0;
 	GList *scan;
 
 	for (scan = gth_main_get_all_file_sources (); scan; scan = scan->next) {
 		GthFileSource *file_source = scan->data;
-		list = g_list_concat (list, gth_file_source_get_entry_points (file_source));
+		GList         *entry_points;
+		GList         *scan_entry;
+
+		entry_points = gth_file_source_get_entry_points (file_source);
+		for (scan_entry = entry_points; scan_entry; scan_entry = scan_entry->next) {
+			GthFileData *file_data = scan_entry->data;
+			g_file_info_set_sort_order (file_data->info, sort_order);
+		}
+
+		list = g_list_concat (list, entry_points);
+		sort_order++;
 	}
 
 	return list;
