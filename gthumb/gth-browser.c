@@ -187,8 +187,8 @@ struct _GthBrowserPrivate {
 
 	gboolean           fullscreen;
 	gboolean	   was_fullscreen;
-	GtkWidget	  *fullscreen_headerbar;
-	GList             *fullscreen_controls;
+	GtkWidget	  *fullscreen_toolbar;
+	GList             *viewer_controls;
 	gboolean           pointer_visible;
 	guint              hide_mouse_timeout;
 	guint              motion_signal;
@@ -2168,7 +2168,7 @@ _gth_browser_update_header_section_visibility (GthBrowser              *browser,
 	GtkWidget *header_section;
 
 	header_section = browser->priv->header_sections[section];
-	gtk_widget_set_visible (header_section, visible /* && (_gtk_container_get_n_children (GTK_CONTAINER (header_section)) > 0) FIXME */);
+	gtk_widget_set_visible (header_section, visible);
 }
 
 
@@ -2183,37 +2183,33 @@ hide_mouse_pointer_cb (gpointer data)
 {
 	HideMouseData *hmdata = data;
 	GthBrowser    *browser = hmdata->browser;
-	int            px, py;
-	GdkScreen     *screen;
-	int            n_monitor;
-	GdkRectangle   work_area;
 	GList         *scan;
 
-	gdk_window_get_device_position (gtk_widget_get_window (GTK_WIDGET (browser)),
-					hmdata->device,
-					&px,
-					&py,
-					0);
+	/* do not hide the pointer if it's over a viewer control */
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (browser));
-	n_monitor = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (GTK_WIDGET (browser)));
-	gdk_screen_get_monitor_geometry (screen, n_monitor, &work_area);
-
-	px += work_area.x;
-	py += work_area.y;
-
-	for (scan = browser->priv->fullscreen_controls; scan; scan = scan->next) {
+	for (scan = browser->priv->viewer_controls; scan; scan = scan->next) {
 		GtkWidget *widget = scan->data;
-		int        x, y, w, h;
+		GdkWindow *widget_win;
+		int        px, py, w, h;
 
-		gdk_window_get_geometry (gtk_widget_get_window (widget), &x, &y, &w, &h);
+		if (! gtk_widget_get_visible (widget) || ! gtk_widget_get_realized (widget))
+			continue;
 
-		if ((px >= x) && (px <= x + w) && (py >= y) && (py <= y + h))
+		widget_win = gtk_widget_get_window (widget);
+		gdk_window_get_device_position (widget_win,
+						hmdata->device,
+						&px,
+						&py,
+						0);
+		w = gdk_window_get_width (widget_win);
+		h = gdk_window_get_height (widget_win);
+
+		if ((px >= 0) && (px <= w) && (py >= 0) && (py <= h))
 			return FALSE;
 	}
 
 	browser->priv->pointer_visible = FALSE;
-	gtk_widget_hide (browser->priv->fullscreen_headerbar);
+	gtk_widget_hide (browser->priv->fullscreen_toolbar);
 	if (browser->priv->viewer_page != NULL)
 		_gth_browser_show_pointer_on_viewer (browser, FALSE);
 
@@ -2242,7 +2238,7 @@ viewer_motion_notify_event_cb (GtkWidget      *widget,
 		if (! browser->priv->pointer_visible) {
 			browser->priv->pointer_visible = TRUE;
 			if (browser->priv->fullscreen)
-				gtk_widget_show (browser->priv->fullscreen_headerbar);
+				gtk_widget_show (browser->priv->fullscreen_toolbar);
 			if (browser->priv->viewer_page != NULL)
 				_gth_browser_show_pointer_on_viewer (browser, TRUE);
 		}
@@ -3884,7 +3880,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->recalc_location_free_space = TRUE;
 	browser->priv->fullscreen = FALSE;
 	browser->priv->was_fullscreen = FALSE;
-	browser->priv->fullscreen_controls = NULL;
+	browser->priv->viewer_controls = NULL;
 	browser->priv->pointer_visible = TRUE;
 	browser->priv->hide_mouse_timeout = 0;
 	browser->priv->motion_signal = 0;
@@ -4133,15 +4129,15 @@ gth_browser_init (GthBrowser *browser)
 	{
 		GtkWidget *button;
 
-		browser->priv->fullscreen_headerbar = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-		gtk_widget_set_halign (browser->priv->fullscreen_headerbar, GTK_ALIGN_END);
-		gtk_widget_set_valign (browser->priv->fullscreen_headerbar, GTK_ALIGN_START);
-		gtk_overlay_add_overlay (GTK_OVERLAY (browser->priv->viewer_container), browser->priv->fullscreen_headerbar);
+		browser->priv->fullscreen_toolbar = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+		gtk_widget_set_halign (browser->priv->fullscreen_toolbar, GTK_ALIGN_START);
+		gtk_widget_set_valign (browser->priv->fullscreen_toolbar, GTK_ALIGN_START);
+		gtk_overlay_add_overlay (GTK_OVERLAY (browser->priv->viewer_container), browser->priv->fullscreen_toolbar);
 
 		button = gtk_button_new_from_icon_name ("view-restore-symbolic", GTK_ICON_SIZE_BUTTON);
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.unfullscreen");
 		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (browser->priv->fullscreen_headerbar), button, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (browser->priv->fullscreen_toolbar), button, FALSE, FALSE, 0);
 	}
 
 
@@ -4217,7 +4213,7 @@ gth_browser_init (GthBrowser *browser)
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
-					     GTK_SHADOW_NONE);
+					     GTK_SHADOW_ETCHED_IN);
 	gtk_widget_show (scrolled_window);
 
 	browser->priv->folder_tree = gth_folder_tree_new ("gthumb-vfs:///");
@@ -6104,18 +6100,18 @@ gth_browser_get_image_preloader (GthBrowser *browser)
 
 
 void
-gth_browser_register_fullscreen_control (GthBrowser *browser,
-					 GtkWidget  *widget)
+gth_browser_register_viewer_control (GthBrowser *browser,
+				     GtkWidget  *widget)
 {
-	browser->priv->fullscreen_controls = g_list_prepend (browser->priv->fullscreen_controls, widget);
+	browser->priv->viewer_controls = g_list_prepend (browser->priv->viewer_controls, widget);
 }
 
 
 void
-gth_browser_unregister_fullscreen_control (GthBrowser *browser,
-					   GtkWidget  *widget)
+gth_browser_unregister_viewer_control (GthBrowser *browser,
+				       GtkWidget  *widget)
 {
-	browser->priv->fullscreen_controls = g_list_remove (browser->priv->fullscreen_controls, widget);
+	browser->priv->viewer_controls = g_list_remove (browser->priv->viewer_controls, widget);
 }
 
 
@@ -6130,8 +6126,8 @@ gth_browser_fullscreen (GthBrowser *browser)
 	browser->priv->was_fullscreen = FALSE;
 	browser->priv->fullscreen = TRUE;
 
-	g_list_free (browser->priv->fullscreen_controls);
-	browser->priv->fullscreen_controls = g_list_append (NULL, browser->priv->fullscreen_headerbar);
+	g_list_free (browser->priv->viewer_controls);
+	browser->priv->viewer_controls = g_list_append (NULL, browser->priv->fullscreen_toolbar);
 
 	browser->priv->before_fullscreen.page = gth_window_get_current_page (GTH_WINDOW (browser));
 	browser->priv->before_fullscreen.viewer_properties = gth_window_get_action_state (GTH_WINDOW (browser), "viewer-properties");
@@ -6170,7 +6166,7 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	browser->priv->was_fullscreen = TRUE;
 	browser->priv->fullscreen = FALSE;
 
-	gtk_widget_hide (browser->priv->fullscreen_headerbar);
+	gtk_widget_hide (browser->priv->fullscreen_toolbar);
 
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
 	gth_window_set_current_page (GTH_WINDOW (browser), browser->priv->before_fullscreen.page);
@@ -6200,8 +6196,8 @@ gth_browser_unfullscreen (GthBrowser *browser)
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, FALSE);
 		_gth_browser_show_pointer_on_viewer (browser, TRUE);
 	}
-	g_list_free (browser->priv->fullscreen_controls);
-	browser->priv->fullscreen_controls = NULL;
+	g_list_free (browser->priv->viewer_controls);
+	browser->priv->viewer_controls = NULL;
 
 	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->viewer_sidebar_alignment), 0, 0, 0, 0);
 

@@ -228,10 +228,10 @@ void             gth_browser_load_location          (GthBrowser       *browser,
 void             gth_browser_show_filterbar         (GthBrowser       *browser,
 						     gboolean          show);
 gpointer         gth_browser_get_image_preloader    (GthBrowser       *browser);
-void             gth_browser_register_fullscreen_control
+void             gth_browser_register_viewer_control
 						    (GthBrowser       *browser,
 					             GtkWidget        *widget);
-void             gth_browser_unregister_fullscreen_control
+void             gth_browser_unregister_viewer_control
 						    (GthBrowser       *browser,
 					             GtkWidget        *widget);
 void             gth_browser_fullscreen             (GthBrowser       *browser);

@@ -785,6 +785,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	gth_browser_set_viewer_widget (browser, self->priv->area_box);
 
 	gtk_widget_realize (self->priv->area);
+	gth_browser_register_viewer_control (self->priv->browser, self->priv->mediabar);
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 }
@@ -810,6 +811,8 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 	GthMediaViewerPage *self;
 
 	self = (GthMediaViewerPage*) base;
+
+	gth_browser_unregister_viewer_control (self->priv->browser, self->priv->mediabar);
 
 	if (self->priv->builder != NULL) {
 		g_object_unref (self->priv->builder);
@@ -1081,7 +1084,6 @@ gth_media_viewer_page_real_hide (GthViewerPage *base)
 	self = (GthMediaViewerPage*) base;
 
 	self->priv->visible = FALSE;
-
 	if ((self->priv->playbin != NULL) && self->priv->playing)
 		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
 }
@@ -1166,12 +1168,7 @@ static void
 gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 				       gboolean       active)
 {
-	GthMediaViewerPage *self = (GthMediaViewerPage*) base;
-
-	if (active)
-		gth_browser_register_fullscreen_control (self->priv->browser, self->priv->mediabar);
-	else
-		gth_browser_unregister_fullscreen_control (self->priv->browser, self->priv->mediabar);
+	/* void */
 }
 
 
