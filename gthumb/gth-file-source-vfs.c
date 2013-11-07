@@ -89,8 +89,7 @@ gth_file_source_vfs_add_special_dir (GList         *list,
 static GList *
 gth_file_source_vfs_add_uri (GList         *list,
 			     GthFileSource *file_source,
-			     const char    *uri,
-			     char          *display_name)
+			     const char    *uri)
 {
 	GFile *file;
 
@@ -99,8 +98,8 @@ gth_file_source_vfs_add_uri (GList         *list,
 		GFileInfo *info;
 
 		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-		g_file_info_set_display_name (info, display_name);
 		list = g_list_append (list, gth_file_data_new (file, info));
+
 		g_object_unref (info);
 	}
 	g_object_unref (file);
@@ -112,18 +111,18 @@ gth_file_source_vfs_add_uri (GList         *list,
 static GList *
 gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 {
-	GList       *list;
-	GList       *mounts;
-	GList       *scan;
+	GList *list;
+	GList *mounts;
+	GList *scan;
 
 	list = NULL;
 
-	list = gth_file_source_vfs_add_uri (list, file_source, get_home_uri (), _("Home Folder"));
+	list = gth_file_source_vfs_add_uri (list, file_source, get_home_uri ());
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_PICTURES);
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_VIDEOS);
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_DESKTOP);
 	/*list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_DOCUMENTS);*/
-        /*list = gth_file_source_vfs_add_uri (list, file_source, "file:///", _("File System"));*/
+	list = gth_file_source_vfs_add_uri (list, file_source, "file:///");
 
 	mounts = g_volume_monitor_get_mounts (g_volume_monitor_get ());
 	for (scan = mounts; scan; scan = scan->next) {
@@ -199,6 +198,7 @@ gth_file_source_vfs_get_file_info (GthFileSource *file_source,
 {
 	GFile     *gio_file;
 	GFileInfo *file_info;
+	char      *uri;
 
 	gio_file = gth_file_source_to_gio_file (file_source, file);
 	file_info = g_file_query_info (gio_file,
@@ -206,6 +206,19 @@ gth_file_source_vfs_get_file_info (GthFileSource *file_source,
 				       G_FILE_QUERY_INFO_NONE,
 				       NULL,
 				       NULL);
+
+	uri = g_file_get_uri (gio_file);
+	if (g_strcmp0 (uri, "file:///") == 0) {
+		GIcon *icon;
+
+		g_file_info_set_display_name (file_info, _("Computer"));
+		icon = g_themed_icon_new ("drive-harddisk-symbolic");
+		g_file_info_set_symbolic_icon (file_info, icon);
+
+		g_object_unref (icon);
+	}
+	else if (g_strcmp0 (uri, get_home_uri ()) == 0)
+		g_file_info_set_display_name (file_info, _("Home Folder"));
 
 	g_object_unref (gio_file);
 
