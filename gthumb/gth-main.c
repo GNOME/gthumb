@@ -265,6 +265,9 @@ gth_main_get_all_file_sources (void)
 }
 
 
+#define MAX_ENTRY_POINTS_PER_SOURCE 1000
+
+
 GList *
 gth_main_get_all_entry_points (void)
 {
@@ -280,11 +283,11 @@ gth_main_get_all_entry_points (void)
 		entry_points = gth_file_source_get_entry_points (file_source);
 		for (scan_entry = entry_points; scan_entry; scan_entry = scan_entry->next) {
 			GthFileData *file_data = scan_entry->data;
-			g_file_info_set_sort_order (file_data->info, sort_order);
+			g_file_info_set_sort_order (file_data->info, sort_order++);
 		}
 
 		list = g_list_concat (list, entry_points);
-		sort_order++;
+		sort_order += MAX_ENTRY_POINTS_PER_SOURCE;
 	}
 
 	return list;
