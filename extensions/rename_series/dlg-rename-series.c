@@ -685,10 +685,10 @@ update_preview__step2 (GError   *error,
 
 		d = _gtk_message_dialog_new (GTK_WINDOW (data->dialog),
 					     GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					     GTK_STOCK_DIALOG_ERROR,
+					     _GTK_ICON_NAME_DIALOG_ERROR,
 					     _("Could not rename the files"),
 					     error->message,
-					     GTK_STOCK_OK, GTK_RESPONSE_OK,
+					     _GTK_LABEL_OK, GTK_RESPONSE_OK,
 					     NULL);
 		g_signal_connect (d, "response", G_CALLBACK (error_dialog_response_cb), data);
 		gtk_window_present (GTK_WINDOW (d));

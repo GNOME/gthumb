@@ -782,11 +782,13 @@ motion_notify_event_cb (GtkWidget      *widget,
 
 			/**/
 
-			context = gtk_drag_begin (widget,
-						  folder_tree->priv->drag_target_list,
-						  folder_tree->priv->drag_actions,
-						  1,
-						  (GdkEvent *) event);
+			context = gtk_drag_begin_with_coordinates (widget,
+								   folder_tree->priv->drag_target_list,
+								   folder_tree->priv->drag_actions,
+								   1,
+								   (GdkEvent *) event,
+								   -1,
+								   -1);
 
 			dnd_surface = gtk_tree_view_create_row_drag_icon (GTK_TREE_VIEW (folder_tree), path);
 			gtk_drag_set_icon_surface (context, dnd_surface);

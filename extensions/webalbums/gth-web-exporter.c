@@ -1832,10 +1832,10 @@ delete_temp_dir_ready_cb (GError   *error,
 
 	dialog = _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
 					  GTK_DIALOG_MODAL,
-					  GTK_MESSAGE_INFO,
+					  _GTK_ICON_NAME_DIALOG_INFO,
 					  _("The album has been created successfully."),
 					  NULL,
-					  GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+					  _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE,
 					  _("_Open in the Browser"), _OPEN_IN_BROWSER_RESPONSE,
 					  _("_View the destination"), _OPEN_FOLDER_RESPONSE,
 					  NULL);

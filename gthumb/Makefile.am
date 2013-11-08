@@ -80,8 +80,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-location-bar.h				\
 	gth-location-chooser.h				\
 	gth-main.h					\
-	gth-menu-action.h				\
-	gth-menu-button.h				\
 	gth-menu-manager.h				\
 	gth-metadata.h					\
 	gth-metadata-chooser.h				\
@@ -99,7 +97,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-sidebar.h					\
 	gth-statusbar.h					\
 	gth-source-tree.h				\
-	gth-stock.h					\
 	gth-string-list.h				\
 	gth-tags-entry.h				\
 	gth-tags-file.h					\
@@ -219,8 +216,6 @@ gthumb_SOURCES = 					\
 	gth-main-default-sort-types.c			\
 	gth-main-default-tests.c			\
 	gth-main-default-types.c			\
-	gth-menu-action.c				\
-	gth-menu-button.c				\
 	gth-menu-manager.c				\
 	gth-metadata.c					\
 	gth-metadata-chooser.c				\

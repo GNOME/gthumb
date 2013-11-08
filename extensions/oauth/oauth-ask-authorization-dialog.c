@@ -231,7 +231,7 @@ oauth_ask_authorization_dialog_init (OAuthAskAuthorizationDialog *self)
 			  self);
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_CANCEL,
+			       _GTK_LABEL_CANCEL,
 			       GTK_RESPONSE_CANCEL);
 }
 

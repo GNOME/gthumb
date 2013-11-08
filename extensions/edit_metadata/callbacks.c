@@ -103,12 +103,12 @@ edit_metadata__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 
 	switch (gdk_keyval_to_lower (event->keyval)) {
 	case GDK_KEY_c:
-		gth_browser_activate_action_edit_comment (NULL, browser);
+		gth_browser_activate_edit_metadata (NULL, NULL, browser);
 		result = GINT_TO_POINTER (1);
 		break;
 
 	case GDK_KEY_t:
-		gth_browser_activate_action_edit_tags (NULL, browser);
+		gth_browser_activate_edit_tags (NULL, NULL, browser);
 		result = GINT_TO_POINTER (1);
 		break;
 	}

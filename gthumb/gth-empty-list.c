@@ -233,9 +233,9 @@ gth_empty_list_draw (GtkWidget *widget,
 		pango_layout_set_width (self->priv->layout, allocation.width * PANGO_SCALE);
 		pango_layout_set_text (self->priv->layout, self->priv->text, strlen (self->priv->text));
 		pango_layout_get_pixel_extents (self->priv->layout, NULL, &bounds);
-		gtk_style_context_get (style_context, gtk_widget_get_state (widget), "font", &font, NULL);
+		gtk_style_context_get (style_context, gtk_widget_get_state_flags (widget), "font", &font, NULL);
 		pango_layout_set_font_description (self->priv->layout, font);
-		gtk_style_context_get_color (style_context, gtk_widget_get_state (widget), &color);
+		gtk_style_context_get_color (style_context, gtk_widget_get_state_flags (widget), &color);
 		gdk_cairo_set_source_rgba (cr, &color);
 		gtk_render_layout (style_context, cr, 0, (allocation.height - bounds.height) / 2, self->priv->layout);
 		cairo_fill (cr);

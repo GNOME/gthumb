@@ -135,7 +135,7 @@ _gth_browser_create_new_folder (GthBrowser *browser,
 					 GTK_DIALOG_MODAL,
 					 _("New folder"),
 					 _("Enter the folder name:"),
-					 GTK_STOCK_CANCEL,
+					 _GTK_LABEL_CANCEL,
 					 _("C_reate"));
 	g_signal_connect (dialog,
 			  "response",
@@ -405,11 +405,11 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 
 		dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
 						  GTK_DIALOG_MODAL,
-						  GTK_STOCK_DIALOG_QUESTION,
+						  _GTK_ICON_NAME_DIALOG_QUESTION,
 						  _("Could not move the files"),
 						  _("Files cannot be moved to the current location, as alternative you can choose to copy them."),
-						  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-						  GTK_STOCK_COPY, GTK_RESPONSE_OK,
+						  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+						  _("Copy"), GTK_RESPONSE_OK,
 						  NULL);
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
@@ -647,7 +647,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 	dialog = gtk_file_chooser_dialog_new (move ? _("Move To") : _("Copy To"),
 					      GTK_WINDOW (browser),
 					      GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 					      (move ? _("Move") : _("Copy")), GTK_RESPONSE_ACCEPT,
 					      NULL);
 
@@ -917,8 +917,8 @@ delete_folder_permanently (GtkWindow        *window,
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (delete_data->browser),
 					           GTK_DIALOG_MODAL,
 					           _("The folder is not empty, do you want to delete the folder and its content permanently?"),
-					           GTK_STOCK_CANCEL,
-					           GTK_STOCK_DELETE);
+					           _GTK_LABEL_CANCEL,
+					           _GTK_LABEL_DELETE);
 			response = gtk_dialog_run (GTK_DIALOG (d));
 			if (response == GTK_RESPONSE_YES) {
 				GthTask *task;
@@ -996,8 +996,8 @@ gth_browser_activate_folder_context_trash (GSimpleAction *action,
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (browser),
 						   GTK_DIALOG_MODAL,
 						   _("The folder cannot be moved to the Trash. Do you want to delete it permanently?"),
-						   GTK_STOCK_CANCEL,
-						   GTK_STOCK_DELETE);
+						   _GTK_LABEL_CANCEL,
+						   _GTK_LABEL_DELETE);
 			g_signal_connect (d, "response", G_CALLBACK (delete_folder_permanently_response_cb), delete_data);
 			gtk_widget_show (d);
 		}
@@ -1048,11 +1048,11 @@ gth_browser_activate_folder_context_delete (GSimpleAction *action,
 
 	d = _gtk_message_dialog_new (GTK_WINDOW (browser),
 				     GTK_DIALOG_MODAL,
-				     GTK_STOCK_DIALOG_QUESTION,
+				     _GTK_ICON_NAME_DIALOG_QUESTION,
 				     prompt,
 				     _("If you delete a file, it will be permanently lost."),
-				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				     GTK_STOCK_DELETE, GTK_RESPONSE_YES,
+				     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				     _GTK_LABEL_DELETE, GTK_RESPONSE_YES,
 				     NULL);
 	g_signal_connect (d, "response", G_CALLBACK (delete_folder_permanently_response_cb), delete_data);
 	gtk_widget_show (d);

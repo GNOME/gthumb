@@ -750,8 +750,8 @@ trash_files (GtkWindow *window,
 				d = _gtk_yesno_dialog_new (window,
 							   GTK_DIALOG_MODAL,
 							   _("The files cannot be moved to the Trash. Do you want to delete them permanently?"),
-							   GTK_STOCK_CANCEL,
-							   GTK_STOCK_DELETE);
+							   _GTK_LABEL_CANCEL,
+							   _GTK_LABEL_DELETE);
 				g_signal_connect (d,
 						  "response",
 						  G_CALLBACK (delete_permanently_response_cb),
@@ -819,10 +819,10 @@ gth_file_mananger_trash_files (GtkWindow *window,
 
 		d = _gtk_message_dialog_new (window,
 					     GTK_DIALOG_MODAL,
-					     GTK_STOCK_DIALOG_QUESTION,
+					     _GTK_ICON_NAME_DIALOG_QUESTION,
 					     prompt,
 					     NULL,
-					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 					     _("Mo_ve to Trash"), GTK_RESPONSE_YES,
 					     NULL);
 		g_signal_connect (d, "response",
@@ -862,11 +862,11 @@ gth_file_mananger_delete_files (GtkWindow *window,
 
 	d = _gtk_message_dialog_new (window,
 				     GTK_DIALOG_MODAL,
-				     GTK_STOCK_DIALOG_QUESTION,
+				     _GTK_ICON_NAME_DIALOG_QUESTION,
 				     prompt,
 				     _("If you delete a file, it will be permanently lost."),
-				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				     GTK_STOCK_DELETE, GTK_RESPONSE_YES,
+				     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				     _GTK_LABEL_DELETE, GTK_RESPONSE_YES,
 				     NULL);
 	g_signal_connect (d, "response", G_CALLBACK (delete_permanently_response_cb), file_list);
 	gtk_widget_show (d);

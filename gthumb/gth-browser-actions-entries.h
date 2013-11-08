@@ -24,7 +24,6 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include "gth-stock.h"
 #include "gtk-utils.h"
 
 

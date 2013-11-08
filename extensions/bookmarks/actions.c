@@ -26,35 +26,6 @@
 
 
 void
-gth_browser_activate_action_bookmarks_add (GtkAction  *action,
-					   GthBrowser *browser)
-{
-	GBookmarkFile *bookmarks;
-	GFile         *location;
-	char          *uri;
-
-	location = gth_browser_get_location (browser);
-	if (location == NULL)
-		return;
-
-	bookmarks = gth_main_get_default_bookmarks ();
-	uri = g_file_get_uri (location);
-	_g_bookmark_file_add_uri (bookmarks, uri);
-	gth_main_bookmarks_changed ();
-
-	g_free (uri);
-}
-
-
-void
-gth_browser_activate_action_bookmarks_edit (GtkAction  *action,
-					    GthBrowser *browser)
-{
-	dlg_bookmarks (browser);
-}
-
-
-void
 gth_browser_activate_bookmarks_add (GSimpleAction *action,
 				    GVariant      *parameter,
 				    gpointer       user_data)

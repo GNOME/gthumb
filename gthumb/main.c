@@ -393,7 +393,6 @@ gth_application_create_option_context (void)
 		g_option_context_add_group (context, egg_sm_client_get_option_group ());
 #endif
 #ifdef HAVE_CLUTTER
-		g_option_context_add_group (context, cogl_get_option_group ());
 		g_option_context_add_group (context, clutter_get_option_group_without_init ());
 		g_option_context_add_group (context, gtk_clutter_get_option_group ());
 #endif

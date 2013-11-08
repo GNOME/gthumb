@@ -195,32 +195,28 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
-	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("v_gradient_swap_image")), "tool-mirror", GTK_ICON_SIZE_MENU);
-	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("h_gradient_swap_image")), "tool-mirror", GTK_ICON_SIZE_MENU);
-
 	content = _gtk_builder_get_widget (self->priv->builder, "theme_properties");
 	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
 	/* "Copy from" button */
 
-	self->priv->copy_from_button = gth_menu_button_new ();
-	gth_menu_button_set_label (GTH_MENU_BUTTON (self->priv->copy_from_button), _("Copy _From"));
-	gth_menu_button_set_use_underline (GTH_MENU_BUTTON (self->priv->copy_from_button), TRUE);
-	gtk_widget_show (self->priv->copy_from_button);
+	self->priv->copy_from_button = gtk_menu_button_new ();
+	gtk_container_add (GTK_CONTAINER (self->priv->copy_from_button), gtk_label_new_with_mnemonic (_("Copy _From")));
+	gtk_widget_show_all (self->priv->copy_from_button);
 
 	self->priv->copy_from_menu = gtk_menu_new ();
-	gth_menu_button_set_menu (GTH_MENU_BUTTON (self->priv->copy_from_button), self->priv->copy_from_menu);
+	gtk_menu_button_set_popup (GTK_MENU_BUTTON (self->priv->copy_from_button), self->priv->copy_from_menu);
 
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (self))), self->priv->copy_from_button, FALSE, FALSE, 0);
 
 	/* other buttons */
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_CANCEL,
+			       _GTK_LABEL_CANCEL,
 			       GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_SAVE,
+			       _GTK_LABEL_SAVE,
 			       GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 

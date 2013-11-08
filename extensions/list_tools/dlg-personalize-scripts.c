@@ -457,11 +457,11 @@ delete_script_cb (GtkButton  *button,
 
 	d = _gtk_message_dialog_new (GTK_WINDOW (data->dialog),
 				     GTK_DIALOG_MODAL,
-				     GTK_STOCK_DIALOG_QUESTION,
+				     _GTK_ICON_NAME_DIALOG_QUESTION,
 				     _("Are you sure you want to delete the selected command?"),
 				     NULL,
-				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				     GTK_STOCK_DELETE, GTK_RESPONSE_OK,
+				     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				     _GTK_LABEL_DELETE, GTK_RESPONSE_OK,
 				     NULL);
 	result = gtk_dialog_run (GTK_DIALOG (d));
 	gtk_widget_destroy (d);

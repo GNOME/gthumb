@@ -23,11 +23,7 @@
 #define ACTIONS_H
 
 #include <gtk/gtk.h>
-
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
-
-DEFINE_ACTION(gth_browser_activate_action_bookmarks_add)
-DEFINE_ACTION(gth_browser_activate_action_bookmarks_edit)
+#include <gthumb.h>
 
 DEF_ACTION_CALLBACK (gth_browser_activate_bookmarks_add)
 DEF_ACTION_CALLBACK (gth_browser_activate_bookmarks_edit)

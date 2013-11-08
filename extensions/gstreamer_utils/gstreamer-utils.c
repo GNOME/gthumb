@@ -71,7 +71,7 @@ static void
 reset_extractor_data (MetadataExtractor *extractor)
 {
 	if (extractor->tagcache != NULL) {
-		gst_tag_list_free (extractor->tagcache);
+		gst_tag_list_unref (extractor->tagcache);
 		extractor->tagcache = NULL;
 	}
 
@@ -558,7 +558,7 @@ message_loop_to_state_change (MetadataExtractor *extractor,
 			gst_message_parse_tag (message, &tag_list);
 			result = gst_tag_list_merge (extractor->tagcache, tag_list, GST_TAG_MERGE_KEEP);
 			if (extractor->tagcache != NULL)
-				gst_tag_list_free (extractor->tagcache);
+				gst_tag_list_unref (extractor->tagcache);
 			extractor->tagcache = result;
 
 			gst_tag_list_free (tag_list);

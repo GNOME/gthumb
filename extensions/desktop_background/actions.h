@@ -24,9 +24,6 @@
 
 #include <gthumb.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
-
-DEFINE_ACTION (gth_browser_activate_action_tool_desktop_background)
 DEF_ACTION_CALLBACK (gth_browser_activate_set_desktop_background)
 
 #endif /* ACTIONS_H */

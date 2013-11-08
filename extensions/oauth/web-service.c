@@ -372,11 +372,11 @@ show_authentication_error_dialog (WebService  *self,
 
 	dialog = _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
 					  GTK_DIALOG_MODAL,
-					  GTK_STOCK_DIALOG_ERROR,
+					  _GTK_ICON_NAME_DIALOG_ERROR,
 					  _("Could not connect to the server"),
 					  (*error)->message,
 					  _("Choose _Account…"), WEB_AUTHENTICATION_RESPONSE_CHOOSE_ACCOUNT,
-					  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 					  NULL);
 	gth_task_dialog (GTH_TASK (self), TRUE, dialog);
 

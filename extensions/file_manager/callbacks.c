@@ -258,11 +258,11 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 
 				dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
 								  GTK_DIALOG_MODAL,
-								  GTK_STOCK_DIALOG_QUESTION,
+								  _GTK_ICON_NAME_DIALOG_QUESTION,
 								  _("Could not move the files"),
 								  _("Files cannot be moved to the current location, as alternative you can choose to copy them."),
-								  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-								  GTK_STOCK_COPY, GTK_RESPONSE_OK,
+								  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+								  _GTK_LABEL_COPY, GTK_RESPONSE_OK,
 								  NULL);
 				response = gtk_dialog_run (GTK_DIALOG (dialog));
 				gtk_widget_destroy (dialog);
@@ -712,11 +712,11 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 
 		dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
 						  GTK_DIALOG_MODAL,
-						  GTK_STOCK_DIALOG_QUESTION,
+						  _GTK_ICON_NAME_DIALOG_QUESTION,
 						  _("Could not move the files"),
 						  _("Files cannot be moved to the current location, as alternative you can choose to copy them."),
-						  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-						  GTK_STOCK_COPY, GTK_RESPONSE_OK,
+						  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+						  _GTK_LABEL_COPY, GTK_RESPONSE_OK,
 						  NULL);
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);

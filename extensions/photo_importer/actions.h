@@ -24,11 +24,6 @@
 
 #include <gthumb.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
-
-DEFINE_ACTION(gth_browser_activate_action_import_from_device)
-DEFINE_ACTION(gth_browser_activate_action_import_from_folder)
-
 DEF_ACTION_CALLBACK (gth_browser_activate_import_device)
 DEF_ACTION_CALLBACK (gth_browser_activate_import_folder)
 

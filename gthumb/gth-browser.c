@@ -47,7 +47,6 @@
 #include "gth-location-chooser.h"
 #include "gth-main.h"
 #include "gth-marshal.h"
-#include "gth-menu-action.h"
 #include "gth-metadata-provider.h"
 #include "gth-paned.h"
 #include "gth-preferences.h"
@@ -975,7 +974,7 @@ _gth_browser_show_error (GthBrowser *browser,
 	gtk_info_bar_set_message_type (GTK_INFO_BAR (browser->priv->infobar), GTK_MESSAGE_ERROR);
 	_gtk_info_bar_clear_action_area (GTK_INFO_BAR (browser->priv->infobar));
 	gtk_info_bar_add_buttons (GTK_INFO_BAR (browser->priv->infobar),
-				  GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+				  _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE,
 				  NULL);
 	gtk_widget_show (browser->priv->infobar);
 }
@@ -1876,12 +1875,12 @@ gth_browser_ask_whether_to_save (GthBrowser         *browser,
 	title = g_strdup_printf (_("Save changes to file '%s'?"), g_file_info_get_display_name (browser->priv->current_file->info));
 	d = _gtk_message_dialog_new (GTK_WINDOW (browser),
 				     GTK_DIALOG_MODAL,
-				     GTK_STOCK_DIALOG_QUESTION,
+				     _GTK_ICON_NAME_DIALOG_QUESTION,
 				     title,
 				     _("If you don't save, changes to the file will be permanently lost."),
 				     _("Do _Not Save"), RESPONSE_NO_SAVE,
-				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				     GTK_STOCK_SAVE, RESPONSE_SAVE,
+				     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				     _GTK_LABEL_SAVE, RESPONSE_SAVE,
 				     NULL);
 	g_signal_connect (G_OBJECT (d),
 			  "response",

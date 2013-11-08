@@ -616,10 +616,10 @@ import_current_file (GthImportTask *self)
 
 			d =  _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
 						      0,
-						      GTK_STOCK_DIALOG_WARNING,
+						      _GTK_ICON_NAME_DIALOG_WARNING,
 						      _("No file imported"),
 						      _("The selected files are already present in the destination."),
-						      GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
+						      _GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,
 						      NULL);
 			g_signal_connect (G_OBJECT (d), "response",
 					  G_CALLBACK (gtk_widget_destroy),
@@ -640,10 +640,10 @@ import_current_file (GthImportTask *self)
 
 				d =  _gtk_message_dialog_new (GTK_WINDOW (self->priv->browser),
 							      0,
-							      GTK_STOCK_DIALOG_WARNING,
+							      _GTK_ICON_NAME_DIALOG_WARNING,
 							      _("Could not delete the files"),
 							      _("Delete operation not supported."),
-							      GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
+							      _GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,
 							      NULL);
 				g_signal_connect (G_OBJECT (d), "response",
 						  G_CALLBACK (gtk_widget_destroy),

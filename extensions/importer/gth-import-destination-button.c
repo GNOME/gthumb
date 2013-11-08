@@ -40,7 +40,7 @@ _update_subfolder_label_color (GthImportDestinationButton *self)
 	if (! gtk_widget_get_realized (GTK_WIDGET (self)))
 		return;
 
-	if ((gtk_widget_get_state (self->priv->subfolder_label) & GTK_STATE_INSENSITIVE) == GTK_STATE_INSENSITIVE) {
+	if ((gtk_widget_get_state_flags (self->priv->subfolder_label) & GTK_STATE_FLAG_INSENSITIVE) == GTK_STATE_FLAG_INSENSITIVE) {
 		gtk_label_set_attributes (GTK_LABEL (self->priv->subfolder_label), NULL);
 		gtk_widget_queue_resize (self->priv->subfolder_label);
 	}

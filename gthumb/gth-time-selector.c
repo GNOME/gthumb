@@ -110,7 +110,6 @@ static void
 hide_calendar_popup (GthTimeSelector *self)
 {
 	gtk_grab_remove (self->priv->calendar_popup);
-	/*gdk_keyboard_ungrab (GDK_CURRENT_TIME);*/
 	gdk_device_ungrab (gdk_device_manager_get_client_pointer (gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window (self->priv->calendar_popup)))),
 			   GDK_CURRENT_TIME);
 	gtk_widget_hide (self->priv->calendar_popup);
@@ -157,7 +156,6 @@ show_calendar_popup (GthTimeSelector *self)
 	gtk_window_move (GTK_WINDOW (self->priv->calendar_popup), x, y);
 	gtk_widget_show (self->priv->calendar_popup);
 
-	/*gdk_keyboard_grab (gtk_widget_get_window (self->priv->calendar_popup), TRUE, GDK_CURRENT_TIME);*/
 	gtk_grab_add (self->priv->calendar_popup);
 	gdk_device_grab (gdk_device_manager_get_client_pointer (gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window (self->priv->calendar_popup)))),
 			 gtk_widget_get_window (self->priv->calendar_popup),

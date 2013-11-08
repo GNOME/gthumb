@@ -24,8 +24,6 @@
 
 #include <gthumb.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
-
 DEF_ACTION_CALLBACK (gth_browser_activate_export_facebook)
 DEF_ACTION_CALLBACK (gth_browser_activate_import_facebook)
 

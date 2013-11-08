@@ -3130,19 +3130,22 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 			/**/
 
 			self->priv->drag_started = TRUE;
-			context = gtk_drag_begin (widget,
-						  self->priv->drag_target_list,
-						  self->priv->drag_actions,
-						  self->priv->drag_button,
-						  (GdkEvent *) event);
+			context = gtk_drag_begin_with_coordinates (widget,
+								   self->priv->drag_target_list,
+								   self->priv->drag_actions,
+								   self->priv->drag_button,
+								   (GdkEvent *) event,
+								   -1,
+								   -1);
 			if (self->priv->drag_button == 2)
 				gdk_drag_status (context, GDK_ACTION_ASK, event->time);
 
 			/* FIXME: create a cool drag icon here */
 			multi_dnd = self->priv->selection->next != NULL;
-			gtk_drag_set_icon_stock (context,
-						 multi_dnd ? GTK_STOCK_DND_MULTIPLE : GTK_STOCK_DND,
-						 -4, -4);
+			gtk_drag_set_icon_name (context,
+						multi_dnd ? "emblem-documents-symbolic" : "folder-documents-symbolic",
+						-4,
+						-4);
 		}
 
 		return TRUE;

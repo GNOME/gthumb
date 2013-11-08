@@ -724,14 +724,10 @@ gth_image_overview_activate_scrolling (GthImageOverview	*self,
 				 event->time);
 		g_object_unref (cursor);
 
-		/* capture keyboard events. */
-
-		gdk_keyboard_grab (gtk_widget_get_window (GTK_WIDGET (self)), FALSE, event->time);
 	        gtk_widget_grab_focus (GTK_WIDGET (self));
 	}
 	else if (! active && self->priv->scrolling_active) {
 		gdk_device_ungrab (gdk_event_get_device ((GdkEvent *) event), event->time);
-		gdk_keyboard_ungrab (event->time);
 		gtk_grab_remove (GTK_WIDGET (self));
 	}
 

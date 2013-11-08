@@ -76,8 +76,8 @@ gth_browser_activate_find (GSimpleAction *action,
 	gth_search_set_recursive (search, TRUE);
 
 	dialog = gth_search_editor_dialog_new (_("Find"), search, GTK_WINDOW (browser));
-	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_FIND, GTK_RESPONSE_OK);
+	gtk_dialog_add_button (GTK_DIALOG (dialog), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (dialog), _("_Find"), GTK_RESPONSE_OK);
 
 	g_signal_connect (dialog, "response",
 			  G_CALLBACK (search_editor_dialog__response_cb),

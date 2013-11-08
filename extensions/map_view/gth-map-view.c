@@ -297,11 +297,13 @@ gth_map_view_init (GthMapView *self)
 		      NULL);
 
 	scale = champlain_scale_new ();
+	g_object_set (scale,
+		      "x-align", CLUTTER_ACTOR_ALIGN_START,
+		      "y-align", CLUTTER_ACTOR_ALIGN_END,
+		      NULL);
 	champlain_scale_connect_view (CHAMPLAIN_SCALE (scale), self->priv->map_view);
-	champlain_view_bin_layout_add (self->priv->map_view,
-				       scale,
-				       CLUTTER_BIN_ALIGNMENT_START,
-				       CLUTTER_BIN_ALIGNMENT_END);
+	clutter_actor_add_child (CLUTTER_ACTOR (self->priv->map_view), scale);
+
 
 	self->priv->marker_layer = champlain_marker_layer_new ();
 	champlain_view_add_layer (self->priv->map_view, CHAMPLAIN_LAYER (self->priv->marker_layer));

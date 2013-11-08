@@ -510,7 +510,7 @@ gth_histogram_paint_grid (GthHistogramView *self,
 	int     i;
 
 	gtk_style_context_get_border_color (style_context,
-					    gtk_widget_get_state (GTK_WIDGET (self)),
+					    gtk_widget_get_state_flags (GTK_WIDGET (self)),
 					    &color);
 	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_set_line_width (cr, 0.5);
@@ -577,7 +577,7 @@ histogram_view_draw_cb (GtkWidget *widget,
 
 		cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
 
-		gtk_style_context_get_padding (style_context, gtk_widget_get_state (widget), &padding);
+		gtk_style_context_get_padding (style_context, gtk_widget_get_state_flags (widget), &padding);
 
 		inner_allocation.x = padding.left;
 		inner_allocation.y = padding.top;

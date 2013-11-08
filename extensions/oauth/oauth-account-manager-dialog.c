@@ -137,13 +137,13 @@ oauth_account_manager_dialog_init (OAuthAccountManagerDialog *self)
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_NEW,
+			       _("_New"),
 			       OAUTH_ACCOUNT_MANAGER_RESPONSE_NEW);
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_CANCEL,
+			       _GTK_LABEL_CANCEL,
 			       GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_OK,
+			       _GTK_LABEL_OK,
 			       GTK_RESPONSE_OK);
 
 	g_object_set (GET_WIDGET ("account_cellrenderertext"), "editable", TRUE, NULL);

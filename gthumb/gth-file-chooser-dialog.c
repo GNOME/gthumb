@@ -135,8 +135,8 @@ gth_file_chooser_dialog_construct (GthFileChooserDialog *self,
 
 	_gtk_dialog_add_to_window_group (GTK_DIALOG (self));
 
-	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_SAVE, GTK_RESPONSE_OK);
+	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_SAVE, GTK_RESPONSE_OK);
 
 	/* filters */
 
@@ -252,8 +252,8 @@ _gth_file_chooser_change_format_options (GthFileChooserDialog *self,
 	d = gtk_dialog_new_with_buttons (_("Options"),
 					 GTK_WINDOW (self),
 					 GTK_DIALOG_MODAL,
-					 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					 GTK_STOCK_OK, GTK_RESPONSE_OK,
+					 _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+					 _GTK_LABEL_OK, GTK_RESPONSE_OK,
 					 NULL);
 	_gtk_dialog_add_to_window_group (GTK_DIALOG (d));
 

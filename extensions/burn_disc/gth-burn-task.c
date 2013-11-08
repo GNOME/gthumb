@@ -350,7 +350,7 @@ source_dialog_response_cb (GtkDialog   *dialog,
 {
 	if (response == GTK_RESPONSE_HELP) {
 		show_help_dialog (GTK_WINDOW (dialog), "gthumb-export-disk");
-	} else {	
+	} else {
 		gtk_widget_hide (task->priv->dialog);
 		gth_task_dialog (GTH_TASK (task), FALSE, NULL);
 
@@ -397,9 +397,9 @@ gth_burn_task_exec (GthTask *base)
 	task->priv->dialog = gtk_dialog_new_with_buttons (_("Write to Disc"),
 							  GTK_WINDOW (task->priv->browser),
 							  0,
-							  GTK_STOCK_HELP, GTK_RESPONSE_HELP,
-							  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-							  GTK_STOCK_OK, GTK_RESPONSE_OK,
+							  _GTK_LABEL_HELP, GTK_RESPONSE_HELP,
+							  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+							  _GTK_LABEL_OK, GTK_RESPONSE_OK,
 							  NULL);
 	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (task->priv->dialog))), _gtk_builder_get_widget (task->priv->builder, "source_selector"));
 	if (task->priv->selected_files == NULL)

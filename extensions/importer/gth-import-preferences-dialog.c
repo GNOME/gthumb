@@ -347,7 +347,7 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("subfolder_type_box")), self->priv->subfolder_format_list, TRUE, TRUE, 0);
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_CLOSE,
+			       _GTK_LABEL_CLOSE,
 			       GTK_RESPONSE_CLOSE);
 
 	/* set widget data */

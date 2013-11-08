@@ -70,7 +70,7 @@ gth_browser_activate_import_folder (GSimpleAction	*action,
 	chooser = gtk_file_chooser_dialog_new (_("Choose a folder"),
 					       GTK_WINDOW (browser),
 					       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					       _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 					       _("Import"), GTK_RESPONSE_OK,
 					       NULL);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), FALSE);

@@ -1304,9 +1304,9 @@ gth_find_duplicates_exec (GthBrowser *browser,
 	gtk_widget_show (self->priv->duplicates_list);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("duplicates_list_box")), self->priv->duplicates_list);
 
-	self->priv->select_button = gth_menu_button_new ();
-	gth_menu_button_set_label (GTH_MENU_BUTTON (self->priv->select_button), _("Select"));
-	gtk_widget_show (self->priv->select_button);
+	self->priv->select_button = gtk_menu_button_new ();
+	gtk_container_add (GTK_CONTAINER (self->priv->select_button), gtk_label_new (_("Select")));
+	gtk_widget_show_all (self->priv->select_button);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("select_button_box")), self->priv->select_button, FALSE, FALSE, 0);
 
 	self->priv->select_menu = gtk_menu_new ();
@@ -1324,7 +1324,7 @@ gth_find_duplicates_exec (GthBrowser *browser,
 
 		gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->select_menu), menu_item);
 	}
-	gth_menu_button_set_menu (GTH_MENU_BUTTON (self->priv->select_button), self->priv->select_menu);
+	gtk_menu_button_set_popup (GTK_MENU_BUTTON (self->priv->select_button), self->priv->select_menu);
 
 	g_object_unref (settings);
 

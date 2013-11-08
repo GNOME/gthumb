@@ -795,7 +795,7 @@ extensions__dlg_preferences_apply (GtkWidget  *dialog,
 
 		dialog = _gtk_message_dialog_new (GTK_WINDOW (data->dialog),
 						  GTK_DIALOG_MODAL,
-						  GTK_STOCK_DIALOG_WARNING,
+						  _GTK_ICON_NAME_DIALOG_WARNING,
 						  _("Restart required"),
 						  _("You need to restart gthumb for these changes to take effect"),
 						  _("_Continue"), GTK_RESPONSE_CANCEL,

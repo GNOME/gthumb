@@ -150,13 +150,13 @@ oauth_account_chooser_dialog_init (OAuthAccountChooserDialog *self)
 			  self);
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_NEW,
+			       _("_New"),
 			       OAUTH_ACCOUNT_CHOOSER_RESPONSE_NEW);
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_CANCEL,
+			       _GTK_LABEL_CANCEL,
 			       GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_OK,
+			       _GTK_LABEL_OK,
 			       GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 }
@@ -185,7 +185,7 @@ oauth_account_chooser_dialog_construct (OAuthAccountChooserDialog *self,
 				    ACCOUNT_DATA_COLUMN, account,
 				    ACCOUNT_NAME_COLUMN, account->username,
 				    ACCOUNT_SEPARATOR_COLUMN, FALSE,
-				    ACCOUNT_ICON_COLUMN, "dialog-password",
+				    ACCOUNT_ICON_COLUMN, "dialog-password-symbolic",
 				    -1);
 	}
 
@@ -199,7 +199,7 @@ oauth_account_chooser_dialog_construct (OAuthAccountChooserDialog *self,
 			    ACCOUNT_DATA_COLUMN, NULL,
 			    ACCOUNT_NAME_COLUMN, _("New authentication…"),
 			    ACCOUNT_SEPARATOR_COLUMN, FALSE,
-			    ACCOUNT_ICON_COLUMN, GTK_STOCK_NEW,
+			    ACCOUNT_ICON_COLUMN, "list-add-symbolic",
 			    -1);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("account_combobox")), active);

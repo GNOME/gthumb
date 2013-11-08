@@ -97,7 +97,7 @@ _gth_request_dialog_construct (GthRequestDialog *self,
 
 	/* Add label and image */
 
-	image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_DIALOG);
+	image = gtk_image_new_from_icon_name (_GTK_ICON_NAME_DIALOG_QUESTION, GTK_ICON_SIZE_DIALOG);
 	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
 
 	title_label = gtk_label_new (title);
@@ -161,12 +161,12 @@ _gth_request_dialog_construct (GthRequestDialog *self,
 
 	/* Add buttons */
 
-	button = _gtk_button_new_from_stock_with_text (GTK_STOCK_CANCEL, cancel_button_text);
+	button = gtk_button_new_with_label (cancel_button_text);
 	gtk_dialog_add_action_widget (GTK_DIALOG (self),
 				      button,
 				      GTK_RESPONSE_CANCEL);
 
-	button = _gtk_button_new_from_stock_with_text (GTK_STOCK_OK, ok_button_text);
+	button = gtk_button_new_with_label (ok_button_text);
 	gtk_dialog_add_action_widget (GTK_DIALOG (self),
 				      button,
 				      GTK_RESPONSE_OK);

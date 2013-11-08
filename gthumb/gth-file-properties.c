@@ -28,6 +28,7 @@
 #include "gth-sidebar.h"
 #include "gth-string-list.h"
 #include "gth-time.h"
+#include "gtk-utils.h"
 
 
 #define GTH_FILE_PROPERTIES_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_PROPERTIES, GthFilePropertiesPrivate))
@@ -369,7 +370,7 @@ gth_file_properties_init (GthFileProperties *self)
 	/* popup menu */
 
 	self->priv->popup_menu = gtk_menu_new ();
-	menu_item = gtk_image_menu_item_new_from_stock (GTK_STOCK_COPY, NULL);
+	menu_item = gtk_menu_item_new_with_label (_GTK_LABEL_COPY);
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->popup_menu),
 			       menu_item);

@@ -232,7 +232,7 @@ video_area_draw_cb (GtkWidget *widget,
 		cairo_fill (cr);
 
 		cairo_move_to (cr, x, y);
-		gtk_style_context_get (style_context, gtk_widget_get_state (widget), "font", &font, NULL);
+		gtk_style_context_get (style_context, gtk_widget_get_state_flags (widget), "font", &font, NULL);
 		pango_layout_set_font_description (self->priv->caption_layout, font);
 		pango_cairo_layout_path (cr, self->priv->caption_layout);
 		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);

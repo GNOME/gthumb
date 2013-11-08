@@ -184,8 +184,8 @@ add_file_button_clicked_cb (GtkButton *button,
 	dialog = gtk_file_chooser_dialog_new (_("Choose the files to play"),
 					      GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (self))),
 					      GTK_FILE_CHOOSER_ACTION_OPEN,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_OK, GTK_RESPONSE_OK,
+					      _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+					      _GTK_LABEL_OK, GTK_RESPONSE_OK,
 					      NULL);
 	gtk_file_chooser_set_select_multiple (GTK_FILE_CHOOSER (dialog), TRUE);
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), g_get_user_special_dir (G_USER_DIRECTORY_MUSIC));

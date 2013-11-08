@@ -115,10 +115,10 @@ gth_folder_chooser_dialog_init (GthFolderChooserDialog *self)
 			  self);
 
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_CANCEL,
+			       _GTK_LABEL_CANCEL,
 			       GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self),
-			       GTK_STOCK_OK,
+			       _GTK_LABEL_OK,
 			       GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 }

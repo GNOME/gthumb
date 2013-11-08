@@ -235,9 +235,9 @@ wallpaper_data_set (WallpaperData *wdata)
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (gtk_info_bar_get_action_area (GTK_INFO_BAR (infobar))), GTK_ORIENTATION_HORIZONTAL);
 	gtk_info_bar_set_message_type (GTK_INFO_BAR (infobar), GTK_MESSAGE_INFO);
 	gtk_info_bar_add_buttons (GTK_INFO_BAR (infobar),
-				  GTK_STOCK_PREFERENCES, _RESPONSE_PREFERENCES,
-				  GTK_STOCK_UNDO, _RESPONSE_UNDO,
-				  GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+				  _("_Preferences"), _RESPONSE_PREFERENCES,
+				  _("_Undo"), _RESPONSE_UNDO,
+				  _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE,
 				  NULL);
 	gtk_info_bar_set_response_sensitive (GTK_INFO_BAR (infobar),
 					     _RESPONSE_UNDO,

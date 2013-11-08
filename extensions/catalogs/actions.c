@@ -183,7 +183,7 @@ gth_browser_activate_create_catalog (GSimpleAction	 *action,
 					 GTK_DIALOG_MODAL,
 					 _("New catalog"),
 					 _("Enter the catalog name:"),
-					 GTK_STOCK_CANCEL,
+					 _GTK_LABEL_CANCEL,
 					 _("C_reate"));
 	g_signal_connect (dialog,
 			  "response",
@@ -297,7 +297,7 @@ gth_browser_activate_create_library (GSimpleAction	 *action,
 					 GTK_DIALOG_MODAL,
 					 _("New library"),
 					 _("Enter the library name:"),
-					 GTK_STOCK_CANCEL,
+					 _GTK_LABEL_CANCEL,
 					 _("C_reate"));
 	g_signal_connect (dialog,
 			  "response",
@@ -373,11 +373,11 @@ gth_browser_activate_remove_catalog (GSimpleAction	 *action,
 		prompt = g_strdup_printf (_("Are you sure you want to remove \"%s\"?"), g_file_info_get_display_name (file_data->info));
 		d = _gtk_message_dialog_new (GTK_WINDOW (browser),
 					     GTK_DIALOG_MODAL,
-					     GTK_STOCK_DIALOG_QUESTION,
+					     _GTK_ICON_NAME_DIALOG_QUESTION,
 					     prompt,
 					     NULL,
-					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					     GTK_STOCK_REMOVE, GTK_RESPONSE_YES,
+					     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+					     _GTK_LABEL_REMOVE, GTK_RESPONSE_YES,
 					     NULL);
 		g_signal_connect (d, "response", G_CALLBACK (remove_catalog_response_cb), file_data);
 		gtk_widget_show (d);

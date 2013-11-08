@@ -85,8 +85,6 @@ AC_ARG_ENABLE(deprecated,
 if test x$disable_deprecated = xyes; then
 	CFLAGS="$CFLAGS -DG_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES"
 	CFLAGS="$CFLAGS -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGST_DISABLE_DEPRECATED"
-else
-	CFLAGS="$CFLAGS -Wno-deprecated-declarations"
 fi
 
 dnl ===========================================================================
@@ -102,18 +100,6 @@ AC_ARG_ENABLE(debug,
 if test x$ENABLE_DEBUG = xyes; then
 	AC_DEFINE(DEBUG, 1, [enable compilation of debugging messages])
 	CFLAGS="$CFLAGS -g -O0 -DDEBUG"
-fi
-
-AC_ARG_ENABLE(gseal,
-	      AS_HELP_STRING([--enable-gseal], [check use of direct access to object fields]),
-	      [case "${enableval}" in
-	      yes) ENABLE_GSEAL=yes ;;
-	      no) ENABLE_GSEAL=no ;;
-	      *) AC_MSG_ERROR([bad value ${enableval} for --enable-gseal]) ;;
-	      esac],
-	      [ENABLE_GSEAL=no])
-if test x$ENABLE_GSEAL = xyes; then
-	CFLAGS="$CFLAGS -DGSEAL_ENABLE"
 fi
 
 AC_ARG_ENABLE(run_in_place,

@@ -192,8 +192,8 @@ gth_edit_tags_dialog_init (GthEditTagsDialog *self)
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
-	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_SAVE, GTK_RESPONSE_APPLY);
+	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_SAVE, GTK_RESPONSE_APPLY);
 	gtk_dialog_add_button (GTK_DIALOG (self), _("Sa_ve and Close"), GTK_RESPONSE_OK);
 
 	self->priv->tags_entry = gth_tags_entry_new ();

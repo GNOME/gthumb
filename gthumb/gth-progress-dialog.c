@@ -146,7 +146,7 @@ gth_task_progress_init (GthTaskProgress *self)
 	gtk_widget_set_tooltip_text (self->cancel_button, _("Cancel operation"));
 	gtk_box_pack_start (GTK_BOX (vbox), self->cancel_button, TRUE, FALSE, 0);
 
-	image = gtk_image_new_from_stock (GTK_STOCK_CANCEL, GTK_ICON_SIZE_MENU);
+	image = gtk_image_new_from_icon_name (_GTK_LABEL_CANCEL, GTK_ICON_SIZE_MENU);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (self->cancel_button), image);
 
@@ -298,7 +298,7 @@ gth_progress_dialog_init (GthProgressDialog *self)
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
-	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE);
 
 	self->priv->task_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (self->priv->task_box);
