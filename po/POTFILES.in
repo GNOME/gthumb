@@ -369,7 +369,6 @@ extensions/flicker_utils/preferences.h
 extensions/gstreamer_tools/actions.c
 extensions/gstreamer_tools/actions.h
 [type: gettext/glade]extensions/gstreamer_tools/data/ui/mediabar.ui
-[type: gettext/glade]extensions/gstreamer_tools/data/ui/save-screenshot.ui
 [type: gettext/ini]extensions/gstreamer_tools/gstreamer_tools.extension.in.in
 extensions/gstreamer_tools/gth-media-viewer-page.c
 extensions/gstreamer_tools/gth-media-viewer-page.h
@@ -409,6 +408,8 @@ extensions/image_rotation/gth-transform-task.h
 extensions/image_rotation/main.c
 extensions/image_rotation/rotation-utils.c
 extensions/image_rotation/rotation-utils.h
+extensions/image_viewer/actions.c
+extensions/image_viewer/actions.h
 [type: gettext/glade]extensions/image_viewer/data/ui/image-viewer-preferences.ui
 extensions/image_viewer/gth-image-histogram.c
 extensions/image_viewer/gth-image-histogram.h
@@ -669,8 +670,6 @@ gthumb/dlg-sort-order.c
 gthumb/dlg-sort-order.h
 gthumb/dom.c
 gthumb/dom.h
-gthumb/gedit-message-area.c
-gthumb/gedit-message-area.h
 gthumb/gfixed.h
 gthumb/gio-utils.c
 gthumb/gio-utils.h
@@ -690,7 +689,6 @@ gthumb/gth-browser-actions-callbacks.h
 gthumb/gth-browser-actions-entries.h
 gthumb/gth-browser.c
 gthumb/gth-browser.h
-gthumb/gth-browser-ui.h
 gthumb/gth-buffer-data.c
 gthumb/gth-buffer-data.h
 gthumb/gth-color-scale.c
@@ -699,8 +697,6 @@ gthumb/gth-dumb-notebook.c
 gthumb/gth-dumb-notebook.h
 gthumb/gth-duplicable.c
 gthumb/gth-duplicable.h
-gthumb/gth-embedded-dialog.c
-gthumb/gth-embedded-dialog.h
 gthumb/gth-empty-list.c
 gthumb/gth-empty-list.h
 gthumb/gth-error.c
@@ -759,6 +755,8 @@ gthumb/gth-image-loader.c
 gthumb/gth-image-loader.h
 gthumb/gth-image-navigator.c
 gthumb/gth-image-navigator.h
+gthumb/gth-image-overview.c
+gthumb/gth-image-overview.h
 gthumb/gth-image-preloader.c
 gthumb/gth-image-preloader.h
 gthumb/gth-image-saver.c
@@ -779,6 +777,8 @@ gthumb/gth-info-bar.c
 gthumb/gth-info-bar.h
 gthumb/gth-load-file-data-task.c
 gthumb/gth-load-file-data-task.h
+gthumb/gth-location-bar.c
+gthumb/gth-location-bar.h
 gthumb/gth-location-chooser.c
 gthumb/gth-location-chooser.h
 gthumb/gth-main.c
@@ -788,10 +788,6 @@ gthumb/gth-main-default-sort-types.c
 gthumb/gth-main-default-tests.c
 gthumb/gth-main-default-types.c
 gthumb/gth-main.h
-gthumb/gth-menu-action.c
-gthumb/gth-menu-action.h
-gthumb/gth-menu-button.c
-gthumb/gth-menu-button.h
 gthumb/gth-menu-manager.c
 gthumb/gth-menu-manager.h
 gthumb/gth-metadata.c
@@ -828,7 +824,6 @@ gthumb/gth-source-tree.c
 gthumb/gth-source-tree.h
 gthumb/gth-statusbar.c
 gthumb/gth-statusbar.h
-gthumb/gth-stock.h
 gthumb/gth-string-list.c
 gthumb/gth-string-list.h
 gthumb/gth-tags-entry.c
@@ -853,10 +848,6 @@ gthumb/gth-time.c
 gthumb/gth-time.h
 gthumb/gth-time-selector.c
 gthumb/gth-time-selector.h
-gthumb/gth-toggle-menu-action.c
-gthumb/gth-toggle-menu-action.h
-gthumb/gth-toggle-menu-tool-button.c
-gthumb/gth-toggle-menu-tool-button.h
 gthumb/gth-toolbox.c
 gthumb/gth-toolbox.h
 gthumb/gth-uri-list.c
@@ -882,6 +873,9 @@ gthumb/pixbuf-io.h
 gthumb/pixbuf-utils.c
 gthumb/pixbuf-utils.h
 [type: gettext/glade]gthumb/resources/app-menu.ui
+[type: gettext/glade]gthumb/resources/file-list-menu.ui
+[type: gettext/glade]gthumb/resources/file-menu.ui
+[type: gettext/glade]gthumb/resources/folder-menu.ui
 [type: gettext/glade]gthumb/resources/gears-menu.ui
 [type: gettext/glade]gthumb/resources/history-menu.ui
 [type: gettext/glade]gthumb/resources/message-dialog.ui
