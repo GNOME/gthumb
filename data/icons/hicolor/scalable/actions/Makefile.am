@@ -39,6 +39,7 @@ icons_DATA = 					\
 	map-symbolic.svg			\
 	palette-symbolic.svg			\
 	slideshow-pause.svg			\
+	swap-values-symbolic.svg		\
 	tag-symbolic.svg			\
 	tools-symbolic.svg			\
 	view-presentation-symbolic.svg		\
