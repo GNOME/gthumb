@@ -1483,6 +1483,7 @@ gth_image_viewer_init (GthImageViewer *self)
 {
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 	gtk_widget_set_double_buffered (GTK_WIDGET (self), TRUE);
+	gtk_widget_set_has_window (GTK_WIDGET (self), TRUE);
 
 	/* Initialize data. */
 
