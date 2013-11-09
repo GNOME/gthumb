@@ -69,6 +69,47 @@ G_DEFINE_TYPE_WITH_CODE (GthImageOverview, gth_image_overview, GTK_TYPE_WIDGET,
 
 
 static void
+_gth_image_overviewer_disconnect_from_viewer (GthImageOverview *self)
+{
+	if (self->priv->zoom_changed_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer, self->priv->zoom_changed_id);
+		self->priv->zoom_changed_id = 0;
+	}
+	if (self->priv->image_changed_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer, self->priv->image_changed_id);
+		self->priv->image_changed_id = 0;
+	}
+	if (self->priv->better_quality_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer, self->priv->better_quality_id);
+		self->priv->better_quality_id = 0;
+	}
+	if (self->priv->vadj_vchanged_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer->vadj, self->priv->vadj_vchanged_id);
+		self->priv->vadj_vchanged_id = 0;
+	}
+	if (self->priv->hadj_vchanged_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer->hadj, self->priv->hadj_vchanged_id);
+		self->priv->hadj_vchanged_id = 0;
+	}
+	if (self->priv->vadj_changed_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer->vadj, self->priv->vadj_changed_id);
+		self->priv->vadj_changed_id = 0;
+	}
+	if (self->priv->hadj_changed_id > 0) {
+		if (self->priv->viewer != NULL)
+			g_signal_handler_disconnect (self->priv->viewer->hadj, self->priv->hadj_changed_id);
+		self->priv->hadj_changed_id = 0;
+	}
+}
+
+
+static void
 gth_image_overview_finalize (GObject *object)
 {
 	GthImageOverview *self;
@@ -77,6 +118,7 @@ gth_image_overview_finalize (GObject *object)
 
 	self = GTH_IMAGE_OVERVIEW (object);
 
+	_gth_image_overviewer_disconnect_from_viewer (self);
 	cairo_surface_destroy (self->priv->preview);
 
 	G_OBJECT_CLASS (gth_image_overview_parent_class)->finalize (object);
@@ -227,47 +269,18 @@ _gth_image_overview_set_viewer (GthImageOverview *self,
 	if (self->priv->viewer == (GthImageViewer *) viewer)
 		return;
 
-	if (self->priv->zoom_changed_id > 0) {
-		if (self->priv->viewer != NULL)
-			g_signal_handler_disconnect (self->priv->viewer, self->priv->zoom_changed_id);
-		self->priv->zoom_changed_id = 0;
+	_gth_image_overviewer_disconnect_from_viewer (self);
+	if (self->priv->viewer != NULL) {
+		g_object_remove_weak_pointer (G_OBJECT (viewer), (gpointer*) &self->priv->viewer);
+		self->priv->viewer = NULL;
 	}
-	if (self->priv->image_changed_id > 0) {
-		if (self->priv->viewer != NULL)
-			g_signal_handler_disconnect (self->priv->viewer, self->priv->image_changed_id);
-		self->priv->image_changed_id = 0;
-	}
-	if (self->priv->better_quality_id > 0) {
-		if (self->priv->viewer != NULL)
-			g_signal_handler_disconnect (self->priv->viewer, self->priv->better_quality_id);
-		self->priv->better_quality_id = 0;
-	}
-	if (self->priv->vadj_vchanged_id > 0) {
-		if (self->priv->viewer != NULL)
-			g_signal_handler_disconnect (self->priv->viewer->vadj, self->priv->vadj_vchanged_id);
-		self->priv->vadj_vchanged_id = 0;
-	}
-	if (self->priv->hadj_vchanged_id > 0) {
-		if (self->priv->viewer != NULL)
-			g_signal_handler_disconnect (self->priv->viewer->hadj, self->priv->hadj_vchanged_id);
-		self->priv->hadj_vchanged_id = 0;
-	}
-	if (self->priv->vadj_changed_id > 0) {
-		if (self->priv->viewer != NULL)
-			g_signal_handler_disconnect (self->priv->viewer->vadj, self->priv->vadj_changed_id);
-		self->priv->vadj_changed_id = 0;
-	}
-	if (self->priv->hadj_changed_id > 0) {
-		if (self->priv->viewer != NULL)
-			g_signal_handler_disconnect (self->priv->viewer->hadj, self->priv->hadj_changed_id);
-		self->priv->hadj_changed_id = 0;
-	}
-	self->priv->viewer = NULL;
 
 	if (viewer == NULL)
 		return;
 
 	self->priv->viewer = (GthImageViewer *) viewer;
+	g_object_add_weak_pointer (G_OBJECT (viewer), (gpointer*) &self->priv->viewer);
+
 	_gth_image_overview_update_visible_area (self);
 	self->priv->zoom_changed_id = g_signal_connect (self->priv->viewer,
 							"zoom-changed",
@@ -368,9 +381,7 @@ gth_image_overview_realize (GtkWidget *widget)
 				  | GDK_POINTER_MOTION_MASK
 				  | GDK_POINTER_MOTION_HINT_MASK
 				  | GDK_BUTTON_MOTION_MASK
-				  | GDK_SCROLL_MASK
-				  | GDK_KEY_PRESS_MASK
-				  | GDK_KEY_RELEASE_MASK);
+				  | GDK_SCROLL_MASK);
 	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 	window = gdk_window_new (gtk_widget_get_parent_window (widget), &attributes, attributes_mask);
 	gtk_widget_register_window (widget, window);
@@ -656,6 +667,20 @@ notify_visible_cb (GObject    *gobject,
 }
 
 
+static gboolean
+_gth_image_overview_grab_broken_event (GtkWidget          *widget,
+				       GdkEventGrabBroken *event,
+				       gpointer            user_data)
+{
+	GthImageOverview *self = user_data;
+
+	if (event->grab_window == NULL)
+		_gth_image_overview_ungrab_devices (self, GDK_CURRENT_TIME);
+
+	return TRUE;
+}
+
+
 static void
 gth_image_overview_init (GthImageOverview *self)
 {
@@ -678,9 +703,14 @@ gth_image_overview_init (GthImageOverview *self)
 	self->priv->grab_keyboard = NULL;
 
 	gtk_widget_set_has_window (GTK_WIDGET (self), TRUE);
-	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
+	gtk_widget_set_can_focus (GTK_WIDGET (self), FALSE);
 
 	g_signal_connect (self, "notify::visible", G_CALLBACK (notify_visible_cb), NULL);
+
+	g_signal_connect (self,
+			  "grab-broken-event",
+			  G_CALLBACK (_gth_image_overview_grab_broken_event),
+			  self);
 
 	/* do not use the rgba visual on the drawing area */
 	{
@@ -784,20 +814,6 @@ _gth_image_overview_ungrab_devices (GthImageOverview *self,
 }
 
 
-static gboolean
-_gth_image_overview_grab_broken_event (GtkWidget          *widget,
-				       GdkEventGrabBroken *event,
-				       gpointer            user_data)
-{
-	GthImageOverview *self = user_data;
-
-	if (event->grab_window == NULL)
-		_gth_image_overview_ungrab_devices (self, GDK_CURRENT_TIME);
-
-	return TRUE;
-}
-
-
 void
 gth_image_overview_activate_scrolling (GthImageOverview	*self,
 				       gboolean          active,
@@ -816,8 +832,6 @@ gth_image_overview_activate_scrolling (GthImageOverview	*self,
 
 		if ((self->priv->grab_pointer != NULL) || (self->priv->grab_keyboard != NULL))
 			return;
-
-		gtk_widget_grab_focus (GTK_WIDGET (self));
 
 		/* capture mouse events */
 
@@ -842,11 +856,6 @@ gth_image_overview_activate_scrolling (GthImageOverview	*self,
 			self->priv->grab_pointer = pointer;
 			self->priv->grab_keyboard = keyboard;
 			gtk_device_grab_add (GTK_WIDGET (self), self->priv->grab_pointer, TRUE);
-
-			g_signal_connect (self,
-					  "grab-broken-event",
-					  G_CALLBACK (_gth_image_overview_grab_broken_event),
-					  self);
 		}
 
 		g_object_unref (cursor);
