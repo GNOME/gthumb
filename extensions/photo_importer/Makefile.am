@@ -31,7 +31,10 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 @GTHUMB_EXTENSION_IN_RULE@
 @GTHUMB_EXTENSION_RULE@
 
-EXTRA_DIST = $(extensionini_in_files) 
+EXTRA_DIST =				\
+	 $(extensionini_in_files)	\
+	 resources.xml
+
 DISTCLEANFILES = $(extensionini_DATA) 
 
 dist-hook:
