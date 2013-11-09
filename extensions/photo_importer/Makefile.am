@@ -11,6 +11,7 @@ libphoto_importer_la_SOURCES = 		\
 	dlg-photo-importer.c		\
 	dlg-photo-importer.h		\
 	main.c				\
+	photo-importer.h		\
 	preferences.h			\
 	resources.c			\
 	resources.h
