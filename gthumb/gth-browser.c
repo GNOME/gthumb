@@ -4018,8 +4018,11 @@ gth_browser_init (GthBrowser *browser)
 
 	{
 		GtkWidget *header_bar;
+		gboolean   rtl;
 
 		header_bar = gth_window_get_header_bar (GTH_WINDOW (browser));
+
+		rtl = gtk_widget_get_direction (header_bar) == GTK_TEXT_DIR_RTL;
 
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS], SECTION_BIG_MARGIN);
 		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW], SECTION_BIG_MARGIN);
@@ -4068,13 +4071,13 @@ gth_browser_init (GthBrowser *browser)
 
 		gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION,
-						   "go-previous-symbolic",
+						   rtl ? "go-previous-rtl-symbolic" :  "go-previous-symbolic",
 						   _("Go to the previous visited location"),
 						   "win.go-back",
 						   NULL);
 		gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION,
-						   "go-next-symbolic",
+						   rtl ? "go-next-rtl-symbolic" : "go-next-symbolic",
 						   _("Go to the next visited location"),
 						   "win.go-forward",
 						   NULL);
@@ -4102,7 +4105,7 @@ gth_browser_init (GthBrowser *browser)
 
 		gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_VIEWER_NAVIGATION,
-						   "go-previous-symbolic",
+						   rtl ? "go-previous-rtl-symbolic" :  "go-previous-symbolic",
 						   _("View the folders"),
 						   "win.browser-mode",
 						   NULL);
