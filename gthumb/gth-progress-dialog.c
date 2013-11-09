@@ -146,7 +146,7 @@ gth_task_progress_init (GthTaskProgress *self)
 	gtk_widget_set_tooltip_text (self->cancel_button, _("Cancel operation"));
 	gtk_box_pack_start (GTK_BOX (vbox), self->cancel_button, TRUE, FALSE, 0);
 
-	image = gtk_image_new_from_icon_name (_GTK_LABEL_CANCEL, GTK_ICON_SIZE_MENU);
+	image = gtk_image_new_from_icon_name ("edit-delete-symbolic", GTK_ICON_SIZE_MENU);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (self->cancel_button), image);
 
