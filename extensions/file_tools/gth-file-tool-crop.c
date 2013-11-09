@@ -295,7 +295,7 @@ ratio_combobox_changed_cb (GtkComboBox     *combobox,
 	else
 		ratio = (double) w / h;
 
-	gtk_widget_set_sensitive (GET_WIDGET ("custom_ratio_box"), idx == GTH_ASPECT_RATIO_CUSTOM);
+	gtk_widget_set_visible (GET_WIDGET ("custom_ratio_box"), idx == GTH_ASPECT_RATIO_CUSTOM);
 	gtk_widget_set_sensitive (GET_WIDGET ("invert_ratio_checkbutton"), use_ratio);
 	set_spin_value (self, ratio_w_spinbutton, w);
 	set_spin_value (self, ratio_h_spinbutton, h);
