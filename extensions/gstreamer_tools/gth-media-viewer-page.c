@@ -638,8 +638,15 @@ update_play_button (GthMediaViewerPage *self,
 		update_playback_info (self);
 	}
 	else if (self->priv->playing && (new_state != GST_STATE_PLAYING)) {
+		GtkWidget *play_button = GET_WIDGET ("play_button_image");
+		gboolean   rtl;
+
+		rtl = gtk_widget_get_direction (play_button) == GTK_TEXT_DIR_RTL;
+
 		set_playing_state (self, FALSE);
-		gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_button_image")), "media-playback-start-symbolic", GTK_ICON_SIZE_LARGE_TOOLBAR);
+		gtk_image_set_from_icon_name (GTK_IMAGE (play_button),
+					      rtl ? "media-playback-start-rtl-symbolic" : "media-playback-start-symbolic",
+					      GTK_ICON_SIZE_LARGE_TOOLBAR);
 		gtk_widget_set_tooltip_text (GET_WIDGET ("play_button_image"), _("Play"));
 
 		if (self->priv->update_progress_id != 0) {
@@ -659,6 +666,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
 	GthMediaViewerPage *self;
+	gboolean            rtl;
 
 	if (! gstreamer_init ())
 		return;
@@ -677,6 +685,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 							   _("Take a screenshot"),
 							   "win.video-screenshot",
 							   NULL);
+
+	rtl = gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL;
 
 	/* video area */
 
@@ -737,6 +747,13 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->mediabar = GET_WIDGET ("mediabar");
 	gtk_widget_set_halign (self->priv->mediabar, GTK_ALIGN_FILL);
 	gtk_widget_set_valign (self->priv->mediabar, GTK_ALIGN_END);
+
+	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_slower_image")),
+				      rtl ? "media-seek-backward-rtl-symbolic" : "media-seek-backward-symbolic",
+				      GTK_ICON_SIZE_MENU);
+	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_faster_image")),
+				      rtl ? "media-seek-forward-rtl-symbolic" : "media-seek-forward-symbolic",
+				      GTK_ICON_SIZE_MENU);
 
 	g_signal_connect (GET_WIDGET ("volume_adjustment"),
 			  "value-changed",

@@ -33,7 +33,6 @@
               <object class="GtkImage" id="play_button_image">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="icon_name">media-playback-start-symbolic</property>
                 <property name="icon_size">2</property>
               </object>
             </child>
@@ -53,7 +52,7 @@
             <property name="tooltip_text" translatable="yes">Slower</property>
             <property name="relief">none</property>
             <child>
-              <object class="GtkImage" id="image1">
+              <object class="GtkImage" id="play_slower_image">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon_name">media-seek-backward-symbolic</property>
@@ -76,7 +75,7 @@
             <property name="tooltip_text" translatable="yes">Faster</property>
             <property name="relief">none</property>
             <child>
-              <object class="GtkImage" id="image3">
+              <object class="GtkImage" id="play_faster_image">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="icon_name">media-seek-forward-symbolic</property>
