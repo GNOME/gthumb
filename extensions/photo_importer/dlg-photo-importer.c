@@ -366,7 +366,7 @@ list_source_files (gpointer user_data)
 		return;
 	}
 
-	gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("Getting folder listing…"));
+	gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("Getting the folder content…"));
 
 	data->loading_list = TRUE;
 	list = g_list_prepend (NULL, data->source);
