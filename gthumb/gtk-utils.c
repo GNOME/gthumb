@@ -164,7 +164,7 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 
 	/* Add buttons */
 
-	button = gtk_button_new_with_label (no_button_text);
+	button = gtk_button_new_with_mnemonic (no_button_text);
 	gtk_widget_show (button);
 	gtk_dialog_add_action_widget (GTK_DIALOG (d),
 				      button,
@@ -172,7 +172,7 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 
 	/**/
 
-	button = gtk_button_new_with_label (yes_button_text);
+	button = gtk_button_new_with_mnemonic (yes_button_text);
 	gtk_widget_show (button);
 	gtk_dialog_add_action_widget (GTK_DIALOG (d),
 				      button,
