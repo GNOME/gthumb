@@ -78,8 +78,8 @@ gth_image_saver_jpeg_get_control (GthImageSaver *base)
 	int            i;
 	int            active_idx;
 
-	if (self->priv->builder == NULL)
-		self->priv->builder = _gtk_builder_new_from_file ("jpeg-options.ui", "cairo_io");
+	_g_object_unref (self->priv->builder);
+	self->priv->builder = _gtk_builder_new_from_file ("jpeg-options.ui", "cairo_io");
 
 	active_idx = 0;
 	extensions = g_strsplit (gth_image_saver_get_extensions (base), " ", -1);

@@ -51,8 +51,8 @@ gth_image_saver_tga_get_control (GthImageSaver *base)
 {
 	GthImageSaverTga *self = GTH_IMAGE_SAVER_TGA (base);
 
-	if (self->priv->builder == NULL)
-		self->priv->builder = _gtk_builder_new_from_file ("tga-options.ui", "cairo_io");
+	_g_object_unref (self->priv->builder);
+	self->priv->builder = _gtk_builder_new_from_file ("tga-options.ui", "cairo_io");
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (_gtk_builder_get_widget (self->priv->builder, "tga_rle_compression_checkbutton")),
 				      g_settings_get_boolean (self->priv->settings, PREF_TGA_RLE_COMPRESSION));
@@ -357,4 +357,5 @@ gth_image_saver_tga_init (GthImageSaverTga *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_TGA, GthImageSaverTgaPrivate);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_SAVERS_TGA_SCHEMA);
+	self->priv->builder = NULL;
 }

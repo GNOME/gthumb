@@ -55,8 +55,8 @@ gth_image_saver_webp_get_control (GthImageSaver *base)
 {
 	GthImageSaverWebp *self = GTH_IMAGE_SAVER_WEBP (base);
 
-	if (self->priv->builder == NULL)
-		self->priv->builder = _gtk_builder_new_from_file ("webp-options.ui", "cairo_io");
+	_g_object_unref (self->priv->builder);
+	self->priv->builder = _gtk_builder_new_from_file ("webp-options.ui", "cairo_io");
 
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("quality_adjustment")),
 				  g_settings_get_int (self->priv->settings, PREF_WEBP_QUALITY));
@@ -395,4 +395,5 @@ gth_image_saver_webp_init (GthImageSaverWebp *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_WEBP, GthImageSaverWebpPrivate);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_SAVERS_WEBP_SCHEMA);
+	self->priv->builder = NULL;
 }

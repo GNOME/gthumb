@@ -67,8 +67,8 @@ gth_image_saver_png_get_control (GthImageSaver *base)
 {
 	GthImageSaverPng *self = GTH_IMAGE_SAVER_PNG (base);
 
-	if (self->priv->builder == NULL)
-		self->priv->builder = _gtk_builder_new_from_file ("png-options.ui", "cairo_io");
+	_g_object_unref (self->priv->builder);
+	self->priv->builder = _gtk_builder_new_from_file ("png-options.ui", "cairo_io");
 
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (_gtk_builder_get_widget (self->priv->builder, "png_compression_adjustment")),
 				  g_settings_get_int (self->priv->settings, PREF_PNG_COMPRESSION_LEVEL));
@@ -366,4 +366,5 @@ gth_image_saver_png_init (GthImageSaverPng *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_PNG, GthImageSaverPngPrivate);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_SAVERS_PNG_SCHEMA);
+	self->priv->builder = NULL;
 }
