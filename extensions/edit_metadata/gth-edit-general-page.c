@@ -573,7 +573,7 @@ gth_edit_general_page_init (GthEditGeneralPage *self)
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_selector_container")), self->priv->date_selector, FALSE, FALSE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("date_label")), self->priv->date_combobox);
 
-	self->priv->tags_entry = gth_tags_entry_new ();
+	self->priv->tags_entry = gth_tags_entry_new (GTH_TAGS_ENTRY_MODE_POPUP);
 	gtk_widget_show (self->priv->tags_entry);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, TRUE, TRUE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("tags_label")), self->priv->tags_entry);

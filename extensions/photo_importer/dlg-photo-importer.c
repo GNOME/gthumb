@@ -671,7 +671,7 @@ dlg_photo_importer (GthBrowser            *browser,
 
 	_g_string_list_free (tests);
 
-	data->tags_entry = gth_tags_entry_new ();
+	data->tags_entry = gth_tags_entry_new (GTH_TAGS_ENTRY_MODE_POPUP);
 	gtk_widget_show (data->tags_entry);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_box")), data->tags_entry, TRUE, TRUE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("tags_label")), data->tags_entry);

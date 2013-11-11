@@ -26,6 +26,11 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GTH_TAGS_ENTRY_MODE_POPUP,
+	GTH_TAGS_ENTRY_MODE_INLINE
+} GthTagsEntryMode;
+
 #define GTH_TYPE_TAGS_ENTRY            (gth_tags_entry_get_type ())
 #define GTH_TAGS_ENTRY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_TAGS_ENTRY, GthTagsEntry))
 #define GTH_TAGS_ENTRY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_TAGS_ENTRY, GthTagsEntryClass))
@@ -51,23 +56,23 @@ struct _GthTagsEntryClass {
 };
 
 GType        gth_tags_entry_get_type             (void);
-GtkWidget *  gth_tags_entry_new                  (void);
-void         gth_tags_entry_set_expanded         (GthTagsEntry  *self,
-					          gboolean       expanded);
-gboolean     gth_tags_entry_get_expanded         (GthTagsEntry  *self);
-void         gth_tags_entry_set_tags             (GthTagsEntry  *self,
-				                  char         **tags);
-void         gth_tags_entry_set_tags_from_text   (GthTagsEntry  *self,
-				                  const char    *text);
-char **      gth_tags_entry_get_tags             (GthTagsEntry  *self,
-				                  gboolean       update_globals);
-void         gth_tags_entry_set_tag_list         (GthTagsEntry  *self,
-						  GList         *checked,
-						  GList         *inconsistent);
-void         gth_tags_entry_get_tag_list         (GthTagsEntry  *self,
-						  gboolean       update_globals,
-						  GList        **checked,
-						  GList        **inconsistent);
+GtkWidget *  gth_tags_entry_new                  (GthTagsEntryMode	  mode);
+void         gth_tags_entry_set_list_visible	 (GthTagsEntry		 *self,
+					          gboolean		  visible);
+gboolean     gth_tags_entry_get_list_visible     (GthTagsEntry		 *self);
+void         gth_tags_entry_set_tags             (GthTagsEntry		 *self,
+				                  char			**tags);
+void         gth_tags_entry_set_tags_from_text   (GthTagsEntry		 *self,
+				                  const char		 *text);
+char **      gth_tags_entry_get_tags             (GthTagsEntry		 *self,
+				                  gboolean		  update_globals);
+void         gth_tags_entry_set_tag_list         (GthTagsEntry		 *self,
+						  GList			 *checked,
+						  GList 		 *inconsistent);
+void         gth_tags_entry_get_tag_list         (GthTagsEntry		 *self,
+						  gboolean		  update_globals,
+						  GList			**checked,
+						  GList			**inconsistent);
 
 G_END_DECLS
 

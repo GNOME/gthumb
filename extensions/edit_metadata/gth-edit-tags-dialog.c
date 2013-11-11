@@ -196,8 +196,8 @@ gth_edit_tags_dialog_init (GthEditTagsDialog *self)
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_SAVE, GTK_RESPONSE_APPLY);
 	gtk_dialog_add_button (GTK_DIALOG (self), _("Sa_ve and Close"), GTK_RESPONSE_OK);
 
-	self->priv->tags_entry = gth_tags_entry_new ();
-	gth_tags_entry_set_expanded (GTH_TAGS_ENTRY (self->priv->tags_entry), TRUE);
+	self->priv->tags_entry = gth_tags_entry_new (GTH_TAGS_ENTRY_MODE_INLINE);
+	gth_tags_entry_set_list_visible (GTH_TAGS_ENTRY (self->priv->tags_entry), TRUE);
 	gtk_widget_show (self->priv->tags_entry);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tag_entry_box")), self->priv->tags_entry, TRUE, TRUE, 0);
 

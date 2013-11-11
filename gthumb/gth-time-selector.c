@@ -119,19 +119,6 @@ gth_time_selector_class_init (GthTimeSelectorClass *class)
 
 
 static void
-gth_time_selector_init (GthTimeSelector *self)
-{
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIME_SELECTOR, GthTimeSelectorPrivate);
-	self->priv->date_time = gth_datetime_new ();
-	self->priv->use_time = TRUE;
-	self->priv->grab_pointer = NULL;
-	self->priv->grab_keyboard = NULL;
-
-	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
-}
-
-
-static void
 _gth_time_selector_ungrab_devices (GthTimeSelector *self,
 				   guint32          time)
 {
@@ -159,6 +146,24 @@ _gth_time_selector_grab_broken_event (GtkWidget          *widget,
 		_gth_time_selector_ungrab_devices (self, GDK_CURRENT_TIME);
 
 	return TRUE;
+}
+
+
+static void
+gth_time_selector_init (GthTimeSelector *self)
+{
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIME_SELECTOR, GthTimeSelectorPrivate);
+	self->priv->date_time = gth_datetime_new ();
+	self->priv->use_time = TRUE;
+	self->priv->grab_pointer = NULL;
+	self->priv->grab_keyboard = NULL;
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
+
+	g_signal_connect (self,
+			  "grab-broken-event",
+			  G_CALLBACK (_gth_time_selector_grab_broken_event),
+			  self);
 }
 
 
@@ -287,11 +292,6 @@ show_calendar_popup (GthTimeSelector *self)
 		self->priv->grab_pointer = pointer;
 		self->priv->grab_keyboard = keyboard;
 		gtk_device_grab_add (self->priv->calendar_popup, self->priv->grab_pointer, TRUE);
-
-		g_signal_connect (self,
-				  "grab-broken-event",
-				  G_CALLBACK (_gth_time_selector_grab_broken_event),
-				  self);
 	}
 }
 
@@ -542,6 +542,8 @@ gth_time_selector_construct (GthTimeSelector *self)
 	g_object_set (self, "spacing", 6, NULL);
 
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_style_context_add_class (gtk_widget_get_style_context (box), GTK_STYLE_CLASS_COMBOBOX_ENTRY);
+	gtk_style_context_add_class (gtk_widget_get_style_context (box), GTK_STYLE_CLASS_LINKED);
 	gtk_widget_show (box);
 	gtk_box_pack_start (GTK_BOX (self), box, FALSE, FALSE, 0);
 

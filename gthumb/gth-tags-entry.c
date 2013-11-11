@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 The Free Software Foundation, Inc.
+ *  Copyright (C) 2009-2013 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,12 +22,14 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "glib-utils.h"
+#include "gth-enum-types.h"
 #include "gth-main.h"
 #include "gth-tags-entry.h"
 #include "gth-tags-file.h"
 
 
 #define EXPANDED_LIST_HEIGHT 160
+#define POPUP_WINDOW_HEIGHT 250
 
 
 enum {
@@ -44,6 +46,12 @@ enum {
 	EXPANDED_LIST_N_COLUMNS
 };
 
+
+/* Properties */
+enum {
+        PROP_0,
+        PROP_MODE
+};
 
 /* Signals */
 enum {
@@ -63,24 +71,35 @@ typedef struct {
 typedef struct  {
 	char         **last_used;
 	GtkWidget     *container;
+	GtkWidget     *scrolled_window;
 	GtkWidget     *tree_view;
 	GtkListStore  *store;
 	GtkWidget     *popup_menu;
 } ExpandedList;
 
 
+typedef struct {
+	GtkWidget *window;
+	GtkWidget *container;
+	GdkDevice *grab_pointer;
+	GdkDevice *grab_keyboard;
+} PopupWindow;
+
+
 struct _GthTagsEntryPrivate {
-	GtkWidget           *entry;
-	GtkWidget           *expand_button;
-	ExpandedList         expanded_list;
-	gboolean             expanded;
-	char               **tags;
-	GtkEntryCompletion  *completion;
-	GtkListStore        *completion_store;
-	char                *new_tag;
-	gboolean             action_create;
-	gulong               monitor_event;
-	GHashTable          *inconsistent;
+	GthTagsEntryMode	  mode;
+	GtkWidget		 *entry;
+	GtkWidget		 *expand_button;
+	ExpandedList		  expanded_list;
+	PopupWindow               popup;
+	gboolean		  expanded;
+	char			**tags;
+	GtkEntryCompletion	 *completion;
+	GtkListStore		 *completion_store;
+	char			 *new_tag;
+	gboolean		  action_create;
+	gulong			  monitor_event;
+	GHashTable		 *inconsistent;
 };
 
 
@@ -104,9 +123,68 @@ gth_tags_entry_finalize (GObject *obj)
 	g_strfreev (self->priv->tags);
 	g_strfreev (self->priv->expanded_list.last_used);
 	gtk_widget_destroy (self->priv->expanded_list.popup_menu);
+	gtk_widget_destroy (self->priv->popup.window);
 	g_hash_table_unref (self->priv->inconsistent);
 
 	G_OBJECT_CLASS (gth_tags_entry_parent_class)->finalize (obj);
+}
+
+
+static void
+gth_tags_entry_set_property (GObject      *object,
+			     guint         property_id,
+			     const GValue *value,
+			     GParamSpec   *pspec)
+{
+	GthTagsEntry *self;
+
+	self = GTH_TAGS_ENTRY (object);
+
+	switch (property_id) {
+	case PROP_MODE:
+	{
+		GthTagsEntryMode mode;
+
+		mode = g_value_get_enum (value);
+		if (self->priv->mode != mode) {
+			self->priv->mode = mode;
+
+			g_object_ref (self->priv->expanded_list.scrolled_window);
+			gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (self->priv->expanded_list.scrolled_window)), self->priv->expanded_list.scrolled_window);
+
+			if (self->priv->mode == GTH_TAGS_ENTRY_MODE_POPUP)
+				gtk_box_pack_start (GTK_BOX (self->priv->popup.container), self->priv->expanded_list.scrolled_window, TRUE, TRUE, 0);
+			else
+				gtk_box_pack_start (GTK_BOX (self->priv->expanded_list.container), self->priv->expanded_list.scrolled_window, TRUE, TRUE, 0);
+
+			g_object_unref (self->priv->expanded_list.scrolled_window);
+		}
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+
+static void
+gth_tags_entry_get_property (GObject    *object,
+			     guint       property_id,
+			     GValue     *value,
+			     GParamSpec *pspec)
+{
+	GthTagsEntry *self;
+
+	self = GTH_TAGS_ENTRY (object);
+
+	switch (property_id) {
+	case PROP_MODE:
+		g_value_set_enum (value, self->priv->mode);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
 }
 
 
@@ -128,10 +206,23 @@ gth_tags_entry_class_init (GthTagsEntryClass *klass)
 	g_type_class_add_private (klass, sizeof (GthTagsEntryPrivate));
 
 	object_class = (GObjectClass*) (klass);
+	object_class->set_property = gth_tags_entry_set_property;
+	object_class->get_property = gth_tags_entry_get_property;
 	object_class->finalize = gth_tags_entry_finalize;
 
 	widget_class = (GtkWidgetClass *) klass;
 	widget_class->grab_focus = gth_tags_entry_grab_focus;
+
+	/* properties */
+
+	g_object_class_install_property (object_class,
+					 PROP_MODE,
+					 g_param_spec_enum ("mode",
+                                                            "Mode",
+                                                            "The way to show the list",
+                                                            GTH_TYPE_TAGS_ENTRY_MODE,
+                                                            GTH_TAGS_ENTRY_MODE_INLINE,
+                                                            G_PARAM_READWRITE));
 
 	/* signals */
 
@@ -670,19 +761,6 @@ row_separator_func (GtkTreeModel *model,
 
 
 static void
-expand_button_toggled_cb (GtkToggleButton *button,
-			  gpointer         user_data)
-{
-	GthTagsEntry *self = user_data;
-
-	if (gtk_toggle_button_get_active (button))
-		gtk_widget_show (self->priv->expanded_list.container);
-	else
-		gtk_widget_hide (self->priv->expanded_list.container);
-}
-
-
-static void
 _gth_tags_entry_delete_selected_tag (GthTagsEntry *self)
 {
 	GtkTreeModel *model;
@@ -758,6 +836,240 @@ expanded_list_button_press_event_cb (GtkStatusIcon  *status_icon,
 }
 
 
+/* -- popup window -- */
+
+
+static void
+_gth_tags_entry_ungrab_devices (GthTagsEntry *self,
+				guint32       time)
+{
+	if (self->priv->popup.grab_pointer != NULL) {
+		gdk_device_ungrab (self->priv->popup.grab_pointer, time);
+		gtk_device_grab_remove (self->priv->popup.window, self->priv->popup.grab_pointer);
+		self->priv->popup.grab_pointer = NULL;
+	}
+
+	if (self->priv->popup.grab_keyboard != NULL) {
+		gdk_device_ungrab (self->priv->popup.grab_keyboard, time);
+		self->priv->popup.grab_keyboard = NULL;
+	}
+}
+
+
+static gboolean
+_gth_tags_entry_grab_broken_event (GtkWidget          *widget,
+				   GdkEventGrabBroken *event,
+				   gpointer            user_data)
+{
+	GthTagsEntry *self = user_data;
+
+	if (event->grab_window == NULL)
+		_gth_tags_entry_ungrab_devices (self, GDK_CURRENT_TIME);
+
+	return TRUE;
+}
+
+
+static void
+popup_window_hide (GthTagsEntry *self)
+{
+	_gth_tags_entry_ungrab_devices (self, GDK_CURRENT_TIME);
+
+	self->priv->expanded = FALSE;
+	gtk_widget_hide (self->priv->popup.window);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->expand_button), FALSE);
+}
+
+
+static gboolean
+popup_window_button_press_event_cb (GtkWidget      *widget,
+				    GdkEventButton *event,
+				    gpointer        user_data)
+{
+	GthTagsEntry		 *self = user_data;
+	cairo_rectangle_int_t	  popup_area;
+
+	gdk_window_get_geometry (gtk_widget_get_window (self->priv->popup.window),
+				 &popup_area.x,
+				 &popup_area.y,
+				 &popup_area.width,
+				 &popup_area.height);
+
+	/*g_print ("(%.0f, %.0f) <==> (%d, %d)[%d, %d]\n", event->x_root, event->y_root,  popup_area.x,  popup_area.y, popup_area.width, popup_area.height);*/
+
+	if ((event->x_root < popup_area.x)
+	    || (event->x_root > popup_area.x + popup_area.width)
+	    || (event->y_root < popup_area.y)
+	    || (event->y_root > popup_area.y + popup_area.height))
+	{
+		popup_window_hide (self);
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
+popup_window_key_press_event_cb (GtkWidget   *widget,
+				 GdkEventKey *event,
+				 gpointer     user_data)
+{
+	GthTagsEntry *self = user_data;
+
+	switch (event->keyval) {
+	case GDK_KEY_Escape:
+		popup_window_hide (self);
+		break;
+
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
+_gth_tags_entry_grab_devices (GdkWindow	*window,
+			      GdkDevice	*keyboard,
+			      GdkDevice	*pointer,
+			      GdkCursor	*cursor,
+			      guint32	 time)
+{
+	if (keyboard != NULL) {
+		if (gdk_device_grab (keyboard,
+				     window,
+				     GDK_OWNERSHIP_APPLICATION,
+				     TRUE,
+				     (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
+				     NULL,
+				     time) != GDK_GRAB_SUCCESS)
+		{
+			return FALSE;
+		}
+	}
+
+	if (pointer != NULL) {
+		if (gdk_device_grab (pointer,
+				     window,
+				     GDK_OWNERSHIP_APPLICATION,
+				     TRUE,
+				     GDK_ALL_EVENTS_MASK,
+				     cursor,
+				     time) != GDK_GRAB_SUCCESS)
+		{
+			if (keyboard != NULL)
+				gdk_device_ungrab (keyboard, time);
+
+			return FALSE;
+		}
+	}
+
+	return TRUE;
+}
+
+
+static void
+popup_window_show (GthTagsEntry *self)
+{
+	GtkRequisition         popup_req;
+	int                    x;
+	int                    y;
+	GtkAllocation          allocation;
+	int                    selector_height;
+	GdkScreen             *screen;
+	gint                   monitor_num;
+	cairo_rectangle_int_t  monitor;
+	GdkDevice             *device;
+	GdkDevice             *pointer;
+	GdkDevice             *keyboard;
+
+	gdk_window_get_position (gtk_widget_get_window (GTK_WIDGET (self)), &x, &y);
+	gtk_widget_get_allocation (self->priv->entry, &allocation);
+	x += allocation.x;
+	y += allocation.y;
+	selector_height = allocation.height;
+
+	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
+	popup_req.width = allocation.width;
+	popup_req.height = POPUP_WINDOW_HEIGHT;
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (self));
+	monitor_num = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (GTK_WIDGET (self)));
+	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+
+	if (x < monitor.x)
+		x = monitor.x;
+	else if (x + popup_req.width > monitor.x + monitor.width)
+		x = monitor.x + monitor.width - popup_req.width;
+	if (y + selector_height + popup_req.height > monitor.y + monitor.height)
+		y = y - popup_req.height;
+	else
+		y = y + selector_height;
+
+	gtk_window_resize (GTK_WINDOW (self->priv->popup.window), popup_req.width, popup_req.height);
+	gtk_window_move (GTK_WINDOW (self->priv->popup.window), x, y);
+	gtk_widget_show (self->priv->popup.window);
+
+	device = gtk_get_current_event_device ();
+	if (device == NULL) {
+		GdkDeviceManager *device_manager;
+		GdkDisplay	 *display;
+		GList		 *devices;
+
+		display = gtk_widget_get_display (GTK_WIDGET (self));
+		device_manager = gdk_display_get_device_manager (display);
+		devices = gdk_device_manager_list_devices (device_manager, GDK_DEVICE_TYPE_MASTER);
+		device = devices->data;
+
+		g_list_free (devices);
+	}
+
+	if (gdk_device_get_source (device) == GDK_SOURCE_KEYBOARD) {
+		keyboard = device;
+		pointer = gdk_device_get_associated_device (device);
+	}
+	else {
+		pointer = device;
+		keyboard = gdk_device_get_associated_device (device);
+	}
+
+	gtk_widget_grab_focus (self->priv->expanded_list.tree_view);
+
+	if (_gth_tags_entry_grab_devices (gtk_widget_get_window (self->priv->popup.window),
+					  keyboard,
+					  pointer,
+					  NULL,
+					  GDK_CURRENT_TIME))
+	{
+		self->priv->popup.grab_pointer = pointer;
+		self->priv->popup.grab_keyboard = keyboard;
+		gtk_device_grab_add (self->priv->popup.window, self->priv->popup.grab_pointer, TRUE);
+	}
+}
+
+
+static void
+expand_button_toggled_cb (GtkToggleButton *button,
+			  gpointer         user_data)
+{
+	GthTagsEntry *self = user_data;
+
+	if (gtk_toggle_button_get_active (button)) {
+		switch (self->priv->mode) {
+		case GTH_TAGS_ENTRY_MODE_INLINE:
+			gtk_widget_show (self->priv->expanded_list.container);
+			break;
+		case GTH_TAGS_ENTRY_MODE_POPUP:
+			popup_window_show (self);
+			break;
+		}
+	}
+	else
+		gtk_widget_hide (self->priv->expanded_list.container);
+}
+
+
 static void
 gth_tags_entry_init (GthTagsEntry *self)
 {
@@ -767,18 +1079,22 @@ gth_tags_entry_init (GthTagsEntry *self)
 	GtkWidget         *menu_item;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
+	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_COMBOBOX_ENTRY);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
+	gtk_box_set_spacing (GTK_BOX (self), 3);
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TAGS_ENTRY, GthTagsEntryPrivate);
+	self->priv->mode = GTH_TAGS_ENTRY_MODE_INLINE;
 	self->priv->expanded_list.last_used = g_new0 (char *, 1);
 	self->priv->expanded = FALSE;
 	self->priv->inconsistent = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-
-	gtk_box_set_spacing (GTK_BOX (self), 3);
+	self->priv->popup.grab_pointer = NULL;
+	self->priv->popup.grab_keyboard = NULL;
 
 	/* entry / expander button box */
 
-	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_style_context_add_class (gtk_widget_get_style_context (hbox), GTK_STYLE_CLASS_LINKED);
 	gtk_widget_show (hbox);
 	gtk_box_pack_start (GTK_BOX (self), hbox, FALSE, FALSE, 0);
 
@@ -865,7 +1181,7 @@ gth_tags_entry_init (GthTagsEntry *self)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (self->priv->expanded_list.tree_view), column);
 	gtk_widget_show (self->priv->expanded_list.tree_view);
 
-	/* expanded list, popup menu */
+	/* expanded list, context menu */
 
 	self->priv->expanded_list.popup_menu = gtk_menu_new ();
 	menu_item = gtk_menu_item_new_with_mnemonic (_("_Delete"));
@@ -876,19 +1192,48 @@ gth_tags_entry_init (GthTagsEntry *self)
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->expanded_list.popup_menu), menu_item);
 
+	/* popup window */
+
+	self->priv->popup.window = gtk_window_new (GTK_WINDOW_POPUP);
+	g_signal_connect (self->priv->popup.window,
+			  "button-press-event",
+			  G_CALLBACK (popup_window_button_press_event_cb),
+			  self);
+	g_signal_connect (self->priv->popup.window,
+			  "key-press-event",
+			  G_CALLBACK (popup_window_key_press_event_cb),
+			  self);
+
+	self->priv->popup.container = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (self->priv->popup.container);
+	gtk_container_add (GTK_CONTAINER (self->priv->popup.window), self->priv->popup.container);
+
 	/**/
 
-	self->priv->expanded_list.container = g_object_new (GTK_TYPE_SCROLLED_WINDOW,
+	self->priv->expanded_list.container = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_pack_start (GTK_BOX (self), self->priv->expanded_list.container, TRUE, TRUE, 0);
+
+	self->priv->expanded_list.scrolled_window = g_object_new (GTK_TYPE_SCROLLED_WINDOW,
 							    "hadjustment", NULL,
 							    "vadjustment", NULL,
 							    "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
 							    "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
 							    "shadow_type", GTK_SHADOW_IN,
 							    NULL);
-	gtk_widget_set_size_request (self->priv->expanded_list.container, -1, EXPANDED_LIST_HEIGHT);
-	gtk_container_add (GTK_CONTAINER (self->priv->expanded_list.container), self->priv->expanded_list.tree_view);
-	g_signal_connect (self->priv->expanded_list.container, "unmap", G_CALLBACK (tag_list_unmap_cb), self);
-	gtk_box_pack_start (GTK_BOX (self), self->priv->expanded_list.container, TRUE, TRUE, 0);
+	gtk_widget_set_size_request (self->priv->expanded_list.scrolled_window, -1, EXPANDED_LIST_HEIGHT);
+	gtk_box_pack_start (GTK_BOX (self->priv->expanded_list.container),
+			    self->priv->expanded_list.scrolled_window,
+			    TRUE,
+			    TRUE,
+			    0);
+	gtk_container_add (GTK_CONTAINER (self->priv->expanded_list.scrolled_window),
+			   self->priv->expanded_list.tree_view);
+	gtk_widget_show_all (self->priv->expanded_list.scrolled_window);
+
+	g_signal_connect (self->priv->expanded_list.scrolled_window,
+			  "unmap",
+			  G_CALLBACK (tag_list_unmap_cb),
+			  self);
 
 	self->priv->monitor_event = g_signal_connect (gth_main_get_default_monitor (),
 						      "tags-changed",
@@ -906,37 +1251,49 @@ gth_tags_entry_init (GthTagsEntry *self)
 			  "button-press-event",
 			  G_CALLBACK (expanded_list_button_press_event_cb),
 			  self);
+	g_signal_connect (self,
+			  "grab-broken-event",
+			  G_CALLBACK (_gth_tags_entry_grab_broken_event),
+			  self);
+
+	/**/
+
+	update_completion_list (self);
+	update_expanded_list_from_entry (self);
 }
 
 
 GtkWidget *
-gth_tags_entry_new (void)
+gth_tags_entry_new (GthTagsEntryMode mode)
 {
-	GthTagsEntry *self;
-
-	self = g_object_new (GTH_TYPE_TAGS_ENTRY, NULL);
-	update_completion_list (self);
-	update_expanded_list_from_entry (self);
-
-	return (GtkWidget *) self;
+	return g_object_new (GTH_TYPE_TAGS_ENTRY, "mode", mode, NULL);
 }
 
 
 void
-gth_tags_entry_set_expanded (GthTagsEntry *self,
-			     gboolean      expanded)
+gth_tags_entry_set_list_visible (GthTagsEntry *self,
+				 gboolean      visible)
 {
 	g_return_if_fail (GTH_IS_TAGS_ENTRY (self));
 
-	self->priv->expanded = expanded;
-	gtk_widget_set_size_request (self->priv->expanded_list.container, -1, self->priv->expanded ? -1 : EXPANDED_LIST_HEIGHT);
-	gtk_widget_set_visible (self->priv->expand_button, ! expanded);
-	gtk_widget_set_visible (self->priv->expanded_list.container, expanded || gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->expand_button)));
+	self->priv->expanded = visible;
+
+	switch (self->priv->mode) {
+	case GTH_TAGS_ENTRY_MODE_INLINE:
+		gtk_widget_set_size_request (self->priv->expanded_list.container, -1, self->priv->expanded ? -1 : EXPANDED_LIST_HEIGHT);
+		gtk_widget_set_visible (self->priv->expand_button, ! self->priv->expanded);
+		gtk_widget_set_visible (self->priv->expanded_list.container, self->priv->expanded || gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->expand_button)));
+		break;
+
+	case GTH_TAGS_ENTRY_MODE_POPUP:
+		popup_window_show (self);
+		break;
+	}
 }
 
 
 gboolean
-gth_tags_entry_get_expanded (GthTagsEntry *self)
+gth_tags_entry_get_list_visible (GthTagsEntry *self)
 {
 	g_return_val_if_fail (GTH_IS_TAGS_ENTRY (self), FALSE);
 	return self->priv->expanded;
