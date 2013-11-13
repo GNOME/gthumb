@@ -1173,12 +1173,9 @@ gth_image_viewer_page_real_show_pointer (GthViewerPage *base,
 
 	self = (GthImageViewerPage *) base;
 
-	if (! gth_browser_get_is_fullscreen (self->priv->browser))
-		return;
-
 	if (show)
 		gth_image_viewer_show_cursor (GTH_IMAGE_VIEWER (self->priv->viewer));
-	else
+	else if (gth_browser_get_is_fullscreen (self->priv->browser))
 		gth_image_viewer_hide_cursor (GTH_IMAGE_VIEWER (self->priv->viewer));
 }
 
