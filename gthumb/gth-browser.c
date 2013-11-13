@@ -5945,7 +5945,7 @@ load_file_attributes_ready_cb (GObject  *object,
 			g_free (title);
 		}
 	}
-	else if (browser->priv->history == NULL) {
+	else if (browser->priv->location == NULL) {
 		GFile *home;
 
 		home = g_file_new_for_uri (get_home_uri ());
