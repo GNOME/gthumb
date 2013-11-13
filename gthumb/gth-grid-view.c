@@ -711,9 +711,6 @@ _gth_grid_view_place_item_at (GthGridView     *self,
 
 	switch (item->style) {
 	case ITEM_STYLE_VIDEO:
-		item->thumbnail_area.x = item->area.x + self->priv->cell_padding + self->priv->thumbnail_border;
-		item->thumbnail_area.y = item->area.y + self->priv->cell_padding + self->priv->thumbnail_border;
-		break;
 	case ITEM_STYLE_IMAGE:
 		item->thumbnail_area.x = item->area.x + ((self->priv->cell_size - item->thumbnail_area.width) / 2);
 		if (self->priv->no_caption)
@@ -1596,7 +1593,7 @@ _gth_grid_view_draw_item (GthGridView     *self,
 		_gdk_rgba_lighter (&color, &color);
 		cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
 
-		if (item->style == ITEM_STYLE_IMAGE) {
+		if (item->style != ITEM_STYLE_ICON) {
 			cairo_region_t		 *area;
 			cairo_rectangle_int_t	  extents;
 
