@@ -400,6 +400,11 @@ position_scale_change_value_cb (GtkRange      *range,
 {
 	GthMediaViewerPage *self = user_data;
 
+#if GTK_CHECK_VERSION(3,10,0)
+	/* gtk+ 3.10 works correctly by default */
+	return FALSE;
+#endif
+
 	if (self->priv->block_next_jump && (scroll == GTK_SCROLL_JUMP)) {
 		self->priv->block_next_jump = FALSE;
 		return TRUE;
