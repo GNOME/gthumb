@@ -71,7 +71,6 @@ struct _GthMediaViewerPagePrivate {
 	gboolean        xwin_assigned;
 	GdkPixbuf      *icon;
 	PangoLayout    *caption_layout;
-	gboolean        block_next_jump;
 	GdkCursor      *cursor;
 	GdkCursor      *cursor_void;
 	gboolean        cursor_visible;
@@ -364,67 +363,6 @@ position_value_changed_cb (GtkAdjustment *adjustment,
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_position")), s);
 
 	g_free (s);
-}
-
-
-static gboolean
-position_scale_change_value_cb (GtkRange      *range,
-				 GtkScrollType  scroll,
-				 gdouble        value,
-				 gpointer       user_data)
-{
-	GthMediaViewerPage *self = user_data;
-
-	if (self->priv->block_next_jump && (scroll == GTK_SCROLL_JUMP)) {
-		self->priv->block_next_jump = FALSE;
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-
-static gboolean
-position_scale_button_press_event_cb (GtkWidget      *widget,
-				      GdkEventButton *event,
-				      gpointer        user_data)
-{
-#if ! GTK_CHECK_VERSION(3,6,0)
-	/* In a video player when clicking on the progress bar the user expect
-	 * to jump to the specified position directly instead of scrolling one
-	 * page up or down as happens by default in Gtk+.  The button 2
-	 * behavior is what we want by default for button 1.  This is the
-	 * default behaviour in Gtk+ 3.6.0 or greater. */
-
-	if (event->button == 1)
-		event->button = 2;
-	else if (event->button == 2)
-		event->button = 1;
-#endif
-
-	return FALSE;
-}
-
-
-static gboolean
-position_scale_button_release_event_cb (GtkWidget      *widget,
-					 GdkEventButton *event,
-					 gpointer        user_data)
-{
-	GthMediaViewerPage *self = user_data;
-
-#if ! GTK_CHECK_VERSION(3,6,0)
-	/* Swap button 1 and 2 behaviors, see position_scale_button_press_event_cb */
-	if (event->button == 1)
-		event->button = 2;
-	else if (event->button == 2)
-		event->button = 1;
-#endif
-
-	if (self->priv->playing)
-		self->priv->block_next_jump = TRUE;
-
-	return FALSE;
 }
 
 
@@ -762,18 +700,6 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (GET_WIDGET ("position_adjustment"),
 			  "value-changed",
 			  G_CALLBACK (position_value_changed_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("position_scale"),
-			  "change-value",
-			  G_CALLBACK (position_scale_change_value_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("position_scale"),
-			  "button-press-event",
-			  G_CALLBACK (position_scale_button_press_event_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("position_scale"),
-			  "button-release-event",
-			  G_CALLBACK (position_scale_button_release_event_cb),
 			  self);
 	g_signal_connect (GET_WIDGET ("play_button"),
 			  "clicked",
