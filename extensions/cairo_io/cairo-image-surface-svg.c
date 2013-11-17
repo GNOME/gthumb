@@ -42,9 +42,9 @@ typedef struct {
 
 typedef GthImageClass GthImageSvgClass;
 
-
 static gpointer gth_image_svg_parent_class;
 
+GType gth_image_svg_get_type (void);
 
 G_DEFINE_TYPE (GthImageSvg, gth_image_svg, GTH_TYPE_IMAGE)
 

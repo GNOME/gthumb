@@ -125,6 +125,9 @@ grayscale_exec (GthAsyncTask *task,
 			case METHOD_AVARAGE:
 				value = (0.3333 * red + 0.3333 * green + 0.3333 * blue);
 				break;
+
+			default:
+				g_assert_not_reached ();
 			}
 
 			CAIRO_SET_RGBA (p_destination,

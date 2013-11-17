@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include "dlg-sort-order.h"
 #include "gth-browser.h"
 #include "gth-main.h"
 #include "gtk-utils.h"
@@ -45,7 +46,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	gth_browser_set_dialog (data->browser, "sort-order", NULL);
@@ -61,13 +62,13 @@ apply_sort_order (GtkWidget  *widget,
 	GtkTreeIter      iter;
 	GtkTreeModel    *tree_model;
 	GthFileDataSort *sort_type;
-	
+
 	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->sort_by_combobox), &iter))
 		return;
 
 	tree_model = gtk_combo_box_get_model (GTK_COMBO_BOX (data->sort_by_combobox));
 	gtk_tree_model_get (tree_model, &iter, SELECTION_COLUMN_DATA, &sort_type, -1);
-	
+
 	gth_browser_set_sort_order (data->browser,
 				    sort_type,
 				    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("inverse_checkbutton"))));
@@ -86,7 +87,7 @@ dlg_sort_order (GthBrowser *browser)
 	GthFileDataSort *current_sort_type;
 	gboolean         sort_inverse;
 	int              i, i_active;
-	
+
 	if (gth_browser_get_dialog (browser, "sort-order") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "sort-order")));
 		return;
@@ -94,7 +95,7 @@ dlg_sort_order (GthBrowser *browser)
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
-	data->builder = _gtk_builder_new_from_file ("sort-order.ui", NULL); 
+	data->builder = _gtk_builder_new_from_file ("sort-order.ui", NULL);
 
 	/* Get the widgets. */
 
@@ -107,7 +108,7 @@ dlg_sort_order (GthBrowser *browser)
 	selection_model = gtk_list_store_new (2, G_TYPE_POINTER, G_TYPE_STRING);
 	data->sort_by_combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (selection_model));
 	g_object_unref (selection_model);
-  	
+
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (data->sort_by_combobox),
 				    renderer,
@@ -116,7 +117,7 @@ dlg_sort_order (GthBrowser *browser)
 					renderer,
 					"text", SELECTION_COLUMN_NAME,
 					NULL);
-  	
+
 	file_data = gth_browser_get_location_data (data->browser);
 	if (file_data != NULL) {
 		current_sort_type = gth_main_get_sort_type (g_file_info_get_attribute_string (file_data->info, "sort::type"));
@@ -129,10 +130,10 @@ dlg_sort_order (GthBrowser *browser)
 	for (i = 0, i_active = 0, scan = sort_types; scan; scan = scan->next, i++) {
 		GthFileDataSort *sort_type = scan->data;
 		GtkTreeIter      iter;
-		
+
 		if (strcmp (sort_type->name, current_sort_type->name) == 0)
 			i_active = i;
-		
+
 		gtk_list_store_append (selection_model, &iter);
 		gtk_list_store_set (selection_model, &iter,
 				    SELECTION_COLUMN_DATA, sort_type,
@@ -151,27 +152,27 @@ dlg_sort_order (GthBrowser *browser)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("inverse_checkbutton")), sort_inverse);
 
 	/* Set the signals handlers. */
-	
-	g_signal_connect (G_OBJECT (data->dialog), 
+
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect_swapped (GET_WIDGET ("close_button"), 
+	g_signal_connect_swapped (GET_WIDGET ("close_button"),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (GET_WIDGET ("inverse_checkbutton"), 
+	g_signal_connect (GET_WIDGET ("inverse_checkbutton"),
 			  "toggled",
 			  G_CALLBACK (apply_sort_order),
 			  data);
-	g_signal_connect (data->sort_by_combobox, 
+	g_signal_connect (data->sort_by_combobox,
 			  "changed",
 			  G_CALLBACK (apply_sort_order),
 			  data);
-			    
+
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);

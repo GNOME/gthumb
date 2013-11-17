@@ -299,7 +299,7 @@ gth_extension_module_real_is_configurable (GthExtension *base)
 	GthExtensionModule *self;
 	char               *function_name;
 	gboolean            result = FALSE;
-	gboolean (*is_configurable_func) ();
+	gboolean (*is_configurable_func) (void);
 
 	g_return_val_if_fail (GTH_IS_EXTENSION_MODULE (base), FALSE);
 

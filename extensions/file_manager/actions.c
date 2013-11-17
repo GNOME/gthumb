@@ -23,6 +23,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
+#include "actions.h"
 #include "gth-copy-task.h"
 #include "gth-delete-task.h"
 #include "gth-duplicate-task.h"

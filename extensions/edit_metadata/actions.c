@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gthumb.h>
+#include "actions.h"
 #include "dlg-edit-metadata.h"
 #include "gth-delete-metadata-task.h"
 #include "gth-edit-comment-dialog.h"

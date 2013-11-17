@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gthumb.h>
+#include "actions.h"
 #include "gth-import-metadata-task.h"
 
 

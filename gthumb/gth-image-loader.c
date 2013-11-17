@@ -302,6 +302,7 @@ gth_image_new_from_stream (GInputStream  *istream,
 	int                 original_height;
 	GError             *error = NULL;
 
+	image = NULL;
 	mime_type = _g_content_type_get_from_stream (istream, NULL, cancellable, &error);
 	if (mime_type != NULL) {
 		loader_func = gth_main_get_image_loader_func (mime_type, GTH_IMAGE_FORMAT_CAIRO_SURFACE);

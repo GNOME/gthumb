@@ -111,6 +111,8 @@ facebook_image_list_free (GList *images)
 }
 
 
+GType facebook_image_list_get_type (void);
+
 G_DEFINE_BOXED_TYPE (GList, facebook_image_list, facebook_image_list_copy, facebook_image_list_free)
 
 

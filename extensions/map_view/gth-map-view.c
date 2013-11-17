@@ -138,7 +138,7 @@ decimal_coordinates_to_string (double latitude,
 }
 
 
-void
+static void
 gth_map_view_real_set_file (GthPropertyView *base,
 		 	    GthFileData     *file_data)
 {
@@ -199,14 +199,14 @@ gth_map_view_real_set_file (GthPropertyView *base,
 }
 
 
-const char *
+static const char *
 gth_map_view_real_get_name (GthMultipageChild *self)
 {
 	return _("Map");
 }
 
 
-const char *
+static const char *
 gth_map_view_real_get_icon (GthMultipageChild *self)
 {
 	return "map-symbolic";

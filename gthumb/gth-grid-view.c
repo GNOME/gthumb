@@ -2643,7 +2643,7 @@ gth_grid_view_set_drag_dest_pos (GthFileView    *file_view,
 }
 
 
-void
+static void
 gth_grid_view_get_drag_dest_pos (GthFileView *file_view,
 				 int         *pos)
 {

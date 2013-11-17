@@ -23,6 +23,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
+#include "actions.h"
 #include "dlg-change-date.h"
 
 

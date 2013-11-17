@@ -177,6 +177,13 @@ GthExtensionDescription *  gth_extension_manager_get_description   (GthExtension
 GList *                    gth_extension_manager_order_extensions  (GthExtensionManager  *manager,
 								    char                **extensions);
 
+/* functions exported by modules */
+
+void		gthumb_extension_activate		 (void);
+void		gthumb_extension_deactivate		 (void);
+gboolean	gthumb_extension_is_configurable	 (void);
+void		gthumb_extension_configure		 (GtkWindow *parent);
+
 G_END_DECLS
 
 #endif

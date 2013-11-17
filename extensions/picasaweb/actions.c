@@ -23,6 +23,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
+#include "actions.h"
 #include "dlg-export-to-picasaweb.h"
 #include "dlg-import-from-picasaweb.h"
 

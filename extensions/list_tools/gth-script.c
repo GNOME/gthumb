@@ -121,7 +121,7 @@ gth_script_real_load_from_element (DomDomizable *base,
 }
 
 
-GObject *
+static GObject *
 gth_script_real_duplicate (GthDuplicable *duplicable)
 {
 	GthScript *script = GTH_SCRIPT (duplicable);

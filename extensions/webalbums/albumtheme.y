@@ -25,7 +25,7 @@
 #include <gio/gio.h>
 #include "albumtheme-private.h"
 
-int   gth_albumtheme_yylex   ();
+int   gth_albumtheme_yylex   (void);
 void  gth_albumtheme_yyerror (const char *fmt, ...);
 int   gth_albumtheme_yywrap  (void);
 

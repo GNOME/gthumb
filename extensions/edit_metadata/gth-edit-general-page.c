@@ -61,7 +61,7 @@ G_DEFINE_TYPE_WITH_CODE (GthEditGeneralPage,
 					 	gth_edit_general_page_gth_edit_general_page_interface_init))
 
 
-void
+static void
 gth_edit_general_page_real_set_file_list (GthEditCommentPage *base,
 		 			  GList              *file_list)
 {
@@ -280,7 +280,7 @@ get_date_from_option (GthEditGeneralPage *self,
 }
 
 
-void
+static void
 gth_edit_general_page_real_update_info (GthEditCommentPage *base,
 					GFileInfo          *info,
 					gboolean            only_modified_fields)
@@ -475,7 +475,7 @@ gth_edit_general_page_real_update_info (GthEditCommentPage *base,
 }
 
 
-const char *
+static const char *
 gth_edit_general_page_real_get_name (GthEditCommentPage *self)
 {
 	return _("General");

@@ -26,6 +26,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
+#include "callbacks.h"
 #include "gth-file-tool-adjust-contrast.h"
 #include "gth-file-tool-crop.h"
 #include "gth-file-tool-flip.h"

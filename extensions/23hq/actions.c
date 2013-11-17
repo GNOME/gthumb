@@ -25,6 +25,7 @@
 #include <gthumb.h>
 #include <extensions/flicker_utils/dlg-export-to-flickr.h>
 #include <extensions/flicker_utils/flickr-types.h>
+#include "actions.h"
 
 
 static FlickrServer www_23hq_com = {

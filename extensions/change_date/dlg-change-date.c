@@ -22,6 +22,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "dlg-change-date.h"
 #include "gth-change-date-task.h"
 #include "preferences.h"
 

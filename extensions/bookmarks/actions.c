@@ -23,6 +23,7 @@
 #include <config.h>
 #include <gthumb.h>
 #include "dlg-bookmarks.h"
+#include "actions.h"
 
 
 void

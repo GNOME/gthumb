@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include <gthumb.h>
 
 
 G_MODULE_EXPORT void

@@ -144,6 +144,8 @@ _cairo_surface_create_from_ppm (int     width,
 			case 1:
 				pixel = CAIRO_RGBA_TO_UINT32 (buffer_p[0], buffer_p[0], buffer_p[0], 0xff);
 				break;
+			default:
+				g_assert_not_reached ();
 			}
 
 			memcpy (column, &pixel, sizeof (guint32));

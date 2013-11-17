@@ -22,6 +22,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "dlg-comments-preferences.h"
 #include "preferences.h"
 
 
@@ -33,7 +34,7 @@ typedef struct {
 
 
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	g_object_unref (data->builder);
@@ -56,7 +57,7 @@ void
 dlg_comments_preferences (GtkWindow *parent)
 {
 	DialogData *data;
-	
+
 	data = g_new0 (DialogData, 1);
 	data->builder = _gtk_builder_new_from_file ("comments-preferences.ui", "comments");
 	data->settings = g_settings_new (GTHUMB_COMMENTS_SCHEMA);
@@ -71,8 +72,8 @@ dlg_comments_preferences (GtkWindow *parent)
 				      g_settings_get_boolean (data->settings, PREF_COMMENTS_SYNCHRONIZE));
 
 	/* Set the signals handlers. */
-	
-	g_signal_connect (G_OBJECT (data->dialog), 
+
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);

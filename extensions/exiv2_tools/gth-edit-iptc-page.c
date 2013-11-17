@@ -63,7 +63,7 @@ set_entry_value (GthEditIptcPage *self,
 }
 
 
-void
+static void
 gth_edit_iptc_page_real_set_file_list (GthEditCommentPage *base,
 		 		        GList              *file_data_list)
 {
@@ -141,7 +141,7 @@ set_attribute_from_entry (GthEditIptcPage *self,
 }
 
 
-void
+static void
 gth_edit_iptc_page_real_update_info (GthEditCommentPage *base,
 				      GFileInfo          *info,
 				      gboolean            only_modified_fields)
@@ -192,7 +192,7 @@ gth_edit_iptc_page_real_update_info (GthEditCommentPage *base,
 }
 
 
-const char *
+static const char *
 gth_edit_iptc_page_real_get_name (GthEditCommentPage *self)
 {
 	return _("Other");

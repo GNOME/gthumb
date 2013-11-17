@@ -25,6 +25,7 @@
 #include <gst/gst.h>
 #include <gthumb.h>
 #include <extensions/gstreamer_utils/gstreamer-utils.h>
+#include "actions.h"
 #include "gth-media-viewer-page.h"
 #include "preferences.h"
 

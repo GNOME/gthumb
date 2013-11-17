@@ -29,7 +29,7 @@ enum-types.h: $(HEADER_FILES)
 
 enum-types.c: $(HEADER_FILES)
 	$(AM_V_GEN)( $(GLIB_MKENUMS) \
-		--fhead "#include <glib-object.h>\n" \
+		--fhead "#include <glib-object.h>\n#include \"enum-types.h\"\n" \
 		--fprod "\n/* enumerations from \"@filename@\" */\n#include \"@filename@\"" \
 		--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {" \
 		--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \

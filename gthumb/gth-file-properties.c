@@ -100,7 +100,7 @@ get_comment (GthFileData *file_data)
 }
 
 
-void
+static void
 gth_file_properties_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
@@ -208,14 +208,14 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 }
 
 
-const char *
+static const char *
 gth_file_properties_real_get_name (GthMultipageChild *self)
 {
 	return _("Properties");
 }
 
 
-const char *
+static const char *
 gth_file_properties_real_get_icon (GthMultipageChild *self)
 {
 	return "document-properties-symbolic";

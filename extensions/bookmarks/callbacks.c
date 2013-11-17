@@ -25,6 +25,7 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include "actions.h"
+#include "callbacks.h"
 
 
 #define BROWSER_DATA_KEY "bookmarks-browser-data"

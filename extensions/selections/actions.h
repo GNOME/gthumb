@@ -37,6 +37,6 @@ DEF_ACTION_CALLBACK (gth_browser_activate_go_to_selection_3)
 DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection_1)
 DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection_2)
 DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection_3)
-DEF_ACTION_CALLBACK (gth_browser_activate_go_to_file_container_from_selection)
+DEF_ACTION_CALLBACK (gth_browser_activate_go_to_file_container)
 
 #endif /* ACTIONS_H */

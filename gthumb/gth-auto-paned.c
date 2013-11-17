@@ -71,6 +71,8 @@ gth_auto_paned_size_allocate (GtkWidget     *widget,
 		case GTK_ORIENTATION_VERTICAL:
 			position = allocation->height / 2;
 			break;
+		default:
+			g_assert_not_reached ();
 		}
 		gtk_paned_set_position (GTK_PANED (self), position);
 	}

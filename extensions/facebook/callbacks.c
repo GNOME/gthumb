@@ -27,6 +27,7 @@
 #include <extensions/export_tools/export-tools.h>
 #include <extensions/photo_importer/photo-importer.h>
 #include "actions.h"
+#include "callbacks.h"
 
 
 static const GActionEntry actions[] = {

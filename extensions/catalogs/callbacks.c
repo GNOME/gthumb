@@ -29,6 +29,7 @@
 #include "dlg-organize-files.h"
 #include "gth-file-source-catalogs.h"
 #include "actions.h"
+#include "callbacks.h"
 
 
 #define BROWSER_DATA_KEY "catalogs-browser-data"

@@ -86,7 +86,6 @@ struct _GthTestClass {
 	GtkWidget *   (*create_control)       (GthTest     *test);
 	gboolean      (*update_from_control)  (GthTest     *test,
 					       GError     **error);
-	void          (*reset)                (GthTest     *test);
 	GthMatch      (*match)                (GthTest     *test,
 			                       GthFileData *fdata);
 	void          (*set_file_list)        (GthTest     *test,

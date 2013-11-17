@@ -320,23 +320,7 @@ fi
 
 dnl ===========================================================================
 
-WARN_CFLAGS="-Wall -Wcast-align -Wtype-limits -Wclobbered -Wempty-body -Wignored-qualifiers"
-
-for option in $WARN_CFLAGS; do
-	SAVE_CFLAGS="$CFLAGS"
-	CFLAGS="$CFLAGS $option"
-	AC_MSG_CHECKING([whether gcc understands $option])
-	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],[has_option=yes],[has_option=no])
-	if test x$has_option = xyes; then
-		WARNINGS="$WARNINGS $option"
-	fi
-	AC_MSG_RESULT($has_option)
-	CFLAGS="$SAVE_CFLAGS"
-	unset has_option
-	unset SAVE_CFLAGS
-done
-unset option
-CFLAGS="$CFLAGS $WARNINGS"
+CFLAGS="$CFLAGS $WARN_CFLAGS $WARN_CXXFLAGS"
 
 dnl ===========================================================================
 

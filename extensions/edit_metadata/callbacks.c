@@ -27,6 +27,7 @@
 #include <gthumb.h>
 #include <extensions/list_tools/list-tools.h>
 #include "actions.h"
+#include "callbacks.h"
 #include "gth-tag-task.h"
 
 

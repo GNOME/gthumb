@@ -23,6 +23,7 @@
 #include <config.h>
 #include <gthumb.h>
 #include <gth-catalog.h>
+#include "actions.h"
 #include "dlg-add-to-catalog.h"
 #include "dlg-catalog-properties.h"
 #include "gth-file-source-catalogs.h"

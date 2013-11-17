@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include <extensions/catalogs/gth-catalog.h>
+#include "actions.h"
 #include "gth-search-editor-dialog.h"
 #include "gth-search-task.h"
 

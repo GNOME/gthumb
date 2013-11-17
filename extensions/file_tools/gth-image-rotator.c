@@ -328,6 +328,8 @@ paint_darker_background (GthImageRotator *self,
 		allocation.width /= self->priv->preview_zoom;
 		allocation.height /= self->priv->preview_zoom;
 		break;
+	default:
+		g_assert_not_reached ();
 	}
 
 	/* left side */

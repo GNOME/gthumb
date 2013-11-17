@@ -26,6 +26,7 @@
 #include <gthumb.h>
 #include <extensions/export_tools/export-tools.h>
 #include "actions.h"
+#include "callbacks.h"
 
 
 static const GActionEntry actions[] = {

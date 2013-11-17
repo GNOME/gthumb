@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <glib-object.h>
 #include <gthumb.h>
+#include "callbacks.h"
 #include "dlg-rename-series.h"
 
 

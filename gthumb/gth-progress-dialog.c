@@ -60,6 +60,9 @@ struct _GthTaskProgressClass {
 };
 
 
+GType gth_task_progress_get_type (void);
+
+
 G_DEFINE_TYPE (GthTaskProgress, gth_task_progress, GTK_TYPE_BOX)
 
 

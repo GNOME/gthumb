@@ -50,6 +50,8 @@ _gth_user_dir_mkdir_with_parents (GthDir  dir_type,
 	case GTH_DIR_DATA:
 		mode = GTH_DIR_DATA_MODE;
 		break;
+	default:
+		g_assert_not_reached ();
 	}
 
 	result = g_mkdir_with_parents (pathname, mode);

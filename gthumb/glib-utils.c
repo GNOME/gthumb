@@ -2853,8 +2853,8 @@ _g_content_type_is_a (const char *type,
 
 
 static const char *
-get_mime_type_from_magic_numbers (void  *buffer,
-				  gsize  buffer_size)
+get_mime_type_from_magic_numbers (guchar *buffer,
+				  gsize   buffer_size)
 {
 #if ENABLE_MAGIC
 

@@ -26,6 +26,7 @@
 #include <jpeglib.h>
 #include <glib.h>
 #include <gio/gio.h>
+#include "jmemorysrc.h"
 
 
 #define JPEG_ERROR(cinfo,code)  \

@@ -23,6 +23,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
+#include "actions.h"
 #include "gth-slideshow.h"
 #include "gth-transition.h"
 #include "preferences.h"

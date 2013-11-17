@@ -215,7 +215,7 @@ gth_test_chain_dom_domizable_interface_init (DomDomizableInterface * iface)
 }
 
 
-GObject *
+static GObject *
 gth_test_chain_real_duplicate (GthDuplicable *duplicable)
 {
 	GthTestChain *chain;

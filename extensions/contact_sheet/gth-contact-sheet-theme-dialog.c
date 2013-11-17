@@ -303,7 +303,7 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 }
 
 
-GthContactSheetTheme *
+static GthContactSheetTheme *
 _gth_contact_sheet_theme_new_default (void)
 {
 	GthContactSheetTheme *theme;

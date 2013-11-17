@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
+#include "actions.h"
 
 
 #define DESKTOP_BACKGROUND_PROPERTIES_COMMAND "gnome-control-center background"
@@ -360,12 +361,4 @@ gth_browser_activate_set_desktop_background (GSimpleAction *action,
 
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
-}
-
-
-void
-gth_browser_activate_action_tool_desktop_background (GtkAction  *action,
-					             GthBrowser *browser)
-{
-	gth_browser_activate_set_desktop_background (NULL, NULL, browser);
 }

@@ -42,6 +42,7 @@
 #include "gth-main.h"
 #include "gth-preferences.h"
 #include "gtk-utils.h"
+#include "main.h"
 #include "main-migrate.h"
 
 
@@ -294,6 +295,9 @@ typedef GtkApplication      GthApplication;
 typedef GtkApplicationClass GthApplicationClass;
 
 static gpointer gth_application_parent_class;
+
+
+GType gth_application_get_type (void);
 
 
 G_DEFINE_TYPE (GthApplication, gth_application, GTK_TYPE_APPLICATION)

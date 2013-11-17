@@ -49,7 +49,7 @@ struct _GthImageHistogramPrivate {
 };
 
 
-void
+static void
 gth_image_histogram_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
@@ -78,14 +78,14 @@ gth_image_histogram_real_set_file (GthPropertyView *base,
 }
 
 
-const char *
+static const char *
 gth_image_histogram_real_get_name (GthMultipageChild *self)
 {
 	return _("Histogram");
 }
 
 
-const char *
+static const char *
 gth_image_histogram_real_get_icon (GthMultipageChild *self)
 {
 	return "histogram-symbolic";

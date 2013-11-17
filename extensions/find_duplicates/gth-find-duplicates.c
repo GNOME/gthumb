@@ -809,7 +809,7 @@ start_dir_func (GFile      *directory,
 }
 
 
-gboolean
+static gboolean
 pulse_progressbar_cb (gpointer user_data)
 {
 	GthFindDuplicates *self = user_data;

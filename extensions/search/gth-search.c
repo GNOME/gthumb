@@ -44,7 +44,7 @@ G_DEFINE_TYPE_WITH_CODE (GthSearch,
 struct _GthSearchPrivate {
 	GFile        *folder;
 	gboolean      recursive;
-	GthTestChain *test;	
+	GthTestChain *test;
 };
 
 
@@ -131,13 +131,13 @@ gth_search_real_create_element (DomDomizable *base,
 {
 	GthSearch  *self;
 	DomElement *element;
-	
+
 	g_return_val_if_fail (DOM_IS_DOCUMENT (doc), NULL);
 
 	self = GTH_SEARCH (base);
 	element = gth_search_create_root (GTH_CATALOG (self), doc);
 	gth_search_write_to_doc (GTH_CATALOG (self), doc, element);
-	
+
 	return element;
 }
 
@@ -150,7 +150,7 @@ gth_search_real_load_from_element (DomDomizable *base,
 }
 
 
-GObject *
+static GObject *
 gth_search_real_duplicate (GthDuplicable *duplicable)
 {
 	GthSearch *search = GTH_SEARCH (duplicable);
@@ -160,22 +160,22 @@ gth_search_real_duplicate (GthDuplicable *duplicable)
 	GList     *scan;
 
 	new_search = gth_search_new ();
-	
+
 	gth_search_set_folder (new_search, gth_search_get_folder (search));
 	gth_search_set_recursive (new_search, gth_search_is_recursive (search));
-	
+
 	if (search->priv->test != NULL)
 		new_search->priv->test = (GthTestChain*) gth_duplicable_duplicate (GTH_DUPLICABLE (search->priv->test));
 
 	file_list = gth_catalog_get_file_list (GTH_CATALOG (search));
 	for (scan = file_list; scan; scan = scan->next) {
-		GFile *file = scan->data;		
+		GFile *file = scan->data;
 		new_file_list = g_list_prepend (new_file_list, g_file_dup (file));
 	}
 	gth_catalog_set_file_list (GTH_CATALOG (new_search), new_file_list);
-	
+
 	_g_object_list_unref (new_file_list);
-	
+
 	return (GObject *) new_search;
 }
 
@@ -205,10 +205,10 @@ gth_search_class_init (GthSearchClass *class)
 {
 	GObjectClass    *object_class;
 	GthCatalogClass *catalog_class;
-	
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_search_finalize;
-	
+
 	catalog_class = GTH_CATALOG_CLASS (class);
 	catalog_class->create_root = gth_search_create_root;
 	catalog_class->read_from_doc = gth_search_read_from_doc;
@@ -248,29 +248,29 @@ gth_search_new (void)
 
 
 GthSearch*
-gth_search_new_from_data (void    *buffer, 
+gth_search_new_from_data (void    *buffer,
 		   	  gsize    count,
 		   	  GError **error)
 {
 	DomDocument *doc;
 	DomElement  *root;
 	GthSearch   *search;
-			
+
 	doc = dom_document_new ();
-	if (! dom_document_load (doc, (const char *) buffer, count, error)) 
+	if (! dom_document_load (doc, (const char *) buffer, count, error))
 		return NULL;
-	
+
 	root = DOM_ELEMENT (doc)->first_child;
 	if (g_strcmp0 (root->tag_name, "search") != 0) {
 		*error = g_error_new_literal (DOM_ERROR, DOM_ERROR_INVALID_FORMAT, _("Invalid file format"));
 		return NULL;
 	}
-	
+
 	search = gth_search_new ();
 	dom_domizable_load_from_element (DOM_DOMIZABLE (search), root);
-	
+
 	g_object_unref (doc);
-	
+
 	return search;
 }
 
@@ -283,7 +283,7 @@ gth_search_set_folder (GthSearch *search,
 		g_object_unref (search->priv->folder);
 		search->priv->folder = NULL;
 	}
-	
+
 	if (folder != NULL)
 		search->priv->folder = g_object_ref (folder);
 }
@@ -321,7 +321,7 @@ gth_search_set_test (GthSearch    *search,
 		g_object_unref (search->priv->test);
 		search->priv->test = NULL;
 	}
-	if (test != NULL) 
+	if (test != NULL)
 		search->priv->test = g_object_ref (test);
 }
 

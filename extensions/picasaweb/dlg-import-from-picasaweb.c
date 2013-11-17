@@ -331,7 +331,7 @@ album_combobox_changed_cb (GtkComboBox *widget,
 }
 
 
-GthImage *
+static GthImage *
 picasa_web_thumbnail_loader (GInputStream  *istream,
 			     GthFileData   *file_data,
 			     int            requested_size,

@@ -27,6 +27,7 @@
 #include "gth-time.h"
 #include "gth-preferences.h"
 #include "gth-user-dir.h"
+#include "main-migrate.h"
 
 
 #define MAX_LINE_LENGTH 4096

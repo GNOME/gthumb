@@ -28,6 +28,7 @@
 #include <extensions/image_viewer/image-viewer.h>
 #include <extensions/list_tools/list-tools.h>
 #include "actions.h"
+#include "callbacks.h"
 
 
 #define BROWSER_DATA_KEY "image-rotation-browser-data"

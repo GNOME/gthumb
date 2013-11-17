@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
+#include "actions.h"
 #include "gth-image-print-job.h"
 
 

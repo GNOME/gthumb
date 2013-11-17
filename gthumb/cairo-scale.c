@@ -153,14 +153,14 @@ _cairo_image_surface_scale_nearest (cairo_surface_t *image,
  * */
 
 
-static ScaleReal inline
+inline static ScaleReal
 box (ScaleReal x)
 {
 	return 1.0;
 }
 
 
-static ScaleReal inline
+inline static ScaleReal
 triangle (ScaleReal x)
 {
 	return (x < 1.0) ? 1.0 - x : 0.0;
@@ -187,7 +187,7 @@ initialize_coefficients (ScaleReal B,
 }
 
 
-static ScaleReal inline
+inline static ScaleReal
 cubic (ScaleReal x)
 {
 	if (x < 1.0)
@@ -198,7 +198,7 @@ cubic (ScaleReal x)
 }
 
 
-static ScaleReal inline
+inline static ScaleReal
 sinc_fast (ScaleReal x)
 {
 	if (x > 4.0) {
@@ -238,7 +238,7 @@ sinc_fast (ScaleReal x)
 }
 
 
-static ScaleReal inline
+inline static ScaleReal
 mitchell_netravali (ScaleReal x)
 {
 	ScaleReal xx;
@@ -309,14 +309,14 @@ resize_filter_create (GthAsyncTask *task)
 }
 
 
-static ScaleReal inline
+inline static ScaleReal
 resize_filter_get_support (resize_filter_t *resize_filter)
 {
 	return resize_filter->support;
 }
 
 
-static ScaleReal inline
+inline static ScaleReal
 resize_filter_get_weight (resize_filter_t *resize_filter,
 			  ScaleReal        distance)
 {

@@ -1940,6 +1940,7 @@ struct _GthOriginalImageTaskClass {
 	GthImageTaskClass __parent;
 };
 
+GType gth_original_image_task_get_type (void);
 
 G_DEFINE_TYPE (GthOriginalImageTask, gth_original_image_task, GTH_TYPE_IMAGE_TASK)
 

@@ -62,7 +62,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 {
 	gboolean          format_recognized;
 	GFileInputStream *stream;
-	char             *description;
+	char             *description = NULL;
 	int               width;
 	int               height;
 	const char       *mime_type = NULL;

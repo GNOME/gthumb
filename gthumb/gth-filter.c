@@ -402,7 +402,7 @@ gth_filter_real_create_control (GthTest *test)
 }
 
 
-GObject *
+static GObject *
 gth_filter_real_duplicate (GthDuplicable *duplicable)
 {
 	GthFilter *filter = GTH_FILTER (duplicable);

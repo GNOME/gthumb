@@ -251,7 +251,7 @@ flickr_service_old_auth_get_frob_ready_cb (SoupSession *session,
 }
 
 
-void
+static void
 flickr_service_old_auth_get_frob (FlickrService       *self,
 				  GCancellable        *cancellable,
 				  GAsyncReadyCallback  callback,
@@ -420,7 +420,7 @@ old_auth_get_access_type_name (WebAuthorization access_type)
 }
 
 
-char *
+static char *
 flickr_service_old_auth_get_login_link (FlickrService    *self,
 					WebAuthorization  access_type)
 {

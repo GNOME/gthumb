@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <gthumb.h>
+#include "dlg-add-to-catalog.h"
 #include "gth-catalog.h"
 #include "gth-file-source-catalogs.h"
 

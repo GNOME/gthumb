@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include "dlg-preferences-extensions.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-main.h"

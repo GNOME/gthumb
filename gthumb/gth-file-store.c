@@ -127,7 +127,7 @@ _gth_file_row_set_thumbnail (GthFileRow      *row,
 }
 
 
-GthFileRow *
+static GthFileRow *
 _gth_file_row_copy (GthFileRow *row)
 {
 	GthFileRow *row2;
@@ -631,16 +631,6 @@ GthFileStore *
 gth_file_store_new (void)
 {
 	return (GthFileStore*) g_object_new (GTH_TYPE_FILE_STORE, NULL);
-}
-
-
-int
-gth_file_store_get_abs_pos (GthFileStore *file_store,
-			    int           pos)
-{
-	g_return_val_if_fail ((pos >= 0) && (pos < file_store->priv->num_rows), -1);
-
-	return file_store->priv->rows[pos]->abs_pos;
 }
 
 

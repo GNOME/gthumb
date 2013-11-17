@@ -25,6 +25,7 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include "actions.h"
+#include "callbacks.h"
 #include "gth-file-source-selections.h"
 #include "gth-selections-manager.h"
 
@@ -40,7 +41,7 @@ static const GActionEntry actions[] = {
 	{ "go-to-selection-1", gth_browser_activate_go_to_selection_1 },
 	{ "go-to-selection-2", gth_browser_activate_go_to_selection_2 },
 	{ "go-to-selection-3", gth_browser_activate_go_to_selection_3 },
-	{ "go-to-file-container", gth_browser_activate_go_to_file_container_from_selection },
+	{ "go-to-file-container", gth_browser_activate_go_to_file_container }
 };
 
 

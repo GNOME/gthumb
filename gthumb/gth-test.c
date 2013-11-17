@@ -89,7 +89,7 @@ gth_test_finalize (GObject *object)
 }
 
 
-const char *
+static const char *
 base_get_attributes (GthTest *self)
 {
 	return self->priv->attributes;
@@ -111,13 +111,6 @@ base_update_from_control (GthTest   *self,
 }
 
 
-static void
-base_reset (GthTest *self)
-{
-	/* void */
-}
-
-
 static GthMatch
 base_match (GthTest     *self,
 	    GthFileData *fdata)
@@ -126,7 +119,7 @@ base_match (GthTest     *self,
 }
 
 
-void
+static void
 base_set_file_list (GthTest *self,
 	 	    GList   *files)
 {
@@ -146,7 +139,7 @@ base_set_file_list (GthTest *self,
 }
 
 
-GthFileData *
+static GthFileData *
 base_get_next (GthTest *self)
 {
 	GthFileData *file = NULL;
@@ -177,7 +170,7 @@ base_get_next (GthTest *self)
 }
 
 
-GObject *
+static GObject *
 gth_test_real_duplicate (GthDuplicable *duplicable)
 {
 	GthTest *self = GTH_TEST (duplicable);
@@ -277,7 +270,6 @@ gth_test_class_init (GthTestClass *klass)
 	klass->get_attributes = base_get_attributes;
 	klass->create_control = base_create_control;
 	klass->update_from_control = base_update_from_control;
-	klass->reset = base_reset;
 	klass->match = base_match;
 	klass->set_file_list = base_set_file_list;
 	klass->get_next = base_get_next;
@@ -400,13 +392,6 @@ void
 gth_test_changed (GthTest *self)
 {
 	g_signal_emit (self, gth_test_signals[CHANGED], 0);
-}
-
-
-void
-gth_test_reset (GthTest *self)
-{
-	GTH_TEST_GET_CLASS (self)->reset (self);
 }
 
 

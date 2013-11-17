@@ -27,6 +27,7 @@
 #include "dlg-sort-order.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
+#include "gth-browser-actions-callbacks.h"
 #include "gth-file-list.h"
 #include "gth-file-selection.h"
 #include "gth-folder-tree.h"
@@ -52,7 +53,7 @@ toggle_action_activated (GSimpleAction *action,
 }
 
 
-GtkWidget *
+static GtkWidget *
 _gth_application_get_current_window (GApplication *application)
 {
         GList *windows;

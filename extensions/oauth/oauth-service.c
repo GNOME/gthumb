@@ -188,7 +188,7 @@ _oauth_service_get_request_token (OAuthService        *self,
 }
 
 
-gboolean
+static gboolean
 oauth_service_get_request_token_finish (OAuthService  *self,
 					GAsyncResult  *result,
 					GError       **error)
