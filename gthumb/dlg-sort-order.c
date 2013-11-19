@@ -30,26 +30,21 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
 
 
-enum {
-	SELECTION_COLUMN_DATA,
-	SELECTION_COLUMN_NAME
-};
-
-
 typedef struct {
-	GthBrowser *browser;
-	GtkBuilder *builder;
-	GtkWidget  *dialog;
-	GtkWidget  *sort_by_combobox;
+	GthBrowser	*browser;
+	GtkBuilder	*builder;
+	GtkWidget	*dialog;
+	GthFileDataSort	*current_sort_type;
+	GList		*sort_types;
 } DialogData;
 
 
-/* called when the main dialog is closed. */
 static void
 destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	gth_browser_set_dialog (data->browser, "sort-order", NULL);
+	g_list_free (data->sort_types);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -59,19 +54,38 @@ static void
 apply_sort_order (GtkWidget  *widget,
 		  DialogData *data)
 {
-	GtkTreeIter      iter;
-	GtkTreeModel    *tree_model;
-	GthFileDataSort *sort_type;
+	gth_browser_set_sort_order (data->browser,
+				    data->current_sort_type,
+				    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("inverse_checkbutton"))));
+}
 
-	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->sort_by_combobox), &iter))
+
+typedef struct {
+	DialogData      *data;
+	GthFileDataSort *sort_type;
+} ButtonData;
+
+
+static void
+button_data_free (ButtonData *button_data)
+{
+	g_return_if_fail (button_data != NULL);
+	g_free (button_data);
+}
+
+
+static void
+order_button_toggled_cb (GtkToggleButton *button,
+			 gpointer         user_data)
+{
+	ButtonData *button_data = user_data;
+	DialogData *data = button_data->data;
+
+	if (! gtk_toggle_button_get_active (button))
 		return;
 
-	tree_model = gtk_combo_box_get_model (GTK_COMBO_BOX (data->sort_by_combobox));
-	gtk_tree_model_get (tree_model, &iter, SELECTION_COLUMN_DATA, &sort_type, -1);
-
-	gth_browser_set_sort_order (data->browser,
-				    sort_type,
-				    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("inverse_checkbutton"))));
+	data->current_sort_type = button_data->sort_type;
+	apply_sort_order (NULL, data);
 }
 
 
@@ -79,14 +93,10 @@ void
 dlg_sort_order (GthBrowser *browser)
 {
 	DialogData      *data;
-	GtkListStore    *selection_model;
-	GtkCellRenderer *renderer;
+	GtkWidget       *first_button;
 	GthFileData     *file_data;
-	GList           *sort_types;
 	GList           *scan;
-	GthFileDataSort *current_sort_type;
 	gboolean         sort_inverse;
-	int              i, i_active;
 
 	if (gth_browser_get_dialog (browser, "sort-order") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "sort-order")));
@@ -105,49 +115,41 @@ dlg_sort_order (GthBrowser *browser)
 
 	/* Set widgets data. */
 
-	selection_model = gtk_list_store_new (2, G_TYPE_POINTER, G_TYPE_STRING);
-	data->sort_by_combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (selection_model));
-	g_object_unref (selection_model);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (data->sort_by_combobox),
-				    renderer,
-				    TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (data->sort_by_combobox),
-					renderer,
-					"text", SELECTION_COLUMN_NAME,
-					NULL);
 
 	file_data = gth_browser_get_location_data (data->browser);
 	if (file_data != NULL) {
-		current_sort_type = gth_main_get_sort_type (g_file_info_get_attribute_string (file_data->info, "sort::type"));
+		data->current_sort_type = gth_main_get_sort_type (g_file_info_get_attribute_string (file_data->info, "sort::type"));
 		sort_inverse = g_file_info_get_attribute_boolean (file_data->info, "sort::inverse");
 	}
 	else
-		gth_browser_get_sort_order (data->browser, &current_sort_type, &sort_inverse);
+		gth_browser_get_sort_order (data->browser, &data->current_sort_type, &sort_inverse);
 
-	sort_types = gth_main_get_all_sort_types ();
-	for (i = 0, i_active = 0, scan = sort_types; scan; scan = scan->next, i++) {
+	first_button = NULL;
+	data->sort_types = gth_main_get_all_sort_types ();
+	for (scan = data->sort_types; scan; scan = scan->next) {
 		GthFileDataSort *sort_type = scan->data;
-		GtkTreeIter      iter;
+		GtkWidget       *button;
+		ButtonData      *button_data;
 
-		if (strcmp (sort_type->name, current_sort_type->name) == 0)
-			i_active = i;
+		button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (first_button), _(sort_type->display_name));
+		if (scan == data->sort_types)
+			first_button = button;
+		gtk_widget_show (button);
+		gtk_box_pack_start (GTK_BOX (GET_WIDGET ("sort_order_box")), button, FALSE, FALSE, 0);
+		if (strcmp (sort_type->name, data->current_sort_type->name) == 0)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
 
-		gtk_list_store_append (selection_model, &iter);
-		gtk_list_store_set (selection_model, &iter,
-				    SELECTION_COLUMN_DATA, sort_type,
-				    SELECTION_COLUMN_NAME, _(sort_type->display_name),
-				    -1);
+		button_data = g_new0 (ButtonData, 1);
+		button_data->data = data;
+		button_data->sort_type = sort_type;
+
+		g_signal_connect_data (button,
+				       "toggled",
+				       G_CALLBACK (order_button_toggled_cb),
+				       button_data,
+				       (GClosureNotify) button_data_free,
+				       0);
 	}
-	g_list_free (sort_types);
-
-	gtk_combo_box_set_active (GTK_COMBO_BOX (data->sort_by_combobox), i_active);
-	gtk_widget_show (data->sort_by_combobox);
-	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("sort_by_hbox")), data->sort_by_combobox);
-
-	gtk_label_set_use_underline (GTK_LABEL (GET_WIDGET ("sort_by_label")), TRUE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("sort_by_label")), data->sort_by_combobox);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("inverse_checkbutton")), sort_inverse);
 
@@ -163,10 +165,6 @@ dlg_sort_order (GthBrowser *browser)
 				  G_OBJECT (data->dialog));
 	g_signal_connect (GET_WIDGET ("inverse_checkbutton"),
 			  "toggled",
-			  G_CALLBACK (apply_sort_order),
-			  data);
-	g_signal_connect (data->sort_by_combobox,
-			  "changed",
 			  G_CALLBACK (apply_sort_order),
 			  data);
 
