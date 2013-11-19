@@ -35,77 +35,9 @@ struct _GthImportDestinationButtonPrivate {
 
 
 static void
-_update_subfolder_label_color (GthImportDestinationButton *self)
-{
-	if (! gtk_widget_get_realized (GTK_WIDGET (self)))
-		return;
-
-	if ((gtk_widget_get_state_flags (self->priv->subfolder_label) & GTK_STATE_FLAG_INSENSITIVE) == GTK_STATE_FLAG_INSENSITIVE) {
-		gtk_label_set_attributes (GTK_LABEL (self->priv->subfolder_label), NULL);
-		gtk_widget_queue_resize (self->priv->subfolder_label);
-	}
-	else {
-		PangoAttrList  *attr_list;
-		PangoAttribute *attr;
-
-		attr_list = pango_attr_list_new ();
-		attr = pango_attr_foreground_new (45489, 13107, 1799);
-		pango_attr_list_insert (attr_list, attr);
-		gtk_label_set_attributes (GTK_LABEL (self->priv->subfolder_label), attr_list);
-		pango_attr_list_unref (attr_list);
-
-		/* FIXME: the color is NULL for some themes.
-		GdkColor *color;
-
-		color = NULL;
-		gtk_widget_style_get (GTK_WIDGET (self), "link-color", &color, NULL);
-		if (color != NULL) {
-			PangoAttrList  *attr_list;
-			PangoAttribute *attr;
-
-			g_print ("(%" G_GUINT16_FORMAT ", %" G_GUINT16_FORMAT ", %" G_GUINT16_FORMAT ")\n", color->red, color->green, color->blue);
-
-			attr_list = pango_attr_list_new ();
-			attr = pango_attr_foreground_new (color->red, color->green, color->blue);
-			pango_attr_list_insert (attr_list, attr);
-			gtk_label_set_attributes (GTK_LABEL (self->priv->subfolder_label), attr_list);
-			pango_attr_list_unref (attr_list);
-
-			gdk_color_free (color);
-		}
-		else
-			g_print ("no color\n");
-		*/
-	}
-}
-
-
-static void
-gth_import_destination_button_realize (GtkWidget *widget)
-{
-	GTK_WIDGET_CLASS (gth_import_destination_button_parent_class)->realize (widget);
-	_update_subfolder_label_color (GTH_IMPORT_DESTINATION_BUTTON (widget));
-}
-
-
-static void
 gth_import_destination_button_class_init (GthImportDestinationButtonClass *klass)
 {
-	GtkWidgetClass *widget_class;
-
 	g_type_class_add_private (klass, sizeof (GthImportDestinationButtonPrivate));
-
-	widget_class = (GtkWidgetClass*) klass;
-	widget_class->realize = gth_import_destination_button_realize;
-}
-
-
-static void
-subfolder_label_state_flags_changed_cb (GtkWidget     *widget,
-					GtkStateFlags  flags,
-					gpointer       user_data)
-{
-	_update_subfolder_label_color (GTH_IMPORT_DESTINATION_BUTTON (user_data));
 }
 
 
@@ -134,16 +66,12 @@ gth_import_destination_button_init (GthImportDestinationButton *self)
 	gtk_box_pack_start (GTK_BOX (label_box), self->priv->destination_label, FALSE, FALSE, 0);
 
 	self->priv->subfolder_label = gtk_label_new ("");
+	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->subfolder_label), "highlighted-text");
 	gtk_label_set_ellipsize (GTK_LABEL (self->priv->subfolder_label), PANGO_ELLIPSIZE_END);
 	gtk_misc_set_alignment (GTK_MISC (self->priv->subfolder_label), 0.0, 0.5);
 
 	gtk_widget_show (self->priv->subfolder_label);
 	gtk_box_pack_start (GTK_BOX (label_box), self->priv->subfolder_label, TRUE, TRUE, 0);
-
-	g_signal_connect (self->priv->subfolder_label,
-			  "state-flags-changed",
-			  G_CALLBACK (subfolder_label_state_flags_changed_cb),
-			  self);
 }
 
 
@@ -160,7 +88,7 @@ preferences_dialog_destination_changed_cb (GthImportPreferencesDialog *dialog,
 		char *name;
 
 		name = g_file_get_parse_name (destination);
-		gtk_image_set_from_icon_name(GTK_IMAGE (self->priv->destination_icon), "folder", GTK_ICON_SIZE_MENU);
+		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->destination_icon), "folder-symbolic", GTK_ICON_SIZE_MENU);
 		gtk_label_set_text (GTK_LABEL (self->priv->destination_label), name);
 		g_free (name);
 

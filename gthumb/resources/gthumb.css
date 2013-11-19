@@ -68,3 +68,13 @@ GtkScrolledWindow.comment .scrollbar.slider:backdrop {
 	background-color: @comment_bg_backdrop;
 	color: #666666;
 }
+
+/* -- highlighed text on the destination button in the import dialog -- */
+
+GtkLabel.highlighted-text {
+	color: #8fb1e0;
+}
+
+GtkLabel.highlighted-text:backdrop {
+	color: #333333;
+}
