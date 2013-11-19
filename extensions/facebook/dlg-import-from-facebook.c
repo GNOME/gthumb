@@ -240,7 +240,7 @@ get_albums_ready_cb (GObject      *source_object,
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
 				    ALBUM_DATA_COLUMN, album,
-				    ALBUM_ICON_COLUMN, "file-catalog",
+				    ALBUM_ICON_COLUMN, "file-catalog-symbolic",
 				    ALBUM_NAME_COLUMN, album->name,
 				    ALBUM_SIZE_COLUMN, n_photos,
 				    -1);

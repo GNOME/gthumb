@@ -241,7 +241,7 @@ photoset_list_ready_cb (GObject      *source_object,
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("photoset_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("photoset_liststore")), &iter,
 				    PHOTOSET_DATA_COLUMN, photoset,
-				    PHOTOSET_ICON_COLUMN, "file-catalog",
+				    PHOTOSET_ICON_COLUMN, "file-catalog-symbolic",
 				    PHOTOSET_TITLE_COLUMN, photoset->title,
 				    PHOTOSET_N_PHOTOS_COLUMN, n_photos,
 				    -1);

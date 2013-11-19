@@ -795,7 +795,7 @@ gth_organize_task_init (GthOrganizeTask *self)
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->results_liststore), KEY_COLUMN, GTK_SORT_ASCENDING);
 	g_object_set (GET_WIDGET ("catalog_name_cellrenderertext"), "editable", TRUE, NULL);
 
-	icon = g_themed_icon_new ("file-catalog");
+	icon = g_themed_icon_new ("file-catalog-symbolic");
 	self->priv->icon_pixbuf = _g_icon_get_pixbuf (icon,
 						      _gtk_widget_lookup_for_size (GET_WIDGET ("organization_treeview"), GTK_ICON_SIZE_MENU),
 						      _gtk_widget_get_icon_theme (GET_WIDGET ("organization_treeview")));

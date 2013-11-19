@@ -925,9 +925,9 @@ gth_catalog_get_icon (GFile *file)
 
 	uri = g_file_get_uri (file);
 	if (g_str_has_suffix (uri, ".catalog"))
-		icon = g_themed_icon_new ("file-catalog");
+		icon = g_themed_icon_new ("file-catalog-symbolic");
 	else
-		icon = g_themed_icon_new ("file-library");
+		icon = g_themed_icon_new ("file-library-symbolic");
 
 	g_free (uri);
 

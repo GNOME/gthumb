@@ -342,7 +342,7 @@ update_album_list (DialogData *data)
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
 				    ALBUM_DATA_COLUMN, album,
-				    ALBUM_ICON_COLUMN, "file-catalog",
+				    ALBUM_ICON_COLUMN, "file-catalog-symbolic",
 				    ALBUM_TITLE_COLUMN, album->name,
 				    ALBUM_N_PHOTOS_COLUMN, size,
 				    -1);
