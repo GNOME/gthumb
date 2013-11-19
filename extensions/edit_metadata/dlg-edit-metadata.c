@@ -150,11 +150,6 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 	GList      *scan;
 	GthTask    *task;
 
-	if (response == GTK_RESPONSE_HELP) {
-		show_help_dialog (GTK_WINDOW (dialog), data->dialog_name);
-		return;
-	}
-
 	if ((response != GTK_RESPONSE_OK) && (response != GTK_RESPONSE_APPLY)) {
 		cancel_file_list_loading (data);
 		close_dialog (data);

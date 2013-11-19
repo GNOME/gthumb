@@ -142,14 +142,6 @@ exec_resize (GthAsyncTask *task,
 
 
 static void
-help_clicked_cb (GtkWidget  *widget,
-		 DialogData *data)
-{
-	show_help_dialog (GTK_WINDOW (data->dialog), "gthumb-batch-resize");
-}
-
-
-static void
 ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
@@ -465,10 +457,6 @@ dlg_resize_images (GthBrowser *browser,
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
-        g_signal_connect (GET_WIDGET ("help_button"),
-                          "clicked",
-                          G_CALLBACK (help_clicked_cb),
-                          data);
 	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),

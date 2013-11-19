@@ -288,10 +288,6 @@ export_dialog_response_cb (GtkDialog *dialog,
 	DialogData *data = user_data;
 
 	switch (response_id) {
-	case GTK_RESPONSE_HELP:
-		show_help_dialog (GTK_WINDOW (data->browser), "gthumb-export-social");
-		break;
-
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gth_file_list_cancel (GTH_FILE_LIST (data->list_view), (DataFunc) destroy_dialog, data);

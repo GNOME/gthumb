@@ -868,16 +868,6 @@ close_button_clicked_cb (GtkButton *button,
 
 
 static void
-help_button_clicked_cb (GtkButton *button,
-			gpointer   user_data)
-{
-	GthFindDuplicates *self = user_data;
-
-	show_help_dialog (GTK_WINDOW (GET_WIDGET ("find_duplicates_dialog")), "gthumb-find-duplicates");
-}
-
-
-static void
 file_cellrenderertoggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
                 		    char                  *path,
                 		    gpointer               user_data)
@@ -1340,10 +1330,6 @@ gth_find_duplicates_exec (GthBrowser *browser,
 				  "clicked",
 				  G_CALLBACK (g_cancellable_cancel),
 				  self->priv->cancellable);
-	g_signal_connect (GET_WIDGET ("help_button"),
-			  "clicked",
-			  G_CALLBACK (help_button_clicked_cb),
-			  self);
 	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (self->priv->duplicates_list)),
 			  "file-selection-changed",
 			  G_CALLBACK (duplicates_list_view_selection_changed_cb),

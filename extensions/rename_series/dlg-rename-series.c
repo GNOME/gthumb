@@ -647,10 +647,6 @@ dialog_response_cb (GtkDialog *dialog,
 			destroy_dialog (data);
 		break;
 
-	case GTK_RESPONSE_HELP:
-		show_help_dialog (GTK_WINDOW (dialog), "gthumb-rename-series");
-		break;
-
 	case GTK_RESPONSE_OK:
 		ok_button_clicked (data);
 		break;

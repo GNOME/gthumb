@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.0 on Tue Nov 19 11:02:20 2013 -->
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkListStore" id="adjust_sign_liststore">
@@ -14,6 +15,21 @@
         <col id="0" translatable="yes">-</col>
       </row>
     </data>
+  </object>
+  <object class="GtkAdjustment" id="time_h_adjustment">
+    <property name="upper">999999</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="time_m_adjustment">
+    <property name="upper">59</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="time_s_adjustment">
+    <property name="upper">59</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
   <object class="GtkDialog" id="change_date_dialog">
     <property name="can_focus">False</property>
@@ -33,30 +49,12 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="help_button">
-                <property name="label">gtk-help</property>
-                <property name="use_action_appearance">False</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-                <property name="secondary">True</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-cancel</property>
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -72,7 +70,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -133,7 +130,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="xalign">0</property>
                             <property name="draw_indicator">True</property>
@@ -151,7 +147,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="xalign">0</property>
                             <property name="draw_indicator">True</property>
@@ -221,7 +216,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                                 <property name="xalign">0</property>
                                 <property name="active">True</property>
@@ -268,7 +262,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="xalign">0</property>
                             <property name="draw_indicator">True</property>
@@ -287,7 +280,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="xalign">0</property>
                             <property name="draw_indicator">True</property>
@@ -306,7 +298,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="xalign">0</property>
                             <property name="draw_indicator">True</property>
@@ -343,7 +334,6 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="xalign">0.5</property>
                                             <property name="draw_indicator">True</property>
@@ -384,7 +374,6 @@
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">●</property>
                                         <property name="width_chars">5</property>
-                                        <property name="invisible_char_set">True</property>
                                         <property name="adjustment">time_h_adjustment</property>
                                         <property name="climb_rate">1</property>
                                         <property name="numeric">True</property>
@@ -401,7 +390,6 @@
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">●</property>
                                         <property name="width_chars">5</property>
-                                        <property name="invisible_char_set">True</property>
                                         <property name="adjustment">time_m_adjustment</property>
                                         <property name="climb_rate">1</property>
                                         <property name="numeric">True</property>
@@ -420,7 +408,6 @@
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">●</property>
                                         <property name="width_chars">5</property>
-                                        <property name="invisible_char_set">True</property>
                                         <property name="adjustment">time_s_adjustment</property>
                                         <property name="climb_rate">1</property>
                                         <property name="numeric">True</property>
@@ -543,24 +530,8 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">help_button</action-widget>
       <action-widget response="0">close_button</action-widget>
       <action-widget response="0">ok_button</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkAdjustment" id="time_h_adjustment">
-    <property name="upper">999999</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="time_m_adjustment">
-    <property name="upper">59</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="time_s_adjustment">
-    <property name="upper">59</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
   </object>
 </interface>

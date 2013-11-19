@@ -244,14 +244,6 @@ ok_clicked_cb (GtkWidget  *widget,
 
 
 static void
-help_clicked_cb (GtkWidget  *widget,
-                 DialogData *data)
-{
-        show_help_dialog (GTK_WINDOW (data->dialog), "gthumb-importing");
-}
-
-
-static void
 update_sensitivity (DialogData *data)
 {
 	gboolean can_import;
@@ -703,10 +695,6 @@ dlg_photo_importer (GthBrowser            *browser,
 			  "clicked",
 			  G_CALLBACK (close_dialog),
 			  data);
-        g_signal_connect (GET_WIDGET ("help_button"),
-                          "clicked",
-                          G_CALLBACK (help_clicked_cb),
-                          data);
         if (data->selector_type == DLG_IMPORTER_SOURCE_TYPE_DEVICE)
 		g_signal_connect (data->device_chooser,
 				  "changed",

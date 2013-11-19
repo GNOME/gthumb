@@ -65,14 +65,6 @@ start_button_clicked_cb (GtkWidget  *widget,
 
 
 static void
-help_button_clicked_cb (GtkWidget  *widget,
-			DialogData *data)
-{
-	show_help_dialog (GTK_WINDOW (data->dialog), "organize-files");
-}
-
-
-static void
 ignore_singletons_checkbutton_clicked_cb (GtkToggleButton *button,
 					  DialogData      *data)
 {
@@ -167,10 +159,6 @@ dlg_organize_files (GthBrowser *browser,
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  data->dialog);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("help_button")),
-			  "clicked",
-			  G_CALLBACK (help_button_clicked_cb),
-			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("start_button")),
 			  "clicked",
 			  G_CALLBACK (start_button_clicked_cb),

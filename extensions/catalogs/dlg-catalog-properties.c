@@ -141,14 +141,6 @@ save_button_clicked_cb (GtkButton  *button,
 
 
 static void
-help_button_clicked_cb (GtkWidget  *widget,
-			DialogData *data)
-{
-	show_help_dialog (GTK_WINDOW (data->dialog), "catalog-properties");
-}
-
-
-static void
 catalog_ready_cb (GObject  *object,
 		  GError   *error,
 		  gpointer  user_data)
@@ -225,10 +217,6 @@ dlg_catalog_properties (GthBrowser  *browser,
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  data->dialog);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("help_button")),
-			  "clicked",
-			  G_CALLBACK (help_button_clicked_cb),
-			  data);
 
 	/* run dialog. */
 

@@ -130,14 +130,6 @@ ok_button_clicked (GtkWidget  *button,
 
 
 static void
-help_button_cb (GtkWidget  *widget,
-		DialogData *data)
-{
-	show_help_dialog (GTK_WINDOW (data->dialog), "gthumb-batch-change-date");
-}
-
-
-static void
 update_sensitivity (DialogData *data)
 {
 	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"),
@@ -264,10 +256,6 @@ dlg_change_date (GthBrowser *browser,
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",
 			  G_CALLBACK (ok_button_clicked),
-			  data);
-	g_signal_connect (GET_WIDGET ("help_button"),
-			  "clicked",
-			  G_CALLBACK (help_button_cb),
 			  data);
 	g_signal_connect (GET_WIDGET ("change_last_modified_checkbutton"),
 			  "clicked",

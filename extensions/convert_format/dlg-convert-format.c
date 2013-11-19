@@ -60,14 +60,6 @@ dialog_destroy_cb (GtkWidget  *widget,
 }
 
 
-static void
-help_button_clicked_cb (GtkWidget  *widget,
-			DialogData *data)
-{
-	show_help_dialog (GTK_WINDOW (data->dialog), "gthumb-batch-convert-format");
-}
-
-
 static gpointer
 exec_convert (GthAsyncTask *task,
 	      gpointer      user_data)
@@ -213,10 +205,6 @@ dlg_convert_format (GthBrowser *browser,
 			  "clicked",
 			  G_CALLBACK (ok_button_clicked_cb),
 			  data);
-        g_signal_connect (GET_WIDGET ("help_button"),
-                          "clicked",
-                          G_CALLBACK (help_button_clicked_cb),
-                          data);
 	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),

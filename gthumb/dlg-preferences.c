@@ -108,14 +108,6 @@ close_button_clicked_cb (GtkWidget  *widget,
 
 
 static void
-help_button_clicked_cb (GtkWidget  *widget,
-			DialogData *data)
-{
-	show_help_dialog (GTK_WINDOW (data->dialog), NULL);
-}
-
-
-static void
 use_startup_toggled_cb (GtkWidget *widget,
 			DialogData *data)
 {
@@ -313,10 +305,6 @@ dlg_preferences (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (GET_WIDGET ("close_button")),
 			  "clicked",
 			  G_CALLBACK (close_button_clicked_cb),
-			  data);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("help_button")),
-			  "clicked",
-			  G_CALLBACK (help_button_clicked_cb),
 			  data);
 
 	/* general */

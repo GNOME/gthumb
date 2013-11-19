@@ -113,10 +113,6 @@ import_dialog_response_cb (GtkDialog *dialog,
 	DialogData *data = user_data;
 
 	switch (response_id) {
-	case GTK_RESPONSE_HELP:
-		show_help_dialog (GTK_WINDOW (data->browser), "export-to-picasaweb");
-		break;
-
 	case GTK_RESPONSE_DELETE_EVENT:
 	case GTK_RESPONSE_CANCEL:
 		gth_file_list_cancel (GTH_FILE_LIST (data->file_list), (DataFunc) gtk_widget_destroy, data->dialog);
