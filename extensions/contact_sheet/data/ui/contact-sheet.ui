@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.0 on Tue Nov 19 11:06:57 2013 -->
+<!-- Generated with glade 3.16.0 on Tue Nov 26 17:00:50 2013 -->
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkAdjustment" id="cols_adjustment">
@@ -293,7 +293,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
                                 <property name="activates_default">True</property>
-                                <property name="secondary_icon_stock">gtk-help</property>
+                                <property name="secondary_icon_name">help-browser-symbolic</property>
                                 <property name="secondary_icon_tooltip_text">Help</property>
                               </object>
                               <packing>
@@ -453,7 +453,7 @@
                                         <property name="invisible_char">●</property>
                                         <property name="activates_default">True</property>
                                         <property name="text">###</property>
-                                        <property name="secondary_icon_stock">gtk-help</property>
+                                        <property name="secondary_icon_name">help-browser-symbolic</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -690,7 +690,7 @@
                                       <object class="GtkImage" id="image1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="stock">gtk-add</property>
+                                        <property name="icon_name">list-add-symbolic</property>
                                       </object>
                                     </child>
                                   </object>
@@ -711,7 +711,7 @@
                                       <object class="GtkImage" id="image3">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="stock">gtk-edit</property>
+                                        <property name="icon_name">document-properties-symbolic</property>
                                       </object>
                                     </child>
                                   </object>
@@ -732,7 +732,7 @@
                                       <object class="GtkImage" id="image2">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="stock">gtk-remove</property>
+                                        <property name="icon_name">list-remove-symbolic</property>
                                       </object>
                                     </child>
                                   </object>
