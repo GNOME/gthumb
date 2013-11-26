@@ -59,6 +59,7 @@ typedef struct {
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
 	GtkWidget  *thumbnail_caption_chooser;
+	gulong      theme_selection_changed_event;
 } DialogData;
 
 
@@ -87,6 +88,26 @@ destroy_cb (GtkWidget  *widget,
 	g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	g_free (data);
+}
+
+
+static void
+close_dialog (DialogData *data)
+{
+	if (data->theme_selection_changed_event != 0) {
+		g_signal_handler_disconnect (GET_WIDGET ("theme_iconview"), data->theme_selection_changed_event);
+		data->theme_selection_changed_event = 0;
+	}
+	gtk_widget_destroy (data->dialog);
+}
+
+
+static void
+dialog_delete_event_cb (GtkWidget *widget,
+			GdkEvent  *event,
+			gpointer   user_data)
+{
+	close_dialog (user_data);
 }
 
 
@@ -228,7 +249,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	gth_contact_sheet_creator_set_thumbnail_caption (GTH_CONTACT_SHEET_CREATOR (task), thumbnail_caption);
 
 	gth_browser_exec_task (data->browser, task, FALSE);
-	gtk_widget_destroy (data->dialog);
+	close_dialog (data);
 
 	g_object_unref (task);
 	g_free (thumbnail_caption);
@@ -451,7 +472,7 @@ theme_dialog_response_cb (GtkDialog *dialog,
 	GError               *error = NULL;
 
 	if (response_id == GTK_RESPONSE_CANCEL) {
-		gtk_widget_destroy (GTK_WIDGET (dialog));
+		gtk_widget_destroy (dialog);
 		return;
 	}
 
@@ -537,7 +558,7 @@ theme_dialog_response_cb (GtkDialog *dialog,
 	gtk_tree_path_free (path);
 	g_object_unref (preview);
 
-	gtk_widget_destroy (GTK_WIDGET (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 
@@ -807,14 +828,18 @@ dlg_contact_sheet (GthBrowser *browser,
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
+	g_signal_connect (G_OBJECT (data->dialog),
+			  "delete-event",
+			  G_CALLBACK (dialog_delete_event_cb),
+			  data);
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
 	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
 				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  data->dialog);
+				  G_CALLBACK (close_dialog),
+				  data);
 	g_signal_connect (GET_WIDGET ("footer_entry"),
 			  "icon-press",
 			  G_CALLBACK (entry_help_icon_press_cb),
@@ -839,10 +864,11 @@ dlg_contact_sheet (GthBrowser *browser,
 			  "clicked",
 			  G_CALLBACK (delete_theme_button_clicked_cb),
 			  data);
-	g_signal_connect (GET_WIDGET ("theme_iconview"),
-			  "selection-changed",
-			  G_CALLBACK (theme_iconview_selection_changed_cb),
-			  data);
+	data->theme_selection_changed_event =
+			g_signal_connect (GET_WIDGET ("theme_iconview"),
+					  "selection-changed",
+					  G_CALLBACK (theme_iconview_selection_changed_cb),
+					  data);
 
 	/* Run dialog. */
 
