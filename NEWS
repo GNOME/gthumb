@@ -1,3 +1,15 @@
+version 3.2.5
+-------------
+
+ Bugs fixed:
+
+  * Media viewer: fixed progress bar behaviour in gtk+ 3.10
+  * Empty file format options dialog after canceling it once. (#711788)
+  * Fixed endless image reloading for some images.
+  * Fixed display of the manual.
+  * Default parameters for image resizing are misleading. (Christian
+    Krause) (#710479)
+
 version 3.2.4
 -------------
 
@@ -8,7 +20,7 @@ version 3.2.4
   * Fixed crash when opening the preferences dialog.
   * Find duplicates: fixed crash when using a predefined directory
     (Christian Krause) (#706697)
-  * Fixed crash when attempting to play a video under special 
+  * Fixed crash when attempting to play a video under special
     circumstances. (Christian Krause) (#706343)
   * Fixed crash when copying or moving files. (#705877)
 
