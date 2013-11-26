@@ -536,9 +536,8 @@ gth_application_command_line (GApplication            *application,
 
 	/* Open each dir in a new window */
 
-	singleton = (dirs != NULL) && (dirs->next == NULL);
 	for (scan = dirs; scan; scan = scan->next)
-		open_browser_window ((GFile *) scan->data, NULL, ! singleton);
+		open_browser_window ((GFile *) scan->data, NULL, TRUE);
 
 	gdk_notify_startup_complete ();
 
@@ -560,17 +559,33 @@ gth_application_local_command_line (GApplication   *application,
         GError          *error = NULL;
         gboolean         handled_locally = FALSE;
 
-        local_argv = g_strdupv (*arguments);
-        local_argc = g_strv_length (local_argv);
-
         *exit_status = 0;
 
+        local_argv = g_strdupv (*arguments);
+        local_argc = g_strv_length (local_argv);
         context = gth_application_create_option_context ();
 	if (! g_option_context_parse (context, &local_argc, &local_argv, &error)) {
 		*exit_status = EXIT_FAILURE;
 		g_critical ("Failed to parse arguments: %s", error->message);
                 g_clear_error (&error);
                 handled_locally = TRUE;
+	}
+	g_strfreev (local_argv);
+
+	/* substitute the dot with the local current folder */
+
+	local_argv = *arguments;
+	if ((local_argv != NULL) && (local_argv[0] != NULL)) {
+		int i;
+
+		for (i = 1; local_argv[i] != NULL; i++) {
+			if (strstr (local_argv[i], ".") != NULL) {
+				GFile *location = g_file_new_for_commandline_arg (local_argv[i]);
+				g_free (local_argv[i]);
+				local_argv[i] = g_file_get_uri (location);
+				g_object_unref (location);
+			}
+		}
 	}
 
 	if (version) {
@@ -579,7 +594,6 @@ gth_application_local_command_line (GApplication   *application,
 	}
 
 	g_option_context_free (context);
-        g_strfreev (local_argv);
 
         return handled_locally;
 }
