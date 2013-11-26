@@ -472,7 +472,7 @@ theme_dialog_response_cb (GtkDialog *dialog,
 	GError               *error = NULL;
 
 	if (response_id == GTK_RESPONSE_CANCEL) {
-		gtk_widget_destroy (dialog);
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return;
 	}
 
@@ -558,7 +558,7 @@ theme_dialog_response_cb (GtkDialog *dialog,
 	gtk_tree_path_free (path);
 	g_object_unref (preview);
 
-	gtk_widget_destroy (dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 
