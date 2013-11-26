@@ -875,23 +875,21 @@ _cairo_draw_slide (cairo_t  *cr,
 					 image_height);
 			cairo_fill (cr);
 
-			image_x -= 1;
-			image_y -= 1;
-			image_x2 = image_x + image_width + 2;
-			image_y2 = image_y + image_height + 2;
+			image_x2 = image_x + image_width + 1;
+			image_y2 = image_y + image_height + 1;
 
 			cairo_set_source_rgb (cr, dark_gray, dark_gray, dark_gray);
 			cairo_move_to (cr, image_x, image_y);
-			cairo_line_to (cr, image_x2 - 1, image_y);
+			cairo_line_to (cr, image_x2, image_y);
 			cairo_move_to (cr, image_x, image_y);
-			cairo_line_to (cr, image_x, image_y2 - 1);
+			cairo_line_to (cr, image_x, image_y2);
 			cairo_stroke (cr);
 
 			cairo_set_source_rgb (cr, mid_gray, mid_gray, mid_gray);
-			cairo_move_to (cr, image_x2 - 1, image_y - 1);
-			cairo_line_to (cr, image_x2 - 1, image_y2 - 1);
-			cairo_move_to (cr, image_x, image_y2 - 1);
-			cairo_line_to (cr, image_x2, image_y2 - 1);
+			cairo_move_to (cr, image_x2, image_y);
+			cairo_line_to (cr, image_x2, image_y2);
+			cairo_move_to (cr, image_x, image_y2);
+			cairo_line_to (cr, image_x2, image_y2);
 			cairo_stroke (cr);
 		}
 	}
@@ -899,31 +897,31 @@ _cairo_draw_slide (cairo_t  *cr,
 	/* outer border. */
 
 	cairo_set_source_rgb (cr, mid_gray, mid_gray, mid_gray);
-	cairo_move_to (cr, frame_x - 1, frame_y);
+	cairo_move_to (cr, frame_x, frame_y);
 	cairo_line_to (cr, frame_x2, frame_y);
-	cairo_move_to (cr, frame_x, frame_y - 1);
+	cairo_move_to (cr, frame_x, frame_y);
 	cairo_line_to (cr, frame_x, frame_y2);
 	cairo_stroke (cr);
 
 	cairo_set_source_rgb (cr, darker_gray, darker_gray, darker_gray);
-	cairo_move_to (cr, frame_x2, frame_y - 1);
+	cairo_move_to (cr, frame_x2, frame_y);
 	cairo_line_to (cr, frame_x2, frame_y2);
-	cairo_move_to (cr, frame_x - 1, frame_y2);
+	cairo_move_to (cr, frame_x, frame_y2);
 	cairo_line_to (cr, frame_x2, frame_y2);
 	cairo_stroke (cr);
 
 	cairo_set_source_rgb (cr, light_gray, light_gray, light_gray);
-	cairo_move_to (cr, frame_x, frame_y + 1);
-	cairo_line_to (cr, frame_x2 - 1, frame_y + 1);
-	cairo_move_to (cr, frame_x + 1, frame_y);
-	cairo_line_to (cr, frame_x + 1, frame_y2 - 1);
+	cairo_move_to (cr, frame_x, frame_y);
+	cairo_line_to (cr, frame_x2, frame_y);
+	cairo_move_to (cr, frame_x, frame_y);
+	cairo_line_to (cr, frame_x, frame_y2);
 	cairo_stroke (cr);
 
 	cairo_set_source_rgb (cr, dark_gray, dark_gray, dark_gray);
-	cairo_move_to (cr, frame_x2 - 1, frame_y);
-	cairo_line_to (cr, frame_x2 - 1, frame_y2 - 1);
-	cairo_move_to (cr, frame_x, frame_y2 - 1);
-	cairo_line_to (cr, frame_x2 - 1, frame_y2 - 1);
+	cairo_move_to (cr, frame_x2, frame_y);
+	cairo_line_to (cr, frame_x2, frame_y2);
+	cairo_move_to (cr, frame_x, frame_y2);
+	cairo_line_to (cr, frame_x2, frame_y2);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);

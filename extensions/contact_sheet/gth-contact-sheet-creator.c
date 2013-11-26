@@ -880,7 +880,6 @@ static void
 load_current_image (GthContactSheetCreator *self)
 {
 	ItemData *item_data;
-	int       requested_size;
 
 	if (self->priv->current_file == NULL) {
 		if (self->priv->sort_type->cmp_func != 0)
@@ -898,16 +897,9 @@ load_current_image (GthContactSheetCreator *self)
 			   FALSE,
 			   ((double) ++self->priv->n_loaded_files) / (self->priv->n_files + 1));
 
-	if (self->priv->squared_thumbnails)
-		/* the squared thumbnail requires the original size to avoid
-		 * a thumbnail upscaling that degrades the image quality. */
-		requested_size = -1;
-	else
-		requested_size = MAX (self->priv->thumb_height, self->priv->thumb_width);
-
 	gth_image_loader_load (self->priv->image_loader,
 			       item_data->file_data,
-			       requested_size,
+			       -1,
 			       G_PRIORITY_DEFAULT,
 			       gth_task_get_cancellable (GTH_TASK (self)),
 			       image_loader_ready_cb,
@@ -943,10 +935,19 @@ image_loader_ready_cb (GObject      *source_object,
 	image_surface = gth_image_get_cairo_surface (image);
 
 	item_data = self->priv->current_file->data;
-	if (self->priv->squared_thumbnails)
+	if (self->priv->squared_thumbnails) {
 		item_data->thumbnail = _cairo_image_surface_scale_squared (image_surface, MIN (self->priv->thumb_height, self->priv->thumb_width), SCALE_FILTER_BEST, NULL);
-	else
-		item_data->thumbnail = cairo_surface_reference (image_surface);
+	}
+	else {
+		int width, height;
+
+		width = cairo_image_surface_get_width (image_surface);
+		height = cairo_image_surface_get_height (image_surface);
+		if (scale_keeping_ratio (&width, &height, self->priv->thumb_width, self->priv->thumb_height, FALSE))
+			item_data->thumbnail = _cairo_image_surface_scale (image_surface, width, height, SCALE_FILTER_BEST, NULL);
+		else
+			item_data->thumbnail = cairo_surface_reference (image_surface);
+	}
 	item_data->original_width = original_width;
 	item_data->original_height = original_height;
 
