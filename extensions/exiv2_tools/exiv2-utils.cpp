@@ -457,9 +457,8 @@ set_attribute_from_metadata (GFileInfo  *info,
 }
 
 
-static void
-set_attribute_from_tagset (GFileInfo  *info,
-			   const char *attribute,
+static GObject *
+get_attribute_from_tagset (GFileInfo  *info,
 			   const char *tagset[])
 {
 	GObject *metadata;
@@ -469,9 +468,21 @@ set_attribute_from_tagset (GFileInfo  *info,
 	for (i = 0; tagset[i] != NULL; i++) {
 		metadata = g_file_info_get_attribute_object (info, tagset[i]);
 		if (metadata != NULL)
-			break;
+			return metadata;
 	}
 
+	return NULL;
+}
+
+
+static void
+set_attribute_from_tagset (GFileInfo  *info,
+			   const char *attribute,
+			   const char *tagset[])
+{
+	GObject *metadata;
+
+	metadata = get_attribute_from_tagset (info, tagset);
 	if (metadata != NULL)
 		set_attribute_from_metadata (info, attribute, metadata);
 }
@@ -575,6 +586,9 @@ exiv2_update_general_attributes (GFileInfo *info)
 }
 
 
+#define EXPOSURE_SEPARATOR " · "
+
+
 static void
 set_attributes_from_tagsets (GFileInfo *info,
 			     gboolean   update_general_attributes)
@@ -587,6 +601,76 @@ set_attributes_from_tagsets (GFileInfo *info,
 
 	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Image::Orientation", _ORIENTATION_TAG_NAMES);
+
+	/* Embedded::Photo::Exposure */
+
+	GObject *aperture;
+	GObject *iso_speed;
+	GObject *shutter_speed;
+	GObject *exposure_time;
+	GString *exposure;
+
+	aperture = get_attribute_from_tagset (info, _APERTURE_TAG_NAMES);
+	iso_speed = get_attribute_from_tagset (info, _ISOSPEED_TAG_NAMES);
+	shutter_speed = get_attribute_from_tagset (info, _SHUTTER_SPEED_TAG_NAMES);
+	exposure_time = get_attribute_from_tagset (info, _EXPOSURE_TIME_TAG_NAMES);
+
+	exposure = g_string_new ("");
+
+	if (aperture != NULL) {
+		char *formatted_value;
+
+		g_object_get (aperture, "formatted", &formatted_value, NULL);
+		if (formatted_value != NULL) {
+			g_string_append (exposure, formatted_value);
+			g_free (formatted_value);
+		}
+	}
+
+	if (iso_speed != NULL) {
+		char *formatted_value;
+
+		g_object_get (iso_speed, "formatted", &formatted_value, NULL);
+		if (formatted_value != NULL) {
+			if (exposure->len > 0)
+				g_string_append (exposure, EXPOSURE_SEPARATOR);
+			g_string_append (exposure, formatted_value);
+			g_free (formatted_value);
+		}
+	}
+
+	if (shutter_speed != NULL) {
+		char *formatted_value;
+
+		g_object_get (shutter_speed, "formatted", &formatted_value, NULL);
+		if (formatted_value != NULL) {
+			if (exposure->len > 0)
+				g_string_append (exposure, EXPOSURE_SEPARATOR);
+			g_string_append (exposure, formatted_value);
+			g_free (formatted_value);
+		}
+	}
+	else if (exposure_time != NULL) {
+		char *formatted_value;
+
+		g_object_get (exposure_time, "formatted", &formatted_value, NULL);
+		if (formatted_value != NULL) {
+			if (exposure->len > 0)
+				g_string_append (exposure, EXPOSURE_SEPARATOR);
+			g_string_append (exposure, formatted_value);
+			g_free (formatted_value);
+		}
+	}
+
+	set_file_info (info,
+		       "Embedded::Photo::Exposure",
+		       _("Exposure"),
+		       exposure->str,
+		       NULL,
+		       NULL,
+		       NULL);
+
+	g_string_free (exposure, TRUE);
 }
 
 

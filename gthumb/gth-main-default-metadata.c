@@ -52,6 +52,7 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "general::description", N_("Description"), "general", 17, NULL, GTH_METADATA_ALLOW_IN_PRINT },
 	{ "general::tags", N_("Tags"), "general", 18, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::rating", N_("Rating"), "general", 19, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "Embedded::Photo::Exposure", N_("Exposure"), "general", 20, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW  },
 
 	{ "gth::file::emblems", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "image::width", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
