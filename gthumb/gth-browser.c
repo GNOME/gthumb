@@ -4215,7 +4215,7 @@ gth_browser_init (GthBrowser *browser)
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
-					     GTK_SHADOW_ETCHED_IN);
+					     GTK_SHADOW_NONE);
 	gtk_widget_show (scrolled_window);
 
 	browser->priv->folder_tree = gth_folder_tree_new ("gthumb-vfs:///");
