@@ -1116,6 +1116,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		ed["Exif.Image.DateTime"] = date_time;
 		g_free (date_time);
 	}
+	ed.sortByKey();
 
 	// IPTC Data
 
@@ -1164,6 +1165,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 		g_free (key);
 	}
+	id.sortByKey();
 	g_strfreev (attributes);
 
 	// XMP Data
@@ -1173,13 +1175,6 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 	for (i = 0; attributes[i] != NULL; i++) {
 		gpointer  metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
 		char     *key = exiv2_key_from_attribute (attributes[i]);
-
-		// Remove existing tags of the same type.
-		// Seems to be needed for storing category keywords.
-		// Not exactly sure why!
-		/*Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (key));
-		if (iter != xd.end ())
-			xd.erase (iter);*/
 
 		try {
 			const char *value_type;
@@ -1220,6 +1215,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 		g_free (key);
 	}
+	xd.sortByKey();
 	g_strfreev (attributes);
 
 	try {
