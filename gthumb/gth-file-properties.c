@@ -25,6 +25,7 @@
 #include "gth-file-properties.h"
 #include "gth-main.h"
 #include "gth-multipage.h"
+#include "gth-preferences.h"
 #include "gth-sidebar.h"
 #include "gth-string-list.h"
 #include "gth-time.h"
@@ -60,6 +61,9 @@ struct _GthFilePropertiesPrivate {
 	GtkWidget     *comment_win;
 	GtkListStore  *tree_model;
 	GtkWidget     *popup_menu;
+	GtkWidget     *details_button;
+	gboolean       show_details;
+	GthFileData   *last_file_data;
 };
 
 
@@ -110,8 +114,16 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 	GList             *scan;
 	GtkTextBuffer     *text_buffer;
 	char              *comment;
+	gboolean           details_available;
 
 	self = GTH_FILE_PROPERTIES (base);
+
+	if (file_data != self->priv->last_file_data) {
+		_g_object_unref (self->priv->last_file_data);
+		self->priv->last_file_data = gth_file_data_dup (file_data);
+	}
+
+	gtk_widget_set_sensitive (self->priv->details_button, FALSE);
 	gtk_list_store_clear (self->priv->tree_model);
 
 	if (file_data == NULL) {
@@ -121,6 +133,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 
+	details_available = FALSE;
 	category_hash = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 	metadata_info = gth_main_get_all_metadata_info ();
 	for (scan = metadata_info; scan; scan = scan->next) {
@@ -136,6 +149,24 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 		value = gth_file_data_get_attribute_as_string (file_data, info->id);
 		if ((value == NULL) || (*value == '\0'))
 			continue;
+
+		if (info->id != NULL) {
+			if (g_str_has_prefix (info->id, "Exif")) {
+				details_available = TRUE;
+				if (! self->priv->show_details)
+					continue;
+			}
+			if (g_str_has_prefix (info->id, "Iptc")) {
+				details_available = TRUE;
+				if (! self->priv->show_details)
+					continue;
+			}
+			if (g_str_has_prefix (info->id, "Xmp")) {
+				details_available = TRUE;
+				if (! self->priv->show_details)
+					continue;
+			}
+		}
 
 		if (value != NULL) {
 			char *tmp_value;
@@ -181,6 +212,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (self->priv->tree_view));
+	gtk_widget_set_sensitive (self->priv->details_button, details_available);
 
 	g_hash_table_destroy (category_hash);
 
@@ -231,6 +263,7 @@ gth_file_properties_finalize (GObject *base)
 
 	if (self->priv->popup_menu != NULL)
 		gtk_widget_destroy (self->priv->popup_menu);
+	_g_object_unref (self->priv->last_file_data);
 
 	G_OBJECT_CLASS (gth_file_properties_parent_class)->finalize (base);
 }
@@ -323,15 +356,40 @@ tree_view_popup_menu_cb (GtkWidget *widget,
 
 
 static void
+details_button_toggled_cb (GtkToggleButton *button,
+			   gpointer         user_data)
+{
+	GthFileProperties *self = user_data;
+	GSettings         *settings;
+
+	self->priv->show_details = gtk_toggle_button_get_active (button);
+	gth_file_properties_real_set_file (GTH_PROPERTY_VIEW (self), self->priv->last_file_data);
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_PROPERTIES_DETAILS, self->priv->show_details);
+	g_object_unref (settings);
+}
+
+
+static void
 gth_file_properties_init (GthFileProperties *self)
 {
+	GSettings         *settings;
 	GtkWidget         *vpaned;
+	GtkWidget         *properties_box;
 	GtkWidget         *scrolled_win;
+	GtkWidget         *button_box;
 	GtkWidget         *menu_item;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+
 	self->priv = GTH_FILE_PROPERTIES_GET_PRIVATE (self);
+	self->priv->show_details = g_settings_get_boolean (settings, PREF_BROWSER_PROPERTIES_DETAILS);
+	self->priv->last_file_data = NULL;
+
+	g_object_unref (settings);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (self), 6);
@@ -340,12 +398,29 @@ gth_file_properties_init (GthFileProperties *self)
 	gtk_widget_show (vpaned);
 	gtk_box_pack_start (GTK_BOX (self), vpaned, TRUE, TRUE, 0);
 
+	properties_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
+	gtk_widget_show (properties_box);
+	gtk_paned_pack1 (GTK_PANED (vpaned), properties_box, TRUE, FALSE);
+
 	scrolled_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_NONE);
 	gtk_widget_show (scrolled_win);
 	gtk_widget_set_size_request (scrolled_win, -1, MIN_HEIGHT);
-	gtk_paned_pack1 (GTK_PANED (vpaned), scrolled_win, TRUE, FALSE);
+	gtk_box_pack_start (GTK_BOX (properties_box), scrolled_win, TRUE, TRUE, 0);
+
+	button_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
+	gtk_widget_show (button_box);
+	gtk_box_pack_start (GTK_BOX (properties_box), button_box, FALSE, FALSE, 2);
+
+	self->priv->details_button = gtk_toggle_button_new_with_label (_("Details"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->details_button), self->priv->show_details);
+	gtk_widget_show (self->priv->details_button);
+	gtk_box_pack_start (GTK_BOX (button_box), self->priv->details_button, FALSE, FALSE, 0);
+	g_signal_connect (self->priv->details_button,
+			  "toggled",
+			  G_CALLBACK (details_button_toggled_cb),
+			  self);
 
 	self->priv->tree_view = gtk_tree_view_new ();
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (self->priv->tree_view), FALSE);

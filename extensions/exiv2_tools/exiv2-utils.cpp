@@ -176,6 +176,27 @@ const char *_RATING_TAG_NAMES[] = {
 	NULL
 };
 
+const char *_AUTHOR_TAG_NAMES[] = {
+	"Exif::Image::Artist",
+	"Iptc::Application2::Byline",
+	"Xmp::dc::creator",
+	"Xmp::xmpDM::artist",
+	"Xmp::tiff::Artist",
+	"Xmp::plus::ImageCreator",
+	"Xmp::plus::ImageCreatorName",
+	NULL
+};
+
+const char *_COPYRIGHT_TAG_NAMES[] = {
+	"Exif::Image::Copyright",
+	"Iptc::Application2::Copyright",
+	"Xmp::dc::rights",
+	"Xmp::xmpDM::copyright",
+	"Xmp::tiff::Copyright",
+	"Xmp::plus::CopyrightOwner",
+	"Xmp::plus::CopyrightOwnerName",
+	NULL
+};
 
 /* Some evil camera fill in the ImageDescription or UserComment fields
    with useless fluff. Try to filter these out, so they do not show up
@@ -601,6 +622,16 @@ set_attributes_from_tagsets (GFileInfo *info,
 
 	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Image::Orientation", _ORIENTATION_TAG_NAMES);
+
+	set_attribute_from_tagset (info, "Embedded::Photo::Aperture", _APERTURE_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::ISOSpeed", _ISOSPEED_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::ExposureTime", _EXPOSURE_TIME_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::ShutterSpeed", _SHUTTER_SPEED_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::FocalLength", _FOCAL_LENGTH_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::Flash", _FLASH_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::CameraModel", _MODEL_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::Author", _AUTHOR_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::Copyright", _COPYRIGHT_TAG_NAMES);
 
 	/* Embedded::Photo::Exposure */
 

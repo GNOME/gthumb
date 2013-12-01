@@ -30,7 +30,7 @@
 
 GthMetadataCategory file_metadata_category[] = {
 	{ "file", N_("File"), 1 },
-	{ "general", N_("General"), 2 },
+	{ "general", N_("Metadata"), 2 },
 	{ NULL, NULL, 0 }
 };
 
@@ -41,18 +41,29 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "gth::file::display-mtime", N_("Modified"), "file", 3, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "standard::fast-content-type", N_("Type"), "file", 4, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "gth::file::is-modified", NULL, "file", 5, NULL, GTH_METADATA_ALLOW_NOWHERE },
-	{ "gth::file::full-name", N_("Full Name"), "file", 6, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "gth::file::full-name", N_("Location"), "file", 6, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "general::format", N_("Format"), "file", 10, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "general::dimensions", N_("Dimensions"), "file", 12, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::duration", N_("Duration"), "file", 11, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 
-	{ "general::title", N_("Title"), "general", 1, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::dimensions", N_("Dimensions"), "general", 10, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::duration", N_("Duration"), "general", 11, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::format", N_("Format"), "general", 12, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "general::location", N_("Place"), "general", 14, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::datetime", N_("Date"), "general", 15, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::description", N_("Description"), "general", 17, NULL, GTH_METADATA_ALLOW_IN_PRINT },
-	{ "general::tags", N_("Tags"), "general", 18, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "general::rating", N_("Rating"), "general", 19, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "Embedded::Photo::Exposure", N_("Exposure"), "general", 20, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW  },
+	{ "Embedded::Photo::Exposure", N_("Exposure Settings"), "general", 10, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST  },
+	{ "Embedded::Photo::Aperture", N_("Aperture"), "general", 11, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
+	{ "Embedded::Photo::ISOSpeed", N_("ISO Speed"), "general", 12, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
+	{ "Embedded::Photo::ExposureTime", N_("Exposure Time"), "general", 13, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
+	{ "Embedded::Photo::ShutterSpeed", N_("Shutter Speed"), "general", 14, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
+	{ "Embedded::Photo::FocalLength", N_("Focal Length"), "general", 16, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
+	{ "Embedded::Photo::Flash", N_("Flash"), "general", 17, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
+	{ "Embedded::Photo::CameraModel", N_("Camera Model"), "general", 18, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
+
+	{ "general::datetime", N_("Date"), "general", 20, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::title", N_("Title"), "general", 21, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::location", N_("Place"), "general", 22, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::description", N_("Description"), "general", 23, NULL, GTH_METADATA_ALLOW_IN_PRINT },
+	{ "general::tags", N_("Tags"), "general", 24, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::rating", N_("Rating"), "general", 25, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+
+	{ "Embedded::Photo::Author", N_("Author"), "general", 30, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
+	{ "Embedded::Photo::Copyright", N_("Copyright"), "general", 31, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
 
 	{ "gth::file::emblems", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "image::width", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
