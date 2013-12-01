@@ -634,6 +634,7 @@ set_attributes_from_tagsets (GFileInfo *info,
 		if (formatted_value != NULL) {
 			if (exposure->len > 0)
 				g_string_append (exposure, EXPOSURE_SEPARATOR);
+			g_string_append (exposure, "ISO ");
 			g_string_append (exposure, formatted_value);
 			g_free (formatted_value);
 		}
