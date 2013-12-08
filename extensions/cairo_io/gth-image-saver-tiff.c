@@ -210,14 +210,14 @@ gth_image_saver_tiff_can_save (GthImageSaver *self,
 
 
 static tsize_t
-tiff_save_read (thandle_t handle, tdata_t buf, tsize_t size)
+tiff_read (thandle_t handle, tdata_t buf, tsize_t size)
 {
 	return -1;
 }
 
 
 static tsize_t
-tiff_save_write (thandle_t handle, tdata_t buf, tsize_t size)
+tiff_write (thandle_t handle, tdata_t buf, tsize_t size)
 {
         GthBufferData *buffer_data = (GthBufferData *)handle;
 
@@ -227,7 +227,7 @@ tiff_save_write (thandle_t handle, tdata_t buf, tsize_t size)
 
 
 static toff_t
-tiff_save_seek (thandle_t handle, toff_t offset, int whence)
+tiff_seek (thandle_t handle, toff_t offset, int whence)
 {
 	GthBufferData *buffer_data = (GthBufferData *)handle;
 
@@ -236,14 +236,14 @@ tiff_save_seek (thandle_t handle, toff_t offset, int whence)
 
 
 static int
-tiff_save_close (thandle_t context)
+tiff_close (thandle_t context)
 {
         return 0;
 }
 
 
 static toff_t
-tiff_save_size (thandle_t handle)
+tiff_size (thandle_t handle)
 {
         return -1;
 }
@@ -367,11 +367,15 @@ _cairo_surface_write_as_tiff (cairo_surface_t  *image,
 	rowsperstrip = TILE_HEIGHT;
 
 	buffer_data = gth_buffer_data_new ();
-	tif = TIFFClientOpen ("gth-tiff-writer", "w", buffer_data,
-	                      tiff_save_read, tiff_save_write,
-	                      tiff_save_seek, tiff_save_close,
-	                      tiff_save_size,
-	                      NULL, NULL);
+	tif = TIFFClientOpen ("gth-tiff-writer", "w",
+			      buffer_data,
+	                      tiff_read,
+	                      tiff_write,
+	                      tiff_seek,
+	                      tiff_close,
+	                      tiff_size,
+	                      NULL,
+	                      NULL);
 	if (tif == NULL) {
 		g_set_error_literal (error,
 				     GDK_PIXBUF_ERROR,
