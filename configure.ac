@@ -387,6 +387,7 @@ if test x$enable_tiff = xyes ; then
 	unset SAVE_CFLAGS
 fi
 AC_SUBST(TIFF_LIBS)
+AM_CONDITIONAL(ENABLE_TIFF, test "x$enable_tiff" = xyes)
 
 dnl ===========================================================================
 

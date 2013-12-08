@@ -66,6 +66,12 @@ libcairo_io_la_SOURCES +=		\
 	gth-image-saver-webp.h
 endif
 
+if ENABLE_TIFF
+libcairo_io_la_SOURCES +=		\
+	cairo-image-surface-tiff.c	\
+	cairo-image-surface-tiff.h
+endif
+
 libcairo_io_la_CFLAGS = $(GTHUMB_CFLAGS) $(JPEG_CFLAGS) $(LIBRSVG_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb
 libcairo_io_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libcairo_io_la_LIBADD = $(GTHUMB_LIBS) $(JPEG_LIBS) $(TIFF_LIBS) $(LIBRSVG_LIBS) $(LIBWEBP_LIBS)

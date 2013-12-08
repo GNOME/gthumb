@@ -25,6 +25,7 @@
 #include "cairo-image-surface-jpeg.h"
 #include "cairo-image-surface-png.h"
 #include "cairo-image-surface-svg.h"
+#include "cairo-image-surface-tiff.h"
 #include "cairo-image-surface-webp.h"
 #include "cairo-image-surface-xcf.h"
 #include "gth-image-saver-jpeg.h"
@@ -61,6 +62,13 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_PNG);
 	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_TGA);
 	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_TIFF);
+
+#ifdef HAVE_LIBTIFF
+	gth_main_register_image_loader_func (_cairo_image_surface_create_from_tiff,
+					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
+					     "image/tiff",
+					     NULL);
+#endif
 
 #ifdef HAVE_LIBWEBP
 	gth_main_register_image_loader_func (_cairo_image_surface_create_from_webp,
