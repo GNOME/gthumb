@@ -348,7 +348,7 @@ update_visibility_cb (gpointer user_data)
 	gboolean            visible;
 
 	if (! self->priv->active)
-		return;
+		return FALSE;
 
 	if (self->priv->update_visibility_id != 0) {
 		g_source_remove (self->priv->update_visibility_id);
@@ -1033,6 +1033,7 @@ preloader_load_ready_cb (GObject	*source_object,
 					 original_height);
 
 	gth_image_viewer_page_file_loaded (self, TRUE);
+	update_image_quality_if_required (self);
 
 clear_data:
 
