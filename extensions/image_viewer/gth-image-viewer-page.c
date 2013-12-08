@@ -82,6 +82,7 @@ struct _GthImageViewerPagePrivate {
 	guint              file_popup_merge_id;
 	GthImageHistory   *history;
 	GthFileData       *file_data;
+	gboolean           active;
 	gboolean           image_changed;
 	gboolean           loading_image;
 	GFile             *last_loaded;
@@ -345,6 +346,9 @@ update_visibility_cb (gpointer user_data)
 {
 	GthImageViewerPage *self = user_data;
 	gboolean            visible;
+
+	if (! self->priv->active)
+		return;
 
 	if (self->priv->update_visibility_id != 0) {
 		g_source_remove (self->priv->update_visibility_id);
@@ -782,6 +786,8 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	self = (GthImageViewerPage*) base;
 
 	self->priv->browser = browser;
+	self->priv->active = TRUE;
+
 	g_action_map_add_action_entries (G_ACTION_MAP (browser),
 					 actions,
 					 G_N_ELEMENTS (actions),
@@ -921,6 +927,7 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 
 	g_object_unref (self->priv->preloader);
 	self->priv->preloader = NULL;
+	self->priv->active = FALSE;
 
 	gth_browser_set_viewer_widget (self->priv->browser, NULL);
 }
@@ -1606,6 +1613,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->can_paste = FALSE;
 	self->priv->update_quality_id = 0;
 	self->priv->update_visibility_id = 0;
+	self->priv->active = FALSE;
 }
 
 
