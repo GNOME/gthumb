@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-08 17:53+0000\n"
-"PO-Revision-Date: 2013-12-09 11:39+0100\n"
+"POT-Creation-Date: 2013-12-19 13:23+0000\n"
+"PO-Revision-Date: 2013-12-24 18:01+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -3797,11 +3797,11 @@ msgstr "_X:"
 msgid "_Y:"
 msgstr "_Y:"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:508
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:498
 msgid "Red Eye Removal"
 msgstr "Odstranění červených očí"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:509
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:499
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Odstraní efekt červených očí způsobený bleskem fotoaparátu"
 
@@ -4512,7 +4512,7 @@ msgid "An image viewer and browser for GNOME."
 msgstr "Prohlížeč obrázků pro prostředí GNOME."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:172
-msgid "translator_credits"
+msgid "translator-credits"
 msgstr ""
 "Michal Bukovjan <bukm@centrum.cz>\n"
 "Miloslav Trmač <mitr@volny.cz>\n"
