@@ -74,6 +74,8 @@ extensions/cairo_io/cairo-image-surface-png.c
 extensions/cairo_io/cairo-image-surface-png.h
 extensions/cairo_io/cairo-image-surface-svg.c
 extensions/cairo_io/cairo-image-surface-svg.h
+extensions/cairo_io/cairo-image-surface-tiff.c
+extensions/cairo_io/cairo-image-surface-tiff.h
 extensions/cairo_io/cairo-image-surface-webp.c
 extensions/cairo_io/cairo-image-surface-webp.h
 extensions/cairo_io/cairo-image-surface-xcf.c
