@@ -1,14 +1,49 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
 <interface>
-  <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy project-wide -->
+  <requires lib="gtk+" version="3.10"/>
+  <object class="GtkTreeStore" id="attribute_treestore">
+    <columns>
+      <!-- column-name id -->
+      <column type="gchararray"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name sort_order -->
+      <column type="gint"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="date_format_liststore">
+    <columns>
+      <!-- column-name format -->
+      <column type="gchararray"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkAdjustment" id="enumerator_digits_adjustment">
+    <property name="lower">1</property>
+    <property name="upper">1000</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkListStore" id="type_liststore">
+    <columns>
+      <!-- column-name data -->
+      <column type="gpointer"/>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkHBox" id="code_selector">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">2</property>
     <property name="spacing">6</property>
     <child>
       <object class="GtkComboBox" id="type_combobox">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="model">type_liststore</property>
         <child>
           <object class="GtkCellRendererText" id="cellrenderertext1"/>
@@ -19,6 +54,7 @@
       </object>
       <packing>
         <property name="expand">False</property>
+        <property name="fill">True</property>
         <property name="position">0</property>
       </packing>
     </child>
@@ -28,17 +64,17 @@
         <property name="can_focus">True</property>
         <property name="show_tabs">False</property>
         <property name="show_border">False</property>
-        <property name="homogeneous">True</property>
         <child>
           <object class="GtkEntry" id="text_entry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="invisible_char">&#x25CF;</property>
+            <property name="invisible_char">●</property>
           </object>
         </child>
         <child type="tab">
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="tab_fill">False</property>
@@ -47,26 +83,30 @@
         <child>
           <object class="GtkHBox" id="hbox3">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkSpinButton" id="enumerator_digits_spinbutton">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
                 <property name="adjustment">enumerator_digits_adjustment</property>
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">digits</property>
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -78,6 +118,7 @@
         <child type="tab">
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="position">1</property>
@@ -87,6 +128,7 @@
         <child>
           <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
               <placeholder/>
             </child>
@@ -98,6 +140,7 @@
         <child type="tab">
           <object class="GtkLabel" id="label3">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="position">2</property>
@@ -107,21 +150,25 @@
         <child>
           <object class="GtkHBox" id="hbox4">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="label5">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">format:</property>
               </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkComboBox" id="date_format_combobox">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="model">date_format_liststore</property>
                 <child>
                   <object class="GtkCellRendererText" id="cellrenderertext2"/>
@@ -131,15 +178,19 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
             <child>
               <object class="GtkEntry" id="custom_date_format_entry">
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
             </child>
@@ -151,6 +202,7 @@
         <child type="tab">
           <object class="GtkLabel" id="label6">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="position">3</property>
@@ -160,6 +212,7 @@
         <child>
           <object class="GtkComboBox" id="attribute_combobox">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="model">attribute_treestore</property>
             <child>
               <object class="GtkCellRendererText" id="cellrenderertext3"/>
@@ -175,6 +228,7 @@
         <child type="tab">
           <object class="GtkLabel" id="label7">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="position">4</property>
@@ -183,12 +237,15 @@
         </child>
       </object>
       <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
     </child>
     <child>
       <object class="GtkHBox" id="hbox2">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkButton" id="remove_button">
@@ -199,11 +256,14 @@
             <child>
               <object class="GtkImage" id="image2">
                 <property name="visible">True</property>
-                <property name="stock">gtk-remove</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">list-remove-symbolic</property>
               </object>
             </child>
           </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
@@ -216,52 +276,23 @@
             <child>
               <object class="GtkImage" id="image1">
                 <property name="visible">True</property>
-                <property name="stock">gtk-add</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">list-add-symbolic</property>
               </object>
             </child>
           </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
         <property name="expand">False</property>
+        <property name="fill">True</property>
         <property name="position">2</property>
       </packing>
     </child>
-  </object>
-  <object class="GtkListStore" id="type_liststore">
-    <columns>
-      <!-- column-name data -->
-      <column type="gpointer"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="date_format_liststore">
-    <columns>
-      <!-- column-name format -->
-      <column type="gchararray"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkAdjustment" id="enumerator_digits_adjustment">
-    <property name="value">1</property>
-    <property name="lower">1</property>
-    <property name="upper">1000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkTreeStore" id="attribute_treestore">
-    <columns>
-      <!-- column-name id -->
-      <column type="gchararray"/>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name sort_order -->
-      <column type="gint"/>
-    </columns>
   </object>
 </interface>
