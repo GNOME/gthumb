@@ -25,6 +25,11 @@ GthEmptyList.frame:backdrop {
 
 .histogram {
 	background-color: #333333;
+	border-color: #282828;
+}
+
+.histogram:backdrop {
+	border-color: @theme_unfocused_fg_color;
 }
 
 .histogram:selected,
