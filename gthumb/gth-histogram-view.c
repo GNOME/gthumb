@@ -565,6 +565,7 @@ histogram_view_draw_cb (GtkWidget *widget,
 	style_context = gtk_widget_get_style_context (widget);
 	gtk_style_context_save (style_context);
 	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_add_class (style_context, "histogram");
 
 	gtk_widget_get_allocation (widget, &allocation);
 	gtk_render_background (style_context, cr, 0, 0, allocation.width, allocation.height);

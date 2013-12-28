@@ -21,6 +21,23 @@ GthEmptyList.frame:backdrop {
 	border-color: @unfocused_borders;
 }
 
+/* -- histogram -- */
+
+.histogram {
+	background-color: #333333;
+}
+
+.histogram:selected,
+.histogram:selected:focus {
+	background-color: @theme_selected_bg_color;
+	color: @theme_selected_fg_color;
+}
+
+.histogram:backdrop:selected {
+	background-color: @theme_unfocused_selected_bg_color;
+	color: @theme_unfocused_selected_fg_color;
+}
+
 /* -- comment -- */
 
 @define-color comment_bg #f5fabf;
