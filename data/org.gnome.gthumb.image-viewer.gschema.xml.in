@@ -29,6 +29,9 @@
       <default>true</default>
       <_description>Whether to reset the scrollbars position after changing image</_description>
     </key>
+    <key name="histogram-scale" enum="org.gnome.gthumb.GthHistogramScale">
+      <default>'linear'</default>
+    </key>
   </schema>
 
 </schemalist>

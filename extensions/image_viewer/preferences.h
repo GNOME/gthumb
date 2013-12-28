@@ -33,6 +33,7 @@
 #define PREF_IMAGE_VIEWER_ZOOM_QUALITY      "zoom-quality"
 #define PREF_IMAGE_VIEWER_ZOOM_CHANGE       "zoom-change"
 #define PREF_IMAGE_VIEWER_RESET_SCROLLBARS  "reset-scrollbars"
+#define PREF_IMAGE_VIEWER_HISTOGRAM_SCALE   "histogram-scale"
 
 void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 						 GthBrowser *browser,

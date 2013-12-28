@@ -25,6 +25,7 @@
 #include <gthumb.h>
 #include "gth-image-histogram.h"
 #include "gth-image-viewer-page.h"
+#include "preferences.h"
 
 
 #define MIN_HISTOGRAM_HEIGHT 280
@@ -126,8 +127,24 @@ gth_image_histogram_gth_property_view_interface_init (GthPropertyViewInterface *
 
 
 static void
+histogram_view_notify_scale_type_cb (GObject    *gobject,
+				     GParamSpec *pspec,
+				     gpointer    user_data)
+{
+	GthImageHistogram *self = user_data;
+	GSettings         *settings;
+
+	settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
+	g_settings_set_enum (settings, PREF_IMAGE_VIEWER_HISTOGRAM_SCALE, gth_histogram_view_get_scale_type (GTH_HISTOGRAM_VIEW (self->priv->histogram_view)));
+	g_object_unref (settings);
+}
+
+
+static void
 gth_image_histogram_init (GthImageHistogram *self)
 {
+	GSettings *settings;
+
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_HISTOGRAM, GthImageHistogramPrivate);
 	self->priv->histogram = gth_histogram_new ();
 
@@ -135,9 +152,18 @@ gth_image_histogram_init (GthImageHistogram *self)
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 2);
 
+	settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
+
 	self->priv->histogram_view = gth_histogram_view_new (self->priv->histogram);
 	gth_histogram_view_show_info (GTH_HISTOGRAM_VIEW (self->priv->histogram_view), TRUE);
+	gth_histogram_view_set_scale_type (GTH_HISTOGRAM_VIEW (self->priv->histogram_view), g_settings_get_enum (settings, PREF_IMAGE_VIEWER_HISTOGRAM_SCALE));
 	gtk_widget_set_size_request (self->priv->histogram_view, -1, MIN_HISTOGRAM_HEIGHT);
 	gtk_widget_show (self->priv->histogram_view);
 	gtk_box_pack_start (GTK_BOX (self), self->priv->histogram_view, FALSE, FALSE, 0);
+	g_signal_connect (self->priv->histogram_view,
+			  "notify::scale-type",
+			  G_CALLBACK (histogram_view_notify_scale_type_cb),
+			  self);
+
+	g_object_unref (settings);
 }
