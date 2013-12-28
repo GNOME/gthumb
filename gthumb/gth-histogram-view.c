@@ -324,16 +324,16 @@ _cairo_set_source_color_from_channel (cairo_t *cr,
 	switch (channel) {
 	case GTH_HISTOGRAM_CHANNEL_VALUE:
 	default:
-		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0);
+		cairo_set_source_rgba (cr, 0.8, 0.8, 0.8, 1.0);
 		break;
 	case GTH_HISTOGRAM_CHANNEL_RED:
-		cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
+		cairo_set_source_rgba (cr, 0.68, 0.18, 0.19, 1.0); /* #af2e31 */
 		break;
 	case GTH_HISTOGRAM_CHANNEL_GREEN:
-		cairo_set_source_rgba (cr, 0.0, 1.0, 0.0, 1.0);
+		cairo_set_source_rgba (cr, 0.33, 0.78, 0.30, 1.0); /* #55c74d */
 		break;
 	case GTH_HISTOGRAM_CHANNEL_BLUE:
-		cairo_set_source_rgba (cr, 0.0, 0.0, 1.0, 1.0);
+		cairo_set_source_rgba (cr, 0.13, 0.54, 0.8, 1.0); /* #238acc */
 		break;
 	case GTH_HISTOGRAM_CHANNEL_ALPHA:
 		cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 1.0);
@@ -483,10 +483,10 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 		if (((self->priv->selection_start > 0) || (self->priv->selection_end < 255))
 		    && (i >= self->priv->selection_start) && (i <= self->priv->selection_end))
 		{
-			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+			cairo_set_source_rgb (cr, 0.3, 0.3, 0.3);
 		}
 		else
-			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 		value = gth_histogram_get_value (self->priv->histogram, min_c, i);
 		y = CLAMP ((int) (allocation->height * convert_to_scale (self->priv->scale_type, value)) / max, 0, allocation->height);
 		cairo_rectangle (cr,
