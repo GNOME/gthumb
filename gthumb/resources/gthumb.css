@@ -100,3 +100,13 @@ GtkLabel.highlighted-text {
 GtkLabel.highlighted-text:backdrop {
 	color: #333333;
 }
+
+/* -- extension list in the preferences dialog -- */
+
+GtkLabel.extension-name {
+	font-weight: bold;
+}
+
+GtkLabel.extension-description {
+	font-size: 80%;
+}
