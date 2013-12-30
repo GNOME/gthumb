@@ -1,3 +1,11 @@
+version 3.2.6
+-------------
+
+ Bugs fixed:
+
+  * Rotating image destroys XMP and IPTC metadata. (#719622)
+  * Command line ignored for the second window. (#712716)
+
 version 3.2.5
 -------------
 
