@@ -1,3 +1,25 @@
+version 3.0.3
+-------------
+
+ Bugs fixed:
+
+  * Allow to cut files from a selection.
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Rafael Ferreira)
+  * Chinese (simplified) (tuhaihe)
+  * Hungarian (Gabor Kelemen)
+  * Indonesian (Andika Triwidada)
+  * Polish (Piotr Drąg)
+  * Serbian (Мирослав Николић)
+  * Serbian (Miroslav Nikolić)
+
+ New or updated manual translations:
+
+  * Czech (Marek Černocký)
+  * French (Bruno Brouard)
+
 version 3.0.2
 -------------
 
