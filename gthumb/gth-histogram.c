@@ -285,10 +285,13 @@ gth_histogram_get_cumulative (GthHistogram *self)
 
 	cumulative = g_new (long *, GTH_HISTOGRAM_N_CHANNELS);
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
+		int s;
+
 		cumulative[c] = g_new (long, 256);
-		cumulative[c][0] = gth_histogram_get_value (self, c, 0);
-		for (v = 1; v < 256; v++) {
-			cumulative[c][v] = gth_histogram_get_value (self, c, v) + cumulative[c][v - 1];
+		s = 0;
+		for (v = 0; v < 256; v++) {
+			s += gth_histogram_get_value (self, c, v);
+			cumulative[c][v] = s;
 		}
 	}
 
