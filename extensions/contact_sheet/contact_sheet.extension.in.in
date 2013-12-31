@@ -2,7 +2,7 @@
 _Name=Contact Sheet
 _Description=Create an index image displaying the thumbnails of the selected files.
 _Authors=gthumb development team
-Copyright=Copyright © 2010 The Free Software Foundation, Inc.
+Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Category=Exporter
 

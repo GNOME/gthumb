@@ -2,7 +2,7 @@
 _Name=Import photos
 _Description=Import photos from removable devices.
 _Authors=gthumb development team
-Copyright=Copyright © 2009 The Free Software Foundation, Inc.
+Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Icon=camera-photo
 Category=Importer

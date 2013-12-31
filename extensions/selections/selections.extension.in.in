@@ -2,10 +2,10 @@
 _Name=Selections
 _Description=Advanced file selection.
 _Authors=gthumb development team
-Copyright=Copyright © 2008-2012 The Free Software Foundation, Inc.
+Copyright=Copyright © 2008-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Icon=selection
-URL=http://live.gnome.org/gthumb
+URL=http://live.gnome.org/Apps/gthumb
 Category=Browser
 
 [Loader]

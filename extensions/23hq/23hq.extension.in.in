@@ -2,7 +2,7 @@
 _Name=23
 _Description=Upload images to 23hq.com
 Authors=gthumb development team
-Copyright=Copyright © 2011 The Free Software Foundation, Inc.
+Copyright=Copyright © 2011-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Icon=site-twentythree
 Category=Exporter

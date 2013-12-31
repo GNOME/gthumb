@@ -2,7 +2,7 @@
 _Name=Burn CD/DVD
 _Description=Save files to an optical disc.
 _Authors=gthumb development team
-Copyright=Copyright © 2010 The Free Software Foundation, Inc.
+Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Icon=brasero
 Category=Exporter

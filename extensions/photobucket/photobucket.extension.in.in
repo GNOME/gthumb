@@ -2,7 +2,7 @@
 _Name=PhotoBucket
 _Description=Upload images to PhotoBucket
 Authors=gthumb development team
-Copyright=Copyright © 2010 The Free Software Foundation, Inc.
+Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Icon=site-photobucket
 Category=Exporter

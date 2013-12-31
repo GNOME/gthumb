@@ -2,9 +2,9 @@
 _Name=Edit metadata
 _Description=Allow to edit files metadata.
 _Authors=gthumb development team
-Copyright=Copyright © 2009-2010 The Free Software Foundation, Inc.
+Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
-URL=http://live.gnome.org/gthumb
+URL=http://live.gnome.org/Apps/gthumb
 Category=Metadata
 
 [Loader]

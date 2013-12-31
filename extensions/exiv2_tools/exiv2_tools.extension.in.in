@@ -2,7 +2,7 @@
 _Name=EXIF, IPTC, XMP support
 _Description=Read and write exif, iptc and xmp metadata.
 _Authors=gthumb development team
-Copyright=Copyright © 2009 The Free Software Foundation, Inc.
+Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Category=Metadata
 

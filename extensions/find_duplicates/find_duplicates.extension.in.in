@@ -2,7 +2,7 @@
 _Name=Find Duplicates
 _Description=Find duplicated files.
 _Authors=gthumb development team
-Copyright=Copyright © 2010 The Free Software Foundation, Inc.
+Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Category=Browser
 

@@ -2,9 +2,9 @@
 _Name=Catalogs
 _Description=Create file collections.
 _Authors=gthumb development team
-Copyright=Copyright © 2008-2010 The Free Software Foundation, Inc.
+Copyright=Copyright © 2008-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
-URL=http://live.gnome.org/gthumb
+URL=http://live.gnome.org/Apps/gthumb
 Icon=file-catalog
 Category=Browser
 
