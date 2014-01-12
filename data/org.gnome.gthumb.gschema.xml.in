@@ -105,7 +105,7 @@
       <default>true</default>
     </key>
     <key name="properties-visible" type="b">
-      <default>true</default>
+      <default>false</default>
     </key>
     <key name="properties-on-the-right" type="b">
       <default>false</default>
