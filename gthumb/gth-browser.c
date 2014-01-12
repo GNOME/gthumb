@@ -4072,11 +4072,12 @@ gth_browser_init (GthBrowser *browser)
 		}
 
 #if GTK_CHECK_VERSION(3,11,4)
-		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS]);
-		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS]);
-		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT_SIDEBAR]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW]);
+
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT_SIDEBAR]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS]);
 #endif
 
 		/* browser navigation */
