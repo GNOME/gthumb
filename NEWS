@@ -1,3 +1,75 @@
+version 3.3.1
+-------------
+
+ New features and user visible changes:
+
+  * Use a GtkHeaderBar instead of a menu and a toolbar.
+  * Use the dark theme.
+  * Better raw image support, using libraw instead of libopenraw.
+  * Image viewer: show a frame around the image; use an overview 
+    window to scroll the image instead of the scrollbars; 
+    better quality for zoomed out images.
+  * Faster image loader for big images.
+  * Media player: hide the mediabar after a timeout.
+  * Filterbar: added buttons to view the selections.
+  * File properties: show only the basic properties, allow to 
+    show all of them.
+  * Image tools: use a grid layout for the buttons
+  * Use a separate dialog for the file tool options.
+  * Use symbolic icons everywhere.
+  * Added a custom tiff loader.
+  * Add a rating-based filter. (Louis-Marie Mouton)
+  * App menu: removed 'keyboard shortcuts'.
+  * Histogram view: save and restore the scale type.
+
+ Bugs fixed:
+
+  * Help: fix calling help from withing the application. (Dominique Leuenberger) (#710573)
+  * Fixed saving of TGA files
+  * Fixed the video player stopping after saving a screenshot.
+  * Rotating image destroys XMP and IPTC metadata (#719622)
+  * Command line ignored for the second window (#712716)
+  * Empty Options dialog after Canceling it once (#711788)
+  * Buttons with label toolbutton1 and toolbutton2 in Bookmark window
+    (#711777)
+  * Default parameters for image resizing are misleading (Christian
+    Krause) (#710479)
+  * Fixed broken window layout with gtk+ 3.10 (#708800)
+  * Find duplicates: fixed crash when using a predefined directory
+    (Christian Krause) (#706697)
+  * gThumb crashes when attempting to play a video. (Christian Krause) (#706343)
+  * Flickr: allow to use a facebook or google account (#703534)
+  * Thumbnail list: images drawn with wrong offset (#702538)
+  * Facebook: fixed authentication.
+  * configure: fixed unrecognized option --disable-libjson-glib
+    (#696783)
+  * Removed the use of many deprecated functions.
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Enrico Nicoletto)
+  * catalan (Sílvia Miranda)
+  * Czech (Marek Černocký)
+  * Dutch (Hannie Dumoleyn)
+  * Español (Daniel Mustieles)
+  * Hungarian (Balázs Úr)
+  * Indonesian (Andika Triwidada)
+  * Italiano (Gianvito Cavasoli)
+  * Japanese (OKANO Takayoshi)
+  * Latvian (Rūdolfs Mazurs)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Russian (Yuri Myasoedov)
+  * Serbian (Miroslav Nikolić)
+  * Serbian (Мирослав Николић)
+  * Slovenian (Matej Urbančič)
+
+ New or updated manual translations:
+
+  * Español (Daniel Mustieles)
+  * Slovenian (Andrej Žnidaršič)
+  * čeština (Marek Černocký)
+
 version 3.2.0
 -------------
 
