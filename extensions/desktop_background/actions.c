@@ -28,6 +28,7 @@
 
 
 #define DESKTOP_BACKGROUND_PROPERTIES_COMMAND "gnome-control-center background"
+#define DESKTOP_BACKGROUND_PROPERTIES_UNITY_COMMAND "unity-control-center appearance"
 #define DESKTOP_BACKGROUND_SCHEMA "org.gnome.desktop.background"
 #define DESKTOP_BACKGROUND_FILE_KEY "picture-uri"
 #define DESKTOP_BACKGROUND_STYLE_KEY "picture-options"
@@ -188,13 +189,21 @@ infobar_response_cb (GtkInfoBar *info_bar,
 		     gpointer    user_data)
 {
 	WallpaperData *wdata = user_data;
+	gchar         *path;
+	const gchar   *control_center_command;
 	GError        *error = NULL;
 
 	g_return_if_fail (GTH_IS_BROWSER (wdata->browser));
 
 	switch (response_id) {
 	case _RESPONSE_PREFERENCES:
-		if (! g_spawn_command_line_async (DESKTOP_BACKGROUND_PROPERTIES_COMMAND, &error)) {
+		path = g_find_program_in_path ("unity-control-center");
+		if (path && g_strcmp0 (g_getenv ("XDG_CURRENT_DESKTOP"), "Unity") == 0)
+			control_center_command = DESKTOP_BACKGROUND_PROPERTIES_UNITY_COMMAND;
+		else
+			control_center_command = DESKTOP_BACKGROUND_PROPERTIES_COMMAND;
+		g_free (path);
+		if (! g_spawn_command_line_async (control_center_command, &error)) {
 			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not show the desktop background properties"), error);
 			g_clear_error (&error);
 		}
