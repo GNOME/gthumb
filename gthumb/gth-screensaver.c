@@ -21,8 +21,6 @@
 
 #include <config.h>
 #include "gth-screensaver.h"
-#include <gdk/gdkx.h>
-
 
 #define GNOME_SESSION_MANAGER_INHIBIT_IDLE 8
 
