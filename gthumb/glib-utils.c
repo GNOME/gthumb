@@ -3070,6 +3070,28 @@ _g_settings_get_string_list (GSettings  *settings,
 }
 
 
+GSettings *
+_g_settings_new_if_schema_installed (const char *schema_name)
+{
+	GSettings          *settings;
+	const char * const *schemas;
+
+	settings = NULL;
+
+	for (schemas = g_settings_list_schemas ();
+             *schemas != NULL;
+             schemas++)
+	{
+		if (g_strcmp0 (*schemas, schema_name) == 0) {
+			settings = g_settings_new (schema_name);
+			break;
+		}
+        }
+
+        return settings;
+}
+
+
 /* this is totem_time_to_string renamed, thanks to the authors :) */
 char *
 _g_format_duration_for_display (gint64 msecs)

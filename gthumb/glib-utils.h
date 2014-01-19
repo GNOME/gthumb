@@ -335,6 +335,8 @@ void            _g_settings_set_string_list      (GSettings  *settings,
 						  GList      *list);
 GList *         _g_settings_get_string_list      (GSettings  *settings,
 		  	  	  	  	  const char *key);
+GSettings *	_g_settings_new_if_schema_installed
+						 (const char *schema_name);
 
 /* Other */
 

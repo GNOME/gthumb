@@ -562,11 +562,20 @@ _gth_browser_history_add (GthBrowser *browser,
 static void
 _gth_browser_history_save (GthBrowser *browser)
 {
+	GSettings     *privacy_settings;
+	gboolean       save_history;
 	GBookmarkFile *bookmarks;
 	GFile         *file;
 	char          *filename;
 	GList         *scan;
 	int            n;
+
+	privacy_settings = _g_settings_new_if_schema_installed ("org.gnome.desktop.privacy");
+        save_history = (privacy_settings == NULL) || g_settings_get_boolean (privacy_settings, "remember-recent-files");
+        _g_object_unref (privacy_settings);
+
+	if (! save_history)
+		return;
 
 	bookmarks = g_bookmark_file_new ();
 	for (scan = browser->priv->history, n = 0; scan && (n < MAX_HISTORY_LENGTH); scan = scan->next, n++) {
