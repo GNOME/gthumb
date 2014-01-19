@@ -233,7 +233,7 @@ get_format_from_extension (GthFileChooserDialog *self,
 		int     i;
 
 		for (i = 0; format->extensions[i] != NULL; i++)
-			if (strcmp (ext, format->extensions[i]) == 0)
+			if (g_ascii_strcasecmp (ext, format->extensions[i]) == 0)
 				return format;
 	}
 
