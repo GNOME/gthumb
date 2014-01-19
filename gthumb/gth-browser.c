@@ -574,8 +574,12 @@ _gth_browser_history_save (GthBrowser *browser)
         save_history = (privacy_settings == NULL) || g_settings_get_boolean (privacy_settings, "remember-recent-files");
         _g_object_unref (privacy_settings);
 
-	if (! save_history)
+	if (! save_history) {
+		file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, HISTORY_FILE, NULL);
+		g_file_delete (file, NULL, NULL);
+		g_object_unref (file);
 		return;
+	}
 
 	bookmarks = g_bookmark_file_new ();
 	for (scan = browser->priv->history, n = 0; scan && (n < MAX_HISTORY_LENGTH); scan = scan->next, n++) {
@@ -600,12 +604,22 @@ _gth_browser_history_save (GthBrowser *browser)
 static void
 _gth_browser_history_load (GthBrowser *browser)
 {
+	GSettings     *privacy_settings;
+	gboolean       load_history;
 	GBookmarkFile *bookmarks;
 	GFile         *file;
 	char          *filename;
 
 	_g_object_list_unref (browser->priv->history);
 	browser->priv->history = NULL;
+	browser->priv->history_current = NULL;
+
+	privacy_settings = _g_settings_new_if_schema_installed ("org.gnome.desktop.privacy");
+	load_history = (privacy_settings == NULL) || g_settings_get_boolean (privacy_settings, "remember-recent-files");
+	_g_object_unref (privacy_settings);
+
+	if (! load_history)
+		return;
 
 	bookmarks = g_bookmark_file_new ();
 	file = gth_user_dir_get_file_for_read (GTH_DIR_CONFIG, GTHUMB_DIR, HISTORY_FILE, NULL);
