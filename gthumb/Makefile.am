@@ -266,7 +266,6 @@ gthumb_LDFLAGS = -Wl,--export-all-symbols,--out-implib,.libs/libgthumb.a
 endif
 
 gthumb_LDADD =						\
-	$(top_builddir)/copy-n-paste/libeggsmclient.la	\
 	$(GTHUMB_LIBS)					\
 	$(M_LIBS)					\
 	$(EXIV2_LIBS)					\
@@ -315,7 +314,6 @@ gthumb_CFLAGS =							\
 	$(LIBSOUP_CFLAGS)					\
 	$(LIBCHAMPLAIN_CFLAGS)					\
 	$(SMCLIENT_CFLAGS)					\
-	-I$(top_srcdir)/copy-n-paste/				\
 	-DGTHUMB_LOCALEDIR=\"$(datadir)/locale\"		\
 	-DGTHUMB_PREFIX=\"$(prefix)\"           		\
 	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"   		\

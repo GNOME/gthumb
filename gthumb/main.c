@@ -23,6 +23,7 @@
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
 #include <gtk/gtk.h>
+#include <gio/gdesktopappinfo.h>
 #ifdef HAVE_GSTREAMER
 #  include <gst/gst.h>
 #endif
@@ -30,10 +31,6 @@
 #  include <clutter/clutter.h>
 #  include <clutter-gtk/clutter-gtk.h>
 #endif
-#ifdef USE_SMCLIENT
-#  include "eggsmclient.h"
-#endif
-#include "eggdesktopfile.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-browser-actions-callbacks.h"
@@ -141,153 +138,6 @@ migrate_data (void)
 }
 
 
-/* -- session management -- */
-
-
-#ifdef USE_SMCLIENT
-
-
-static void
-client_save_state (EggSMClient *client,
-		   GKeyFile    *state,
-		   gpointer     user_data)
-{
-	const char *argv[2] = { NULL };
-	GList      *scan;
-	guint       i;
-
-	argv[0] = program_argv0;
-	argv[1] = NULL;
-	egg_sm_client_set_restart_command (client, 1, argv);
-
-	i = 0;
-	for (scan = gtk_application_get_windows (Main_Application); scan; scan = scan->next) {
-		GtkWidget   *window = scan->data;
-		GFile       *location;
-		char        *key;
-		char        *uri;
-		GthFileData *focused_file = NULL;
-
-		focused_file = gth_browser_get_current_file (GTH_BROWSER (window));
-		if (focused_file == NULL)
-			location = gth_browser_get_location (GTH_BROWSER (window));
-		else
-			location = focused_file->file;
-
-		if (location == NULL)
-			continue;
-
-		key = g_strdup_printf ("location%d", ++i);
-		uri = g_file_get_uri (location);
-		g_key_file_set_string (state, "Session", key, uri);
-
-		g_free (uri);
-		g_free (key);
-		g_object_unref (location);
-	}
-
-	g_key_file_set_integer (state, "Session", "locations", i);
-}
-
-
-/* quit_requested handler for the master client */
-
-
-static GList *client_window = NULL;
-
-
-static void modified_file_saved_cb (GthBrowser  *browser,
-				    gboolean     cancelled,
-				    gpointer     user_data);
-
-
-static void
-check_whether_to_save (EggSMClient *client)
-{
-	for (/* void */; client_window; client_window = client_window->next) {
-		GtkWidget *window = client_window->data;
-
-		if (gth_browser_get_file_modified (GTH_BROWSER (window))) {
-			gth_browser_ask_whether_to_save (GTH_BROWSER (window),
-							 modified_file_saved_cb,
-							 client);
-			return;
-		}
-	}
-
-	egg_sm_client_will_quit (client, TRUE);
-}
-
-
-static void
-modified_file_saved_cb (GthBrowser *browser,
-			gboolean    cancelled,
-			gpointer    user_data)
-{
-	EggSMClient *client = user_data;
-
-	if (cancelled) {
-		egg_sm_client_will_quit (client, FALSE);
-	}
-	else {
-		client_window = client_window->next;
-		check_whether_to_save (client);
-	}
-}
-
-
-static void
-client_quit_requested_cb (EggSMClient *client,
-			  gpointer     data)
-{
-	client_window = gtk_application_get_windows (Main_Application);
-	check_whether_to_save (client);
-}
-
-
-static void
-client_quit_cb (EggSMClient *client,
-		gpointer     data)
-{
-	gtk_main_quit ();
-}
-
-
-static void
-restore_session (EggSMClient *client)
-{
-	GKeyFile *state = NULL;
-	guint     i;
-
-	state = egg_sm_client_get_state_file (client);
-
-	i = g_key_file_get_integer (state, "Session", "locations", NULL);
-	g_assert (i > 0);
-	for (; i > 0; i--) {
-		GtkWidget *window;
-		char      *key;
-		char      *location;
-		GFile     *file;
-
-		key = g_strdup_printf ("location%d", i);
-		location = g_key_file_get_string (state, "Session", key, NULL);
-		g_free (key);
-
-		g_assert (location != NULL);
-
-		file = g_file_new_for_uri (location);
-		window = gth_browser_new (file, NULL);
-		gtk_widget_show (window);
-
-		g_object_unref (file);
-		g_free (location);
-	}
-}
-
-
-#endif
-
-
 /* -- main application -- */
 
 
@@ -314,11 +164,43 @@ static void
 gth_application_init (GthApplication *app)
 {
 #ifdef GDK_WINDOWING_X11
-	egg_set_desktop_file (GTHUMB_APPLICATIONS_DIR "/gthumb.desktop");
+
+	GDesktopAppInfo *app_info;
+
+	app_info = g_desktop_app_info_new ("gthumb.desktop");
+	if (app_info == NULL)
+		return;
+
+	if (g_desktop_app_info_has_key (app_info, "Name")) {
+		char *app_name;
+
+		app_name = g_desktop_app_info_get_string (app_info, "Name");
+		g_set_application_name (app_name);
+
+		g_free (app_name);
+	}
+
+	if (g_desktop_app_info_has_key (app_info, "Icon")) {
+		char *icon;
+
+		icon = g_desktop_app_info_get_string (app_info, "Icon");
+		if (g_path_is_absolute (icon))
+			gtk_window_set_default_icon_from_file (icon, NULL);
+		else
+			gtk_window_set_default_icon_name (icon);
+
+		g_free (icon);
+	}
+
+	g_object_unref (app_info);
+
 #else
+
 	/* manually set name and icon */
+
 	g_set_application_name (_("gThumb"));
 	gtk_window_set_default_icon_name ("gthumb");
+
 #endif
 }
 
@@ -393,9 +275,6 @@ gth_application_create_option_context (void)
 
 	if (g_once_init_enter (&initialized)) {
 		g_option_context_add_group (context, gtk_get_option_group (TRUE));
-#ifdef USE_SMCLIENT
-		g_option_context_add_group (context, egg_sm_client_get_option_group ());
-#endif
 #ifdef HAVE_CLUTTER
 		g_option_context_add_group (context, clutter_get_option_group_without_init ());
 		g_option_context_add_group (context, gtk_clutter_get_option_group ());
@@ -438,32 +317,6 @@ gth_application_command_line (GApplication            *application,
 		return EXIT_FAILURE;
 	}
 	g_option_context_free (context);
-
-	/* restore the session */
-
-#ifdef USE_SMCLIENT
-	{
-		EggSMClient *client;
-
-		client = egg_sm_client_get ();
-		g_signal_connect (client,
-				  "save_state",
-				  G_CALLBACK (client_save_state),
-				  NULL);
-		g_signal_connect (client,
-				  "quit_requested",
-				  G_CALLBACK (client_quit_requested_cb),
-				  NULL);
-		g_signal_connect (client,
-				  "quit",
-				  G_CALLBACK (client_quit_cb),
-				  NULL);
-		if (egg_sm_client_is_resumed (client)) {
-			restore_session (client);
-			return 0;
-		}
-	}
-#endif
 
 	/* exec the command line */
 

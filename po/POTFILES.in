@@ -4,12 +4,6 @@
 # update the content run the following command:
 # sh update-potfiles.sh > POTFILES.in
 [encoding: UTF-8]
-copy-n-paste/eggdesktopfile.c
-copy-n-paste/eggdesktopfile.h
-copy-n-paste/eggsmclient.c
-copy-n-paste/eggsmclient.h
-copy-n-paste/eggsmclient-private.h
-copy-n-paste/eggsmclient-xsmp.c
 data/gthumb.desktop.in.in
 data/gthumb-import.desktop.in.in
 data/org.gnome.gthumb.change-date.gschema.xml.in
