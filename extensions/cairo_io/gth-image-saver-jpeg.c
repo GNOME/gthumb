@@ -482,7 +482,7 @@ gth_image_saver_jpeg_save_image (GthImageSaver  *base,
 	gboolean   result;
 
 	pixbuf = gth_image_get_pixbuf (image);
-	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
+	pixbuf_type = _gdk_pixbuf_get_type_from_mime_type (mime_type);
 	result = gdk_pixbuf_save_to_bufferv (pixbuf,
 					     buffer,
 					     buffer_size,
