@@ -253,8 +253,11 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	cairo_surface_t    *source;
 	GtkWidget          *options;
 	GtkWidget          *image_navigator;
+	gboolean            rtl;
 
 	self = (GthFileToolSharpen *) base;
+
+	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
 
 	source = gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	if (source == NULL)
@@ -264,6 +267,10 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	self->priv->builder = _gtk_builder_new_from_file ("sharpen-options.ui", "file_tools");
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
+
+	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET("reset_image")), rtl ? "edit-undo-rtl-symbolic" :
+										   "edit-undo-symbolic",
+									     GTK_ICON_SIZE_MENU);
 
 	self->priv->preview = gth_image_viewer_new ();
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
