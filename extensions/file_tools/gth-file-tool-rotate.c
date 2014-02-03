@@ -387,8 +387,11 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	GtkWidget         *viewer;
 	char              *color_spec;
 	GdkRGBA            background_color;
+	gboolean           rtl;
 
 	self = (GthFileToolRotate *) base;
+
+	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -404,6 +407,10 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	cairo_surface_reference (self->priv->image);
 
 	self->priv->builder = _gtk_builder_new_from_file ("rotate-options.ui", "file_tools");
+
+	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET("reset_image")), rtl ? "edit-undo-rtl-symbolic" :
+										   "edit-undo-symbolic",
+									     GTK_ICON_SIZE_MENU);
 
 	self->priv->rotation_angle_adj = gth_color_scale_label_new (GET_WIDGET ("rotation_angle_hbox"),
 								    GTK_LABEL (GET_WIDGET ("rotation_angle_label")),
