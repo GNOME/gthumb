@@ -72,5 +72,11 @@ gth_file_tool_undo_class_init (GthFileToolUndoClass *klass)
 static void
 gth_file_tool_undo_init (GthFileToolUndo *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "edit-undo-symbolic", _("Undo"), GTH_TOOLBOX_SECTION_FILE);
+	gboolean rtl;
+
+	rtl = gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL;
+
+	gth_file_tool_construct (GTH_FILE_TOOL (self), rtl ? "edit-undo-rtl-symbolic" :
+							     "edit-undo-symbolic",
+						       _("Undo"), GTH_TOOLBOX_SECTION_FILE);
 }
