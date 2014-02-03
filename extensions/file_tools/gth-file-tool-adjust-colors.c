@@ -406,8 +406,11 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	GtkWidget               *options;
 	int                      width, height;
 	GtkAllocation            allocation;
+	gboolean                 rtl;
 
 	self = (GthFileToolAdjustColors *) base;
+
+	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
 
 	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	if (viewer_page == NULL)
@@ -436,6 +439,10 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	self->priv->builder = _gtk_builder_new_from_file ("adjust-colors-options.ui", "file_tools");
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
+
+	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET("reset_image")), rtl ? "edit-undo-rtl-symbolic" :
+										   "edit-undo-symbolic",
+									     GTK_ICON_SIZE_MENU);
 
 	self->priv->histogram_view = gth_histogram_view_new (self->priv->histogram);
 	gtk_widget_show (self->priv->histogram_view);
