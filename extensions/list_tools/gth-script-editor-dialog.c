@@ -129,7 +129,6 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_SAVE, GTK_RESPONSE_OK);
-	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_HELP, GTK_RESPONSE_HELP);
 
 	self->priv->builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/list_tools/data/ui/script-editor.ui");
 
