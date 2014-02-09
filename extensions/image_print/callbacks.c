@@ -34,6 +34,11 @@ static const GActionEntry actions[] = {
 };
 
 
+static const GthAccelerator accelerators[] = {
+	{ "win.print", "<control>P" }
+};
+
+
 void
 ip__gth_browser_construct_cb (GthBrowser *browser)
 {
@@ -55,6 +60,9 @@ ip__gth_browser_construct_cb (GthBrowser *browser)
 				       "win.print",
 				       "<control>P",
 				       NULL);
+	gth_window_add_accelerators (GTH_WINDOW (browser),
+				     accelerators,
+				     G_N_ELEMENTS (accelerators));
 }
 
 
