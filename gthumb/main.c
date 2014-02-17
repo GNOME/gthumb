@@ -318,6 +318,8 @@ gth_application_command_line (GApplication            *application,
 	}
 	g_option_context_free (context);
 
+	gdk_notify_startup_complete ();
+
 	/* exec the command line */
 
 	if (ImportPhotos) {
@@ -326,7 +328,6 @@ gth_application_command_line (GApplication            *application,
 		if (remaining_args != NULL)
 			location = g_file_new_for_commandline_arg (remaining_args[0]);
 		import_photos_from_location (location);
-		gdk_notify_startup_complete ();
 
 		return 0;
 	}
@@ -346,7 +347,6 @@ gth_application_command_line (GApplication            *application,
 			file_to_select = NULL;
 
 		open_browser_window (location, file_to_select, TRUE);
-		gdk_notify_startup_complete ();
 
 		_g_object_unref (file_to_select);
 		g_free (file_to_select_uri);
@@ -391,8 +391,6 @@ gth_application_command_line (GApplication            *application,
 
 	for (scan = dirs; scan; scan = scan->next)
 		open_browser_window ((GFile *) scan->data, NULL, TRUE);
-
-	gdk_notify_startup_complete ();
 
 	_g_object_list_unref (dirs);
 	_g_object_list_unref (files);
