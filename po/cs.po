@@ -7,15 +7,15 @@
 # Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005, 2006.
 # Jakub Friedl <jfriedl@suse.cz>, 2006, 2007.
 # Kamil Páral <ripper42@gmail.com>, 2008.
-# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013.
+# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-19 13:23+0000\n"
-"PO-Revision-Date: 2013-12-24 18:01+0100\n"
+"POT-Creation-Date: 2014-03-02 14:47+0000\n"
+"PO-Revision-Date: 2014-03-02 16:36+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -25,77 +25,64 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../copy-n-paste/eggdesktopfile.c:165
-#, c-format
-msgid "File is not a valid .desktop file"
-msgstr "Soubor není platným souborem .desktop"
+#: ../data/appdata/gthumb.appdata.xml.in.h:1
+msgid ""
+"gThumb is an image viewer, editor, browser and organizer. It is designed to "
+"be well integrated with the GNOME 3 desktop."
+msgstr ""
+"gThumb je zobrazovač, editor, prohlížeč a organizér obrázků. Je navržen, aby "
+"dobře zapadl do pracovního prostředí GNOME 3."
 
-#. translators: 'Version' is from a desktop file, and
-#. * should not be translated. '%s' would probably be a
-#. * version number.
-#: ../copy-n-paste/eggdesktopfile.c:191
-#, c-format
-msgid "Unrecognized desktop file Version '%s'"
-msgstr "Nerozpoznaná verze „%s“ souboru desktop"
+#: ../data/appdata/gthumb.appdata.xml.in.h:2
+msgid ""
+"As an image viewer gThumb allows to view common image file formats such as "
+"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
+"is also possible to view various metadata types embedded inside an image "
+"such as EXIF, IPTC and XMP."
+msgstr ""
+"Jako zobrazovač obrázků umožňuje gThumb zobrazovat běžné soubory s obrázky, "
+"jako jsou BMP, JPEG, GIF (včetně animovaných), PNG, TIFF, TGA a RAW. Můžete "
+"si také zobrazit rozličné typy metadat, jako EXIF, IPTC a XMP, vložené v "
+"obrázcích."
 
-#: ../copy-n-paste/eggdesktopfile.c:974
-#, c-format
-msgid "Starting %s"
-msgstr "Spouští se %s"
+#: ../data/appdata/gthumb.appdata.xml.in.h:3
+msgid ""
+"As an image editor gThumb allows to scale, rotate and crop the images; "
+"change the saturation, lightness, contrast as well as other color "
+"trasformations."
+msgstr ""
+"Jako editor obrázků umožňuje gThumb u obrázků měnit velikost, otáčet je a "
+"ořezávat, měnit sytost, jas, kontrast a provádět další transformace barev."
 
-#: ../copy-n-paste/eggdesktopfile.c:1116
-#, c-format
-msgid "Application does not accept documents on command line"
-msgstr "Aplikace nepřijímá na příkazovém řádku dokumenty"
+#: ../data/appdata/gthumb.appdata.xml.in.h:4
+msgid ""
+"As an image browser gThumb shows the thumbnails of the images saved on your "
+"disk, allows to perform the common operations of a file manager such as "
+"copy, move and delete files and folders. Furthermore there is a series of "
+"image specific tools such as JPEG lossless transformations; image resize; "
+"format conversion; slideshow; setting an image as desktop background and "
+"several others."
+msgstr ""
+"Jako prohlížeč obrázků umožňuje gThumb zobrazovat náhledy obrázků uložených "
+"na vašem disku a provádět běžné operace očekávané od správce souborů, jako "
+"je kopírování, přesun a mazání souborů a složek. Navíc je zde řada nástrojů "
+"určených pro obrázky, jako jsou bezeztrátové transformace JPEG, změna "
+"velikosti, převod formátů, promítání snímků, nastavení obrázku jako pozadí "
+"pracovní plochy a řada dalších."
 
-#: ../copy-n-paste/eggdesktopfile.c:1184
-#, c-format
-msgid "Unrecognized launch option: %d"
-msgstr "Nerozpoznaná volba spuštění: %d"
-
-#. translators: The 'Type=Link' string is found in a
-#. * desktop file, and should not be translated.
-#: ../copy-n-paste/eggdesktopfile.c:1391
-#, c-format
-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr "Nelze předat URI dokumentů do položky pracovní plochy „Type=Link“"
-
-#: ../copy-n-paste/eggdesktopfile.c:1412
-#, c-format
-msgid "Not a launchable item"
-msgstr "Nejde o spustitelnou položku"
-
-#: ../copy-n-paste/eggsmclient.c:226
-msgid "Disable connection to session manager"
-msgstr "Zakázat připojení ke správě sezení"
-
-#: ../copy-n-paste/eggsmclient.c:229
-msgid "Specify file containing saved configuration"
-msgstr "Určuje soubor obsahující uložené nastavení"
-
-#: ../copy-n-paste/eggsmclient.c:229
-msgid "FILE"
-msgstr "SOUBOR"
-
-#: ../copy-n-paste/eggsmclient.c:232
-msgid "Specify session management ID"
-msgstr "Určuje ID správy sezení"
-
-#: ../copy-n-paste/eggsmclient.c:232
-msgid "ID"
-msgstr "ID"
-
-#: ../copy-n-paste/eggsmclient.c:253
-msgid "Session management options:"
-msgstr "Volby správy sezení:"
-
-#: ../copy-n-paste/eggsmclient.c:254
-msgid "Show session management options"
-msgstr "Zobrazit volby správy sezení"
+#: ../data/appdata/gthumb.appdata.xml.in.h:5
+msgid ""
+"As an image organizer gThumb allows to add comments and other metadata to "
+"images; organize images in catalogs and catalogs in libraries; search for "
+"images and save the result as a catalog."
+msgstr ""
+"Jako organizér obrázků umožňuje gThumb přidávat k obrázkům komentáře a další "
+"metadata, uspořádávat obrázky do katalogů a katalogy do knihoven, hledat "
+"obrázky a ukládat výsledky jako katalog."
 
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:350
-#: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:320
+#: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -167,10 +154,6 @@ msgstr "Rozšíř_ení:"
 #: ../data/ui/extensions-preferences.ui.h:2
 msgid "More extensions..."
 msgstr "Další rozšíření…"
-
-#: ../data/ui/extensions-preferences.ui.h:3
-msgid "Some extensions are configurable."
-msgstr "U některých rozšíření můžete měnit nastavení."
 
 #: ../data/ui/filter-editor.ui.h:1
 msgid "Filter _Name:"
@@ -680,7 +663,7 @@ msgstr "Ukládání"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:275
 #: ../extensions/catalogs/dlg-add-to-catalog.c:395
 #: ../extensions/file_manager/actions.c:72
-#: ../extensions/list_tools/gth-script-editor-dialog.c:290
+#: ../extensions/list_tools/gth-script-editor-dialog.c:289
 #: ../gthumb/gth-filter-editor-dialog.c:461
 #, c-format
 msgid "No name specified"
@@ -768,7 +751,7 @@ msgstr "Přejmenovat"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4118 ../gthumb/gth-file-properties.c:246
+#: ../gthumb/gth-browser.c:4154 ../gthumb/gth-file-properties.c:246
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -975,10 +958,10 @@ msgid "Could not remove the files from the catalog"
 msgstr "Nelze odstranit vybrané soubory z katalogu"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1380
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:862
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:871
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:901
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1432
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:861
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:870
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:900
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1431
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Neplatný formát souboru"
@@ -1139,7 +1122,7 @@ msgstr "Vytváření indexu obrázků v podobě náhledů vybraných souborů."
 #: ../extensions/file_tools/gth-file-tool-crop.c:460
 #: ../extensions/file_tools/gth-file-tool-crop.c:490
 #: ../extensions/file_tools/gth-file-tool-resize.c:588
-#: ../extensions/file_tools/gth-file-tool-rotate.c:423
+#: ../extensions/file_tools/gth-file-tool-rotate.c:430
 #: ../extensions/slideshow/main.c:291
 msgid "None"
 msgstr "Nic"
@@ -1446,21 +1429,21 @@ msgstr "Po_užít původní složku obrázku"
 msgid "Converting images"
 msgstr "Převádí se obrázky"
 
-#: ../extensions/desktop_background/actions.c:198
+#: ../extensions/desktop_background/actions.c:207
 msgid "Could not show the desktop background properties"
 msgstr "Nelze zobrazit vlastnosti pozadí pracovní plochy"
 
-#: ../extensions/desktop_background/actions.c:239
+#: ../extensions/desktop_background/actions.c:248
 #: ../gthumb/resources/app-menu.ui.h:2
 msgid "_Preferences"
 msgstr "_Předvolby"
 
-#: ../extensions/desktop_background/actions.c:240
+#: ../extensions/desktop_background/actions.c:249
 msgid "_Undo"
 msgstr "_Zpět"
 
-#: ../extensions/desktop_background/actions.c:263
-#: ../extensions/desktop_background/actions.c:282
+#: ../extensions/desktop_background/actions.c:272
+#: ../extensions/desktop_background/actions.c:291
 msgid "Could not set the desktop background"
 msgstr "Nelze nastavit pozadí pracovní plochy"
 
@@ -1673,7 +1656,7 @@ msgstr "Podpora EXIF, IPTC, XMP"
 msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Číst a zapisovat metadata exif, iptc a xmp."
 
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:699
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:698
 msgid "Exposure"
 msgstr "Expozice"
 
@@ -1914,7 +1897,7 @@ msgstr "Nelze exportovat soubory"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:770
+#: ../gthumb/gth-browser.c:793
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2135,7 +2118,7 @@ msgstr "_Otevřít pomocí"
 
 #: ../extensions/file_manager/callbacks.c:881
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5004 ../gthumb/gth-browser.c:5037
+#: ../gthumb/gth-browser.c:5040 ../gthumb/gth-browser.c:5073
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Nelze provést tuto operaci"
@@ -2420,11 +2403,11 @@ msgstr "Základní nástroje pro úpravu obrázků."
 msgid "Applying changes"
 msgstr "Uplatňují se změny"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:581
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:588
 msgid "Adjust Colors"
 msgstr "Úprava barev"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:582
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:589
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Změnit jas, kontrast, sytost a úroveň gamy obrázku"
 
@@ -2501,22 +2484,22 @@ msgid "Custom"
 msgstr "Vlastní"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:491
-#: ../extensions/file_tools/gth-file-tool-rotate.c:424
+#: ../extensions/file_tools/gth-file-tool-rotate.c:431
 msgid "Rule of Thirds"
 msgstr "Pravidlo třetin"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:492
-#: ../extensions/file_tools/gth-file-tool-rotate.c:425
+#: ../extensions/file_tools/gth-file-tool-rotate.c:432
 msgid "Golden Sections"
 msgstr "Zlatý řez"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:493
-#: ../extensions/file_tools/gth-file-tool-rotate.c:426
+#: ../extensions/file_tools/gth-file-tool-rotate.c:433
 msgid "Center Lines"
 msgstr "Středové čáry"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:494
-#: ../extensions/file_tools/gth-file-tool-rotate.c:427
+#: ../extensions/file_tools/gth-file-tool-rotate.c:434
 msgid "Uniform"
 msgstr "Rovnoměrná"
 
@@ -2560,7 +2543,7 @@ msgstr "Zrcadlit obrázek vodorovně"
 msgid "Negative"
 msgstr "Negativ"
 
-#: ../extensions/file_tools/gth-file-tool-redo.c:75
+#: ../extensions/file_tools/gth-file-tool-redo.c:81
 msgid "Redo"
 msgstr "Znovu"
 
@@ -2573,7 +2556,7 @@ msgstr "Mění se velikost obrázků"
 msgid "Resize"
 msgstr "Změna velikosti"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:655
+#: ../extensions/file_tools/gth-file-tool-rotate.c:662
 msgid "Rotate"
 msgstr "Otočení"
 
@@ -2611,11 +2594,11 @@ msgstr "Uložit"
 msgid "Sharpening image"
 msgstr "Doostřuje se obrázek"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:413
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:420
 msgid "Enhance Focus"
 msgstr "Zvýšení ostrosti"
 
-#: ../extensions/file_tools/gth-file-tool-undo.c:75
+#: ../extensions/file_tools/gth-file-tool-undo.c:81
 msgid "Undo"
 msgstr "Zpět"
 
@@ -2834,7 +2817,7 @@ msgstr ""
 
 #: ../extensions/gstreamer_tools/actions.c:67
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1256
-#: ../gthumb/gth-browser.c:1831
+#: ../gthumb/gth-browser.c:1854
 msgid "Could not save the file"
 msgstr "Nelze uložit soubor"
 
@@ -2969,8 +2952,8 @@ msgstr "%d × %d"
 msgid "Could not print the selected files"
 msgstr "Nelze vytisknout vybrané soubory"
 
-#: ../extensions/image_print/callbacks.c:48
-#: ../extensions/image_print/callbacks.c:54
+#: ../extensions/image_print/callbacks.c:53
+#: ../extensions/image_print/callbacks.c:59
 #: ../extensions/image_print/preferences.c:79
 msgid "Print"
 msgstr "Tisk"
@@ -3191,7 +3174,7 @@ msgstr "Nízká"
 msgid "Zoom quality:"
 msgstr "Kvalita přibližování:"
 
-#: ../extensions/image_viewer/gth-image-histogram.c:84
+#: ../extensions/image_viewer/gth-image-histogram.c:85
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -3473,16 +3456,16 @@ msgstr "Zadejte hodnotu:"
 msgid "Malformed command"
 msgstr "Nesprávně zadaný přikaz"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:147
+#: ../extensions/list_tools/gth-script-editor-dialog.c:146
 msgid "none"
 msgstr "nic"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:153
+#: ../extensions/list_tools/gth-script-editor-dialog.c:152
 #, c-format
 msgid "key %d on the numeric keypad"
 msgstr "klávesa %d na číselné klávesnici"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:296
+#: ../extensions/list_tools/gth-script-editor-dialog.c:295
 #, c-format
 msgid "No command specified"
 msgstr "Není zadán příkaz"
@@ -3723,7 +3706,7 @@ msgid "(Empty)"
 msgstr "(Prázdné)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1745
+#: ../gthumb/gth-browser.c:1768
 msgid "Getting the folder content…"
 msgstr "Získává se obsah složky…"
 
@@ -4334,9 +4317,9 @@ msgstr "Webová alba"
 msgid "Create static web albums."
 msgstr "Vytváření statických webových alb."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1050
-#: ../gthumb/gth-browser.c:1625 ../gthumb/gth-browser.c:5940
-#: ../gthumb/gth-browser.c:5959 ../gthumb/gth-browser.c:5983
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1073
+#: ../gthumb/gth-browser.c:1648 ../gthumb/gth-browser.c:5976
+#: ../gthumb/gth-browser.c:5995 ../gthumb/gth-browser.c:6019
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nelze načíst polohu „%s“"
@@ -4394,32 +4377,32 @@ msgstr "Importování"
 msgid "Exporters"
 msgstr "Exportování"
 
-#: ../gthumb/dlg-preferences-extensions.c:197
+#: ../gthumb/dlg-preferences-extensions.c:437
 msgid "Could not activate the extension"
 msgstr "Nelze aktivovat rozšíření"
 
-#: ../gthumb/dlg-preferences-extensions.c:207
+#: ../gthumb/dlg-preferences-extensions.c:449
 msgid "Could not deactivate the extension"
 msgstr "Nelze deaktivovat rozšíření"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-extensions.c:753
+#: ../gthumb/dlg-preferences-extensions.c:739
 msgid "Extensions"
 msgstr "Rozšíření"
 
-#: ../gthumb/dlg-preferences-extensions.c:800
+#: ../gthumb/dlg-preferences-extensions.c:786
 msgid "Restart required"
 msgstr "Vyžadován restart"
 
-#: ../gthumb/dlg-preferences-extensions.c:801
+#: ../gthumb/dlg-preferences-extensions.c:787
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Aby se tyto změny projevily, musíte aplikaci gthumb restartovat"
 
-#: ../gthumb/dlg-preferences-extensions.c:802
+#: ../gthumb/dlg-preferences-extensions.c:788
 msgid "_Continue"
 msgstr "_Pokračovat"
 
-#: ../gthumb/dlg-preferences-extensions.c:803
+#: ../gthumb/dlg-preferences-extensions.c:789
 msgid "_Restart"
 msgstr "_Restartovat"
 
@@ -4457,7 +4440,7 @@ msgstr "Získávají se informace o souboru"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3094
+#: ../gthumb/glib-utils.c:3116
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4469,7 +4452,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3103
+#: ../gthumb/glib-utils.c:3125
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4523,7 +4506,7 @@ msgstr ""
 msgid "[modified]"
 msgstr "[změněno]"
 
-#: ../gthumb/gth-browser.c:771
+#: ../gthumb/gth-browser.c:794
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -4531,63 +4514,63 @@ msgstr[0] "Vybrán %d soubor (%s)"
 msgstr[1] "Vybrány %d soubory (%s)"
 msgstr[2] "Vybráno %d souborů (%s)"
 
-#: ../gthumb/gth-browser.c:806
+#: ../gthumb/gth-browser.c:829
 #, c-format
 msgid "%s of free space"
 msgstr "%s volného místa"
 
-#: ../gthumb/gth-browser.c:1729 ../gthumb/gth-browser.c:1756
+#: ../gthumb/gth-browser.c:1752 ../gthumb/gth-browser.c:1779
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nenalezen žádný použitelný modul pro %s"
 
-#: ../gthumb/gth-browser.c:1875
+#: ../gthumb/gth-browser.c:1898
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Uložit změny do souboru „%s“?"
 
-#: ../gthumb/gth-browser.c:1880
+#: ../gthumb/gth-browser.c:1903
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Pokud změny do souboru neuložíte, budou nenávratně ztraceny."
 
-#: ../gthumb/gth-browser.c:1881
+#: ../gthumb/gth-browser.c:1904
 msgid "Do _Not Save"
 msgstr "_Neukládat"
 
-#: ../gthumb/gth-browser.c:2703 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2726 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nelze změnit název"
 
-#: ../gthumb/gth-browser.c:3118 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3141 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Změněno"
 
-#: ../gthumb/gth-browser.c:4075
+#: ../gthumb/gth-browser.c:4111
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
-#: ../gthumb/gth-browser.c:4081
+#: ../gthumb/gth-browser.c:4117
 msgid "Go to the next visited location"
 msgstr "Přejít na následující navštívené místo"
 
-#: ../gthumb/gth-browser.c:4093
+#: ../gthumb/gth-browser.c:4129
 msgid "History"
 msgstr "Historie"
 
-#: ../gthumb/gth-browser.c:4109
+#: ../gthumb/gth-browser.c:4145
 msgid "View the folders"
 msgstr "Zobrazit složky"
 
-#: ../gthumb/gth-browser.c:4124
+#: ../gthumb/gth-browser.c:4160
 msgid "Edit file"
 msgstr "Upravit soubor"
 
-#: ../gthumb/gth-browser.c:5941
+#: ../gthumb/gth-browser.c:5977
 #, c-format
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: ../gthumb/gth-browser.c:5984
+#: ../gthumb/gth-browser.c:6020
 #, c-format
 msgid "No suitable module found"
 msgstr "Nenalezen žádný použitelný modul"
@@ -4699,39 +4682,39 @@ msgstr "Načítá se…"
 msgid "(Open Parent)"
 msgstr "(Otevřít rodiče)"
 
-#: ../gthumb/gth-histogram-view.c:825
+#: ../gthumb/gth-histogram-view.c:826
 msgid "Linear scale"
 msgstr "Lineární měřítko"
 
-#: ../gthumb/gth-histogram-view.c:837
+#: ../gthumb/gth-histogram-view.c:838
 msgid "Logarithmic scale"
 msgstr "Logaritmické měřítko"
 
-#: ../gthumb/gth-histogram-view.c:857
+#: ../gthumb/gth-histogram-view.c:858
 msgid "Channel:"
 msgstr "Kanál:"
 
-#: ../gthumb/gth-histogram-view.c:878
+#: ../gthumb/gth-histogram-view.c:879
 msgid "Value"
 msgstr "Hodnota"
 
-#: ../gthumb/gth-histogram-view.c:883
+#: ../gthumb/gth-histogram-view.c:884
 msgid "Red"
 msgstr "Červená"
 
-#: ../gthumb/gth-histogram-view.c:888
+#: ../gthumb/gth-histogram-view.c:889
 msgid "Green"
 msgstr "Zelená"
 
-#: ../gthumb/gth-histogram-view.c:893
+#: ../gthumb/gth-histogram-view.c:894
 msgid "Blue"
 msgstr "Modrá"
 
-#: ../gthumb/gth-histogram-view.c:898
+#: ../gthumb/gth-histogram-view.c:899
 msgid "Alpha"
 msgstr "Průhlednost"
 
-#: ../gthumb/gth-histogram-view.c:904
+#: ../gthumb/gth-histogram-view.c:905
 msgid "RGB"
 msgstr "RGB"
 
@@ -5060,7 +5043,7 @@ msgstr "_Zrušit"
 msgid "_Close"
 msgstr "_Zavřít"
 
-#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:4
+#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:3
 msgid "_Help"
 msgstr "Nápo_věda"
 
@@ -5076,27 +5059,27 @@ msgstr "Odeb_rat"
 msgid "_Save"
 msgstr "_Uložit"
 
-#: ../gthumb/main.c:62
+#: ../gthumb/main.c:59
 msgid "Open a new window"
 msgstr "Otevřít nové okno"
 
-#: ../gthumb/main.c:66
+#: ../gthumb/main.c:63
 msgid "Start in fullscreen mode"
 msgstr "Začít v režimu celé obrazovky"
 
-#: ../gthumb/main.c:70
+#: ../gthumb/main.c:67
 msgid "Automatically start a slideshow"
 msgstr "Automaticky začít promítání snímků"
 
-#: ../gthumb/main.c:74
+#: ../gthumb/main.c:71
 msgid "Automatically import digital camera photos"
 msgstr "Automaticky importovat fotografie z digitálního fotoaparátu"
 
-#: ../gthumb/main.c:78
+#: ../gthumb/main.c:75
 msgid "Show version"
 msgstr "Zobrazit verzi"
 
-#: ../gthumb/main.c:389
+#: ../gthumb/main.c:271
 msgid "- Image browser and viewer"
 msgstr "– prohlížeč obrázků"
 
@@ -5104,15 +5087,11 @@ msgstr "– prohlížeč obrázků"
 msgid "New _Window"
 msgstr "No_vé okno"
 
-#: ../gthumb/resources/app-menu.ui.h:3
-msgid "_Keyboard Shortcuts"
-msgstr "_Klávesové zkratky"
-
-#: ../gthumb/resources/app-menu.ui.h:5
+#: ../gthumb/resources/app-menu.ui.h:4
 msgid "_About"
 msgstr "O _aplikaci"
 
-#: ../gthumb/resources/app-menu.ui.h:6
+#: ../gthumb/resources/app-menu.ui.h:5
 msgid "_Quit"
 msgstr "U_končit"
 
