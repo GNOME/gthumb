@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 Paolo Bacchilega <paobac@src.gnome.org> -->
+<application>
+  <id type="desktop">gthumb.desktop</id>
+  <licence>CC0</licence>
+  <description>
+    <_p>
+      gThumb is an image viewer, editor, browser and organizer.  It is designed
+      to be well integrated with the GNOME 3 desktop.
+    </_p>
+    <_p>
+      As an image viewer gThumb allows to view common image file formats
+      such as BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and
+      RAW images.
+      It is also possible to view various metadata types embedded inside an
+      image such as EXIF, IPTC and XMP.
+    </_p>
+    <_p>
+      As an image editor gThumb allows to scale, rotate and crop the images;
+      change the saturation, lightness, contrast as well as other color
+      trasformations.
+    </_p>
+    <_p>
+      As an image browser gThumb shows the thumbnails of the images saved on
+      your disk, allows to perform the common operations of a file manager such
+      as copy, move and delete files and folders.
+      Furthermore there is a series of image specific tools such as JPEG
+      lossless transformations; image resize; format conversion; slideshow;
+      setting an image as desktop background and several others.
+    </_p>
+    <_p>
+      As an image organizer gThumb allows to add comments and other metadata to
+      images; organize images in catalogs and catalogs in libraries; search
+      for images and save the result as a catalog.
+    </_p>
+  </description>
+  <screenshots>
+    <screenshot type="default">https://git.gnome.org/browse/gthumb/plain/data/appdata/ss-browser.png</screenshot>
+    <screenshot>https://git.gnome.org/browse/gthumb/plain/data/appdata/ss-viewer.png</screenshot>
+  </screenshots>
+  <url type="homepage">https://wiki.gnome.org/Apps/gthumb</url>
+  <updatecontact>paobac_at_src.gnome.org</updatecontact>
+</application>

@@ -4,6 +4,7 @@
 # update the content run the following command:
 # sh update-potfiles.sh > POTFILES.in
 [encoding: UTF-8]
+data/appdata/gthumb.appdata.xml.in
 data/gthumb.desktop.in.in
 data/gthumb-import.desktop.in.in
 data/org.gnome.gthumb.change-date.gschema.xml.in

@@ -1,4 +1,4 @@
-SUBDIRS = icons ui
+SUBDIRS = appdata icons ui
 
 desktopdir = $(datadir)/applications
 desktop_in_in_files = gthumb.desktop.in.in gthumb-import.desktop.in.in
