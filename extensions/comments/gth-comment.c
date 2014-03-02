@@ -702,14 +702,13 @@ gth_comment_update_from_general_attributes (GthFileData *file_data)
 			g_file_make_directory (comment_directory, NULL, NULL);
 
 		buffer = gth_comment_to_data (comment, &size);
-		_g_file_write (comment_file,
-			       FALSE,
-			       G_FILE_CREATE_NONE,
-			       buffer,
-			       size,
-			       NULL,
-			       NULL);
-
+		if (_g_file_write (comment_file,
+				   FALSE,
+				   G_FILE_CREATE_NONE,
+				   buffer,
+				   size,
+				   NULL,
+				   NULL))
 		{
 			GFile *parent;
 			GList *list;
