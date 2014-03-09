@@ -444,7 +444,7 @@ gth_browser_activate_action_help_about (GtkAction *action,
 			       "translator-credits", _("translator_credits"),
 			       "license", license_text,
 			       "wrap-license", TRUE,
-			       "website", "http://live.gnome.org/gthumb",
+			       "website", "http://live.gnome.org/Apps/gthumb",
 			       (logo != NULL ? "logo" : NULL), logo,
 			       NULL);
 
