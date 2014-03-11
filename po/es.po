@@ -7,15 +7,15 @@
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011, 2012, 2013.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-15 23:15+0000\n"
-"PO-Revision-Date: 2013-12-18 14:40+0100\n"
+"POT-Creation-Date: 2014-03-11 09:20+0000\n"
+"PO-Revision-Date: 2014-03-11 14:28+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -25,78 +25,65 @@ msgstr ""
 "X-Generator: Gtranslator 2.91.5\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: ../copy-n-paste/eggdesktopfile.c:165
-#, c-format
-msgid "File is not a valid .desktop file"
-msgstr "El archivo no es un archivo .desktop válido"
-
-#. translators: 'Version' is from a desktop file, and
-#. * should not be translated. '%s' would probably be a
-#. * version number.
-#: ../copy-n-paste/eggdesktopfile.c:191
-#, c-format
-msgid "Unrecognized desktop file Version '%s'"
-msgstr "No se reconoce la versión «%s» del archivo desktop"
-
-#: ../copy-n-paste/eggdesktopfile.c:974
-#, c-format
-msgid "Starting %s"
-msgstr "Iniciando %s"
-
-#: ../copy-n-paste/eggdesktopfile.c:1116
-#, c-format
-msgid "Application does not accept documents on command line"
-msgstr "La aplicación no acepta documentos en la línea de comandos"
-
-#: ../copy-n-paste/eggdesktopfile.c:1184
-#, c-format
-msgid "Unrecognized launch option: %d"
-msgstr "Opción de lanzamiento no reconocida: %d"
-
-#. translators: The 'Type=Link' string is found in a
-#. * desktop file, and should not be translated.
-#: ../copy-n-paste/eggdesktopfile.c:1391
-#, c-format
-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+#: ../data/appdata/gthumb.appdata.xml.in.h:1
+msgid ""
+"gThumb is an image viewer, editor, browser and organizer. It is designed to "
+"be well integrated with the GNOME 3 desktop."
 msgstr ""
-"No se pueden pasar los URI de documentos a entradas de escritorio «Type=Link»"
+"gThumb es un visor, editor, explorador y organizador de imágenes. Está "
+"diseñado para integrarse con el escritorio GNOME 3."
 
-#: ../copy-n-paste/eggdesktopfile.c:1412
-#, c-format
-msgid "Not a launchable item"
-msgstr "No es un elemento lanzable"
+#: ../data/appdata/gthumb.appdata.xml.in.h:2
+msgid ""
+"As an image viewer gThumb allows to view common image file formats such as "
+"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
+"is also possible to view various metadata types embedded inside an image "
+"such as EXIF, IPTC and XMP."
+msgstr ""
+"gThumb permite ver los formatos de imágenes más comunes como BMP, JPEG, GIF "
+"(incluyendo las animaciones), PNG, TIFF, TGA e imágenes RAW. También es "
+"psoible ver varios tipos de metadatos empotrados en una imagen, tales como "
+"EXIF, IPTC y XMMP."
 
-#: ../copy-n-paste/eggsmclient.c:226
-msgid "Disable connection to session manager"
-msgstr "Desactivar la conexión con el gestor de sesiones"
+#: ../data/appdata/gthumb.appdata.xml.in.h:3
+msgid ""
+"As an image editor gThumb allows to scale, rotate and crop the images; "
+"change the saturation, lightness, contrast as well as other color "
+"trasformations."
+msgstr ""
+"gThumb permite escalar, rotar y recortar imágenes. También permite cambiar "
+"la saturación, el brillo, el contraste, así como otras transformaciones de "
+"color."
 
-#: ../copy-n-paste/eggsmclient.c:229
-msgid "Specify file containing saved configuration"
-msgstr "Especificar el archivo que contiene la configuración guardada"
+#: ../data/appdata/gthumb.appdata.xml.in.h:4
+msgid ""
+"As an image browser gThumb shows the thumbnails of the images saved on your "
+"disk, allows to perform the common operations of a file manager such as "
+"copy, move and delete files and folders. Furthermore there is a series of "
+"image specific tools such as JPEG lossless transformations; image resize; "
+"format conversion; slideshow; setting an image as desktop background and "
+"several others."
+msgstr ""
+"gThumb muestra las miniaturas de las imágenes guardadas en el disco, le "
+"permite realizar las operaciones habituales de un explorador de archivos "
+"tales como copiar, mover y eliminar archivos y carpetas. También hay una "
+"serie de herramientas específicas para imágenes tales como transformaciones "
+"de JPEG sin pérdidas, conversión de formatos, establecer una imagen como "
+"fondo del escritorio y muchas otras."
 
-#: ../copy-n-paste/eggsmclient.c:229
-msgid "FILE"
-msgstr "ARCHIVO"
-
-#: ../copy-n-paste/eggsmclient.c:232
-msgid "Specify session management ID"
-msgstr "Especificar el ID de gestión de la sesión"
-
-#: ../copy-n-paste/eggsmclient.c:232
-msgid "ID"
-msgstr "ID"
-
-#: ../copy-n-paste/eggsmclient.c:253
-msgid "Session management options:"
-msgstr "Opciones de gestión de la sesión:"
-
-#: ../copy-n-paste/eggsmclient.c:254
-msgid "Show session management options"
-msgstr "Mostrar las opciones de gestión de la sesión"
+#: ../data/appdata/gthumb.appdata.xml.in.h:5
+msgid ""
+"As an image organizer gThumb allows to add comments and other metadata to "
+"images; organize images in catalogs and catalogs in libraries; search for "
+"images and save the result as a catalog."
+msgstr ""
+"gThumb le permite añadir comentarios y otros metadatos a las imágenes. "
+"También permite organizar las imágenes en catálogos y los catálogos en "
+"bibliotecas, buscar imágenes y guardar el resultado en un catálogo."
 
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:350
-#: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:320
+#: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -169,10 +156,6 @@ msgstr "_Extensiones:"
 #: ../data/ui/extensions-preferences.ui.h:2
 msgid "More extensions..."
 msgstr "Más extensiones…"
-
-#: ../data/ui/extensions-preferences.ui.h:3
-msgid "Some extensions are configurable."
-msgstr "Algunas extensiones son configurables"
 
 #: ../data/ui/filter-editor.ui.h:1
 msgid "Filter _Name:"
@@ -682,7 +665,7 @@ msgstr "Guardando"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:275
 #: ../extensions/catalogs/dlg-add-to-catalog.c:395
 #: ../extensions/file_manager/actions.c:72
-#: ../extensions/list_tools/gth-script-editor-dialog.c:290
+#: ../extensions/list_tools/gth-script-editor-dialog.c:289
 #: ../gthumb/gth-filter-editor-dialog.c:461
 #, c-format
 msgid "No name specified"
@@ -770,7 +753,7 @@ msgstr "Renombrar"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4118 ../gthumb/gth-file-properties.c:246
+#: ../gthumb/gth-browser.c:4154 ../gthumb/gth-file-properties.c:246
 msgid "Properties"
 msgstr "Propiedades"
 
@@ -977,10 +960,10 @@ msgid "Could not remove the files from the catalog"
 msgstr "No se pudieron quitar los archivos del catálogo"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1380
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:862
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:871
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:901
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1432
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:861
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:870
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:900
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1431
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Formato de archivo no válido"
@@ -1143,7 +1126,7 @@ msgstr ""
 #: ../extensions/file_tools/gth-file-tool-crop.c:460
 #: ../extensions/file_tools/gth-file-tool-crop.c:490
 #: ../extensions/file_tools/gth-file-tool-resize.c:588
-#: ../extensions/file_tools/gth-file-tool-rotate.c:423
+#: ../extensions/file_tools/gth-file-tool-rotate.c:430
 #: ../extensions/slideshow/main.c:291
 msgid "None"
 msgstr "Ninguna"
@@ -1450,21 +1433,21 @@ msgstr "_Usar la carpeta de imágenes original"
 msgid "Converting images"
 msgstr "Convirtiendo imágenes"
 
-#: ../extensions/desktop_background/actions.c:198
+#: ../extensions/desktop_background/actions.c:207
 msgid "Could not show the desktop background properties"
 msgstr "No se pudieron mostrar las propiedades del fondo del escritorio"
 
-#: ../extensions/desktop_background/actions.c:239
+#: ../extensions/desktop_background/actions.c:248
 #: ../gthumb/resources/app-menu.ui.h:2
 msgid "_Preferences"
 msgstr "_Preferencias"
 
-#: ../extensions/desktop_background/actions.c:240
+#: ../extensions/desktop_background/actions.c:249
 msgid "_Undo"
 msgstr "_Deshacer"
 
-#: ../extensions/desktop_background/actions.c:263
-#: ../extensions/desktop_background/actions.c:282
+#: ../extensions/desktop_background/actions.c:272
+#: ../extensions/desktop_background/actions.c:291
 msgid "Could not set the desktop background"
 msgstr "No se pudo establecer el fondo del escritorio"
 
@@ -1675,7 +1658,7 @@ msgstr "Soporte para EXIF, IPTC y XMP"
 msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Leer y escribir metadatos exif, iptc y xmp."
 
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:699
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:698
 msgid "Exposure"
 msgstr "Exposición"
 
@@ -1916,7 +1899,7 @@ msgstr "No se pudieron exportar los archivos"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:770
+#: ../gthumb/gth-browser.c:793
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2139,7 +2122,7 @@ msgstr "Abrir _con"
 
 #: ../extensions/file_manager/callbacks.c:881
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5004 ../gthumb/gth-browser.c:5037
+#: ../gthumb/gth-browser.c:5040 ../gthumb/gth-browser.c:5073
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
@@ -2424,11 +2407,11 @@ msgstr "Herramientas básicas para modificar imágenes."
 msgid "Applying changes"
 msgstr "Aplicando cambios"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:581
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:588
 msgid "Adjust Colors"
 msgstr "Ajustar colores"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:582
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:589
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Cambiar el brillo, contraste, saturación y nivel gamma de la imagen"
 
@@ -2505,22 +2488,22 @@ msgid "Custom"
 msgstr "Personalizado"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:491
-#: ../extensions/file_tools/gth-file-tool-rotate.c:424
+#: ../extensions/file_tools/gth-file-tool-rotate.c:431
 msgid "Rule of Thirds"
 msgstr "Regla de los tercios"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:492
-#: ../extensions/file_tools/gth-file-tool-rotate.c:425
+#: ../extensions/file_tools/gth-file-tool-rotate.c:432
 msgid "Golden Sections"
 msgstr "Secciones doradas"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:493
-#: ../extensions/file_tools/gth-file-tool-rotate.c:426
+#: ../extensions/file_tools/gth-file-tool-rotate.c:433
 msgid "Center Lines"
 msgstr "Centrar líneas"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:494
-#: ../extensions/file_tools/gth-file-tool-rotate.c:427
+#: ../extensions/file_tools/gth-file-tool-rotate.c:434
 msgid "Uniform"
 msgstr "Uniformar"
 
@@ -2564,7 +2547,7 @@ msgstr "Espejar la imagen horizontalmente"
 msgid "Negative"
 msgstr "Negativo"
 
-#: ../extensions/file_tools/gth-file-tool-redo.c:75
+#: ../extensions/file_tools/gth-file-tool-redo.c:81
 msgid "Redo"
 msgstr "Rehacer"
 
@@ -2577,7 +2560,7 @@ msgstr "Redimensionando imágenes"
 msgid "Resize"
 msgstr "Redimensionar"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:655
+#: ../extensions/file_tools/gth-file-tool-rotate.c:662
 msgid "Rotate"
 msgstr "Rotar"
 
@@ -2615,11 +2598,11 @@ msgstr "Guardar"
 msgid "Sharpening image"
 msgstr "Enfocando la imagen"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:413
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:420
 msgid "Enhance Focus"
 msgstr "Realzar foco"
 
-#: ../extensions/file_tools/gth-file-tool-undo.c:75
+#: ../extensions/file_tools/gth-file-tool-undo.c:81
 msgid "Undo"
 msgstr "Deshacer"
 
@@ -2837,7 +2820,7 @@ msgstr ""
 
 #: ../extensions/gstreamer_tools/actions.c:67
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1256
-#: ../gthumb/gth-browser.c:1831
+#: ../gthumb/gth-browser.c:1854
 msgid "Could not save the file"
 msgstr "No se pudo guardar el archivo"
 
@@ -2972,8 +2955,8 @@ msgstr "%d × %d"
 msgid "Could not print the selected files"
 msgstr "No se pudieron imprimir los archivos seleccionados"
 
-#: ../extensions/image_print/callbacks.c:48
-#: ../extensions/image_print/callbacks.c:54
+#: ../extensions/image_print/callbacks.c:53
+#: ../extensions/image_print/callbacks.c:59
 #: ../extensions/image_print/preferences.c:79
 msgid "Print"
 msgstr "Imprimir"
@@ -3194,7 +3177,7 @@ msgstr "Baja"
 msgid "Zoom quality:"
 msgstr "Calidad de la ampliación:"
 
-#: ../extensions/image_viewer/gth-image-histogram.c:84
+#: ../extensions/image_viewer/gth-image-histogram.c:85
 msgid "Histogram"
 msgstr "Histograma"
 
@@ -3477,16 +3460,16 @@ msgstr "Introducir un valor:"
 msgid "Malformed command"
 msgstr "Comando mal formado"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:147
+#: ../extensions/list_tools/gth-script-editor-dialog.c:146
 msgid "none"
 msgstr "ninguna"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:153
+#: ../extensions/list_tools/gth-script-editor-dialog.c:152
 #, c-format
 msgid "key %d on the numeric keypad"
 msgstr "tecla %d en el teclado numérico"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:296
+#: ../extensions/list_tools/gth-script-editor-dialog.c:295
 #, c-format
 msgid "No command specified"
 msgstr "No se especificó ningún comando"
@@ -3727,7 +3710,7 @@ msgid "(Empty)"
 msgstr "(Vacío)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1745
+#: ../gthumb/gth-browser.c:1768
 msgid "Getting the folder content…"
 msgstr "Obteniendo la lista de archivos…"
 
@@ -3801,11 +3784,11 @@ msgstr "_X:"
 msgid "_Y:"
 msgstr "_Y:"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:508
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:498
 msgid "Red Eye Removal"
 msgstr "Quitar ojos rojos"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:509
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:499
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Quitar el efecto «ojos rojos» producido por el flash de las cámaras"
 
@@ -4338,9 +4321,9 @@ msgstr "Álbumes web"
 msgid "Create static web albums."
 msgstr "Creando álbumes web estáticos."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1050
-#: ../gthumb/gth-browser.c:1625 ../gthumb/gth-browser.c:5940
-#: ../gthumb/gth-browser.c:5959 ../gthumb/gth-browser.c:5983
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1073
+#: ../gthumb/gth-browser.c:1648 ../gthumb/gth-browser.c:5976
+#: ../gthumb/gth-browser.c:5995 ../gthumb/gth-browser.c:6019
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
@@ -4398,32 +4381,32 @@ msgstr "Importadores"
 msgid "Exporters"
 msgstr "Exportadores"
 
-#: ../gthumb/dlg-preferences-extensions.c:197
+#: ../gthumb/dlg-preferences-extensions.c:437
 msgid "Could not activate the extension"
 msgstr "No se pudo activar la extensión"
 
-#: ../gthumb/dlg-preferences-extensions.c:207
+#: ../gthumb/dlg-preferences-extensions.c:449
 msgid "Could not deactivate the extension"
 msgstr "No se pudo desactivar la extensión"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-extensions.c:753
+#: ../gthumb/dlg-preferences-extensions.c:739
 msgid "Extensions"
 msgstr "Extensiones"
 
-#: ../gthumb/dlg-preferences-extensions.c:800
+#: ../gthumb/dlg-preferences-extensions.c:786
 msgid "Restart required"
 msgstr "Se requiere reiniciar"
 
-#: ../gthumb/dlg-preferences-extensions.c:801
+#: ../gthumb/dlg-preferences-extensions.c:787
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Debe reiniciar gthumb para que estos cambios tengan efecto"
 
-#: ../gthumb/dlg-preferences-extensions.c:802
+#: ../gthumb/dlg-preferences-extensions.c:788
 msgid "_Continue"
 msgstr "_Continuar"
 
-#: ../gthumb/dlg-preferences-extensions.c:803
+#: ../gthumb/dlg-preferences-extensions.c:789
 msgid "_Restart"
 msgstr "_Reiniciar"
 
@@ -4461,7 +4444,7 @@ msgstr "Obteniendo información del archivo"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3094
+#: ../gthumb/glib-utils.c:3116
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4473,7 +4456,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3103
+#: ../gthumb/glib-utils.c:3125
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4516,7 +4499,6 @@ msgid "An image viewer and browser for GNOME."
 msgstr "Un visor y navegador de imágenes para GNOME."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:172
-#| msgid "translator_credits"
 msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2008 - 2013\n"
@@ -4530,70 +4512,70 @@ msgstr ""
 msgid "[modified]"
 msgstr "[modificada]"
 
-#: ../gthumb/gth-browser.c:771
+#: ../gthumb/gth-browser.c:794
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d archivo seleccionado (%s)"
 msgstr[1] "%d archivos seleccionados (%s)"
 
-#: ../gthumb/gth-browser.c:806
+#: ../gthumb/gth-browser.c:829
 #, c-format
 msgid "%s of free space"
 msgstr "%s de espacio libre"
 
-#: ../gthumb/gth-browser.c:1729 ../gthumb/gth-browser.c:1756
+#: ../gthumb/gth-browser.c:1752 ../gthumb/gth-browser.c:1779
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No se pudo encontrar un módulo apropiado para %s"
 
-#: ../gthumb/gth-browser.c:1875
+#: ../gthumb/gth-browser.c:1898
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "¿Guardar los cambios al archivo «%s»?"
 
-#: ../gthumb/gth-browser.c:1880
+#: ../gthumb/gth-browser.c:1903
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Si no guarda, se perderán para siempre los cambios en el archivo."
 
-#: ../gthumb/gth-browser.c:1881
+#: ../gthumb/gth-browser.c:1904
 msgid "Do _Not Save"
 msgstr "_No guardar"
 
-#: ../gthumb/gth-browser.c:2703 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2726 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:3118 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3141 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:4075
+#: ../gthumb/gth-browser.c:4111
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser.c:4081
+#: ../gthumb/gth-browser.c:4117
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser.c:4093
+#: ../gthumb/gth-browser.c:4129
 msgid "History"
 msgstr "Histórico"
 
-#: ../gthumb/gth-browser.c:4109
+#: ../gthumb/gth-browser.c:4145
 msgid "View the folders"
 msgstr "Ver las carpetas"
 
-#: ../gthumb/gth-browser.c:4124
+#: ../gthumb/gth-browser.c:4160
 msgid "Edit file"
 msgstr "Editar archivo"
 
-#: ../gthumb/gth-browser.c:5941
+#: ../gthumb/gth-browser.c:5977
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:5984
+#: ../gthumb/gth-browser.c:6020
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -4710,39 +4692,39 @@ msgstr "Cargando…"
 msgid "(Open Parent)"
 msgstr "(Abrir padre)"
 
-#: ../gthumb/gth-histogram-view.c:825
+#: ../gthumb/gth-histogram-view.c:826
 msgid "Linear scale"
 msgstr "Escala lineal"
 
-#: ../gthumb/gth-histogram-view.c:837
+#: ../gthumb/gth-histogram-view.c:838
 msgid "Logarithmic scale"
 msgstr "Escala logarítmica"
 
-#: ../gthumb/gth-histogram-view.c:857
+#: ../gthumb/gth-histogram-view.c:858
 msgid "Channel:"
 msgstr "Canal:"
 
-#: ../gthumb/gth-histogram-view.c:878
+#: ../gthumb/gth-histogram-view.c:879
 msgid "Value"
 msgstr "Valor"
 
-#: ../gthumb/gth-histogram-view.c:883
+#: ../gthumb/gth-histogram-view.c:884
 msgid "Red"
 msgstr "Rojo"
 
-#: ../gthumb/gth-histogram-view.c:888
+#: ../gthumb/gth-histogram-view.c:889
 msgid "Green"
 msgstr "Verde"
 
-#: ../gthumb/gth-histogram-view.c:893
+#: ../gthumb/gth-histogram-view.c:894
 msgid "Blue"
 msgstr "Azul"
 
-#: ../gthumb/gth-histogram-view.c:898
+#: ../gthumb/gth-histogram-view.c:899
 msgid "Alpha"
 msgstr "Alfa"
 
-#: ../gthumb/gth-histogram-view.c:904
+#: ../gthumb/gth-histogram-view.c:905
 msgid "RGB"
 msgstr "RGB"
 
@@ -5072,7 +5054,7 @@ msgstr "_Cancelar"
 msgid "_Close"
 msgstr "_Cerrar"
 
-#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:4
+#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:3
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -5088,27 +5070,27 @@ msgstr "_Quitar"
 msgid "_Save"
 msgstr "_Guardar"
 
-#: ../gthumb/main.c:62
+#: ../gthumb/main.c:59
 msgid "Open a new window"
 msgstr "Abrir una ventana nueva"
 
-#: ../gthumb/main.c:66
+#: ../gthumb/main.c:63
 msgid "Start in fullscreen mode"
 msgstr "Iniciar en modo de pantalla completa"
 
-#: ../gthumb/main.c:70
+#: ../gthumb/main.c:67
 msgid "Automatically start a slideshow"
 msgstr "Iniciar una secuencia automáticamente"
 
-#: ../gthumb/main.c:74
+#: ../gthumb/main.c:71
 msgid "Automatically import digital camera photos"
 msgstr "Importar automáticamente fotos de la cámara digital"
 
-#: ../gthumb/main.c:78
+#: ../gthumb/main.c:75
 msgid "Show version"
 msgstr "Mostrar versión"
 
-#: ../gthumb/main.c:389
+#: ../gthumb/main.c:271
 msgid "- Image browser and viewer"
 msgstr "- Explorador de imágenes y visor"
 
@@ -5116,15 +5098,11 @@ msgstr "- Explorador de imágenes y visor"
 msgid "New _Window"
 msgstr "_Ventana nueva"
 
-#: ../gthumb/resources/app-menu.ui.h:3
-msgid "_Keyboard Shortcuts"
-msgstr "Combinaciones de _teclas"
-
-#: ../gthumb/resources/app-menu.ui.h:5
+#: ../gthumb/resources/app-menu.ui.h:4
 msgid "_About"
 msgstr "_Acerca de"
 
-#: ../gthumb/resources/app-menu.ui.h:6
+#: ../gthumb/resources/app-menu.ui.h:5
 msgid "_Quit"
 msgstr "_Salir"
 
@@ -5160,6 +5138,56 @@ msgstr "Archivos ocultos"
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
 msgstr "_Borrar histórico"
+
+#~ msgid "File is not a valid .desktop file"
+#~ msgstr "El archivo no es un archivo .desktop válido"
+
+#~ msgid "Unrecognized desktop file Version '%s'"
+#~ msgstr "No se reconoce la versión «%s» del archivo desktop"
+
+#~ msgid "Starting %s"
+#~ msgstr "Iniciando %s"
+
+#~ msgid "Application does not accept documents on command line"
+#~ msgstr "La aplicación no acepta documentos en la línea de comandos"
+
+#~ msgid "Unrecognized launch option: %d"
+#~ msgstr "Opción de lanzamiento no reconocida: %d"
+
+#~ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+#~ msgstr ""
+#~ "No se pueden pasar los URI de documentos a entradas de escritorio "
+#~ "«Type=Link»"
+
+#~ msgid "Not a launchable item"
+#~ msgstr "No es un elemento lanzable"
+
+#~ msgid "Disable connection to session manager"
+#~ msgstr "Desactivar la conexión con el gestor de sesiones"
+
+#~ msgid "Specify file containing saved configuration"
+#~ msgstr "Especificar el archivo que contiene la configuración guardada"
+
+#~ msgid "FILE"
+#~ msgstr "ARCHIVO"
+
+#~ msgid "Specify session management ID"
+#~ msgstr "Especificar el ID de gestión de la sesión"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Session management options:"
+#~ msgstr "Opciones de gestión de la sesión:"
+
+#~ msgid "Show session management options"
+#~ msgstr "Mostrar las opciones de gestión de la sesión"
+
+#~ msgid "Some extensions are configurable."
+#~ msgstr "Algunas extensiones son configurables"
+
+#~ msgid "_Keyboard Shortcuts"
+#~ msgstr "Combinaciones de _teclas"
 
 #~ msgid "Full Name"
 #~ msgstr "Nombre completo"
