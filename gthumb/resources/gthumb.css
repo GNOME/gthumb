@@ -91,6 +91,18 @@ GtkScrolledWindow.comment .scrollbar.slider:backdrop {
 	color: #666666;
 }
 
+.comment .view:selected,
+.comment.view:selected {
+	background-color: @theme_selected_bg_color;
+	color: @theme_selected_fg_color;
+}
+
+.comment .view:backdrop:selected,
+.comment.view:backdrop:selected {
+	background-color: @theme_unfocused_selected_bg_color;
+	color: @theme_unfocused_selected_fg_color;
+}
+
 /* -- highlighed text on the destination button in the import dialog -- */
 
 GtkLabel.highlighted-text {
