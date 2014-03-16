@@ -925,7 +925,7 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 		self->priv->buttons[i] = NULL;
 	}
 
-	g_object_unref (self->priv->preloader);
+	_g_object_unref (self->priv->preloader);
 	self->priv->preloader = NULL;
 	self->priv->active = FALSE;
 
@@ -1605,16 +1605,25 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 static void
 gth_image_viewer_page_init (GthImageViewerPage *self)
 {
+	int i;
+
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_VIEWER_PAGE, GthImageViewerPagePrivate);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
+	self->priv->preloader = NULL;
+	self->priv->file_popup_merge_id = 0;
 	self->priv->history = gth_image_history_new ();
-	self->priv->last_loaded = NULL;
+	self->priv->file_data = NULL;
+	self->priv->active = FALSE;
 	self->priv->image_changed = FALSE;
 	self->priv->loading_image = FALSE;
+	self->priv->last_loaded = NULL;
 	self->priv->can_paste = FALSE;
 	self->priv->update_quality_id = 0;
 	self->priv->update_visibility_id = 0;
-	self->priv->active = FALSE;
+	for (i = 0; i < N_HEADER_BAR_BUTTONS; i++)
+		self->priv->buttons[i] = NULL;
+	self->priv->pointer_on_overview = FALSE;
+	self->priv->pointer_on_viewer = FALSE;
 }
 
 
