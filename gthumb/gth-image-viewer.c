@@ -369,8 +369,10 @@ set_zoom (GthImageViewer *self,
 
 	_gth_image_viewer_update_image_area (self);
 	if (self->priv->update_image_after_zoom) {
+		g_signal_emit (G_OBJECT (self), gth_image_viewer_signals[IMAGE_CHANGED], 0);
 		gth_image_viewer_tool_image_changed (self->priv->tool);
 		self->priv->update_image_after_zoom = FALSE;
+		self->priv->skip_zoom_change = TRUE;
 	}
 	else
 		gth_image_viewer_tool_zoom_changed (self->priv->tool);
@@ -1605,7 +1607,7 @@ _gth_image_viewer_content_changed (GthImageViewer *self,
 
 	if (better_quality)
 		g_signal_emit (G_OBJECT (self), gth_image_viewer_signals[BETTER_QUALITY], 0);
-	else
+	else if (! self->priv->zoom_enabled || (self->priv->zoom_change == GTH_ZOOM_CHANGE_KEEP_PREV))
 		g_signal_emit (G_OBJECT (self), gth_image_viewer_signals[IMAGE_CHANGED], 0);
 
 	if (! better_quality && self->priv->reset_scrollbars) {
