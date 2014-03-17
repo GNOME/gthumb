@@ -29,7 +29,7 @@
 
 
 #define SIZE_TOO_BIG_FOR_SCALE_BILINEAR (3000 * 3000)
-#define FRAME_BORDER 25
+#define FRAME_BORDER 15
 
 
 /* Properties */
