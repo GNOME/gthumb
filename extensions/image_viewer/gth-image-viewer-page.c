@@ -75,7 +75,7 @@ struct _GthImageViewerPagePrivate {
 	GthBrowser        *browser;
 	GSettings         *settings;
 	GtkWidget         *image_navigator;
-	GtkWidget         *overview_revealer;
+	GtkWidget         *overview_container;
 	GtkWidget         *overview;
 	GtkWidget         *viewer;
 	GthImagePreloader *preloader;
@@ -346,6 +346,7 @@ update_visibility_cb (gpointer user_data)
 {
 	GthImageViewerPage *self = user_data;
 	gboolean            visible;
+	gboolean            revealed;
 
 	if (! self->priv->active)
 		return FALSE;
@@ -356,10 +357,7 @@ update_visibility_cb (gpointer user_data)
 	}
 
 	visible = self->priv->pointer_on_overview || (self->priv->pointer_on_viewer && gth_image_viewer_has_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer)));
-	if (visible != gtk_revealer_get_child_revealed (GTK_REVEALER (self->priv->overview_revealer))) {
-		gtk_widget_show (self->priv->overview_revealer);
-		gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->overview_revealer), visible);
-	}
+	gtk_widget_set_visible (self->priv->overview_container, visible);
 
 	return FALSE;
 }
@@ -747,7 +745,7 @@ image_navigator_get_child_position_cb	(GtkOverlay   *overlay,
 {
 	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (user_data);
 
-	if (widget == self->priv->overview_revealer) {
+	if (widget == self->priv->overview_container) {
 		GtkAllocation main_alloc;
 
 		gtk_widget_get_allocation (gtk_bin_get_child (GTK_BIN (overlay)), &main_alloc);
@@ -760,20 +758,6 @@ image_navigator_get_child_position_cb	(GtkOverlay   *overlay,
 	}
 
 	return FALSE;
-}
-
-
-static void
-overview_revealer_notify_child_revealed_cb (GObject    *gobject,
-					    GParamSpec *pspec,
-					    gpointer    user_data)
-{
-	GthImageViewerPage *self = user_data;
-	gboolean            visible;
-
-	visible = gtk_revealer_get_child_revealed (GTK_REVEALER (self->priv->overview_revealer));
-	if (! visible)
-		gtk_widget_hide (self->priv->overview_revealer);
 }
 
 
@@ -868,20 +852,13 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	gtk_container_add (GTK_CONTAINER (self->priv->image_navigator), self->priv->viewer);
 	gtk_widget_show (self->priv->image_navigator);
 
-	self->priv->overview_revealer = gtk_revealer_new ();
-	gtk_revealer_set_transition_duration (GTK_REVEALER (self->priv->overview_revealer), 500);
-	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->overview_revealer), GTK_REVEALER_TRANSITION_TYPE_CROSSFADE);
-	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->image_navigator), self->priv->overview_revealer);
-
-	g_signal_connect (G_OBJECT (self->priv->overview_revealer),
-			  "notify::child-revealed",
-			  G_CALLBACK (overview_revealer_notify_child_revealed_cb),
-			  self);
+	self->priv->overview_container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->image_navigator), self->priv->overview_container);
 
 	self->priv->overview = gth_image_overview_new (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gtk_widget_add_events (self->priv->overview, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 	gtk_widget_show (self->priv->overview);
-	gtk_container_add (GTK_CONTAINER (self->priv->overview_revealer), self->priv->overview);
+	gtk_container_add (GTK_CONTAINER (self->priv->overview_container), self->priv->overview);
 
 	g_signal_connect_after (G_OBJECT (self->priv->overview),
 				"enter-notify-event",
