@@ -244,39 +244,33 @@ gth_pixbuf_animation_new_from_file (GInputStream  *istream,
 				    GCancellable  *cancellable,
 				    GError       **error)
 {
-	const char         *mime_type;
-	GdkPixbufAnimation *animation;
-	char               *path;
-	GthImage           *image;
+	const char *mime_type;
+	GthImage   *image;
 
 	mime_type = _g_content_type_get_from_stream (istream, (file_data != NULL ? file_data->file : NULL), cancellable, error);
 	if (mime_type == NULL)
 		return NULL;
 
-	if ((file_data == NULL) || ! g_content_type_equals (mime_type, "image/gif"))
-		return gth_pixbuf_new_from_file (istream,
-						 file_data,
-						 requested_size,
-						 original_width,
-						 original_height,
-						 loaded_original,
-						 FALSE,
-						 cancellable,
-						 error);
+	image = NULL;
+	if (g_content_type_equals (mime_type, "image/gif")) {
+		GdkPixbufAnimation *animation;
 
-	path = g_file_get_path (file_data->file);
-	if (path == NULL) {
-		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
-		return NULL;
+		animation = gdk_pixbuf_animation_new_from_stream (istream, cancellable, error);
+		image = gth_image_new ();
+		gth_image_set_pixbuf_animation (image, animation);
+
+		_g_object_unref (animation);
 	}
-
-	animation = gdk_pixbuf_animation_new_from_file (path, error);
-	image = gth_image_new ();
-	gth_image_set_pixbuf_animation (image, animation);
-
-	g_object_unref (animation);
-	g_free (path);
+	else
+		image = gth_pixbuf_new_from_file (istream,
+						  file_data,
+						  requested_size,
+						  original_width,
+						  original_height,
+						  loaded_original,
+						  FALSE,
+						  cancellable,
+						  error);
 
 	return image;
 }
