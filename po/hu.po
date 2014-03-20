@@ -7,14 +7,15 @@
 # Balazs Ur <urbalazs at gmail dot com>, 2011.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2005, 2007, 2009, 2011, 2012.
 # Balázs Úr <urbalazs at gmail dot com>, 2012, 2013, 2014.
+# Balázs Úr <urbalazs@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-28 09:16+0000\n"
-"PO-Revision-Date: 2014-02-28 21:03+0100\n"
-"Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
+"POT-Creation-Date: 2014-03-20 09:18+0000\n"
+"PO-Revision-Date: 2014-03-20 15:40+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +23,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.2\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:1
+msgid ""
+"gThumb is an image viewer, editor, browser and organizer. It is designed to "
+"be well integrated with the GNOME 3 desktop."
+msgstr ""
+"A gThumb egy képnézegető, szerkesztő, böngésző és kezelő. Úgy tervezték, hogy "
+"jól integrálódjon a GNOME 3 asztalba."
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:2
+msgid ""
+"As an image viewer gThumb allows to view common image file formats such as "
+"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
+"is also possible to view various metadata types embedded inside an image "
+"such as EXIF, IPTC and XMP."
+msgstr ""
+"Képnézegetőként a gThumb lehetővé teszi a gyakori képfájlformátumok "
+"megtekintését, úgymint a BMP, JPEG, GIF (beleértve az animációkat), PNG, "
+"TIFF, TGA és RAW képeket. Lehetséges továbbá a képekbe ágyazott különféle "
+"metaadat típusok megtekintése, úgymint az EXIF, IPTC és XMP."
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:3
+msgid ""
+"As an image editor gThumb allows to scale, rotate and crop the images; "
+"change the saturation, lightness, contrast as well as other color "
+"trasformations."
+msgstr ""
+"Képszerkesztőként a gThumb lehetővé teszi a méretezést, forgatást és a képek "
+"levágását. Módosíthatja a telítettséget, fényességet, kontrasztot, valamint "
+"egyéb színátalakításokat hajthat végre."
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:4
+msgid ""
+"As an image browser gThumb shows the thumbnails of the images saved on your "
+"disk, allows to perform the common operations of a file manager such as "
+"copy, move and delete files and folders. Furthermore there is a series of "
+"image specific tools such as JPEG lossless transformations; image resize; "
+"format conversion; slideshow; setting an image as desktop background and "
+"several others."
+msgstr ""
+"Képböngészőként a gThumb megjeleníti a lemezre mentett képek bélyegképeit, "
+"lehetővé teszi a fájlkezelő gyakori műveleteinek végrehajtását, úgymint "
+"fájlok és mappák másolását, áthelyezését és törlését. Rendelkezik továbbá egy "
+"sor képspecifikus eszközzel, úgymint veszteségmentes JPEG átalakítások, "
+"képátméretezés, formátumátalakítás, diavetítés, kép beállítása az asztal "
+"hátterének és még sok más."
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:5
+msgid ""
+"As an image organizer gThumb allows to add comments and other metadata to "
+"images; organize images in catalogs and catalogs in libraries; search for "
+"images and save the result as a catalog."
+msgstr ""
+"Képkezelőként a gThumb lehetővé teszi megjegyzések és egyéb metaadatok "
+"hozzáadását a képekhez; képek rendezését katalógusokba és katalógusok "
+"rendezését könyvtárakba; képek keresését és az eredmény mentést katalógusként."
 
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:350
@@ -408,7 +465,6 @@ msgid "_Add Bookmark"
 msgstr "Köny_vjelző hozzáadása"
 
 #: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:2
-#| msgid "_Edit Bookmarks..."
 msgid "_Edit Bookmarks…"
 msgstr "Könyvjelzők s_zerkesztése…"
 
@@ -421,13 +477,11 @@ msgid "_Bookmarks:"
 msgstr "_Könyvjelzők:"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
-#| msgid "Go to last _visited location"
 msgid "Go to this location"
 msgstr "Ugrás erre a helyre"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 #: ../extensions/catalogs/callbacks.c:72
-#| msgid "remove"
 msgid "Remove"
 msgstr "Eltávolítás"
 
@@ -599,7 +653,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1326
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1303
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "Mentés"
@@ -667,28 +721,23 @@ msgid "Are you sure you want to remove \"%s\"?"
 msgstr "Biztosan eltávolítja a következőt: „%s”?"
 
 #: ../extensions/catalogs/callbacks.c:52
-#| msgid "Add to Catalog"
 msgid "Add to Catalog…"
 msgstr "Hozzáadás katalógushoz…"
 
 #: ../extensions/catalogs/callbacks.c:57
 #: ../extensions/selections/callbacks.c:56
-#| msgid "Open _Folder"
 msgid "Open Folder"
 msgstr "Mappa megnyitása"
 
 #: ../extensions/catalogs/callbacks.c:62
-#| msgid "Remo_ve from Catalog"
 msgid "Remove from Catalog"
 msgstr "Eltávolítás a katalógusból"
 
 #: ../extensions/catalogs/callbacks.c:67
-#| msgid "Create _Catalog"
 msgid "Create Catalog"
 msgstr "Katalógus létrehozása"
 
 #: ../extensions/catalogs/callbacks.c:68
-#| msgid "Create _Library"
 msgid "Create Library"
 msgstr "Gyűjtemény létrehozása"
 
@@ -922,7 +971,6 @@ msgid "Operation completed. Catalogs: %d. Images: %d."
 msgstr "A művelet befejeződött. Katalógusok: %d. Képek: %d."
 
 #: ../extensions/change_date/callbacks.c:38
-#| msgid "Change Date"
 msgid "Change _Date…"
 msgstr "_Dátum megváltoztatása…"
 
@@ -1053,12 +1101,10 @@ msgid "Rating"
 msgstr "Értékelés"
 
 #: ../extensions/contact_sheet/callbacks.c:38
-#| msgid "Contact _Sheet"
 msgid "Contact _Sheet…"
 msgstr "Partner _munkalap…"
 
 #: ../extensions/contact_sheet/callbacks.c:39
-#| msgid "Image Wall"
 msgid "Image _Wall…"
 msgstr "Kép_fal…"
 
@@ -1350,7 +1396,6 @@ msgid "New theme"
 msgstr "Új téma"
 
 #: ../extensions/convert_format/callbacks.c:38
-#| msgid "Convert Format"
 msgid "Convert Format…"
 msgstr "Átalakítás más formátumba…"
 
@@ -1390,12 +1435,10 @@ msgstr "Nem jeleníthetők meg az asztal hátterének tulajdonságai"
 
 #: ../extensions/desktop_background/actions.c:248
 #: ../gthumb/resources/app-menu.ui.h:2
-#| msgid "Preferences"
 msgid "_Preferences"
 msgstr "_Beállítások"
 
 #: ../extensions/desktop_background/actions.c:249
-#| msgid "Undo"
 msgid "_Undo"
 msgstr "_Visszavonás"
 
@@ -1406,7 +1449,6 @@ msgstr "Nem állítható be az asztal háttere"
 
 #: ../extensions/desktop_background/callbacks.c:47
 #: ../extensions/desktop_background/callbacks.c:53
-#| msgid "Set as Desktop Background"
 msgid "Set as Background"
 msgstr "Beállítás háttérként"
 
@@ -1611,7 +1653,6 @@ msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Exif, iptc és xmp metaadatok írása és olvasása."
 
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:698
-#| msgid "Exporters"
 msgid "Exposure"
 msgstr "Expozíció"
 
@@ -1664,7 +1705,6 @@ msgid "date photo was taken"
 msgstr "fényképkészítés dátuma"
 
 #: ../extensions/export_tools/callbacks.c:46
-#| msgid "Exporters"
 msgid "Export"
 msgstr "Exportálás"
 
@@ -2025,56 +2065,46 @@ msgstr "Ha törli a fájlt, az véglegesen elvész."
 
 #: ../extensions/file_manager/callbacks.c:67
 #: ../extensions/file_manager/callbacks.c:96
-#| msgid "Out"
 msgid "Cut"
 msgstr "Kivágás"
 
 #: ../extensions/file_manager/callbacks.c:69
-#| msgid "Faster"
 msgid "Paste"
 msgstr "Beillesztés"
 
 #: ../extensions/file_manager/callbacks.c:74
 #: ../extensions/file_manager/callbacks.c:104
-#| msgid "Copy To"
 msgid "Copy to…"
 msgstr "Másolás ide…"
 
 #: ../extensions/file_manager/callbacks.c:75
 #: ../extensions/file_manager/callbacks.c:105
-#| msgid "Move To"
 msgid "Move to…"
 msgstr "Áthelyezés ide…"
 
 #: ../extensions/file_manager/callbacks.c:81
 #: ../extensions/file_manager/callbacks.c:106
-#| msgid "Mo_ve to Trash"
 msgid "Move to Trash"
 msgstr "Áthelyezés a Kukába"
 
 #: ../extensions/file_manager/callbacks.c:82
 #: ../extensions/file_manager/callbacks.c:107
-#| msgid "_Delete"
 msgid "Delete"
 msgstr "Törlés"
 
 #: ../extensions/file_manager/callbacks.c:86
-#| msgid "Open with the _File Manager"
 msgid "Open with the File Manager"
 msgstr "Megnyitás a fájlkezelővel"
 
 #: ../extensions/file_manager/callbacks.c:91
-#| msgid "Create _Folder"
 msgid "Create Folder"
 msgstr "Mappa létrehozása"
 
 #: ../extensions/file_manager/callbacks.c:98
-#| msgid "_Paste Into Folder"
 msgid "Paste Into Folder"
 msgstr "Beillesztés mappába"
 
 #: ../extensions/file_manager/callbacks.c:112
-#| msgid "Duplicates"
 msgid "Duplicate"
 msgstr "Megkettőzés"
 
@@ -2570,7 +2600,6 @@ msgid "Undo"
 msgstr "Visszavonás"
 
 #: ../extensions/find_duplicates/callbacks.c:37
-#| msgid "Find Duplicates"
 msgid "Find _Duplicates…"
 msgstr "_Azonosak keresése…"
 
@@ -2631,7 +2660,6 @@ msgid "leave the oldest duplicates"
 msgstr "a régebbi példány meghagyása"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:67
-#| msgid "by folder..."
 msgid "by folder…"
 msgstr "mappa szerint…"
 
@@ -2785,7 +2813,7 @@ msgstr ""
 "térjen vissza ehhez az ablakhoz az engedélyezés befejezéséhez."
 
 #: ../extensions/gstreamer_tools/actions.c:67
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1256
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1233
 #: ../gthumb/gth-browser.c:1854
 msgid "Could not save the file"
 msgstr "Nem lehet elmenteni a fájlt"
@@ -2795,7 +2823,7 @@ msgid "Could not take a screenshot"
 msgstr "Nem lehet képernyőképet készíteni"
 
 #: ../extensions/gstreamer_tools/actions.c:138
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1429
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1406
 msgid "Save Image"
 msgstr "Kép mentése"
 
@@ -2909,7 +2937,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1491
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1468
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:243
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
 #: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:967
@@ -3139,7 +3167,6 @@ msgid "Low"
 msgstr "Alacsony"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
-#| msgid "_Zoom quality:"
 msgid "Zoom quality:"
 msgstr "Nagyítás minősége:"
 
@@ -3155,8 +3182,7 @@ msgstr "Kép másolása"
 msgid "Paste Image"
 msgstr "Kép beillesztése"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1983
-#| msgid "Copying original images"
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1969
 msgid "Loading the original image"
 msgstr "Az eredeti kép betöltése"
 
@@ -3502,7 +3528,6 @@ msgid "_New"
 msgstr "Ú_j"
 
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:200
-#| msgid "New authentication..."
 msgid "New authentication…"
 msgstr "Új hitelesítés…"
 
@@ -3511,7 +3536,6 @@ msgid "Authorization Required"
 msgstr "Felhatalmazás szükséges"
 
 #: ../extensions/oauth/web-service.c:378
-#| msgid "Choose Account"
 msgid "Choose _Account…"
 msgstr "Válasszon _fiókot…"
 
@@ -3618,12 +3642,10 @@ msgid "Import"
 msgstr "Importálás"
 
 #: ../extensions/photo_importer/callbacks.c:41
-#| msgid "_Removable Device..."
 msgid "_Removable Device…"
 msgstr "_Eltávolítható eszköz…"
 
 #: ../extensions/photo_importer/callbacks.c:42
-#| msgid "F_older..."
 msgid "F_older…"
 msgstr "_Mappa…"
 
@@ -3680,7 +3702,6 @@ msgstr "(Üres)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
 #: ../gthumb/gth-browser.c:1768
-#| msgid "Getting the file list"
 msgid "Getting the folder content…"
 msgstr "Mappatartalom lekérdezése…"
 
@@ -3706,7 +3727,6 @@ msgstr "Fényképek importálása eltávolítható eszközökről."
 
 #: ../extensions/picasaweb/callbacks.c:50
 #: ../extensions/picasaweb/callbacks.c:56
-#| msgid "Picasa Web Album"
 msgid "_Picasa Web Album…"
 msgstr "_Picasa Webalbum…"
 
@@ -3920,7 +3940,6 @@ msgid "Rename series of files."
 msgstr "Fájlok sorozatának átnevezése."
 
 #: ../extensions/resize_images/callbacks.c:38
-#| msgid "Resize Images"
 msgid "Resize Images…"
 msgstr "Képek átméretezése…"
 
@@ -3975,7 +3994,6 @@ msgid "Find"
 msgstr "Keresés"
 
 #: ../extensions/search/actions.c:81
-#| msgid "Find"
 msgid "_Find"
 msgstr "_Keresés"
 
@@ -4009,7 +4027,6 @@ msgid "Files found until now: %s"
 msgstr "Mostanáig megtalált fájlok: %s"
 
 #: ../extensions/search/gth-search-task.c:271
-#| msgid "Searching..."
 msgid "Searching…"
 msgstr "Keresés…"
 
@@ -4049,7 +4066,6 @@ msgid "Advanced file selection."
 msgstr "Speciális fájlkijelölés."
 
 #: ../extensions/slideshow/callbacks.c:51
-#| msgid "Destination"
 msgid "Presentation"
 msgstr "Bemutató"
 
@@ -4146,7 +4162,6 @@ msgid "View images as a slideshow."
 msgstr "Képek megtekintése diavetítésként."
 
 #: ../extensions/webalbums/callbacks.c:48
-#| msgid "Web Album"
 msgid "_Web Album…"
 msgstr "_Webalbum…"
 
@@ -4440,11 +4455,6 @@ msgid "%d:%02d"
 msgstr "%d.%02d"
 
 #: ../gthumb/gth-browser-actions-callbacks.c:141
-#| msgid ""
-#| "gthumb is free software; you can redistribute it and/or modify it under "
-#| "the terms of the GNU General Public License as published by the Free "
-#| "Software Foundation; either version 2 of the License, or (at your option) "
-#| "any later version."
 msgid ""
 "gThumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
@@ -4456,11 +4466,6 @@ msgstr ""
 "szerint; akár a licenc 2-es, akár (tetszőleges) későbbi változata szerint."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:145
-#| msgid ""
-#| "gthumb is distributed in the hope that it will be useful, but WITHOUT ANY "
-#| "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
-#| "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
-#| "details."
 msgid ""
 "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
@@ -4473,9 +4478,6 @@ msgstr ""
 "részletekért tanulmányozza a GNU GPL licencet."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:149
-#| msgid ""
-#| "You should have received a copy of the GNU General Public License along "
-#| "with gthumb.  If not, see http://www.gnu.org/licenses/."
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
@@ -4488,7 +4490,6 @@ msgid "An image viewer and browser for GNOME."
 msgstr "Képmegjelenítő és képböngésző a GNOME-hoz."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:172
-#| msgid "translator_credits"
 msgid "translator-credits"
 msgstr ""
 "Dvornik László <dvornik at gnome dot hu>\n"
@@ -4547,7 +4548,6 @@ msgid "Go to the next visited location"
 msgstr "Ugrás a következő meglátogatott helyre"
 
 #: ../gthumb/gth-browser.c:4129
-#| msgid "Histogram"
 msgid "History"
 msgstr "Előzmények"
 
@@ -4631,7 +4631,6 @@ msgstr[0] "Biztos benne, hogy véglegesen törli a kiválasztott %d fájlt?"
 msgstr[1] "Biztos benne, hogy véglegesen törli a kiválasztott %d fájlt?"
 
 #: ../gthumb/gth-filterbar.c:304
-#| msgid "_Personalize"
 msgid "Personalize…"
 msgstr "Személyre szabás…"
 
@@ -4669,7 +4668,6 @@ msgid "No limit specified"
 msgstr "Nincs korlát meghatározva"
 
 #: ../gthumb/gth-folder-tree.c:1070
-#| msgid "Loading..."
 msgid "Loading…"
 msgstr "Betöltés…"
 
@@ -4748,7 +4746,6 @@ msgid "Type"
 msgstr "Típus"
 
 #: ../gthumb/gth-main-default-metadata.c:44
-#| msgid "_Location"
 msgid "Location"
 msgstr "Hely"
 
@@ -4757,7 +4754,6 @@ msgid "Duration"
 msgstr "Időtartam"
 
 #: ../gthumb/gth-main-default-metadata.c:49
-#| msgid "System settings"
 msgid "Exposure Settings"
 msgstr "Expozíció beállítások"
 
@@ -4790,12 +4786,10 @@ msgid "Camera Model"
 msgstr "Fényképezőgép-típus"
 
 #: ../gthumb/gth-main-default-metadata.c:65
-#| msgid "_Authorize..."
 msgid "Author"
 msgstr "Szerző"
 
 #: ../gthumb/gth-main-default-metadata.c:66
-#| msgid "C_opyright:"
 msgid "Copyright"
 msgstr "Szerzői jog"
 
@@ -5003,12 +4997,10 @@ msgid "Now"
 msgstr "Most"
 
 #: ../gthumb/gth-toolbox.c:124
-#| msgid "C_olor:"
 msgid "Colors"
 msgstr "Színek"
 
 #: ../gthumb/gth-toolbox.c:125
-#| msgid "Rotation:"
 msgid "Rotation"
 msgstr "Forgatás"
 
@@ -5037,7 +5029,6 @@ msgid "Cancel"
 msgstr "Mégse"
 
 #: ../gthumb/gtk-utils.h:36
-#| msgid "Cancel"
 msgid "_Cancel"
 msgstr "_Mégse"
 
@@ -5054,12 +5045,10 @@ msgid "_Ok"
 msgstr "_OK"
 
 #: ../gthumb/gtk-utils.h:43
-#| msgid "remove"
 msgid "_Remove"
 msgstr "E_ltávolítás"
 
 #: ../gthumb/gtk-utils.h:44
-#| msgid "Save"
 msgid "_Save"
 msgstr "M_entés"
 
@@ -5101,7 +5090,6 @@ msgstr "_Kilépés"
 
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
-#| msgid "Leave Fullscreen"
 msgid "Fullscreen"
 msgstr "Teljes képernyő"
 
@@ -5110,12 +5098,10 @@ msgid "Open in New Window"
 msgstr "Megnyitás új ablakban"
 
 #: ../gthumb/resources/gears-menu.ui.h:1
-#| msgid "New _Window"
 msgid "New Window"
 msgstr "Új ablak"
 
 #: ../gthumb/resources/gears-menu.ui.h:2
-#| msgid "_Location"
 msgid "Open Location…"
 msgstr "Hely megnyitása…"
 
@@ -5124,12 +5110,10 @@ msgid "Revert"
 msgstr "Visszaállítás"
 
 #: ../gthumb/resources/gears-menu.ui.h:6
-#| msgid "Sort By"
 msgid "Sort By…"
 msgstr "Rendezés…"
 
 #: ../gthumb/resources/gears-menu.ui.h:7
-#| msgid "_Hidden Files"
 msgid "Hidden Files"
 msgstr "Rejtett fájlok"
 
