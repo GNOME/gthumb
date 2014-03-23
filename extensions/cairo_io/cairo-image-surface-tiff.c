@@ -176,26 +176,26 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 	max_height = -1;
 	min_diff = 0;
 	do {
-		uint32 image_width;
-		uint32 image_height;
+		int width;
+		int height;
 
-		if (TIFFGetField (tif, TIFFTAG_IMAGEWIDTH, &image_width) != 1)
+		if (TIFFGetField (tif, TIFFTAG_IMAGEWIDTH, &width) != 1)
 			continue;
-		if (TIFFGetField (tif, TIFFTAG_IMAGELENGTH, &image_height) != 1)
+		if (TIFFGetField (tif, TIFFTAG_IMAGELENGTH, &height) != 1)
 			continue;
 
 		if (! TIFFRGBAImageOK (tif, emsg))
 			continue;
 
-		if (image_width > max_width) {
-			max_width = image_width;
-			max_height = image_height;
+		if (width > max_width) {
+			max_width = width;
+			max_height = height;
 			if (requested_size <= 0)
 				best_directory = TIFFCurrentDirectory (tif);
 		}
 
 		if (requested_size > 0) {
-			int diff = abs (requested_size - image_width);
+			int diff = abs (requested_size - width);
 
 			if (first_directory) {
 				min_diff = diff;
