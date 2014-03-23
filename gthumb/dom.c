@@ -649,7 +649,9 @@ dom_document_load (DomDocument  *self,
 	GMarkupParseContext *context;
 
 	g_return_val_if_fail (DOM_IS_DOCUMENT (self), FALSE);
-	g_return_val_if_fail (xml != NULL, FALSE);
+
+	if (xml == NULL)
+		return FALSE;
 
 	g_queue_clear (self->priv->open_nodes);
 	g_queue_push_head (self->priv->open_nodes, self);
