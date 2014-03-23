@@ -152,7 +152,7 @@ _gth_sidebar_construct (GthSidebar *sidebar,
 			  	  sidebar);
 
 	sidebar->priv->toolbox = gth_toolbox_new (name);
-	gtk_style_context_add_class (gtk_widget_get_style_context (sidebar->priv->properties), GTK_STYLE_CLASS_SIDEBAR);
+	gtk_style_context_add_class (gtk_widget_get_style_context (sidebar->priv->toolbox), GTK_STYLE_CLASS_SIDEBAR);
 	gtk_widget_show (sidebar->priv->toolbox);
 	gtk_stack_add_named (GTK_STACK (sidebar), sidebar->priv->toolbox, GTH_SIDEBAR_PAGE_TOOLS);
 }
