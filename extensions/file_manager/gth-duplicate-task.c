@@ -121,7 +121,7 @@ duplicate_current_file (GthDuplicateTask *self)
 	_g_copy_file_async (file_data,
 			    self->priv->destination,
 			    FALSE,
-			    G_FILE_COPY_ALL_METADATA,
+			    GTH_FILE_COPY_ALL_METADATA,
 			    GTH_OVERWRITE_RESPONSE_ALWAYS_NO,
 			    G_PRIORITY_DEFAULT,
 			    gth_task_get_cancellable (GTH_TASK (self)),

@@ -211,7 +211,7 @@ gth_main_register_default_hooks (void)
 
 	/**
 	 * Called when copying files in _g_copy_files_async with the
-	 * G_FILE_COPY_ALL_METADATA flag activated and when deleting file
+	 * GTH_FILE_COPY_ALL_METADATA flag activated and when deleting file
 	 * with _g_delete_files.  Used to add sidecar files that contain
 	 * file metadata.
 	 *

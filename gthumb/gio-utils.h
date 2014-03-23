@@ -46,6 +46,11 @@ typedef enum {
 	GTH_LIST_NO_HIDDEN_FILES = 1 << 3
 } GthListFlags;
 
+typedef enum { /*< skip >*/
+  GTH_FILE_COPY_DEFAULT            = 0,
+  GTH_FILE_COPY_ALL_METADATA       = (1 << 1)
+} GthFileCopyFlags;
+
 typedef DirOp (*StartDirCallback)    (GFile                *directory,
 				      GFileInfo            *info,
 				      GError              **error,
@@ -106,7 +111,7 @@ void     _g_dummy_file_op_async      (ReadyFunc              callback,
 void     _g_copy_file_async          (GthFileData           *source,
 				      GFile                 *destination,
 				      gboolean               move,
-				      GFileCopyFlags         flags,
+				      GthFileCopyFlags       flags,
 				      GthOverwriteResponse   default_response,
 				      int                    io_priority,
 				      GCancellable          *cancellable,
@@ -119,7 +124,7 @@ void     _g_copy_file_async          (GthFileData           *source,
 void     _g_copy_files_async         (GList                 *sources,
 				      GFile                 *destination,
 				      gboolean               move,
-				      GFileCopyFlags         flags,
+				      GthFileCopyFlags       flags,
 				      GthOverwriteResponse   default_response,
 				      int                    io_priority,
 				      GCancellable          *cancellable,

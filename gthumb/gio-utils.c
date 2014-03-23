@@ -1096,7 +1096,7 @@ typedef struct {
 	GthFileData          *source;
 	GFile                *destination;
 	gboolean              move;
-	GFileCopyFlags        flags;
+	GthFileCopyFlags      flags;
 	int                   io_priority;
 	goffset               tot_size;
 	goffset               copied_size;
@@ -1262,7 +1262,7 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 
 			parent = g_file_get_parent (copy_file_data->current_destination);
 			new_destination = g_file_get_child_for_display_name (parent, gth_overwrite_dialog_get_filename (GTH_OVERWRITE_DIALOG (dialog)), NULL);
-			_g_copy_file_to_destination (copy_file_data, new_destination, 0);
+			_g_copy_file_to_destination (copy_file_data, new_destination, G_FILE_COPY_NONE);
 
 			g_object_unref (new_destination);
 			g_object_unref (parent);
@@ -1319,7 +1319,7 @@ copy_file_ready_cb (GObject      *source_object,
 	_g_object_list_unref (copy_file_data->destination_sidecars);
 	copy_file_data->source_sidecars = NULL;
 	copy_file_data->destination_sidecars = NULL;
-	if (copy_file_data->flags && G_FILE_COPY_ALL_METADATA) {
+	if (copy_file_data->flags & GTH_FILE_COPY_ALL_METADATA) {
 		gth_hook_invoke ("add-sidecars", copy_file_data->source->file, &copy_file_data->source_sidecars);
 		gth_hook_invoke ("add-sidecars", copy_file_data->destination, &copy_file_data->destination_sidecars);
 		copy_file_data->source_sidecars = g_list_reverse (copy_file_data->source_sidecars);
@@ -1372,7 +1372,9 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 	copy_file_data->current_destination = g_file_dup (destination);
 
 	if (copy_file_data->default_response == GTH_OVERWRITE_RESPONSE_ALWAYS_YES)
-		flags = G_FILE_COPY_OVERWRITE;
+		flags |= G_FILE_COPY_OVERWRITE;
+	if (copy_file_data->flags & GTH_FILE_COPY_ALL_METADATA)
+		flags |= G_FILE_COPY_ALL_METADATA;
 
 	if (copy_file_data->progress_callback != NULL) {
 		GFile *destination_parent;
@@ -1407,7 +1409,7 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 	else
 		g_file_copy_async (copy_file_data->source->file,
 				   copy_file_data->current_destination,
-				   copy_file_data->flags | flags,
+				   flags,
 				   copy_file_data->io_priority,
 				   copy_file_data->cancellable,
 				   copy_file_progress_cb,
@@ -1421,7 +1423,7 @@ static void
 _g_copy_file_async_private (GthFileData           *source,
 			    GFile                 *destination,
 			    gboolean               move,
-			    GFileCopyFlags         flags,
+			    GthFileCopyFlags       flags,
 			    GthOverwriteResponse   default_response,
 			    int                    io_priority,
 			    goffset                tot_size,
@@ -1455,7 +1457,7 @@ _g_copy_file_async_private (GthFileData           *source,
 	copy_file_data->user_data = user_data;
 	copy_file_data->default_response = default_response;
 
-	_g_copy_file_to_destination (copy_file_data, copy_file_data->destination, 0);
+	_g_copy_file_to_destination (copy_file_data, copy_file_data->destination, G_FILE_COPY_NONE);
 }
 
 
@@ -1463,7 +1465,7 @@ void
 _g_copy_file_async (GthFileData           *source,
 		    GFile                 *destination,
 		    gboolean               move,
-		    GFileCopyFlags         flags,
+		    GthFileCopyFlags       flags,
 		    GthOverwriteResponse   default_response,
 		    int                    io_priority,
 		    GCancellable          *cancellable,
@@ -1519,7 +1521,7 @@ typedef struct {
 	GthOverwriteResponse  default_response;
 
 	gboolean              move;
-	GFileCopyFlags        flags;
+	GthFileCopyFlags      flags;
 	int                   io_priority;
 	GCancellable         *cancellable;
 	ProgressCallback      progress_callback;
@@ -1712,7 +1714,7 @@ void
 _g_copy_files_async (GList                *sources, /* GFile list */
 		     GFile                *destination,
 		     gboolean              move,
-		     GFileCopyFlags        flags,
+		     GthFileCopyFlags      flags,
 		     GthOverwriteResponse  default_response,
 		     int                   io_priority,
 		     GCancellable         *cancellable,
@@ -1789,7 +1791,7 @@ _g_move_file (GFile                 *source,
 		return FALSE;
 	}
 
-	if (flags && G_FILE_COPY_ALL_METADATA == 0)
+	if ((flags & G_FILE_COPY_ALL_METADATA) == 0)
 		return TRUE;
 
 	/* move the metadata sidecars if requested */
