@@ -32,6 +32,7 @@ DEF_ACTION_CALLBACK (gth_browser_activate_duplicate)
 DEF_ACTION_CALLBACK (gth_browser_activate_trash)
 DEF_ACTION_CALLBACK (gth_browser_activate_delete)
 DEF_ACTION_CALLBACK (gth_browser_activate_rename)
+DEF_ACTION_CALLBACK (gth_browser_activate_file_list_rename)
 DEF_ACTION_CALLBACK (gth_browser_activate_copy_to_folder)
 DEF_ACTION_CALLBACK (gth_browser_activate_move_to_folder)
 

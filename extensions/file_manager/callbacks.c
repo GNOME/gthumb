@@ -45,6 +45,7 @@ static const GActionEntry actions[] = {
 	{ "trash", gth_browser_activate_trash },
 	{ "delete", gth_browser_activate_delete },
 	{ "rename", gth_browser_activate_rename },
+	{ "file-list-rename", gth_browser_activate_file_list_rename },
 	{ "duplicate", gth_browser_activate_duplicate },
 	{ "copy-to-folder", gth_browser_activate_copy_to_folder },
 	{ "move-to-folder", gth_browser_activate_move_to_folder },
@@ -73,7 +74,7 @@ static const GthMenuEntry fixed_menu_entries_edit[] = {
 static const GthMenuEntry fixed_menu_entries_file[] = {
 	{ N_("Copy to…"), "win.copy-to-folder" },
 	{ N_("Move to…"), "win.move-to-folder" },
-	{ N_("Rename"), "win.rename", "F2" },
+	{ N_("Rename"), "win.file-list-rename", "F2" },
 };
 
 
@@ -821,7 +822,7 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	gth_window_enable_action (GTH_WINDOW (browser), "duplicate", sensitive);
 	gth_window_enable_action (GTH_WINDOW (browser), "move-to-folder", sensitive);
 	gth_window_enable_action (GTH_WINDOW (browser), "copy-to-folder", sensitive);
-	gth_window_enable_action (GTH_WINDOW (browser), "rename", n_selected > 0);
+	gth_window_enable_action (GTH_WINDOW (browser), "file-list-rename", n_selected > 0);
 
 	folder = gth_browser_get_folder_popup_file_data (browser);
 	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-create", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
@@ -829,6 +830,7 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-delete", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
 	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-trash", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_TRASH));
 	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-cut", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
+	gth_window_enable_action (GTH_WINDOW (browser), "rename", ((folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE)) || (n_selected > 0));
 	_g_object_unref (folder);
 
 	_gth_browser_update_paste_command_sensitivity (browser, NULL);

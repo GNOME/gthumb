@@ -542,10 +542,12 @@ gth_browser_activate_rename (GSimpleAction *action,
 		GthFileData *file_data;
 
 		file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (folder_tree));
-		if ((file_data != NULL) && g_file_info_get_attribute_boolean (file_data->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME))
-			gth_folder_tree_start_editing (GTH_FOLDER_TREE (folder_tree), file_data->file);
-
-		_g_object_unref (file_data);
+		if (file_data == NULL)
+			return;
+		if (! g_file_info_get_attribute_boolean (file_data->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME))
+			return;
+		gth_folder_tree_start_editing (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), file_data->file);
+		g_object_unref (file_data);
 
 		return;
 	}
@@ -560,6 +562,16 @@ gth_browser_activate_rename (GSimpleAction *action,
 		gth_hook_invoke ("gth-browser-file-list-rename", browser);
 		return;
 	}
+}
+
+
+void
+gth_browser_activate_file_list_rename (GSimpleAction *action,
+				       GVariant      *parameter,
+				       gpointer       user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	gth_hook_invoke ("gth-browser-file-list-rename", browser);
 }
 
 
@@ -809,6 +821,9 @@ gth_browser_activate_folder_context_rename (GSimpleAction *action,
 
 	file_data = gth_browser_get_folder_popup_file_data (browser);
 	if (file_data == NULL)
+		return;
+
+	if (! g_file_info_get_attribute_boolean (file_data->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME))
 		return;
 
 	gth_folder_tree_start_editing (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), file_data->file);
