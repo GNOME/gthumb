@@ -220,7 +220,7 @@ infobar_response_cb (GtkInfoBar *info_bar,
 
 
 static void
-wallpaper_data_set (WallpaperData *wdata)
+wallpaper_data_set__step2 (WallpaperData *wdata)
 {
 	GtkWidget *infobar;
 
@@ -258,6 +258,67 @@ wallpaper_data_set (WallpaperData *wdata)
 			  	  	       wdata);
 
 	gtk_widget_show (infobar);
+}
+
+
+static void
+wallpaper_metadata_ready_cb (GObject      *source_object,
+			     GAsyncResult *result,
+			     gpointer      user_data)
+{
+	WallpaperData *wdata = user_data;
+	GList         *file_list;
+	GError        *error = NULL;
+	GdkScreen     *screen;
+
+	file_list = _g_query_metadata_finish (result, &error);
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (wdata->browser), _("Could not set the desktop background"), error);
+		wallpaper_data_free (wdata);
+		return;
+	}
+
+	/* WALLPAPER handles most of the cases correctly */
+
+	wdata->new_style.background_style = BACKGROUND_STYLE_WALLPAPER;
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (wdata->browser));
+	if (gdk_screen_get_n_monitors (screen) == 1) {
+		GthFileData *file_data;
+		int          image_width;
+		int          image_height;
+		int          screen_width;
+		int          screen_height;
+
+		file_data = file_list->data;
+		image_width = g_file_info_get_attribute_int32 (file_data->info, "image::width");
+		image_height = g_file_info_get_attribute_int32 (file_data->info, "image::height");
+		screen_width = gdk_screen_get_width (screen);
+		screen_height = gdk_screen_get_height (screen);
+
+		if ((image_width < screen_width) || (image_height < screen_height)) {
+			if ((image_width >= screen_width / 2) && (image_height >= screen_height / 2))
+				wdata->new_style.background_style = BACKGROUND_STYLE_STRETCHED;
+		}
+	}
+
+	wallpaper_data_set__step2 (wdata);
+}
+
+
+static void
+wallpaper_data_set (WallpaperData *wdata)
+{
+	GList *file_list;
+
+	file_list = g_list_append (NULL, gth_file_data_new (wdata->new_style.file, NULL));
+	_g_query_metadata_async (file_list,
+			         "image::width,image::height",
+			         NULL,
+			         wallpaper_metadata_ready_cb,
+			         wdata);
+
+	_g_object_list_unref (file_list);
 }
 
 
