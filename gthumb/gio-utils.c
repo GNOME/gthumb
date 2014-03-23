@@ -1112,6 +1112,7 @@ typedef struct {
 	GFile                *current_destination;
 	char                 *message;
 	GthOverwriteResponse  default_response;
+	gboolean              duplicating_file;
 
 	GList                *source_sidecars;  /* GFile list */
 	GList                *destination_sidecars;  /* GFile list */
@@ -1284,7 +1285,16 @@ copy_file_ready_cb (GObject      *source_object,
 
 	if (! g_file_copy_finish ((GFile *) source_object, result, &error)) {
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
-			if (copy_file_data->default_response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO) {
+			if (copy_file_data->duplicating_file) {
+
+				/* the duplicated file already exists, try another one */
+
+				GFile *new_destination = _g_file_get_duplicated (copy_file_data->current_destination);
+				_g_copy_file_to_destination (copy_file_data, new_destination, G_FILE_COPY_NONE);
+
+				g_object_unref (new_destination);
+			}
+			else if (copy_file_data->default_response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO) {
 				GtkWidget *dialog;
 
 				dialog = gth_overwrite_dialog_new (copy_file_data->source->file,
@@ -1364,17 +1374,51 @@ copy_file_progress_cb (goffset  current_num_bytes,
 
 
 static void
+_g_copy_file_to_destination_call_ready_callback (gpointer user_data)
+{
+	CopyFileData *copy_file_data = user_data;
+
+	copy_file_data->ready_callback (copy_file_data->default_response, NULL, copy_file_data->user_data);
+	copy_file_data_free (copy_file_data);
+}
+
+
+static void
 _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 			     GFile          *destination,
 			     GFileCopyFlags  flags)
 {
-	_g_object_unref (copy_file_data->current_destination);
-	copy_file_data->current_destination = g_file_dup (destination);
-
 	if (copy_file_data->default_response == GTH_OVERWRITE_RESPONSE_ALWAYS_YES)
 		flags |= G_FILE_COPY_OVERWRITE;
 	if (copy_file_data->flags & GTH_FILE_COPY_ALL_METADATA)
 		flags |= G_FILE_COPY_ALL_METADATA;
+
+	_g_object_unref (copy_file_data->current_destination);
+	copy_file_data->current_destination = g_file_dup (destination);
+
+	if (g_file_equal (copy_file_data->source->file, copy_file_data->current_destination)) {
+		GFile *old_destination;
+
+		if ((copy_file_data->move
+		    || (copy_file_data->default_response == GTH_OVERWRITE_RESPONSE_ALWAYS_YES)
+		    || ! (copy_file_data->flags & GTH_FILE_COPY_RENAME_SAME_FILE)))
+		{
+			call_when_idle (_g_copy_file_to_destination_call_ready_callback, copy_file_data);
+			return;
+		}
+
+		copy_file_data->duplicating_file = TRUE;
+
+		old_destination = copy_file_data->current_destination;
+		copy_file_data->current_destination = _g_file_get_duplicated (old_destination);
+		g_object_unref (old_destination);
+
+		/* duplicated files shouldn't be overwritten, if a duplicated
+		 * file already exists get another duplicated file and try
+		 * again. */
+		if (flags & G_FILE_COPY_OVERWRITE)
+			flags ^= G_FILE_COPY_OVERWRITE;
+	}
 
 	if (copy_file_data->progress_callback != NULL) {
 		GFile *destination_parent;
@@ -1397,6 +1441,9 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 
 	if (g_file_info_get_file_type (copy_file_data->source->info) == G_FILE_TYPE_DIRECTORY) {
 		GError *error = NULL;
+
+		/* FIXME: use the async version, available since glib 2.38 */
+		/* FIXME: handle the GTH_FILE_COPY_RENAME_SAME_FILE flag for directories */
 
 		if (! g_file_make_directory (copy_file_data->current_destination, copy_file_data->cancellable, &error)) {
 			if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
@@ -1653,12 +1700,6 @@ copy_data__copy_current_file (CopyData *copy_data)
 		copy_data->source_base = g_file_get_parent (source->file);
 	}
 	destination = _g_file_get_destination (source->file, copy_data->source_base, copy_data->destination);
-
-	if (g_file_equal (source->file, destination)) {
-		g_object_unref (destination);
-		call_when_idle ((DataFunc) copy_data__copy_next_file, copy_data);
-		return;
-	}
 
 	_g_copy_file_async_private (source,
 				    destination,

@@ -48,7 +48,8 @@ typedef enum {
 
 typedef enum { /*< skip >*/
   GTH_FILE_COPY_DEFAULT            = 0,
-  GTH_FILE_COPY_ALL_METADATA       = (1 << 1)
+  GTH_FILE_COPY_ALL_METADATA       = (1 << 1),
+  GTH_FILE_COPY_RENAME_SAME_FILE   = (1 << 2)
 } GthFileCopyFlags;
 
 typedef DirOp (*StartDirCallback)    (GFile                *directory,
