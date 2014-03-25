@@ -296,10 +296,8 @@ wallpaper_metadata_ready_cb (GObject      *source_object,
 		screen_width = gdk_screen_get_width (screen);
 		screen_height = gdk_screen_get_height (screen);
 
-		if ((image_width < screen_width) || (image_height < screen_height)) {
-			if ((image_width >= screen_width / 2) && (image_height >= screen_height / 2))
-				wdata->new_style.background_style = BACKGROUND_STYLE_STRETCHED;
-		}
+		if ((image_width >= screen_width / 2) && (image_height >= screen_height / 2))
+			wdata->new_style.background_style = BACKGROUND_STYLE_STRETCHED;
 	}
 
 	wallpaper_data_set__step2 (wdata);
