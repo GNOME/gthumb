@@ -1,3 +1,17 @@
+version 3.2.7
+-------------
+
+ Bugs fixed:
+
+  * Cannot Save As with uppercase .JPG (#721281)
+  * Fix build failing without libtiff installed. (Robert Roth) (#722183)
+  * Fixed continuous reloading of the current image.
+  * Website link in about windows is wrong. (#725262)
+
+ New or updated manual translations:
+
+  * Greek (Dimitris Spingos (Δημήτρης Σπίγγος))
+
 version 3.2.6
 -------------
 
