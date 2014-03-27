@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-02 11:14+0000\n"
-"PO-Revision-Date: 2014-01-03 14:12+0100\n"
+"POT-Creation-Date: 2014-03-25 21:39+0000\n"
+"PO-Revision-Date: 2014-03-26 17:46+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -919,14 +919,18 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/introduction.page:34
+#| msgid ""
+#| "More information about these extensions, and about <app>gThumb</app> "
+#| "generally, is available at <link href=\"http://live.gnome.org/gthumb"
+#| "\">http://live.gnome.org/gthumb</link>."
 msgid ""
 "More information about these extensions, and about <app>gThumb</app> "
-"generally, is available at <link href=\"http://live.gnome.org/gthumb"
-"\">http://live.gnome.org/gthumb</link>."
+"generally, is available at <link href=\"https://wiki.gnome.org/Apps/gthumb"
+"\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgstr ""
 "Dispone de más información sobre esas extensiones, o sobre <app>gThumb</app> "
-"en general, en <link href=\"http://live.gnome.org/gthumb\">http://live.gnome."
-"org/gthumb</link>."
+"en general, en <link href=\"https://wiki.gnome.org/Apps/gthumb\">https://"
+"wiki.gnome.org/Apps/gthumb</link>."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -1882,21 +1886,29 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/edit-redeye.page:18
+#| msgid ""
+#| "This tool works best when there is a high color contrast between the red "
+#| "eye and the surrounding facial area. It does not work well for \"orange "
+#| "eye\" sometimes seen in photos of children, or if the surrounding skin "
+#| "has a reddish tinge. This tool could use improvement - if you are "
+#| "fiendishly clever, love matrix algebra and open source software, please "
+#| "<link href=\"http://live.gnome.org/gthumb/development\">submit a patch!</"
+#| "link>"
 msgid ""
 "This tool works best when there is a high color contrast between the red eye "
 "and the surrounding facial area. It does not work well for \"orange eye\" "
 "sometimes seen in photos of children, or if the surrounding skin has a "
 "reddish tinge. This tool could use improvement - if you are fiendishly "
 "clever, love matrix algebra and open source software, please <link href="
-"\"http://live.gnome.org/gthumb/development\">submit a patch!</link>"
+"\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</link>"
 msgstr ""
 "Esta herramienta funciona mejor cuando hay un contraste alto de color entre "
 "el ojo rojo y el área facial de alrededor. No funciona bien con «ojos "
 "naranjas», vistos algunas veces en fotos de niños, o si la piel de alrededor "
 "tiene un tinte rojizo. Esta herramienta podría mejorarse; si es "
 "diabólicamente inteligente, le gusta el álgebra matricial y el software "
-"libre, <link href=\"http://live.gnome.org/gthumb/development\">envíe un "
-"parche</link>"
+"libre, <link href=\"https://wiki.gnome.org/Apps/gthumb/development\">envíe "
+"un parche</link>"
 
 #. (itstool) path: page/title
 #: C/extensions.page:6
@@ -1939,16 +1951,22 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/extensions.page:20
+#| msgid ""
+#| "If you would like to write your own extension, please visit <link href="
+#| "\"http://live.gnome.org/gthumb\">http://live.gnome.org/gthumb</link> for "
+#| "development information. An example extension is provided in the source "
+#| "code, which you can base your own extension on."
 msgid ""
 "If you would like to write your own extension, please visit <link href="
-"\"http://live.gnome.org/gthumb\">http://live.gnome.org/gthumb</link> for "
-"development information. An example extension is provided in the source "
-"code, which you can base your own extension on."
+"\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</"
+"link> for development information. An example extension is provided in the "
+"source code, which you can base your own extension on."
 msgstr ""
-"Si quiere escribir su propia extensión, visite <link href=\"http://live."
-"gnome.org/gthumb\">http://live.gnome.org/gthumb</link> para obtener "
-"información acerca del desarrollo. Se proporciona un ejemplo de extensión en "
-"el código fuente, en la que puede basarse para escribir su extensión."
+"Si quiere escribir su propia extensión, visite <link href=\"https://wiki."
+"gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</link> para "
+"obtener información acerca del desarrollo. Se proporciona un ejemplo de "
+"extensión en el código fuente, en la que puede basarse para escribir su "
+"extensión."
 
 #. (itstool) path: page/title
 #: C/gimp.page:6
@@ -2722,7 +2740,6 @@ msgstr "Iniciar la muestra de diapositivas."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:513
-#| msgid "<key>#</key>"
 msgid "<key>p</key>"
 msgstr "<key>p</key>"
 
@@ -2733,7 +2750,6 @@ msgstr "Pausar/Reanudar la muestra de diapositivas."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:523
-#| msgid "<key>+</key> or <key>=</key>"
 msgid "<key>Esc</key> or <key>q</key>"
 msgstr "<key>Esc</key> o <key>q</key>"
 
@@ -2744,8 +2760,6 @@ msgstr "Cerrar la muestra de diapositivas."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:533
-#| msgid ""
-#| "<key>Down Arrow</key> or <key>Right Arrow</key> or <key>Page Down</key>"
 msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
@@ -2760,7 +2774,6 @@ msgstr "Cargar la siguiente imagen."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:543
-#| msgid "<key>Up Arrow</key> or <key>Left Arrow</key> or <key>Page Up</key>"
 msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
