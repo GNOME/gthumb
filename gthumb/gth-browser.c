@@ -397,7 +397,6 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 void
 gth_browser_update_extra_widget (GthBrowser *browser)
 {
-	gtk_widget_hide (browser->priv->list_info_bar);
 	gtk_widget_show (browser->priv->location_bar);
 	_gtk_container_remove_children (GTK_CONTAINER (gth_location_bar_get_action_area (GTH_LOCATION_BAR (browser->priv->location_bar))), NULL, NULL);
 	gth_location_bar_set_from_file (GTH_LOCATION_BAR (browser->priv->location_bar), browser->priv->location->file);
@@ -1799,6 +1798,9 @@ _gth_browser_load (GthBrowser *browser,
 	default:
 		break;
 	}
+
+	if (! gth_file_source_shows_extra_widget (load_data->file_source))
+		gtk_widget_hide (browser->priv->list_info_bar);
 
 	{
 		char *uri;

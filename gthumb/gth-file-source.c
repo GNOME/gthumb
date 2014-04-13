@@ -848,6 +848,13 @@ base_remove (GthFileSource *file_source,
 }
 
 
+static gboolean
+base_shows_extra_widget (GthFileSource *file_source)
+{
+	return FALSE;
+}
+
+
 static void
 gth_file_source_finalize (GObject *object)
 {
@@ -889,6 +896,7 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->reorder = base_reorder;
 	class->remove = base_remove;
 	class->get_free_space = base_get_free_space;
+	class->shows_extra_widget = base_shows_extra_widget;
 }
 
 
@@ -1362,4 +1370,11 @@ gth_file_source_get_free_space (GthFileSource      *file_source,
 	}
 	g_cancellable_reset (file_source->priv->cancellable);
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->get_free_space (file_source, location, callback, data);
+}
+
+
+gboolean
+gth_file_source_shows_extra_widget (GthFileSource *file_source)
+{
+	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->shows_extra_widget (file_source);
 }

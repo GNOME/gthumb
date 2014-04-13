@@ -273,6 +273,13 @@ gth_file_source_selections_remove (GthFileSource *file_source,
 }
 
 
+static gboolean
+gth_file_source_selections_shows_extra_widget (GthFileSource *file_source)
+{
+	return TRUE;
+}
+
+
 static void
 gth_file_source_selections_finalize (GObject *object)
 {
@@ -310,6 +317,7 @@ gth_file_source_selections_class_init (GthFileSourceSelectionsClass *class)
 	file_source_class->is_reorderable  = gth_file_source_selections_is_reorderable;
 	file_source_class->reorder = gth_file_source_selections_reorder;
 	file_source_class->remove = gth_file_source_selections_remove;
+	file_source_class->shows_extra_widget = gth_file_source_selections_shows_extra_widget;
 }
 
 

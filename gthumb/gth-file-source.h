@@ -136,6 +136,7 @@ struct _GthFileSourceClass
 					       GFile                *location,
 					       SpaceReadyCallback    callback,
 					       gpointer              data);
+	gboolean     (*shows_extra_widget)    (GthFileSource        *file_source);
 };
 
 GType          gth_file_source_get_type              (void) G_GNUC_CONST;
@@ -224,6 +225,7 @@ void           gth_file_source_get_free_space        (GthFileSource        *file
 						      GFile                *location,
 						      SpaceReadyCallback    callback,
 						      gpointer              data);
+gboolean       gth_file_source_shows_extra_widget    (GthFileSource        *file_source);
 
 /*< protected >*/
 

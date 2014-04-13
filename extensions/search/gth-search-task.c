@@ -92,6 +92,7 @@ info_bar_response_cb (GtkInfoBar *info_bar,
 
 	switch (response_id) {
 	case GTK_RESPONSE_CANCEL:
+		gtk_widget_hide (data->task->priv->dialog);
 		gth_task_cancel (GTH_TASK (data->task));
 		break;
 
@@ -119,6 +120,7 @@ save_search_result_copy_done_cb (void     **buffer,
 				    task->priv->search_catalog,
 				    gth_catalog_get_file_list (GTH_CATALOG (task->priv->search)),
 				    GTH_MONITOR_EVENT_CREATED);
+	gtk_widget_hide (task->priv->dialog);
 	gth_task_completed (GTH_TASK (task), task->priv->error);
 }
 
@@ -260,6 +262,7 @@ browser_location_ready_cb (GthBrowser    *browser,
 	g_signal_handler_disconnect (task->priv->browser, task->priv->location_ready_id);
 
 	if (error) {
+		gtk_widget_hide (task->priv->dialog);
 		gth_task_completed (GTH_TASK (task), NULL);
 		return;
 	}
@@ -413,8 +416,10 @@ gth_search_task_exec (GthTask *base)
 static void
 gth_search_task_cancelled (GthTask *task)
 {
-	if (! GTH_SEARCH_TASK (task)->priv->io_operation)
+	if (! GTH_SEARCH_TASK (task)->priv->io_operation) {
+		gtk_widget_hide (GTH_SEARCH_TASK (task)->priv->dialog);
 		gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));
+	}
 }
 
 
