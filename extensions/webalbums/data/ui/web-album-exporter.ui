@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.0 on Tue Nov 19 11:19:15 2013 -->
+<!-- Generated with glade 3.18.1 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="cols_adjustment">
     <property name="lower">1</property>
     <property name="upper">100</property>
@@ -36,6 +36,7 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkSizeGroup" id="sizegroup1"/>
   <object class="GtkListStore" id="sort_liststore">
     <columns>
       <!-- column-name data -->
@@ -303,7 +304,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
                                 <property name="activates_default">True</property>
-                                <property name="secondary_icon_stock">gtk-help</property>
+                                <property name="secondary_icon_name">help-browser-symbolic</property>
                                 <property name="secondary_icon_tooltip_text">Help</property>
                               </object>
                               <packing>
@@ -336,7 +337,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
                                 <property name="activates_default">True</property>
-                                <property name="secondary_icon_stock">gtk-help</property>
+                                <property name="secondary_icon_name">help-browser-symbolic</property>
                                 <property name="secondary_icon_tooltip_text">Help</property>
                               </object>
                               <packing>
@@ -558,6 +559,7 @@
                         <property name="left_padding">12</property>
                         <child>
                           <object class="GtkScrolledWindow" id="scrolledwindow4">
+                            <property name="height_request">150</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="shadow_type">in</property>
@@ -978,7 +980,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
                                     <property name="activates_default">True</property>
-                                    <property name="secondary_icon_stock">gtk-help</property>
+                                    <property name="secondary_icon_name">help-browser-symbolic</property>
                                     <property name="secondary_icon_tooltip_text">Help</property>
                                   </object>
                                   <packing>
@@ -1227,7 +1229,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
                                     <property name="activates_default">True</property>
-                                    <property name="secondary_icon_stock">gtk-help</property>
+                                    <property name="secondary_icon_name">help-browser-symbolic</property>
                                     <property name="secondary_icon_tooltip_text">Help</property>
                                   </object>
                                   <packing>
@@ -1387,5 +1389,4 @@
       <action-widget response="-5">ok_button</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkSizeGroup" id="sizegroup1"/>
 </interface>
