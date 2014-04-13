@@ -73,7 +73,6 @@ gth_window_title_init (GthWindowTitle *self)
 	gtk_label_set_line_wrap (GTK_LABEL (self->priv->title), FALSE);
 	gtk_label_set_single_line_mode (GTK_LABEL (self->priv->title), TRUE);
 	gtk_label_set_ellipsize (GTK_LABEL (self->priv->title), PANGO_ELLIPSIZE_END);
-	gtk_label_set_width_chars (GTK_LABEL (self->priv->title), 20);
 	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->title), "title");
 	gtk_box_pack_start (GTK_BOX (self), self->priv->title, FALSE, FALSE, 0);
 
