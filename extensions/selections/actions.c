@@ -52,8 +52,8 @@ gth_browser_activate_show_selection (GthBrowser *browser,
 
 void
 gth_browser_activate_go_to_selection_1 (GSimpleAction	*action,
-				     GVariant		*parameter,
-				     gpointer		 user_data)
+					GVariant	*parameter,
+					gpointer	 user_data)
 {
 	gth_browser_activate_show_selection (GTH_BROWSER (user_data), 1);
 }
@@ -61,8 +61,8 @@ gth_browser_activate_go_to_selection_1 (GSimpleAction	*action,
 
 void
 gth_browser_activate_go_to_selection_2 (GSimpleAction	*action,
-				     GVariant 		*parameter,
-				     gpointer 		 user_data)
+					GVariant 	*parameter,
+					gpointer 	 user_data)
 {
 	gth_browser_activate_show_selection (GTH_BROWSER (user_data), 2);
 }
@@ -177,4 +177,18 @@ gth_browser_activate_remove_from_selection (GthBrowser *browser,
 	_gtk_tree_path_list_free (items);
 	g_object_unref (folder);
 	g_free (uri);
+}
+
+
+void
+gth_browser_activate_remove_from_current_selection (GSimpleAction *action,
+						    GVariant	  *parameter,
+						    gpointer	   user_data)
+{
+	GthBrowser *browser = user_data;
+	int         n_selection;
+
+	n_selection = _g_file_get_n_selection (gth_browser_get_location (browser));
+	if (n_selection >= 0)
+		gth_browser_activate_remove_from_selection (browser, n_selection);
 }

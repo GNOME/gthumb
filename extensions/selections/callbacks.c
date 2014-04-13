@@ -41,7 +41,8 @@ static const GActionEntry actions[] = {
 	{ "go-to-selection-1", gth_browser_activate_go_to_selection_1 },
 	{ "go-to-selection-2", gth_browser_activate_go_to_selection_2 },
 	{ "go-to-selection-3", gth_browser_activate_go_to_selection_3 },
-	{ "go-to-file-container", gth_browser_activate_go_to_file_container }
+	{ "go-to-file-container", gth_browser_activate_go_to_file_container },
+	{ "remove-from-selection", gth_browser_activate_remove_from_current_selection }
 };
 
 
@@ -52,14 +53,20 @@ static const GthAccelerator accelerators[] = {
 };
 
 
-static const GthMenuEntry file_list_popup_entries[] = {
+static const GthMenuEntry file_list_popup_open_entries[] = {
 	{ N_("Open Folder"), "win.go-to-container-from-selection", "<Alt>end" },
+};
+
+
+static const GthMenuEntry file_list_popup_delete_entries[] = {
+	{ N_("Remove from Selection"), "win.remove-from-selection", "Delete" },
 };
 
 
 typedef struct {
 	GthBrowser     *browser;
-	guint           vfs_merge_id;
+	guint           vfs_merge_open_id;
+	guint           vfs_merge_delete_id;
 	GtkWidget      *selection_buttons[N_SELECTIONS];
 	gulong          folder_changed_id;
 } BrowserData;
@@ -279,15 +286,22 @@ selections__gth_browser_load_location_after_cb (GthBrowser   *browser,
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 
 	if (GTH_IS_FILE_SOURCE_SELECTIONS (gth_browser_get_location_source (browser))) {
-		if (data->vfs_merge_id == 0)
-			data->vfs_merge_id =
+		if (data->vfs_merge_open_id == 0)
+			data->vfs_merge_open_id =
 					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS),
-									 file_list_popup_entries,
-									 G_N_ELEMENTS (file_list_popup_entries));
+									 file_list_popup_open_entries,
+									 G_N_ELEMENTS (file_list_popup_open_entries));
+		if (data->vfs_merge_delete_id == 0)
+			data->vfs_merge_delete_id =
+					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_DELETE_ACTIONS),
+									 file_list_popup_delete_entries,
+									 G_N_ELEMENTS (file_list_popup_delete_entries));
 	}
 	else {
-		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS), data->vfs_merge_id);
-		data->vfs_merge_id = 0;
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS), data->vfs_merge_open_id);
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_DELETE_ACTIONS), data->vfs_merge_delete_id);
+		data->vfs_merge_open_id = 0;
+		data->vfs_merge_delete_id = 0;
 	}
 }
 
