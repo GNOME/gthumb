@@ -103,7 +103,7 @@ void           gth_window_clear_saved_size   (GthWindow     *window,
       	      	      	      	      	      int            page);
 void           gth_window_set_title          (GthWindow     *window,
 					      const char    *title,
-					      const char    *subtitle);
+					      GList	    *emblems);
 GtkAccelGroup *gth_window_get_accel_group	(GthWindow		*window);
 void           gth_window_add_accelerators	(GthWindow		*window,
 						 const GthAccelerator	*accelerators,

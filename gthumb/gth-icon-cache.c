@@ -151,7 +151,7 @@ gth_icon_cache_get_surface (GthIconCache *icon_cache,
 	if ((icon != NULL) && (surface != NULL))
 		g_hash_table_insert (icon_cache->surface_cache, g_object_ref (icon), cairo_surface_reference (surface));
 
-	g_object_unref (pixbuf);
+	_g_object_unref (pixbuf);
 
 	return surface;
 }

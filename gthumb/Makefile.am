@@ -134,6 +134,7 @@ PRIVATE_HEADER_FILES = 					\
 	dlg-preferences.h				\
 	dlg-sort-order.h				\
 	main-migrate.h					\
+	gth-window-title.h				\
 	$(NULL)
 
 RESOURCES = 						\
@@ -251,6 +252,7 @@ gthumb_SOURCES = 					\
 	gth-user-dir.c					\
 	gth-viewer-page.c				\
 	gth-window.c					\
+	gth-window-title.c				\
 	gtk-utils.c					\
 	gvaluehash.c					\
 	main.c						\

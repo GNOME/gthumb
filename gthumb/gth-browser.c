@@ -319,9 +319,9 @@ _gth_browser_update_current_file_position (GthBrowser *browser)
 void
 gth_browser_update_title (GthBrowser *browser)
 {
-	GString      *title;
-	const char   *name = NULL;
-
+	GString    *title;
+	const char *name = NULL;
+	GList      *emblems = NULL;
 
 	title = g_string_new (NULL);
 
@@ -343,15 +343,26 @@ gth_browser_update_title (GthBrowser *browser)
 			g_string_append (title, " ");
 			g_string_append (title, _("[modified]"));
 		}
+
+		if (browser->priv->current_file != NULL) {
+			GthStringList *string_list;
+
+			string_list = GTH_STRING_LIST (g_file_info_get_attribute_object (browser->priv->current_file->info, GTH_FILE_ATTRIBUTE_EMBLEMS));
+			if (string_list != NULL)
+				emblems = _g_string_list_dup (gth_string_list_get_list (string_list));
+		}
 		break;
 	}
 
 	if (title->len == 0)
 		g_string_append (title, _("gThumb"));
 
-	gth_window_set_title (GTH_WINDOW (browser), title->str, NULL);
+	gth_window_set_title (GTH_WINDOW (browser),
+			      title->str,
+			      emblems);
 
 	g_string_free (title, TRUE);
+	_g_string_list_free (emblems);
 }
 
 
@@ -3215,6 +3226,20 @@ emblems_attributes_ready_cb (GthFileSource *file_source,
 
 		gth_file_list_update_emblems (GTH_FILE_LIST (browser->priv->file_list), files);
 		gth_file_list_update_emblems (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
+
+		if (browser->priv->current_file != NULL) {
+			GList *link;
+
+			link = gth_file_data_list_find_file (files, browser->priv->current_file->file);
+			if (link != NULL) {
+				GthFileData *current_file_data = link->data;
+				GObject     *emblems;
+
+				emblems = g_file_info_get_attribute_object (current_file_data->info, GTH_FILE_ATTRIBUTE_EMBLEMS);
+				g_file_info_set_attribute_object (browser->priv->current_file->info, GTH_FILE_ATTRIBUTE_EMBLEMS, emblems);
+				gth_browser_update_title (browser);
+			}
+		}
 	}
 
 	emblems_data_free (data);

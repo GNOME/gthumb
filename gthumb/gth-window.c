@@ -22,6 +22,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "gth-window.h"
+#include "gth-window-title.h"
 #include "gtk-utils.h"
 #include "main.h"
 
@@ -43,6 +44,7 @@ struct _GthWindowPrivate {
 	GtkWidget       *grid;
 	GtkWidget       *stack;
 	GtkWidget       *headerbar;
+	GtkWidget       *title;
 	GtkWidget       *menubar;
 	GtkWidget       *toolbar;
 	GtkWidget       *infobar;
@@ -113,6 +115,9 @@ _gth_window_add_header_bar (GthWindow *self)
 	self->priv->headerbar = gtk_header_bar_new ();
 	gtk_widget_show (self->priv->headerbar);
 	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->priv->headerbar), TRUE);
+	self->priv->title = gth_window_title_new ();
+	gtk_widget_show (self->priv->title);
+	gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->priv->headerbar), self->priv->title);
 	gtk_window_set_titlebar (GTK_WINDOW (self), self->priv->headerbar);
 }
 
@@ -560,24 +565,14 @@ gth_window_get_page_size (GthWindow *window,
 void
 gth_window_set_title (GthWindow  *window,
 		      const char *title,
-		      const char *subtitle)
+		      GList	 *emblems)
 {
 	if (window->priv->use_header_bar) {
-		gtk_header_bar_set_title (GTK_HEADER_BAR (window->priv->headerbar), title);
-		gtk_header_bar_set_subtitle (GTK_HEADER_BAR (window->priv->headerbar), subtitle);
+		gth_window_title_set_title (GTH_WINDOW_TITLE (window->priv->title), title);
+		gth_window_title_set_emblems (GTH_WINDOW_TITLE (window->priv->title), emblems);
 	}
-	else {
-		GString *complete_title;
-
-		complete_title = g_string_new (title);
-		if (subtitle != NULL) {
-			g_string_append (complete_title, " - ");
-			g_string_append (complete_title, subtitle);
-		}
-		gtk_window_set_title (GTK_WINDOW (window), complete_title->str);
-
-		g_string_free (complete_title, TRUE);
-	}
+	else
+		gtk_window_set_title (GTK_WINDOW (window), title);
 }
 
 
