@@ -855,6 +855,8 @@ gthumb/gth-viewer-page.c
 gthumb/gth-viewer-page.h
 gthumb/gth-window.c
 gthumb/gth-window.h
+gthumb/gth-window-title.c
+gthumb/gth-window-title.h
 gthumb/gtk-utils.c
 gthumb/gtk-utils.h
 gthumb/gvaluehash.c
