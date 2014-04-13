@@ -1035,6 +1035,8 @@ header_footer_eval_cb (const GMatchInfo *match_info,
 		a = g_regex_split (re, match, 0);
 		if (g_strv_length (a) >= 2)
 			format = g_strstrip (a[1]);
+		else
+			format = DEFAULT_DATE_FORMAT;
 		r = _g_time_val_strftime (&timeval, format);
 
 		g_strfreev (a);
