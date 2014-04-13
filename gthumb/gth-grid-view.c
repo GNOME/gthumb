@@ -1391,12 +1391,6 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	}
 
 	if (item->style == ITEM_STYLE_VIDEO) {
-		cairo_pattern_t *pattern;
-		double           x;
-		double           film_scale;
-		cairo_matrix_t   matrix;
-		double           film_strip;
-
 		frame_rect = item->thumbnail_area;
 
 		/* the drop shadow */
@@ -1418,6 +1412,20 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 				 frame_rect.width,
 				 frame_rect.height);
 		cairo_fill (cr);
+	}
+
+	/* thumbnail */
+
+	cairo_set_source_surface (cr, image, item->pixbuf_area.x, item->pixbuf_area.y);
+	cairo_rectangle (cr, item->pixbuf_area.x, item->pixbuf_area.y, item->pixbuf_area.width, item->pixbuf_area.height);
+	cairo_fill (cr);
+
+	if (item->style == ITEM_STYLE_VIDEO) {
+		cairo_pattern_t *pattern;
+		double           x;
+		double           film_scale;
+		cairo_matrix_t   matrix;
+		double           film_strip;
 
 		/* left film strip */
 
@@ -1459,12 +1467,6 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 
 		cairo_pattern_destroy (pattern);
 	}
-
-	/* thumbnail */
-
-	cairo_set_source_surface (cr, image, item->pixbuf_area.x, item->pixbuf_area.y);
-	cairo_rectangle (cr, item->pixbuf_area.x, item->pixbuf_area.y, item->pixbuf_area.width, item->pixbuf_area.height);
-	cairo_fill (cr);
 
 	if (item_state & GTK_STATE_FLAG_SELECTED) {
 		GdkRGBA color;
