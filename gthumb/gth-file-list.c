@@ -222,6 +222,7 @@ _gth_file_list_clear_queue (GthFileList *file_list)
 
 	if (file_list->priv->update_event != 0) {
 		g_source_remove (file_list->priv->update_event);
+		file_list->priv->update_event = 0;
 		file_list->priv->dirty = FALSE;
 	}
 
@@ -447,6 +448,11 @@ static gboolean
 restart_thumb_update_cb (gpointer data)
 {
 	GthFileList *file_list = data;
+
+	if (file_list->priv->update_event != 0) {
+		g_source_remove (file_list->priv->update_event);
+		file_list->priv->update_event = 0;
+	}
 
 	if (file_list->priv->restart_thumb_update != 0) {
 		g_source_remove (file_list->priv->restart_thumb_update);
@@ -1609,6 +1615,12 @@ static gboolean
 start_thumbnail_job (gpointer user_data)
 {
 	ThumbnailJob *job = user_data;
+	GthFileList  *file_list = job->file_list;
+
+	if (file_list->priv->update_event != 0) {
+		g_source_remove (file_list->priv->update_event);
+		file_list->priv->update_event = 0;
+	}
 
 	job->started = TRUE;
 	gth_thumb_loader_load (job->loader,
