@@ -59,7 +59,7 @@ static const GthMenuEntry vfs_open_actions_entries[] = {
 
 
 static const GthMenuEntry vfs_other_actions_entries[] = {
-	{ N_("Remove from Catalog"), "win.remove-from-catalog" },
+	{ N_("Remove from Catalog"), "win.remove-from-catalog", "Delete" },
 };
 
 
