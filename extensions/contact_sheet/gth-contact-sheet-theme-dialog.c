@@ -208,7 +208,7 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 	self->priv->copy_from_menu = gtk_menu_new ();
 	gtk_menu_button_set_popup (GTK_MENU_BUTTON (self->priv->copy_from_button), self->priv->copy_from_menu);
 
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (self))), self->priv->copy_from_button, FALSE, FALSE, 0);
+	gtk_dialog_add_action_widget (GTK_DIALOG (self), self->priv->copy_from_button, 100);
 
 	/* other buttons */
 
