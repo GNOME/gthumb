@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: lt\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-04 21:16+0000\n"
-"PO-Revision-Date: 2014-03-04 23:53+0200\n"
+"POT-Creation-Date: 2014-04-13 14:49+0000\n"
+"PO-Revision-Date: 2014-04-13 22:59+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -80,7 +80,7 @@ msgstr ""
 "katalogą."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:350
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:358
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -464,7 +464,6 @@ msgid "_Add Bookmark"
 msgstr "_Pridėti žymelę"
 
 #: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:2
-#| msgid "_Edit Bookmarks..."
 msgid "_Edit Bookmarks…"
 msgstr "K_eisti žymeles…"
 
@@ -477,13 +476,11 @@ msgid "_Bookmarks:"
 msgstr "Ž_ymelės:"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
-#| msgid "Go to last _visited location"
 msgid "Go to this location"
 msgstr "Eiti į šią vietą"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 #: ../extensions/catalogs/callbacks.c:72
-#| msgid "remove"
 msgid "Remove"
 msgstr "Pašalinti"
 
@@ -655,7 +652,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1326
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1303
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "Įrašoma"
@@ -723,41 +720,36 @@ msgid "Are you sure you want to remove \"%s\"?"
 msgstr "Ar tikrai norite ištrinti „%s“?"
 
 #: ../extensions/catalogs/callbacks.c:52
-#| msgid "Add to Catalog"
 msgid "Add to Catalog…"
 msgstr "Įdėti į katalogą…"
 
 #: ../extensions/catalogs/callbacks.c:57
-#: ../extensions/selections/callbacks.c:56
-#| msgid "Open _Folder"
+#: ../extensions/selections/callbacks.c:57
 msgid "Open Folder"
 msgstr "Atverti aplanką"
 
 #: ../extensions/catalogs/callbacks.c:62
-#| msgid "Remo_ve from Catalog"
 msgid "Remove from Catalog"
 msgstr "Pašalinti iš katalogo"
 
 #: ../extensions/catalogs/callbacks.c:67
-#| msgid "Create _Catalog"
 msgid "Create Catalog"
 msgstr "Sukurti katalogą"
 
 #: ../extensions/catalogs/callbacks.c:68
-#| msgid "Create _Library"
 msgid "Create Library"
 msgstr "Sukurti biblioteką"
 
 #: ../extensions/catalogs/callbacks.c:73
-#: ../extensions/file_manager/callbacks.c:76
-#: ../extensions/file_manager/callbacks.c:103
+#: ../extensions/file_manager/callbacks.c:77
+#: ../extensions/file_manager/callbacks.c:104
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:1
 msgid "Rename"
 msgstr "Pervadinti"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4154 ../gthumb/gth-file-properties.c:246
+#: ../gthumb/gth-browser.c:4182 ../gthumb/gth-file-properties.c:246
 msgid "Properties"
 msgstr "Savybės"
 
@@ -807,8 +799,8 @@ msgid "New _Library"
 msgstr "Nauja _biblioteka"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-#: ../extensions/file_manager/actions.c:673
-#: ../extensions/webalbums/gth-web-exporter.c:1840
+#: ../extensions/file_manager/actions.c:685
+#: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "Žiū_rėti paskirties aplanką"
 
@@ -883,7 +875,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Nepavyko įdėti failų į katalogą"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:218
-#: ../extensions/search/gth-search-task.c:357
+#: ../extensions/search/gth-search-task.c:360
 msgid "Could not create the catalog"
 msgstr "Nepavyko sukurti katalogo"
 
@@ -976,7 +968,6 @@ msgid "Operation completed. Catalogs: %d. Images: %d."
 msgstr "Operacija baigta. Katalogų: %d. Paveikslėlių: %d."
 
 #: ../extensions/change_date/callbacks.c:38
-#| msgid "Change Date"
 msgid "Change _Date…"
 msgstr "Pakeisti _datą…"
 
@@ -1107,12 +1098,10 @@ msgid "Rating"
 msgstr "Įvertinimas"
 
 #: ../extensions/contact_sheet/callbacks.c:38
-#| msgid "Contact _Sheet"
 msgid "Contact _Sheet…"
 msgstr "Kontaktų _lapas…"
 
 #: ../extensions/contact_sheet/callbacks.c:39
-#| msgid "Image Wall"
 msgid "Image _Wall…"
 msgstr "Paveikslėlių _siena…"
 
@@ -1403,7 +1392,6 @@ msgid "New theme"
 msgstr "Nauja tema"
 
 #: ../extensions/convert_format/callbacks.c:38
-#| msgid "Convert Format"
 msgid "Convert Format…"
 msgstr "Konvertuoti formatą…"
 
@@ -1443,23 +1431,21 @@ msgstr "Nepavyko parodyti darbastalio fono savybių"
 
 #: ../extensions/desktop_background/actions.c:248
 #: ../gthumb/resources/app-menu.ui.h:2
-#| msgid "Preferences"
 msgid "_Preferences"
 msgstr "_Nustatymai"
 
 #: ../extensions/desktop_background/actions.c:249
-#| msgid "Undo"
 msgid "_Undo"
 msgstr "_Atšaukti"
 
-#: ../extensions/desktop_background/actions.c:272
-#: ../extensions/desktop_background/actions.c:291
+#: ../extensions/desktop_background/actions.c:276
+#: ../extensions/desktop_background/actions.c:331
+#: ../extensions/desktop_background/actions.c:350
 msgid "Could not set the desktop background"
 msgstr "Nepavyko nustatyti darbastalio fono"
 
 #: ../extensions/desktop_background/callbacks.c:47
 #: ../extensions/desktop_background/callbacks.c:53
-#| msgid "Set as Desktop Background"
 msgid "Set as Background"
 msgstr "Nustatyti kaip foną"
 
@@ -1665,7 +1651,6 @@ msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Skaityti ir rašyti exif, iptc ir xmp meta duomenis"
 
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:698
-#| msgid "Exporters"
 msgid "Exposure"
 msgstr "Išlaikymas"
 
@@ -1718,7 +1703,6 @@ msgid "date photo was taken"
 msgstr "fotografavimo data"
 
 #: ../extensions/export_tools/callbacks.c:46
-#| msgid "Exporters"
 msgid "Export"
 msgstr "Eksportuoti"
 
@@ -1822,7 +1806,7 @@ msgstr "Failai sėkmingai nusiųsti serveriui."
 #: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:2
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
-#: ../extensions/webalbums/gth-web-exporter.c:1839
+#: ../extensions/webalbums/gth-web-exporter.c:1841
 msgid "_Open in the Browser"
 msgstr "_Atverti naršyklėje"
 
@@ -1907,7 +1891,7 @@ msgstr "Nepavyko eksportuoti failų"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:793
+#: ../gthumb/gth-browser.c:803
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2007,14 +1991,14 @@ msgid "Enter the folder name:"
 msgstr "Įveskite aplanko pavadinimą:"
 
 #: ../extensions/file_manager/actions.c:410
-#: ../extensions/file_manager/callbacks.c:262
-#: ../extensions/file_manager/callbacks.c:716
+#: ../extensions/file_manager/callbacks.c:263
+#: ../extensions/file_manager/callbacks.c:717
 msgid "Could not move the files"
 msgstr "Nepavyko perkelti failų"
 
 #: ../extensions/file_manager/actions.c:411
-#: ../extensions/file_manager/callbacks.c:263
-#: ../extensions/file_manager/callbacks.c:717
+#: ../extensions/file_manager/callbacks.c:264
+#: ../extensions/file_manager/callbacks.c:718
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -2022,40 +2006,40 @@ msgstr ""
 "Failų negalima perkelti į dabartinę vietą, tačiau galite juos nukopijuoti."
 
 #: ../extensions/file_manager/actions.c:413
-#: ../extensions/file_manager/actions.c:652
-#: ../extensions/file_manager/callbacks.c:68
-#: ../extensions/file_manager/callbacks.c:97 ../gthumb/gtk-utils.h:38
+#: ../extensions/file_manager/actions.c:664
+#: ../extensions/file_manager/callbacks.c:69
+#: ../extensions/file_manager/callbacks.c:98 ../gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Kopijuoti"
 
-#: ../extensions/file_manager/actions.c:648
+#: ../extensions/file_manager/actions.c:660
 msgid "Move To"
 msgstr "Perkelti į"
 
-#: ../extensions/file_manager/actions.c:648
+#: ../extensions/file_manager/actions.c:660
 msgid "Copy To"
 msgstr "Kopijuoti į"
 
-#: ../extensions/file_manager/actions.c:652
+#: ../extensions/file_manager/actions.c:664
 msgid "Move"
 msgstr "Perkelti"
 
-#: ../extensions/file_manager/actions.c:777
+#: ../extensions/file_manager/actions.c:789
 msgid "Could not open the location"
 msgstr "Nepavyko atverti vietos"
 
-#: ../extensions/file_manager/actions.c:920
+#: ../extensions/file_manager/actions.c:935
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
 msgstr ""
 "Aplankas ne tuščias, ar norite negrįžtamai ištrinti aplanką ir jo turinį?"
 
-#: ../extensions/file_manager/actions.c:936
+#: ../extensions/file_manager/actions.c:951
 msgid "Could not delete the folder"
 msgstr "Nepavyko ištrinti aplanko"
 
-#: ../extensions/file_manager/actions.c:999
+#: ../extensions/file_manager/actions.c:1014
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
@@ -2063,84 +2047,74 @@ msgstr ""
 "Paveikslėlių negalima perkelti į šiukšlinę. Ar norite juos ištrinti "
 "negrįžtamai?"
 
-#: ../extensions/file_manager/actions.c:1006
+#: ../extensions/file_manager/actions.c:1021
 msgid "Could not move the folder to the Trash"
 msgstr "Nepavyko perkelti aplanko į šiukšlinę"
 
-#: ../extensions/file_manager/actions.c:1044
+#: ../extensions/file_manager/actions.c:1059
 #: ../gthumb/gth-file-source-vfs.c:854
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Ar tikrai norite negrįžtamai ištrinti „%s“?"
 
-#: ../extensions/file_manager/actions.c:1054
+#: ../extensions/file_manager/actions.c:1069
 #: ../gthumb/gth-file-source-vfs.c:867
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Jei ištrinsite failą, jis bus negrįžtamai prarastas."
 
-#: ../extensions/file_manager/callbacks.c:67
-#: ../extensions/file_manager/callbacks.c:96
-#| msgid "Out"
+#: ../extensions/file_manager/callbacks.c:68
+#: ../extensions/file_manager/callbacks.c:97
 msgid "Cut"
 msgstr "Iškirpti"
 
-#: ../extensions/file_manager/callbacks.c:69
-#| msgid "Faster"
+#: ../extensions/file_manager/callbacks.c:70
 msgid "Paste"
 msgstr "Įdėti"
 
-#: ../extensions/file_manager/callbacks.c:74
-#: ../extensions/file_manager/callbacks.c:104
-#| msgid "Copy To"
+#: ../extensions/file_manager/callbacks.c:75
+#: ../extensions/file_manager/callbacks.c:105
 msgid "Copy to…"
 msgstr "Kopijuoti į…"
 
-#: ../extensions/file_manager/callbacks.c:75
-#: ../extensions/file_manager/callbacks.c:105
-#| msgid "Move To"
+#: ../extensions/file_manager/callbacks.c:76
+#: ../extensions/file_manager/callbacks.c:106
 msgid "Move to…"
 msgstr "Perkelti į…"
 
-#: ../extensions/file_manager/callbacks.c:81
-#: ../extensions/file_manager/callbacks.c:106
-#| msgid "Mo_ve to Trash"
+#: ../extensions/file_manager/callbacks.c:82
+#: ../extensions/file_manager/callbacks.c:107
 msgid "Move to Trash"
 msgstr "Perkelti į šiukšlinę"
 
-#: ../extensions/file_manager/callbacks.c:82
-#: ../extensions/file_manager/callbacks.c:107
-#| msgid "_Delete"
+#: ../extensions/file_manager/callbacks.c:83
+#: ../extensions/file_manager/callbacks.c:108
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: ../extensions/file_manager/callbacks.c:86
-#| msgid "Open with the _File Manager"
+#: ../extensions/file_manager/callbacks.c:87
 msgid "Open with the File Manager"
 msgstr "Atverti failų naršyklėje"
 
-#: ../extensions/file_manager/callbacks.c:91
-#| msgid "Create _Folder"
+#: ../extensions/file_manager/callbacks.c:92
 msgid "Create Folder"
 msgstr "Sukurti aplanką"
 
-#: ../extensions/file_manager/callbacks.c:98
-#| msgid "_Paste Into Folder"
+#: ../extensions/file_manager/callbacks.c:99
 msgid "Paste Into Folder"
 msgstr "Įdėti į aplanką"
 
-#: ../extensions/file_manager/callbacks.c:112
-#| msgid "Duplicates"
+#: ../extensions/file_manager/callbacks.c:113
 msgid "Duplicate"
 msgstr "Dublikatas"
 
-#: ../extensions/file_manager/callbacks.c:510
-#: ../extensions/file_manager/callbacks.c:513
+#: ../extensions/file_manager/callbacks.c:511
+#: ../extensions/file_manager/callbacks.c:514
 msgid "Open _With"
 msgstr "_Atverti su"
 
-#: ../extensions/file_manager/callbacks.c:881
+#: ../extensions/file_manager/callbacks.c:883
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5040 ../gthumb/gth-browser.c:5073
+#: ../gthumb/gth-browser.c:5068 ../gthumb/gth-browser.c:5101
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Nepavyko įvykdyti operacijos"
@@ -2625,7 +2599,6 @@ msgid "Undo"
 msgstr "Atšaukti"
 
 #: ../extensions/find_duplicates/callbacks.c:37
-#| msgid "Find Duplicates"
 msgid "Find _Duplicates…"
 msgstr "Rasti _dublikatus…"
 
@@ -2686,7 +2659,6 @@ msgid "leave the oldest duplicates"
 msgstr "palikti seniausius dublikatus"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:67
-#| msgid "by folder..."
 msgid "by folder…"
 msgstr "pagal aplanką…"
 
@@ -2840,8 +2812,8 @@ msgstr ""
 "grįžkite į šį langą tapatybės nustatymo procedūrai baigti."
 
 #: ../extensions/gstreamer_tools/actions.c:67
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1256
-#: ../gthumb/gth-browser.c:1854
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1233
+#: ../gthumb/gth-browser.c:1867
 msgid "Could not save the file"
 msgstr "Nepavyko įrašyti failo"
 
@@ -2850,7 +2822,7 @@ msgid "Could not take a screenshot"
 msgstr "Nepavyko nufotografuoti ekrano"
 
 #: ../extensions/gstreamer_tools/actions.c:138
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1429
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1406
 msgid "Save Image"
 msgstr "Įrašyti paveikslėlį"
 
@@ -2964,10 +2936,10 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1491
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1468
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:243
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:967
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:967
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3081,7 +3053,7 @@ msgid "Loading \"%s\""
 msgstr "Įkeliama „%s“"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:167
-#: ../extensions/webalbums/gth-web-exporter.c:2720
+#: ../extensions/webalbums/gth-web-exporter.c:2722
 msgid "Loading images"
 msgstr "Įkeliami paveikslėliai"
 
@@ -3103,8 +3075,8 @@ msgstr "Atstatyti EXIF padėtį"
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:143
-#: ../extensions/webalbums/gth-web-exporter.c:2338
-#: ../extensions/webalbums/gth-web-exporter.c:2423
+#: ../extensions/webalbums/gth-web-exporter.c:2340
+#: ../extensions/webalbums/gth-web-exporter.c:2425
 msgid "Saving images"
 msgstr "Įrašomi paveikslėliai"
 
@@ -3194,7 +3166,6 @@ msgid "Low"
 msgstr "Žema"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
-#| msgid "_Zoom quality:"
 msgid "Zoom quality:"
 msgstr "Mastelio keitimo kokybė:"
 
@@ -3210,8 +3181,7 @@ msgstr "Kopijuoti paveikslėlį"
 msgid "Paste Image"
 msgstr "Įdėti paveikslėlį"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1983
-#| msgid "Copying original images"
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1969
 msgid "Loading the original image"
 msgstr "Įkeliamas originalus paveikslėlis"
 
@@ -3557,7 +3527,6 @@ msgid "_New"
 msgstr "_Naujas"
 
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:200
-#| msgid "New authentication..."
 msgid "New authentication…"
 msgstr "Naujas tapatybės patvirtinimas…"
 
@@ -3566,7 +3535,6 @@ msgid "Authorization Required"
 msgstr "Reikia patvirtinti tapatybę"
 
 #: ../extensions/oauth/web-service.c:378
-#| msgid "Choose Account"
 msgid "Choose _Account…"
 msgstr "P_asirinkite paskyrą…"
 
@@ -3673,12 +3641,10 @@ msgid "Import"
 msgstr "Importuoti"
 
 #: ../extensions/photo_importer/callbacks.c:41
-#| msgid "_Removable Device..."
 msgid "_Removable Device…"
 msgstr "_Išimama laikmena…"
 
 #: ../extensions/photo_importer/callbacks.c:42
-#| msgid "F_older..."
 msgid "F_older…"
 msgstr "_Aplankas…"
 
@@ -3734,8 +3700,7 @@ msgid "(Empty)"
 msgstr "(tuščia)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1768
-#| msgid "Getting the file list"
+#: ../gthumb/gth-browser.c:1778
 msgid "Getting the folder content…"
 msgstr "Gaunamas aplanko turinys…"
 
@@ -3761,7 +3726,6 @@ msgstr "Importuoti fotografijas iš išimamų laikmenų."
 
 #: ../extensions/picasaweb/callbacks.c:50
 #: ../extensions/picasaweb/callbacks.c:56
-#| msgid "Picasa Web Albums"
 msgid "_Picasa Web Album…"
 msgstr "_Picasa internetinis albumas…"
 
@@ -3974,7 +3938,6 @@ msgid "Rename series of files."
 msgstr "Pervadinti failų sekas."
 
 #: ../extensions/resize_images/callbacks.c:38
-#| msgid "Resize Images"
 msgid "Resize Images…"
 msgstr "Keisti paveikslėlių dydį…"
 
@@ -4029,7 +3992,6 @@ msgid "Find"
 msgstr "Ieškoti"
 
 #: ../extensions/search/actions.c:81
-#| msgid "Find"
 msgid "_Find"
 msgstr "_Rasti"
 
@@ -4057,17 +4019,16 @@ msgstr "visos šiuos taisyklės"
 msgid "any of the following rules"
 msgstr "bet kuri iš šių taisyklių"
 
-#: ../extensions/search/gth-search-task.c:181
+#: ../extensions/search/gth-search-task.c:183
 #, c-format
 msgid "Files found until now: %s"
 msgstr "Iki šiol rasti failai: %s"
 
-#: ../extensions/search/gth-search-task.c:271
-#| msgid "Searching..."
+#: ../extensions/search/gth-search-task.c:274
 msgid "Searching…"
 msgstr "Ieškoma…"
 
-#: ../extensions/search/gth-search-task.c:278
+#: ../extensions/search/gth-search-task.c:281
 msgid "Cancel the operation"
 msgstr "Atšaukti veiksmą"
 
@@ -4075,12 +4036,17 @@ msgstr "Atšaukti veiksmą"
 msgid "File search tool."
 msgstr "Failų paieškos įrankis."
 
-#: ../extensions/selections/callbacks.c:100
+#: ../extensions/selections/callbacks.c:62
+#| msgid "Remove from Catalog"
+msgid "Remove from Selection"
+msgstr "Pašalinti iš žymėjimo"
+
+#: ../extensions/selections/callbacks.c:107
 #, c-format
 msgid "Show selection %d"
 msgstr "Rodyti žymėjimą %d"
 
-#: ../extensions/selections/callbacks.c:315
+#: ../extensions/selections/callbacks.c:329
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -4102,7 +4068,6 @@ msgid "Advanced file selection."
 msgstr "Sudėtingesnis failų žymėjimas."
 
 #: ../extensions/slideshow/callbacks.c:51
-#| msgid "Destination"
 msgid "Presentation"
 msgstr "Pateiktis"
 
@@ -4199,7 +4164,6 @@ msgid "View images as a slideshow."
 msgstr "Rodyti paveikslėlius kaip skaidres."
 
 #: ../extensions/webalbums/callbacks.c:48
-#| msgid "Web Album"
 msgid "_Web Album…"
 msgstr "Žiniatinklio _albumas…"
 
@@ -4310,36 +4274,36 @@ msgstr "Rodyti šiuos atributus:"
 msgid "Image Attributes"
 msgstr "Paveikslėlio atributai"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1800
+#: ../extensions/webalbums/gth-web-exporter.c:1802
 msgid "Could not show the destination"
 msgstr "Nepavyko parodyti tikslo"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1836
+#: ../extensions/webalbums/gth-web-exporter.c:1838
 msgid "The album has been created successfully."
 msgstr "Albumas sėkmingai sukurtas."
 
-#: ../extensions/webalbums/gth-web-exporter.c:2104
-#: ../extensions/webalbums/gth-web-exporter.c:2132
+#: ../extensions/webalbums/gth-web-exporter.c:2106
+#: ../extensions/webalbums/gth-web-exporter.c:2134
 msgid "Saving thumbnails"
 msgstr "Įrašomos miniatiūros"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2160
+#: ../extensions/webalbums/gth-web-exporter.c:2162
 msgid "Saving HTML pages: Images"
 msgstr "Įrašomi HTML puslapiai: paveikslėliai"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2218
+#: ../extensions/webalbums/gth-web-exporter.c:2220
 msgid "Saving HTML pages: Indexes"
 msgstr "Įrašomi HTML puslapiai: rodyklės"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2503
+#: ../extensions/webalbums/gth-web-exporter.c:2505
 msgid "Copying original images"
 msgstr "Kopijuojami originalūs paveikslėliai"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2964
+#: ../extensions/webalbums/gth-web-exporter.c:2966
 msgid "Could not find the style folder"
 msgstr "Nepavyko rasti stilių aplanko"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3002
+#: ../extensions/webalbums/gth-web-exporter.c:3004
 msgid "Could not create a temporary folder"
 msgstr "Nepavyko sukurti laikino aplanko"
 
@@ -4351,9 +4315,9 @@ msgstr "Žiniatinklio albumai"
 msgid "Create static web albums."
 msgstr "Kurti statinius žiniatinklio albumus."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1073
-#: ../gthumb/gth-browser.c:1648 ../gthumb/gth-browser.c:5976
-#: ../gthumb/gth-browser.c:5995 ../gthumb/gth-browser.c:6019
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1083
+#: ../gthumb/gth-browser.c:1658 ../gthumb/gth-browser.c:6004
+#: ../gthumb/gth-browser.c:6023 ../gthumb/gth-browser.c:6047
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nepavyko įkelti pozicijos „%s“"
@@ -4441,30 +4405,30 @@ msgid "_Restart"
 msgstr "Paleisti iš _naujo"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: ../gthumb/gio-utils.c:1351
+#: ../gthumb/gio-utils.c:1361
 #, c-format
 msgid "%s of %s"
 msgstr "%s iš %s"
 
-#: ../gthumb/gio-utils.c:1386
+#: ../gthumb/gio-utils.c:1432
 #, c-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Perkeliama „%s“ į „%s“"
 
-#: ../gthumb/gio-utils.c:1388
+#: ../gthumb/gio-utils.c:1434
 #, c-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Kopijuojama „%s“ į „%s“"
 
-#: ../gthumb/gio-utils.c:1750
+#: ../gthumb/gio-utils.c:1793
 msgid "Moving files"
 msgstr "Perkeliami failai"
 
-#: ../gthumb/gio-utils.c:1750
+#: ../gthumb/gio-utils.c:1793
 msgid "Copying files"
 msgstr "Kopijuojami failai"
 
-#: ../gthumb/gio-utils.c:1751
+#: ../gthumb/gio-utils.c:1794
 msgid "Getting file information"
 msgstr "Gaunami failo duomenys..."
 
@@ -4493,11 +4457,6 @@ msgid "%d:%02d"
 msgstr "%d:%02d"
 
 #: ../gthumb/gth-browser-actions-callbacks.c:141
-#| msgid ""
-#| "gthumb is free software; you can redistribute it and/or modify it under "
-#| "the terms of the GNU General Public License as published by the Free "
-#| "Software Foundation; either version 2 of the License, or (at your option) "
-#| "any later version."
 msgid ""
 "gThumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
@@ -4510,11 +4469,6 @@ msgstr ""
 "vėlesnė versija."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:145
-#| msgid ""
-#| "gthumb is distributed in the hope that it will be useful, but WITHOUT ANY "
-#| "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
-#| "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
-#| "details."
 msgid ""
 "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
@@ -4526,9 +4480,6 @@ msgstr ""
 "Daugiau rasite perskaitę GNU Bendrą Viešąją Licenciją."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:149
-#| msgid ""
-#| "You should have received a copy of the GNU General Public License along "
-#| "with gthumb.  If not, see http://www.gnu.org/licenses/."
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
@@ -4541,7 +4492,6 @@ msgid "An image viewer and browser for GNOME."
 msgstr "Paveikslėlių peržiūros ir naršymo programa, skirta GNOME."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:172
-#| msgid "translator_credits"
 msgid "translator-credits"
 msgstr ""
 "Žygimantas Beručka <zygis@gnome.org>\\n\n"
@@ -4551,7 +4501,7 @@ msgstr ""
 msgid "[modified]"
 msgstr "[pakeistas]"
 
-#: ../gthumb/gth-browser.c:794
+#: ../gthumb/gth-browser.c:804
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -4559,64 +4509,63 @@ msgstr[0] "Pasirinktas %d failas (%s)"
 msgstr[1] "Pasirinkti %d failai (%s)"
 msgstr[2] "Pasirinkta %d failų (%s)"
 
-#: ../gthumb/gth-browser.c:829
+#: ../gthumb/gth-browser.c:839
 #, c-format
 msgid "%s of free space"
 msgstr "Laisva vietos %s"
 
-#: ../gthumb/gth-browser.c:1752 ../gthumb/gth-browser.c:1779
+#: ../gthumb/gth-browser.c:1762 ../gthumb/gth-browser.c:1789
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nerastas tinkamas modulis %s"
 
-#: ../gthumb/gth-browser.c:1898
+#: ../gthumb/gth-browser.c:1911
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Įrašyti pakeitimus į failą „%s“?"
 
-#: ../gthumb/gth-browser.c:1903
+#: ../gthumb/gth-browser.c:1916
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Jei neįrašysite, pakeitimai bus negrįžtamai prarasti."
 
-#: ../gthumb/gth-browser.c:1904
+#: ../gthumb/gth-browser.c:1917
 msgid "Do _Not Save"
 msgstr "_Neįrašyti"
 
-#: ../gthumb/gth-browser.c:2726 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2739 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nepavyko pakeisti pavadinimo"
 
-#: ../gthumb/gth-browser.c:3141 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3155 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Pakeistas"
 
-#: ../gthumb/gth-browser.c:4111
+#: ../gthumb/gth-browser.c:4139
 msgid "Go to the previous visited location"
 msgstr "Eiti į ankstesnę aplankytą vietą"
 
-#: ../gthumb/gth-browser.c:4117
+#: ../gthumb/gth-browser.c:4145
 msgid "Go to the next visited location"
 msgstr "Eiti į kitą aplankytą vietą"
 
-#: ../gthumb/gth-browser.c:4129
-#| msgid "Histogram"
+#: ../gthumb/gth-browser.c:4157
 msgid "History"
 msgstr "Histograma"
 
-#: ../gthumb/gth-browser.c:4145
+#: ../gthumb/gth-browser.c:4173
 msgid "View the folders"
 msgstr "Žiūrėti aplankus"
 
-#: ../gthumb/gth-browser.c:4160
+#: ../gthumb/gth-browser.c:4188
 msgid "Edit file"
 msgstr "Taisyti failą"
 
-#: ../gthumb/gth-browser.c:5977
+#: ../gthumb/gth-browser.c:6005
 #, c-format
 msgid "File type not supported"
 msgstr "Failo tipas nepalaikomas"
 
-#: ../gthumb/gth-browser.c:6020
+#: ../gthumb/gth-browser.c:6048
 #, c-format
 msgid "No suitable module found"
 msgstr "Nerastas tinkamas modulis"
@@ -4686,7 +4635,6 @@ msgstr[1] "Ar tikrai norite negrįžtamai ištrinti %'d pasirinktus failus?"
 msgstr[2] "Ar tikrai norite negrįžtamai ištrinti %'d pasirinktų failų?"
 
 #: ../gthumb/gth-filterbar.c:304
-#| msgid "_Personalize"
 msgid "Personalize…"
 msgstr "_Suasmeninti…"
 
@@ -4724,7 +4672,6 @@ msgid "No limit specified"
 msgstr "Be apribojimų"
 
 #: ../gthumb/gth-folder-tree.c:1070
-#| msgid "Loading..."
 msgid "Loading…"
 msgstr "Įkeliama…"
 
@@ -4803,7 +4750,6 @@ msgid "Type"
 msgstr "Tipas"
 
 #: ../gthumb/gth-main-default-metadata.c:44
-#| msgid "_Location"
 msgid "Location"
 msgstr "Vieta"
 
@@ -4812,7 +4758,6 @@ msgid "Duration"
 msgstr "Trukmė"
 
 #: ../gthumb/gth-main-default-metadata.c:49
-#| msgid "System settings"
 msgid "Exposure Settings"
 msgstr "Išlaikymo nustatymai"
 
@@ -4845,12 +4790,10 @@ msgid "Camera Model"
 msgstr "Fotoaparato modelis"
 
 #: ../gthumb/gth-main-default-metadata.c:65
-#| msgid "_Authorize..."
 msgid "Author"
 msgstr "Autorius"
 
 #: ../gthumb/gth-main-default-metadata.c:66
-#| msgid "C_opyright:"
 msgid "Copyright"
 msgstr "Autorinės teisės"
 
@@ -5058,12 +5001,10 @@ msgid "Now"
 msgstr "Dabar"
 
 #: ../gthumb/gth-toolbox.c:124
-#| msgid "C_olor:"
 msgid "Colors"
 msgstr "Spalvos"
 
 #: ../gthumb/gth-toolbox.c:125
-#| msgid "Rotation:"
 msgid "Rotation"
 msgstr "Pasukimas"
 
@@ -5092,7 +5033,6 @@ msgid "Cancel"
 msgstr "Atsisakyti"
 
 #: ../gthumb/gtk-utils.h:36
-#| msgid "Cancel"
 msgid "_Cancel"
 msgstr "_Atsisakyti"
 
@@ -5109,12 +5049,10 @@ msgid "_Ok"
 msgstr "_Gerai"
 
 #: ../gthumb/gtk-utils.h:43
-#| msgid "remove"
 msgid "_Remove"
 msgstr "_Pašalinti"
 
 #: ../gthumb/gtk-utils.h:44
-#| msgid "Save"
 msgid "_Save"
 msgstr "Į_rašyti"
 
@@ -5156,7 +5094,6 @@ msgstr "_Išeiti"
 
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
-#| msgid "Leave Fullscreen"
 msgid "Fullscreen"
 msgstr "Visame ekrane"
 
@@ -5165,12 +5102,10 @@ msgid "Open in New Window"
 msgstr "Atverti naujame lange"
 
 #: ../gthumb/resources/gears-menu.ui.h:1
-#| msgid "New _Window"
 msgid "New Window"
 msgstr "Naujas langas"
 
 #: ../gthumb/resources/gears-menu.ui.h:2
-#| msgid "_Location"
 msgid "Open Location…"
 msgstr "Atverti vietą…"
 
@@ -5179,16 +5114,13 @@ msgid "Revert"
 msgstr "Atstatyti"
 
 #: ../gthumb/resources/gears-menu.ui.h:6
-#| msgid "Sort By"
 msgid "Sort By…"
 msgstr "Rikiuoti pagal…"
 
 #: ../gthumb/resources/gears-menu.ui.h:7
-#| msgid "_Hidden Files"
 msgid "Hidden Files"
 msgstr "Paslėpti failai"
 
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
 msgstr "_Ištrinti retrospektyvą"
-
