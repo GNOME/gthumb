@@ -3071,24 +3071,19 @@ _g_settings_get_string_list (GSettings  *settings,
 
 
 GSettings *
-_g_settings_new_if_schema_installed (const char *schema_name)
+_g_settings_new_if_schema_installed (const char *schema_id)
 {
-	GSettings          *settings;
-	const char * const *schemas;
+	GSettingsSchema *schema;
 
-	settings = NULL;
+	schema = g_settings_schema_source_lookup (g_settings_schema_source_get_default (),
+						  schema_id,
+						  TRUE);
+	if (schema == NULL)
+		return NULL;
 
-	for (schemas = g_settings_list_schemas ();
-             *schemas != NULL;
-             schemas++)
-	{
-		if (g_strcmp0 (*schemas, schema_name) == 0) {
-			settings = g_settings_new (schema_name);
-			break;
-		}
-        }
+	g_settings_schema_unref (schema);
 
-        return settings;
+	return g_settings_new (schema_id);
 }
 
 
