@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.0 on Mon Nov  4 23:47:57 2013 -->
+<!-- Generated with glade 3.18.1 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="position_adjustment">
     <property name="upper">100</property>
     <property name="step_increment">1</property>
@@ -209,11 +209,10 @@
             <property name="orientation">vertical</property>
             <property name="size">menu</property>
             <property name="adjustment">volume_adjustment</property>
-            <property name="icons">audio-volume-muted
-audio-volume-high
-audio-volume-low
-audio-volume-medium</property>
-            <property name="use_symbolic">True</property>
+            <property name="icons">audio-volume-muted-symbolic
+audio-volume-high-symbolic
+audio-volume-low-symbolic
+audio-volume-medium-symbolic</property>
             <child internal-child="plus_button">
               <object class="GtkButton" id="volumebutton-plus_button1">
                 <property name="label" translatable="yes">+</property>
