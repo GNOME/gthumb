@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-04-14 08:47+0000\n"
+"POT-Creation-Date: 2014-04-15 09:12+0000\n"
 "PO-Revision-Date: 2014-04-14 14:05+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -216,7 +216,7 @@ msgstr "_Lugar:"
 
 #: ../data/ui/overwrite-dialog.ui.h:1
 msgid "Overwrite the old file with the new one?"
-msgstr "¿Sobreescribir el archivo anterior con el nuevo?"
+msgstr "¿Sobrescribir el archivo anterior con el nuevo?"
 
 #: ../data/ui/overwrite-dialog.ui.h:2
 msgid "Old File:"
@@ -245,15 +245,15 @@ msgstr "Sob_reescribir el archivo antiguo"
 
 #: ../data/ui/overwrite-dialog.ui.h:8
 msgid "Do not overwrite _the old file"
-msgstr "No sobreescribir el archivo an_tiguo"
+msgstr "No sobrescribir el archivo an_tiguo"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
 msgid "Overwrite _all files"
-msgstr "Sobreescribir _todos los archivos"
+msgstr "Sobrescribir _todos los archivos"
 
 #: ../data/ui/overwrite-dialog.ui.h:10
 msgid "_Do not overwrite any file"
-msgstr "_No sobreescribir ningún archivo"
+msgstr "_No sobrescribir ningún archivo"
 
 #: ../data/ui/overwrite-dialog.ui.h:11
 msgid "_Save the new file as:"
@@ -927,12 +927,12 @@ msgstr "Etiquetas"
 #: ../extensions/catalogs/gth-file-source-catalogs.c:953
 #, c-format
 msgid "The catalog '%s' already exists, do you want to overwrite it?"
-msgstr "El catálogo «%s» ya existe. ¿Quiere sobreescribirlo?"
+msgstr "El catálogo «%s» ya existe. ¿Quiere sobrescribirlo?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:955
 #, c-format
 msgid "The library '%s' already exists, do you want to overwrite it?"
-msgstr "La biblioteca «%s» ya existe. ¿Quiere sobreescribirla?"
+msgstr "La biblioteca «%s» ya existe. ¿Quiere sobrescribirla?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:963
 msgid "Over_write"
@@ -4048,7 +4048,6 @@ msgid "File search tool."
 msgstr "Herramienta de búsqueda de archivos."
 
 #: ../extensions/selections/callbacks.c:62
-#| msgid "Remove from Catalog"
 msgid "Remove from Selection"
 msgstr "Quitar de la selección"
 
@@ -5923,7 +5922,7 @@ msgstr "_Borrar histórico"
 #~ msgstr "Pantalla de 17&#x2BA; (1024 x 768)"
 
 #~ msgid "_Overwrite existing files"
-#~ msgstr "Sobreescribir los archiv_os existentes"
+#~ msgstr "Sobrescribir los archiv_os existentes"
 
 #~ msgid "file modified date "
 #~ msgstr "fecha de modificación del archivo"
@@ -6051,7 +6050,7 @@ msgstr "_Borrar histórico"
 #~ msgstr "Abrir imágenes"
 
 #~ msgid "Overwrite Image"
-#~ msgstr "Sobreescribir imagen"
+#~ msgstr "Sobrescribir imagen"
 
 #~ msgid "R_ecent applications:"
 #~ msgstr "Aplicaciones r_ecientes:"
@@ -6114,7 +6113,7 @@ msgstr "_Borrar histórico"
 #~ "Saltar\n"
 #~ "Renombrar\n"
 #~ "Preguntar\n"
-#~ "Sobreescribir"
+#~ "Sobrescribir"
 
 #~ msgid "TGA Options"
 #~ msgstr "Opciones TGA"
@@ -6225,8 +6224,8 @@ msgstr "_Borrar histórico"
 #~ "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 #~ "small>"
 #~ msgstr ""
-#~ "<small><i><b>Nota:</b> %p (número de página), %n (número total de páginas)"
-#~ "</i>.</small>"
+#~ "<small><i><b>Nota:</b> %p (número de página), %n (número total de "
+#~ "páginas)</i>.</small>"
 
 #~ msgid "Co_mment"
 #~ msgstr "Co_mentario"
