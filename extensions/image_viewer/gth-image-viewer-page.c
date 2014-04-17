@@ -31,7 +31,7 @@
 #define UPDATE_QUALITY_DELAY 500
 #define UPDATE_VISIBILITY_DELAY 100
 #define N_HEADER_BAR_BUTTONS 2
-#define HIDE_OVERVIEW_TIMEOUT 3
+#define HIDE_OVERVIEW_TIMEOUT 2 /* in seconds */
 
 
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
@@ -76,7 +76,7 @@ struct _GthImageViewerPagePrivate {
 	GthBrowser        *browser;
 	GSettings         *settings;
 	GtkWidget         *image_navigator;
-	GtkWidget         *overview_container;
+	GtkWidget         *overview_revealer;
 	GtkWidget         *overview;
 	GtkWidget         *viewer;
 	GthImagePreloader *preloader;
@@ -344,6 +344,22 @@ update_image_quality_if_required (GthImageViewerPage *self)
 
 
 static gboolean
+hide_overview_after_timeout (gpointer data)
+{
+	GthImageViewerPage *self = data;
+
+	if (self->priv->hide_overview_id != 0)
+		g_source_remove (self->priv->hide_overview_id);
+	self->priv->hide_overview_id = 0;
+
+	if (! self->priv->pointer_on_overview)
+		gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->overview_revealer), FALSE);
+
+	return FALSE;
+}
+
+
+static gboolean
 update_overview_visibility_now (gpointer user_data)
 {
 	GthImageViewerPage *self;
@@ -360,7 +376,14 @@ update_overview_visibility_now (gpointer user_data)
 	}
 
 	visible = self->priv->pointer_on_overview || (self->priv->pointer_on_viewer && gth_image_viewer_has_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer)));
-	gtk_widget_set_visible (self->priv->overview_container, visible);
+	gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->overview_revealer), visible);
+
+	if (visible) {
+		if (self->priv->hide_overview_id != 0)
+			g_source_remove (self->priv->hide_overview_id);
+		self->priv->hide_overview_id = g_timeout_add_seconds (HIDE_OVERVIEW_TIMEOUT, hide_overview_after_timeout, self);
+
+	}
 
 	return FALSE;
 }
@@ -369,16 +392,17 @@ update_overview_visibility_now (gpointer user_data)
 static void
 update_overview_visibility (GthImageViewerPage *self)
 {
-	if (! gtk_widget_get_visible (self->priv->overview_container)) {
-		update_overview_visibility_now (self);
-		return;
+	if (gtk_revealer_get_child_revealed (GTK_REVEALER (self->priv->overview_revealer))) {
+		if (self->priv->update_visibility_id != 0) {
+			g_source_remove (self->priv->update_visibility_id);
+			self->priv->update_visibility_id = 0;
+		}
 	}
 
-	if (self->priv->update_visibility_id != 0)
-		g_source_remove (self->priv->update_visibility_id);
-	self->priv->update_visibility_id = g_timeout_add (UPDATE_VISIBILITY_DELAY,
-							  update_overview_visibility_now,
-							  self);
+	if (self->priv->update_visibility_id == 0)
+		self->priv->update_visibility_id = g_timeout_add (UPDATE_VISIBILITY_DELAY,
+								  update_overview_visibility_now,
+								  self);
 }
 
 
@@ -392,7 +416,7 @@ viewer_zoom_changed_cb (GtkWidget          *widget,
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
 	update_image_quality_if_required (self);
 	self->priv->pointer_on_viewer = TRUE;
-	update_overview_visibility_now (self);
+	update_overview_visibility (self);
 
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
 	text = g_strdup_printf ("  %d%%  ", (int) (zoom * 100));
@@ -406,7 +430,7 @@ static void
 viewer_image_changed_cb (GtkWidget          *widget,
 			 GthImageViewerPage *self)
 {
-	update_overview_visibility_now (self);
+	update_overview_visibility (self);
 }
 
 
@@ -420,34 +444,19 @@ viewer_button_press_event_cb (GtkWidget          *widget,
 
 
 static gboolean
-hide_overview_after_timeout (gpointer data)
-{
-	GthImageViewerPage *self = data;
-
-	if (self->priv->hide_overview_id != 0)
-		g_source_remove (self->priv->hide_overview_id);
-	self->priv->hide_overview_id = 0;
-
-	if (! self->priv->pointer_on_overview)
-		gtk_widget_hide (self->priv->overview_container);
-
-	return FALSE;
-}
-
-
-static gboolean
 viewer_motion_notify_event_cb (GtkWidget      *widget,
 			       GdkEventMotion *event,
 			       gpointer        data)
 {
 	GthImageViewerPage *self = data;
 
-	self->priv->pointer_on_overview = (widget == self->priv->overview);
-
-	update_overview_visibility (data);
-	if (self->priv->hide_overview_id != 0)
+	if (self->priv->hide_overview_id != 0) {
 		g_source_remove (self->priv->hide_overview_id);
-	self->priv->hide_overview_id = g_timeout_add_seconds (HIDE_OVERVIEW_TIMEOUT, hide_overview_after_timeout, self);
+		self->priv->hide_overview_id = 0;
+	}
+
+	self->priv->pointer_on_overview = (widget == self->priv->overview);
+	update_overview_visibility (data);
 
 	return FALSE;
 }
@@ -769,7 +778,7 @@ image_navigator_get_child_position_cb	(GtkOverlay   *overlay,
 {
 	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (user_data);
 
-	if (widget == self->priv->overview_container) {
+	if (widget == self->priv->overview_revealer) {
 		GtkAllocation main_alloc;
 
 		gtk_widget_get_allocation (gtk_bin_get_child (GTK_BIN (overlay)), &main_alloc);
@@ -876,13 +885,16 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	gtk_container_add (GTK_CONTAINER (self->priv->image_navigator), self->priv->viewer);
 	gtk_widget_show (self->priv->image_navigator);
 
-	self->priv->overview_container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->image_navigator), self->priv->overview_container);
+	self->priv->overview_revealer = gtk_revealer_new ();
+	gtk_revealer_set_transition_duration (GTK_REVEALER (self->priv->overview_revealer), 200);
+	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->overview_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_DOWN);
+	gtk_widget_show (self->priv->overview_revealer);
+	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->image_navigator), self->priv->overview_revealer);
 
 	self->priv->overview = gth_image_overview_new (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gtk_widget_add_events (self->priv->overview, GDK_POINTER_MOTION_HINT_MASK);
 	gtk_widget_show (self->priv->overview);
-	gtk_container_add (GTK_CONTAINER (self->priv->overview_container), self->priv->overview);
+	gtk_container_add (GTK_CONTAINER (self->priv->overview_revealer), self->priv->overview);
 
 	g_signal_connect_after (G_OBJECT (self->priv->overview),
 				"motion-notify-event",
