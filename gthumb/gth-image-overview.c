@@ -441,9 +441,7 @@ gth_image_overview_draw (GtkWidget *widget,
 	/* frame */
 
   	cairo_save (cr);
-	cairo_rectangle (cr, 0.5, 0.5, allocation.width - 1, allocation.height - 1);
-	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-	cairo_stroke_preserve (cr);
+	cairo_rectangle (cr, 0.0, 0.0, allocation.width - 0.5, allocation.height - 0.5);
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 	cairo_fill (cr);
 	cairo_restore (cr);
