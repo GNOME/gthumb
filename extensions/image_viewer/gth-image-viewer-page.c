@@ -31,6 +31,7 @@
 #define UPDATE_QUALITY_DELAY 500
 #define UPDATE_VISIBILITY_DELAY 100
 #define N_HEADER_BAR_BUTTONS 2
+#define HIDE_OVERVIEW_TIMEOUT 3
 
 
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
@@ -92,6 +93,7 @@ struct _GthImageViewerPagePrivate {
 	GtkWidget         *buttons[N_HEADER_BAR_BUTTONS];
 	gboolean           pointer_on_viewer;
 	gboolean           pointer_on_overview;
+	guint              hide_overview_id;
 };
 
 
@@ -342,12 +344,13 @@ update_image_quality_if_required (GthImageViewerPage *self)
 
 
 static gboolean
-update_visibility_cb (gpointer user_data)
+update_overview_visibility_now (gpointer user_data)
 {
-	GthImageViewerPage *self = user_data;
+	GthImageViewerPage *self;
 	gboolean            visible;
 	gboolean            revealed;
 
+	self = GTH_IMAGE_VIEWER_PAGE (user_data);
 	if (! self->priv->active)
 		return FALSE;
 
@@ -366,9 +369,16 @@ update_visibility_cb (gpointer user_data)
 static void
 update_overview_visibility (GthImageViewerPage *self)
 {
+	if (! gtk_widget_get_visible (self->priv->overview_container)) {
+		update_overview_visibility_now (self);
+		return;
+	}
+
 	if (self->priv->update_visibility_id != 0)
 		g_source_remove (self->priv->update_visibility_id);
-	self->priv->update_visibility_id = g_timeout_add (UPDATE_VISIBILITY_DELAY, update_visibility_cb, self);
+	self->priv->update_visibility_id = g_timeout_add (UPDATE_VISIBILITY_DELAY,
+							  update_overview_visibility_now,
+							  self);
 }
 
 
@@ -382,7 +392,7 @@ viewer_zoom_changed_cb (GtkWidget          *widget,
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
 	update_image_quality_if_required (self);
 	self->priv->pointer_on_viewer = TRUE;
-	update_overview_visibility (self);
+	update_overview_visibility_now (self);
 
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
 	text = g_strdup_printf ("  %d%%  ", (int) (zoom * 100));
@@ -396,7 +406,7 @@ static void
 viewer_image_changed_cb (GtkWidget          *widget,
 			 GthImageViewerPage *self)
 {
-	update_overview_visibility (self);
+	update_overview_visibility_now (self);
 }
 
 
@@ -410,34 +420,48 @@ viewer_button_press_event_cb (GtkWidget          *widget,
 
 
 static gboolean
-viewer_button_enter_notify_event_cb (GtkWidget *widget,
-				     GdkEvent  *event,
-				     gpointer   user_data)
+hide_overview_after_timeout (gpointer data)
 {
-	GthImageViewerPage *self = user_data;
+	GthImageViewerPage *self = data;
 
-	if (widget == self->priv->overview)
-		self->priv->pointer_on_overview = TRUE;
-	else if (widget == self->priv->viewer)
-		self->priv->pointer_on_viewer = TRUE;
-	update_overview_visibility (self);
+	if (self->priv->hide_overview_id != 0)
+		g_source_remove (self->priv->hide_overview_id);
+	self->priv->hide_overview_id = 0;
+
+	if (! self->priv->pointer_on_overview)
+		gtk_widget_hide (self->priv->overview_container);
 
 	return FALSE;
 }
 
 
 static gboolean
-viewer_button_leave_notify_event_cb (GtkWidget *widget,
-				     GdkEvent  *event,
-				     gpointer   user_data)
+viewer_motion_notify_event_cb (GtkWidget      *widget,
+			       GdkEventMotion *event,
+			       gpointer        data)
 {
-	GthImageViewerPage *self = user_data;
+	GthImageViewerPage *self = data;
 
-	if (widget == self->priv->overview)
-		self->priv->pointer_on_overview = gth_image_overview_get_scrolling_is_active (GTH_IMAGE_OVERVIEW (self->priv->overview));
-	else if (widget == self->priv->viewer)
-		self->priv->pointer_on_viewer = FALSE;
-	update_overview_visibility (self);
+	self->priv->pointer_on_overview = (widget == self->priv->overview);
+
+	update_overview_visibility (data);
+	if (self->priv->hide_overview_id != 0)
+		g_source_remove (self->priv->hide_overview_id);
+	self->priv->hide_overview_id = g_timeout_add_seconds (HIDE_OVERVIEW_TIMEOUT, hide_overview_after_timeout, self);
+
+	return FALSE;
+}
+
+
+static gboolean
+viewer_leave_notify_event_cb (GtkWidget *widget,
+			      GdkEvent  *event,
+			      gpointer   data)
+{
+	GthImageViewerPage *self = data;
+
+	self->priv->pointer_on_overview = FALSE;
+	update_overview_visibility (data);
 
 	return FALSE;
 }
@@ -816,12 +840,12 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				G_CALLBACK (viewer_button_press_event_cb),
 				self);
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
-				"enter-notify-event",
-				G_CALLBACK (viewer_button_enter_notify_event_cb),
+				"motion-notify-event",
+				G_CALLBACK (viewer_motion_notify_event_cb),
 				self);
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
 				"leave-notify-event",
-				G_CALLBACK (viewer_button_leave_notify_event_cb),
+				G_CALLBACK (viewer_leave_notify_event_cb),
 				self);
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
 				"scroll_event",
@@ -856,17 +880,13 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->image_navigator), self->priv->overview_container);
 
 	self->priv->overview = gth_image_overview_new (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gtk_widget_add_events (self->priv->overview, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
+	gtk_widget_add_events (self->priv->overview, GDK_POINTER_MOTION_HINT_MASK);
 	gtk_widget_show (self->priv->overview);
 	gtk_container_add (GTK_CONTAINER (self->priv->overview_container), self->priv->overview);
 
 	g_signal_connect_after (G_OBJECT (self->priv->overview),
-				"enter-notify-event",
-				G_CALLBACK (viewer_button_enter_notify_event_cb),
-				self);
-	g_signal_connect_after (G_OBJECT (self->priv->overview),
-				"leave-notify-event",
-				G_CALLBACK (viewer_button_leave_notify_event_cb),
+				"motion-notify-event",
+				G_CALLBACK (viewer_motion_notify_event_cb),
 				self);
 
 	gth_browser_set_viewer_widget (browser, self->priv->image_navigator);
@@ -1538,6 +1558,10 @@ gth_image_viewer_page_finalize (GObject *obj)
 		g_source_remove (self->priv->update_visibility_id);
 		self->priv->update_visibility_id = 0;
 	}
+	if (self->priv->hide_overview_id != 0) {
+		g_source_remove (self->priv->hide_overview_id);
+		self->priv->hide_overview_id = 0;
+	}
 
 	g_object_unref (self->priv->settings);
 	g_object_unref (self->priv->history);
@@ -1601,6 +1625,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 		self->priv->buttons[i] = NULL;
 	self->priv->pointer_on_overview = FALSE;
 	self->priv->pointer_on_viewer = FALSE;
+	self->priv->hide_overview_id = 0;
 }
 
 
