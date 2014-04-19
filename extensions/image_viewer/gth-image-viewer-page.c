@@ -407,16 +407,10 @@ update_overview_visibility (GthImageViewerPage *self)
 
 
 static void
-viewer_zoom_changed_cb (GtkWidget          *widget,
-			GthImageViewerPage *self)
+update_zoom_info (GthImageViewerPage *self)
 {
 	double  zoom;
 	char   *text;
-
-	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
-	update_image_quality_if_required (self);
-	self->priv->pointer_on_viewer = TRUE;
-	update_overview_visibility (self);
 
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
 	text = g_strdup_printf ("  %d%%  ", (int) (zoom * 100));
@@ -427,10 +421,24 @@ viewer_zoom_changed_cb (GtkWidget          *widget,
 
 
 static void
+viewer_zoom_changed_cb (GtkWidget          *widget,
+			GthImageViewerPage *self)
+{
+	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
+	update_image_quality_if_required (self);
+	self->priv->pointer_on_viewer = TRUE;
+	update_overview_visibility (self);
+	update_zoom_info (self);
+}
+
+
+static void
 viewer_image_changed_cb (GtkWidget          *widget,
 			 GthImageViewerPage *self)
 {
+	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
 	update_overview_visibility (self);
+	update_zoom_info (self);
 }
 
 
