@@ -762,8 +762,7 @@ change_animation_frame (gpointer data)
 	gdk_pixbuf_animation_iter_advance (self->priv->iter, &self->priv->time);
 
 	_cairo_clear_surface (&self->priv->iter_surface);
-	self->priv->skip_zoom_change = TRUE;
-	gtk_widget_queue_resize (GTK_WIDGET (self));
+	gtk_widget_queue_draw (GTK_WIDGET (self));
 
 	return FALSE;
 }
