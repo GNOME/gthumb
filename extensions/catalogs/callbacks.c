@@ -160,6 +160,9 @@ catalogs__gth_browser_construct_cb (GthBrowser *browser)
 	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OTHER_ACTIONS),
 					 fixed_menu_entries,
 				         G_N_ELEMENTS (fixed_menu_entries));
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_OTHER_ACTIONS),
+					 fixed_menu_entries,
+				         G_N_ELEMENTS (fixed_menu_entries));
 
 	data->monitor_events = g_signal_connect (gth_main_get_default_monitor (),
 						 "folder-changed",
