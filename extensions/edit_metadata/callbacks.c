@@ -41,8 +41,14 @@ static const GActionEntry actions[] = {
 };
 
 
-static const GthMenuEntry action_entries[] = {
+static const GthMenuEntry tools_actions[] = {
 	{ N_("Delete Metadata"), "win.delete-metadata" }
+};
+
+
+static const GthMenuEntry file_list_actions[] = {
+	{ N_("Comment"), "win.edit-metadata", "C" },
+	{ N_("Tags"), "win.edit-tags", "T" }
 };
 
 
@@ -58,8 +64,14 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 
 	if (gth_main_extension_is_active ("list_tools"))
 		gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_MORE_TOOLS),
-						 action_entries,
-						 G_N_ELEMENTS (action_entries));
+						 tools_actions,
+						 G_N_ELEMENTS (tools_actions));
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OTHER_ACTIONS),
+					 file_list_actions,
+					 G_N_ELEMENTS (file_list_actions));
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_OTHER_ACTIONS),
+					 file_list_actions,
+					 G_N_ELEMENTS (file_list_actions));
 
 	gth_browser_add_header_bar_button (browser,
 					   GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
