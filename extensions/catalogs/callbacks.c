@@ -275,7 +275,7 @@ catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_EDIT_ACTIONS), data->folder_popup_edit_merge_id);
 		data->folder_popup_edit_merge_id = 0;
 
-		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_CREATE_ACTIONS), data->folder_popup_other_merge_id);
+		gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_OTHER_ACTIONS), data->folder_popup_other_merge_id);
 		data->folder_popup_other_merge_id = 0;
 	}
 }
