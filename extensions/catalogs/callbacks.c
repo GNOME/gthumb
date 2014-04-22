@@ -259,7 +259,9 @@ catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 		gth_window_enable_action (GTH_WINDOW (browser), "remove-catalog", sensitive);
 
 		sensitive = ((folder != NULL)
-			     && (_g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/library") || _g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/catalog"))
+			     && (_g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/library")
+				 || _g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/catalog")
+				 || _g_content_type_is_a (g_file_info_get_content_type (folder->info), "gthumb/search"))
 			     && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_RENAME));
 		gth_window_enable_action (GTH_WINDOW (browser), "rename-catalog", sensitive);
 
