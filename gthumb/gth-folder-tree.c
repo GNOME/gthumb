@@ -31,6 +31,7 @@
 #include "gth-icon-cache.h"
 #include "gth-main.h"
 #include "gth-marshal.h"
+#include "gth-request-dialog.h"
 
 
 #define EMPTY_URI   "..."
@@ -1790,10 +1791,113 @@ gth_folder_tree_delete_children (GthFolderTree *folder_tree,
 }
 
 
+/* -- gth_folder_tree_start_editing -- */
+
+
+typedef struct {
+	GthFolderTree *folder_tree;
+	GFile         *file;
+} RenameData;
+
+
+static void
+rename_data_free (RenameData *data)
+{
+	g_object_unref (data->folder_tree);
+	g_object_unref (data->file);
+	g_free (data);
+}
+
+
+static void
+rename_dialog_response_cb (GtkWidget *dialog,
+			   int        response_id,
+			   gpointer   user_data)
+{
+	RenameData *data = user_data;
+	char       *name;
+
+	if (response_id != GTK_RESPONSE_OK) {
+		rename_data_free (data);
+		gtk_widget_destroy (dialog);
+		return;
+	}
+
+	name = gth_request_dialog_get_normalized_text (GTH_REQUEST_DIALOG (dialog));
+	if (_g_utf8_all_spaces (name)) {
+		g_free (name);
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("No name specified"));
+		return;
+	}
+
+	if (g_regex_match_simple ("/", name, 0, 0)) {
+		char *message;
+
+		message = g_strdup_printf (_("Invalid name. The following characters are not allowed: %s"), "/");
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, message);
+
+		g_free (message);
+		g_free (name);
+
+		return;
+	}
+
+	g_signal_emit (data->folder_tree,
+		       gth_folder_tree_signals[RENAME],
+		       0,
+		       data->file,
+		       name);
+
+	g_free (name);
+	rename_data_free (data);
+	gtk_widget_destroy (dialog);
+}
+
+
 void
 gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 			       GFile         *file)
 {
+	GtkTreeIter  iter;
+	GthFileData *file_data;
+	RenameData  *data;
+	GtkWidget   *toplevel;
+	GtkWidget   *dialog;
+
+	if (! gth_folder_tree_get_iter (folder_tree, file, &iter, NULL))
+		return;
+
+	data = g_new0 (RenameData, 1);
+	data->folder_tree = g_object_ref (folder_tree);
+	data->file = g_object_ref (file);
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (folder_tree));
+	if (! gtk_widget_is_toplevel (toplevel))
+		toplevel = NULL;
+
+	dialog = gth_request_dialog_new (GTK_WINDOW (toplevel),
+					 GTK_DIALOG_MODAL,
+					 _("Rename"),
+					 _("Enter the new name:"),
+					 _GTK_LABEL_CANCEL,
+					 _("_Rename"));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (rename_dialog_response_cb),
+			  data);
+
+	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
+			    &iter,
+			    COLUMN_FILE_DATA, &file_data,
+			    -1);
+	gtk_entry_set_text (GTK_ENTRY (gth_request_dialog_get_entry (GTH_REQUEST_DIALOG (dialog))),
+			    g_file_info_get_edit_name (file_data->info));
+
+	gtk_widget_show (dialog);
+
+	_g_object_unref (file_data);
+
+#if 0
 	GtkTreeIter        iter;
 	GtkTreePath       *tree_path;
 	GtkTreeViewColumn *tree_column;
@@ -1813,6 +1917,7 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 				  TRUE);
 
 	gtk_tree_path_free (tree_path);
+#endif
 }
 
 
