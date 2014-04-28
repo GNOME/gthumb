@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.0 on Tue Nov 19 11:15:07 2013 -->
+<!-- Generated with glade 3.18.2 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkListStore" id="file_type_liststore">
     <columns>
       <!-- column-name name -->
@@ -13,7 +13,7 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Find Duplicates</property>
     <property name="resizable">False</property>
-    <property name="type_hint">normal</property>
+    <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -86,7 +86,6 @@
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Start _at:</property>
                         <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">location_filechooserbutton</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -95,13 +94,12 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkFileChooserButton" id="location_filechooserbutton">
+                      <object class="GtkBox" id="location_chooser_container">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="action">select-folder</property>
-                        <property name="local_only">False</property>
-                        <property name="preview_widget_active">False</property>
-                        <property name="title" translatable="yes"/>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">True</property>

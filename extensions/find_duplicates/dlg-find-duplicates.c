@@ -33,6 +33,7 @@ typedef struct {
 	GthBrowser *browser;
 	GtkBuilder *builder;
 	GtkWidget  *dialog;
+	GtkWidget  *location_chooser;
 	GList      *general_tests;
 } DialogData;
 
@@ -55,7 +56,7 @@ ok_clicked_cb (GtkWidget  *widget,
 {
 	GFile *folder;
 
-	folder = gtk_file_chooser_get_file (GTK_FILE_CHOOSER ( _gtk_builder_get_widget (data->builder, "location_filechooserbutton")));
+	folder = gth_location_chooser_get_current (GTH_LOCATION_CHOOSER (data->location_chooser));
 	if (folder == NULL)
 		return;
 
@@ -64,7 +65,6 @@ ok_clicked_cb (GtkWidget  *widget,
 				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolder_checkbutton"))),
 				  g_list_nth_data (data->general_tests, gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("file_type_combobox")))));
 
-	g_object_unref (folder);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -74,7 +74,6 @@ dlg_find_duplicates (GthBrowser *browser)
 {
 	DialogData *data;
 	GSettings  *settings;
-	GtkWidget  *file_chooser;
 	GList      *tests;
 	char       *general_filter;
 	int         active_filter;
@@ -99,13 +98,16 @@ dlg_find_duplicates (GthBrowser *browser)
 	gth_browser_set_dialog (browser, "find_duplicates", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
+	data->location_chooser = g_object_new (GTH_TYPE_LOCATION_CHOOSER,
+					       "show-entry-points", TRUE,
+					       "relief", GTK_RELIEF_NORMAL,
+					       NULL);
+	gtk_widget_show (data->location_chooser);
+	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("location_chooser_container")), data->location_chooser);
+
 	/* Set widgets data. */
 
-	file_chooser = _gtk_builder_get_widget (data->builder, "location_filechooserbutton");
-	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
-		gtk_file_chooser_set_file (GTK_FILE_CHOOSER (file_chooser), gth_browser_get_location (browser), NULL);
-	else
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_chooser), get_home_uri ());
+	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (data->location_chooser), gth_browser_get_location (browser));
 
 	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
 	general_filter = g_settings_get_string (settings, PREF_BROWSER_GENERAL_FILTER);
