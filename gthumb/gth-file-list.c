@@ -438,6 +438,8 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->priv->visibles = NULL;
 	file_list->priv->visibility_changed = FALSE;
 	file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
+	file_list->priv->dirty_event = 0;
+	file_list->priv->restart_thumb_update = 0;
 }
 
 
