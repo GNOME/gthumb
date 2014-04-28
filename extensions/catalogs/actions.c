@@ -34,19 +34,7 @@ gth_browser_activate_add_to_catalog (GSimpleAction 	*action,
 				     GVariant		*parameter,
 				     gpointer		 user_data)
 {
-	GthBrowser *browser = GTH_BROWSER (user_data);
-	GList *items;
-	GList *file_list = NULL;
-	GList *files;
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	files = gth_file_data_list_to_file_list (file_list);
-	dlg_add_to_catalog (browser, files);
-
-	_g_object_list_unref (files);
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
+	dlg_add_to_catalog (GTH_BROWSER (user_data));
 }
 
 

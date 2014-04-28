@@ -25,12 +25,9 @@
 #include <glib.h>
 #include <gthumb.h>
 
-void   dlg_add_to_catalog              (GthBrowser *browser,
-					GList      *list /* GFile list */);
-void   add_to_catalog                  (GthBrowser *browser,
-					GFile      *catalog,
-					GList      *list /* GFile list */);
-void   dlg_move_to_catalog_directory   (GthBrowser *browser,
-					char       *catalog_path);
+void	dlg_add_to_catalog	(GthBrowser	*browser);
+void	add_to_catalog		(GthBrowser	*browser,
+				 GFile		*catalog,
+				 GList		*list /* GFile list */);
 
 #endif /* DLG_CATALOG_H */

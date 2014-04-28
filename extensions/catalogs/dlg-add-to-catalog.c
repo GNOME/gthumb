@@ -27,22 +27,52 @@
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
+#define ADD_TO_CATALOG_DIALOG_NAME "add-to-catalog"
+#define UPDATE_SELECTION_DELAY 100
 
 
 typedef struct {
+	int            ref;
 	GthBrowser    *browser;
 	GtkWidget     *parent_window;
 	GtkWidget     *dialog;
 	GList         *files;
 	gboolean       view_destination;
+	gboolean       close_after_adding;
 	GFile         *catalog_file;
 	GthCatalog    *catalog;
 } AddData;
 
 
-static void
-add_data_free (AddData *add_data)
+
+static AddData *
+add_data_new (void)
 {
+	AddData *add_data;
+
+	add_data = g_new0 (AddData, 1);
+	add_data->ref = 0;
+	add_data->view_destination = FALSE;
+	add_data->close_after_adding = TRUE;
+
+	return add_data;
+}
+
+
+static void
+add_data_ref (AddData *add_data)
+{
+	add_data->ref++;
+}
+
+
+static void
+add_data_unref (AddData *add_data)
+{
+	add_data->ref--;
+	if (add_data->ref > 0)
+		return;
+
 	_g_object_unref (add_data->catalog);
 	_g_object_list_unref (add_data->files);
 	_g_object_unref (add_data->catalog_file);
@@ -58,6 +88,8 @@ typedef struct {
 	AddData       *add_data;
 	GthFileSource *catalog_source;
 	GthFileData   *new_catalog;
+	gulong         file_selection_changed_event;
+	guint          update_selectection_event;
 } DialogData;
 
 
@@ -65,6 +97,17 @@ static void
 destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
+	gth_browser_set_dialog (data->browser, ADD_TO_CATALOG_DIALOG_NAME, NULL);
+	if (data->file_selection_changed_event != 0) {
+		g_signal_handler_disconnect (gth_browser_get_file_list_view (data->browser),
+					     data->file_selection_changed_event);
+		data->file_selection_changed_event = 0;
+	}
+	if (data->update_selectection_event != 0) {
+		g_source_remove (data->update_selectection_event);
+		data->update_selectection_event = 0;
+	}
+	add_data_unref (data->add_data);
 	_g_object_unref (data->catalog_source);
 	_g_object_unref (data->new_catalog);
 	g_object_unref (data->builder);
@@ -104,6 +147,7 @@ catalog_save_done_cb (void     **buffer,
 
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (add_data->parent_window), _("Could not add the files to the catalog"), error);
+		add_data_unref (add_data);
 		return;
 	}
 
@@ -115,10 +159,12 @@ catalog_save_done_cb (void     **buffer,
 	if (add_data->view_destination)
 		gth_browser_go_to (add_data->browser, add_data->catalog_file, NULL);
 
-	if (add_data->dialog != NULL)
-		gtk_widget_destroy (add_data->dialog);
+	if (add_data->close_after_adding) {
+		if (add_data->dialog != NULL)
+			gtk_widget_destroy (add_data->dialog);
+	}
 
-	add_data_free (add_data);
+	add_data_unref (add_data);
 }
 
 
@@ -135,9 +181,11 @@ catalog_ready_cb (GObject  *catalog,
 
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (add_data->parent_window), _("Could not add the files to the catalog"), error);
+		add_data_unref (add_data);
 		return;
 	}
 
+	_g_object_unref (add_data->catalog);
 	add_data->catalog = (GthCatalog *) catalog;
 
 	for (scan = add_data->files; scan; scan = scan->next)
@@ -161,6 +209,7 @@ catalog_ready_cb (GObject  *catalog,
 static void
 add_data_exec (AddData *add_data)
 {
+	add_data_ref (add_data);
 	gth_catalog_load_from_file_async (add_data->catalog_file,
 					  NULL,
 					  catalog_ready_cb,
@@ -169,15 +218,47 @@ add_data_exec (AddData *add_data)
 
 
 static void
-add_button_clicked_cb (GtkWidget  *widget,
-		       DialogData *data)
+add_selection_to_catalog (DialogData *data,
+			  gboolean    close_after_adding)
 {
+	GList *items;
+	GList *file_list;
+
+	_g_clear_object (&data->add_data->catalog_file);
 	data->add_data->catalog_file = get_selected_catalog (data);
 	if (data->add_data->catalog_file == NULL)
 		return;
 
-	data->add_data->view_destination = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("view_destination_checkbutton")));
-	add_data_exec (data->add_data);
+	_g_object_list_unref (data->add_data->files);
+	data->add_data->files = NULL;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (data->browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (data->browser)), items);
+	data->add_data->files = gth_file_data_list_to_file_list (file_list);
+	if (data->add_data->files != NULL) {
+		data->add_data->close_after_adding = close_after_adding;
+		data->add_data->view_destination = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("view_destination_checkbutton")));
+		add_data_exec (data->add_data);
+	}
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
+static void
+add_button_clicked_cb (GtkWidget  *widget,
+		       DialogData *data)
+{
+	add_selection_to_catalog (data, FALSE);
+}
+
+
+static void
+add_close_button_clicked_cb (GtkWidget  *widget,
+			     DialogData *data)
+{
+	add_selection_to_catalog (data, TRUE);
 }
 
 
@@ -191,16 +272,28 @@ source_tree_open_cb (GthFolderTree *folder_tree,
 
 
 static void
+update_sensitivity (DialogData *data)
+{
+	GFile    *selected_catalog;
+	GList    *items;
+	gboolean  can_add;
+
+	selected_catalog = get_selected_catalog (data);
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (data->browser)));
+	can_add = (items != NULL) && (selected_catalog != NULL);
+	gtk_widget_set_sensitive (GET_WIDGET ("add_close_button"), can_add);
+	gtk_widget_set_sensitive (GET_WIDGET ("add_button"), can_add);
+
+	_gtk_tree_path_list_free (items);
+	_g_object_unref (selected_catalog);
+}
+
+
+static void
 source_tree_selection_changed_cb (GtkTreeSelection *treeselection,
                                   gpointer          user_data)
 {
-	DialogData *data = user_data;
-	GFile      *selected_catalog;
-
-	selected_catalog = get_selected_catalog (data);
-	gtk_widget_set_sensitive (GTK_WIDGET (GET_WIDGET ("add_button")), selected_catalog != NULL);
-
-	_g_object_unref (selected_catalog);
+	update_sensitivity ((DialogData *) user_data);
 }
 
 
@@ -482,23 +575,55 @@ new_library_button_clicked_cb (GtkWidget  *widget,
 }
 
 
+static gboolean
+update_sensitivity_cb (gpointer user_data)
+{
+	DialogData *data = user_data;
+
+	if (data->update_selectection_event != 0) {
+		g_source_remove (data->update_selectection_event);
+		data->update_selectection_event = 0;
+	}
+
+	update_sensitivity (data);
+
+	return FALSE;
+}
+
+
+static void
+file_selection_changed_cb (GthFileSelection *self,
+			   DialogData       *data)
+{
+	if (data->update_selectection_event != 0)
+		g_source_remove (data->update_selectection_event);
+	data->update_selectection_event = g_timeout_add (UPDATE_SELECTION_DELAY, update_sensitivity_cb, data);
+}
+
+
 void
-dlg_add_to_catalog (GthBrowser *browser,
-		    GList      *list)
+dlg_add_to_catalog (GthBrowser *browser)
 {
 	DialogData       *data;
 	GFile            *base;
 	GtkTreeSelection *selection;
+
+	if (gth_browser_get_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME)) {
+		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME)));
+		return;
+	}
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("add-to-catalog.ui", "catalogs");
 	data->dialog = _gtk_builder_get_widget (data->builder, "add_to_catalog_dialog");
 
-	data->add_data = g_new0 (AddData, 1);
+	gth_browser_set_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME, data->dialog);
+
+	data->add_data = add_data_new ();
 	data->add_data->browser = browser;
 	data->add_data->parent_window = data->add_data->dialog = data->dialog;
-	data->add_data->files = _g_object_list_ref (list);
+	add_data_ref (data->add_data);
 
 	base = g_file_new_for_uri ("catalog:///");
 	data->source_tree = gth_source_tree_new (base);
@@ -508,7 +633,7 @@ dlg_add_to_catalog (GthBrowser *browser,
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("catalog_list_scrolled_window")), data->source_tree);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("catalogs_label")), data->source_tree);
-	gtk_widget_set_sensitive (GTK_WIDGET (GET_WIDGET ("add_button")), FALSE);
+	update_sensitivity (data);
 
 	/* Set the signals handlers. */
 
@@ -528,6 +653,10 @@ dlg_add_to_catalog (GthBrowser *browser,
 			  "clicked",
 			  G_CALLBACK (add_button_clicked_cb),
 			  data);
+	g_signal_connect (G_OBJECT (GET_WIDGET ("add_close_button")),
+			  "clicked",
+			  G_CALLBACK (add_close_button_clicked_cb),
+			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("new_catalog_button")),
 			  "clicked",
 			  G_CALLBACK (new_catalog_button_clicked_cb),
@@ -542,11 +671,16 @@ dlg_add_to_catalog (GthBrowser *browser,
 			  "changed",
 			  G_CALLBACK (source_tree_selection_changed_cb),
 			  data);
+	data->file_selection_changed_event =
+			g_signal_connect (gth_browser_get_file_list_view (data->browser),
+					  "file-selection-changed",
+					  G_CALLBACK (file_selection_changed_cb),
+					  data);
 
 	/* run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 }
 
@@ -558,7 +692,7 @@ add_to_catalog (GthBrowser *browser,
 {
 	AddData *add_data;
 
-	add_data = g_new0 (AddData, 1);
+	add_data = add_data_new ();
 	add_data->browser = browser;
 	add_data->parent_window = (GtkWidget *) browser;
 	add_data->catalog_file = g_object_ref (catalog);
