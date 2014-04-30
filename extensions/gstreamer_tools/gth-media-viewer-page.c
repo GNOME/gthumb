@@ -1121,6 +1121,9 @@ gth_media_viewer_page_real_show_pointer (GthViewerPage *base,
 {
 	GthMediaViewerPage *self = (GthMediaViewerPage*) base;
 
+	if (show == self->priv->cursor_visible)
+		return;
+
 	self->priv->cursor_visible = show;
 
 	if (show && (self->priv->cursor != NULL))

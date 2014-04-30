@@ -519,3 +519,22 @@ gth_browser_activate_show_thumbnail_list (GSimpleAction *action,
 	g_settings_set_boolean (settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE, g_variant_get_boolean (state));
 	g_object_unref (settings);
 }
+
+
+void
+gth_browser_activate_show_previous_image (GSimpleAction *action,
+					  GVariant      *state,
+					  gpointer       user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	gth_browser_show_prev_image (browser, FALSE, FALSE);
+}
+
+void
+gth_browser_activate_show_next_image (GSimpleAction *action,
+				      GVariant      *state,
+				      gpointer       user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	gth_browser_show_next_image (browser, FALSE, FALSE);
+}

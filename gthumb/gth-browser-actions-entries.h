@@ -56,6 +56,9 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "show-statusbar", toggle_action_activated, NULL, "false", gth_browser_activate_show_statusbar },
 	{ "show-sidebar", toggle_action_activated, NULL, "false", gth_browser_activate_show_sidebar },
 	{ "show-thumbnail-list", toggle_action_activated, NULL, "false", gth_browser_activate_show_thumbnail_list },
+
+	{ "show-previous-image", gth_browser_activate_show_previous_image },
+	{ "show-next-image", gth_browser_activate_show_next_image },
 };
 
 

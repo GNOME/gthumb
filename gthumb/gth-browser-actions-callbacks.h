@@ -58,5 +58,7 @@ DEF_ACTION_CALLBACK (gth_browser_activate_sort_by)
 DEF_ACTION_CALLBACK (gth_browser_activate_show_statusbar)
 DEF_ACTION_CALLBACK (gth_browser_activate_show_sidebar)
 DEF_ACTION_CALLBACK (gth_browser_activate_show_thumbnail_list)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_previous_image)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_next_image)
 
 #endif /* GTH_BROWSER_ACTIONS_CALLBACK_H */
