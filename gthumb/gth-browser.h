@@ -146,23 +146,25 @@ GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_filterbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_headerbar_section  (GthBrowser			*browser,
 						     GthBrowserHeaderSection	 section);
-GtkWidget *	 gth_browser_add_header_bar_button	(GthBrowser			*browser,
-							 GthBrowserHeaderSection	 section,
-							 const char			*icon_name,
-							 const char			*tooltip,
-							 const char 			*action_name,
-							 const char			*accelerator);
-GtkWidget *gth_browser_add_header_bar_toggle_button	(GthBrowser			*browser,
-							 GthBrowserHeaderSection	 section,
-							 const char			*icon_name,
-							 const char			*tooltip,
-							 const char 			*action_name,
-							 const char			*accelerator);
-void		 gth_browser_add_menu_manager_for_menu	(GthBrowser			*browser,
-							 const char			*menu_id,
-							 GMenu				*menu);
-GthMenuManager * gth_browser_get_menu_manager		(GthBrowser			*browser,
-							 const char 			*menu_id);
+GtkWidget *	 gth_browser_add_header_bar_button  (GthBrowser			*browser,
+						     GthBrowserHeaderSection	 section,
+						     const char			*icon_name,
+						     const char			*tooltip,
+						     const char 		*action_name,
+						     const char			*accelerator);
+GtkWidget *	 gth_browser_add_header_bar_toggle_button
+						    (GthBrowser			*browser,
+						     GthBrowserHeaderSection	 section,
+						     const char			*icon_name,
+						     const char			*tooltip,
+						     const char 		*action_name,
+						     const char			*accelerator);
+void		 gth_browser_add_menu_manager_for_menu
+						    (GthBrowser			*browser,
+						     const char			*menu_id,
+						     GMenu			*menu);
+GthMenuManager * gth_browser_get_menu_manager	    (GthBrowser			*browser,
+						     const char 		*menu_id);
 GtkWidget *      gth_browser_get_file_list          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list_view     (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_thumbnail_list     (GthBrowser       *browser);
@@ -249,8 +251,8 @@ gboolean         gth_browser_restore_state          (GthBrowser       *browser);
 
 /* utilities */
 
-GMenuItem *	_g_menu_item_new_for_file		(GFile      *file,
-							 const char *custom_label);
+GMenuItem *	_g_menu_item_new_for_file	    (GFile            *file,
+						     const char       *custom_label);
 
 G_END_DECLS
 
