@@ -4292,6 +4292,7 @@ gth_browser_init (GthBrowser *browser)
 		browser->priv->next_image_button = gtk_button_new_from_icon_name ("go-next-symbolic", GTK_ICON_SIZE_BUTTON);
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (browser->priv->next_image_button), "win.show-next-image");
 		gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->next_image_button), GTK_STYLE_CLASS_OSD);
+		gtk_widget_set_can_focus (browser->priv->next_image_button, FALSE);
 		gtk_overlay_add_overlay (GTK_OVERLAY (browser->priv->viewer_container), browser->priv->next_image_button);
 		_gth_browser_register_fixed_viewer_control (browser, browser->priv->next_image_button);
 
@@ -4300,6 +4301,7 @@ gth_browser_init (GthBrowser *browser)
 		browser->priv->previous_image_button = gtk_button_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_BUTTON);
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (browser->priv->previous_image_button), "win.show-previous-image");
 		gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->previous_image_button), GTK_STYLE_CLASS_OSD);
+		gtk_widget_set_can_focus (browser->priv->previous_image_button, FALSE);
 		gtk_overlay_add_overlay (GTK_OVERLAY (browser->priv->viewer_container), browser->priv->previous_image_button);
 		_gth_browser_register_fixed_viewer_control (browser, browser->priv->previous_image_button);
 	}
