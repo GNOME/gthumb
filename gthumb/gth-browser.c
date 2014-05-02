@@ -1941,7 +1941,8 @@ _gth_browser_show_pointer_on_viewer (GthBrowser *browser,
 				     gboolean    show)
 {
 	browser->priv->pointer_visible = show;
-	gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), show);
+	if (browser->priv->viewer_page != NULL)
+		gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), show);
 }
 
 
@@ -2274,8 +2275,7 @@ hide_mouse_pointer_cb (gpointer data)
 	browser->priv->pointer_visible = FALSE;
 	gtk_widget_hide (browser->priv->fullscreen_toolbar);
 	g_list_foreach (browser->priv->fixed_viewer_controls, (GFunc) gtk_widget_hide, NULL);
-	if (browser->priv->viewer_page != NULL)
-		_gth_browser_show_pointer_on_viewer (browser, FALSE);
+	_gth_browser_show_pointer_on_viewer (browser, FALSE);
 
 	return FALSE;
 }
@@ -2306,8 +2306,7 @@ viewer_motion_notify_event_cb (GtkWidget      *widget,
 				gtk_widget_show (browser->priv->fullscreen_toolbar);
 			g_list_foreach (browser->priv->fixed_viewer_controls, (GFunc) gtk_widget_show, NULL);
 		}
-		if (browser->priv->viewer_page != NULL)
-			_gth_browser_show_pointer_on_viewer (browser, TRUE);
+		_gth_browser_show_pointer_on_viewer (browser, TRUE);
 	}
 
 	if (browser->priv->hide_mouse_timeout != 0)
