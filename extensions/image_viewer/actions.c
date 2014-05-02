@@ -70,7 +70,7 @@ gth_browser_activate_image_zoom_fit (GSimpleAction	*action,
 	GthBrowser	   *browser = user_data;
 	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), GTH_FIT_SIZE_IF_LARGER);
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), GTH_FIT_SIZE);
 }
 
 
@@ -82,7 +82,7 @@ gth_browser_activate_image_zoom_fit_width (GSimpleAction	*action,
 	GthBrowser	   *browser = user_data;
 	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), GTH_FIT_WIDTH_IF_LARGER);
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), GTH_FIT_WIDTH);
 }
 
 
