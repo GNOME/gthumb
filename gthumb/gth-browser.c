@@ -2212,6 +2212,9 @@ _gth_browser_update_header_section_visibility (GthBrowser              *browser,
 }
 
 
+/* -- hide_mouse_pointer_after_delay -- */
+
+
 typedef struct {
 	GthBrowser *browser;
 	GdkDevice  *device;
@@ -2247,6 +2250,9 @@ pointer_on_control (HideMouseData *hmdata,
 {
 	GList *scan;
 
+	if (hmdata->device == NULL)
+		return FALSE;
+
 	for (scan = controls; scan; scan = scan->next)
 		if (pointer_on_widget ((GtkWidget *) scan->data, hmdata->device))
 			return TRUE;
@@ -2281,13 +2287,32 @@ hide_mouse_pointer_cb (gpointer data)
 }
 
 
+static void
+hide_mouse_pointer_after_delay (GthBrowser *browser,
+				GdkDevice  *device)
+{
+	HideMouseData *hmdata;
+
+	if (browser->priv->hide_mouse_timeout != 0)
+		g_source_remove (browser->priv->hide_mouse_timeout);
+
+	hmdata = g_new0 (HideMouseData, 1);
+	hmdata->browser = browser;
+	hmdata->device = (device != NULL) ? device : _gtk_widget_get_client_pointer (GTK_WIDGET (browser));
+	browser->priv->hide_mouse_timeout = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
+									HIDE_MOUSE_DELAY,
+									hide_mouse_pointer_cb,
+									hmdata,
+									g_free);
+}
+
+
 static gboolean
 viewer_motion_notify_event_cb (GtkWidget      *widget,
 			       GdkEventMotion *event,
 			       gpointer        data)
 {
-	GthBrowser    *browser = data;
-	HideMouseData *hmdata;
+	GthBrowser *browser = data;
 
 	if (! pointer_on_widget (browser->priv->viewer_container, event->device))
 		return FALSE;
@@ -2309,17 +2334,7 @@ viewer_motion_notify_event_cb (GtkWidget      *widget,
 		_gth_browser_show_pointer_on_viewer (browser, TRUE);
 	}
 
-	if (browser->priv->hide_mouse_timeout != 0)
-		g_source_remove (browser->priv->hide_mouse_timeout);
-
-	hmdata = g_new0 (HideMouseData, 1);
-	hmdata->browser = browser;
-	hmdata->device = event->device;
-	browser->priv->hide_mouse_timeout = g_timeout_add_seconds_full (G_PRIORITY_DEFAULT,
-									HIDE_MOUSE_DELAY,
-									hide_mouse_pointer_cb,
-									hmdata,
-									g_free);
+	hide_mouse_pointer_after_delay (browser, event->device);
 
 	browser->priv->last_mouse_x = event->x;
 	browser->priv->last_mouse_y = event->y;
@@ -2352,6 +2367,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
                 if (page == GTH_BROWSER_PAGE_VIEWER) {
                         gth_viewer_page_show (browser->priv->viewer_page);
                         _gth_browser_show_pointer_on_viewer (browser, FALSE);
+                        hide_mouse_pointer_after_delay (browser, NULL);
 
                 	browser->priv->last_mouse_x = 0.0;
                 	browser->priv->last_mouse_y = 0.0;

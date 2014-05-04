@@ -1211,3 +1211,21 @@ _gtk_window_get_is_maximized (GtkWindow *window)
 
 	return (gdk_window_get_state (gdk_win) & GDK_WINDOW_STATE_MAXIMIZED) != 0;
 }
+
+
+GdkDevice *
+_gtk_widget_get_client_pointer (GtkWidget *widget)
+{
+	GdkDisplay       *display;
+	GdkDeviceManager *device_manager;
+
+	display = gtk_widget_get_display (widget);
+	if (display == NULL)
+		return NULL;
+
+	device_manager = gdk_display_get_device_manager (display);
+	if (device_manager == NULL)
+		return NULL;
+
+	return gdk_device_manager_get_client_pointer (device_manager);
+}

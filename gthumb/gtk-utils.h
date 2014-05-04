@@ -145,6 +145,7 @@ void		_gtk_window_add_accelerator_for_action     (GtkWindow		*window,
 void		_gtk_window_add_accelerators_from_menu	   (GtkWindow		*window,
 							    GMenuModel		*menu);
 gboolean	_gtk_window_get_is_maximized 		   (GtkWindow		*window);
+GdkDevice *     _gtk_widget_get_client_pointer		   (GtkWidget		*widget);
 
 G_END_DECLS
 
