@@ -1,3 +1,15 @@
+version 3.2.8
+-------------
+
+ Bugs fixed:
+
+  * set G_APPLICATION_HANDLES_COMMAND_LINE for the application (#728341)
+  * web album: fixed thumbnail size (#727775)
+
+ New or updated application translations:
+
+  * Polish (Piotr Drąg)
+
 version 3.2.7
 -------------
 
