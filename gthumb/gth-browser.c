@@ -62,7 +62,7 @@
 #define MAX_HISTORY_LENGTH 15
 #define LOAD_FILE_DELAY 150
 #define LOAD_METADATA_DELAY 150
-#define HIDE_MOUSE_DELAY 2 /* in seconds */
+#define HIDE_MOUSE_DELAY 1 /* in seconds */
 #define MOTION_THRESHOLD 0
 #define UPDATE_SELECTION_DELAY 200
 #define MIN_SIDEBAR_SIZE 100
