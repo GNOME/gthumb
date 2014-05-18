@@ -1,3 +1,58 @@
+version 3.3.2
+-------------
+
+ Bugs fixed:
+
+  * Allow the user to edit tags using the contextual menu also (#728467)
+  * Special directories: added DOWNLOAD, removed DESKTOP (#728445,#728446)
+  * Web album: fixed thumbnail size (#727775)
+  * Desktop background: use the stretched option in some cases (#726708)
+  * Make copy and paste in same folder equivalent to duplicating
+    (#722726)
+  * Can view tiff files, but can not print. (#726260)
+  * image viewer: use a smaller frame border (#726091)
+  * Extra image appears in image viewer (#722631)
+  * Added AppData file for GNOME Software Center (#722770)
+  * Ctrl+P doesn't work (#722707)
+  * Script editor: help buttons don't work (#722925)
+  * Toolbox: Fix the undo and the redo symbols in RTL (Yosef Or Boczko)
+    (#723542)
+  * Sharpen: Fix the undo symbols in RTL (Yosef Or Boczko) (#723542)
+  * Rotate image: Fix the undo symbols in RTL (Yosef Or Boczko)
+    (#723542)
+  * Adjust colors: Fix the undo symbols in RTL (Yosef Or Boczko)
+    (#723542)
+  * Updated obsolete info in license text. updated using a script
+    written by Andika Triwidadan (#721455)
+  * gThumb doesn't honour privacy settings (#722349)
+  * Remove unnecessary gdkx.h include from gth-screensaver. (Robert
+    Roth) (#597594)
+  * Use unity-control-center if in Unity (Rober Ancell) (#722233)
+  * Fix build failing without libtiff installed. (Robert Roth) (#722183)
+  * Cannot Save As with uppercase .JPG (#721281)
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Rafael Ferreira)
+  * Czech (Marek Černocký)
+  * Deutsch (Christian Kirbach)
+  * Español (Daniel Mustieles)
+  * Hungarian (Balázs Úr)
+  * Indonesian (Andika Triwidada)
+  * Italiano (Gianvito Cavasoli)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Serbian (Miroslav Nikolić)
+  * Serbian (Мирослав Николић)
+  * Greek (Dimitris Spingos (Δημήτρης Σπίγγος))
+  * עברית (Yosef Or Boczko)
+
+ New or updated manual translations:
+
+  * Greek (Dimitris Spingos (Δημήτρης Σπίγγος))
+  * Español (Daniel Mustieles)
+  * čeština (Marek Černocký)
+
 version 3.3.1
 -------------
 
