@@ -7,10 +7,11 @@
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb master\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: gthumb gthumb-3-2\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2014-05-31 14:45+0200\n"
-"PO-Revision-Date: 2014-05-31 14:44+0200\n"
+"PO-Revision-Date: 2014-05-31 15:02+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "Language: eu\n"
@@ -35,9 +36,9 @@ msgid "Unrecognized desktop file Version '%s'"
 msgstr "Mahaigaineko fitxategiaren '%s' bertsioa ezezaguna"
 
 #: ../copy-n-paste/eggdesktopfile.c:974
-#, fuzzy, c-format
+#, c-format
 msgid "Starting %s"
-msgstr "'%s' gordetzen"
+msgstr "'%s' abiarazten"
 
 #: ../copy-n-paste/eggdesktopfile.c:1116
 #, c-format
@@ -134,10 +135,8 @@ msgstr ""
 "baduzu."
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:2
-#, fuzzy
 msgid "Whether to resize the window to fit the size of the image"
-msgstr ""
-"Korritze-barraren posizioak berrezarri behar dien edo ez irudiz aldatzean"
+msgstr "Leihoa tamainaz aldatuko den edo ez irudiaren tamainara egokitzeko"
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:3
 msgid "Open files in the active window"
@@ -180,7 +179,7 @@ msgstr "Hedapen gehiago..."
 
 #: ../data/ui/extensions-preferences.ui.h:3
 msgid "Some extensions are configurable."
-msgstr ""
+msgstr "Hedapen batzuk konfiguragarriak dira."
 
 #: ../data/ui/filter-editor.ui.h:1
 msgid "Filter _Name:"
@@ -313,9 +312,8 @@ msgid "T_humbnails in viewer:"
 msgstr "_Koadro txikiak ikustailean:"
 
 #: ../data/ui/preferences.ui.h:6
-#, fuzzy
 msgid "System settings"
-msgstr "Esposizioaren ezarpenak"
+msgstr "Sistemaren ezarpenak"
 
 #: ../data/ui/preferences.ui.h:7
 msgid "Text below icons"
@@ -326,14 +324,12 @@ msgid "Text beside icons"
 msgstr "Testua ikonoen ondoan"
 
 #: ../data/ui/preferences.ui.h:9
-#, fuzzy
 msgid "Icons only"
-msgstr "soilik da"
+msgstr "Ikonoak soilik"
 
 #: ../data/ui/preferences.ui.h:10
-#, fuzzy
 msgid "Text only"
-msgstr "Testu-fitxategiak"
+msgstr "Testu soila"
 
 #: ../data/ui/preferences.ui.h:11
 msgid "on the bottom"
@@ -481,12 +477,11 @@ msgstr "Igo irudiak 23hg.com webgunera"
 
 #: ../extensions/23hq/callbacks.c:68
 msgid "_23..."
-msgstr ""
+msgstr "_23..."
 
 #: ../extensions/23hq/callbacks.c:69
-#, fuzzy
 msgid "Upload photos to 23"
-msgstr "Igo argazkiak Picasa-ren webeko albumera"
+msgstr "Igo argazkiak 23 webgunera"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
@@ -544,7 +539,6 @@ msgid "Add current location to bookmarks"
 msgstr "Gehitu uneko kokapena laster-marketan"
 
 #: ../extensions/bookmarks/callbacks.c:63
-#, fuzzy
 msgid "_Edit Bookmarks..."
 msgstr "_Editatu laster-markak…"
 
@@ -795,15 +789,13 @@ msgid "Are you sure you want to remove \"%s\"?"
 msgstr "Ziur zaude '%s' kentzea nahi duzula?"
 
 #: ../extensions/catalogs/callbacks.c:102
-#, fuzzy
 msgid "_Add to Catalog"
-msgstr "Gehitu katalogoari"
+msgstr "_Gehitu katalogoari"
 
 #: ../extensions/catalogs/callbacks.c:105
 #: ../extensions/selections/callbacks.c:80
-#, fuzzy
 msgid "Open _Folder"
-msgstr "Ireki karpeta"
+msgstr "Ireki _karpeta"
 
 #: ../extensions/catalogs/callbacks.c:106
 #: ../extensions/selections/callbacks.c:81
@@ -827,23 +819,20 @@ msgid "Add selected images to a catalog"
 msgstr "Gehitu hautatutako irudiak katalogo batean"
 
 #: ../extensions/catalogs/callbacks.c:120
-#, fuzzy
 msgid "Remo_ve from Catalog"
-msgstr "Kendu katalogotik"
+msgstr "_Kendu katalogotik"
 
 #: ../extensions/catalogs/callbacks.c:121
 msgid "Remove selected images from the catalog"
 msgstr "Kendu hautatutako irudiak katalogotik"
 
 #: ../extensions/catalogs/callbacks.c:125
-#, fuzzy
 msgid "Create _Catalog"
-msgstr "Sortu katalogoa"
+msgstr "Sortu _katalogoa"
 
 #: ../extensions/catalogs/callbacks.c:130
-#, fuzzy
 msgid "Create _Library"
-msgstr "Sortu liburutegia"
+msgstr "Sortu _liburutegia"
 
 #: ../extensions/catalogs/callbacks.c:140
 msgid "Rena_me"
@@ -1163,6 +1152,7 @@ msgstr "Inportatu kapsulatutako metadatuak"
 #: ../extensions/comments/callbacks.c:47
 msgid "Import the metadata stored inside files into the gThumb comment system"
 msgstr ""
+"Inportatu fitxategietan gordetako metadatuak gThumb-eko iruzkinen sistemara"
 
 #: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Comments and tags"
@@ -1216,29 +1206,24 @@ msgid "Rating"
 msgstr "Balorazioa"
 
 #: ../extensions/contact_sheet/callbacks.c:59
-#, fuzzy
 msgid "Contact _Sheet"
-msgstr "Kontaktuaren orria"
+msgstr "Kontaktuaren _orria"
 
 #: ../extensions/contact_sheet/callbacks.c:61
-#, fuzzy
 msgid "Contact _Sheet..."
-msgstr "Kontaktuaren orria"
+msgstr "Kontaktuaren _orria..."
 
 #: ../extensions/contact_sheet/callbacks.c:62
-#, fuzzy
 msgid "Create a contact sheet"
-msgstr "Sortu gai berria"
+msgstr "Sortu kontaktuaren orria"
 
 #: ../extensions/contact_sheet/callbacks.c:65
-#, fuzzy
 msgid "Image _Wall..."
-msgstr "Irudien horma"
+msgstr "Irudien _horma..."
 
 #: ../extensions/contact_sheet/callbacks.c:66
-#, fuzzy
 msgid "Create an image-wall"
-msgstr "Irudiak sortzen"
+msgstr "Sortu irudien horma bat"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:1
@@ -1577,9 +1562,8 @@ msgid "Could not set the desktop background"
 msgstr "Ezin izan da mahaigaineko atzeko planoa ezarri"
 
 #: ../extensions/desktop_background/callbacks.c:49
-#, fuzzy
 msgid "Set as Desktop Background"
-msgstr "Ezarri atzeko plano gisa"
+msgstr "Ezarri mahaigaineko atzeko plano gisa"
 
 #: ../extensions/desktop_background/callbacks.c:50
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
@@ -1603,30 +1587,26 @@ msgid "If you delete the metadata, it will be permanently lost."
 msgstr "Metadatuak ezabatzen badituzu, betirako galduko dira."
 
 #: ../extensions/edit_metadata/callbacks.c:97
-#, fuzzy
 msgid "T_ags"
-msgstr "_Etiketak:"
+msgstr "_Etiketak"
 
 #: ../extensions/edit_metadata/callbacks.c:101
-#, fuzzy
 msgid "Edit the comment and other information of the selected files"
-msgstr "Joan hautatutako fitxategia dagoen karpetara"
+msgstr ""
+"Editatu Joan hautatutako fitxategien iruzkinak eta bestelako informazioak"
 
 #: ../extensions/edit_metadata/callbacks.c:107
-#, fuzzy
 msgid "Set the tags of the selected files"
-msgstr "Esleitu etiketak hautatutako fitxategiei"
+msgstr "Ezarri etiketak hautatutako fitxategiei"
 
 #: ../extensions/edit_metadata/callbacks.c:112
 msgid "Delete Metadata"
 msgstr "Ezabatu metadatuak"
 
 #: ../extensions/edit_metadata/callbacks.c:113
-#, fuzzy
 msgid "Delete the comment and the embedded metadata of the selected files"
 msgstr ""
-"Ziur zaude hautatutako fitxategien metadatuak betirako ezabatzea nahi "
-"dituzula?"
+"Ezabatu iruzkina eta kapsulatutako metadatuak hautatutako fitxategietatik"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
@@ -1856,22 +1836,19 @@ msgstr "argazkia hartu zeneko data"
 
 #: ../extensions/export_tools/callbacks.c:99
 msgid "Share"
-msgstr ""
+msgstr "Partekatu"
 
 #: ../extensions/facebook/callbacks.c:59 ../extensions/facebook/callbacks.c:64
-#, fuzzy
 msgid "Face_book..."
-msgstr "Facebook"
+msgstr "_Facebook..."
 
 #: ../extensions/facebook/callbacks.c:60
-#, fuzzy
 msgid "Download photos from Facebook"
-msgstr "Deskargatu argazkiak Picasa-ren webeko albumetik"
+msgstr "Deskargatu argazkiak Facebook webgunetik"
 
 #: ../extensions/facebook/callbacks.c:65
-#, fuzzy
 msgid "Upload photos to Facebook"
-msgstr "Igo irudiak Facebook webgunera"
+msgstr "Igo argazkiak Facebook webgunera"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
@@ -2226,9 +2203,8 @@ msgstr "Kopiatu"
 
 #: ../extensions/file_manager/callbacks.c:163
 #: ../extensions/file_manager/callbacks.c:199
-#, fuzzy
 msgid "Create _Folder"
-msgstr "Sortu karpeta"
+msgstr "Sortu _karpeta"
 
 #: ../extensions/file_manager/callbacks.c:164
 #: ../extensions/file_manager/callbacks.c:200
@@ -2236,9 +2212,8 @@ msgid "Create a new empty folder inside this folder"
 msgstr "Sortu karpeta berri bat karpeta honen barruan"
 
 #: ../extensions/file_manager/callbacks.c:179
-#, fuzzy
 msgid "D_uplicate"
-msgstr "Bikoiztu"
+msgstr "_Bikoiztu"
 
 #: ../extensions/file_manager/callbacks.c:180
 msgid "Duplicate the selected files"
@@ -2262,9 +2237,8 @@ msgid "_Delete"
 msgstr "_Ezabatu"
 
 #: ../extensions/file_manager/callbacks.c:188
-#, fuzzy
 msgid "Delete the selected files"
-msgstr "Bikoiztu hautatutako fitxategiak"
+msgstr "Ezabatu hautatutako fitxategiak"
 
 #: ../extensions/file_manager/callbacks.c:191
 #: ../extensions/file_manager/callbacks.c:203
@@ -2273,51 +2247,42 @@ msgid "_Rename"
 msgstr "_Berrizendatu"
 
 #: ../extensions/file_manager/callbacks.c:192
-#, fuzzy
 msgid "Rename the selected files"
-msgstr "Kendu hautatutako fitxategiak"
+msgstr "Aldatu hautatutako fitxategien izenak"
 
 #: ../extensions/file_manager/callbacks.c:195
-#, fuzzy
 msgid "Open with the _File Manager"
-msgstr "Ireki fitxategi-kudeatzailearekin"
+msgstr "Ireki _fitxategi-kudeatzailearekin"
 
 #: ../extensions/file_manager/callbacks.c:215
-#, fuzzy
 msgid "_Paste Into Folder"
-msgstr "Itsatsi karpetan"
+msgstr "_Itsatsi karpetan"
 
 #: ../extensions/file_manager/callbacks.c:227
 #: ../extensions/file_manager/callbacks.c:236
-#, fuzzy
 msgid "Copy to..."
-msgstr "Kopiatu hemen"
+msgstr "Kopiatu hemen..."
 
 #: ../extensions/file_manager/callbacks.c:228
-#, fuzzy
 msgid "Copy the selected folder to another folder"
-msgstr "Bota hautatutako fitxategiak zakarrontzira"
+msgstr "Kopiatu hautatutako karpeta beste karpetan"
 
 #: ../extensions/file_manager/callbacks.c:231
 #: ../extensions/file_manager/callbacks.c:240
-#, fuzzy
 msgid "Move to..."
-msgstr "Eraman hona"
+msgstr "Eraman hona..."
 
 #: ../extensions/file_manager/callbacks.c:232
-#, fuzzy
 msgid "Move the selected folder to another folder"
-msgstr "Bota hautatutako fitxategiak zakarrontzira"
+msgstr "Eraman hautatutako karpeta beste karpeta batera"
 
 #: ../extensions/file_manager/callbacks.c:237
-#, fuzzy
 msgid "Copy the selected files to another folder"
-msgstr "Bota hautatutako fitxategiak zakarrontzira"
+msgstr "Kopiatu hautatutako fitxategiak beste karpetan"
 
 #: ../extensions/file_manager/callbacks.c:241
-#, fuzzy
 msgid "Move the selected files to another folder"
-msgstr "Bota hautatutako fitxategiak zakarrontzira"
+msgstr "Eraman hautatutako fitxategiak beste karpetara"
 
 #: ../extensions/file_manager/callbacks.c:999
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
@@ -2377,9 +2342,8 @@ msgstr "Kolore-mailak"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:10
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:5
-#, fuzzy
 msgid "_Reset"
-msgstr "Leheneratu"
+msgstr "_Leheneratu"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
@@ -2737,9 +2701,8 @@ msgid "Flip the image vertically"
 msgstr "Irauli irudia bertikalki"
 
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:507
-#, fuzzy
 msgid "Grayscale..."
-msgstr "Gris-eskala"
+msgstr "Gris-eskala..."
 
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:507
 msgid "Grayscale"
@@ -2775,18 +2738,16 @@ msgid "Resize"
 msgstr "Aldatu tamaina"
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:628
-#, fuzzy
 msgid "Rotate..."
-msgstr "Biratu"
+msgstr "Biratu..."
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:628
 msgid "Rotate"
 msgstr "Biratu"
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:629
-#, fuzzy
 msgid "Freely rotate the image"
-msgstr "Egin klik irudia ikusteko"
+msgstr "Biratu libreki irudia"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:87
 #: ../extensions/image_rotation/callbacks.c:55
@@ -2819,9 +2780,8 @@ msgid "Sharpening image"
 msgstr "Irudia enfokatzen"
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:484
-#, fuzzy
 msgid "Enhance Focus..."
-msgstr "Hobetu fokua"
+msgstr "Hobetu fokua..."
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:484
 msgid "Enhance Focus"
@@ -2832,14 +2792,12 @@ msgid "Undo"
 msgstr "Desegin"
 
 #: ../extensions/find_duplicates/callbacks.c:48
-#, fuzzy
 msgid "Find _Duplicates..."
-msgstr "Bilatu bikoiztuak"
+msgstr "Bilatu _bikoiztuak..."
 
 #: ../extensions/find_duplicates/callbacks.c:49
-#, fuzzy
 msgid "Find duplicated files in the current location"
-msgstr "Bilatu bikoiztutako fitxategiak."
+msgstr "Bilatu bikoiztutako fitxategiak uneko kokalekuan"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-choose-folders.ui.h:1
 msgid "_Folders:"
@@ -2894,7 +2852,6 @@ msgid "leave the oldest duplicates"
 msgstr "utzi bikoiztutako zaharrenak"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:67
-#, fuzzy
 msgid "by folder..."
 msgstr "karpetaren arabera…"
 
@@ -2944,17 +2901,14 @@ msgid "Select"
 msgstr "Hautatu"
 
 #: ../extensions/flicker/callbacks.c:59 ../extensions/flicker/callbacks.c:64
-#, fuzzy
 msgid "_Flickr..."
-msgstr "Flicker"
+msgstr "Flickr..."
 
 #: ../extensions/flicker/callbacks.c:60
-#, fuzzy
 msgid "Download photos from Flickr"
-msgstr "Deskargatu argazkiak Picasa-ren webeko albumetik"
+msgstr "Deskargatu argazkiak Flickr webgunetik"
 
 #: ../extensions/flicker/callbacks.c:65
-#, fuzzy
 msgid "Upload photos to Flickr"
 msgstr "Igo irudiak Flickr webgunera"
 
@@ -3125,7 +3079,6 @@ msgid "Play audio and video files."
 msgstr "Erreproduzitu audio- eta bideo-fitxategiak"
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:104
-#, fuzzy
 msgid "Screenshot"
 msgstr "Pantaila-argazkia"
 
@@ -3218,9 +3171,8 @@ msgid "Could not print the selected files"
 msgstr "Ezin izan dira hautatutako fitxategiak inprimatu"
 
 #: ../extensions/image_print/callbacks.c:65
-#, fuzzy
 msgid "Print the selected images"
-msgstr "Aldatu hautatutako irudien tamainak"
+msgstr "Inprimatu hautatutako irudiak"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:1
 msgid "Centered"
@@ -3350,9 +3302,8 @@ msgid "Rotate Physically"
 msgstr "Biratu fisikoki"
 
 #: ../extensions/image_rotation/callbacks.c:62
-#, fuzzy
 msgid "Rotate the selected images according to the embedded orientation"
-msgstr "Biratu hautatutako irudiak 90° eskuinera"
+msgstr "Biratu hautatutako irudiak kapsulatutako orientazioaren arabera"
 
 #: ../extensions/image_rotation/callbacks.c:67
 msgid "Reset the EXIF Orientation"
@@ -3360,7 +3311,7 @@ msgstr "Leheneratu EXIF-en orientazioa"
 
 #: ../extensions/image_rotation/callbacks.c:68
 msgid "Reset the embedded orientation without rotating the images"
-msgstr ""
+msgstr "Leheneratu kapsulatutako orientazioa irudiak biratu gabe"
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:143
@@ -3446,14 +3397,12 @@ msgid "After loading an image:"
 msgstr "Irudi bat kargatu ondoren:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
-#, fuzzy
 msgid "_Zoom quality:"
-msgstr "Zoom-aren kalitatea:"
+msgstr "_Zoom-aren kalitatea:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
-#, fuzzy
 msgid "Transparency _type:"
-msgstr "_Gardena"
+msgstr "Gardentasun _mota:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
 msgid "High"
@@ -3485,16 +3434,15 @@ msgstr "Kopiatu irudia"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:180
 msgid "Copy the image to the clipboard"
-msgstr ""
+msgstr "Kopiatu irudia arbelean"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:184
 msgid "Paste Image"
 msgstr "Itsatsi irudia"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:185
-#, fuzzy
 msgid "Paste the image from the clipboard"
-msgstr "Kendu hautatutako irudiak katalogotik"
+msgstr "Itsatsi irudia arbeletik"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:189
 msgid "In"
@@ -3505,18 +3453,16 @@ msgid "Zoom in"
 msgstr "Zooma handiagotu"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:194
-#, fuzzy
 msgid "Out"
-msgstr "Ebaki"
+msgstr "Kanpora"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:195
 msgid "Zoom out"
 msgstr "Zooma txikiagotu"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:199
-#, fuzzy
 msgid "1:1"
-msgstr "16:10"
+msgstr "1:1"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:200
 msgid "Actual size"
@@ -3876,7 +3822,6 @@ msgid "Loading..."
 msgstr "Kargatzen..."
 
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:200
-#, fuzzy
 msgid "New authentication..."
 msgstr "Autentifikazio berria…"
 
@@ -3885,9 +3830,8 @@ msgid "Authorization Required"
 msgstr "Autentifikatzea behar da"
 
 #: ../extensions/oauth/web-service.c:382
-#, fuzzy
 msgid "Choose _Account..."
-msgstr "Aukeratu kontua"
+msgstr "Aukeratu _kontua..."
 
 #: ../extensions/oauth/web-service.c:660
 msgid "Choose Account"
@@ -3910,14 +3854,12 @@ msgid "Getting account information"
 msgstr "Kontuaren informazioa eskuratzen"
 
 #: ../extensions/photobucket/callbacks.c:54
-#, fuzzy
 msgid "Photobucket..."
-msgstr "PhotoBucket"
+msgstr "Photobucket..."
 
 #: ../extensions/photobucket/callbacks.c:55
-#, fuzzy
 msgid "Upload photos to Photobucket"
-msgstr "Igo irudiak PhotoBucket webgunera"
+msgstr "Igo argazkiak PhotoBucket webgunera"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
 msgid "_Scramble filenames"
@@ -3997,23 +3939,20 @@ msgid "Import"
 msgstr "Inportatu"
 
 #: ../extensions/photo_importer/callbacks.c:52
-#, fuzzy
 msgid "_Removable Device..."
-msgstr "_Euskarri aldagarriak…"
+msgstr "_Gailu aldagarriak…"
 
 #: ../extensions/photo_importer/callbacks.c:53
 msgid "Import photos and other files from a removable device"
 msgstr "Inportatu argazkiak eta bestelako fitxategiak gailu aldagarri batetik"
 
 #: ../extensions/photo_importer/callbacks.c:56
-#, fuzzy
 msgid "F_older..."
 msgstr "_Karpeta…"
 
 #: ../extensions/photo_importer/callbacks.c:57
-#, fuzzy
 msgid "Import photos and other files from a folder"
-msgstr "Inportatu argazkiak eta bestelako fitxategiak gailu aldagarri batetik"
+msgstr "Inportatu argazkiak eta bestelako fitxategiak karpeta batetik"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
 msgid "_Rotate the images physically"
@@ -4058,9 +3997,8 @@ msgstr "Ezin izan da karpeta kargatu"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
 #: ../gthumb/gth-browser.c:2090
-#, fuzzy
 msgid "Getting folder listing..."
-msgstr "Fitxategien zerrenda eskuratzen"
+msgstr "Karpetaren zerrenda eskuratzen..."
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:415
 msgid "Empty"
@@ -4387,7 +4325,6 @@ msgid "Files found until now: %s"
 msgstr "Oraingoz aurkitutako fitxategiak: %s"
 
 #: ../extensions/search/gth-search-task.c:271
-#, fuzzy
 msgid "Searching..."
 msgstr "Bilatzen…"
 
@@ -4400,24 +4337,20 @@ msgid "File search tool."
 msgstr "Fitxategiak bilatzeko tresna."
 
 #: ../extensions/selections/callbacks.c:77
-#, fuzzy
 msgid "Add to _Selection"
-msgstr "Hautapena"
+msgstr "Gehitu _hautapenari"
 
 #: ../extensions/selections/callbacks.c:86
-#, fuzzy
 msgid "Selection 1"
-msgstr "Hautapena"
+msgstr "1. hautapena"
 
 #: ../extensions/selections/callbacks.c:91
-#, fuzzy
 msgid "Selection 2"
-msgstr "Hautapena"
+msgstr "2. hautapena"
 
 #: ../extensions/selections/callbacks.c:96
-#, fuzzy
 msgid "Selection 3"
-msgstr "Hautapena"
+msgstr "3. hautapena"
 
 #: ../extensions/selections/callbacks.c:285
 #, c-format
@@ -4442,9 +4375,8 @@ msgid "Advanced file selection."
 msgstr "Fitxategien hautapen aurreratua."
 
 #: ../extensions/slideshow/callbacks.c:56
-#, fuzzy
 msgid "_Slideshow"
-msgstr "Diapositiba-aurkezpena"
+msgstr "_Diapositiba-aurkezpena"
 
 #: ../extensions/slideshow/callbacks.c:57
 msgid "View as a slideshow"
@@ -4543,14 +4475,12 @@ msgid "View images as a slideshow."
 msgstr "Ikusi irudiak diapositiba-aurkezpen gisa"
 
 #: ../extensions/webalbums/callbacks.c:71
-#, fuzzy
 msgid "_Web Album..."
-msgstr "Webeko albuma"
+msgstr "_Webeko albuma..."
 
 #: ../extensions/webalbums/callbacks.c:72
-#, fuzzy
 msgid "Create a static web album"
-msgstr "Sortu webeko album estatikoak."
+msgstr "Sortu webeko album estatikoa"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:26
 msgid "Click to view the image"
@@ -4843,7 +4773,6 @@ msgid "%d:%02d"
 msgstr "%d:%02d"
 
 #: ../gthumb/gth-browser-actions-callbacks.c:414
-#, fuzzy
 msgid ""
 "gthumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
@@ -4856,25 +4785,23 @@ msgstr ""
 "jasotako baldintzak betez gero."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:418
-#, fuzzy
 msgid ""
 "gthumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
-"Programa hau erabilgarria izango delakoan banatzen da, baina INOLAKO "
+"gThumb erabilgarria izango delakoan banatzen da, baina INOLAKO "
 "BERMERIK GABE; era berean, ez da bermatzen beraren EGOKITASUNA "
 "MERKATURATZEKO edo HELBURU PARTIKULARRETARAKO ERABILTZEKO. Argibide gehiago "
 "nahi izanez gero, ikus GNU Lizentzia Publiko Orokorra."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:422
-#, fuzzy
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gthumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
-"Programa honekin batera GNU Lizentzia Publiko Orokorraren kopia bat ere jaso "
+"gThumb-ekin batera GNU Lizentzia Publiko Orokorraren kopia bat ere jaso "
 "beharko zenuke; horrela ez bada, idatzi helbide honetara: http://www.gnu.org/"
 "licenses/."
 
@@ -4883,11 +4810,11 @@ msgid "An image viewer and browser for GNOME."
 msgstr "Irudi ikustaile eta arakatzaile bat GNOMErako."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:444
-#, fuzzy
 msgid "translator_credits"
 msgstr ""
 "Mikel Olasagasti <hey_neken@mundurat.net> \n"
-"Iñaki Larrañaga <dooteo@euskalgnu.org> Iñaki Larrañaga <dooteo@zundan.com>"
+"Iñaki Larrañaga <dooteo@euskalgnu.org>\n"
+"Iñaki Larrañaga <dooteo@zundan.com>"
 
 #: ../gthumb/gth-browser-actions-entries.h:31
 msgid "_File"
@@ -4914,18 +4841,16 @@ msgid "I_mport From"
 msgstr "_Inportatu hemendik"
 
 #: ../gthumb/gth-browser-actions-entries.h:38
-#, fuzzy
 msgid "E_xport To"
-msgstr "Esportatu"
+msgstr "E_sportatu hona"
 
 #: ../gthumb/gth-browser-actions-entries.h:41
 msgid "New _Window"
 msgstr "Leih_o berria"
 
 #: ../gthumb/gth-browser-actions-entries.h:42
-#, fuzzy
 msgid "Open another window"
-msgstr "Ireki leiho berria"
+msgstr "Ireki beste leihoa"
 
 #: ../gthumb/gth-browser-actions-entries.h:71
 msgid "Open"
@@ -4948,34 +4873,28 @@ msgid "_Filter..."
 msgstr "_Iragazkia..."
 
 #: ../gthumb/gth-browser-actions-entries.h:108
-#, fuzzy
 msgid "Stop loading the current location"
-msgstr "Ezin izan da kokalekua ireki"
+msgstr "Gelditu uneko kokalekua kargatzea"
 
 #: ../gthumb/gth-browser-actions-entries.h:114
-#, fuzzy
 msgid "Reload the current location"
-msgstr "Ezin izan da kokalekua ireki"
+msgstr "Kargatu uneko kokalekua berriro"
 
 #: ../gthumb/gth-browser-actions-entries.h:120
-#, fuzzy
 msgid "View previous image"
 msgstr "Ikusi aurreko irudia"
 
 #: ../gthumb/gth-browser-actions-entries.h:126
-#, fuzzy
 msgid "View next image"
 msgstr "Ikusi hurrengo irudia"
 
 #: ../gthumb/gth-browser-actions-entries.h:132
-#, fuzzy
 msgid "Switch to fullscreen"
-msgstr "Hasi pantaila osoko moduan"
+msgstr "Aldatu pantaila osora"
 
 #: ../gthumb/gth-browser-actions-entries.h:138
-#, fuzzy
 msgid "Leave Fullscreen"
-msgstr "Pantaila osoa"
+msgstr "Irten pantaila osotik"
 
 #: ../gthumb/gth-browser-actions-entries.h:144 ../gthumb/gth-browser.c:3842
 msgid "Go to the previous visited location"
@@ -4990,13 +4909,12 @@ msgid "Go up one level"
 msgstr "Joan maila bat gora"
 
 #: ../gthumb/gth-browser-actions-entries.h:161
-#, fuzzy
 msgid "_Location..."
-msgstr "Kokalekua:"
+msgstr "_Kokalekua..."
 
 #: ../gthumb/gth-browser-actions-entries.h:162
 msgid "Specify a location to open"
-msgstr ""
+msgstr "Zehaztu kokaleku bat irekitzeko"
 
 #: ../gthumb/gth-browser-actions-entries.h:173 ../gthumb/gth-browser.c:722
 msgid "_Delete History"
@@ -5015,9 +4933,8 @@ msgid "Show information about gthumb"
 msgstr "Erakutsi gthumb-i buruzko informazioa"
 
 #: ../gthumb/gth-browser-actions-entries.h:191
-#, fuzzy
 msgid "Contents"
-msgstr "Guztientzako edukia"
+msgstr "Edukia"
 
 #: ../gthumb/gth-browser-actions-entries.h:192
 msgid "Display the gthumb Manual"
@@ -5070,29 +4987,24 @@ msgid "View or hide the sidebar of this window"
 msgstr "Ikusi edo ezkutatu leiho honen alboko barra"
 
 #: ../gthumb/gth-browser-actions-entries.h:232
-#, fuzzy
 msgid "_Thumbnail Pane"
-msgstr "Koadro txikiaren epigrafea"
+msgstr "_Koadro txikiaren panela"
 
 #: ../gthumb/gth-browser-actions-entries.h:233
-#, fuzzy
 msgid "View or hide the thumbnail pane in viewer mode"
-msgstr "Ikusi edo ezkutatu leiho honen egoera-barra"
+msgstr "Ikusi edo ezkutatu koadro txikien panela ikustaile moduan"
 
 #: ../gthumb/gth-browser-actions-entries.h:237
-#, fuzzy
 msgid "_Thumbnails"
-msgstr "Koadro txikiak"
+msgstr "_Koadro txikiak"
 
 #: ../gthumb/gth-browser-actions-entries.h:238
-#, fuzzy
 msgid "View thumbnails"
-msgstr "Koadro txikiak gordetzen"
+msgstr "Ikusi Koadro txikiak"
 
 #: ../gthumb/gth-browser-actions-entries.h:242
-#, fuzzy
 msgid "_Hidden Files"
-msgstr "Ezkutuko fitxategiak"
+msgstr "_Ezkutuko fitxategiak"
 
 #: ../gthumb/gth-browser-actions-entries.h:243
 msgid "Show hidden files and folders"
@@ -5108,9 +5020,8 @@ msgid "_Fit Window to Image"
 msgstr "_Doitu leihoa irudira"
 
 #: ../gthumb/gth-browser-actions-entries.h:263
-#, fuzzy
 msgid "Resize the window to the size of the image"
-msgstr "Aldatu hautatutako irudien tamainak"
+msgstr "Aldatu leihoaren tamaina irudiaren tamainara"
 
 #: ../gthumb/gth-browser.c:419
 #, c-format
@@ -5235,9 +5146,8 @@ msgstr[1] ""
 "Ziur zaude hautatutako %'d fitxategi betirako ezabatzea nahi dituzula?"
 
 #: ../gthumb/gth-filterbar.c:413
-#, fuzzy
 msgid "Hide the filterbar"
-msgstr "Ikusi karpetak"
+msgstr "Ezkutatu iragazki-barra"
 
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
 #: ../gthumb/gth-test-simple.c:75
@@ -5555,9 +5465,8 @@ msgid "Close this window"
 msgstr "Itxi leiho hau"
 
 #: ../gthumb/gth-window-actions-entries.h:36
-#, fuzzy
 msgid "Close _All Windows"
-msgstr "Itxi leiho hau"
+msgstr "Itxi leiho _guztiak"
 
 #: ../gthumb/gtk-utils.c:490
 msgid "Could not display help"
