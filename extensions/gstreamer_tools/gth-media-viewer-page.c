@@ -735,7 +735,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	gth_browser_set_viewer_widget (browser, self->priv->area_box);
 
 	gtk_widget_realize (self->priv->area);
-	gth_browser_register_viewer_control (self->priv->browser, self->priv->mediabar);
+	gth_browser_register_viewer_control (self->priv->browser, self->priv->mediabar_revealer);
+	gth_browser_register_viewer_control (self->priv->browser, gtk_scale_button_get_popup (GTK_SCALE_BUTTON (GET_WIDGET ("volumebutton"))));
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 }
@@ -762,7 +763,8 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 
 	self = (GthMediaViewerPage*) base;
 
-	gth_browser_unregister_viewer_control (self->priv->browser, self->priv->mediabar);
+	gth_browser_unregister_viewer_control (self->priv->browser, gtk_scale_button_get_popup (GTK_SCALE_BUTTON (GET_WIDGET ("volumebutton"))));
+	gth_browser_unregister_viewer_control (self->priv->browser, self->priv->mediabar_revealer);
 
 	if (self->priv->builder != NULL) {
 		g_object_unref (self->priv->builder);
