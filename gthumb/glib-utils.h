@@ -327,6 +327,10 @@ gboolean        _g_mime_type_is_audio            (const char *mime_type);
 
 char *          _g_settings_get_uri              (GSettings  *settings,
 						  const char *key);
+char *          _g_settings_get_uri_or_special_dir
+						 (GSettings      *settings,
+						  const char     *key,
+						  GUserDirectory  directory);
 void            _g_settings_set_uri              (GSettings  *settings,
 						  const char *key,
 						  const char *uri);

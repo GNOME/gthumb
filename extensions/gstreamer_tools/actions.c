@@ -73,51 +73,45 @@ save_screenshot_task_completed_cb (GthTask  *task,
 }
 
 
-static void
-save_as_response_cb (GtkDialog  *file_sel,
-		     int         response,
-		     SaveData   *save_data)
+static GFile *
+get_screenshot_file (SaveData  *save_data,
+		     GError   **error)
 {
-	GFile      *file;
-	const char *mime_type;
-	GFile      *folder;
-	char       *folder_uri;
-	GthTask    *task;
+	GFile       *file = NULL;
+	char        *uri;
+	GFile       *folder;
+	GthFileData *file_data;
+	char        *prefix;
+	int          attempt;
 
-	if (response != GTK_RESPONSE_OK) {
-		GthMediaViewerPage *page = save_data->page;
+	uri = _g_settings_get_uri_or_special_dir (save_data->settings, PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION, G_USER_DIRECTORY_PICTURES);
+	folder = g_file_new_for_uri (uri);
+	file_data = gth_media_viewer_page_get_file_data (save_data->page);
+	prefix = _g_utf8_remove_extension (g_file_info_get_display_name (file_data->info));
+	if (prefix == NULL)
+		prefix = g_strdup (C_("Filename", "Screenshot"));
 
-		if (save_data->playing_before_screenshot)
-			gst_element_set_state (gth_media_viewer_page_get_playbin (page), GST_STATE_PLAYING);
-		save_date_free (save_data);
-		gtk_widget_destroy (GTK_WIDGET (file_sel));
-		return;
+	for (attempt = 1; (file == NULL) && (attempt < MAX_ATTEMPTS); attempt++) {
+		char  *display_name;
+		GFile *proposed_file;
+
+		display_name = g_strdup_printf ("%s-%02d.jpeg", prefix, attempt);
+		proposed_file = g_file_get_child_for_display_name (folder, display_name, NULL);
+		if ((proposed_file != NULL) && ! g_file_query_exists (proposed_file, NULL))
+			file = g_object_ref (proposed_file);
+
+		_g_object_unref (proposed_file);
+		g_free (display_name);
 	}
 
-	if (! gth_file_chooser_dialog_get_file (GTH_FILE_CHOOSER_DIALOG (file_sel), &file, &mime_type))
-		return;
+	if (file == NULL)
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Invalid filename");
 
-	folder = g_file_get_parent (file);
-	folder_uri = g_file_get_uri (folder);
-	g_settings_set_string (save_data->settings, PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION, folder_uri);
+	g_free (prefix);
+	_g_object_unref (folder);
+	g_free (uri);
 
-	save_data->file_data = gth_file_data_new (file, NULL);
-	gth_file_data_set_mime_type (save_data->file_data, mime_type);
-	task = gth_save_image_task_new (save_data->image,
-					mime_type,
-					save_data->file_data,
-					GTH_OVERWRITE_RESPONSE_YES);
-	g_signal_connect (task,
-			  "completed",
-			  G_CALLBACK (save_screenshot_task_completed_cb),
-			  save_data);
-	gth_browser_exec_task (GTH_BROWSER (save_data->browser), task, FALSE);
-
-	gtk_widget_destroy (GTK_WIDGET (file_sel));
-
-	g_free (folder_uri);
-	g_object_unref (folder);
-	g_object_unref (file);
+	return file;
 }
 
 
@@ -125,8 +119,10 @@ static void
 screenshot_ready_cb (GdkPixbuf *pixbuf,
 		     gpointer   user_data)
 {
-	SaveData  *save_data = user_data;
-	GtkWidget *file_sel;
+	SaveData *save_data = user_data;
+	GFile    *file;
+	GError   *error = NULL;
+	GthTask  *task;
 
 	if (pixbuf == NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (save_data->browser), _("Could not take a screenshot"), NULL);
@@ -135,65 +131,29 @@ screenshot_ready_cb (GdkPixbuf *pixbuf,
 	}
 
 	save_data->image = gth_image_new_for_pixbuf (pixbuf);
-	file_sel = gth_file_chooser_dialog_new (_("Save Image"), GTK_WINDOW (save_data->browser), "image-saver");
-	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 
-	{
-		char        *last_uri;
-		GFile       *last_folder;
-		GthFileData *file_data;
-		char        *prefix;
-		char        *display_name;
-		int          attempt;
+	/* save the image */
 
-		last_uri = g_settings_get_string (save_data->settings, PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION);
-		if ((last_uri == NULL) || (strcmp (last_uri, "~") == 0) || (strcmp (last_uri, "file://~") == 0)) {
-			const char *dir;
-
-			dir = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
-			if (dir != NULL)
-				last_folder = g_file_new_for_path (dir);
-			else
-				last_folder = g_file_new_for_uri (get_home_uri ());
-		}
-		else
-			last_folder = g_file_new_for_uri (last_uri);
-		gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (file_sel), last_folder, NULL);
-
-		file_data = gth_media_viewer_page_get_file_data (save_data->page);
-		prefix = _g_utf8_remove_extension (g_file_info_get_display_name (file_data->info));
-		if (prefix == NULL)
-			prefix = g_strdup (C_("Filename", "Screenshot"));
-		display_name = NULL;
-		for (attempt = 1; attempt < MAX_ATTEMPTS; attempt++) {
-			GFile *proposed_file;
-
-			g_free (display_name);
-
-			display_name = g_strdup_printf ("%s-%02d.jpeg", prefix, attempt);
-			proposed_file = g_file_get_child_for_display_name (last_folder, display_name, NULL);
-			if ((proposed_file != NULL) && ! g_file_query_exists (proposed_file, NULL)) {
-				g_object_unref (proposed_file);
-				break;
-			}
-		}
-
-		if (display_name != NULL) {
-			gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_sel), display_name);
-			g_free (display_name);
-		}
-
-		g_free (prefix);
-		g_object_unref (last_folder);
-		g_free (last_uri);
+	file = get_screenshot_file (save_data, &error);
+	if (file == NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (save_data->browser), _("Could not take a screenshot"), error);
+		save_date_free (save_data);
+		g_clear_error (&error);
+		return;
 	}
 
-	g_signal_connect (GTK_DIALOG (file_sel),
-			  "response",
-			  G_CALLBACK (save_as_response_cb),
+	save_data->file_data = gth_file_data_new (file, NULL);
+	gth_file_data_set_mime_type (save_data->file_data, "image/jpeg");
+	task = gth_save_image_task_new (save_data->image,
+					"image/jpeg",
+					save_data->file_data,
+					GTH_OVERWRITE_RESPONSE_YES);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (save_screenshot_task_completed_cb),
 			  save_data);
+	gth_browser_exec_task (GTH_BROWSER (save_data->browser), task, FALSE);
 
-	gtk_widget_show (file_sel);
 }
 
 

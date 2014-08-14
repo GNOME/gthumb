@@ -3008,8 +3008,39 @@ _g_settings_get_uri (GSettings  *settings,
 		return NULL;
 	}
 
-	uri = _g_replace (value, "~", g_get_home_dir ());
+	uri = _g_replace (value, "file://~", get_home_uri ());
+
 	g_free (value);
+
+	return uri;
+}
+
+
+char *
+_g_settings_get_uri_or_special_dir (GSettings      *settings,
+		     	     	    const char     *key,
+		     	     	    GUserDirectory  directory)
+{
+	char *uri;
+
+	uri = g_settings_get_string (settings, key);
+	if ((uri == NULL) || (strcmp (uri, "~") == 0) || (strcmp (uri, "file://~") == 0)) {
+		const char *dir;
+
+		g_free (uri);
+		uri = NULL;
+
+		dir = g_get_user_special_dir (directory);
+		if (dir != NULL)
+			uri = g_filename_to_uri (dir, NULL, NULL);
+		if (uri == NULL)
+			uri = g_strdup (get_home_uri ());
+	}
+	else {
+		char *tmp = uri;
+		uri = _g_replace (tmp, "file://~", get_home_uri ());
+		g_free (tmp);
+	}
 
 	return uri;
 }

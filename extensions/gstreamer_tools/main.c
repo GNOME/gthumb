@@ -23,6 +23,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "dlg-media-viewer-preferences.h"
 #include "gth-metadata-provider-gstreamer.h"
 #include "gth-media-viewer-page.h"
 
@@ -73,11 +74,12 @@ gthumb_extension_deactivate (void)
 G_MODULE_EXPORT gboolean
 gthumb_extension_is_configurable (void)
 {
-	return FALSE;
+	return TRUE;
 }
 
 
 G_MODULE_EXPORT void
 gthumb_extension_configure (GtkWindow *parent)
 {
+	dlg_media_viewer_preferences (parent);
 }

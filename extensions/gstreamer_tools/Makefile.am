@@ -8,6 +8,8 @@ extension_LTLIBRARIES = libgstreamer_tools.la
 libgstreamer_tools_la_SOURCES = 		\
 	actions.c				\
 	actions.h				\
+	dlg-media-viewer-preferences.c		\
+	dlg-media-viewer-preferences.h		\
 	gth-media-viewer-page.c			\
 	gth-media-viewer-page.h			\
 	gth-metadata-provider-gstreamer.c	\
