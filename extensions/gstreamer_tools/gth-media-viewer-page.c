@@ -76,6 +76,7 @@ struct _GthMediaViewerPagePrivate {
 	gboolean        cursor_visible;
 	GthScreensaver *screensaver;
 	GtkWidget      *screenshot_button;
+	gboolean        background_painted;
 };
 
 
@@ -138,6 +139,8 @@ video_area_realize_cb (GtkWidget *widget,
 	self->priv->caption_layout = gtk_widget_create_pango_layout (widget, "");
 	pango_layout_set_alignment (self->priv->caption_layout, PANGO_ALIGN_CENTER);
 	_gth_media_viewer_page_update_caption (self);
+
+	self->priv->background_painted = FALSE;
 }
 
 
@@ -174,7 +177,7 @@ video_area_draw_cb (GtkWidget *widget,
 	GtkAllocation       allocation;
 	GtkStyleContext    *style_context;
 
-	if (self->priv->xwin_assigned && self->priv->has_video)
+	if (self->priv->xwin_assigned && self->priv->has_video && self->priv->background_painted)
 		return FALSE;
 
 	gtk_widget_get_allocation (widget, &allocation);
@@ -237,6 +240,8 @@ video_area_draw_cb (GtkWidget *widget,
 		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 		cairo_fill (cr);
 	}
+
+	self->priv->background_painted = TRUE;
 
 	return TRUE;
 }
@@ -630,6 +635,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 
 	self->priv->area = gtk_drawing_area_new ();
 
+	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->area), "video-player");
+
 	/* do not use the rgba visual on the drawing area */
 	{
 	        GdkVisual *visual;
@@ -1005,6 +1012,7 @@ gth_media_viewer_page_real_show (GthViewerPage *base)
 	GthMediaViewerPage *self = GTH_MEDIA_VIEWER_PAGE (base);
 
 	self->priv->visible = TRUE;
+	self->priv->background_painted = FALSE;
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
 	create_playbin (self);
@@ -1072,6 +1080,7 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	self->priv->duration = 0;
 	self->priv->has_audio = FALSE;
 	self->priv->has_video = FALSE;
+	self->priv->background_painted = FALSE;
 
 	_g_object_unref (self->priv->icon);
 	self->priv->icon = NULL;
@@ -1273,6 +1282,7 @@ gth_media_viewer_page_init (GthMediaViewerPage *self)
 	self->priv->screensaver = gth_screensaver_new (NULL);
 	self->priv->visible = FALSE;
 	self->priv->screenshot_button = NULL;
+	self->priv->background_painted = FALSE;
 }
 
 

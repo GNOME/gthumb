@@ -122,3 +122,9 @@ GtkLabel.extension-name {
 GtkLabel.extension-description {
 	font-size: 80%;
 }
+
+/* -- video player -- */
+
+.video-player {
+	background-color: #000;
+}
