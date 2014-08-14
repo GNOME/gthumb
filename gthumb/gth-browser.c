@@ -5003,8 +5003,8 @@ gth_browser_add_header_bar_button (GthBrowser			*browser,
 {
 	GtkWidget *button;
 
-	g_return_if_fail (icon_name != NULL);
-	g_return_if_fail (action_name != NULL);
+	g_return_val_if_fail (icon_name != NULL, NULL);
+	g_return_val_if_fail (action_name != NULL, NULL);
 
 	button = _gtk_image_button_new_for_header_bar (icon_name);
 	_gth_browser_setup_header_bar_button (browser, section, icon_name, tooltip, action_name, accelerator, button);
@@ -5023,8 +5023,8 @@ gth_browser_add_header_bar_toggle_button (GthBrowser			*browser,
 {
 	GtkWidget *button;
 
-	g_return_if_fail (icon_name != NULL);
-	g_return_if_fail (action_name != NULL);
+	g_return_val_if_fail (icon_name != NULL, NULL);
+	g_return_val_if_fail (action_name != NULL, NULL);
 
 	button = _gtk_toggle_image_button_new_for_header_bar (icon_name);
 	_gth_browser_setup_header_bar_button (browser, section, icon_name, tooltip, action_name, accelerator, button);
