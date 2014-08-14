@@ -366,6 +366,9 @@ extensions/flicker_utils/preferences.h
 extensions/gstreamer_tools/actions.c
 extensions/gstreamer_tools/actions.h
 [type: gettext/glade]extensions/gstreamer_tools/data/ui/mediabar.ui
+[type: gettext/glade]extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui
+extensions/gstreamer_tools/dlg-media-viewer-preferences.c
+extensions/gstreamer_tools/dlg-media-viewer-preferences.h
 [type: gettext/ini]extensions/gstreamer_tools/gstreamer_tools.extension.in.in
 extensions/gstreamer_tools/gth-media-viewer-page.c
 extensions/gstreamer_tools/gth-media-viewer-page.h
