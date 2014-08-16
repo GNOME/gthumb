@@ -14,10 +14,10 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-05-14 08:15+0000\n"
-"PO-Revision-Date: 2014-05-14 10:34+0200\n"
+"POT-Creation-Date: 2014-08-15 20:24+0000\n"
+"PO-Revision-Date: 2014-08-16 12:43+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -339,7 +339,7 @@ msgstr "Pokud je to možné, uchovávat metadata v _souborech"
 
 #: ../data/ui/preferences.ui.h:18
 #: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
-#: ../extensions/gstreamer_tools/main.c:33
+#: ../extensions/gstreamer_tools/main.c:34
 msgid "Other"
 msgstr "Ostatní"
 
@@ -752,7 +752,7 @@ msgstr "Přejmenovat"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4276 ../gthumb/gth-file-properties.c:246
+#: ../gthumb/gth-browser.c:4280 ../gthumb/gth-file-properties.c:246
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -1065,6 +1065,7 @@ msgid "Add comments and tags to any file type."
 msgstr "Přidávání komentářů a štítků k libovolnému typu souboru."
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
+#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
 msgid "Preferences"
 msgstr "Předvolby"
@@ -2126,7 +2127,7 @@ msgstr "_Otevřít pomocí"
 
 #: ../extensions/file_manager/callbacks.c:883
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5182 ../gthumb/gth-browser.c:5215
+#: ../gthumb/gth-browser.c:5186 ../gthumb/gth-browser.c:5219
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Nelze provést tuto operaci"
@@ -2829,22 +2830,18 @@ msgstr ""
 msgid "Could not save the file"
 msgstr "Nelze uložit soubor"
 
-#: ../extensions/gstreamer_tools/actions.c:132
-msgid "Could not take a screenshot"
-msgstr "Nelze pořídit snímek obrazovky"
-
-#: ../extensions/gstreamer_tools/actions.c:138
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1461
-msgid "Save Image"
-msgstr "Uložení obrázku"
-
-#: ../extensions/gstreamer_tools/actions.c:166
+#: ../extensions/gstreamer_tools/actions.c:92
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Snímek obrazovky"
 
+#: ../extensions/gstreamer_tools/actions.c:128
+#: ../extensions/gstreamer_tools/actions.c:139
+msgid "Could not take a screenshot"
+msgstr "Nelze pořídit snímek obrazovky"
+
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:588
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:593
 msgid "Play"
 msgstr "Přehrát"
 
@@ -2864,6 +2861,10 @@ msgstr "Čas:"
 msgid "--:--"
 msgstr "--:--"
 
+#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:2
+msgid "_Screenshots location:"
+msgstr "Umístění _snímků obrazovky:"
+
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:1
 msgid "Audio/Video support"
 msgstr "Podpora zvuku/videa"
@@ -2872,69 +2873,69 @@ msgstr "Podpora zvuku/videa"
 msgid "Play audio and video files."
 msgstr "Přehrávání zvukových a video souborů."
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:558
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:563
 msgid "Playing video"
 msgstr "Přehrávání videa"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:571
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:576
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:623
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:628
 msgid "Take a screenshot"
 msgstr "Pořídit snímek obrazovky"
 
-#: ../extensions/gstreamer_tools/main.c:31
+#: ../extensions/gstreamer_tools/main.c:32
 #: ../gthumb/gth-main-default-tests.c:268
 msgid "Video"
 msgstr "Video"
 
-#: ../extensions/gstreamer_tools/main.c:32
+#: ../extensions/gstreamer_tools/main.c:33
 #: ../gthumb/gth-main-default-tests.c:275
 msgid "Audio"
 msgstr "Zvuk"
 
-#: ../extensions/gstreamer_tools/main.c:39
+#: ../extensions/gstreamer_tools/main.c:40
 msgid "Artist"
 msgstr "Umělec"
 
-#: ../extensions/gstreamer_tools/main.c:40
+#: ../extensions/gstreamer_tools/main.c:41
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Album"
 msgstr "Album"
 
-#: ../extensions/gstreamer_tools/main.c:41
+#: ../extensions/gstreamer_tools/main.c:42
 msgid "Bitrate"
 msgstr "Datový tok"
 
-#: ../extensions/gstreamer_tools/main.c:42
+#: ../extensions/gstreamer_tools/main.c:43
 msgid "Encoder"
 msgstr "Kodér"
 
-#: ../extensions/gstreamer_tools/main.c:44
-#: ../extensions/gstreamer_tools/main.c:49
+#: ../extensions/gstreamer_tools/main.c:45
+#: ../extensions/gstreamer_tools/main.c:50
 msgid "Codec"
 msgstr "Kodek"
 
-#: ../extensions/gstreamer_tools/main.c:45
+#: ../extensions/gstreamer_tools/main.c:46
 msgid "Framerate"
 msgstr "Snímková rychlost"
 
-#: ../extensions/gstreamer_tools/main.c:46
+#: ../extensions/gstreamer_tools/main.c:47
 #: ../extensions/image_print/data/ui/print-layout.ui.h:24
 msgid "Width"
 msgstr "Šířka"
 
-#: ../extensions/gstreamer_tools/main.c:47
+#: ../extensions/gstreamer_tools/main.c:48
 #: ../extensions/image_print/data/ui/print-layout.ui.h:25
 msgid "Height"
 msgstr "Výška"
 
-#: ../extensions/gstreamer_tools/main.c:50
+#: ../extensions/gstreamer_tools/main.c:51
 msgid "Channels"
 msgstr "Počet kanálů"
 
-#: ../extensions/gstreamer_tools/main.c:51
+#: ../extensions/gstreamer_tools/main.c:52
 msgid "Sample rate"
 msgstr "Vzorkovací rychlost"
 
@@ -3196,6 +3197,10 @@ msgstr "Kopírovat obrázek"
 #: ../extensions/image_viewer/gth-image-viewer-page.c:72
 msgid "Paste Image"
 msgstr "Vložit obrázek"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1461
+msgid "Save Image"
+msgstr "Uložení obrázku"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:2029
 msgid "Loading the original image"
@@ -4334,8 +4339,8 @@ msgid "Create static web albums."
 msgstr "Vytváření statických webových alb."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1087
-#: ../gthumb/gth-browser.c:1662 ../gthumb/gth-browser.c:6118
-#: ../gthumb/gth-browser.c:6137 ../gthumb/gth-browser.c:6161
+#: ../gthumb/gth-browser.c:1662 ../gthumb/gth-browser.c:6122
+#: ../gthumb/gth-browser.c:6141 ../gthumb/gth-browser.c:6165
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nelze načíst polohu „%s“"
@@ -4456,7 +4461,7 @@ msgstr "Získávají se informace o souboru"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3111
+#: ../gthumb/glib-utils.c:3142
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4468,7 +4473,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3120
+#: ../gthumb/glib-utils.c:3151
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4561,32 +4566,32 @@ msgstr "Nelze změnit název"
 msgid "Modified"
 msgstr "Změněno"
 
-#: ../gthumb/gth-browser.c:4233
+#: ../gthumb/gth-browser.c:4237
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
-#: ../gthumb/gth-browser.c:4239
+#: ../gthumb/gth-browser.c:4243
 msgid "Go to the next visited location"
 msgstr "Přejít na následující navštívené místo"
 
-#: ../gthumb/gth-browser.c:4251
+#: ../gthumb/gth-browser.c:4255
 msgid "History"
 msgstr "Historie"
 
-#: ../gthumb/gth-browser.c:4267
+#: ../gthumb/gth-browser.c:4271
 msgid "View the folders"
 msgstr "Zobrazit složky"
 
-#: ../gthumb/gth-browser.c:4282
+#: ../gthumb/gth-browser.c:4286
 msgid "Edit file"
 msgstr "Upravit soubor"
 
-#: ../gthumb/gth-browser.c:6119
+#: ../gthumb/gth-browser.c:6123
 #, c-format
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: ../gthumb/gth-browser.c:6162
+#: ../gthumb/gth-browser.c:6166
 #, c-format
 msgid "No suitable module found"
 msgstr "Nenalezen žádný použitelný modul"
