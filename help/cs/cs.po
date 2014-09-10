@@ -1903,7 +1903,7 @@ msgid ""
 "source code, which you can base your own extension on."
 msgstr ""
 "Jestliže si přejete napsat své vlastní rozšíření, navštivte prosím <link "
-"href=\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb/link>, "
+"href=\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</link>, "
 "kde najdete informace pro vývojáře. Jako součást zdrojového kódu je "
 "poskytován příklad rozšíření, ze kterého může to vaše vycházet."
 
