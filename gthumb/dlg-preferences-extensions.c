@@ -618,8 +618,6 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 					  GtkBuilder *dialog_builder)
 {
 	BrowserData          *data;
-	GtkWidget            *notebook;
-	GtkWidget            *page;
 	GthExtensionManager  *manager;
 	GList                *extensions;
 	GList                *descriptions;
@@ -627,6 +625,7 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	char                **all_active_extensions;
 	int                   i;
 	GtkWidget            *label;
+	GtkWidget            *page;
 
 	data = g_new0 (BrowserData, 1);
 	data->builder = _gtk_builder_new_from_file ("extensions-preferences.ui", NULL);
@@ -651,10 +650,6 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	}
 	data->active_extensions = g_list_reverse (data->active_extensions);
 	g_strfreev (all_active_extensions);
-
-	notebook = _gtk_builder_get_widget (dialog_builder, "notebook");
-	page = _gtk_builder_get_widget (data->builder, "preferences_page");
-	gtk_widget_show (page);
 
 	/* the extensions list */
 
@@ -739,7 +734,9 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	label = gtk_label_new (_("Extensions"));
 	gtk_widget_show (label);
 
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), page, label);
+	page = _gtk_builder_get_widget (data->builder, "preferences_page");
+	gtk_widget_show (page);
+	gtk_notebook_append_page (GTK_NOTEBOOK (_gtk_builder_get_widget (dialog_builder, "notebook")), page, label);
 
 	g_object_set_data_full (G_OBJECT (dialog), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

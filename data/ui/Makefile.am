@@ -1,5 +1,6 @@
 uidir = $(pkgdatadir)/ui
 ui_DATA = 				\
+	browser-preferences.ui		\
 	extensions-preferences.ui	\
 	filter-editor.ui		\
 	histogram-info.ui		\

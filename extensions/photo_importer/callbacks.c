@@ -164,7 +164,7 @@ pi__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	data->builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/photo_importer/data/ui/photo-importer-options.ui");
 	data->settings = g_settings_new (GTHUMB_PHOTO_IMPORTER_SCHEMA);
 
-	general_vbox = _gtk_builder_get_widget (dialog_builder, "general_vbox");
+	general_vbox = _gtk_builder_get_widget (dialog_builder, "general_page");
 	importer_options = _gtk_builder_get_widget (data->builder, "importer_options");
 	gtk_box_pack_start (GTK_BOX (general_vbox),
 			    importer_options,

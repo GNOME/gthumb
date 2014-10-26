@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 The Free Software Foundation, Inc.
+ *  Copyright (C) 2014 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,16 +19,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DLG_PREFERENCES_EXTENSIONS_H
-#define DLG_PREFERENCES_EXTENSIONS_H
+#ifndef DLG_PREFERENCES_GENERAL_H
+#define DLG_PREFERENCES_GENERAL_H
 
 #include "gth-browser.h"
 
-void extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
-					       GthBrowser *browser,
-					       GtkBuilder *dialog_builder);
-void extensions__dlg_preferences_apply        (GtkWidget  *dialog,
-		  	  	   	       GthBrowser *browser,
-		  	  	   	       GtkBuilder *dialog_builder);
+void general__dlg_preferences_construct_cb (GtkWidget  *dialog,
+					    GthBrowser *browser,
+					    GtkBuilder *dialog_builder);
+void general__dlg_preferences_apply        (GtkWidget  *dialog,
+		  	  	   	    GthBrowser *browser,
+		  	  	   	    GtkBuilder *dialog_builder);
 
-#endif /* DLG_PREFERENCES_EXTENSIONS_H */
+#endif /* DLG_PREFERENCES_GENERAL_H */

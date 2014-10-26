@@ -126,7 +126,9 @@ PUBLIC_HEADER_FILES = 					\
 	
 PRIVATE_HEADER_FILES = 					\
 	dlg-location.h					\
+	dlg-preferences-browser.h			\
 	dlg-preferences-extensions.h			\
+	dlg-preferences-general.h			\
 	gth-browser-actions-callbacks.h			\
 	gth-browser-actions-entries.h			\
 	gth-metadata-provider-file.h			\
@@ -155,7 +157,9 @@ gthumb_SOURCES = 					\
 	dlg-location.c					\
 	dlg-personalize-filters.c			\
 	dlg-preferences.c				\
+	dlg-preferences-browser.c			\
 	dlg-preferences-extensions.c			\
+	dlg-preferences-general.c			\
 	dlg-sort-order.c				\
 	dom.c						\
 	gio-utils.c					\
