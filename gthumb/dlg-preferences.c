@@ -94,6 +94,7 @@ dlg_preferences (GthBrowser *browser)
 	data->builder = _gtk_builder_new_from_file ("preferences.ui", NULL);
 	data->dialog = GET_WIDGET ("preferences_dialog");
 
+	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))), 0);
 	gth_browser_set_dialog (browser, "preferences", data->dialog);
 	gth_hook_invoke ("dlg-preferences-construct", data->dialog, data->browser, data->builder);
 
@@ -137,7 +138,7 @@ dlg_preferences (GthBrowser *browser)
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog),
+	g_signal_connect (data->dialog,
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
@@ -149,6 +150,5 @@ dlg_preferences (GthBrowser *browser)
 	/* run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 }
