@@ -29,6 +29,7 @@ data/org.gnome.gthumb.resize-images.gschema.xml.in
 data/org.gnome.gthumb.rotate.gschema.xml.in
 data/org.gnome.gthumb.slideshow.gschema.xml.in
 data/org.gnome.gthumb.webalbums.gschema.xml.in
+[type: gettext/glade]data/ui/browser-preferences.ui
 [type: gettext/glade]data/ui/extensions-preferences.ui
 [type: gettext/glade]data/ui/filter-editor.ui
 [type: gettext/glade]data/ui/histogram-info.ui
@@ -662,9 +663,13 @@ gthumb/dlg-location.c
 gthumb/dlg-location.h
 gthumb/dlg-personalize-filters.c
 gthumb/dlg-personalize-filters.h
+gthumb/dlg-preferences-browser.c
+gthumb/dlg-preferences-browser.h
 gthumb/dlg-preferences.c
 gthumb/dlg-preferences-extensions.c
 gthumb/dlg-preferences-extensions.h
+gthumb/dlg-preferences-general.c
+gthumb/dlg-preferences-general.h
 gthumb/dlg-preferences.h
 gthumb/dlg-sort-order.c
 gthumb/dlg-sort-order.h
