@@ -552,6 +552,7 @@ create_extensions_row (GthExtensionDescription	*description,
 	extension = gth_extension_description_get_extension (description);
 	if ((extension != NULL) && gth_extension_is_configurable (extension)) {
 		button = gtk_button_new_from_icon_name ("emblem-system-symbolic", GTK_ICON_SIZE_BUTTON);
+		gtk_widget_set_tooltip_text (button, _("Preferences"));
 		gtk_widget_set_valign (button, GTK_ALIGN_CENTER);
 		g_signal_connect (button,
 				  "clicked",
