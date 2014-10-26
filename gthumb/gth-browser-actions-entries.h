@@ -38,7 +38,7 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "go-forward", gth_browser_activate_go_forward },
 	{ "go-home", gth_browser_activate_go_home },
 	{ "go-to-history-position", gth_browser_activate_go_to_history_pos, "s", "''", NULL },
-	{ "go-to-location", gth_browser_activate_go_to_location, "s", "''", NULL },
+	{ "go-to-location", gth_browser_activate_go_to_location, "s", NULL, NULL },
 	{ "go-up", gth_browser_activate_go_up },
 	{ "reload", gth_browser_activate_reload },
 	{ "open-location", gth_browser_activate_open_location },
