@@ -522,6 +522,7 @@ create_extensions_row (GthExtensionDescription	*description,
 	g_object_set_data_full (G_OBJECT (row), "extension-row-data", row_data, (GDestroyNotify) row_data_free);
 
 	row_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (row_box), 10);
 	gtk_container_add (GTK_CONTAINER (row), row_box);
 
 	button = gtk_switch_new ();
@@ -558,7 +559,7 @@ create_extensions_row (GthExtensionDescription	*description,
 				  row_data);
 		gtk_box_pack_start (GTK_BOX (row_box), button, FALSE, FALSE, 0);
 	}
-	if (extension != NULL) {
+	if ((extension != NULL) && (g_strcmp0 (description->authors[0], _("gthumb development team")) != 0)) {
 		button = gtk_button_new_from_icon_name ("dialog-information-symbolic", GTK_ICON_SIZE_BUTTON);
 		gtk_widget_set_valign (button, GTK_ALIGN_CENTER);
 		g_signal_connect (button,
@@ -676,6 +677,8 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	for (scan = descriptions; scan; scan = scan->next) {
 		GthExtensionDescription *description = scan->data;
+		if (scan != descriptions)
+			_gtk_list_box_add_separator (GTK_LIST_BOX (data->extensions_list));
 		gtk_container_add (GTK_CONTAINER (data->extensions_list), create_extensions_row (description, data));
 	}
 

@@ -148,6 +148,9 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	/* widgets */
 
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("file_properties_position_combobox")),
+				  g_settings_get_boolean (data->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT) ? 1 : 0);
+
 	if (g_settings_get_boolean (data->browser_settings, PREF_BROWSER_USE_STARTUP_LOCATION))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_startup_location_radiobutton")), TRUE);
 	else

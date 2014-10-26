@@ -61,10 +61,15 @@ destroy_cb (GtkWidget *widget,
 
 
 static void
-close_button_clicked_cb (GtkWidget  *widget,
-			 DialogData *data)
+list_box_row_activated_cb (GtkListBox    *box,
+			   GtkListBoxRow *row,
+			   gpointer       user_data)
 {
-	gtk_widget_destroy (data->dialog);
+	DialogData *data = user_data;
+	int         page_num;
+
+	page_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (row), "gth.page_num"));
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET("notebook")), page_num);
 }
 
 
@@ -72,6 +77,12 @@ void
 dlg_preferences (GthBrowser *browser)
 {
 	DialogData       *data;
+	GtkWidget        *notebook;
+	GList            *children;
+	GList            *scan;
+	int               page_num;
+	GtkWidget        *list_box;
+	GtkTreeSelection *selection;
 
 	if (gth_browser_get_dialog (browser, "preferences") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "preferences")));
@@ -86,15 +97,53 @@ dlg_preferences (GthBrowser *browser)
 	gth_browser_set_dialog (browser, "preferences", data->dialog);
 	gth_hook_invoke ("dlg-preferences-construct", data->dialog, data->browser, data->builder);
 
+	/* widgets */
+
+	list_box = GET_WIDGET ("tabs_listbox");
+	notebook = GET_WIDGET ("notebook");
+	children = gtk_container_get_children (GTK_CONTAINER (notebook));
+	page_num = 0;
+	for (scan = children; scan; scan = scan->next) {
+		GtkWidget   *child = scan->data;
+		const char  *name;
+		GtkWidget   *row;
+		GtkWidget   *box;
+		GtkWidget   *label;
+
+		name = gtk_notebook_get_tab_label_text (GTK_NOTEBOOK (notebook), child);
+		if (name == NULL)
+			continue;
+
+		if (scan != children)
+			_gtk_list_box_add_separator (GTK_LIST_BOX (list_box));
+
+		row = gtk_list_box_row_new ();
+		g_object_set_data (G_OBJECT (row), "gth.page_num", GINT_TO_POINTER (page_num));
+		gtk_widget_show (row);
+		gtk_container_add (GTK_CONTAINER (list_box), row);
+
+		box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+		gtk_container_set_border_width (GTK_CONTAINER (box), 10);
+		gtk_widget_show (box);
+		gtk_container_add (GTK_CONTAINER (row), box);
+
+		label = gtk_label_new (name);
+		gtk_label_set_ellipsize (GTK_LABEL(label), PANGO_ELLIPSIZE_END);
+		gtk_widget_show (label);
+		gtk_container_add (GTK_CONTAINER (box), label);
+
+		page_num += 1;
+	}
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("close_button")),
-			  "clicked",
-			  G_CALLBACK (close_button_clicked_cb),
+	g_signal_connect (list_box,
+			  "row-activated",
+			  G_CALLBACK (list_box_row_activated_cb),
 			  data);
 
 	/* run dialog. */

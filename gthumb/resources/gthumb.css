@@ -121,6 +121,7 @@ GtkLabel.extension-name {
 
 GtkLabel.extension-description {
 	font-size: 80%;
+	color: @theme_unfocused_fg_color;
 }
 
 /* -- video player -- */

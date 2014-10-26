@@ -146,6 +146,7 @@ void		_gtk_window_add_accelerators_from_menu	   (GtkWindow		*window,
 							    GMenuModel		*menu);
 gboolean	_gtk_window_get_is_maximized 		   (GtkWindow		*window);
 GdkDevice *     _gtk_widget_get_client_pointer		   (GtkWidget		*widget);
+void            _gtk_list_box_add_separator		   (GtkListBox		*list_box);
 
 G_END_DECLS
 

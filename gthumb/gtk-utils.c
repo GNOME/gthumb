@@ -1229,3 +1229,20 @@ _gtk_widget_get_client_pointer (GtkWidget *widget)
 
 	return gdk_device_manager_get_client_pointer (device_manager);
 }
+
+
+void
+_gtk_list_box_add_separator (GtkListBox *list_box) {
+	GtkWidget *row;
+	GtkWidget *sep;
+
+	row = gtk_list_box_row_new ();
+	gtk_list_box_row_set_activatable (GTK_LIST_BOX_ROW (row), FALSE);
+	gtk_list_box_row_set_selectable (GTK_LIST_BOX_ROW (row), FALSE);
+	gtk_widget_show (row);
+	gtk_container_add (GTK_CONTAINER (list_box), row);
+
+	sep = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_widget_show (sep);
+	gtk_container_add (GTK_CONTAINER (row), sep);
+}

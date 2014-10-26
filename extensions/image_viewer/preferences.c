@@ -44,15 +44,6 @@ browser_data_free (BrowserData *data)
 
 
 static void
-zoom_quality_changed_cb (GtkComboBox *combo_box,
-			 BrowserData *data)
-{
-	g_settings_set_enum (data->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY, gtk_combo_box_get_active (combo_box));
-}
-
-
-
-static void
 zoom_change_changed_cb (GtkComboBox *combo_box,
 			BrowserData *data)
 {
@@ -65,6 +56,14 @@ reset_scrollbars_toggled_cb (GtkToggleButton *button,
 			     BrowserData     *data)
 {
 	g_settings_set_boolean (data->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS, gtk_toggle_button_get_active (button));
+}
+
+
+static void
+zoom_quality_radiobutton_toggled_cb (GtkToggleButton *button,
+				     BrowserData     *data)
+{
+	g_settings_set_enum (data->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY, (button == GET_WIDGET ("zoom_quality_high_radiobutton")) ? GTH_ZOOM_QUALITY_HIGH : GTH_ZOOM_QUALITY_LOW);
 }
 
 
@@ -92,16 +91,23 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				  g_settings_get_enum (data->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("toggle_reset_scrollbars")),
 				      g_settings_get_boolean (data->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("zoom_quality_combobox")),
-				  g_settings_get_enum (data->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
 
-	g_signal_connect (GET_WIDGET ("zoom_quality_combobox"),
-			  "changed",
-			  G_CALLBACK (zoom_quality_changed_cb),
-			  data);
+	if (g_settings_get_enum (data->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY) == GTH_ZOOM_QUALITY_LOW)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("zoom_quality_low_radiobutton")), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("zoom_quality_high_radiobutton")), TRUE);
+
 	g_signal_connect (GET_WIDGET ("change_zoom_combobox"),
 			  "changed",
 			  G_CALLBACK (zoom_change_changed_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("zoom_quality_low_radiobutton"),
+			  "toggled",
+			  G_CALLBACK (zoom_quality_radiobutton_toggled_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("zoom_quality_high_radiobutton"),
+			  "toggled",
+			  G_CALLBACK (zoom_quality_radiobutton_toggled_cb),
 			  data);
 	g_signal_connect (GET_WIDGET ("toggle_reset_scrollbars"),
 			  "toggled",

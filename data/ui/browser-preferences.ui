@@ -5,20 +5,35 @@
   <object class="GtkBox" id="browser_page">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="border_width">12</property>
     <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
-      <object class="GtkFrame" id="frame4">
+      <object class="GtkBox" id="box2">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label_xalign">0</property>
-        <property name="shadow_type">none</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkLabel" id="label4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">Caption</property>
+            <property name="use_markup">True</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkAlignment" id="alignment4">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="top_padding">6</property>
             <property name="left_padding">12</property>
             <child>
               <object class="GtkScrolledWindow" id="caption_scrolledwindow">
@@ -31,17 +46,11 @@
               </object>
             </child>
           </object>
-        </child>
-        <child type="label">
-          <object class="GtkLabel" id="label4">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Caption</property>
-            <property name="use_markup">True</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
       <packing>
@@ -51,16 +60,32 @@
       </packing>
     </child>
     <child>
-      <object class="GtkFrame" id="frame5">
+      <object class="GtkBox" id="box3">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label_xalign">0</property>
-        <property name="shadow_type">none</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkLabel" id="label8">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">Other</property>
+            <property name="use_markup">True</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkAlignment" id="alignment5">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="top_padding">6</property>
             <property name="left_padding">12</property>
             <child>
               <object class="GtkBox" id="box1">
@@ -147,17 +172,11 @@
               </object>
             </child>
           </object>
-        </child>
-        <child type="label">
-          <object class="GtkLabel" id="label8">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Other</property>
-            <property name="use_markup">True</property>
-            <attributes>
-              <attribute name="weight" value="bold"/>
-            </attributes>
-          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
       <packing>

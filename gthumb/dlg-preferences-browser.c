@@ -129,8 +129,6 @@ browser__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				  get_idx_from_size (g_settings_get_int (data->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE)));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("slow_mime_type_checkbutton")),
 				      ! g_settings_get_boolean (data->browser_settings, PREF_BROWSER_FAST_FILE_TYPE));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("file_properties_position_combobox")),
-				  g_settings_get_boolean (data->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT) ? 1 : 0);
 
 	/* signal handlers */
 
