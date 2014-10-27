@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&"
 "keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-10-06 20:34+0000\n"
-"PO-Revision-Date: 2014-10-24 22:20+0200\n"
+"POT-Creation-Date: 2014-10-26 21:18+0000\n"
+"PO-Revision-Date: 2014-10-27 05:36+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -142,6 +142,62 @@ msgid ""
 msgstr ""
 "U moguće vrednosti spadaju: general::unsorted, file::name, file::size, file::"
 "mtime, exif::photo::datetimeoriginal"
+
+#: ../data/ui/browser-preferences.ui.h:1
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
+#: ../extensions/image_print/data/ui/print-layout.ui.h:18
+msgid "Caption"
+msgstr "Naslov"
+
+#: ../data/ui/browser-preferences.ui.h:2 ../data/ui/preferences.ui.h:15
+#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
+#: ../extensions/gstreamer_tools/main.c:34
+msgid "Other"
+msgstr "Drugo"
+
+#: ../data/ui/browser-preferences.ui.h:3
+msgid "Thumbnail _size:"
+msgstr "Veličina umanjenog _prikaza:"
+
+#: ../data/ui/browser-preferences.ui.h:4
+msgid "48"
+msgstr "48"
+
+#: ../data/ui/browser-preferences.ui.h:5
+msgid "64"
+msgstr "64"
+
+#: ../data/ui/browser-preferences.ui.h:6
+msgid "85"
+msgstr "85"
+
+#: ../data/ui/browser-preferences.ui.h:7
+msgid "95"
+msgstr "95"
+
+#: ../data/ui/browser-preferences.ui.h:8
+msgid "112"
+msgstr "112"
+
+#: ../data/ui/browser-preferences.ui.h:9
+msgid "128"
+msgstr "128"
+
+#: ../data/ui/browser-preferences.ui.h:10
+msgid "164"
+msgstr "164"
+
+#: ../data/ui/browser-preferences.ui.h:11
+msgid "200"
+msgstr "200"
+
+#: ../data/ui/browser-preferences.ui.h:12
+msgid "256"
+msgstr "256"
+
+#: ../data/ui/browser-preferences.ui.h:13
+msgid "D_etermine image type from content (slower)"
+msgstr "Odredi vrstu slike iz _sadržaja (sporije)"
 
 #: ../data/ui/extensions-preferences.ui.h:1
 msgid "_Extensions:"
@@ -278,66 +334,60 @@ msgid "gThumb Preferences"
 msgstr "Postavke Gnomovog slička"
 
 #: ../data/ui/preferences.ui.h:4
-msgid "T_humbnails in viewer:"
-msgstr "Umanjen_i prikaz u pregledniku:"
-
-#: ../data/ui/preferences.ui.h:5
-msgid "on the bottom"
-msgstr "na dnu"
-
-#: ../data/ui/preferences.ui.h:6
-msgid "on the side"
-msgstr "bočno"
-
-#: ../data/ui/preferences.ui.h:7
-msgid "File _properties in browser:"
-msgstr "Osobine datoteke u _pregledniku:"
-
-#: ../data/ui/preferences.ui.h:8
 msgid "Appearance"
 msgstr "Izgled"
 
+#: ../data/ui/preferences.ui.h:5
+msgid "T_humbnails in viewer:"
+msgstr "Umanjen_i prikaz u pregledniku:"
+
+#: ../data/ui/preferences.ui.h:6
+msgid "on the bottom"
+msgstr "na dnu"
+
+#: ../data/ui/preferences.ui.h:7
+msgid "on the side"
+msgstr "bočno"
+
+#: ../data/ui/preferences.ui.h:8
+msgid "File _properties in browser:"
+msgstr "Osobine datoteke u _pregledniku:"
+
 #: ../data/ui/preferences.ui.h:9
-msgid "Go to last _visited location"
-msgstr "Idi na _zadnje posećeno mesto"
-
-#: ../data/ui/preferences.ui.h:10
-msgid "Go to this _folder:"
-msgstr "Idi u ovu _fasciklu:"
-
-#: ../data/ui/preferences.ui.h:11
-msgid "Choose startup folder"
-msgstr "Odaberi početnu fasciklu"
-
-#: ../data/ui/preferences.ui.h:12
-msgid "Set to C_urrent"
-msgstr "Postavi na tren_utno"
-
-#: ../data/ui/preferences.ui.h:13
-msgid "_Reuse the active window to open files"
-msgstr "_Ponovo koristi radni prozor za otvaranje datoteka"
-
-#: ../data/ui/preferences.ui.h:14
 msgid "On startup:"
 msgstr "Na pokretanju:"
 
-#: ../data/ui/preferences.ui.h:15
+#: ../data/ui/preferences.ui.h:10
+msgid "Go to last _visited location"
+msgstr "Idi na _zadnje posećeno mesto"
+
+#: ../data/ui/preferences.ui.h:11
+msgid "Go to this _folder:"
+msgstr "Idi u ovu _fasciklu:"
+
+#: ../data/ui/preferences.ui.h:12
+msgid "Choose startup folder"
+msgstr "Odaberi početnu fasciklu"
+
+#: ../data/ui/preferences.ui.h:13
+msgid "Set to C_urrent"
+msgstr "Postavi na tren_utno"
+
+#: ../data/ui/preferences.ui.h:14
+msgid "_Reuse the active window to open files"
+msgstr "_Ponovo koristi radni prozor za otvaranje datoteka"
+
+#: ../data/ui/preferences.ui.h:16
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "Zat_raži potvrdu pre brisanja datoteka ili zbirki"
 
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:17
 msgid "Ask whether to save _modified files"
 msgstr "Da pitam da li da sačuvam _izmenjene datoteke"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:18
 msgid "_Store metadata inside files if possible"
 msgstr "_Čuvaj metapodatke u datotekama ukoliko je moguće"
-
-#: ../data/ui/preferences.ui.h:18
-#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
-#: ../extensions/gstreamer_tools/main.c:34
-msgid "Other"
-msgstr "Drugo"
 
 #: ../data/ui/preferences.ui.h:19
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
@@ -346,60 +396,6 @@ msgstr "Drugo"
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
 msgid "General"
 msgstr "Opšte"
-
-#: ../data/ui/preferences.ui.h:20
-#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
-#: ../extensions/image_print/data/ui/print-layout.ui.h:18
-msgid "Caption"
-msgstr "Naslov"
-
-#: ../data/ui/preferences.ui.h:21
-msgid "Thumbnail _size:"
-msgstr "Veličina umanjenog _prikaza:"
-
-#: ../data/ui/preferences.ui.h:22
-msgid "48"
-msgstr "48"
-
-#: ../data/ui/preferences.ui.h:23
-msgid "64"
-msgstr "64"
-
-#: ../data/ui/preferences.ui.h:24
-msgid "85"
-msgstr "85"
-
-#: ../data/ui/preferences.ui.h:25
-msgid "95"
-msgstr "95"
-
-#: ../data/ui/preferences.ui.h:26
-msgid "112"
-msgstr "112"
-
-#: ../data/ui/preferences.ui.h:27
-msgid "128"
-msgstr "128"
-
-#: ../data/ui/preferences.ui.h:28
-msgid "164"
-msgstr "164"
-
-#: ../data/ui/preferences.ui.h:29
-msgid "200"
-msgstr "200"
-
-#: ../data/ui/preferences.ui.h:30
-msgid "256"
-msgstr "256"
-
-#: ../data/ui/preferences.ui.h:31
-msgid "D_etermine image type from content (slower)"
-msgstr "Odredi vrstu slike iz _sadržaja (sporije)"
-
-#: ../data/ui/preferences.ui.h:32 ../gthumb/dlg-preferences-extensions.c:72
-msgid "Browser"
-msgstr "Preglednik"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
@@ -454,6 +450,7 @@ msgstr "Dodaj podršku obeleživača."
 #: ../extensions/selections/selections.extension.in.in.h:3
 #: ../extensions/slideshow/slideshow.extension.in.in.h:3
 #: ../extensions/webalbums/webalbums.extension.in.in.h:3
+#: ../gthumb/dlg-preferences-extensions.c:563
 msgid "gthumb development team"
 msgstr "Razvojna družina Gnomovog slička"
 
@@ -786,7 +783,6 @@ msgid "Add to Catalog"
 msgstr "Dodaj u zbirku"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
-#| msgid "Sa_ve and Close"
 msgid "A_dd and Close"
 msgstr "_Dodaj i zatvori"
 
@@ -1063,6 +1059,7 @@ msgstr "Dodaj napomene i oznake u sve vrste datoteka."
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
+#: ../gthumb/dlg-preferences-extensions.c:555
 msgid "Preferences"
 msgstr "Postavke"
 
@@ -1192,7 +1189,7 @@ msgstr "Tekst"
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:2
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:3
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
 msgid "_Header:"
 msgstr "_Zaglavlje:"
@@ -1204,14 +1201,14 @@ msgstr "Izaberite slovni lik"
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
 #: ../extensions/image_print/data/ui/print-layout.ui.h:4
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:3
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:4
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
 msgid "_Footer:"
 msgstr "_Podnožje:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:1
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:2
 msgid "Caption:"
 msgstr "Naslov:"
 
@@ -2863,7 +2860,6 @@ msgid "--:--"
 msgstr "--:--"
 
 #: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:2
-#| msgid "Screenshots"
 msgid "_Screenshots location:"
 msgstr "Mesto _snimaka ekrana:"
 
@@ -3022,21 +3018,21 @@ msgstr "milimetri"
 msgid "inches"
 msgstr "inči"
 
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:4
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:1
+msgid "Fonts"
+msgstr "Slovni likovi"
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:5
 msgid "Select Caption Font"
 msgstr "Odaberite slovni lik natpisa"
 
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:5
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:6
 msgid "Select Header Font"
 msgstr "Odaberite slovni lik zaglavlja"
 
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:6
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:7
 msgid "Select Footer Font"
 msgstr "Odaberite slovni lik podnožja"
-
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:7
-msgid "Fonts"
-msgstr "Slovni likovi"
 
 #: ../extensions/image_print/gth-image-print-job.c:914
 #: ../extensions/webalbums/data/albumthemes/text.h:31
@@ -3140,51 +3136,54 @@ msgid "_Accept distortion"
 msgstr "_Prihvati izobličenja"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
+msgid "After loading an image:"
+msgstr "Posle učitavanja slike:"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 #: ../extensions/image_viewer/gth-image-viewer-page.c:828
 msgid "Set to actual size"
 msgstr "Postavi na pravu veličinu"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
 msgid "Keep previous zoom"
 msgstr "Zadrži prethodno uvećanje"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 #: ../extensions/image_viewer/gth-image-viewer-page.c:835
 msgid "Fit to window"
 msgstr "Poravnaj po prozoru"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
 msgid "Fit to window if larger"
 msgstr "Poravnaj po prozoru ako je veća"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
 #: ../extensions/image_viewer/gth-image-viewer-page.c:842
 msgid "Fit to width"
 msgstr "Poravnaj po širini"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
 msgid "Fit to width if larger"
 msgstr "Poravnaj po širini ako je veća"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
 msgid "Reset scrollbar positions"
 msgstr "Poništi položaj šina premicanja"
 
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
-msgid "After loading an image:"
-msgstr "Posle učitavanja slike:"
-
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
-msgid "High"
-msgstr "Visoko"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
-msgid "Low"
-msgstr "Nisko"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
 msgid "Zoom quality:"
 msgstr "Kvalitet uvećanja:"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
+#| msgid "High"
+msgctxt "zoom quality"
+msgid "_High"
+msgstr "_Visok"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
+msgctxt "zoom quality"
+msgid "_Low"
+msgstr "_Nizak"
 
 #: ../extensions/image_viewer/gth-image-histogram.c:85
 msgid "Histogram"
@@ -3214,7 +3213,7 @@ msgstr "Preglednik slika"
 msgid "Basic image viewing."
 msgstr "Osnovni pregled slika."
 
-#: ../extensions/image_viewer/preferences.c:111
+#: ../extensions/image_viewer/preferences.c:117
 msgid "Viewer"
 msgstr "Pregledač"
 
@@ -3674,12 +3673,12 @@ msgid "I_mport From"
 msgstr "U_vezi iz"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
-msgid "_Rotate the images physically"
-msgstr "_Okrenite slike fizički"
-
-#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
 msgid "After importing from a device:"
 msgstr "Posle uvoza sa uređaja:"
+
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
+msgid "_Rotate the images physically"
+msgstr "_Okrenite slike fizički"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
@@ -4059,7 +4058,6 @@ msgid "File search tool."
 msgstr "Alat pretrage."
 
 #: ../extensions/selections/callbacks.c:62
-#| msgid "Remove from Catalog"
 msgid "Remove from Selection"
 msgstr "Uklanja iz izbora"
 
@@ -4361,6 +4359,12 @@ msgstr "Novi uslov"
 msgid "Edit Filter"
 msgstr "Izmeni uslov"
 
+#. add the page to the preferences dialog
+#: ../gthumb/dlg-preferences-browser.c:150
+#: ../gthumb/dlg-preferences-extensions.c:72
+msgid "Browser"
+msgstr "Preglednik"
+
 #: ../gthumb/dlg-preferences-extensions.c:68 ../gthumb/gth-filterbar.c:270
 msgid "All"
 msgstr "Sve"
@@ -4407,24 +4411,24 @@ msgid "Could not deactivate the extension"
 msgstr "Nisam uspeo da isključim proširenje"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-extensions.c:739
+#: ../gthumb/dlg-preferences-extensions.c:738
 msgid "Extensions"
 msgstr "Proširenja"
 
-#: ../gthumb/dlg-preferences-extensions.c:786
+#: ../gthumb/dlg-preferences-extensions.c:787
 msgid "Restart required"
 msgstr "Potrebno je ponovno pokretanje"
 
-#: ../gthumb/dlg-preferences-extensions.c:787
+#: ../gthumb/dlg-preferences-extensions.c:788
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr ""
 "Treba ponovo da pokrenete Gnomovog slička da bi ove promene stupile na snagu"
 
-#: ../gthumb/dlg-preferences-extensions.c:788
+#: ../gthumb/dlg-preferences-extensions.c:789
 msgid "_Continue"
 msgstr "_Nastavi"
 
-#: ../gthumb/dlg-preferences-extensions.c:789
+#: ../gthumb/dlg-preferences-extensions.c:790
 msgid "_Restart"
 msgstr "_Ponovo pokreni"
 
@@ -4709,7 +4713,6 @@ msgid "(Open Parent)"
 msgstr "(Otvori nadfasciklu)"
 
 #: ../gthumb/gth-folder-tree.c:1881
-#| msgid "Enter the folder name:"
 msgid "Enter the new name:"
 msgstr "Unesite novo ime:"
 
@@ -5158,6 +5161,9 @@ msgstr "Sakrivene datoteke"
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
 msgstr "_Obriši istorijat"
+
+#~ msgid "Low"
+#~ msgstr "Nisko"
 
 #~ msgid "File is not a valid .desktop file"
 #~ msgstr "Ovo nije ispravna datoteka radne površi"
