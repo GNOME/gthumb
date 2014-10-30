@@ -1,7 +1,7 @@
 [Extension]
 _Name=Flicker
 _Description=Upload images to Flickr
-Authors=gthumb development team
+_Authors=gthumb development team
 Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Icon=site-flickr

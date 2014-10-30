@@ -1,7 +1,7 @@
 [Extension]
 _Name=Map
 _Description=View the photo position on the map
-Authors=gthumb development team
+_Authors=gthumb development team
 Copyright=Copyright © 2011-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Icon=map

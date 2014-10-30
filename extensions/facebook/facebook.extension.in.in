@@ -1,7 +1,7 @@
 [Extension]
 _Name=Facebook
 _Description=Upload images to Facebook
-Authors=gthumb development team
+_Authors=gthumb development team
 Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
 Version=%VERSION%
 Icon=site-facebook
