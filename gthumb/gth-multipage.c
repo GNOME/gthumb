@@ -34,22 +34,14 @@ enum {
 };
 
 
-enum {
-	ICON_COLUMN,
-	NAME_COLUMN,
-	CHILD_COLUMN,
-	N_COLUMNS
-};
-
-
 static guint gth_multipage_signals[LAST_SIGNAL] = { 0 };
 
 
 struct _GthMultipagePrivate {
-	GtkListStore *model;
-	GtkWidget    *combobox;
-	GtkWidget    *stack;
-	GList        *children;
+	GtkWidget *stack;
+	GtkWidget *switcher;
+	GList     *children;
+	GList     *boxes;
 };
 
 
@@ -64,6 +56,7 @@ gth_multipage_finalize (GObject *object)
 	multipage = GTH_MULTIPAGE (object);
 
 	g_list_free (multipage->priv->children);
+	g_list_free (multipage->priv->boxes);
 
 	G_OBJECT_CLASS (gth_multipage_parent_class)->finalize (object);
 }
@@ -94,25 +87,6 @@ gth_multipage_class_init (GthMultipageClass *klass)
 
 
 static void
-combobox_changed_cb (GtkComboBox *widget,
-		     gpointer     user_data)
-{
-	GthMultipage *multipage = user_data;
-	GtkTreeIter   iter;
-	GtkWidget    *child;
-
-	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (multipage->priv->combobox), &iter))
-		return;
-
-	gtk_tree_model_get (GTK_TREE_MODEL (multipage->priv->model), &iter,
-			    CHILD_COLUMN, &child,
-			    -1);
-	gtk_stack_set_visible_child (GTK_STACK (multipage->priv->stack), child);
-	g_signal_emit (G_OBJECT (multipage), gth_multipage_signals[CHANGED], 0);
-}
-
-
-static void
 multipage_realize_cb (GtkWidget *widget,
 		      gpointer   user_data)
 {
@@ -130,26 +104,38 @@ multipage_realize_cb (GtkWidget *widget,
 	switch (gtk_orientable_get_orientation (GTK_ORIENTABLE (orientable_parent))) {
 	case GTK_ORIENTATION_HORIZONTAL:
 		gtk_box_set_spacing (GTK_BOX (multipage), 0);
-		gtk_widget_set_margin_top (multipage->priv->combobox, 4);
-		gtk_widget_set_margin_bottom (multipage->priv->combobox, 4);
+		gtk_widget_set_margin_top (multipage->priv->switcher, 4);
+		gtk_widget_set_margin_bottom (multipage->priv->switcher, 4);
 		break;
 
 	case GTK_ORIENTATION_VERTICAL:
-		gtk_box_set_spacing (GTK_BOX (multipage), 6);
-		gtk_widget_set_margin_top (multipage->priv->combobox, 0);
-		gtk_widget_set_margin_bottom (multipage->priv->combobox, 0);
+		gtk_box_set_spacing (GTK_BOX (multipage), 0);
+		gtk_widget_set_margin_top (multipage->priv->switcher, 4);
+		gtk_widget_set_margin_bottom (multipage->priv->switcher, 4);
 		break;
 	}
 }
 
 
 static void
+visible_child_changed_cb (GObject    *playbin,
+			  GParamSpec *pspec,
+			  gpointer    user_data)
+{
+	GthMultipage *multipage = user_data;
+	g_signal_emit (G_OBJECT (multipage), gth_multipage_signals[CHANGED], 0);
+}
+
+
+static void
 gth_multipage_init (GthMultipage *multipage)
 {
+	GtkWidget       *switcher_box;
 	GtkCellRenderer *renderer;
 
 	multipage->priv = GTH_MULTIPAGE_GET_PRIVATE (multipage);
 	multipage->priv->children = NULL;
+	multipage->priv->boxes = NULL;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (multipage), GTK_ORIENTATION_VERTICAL);
 
@@ -157,47 +143,28 @@ gth_multipage_init (GthMultipage *multipage)
 			  "realize",
 			  G_CALLBACK (multipage_realize_cb),
 			  multipage);
-	multipage->priv->model = gtk_list_store_new (N_COLUMNS,
-						     G_TYPE_STRING,
-						     G_TYPE_STRING,
-						     G_TYPE_POINTER);
-	multipage->priv->combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (multipage->priv->model));
-	gtk_widget_show (multipage->priv->combobox);
-	gtk_box_pack_start (GTK_BOX (multipage), multipage->priv->combobox, FALSE, FALSE, 0);
-	g_object_unref (multipage->priv->model);
-
-	g_signal_connect (multipage->priv->combobox,
-			  "changed",
-			  G_CALLBACK (combobox_changed_cb),
-			  multipage);
-
-	/* icon renderer */
-
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	g_object_set (renderer, "follow-state", TRUE, NULL);
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (multipage->priv->combobox),
-				    renderer,
-				    FALSE);
-	gtk_cell_layout_set_attributes  (GTK_CELL_LAYOUT (multipage->priv->combobox),
-					 renderer,
-					 "icon-name", ICON_COLUMN,
-					 NULL);
-
-	/* name renderer */
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (multipage->priv->combobox),
-				    renderer,
-				    TRUE);
-	gtk_cell_layout_set_attributes  (GTK_CELL_LAYOUT (multipage->priv->combobox),
-					 renderer,
-					 "text", NAME_COLUMN,
-					 NULL);
 
 	/* stack */
 
 	multipage->priv->stack = gtk_stack_new ();
 	gtk_widget_show (multipage->priv->stack);
+
+	g_signal_connect (multipage->priv->stack,
+			  "notify::visible-child",
+			  G_CALLBACK (visible_child_changed_cb),
+			  multipage);
+
+	/* switcher */
+
+	multipage->priv->switcher = gtk_stack_switcher_new ();
+	gtk_widget_show (multipage->priv->switcher);
+	gtk_stack_switcher_set_stack (GTK_STACK_SWITCHER (multipage->priv->switcher), GTK_STACK (multipage->priv->stack));
+
+	switcher_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (switcher_box);
+	gtk_box_pack_start (GTK_BOX (switcher_box), multipage->priv->switcher, TRUE, FALSE, 0);
+
+	gtk_box_pack_end (GTK_BOX (multipage), switcher_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (multipage), multipage->priv->stack, TRUE, TRUE, 0);
 }
 
@@ -222,14 +189,14 @@ gth_multipage_add_child (GthMultipage      *multipage,
 	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (child), TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (child));
 	gtk_widget_show (box);
-	gtk_container_add (GTK_CONTAINER (multipage->priv->stack), box);
+	gtk_container_add_with_properties (GTK_CONTAINER (multipage->priv->stack),
+					   box,
+					   "name", gth_multipage_child_get_name (child),
+					   "title", gth_multipage_child_get_name (child),
+					   "icon-name", gth_multipage_child_get_icon (child),
+					   NULL);
 
-	gtk_list_store_append (GTK_LIST_STORE (multipage->priv->model), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (multipage->priv->model), &iter,
-			    NAME_COLUMN, gth_multipage_child_get_name (child),
-			    ICON_COLUMN, gth_multipage_child_get_icon (child),
-			    CHILD_COLUMN, box,
-			    -1);
+	multipage->priv->boxes = g_list_append (multipage->priv->boxes, box);
 }
 
 
@@ -244,14 +211,21 @@ void
 gth_multipage_set_current (GthMultipage *multipage,
 			   int           index_)
 {
-	gtk_combo_box_set_active (GTK_COMBO_BOX (multipage->priv->combobox), index_);
+	GtkWidget *child;
+
+	child = g_list_nth_data (multipage->priv->boxes, index_);
+	if (child != NULL)
+		gtk_stack_set_visible_child (GTK_STACK (multipage->priv->stack), child);
 }
 
 
 int
 gth_multipage_get_current (GthMultipage *multipage)
 {
-	return gtk_combo_box_get_active (GTK_COMBO_BOX (multipage->priv->combobox));
+	GtkWidget *child;
+
+	child = gtk_stack_get_visible_child (GTK_STACK (multipage->priv->stack));
+	return g_list_index (multipage->priv->boxes, child);
 }
 
 
