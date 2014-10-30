@@ -641,7 +641,7 @@ get_combo_box_arrow (GtkWidget *widget,
 static gboolean
 show_combo_box_arrow (GthLocationChooser *self)
 {
-	if (self->priv->relief == GTK_RELIEF_NONE)
+	if ((self->priv->arrow != NULL) && (self->priv->relief == GTK_RELIEF_NONE))
 		gtk_widget_show (self->priv->arrow);
 
 	return FALSE;
@@ -651,7 +651,7 @@ show_combo_box_arrow (GthLocationChooser *self)
 static gboolean
 hide_combo_box_arrow (GthLocationChooser *self)
 {
-	if (self->priv->relief == GTK_RELIEF_NONE)
+	if ((self->priv->arrow != NULL) && (self->priv->relief == GTK_RELIEF_NONE))
 		gtk_widget_hide (self->priv->arrow);
 
 	return FALSE;
@@ -688,7 +688,8 @@ gth_location_chooser_set_relief (GthLocationChooser *self,
 					  	  self);
 		}
 
-		gtk_widget_set_visible (self->priv->arrow, self->priv->relief != GTK_RELIEF_NONE);
+		if (self->priv->arrow != NULL)
+			gtk_widget_set_visible (self->priv->arrow, self->priv->relief != GTK_RELIEF_NONE);
 	}
 
 	g_object_notify (G_OBJECT (self), "relief");
