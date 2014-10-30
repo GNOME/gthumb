@@ -110,9 +110,6 @@
     <key name="properties-on-the-right" type="b">
       <default>false</default>
     </key>
-    <key name="properties-details" type="b">
-      <default>false</default>
-    </key>
     <key name="thumbnail-list-visible" type="b">
       <default>true</default>
     </key>

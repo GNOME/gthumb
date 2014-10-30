@@ -131,6 +131,7 @@ PRIVATE_HEADER_FILES = 					\
 	dlg-preferences-general.h			\
 	gth-browser-actions-callbacks.h			\
 	gth-browser-actions-entries.h			\
+	gth-file-details.h				\
 	gth-metadata-provider-file.h			\
 	dlg-personalize-filters.h			\
 	dlg-preferences.h				\
@@ -178,6 +179,7 @@ gthumb_SOURCES = 					\
 	gth-extensions.c				\
 	gth-file-chooser-dialog.c			\
 	gth-file-data.c					\
+	gth-file-details.c				\
 	gth-file-list.c					\
 	gth-file-properties.c				\
 	gth-file-selection.c				\
