@@ -712,6 +712,8 @@ gthumb/gth-file-chooser-dialog.c
 gthumb/gth-file-chooser-dialog.h
 gthumb/gth-file-data.c
 gthumb/gth-file-data.h
+gthumb/gth-file-details.c
+gthumb/gth-file-details.h
 gthumb/gth-file-list.c
 gthumb/gth-file-list.h
 gthumb/gth-file-properties.c
