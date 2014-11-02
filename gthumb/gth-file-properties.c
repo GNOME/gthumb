@@ -171,13 +171,17 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 		}
 
 		if (value != NULL) {
+			char *utf8_value;
 			char *tmp_value;
 
-			if (g_utf8_strlen (value, -1) > MAX_ATTRIBUTE_LENGTH)
-				g_utf8_strncpy (g_utf8_offset_to_pointer (value, MAX_ATTRIBUTE_LENGTH - 1), "…", 1);
-			tmp_value = _g_utf8_replace (value, "[\r\n]", " ");
+			utf8_value = _g_utf8_from_any (value);
+			if (g_utf8_strlen (utf8_value, -1) > MAX_ATTRIBUTE_LENGTH)
+				g_utf8_strncpy (g_utf8_offset_to_pointer (utf8_value, MAX_ATTRIBUTE_LENGTH - 1), "…", 1);
+			tmp_value = _g_utf8_replace (utf8_value, "[\r\n]", " ");
 			g_free (value);
 			value = tmp_value;
+
+			g_free (utf8_value);
 		}
 		tooltip = g_markup_printf_escaped ("%s: %s", _(info->display_name), value);
 

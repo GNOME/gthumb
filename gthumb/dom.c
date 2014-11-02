@@ -71,7 +71,22 @@ _g_xml_attribute_quote (char *value)
 
 	g_return_val_if_fail (value != NULL, NULL);
 
-  	escaped = g_markup_escape_text (value, -1);
+	if (! g_utf8_validate (value, -1, NULL)) {
+		char *temp;
+
+		temp = g_locale_to_utf8 (value, -1, NULL, NULL, NULL);
+		if (temp == NULL)
+			temp = g_utf16_to_utf8 ((gunichar2 *) value, -1, NULL, NULL, NULL);
+
+		if (temp != NULL) {
+			escaped = g_markup_escape_text (temp, -1);
+			g_free (temp);
+		}
+		else
+			escaped = g_strdup (value);
+	}
+	else
+		escaped = g_markup_escape_text (value, -1);
 
   	dest = g_string_new ("\"");
 	for (p = escaped; (*p); p++) {
@@ -700,18 +715,29 @@ dom_domizable_load_from_element (DomDomizable *self,
 
 
 /* GMarkupParser converts \r into \n, this function compares two strings
- * treating \r characters as they were equal to \n */
+ * treating \r characters as they were equal to \n.  Furthermore treats invalid
+ * utf8 strings as null values. */
 gboolean
 dom_str_equal (const char *a,
 	       const char *b)
 {
 	const char *ai, *bi;
+	gboolean    a_valid, b_valid;
+
+	if ((a != NULL) && ! g_utf8_validate (a, -1, NULL))
+		a = NULL;
+
+	if ((b != NULL) && ! g_utf8_validate (b, -1, NULL))
+		b = NULL;
 
 	if ((a == NULL) && (b == NULL))
 		return TRUE;
 
 	if ((a == NULL) || (b == NULL))
 		return FALSE;
+
+	if (g_utf8_collate (a, b) == 0)
+		return TRUE;
 
 	ai = a;
 	bi = b;
@@ -728,12 +754,12 @@ dom_str_equal (const char *a,
 			/* \r\n equal to \n */
 
 			if ((*ai == '\r') && (*(ai + 1) == '\n') && (*bi == '\n') && (*(bi + 1) != '\n'))
-				ai++;
+				ai = g_utf8_next_char (ai);
 			if ((*bi == '\r') && (*(bi + 1) == '\n') && (*ai == '\n') && (*(ai + 1) != '\n'))
-				ai++;
+				ai = g_utf8_next_char (ai);
 		}
-		ai++;
-		bi++;
+		ai = g_utf8_next_char (ai);
+		bi = g_utf8_next_char (bi);
 	}
 
 	/* 'end of string' equal to \n and to \r\n */
@@ -743,4 +769,12 @@ dom_str_equal (const char *a,
 		|| ((*bi == '\0') && (*ai == '\n') && (*(ai + 1) == '\0'))
 		|| ((*ai == '\0') && (*bi == '\r') && (*(bi + 1) == '\n') && (*(bi + 2) == '\0'))
 		|| ((*bi == '\0') && (*ai == '\r') && (*(ai + 1) == '\n') && (*(ai + 2) == '\0')));
+}
+
+
+int
+dom_str_find (const char *a,
+              const char *b)
+{
+	return dom_str_equal (a, b) ? 0 : -1;
 }

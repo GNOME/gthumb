@@ -39,7 +39,7 @@
 using namespace std;
 
 
-#define INVALID_VALUE "---"
+#define INVALID_VALUE N_("(invalid value)")
 
 
 /* Some bits of information may be contained in more than one metadata tag.
@@ -451,6 +451,8 @@ set_attribute_from_metadata (GFileInfo  *info,
 	char *formatted_value;
 	char *raw_value;
 	char *type_name;
+	char *formatted_value_utf8;
+	char *raw_value_utf8;
 
 	if (metadata == NULL)
 		return;
@@ -462,14 +464,19 @@ set_attribute_from_metadata (GFileInfo  *info,
 		      "value-type", &type_name,
 		      NULL);
 
+	formatted_value_utf8 = _g_utf8_try_from_any (formatted_value);
+	raw_value_utf8 = _g_utf8_try_from_any (raw_value);
+
 	set_file_info (info,
 		       attribute,
 		       description,
-		       formatted_value,
-		       raw_value,
+		       formatted_value_utf8,
+		       raw_value_utf8,
 		       NULL,
 		       type_name);
 
+	g_free (raw_value_utf8);
+	g_free (formatted_value_utf8);
 	g_free (description);
 	g_free (formatted_value);
 	g_free (raw_value);
@@ -528,11 +535,16 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 
 	if (GTH_IS_METADATA (metadata) && (gth_metadata_get_data_type (GTH_METADATA (metadata)) != GTH_METADATA_TYPE_STRING_LIST)) {
 		char           *raw;
+		char           *utf8_raw;
 		char          **keywords;
 		GthStringList  *string_list;
 
 		g_object_get (metadata, "raw", &raw, NULL);
-		keywords = g_strsplit (raw, ",", -1);
+		utf8_raw = _g_utf8_try_from_any (raw);
+		if (utf8_raw == NULL)
+			return;
+
+		keywords = g_strsplit (utf8_raw, ",", -1);
 		string_list = gth_string_list_new_from_strv (keywords);
 		metadata = (GObject *) gth_metadata_new_for_string_list (string_list);
 		g_file_info_set_attribute_object (info, attribute, metadata);
@@ -541,6 +553,7 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 		g_object_unref (string_list);
 		g_strfreev (keywords);
 		g_free (raw);
+		g_free (utf8_raw);
 	}
 	else
 		g_file_info_set_attribute_object (info, attribute, metadata);

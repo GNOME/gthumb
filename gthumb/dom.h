@@ -187,6 +187,8 @@ void          dom_domizable_load_from_element       (DomDomizable  *self,
 
 gboolean      dom_str_equal                         (const char    *a,
 						     const char    *b);
+int           dom_str_find			    (const char    *a,
+						     const char    *b);
 
 G_END_DECLS
 

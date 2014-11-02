@@ -526,8 +526,9 @@ char *
 gth_file_data_get_attribute_as_string (GthFileData *file_data,
 				       const char  *id)
 {
-	char    *value = NULL;
 	GObject *obj;
+	char    *value = NULL;
+	char    *utf8_value;
 
 	switch (g_file_info_get_attribute_type (file_data->info, id)) {
 	case G_FILE_ATTRIBUTE_TYPE_OBJECT:

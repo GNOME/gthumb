@@ -149,6 +149,15 @@ gboolean
 gth_string_list_equal (GthStringList  *list1,
 		       GthStringList  *list2)
 {
+	return gth_string_list_equal_custom (list1, list2, (GCompareFunc) strcmp);
+}
+
+
+gboolean
+gth_string_list_equal_custom (GthStringList  *list1,
+			      GthStringList  *list2,
+			      GCompareFunc    compare_func)
+{
 	GList *keys1;
 	GList *keys2;
 	GList *scan;
@@ -165,7 +174,7 @@ gth_string_list_equal (GthStringList  *list1,
 		return FALSE;
 
 	for (scan = keys1; scan; scan = scan->next)
-		if (! g_list_find_custom (keys2, scan->data, (GCompareFunc) strcmp))
+		if (! g_list_find_custom (keys2, scan->data, compare_func))
 			return FALSE;
 
 	return TRUE;

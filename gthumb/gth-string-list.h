@@ -58,6 +58,9 @@ char *            gth_string_list_join                (GthStringList  *list,
 						       const char     *separator);
 gboolean          gth_string_list_equal               (GthStringList  *list1,
 						       GthStringList  *list2);
+gboolean	  gth_string_list_equal_custom	      (GthStringList  *list1,
+						       GthStringList  *list2,
+						       GCompareFunc    compare_func);
 void              gth_string_list_append              (GthStringList  *list1,
 		       	       	       	       	       GthStringList  *list2);
 void              gth_string_list_concat              (GthStringList  *list1,

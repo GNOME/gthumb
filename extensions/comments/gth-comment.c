@@ -638,8 +638,12 @@ gth_comment_update_from_general_attributes (GthFileData *file_data)
 	if (metadata != NULL) {
 		text = g_file_info_get_attribute_string (file_data->info, "comment::note");
 		if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
-			gth_comment_set_note (comment, gth_metadata_get_formatted (metadata));
-			write_comment = TRUE;
+			char *value = _g_utf8_try_from_any (gth_metadata_get_formatted (metadata));
+			if (value != NULL) {
+				gth_comment_set_note (comment, value);
+				g_free (value);
+				write_comment = TRUE;
+			}
 		}
 	}
 
@@ -647,8 +651,12 @@ gth_comment_update_from_general_attributes (GthFileData *file_data)
 	if (metadata != NULL) {
 		text = g_file_info_get_attribute_string (file_data->info, "comment::caption");
 		if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
-			gth_comment_set_caption (comment, gth_metadata_get_formatted (metadata));
-			write_comment = TRUE;
+			char *value = _g_utf8_try_from_any (gth_metadata_get_formatted (metadata));
+			if (value != NULL) {
+				gth_comment_set_caption (comment, value);
+				g_free (value);
+				write_comment = TRUE;
+			}
 		}
 	}
 
@@ -656,8 +664,12 @@ gth_comment_update_from_general_attributes (GthFileData *file_data)
 	if (metadata != NULL) {
 		text = g_file_info_get_attribute_string (file_data->info, "comment::place");
 		if (! dom_str_equal (gth_metadata_get_formatted (metadata), text)) {
-			gth_comment_set_place (comment, gth_metadata_get_formatted (metadata));
-			write_comment = TRUE;
+			char *value = _g_utf8_try_from_any (gth_metadata_get_formatted (metadata));
+			if (value != NULL) {
+				gth_comment_set_place (comment, value);
+				g_free (value);
+				write_comment = TRUE;
+			}
 		}
 	}
 
@@ -680,12 +692,17 @@ gth_comment_update_from_general_attributes (GthFileData *file_data)
 	if (categories != NULL) {
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
 		comment_categories = gth_metadata_get_string_list (metadata);
-		if (! gth_string_list_equal (categories, comment_categories)) {
+		if (! gth_string_list_equal_custom (categories, comment_categories, (GCompareFunc) dom_str_find)) {
 			GList *scan;
 
 			gth_comment_clear_categories (comment);
-			for (scan = gth_string_list_get_list (categories); scan; scan = scan->next)
-				gth_comment_add_category (comment, scan->data);
+			for (scan = gth_string_list_get_list (categories); scan; scan = scan->next) {
+				char *value = _g_utf8_try_from_any (scan->data);
+				if (value != NULL) {
+					gth_comment_add_category (comment, value);
+					g_free (value);
+				}
+			}
 			write_comment = TRUE;
 		}
 	}

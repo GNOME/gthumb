@@ -1029,6 +1029,42 @@ _g_utf8_remove_extension (const char *str)
 }
 
 
+char *
+_g_utf8_try_from_any (const char *str)
+{
+	char *utf8_str;
+
+	if (str == NULL)
+		return NULL;
+
+	if (! g_utf8_validate (str, -1, NULL)) {
+		utf8_str = g_locale_to_utf8 (str, -1, NULL, NULL, NULL);
+		if (utf8_str == NULL)
+			utf8_str = g_utf16_to_utf8 ((gunichar2 *) str, -1, NULL, NULL, NULL);
+	}
+	else
+		utf8_str = g_strdup (str);
+
+	return utf8_str;
+}
+
+
+char *
+_g_utf8_from_any (const char *str)
+{
+	char *utf8_str;
+
+	if (str == NULL)
+		return NULL;
+
+	utf8_str = _g_utf8_try_from_any (str);
+	if (utf8_str == NULL)
+		utf8_str = g_strdup (_("(invalid value)"));
+
+	return utf8_str;
+}
+
+
 static int
 remove_from_file_list_and_get_position (GList **file_list,
 					GFile  *file)
