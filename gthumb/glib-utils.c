@@ -865,6 +865,62 @@ _g_replace_pattern (const char *utf8_text,
 }
 
 
+int
+_g_utf8_first_ascii_space (const char *str)
+{
+	const char *pos;
+
+	pos = str;
+	while (pos != NULL) {
+		gunichar c = g_utf8_get_char (pos);
+		if (c == 0)
+			break;
+		if (g_ascii_isspace (c))
+			return g_utf8_pointer_to_offset (str, pos);
+		pos = g_utf8_next_char (pos);
+	}
+
+	return -1;
+}
+
+
+gboolean
+_g_utf8_has_prefix (const char  *string,
+		    const char  *prefix)
+{
+	char     *substring;
+	gboolean  result;
+
+	if (string == NULL)
+		return FALSE;
+	if (prefix == NULL)
+		return TRUE;
+
+	substring = g_utf8_substring (string, 0, g_utf8_strlen (prefix, -1));
+	if (substring == NULL)
+		return FALSE;
+
+	result = g_utf8_collate (substring, prefix) == 0;
+	g_free (substring);
+
+	return result;
+}
+
+
+char *
+_g_utf8_remove_prefix (const char *string,
+		       int         prefix_length)
+{
+	int str_length;
+
+	str_length = g_utf8_strlen (string, -1);
+	if (str_length <= prefix_length)
+		return NULL;
+
+	return g_utf8_substring (string, prefix_length, str_length);
+}
+
+
 char *
 _g_utf8_replace (const char  *string,
 		 const char  *pattern,
@@ -1037,11 +1093,8 @@ _g_utf8_try_from_any (const char *str)
 	if (str == NULL)
 		return NULL;
 
-	if (! g_utf8_validate (str, -1, NULL)) {
+	if (! g_utf8_validate (str, -1, NULL))
 		utf8_str = g_locale_to_utf8 (str, -1, NULL, NULL, NULL);
-		if (utf8_str == NULL)
-			utf8_str = g_utf16_to_utf8 ((gunichar2 *) str, -1, NULL, NULL, NULL);
-	}
 	else
 		utf8_str = g_strdup (str);
 

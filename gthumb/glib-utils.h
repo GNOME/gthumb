@@ -180,6 +180,11 @@ char *          _g_replace                       (const char  *str,
 char *          _g_replace_pattern               (const char  *utf8_text,
 						  gunichar     pattern,
 						  const char  *value);
+int             _g_utf8_first_ascii_space        (const char  *string);
+gboolean        _g_utf8_has_prefix               (const char  *string,
+						  const char  *prefix);
+char *		_g_utf8_remove_prefix		 (const char  *string,
+						  int         prefix_length);
 char *          _g_utf8_replace                  (const char  *string,
 						  const char  *pattern,
 						  const char  *replacement);

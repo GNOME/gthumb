@@ -244,38 +244,42 @@ create_metadata (const char *key,
 		 const char *category,
 		 const char *type_name)
 {
+	char            *formatted_value_utf8;
 	char            *attribute;
 	GthMetadataInfo *metadata_info;
 	GthMetadata     *metadata;
 	char            *description_utf8;
-	char            *formatted_value_utf8;
 
-	if (_g_utf8_all_spaces (formatted_value))
+	formatted_value_utf8 = _g_utf8_from_any (formatted_value);
+	if (_g_utf8_all_spaces (formatted_value_utf8))
 		return NULL;
 
+	description_utf8 = _g_utf8_from_any (description);
+
 	attribute = exiv2_key_to_attribute (key);
-	description_utf8 = g_locale_to_utf8 (description, -1, NULL, NULL, NULL);
 	if (attribute_is_date (attribute)) {
 		GTimeVal time_;
+
+		g_free (formatted_value_utf8);
+		formatted_value_utf8 = NULL;
 
 		if (_g_time_val_from_exif_date (raw_value, &time_))
 			formatted_value_utf8 = _g_time_val_strftime (&time_, "%x %X");
 		else
 			formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
-		if (formatted_value_utf8 == NULL)
-			formatted_value_utf8 = g_strdup (INVALID_VALUE);
 	}
-	else {
-		const char *formatted_clean;
+	else if (_g_utf8_has_prefix (formatted_value_utf8, "lang=")) {
+		int   pos;
+		char *formatted_clean;
 
-		if (strncmp (formatted_value, "lang=", 5) == 0)
-			formatted_clean = strchr (formatted_value, ' ') + 1;
-		else
-			formatted_clean = formatted_value;
-		formatted_value_utf8 = g_locale_to_utf8 (formatted_clean, -1, NULL, NULL, NULL);
-		if (formatted_value_utf8 == NULL)
-			formatted_value_utf8 = g_strdup (INVALID_VALUE);
+		pos = _g_utf8_first_ascii_space (formatted_value_utf8);
+		formatted_clean = _g_utf8_remove_prefix (formatted_value_utf8, pos + 1);
+		g_free (formatted_value_utf8);
+		formatted_value_utf8 = formatted_clean;
 	}
+
+	if (formatted_value_utf8 == NULL)
+		formatted_value_utf8 = g_strdup (INVALID_VALUE);
 
 	metadata_info = gth_main_get_metadata_info (attribute);
 	if ((metadata_info == NULL) && (category != NULL)) {
@@ -464,19 +468,14 @@ set_attribute_from_metadata (GFileInfo  *info,
 		      "value-type", &type_name,
 		      NULL);
 
-	formatted_value_utf8 = _g_utf8_try_from_any (formatted_value);
-	raw_value_utf8 = _g_utf8_try_from_any (raw_value);
-
 	set_file_info (info,
 		       attribute,
 		       description,
-		       formatted_value_utf8,
-		       raw_value_utf8,
+		       formatted_value,
+		       raw_value,
 		       NULL,
 		       type_name);
 
-	g_free (raw_value_utf8);
-	g_free (formatted_value_utf8);
 	g_free (description);
 	g_free (formatted_value);
 	g_free (raw_value);

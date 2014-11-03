@@ -59,12 +59,59 @@ test_regexp (void)
 	}
 	b[j] = NULL;
 	attributes = g_strjoinv (",", b);
-	g_print ("==> %s\n", attributes);
+
+	g_assert_cmpstr (attributes, ==, "Exif::Image::DateTime,File::Size");
 
 	g_free (attributes);
 	g_free (b);
 	g_strfreev (a);
 	g_regex_unref (re);
+}
+
+
+static void
+test_g_utf8_has_prefix (void)
+{
+	g_assert_true (_g_utf8_has_prefix ("lang=正體字/繁體字 中华人民共和国", "lang="));
+}
+
+
+static void
+test_g_utf8_first_space (void)
+{
+	g_assert_cmpint (_g_utf8_first_ascii_space (NULL), ==, -1);
+	g_assert_cmpint (_g_utf8_first_ascii_space (""), ==, -1);
+	g_assert_cmpint (_g_utf8_first_ascii_space ("lang=FR langue d’oïl"), ==, 7);
+	g_assert_cmpint (_g_utf8_first_ascii_space ("正體字"), ==, -1);
+	g_assert_cmpint (_g_utf8_first_ascii_space ("lang=正體字/繁體字 中华人民共和国"), ==, 12);
+}
+
+
+static void
+test_remove_lang_from_utf8_string (const char *value,
+				   const char *expected)
+{
+	char *result = NULL;
+
+	if (_g_utf8_has_prefix (value, "lang=")) {
+		int pos = _g_utf8_first_ascii_space (value);
+		if (pos > 0)
+			result = _g_utf8_remove_prefix (value, pos + 1);
+	}
+
+	g_assert_true (result != NULL);
+	g_assert_true (g_utf8_collate (result, expected) == 0);
+
+	g_free (result);
+}
+
+
+static void
+test_remove_lang_from_utf8_string_all (void)
+{
+	test_remove_lang_from_utf8_string ("lang=EN hello", "hello");
+	test_remove_lang_from_utf8_string ("lang=FR langue d’oïl", "langue d’oïl");
+	test_remove_lang_from_utf8_string ("lang=正體字/繁體字 中华人民共和国", "中华人民共和国");
 }
 
 
@@ -75,8 +122,10 @@ main (int   argc,
 	g_test_init (&argc, &argv, NULL);
 
 	g_test_add_func ("/glib-utils/_g_rand_string/1", test_g_rand_string);
-
-	test_regexp ();
+	g_test_add_func ("/glib-utils/regex", test_regexp);
+	g_test_add_func ("/glib-utils/_g_utf8_has_prefix/1", test_g_utf8_has_prefix);
+	g_test_add_func ("/glib-utils/_g_utf8_first_space/1", test_g_utf8_first_space);
+	g_test_add_func ("/glib-utils/remove_lang_from_utf8_string/1", test_remove_lang_from_utf8_string_all);
 
 	return g_test_run ();
 }
