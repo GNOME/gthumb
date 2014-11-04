@@ -14,10 +14,10 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-10-28 21:19+0000\n"
-"PO-Revision-Date: 2014-10-29 07:29+0100\n"
+"POT-Creation-Date: 2014-11-04 09:20+0000\n"
+"PO-Revision-Date: 2014-11-04 21:13+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -417,16 +417,7 @@ msgstr "23"
 msgid "Upload images to 23hq.com"
 msgstr "Odesílání obrázků na 23hq.com."
 
-#: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
-#: ../extensions/bookmarks/callbacks.c:326
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
-msgid "Bookmarks"
-msgstr "Záložky"
-
-#: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
-msgid "Add bookmarks support."
-msgstr "Přidává podporu záložek."
-
+#: ../extensions/23hq/23hq.extension.in.in.h:3
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:3
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:3
 #: ../extensions/catalogs/catalogs.extension.in.in.h:3
@@ -437,15 +428,20 @@ msgstr "Přidává podporu záložek."
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:3
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:3
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:3
+#: ../extensions/facebook/facebook.extension.in.in.h:3
 #: ../extensions/file_manager/file_manager.extension.in.in.h:3
 #: ../extensions/file_tools/file_tools.extension.in.in.h:3
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:3
+#: ../extensions/flicker/flicker.extension.in.in.h:3
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:3
 #: ../extensions/image_print/image_print.extension.in.in.h:3
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:3
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:3
 #: ../extensions/list_tools/list_tools.extension.in.in.h:3
+#: ../extensions/map_view/map_view.extension.in.in.h:3
+#: ../extensions/photobucket/photobucket.extension.in.in.h:3
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:3
+#: ../extensions/picasaweb/picasaweb.extension.in.in.h:3
 #: ../extensions/raw_files/raw_files.extension.in.in.h:3
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:3
 #: ../extensions/rename_series/rename_series.extension.in.in.h:3
@@ -457,6 +453,16 @@ msgstr "Přidává podporu záložek."
 #: ../gthumb/dlg-preferences-extensions.c:563
 msgid "gthumb development team"
 msgstr "vývojářský tým gThumb"
+
+#: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
+#: ../extensions/bookmarks/callbacks.c:326
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
+msgid "Bookmarks"
+msgstr "Záložky"
+
+#: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
+msgid "Add bookmarks support."
+msgstr "Přidává podporu záložek."
 
 #: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:1
 msgid "_Add Bookmark"
@@ -749,7 +755,7 @@ msgstr "Přejmenovat"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4280 ../gthumb/gth-file-properties.c:246
+#: ../gthumb/gth-browser.c:4280 ../gthumb/gth-file-properties.c:254
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -961,10 +967,10 @@ msgid "Could not remove the files from the catalog"
 msgstr "Nelze odstranit vybrané soubory z katalogu"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1380
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:861
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:870
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:900
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1431
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:873
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:882
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:912
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1443
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Neplatný formát souboru"
@@ -1663,7 +1669,11 @@ msgstr "Podpora EXIF, IPTC, XMP"
 msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Číst a zapisovat metadata exif, iptc a xmp."
 
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:698
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:42 ../gthumb/glib-utils.c:1115
+msgid "(invalid value)"
+msgstr "(neplatná hodnota)"
+
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:710
 msgid "Exposure"
 msgstr "Expozice"
 
@@ -4467,7 +4477,7 @@ msgstr "Získávají se informace o souboru"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3142
+#: ../gthumb/glib-utils.c:3231
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4479,7 +4489,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3151
+#: ../gthumb/glib-utils.c:3240
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4616,7 +4626,7 @@ msgstr "Rozšíření „%1$s“ je vyžadováno rozšířením „%2$s“"
 msgid "All Supported Files"
 msgstr "Všechny podporované soubory"
 
-#: ../gthumb/gth-file-properties.c:416
+#: ../gthumb/gth-file-details.c:43
 msgid "Details"
 msgstr "Podrobnosti"
 
