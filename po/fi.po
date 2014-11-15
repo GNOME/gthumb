@@ -1,5 +1,5 @@
 # gthumb Finnish translation
-# Suomennos: http://gnome.fi/
+# Suomennos: https://l10n.gnome.org/teams/fi/
 # Copyright (C) 2004 Free Software Foundation, Inc.
 # Ville Pohjanheimo <vpohjanheimo@hotmail.com>, 2004,.
 # Sami Pesonen <sampeson@iki.fi>, 2004.
@@ -10,9 +10,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
-"cgi?product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-19 13:22+0000\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-11-07 09:23+0000\n"
 "PO-Revision-Date: 2014-05-04 02:10+0300\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -149,8 +149,8 @@ msgstr "Avaa uusi ikkuna"
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:1
 msgid "Possible values are: white, black, checked, none."
 msgstr ""
-"Sallittuja arvoja ovat: \"white\" (valkoinen), \"black\" (musta), "
-"\"checked\" (ruudut), \"none\" (ei mitään)."
+"Sallittuja arvoja ovat: \"white\" (valkoinen), \"black\" (musta), \"checked"
+"\" (ruudut), \"none\" (ei mitään)."
 
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:2
 #, fuzzy
@@ -172,8 +172,8 @@ msgstr "Sallittuja arvoja ovat: \"high\" (korkea), \"low\" (heikko)."
 
 #: ../data/org.gnome.gthumb.rename-series.gschema.xml.in.h:1
 msgid ""
-"Possible values include: general::unsorted, file::name, file::size, "
-"file::mtime, exif::photo::datetimeoriginal"
+"Possible values include: general::unsorted, file::name, file::size, file::"
+"mtime, exif::photo::datetimeoriginal"
 msgstr ""
 
 #: ../data/ui/extensions-preferences.ui.h:1
@@ -933,7 +933,7 @@ msgstr "Uusi _kirjasto"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
 #: ../extensions/file_manager/actions.c:944
-#: ../extensions/webalbums/gth-web-exporter.c:1840
+#: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "_Näytä kohde"
 
@@ -1221,7 +1221,8 @@ msgstr "Asetukset"
 msgid "_Synchronize with the embedded metadata"
 msgstr "_Päivitä tiedostojen upotettu metadata samaksi"
 
-#: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:100
+#: ../extensions/comments/main.c:35
+#: ../extensions/edit_metadata/callbacks.c:100
 msgid "Comment"
 msgstr "Kommentti"
 
@@ -1392,7 +1393,6 @@ msgstr "_Alatunniste:"
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:1
-#| msgid "Caption"
 msgid "Caption:"
 msgstr "Kuvateksti:"
 
@@ -2071,7 +2071,7 @@ msgstr "Kuvat lähetetty onnistuneesti palvelimelle."
 #: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:2
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
-#: ../extensions/webalbums/gth-web-exporter.c:1839
+#: ../extensions/webalbums/gth-web-exporter.c:1841
 msgid "_Open in the Browser"
 msgstr "_Avaa selaimessa"
 
@@ -2299,12 +2299,14 @@ msgstr "Kansiota ei voida siirtää roskakoriin. Poistetaanko se pysyvästi?"
 msgid "Could not move the folder to the Trash"
 msgstr "Kansion siirtäminen roskakoriin ei onnistunut"
 
-#: ../extensions/file_manager/actions.c:816 ../gthumb/gth-file-source-vfs.c:841
+#: ../extensions/file_manager/actions.c:816
+#: ../gthumb/gth-file-source-vfs.c:841
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Haluatko varmasti poistaa tiedoston \"%s\"?"
 
-#: ../extensions/file_manager/actions.c:826 ../gthumb/gth-file-source-vfs.c:854
+#: ../extensions/file_manager/actions.c:826
+#: ../gthumb/gth-file-source-vfs.c:854
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Jos poistat tiedoston, se katoaa pysyvästi."
 
@@ -3386,7 +3388,7 @@ msgstr "Mono"
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1270
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:243
-#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:1037
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:1037
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3460,17 +3462,14 @@ msgid "Select Caption Font"
 msgstr "Valitse kuvatekstin fontti"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
-#| msgid "Select Caption Font"
 msgid "Select Header Font"
 msgstr "Valitse ylätunnisteen fontti"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:6
-#| msgid "Select Caption Font"
 msgid "Select Footer Font"
 msgstr "Valitse alatunnisteen fontti"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:7
-#| msgid "Font"
 msgid "Fonts"
 msgstr "Fontit"
 
@@ -3504,7 +3503,7 @@ msgid "Loading \"%s\""
 msgstr "Ladataan \"%s\""
 
 #: ../extensions/image_print/gth-load-image-info-task.c:166
-#: ../extensions/webalbums/gth-web-exporter.c:2719
+#: ../extensions/webalbums/gth-web-exporter.c:2721
 msgid "Loading images"
 msgstr "Ladataan kuvia"
 
@@ -3548,8 +3547,8 @@ msgstr ""
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:143
-#: ../extensions/webalbums/gth-web-exporter.c:2338
-#: ../extensions/webalbums/gth-web-exporter.c:2423
+#: ../extensions/webalbums/gth-web-exporter.c:2340
+#: ../extensions/webalbums/gth-web-exporter.c:2425
 msgid "Saving images"
 msgstr "Tallennetaan kuvia"
 
@@ -3583,8 +3582,8 @@ msgstr ""
 "lähistöllä, koska kuvan mittasuhteet eivät ole 8:n kerrannaisia.\n"
 "\n"
 "Vääristymä on kuitenkin palautettavissa. Jos muunnoksesta seuraava kuva ei "
-"ole hyväksyttävä, tee vain käänteismuunnos palauttaaksesi alkuperäisen kuvan."
-"\n"
+"ole hyväksyttävä, tee vain käänteismuunnos palauttaaksesi alkuperäisen "
+"kuvan.\n"
 "\n"
 "Voit myös hylätä (tai rajata) muuntamiseen kelpaamattomat reunakuvapisteet. "
 "Käytännön työssä tämä tapa antaa parhaimman näköiset tulokset, mutta muunnos "
@@ -4909,36 +4908,36 @@ msgstr "Näytä seuraavat tiedot:"
 msgid "Image Attributes"
 msgstr "Kuvan tiedot"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1800
+#: ../extensions/webalbums/gth-web-exporter.c:1802
 msgid "Could not show the destination"
 msgstr "Kohdesijaintia ei voitu näyttää"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1836
+#: ../extensions/webalbums/gth-web-exporter.c:1838
 msgid "The album has been created successfully."
 msgstr "Uusi albumi on luotu onnistuneesti."
 
-#: ../extensions/webalbums/gth-web-exporter.c:2104
-#: ../extensions/webalbums/gth-web-exporter.c:2132
+#: ../extensions/webalbums/gth-web-exporter.c:2106
+#: ../extensions/webalbums/gth-web-exporter.c:2134
 msgid "Saving thumbnails"
 msgstr "Tallennetaan pienoiskuvia"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2160
+#: ../extensions/webalbums/gth-web-exporter.c:2162
 msgid "Saving HTML pages: Images"
 msgstr "Tallennetaan HTML-sivuja: Kuvia"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2218
+#: ../extensions/webalbums/gth-web-exporter.c:2220
 msgid "Saving HTML pages: Indexes"
 msgstr "Tallennetaan HTML-sivuja: kuvaluettelot"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2503
+#: ../extensions/webalbums/gth-web-exporter.c:2505
 msgid "Copying original images"
 msgstr "Kopioidaan alkuperäisiä kuvia"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2963
+#: ../extensions/webalbums/gth-web-exporter.c:2965
 msgid "Could not find the style folder"
 msgstr "Tyylikansiota ei löytynyt"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3001
+#: ../extensions/webalbums/gth-web-exporter.c:3003
 msgid "Could not create a temporary folder"
 msgstr "Väliaikaiskansion luonti ei onnistunut"
 
@@ -5126,7 +5125,7 @@ msgstr ""
 "Ville Pohjanheimo, 2004-2005\n"
 "Sami Pesonen, 2004\n"
 "\n"
-"http://gnome.fi/"
+"https://l10n.gnome.org/teams/fi/"
 
 #: ../gthumb/gth-browser-actions-entries.h:31
 msgid "_File"
