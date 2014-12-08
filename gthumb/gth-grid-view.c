@@ -1472,13 +1472,17 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		GdkRGBA color;
 
 		gtk_style_context_get_background_color (style_context, item_state, &color);
-		cairo_set_source_rgba (cr, color.red, color.green, color.blue, 0.33);
+		cairo_set_source_rgba (cr, color.red, color.green, color.blue, 0.5);
 		cairo_rectangle (cr,
 				 frame_rect.x,
 				 frame_rect.y,
 				 frame_rect.width,
 				 frame_rect.height);
-		cairo_fill (cr);
+		cairo_fill_preserve (cr);
+
+		cairo_set_line_width (cr, 2);
+		cairo_set_source_rgb (cr, color.red, color.green, color.blue);
+		cairo_stroke (cr);
 	}
 
 	gtk_style_context_restore (style_context);
