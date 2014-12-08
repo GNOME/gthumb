@@ -777,7 +777,10 @@ gth_image_preloader_load (GthImagePreloader	 *self,
 	va_list      args;
 
 #ifdef DEBUG_PRELOADER
-	g_print ("request %s @%d\n", g_file_get_uri (requested->file), requested_size);
+	if (requested != NULL)
+		g_print ("request %s @%d\n", g_file_get_uri (requested->file), requested_size);
+	else
+		g_print ("request modified image @%d\n", requested_size);
 #endif
 
 	request = load_request_new (self);
