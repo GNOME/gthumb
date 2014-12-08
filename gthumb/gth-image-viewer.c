@@ -914,7 +914,6 @@ scroll_to (GthImageViewer *self,
 
 	window = gtk_widget_get_window (GTK_WIDGET (self));
 	gdk_window_scroll (window, -delta_x, -delta_y);
-	gdk_window_process_updates (window, TRUE);
 }
 
 
