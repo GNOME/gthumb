@@ -41,13 +41,6 @@
 
 
 enum {
-	EXTENSION_DESCRIPTION_COLUMN,
-	EXTENSION_ORIGINAL_STATUS_COLUMN,
-	EXTENSION_COLUMNS
-};
-
-
-enum {
 	CATEGORY_ID_COLUMN,
 	CATEGORY_NAME_COLUMN,
 	CATEGORY_ICON_COLUMN,
@@ -161,43 +154,6 @@ list_equal (GList *list1,
 	}
 
 	return TRUE;
-}
-
-
-static void
-extension_description_data_func_cb (GtkTreeViewColumn *tree_column,
-				    GtkCellRenderer   *cell,
-				    GtkTreeModel      *tree_model,
-				    GtkTreeIter       *iter,
-				    gpointer           user_data)
-{
-	GthExtensionDescription *description;
-	char                    *text;
-
-	gtk_tree_model_get (tree_model, iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
-
-	text = g_markup_printf_escaped ("<b>%s</b>\n<small>%s</small>", description->name, description->description);
-	g_object_set (G_OBJECT (cell), "markup", text, NULL);
-	g_object_set (G_OBJECT (cell), "sensitive", gth_extension_description_is_active (description), NULL);
-
-	g_free (text);
-	g_object_unref (description);
-}
-
-
-static void
-extension_active_data_func_cb (GtkTreeViewColumn *tree_column,
-		 	       GtkCellRenderer   *cell,
-			       GtkTreeModel      *tree_model,
-			       GtkTreeIter       *iter,
-			       gpointer           user_data)
-{
-	GthExtensionDescription *description;
-
-	gtk_tree_model_get (tree_model, iter, EXTENSION_DESCRIPTION_COLUMN, &description, -1);
-	g_object_set (G_OBJECT (cell), "active", gth_extension_description_is_active (description), NULL);
-
-	g_object_unref (description);
 }
 
 
@@ -387,38 +343,6 @@ category_view_separator_func (GtkTreeModel *model,
 
 	gtk_tree_model_get (model, iter, CATEGORY_SEPARATOR_COLUMN, &separator, -1);
 	return separator;
-}
-
-
-static gboolean
-category_model_visible_func (GtkTreeModel *model,
-			     GtkTreeIter  *iter,
-			     gpointer      user_data)
-{
-	BrowserData             *data = user_data;
-	GthExtensionDescription *description;
-	gboolean                 original_status_is_active;
-	gboolean                 visible;
-
-	if (strcmp (data->current_category, EXTENSION_CATEGORY_ALL) == 0)
-		return TRUE;
-
-	gtk_tree_model_get (model, iter,
-			    EXTENSION_DESCRIPTION_COLUMN, &description,
-			    EXTENSION_ORIGINAL_STATUS_COLUMN, &original_status_is_active,
-			    -1);
-
-	visible = FALSE;
-	if ((strcmp (data->current_category, EXTENSION_CATEGORY_ENABLED) == 0) && original_status_is_active)
-		visible = TRUE;
-	else if ((strcmp (data->current_category, EXTENSION_CATEGORY_DISABLED) == 0) && ! original_status_is_active)
-		visible = TRUE;
-	else
-		visible = g_strcmp0 (description->category, data->current_category) == 0;
-
-	g_object_unref (description);
-
-	return visible;
 }
 
 
