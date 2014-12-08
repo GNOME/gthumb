@@ -416,8 +416,8 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	if (viewer_page == NULL)
 		return NULL;
 
-	cairo_surface_destroy (self->priv->destination);
-	cairo_surface_destroy (self->priv->preview);
+	_cairo_clear_surface (&self->priv->destination);
+	_cairo_clear_surface (&self->priv->preview);
 
 	source = gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	if (source == NULL)
