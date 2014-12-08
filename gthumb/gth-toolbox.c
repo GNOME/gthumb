@@ -135,7 +135,7 @@ gth_toolbox_init (GthToolbox *toolbox)
 	GtkWidget *grid_box;
 	GtkWidget *options_box;
 	GtkWidget *options_header;
-	GtkWidget *header_align;
+	GtkWidget *header_sep;
 
 	toolbox->priv = G_TYPE_INSTANCE_GET_PRIVATE (toolbox, GTH_TYPE_TOOLBOX, GthToolboxPrivate);
 
@@ -193,12 +193,12 @@ gth_toolbox_init (GthToolbox *toolbox)
 	gtk_widget_show (options_box);
 	gtk_stack_add_named (GTK_STACK (toolbox), options_box, GTH_TOOLBOX_PAGE_OPTIONS);
 
-	header_align = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (header_align), 5, 5, 0, 0);
-
 	options_header = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_widget_set_margin_left (options_header, 10);
+	gtk_widget_set_margin_right (options_header, 10);
+	gtk_widget_set_margin_top (options_header, 10);
+	gtk_widget_set_margin_bottom (options_header, 10);
 	gtk_widget_show (options_header);
-	gtk_container_add (GTK_CONTAINER (header_align), options_header);
 
 	toolbox->priv->options_icon = gtk_image_new ();
 	gtk_widget_show (toolbox->priv->options_icon);
@@ -209,11 +209,15 @@ gth_toolbox_init (GthToolbox *toolbox)
 	gtk_widget_show (toolbox->priv->options_title);
 	gtk_box_pack_start (GTK_BOX (options_header), toolbox->priv->options_title, FALSE, FALSE, 0);
 
-	gtk_widget_show (header_align);
-	gtk_box_pack_start (GTK_BOX (options_box), header_align, FALSE, FALSE, 0);
+	gtk_widget_show (options_header);
+	gtk_box_pack_start (GTK_BOX (options_box), options_header, FALSE, FALSE, 0);
+
+	header_sep = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_widget_show (header_sep);
+	gtk_box_pack_start (GTK_BOX (options_box), header_sep, FALSE, FALSE, 0);
 
 	toolbox->priv->options = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_SHADOW_IN);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_SHADOW_NONE);
 	gtk_widget_show (toolbox->priv->options);
 	gtk_box_pack_start (GTK_BOX (options_box), toolbox->priv->options, TRUE, TRUE, 0);
 }
@@ -320,7 +324,11 @@ gth_toolbox_new (const char *name)
 {
 	GtkWidget *toolbox;
 
-	toolbox = g_object_new (GTH_TYPE_TOOLBOX, "name", name, NULL);
+	toolbox = g_object_new (GTH_TYPE_TOOLBOX,
+			        "name", name,
+			        "transition-type", GTK_STACK_TRANSITION_TYPE_NONE,
+			        "homogeneous", FALSE,
+			        NULL);
 	_gth_toolbox_add_children (GTH_TOOLBOX (toolbox));
 
 	return toolbox;
