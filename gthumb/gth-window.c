@@ -355,11 +355,11 @@ gth_window_attach (GthWindow     *window,
 		break;
 	case GTH_WINDOW_INFOBAR:
 		window->priv->infobar = child;
-		position = 3;
+		position = 4;
 		break;
 	case GTH_WINDOW_STATUSBAR:
 		window->priv->statusbar = child;
-		position = 4;
+		position = 3;
 		break;
 	default:
 		return;
