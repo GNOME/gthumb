@@ -207,6 +207,10 @@ different_quality_ready_cb (GObject		*source_object,
 	int		    original_width;
 	int		    original_height;
 	GError		   *error = NULL;
+	cairo_surface_t    *s1;
+	cairo_surface_t    *s2;
+	int                 w1, h1, w2, h2;
+	gboolean            got_better_quality;
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -228,31 +232,26 @@ different_quality_ready_cb (GObject		*source_object,
 		goto clear_data;
 
 	/* check whether the image is of different quality */
-	{
-		cairo_surface_t *s1;
-		cairo_surface_t *s2;
-		int              w1, h1, w2, h2;
 
-		s1 = gth_image_get_cairo_surface (image);
-		s2 = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
-		w1 = cairo_image_surface_get_width (s1);
-		h1 = cairo_image_surface_get_height (s1);
-		w2 = cairo_image_surface_get_width (s2);
-		h2 = cairo_image_surface_get_height (s2);
+	s1 = gth_image_get_cairo_surface (image);
+	s2 = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+	w1 = cairo_image_surface_get_width (s1);
+	h1 = cairo_image_surface_get_height (s1);
+	w2 = cairo_image_surface_get_width (s2);
+	h2 = cairo_image_surface_get_height (s2);
+	got_better_quality = ((w1 > w2) || (h1 > h2));
 
-		cairo_surface_destroy (s1);
-
-		if ((w1 == w2) && (h1 == h2))
-			goto clear_data;
+	if (got_better_quality) {
+		gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
+		gth_image_viewer_set_better_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
+						     image,
+						     original_width,
+						     original_height);
+		gth_image_viewer_set_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer), requested_size);
+		gtk_widget_queue_draw (self->priv->viewer);
 	}
 
-	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
-	gth_image_viewer_set_better_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
-					     image,
-					     original_width,
-					     original_height);
-	gth_image_viewer_set_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer), requested_size);
-	gtk_widget_queue_draw (self->priv->viewer);
+	cairo_surface_destroy (s1);
 
 clear_data:
 
