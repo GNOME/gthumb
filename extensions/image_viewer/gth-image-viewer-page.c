@@ -33,6 +33,7 @@
 #define N_HEADER_BAR_BUTTONS 3
 #define HIDE_OVERVIEW_TIMEOUT 2 /* in seconds */
 #define OVERLAY_MARGIN 10
+#undef ALWAYS_LOAD_ORIGINAL_SIZE
 
 
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
@@ -324,6 +325,7 @@ update_quality_cb (gpointer user_data)
 static void
 update_image_quality_if_required (GthImageViewerPage *self)
 {
+#ifndef ALWAYS_LOAD_ORIGINAL_SIZE
 	GthImage *image;
 
 	if (self->priv->loading_image || gth_sidebar_tool_is_active (GTH_SIDEBAR (gth_browser_get_viewer_sidebar (self->priv->browser))))
@@ -341,6 +343,7 @@ update_image_quality_if_required (GthImageViewerPage *self)
 	self->priv->update_quality_id = g_timeout_add (UPDATE_QUALITY_DELAY,
 						       update_quality_cb,
 						       self);
+#endif
 }
 
 
@@ -1133,7 +1136,11 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->file_data,
+#ifdef ALWAYS_LOAD_ORIGINAL_SIZE
+				  GTH_ORIGINAL_SIZE,
+#else
 				  _gth_image_preloader_get_requested_size_for_next_images (self),
+#endif
 				  NULL,
 				  preloader_load_ready_cb,
 				  self,
