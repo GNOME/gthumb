@@ -281,7 +281,7 @@ gth_image_dragger_draw (GthImageViewerTool *self,
 					       viewer->image_area.x,
 					       viewer->image_area.y,
 					       &viewer->visible_area,
-					       gth_image_viewer_get_zoom_quality_filter (viewer));
+					       CAIRO_FILTER_FAST);
 
 	gth_image_viewer_apply_painters (viewer, cr);
 }
@@ -506,7 +506,7 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 		return;
 	}
 
-	if (gth_image_viewer_get_zoom_quality (self->priv->viewer) == GTH_ZOOM_QUALITY_LOW) {
+	if (gth_image_viewer_get_zoom_quality_filter (self->priv->viewer) == CAIRO_FILTER_FAST) {
 		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 		return;
 	}

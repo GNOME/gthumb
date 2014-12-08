@@ -2095,7 +2095,7 @@ gth_image_viewer_get_zoom_quality_filter (GthImageViewer *viewer)
 	else
 		filter = CAIRO_FILTER_BEST;
 
-	if (gth_image_viewer_get_zoom (viewer) == 1.0)
+	if (gth_image_viewer_get_zoom (viewer) >= 1.0)
 		filter = CAIRO_FILTER_FAST;
 
 	return filter;
