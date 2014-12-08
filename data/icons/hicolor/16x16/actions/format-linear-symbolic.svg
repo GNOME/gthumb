@@ -13,7 +13,7 @@
    height="16"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91pre2 r13564 custom"
    sodipodi:docname="format-linear-symbolic.svg">
   <defs
      id="defs4">
@@ -97,15 +97,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.627417"
-     inkscape:cx="4.5751751"
-     inkscape:cy="9.4909278"
+     inkscape:zoom="45.254834"
+     inkscape:cx="8.1865136"
+     inkscape:cy="7.2158114"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:snap-grids="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1134"
+     inkscape:window-width="1680"
+     inkscape:window-height="984"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -134,7 +134,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -144,15 +144,15 @@
      id="layer1"
      transform="translate(-31.97559,-220.36218)">
     <rect
-       style="fill:#bebebe;fill-opacity:1;stroke:none;opacity:0.25"
+       style="opacity:0.25;fill:#bebebe;fill-opacity:1;stroke:none"
        id="rect3032"
-       width="12"
-       height="12"
-       x="2.02441"
-       y="2.00002"
+       width="14"
+       height="14"
+       x="1.02441"
+       y="1.00002"
        transform="translate(31.97559,220.36218)" />
     <path
-       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#bebebe;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#bebebe;fill-opacity:1;stroke:none;stroke-width:1px;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans;stroke-opacity:1"
        d="m 45.88184,221.86218 a 0.50005,0.50005 0 0 0 -0.25,0.15625 l -12,12 a 0.50005,0.50005 0 1 0 0.71875,0.6875 l 12,-12 a 0.50005,0.50005 0 0 0 -0.46875,-0.84375 z"
        id="path3820"
        inkscape:connector-curvature="0" />
