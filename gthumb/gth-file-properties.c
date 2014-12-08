@@ -442,7 +442,7 @@ gth_file_properties_init (GthFileProperties *self)
 	gtk_widget_show (vpaned);
 	gtk_box_pack_start (GTK_BOX (self), vpaned, TRUE, TRUE, 0);
 
-	properties_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 5);
+	properties_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (properties_box);
 	gtk_paned_pack1 (GTK_PANED (vpaned), properties_box, TRUE, FALSE);
 
@@ -455,7 +455,7 @@ gth_file_properties_init (GthFileProperties *self)
 
 	button_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
 	gtk_widget_show (button_box);
-	gtk_box_pack_start (GTK_BOX (properties_box), button_box, FALSE, FALSE, 2);
+	gtk_box_pack_start (GTK_BOX (properties_box), button_box, FALSE, FALSE, 0);
 
 	self->priv->tree_view = gtk_tree_view_new ();
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (self->priv->tree_view), FALSE);
