@@ -442,6 +442,7 @@ viewer_image_changed_cb (GtkWidget          *widget,
 			 GthImageViewerPage *self)
 {
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
+	update_image_quality_if_required (self);
 	update_overview_visibility (self);
 	update_zoom_info (self);
 }
