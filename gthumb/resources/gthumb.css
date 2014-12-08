@@ -12,8 +12,8 @@ GthGridView.cell:selected:focus {
 GthEmptyList.frame {
 	border-style: solid;
 	border-color: @borders;
-	border-width: 1px;
-	border-radius: 2px;
+	border-width: 0px;
+	border-radius: 0px;
 	padding: 0;
 }
 
