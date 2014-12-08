@@ -63,7 +63,7 @@ static void
 zoom_quality_radiobutton_toggled_cb (GtkToggleButton *button,
 				     BrowserData     *data)
 {
-	g_settings_set_enum (data->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY, (button == GET_WIDGET ("zoom_quality_high_radiobutton")) ? GTH_ZOOM_QUALITY_HIGH : GTH_ZOOM_QUALITY_LOW);
+	g_settings_set_enum (data->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY, (GTK_WIDGET (button) == GET_WIDGET ("zoom_quality_high_radiobutton")) ? GTH_ZOOM_QUALITY_HIGH : GTH_ZOOM_QUALITY_LOW);
 }
 
 
