@@ -1111,9 +1111,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 
 	file_store = gth_browser_get_file_store (self->priv->browser);
 	if (gth_file_store_find_visible (file_store, self->priv->file_data->file, &iter)) {
-		GtkTreeIter      next_iter;
-		gboolean         thumbnail_available;
-		cairo_surface_t *thumbnail;
+		GtkTreeIter next_iter;
 
 		next_iter = iter;
 		for (i = 0; i < N_PRELOADERS; i++) {
@@ -1129,35 +1127,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 			prev_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
 		}
 
-		thumbnail_available = FALSE;
-		gtk_tree_model_get (GTK_TREE_MODEL (file_store),
-				    &iter,
-				    GTH_FILE_STORE_THUMBNAIL_COLUMN,
-				    &thumbnail,
-				    -1);
-
-		if (thumbnail != NULL) {
-			cairo_surface_metadata_t *metadata;
-			int                       original_width;
-			int                       original_height;
-
-			metadata = _cairo_image_surface_get_metadata (thumbnail);
-			original_width = metadata->thumbnail.image_width;
-			original_height = metadata->thumbnail.image_height;
-
-			if ((thumbnail != NULL) && (original_width > 0) && (original_height > 0)) {
-				gth_image_viewer_set_surface (GTH_IMAGE_VIEWER (self->priv->viewer),
-							      thumbnail,
-							      original_width,
-							      original_height);
-				thumbnail_available = TRUE;
-			}
-
-			cairo_surface_destroy (thumbnail);
-		}
-
-		if (! thumbnail_available)
-			gth_image_viewer_set_void (GTH_IMAGE_VIEWER (self->priv->viewer));
+		gth_image_viewer_set_void (GTH_IMAGE_VIEWER (self->priv->viewer));
 	}
 
 	gth_image_preloader_load (self->priv->preloader,
