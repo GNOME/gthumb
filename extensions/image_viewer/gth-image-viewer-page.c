@@ -1069,7 +1069,8 @@ clear_data:
 }
 
 
-#define N_PRELOADERS 4
+#define N_FORWARD_PRELOADERS 2
+#define N_BACKWARD_PRELOADERS 2
 
 
 static void
@@ -1080,8 +1081,8 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	GthFileStore       *file_store;
 	GtkTreeIter         iter;
 	int                 i;
-	GthFileData        *next_file_data[N_PRELOADERS];
-	GthFileData        *prev_file_data[N_PRELOADERS];
+	GthFileData        *next_file_data[N_FORWARD_PRELOADERS];
+	GthFileData        *prev_file_data[N_BACKWARD_PRELOADERS];
 
 	self = (GthImageViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
@@ -1104,24 +1105,24 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	self->priv->image_changed = FALSE;
 	self->priv->loading_image = TRUE;
 
-	for (i = 0; i < N_PRELOADERS; i++) {
+	for (i = 0; i < N_FORWARD_PRELOADERS; i++)
 		next_file_data[i] = NULL;
+	for (i = 0; i < N_BACKWARD_PRELOADERS; i++)
 		prev_file_data[i] = NULL;
-	}
 
 	file_store = gth_browser_get_file_store (self->priv->browser);
 	if (gth_file_store_find_visible (file_store, self->priv->file_data->file, &iter)) {
 		GtkTreeIter next_iter;
 
 		next_iter = iter;
-		for (i = 0; i < N_PRELOADERS; i++) {
+		for (i = 0; i < N_FORWARD_PRELOADERS; i++) {
 			if (! gth_file_store_get_next_visible (file_store, &next_iter))
 				break;
 			next_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
 		}
 
 		next_iter = iter;
-		for (i = 0; i < N_PRELOADERS; i++) {
+		for (i = 0; i < N_BACKWARD_PRELOADERS; i++) {
 			if (! gth_file_store_get_prev_visible (file_store, &next_iter))
 				break;
 			prev_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
@@ -1136,15 +1137,11 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 				  NULL,
 				  preloader_load_ready_cb,
 				  self,
-				  N_PRELOADERS * 2,
+				  N_FORWARD_PRELOADERS + N_BACKWARD_PRELOADERS,
 				  next_file_data[0],
 				  next_file_data[1],
-				  next_file_data[2],
-				  next_file_data[3],
 				  prev_file_data[0],
-				  prev_file_data[1],
-				  prev_file_data[2],
-				  prev_file_data[3]);
+				  prev_file_data[1]);
 }
 
 
