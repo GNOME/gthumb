@@ -28,7 +28,7 @@
 #include "preferences.h"
 
 
-#define UPDATE_QUALITY_DELAY 500
+#define UPDATE_QUALITY_DELAY 200
 #define UPDATE_VISIBILITY_DELAY 100
 #define N_HEADER_BAR_BUTTONS 3
 #define HIDE_OVERVIEW_TIMEOUT 2 /* in seconds */
