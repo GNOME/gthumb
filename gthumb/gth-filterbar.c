@@ -340,7 +340,7 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 	GtkWidget       *label;
 
 	gtk_box_set_spacing (GTK_BOX (filterbar), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (filterbar), 2);
+	gtk_container_set_border_width (GTK_CONTAINER (filterbar), 4);
 
 	/* filter combo box */
 
