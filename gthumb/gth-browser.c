@@ -2308,6 +2308,28 @@ hide_mouse_pointer_after_delay (GthBrowser *browser,
 
 
 static gboolean
+_gth_browser_can_change_image (GthBrowser *browser)
+{
+	return ! gth_sidebar_tool_is_active (GTH_SIDEBAR (browser->priv->file_properties));
+}
+
+
+static void
+show_fixed_viewer_control (GtkWidget  *control,
+		           GthBrowser *browser)
+{
+	if (! _gth_browser_can_change_image (browser)) {
+		if (control == browser->priv->next_image_button)
+			return;
+		if (control == browser->priv->previous_image_button)
+			return;
+	}
+
+	gtk_widget_show (control);
+}
+
+
+static gboolean
 viewer_motion_notify_event_cb (GtkWidget      *widget,
 			       GdkEventMotion *event,
 			       gpointer        data)
@@ -2329,7 +2351,7 @@ viewer_motion_notify_event_cb (GtkWidget      *widget,
 			browser->priv->pointer_visible = TRUE;
 			if (browser->priv->fullscreen)
 				gtk_widget_show (browser->priv->fullscreen_toolbar);
-			g_list_foreach (browser->priv->fixed_viewer_controls, (GFunc) gtk_widget_show, NULL);
+			g_list_foreach (browser->priv->fixed_viewer_controls, (GFunc) show_fixed_viewer_control, browser);
 		}
 		_gth_browser_show_pointer_on_viewer (browser, TRUE);
 	}
@@ -5327,7 +5349,7 @@ gth_browser_viewer_scroll_event_cb (GthBrowser     *browser,
 {
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	if (gth_sidebar_tool_is_active (GTH_SIDEBAR (browser->priv->file_properties)))
+	if (! _gth_browser_can_change_image (browser))
 		return FALSE;
 
 	if (event->state & GDK_SHIFT_MASK)
@@ -5488,6 +5510,9 @@ gth_browser_show_next_image (GthBrowser *browser,
 	GthFileView *view;
 	int          pos;
 
+	if (! _gth_browser_can_change_image (browser))
+		return FALSE;
+
 	view = GTH_FILE_VIEW (gth_browser_get_file_list_view (browser));
 
 	if (browser->priv->current_file == NULL) {
@@ -5527,6 +5552,9 @@ gth_browser_show_prev_image (GthBrowser *browser,
 {
 	GthFileView *view;
 	int          pos;
+
+	if (! _gth_browser_can_change_image (browser))
+		return FALSE;
 
 	view = GTH_FILE_VIEW (gth_browser_get_file_list_view (browser));
 
@@ -5570,6 +5598,9 @@ gth_browser_show_first_image (GthBrowser *browser,
 	GtkTreeIter  iter;
 	GthFileData *file_data;
 
+	if (! _gth_browser_can_change_image (browser))
+		return FALSE;
+
 	pos = gth_file_list_first_file (GTH_FILE_LIST (browser->priv->file_list), skip_broken, only_selected);
 	if (pos < 0)
 		return FALSE;
@@ -5595,6 +5626,9 @@ gth_browser_show_last_image (GthBrowser *browser,
 	GthFileView *view;
 	GtkTreeIter  iter;
 	GthFileData *file_data;
+
+	if (! _gth_browser_can_change_image (browser))
+		return FALSE;
 
 	pos = gth_file_list_last_file (GTH_FILE_LIST (browser->priv->file_list), skip_broken, only_selected);
 	if (pos < 0)
