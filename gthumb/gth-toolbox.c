@@ -33,6 +33,13 @@
 #define GRID_SPACING 20
 
 
+/* Signals */
+enum {
+        OPTIONS_VISIBILITY,
+        LAST_SIGNAL
+};
+
+
 enum  {
 	GTH_TOOLBOX_DUMMY_PROPERTY,
 	GTH_TOOLBOX_NAME
@@ -48,6 +55,8 @@ struct _GthToolboxPrivate {
 	GtkWidget *active_tool;
 };
 
+
+static guint gth_toolbox_signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE (GthToolbox, gth_toolbox, GTK_TYPE_STACK)
 
@@ -116,6 +125,18 @@ gth_toolbox_class_init (GthToolboxClass *klass)
 							      "name",
 							      NULL,
 							      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+
+	/* signals */
+
+	gth_toolbox_signals[OPTIONS_VISIBILITY] =
+                g_signal_new ("options-visibility",
+                              G_TYPE_FROM_CLASS (klass),
+                              G_SIGNAL_RUN_LAST,
+                              G_STRUCT_OFFSET (GthToolboxClass, options_visibility),
+                              NULL, NULL,
+                              g_cclosure_marshal_VOID__BOOLEAN,
+                              G_TYPE_NONE,
+                              0);
 }
 
 
@@ -252,8 +273,9 @@ child_show_options_cb (GtkWidget *tool,
 	gtk_image_set_from_icon_name (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (toolbox->priv->options), options);
 	gtk_stack_set_visible_child_name (GTK_STACK (toolbox), GTH_TOOLBOX_PAGE_OPTIONS);
-
 	g_free (markup);
+
+	g_signal_emit (toolbox, gth_toolbox_signals[OPTIONS_VISIBILITY], 0, TRUE);
 }
 
 
@@ -272,6 +294,7 @@ child_hide_options_cb (GtkWidget *tool,
 	gth_toolbox_update_sensitivity (GTH_TOOLBOX (toolbox));
 
 	toolbox->priv->active_tool = NULL;
+	g_signal_emit (toolbox, gth_toolbox_signals[OPTIONS_VISIBILITY], 0, FALSE);
 }
 
 

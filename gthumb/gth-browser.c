@@ -53,6 +53,7 @@
 #include "gth-progress-dialog.h"
 #include "gth-sidebar.h"
 #include "gth-statusbar.h"
+#include "gth-toolbox.h"
 #include "gth-user-dir.h"
 #include "gth-viewer-page.h"
 #include "gth-window.h"
@@ -2856,6 +2857,23 @@ folder_tree_rename_cb (GthFolderTree *folder_tree,
 
 
 static void
+toolbox_options_visibility_cb (GthToolbox *toolbox,
+			       gboolean    toolbox_options_visible,
+			       GthBrowser *browser)
+{
+	if (toolbox_options_visible) {
+		gtk_widget_hide (browser->priv->next_image_button);
+		gtk_widget_hide (browser->priv->previous_image_button);
+		browser->priv->pointer_visible = FALSE;
+	}
+	else if (browser->priv->pointer_visible) {
+		gtk_widget_show (browser->priv->next_image_button);
+		gtk_widget_show (browser->priv->previous_image_button);
+	}
+}
+
+
+static void
 filterbar_changed_cb (GthFilterbar *filterbar,
 		      GthBrowser   *browser)
 {
@@ -4494,6 +4512,11 @@ gth_browser_init (GthBrowser *browser)
 			 browser->priv->file_properties,
 			 ! browser->priv->file_properties_on_the_right,
 			 FALSE);
+
+	g_signal_connect (gth_sidebar_get_toolbox (GTH_SIDEBAR (browser->priv->file_properties)),
+			  "options-visibility",
+			  G_CALLBACK (toolbox_options_visibility_cb),
+			  browser);
 
 	/* the box that contains the file list and the filter bar.  */
 

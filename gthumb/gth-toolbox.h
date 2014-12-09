@@ -54,6 +54,9 @@ struct _GthToolbox
 struct _GthToolboxClass
 {
 	GtkStackClass __parent_class;
+
+	void  (*options_visibility)  (GthToolbox *toolbox,
+				      gboolean    visible);
 };
 
 GType          gth_toolbox_get_type              (void);
