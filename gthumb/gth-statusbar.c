@@ -24,11 +24,15 @@
 #include "gth-statusbar.h"
 
 
+#define HIDE_TEXT_DELAY 5
+
+
 struct _GthStatusbarPrivate {
 	GtkWidget *list_info;
 	GtkWidget *primary_text;
 	GtkWidget *secondary_text;
 	GtkWidget *action_area;
+	guint      hide_secondary_text_id;
 };
 
 
@@ -36,9 +40,31 @@ G_DEFINE_TYPE (GthStatusbar, gth_statusbar, GTK_TYPE_BOX)
 
 
 static void
+gth_statusbar_finalize (GObject *object)
+{
+	GthStatusbar *self;
+
+	self = GTH_STATUSBAR (object);
+
+	if (self->priv->hide_secondary_text_id != 0) {
+		g_source_remove (self->priv->hide_secondary_text_id);
+		self->priv->hide_secondary_text_id = 0;
+	}
+
+	G_OBJECT_CLASS (gth_statusbar_parent_class)->finalize (object);
+}
+
+
+static void
 gth_statusbar_class_init (GthStatusbarClass *klass)
 {
+
+	GObjectClass *object_class;
+
 	g_type_class_add_private (klass, sizeof (GthStatusbarPrivate));
+
+	object_class = (GObjectClass*) klass;
+	object_class->finalize = gth_statusbar_finalize;
 }
 
 
@@ -46,6 +72,7 @@ static void
 gth_statusbar_init (GthStatusbar *statusbar)
 {
 	statusbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (statusbar, GTH_TYPE_STATUSBAR, GthStatusbarPrivate);
+	statusbar->priv->hide_secondary_text_id = 0;
 
 	gtk_box_set_spacing (GTK_BOX (statusbar), 6);
 	gtk_widget_set_margin_top (GTK_WIDGET (statusbar), 3);
@@ -105,10 +132,35 @@ gth_statusbar_set_primary_text (GthStatusbar *statusbar,
 
 
 void
-gth_statusbar_set_secondary_text (GthStatusbar *statusbar,
+gth_statusbar_set_secondary_text (GthStatusbar *self,
 				  const char   *text)
 {
-	gtk_label_set_text (GTK_LABEL (statusbar->priv->secondary_text), text);
+	if (self->priv->hide_secondary_text_id != 0) {
+		g_source_remove (self->priv->hide_secondary_text_id);
+		self->priv->hide_secondary_text_id = 0;
+	}
+	gtk_label_set_text (GTK_LABEL (self->priv->secondary_text), text);
+}
+
+
+static gboolean
+hide_secondary_text_cb (gpointer user_data)
+{
+	GthStatusbar *self = user_data;
+
+	self->priv->hide_secondary_text_id = 0;
+	gtk_label_set_text (GTK_LABEL (self->priv->secondary_text), "");
+
+	return FALSE;
+}
+
+
+void
+gth_statusbar_set_secondary_text_temp (GthStatusbar *self,
+				       const char   *text)
+{
+	gth_statusbar_set_secondary_text (self, text);
+	self->priv->hide_secondary_text_id = g_timeout_add_seconds (HIDE_TEXT_DELAY, hide_secondary_text_cb, self);
 }
 
 

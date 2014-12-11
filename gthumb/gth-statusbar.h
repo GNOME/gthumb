@@ -59,6 +59,8 @@ void		gth_statusbar_set_primary_text		(GthStatusbar		*statusbar,
 							 const char		*text);
 void		gth_statusbar_set_secondary_text	(GthStatusbar		*statusbar,
 							 const char		*text);
+void		gth_statusbar_set_secondary_text_temp	(GthStatusbar		*statusbar,
+							 const char		*text);
 void		gth_statusbar_set_progress		(GthStatusbar		*statusbar,
 							 const char		*text,
 							 gboolean		 pulse,

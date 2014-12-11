@@ -62,12 +62,21 @@ save_screenshot_task_completed_cb (GthTask  *task,
 {
 	SaveData           *save_data = user_data;
 	GthMediaViewerPage *page = save_data->page;
+	char               *filename;
+	char               *text;
 
 	if (error != NULL)
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (save_data->browser), _("Could not save the file"), error);
 	else if (save_data->playing_before_screenshot)
 		gst_element_set_state (gth_media_viewer_page_get_playbin (page), GST_STATE_PLAYING);
 
+	filename = g_file_get_parse_name (save_data->file_data->file);
+	/* Translators: %s is a filename */
+	text = g_strdup_printf (_("Image saved as %s"), filename);
+	gth_statusbar_set_secondary_text_temp (GTH_STATUSBAR (gth_browser_get_statusbar (save_data->browser)), text);
+
+	g_free (text);
+	g_free (filename);
 	save_date_free (save_data);
 	g_object_unref (task);
 }
