@@ -96,7 +96,7 @@ msgstr "Prohlížeč obrázků gThumb"
 
 #: ../data/gthumb.desktop.in.in.h:4
 msgid "View and organize your images"
-msgstr "Prohlížejte a organizujte své obrázky"
+msgstr "Prohlížejte si a roztřiďte své obrázky"
 
 #: ../data/gthumb-import.desktop.in.in.h:1
 msgid "Import with gThumb"
@@ -112,7 +112,7 @@ msgstr "Nástroj pro import fotografií gThumb"
 
 #: ../data/gthumb-import.desktop.in.in.h:4
 msgid "Import the photos on your camera card"
-msgstr "Importovat fotografií z karty vašeho fotoaparátu"
+msgstr "Importujte fotografie z karty svého fotoaparátu"
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:1
 msgid ""
