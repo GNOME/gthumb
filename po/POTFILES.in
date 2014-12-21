@@ -737,6 +737,8 @@ gthumb/gth-filter-editor-dialog.c
 gthumb/gth-filter-editor-dialog.h
 gthumb/gth-filter-file.c
 gthumb/gth-filter-file.h
+gthumb/gth-filter-grid.c
+gthumb/gth-filter-grid.h
 gthumb/gth-filter.h
 gthumb/gth-folder-tree.c
 gthumb/gth-folder-tree.h

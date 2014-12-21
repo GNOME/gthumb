@@ -50,6 +50,9 @@ struct _GthFileToolGrayscalePrivate {
 	guint               apply_event;
 	gboolean            apply_to_original;
 	gboolean            closing;
+	Method		    method;
+	Method              last_applied_method;
+	gboolean            view_original;
 };
 
 
@@ -162,7 +165,7 @@ image_task_completed_cb (GthTask  *task,
 			 gpointer  user_data)
 {
 	GthFileToolGrayscale *self = user_data;
-	GthImage              *destination_image;
+	GthImage             *destination_image;
 
 	self->priv->image_task = NULL;
 
@@ -187,6 +190,7 @@ image_task_completed_cb (GthTask  *task,
 
 	cairo_surface_destroy (self->priv->destination);
 	self->priv->destination = gth_image_get_cairo_surface (destination_image);
+	self->priv->last_applied_method = self->priv->method;
 
 	if (self->priv->apply_to_original) {
 		if (self->priv->destination != NULL) {
@@ -201,11 +205,28 @@ image_task_completed_cb (GthTask  *task,
 		gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 	}
 	else {
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("preview_checkbutton"))))
+		if (! self->priv->view_original)
 			gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->destination);
 	}
 
 	g_object_unref (task);
+}
+
+
+static GthTask *
+get_image_task_for_method (Method method)
+{
+	GrayscaleData *grayscale_data;
+
+	grayscale_data = g_new0 (GrayscaleData, 1);
+	grayscale_data->method = method;
+
+	return gth_image_task_new (_("Applying changes"),
+				   NULL,
+				   grayscale_exec,
+				   NULL,
+				   grayscale_data,
+				   grayscale_data_free);
 }
 
 
@@ -214,7 +235,6 @@ apply_cb (gpointer user_data)
 {
 	GthFileToolGrayscale *self = user_data;
 	GtkWidget            *window;
-	GrayscaleData        *grayscale_data;
 
 	if (self->priv->apply_event != 0) {
 		g_source_remove (self->priv->apply_event);
@@ -228,20 +248,7 @@ apply_cb (gpointer user_data)
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 
-	grayscale_data = g_new0 (GrayscaleData, 1);
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("brightness_radiobutton"))))
-		grayscale_data->method = METHOD_BRIGHTNESS;
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("saturation_radiobutton"))))
-		grayscale_data->method = METHOD_SATURATION;
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("average_radiobutton"))))
-		grayscale_data->method = METHOD_AVARAGE;
-
-	self->priv->image_task = gth_image_task_new (_("Applying changes"),
-						     NULL,
-						     grayscale_exec,
-						     NULL,
-						     grayscale_data,
-						     grayscale_data_free);
+	self->priv->image_task = get_image_task_for_method (self->priv->method);
 	if (self->priv->apply_to_original)
 		gth_image_task_set_source_surface (GTH_IMAGE_TASK (self->priv->image_task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
 	else
@@ -300,24 +307,23 @@ ok_button_clicked_cb (GtkButton *button,
 
 
 static void
-preview_checkbutton_toggled_cb (GtkToggleButton *togglebutton,
-				gpointer         user_data)
+filter_grid_activated_cb (GthFilterGrid	*filter_grid,
+			  int            filter_id,
+			  gpointer       user_data)
 {
 	GthFileToolGrayscale *self = user_data;
 
-	if (gtk_toggle_button_get_active (togglebutton))
-		gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->destination);
-	else
+	self->priv->view_original = (filter_id == GTH_FILTER_GRID_NO_ACTIVE_FILTER);
+	if (self->priv->view_original) {
 		gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
-}
-
-
-static void
-method_changed_cb (GtkButton *button,
-		   gpointer   user_data)
-{
-	GthFileToolGrayscale *self = user_data;
-	apply_changes (self);
+	}
+	else if (filter_id == self->priv->last_applied_method) {
+		gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->destination);
+	}
+	else {
+		self->priv->method = filter_id;
+		apply_changes (self);
+	}
 }
 
 
@@ -332,6 +338,7 @@ gth_file_tool_grayscale_get_options (GthFileTool *base)
 	GtkWidget            *options;
 	int                   width, height;
 	GtkAllocation         allocation;
+	GtkWidget            *filter_grid;
 
 	self = (GthFileToolGrayscale *) base;
 
@@ -364,6 +371,19 @@ gth_file_tool_grayscale_get_options (GthFileTool *base)
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
 
+	filter_grid = gth_filter_grid_new ();
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_BRIGHTNESS, NULL, _("_Brightness"), NULL);
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_SATURATION, NULL, _("_Saturation"), NULL);
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_AVARAGE, NULL, _("_Average"), NULL);
+
+	g_signal_connect (filter_grid,
+			  "activated",
+			  G_CALLBACK (filter_grid_activated_cb),
+			  self);
+
+	gtk_widget_show (filter_grid);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("filter_grid_box")), filter_grid, TRUE, FALSE, 0);
+
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",
 			  G_CALLBACK (ok_button_clicked_cb),
@@ -372,27 +392,21 @@ gth_file_tool_grayscale_get_options (GthFileTool *base)
 				  "clicked",
 				  G_CALLBACK (gth_file_tool_cancel),
 				  self);
-	g_signal_connect (GET_WIDGET ("brightness_radiobutton"),
-			  "clicked",
-			  G_CALLBACK (method_changed_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("saturation_radiobutton"),
-			  "clicked",
-			  G_CALLBACK (method_changed_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("average_radiobutton"),
-			  "clicked",
-			  G_CALLBACK (method_changed_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("preview_checkbutton"),
-			  "toggled",
-			  G_CALLBACK (preview_checkbutton_toggled_cb),
-			  self);
 
 	self->priv->preview_tool = gth_preview_tool_new ();
 	gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->preview_tool);
-	apply_changes (self);
+	gth_filter_grid_activate (GTH_FILTER_GRID (filter_grid), METHOD_BRIGHTNESS);
+
+	gth_filter_grid_generate_previews (GTH_FILTER_GRID (filter_grid),
+					   source,
+					   METHOD_BRIGHTNESS,
+					   get_image_task_for_method (METHOD_BRIGHTNESS),
+					   METHOD_SATURATION,
+					   get_image_task_for_method (METHOD_SATURATION),
+					   METHOD_AVARAGE,
+					   get_image_task_for_method (METHOD_AVARAGE),
+					   -1);
 
 	return options;
 }
@@ -420,6 +434,9 @@ gth_file_tool_grayscale_destroy_options (GthFileTool *base)
 	_cairo_clear_surface (&self->priv->preview);
 	_cairo_clear_surface (&self->priv->destination);
 	_g_clear_object (&self->priv->builder);
+
+	self->priv->method = -1;
+	self->priv->last_applied_method = -1;
 }
 
 
@@ -469,6 +486,9 @@ gth_file_tool_grayscale_init (GthFileToolGrayscale *self)
 	self->priv->preview = NULL;
 	self->priv->destination = NULL;
 	self->priv->builder = NULL;
+	self->priv->method = -1;
+	self->priv->last_applied_method = -1;
+	self->priv->view_original = FALSE;
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self),
 				 "image-grayscale-symbolic",

@@ -129,3 +129,11 @@ GtkLabel.extension-description {
 .video-player {
 	background-color: #000;
 }
+
+/* -- preview button in the filter grid -- */
+
+GtkButton.filter-preview:checked {
+	background-image: none;
+	background-color: @theme_unfocused_selected_bg_color;
+	color: @theme_unfocused_selected_fg_color;
+}

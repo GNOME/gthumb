@@ -54,6 +54,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-filterbar.h					\
 	gth-filter-editor-dialog.h			\
 	gth-filter-file.h				\
+	gth-filter-grid.h				\
 	gth-folder-tree.h				\
 	gth-grid-view.h					\
 	gth-histogram.h					\
@@ -192,6 +193,7 @@ gthumb_SOURCES = 					\
 	gth-filterbar.c					\
 	gth-filter-editor-dialog.c			\
 	gth-filter-file.c				\
+	gth-filter-grid.c				\
 	gth-folder-tree.c				\
 	gth-grid-view.c					\
 	gth-histogram.c					\
