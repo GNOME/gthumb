@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2012 Free Software Foundation, Inc.
+ *  Copyright (C) 2014 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -36,9 +36,11 @@ G_BEGIN_DECLS
 
 typedef struct _GthFileToolAdjustContrast GthFileToolAdjustContrast;
 typedef struct _GthFileToolAdjustContrastClass GthFileToolAdjustContrastClass;
+typedef struct _GthFileToolAdjustContrastPrivate GthFileToolAdjustContrastPrivate;
 
 struct _GthFileToolAdjustContrast {
 	GthImageViewerPageTool parent_instance;
+	GthFileToolAdjustContrastPrivate *priv;
 };
 
 struct _GthFileToolAdjustContrastClass {

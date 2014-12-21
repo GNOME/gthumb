@@ -1,6 +1,7 @@
 uidir = $(pkgdatadir)/ui
 ui_DATA = 				\
 	adjust-colors-options.ui 	\
+	adjust-contrast-options.ui 	\
 	crop-options.ui			\
 	grayscale-options.ui		\
 	resize-options.ui		\

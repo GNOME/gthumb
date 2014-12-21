@@ -269,6 +269,7 @@ extensions/file_tools/cairo-rotate.h
 extensions/file_tools/callbacks.c
 extensions/file_tools/callbacks.h
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
+[type: gettext/glade]extensions/file_tools/data/ui/adjust-contrast-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/crop-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/grayscale-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/resize-options.ui
@@ -281,8 +282,6 @@ extensions/file_tools/gth-file-tool-adjust-contrast.c
 extensions/file_tools/gth-file-tool-adjust-contrast.h
 extensions/file_tools/gth-file-tool-crop.c
 extensions/file_tools/gth-file-tool-crop.h
-extensions/file_tools/gth-file-tool-equalize.c
-extensions/file_tools/gth-file-tool-equalize.h
 extensions/file_tools/gth-file-tool-flip.c
 extensions/file_tools/gth-file-tool-flip.h
 extensions/file_tools/gth-file-tool-grayscale.c

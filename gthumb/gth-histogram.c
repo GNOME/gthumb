@@ -20,6 +20,7 @@
  */
 
 
+#include <math.h>
 #include <string.h>
 #include "cairo-utils.h"
 #include "gth-histogram.h"
@@ -33,9 +34,12 @@ enum {
 
 
 struct _GthHistogramPrivate {
-	int **values;
-	int  *values_max;
-	int   n_channels;
+	int    **values;
+	int     *values_max;
+	int      n_pixels;
+	int      n_channels;
+	guchar  *min_value;
+	guchar  *max_value;
 };
 
 
@@ -57,6 +61,8 @@ gth_histogram_finalize (GObject *object)
 		g_free (self->priv->values[i]);
 	g_free (self->priv->values);
 	g_free (self->priv->values_max);
+	g_free (self->priv->min_value);
+	g_free (self->priv->max_value);
 
 	G_OBJECT_CLASS (gth_histogram_parent_class)->finalize (object);
 }
@@ -96,6 +102,8 @@ gth_histogram_init (GthHistogram *self)
 	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++)
 		self->priv->values[i] = g_new0 (int, 256);
 	self->priv->values_max = g_new0 (int, GTH_HISTOGRAM_N_CHANNELS + 1);
+	self->priv->min_value = g_new0 (guchar, GTH_HISTOGRAM_N_CHANNELS + 1);
+	self->priv->max_value = g_new0 (guchar, GTH_HISTOGRAM_N_CHANNELS + 1);
 }
 
 
@@ -114,6 +122,8 @@ histogram_reset_values (GthHistogram *self)
 	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++) {
 		memset (self->priv->values[i], 0, sizeof (int) * 256);
 		self->priv->values_max[i] = 0;
+		self->priv->min_value[i] = 0;
+		self->priv->max_value[i] = 0;
 	}
 }
 
@@ -134,7 +144,7 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 	int      width, height, has_alpha;
 	int      rowstride;
 	guchar  *line, *pixel;
-	int      i, j, max;
+	int      i, j, value;
 	guchar   red, green, blue, alpha;
 
 	g_return_if_fail (GTH_IS_HISTOGRAM (self));
@@ -155,6 +165,7 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 	width      = cairo_image_surface_get_width (image);
 	height     = cairo_image_surface_get_height (image);
 
+	self->priv->n_pixels = width * height;
 	self->priv->n_channels = (has_alpha ? 4 : 3) + 1;
 	histogram_reset_values (self);
 
@@ -174,12 +185,28 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 
 			/* count value for Value channel */
 
-			max = MAX (MAX (red, green), blue);
-			values[GTH_HISTOGRAM_CHANNEL_VALUE][max] += 1;
+			value = MAX (MAX (red, green), blue);
+			values[GTH_HISTOGRAM_CHANNEL_VALUE][value] += 1;
 
-			/* track max value for each channel */
+			/* min and max pixel values */
 
-			values_max[GTH_HISTOGRAM_CHANNEL_VALUE] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_VALUE], values[GTH_HISTOGRAM_CHANNEL_VALUE][max]);
+			self->priv->min_value[GTH_HISTOGRAM_CHANNEL_VALUE] = MIN (self->priv->min_value[GTH_HISTOGRAM_CHANNEL_VALUE], value);
+			self->priv->min_value[GTH_HISTOGRAM_CHANNEL_RED] = MIN (self->priv->min_value[GTH_HISTOGRAM_CHANNEL_RED], red);
+			self->priv->min_value[GTH_HISTOGRAM_CHANNEL_GREEN] = MIN (self->priv->min_value[GTH_HISTOGRAM_CHANNEL_GREEN], green);
+			self->priv->min_value[GTH_HISTOGRAM_CHANNEL_BLUE] = MIN (self->priv->min_value[GTH_HISTOGRAM_CHANNEL_BLUE], blue);
+			if (has_alpha)
+				self->priv->min_value[GTH_HISTOGRAM_CHANNEL_ALPHA] = MIN (self->priv->min_value[GTH_HISTOGRAM_CHANNEL_ALPHA], alpha);
+
+			self->priv->max_value[GTH_HISTOGRAM_CHANNEL_VALUE] = MAX (self->priv->max_value[GTH_HISTOGRAM_CHANNEL_VALUE], value);
+			self->priv->max_value[GTH_HISTOGRAM_CHANNEL_RED] = MAX (self->priv->max_value[GTH_HISTOGRAM_CHANNEL_RED], red);
+			self->priv->max_value[GTH_HISTOGRAM_CHANNEL_GREEN] = MAX (self->priv->max_value[GTH_HISTOGRAM_CHANNEL_GREEN], green);
+			self->priv->max_value[GTH_HISTOGRAM_CHANNEL_BLUE] = MAX (self->priv->max_value[GTH_HISTOGRAM_CHANNEL_BLUE], blue);
+			if (has_alpha)
+				self->priv->max_value[GTH_HISTOGRAM_CHANNEL_ALPHA] = MAX (self->priv->max_value[GTH_HISTOGRAM_CHANNEL_ALPHA], alpha);
+
+			/* track min and max value for each channel */
+
+			values_max[GTH_HISTOGRAM_CHANNEL_VALUE] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_VALUE], values[GTH_HISTOGRAM_CHANNEL_VALUE][value]);
 			values_max[GTH_HISTOGRAM_CHANNEL_RED] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_RED], values[GTH_HISTOGRAM_CHANNEL_RED][red]);
 			values_max[GTH_HISTOGRAM_CHANNEL_GREEN] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_GREEN], values[GTH_HISTOGRAM_CHANNEL_GREEN][green]);
 			values_max[GTH_HISTOGRAM_CHANNEL_BLUE] = MAX (values_max[GTH_HISTOGRAM_CHANNEL_BLUE], values[GTH_HISTOGRAM_CHANNEL_BLUE][blue]);
@@ -266,6 +293,40 @@ gth_histogram_get_max (GthHistogram *self)
 		max = MAX (max, (double) self->priv->values_max[i]);
 
 	return max;
+}
+
+
+guchar
+gth_histogram_get_min_value (GthHistogram        *self,
+			     GthHistogramChannel  channel)
+{
+	g_return_val_if_fail (self != NULL, 0.0);
+
+	if (channel < self->priv->n_channels)
+		return self->priv->min_value[channel];
+
+	return 0;
+}
+
+
+guchar
+gth_histogram_get_max_value (GthHistogram        *self,
+			     GthHistogramChannel  channel)
+{
+	g_return_val_if_fail (self != NULL, 0.0);
+
+	if (channel < self->priv->n_channels)
+		return self->priv->max_value[channel];
+
+	return 0;
+}
+
+
+int
+gth_histogram_get_n_pixels (GthHistogram *self)
+{
+	g_return_val_if_fail (self != NULL, 0.0);
+	return self->priv->n_pixels;
 }
 
 

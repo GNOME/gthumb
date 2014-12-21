@@ -27,7 +27,6 @@
 #include "gth-file-tool-adjust-colors.h"
 #include "gth-file-tool-adjust-contrast.h"
 #include "gth-file-tool-crop.h"
-#include "gth-file-tool-equalize.h"
 #include "gth-file-tool-flip.h"
 #include "gth-file-tool-grayscale.h"
 #include "gth-file-tool-mirror.h"
@@ -54,7 +53,6 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ADJUST_CONTRAST);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ADJUST_COLORS);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_SHARPEN);
-	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_EQUALIZE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_GRAYSCALE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_NEGATIVE);
 

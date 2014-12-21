@@ -78,6 +78,11 @@ double         gth_histogram_get_channel          (GthHistogram        *self,
 double         gth_histogram_get_channel_max      (GthHistogram        *self,
 						   GthHistogramChannel  channel);
 double         gth_histogram_get_max              (GthHistogram        *self);
+guchar         gth_histogram_get_min_value        (GthHistogram        *self,
+						   GthHistogramChannel  channel);
+guchar         gth_histogram_get_max_value        (GthHistogram        *self,
+						   GthHistogramChannel  channel);
+int            gth_histogram_get_n_pixels         (GthHistogram        *self);
 int            gth_histogram_get_nchannels        (GthHistogram        *self);
 long **        gth_histogram_get_cumulative       (GthHistogram        *self);
 void           gth_cumulative_histogram_free      (long               **cumulative);
