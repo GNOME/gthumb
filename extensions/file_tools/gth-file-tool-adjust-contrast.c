@@ -74,6 +74,9 @@ value_map_free (long **value_map)
 {
 	int c;
 
+	if (value_map == NULL)
+		return;
+
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++)
 		g_free (value_map[c]);
 	g_free (value_map);
@@ -581,10 +584,10 @@ gth_file_tool_adjust_contrast_destroy_options (GthFileTool *base)
 	gth_image_viewer_page_reset_viewer_tool (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 
-	_cairo_clear_surface (&self->priv->preview);
-	_cairo_clear_surface (&self->priv->destination);
 	_g_clear_object (&self->priv->builder);
 
+	_cairo_clear_surface (&self->priv->preview);
+	_cairo_clear_surface (&self->priv->destination);
 	self->priv->method = -1;
 	self->priv->last_applied_method = -1;
 }
@@ -600,9 +603,9 @@ gth_file_tool_adjust_contrast_finalize (GObject *object)
 
 	self = (GthFileToolAdjustContrast *) object;
 
+	_g_clear_object (&self->priv->builder);
 	_cairo_clear_surface (&self->priv->preview);
 	_cairo_clear_surface (&self->priv->destination);
-	_g_clear_object (&self->priv->builder);
 
 	G_OBJECT_CLASS (gth_file_tool_adjust_contrast_parent_class)->finalize (object);
 }

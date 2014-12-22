@@ -349,7 +349,9 @@ gth_filter_grid_activate (GthFilterGrid	*self,
 static void
 preview_task_free (PreviewTask *task)
 {
-	g_object_unref (task->image_task);
+	if (task == NULL)
+		return;
+	_g_object_unref (task->image_task);
 	g_free (task);
 }
 
@@ -357,12 +359,13 @@ preview_task_free (PreviewTask *task)
 static void
 generate_preview_data_free (GeneratePreviewData *data)
 {
-	cairo_surface_destroy (data->original);
 	if (data->self != NULL) {
 		if (data->self->priv->gp_data == data)
 			data->self->priv->gp_data = NULL;
 		g_object_remove_weak_pointer (G_OBJECT (data->self), (gpointer *) &data->self);
 	}
+	if (data->original != NULL)
+		cairo_surface_destroy (data->original);
 	g_list_free_full (data->tasks, (GDestroyNotify) preview_task_free);
 	_g_object_unref (data->cancellable);
 	_g_object_unref (data->resize_task);
@@ -387,7 +390,11 @@ image_preview_completed_cb (GthTask    *task,
 		       	    gpointer    user_data)
 {
 	GeneratePreviewData *data = user_data;
+	PreviewTask         *current_task;
 	cairo_surface_t     *preview;
+
+	current_task = (PreviewTask *) data->current_task->data;
+	g_return_if_fail (task == current_task->image_task);
 
 	if ((error != NULL) || (data->self == NULL)) {
 		generate_preview_data_free (data);
@@ -396,8 +403,8 @@ image_preview_completed_cb (GthTask    *task,
 
 	preview = gth_image_task_get_destination_surface (GTH_IMAGE_TASK (task));
 	if (preview != NULL) {
-		PreviewTask *task = (PreviewTask *) data->current_task->data;
-		gth_filter_grid_set_filter_preview (data->self, task->filter_id, preview);
+		gth_filter_grid_set_filter_preview (data->self, current_task->filter_id, preview);
+		cairo_surface_destroy (preview);
 	}
 
 	data->current_task = g_list_next (data->current_task);
@@ -416,15 +423,13 @@ generate_preview (GeneratePreviewData *data)
 	}
 
 	task = (PreviewTask *) data->current_task->data;
-
 	g_signal_connect (task->image_task,
 			  "completed",
 			  G_CALLBACK (image_preview_completed_cb),
 			  data);
 	gth_image_task_set_source_surface (GTH_IMAGE_TASK (task->image_task), data->original);
 
-	_g_object_unref (data->cancellable);
-	data->cancellable = g_cancellable_new ();
+	g_cancellable_reset (data->cancellable);
 	gth_task_exec (task->image_task, data->cancellable);
 }
 
@@ -436,16 +441,11 @@ resize_task_completed_cb (GthTask  *task,
 {
 	GeneratePreviewData *data = user_data;
 
-	_g_object_unref (data->resize_task);
-	data->resize_task = NULL;
-
 	if ((error != NULL) || (data->self == NULL)) {
 		generate_preview_data_free (data);
 		return;
 	}
 
-	if (data->original != NULL)
-		cairo_surface_destroy (data->original);
 	data->original = gth_image_task_get_destination_surface (GTH_IMAGE_TASK (task));
 	if (data->original == NULL) {
 		generate_preview_data_free (data);
@@ -499,7 +499,7 @@ gth_filter_grid_generate_previews (GthFilterGrid	*self,
 	data = g_new (GeneratePreviewData, 1);
 	data->self = self;
 	data->tasks = NULL;
-	data->cancellable = NULL;
+	data->cancellable = g_cancellable_new ();;
 	data->original = NULL;
 
 	g_object_add_weak_pointer (G_OBJECT (self), (gpointer *) &data->self);
@@ -539,6 +539,5 @@ gth_filter_grid_generate_previews (GthFilterGrid	*self,
 			  G_CALLBACK (resize_task_completed_cb),
 			  data);
 
-	data->cancellable = g_cancellable_new ();
 	gth_task_exec (data->resize_task, data->cancellable);
 }
