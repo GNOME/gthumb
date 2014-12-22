@@ -50,7 +50,6 @@ struct _GthToolboxPrivate {
 	char      *name;
 	GtkWidget *tool_grid[GTH_TOOLBOX_N_SECTIONS];
 	GtkWidget *options;
-	GtkWidget *options_icon;
 	GtkWidget *options_title;
 	GtkWidget *active_tool;
 };
@@ -149,14 +148,34 @@ static const char * section_title[] = {
 
 
 static void
+close_button_clicked_cb (GtkButton *button,
+			 gpointer   user_data)
+{
+	GthToolbox *toolbox = user_data;
+	if (toolbox->priv->active_tool != NULL)
+		gth_file_tool_cancel (GTH_FILE_TOOL (toolbox->priv->active_tool));
+}
+
+
+static void
+ok_button_clicked_cb (GtkButton *button,
+		      gpointer   user_data)
+{
+	GthToolbox *toolbox = user_data;
+	if (toolbox->priv->active_tool != NULL)
+		gth_file_tool_apply_options (GTH_FILE_TOOL (toolbox->priv->active_tool));
+}
+
+
+static void
 gth_toolbox_init (GthToolbox *toolbox)
 {
 	GtkWidget *scrolled;
 	int        i;
 	GtkWidget *grid_box;
 	GtkWidget *options_box;
-	GtkWidget *options_header;
-	GtkWidget *header_sep;
+	GtkWidget *close_button;
+	GtkWidget *ok_button;
 
 	toolbox->priv = G_TYPE_INSTANCE_GET_PRIVATE (toolbox, GTH_TYPE_TOOLBOX, GthToolboxPrivate);
 
@@ -210,32 +229,25 @@ gth_toolbox_init (GthToolbox *toolbox)
 
 	/* tool options page */
 
-	options_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	options_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_widget_show (options_box);
 	gtk_stack_add_named (GTK_STACK (toolbox), options_box, GTH_TOOLBOX_PAGE_OPTIONS);
 
-	options_header = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_widget_set_margin_left (options_header, 10);
-	gtk_widget_set_margin_right (options_header, 10);
-	gtk_widget_set_margin_top (options_header, 10);
-	gtk_widget_set_margin_bottom (options_header, 10);
-	gtk_widget_show (options_header);
+	close_button = gtk_button_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_BUTTON);
+	gtk_widget_show (close_button);
+	g_signal_connect (close_button, "clicked", G_CALLBACK (close_button_clicked_cb), toolbox);
 
-	toolbox->priv->options_icon = gtk_image_new ();
-	gtk_widget_show (toolbox->priv->options_icon);
-	gtk_box_pack_start (GTK_BOX (options_header), toolbox->priv->options_icon, FALSE, FALSE, 0);
+	ok_button = gtk_button_new_from_icon_name ("object-select-symbolic", GTK_ICON_SIZE_BUTTON);
+	gtk_style_context_add_class (gtk_widget_get_style_context (ok_button), GTK_STYLE_CLASS_SUGGESTED_ACTION);
+	gtk_widget_show (ok_button);
+	g_signal_connect (ok_button, "clicked", G_CALLBACK (ok_button_clicked_cb), toolbox);
 
-	toolbox->priv->options_title = gtk_label_new ("");
-	gtk_label_set_use_markup (GTK_LABEL (toolbox->priv->options_title), TRUE);
+	toolbox->priv->options_title = gtk_header_bar_new ();
+	/*gtk_style_context_add_class (gtk_widget_get_style_context (toolbox->priv->options_title), "inline-headerbar");*/
+	gtk_header_bar_pack_start (GTK_HEADER_BAR (toolbox->priv->options_title), close_button);
+	gtk_header_bar_pack_end (GTK_HEADER_BAR (toolbox->priv->options_title), ok_button);
 	gtk_widget_show (toolbox->priv->options_title);
-	gtk_box_pack_start (GTK_BOX (options_header), toolbox->priv->options_title, FALSE, FALSE, 0);
-
-	gtk_widget_show (options_header);
-	gtk_box_pack_start (GTK_BOX (options_box), options_header, FALSE, FALSE, 0);
-
-	header_sep = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_widget_show (header_sep);
-	gtk_box_pack_start (GTK_BOX (options_box), header_sep, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (options_box), toolbox->priv->options_title, FALSE, FALSE, 0);
 
 	toolbox->priv->options = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_SHADOW_NONE);
@@ -258,7 +270,6 @@ child_show_options_cb (GtkWidget *tool,
 {
 	GthToolbox *toolbox = data;
 	GtkWidget  *options;
-	char       *markup;
 
 	options = gth_file_tool_get_options (GTH_FILE_TOOL (tool));
 	if (options == NULL)
@@ -268,12 +279,10 @@ child_show_options_cb (GtkWidget *tool,
 
 	_gtk_container_remove_children (GTK_CONTAINER (toolbox->priv->options), NULL, NULL);
 
-	markup = g_markup_printf_escaped ("<span size='large' weight='bold'>%s</span>", gth_file_tool_get_options_title (GTH_FILE_TOOL (tool)));
-	gtk_label_set_markup (GTK_LABEL (toolbox->priv->options_title), markup);
-	gtk_image_set_from_icon_name (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_MENU);
+	gtk_header_bar_set_title (GTK_HEADER_BAR (toolbox->priv->options_title), gth_file_tool_get_options_title (GTH_FILE_TOOL (tool)));
+	/*gtk_image_set_from_icon_name (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_MENU);*/
 	gtk_container_add (GTK_CONTAINER (toolbox->priv->options), options);
 	gtk_stack_set_visible_child_name (GTK_STACK (toolbox), GTH_TOOLBOX_PAGE_OPTIONS);
-	g_free (markup);
 
 	g_signal_emit (toolbox, gth_toolbox_signals[OPTIONS_VISIBILITY], 0, TRUE);
 }

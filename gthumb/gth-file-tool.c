@@ -81,6 +81,13 @@ gth_file_tool_base_destroy_options (GthFileTool *self)
 
 
 static void
+gth_file_tool_base_apply_options (GthFileTool *self)
+{
+	/* void */
+}
+
+
+static void
 gth_file_tool_finalize (GObject *object)
 {
 	g_return_if_fail (object != NULL);
@@ -106,6 +113,7 @@ gth_file_tool_class_init (GthFileToolClass *klass)
 	klass->cancel = gth_file_tool_base_cancel;
 	klass->get_options = gth_file_tool_base_get_options;
 	klass->destroy_options = gth_file_tool_base_destroy_options;
+	klass->apply_options = gth_file_tool_base_apply_options;
 
 	gth_file_tool_signals[SHOW_OPTIONS] =
 	                g_signal_new ("show-options",
@@ -260,4 +268,11 @@ void
 gth_file_tool_destroy_options (GthFileTool *self)
 {
 	GTH_FILE_TOOL_GET_CLASS (self)->destroy_options (self);
+}
+
+
+void
+gth_file_tool_apply_options (GthFileTool *self)
+{
+	GTH_FILE_TOOL_GET_CLASS (self)->apply_options (self);
 }

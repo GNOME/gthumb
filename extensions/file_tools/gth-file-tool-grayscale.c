@@ -299,17 +299,6 @@ gth_file_tool_grayscale_reset_image (GthImageViewerPageTool *base)
 
 
 static void
-ok_button_clicked_cb (GtkButton *button,
-		      gpointer   user_data)
-{
-	GthFileToolGrayscale *self = user_data;
-
-	self->priv->apply_to_original = TRUE;
-	apply_changes (self);
-}
-
-
-static void
 filter_grid_activated_cb (GthFilterGrid	*filter_grid,
 			  int            filter_id,
 			  gpointer       user_data)
@@ -387,15 +376,6 @@ gth_file_tool_grayscale_get_options (GthFileTool *base)
 	gtk_widget_show (filter_grid);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("filter_grid_box")), filter_grid, TRUE, FALSE, 0);
 
-	g_signal_connect (GET_WIDGET ("ok_button"),
-			  "clicked",
-			  G_CALLBACK (ok_button_clicked_cb),
-			  self);
-	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
-				  "clicked",
-				  G_CALLBACK (gth_file_tool_cancel),
-				  self);
-
 	self->priv->preview_tool = gth_preview_tool_new ();
 	gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->preview_tool);
@@ -444,6 +424,17 @@ gth_file_tool_grayscale_destroy_options (GthFileTool *base)
 
 
 static void
+gth_file_tool_grayscale_apply_options(GthFileTool *base)
+{
+	GthFileToolGrayscale *self;
+
+	self = (GthFileToolGrayscale *) base;
+	self->priv->apply_to_original = TRUE;
+	apply_changes (self);
+}
+
+
+static void
 gth_file_tool_grayscale_finalize (GObject *object)
 {
 	GthFileToolGrayscale *self;
@@ -476,6 +467,7 @@ gth_file_tool_grayscale_class_init (GthFileToolGrayscaleClass *klass)
 	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
 	file_tool_class->get_options = gth_file_tool_grayscale_get_options;
 	file_tool_class->destroy_options = gth_file_tool_grayscale_destroy_options;
+	file_tool_class->apply_options = gth_file_tool_grayscale_apply_options;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_grayscale_reset_image;

@@ -137,3 +137,11 @@ GtkButton.filter-preview:checked {
 	background-color: @theme_unfocused_selected_bg_color;
 	color: @theme_unfocused_selected_fg_color;
 }
+
+/* -- headerbar inside the toolbox -- */
+
+GthToolbox .header-bar {
+	border-radius: 0;
+	box-shadow: none;
+	background-image: none;
+}

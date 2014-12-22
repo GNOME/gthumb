@@ -108,32 +108,6 @@ image_task_completed_cb (GthTask  *task,
 
 
 static void
-crop_button_clicked_cb (GtkButton       *button,
-			GthFileToolCrop *self)
-{
-	cairo_rectangle_int_t  selection;
-	GthTask               *task;
-
-	gth_image_selector_get_selection (self->priv->selector, &selection);
-	if ((selection.width == 0) || (selection.height == 0))
-		return;
-
-	task = gth_image_task_new (_("Applying changes"),
-				   NULL,
-				   crop_exec,
-				   NULL,
-				   self,
-				   NULL);
-	gth_image_task_set_source_surface (GTH_IMAGE_TASK (task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
-	g_signal_connect (task,
-			  "completed",
-			  G_CALLBACK (image_task_completed_cb),
-			  self);
-	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, FALSE);
-}
-
-
-static void
 selection_x_value_changed_cb (GtkSpinButton   *spin,
 			      GthFileToolCrop *self)
 {
@@ -505,14 +479,6 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("bind_factor_spinbutton")),
 				   g_settings_get_int (self->priv->settings, PREF_CROP_BIND_FACTOR));
 
-	g_signal_connect (GET_WIDGET ("crop_button"),
-			  "clicked",
-			  G_CALLBACK (crop_button_clicked_cb),
-			  self);
-	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
-				  "clicked",
-				  G_CALLBACK (gth_file_tool_cancel),
-				  self);
 	g_signal_connect (GET_WIDGET ("options_button"),
 			  "clicked",
 			  G_CALLBACK (options_button_clicked_cb),
@@ -650,6 +616,34 @@ gth_file_tool_crop_destroy_options (GthFileTool *base)
 
 
 static void
+gth_file_tool_crop_apply_options (GthFileTool *base)
+{
+	GthFileToolCrop       *self;
+	cairo_rectangle_int_t  selection;
+	GthTask               *task;
+
+	self = (GthFileToolCrop *) base;
+
+	gth_image_selector_get_selection (self->priv->selector, &selection);
+	if ((selection.width == 0) || (selection.height == 0))
+		return;
+
+	task = gth_image_task_new (_("Applying changes"),
+				   NULL,
+				   crop_exec,
+				   NULL,
+				   self,
+				   NULL);
+	gth_image_task_set_source_surface (GTH_IMAGE_TASK (task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (image_task_completed_cb),
+			  self);
+	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, FALSE);
+}
+
+
+static void
 gth_file_tool_crop_reset_image (GthImageViewerPageTool *base)
 {
 	GthFileToolCrop *self = (GthFileToolCrop *) base;
@@ -702,6 +696,7 @@ gth_file_tool_crop_class_init (GthFileToolCropClass *klass)
 	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->get_options = gth_file_tool_crop_get_options;
 	file_tool_class->destroy_options = gth_file_tool_crop_destroy_options;
+	file_tool_class->apply_options = gth_file_tool_crop_apply_options;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_crop_reset_image;

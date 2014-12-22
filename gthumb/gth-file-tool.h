@@ -53,6 +53,7 @@ struct _GthFileToolClass {
 	void         (*cancel)             (GthFileTool *self);
 	GtkWidget *  (*get_options)        (GthFileTool *self);
 	void         (*destroy_options)    (GthFileTool *self);
+	void         (*apply_options)      (GthFileTool *self);
 
 	/*< signals >*/
 
@@ -77,6 +78,7 @@ GthToolboxSection	gth_file_tool_get_section		(GthFileTool		*self);
 void			gth_file_tool_destroy_options		(GthFileTool		*self);
 void			gth_file_tool_show_options		(GthFileTool		*self);
 void			gth_file_tool_hide_options		(GthFileTool		*self);
+void			gth_file_tool_apply_options		(GthFileTool		*self);
 
 G_END_DECLS
 

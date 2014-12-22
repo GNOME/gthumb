@@ -231,20 +231,6 @@ adjust_data_free (gpointer user_data)
 }
 
 
-static void apply_changes (GthFileToolAdjustColors *self);
-
-
-static void
-ok_button_clicked_cb (GtkButton *button,
-		      gpointer   user_data)
-{
-	GthFileToolAdjustColors *self = user_data;
-
-	self->priv->apply_to_original = TRUE;
-	apply_changes (self);
-}
-
-
 static void
 reset_button_clicked_cb (GtkButton *button,
 		  	 gpointer   user_data)
@@ -259,6 +245,9 @@ reset_button_clicked_cb (GtkButton *button,
 	gtk_adjustment_set_value (self->priv->magenta_green_adj, 0.0);
 	gtk_adjustment_set_value (self->priv->yellow_blue_adj, 0.0);
 }
+
+
+static void apply_changes (GthFileToolAdjustColors *self);
 
 
 static void
@@ -477,14 +466,6 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 								   GTH_COLOR_SCALE_YELLOW_BLUE,
 								   0.0, -99.0, 99.0, 1.0, 1.0, "%+.0f");
 
-	g_signal_connect (GET_WIDGET ("ok_button"),
-			  "clicked",
-			  G_CALLBACK (ok_button_clicked_cb),
-			  self);
-	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
-				  "clicked",
-				  G_CALLBACK (gth_file_tool_cancel),
-				  self);
 	g_signal_connect (GET_WIDGET ("reset_button"),
 			  "clicked",
 			  G_CALLBACK (reset_button_clicked_cb),
@@ -551,6 +532,17 @@ gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 	_cairo_clear_surface (&self->priv->preview);
 	_cairo_clear_surface (&self->priv->destination);
 	_g_clear_object (&self->priv->builder);
+}
+
+
+static void
+gth_file_tool_adjust_colors_apply_options (GthFileTool *base)
+{
+	GthFileToolAdjustColors *self;
+
+	self = (GthFileToolAdjustColors *) base;
+	self->priv->apply_to_original = TRUE;
+	apply_changes (self);
 }
 
 
@@ -624,6 +616,7 @@ gth_file_tool_adjust_colors_class_init (GthFileToolAdjustColorsClass *klass)
 	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->get_options = gth_file_tool_adjust_colors_get_options;
 	file_tool_class->destroy_options = gth_file_tool_adjust_colors_destroy_options;
+	file_tool_class->apply_options = gth_file_tool_adjust_colors_apply_options;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_sharpen_reset_image;

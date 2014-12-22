@@ -249,36 +249,6 @@ rotate_exec (GthAsyncTask *task,
 
 
 static void
-apply_button_clicked_cb (GtkButton         *button,
-			 GthFileToolRotate *self)
-{
-	GtkWidget   *window;
-	GtkWidget   *viewer_page;
-	GthTask     *task;
-
-	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
-					  _("Applying changes"),
-					  NULL,
-					  rotate_exec,
-					  NULL,
-					  g_object_ref (self->priv->rotator),
-					  g_object_unref);
-	gth_image_viewer_task_set_load_original (GTH_IMAGE_VIEWER_TASK (task), FALSE);
-	gth_image_task_set_source_surface (GTH_IMAGE_TASK (task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
-
-	g_signal_connect (task,
-			  "completed",
-			  G_CALLBACK (gth_image_viewer_task_set_destination),
-			  NULL);
-	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
-
-	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
-}
-
-
-static void
 crop_settings_changed_cb (GtkAdjustment     *adj,
 		          GthFileToolRotate *self)
 {
@@ -481,14 +451,6 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	self->priv->crop_region.width = cairo_image_surface_get_width (self->priv->image);
 	self->priv->crop_region.height = cairo_image_surface_get_height (self->priv->image);
 
-	g_signal_connect (GET_WIDGET ("apply_button"),
-			  "clicked",
-			  G_CALLBACK (apply_button_clicked_cb),
-			  self);
-	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
-				  "clicked",
-				  G_CALLBACK (gth_file_tool_cancel),
-				  self);
 	g_signal_connect (GET_WIDGET ("reset_button"),
 			  "clicked",
 			  G_CALLBACK (reset_button_clicked_cb),
@@ -606,6 +568,38 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 
 
 static void
+gth_file_tool_rotate_apply_options (GthFileTool *base)
+{
+	GthFileToolRotate *self;
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+	GthTask           *task;
+
+	self = (GthFileToolRotate *) base;
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
+					  _("Applying changes"),
+					  NULL,
+					  rotate_exec,
+					  NULL,
+					  g_object_ref (self->priv->rotator),
+					  g_object_unref);
+	gth_image_viewer_task_set_load_original (GTH_IMAGE_VIEWER_TASK (task), FALSE);
+	gth_image_task_set_source_surface (GTH_IMAGE_TASK (task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
+
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (gth_image_viewer_task_set_destination),
+			  NULL);
+	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
+
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
+}
+
+
+static void
 gth_file_tool_rotate_reset_image (GthImageViewerPageTool *self)
 {
 	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self))));
@@ -647,6 +641,7 @@ gth_file_tool_rotate_class_init (GthFileToolRotateClass *klass)
 	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->get_options = gth_file_tool_rotate_get_options;
 	file_tool_class->destroy_options = gth_file_tool_rotate_destroy_options;
+	file_tool_class->apply_options = gth_file_tool_rotate_apply_options;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_rotate_reset_image;

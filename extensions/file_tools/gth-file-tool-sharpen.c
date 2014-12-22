@@ -101,41 +101,6 @@ sharpen_exec (GthAsyncTask *task,
 
 
 static void
-ok_button_clicked_cb (GtkButton          *button,
-		      GthFileToolSharpen *self)
-{
-	GtkWidget   *viewer_page;
-	SharpenData *sharpen_data;
-	GthTask     *task;
-
-	if (self->priv->apply_event != 0) {
-		g_source_remove (self->priv->apply_event);
-		self->priv->apply_event = 0;
-	}
-
-	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
-	if (viewer_page == NULL)
-		return;
-
-	sharpen_data = sharpen_data_new (self);
-	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
-					  _("Sharpening image"),
-					  NULL,
-					  sharpen_exec,
-					  NULL,
-					  sharpen_data,
-					  sharpen_data_free);
-	g_signal_connect (task,
-			  "completed",
-			  G_CALLBACK (gth_image_viewer_task_set_destination),
-			  NULL);
-	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, FALSE);
-
-	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
-}
-
-
-static void
 reset_button_clicked_cb (GtkButton          *button,
 			 GthFileToolSharpen *self)
 {
@@ -299,14 +264,6 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 							       GTH_COLOR_SCALE_DEFAULT,
 							       DEFAULT_THRESHOLD, 0.0, 255.0, 1.0, 1.0, "%.0f");
 
-	g_signal_connect (GET_WIDGET ("ok_button"),
-			  "clicked",
-			  G_CALLBACK (ok_button_clicked_cb),
-			  self);
-	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
-				  "clicked",
-				  G_CALLBACK (gth_file_tool_cancel),
-				  self);
 	g_signal_connect (GET_WIDGET ("reset_button"),
 			  "clicked",
 			  G_CALLBACK (reset_button_clicked_cb),
@@ -364,6 +321,43 @@ gth_file_tool_sharpen_destroy_options (GthFileTool *base)
 
 
 static void
+gth_file_tool_sharpen_apply_options (GthFileTool *base)
+{
+	GthFileToolSharpen *self;
+	GtkWidget          *viewer_page;
+	SharpenData        *sharpen_data;
+	GthTask            *task;
+
+	self = (GthFileToolSharpen *) base;
+
+	if (self->priv->apply_event != 0) {
+		g_source_remove (self->priv->apply_event);
+		self->priv->apply_event = 0;
+	}
+
+	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
+	if (viewer_page == NULL)
+		return;
+
+	sharpen_data = sharpen_data_new (self);
+	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
+					  _("Sharpening image"),
+					  NULL,
+					  sharpen_exec,
+					  NULL,
+					  sharpen_data,
+					  sharpen_data_free);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (gth_image_viewer_task_set_destination),
+			  NULL);
+	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, FALSE);
+
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
+}
+
+
+static void
 gth_file_tool_sharpen_reset_image (GthImageViewerPageTool *base)
 {
 	GthFileToolSharpen *self = (GthFileToolSharpen *) base;
@@ -408,6 +402,7 @@ gth_file_tool_sharpen_class_init (GthFileToolSharpenClass *klass)
 	file_tool_class = (GthFileToolClass *) klass;
 	file_tool_class->get_options = gth_file_tool_sharpen_get_options;
 	file_tool_class->destroy_options = gth_file_tool_sharpen_destroy_options;
+	file_tool_class->apply_options = gth_file_tool_sharpen_apply_options;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_sharpen_reset_image;
