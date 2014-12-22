@@ -30,8 +30,8 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 #define APPLY_DELAY 150
 #define PREVIEW_SIZE 0.9
-#define HISTOGRAM_CROP 0.005 /* ignores the 0.5% on each side of the adjust_contrast */
-#define HISTOGRAM_CROP_MAX 0.015 /* ignores the 1.5% on each side of the adjust_contrast */
+#define HISTOGRAM_CROP_0_5 0.005 /* ignores the 0.5% on each side of the histogram */
+#define HISTOGRAM_CROP_1_5 0.015 /* ignores the 1.5% on each side of the histogram */
 
 
 G_DEFINE_TYPE (GthFileToolAdjustContrast, gth_file_tool_adjust_contrast, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
@@ -39,7 +39,8 @@ G_DEFINE_TYPE (GthFileToolAdjustContrast, gth_file_tool_adjust_contrast, GTH_TYP
 
 typedef enum {
 	METHOD_STRETCH,
-	METHOD_STRETCH_MAX,
+	METHOD_STRETCH_0_5,
+	METHOD_STRETCH_1_5,
 	METHOD_EQUALIZE_LINEAR,
 	METHOD_EQUALIZE_SQUARE_ROOT
 } Method;
@@ -90,10 +91,14 @@ get_histogram_value (GthHistogram        *histogram,
 		     Method               method)
 {
 	double h = gth_histogram_get_value (histogram, channel, bin);
-	if (method == METHOD_EQUALIZE_SQUARE_ROOT)
+	switch (method) {
+	case METHOD_EQUALIZE_SQUARE_ROOT:
 		return (h >= 2) ? sqrt (h) : h;
-	else
+	case METHOD_EQUALIZE_LINEAR:
 		return h;
+	default:
+		g_assert_not_reached ();
+	}
 }
 
 
@@ -140,13 +145,21 @@ get_value_map_for_stretch (GthHistogram *histogram,
 	int    c, v;
 
 	n_pixels = gth_histogram_get_n_pixels (histogram);
-	if (method == METHOD_STRETCH) {
-		lower_limit = n_pixels * HISTOGRAM_CROP;
-		higher_limit = n_pixels * (1 - HISTOGRAM_CROP);
-	}
-	else {
-		lower_limit = n_pixels * HISTOGRAM_CROP_MAX;
-		higher_limit = n_pixels * (1 - HISTOGRAM_CROP_MAX);
+	switch (method) {
+	case METHOD_STRETCH:
+		lower_limit = 0;
+		higher_limit = n_pixels;
+		break;
+	case METHOD_STRETCH_0_5:
+		lower_limit = n_pixels * HISTOGRAM_CROP_0_5;
+		higher_limit = n_pixels * (1 - HISTOGRAM_CROP_0_5);
+		break;
+	case METHOD_STRETCH_1_5:
+		lower_limit = n_pixels * HISTOGRAM_CROP_1_5;
+		higher_limit = n_pixels * (1 - HISTOGRAM_CROP_1_5);
+		break;
+	default:
+		g_assert_not_reached ();
 	}
 
 	value_map = g_new (long *, GTH_HISTOGRAM_N_CHANNELS);
@@ -198,7 +211,8 @@ adjust_contrast_setup (EqualizeData    *equalize_data,
 	gth_histogram_calculate_for_image (histogram, source);
 	switch (equalize_data->method) {
 	case METHOD_STRETCH:
-	case METHOD_STRETCH_MAX:
+	case METHOD_STRETCH_0_5:
+	case METHOD_STRETCH_1_5:
 		equalize_data->value_map = get_value_map_for_stretch (histogram, equalize_data->method);
 		break;
 	case METHOD_EQUALIZE_LINEAR:
@@ -522,10 +536,9 @@ gth_file_tool_adjust_contrast_get_options (GthFileTool *base)
 	gtk_widget_show (options);
 
 	filter_grid = gth_filter_grid_new ();
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_STRETCH, NULL, _("Stretch (0.5%)"), NULL);
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_STRETCH_MAX, NULL, _("Stretch (1.0%)"), NULL);
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_EQUALIZE_SQUARE_ROOT, NULL, _("Equalize"), NULL);
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_EQUALIZE_LINEAR, NULL, _("Equalize (Linear)"), NULL);
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_STRETCH_0_5, NULL, _("Stretch"), _("Stretch the histogram trimming the 0.5%"));
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_EQUALIZE_SQUARE_ROOT, NULL, _("Equalize"), _("Equalize the histogram using the square root function"));
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_EQUALIZE_LINEAR, NULL, _("Uniform"), _("Equalize the histogram using the linear function"));
 
 	g_signal_connect (filter_grid,
 			  "activated",
@@ -547,14 +560,12 @@ gth_file_tool_adjust_contrast_get_options (GthFileTool *base)
 	self->priv->preview_tool = gth_preview_tool_new ();
 	gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->preview_tool);
-	gth_filter_grid_activate (GTH_FILTER_GRID (filter_grid), METHOD_STRETCH);
+	gth_filter_grid_activate (GTH_FILTER_GRID (filter_grid), METHOD_STRETCH_0_5);
 
 	gth_filter_grid_generate_previews (GTH_FILTER_GRID (filter_grid),
 					   source,
-					   METHOD_STRETCH,
-					   get_image_task_for_method (METHOD_STRETCH),
-					   METHOD_STRETCH_MAX,
-					   get_image_task_for_method (METHOD_STRETCH_MAX),
+					   METHOD_STRETCH_0_5,
+					   get_image_task_for_method (METHOD_STRETCH_0_5),
 					   METHOD_EQUALIZE_SQUARE_ROOT,
 					   get_image_task_for_method (METHOD_EQUALIZE_SQUARE_ROOT),
 					   METHOD_EQUALIZE_LINEAR,
