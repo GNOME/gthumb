@@ -103,8 +103,11 @@ grayscale_exec (GthAsyncTask *task,
 	p_destination_line = _cairo_image_surface_flush_and_get_data (destination);
 	for (y = 0; y < height; y++) {
 		gth_async_task_get_data (task, NULL, &cancelled, NULL);
-		if (cancelled)
+		if (cancelled) {
+			cairo_surface_destroy (destination);
+			cairo_surface_destroy (source);
 			return NULL;
+		}
 
 		progress = (double) y / height;
 		gth_async_task_set_data (task, NULL, NULL, &progress);
