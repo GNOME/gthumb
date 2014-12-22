@@ -55,6 +55,8 @@ gth_main_register_default_file_loader (void)
 
 		g_strfreev (mime_types);
 	}
+
+	g_slist_free (formats);
 }
 
 

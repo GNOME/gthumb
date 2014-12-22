@@ -125,6 +125,7 @@ update_system_bookmark_list_from_content (GthBrowser *browser,
 		g_menu_item_set_action_and_target (item, "win.go-to-location", "s", uri);
 		g_menu_append_item (data->system_bookmarks_menu, item);
 
+		g_object_unref (item);
 		g_free (name);
 		g_object_unref (file);
 		g_strfreev (line);
@@ -242,7 +243,7 @@ _gth_browser_update_bookmark_list (GthBrowser *browser)
 		g_menu_item_set_action_and_target (item, "win.go-to-location", "s", uris[i]);
 		g_menu_append_item (data->bookmarks_menu, item);
 
-		_g_object_unref (item);
+		g_object_unref (item);
 		g_free (name);
 		g_object_unref (file);
 	}

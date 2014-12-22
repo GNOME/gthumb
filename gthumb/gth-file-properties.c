@@ -149,8 +149,10 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 			continue;
 
 		value = gth_file_data_get_attribute_as_string (file_data, info->id);
-		if ((value == NULL) || (*value == '\0'))
+		if ((value == NULL) || (*value == '\0')) {
+			g_free (value);
 			continue;
+		}
 
 		if (info->id != NULL) {
 			if (g_str_has_prefix (info->id, "Exif")) {

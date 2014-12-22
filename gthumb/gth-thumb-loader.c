@@ -511,6 +511,7 @@ is_a_cache_file (const char *uri)
 
 	g_free (cache_dir_1);
 	g_free (cache_dir_2);
+	g_free (filename);
 
 	return result;
 }

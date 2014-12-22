@@ -193,7 +193,7 @@ gth_menu_manager_append_entries (GthMenuManager     *menu_manager,
 	GList *items;
 	int    i;
 
-	g_return_if_fail (menu_manager != NULL);
+	g_return_val_if_fail (menu_manager != NULL, 0);
 
 	merge_id = gth_menu_manager_new_merge_id (menu_manager);
 	items = NULL;

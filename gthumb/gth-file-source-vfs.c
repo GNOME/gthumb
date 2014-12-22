@@ -111,9 +111,10 @@ gth_file_source_vfs_add_uri (GList         *list,
 static GList *
 gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 {
-	GList *list;
-	GList *mounts;
-	GList *scan;
+	GList          *list;
+	GVolumeMonitor *monitor;
+	GList          *mounts;
+	GList          *scan;
 
 	list = NULL;
 
@@ -123,7 +124,8 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_DOWNLOAD);
 	list = gth_file_source_vfs_add_uri (list, file_source, "file:///");
 
-	mounts = g_volume_monitor_get_mounts (g_volume_monitor_get ());
+	monitor = g_volume_monitor_get ();
+	mounts = g_volume_monitor_get_mounts (monitor);
 	for (scan = mounts; scan; scan = scan->next) {
 		GMount    *mount = scan->data;
 		GIcon     *icon;
@@ -170,6 +172,7 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 	}
 
 	_g_object_list_unref (mounts);
+	g_object_unref (monitor);
 
 	return list;
 }
@@ -219,6 +222,7 @@ gth_file_source_vfs_get_file_info (GthFileSource *file_source,
 	else if (g_strcmp0 (uri, get_home_uri ()) == 0)
 		g_file_info_set_display_name (file_info, _("Home Folder"));
 
+	g_free (uri);
 	g_object_unref (gio_file);
 
 	return file_info;

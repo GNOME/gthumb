@@ -257,6 +257,7 @@ gth_window_realize (GtkWidget *widget)
 						   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 	g_object_unref (css_provider);
+	g_bytes_unref (bytes);
 }
 
 
