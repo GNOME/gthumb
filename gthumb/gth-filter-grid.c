@@ -357,9 +357,12 @@ preview_task_free (PreviewTask *task)
 static void
 generate_preview_data_free (GeneratePreviewData *data)
 {
-	if ((data->self != NULL) && (data->self->priv->gp_data == data))
-		data->self->priv->gp_data = NULL;
 	cairo_surface_destroy (data->original);
+	if (data->self != NULL) {
+		if (data->self->priv->gp_data == data)
+			data->self->priv->gp_data = NULL;
+		g_object_remove_weak_pointer (G_OBJECT (data->self), (gpointer *) &data->self);
+	}
 	g_list_free_full (data->tasks, (GDestroyNotify) preview_task_free);
 	_g_object_unref (data->cancellable);
 	_g_object_unref (data->resize_task);
@@ -386,7 +389,7 @@ image_preview_completed_cb (GthTask    *task,
 	GeneratePreviewData *data = user_data;
 	cairo_surface_t     *preview;
 
-	if (error != NULL) {
+	if ((error != NULL) || (data->self == NULL)) {
 		generate_preview_data_free (data);
 		return;
 	}
@@ -436,7 +439,7 @@ resize_task_completed_cb (GthTask  *task,
 	_g_object_unref (data->resize_task);
 	data->resize_task = NULL;
 
-	if (error != NULL) {
+	if ((error != NULL) || (data->self == NULL)) {
 		generate_preview_data_free (data);
 		return;
 	}
@@ -499,7 +502,7 @@ gth_filter_grid_generate_previews (GthFilterGrid	*self,
 	data->cancellable = NULL;
 	data->original = NULL;
 
-	g_object_add_weak_pointer (G_OBJECT (self), &data->self);
+	g_object_add_weak_pointer (G_OBJECT (self), (gpointer *) &data->self);
 	self->priv->gp_data = data;
 
 	/* collect the (filter, task) pairs */
