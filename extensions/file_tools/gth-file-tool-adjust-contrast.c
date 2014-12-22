@@ -548,12 +548,12 @@ gth_file_tool_adjust_contrast_get_options (GthFileTool *base)
 
 	gth_filter_grid_generate_previews (GTH_FILTER_GRID (filter_grid),
 					   source,
-					   METHOD_EQUALIZE_SQUARE_ROOT,
-					   get_image_task_for_method (METHOD_EQUALIZE_SQUARE_ROOT),
 					   METHOD_STRETCH,
 					   get_image_task_for_method (METHOD_STRETCH),
 					   METHOD_STRETCH_MAX,
 					   get_image_task_for_method (METHOD_STRETCH_MAX),
+					   METHOD_EQUALIZE_SQUARE_ROOT,
+					   get_image_task_for_method (METHOD_EQUALIZE_SQUARE_ROOT),
 					   METHOD_EQUALIZE_LINEAR,
 					   get_image_task_for_method (METHOD_EQUALIZE_LINEAR),
 					   -1);
