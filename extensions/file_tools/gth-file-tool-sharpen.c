@@ -218,11 +218,8 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	cairo_surface_t    *source;
 	GtkWidget          *options;
 	GtkWidget          *image_navigator;
-	gboolean            rtl;
 
 	self = (GthFileToolSharpen *) base;
-
-	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
 
 	_cairo_clear_surface (&self->priv->preview_source);
 
@@ -235,10 +232,6 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 	self->priv->image_centered = FALSE;
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
-
-	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET("reset_image")), rtl ? "edit-undo-rtl-symbolic" :
-										   "edit-undo-symbolic",
-									     GTK_ICON_SIZE_MENU);
 
 	self->priv->preview = gth_image_viewer_new ();
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->preview), FALSE);
@@ -264,10 +257,6 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 							       GTH_COLOR_SCALE_DEFAULT,
 							       DEFAULT_THRESHOLD, 0.0, 255.0, 1.0, 1.0, "%.0f");
 
-	g_signal_connect (GET_WIDGET ("reset_button"),
-			  "clicked",
-			  G_CALLBACK (reset_button_clicked_cb),
-			  self);
 	g_signal_connect (G_OBJECT (self->priv->radius_adj),
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
@@ -358,6 +347,32 @@ gth_file_tool_sharpen_apply_options (GthFileTool *base)
 
 
 static void
+gth_file_tool_sharpen_populate_headerbar (GthFileTool *base,
+					  GthBrowser  *browser)
+{
+	GthFileToolSharpen *self;
+	gboolean            rtl;
+	GtkWidget          *button;
+
+	self = (GthFileToolSharpen *) base;
+
+	/* reset button */
+
+	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
+	button = gth_browser_add_header_bar_button (browser,
+						    GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS,
+						    rtl ? "edit-undo-rtl-symbolic" : "edit-undo-symbolic",
+						    _("Reset"),
+						    NULL,
+						    NULL);
+	g_signal_connect (button,
+			  "clicked",
+			  G_CALLBACK (reset_button_clicked_cb),
+			  self);
+}
+
+
+static void
 gth_file_tool_sharpen_reset_image (GthImageViewerPageTool *base)
 {
 	GthFileToolSharpen *self = (GthFileToolSharpen *) base;
@@ -403,6 +418,7 @@ gth_file_tool_sharpen_class_init (GthFileToolSharpenClass *klass)
 	file_tool_class->get_options = gth_file_tool_sharpen_get_options;
 	file_tool_class->destroy_options = gth_file_tool_sharpen_destroy_options;
 	file_tool_class->apply_options = gth_file_tool_sharpen_apply_options;
+	file_tool_class->populate_headerbar = gth_file_tool_sharpen_populate_headerbar;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_sharpen_reset_image;

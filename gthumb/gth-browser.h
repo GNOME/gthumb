@@ -90,6 +90,7 @@ typedef enum { /*< skip >*/
 	GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
 	GTH_BROWSER_HEADER_SECTION_EDITOR_NAVIGATION,
 	GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS,
+	GTH_BROWSER_HEADER_SECTION_EDITOR_APPLY,
 	GTH_BROWSER_N_HEADER_SECTIONS
 } GthBrowserHeaderSection;
 
@@ -160,6 +161,13 @@ GtkWidget *	 gth_browser_add_header_bar_toggle_button
 						     const char			*icon_name,
 						     const char			*tooltip,
 						     const char 		*action_name,
+						     const char			*accelerator);
+GtkWidget *	 gth_browser_add_header_bar_label_button
+						    (GthBrowser			*browser,
+						     GthBrowserHeaderSection	 section,
+						     const char			*label,
+						     const char			*tooltip,
+						     const char			*action_name,
 						     const char			*accelerator);
 void		 gth_browser_add_menu_manager_for_menu
 						    (GthBrowser			*browser,
@@ -250,6 +258,7 @@ void             gth_browser_ask_whether_to_save    (GthBrowser       *browser,
 				 	 	     gpointer          user_data);
 void             gth_browser_save_state             (GthBrowser       *browser);
 gboolean         gth_browser_restore_state          (GthBrowser       *browser);
+void		 gth_browser_apply_editor_changes   (GthBrowser	      *browser);
 
 /* utilities */
 

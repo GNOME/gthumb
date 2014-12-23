@@ -50,7 +50,6 @@ struct _GthToolboxPrivate {
 	char      *name;
 	GtkWidget *tool_grid[GTH_TOOLBOX_N_SECTIONS];
 	GtkWidget *options;
-	GtkWidget *options_title;
 	GtkWidget *active_tool;
 };
 
@@ -135,7 +134,8 @@ gth_toolbox_class_init (GthToolboxClass *klass)
                               NULL, NULL,
                               g_cclosure_marshal_VOID__BOOLEAN,
                               G_TYPE_NONE,
-                              0);
+                              1,
+			      G_TYPE_BOOLEAN);
 }
 
 
@@ -242,14 +242,8 @@ gth_toolbox_init (GthToolbox *toolbox)
 	gtk_widget_show (ok_button);
 	g_signal_connect (ok_button, "clicked", G_CALLBACK (ok_button_clicked_cb), toolbox);
 
-	toolbox->priv->options_title = gtk_header_bar_new ();
-	/*gtk_style_context_add_class (gtk_widget_get_style_context (toolbox->priv->options_title), "inline-headerbar");*/
-	gtk_header_bar_pack_start (GTK_HEADER_BAR (toolbox->priv->options_title), close_button);
-	gtk_header_bar_pack_end (GTK_HEADER_BAR (toolbox->priv->options_title), ok_button);
-	gtk_widget_show (toolbox->priv->options_title);
-	gtk_box_pack_start (GTK_BOX (options_box), toolbox->priv->options_title, FALSE, FALSE, 0);
-
 	toolbox->priv->options = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_margin_top (toolbox->priv->options, 24);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_SHADOW_NONE);
 	gtk_widget_show (toolbox->priv->options);
 	gtk_box_pack_start (GTK_BOX (options_box), toolbox->priv->options, TRUE, TRUE, 0);
@@ -276,11 +270,7 @@ child_show_options_cb (GtkWidget *tool,
 		return;
 
 	toolbox->priv->active_tool = tool;
-
 	_gtk_container_remove_children (GTK_CONTAINER (toolbox->priv->options), NULL, NULL);
-
-	gtk_header_bar_set_title (GTK_HEADER_BAR (toolbox->priv->options_title), gth_file_tool_get_options_title (GTH_FILE_TOOL (tool)));
-	/*gtk_image_set_from_icon_name (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_MENU);*/
 	gtk_container_add (GTK_CONTAINER (toolbox->priv->options), options);
 	gtk_stack_set_visible_child_name (GTK_STACK (toolbox), GTH_TOOLBOX_PAGE_OPTIONS);
 
@@ -431,4 +421,11 @@ gth_toolbox_get_tool (GthToolbox *toolbox,
 	}
 
 	return tool;
+}
+
+
+GtkWidget *
+gth_toolbox_get_active_tool (GthToolbox *toolbox)
+{
+	return toolbox->priv->active_tool;
 }

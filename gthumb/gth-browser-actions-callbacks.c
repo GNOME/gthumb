@@ -530,6 +530,7 @@ gth_browser_activate_show_previous_image (GSimpleAction *action,
 	gth_browser_show_prev_image (browser, FALSE, FALSE);
 }
 
+
 void
 gth_browser_activate_show_next_image (GSimpleAction *action,
 				      GVariant      *state,
@@ -537,4 +538,14 @@ gth_browser_activate_show_next_image (GSimpleAction *action,
 {
 	GthBrowser *browser = GTH_BROWSER (user_data);
 	gth_browser_show_next_image (browser, FALSE, FALSE);
+}
+
+
+void
+gth_browser_activate_apply_editor_changes (GSimpleAction *action,
+					   GVariant      *state,
+					   gpointer       user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	gth_browser_apply_editor_changes (browser);
 }

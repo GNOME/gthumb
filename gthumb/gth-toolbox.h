@@ -66,6 +66,7 @@ void           gth_toolbox_deactivate_tool       (GthToolbox  *toolbox);
 gboolean       gth_toolbox_tool_is_active        (GthToolbox  *toolbox);
 GtkWidget *    gth_toolbox_get_tool              (GthToolbox  *toolbox,
 						  GType        tool_type);
+GtkWidget *    gth_toolbox_get_active_tool       (GthToolbox  *toolbox);
 
 G_END_DECLS
 

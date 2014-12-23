@@ -479,10 +479,6 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("bind_factor_spinbutton")),
 				   g_settings_get_int (self->priv->settings, PREF_CROP_BIND_FACTOR));
 
-	g_signal_connect (GET_WIDGET ("options_button"),
-			  "clicked",
-			  G_CALLBACK (options_button_clicked_cb),
-			  self);
 	g_signal_connect_swapped (GET_WIDGET ("options_close_button"),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_hide),
@@ -644,6 +640,31 @@ gth_file_tool_crop_apply_options (GthFileTool *base)
 
 
 static void
+gth_file_tool_crop_populate_headerbar (GthFileTool *base,
+				       GthBrowser  *browser)
+{
+	GthFileToolCrop *self;
+	GtkWidget       *button;
+
+	self = (GthFileToolCrop *) base;
+
+	/* preferences dialog */
+
+	button = gth_browser_add_header_bar_button (browser,
+						    GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS,
+						    "preferences-system-symbolic",
+						    _("Options"),
+						    NULL,
+						    NULL);
+	g_signal_connect (button,
+			  "clicked",
+			  G_CALLBACK (options_button_clicked_cb),
+			  self);
+
+}
+
+
+static void
 gth_file_tool_crop_reset_image (GthImageViewerPageTool *base)
 {
 	GthFileToolCrop *self = (GthFileToolCrop *) base;
@@ -697,6 +718,7 @@ gth_file_tool_crop_class_init (GthFileToolCropClass *klass)
 	file_tool_class->get_options = gth_file_tool_crop_get_options;
 	file_tool_class->destroy_options = gth_file_tool_crop_destroy_options;
 	file_tool_class->apply_options = gth_file_tool_crop_apply_options;
+	file_tool_class->populate_headerbar = gth_file_tool_crop_populate_headerbar;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_crop_reset_image;

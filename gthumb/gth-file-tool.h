@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 #include "gth-toolbox.h"
+#include "gth-browser.h"
 
 G_BEGIN_DECLS
 
@@ -54,6 +55,8 @@ struct _GthFileToolClass {
 	GtkWidget *  (*get_options)        (GthFileTool *self);
 	void         (*destroy_options)    (GthFileTool *self);
 	void         (*apply_options)      (GthFileTool *self);
+	void         (*populate_headerbar) (GthFileTool *self,
+					    GthBrowser  *browser);
 
 	/*< signals >*/
 
@@ -79,6 +82,8 @@ void			gth_file_tool_destroy_options		(GthFileTool		*self);
 void			gth_file_tool_show_options		(GthFileTool		*self);
 void			gth_file_tool_hide_options		(GthFileTool		*self);
 void			gth_file_tool_apply_options		(GthFileTool		*self);
+void			gth_file_tool_populate_headerbar	(GthFileTool		*self,
+								 GthBrowser		*browser);
 
 G_END_DECLS
 

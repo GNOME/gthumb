@@ -59,6 +59,8 @@ static const GActionEntry gth_browser_actions[] = {
 
 	{ "show-previous-image", gth_browser_activate_show_previous_image },
 	{ "show-next-image", gth_browser_activate_show_next_image },
+
+	{ "apply-editor-changes", gth_browser_activate_apply_editor_changes },
 };
 
 

@@ -357,11 +357,8 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	GtkWidget         *viewer;
 	char              *color_spec;
 	GdkRGBA            background_color;
-	gboolean           rtl;
 
 	self = (GthFileToolRotate *) base;
-
-	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -377,10 +374,6 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	cairo_surface_reference (self->priv->image);
 
 	self->priv->builder = _gtk_builder_new_from_file ("rotate-options.ui", "file_tools");
-
-	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET("reset_image")), rtl ? "edit-undo-rtl-symbolic" :
-										   "edit-undo-symbolic",
-									     GTK_ICON_SIZE_MENU);
 
 	self->priv->rotation_angle_adj = gth_color_scale_label_new (GET_WIDGET ("rotation_angle_hbox"),
 								    GTK_LABEL (GET_WIDGET ("rotation_angle_label")),
@@ -451,14 +444,6 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	self->priv->crop_region.width = cairo_image_surface_get_width (self->priv->image);
 	self->priv->crop_region.height = cairo_image_surface_get_height (self->priv->image);
 
-	g_signal_connect (GET_WIDGET ("reset_button"),
-			  "clicked",
-			  G_CALLBACK (reset_button_clicked_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("options_button"),
-			  "clicked",
-			  G_CALLBACK (options_button_clicked_cb),
-			  self);
 	g_signal_connect_swapped (GET_WIDGET ("options_close_button"),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_hide),
@@ -600,6 +585,46 @@ gth_file_tool_rotate_apply_options (GthFileTool *base)
 
 
 static void
+gth_file_tool_rotate_populate_headerbar (GthFileTool *base,
+					 GthBrowser  *browser)
+{
+	GthFileToolRotate *self;
+	gboolean           rtl;
+	GtkWidget         *button;
+
+	self = (GthFileToolRotate *) base;
+
+	/* reset button */
+
+	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
+	button = gth_browser_add_header_bar_button (browser,
+						    GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS,
+						    rtl ? "edit-undo-rtl-symbolic" : "edit-undo-symbolic",
+						    _("Reset"),
+						    NULL,
+						    NULL);
+	g_signal_connect (button,
+			  "clicked",
+			  G_CALLBACK (reset_button_clicked_cb),
+			  self);
+
+	/* preferences dialog */
+
+	button = gth_browser_add_header_bar_button (browser,
+						    GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS,
+						    "preferences-system-symbolic",
+						    _("Options"),
+						    NULL,
+						    NULL);
+	g_signal_connect (button,
+			  "clicked",
+			  G_CALLBACK (options_button_clicked_cb),
+			  self);
+
+}
+
+
+static void
 gth_file_tool_rotate_reset_image (GthImageViewerPageTool *self)
 {
 	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self))));
@@ -642,6 +667,7 @@ gth_file_tool_rotate_class_init (GthFileToolRotateClass *klass)
 	file_tool_class->get_options = gth_file_tool_rotate_get_options;
 	file_tool_class->destroy_options = gth_file_tool_rotate_destroy_options;
 	file_tool_class->apply_options = gth_file_tool_rotate_apply_options;
+	file_tool_class->populate_headerbar = gth_file_tool_rotate_populate_headerbar;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_rotate_reset_image;

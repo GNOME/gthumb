@@ -395,11 +395,8 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	GtkWidget               *options;
 	int                      width, height;
 	GtkAllocation            allocation;
-	gboolean                 rtl;
 
 	self = (GthFileToolAdjustColors *) base;
-
-	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
 
 	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	if (viewer_page == NULL)
@@ -428,10 +425,6 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	self->priv->builder = _gtk_builder_new_from_file ("adjust-colors-options.ui", "file_tools");
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
-
-	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET("reset_image")), rtl ? "edit-undo-rtl-symbolic" :
-										   "edit-undo-symbolic",
-									     GTK_ICON_SIZE_MENU);
 
 	self->priv->histogram_view = gth_histogram_view_new (self->priv->histogram);
 	gtk_widget_show (self->priv->histogram_view);
@@ -466,10 +459,6 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 								   GTH_COLOR_SCALE_YELLOW_BLUE,
 								   0.0, -99.0, 99.0, 1.0, 1.0, "%+.0f");
 
-	g_signal_connect (GET_WIDGET ("reset_button"),
-			  "clicked",
-			  G_CALLBACK (reset_button_clicked_cb),
-			  self);
 	g_signal_connect (G_OBJECT (self->priv->brightness_adj),
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
@@ -547,6 +536,32 @@ gth_file_tool_adjust_colors_apply_options (GthFileTool *base)
 
 
 static void
+gth_file_tool_adjust_colors_populate_headerbar (GthFileTool *base,
+						GthBrowser  *browser)
+{
+	GthFileToolAdjustColors *self;
+	gboolean                 rtl;
+	GtkWidget               *button;
+
+	self = (GthFileToolAdjustColors *) base;
+
+	/* reset button */
+
+	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
+	button = gth_browser_add_header_bar_button (browser,
+						    GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS,
+						    rtl ? "edit-undo-rtl-symbolic" : "edit-undo-symbolic",
+						    _("Reset"),
+						    NULL,
+						    NULL);
+	g_signal_connect (button,
+			  "clicked",
+			  G_CALLBACK (reset_button_clicked_cb),
+			  self);
+}
+
+
+static void
 gth_file_tool_sharpen_reset_image (GthImageViewerPageTool *base)
 {
 	GthFileToolAdjustColors *self = (GthFileToolAdjustColors *) base;
@@ -617,6 +632,7 @@ gth_file_tool_adjust_colors_class_init (GthFileToolAdjustColorsClass *klass)
 	file_tool_class->get_options = gth_file_tool_adjust_colors_get_options;
 	file_tool_class->destroy_options = gth_file_tool_adjust_colors_destroy_options;
 	file_tool_class->apply_options = gth_file_tool_adjust_colors_apply_options;
+	file_tool_class->populate_headerbar = gth_file_tool_adjust_colors_populate_headerbar;
 
 	image_viewer_page_tool_class = (GthImageViewerPageToolClass *) klass;
 	image_viewer_page_tool_class->reset_image = gth_file_tool_sharpen_reset_image;
