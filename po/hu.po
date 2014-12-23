@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-19 21:26+0000\n"
-"PO-Revision-Date: 2014-12-20 00:21+0100\n"
+"POT-Creation-Date: 2014-12-23 11:33+0000\n"
+"PO-Revision-Date: 2014-12-23 17:43+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -80,7 +80,7 @@ msgstr ""
 "katalógusként."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:363
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:382
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -98,7 +98,6 @@ msgid "View and organize your images"
 msgstr "Képek megtekintése és rendszerezése"
 
 #: ../data/gthumb.desktop.in.in.h:5
-#| msgid "Image Viewer"
 msgid "Image;Viewer;"
 msgstr "Kép;Megjelenítő;"
 
@@ -453,12 +452,12 @@ msgstr "Képek feltöltése a 23hq.com oldalra"
 #: ../extensions/selections/selections.extension.in.in.h:3
 #: ../extensions/slideshow/slideshow.extension.in.in.h:3
 #: ../extensions/webalbums/webalbums.extension.in.in.h:3
-#: ../gthumb/dlg-preferences-extensions.c:487
+#: ../gthumb/dlg-preferences-extensions.c:489
 msgid "gthumb development team"
 msgstr "A gthumb fejlesztőcsapata"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
-#: ../extensions/bookmarks/callbacks.c:326
+#: ../extensions/bookmarks/callbacks.c:327
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
 msgid "Bookmarks"
 msgstr "Könyvjelzők"
@@ -758,7 +757,7 @@ msgstr "Átnevezés"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4320 ../gthumb/gth-file-properties.c:254
+#: ../gthumb/gth-browser.c:4376 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -1073,7 +1072,7 @@ msgstr "Megjegyzések és címkék hozzáadása bármilyen fájltípushoz."
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
-#: ../gthumb/dlg-preferences-extensions.c:479
+#: ../gthumb/dlg-preferences-extensions.c:481
 msgid "Preferences"
 msgstr "Beállítások"
 
@@ -1135,10 +1134,10 @@ msgstr ""
 "Indexkép létrehozása a kijelölt fájlok bélyegképeinek megjelenítéséhez."
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
-#: ../extensions/file_tools/gth-file-tool-crop.c:460
-#: ../extensions/file_tools/gth-file-tool-crop.c:490
-#: ../extensions/file_tools/gth-file-tool-resize.c:588
-#: ../extensions/file_tools/gth-file-tool-rotate.c:430
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#: ../extensions/file_tools/gth-file-tool-crop.c:464
+#: ../extensions/file_tools/gth-file-tool-resize.c:579
+#: ../extensions/file_tools/gth-file-tool-rotate.c:393
 #: ../extensions/slideshow/main.c:291
 msgid "None"
 msgstr "Nincs"
@@ -1914,7 +1913,7 @@ msgstr "Nem lehet exportálni a fájlokat"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:808
+#: ../gthumb/gth-browser.c:827
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2074,13 +2073,13 @@ msgid "Could not move the folder to the Trash"
 msgstr "Nem sikerült áthelyezni a mappát a Kukába"
 
 #: ../extensions/file_manager/actions.c:1059
-#: ../gthumb/gth-file-source-vfs.c:853
+#: ../gthumb/gth-file-source-vfs.c:857
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Biztos benne, hogy véglegesen törli ezt a fájlt: „%s”?"
 
 #: ../extensions/file_manager/actions.c:1069
-#: ../gthumb/gth-file-source-vfs.c:866
+#: ../gthumb/gth-file-source-vfs.c:870
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Ha törli a fájlt, az véglegesen elvész."
 
@@ -2136,7 +2135,7 @@ msgstr "Megnyitás _ezzel"
 
 #: ../extensions/file_manager/callbacks.c:883
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5231 ../gthumb/gth-browser.c:5264
+#: ../gthumb/gth-browser.c:5323 ../gthumb/gth-browser.c:5356
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Nem sikerült végrehajtani a műveletet"
@@ -2154,7 +2153,7 @@ msgid "Deleting files"
 msgstr "Fájlok törlése"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:5
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
 msgid "_Preview"
 msgstr "_Előnézet:"
 
@@ -2190,90 +2189,67 @@ msgstr "_Sárga-kék:"
 msgid "Color Levels"
 msgstr "Színszintek"
 
-#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:10
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:5
-msgid "Reset"
-msgstr "Visszaállítás"
-
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:1
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
+#: ../extensions/file_tools/gth-file-tool-crop.c:656
+#: ../extensions/file_tools/gth-file-tool-resize.c:749
+#: ../extensions/file_tools/gth-file-tool-rotate.c:616
+#: ../gthumb/gth-file-chooser-dialog.c:252
+msgid "Options"
+msgstr "Beállítások"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+msgid "_Grid:"
+msgstr "_Rács:"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Selection"
 msgstr "Kijelölés"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 msgid "_Width:"
 msgstr "_Szélesség:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:8
 msgid "Heigh_t:"
 msgstr "_Magasság:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
 msgid "_Position:"
 msgstr "_Pozíció:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 msgid "Maximize"
 msgstr "Maximalizálás"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 msgid "Center"
 msgstr "Középre"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:10
 msgid "Aspect ratio"
 msgstr "Méretarány"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:11
 msgid "I_nvert aspect ratio"
 msgstr "Méret_arány megfordítása"
 
 #. after the colon there is a control to select the size in pixels
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:12
 msgid "M_ultiple of:"
 msgstr "Tö_bbszöröse ennek:"
 
 #. abbreviation of pixel
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:12
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:14
 msgid "px"
 msgstr "px"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:13
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:1
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
-#: ../gthumb/gth-file-chooser-dialog.c:252
-msgid "Options"
-msgstr "Beállítások"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:14
-msgid "C_rop"
-msgstr "_Levágás"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:15
-msgid "_Grid:"
-msgstr "_Rács:"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:1
-msgid "Method"
-msgstr "Módszer"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:2
-msgid "_Brightness"
-msgstr "_Fényerősség"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:3
-msgid "_Saturation"
-msgstr "_Telítettség"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:4
-msgid "_Average"
-msgstr "Átla_gos"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 msgid "High _quality"
@@ -2363,7 +2339,7 @@ msgstr "2. pont:"
 msgid "Keep aspect ratio"
 msgstr "Méretarány megőrzése"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:16
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
 msgid ""
 "Draw a line on the image \n"
 "to set the alignment."
@@ -2371,22 +2347,17 @@ msgstr ""
 "Rajzoljon egy vonalat a képre\n"
 "az igazítás beállításához."
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:17
 msgid "Parallel"
 msgstr "Párhuzamos"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
 msgid "Perpendicular"
 msgstr "Merőleges"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:20
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
 msgid "Alignment"
 msgstr "Igazítás"
-
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
-msgid "_Preview:"
-msgstr "_Előnézet:"
 
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:2
 msgid "Threshold:"
@@ -2408,134 +2379,149 @@ msgstr "Képeszközök"
 msgid "Basic tools to modify images."
 msgstr "Alap eszközök képek módosításához."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:346
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:227
-#: ../extensions/file_tools/gth-file-tool-crop.c:121
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:335
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:388
+#: ../extensions/file_tools/gth-file-tool-crop.c:627
 #: ../extensions/file_tools/gth-file-tool-flip.c:63
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:239
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:227
 #: ../extensions/file_tools/gth-file-tool-mirror.c:63
 #: ../extensions/file_tools/gth-file-tool-negative.c:109
-#: ../extensions/file_tools/gth-file-tool-rotate.c:262
+#: ../extensions/file_tools/gth-file-tool-rotate.c:568
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:63
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:63
 msgid "Applying changes"
 msgstr "Változások alkalmazása"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:588
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:554
+#: ../extensions/file_tools/gth-file-tool-rotate.c:603
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:365
+msgid "Reset"
+msgstr "Visszaállítás"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:595
 msgid "Adjust Colors"
 msgstr "Színek módosítása"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:589
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Fényerő, kontraszt, telítettség és gamma szintek állítása a képen"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:244
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+msgid "Stretch"
+msgstr "Nyújtás"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+msgid "Stretch the histogram trimming the 0.5%"
+msgstr "Hisztogram nyújtása 0,5% levágásával"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+msgid "Equalize"
+msgstr "Kiegyenlítés"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+msgid "Equalize the histogram using the square root function"
+msgstr "Hisztogram kiegyenlítése négyzetgyök függvény használatával"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+#: ../extensions/file_tools/gth-file-tool-crop.c:468
+#: ../extensions/file_tools/gth-file-tool-rotate.c:397
+msgid "Uniform"
+msgstr "Egyforma"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+msgid "Equalize the histogram using the linear function"
+msgstr "Hisztogram kiegyenlítése lineáris függvény használatával"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:653
 msgid "Adjust Contrast"
 msgstr "Kontraszt beállítása"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:245
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:655
 msgid "Automatic contrast adjustment"
 msgstr "Automatikus kontraszt beállítás"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:460
-#: ../extensions/file_tools/gth-file-tool-resize.c:588
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#: ../extensions/file_tools/gth-file-tool-resize.c:579
 msgid "Square"
 msgstr "Négyzet"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:461
-#: ../extensions/file_tools/gth-file-tool-resize.c:589
+#: ../extensions/file_tools/gth-file-tool-crop.c:435
+#: ../extensions/file_tools/gth-file-tool-resize.c:580
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d × %d (kép)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:464
-#: ../extensions/file_tools/gth-file-tool-resize.c:593
+#: ../extensions/file_tools/gth-file-tool-crop.c:438
+#: ../extensions/file_tools/gth-file-tool-resize.c:584
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d × %d (képernyő)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:468
-#: ../extensions/file_tools/gth-file-tool-resize.c:598
+#: ../extensions/file_tools/gth-file-tool-crop.c:442
+#: ../extensions/file_tools/gth-file-tool-resize.c:589
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:469
-#: ../extensions/file_tools/gth-file-tool-resize.c:599
+#: ../extensions/file_tools/gth-file-tool-crop.c:443
+#: ../extensions/file_tools/gth-file-tool-resize.c:590
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (DVD, könyv)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:470
-#: ../extensions/file_tools/gth-file-tool-resize.c:600
+#: ../extensions/file_tools/gth-file-tool-crop.c:444
+#: ../extensions/file_tools/gth-file-tool-resize.c:591
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:471
-#: ../extensions/file_tools/gth-file-tool-resize.c:601
+#: ../extensions/file_tools/gth-file-tool-crop.c:445
+#: ../extensions/file_tools/gth-file-tool-resize.c:592
 msgid "3:2 (Postcard)"
 msgstr "3:2 (képeslap)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:472
-#: ../extensions/file_tools/gth-file-tool-resize.c:602
+#: ../extensions/file_tools/gth-file-tool-crop.c:446
+#: ../extensions/file_tools/gth-file-tool-resize.c:593
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:473
-#: ../extensions/file_tools/gth-file-tool-resize.c:603
+#: ../extensions/file_tools/gth-file-tool-crop.c:447
+#: ../extensions/file_tools/gth-file-tool-resize.c:594
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:474
-#: ../extensions/file_tools/gth-file-tool-resize.c:604
+#: ../extensions/file_tools/gth-file-tool-crop.c:448
+#: ../extensions/file_tools/gth-file-tool-resize.c:595
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:475
-#: ../extensions/file_tools/gth-file-tool-resize.c:605
+#: ../extensions/file_tools/gth-file-tool-crop.c:449
+#: ../extensions/file_tools/gth-file-tool-resize.c:596
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:476
-#: ../extensions/file_tools/gth-file-tool-resize.c:606
+#: ../extensions/file_tools/gth-file-tool-crop.c:450
+#: ../extensions/file_tools/gth-file-tool-resize.c:597
 #: ../extensions/image_print/data/ui/print-layout.ui.h:2
 #: ../extensions/rename_series/gth-template-selector.c:234
 msgid "Custom"
 msgstr "Egyéni"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:491
-#: ../extensions/file_tools/gth-file-tool-rotate.c:431
+#: ../extensions/file_tools/gth-file-tool-crop.c:465
+#: ../extensions/file_tools/gth-file-tool-rotate.c:394
 msgid "Rule of Thirds"
 msgstr "Harmadoló rács"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:492
-#: ../extensions/file_tools/gth-file-tool-rotate.c:432
+#: ../extensions/file_tools/gth-file-tool-crop.c:466
+#: ../extensions/file_tools/gth-file-tool-rotate.c:395
 msgid "Golden Sections"
 msgstr "Aranymetszés"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:493
-#: ../extensions/file_tools/gth-file-tool-rotate.c:433
+#: ../extensions/file_tools/gth-file-tool-crop.c:467
+#: ../extensions/file_tools/gth-file-tool-rotate.c:396
 msgid "Center Lines"
 msgstr "Középső vonalak"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:494
-#: ../extensions/file_tools/gth-file-tool-rotate.c:434
-msgid "Uniform"
-msgstr "Egyforma"
-
-#: ../extensions/file_tools/gth-file-tool-crop.c:667
+#: ../extensions/file_tools/gth-file-tool-crop.c:682
 msgid "Crop"
 msgstr "Levágás"
-
-#: ../extensions/file_tools/gth-file-tool-equalize.c:158
-msgid "Equalizing image histogram"
-msgstr "Kép hisztogramjának kiegyenlítése"
-
-#: ../extensions/file_tools/gth-file-tool-equalize.c:185
-msgid "Equalize"
-msgstr "Kiegyenlítés"
-
-#: ../extensions/file_tools/gth-file-tool-equalize.c:186
-msgid "Equalize image histogram"
-msgstr "Kép hisztogramjának kiegyenlítése"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:90
 msgid "Flip"
@@ -2545,7 +2531,19 @@ msgstr "Megfordítás"
 msgid "Flip the image vertically"
 msgstr "Kép tükrözése függőlegesen"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:475
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:367
+msgid "_Brightness"
+msgstr "_Fényerősség"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:368
+msgid "_Saturation"
+msgstr "_Telítettség"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:369
+msgid "_Average"
+msgstr "Átla_gos"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:493
 msgid "Grayscale"
 msgstr "Szürkeárnyalatos"
 
@@ -2565,16 +2563,18 @@ msgstr "Negatív"
 msgid "Redo"
 msgstr "Újra"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:189
+#. resize the original image
+#: ../extensions/file_tools/gth-file-tool-resize.c:180
 #: ../extensions/resize_images/dlg-resize-images.c:172
+#: ../gthumb/gth-filter-grid.c:530
 msgid "Resizing images"
 msgstr "Képek átméretezése"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:814
+#: ../extensions/file_tools/gth-file-tool-resize.c:832
 msgid "Resize"
 msgstr "Átméretezés"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:662
+#: ../extensions/file_tools/gth-file-tool-rotate.c:683
 msgid "Rotate"
 msgstr "Forgatás"
 
@@ -2608,11 +2608,11 @@ msgstr "Mentés másként"
 msgid "Save"
 msgstr "Mentés"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:122
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:333
 msgid "Sharpening image"
 msgstr "Kép élesítése"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:427
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:438
 msgid "Enhance Focus"
 msgstr "Fókusz fokozása"
 
@@ -2833,19 +2833,26 @@ msgstr ""
 "engedélyezze a gthumbnak a fényképfeltöltést a(z) %s fiókba. Ha végzett, "
 "térjen vissza ehhez az ablakhoz az engedélyezés befejezéséhez."
 
-#: ../extensions/gstreamer_tools/actions.c:67
+#: ../extensions/gstreamer_tools/actions.c:69
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1262
-#: ../gthumb/gth-browser.c:1872
+#: ../gthumb/gth-browser.c:1891
 msgid "Could not save the file"
 msgstr "Nem lehet elmenteni a fájlt"
 
-#: ../extensions/gstreamer_tools/actions.c:92
+#. Translators: %s is a filename
+#: ../extensions/gstreamer_tools/actions.c:75
+#, c-format
+#| msgid "Image %d of %d"
+msgid "Image saved as %s"
+msgstr "A kép elmentve másként: %s"
+
+#: ../extensions/gstreamer_tools/actions.c:101
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Képernyőkép"
 
-#: ../extensions/gstreamer_tools/actions.c:128
-#: ../extensions/gstreamer_tools/actions.c:139
+#: ../extensions/gstreamer_tools/actions.c:137
+#: ../extensions/gstreamer_tools/actions.c:148
 msgid "Could not take a screenshot"
 msgstr "Nem lehet képernyőképet készíteni"
 
@@ -3311,7 +3318,7 @@ msgid "The selected files are already present in the destination."
 msgstr "A kiválasztott fájlok már szerepelnek a célban."
 
 #: ../extensions/importer/gth-import-task.c:644
-#: ../gthumb/gth-file-source-vfs.c:706
+#: ../gthumb/gth-file-source-vfs.c:710
 msgid "Could not delete the files"
 msgstr "Nem sikerült törölni a fájlokat"
 
@@ -3731,7 +3738,7 @@ msgid "(Empty)"
 msgstr "(Üres)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1783
+#: ../gthumb/gth-browser.c:1802
 msgid "Getting the folder content…"
 msgstr "Mappatartalom lekérdezése…"
 
@@ -3805,11 +3812,11 @@ msgstr "_X:"
 msgid "_Y:"
 msgstr "_Y:"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:498
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
 msgid "Red Eye Removal"
 msgstr "Vörösszem-eltávolítás"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:499
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:471
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr ""
 "A fényképező vakuja következtében kialakult vörösszemhatás eltávolítása"
@@ -3896,6 +3903,10 @@ msgstr "_Sablon:"
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:27
 msgid "Re_verse Order"
 msgstr "Fo_rdított sorrend"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
+msgid "_Preview:"
+msgstr "_Előnézet:"
 
 #: ../extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
@@ -3995,7 +4006,7 @@ msgid "_Preserve original aspect ratios"
 msgstr "_Eredeti méretarány megtartása"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:12
-#: ../gthumb/gth-main-default-metadata.c:45 ../gthumb/gth-toolbox.c:147
+#: ../gthumb/gth-main-default-metadata.c:45 ../gthumb/gth-toolbox.c:146
 msgid "Format"
 msgstr "Formátum"
 
@@ -4348,9 +4359,9 @@ msgstr "Webalbumok"
 msgid "Create static web albums."
 msgstr "Statikus webalbumok létrehozása."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1088
-#: ../gthumb/gth-browser.c:1663 ../gthumb/gth-browser.c:6179
-#: ../gthumb/gth-browser.c:6198 ../gthumb/gth-browser.c:6222
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
+#: ../gthumb/gth-browser.c:1682 ../gthumb/gth-browser.c:6271
+#: ../gthumb/gth-browser.c:6290 ../gthumb/gth-browser.c:6314
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nem lehet betölteni a(z) „%s” pozíciót"
@@ -4423,23 +4434,23 @@ msgid "Could not deactivate the extension"
 msgstr "Nem lehet deaktiválni a kiterjesztést"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-extensions.c:662
+#: ../gthumb/dlg-preferences-extensions.c:664
 msgid "Extensions"
 msgstr "Kiterjesztések"
 
-#: ../gthumb/dlg-preferences-extensions.c:711
+#: ../gthumb/dlg-preferences-extensions.c:713
 msgid "Restart required"
 msgstr "Újraindítás szükséges"
 
-#: ../gthumb/dlg-preferences-extensions.c:712
+#: ../gthumb/dlg-preferences-extensions.c:714
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "A változások életbe lépéséhez a gthumb újraindítása szükséges"
 
-#: ../gthumb/dlg-preferences-extensions.c:713
+#: ../gthumb/dlg-preferences-extensions.c:715
 msgid "_Continue"
 msgstr "_Folytatás"
 
-#: ../gthumb/dlg-preferences-extensions.c:714
+#: ../gthumb/dlg-preferences-extensions.c:716
 msgid "_Restart"
 msgstr "Új_raindítás"
 
@@ -4538,74 +4549,78 @@ msgstr ""
 "Tímár András <timar at gnome dot hu>\n"
 "Úr Balázs <urbalazs at gmail dot com>"
 
-#: ../gthumb/gth-browser.c:349
+#: ../gthumb/gth-browser.c:367
 msgid "[modified]"
 msgstr "[módosítva]"
 
-#: ../gthumb/gth-browser.c:809
+#: ../gthumb/gth-browser.c:828
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d fájl kijelölve (%s)"
 msgstr[1] "%d fájl kijelölve (%s)"
 
-#: ../gthumb/gth-browser.c:844
+#: ../gthumb/gth-browser.c:863
 #, c-format
 msgid "%s of free space"
 msgstr "%s szabad hely"
 
-#: ../gthumb/gth-browser.c:1767 ../gthumb/gth-browser.c:1794
+#: ../gthumb/gth-browser.c:1786 ../gthumb/gth-browser.c:1813
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nem található megfelelő modul ehhez: %s"
 
-#: ../gthumb/gth-browser.c:1916
+#: ../gthumb/gth-browser.c:1935
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Menti a módosításokat a(z) „%s” fájlba?"
 
-#: ../gthumb/gth-browser.c:1921
+#: ../gthumb/gth-browser.c:1940
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Ha nem menti, a fájl módosításai azonnal elvesznek."
 
-#: ../gthumb/gth-browser.c:1922
+#: ../gthumb/gth-browser.c:1941
 msgid "Do _Not Save"
 msgstr "_Ne mentse"
 
-#: ../gthumb/gth-browser.c:2842 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2885 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nem lehet megváltoztatni a nevet"
 
-#: ../gthumb/gth-browser.c:3275 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3329 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Módosítva"
 
-#: ../gthumb/gth-browser.c:4277
+#: ../gthumb/gth-browser.c:4338
 msgid "Go to the previous visited location"
 msgstr "Ugrás az előző meglátogatott helyre"
 
-#: ../gthumb/gth-browser.c:4283
+#: ../gthumb/gth-browser.c:4344
 msgid "Go to the next visited location"
 msgstr "Ugrás a következő meglátogatott helyre"
 
-#: ../gthumb/gth-browser.c:4295
+#: ../gthumb/gth-browser.c:4352
 msgid "History"
 msgstr "Előzmények"
 
-#: ../gthumb/gth-browser.c:4311
+#: ../gthumb/gth-browser.c:4367
 msgid "View the folders"
 msgstr "A mappák megtekintése"
 
-#: ../gthumb/gth-browser.c:4326
+#: ../gthumb/gth-browser.c:4382
 msgid "Edit file"
 msgstr "Fájl szerkesztése"
 
-#: ../gthumb/gth-browser.c:6180
+#: ../gthumb/gth-browser.c:4399
+msgid "Accept"
+msgstr "Elfogadás"
+
+#: ../gthumb/gth-browser.c:6272
 #, c-format
 msgid "File type not supported"
 msgstr "A fájltípus nem támogatott"
 
-#: ../gthumb/gth-browser.c:6223
+#: ../gthumb/gth-browser.c:6315
 #, c-format
 msgid "No suitable module found"
 msgstr "Nem található megfelelő modul"
@@ -4628,42 +4643,42 @@ msgstr "Minden támogatott fájl"
 msgid "Details"
 msgstr "Részletek"
 
-#: ../gthumb/gth-file-source-vfs.c:213
+#: ../gthumb/gth-file-source-vfs.c:216
 msgid "Computer"
 msgstr "Számítógép"
 
-#: ../gthumb/gth-file-source-vfs.c:220
+#: ../gthumb/gth-file-source-vfs.c:223
 msgid "Home Folder"
 msgstr "Saját mappa"
 
-#: ../gthumb/gth-file-source-vfs.c:751
+#: ../gthumb/gth-file-source-vfs.c:755
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
 "A fájlokat nem sikerült áthelyezni a Kukába. Szeretné véglegesen törölni azt?"
 
-#: ../gthumb/gth-file-source-vfs.c:762
+#: ../gthumb/gth-file-source-vfs.c:766
 msgid "Could not move the files to the Trash"
 msgstr "Nem sikerült áthelyezni a fájlokat a Kukába"
 
-#: ../gthumb/gth-file-source-vfs.c:809
+#: ../gthumb/gth-file-source-vfs.c:813
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Biztos benne, hogy áthelyezi a Kukába ezt a fájlt: „%s”?"
 
-#: ../gthumb/gth-file-source-vfs.c:813
+#: ../gthumb/gth-file-source-vfs.c:817
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
 msgstr[0] "Biztos benne, hogy áthelyezi a Kukába a kijelölt %'d fájlt?"
 msgstr[1] "Biztos benne, hogy áthelyezi a Kukába a kijelölt %'d fájlt?"
 
-#: ../gthumb/gth-file-source-vfs.c:825
+#: ../gthumb/gth-file-source-vfs.c:829
 msgid "Mo_ve to Trash"
 msgstr "Áthelyezés a _Kukába"
 
-#: ../gthumb/gth-file-source-vfs.c:856
+#: ../gthumb/gth-file-source-vfs.c:860
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5041,11 +5056,11 @@ msgstr "Ma"
 msgid "Now"
 msgstr "Most"
 
-#: ../gthumb/gth-toolbox.c:145
+#: ../gthumb/gth-toolbox.c:144
 msgid "Colors"
 msgstr "Színek"
 
-#: ../gthumb/gth-toolbox.c:146
+#: ../gthumb/gth-toolbox.c:145
 msgid "Rotation"
 msgstr "Forgatás"
 
@@ -5165,6 +5180,18 @@ msgstr "Rejtett fájlok"
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
 msgstr "Előzmények _törlése"
+
+#~ msgid "C_rop"
+#~ msgstr "_Levágás"
+
+#~ msgid "Method"
+#~ msgstr "Módszer"
+
+#~ msgid "Equalizing image histogram"
+#~ msgstr "Kép hisztogramjának kiegyenlítése"
+
+#~ msgid "Equalize image histogram"
+#~ msgstr "Kép hisztogramjának kiegyenlítése"
 
 #~ msgid "Low"
 #~ msgstr "Alacsony"
