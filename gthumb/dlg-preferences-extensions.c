@@ -461,13 +461,15 @@ create_extensions_row (GthExtensionDescription	*description,
 	label_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	label = gtk_label_new (description->name);
-	gtk_widget_set_valign (label, 0.5);
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
 	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 	gtk_style_context_add_class (gtk_widget_get_style_context (label), "extension-name");
 	gtk_box_pack_start (GTK_BOX (label_box), label, FALSE, FALSE, 0);
 
 	label = gtk_label_new (description->description);
-	gtk_widget_set_valign (label, 0.5);
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
 	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
 	gtk_style_context_add_class (gtk_widget_get_style_context (label), "extension-description");
 	gtk_box_pack_start (GTK_BOX (label_box), label, FALSE, FALSE, 0);
