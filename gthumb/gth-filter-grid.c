@@ -225,7 +225,7 @@ button_toggled_cb (GtkWidget *toggle_button,
 	           gpointer   user_data)
 {
 	GthFilterGrid *self = user_data;
-	int            filter_id = GTH_FILTER_GRID_NO_ACTIVE_FILTER;
+	int            filter_id = GTH_FILTER_GRID_NO_FILTER;
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button))) {
 		if (self->priv->active_button != toggle_button) {

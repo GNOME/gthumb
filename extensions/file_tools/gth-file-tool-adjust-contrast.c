@@ -466,7 +466,7 @@ filter_grid_activated_cb (GthFilterGrid	*filter_grid,
 {
 	GthFileToolAdjustContrast *self = user_data;
 
-	self->priv->view_original = (filter_id == GTH_FILTER_GRID_NO_ACTIVE_FILTER);
+	self->priv->view_original = (filter_id == GTH_FILTER_GRID_NO_FILTER);
 	if (self->priv->view_original) {
 		gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
 	}
@@ -550,7 +550,7 @@ gth_file_tool_adjust_contrast_get_options (GthFileTool *base)
 					   get_image_task_for_method (METHOD_EQUALIZE_SQUARE_ROOT),
 					   METHOD_EQUALIZE_LINEAR,
 					   get_image_task_for_method (METHOD_EQUALIZE_LINEAR),
-					   -1);
+					   GTH_FILTER_GRID_NO_FILTER);
 
 	return options;
 }
@@ -579,8 +579,8 @@ gth_file_tool_adjust_contrast_destroy_options (GthFileTool *base)
 
 	_cairo_clear_surface (&self->priv->preview);
 	_cairo_clear_surface (&self->priv->destination);
-	self->priv->method = -1;
-	self->priv->last_applied_method = -1;
+	self->priv->method = GTH_FILTER_GRID_NO_FILTER;
+	self->priv->last_applied_method = GTH_FILTER_GRID_NO_FILTER;
 }
 
 
@@ -590,8 +590,10 @@ gth_file_tool_adjust_contrast_apply_options (GthFileTool *base)
 	GthFileToolAdjustContrast *self;
 
 	self = (GthFileToolAdjustContrast *) base;
-	self->priv->apply_to_original = TRUE;
-	apply_changes (self);
+	if (! self->priv->view_original) {
+		self->priv->apply_to_original = TRUE;
+		apply_changes (self);
+	}
 }
 
 
@@ -642,8 +644,8 @@ gth_file_tool_adjust_contrast_init (GthFileToolAdjustContrast *self)
 	self->priv->preview = NULL;
 	self->priv->destination = NULL;
 	self->priv->builder = NULL;
-	self->priv->method = -1;
-	self->priv->last_applied_method = -1;
+	self->priv->method = GTH_FILTER_GRID_NO_FILTER;
+	self->priv->last_applied_method = GTH_FILTER_GRID_NO_FILTER;
 	self->priv->view_original = FALSE;
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self),

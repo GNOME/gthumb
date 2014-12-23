@@ -27,7 +27,7 @@
 
 G_BEGIN_DECLS
 
-#define GTH_FILTER_GRID_NO_ACTIVE_FILTER -1
+#define GTH_FILTER_GRID_NO_FILTER -1
 
 #define GTH_TYPE_FILTER_GRID (gth_filter_grid_get_type ())
 #define GTH_FILTER_GRID(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FILTER_GRID, GthFilterGrid))
