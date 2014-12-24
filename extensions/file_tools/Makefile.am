@@ -13,6 +13,7 @@ HEADER_FILES = 				\
 	gth-file-tool-adjust-colors.h	\
 	gth-file-tool-adjust-contrast.h	\
 	gth-file-tool-crop.h		\
+	gth-file-tool-curves.h		\
 	gth-file-tool-flip.h		\
 	gth-file-tool-grayscale.h	\
 	gth-file-tool-mirror.h		\
@@ -61,6 +62,7 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-adjust-colors.c	\
 	gth-file-tool-adjust-contrast.c	\
 	gth-file-tool-crop.c		\
+	gth-file-tool-curves.c		\
 	gth-file-tool-flip.c		\
 	gth-file-tool-grayscale.c	\
 	gth-file-tool-mirror.c		\

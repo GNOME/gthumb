@@ -8,6 +8,7 @@ icons_DATA = 					\
 	change-date-symbolic.svg		\
 	comment-symbolic.svg			\
 	convert-format-symbolic.svg		\
+	curves-symbolic.svg			\
 	edit-symbolic.svg			\
 	emblem-flag-blue.svg			\
 	emblem-flag-gray.svg			\
