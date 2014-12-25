@@ -21,7 +21,10 @@
 
 #include <config.h>
 #include <math.h>
+#include "gth-curve-editor.h"
 #include "gth-file-tool-curves.h"
+#include "gth-curve.h"
+#include "gth-points.h"
 #include "gth-preview-tool.h"
 
 
@@ -33,18 +36,6 @@
 G_DEFINE_TYPE (GthFileToolCurves, gth_file_tool_curves, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
 
 
-typedef struct {
-	double x;
-	double y;
-} Point;
-
-
-typedef struct {
-	Point *p;
-	int    n;
-} Points;
-
-
 struct _GthFileToolCurvesPrivate {
 	cairo_surface_t    *destination;
 	cairo_surface_t    *preview;
@@ -52,237 +43,21 @@ struct _GthFileToolCurvesPrivate {
 	GthTask            *image_task;
 	guint               apply_event;
 	GthImageViewerTool *preview_tool;
+	GthHistogram       *histogram;
 	gboolean            view_original;
 	gboolean            apply_to_original;
 	gboolean            closing;
-	Points              points[GTH_HISTOGRAM_N_CHANNELS];
+	GthPoints           points[GTH_HISTOGRAM_N_CHANNELS];
+	GtkWidget          *curve_editor;
 };
-
-
-/* -- Gauss-Jordan linear equation solver (for splines) -- */
-
-
-typedef struct {
-	double **v;
-	int      r;
-	int      c;
-} Matrix;
-
-
-static Matrix *
-GJ_matrix_new (int r, int c)
-{
-	Matrix *m;
-	int     i, j;
-
-	m = g_new (Matrix, 1);
-	m->r = r;
-	m->c = c;
-	m->v = g_new (double *, r);
-	for (i = 0; i < r; i++) {
-		m->v[i] = g_new (double, c);
-		for (j = 0; j < c; j++)
-			m->v[i][j] = 0.0;
-	}
-
-	return m;
-}
-
-
-static void
-GJ_matrix_free (Matrix *m)
-{
-	int i;
-	for (i = 0; i < m->r; i++)
-		g_free (m->v[i]);
-	g_free (m->v);
-	g_free (m);
-}
-
-
-static void
-GJ_swap_rows (double **m, int k, int l)
-{
-	double *t = m[k];
-	m[k] = m[l];
-	m[l] = t;
-}
-
-
-static gboolean
-GJ_matrix_solve (Matrix *m, double *x)
-{
-	double **A = m->v;
-	int      r = m->r;
-	int      k, i, j;
-
-	for (k = 0; k < r; k++) { // column
-		// pivot for column
-		int    i_max = 0;
-		double vali = 0;
-
-		for (i = k; i < r; i++) {
-			if ((i == k) || (A[i][k] > vali)) {
-				i_max = i;
-				vali = A[i][k];
-			}
-		}
-		GJ_swap_rows (A, k, i_max);
-
-		if (A[i_max][i] == 0) {
-			g_print ("matrix is singular!\n");
-			return TRUE;
-		}
-
-		// for all rows below pivot
-		for (i = k + 1; i < r; i++) {
-			for (j = k + 1; j < r + 1; j++)
-				A[i][j] = A[i][j] - A[k][j] * (A[i][k] / A[k][k]);
-			A[i][k] = 0.0;
-		}
-	}
-
-	for (i = r - 1; i >= 0; i--) { // rows = columns
-		double v = A[i][r] / A[i][i];
-
-		x[i] = v;
-		for (j = i - 1; j >= 0; j--) { // rows
-			A[j][r] -= A[j][i] * v;
-			A[j][i] = 0.0;
-		}
-	}
-
-	return FALSE;
-}
-
-
-/* -- points -- */
-
-
-static void
-points_init (Points *p, int n)
-{
-	p->n = n;
-	p->p = g_new (Point, p->n);
-}
-
-
-static void
-points_dispose (Points *p)
-{
-	if (p->p != NULL)
-		g_free (p->p);
-	points_init (p, 0);
-}
-
-
-static void
-points_copy (Points *source, Points *dest)
-{
-	int i;
-
-	points_init (dest, source->n);
-	for (i = 0; i < source->n; i++) {
-		dest->p[i].x = source->p[i].x;
-		dest->p[i].y = source->p[i].y;
-	}
-}
-
-
-/* -- spline function -- */
-
-
-typedef struct {
-	Points    points;
-	double   *k;
-	gboolean  is_singular;
-} Spline;
-
-
-static Spline *
-spline_new (Points *points)
-{
-	Spline *spline;
-	int     i;
-
-	spline = g_new (Spline, 1);
-	points_copy (points, &spline->points);
-	spline->k = g_new (double, points->n + 1);
-	for (i = 0; i < points->n + 1; i++)
-		spline->k[i] = 1.0;
-	spline->is_singular = FALSE;
-
-	return spline;
-}
-
-
-static void
-spline_free (Spline *spline)
-{
-	g_return_if_fail (spline != NULL);
-
-	points_dispose (&spline->points);
-	g_free (spline->k);
-	g_free (spline);
-}
-
-
-static void
-spline_set_natural_ks (Spline *spline)
-{
-	int      n = spline->points.n;
-	Point   *p = spline->points.p;
-	Matrix  *m;
-	double **A;
-	int      i;
-
-	m = GJ_matrix_new (n+1, n+2);
-	A = m->v;
-	for (i = 1; i < n; i++) {
-		A[i][i-1] = 1.0 / (p[i].x - p[i-1].x);
-		A[i][i  ] = 2.0 * (1.0 / (p[i].x - p[i-1].x) + 1.0 / (p[i+1].x - p[i].x));
-		A[i][i+1] = 1.0 / (p[i+1].x - p[i].x);
-		A[i][n+1] = 3.0 * ( (p[i].y - p[i-1].y) / ((p[i].x - p[i-1].x) * (p[i].x - p[i-1].x)) + (p[i+1].y - p[i].y) / ((p[i+1].x - p[i].x) * (p[i+1].x - p[i].x)) );
-	}
-
-        A[0][0  ] = 2.0 / (p[1].x - p[0].x);
-        A[0][1  ] = 1.0 / (p[1].x - p[0].x);
-        A[0][n+1] = 3.0 * (p[1].y - p[0].y) / ((p[1].x - p[0].x) * (p[1].x - p[0].x));
-
-        A[n][n-1] = 1.0 / (p[n].x - p[n-1].x);
-        A[n][n  ] = 2.0 / (p[n].x - p[n-1].x);
-        A[n][n+1] = 3.0 * (p[n].y - p[n-1].y) / ((p[n].x - p[n-1].x) * (p[n].x - p[n-1].x));
-
-        spline->is_singular = GJ_matrix_solve (m, spline->k);
-
-	GJ_matrix_free (m);
-}
-
-
-static int
-spline_eval (Spline *spline, double x)
-{
-	Point  *p = spline->points.p;
-	double *k = spline->k;
-	int     i;
-
-	for (i = 1; p[i].x < x; i++)
-		/* void */;
-	double t = (x - p[i-1].x) / (p[i].x - p[i-1].x);
-	double a = k[i-1] * (p[i].x - p[i-1].x) - (p[i].y - p[i-1].y);
-	double b = - k[i] * (p[i].x - p[i-1].x) + (p[i].y - p[i-1].y);
-	double y = round ( ((1-t) * p[i-1].y) + (t * p[i].y) + (t * (1-t) * (a * (1-t) + b * t)) );
-
-	return CLAMP (y, 0, 255);
-}
 
 
 /* -- apply_changes -- */
 
 
 typedef struct {
-	long   *value_map[GTH_HISTOGRAM_N_CHANNELS];
-	Spline *spline[GTH_HISTOGRAM_N_CHANNELS];
+	long     *value_map[GTH_HISTOGRAM_N_CHANNELS];
+	GthCurve *curve[GTH_HISTOGRAM_N_CHANNELS];
 } TaskData;
 
 
@@ -293,22 +68,10 @@ curves_setup (TaskData        *task_data,
 	long **value_map;
 	int    c, v;
 
-	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++)
-		spline_set_natural_ks (task_data->spline[c]);
-
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
 		task_data->value_map[c] = g_new (long, 256);
-		if (task_data->spline[c]->is_singular) {
-			for (v = 0; v <= 255; v++)
-				task_data->value_map[c][v] = v;
-		}
-		else {
-			for (v = 0; v <= 255; v++) {
-				task_data->value_map[c][v] = spline_eval (task_data->spline[c], v);
-				/*if (c == 0) FIXME
-					g_print ("%d -> %ld\n", v, task_data->value_map[c][v]);*/
-			}
-		}
+		for (v = 0; v <= 255; v++)
+			task_data->value_map[c][v] = gth_curve_eval (task_data->curve[c], v);
 	}
 }
 
@@ -453,7 +216,7 @@ image_task_completed_cb (GthTask  *task,
 
 
 static TaskData *
-task_data_new (Points *points)
+task_data_new (GthPoints *points)
 {
 	TaskData *task_data;
 	int       c, n;
@@ -461,7 +224,7 @@ task_data_new (Points *points)
 	task_data = g_new (TaskData, 1);
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
 		task_data->value_map[c] = NULL;
-		task_data->spline[c] = spline_new (&points[c]);
+		task_data->curve[c] = gth_cspline_new (&points[c]);
 	}
 
 	return task_data;
@@ -478,7 +241,7 @@ task_data_destroy (gpointer user_data)
 		return;
 
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++)
-		spline_free (task_data->spline[c]);
+		g_object_unref (task_data->curve[c]);
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++)
 		g_free (task_data->value_map[c]);
 	g_free (task_data);
@@ -545,7 +308,7 @@ reset_button_clicked_cb (GtkButton *button,
 	int                c;
 
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
-		points_init (&self->priv->points[c], 3);
+		gth_points_init (&self->priv->points[c], 3);
 
 		self->priv->points[c].p[0].x = 0;
 		self->priv->points[c].p[0].y = 0;
@@ -556,7 +319,9 @@ reset_button_clicked_cb (GtkButton *button,
 		self->priv->points[c].p[2].x = 255;
 		self->priv->points[c].p[2].y = 255;
 	}
+	gth_curve_editor_set_points (GTH_CURVE_EDITOR (self->priv->curve_editor), self->priv->points);
 
+	/* FIXME: remove after adding the 'changed' signal to GthCurveEditor */
 	apply_changes (self);
 }
 
@@ -617,6 +382,11 @@ gth_file_tool_curves_get_options (GthFileTool *base)
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
 
+	self->priv->curve_editor = gth_curve_editor_new (self->priv->histogram);
+	gth_curve_editor_set_points (GTH_CURVE_EDITOR (self->priv->curve_editor), self->priv->points);
+	gtk_widget_show (self->priv->curve_editor);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("curves_box")), self->priv->curve_editor, TRUE, TRUE, 0);
+
 	g_signal_connect (GET_WIDGET ("preview_checkbutton"),
 			  "toggled",
 			  G_CALLBACK (preview_checkbutton_toggled_cb),
@@ -625,6 +395,7 @@ gth_file_tool_curves_get_options (GthFileTool *base)
 	self->priv->preview_tool = gth_preview_tool_new ();
 	gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->preview_tool);
+	gth_histogram_calculate_for_image (self->priv->histogram, self->priv->preview);
 	apply_changes (self);
 
 	return options;
@@ -723,19 +494,26 @@ gth_file_tool_curves_init (GthFileToolCurves *self)
 	self->priv->builder = NULL;
 	self->priv->image_task = NULL;
 	self->priv->view_original = FALSE;
+	self->priv->histogram = gth_histogram_new ();
 
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
-		/* points_init (&self->priv->points[c], 0); FIXME */
-		points_init (&self->priv->points[c], 4);
+		/* gth_points_init (&self->priv->points[c], 0); FIXME */
+		gth_points_init (&self->priv->points[c], 4);
 
 		self->priv->points[c].p[0].x = 0;
 		self->priv->points[c].p[0].y = 0;
 
-		self->priv->points[c].p[1].x = 100;
+		/*self->priv->points[c].p[1].x = 100;
 		self->priv->points[c].p[1].y = 54;
 
 		self->priv->points[c].p[2].x = 161;
-		self->priv->points[c].p[2].y = 190;
+		self->priv->points[c].p[2].y = 190;*/
+
+		self->priv->points[c].p[1].x = 127;
+		self->priv->points[c].p[1].y = 95;
+
+		self->priv->points[c].p[2].x = 183;
+		self->priv->points[c].p[2].y = 216;
 
 		self->priv->points[c].p[3].x = 255;
 		self->priv->points[c].p[3].y = 255;
@@ -759,6 +537,7 @@ gth_file_tool_curves_finalize (GObject *object)
 	cairo_surface_destroy (self->priv->preview);
 	cairo_surface_destroy (self->priv->destination);
 	_g_object_unref (self->priv->builder);
+	_g_object_unref (self->priv->histogram);
 
 	G_OBJECT_CLASS (gth_file_tool_curves_parent_class)->finalize (object);
 }

@@ -10,6 +10,8 @@ ENUM_TYPES =		\
 HEADER_FILES = 				\
 	cairo-blur.h			\
 	cairo-rotate.h			\
+	gth-curve.h			\
+	gth-curve-editor.h		\
 	gth-file-tool-adjust-colors.h	\
 	gth-file-tool-adjust-contrast.h	\
 	gth-file-tool-crop.h		\
@@ -30,6 +32,7 @@ HEADER_FILES = 				\
 	gth-file-tool-undo.h		\
 	gth-image-line-tool.h		\
 	gth-image-rotator.h		\
+	gth-points.h			\
 	gth-preview-tool.h		\
 	preferences.h
 
@@ -55,10 +58,12 @@ enum-types.c: $(HEADER_FILES)
 libfile_tools_la_SOURCES = 		\
 	$(ENUM_TYPES)			\
 	$(HEADER_FILES)			\
-	callbacks.c			\
-	callbacks.h			\
 	cairo-blur.c			\
 	cairo-rotate.c			\
+	callbacks.c			\
+	callbacks.h			\
+	gth-curve.c			\
+	gth-curve-editor.c		\
 	gth-file-tool-adjust-colors.c	\
 	gth-file-tool-adjust-contrast.c	\
 	gth-file-tool-crop.c		\
@@ -78,6 +83,7 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-undo.c		\
 	gth-image-line-tool.c		\
 	gth-image-rotator.c		\
+	gth-points.c			\
 	gth-preview-tool.c		\
 	main.c
 
