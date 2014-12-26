@@ -47,7 +47,6 @@ struct _GthFileToolCurvesPrivate {
 	gboolean            view_original;
 	gboolean            apply_to_original;
 	gboolean            closing;
-	GthPoints           points[GTH_HISTOGRAM_N_CHANNELS];
 	GtkWidget          *curve_editor;
 };
 
@@ -68,10 +67,14 @@ curves_setup (TaskData        *task_data,
 	long **value_map;
 	int    c, v;
 
-	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
+	for (c = GTH_HISTOGRAM_CHANNEL_VALUE; c <= GTH_HISTOGRAM_CHANNEL_BLUE; c++) {
 		task_data->value_map[c] = g_new (long, 256);
-		for (v = 0; v <= 255; v++)
-			task_data->value_map[c][v] = gth_curve_eval (task_data->curve[c], v);
+		for (v = 0; v <= 255; v++) {
+			double u = gth_curve_eval (task_data->curve[c], v);
+			if (c > GTH_HISTOGRAM_CHANNEL_VALUE)
+				u = task_data->value_map[GTH_HISTOGRAM_CHANNEL_VALUE][(int)u];
+			task_data->value_map[c][v] = u;
+		}
 	}
 }
 
@@ -224,7 +227,7 @@ task_data_new (GthPoints *points)
 	task_data = g_new (TaskData, 1);
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
 		task_data->value_map[c] = NULL;
-		task_data->curve[c] = gth_cspline_new (&points[c]);
+		task_data->curve[c] = gth_bezier_new (&points[c]);
 	}
 
 	return task_data;
@@ -253,6 +256,8 @@ apply_cb (gpointer user_data)
 {
 	GthFileToolCurves *self = user_data;
 	GtkWidget         *window;
+	GthPoints          points[GTH_HISTOGRAM_N_CHANNELS];
+	int                c;
 	TaskData          *task_data;
 
 	if (self->priv->apply_event != 0) {
@@ -267,7 +272,10 @@ apply_cb (gpointer user_data)
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 
-	task_data = task_data_new (self->priv->points);
+	for (c = 0; c <= GTH_HISTOGRAM_N_CHANNELS; c++)
+		gth_points_init (points + c, 0);
+	gth_curve_editor_get_points (GTH_CURVE_EDITOR (self->priv->curve_editor), points);
+	task_data = task_data_new (points);
 	self->priv->image_task =  gth_image_task_new (_("Applying changes"),
 						      NULL,
 						      curves_exec,
@@ -305,23 +313,15 @@ reset_button_clicked_cb (GtkButton *button,
 		  	 gpointer   user_data)
 {
 	GthFileToolCurves *self = user_data;
-	int                c;
+	gth_curve_editor_reset (GTH_CURVE_EDITOR (self->priv->curve_editor));
+}
 
-	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
-		gth_points_init (&self->priv->points[c], 3);
 
-		self->priv->points[c].p[0].x = 0;
-		self->priv->points[c].p[0].y = 0;
-
-		self->priv->points[c].p[1].x = 128;
-		self->priv->points[c].p[1].y = 128;
-
-		self->priv->points[c].p[2].x = 255;
-		self->priv->points[c].p[2].y = 255;
-	}
-	gth_curve_editor_set_points (GTH_CURVE_EDITOR (self->priv->curve_editor), self->priv->points);
-
-	/* FIXME: remove after adding the 'changed' signal to GthCurveEditor */
+static void
+curve_editor_changed_cb (GthCurveEditor *curve_editor,
+			 gpointer        user_data)
+{
+	GthFileToolCurves *self = user_data;
 	apply_changes (self);
 }
 
@@ -383,9 +383,13 @@ gth_file_tool_curves_get_options (GthFileTool *base)
 	gtk_widget_show (options);
 
 	self->priv->curve_editor = gth_curve_editor_new (self->priv->histogram);
-	gth_curve_editor_set_points (GTH_CURVE_EDITOR (self->priv->curve_editor), self->priv->points);
 	gtk_widget_show (self->priv->curve_editor);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("curves_box")), self->priv->curve_editor, TRUE, TRUE, 0);
+
+	g_signal_connect (self->priv->curve_editor,
+			  "changed",
+			  G_CALLBACK (curve_editor_changed_cb),
+			  self);
 
 	g_signal_connect (GET_WIDGET ("preview_checkbutton"),
 			  "toggled",
@@ -495,29 +499,6 @@ gth_file_tool_curves_init (GthFileToolCurves *self)
 	self->priv->image_task = NULL;
 	self->priv->view_original = FALSE;
 	self->priv->histogram = gth_histogram_new ();
-
-	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
-		/* gth_points_init (&self->priv->points[c], 0); FIXME */
-		gth_points_init (&self->priv->points[c], 4);
-
-		self->priv->points[c].p[0].x = 0;
-		self->priv->points[c].p[0].y = 0;
-
-		/*self->priv->points[c].p[1].x = 100;
-		self->priv->points[c].p[1].y = 54;
-
-		self->priv->points[c].p[2].x = 161;
-		self->priv->points[c].p[2].y = 190;*/
-
-		self->priv->points[c].p[1].x = 127;
-		self->priv->points[c].p[1].y = 95;
-
-		self->priv->points[c].p[2].x = 183;
-		self->priv->points[c].p[2].y = 216;
-
-		self->priv->points[c].p[3].x = 255;
-		self->priv->points[c].p[3].y = 255;
-	}
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "curves-symbolic", _("Curves"), GTH_TOOLBOX_SECTION_COLORS);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Adjust color curves"));

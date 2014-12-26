@@ -29,28 +29,42 @@
 
 G_BEGIN_DECLS
 
-/* GthCurve */
+
+/* -- GthCurve -- */
+
 
 #define GTH_TYPE_CURVE (gth_curve_get_type ())
 #define GTH_CURVE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_CURVE, GthCurve))
+#define GTH_CURVE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_CURVE, GthCurveClass))
 #define GTH_IS_CURVE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_CURVE))
-#define GTH_CURVE_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_CURVE, GthCurveInterface))
-
-typedef struct _GthCurve GthCurve;
+#define GTH_IS_CURVE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_CURVE))
+#define GTH_CURVE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GTH_TYPE_CURVE, GthCurveClass))
 
 typedef struct {
-	GTypeInterface parent_iface;
+	GObject    parent_instance;
+	GthPoints  points;
+} GthCurve;
+
+typedef struct {
+	GObjectClass parent_class;
 
 	/*< virtual functions >*/
 
+	void	(*setup)	(GthCurve *curve);
 	double	(*eval)		(GthCurve *curve, double x);
-} GthCurveInterface;
+} GthCurveClass;
 
 GType		gth_curve_get_type		(void);
+void		gth_curve_set_points		(GthCurve	*curve,
+						 GthPoints	*points);
+GthPoints *	gth_curve_get_points		(GthCurve	*curve);
+void		gth_curve_setup			(GthCurve	*self);
 double		gth_curve_eval			(GthCurve	*curve,
 						 double		 x);
 
-/* GthSpline */
+
+/* -- GthSpline -- */
+
 
 #define GTH_TYPE_SPLINE (gth_spline_get_type ())
 #define GTH_SPLINE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_SPLINE, GthSpline))
@@ -60,18 +74,19 @@ double		gth_curve_eval			(GthCurve	*curve,
 #define GTH_SPLINE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GTH_TYPE_SPLINE, GthSplineClass))
 
 typedef struct {
-	GObject    parent_instance;
-	GthPoints  points;
+	GthCurve   parent_instance;
 	double    *k;
 	gboolean   is_singular;
 } GthSpline;
 
-typedef GObjectClass GthSplineClass;
+typedef GthCurveClass GthSplineClass;
 
 GType		gth_spline_get_type		(void);
 GthCurve *	gth_spline_new			(GthPoints	*points);
 
-/* GthCSpline */
+
+/* -- GthCSpline -- */
+
 
 #define GTH_TYPE_CSPLINE (gth_cspline_get_type ())
 #define GTH_CSPLINE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_CSPLINE, GthCSpline))
@@ -81,15 +96,37 @@ GthCurve *	gth_spline_new			(GthPoints	*points);
 #define GTH_CSPLINE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GTH_TYPE_CSPLINE, GthCSplineClass))
 
 typedef struct {
-	GObject    parent_instance;
-	GthPoints  points;
+	GthCurve   parent_instance;
 	double    *tangents;
 } GthCSpline;
 
-typedef GObjectClass GthCSplineClass;
+typedef GthCurveClass GthCSplineClass;
 
 GType		gth_cspline_get_type		(void);
 GthCurve *	gth_cspline_new			(GthPoints	*points);
+
+
+/* -- GthBezier -- */
+
+
+#define GTH_TYPE_BEZIER (gth_bezier_get_type ())
+#define GTH_BEZIER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_BEZIER, GthBezier))
+#define GTH_BEZIER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_BEZIER, GthBezierClass))
+#define GTH_IS_BEZIER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_BEZIER))
+#define GTH_IS_BEZIER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_BEZIER))
+#define GTH_BEZIER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), GTH_TYPE_BEZIER, GthBezierClass))
+
+typedef struct {
+	GthCurve   parent_instance;
+	double    *k;
+	gboolean   linear;
+} GthBezier;
+
+typedef GthCurveClass GthBezierClass;
+
+GType		gth_bezier_get_type		(void);
+GthCurve *	gth_bezier_new			(GthPoints	*points);
+
 
 G_END_DECLS
 

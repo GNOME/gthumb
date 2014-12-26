@@ -40,11 +40,16 @@ typedef struct {
 } GthPoints;
 
 
-void	gth_points_init		(GthPoints *p,
-				 int	    n);
-void	gth_points_dispose	(GthPoints *p);
-void	gth_points_copy		(GthPoints *source,
-				 GthPoints *dest);
+void		gth_points_init		(GthPoints	*points,
+					 int		 n);
+void		gth_points_dispose	(GthPoints	*points);
+void		gth_points_copy		(GthPoints	*source,
+					 GthPoints	*dest);
+int		gth_points_add_point    (GthPoints	*points,
+					 double		 x,
+					 double		 y);
+void            gth_points_delete_point	(GthPoints	*points,
+					 int		 n_point);
 
 G_END_DECLS
 

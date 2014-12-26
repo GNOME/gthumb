@@ -47,6 +47,10 @@ struct _GthCurveEditor {
 
 struct _GthCurveEditorClass {
 	GtkBoxClass parent_class;
+
+	/*< signals >*/
+
+	void	(*changed)	(GthCurveEditor	*self);
 };
 
 GType              gth_curve_editor_get_type		(void);
@@ -64,6 +68,7 @@ void		   gth_curve_editor_set_points		(GthCurveEditor		 *self,
 							 GthPoints		 *points);
 void		   gth_curve_editor_get_points		(GthCurveEditor		 *self,
 							 GthPoints		 *points);
+void		   gth_curve_editor_reset		(GthCurveEditor		 *self);
 
 G_END_DECLS
 
