@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-21 20:14+0100\n"
-"PO-Revision-Date: 2014-12-21 20:15+0100\n"
+"POT-Creation-Date: 2014-12-28 20:50+0100\n"
+"PO-Revision-Date: 2014-12-28 20:51+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -84,7 +84,7 @@ msgstr ""
 "katalog."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:363
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:382
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -456,12 +456,12 @@ msgstr "Wysyłanie obrazów do serwisu 23hq.com"
 #: ../extensions/selections/selections.extension.in.in.h:3
 #: ../extensions/slideshow/slideshow.extension.in.in.h:3
 #: ../extensions/webalbums/webalbums.extension.in.in.h:3
-#: ../gthumb/dlg-preferences-extensions.c:487
+#: ../gthumb/dlg-preferences-extensions.c:489
 msgid "gthumb development team"
 msgstr "Zespół programistów gthumb"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
-#: ../extensions/bookmarks/callbacks.c:326
+#: ../extensions/bookmarks/callbacks.c:327
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
 msgid "Bookmarks"
 msgstr "Zakładki"
@@ -761,7 +761,7 @@ msgstr "Zmień nazwę"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4320 ../gthumb/gth-file-properties.c:254
+#: ../gthumb/gth-browser.c:4376 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Właściwości"
 
@@ -1076,7 +1076,7 @@ msgstr "Dodawanie komentarzy i etykiet do każdego typu pliku."
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
-#: ../gthumb/dlg-preferences-extensions.c:479
+#: ../gthumb/dlg-preferences-extensions.c:481
 msgid "Preferences"
 msgstr "Preferencje"
 
@@ -1137,10 +1137,10 @@ msgid "Create an index image displaying the thumbnails of the selected files."
 msgstr "Tworzenie obrazu indeksu zawierającego miniatury zaznaczonych plików."
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
-#: ../extensions/file_tools/gth-file-tool-crop.c:460
-#: ../extensions/file_tools/gth-file-tool-crop.c:490
-#: ../extensions/file_tools/gth-file-tool-resize.c:588
-#: ../extensions/file_tools/gth-file-tool-rotate.c:430
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#: ../extensions/file_tools/gth-file-tool-crop.c:464
+#: ../extensions/file_tools/gth-file-tool-resize.c:579
+#: ../extensions/file_tools/gth-file-tool-rotate.c:393
 #: ../extensions/slideshow/main.c:291
 msgid "None"
 msgstr "Brak"
@@ -1917,7 +1917,7 @@ msgstr "Nie można wyeksportować plików"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:808
+#: ../gthumb/gth-browser.c:827
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2075,13 +2075,13 @@ msgid "Could not move the folder to the Trash"
 msgstr "Nie można przenieść katalogu do kosza"
 
 #: ../extensions/file_manager/actions.c:1059
-#: ../gthumb/gth-file-source-vfs.c:853
+#: ../gthumb/gth-file-source-vfs.c:857
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Na pewno trwale usunąć \"%s\"?"
 
 #: ../extensions/file_manager/actions.c:1069
-#: ../gthumb/gth-file-source-vfs.c:866
+#: ../gthumb/gth-file-source-vfs.c:870
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Usunięcie pliku spowoduje jego trwałe utracenie."
 
@@ -2137,7 +2137,7 @@ msgstr "_Otwórz za pomocą"
 
 #: ../extensions/file_manager/callbacks.c:883
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5231 ../gthumb/gth-browser.c:5264
+#: ../gthumb/gth-browser.c:5323 ../gthumb/gth-browser.c:5356
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Nie można wykonać działania"
@@ -2155,7 +2155,7 @@ msgid "Deleting files"
 msgstr "Usuwanie plików"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:5
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
 msgid "_Preview"
 msgstr "_Podgląd"
 
@@ -2191,90 +2191,67 @@ msgstr "Żół_ty-niebieski:"
 msgid "Color Levels"
 msgstr "Poziomy kolorów"
 
-#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:10
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:5
-msgid "Reset"
-msgstr "Przywróć"
-
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:1
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
+#: ../extensions/file_tools/gth-file-tool-crop.c:656
+#: ../extensions/file_tools/gth-file-tool-resize.c:749
+#: ../extensions/file_tools/gth-file-tool-rotate.c:616
+#: ../gthumb/gth-file-chooser-dialog.c:252
+msgid "Options"
+msgstr "Opcje"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+msgid "_Grid:"
+msgstr "_Siatka:"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Selection"
 msgstr "Wybór"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 msgid "_Width:"
 msgstr "_Szerokość:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:8
 msgid "Heigh_t:"
 msgstr "_Wysokość:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
 msgid "_Position:"
 msgstr "_Położenie:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 msgid "Maximize"
 msgstr "Zmaksymalizuj"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 msgid "Center"
 msgstr "Wyśrodkuj"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:10
 msgid "Aspect ratio"
 msgstr "Współczynnik proporcji"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:11
 msgid "I_nvert aspect ratio"
 msgstr "Odwróć proporcje obra_zu"
 
 #. after the colon there is a control to select the size in pixels
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:12
 msgid "M_ultiple of:"
 msgstr "_Wielokrotność liczby:"
 
 #. abbreviation of pixel
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:12
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:14
 msgid "px"
 msgstr "pks"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:13
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:1
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
-#: ../gthumb/gth-file-chooser-dialog.c:252
-msgid "Options"
-msgstr "Opcje"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:14
-msgid "C_rop"
-msgstr "_Przytnij"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:15
-msgid "_Grid:"
-msgstr "_Siatka:"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:1
-msgid "Method"
-msgstr "Metoda"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:2
-msgid "_Brightness"
-msgstr "_Jasność"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:3
-msgid "_Saturation"
-msgstr "_Nasycenie"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:4
-msgid "_Average"
-msgstr "Śre_dnia"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 msgid "High _quality"
@@ -2364,7 +2341,7 @@ msgstr "Punkt 2:"
 msgid "Keep aspect ratio"
 msgstr "Utrzymanie współczynnika skalowania"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:16
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
 msgid ""
 "Draw a line on the image \n"
 "to set the alignment."
@@ -2372,22 +2349,17 @@ msgstr ""
 "Należy narysować linię na obrazie,\n"
 "aby ustawić wyrównanie."
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:17
 msgid "Parallel"
 msgstr "Równolegle"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
 msgid "Perpendicular"
 msgstr "Prostopadle"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:20
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
 msgid "Alignment"
 msgstr "Wyrównanie"
-
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
-msgid "_Preview:"
-msgstr "_Podgląd:"
 
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:2
 msgid "Threshold:"
@@ -2409,134 +2381,149 @@ msgstr "Narzędzia do obrazów"
 msgid "Basic tools to modify images."
 msgstr "Podstawowe narzędzia do modyfikowania obrazów."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:346
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:227
-#: ../extensions/file_tools/gth-file-tool-crop.c:121
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:335
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:388
+#: ../extensions/file_tools/gth-file-tool-crop.c:627
 #: ../extensions/file_tools/gth-file-tool-flip.c:63
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:239
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:227
 #: ../extensions/file_tools/gth-file-tool-mirror.c:63
 #: ../extensions/file_tools/gth-file-tool-negative.c:109
-#: ../extensions/file_tools/gth-file-tool-rotate.c:262
+#: ../extensions/file_tools/gth-file-tool-rotate.c:568
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:63
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:63
 msgid "Applying changes"
 msgstr "Zastosowywanie zmian"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:588
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:554
+#: ../extensions/file_tools/gth-file-tool-rotate.c:603
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:365
+msgid "Reset"
+msgstr "Przywróć"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:595
 msgid "Adjust Colors"
 msgstr "Dostosowanie kolorów"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:589
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Zmiana jasności, kontrastu, nasycenia i poziomu gamma obrazu"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:244
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+msgid "Stretch"
+msgstr "Rozciągnij"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+msgid "Stretch the histogram trimming the 0.5%"
+msgstr "Rozciąga histogram, obcinając 0,5%"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+msgid "Equalize"
+msgstr "Wyrównaj"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+msgid "Equalize the histogram using the square root function"
+msgstr "Wyrównuje histogram, używając pierwiastka kwadratowego"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+#: ../extensions/file_tools/gth-file-tool-crop.c:468
+#: ../extensions/file_tools/gth-file-tool-rotate.c:397
+msgid "Uniform"
+msgstr "Jednolite"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+msgid "Equalize the histogram using the linear function"
+msgstr "Wyrównuje histogram, używając funkcji liniowej"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:653
 msgid "Adjust Contrast"
 msgstr "Dostosowanie kontrastu"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:245
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:655
 msgid "Automatic contrast adjustment"
 msgstr "Automatyczne dostosowanie kontrastu"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:460
-#: ../extensions/file_tools/gth-file-tool-resize.c:588
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#: ../extensions/file_tools/gth-file-tool-resize.c:579
 msgid "Square"
 msgstr "Kwadrat"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:461
-#: ../extensions/file_tools/gth-file-tool-resize.c:589
+#: ../extensions/file_tools/gth-file-tool-crop.c:435
+#: ../extensions/file_tools/gth-file-tool-resize.c:580
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (obraz)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:464
-#: ../extensions/file_tools/gth-file-tool-resize.c:593
+#: ../extensions/file_tools/gth-file-tool-crop.c:438
+#: ../extensions/file_tools/gth-file-tool-resize.c:584
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (ekran)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:468
-#: ../extensions/file_tools/gth-file-tool-resize.c:598
+#: ../extensions/file_tools/gth-file-tool-crop.c:442
+#: ../extensions/file_tools/gth-file-tool-resize.c:589
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:469
-#: ../extensions/file_tools/gth-file-tool-resize.c:599
+#: ../extensions/file_tools/gth-file-tool-crop.c:443
+#: ../extensions/file_tools/gth-file-tool-resize.c:590
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (DVD, książka)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:470
-#: ../extensions/file_tools/gth-file-tool-resize.c:600
+#: ../extensions/file_tools/gth-file-tool-crop.c:444
+#: ../extensions/file_tools/gth-file-tool-resize.c:591
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:471
-#: ../extensions/file_tools/gth-file-tool-resize.c:601
+#: ../extensions/file_tools/gth-file-tool-crop.c:445
+#: ../extensions/file_tools/gth-file-tool-resize.c:592
 msgid "3:2 (Postcard)"
 msgstr "3:2 (pocztówka)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:472
-#: ../extensions/file_tools/gth-file-tool-resize.c:602
+#: ../extensions/file_tools/gth-file-tool-crop.c:446
+#: ../extensions/file_tools/gth-file-tool-resize.c:593
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:473
-#: ../extensions/file_tools/gth-file-tool-resize.c:603
+#: ../extensions/file_tools/gth-file-tool-crop.c:447
+#: ../extensions/file_tools/gth-file-tool-resize.c:594
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:474
-#: ../extensions/file_tools/gth-file-tool-resize.c:604
+#: ../extensions/file_tools/gth-file-tool-crop.c:448
+#: ../extensions/file_tools/gth-file-tool-resize.c:595
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:475
-#: ../extensions/file_tools/gth-file-tool-resize.c:605
+#: ../extensions/file_tools/gth-file-tool-crop.c:449
+#: ../extensions/file_tools/gth-file-tool-resize.c:596
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:476
-#: ../extensions/file_tools/gth-file-tool-resize.c:606
+#: ../extensions/file_tools/gth-file-tool-crop.c:450
+#: ../extensions/file_tools/gth-file-tool-resize.c:597
 #: ../extensions/image_print/data/ui/print-layout.ui.h:2
 #: ../extensions/rename_series/gth-template-selector.c:234
 msgid "Custom"
 msgstr "Własny"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:491
-#: ../extensions/file_tools/gth-file-tool-rotate.c:431
+#: ../extensions/file_tools/gth-file-tool-crop.c:465
+#: ../extensions/file_tools/gth-file-tool-rotate.c:394
 msgid "Rule of Thirds"
 msgstr "Reguła trzech"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:492
-#: ../extensions/file_tools/gth-file-tool-rotate.c:432
+#: ../extensions/file_tools/gth-file-tool-crop.c:466
+#: ../extensions/file_tools/gth-file-tool-rotate.c:395
 msgid "Golden Sections"
 msgstr "Złoty podział"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:493
-#: ../extensions/file_tools/gth-file-tool-rotate.c:433
+#: ../extensions/file_tools/gth-file-tool-crop.c:467
+#: ../extensions/file_tools/gth-file-tool-rotate.c:396
 msgid "Center Lines"
 msgstr "Linie wyśrodkowane"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:494
-#: ../extensions/file_tools/gth-file-tool-rotate.c:434
-msgid "Uniform"
-msgstr "Jednolite"
-
-#: ../extensions/file_tools/gth-file-tool-crop.c:667
+#: ../extensions/file_tools/gth-file-tool-crop.c:682
 msgid "Crop"
 msgstr "Przycięcie"
-
-#: ../extensions/file_tools/gth-file-tool-equalize.c:158
-msgid "Equalizing image histogram"
-msgstr "Wyrównywanie histogramu obrazu"
-
-#: ../extensions/file_tools/gth-file-tool-equalize.c:185
-msgid "Equalize"
-msgstr "Wyrównaj histogram"
-
-#: ../extensions/file_tools/gth-file-tool-equalize.c:186
-msgid "Equalize image histogram"
-msgstr "Wyrównaj histogram obrazu"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:90
 msgid "Flip"
@@ -2546,7 +2533,19 @@ msgstr "Odbij w pionie"
 msgid "Flip the image vertically"
 msgstr "Obraca obraz pionowo"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:475
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:367
+msgid "_Brightness"
+msgstr "_Jasność"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:368
+msgid "_Saturation"
+msgstr "_Nasycenie"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:369
+msgid "_Average"
+msgstr "Śre_dnia"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:493
 msgid "Grayscale"
 msgstr "Skala szarości"
 
@@ -2566,16 +2565,18 @@ msgstr "Negatyw"
 msgid "Redo"
 msgstr "Ponów"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:189
+#. resize the original image
+#: ../extensions/file_tools/gth-file-tool-resize.c:180
 #: ../extensions/resize_images/dlg-resize-images.c:172
+#: ../gthumb/gth-filter-grid.c:530
 msgid "Resizing images"
 msgstr "Zmienianie rozmiarów obrazów"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:814
+#: ../extensions/file_tools/gth-file-tool-resize.c:832
 msgid "Resize"
 msgstr "Zmień rozmiar"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:662
+#: ../extensions/file_tools/gth-file-tool-rotate.c:683
 msgid "Rotate"
 msgstr "Obróć"
 
@@ -2609,11 +2610,11 @@ msgstr "Zapisz jako"
 msgid "Save"
 msgstr "Zapisz"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:122
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:333
 msgid "Sharpening image"
 msgstr "Wyostrzanie obrazu"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:427
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:438
 msgid "Enhance Focus"
 msgstr "Zwiększenie ostrości"
 
@@ -2835,19 +2836,25 @@ msgstr ""
 "upoważnić program gthumb do wysyłania zdjęć do serwisu %s. Po ukończeniu "
 "należy wrócić do tego okna, aby zakończyć upoważnienie."
 
-#: ../extensions/gstreamer_tools/actions.c:67
+#: ../extensions/gstreamer_tools/actions.c:69
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1262
-#: ../gthumb/gth-browser.c:1872
+#: ../gthumb/gth-browser.c:1891
 msgid "Could not save the file"
 msgstr "Nie można zapisać pliku"
 
-#: ../extensions/gstreamer_tools/actions.c:92
+#. Translators: %s is a filename
+#: ../extensions/gstreamer_tools/actions.c:75
+#, c-format
+msgid "Image saved as %s"
+msgstr "Zapisano obraz jako %s"
+
+#: ../extensions/gstreamer_tools/actions.c:101
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Zrzut ekranu"
 
-#: ../extensions/gstreamer_tools/actions.c:128
-#: ../extensions/gstreamer_tools/actions.c:139
+#: ../extensions/gstreamer_tools/actions.c:137
+#: ../extensions/gstreamer_tools/actions.c:148
 msgid "Could not take a screenshot"
 msgstr "Nie można wykonać zrzutu ekranu"
 
@@ -3315,7 +3322,7 @@ msgid "The selected files are already present in the destination."
 msgstr "Zaznaczone pliki już znajdują się w miejscu docelowym."
 
 #: ../extensions/importer/gth-import-task.c:644
-#: ../gthumb/gth-file-source-vfs.c:706
+#: ../gthumb/gth-file-source-vfs.c:710
 msgid "Could not delete the files"
 msgstr "Nie można usunąć plików"
 
@@ -3735,7 +3742,7 @@ msgid "(Empty)"
 msgstr "(Pusty)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1783
+#: ../gthumb/gth-browser.c:1802
 msgid "Getting the folder content…"
 msgstr "Pobieranie zawartości katalogu…"
 
@@ -3809,11 +3816,11 @@ msgstr "_X:"
 msgid "_Y:"
 msgstr "_Y:"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:498
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
 msgid "Red Eye Removal"
 msgstr "Usuwanie efektu czerwonych oczu"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:499
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:471
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Usuwa efekt czerwonych oczu powodowany przez lampy błyskowe"
 
@@ -3899,6 +3906,10 @@ msgstr "_Szablon:"
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:27
 msgid "Re_verse Order"
 msgstr "Odw_rócony porządek"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
+msgid "_Preview:"
+msgstr "_Podgląd:"
 
 #: ../extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
@@ -3998,7 +4009,7 @@ msgid "_Preserve original aspect ratios"
 msgstr "_Zachowanie pierwotnych proporcji obrazów"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:12
-#: ../gthumb/gth-main-default-metadata.c:45 ../gthumb/gth-toolbox.c:147
+#: ../gthumb/gth-main-default-metadata.c:45 ../gthumb/gth-toolbox.c:146
 msgid "Format"
 msgstr "Format"
 
@@ -4351,9 +4362,9 @@ msgstr "Albumy WWW"
 msgid "Create static web albums."
 msgstr "Tworzenie statycznych albumów WWW."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1088
-#: ../gthumb/gth-browser.c:1663 ../gthumb/gth-browser.c:6179
-#: ../gthumb/gth-browser.c:6198 ../gthumb/gth-browser.c:6222
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
+#: ../gthumb/gth-browser.c:1682 ../gthumb/gth-browser.c:6271
+#: ../gthumb/gth-browser.c:6290 ../gthumb/gth-browser.c:6314
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nie można wczytać położenia \"%s\""
@@ -4426,23 +4437,23 @@ msgid "Could not deactivate the extension"
 msgstr "Nie można deaktywować rozszerzenia"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-extensions.c:662
+#: ../gthumb/dlg-preferences-extensions.c:664
 msgid "Extensions"
 msgstr "Rozszerzenia"
 
-#: ../gthumb/dlg-preferences-extensions.c:711
+#: ../gthumb/dlg-preferences-extensions.c:713
 msgid "Restart required"
 msgstr "Wymagane jest ponowne uruchomienie"
 
-#: ../gthumb/dlg-preferences-extensions.c:712
+#: ../gthumb/dlg-preferences-extensions.c:714
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Należy ponownie uruchomić program gthumb, aby zastosować zmiany"
 
-#: ../gthumb/dlg-preferences-extensions.c:713
+#: ../gthumb/dlg-preferences-extensions.c:715
 msgid "_Continue"
 msgstr "_Kontynuuj"
 
-#: ../gthumb/dlg-preferences-extensions.c:714
+#: ../gthumb/dlg-preferences-extensions.c:716
 msgid "_Restart"
 msgstr "_Przywróć"
 
@@ -4543,11 +4554,11 @@ msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2011-2014\n"
 "Aviary.pl <gnomepl@aviary.pl>, 2007-2014"
 
-#: ../gthumb/gth-browser.c:349
+#: ../gthumb/gth-browser.c:367
 msgid "[modified]"
 msgstr "[zmodyfikowano]"
 
-#: ../gthumb/gth-browser.c:809
+#: ../gthumb/gth-browser.c:828
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -4555,64 +4566,68 @@ msgstr[0] "Zaznaczono %d plik (%s)"
 msgstr[1] "Zaznaczono %d pliki (%s)"
 msgstr[2] "Zaznaczono %d plików (%s)"
 
-#: ../gthumb/gth-browser.c:844
+#: ../gthumb/gth-browser.c:863
 #, c-format
 msgid "%s of free space"
 msgstr "Wolne miejsce: %s"
 
-#: ../gthumb/gth-browser.c:1767 ../gthumb/gth-browser.c:1794
+#: ../gthumb/gth-browser.c:1786 ../gthumb/gth-browser.c:1813
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nie odnaleziono odpowiedniego modułu dla %s"
 
-#: ../gthumb/gth-browser.c:1916
+#: ../gthumb/gth-browser.c:1935
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Zapisać zmiany w pliku \"%s\"?"
 
-#: ../gthumb/gth-browser.c:1921
+#: ../gthumb/gth-browser.c:1940
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr ""
 "Jeśli nie zostanie zapisane, to wszystkie zmiany zostaną trwale utracone."
 
-#: ../gthumb/gth-browser.c:1922
+#: ../gthumb/gth-browser.c:1941
 msgid "Do _Not Save"
 msgstr "_Nie zapisuj"
 
-#: ../gthumb/gth-browser.c:2842 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2885 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nie można zmienić nazwy"
 
-#: ../gthumb/gth-browser.c:3275 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3329 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Zmodyfikowano"
 
-#: ../gthumb/gth-browser.c:4277
+#: ../gthumb/gth-browser.c:4338
 msgid "Go to the previous visited location"
 msgstr "Przechodzi do poprzednio odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4283
+#: ../gthumb/gth-browser.c:4344
 msgid "Go to the next visited location"
 msgstr "Przechodzi do kolejnej odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4295
+#: ../gthumb/gth-browser.c:4352
 msgid "History"
 msgstr "Historia"
 
-#: ../gthumb/gth-browser.c:4311
+#: ../gthumb/gth-browser.c:4367
 msgid "View the folders"
 msgstr "Wyświetla katalogi"
 
-#: ../gthumb/gth-browser.c:4326
+#: ../gthumb/gth-browser.c:4382
 msgid "Edit file"
 msgstr "Modyfikuje plik"
 
-#: ../gthumb/gth-browser.c:6180
+#: ../gthumb/gth-browser.c:4399
+msgid "Accept"
+msgstr "Zaakceptuj"
+
+#: ../gthumb/gth-browser.c:6272
 #, c-format
 msgid "File type not supported"
 msgstr "Nieobsługiwany typ pliku"
 
-#: ../gthumb/gth-browser.c:6223
+#: ../gthumb/gth-browser.c:6315
 #, c-format
 msgid "No suitable module found"
 msgstr "Nie odnaleziono odpowiedniego modułu"
@@ -4635,30 +4650,30 @@ msgstr "Wszystkie obsługiwane pliki"
 msgid "Details"
 msgstr "Szczegóły"
 
-#: ../gthumb/gth-file-source-vfs.c:213
+#: ../gthumb/gth-file-source-vfs.c:216
 msgid "Computer"
 msgstr "Komputer"
 
-#: ../gthumb/gth-file-source-vfs.c:220
+#: ../gthumb/gth-file-source-vfs.c:223
 msgid "Home Folder"
 msgstr "Katalog domowy"
 
-#: ../gthumb/gth-file-source-vfs.c:751
+#: ../gthumb/gth-file-source-vfs.c:755
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Nie można przenieść plików do kosza. Usunąć je trwale?"
 
-#: ../gthumb/gth-file-source-vfs.c:762
+#: ../gthumb/gth-file-source-vfs.c:766
 msgid "Could not move the files to the Trash"
 msgstr "Nie można przenieść plików do kosza"
 
-#: ../gthumb/gth-file-source-vfs.c:809
+#: ../gthumb/gth-file-source-vfs.c:813
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Na pewno przenieść \"%s\" do kosza?"
 
-#: ../gthumb/gth-file-source-vfs.c:813
+#: ../gthumb/gth-file-source-vfs.c:817
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
@@ -4666,11 +4681,11 @@ msgstr[0] "Na pewno przenieść do kosza %'d zaznaczony plik?"
 msgstr[1] "Na pewno przenieść do kosza %'d zaznaczone pliki?"
 msgstr[2] "Na pewno przenieść do kosza %'d zaznaczonych plików?"
 
-#: ../gthumb/gth-file-source-vfs.c:825
+#: ../gthumb/gth-file-source-vfs.c:829
 msgid "Mo_ve to Trash"
 msgstr "P_rzenieś do kosza"
 
-#: ../gthumb/gth-file-source-vfs.c:856
+#: ../gthumb/gth-file-source-vfs.c:860
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5050,11 +5065,11 @@ msgstr "Dzisiaj"
 msgid "Now"
 msgstr "Teraz"
 
-#: ../gthumb/gth-toolbox.c:145
+#: ../gthumb/gth-toolbox.c:144
 msgid "Colors"
 msgstr "Kolory"
 
-#: ../gthumb/gth-toolbox.c:146
+#: ../gthumb/gth-toolbox.c:145
 msgid "Rotation"
 msgstr "Obrót"
 
