@@ -55,6 +55,11 @@ typedef struct {
 } GthCurveClass;
 
 GType		gth_curve_get_type		(void);
+GthCurve *      gth_curve_new        		(GType		 curve_type,
+						 GthPoints	*points);
+GthCurve *      gth_curve_new_for_points        (GType		 curve_type,
+						 int		 n_points,
+						 ...);
 void		gth_curve_set_points		(GthCurve	*curve,
 						 GthPoints	*points);
 GthPoints *	gth_curve_get_points		(GthCurve	*curve);
@@ -82,7 +87,6 @@ typedef struct {
 typedef GthCurveClass GthSplineClass;
 
 GType		gth_spline_get_type		(void);
-GthCurve *	gth_spline_new			(GthPoints	*points);
 
 
 /* -- GthCSpline -- */
@@ -103,7 +107,6 @@ typedef struct {
 typedef GthCurveClass GthCSplineClass;
 
 GType		gth_cspline_get_type		(void);
-GthCurve *	gth_cspline_new			(GthPoints	*points);
 
 
 /* -- GthBezier -- */
@@ -125,7 +128,6 @@ typedef struct {
 typedef GthCurveClass GthBezierClass;
 
 GType		gth_bezier_get_type		(void);
-GthCurve *	gth_bezier_new			(GthPoints	*points);
 
 
 G_END_DECLS

@@ -30,6 +30,41 @@
 G_DEFINE_TYPE (GthCurve, gth_curve, G_TYPE_OBJECT)
 
 
+GthCurve *
+gth_curve_new (GType		 curve_type,
+	       GthPoints	*points)
+{
+	GthCurve *curve;
+
+	curve = g_object_new (curve_type, NULL);
+	gth_curve_set_points (curve, points);
+
+	return curve;
+}
+
+
+GthCurve *
+gth_curve_new_for_points (GType		 curve_type,
+			  int		 n_points,
+			  ...)
+{
+	GthCurve  *curve;
+	va_list    args;
+	int        i;
+	GthPoints  points;
+
+	curve = g_object_new (curve_type, NULL);
+
+	va_start (args, n_points);
+	gth_points_init (&points, 0);
+	gth_points_set_pointv (&points, args, n_points);
+	gth_curve_set_points (curve, &points);
+	va_end (args);
+
+	return curve;
+}
+
+
 void
 gth_curve_set_points (GthCurve	*curve,
 		      GthPoints	*points)
@@ -322,19 +357,6 @@ gth_spline_init (GthSpline *spline)
 }
 
 
-GthCurve *
-gth_spline_new (GthPoints *points)
-{
-	GthSpline *spline;
-	int        i;
-
-	spline = g_object_new (GTH_TYPE_SPLINE, NULL);
-	gth_curve_set_points (GTH_CURVE (spline), points);
-
-	return GTH_CURVE (spline);
-}
-
-
 /* -- GthCSpline (https://en.wikipedia.org/wiki/Cubic_Hermite_spline) -- */
 
 
@@ -547,19 +569,6 @@ gth_cspline_init (GthCSpline *spline)
 }
 
 
-GthCurve *
-gth_cspline_new (GthPoints *points)
-{
-	GthCSpline *spline;
-	int         i;
-
-	spline = g_object_new (GTH_TYPE_CSPLINE, NULL);
-	gth_curve_set_points (GTH_CURVE (spline), points);
-
-	return GTH_CURVE (spline);
-}
-
-
 /* -- GthBezier -- */
 
 
@@ -725,17 +734,4 @@ gth_bezier_init (GthBezier *spline)
 {
 	spline->k = NULL;
 	spline->linear = TRUE;
-}
-
-
-GthCurve *
-gth_bezier_new (GthPoints *points)
-{
-	GthBezier *spline;
-	int        i;
-
-	spline = g_object_new (GTH_TYPE_BEZIER, NULL);
-	gth_curve_set_points (GTH_CURVE (spline), points);
-
-	return GTH_CURVE (spline);
 }

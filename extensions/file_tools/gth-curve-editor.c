@@ -867,7 +867,7 @@ gth_curve_editor_init (GthCurveEditor *self)
 	self->priv->scale_type = GTH_HISTOGRAM_SCALE_LINEAR;
 
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
-		self->priv->curve[c] = gth_bezier_new (NULL);
+		self->priv->curve[c] = gth_curve_new (GTH_TYPE_BEZIER, NULL);
 		gth_curve_editor_reset_channel (self, c);
 	}
 

@@ -227,7 +227,7 @@ task_data_new (GthPoints *points)
 	task_data = g_new (TaskData, 1);
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
 		task_data->value_map[c] = NULL;
-		task_data->curve[c] = gth_bezier_new (&points[c]);
+		task_data->curve[c] = gth_curve_new (GTH_TYPE_BEZIER, points + c);
 	}
 
 	return task_data;
