@@ -275,7 +275,7 @@ gth_histogram_paint_channel (GthCurveEditor   *self,
 }
 
 
-#define GRID_LINES 8
+#define GRID_LINES 4
 
 
 static void
