@@ -50,6 +50,19 @@ int		gth_points_add_point    (GthPoints	*points,
 					 double		 y);
 void            gth_points_delete_point	(GthPoints	*points,
 					 int		 n_point);
+void		gth_points_set_point    (GthPoints	*points,
+					 int             n,
+					 double		 x,
+					 double		 y);
+void		gth_points_set_pointv	(GthPoints	*points,
+					 va_list	 args,
+					 int		 n_points);
+
+void		gth_points_array_init	(GthPoints      *points);
+void		gth_points_array_dispose(GthPoints      *points);
+
+double		gth_point_distance	(GthPoint	*p1,
+					 GthPoint	*p2);
 
 G_END_DECLS
 

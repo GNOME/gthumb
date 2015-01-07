@@ -9,5 +9,6 @@
     <file compressed="true">resources/gthumb.css</file>
     <file compressed="true">resources/history-menu.ui</file>
     <file compressed="true">resources/message-dialog.ui</file>
+    <file compressed="true">resources/request-dialog.ui</file>
   </gresource>
 </gresources>

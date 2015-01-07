@@ -74,7 +74,6 @@
 #define SHIRNK_WRAP_HEIGHT_OFFSET 125
 #define FILE_PROPERTIES_MINIMUM_HEIGHT 100
 #define HISTORY_FILE "history.xbel"
-#define SECTION_BIG_MARGIN 12
 #define OVERLAY_MARGIN 10
 
 
@@ -4267,12 +4266,12 @@ gth_browser_init (GthBrowser *browser)
 
 		rtl = gtk_widget_get_direction (header_bar) == GTK_TEXT_DIR_RTL;
 
-		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS], SECTION_BIG_MARGIN);
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW], SECTION_BIG_MARGIN);
-		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], SECTION_BIG_MARGIN);
-		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW], SECTION_BIG_MARGIN);
-		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS], SECTION_BIG_MARGIN);
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS], SECTION_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS]);

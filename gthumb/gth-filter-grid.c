@@ -659,3 +659,98 @@ gth_filter_grid_get_task (GthFilterGrid	*self,
 
 	return _g_object_ref (cell_data->task);
 }
+
+
+void
+gth_filter_grid_rename_filter (GthFilterGrid	*self,
+			       int		 filter_id,
+			       const char	*new_name)
+{
+	CellData *cell_data;
+
+	cell_data = g_hash_table_lookup (self->priv->cell_data, GINT_TO_POINTER (filter_id));
+	g_return_if_fail (cell_data != NULL);
+
+	gtk_label_set_text (GTK_LABEL (cell_data->label), new_name);
+}
+
+
+static void
+_gth_filter_grid_reflow (GthFilterGrid *self)
+{
+	GList *children;
+	GList *scan;
+
+	self->priv->current_row = 0;
+	self->priv->current_column = 0;
+
+	children = NULL;
+	for (scan = self->priv->filter_ids; scan; scan = scan->next)
+		children = g_list_prepend (children, g_hash_table_lookup (self->priv->cell_data, scan->data));
+	children = g_list_reverse (children);
+
+	for (scan = children; scan; scan = scan->next) {
+		CellData *cell_data = scan->data;
+
+		g_object_ref (G_OBJECT (cell_data->cell));
+		gtk_container_remove (GTK_CONTAINER (self->priv->grid), cell_data->cell);
+	}
+
+	for (scan = children; scan; scan = scan->next) {
+		CellData *cell_data = scan->data;
+
+		_gth_filter_grid_append_cell (self, GTK_WIDGET (cell_data->cell));
+		g_object_unref (G_OBJECT (cell_data->cell));
+	}
+
+	g_list_free (children);
+}
+
+
+void
+gth_filter_grid_remove_filter (GthFilterGrid	*self,
+			       int		 filter_id)
+{
+	CellData *cell_data;
+	GList    *scan, *link;
+
+	cell_data = g_hash_table_lookup (self->priv->cell_data, GINT_TO_POINTER (filter_id));
+	g_return_if_fail (cell_data != NULL);
+
+	/* update filter_ids */
+
+	link = NULL;
+	for (scan = self->priv->filter_ids; scan; scan = scan->next) {
+		if (GPOINTER_TO_INT (scan->data) == filter_id) {
+			link = scan;
+			break;
+		}
+	}
+	if (link != NULL) {
+		self->priv->filter_ids = g_list_remove_link (self->priv->filter_ids, link);
+		g_list_free (link);
+	}
+
+	/* update active_button */
+
+	if (cell_data->button == self->priv->active_button)
+		self->priv->active_button = NULL;
+
+	/* remove the cell */
+
+	gtk_container_remove (GTK_CONTAINER (self->priv->grid), cell_data->cell);
+	cell_data->cell = NULL;
+	_gth_filter_grid_reflow (self);
+	g_hash_table_remove (self->priv->cell_data, GINT_TO_POINTER (filter_id));
+}
+
+
+void
+gth_filter_grid_change_order (GthFilterGrid *self,
+			      GList	    *id_list)
+{
+	g_list_free (self->priv->filter_ids);
+	self->priv->filter_ids = g_list_copy (id_list);
+
+	_gth_filter_grid_reflow (self);
+}

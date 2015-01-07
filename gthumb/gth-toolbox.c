@@ -243,7 +243,6 @@ gth_toolbox_init (GthToolbox *toolbox)
 	g_signal_connect (ok_button, "clicked", G_CALLBACK (ok_button_clicked_cb), toolbox);
 
 	toolbox->priv->options = gtk_scrolled_window_new (NULL, NULL);
-	gtk_widget_set_margin_top (toolbox->priv->options, 24);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_SHADOW_NONE);
 	gtk_widget_show (toolbox->priv->options);
 	gtk_box_pack_start (GTK_BOX (options_box), toolbox->priv->options, TRUE, TRUE, 0);

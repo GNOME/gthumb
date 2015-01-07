@@ -40,6 +40,7 @@ icons_DATA = 					\
 	image-sharpen-symbolic.svg		\
 	map-symbolic.svg			\
 	palette-symbolic.svg			\
+	presets-symbolic.svg			\
 	site-facebook.png			\
 	site-flickr.png				\
 	site-photobucket.png			\

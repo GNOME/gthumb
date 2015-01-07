@@ -6,6 +6,7 @@ EXTRA_DIST =			\
 	gears-menu.ui		\
 	gthumb.css		\
 	history-menu.ui		\
-	message-dialog.ui
+	message-dialog.ui	\
+	request-dialog.ui
 	
 -include $(top_srcdir)/git.mk

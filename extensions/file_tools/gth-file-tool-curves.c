@@ -22,6 +22,8 @@
 #include <config.h>
 #include <math.h>
 #include "gth-curve-editor.h"
+#include "gth-curve-preset.h"
+#include "gth-curve-preset-editor-dialog.h"
 #include "gth-file-tool-curves.h"
 #include "gth-curve.h"
 #include "gth-points.h"
@@ -47,7 +49,16 @@ struct _GthFileToolCurvesPrivate {
 	gboolean            view_original;
 	gboolean            apply_to_original;
 	gboolean            closing;
+	gboolean            apply_current_curve;
 	GtkWidget          *curve_editor;
+	GtkWidget          *preview_button;
+	GtkWidget          *preview_channel_button;
+	GtkWidget          *stack;
+	GtkWidget          *show_presets_button;
+	GtkWidget          *reset_button;
+	GtkWidget          *add_preset_button;
+	GthCurvePreset     *preset;
+	GtkWidget          *filter_grid;
 };
 
 
@@ -57,6 +68,8 @@ struct _GthFileToolCurvesPrivate {
 typedef struct {
 	long     *value_map[GTH_HISTOGRAM_N_CHANNELS];
 	GthCurve *curve[GTH_HISTOGRAM_N_CHANNELS];
+	int       current_curve;
+	gboolean  apply_current_curve;
 } TaskData;
 
 
@@ -70,9 +83,16 @@ curves_setup (TaskData        *task_data,
 	for (c = GTH_HISTOGRAM_CHANNEL_VALUE; c <= GTH_HISTOGRAM_CHANNEL_BLUE; c++) {
 		task_data->value_map[c] = g_new (long, 256);
 		for (v = 0; v <= 255; v++) {
-			double u = gth_curve_eval (task_data->curve[c], v);
+			double u;
+
+			if ((c != task_data->current_curve) || task_data->apply_current_curve)
+				u = gth_curve_eval (task_data->curve[c], v);
+			else
+				u = v;
+
 			if (c > GTH_HISTOGRAM_CHANNEL_VALUE)
 				u = task_data->value_map[GTH_HISTOGRAM_CHANNEL_VALUE][(int)u];
+
 			task_data->value_map[c][v] = u;
 		}
 	}
@@ -251,6 +271,26 @@ task_data_destroy (gpointer user_data)
 }
 
 
+static GthTask *
+get_curves_task (GthPoints *points,
+		 int        current_curve,
+		 gboolean   apply_current_curve)
+{
+	TaskData *task_data;
+
+	task_data = task_data_new (points);
+	task_data->current_curve = current_curve;
+	task_data->apply_current_curve = apply_current_curve;
+
+	return  gth_image_task_new (_("Applying changes"),
+				    NULL,
+				    curves_exec,
+				    NULL,
+				    task_data,
+				    task_data_destroy);
+}
+
+
 static gboolean
 apply_cb (gpointer user_data)
 {
@@ -258,7 +298,6 @@ apply_cb (gpointer user_data)
 	GtkWidget         *window;
 	GthPoints          points[GTH_HISTOGRAM_N_CHANNELS];
 	int                c;
-	TaskData          *task_data;
 
 	if (self->priv->apply_event != 0) {
 		g_source_remove (self->priv->apply_event);
@@ -272,21 +311,17 @@ apply_cb (gpointer user_data)
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 
-	for (c = 0; c <= GTH_HISTOGRAM_N_CHANNELS; c++)
-		gth_points_init (points + c, 0);
+	gth_points_array_init (points);
 	gth_curve_editor_get_points (GTH_CURVE_EDITOR (self->priv->curve_editor), points);
-	task_data = task_data_new (points);
-	self->priv->image_task =  gth_image_task_new (_("Applying changes"),
-						      NULL,
-						      curves_exec,
-						      NULL,
-						      task_data,
-						      task_data_destroy);
+	self->priv->image_task = get_curves_task (points,
+						  gth_curve_editor_get_current_channel (GTH_CURVE_EDITOR (self->priv->curve_editor)),
+						  self->priv->apply_current_curve);
+	gth_points_array_dispose (points);
+
 	if (self->priv->apply_to_original)
 		gth_image_task_set_source_surface (GTH_IMAGE_TASK (self->priv->image_task), gth_image_viewer_page_tool_get_source (GTH_IMAGE_VIEWER_PAGE_TOOL (self)));
 	else
 		gth_image_task_set_source_surface (GTH_IMAGE_TASK (self->priv->image_task), self->priv->preview);
-
 	g_signal_connect (self->priv->image_task,
 			  "completed",
 			  G_CALLBACK (image_task_completed_cb),
@@ -318,11 +353,79 @@ reset_button_clicked_cb (GtkButton *button,
 
 
 static void
+add_to_presets_button_clicked_cb (GtkButton *button,
+				  gpointer   user_data)
+{
+	GthFileToolCurves *self = user_data;
+	char              *preset_name;
+	GthPoints          points[GTH_HISTOGRAM_N_CHANNELS];
+
+	preset_name = _gtk_request_dialog_run (GTK_WINDOW (gth_file_tool_get_window (GTH_FILE_TOOL (self))),
+					       GTK_DIALOG_MODAL,
+					       _("Add to Presets"),
+					       _("_Name:"),
+					       "",
+					       0,
+					       _GTK_LABEL_CANCEL,
+					       _GTK_LABEL_SAVE);
+
+	if (preset_name == NULL)
+		return;
+
+	gth_points_array_init (points);
+	gth_curve_editor_get_points (GTH_CURVE_EDITOR (self->priv->curve_editor), points);
+	gth_curve_preset_add (self->priv->preset, preset_name, points);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->show_presets_button), TRUE);
+
+	gth_points_array_dispose (points);
+	g_free (preset_name);
+}
+
+
+static void
 curve_editor_changed_cb (GthCurveEditor *curve_editor,
 			 gpointer        user_data)
 {
 	GthFileToolCurves *self = user_data;
+
 	apply_changes (self);
+	if (g_strcmp0 (gtk_stack_get_visible_child_name (GTK_STACK (self->priv->stack)), "presets") != 0)
+		gth_filter_grid_activate (GTH_FILTER_GRID (self->priv->filter_grid), GTH_FILTER_GRID_NO_FILTER);
+}
+
+
+static void
+curve_editor_current_channel_changed_cb (GObject    *gobject,
+					 GParamSpec *pspec,
+					 gpointer    user_data)
+{
+	GthFileToolCurves *self = user_data;
+
+	if (! self->priv->apply_current_curve)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->preview_channel_button), TRUE);
+}
+
+
+static void
+_gth_file_tool_curves_set_view_original (GthFileToolCurves *self,
+					 gboolean           view_original,
+					 gboolean           update_image)
+{
+	self->priv->view_original = view_original;
+
+	g_signal_handlers_block_by_data (self->priv->preview_button, self);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->preview_button), ! self->priv->view_original);
+	g_signal_handlers_unblock_by_data (self->priv->preview_button, self);
+
+	gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (self->priv->preview_channel_button), self->priv->view_original);
+	gtk_widget_set_sensitive (self->priv->preview_channel_button, ! self->priv->view_original);
+
+	if (update_image) {
+		if (self->priv->view_original)
+			gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
+		else
+			gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->destination);
+	}
 }
 
 
@@ -331,12 +434,130 @@ preview_checkbutton_toggled_cb (GtkToggleButton *togglebutton,
 				gpointer         user_data)
 {
 	GthFileToolCurves *self = user_data;
+	_gth_file_tool_curves_set_view_original (self, ! gtk_toggle_button_get_active (togglebutton), TRUE);
+}
 
-	self->priv->view_original = ! gtk_toggle_button_get_active (togglebutton);
-	if (self->priv->view_original)
-		gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
-	else
-		gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->destination);
+
+static void
+preview_channel_checkbutton_toggled_cb (GtkToggleButton *togglebutton,
+					gpointer         user_data)
+{
+	GthFileToolCurves *self = user_data;
+
+	self->priv->apply_current_curve = gtk_toggle_button_get_active (togglebutton);
+	apply_changes (self);
+}
+
+
+static void
+show_options_button_clicked_cb (GtkButton *button,
+				gpointer   user_data)
+{
+	GthFileToolCurves *self = user_data;
+
+	gtk_stack_set_visible_child_name (GTK_STACK (self->priv->stack), "options");
+
+	g_signal_handlers_block_matched (self->priv->show_presets_button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, self);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->show_presets_button), FALSE);
+	g_signal_handlers_unblock_matched (self->priv->show_presets_button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, self);
+
+	gtk_widget_set_visible (self->priv->reset_button, TRUE);
+	gtk_widget_set_visible (self->priv->add_preset_button, TRUE);
+}
+
+
+static void
+edit_presets_button_clicked_cb (GtkButton *button,
+				gpointer   user_data)
+{
+	GthFileToolCurves *self = user_data;
+	GtkWidget         *dialog;
+
+	dialog = gth_curve_preset_editor_dialog_new (GTK_WINDOW (gth_file_tool_get_window (GTH_FILE_TOOL (self))), self->priv->preset);
+	gtk_widget_show (dialog);
+}
+
+
+static void
+preset_changed_cb (GthCurvePreset	*preset,
+		   GthPresetAction	 action,
+		   int			 preset_id,
+		   gpointer		 user_data)
+{
+	GthFileToolCurves *self = user_data;
+	gboolean           saved;
+	const char        *preset_name;
+	GthPoints         *points;
+	GError            *error = NULL;
+	GList		  *order;
+
+	if (! gth_curve_preset_save (self->priv->preset, &error)) {
+		_gtk_error_dialog_from_gerror_show (NULL, _("Could not save the file"), error);
+		g_clear_error (&error);
+		return;
+	}
+
+	switch (action) {
+	case GTH_PRESET_ACTION_ADDED:
+		if (gth_curve_preset_get_by_id (preset, preset_id, &preset_name, &points)) {
+			gth_filter_grid_add_filter (GTH_FILTER_GRID (self->priv->filter_grid),
+						    preset_id,
+						    get_curves_task (points, 0, TRUE),
+						    preset_name,
+						    NULL);
+			gth_filter_grid_generate_preview (GTH_FILTER_GRID (self->priv->filter_grid),
+							  preset_id,
+							  self->priv->preview);
+		}
+		break;
+	case GTH_PRESET_ACTION_REMOVED:
+		gth_filter_grid_remove_filter (GTH_FILTER_GRID (self->priv->filter_grid), preset_id);
+		break;
+	case GTH_PRESET_ACTION_RENAMED:
+		if (gth_curve_preset_get_by_id (preset, preset_id, &preset_name, NULL))
+			gth_filter_grid_rename_filter (GTH_FILTER_GRID (self->priv->filter_grid), preset_id, preset_name);
+		break;
+	case GTH_PRESET_ACTION_CHANGED_ORDER:
+		order = gth_curve_preset_get_order (preset);
+		gth_filter_grid_change_order (GTH_FILTER_GRID (self->priv->filter_grid), order);
+		g_list_free (order);
+		break;
+	}
+}
+
+
+static void
+filter_grid_activated_cb (GthFilterGrid	*filter_grid,
+			  int            filter_id,
+			  gpointer       user_data)
+{
+	GthFileToolCurves *self = user_data;
+
+	_gth_file_tool_curves_set_view_original (self, FALSE, FALSE);
+
+	if (filter_id == GTH_FILTER_GRID_NO_FILTER) {
+		if (g_strcmp0 (gtk_stack_get_visible_child_name (GTK_STACK (self->priv->stack)), "presets") == 0) {
+			GthPoints points[GTH_HISTOGRAM_N_CHANNELS];
+			int       c;
+
+			/* reset the curve */
+
+			for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
+				GthPoints *p = points + c;
+				gth_points_init (p, 2);
+				gth_points_set_point (p, 0, 0, 0);
+				gth_points_set_point (p, 1, 255, 255);
+			}
+			gth_curve_editor_set_points (GTH_CURVE_EDITOR (self->priv->curve_editor), points);
+			gth_points_array_dispose (points);
+		}
+	}
+	else {
+		GthPoints *points;
+
+		if (gth_curve_preset_get_by_id (GTH_CURVE_PRESET (self->priv->preset), filter_id, NULL, &points))
+			gth_curve_editor_set_points (GTH_CURVE_EDITOR (self->priv->curve_editor), points);
+	}
 }
 
 
@@ -350,6 +571,7 @@ gth_file_tool_curves_get_options (GthFileTool *base)
 	GtkWidget         *options;
 	int                width, height;
 	GtkAllocation      allocation;
+	GtkWidget         *container;
 
 	self = (GthFileToolCurves *) base;
 
@@ -378,9 +600,17 @@ gth_file_tool_curves_get_options (GthFileTool *base)
 	self->priv->view_original = FALSE;
 	self->priv->closing = FALSE;
 
+	container = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+
+	self->priv->stack = gtk_stack_new ();
+	gtk_stack_set_transition_type (GTK_STACK (self->priv->stack), GTK_STACK_TRANSITION_TYPE_CROSSFADE);
+	gtk_box_pack_start (GTK_BOX (container), self->priv->stack, FALSE, FALSE, 0);
+	gtk_widget_show (self->priv->stack);
+
 	self->priv->builder = _gtk_builder_new_from_file ("curves-options.ui", "file_tools");
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
+	gtk_stack_add_named (GTK_STACK (self->priv->stack), options, "options");
 
 	self->priv->curve_editor = gth_curve_editor_new (self->priv->histogram);
 	gtk_widget_show (self->priv->curve_editor);
@@ -390,11 +620,93 @@ gth_file_tool_curves_get_options (GthFileTool *base)
 			  "changed",
 			  G_CALLBACK (curve_editor_changed_cb),
 			  self);
+	g_signal_connect (self->priv->curve_editor,
+			  "notify::current-channel",
+			  G_CALLBACK (curve_editor_current_channel_changed_cb),
+			  self);
 
-	g_signal_connect (GET_WIDGET ("preview_checkbutton"),
+	self->priv->preview_button = GET_WIDGET ("preview_checkbutton");
+	g_signal_connect (self->priv->preview_button,
 			  "toggled",
 			  G_CALLBACK (preview_checkbutton_toggled_cb),
 			  self);
+
+	self->priv->preview_channel_button = GET_WIDGET ("preview_channel_checkbutton");
+	g_signal_connect (self->priv->preview_channel_button,
+			  "toggled",
+			  G_CALLBACK (preview_channel_checkbutton_toggled_cb),
+			  self);
+
+	{
+		GtkWidget *header_bar;
+		GtkWidget *button;
+		GFile     *file;
+		int        i;
+		GtkWidget *presets;
+
+		header_bar = gtk_header_bar_new ();
+		gtk_header_bar_set_title (GTK_HEADER_BAR (header_bar), _("Presets"));
+
+		button = gtk_button_new_from_icon_name ("go-previous-symbolic", GTK_ICON_SIZE_BUTTON);
+		g_signal_connect (button,
+				  "clicked",
+				  G_CALLBACK (show_options_button_clicked_cb),
+				  self);
+		gtk_widget_show (button);
+		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), button);
+
+		button = gtk_button_new_from_icon_name ("edit-symbolic", GTK_ICON_SIZE_BUTTON);
+		g_signal_connect (button,
+				  "clicked",
+				  G_CALLBACK (edit_presets_button_clicked_cb),
+				  self);
+		gtk_widget_show (button);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), button);
+
+		gtk_widget_show (header_bar);
+
+		file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, "gthumb", "curves.xml", NULL);
+		self->priv->preset = gth_curve_preset_new_from_file (file);
+		g_object_unref (file);
+
+		g_signal_connect (self->priv->preset,
+				  "preset_changed",
+				  G_CALLBACK (preset_changed_cb),
+				  self);
+
+		self->priv->filter_grid = gth_filter_grid_new ();
+		for (i = 0; i < gth_curve_preset_get_size (self->priv->preset); i++) {
+			GthPoints  *points;
+			int         c;
+			const char *name;
+			int         id;
+
+			if (gth_curve_preset_get_nth (self->priv->preset, i, &id, &name, &points))
+				gth_filter_grid_add_filter (GTH_FILTER_GRID (self->priv->filter_grid),
+						            id,
+							    get_curves_task (points, 0, TRUE),
+							    name,
+							    NULL);
+		}
+
+		g_signal_connect (self->priv->filter_grid,
+				  "activated",
+				  G_CALLBACK (filter_grid_activated_cb),
+				  self);
+
+		gtk_widget_show (self->priv->filter_grid);
+
+		presets = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+		gtk_box_pack_start (GTK_BOX (presets), header_bar, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (presets), self->priv->filter_grid, FALSE, FALSE, 0);
+		gtk_widget_show (presets);
+		gtk_stack_add_named (GTK_STACK (self->priv->stack), presets, "presets");
+
+		gth_filter_grid_generate_previews (GTH_FILTER_GRID (self->priv->filter_grid), self->priv->preview);
+	}
+
+	gtk_stack_set_visible_child_name (GTK_STACK (self->priv->stack), "options");
+	gtk_widget_show_all (container);
 
 	self->priv->preview_tool = gth_preview_tool_new ();
 	gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
@@ -402,7 +714,7 @@ gth_file_tool_curves_get_options (GthFileTool *base)
 	gth_histogram_calculate_for_image (self->priv->histogram, self->priv->preview);
 	apply_changes (self);
 
-	return options;
+	return container;
 }
 
 
@@ -441,6 +753,19 @@ gth_file_tool_curves_apply_options (GthFileTool *base)
 
 
 static void
+presets_toggled_cb (GtkToggleButton   *button,
+		    GthFileToolCurves * self)
+{
+	gboolean show_presets;
+
+	show_presets = gtk_toggle_button_get_active (button);
+	gtk_stack_set_visible_child_name (GTK_STACK (self->priv->stack), show_presets ? "presets" : "options");
+	gtk_widget_set_visible (self->priv->reset_button, ! show_presets);
+	gtk_widget_set_visible (self->priv->add_preset_button, ! show_presets);
+}
+
+
+static void
 gth_file_tool_curves_populate_headerbar (GthFileTool *base,
 					 GthBrowser  *browser)
 {
@@ -459,9 +784,39 @@ gth_file_tool_curves_populate_headerbar (GthFileTool *base,
 						    _("Reset"),
 						    NULL,
 						    NULL);
+	self->priv->reset_button = button;
 	g_signal_connect (button,
 			  "clicked",
 			  G_CALLBACK (reset_button_clicked_cb),
+			  self);
+
+	/* add to presets */
+
+	button = gth_browser_add_header_bar_button (browser,
+						    GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS,
+						    "list-add-symbolic",
+						    _("Add to presets"),
+						    NULL,
+						    NULL);
+	self->priv->add_preset_button = button;
+	g_signal_connect (button,
+			  "clicked",
+			  G_CALLBACK (add_to_presets_button_clicked_cb),
+			  self);
+
+	/* presets */
+
+	button = gth_browser_add_header_bar_toggle_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS,
+							   "presets-symbolic",
+							   _("Presets"),
+							   NULL,
+							   NULL);
+	gtk_widget_set_margin_left (button, GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+	self->priv->show_presets_button = button;
+	g_signal_connect (button,
+			  "toggled",
+			  G_CALLBACK (presets_toggled_cb),
 			  self);
 }
 
@@ -498,9 +853,10 @@ gth_file_tool_curves_init (GthFileToolCurves *self)
 	self->priv->builder = NULL;
 	self->priv->image_task = NULL;
 	self->priv->view_original = FALSE;
+	self->priv->apply_current_curve = TRUE;
 	self->priv->histogram = gth_histogram_new ();
 
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "curves-symbolic", _("Curves"), GTH_TOOLBOX_SECTION_COLORS);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), "curves-symbolic", _("Color Curves"), GTH_TOOLBOX_SECTION_COLORS);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Adjust color curves"));
 }
 

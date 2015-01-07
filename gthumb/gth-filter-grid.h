@@ -80,6 +80,13 @@ void            gth_filter_grid_generate_preview        (GthFilterGrid		*self,
 							 cairo_surface_t	*image);
 GthTask *       gth_filter_grid_get_task		(GthFilterGrid		*self,
 							 int			 filter_id);
+void		gth_filter_grid_rename_filter		(GthFilterGrid		*self,
+							 int			 filter_id,
+							 const char		*new_name);
+void		gth_filter_grid_remove_filter		(GthFilterGrid		*self,
+							 int			 filter_id);
+void		gth_filter_grid_change_order		(GthFilterGrid		*self,
+							 GList			*id_list);
 
 G_END_DECLS
 

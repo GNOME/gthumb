@@ -50,7 +50,7 @@ struct _GthCurveEditorClass {
 
 	/*< signals >*/
 
-	void	(*changed)	(GthCurveEditor	*self);
+	void	(*changed)		(GthCurveEditor	*self);
 };
 
 GType              gth_curve_editor_get_type		(void);

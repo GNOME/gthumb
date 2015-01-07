@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <math.h>
 #include "gth-points.h"
 
 
@@ -140,4 +141,61 @@ gth_points_delete_point	(GthPoints *points,
 	}
 
 	g_free (old_p);
+}
+
+
+void
+gth_points_set_point (GthPoints	*points,
+		      int        n,
+		      double	 x,
+		      double	 y)
+{
+	g_return_if_fail ((points != NULL) && (n >= 0) && (n < points->n));
+	points->p[n].x = x;
+	points->p[n].y = y;
+}
+
+
+void
+gth_points_set_pointv (GthPoints *points,
+		       va_list    args,
+		       int        n_points)
+{
+	int i;
+
+	gth_points_dispose (points);
+	gth_points_init (points, n_points);
+	for (i = 0; i < n_points; i++) {
+		int x = va_arg (args, int);
+		int y = va_arg (args, int);
+		gth_points_set_point (points, i, x , y);
+	}
+}
+
+
+void
+gth_points_array_init (GthPoints *points)
+{
+	int c;
+
+	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++)
+		gth_points_init (points + c, 0);
+}
+
+
+void
+gth_points_array_dispose (GthPoints *points)
+{
+	int c;
+
+	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++)
+		gth_points_dispose (points + c);
+}
+
+
+double
+gth_point_distance (GthPoint	*p1,
+		    GthPoint	*p2)
+{
+	return sqrt (SQR (p1->x - p2->x) + SQR (p1->y - p2->y));
 }

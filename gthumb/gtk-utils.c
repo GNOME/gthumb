@@ -187,6 +187,79 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 }
 
 
+static GtkWidget *
+create_button (const char *text)
+{
+	GtkWidget *button;
+
+	button = gtk_button_new_with_mnemonic (text);
+	gtk_widget_set_can_default (button, TRUE);
+	gtk_widget_show (button);
+
+	return button;
+}
+
+
+char *
+_gtk_request_dialog_run (GtkWindow      *parent,
+			 GtkDialogFlags  flags,
+			 const char     *title,
+			 const char     *message,
+			 const char     *default_value,
+			 int             max_length,
+			 const gchar    *no_button_text,
+			 const gchar    *yes_button_text)
+{
+	GtkBuilder *builder;
+	GtkWidget  *dialog;
+	GtkWidget  *label;
+	GtkWidget  *entry;
+	char       *result;
+
+	builder = _gtk_builder_new_from_resource ("request-dialog.ui");
+	dialog = _gtk_builder_get_widget (builder, "request_dialog");
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
+	gtk_window_set_modal (GTK_WINDOW (dialog), (flags & GTK_DIALOG_MODAL));
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), (flags & GTK_DIALOG_DESTROY_WITH_PARENT));
+	gtk_window_set_title (GTK_WINDOW (dialog), title);
+	g_object_weak_ref (G_OBJECT (dialog), (GWeakNotify) g_object_unref, builder);
+
+	if (flags & GTK_DIALOG_MODAL)
+		_gtk_dialog_add_to_window_group (GTK_DIALOG (dialog));
+
+	label = _gtk_builder_get_widget (builder, "message_label");
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (label), message);
+
+	entry = _gtk_builder_get_widget (builder, "value_entry");
+	gtk_entry_set_max_length (GTK_ENTRY (entry), max_length);
+	gtk_entry_set_text (GTK_ENTRY (entry), default_value);
+
+	/* Add buttons */
+
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
+				      create_button (no_button_text),
+				      GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_action_widget (GTK_DIALOG (dialog),
+				      create_button (yes_button_text),
+				      GTK_RESPONSE_YES);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
+
+	/* Run dialog */
+
+	gtk_widget_grab_focus (entry);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES)
+		result = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	else
+		result = NULL;
+
+	gtk_widget_destroy (dialog);
+
+	return result;
+}
+
+
 void
 _gtk_error_dialog_from_gerror_run (GtkWindow   *parent,
 				   const char  *title,

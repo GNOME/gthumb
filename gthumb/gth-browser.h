@@ -57,6 +57,8 @@ G_BEGIN_DECLS
 #define GTH_BROWSER_MENU_MANAGER_FOLDER_FOLDER_ACTIONS		"folder.folder-actions"
 #define GTH_BROWSER_MENU_MANAGER_FOLDER_OTHER_ACTIONS		"folder.other-actions"
 
+#define GTH_BROWSER_HEADER_BAR_BIG_MARGIN 12
+
 #define GTH_TYPE_BROWSER              (gth_browser_get_type ())
 #define GTH_BROWSER(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_BROWSER, GthBrowser))
 #define GTH_BROWSER_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_BROWSER_TYPE, GthBrowserClass))
