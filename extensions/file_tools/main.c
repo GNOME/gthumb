@@ -31,6 +31,7 @@
 #include "gth-file-tool-effects.h"
 #include "gth-file-tool-flip.h"
 #include "gth-file-tool-grayscale.h"
+#include "gth-file-tool-lomo.h"
 #include "gth-file-tool-mirror.h"
 #include "gth-file-tool-negative.h"
 #include "gth-file-tool-redo.h"
@@ -82,6 +83,7 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("add-special-effect", 30, G_CALLBACK (cherry_add_to_special_effects), NULL);
 	gth_hook_add_callback ("add-special-effect", 40, G_CALLBACK (grapes_add_to_special_effects), NULL);
 	gth_hook_add_callback ("add-special-effect", 50, G_CALLBACK (instagram_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", 60, G_CALLBACK (lomo_add_to_special_effects), NULL);
 	gth_hook_add_callback ("add-special-effect", 70, G_CALLBACK (vintage_add_to_special_effects), NULL);
 	gth_hook_add_callback ("add-special-effect", 80, G_CALLBACK (negative_add_to_special_effects), NULL);
 }
