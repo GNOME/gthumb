@@ -5313,6 +5313,7 @@ background_task_completed_cb (GthTask  *task,
 	GthBrowser *browser = task_data->browser;
 
 	browser->priv->background_tasks = g_list_remove (browser->priv->background_tasks, task_data);
+	g_signal_handler_disconnect (task, task_data->completed_event);
 	task_data_free (task_data);
 
 	if (error == NULL)
