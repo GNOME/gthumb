@@ -7,33 +7,38 @@ ENUM_TYPES =		\
 	enum-types.h	\
 	enum-types.c
 
-HEADER_FILES = 				\
-	cairo-blur.h			\
-	cairo-rotate.h			\
-	gth-curve.h			\
-	gth-curve-editor.h		\
-	gth-file-tool-adjust-colors.h	\
-	gth-file-tool-adjust-contrast.h	\
-	gth-file-tool-crop.h		\
-	gth-file-tool-curves.h		\
-	gth-file-tool-flip.h		\
-	gth-file-tool-grayscale.h	\
-	gth-file-tool-mirror.h		\
-	gth-file-tool-negative.h	\
-	gth-file-tool-redo.h		\
-	gth-file-tool-resize.h		\
-	gth-file-tool-rotate.h		\
-	gth-file-tool-rotate-left.h	\
-	gth-file-tool-rotate-right.h	\
-	gth-file-tool-rotate.h		\
-	gth-file-tool-save.h		\
-	gth-file-tool-save-as.h		\
-	gth-file-tool-sharpen.h		\
-	gth-file-tool-undo.h		\
-	gth-image-line-tool.h		\
-	gth-image-rotator.h		\
-	gth-points.h			\
-	gth-preview-tool.h		\
+HEADER_FILES = 					\
+	cairo-blur.h				\
+	cairo-effects.h				\
+	cairo-rotate.h				\
+	gth-curve.h				\
+	gth-curve-editor.h			\
+	gth-curve-preset.h			\
+	gth-curve-preset-editor-dialog.h	\
+	gth-file-tool-adjust-colors.h		\
+	gth-file-tool-adjust-contrast.h		\
+	gth-file-tool-crop.h			\
+	gth-file-tool-curves.h			\
+	gth-file-tool-effects.h			\
+	gth-file-tool-flip.h			\
+	gth-file-tool-grayscale.h		\
+	gth-file-tool-lomo.h			\
+	gth-file-tool-mirror.h			\
+	gth-file-tool-negative.h		\
+	gth-file-tool-redo.h			\
+	gth-file-tool-resize.h			\
+	gth-file-tool-rotate.h			\
+	gth-file-tool-rotate-left.h		\
+	gth-file-tool-rotate-right.h		\
+	gth-file-tool-rotate.h			\
+	gth-file-tool-save.h			\
+	gth-file-tool-save-as.h			\
+	gth-file-tool-sharpen.h			\
+	gth-file-tool-undo.h			\
+	gth-image-line-tool.h			\
+	gth-image-rotator.h			\
+	gth-points.h				\
+	gth-preview-tool.h			\
 	preferences.h
 
 enum-types.h: $(HEADER_FILES)
@@ -55,36 +60,41 @@ enum-types.c: $(HEADER_FILES)
 		$^> xgen-$(@F) \
 	&& mv -f xgen-$(@F) enum-types.c )
 
-libfile_tools_la_SOURCES = 		\
-	$(ENUM_TYPES)			\
-	$(HEADER_FILES)			\
-	cairo-blur.c			\
-	cairo-rotate.c			\
-	callbacks.c			\
-	callbacks.h			\
-	gth-curve.c			\
-	gth-curve-editor.c		\
-	gth-file-tool-adjust-colors.c	\
-	gth-file-tool-adjust-contrast.c	\
-	gth-file-tool-crop.c		\
-	gth-file-tool-curves.c		\
-	gth-file-tool-flip.c		\
-	gth-file-tool-grayscale.c	\
-	gth-file-tool-mirror.c		\
-	gth-file-tool-negative.c	\
-	gth-file-tool-redo.c		\
-	gth-file-tool-resize.c		\
-	gth-file-tool-rotate.c		\
-	gth-file-tool-rotate-left.c	\
-	gth-file-tool-rotate-right.c	\
-	gth-file-tool-save.c		\
-	gth-file-tool-save-as.c		\
-	gth-file-tool-sharpen.c		\
-	gth-file-tool-undo.c		\
-	gth-image-line-tool.c		\
-	gth-image-rotator.c		\
-	gth-points.c			\
-	gth-preview-tool.c		\
+libfile_tools_la_SOURCES = 			\
+	$(ENUM_TYPES)				\
+	$(HEADER_FILES)				\
+	cairo-blur.c				\
+	cairo-effects.c				\
+	cairo-rotate.c				\
+	callbacks.c				\
+	callbacks.h				\
+	gth-curve.c				\
+	gth-curve-editor.c			\
+	gth-curve-preset.c			\
+	gth-curve-preset-editor-dialog.c	\
+	gth-file-tool-adjust-colors.c		\
+	gth-file-tool-adjust-contrast.c		\
+	gth-file-tool-crop.c			\
+	gth-file-tool-curves.c			\
+	gth-file-tool-effects.c			\
+	gth-file-tool-flip.c			\
+	gth-file-tool-grayscale.c		\
+	gth-file-tool-lomo.c			\
+	gth-file-tool-mirror.c			\
+	gth-file-tool-negative.c		\
+	gth-file-tool-redo.c			\
+	gth-file-tool-resize.c			\
+	gth-file-tool-rotate.c			\
+	gth-file-tool-rotate-left.c		\
+	gth-file-tool-rotate-right.c		\
+	gth-file-tool-save.c			\
+	gth-file-tool-save-as.c			\
+	gth-file-tool-sharpen.c			\
+	gth-file-tool-undo.c			\
+	gth-image-line-tool.c			\
+	gth-image-rotator.c			\
+	gth-points.c				\
+	gth-preview-tool.c			\
 	main.c
 
 libfile_tools_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

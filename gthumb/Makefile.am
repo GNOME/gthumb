@@ -26,6 +26,7 @@ PUBLIC_HEADER_FILES = 					\
 	color-utils.h					\
 	dom.h						\
 	gfixed.h					\
+	gimp-op.h					\
 	gio-utils.h					\
 	glib-utils.h					\
 	gnome-desktop-thumbnail.h			\
@@ -164,6 +165,7 @@ gthumb_SOURCES = 					\
 	dlg-preferences-general.c			\
 	dlg-sort-order.c				\
 	dom.c						\
+	gimp-op.c					\
 	gio-utils.c					\
 	glib-utils.c					\
 	gsignature.c					\

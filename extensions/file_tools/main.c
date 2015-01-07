@@ -28,6 +28,7 @@
 #include "gth-file-tool-adjust-contrast.h"
 #include "gth-file-tool-crop.h"
 #include "gth-file-tool-curves.h"
+#include "gth-file-tool-effects.h"
 #include "gth-file-tool-flip.h"
 #include "gth-file-tool-grayscale.h"
 #include "gth-file-tool-mirror.h"
@@ -57,6 +58,7 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_GRAYSCALE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CURVES);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_NEGATIVE);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_EFFECTS);
 
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE_LEFT);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE_RIGHT);
@@ -68,6 +70,20 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CROP);
 
 	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (file_tools__gth_browser_file_list_key_press_cb), NULL);
+
+	/**
+	 * Add a filter to the filter list shown in the Effects tool
+	 *
+	 * @filter_grid (GthFilterGrid*): the filter grid to add the effect to.
+	 **/
+	gth_hook_register ("add-special-effect", 1);
+
+	gth_hook_add_callback ("add-special-effect", 10, G_CALLBACK (warmer_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", 20, G_CALLBACK (cooler_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", 30, G_CALLBACK (cherry_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", 40, G_CALLBACK (grapes_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", 50, G_CALLBACK (instagram_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", 70, G_CALLBACK (vintage_add_to_special_effects), NULL);
 }
 
 

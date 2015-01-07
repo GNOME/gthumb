@@ -26,36 +26,9 @@
 #include "cairo-image-surface-xcf.h"
 
 
-/* Optimizations taken from xcftools 1.0.7 written by Henning Makholm
- *
- * xL : Layer color
- * xI : Image color
- * aL : Layer alpha
- * */
-
-
-#define TILE_WIDTH			64
-#define MAX_TILE_SIZE			(TILE_WIDTH * TILE_WIDTH * 4 * 1.5)
-#define ADD_ALPHA(v, a)			(add_alpha_table[v][a])
-#define DISSOLVE_SEED			737893334
-#define CLAMP_TEMP(x, min, max)		(temp = (x), CLAMP (temp, min, max))
-#define ABS_TEMP2(x)			(temp2 = (x), (temp2 < 0) ? -temp2: temp2)
-#define CLAMP_PIXEL(x)			CLAMP_TEMP (x, 0, 255)
-#define GIMP_OP_NORMAL(xL, xI, aL)	CLAMP_PIXEL (ADD_ALPHA (xL, aL) + ADD_ALPHA (xI, 255 - aL))
-#define GIMP_OP_LIGHTEN_ONLY(xL, xI)	MAX (xI, xL)
-#define GIMP_OP_SCREEN(xL, xI)		CLAMP_PIXEL (255 ^ ADD_ALPHA (255 - xI, 255 - xL))
-#define GIMP_OP_DODGE(xL, xI)		GIMP_OP_DIVIDE (255-xL, xI)
-#define GIMP_OP_ADDITION(xL, xI)	CLAMP_PIXEL (xI + xL)
-#define GIMP_OP_DARKEN_ONLY(xL, xI)	MIN (xI, xL)
-#define GIMP_OP_MULTIPLY(xL, xI)	CLAMP_PIXEL (ADD_ALPHA (xL, xI))
-#define GIMP_OP_BURN(xL, xI)		CLAMP_PIXEL (255 - GIMP_OP_DIVIDE (xL, 255 - xI))
-#define GIMP_OP_SOFT_LIGHT(xL, xI)	CLAMP_PIXEL (ADD_ALPHA (xI, xI) + 2 * ADD_ALPHA (xL, ADD_ALPHA (xI, 255 - xI)))
-#define GIMP_OP_HARD_LIGHT(xL, xI)	CLAMP_PIXEL (xL > 128 ? 255 ^ ADD_ALPHA (255 - xI, 2 * (255 - xL)) : ADD_ALPHA (xI, 2 * xL))
-#define GIMP_OP_DIFFERENCE(xL, xI)	CLAMP_PIXEL (ABS_TEMP2 (xI - xL))
-#define GIMP_OP_SUBTRACT(xL, xI)	CLAMP_PIXEL (xI - xL)
-#define GIMP_OP_GRAIN_EXTRACT(xL, xI)	CLAMP_PIXEL ((int) xI - xL + 128)
-#define GIMP_OP_GRAIN_MERGE(xL, xI)	CLAMP_PIXEL ((int) xI + xL - 128)
-#define GIMP_OP_DIVIDE(xL, xI)		CLAMP_PIXEL ((int) (xI) * 256 / (1 + (xL)))
+#define TILE_WIDTH	64
+#define MAX_TILE_SIZE	(TILE_WIDTH * TILE_WIDTH * 4 * 1.5)
+#define DISSOLVE_SEED	737893334
 
 
 typedef enum {
@@ -147,31 +120,6 @@ typedef struct {
 static int cairo_rgba[4]  = { CAIRO_RED, CAIRO_GREEN, CAIRO_BLUE, CAIRO_ALPHA };
 static int cairo_graya[2] = { 0, CAIRO_ALPHA };
 static int cairo_indexed[2] = { 0, CAIRO_ALPHA };
-static guchar add_alpha_table[256][256];
-static GOnce  xcf_init_once = G_ONCE_INIT;
-
-
-static gpointer
-xcf_init (gpointer data)
-{
-	int v;
-	int a;
-	int r;
-
-	/* add_alpha_table[v][a] = v * a / 255 */
-
-	for (v = 0; v < 128; v++) {
-		for (a = 0; a <= v; a++) {
-			r = (v * a + 127) / 255;
-			add_alpha_table[v][a] = add_alpha_table[a][v] = r;
-			add_alpha_table[255-v][a] = add_alpha_table[a][255-v] = a - r;
-			add_alpha_table[v][255-a] = add_alpha_table[255-a][v] = v - r;
-			add_alpha_table[255-v][255-a] = add_alpha_table[255-a][255-v] = (255 - a) - (v - r);
-		}
-	}
-
-	return NULL;
-}
 
 
 /* -- GDataInputStream functions -- */
@@ -985,7 +933,7 @@ _cairo_image_surface_create_from_xcf (GInputStream  *istream,
 
 	performance (DEBUG_INFO, "start loading");
 
-	g_once (&xcf_init_once, xcf_init, NULL);
+	gimp_op_init ();
 
 	performance (DEBUG_INFO, "end init");
 

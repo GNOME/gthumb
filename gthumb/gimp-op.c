@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2011 The Free Software Foundation, Inc.
+ *  Copyright (C) 2014 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,24 +19,39 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CAIRO_BLUR_H
-#define CAIRO_BLUR_H
+#include <config.h>
+#include "gimp-op.h"
 
-#include <glib.h>
-#include <cairo.h>
-#include <gthumb.h>
 
-G_BEGIN_DECLS
+guchar add_alpha_table[256][256];
+static GOnce  gimp_op_init_once = G_ONCE_INIT;
 
-gboolean _cairo_image_surface_blur     (cairo_surface_t *source,
-	 	                        int              radius,
-	 	                        GthAsyncTask    *task);
-gboolean _cairo_image_surface_sharpen  (cairo_surface_t *source,
-				        int              radius,
-				        double           amount,
-				        guchar           threshold,
-				        GthAsyncTask    *task);
 
-G_END_DECLS
+static gpointer
+init_tables (gpointer data)
+{
+	int v;
+	int a;
+	int r;
 
-#endif /* CAIRO_BLUR_H */
+	/* add_alpha_table[v][a] = v * a / 255 */
+
+	for (v = 0; v < 128; v++) {
+		for (a = 0; a <= v; a++) {
+			r = (v * a + 127) / 255;
+			add_alpha_table[v][a] = add_alpha_table[a][v] = r;
+			add_alpha_table[255-v][a] = add_alpha_table[a][255-v] = a - r;
+			add_alpha_table[v][255-a] = add_alpha_table[255-a][v] = v - r;
+			add_alpha_table[255-v][255-a] = add_alpha_table[255-a][255-v] = (255 - a) - (v - r);
+		}
+	}
+
+	return NULL;
+}
+
+
+void
+gimp_op_init (void)
+{
+	g_once (&gimp_op_init_once, init_tables, NULL);
+}

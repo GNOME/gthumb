@@ -46,6 +46,7 @@ icons_DATA = 					\
 	site-photobucket.png			\
 	site-picasaweb.png			\
 	site-twentythree.png			\
+	spacial-effects-symbolic.svg		\
 	swap-values-symbolic.svg		\
 	tag-symbolic.svg			\
 	tools-symbolic.svg			\
