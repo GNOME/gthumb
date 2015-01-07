@@ -3,6 +3,7 @@ ui_DATA = 				\
 	adjust-colors-options.ui 	\
 	adjust-contrast-options.ui 	\
 	crop-options.ui			\
+	curve-preset-editor.ui		\
 	curves-options.ui		\
 	effects-options.ui		\
 	grayscale-options.ui		\
