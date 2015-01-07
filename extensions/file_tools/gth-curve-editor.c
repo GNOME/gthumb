@@ -580,7 +580,8 @@ gth_curve_editor_get_nearest_point (GthCurveEditor  *self,
 		GthPoint *q = &points->p[i];
 		double    d;
 
-		d = sqrt (SQR (q->x - p->x) + SQR (q->y - p->y));
+		d = q->x - p->x;
+		d = ABS (d);
 		if ((d < POINT_ATTRACTION_THRESHOLD) && ((*n == -1) || (d < min))) {
 			min = d;
 			*n = i;
