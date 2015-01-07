@@ -264,6 +264,8 @@ extensions/file_manager/main.c
 extensions/file_manager/preferences.h
 extensions/file_tools/cairo-blur.c
 extensions/file_tools/cairo-blur.h
+extensions/file_tools/cairo-effects.c
+extensions/file_tools/cairo-effects.h
 extensions/file_tools/cairo-rotate.c
 extensions/file_tools/cairo-rotate.h
 extensions/file_tools/callbacks.c
@@ -271,21 +273,38 @@ extensions/file_tools/callbacks.h
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-contrast-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/crop-options.ui
+[type: gettext/glade]extensions/file_tools/data/ui/curve-preset-editor.ui
+[type: gettext/glade]extensions/file_tools/data/ui/curves-options.ui
+[type: gettext/glade]extensions/file_tools/data/ui/effects-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/grayscale-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/resize-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/rotate-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/sharpen-options.ui
 [type: gettext/ini]extensions/file_tools/file_tools.extension.in.in
+extensions/file_tools/gth-curve.c
+extensions/file_tools/gth-curve-editor.c
+extensions/file_tools/gth-curve-editor.h
+extensions/file_tools/gth-curve.h
+extensions/file_tools/gth-curve-preset.c
+extensions/file_tools/gth-curve-preset-editor-dialog.c
+extensions/file_tools/gth-curve-preset-editor-dialog.h
+extensions/file_tools/gth-curve-preset.h
 extensions/file_tools/gth-file-tool-adjust-colors.c
 extensions/file_tools/gth-file-tool-adjust-colors.h
 extensions/file_tools/gth-file-tool-adjust-contrast.c
 extensions/file_tools/gth-file-tool-adjust-contrast.h
 extensions/file_tools/gth-file-tool-crop.c
 extensions/file_tools/gth-file-tool-crop.h
+extensions/file_tools/gth-file-tool-curves.c
+extensions/file_tools/gth-file-tool-curves.h
+extensions/file_tools/gth-file-tool-effects.c
+extensions/file_tools/gth-file-tool-effects.h
 extensions/file_tools/gth-file-tool-flip.c
 extensions/file_tools/gth-file-tool-flip.h
 extensions/file_tools/gth-file-tool-grayscale.c
 extensions/file_tools/gth-file-tool-grayscale.h
+extensions/file_tools/gth-file-tool-lomo.c
+extensions/file_tools/gth-file-tool-lomo.h
 extensions/file_tools/gth-file-tool-mirror.c
 extensions/file_tools/gth-file-tool-mirror.h
 extensions/file_tools/gth-file-tool-negative.c
@@ -312,6 +331,8 @@ extensions/file_tools/gth-image-line-tool.c
 extensions/file_tools/gth-image-line-tool.h
 extensions/file_tools/gth-image-rotator.c
 extensions/file_tools/gth-image-rotator.h
+extensions/file_tools/gth-points.c
+extensions/file_tools/gth-points.h
 extensions/file_tools/gth-preview-tool.c
 extensions/file_tools/gth-preview-tool.h
 extensions/file_tools/main.c
@@ -675,6 +696,8 @@ gthumb/dlg-sort-order.h
 gthumb/dom.c
 gthumb/dom.h
 gthumb/gfixed.h
+gthumb/gimp-op.c
+gthumb/gimp-op.h
 gthumb/gio-utils.c
 gthumb/gio-utils.h
 gthumb/glib-utils.c
@@ -889,6 +912,7 @@ gthumb/pixbuf-utils.h
 [type: gettext/glade]gthumb/resources/gears-menu.ui
 [type: gettext/glade]gthumb/resources/history-menu.ui
 [type: gettext/glade]gthumb/resources/message-dialog.ui
+[type: gettext/glade]gthumb/resources/request-dialog.ui
 gthumb/test-dom.c
 gthumb/test-glib-utils.c
 gthumb/test-gsignature.c
