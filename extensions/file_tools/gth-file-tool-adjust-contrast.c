@@ -525,9 +525,21 @@ gth_file_tool_adjust_contrast_get_options (GthFileTool *base)
 	gtk_widget_show (options);
 
 	filter_grid = gth_filter_grid_new ();
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_STRETCH_0_5, NULL, _("Stretch"), _("Stretch the histogram trimming the 0.5%"));
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_EQUALIZE_SQUARE_ROOT, NULL, _("Equalize"), _("Equalize the histogram using the square root function"));
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_EQUALIZE_LINEAR, NULL, _("Uniform"), _("Equalize the histogram using the linear function"));
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid),
+				    METHOD_STRETCH_0_5,
+				    get_image_task_for_method (METHOD_STRETCH_0_5),
+				    _("Stretch"),
+				    _("Stretch the histogram trimming the 0.5%"));
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid),
+				    METHOD_EQUALIZE_SQUARE_ROOT,
+				    get_image_task_for_method (METHOD_EQUALIZE_SQUARE_ROOT),
+				    _("Equalize"),
+				    _("Equalize the histogram using the square root function"));
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid),
+				    METHOD_EQUALIZE_LINEAR,
+				    get_image_task_for_method (METHOD_EQUALIZE_LINEAR),
+				    _("Uniform"),
+				    _("Equalize the histogram using the linear function"));
 
 	g_signal_connect (filter_grid,
 			  "activated",
@@ -541,16 +553,7 @@ gth_file_tool_adjust_contrast_get_options (GthFileTool *base)
 	gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->preview_tool);
 	gth_filter_grid_activate (GTH_FILTER_GRID (filter_grid), METHOD_STRETCH_0_5);
-
-	gth_filter_grid_generate_previews (GTH_FILTER_GRID (filter_grid),
-					   source,
-					   METHOD_STRETCH_0_5,
-					   get_image_task_for_method (METHOD_STRETCH_0_5),
-					   METHOD_EQUALIZE_SQUARE_ROOT,
-					   get_image_task_for_method (METHOD_EQUALIZE_SQUARE_ROOT),
-					   METHOD_EQUALIZE_LINEAR,
-					   get_image_task_for_method (METHOD_EQUALIZE_LINEAR),
-					   GTH_FILTER_GRID_NO_FILTER);
+	gth_filter_grid_generate_previews (GTH_FILTER_GRID (filter_grid), source);
 
 	return options;
 }

@@ -67,15 +67,36 @@ typedef struct {
 } GeneratePreviewData;
 
 
+typedef struct {
+	GtkWidget *cell;
+	GtkWidget *button;
+	GtkWidget *preview;
+	GtkWidget *label;
+	GthTask   *task;
+} CellData;
+
+
+static void
+cell_data_free (CellData *cell_data)
+{
+	if (cell_data == NULL)
+		return;
+
+	_g_object_unref (cell_data->task);
+	g_free (cell_data);
+}
+
+
 struct _GthFilterGridPrivate {
 	GtkWidget		*grid;
 	int			 n_columns;
 	int			 current_column;
 	int			 current_row;
-	GHashTable		*buttons;
-	GHashTable		*previews;
+	GList                   *filter_ids;
+	GHashTable		*cell_data;
 	GtkWidget		*active_button;
 	GeneratePreviewData	*gp_data;
+	int                      next_filter_id;
 };
 
 
@@ -89,11 +110,15 @@ static void
 _gth_filter_grid_set_n_columns (GthFilterGrid *self,
 				int            n_columns)
 {
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
+
 	self->priv->grid = gtk_grid_new ();
 	gtk_grid_set_column_spacing (GTK_GRID (self->priv->grid), COLUMN_SPACING);
 	gtk_grid_set_row_spacing (GTK_GRID (self->priv->grid), ROW_SPACING);
 	gtk_widget_show (self->priv->grid);
-	gtk_container_add (GTK_CONTAINER (self), self->priv->grid);
+	gtk_box_pack_start (GTK_BOX (self), self->priv->grid, TRUE, FALSE, 0);
+	gtk_widget_set_margin_top (self->priv->grid, COLUMN_SPACING);
+	gtk_widget_set_margin_bottom (self->priv->grid, COLUMN_SPACING);
 
 	self->priv->n_columns = n_columns;
 	self->priv->current_column = 0;
@@ -155,8 +180,8 @@ gth_filter_grid_finalize (GObject *obj)
 		generate_preview_data_cancel (self->priv->gp_data);
 		self->priv->gp_data = NULL;
 	}
-	g_hash_table_destroy (self->priv->previews);
-	g_hash_table_destroy (self->priv->buttons);
+	g_hash_table_destroy (self->priv->cell_data);
+	g_list_free (self->priv->filter_ids);
 
 	G_OBJECT_CLASS (gth_filter_grid_parent_class)->finalize (obj);
 }
@@ -206,10 +231,11 @@ gth_filter_grid_init (GthFilterGrid *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILTER_GRID, GthFilterGridPrivate);
 	self->priv->n_columns = DEFAULT_N_COLUMNS;
-	self->priv->previews = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, NULL);
-	self->priv->buttons = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, NULL);
+	self->priv->filter_ids = NULL;
+	self->priv->cell_data = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, cell_data_free);
 	self->priv->active_button = NULL;
 	self->priv->gp_data = NULL;
+	self->priv->next_filter_id = 0;
 }
 
 
@@ -249,58 +275,10 @@ button_toggled_cb (GtkWidget *toggle_button,
 }
 
 
-static GtkWidget *
-_gth_filter_grid_cell_new (GthFilterGrid	*self,
-			   int			 filter_id,
-			   cairo_surface_t	*preview,
-			   const char		*label_text,
-			   const char		*tooltip)
+static void
+_gth_filter_grid_append_cell (GthFilterGrid *self,
+			      GtkWidget     *cell)
 {
-	GtkWidget *cell;
-	GtkWidget *button;
-	GtkWidget *image;
-	GtkWidget *label;
-	GtkWidget *button_content;
-
-	cell = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-
-	button = gtk_toggle_button_new ();
-	g_object_set_data_full (G_OBJECT (button), FILTER_ID_KEY, GINT_TO_POINTER (filter_id), NULL);
-	gtk_style_context_add_class (gtk_widget_get_style_context (button), "filter-preview");
-	gtk_widget_set_tooltip_text (button, tooltip);
-	g_signal_connect (button, "toggled", G_CALLBACK (button_toggled_cb), self);
-
-	image = gtk_image_new_from_surface (preview);
-	gtk_widget_set_size_request (image, PREVIEW_SIZE, PREVIEW_SIZE);
-
-	label = gtk_label_new_with_mnemonic (label_text);
-	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
-
-	button_content = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-
-	gtk_box_pack_start (GTK_BOX (button_content), image, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (button_content), label, FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (button), button_content);
-	gtk_box_pack_start (GTK_BOX (cell), button, FALSE, FALSE, 0);
-	gtk_widget_show_all (cell);
-
-	g_hash_table_insert (self->priv->previews, GINT_TO_POINTER (filter_id), image);
-	g_hash_table_insert (self->priv->buttons, GINT_TO_POINTER (filter_id), button);
-
-	return cell;
-}
-
-
-void
-gth_filter_grid_add_filter (GthFilterGrid	*self,
-			    int			 filter_id,
-			    cairo_surface_t	*preview,
-			    const char		*label,
-			    const char		*tooltip)
-{
-	GtkWidget *cell;
-
-	cell = _gth_filter_grid_cell_new (self, filter_id, preview, label, tooltip);
 	gtk_grid_attach (GTK_GRID (self->priv->grid),
 			 cell,
 			 self->priv->current_column,
@@ -316,17 +294,95 @@ gth_filter_grid_add_filter (GthFilterGrid	*self,
 }
 
 
+static CellData *
+_gth_filter_grid_add_filter (GthFilterGrid	*self,
+			   int			*filter_id_p,
+			   cairo_surface_t	*preview,
+			   const char		*label_text,
+			   const char		*tooltip)
+{
+	CellData  *cell_data;
+	int        filter_id;
+	GtkWidget *cell;
+	GtkWidget *button;
+	GtkWidget *image;
+	GtkWidget *label;
+	GtkWidget *button_content;
+
+	cell_data = g_new0 (CellData, 1);
+
+	if (*filter_id_p == GTH_FILTER_GRID_NEW_FILTER_ID)
+		*filter_id_p = self->priv->next_filter_id++;
+	filter_id = *filter_id_p;
+
+	cell_data->cell = cell = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+
+	cell_data->button = button = gtk_toggle_button_new ();
+	g_object_set_data_full (G_OBJECT (button), FILTER_ID_KEY, GINT_TO_POINTER (filter_id), NULL);
+	gtk_style_context_add_class (gtk_widget_get_style_context (button), "filter-preview");
+	gtk_widget_set_tooltip_text (button, tooltip);
+	g_signal_connect (button, "toggled", G_CALLBACK (button_toggled_cb), self);
+
+	cell_data->preview = image = gtk_image_new_from_surface (preview);
+	gtk_widget_set_size_request (image, PREVIEW_SIZE, PREVIEW_SIZE);
+
+	cell_data->label = label = gtk_label_new_with_mnemonic (label_text);
+	gtk_label_set_ellipsize (GTK_LABEL (label), PANGO_ELLIPSIZE_END);
+
+	button_content = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+
+	gtk_box_pack_start (GTK_BOX (button_content), image, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (button_content), label, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (button), button_content);
+	gtk_box_pack_start (GTK_BOX (cell), button, FALSE, FALSE, 0);
+	gtk_widget_show_all (cell);
+	_gth_filter_grid_append_cell (self, cell);
+
+	self->priv->filter_ids = g_list_append (self->priv->filter_ids, GINT_TO_POINTER (filter_id));
+	g_hash_table_insert (self->priv->cell_data, GINT_TO_POINTER (filter_id), cell_data);
+
+	return cell_data;
+}
+
+
+void
+gth_filter_grid_add_filter (GthFilterGrid	*self,
+			    int		 	 filter_id,
+			    GthTask		*task,
+			    const char		*label,
+			    const char		*tooltip)
+{
+	CellData *cell_data;
+
+	cell_data = _gth_filter_grid_add_filter (self, &filter_id, NULL, label, tooltip);
+	if (task != NULL)
+		cell_data->task = task;
+}
+
+
+void
+gth_filter_grid_add_filter_with_preview (GthFilterGrid	*self,
+					 int			 filter_id,
+					 cairo_surface_t	*preview,
+					 const char		*label,
+					 const char		*tooltip)
+{
+	_gth_filter_grid_add_filter (self, &filter_id, preview, label, tooltip);
+
+}
+
+
 void
 gth_filter_grid_set_filter_preview (GthFilterGrid	*self,
 				    int			 filter_id,
 				    cairo_surface_t	*preview)
 {
-	GtkWidget *image;
+	CellData *cell_data;
 
-	image = g_hash_table_lookup (self->priv->previews, GINT_TO_POINTER (filter_id));
-	g_return_if_fail (image != NULL);
+	cell_data = g_hash_table_lookup (self->priv->cell_data, GINT_TO_POINTER (filter_id));
+	g_return_if_fail (cell_data != NULL);
 
-	gtk_image_set_from_surface (GTK_IMAGE (image), preview);
+	gtk_image_set_from_surface (GTK_IMAGE (cell_data->preview), preview);
 }
 
 
@@ -336,10 +392,23 @@ gth_filter_grid_activate (GthFilterGrid	*self,
 {
 	GtkWidget *button;
 
-	button = g_hash_table_lookup (self->priv->buttons, GINT_TO_POINTER (filter_id));
-	g_return_if_fail (button != NULL);
+	if (filter_id == GTH_FILTER_GRID_NO_FILTER) {
+		if (self->priv->active_button != NULL)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->active_button), FALSE);
+		self->priv->active_button = NULL;
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+		g_signal_emit (self,
+			       gth_filter_grid_signals[ACTIVATED],
+			       0,
+			       GTH_FILTER_GRID_NO_FILTER);
+	}
+	else {
+		CellData *cell_data;
+
+		cell_data = g_hash_table_lookup (self->priv->cell_data, GINT_TO_POINTER (filter_id));
+		g_return_if_fail (cell_data != NULL);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cell_data->button), TRUE);
+	}
 }
 
 
@@ -395,6 +464,8 @@ image_preview_completed_cb (GthTask    *task,
 
 	current_task = (PreviewTask *) data->current_task->data;
 	g_return_if_fail (task == current_task->image_task);
+
+	g_signal_handlers_disconnect_by_data (task, data);
 
 	if ((error != NULL) || (data->self == NULL)) {
 		generate_preview_data_free (data);
@@ -479,51 +550,25 @@ resize_task_exec (GthAsyncTask *task,
 }
 
 
-void
-gth_filter_grid_generate_previews (GthFilterGrid	*self,
-				   cairo_surface_t	*image,
-				   int                   filter_id,
-				   ...
-				   /* series of:
-				   int			 filter_id,
-				   GthTask		*image_task,
-				   */)
+static void
+generate_previews (GthFilterGrid	*self,
+		   cairo_surface_t	*image,
+		   GList		*tasks)
 {
 	GeneratePreviewData	*data;
-	GthTask			*image_task;
-	va_list			 args;
+	GList			*scan;
 
 	if (self->priv->gp_data != NULL)
 		generate_preview_data_cancel (self->priv->gp_data);
 
 	data = g_new (GeneratePreviewData, 1);
 	data->self = self;
-	data->tasks = NULL;
+	data->tasks = tasks;
 	data->cancellable = g_cancellable_new ();;
 	data->original = NULL;
 
 	g_object_add_weak_pointer (G_OBJECT (self), (gpointer *) &data->self);
 	self->priv->gp_data = data;
-
-	/* collect the (filter, task) pairs */
-
-	va_start (args, filter_id);
-	image_task = va_arg (args, GthTask *);
-	while ((filter_id >= 0) && (image_task != NULL)) {
-		PreviewTask *task;
-
-		task = g_new0 (PreviewTask, 1);
-		task->filter_id = filter_id;
-		task->image_task = image_task;
-		data->tasks = g_list_prepend (data->tasks, task);
-
-		filter_id = va_arg (args, int);
-		if (filter_id < 0)
-			break;
-		image_task = va_arg (args, GthTask *);
-	}
-	va_end (args);
-	data->tasks = g_list_reverse (data->tasks);
 
 	/* resize the original image */
 
@@ -540,4 +585,77 @@ gth_filter_grid_generate_previews (GthFilterGrid	*self,
 			  data);
 
 	gth_task_exec (data->resize_task, data->cancellable);
+}
+
+
+void
+gth_filter_grid_generate_previews (GthFilterGrid	*self,
+				   cairo_surface_t	*image)
+{
+	GList *tasks;
+	GList *scan;
+
+	/* collect the (filter id, task) pairs */
+
+	tasks = NULL;
+	for (scan = self->priv->filter_ids; scan; scan = scan->next) {
+		int		 filter_id = GPOINTER_TO_INT (scan->data);
+		CellData	*cell_data;
+		PreviewTask	*task_data;
+
+		g_return_if_fail (filter_id >= 0);
+
+		cell_data = g_hash_table_lookup (self->priv->cell_data, GINT_TO_POINTER (filter_id));
+		g_return_if_fail (cell_data != NULL);
+
+		if (cell_data->task == NULL)
+			continue;
+
+		task_data = g_new0 (PreviewTask, 1);
+		task_data->filter_id = filter_id;
+		task_data->image_task = g_object_ref (cell_data->task);
+		tasks = g_list_prepend (tasks, task_data);
+	}
+	tasks = g_list_reverse (tasks);
+
+	generate_previews (self, image, tasks);
+}
+
+
+void
+gth_filter_grid_generate_preview (GthFilterGrid		*self,
+				  int			 filter_id,
+				  cairo_surface_t	*image)
+{
+	CellData	*cell_data;
+	PreviewTask	*task_data;
+	GList		*tasks;
+
+	g_return_if_fail (filter_id >= 0);
+
+	cell_data = g_hash_table_lookup (self->priv->cell_data, GINT_TO_POINTER (filter_id));
+	g_return_if_fail (cell_data != NULL);
+
+	if (cell_data->task == NULL)
+		return;
+
+	task_data = g_new0 (PreviewTask, 1);
+	task_data->filter_id = filter_id;
+	task_data->image_task = g_object_ref (cell_data->task);
+	tasks = g_list_prepend (NULL, task_data);
+
+	generate_previews (self, image, tasks);
+}
+
+
+GthTask *
+gth_filter_grid_get_task (GthFilterGrid	*self,
+			  int		 filter_id)
+{
+	CellData *cell_data;
+
+	cell_data = g_hash_table_lookup (self->priv->cell_data, GINT_TO_POINTER (filter_id));
+	g_return_val_if_fail (cell_data != NULL, NULL);
+
+	return _g_object_ref (cell_data->task);
 }

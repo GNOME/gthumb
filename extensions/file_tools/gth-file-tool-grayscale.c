@@ -364,9 +364,21 @@ gth_file_tool_grayscale_get_options (GthFileTool *base)
 	gtk_widget_show (options);
 
 	filter_grid = gth_filter_grid_new ();
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_BRIGHTNESS, NULL, _("_Brightness"), NULL);
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_SATURATION, NULL, _("_Saturation"), NULL);
-	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid), METHOD_AVARAGE, NULL, _("_Average"), NULL);
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid),
+				    METHOD_BRIGHTNESS,
+				    get_image_task_for_method (METHOD_BRIGHTNESS),
+				    _("_Brightness"),
+				    NULL);
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid),
+				    METHOD_SATURATION,
+				    get_image_task_for_method (METHOD_SATURATION),
+				    _("_Saturation"),
+				    NULL);
+	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid),
+				    METHOD_AVARAGE,
+				    get_image_task_for_method (METHOD_AVARAGE),
+				    _("_Average"),
+				    NULL);
 
 	g_signal_connect (filter_grid,
 			  "activated",
@@ -380,16 +392,7 @@ gth_file_tool_grayscale_get_options (GthFileTool *base)
 	gth_preview_tool_set_image (GTH_PREVIEW_TOOL (self->priv->preview_tool), self->priv->preview);
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->preview_tool);
 	gth_filter_grid_activate (GTH_FILTER_GRID (filter_grid), METHOD_BRIGHTNESS);
-
-	gth_filter_grid_generate_previews (GTH_FILTER_GRID (filter_grid),
-					   source,
-					   METHOD_BRIGHTNESS,
-					   get_image_task_for_method (METHOD_BRIGHTNESS),
-					   METHOD_SATURATION,
-					   get_image_task_for_method (METHOD_SATURATION),
-					   METHOD_AVARAGE,
-					   get_image_task_for_method (METHOD_AVARAGE),
-					   GTH_FILTER_GRID_NO_FILTER);
+	gth_filter_grid_generate_previews (GTH_FILTER_GRID (filter_grid), source);
 
 	return options;
 }

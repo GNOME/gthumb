@@ -24,10 +24,12 @@
 
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <cairo/cairo.h>
 
 G_BEGIN_DECLS
 
 #define GTH_FILTER_GRID_NO_FILTER -1
+#define GTH_FILTER_GRID_NEW_FILTER_ID -2
 
 #define GTH_TYPE_FILTER_GRID (gth_filter_grid_get_type ())
 #define GTH_FILTER_GRID(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FILTER_GRID, GthFilterGrid))
@@ -58,6 +60,11 @@ GType		gth_filter_grid_get_type		(void);
 GtkWidget *	gth_filter_grid_new			(void);
 void		gth_filter_grid_add_filter		(GthFilterGrid		*self,
 							 int			 filter_id,
+							 GthTask		*task,
+							 const char		*label,
+							 const char		*tooltip);
+void		gth_filter_grid_add_filter_with_preview	(GthFilterGrid		*self,
+							 int			 filter_id,
 							 cairo_surface_t	*preview,
 							 const char		*label,
 							 const char		*tooltip);
@@ -67,13 +74,12 @@ void		gth_filter_grid_set_filter_preview	(GthFilterGrid		*self,
 void            gth_filter_grid_activate                (GthFilterGrid		*self,
 							 int			 filter_id);
 void            gth_filter_grid_generate_previews       (GthFilterGrid		*self,
-							 cairo_surface_t	*image,
-							 int                     filter_id,
-							 ...
-							 /* series of:
+							 cairo_surface_t	*image);
+void            gth_filter_grid_generate_preview        (GthFilterGrid		*self,
 							 int			 filter_id,
-							 GthTask		*image_task,
-							 */);
+							 cairo_surface_t	*image);
+GthTask *       gth_filter_grid_get_task		(GthFilterGrid		*self,
+							 int			 filter_id);
 
 G_END_DECLS
 
