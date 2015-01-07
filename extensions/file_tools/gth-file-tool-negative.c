@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2009-2014 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,11 +21,7 @@
 
 #include <config.h>
 #include <gthumb.h>
-#include <extensions/image_viewer/image-viewer.h>
 #include "gth-file-tool-negative.h"
-
-
-G_DEFINE_TYPE (GthFileToolNegative, gth_file_tool_negative, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
 
 
 static gpointer
@@ -60,8 +56,11 @@ negative_exec (GthAsyncTask *task,
 	p_destination_line = _cairo_image_surface_flush_and_get_data (destination);
 	for (y = 0; y < height; y++) {
 		gth_async_task_get_data (task, NULL, &cancelled, NULL);
-		if (cancelled)
+		if (cancelled) {
+			cairo_surface_destroy (destination);
+			cairo_surface_destroy (source);
 			return NULL;
+		}
 
 		progress = (double) y / height;
 		gth_async_task_set_data (task, NULL, NULL, &progress);
@@ -93,45 +92,12 @@ negative_exec (GthAsyncTask *task,
 }
 
 
-static void
-gth_file_tool_negative_activate (GthFileTool *base)
+void
+negative_add_to_special_effects (GthFilterGrid *grid)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GthTask   *task;
-
-	window = gth_file_tool_get_window (base);
-	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		return;
-
-	task = gth_image_viewer_task_new (GTH_IMAGE_VIEWER_PAGE (viewer_page),
-					  _("Applying changes"),
-					  NULL,
-					  negative_exec,
-					  NULL,
-					  NULL,
-					  NULL);
-	g_signal_connect (task,
-			  "completed",
-			  G_CALLBACK (gth_image_viewer_task_set_destination),
-			  NULL);
-	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
-}
-
-
-static void
-gth_file_tool_negative_class_init (GthFileToolNegativeClass *klass)
-{
-	GthFileToolClass *file_tool_class;
-
-	file_tool_class = GTH_FILE_TOOL_CLASS (klass);
-	file_tool_class->activate = gth_file_tool_negative_activate;
-}
-
-
-static void
-gth_file_tool_negative_init (GthFileToolNegative *self)
-{
-	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-invert-symbolic", _("Negative"), GTH_TOOLBOX_SECTION_COLORS);
+	gth_filter_grid_add_filter (grid,
+				    GTH_FILTER_GRID_NEW_FILTER_ID,
+				    gth_image_task_new (_("Applying changes"), NULL, negative_exec, NULL, NULL, NULL),
+				    _("Negative"),
+				    NULL);
 }
