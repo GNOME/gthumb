@@ -119,7 +119,13 @@ adjust_colors_exec (GthAsyncTask *task,
 	unsigned char    values[4];
 	int              channel;
 	unsigned char    value;
+	double           saturation;
 	cairo_surface_t *destination;
+
+	if (adjust_data->saturation < 0)
+		saturation = tan (adjust_data->saturation * G_PI_2);
+	else
+		saturation = adjust_data->saturation;
 
 	source = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
 	format = cairo_image_surface_get_format (source);
@@ -152,7 +158,8 @@ adjust_colors_exec (GthAsyncTask *task,
 				if (! pixbuf_cache_get (adjust_data->cache, channel + 1, &value)) {
 					int tmp;
 
-					value = gamma_correction (value, adjust_data->gamma);
+					if (adjust_data->gamma != 0.0)
+						value = gamma_correction (value, adjust_data->gamma);
 
 					if (adjust_data->brightness > 0)
 						tmp = interpolate_value (value, 0, adjust_data->brightness);
@@ -179,17 +186,11 @@ adjust_colors_exec (GthAsyncTask *task,
 
 			if (adjust_data->saturation != 0.0) {
 				guchar min, max, lightness;
-				double saturation;
 				int    tmp;
 
 				max = MAX (MAX (values[0], values[1]), values[2]);
 				min = MIN (MIN (values[0], values[1]), values[2]);
 				lightness = (max + min) / 2;
-
-				if (adjust_data->saturation < 0)
-					saturation = tan (adjust_data->saturation * G_PI_2);
-				else
-					saturation = adjust_data->saturation;
 
 				tmp = interpolate_value (values[0], lightness, saturation);
 				values[0] = CLAMP (tmp, 0, 255);
