@@ -56,7 +56,7 @@ struct _GthHistogramViewPrivate {
 	GthHistogramChannel  current_channel;
 	guchar               selection_start;
 	guchar               selection_end;
-	GtkWidget           *histogram_view;
+	GtkWidget           *view;
 	GtkWidget           *linear_histogram_button;
 	GtkWidget           *logarithmic_histogram_button;
 	GtkWidget           *channel_combo_box;
@@ -356,6 +356,8 @@ gth_histogram_paint_channel (GthHistogramView *self,
 	if (channel > gth_histogram_get_nchannels (self->priv->histogram))
 		return;
 
+	cairo_save (cr);
+
 	_cairo_set_source_color_from_channel (cr, channel);
 
 	if (self->priv->display_mode == GTH_HISTOGRAM_MODE_ALL_CHANNELS)
@@ -385,6 +387,7 @@ gth_histogram_paint_channel (GthHistogramView *self,
 				 y);
 	}
 	cairo_fill (cr);
+	cairo_restore (cr);
 }
 
 
@@ -397,6 +400,8 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 	double max;
 	double step;
 	int    i;
+
+	cairo_save (cr);
 
 	max = MAX (gth_histogram_get_channel_max (self->priv->histogram, 1), gth_histogram_get_channel_max (self->priv->histogram, 2));
 	max = MAX (max, gth_histogram_get_channel_max (self->priv->histogram, 3));
@@ -496,6 +501,8 @@ gth_histogram_paint_rgb (GthHistogramView *self,
 				 y);
 		cairo_fill (cr);
 	}
+
+	cairo_restore (cr);
 }
 
 
@@ -509,6 +516,7 @@ gth_histogram_paint_grid (GthHistogramView *self,
 	double  grid_step;
 	int     i;
 
+	cairo_save (cr);
 	gtk_style_context_get_border_color (style_context,
 					    gtk_widget_get_state_flags (GTK_WIDGET (self)),
 					    &color);
@@ -525,6 +533,7 @@ gth_histogram_paint_grid (GthHistogramView *self,
 	}
 
 	cairo_stroke (cr);
+	cairo_restore (cr);
 }
 
 
@@ -537,6 +546,7 @@ gth_histogram_paint_selection (GthHistogramView *self,
 	GdkRGBA color;
 	double  step;
 
+	cairo_save (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 	cairo_set_line_width (cr, 0.5);
 
@@ -550,6 +560,7 @@ gth_histogram_paint_selection (GthHistogramView *self,
 			 (self->priv->selection_end - self->priv->selection_start) * step,
 			 allocation->height);
 	cairo_fill (cr);
+	cairo_restore (cr);
 }
 
 
@@ -649,14 +660,14 @@ histogram_view_button_press_event_cb (GtkWidget      *widget,
 	if (! gtk_widget_get_visible (GET_WIDGET ("histogram_info")))
 		return TRUE;
 
-	gtk_widget_get_allocation (self->priv->histogram_view, &allocation);
+	gtk_widget_get_allocation (self->priv->view, &allocation);
 	value = CLAMP (event->x / allocation.width * 256 + .5, 0, 255);
 	self->priv->selecting = TRUE;
 	self->priv->tmp_selection_start = value;
 	self->priv->tmp_selection_end = self->priv->tmp_selection_start;
 	self->priv->selection_start = MIN (self->priv->tmp_selection_start, self->priv->tmp_selection_end);
 	self->priv->selection_end = MAX (self->priv->tmp_selection_start, self->priv->tmp_selection_end);
-	gtk_widget_queue_draw (self->priv->histogram_view);
+	gtk_widget_queue_draw (self->priv->view);
 
 	return TRUE;
 }
@@ -677,7 +688,7 @@ histogram_view_button_release_event_cb (GtkWidget      *widget,
 	if (self->priv->selection_start == self->priv->selection_end) {
 		self->priv->selection_start = 0;
 		self->priv->selection_end = 255;
-		gtk_widget_queue_draw (self->priv->histogram_view);
+		gtk_widget_queue_draw (self->priv->view);
 	}
 
 	if (gtk_widget_get_visible (GET_WIDGET ("histogram_info")))
@@ -699,12 +710,12 @@ histogram_view_motion_notify_event_cb (GtkWidget      *widget,
 	if (! self->priv->selecting)
 		return TRUE;
 
-	gtk_widget_get_allocation (self->priv->histogram_view, &allocation);
+	gtk_widget_get_allocation (self->priv->view, &allocation);
 	value = CLAMP (event->x / allocation.width * 256 + .5, 0, 255);
 	self->priv->tmp_selection_end = value;
 	self->priv->selection_start = MIN (self->priv->tmp_selection_start, self->priv->tmp_selection_end);
 	self->priv->selection_end = MAX (self->priv->tmp_selection_start, self->priv->tmp_selection_end);
-	gtk_widget_queue_draw (self->priv->histogram_view);
+	gtk_widget_queue_draw (self->priv->view);
 
 	return TRUE;
 }
@@ -923,28 +934,28 @@ gth_histogram_view_init (GthHistogramView *self)
 	gtk_widget_set_vexpand (view_container, TRUE);
 	gtk_widget_show (view_container);
 
-	self->priv->histogram_view = gtk_drawing_area_new ();
-	gtk_widget_add_events (self->priv->histogram_view, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_STRUCTURE_MASK);
-	gtk_widget_show (self->priv->histogram_view);
-	gtk_container_add (GTK_CONTAINER (view_container), self->priv->histogram_view);
+	self->priv->view = gtk_drawing_area_new ();
+	gtk_widget_add_events (self->priv->view, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_STRUCTURE_MASK);
+	gtk_widget_show (self->priv->view);
+	gtk_container_add (GTK_CONTAINER (view_container), self->priv->view);
 
-	g_signal_connect (self->priv->histogram_view,
+	g_signal_connect (self->priv->view,
 			  "draw",
 			  G_CALLBACK (histogram_view_draw_cb),
 			  self);
-	g_signal_connect (self->priv->histogram_view,
+	g_signal_connect (self->priv->view,
 			  "scroll-event",
 			  G_CALLBACK (histogram_view_scroll_event_cb),
 			  self);
-	g_signal_connect (self->priv->histogram_view,
+	g_signal_connect (self->priv->view,
 			  "button-press-event",
 			  G_CALLBACK (histogram_view_button_press_event_cb),
 			  self);
-	g_signal_connect (self->priv->histogram_view,
+	g_signal_connect (self->priv->view,
 			  "button-release-event",
 			  G_CALLBACK (histogram_view_button_release_event_cb),
 			  self);
-	g_signal_connect (self->priv->histogram_view,
+	g_signal_connect (self->priv->view,
 			  "motion-notify-event",
 			  G_CALLBACK (histogram_view_motion_notify_event_cb),
 			  self);
@@ -1000,10 +1011,10 @@ update_sensitivity (GthHistogramView *self)
 	if ((self->priv->histogram == NULL)
 	    || ((int) self->priv->current_channel > gth_histogram_get_nchannels (self->priv->histogram)))
 	{
-		gtk_widget_set_sensitive (self->priv->histogram_view, FALSE);
+		gtk_widget_set_sensitive (self->priv->view, FALSE);
 	}
 	else
-		gtk_widget_set_sensitive (self->priv->histogram_view, TRUE);
+		gtk_widget_set_sensitive (self->priv->view, TRUE);
 
 	/* channel combobox */
 
