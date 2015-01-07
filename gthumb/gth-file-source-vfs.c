@@ -145,6 +145,10 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 		}
 
 		info = g_file_query_info (file, GFILE_BASIC_ATTRIBUTES ",access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
+		if (info == NULL) {
+			g_object_unref (file);
+			continue;
+		}
 
 		icon = g_mount_get_symbolic_icon (mount);
 		name = g_mount_get_name (mount);
