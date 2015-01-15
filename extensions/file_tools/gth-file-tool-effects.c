@@ -449,17 +449,16 @@ cooler_add_to_special_effects (GthFilterGrid *grid)
 }
 
 
-/* -- Instagram -- */
+/* -- Soil -- */
 
 
 static gpointer
-instagram_exec (GthAsyncTask *task,
-	        gpointer      user_data)
+soil_exec (GthAsyncTask *task,
+	   gpointer      user_data)
 {
 	cairo_surface_t *original;
 	cairo_surface_t *source;
 	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
-	gboolean         cancelled = FALSE;
 
 	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
 	source = _cairo_image_surface_copy (original);
@@ -468,10 +467,10 @@ instagram_exec (GthAsyncTask *task,
 	curve[GTH_HISTOGRAM_CHANNEL_RED] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 75,83, 198,185, 255,255);
 	curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 70,63, 184,189, 255,255);
 	curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 76,74, 191,176, 255,255);
-	cancelled = ! cairo_image_surface_apply_curves (source, curve, task);
-	if (! cancelled) {
-		cancelled = ! cairo_image_surface_apply_vignette (source, NULL, task);
-		if (! cancelled)
+
+	if (cairo_image_surface_apply_curves (source, curve, task)
+	    && cairo_image_surface_apply_vignette (source, NULL, 127, task))
+	{
 			gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
 	}
 
@@ -487,12 +486,201 @@ instagram_exec (GthAsyncTask *task,
 
 
 void
-instagram_add_to_special_effects (GthFilterGrid *grid)
+soil_add_to_special_effects (GthFilterGrid *grid)
 {
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
-				    gth_image_task_new (_("Applying changes"), NULL, instagram_exec, NULL, NULL, NULL),
-				    _("Instagram"),
+				    gth_image_task_new (_("Applying changes"), NULL, soil_exec, NULL, NULL, NULL),
+				    "Soil",
+				    NULL);
+}
+
+
+/* -- Desert -- */
+
+
+static gpointer
+desert_exec (GthAsyncTask *task,
+	     gpointer      user_data)
+{
+	cairo_surface_t *original;
+	cairo_surface_t *source;
+	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
+
+	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	source = _cairo_image_surface_copy (original);
+
+	curve[GTH_HISTOGRAM_CHANNEL_VALUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 0,0, 115,145, 255,255);
+	curve[GTH_HISTOGRAM_CHANNEL_RED] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 71,66, 208,204, 255,255);
+	curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 71,55, 200,206, 255,255);
+	curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 0,0, 232,185, 255,248);
+
+	if (cairo_image_surface_apply_curves (source, curve, task)
+	    && cairo_image_surface_apply_bcs (source, 0, 0, 20.0 / 100, task)
+	    && cairo_image_surface_apply_vignette (source, NULL, 127, task))
+	{
+			gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
+	}
+
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_BLUE]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_GREEN]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_RED]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_VALUE]);
+	cairo_surface_destroy (source);
+	cairo_surface_destroy (original);
+
+	return NULL;
+}
+
+
+void
+desert_add_to_special_effects (GthFilterGrid *grid)
+{
+	gth_filter_grid_add_filter (grid,
+				    GTH_FILTER_GRID_NEW_FILTER_ID,
+				    gth_image_task_new (_("Applying changes"), NULL, desert_exec, NULL, NULL, NULL),
+				    "Desert",
+				    NULL);
+}
+
+
+/* -- Artic -- */
+
+
+static gpointer
+artic_exec (GthAsyncTask *task,
+	    gpointer      user_data)
+{
+	cairo_surface_t *original;
+	cairo_surface_t *source;
+	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
+
+	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	source = _cairo_image_surface_copy (original);
+
+	curve[GTH_HISTOGRAM_CHANNEL_VALUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 0);
+	curve[GTH_HISTOGRAM_CHANNEL_RED] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 0,0, 133,122, 255,255);
+	curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 64,57, 176,186, 255,255);
+	curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 0,0, 180,207, 255,255);
+
+	if (cairo_image_surface_apply_curves (source, curve, task)
+	    && cairo_image_surface_apply_vignette (source, NULL, 127, task))
+	{
+			gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
+	}
+
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_BLUE]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_GREEN]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_RED]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_VALUE]);
+	cairo_surface_destroy (source);
+	cairo_surface_destroy (original);
+
+	return NULL;
+}
+
+
+void
+artic_add_to_special_effects (GthFilterGrid *grid)
+{
+	gth_filter_grid_add_filter (grid,
+				    GTH_FILTER_GRID_NEW_FILTER_ID,
+				    gth_image_task_new (_("Applying changes"), NULL, artic_exec, NULL, NULL, NULL),
+				    "Artic",
+				    NULL);
+}
+
+
+/* -- Mangos -- */
+
+
+static gpointer
+mangos_exec (GthAsyncTask *task,
+	     gpointer      user_data)
+{
+	cairo_surface_t *original;
+	cairo_surface_t *source;
+	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
+
+	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	source = _cairo_image_surface_copy (original);
+
+	curve[GTH_HISTOGRAM_CHANNEL_VALUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 0);
+	curve[GTH_HISTOGRAM_CHANNEL_RED] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 5, 0,0, 75,67, 135,155, 171,193, 252,255);
+	curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 84,65, 162,167, 255,255);
+	curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 84,74, 160,150, 255,255);
+
+	if (cairo_image_surface_apply_curves (source, curve, task)
+	    && cairo_image_surface_apply_vignette (source, NULL, 127, task))
+	{
+			gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
+	}
+
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_BLUE]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_GREEN]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_RED]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_VALUE]);
+	cairo_surface_destroy (source);
+	cairo_surface_destroy (original);
+
+	return NULL;
+}
+
+
+void
+mangos_add_to_special_effects (GthFilterGrid *grid)
+{
+	gth_filter_grid_add_filter (grid,
+				    GTH_FILTER_GRID_NEW_FILTER_ID,
+				    gth_image_task_new (_("Applying changes"), NULL, mangos_exec, NULL, NULL, NULL),
+				    "Mangos",
+				    NULL);
+}
+
+
+/* -- Fresh Blue -- */
+
+
+static gpointer
+fresh_blue_exec (GthAsyncTask *task,
+		 gpointer      user_data)
+{
+	cairo_surface_t *original;
+	cairo_surface_t *source;
+	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
+
+	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	source = _cairo_image_surface_copy (original);
+
+	curve[GTH_HISTOGRAM_CHANNEL_VALUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 95,61, 116,71, 255,255);
+	curve[GTH_HISTOGRAM_CHANNEL_RED] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 81,94, 96,125, 255,255);
+	curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 75,107, 86,129, 255,255);
+	curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,0, 39,139, 58,168, 255,255);
+
+	if (cairo_image_surface_apply_curves (source, curve, task)
+	    && cairo_image_surface_apply_vignette (source, NULL, 127, task))
+	{
+			gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
+	}
+
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_BLUE]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_GREEN]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_RED]);
+	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_VALUE]);
+	cairo_surface_destroy (source);
+	cairo_surface_destroy (original);
+
+	return NULL;
+}
+
+
+void
+fresh_blue_add_to_special_effects (GthFilterGrid *grid)
+{
+	gth_filter_grid_add_filter (grid,
+				    GTH_FILTER_GRID_NEW_FILTER_ID,
+				    gth_image_task_new (_("Applying changes"), NULL, fresh_blue_exec, NULL, NULL, NULL),
+				    "Fresh Blue",
 				    NULL);
 }
 
@@ -517,7 +705,7 @@ cherry_exec (GthAsyncTask *task,
 	curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 5, 12,0, 78,67, 138,140, 189,189, 252,233);
 	curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 5, 0,8, 77,100, 139,140, 202,186, 255,244);
 	if (cairo_image_surface_apply_curves (source, curve, task)
-	    && cairo_image_surface_apply_vignette (source, NULL, task))
+	    && cairo_image_surface_apply_vignette (source, NULL, 127, task))
 	{
 		gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
 	}
@@ -544,69 +732,7 @@ cherry_add_to_special_effects (GthFilterGrid *grid)
 }
 
 
-/* -- Fresh Blue -- */
-
-
-static gpointer
-grapes_exec (GthAsyncTask *task,
-		 gpointer      user_data)
-{
-	cairo_surface_t *original;
-	cairo_surface_t *source;
-	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
-	gboolean         cancelled = FALSE;
-
-	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
-	source = _cairo_image_surface_copy (original);
-
-	/*
-	curve[GTH_HISTOGRAM_CHANNEL_VALUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 0,0, 126,138, 255,255);
-	curve[GTH_HISTOGRAM_CHANNEL_RED] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 78,41, 145,142, 230,233);
-	curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,4, 40,34, 149,145, 255,255);
-	curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 0);
-	*/
-
-	/*
-	curve[GTH_HISTOGRAM_CHANNEL_VALUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 0,0, 126,137, 255,255);
-	curve[GTH_HISTOGRAM_CHANNEL_RED] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,8, 47,32, 207,223, 255,244);
-	curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 4, 0,4, 40,34, 149,145, 255,255);
-	curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 0,0, 119,137, 255,255);
-	*/
-
-	curve[GTH_HISTOGRAM_CHANNEL_VALUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 0);
-	curve[GTH_HISTOGRAM_CHANNEL_RED] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 5, 0,8, 77,100, 139,140, 202,186, 255,244);
-	curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 5, 12,0, 78,67, 138,140, 189,189, 252,233);
-	curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 5, 0,12, 74,79, 134,156, 188,209, 239,255);
-
-	if (cairo_image_surface_apply_curves (source, curve, task)
-	    && cairo_image_surface_apply_vignette (source, NULL, task))
-	{
-		gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
-	}
-
-	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_BLUE]);
-	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_GREEN]);
-	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_RED]);
-	g_object_unref (curve[GTH_HISTOGRAM_CHANNEL_VALUE]);
-	cairo_surface_destroy (source);
-	cairo_surface_destroy (original);
-
-	return NULL;
-}
-
-
-void
-grapes_add_to_special_effects (GthFilterGrid *grid)
-{
-	gth_filter_grid_add_filter (grid,
-				    GTH_FILTER_GRID_NEW_FILTER_ID,
-				    gth_image_task_new (_("Applying changes"), NULL, grapes_exec, NULL, NULL, NULL),
-				    _("Grapes"),
-				    NULL);
-}
-
-
-/**/
+/* -- Vintage -- */
 
 
 static gpointer
@@ -628,7 +754,7 @@ vintage_exec (GthAsyncTask *task,
 
 	if (cairo_image_surface_colorize (source, 112, 66, 20, 255, task)
 	    && cairo_image_surface_apply_bcs (source, 0, -20 / 100, -20 / 100, task)
-	    && cairo_image_surface_apply_vignette (source, curve, task))
+	    && cairo_image_surface_apply_vignette (source, curve, 255, task))
 	{
 			gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), source);
 	}
@@ -651,5 +777,162 @@ vintage_add_to_special_effects (GthFilterGrid *grid)
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, vintage_exec, NULL, NULL, NULL),
 				    _("Vintage"),
+				    NULL);
+}
+
+
+/* -- Blurred Edges -- */
+
+
+static gpointer
+blurred_edges_exec (GthAsyncTask *task,
+		    gpointer      user_data)
+{
+	cairo_surface_t *original;
+	cairo_surface_t *source;
+	cairo_surface_t *blurred;
+	int              blurred_stride;
+	double           center_x, center_y, min_radius, d, max_radius, max_distance;
+	int              width;
+	int              height;
+	cairo_format_t   format;
+	int              source_stride;
+	cairo_surface_t *destination;
+	int              destination_stride;
+	unsigned char   *p_source_line;
+	unsigned char   *p_destination_line;
+	unsigned char   *p_blurred_line;
+	int              x, y;
+	double           progress;
+	unsigned char   *p_source;
+	unsigned char   *p_destination;
+	unsigned char   *p_blurred;
+	unsigned char    temp;
+	unsigned char    image_red, image_green, image_blue, image_alpha;
+	unsigned char    layer_red, layer_green, layer_blue, layer_alpha;
+	gboolean         cancelled = FALSE;
+
+	gimp_op_init ();
+
+	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	source = _cairo_image_surface_copy (original);
+
+	blurred = _cairo_image_surface_copy (source);
+	blurred_stride = cairo_image_surface_get_stride (blurred);
+	if (! _cairo_image_surface_blur (blurred, 2, task)) {
+		cairo_surface_destroy (blurred);
+		cairo_surface_destroy (source);
+		return NULL;
+	}
+
+	width = cairo_image_surface_get_width (source);
+	height = cairo_image_surface_get_height (source);
+	format = cairo_image_surface_get_format (source);
+	source_stride = cairo_image_surface_get_stride (source);
+
+	center_x = width / 2.0;
+	center_y = height / 2.0;
+	min_radius = MIN (width, height) / 2.0;
+	min_radius -= min_radius * 0.5;
+	max_radius = MAX (width, height) / 2.0 /*sqrt (SQR (center_x) + SQR (center_y))*/;
+	max_distance = max_radius - min_radius;
+
+	destination = cairo_image_surface_create (format, width, height);
+	destination_stride = cairo_image_surface_get_stride (destination);
+
+	p_source_line = _cairo_image_surface_flush_and_get_data (source);
+	p_blurred_line = _cairo_image_surface_flush_and_get_data (blurred);
+	p_destination_line = _cairo_image_surface_flush_and_get_data (destination);
+	for (y = 0; y < height; y++) {
+		gth_async_task_get_data (task, NULL, &cancelled, NULL);
+		if (cancelled)
+			break;
+
+		progress = (double) y / height;
+		gth_async_task_set_data (task, NULL, NULL, &progress);
+
+		p_source = p_source_line;
+		p_blurred = p_blurred_line;
+		p_destination = p_destination_line;
+		for (x = 0; x < width; x++) {
+			d = sqrt (SQR (x - center_x) + SQR (y - center_y));
+			d = CLAMP_PIXEL (d < min_radius ? 0 : d > max_radius ? 255 : (255.0 * ((d - min_radius) / max_distance)));
+
+			CAIRO_GET_RGBA (p_source, image_red, image_green, image_blue, image_alpha);
+
+			/* blurred image layer with a radial mask (to blur the edges) */
+
+			CAIRO_GET_RGBA (p_blurred, layer_red, layer_green, layer_blue, layer_alpha);
+			layer_alpha = (guchar) (d);
+			/*layer_red = layer_green = layer_blue = 0;*/
+			p_destination[CAIRO_RED] = GIMP_OP_NORMAL (layer_red, image_red, layer_alpha);
+			p_destination[CAIRO_GREEN] = GIMP_OP_NORMAL (layer_green, image_green, layer_alpha);
+			p_destination[CAIRO_BLUE] = GIMP_OP_NORMAL (layer_blue, image_blue, layer_alpha);
+			p_destination[CAIRO_ALPHA] = 255;
+
+			p_source += 4;
+			p_blurred += 4;
+			p_destination += 4;
+		}
+		p_source_line += source_stride;
+		p_blurred_line += blurred_stride;
+		p_destination_line += destination_stride;
+	}
+
+	if (! cancelled) {
+		cairo_surface_mark_dirty (destination);
+		gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), destination);
+	}
+
+	cairo_surface_destroy (destination);
+	cairo_surface_destroy (blurred);
+	cairo_surface_destroy (source);
+
+	return NULL;
+}
+
+
+void
+blurred_edges_add_to_special_effects (GthFilterGrid *grid)
+{
+	gth_filter_grid_add_filter (grid,
+				    GTH_FILTER_GRID_NEW_FILTER_ID,
+				    gth_image_task_new (_("Applying changes"), NULL, blurred_edges_exec, NULL, NULL, NULL),
+				    _("Blurred Edges"),
+				    NULL);
+}
+
+
+/* -- Vignette -- */
+
+
+static gpointer
+vignette_exec (GthAsyncTask *task,
+	       gpointer      user_data)
+{
+	cairo_surface_t *original;
+	cairo_surface_t *destination;
+	gboolean         cancelled = FALSE;
+
+	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
+	destination = _cairo_image_surface_copy (original);
+
+	if (cairo_image_surface_apply_vignette (destination, NULL, 127, task))
+			gth_image_task_set_destination_surface (GTH_IMAGE_TASK (task), destination);
+
+	cairo_surface_destroy (destination);
+	cairo_surface_destroy (original);
+
+	return NULL;
+}
+
+
+void
+vignette_add_to_special_effects (GthFilterGrid *grid)
+{
+	gth_filter_grid_add_filter (grid,
+				    GTH_FILTER_GRID_NEW_FILTER_ID,
+				    gth_image_task_new (_("Applying changes"), NULL, vignette_exec, NULL, NULL, NULL),
+				    _("Vignette"),
 				    NULL);
 }

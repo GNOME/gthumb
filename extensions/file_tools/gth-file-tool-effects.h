@@ -49,12 +49,17 @@ struct _GthFileToolEffectsClass {
 
 GType  gth_file_tool_effects_get_type  (void);
 
-void warmer_add_to_special_effects	(GthFilterGrid *);
-void cooler_add_to_special_effects	(GthFilterGrid *);
-void instagram_add_to_special_effects	(GthFilterGrid *);
-void cherry_add_to_special_effects	(GthFilterGrid *);
-void grapes_add_to_special_effects	(GthFilterGrid *);
-void vintage_add_to_special_effects	(GthFilterGrid *);
+void warmer_add_to_special_effects		(GthFilterGrid *);
+void cooler_add_to_special_effects		(GthFilterGrid *);
+void soil_add_to_special_effects		(GthFilterGrid *);
+void desert_add_to_special_effects		(GthFilterGrid *);
+void artic_add_to_special_effects		(GthFilterGrid *);
+void mangos_add_to_special_effects		(GthFilterGrid *);
+void fresh_blue_add_to_special_effects		(GthFilterGrid *);
+void cherry_add_to_special_effects		(GthFilterGrid *);
+void vintage_add_to_special_effects		(GthFilterGrid *);
+void blurred_edges_add_to_special_effects	(GthFilterGrid *);
+void vignette_add_to_special_effects		(GthFilterGrid *);
 
 G_END_DECLS
 

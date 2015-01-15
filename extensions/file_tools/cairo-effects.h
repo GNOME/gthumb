@@ -34,6 +34,7 @@ gboolean cairo_image_surface_apply_curves	(cairo_surface_t  *source,
 						 GthAsyncTask     *task);
 gboolean cairo_image_surface_apply_vignette	(cairo_surface_t  *source,
 						 GthCurve        **curve,
+						 guchar	           vignette_alpha,
 						 GthAsyncTask     *task);
 gboolean cairo_image_surface_apply_bcs		(cairo_surface_t  *source,
 						 double            brightness,

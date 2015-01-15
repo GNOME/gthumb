@@ -129,7 +129,7 @@ lomo_exec (GthAsyncTask *task,
 			/* blurred image layer with a radial mask (to blur the edges) */
 
 			CAIRO_GET_RGBA (p_blurred, layer_red, layer_green, layer_blue, layer_alpha);
-			layer_alpha = 255 - d;
+			layer_alpha = (guchar) (255 - d);
 			image_red = GIMP_OP_NORMAL (layer_red, image_red, layer_alpha);
 			image_green = GIMP_OP_NORMAL (layer_green, image_green, layer_alpha);
 			image_blue = GIMP_OP_NORMAL (layer_blue, image_blue, layer_alpha);

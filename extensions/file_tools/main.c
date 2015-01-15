@@ -48,6 +48,8 @@
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+	int p;
+
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_SAVE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_SAVE_AS);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_UNDO);
@@ -78,14 +80,20 @@ gthumb_extension_activate (void)
 	 **/
 	gth_hook_register ("add-special-effect", 1);
 
-	gth_hook_add_callback ("add-special-effect", 10, G_CALLBACK (warmer_add_to_special_effects), NULL);
-	gth_hook_add_callback ("add-special-effect", 20, G_CALLBACK (cooler_add_to_special_effects), NULL);
-	gth_hook_add_callback ("add-special-effect", 30, G_CALLBACK (cherry_add_to_special_effects), NULL);
-	gth_hook_add_callback ("add-special-effect", 40, G_CALLBACK (grapes_add_to_special_effects), NULL);
-	gth_hook_add_callback ("add-special-effect", 50, G_CALLBACK (instagram_add_to_special_effects), NULL);
-	gth_hook_add_callback ("add-special-effect", 60, G_CALLBACK (lomo_add_to_special_effects), NULL);
-	gth_hook_add_callback ("add-special-effect", 70, G_CALLBACK (vintage_add_to_special_effects), NULL);
-	gth_hook_add_callback ("add-special-effect", 80, G_CALLBACK (negative_add_to_special_effects), NULL);
+	p = 10;
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (desert_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (cherry_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (soil_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (artic_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (fresh_blue_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (mangos_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (warmer_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (cooler_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (vintage_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (lomo_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (vignette_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (blurred_edges_add_to_special_effects), NULL);
+	gth_hook_add_callback ("add-special-effect", p++, G_CALLBACK (negative_add_to_special_effects), NULL);
 }
 
 

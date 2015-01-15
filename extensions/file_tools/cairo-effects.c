@@ -91,6 +91,7 @@ cairo_image_surface_apply_curves (cairo_surface_t  *source,
 gboolean
 cairo_image_surface_apply_vignette (cairo_surface_t  *source,
 				    GthCurve        **curve,
+				    guchar	      vignette_alpha,
 				    GthAsyncTask     *task)
 {
 	gboolean         local_curves;
@@ -115,7 +116,7 @@ cairo_image_surface_apply_vignette (cairo_surface_t  *source,
 	local_curves = (curve == NULL);
 	if (local_curves) {
 		curve = g_new (GthCurve *, GTH_HISTOGRAM_N_CHANNELS);
-		curve[GTH_HISTOGRAM_CHANNEL_VALUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 0,0, 152,103, 255,255);
+		curve[GTH_HISTOGRAM_CHANNEL_VALUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 3, 0,0, 158,95, /*152,103,*/ 255,255);
 		curve[GTH_HISTOGRAM_CHANNEL_RED] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 0);
 		curve[GTH_HISTOGRAM_CHANNEL_GREEN] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 0);
 		curve[GTH_HISTOGRAM_CHANNEL_BLUE] = gth_curve_new_for_points (GTH_TYPE_BEZIER, 0);
@@ -137,14 +138,13 @@ cairo_image_surface_apply_vignette (cairo_surface_t  *source,
 
 	center_x = width / 2.0;
 	center_y = height / 2.0;
-	max_d = 2 * sqrt (SQR (center_x) + SQR (center_y));
 
 	{
 		double a = MAX (width, height) / 2.0;
 		double b = MIN (height, width) / 2.0;
 
-		a = a - (a / 10);
-		b = b - (b / 10);
+		a = a - (a / 1.5);
+		b = b - (b / 1.5);
 
 		double e = sqrt (1.0 - SQR (b) / SQR (a));
 		double c = a * e;
@@ -162,6 +162,10 @@ cairo_image_surface_apply_vignette (cairo_surface_t  *source,
 			f2.x = center_x;
 			f2.y = center_y + c;
 		}
+
+		p.x = 0;
+		p.y = 0;
+		max_d = gth_point_distance (&p, &f1) + gth_point_distance (&p, &f2);
 	}
 
 	p_source_line = _cairo_image_surface_flush_and_get_data (source);
@@ -188,6 +192,7 @@ cairo_image_surface_apply_vignette (cairo_surface_t  *source,
 					alpha = 255 * ((d - min_d) / (max_d - min_d));
 				else
 					alpha = 255;
+				alpha = ADD_ALPHA (alpha, vignette_alpha);
 
 				p_source[CAIRO_RED] = GIMP_OP_NORMAL (red, image_red, alpha);
 				p_source[CAIRO_GREEN] = GIMP_OP_NORMAL (green, image_green, alpha);
