@@ -491,7 +491,7 @@ soil_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, soil_exec, NULL, NULL, NULL),
-				    "Soil",
+				    _("Soil"),
 				    NULL);
 }
 
@@ -539,7 +539,7 @@ desert_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, desert_exec, NULL, NULL, NULL),
-				    "Desert",
+				    _("Desert"),
 				    NULL);
 }
 
@@ -586,7 +586,7 @@ artic_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, artic_exec, NULL, NULL, NULL),
-				    "Artic",
+				    _("Artic"),
 				    NULL);
 }
 
@@ -633,7 +633,7 @@ mangos_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, mangos_exec, NULL, NULL, NULL),
-				    "Mangos",
+				    _("Mangos"),
 				    NULL);
 }
 
@@ -680,7 +680,7 @@ fresh_blue_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, fresh_blue_exec, NULL, NULL, NULL),
-				    "Fresh Blue",
+				    _("Fresh Blue"),
 				    NULL);
 }
 
