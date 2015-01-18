@@ -238,7 +238,9 @@ gth_toolbox_init (GthToolbox *toolbox)
 	g_signal_connect (close_button, "clicked", G_CALLBACK (close_button_clicked_cb), toolbox);
 
 	ok_button = gtk_button_new_from_icon_name ("object-select-symbolic", GTK_ICON_SIZE_BUTTON);
+#ifdef GTK_STYLE_CLASS_SUGGESTED_ACTION
 	gtk_style_context_add_class (gtk_widget_get_style_context (ok_button), GTK_STYLE_CLASS_SUGGESTED_ACTION);
+#endif
 	gtk_widget_show (ok_button);
 	g_signal_connect (ok_button, "clicked", G_CALLBACK (ok_button_clicked_cb), toolbox);
 

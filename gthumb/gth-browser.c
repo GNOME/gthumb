@@ -4399,7 +4399,9 @@ gth_browser_init (GthBrowser *browser)
 								  NULL,
 								  "win.apply-editor-changes",
 								  NULL);
+#ifdef GTK_STYLE_CLASS_SUGGESTED_ACTION
 		gtk_style_context_add_class (gtk_widget_get_style_context (button), GTK_STYLE_CLASS_SUGGESTED_ACTION);
+#endif
 	}
 
 	/* fullscreen toolbar */
