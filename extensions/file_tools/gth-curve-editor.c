@@ -315,6 +315,8 @@ gth_histogram_paint_grid (GthCurveEditor  *self,
 	}
 
 	/* diagonal */
+
+	cairo_set_antialias (cr, CAIRO_ANTIALIAS_DEFAULT);
 	cairo_set_line_width (cr, 1.0);
 	cairo_set_source_rgba (cr, color.red, color.green, color.blue, 0.5);
 	cairo_move_to (cr, allocation->x + 0.5, allocation->y + allocation->height + 0.5);
