@@ -232,7 +232,7 @@ gth_filter_grid_init (GthFilterGrid *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILTER_GRID, GthFilterGridPrivate);
 	self->priv->n_columns = DEFAULT_N_COLUMNS;
 	self->priv->filter_ids = NULL;
-	self->priv->cell_data = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, cell_data_free);
+	self->priv->cell_data = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) cell_data_free);
 	self->priv->active_button = NULL;
 	self->priv->gp_data = NULL;
 	self->priv->next_filter_id = 0;
