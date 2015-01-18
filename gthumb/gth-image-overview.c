@@ -188,9 +188,9 @@ _gth_image_overview_update_preview (GthImageOverview *self)
 	}
 
 	_gth_image_overview_update_zoom_info (self);
-	self->priv->preview = _cairo_image_surface_scale_bilinear (image,
-								   self->priv->preview_area.width,
-								   self->priv->preview_area.height);
+	self->priv->preview = _cairo_image_surface_scale_fast (image,
+							       self->priv->preview_area.width,
+							       self->priv->preview_area.height);
 }
 
 

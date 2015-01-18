@@ -415,7 +415,7 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 	if (scale_keeping_ratio (&width, &height, PREVIEW_SIZE * allocation.width, PREVIEW_SIZE * allocation.height, FALSE))
-		self->priv->preview = _cairo_image_surface_scale_bilinear (source, width, height);
+		self->priv->preview = _cairo_image_surface_scale_fast (source, width, height);
 	else
 		self->priv->preview = cairo_surface_reference (source);
 

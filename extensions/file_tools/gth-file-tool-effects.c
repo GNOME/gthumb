@@ -228,7 +228,7 @@ gth_file_tool_effects_get_options (GthFileTool *base)
 	height = cairo_image_surface_get_height (source);
 	gtk_widget_get_allocation (GTK_WIDGET (viewer), &allocation);
 	if (scale_keeping_ratio (&width, &height, PREVIEW_SIZE * allocation.width, PREVIEW_SIZE * allocation.height, FALSE))
-		self->priv->preview = _cairo_image_surface_scale_bilinear (source, width, height);
+		self->priv->preview = _cairo_image_surface_scale_fast (source, width, height);
 	else
 		self->priv->preview = cairo_surface_reference (source);
 

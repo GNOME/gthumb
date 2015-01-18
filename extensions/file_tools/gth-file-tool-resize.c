@@ -536,7 +536,7 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	preview_width = self->priv->original_width;
 	preview_height = self->priv->original_height;
 	if (scale_keeping_ratio (&preview_width, &preview_height, allocation.width, allocation.height, FALSE))
-		self->priv->preview = _cairo_image_surface_scale_bilinear (source, preview_width, preview_height);
+		self->priv->preview = _cairo_image_surface_scale_fast (source, preview_width, preview_height);
 	else
 		self->priv->preview = cairo_surface_reference (source);
 

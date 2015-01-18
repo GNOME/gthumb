@@ -119,7 +119,7 @@ update_preview_image (GthPreviewTool *self)
 	gtk_widget_get_allocation (GTK_WIDGET (self->priv->viewer), &allocation);
 	max_size = MAX (allocation.width, allocation.height) / G_SQRT2 + 2;
 	if (scale_keeping_ratio (&width, &height, max_size, max_size, FALSE))
-		self->priv->preview_image = _cairo_image_surface_scale_bilinear (image, width, height);
+		self->priv->preview_image = _cairo_image_surface_scale_fast (image, width, height);
 	else
 		self->priv->preview_image = cairo_surface_reference (image);
 
