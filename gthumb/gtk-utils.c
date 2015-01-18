@@ -1310,8 +1310,10 @@ _gtk_list_box_add_separator (GtkListBox *list_box) {
 	GtkWidget *sep;
 
 	row = gtk_list_box_row_new ();
+#if GTK_CHECK_VERSION(3, 14, 0)
 	gtk_list_box_row_set_activatable (GTK_LIST_BOX_ROW (row), FALSE);
 	gtk_list_box_row_set_selectable (GTK_LIST_BOX_ROW (row), FALSE);
+#endif
 	gtk_widget_show (row);
 	gtk_container_add (GTK_CONTAINER (list_box), row);
 
