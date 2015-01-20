@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-12 09:25+0000\n"
-"PO-Revision-Date: 2015-01-12 19:04+0100\n"
+"POT-Creation-Date: 2015-01-20 09:27+0000\n"
+"PO-Revision-Date: 2015-01-20 11:36+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -100,7 +100,6 @@ msgid "View and organize your images"
 msgstr "Muestre y organice sus imágenes"
 
 #: ../data/gthumb.desktop.in.in.h:5
-#| msgid "Image Viewer"
 msgid "Image;Viewer;"
 msgstr "Visor;Imagen;"
 
@@ -1677,7 +1676,6 @@ msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Leer y escribir metadatos exif, iptc y xmp."
 
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:42 ../gthumb/glib-utils.c:1115
-#| msgid "(Invalid Name)"
 msgid "(invalid value)"
 msgstr "(valor no válido)"
 
@@ -2417,13 +2415,12 @@ msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Cambiar el brillo, contraste, saturación y nivel gamma de la imagen"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
-#| msgid "Str_etched"
 msgid "Stretch"
 msgstr "Estirar"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
 msgid "Stretch the histogram trimming the 0.5%"
-msgstr ""
+msgstr "Estirar el histograma recortando el 0.5%"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
 msgid "Equalize"
@@ -2431,7 +2428,7 @@ msgstr "Ecualizar"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
 msgid "Equalize the histogram using the square root function"
-msgstr ""
+msgstr "Ecualizar el histograma usando la función de raíz cuadrada"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
@@ -2441,7 +2438,7 @@ msgstr "Uniformar"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
 msgid "Equalize the histogram using the linear function"
-msgstr ""
+msgstr "Ecualizar el histograma usando la función lineal"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:653
 msgid "Adjust Contrast"
@@ -2852,7 +2849,6 @@ msgstr "No se pudo guardar el archivo"
 #. Translators: %s is a filename
 #: ../extensions/gstreamer_tools/actions.c:75
 #, c-format
-#| msgid "Image %d of %d"
 msgid "Image saved as %s"
 msgstr "Imagen guardada como %s"
 
@@ -3205,7 +3201,6 @@ msgid "Zoom quality:"
 msgstr "Calidad de la ampliación:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
-#| msgid "High"
 msgctxt "zoom quality"
 msgid "_High"
 msgstr "_Alto"
