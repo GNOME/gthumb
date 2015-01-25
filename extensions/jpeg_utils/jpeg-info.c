@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2011 Free Software Foundation, Inc.
+ *  Copyright (C) 2011-2015 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,28 @@
 
 #include <config.h>
 #include "jpeg-info.h"
+
+
+void
+_jpeg_info_data_init (JpegInfoData *data)
+{
+	data->valid = _JPEG_INFO_NONE;
+	data->width = 0;
+	data->height = 0;
+	data->orientation = GTH_TRANSFORM_NONE;
+	data->icc_data = NULL;
+	data->icc_data_size = 0;
+}
+
+
+void
+_jpeg_info_data_dispose (JpegInfoData *data)
+{
+	if (data->valid & _JPEG_INFO_ICC_PROFILE) {
+		g_free (data->icc_data);
+	}
+}
+
 
 static guchar
 _g_input_stream_read_byte (GInputStream  *stream,
@@ -89,25 +111,6 @@ _jpeg_skip_segment_data (GInputStream  *stream,
 }
 
 
-static gboolean
-_jpeg_skip_to_segment (GInputStream  *stream,
-		       guchar         segment_id,
-		       GCancellable  *cancellable,
-		       GError       **error)
-{
-	guchar marker_id = 0x00;
-
-	while ((marker_id = _jpeg_read_segment_marker (stream, cancellable, error)) != 0x00) {
-		if (marker_id == segment_id)
-			return TRUE;
-		if (! _jpeg_skip_segment_data (stream, marker_id, cancellable, error))
-			return FALSE;
-	}
-
-	return FALSE;
-}
-
-
 static GthTransform
 _jpeg_exif_orientation_from_app1_segment (guchar *in_buffer,
 					  gsize   app1_segment_size)
@@ -130,10 +133,10 @@ _jpeg_exif_orientation_from_app1_segment (guchar *in_buffer,
 
 	/* Read Exif head, check for "Exif" */
 
-	if ((in_buffer[pos++] != 0x45)
-	    || (in_buffer[pos++] != 0x78)
-	    || (in_buffer[pos++] != 0x69)
-	    || (in_buffer[pos++] != 0x66)
+	if ((in_buffer[pos++] != 'E')
+	    || (in_buffer[pos++] != 'x')
+	    || (in_buffer[pos++] != 'i')
+	    || (in_buffer[pos++] != 'f')
 	    || (in_buffer[pos++] != 0)
 	    || (in_buffer[pos++] != 0))
 	{
@@ -260,34 +263,112 @@ _jpeg_exif_orientation_from_app1_segment (guchar *in_buffer,
 }
 
 
-gboolean
-_jpeg_get_image_info (GInputStream  *stream,
-		      int           *width,
-		      int           *height,
-		      GthTransform  *orientation,
-		      GCancellable  *cancellable,
-		      GError       **error)
+/* -- _jpeg_get_icc_profile_chunk_from_app2_segment -- */
+
+
+typedef struct {
+	int	 seq_n;
+	int	 tot;
+	guchar  *in_buffer;
+	guchar	*data;
+	gsize    size;
+} ICCProfileChunk;
+
+
+static void
+icc_profile_chunk_free (ICCProfileChunk *chunk)
 {
-	gboolean size_read;
-	guchar   marker_id;
+	g_free (chunk->in_buffer);
+	g_free (chunk);
+}
 
-	size_read = FALSE;
 
-	if (orientation != NULL)
-		*orientation = GTH_TRANSFORM_NONE;
+static int
+icc_chunk_compare (gconstpointer a,
+		   gconstpointer b)
+{
+	const ICCProfileChunk *chunk_a = a;
+	const ICCProfileChunk *chunk_b = b;
 
+	if (chunk_a->seq_n < chunk_b->seq_n)
+		return -1;
+	if (chunk_a->seq_n > chunk_b->seq_n)
+		return 1;
+	return 0;
+}
+
+
+static ICCProfileChunk *
+_jpeg_get_icc_profile_chunk_from_app2_segment (guchar *in_buffer,
+					       gsize   app2_segment_size)
+{
+	int		 pos;
+	guint		 length;
+	ICCProfileChunk *chunk;
+
+	length = app2_segment_size;
+	if (length <= 14)
+		return NULL;
+
+	pos = 0;
+
+	/* check for "ICC_PROFILE" */
+
+	if ((in_buffer[pos++] != 'I')
+	    || (in_buffer[pos++] != 'C')
+	    || (in_buffer[pos++] != 'C')
+	    || (in_buffer[pos++] != '_')
+	    || (in_buffer[pos++] != 'P')
+	    || (in_buffer[pos++] != 'R')
+	    || (in_buffer[pos++] != 'O')
+	    || (in_buffer[pos++] != 'F')
+	    || (in_buffer[pos++] != 'I')
+	    || (in_buffer[pos++] != 'L')
+	    || (in_buffer[pos++] != 'E')
+	    || (in_buffer[pos++] != 0))
+	{
+		return NULL;
+	}
+
+	chunk = g_new (ICCProfileChunk, 1);
+	chunk->in_buffer = in_buffer;
+	chunk->seq_n = in_buffer[pos++];
+	chunk->tot = in_buffer[pos++];
+	chunk->data = in_buffer + 14;
+	chunk->size = app2_segment_size - 14;
+
+	return chunk;
+}
+
+
+gboolean
+_jpeg_info_get_from_stream (GInputStream	 *stream,
+			    JpegInfoFlags	  flags,
+			    JpegInfoData	 *data,
+			    GCancellable	 *cancellable,
+			    GError		**error)
+{
+	GList    *icc_chunks;
+	guchar    marker_id;
+
+	g_return_val_if_fail (data->valid == _JPEG_INFO_NONE, FALSE);
+
+	icc_chunks = NULL;
 	while ((marker_id = _jpeg_read_segment_marker (stream, cancellable, error)) != 0x00) {
 		gboolean segment_data_consumed = FALSE;
 
-		if ((marker_id == 0xc0) || (marker_id == 0xc2)) { /* SOF0 or SOF1 */
+		if ((flags & _JPEG_INFO_IMAGE_SIZE)
+		    && ! (data->valid & _JPEG_INFO_IMAGE_SIZE)
+		    && ((marker_id == 0xc0) || (marker_id == 0xc2))) /* SOF0 or SOF1 */
+		{
 			guint h, l;
-			/*guint size;*/
+			guint size;
 
 			/* size */
 
 			h = _g_input_stream_read_byte (stream, cancellable, error);
 			l = _g_input_stream_read_byte (stream, cancellable, error);
-			/*size = (h << 8) + l;*/
+			size = (h << 8) + l;
 
 			/* data precision */
 
@@ -297,86 +378,22 @@ _jpeg_get_image_info (GInputStream  *stream,
 
 			h = _g_input_stream_read_byte (stream, cancellable, error);
 			l = _g_input_stream_read_byte (stream, cancellable, error);
-			if (height != NULL)
-				*height = (h << 8) + l;
+			data->height = (h << 8) + l;
 
 			/* width */
 
 			h = _g_input_stream_read_byte (stream, cancellable, error);
 			l = _g_input_stream_read_byte (stream, cancellable, error);
-			if (width != NULL)
-				*width = (h << 8) + l;
+			data->width = (h << 8) + l;
 
-			size_read = TRUE;
-
-			/* Skip to the end of the segment. In general this is
-			 * needed but in this case we exit after reading the
-			 * size. */
-			/* g_input_stream_skip (stream, size - 7, cancellable, error); */
+			g_input_stream_skip (stream, size - 7, cancellable, error);
 
 			segment_data_consumed = TRUE;
 		}
-		else if (marker_id == 0xe1) { /* APP1 */
-			guint   h, l;
-			gsize   size;
-			guchar *app1_segment;
 
-			/* size */
-
-			h = _g_input_stream_read_byte (stream, cancellable, error);
-			l = _g_input_stream_read_byte (stream, cancellable, error);
-			size = (h << 8) + l - 2;
-
-			app1_segment = g_new (guchar, size);
-			if (g_input_stream_read (stream, app1_segment, size, cancellable, error) > 0)
-				*orientation = _jpeg_exif_orientation_from_app1_segment (app1_segment, size);
-
-			segment_data_consumed = TRUE;
-
-			g_free (app1_segment);
-		}
-
-		/* If we have read the size we are done because the APP1
-		 * segment, if present, is always the first.  */
-
-		if (size_read)
-			break;
-
-		if (! segment_data_consumed && ! _jpeg_skip_segment_data (stream, marker_id, cancellable, error))
-			break;
-	}
-
-	return size_read;
-}
-
-
-GthTransform
-_jpeg_exif_orientation (guchar *in_buffer,
-			gsize   in_buffer_size)
-{
-	GInputStream *stream;
-	GthTransform  orientation;
-
-	stream = g_memory_input_stream_new_from_data (in_buffer, in_buffer_size, NULL);
-	orientation = _jpeg_exif_orientation_from_stream (stream, NULL, NULL);
-
-	g_object_unref (stream);
-
-	return orientation;
-}
-
-
-GthTransform
-_jpeg_exif_orientation_from_stream (GInputStream  *stream,
-				    GCancellable  *cancellable,
-				    GError       **error)
-{
-	GthTransform   orientation;
-
-	orientation = GTH_TRANSFORM_NONE;
-
-	if (_jpeg_read_segment_marker (stream, cancellable, error) == 0xd8) {
-		if (_jpeg_skip_to_segment (stream, 0xe1, cancellable, error)) {
+		if ((flags & _JPEG_INFO_EXIF_ORIENTATION)
+		    && ! (data->valid & _JPEG_INFO_EXIF_ORIENTATION)
+		    && (marker_id == 0xe1)) { /* APP1 */
 			guint   h, l;
 			guint   app1_segment_size;
 			guchar *app1_segment;
@@ -392,12 +409,97 @@ _jpeg_exif_orientation_from_stream (GInputStream  *stream,
 						 cancellable,
 						 error) > 0)
 			{
-				orientation = _jpeg_exif_orientation_from_app1_segment (app1_segment, app1_segment_size);
+				data->valid |= _JPEG_INFO_EXIF_ORIENTATION;
+				data->orientation = _jpeg_exif_orientation_from_app1_segment (app1_segment, app1_segment_size);
 			}
+
+			segment_data_consumed = TRUE;
 
 			g_free (app1_segment);
 		}
+
+		if ((flags & _JPEG_INFO_ICC_PROFILE)
+		    && ! (data->valid & _JPEG_INFO_ICC_PROFILE)
+		    && (marker_id == 0xe2)) /* APP2 */
+		{
+			guint   h, l;
+			gsize   app2_segment_size;
+			guchar *app2_segment;
+
+			/* size */
+
+			h = _g_input_stream_read_byte (stream, cancellable, error);
+			l = _g_input_stream_read_byte (stream, cancellable, error);
+			app2_segment_size = (h << 8) + l - 2;
+
+			app2_segment = g_new (guchar, app2_segment_size);
+			if (g_input_stream_read (stream, app2_segment, app2_segment_size, cancellable, error) > 0) {
+				ICCProfileChunk *chunk;
+
+				chunk = _jpeg_get_icc_profile_chunk_from_app2_segment (app2_segment, app2_segment_size);
+				if (chunk != NULL)
+					icc_chunks = g_list_prepend (icc_chunks, chunk);
+			}
+
+			segment_data_consumed = TRUE;
+
+			g_free (app2_segment);
+		}
+
+		if (! segment_data_consumed && ! _jpeg_skip_segment_data (stream, marker_id, cancellable, error))
+			break;
 	}
 
-	return orientation;
+	if (flags & _JPEG_INFO_ICC_PROFILE) {
+		gboolean	 valid_icc = (icc_chunks != NULL);
+		GOutputStream	*ostream;
+		GList		*scan;
+		int		 seq_n;
+
+		ostream = g_memory_output_stream_new_resizable ();
+		icc_chunks = g_list_sort (icc_chunks, icc_chunk_compare);
+		seq_n = 1;
+		for (scan = icc_chunks; scan; scan = scan->next) {
+			ICCProfileChunk *chunk = scan->data;
+
+			if (chunk->seq_n != seq_n) {
+				valid_icc = FALSE;
+				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "Invalid ICC data");
+				break;
+			}
+
+			g_output_stream_write_all (ostream, chunk->data, chunk->size, NULL, cancellable, error);
+			seq_n++;
+		}
+
+		if (valid_icc) {
+			data->valid |= _JPEG_INFO_ICC_PROFILE;
+			data->icc_data = g_memory_output_stream_steal_data (G_MEMORY_OUTPUT_STREAM (ostream));
+			data->icc_data_size = g_memory_output_stream_get_data_size (G_MEMORY_OUTPUT_STREAM (ostream));
+		}
+
+		g_object_unref (ostream);
+	}
+
+	g_list_free_full (icc_chunks, (GDestroyNotify) icc_profile_chunk_free);
+
+	return (flags == data->valid);
+}
+
+
+gboolean
+_jpeg_info_get_from_buffer (guchar		 *in_buffer,
+			    gsize		  in_buffer_size,
+			    JpegInfoFlags	  flags,
+			    JpegInfoData	 *data)
+{
+	GInputStream *stream;
+	gboolean      result;
+
+	stream = g_memory_input_stream_new_from_data (in_buffer, in_buffer_size, NULL);
+	result = _jpeg_info_get_from_stream (stream, flags, data, NULL, NULL);
+
+	g_object_unref (stream);
+
+	return result;
 }

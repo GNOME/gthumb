@@ -120,7 +120,9 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 			{
 				/* JPEG */
 
-				GthTransform orientation;
+				JpegInfoData jpeg_info;
+
+				_jpeg_info_data_init (&jpeg_info);
 
 				if (g_seekable_can_seek (G_SEEKABLE (stream))) {
 					g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, cancellable, NULL);
@@ -130,27 +132,33 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 					stream = g_file_read (file_data->file, cancellable, NULL);
 				}
 
-				if (_jpeg_get_image_info (G_INPUT_STREAM (stream),
-							  &width,
-							  &height,
-							  &orientation,
-							  cancellable,
-							  NULL))
-				{
+				_jpeg_info_get_from_stream (G_INPUT_STREAM (stream),
+							    _JPEG_INFO_IMAGE_SIZE | _JPEG_INFO_EXIF_ORIENTATION,
+							    &jpeg_info,
+							    cancellable,
+							    NULL);
+
+				if (jpeg_info.valid & _JPEG_INFO_IMAGE_SIZE) {
+					width = jpeg_info.width;
+					height = jpeg_info.height;
 					description = _("JPEG");
 					mime_type = "image/jpeg";
 					format_recognized = TRUE;
 
-					if ((orientation == GTH_TRANSFORM_ROTATE_90)
-					     ||	(orientation == GTH_TRANSFORM_ROTATE_270)
-					     ||	(orientation == GTH_TRANSFORM_TRANSPOSE)
-					     ||	(orientation == GTH_TRANSFORM_TRANSVERSE))
-					{
-						int tmp = width;
-						width = height;
-						height = tmp;
+					if (jpeg_info.valid & _JPEG_INFO_EXIF_ORIENTATION) {
+						if ((jpeg_info.orientation == GTH_TRANSFORM_ROTATE_90)
+						     ||	(jpeg_info.orientation == GTH_TRANSFORM_ROTATE_270)
+						     ||	(jpeg_info.orientation == GTH_TRANSFORM_TRANSPOSE)
+						     ||	(jpeg_info.orientation == GTH_TRANSFORM_TRANSVERSE))
+						{
+							int tmp = width;
+							width = height;
+							height = tmp;
+						}
 					}
 				}
+
+				_jpeg_info_data_dispose (&jpeg_info);
 			}
 #endif /* HAVE_LIBJPEG */
 

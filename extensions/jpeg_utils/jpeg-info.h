@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001-2009 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2015 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,16 +26,32 @@
 
 #define JPEG_SEGMENT_MAX_SIZE (64 * 1024)
 
-gboolean      _jpeg_get_image_info                     (GInputStream      *stream,
-		      	      	      	       	        int               *width,
-		      	      	      	       	        int               *height,
-		      	      	      	       	        GthTransform      *orientation,
-		      	      	      	       	        GCancellable      *cancellable,
-		      	      	      	       	        GError           **error);
-GthTransform  _jpeg_exif_orientation                   (guchar            *in_buffer,
-				      	      	        gsize              in_buffer_size);
-GthTransform  _jpeg_exif_orientation_from_stream       (GInputStream      *stream,
-				    	    	        GCancellable      *cancellable,
-				    	    	        GError           **error);
+typedef enum /*< skip >*/ {
+	_JPEG_INFO_NONE = 0,
+	_JPEG_INFO_IMAGE_SIZE = 1 << 0,
+	_JPEG_INFO_EXIF_ORIENTATION = 1 << 1,
+	_JPEG_INFO_ICC_PROFILE = 1 << 2
+} JpegInfoFlags;
+
+typedef struct {
+	JpegInfoFlags	valid;
+	int		width;
+	int		height;
+	GthTransform	orientation;
+	gpointer	icc_data;
+	gsize		icc_data_size;
+} JpegInfoData;
+
+void		_jpeg_info_data_init			(JpegInfoData		 *data);
+void		_jpeg_info_data_dispose			(JpegInfoData		 *data);
+gboolean	_jpeg_info_get_from_stream		(GInputStream		 *stream,
+							 JpegInfoFlags		  flags,
+							 JpegInfoData		 *data,
+							 GCancellable		 *cancellable,
+							 GError			**error);
+gboolean	_jpeg_info_get_from_buffer		(guchar			 *in_buffer,
+							 gsize			  in_buffer_size,
+							 JpegInfoFlags		  flags,
+							 JpegInfoData		 *data);
 
 #endif /* JPEG_INFO_H */

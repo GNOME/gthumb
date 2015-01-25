@@ -164,6 +164,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	int                            pixel_step;
 	void                          *in_buffer;
 	gsize                          in_buffer_size;
+	JpegInfoData                   jpeg_info;
 	struct error_handler_data      jsrcerr;
 	struct jpeg_decompress_struct  srcinfo;
 	cairo_surface_t               *surface;
@@ -190,6 +191,14 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	{
 		return image;
 	}
+
+	_jpeg_info_data_init (&jpeg_info);
+	_jpeg_info_get_from_buffer (in_buffer, in_buffer_size, _JPEG_INFO_EXIF_ORIENTATION, &jpeg_info);
+	if (jpeg_info.valid & _JPEG_INFO_EXIF_ORIENTATION)
+		orientation = jpeg_info.orientation;
+	else
+		orientation = GTH_TRANSFORM_NONE;
+	_jpeg_info_data_dispose (&jpeg_info);
 
 	srcinfo.err = jpeg_std_error (&(jsrcerr.pub));
 	jsrcerr.pub.error_exit = fatal_error_handler;
@@ -233,7 +242,6 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 	jpeg_start_decompress (&srcinfo);
 
-	orientation = _jpeg_exif_orientation (in_buffer, in_buffer_size);
 	_cairo_image_surface_transform_get_steps (CAIRO_FORMAT_ARGB32,
 						  MIN (srcinfo.output_width, CAIRO_MAX_IMAGE_SIZE),
 						  MIN (srcinfo.output_height, CAIRO_MAX_IMAGE_SIZE),
