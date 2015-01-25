@@ -491,6 +491,7 @@ soil_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, soil_exec, NULL, NULL, NULL),
+				    /* Translators: this is the name of an image filter */
 				    _("Soil"),
 				    NULL);
 }
@@ -539,6 +540,7 @@ desert_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, desert_exec, NULL, NULL, NULL),
+				    /* Translators: this is the name of an image filter */
 				    _("Desert"),
 				    NULL);
 }
@@ -586,6 +588,7 @@ artic_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, artic_exec, NULL, NULL, NULL),
+				    /* Translators: this is the name of an image filter */
 				    _("Artic"),
 				    NULL);
 }
@@ -633,6 +636,7 @@ mangos_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, mangos_exec, NULL, NULL, NULL),
+				    /* Translators: this is the name of an image filter */
 				    _("Mangos"),
 				    NULL);
 }
@@ -680,6 +684,7 @@ fresh_blue_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, fresh_blue_exec, NULL, NULL, NULL),
+				    /* Translators: this is the name of an image filter */
 				    _("Fresh Blue"),
 				    NULL);
 }
@@ -727,6 +732,7 @@ cherry_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, cherry_exec, NULL, NULL, NULL),
+				    /* Translators: this is the name of an image filter */
 				    _("Cherry"),
 				    NULL);
 }
@@ -776,6 +782,7 @@ vintage_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, vintage_exec, NULL, NULL, NULL),
+				    /* Translators: this is the name of an image filter */
 				    _("Vintage"),
 				    NULL);
 }
@@ -898,6 +905,7 @@ blurred_edges_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, blurred_edges_exec, NULL, NULL, NULL),
+				    /* Translators: this is the name of an image filter */
 				    _("Blurred Edges"),
 				    NULL);
 }
@@ -933,6 +941,7 @@ vignette_add_to_special_effects (GthFilterGrid *grid)
 	gth_filter_grid_add_filter (grid,
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, vignette_exec, NULL, NULL, NULL),
+				    /* Translators: this is the name of an image filter that produces darker edges */
 				    _("Vignette"),
 				    NULL);
 }
