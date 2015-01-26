@@ -7,15 +7,15 @@
 # Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005, 2006.
 # Jakub Friedl <jfriedl@suse.cz>, 2006, 2007.
 # Kamil Páral <ripper42@gmail.com>, 2008.
-# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013, 2014.
+# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-26 09:23+0000\n"
-"PO-Revision-Date: 2014-12-26 20:07+0100\n"
+"POT-Creation-Date: 2015-01-26 09:30+0000\n"
+"PO-Revision-Date: 2015-01-26 23:15+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -81,7 +81,7 @@ msgstr ""
 "obrázky a ukládat výsledky jako katalog."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:382
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:381
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -759,7 +759,7 @@ msgstr "Přejmenovat"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4376 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4375 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -821,6 +821,7 @@ msgstr "_Zobrazit cíl"
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
+#: ../extensions/file_tools/gth-file-tool-curves.c:366
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:1
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
@@ -1918,7 +1919,7 @@ msgstr "Nelze exportovat soubory"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:827
+#: ../gthumb/gth-browser.c:826
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2077,13 +2078,13 @@ msgid "Could not move the folder to the Trash"
 msgstr "Nelze přesunout složku do koše"
 
 #: ../extensions/file_manager/actions.c:1059
-#: ../gthumb/gth-file-source-vfs.c:857
+#: ../gthumb/gth-file-source-vfs.c:861
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Opravdu chcete trvale smazat „%s“?"
 
 #: ../extensions/file_manager/actions.c:1069
-#: ../gthumb/gth-file-source-vfs.c:870
+#: ../gthumb/gth-file-source-vfs.c:874
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Když soubor smažete, nepůjde to již vrátit zpět."
 
@@ -2139,7 +2140,7 @@ msgstr "_Otevřít pomocí"
 
 #: ../extensions/file_manager/callbacks.c:883
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5323 ../gthumb/gth-browser.c:5356
+#: ../gthumb/gth-browser.c:5325 ../gthumb/gth-browser.c:5358
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Nelze provést tuto operaci"
@@ -2157,6 +2158,7 @@ msgid "Deleting files"
 msgstr "Mažou se soubory"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:1
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
 msgid "_Preview"
 msgstr "Ná_hled"
@@ -2254,6 +2256,10 @@ msgstr "Náso_bek:"
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:14
 msgid "px"
 msgstr "px"
+
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:2
+msgid "Include current channel"
+msgstr "Včetně aktuálního kanálu"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 msgid "High _quality"
@@ -2383,64 +2389,125 @@ msgstr "Obrazové nástroje"
 msgid "Basic tools to modify images."
 msgstr "Základní nástroje pro úpravu obrázků."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:335
+#. Translators: the first number is converted to the second number
+#: ../extensions/file_tools/gth-curve-editor.c:416
+#, c-format
+msgid "%d → %d"
+msgstr "%d → %d"
+
+#: ../extensions/file_tools/gth-curve-editor.c:893
+#: ../gthumb/gth-histogram-view.c:837
+msgid "Linear scale"
+msgstr "Lineární měřítko"
+
+#: ../extensions/file_tools/gth-curve-editor.c:905
+#: ../gthumb/gth-histogram-view.c:849
+msgid "Logarithmic scale"
+msgstr "Logaritmické měřítko"
+
+#: ../extensions/file_tools/gth-curve-editor.c:925
+#: ../gthumb/gth-histogram-view.c:869
+msgid "Channel:"
+msgstr "Kanál:"
+
+#: ../extensions/file_tools/gth-curve-editor.c:947
+#: ../gthumb/gth-histogram-view.c:890
+msgid "Value"
+msgstr "Hodnota"
+
+#: ../extensions/file_tools/gth-curve-editor.c:952
+#: ../gthumb/gth-histogram-view.c:895
+msgid "Red"
+msgstr "Červená"
+
+#: ../extensions/file_tools/gth-curve-editor.c:957
+#: ../gthumb/gth-histogram-view.c:900
+msgid "Green"
+msgstr "Zelená"
+
+#: ../extensions/file_tools/gth-curve-editor.c:962
+#: ../gthumb/gth-histogram-view.c:905
+msgid "Blue"
+msgstr "Modrá"
+
+#: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
+#: ../extensions/file_tools/gth-file-tool-curves.c:648
+#: ../extensions/file_tools/gth-file-tool-curves.c:812
+msgid "Presets"
+msgstr "Přednastavené"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:336
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:388
 #: ../extensions/file_tools/gth-file-tool-crop.c:627
+#: ../extensions/file_tools/gth-file-tool-curves.c:285
+#: ../extensions/file_tools/gth-file-tool-effects.c:400
+#: ../extensions/file_tools/gth-file-tool-effects.c:445
+#: ../extensions/file_tools/gth-file-tool-effects.c:493
+#: ../extensions/file_tools/gth-file-tool-effects.c:542
+#: ../extensions/file_tools/gth-file-tool-effects.c:590
+#: ../extensions/file_tools/gth-file-tool-effects.c:638
+#: ../extensions/file_tools/gth-file-tool-effects.c:686
+#: ../extensions/file_tools/gth-file-tool-effects.c:734
+#: ../extensions/file_tools/gth-file-tool-effects.c:784
+#: ../extensions/file_tools/gth-file-tool-effects.c:907
+#: ../extensions/file_tools/gth-file-tool-effects.c:943
 #: ../extensions/file_tools/gth-file-tool-flip.c:63
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:227
+#: ../extensions/file_tools/gth-file-tool-lomo.c:182
 #: ../extensions/file_tools/gth-file-tool-mirror.c:63
-#: ../extensions/file_tools/gth-file-tool-negative.c:109
+#: ../extensions/file_tools/gth-file-tool-negative.c:100
 #: ../extensions/file_tools/gth-file-tool-rotate.c:568
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:63
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:63
 msgid "Applying changes"
 msgstr "Uplatňují se změny"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:554
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:555
+#: ../extensions/file_tools/gth-file-tool-curves.c:784
 #: ../extensions/file_tools/gth-file-tool-rotate.c:603
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:365
 msgid "Reset"
 msgstr "Vynulovat"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:595
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
 msgid "Adjust Colors"
 msgstr "Úprava barev"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:597
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Změnit jas, kontrast, sytost a úroveň gamy obrázku"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:531
 msgid "Stretch"
 msgstr "Roztáhnout"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:532
 msgid "Stretch the histogram trimming the 0.5%"
 msgstr "Roztáhnout histogram ořezáním 0,5  %"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:536
 msgid "Equalize"
 msgstr "Vyrovnat"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:537
 msgid "Equalize the histogram using the square root function"
 msgstr "Vyrovnat histogram pomocí kvadratické funkce"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:541
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
 #: ../extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Uniform"
 msgstr "Rovnoměrná"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:542
 msgid "Equalize the histogram using the linear function"
 msgstr "Vyrovnat histogram pomocí lineární funkce"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:653
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:656
 msgid "Adjust Contrast"
 msgstr "Upravit kontrast"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:655
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
 msgid "Automatic contrast adjustment"
 msgstr "Automaticky upravit kontrast"
 
@@ -2527,6 +2594,88 @@ msgstr "Středové čáry"
 msgid "Crop"
 msgstr "Oříznutí"
 
+#: ../extensions/file_tools/gth-file-tool-curves.c:365
+msgid "Add to Presets"
+msgstr "Přidání do přednastavených"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:495
+#: ../extensions/gstreamer_tools/actions.c:69
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1262
+#: ../gthumb/gth-browser.c:1890
+msgid "Could not save the file"
+msgstr "Nelze uložit soubor"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:798
+msgid "Add to presets"
+msgstr "Přidání do přednastavených"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:859
+msgid "Color Curves"
+msgstr "Křivky barev"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:860
+msgid "Adjust color curves"
+msgstr "Úpravit křivky barev"
+
+#: ../extensions/file_tools/gth-file-tool-effects.c:357
+msgid "Special Effects"
+msgstr "Speciální efekty"
+
+#. Translators: this is the name of a filter that produces warmer colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:402
+msgid "Warmer"
+msgstr "Teplejší"
+
+#. Translators: this is the name of a filter that produces cooler colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:447
+msgid "Cooler"
+msgstr "Studenější"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:495
+msgid "Soil"
+msgstr "Zemitá"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:544
+msgid "Desert"
+msgstr "Pouštní"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:592
+msgid "Artic"
+msgstr "Arktická"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:640
+msgid "Mangos"
+msgstr "Mango"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:688
+msgid "Fresh Blue"
+msgstr "Svěží modrá"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:736
+msgid "Cherry"
+msgstr "Třešeň"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:786
+msgid "Vintage"
+msgstr "Starobylá"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:909
+msgid "Blurred Edges"
+msgstr "Rozmazané hrany"
+
+#. Translators: this is the name of an image filter that produces darker edges
+#: ../extensions/file_tools/gth-file-tool-effects.c:945
+msgid "Vignette"
+msgstr "Viněta"
+
 #: ../extensions/file_tools/gth-file-tool-flip.c:90
 msgid "Flip"
 msgstr "Překlopit"
@@ -2535,21 +2684,25 @@ msgstr "Překlopit"
 msgid "Flip the image vertically"
 msgstr "Překlopit obrázek svisle"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:367
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:370
 msgid "_Brightness"
 msgstr "_Jas"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:368
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:375
 msgid "_Saturation"
 msgstr "_Sytost"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:369
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:380
 msgid "_Average"
 msgstr "_Průměr"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:493
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:496
 msgid "Grayscale"
 msgstr "Stupně šedi"
+
+#: ../extensions/file_tools/gth-file-tool-lomo.c:183
+msgid "Lomo"
+msgstr "Lomografie"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:90
 msgid "Mirror"
@@ -2559,7 +2712,7 @@ msgstr "Zrcadlit"
 msgid "Mirror the image horizontally"
 msgstr "Zrcadlit obrázek vodorovně"
 
-#: ../extensions/file_tools/gth-file-tool-negative.c:136
+#: ../extensions/file_tools/gth-file-tool-negative.c:101
 msgid "Negative"
 msgstr "Negativ"
 
@@ -2570,7 +2723,7 @@ msgstr "Znovu"
 #. resize the original image
 #: ../extensions/file_tools/gth-file-tool-resize.c:180
 #: ../extensions/resize_images/dlg-resize-images.c:172
-#: ../gthumb/gth-filter-grid.c:530
+#: ../gthumb/gth-filter-grid.c:575
 msgid "Resizing images"
 msgstr "Mění se velikost obrázků"
 
@@ -2837,12 +2990,6 @@ msgstr ""
 "ověření pro aplikaci gthumb k odesílání fotografií na %s. Až budete hotovi, "
 "tak se vraťte do tohoto okna, kde se ověření dokončí."
 
-#: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1262
-#: ../gthumb/gth-browser.c:1891
-msgid "Could not save the file"
-msgstr "Nelze uložit soubor"
-
 #. Translators: %s is a filename
 #: ../extensions/gstreamer_tools/actions.c:75
 #, c-format
@@ -2971,7 +3118,7 @@ msgstr "Mono"
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1497
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:243
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:967
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:1040
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3322,7 +3469,7 @@ msgid "The selected files are already present in the destination."
 msgstr "Vybrané soubory se již v cíli vyskytují."
 
 #: ../extensions/importer/gth-import-task.c:644
-#: ../gthumb/gth-file-source-vfs.c:710
+#: ../gthumb/gth-file-source-vfs.c:714
 msgid "Could not delete the files"
 msgstr "Nelze smazat soubory"
 
@@ -3743,7 +3890,7 @@ msgid "(Empty)"
 msgstr "(Prázdné)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1802
+#: ../gthumb/gth-browser.c:1801
 msgid "Getting the folder content…"
 msgstr "Získává se obsah složky…"
 
@@ -4363,9 +4510,9 @@ msgstr "Webová alba"
 msgid "Create static web albums."
 msgstr "Vytváření statických webových alb."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
-#: ../gthumb/gth-browser.c:1682 ../gthumb/gth-browser.c:6271
-#: ../gthumb/gth-browser.c:6290 ../gthumb/gth-browser.c:6314
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1106
+#: ../gthumb/gth-browser.c:1681 ../gthumb/gth-browser.c:6273
+#: ../gthumb/gth-browser.c:6292 ../gthumb/gth-browser.c:6316
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nelze načíst polohu „%s“"
@@ -4554,11 +4701,11 @@ msgstr ""
 "Kamil Páral <ripper42@gmail.com>\n"
 "Marek Černocký <marek@manet.cz>"
 
-#: ../gthumb/gth-browser.c:367
+#: ../gthumb/gth-browser.c:366
 msgid "[modified]"
 msgstr "[změněno]"
 
-#: ../gthumb/gth-browser.c:828
+#: ../gthumb/gth-browser.c:827
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -4566,67 +4713,67 @@ msgstr[0] "Vybrán %d soubor (%s)"
 msgstr[1] "Vybrány %d soubory (%s)"
 msgstr[2] "Vybráno %d souborů (%s)"
 
-#: ../gthumb/gth-browser.c:863
+#: ../gthumb/gth-browser.c:862
 #, c-format
 msgid "%s of free space"
 msgstr "%s volného místa"
 
-#: ../gthumb/gth-browser.c:1786 ../gthumb/gth-browser.c:1813
+#: ../gthumb/gth-browser.c:1785 ../gthumb/gth-browser.c:1812
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nenalezen žádný použitelný modul pro %s"
 
-#: ../gthumb/gth-browser.c:1935
+#: ../gthumb/gth-browser.c:1934
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Uložit změny do souboru „%s“?"
 
-#: ../gthumb/gth-browser.c:1940
+#: ../gthumb/gth-browser.c:1939
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Pokud změny do souboru neuložíte, budou nenávratně ztraceny."
 
-#: ../gthumb/gth-browser.c:1941
+#: ../gthumb/gth-browser.c:1940
 msgid "Do _Not Save"
 msgstr "_Neukládat"
 
-#: ../gthumb/gth-browser.c:2885 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2884 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nelze změnit název"
 
-#: ../gthumb/gth-browser.c:3329 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3328 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Změněno"
 
-#: ../gthumb/gth-browser.c:4338
+#: ../gthumb/gth-browser.c:4337
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
-#: ../gthumb/gth-browser.c:4344
+#: ../gthumb/gth-browser.c:4343
 msgid "Go to the next visited location"
 msgstr "Přejít na následující navštívené místo"
 
-#: ../gthumb/gth-browser.c:4352
+#: ../gthumb/gth-browser.c:4351
 msgid "History"
 msgstr "Historie"
 
-#: ../gthumb/gth-browser.c:4367
+#: ../gthumb/gth-browser.c:4366
 msgid "View the folders"
 msgstr "Zobrazit složky"
 
-#: ../gthumb/gth-browser.c:4382
+#: ../gthumb/gth-browser.c:4381
 msgid "Edit file"
 msgstr "Upravit soubor"
 
-#: ../gthumb/gth-browser.c:4399
+#: ../gthumb/gth-browser.c:4398
 msgid "Accept"
 msgstr "Přijmout"
 
-#: ../gthumb/gth-browser.c:6272
+#: ../gthumb/gth-browser.c:6274
 #, c-format
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: ../gthumb/gth-browser.c:6315
+#: ../gthumb/gth-browser.c:6317
 #, c-format
 msgid "No suitable module found"
 msgstr "Nenalezen žádný použitelný modul"
@@ -4649,30 +4796,30 @@ msgstr "Všechny podporované soubory"
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: ../gthumb/gth-file-source-vfs.c:216
+#: ../gthumb/gth-file-source-vfs.c:220
 msgid "Computer"
 msgstr "Počítač"
 
-#: ../gthumb/gth-file-source-vfs.c:223
+#: ../gthumb/gth-file-source-vfs.c:227
 msgid "Home Folder"
 msgstr "Domovská složka"
 
-#: ../gthumb/gth-file-source-vfs.c:755
+#: ../gthumb/gth-file-source-vfs.c:759
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Soubory nelze přesunout do koše. Chcete je odstranit natrvalo?"
 
-#: ../gthumb/gth-file-source-vfs.c:766
+#: ../gthumb/gth-file-source-vfs.c:770
 msgid "Could not move the files to the Trash"
 msgstr "Soubory nelze přesunout do koše"
 
-#: ../gthumb/gth-file-source-vfs.c:813
+#: ../gthumb/gth-file-source-vfs.c:817
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Opravdu chcete „%s“ přesunout do koše?"
 
-#: ../gthumb/gth-file-source-vfs.c:817
+#: ../gthumb/gth-file-source-vfs.c:821
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
@@ -4680,11 +4827,11 @@ msgstr[0] "Opravdu chcete %'d vybraný soubor přesunout do koše?"
 msgstr[1] "Opravdu chcete %'d vybrané soubory přesunout do koše?"
 msgstr[2] "Opravdu chcete %'d vybraných souborů přesunout do koše?"
 
-#: ../gthumb/gth-file-source-vfs.c:829
+#: ../gthumb/gth-file-source-vfs.c:833
 msgid "Mo_ve to Trash"
 msgstr "Přesunout do _koše"
 
-#: ../gthumb/gth-file-source-vfs.c:860
+#: ../gthumb/gth-file-source-vfs.c:864
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4742,39 +4889,11 @@ msgstr "(Otevřít rodiče)"
 msgid "Enter the new name:"
 msgstr "Zadejte nový název:"
 
-#: ../gthumb/gth-histogram-view.c:826
-msgid "Linear scale"
-msgstr "Lineární měřítko"
-
-#: ../gthumb/gth-histogram-view.c:838
-msgid "Logarithmic scale"
-msgstr "Logaritmické měřítko"
-
-#: ../gthumb/gth-histogram-view.c:858
-msgid "Channel:"
-msgstr "Kanál:"
-
-#: ../gthumb/gth-histogram-view.c:879
-msgid "Value"
-msgstr "Hodnota"
-
-#: ../gthumb/gth-histogram-view.c:884
-msgid "Red"
-msgstr "Červená"
-
-#: ../gthumb/gth-histogram-view.c:889
-msgid "Green"
-msgstr "Zelená"
-
-#: ../gthumb/gth-histogram-view.c:894
-msgid "Blue"
-msgstr "Modrá"
-
-#: ../gthumb/gth-histogram-view.c:899
+#: ../gthumb/gth-histogram-view.c:910
 msgid "Alpha"
 msgstr "Průhlednost"
 
-#: ../gthumb/gth-histogram-view.c:905
+#: ../gthumb/gth-histogram-view.c:916
 msgid "RGB"
 msgstr "RGB"
 
@@ -5071,27 +5190,27 @@ msgstr "Barvy"
 msgid "Rotation"
 msgstr "Otočení"
 
-#: ../gthumb/gtk-utils.c:408
+#: ../gthumb/gtk-utils.c:481
 msgid "Could not display help"
 msgstr "Nelze zobrazit nápovědu"
 
-#: ../gthumb/gtk-utils.c:728 ../gthumb/gtk-utils.c:735
+#: ../gthumb/gtk-utils.c:801 ../gthumb/gtk-utils.c:808
 msgid "Could not launch the application"
 msgstr "Nelze spustit aplikaci"
 
-#: ../gthumb/gtk-utils.c:838
+#: ../gthumb/gtk-utils.c:911
 msgid "_Copy Here"
 msgstr "_Kopírovat sem"
 
-#: ../gthumb/gtk-utils.c:843
+#: ../gthumb/gtk-utils.c:916
 msgid "_Move Here"
 msgstr "Přesunout se_m"
 
-#: ../gthumb/gtk-utils.c:848
+#: ../gthumb/gtk-utils.c:921
 msgid "_Link Here"
 msgstr "Vytvořit zde _odkaz"
 
-#: ../gthumb/gtk-utils.c:857
+#: ../gthumb/gtk-utils.c:930
 msgid "Cancel"
 msgstr "Zrušit"
 
