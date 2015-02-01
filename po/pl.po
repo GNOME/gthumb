@@ -6,14 +6,14 @@
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Artur Flinta <aflinta@at.kernel.pl>, 2003-2004.
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2007.
-# Piotr Drąg <piotrdrag@gmail.com>, 2011-2014.
-# Aviary.pl <gnomepl@aviary.pl>, 2007-2014.
+# Piotr Drąg <piotrdrag@gmail.com>, 2011-2015.
+# Aviary.pl <gnomepl@aviary.pl>, 2007-2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-28 20:50+0100\n"
-"PO-Revision-Date: 2014-12-28 20:51+0100\n"
+"POT-Creation-Date: 2015-02-01 14:54+0100\n"
+"PO-Revision-Date: 2015-02-01 14:55+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -84,7 +84,7 @@ msgstr ""
 "katalog."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:382
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:381
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -761,7 +761,7 @@ msgstr "Zmień nazwę"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4376 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4375 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Właściwości"
 
@@ -823,6 +823,7 @@ msgstr "_Wyświetl miejsce docelowe"
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
+#: ../extensions/file_tools/gth-file-tool-curves.c:366
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:1
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
@@ -1917,7 +1918,7 @@ msgstr "Nie można wyeksportować plików"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:827
+#: ../gthumb/gth-browser.c:826
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2075,13 +2076,13 @@ msgid "Could not move the folder to the Trash"
 msgstr "Nie można przenieść katalogu do kosza"
 
 #: ../extensions/file_manager/actions.c:1059
-#: ../gthumb/gth-file-source-vfs.c:857
+#: ../gthumb/gth-file-source-vfs.c:861
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Na pewno trwale usunąć \"%s\"?"
 
 #: ../extensions/file_manager/actions.c:1069
-#: ../gthumb/gth-file-source-vfs.c:870
+#: ../gthumb/gth-file-source-vfs.c:874
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Usunięcie pliku spowoduje jego trwałe utracenie."
 
@@ -2137,7 +2138,7 @@ msgstr "_Otwórz za pomocą"
 
 #: ../extensions/file_manager/callbacks.c:883
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5323 ../gthumb/gth-browser.c:5356
+#: ../gthumb/gth-browser.c:5325 ../gthumb/gth-browser.c:5358
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Nie można wykonać działania"
@@ -2155,6 +2156,7 @@ msgid "Deleting files"
 msgstr "Usuwanie plików"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:1
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
 msgid "_Preview"
 msgstr "_Podgląd"
@@ -2252,6 +2254,10 @@ msgstr "_Wielokrotność liczby:"
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:14
 msgid "px"
 msgstr "pks"
+
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:2
+msgid "Include current channel"
+msgstr "Dołączenie bieżącego kanału"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 msgid "High _quality"
@@ -2381,64 +2387,125 @@ msgstr "Narzędzia do obrazów"
 msgid "Basic tools to modify images."
 msgstr "Podstawowe narzędzia do modyfikowania obrazów."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:335
+#. Translators: the first number is converted to the second number
+#: ../extensions/file_tools/gth-curve-editor.c:416
+#, c-format
+msgid "%d → %d"
+msgstr "%d → %d"
+
+#: ../extensions/file_tools/gth-curve-editor.c:893
+#: ../gthumb/gth-histogram-view.c:837
+msgid "Linear scale"
+msgstr "Skala liniowa"
+
+#: ../extensions/file_tools/gth-curve-editor.c:905
+#: ../gthumb/gth-histogram-view.c:849
+msgid "Logarithmic scale"
+msgstr "Skala logarytmiczna"
+
+#: ../extensions/file_tools/gth-curve-editor.c:925
+#: ../gthumb/gth-histogram-view.c:869
+msgid "Channel:"
+msgstr "Kanał:"
+
+#: ../extensions/file_tools/gth-curve-editor.c:947
+#: ../gthumb/gth-histogram-view.c:890
+msgid "Value"
+msgstr "Wartość"
+
+#: ../extensions/file_tools/gth-curve-editor.c:952
+#: ../gthumb/gth-histogram-view.c:895
+msgid "Red"
+msgstr "Czerwony"
+
+#: ../extensions/file_tools/gth-curve-editor.c:957
+#: ../gthumb/gth-histogram-view.c:900
+msgid "Green"
+msgstr "Zielony"
+
+#: ../extensions/file_tools/gth-curve-editor.c:962
+#: ../gthumb/gth-histogram-view.c:905
+msgid "Blue"
+msgstr "Niebieski"
+
+#: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
+#: ../extensions/file_tools/gth-file-tool-curves.c:648
+#: ../extensions/file_tools/gth-file-tool-curves.c:812
+msgid "Presets"
+msgstr "Ustawienia"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:336
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:388
 #: ../extensions/file_tools/gth-file-tool-crop.c:627
+#: ../extensions/file_tools/gth-file-tool-curves.c:285
+#: ../extensions/file_tools/gth-file-tool-effects.c:400
+#: ../extensions/file_tools/gth-file-tool-effects.c:445
+#: ../extensions/file_tools/gth-file-tool-effects.c:493
+#: ../extensions/file_tools/gth-file-tool-effects.c:542
+#: ../extensions/file_tools/gth-file-tool-effects.c:590
+#: ../extensions/file_tools/gth-file-tool-effects.c:638
+#: ../extensions/file_tools/gth-file-tool-effects.c:686
+#: ../extensions/file_tools/gth-file-tool-effects.c:734
+#: ../extensions/file_tools/gth-file-tool-effects.c:784
+#: ../extensions/file_tools/gth-file-tool-effects.c:907
+#: ../extensions/file_tools/gth-file-tool-effects.c:943
 #: ../extensions/file_tools/gth-file-tool-flip.c:63
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:227
+#: ../extensions/file_tools/gth-file-tool-lomo.c:182
 #: ../extensions/file_tools/gth-file-tool-mirror.c:63
-#: ../extensions/file_tools/gth-file-tool-negative.c:109
+#: ../extensions/file_tools/gth-file-tool-negative.c:100
 #: ../extensions/file_tools/gth-file-tool-rotate.c:568
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:63
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:63
 msgid "Applying changes"
 msgstr "Zastosowywanie zmian"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:554
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:555
+#: ../extensions/file_tools/gth-file-tool-curves.c:784
 #: ../extensions/file_tools/gth-file-tool-rotate.c:603
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:365
 msgid "Reset"
 msgstr "Przywróć"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:595
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
 msgid "Adjust Colors"
 msgstr "Dostosowanie kolorów"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:597
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Zmiana jasności, kontrastu, nasycenia i poziomu gamma obrazu"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:531
 msgid "Stretch"
 msgstr "Rozciągnij"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:532
 msgid "Stretch the histogram trimming the 0.5%"
 msgstr "Rozciąga histogram, obcinając 0,5%"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:536
 msgid "Equalize"
 msgstr "Wyrównaj"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:537
 msgid "Equalize the histogram using the square root function"
 msgstr "Wyrównuje histogram, używając pierwiastka kwadratowego"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:541
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
 #: ../extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Uniform"
 msgstr "Jednolite"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:542
 msgid "Equalize the histogram using the linear function"
 msgstr "Wyrównuje histogram, używając funkcji liniowej"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:653
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:656
 msgid "Adjust Contrast"
 msgstr "Dostosowanie kontrastu"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:655
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
 msgid "Automatic contrast adjustment"
 msgstr "Automatyczne dostosowanie kontrastu"
 
@@ -2525,6 +2592,88 @@ msgstr "Linie wyśrodkowane"
 msgid "Crop"
 msgstr "Przycięcie"
 
+#: ../extensions/file_tools/gth-file-tool-curves.c:365
+msgid "Add to Presets"
+msgstr "Dodaj do ustawień"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:495
+#: ../extensions/gstreamer_tools/actions.c:69
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1262
+#: ../gthumb/gth-browser.c:1890
+msgid "Could not save the file"
+msgstr "Nie można zapisać pliku"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:798
+msgid "Add to presets"
+msgstr "Dodaj do ustawień"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:859
+msgid "Color Curves"
+msgstr "Krzywe kolorów"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:860
+msgid "Adjust color curves"
+msgstr "Dostosowanie krzywych kolorów"
+
+#: ../extensions/file_tools/gth-file-tool-effects.c:357
+msgid "Special Effects"
+msgstr "Efekty specjalne"
+
+#. Translators: this is the name of a filter that produces warmer colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:402
+msgid "Warmer"
+msgstr "Cieplejsze"
+
+#. Translators: this is the name of a filter that produces cooler colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:447
+msgid "Cooler"
+msgstr "Chłodniejsze"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:495
+msgid "Soil"
+msgstr "Gleba"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:544
+msgid "Desert"
+msgstr "Pustynia"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:592
+msgid "Artic"
+msgstr "Arktyka"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:640
+msgid "Mangos"
+msgstr "Mango"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:688
+msgid "Fresh Blue"
+msgstr "Świeży błękit"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:736
+msgid "Cherry"
+msgstr "Wiśnia"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:786
+msgid "Vintage"
+msgstr "Vintage"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:909
+msgid "Blurred Edges"
+msgstr "Rozmyte brzegi"
+
+#. Translators: this is the name of an image filter that produces darker edges
+#: ../extensions/file_tools/gth-file-tool-effects.c:945
+msgid "Vignette"
+msgstr "Winieta"
+
 #: ../extensions/file_tools/gth-file-tool-flip.c:90
 msgid "Flip"
 msgstr "Odbij w pionie"
@@ -2533,21 +2682,25 @@ msgstr "Odbij w pionie"
 msgid "Flip the image vertically"
 msgstr "Obraca obraz pionowo"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:367
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:370
 msgid "_Brightness"
 msgstr "_Jasność"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:368
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:375
 msgid "_Saturation"
 msgstr "_Nasycenie"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:369
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:380
 msgid "_Average"
 msgstr "Śre_dnia"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:493
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:496
 msgid "Grayscale"
 msgstr "Skala szarości"
+
+#: ../extensions/file_tools/gth-file-tool-lomo.c:183
+msgid "Lomo"
+msgstr "Lomo"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:90
 msgid "Mirror"
@@ -2557,7 +2710,7 @@ msgstr "Odbij w poziomie"
 msgid "Mirror the image horizontally"
 msgstr "Odbija obraz poziomo"
 
-#: ../extensions/file_tools/gth-file-tool-negative.c:136
+#: ../extensions/file_tools/gth-file-tool-negative.c:101
 msgid "Negative"
 msgstr "Negatyw"
 
@@ -2568,7 +2721,7 @@ msgstr "Ponów"
 #. resize the original image
 #: ../extensions/file_tools/gth-file-tool-resize.c:180
 #: ../extensions/resize_images/dlg-resize-images.c:172
-#: ../gthumb/gth-filter-grid.c:530
+#: ../gthumb/gth-filter-grid.c:575
 msgid "Resizing images"
 msgstr "Zmienianie rozmiarów obrazów"
 
@@ -2836,12 +2989,6 @@ msgstr ""
 "upoważnić program gthumb do wysyłania zdjęć do serwisu %s. Po ukończeniu "
 "należy wrócić do tego okna, aby zakończyć upoważnienie."
 
-#: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1262
-#: ../gthumb/gth-browser.c:1891
-msgid "Could not save the file"
-msgstr "Nie można zapisać pliku"
-
 #. Translators: %s is a filename
 #: ../extensions/gstreamer_tools/actions.c:75
 #, c-format
@@ -2970,7 +3117,7 @@ msgstr "Mono"
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1497
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:243
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:967
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:1040
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3322,7 +3469,7 @@ msgid "The selected files are already present in the destination."
 msgstr "Zaznaczone pliki już znajdują się w miejscu docelowym."
 
 #: ../extensions/importer/gth-import-task.c:644
-#: ../gthumb/gth-file-source-vfs.c:710
+#: ../gthumb/gth-file-source-vfs.c:714
 msgid "Could not delete the files"
 msgstr "Nie można usunąć plików"
 
@@ -3742,7 +3889,7 @@ msgid "(Empty)"
 msgstr "(Pusty)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1802
+#: ../gthumb/gth-browser.c:1801
 msgid "Getting the folder content…"
 msgstr "Pobieranie zawartości katalogu…"
 
@@ -4362,9 +4509,9 @@ msgstr "Albumy WWW"
 msgid "Create static web albums."
 msgstr "Tworzenie statycznych albumów WWW."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
-#: ../gthumb/gth-browser.c:1682 ../gthumb/gth-browser.c:6271
-#: ../gthumb/gth-browser.c:6290 ../gthumb/gth-browser.c:6314
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1106
+#: ../gthumb/gth-browser.c:1681 ../gthumb/gth-browser.c:6273
+#: ../gthumb/gth-browser.c:6292 ../gthumb/gth-browser.c:6316
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nie można wczytać położenia \"%s\""
@@ -4551,14 +4698,14 @@ msgid "translator-credits"
 msgstr ""
 "Artur Flinta <aflinta@at.kernel.pl>, 2003-2004\n"
 "Tomasz Dominikowski <dominikowski@gmail.com>, 2007\n"
-"Piotr Drąg <piotrdrag@gmail.com>, 2011-2014\n"
-"Aviary.pl <gnomepl@aviary.pl>, 2007-2014"
+"Piotr Drąg <piotrdrag@gmail.com>, 2011-2015\n"
+"Aviary.pl <gnomepl@aviary.pl>, 2007-2015"
 
-#: ../gthumb/gth-browser.c:367
+#: ../gthumb/gth-browser.c:366
 msgid "[modified]"
 msgstr "[zmodyfikowano]"
 
-#: ../gthumb/gth-browser.c:828
+#: ../gthumb/gth-browser.c:827
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -4566,68 +4713,68 @@ msgstr[0] "Zaznaczono %d plik (%s)"
 msgstr[1] "Zaznaczono %d pliki (%s)"
 msgstr[2] "Zaznaczono %d plików (%s)"
 
-#: ../gthumb/gth-browser.c:863
+#: ../gthumb/gth-browser.c:862
 #, c-format
 msgid "%s of free space"
 msgstr "Wolne miejsce: %s"
 
-#: ../gthumb/gth-browser.c:1786 ../gthumb/gth-browser.c:1813
+#: ../gthumb/gth-browser.c:1785 ../gthumb/gth-browser.c:1812
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nie odnaleziono odpowiedniego modułu dla %s"
 
-#: ../gthumb/gth-browser.c:1935
+#: ../gthumb/gth-browser.c:1934
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Zapisać zmiany w pliku \"%s\"?"
 
-#: ../gthumb/gth-browser.c:1940
+#: ../gthumb/gth-browser.c:1939
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr ""
 "Jeśli nie zostanie zapisane, to wszystkie zmiany zostaną trwale utracone."
 
-#: ../gthumb/gth-browser.c:1941
+#: ../gthumb/gth-browser.c:1940
 msgid "Do _Not Save"
 msgstr "_Nie zapisuj"
 
-#: ../gthumb/gth-browser.c:2885 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2884 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nie można zmienić nazwy"
 
-#: ../gthumb/gth-browser.c:3329 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3328 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Zmodyfikowano"
 
-#: ../gthumb/gth-browser.c:4338
+#: ../gthumb/gth-browser.c:4337
 msgid "Go to the previous visited location"
 msgstr "Przechodzi do poprzednio odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4344
+#: ../gthumb/gth-browser.c:4343
 msgid "Go to the next visited location"
 msgstr "Przechodzi do kolejnej odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4352
+#: ../gthumb/gth-browser.c:4351
 msgid "History"
 msgstr "Historia"
 
-#: ../gthumb/gth-browser.c:4367
+#: ../gthumb/gth-browser.c:4366
 msgid "View the folders"
 msgstr "Wyświetla katalogi"
 
-#: ../gthumb/gth-browser.c:4382
+#: ../gthumb/gth-browser.c:4381
 msgid "Edit file"
 msgstr "Modyfikuje plik"
 
-#: ../gthumb/gth-browser.c:4399
+#: ../gthumb/gth-browser.c:4398
 msgid "Accept"
 msgstr "Zaakceptuj"
 
-#: ../gthumb/gth-browser.c:6272
+#: ../gthumb/gth-browser.c:6274
 #, c-format
 msgid "File type not supported"
 msgstr "Nieobsługiwany typ pliku"
 
-#: ../gthumb/gth-browser.c:6315
+#: ../gthumb/gth-browser.c:6317
 #, c-format
 msgid "No suitable module found"
 msgstr "Nie odnaleziono odpowiedniego modułu"
@@ -4650,30 +4797,30 @@ msgstr "Wszystkie obsługiwane pliki"
 msgid "Details"
 msgstr "Szczegóły"
 
-#: ../gthumb/gth-file-source-vfs.c:216
+#: ../gthumb/gth-file-source-vfs.c:220
 msgid "Computer"
 msgstr "Komputer"
 
-#: ../gthumb/gth-file-source-vfs.c:223
+#: ../gthumb/gth-file-source-vfs.c:227
 msgid "Home Folder"
 msgstr "Katalog domowy"
 
-#: ../gthumb/gth-file-source-vfs.c:755
+#: ../gthumb/gth-file-source-vfs.c:759
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Nie można przenieść plików do kosza. Usunąć je trwale?"
 
-#: ../gthumb/gth-file-source-vfs.c:766
+#: ../gthumb/gth-file-source-vfs.c:770
 msgid "Could not move the files to the Trash"
 msgstr "Nie można przenieść plików do kosza"
 
-#: ../gthumb/gth-file-source-vfs.c:813
+#: ../gthumb/gth-file-source-vfs.c:817
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Na pewno przenieść \"%s\" do kosza?"
 
-#: ../gthumb/gth-file-source-vfs.c:817
+#: ../gthumb/gth-file-source-vfs.c:821
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
@@ -4681,11 +4828,11 @@ msgstr[0] "Na pewno przenieść do kosza %'d zaznaczony plik?"
 msgstr[1] "Na pewno przenieść do kosza %'d zaznaczone pliki?"
 msgstr[2] "Na pewno przenieść do kosza %'d zaznaczonych plików?"
 
-#: ../gthumb/gth-file-source-vfs.c:829
+#: ../gthumb/gth-file-source-vfs.c:833
 msgid "Mo_ve to Trash"
 msgstr "P_rzenieś do kosza"
 
-#: ../gthumb/gth-file-source-vfs.c:860
+#: ../gthumb/gth-file-source-vfs.c:864
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4743,39 +4890,11 @@ msgstr "(Otwórz nadrzędny)"
 msgid "Enter the new name:"
 msgstr "Nowa nazwa:"
 
-#: ../gthumb/gth-histogram-view.c:826
-msgid "Linear scale"
-msgstr "Skala liniowa"
-
-#: ../gthumb/gth-histogram-view.c:838
-msgid "Logarithmic scale"
-msgstr "Skala logarytmiczna"
-
-#: ../gthumb/gth-histogram-view.c:858
-msgid "Channel:"
-msgstr "Kanał:"
-
-#: ../gthumb/gth-histogram-view.c:879
-msgid "Value"
-msgstr "Wartość"
-
-#: ../gthumb/gth-histogram-view.c:884
-msgid "Red"
-msgstr "Czerwony"
-
-#: ../gthumb/gth-histogram-view.c:889
-msgid "Green"
-msgstr "Zielony"
-
-#: ../gthumb/gth-histogram-view.c:894
-msgid "Blue"
-msgstr "Niebieski"
-
-#: ../gthumb/gth-histogram-view.c:899
+#: ../gthumb/gth-histogram-view.c:910
 msgid "Alpha"
 msgstr "Alfa"
 
-#: ../gthumb/gth-histogram-view.c:905
+#: ../gthumb/gth-histogram-view.c:916
 msgid "RGB"
 msgstr "RGB"
 
@@ -5073,27 +5192,27 @@ msgstr "Kolory"
 msgid "Rotation"
 msgstr "Obrót"
 
-#: ../gthumb/gtk-utils.c:408
+#: ../gthumb/gtk-utils.c:481
 msgid "Could not display help"
 msgstr "Nie można wyświetlić pomocy"
 
-#: ../gthumb/gtk-utils.c:728 ../gthumb/gtk-utils.c:735
+#: ../gthumb/gtk-utils.c:801 ../gthumb/gtk-utils.c:808
 msgid "Could not launch the application"
 msgstr "Nie można uruchomić programu"
 
-#: ../gthumb/gtk-utils.c:838
+#: ../gthumb/gtk-utils.c:911
 msgid "_Copy Here"
 msgstr "S_kopiuj tutaj"
 
-#: ../gthumb/gtk-utils.c:843
+#: ../gthumb/gtk-utils.c:916
 msgid "_Move Here"
 msgstr "_Przenieś tutaj"
 
-#: ../gthumb/gtk-utils.c:848
+#: ../gthumb/gtk-utils.c:921
 msgid "_Link Here"
 msgstr "_Dowiąż tutaj"
 
-#: ../gthumb/gtk-utils.c:857
+#: ../gthumb/gtk-utils.c:930
 msgid "Cancel"
 msgstr "Anuluj"
 
