@@ -4278,6 +4278,7 @@ gth_browser_init (GthBrowser *browser)
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS]);

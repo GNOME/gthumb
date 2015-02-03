@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include "glib-utils.h"
 
-DEF_ACTION_CALLBACK (toggle_action_activated)
 DEF_ACTION_CALLBACK (gth_application_activate_new_window)
 DEF_ACTION_CALLBACK (gth_application_activate_preferences)
 DEF_ACTION_CALLBACK (gth_application_activate_show_shortcuts)

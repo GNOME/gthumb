@@ -6,6 +6,7 @@ iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = 					\
 	change-date-symbolic.svg		\
+	color-profile.svg			\
 	comment-symbolic.svg			\
 	convert-format-symbolic.svg		\
 	curves-symbolic.svg			\
@@ -22,7 +23,7 @@ icons_DATA = 					\
 	filter-symbolic.svg			\
 	format-linear-symbolic.svg		\
 	format-logarithmic-symbolic.svg		\
-	histogram-symbolic.svg			\
+	histogram-symbolic.svg			\	
 	image-adjust-colors-symbolic.svg	\
 	image-adjust-contrast-symbolic.svg	\
 	image-crop-symbolic.svg			\

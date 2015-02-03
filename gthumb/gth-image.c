@@ -380,6 +380,7 @@ gth_image_set_icc_profile (GthImage	 *image,
 GthICCProfile
 gth_image_get_icc_profile (GthImage *image)
 {
+	g_return_val_if_fail (image != NULL, NULL);
 	return image->priv->icc_profile;
 }
 

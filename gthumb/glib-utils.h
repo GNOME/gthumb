@@ -356,6 +356,8 @@ GList *         _g_list_prepend_link             (GList      *list,
 						  GList      *link);
 void            _g_error_free                    (GError     *error);
 
+DEF_ACTION_CALLBACK (toggle_action_activated)
+
 G_END_DECLS
 
 #endif /* _GLIB_UTILS_H */

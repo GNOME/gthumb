@@ -30,7 +30,7 @@
 
 #define UPDATE_QUALITY_DELAY 200
 #define UPDATE_VISIBILITY_DELAY 100
-#define N_HEADER_BAR_BUTTONS 3
+#define N_HEADER_BAR_BUTTONS 4
 #define HIDE_OVERVIEW_TIMEOUT 2 /* in seconds */
 #define OVERLAY_MARGIN 10
 #undef ALWAYS_LOAD_ORIGINAL_SIZE
@@ -56,6 +56,7 @@ static const GActionEntry actions[] = {
 	{ "image-redo", gth_browser_activate_image_redo },
 	{ "copy-image", gth_browser_activate_copy_image },
 	{ "paste-image", gth_browser_activate_paste_image },
+	{ "apply-icc-profile", toggle_action_activated, NULL, "true", gth_browser_activate_apply_icc_profile },
 };
 
 
@@ -96,6 +97,7 @@ struct _GthImageViewerPagePrivate {
 	gboolean           pointer_on_viewer;
 	gboolean           pointer_on_overview;
 	guint              hide_overview_id;
+	gboolean           apply_icc_profile;
 };
 
 
@@ -295,7 +297,10 @@ _g_mime_type_can_load_different_quality (const char *mime_type)
 static void
 _gth_image_preloader_init_preloader (GthImageViewerPage *self)
 {
-	gth_image_preloader_set_out_profile (self->priv->preloader, gth_browser_get_screen_profile (self->priv->browser));
+	if (self->priv->apply_icc_profile)
+		gth_image_preloader_set_out_profile (self->priv->preloader, gth_browser_get_screen_profile (self->priv->browser));
+	else
+		gth_image_preloader_set_out_profile (self->priv->preloader, NULL);
 }
 
 
@@ -853,6 +858,14 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 							   _("Fit to width"),
 							   "win.image-zoom-fit-width",
 							   NULL);
+	self->priv->buttons[3] =
+			gth_browser_add_header_bar_toggle_button (browser,
+							   	  GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS,
+								  "color-profile",
+								  _("Apply the embedded color profile"),
+								  "win.apply-icc-profile",
+								  NULL);
+
 	gth_window_add_accelerators (GTH_WINDOW (browser), accelerators, G_N_ELEMENTS (accelerators));
 
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
@@ -1085,34 +1098,19 @@ clear_data:
 
 
 static void
-gth_image_viewer_page_real_view (GthViewerPage *base,
-				 GthFileData   *file_data)
+_gth_image_viewer_page_load (GthImageViewerPage *self,
+		             GthFileData        *file_data)
 {
-	GthImageViewerPage *self;
-	GthFileStore       *file_store;
-	GtkTreeIter         iter;
-	int                 i;
-	GthFileData        *next_file_data[N_FORWARD_PRELOADERS];
-	GthFileData        *prev_file_data[N_BACKWARD_PRELOADERS];
+	GthFileStore *file_store;
+	GtkTreeIter   iter;
+	int           i;
+	GthFileData  *next_file_data[N_FORWARD_PRELOADERS];
+	GthFileData  *prev_file_data[N_BACKWARD_PRELOADERS];
 
-	self = (GthImageViewerPage*) base;
-	g_return_if_fail (file_data != NULL);
-
-	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
-
-	_g_clear_object (&self->priv->last_loaded);
-
-	if ((self->priv->file_data != NULL)
-	    && g_file_equal (file_data->file, self->priv->file_data->file)
-	    && (gth_file_data_get_mtime (file_data) == gth_file_data_get_mtime (self->priv->file_data))
-	    && ! self->priv->image_changed)
-	{
-		gth_image_viewer_page_file_loaded (self, TRUE);
-		return;
+	if (self->priv->file_data != file_data) {
+		_g_object_unref (self->priv->file_data);
+		self->priv->file_data = gth_file_data_dup (file_data);
 	}
-
-	_g_object_unref (self->priv->file_data);
-	self->priv->file_data = gth_file_data_dup (file_data);
 	self->priv->image_changed = FALSE;
 	self->priv->loading_image = TRUE;
 
@@ -1158,6 +1156,33 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 				  next_file_data[1],
 				  prev_file_data[0],
 				  prev_file_data[1]);
+
+}
+
+
+static void
+gth_image_viewer_page_real_view (GthViewerPage *base,
+				 GthFileData   *file_data)
+{
+	GthImageViewerPage *self;
+
+	self = (GthImageViewerPage*) base;
+	g_return_if_fail (file_data != NULL);
+
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
+
+	_g_clear_object (&self->priv->last_loaded);
+
+	if ((self->priv->file_data != NULL)
+	    && g_file_equal (file_data->file, self->priv->file_data->file)
+	    && (gth_file_data_get_mtime (file_data) == gth_file_data_get_mtime (self->priv->file_data))
+	    && ! self->priv->image_changed)
+	{
+		gth_image_viewer_page_file_loaded (self, TRUE);
+		return;
+	}
+
+	_gth_image_viewer_page_load (self, file_data);
 }
 
 
@@ -1210,6 +1235,7 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	gboolean            zoom_enabled;
 	double              zoom;
 	GthFit              fit_mode;
+	GthImage           *image;
 
 	self = (GthImageViewerPage*) base;
 
@@ -1226,6 +1252,10 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit", zoom_enabled && (fit_mode != GTH_FIT_SIZE));
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-width", zoom_enabled && (fit_mode != GTH_FIT_WIDTH));
+
+	image = gth_image_viewer_get_image (GTH_IMAGE_VIEWER (self->priv->viewer));
+	gtk_widget_set_visible (self->priv->buttons[3], (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "apply-icc-profile", (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
 
 	_gth_image_viewer_page_update_paste_command_sensitivity (self, NULL);
 }
@@ -1644,6 +1674,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->pointer_on_overview = FALSE;
 	self->priv->pointer_on_viewer = FALSE;
 	self->priv->hide_overview_id = 0;
+	self->priv->apply_icc_profile = TRUE;
 }
 
 
@@ -2051,4 +2082,19 @@ cairo_surface_t *
 gth_original_image_task_get_image (GthTask *task)
 {
 	return gth_image_task_get_destination_surface (GTH_IMAGE_TASK (task));
+}
+
+
+void
+gth_image_viewer_page_apply_icc_profile	(GthImageViewerPage *self,
+					 gboolean            apply)
+{
+	GthFileData *file_data;
+
+	self->priv->apply_icc_profile = apply;
+	gth_image_preloader_clear_cache (self->priv->preloader);
+
+	file_data = gth_browser_get_current_file (self->priv->browser);
+	if (file_data != NULL)
+		_gth_image_viewer_page_load (self, file_data);
 }

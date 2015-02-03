@@ -1779,6 +1779,8 @@ gth_image_viewer_set_image (GthImageViewer *self,
 	if (self->priv->image != image)
 		_g_clear_object (&self->priv->image);
 
+	self->priv->image = g_object_ref (image);
+
 	if (gth_image_get_is_animation (image)) {
 		GdkPixbufAnimation *animation;
 
@@ -1791,7 +1793,6 @@ gth_image_viewer_set_image (GthImageViewer *self,
 		cairo_surface_t *surface;
 
 		if (gth_image_get_is_zoomable (image)) {
-			self->priv->image = g_object_ref (image);
 			gth_image_set_zoom (self->priv->image,
 					    self->priv->zoom_level,
 					    &original_width,

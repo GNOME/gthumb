@@ -124,3 +124,15 @@ gth_browser_activate_paste_image (GSimpleAction	*action,
 	GthBrowser *browser = user_data;
 	gth_image_viewer_page_paste_image (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser)));
 }
+
+
+void
+gth_browser_activate_apply_icc_profile  (GSimpleAction	*action,
+					 GVariant	*state,
+					 gpointer	 user_data)
+{
+	GthBrowser *browser = user_data;
+
+	g_simple_action_set_state (action, state);
+	gth_image_viewer_page_apply_icc_profile (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser)), g_variant_get_boolean (state));
+}

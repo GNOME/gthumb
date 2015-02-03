@@ -3257,3 +3257,17 @@ _g_error_free (GError *error)
 	if (error != NULL)
 		g_error_free (error);
 }
+
+
+void
+toggle_action_activated (GSimpleAction *action,
+			 GVariant      *parameter,
+			 gpointer       data)
+{
+	GVariant *state;
+
+	state = g_action_get_state (G_ACTION (action));
+	g_action_change_state (G_ACTION (action), g_variant_new_boolean (! g_variant_get_boolean (state)));
+
+	g_variant_unref (state);
+}

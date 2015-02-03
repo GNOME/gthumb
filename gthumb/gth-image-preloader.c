@@ -912,3 +912,11 @@ gth_image_preloader_get_modified_image (GthImagePreloader *self)
 
 	return NULL;
 }
+
+
+void
+gth_image_preloader_clear_cache (GthImagePreloader *self)
+{
+	g_queue_free_full (self->priv->cache, (GDestroyNotify) cache_data_unref);
+	self->priv->cache = g_queue_new ();
+}
