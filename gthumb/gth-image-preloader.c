@@ -26,6 +26,7 @@
 #include "cairo-scale.h"
 #include "cairo-utils.h"
 #include "glib-utils.h"
+#include "gth-image.h"
 #include "gth-image-preloader.h"
 #include "gth-image-utils.h"
 #include "gth-marshal.h"
@@ -77,6 +78,7 @@ struct _GthImagePreloaderPrivate {
 	GthImageLoader		*loader;
 	GQueue			*cache;
 	guint                    load_next_id;
+	GthICCProfile            out_profile;
 };
 
 
@@ -277,6 +279,7 @@ gth_image_preloader_init (GthImagePreloader *self)
 	self->priv->loader = gth_image_loader_new (NULL, NULL);
 	self->priv->cache = g_queue_new ();
 	self->priv->load_next_id = 0;
+	self->priv->out_profile = NULL;
 }
 
 
@@ -284,6 +287,15 @@ GthImagePreloader *
 gth_image_preloader_new (void)
 {
 	return (GthImagePreloader *) g_object_new (GTH_TYPE_IMAGE_PRELOADER, NULL);
+}
+
+
+void
+gth_image_preloader_set_out_profile (GthImagePreloader *self,
+				     GthICCProfile      out_profile)
+{
+	g_return_if_fail (self != NULL);
+	self->priv->out_profile = out_profile;
 }
 
 
@@ -707,6 +719,7 @@ _gth_image_preloader_load_current_file (GthImagePreloader *self,
 	g_print ("load %s @%d\n", g_file_get_uri (requested_file->file), ignore_requested_size ? -1 : request->requested_size);
 #endif
 
+	gth_image_loader_set_out_profile (self->priv->loader, self->priv->out_profile);
 	gth_image_loader_load (self->priv->loader,
 			       requested_file,
 			       ignore_requested_size ? -1 : request->requested_size,

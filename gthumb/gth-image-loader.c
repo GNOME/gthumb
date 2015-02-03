@@ -33,6 +33,7 @@ struct _GthImageLoaderPrivate {
 	gboolean           as_animation;  /* Whether to load the image in a
 				           * GdkPixbufAnimation structure. */
 	GthImageFormat     preferred_format;
+	GthICCProfile      out_profile;
 	GthImageLoaderFunc loader_func;
 	gpointer           loader_data;
 };
@@ -69,6 +70,7 @@ gth_image_loader_init (GthImageLoader *self)
 	self->priv->loader_func = NULL;
 	self->priv->loader_data = NULL;
 	self->priv->preferred_format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
+	self->priv->out_profile = NULL;
 }
 
 
@@ -103,6 +105,15 @@ gth_image_loader_set_preferred_format (GthImageLoader *self,
 {
 	g_return_if_fail (self != NULL);
 	self->priv->preferred_format = preferred_format;
+}
+
+
+void
+gth_image_loader_set_out_profile (GthImageLoader *self,
+				  GthICCProfile   out_profile)
+{
+	g_return_if_fail (self != NULL);
+	self->priv->out_profile = out_profile;
 }
 
 
@@ -205,6 +216,13 @@ load_image_thread (GSimpleAsyncResult *result,
 	}
 
 	_g_object_unref (istream);
+
+	if (! g_cancellable_is_cancelled (cancellable)
+	    && (self->priv->out_profile != NULL)
+	    && gth_image_get_icc_profile (image) != NULL)
+	{
+		gth_image_apply_icc_profile (image, self->priv->out_profile, cancellable);
+	}
 
 	if (g_cancellable_is_cancelled (cancellable)) {
 		g_clear_error (&error);

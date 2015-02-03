@@ -25,6 +25,9 @@
 #include <stdlib.h>
 #include <setjmp.h>
 #include <jpeglib.h>
+#if HAVE_LCMS2
+#include <lcms2.h>
+#endif
 #include <gthumb.h>
 #include <extensions/jpeg_utils/jmemorysrc.h>
 #include <extensions/jpeg_utils/jpeg-info.h>
@@ -155,6 +158,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 				       GError       **error)
 {
 	GthImage                      *image;
+	JpegInfoFlags		       info_flags;
 	gboolean                       load_scaled;
 	GthTransform                   orientation;
 	int                            destination_width;
@@ -169,6 +173,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	struct jpeg_decompress_struct  srcinfo;
 	cairo_surface_t               *surface;
 	cairo_surface_metadata_t      *metadata;
+	unsigned char                 *surface_data;
 	unsigned char                 *surface_row;
 	JSAMPARRAY                     buffer;
 	int                            buffer_stride;
@@ -193,11 +198,19 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	}
 
 	_jpeg_info_data_init (&jpeg_info);
-	_jpeg_info_get_from_buffer (in_buffer, in_buffer_size, _JPEG_INFO_EXIF_ORIENTATION, &jpeg_info);
+	info_flags = _JPEG_INFO_EXIF_ORIENTATION;
+#if HAVE_LCMS2
+	info_flags |= _JPEG_INFO_ICC_PROFILE;
+#endif
+	_jpeg_info_get_from_buffer (in_buffer, in_buffer_size, info_flags, &jpeg_info);
 	if (jpeg_info.valid & _JPEG_INFO_EXIF_ORIENTATION)
 		orientation = jpeg_info.orientation;
 	else
 		orientation = GTH_TRANSFORM_NONE;
+#if HAVE_LCMS2
+	if (jpeg_info.valid & _JPEG_INFO_ICC_PROFILE)
+		gth_image_set_icc_profile (image, cmsOpenProfileFromMem (jpeg_info.icc_data, jpeg_info.icc_data_size));
+#endif
 	_jpeg_info_data_dispose (&jpeg_info);
 
 	srcinfo.err = jpeg_std_error (&(jsrcerr.pub));
@@ -271,7 +284,8 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 	metadata = _cairo_image_surface_get_metadata (surface);
 	metadata->has_alpha = FALSE;
-	surface_row = _cairo_image_surface_flush_and_get_data (surface) + line_start;
+	surface_data = _cairo_image_surface_flush_and_get_data (surface);
+	surface_row = surface_data + line_start;
 
 	switch (srcinfo.out_color_space) {
 	case JCS_CMYK:

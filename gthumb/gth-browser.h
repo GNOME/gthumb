@@ -25,6 +25,7 @@
 #include "gth-file-source.h"
 #include "gth-file-store.h"
 #include "gth-icon-cache.h"
+#include "gth-image.h"
 #include "gth-menu-manager.h"
 #include "gth-task.h"
 #include "gth-window.h"
@@ -261,6 +262,7 @@ void             gth_browser_ask_whether_to_save    (GthBrowser       *browser,
 void             gth_browser_save_state             (GthBrowser       *browser);
 gboolean         gth_browser_restore_state          (GthBrowser       *browser);
 void		 gth_browser_apply_editor_changes   (GthBrowser	      *browser);
+GthICCProfile    gth_browser_get_screen_profile     (GthBrowser	      *browser);
 
 /* utilities */
 

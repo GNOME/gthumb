@@ -296,6 +296,7 @@ gthumb_LDADD =						\
 	$(LIBWEBP_LIBS)					\
 	$(JSON_GLIB_LIBS)				\
 	$(WEBKIT2_LIBS)					\
+	$(LCMS2_LIBS)					\
 	$(NULL)
 
 if RUN_IN_PLACE
@@ -326,6 +327,7 @@ gthumb_CFLAGS =							\
 	$(LIBSOUP_CFLAGS)					\
 	$(LIBCHAMPLAIN_CFLAGS)					\
 	$(SMCLIENT_CFLAGS)					\
+	$(LCMS2_CFLAGS)							\
 	-DGTHUMB_LOCALEDIR=\"$(datadir)/locale\"		\
 	-DGTHUMB_PREFIX=\"$(prefix)\"           		\
 	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"   		\

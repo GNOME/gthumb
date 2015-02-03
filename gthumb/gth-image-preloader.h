@@ -51,6 +51,8 @@ struct _GthImagePreloaderClass {
 
 GType               gth_image_preloader_get_type		 (void) G_GNUC_CONST;
 GthImagePreloader * gth_image_preloader_new			 (void);
+void                gth_image_preloader_set_out_profile		 (GthImagePreloader		 *loader,
+								  GthICCProfile			  profile);
 void                gth_image_preloader_load			 (GthImagePreloader		 *self,
 								  GthFileData			 *requested,
 								  int				  requested_size,

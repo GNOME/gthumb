@@ -72,6 +72,7 @@ LIBRSVG_REQUIRED=2.34.0
 LIBWEBP_REQUIRED=0.2.0
 JSON_GLIB_REQUIRED=0.15.0
 WEBKIT2_REQUIRED=1.10.0
+LCMS2_REQUIRED=2.6
 
 dnl ===========================================================================
 
@@ -234,6 +235,26 @@ fi
 AC_SUBST(LIBCHAMPLAIN_LIBS)
 AC_SUBST(LIBCHAMPLAIN_CFLAGS)
 AM_CONDITIONAL(ENABLE_LIBCHAMPLAIN, test "x$enable_libchamplain" = xyes)
+
+dnl ===========================================================================
+
+AC_ARG_ENABLE([lcms2],
+	      [AS_HELP_STRING([--disable-lcms2],[do not compile code that uses the lcms2 library])],,
+	      [enable_lcms2=yes])
+
+if test x$enable_lcms2 = xyes ; then
+	PKG_CHECK_MODULES(LCMS2,
+			  lcms2 >= $LCMS2_REQUIRED,
+			  [enable_lcms2=yes],
+			  [enable_lcms2=no])
+fi
+if test x$enable_lcms2 = xyes ; then
+	AC_DEFINE(HAVE_LCMS2, 1, [Define to 1 if lcms2 support is included])
+fi
+
+AC_SUBST(LCMS2_LIBS)
+AC_SUBST(LCMS2_CFLAGS)
+AM_CONDITIONAL(ENABLE_LCMS2, test "x$enable_lcms2" = xyes)
 
 dnl ===========================================================================
 
@@ -751,4 +772,5 @@ Configuration:
 	Map support          : ${enable_libchamplain}
 	SVG support          : ${enable_librsvg}
 	WebP support         : ${enable_libwebp}
+	LCMS2 support	     : ${enable_lcms2}
 "

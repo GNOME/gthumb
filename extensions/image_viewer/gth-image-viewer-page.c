@@ -292,6 +292,13 @@ _g_mime_type_can_load_different_quality (const char *mime_type)
 }
 
 
+static void
+_gth_image_preloader_init_preloader (GthImageViewerPage *self)
+{
+	gth_image_preloader_set_out_profile (self->priv->preloader, gth_browser_get_screen_profile (self->priv->browser));
+}
+
+
 static gboolean
 update_quality_cb (gpointer user_data)
 {
@@ -308,6 +315,7 @@ update_quality_cb (gpointer user_data)
 	if (! self->priv->image_changed && ! _g_mime_type_can_load_different_quality (gth_file_data_get_mime_type (self->priv->file_data)))
 		return FALSE;
 
+	_gth_image_preloader_init_preloader (self);
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
 				  _gth_image_preloader_get_requested_size_for_current_image (self),
@@ -1134,6 +1142,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 		gth_image_viewer_set_void (GTH_IMAGE_VIEWER (self->priv->viewer));
 	}
 
+	_gth_image_preloader_init_preloader (self);
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->file_data,
 #ifdef ALWAYS_LOAD_ORIGINAL_SIZE
@@ -1914,6 +1923,7 @@ gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
 						  gth_image_viewer_page_get_original);
 	data->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
 
+	_gth_image_preloader_init_preloader (self);
 	gth_image_preloader_load (self->priv->preloader,
 				  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
 				  GTH_ORIGINAL_SIZE,

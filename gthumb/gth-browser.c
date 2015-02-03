@@ -23,6 +23,9 @@
 #include <math.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#if HAVE_LCMS2
+#include <lcms2.h>
+#endif
 #include "dlg-personalize-filters.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
@@ -178,6 +181,7 @@ struct _GthBrowserPrivate {
 	gboolean           file_properties_on_the_right;
 	GthSidebarState    viewer_sidebar;
 	BrowserState       state;
+	GthICCProfile      screen_profile;
 
 	/* settings */
 
@@ -2597,6 +2601,7 @@ gth_browser_finalize (GObject *object)
 	g_free (browser->priv->list_attributes);
 	_g_object_unref (browser->priv->folder_popup_file_data);
 	_g_object_unref (browser->priv->history_menu);
+	gth_icc_profile_free (browser->priv->screen_profile);
 
 	G_OBJECT_CLASS (gth_browser_parent_class)->finalize (object);
 }
@@ -4125,6 +4130,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->desktop_interface_settings = g_settings_new (GNOME_DESKTOP_INTERFACE_SCHEMA);
 	browser->priv->file_properties_on_the_right = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT);
 	browser->priv->menu_managers = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+	browser->priv->screen_profile = NULL;
 
 	browser_state_init (&browser->priv->state);
 
@@ -6635,6 +6641,43 @@ gth_browser_apply_editor_changes (GthBrowser *browser)
 	file_tool = gth_toolbox_get_active_tool (GTH_TOOLBOX (toolbox));
 	if (file_tool != NULL)
 		gth_file_tool_apply_options (GTH_FILE_TOOL (file_tool));
+}
+
+
+GthICCProfile
+gth_browser_get_screen_profile (GthBrowser *browser)
+{
+#if HAVE_LCMS2
+	if (browser->priv->screen_profile == NULL) {
+		GdkScreen *screen;
+		char      *atom_name;
+		GdkAtom    type    = GDK_NONE;
+		int        format  = 0;
+		int        nitems  = 0;
+		int        monitor = 0;
+		guchar    *data    = NULL;
+
+		screen = gtk_widget_get_screen (GTK_WIDGET (browser));
+		if (gdk_screen_get_number (screen) > 0)
+			atom_name = g_strdup_printf ("_ICC_PROFILE_%d", gdk_screen_get_number (screen));
+		else
+			atom_name = g_strdup ("_ICC_PROFILE");
+
+		if (gdk_property_get (gdk_screen_get_root_window (screen),
+		                      gdk_atom_intern (atom_name, FALSE),
+				      GDK_NONE,
+				      0, 64 * 1024 * 1024, FALSE,
+				      &type, &format, &nitems, &data) && nitems > 0)
+		{
+			browser->priv->screen_profile = cmsOpenProfileFromMem (data, nitems);
+			g_free (data);
+		}
+
+		g_free (atom_name);
+
+	}
+#endif
+	return browser->priv->screen_profile;
 }
 
 

@@ -21,8 +21,12 @@
 
 #define GDK_PIXBUF_ENABLE_BACKEND 1
 
+#include <config.h>
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#ifdef HAVE_LCMS2
+#include <lcms2.h>
+#endif /* HAVE_LCMS2 */
 #include "cairo-utils.h"
 #include "glib-utils.h"
 #include "gth-image.h"
@@ -36,6 +40,7 @@ struct _GthImagePrivate {
 		GdkPixbuf          *pixbuf;
 		GdkPixbufAnimation *pixbuf_animation;
 	} data;
+	GthICCProfile icc_profile;
 };
 
 
@@ -68,12 +73,21 @@ _gth_image_free_data (GthImage *self)
 
 
 static void
+_gth_image_free_icc_profile (GthImage *self)
+{
+	gth_icc_profile_free (self->priv->icc_profile);
+	self->priv->icc_profile = NULL;
+}
+
+
+static void
 gth_image_finalize (GObject *object)
 {
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTH_IS_IMAGE (object));
 
 	_gth_image_free_data (GTH_IMAGE (object));
+	_gth_image_free_icc_profile (GTH_IMAGE (object));
 
 	/* Chain up */
 	G_OBJECT_CLASS (gth_image_parent_class)->finalize (object);
@@ -118,6 +132,7 @@ gth_image_init (GthImage *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE, GthImagePrivate);
 	self->priv->format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
 	self->priv->data.surface = NULL;
+	self->priv->icc_profile = NULL;
 }
 
 
@@ -350,4 +365,171 @@ gth_image_get_is_animation (GthImage *image)
 
 	return ((image->priv->format == GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION)
 	        && (! gdk_pixbuf_animation_is_static_image (image->priv->data.pixbuf_animation)));
+}
+
+
+void
+gth_image_set_icc_profile (GthImage	 *image,
+			   GthICCProfile  profile)
+{
+	_gth_image_free_icc_profile (image);
+	image->priv->icc_profile = profile;
+}
+
+
+GthICCProfile
+gth_image_get_icc_profile (GthImage *image)
+{
+	return image->priv->icc_profile;
+}
+
+
+/* -- gth_image_apply_icc_profile -- */
+
+
+#if HAVE_LCMS2
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
+#define _LCMS2_CAIRO_FORMAT TYPE_BGRA_8
+#elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
+#define _LCMS2_CAIRO_FORMAT TYPE_ARGB_8
+#else
+#define _LCMS2_CAIRO_FORMAT TYPE_ABGR_8
+#endif
+#endif
+
+
+void
+gth_image_apply_icc_profile (GthImage      *image,
+			     GthICCProfile  out_profile,
+			     GCancellable  *cancellable)
+{
+#if HAVE_LCMS2
+
+	cmsHTRANSFORM    hTransform;
+	cairo_surface_t *surface;
+	unsigned char   *surface_row;
+	int              width;
+	int              height;
+	int              row_stride;
+	int              row;
+
+	if (image->priv->format != GTH_IMAGE_FORMAT_CAIRO_SURFACE)
+		return;
+
+	hTransform = cmsCreateTransform ((cmsHPROFILE) image->priv->icc_profile,
+					 _LCMS2_CAIRO_FORMAT,
+					 (cmsHPROFILE) out_profile,
+					 _LCMS2_CAIRO_FORMAT,
+					 INTENT_PERCEPTUAL, 0);
+	if (hTransform == NULL)
+		return;
+
+	surface = gth_image_get_cairo_surface (image);
+	surface_row = _cairo_image_surface_flush_and_get_data (surface);
+	width = cairo_image_surface_get_width (surface);
+	height = cairo_image_surface_get_height (surface);
+	row_stride = cairo_image_surface_get_stride (surface);
+
+	for (row = 0; row < height; row++) {
+		if (g_cancellable_is_cancelled (cancellable))
+			break;
+		cmsDoTransform (hTransform, surface_row, surface_row, width);
+		surface_row += row_stride;
+	}
+	cairo_surface_mark_dirty (surface);
+
+	cairo_surface_destroy (surface);
+	cmsDeleteTransform (hTransform);
+
+#endif
+}
+
+
+/* -- gth_image_apply_icc_profile_async -- */
+
+
+typedef struct {
+	GthImage	*image;
+	GthICCProfile	 out_profile;
+} ApplyProfileData;
+
+
+static void
+apply_profile_data_free (gpointer user_data)
+{
+	ApplyProfileData *apd = user_data;
+
+	g_object_unref (apd->image);
+	g_free (apd);
+}
+
+
+static void
+_gth_image_apply_icc_profile_thread (GSimpleAsyncResult *result,
+				     GObject            *object,
+				     GCancellable       *cancellable)
+{
+	ApplyProfileData *apd;
+	GError           *error = NULL;
+
+	apd = g_simple_async_result_get_op_res_gpointer (result);
+	if ((apd->image->priv->icc_profile != NULL) && (apd->out_profile != NULL))
+		gth_image_apply_icc_profile (apd->image, apd->out_profile, cancellable);
+
+	if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable))
+		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (result, error);
+		g_error_free (error);
+	}
+}
+
+
+void
+gth_image_apply_icc_profile_async (GthImage		*image,
+				   GthICCProfile	 out_profile,
+				   GCancellable		*cancellable,
+				   GAsyncReadyCallback	 callback,
+				   gpointer		 user_data)
+{
+	GSimpleAsyncResult *result;
+	ApplyProfileData   *apd;
+
+	g_return_if_fail (image != NULL);
+
+	result = g_simple_async_result_new (NULL,
+	                                    callback,
+					    user_data,
+					    gth_image_apply_icc_profile_async);
+
+	apd = g_new (ApplyProfileData, 1);
+	apd->image = g_object_ref (image);
+	apd->out_profile = out_profile;
+	g_simple_async_result_set_op_res_gpointer (result, apd, apply_profile_data_free);
+	g_simple_async_result_run_in_thread (result,
+	                                     _gth_image_apply_icc_profile_thread,
+					     G_PRIORITY_DEFAULT,
+					     cancellable);
+
+	g_object_unref (result);
+}
+
+
+gboolean
+gth_image_apply_icc_profile_finish (GAsyncResult	 *result,
+				    GError		**error)
+{
+	g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, gth_image_apply_icc_profile_async), FALSE);
+	return g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error);
+}
+
+
+void
+gth_icc_profile_free (GthICCProfile icc_profile)
+{
+#ifdef HAVE_LCMS2
+	if (icc_profile != NULL)
+		cmsCloseProfile ((cmsHPROFILE) icc_profile);
+#endif
 }

@@ -39,9 +39,8 @@ _jpeg_info_data_init (JpegInfoData *data)
 void
 _jpeg_info_data_dispose (JpegInfoData *data)
 {
-	if (data->valid & _JPEG_INFO_ICC_PROFILE) {
+	if (data->valid & _JPEG_INFO_ICC_PROFILE)
 		g_free (data->icc_data);
-	}
 }
 
 
@@ -111,13 +110,14 @@ _jpeg_skip_segment_data (GInputStream  *stream,
 }
 
 
-static GthTransform
-_jpeg_exif_orientation_from_app1_segment (guchar *in_buffer,
-					  gsize   app1_segment_size)
+static gboolean
+_jpeg_exif_orientation_from_app1_segment (guchar	*in_buffer,
+					  gsize		 app1_segment_size,
+					  JpegInfoData	*data)
 {
 	int       pos;
 	guint     length;
-	gboolean  is_motorola;
+	gboolean  big_endian;
 	guchar   *exif_data;
 	guint     offset, number_of_tags, tagnum;
 	int       orientation;
@@ -127,7 +127,7 @@ _jpeg_exif_orientation_from_app1_segment (guchar *in_buffer,
 
 	length = app1_segment_size;
 	if (length < 6)
-		return 0;
+		return FALSE;
 
 	pos = 0;
 
@@ -140,78 +140,68 @@ _jpeg_exif_orientation_from_app1_segment (guchar *in_buffer,
 	    || (in_buffer[pos++] != 0)
 	    || (in_buffer[pos++] != 0))
 	{
-		return 0;
+		return FALSE;
 	}
 
 	/* Length of an IFD entry */
 
 	if (length < 12)
-		return 0;
+		return FALSE;
 
 	exif_data = in_buffer + pos;
 
 	/* Discover byte order */
 
 	if ((exif_data[0] == 0x49) && (exif_data[1] == 0x49))
-		is_motorola = FALSE;
+		big_endian = FALSE;
 	else if ((exif_data[0] == 0x4D) && (exif_data[1] == 0x4D))
-		is_motorola = TRUE;
+		big_endian = TRUE;
 	else
-		return 0;
+		return FALSE;
 
 	/* Check Tag Mark */
 
-	if (is_motorola) {
+	if (big_endian) {
 		if (exif_data[2] != 0)
-			return 0;
+			return FALSE;
 		if (exif_data[3] != 0x2A)
-			return 0;
+			return FALSE;
 	}
 	else {
 		if (exif_data[3] != 0)
-			return 0;
+			return FALSE;
 		if (exif_data[2] != 0x2A)
-			return 0;
+			return FALSE;
 	}
 
 	/* Get first IFD offset (offset to IFD0) */
 
-	if (is_motorola) {
+	if (big_endian) {
 		if (exif_data[4] != 0)
-			return 0;
+			return FALSE;
 		if (exif_data[5] != 0)
-			return 0;
-		offset = exif_data[6];
-		offset <<= 8;
-		offset += exif_data[7];
+			return FALSE;
+		offset = (exif_data[6] << 8) + exif_data[7];
 	}
 	else {
 		if (exif_data[7] != 0)
-			return 0;
+			return FALSE;
 		if (exif_data[6] != 0)
-			return 0;
-		offset = exif_data[5];
-		offset <<= 8;
-		offset += exif_data[4];
+			return FALSE;
+		offset = (exif_data[5] << 8) + exif_data[4];
 	}
 
 	if (offset > length - 2) /* check end of data segment */
-		return 0;
+		return FALSE;
 
 	/* Get the number of directory entries contained in this IFD */
 
-	if (is_motorola) {
-		number_of_tags = exif_data[offset];
-		number_of_tags <<= 8;
-		number_of_tags += exif_data[offset+1];
-	}
-	else {
-		number_of_tags = exif_data[offset+1];
-		number_of_tags <<= 8;
-		number_of_tags += exif_data[offset];
-	}
+	if (big_endian)
+		number_of_tags = (exif_data[offset] << 8) + exif_data[offset+1];
+	else
+		number_of_tags = (exif_data[offset+1] << 8) + exif_data[offset];
 	if (number_of_tags == 0)
-		return 0;
+		return FALSE;
 
 	offset += 2;
 
@@ -219,47 +209,174 @@ _jpeg_exif_orientation_from_app1_segment (guchar *in_buffer,
 
 	for (;;) {
 		if (offset > length - 12) /* check end of data segment */
-			return 0;
+			return FALSE;
 
 		/* Get Tag number */
 
-		if (is_motorola) {
-			tagnum = exif_data[offset];
-			tagnum <<= 8;
-			tagnum += exif_data[offset+1];
-		}
-		else {
-			tagnum = exif_data[offset+1];
-			tagnum <<= 8;
-			tagnum += exif_data[offset];
-		}
+		if (big_endian)
+			tagnum = (exif_data[offset] << 8) + exif_data[offset+1];
+		else
+			tagnum = (exif_data[offset+1] << 8) + exif_data[offset];
 
-		if (tagnum == 0x0112) /* found Orientation Tag */
+		if (tagnum == 0x0112) { /* found Orientation Tag */
+			if (big_endian) {
+				if (exif_data[offset + 8] != 0)
+					return FALSE;
+				orientation = exif_data[offset + 9];
+			}
+			else {
+				if (exif_data[offset + 9] != 0)
+					return FALSE;
+				orientation = exif_data[offset + 8];
+			}
+			if (orientation > 8)
+				orientation = 0;
+			data->orientation = orientation;
 			break;
+		}
 
 		if (--number_of_tags == 0)
-			return 0;
+			return FALSE;
 
 		offset += 12;
 	}
 
-	/* Get the Orientation value */
+	return TRUE;
+}
 
-	if (is_motorola) {
-		if (exif_data[offset + 8] != 0)
-			return 0;
-		orientation = exif_data[offset + 9];
+
+static gboolean
+_jpeg_exif_colorimetry_from_app1_segment (guchar	*in_buffer,
+					  gsize		 app1_segment_size,
+					  JpegInfoData	*data)
+{
+	int       pos;
+	guint     length;
+	gboolean  big_endian;
+	guchar   *exif_data;
+	guint     offset, number_of_tags, tagnum;
+	int       orientation;
+	int       remaining_tags;
+
+	/* Length includes itself, so must be at least 2 */
+	/* Following Exif data length must be at least 6 */
+
+	length = app1_segment_size;
+	if (length < 6)
+		return FALSE;
+
+	pos = 0;
+
+	/* Read Exif head, check for "Exif" */
+
+	if ((in_buffer[pos++] != 'E')
+	    || (in_buffer[pos++] != 'x')
+	    || (in_buffer[pos++] != 'i')
+	    || (in_buffer[pos++] != 'f')
+	    || (in_buffer[pos++] != 0)
+	    || (in_buffer[pos++] != 0))
+	{
+		return FALSE;
+	}
+
+	/* Length of an IFD entry */
+
+	if (length < 12)
+		return FALSE;
+
+	exif_data = in_buffer + pos;
+
+	/* Discover byte order */
+
+	if ((exif_data[0] == 0x49) && (exif_data[1] == 0x49))
+		big_endian = FALSE;
+	else if ((exif_data[0] == 0x4D) && (exif_data[1] == 0x4D))
+		big_endian = TRUE;
+	else
+		return FALSE;
+
+	/* Check Tag Mark */
+
+	if (big_endian) {
+		if (exif_data[2] != 0)
+			return FALSE;
+		if (exif_data[3] != 0x2A)
+			return FALSE;
 	}
 	else {
-		if (exif_data[offset + 9] != 0)
-			return 0;
-		orientation = exif_data[offset + 8];
+		if (exif_data[3] != 0)
+			return FALSE;
+		if (exif_data[2] != 0x2A)
+			return FALSE;
 	}
 
-	if (orientation > 8)
-		orientation = 0;
+	/* Get first IFD offset (offset to IFD0) */
 
-	return (GthTransform) orientation;
+	if (big_endian) {
+		if (exif_data[4] != 0)
+			return FALSE;
+		if (exif_data[5] != 0)
+			return FALSE;
+		offset = (exif_data[6] << 8) + exif_data[7];
+	}
+	else {
+		if (exif_data[7] != 0)
+			return FALSE;
+		if (exif_data[6] != 0)
+			return FALSE;
+		offset = (exif_data[5] << 8) + exif_data[4];
+	}
+
+	if (offset > length - 2) /* check end of data segment */
+		return FALSE;
+
+	/* Get the number of directory entries contained in this IFD */
+
+	if (big_endian)
+		number_of_tags = (exif_data[offset] << 8) + exif_data[offset+1];
+	else
+		number_of_tags = (exif_data[offset+1] << 8) + exif_data[offset];
+	if (number_of_tags == 0)
+		return FALSE;
+
+	offset += 2;
+
+	/* Search the tags in IFD0 */
+
+	remaining_tags = 3;
+	for (;;) {
+		if (offset > length - 12) /* check end of data segment */
+			return FALSE;
+
+		/* Get Tag number */
+
+		if (big_endian)
+			tagnum = (exif_data[offset] << 8) + exif_data[offset+1];
+		else
+			tagnum = (exif_data[offset+1] << 8) + exif_data[offset];
+
+		if (tagnum == 0x012D) { /* TransferFunction */
+			remaining_tags--;
+		}
+
+		if (tagnum == 0x013E) { /* WhitePoint */
+			remaining_tags--;
+		}
+
+		if (tagnum == 0x013F) { /* PrimaryChromaticities */
+			remaining_tags--;
+		}
+
+		if (remaining_tags == 0)
+			break;
+
+		if (--number_of_tags == 0)
+			return FALSE;
+
+		offset += 12;
+	}
+
+	return TRUE;
 }
 
 
@@ -341,6 +458,12 @@ _jpeg_get_icc_profile_chunk_from_app2_segment (guchar *in_buffer,
 }
 
 
+#define _JPEG_MARKER_SOF0 0xc0
+#define _JPEG_MARKER_SOF1 0xc2
+#define _JPEG_MARKER_APP1 0xe1
+#define _JPEG_MARKER_APP2 0xe2
+
+
 gboolean
 _jpeg_info_get_from_stream (GInputStream	 *stream,
 			    JpegInfoFlags	  flags,
@@ -357,9 +480,8 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 	while ((marker_id = _jpeg_read_segment_marker (stream, cancellable, error)) != 0x00) {
 		gboolean segment_data_consumed = FALSE;
 
-		if ((flags & _JPEG_INFO_IMAGE_SIZE)
-		    && ! (data->valid & _JPEG_INFO_IMAGE_SIZE)
-		    && ((marker_id == 0xc0) || (marker_id == 0xc2))) /* SOF0 or SOF1 */
+		if (((flags & _JPEG_INFO_IMAGE_SIZE) && ! (data->valid & _JPEG_INFO_IMAGE_SIZE))
+		    && ((marker_id == _JPEG_MARKER_SOF0) || (marker_id == _JPEG_MARKER_SOF1)))
 		{
 			guint h, l;
 			guint size;
@@ -391,9 +513,9 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 			segment_data_consumed = TRUE;
 		}
 
-		if ((flags & _JPEG_INFO_EXIF_ORIENTATION)
-		    && ! (data->valid & _JPEG_INFO_EXIF_ORIENTATION)
-		    && (marker_id == 0xe1)) { /* APP1 */
+		if (((flags & _JPEG_INFO_EXIF_ORIENTATION) || (flags & _JPEG_INFO_EXIF_COLORIMETRY))
+		    && (marker_id == _JPEG_MARKER_APP1))
+		{
 			guint   h, l;
 			guint   app1_segment_size;
 			guchar *app1_segment;
@@ -409,8 +531,15 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 						 cancellable,
 						 error) > 0)
 			{
-				data->valid |= _JPEG_INFO_EXIF_ORIENTATION;
-				data->orientation = _jpeg_exif_orientation_from_app1_segment (app1_segment, app1_segment_size);
+				if (flags & _JPEG_INFO_EXIF_ORIENTATION) {
+					if (_jpeg_exif_orientation_from_app1_segment (app1_segment, app1_segment_size, data))
+						data->valid |= _JPEG_INFO_EXIF_ORIENTATION;
+				}
+
+				if (flags & _JPEG_INFO_EXIF_COLORIMETRY) {
+					if (_jpeg_exif_colorimetry_from_app1_segment (app1_segment, app1_segment_size, data))
+						data->valid |= _JPEG_INFO_EXIF_ORIENTATION;
+				}
 			}
 
 			segment_data_consumed = TRUE;
@@ -418,10 +547,7 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 			g_free (app1_segment);
 		}
 
-		if ((flags & _JPEG_INFO_ICC_PROFILE)
-		    && ! (data->valid & _JPEG_INFO_ICC_PROFILE)
-		    && (marker_id == 0xe2)) /* APP2 */
-		{
+		if ((flags & _JPEG_INFO_ICC_PROFILE) && (marker_id == _JPEG_MARKER_APP2)) {
 			guint   h, l;
 			gsize   app2_segment_size;
 			guchar *app2_segment;
@@ -442,8 +568,6 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 			}
 
 			segment_data_consumed = TRUE;
-
-			g_free (app2_segment);
 		}
 
 		if (! segment_data_consumed && ! _jpeg_skip_segment_data (stream, marker_id, cancellable, error))
@@ -456,7 +580,7 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 		GList		*scan;
 		int		 seq_n;
 
-		ostream = g_memory_output_stream_new_resizable ();
+		ostream = g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
 		icc_chunks = g_list_sort (icc_chunks, icc_chunk_compare);
 		seq_n = 1;
 		for (scan = icc_chunks; scan; scan = scan->next) {
@@ -472,7 +596,7 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 			seq_n++;
 		}
 
-		if (valid_icc) {
+		if (valid_icc && g_output_stream_close (ostream, NULL, NULL)) {
 			data->valid |= _JPEG_INFO_ICC_PROFILE;
 			data->icc_data = g_memory_output_stream_steal_data (G_MEMORY_OUTPUT_STREAM (ostream));
 			data->icc_data_size = g_memory_output_stream_get_data_size (G_MEMORY_OUTPUT_STREAM (ostream));
