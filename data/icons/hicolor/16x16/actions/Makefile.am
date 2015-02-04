@@ -23,7 +23,7 @@ icons_DATA = 					\
 	filter-symbolic.svg			\
 	format-linear-symbolic.svg		\
 	format-logarithmic-symbolic.svg		\
-	histogram-symbolic.svg			\	
+	histogram-symbolic.svg			\
 	image-adjust-colors-symbolic.svg	\
 	image-adjust-contrast-symbolic.svg	\
 	image-crop-symbolic.svg			\
