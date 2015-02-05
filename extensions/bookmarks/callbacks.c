@@ -39,6 +39,7 @@ static const GActionEntry actions[] = {
 
 typedef struct {
 	GthBrowser *browser;
+	GtkBuilder *builder;
 	guint       bookmarks_changed_id;
 	guint       entry_points_changed_id;
 	GMenu      *system_bookmarks_menu;
@@ -60,9 +61,7 @@ browser_data_free (BrowserData *data)
 					     data->entry_points_changed_id);
 		data->entry_points_changed_id = 0;
 	}
-	_g_object_unref (data->system_bookmarks_menu);
-	_g_object_unref (data->entry_points_menu);
-	_g_object_unref (data->bookmarks_menu);
+	_g_object_unref (data->builder);
 	g_free (data);
 }
 
@@ -320,26 +319,23 @@ bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 
 	{
 		GtkWidget  *button;
-		GtkBuilder *builder;
 		GMenuModel *menu;
 
 		button = _gtk_menu_button_new_for_header_bar ();
 		gtk_widget_set_tooltip_text (button, _("Bookmarks"));
 		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("user-bookmarks-symbolic", GTK_ICON_SIZE_MENU));
 
-		builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/bookmarks/data/ui/bookmarks-menu.ui");
-		data->system_bookmarks_menu = G_MENU (gtk_builder_get_object (builder, "system-bookmarks"));
-		data->entry_points_menu = G_MENU (gtk_builder_get_object (builder, "entry-points"));
-		data->bookmarks_menu = G_MENU (gtk_builder_get_object (builder, "bookmarks"));
+		data->builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/bookmarks/data/ui/bookmarks-menu.ui");
+		data->system_bookmarks_menu = G_MENU (gtk_builder_get_object (data->builder, "system-bookmarks"));
+		data->entry_points_menu = G_MENU (gtk_builder_get_object (data->builder, "entry-points"));
+		data->bookmarks_menu = G_MENU (gtk_builder_get_object (data->builder, "bookmarks"));
 
-		menu = G_MENU_MODEL (gtk_builder_get_object (builder, "bookmarks-menu"));
+		menu = G_MENU_MODEL (gtk_builder_get_object (data->builder, "bookmarks-menu"));
 		gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
 		_gtk_window_add_accelerators_from_menu ((GTK_WINDOW (browser)), menu);
 
 		gtk_widget_show_all (button);
 		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS)), button, FALSE, FALSE, 0);
-
-		g_object_unref (builder);
 	}
 
 	data->browser = browser;
