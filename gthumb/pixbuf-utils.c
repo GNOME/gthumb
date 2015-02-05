@@ -28,6 +28,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "cairo-utils.h"
 #include "pixbuf-utils.h"
+#include "gimp-op.h"
 
 
 GdkPixbuf *
@@ -70,14 +71,14 @@ _gdk_pixbuf_new_from_cairo_surface (cairo_surface_t *surface)
 	while (height--) {
 		guchar *s_iter = s_pixels;
 	        guchar *p_iter = p_pixels;
-	        int     i;
+	        int     i, temp;
 
 	        for (i = 0; i < width; i++) {
 	        	gdouble alpha_factor = (gdouble) 0xff / s_iter[CAIRO_ALPHA];
 
-	        	p_iter[0] = (guchar) (alpha_factor * s_iter[CAIRO_RED]  + .5);
-	        	p_iter[1] = (guchar) (alpha_factor * s_iter[CAIRO_GREEN] + .5);
-	        	p_iter[2] = (guchar) (alpha_factor * s_iter[CAIRO_BLUE] + .5);
+	        	p_iter[0] = CLAMP_PIXEL (alpha_factor * s_iter[CAIRO_RED]);
+	        	p_iter[1] = CLAMP_PIXEL (alpha_factor * s_iter[CAIRO_GREEN]);
+	        	p_iter[2] = CLAMP_PIXEL (alpha_factor * s_iter[CAIRO_BLUE]);
 	        	if (p_n_channels == 4)
 	        		p_iter[3] = s_iter[CAIRO_ALPHA];
 
