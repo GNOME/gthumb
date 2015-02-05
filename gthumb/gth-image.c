@@ -33,6 +33,91 @@
 #include "pixbuf-utils.h"
 
 
+/* -- GthICCData -- */
+
+
+#define GTH_TYPE_ICC_DATA            (gth_icc_data_get_type ())
+#define GTH_ICC_DATA(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_ICC_DATA, GthICCData))
+#define GTH_ICC_DATA_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_ICC_DATA, GthICCDataClass))
+#define GTH_IS_ICC_DATA(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_ICC_DATA))
+#define GTH_IS_ICC_DATA_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_ICC_DATA))
+#define GTH_ICC_DATA_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_ICC_DATA, GthICCDataClass))
+
+typedef struct _GthICCData         GthICCData;
+typedef struct _GthICCDataClass    GthICCDataClass;
+
+struct _GthICCData {
+	GObject __parent;
+	GthICCProfile icc_profile;
+};
+
+struct _GthICCDataClass {
+	GObjectClass __parent_class;
+};
+
+
+static GType gth_icc_data_get_type (void);
+
+
+G_DEFINE_TYPE (GthICCData, gth_icc_data, G_TYPE_OBJECT)
+
+
+static void
+gth_icc_data_finalize (GObject *object)
+{
+	GthICCData *icc_data;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (GTH_IS_ICC_DATA (object));
+
+	icc_data = GTH_ICC_DATA (object);
+	gth_icc_profile_free (icc_data->icc_profile);
+
+	/* Chain up */
+	G_OBJECT_CLASS (gth_icc_data_parent_class)->finalize (object);
+}
+
+
+static void
+gth_icc_data_class_init (GthICCDataClass *klass)
+{
+	GObjectClass *gobject_class;
+
+	gobject_class = (GObjectClass*) klass;
+	gobject_class->finalize = gth_icc_data_finalize;
+}
+
+
+static void
+gth_icc_data_init (GthICCData *self)
+{
+	self->icc_profile = NULL;
+}
+
+
+static GthICCData *
+gth_icc_data_new (GthICCProfile profile)
+{
+	GthICCData *icc_data;
+
+	icc_data = g_object_new (GTH_TYPE_ICC_DATA, NULL);
+	icc_data->icc_profile = profile;
+
+	return icc_data;
+}
+
+
+static GthICCProfile
+gth_icc_data_get_profile (GthICCData *self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	return self->icc_profile;
+}
+
+
+/* -- GthImage -- */
+
+
 struct _GthImagePrivate {
 	GthImageFormat format;
 	union {
@@ -40,7 +125,7 @@ struct _GthImagePrivate {
 		GdkPixbuf          *pixbuf;
 		GdkPixbufAnimation *pixbuf_animation;
 	} data;
-	GthICCProfile icc_profile;
+	GthICCData *icc_data;
 };
 
 
@@ -75,8 +160,8 @@ _gth_image_free_data (GthImage *self)
 static void
 _gth_image_free_icc_profile (GthImage *self)
 {
-	gth_icc_profile_free (self->priv->icc_profile);
-	self->priv->icc_profile = NULL;
+	_g_object_unref (self->priv->icc_data);
+	self->priv->icc_data = NULL;
 }
 
 
@@ -132,7 +217,7 @@ gth_image_init (GthImage *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE, GthImagePrivate);
 	self->priv->format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
 	self->priv->data.surface = NULL;
-	self->priv->icc_profile = NULL;
+	self->priv->icc_data = NULL;
 }
 
 
@@ -173,6 +258,7 @@ gth_image_copy (GthImage *image)
 	GthImage *new_image;
 
 	new_image = gth_image_new ();
+	gth_image_set_icc_profile (new_image, gth_image_get_icc_profile (image));
 
 	switch (image->priv->format) {
 	case GTH_IMAGE_FORMAT_CAIRO_SURFACE:
@@ -239,6 +325,45 @@ gth_image_get_cairo_surface (GthImage *image)
 	}
 
 	return result;
+}
+
+
+gboolean
+gth_image_get_original_size (GthImage *image,
+			     int      *width,
+			     int      *height)
+{
+	cairo_surface_t *surface;
+	int              local_width;
+	int              local_height;
+	gboolean         value_set = FALSE;
+
+	switch (image->priv->format) {
+	case GTH_IMAGE_FORMAT_CAIRO_SURFACE:
+		surface = gth_image_get_cairo_surface (image);
+		if (! _cairo_image_surface_get_original_size (surface, &local_width, &local_height)) {
+			local_width = cairo_image_surface_get_width (surface);
+			local_height = cairo_image_surface_get_height (surface);
+		}
+		value_set = TRUE;
+		break;
+
+	case GTH_IMAGE_FORMAT_GDK_PIXBUF:
+		local_width = gdk_pixbuf_get_width (image->priv->data.pixbuf);
+		local_height = gdk_pixbuf_get_height (image->priv->data.pixbuf);
+		value_set = TRUE;
+		break;
+
+	case GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION:
+		if (image->priv->data.pixbuf_animation != NULL) {
+			local_width = gdk_pixbuf_animation_get_width (image->priv->data.pixbuf_animation);
+			local_height = gdk_pixbuf_animation_get_width (image->priv->data.pixbuf_animation);
+			value_set = TRUE;
+		}
+		break;
+	}
+
+	return value_set;
 }
 
 
@@ -373,7 +498,8 @@ gth_image_set_icc_profile (GthImage	 *image,
 			   GthICCProfile  profile)
 {
 	_gth_image_free_icc_profile (image);
-	image->priv->icc_profile = profile;
+	if (profile != NULL)
+		image->priv->icc_data = gth_icc_data_new (profile);
 }
 
 
@@ -381,7 +507,7 @@ GthICCProfile
 gth_image_get_icc_profile (GthImage *image)
 {
 	g_return_val_if_fail (image != NULL, NULL);
-	return image->priv->icc_profile;
+	return (image->priv->icc_data != NULL) ? gth_icc_data_get_profile (image->priv->icc_data) : NULL;
 }
 
 
@@ -406,6 +532,7 @@ gth_image_apply_icc_profile (GthImage      *image,
 {
 #if HAVE_LCMS2
 
+	GthICCProfile    image_profile;
 	cmsHTRANSFORM    hTransform;
 	cairo_surface_t *surface;
 	unsigned char   *surface_row;
@@ -414,10 +541,19 @@ gth_image_apply_icc_profile (GthImage      *image,
 	int              row_stride;
 	int              row;
 
+	g_return_if_fail (image != NULL);
+
+	if (out_profile == NULL)
+		return;
+
+	image_profile = gth_image_get_icc_profile (image);
+	if (image_profile == NULL)
+		return;
+
 	if (image->priv->format != GTH_IMAGE_FORMAT_CAIRO_SURFACE)
 		return;
 
-	hTransform = cmsCreateTransform ((cmsHPROFILE) image->priv->icc_profile,
+	hTransform = cmsCreateTransform ((cmsHPROFILE) image_profile,
 					 _LCMS2_CAIRO_FORMAT,
 					 (cmsHPROFILE) out_profile,
 					 _LCMS2_CAIRO_FORMAT,
@@ -474,8 +610,7 @@ _gth_image_apply_icc_profile_thread (GSimpleAsyncResult *result,
 	GError           *error = NULL;
 
 	apd = g_simple_async_result_get_op_res_gpointer (result);
-	if ((apd->image->priv->icc_profile != NULL) && (apd->out_profile != NULL))
-		gth_image_apply_icc_profile (apd->image, apd->out_profile, cancellable);
+	gth_image_apply_icc_profile (apd->image, apd->out_profile, cancellable);
 
 	if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable))
 		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");

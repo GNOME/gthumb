@@ -866,7 +866,7 @@ gth_image_preloader_load_finish (GthImagePreloader	 *self,
 
 void
 gth_image_preloader_set_modified_image (GthImagePreloader *self,
-					cairo_surface_t	  *image)
+					GthImage	  *image)
 {
 	GList     *scan;
 	CacheData *cache_data;
@@ -889,7 +889,7 @@ gth_image_preloader_set_modified_image (GthImagePreloader *self,
 
 	cache_data = cache_data_new ();
 	cache_data->file_data = GTH_MODIFIED_IMAGE;
-	cache_data->image = gth_image_new_for_surface (image);
+	cache_data->image = g_object_ref (image);
 	cache_data->original_width = -1;
 	cache_data->original_height = -1;
 	cache_data->requested_size = -1;

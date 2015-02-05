@@ -88,6 +88,9 @@ GthImage *            gth_image_copy                        (GthImage           
 void                  gth_image_set_cairo_surface           (GthImage           *image,
 						             cairo_surface_t    *value);
 cairo_surface_t *     gth_image_get_cairo_surface           (GthImage           *image);
+gboolean              gth_image_get_original_size	    (GthImage           *image,
+							     int                *width,
+							     int                *height);
 gboolean              gth_image_get_is_zoomable             (GthImage           *image);
 gboolean              gth_image_set_zoom                    (GthImage           *image,
 							     double              zoom,

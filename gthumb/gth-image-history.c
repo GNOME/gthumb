@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include "glib-utils.h"
 #include "gth-image-history.h"
 
 
@@ -33,9 +34,9 @@ G_DEFINE_TYPE (GthImageHistory, gth_image_history, G_TYPE_OBJECT)
 
 
 GthImageData *
-gth_image_data_new (cairo_surface_t *image,
-		    int              requested_size,
-		    gboolean         unsaved)
+gth_image_data_new (GthImage *image,
+		    int       requested_size,
+		    gboolean  unsaved)
 {
 	GthImageData *idata;
 
@@ -44,7 +45,7 @@ gth_image_data_new (cairo_surface_t *image,
 	idata = g_new0 (GthImageData, 1);
 
 	idata->ref = 1;
-	idata->image = cairo_surface_reference (image);
+	idata->image = _g_object_ref (image);
 	idata->requested_size = requested_size;
 	idata->unsaved = unsaved;
 
@@ -68,7 +69,7 @@ gth_image_data_unref (GthImageData *idata)
 
 	idata->ref--;
 	if (idata->ref == 0) {
-		cairo_surface_destroy (idata->image);
+		_g_object_unref (idata->image);
 		g_free (idata);
 	}
 }
@@ -173,7 +174,7 @@ remove_first_image (GList **list)
 
 static GList*
 add_image_to_list (GList           *list,
-		   cairo_surface_t *image,
+		   GthImage	   *image,
 		   int              requested_size,
 		   gboolean         unsaved)
 {
@@ -196,7 +197,7 @@ add_image_to_list (GList           *list,
 
 static void
 add_image_to_undo_history (GthImageHistory *history,
-			   cairo_surface_t *image,
+			   GthImage        *image,
 			   int              requested_size,
 		   	   gboolean         unsaved)
 {
@@ -209,7 +210,7 @@ add_image_to_undo_history (GthImageHistory *history,
 
 static void
 add_image_to_redo_history (GthImageHistory *history,
-			   cairo_surface_t *image,
+			   GthImage        *image,
 			   int              requested_size,
 	   		   gboolean         unsaved)
 {
@@ -222,7 +223,7 @@ add_image_to_redo_history (GthImageHistory *history,
 
 void
 gth_image_history_add_image (GthImageHistory *history,
-			     cairo_surface_t *image,
+			     GthImage        *image,
 			     int              requested_size,
 			     gboolean         unsaved)
 {
@@ -233,6 +234,21 @@ gth_image_history_add_image (GthImageHistory *history,
 	g_signal_emit (G_OBJECT (history),
 		       gth_image_history_signals[CHANGED],
 		       0);
+}
+
+
+void
+gth_image_history_add_surface (GthImageHistory *history,
+			       cairo_surface_t *surface,
+			       int              requested_size,
+			       gboolean         unsaved)
+{
+	GthImage *image;
+
+	image = gth_image_new_for_surface (surface);
+	gth_image_history_add_image (history, image, requested_size, unsaved);
+
+	g_object_unref (image);
 }
 
 

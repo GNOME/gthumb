@@ -70,7 +70,7 @@ gboolean            gth_image_preloader_load_finish    		 (GthImagePreloader		 *
 							  	  int				 *original_height,
 							  	  GError			**error);
 void                gth_image_preloader_set_modified_image	 (GthImagePreloader		 *self,
-								  cairo_surface_t		 *image);
+								  GthImage		 	 *image);
 cairo_surface_t *   gth_image_preloader_get_modified_image	 (GthImagePreloader		 *self);
 void		    gth_image_preloader_clear_cache		 (GthImagePreloader		 *self);
 

@@ -1063,7 +1063,7 @@ preloader_load_ready_cb (GObject	*source_object,
 
 	gth_image_history_clear (self->priv->history);
 	gth_image_history_add_image (self->priv->history,
-				     gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)),
+				     image,
 				     requested_size,
 				     FALSE);
 
@@ -1504,21 +1504,20 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 
 static void
 _gth_image_viewer_page_set_image (GthImageViewerPage *self,
-				  cairo_surface_t    *image,
+				  GthImage           *image,
 				  int                 requested_size,
 				  gboolean            modified)
 {
 	GthFileData *file_data;
 	int          width;
 	int          height;
-	char        *size;
 
 	if (image == NULL)
 		return;
 
 	if (modified)
 		gth_image_preloader_set_modified_image (self->priv->preloader, image);
-	gth_image_viewer_set_surface (GTH_IMAGE_VIEWER (self->priv->viewer), image, -1, -1);
+	gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->viewer), image, -1, -1);
 	gth_image_viewer_set_requested_size (GTH_IMAGE_VIEWER (self->priv->viewer), requested_size);
 
 	file_data = gth_browser_get_current_file (GTH_BROWSER (self->priv->browser));
@@ -1526,20 +1525,35 @@ _gth_image_viewer_page_set_image (GthImageViewerPage *self,
 	self->priv->image_changed = modified;
 	g_file_info_set_attribute_boolean (file_data->info, "gth::file::is-modified", modified);
 
-	if (! _cairo_image_surface_get_original_size (image, &width, &height)) {
-		width = cairo_image_surface_get_width (image);
-		height = cairo_image_surface_get_height (image);
-	}
-	g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
-	g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
+	if (gth_image_get_original_size (image, &width, &height)) {
+		char *size;
 
-	size = g_strdup_printf (_("%d × %d"), width, height);
-	g_file_info_set_attribute_string (file_data->info, "general::dimensions", size);
-	g_free (size);
+		g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
+		g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
+
+		size = g_strdup_printf (_("%d × %d"), width, height);
+		g_file_info_set_attribute_string (file_data->info, "general::dimensions", size);
+		g_free (size);
+	}
 
 	gth_monitor_metadata_changed (gth_main_get_default_monitor (), file_data);
 
 	update_image_quality_if_required (self);
+}
+
+
+static void
+_gth_image_viewer_page_set_surface (GthImageViewerPage *self,
+				    cairo_surface_t    *surface,
+				    int                 requested_size,
+				    gboolean            modified)
+{
+	GthImage *image;
+
+	image = gth_image_new_for_surface (surface);
+	_gth_image_viewer_page_set_image (self, image, requested_size, modified);
+
+	g_object_unref (image);
 }
 
 
@@ -1729,9 +1743,9 @@ gth_image_viewer_page_set_image (GthImageViewerPage *self,
 		return;
 
 	if (add_to_history)
-		gth_image_history_add_image (self->priv->history, image, -1, TRUE);
+		gth_image_history_add_surface (self->priv->history, image, -1, TRUE);
 
-	_gth_image_viewer_page_set_image (self, image, -1, TRUE);
+	_gth_image_viewer_page_set_surface (self, image, -1, TRUE);
 
 	if (add_to_history)
 		gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
@@ -2095,6 +2109,15 @@ gth_image_viewer_page_apply_icc_profile	(GthImageViewerPage *self,
 	gth_image_preloader_clear_cache (self->priv->preloader);
 
 	file_data = gth_browser_get_current_file (self->priv->browser);
-	if (file_data != NULL)
-		_gth_image_viewer_page_load (self, file_data);
+	if (file_data == NULL)
+		return;
+
+	/* force a complete reload */
+	_g_object_unref (self->priv->last_loaded);
+	self->priv->last_loaded = NULL;
+
+	g_object_ref (file_data);
+	_gth_image_viewer_page_load (self, file_data);
+
+	g_object_unref (file_data);
 }

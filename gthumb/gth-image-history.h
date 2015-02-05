@@ -25,6 +25,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <cairo.h>
+#include "gth-image.h"
 
 G_BEGIN_DECLS
 
@@ -40,10 +41,10 @@ typedef struct _GthImageHistoryPrivate GthImageHistoryPrivate;
 typedef struct _GthImageHistoryClass   GthImageHistoryClass;
 
 typedef struct {
-	int              ref;
-	cairo_surface_t *image;
-	int              requested_size;
-	gboolean         unsaved;
+	int       ref;
+	GthImage *image;
+	int       requested_size;
+	gboolean  unsaved;
 } GthImageData;
 
 struct _GthImageHistory {
@@ -59,26 +60,30 @@ struct _GthImageHistoryClass {
 	void (*changed) (GthImageHistory *image_history);
 };
 
-GthImageData *    gth_image_data_new           (cairo_surface_t *image,
-						int              requested_size,
-						gboolean         unsaved);
-GthImageData *    gth_image_data_ref           (GthImageData    *idata);
-void              gth_image_data_unref         (GthImageData    *idata);
-void              gth_image_data_list_free     (GList           *list);
+GthImageData *    gth_image_data_new		(GthImage        *image,
+						 int              requested_size,
+						 gboolean         unsaved);
+GthImageData *    gth_image_data_ref		(GthImageData    *idata);
+void              gth_image_data_unref		(GthImageData    *idata);
+void              gth_image_data_list_free	(GList           *list);
 
-GType             gth_image_history_get_type   (void);
-GthImageHistory * gth_image_history_new        (void);
-void              gth_image_history_add_image  (GthImageHistory *history,
-						cairo_surface_t *image,
-						int              requested_size,
-						gboolean         unsaved);
-GthImageData *    gth_image_history_undo       (GthImageHistory *history);
-GthImageData *    gth_image_history_redo       (GthImageHistory *history);
-void              gth_image_history_clear      (GthImageHistory *history);
-gboolean          gth_image_history_can_undo   (GthImageHistory *history);
-gboolean          gth_image_history_can_redo   (GthImageHistory *history);
-GthImageData *    gth_image_history_revert     (GthImageHistory *history);
-GthImageData *    gth_image_history_get_last   (GthImageHistory *history);
+GType             gth_image_history_get_type	(void);
+GthImageHistory * gth_image_history_new		(void);
+void              gth_image_history_add_image	(GthImageHistory *history,
+						 GthImage	 *image,
+						 int              requested_size,
+						 gboolean         unsaved);
+void              gth_image_history_add_surface	(GthImageHistory *history,
+						 cairo_surface_t *image,
+						 int              requested_size,
+						 gboolean         unsaved);
+GthImageData *    gth_image_history_undo	(GthImageHistory *history);
+GthImageData *    gth_image_history_redo	(GthImageHistory *history);
+void              gth_image_history_clear	(GthImageHistory *history);
+gboolean          gth_image_history_can_undo	(GthImageHistory *history);
+gboolean          gth_image_history_can_redo	(GthImageHistory *history);
+GthImageData *    gth_image_history_revert	(GthImageHistory *history);
+GthImageData *    gth_image_history_get_last	(GthImageHistory *history);
 
 G_END_DECLS
 
