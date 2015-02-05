@@ -252,7 +252,7 @@ adjust_contrast_exec (GthAsyncTask *task,
 	unsigned char   *p_destination;
 	gboolean         cancelled;
 	double           progress;
-	int              x, y;
+	int              x, y, temp;
 	unsigned char    red, green, blue, alpha;
 
 	/* initialize the extra data */

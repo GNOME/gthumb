@@ -24,6 +24,7 @@
 
 #include <config.h>
 #include <glib.h>
+#include "cairo-utils.h"
 
 /* Optimizations taken from xcftools 1.0.7 written by Henning Makholm
  *
@@ -33,9 +34,7 @@
  * */
 
 #define ADD_ALPHA(v, a)			(add_alpha_table[v][a])
-#define CLAMP_TEMP(x, min, max)		(temp = (x), CLAMP (temp, min, max))
 #define ABS_TEMP2(x)			(temp2 = (x), (temp2 < 0) ? -temp2: temp2)
-#define CLAMP_PIXEL(x)			CLAMP_TEMP (x, 0, 255)
 #define GIMP_OP_NORMAL(xL, xI, aL)	CLAMP_PIXEL (ADD_ALPHA (xL, aL) + ADD_ALPHA (xI, 255 - aL))
 #define GIMP_OP_LIGHTEN_ONLY(xL, xI)	MAX (xI, xL)
 #define GIMP_OP_SCREEN(xL, xI)		CLAMP_PIXEL (255 ^ ADD_ALPHA (255 - xI, 255 - xL))

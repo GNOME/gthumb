@@ -115,7 +115,7 @@ adjust_colors_exec (GthAsyncTask *task,
 	unsigned char   *p_destination;
 	gboolean         cancelled;
 	double           progress;
-	int              x, y;
+	int              x, y, temp;
 	unsigned char    values[4];
 	int              channel;
 	unsigned char    value;

@@ -36,7 +36,7 @@ cairo_image_surface_apply_curves (cairo_surface_t  *source,
 	int              height;
 	int              source_stride;
 	unsigned char   *p_source_line;
-	int              x, y;
+	int              x, y, temp;
 	gboolean         cancelled = FALSE;
 	double           progress;
 	unsigned char   *p_source;

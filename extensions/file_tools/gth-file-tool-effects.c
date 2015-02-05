@@ -809,12 +809,11 @@ blurred_edges_exec (GthAsyncTask *task,
 	unsigned char   *p_source_line;
 	unsigned char   *p_destination_line;
 	unsigned char   *p_blurred_line;
-	int              x, y;
+	int              x, y, temp;
 	double           progress;
 	unsigned char   *p_source;
 	unsigned char   *p_destination;
 	unsigned char   *p_blurred;
-	unsigned char    temp;
 	unsigned char    image_red, image_green, image_blue, image_alpha;
 	unsigned char    layer_red, layer_green, layer_blue, layer_alpha;
 	gboolean         cancelled = FALSE;

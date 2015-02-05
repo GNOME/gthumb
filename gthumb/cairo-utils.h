@@ -29,7 +29,9 @@
 #include "typedefs.h"
 
 
-#define CAIRO_MAX_IMAGE_SIZE 32767
+#define CAIRO_MAX_IMAGE_SIZE    32767
+#define CLAMP_TEMP(x, min, max) (temp = (x), CLAMP (temp, min, max))
+#define CLAMP_PIXEL(x)          CLAMP_TEMP (x, 0, 255)
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
 
@@ -72,9 +74,9 @@
 		}								\
 		else {								\
 			double factor = (double) pixel[CAIRO_ALPHA] / 0xff;	\
-			pixel[CAIRO_RED] = factor * (red);			\
-			pixel[CAIRO_GREEN] = factor * (green);			\
-			pixel[CAIRO_BLUE] = factor * (blue);			\
+			pixel[CAIRO_RED] = CLAMP_PIXEL (factor * (red));	\
+			pixel[CAIRO_GREEN] = CLAMP_PIXEL (factor * (green));	\
+			pixel[CAIRO_BLUE] = CLAMP_PIXEL (factor * (blue));	\
 		}								\
 	} G_STMT_END
 
@@ -95,9 +97,9 @@
 		}								\
 		else {								\
 			double factor = (double) 0xff / alpha;			\
-			red = factor * pixel[CAIRO_RED];			\
-			green = factor * pixel[CAIRO_GREEN];			\
-			blue = factor * pixel[CAIRO_BLUE];			\
+			red = CLAMP_PIXEL (factor * pixel[CAIRO_RED]);		\
+			green = CLAMP_PIXEL (factor * pixel[CAIRO_GREEN]);	\
+			blue = CLAMP_PIXEL (factor * pixel[CAIRO_BLUE]);	\
 		}								\
 	} G_STMT_END
 

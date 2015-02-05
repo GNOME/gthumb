@@ -144,7 +144,7 @@ gth_histogram_calculate_for_image (GthHistogram    *self,
 	int      width, height, has_alpha;
 	int      rowstride;
 	guchar  *line, *pixel;
-	int      i, j, value;
+	int      i, j, value, temp;
 	guchar   red, green, blue, alpha;
 
 	g_return_if_fail (GTH_IS_HISTOGRAM (self));
