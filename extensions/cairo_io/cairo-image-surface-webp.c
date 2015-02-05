@@ -81,7 +81,7 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	metadata = _cairo_image_surface_get_metadata (surface);
-	metadata->has_alpha = (config.input.has_alpha);
+	_cairo_metadata_set_has_alpha (metadata, config.input.has_alpha);
 
 	config.options.no_fancy_upsampling = 1;
 

@@ -533,10 +533,8 @@ _cairo_image_surface_scale (cairo_surface_t  *image,
 					      scaled_height);
 	_cairo_image_surface_copy_metadata (image, scaled);
 	metadata = _cairo_image_surface_get_metadata (scaled);
-	if (metadata->original_width <= 0) {
-		metadata->original_width = src_width;
-		metadata->original_height = src_height;
-	}
+	if (metadata->original_width <= 0)
+		_cairo_metadata_set_original_size (metadata, src_width, src_height);
 
 	if (scaled == NULL)
 		return NULL;

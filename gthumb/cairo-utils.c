@@ -100,6 +100,37 @@ _gdk_rgba_to_cairo_color_255 (GdkRGBA           *g_color,
 
 
 void
+_cairo_metadata_set_has_alpha (cairo_surface_metadata_t	*metadata,
+			       gboolean                  has_alpha)
+{
+	metadata->valid_data |= _CAIRO_METADATA_FLAG_HAS_ALPHA;
+	metadata->has_alpha = has_alpha;
+}
+
+
+void
+_cairo_metadata_set_original_size (cairo_surface_metadata_t *metadata,
+				   int                       width,
+				   int                       height)
+{
+	metadata->valid_data |= _CAIRO_METADATA_FLAG_ORIGINAL_SIZE;
+	metadata->original_width = width;
+	metadata->original_height = height;
+}
+
+
+void
+_cairo_metadata_set_thumbnail_size (cairo_surface_metadata_t *metadata,
+				    int                       width,
+				    int                       height)
+{
+	metadata->valid_data |= _CAIRO_METADATA_FLAG_THUMBNAIL_SIZE;
+	metadata->thumbnail.image_width = width;
+	metadata->thumbnail.image_height = height;
+}
+
+
+void
 _cairo_clear_surface (cairo_surface_t  **surface)
 {
 	if (surface == NULL)
@@ -123,6 +154,7 @@ _cairo_image_surface_flush_and_get_data (cairo_surface_t *surface)
 static void
 _cairo_surface_metadata_init (cairo_surface_metadata_t *metadata)
 {
+	metadata->valid_data = _CAIRO_METADATA_FLAG_NONE;
 	metadata->has_alpha = FALSE;
 	metadata->original_width = 0;
 	metadata->original_height = 0;
@@ -157,6 +189,7 @@ _cairo_image_surface_copy_metadata (cairo_surface_t *src,
 	src_metadata = _cairo_image_surface_get_metadata (src);
 	dest_metadata = _cairo_image_surface_get_metadata (dest);
 
+	dest_metadata->valid_data = src_metadata->valid_data;
 	dest_metadata->has_alpha = src_metadata->has_alpha;
 	dest_metadata->original_width = src_metadata->original_width;
 	dest_metadata->original_height = src_metadata->original_height;
@@ -180,15 +213,40 @@ gboolean
 _cairo_image_surface_get_has_alpha (cairo_surface_t *surface)
 {
 	cairo_surface_metadata_t *metadata;
+	int                       width;
+	int                       height;
+	int                       row_stride;
+	guchar                   *row;
+	int                       h, w;
 
 	if (surface == NULL)
 		return FALSE;
 
 	metadata = cairo_surface_get_user_data (surface, &surface_metadata_key);
-	if (metadata != NULL)
+	if ((metadata != NULL) && (metadata->valid_data & _CAIRO_METADATA_FLAG_HAS_ALPHA))
 		return metadata->has_alpha;
 
-	return cairo_image_surface_get_format (surface) == CAIRO_FORMAT_ARGB32;
+	if (cairo_image_surface_get_format (surface) != CAIRO_FORMAT_ARGB32)
+		return FALSE;
+
+	/* search an alpha value lower than 255 */
+
+	width = cairo_image_surface_get_width (surface);
+	height = cairo_image_surface_get_height (surface);
+	row_stride = cairo_image_surface_get_stride (surface);
+	row = _cairo_image_surface_flush_and_get_data (surface);
+
+	for (h = 0; h < height; h++) {
+		guchar *pixel = row;
+		for (w = 0; w < width; w++) {
+			if (pixel[CAIRO_ALPHA] < 255)
+				return TRUE;
+			pixel += 4;
+		}
+		row += row_stride;
+	}
+
+	return FALSE;
 }
 
 
@@ -206,7 +264,7 @@ _cairo_image_surface_get_original_size (cairo_surface_t *surface,
 	if (metadata == NULL)
 		return FALSE;
 
-	if ((metadata->original_width <= 0) || (metadata->original_height <= 0))
+	if ((metadata->valid_data & _CAIRO_METADATA_FLAG_ORIGINAL_SIZE) == 0)
 		return FALSE;
 
 	if (original_width)
@@ -339,7 +397,7 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 	s_pixels = _cairo_image_surface_flush_and_get_data (surface);
 
 	metadata = _cairo_image_surface_get_metadata (surface);
-	metadata->has_alpha = (p_n_channels == 4);
+	_cairo_metadata_set_has_alpha (metadata, (p_n_channels == 4));
 
 	if (p_n_channels == 4) {
 		guchar *s_iter;

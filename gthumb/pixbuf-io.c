@@ -214,9 +214,8 @@ gth_pixbuf_new_from_file (GInputStream  *istream,
 
 		surface = _cairo_image_surface_create_from_pixbuf (pixbuf);
 		metadata = _cairo_image_surface_get_metadata (surface);
-		metadata->original_width = scale_data.original_width;
-		metadata->original_height = scale_data.original_height;
-		metadata->has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
+		_cairo_metadata_set_has_alpha (metadata, gdk_pixbuf_get_has_alpha (pixbuf));
+		_cairo_metadata_set_original_size (metadata, scale_data.original_width, scale_data.original_height);
 		gth_image_set_cairo_surface (image, surface);
 	}
 

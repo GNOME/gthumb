@@ -250,9 +250,8 @@ _cairo_image_surface_create_from_tiff (GInputStream  *istream,
 	}
 
 	metadata = _cairo_image_surface_get_metadata (surface);
-	metadata->has_alpha = (extrasamples == 1) || (spp == 4);
-	metadata->original_width = max_width;
-	metadata->original_width = max_height;
+	_cairo_metadata_set_has_alpha (metadata, (extrasamples == 1) || (spp == 4));
+	_cairo_metadata_set_original_size (metadata, max_width, max_height);
 
 	raster = (uint32*) _TIFFmalloc (image_width * image_height * sizeof (uint32));
 	if (raster == NULL) {

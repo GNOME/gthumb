@@ -283,7 +283,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	}
 
 	metadata = _cairo_image_surface_get_metadata (surface);
-	metadata->has_alpha = FALSE;
+	_cairo_metadata_set_has_alpha (metadata, FALSE);
 	surface_data = _cairo_image_surface_flush_and_get_data (surface);
 	surface_row = surface_data + line_start;
 
@@ -554,8 +554,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 			original_height = srcinfo.image_height;
 		}
 
-		metadata->original_width = original_width;
-		metadata->original_height = original_height;
+		_cairo_metadata_set_original_size (metadata, original_width, original_height);
 
 		if (original_width_p != NULL)
 			*original_width_p = original_width;

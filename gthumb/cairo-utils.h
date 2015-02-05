@@ -135,7 +135,15 @@ typedef struct {
 	int image_height;
 } thumbnail_metadata_t;
 
+typedef enum {
+	_CAIRO_METADATA_FLAG_NONE = 0,
+	_CAIRO_METADATA_FLAG_HAS_ALPHA = 1 << 0,
+	_CAIRO_METADATA_FLAG_ORIGINAL_SIZE = 1 << 1,
+	_CAIRO_METADATA_FLAG_THUMBNAIL_SIZE = 1 << 2
+} cairo_metadata_flags_t;
+
 typedef struct {
+	cairo_metadata_flags_t  valid_data;
 	gboolean		has_alpha;
 	int			original_width;
 	int			original_height;
@@ -160,6 +168,17 @@ void               _gdk_color_to_cairo_color_255            (GdkColor           
 			         	 	 	     cairo_color_255_t     *c_color);
 void               _gdk_rgba_to_cairo_color_255             (GdkRGBA               *g_color,
 			         	 	 	     cairo_color_255_t     *c_color);
+
+/* metadata */
+
+void               _cairo_metadata_set_has_alpha            (cairo_surface_metadata_t	*metadata,
+							     gboolean                    has_alpha);
+void               _cairo_metadata_set_original_size        (cairo_surface_metadata_t	*metadata,
+							     int                         width,
+							     int                         height);
+void               _cairo_metadata_set_thumbnail_size       (cairo_surface_metadata_t	*metadata,
+							     int                         width,
+							     int                         height);
 
 /* surface */
 

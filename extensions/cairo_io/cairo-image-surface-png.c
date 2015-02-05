@@ -204,9 +204,8 @@ _cairo_image_surface_create_from_png (GInputStream  *istream,
 	}
 
 	metadata = _cairo_image_surface_get_metadata (cairo_png_data->surface);
-	metadata->has_alpha = (color_type & PNG_COLOR_MASK_ALPHA);
-	metadata->original_width = width;
-	metadata->original_height = height;
+	_cairo_metadata_set_has_alpha (metadata, (color_type & PNG_COLOR_MASK_ALPHA));
+	_cairo_metadata_set_original_size (metadata, width, height);
 
 	/* Set the data transformations */
 
