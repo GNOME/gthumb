@@ -29,7 +29,6 @@
 #include "glib-utils.h"
 
 
-#define CLAMP_PIXEL(v) (((v) <= 0) ? 0  : ((v) >= 255) ? 255 : (v));
 #define EPSILON ((ScaleReal) 1.0e-16)
 
 
@@ -409,6 +408,7 @@ horizontal_scale_transpose (cairo_surface_t *image,
 		int        n;
 		int        x;
 		int        i;
+		int        temp;
 #ifdef HAVE_VECTOR_OPERATIONS
 		r4vector   v_pixel, v_rgba;
 #endif /* HAVE_VECTOR_OPERATIONS */
