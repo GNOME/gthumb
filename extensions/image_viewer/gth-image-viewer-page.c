@@ -33,6 +33,7 @@
 #define N_HEADER_BAR_BUTTONS 4
 #define HIDE_OVERVIEW_TIMEOUT 2 /* in seconds */
 #define OVERLAY_MARGIN 10
+#define APPLY_ICC_PROFILE_BUTTON 3
 #undef ALWAYS_LOAD_ORIGINAL_SIZE
 
 
@@ -858,7 +859,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 							   _("Fit to width"),
 							   "win.image-zoom-fit-width",
 							   NULL);
-	self->priv->buttons[3] =
+	self->priv->buttons[APPLY_ICC_PROFILE_BUTTON] =
 			gth_browser_add_header_bar_toggle_button (browser,
 							   	  GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS,
 								  "color-profile",
@@ -1254,7 +1255,7 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-width", zoom_enabled && (fit_mode != GTH_FIT_WIDTH));
 
 	image = gth_image_viewer_get_image (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gtk_widget_set_visible (self->priv->buttons[3], (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
+	gtk_widget_set_visible (self->priv->buttons[APPLY_ICC_PROFILE_BUTTON], (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "apply-icc-profile", (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
 
 	_gth_image_viewer_page_update_paste_command_sensitivity (self, NULL);
