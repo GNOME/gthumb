@@ -361,6 +361,9 @@ gth_image_get_original_size (GthImage *image,
 			value_set = TRUE;
 		}
 		break;
+
+	default:
+		break;
 	}
 
 	return value_set;
