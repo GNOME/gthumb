@@ -4,23 +4,24 @@
 #
 # Mikel Olasagasti <hey_neken@mundurat.net>, 2003.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2004, 2005, 2006, 2007, 2008, 2010.
-# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2014.
+# Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2014, 2015.
+# Edurne Labaka <elabaka@uzei.com>, 2015.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb gthumb-3-2\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-05-31 14:45+0200\n"
-"PO-Revision-Date: 2014-05-31 15:02+0200\n"
+"POT-Creation-Date: 2015-02-07 17:20+0100\n"
+"PO-Revision-Date: 2014-11-18 17:26+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
-"Language-Team: Basque <itzulpena@euskalgnu.org>\n"
+"Language-Team: Basque <librezale@librezale.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Poedit 1.6.10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"\n"
 
 #: ../copy-n-paste/eggdesktopfile.c:165
 #, c-format
@@ -634,7 +635,7 @@ msgstr "Opti_mizatu"
 
 #: ../extensions/cairo_io/data/ui/jpeg-options.ui.h:5
 msgid "_Progressive"
-msgstr "_Piskanaka"
+msgstr "_Pixkanaka"
 
 #: ../extensions/cairo_io/data/ui/png-options.ui.h:1
 msgid "Compression _level:"
@@ -958,7 +959,7 @@ msgstr "_Azpikarpetak barne"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:4
 msgid "Ignore catalogs with a single file"
-msgstr "Ezikusi egin fitxategi bakarreko katalogoei"
+msgstr "Ez ikusi egin fitxategi bakarreko katalogoei"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:5
 msgid "Put single files in the catalog:"
@@ -1143,7 +1144,7 @@ msgstr "minutu"
 #: ../extensions/change_date/data/ui/change-date.ui.h:15
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:6
 msgid "seconds"
-msgstr "segundu"
+msgstr "segundo"
 
 #: ../extensions/comments/callbacks.c:46
 msgid "Import Embedded Metadata"
@@ -1579,12 +1580,11 @@ msgid ""
 "Are you sure you want to permanently delete the metadata of the selected "
 "files?"
 msgstr ""
-"Ziur zaude hautatutako fitxategien metadatuak betirako ezabatzea nahi "
-"dituzula?"
+"Ziur zaude hautatutako fitxategien metadatuak betiko ezabatzea nahi duzula?"
 
 #: ../extensions/edit_metadata/actions.c:73
 msgid "If you delete the metadata, it will be permanently lost."
-msgstr "Metadatuak ezabatzen badituzu, betirako galduko dira."
+msgstr "Metadatuak ezabatzen badituzu, betiko galduko dira."
 
 #: ../extensions/edit_metadata/callbacks.c:97
 msgid "T_ags"
@@ -2158,7 +2158,7 @@ msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
 msgstr ""
-"Karpeta ez dago hutsik. Nahi duzu karpeta eta bere edukia betirako ezabatzea?"
+"Karpeta ez dago hutsik. Nahi duzu karpeta eta bere edukia betiko ezabatzea?"
 
 #: ../extensions/file_manager/actions.c:712
 msgid "Could not delete the folder"
@@ -2168,7 +2168,7 @@ msgstr "Ezin izan da karpeta ezabatu"
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
-msgstr "Karpeta ezin da zakarrontzira bota. Betirako ezabatu nahi dituzu?"
+msgstr "Karpeta ezin da zakarrontzira bota. Betiko ezabatu nahi duzu?"
 
 #: ../extensions/file_manager/actions.c:780
 msgid "Could not move the folder to the Trash"
@@ -2178,12 +2178,12 @@ msgstr "Ezin izan da karpeta zakarrontzira bota"
 #: ../gthumb/gth-file-source-vfs.c:841
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
-msgstr "Ziur zaude \"%s\" betirako ezabatzea nahi duzula?"
+msgstr "Ziur zaude \"%s\" betiko ezabatu nahi duzula?"
 
 #: ../extensions/file_manager/actions.c:826
 #: ../gthumb/gth-file-source-vfs.c:854
 msgid "If you delete a file, it will be permanently lost."
-msgstr "Fitxategi bat ezabatzen baduzu, betirako galduko da."
+msgstr "Fitxategi bat ezabatzen baduzu, betiko galduko da."
 
 #: ../extensions/file_manager/actions.c:919
 msgid "Move To"
@@ -2682,7 +2682,7 @@ msgstr "Moztu"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:45
 msgid "Equalizing image histogram"
-msgstr "Iudiaren histograma berdintzen"
+msgstr "Irudiaren histograma berdintzen"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:230
 msgid "Equalize"
@@ -2756,7 +2756,7 @@ msgstr "Biratu ezkerrera"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:88
 msgid "Rotate the image by 90 degrees counterclockwise"
-msgstr "Biratu irudia 90 gradu ordulariaren aurkako norantzan"
+msgstr "Biratu irudia 90 gradu ordulariaren aurkako noranzkoan"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:87
 #: ../extensions/image_rotation/callbacks.c:49
@@ -2765,7 +2765,7 @@ msgstr "Biratu eskuinera"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:88
 msgid "Rotate the image by 90 degrees clockwise"
-msgstr "Biratu irudia 90 gradu ordulariaren norantzan"
+msgstr "Biratu irudia 90 gradu ordulariaren noranzkoan"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:70
 msgid "Save As"
@@ -3283,7 +3283,7 @@ msgstr "Irudiaren inprimaketa"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:2
 msgid "Allow to print images choosing the page layout."
-msgstr "Baimendu irudiak inprimatzea orriaren diseinua aukeratzuz."
+msgstr "Baimendu irudiak inprimatzea orriaren diseinua aukeratuz."
 
 #: ../extensions/image_print/preferences.c:79
 msgid "Print"
@@ -3349,11 +3349,11 @@ msgstr ""
 "Eraldaketa honek irudiaren distortsio txiki batzuk sor ditzake ertz bat edo "
 "gehiagotan, irudiaren dimentsioa ez delako 8ren multiploa.\n"
 "\n"
-"Hala ere, distortsioa itzulgarria da. Emaitzeko irudia onarkaitza bada, "
+"Hala ere, distortsioa itzulgarria da. Emaitza-irudia onargaitza bada, "
 "aplikatu alderantzizko eraldaketa jatorrizko irudira itzultzeko.\n"
 "\n"
 "Eraldatu ezin diren ertzeko pixelak bazter (edo gainerakoa ezaba) ditzakezu. "
-"Modu honek itxuraren emaitzik hoberena eskaintzen du, baina eraldaketa ez da "
+"Modu honek itxuraren emaitzarik onena eskaintzen du, baina eraldaketa ez da "
 "galerarik gabekoa izango."
 
 #: ../extensions/image_rotation/rotation-utils.c:116
@@ -3863,7 +3863,7 @@ msgstr "Igo argazkiak PhotoBucket webgunera"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
 msgid "_Scramble filenames"
-msgstr "_Nahastu fitxategi-izenak"
+msgstr "_Nahasi fitxategi-izenak"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
 msgid "Tiny ( 100 x 75 )"
@@ -4791,10 +4791,10 @@ msgid ""
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
-"gThumb erabilgarria izango delakoan banatzen da, baina INOLAKO "
-"BERMERIK GABE; era berean, ez da bermatzen beraren EGOKITASUNA "
-"MERKATURATZEKO edo HELBURU PARTIKULARRETARAKO ERABILTZEKO. Argibide gehiago "
-"nahi izanez gero, ikus GNU Lizentzia Publiko Orokorra."
+"gThumb erabilgarria izango delakoan banatzen da, baina INOLAKO BERMERIK "
+"GABE; era berean, ez da bermatzen beraren EGOKITASUNA MERKATURATZEKO edo "
+"HELBURU PARTIKULARRETARAKO ERABILTZEKO. Argibide gehiago nahi izanez gero, "
+"ikus GNU Lizentzia Publiko Orokorra."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:422
 msgid ""
@@ -5056,7 +5056,7 @@ msgstr "Gorde aldaketak '%s' fitxategian?"
 
 #: ../gthumb/gth-browser.c:2225
 msgid "If you don't save, changes to the file will be permanently lost."
-msgstr "Ez baduzu gordetzen, fitxategiaren aldaketak betirako galduko dira."
+msgstr "Ez baduzu gordetzen, fitxategiaren aldaketak betiko galduko dira."
 
 #: ../gthumb/gth-browser.c:2226
 msgid "Do _Not Save"
@@ -5100,7 +5100,7 @@ msgstr "'%2$s' hedapenak '%1$s' hedapena behar du"
 
 #: ../gthumb/gth-file-chooser-dialog.c:144
 msgid "All Supported Files"
-msgstr "Onarttutako fitxategi denak"
+msgstr "Onartutako fitxategi denak"
 
 #: ../gthumb/gth-file-source-vfs.c:121
 msgid "Home Folder"
@@ -5114,8 +5114,7 @@ msgstr "Fitxategi-sistema"
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr ""
-"Fitxategiak ezin dira zakarrontzira bota. Betirako ezabatu nahi dituzu?"
+msgstr "Fitxategiak ezin dira zakarrontzira bota. Betiko ezabatu nahi dituzu?"
 
 #: ../gthumb/gth-file-source-vfs.c:750
 msgid "Could not move the files to the Trash"
@@ -5140,10 +5139,9 @@ msgstr[1] ""
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %'d selected files?"
-msgstr[0] ""
-"Ziur zaude hautatutako fitxategi %'d betirako ezabatzea nahi duzula?"
+msgstr[0] "Ziur zaude hautatutako fitxategi %'d betiko ezabatzea nahi duzula?"
 msgstr[1] ""
-"Ziur zaude hautatutako %'d fitxategi betirako ezabatzea nahi dituzula?"
+"Ziur zaude hautatutako %'d fitxategi betiko ezabatzea nahi dituzula?"
 
 #: ../gthumb/gth-filterbar.c:413
 msgid "Hide the filterbar"
@@ -5365,7 +5363,7 @@ msgstr "GNOME"
 
 #: ../gthumb/gth-tags-file.c:242
 msgid "Games"
-msgstr "Jokuak"
+msgstr "Jokoak"
 
 #: ../gthumb/gth-tags-file.c:243
 msgid "Party"
