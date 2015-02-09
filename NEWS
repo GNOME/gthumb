@@ -1,3 +1,50 @@
+version 3.3.3
+-------------
+
+ New features and user visible changes:
+
+  * Allow to apply the embedded color profile for jpeg images.
+  * New image tools: special effects; curves.
+  * Unified 'equalize histogram' and 'adjust contrast': show a preview of the
+    various contrast filters.
+  * Grayscale tool: show a preview of the different filters.
+  * Fixed the interface style when used with gtk+ 3.14
+  * File propery view: use a switcher; added a details page that show all the
+    metadata, show only the important exif fields in the properties page.
+  * UI changes to the preferences dialog: use a sidebar instead of a notebook
+    to avoid a large dialog with some translations; better spacing; removed
+    the Ok button.
+  * Video player: save the screenshot without showing the dialog. Allow to set
+    the screenshots location in the extension preferences dialog. Show a message
+    in the statusbar after saving.
+  * Gear menu: use the new icon if using gtk+ 3.13 or newer
+
+ Bugs fixed:
+
+  * video player: do not hide the mediabar when using the volume control
+  * Forbidden when trying to upload to Flickr (#732557)
+  * Build against either webkit2gtk-3.0 or webkit2gtk-4.0 (Dominique Leuenberger)
+
+ New or updated application translations:
+
+  * Basque (Iñaki Larrañaga Murgoitio)
+  * Brazilian Portuguese (Rafael Ferreira)
+  * Chinese/Traditional (Cheng-Chia Tseng)
+  * Czech (Marek Černocký)
+  * Español; Castellano (Daniel Mustieles)
+  * Finnish (Lasse Liehu)
+  * Hungarian (Balázs Úr)
+  * Indonesian (Andika Triwidada)
+  * Polish (Piotr Drąg)
+  * Serbian (Мирослав Николић)
+  * Serbian (Miroslav Nikolić)
+  * Swedish (Daniel Nylander)
+  * עברית (Yosef Or Boczko)
+
+ New or updated manual translations:
+
+  * čeština (Marek Černocký)
+
 version 3.3.2
 -------------
 
@@ -61,13 +108,13 @@ version 3.3.1
   * Use a GtkHeaderBar instead of a menu and a toolbar.
   * Use the dark theme.
   * Better raw image support, using libraw instead of libopenraw.
-  * Image viewer: show a frame around the image; use an overview 
-    window to scroll the image instead of the scrollbars; 
+  * Image viewer: show a frame around the image; use an overview
+    window to scroll the image instead of the scrollbars;
     better quality for zoomed out images.
   * Faster image loader for big images.
   * Media player: hide the mediabar after a timeout.
   * Filterbar: added buttons to view the selections.
-  * File properties: show only the basic properties, allow to 
+  * File properties: show only the basic properties, allow to
     show all of them.
   * Image tools: use a grid layout for the buttons
   * Use a separate dialog for the file tool options.
