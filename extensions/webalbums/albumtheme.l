@@ -30,6 +30,9 @@ GFileInputStream *yy_istream;
 	result = (n <= 0 ? YY_NULL : n);								\
 }
 
+#undef YY_FATAL_ERROR
+#define YY_FATAL_ERROR(msg) gth_albumtheme_yyfatalerror(msg)
+
 static int before_string = 0; /* the start condition before entering in STRING */
 
 %}
@@ -75,7 +78,7 @@ string           [^']*
 					return PRINT;
 				}
 <FUNCTION>{attribute_name}	{
-					if (g_str_equal (yytext, "eval") || g_str_equal (yytext, "translate")) 
+					if (g_str_equal (yytext, "eval") || g_str_equal (yytext, "translate"))
 						BEGIN (CONDITION);
 					else
 						BEGIN (ATTRIBUTES);
@@ -175,7 +178,7 @@ string           [^']*
 				}
 <QUOTE,CONDITION>".."		{
 					return RANGE;
-				}				
+				}
 <QUOTE,CONDITION>"in"		{
 					return IN;
 				}
@@ -186,7 +189,7 @@ string           [^']*
 <QUOTE,CONDITION>{name}		{
 					yylval.text = g_strdup (yytext);
 					return VARIABLE;
-				}		
+				}
 <ATTRIBUTES,QUOTE,CONDITION>[ \t\n]	{
 					/* Eat spaces inside tag. */
 				}

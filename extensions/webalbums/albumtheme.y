@@ -26,6 +26,7 @@
 
 int   gth_albumtheme_yylex   (void);
 void  gth_albumtheme_yyerror (const char *fmt, ...);
+void  gth_albumtheme_yyfatalerror (const char *msg);
 int   gth_albumtheme_yywrap  (void);
 
 #define YY_NO_UNPUT
@@ -460,5 +461,11 @@ gth_albumtheme_yyerror (const char *fmt, ...)
 	va_end (ap);
 }
 
+
+void
+gth_albumtheme_yyfatalerror (const char *msg)
+{
+	g_error ("%s", msg);
+}
 
 #include "albumtheme-lex.c"
