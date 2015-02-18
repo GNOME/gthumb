@@ -1697,6 +1697,11 @@ update_thumbs_stopped (gpointer callback_data)
 {
 	GthFileList *file_list = callback_data;
 
+	if (file_list->priv->update_event != 0) {
+		g_source_remove (file_list->priv->update_event);
+		file_list->priv->update_event = 0;
+	}
+
 	file_list->priv->loading_thumbs = FALSE;
 	_gth_file_list_exec_next_op (file_list);
 

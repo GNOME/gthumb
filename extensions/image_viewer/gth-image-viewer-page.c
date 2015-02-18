@@ -386,13 +386,14 @@ update_overview_visibility_now (gpointer user_data)
 	gboolean            revealed;
 
 	self = GTH_IMAGE_VIEWER_PAGE (user_data);
-	if (! self->priv->active)
-		return FALSE;
 
 	if (self->priv->update_visibility_id != 0) {
 		g_source_remove (self->priv->update_visibility_id);
 		self->priv->update_visibility_id = 0;
 	}
+
+	if (! self->priv->active)
+		return FALSE;
 
 	overview_visible = self->priv->pointer_on_overview || (self->priv->pointer_on_viewer && gth_image_viewer_has_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer)));
 	gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->overview_revealer), overview_visible);
