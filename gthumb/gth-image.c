@@ -538,11 +538,6 @@ gth_image_apply_icc_profile (GthImage      *image,
 	GthICCProfile    image_profile;
 	cmsHTRANSFORM    hTransform;
 	cairo_surface_t *surface;
-	unsigned char   *surface_row;
-	int              width;
-	int              height;
-	int              row_stride;
-	int              row;
 
 	g_return_if_fail (image != NULL);
 
@@ -556,30 +551,39 @@ gth_image_apply_icc_profile (GthImage      *image,
 	if (image->priv->format != GTH_IMAGE_FORMAT_CAIRO_SURFACE)
 		return;
 
+	surface = gth_image_get_cairo_surface (image);
+	if (surface == NULL)
+		return;
+
 	hTransform = cmsCreateTransform ((cmsHPROFILE) image_profile,
 					 _LCMS2_CAIRO_FORMAT,
 					 (cmsHPROFILE) out_profile,
 					 _LCMS2_CAIRO_FORMAT,
 					 INTENT_PERCEPTUAL, 0);
-	if (hTransform == NULL)
-		return;
 
-	surface = gth_image_get_cairo_surface (image);
-	surface_row = _cairo_image_surface_flush_and_get_data (surface);
-	width = cairo_image_surface_get_width (surface);
-	height = cairo_image_surface_get_height (surface);
-	row_stride = cairo_image_surface_get_stride (surface);
+	if (hTransform != NULL) {
+		unsigned char   *surface_row;
+		int              width;
+		int              height;
+		int              row_stride;
+		int              row;
 
-	for (row = 0; row < height; row++) {
-		if (g_cancellable_is_cancelled (cancellable))
-			break;
-		cmsDoTransform (hTransform, surface_row, surface_row, width);
-		surface_row += row_stride;
+		surface_row = _cairo_image_surface_flush_and_get_data (surface);
+		width = cairo_image_surface_get_width (surface);
+		height = cairo_image_surface_get_height (surface);
+		row_stride = cairo_image_surface_get_stride (surface);
+
+		for (row = 0; row < height; row++) {
+			if (g_cancellable_is_cancelled (cancellable))
+				break;
+			cmsDoTransform (hTransform, surface_row, surface_row, width);
+			surface_row += row_stride;
+		}
+		cairo_surface_mark_dirty (surface);
+
+		cairo_surface_destroy (surface);
+		cmsDeleteTransform (hTransform);
 	}
-	cairo_surface_mark_dirty (surface);
-
-	cairo_surface_destroy (surface);
-	cmsDeleteTransform (hTransform);
 
 #endif
 }
