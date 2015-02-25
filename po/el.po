@@ -1,32 +1,70 @@
 # translation of gthumb-gthumb-2-10-po-el-6221.po to
 # translation of el.po to
 # gthumb in Greek
+#
 # Nikos Charonitakis <charosn@her.forthnet.gr>, 2005.
 # Stathis Kamperis <stathisk@med.auth.gr>, 2005.
 # Dimitris Glezos <dimitris@glezos.com>, 2006.
 # Sterios Prosiniklis <steriosprosiniklis@gmail.com>, 2009.
 # Dimitris Tsiolis <dimits7@gmail.com>, 2010.
 # Chris Triantafillis <christriant1995@gmail.com>, 2011.
-# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2014.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb-gthumb-2-10-po-el-6221\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-19 17:30+0000\n"
-"PO-Revision-Date: 2014-01-19 13:59+0300\n"
-"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
-"Language-Team: www.gnome.gr\n"
+"POT-Creation-Date: 2015-02-18 12:02+0000\n"
+"PO-Revision-Date: 2015-02-25 16:00+0200\n"
+"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
+"Language-Team: Ελληνικά, Σύγχρονα <>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
-"X-Project-Style: gnome\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Poedit 1.7.4\n"
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:1
+msgid ""
+"gThumb is an image viewer, editor, browser and organizer. It is designed to "
+"be well integrated with the GNOME 3 desktop."
+msgstr ""
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:2
+msgid ""
+"As an image viewer gThumb allows to view common image file formats such as "
+"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
+"is also possible to view various metadata types embedded inside an image "
+"such as EXIF, IPTC and XMP."
+msgstr ""
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:3
+msgid ""
+"As an image editor gThumb allows to scale, rotate and crop the images; "
+"change the saturation, lightness, contrast as well as other color "
+"trasformations."
+msgstr ""
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:4
+msgid ""
+"As an image browser gThumb shows the thumbnails of the images saved on your "
+"disk, allows to perform the common operations of a file manager such as "
+"copy, move and delete files and folders. Furthermore there is a series of "
+"image specific tools such as JPEG lossless transformations; image resize; "
+"format conversion; slideshow; setting an image as desktop background and "
+"several others."
+msgstr ""
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:5
+msgid ""
+"As an image organizer gThumb allows to add comments and other metadata to "
+"images; organize images in catalogs and catalogs in libraries; search for "
+"images and save the result as a catalog."
+msgstr ""
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:350
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:385
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -42,6 +80,11 @@ msgstr "Προβολή εικόνων gThumb"
 #: ../data/gthumb.desktop.in.in.h:4
 msgid "View and organize your images"
 msgstr "Προβάλλετε και οργανώστε τις εικόνες σας"
+
+#: ../data/gthumb.desktop.in.in.h:5
+#| msgid "Image Viewer"
+msgid "Image;Viewer;"
+msgstr "Image;Viewer;Εικόνα;θεατής;"
 
 #: ../data/gthumb-import.desktop.in.in.h:1
 msgid "Import with gThumb"
@@ -92,6 +135,62 @@ msgstr ""
 "name (όνομα αρχείου), file::size (μέγεθος αρχείου), file::mtime (ημερομηνία "
 "τροποποίησης αρχείου), exif::photo::datetimeoriginal (exif δεδομένα "
 "δημιουργίας πρωτότυπου)"
+
+#: ../data/ui/browser-preferences.ui.h:1
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
+#: ../extensions/image_print/data/ui/print-layout.ui.h:18
+msgid "Caption"
+msgstr "Λεζάντα"
+
+#: ../data/ui/browser-preferences.ui.h:2 ../data/ui/preferences.ui.h:15
+#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
+#: ../extensions/gstreamer_tools/main.c:34
+msgid "Other"
+msgstr "Άλλα"
+
+#: ../data/ui/browser-preferences.ui.h:3
+msgid "Thumbnail _size:"
+msgstr "Μέ_γεθος μικρογραφιών:"
+
+#: ../data/ui/browser-preferences.ui.h:4
+msgid "48"
+msgstr "48"
+
+#: ../data/ui/browser-preferences.ui.h:5
+msgid "64"
+msgstr "64"
+
+#: ../data/ui/browser-preferences.ui.h:6
+msgid "85"
+msgstr "85"
+
+#: ../data/ui/browser-preferences.ui.h:7
+msgid "95"
+msgstr "95"
+
+#: ../data/ui/browser-preferences.ui.h:8
+msgid "112"
+msgstr "112"
+
+#: ../data/ui/browser-preferences.ui.h:9
+msgid "128"
+msgstr "128"
+
+#: ../data/ui/browser-preferences.ui.h:10
+msgid "164"
+msgstr "164"
+
+#: ../data/ui/browser-preferences.ui.h:11
+msgid "200"
+msgstr "200"
+
+#: ../data/ui/browser-preferences.ui.h:12
+msgid "256"
+msgstr "256"
+
+#: ../data/ui/browser-preferences.ui.h:13
+msgid "D_etermine image type from content (slower)"
+msgstr "Κ_αθορισμός του τύπου της εικόνας από το περιεχόμενό της (πιο αργό)"
 
 #: ../data/ui/extensions-preferences.ui.h:1
 msgid "_Extensions:"
@@ -228,66 +327,60 @@ msgid "gThumb Preferences"
 msgstr "Προτιμήσεις gThumb"
 
 #: ../data/ui/preferences.ui.h:4
-msgid "T_humbnails in viewer:"
-msgstr "Μικρογρα_φίες κατά την προβολή:"
-
-#: ../data/ui/preferences.ui.h:5
-msgid "on the bottom"
-msgstr "στο κάτω μέρος"
-
-#: ../data/ui/preferences.ui.h:6
-msgid "on the side"
-msgstr "στο πλάι"
-
-#: ../data/ui/preferences.ui.h:7
-msgid "File _properties in browser:"
-msgstr "_Ιδιότητες αρχείου στον περιηγητή:"
-
-#: ../data/ui/preferences.ui.h:8
 msgid "Appearance"
 msgstr "Εμφάνιση"
 
+#: ../data/ui/preferences.ui.h:5
+msgid "T_humbnails in viewer:"
+msgstr "Μικρογρα_φίες κατά την προβολή:"
+
+#: ../data/ui/preferences.ui.h:6
+msgid "on the bottom"
+msgstr "στο κάτω μέρος"
+
+#: ../data/ui/preferences.ui.h:7
+msgid "on the side"
+msgstr "στο πλάι"
+
+#: ../data/ui/preferences.ui.h:8
+msgid "File _properties in browser:"
+msgstr "_Ιδιότητες αρχείου στον περιηγητή:"
+
 #: ../data/ui/preferences.ui.h:9
-msgid "Go to last _visited location"
-msgstr "Μετάβαση στην τελευταία τοποθεσία"
-
-#: ../data/ui/preferences.ui.h:10
-msgid "Go to this _folder:"
-msgstr "Μ_ετάβαση σε αυτό το φάκελο:"
-
-#: ../data/ui/preferences.ui.h:11
-msgid "Choose startup folder"
-msgstr "Επιλέξτε φάκελο εκκίνησης"
-
-#: ../data/ui/preferences.ui.h:12
-msgid "Set to C_urrent"
-msgstr "_Χρήση τρέχοντος"
-
-#: ../data/ui/preferences.ui.h:13
-msgid "_Reuse the active window to open files"
-msgstr "_Επαναχρησιμοποίηση του ενεργού παραθύρου για το άνοιγμα αρχείων"
-
-#: ../data/ui/preferences.ui.h:14
 msgid "On startup:"
 msgstr "Κατά την εκκίνηση:"
 
-#: ../data/ui/preferences.ui.h:15
+#: ../data/ui/preferences.ui.h:10
+msgid "Go to last _visited location"
+msgstr "Μετάβαση στην τελευταία τοποθεσία"
+
+#: ../data/ui/preferences.ui.h:11
+msgid "Go to this _folder:"
+msgstr "Μ_ετάβαση σε αυτό το φάκελο:"
+
+#: ../data/ui/preferences.ui.h:12
+msgid "Choose startup folder"
+msgstr "Επιλέξτε φάκελο εκκίνησης"
+
+#: ../data/ui/preferences.ui.h:13
+msgid "Set to C_urrent"
+msgstr "_Χρήση τρέχοντος"
+
+#: ../data/ui/preferences.ui.h:14
+msgid "_Reuse the active window to open files"
+msgstr "_Επαναχρησιμοποίηση του ενεργού παραθύρου για το άνοιγμα αρχείων"
+
+#: ../data/ui/preferences.ui.h:16
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "Να _ζητείται επιβεβαίωση πριν τη διαγραφή αρχείων ή καταλόγων"
 
-#: ../data/ui/preferences.ui.h:16
+#: ../data/ui/preferences.ui.h:17
 msgid "Ask whether to save _modified files"
 msgstr "Να _γίνεται ερώτηση για την αποθήκευση ή όχι τροποποιημένων αρχείων"
 
-#: ../data/ui/preferences.ui.h:17
+#: ../data/ui/preferences.ui.h:18
 msgid "_Store metadata inside files if possible"
 msgstr "_Αποθήκευση μεταδεδομένων μέσα στα αρχεία αν γίνεται"
-
-#: ../data/ui/preferences.ui.h:18
-#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
-#: ../extensions/gstreamer_tools/main.c:33
-msgid "Other"
-msgstr "Άλλα"
 
 #: ../data/ui/preferences.ui.h:19
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
@@ -296,60 +389,6 @@ msgstr "Άλλα"
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
 msgid "General"
 msgstr "Γενικά"
-
-#: ../data/ui/preferences.ui.h:20
-#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
-#: ../extensions/image_print/data/ui/print-layout.ui.h:18
-msgid "Caption"
-msgstr "Λεζάντα"
-
-#: ../data/ui/preferences.ui.h:21
-msgid "Thumbnail _size:"
-msgstr "Μέ_γεθος μικρογραφιών:"
-
-#: ../data/ui/preferences.ui.h:22
-msgid "48"
-msgstr "48"
-
-#: ../data/ui/preferences.ui.h:23
-msgid "64"
-msgstr "64"
-
-#: ../data/ui/preferences.ui.h:24
-msgid "85"
-msgstr "85"
-
-#: ../data/ui/preferences.ui.h:25
-msgid "95"
-msgstr "95"
-
-#: ../data/ui/preferences.ui.h:26
-msgid "112"
-msgstr "112"
-
-#: ../data/ui/preferences.ui.h:27
-msgid "128"
-msgstr "128"
-
-#: ../data/ui/preferences.ui.h:28
-msgid "164"
-msgstr "164"
-
-#: ../data/ui/preferences.ui.h:29
-msgid "200"
-msgstr "200"
-
-#: ../data/ui/preferences.ui.h:30
-msgid "256"
-msgstr "256"
-
-#: ../data/ui/preferences.ui.h:31
-msgid "D_etermine image type from content (slower)"
-msgstr "Κ_αθορισμός του τύπου της εικόνας από το περιεχόμενό της (πιο αργό)"
-
-#: ../data/ui/preferences.ui.h:32 ../gthumb/dlg-preferences-extensions.c:72
-msgid "Browser"
-msgstr "Περιήγηση"
 
 #: ../data/ui/sort-order.ui.h:1
 msgid "Sort By"
@@ -365,18 +404,9 @@ msgstr "23"
 
 #: ../extensions/23hq/23hq.extension.in.in.h:2
 msgid "Upload images to 23hq.com"
-msgstr "Ανέβασμα φωτογραφιών στο 23hq.com"
+msgstr "Αποστολή φωτογραφιών στο 23hq.com"
 
-#: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
-#: ../extensions/bookmarks/callbacks.c:326
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
-msgid "Bookmarks"
-msgstr "Σελιδοδείκτες"
-
-#: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
-msgid "Add bookmarks support."
-msgstr "Προσθήκη υποστήριξης σελιδοδεικτών."
-
+#: ../extensions/23hq/23hq.extension.in.in.h:3
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:3
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:3
 #: ../extensions/catalogs/catalogs.extension.in.in.h:3
@@ -387,15 +417,20 @@ msgstr "Προσθήκη υποστήριξης σελιδοδεικτών."
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:3
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:3
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:3
+#: ../extensions/facebook/facebook.extension.in.in.h:3
 #: ../extensions/file_manager/file_manager.extension.in.in.h:3
 #: ../extensions/file_tools/file_tools.extension.in.in.h:3
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:3
+#: ../extensions/flicker/flicker.extension.in.in.h:3
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:3
 #: ../extensions/image_print/image_print.extension.in.in.h:3
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:3
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:3
 #: ../extensions/list_tools/list_tools.extension.in.in.h:3
+#: ../extensions/map_view/map_view.extension.in.in.h:3
+#: ../extensions/photobucket/photobucket.extension.in.in.h:3
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:3
+#: ../extensions/picasaweb/picasaweb.extension.in.in.h:3
 #: ../extensions/raw_files/raw_files.extension.in.in.h:3
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:3
 #: ../extensions/rename_series/rename_series.extension.in.in.h:3
@@ -404,8 +439,19 @@ msgstr "Προσθήκη υποστήριξης σελιδοδεικτών."
 #: ../extensions/selections/selections.extension.in.in.h:3
 #: ../extensions/slideshow/slideshow.extension.in.in.h:3
 #: ../extensions/webalbums/webalbums.extension.in.in.h:3
+#: ../gthumb/dlg-preferences-extensions.c:489
 msgid "gthumb development team"
 msgstr "ομάδα ανάπτυξης του gthumb"
+
+#: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
+#: ../extensions/bookmarks/callbacks.c:325
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
+msgid "Bookmarks"
+msgstr "Σελιδοδείκτες"
+
+#: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
+msgid "Add bookmarks support."
+msgstr "Προσθήκη υποστήριξης σελιδοδεικτών."
 
 #: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:1
 msgid "_Add Bookmark"
@@ -425,7 +471,7 @@ msgstr "_Σελιδοδείκτες"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
 msgid "Go to this location"
-msgstr "Μετάβαση σε αυτήν την τοποθεσία"
+msgstr "Μετάβαση στην τοποθεσία"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 #: ../extensions/catalogs/callbacks.c:72
@@ -482,12 +528,12 @@ msgstr "Πηγή"
 msgid "Write to Disc"
 msgstr "Εγγραφή σε δίσκο"
 
-#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:62
+#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:65
 #, c-format
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Σφάλμα μεταγλώττισης αρχείου εικόνας JPEG: %s"
 
-#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:507
+#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:529
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Άγνωστος χρωματικός χώρος JPEG (%d)"
@@ -562,14 +608,14 @@ msgstr "dpi"
 
 #: ../extensions/cairo_io/data/ui/webp-options.ui.h:2
 msgid "_Method:"
-msgstr "_Μέθοδος:"
+msgstr "Μέθ_οδος:"
 
 #: ../extensions/cairo_io/data/ui/webp-options.ui.h:3
 msgid "_Lossless"
-msgstr "_Μη απωλεστική"
+msgstr "_Χωρίς απώλειες"
 
 #: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:140
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:144
 msgid "JPEG"
 msgstr "JPEG"
 
@@ -593,76 +639,76 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: ../extensions/cairo_io/gth-image-saver-webp.c:382
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:165
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:173
 msgid "WebP"
 msgstr "WebP"
 
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1326
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1373
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "Aποθήκευση"
 
-#: ../extensions/catalogs/actions.c:97 ../extensions/catalogs/actions.c:220
-#: ../extensions/catalogs/dlg-add-to-catalog.c:275
-#: ../extensions/catalogs/dlg-add-to-catalog.c:395
+#: ../extensions/catalogs/actions.c:85 ../extensions/catalogs/actions.c:208
+#: ../extensions/catalogs/dlg-add-to-catalog.c:368
+#: ../extensions/catalogs/dlg-add-to-catalog.c:488
 #: ../extensions/file_manager/actions.c:72
-#: ../extensions/list_tools/gth-script-editor-dialog.c:290
-#: ../gthumb/gth-filter-editor-dialog.c:461
+#: ../extensions/list_tools/gth-script-editor-dialog.c:289
+#: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1829
 #, c-format
 msgid "No name specified"
 msgstr "Δεν καθορίστηκε όνομα"
 
-#: ../extensions/catalogs/actions.c:104 ../extensions/catalogs/actions.c:227
-#: ../extensions/catalogs/dlg-add-to-catalog.c:282
-#: ../extensions/catalogs/dlg-add-to-catalog.c:402
-#: ../extensions/file_manager/actions.c:79
+#: ../extensions/catalogs/actions.c:92 ../extensions/catalogs/actions.c:215
+#: ../extensions/catalogs/dlg-add-to-catalog.c:375
+#: ../extensions/catalogs/dlg-add-to-catalog.c:495
+#: ../extensions/file_manager/actions.c:79 ../gthumb/gth-folder-tree.c:1836
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Μη έγκυρο όνομα. Οι επόμενοι χαρακτήρεις δεν επιτρέπονται: %s"
 
-#: ../extensions/catalogs/actions.c:160 ../extensions/catalogs/actions.c:274
-#: ../extensions/catalogs/dlg-add-to-catalog.c:339
-#: ../extensions/catalogs/dlg-add-to-catalog.c:449
+#: ../extensions/catalogs/actions.c:148 ../extensions/catalogs/actions.c:262
+#: ../extensions/catalogs/dlg-add-to-catalog.c:432
+#: ../extensions/catalogs/dlg-add-to-catalog.c:542
 #: ../extensions/catalogs/gth-file-source-catalogs.c:508
 #: ../extensions/file_manager/actions.c:110
 msgid "Name already used"
 msgstr "Το όνομα χρησιμοποιείται ήδη"
 
-#: ../extensions/catalogs/actions.c:185
-#: ../extensions/catalogs/dlg-add-to-catalog.c:360
+#: ../extensions/catalogs/actions.c:173
+#: ../extensions/catalogs/dlg-add-to-catalog.c:453
 msgid "New catalog"
 msgstr "Νέος κατάλογος"
 
-#: ../extensions/catalogs/actions.c:186
-#: ../extensions/catalogs/dlg-add-to-catalog.c:361
+#: ../extensions/catalogs/actions.c:174
+#: ../extensions/catalogs/dlg-add-to-catalog.c:454
 msgid "Enter the catalog name:"
 msgstr "Εισάγετε το όνομα του καταλόγου: "
 
-#: ../extensions/catalogs/actions.c:188 ../extensions/catalogs/actions.c:302
-#: ../extensions/catalogs/dlg-add-to-catalog.c:363
-#: ../extensions/catalogs/dlg-add-to-catalog.c:475
+#: ../extensions/catalogs/actions.c:176 ../extensions/catalogs/actions.c:290
+#: ../extensions/catalogs/dlg-add-to-catalog.c:456
+#: ../extensions/catalogs/dlg-add-to-catalog.c:568
 #: ../extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "_Δημιουργία"
 
-#: ../extensions/catalogs/actions.c:299
-#: ../extensions/catalogs/dlg-add-to-catalog.c:472
+#: ../extensions/catalogs/actions.c:287
+#: ../extensions/catalogs/dlg-add-to-catalog.c:565
 msgid "New library"
 msgstr "Νέα βιβλιοθήκη"
 
-#: ../extensions/catalogs/actions.c:300
-#: ../extensions/catalogs/dlg-add-to-catalog.c:473
+#: ../extensions/catalogs/actions.c:288
+#: ../extensions/catalogs/dlg-add-to-catalog.c:566
 msgid "Enter the library name:"
 msgstr "Εισάγετε το όνομα της βιβλιοθήκης:"
 
-#: ../extensions/catalogs/actions.c:335
+#: ../extensions/catalogs/actions.c:323
 msgid "Could not remove the catalog"
 msgstr "Αδύνατη η αφαίρεση του καταλόγου"
 
-#: ../extensions/catalogs/actions.c:374
+#: ../extensions/catalogs/actions.c:362
 #, c-format
 msgid "Are you sure you want to remove \"%s\"?"
 msgstr "Είστε σίγουρος/η ότι θέλετε να αφαιρέσετε το \"%s\" ;"
@@ -672,7 +718,7 @@ msgid "Add to Catalog…"
 msgstr "Προσθήκη σε κατάλογο…"
 
 #: ../extensions/catalogs/callbacks.c:57
-#: ../extensions/selections/callbacks.c:56
+#: ../extensions/selections/callbacks.c:57
 msgid "Open Folder"
 msgstr "Άνοιγμα φακέλου"
 
@@ -689,32 +735,33 @@ msgid "Create Library"
 msgstr "Δημιουργία βιβλιοθήκης"
 
 #: ../extensions/catalogs/callbacks.c:73
-#: ../extensions/file_manager/callbacks.c:76
-#: ../extensions/file_manager/callbacks.c:103
+#: ../extensions/file_manager/callbacks.c:77
+#: ../extensions/file_manager/callbacks.c:104
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:1
+#: ../gthumb/gth-folder-tree.c:1880
 msgid "Rename"
 msgstr "Μετονομασία"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4154 ../gthumb/gth-file-properties.c:246
+#: ../gthumb/gth-browser.c:4380 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Ιδιότητες "
 
-#: ../extensions/catalogs/callbacks.c:198
 #: ../extensions/catalogs/callbacks.c:201
+#: ../extensions/catalogs/callbacks.c:204
 msgid "Command Line"
 msgstr "Γραμμή εντολών"
 
-#: ../extensions/catalogs/callbacks.c:346
+#: ../extensions/catalogs/callbacks.c:351
 msgid "Catalog Properties"
 msgstr "Ιδιότητες καταλόγου"
 
-#: ../extensions/catalogs/callbacks.c:362
+#: ../extensions/catalogs/callbacks.c:367
 msgid "Organize"
 msgstr "Οργάνωση"
 
-#: ../extensions/catalogs/callbacks.c:363
+#: ../extensions/catalogs/callbacks.c:368
 msgid "Automatically organize files by date"
 msgstr "Αυτόματη οργάνωση αρχείων κατά ημερομηνία"
 
@@ -735,26 +782,31 @@ msgid "Add to Catalog"
 msgstr "Προσθήκη σε κατάλογο"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
+msgid "A_dd and Close"
+msgstr "Προ_σθήκη και κλείσιμο"
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
 msgid "C_atalogs:"
 msgstr "Κ_ατάλογοι:"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
 msgid "_New Catalog"
 msgstr "Νέος κατά_λογος"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
 msgid "New _Library"
 msgstr "Νέα _βιβλιοθήκη"
 
-#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
-#: ../extensions/file_manager/actions.c:673
-#: ../extensions/webalbums/gth-web-exporter.c:1840
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
+#: ../extensions/file_manager/actions.c:685
+#: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "Προ_βολή του προορισμού"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
+#: ../extensions/file_tools/gth-file-tool-curves.c:366
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:1
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
@@ -819,13 +871,13 @@ msgstr "Τοποθέτηση μεμονωμένων αρχείων στον κα
 msgid "Singles"
 msgstr "Μεμονωμένα"
 
-#: ../extensions/catalogs/dlg-add-to-catalog.c:106
-#: ../extensions/catalogs/dlg-add-to-catalog.c:137
+#: ../extensions/catalogs/dlg-add-to-catalog.c:149
+#: ../extensions/catalogs/dlg-add-to-catalog.c:183
 msgid "Could not add the files to the catalog"
 msgstr "Αδύνατη η προσθήκη των αρχείων στον κατάλογο"
 
-#: ../extensions/catalogs/dlg-add-to-catalog.c:218
-#: ../extensions/search/gth-search-task.c:357
+#: ../extensions/catalogs/dlg-add-to-catalog.c:311
+#: ../extensions/search/gth-search-task.c:360
 msgid "Could not create the catalog"
 msgstr "Αδύνατη η δημιουργία του καταλόγου"
 
@@ -865,7 +917,8 @@ msgid "Tag (embedded)"
 msgstr "Ετικέτα (ενσωματωμένη)"
 
 #: ../extensions/catalogs/gth-catalog.c:1114 ../extensions/comments/main.c:45
-#: ../extensions/edit_metadata/callbacks.c:73
+#: ../extensions/edit_metadata/callbacks.c:51
+#: ../extensions/edit_metadata/callbacks.c:85
 #: ../gthumb/gth-main-default-metadata.c:62
 msgid "Tags"
 msgstr "Ετικέτες"
@@ -906,10 +959,10 @@ msgid "Could not remove the files from the catalog"
 msgstr "Αδύνατη η αφαίρεση των αρχείων από τον κατάλογο"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1380
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:862
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:871
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:901
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:1432
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:873
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:882
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:912
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1443
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Μη έγκυρη μορφή αρχείου"
@@ -921,7 +974,7 @@ msgstr "Η ενέργεια ολοκληρώθηκε. Κατάλογοι: %d. Ε
 
 #: ../extensions/change_date/callbacks.c:38
 msgid "Change _Date…"
-msgstr "Αλλαγή _ημερομηνίας…"
+msgstr "Αλλαγή ημε_ρομηνίας…"
 
 #: ../extensions/change_date/change_date.extension.in.in.h:1
 msgid "Change date"
@@ -1007,7 +1060,9 @@ msgid "Add comments and tags to any file type."
 msgstr "Προσθήκη σχολίων και ετικετών σε οποιοδήποτε τύπο αρχείου."
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
+#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
+#: ../gthumb/dlg-preferences-extensions.c:481
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
@@ -1015,7 +1070,8 @@ msgstr "Προτιμήσεις"
 msgid "_Synchronize with the embedded metadata"
 msgstr "Συγχρονισμός με τα ενσωματωμένα μεταδεδομένα"
 
-#: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:67
+#: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:50
+#: ../extensions/edit_metadata/callbacks.c:79
 msgid "Comment"
 msgstr "Σχόλιο"
 
@@ -1067,10 +1123,10 @@ msgid "Create an index image displaying the thumbnails of the selected files."
 msgstr "Δημιουργήστε μια εικόνας που απεικονίζει τα επιλεγμένα αρχεία."
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
-#: ../extensions/file_tools/gth-file-tool-crop.c:460
-#: ../extensions/file_tools/gth-file-tool-crop.c:490
-#: ../extensions/file_tools/gth-file-tool-resize.c:588
-#: ../extensions/file_tools/gth-file-tool-rotate.c:423
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#: ../extensions/file_tools/gth-file-tool-crop.c:464
+#: ../extensions/file_tools/gth-file-tool-resize.c:579
+#: ../extensions/file_tools/gth-file-tool-rotate.c:393
 #: ../extensions/slideshow/main.c:291
 msgid "None"
 msgstr "Κανένα"
@@ -1135,7 +1191,7 @@ msgstr "Κείμενο"
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:2
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:3
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
 msgid "_Header:"
 msgstr "_Κεφαλίδα:"
@@ -1147,14 +1203,14 @@ msgstr "Επιλογή γραμματοσειράς"
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
 #: ../extensions/image_print/data/ui/print-layout.ui.h:4
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:3
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:4
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
 msgid "_Footer:"
 msgstr "_Υποσέλιδο:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:1
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:2
 msgid "Caption:"
 msgstr "Λεζάντα:"
 
@@ -1384,21 +1440,22 @@ msgstr "Αδύνατη η προβολή ιδιοτήτων του παρασκ�
 #: ../extensions/desktop_background/actions.c:248
 #: ../gthumb/resources/app-menu.ui.h:2
 msgid "_Preferences"
-msgstr "_Προτιμήσεις"
+msgstr "Προ_τιμήσεις"
 
 #: ../extensions/desktop_background/actions.c:249
 msgid "_Undo"
-msgstr "Α_ναίρεση"
+msgstr "Αναί_ρεση"
 
-#: ../extensions/desktop_background/actions.c:272
-#: ../extensions/desktop_background/actions.c:291
+#: ../extensions/desktop_background/actions.c:276
+#: ../extensions/desktop_background/actions.c:331
+#: ../extensions/desktop_background/actions.c:350
 msgid "Could not set the desktop background"
 msgstr "Αδύνατη η ρύθμιση παρασκήνιου επιφάνειας εργασίας"
 
 #: ../extensions/desktop_background/callbacks.c:47
 #: ../extensions/desktop_background/callbacks.c:53
 msgid "Set as Background"
-msgstr "Ορισμός ως παρασκηνίου"
+msgstr "Ορισμός ως παρασκήνιο"
 
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:1
 msgid "Desktop background"
@@ -1602,7 +1659,11 @@ msgstr "Υποστήριξη EXIF, IPTC, XMP"
 msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Ανάγνωση και εγγραφή μεταδεδομένων exif, iptc και xmp."
 
-#: ../extensions/exiv2_tools/exiv2-utils.cpp:699
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:42 ../gthumb/glib-utils.c:1115
+msgid "(invalid value)"
+msgstr "(άκυρη τιμή)"
+
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:710
 msgid "Exposure"
 msgstr "Έκθεση"
 
@@ -1668,7 +1729,7 @@ msgstr "Εξαγωγή στο _Flickr"
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "_Upload"
-msgstr "_Φόρτωση"
+msgstr "Α_ποστολή"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
@@ -1752,15 +1813,15 @@ msgstr "_Ορατότητα:"
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:1
 msgid "Files successfully uploaded to the server."
-msgstr "Τα αρχεία ανέβηκαν με επιτυχία στον εξυπηρετητή."
+msgstr "Τα αρχεία απεστάλησαν με επιτυχία στον διακομιστή."
 
 #: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:2
 #: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:2
 #: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
 #: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
-#: ../extensions/webalbums/gth-web-exporter.c:1839
+#: ../extensions/webalbums/gth-web-exporter.c:1841
 msgid "_Open in the Browser"
-msgstr "Άνοιγμα στο _φυλλομετρητή"
+msgstr "Άν_οιγμα στον περιηγητή "
 
 #: ../extensions/facebook/data/ui/import-from-facebook.ui.h:1
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
@@ -1798,14 +1859,14 @@ msgstr "Ά_λμπουμ:"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:371
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
 msgid "Could not connect to the server"
-msgstr "Αδύνατη η σύνδεση στον εξυπηρετητή"
+msgstr "Αδύνατη η σύνδεση στον διακομιστή"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:175
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:246
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:182
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:176
 msgid "Could not upload the files"
-msgstr "Αδύνατο το ανέβασμα των αρχείων"
+msgstr "Αδύνατη η αποστολή των αρχείων"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:397
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:188
@@ -1843,7 +1904,7 @@ msgstr "Αδύνατη η εξαγωγή των αρχείων"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:793
+#: ../gthumb/gth-browser.c:830
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1885,7 +1946,7 @@ msgstr "Facebook"
 
 #: ../extensions/facebook/facebook.extension.in.in.h:2
 msgid "Upload images to Facebook"
-msgstr "Ανέβασμα φωτογραφιών στο Facebook"
+msgstr "Αποστολή φωτογραφιών στο Facebook"
 
 #: ../extensions/facebook/facebook-service.c:494
 #: ../extensions/flicker_utils/flickr-service.c:863
@@ -1909,7 +1970,7 @@ msgstr "Δημιουργία του νέου λευκώματος"
 #: ../extensions/picasaweb/picasa-web-service.c:860
 #, c-format
 msgid "Could not upload '%s': %s"
-msgstr "Αδύνατο το ανέβασμα του '%s': %s"
+msgstr "Αδύνατη η αποστολή του '%s': %s"
 
 #. Translators: %s is a filename
 #: ../extensions/facebook/facebook-service.c:742
@@ -1918,14 +1979,14 @@ msgstr "Αδύνατο το ανέβασμα του '%s': %s"
 #: ../extensions/picasaweb/picasa-web-service.c:917
 #, c-format
 msgid "Uploading '%s'"
-msgstr "Ανέβασμα του '%s'"
+msgstr "Αποστολή του '%s'"
 
 #: ../extensions/facebook/facebook-service.c:955
 #: ../extensions/flicker_utils/flickr-service.c:1482
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
-msgstr "Ανέβασμα των αρχείων στον εξυπηρετητή"
+msgstr "Αποστολή των αρχείων στον διακομιστή"
 
 #: ../extensions/facebook/facebook-service.c:1054
 #: ../extensions/flicker_utils/flickr-service.c:1651
@@ -1942,14 +2003,14 @@ msgid "Enter the folder name:"
 msgstr "Εισάγετε το όνομα του φακέλου:"
 
 #: ../extensions/file_manager/actions.c:410
-#: ../extensions/file_manager/callbacks.c:262
-#: ../extensions/file_manager/callbacks.c:716
+#: ../extensions/file_manager/callbacks.c:263
+#: ../extensions/file_manager/callbacks.c:717
 msgid "Could not move the files"
 msgstr "Αδύνατη η μετακίνηση των αρχείων"
 
 #: ../extensions/file_manager/actions.c:411
-#: ../extensions/file_manager/callbacks.c:263
-#: ../extensions/file_manager/callbacks.c:717
+#: ../extensions/file_manager/callbacks.c:264
+#: ../extensions/file_manager/callbacks.c:718
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1959,29 +2020,29 @@ msgstr ""
 
 #
 #: ../extensions/file_manager/actions.c:413
-#: ../extensions/file_manager/actions.c:652
-#: ../extensions/file_manager/callbacks.c:68
-#: ../extensions/file_manager/callbacks.c:97 ../gthumb/gtk-utils.h:38
+#: ../extensions/file_manager/actions.c:664
+#: ../extensions/file_manager/callbacks.c:69
+#: ../extensions/file_manager/callbacks.c:98 ../gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Αντιγραφή"
 
-#: ../extensions/file_manager/actions.c:648
+#: ../extensions/file_manager/actions.c:660
 msgid "Move To"
 msgstr "Μετακίνηση σε"
 
-#: ../extensions/file_manager/actions.c:648
+#: ../extensions/file_manager/actions.c:660
 msgid "Copy To"
 msgstr "Αντιγραφή σε"
 
-#: ../extensions/file_manager/actions.c:652
+#: ../extensions/file_manager/actions.c:664
 msgid "Move"
 msgstr "Μετακίνηση"
 
-#: ../extensions/file_manager/actions.c:777
+#: ../extensions/file_manager/actions.c:789
 msgid "Could not open the location"
 msgstr "Αδύνατο το άνοιγμα της τοποθεσίας"
 
-#: ../extensions/file_manager/actions.c:920
+#: ../extensions/file_manager/actions.c:935
 msgid ""
 "The folder is not empty, do you want to delete the folder and its content "
 "permanently?"
@@ -1989,11 +2050,11 @@ msgstr ""
 "Ο φάκελος δεν είναι άδειος, θέλετε να διαγράψετε το φάκελο και το "
 "περιεχόμενό του οριστικά;"
 
-#: ../extensions/file_manager/actions.c:936
+#: ../extensions/file_manager/actions.c:951
 msgid "Could not delete the folder"
 msgstr "Αδύνατη η διαγραφή του φακέλου"
 
-#: ../extensions/file_manager/actions.c:999
+#: ../extensions/file_manager/actions.c:1014
 msgid ""
 "The folder cannot be moved to the Trash. Do you want to delete it "
 "permanently?"
@@ -2001,74 +2062,74 @@ msgstr ""
 "Ο φάκελος δεν μπορεί να μετακινηθεί στα Απορρίμματα. Θέλετε να τον "
 "διαγράψετε μόνιμα;"
 
-#: ../extensions/file_manager/actions.c:1006
+#: ../extensions/file_manager/actions.c:1021
 msgid "Could not move the folder to the Trash"
 msgstr "Αδύνατη η μετακίνηση του φακέλου στα Απορρίμματα"
 
-#: ../extensions/file_manager/actions.c:1044
-#: ../gthumb/gth-file-source-vfs.c:854
+#: ../extensions/file_manager/actions.c:1059
+#: ../gthumb/gth-file-source-vfs.c:861
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικά το \"%s\";"
 
-#: ../extensions/file_manager/actions.c:1054
-#: ../gthumb/gth-file-source-vfs.c:867
+#: ../extensions/file_manager/actions.c:1069
+#: ../gthumb/gth-file-source-vfs.c:874
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Αν διαγράψετε ένα αρχείο, θα χαθεί οριστικά."
 
-#: ../extensions/file_manager/callbacks.c:67
-#: ../extensions/file_manager/callbacks.c:96
+#: ../extensions/file_manager/callbacks.c:68
+#: ../extensions/file_manager/callbacks.c:97
 msgid "Cut"
 msgstr "Αποκοπή"
 
-#: ../extensions/file_manager/callbacks.c:69
+#: ../extensions/file_manager/callbacks.c:70
 msgid "Paste"
 msgstr "Επικόλληση"
 
-#: ../extensions/file_manager/callbacks.c:74
-#: ../extensions/file_manager/callbacks.c:104
+#: ../extensions/file_manager/callbacks.c:75
+#: ../extensions/file_manager/callbacks.c:105
 msgid "Copy to…"
 msgstr "Αντιγραφή σε…"
 
-#: ../extensions/file_manager/callbacks.c:75
-#: ../extensions/file_manager/callbacks.c:105
+#: ../extensions/file_manager/callbacks.c:76
+#: ../extensions/file_manager/callbacks.c:106
 msgid "Move to…"
 msgstr "Μετακίνηση σε…"
 
-#: ../extensions/file_manager/callbacks.c:81
-#: ../extensions/file_manager/callbacks.c:106
+#: ../extensions/file_manager/callbacks.c:82
+#: ../extensions/file_manager/callbacks.c:107
 msgid "Move to Trash"
 msgstr "Μετακίνηση στα απορρίμματα"
 
-#: ../extensions/file_manager/callbacks.c:82
-#: ../extensions/file_manager/callbacks.c:107
+#: ../extensions/file_manager/callbacks.c:83
+#: ../extensions/file_manager/callbacks.c:108
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: ../extensions/file_manager/callbacks.c:86
+#: ../extensions/file_manager/callbacks.c:87
 msgid "Open with the File Manager"
-msgstr "Άνοιγμα με τον διαχειριστή αρχείων"
+msgstr "Άνοιγμα με διαχειριστή αρχείων"
 
-#: ../extensions/file_manager/callbacks.c:91
+#: ../extensions/file_manager/callbacks.c:92
 msgid "Create Folder"
 msgstr "Δημιουργία φακέλου"
 
-#: ../extensions/file_manager/callbacks.c:98
+#: ../extensions/file_manager/callbacks.c:99
 msgid "Paste Into Folder"
-msgstr "Επικόλληση στον φάκελο"
+msgstr "Επικόλληση στο φάκελο"
 
-#: ../extensions/file_manager/callbacks.c:112
+#: ../extensions/file_manager/callbacks.c:113
 msgid "Duplicate"
 msgstr "Δημιουργία αντιγράφου"
 
-#: ../extensions/file_manager/callbacks.c:510
-#: ../extensions/file_manager/callbacks.c:513
+#: ../extensions/file_manager/callbacks.c:511
+#: ../extensions/file_manager/callbacks.c:514
 msgid "Open _With"
 msgstr "Ά_νοιγμα με"
 
-#: ../extensions/file_manager/callbacks.c:881
+#: ../extensions/file_manager/callbacks.c:883
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5040 ../gthumb/gth-browser.c:5073
+#: ../gthumb/gth-browser.c:5330 ../gthumb/gth-browser.c:5363
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Αδύνατη η εκτέλεση της ενέργειας"
@@ -2086,7 +2147,8 @@ msgid "Deleting files"
 msgstr "Διαγραφή αρχείων"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:5
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:1
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
 msgid "_Preview"
 msgstr "_Προεπισκόπηση"
 
@@ -2100,7 +2162,7 @@ msgstr "Αντί_θεση:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:4
 msgid "_Saturation:"
-msgstr "_Κορεσμός:"
+msgstr "Κορε_σμός:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:5
 msgid "G_amma:"
@@ -2122,91 +2184,71 @@ msgstr "Κί_τρινο-Μπλε:"
 msgid "Color Levels"
 msgstr "Χρωματικά επίπεδα"
 
-#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:10
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:5
-msgid "Reset"
-msgstr "Επαναφορά"
-
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:1
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
+#: ../extensions/file_tools/gth-file-tool-crop.c:656
+#: ../extensions/file_tools/gth-file-tool-resize.c:749
+#: ../extensions/file_tools/gth-file-tool-rotate.c:616
+#: ../gthumb/gth-file-chooser-dialog.c:252
+msgid "Options"
+msgstr "Επιλογές"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+msgid "_Grid:"
+msgstr "_Πλέγμα:"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Selection"
 msgstr "Επιλογή"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 msgid "_Width:"
 msgstr "_Πλάτος:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:8
 msgid "Heigh_t:"
 msgstr "Ύ_ψος:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
 msgid "_Position:"
 msgstr "_Θέση:"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 msgid "Maximize"
 msgstr "Μεγιστοποίηση"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
 msgid "Center"
 msgstr "Στο κέντρο"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:10
 msgid "Aspect ratio"
 msgstr "Λόγος διαστάσεων"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:11
 msgid "I_nvert aspect ratio"
 msgstr "_Αντιστροφή λόγου διαστάσεων"
 
 #. after the colon there is a control to select the size in pixels
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:12
 msgid "M_ultiple of:"
 msgstr "Πολλαπλασιασμός του:"
 
 #. abbreviation of pixel
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:12
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:14
 msgid "px"
 msgstr "px"
 
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:13
-#: ../extensions/file_tools/data/ui/resize-options.ui.h:1
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
-#: ../gthumb/gth-file-chooser-dialog.c:252
-msgid "Options"
-msgstr "Επιλογές"
-
-#
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:14
-msgid "C_rop"
-msgstr "_Κοπή"
-
-#: ../extensions/file_tools/data/ui/crop-options.ui.h:15
-msgid "_Grid:"
-msgstr "_Πλέγμα:"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:1
-msgid "Method"
-msgstr "Μέθοδος"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:2
-msgid "_Brightness"
-msgstr "_Φωτεινότητα"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:3
-msgid "_Saturation"
-msgstr "_Κορεσμός"
-
-#: ../extensions/file_tools/data/ui/grayscale-options.ui.h:4
-msgid "_Average"
-msgstr "_Μέσος όρος"
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:2
+msgid "Include current channel"
+msgstr ""
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 msgid "High _quality"
@@ -2297,7 +2339,7 @@ msgstr "Σημείο 2:"
 msgid "Keep aspect ratio"
 msgstr "Κρατήστε αναλογία"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:16
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
 msgid ""
 "Draw a line on the image \n"
 "to set the alignment."
@@ -2305,22 +2347,17 @@ msgstr ""
 "Θέστε μια γραμμή στην εικόνα\n"
 "για να ορίσετε την στοίχιση."
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:17
 msgid "Parallel"
 msgstr "Παράλληλος"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
 msgid "Perpendicular"
 msgstr "Κάθετη"
 
-#: ../extensions/file_tools/data/ui/rotate-options.ui.h:20
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
 msgid "Alignment"
 msgstr "Στοίχιση"
-
-#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
-msgid "_Preview:"
-msgstr "_Προεπισκόπηση:"
 
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:2
 msgid "Threshold:"
@@ -2342,136 +2379,294 @@ msgstr "Εργαλεία εικόνων"
 msgid "Basic tools to modify images."
 msgstr "Βασικά εργαλεία τροποποίησης εικόνων"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:346
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:227
-#: ../extensions/file_tools/gth-file-tool-crop.c:121
+#. Translators: the first number is converted to the second number
+#: ../extensions/file_tools/gth-curve-editor.c:416
+#, c-format
+msgid "%d → %d"
+msgstr "%d → %d"
+
+#: ../extensions/file_tools/gth-curve-editor.c:893
+#: ../gthumb/gth-histogram-view.c:837
+msgid "Linear scale"
+msgstr "Γραμμική κλίμακα"
+
+#: ../extensions/file_tools/gth-curve-editor.c:905
+#: ../gthumb/gth-histogram-view.c:849
+msgid "Logarithmic scale"
+msgstr "Λογαριθμική κλίμακα"
+
+#: ../extensions/file_tools/gth-curve-editor.c:925
+#: ../gthumb/gth-histogram-view.c:869
+msgid "Channel:"
+msgstr "Κανάλι:"
+
+#: ../extensions/file_tools/gth-curve-editor.c:947
+#: ../gthumb/gth-histogram-view.c:890
+msgid "Value"
+msgstr "Τιμή"
+
+#: ../extensions/file_tools/gth-curve-editor.c:952
+#: ../gthumb/gth-histogram-view.c:895
+msgid "Red"
+msgstr "Κόκκινο"
+
+#: ../extensions/file_tools/gth-curve-editor.c:957
+#: ../gthumb/gth-histogram-view.c:900
+msgid "Green"
+msgstr "Πράσινο"
+
+#: ../extensions/file_tools/gth-curve-editor.c:962
+#: ../gthumb/gth-histogram-view.c:905
+msgid "Blue"
+msgstr "Μπλε"
+
+#: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
+#: ../extensions/file_tools/gth-file-tool-curves.c:648
+#: ../extensions/file_tools/gth-file-tool-curves.c:812
+msgid "Presets"
+msgstr "Προρυθμίσεις"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:336
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:388
+#: ../extensions/file_tools/gth-file-tool-crop.c:627
+#: ../extensions/file_tools/gth-file-tool-curves.c:285
+#: ../extensions/file_tools/gth-file-tool-effects.c:400
+#: ../extensions/file_tools/gth-file-tool-effects.c:445
+#: ../extensions/file_tools/gth-file-tool-effects.c:493
+#: ../extensions/file_tools/gth-file-tool-effects.c:542
+#: ../extensions/file_tools/gth-file-tool-effects.c:590
+#: ../extensions/file_tools/gth-file-tool-effects.c:638
+#: ../extensions/file_tools/gth-file-tool-effects.c:686
+#: ../extensions/file_tools/gth-file-tool-effects.c:734
+#: ../extensions/file_tools/gth-file-tool-effects.c:784
+#: ../extensions/file_tools/gth-file-tool-effects.c:906
+#: ../extensions/file_tools/gth-file-tool-effects.c:942
 #: ../extensions/file_tools/gth-file-tool-flip.c:63
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:239
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:227
+#: ../extensions/file_tools/gth-file-tool-lomo.c:182
 #: ../extensions/file_tools/gth-file-tool-mirror.c:63
-#: ../extensions/file_tools/gth-file-tool-negative.c:109
-#: ../extensions/file_tools/gth-file-tool-rotate.c:262
+#: ../extensions/file_tools/gth-file-tool-negative.c:100
+#: ../extensions/file_tools/gth-file-tool-rotate.c:568
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:63
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:63
 msgid "Applying changes"
 msgstr "Εφαρμογή αλλαγών"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:581
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:555
+#: ../extensions/file_tools/gth-file-tool-curves.c:784
+#: ../extensions/file_tools/gth-file-tool-rotate.c:603
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:365
+msgid "Reset"
+msgstr "Επαναφορά"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
 msgid "Adjust Colors"
 msgstr "Ρύθμιση χρωμάτων"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:582
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:597
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr ""
 "Αλλαγή της φωτεινότητας, αντίθεσης, κορεσμού και τιμής γάμμα της εικόνας."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:244
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:531
+msgid "Stretch"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:532
+msgid "Stretch the histogram trimming the 0.5%"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:536
+msgid "Equalize"
+msgstr "Ισοστάθμιση"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:537
+msgid "Equalize the histogram using the square root function"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:541
+#: ../extensions/file_tools/gth-file-tool-crop.c:468
+#: ../extensions/file_tools/gth-file-tool-rotate.c:397
+msgid "Uniform"
+msgstr "Ομοιόμορφη"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:542
+msgid "Equalize the histogram using the linear function"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:656
 msgid "Adjust Contrast"
 msgstr "Ρύθμιση αντίθεσης"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:245
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
 msgid "Automatic contrast adjustment"
 msgstr "Αυτόματη ρύθμιση αντίθεσης"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:460
-#: ../extensions/file_tools/gth-file-tool-resize.c:588
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#: ../extensions/file_tools/gth-file-tool-resize.c:579
 msgid "Square"
 msgstr "Τετράγωνο"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:461
-#: ../extensions/file_tools/gth-file-tool-resize.c:589
+#: ../extensions/file_tools/gth-file-tool-crop.c:435
+#: ../extensions/file_tools/gth-file-tool-resize.c:580
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Εικόνα)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:464
-#: ../extensions/file_tools/gth-file-tool-resize.c:593
+#: ../extensions/file_tools/gth-file-tool-crop.c:438
+#: ../extensions/file_tools/gth-file-tool-resize.c:584
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (Οθόνη)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:468
-#: ../extensions/file_tools/gth-file-tool-resize.c:598
+#: ../extensions/file_tools/gth-file-tool-crop.c:442
+#: ../extensions/file_tools/gth-file-tool-resize.c:589
 msgid "5:4"
 msgstr "5:4"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:469
-#: ../extensions/file_tools/gth-file-tool-resize.c:599
+#: ../extensions/file_tools/gth-file-tool-crop.c:443
+#: ../extensions/file_tools/gth-file-tool-resize.c:590
 msgid "4:3 (DVD, Book)"
 msgstr "4:3 (DVD, Βιβλίο)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:470
-#: ../extensions/file_tools/gth-file-tool-resize.c:600
+#: ../extensions/file_tools/gth-file-tool-crop.c:444
+#: ../extensions/file_tools/gth-file-tool-resize.c:591
 msgid "7:5"
 msgstr "7:5"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:471
-#: ../extensions/file_tools/gth-file-tool-resize.c:601
+#: ../extensions/file_tools/gth-file-tool-crop.c:445
+#: ../extensions/file_tools/gth-file-tool-resize.c:592
 msgid "3:2 (Postcard)"
 msgstr "3:2 (Καρτ ποστάλ)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:472
-#: ../extensions/file_tools/gth-file-tool-resize.c:602
+#: ../extensions/file_tools/gth-file-tool-crop.c:446
+#: ../extensions/file_tools/gth-file-tool-resize.c:593
 msgid "16:10"
 msgstr "16:10"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:473
-#: ../extensions/file_tools/gth-file-tool-resize.c:603
+#: ../extensions/file_tools/gth-file-tool-crop.c:447
+#: ../extensions/file_tools/gth-file-tool-resize.c:594
 msgid "16:9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:474
-#: ../extensions/file_tools/gth-file-tool-resize.c:604
+#: ../extensions/file_tools/gth-file-tool-crop.c:448
+#: ../extensions/file_tools/gth-file-tool-resize.c:595
 msgid "1.85:1"
 msgstr "1.85:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:475
-#: ../extensions/file_tools/gth-file-tool-resize.c:605
+#: ../extensions/file_tools/gth-file-tool-crop.c:449
+#: ../extensions/file_tools/gth-file-tool-resize.c:596
 msgid "2.39:1"
 msgstr "2.39:1"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:476
-#: ../extensions/file_tools/gth-file-tool-resize.c:606
+#: ../extensions/file_tools/gth-file-tool-crop.c:450
+#: ../extensions/file_tools/gth-file-tool-resize.c:597
 #: ../extensions/image_print/data/ui/print-layout.ui.h:2
 #: ../extensions/rename_series/gth-template-selector.c:234
 msgid "Custom"
 msgstr "Προσαρμοσμένο"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:491
-#: ../extensions/file_tools/gth-file-tool-rotate.c:424
+#: ../extensions/file_tools/gth-file-tool-crop.c:465
+#: ../extensions/file_tools/gth-file-tool-rotate.c:394
 msgid "Rule of Thirds"
 msgstr "Κανόνας των Τρίτων"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:492
-#: ../extensions/file_tools/gth-file-tool-rotate.c:425
+#: ../extensions/file_tools/gth-file-tool-crop.c:466
+#: ../extensions/file_tools/gth-file-tool-rotate.c:395
 msgid "Golden Sections"
 msgstr "Χρυσές Τομές"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:493
-#: ../extensions/file_tools/gth-file-tool-rotate.c:426
+#: ../extensions/file_tools/gth-file-tool-crop.c:467
+#: ../extensions/file_tools/gth-file-tool-rotate.c:396
 msgid "Center Lines"
 msgstr "Κεντρικές γραμμές"
 
-#: ../extensions/file_tools/gth-file-tool-crop.c:494
-#: ../extensions/file_tools/gth-file-tool-rotate.c:427
-msgid "Uniform"
-msgstr "Ομοιόμορφη"
-
 #
-#: ../extensions/file_tools/gth-file-tool-crop.c:667
+#: ../extensions/file_tools/gth-file-tool-crop.c:682
 msgid "Crop"
 msgstr "Αποκοπή"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:158
-msgid "Equalizing image histogram"
-msgstr "Ισοστάθμιση του ιστογράμματος της εικόνας"
+#: ../extensions/file_tools/gth-file-tool-curves.c:365
+msgid "Add to Presets"
+msgstr "Προσθήκη στις προρυθμίσεις"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:185
-msgid "Equalize"
-msgstr "Ισοστάθμιση"
+#: ../extensions/file_tools/gth-file-tool-curves.c:495
+#: ../extensions/gstreamer_tools/actions.c:69
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1303
+#: ../gthumb/gth-browser.c:1894
+msgid "Could not save the file"
+msgstr "Αδύνατη η αποθήκευση του αρχείου"
 
-#: ../extensions/file_tools/gth-file-tool-equalize.c:186
-msgid "Equalize image histogram"
-msgstr "Ισοστάθμιση του ιστογράμματος της εικόνας"
+#: ../extensions/file_tools/gth-file-tool-curves.c:798
+msgid "Add to presets"
+msgstr "Προσθήκη στις προρυθμίσεις"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:859
+msgid "Color Curves"
+msgstr "Χρωματικές καμπύλες"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:860
+msgid "Adjust color curves"
+msgstr "Προσαρμογή χρωματικών καμπύλων"
+
+#: ../extensions/file_tools/gth-file-tool-effects.c:357
+msgid "Special Effects"
+msgstr "Ειδικά εφέ"
+
+#. Translators: this is the name of a filter that produces warmer colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:402
+msgid "Warmer"
+msgstr ""
+
+#. Translators: this is the name of a filter that produces cooler colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:447
+msgid "Cooler"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:495
+msgid "Soil"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:544
+msgid "Desert"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:592
+msgid "Artic"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:640
+msgid "Mangos"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:688
+msgid "Fresh Blue"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:736
+msgid "Cherry"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:786
+msgid "Vintage"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:908
+msgid "Blurred Edges"
+msgstr ""
+
+#. Translators: this is the name of an image filter that produces darker edges
+#: ../extensions/file_tools/gth-file-tool-effects.c:944
+msgid "Vignette"
+msgstr ""
 
 #
 #: ../extensions/file_tools/gth-file-tool-flip.c:90
@@ -2482,9 +2677,25 @@ msgstr "Αναστροφή"
 msgid "Flip the image vertically"
 msgstr "Περιστροφή της εικόνας κατακόρυφα"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:475
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:370
+msgid "_Brightness"
+msgstr "Φ_ωτεινότητα:"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:375
+msgid "_Saturation"
+msgstr "Κορε_σμός:"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:380
+msgid "_Average"
+msgstr "_Μέσος όρος"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:496
 msgid "Grayscale"
-msgstr "Κλίμακα του γκρίζου"
+msgstr "Κλίμακα του γκρι"
+
+#: ../extensions/file_tools/gth-file-tool-lomo.c:183
+msgid "Lomo"
+msgstr ""
 
 #
 #: ../extensions/file_tools/gth-file-tool-mirror.c:90
@@ -2495,24 +2706,26 @@ msgstr "Καθρέπτης"
 msgid "Mirror the image horizontally"
 msgstr "Κατοπτρισμός της εικόνας οριζόντια"
 
-#: ../extensions/file_tools/gth-file-tool-negative.c:136
+#: ../extensions/file_tools/gth-file-tool-negative.c:101
 msgid "Negative"
 msgstr "Αρνητικό"
 
-#: ../extensions/file_tools/gth-file-tool-redo.c:75
+#: ../extensions/file_tools/gth-file-tool-redo.c:81
 msgid "Redo"
 msgstr "Επανάληψη"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:189
+#. resize the original image
+#: ../extensions/file_tools/gth-file-tool-resize.c:180
 #: ../extensions/resize_images/dlg-resize-images.c:172
+#: ../gthumb/gth-filter-grid.c:575
 msgid "Resizing images"
 msgstr "Γίνεται αλλαγή μεγέθους των εικόνων"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:814
+#: ../extensions/file_tools/gth-file-tool-resize.c:832
 msgid "Resize"
 msgstr "Αλλαγή μεγέθους"
 
-#: ../extensions/file_tools/gth-file-tool-rotate.c:655
+#: ../extensions/file_tools/gth-file-tool-rotate.c:683
 msgid "Rotate"
 msgstr "Περιστροφή"
 
@@ -2547,15 +2760,15 @@ msgstr "Αποθήκευση ως"
 msgid "Save"
 msgstr "Αποθήκευση"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:121
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:333
 msgid "Sharpening image"
 msgstr "Όξυνση εικόνας"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:413
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:438
 msgid "Enhance Focus"
 msgstr "Βελτίωση εστίασης"
 
-#: ../extensions/file_tools/gth-file-tool-undo.c:75
+#: ../extensions/file_tools/gth-file-tool-undo.c:81
 msgid "Undo"
 msgstr "Αναίρεση"
 
@@ -2674,7 +2887,7 @@ msgstr "Flicker"
 
 #: ../extensions/flicker/flicker.extension.in.in.h:2
 msgid "Upload images to Flickr"
-msgstr "Ανεβάσμα εικόνων στο Flickr"
+msgstr "Αποστολή εικόνων στο Flickr"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:2
 msgid "Private photos, visible to family and friends"
@@ -2761,7 +2974,7 @@ msgstr "Όταν τελειώσετε, πατήστε το κουμπί 'Συν�
 #, c-format
 msgid "gThumb requires your authorization to upload the photos to %s"
 msgstr ""
-"Το gthumb χρειάζεται την εξουσιοδότησή σας για να ανεβάσει τις φωτογραφίες "
+"Το gThumb χρειάζεται την εξουσιοδότησή σας για να αποστείλει τις φωτογραφίες "
 "στο %s"
 
 #: ../extensions/flicker_utils/flickr-service.c:572
@@ -2771,34 +2984,29 @@ msgid ""
 "photos to %s. When you're finished, return to this window to complete the "
 "authorization."
 msgstr ""
-"Κλικάρετε στο 'Εξουσιοδότηση' για να ανοίξετε το φυλλομετρητή σας και να "
-"δώσετε στο gthumb την εξουσιοδότηση να ανεβάσει φωτογραφίες στο %s. Όταν "
+"Κλικάρετε στο 'Εξουσιοδότηση' για να ανοίξετε τον περιηγητή ιστού σας και να "
+"δώσετε στο gthumb την εξουσιοδότηση να αποστείλει φωτογραφίες στο %s. Όταν "
 "τελειώσετε, επιστρέψτε σε αυτό το παράθυρο για να ολοκληρωθεί η "
 "εξουσιοδότηση."
 
-#: ../extensions/gstreamer_tools/actions.c:67
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1256
-#: ../gthumb/gth-browser.c:1854
-msgid "Could not save the file"
-msgstr "Αδύνατη η αποθήκευση του αρχείου"
+#. Translators: %s is a filename
+#: ../extensions/gstreamer_tools/actions.c:75
+#, c-format
+msgid "Image saved as %s"
+msgstr "Η εικόνα αποθηκεύτηκε ως %s"
 
-#: ../extensions/gstreamer_tools/actions.c:132
-msgid "Could not take a screenshot"
-msgstr "Αδύνατη η λήψη στιγμιότυπου"
-
-#
-#: ../extensions/gstreamer_tools/actions.c:138
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1429
-msgid "Save Image"
-msgstr "Αποθήκευση εικόνας"
-
-#: ../extensions/gstreamer_tools/actions.c:166
+#: ../extensions/gstreamer_tools/actions.c:101
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Στιγμιότυπο"
 
+#: ../extensions/gstreamer_tools/actions.c:137
+#: ../extensions/gstreamer_tools/actions.c:148
+msgid "Could not take a screenshot"
+msgstr "Αδύνατη η λήψη στιγμιότυπου"
+
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:588
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:593
 msgid "Play"
 msgstr "Αναπαραγωγή"
 
@@ -2818,6 +3026,10 @@ msgstr "Χρόνος:"
 msgid "--:--"
 msgstr "--:--"
 
+#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:2
+msgid "_Screenshots location:"
+msgstr "Τοποθεσία _στιγμιοτύπων:"
+
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:1
 msgid "Audio/Video support"
 msgstr "Υποστήριξη ήχου/βίντεο"
@@ -2826,69 +3038,69 @@ msgstr "Υποστήριξη ήχου/βίντεο"
 msgid "Play audio and video files."
 msgstr "Αναπαραγωγή αρχείων ήχου και βίντεο."
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:558
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:563
 msgid "Playing video"
 msgstr "Αναπαραγωγή αρχείων βίντεο"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:571
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:576
 msgid "Pause"
 msgstr "Παύση"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:623
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:628
 msgid "Take a screenshot"
 msgstr "Λήψη στιγμιότυπου οθόνης"
 
-#: ../extensions/gstreamer_tools/main.c:31
+#: ../extensions/gstreamer_tools/main.c:32
 #: ../gthumb/gth-main-default-tests.c:268
 msgid "Video"
 msgstr "Βίντεο"
 
-#: ../extensions/gstreamer_tools/main.c:32
+#: ../extensions/gstreamer_tools/main.c:33
 #: ../gthumb/gth-main-default-tests.c:275
 msgid "Audio"
 msgstr "Ήχος"
 
-#: ../extensions/gstreamer_tools/main.c:39
+#: ../extensions/gstreamer_tools/main.c:40
 msgid "Artist"
 msgstr "Καλλιτέχνης"
 
-#: ../extensions/gstreamer_tools/main.c:40
+#: ../extensions/gstreamer_tools/main.c:41
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Album"
 msgstr "Λεύκωμα"
 
-#: ../extensions/gstreamer_tools/main.c:41
+#: ../extensions/gstreamer_tools/main.c:42
 msgid "Bitrate"
 msgstr "Ρυθμός δεδομένων"
 
-#: ../extensions/gstreamer_tools/main.c:42
+#: ../extensions/gstreamer_tools/main.c:43
 msgid "Encoder"
 msgstr "Κωδικοποιητής"
 
-#: ../extensions/gstreamer_tools/main.c:44
-#: ../extensions/gstreamer_tools/main.c:49
+#: ../extensions/gstreamer_tools/main.c:45
+#: ../extensions/gstreamer_tools/main.c:50
 msgid "Codec"
 msgstr "Κόντεκ"
 
-#: ../extensions/gstreamer_tools/main.c:45
+#: ../extensions/gstreamer_tools/main.c:46
 msgid "Framerate"
 msgstr "Ρυθμός καρέ"
 
-#: ../extensions/gstreamer_tools/main.c:46
+#: ../extensions/gstreamer_tools/main.c:47
 #: ../extensions/image_print/data/ui/print-layout.ui.h:24
 msgid "Width"
 msgstr "Πλάτος"
 
-#: ../extensions/gstreamer_tools/main.c:47
+#: ../extensions/gstreamer_tools/main.c:48
 #: ../extensions/image_print/data/ui/print-layout.ui.h:25
 msgid "Height"
 msgstr "Ύψος"
 
-#: ../extensions/gstreamer_tools/main.c:50
+#: ../extensions/gstreamer_tools/main.c:51
 msgid "Channels"
 msgstr "Κανάλια"
 
-#: ../extensions/gstreamer_tools/main.c:51
+#: ../extensions/gstreamer_tools/main.c:52
 msgid "Sample rate"
 msgstr "Ρυθμός δειγματοληψίας"
 
@@ -2902,10 +3114,10 @@ msgstr "Μονοφωνικό"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1491
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:243
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1536
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:251
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2446 ../gthumb/gtk-utils.c:967
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:1040
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -2914,8 +3126,8 @@ msgstr "%d × %d"
 msgid "Could not print the selected files"
 msgstr "Αδύνατη η εκτύπωση των επιλεγμένων αρχείων"
 
-#: ../extensions/image_print/callbacks.c:48
-#: ../extensions/image_print/callbacks.c:54
+#: ../extensions/image_print/callbacks.c:53
+#: ../extensions/image_print/callbacks.c:59
 #: ../extensions/image_print/preferences.c:79
 msgid "Print"
 msgstr "Εκτύπωση"
@@ -2973,21 +3185,21 @@ msgstr "χιλιοστά"
 msgid "inches"
 msgstr "ίντσες"
 
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:4
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:1
+msgid "Fonts"
+msgstr "Γραμματοσειρές"
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:5
 msgid "Select Caption Font"
 msgstr "Επιλογή γραμματοσειράς λεζάντας"
 
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:5
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:6
 msgid "Select Header Font"
 msgstr "Επιλογή γραμματοσειράς κεφαλίδας"
 
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:6
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:7
 msgid "Select Footer Font"
 msgstr "Επιλογή γραμματοσειράς λεζάντας"
-
-#: ../extensions/image_print/data/ui/print-preferences.ui.h:7
-msgid "Fonts"
-msgstr "Γραμματοσειρές"
 
 #: ../extensions/image_print/gth-image-print-job.c:914
 #: ../extensions/webalbums/data/albumthemes/text.h:31
@@ -3007,7 +3219,7 @@ msgid "Images"
 msgstr "Εικόνες"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
-#: ../gthumb/gth-image-loader.c:204 ../gthumb/gth-image-loader.c:322
+#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:340
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "Δεν υπάρχει κατάλληλο πρόγραμμα φόρτωσης για αυτό τον τύπο αρχείου"
@@ -3019,7 +3231,7 @@ msgid "Loading \"%s\""
 msgstr "Φόρτωση \"%s\""
 
 #: ../extensions/image_print/gth-load-image-info-task.c:167
-#: ../extensions/webalbums/gth-web-exporter.c:2720
+#: ../extensions/webalbums/gth-web-exporter.c:2722
 msgid "Loading images"
 msgstr "Φόρτωση εικόνων"
 
@@ -3042,8 +3254,8 @@ msgstr "Επαναφορά προσανατολισμού Exif"
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:143
-#: ../extensions/webalbums/gth-web-exporter.c:2338
-#: ../extensions/webalbums/gth-web-exporter.c:2423
+#: ../extensions/webalbums/gth-web-exporter.c:2340
+#: ../extensions/webalbums/gth-web-exporter.c:2425
 msgid "Saving images"
 msgstr "Αποθήκευση εικόνων"
 
@@ -3095,65 +3307,79 @@ msgid "_Accept distortion"
 msgstr "Απο_δοχή παραμόρφωσης"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
-msgid "Set to actual size"
-msgstr "Η εικόνα στο πραγματικό μέγεθος"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-msgid "Keep previous zoom"
-msgstr "Διατήρηση προηγούμενης εστίασης"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
-msgid "Fit to window"
-msgstr "Προσαρμογή στο παράθυρο"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-msgid "Fit to window if larger"
-msgstr "Προσαρμογή στο παράθυρο αν μεγαλύτερο"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
-msgid "Fit to width"
-msgstr "Προσαρμογή στο πλάτος"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
-msgid "Fit to width if larger"
-msgstr "Προσαρμογή στο πλάτος αν μεγαλύτερο"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
-msgid "Reset scrollbar positions"
-msgstr "Επαναφορά αρχικών θέσεων των μπαρών κύλισης"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
 msgid "After loading an image:"
 msgstr "Μετά τη φόρτωση μιας εικόνας:"
 
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
+#: ../extensions/image_viewer/gth-image-viewer-page.c:846
+msgid "Set to actual size"
+msgstr "Η εικόνα στο πραγματικό μέγεθος"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
+msgid "Keep previous zoom"
+msgstr "Διατήρηση προηγούμενης εστίασης"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
+#: ../extensions/image_viewer/gth-image-viewer-page.c:853
+msgid "Fit to window"
+msgstr "Προσαρμογή στο παράθυρο"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
+msgid "Fit to window if larger"
+msgstr "Προσαρμογή στο παράθυρο αν μεγαλύτερο"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
+#: ../extensions/image_viewer/gth-image-viewer-page.c:860
+msgid "Fit to width"
+msgstr "Προσαρμογή στο πλάτος"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
+msgid "Fit to width if larger"
+msgstr "Προσαρμογή στο πλάτος αν μεγαλύτερο"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
+msgid "Reset scrollbar positions"
+msgstr "Επαναφορά αρχικών θέσεων των μπαρών κύλισης"
+
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
-msgid "High"
-msgstr "Υψηλή"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
-msgid "Low"
-msgstr "Χαμηλή"
-
-#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
 msgid "Zoom quality:"
 msgstr "Ποιότητα εστίασης:"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
+msgctxt "zoom quality"
+msgid "_High"
+msgstr "_Υψηλή"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
+msgctxt "zoom quality"
+msgid "_Low"
+msgstr "Χαμηλή"
 
 #: ../extensions/image_viewer/gth-image-histogram.c:85
 msgid "Histogram"
 msgstr "Ιστόγραμμα"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:69
+#: ../extensions/image_viewer/gth-image-viewer-page.c:74
 msgid "Copy Image"
 msgstr "Αντιγραφή εικόνας"
 
 #
-#: ../extensions/image_viewer/gth-image-viewer-page.c:70
+#: ../extensions/image_viewer/gth-image-viewer-page.c:75
 msgid "Paste Image"
 msgstr "Επικόλληση εικόνας"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1983
+#: ../extensions/image_viewer/gth-image-viewer-page.c:867
+msgid "Apply the embedded color profile"
+msgstr "Εφαρμογή του ενσωματωμένου προφίλ χρώματος"
+
+#
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1476
+msgid "Save Image"
+msgstr "Αποθήκευση εικόνας"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2060
 msgid "Loading the original image"
-msgstr "Φόρτωση των πρωτότυπων εικόνων"
+msgstr "Γίνεται φόρτωση της πρωτότυπης εικόνας"
 
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:1
 msgid "Image viewer"
@@ -3163,7 +3389,7 @@ msgstr "Εφαρμογή προβολής εικόνων"
 msgid "Basic image viewing."
 msgstr "Βασική προβολή εικόνων."
 
-#: ../extensions/image_viewer/preferences.c:111
+#: ../extensions/image_viewer/preferences.c:117
 msgid "Viewer"
 msgstr "Εφαρμογή προβολής"
 
@@ -3250,7 +3476,7 @@ msgid "The selected files are already present in the destination."
 msgstr "Τα επιλεγμένα αρχεία υπάρχουν ήδη στον προορισμό."
 
 #: ../extensions/importer/gth-import-task.c:644
-#: ../gthumb/gth-file-source-vfs.c:707
+#: ../gthumb/gth-file-source-vfs.c:714
 msgid "Could not delete the files"
 msgstr "Αδύνατη η διαγραφή των αρχείων"
 
@@ -3302,7 +3528,7 @@ msgstr "_Εκτέλεση εντολής μια φορά για κάθε αρχ�
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:4
 msgid "_Terminal command (shell script)"
-msgstr "Ε_ντολή τερματικού (σενάριο κελύφους)"
+msgstr "Ε_ντολή τερματικού (δέσμη ενεργειών κελύφους)"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:5
 msgid "Sh_ortcut:"
@@ -3383,7 +3609,7 @@ msgstr "Προσαρμογή..."
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:257
 msgid "Script"
-msgstr "Σενάριο"
+msgstr "Δέσμη ενεργειών"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:271
 msgid "Shortcut"
@@ -3396,7 +3622,7 @@ msgstr "Εμφάνιση"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:355
 msgid "Could not save the script"
-msgstr "Αδύνατη η αποθήκευση του σεναρίου"
+msgstr "Αδύνατη η αποθήκευση της δέσμης ενεργειών"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:406
 msgid "New Command"
@@ -3422,16 +3648,16 @@ msgstr "Εισάγετε μια τιμή:"
 msgid "Malformed command"
 msgstr "Εσφαλμένη εντολή"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:147
+#: ../extensions/list_tools/gth-script-editor-dialog.c:146
 msgid "none"
 msgstr "κανένα"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:153
+#: ../extensions/list_tools/gth-script-editor-dialog.c:152
 #, c-format
 msgid "key %d on the numeric keypad"
 msgstr "πλήκτρο %d στο αριθμητικό πληκτρολόγιο"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:296
+#: ../extensions/list_tools/gth-script-editor-dialog.c:295
 #, c-format
 msgid "No command specified"
 msgstr "Δεν καθορίστηκε εντολή"
@@ -3447,7 +3673,7 @@ msgstr "Εργαλεία λίστας αρχείων"
 
 #: ../extensions/list_tools/list_tools.extension.in.in.h:2
 msgid "Scripting and batch manipulation of files."
-msgstr "Scripting και ομαδική επεξεργασία αρχείων."
+msgstr "Δέσμες ενεργειών και ομαδική επεξεργασία αρχείων."
 
 #: ../extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
@@ -3496,7 +3722,7 @@ msgstr "Φόρτωση..."
 #: ../extensions/oauth/oauth-account-manager-dialog.c:140
 #: ../gthumb/gtk-utils.h:41
 msgid "_New"
-msgstr "_Νέο"
+msgstr "Νέ_ο"
 
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:200
 msgid "New authentication…"
@@ -3504,11 +3730,11 @@ msgstr "Νέα πιστοποίηση…"
 
 #: ../extensions/oauth/oauth-ask-authorization-dialog.c:245
 msgid "Authorization Required"
-msgstr "Απαιτείται πιστοποίηση"
+msgstr "Απαιτείται εξουσιοδότηση"
 
 #: ../extensions/oauth/web-service.c:378
 msgid "Choose _Account…"
-msgstr "Επιλέξτε _λογαριασμό…"
+msgstr "Επιλέξτε λογ_αριασμό…"
 
 #: ../extensions/oauth/web-service.c:656
 msgid "Choose Account"
@@ -3520,11 +3746,11 @@ msgstr "Επεξεργασία λογαριασμών"
 
 #: ../extensions/oauth/web-service.c:791 ../extensions/oauth/web-service.c:808
 msgid "Connecting to the server"
-msgstr "Γίνεται σύνδεση στον εξυπηρετητή"
+msgstr "Γίνεται σύνδεση στον διακομιστή"
 
 #: ../extensions/oauth/web-service.c:792
 msgid "Asking authorization"
-msgstr "Ερώτηση εξουσιοδότησης"
+msgstr "Ζητείται εξουσιοδότηση"
 
 #: ../extensions/oauth/web-service.c:809
 msgid "Getting account information"
@@ -3601,7 +3827,7 @@ msgstr "PhotoBucket"
 
 #: ../extensions/photobucket/photobucket.extension.in.in.h:2
 msgid "Upload images to PhotoBucket"
-msgstr "Ανεβάσμα εικόνων στο Photobucket"
+msgstr "Αποστολή εικόνων στο Photobucket"
 
 #: ../extensions/photo_importer/actions.c:71
 #: ../extensions/photo_importer/dlg-photo-importer.c:612
@@ -3625,12 +3851,12 @@ msgid "I_mport From"
 msgstr "_Εισαγωγή από"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
-msgid "_Rotate the images physically"
-msgstr "_Φυσική περιστροφή εικόνων"
-
-#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
 msgid "After importing from a device:"
 msgstr "Μετά την εισαγωγή από αφαιρούμενη συσκευή:"
+
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
+msgid "_Rotate the images physically"
+msgstr "_Φυσική περιστροφή εικόνων"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
@@ -3667,14 +3893,14 @@ msgstr "Αδύνατη η φόρτωση του φακέλου"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:356
 #: ../extensions/photo_importer/dlg-photo-importer.c:396
-#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1096
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1097
 msgid "(Empty)"
 msgstr "(Άδειο)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1768
+#: ../gthumb/gth-browser.c:1805
 msgid "Getting the folder content…"
-msgstr "Λήψη του περιεχομένου φακέλου…"
+msgstr "Λήψη περιεχομένου του φακέλου…"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:407
 msgid "Empty"
@@ -3699,7 +3925,7 @@ msgstr "Εισαγωγή φωτογραφιών από αφαιρούμενες 
 #: ../extensions/picasaweb/callbacks.c:50
 #: ../extensions/picasaweb/callbacks.c:56
 msgid "_Picasa Web Album…"
-msgstr "Συλλογή ιστού _Picasa…"
+msgstr "Λεύκωμα Ιστού _Picasa…"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
 msgid "Export to Picasa Web Albums"
@@ -3724,7 +3950,7 @@ msgstr "Λευκώματα Ιστού Picasa"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
-msgstr "Ανέβασμα εικόνων στα Λευκώματα Ιστού Picasa"
+msgstr "Αποστολή εικόνων στα Λευκώματα Ιστού Picasa"
 
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:106
 msgid "RAW Format"
@@ -3746,11 +3972,11 @@ msgstr "_Χ:"
 msgid "_Y:"
 msgstr "_Ψ:"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:498
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
 msgid "Red Eye Removal"
 msgstr "Αφαίρεση κόκκινων ματιών"
 
-#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:499
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:471
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr ""
 "Αφαίρεση του φαινομένου των κόκκινων ματιών που προκαλείται από το φλας της "
@@ -3781,6 +4007,7 @@ msgid "add"
 msgstr "προσθήκη"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:2
+#: ../gthumb/gth-folder-tree.c:1883
 msgid "_Rename"
 msgstr "_Μετονομασία"
 
@@ -3837,6 +4064,10 @@ msgstr "_Πρότυπο:"
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:27
 msgid "Re_verse Order"
 msgstr "Α_ντιστροφή σειράς"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
+msgid "_Preview:"
+msgstr "_Προεπισκόπηση:"
 
 #: ../extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
@@ -3914,7 +4145,7 @@ msgstr "Μετονομασία πολλών αρχείων."
 
 #: ../extensions/resize_images/callbacks.c:38
 msgid "Resize Images…"
-msgstr "Αυξομείωση εικόνων…"
+msgstr ""
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:1
 msgid "pixel"
@@ -3937,7 +4168,7 @@ msgid "_Preserve original aspect ratios"
 msgstr "Διατήρηση αρχικού λόγου διαστάσεων"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:12
-#: ../gthumb/gth-main-default-metadata.c:45 ../gthumb/gth-toolbox.c:126
+#: ../gthumb/gth-main-default-metadata.c:45 ../gthumb/gth-toolbox.c:146
 msgid "Format"
 msgstr "Μορφή"
 
@@ -3968,7 +4199,7 @@ msgstr "Εύρεση"
 
 #: ../extensions/search/actions.c:81
 msgid "_Find"
-msgstr "Εύ_ρεση"
+msgstr "Εύρεσ_η"
 
 #: ../extensions/search/callbacks.c:69
 msgid "Find files"
@@ -3994,16 +4225,16 @@ msgstr "όλοι οι ακόλουθοι κανόνες"
 msgid "any of the following rules"
 msgstr "οποιοσδήποτε από τους ακόλουθους κανόνες"
 
-#: ../extensions/search/gth-search-task.c:181
+#: ../extensions/search/gth-search-task.c:183
 #, c-format
 msgid "Files found until now: %s"
 msgstr "Αρχεία που βρέθηκαν μέχρι τώρα: %s"
 
-#: ../extensions/search/gth-search-task.c:271
+#: ../extensions/search/gth-search-task.c:274
 msgid "Searching…"
-msgstr "Αναζήτηση…"
+msgstr "Γίνεται αναζήτηση…"
 
-#: ../extensions/search/gth-search-task.c:278
+#: ../extensions/search/gth-search-task.c:281
 msgid "Cancel the operation"
 msgstr "Ακύρωση της ενέργειας"
 
@@ -4011,12 +4242,16 @@ msgstr "Ακύρωση της ενέργειας"
 msgid "File search tool."
 msgstr "Εργαλείο αναζήτησης αρχείων."
 
-#: ../extensions/selections/callbacks.c:100
+#: ../extensions/selections/callbacks.c:62
+msgid "Remove from Selection"
+msgstr "Αφαίρεση από την επιλογή"
+
+#: ../extensions/selections/callbacks.c:107
 #, c-format
 msgid "Show selection %d"
 msgstr "Εμφάνιση επιλογής %d"
 
-#: ../extensions/selections/callbacks.c:315
+#: ../extensions/selections/callbacks.c:329
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -4136,7 +4371,7 @@ msgstr "Προβολή των εικόνων σε αλληλουχία."
 
 #: ../extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
-msgstr "Συλλογή _ιστού…"
+msgstr "Συλλογή _Ιστού…"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:26
 msgid "Click to view the image"
@@ -4245,36 +4480,36 @@ msgstr "Προβολή των ακόλουθων ιδιοτήτων:"
 msgid "Image Attributes"
 msgstr "Ιδιότητες εικόνας"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1800
+#: ../extensions/webalbums/gth-web-exporter.c:1802
 msgid "Could not show the destination"
 msgstr "Αδύνατη η προβολή της τοποθεσίας"
 
-#: ../extensions/webalbums/gth-web-exporter.c:1836
+#: ../extensions/webalbums/gth-web-exporter.c:1838
 msgid "The album has been created successfully."
 msgstr "Τα άλμπουμ δημιουργήθηκε επιτυχώς."
 
-#: ../extensions/webalbums/gth-web-exporter.c:2104
-#: ../extensions/webalbums/gth-web-exporter.c:2132
+#: ../extensions/webalbums/gth-web-exporter.c:2106
+#: ../extensions/webalbums/gth-web-exporter.c:2134
 msgid "Saving thumbnails"
 msgstr "Αποθήκευση μικρογραφιών"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2160
+#: ../extensions/webalbums/gth-web-exporter.c:2162
 msgid "Saving HTML pages: Images"
 msgstr "Αποθήκευση σελίδων HTML: Εικόνες"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2218
+#: ../extensions/webalbums/gth-web-exporter.c:2220
 msgid "Saving HTML pages: Indexes"
 msgstr "Αποθήκευση σελίδων HTML: Ευρετήρια"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2503
+#: ../extensions/webalbums/gth-web-exporter.c:2505
 msgid "Copying original images"
 msgstr "Γίνεται αντιγραφή πρωτότυπων εικόνων"
 
-#: ../extensions/webalbums/gth-web-exporter.c:2964
+#: ../extensions/webalbums/gth-web-exporter.c:2966
 msgid "Could not find the style folder"
 msgstr "Αδύνατη η εύρεση του φακέλου στυλ"
 
-#: ../extensions/webalbums/gth-web-exporter.c:3002
+#: ../extensions/webalbums/gth-web-exporter.c:3004
 msgid "Could not create a temporary folder"
 msgstr "Αδύνατη η δημιουργία προσωρινού φακέλου"
 
@@ -4286,9 +4521,9 @@ msgstr "Λεύκωμα ιστού"
 msgid "Create static web albums."
 msgstr "Δημιουργία στατικών λευκωμάτων ιστού."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1073
-#: ../gthumb/gth-browser.c:1648 ../gthumb/gth-browser.c:5976
-#: ../gthumb/gth-browser.c:5995 ../gthumb/gth-browser.c:6019
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1110
+#: ../gthumb/gth-browser.c:1685 ../gthumb/gth-browser.c:6278
+#: ../gthumb/gth-browser.c:6297 ../gthumb/gth-browser.c:6321
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Αδυνάτη η φόρτωση της θέσης \"%s\""
@@ -4309,98 +4544,104 @@ msgstr "Νέο φίλτρο"
 msgid "Edit Filter"
 msgstr "Επεξεργασία φίλτρου"
 
-#: ../gthumb/dlg-preferences-extensions.c:68 ../gthumb/gth-filterbar.c:270
+#. add the page to the preferences dialog
+#: ../gthumb/dlg-preferences-browser.c:150
+#: ../gthumb/dlg-preferences-extensions.c:65
+msgid "Browser"
+msgstr "Περιηγητής"
+
+#: ../gthumb/dlg-preferences-extensions.c:61 ../gthumb/gth-filterbar.c:270
 msgid "All"
 msgstr "Όλα"
 
-#: ../gthumb/dlg-preferences-extensions.c:69
+#: ../gthumb/dlg-preferences-extensions.c:62
 msgid "Enabled"
 msgstr "Ενεργοποιημένο"
 
-#: ../gthumb/dlg-preferences-extensions.c:70
+#: ../gthumb/dlg-preferences-extensions.c:63
 msgid "Disabled"
 msgstr "Απενεργοποιημένο"
 
-#: ../gthumb/dlg-preferences-extensions.c:73
+#: ../gthumb/dlg-preferences-extensions.c:66
 msgid "Viewers"
 msgstr "Εφαρμογές προβολής"
 
-#: ../gthumb/dlg-preferences-extensions.c:74
+#: ../gthumb/dlg-preferences-extensions.c:67
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "Metadata"
 msgstr "Μεταδεδομένα"
 
-#: ../gthumb/dlg-preferences-extensions.c:75
+#: ../gthumb/dlg-preferences-extensions.c:68
 msgid "File tools"
 msgstr "Εργαλεία αρχείων"
 
-#: ../gthumb/dlg-preferences-extensions.c:76
+#: ../gthumb/dlg-preferences-extensions.c:69
 msgid "List tools"
 msgstr "Εργαλεία λιστών"
 
-#: ../gthumb/dlg-preferences-extensions.c:77
+#: ../gthumb/dlg-preferences-extensions.c:70
 msgid "Importers"
 msgstr "Εισαγωγείς"
 
-#: ../gthumb/dlg-preferences-extensions.c:78
+#: ../gthumb/dlg-preferences-extensions.c:71
 msgid "Exporters"
 msgstr "Εξαγωγείς"
 
-#: ../gthumb/dlg-preferences-extensions.c:437
+#: ../gthumb/dlg-preferences-extensions.c:361
 msgid "Could not activate the extension"
 msgstr "Αδύνατη η ενεργοποίηση της επέκτασης"
 
-#: ../gthumb/dlg-preferences-extensions.c:449
+#: ../gthumb/dlg-preferences-extensions.c:373
 msgid "Could not deactivate the extension"
 msgstr "Αδύνατη η απενεργοποίηση της επέκτασης"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-extensions.c:739
+#: ../gthumb/dlg-preferences-extensions.c:664
 msgid "Extensions"
 msgstr "Επεκτάσεις"
 
-#: ../gthumb/dlg-preferences-extensions.c:786
+#: ../gthumb/dlg-preferences-extensions.c:713
 msgid "Restart required"
 msgstr "Απαιτείται επανεκκίνηση"
 
-#: ../gthumb/dlg-preferences-extensions.c:787
+#: ../gthumb/dlg-preferences-extensions.c:714
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Πρέπει να επανεκκινήσετε το gthumb για να εφαρμοστούν αυτές οι αλλαγές"
 
-#: ../gthumb/dlg-preferences-extensions.c:788
+#: ../gthumb/dlg-preferences-extensions.c:715
 msgid "_Continue"
 msgstr "_Συνέχεια"
 
 #
-#: ../gthumb/dlg-preferences-extensions.c:789
+#: ../gthumb/dlg-preferences-extensions.c:716
 msgid "_Restart"
 msgstr "Επα_νεκκίνηση"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: ../gthumb/gio-utils.c:1351
+#: ../gthumb/gio-utils.c:1361
 #, c-format
 msgid "%s of %s"
 msgstr "%s από %s"
 
-#: ../gthumb/gio-utils.c:1386
+#: ../gthumb/gio-utils.c:1432
 #, c-format
 msgid "Moving \"%s\" to \"%s\""
 msgstr "Μετακίνηση του %s σε %s"
 
-#: ../gthumb/gio-utils.c:1388
+#: ../gthumb/gio-utils.c:1434
 #, c-format
 msgid "Copying \"%s\" to \"%s\""
 msgstr "Αντιγραφή του \"%s\" σε \"%s\""
 
-#: ../gthumb/gio-utils.c:1750
+#: ../gthumb/gio-utils.c:1793
 msgid "Moving files"
 msgstr "Γίνεται μετακίνηση αρχείων"
 
-#: ../gthumb/gio-utils.c:1750
+#: ../gthumb/gio-utils.c:1793
 msgid "Copying files"
 msgstr "Γίνεται αντιγραφή αρχείων"
 
-#: ../gthumb/gio-utils.c:1751
+#: ../gthumb/gio-utils.c:1794
 msgid "Getting file information"
 msgstr "Γίνεται λήψη πληροφοριών του αρχείου"
 
@@ -4410,7 +4651,7 @@ msgstr "Γίνεται λήψη πληροφοριών του αρχείου"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3116
+#: ../gthumb/glib-utils.c:3231
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4422,126 +4663,134 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3125
+#: ../gthumb/glib-utils.c:3240
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
-#: ../gthumb/gth-browser-actions-callbacks.c:141
+#: ../gthumb/gth-browser-actions-callbacks.c:127
 msgid ""
 "gThumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
 "Foundation; either version 2 of the License, or (at your option) any later "
 "version."
 msgstr ""
-"Το gthumb είναι ελεύθερο λογισμικό· μπορείτε να το αναδιανέμετε ή/και να το "
+"Το gThumb είναι ελεύθερο λογισμικό· μπορείτε να το αναδιανέμετε ή/και να το "
 "τροποποιείτε μέσω των όρων της GNU General Public License όπως αυτή "
-"δημοσιεύτηκε από το Free Software Foundation· είτε την έκδοση 2 της άδειας, "
-"ή (προαιρετικά) οποιαδήποτε νεότερη έκδοση."
+"δημοσιεύτηκε από το  Free Software Foundation, έκδοση 2 , ή  (προαιρετικά) "
+"οποιαδήποτε νεότερη έκδοση."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:145
+#: ../gthumb/gth-browser-actions-callbacks.c:131
 msgid ""
 "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
-"Το gthumb διανέμεται με την ελπίδα ότι θα είναι χρήσιμο, αλλά ΧΩΡΙΣ ΚΑΜΙΑ "
+"Το gThumb διανέμεται με την ελπίδα ότι θα είναι χρήσιμο, αλλά ΧΩΡΙΣ ΚΑΜΙΑ "
 "ΑΠΟΛΥΤΩΣ ΕΓΓΥΗΣΗ· χωρίς ακόμη και τη σιωπηρή εγγύηση ΕΜΠΟΡΕΥΣΙΜΟΤΗΤΑΣ Η "
 "ΚΑΤΑΛΛΗΛΟΤΗΤΑΣ ΓΙΑ ΣΥΓΓΕΚΡΙΜΕΝΟ ΣΚΟΠΟ. Δείτε για περισσότερες λεπτομέρειες "
-"την GNU General Public License."
+"την άδεια GNU General Public."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:149
+#: ../gthumb/gth-browser-actions-callbacks.c:135
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
 "Θα πρέπει να έχετε λάβει ένα αντίγραφο της Γενικής Άδειας Δημόσιας Χρήσης "
-"GNU (GPL) μαζί με το πρόγραμμα gThumb. Αν όχι, επισκεφθείτε το http://www."
-"gnu.org/licenses/."
+"GNU (GPL) μαζί με το gThumb. Εάν όχι, επισκεφθείτε το http://www.gnu.org/"
+"licenses/."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:169
+#: ../gthumb/gth-browser-actions-callbacks.c:155
 msgid "An image viewer and browser for GNOME."
 msgstr "Ένας προβολέας εικόνων και περιηγητής για το GNOME."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:172
+#: ../gthumb/gth-browser-actions-callbacks.c:158
 msgid "translator-credits"
 msgstr ""
-"Δημήτρης Σπίγγος <dmtrs32@gmail.com>\n"
+"Ελληνική μεταφραστική ομάδα GNOME\n"
 "Νίκος Χαρωνιτάκης <nikosx@gmail.com>\n"
 "Στάθης Καμπέρης <stathisk@med.auth.gr>\n"
 "Δημήτρης Γλέζος <dimitris@glezos.com>\n"
-"Στέργιος Προσινικλής <steriosprosiniklis@gmail.com>"
+"Στέργιος Προσινικλής <steriosprosiniklis@gmail.com>\n"
+"Μαρία Μαυρίδου <mavridou@gmail.com>\n"
+"\n"
+"Για περισσότερες πληροφορίες, επισκεφθείτε τη σελίδα\n"
+"http://gnome.gr/"
 
-#: ../gthumb/gth-browser.c:344
+#: ../gthumb/gth-browser.c:370
 msgid "[modified]"
 msgstr "[τροποποιήθηκε]"
 
-#: ../gthumb/gth-browser.c:794
+#: ../gthumb/gth-browser.c:831
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d επιλεγμένο αρχείο (%s)"
 msgstr[1] "%d επιλεγμένα αρχεία (%s)"
 
-#: ../gthumb/gth-browser.c:829
+#: ../gthumb/gth-browser.c:866
 #, c-format
 msgid "%s of free space"
 msgstr "%s ελεύθερος χώρος"
 
-#: ../gthumb/gth-browser.c:1752 ../gthumb/gth-browser.c:1779
+#: ../gthumb/gth-browser.c:1789 ../gthumb/gth-browser.c:1816
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Δε βρέθηκε κατάλληλο άρθρωμα για το %s"
 
-#: ../gthumb/gth-browser.c:1898
+#: ../gthumb/gth-browser.c:1938
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Αποθήκευση των αλλαγών στο αρχείο '%s';"
 
-#: ../gthumb/gth-browser.c:1903
+#: ../gthumb/gth-browser.c:1943
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Εάν δεν κάνετε αποθήκευση, οι αλλαγές στο αρχείο θα χαθούν μόνιμα."
 
-#: ../gthumb/gth-browser.c:1904
+#: ../gthumb/gth-browser.c:1944
 msgid "Do _Not Save"
 msgstr "Ό_χι αποθήκευση"
 
-#: ../gthumb/gth-browser.c:2726 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2889 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Αδύνατη η μετονομασία"
 
-#: ../gthumb/gth-browser.c:3141 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3333 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: ../gthumb/gth-browser.c:4111
+#: ../gthumb/gth-browser.c:4342
 msgid "Go to the previous visited location"
 msgstr "Μετάβαση στην προηγούμενη τοποθεσία"
 
-#: ../gthumb/gth-browser.c:4117
+#: ../gthumb/gth-browser.c:4348
 msgid "Go to the next visited location"
 msgstr "Μετάβαση στην επόμενη τοποθεσία"
 
-#: ../gthumb/gth-browser.c:4129
+#: ../gthumb/gth-browser.c:4356
 msgid "History"
 msgstr "Ιστορικό"
 
-#: ../gthumb/gth-browser.c:4145
+#: ../gthumb/gth-browser.c:4371
 msgid "View the folders"
 msgstr "Προβολή φακέλων"
 
-#: ../gthumb/gth-browser.c:4160
+#: ../gthumb/gth-browser.c:4386
 msgid "Edit file"
 msgstr "Επεξεργασία αρχείου"
 
-#: ../gthumb/gth-browser.c:5977
+#: ../gthumb/gth-browser.c:4403
+msgid "Accept"
+msgstr "Αποδοχή"
+
+#: ../gthumb/gth-browser.c:6279
 #, c-format
 msgid "File type not supported"
 msgstr "Ο τύπος του αρχείου δεν υποστηρίζεται"
 
-#: ../gthumb/gth-browser.c:6020
+#: ../gthumb/gth-browser.c:6322
 #, c-format
 msgid "No suitable module found"
 msgstr "Δεν βρέθηκε κατάλληλο άρθρωμα"
@@ -4560,19 +4809,19 @@ msgstr "Η επέκταση '%1$s' απαιτείται από την επέκτ
 msgid "All Supported Files"
 msgstr "Όλα τα υποστηριζόμενα αρχεία"
 
-#: ../gthumb/gth-file-properties.c:416
+#: ../gthumb/gth-file-details.c:43
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
-#: ../gthumb/gth-file-source-vfs.c:214
+#: ../gthumb/gth-file-source-vfs.c:220
 msgid "Computer"
 msgstr "Υπολογιστής"
 
-#: ../gthumb/gth-file-source-vfs.c:221
+#: ../gthumb/gth-file-source-vfs.c:227
 msgid "Home Folder"
 msgstr "Προσωπικός φάκελος"
 
-#: ../gthumb/gth-file-source-vfs.c:752
+#: ../gthumb/gth-file-source-vfs.c:759
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -4580,16 +4829,16 @@ msgstr ""
 "Τα αρχεία δεν μπορούν να μετακινηθούν στα Απορρίμματα. Θέλετε να τα "
 "διαγράψετε μόνιμα;"
 
-#: ../gthumb/gth-file-source-vfs.c:763
+#: ../gthumb/gth-file-source-vfs.c:770
 msgid "Could not move the files to the Trash"
 msgstr "Αδύνατη η μετακίνηση των αρχείων στα Απορρίμματα"
 
-#: ../gthumb/gth-file-source-vfs.c:810
+#: ../gthumb/gth-file-source-vfs.c:817
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "Είστε σίγουροι ότι θέλετε να μετακινήσετε το \"%s\" στα Απορρίμματα;"
 
-#: ../gthumb/gth-file-source-vfs.c:814
+#: ../gthumb/gth-file-source-vfs.c:821
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
@@ -4600,11 +4849,11 @@ msgstr[1] ""
 "Είστε σίγουροι ότι θέλετε να μετακινήσετε στα Απορρίμματα τα %'d επιλεγμένα "
 "αρχεία;"
 
-#: ../gthumb/gth-file-source-vfs.c:826
+#: ../gthumb/gth-file-source-vfs.c:833
 msgid "Mo_ve to Trash"
 msgstr "Μετακίνηση στα Απορρίμμα_τα"
 
-#: ../gthumb/gth-file-source-vfs.c:857
+#: ../gthumb/gth-file-source-vfs.c:864
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4651,47 +4900,23 @@ msgstr "σε φθίνουσα σειρά"
 msgid "No limit specified"
 msgstr "Δεν καθορίστηκε όριο"
 
-#: ../gthumb/gth-folder-tree.c:1070
+#: ../gthumb/gth-folder-tree.c:1071
 msgid "Loading…"
-msgstr "Φορτώνεται…"
+msgstr "Γίνεται φόρτωση…"
 
-#: ../gthumb/gth-folder-tree.c:1364
+#: ../gthumb/gth-folder-tree.c:1365
 msgid "(Open Parent)"
 msgstr "(Άνοιγμα γονικού)"
 
-#: ../gthumb/gth-histogram-view.c:826
-msgid "Linear scale"
-msgstr "Γραμμική κλίμακα"
+#: ../gthumb/gth-folder-tree.c:1881
+msgid "Enter the new name:"
+msgstr "Εισάγετε το νέο όνομα:"
 
-#: ../gthumb/gth-histogram-view.c:838
-msgid "Logarithmic scale"
-msgstr "Λογαριθμική κλίμακα"
-
-#: ../gthumb/gth-histogram-view.c:858
-msgid "Channel:"
-msgstr "Κανάλι:"
-
-#: ../gthumb/gth-histogram-view.c:879
-msgid "Value"
-msgstr "Τιμή"
-
-#: ../gthumb/gth-histogram-view.c:884
-msgid "Red"
-msgstr "Κόκκινο"
-
-#: ../gthumb/gth-histogram-view.c:889
-msgid "Green"
-msgstr "Πράσινο"
-
-#: ../gthumb/gth-histogram-view.c:894
-msgid "Blue"
-msgstr "Μπλε"
-
-#: ../gthumb/gth-histogram-view.c:899
+#: ../gthumb/gth-histogram-view.c:910
 msgid "Alpha"
 msgstr "Alpha"
 
-#: ../gthumb/gth-histogram-view.c:905
+#: ../gthumb/gth-histogram-view.c:916
 msgid "RGB"
 msgstr "RGB"
 
@@ -4764,11 +4989,11 @@ msgstr "Εστιακή απόσταση"
 
 #: ../gthumb/gth-main-default-metadata.c:55
 msgid "Flash"
-msgstr "Αναλαμπή"
+msgstr "Φλας"
 
 #: ../gthumb/gth-main-default-metadata.c:56
 msgid "Camera Model"
-msgstr "Τύπος φωτογραφικής μηχανής"
+msgstr "Μοντέλο κάμερας"
 
 #: ../gthumb/gth-main-default-metadata.c:65
 msgid "Author"
@@ -4838,7 +5063,7 @@ msgstr "Αποθήκευση πληροφοριών του αρχείου"
 #: ../gthumb/gth-save-image-task.c:158
 #, c-format
 msgid "Saving '%s'"
-msgstr "Αποθήκευση '%s'"
+msgstr "Αποθήκευση του %s"
 
 #: ../gthumb/gth-tags-entry.c:481
 #, c-format
@@ -4982,45 +5207,45 @@ msgstr "Σήμερα"
 msgid "Now"
 msgstr "Τώρα"
 
-#: ../gthumb/gth-toolbox.c:124
+#: ../gthumb/gth-toolbox.c:144
 msgid "Colors"
 msgstr "Χρώματα"
 
-#: ../gthumb/gth-toolbox.c:125
+#: ../gthumb/gth-toolbox.c:145
 msgid "Rotation"
 msgstr "Περιστροφή"
 
-#: ../gthumb/gtk-utils.c:408
+#: ../gthumb/gtk-utils.c:481
 msgid "Could not display help"
 msgstr "Αδύνατη η εμφάνιση βοήθειας"
 
-#: ../gthumb/gtk-utils.c:728 ../gthumb/gtk-utils.c:735
+#: ../gthumb/gtk-utils.c:801 ../gthumb/gtk-utils.c:808
 msgid "Could not launch the application"
 msgstr "Αδύνατη η εκκίνηση της εφαρμογής"
 
-#: ../gthumb/gtk-utils.c:838
+#: ../gthumb/gtk-utils.c:911
 msgid "_Copy Here"
 msgstr "_Αντιγραφή εδώ"
 
-#: ../gthumb/gtk-utils.c:843
+#: ../gthumb/gtk-utils.c:916
 msgid "_Move Here"
 msgstr "_Μετακίνηση εδώ"
 
-#: ../gthumb/gtk-utils.c:848
+#: ../gthumb/gtk-utils.c:921
 msgid "_Link Here"
 msgstr "_Σύνδεσμος εδώ"
 
-#: ../gthumb/gtk-utils.c:857
+#: ../gthumb/gtk-utils.c:930
 msgid "Cancel"
 msgstr "Ακύρωση"
 
 #: ../gthumb/gtk-utils.h:36
 msgid "_Cancel"
-msgstr "Ά_κυρο"
+msgstr "A_κύρωση"
 
 #: ../gthumb/gtk-utils.h:37
 msgid "_Close"
-msgstr "_Κλείσιμο"
+msgstr "Κλεί_σιμο"
 
 #: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:3
 msgid "_Help"
@@ -5032,12 +5257,12 @@ msgstr "Εν_τάξει"
 
 #: ../gthumb/gtk-utils.h:43
 msgid "_Remove"
-msgstr "_Αφαίρεση"
+msgstr "Α_φαίρεση"
 
 #
 #: ../gthumb/gtk-utils.h:44
 msgid "_Save"
-msgstr "Απο_θήκευση"
+msgstr "Απ_οθήκευση"
 
 #: ../gthumb/main.c:59
 msgid "Open a new window"
@@ -5070,7 +5295,7 @@ msgstr "Νέο παρά_θυρο"
 
 #: ../gthumb/resources/app-menu.ui.h:4
 msgid "_About"
-msgstr "_Περί"
+msgstr "Π_ερί"
 
 #: ../gthumb/resources/app-menu.ui.h:5
 msgid "_Quit"
@@ -5162,9 +5387,6 @@ msgstr "_Διαγραφή ιστορικού"
 #~ "Δυνατές τιμές: white (άσπρο), black (μαύρο), checked (ψηφιδωτό), none "
 #~ "(κανένα)."
 
-#~ msgid "Whether to always use a black background."
-#~ msgstr "Αν θα χρησιμοποιείται πάντα μαύρο φόντο."
-
 #~ msgid "Some extensions are configurable."
 #~ msgstr "Μερικές επεκτάσεις είναι μπορούν να ρυθμιστούν."
 
@@ -5187,7 +5409,7 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgstr "_23..."
 
 #~ msgid "Upload photos to 23"
-#~ msgstr "Ανεβάσμα φωτογραφιών στο 23"
+#~ msgstr "Αποστολή φωτογραφιών στο 23"
 
 #~ msgid "_Bookmarks"
 #~ msgstr "_Σελιδοδείκτες"
@@ -5225,17 +5447,11 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "Rena_me"
 #~ msgstr "_Μετονομασία"
 
-#~ msgid "tag"
-#~ msgstr "ετικέτα"
-
 #~ msgid "Change _Date..."
 #~ msgstr "Αλλαγή _ημερομηνίας..."
 
 #~ msgid "Change images last modified date"
 #~ msgstr "Αλλαγή ημερομηνίας τροποποίησης των εικόνων"
-
-#~ msgid "Exif DateTimeOriginal tag"
-#~ msgstr "Eτικέτα Exif DateTimeOriginal"
 
 #~ msgid ""
 #~ "Import the metadata stored inside files into the gThumb comment system"
@@ -5267,7 +5483,6 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "Edit the comment and other information of the selected files"
 #~ msgstr "Επεξεργασία σχολίων και άλλων πληροφοριών των επιλεγμένων αρχείων"
 
-#~| msgid "Delete the selected files"
 #~ msgid "Set the tags of the selected files"
 #~ msgstr "Ορισμός ετικετών των επιλεγμένων αρχείων"
 
@@ -5281,14 +5496,11 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "Face_book..."
 #~ msgstr "Face_book..."
 
+#~ msgid "Download photos from Facebook"
+#~ msgstr "Λήψη φωτογραφιών από το Facebook"
+
 #~ msgid "Upload photos to Facebook"
-#~ msgstr "Ανέβασμα φωτογραφιών στο Facebook"
-
-#~ msgid "_Resize to:"
-#~ msgstr "Α_λλαγή μεγέθους σε: "
-
-#~ msgid "Choose _Account..."
-#~ msgstr "Επιλογή _λογαριασμού..."
+#~ msgstr "Αποστολή φωτογραφιών στο Facebook"
 
 #~ msgid "Create a new empty folder inside this folder"
 #~ msgstr "Δημιουργία νέου κενού φακέλου μέσα σε αυτόν το φάκελο"
@@ -5329,8 +5541,12 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "_Reset"
 #~ msgstr "Επανα_φορά"
 
-#~ msgid "×"
-#~ msgstr "×"
+#
+#~ msgid "C_rop"
+#~ msgstr "_Κοπή"
+
+#~ msgid "Method"
+#~ msgstr "Μέθοδος"
 
 #~ msgid "Adjust Colors..."
 #~ msgstr "Ρύθμιση χρωμάτων..."
@@ -5338,17 +5554,14 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "Crop..."
 #~ msgstr "Αποκοπή..."
 
-#~ msgid "Desaturate"
-#~ msgstr "Αφαίρεση κορεσμού"
+#~ msgid "Equalizing image histogram"
+#~ msgstr "Ισοστάθμιση του ιστογράμματος της εικόνας"
 
-#~ msgid "White balance correction"
-#~ msgstr "Διόρθωση ισορροπίας λευκού"
+#~ msgid "Equalize image histogram"
+#~ msgstr "Ισοστάθμιση του ιστογράμματος της εικόνας"
 
-#~ msgid "Enhance Colors"
-#~ msgstr "Βελτίωση χρωμάτων"
-
-#~ msgid "Automatic white balance correction"
-#~ msgstr "Αυτόματη διόρθωση ισορροπίας λευκού"
+#~ msgid "Grayscale..."
+#~ msgstr "Κλίμακα του γκρι..."
 
 #~ msgid "Resize..."
 #~ msgstr "Αλλαγή μεγέθους..."
@@ -5372,10 +5585,10 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgstr "_Flickr..."
 
 #~ msgid "Download photos from Flickr"
-#~ msgstr "Κατέβασμα φωτογραφιών από το Flickr"
+#~ msgstr "Λήψη φωτογραφιών από το Flickr"
 
 #~ msgid "Upload photos to Flickr"
-#~ msgstr "Ανεβάσμα φωτογραφιών στο Flickr"
+#~ msgstr "Αποστολή φωτογραφιών στο Flickr"
 
 #~ msgid "Toggle volume"
 #~ msgstr "Αλλαγή έντασης"
@@ -5406,6 +5619,9 @@ msgstr "_Διαγραφή ιστορικού"
 
 #~ msgid "Transparency _type:"
 #~ msgstr "_Τύπος διαφάνειας:"
+
+#~ msgid "Low"
+#~ msgstr "Χαμηλή"
 
 #~ msgid "White"
 #~ msgstr "Λευκό"
@@ -5449,11 +5665,14 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "Batch tools for multiple files"
 #~ msgstr "Εργαλεία για ταυτόχρονη επεξεργασία πολλών αρχείων"
 
+#~ msgid "Choose _Account..."
+#~ msgstr "Επιλογή _λογαριασμού..."
+
 #~ msgid "Photobucket..."
 #~ msgstr "Photobucket..."
 
 #~ msgid "Upload photos to Photobucket"
-#~ msgstr "Ανεβάσμα φωτογραφιών στο Photobucket"
+#~ msgstr "Αποστολή φωτογραφιών στο Photobucket"
 
 #~ msgid "Import photos and other files from a removable device"
 #~ msgstr "Εισαγωγή φωτογραφιών και άλλων αρχείων από αφαιρούμενη συσκευή"
@@ -5468,36 +5687,10 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgstr "_Λεύκωμα Ιστού Picasa..."
 
 #~ msgid "Download photos from Picasa Web Album"
-#~ msgstr "Κατέβασμα φωτογραφιών από Λεύκωμα Ιστού Picasa"
+#~ msgstr "Λήψη φωτογραφιών από Λεύκωμα Ιστού Picasa"
 
 #~ msgid "Upload photos to Picasa Web Album"
-#~ msgstr "Ανέβασμα φωτογραφιών σε Λεύκωμα Ιστού Picasa"
-
-#~ msgid "_E-Mail:"
-#~ msgstr "_E-Mail:"
-
-#~ msgid ""
-#~ "Type the characters you see in the picture below. Letters are not case-"
-#~ "sensitive."
-#~ msgstr ""
-#~ "Πληκτρολογήστε τους χαρακτήρες που βλέπετε στην ακόλουθη εικόνα. Τα "
-#~ "γράμματα δεν παίζει ρόλο αν είναι πεζά ή κεφαλαία."
-
-#~ msgid "_Password:"
-#~ msgstr "_Κωδικός:"
-
-#~ msgid "Account"
-#~ msgstr "Λογαριασμός"
-
-#~ msgid "Could not load the file"
-#~ msgstr "Αδύνατη η φόρτωση του αρχείου"
-
-#
-#~ msgid "Save images"
-#~ msgstr "Αποθήκευση εικόνων"
-
-#~ msgid "Save images in common file formats such as JPEG, PNG and TIFF"
-#~ msgstr "Αποθήκευση εικόνων σε κοινές μορφές αρχείων όπως JPEG, PNG και TIFF"
+#~ msgstr "Αποστολή φωτογραφιών σε Λεύκωμα Ιστού Picasa"
 
 #~ msgid "Red Eye Removal..."
 #~ msgstr "Αφαίρεση κόκκινων ματιών..."
@@ -5508,19 +5701,12 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "Resize the selected images"
 #~ msgstr "Αλλαγή μεγέθους των επιλεγμένων εικόνων"
 
-#~| msgid "Selection"
-#~ msgid "Add to _Selection"
-#~ msgstr "Προσθήκη στην _επιλογή"
-
-#~| msgid "Selection"
 #~ msgid "Selection 1"
 #~ msgstr "Επιλογή 1"
 
-#~| msgid "Selection"
 #~ msgid "Selection 2"
 #~ msgstr "Επιλογή 2"
 
-#~| msgid "Selection"
 #~ msgid "Selection 3"
 #~ msgstr "Επιλογή 3"
 
@@ -5535,31 +5721,6 @@ msgstr "_Διαγραφή ιστορικού"
 
 #~ msgid "Create a static web album"
 #~ msgstr "Δημιουργία ενός στατικού λευκώματος ιστού"
-
-#~ msgid "File _Format: %s"
-#~ msgstr "_Μορφή αρχείου: %s"
-
-#~ msgid "By Extension"
-#~ msgstr "Κατά επέκταση"
-
-#~ msgid "File Format"
-#~ msgstr "Μορφή αρχείου"
-
-#~ msgid "Extension(s)"
-#~ msgstr "Επεκτάσεις"
-
-#~ msgid ""
-#~ "The program was not able to find out the file format you want to use for `"
-#~ "%s'. Please make sure to use a known extension for that file or manually "
-#~ "choose a file format from the list below."
-#~ msgstr ""
-#~ "Η εφαρμογή δεν μπόρεσε να βρει τη μορφή αρχείου που θέλετε να "
-#~ "χρησιμοποιήσετε για το `%s'. Παρακαλούμε βεβαιωθείτε ότι χρησιμοποιείτε "
-#~ "μια γνωστή επέκταση για αυτό το αρχείο ή διαλέξτε χειροκίνητα τη μορφή "
-#~ "αρχείου από την παρακάτω λίστα."
-
-#~ msgid "File format not recognized"
-#~ msgstr "Μη αναγνωρίσιμη μορφή αρχείου"
 
 #~ msgid "_File"
 #~ msgstr "_Αρχείο"
@@ -5603,7 +5764,6 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "Go up one level"
 #~ msgstr "Μετάβαση ένα επίπεδο επάνω"
 
-#~| msgid "_Location"
 #~ msgid "_Location..."
 #~ msgstr "_Τοποθεσία..."
 
@@ -5624,6 +5784,9 @@ msgstr "_Διαγραφή ιστορικού"
 
 #~ msgid "_Keyboard Shortcuts"
 #~ msgstr "Συντομεύσεις _πληκτρολογίου"
+
+#~ msgid "Edit"
+#~ msgstr "Επεξεργασία"
 
 #~ msgid "_Toolbar"
 #~ msgstr "Ερ_γαλειοθήκη"
@@ -5667,9 +5830,6 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "View file properties"
 #~ msgstr "Προβολή ιδιοτήτων αρχείου"
 
-#~ msgid "Edit"
-#~ msgstr "Επεξεργασία"
-
 #~ msgid "_Fit Window to Image"
 #~ msgstr "_Προσαρμογή στο παράθυρο αν μεγαλύτερο"
 
@@ -5701,154 +5861,48 @@ msgstr "_Διαγραφή ιστορικού"
 #~ msgid "Close _All Windows"
 #~ msgstr "Κλείστε _όλα τα παράθυρα"
 
-#~ msgid "Possible values are: list, thumbnails."
-#~ msgstr "Δυνατές τιμές: list (λίστα), thumbnails (μικρογραφίες)."
+#~ msgid "Whether to always use a black background."
+#~ msgstr "Αν θα χρησιμοποιείται πάντα μαύρο φόντο."
 
-#~ msgid "Possible values are: high, low."
-#~ msgstr "Δυνατές τιμές: high (υψηλό), low (χαμηλό)."
+#~ msgid "tag"
+#~ msgstr "ετικέτα"
 
-#~ msgid ""
-#~ "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
-#~ "fit_width_if_larger."
-#~ msgstr ""
-#~ "Οι δυνατές τιμές είναι:  actual_size (πραγματικό μέγεθος), fit "
-#~ "(προσαρμογή), keep_prev (διατήρηση προηγούμενου), fit_if_larger "
-#~ "(προσαρμογή αν μεγαλύτερο), fit_width_if_larger (προσαρμογή πλάτους αν "
-#~ "μεγαλύτερο)."
+#~ msgid "Exif DateTimeOriginal tag"
+#~ msgstr "Eτικέτα Exif DateTimeOriginal"
 
-#~ msgid "Possible values are: light, midtone, dark."
-#~ msgstr "Δυνατές τιμές: light (φωτεινό), midtone (μέτριο), dark (σκοτεινό)."
+#~ msgid "_Resize to:"
+#~ msgstr "Α_λλαγή μεγέθους σε: "
 
-#~ msgid "Possible values are: small, medium, large."
-#~ msgstr "Δυνατές τιμές: small (μικρό), medium (μεσαίο), large (μεγάλο)."
+#~ msgid "×"
+#~ msgstr "×"
 
-#~ msgid ""
-#~ "Possible values are: system, text_below, text_beside, text_only, "
-#~ "icons_only."
-#~ msgstr ""
-#~ "Δυνατές τιμές είναι: system (σύστημα), text_below (κείμενο από κάτω),  "
-#~ "text_beside (κείμενο απο δίπλα), text_only (μόνο κείμενο), icons_only "
-#~ "(μόνο εικονίδια)."
+#~ msgid "Desaturate"
+#~ msgstr "Αφαίρεση κορεσμού"
 
-#~ msgid "Follow Nautilus behaviour"
-#~ msgstr "Να ακολουθείται η συμπεριφορά του Ναυτίλου"
+#~ msgid "White balance correction"
+#~ msgstr "Διόρθωση ισορροπίας λευκού"
 
-#~ msgid "Activate items with a single click"
-#~ msgstr "Ενεργοποίηση αντικειμένων με μονό κλικ"
+#~ msgid "Enhance Colors"
+#~ msgstr "Βελτίωση χρωμάτων"
 
-#~ msgid "Activate items with a double click"
-#~ msgstr "Ενεργοποίηση αντικειμένων με διπλό κλικ"
+#~ msgid "Automatic white balance correction"
+#~ msgstr "Αυτόματη διόρθωση ισορροπίας λευκού"
 
-#~ msgid "Set image to actual size"
-#~ msgstr "Ορισμός πραγματικού μεγέθους εικόνας"
-
-#~ msgid "Choose another tag"
-#~ msgstr "Επιλέξτε άλλη ετικέτα"
-
-#~ msgid "New tag"
-#~ msgstr "Νέα ετικέτα"
-
-#~ msgid "&#xD7;"
-#~ msgstr "&#xD7;"
-
-#~ msgctxt "time"
-#~ msgid "/"
-#~ msgstr "/"
+#~ msgid "_E-Mail:"
+#~ msgstr "_E-Mail:"
 
 #~ msgid ""
-#~ "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-"
-#~ "larger, fit-width, fit-width-if-larger."
+#~ "Type the characters you see in the picture below. Letters are not case-"
+#~ "sensitive."
 #~ msgstr ""
-#~ "Οι δυνατές τιμές είναι: actual-size (πραγματικό μέγεθος), keep-prev "
-#~ "(διατήρηση προηγούμενου), fit-size (προσαρμογή μεγέθους), fit-size-if-"
-#~ "larger (προσαρμογή μεγέθους αν μεγαλύτερο), fit-width (προσαρμογή "
-#~ "πλάτους), fit-width-if-larger (προσαρμογή πλάτους αν μεγαλύτερο)."
+#~ "Πληκτρολογήστε τους χαρακτήρες που βλέπετε στην ακόλουθη εικόνα. Τα "
+#~ "γράμματα δεν παίζει ρόλο αν είναι πεζά ή κεφαλαία."
 
-#~ msgid "Possible values are: none, file_date, current_date"
-#~ msgstr ""
-#~ "Δυνατές τιμές είναι: none (κανένα), file_date (ημερομηνία αρχείου), "
-#~ "current_date (τρέχουσα ημερομηνία)"
+#~ msgid "_Password:"
+#~ msgstr "_Κωδικός:"
 
-#~ msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
-#~ msgstr ""
-#~ "Δυνατές τιμές είναι: yyyymmdd (έτοςμήναςμέρα), yyyymm (έτοςμήνας), yyyy "
-#~ "(έτος)"
+#~ msgid "Account"
+#~ msgstr "Λογαριασμός"
 
-#~ msgid "Possible values are: none, deflate, jpeg."
-#~ msgstr "Δυνατές τιμές είναι: none (κανένα), deflate, jpeg."
-
-#~ msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
-#~ msgstr "Δυνατές τιμές: 0 (κανένα), 1 (πεζά), 2 (κεφαλαία)"
-
-#~ msgid "Possible values: pixels, percentage"
-#~ msgstr "Δυνατές τιμές: pixels (εικονοστοιχεία), percentage (ποσοστό)"
-
-#~ msgid "Available _extensions:"
-#~ msgstr "_Διαθέσιμες επεκτάσεις:"
-
-#~ msgid "_Categories:"
-#~ msgstr "Κα_τηγορίες:"
-
-#~ msgid "gthumb Extensions"
-#~ msgstr "Επεκτάσεις του gthumb"
-
-#~ msgid "Could not create the library"
-#~ msgstr "Αδύνατη η δημιουργία της βιβλιοθήκης"
-
-#~ msgid "Could not create the folder"
-#~ msgstr "Αδύνατη η δημιουργία του φακέλου"
-
-#~ msgid "Information"
-#~ msgstr "Πληροφορίες"
-
-#~ msgid "Desaturating image"
-#~ msgstr "Ο κορεσμός αφαιρείται"
-
-#~ msgid "%B"
-#~ msgstr "%B"
-
-#~ msgid "%F"
-#~ msgstr "%F"
-
-#~ msgid "%U"
-#~ msgstr "%U"
-
-#~ msgid "Ask"
-#~ msgstr "Ερώτηση"
-
-#~ msgid "Skip"
-#~ msgstr "Παράλειψη"
-
-#~ msgid "%I"
-#~ msgstr "%I"
-
-#~ msgid "%i"
-#~ msgstr "%i"
-
-#~ msgid "%p"
-#~ msgstr "%p"
-
-#~ msgid "Use subfolders to organize files"
-#~ msgstr "Χρήση υποφακέλων για την οργάνωση αρχείων"
-
-#~ msgid "Use"
-#~ msgstr "Χρήση"
-
-#~ msgid "Extension"
-#~ msgstr "Επέκταση"
-
-#~ msgid "Activate, deactivate and configure the gthumb extensions"
-#~ msgstr ""
-#~ "Ενεργοποίηση, απενεργοποίηση και προσαρμογή των επεκτάσεων του gthumb"
-
-#~ msgid "gthumb"
-#~ msgstr "gthumb"
-
-#~ msgid "Unable to show '%s'"
-#~ msgstr "Αδύνατη η εμφάνιση του '%s'"
-
-#~ msgid "Unable to open '%s'"
-#~ msgstr "Αδύνατο το άνοιγμα του '%s'"
-
-#~ msgid "Do _not change folder"
-#~ msgstr "Να _μην γίνεται αλλαγή φακέλου"
+#~ msgid "Could not load the file"
+#~ msgstr "Αδύνατη η φόρτωση του αρχείου"
