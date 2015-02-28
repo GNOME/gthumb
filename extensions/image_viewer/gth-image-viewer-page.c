@@ -369,10 +369,8 @@ hide_overview_after_timeout (gpointer data)
 		g_source_remove (self->priv->hide_overview_id);
 	self->priv->hide_overview_id = 0;
 
-	if (! self->priv->pointer_on_overview) {
-		if (gtk_revealer_get_child_revealed (GTK_REVEALER (self->priv->overview_revealer)))
-			gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->overview_revealer), FALSE);
-	}
+	if (! self->priv->pointer_on_overview)
+		gtk_revealer_set_reveal_child (GTK_REVEALER (self->priv->overview_revealer), FALSE);
 
 	return FALSE;
 }
@@ -411,17 +409,14 @@ update_overview_visibility_now (gpointer user_data)
 static void
 update_overview_visibility (GthImageViewerPage *self)
 {
-	if (gtk_revealer_get_child_revealed (GTK_REVEALER (self->priv->overview_revealer))) {
-		if (self->priv->update_visibility_id != 0) {
-			g_source_remove (self->priv->update_visibility_id);
-			self->priv->update_visibility_id = 0;
-		}
+	if (self->priv->update_visibility_id != 0) {
+		g_source_remove (self->priv->update_visibility_id);
+		self->priv->update_visibility_id = 0;
 	}
 
-	if (self->priv->update_visibility_id == 0)
-		self->priv->update_visibility_id = g_timeout_add (UPDATE_VISIBILITY_DELAY,
-								  update_overview_visibility_now,
-								  self);
+	self->priv->update_visibility_id = g_timeout_add (UPDATE_VISIBILITY_DELAY,
+							  update_overview_visibility_now,
+							  self);
 }
 
 
