@@ -2086,6 +2086,7 @@ _g_trash_files_async (GList        *file_list, /* GFile list */
 	tdata->callback = callback;
 	tdata->user_data = user_data;
 
+	tdata->current = tdata->file_list;
 	trash_files__delete_current (tdata);
 }
 

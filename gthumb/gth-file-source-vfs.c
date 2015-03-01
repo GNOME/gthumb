@@ -31,6 +31,7 @@
 #include "gth-file-source-vfs.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
+#include "gth-trash-task.h"
 #include "gtk-utils.h"
 
 #define GTH_MONITOR_N_EVENTS 3
@@ -768,7 +769,7 @@ gth_file_mananger_trash_files (GtkWindow *window,
 	tdata->window = window;
 	tdata->files = gth_file_data_list_to_file_list (file_list);
 
-	task = gth_delete_task_new (tdata->files);
+	task = gth_trash_task_new (tdata->files);
 	g_signal_connect (task,
 			  "completed",
 			  trash_task_completed_cb,

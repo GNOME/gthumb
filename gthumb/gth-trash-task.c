@@ -61,7 +61,7 @@ gth_trash_task_exec (GthTask *task)
 
 	self = GTH_TRASH_TASK (task);
 
-	gth_task_progress (task, _("Deleting files"), NULL, TRUE, 0.0);
+	gth_task_progress (task, _("Moving files to trash"), NULL, TRUE, 0.0);
 
 	_g_trash_files_async (self->priv->file_list,
 			      gth_task_get_cancellable (task),
