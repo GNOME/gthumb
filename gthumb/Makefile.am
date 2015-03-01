@@ -36,6 +36,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-buffer-data.h				\
 	gth-browser.h					\
 	gth-color-scale.h				\
+	gth-delete-task.h				\
 	gth-dumb-notebook.h				\
 	gth-duplicable.h				\
 	gth-empty-list.h				\
@@ -135,6 +136,7 @@ PRIVATE_HEADER_FILES = 					\
 	gth-browser-actions-entries.h			\
 	gth-file-details.h				\
 	gth-metadata-provider-file.h			\
+	gth-trash-task.h				\
 	dlg-personalize-filters.h			\
 	dlg-preferences.h				\
 	dlg-sort-order.h				\
@@ -175,6 +177,7 @@ gthumb_SOURCES = 					\
 	gth-browser-actions-callbacks.c			\
 	gth-buffer-data.c				\
 	gth-color-scale.c				\
+	gth-delete-task.c				\
 	gth-dumb-notebook.c				\
 	gth-duplicable.c				\
 	gth-empty-list.c				\
@@ -258,6 +261,7 @@ gthumb_SOURCES = 					\
 	gth-time.c					\
 	gth-time-selector.c				\
 	gth-toolbox.c					\
+	gth-trash-task.c				\
 	gth-uri-list.c					\
 	gth-user-dir.c					\
 	gth-viewer-page.c				\

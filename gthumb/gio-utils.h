@@ -151,6 +151,10 @@ void     _g_delete_files_async       (GList                  *file_list,
 				      GCancellable          *cancellable,
 				      ReadyFunc              callback,
 				      gpointer               user_data);
+void     _g_trash_files_async        (GList                 *file_list,
+				      GCancellable          *cancellable,
+				      ReadyFunc              callback,
+				      gpointer               user_data);
 
 /* -- load/write/create file  -- */
 

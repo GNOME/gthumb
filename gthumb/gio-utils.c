@@ -1899,6 +1899,8 @@ _g_delete_files (GList     *file_list,
 
 
 typedef struct {
+	GList        *file_list;
+	GList        *current;
 	gboolean      include_metadata;
 	GCancellable *cancellable;
 	ReadyFunc     callback;
@@ -1909,8 +1911,52 @@ typedef struct {
 static void
 delete_data_free (DeleteData *delete_data)
 {
+	_g_object_list_unref (delete_data->file_list);
 	_g_object_unref (delete_data->cancellable);
 	g_free (delete_data);
+}
+
+
+static void delete_files__delete_current (DeleteData *delete_data);
+
+
+static void
+delete_files__delete_current_cb (GObject      *source_object,
+				 GAsyncResult *result,
+				 gpointer      user_data)
+{
+	DeleteData *delete_data = user_data;
+	GError     *error = NULL;
+
+	if (! g_file_delete_finish (G_FILE (source_object), result, &error)) {
+		delete_data->callback (error, delete_data->user_data);
+		delete_data_free (delete_data);
+		g_error_free (error);
+		return;
+	}
+
+	delete_data->current = delete_data->current->next;
+	delete_files__delete_current (delete_data);
+}
+
+
+static void
+delete_files__delete_current (DeleteData *delete_data)
+{
+	GthFileData *file_data;
+
+	if (delete_data->current == NULL) {
+		delete_data->callback (NULL, delete_data->user_data);
+		delete_data_free (delete_data);
+		return;
+	}
+
+	file_data = delete_data->current->data;
+	g_file_delete_async (file_data->file,
+			     G_PRIORITY_DEFAULT,
+			     delete_data->cancellable,
+			     delete_files__delete_current_cb,
+			     delete_data);
 }
 
 
@@ -1921,25 +1967,16 @@ delete_files__info_ready_cb (GList    *files,
 {
 	DeleteData *delete_data = user_data;
 
-	if (error == NULL) {
-		GList *file_list;
-		GList *scan;
-
-		file_list = _g_object_list_ref (files);
-		file_list = g_list_reverse (file_list);
-
-		for (scan = file_list; scan; scan = scan->next) {
-			GthFileData *file_data = scan->data;
-
-			if (! g_file_delete (file_data->file, delete_data->cancellable, &error))
-				break;
-		}
-
-		_g_object_list_unref (file_list);
+	if (error != NULL) {
+		delete_data->callback (error, delete_data->user_data);
+		delete_data_free (delete_data);
+		return;
 	}
 
-	delete_data->callback (error, delete_data->user_data);
-	delete_data_free (delete_data);
+	delete_data->file_list = _g_object_list_ref (files);
+	delete_data->file_list = g_list_reverse (delete_data->file_list);
+	delete_data->current = delete_data->file_list;
+	delete_files__delete_current (delete_data);
 }
 
 
@@ -1955,6 +1992,7 @@ _g_delete_files_async (GList        *file_list,
 	GthListFlags  flags;
 
 	delete_data = g_new0 (DeleteData, 1);
+	delete_data->file_list = NULL;
 	delete_data->include_metadata = include_metadata;
 	delete_data->cancellable = _g_object_ref (cancellable);
 	delete_data->callback = callback;
@@ -1970,6 +2008,85 @@ _g_delete_files_async (GList        *file_list,
 			     delete_data->cancellable,
 			     delete_files__info_ready_cb,
 			     delete_data);
+}
+
+
+/* -- _g_trash_files_async -- */
+
+
+typedef struct {
+	GList        *file_list;
+	GList        *current;
+	GCancellable *cancellable;
+	ReadyFunc     callback;
+	gpointer      user_data;
+} TrashData;
+
+
+static void
+trash_data_free (TrashData *tdata)
+{
+	_g_object_list_unref (tdata->file_list);
+	_g_object_unref (tdata->cancellable);
+	g_free (tdata);
+}
+
+
+static void trash_files__delete_current (TrashData *tdata);
+
+
+static void
+trash_files__delete_current_cb (GObject      *source_object,
+				GAsyncResult *result,
+				gpointer      user_data)
+{
+	TrashData *tdata = user_data;
+	GError    *error = NULL;
+
+	if (! g_file_trash_finish (G_FILE (source_object), result, &error)) {
+		tdata->callback (error, tdata->user_data);
+		trash_data_free (tdata);
+		g_error_free (error);
+		return;
+	}
+
+	tdata->current = tdata->current->next;
+	trash_files__delete_current (tdata);
+}
+
+
+static void
+trash_files__delete_current (TrashData *tdata)
+{
+	if (tdata->current == NULL) {
+		tdata->callback (NULL, tdata->user_data);
+		trash_data_free (tdata);
+		return;
+	}
+
+	g_file_trash_async ((GFile *) tdata->current->data,
+			    G_PRIORITY_DEFAULT,
+			    tdata->cancellable,
+			    trash_files__delete_current_cb,
+			    tdata);
+}
+
+
+void
+_g_trash_files_async (GList        *file_list, /* GFile list */
+		      GCancellable *cancellable,
+		      ReadyFunc     callback,
+		      gpointer      user_data)
+{
+	TrashData *tdata;
+
+	tdata = g_new0 (TrashData, 1);
+	tdata->file_list = _g_object_list_ref (file_list);
+	tdata->cancellable = _g_object_ref (cancellable);
+	tdata->callback = callback;
+	tdata->user_data = user_data;
+
+	trash_files__delete_current (tdata);
 }
 
 

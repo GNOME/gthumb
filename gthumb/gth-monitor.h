@@ -102,6 +102,8 @@ void          gth_monitor_files_created_with_pos     (GthMonitor      *monitor,
 void          gth_monitor_file_renamed               (GthMonitor      *monitor,
 						      GFile           *file,
 						      GFile           *new_file);
+void          gth_monitor_files_deleted		     (GthMonitor      *monitor,
+						      GList           *list /* GFile list */);
 void          gth_monitor_metadata_changed           (GthMonitor      *monitor,
 						      GthFileData     *file_data);
 void          gth_monitor_emblems_changed            (GthMonitor      *monitor,

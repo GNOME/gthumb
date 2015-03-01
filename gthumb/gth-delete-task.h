@@ -23,7 +23,9 @@
 #define GTH_DELETE_TASK_H
 
 #include <glib.h>
-#include <gthumb.h>
+#include "glib-utils.h"
+#include "gio-utils.h"
+#include "gth-task.h"
 
 G_BEGIN_DECLS
 

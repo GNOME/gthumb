@@ -334,6 +334,62 @@ gth_monitor_file_renamed (GthMonitor *self,
 }
 
 
+/* -- gth_monitor_files_deleted -- */
+
+
+static void
+parent_table_value_free (gpointer key,
+			 gpointer value,
+			 gpointer user_data)
+{
+	_g_object_list_unref (value);
+}
+
+
+void
+gth_monitor_files_deleted (GthMonitor *monitor,
+			   GList      *list /* GFile list */)
+{
+	GHashTable *parent_table;
+	GList      *scan;
+	GList      *parent_list;
+
+	parent_table = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
+	for (scan = list; scan; scan = scan->next) {
+		GFile *file = scan->data;
+		GFile *parent;
+		GList *children;
+
+		parent = g_file_get_parent (file);
+		if (parent == NULL)
+			return;
+
+		children = g_hash_table_lookup (parent_table, parent);
+		children = g_list_prepend (children, g_object_ref (file));
+		g_hash_table_replace (parent_table, g_object_ref (parent), children);
+
+		g_object_unref (parent);
+	}
+
+	parent_list = g_hash_table_get_keys (parent_table);
+	for (scan = parent_list; scan; scan = scan->next) {
+		GFile *parent = scan->data;
+		GList *children;
+
+		children = g_hash_table_lookup (parent_table, parent);
+		if (children != NULL)
+			gth_monitor_folder_changed (monitor,
+						    parent,
+						    children,
+						    GTH_MONITOR_EVENT_DELETED);
+	}
+
+	g_list_free (parent_list);
+	g_hash_table_foreach (parent_table, parent_table_value_free, NULL);
+	g_hash_table_unref (parent_table);
+}
+
+
 void
 gth_monitor_metadata_changed (GthMonitor  *self,
 			      GthFileData *file_data)

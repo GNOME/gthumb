@@ -25,7 +25,6 @@
 #include <gthumb.h>
 #include "actions.h"
 #include "gth-copy-task.h"
-#include "gth-delete-task.h"
 #include "gth-duplicate-task.h"
 #include "preferences.h"
 

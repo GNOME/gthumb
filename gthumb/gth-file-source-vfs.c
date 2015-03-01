@@ -26,6 +26,8 @@
 #include "gth-file-data.h"
 #include "gio-utils.h"
 #include "glib-utils.h"
+#include "gth-browser.h"
+#include "gth-delete-task.h"
 #include "gth-file-source-vfs.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
@@ -650,73 +652,17 @@ gth_file_source_vfs_monitor_directory (GthFileSource *file_source,
 
 
 static void
-parent_table_value_free (gpointer key,
-			 gpointer value,
-			 gpointer user_data)
-{
-	_g_object_list_unref (value);
-}
-
-
-static void
-notify_files_delete (GtkWindow *window,
-		     GList     *files)
-{
-	GHashTable *parent_table;
-	GList      *scan;
-	GList      *parent_list;
-
-	parent_table = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
-	for (scan = files; scan; scan = scan->next) {
-		GFile *file = scan->data;
-		GFile *parent;
-		GList *children;
-
-		parent = g_file_get_parent (file);
-		if (parent == NULL)
-			return;
-
-		children = g_hash_table_lookup (parent_table, parent);
-		children = g_list_prepend (children, g_object_ref (file));
-		g_hash_table_replace (parent_table, g_object_ref (parent), children);
-
-		g_object_unref (parent);
-	}
-
-	parent_list = g_hash_table_get_keys (parent_table);
-	for (scan = parent_list; scan; scan = scan->next) {
-		GFile *parent = scan->data;
-		GList *children;
-
-		children = g_hash_table_lookup (parent_table, parent);
-		if (children != NULL)
-			gth_monitor_folder_changed (gth_main_get_default_monitor (),
-						    parent,
-						    children,
-						    GTH_MONITOR_EVENT_DELETED);
-	}
-
-	g_list_free (parent_list);
-	g_hash_table_foreach (parent_table, parent_table_value_free, NULL);
-	g_hash_table_unref (parent_table);
-}
-
-
-static void
 delete_file_permanently (GtkWindow *window,
-			 GList     *file_list)
+			 GList     *file_list /* GthFileData list */)
 {
-	GList  *files;
-	GError *error = NULL;
+	GList   *files;
+	GthTask *task;
 
 	files = gth_file_data_list_to_file_list (file_list);
-	if (! _g_delete_files (files, TRUE, &error)) {
-		_gtk_error_dialog_from_gerror_show (window, _("Could not delete the files"), error);
-		g_clear_error (&error);
-	}
-	else
-		notify_files_delete (window, files);
+	task = gth_delete_task_new (files);
+	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
+	g_object_unref (task);
 	_g_object_list_unref (files);
 }
 
@@ -736,72 +682,105 @@ delete_permanently_response_cb (GtkDialog *dialog,
 }
 
 
+/* -- gth_file_mananger_trash_files -- */
+
+
+typedef struct {
+	GtkWindow *window;
+	GList     *files;
+} TrashData;
+
+
 static void
-trash_files (GtkWindow *window,
-	     GList     *file_list)
+trash_data_free (TrashData *tdata)
 {
-	GList    *scan;
-	gboolean  moved_to_trash = TRUE;
-	GError   *error = NULL;
-
-	for (scan = file_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-
-		if (! g_file_trash (file_data->file, NULL, &error)) {
-			moved_to_trash = FALSE;
-			if (g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_NOT_SUPPORTED)) {
-				GtkWidget *d;
-
-				g_clear_error (&error);
-
-				d = _gtk_yesno_dialog_new (window,
-							   GTK_DIALOG_MODAL,
-							   _("The files cannot be moved to the Trash. Do you want to delete them permanently?"),
-							   _GTK_LABEL_CANCEL,
-							   _GTK_LABEL_DELETE);
-				g_signal_connect (d,
-						  "response",
-						  G_CALLBACK (delete_permanently_response_cb),
-						  gth_file_data_list_dup (file_list));
-				gtk_widget_show (d);
-
-				break;
-			}
-			_gtk_error_dialog_from_gerror_show (window, _("Could not move the files to the Trash"), error);
-			g_clear_error (&error);
-			break;
-		}
-	}
-
-	if (moved_to_trash) {
-		GList  *files;
-
-		files = gth_file_data_list_to_file_list (file_list);
-		notify_files_delete (window, files);
-
-		_g_object_list_unref (files);
-	}
+	_g_object_list_unref (tdata->files);
+	g_free (tdata);
 }
 
 
 static void
-trash_files_response_cb (GtkDialog *dialog,
-			 int        response_id,
-			 gpointer   user_data)
+trash_failed_delete_permanently_response_cb (GtkDialog *dialog,
+					     int        response_id,
+					     gpointer   user_data)
 {
-	GList *file_list = user_data;
+	TrashData *tdata = user_data;
 
-	if (response_id == GTK_RESPONSE_YES)
-		trash_files (gtk_window_get_transient_for (GTK_WINDOW (dialog)), file_list);
+	if (response_id == GTK_RESPONSE_YES) {
+		GthTask *task = gth_delete_task_new (tdata->files);
+		gth_browser_exec_task (GTH_BROWSER (tdata->window), task, FALSE);
+
+		g_object_unref (task);
+	}
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
-	_g_object_list_unref (file_list);
+	trash_data_free (tdata);
+}
+
+
+static void
+trash_task_completed_cb (GthTask  *task,
+		         GError   *error,
+			 gpointer  user_data)
+{
+	TrashData *tdata = user_data;
+
+	if (error == NULL) {
+		gth_monitor_files_deleted (gth_main_get_default_monitor (), tdata->files);
+		trash_data_free (tdata);
+	}
+	else if (g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_CANCELLED)) {
+		trash_data_free (tdata);
+	}
+	else if (g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_NOT_SUPPORTED)) {
+		GtkWidget *d;
+
+		g_clear_error (&error);
+
+		d = _gtk_yesno_dialog_new (tdata->window,
+					   GTK_DIALOG_MODAL,
+					   _("The files cannot be moved to the Trash. Do you want to delete them permanently?"),
+					   _GTK_LABEL_CANCEL,
+					   _GTK_LABEL_DELETE);
+		g_signal_connect (d,
+				  "response",
+				  G_CALLBACK (trash_failed_delete_permanently_response_cb),
+				  tdata);
+		gtk_widget_show (d);
+	}
+	else {
+		_gtk_error_dialog_from_gerror_show (tdata->window, _("Could not move the files to the Trash"), error);
+		g_clear_error (&error);
+		trash_data_free (tdata);
+	}
 }
 
 
 void
 gth_file_mananger_trash_files (GtkWindow *window,
 			       GList     *file_list /* GthFileData list */)
+{
+	TrashData *tdata;
+	GList     *files;
+	GthTask   *task;
+
+	tdata = g_new0 (TrashData, 1);
+	tdata->window = window;
+	tdata->files = gth_file_data_list_to_file_list (file_list);
+
+	task = gth_delete_task_new (tdata->files);
+	g_signal_connect (task,
+			  "completed",
+			  trash_task_completed_cb,
+			  tdata);
+
+	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
+}
+
+
+void
+gth_file_mananger_delete_files (GtkWindow *window,
+				GList     *file_list /* GthFileData list */)
 {
 	GSettings *settings;
 
@@ -811,16 +790,16 @@ gth_file_mananger_trash_files (GtkWindow *window,
 		char      *prompt;
 		GtkWidget *d;
 
+		file_list = _g_object_list_ref (file_list);
 		file_count = g_list_length (file_list);
 		if (file_count == 1) {
 			GthFileData *file_data = file_list->data;
-			prompt = g_strdup_printf (_("Are you sure you want to move \"%s\" to trash?"),
-						  g_file_info_get_display_name (file_data->info));
+			prompt = g_strdup_printf (_("Are you sure you want to permanently delete \"%s\"?"), g_file_info_get_display_name (file_data->info));
 		}
 		else
-			prompt = g_strdup_printf (ngettext("Are you sure you want to move to trash "
+			prompt = g_strdup_printf (ngettext("Are you sure you want to permanently delete "
 							   "the %'d selected file?",
-							   "Are you sure you want to move to trash "
+							   "Are you sure you want to permanently delete "
 							   "the %'d selected files?", file_count),
 						  file_count);
 
@@ -828,57 +807,19 @@ gth_file_mananger_trash_files (GtkWindow *window,
 					     GTK_DIALOG_MODAL,
 					     _GTK_ICON_NAME_DIALOG_QUESTION,
 					     prompt,
-					     NULL,
+					     _("If you delete a file, it will be permanently lost."),
 					     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-					     _("Mo_ve to Trash"), GTK_RESPONSE_YES,
+					     _GTK_LABEL_DELETE, GTK_RESPONSE_YES,
 					     NULL);
-		g_signal_connect (d, "response",
-				  G_CALLBACK (trash_files_response_cb),
-				  gth_file_data_list_dup (file_list));
+		g_signal_connect (d, "response", G_CALLBACK (delete_permanently_response_cb), file_list);
 		gtk_widget_show (d);
 
 		g_free (prompt);
 	}
 	else
-		trash_files (window, file_list);
+		delete_file_permanently (window, file_list);
 
 	g_object_unref (settings);
-}
-
-
-void
-gth_file_mananger_delete_files (GtkWindow *window,
-				GList     *file_list /* GthFileData list */)
-{
-	int        file_count;
-	char      *prompt;
-	GtkWidget *d;
-
-	file_list = _g_object_list_ref (file_list);
-	file_count = g_list_length (file_list);
-	if (file_count == 1) {
-		GthFileData *file_data = file_list->data;
-		prompt = g_strdup_printf (_("Are you sure you want to permanently delete \"%s\"?"), g_file_info_get_display_name (file_data->info));
-	}
-	else
-		prompt = g_strdup_printf (ngettext("Are you sure you want to permanently delete "
-						   "the %'d selected file?",
-						   "Are you sure you want to permanently delete "
-					  	   "the %'d selected files?", file_count),
-					  file_count);
-
-	d = _gtk_message_dialog_new (window,
-				     GTK_DIALOG_MODAL,
-				     _GTK_ICON_NAME_DIALOG_QUESTION,
-				     prompt,
-				     _("If you delete a file, it will be permanently lost."),
-				     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-				     _GTK_LABEL_DELETE, GTK_RESPONSE_YES,
-				     NULL);
-	g_signal_connect (d, "response", G_CALLBACK (delete_permanently_response_cb), file_list);
-	gtk_widget_show (d);
-
-	g_free (prompt);
 }
 
 

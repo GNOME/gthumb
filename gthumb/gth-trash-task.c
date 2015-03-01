@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2015 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,85 +20,85 @@
  */
 
 #include <config.h>
-#include "gth-delete-task.h"
+#include <glib.h>
+#include <glib/gi18n-lib.h>
+#include "gth-trash-task.h"
 
 
-struct _GthDeleteTaskPrivate {
+struct _GthTrashTaskPrivate {
 	GList *file_list;
 };
 
 
-G_DEFINE_TYPE (GthDeleteTask, gth_delete_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE (GthTrashTask, gth_trash_task, GTH_TYPE_TASK)
 
 
 static void
-gth_delete_task_finalize (GObject *object)
+gth_trash_task_finalize (GObject *object)
 {
-	GthDeleteTask *self;
+	GthTrashTask *self;
 
-	self = GTH_DELETE_TASK (object);
+	self = GTH_TRASH_TASK (object);
 
 	_g_object_list_unref (self->priv->file_list);
 
-	G_OBJECT_CLASS (gth_delete_task_parent_class)->finalize (object);
+	G_OBJECT_CLASS (gth_trash_task_parent_class)->finalize (object);
 }
 
 
 static void
-delete_ready_cb (GError   *error,
-		 gpointer  user_data)
+trash_ready_cb (GError   *error,
+		gpointer  user_data)
 {
 	gth_task_completed (GTH_TASK (user_data), error);
 }
 
 
 static void
-gth_delete_task_exec (GthTask *task)
+gth_trash_task_exec (GthTask *task)
 {
-	GthDeleteTask *self;
+	GthTrashTask *self;
 
-	self = GTH_DELETE_TASK (task);
+	self = GTH_TRASH_TASK (task);
 
 	gth_task_progress (task, _("Deleting files"), NULL, TRUE, 0.0);
 
-	_g_delete_files_async (self->priv->file_list,
-			       TRUE,
-			       TRUE,
-			       gth_task_get_cancellable (task),
-			       delete_ready_cb,
-			       self);
+	_g_trash_files_async (self->priv->file_list,
+			      gth_task_get_cancellable (task),
+			      trash_ready_cb,
+			      self);
 }
 
 
 static void
-gth_delete_task_class_init (GthDeleteTaskClass *klass)
+gth_trash_task_class_init (GthTrashTaskClass *klass)
 {
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthDeleteTaskPrivate));
+	g_type_class_add_private (klass, sizeof (GthTrashTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = gth_delete_task_finalize;
+	object_class->finalize = gth_trash_task_finalize;
 
 	task_class = GTH_TASK_CLASS (klass);
-	task_class->exec = gth_delete_task_exec;
+	task_class->exec = gth_trash_task_exec;
 }
 
 
 static void
-gth_delete_task_init (GthDeleteTask *self)
+gth_trash_task_init (GthTrashTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DELETE_TASK, GthDeleteTaskPrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TRASH_TASK, GthTrashTaskPrivate);
 }
 
 
 GthTask *
-gth_delete_task_new (GList *file_list)
+gth_trash_task_new (GList *file_list)
 {
-	GthDeleteTask *self;
+	GthTrashTask *self;
 
-	self = GTH_DELETE_TASK (g_object_new (GTH_TYPE_DELETE_TASK, NULL));
+	self = GTH_TRASH_TASK (g_object_new (GTH_TYPE_TRASH_TASK, NULL));
 	self->priv->file_list = _g_object_list_ref (file_list);
 
 	return (GthTask *) self;

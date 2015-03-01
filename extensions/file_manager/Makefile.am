@@ -8,8 +8,6 @@ libfile_manager_la_SOURCES = 		\
 	callbacks.h			\
 	gth-copy-task.c			\
 	gth-copy-task.h			\
-	gth-delete-task.c		\
-	gth-delete-task.h		\
 	gth-duplicate-task.c		\
 	gth-duplicate-task.h		\
 	gth-reorder-task.c		\
