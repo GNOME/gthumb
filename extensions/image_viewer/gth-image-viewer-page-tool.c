@@ -82,7 +82,7 @@ gth_image_viewer_page_tool_activate (GthFileTool *base)
 			  self);
 	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))),
 			       self->priv->image_task,
-			       FALSE);
+			       GTH_TASK_FLAGS_DEFAULT);
 }
 
 

@@ -605,7 +605,7 @@ ok_button_clicked__step2 (GError   *error,
 	new_files = g_list_reverse (new_files);
 
 	task = gth_rename_task_new (old_files, new_files);
-	gth_browser_exec_task (data->browser, task, FALSE);
+	gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	destroy_dialog (data);

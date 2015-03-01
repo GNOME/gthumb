@@ -194,7 +194,7 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 			  "completed",
 			  G_CALLBACK (saver_completed_cb),
 			  data);
-	gth_browser_exec_task (data->browser, task, FALSE);
+	gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_IGNORE_ERROR);
 
 	g_object_unref (task);
 
@@ -275,7 +275,7 @@ update_file_list (gpointer user_data)
 			  "completed",
 			  G_CALLBACK (loader_completed_cb),
 			  loader_data);
-	gth_browser_exec_task (data->browser, data->loader, FALSE);
+	gth_browser_exec_task (data->browser, data->loader, GTH_TASK_FLAGS_IGNORE_ERROR);
 
 	_g_object_list_unref (file_data_list);
 	_gtk_tree_path_list_free (items);

@@ -340,7 +340,7 @@ gth_file_tool_sharpen_apply_options (GthFileTool *base)
 			  "completed",
 			  G_CALLBACK (gth_image_viewer_task_set_destination),
 			  NULL);
-	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, FALSE);
+	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, GTH_TASK_FLAGS_DEFAULT);
 
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }

@@ -57,7 +57,7 @@ start_button_clicked_cb (GtkWidget  *widget,
 	gth_organize_task_set_create_singletons (GTH_ORGANIZE_TASK (task), ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ignore_singletons_checkbutton"))));
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_singletons_catalog_checkbutton"))))
 		gth_organize_task_set_singletons_catalog (GTH_ORGANIZE_TASK (task), gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("single_catalog_entry"))));
-	gth_browser_exec_task (data->browser, task, FALSE);
+	gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	gtk_widget_destroy (data->dialog);
 	g_object_unref (task);

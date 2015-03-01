@@ -50,7 +50,8 @@ struct _GthProgressDialogClass {
 GType          gth_progress_dialog_get_type    (void);
 GtkWidget *    gth_progress_dialog_new         (GtkWindow         *parent);
 void           gth_progress_dialog_add_task    (GthProgressDialog *dialog,
-						GthTask           *task);
+						GthTask           *task,
+						GthTaskFlags       flags);
 
 GtkWidget *    gth_task_progress_new           (GthTask           *task);
 

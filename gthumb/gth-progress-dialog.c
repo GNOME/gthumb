@@ -413,7 +413,8 @@ progress_dialog_task_completed_cb (GthTask  *task,
 
 void
 gth_progress_dialog_add_task (GthProgressDialog *self,
-			      GthTask           *task)
+			      GthTask           *task,
+			      GthTaskFlags       flags)
 {
 	GtkWidget *child;
 
@@ -425,10 +426,11 @@ gth_progress_dialog_add_task (GthProgressDialog *self,
 			  "progress",
 			  G_CALLBACK (progress_dialog_task_progress_cb),
 			  self);
-	g_signal_connect (task,
-			  "completed",
-			  G_CALLBACK (progress_dialog_task_completed_cb),
-			  self);
+	if ((flags & GTH_TASK_FLAGS_IGNORE_ERROR) == 0)
+		g_signal_connect (task,
+				  "completed",
+				  G_CALLBACK (progress_dialog_task_completed_cb),
+				  self);
 
 	gtk_window_set_title (GTK_WINDOW (self), "");
 

@@ -43,7 +43,7 @@ gth_browser_activate_burn_disc (GSimpleAction	*action,
 	files = gth_file_data_list_to_file_list (file_list);
 
 	task = gth_burn_task_new (browser, files);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	_g_object_list_unref (files);

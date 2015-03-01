@@ -54,7 +54,7 @@ search_editor_dialog__response_cb (GtkDialog *dialog,
 
         search_catalog = gth_catalog_file_from_relative_path (_("Search Result"), ".search");
         task = gth_search_task_new (browser, search, search_catalog);
-	gth_browser_exec_task (browser, task, TRUE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_FOREGROUND);
 
 	g_object_unref (task);
 	g_object_unref (search_catalog);
@@ -129,7 +129,7 @@ search_update_buffer_ready_cb (void     **buffer,
 	}
 
 	task = gth_search_task_new (search_data->browser, search, search_data->file);
-	gth_browser_exec_task (search_data->browser, task, TRUE);
+	gth_browser_exec_task (search_data->browser, task, GTH_TASK_FLAGS_FOREGROUND);
 
 	g_object_unref (task);
 	g_object_unref (search);

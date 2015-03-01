@@ -44,7 +44,7 @@ gth_browser_activate_import_embedded_metadata (GSimpleAction	*action,
 		file_data_list = gth_file_store_get_visibles (gth_browser_get_file_store (browser));
 	}
 	task = gth_import_metadata_task_new (browser, file_data_list);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	_g_object_list_unref (file_data_list);

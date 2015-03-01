@@ -188,7 +188,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 		g_object_unref (destination);
 	}
-	gth_browser_exec_task (data->browser, list_task, FALSE);
+	gth_browser_exec_task (data->browser, list_task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (list_task);
 	g_object_unref (resize_task);

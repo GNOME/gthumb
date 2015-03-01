@@ -198,7 +198,7 @@ ok_clicked_cb (GtkWidget  *widget,
 					       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("image_description_checkbutton"))),
 					       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("image_attributes_checkbutton"))) ? image_attributes : "");
 
-	gth_browser_exec_task (data->browser, task, FALSE);
+	gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_DEFAULT);
 	gtk_widget_destroy (data->dialog);
 
 	g_object_unref (task);

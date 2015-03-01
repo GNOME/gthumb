@@ -43,7 +43,7 @@ gth_browser_exec_script (GthBrowser *browser,
 		GthTask *task;
 
 		task = gth_script_task_new (GTK_WINDOW (browser), script, file_list);
-		gth_browser_exec_task (browser, task, FALSE);
+		gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 		g_object_unref (task);
 	}

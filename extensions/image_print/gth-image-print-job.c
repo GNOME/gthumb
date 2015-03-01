@@ -1909,5 +1909,5 @@ gth_image_print_job_run (GthImagePrintJob        *self,
 			  "completed",
 			  G_CALLBACK (load_image_info_task_completed_cb),
 			  self);
-	gth_browser_exec_task (browser, self->priv->task, FALSE);
+	gth_browser_exec_task (browser, self->priv->task, GTH_TASK_FLAGS_DEFAULT);
 }

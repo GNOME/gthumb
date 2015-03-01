@@ -194,7 +194,7 @@ update_image_size_cb (gpointer user_data)
 			  self);
 	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))),
 			       self->priv->resize_task,
-			       FALSE);
+			       GTH_TASK_FLAGS_DEFAULT);
 
 	return FALSE;
 }

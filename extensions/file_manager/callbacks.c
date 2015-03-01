@@ -240,7 +240,7 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 						     visible_files,
 						     selected_files,
 						     data->drop_pos);
-			gth_browser_exec_task (browser, task, FALSE);
+			gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 			g_object_unref (task);
 			_g_object_list_unref (visible_files);
@@ -286,7 +286,7 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 							  move,
 							  selected_files,
 							  data->drop_pos);
-				gth_browser_exec_task (browser, task, FALSE);
+				gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 				g_object_unref (task);
 				g_object_unref (location_source);
@@ -733,7 +733,7 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 				  (action == GDK_ACTION_MOVE),
 				  file_list,
 				  -1);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	g_object_unref (file_source);

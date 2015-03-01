@@ -1373,7 +1373,7 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 			  "completed",
 			  G_CALLBACK (save_image_task_completed_cb),
 			  data);
-	gth_browser_exec_task (GTH_BROWSER (self->priv->browser), task, FALSE);
+	gth_browser_exec_task (GTH_BROWSER (self->priv->browser), task, GTH_TASK_FLAGS_DEFAULT);
 
 	_g_object_unref (task);
 }
@@ -1855,7 +1855,7 @@ gth_image_viewer_page_copy_image (GthImageViewerPage *self)
 			  "completed",
 			  G_CALLBACK (copy_image_original_image_ready_cb),
 			  self);
-	gth_browser_exec_task (self->priv->browser, task, FALSE);
+	gth_browser_exec_task (self->priv->browser, task, GTH_TASK_FLAGS_DEFAULT);
 }
 
 

@@ -121,7 +121,7 @@ ok_button_clicked (GtkWidget  *button,
 					 change_type,
 					 date_time,
 					 time_adjustment);
-	gth_browser_exec_task (data->browser, task, FALSE);
+	gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_DEFAULT);
 	gtk_widget_destroy (data->dialog);
 
 	g_object_unref (task);

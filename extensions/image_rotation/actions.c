@@ -43,7 +43,7 @@ gth_browser_activate_rotate_right (GSimpleAction	*action,
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	file_list = gth_file_data_list_to_file_list (file_data_list);
 	task = gth_transform_task_new (browser, file_list, GTH_TRANSFORM_ROTATE_90);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	_g_object_list_unref (file_list);
@@ -67,7 +67,7 @@ gth_browser_activate_rotate_left (GSimpleAction *action,
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	file_list = gth_file_data_list_to_file_list (file_data_list);
 	task = gth_transform_task_new (browser, file_list, GTH_TRANSFORM_ROTATE_270);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	_g_object_list_unref (file_list);
@@ -91,7 +91,7 @@ gth_browser_activate_apply_orientation (GSimpleAction	*action,
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	file_list = gth_file_data_list_to_file_list (file_data_list);
 	task = gth_transform_task_new (browser, file_list, GTH_TRANSFORM_NONE);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	_g_object_list_unref (file_list);
@@ -115,7 +115,7 @@ gth_browser_activate_reset_orientation (GSimpleAction	*action,
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	file_list = gth_file_data_list_to_file_list (file_data_list);
 	task = gth_reset_orientation_task_new (browser, file_list);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	_g_object_list_unref (file_list);

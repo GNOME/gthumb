@@ -261,7 +261,7 @@ apply_cb (gpointer user_data)
 			  "completed",
 			  G_CALLBACK (image_task_completed_cb),
 			  self);
-	gth_browser_exec_task (GTH_BROWSER (window), self->priv->image_task, FALSE);
+	gth_browser_exec_task (GTH_BROWSER (window), self->priv->image_task, GTH_TASK_FLAGS_DEFAULT);
 
 	return FALSE;
 }

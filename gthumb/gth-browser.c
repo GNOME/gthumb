@@ -5380,13 +5380,13 @@ foreground_task_progress_cb (GthTask    *task,
 
 
 void
-gth_browser_exec_task (GthBrowser *browser,
-		       GthTask    *task,
-		       gboolean    foreground)
+gth_browser_exec_task (GthBrowser   *browser,
+		       GthTask      *task,
+		       GthTaskFlags  flags)
 {
 	g_return_if_fail (task != NULL);
 
-	if (! foreground) {
+	if ((flags & GTH_TASK_FLAGS_FOREGROUND) == 0) {
 		TaskData *task_data;
 
 		task_data = task_data_new (browser, task);
@@ -5396,7 +5396,7 @@ gth_browser_exec_task (GthBrowser *browser,
 			browser->priv->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (browser));
 			g_object_add_weak_pointer (G_OBJECT (browser->priv->progress_dialog), (gpointer*) &(browser->priv->progress_dialog));
 		}
-		gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (browser->priv->progress_dialog), task);
+		gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (browser->priv->progress_dialog), task, flags);
 
 		return;
 	}

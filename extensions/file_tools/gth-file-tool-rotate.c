@@ -578,7 +578,7 @@ gth_file_tool_rotate_apply_options (GthFileTool *base)
 			  "completed",
 			  G_CALLBACK (gth_image_viewer_task_set_destination),
 			  NULL);
-	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
+	gth_browser_exec_task (GTH_BROWSER (window), task, GTH_TASK_FLAGS_DEFAULT);
 
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }

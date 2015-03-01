@@ -202,7 +202,7 @@ search__dlg_catalog_properties_saved (GthBrowser  *browser,
 		return;
 
 	task = gth_search_task_new (browser, GTH_SEARCH (catalog), file_data->file);
-	gth_browser_exec_task (browser, task, TRUE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_FOREGROUND);
 
 	g_object_unref (task);
 }

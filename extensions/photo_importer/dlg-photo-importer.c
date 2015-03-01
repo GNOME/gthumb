@@ -135,7 +135,7 @@ destroy_dialog (gpointer user_data)
 						    delete_imported,
 						    FALSE,
 						    g_settings_get_boolean (data->settings, PREF_PHOTO_IMPORTER_ADJUST_ORIENTATION));
-			gth_browser_exec_task (data->browser, task, FALSE);
+			gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 			g_strfreev (tags);
 			g_object_unref (task);

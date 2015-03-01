@@ -173,7 +173,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	gth_contact_sheet_creator_set_thumb_size (GTH_CONTACT_SHEET_CREATOR (task), TRUE, thumbnail_size, thumbnail_size);
 	gth_contact_sheet_creator_set_thumbnail_caption (GTH_CONTACT_SHEET_CREATOR (task), "");
 
-	gth_browser_exec_task (data->browser, task, FALSE);
+	gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_DEFAULT);
 	gtk_widget_destroy (data->dialog);
 
 	g_object_unref (task);

@@ -397,7 +397,7 @@ gth_browser_activate_set_desktop_background (GSimpleAction *action,
 					  "completed",
 					  G_CALLBACK (save_wallpaper_task_completed_cb),
 					  wdata);
-			gth_browser_exec_task (GTH_BROWSER (browser), task, FALSE);
+			gth_browser_exec_task (GTH_BROWSER (browser), task, GTH_TASK_FLAGS_IGNORE_ERROR);
 
 			saving_wallpaper = TRUE;
 

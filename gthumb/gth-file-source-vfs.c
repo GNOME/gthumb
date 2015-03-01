@@ -660,7 +660,7 @@ delete_file_permanently (GtkWindow *window,
 
 	files = gth_file_data_list_to_file_list (file_list);
 	task = gth_delete_task_new (files);
-	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
+	gth_browser_exec_task (GTH_BROWSER (window), task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	_g_object_list_unref (files);
@@ -708,7 +708,7 @@ trash_failed_delete_permanently_response_cb (GtkDialog *dialog,
 
 	if (response_id == GTK_RESPONSE_YES) {
 		GthTask *task = gth_delete_task_new (tdata->files);
-		gth_browser_exec_task (GTH_BROWSER (tdata->window), task, FALSE);
+		gth_browser_exec_task (GTH_BROWSER (tdata->window), task, GTH_TASK_FLAGS_DEFAULT);
 
 		g_object_unref (task);
 	}
@@ -774,7 +774,7 @@ gth_file_mananger_trash_files (GtkWindow *window,
 			  trash_task_completed_cb,
 			  tdata);
 
-	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
+	gth_browser_exec_task (GTH_BROWSER (window), task, GTH_TASK_FLAGS_IGNORE_ERROR);
 }
 
 

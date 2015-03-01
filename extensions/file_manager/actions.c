@@ -438,7 +438,7 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 				  paste_data->cut,
 				  paste_data->files,
 				  position);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	paste_data_free (paste_data);
@@ -482,7 +482,7 @@ gth_browser_activate_duplicate  (GSimpleAction *action,
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	task = gth_duplicate_task_new (file_list);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
 	_g_object_list_unref (file_list);
@@ -635,7 +635,7 @@ copy_files_to_folder (GthBrowser *browser,
 			  "completed",
 			  G_CALLBACK (copy_complete_cb),
 			  data);
-	gth_browser_exec_task (browser, task, FALSE);
+	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (file_source);
 }

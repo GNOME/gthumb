@@ -658,7 +658,7 @@ dlg_export_to_flickr (FlickrServer *server,
 			  data);
 
 	data->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (data->browser));
-	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->service));
+	gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (data->progress_dialog), GTH_TASK (data->service), GTH_TASK_FLAGS_DEFAULT);
 
 	web_service_autoconnect (WEB_SERVICE (data->service));
 }

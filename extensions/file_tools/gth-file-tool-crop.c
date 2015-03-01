@@ -635,7 +635,7 @@ gth_file_tool_crop_apply_options (GthFileTool *base)
 			  "completed",
 			  G_CALLBACK (image_task_completed_cb),
 			  self);
-	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, FALSE);
+	gth_browser_exec_task (GTH_BROWSER (gth_file_tool_get_window (GTH_FILE_TOOL (self))), task, GTH_TASK_FLAGS_DEFAULT);
 }
 
 
