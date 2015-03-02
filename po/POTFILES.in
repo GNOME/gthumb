@@ -254,8 +254,6 @@ extensions/file_manager/callbacks.h
 [type: gettext/ini]extensions/file_manager/file_manager.extension.in.in
 extensions/file_manager/gth-copy-task.c
 extensions/file_manager/gth-copy-task.h
-extensions/file_manager/gth-delete-task.c
-extensions/file_manager/gth-delete-task.h
 extensions/file_manager/gth-duplicate-task.c
 extensions/file_manager/gth-duplicate-task.h
 extensions/file_manager/gth-reorder-task.c
@@ -720,6 +718,8 @@ gthumb/gth-buffer-data.c
 gthumb/gth-buffer-data.h
 gthumb/gth-color-scale.c
 gthumb/gth-color-scale.h
+gthumb/gth-delete-task.c
+gthumb/gth-delete-task.h
 gthumb/gth-dumb-notebook.c
 gthumb/gth-dumb-notebook.h
 gthumb/gth-duplicable.c
@@ -881,6 +881,8 @@ gthumb/gth-time-selector.c
 gthumb/gth-time-selector.h
 gthumb/gth-toolbox.c
 gthumb/gth-toolbox.h
+gthumb/gth-trash-task.c
+gthumb/gth-trash-task.h
 gthumb/gth-uri-list.c
 gthumb/gth-uri-list.h
 gthumb/gth-user-dir.c
@@ -911,8 +913,6 @@ gthumb/pixbuf-utils.h
 [type: gettext/glade]gthumb/resources/folder-menu.ui
 [type: gettext/glade]gthumb/resources/gears-menu.ui
 [type: gettext/glade]gthumb/resources/history-menu.ui
-[type: gettext/glade]gthumb/resources/message-dialog.ui
-[type: gettext/glade]gthumb/resources/request-dialog.ui
 gthumb/test-dom.c
 gthumb/test-glib-utils.c
 gthumb/test-gsignature.c
