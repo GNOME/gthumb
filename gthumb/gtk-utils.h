@@ -61,14 +61,6 @@ GtkWidget *     _gtk_yesno_dialog_new                      (GtkWindow        *pa
 							    const char       *message,
 							    const char       *no_button_text,
 							    const char       *yes_button_text);
-gchar *		_gtk_request_dialog_run			   (GtkWindow        *parent,
-							    GtkDialogFlags    flags,
-							    const char       *title,
-							    const char       *message,
-							    const char       *default_value,
-							    int               max_length,
-							    const char       *no_button_text,
-							    const char       *yes_button_text);
 void            _gtk_error_dialog_from_gerror_run          (GtkWindow        *parent,
 					    	    	    const char       *title,
 					    	    	    GError           *gerror);
