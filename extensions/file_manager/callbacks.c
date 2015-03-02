@@ -698,7 +698,9 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 						   GdkDragAction  action)
 {
 	GthFileSource *file_source;
+	GtkWidget     *dialog;
 	GthTask       *task;
+	int            response;
 
 	if (destination == NULL)
 		return;
@@ -707,10 +709,48 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 	if (file_source == NULL)
 		return;
 
-	if ((action == GDK_ACTION_MOVE) && ! gth_file_source_can_cut (file_source, (GFile *) file_list->data)) {
-		GtkWidget *dialog;
-		int        response;
+	/* ask confirmation */
 
+	response = GTK_RESPONSE_OK;
+	if ((action == GDK_ACTION_MOVE) || (action == GDK_ACTION_COPY)) {
+		int   n_files;
+		char *message;
+
+		n_files = g_list_length (file_list);
+		g_return_if_fail (n_files >= 1);
+
+		if (n_files == 1) {
+			char *filename = _g_file_get_display_name ((GFile *) file_list->data);
+			if (action == GDK_ACTION_MOVE)
+				message = g_strdup_printf (_("Do you want to move \"%s\" to \"%s\" ?"), filename, g_file_info_get_display_name (destination->info));
+			else
+				message = g_strdup_printf (_("Do you want to copy \"%s\" to \"%s\" ?"), filename, g_file_info_get_display_name (destination->info));
+			g_free (filename);
+		}
+		else {
+			if (action == GDK_ACTION_MOVE)
+				message = g_strdup_printf (_("Do you want to move the dragged files to \"%s\" ?"), g_file_info_get_display_name (destination->info));
+			else
+				message = g_strdup_printf (_("Do you want to copy the dragged files to \"%s\" ?"), g_file_info_get_display_name (destination->info));
+		}
+		dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
+						  GTK_DIALOG_MODAL,
+						  _GTK_ICON_NAME_DIALOG_QUESTION,
+						  message,
+						  NULL,
+						  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+						  ((action == GDK_ACTION_MOVE) ? _("Move") : _("_Copy")), GTK_RESPONSE_OK,
+						  NULL);
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		g_free (message);
+	}
+
+	if (response != GTK_RESPONSE_OK)
+		return;
+
+	if ((action == GDK_ACTION_MOVE) && ! gth_file_source_can_cut (file_source, (GFile *) file_list->data)) {
 		dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
 						  GTK_DIALOG_MODAL,
 						  _GTK_ICON_NAME_DIALOG_QUESTION,
