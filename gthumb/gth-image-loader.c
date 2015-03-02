@@ -217,7 +217,8 @@ load_image_thread (GSimpleAsyncResult *result,
 
 	_g_object_unref (istream);
 
-	if (! g_cancellable_is_cancelled (cancellable)
+	if ((image != NULL)
+	    && ! g_cancellable_is_cancelled (cancellable)
 	    && (self->priv->out_profile != NULL)
 	    && gth_image_get_icc_profile (image) != NULL)
 	{
