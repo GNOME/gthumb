@@ -39,20 +39,9 @@ G_DEFINE_TYPE (GthRequestDialog, gth_request_dialog, GTK_TYPE_DIALOG)
 
 
 static void
-gth_request_dialog_finalize (GObject *base)
-{
-	/* GthRequestDialog *self = (GthRequestDialog *) base; */
-
-	G_OBJECT_CLASS (gth_request_dialog_parent_class)->finalize (base);
-}
-
-
-static void
 gth_request_dialog_class_init (GthRequestDialogClass *klass)
 {
 	g_type_class_add_private (klass, sizeof (GthRequestDialogPrivate));
-
-	G_OBJECT_CLASS (klass)->finalize = gth_request_dialog_finalize;
 }
 
 
@@ -60,56 +49,23 @@ static void
 gth_request_dialog_init (GthRequestDialog *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_REQUEST_DIALOG, GthRequestDialogPrivate);
-
 	gtk_window_set_title (GTK_WINDOW (self), "");
-	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
 }
 
 
 static void
 _gth_request_dialog_construct (GthRequestDialog *self,
-			       GtkWindow        *parent,
-			       GtkDialogFlags    flags,
-			       const char       *title,
 			       const char       *prompt,
 			       const char       *cancel_button_text,
 			       const char       *ok_button_text)
 {
 	GtkWidget     *title_label;
 	PangoAttrList *attributes;
-	GtkWidget     *title_container;
 	GtkWidget     *prompt_label;
-	GtkWidget     *image;
 	GtkWidget     *hbox;
+	GtkWidget     *vbox_entry;
 	GtkWidget     *vbox;
 	GtkWidget     *button;
-
-	if (parent)
-		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
-
-	if (flags & GTK_DIALOG_MODAL)
-		gtk_window_set_modal (GTK_WINDOW (self), TRUE);
-
-	if (flags & GTK_DIALOG_DESTROY_WITH_PARENT)
-		gtk_window_set_destroy_with_parent (GTK_WINDOW (self), TRUE);
-
-	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
-
-	/* Add label and image */
-
-	image = gtk_image_new_from_icon_name (_GTK_ICON_NAME_DIALOG_QUESTION, GTK_ICON_SIZE_DIALOG);
-	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
-
-	title_label = gtk_label_new (title);
-
-	attributes = pango_attr_list_new ();
-	pango_attr_list_insert (attributes, pango_attr_size_new (15000));
-	gtk_label_set_attributes (GTK_LABEL (title_label), attributes);
-	pango_attr_list_unref (attributes);
-
-	gtk_label_set_line_wrap (GTK_LABEL (title_label), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (title_label), FALSE);
-	gtk_misc_set_alignment (GTK_MISC (title_label), 0.0, 0.5);
 
 	prompt_label = gtk_label_new (prompt);
 	gtk_label_set_line_wrap (GTK_LABEL (prompt_label), TRUE);
@@ -128,33 +84,25 @@ _gth_request_dialog_construct (GthRequestDialog *self,
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	vbox_entry = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 	gtk_box_set_spacing (GTK_BOX (hbox), 12);
 	gtk_box_set_spacing (GTK_BOX (vbox), 6);
 
-	title_container = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (title_container), 0, 12, 0, 0);
-	gtk_container_add (GTK_CONTAINER (title_container), title_label);
+	gtk_box_pack_start (GTK_BOX (vbox_entry), prompt_label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox_entry), self->priv->entry, FALSE, FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (vbox), title_container,
-			    TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), prompt_label,
-			    TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), self->priv->entry,
-			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), self->priv->infobar,
-			    FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), vbox_entry, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), self->priv->infobar, FALSE, FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (hbox), image,
-			    FALSE, FALSE, 0);
-
-	gtk_box_pack_start (GTK_BOX (hbox), vbox,
-			    TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
 
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))),
 			    hbox,
-			    FALSE, FALSE, 0);
+			    FALSE,
+			    FALSE,
+			    0);
 
 	gtk_widget_show_all (hbox);
 	gtk_widget_hide (self->priv->infobar);
@@ -163,16 +111,12 @@ _gth_request_dialog_construct (GthRequestDialog *self,
 
 	button = gtk_button_new_with_mnemonic (cancel_button_text);
 	gtk_widget_show (button);
-	gtk_dialog_add_action_widget (GTK_DIALOG (self),
-				      button,
-				      GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_action_widget (GTK_DIALOG (self), button, GTK_RESPONSE_CANCEL);
 
 	button = gtk_button_new_with_mnemonic (ok_button_text);
 	gtk_widget_set_can_default (button, TRUE);
 	gtk_widget_show (button);
-	gtk_dialog_add_action_widget (GTK_DIALOG (self),
-				      button,
-				      GTK_RESPONSE_OK);
+	gtk_dialog_add_action_widget (GTK_DIALOG (self), button, GTK_RESPONSE_OK);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
 }
@@ -181,18 +125,22 @@ _gth_request_dialog_construct (GthRequestDialog *self,
 GtkWidget *
 gth_request_dialog_new (GtkWindow      *parent,
 		    	GtkDialogFlags  flags,
-		    	const char     *message,
+		    	const char     *title,
 		    	const char     *secondary_message,
 		    	const char     *cancel_button_text,
 		    	const char     *ok_button_text)
 {
 	GtkWidget *self;
 
-	self = g_object_new (GTH_TYPE_REQUEST_DIALOG, NULL);
+	self = g_object_new (GTH_TYPE_REQUEST_DIALOG,
+			     "title", title,
+			     "transient-for", parent,
+			     "modal", (flags & GTK_DIALOG_MODAL),
+			     "destroy-with-parent", (flags & GTK_DIALOG_DESTROY_WITH_PARENT),
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     "resizable", FALSE,
+			     NULL);
 	_gth_request_dialog_construct (GTH_REQUEST_DIALOG (self),
-				       parent,
-				       flags,
-				       message,
 				       secondary_message,
 				       cancel_button_text,
 				       ok_button_text);

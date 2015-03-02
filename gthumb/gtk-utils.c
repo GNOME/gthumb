@@ -1169,3 +1169,16 @@ _gtk_list_box_add_separator (GtkListBox *list_box) {
 	gtk_widget_show (sep);
 	gtk_container_add (GTK_CONTAINER (row), sep);
 }
+
+
+gboolean
+_gtk_settings_get_dialogs_use_header (void)
+{
+	gboolean use_header;
+
+	g_object_get (gtk_settings_get_default (),
+		      "gtk-dialogs-use-header", &use_header,
+		      NULL);
+
+	return use_header;
+}
