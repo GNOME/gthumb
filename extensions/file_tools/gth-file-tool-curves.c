@@ -353,32 +353,70 @@ reset_button_clicked_cb (GtkButton *button,
 
 
 static void
+add_to_presets_dialog_response_cb (GtkDialog *dialog,
+				   int        response,
+				   gpointer   user_data)
+{
+	GthFileToolCurves *self = user_data;
+	char              *name;
+	GthPoints          points[GTH_HISTOGRAM_N_CHANNELS];
+
+	if (response != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (dialog);
+		return;
+	}
+
+	name = gth_request_dialog_get_normalized_text (GTH_REQUEST_DIALOG (dialog));
+	if (_g_utf8_all_spaces (name)) {
+		g_free (name);
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, _("No name specified"));
+		return;
+	}
+
+	if (g_regex_match_simple ("/", name, 0, 0)) {
+		char *message;
+
+		message = g_strdup_printf (_("Invalid name. The following characters are not allowed: %s"), "/");
+		gth_request_dialog_set_info_text (GTH_REQUEST_DIALOG (dialog), GTK_MESSAGE_ERROR, message);
+
+		g_free (message);
+		g_free (name);
+
+		return;
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	gth_points_array_init (points);
+	gth_curve_editor_get_points (GTH_CURVE_EDITOR (self->priv->curve_editor), points);
+	gth_curve_preset_add (self->priv->preset, name, points);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->show_presets_button), TRUE);
+
+	gth_points_array_dispose (points);
+	g_free (name);
+}
+
+
+static void
 add_to_presets_button_clicked_cb (GtkButton *button,
 				  gpointer   user_data)
 {
 	GthFileToolCurves *self = user_data;
-	char              *preset_name;
-	GthPoints          points[GTH_HISTOGRAM_N_CHANNELS];
+	GtkWidget         *dialog;
 
-	preset_name = _gtk_request_dialog_run (GTK_WINDOW (gth_file_tool_get_window (GTH_FILE_TOOL (self))),
-					       GTK_DIALOG_MODAL,
-					       _("Add to Presets"),
-					       _("_Name:"),
-					       "",
-					       0,
-					       _GTK_LABEL_CANCEL,
-					       _GTK_LABEL_SAVE);
+	dialog = gth_request_dialog_new (GTK_WINDOW (gth_file_tool_get_window (GTH_FILE_TOOL (self))),
+					 GTK_DIALOG_MODAL,
+					 _("Add to Presets"),
+					 _("Enter the preset name:"),
+					 _GTK_LABEL_CANCEL,
+					 _GTK_LABEL_SAVE);
 
-	if (preset_name == NULL)
-		return;
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (add_to_presets_dialog_response_cb),
+			  self);
 
-	gth_points_array_init (points);
-	gth_curve_editor_get_points (GTH_CURVE_EDITOR (self->priv->curve_editor), points);
-	gth_curve_preset_add (self->priv->preset, preset_name, points);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->show_presets_button), TRUE);
-
-	gth_points_array_dispose (points);
-	g_free (preset_name);
+	gtk_window_present (GTK_WINDOW (dialog));
 }
 
 
