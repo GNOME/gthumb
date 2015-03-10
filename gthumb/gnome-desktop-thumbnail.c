@@ -1370,7 +1370,7 @@ gnome_desktop_thumbnail_factory_save_thumbnail (GnomeDesktopThumbnailFactory *fa
     }
   close (tmp_fd);
 
-  g_snprintf (mtime_str, 21, "%ld",  original_mtime);
+  g_snprintf (mtime_str, 21, "%ld",  (long) original_mtime);
   width = gdk_pixbuf_get_option (thumbnail, "tEXt::Thumb::Image::Width");
   height = gdk_pixbuf_get_option (thumbnail, "tEXt::Thumb::Image::Height");
 
@@ -1471,7 +1471,7 @@ gnome_desktop_thumbnail_factory_create_failed_thumbnail (GnomeDesktopThumbnailFa
     }
   close (tmp_fd);
 
-  g_snprintf (mtime_str, 21, "%ld",  mtime);
+  g_snprintf (mtime_str, 21, "%ld",  (long) mtime);
   pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
   saved_ok  = gdk_pixbuf_save (pixbuf,
 			       tmp_path,

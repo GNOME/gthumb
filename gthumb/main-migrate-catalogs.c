@@ -171,7 +171,7 @@ migration_for_each_file (GFile     *file,
 				gboolean    b;
 				int         line_ofs;
 				/*gboolean    all_keywords;*/
-				time_t      date;
+				long        date;
 				int         date_scope;
 
 				extension = ".search";
