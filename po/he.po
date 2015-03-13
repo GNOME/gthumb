@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-15 16:41+0200\n"
-"PO-Revision-Date: 2015-01-15 16:51+0200\n"
+"POT-Creation-Date: 2015-03-13 02:26+0200\n"
+"PO-Revision-Date: 2015-03-13 03:29+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -26,6 +26,8 @@ msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
+"‏gThumb הוא מציג, עורך, דפדפן ומארגן תמונות. הוא מעוצב לתכלול עם שולחן העבודה "
+"GNOME 3."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:2
 msgid ""
@@ -34,6 +36,9 @@ msgid ""
 "is also possible to view various metadata types embedded inside an image "
 "such as EXIF, IPTC and XMP."
 msgstr ""
+"כמציג תמונות, gThumb מאפשר הצגת תבניות קבצי תמונה נפוצים כמו BMP, JPEG, GIF "
+"(כולל הנפשות), PNG, TIFF, TGA ותמונות RAW. הוא גם מאפשר להציג סוגי נתוני על "
+"שונים המוטמעים בתוך תמונות כמו EXIF, IPTC ו־XMP."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:3
 msgid ""
@@ -41,6 +46,8 @@ msgid ""
 "change the saturation, lightness, contrast as well as other color "
 "trasformations."
 msgstr ""
+"כעורך תמונות, gThumb מאפשר לשנות קנה מידה, לסובב ולחתוך תמונות; שינוי רויה, "
+"בהירות, חדות כמו גם שינויי צבעים אחרים."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:4
 msgid ""
@@ -51,6 +58,11 @@ msgid ""
 "format conversion; slideshow; setting an image as desktop background and "
 "several others."
 msgstr ""
+"כדפדפן תמונות, gThumb מציג תמונות ממוזערות של התמונות השמורות על הכונן שלך, "
+"מאפשר לבצע פעולות נפוצות של מנהל קבצים כמו העתקה, הזזה, ומחיקת קבצים "
+"ותיקיות. יתרה מזאת, יש סדרת כלים מגדרת תמונות כגון שינוי JPEG ללא איבוד "
+"נתונים; שינוי גודל תמונה; המרת תבניות; מצגת; הגדרת תמונה כרקע שולחן העבודה "
+"ועוד."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:5
 msgid ""
@@ -58,9 +70,11 @@ msgid ""
 "images; organize images in catalogs and catalogs in libraries; search for "
 "images and save the result as a catalog."
 msgstr ""
+"כמארגן תמונות, gThumb מאפשר להוסיף הערות ונתוני על נוספים לתמונות; ארגון "
+"תמונות בקטלוגים וקיטלוג בספריות; חיפוש תמונות ושמירת התוצאות בקטלוג."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:382
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:385
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -437,7 +451,7 @@ msgid "gthumb development team"
 msgstr "צוות פיתוח gthumb"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
-#: ../extensions/bookmarks/callbacks.c:327
+#: ../extensions/bookmarks/callbacks.c:325
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
 msgid "Bookmarks"
 msgstr "סימניות"
@@ -521,12 +535,12 @@ msgstr "מקור"
 msgid "Write to Disc"
 msgstr "כתיבה לתקליטור"
 
-#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:62
+#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:65
 #, c-format
 msgid "Error interpreting JPEG image file: %s"
 msgstr "שגיאה בפענוח קובץ תמונת JPEG: ‏%s"
 
-#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:507
+#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:529
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "מרחב צבע JPEG לא ידוע (%d)"
@@ -608,7 +622,7 @@ msgid "_Lossless"
 msgstr "ללא _אבדן"
 
 #: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:140
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:144
 msgid "JPEG"
 msgstr "JPEG"
 
@@ -632,14 +646,14 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: ../extensions/cairo_io/gth-image-saver-webp.c:382
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:165
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:173
 msgid "WebP"
 msgstr "WebP"
 
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1332
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1373
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "שמירה"
@@ -737,7 +751,7 @@ msgstr "שינוי שם"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4376 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4380 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "מאפיינים"
 
@@ -799,6 +813,7 @@ msgstr "_הצגת היעד"
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
+#: ../extensions/file_tools/gth-file-tool-curves.c:366
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:1
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
@@ -1901,7 +1916,7 @@ msgstr "לא ניתן לייצא את הקבצים"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:827
+#: ../gthumb/gth-browser.c:830
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2058,13 +2073,13 @@ msgid "Could not move the folder to the Trash"
 msgstr "לא ניתן להעביר את התיקייה לאשפה"
 
 #: ../extensions/file_manager/actions.c:1059
-#: ../gthumb/gth-file-source-vfs.c:857
+#: ../gthumb/gth-file-source-vfs.c:861
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "האם ברצונך למחוק לצמיתות את „%s”?"
 
 #: ../extensions/file_manager/actions.c:1069
-#: ../gthumb/gth-file-source-vfs.c:870
+#: ../gthumb/gth-file-source-vfs.c:874
 msgid "If you delete a file, it will be permanently lost."
 msgstr "אם ברצונך למחוק את הקובץ, הוא יאבד לצמיתות."
 
@@ -2120,7 +2135,7 @@ msgstr "פתיחה _באמצעות"
 
 #: ../extensions/file_manager/callbacks.c:883
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5323 ../gthumb/gth-browser.c:5356
+#: ../gthumb/gth-browser.c:5330 ../gthumb/gth-browser.c:5363
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "לא ניתן לבצע את הפעולה"
@@ -2138,6 +2153,7 @@ msgid "Deleting files"
 msgstr "מוחק קבצים"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:1
 #: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
 msgid "_Preview"
 msgstr "_תצוגה מקדימה"
@@ -2235,6 +2251,10 @@ msgstr "_כפולות של:"
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:14
 msgid "px"
 msgstr "פיקסלים"
+
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:2
+msgid "Include current channel"
+msgstr "לכלול את הערוץ הנוכחי"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 msgid "High _quality"
@@ -2364,64 +2384,125 @@ msgstr "כלי תמונה"
 msgid "Basic tools to modify images."
 msgstr "כלים בסיסיים לשינוי תמונות."
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:335
+#. Translators: the first number is converted to the second number
+#: ../extensions/file_tools/gth-curve-editor.c:416
+#, c-format
+msgid "%d → %d"
+msgstr "‏%d ← %d"
+
+#: ../extensions/file_tools/gth-curve-editor.c:893
+#: ../gthumb/gth-histogram-view.c:837
+msgid "Linear scale"
+msgstr "קנה מידה קווי"
+
+#: ../extensions/file_tools/gth-curve-editor.c:905
+#: ../gthumb/gth-histogram-view.c:849
+msgid "Logarithmic scale"
+msgstr "קנה מידה לוגריתמי"
+
+#: ../extensions/file_tools/gth-curve-editor.c:925
+#: ../gthumb/gth-histogram-view.c:869
+msgid "Channel:"
+msgstr "ערוץ:"
+
+#: ../extensions/file_tools/gth-curve-editor.c:947
+#: ../gthumb/gth-histogram-view.c:890
+msgid "Value"
+msgstr "ערך"
+
+#: ../extensions/file_tools/gth-curve-editor.c:952
+#: ../gthumb/gth-histogram-view.c:895
+msgid "Red"
+msgstr "אדום"
+
+#: ../extensions/file_tools/gth-curve-editor.c:957
+#: ../gthumb/gth-histogram-view.c:900
+msgid "Green"
+msgstr "ירוק"
+
+#: ../extensions/file_tools/gth-curve-editor.c:962
+#: ../gthumb/gth-histogram-view.c:905
+msgid "Blue"
+msgstr "כחול"
+
+#: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
+#: ../extensions/file_tools/gth-file-tool-curves.c:648
+#: ../extensions/file_tools/gth-file-tool-curves.c:812
+msgid "Presets"
+msgstr "ערכים קבועים"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:336
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:388
 #: ../extensions/file_tools/gth-file-tool-crop.c:627
+#: ../extensions/file_tools/gth-file-tool-curves.c:285
+#: ../extensions/file_tools/gth-file-tool-effects.c:400
+#: ../extensions/file_tools/gth-file-tool-effects.c:445
+#: ../extensions/file_tools/gth-file-tool-effects.c:493
+#: ../extensions/file_tools/gth-file-tool-effects.c:542
+#: ../extensions/file_tools/gth-file-tool-effects.c:590
+#: ../extensions/file_tools/gth-file-tool-effects.c:638
+#: ../extensions/file_tools/gth-file-tool-effects.c:686
+#: ../extensions/file_tools/gth-file-tool-effects.c:734
+#: ../extensions/file_tools/gth-file-tool-effects.c:784
+#: ../extensions/file_tools/gth-file-tool-effects.c:906
+#: ../extensions/file_tools/gth-file-tool-effects.c:942
 #: ../extensions/file_tools/gth-file-tool-flip.c:63
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:227
+#: ../extensions/file_tools/gth-file-tool-lomo.c:182
 #: ../extensions/file_tools/gth-file-tool-mirror.c:63
-#: ../extensions/file_tools/gth-file-tool-negative.c:109
+#: ../extensions/file_tools/gth-file-tool-negative.c:100
 #: ../extensions/file_tools/gth-file-tool-rotate.c:568
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:63
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:63
 msgid "Applying changes"
 msgstr "החלת שינויים"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:554
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:555
+#: ../extensions/file_tools/gth-file-tool-curves.c:784
 #: ../extensions/file_tools/gth-file-tool-rotate.c:603
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:365
 msgid "Reset"
 msgstr "איפוס"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:595
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
 msgid "Adjust Colors"
 msgstr "התאמת צבעים"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:597
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "שינוי בהירות, ניגודיות, רוויה ורמת גמא של התמונה"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:531
 msgid "Stretch"
 msgstr "מתיחה"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:528
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:532
 msgid "Stretch the histogram trimming the 0.5%"
 msgstr "מתיחת חיתוך ההיסטוגרמה ב־0.5%"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:536
 msgid "Equalize"
 msgstr "השוואה"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:529
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:537
 msgid "Equalize the histogram using the square root function"
 msgstr "השוואת ההיסטוגרמה באמצעות פונקציית השורש הריבועי"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:541
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
 #: ../extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Uniform"
 msgstr "אחיד"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:530
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:542
 msgid "Equalize the histogram using the linear function"
 msgstr "השוואת ההיסטוגרמה באמצעות פונקציה לינארית"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:653
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:656
 msgid "Adjust Contrast"
 msgstr "התאמת ניגודיות"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:655
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
 msgid "Automatic contrast adjustment"
 msgstr "התאמת ניגודיות אוטומטית"
 
@@ -2508,6 +2589,88 @@ msgstr "קווי מרכז"
 msgid "Crop"
 msgstr "חיתוך"
 
+#: ../extensions/file_tools/gth-file-tool-curves.c:365
+msgid "Add to Presets"
+msgstr "הוספה לערכים הקבועים"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:495
+#: ../extensions/gstreamer_tools/actions.c:69
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1303
+#: ../gthumb/gth-browser.c:1894
+msgid "Could not save the file"
+msgstr "לא ניתן לשמור את התמונה"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:798
+msgid "Add to presets"
+msgstr "הוספה לערכים הקבועים"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:859
+msgid "Color Curves"
+msgstr "עקומות צבע"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:860
+msgid "Adjust color curves"
+msgstr "התאמת עקומות צבע"
+
+#: ../extensions/file_tools/gth-file-tool-effects.c:357
+msgid "Special Effects"
+msgstr "תוצאים מיוחדים"
+
+#. Translators: this is the name of a filter that produces warmer colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:402
+msgid "Warmer"
+msgstr "חמים"
+
+#. Translators: this is the name of a filter that produces cooler colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:447
+msgid "Cooler"
+msgstr "קריר"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:495
+msgid "Soil"
+msgstr "קרקע"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:544
+msgid "Desert"
+msgstr "מדבר"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:592
+msgid "Artic"
+msgstr "ארטיק"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:640
+msgid "Mangos"
+msgstr "מנגו"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:688
+msgid "Fresh Blue"
+msgstr "כחול טרי"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:736
+msgid "Cherry"
+msgstr "דובדבן"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:786
+msgid "Vintage"
+msgstr "ישן"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:908
+msgid "Blurred Edges"
+msgstr "קצוות מטושטשים"
+
+#. Translators: this is the name of an image filter that produces darker edges
+#: ../extensions/file_tools/gth-file-tool-effects.c:944
+msgid "Vignette"
+msgstr "קצוות כהים"
+
 #: ../extensions/file_tools/gth-file-tool-flip.c:90
 msgid "Flip"
 msgstr "היפוך"
@@ -2516,21 +2679,25 @@ msgstr "היפוך"
 msgid "Flip the image vertically"
 msgstr "היפוך אנכי של התמונה"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:367
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:370
 msgid "_Brightness"
 msgstr "_בהירות"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:368
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:375
 msgid "_Saturation"
 msgstr "_רוויה"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:369
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:380
 msgid "_Average"
 msgstr "_ממצוע"
 
-#: ../extensions/file_tools/gth-file-tool-grayscale.c:493
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:496
 msgid "Grayscale"
 msgstr "גווני אפור"
+
+#: ../extensions/file_tools/gth-file-tool-lomo.c:183
+msgid "Lomo"
+msgstr "לומו"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:90
 msgid "Mirror"
@@ -2540,7 +2707,7 @@ msgstr "שיקוף"
 msgid "Mirror the image horizontally"
 msgstr "שיקוף אופקי של התמונה"
 
-#: ../extensions/file_tools/gth-file-tool-negative.c:136
+#: ../extensions/file_tools/gth-file-tool-negative.c:101
 msgid "Negative"
 msgstr "שלילה"
 
@@ -2551,7 +2718,7 @@ msgstr "ביצוע שוב"
 #. resize the original image
 #: ../extensions/file_tools/gth-file-tool-resize.c:180
 #: ../extensions/resize_images/dlg-resize-images.c:172
-#: ../gthumb/gth-filter-grid.c:530
+#: ../gthumb/gth-filter-grid.c:575
 msgid "Resizing images"
 msgstr "משנה את גודל התמונות"
 
@@ -2815,12 +2982,6 @@ msgstr ""
 "יש ללחוץ „אישור” לפתיחת דפדפן האינטרנט שלך ולאשר ל־gthumb להעלות תמונות אל "
 "%s. בסיום, יש לחזור לחלון זה להשלמת האישור."
 
-#: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1262
-#: ../gthumb/gth-browser.c:1891
-msgid "Could not save the file"
-msgstr "לא ניתן לשמור את התמונה"
-
 #. Translators: %s is a filename
 #: ../extensions/gstreamer_tools/actions.c:75
 #, c-format
@@ -2946,10 +3107,10 @@ msgstr "מונו"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1497
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:243
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1536
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:251
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:967
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:1040
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3051,7 +3212,7 @@ msgid "Images"
 msgstr "תמונות"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
-#: ../gthumb/gth-image-loader.c:204 ../gthumb/gth-image-loader.c:322
+#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:340
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "אין טען מתאים לסוג זה של קובץ"
@@ -3072,9 +3233,8 @@ msgid "Image print"
 msgstr "הדפסת תמונה"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:2
-#, fuzzy
 msgid "Allow to print images choosing the page layout."
-msgstr "אפשור הדפסת תמונות נבחרות בפריסת הדף."
+msgstr "לאפשר הדפסת תמונות נבחרות בפריסת הדף."
 
 #: ../extensions/image_rotation/callbacks.c:52
 msgid "Rotate Physically"
@@ -3117,10 +3277,18 @@ msgid ""
 "For practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
+"שינוי זה עשוי להציג עיוותים קטנים בתמונה לאורך קצה אחד או יותר, היות וממדי "
+"התמונה אינם מכפלה של 8.\n"
+"\n"
+"אמנם, העיוות הפיך. אם התמונה המתקבלת אינה רצויה, ניתן בפשטות להחיל את השינוי "
+"ההפוך ולשוב לתמונה המקורית.\n"
+"\n"
+"כמו כן, ניתן להשליך (או לקצץ) בקצוות פיקסלים שאינם ניתנים להמרה. לשימוש "
+"מעשי, מצה זה נותן את המראה הטוב ביותר, אך השינוי נעשה ללא כל איבוד קפדני."
 
 #: ../extensions/image_rotation/rotation-utils.c:116
 msgid "_Trim"
-msgstr ""
+msgstr "_קיצוץ"
 
 #: ../extensions/image_rotation/rotation-utils.c:118
 msgid "_Accept distortion"
@@ -3131,7 +3299,7 @@ msgid "After loading an image:"
 msgstr "אחרי טעינת תמונה:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:831
+#: ../extensions/image_viewer/gth-image-viewer-page.c:846
 msgid "Set to actual size"
 msgstr "הגדרה לגודל ממשי"
 
@@ -3140,7 +3308,7 @@ msgid "Keep previous zoom"
 msgstr "שמירת הגדלה קודמת"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-#: ../extensions/image_viewer/gth-image-viewer-page.c:838
+#: ../extensions/image_viewer/gth-image-viewer-page.c:853
 msgid "Fit to window"
 msgstr "התאמה לחלון"
 
@@ -3149,7 +3317,7 @@ msgid "Fit to window if larger"
 msgstr "התאמה לחלון אם גדול יותר"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
-#: ../extensions/image_viewer/gth-image-viewer-page.c:845
+#: ../extensions/image_viewer/gth-image-viewer-page.c:860
 msgid "Fit to width"
 msgstr "התאמה לרוחב"
 
@@ -3179,19 +3347,23 @@ msgstr "_נמוך"
 msgid "Histogram"
 msgstr "היסטוגרמה"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:72
+#: ../extensions/image_viewer/gth-image-viewer-page.c:74
 msgid "Copy Image"
 msgstr "העתקת תמונה"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:73
+#: ../extensions/image_viewer/gth-image-viewer-page.c:75
 msgid "Paste Image"
 msgstr "הדבקת תמונה"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1435
+#: ../extensions/image_viewer/gth-image-viewer-page.c:867
+msgid "Apply the embedded color profile"
+msgstr "החלת מתאר הצבע המוטמע"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1476
 msgid "Save Image"
 msgstr "שמירת תמונה"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2003
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2060
 msgid "Loading the original image"
 msgstr "טעינת התמונה המקורית"
 
@@ -3290,7 +3462,7 @@ msgid "The selected files are already present in the destination."
 msgstr "הקבצים הנבחרים כבר נמצאים ביעד."
 
 #: ../extensions/importer/gth-import-task.c:644
-#: ../gthumb/gth-file-source-vfs.c:710
+#: ../gthumb/gth-file-source-vfs.c:714
 msgid "Could not delete the files"
 msgstr "לא ניתן למחוק את הקבצים"
 
@@ -3710,7 +3882,7 @@ msgid "(Empty)"
 msgstr "(ריק)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1802
+#: ../gthumb/gth-browser.c:1805
 msgid "Getting the folder content…"
 msgstr "מקבל את תוכן התיקייה…"
 
@@ -4328,9 +4500,9 @@ msgstr "אלבומי רשת"
 msgid "Create static web albums."
 msgstr "יצירת אלבומי אינטרנט סטטיים."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
-#: ../gthumb/gth-browser.c:1682 ../gthumb/gth-browser.c:6271
-#: ../gthumb/gth-browser.c:6290 ../gthumb/gth-browser.c:6314
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1110
+#: ../gthumb/gth-browser.c:1685 ../gthumb/gth-browser.c:6278
+#: ../gthumb/gth-browser.c:6297 ../gthumb/gth-browser.c:6321
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "לא ניתן לטעון את המיקום „%s”"
@@ -4475,111 +4647,119 @@ msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
-#: ../gthumb/gth-browser-actions-callbacks.c:141
+#: ../gthumb/gth-browser-actions-callbacks.c:127
 msgid ""
 "gThumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
 "Foundation; either version 2 of the License, or (at your option) any later "
 "version."
 msgstr ""
+"‏gThumb היא תכנה חופשית; ניתן להפיצה מחדש ו/או לשנות אותה לפי תנאי הרישיון "
+"הציבורי הכללי של GNU כפי שפורסם על ידי קרן התכנה החופשית; בין אם גרסה 2 של "
+"הרישיון ובין אם (לבחירתך) כל גרסה מאוחרת יותר."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:145
+#: ../gthumb/gth-browser-actions-callbacks.c:131
 msgid ""
 "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
+"תכנית זו מופצת בתקווה שתביא תועלת אך ללא אחריות כלשהי; אפילו לא האחריות "
+"המשתמעת בדבר מסחריותה או התאמתה למטרה מסוימת. לפרטים נוספים ניתן לעיין "
+"ברישיון הציבורי הכללי של GNU."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:149
+#: ../gthumb/gth-browser-actions-callbacks.c:135
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
+"לתכנית זו אמור היה להיות מצורף עותק של הרישיון הציבורי הכללי של GNU; במידה "
+"שלא, ניתן לראותה בקישור http://www.gnu.org/licenses/."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:169
+#: ../gthumb/gth-browser-actions-callbacks.c:155
 msgid "An image viewer and browser for GNOME."
 msgstr "מציג ודפדפן תמונות עבור GNOME."
 
-#: ../gthumb/gth-browser-actions-callbacks.c:172
+#: ../gthumb/gth-browser-actions-callbacks.c:158
 msgid "translator-credits"
 msgstr ""
 "‏Revan https://launchpad.net/~mark125\n"
 "יניב  https://launchpad.net/~yanivabir\n"
 "יוסף אור בוצ׳קו <yoseforb@gnome.org>"
 
-#: ../gthumb/gth-browser.c:367
+#: ../gthumb/gth-browser.c:370
 msgid "[modified]"
 msgstr "[שונה]"
 
-#: ../gthumb/gth-browser.c:828
+#: ../gthumb/gth-browser.c:831
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d קבצים שונו (%s)"
 msgstr[1] "%d קבצים שונו (%s)"
 
-#: ../gthumb/gth-browser.c:863
+#: ../gthumb/gth-browser.c:866
 #, c-format
 msgid "%s of free space"
 msgstr "‏%s של מקום פנוי"
 
-#: ../gthumb/gth-browser.c:1786 ../gthumb/gth-browser.c:1813
+#: ../gthumb/gth-browser.c:1789 ../gthumb/gth-browser.c:1816
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "לא נמצא מודול מתאים עבור %s"
 
-#: ../gthumb/gth-browser.c:1935
+#: ../gthumb/gth-browser.c:1938
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "שמירת שינויים לקובץ '%s'?"
 
-#: ../gthumb/gth-browser.c:1940
+#: ../gthumb/gth-browser.c:1943
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "אם לא תתבצע שמירה, שינויים בקובץ זה יאבדו לצמיתות."
 
-#: ../gthumb/gth-browser.c:1941
+#: ../gthumb/gth-browser.c:1944
 msgid "Do _Not Save"
 msgstr "_לא לשמור"
 
-#: ../gthumb/gth-browser.c:2885 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2889 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "לא ניתן לשנות את שם הקובץ"
 
-#: ../gthumb/gth-browser.c:3329 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3333 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "השתנה"
 
-#: ../gthumb/gth-browser.c:4338
+#: ../gthumb/gth-browser.c:4342
 msgid "Go to the previous visited location"
 msgstr "מעבר למקום האחרון בו ביקרת"
 
-#: ../gthumb/gth-browser.c:4344
+#: ../gthumb/gth-browser.c:4348
 msgid "Go to the next visited location"
 msgstr "מעבר למקום הבא בו ביקרת"
 
-#: ../gthumb/gth-browser.c:4352
+#: ../gthumb/gth-browser.c:4356
 msgid "History"
 msgstr "היסטוריה"
 
-#: ../gthumb/gth-browser.c:4367
+#: ../gthumb/gth-browser.c:4371
 msgid "View the folders"
 msgstr "צפייה בתיקיות"
 
-#: ../gthumb/gth-browser.c:4382
+#: ../gthumb/gth-browser.c:4386
 msgid "Edit file"
 msgstr "עריכת קובץ"
 
-#: ../gthumb/gth-browser.c:4399
+#: ../gthumb/gth-browser.c:4403
 msgid "Accept"
 msgstr "החלה"
 
-#: ../gthumb/gth-browser.c:6272
+#: ../gthumb/gth-browser.c:6279
 #, c-format
 msgid "File type not supported"
 msgstr "סוג הקובץ אינו נתמך"
 
-#: ../gthumb/gth-browser.c:6315
+#: ../gthumb/gth-browser.c:6322
 #, c-format
 msgid "No suitable module found"
 msgstr "לא נמצא מודול מתאים"
@@ -4602,41 +4782,41 @@ msgstr "כל הקבצים נתמכים"
 msgid "Details"
 msgstr "פרטים"
 
-#: ../gthumb/gth-file-source-vfs.c:216
+#: ../gthumb/gth-file-source-vfs.c:220
 msgid "Computer"
 msgstr "מחשב"
 
-#: ../gthumb/gth-file-source-vfs.c:223
+#: ../gthumb/gth-file-source-vfs.c:227
 msgid "Home Folder"
 msgstr "תיקיית הבית"
 
-#: ../gthumb/gth-file-source-vfs.c:755
+#: ../gthumb/gth-file-source-vfs.c:759
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "לא ניתן להעביר את הקבצים לאשפה. האם ברצונך למחוק אותם למציתות?"
 
-#: ../gthumb/gth-file-source-vfs.c:766
+#: ../gthumb/gth-file-source-vfs.c:770
 msgid "Could not move the files to the Trash"
 msgstr "לא ניתן להעביר את הקבצים לאשפה."
 
-#: ../gthumb/gth-file-source-vfs.c:813
+#: ../gthumb/gth-file-source-vfs.c:817
 #, c-format
 msgid "Are you sure you want to move \"%s\" to trash?"
 msgstr "האם ברצונך להעביר את „%s” לאשפה?"
 
-#: ../gthumb/gth-file-source-vfs.c:817
+#: ../gthumb/gth-file-source-vfs.c:821
 #, c-format
 msgid "Are you sure you want to move to trash the %'d selected file?"
 msgid_plural "Are you sure you want to move to trash the %'d selected files?"
 msgstr[0] "האם ברצונך להעביר לאשפה את הקובץ הנבחר?"
 msgstr[1] "האם ברצונך להעביר לאשפה את %d הקבצים הנבחרים?"
 
-#: ../gthumb/gth-file-source-vfs.c:829
+#: ../gthumb/gth-file-source-vfs.c:833
 msgid "Mo_ve to Trash"
 msgstr "ה_עברה לאשפה"
 
-#: ../gthumb/gth-file-source-vfs.c:860
+#: ../gthumb/gth-file-source-vfs.c:864
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4693,39 +4873,11 @@ msgstr "(פתיחת הורה)"
 msgid "Enter the new name:"
 msgstr "יש להזין שם חדש:"
 
-#: ../gthumb/gth-histogram-view.c:826
-msgid "Linear scale"
-msgstr "קנה מידה קווי"
-
-#: ../gthumb/gth-histogram-view.c:838
-msgid "Logarithmic scale"
-msgstr "קנה מידה לוגריתמי"
-
-#: ../gthumb/gth-histogram-view.c:858
-msgid "Channel:"
-msgstr "ערוץ:"
-
-#: ../gthumb/gth-histogram-view.c:879
-msgid "Value"
-msgstr "ערך"
-
-#: ../gthumb/gth-histogram-view.c:884
-msgid "Red"
-msgstr "אדום"
-
-#: ../gthumb/gth-histogram-view.c:889
-msgid "Green"
-msgstr "ירוק"
-
-#: ../gthumb/gth-histogram-view.c:894
-msgid "Blue"
-msgstr "כחול"
-
-#: ../gthumb/gth-histogram-view.c:899
+#: ../gthumb/gth-histogram-view.c:910
 msgid "Alpha"
 msgstr "אלפא"
 
-#: ../gthumb/gth-histogram-view.c:905
+#: ../gthumb/gth-histogram-view.c:916
 msgid "RGB"
 msgstr "RGB"
 
@@ -5022,27 +5174,27 @@ msgstr "צבעים"
 msgid "Rotation"
 msgstr "סיבוב"
 
-#: ../gthumb/gtk-utils.c:408
+#: ../gthumb/gtk-utils.c:481
 msgid "Could not display help"
 msgstr "לא ניתן להציג עזרה"
 
-#: ../gthumb/gtk-utils.c:728 ../gthumb/gtk-utils.c:735
+#: ../gthumb/gtk-utils.c:801 ../gthumb/gtk-utils.c:808
 msgid "Could not launch the application"
 msgstr "לא ניתן לשגר את היישום"
 
-#: ../gthumb/gtk-utils.c:838
+#: ../gthumb/gtk-utils.c:911
 msgid "_Copy Here"
 msgstr "_העתקה לכאן"
 
-#: ../gthumb/gtk-utils.c:843
+#: ../gthumb/gtk-utils.c:916
 msgid "_Move Here"
 msgstr "ה_עברה לכאן"
 
-#: ../gthumb/gtk-utils.c:848
+#: ../gthumb/gtk-utils.c:921
 msgid "_Link Here"
 msgstr "_קישור לכאן"
 
-#: ../gthumb/gtk-utils.c:857
+#: ../gthumb/gtk-utils.c:930
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -6184,9 +6336,6 @@ msgstr "_מחיקת היסטוריה"
 #~ msgid "New _Library..."
 #~ msgstr "_ספרייה חדשה..."
 
-#~ msgid "Rename current catalog"
-#~ msgstr "שינוי שם קטלוג נוכחי"
-
 #~ msgid "Remove current catalog"
 #~ msgstr "הסרת קטלוג נוכחי"
 
@@ -6489,9 +6638,6 @@ msgstr "_מחיקת היסטוריה"
 
 #~ msgid "_Color Balance..."
 #~ msgstr "_איזון צבעים..."
-
-#~ msgid "Adjust color balance"
-#~ msgstr "התאמת שיווי משקל צבעים"
 
 #~ msgid "_Crop..."
 #~ msgstr "_גזיזה..."
