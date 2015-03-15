@@ -660,30 +660,13 @@ gth_file_list_construct (GthFileList     *file_list,
 			  "rows-reordered",
 			  G_CALLBACK (file_store_rows_reordered_cb),
 			  file_list);
+	g_signal_connect (G_OBJECT (file_list->priv->view),
+			  "drag-data-get",
+			  G_CALLBACK (file_view_drag_data_get_cb),
+			  file_list);
 
-	if (enable_drag_drop) {
-		GtkTargetList  *target_list;
-		GtkTargetEntry *targets;
-		int             n_targets;
-
-		target_list = gtk_target_list_new (NULL, 0);
-		gtk_target_list_add_uri_targets (target_list, 0);
-		gtk_target_list_add_text_targets (target_list, 0);
-		targets = gtk_target_table_new_from_list (target_list, &n_targets);
-		gth_file_view_enable_drag_source (GTH_FILE_VIEW (file_list->priv->view),
-						  GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
-						  targets,
-						  n_targets,
-						  GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
-
-		gtk_target_list_unref (target_list);
-		gtk_target_table_free (targets, n_targets);
-
-		g_signal_connect (G_OBJECT (file_list->priv->view),
-				  "drag-data-get",
-				  G_CALLBACK (file_view_drag_data_get_cb),
-				  file_list);
-	}
+	if (enable_drag_drop)
+		gth_file_list_enable_drag_source (file_list, GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 
 	gth_file_list_set_mode (file_list, list_type);
 
@@ -2149,4 +2132,34 @@ gth_file_list_prev_file (GthFileList *file_list,
 	}
 
 	return (scan != NULL) ? pos : -1;
+}
+
+
+void
+gth_file_list_enable_drag_source (GthFileList     *file_list,
+				  GdkDragAction    actions)
+{
+	GtkTargetList  *target_list;
+	GtkTargetEntry *targets;
+	int             n_targets;
+
+	target_list = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_uri_targets (target_list, 0);
+	gtk_target_list_add_text_targets (target_list, 0);
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
+	gth_file_view_enable_drag_source (GTH_FILE_VIEW (file_list->priv->view),
+					  GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
+					  targets,
+					  n_targets,
+					  actions);
+
+	gtk_target_list_unref (target_list);
+	gtk_target_table_free (targets, n_targets);
+}
+
+
+void
+gth_file_list_unset_drag_source (GthFileList *file_list)
+{
+	gth_file_view_unset_drag_source (GTH_FILE_VIEW (file_list->priv->view));
 }

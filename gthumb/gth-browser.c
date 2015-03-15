@@ -73,11 +73,10 @@
 #define MIN_SIDEBAR_SIZE 100
 #define MIN_VIEWER_SIZE 256
 #define STATUSBAR_SEPARATOR "  ·  "
-#define SHIRNK_WRAP_WIDTH_OFFSET 100
-#define SHIRNK_WRAP_HEIGHT_OFFSET 125
 #define FILE_PROPERTIES_MINIMUM_HEIGHT 100
 #define HISTORY_FILE "history.xbel"
 #define OVERLAY_MARGIN 10
+#define AUTO_OPEN_FOLDER_DELAY 500
 
 
 G_DEFINE_TYPE (GthBrowser, gth_browser, GTH_TYPE_WINDOW)
@@ -182,6 +181,8 @@ struct _GthBrowserPrivate {
 	GthSidebarState    viewer_sidebar;
 	BrowserState       state;
 	GthICCProfile      screen_profile;
+	GtkTreePath       *folder_tree_last_dest_row; /* used to open a folder during D&D */
+	guint              folder_tree_open_folder_id;
 
 	/* settings */
 
@@ -2172,6 +2173,11 @@ _gth_browser_real_close (GthBrowser *browser)
 		browser->priv->selection_changed_event = 0;
 	}
 
+	if (browser->priv->folder_tree_open_folder_id != 0) {
+		g_source_remove (browser->priv->folder_tree_open_folder_id);
+		browser->priv->folder_tree_open_folder_id = 0;
+	}
+
 	/* cancel async operations */
 
 	_gth_browser_cancel (browser, _gth_browser_close_step3, browser);
@@ -2602,6 +2608,7 @@ gth_browser_finalize (GObject *object)
 	_g_object_unref (browser->priv->folder_popup_file_data);
 	_g_object_unref (browser->priv->history_menu);
 	gth_icc_profile_free (browser->priv->screen_profile);
+	gtk_tree_path_free (browser->priv->folder_tree_last_dest_row);
 
 	G_OBJECT_CLASS (gth_browser_parent_class)->finalize (object);
 }
@@ -2669,6 +2676,130 @@ viewer_container_get_child_position_cb (GtkOverlay   *overlay,
 	}
 
 	return allocation_filled;
+}
+
+
+static gboolean
+folder_tree_open_folder_cb (gpointer user_data)
+{
+	GthBrowser *browser = user_data;
+
+	if (browser->priv->folder_tree_open_folder_id != 0) {
+		g_source_remove (browser->priv->folder_tree_open_folder_id);
+		browser->priv->folder_tree_open_folder_id = 0;
+	}
+
+	gtk_tree_view_expand_row (GTK_TREE_VIEW (browser->priv->folder_tree),
+				  browser->priv->folder_tree_last_dest_row,
+				  FALSE);
+
+	return FALSE;
+}
+
+
+static gboolean
+folder_tree_drag_motion_cb (GtkWidget      *file_view,
+			    GdkDragContext *context,
+			    gint            x,
+			    gint            y,
+			    guint           time,
+			    gpointer        user_data)
+{
+	GthBrowser              *browser = user_data;
+	GtkTreePath             *path;
+	GtkTreeViewDropPosition  pos;
+	GdkDragAction            action;
+
+	if (gdk_drag_context_get_suggested_action (context) == GDK_ACTION_ASK) {
+		gdk_drag_status (context, GDK_ACTION_ASK, time);
+		return FALSE;
+	}
+
+	if (! gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (file_view),
+					         x,
+					         y,
+					         &path,
+					         &pos))
+	{
+		gtk_tree_path_free (browser->priv->folder_tree_last_dest_row);
+		browser->priv->folder_tree_last_dest_row = NULL;
+
+		if (browser->priv->folder_tree_open_folder_id != 0) {
+			g_source_remove (browser->priv->folder_tree_open_folder_id);
+			browser->priv->folder_tree_open_folder_id = 0;
+		}
+
+		gtk_tree_view_set_drag_dest_row (GTK_TREE_VIEW (file_view), NULL, 0);
+		gdk_drag_status (context, 0, time);
+		return TRUE;
+	}
+
+	if (pos == GTK_TREE_VIEW_DROP_BEFORE)
+		pos = GTK_TREE_VIEW_DROP_INTO_OR_BEFORE;
+	if (pos == GTK_TREE_VIEW_DROP_AFTER)
+		pos = GTK_TREE_VIEW_DROP_INTO_OR_AFTER;
+
+	gtk_tree_view_set_drag_dest_row (GTK_TREE_VIEW (file_view), path, pos);
+
+	action = GDK_ACTION_MOVE;
+
+	if ((browser->priv->folder_tree_last_dest_row == NULL) || gtk_tree_path_compare (path, browser->priv->folder_tree_last_dest_row) != 0) {
+		gtk_tree_path_free (browser->priv->folder_tree_last_dest_row);
+		browser->priv->folder_tree_last_dest_row = gtk_tree_path_copy (path);
+
+		if (browser->priv->folder_tree_open_folder_id != 0)
+			g_source_remove (browser->priv->folder_tree_open_folder_id);
+		browser->priv->folder_tree_open_folder_id = g_timeout_add (AUTO_OPEN_FOLDER_DELAY, folder_tree_open_folder_cb, browser);
+	}
+
+	/* use COPY if dropping a file in a catalog */
+
+	if (action == GDK_ACTION_MOVE) {
+		GthFileData   *destination;
+		GthFileSource *file_source;
+
+		destination = gth_folder_tree_get_file (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
+		if (destination != NULL) {
+			file_source = gth_main_get_file_source (destination->file);
+			_g_object_unref (destination);
+
+			if (file_source != NULL) {
+				if (gth_file_source_is_reorderable (file_source))
+					action = GDK_ACTION_COPY;
+			}
+			else
+				action = 0;
+		}
+		else
+			action = 0;
+	}
+
+	/* use COPY when dragging a file from a catalog to a directory */
+
+	if (action == GDK_ACTION_MOVE) {
+		gboolean  source_is_reorderable;
+		GList    *targets;
+		GList    *scan;
+
+		source_is_reorderable = FALSE;
+		targets = gdk_drag_context_list_targets (context);
+		for (scan = targets; scan; scan = scan->next) {
+			GdkAtom target = scan->data;
+
+			if (target == gdk_atom_intern_static_string ("gthumb/reorderable-list")) {
+				source_is_reorderable = TRUE;
+				break;
+			}
+		}
+
+		if (source_is_reorderable)
+			action = GDK_ACTION_COPY;
+	}
+
+	gdk_drag_status (context, action, time);
+	gtk_tree_path_free (path);
+
+	return TRUE;
 }
 
 
@@ -2757,7 +2888,7 @@ folder_tree_drag_data_get_cb (GtkWidget        *widget,
 	if (file_source == NULL)
 		return;
 
-	if (gdk_drag_context_get_actions (drag_context) && GDK_ACTION_MOVE) {
+	if (gdk_drag_context_get_actions (drag_context) & GDK_ACTION_MOVE) {
 		GdkDragAction action =
 			gth_file_source_can_cut (file_source, file_data->file) ?
 			GDK_ACTION_MOVE : GDK_ACTION_COPY;
@@ -4131,6 +4262,8 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->file_properties_on_the_right = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_PROPERTIES_ON_THE_RIGHT);
 	browser->priv->menu_managers = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	browser->priv->screen_profile = NULL;
+	browser->priv->folder_tree_last_dest_row = NULL;
+	browser->priv->folder_tree_open_folder_id = 0;
 
 	browser_state_init (&browser->priv->state);
 
@@ -4546,6 +4679,10 @@ gth_browser_init (GthBrowser *browser)
 						    targets,
 						    n_targets,
 						    GDK_ACTION_MOVE | GDK_ACTION_COPY);
+		g_signal_connect (browser->priv->folder_tree,
+				  "drag_motion",
+				  G_CALLBACK (folder_tree_drag_motion_cb),
+				  browser);
 		g_signal_connect (browser->priv->folder_tree,
 	                          "drag-data-received",
 	                          G_CALLBACK (folder_tree_drag_data_received),

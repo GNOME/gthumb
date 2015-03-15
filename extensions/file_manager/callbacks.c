@@ -34,6 +34,7 @@
 #define BROWSER_DATA_KEY             "file-manager-browser-data"
 #define URI_LIST_ATOM                (gdk_atom_intern_static_string ("text/uri-list"))
 #define XDND_ACTION_DIRECT_SAVE_ATOM (gdk_atom_intern_static_string ("XdndDirectSave0"))
+#define GTHUMB_REORDERABLE_LIST_ATOM (gdk_atom_intern_static_string ("gthumb/reorderable-list"))
 #define TEXT_PLAIN_ATOM              (gdk_atom_intern_static_string ("text/plain"))
 #define SCROLL_TIMEOUT               30 /* autoscroll timeout in milliseconds */
 
@@ -125,7 +126,13 @@ static const GthAccelerator accelerators[] = {
 
 static GtkTargetEntry reorderable_drag_dest_targets[] = {
         { "text/uri-list", 0, 0 },
-        { "text/uri-list", GTK_TARGET_SAME_WIDGET, 0 }
+        { "text/uri-list", GTK_TARGET_SAME_WIDGET, 0 },
+	{ "gthumb/reorderable-list", 0, 0 }
+};
+
+
+static GtkTargetEntry reorderable_drag_source_targets[] = {
+	{ "gthumb/reorderable-list", 0, 0 }
 };
 
 
@@ -174,8 +181,6 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 	char          **uris;
 	GList          *selected_files;
 	GdkDragAction   action;
-
-	g_signal_stop_emission_by_name (file_view, "drag-data-received");
 
 	action = gdk_drag_context_get_suggested_action (context);
 	if (action == GDK_ACTION_COPY || action == GDK_ACTION_MOVE) {
@@ -435,10 +440,27 @@ gth_file_list_drag_motion (GtkWidget      *file_view,
 			data->scroll_event = 0;
 		}
 	}
-	else if (gdk_drag_context_get_suggested_action (context) == GDK_ACTION_ASK)
+	else if (gdk_drag_context_get_suggested_action (context) == GDK_ACTION_ASK) {
 		gdk_drag_status (context, GDK_ACTION_ASK, time);
-	else
-		gdk_drag_status (context, GDK_ACTION_COPY, time);
+	}
+	else {
+		gboolean  source_is_reorderable = FALSE;
+		GList    *targets = gdk_drag_context_list_targets (context);
+		GList    *scan;
+
+		/* use COPY when dragging a file from a catalog to a directory */
+
+		for (scan = targets; scan; scan = scan->next) {
+			GdkAtom target = scan->data;
+
+			if (target == GTHUMB_REORDERABLE_LIST_ATOM) {
+				source_is_reorderable = TRUE;
+				break;
+			}
+		}
+
+		gdk_drag_status (context, source_is_reorderable ? GDK_ACTION_COPY : GDK_ACTION_MOVE, time);
+	}
 
 	return TRUE;
 }
@@ -596,8 +618,13 @@ fm__gth_browser_load_location_after_cb (GthBrowser   *browser,
 					GthFileData  *location_data,
 					const GError *error)
 {
-	BrowserData *data;
-	GtkWidget   *file_view;
+	BrowserData    *data;
+	GtkWidget      *file_list;
+	GtkWidget      *file_view;
+	GtkTargetList  *source_target_list;
+	GtkTargetEntry *source_targets;
+	int             n_source_targets;
+	GdkDragAction   source_actions;
 
 	if ((location_data == NULL) || (error != NULL))
 		return;
@@ -605,38 +632,65 @@ fm__gth_browser_load_location_after_cb (GthBrowser   *browser,
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	file_manager_update_ui (data, browser);
 
+	source_target_list = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_uri_targets (source_target_list, 0);
+	gtk_target_list_add_text_targets (source_target_list, 0);
+	source_actions = GDK_ACTION_PRIVATE;
+
+	file_list = gth_browser_get_file_list (browser);
 	if (! g_file_info_get_attribute_boolean (location_data->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE)) {
-		file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		file_view = gth_file_list_get_view (GTH_FILE_LIST (file_list));
 		gth_file_view_unset_drag_dest (GTH_FILE_VIEW (file_view));
-		file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (file_list));
 		gtk_drag_dest_unset (file_view);
+
+		source_actions = GDK_ACTION_COPY;
 	}
 	else if (gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
-		file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		file_view = gth_file_list_get_view (GTH_FILE_LIST (file_list));
 		gth_file_view_enable_drag_dest (GTH_FILE_VIEW (file_view),
 						reorderable_drag_dest_targets,
 						G_N_ELEMENTS (reorderable_drag_dest_targets),
 						GDK_ACTION_COPY | GDK_ACTION_MOVE);
-		file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (file_list));
 		gtk_drag_dest_set (file_view,
 				   0,
 				   reorderable_drag_dest_targets,
 				   G_N_ELEMENTS (reorderable_drag_dest_targets),
 				   GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
+		gtk_target_list_add_table (source_target_list,
+					   reorderable_drag_source_targets,
+					   G_N_ELEMENTS (reorderable_drag_source_targets));
+		source_actions = GDK_ACTION_COPY | GDK_ACTION_MOVE;
 	}
 	else {
-		file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		file_view = gth_file_list_get_view (GTH_FILE_LIST (file_list));
 		gth_file_view_enable_drag_dest (GTH_FILE_VIEW (file_view),
 						non_reorderable_drag_dest_targets,
 						G_N_ELEMENTS (non_reorderable_drag_dest_targets),
-						GDK_ACTION_COPY);
-		file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+						GDK_ACTION_COPY | GDK_ACTION_MOVE);
+		file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (file_list));
 		gtk_drag_dest_set (file_view,
 				   0,
 				   non_reorderable_drag_dest_targets,
 				   G_N_ELEMENTS (non_reorderable_drag_dest_targets),
-				   GDK_ACTION_COPY);
+				   GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
+		source_actions = GDK_ACTION_MOVE | GDK_ACTION_ASK;
 	}
+
+	/* set the drag source targets */
+
+	source_targets = gtk_target_table_new_from_list (source_target_list, &n_source_targets);
+	gth_file_view_enable_drag_source (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (file_list))),
+					  GDK_BUTTON1_MASK | GDK_BUTTON2_MASK,
+					  source_targets,
+					  n_source_targets,
+					  source_actions);
+
+	gtk_target_list_unref (source_target_list);
+	gtk_target_table_free (source_targets, n_source_targets);
 }
 
 

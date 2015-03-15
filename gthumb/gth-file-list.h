@@ -128,6 +128,11 @@ int               gth_file_list_prev_file         (GthFileList          *file_li
 					           gboolean              only_selected,
 					           gboolean              wrap);
 
+void              gth_file_list_enable_drag_source (GthFileList         *file_list,
+						    GdkDragAction        actions);
+void              gth_file_list_unset_drag_source  (GthFileList         *file_list);
+
+
 G_END_DECLS
 
 #endif /* GTH_FILE_LIST_H */
