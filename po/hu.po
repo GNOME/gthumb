@@ -1,5 +1,5 @@
 # Hungarian translation of gthumb.
-# Copyright (C) 2003, 2004, 2005, 2007, 2009, 2011 Free Software Foundation, Inc.
+# Copyright (C) 2003-2015 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
 # Andras Timar <timar at gnome dot hu>, 2003, 2004.
@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-15 09:31+0000\n"
-"PO-Revision-Date: 2015-02-15 14:59+0100\n"
+"POT-Creation-Date: 2015-03-20 21:35+0000\n"
+"PO-Revision-Date: 2015-03-20 23:53+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -80,7 +80,7 @@ msgstr ""
 "katalógusként."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:385
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:386
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -659,7 +659,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1372
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1368
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "Mentés"
@@ -667,7 +667,8 @@ msgstr "Mentés"
 #: ../extensions/catalogs/actions.c:85 ../extensions/catalogs/actions.c:208
 #: ../extensions/catalogs/dlg-add-to-catalog.c:368
 #: ../extensions/catalogs/dlg-add-to-catalog.c:488
-#: ../extensions/file_manager/actions.c:72
+#: ../extensions/file_manager/actions.c:71
+#: ../extensions/file_tools/gth-file-tool-curves.c:372
 #: ../extensions/list_tools/gth-script-editor-dialog.c:289
 #: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1829
 #, c-format
@@ -677,7 +678,9 @@ msgstr "Nincs név megadva"
 #: ../extensions/catalogs/actions.c:92 ../extensions/catalogs/actions.c:215
 #: ../extensions/catalogs/dlg-add-to-catalog.c:375
 #: ../extensions/catalogs/dlg-add-to-catalog.c:495
-#: ../extensions/file_manager/actions.c:79 ../gthumb/gth-folder-tree.c:1836
+#: ../extensions/file_manager/actions.c:78
+#: ../extensions/file_tools/gth-file-tool-curves.c:379
+#: ../gthumb/gth-folder-tree.c:1836
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Érvénytelen név. A következő karakterek nem engedélyezettek: %s"
@@ -686,7 +689,7 @@ msgstr "Érvénytelen név. A következő karakterek nem engedélyezettek: %s"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:432
 #: ../extensions/catalogs/dlg-add-to-catalog.c:542
 #: ../extensions/catalogs/gth-file-source-catalogs.c:508
-#: ../extensions/file_manager/actions.c:110
+#: ../extensions/file_manager/actions.c:109
 msgid "Name already used"
 msgstr "A név már használatban van"
 
@@ -703,7 +706,7 @@ msgstr "Adja meg a katalógus nevét:"
 #: ../extensions/catalogs/actions.c:176 ../extensions/catalogs/actions.c:290
 #: ../extensions/catalogs/dlg-add-to-catalog.c:456
 #: ../extensions/catalogs/dlg-add-to-catalog.c:568
-#: ../extensions/file_manager/actions.c:140
+#: ../extensions/file_manager/actions.c:139
 msgid "C_reate"
 msgstr "_Létrehozás"
 
@@ -748,8 +751,8 @@ msgid "Create Library"
 msgstr "Gyűjtemény létrehozása"
 
 #: ../extensions/catalogs/callbacks.c:73
-#: ../extensions/file_manager/callbacks.c:77
-#: ../extensions/file_manager/callbacks.c:104
+#: ../extensions/file_manager/callbacks.c:78
+#: ../extensions/file_manager/callbacks.c:105
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:1
 #: ../gthumb/gth-folder-tree.c:1880
 msgid "Rename"
@@ -757,7 +760,7 @@ msgstr "Átnevezés"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4380 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4513 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -811,7 +814,7 @@ msgid "New _Library"
 msgstr "Új _gyűjtemény"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
-#: ../extensions/file_manager/actions.c:685
+#: ../extensions/file_manager/actions.c:684
 #: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "A cél _megjelenítése"
@@ -819,7 +822,6 @@ msgstr "A cél _megjelenítése"
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
-#: ../extensions/file_tools/gth-file-tool-curves.c:366
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:1
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
@@ -1914,7 +1916,7 @@ msgstr "Nem lehet exportálni a fájlokat"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:830
+#: ../gthumb/gth-browser.c:831
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2004,23 +2006,23 @@ msgstr "Fájlok feltöltése a kiszolgálóra"
 msgid "Getting the photo list"
 msgstr "Fényképek listájának lekérése"
 
-#: ../extensions/file_manager/actions.c:137
+#: ../extensions/file_manager/actions.c:136
 msgid "New folder"
 msgstr "Új mappa"
 
-#: ../extensions/file_manager/actions.c:138
+#: ../extensions/file_manager/actions.c:137
 msgid "Enter the folder name:"
 msgstr "Adja meg a mappa nevét:"
 
-#: ../extensions/file_manager/actions.c:410
-#: ../extensions/file_manager/callbacks.c:263
-#: ../extensions/file_manager/callbacks.c:717
+#: ../extensions/file_manager/actions.c:409
+#: ../extensions/file_manager/callbacks.c:268
+#: ../extensions/file_manager/callbacks.c:811
 msgid "Could not move the files"
 msgstr "Nem sikerült áthelyezni a fájlokat"
 
-#: ../extensions/file_manager/actions.c:411
-#: ../extensions/file_manager/callbacks.c:264
-#: ../extensions/file_manager/callbacks.c:718
+#: ../extensions/file_manager/actions.c:410
+#: ../extensions/file_manager/callbacks.c:269
+#: ../extensions/file_manager/callbacks.c:812
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -2028,115 +2030,112 @@ msgstr ""
 "A fájlokat nem sikerült áthelyezni az aktuális helyre, alternatívaként "
 "átmásolhatja azokat."
 
-#: ../extensions/file_manager/actions.c:413
-#: ../extensions/file_manager/actions.c:664
-#: ../extensions/file_manager/callbacks.c:69
-#: ../extensions/file_manager/callbacks.c:98 ../gthumb/gtk-utils.h:38
+#: ../extensions/file_manager/actions.c:412
+#: ../extensions/file_manager/actions.c:663
+#: ../extensions/file_manager/callbacks.c:70
+#: ../extensions/file_manager/callbacks.c:99 ../gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Másolás"
 
-#: ../extensions/file_manager/actions.c:660
+#: ../extensions/file_manager/actions.c:659
 msgid "Move To"
 msgstr "Áthelyezés ide"
 
-#: ../extensions/file_manager/actions.c:660
+#: ../extensions/file_manager/actions.c:659
 msgid "Copy To"
 msgstr "Másolás ide"
 
-#: ../extensions/file_manager/actions.c:664
+#: ../extensions/file_manager/actions.c:663
+#: ../extensions/file_manager/callbacks.c:796
 msgid "Move"
 msgstr "Áthelyezés"
 
-#: ../extensions/file_manager/actions.c:789
+#: ../extensions/file_manager/actions.c:788
 msgid "Could not open the location"
 msgstr "Nem lehet megnyitni a helyet"
 
-#: ../extensions/file_manager/actions.c:935
-msgid ""
-"The folder is not empty, do you want to delete the folder and its content "
-"permanently?"
-msgstr ""
-"A mappa nem üres. Szeretné véglegesen törölni a mappát és annak tartalmát?"
-
-#: ../extensions/file_manager/actions.c:951
-msgid "Could not delete the folder"
-msgstr "Nem lehet törölni a mappát"
-
-#: ../extensions/file_manager/actions.c:1014
-msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it "
-"permanently?"
-msgstr ""
-"A mappát nem lehet áthelyezni a Kukába. Szeretné véglegesen törölni azt?"
-
-#: ../extensions/file_manager/actions.c:1021
-msgid "Could not move the folder to the Trash"
-msgstr "Nem sikerült áthelyezni a mappát a Kukába"
-
-#: ../extensions/file_manager/actions.c:1059
-#: ../gthumb/gth-file-source-vfs.c:861
-#, c-format
-msgid "Are you sure you want to permanently delete \"%s\"?"
-msgstr "Biztos benne, hogy véglegesen törli ezt a fájlt: „%s”?"
-
-#: ../extensions/file_manager/actions.c:1069
-#: ../gthumb/gth-file-source-vfs.c:874
-msgid "If you delete a file, it will be permanently lost."
-msgstr "Ha törli a fájlt, az véglegesen elvész."
-
-#: ../extensions/file_manager/callbacks.c:68
-#: ../extensions/file_manager/callbacks.c:97
+#: ../extensions/file_manager/callbacks.c:69
+#: ../extensions/file_manager/callbacks.c:98
 msgid "Cut"
 msgstr "Kivágás"
 
-#: ../extensions/file_manager/callbacks.c:70
+#: ../extensions/file_manager/callbacks.c:71
 msgid "Paste"
 msgstr "Beillesztés"
 
-#: ../extensions/file_manager/callbacks.c:75
-#: ../extensions/file_manager/callbacks.c:105
+#: ../extensions/file_manager/callbacks.c:76
+#: ../extensions/file_manager/callbacks.c:106
 msgid "Copy to…"
 msgstr "Másolás ide…"
 
-#: ../extensions/file_manager/callbacks.c:76
-#: ../extensions/file_manager/callbacks.c:106
+#: ../extensions/file_manager/callbacks.c:77
+#: ../extensions/file_manager/callbacks.c:107
 msgid "Move to…"
 msgstr "Áthelyezés ide…"
 
-#: ../extensions/file_manager/callbacks.c:82
-#: ../extensions/file_manager/callbacks.c:107
+#: ../extensions/file_manager/callbacks.c:83
+#: ../extensions/file_manager/callbacks.c:108
 msgid "Move to Trash"
 msgstr "Áthelyezés a Kukába"
 
-#: ../extensions/file_manager/callbacks.c:83
-#: ../extensions/file_manager/callbacks.c:108
+#: ../extensions/file_manager/callbacks.c:84
+#: ../extensions/file_manager/callbacks.c:109
 msgid "Delete"
 msgstr "Törlés"
 
-#: ../extensions/file_manager/callbacks.c:87
+#: ../extensions/file_manager/callbacks.c:88
 msgid "Open with the File Manager"
 msgstr "Megnyitás a fájlkezelővel"
 
-#: ../extensions/file_manager/callbacks.c:92
+#: ../extensions/file_manager/callbacks.c:93
 msgid "Create Folder"
 msgstr "Mappa létrehozása"
 
-#: ../extensions/file_manager/callbacks.c:99
+#: ../extensions/file_manager/callbacks.c:100
 msgid "Paste Into Folder"
 msgstr "Beillesztés mappába"
 
-#: ../extensions/file_manager/callbacks.c:113
+#: ../extensions/file_manager/callbacks.c:114
 msgid "Duplicate"
 msgstr "Megkettőzés"
 
-#: ../extensions/file_manager/callbacks.c:511
-#: ../extensions/file_manager/callbacks.c:514
+#: ../extensions/file_manager/callbacks.c:533
+#: ../extensions/file_manager/callbacks.c:536
 msgid "Open _With"
 msgstr "Megnyitás _ezzel"
 
-#: ../extensions/file_manager/callbacks.c:883
+#: ../extensions/file_manager/callbacks.c:779
+#, c-format
+#| msgid "Are you sure you want to move \"%s\" to trash?"
+msgid "Do you want to move \"%s\" to \"%s\" ?"
+msgstr "Szeretné áthelyezni ezt: „%s” ide: „%s”?"
+
+#: ../extensions/file_manager/callbacks.c:781
+#, c-format
+#| msgid "Are you sure you want to move \"%s\" to trash?"
+msgid "Do you want to copy \"%s\" to \"%s\" ?"
+msgstr "Szeretné átmásolni ezt: „%s” ide: „%s”?"
+
+#: ../extensions/file_manager/callbacks.c:786
+#, c-format
+#| msgid "Are you sure you want to permanently delete \"%s\"?"
+msgid "Do you want to move the dragged files to \"%s\" ?"
+msgstr "Szeretné áthelyezni a behúzott fájlokat ide: „%s”?"
+
+#: ../extensions/file_manager/callbacks.c:788
+#, c-format
+#| msgid "Are you sure you want to permanently delete \"%s\"?"
+msgid "Do you want to copy the dragged files to \"%s\" ?"
+msgstr "Szeretné átmásolni a behúzott fájlokat ide: „%s”?"
+
+#: ../extensions/file_manager/callbacks.c:796
+#| msgid "Copy"
+msgid "_Copy"
+msgstr "_Másolás"
+
+#: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5330 ../gthumb/gth-browser.c:5363
+#: ../gthumb/gth-browser.c:5467 ../gthumb/gth-browser.c:5500
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Nem sikerült végrehajtani a műveletet"
@@ -2148,10 +2147,6 @@ msgstr "Fájlkezelő"
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
 msgid "File manager operations."
 msgstr "A fájlkezelő műveletei."
-
-#: ../extensions/file_manager/gth-delete-task.c:62
-msgid "Deleting files"
-msgstr "Fájlok törlése"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
 #: ../extensions/file_tools/data/ui/curves-options.ui.h:1
@@ -2427,8 +2422,8 @@ msgid "Blue"
 msgstr "Kék"
 
 #: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
-#: ../extensions/file_tools/gth-file-tool-curves.c:648
-#: ../extensions/file_tools/gth-file-tool-curves.c:812
+#: ../extensions/file_tools/gth-file-tool-curves.c:686
+#: ../extensions/file_tools/gth-file-tool-curves.c:850
 msgid "Presets"
 msgstr "Alapbeállítások"
 
@@ -2459,7 +2454,7 @@ msgid "Applying changes"
 msgstr "Változások alkalmazása"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:555
-#: ../extensions/file_tools/gth-file-tool-curves.c:784
+#: ../extensions/file_tools/gth-file-tool-curves.c:822
 #: ../extensions/file_tools/gth-file-tool-rotate.c:603
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:365
 msgid "Reset"
@@ -2590,26 +2585,31 @@ msgstr "Középső vonalak"
 msgid "Crop"
 msgstr "Levágás"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:365
+#: ../extensions/file_tools/gth-file-tool-curves.c:409
 msgid "Add to Presets"
 msgstr "Hozzáadás az alapbeállításokhoz"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:495
+#: ../extensions/file_tools/gth-file-tool-curves.c:410
+#| msgid "Enter the new name:"
+msgid "Enter the preset name:"
+msgstr "Adja meg az alapbeállítás nevet:"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:533
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1302
-#: ../gthumb/gth-browser.c:1894
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1298
+#: ../gthumb/gth-browser.c:1895
 msgid "Could not save the file"
 msgstr "Nem lehet elmenteni a fájlt"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:798
+#: ../extensions/file_tools/gth-file-tool-curves.c:836
 msgid "Add to presets"
 msgstr "Hozzáadás az alapbeállításokhoz"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:859
+#: ../extensions/file_tools/gth-file-tool-curves.c:897
 msgid "Color Curves"
 msgstr "Színgörbék"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:860
+#: ../extensions/file_tools/gth-file-tool-curves.c:898
 msgid "Adjust color curves"
 msgstr "Színgörbék beállítása"
 
@@ -3111,10 +3111,10 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1535
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1531
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:251
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:1040
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:888
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3216,7 +3216,7 @@ msgid "Images"
 msgstr "Képek"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
-#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:340
+#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:341
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "Nem érhető el megfelelő betöltő ehhez a fájltípushoz"
@@ -3305,7 +3305,7 @@ msgid "After loading an image:"
 msgstr "A kép betöltése után:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:845
+#: ../extensions/image_viewer/gth-image-viewer-page.c:841
 msgid "Set to actual size"
 msgstr "Beállítás a tényleges mérethez"
 
@@ -3314,7 +3314,7 @@ msgid "Keep previous zoom"
 msgstr "Előző nagyítás megtartása"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-#: ../extensions/image_viewer/gth-image-viewer-page.c:852
+#: ../extensions/image_viewer/gth-image-viewer-page.c:848
 msgid "Fit to window"
 msgstr "Kép igazítása az ablakmérethez"
 
@@ -3323,7 +3323,7 @@ msgid "Fit to window if larger"
 msgstr "Kép igazítása az ablakmérethez, ha nagyobb"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
-#: ../extensions/image_viewer/gth-image-viewer-page.c:859
+#: ../extensions/image_viewer/gth-image-viewer-page.c:855
 msgid "Fit to width"
 msgstr "Szélességhez igazítás"
 
@@ -3361,15 +3361,15 @@ msgstr "Kép másolása"
 msgid "Paste Image"
 msgstr "Kép beillesztése"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:866
+#: ../extensions/image_viewer/gth-image-viewer-page.c:862
 msgid "Apply the embedded color profile"
 msgstr "A beágyazott színprofil alkalmazása"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1475
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1471
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2059
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2055
 msgid "Loading the original image"
 msgstr "Az eredeti kép betöltése"
 
@@ -3468,7 +3468,6 @@ msgid "The selected files are already present in the destination."
 msgstr "A kiválasztott fájlok már szerepelnek a célban."
 
 #: ../extensions/importer/gth-import-task.c:644
-#: ../gthumb/gth-file-source-vfs.c:714
 msgid "Could not delete the files"
 msgstr "Nem sikerült törölni a fájlokat"
 
@@ -3888,7 +3887,7 @@ msgid "(Empty)"
 msgstr "(Üres)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1805
+#: ../gthumb/gth-browser.c:1806
 msgid "Getting the folder content…"
 msgstr "Mappatartalom lekérdezése…"
 
@@ -4509,9 +4508,9 @@ msgstr "Webalbumok"
 msgid "Create static web albums."
 msgstr "Statikus webalbumok létrehozása."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1110
-#: ../gthumb/gth-browser.c:1685 ../gthumb/gth-browser.c:6278
-#: ../gthumb/gth-browser.c:6297 ../gthumb/gth-browser.c:6321
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1111
+#: ../gthumb/gth-browser.c:1686 ../gthumb/gth-browser.c:6415
+#: ../gthumb/gth-browser.c:6434 ../gthumb/gth-browser.c:6458
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nem lehet betölteni a(z) „%s” pozíciót"
@@ -4699,81 +4698,85 @@ msgstr ""
 "Tímár András <timar at gnome dot hu>\n"
 "Úr Balázs <urbalazs at gmail dot com>"
 
-#: ../gthumb/gth-browser.c:370
+#: ../gthumb/gth-browser.c:371
 msgid "[modified]"
 msgstr "[módosítva]"
 
-#: ../gthumb/gth-browser.c:831
+#: ../gthumb/gth-browser.c:832
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d fájl kijelölve (%s)"
 msgstr[1] "%d fájl kijelölve (%s)"
 
-#: ../gthumb/gth-browser.c:866
+#: ../gthumb/gth-browser.c:867
 #, c-format
 msgid "%s of free space"
 msgstr "%s szabad hely"
 
-#: ../gthumb/gth-browser.c:1789 ../gthumb/gth-browser.c:1816
+#: ../gthumb/gth-browser.c:1790 ../gthumb/gth-browser.c:1817
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nem található megfelelő modul ehhez: %s"
 
-#: ../gthumb/gth-browser.c:1938
+#: ../gthumb/gth-browser.c:1939
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Menti a módosításokat a(z) „%s” fájlba?"
 
-#: ../gthumb/gth-browser.c:1943
+#: ../gthumb/gth-browser.c:1944
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Ha nem menti, a fájl módosításai azonnal elvesznek."
 
-#: ../gthumb/gth-browser.c:1944
+#: ../gthumb/gth-browser.c:1945
 msgid "Do _Not Save"
 msgstr "_Ne mentse"
 
-#: ../gthumb/gth-browser.c:2889 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:3020 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nem lehet megváltoztatni a nevet"
 
-#: ../gthumb/gth-browser.c:3333 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3464 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Módosítva"
 
-#: ../gthumb/gth-browser.c:4342
+#: ../gthumb/gth-browser.c:4475
 msgid "Go to the previous visited location"
 msgstr "Ugrás az előző meglátogatott helyre"
 
-#: ../gthumb/gth-browser.c:4348
+#: ../gthumb/gth-browser.c:4481
 msgid "Go to the next visited location"
 msgstr "Ugrás a következő meglátogatott helyre"
 
-#: ../gthumb/gth-browser.c:4356
+#: ../gthumb/gth-browser.c:4489
 msgid "History"
 msgstr "Előzmények"
 
-#: ../gthumb/gth-browser.c:4371
+#: ../gthumb/gth-browser.c:4504
 msgid "View the folders"
 msgstr "A mappák megtekintése"
 
-#: ../gthumb/gth-browser.c:4386
+#: ../gthumb/gth-browser.c:4519
 msgid "Edit file"
 msgstr "Fájl szerkesztése"
 
-#: ../gthumb/gth-browser.c:4403
+#: ../gthumb/gth-browser.c:4536
 msgid "Accept"
 msgstr "Elfogadás"
 
-#: ../gthumb/gth-browser.c:6279
+#: ../gthumb/gth-browser.c:6416
 #, c-format
 msgid "File type not supported"
 msgstr "A fájltípus nem támogatott"
 
-#: ../gthumb/gth-browser.c:6322
+#: ../gthumb/gth-browser.c:6459
 #, c-format
 msgid "No suitable module found"
 msgstr "Nem található megfelelő modul"
+
+#: ../gthumb/gth-delete-task.c:64
+msgid "Deleting files"
+msgstr "Fájlok törlése"
 
 #: ../gthumb/gth-extensions.c:203
 #, c-format
@@ -4793,48 +4796,41 @@ msgstr "Minden támogatott fájl"
 msgid "Details"
 msgstr "Részletek"
 
-#: ../gthumb/gth-file-source-vfs.c:220
+#: ../gthumb/gth-file-source-vfs.c:223
 msgid "Computer"
 msgstr "Számítógép"
 
-#: ../gthumb/gth-file-source-vfs.c:227
+#: ../gthumb/gth-file-source-vfs.c:230
 msgid "Home Folder"
 msgstr "Saját mappa"
 
-#: ../gthumb/gth-file-source-vfs.c:759
+#: ../gthumb/gth-file-source-vfs.c:743
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
 "A fájlokat nem sikerült áthelyezni a Kukába. Szeretné véglegesen törölni azt?"
 
-#: ../gthumb/gth-file-source-vfs.c:770
+#: ../gthumb/gth-file-source-vfs.c:753
 msgid "Could not move the files to the Trash"
 msgstr "Nem sikerült áthelyezni a fájlokat a Kukába"
 
-#: ../gthumb/gth-file-source-vfs.c:817
+#: ../gthumb/gth-file-source-vfs.c:798
 #, c-format
-msgid "Are you sure you want to move \"%s\" to trash?"
-msgstr "Biztos benne, hogy áthelyezi a Kukába ezt a fájlt: „%s”?"
+msgid "Are you sure you want to permanently delete \"%s\"?"
+msgstr "Biztos benne, hogy véglegesen törli ezt a fájlt: „%s”?"
 
-#: ../gthumb/gth-file-source-vfs.c:821
-#, c-format
-msgid "Are you sure you want to move to trash the %'d selected file?"
-msgid_plural "Are you sure you want to move to trash the %'d selected files?"
-msgstr[0] "Biztos benne, hogy áthelyezi a Kukába a kijelölt %'d fájlt?"
-msgstr[1] "Biztos benne, hogy áthelyezi a Kukába a kijelölt %'d fájlt?"
-
-#: ../gthumb/gth-file-source-vfs.c:833
-msgid "Mo_ve to Trash"
-msgstr "Áthelyezés a _Kukába"
-
-#: ../gthumb/gth-file-source-vfs.c:864
+#: ../gthumb/gth-file-source-vfs.c:801
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %'d selected files?"
 msgstr[0] "Biztos benne, hogy véglegesen törli a kiválasztott %d fájlt?"
 msgstr[1] "Biztos benne, hogy véglegesen törli a kiválasztott %d fájlt?"
+
+#: ../gthumb/gth-file-source-vfs.c:811
+msgid "If you delete a file, it will be permanently lost."
+msgstr "Ha törli a fájlt, az véglegesen elvész."
 
 #: ../gthumb/gth-filterbar.c:304
 msgid "Personalize…"
@@ -5186,27 +5182,32 @@ msgstr "Színek"
 msgid "Rotation"
 msgstr "Forgatás"
 
-#: ../gthumb/gtk-utils.c:481
+#: ../gthumb/gth-trash-task.c:64
+#| msgid "Moving files"
+msgid "Moving files to trash"
+msgstr "Fájlok áthelyezése a Kukába"
+
+#: ../gthumb/gtk-utils.c:329
 msgid "Could not display help"
 msgstr "Nem jeleníthető meg a súgó"
 
-#: ../gthumb/gtk-utils.c:801 ../gthumb/gtk-utils.c:808
+#: ../gthumb/gtk-utils.c:649 ../gthumb/gtk-utils.c:656
 msgid "Could not launch the application"
 msgstr "Nem indítható el az alkalmazás"
 
-#: ../gthumb/gtk-utils.c:911
+#: ../gthumb/gtk-utils.c:759
 msgid "_Copy Here"
 msgstr "_Másolás ide"
 
-#: ../gthumb/gtk-utils.c:916
+#: ../gthumb/gtk-utils.c:764
 msgid "_Move Here"
 msgstr "Á_thelyezés ide"
 
-#: ../gthumb/gtk-utils.c:921
+#: ../gthumb/gtk-utils.c:769
 msgid "_Link Here"
 msgstr "_Linkelés ide"
 
-#: ../gthumb/gtk-utils.c:930
+#: ../gthumb/gtk-utils.c:778
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -5302,6 +5303,33 @@ msgstr "Rejtett fájlok"
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
 msgstr "Előzmények _törlése"
+
+#~ msgid ""
+#~ "The folder is not empty, do you want to delete the folder and its content "
+#~ "permanently?"
+#~ msgstr ""
+#~ "A mappa nem üres. Szeretné véglegesen törölni a mappát és annak tartalmát?"
+
+#~ msgid "Could not delete the folder"
+#~ msgstr "Nem lehet törölni a mappát"
+
+#~ msgid ""
+#~ "The folder cannot be moved to the Trash. Do you want to delete it "
+#~ "permanently?"
+#~ msgstr ""
+#~ "A mappát nem lehet áthelyezni a Kukába. Szeretné véglegesen törölni azt?"
+
+#~ msgid "Could not move the folder to the Trash"
+#~ msgstr "Nem sikerült áthelyezni a mappát a Kukába"
+
+#~ msgid "Are you sure you want to move to trash the %'d selected file?"
+#~ msgid_plural ""
+#~ "Are you sure you want to move to trash the %'d selected files?"
+#~ msgstr[0] "Biztos benne, hogy áthelyezi a Kukába a kijelölt %'d fájlt?"
+#~ msgstr[1] "Biztos benne, hogy áthelyezi a Kukába a kijelölt %'d fájlt?"
+
+#~ msgid "Mo_ve to Trash"
+#~ msgstr "Áthelyezés a _Kukába"
 
 #~ msgid "C_rop"
 #~ msgstr "_Levágás"
