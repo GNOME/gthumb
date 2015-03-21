@@ -30,10 +30,10 @@
 
 #define UPDATE_QUALITY_DELAY 200
 #define UPDATE_VISIBILITY_DELAY 100
-#define N_HEADER_BAR_BUTTONS 4
+#define N_HEADER_BAR_BUTTONS 5
 #define HIDE_OVERVIEW_TIMEOUT 2 /* in seconds */
 #define OVERLAY_MARGIN 10
-#define APPLY_ICC_PROFILE_BUTTON 3
+#define APPLY_ICC_PROFILE_BUTTON 4
 #undef ALWAYS_LOAD_ORIGINAL_SIZE
 
 
@@ -53,6 +53,7 @@ static const GActionEntry actions[] = {
 	{ "image-zoom-100", gth_browser_activate_image_zoom_100 },
 	{ "image-zoom-fit", gth_browser_activate_image_zoom_fit },
 	{ "image-zoom-fit-width", gth_browser_activate_image_zoom_fit_width },
+	{ "image-zoom-fit-height", gth_browser_activate_image_zoom_fit_height },
 	{ "image-undo", gth_browser_activate_image_undo },
 	{ "image-redo", gth_browser_activate_image_redo },
 	{ "copy-image", gth_browser_activate_copy_image },
@@ -150,12 +151,7 @@ _gth_image_preloader_get_requested_size_for_next_images (GthImageViewerPage *sel
 	case GTH_ZOOM_CHANGE_ACTUAL_SIZE:
 		requested_size = -1;
 		break;
-
-	case GTH_ZOOM_CHANGE_KEEP_PREV:
-	case GTH_ZOOM_CHANGE_FIT_SIZE:
-	case GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER:
-	case GTH_ZOOM_CHANGE_FIT_WIDTH:
-	case GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER:
+	default:
 		requested_size = get_viewer_size (self);
 		break;
 	}
@@ -186,10 +182,7 @@ _gth_image_preloader_get_requested_size_for_current_image (GthImageViewerPage *s
 			requested_size = -1;
 		break;
 
-	case GTH_FIT_SIZE:
-	case GTH_FIT_SIZE_IF_LARGER:
-	case GTH_FIT_WIDTH:
-	case GTH_FIT_WIDTH_IF_LARGER:
+	default:
 		requested_size = get_viewer_size (self);
 		break;
 	}
@@ -855,6 +848,13 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 							   _("Fit to width"),
 							   "win.image-zoom-fit-width",
 							   NULL);
+	self->priv->buttons[3] =
+			gth_browser_add_header_bar_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+							   "view-zoom-fit-height-symbolic",
+							   _("Fit to height"),
+							   "win.image-zoom-fit-height",
+							   NULL);
 	self->priv->buttons[APPLY_ICC_PROFILE_BUTTON] =
 			gth_browser_add_header_bar_toggle_button (browser,
 							   	  GTH_BROWSER_HEADER_SECTION_VIEWER_TOOLS,
@@ -1249,6 +1249,7 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit", zoom_enabled && (fit_mode != GTH_FIT_SIZE));
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-width", zoom_enabled && (fit_mode != GTH_FIT_WIDTH));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-height", zoom_enabled && (fit_mode != GTH_FIT_HEIGHT));
 
 	image = gth_image_viewer_get_image (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gtk_widget_set_visible (self->priv->buttons[APPLY_ICC_PROFILE_BUTTON], (image != NULL) && (gth_image_get_icc_profile (image) != NULL));

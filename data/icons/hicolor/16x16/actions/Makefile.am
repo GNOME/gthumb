@@ -53,6 +53,7 @@ icons_DATA = 					\
 	tools-symbolic.svg			\
 	view-presentation-symbolic.svg		\
 	view-zoom-fit-symbolic.svg		\
+	view-zoom-fit-height-symbolic.svg	\
 	view-zoom-fit-width-symbolic.svg	\
 	view-zoom-in-symbolic.svg		\
 	view-zoom-original-symbolic.svg		\

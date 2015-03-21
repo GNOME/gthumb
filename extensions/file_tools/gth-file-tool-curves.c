@@ -362,7 +362,7 @@ add_to_presets_dialog_response_cb (GtkDialog *dialog,
 	GthPoints          points[GTH_HISTOGRAM_N_CHANNELS];
 
 	if (response != GTK_RESPONSE_OK) {
-		gtk_widget_destroy (dialog);
+		gtk_widget_destroy (GTK_WIDGET (dialog));
 		return;
 	}
 

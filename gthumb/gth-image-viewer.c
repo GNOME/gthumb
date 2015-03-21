@@ -615,6 +615,20 @@ get_zoom_to_fit_width (GthImageViewer *self,
 
 
 static double
+get_zoom_to_fit_height (GthImageViewer *self,
+		        GtkAllocation  *allocation)
+{
+	int original_height;
+	int frame_border_2;
+
+	gth_image_viewer_get_original_size (self, NULL, &original_height);
+	frame_border_2 = _gth_image_viewer_get_frame_border (self) * 2;
+
+	return (double) (allocation->height - frame_border_2) / original_height;
+}
+
+
+static double
 get_zoom_level_for_allocation (GthImageViewer *self,
 			       GtkAllocation  *allocation)
 {
@@ -636,25 +650,30 @@ get_zoom_level_for_allocation (GthImageViewer *self,
 	case GTH_FIT_SIZE:
 		zoom_level = get_zoom_to_fit (self, allocation);
 		break;
-
 	case GTH_FIT_SIZE_IF_LARGER:
 		if ((allocation->width < original_width + frame_border_2) || (allocation->height < original_height + frame_border_2))
 			zoom_level = get_zoom_to_fit (self, allocation);
 		else
 			zoom_level = 1.0;
 		break;
-
 	case GTH_FIT_WIDTH:
 		zoom_level = get_zoom_to_fit_width (self, allocation);
 		break;
-
 	case GTH_FIT_WIDTH_IF_LARGER:
 		if (allocation->width < original_width + frame_border_2)
 			zoom_level = get_zoom_to_fit_width (self, allocation);
 		else
 			zoom_level = 1.0;
 		break;
-
+	case GTH_FIT_HEIGHT:
+		zoom_level = get_zoom_to_fit_height (self, allocation);
+		break;
+	case GTH_FIT_HEIGHT_IF_LARGER:
+		if (allocation->height < original_height + frame_border_2)
+			zoom_level = get_zoom_to_fit_height (self, allocation);
+		else
+			zoom_level = 1.0;
+		break;
 	default:
 		break;
 	}
@@ -1463,6 +1482,12 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_w, GDK_SHIFT_MASK,
 				      "set_fit_mode", 1,
 				      GTH_TYPE_FIT, GTH_FIT_WIDTH);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_h, 0,
+				      "set_fit_mode", 1,
+				      GTH_TYPE_FIT, GTH_FIT_HEIGHT_IF_LARGER);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_h, GDK_SHIFT_MASK,
+				      "set_fit_mode", 1,
+				      GTH_TYPE_FIT, GTH_FIT_HEIGHT);
 }
 
 
@@ -1648,6 +1673,16 @@ _gth_image_viewer_content_changed (GthImageViewer *self,
 
 	case GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER:
 		gth_image_viewer_set_fit_mode (self, GTH_FIT_WIDTH_IF_LARGER);
+		queue_animation_frame_change (self);
+		break;
+
+	case GTH_ZOOM_CHANGE_FIT_HEIGHT:
+		gth_image_viewer_set_fit_mode (self, GTH_FIT_HEIGHT);
+		queue_animation_frame_change (self);
+		break;
+
+	case GTH_ZOOM_CHANGE_FIT_HEIGHT_IF_LARGER:
+		gth_image_viewer_set_fit_mode (self, GTH_FIT_HEIGHT_IF_LARGER);
 		queue_animation_frame_change (self);
 		break;
 	}
@@ -2358,6 +2393,11 @@ gth_image_viewer_needs_scrollbars (GthImageViewer *self,
 	case GTH_FIT_WIDTH:
 	case GTH_FIT_WIDTH_IF_LARGER:
 		hscrollbar_visible = FALSE;
+		break;
+
+	case GTH_FIT_HEIGHT:
+	case GTH_FIT_HEIGHT_IF_LARGER:
+		vscrollbar_visible = FALSE;
 		break;
 
 	case GTH_FIT_NONE:
