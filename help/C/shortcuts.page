@@ -383,6 +383,50 @@ id="gthumb-shortcuts">
       <tr>
         <td>
           <p>
+          <key>w</key></p>
+        </td>
+        <td>
+          <p>Zoom to fit width (scales down only, does not magnify)</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <keyseq>
+              <key>Shift</key>
+              <key>w</key>
+            </keyseq>
+          </p>
+        </td>
+        <td>
+          <p>Zoom to fit width (scale down or magnify, as required)</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>h</key></p>
+        </td>
+        <td>
+          <p>Zoom to fit height (scales down only, does not magnify)</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <keyseq>
+              <key>Shift</key>
+              <key>h</key>
+            </keyseq>
+          </p>
+        </td>
+        <td>
+          <p>Zoom to fit height (scale down or magnify, as required)</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
             <key>Arrows</key>
           </p>
         </td>
