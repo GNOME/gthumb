@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-08 14:13+0100\n"
-"PO-Revision-Date: 2015-02-08 14:14+0100\n"
+"POT-Creation-Date: 2015-03-22 16:40+0100\n"
+"PO-Revision-Date: 2015-03-22 16:42+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -84,7 +84,7 @@ msgstr ""
 "katalog."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:385
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:386
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -663,7 +663,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1372
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1369
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "Zapisywanie"
@@ -671,7 +671,8 @@ msgstr "Zapisywanie"
 #: ../extensions/catalogs/actions.c:85 ../extensions/catalogs/actions.c:208
 #: ../extensions/catalogs/dlg-add-to-catalog.c:368
 #: ../extensions/catalogs/dlg-add-to-catalog.c:488
-#: ../extensions/file_manager/actions.c:72
+#: ../extensions/file_manager/actions.c:71
+#: ../extensions/file_tools/gth-file-tool-curves.c:372
 #: ../extensions/list_tools/gth-script-editor-dialog.c:289
 #: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1829
 #, c-format
@@ -681,7 +682,9 @@ msgstr "Nie podano nazwy"
 #: ../extensions/catalogs/actions.c:92 ../extensions/catalogs/actions.c:215
 #: ../extensions/catalogs/dlg-add-to-catalog.c:375
 #: ../extensions/catalogs/dlg-add-to-catalog.c:495
-#: ../extensions/file_manager/actions.c:79 ../gthumb/gth-folder-tree.c:1836
+#: ../extensions/file_manager/actions.c:78
+#: ../extensions/file_tools/gth-file-tool-curves.c:379
+#: ../gthumb/gth-folder-tree.c:1836
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Nieprawidłowa nazwa. Następujące znaki nie są dozwolone: %s"
@@ -690,7 +693,7 @@ msgstr "Nieprawidłowa nazwa. Następujące znaki nie są dozwolone: %s"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:432
 #: ../extensions/catalogs/dlg-add-to-catalog.c:542
 #: ../extensions/catalogs/gth-file-source-catalogs.c:508
-#: ../extensions/file_manager/actions.c:110
+#: ../extensions/file_manager/actions.c:109
 msgid "Name already used"
 msgstr "Nazwa jest już użyta"
 
@@ -707,7 +710,7 @@ msgstr "Nazwa katalogu:"
 #: ../extensions/catalogs/actions.c:176 ../extensions/catalogs/actions.c:290
 #: ../extensions/catalogs/dlg-add-to-catalog.c:456
 #: ../extensions/catalogs/dlg-add-to-catalog.c:568
-#: ../extensions/file_manager/actions.c:140
+#: ../extensions/file_manager/actions.c:139
 msgid "C_reate"
 msgstr "Ut_wórz"
 
@@ -752,8 +755,8 @@ msgid "Create Library"
 msgstr "Utwórz kolekcję"
 
 #: ../extensions/catalogs/callbacks.c:73
-#: ../extensions/file_manager/callbacks.c:77
-#: ../extensions/file_manager/callbacks.c:104
+#: ../extensions/file_manager/callbacks.c:78
+#: ../extensions/file_manager/callbacks.c:105
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:1
 #: ../gthumb/gth-folder-tree.c:1880
 msgid "Rename"
@@ -761,7 +764,7 @@ msgstr "Zmień nazwę"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4380 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4513 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Właściwości"
 
@@ -815,7 +818,7 @@ msgid "New _Library"
 msgstr "Nowa _kolecja"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
-#: ../extensions/file_manager/actions.c:685
+#: ../extensions/file_manager/actions.c:684
 #: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "_Wyświetl miejsce docelowe"
@@ -823,7 +826,6 @@ msgstr "_Wyświetl miejsce docelowe"
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
-#: ../extensions/file_tools/gth-file-tool-curves.c:366
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:1
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
@@ -1918,7 +1920,7 @@ msgstr "Nie można wyeksportować plików"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:612
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:830
+#: ../gthumb/gth-browser.c:831
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2009,136 +2011,130 @@ msgstr "Wysyłanie plików na serwer"
 msgid "Getting the photo list"
 msgstr "Pobieranie listy zdjęć"
 
-#: ../extensions/file_manager/actions.c:137
+#: ../extensions/file_manager/actions.c:136
 msgid "New folder"
 msgstr "Nowy katalog"
 
-#: ../extensions/file_manager/actions.c:138
+#: ../extensions/file_manager/actions.c:137
 msgid "Enter the folder name:"
 msgstr "Nazwa katalogu:"
 
-#: ../extensions/file_manager/actions.c:410
-#: ../extensions/file_manager/callbacks.c:263
-#: ../extensions/file_manager/callbacks.c:717
+#: ../extensions/file_manager/actions.c:409
+#: ../extensions/file_manager/callbacks.c:268
+#: ../extensions/file_manager/callbacks.c:811
 msgid "Could not move the files"
 msgstr "Nie można przenieść plików"
 
-#: ../extensions/file_manager/actions.c:411
-#: ../extensions/file_manager/callbacks.c:264
-#: ../extensions/file_manager/callbacks.c:718
+#: ../extensions/file_manager/actions.c:410
+#: ../extensions/file_manager/callbacks.c:269
+#: ../extensions/file_manager/callbacks.c:812
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
 msgstr ""
 "Nie można przenieść plików do bieżącego położenia, ale można je skopiować."
 
-#: ../extensions/file_manager/actions.c:413
-#: ../extensions/file_manager/actions.c:664
-#: ../extensions/file_manager/callbacks.c:69
-#: ../extensions/file_manager/callbacks.c:98 ../gthumb/gtk-utils.h:38
+#: ../extensions/file_manager/actions.c:412
+#: ../extensions/file_manager/actions.c:663
+#: ../extensions/file_manager/callbacks.c:70
+#: ../extensions/file_manager/callbacks.c:99 ../gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Skopiuj"
 
-#: ../extensions/file_manager/actions.c:660
+#: ../extensions/file_manager/actions.c:659
 msgid "Move To"
 msgstr "Przenieś do"
 
-#: ../extensions/file_manager/actions.c:660
+#: ../extensions/file_manager/actions.c:659
 msgid "Copy To"
 msgstr "Skopiuj do"
 
-#: ../extensions/file_manager/actions.c:664
+#: ../extensions/file_manager/actions.c:663
+#: ../extensions/file_manager/callbacks.c:796
 msgid "Move"
 msgstr "Przenieś"
 
-#: ../extensions/file_manager/actions.c:789
+#: ../extensions/file_manager/actions.c:788
 msgid "Could not open the location"
 msgstr "Nie można otworzyć położenia"
 
-#: ../extensions/file_manager/actions.c:935
-msgid ""
-"The folder is not empty, do you want to delete the folder and its content "
-"permanently?"
-msgstr "Katalog nie jest pusty. Trwale usunąć go i jego zawartość?"
-
-#: ../extensions/file_manager/actions.c:951
-msgid "Could not delete the folder"
-msgstr "Nie można usunąć katalogu"
-
-#: ../extensions/file_manager/actions.c:1014
-msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it "
-"permanently?"
-msgstr "Nie można przenieść katalogu do kosza. Usunąć go trwale?"
-
-#: ../extensions/file_manager/actions.c:1021
-msgid "Could not move the folder to the Trash"
-msgstr "Nie można przenieść katalogu do kosza"
-
-#: ../extensions/file_manager/actions.c:1059
-#: ../gthumb/gth-file-source-vfs.c:861
-#, c-format
-msgid "Are you sure you want to permanently delete \"%s\"?"
-msgstr "Na pewno trwale usunąć \"%s\"?"
-
-#: ../extensions/file_manager/actions.c:1069
-#: ../gthumb/gth-file-source-vfs.c:874
-msgid "If you delete a file, it will be permanently lost."
-msgstr "Usunięcie pliku spowoduje jego trwałe utracenie."
-
-#: ../extensions/file_manager/callbacks.c:68
-#: ../extensions/file_manager/callbacks.c:97
+#: ../extensions/file_manager/callbacks.c:69
+#: ../extensions/file_manager/callbacks.c:98
 msgid "Cut"
 msgstr "Wytnij"
 
-#: ../extensions/file_manager/callbacks.c:70
+#: ../extensions/file_manager/callbacks.c:71
 msgid "Paste"
 msgstr "Wklej"
 
-#: ../extensions/file_manager/callbacks.c:75
-#: ../extensions/file_manager/callbacks.c:105
+#: ../extensions/file_manager/callbacks.c:76
+#: ../extensions/file_manager/callbacks.c:106
 msgid "Copy to…"
 msgstr "Skopiuj do…"
 
-#: ../extensions/file_manager/callbacks.c:76
-#: ../extensions/file_manager/callbacks.c:106
+#: ../extensions/file_manager/callbacks.c:77
+#: ../extensions/file_manager/callbacks.c:107
 msgid "Move to…"
 msgstr "Przenieś do…"
 
-#: ../extensions/file_manager/callbacks.c:82
-#: ../extensions/file_manager/callbacks.c:107
+#: ../extensions/file_manager/callbacks.c:83
+#: ../extensions/file_manager/callbacks.c:108
 msgid "Move to Trash"
 msgstr "Przenieś do kosza"
 
-#: ../extensions/file_manager/callbacks.c:83
-#: ../extensions/file_manager/callbacks.c:108
+#: ../extensions/file_manager/callbacks.c:84
+#: ../extensions/file_manager/callbacks.c:109
 msgid "Delete"
 msgstr "Usuń"
 
-#: ../extensions/file_manager/callbacks.c:87
+#: ../extensions/file_manager/callbacks.c:88
 msgid "Open with the File Manager"
 msgstr "Otwórz za pomocą menedżera plików"
 
-#: ../extensions/file_manager/callbacks.c:92
+#: ../extensions/file_manager/callbacks.c:93
 msgid "Create Folder"
 msgstr "Utwórz katalog"
 
-#: ../extensions/file_manager/callbacks.c:99
+#: ../extensions/file_manager/callbacks.c:100
 msgid "Paste Into Folder"
 msgstr "Wklej do katalogu"
 
-#: ../extensions/file_manager/callbacks.c:113
+#: ../extensions/file_manager/callbacks.c:114
 msgid "Duplicate"
 msgstr "Duplikat"
 
-#: ../extensions/file_manager/callbacks.c:511
-#: ../extensions/file_manager/callbacks.c:514
+#: ../extensions/file_manager/callbacks.c:533
+#: ../extensions/file_manager/callbacks.c:536
 msgid "Open _With"
 msgstr "_Otwórz za pomocą"
 
-#: ../extensions/file_manager/callbacks.c:883
+#: ../extensions/file_manager/callbacks.c:779
+#, c-format
+msgid "Do you want to move \"%s\" to \"%s\"?"
+msgstr "Przenieść \"%s\" do \"%s\"?"
+
+#: ../extensions/file_manager/callbacks.c:781
+#, c-format
+msgid "Do you want to copy \"%s\" to \"%s\"?"
+msgstr "Skopiować \"%s\" do \"%s\"?"
+
+#: ../extensions/file_manager/callbacks.c:786
+#, c-format
+msgid "Do you want to move the dragged files to \"%s\"?"
+msgstr "Przenieść przeciągnięte pliki do \"%s\"?"
+
+#: ../extensions/file_manager/callbacks.c:788
+#, c-format
+msgid "Do you want to copy the dragged files to \"%s\"?"
+msgstr "Skopiować przeciągnięte pliki do \"%s\"?"
+
+#: ../extensions/file_manager/callbacks.c:796
+msgid "_Copy"
+msgstr "S_kopiuj"
+
+#: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5330 ../gthumb/gth-browser.c:5363
+#: ../gthumb/gth-browser.c:5467 ../gthumb/gth-browser.c:5500
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "Nie można wykonać działania"
@@ -2150,10 +2146,6 @@ msgstr "Menedżer plików"
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
 msgid "File manager operations."
 msgstr "Działania menedżera plików."
-
-#: ../extensions/file_manager/gth-delete-task.c:62
-msgid "Deleting files"
-msgstr "Usuwanie plików"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
 #: ../extensions/file_tools/data/ui/curves-options.ui.h:1
@@ -2429,8 +2421,8 @@ msgid "Blue"
 msgstr "Niebieski"
 
 #: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
-#: ../extensions/file_tools/gth-file-tool-curves.c:648
-#: ../extensions/file_tools/gth-file-tool-curves.c:812
+#: ../extensions/file_tools/gth-file-tool-curves.c:686
+#: ../extensions/file_tools/gth-file-tool-curves.c:850
 msgid "Presets"
 msgstr "Ustawienia"
 
@@ -2461,7 +2453,7 @@ msgid "Applying changes"
 msgstr "Zastosowywanie zmian"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:555
-#: ../extensions/file_tools/gth-file-tool-curves.c:784
+#: ../extensions/file_tools/gth-file-tool-curves.c:822
 #: ../extensions/file_tools/gth-file-tool-rotate.c:603
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:365
 msgid "Reset"
@@ -2592,26 +2584,30 @@ msgstr "Linie wyśrodkowane"
 msgid "Crop"
 msgstr "Przycięcie"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:365
+#: ../extensions/file_tools/gth-file-tool-curves.c:409
 msgid "Add to Presets"
 msgstr "Dodaj do ustawień"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:495
+#: ../extensions/file_tools/gth-file-tool-curves.c:410
+msgid "Enter the preset name:"
+msgstr "Nazwa ustawienia:"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:533
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1302
-#: ../gthumb/gth-browser.c:1894
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1299
+#: ../gthumb/gth-browser.c:1895
 msgid "Could not save the file"
 msgstr "Nie można zapisać pliku"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:798
+#: ../extensions/file_tools/gth-file-tool-curves.c:836
 msgid "Add to presets"
 msgstr "Dodaj do ustawień"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:859
+#: ../extensions/file_tools/gth-file-tool-curves.c:897
 msgid "Color Curves"
 msgstr "Krzywe kolorów"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:860
+#: ../extensions/file_tools/gth-file-tool-curves.c:898
 msgid "Adjust color curves"
 msgstr "Dostosowanie krzywych kolorów"
 
@@ -3114,10 +3110,10 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1535
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1532
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:251
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:1040
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:888
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3219,7 +3215,7 @@ msgid "Images"
 msgstr "Obrazy"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
-#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:340
+#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:341
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr ""
@@ -3310,7 +3306,7 @@ msgid "After loading an image:"
 msgstr "Po wczytaniu obrazu:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:845
+#: ../extensions/image_viewer/gth-image-viewer-page.c:834
 msgid "Set to actual size"
 msgstr "Ustawianie na rzeczywisty rozmiar"
 
@@ -3319,7 +3315,7 @@ msgid "Keep previous zoom"
 msgstr "Zachowanie poprzedniego powiększenia"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-#: ../extensions/image_viewer/gth-image-viewer-page.c:852
+#: ../extensions/image_viewer/gth-image-viewer-page.c:841
 msgid "Fit to window"
 msgstr "Dopasowanie do okna"
 
@@ -3328,7 +3324,7 @@ msgid "Fit to window if larger"
 msgstr "Dopasowanie do okna, jeśli większy"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
-#: ../extensions/image_viewer/gth-image-viewer-page.c:859
+#: ../extensions/image_viewer/gth-image-viewer-page.c:848
 msgid "Fit to width"
 msgstr "Dopasowanie do szerokości"
 
@@ -3358,23 +3354,27 @@ msgstr "_Niska"
 msgid "Histogram"
 msgstr "Histogram"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:74
+#: ../extensions/image_viewer/gth-image-viewer-page.c:75
 msgid "Copy Image"
 msgstr "Skopiuj obraz"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:75
+#: ../extensions/image_viewer/gth-image-viewer-page.c:76
 msgid "Paste Image"
 msgstr "Wklej obraz"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:866
+#: ../extensions/image_viewer/gth-image-viewer-page.c:855
+msgid "Fit to height"
+msgstr "Dopasowanie do wysokości"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:862
 msgid "Apply the embedded color profile"
 msgstr "Zastosowanie osadzonego profilu kolorów"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1475
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1472
 msgid "Save Image"
 msgstr "Zapis obrazu"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2059
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2056
 msgid "Loading the original image"
 msgstr "Wczytywanie oryginalnego obrazu"
 
@@ -3473,7 +3473,6 @@ msgid "The selected files are already present in the destination."
 msgstr "Zaznaczone pliki już znajdują się w miejscu docelowym."
 
 #: ../extensions/importer/gth-import-task.c:644
-#: ../gthumb/gth-file-source-vfs.c:714
 msgid "Could not delete the files"
 msgstr "Nie można usunąć plików"
 
@@ -3893,7 +3892,7 @@ msgid "(Empty)"
 msgstr "(Pusty)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1805
+#: ../gthumb/gth-browser.c:1806
 msgid "Getting the folder content…"
 msgstr "Pobieranie zawartości katalogu…"
 
@@ -4513,9 +4512,9 @@ msgstr "Albumy WWW"
 msgid "Create static web albums."
 msgstr "Tworzenie statycznych albumów WWW."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1110
-#: ../gthumb/gth-browser.c:1685 ../gthumb/gth-browser.c:6278
-#: ../gthumb/gth-browser.c:6297 ../gthumb/gth-browser.c:6321
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1111
+#: ../gthumb/gth-browser.c:1686 ../gthumb/gth-browser.c:6415
+#: ../gthumb/gth-browser.c:6434 ../gthumb/gth-browser.c:6458
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nie można wczytać położenia \"%s\""
@@ -4705,11 +4704,11 @@ msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2011-2015\n"
 "Aviary.pl <gnomepl@aviary.pl>, 2007-2015"
 
-#: ../gthumb/gth-browser.c:370
+#: ../gthumb/gth-browser.c:371
 msgid "[modified]"
 msgstr "[zmodyfikowano]"
 
-#: ../gthumb/gth-browser.c:831
+#: ../gthumb/gth-browser.c:832
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -4717,71 +4716,75 @@ msgstr[0] "Zaznaczono %d plik (%s)"
 msgstr[1] "Zaznaczono %d pliki (%s)"
 msgstr[2] "Zaznaczono %d plików (%s)"
 
-#: ../gthumb/gth-browser.c:866
+#: ../gthumb/gth-browser.c:867
 #, c-format
 msgid "%s of free space"
 msgstr "Wolne miejsce: %s"
 
-#: ../gthumb/gth-browser.c:1789 ../gthumb/gth-browser.c:1816
+#: ../gthumb/gth-browser.c:1790 ../gthumb/gth-browser.c:1817
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nie odnaleziono odpowiedniego modułu dla %s"
 
-#: ../gthumb/gth-browser.c:1938
+#: ../gthumb/gth-browser.c:1939
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Zapisać zmiany w pliku \"%s\"?"
 
-#: ../gthumb/gth-browser.c:1943
+#: ../gthumb/gth-browser.c:1944
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr ""
 "Jeśli nie zostanie zapisane, to wszystkie zmiany zostaną trwale utracone."
 
-#: ../gthumb/gth-browser.c:1944
+#: ../gthumb/gth-browser.c:1945
 msgid "Do _Not Save"
 msgstr "_Nie zapisuj"
 
-#: ../gthumb/gth-browser.c:2889 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:3020 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nie można zmienić nazwy"
 
-#: ../gthumb/gth-browser.c:3333 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3464 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "Zmodyfikowano"
 
-#: ../gthumb/gth-browser.c:4342
+#: ../gthumb/gth-browser.c:4475
 msgid "Go to the previous visited location"
 msgstr "Przechodzi do poprzednio odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4348
+#: ../gthumb/gth-browser.c:4481
 msgid "Go to the next visited location"
 msgstr "Przechodzi do kolejnej odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4356
+#: ../gthumb/gth-browser.c:4489
 msgid "History"
 msgstr "Historia"
 
-#: ../gthumb/gth-browser.c:4371
+#: ../gthumb/gth-browser.c:4504
 msgid "View the folders"
 msgstr "Wyświetla katalogi"
 
-#: ../gthumb/gth-browser.c:4386
+#: ../gthumb/gth-browser.c:4519
 msgid "Edit file"
 msgstr "Modyfikuje plik"
 
-#: ../gthumb/gth-browser.c:4403
+#: ../gthumb/gth-browser.c:4536
 msgid "Accept"
 msgstr "Zaakceptuj"
 
-#: ../gthumb/gth-browser.c:6279
+#: ../gthumb/gth-browser.c:6416
 #, c-format
 msgid "File type not supported"
 msgstr "Nieobsługiwany typ pliku"
 
-#: ../gthumb/gth-browser.c:6322
+#: ../gthumb/gth-browser.c:6459
 #, c-format
 msgid "No suitable module found"
 msgstr "Nie odnaleziono odpowiedniego modułu"
+
+#: ../gthumb/gth-delete-task.c:64
+msgid "Deleting files"
+msgstr "Usuwanie plików"
 
 #: ../gthumb/gth-extensions.c:203
 #, c-format
@@ -4801,42 +4804,30 @@ msgstr "Wszystkie obsługiwane pliki"
 msgid "Details"
 msgstr "Szczegóły"
 
-#: ../gthumb/gth-file-source-vfs.c:220
+#: ../gthumb/gth-file-source-vfs.c:223
 msgid "Computer"
 msgstr "Komputer"
 
-#: ../gthumb/gth-file-source-vfs.c:227
+#: ../gthumb/gth-file-source-vfs.c:230
 msgid "Home Folder"
 msgstr "Katalog domowy"
 
-#: ../gthumb/gth-file-source-vfs.c:759
+#: ../gthumb/gth-file-source-vfs.c:743
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Nie można przenieść plików do kosza. Usunąć je trwale?"
 
-#: ../gthumb/gth-file-source-vfs.c:770
+#: ../gthumb/gth-file-source-vfs.c:753
 msgid "Could not move the files to the Trash"
 msgstr "Nie można przenieść plików do kosza"
 
-#: ../gthumb/gth-file-source-vfs.c:817
+#: ../gthumb/gth-file-source-vfs.c:798
 #, c-format
-msgid "Are you sure you want to move \"%s\" to trash?"
-msgstr "Na pewno przenieść \"%s\" do kosza?"
+msgid "Are you sure you want to permanently delete \"%s\"?"
+msgstr "Na pewno trwale usunąć \"%s\"?"
 
-#: ../gthumb/gth-file-source-vfs.c:821
-#, c-format
-msgid "Are you sure you want to move to trash the %'d selected file?"
-msgid_plural "Are you sure you want to move to trash the %'d selected files?"
-msgstr[0] "Na pewno przenieść do kosza %'d zaznaczony plik?"
-msgstr[1] "Na pewno przenieść do kosza %'d zaznaczone pliki?"
-msgstr[2] "Na pewno przenieść do kosza %'d zaznaczonych plików?"
-
-#: ../gthumb/gth-file-source-vfs.c:833
-msgid "Mo_ve to Trash"
-msgstr "P_rzenieś do kosza"
-
-#: ../gthumb/gth-file-source-vfs.c:864
+#: ../gthumb/gth-file-source-vfs.c:801
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4844,6 +4835,10 @@ msgid_plural ""
 msgstr[0] "Na pewno trwale usunąć %'d zaznaczony plik?"
 msgstr[1] "Na pewno trwale usunąć %'d zaznaczone pliki?"
 msgstr[2] "Na pewno trwale usunąć %'d zaznaczonych plików?"
+
+#: ../gthumb/gth-file-source-vfs.c:811
+msgid "If you delete a file, it will be permanently lost."
+msgstr "Usunięcie pliku spowoduje jego trwałe utracenie."
 
 #: ../gthumb/gth-filterbar.c:304
 msgid "Personalize…"
@@ -5196,27 +5191,31 @@ msgstr "Kolory"
 msgid "Rotation"
 msgstr "Obrót"
 
-#: ../gthumb/gtk-utils.c:481
+#: ../gthumb/gth-trash-task.c:64
+msgid "Moving files to trash"
+msgstr "Przenoszenie plików do kosza"
+
+#: ../gthumb/gtk-utils.c:329
 msgid "Could not display help"
 msgstr "Nie można wyświetlić pomocy"
 
-#: ../gthumb/gtk-utils.c:801 ../gthumb/gtk-utils.c:808
+#: ../gthumb/gtk-utils.c:649 ../gthumb/gtk-utils.c:656
 msgid "Could not launch the application"
 msgstr "Nie można uruchomić programu"
 
-#: ../gthumb/gtk-utils.c:911
+#: ../gthumb/gtk-utils.c:759
 msgid "_Copy Here"
 msgstr "S_kopiuj tutaj"
 
-#: ../gthumb/gtk-utils.c:916
+#: ../gthumb/gtk-utils.c:764
 msgid "_Move Here"
 msgstr "_Przenieś tutaj"
 
-#: ../gthumb/gtk-utils.c:921
+#: ../gthumb/gtk-utils.c:769
 msgid "_Link Here"
 msgstr "_Dowiąż tutaj"
 
-#: ../gthumb/gtk-utils.c:930
+#: ../gthumb/gtk-utils.c:778
 msgid "Cancel"
 msgstr "Anuluj"
 
