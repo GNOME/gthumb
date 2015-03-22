@@ -2,20 +2,21 @@
 # Copyright (C) 2012 gthumb's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 #
-# Marek Černocký <marek@manet.cz>, 2013.
+# Marek Černocký <marek@manet.cz>, 2013, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2014-03-23 21:34+0000\n"
-"PO-Revision-Date: 2013-01-07 23:35+0200\n"
+"POT-Creation-Date: 2015-03-22 21:31+0000\n"
+"PO-Revision-Date: 2015-03-22 23:31+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
-"Language: \n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -906,8 +907,8 @@ msgid ""
 "\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgstr ""
 "Více informací o těchto rozšířeních, a i o aplikaci <app>gThumb</app> "
-"obecně, najdete na <link href=\"https://wiki.gnome.org/Apps/gthumb\">"
-"https://wiki.gnome.org/Apps/gthumb</link> (odkazovaný text je v angličtině)."
+"obecně, najdete na <link href=\"https://wiki.gnome.org/Apps/gthumb\">https://"
+"wiki.gnome.org/Apps/gthumb</link> (odkazovaný text je v angličtině)."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -1408,7 +1409,7 @@ msgstr "Symbol"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:94
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:498
+#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:542
 msgid "Description"
 msgstr "Popis"
 
@@ -1903,9 +1904,9 @@ msgid ""
 "source code, which you can base your own extension on."
 msgstr ""
 "Jestliže si přejete napsat své vlastní rozšíření, navštivte prosím <link "
-"href=\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</link>, "
-"kde najdete informace pro vývojáře. Jako součást zdrojového kódu je "
-"poskytován příklad rozšíření, ze kterého může to vaše vycházet."
+"href=\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/"
+"gthumb</link>, kde najdete informace pro vývojáře. Jako součást zdrojového "
+"kódu je poskytován příklad rozšíření, ze kterého může to vaše vycházet."
 
 #. (itstool) path: page/title
 #: C/gimp.page:6
@@ -2226,7 +2227,7 @@ msgstr "Zobrazování a skrývání částí uživatelského rozhraní"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:14 C/shortcuts.page:91 C/shortcuts.page:270
-#: C/shortcuts.page:495
+#: C/shortcuts.page:539
 msgid "Keyboard Shortcut"
 msgstr "Klávesová zkratka"
 
@@ -2395,13 +2396,13 @@ msgstr "Klávesová zkratka (rozlišuje se velikost písmen)"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:194
-msgid "<key>h</key>"
-msgstr "<key>h</key>"
+msgid "<key>a</key>"
+msgstr "<key>a</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:199
-msgid "Enhance colors."
-msgstr "Zvýraznit barvy."
+msgid "Adjust contrast."
+msgstr "Upravit kontrast."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:204
@@ -2489,7 +2490,7 @@ msgid "View the previous image."
 msgstr "Zobrazit předchozí obrázek."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:298 C/shortcuts.page:415
+#: C/shortcuts.page:298 C/shortcuts.page:459
 msgid "<key>Home</key>"
 msgstr "<key>Home</key>"
 
@@ -2499,7 +2500,7 @@ msgid "View the first image."
 msgstr "Zobrazit první obrázek."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:308 C/shortcuts.page:425
+#: C/shortcuts.page:308 C/shortcuts.page:469
 msgid "<key>End</key>"
 msgstr "<key>End</key>"
 
@@ -2571,126 +2572,166 @@ msgstr "Přizpůsobit přiblížení (směrem dolů nebo použít lupu, dle pot�
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:385
+msgid "<key>w</key>"
+msgstr "<key>w</key>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:389
+msgid "Zoom to fit width (scales down only, does not magnify)"
+msgstr "Přizpůsobit přiblížení šířce (pouze směrem dolů, nepoužívat lupu)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:394
+msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
+msgstr "<keyseq><key>Shift</key> <key>w</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:402
+msgid "Zoom to fit width (scale down or magnify, as required)"
+msgstr "Přizpůsobit přiblížení šířce (směrem dolů nebo použít lupu, dle potřeby)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:407
+msgid "<key>h</key>"
+msgstr "<key>h</key>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:411
+msgid "Zoom to fit height (scales down only, does not magnify)"
+msgstr "Přizpůsobit přiblížení výšce (pouze směrem dolů, nepoužívat lupu)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:416
+msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
+msgstr "<keyseq><key>Shift</key> <key>h</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:424
+msgid "Zoom to fit height (scale down or magnify, as required)"
+msgstr "Přizpůsobit přiblížení výšce (směrem dolů nebo použít lupu, dle potřeby)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:429
 msgid "<key>Arrows</key>"
 msgstr "<key>šipky</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:390
+#: C/shortcuts.page:434
 msgid "Scroll the image."
 msgstr "Posunout obrázek."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:395
+#: C/shortcuts.page:439
 msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
 msgstr "<keyseq> <key>Shift</key> <key>šipky</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:403
+#: C/shortcuts.page:447
 msgid "Scroll the image faster."
 msgstr "Rychleji posunout obrázek."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:410
+#: C/shortcuts.page:454
 msgid "Browser Navigation"
 msgstr "Pohyb v režimu procházení"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:420
+#: C/shortcuts.page:464
 msgid "Go to the first file in the browser view."
 msgstr "Přejít na první soubor v režimu procházení."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:431
+#: C/shortcuts.page:475
 msgid "Go to the last file in the browser view."
 msgstr "Přejít na poslední soubor v režimu procházení."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:436
+#: C/shortcuts.page:480
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
 msgstr "<key>šipka dolů</key> nebo <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:441
+#: C/shortcuts.page:485
 msgid "Scroll downwards through the thumbnails."
 msgstr "Posunout se v miniaturách dolů."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:446
+#: C/shortcuts.page:490
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
 msgstr "<key>šipka nahoru</key> nebo <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:451
+#: C/shortcuts.page:495
 msgid "Scroll upwards through the thumbnails."
 msgstr "Posunout se v miniaturách nahoru."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:456
+#: C/shortcuts.page:500
 msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:461
+#: C/shortcuts.page:505
 msgid "Go back to the previously viewed folder."
 msgstr "Vrátit se zpět do předchozí zobrazené složky."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:466
+#: C/shortcuts.page:510
 msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:471
+#: C/shortcuts.page:515
 msgid "Go forward (after going back to a folder)."
 msgstr "Přejít vpřed (po té, co jste ve složkách přešli zpět)."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:476
+#: C/shortcuts.page:520
 msgid "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
 msgstr "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:484
+#: C/shortcuts.page:528
 msgid "Go up one level."
 msgstr "Přejít o úroveň výš."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:491
+#: C/shortcuts.page:535
 msgid "Slideshow controls"
 msgstr "Ovládání promítání"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:503
+#: C/shortcuts.page:547
 msgid "<key>F5</key>"
 msgstr "<key>F5</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:508
+#: C/shortcuts.page:552
 msgid "Start a slideshow."
 msgstr "Začít promítání."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:513
+#: C/shortcuts.page:557
 msgid "<key>p</key>"
 msgstr "<key>p</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:518
+#: C/shortcuts.page:562
 msgid "Pause/Unpause the slideshow."
 msgstr "Pozastavit/pokračovat v promítání."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:523
+#: C/shortcuts.page:567
 msgid "<key>Esc</key> or <key>q</key>"
 msgstr "<key>Esc</key> nebo <key>q</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:528
+#: C/shortcuts.page:572
 msgid "Close the slideshow."
 msgstr "Zavřít promítání."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:533
+#: C/shortcuts.page:577
 msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
@@ -2699,12 +2740,12 @@ msgstr ""
 "nebo <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:538
+#: C/shortcuts.page:582
 msgid "Load the next image."
 msgstr "Načíst následující obrázek."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:543
+#: C/shortcuts.page:587
 msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
@@ -2713,7 +2754,7 @@ msgstr ""
 "key> nebo <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:548
+#: C/shortcuts.page:592
 msgid "Load the previous image."
 msgstr "Načíst předchozí obrázek"
 
