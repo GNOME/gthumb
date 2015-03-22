@@ -83,11 +83,9 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ROTATE_LEFT);
 		break;
 	case GDK_KEY_C:
-		gth_browser_show_viewer_tools (browser);
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_CROP);
 		break;
 	case GDK_KEY_S:
-		gth_browser_show_viewer_tools (browser);
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_RESIZE);
 		break;
 	}

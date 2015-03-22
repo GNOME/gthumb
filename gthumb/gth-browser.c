@@ -3042,6 +3042,8 @@ toolbox_options_visibility_cb (GthToolbox *toolbox,
 	if (toolbox_options_visible) {
 		GtkWidget *file_tool;
 
+		gth_browser_show_viewer_tools (browser);
+
 		gtk_widget_hide (browser->priv->next_image_button);
 		gtk_widget_hide (browser->priv->previous_image_button);
 		browser->priv->pointer_visible = FALSE;
