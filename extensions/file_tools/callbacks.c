@@ -67,7 +67,7 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	}
 
 	switch (event->keyval) {
-	case GDK_KEY_h:
+	case GDK_KEY_a:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ADJUST_CONTRAST);
 		break;
 	case GDK_KEY_l:

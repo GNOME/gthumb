@@ -192,11 +192,11 @@ id="gthumb-shortcuts">
       <tr>
         <td>
           <p>
-            <key>h</key>
+            <key>a</key>
           </p>
         </td>
         <td>
-          <p>Enhance colors.</p>
+          <p>Adjust contrast.</p>
         </td>
       </tr>
       <tr>
