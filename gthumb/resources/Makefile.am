@@ -5,6 +5,8 @@ EXTRA_DIST =			\
 	folder-menu.ui		\
 	gears-menu.ui		\
 	gthumb.css		\
+	gthumb-gtk312.css	\
+	gthumb-gtk314.css	\
 	history-menu.ui
 
 -include $(top_srcdir)/git.mk
