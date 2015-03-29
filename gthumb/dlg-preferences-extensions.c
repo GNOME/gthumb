@@ -347,6 +347,13 @@ category_view_separator_func (GtkTreeModel *model,
 
 
 static void
+change_switch_state (gpointer user_data)
+{
+	gtk_switch_set_active (GTK_SWITCH (user_data), ! gtk_switch_get_active (GTK_SWITCH (user_data)));
+}
+
+
+static void
 extension_switch_activated_cb (GObject    *gobject,
 			       GParamSpec *pspec,
 			       gpointer    user_data)
@@ -356,30 +363,25 @@ extension_switch_activated_cb (GObject    *gobject,
 	GthExtensionDescription *description = row_data->description;
 	GError                  *error = NULL;
 
-	if (! gth_extension_description_is_active (description)) {
-		if (! gth_extension_manager_activate (gth_main_get_default_extension_manager (), description->id, &error)) {
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser_data->dialog), _("Could not activate the extension"), error);
-			g_clear_error (&error);
-
-			g_signal_handlers_block_by_data (gobject, user_data);
-			gtk_switch_set_active (GTK_SWITCH (gobject), FALSE);
-			g_signal_handlers_unblock_by_data (gobject, user_data);
-		}
+	if (gtk_switch_get_active (GTK_SWITCH (gobject))) {
+		if (! gth_extension_manager_activate (gth_main_get_default_extension_manager (), description->id, &error))
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser_data->dialog), _("Could not activate the extension"), error);
 		else
 			browser_data->enabled_disabled_cardinality_changed = TRUE;
 	}
 	else {
-		if (! gth_extension_manager_deactivate (gth_main_get_default_extension_manager (), description->id, &error)) {
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser_data->dialog), _("Could not deactivate the extension"), error);
-			g_clear_error (&error);
-
-			g_signal_handlers_block_by_data (gobject, user_data);
-			gtk_switch_set_active (GTK_SWITCH (gobject), TRUE);
-			g_signal_handlers_unblock_by_data (gobject, user_data);
-		}
+		if (! gth_extension_manager_deactivate (gth_main_get_default_extension_manager (), description->id, &error))
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser_data->dialog), _("Could not deactivate the extension"), error);
 		else
 			browser_data->enabled_disabled_cardinality_changed = TRUE;
 	}
+
+	if (error != NULL) {
+		/* reset to the previous state */
+		call_when_idle (change_switch_state, gobject);
+	}
+
+	g_clear_error (&error);
 }
 
 
