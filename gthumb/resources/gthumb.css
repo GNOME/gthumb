@@ -50,16 +50,16 @@ GthEmptyList.frame:backdrop {
 @define-color comment_bg_backdrop #c5c6ba;
 @define-color comment_border_backdrop #a5a5a5;
 
-GtkScrolledWindow.comment {
+GtkScrolledWindow.frame.comment {
 	background-color: @comment_bg;
 	padding: 5px 0 5px 5px;
 }
 
-GtkScrolledWindow.comment:backdrop {
+GtkScrolledWindow.frame.comment:backdrop {
 	background-color: @comment_bg_backdrop;
 }
 
-GtkScrolledWindow.comment.frame {
+GtkScrolledWindow.frame.comment {
 	border-color: transparent;
 }
 
