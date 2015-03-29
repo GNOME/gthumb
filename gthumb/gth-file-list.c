@@ -526,7 +526,7 @@ thumbnail_job_cancel (ThumbnailJob *job)
 /* --- */
 
 
-static void
+static gboolean
 vadj_changed_cb (GtkAdjustment *adjustment,
 		 gpointer       user_data)
 {
@@ -534,6 +534,8 @@ vadj_changed_cb (GtkAdjustment *adjustment,
 
 	file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
 	start_update_next_thumb (GTH_FILE_LIST (user_data));
+
+	return FALSE;
 }
 
 
