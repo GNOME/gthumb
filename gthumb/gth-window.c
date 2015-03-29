@@ -116,6 +116,7 @@ _gth_window_add_header_bar (GthWindow *self)
 	gtk_widget_show (self->priv->headerbar);
 	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->priv->headerbar), TRUE);
 
+#if GTK_CHECK_VERSION(3,12,0)
 	{
 		gboolean  shell_shows_app_menu;
 		char     *decoration_layout;
@@ -139,6 +140,7 @@ _gth_window_add_header_bar (GthWindow *self)
 
 		g_free (decoration_layout);
 	}
+#endif
 
 	self->priv->title = gth_window_title_new ();
 	gtk_widget_show (self->priv->title);
