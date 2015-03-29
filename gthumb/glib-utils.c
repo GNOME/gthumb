@@ -1338,6 +1338,25 @@ _g_strv_prepend (char       **str_array,
 }
 
 
+char **
+_g_strv_concat (const char *const *strv1,
+		const char *const *strv2)
+{
+	char **result;
+	int    i, j;
+
+	result = g_new (char *, g_strv_length (strv1) + g_strv_length (strv2) + 1);
+	i = 0;
+	for (j = 0; strv1[j] != NULL; j++)
+		result[i++] = g_strdup (strv1[j]);
+	for (j = 0; strv2[j] != NULL; j++)
+		result[i++] = g_strdup (strv2[j]);
+	result[i] = NULL;
+
+	return result;
+}
+
+
 gboolean
 _g_strv_remove (char       **str_array,
                 const char  *str)

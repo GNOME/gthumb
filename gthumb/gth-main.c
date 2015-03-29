@@ -1202,8 +1202,13 @@ gth_main_get_default_extension_manager (void)
 void
 gth_main_activate_extensions (void)
 {
-	const char *mandatory_extensions[] = {	"file_viewer",
+	const char *mandatory_extensions[] = {	"file_viewer", /* keep the file viewer before any other viewer (see comment in gth-browser:file_metadata_ready_cb). */
+#ifdef HAVE_LIBJPEG
+						"jpeg_utils",  /* mandatory if jpeg support is activated at compile time */
+#endif
 						"cairo_io",
+						"image_viewer",
+						"file_tools",
 						NULL };
 	const char *default_extensions[] = {	"23hq",
 						"bookmarks",
@@ -1218,14 +1223,12 @@ gth_main_activate_extensions (void)
 						"exiv2_tools",
 						"facebook",
 						"file_manager",
-						"file_tools",
 						"find_duplicates",
 						"flicker",
 						"gstreamer_tools",
 						"gstreamer_utils",
 						"image_print",
 						"image_rotation",
-						"image_viewer",
 						"importer",
 						"jpeg_utils",
 						"list_tools",
@@ -1245,7 +1248,8 @@ gth_main_activate_extensions (void)
 	int                   i;
 	GError               *error = NULL;
 	GSettings            *settings;
-	char                **active_extensions;
+	char                **user_actived_extensions;
+	char                **actived_extensions;
 	GList                *ordered_extensions;
 	GthExtensionManager  *manager;
 	GList                *scan;
@@ -1253,43 +1257,45 @@ gth_main_activate_extensions (void)
 	if (Main->priv->extension_manager == NULL)
 		Main->priv->extension_manager = gth_extension_manager_new ();
 
-	for (i = 0; mandatory_extensions[i] != NULL; i++) {
-		if (! gth_extension_manager_activate (Main->priv->extension_manager, mandatory_extensions[i], &error)) {
-			g_critical ("Could not load the mandatory extension '%s': %s", mandatory_extensions[i], error->message);
-			abort ();
-		}
-	}
-
 	settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
-	active_extensions = g_settings_get_strv (settings, PREF_GENERAL_ACTIVE_EXTENSIONS);
-	if ((active_extensions != NULL)
-	     && (active_extensions[1] == NULL)
-	     && (g_strcmp0 (active_extensions[0], "default") == 0))
+	user_actived_extensions = g_settings_get_strv (settings, PREF_GENERAL_ACTIVE_EXTENSIONS);
+	if ((user_actived_extensions != NULL)
+	     && (user_actived_extensions[1] == NULL)
+	     && (g_strcmp0 (user_actived_extensions[0], "default") == 0))
 	{
-		g_strfreev (active_extensions);
-		active_extensions = g_strdupv ((char **) default_extensions);
-		g_settings_set_strv (settings, PREF_GENERAL_ACTIVE_EXTENSIONS, (const char *const *) active_extensions);
+		g_strfreev (user_actived_extensions);
+		user_actived_extensions = g_strdupv ((char **) default_extensions);
+		g_settings_set_strv (settings, PREF_GENERAL_ACTIVE_EXTENSIONS, (const char *const *) user_actived_extensions);
 	}
-	ordered_extensions = gth_extension_manager_order_extensions (Main->priv->extension_manager, active_extensions);
+	actived_extensions = _g_strv_concat (mandatory_extensions, (const char *const *) user_actived_extensions);
+	ordered_extensions = gth_extension_manager_order_extensions (Main->priv->extension_manager, actived_extensions);
 
 	manager = gth_main_get_default_extension_manager ();
 	for (scan = ordered_extensions; scan; scan = scan->next) {
 		char                    *name = scan->data;
+		gboolean                 mandatory;
 		GthExtensionDescription *description;
 		GError                  *error = NULL;
 
+		mandatory = g_strv_contains (mandatory_extensions, name);
 		description = gth_extension_manager_get_description (manager, name);
-		if ((description != NULL) && (description->hidden || description->mandatory))
+		if (! mandatory && (description != NULL) && description->hidden)
 			continue;
 
 		if (! gth_extension_manager_activate (Main->priv->extension_manager, name, &error)) {
-			g_warning ("Could not load the '%s' extension: %s", name, error->message);
+			if (mandatory) {
+				g_critical ("Could not load the mandatory extension '%s': %s", name, error->message);
+				abort ();
+			}
+			else
+				g_warning ("Could not load the '%s' extension: %s", name, error->message);
 			g_clear_error (&error);
 		}
 	}
 
 	_g_string_list_free (ordered_extensions);
-	g_strfreev (active_extensions);
+	g_strfreev (actived_extensions);
+	g_strfreev (user_actived_extensions);
 }
 
 
