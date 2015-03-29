@@ -5,7 +5,8 @@ context = apps
 iconsdir = $(themedir)/$(size)/$(context)
 
 icons_DATA = \
-	gthumb.png
+	gthumb.png	\
+	gthumb-symbolic.svg
 
 noinst_DATA = \
 	gthumb.svg
