@@ -115,6 +115,31 @@ _gth_window_add_header_bar (GthWindow *self)
 	self->priv->headerbar = gtk_header_bar_new ();
 	gtk_widget_show (self->priv->headerbar);
 	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->priv->headerbar), TRUE);
+
+	{
+		gboolean  shell_shows_app_menu;
+		char     *decoration_layout;
+
+		g_object_get (gtk_settings_get_default (),
+			      "gtk-shell-shows-app-menu", &shell_shows_app_menu,
+			      "gtk-decoration-layout", &decoration_layout,
+			      NULL);
+		if (! shell_shows_app_menu && ((decoration_layout == NULL) || (strstr (decoration_layout, "menu") == NULL))) {
+			gboolean  left_part_is_empty;
+			char     *new_layout;
+
+			/* add 'menu' to the left */
+
+			left_part_is_empty = (decoration_layout == NULL) || (decoration_layout[0] == '\0') || (decoration_layout[0] == ':');
+			new_layout = g_strconcat ("menu", (left_part_is_empty ? "" : ","), decoration_layout, NULL);
+			gtk_header_bar_set_decoration_layout (GTK_HEADER_BAR (self->priv->headerbar), new_layout);
+
+			g_free (new_layout);
+		}
+
+		g_free (decoration_layout);
+	}
+
 	self->priv->title = gth_window_title_new ();
 	gtk_widget_show (self->priv->title);
 	gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->priv->headerbar), self->priv->title);

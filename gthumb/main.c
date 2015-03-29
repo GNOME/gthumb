@@ -221,12 +221,6 @@ _gth_application_initialize_app_menu (GApplication *application)
 	gboolean    show_app_menu;
 	GtkBuilder *builder;
 
-	g_object_get (gtk_settings_get_default (),
-		      "gtk-shell-shows-app-menu", &show_app_menu,
-		      NULL);
-	if (! show_app_menu)
-		return;
-
 	g_action_map_add_action_entries (G_ACTION_MAP (application),
 					 app_menu_entries,
 					 G_N_ELEMENTS (app_menu_entries),
