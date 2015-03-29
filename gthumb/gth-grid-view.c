@@ -1842,35 +1842,6 @@ gth_grid_view_key_release (GtkWidget   *widget,
 }
 
 
-static gboolean
-gth_grid_view_scroll_event (GtkWidget      *widget,
-			    GdkEventScroll *event)
-{
-	GtkAdjustment *adj;
-	gdouble        new_value;
-	double         step;
-
-	if ((event->direction != GDK_SCROLL_UP) && (event->direction != GDK_SCROLL_DOWN))
-		return FALSE;
-
-	adj = GTH_GRID_VIEW (widget)->priv->vadjustment;
-
-	new_value = gtk_adjustment_get_value (adj);
-	step = gtk_adjustment_get_page_increment (adj);
-	if (event->direction == GDK_SCROLL_UP)
-		new_value -= step;
-	else
-		new_value += step;
-	new_value = CLAMP (new_value,
-			   gtk_adjustment_get_lower (adj),
-			   gtk_adjustment_get_upper (adj) - gtk_adjustment_get_page_size (adj));
-
-	gtk_adjustment_set_value (adj, new_value);
-
-	return TRUE;
-}
-
-
 /* -- GthFileSelection interface -- */
 
 
@@ -3673,7 +3644,6 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	widget_class->focus_out_event = gth_grid_view_focus_out;
 	widget_class->key_press_event = gth_grid_view_key_press;
 	widget_class->key_release_event = gth_grid_view_key_release;
-	widget_class->scroll_event = gth_grid_view_scroll_event;
 	widget_class->button_press_event = gth_grid_view_button_press;
 	widget_class->button_release_event = gth_grid_view_button_release;
 	widget_class->motion_notify_event = gth_grid_view_motion_notify;
