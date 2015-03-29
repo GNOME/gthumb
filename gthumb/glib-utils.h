@@ -211,6 +211,8 @@ const char *    get_static_string                (const char  *s);
 char *          _g_rand_string                   (int          len);
 int             _g_strv_find                     (char       **v,
 						  const char  *s);
+gboolean        _g_strv_contains                 (char       **v,
+						  const char  *s);
 char **         _g_strv_prepend                  (char       **str_array,
 						  const char  *str);
 char **         _g_strv_concat                   (const char *const *strv1,

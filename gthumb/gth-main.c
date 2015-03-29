@@ -1277,7 +1277,7 @@ gth_main_activate_extensions (void)
 		GthExtensionDescription *description;
 		GError                  *error = NULL;
 
-		mandatory = g_strv_contains (mandatory_extensions, name);
+		mandatory = _g_strv_contains (mandatory_extensions, name);
 		description = gth_extension_manager_get_description (manager, name);
 		if (! mandatory && (description != NULL) && description->hidden)
 			continue;

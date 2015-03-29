@@ -1319,6 +1319,14 @@ _g_strv_find (char       **v,
 }
 
 
+gboolean
+_g_strv_contains (char       **v,
+		  const char  *s)
+{
+	return (_g_strv_find (v, s) >= 0);
+}
+
+
 char **
 _g_strv_prepend (char       **str_array,
                  const char  *str)
