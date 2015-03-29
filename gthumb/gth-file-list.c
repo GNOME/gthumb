@@ -638,6 +638,7 @@ gth_file_list_construct (GthFileList     *file_list,
 	/* the file view */
 
 	file_list->priv->scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window), GTK_SHADOW_ETCHED_IN);
 
 	file_list->priv->vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
 	g_signal_connect (G_OBJECT (file_list->priv->vadj),
