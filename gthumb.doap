@@ -58,6 +58,7 @@
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/gthumb-list" />
   <download-page rdf:resource="http://download.gnome.org/sources/gthumb/" />
   <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=gthumb" />
+  <programming-language>C</programming-language>
   <maintainer>
     <foaf:Person>
       <foaf:name>Paolo Bacchilega</foaf:name>
