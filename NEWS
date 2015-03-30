@@ -1,3 +1,43 @@
+version 3.3.4
+-------------
+
+ New features and user visible changes:
+
+  * Image viewer: added 'fit to height' button.
+  * Drag&Drop: move files by default.
+  * Ask confirmation before moving files with a drag&drop operation.
+  * Make 'delete files' and 'trash files' asyncronous.
+  * Use the default gtk+ style for message dialogs.  Use the header-bar for
+    request dialogs.
+  * Changed 'adjust contrast' shortcut to 'a'. 'h' is now used to fit to height.
+  * Added a symbolic application icon.
+  * Fixed comment pane style with gtk+ 3.16.
+  * Show the app menu on the headerbar if the shell doesn't show it.
+  * Preferences dialog: fixed extensions activation/deactivation.
+
+ Bugs fixed:
+
+  * Webalbums: do not exit if a fatal error is issued (#744530)
+  * Build failure on x32 (kilobyte)
+  * Image viewer: the overview quickly appears and disappears sometimes.
+
+ New or updated application translations:
+
+  * Bosnian (Samir Ribic)
+  * Czech (Marek Černocký)
+  * Hungarian (Balázs Úr)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Swedish (Daniel Nylander)
+  * Ελληνικά, Σύγχρονα (Tom Tryfonidis)
+  * עברית (Yosef Or Boczko)
+
+ New or updated manual translations:
+
+  * Czech (Marek Černocký)
+  * Greek (Maria Mavridou)
+  * Swedish (Daniel Nylander)
+
 version 3.3.3
 -------------
 
