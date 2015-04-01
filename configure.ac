@@ -103,6 +103,32 @@ if test x$ENABLE_DEBUG = xyes; then
 	CFLAGS="$CFLAGS -g -O0 -DDEBUG"
 fi
 
+dnl ===========================================================================
+
+if test x$ENABLE_DEBUG = xyes; then
+WARN_CFLAGS="-Wall -Wcast-align -Wtype-limits -Wclobbered -Wempty-body -Wignored-qualifiers -Wmissing-prototypes -Wnested-externs -Wpointer-arith -Wno-sign-compare -Wformat-security"
+else
+WARN_CFLAGS="-Wall"
+fi
+
+for option in $WARN_CFLAGS; do
+	SAVE_CFLAGS="$CFLAGS"
+	CFLAGS="$CFLAGS $option"
+	AC_MSG_CHECKING([whether gcc understands $option])
+	AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],[has_option=yes],[has_option=no])
+	if test x$has_option = xyes; then
+		WARNINGS="$WARNINGS $option"
+	fi
+	AC_MSG_RESULT($has_option)
+	CFLAGS="$SAVE_CFLAGS"
+	unset has_option
+	unset SAVE_CFLAGS
+done
+unset option
+CFLAGS="$CFLAGS $WARNINGS"
+
+dnl ===========================================================================
+
 AC_ARG_ENABLE(run_in_place,
 	      AS_HELP_STRING([--enable-run-in-place],[load ui data and extensions from the source tree]),
 	      [case "${enableval}" in
@@ -116,6 +142,8 @@ AM_CONDITIONAL(RUN_IN_PLACE, test "x$enable_run_in_place" != xno)
 if test x$enable_run_in_place = xyes; then
 	AC_DEFINE(RUN_IN_PLACE, 1, [load ui data and extensions from the source tree])
 fi
+
+dnl ===========================================================================
 
 AC_ARG_ENABLE(test-suite,
 	      AS_HELP_STRING([--enable-test-suite], [enable the compilation of the test suite]),
