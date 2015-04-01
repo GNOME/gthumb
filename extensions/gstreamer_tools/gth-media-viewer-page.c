@@ -56,7 +56,6 @@ struct _GthMediaViewerPagePrivate {
 	gboolean        visible;
 	gboolean        playing;
 	gboolean        paused;
-	gdouble         last_volume;
 	gint64          duration;
 	int             video_fps_n;
 	int             video_fps_d;
@@ -293,12 +292,19 @@ volume_value_changed_cb (GtkAdjustment *adjustment,
 			 gpointer       user_data)
 {
 	GthMediaViewerPage *self = user_data;
+	double              v;
 
-	if (self->priv->playbin != NULL)
-		g_object_set (self->priv->playbin,
-			      "volume",
-			      gtk_adjustment_get_value (adjustment) / 100.0,
-			      NULL);
+	if (self->priv->playbin == NULL)
+		return;
+
+	/* cubic in [0,1], linear in [1,2] */
+	v = gtk_adjustment_get_value (adjustment);
+	if (v <= 1.0)
+		v = (v * v * v);
+
+	g_object_set (self->priv->playbin,
+		      "volume", v,
+		      NULL);
 }
 
 
@@ -514,7 +520,7 @@ play_faster_button_clicked_cb (GtkButton *button,
 static gboolean
 update_volume_from_playbin (GthMediaViewerPage *self)
 {
-	double volume;
+	double volume, v;
 
 	if (self->priv->update_volume_id != 0) {
 		g_source_remove (self->priv->update_volume_id);
@@ -526,8 +532,14 @@ update_volume_from_playbin (GthMediaViewerPage *self)
 
 	g_object_get (self->priv->playbin, "volume", &volume, NULL);
 
+	/* cubic in [0,1], linear in [1,2] */
+	if (volume <= 1.0)
+		v = exp (1.0 / 3.0 * log (volume)); /* cube root of volume */
+	else
+		v = volume;
+
 	g_signal_handlers_block_by_func (GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("volume_adjustment")), volume * 100.0);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("volume_adjustment")), v);
 	g_signal_handlers_unblock_by_func (GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
 
 	return FALSE;
