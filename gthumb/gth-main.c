@@ -1267,7 +1267,7 @@ gth_main_activate_extensions (void)
 		user_actived_extensions = g_strdupv ((char **) default_extensions);
 		g_settings_set_strv (settings, PREF_GENERAL_ACTIVE_EXTENSIONS, (const char *const *) user_actived_extensions);
 	}
-	actived_extensions = _g_strv_concat (mandatory_extensions, user_actived_extensions);
+	actived_extensions = _g_strv_concat ((char **) mandatory_extensions, user_actived_extensions);
 	ordered_extensions = gth_extension_manager_order_extensions (Main->priv->extension_manager, actived_extensions);
 
 	manager = gth_main_get_default_extension_manager ();
@@ -1277,7 +1277,7 @@ gth_main_activate_extensions (void)
 		GthExtensionDescription *description;
 		GError                  *error = NULL;
 
-		mandatory = _g_strv_contains (mandatory_extensions, name);
+		mandatory = _g_strv_contains ((char **) mandatory_extensions, name);
 		description = gth_extension_manager_get_description (manager, name);
 		if (! mandatory && (description != NULL) && description->hidden)
 			continue;
