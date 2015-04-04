@@ -229,7 +229,6 @@ extensions/facebook/callbacks.c
 extensions/facebook/callbacks.h
 [type: gettext/glade]extensions/facebook/data/ui/export-to-facebook.ui
 [type: gettext/glade]extensions/facebook/data/ui/facebook-album-properties.ui
-[type: gettext/glade]extensions/facebook/data/ui/facebook-export-completed.ui
 [type: gettext/glade]extensions/facebook/data/ui/import-from-facebook.ui
 extensions/facebook/dlg-export-to-facebook.c
 extensions/facebook/dlg-export-to-facebook.h
@@ -361,7 +360,6 @@ extensions/flicker/callbacks.h
 [type: gettext/ini]extensions/flicker/flicker.extension.in.in
 extensions/flicker/main.c
 [type: gettext/glade]extensions/flicker_utils/data/ui/export-to-flickr.ui
-[type: gettext/glade]extensions/flicker_utils/data/ui/flicker-export-completed.ui
 [type: gettext/glade]extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui
 [type: gettext/glade]extensions/flicker_utils/data/ui/import-from-flickr.ui
 extensions/flicker_utils/dlg-export-to-flickr.c
@@ -525,7 +523,6 @@ extensions/photobucket/callbacks.c
 extensions/photobucket/callbacks.h
 [type: gettext/glade]extensions/photobucket/data/ui/export-to-photobucket.ui
 [type: gettext/glade]extensions/photobucket/data/ui/photobucket-album-properties.ui
-[type: gettext/glade]extensions/photobucket/data/ui/photobucket-export-completed.ui
 extensions/photobucket/dlg-export-to-photobucket.c
 extensions/photobucket/dlg-export-to-photobucket.h
 extensions/photobucket/main.c
@@ -562,7 +559,6 @@ extensions/picasaweb/callbacks.h
 [type: gettext/glade]extensions/picasaweb/data/ui/export-to-picasaweb.ui
 [type: gettext/glade]extensions/picasaweb/data/ui/import-from-picasaweb.ui
 [type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-album-properties.ui
-[type: gettext/glade]extensions/picasaweb/data/ui/picasa-web-export-completed.ui
 extensions/picasaweb/dlg-export-to-picasaweb.c
 extensions/picasaweb/dlg-export-to-picasaweb.h
 extensions/picasaweb/dlg-import-from-picasaweb.c
