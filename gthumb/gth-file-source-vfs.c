@@ -772,7 +772,7 @@ gth_file_mananger_trash_files (GtkWindow *window,
 	task = gth_trash_task_new (tdata->files);
 	g_signal_connect (task,
 			  "completed",
-			  trash_task_completed_cb,
+			  G_CALLBACK (trash_task_completed_cb),
 			  tdata);
 
 	gth_browser_exec_task (GTH_BROWSER (window), task, GTH_TASK_FLAGS_IGNORE_ERROR);
