@@ -105,10 +105,10 @@ cairo_image_surface_apply_vignette (cairo_surface_t  *source,
 	gboolean         cancelled = FALSE;
 	double           progress;
 	unsigned char   *p_source;
-	unsigned char    image_red, image_green, image_blue, image_alpha;
-	unsigned char    red, green, blue, alpha;
+	int              image_red, image_green, image_blue, image_alpha;
+	int              red, green, blue, alpha;
 	double           center_x, center_y,  d, min_d, max_d;
-	unsigned char    temp;
+	int              temp;
 	GthPoint         f1, f2, p;
 
 	gimp_op_init ();
@@ -235,10 +235,10 @@ cairo_image_surface_apply_bcs (cairo_surface_t  *source,
 	gboolean         cancelled = FALSE;
 	double           progress;
 	unsigned char   *p_source;
-	unsigned char    image_red, image_green, image_blue, image_alpha;
+	int              image_red, image_green, image_blue, image_alpha;
 	unsigned char    values[4];
-	unsigned char    red, green, blue, alpha;
-	unsigned char    temp, min, max, lightness, value;
+	int              red, green, blue, alpha;
+	int              temp, min, max, lightness, value;
 
 	gimp_op_init ();
 	cache = pixbuf_cache_new ();
@@ -345,9 +345,9 @@ cairo_image_surface_colorize (cairo_surface_t  *source,
 	gboolean         cancelled = FALSE;
 	double           progress;
 	unsigned char   *p_source;
-	unsigned char    image_red, image_green, image_blue, image_alpha;
-	unsigned char    red, green, blue, alpha;
-	unsigned char    temp, min, max, lightness;
+	int              image_red, image_green, image_blue, image_alpha;
+	int              red, green, blue, alpha;
+	int              temp, min, max, lightness;
 
 	gimp_op_init ();
 	for (i = 0; i < 256; i++)
@@ -415,8 +415,8 @@ cairo_image_surface_add_color (cairo_surface_t  *source,
 	gboolean         cancelled = FALSE;
 	double           progress;
 	unsigned char   *p_source;
-	unsigned char    image_red, image_green, image_blue, image_alpha;
-	unsigned char    temp, alpha;
+	int              image_red, image_green, image_blue, image_alpha;
+	int              temp, alpha;
 
 	gimp_op_init ();
 

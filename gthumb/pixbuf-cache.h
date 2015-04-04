@@ -40,7 +40,7 @@ PixbufCache * pixbuf_cache_new   (void);
 void          pixbuf_cache_free  (PixbufCache        *cache);
 gboolean      pixbuf_cache_get   (PixbufCache        *cache,
 				  PixbufCacheChannel  channel,
-				  guchar             *value);
+				  int                *value);
 void          pixbuf_cache_set   (PixbufCache        *cache,
 				  PixbufCacheChannel  channel,
 				  guchar              value,

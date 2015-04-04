@@ -80,7 +80,7 @@ adjust_colors_before (GthAsyncTask *task,
 
 
 static guchar
-gamma_correction (guchar original,
+gamma_correction (int    original,
 		  double gamma)
 {
 	double inten;
@@ -116,9 +116,9 @@ adjust_colors_exec (GthAsyncTask *task,
 	gboolean         cancelled;
 	double           progress;
 	int              x, y, temp;
-	unsigned char    values[4];
+	int              values[4];
 	int              channel;
-	unsigned char    value;
+	int              value;
 	double           saturation;
 	cairo_surface_t *destination;
 

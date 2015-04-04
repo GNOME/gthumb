@@ -61,10 +61,10 @@ lomo_exec (GthAsyncTask *task,
 	double           progress;
 	int              x, y;
 	double           center_x, center_y, radius, d;
-	unsigned char    red, green, blue, alpha;
-	unsigned char    image_red, image_green, image_blue, image_alpha;
-	unsigned char    layer_red, layer_green, layer_blue, layer_alpha;
-	unsigned char    temp;
+	int              red, green, blue, alpha;
+	int              image_red, image_green, image_blue, image_alpha;
+	int              layer_red, layer_green, layer_blue, layer_alpha;
+	int              temp;
 	int              c;
 
 	/* curves layer */

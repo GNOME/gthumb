@@ -52,7 +52,7 @@ pixbuf_cache_free (PixbufCache *cache)
 gboolean
 pixbuf_cache_get (PixbufCache        *cache,
 		  PixbufCacheChannel  channel,
-		  guchar             *value)
+		  int                *value)
 {
 	if (((cache->channel[channel].mask[*value / 8] >> (*value % 8)) & 1) != 1)
 		return FALSE;
