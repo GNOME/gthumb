@@ -147,14 +147,18 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 static void
 export_completed_with_success (DialogData *data)
 {
-	GtkBuilder *builder;
-	GtkWidget  *dialog;
+	GtkWidget *dialog;
 
 	gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 
-	builder = _gtk_builder_new_from_file ("photobucket-export-completed.ui", "photobucket");
-	dialog = _gtk_builder_get_widget (builder, "completed_messagedialog");
-	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
+	dialog = _gtk_message_dialog_new (GTK_WINDOW (data->browser),
+					  GTK_DIALOG_MODAL,
+					  NULL,
+					  _("Files successfully uploaded to the server."),
+					  NULL,
+					  _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE,
+					  _("_Open in the Browser"), _OPEN_IN_BROWSER_RESPONSE,
+					  NULL);
 	g_signal_connect (dialog,
 			  "delete-event",
 			  G_CALLBACK (gtk_true),
@@ -164,8 +168,6 @@ export_completed_with_success (DialogData *data)
 			  G_CALLBACK (completed_messagedialog_response_cb),
 			  data);
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->browser));
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
 }
 

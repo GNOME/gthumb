@@ -1,8 +1,7 @@
 uidir = $(pkgdatadir)/ui
 ui_DATA = 					\
 	export-to-photobucket.ui		\
-	photobucket-album-properties.ui		\
-	photobucket-export-completed.ui
+	photobucket-album-properties.ui
 
 EXTRA_DIST = $(ui_DATA)
 
