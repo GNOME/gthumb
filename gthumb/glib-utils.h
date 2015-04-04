@@ -215,8 +215,8 @@ gboolean        _g_strv_contains                 (char       **v,
 						  const char  *s);
 char **         _g_strv_prepend                  (char       **str_array,
 						  const char  *str);
-char **         _g_strv_concat                   (const char *const *strv1,
-						  const char *const *strv2);
+char **         _g_strv_concat                   (char       **strv1,
+						  char       **strv2);
 gboolean        _g_strv_remove                   (char       **str_array,
 						  const char  *str);
 char *          _g_str_remove_suffix             (const char  *s,

@@ -1347,8 +1347,8 @@ _g_strv_prepend (char       **str_array,
 
 
 char **
-_g_strv_concat (const char *const *strv1,
-		const char *const *strv2)
+_g_strv_concat (char **strv1,
+		char **strv2)
 {
 	char **result;
 	int    i, j;
