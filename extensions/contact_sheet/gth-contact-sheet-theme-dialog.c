@@ -321,7 +321,7 @@ _gth_contact_sheet_theme_new_default (void)
 	gdk_rgba_parse (&theme->frame_color, "#000");
 
 	theme->header_font_name = g_strdup ("Sans 22");
-	gdk_rgba_parse (&theme->frame_color, "#000");
+	gdk_rgba_parse (&theme->header_color, "#000");
 
 	theme->footer_font_name = g_strdup ("Sans Bold 12");
 	gdk_rgba_parse (&theme->footer_color, "#000");
