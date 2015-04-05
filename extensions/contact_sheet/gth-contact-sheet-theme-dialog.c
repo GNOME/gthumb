@@ -337,8 +337,10 @@ static void
 update_controls_from_theme (GthContactSheetThemeDialog *self,
 			    GthContactSheetTheme       *theme)
 {
+	GthContactSheetTheme *default_theme = NULL;
+
 	if (theme == NULL)
-		theme = _gth_contact_sheet_theme_new_default ();
+		theme = default_theme = _gth_contact_sheet_theme_new_default ();
 	self->priv->theme = gth_contact_sheet_theme_dup (theme);
 
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), theme->display_name);
@@ -383,6 +385,8 @@ update_controls_from_theme (GthContactSheetThemeDialog *self,
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("caption_colorpicker")), &theme->caption_color);
 
 	update_preview (self);
+
+	gth_contact_sheet_theme_unref (default_theme);
 }
 
 
