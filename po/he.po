@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 02:26+0200\n"
-"PO-Revision-Date: 2015-03-13 03:29+0200\n"
+"POT-Creation-Date: 2015-04-05 16:10+0300\n"
+"PO-Revision-Date: 2015-04-05 16:13+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2007-10-11 05:52+0000\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 "X-Poedit-Language: Hebrew\n"
 "Plural-Forms: nplurals=2; plural= (n!=1);\n"
 
@@ -74,7 +74,7 @@ msgstr ""
 "תמונות בקטלוגים וקיטלוג בספריות; חיפוש תמונות ושמירת התוצאות בקטלוג."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:385
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:386
 #: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -426,13 +426,11 @@ msgstr "העלאת תמונות ל־23hq.com"
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:3
 #: ../extensions/facebook/facebook.extension.in.in.h:3
 #: ../extensions/file_manager/file_manager.extension.in.in.h:3
-#: ../extensions/file_tools/file_tools.extension.in.in.h:3
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:3
 #: ../extensions/flicker/flicker.extension.in.in.h:3
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:3
 #: ../extensions/image_print/image_print.extension.in.in.h:3
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:3
-#: ../extensions/image_viewer/image_viewer.extension.in.in.h:3
 #: ../extensions/list_tools/list_tools.extension.in.in.h:3
 #: ../extensions/map_view/map_view.extension.in.in.h:3
 #: ../extensions/photobucket/photobucket.extension.in.in.h:3
@@ -446,7 +444,7 @@ msgstr "העלאת תמונות ל־23hq.com"
 #: ../extensions/selections/selections.extension.in.in.h:3
 #: ../extensions/slideshow/slideshow.extension.in.in.h:3
 #: ../extensions/webalbums/webalbums.extension.in.in.h:3
-#: ../gthumb/dlg-preferences-extensions.c:489
+#: ../gthumb/dlg-preferences-extensions.c:491
 msgid "gthumb development team"
 msgstr "צוות פיתוח gthumb"
 
@@ -653,7 +651,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1373
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1369
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "שמירה"
@@ -661,7 +659,8 @@ msgstr "שמירה"
 #: ../extensions/catalogs/actions.c:85 ../extensions/catalogs/actions.c:208
 #: ../extensions/catalogs/dlg-add-to-catalog.c:368
 #: ../extensions/catalogs/dlg-add-to-catalog.c:488
-#: ../extensions/file_manager/actions.c:72
+#: ../extensions/file_manager/actions.c:71
+#: ../extensions/file_tools/gth-file-tool-curves.c:372
 #: ../extensions/list_tools/gth-script-editor-dialog.c:289
 #: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1829
 #, c-format
@@ -671,7 +670,9 @@ msgstr "לא צוין שם"
 #: ../extensions/catalogs/actions.c:92 ../extensions/catalogs/actions.c:215
 #: ../extensions/catalogs/dlg-add-to-catalog.c:375
 #: ../extensions/catalogs/dlg-add-to-catalog.c:495
-#: ../extensions/file_manager/actions.c:79 ../gthumb/gth-folder-tree.c:1836
+#: ../extensions/file_manager/actions.c:78
+#: ../extensions/file_tools/gth-file-tool-curves.c:379
+#: ../gthumb/gth-folder-tree.c:1836
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "שם לא חוקי. התווים הבאים אסורים: %s"
@@ -680,7 +681,7 @@ msgstr "שם לא חוקי. התווים הבאים אסורים: %s"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:432
 #: ../extensions/catalogs/dlg-add-to-catalog.c:542
 #: ../extensions/catalogs/gth-file-source-catalogs.c:508
-#: ../extensions/file_manager/actions.c:110
+#: ../extensions/file_manager/actions.c:109
 msgid "Name already used"
 msgstr "שם זה כבר נמצא בשימוש"
 
@@ -697,7 +698,7 @@ msgstr "יש להזין את שם הקטלוג:"
 #: ../extensions/catalogs/actions.c:176 ../extensions/catalogs/actions.c:290
 #: ../extensions/catalogs/dlg-add-to-catalog.c:456
 #: ../extensions/catalogs/dlg-add-to-catalog.c:568
-#: ../extensions/file_manager/actions.c:140
+#: ../extensions/file_manager/actions.c:139
 msgid "C_reate"
 msgstr "י_צירה"
 
@@ -742,8 +743,8 @@ msgid "Create Library"
 msgstr "יצירת ספרייה"
 
 #: ../extensions/catalogs/callbacks.c:73
-#: ../extensions/file_manager/callbacks.c:77
-#: ../extensions/file_manager/callbacks.c:104
+#: ../extensions/file_manager/callbacks.c:78
+#: ../extensions/file_manager/callbacks.c:105
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:1
 #: ../gthumb/gth-folder-tree.c:1880
 msgid "Rename"
@@ -751,7 +752,7 @@ msgstr "שינוי שם"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4380 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4502 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "מאפיינים"
 
@@ -805,7 +806,7 @@ msgid "New _Library"
 msgstr "_ספרייה חדשה"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
-#: ../extensions/file_manager/actions.c:685
+#: ../extensions/file_manager/actions.c:684
 #: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "_הצגת היעד"
@@ -813,10 +814,9 @@ msgstr "_הצגת היעד"
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
-#: ../extensions/file_tools/gth-file-tool-curves.c:366
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:1
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
 msgid "_Name:"
 msgstr "_שם:"
 
@@ -1065,7 +1065,7 @@ msgstr "הוספת הערות ותוויות לכל סוג קובץ."
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
-#: ../gthumb/dlg-preferences-extensions.c:481
+#: ../gthumb/dlg-preferences-extensions.c:483
 msgid "Preferences"
 msgstr "העדפות"
 
@@ -1484,7 +1484,7 @@ msgstr "מחיקת נתוני על"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
 msgid "D_escription:"
 msgstr "_יעד:"
 
@@ -1811,29 +1811,14 @@ msgid "Private photos, visible to friends"
 msgstr "תמונות פרטיות, גלויות לחברים"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:3
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
 msgid "Private"
 msgstr "פרטי"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "_Visibility:"
 msgstr "_גלוי:"
-
-#: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:1
-#: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:1
-#: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:1
-#: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:1
-msgid "Files successfully uploaded to the server."
-msgstr "קבצים הועלו בהצלחה לשרת."
-
-#: ../extensions/facebook/data/ui/facebook-export-completed.ui.h:2
-#: ../extensions/flicker_utils/data/ui/flicker-export-completed.ui.h:2
-#: ../extensions/photobucket/data/ui/photobucket-export-completed.ui.h:2
-#: ../extensions/picasaweb/data/ui/picasa-web-export-completed.ui.h:2
-#: ../extensions/webalbums/gth-web-exporter.c:1841
-msgid "_Open in the Browser"
-msgstr "_פתיחה בסייר"
 
 #: ../extensions/facebook/data/ui/import-from-facebook.ui.h:1
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
@@ -1861,71 +1846,86 @@ msgid "_Album:"
 msgstr "_אלבום:"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:123
-#: ../extensions/facebook/dlg-export-to-facebook.c:326
+#: ../extensions/facebook/dlg-export-to-facebook.c:328
 #: ../extensions/facebook/dlg-import-from-facebook.c:226
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:138
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:410
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:412
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:227
 #: ../extensions/oauth/web-service.c:376
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:131
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:371
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:373
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
 msgid "Could not connect to the server"
 msgstr "לא ניתן להתחבר לשרת"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:175
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:246
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:182
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:176
+#: ../extensions/facebook/dlg-export-to-facebook.c:149
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:163
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:157
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:149
+msgid "Files successfully uploaded to the server."
+msgstr "קבצים הועלו בהצלחה לשרת."
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:152
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:166
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:160
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:152
+#: ../extensions/webalbums/gth-web-exporter.c:1841
+msgid "_Open in the Browser"
+msgstr "_פתיחה בסייר"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:177
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:248
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:184
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:178
 msgid "Could not upload the files"
 msgstr "לא ניתן להעלות את הקבצים"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:397
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:223
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:453
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:309
+#: ../extensions/facebook/dlg-export-to-facebook.c:399
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:190
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:225
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:455
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:311
 msgid "Could not create the album"
 msgstr "לא ניתן ליצור את האלבום"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:465
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:524
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:375
+#: ../extensions/facebook/dlg-export-to-facebook.c:467
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:526
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:377
 msgid "New Album"
 msgstr "אלבום חדש"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:557
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:579
+#: ../extensions/facebook/dlg-export-to-facebook.c:559
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:581
 #: ../extensions/image_print/gth-image-print-job.c:1739
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:603
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:597
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:605
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:599
 msgid "No valid file selected."
 msgstr "אף קובץ חוקי לא נבחר."
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:558
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:580
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:604
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:598
+#: ../extensions/facebook/dlg-export-to-facebook.c:560
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:582
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:606
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:600
 msgid "Could not export the files"
 msgstr "לא ניתן לייצא את הקבצים"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:566
+#: ../extensions/facebook/dlg-export-to-facebook.c:568
 #: ../extensions/find_duplicates/gth-find-duplicates.c:277
 #: ../extensions/find_duplicates/gth-find-duplicates.c:470
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:588
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:612
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:605
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:614
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:607
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:830
+#: ../gthumb/gth-browser.c:818
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
 msgstr[0] "%d קובץ (%s)"
 msgstr[1] "%d קבצים (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:587
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:611
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:631
+#: ../extensions/facebook/dlg-export-to-facebook.c:589
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:613
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:633
 #, c-format
 msgid "Export to %s"
 msgstr "ייצוא ל־%s"
@@ -1960,14 +1960,14 @@ msgstr "Facebook"
 msgid "Upload images to Facebook"
 msgstr "העלאת תמונות ל־Facebook"
 
-#: ../extensions/facebook/facebook-service.c:494
+#: ../extensions/facebook/facebook-service.c:497
 #: ../extensions/flicker_utils/flickr-service.c:863
 #: ../extensions/photobucket/photobucket-service.c:310
 #: ../extensions/picasaweb/picasa-web-service.c:711
 msgid "Getting the album list"
 msgstr "מקבל את רשימת האלבומים"
 
-#: ../extensions/facebook/facebook-service.c:616
+#: ../extensions/facebook/facebook-service.c:619
 #: ../extensions/flicker_utils/flickr-service.c:965
 #: ../extensions/flicker_utils/flickr-service.c:1087
 #: ../extensions/flicker_utils/flickr-service.c:1126
@@ -1976,7 +1976,7 @@ msgstr "מקבל את רשימת האלבומים"
 msgid "Creating the new album"
 msgstr "יצירת אלבום חדש"
 
-#: ../extensions/facebook/facebook-service.c:677
+#: ../extensions/facebook/facebook-service.c:680
 #: ../extensions/flicker_utils/flickr-service.c:1176
 #: ../extensions/photobucket/photobucket-service.c:485
 #: ../extensions/picasaweb/picasa-web-service.c:860
@@ -1985,7 +1985,7 @@ msgid "Could not upload '%s': %s"
 msgstr "לא ניתן להעלות את '%s': ‏%s"
 
 #. Translators: %s is a filename
-#: ../extensions/facebook/facebook-service.c:742
+#: ../extensions/facebook/facebook-service.c:745
 #: ../extensions/flicker_utils/flickr-service.c:1287
 #: ../extensions/photobucket/photobucket-service.c:542
 #: ../extensions/picasaweb/picasa-web-service.c:917
@@ -1993,149 +1993,143 @@ msgstr "לא ניתן להעלות את '%s': ‏%s"
 msgid "Uploading '%s'"
 msgstr "מעלה את '%s'"
 
-#: ../extensions/facebook/facebook-service.c:955
+#: ../extensions/facebook/facebook-service.c:958
 #: ../extensions/flicker_utils/flickr-service.c:1482
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "מעלה קבצים לשרת"
 
-#: ../extensions/facebook/facebook-service.c:1054
+#: ../extensions/facebook/facebook-service.c:1057
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
 msgstr "מקבל את רשימת התמונות"
 
-#: ../extensions/file_manager/actions.c:137
+#: ../extensions/file_manager/actions.c:136
 msgid "New folder"
 msgstr "תיקייה חדשה"
 
-#: ../extensions/file_manager/actions.c:138
+#: ../extensions/file_manager/actions.c:137
 msgid "Enter the folder name:"
 msgstr "יש להזין את שם התיקייה:"
 
-#: ../extensions/file_manager/actions.c:410
-#: ../extensions/file_manager/callbacks.c:263
-#: ../extensions/file_manager/callbacks.c:717
+#: ../extensions/file_manager/actions.c:409
+#: ../extensions/file_manager/callbacks.c:268
+#: ../extensions/file_manager/callbacks.c:811
 msgid "Could not move the files"
 msgstr "לא ניתן להעביר את הקבצים"
 
-#: ../extensions/file_manager/actions.c:411
-#: ../extensions/file_manager/callbacks.c:264
-#: ../extensions/file_manager/callbacks.c:718
+#: ../extensions/file_manager/actions.c:410
+#: ../extensions/file_manager/callbacks.c:269
+#: ../extensions/file_manager/callbacks.c:812
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
 msgstr ""
 "לא ניתן להעביר את הקבצים למיקום הנוכחי, לחלופין ניתן לבחור להעתיק אותם."
 
-#: ../extensions/file_manager/actions.c:413
-#: ../extensions/file_manager/actions.c:664
-#: ../extensions/file_manager/callbacks.c:69
-#: ../extensions/file_manager/callbacks.c:98 ../gthumb/gtk-utils.h:38
+#: ../extensions/file_manager/actions.c:412
+#: ../extensions/file_manager/actions.c:663
+#: ../extensions/file_manager/callbacks.c:70
+#: ../extensions/file_manager/callbacks.c:99 ../gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "העתקה"
 
-#: ../extensions/file_manager/actions.c:660
+#: ../extensions/file_manager/actions.c:659
 msgid "Move To"
 msgstr "העברה אל"
 
-#: ../extensions/file_manager/actions.c:660
+#: ../extensions/file_manager/actions.c:659
 msgid "Copy To"
 msgstr "העתקה אל"
 
-#: ../extensions/file_manager/actions.c:664
+#: ../extensions/file_manager/actions.c:663
+#: ../extensions/file_manager/callbacks.c:796
 msgid "Move"
 msgstr "העברה"
 
-#: ../extensions/file_manager/actions.c:789
+#: ../extensions/file_manager/actions.c:788
 msgid "Could not open the location"
 msgstr "לא ניתן לפתוח את המיקום"
 
-#: ../extensions/file_manager/actions.c:935
-msgid ""
-"The folder is not empty, do you want to delete the folder and its content "
-"permanently?"
-msgstr "התיקייה אינה ריקה, האם ברצונך למחוק את התיקייה ואת התוכן שלה לצמיתות?"
-
-#: ../extensions/file_manager/actions.c:951
-msgid "Could not delete the folder"
-msgstr "לא ניתן למחוק את התיקייה"
-
-#: ../extensions/file_manager/actions.c:1014
-msgid ""
-"The folder cannot be moved to the Trash. Do you want to delete it "
-"permanently?"
-msgstr "לא ניתן להעביר את התיקייה לאשפה. האם ברצונך למחוק אותה לצמיתות?"
-
-#: ../extensions/file_manager/actions.c:1021
-msgid "Could not move the folder to the Trash"
-msgstr "לא ניתן להעביר את התיקייה לאשפה"
-
-#: ../extensions/file_manager/actions.c:1059
-#: ../gthumb/gth-file-source-vfs.c:861
-#, c-format
-msgid "Are you sure you want to permanently delete \"%s\"?"
-msgstr "האם ברצונך למחוק לצמיתות את „%s”?"
-
-#: ../extensions/file_manager/actions.c:1069
-#: ../gthumb/gth-file-source-vfs.c:874
-msgid "If you delete a file, it will be permanently lost."
-msgstr "אם ברצונך למחוק את הקובץ, הוא יאבד לצמיתות."
-
-#: ../extensions/file_manager/callbacks.c:68
-#: ../extensions/file_manager/callbacks.c:97
+#: ../extensions/file_manager/callbacks.c:69
+#: ../extensions/file_manager/callbacks.c:98
 msgid "Cut"
 msgstr "גזירה"
 
-#: ../extensions/file_manager/callbacks.c:70
+#: ../extensions/file_manager/callbacks.c:71
 msgid "Paste"
 msgstr "הדבקה"
 
-#: ../extensions/file_manager/callbacks.c:75
-#: ../extensions/file_manager/callbacks.c:105
+#: ../extensions/file_manager/callbacks.c:76
+#: ../extensions/file_manager/callbacks.c:106
 msgid "Copy to…"
 msgstr "העתקה אל…"
 
-#: ../extensions/file_manager/callbacks.c:76
-#: ../extensions/file_manager/callbacks.c:106
+#: ../extensions/file_manager/callbacks.c:77
+#: ../extensions/file_manager/callbacks.c:107
 msgid "Move to…"
 msgstr "העברה אל…"
 
-#: ../extensions/file_manager/callbacks.c:82
-#: ../extensions/file_manager/callbacks.c:107
+#: ../extensions/file_manager/callbacks.c:83
+#: ../extensions/file_manager/callbacks.c:108
 msgid "Move to Trash"
 msgstr "העברה לאשפה"
 
-#: ../extensions/file_manager/callbacks.c:83
-#: ../extensions/file_manager/callbacks.c:108
+#: ../extensions/file_manager/callbacks.c:84
+#: ../extensions/file_manager/callbacks.c:109
 msgid "Delete"
 msgstr "מחיקה"
 
-#: ../extensions/file_manager/callbacks.c:87
+#: ../extensions/file_manager/callbacks.c:88
 msgid "Open with the File Manager"
 msgstr "פתיחה עם מנהל קבצים"
 
-#: ../extensions/file_manager/callbacks.c:92
+#: ../extensions/file_manager/callbacks.c:93
 msgid "Create Folder"
 msgstr "יצירת תיקייה"
 
-#: ../extensions/file_manager/callbacks.c:99
+#: ../extensions/file_manager/callbacks.c:100
 msgid "Paste Into Folder"
 msgstr "הדבקה לתוך תיקייה"
 
-#: ../extensions/file_manager/callbacks.c:113
+#: ../extensions/file_manager/callbacks.c:114
 msgid "Duplicate"
 msgstr "שכפול"
 
-#: ../extensions/file_manager/callbacks.c:511
-#: ../extensions/file_manager/callbacks.c:514
+#: ../extensions/file_manager/callbacks.c:533
+#: ../extensions/file_manager/callbacks.c:536
 msgid "Open _With"
 msgstr "פתיחה _באמצעות"
 
-#: ../extensions/file_manager/callbacks.c:883
+#: ../extensions/file_manager/callbacks.c:779
+#, c-format
+msgid "Do you want to move \"%s\" to \"%s\"?"
+msgstr "האם ברצונך להעביר את „%s” אל „%s”?"
+
+#: ../extensions/file_manager/callbacks.c:781
+#, c-format
+msgid "Do you want to copy \"%s\" to \"%s\"?"
+msgstr "האם ברצונך להעתיק את „%s” אל „%s”?"
+
+#: ../extensions/file_manager/callbacks.c:786
+#, c-format
+msgid "Do you want to move the dragged files to \"%s\"?"
+msgstr "האם ברצונך להעביר את הקבצים הנגררים אל „%s”?"
+
+#: ../extensions/file_manager/callbacks.c:788
+#, c-format
+msgid "Do you want to copy the dragged files to \"%s\"?"
+msgstr "האם ברצונך להעתיק את הקבצים הנגררים אל „%s”?"
+
+#: ../extensions/file_manager/callbacks.c:796
+msgid "_Copy"
+msgstr "ה_עתקה"
+
+#: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5330 ../gthumb/gth-browser.c:5363
+#: ../gthumb/gth-browser.c:5456 ../gthumb/gth-browser.c:5489
 #: ../gthumb/gth-progress-dialog.c:409
 msgid "Could not perform the operation"
 msgstr "לא ניתן לבצע את הפעולה"
@@ -2147,10 +2141,6 @@ msgstr "מנהל קבצים"
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
 msgid "File manager operations."
 msgstr "פעולות מנהל קבצים."
-
-#: ../extensions/file_manager/gth-delete-task.c:62
-msgid "Deleting files"
-msgstr "מוחק קבצים"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
 #: ../extensions/file_tools/data/ui/curves-options.ui.h:1
@@ -2376,14 +2366,6 @@ msgstr "רדיוס:"
 msgid "Amount:"
 msgstr "סכום:"
 
-#: ../extensions/file_tools/file_tools.extension.in.in.h:1
-msgid "Image tools"
-msgstr "כלי תמונה"
-
-#: ../extensions/file_tools/file_tools.extension.in.in.h:2
-msgid "Basic tools to modify images."
-msgstr "כלים בסיסיים לשינוי תמונות."
-
 #. Translators: the first number is converted to the second number
 #: ../extensions/file_tools/gth-curve-editor.c:416
 #, c-format
@@ -2426,8 +2408,8 @@ msgid "Blue"
 msgstr "כחול"
 
 #: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
-#: ../extensions/file_tools/gth-file-tool-curves.c:648
-#: ../extensions/file_tools/gth-file-tool-curves.c:812
+#: ../extensions/file_tools/gth-file-tool-curves.c:686
+#: ../extensions/file_tools/gth-file-tool-curves.c:850
 msgid "Presets"
 msgstr "ערכים קבועים"
 
@@ -2458,7 +2440,7 @@ msgid "Applying changes"
 msgstr "החלת שינויים"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:555
-#: ../extensions/file_tools/gth-file-tool-curves.c:784
+#: ../extensions/file_tools/gth-file-tool-curves.c:822
 #: ../extensions/file_tools/gth-file-tool-rotate.c:603
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:365
 msgid "Reset"
@@ -2589,26 +2571,30 @@ msgstr "קווי מרכז"
 msgid "Crop"
 msgstr "חיתוך"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:365
+#: ../extensions/file_tools/gth-file-tool-curves.c:409
 msgid "Add to Presets"
 msgstr "הוספה לערכים הקבועים"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:495
+#: ../extensions/file_tools/gth-file-tool-curves.c:410
+msgid "Enter the preset name:"
+msgstr "יש להזין שם מוגדר מראש:"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:533
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1303
-#: ../gthumb/gth-browser.c:1894
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1299
+#: ../gthumb/gth-browser.c:1882
 msgid "Could not save the file"
 msgstr "לא ניתן לשמור את התמונה"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:798
+#: ../extensions/file_tools/gth-file-tool-curves.c:836
 msgid "Add to presets"
 msgstr "הוספה לערכים הקבועים"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:859
+#: ../extensions/file_tools/gth-file-tool-curves.c:897
 msgid "Color Curves"
 msgstr "עקומות צבע"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:860
+#: ../extensions/file_tools/gth-file-tool-curves.c:898
 msgid "Adjust color curves"
 msgstr "התאמת עקומות צבע"
 
@@ -2999,7 +2985,7 @@ msgid "Could not take a screenshot"
 msgstr "לא ניתן לצלם את המסך"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:593
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:605
 msgid "Play"
 msgstr "ניגון"
 
@@ -3031,15 +3017,15 @@ msgstr "תמיכת וידאו/שמע"
 msgid "Play audio and video files."
 msgstr "הפעלת קבצי שמע ווידאו."
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:563
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:575
 msgid "Playing video"
 msgstr "מנגן וידאו"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:576
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:588
 msgid "Pause"
 msgstr "עצירה"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:628
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:640
 msgid "Take a screenshot"
 msgstr "צילום המסך"
 
@@ -3107,10 +3093,10 @@ msgstr "מונו"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1536
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1532
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:251
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:112
-#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:1040
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:888
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3212,7 +3198,7 @@ msgid "Images"
 msgstr "תמונות"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
-#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:340
+#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:341
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "אין טען מתאים לסוג זה של קובץ"
@@ -3299,7 +3285,7 @@ msgid "After loading an image:"
 msgstr "אחרי טעינת תמונה:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:846
+#: ../extensions/image_viewer/gth-image-viewer-page.c:834
 msgid "Set to actual size"
 msgstr "הגדרה לגודל ממשי"
 
@@ -3308,7 +3294,7 @@ msgid "Keep previous zoom"
 msgstr "שמירת הגדלה קודמת"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-#: ../extensions/image_viewer/gth-image-viewer-page.c:853
+#: ../extensions/image_viewer/gth-image-viewer-page.c:841
 msgid "Fit to window"
 msgstr "התאמה לחלון"
 
@@ -3317,7 +3303,7 @@ msgid "Fit to window if larger"
 msgstr "התאמה לחלון אם גדול יותר"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
-#: ../extensions/image_viewer/gth-image-viewer-page.c:860
+#: ../extensions/image_viewer/gth-image-viewer-page.c:848
 msgid "Fit to width"
 msgstr "התאמה לרוחב"
 
@@ -3347,33 +3333,29 @@ msgstr "_נמוך"
 msgid "Histogram"
 msgstr "היסטוגרמה"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:74
+#: ../extensions/image_viewer/gth-image-viewer-page.c:75
 msgid "Copy Image"
 msgstr "העתקת תמונה"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:75
+#: ../extensions/image_viewer/gth-image-viewer-page.c:76
 msgid "Paste Image"
 msgstr "הדבקת תמונה"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:867
+#: ../extensions/image_viewer/gth-image-viewer-page.c:855
+msgid "Fit to height"
+msgstr "התאמה לגובה"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:862
 msgid "Apply the embedded color profile"
 msgstr "החלת מתאר הצבע המוטמע"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1476
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1472
 msgid "Save Image"
 msgstr "שמירת תמונה"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2060
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2056
 msgid "Loading the original image"
 msgstr "טעינת התמונה המקורית"
-
-#: ../extensions/image_viewer/image_viewer.extension.in.in.h:1
-msgid "Image viewer"
-msgstr "מציג תמונות"
-
-#: ../extensions/image_viewer/image_viewer.extension.in.in.h:2
-msgid "Basic image viewing."
-msgstr "מציג תמונות בסיסי."
 
 #: ../extensions/image_viewer/preferences.c:117
 msgid "Viewer"
@@ -3462,7 +3444,6 @@ msgid "The selected files are already present in the destination."
 msgstr "הקבצים הנבחרים כבר נמצאים ביעד."
 
 #: ../extensions/importer/gth-import-task.c:644
-#: ../gthumb/gth-file-source-vfs.c:714
 msgid "Could not delete the files"
 msgstr "לא ניתן למחוק את הקבצים"
 
@@ -3765,7 +3746,7 @@ msgid "17ʺ screen ( 1024 x 768 )"
 msgstr "מסך 17ʺ (768 × 1024)"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:292
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:294
 msgid "1 megabyte file size"
 msgstr "גודל קובץ 1 מ״ב"
 
@@ -3777,31 +3758,31 @@ msgstr "_ערבוב שמות קבצים"
 msgid "_Container:"
 msgstr "_מיכל:"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:286
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
 msgid "Tiny ( 100 × 75 )"
 msgstr "זעיר (75 × 100)"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:287
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
 msgid "Small ( 160 × 120 )"
 msgstr "קטן (120 × 160)"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
 msgid "Medium ( 320 × 240 )"
 msgstr "בינוני (240 × 320)"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
 msgid "Large ( 640 × 480 )"
 msgstr "גדול (480 × 640)"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:292
 msgid "15ʺ screen ( 800 × 600 )"
 msgstr "מסך 15ʺ (600 × 800)"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:293
 msgid "17ʺ screen ( 1024 × 768 )"
 msgstr "מסך 17ʺ (768 × 1024)"
 
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:299
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:301
 msgid "2 megabyte file size"
 msgstr "גודל קובץ 2 מ״ב"
 
@@ -3882,7 +3863,7 @@ msgid "(Empty)"
 msgstr "(ריק)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1805
+#: ../gthumb/gth-browser.c:1793
 msgid "Getting the folder content…"
 msgstr "מקבל את תוכן התיקייה…"
 
@@ -3919,11 +3900,11 @@ msgstr "ייצוא ל־Picasa Web Albums"
 msgid "_Albums:"
 msgstr "_אלבומים:"
 
-#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
 msgid "Public"
 msgstr "ציבורי"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:458
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:460
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:470
 msgid "Could not get the album list"
 msgstr "לא ניתן לקבל את רשימת האלבומים"
@@ -4500,9 +4481,9 @@ msgstr "אלבומי רשת"
 msgid "Create static web albums."
 msgstr "יצירת אלבומי אינטרנט סטטיים."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1110
-#: ../gthumb/gth-browser.c:1685 ../gthumb/gth-browser.c:6278
-#: ../gthumb/gth-browser.c:6297 ../gthumb/gth-browser.c:6321
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1098
+#: ../gthumb/gth-browser.c:1673 ../gthumb/gth-browser.c:6404
+#: ../gthumb/gth-browser.c:6423 ../gthumb/gth-browser.c:6447
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "לא ניתן לטעון את המיקום „%s”"
@@ -4566,32 +4547,32 @@ msgstr "מייבאים"
 msgid "Exporters"
 msgstr "מייצאים"
 
-#: ../gthumb/dlg-preferences-extensions.c:361
+#: ../gthumb/dlg-preferences-extensions.c:368
 msgid "Could not activate the extension"
 msgstr "לא ניתן להפעיל את ההרחבה"
 
-#: ../gthumb/dlg-preferences-extensions.c:373
+#: ../gthumb/dlg-preferences-extensions.c:374
 msgid "Could not deactivate the extension"
 msgstr "לא ניתן להשבית את ההרחבה"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-extensions.c:664
+#: ../gthumb/dlg-preferences-extensions.c:666
 msgid "Extensions"
 msgstr "הרחבות"
 
-#: ../gthumb/dlg-preferences-extensions.c:713
+#: ../gthumb/dlg-preferences-extensions.c:715
 msgid "Restart required"
 msgstr "דרוש הפעלה מחדש"
 
-#: ../gthumb/dlg-preferences-extensions.c:714
+#: ../gthumb/dlg-preferences-extensions.c:716
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "עליך להפעיל מחדש את gthumb על מנת ששינויים אלה יכנסו לתוקף"
 
-#: ../gthumb/dlg-preferences-extensions.c:715
+#: ../gthumb/dlg-preferences-extensions.c:717
 msgid "_Continue"
 msgstr "_התקדמות"
 
-#: ../gthumb/dlg-preferences-extensions.c:716
+#: ../gthumb/dlg-preferences-extensions.c:718
 msgid "_Restart"
 msgstr "הפעלה _מחדש"
 
@@ -4629,7 +4610,7 @@ msgstr "מקבל מידע"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3231
+#: ../gthumb/glib-utils.c:3258
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4641,7 +4622,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3240
+#: ../gthumb/glib-utils.c:3267
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4688,81 +4669,85 @@ msgstr ""
 "יניב  https://launchpad.net/~yanivabir\n"
 "יוסף אור בוצ׳קו <yoseforb@gnome.org>"
 
-#: ../gthumb/gth-browser.c:370
+#: ../gthumb/gth-browser.c:371
 msgid "[modified]"
 msgstr "[שונה]"
 
-#: ../gthumb/gth-browser.c:831
+#: ../gthumb/gth-browser.c:819
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d קבצים שונו (%s)"
 msgstr[1] "%d קבצים שונו (%s)"
 
-#: ../gthumb/gth-browser.c:866
+#: ../gthumb/gth-browser.c:854
 #, c-format
 msgid "%s of free space"
 msgstr "‏%s של מקום פנוי"
 
-#: ../gthumb/gth-browser.c:1789 ../gthumb/gth-browser.c:1816
+#: ../gthumb/gth-browser.c:1777 ../gthumb/gth-browser.c:1804
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "לא נמצא מודול מתאים עבור %s"
 
-#: ../gthumb/gth-browser.c:1938
+#: ../gthumb/gth-browser.c:1926
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "שמירת שינויים לקובץ '%s'?"
 
-#: ../gthumb/gth-browser.c:1943
+#: ../gthumb/gth-browser.c:1931
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "אם לא תתבצע שמירה, שינויים בקובץ זה יאבדו לצמיתות."
 
-#: ../gthumb/gth-browser.c:1944
+#: ../gthumb/gth-browser.c:1932
 msgid "Do _Not Save"
 msgstr "_לא לשמור"
 
-#: ../gthumb/gth-browser.c:2889 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:3007 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "לא ניתן לשנות את שם הקובץ"
 
-#: ../gthumb/gth-browser.c:3333 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3453 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
 msgstr "השתנה"
 
-#: ../gthumb/gth-browser.c:4342
+#: ../gthumb/gth-browser.c:4464
 msgid "Go to the previous visited location"
 msgstr "מעבר למקום האחרון בו ביקרת"
 
-#: ../gthumb/gth-browser.c:4348
+#: ../gthumb/gth-browser.c:4470
 msgid "Go to the next visited location"
 msgstr "מעבר למקום הבא בו ביקרת"
 
-#: ../gthumb/gth-browser.c:4356
+#: ../gthumb/gth-browser.c:4478
 msgid "History"
 msgstr "היסטוריה"
 
-#: ../gthumb/gth-browser.c:4371
+#: ../gthumb/gth-browser.c:4493
 msgid "View the folders"
 msgstr "צפייה בתיקיות"
 
-#: ../gthumb/gth-browser.c:4386
+#: ../gthumb/gth-browser.c:4508
 msgid "Edit file"
 msgstr "עריכת קובץ"
 
-#: ../gthumb/gth-browser.c:4403
+#: ../gthumb/gth-browser.c:4525
 msgid "Accept"
 msgstr "החלה"
 
-#: ../gthumb/gth-browser.c:6279
+#: ../gthumb/gth-browser.c:6405
 #, c-format
 msgid "File type not supported"
 msgstr "סוג הקובץ אינו נתמך"
 
-#: ../gthumb/gth-browser.c:6322
+#: ../gthumb/gth-browser.c:6448
 #, c-format
 msgid "No suitable module found"
 msgstr "לא נמצא מודול מתאים"
+
+#: ../gthumb/gth-delete-task.c:64
+msgid "Deleting files"
+msgstr "מוחק קבצים"
 
 #: ../gthumb/gth-extensions.c:203
 #, c-format
@@ -4782,47 +4767,40 @@ msgstr "כל הקבצים נתמכים"
 msgid "Details"
 msgstr "פרטים"
 
-#: ../gthumb/gth-file-source-vfs.c:220
+#: ../gthumb/gth-file-source-vfs.c:223
 msgid "Computer"
 msgstr "מחשב"
 
-#: ../gthumb/gth-file-source-vfs.c:227
+#: ../gthumb/gth-file-source-vfs.c:230
 msgid "Home Folder"
 msgstr "תיקיית הבית"
 
-#: ../gthumb/gth-file-source-vfs.c:759
+#: ../gthumb/gth-file-source-vfs.c:743
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "לא ניתן להעביר את הקבצים לאשפה. האם ברצונך למחוק אותם למציתות?"
 
-#: ../gthumb/gth-file-source-vfs.c:770
+#: ../gthumb/gth-file-source-vfs.c:753
 msgid "Could not move the files to the Trash"
 msgstr "לא ניתן להעביר את הקבצים לאשפה."
 
-#: ../gthumb/gth-file-source-vfs.c:817
+#: ../gthumb/gth-file-source-vfs.c:798
 #, c-format
-msgid "Are you sure you want to move \"%s\" to trash?"
-msgstr "האם ברצונך להעביר את „%s” לאשפה?"
+msgid "Are you sure you want to permanently delete \"%s\"?"
+msgstr "האם ברצונך למחוק לצמיתות את „%s”?"
 
-#: ../gthumb/gth-file-source-vfs.c:821
-#, c-format
-msgid "Are you sure you want to move to trash the %'d selected file?"
-msgid_plural "Are you sure you want to move to trash the %'d selected files?"
-msgstr[0] "האם ברצונך להעביר לאשפה את הקובץ הנבחר?"
-msgstr[1] "האם ברצונך להעביר לאשפה את %d הקבצים הנבחרים?"
-
-#: ../gthumb/gth-file-source-vfs.c:833
-msgid "Mo_ve to Trash"
-msgstr "ה_עברה לאשפה"
-
-#: ../gthumb/gth-file-source-vfs.c:864
+#: ../gthumb/gth-file-source-vfs.c:801
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %'d selected files?"
 msgstr[0] "האם ברצונך למחוק לצמיתות את הקובץ הנבחר?"
 msgstr[1] "האם ברצונך למחוק לצמיתות את %d הקבצים הנבחרים?"
+
+#: ../gthumb/gth-file-source-vfs.c:811
+msgid "If you delete a file, it will be permanently lost."
+msgstr "אם ברצונך למחוק את הקובץ, הוא יאבד לצמיתות."
 
 #: ../gthumb/gth-filterbar.c:304
 msgid "Personalize…"
@@ -5174,27 +5152,31 @@ msgstr "צבעים"
 msgid "Rotation"
 msgstr "סיבוב"
 
-#: ../gthumb/gtk-utils.c:481
+#: ../gthumb/gth-trash-task.c:64
+msgid "Moving files to trash"
+msgstr "העברת קבצים לאשפה"
+
+#: ../gthumb/gtk-utils.c:329
 msgid "Could not display help"
 msgstr "לא ניתן להציג עזרה"
 
-#: ../gthumb/gtk-utils.c:801 ../gthumb/gtk-utils.c:808
+#: ../gthumb/gtk-utils.c:649 ../gthumb/gtk-utils.c:656
 msgid "Could not launch the application"
 msgstr "לא ניתן לשגר את היישום"
 
-#: ../gthumb/gtk-utils.c:911
+#: ../gthumb/gtk-utils.c:759
 msgid "_Copy Here"
 msgstr "_העתקה לכאן"
 
-#: ../gthumb/gtk-utils.c:916
+#: ../gthumb/gtk-utils.c:764
 msgid "_Move Here"
 msgstr "ה_עברה לכאן"
 
-#: ../gthumb/gtk-utils.c:921
+#: ../gthumb/gtk-utils.c:769
 msgid "_Link Here"
 msgstr "_קישור לכאן"
 
-#: ../gthumb/gtk-utils.c:930
+#: ../gthumb/gtk-utils.c:778
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -5242,7 +5224,7 @@ msgstr "Automatically import digital camera photos"
 msgid "Show version"
 msgstr "Show version"
 
-#: ../gthumb/main.c:271
+#: ../gthumb/main.c:265
 msgid "- Image browser and viewer"
 msgstr "- Image browser and viewer"
 
@@ -5290,6 +5272,44 @@ msgstr "הסתרת קבצים"
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
 msgstr "_מחיקת היסטוריה"
+
+#~ msgid ""
+#~ "The folder is not empty, do you want to delete the folder and its content "
+#~ "permanently?"
+#~ msgstr ""
+#~ "התיקייה אינה ריקה, האם ברצונך למחוק את התיקייה ואת התוכן שלה לצמיתות?"
+
+#~ msgid "Could not delete the folder"
+#~ msgstr "לא ניתן למחוק את התיקייה"
+
+#~ msgid ""
+#~ "The folder cannot be moved to the Trash. Do you want to delete it "
+#~ "permanently?"
+#~ msgstr "לא ניתן להעביר את התיקייה לאשפה. האם ברצונך למחוק אותה לצמיתות?"
+
+#~ msgid "Could not move the folder to the Trash"
+#~ msgstr "לא ניתן להעביר את התיקייה לאשפה"
+
+#~ msgid "Image tools"
+#~ msgstr "כלי תמונה"
+
+#~ msgid "Basic tools to modify images."
+#~ msgstr "כלים בסיסיים לשינוי תמונות."
+
+#~ msgid "Image viewer"
+#~ msgstr "מציג תמונות"
+
+#~ msgid "Basic image viewing."
+#~ msgstr "מציג תמונות בסיסי."
+
+#~ msgid "Are you sure you want to move to trash the %'d selected file?"
+#~ msgid_plural ""
+#~ "Are you sure you want to move to trash the %'d selected files?"
+#~ msgstr[0] "האם ברצונך להעביר לאשפה את הקובץ הנבחר?"
+#~ msgstr[1] "האם ברצונך להעביר לאשפה את %d הקבצים הנבחרים?"
+
+#~ msgid "Mo_ve to Trash"
+#~ msgstr "ה_עברה לאשפה"
 
 #~ msgid "C_rop"
 #~ msgstr "_חיתוך"
@@ -6061,10 +6081,6 @@ msgstr "_מחיקת היסטוריה"
 
 #~ msgid "Could not rename the following images:"
 #~ msgstr "לא ניתן לשנות את השם של התמונות הבאות:"
-
-#~| msgid "Moving file %ld of %ld"
-#~ msgid "Moving file %ld of %ld to trash"
-#~ msgstr "מעביר קובץ %ld מתוך %ld לאשפה"
 
 #~ msgid "Collecting images info"
 #~ msgstr "אוסף נתוני תמונה"
