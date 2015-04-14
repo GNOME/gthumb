@@ -1,3 +1,19 @@
+version 3.4.0
+-------------
+
+ Bugs fixed:
+
+  * Media player: smoother volume change.
+  * History: do not remove other occurrences of the current location.
+  * Don't merge translations into gschema file.
+  * Facebook: fixed the authorization process.
+  * Contact sheet: fixed header color not set when creating a new theme.
+
+ New or updated application translations:
+
+  * French (Claude Paroz)
+  * עברית (Yosef Or Boczko)
+
 version 3.3.4
 -------------
 
