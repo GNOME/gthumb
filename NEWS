@@ -1,3 +1,18 @@
+version 3.2.9
+-------------
+
+ Bugs fixed:
+
+  * Flickr: forbidden when trying to upload (#732557)
+  * Facebook: fixed the authorization process.
+
+ New or updated application translations:
+
+  * Basque (Iñaki Larrañaga Murgoitio)
+  * Bosnian (Samir Ribic)
+  * Finnish (Lasse Liehu)
+  * Ελληνικά, Σύγχρονα (Tom Tryfonidis)
+
 version 3.2.8
 -------------
 
