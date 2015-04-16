@@ -177,11 +177,15 @@ AC_SUBST(GTHUMB_CFLAGS)
 dnl ===========================================================================
 
 SAVE_CFLAGS="$CFLAGS"
+SAVE_LDFLAGS="$LDFLAGS"
 CFLAGS=""
+LDFLAGS=""
 AC_CHECK_LIB(m, floor,, AC_MSG_ERROR([math library not found]))
 M_LIBS="-lm"
 CFLAGS="$SAVE_CFLAGS"
+LDFLAGS="$SAVE_LDFLAGS"
 unset SAVE_CFLAGS
+unset SAVE_LDFLAGS
 AC_SUBST(M_LIBS)
 
 dnl ===========================================================================
@@ -378,7 +382,9 @@ AC_ARG_ENABLE([jpeg],
 	      [enable_jpeg=yes])
 if test "x$enable_jpeg" = "xyes"; then
 	SAVE_CFLAGS="$CFLAGS"
+	SAVE_LDFLAGS="$LDFLAGS"
 	CFLAGS=""
+	LDFLAGS=""
 	AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
         	     [enable_jpeg=yes],
 	     	     [enable_jpeg=no])
@@ -387,7 +393,9 @@ if test "x$enable_jpeg" = "xyes"; then
 		JPEG_LIBS='-ljpeg -lm -lz'
 	fi
 	CFLAGS="$SAVE_CFLAGS"
+	LDFLAGS="$SAVE_LDFLAGS"
 	unset SAVE_CFLAGS
+	unset SAVE_LDFLAGS
 fi
 AC_SUBST(JPEG_LIBS)
 AM_CONDITIONAL(ENABLE_JPEG_TOOLS, test "x$enable_jpeg" = xyes)
@@ -422,7 +430,9 @@ AC_ARG_ENABLE([tiff],
 	      [enable_tiff=yes])
 if test x$enable_tiff = xyes ; then
 	SAVE_CFLAGS="$CFLAGS"
+	SAVE_LDFLAGS="$LDFLAGS"
 	CFLAGS=""
+	LDFLAGS=""
 	AC_CHECK_LIB(tiff, TIFFWriteScanline,
 		     [AC_CHECK_HEADER(tiffio.h,
 				      [enable_tiff=yes],
@@ -433,7 +443,9 @@ if test x$enable_tiff = xyes ; then
 		TIFF_LIBS='-ltiff -lm -lz'
 	fi
 	CFLAGS="$SAVE_CFLAGS"
+	LDFLAGS="$SAVE_LDFLAGS"
 	unset SAVE_CFLAGS
+	unset SAVE_LDFLAGS
 fi
 AC_SUBST(TIFF_LIBS)
 AM_CONDITIONAL(ENABLE_TIFF, test "x$enable_tiff" = xyes)
