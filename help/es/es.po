@@ -2,16 +2,16 @@
 # Spanish translation for gthumb manual
 #
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2010.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011, 2012, 2014.
 #
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011, 2012, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 09:12+0000\n"
-"PO-Revision-Date: 2014-03-26 17:46+0100\n"
+"POT-Creation-Date: 2015-07-29 09:10+0000\n"
+"PO-Revision-Date: 2015-08-03 \n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Spanish <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@ie.edu>, 2008-2014\n"
+"Daniel Mustieles <daniel.mustieles@ie.edu>, 2008-2015\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
 
 #. (itstool) path: media
@@ -694,8 +694,8 @@ msgstr "%U"
 #: C/strftime.page:289
 msgid ""
 "The week number of the current year as a decimal number, range 00 to 53, "
-"starting with the first Sunday as the first day of week 01. See also %V and "
-"%W."
+"starting with the first Sunday as the first day of week 01. See also %V and %"
+"W."
 msgstr ""
 "El número de semana del año actual como un número decimal, rango de 00 a 53, "
 "empezando con el primer domingo como primer día de la semana 01. Vea también "
@@ -711,8 +711,8 @@ msgstr "%V"
 msgid ""
 "The ISO 8601:1988 week number of the current year as a decimal number, range "
 "01 to 53, where week 1 is the first week that has at least 4 days in the "
-"current year, and with Monday as the first day of the week. See also %U and "
-"%W."
+"current year, and with Monday as the first day of the week. See also %U and %"
+"W."
 msgstr ""
 "El número de semana ISO 8601:1988 del año actual como un número decimal, "
 "rango de 01 a 53, donde la semana 1 es la primera semana que tenga al menos "
@@ -823,9 +823,9 @@ msgid ""
 "specifier character by the E or O modifier to indicate that an alternative "
 "format should be used. If the alternative format or specification does not "
 "exist for the current locale, the behaviour will be as if the unmodified "
-"conversion specification were used. The Single Unix Specification mentions "
-"%Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, "
-"%OV, %Ow, %OW, %Oy, where the effect of the O modifier is to use alternative "
+"conversion specification were used. The Single Unix Specification mentions %"
+"Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %"
+"OV, %Ow, %OW, %Oy, where the effect of the O modifier is to use alternative "
 "numeric symbols (say, roman numerals), and that of the E modifier is to use "
 "a locale-dependent alternative representation."
 msgstr ""
@@ -834,8 +834,8 @@ msgstr ""
 "que se debe utilizar un formato alternativo. Si el formato alternativo no "
 "existe para a configuración regional actual, el comportamiento será igual "
 "que si se hubiese usado la especificación de conversión sin modificar. La "
-"especificación única de Unix menciona %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, "
-"%Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow, %OW, %Oy, donde el "
+"especificación única de Unix menciona %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %"
+"Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow, %OW, %Oy, donde el "
 "modificador O es para utilizar símbolos numéricos alternativos (números "
 "romanos), y que el modificador E es para utilizar una representación "
 "alternativa dependiente de la configuración regional."
@@ -1434,7 +1434,7 @@ msgstr "Símbolo"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:94
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:498
+#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:542
 msgid "Description"
 msgstr "Descripción"
 
@@ -1500,9 +1500,9 @@ msgid ""
 msgstr ""
 "Este símbolo se reemplazará con el enumerador de la imagen original. Por "
 "ejemplo, si el nombre original del archivo era IMG_9876.JPG, esto extrae la "
-"parte «9876». Si el nombre del archivo tiene más de un grupo de dígitos en "
-"su interior (por ejemplo, IMG_123_456.JPG) sólo se utiliza el primero de "
-"ellos («123» en este ejemplo)."
+"parte «9876». Si el nombre del archivo tiene más de un grupo de dígitos en su "
+"interior (por ejemplo, IMG_123_456.JPG) sólo se utiliza el primero de ellos "
+"(«123» en este ejemplo)."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:84
@@ -1519,8 +1519,8 @@ msgid ""
 msgstr ""
 "Este símbolo se reemplazará con la fecha de modificación del archivo. El "
 "formato de esta fecha (y opcionalmente de la hora) se puede especificar "
-"añadiendo un código estándar de formato entre corchetes. Por ejemplo, «%M{%Y-"
-"%m-%d, %T}» se reemplazará con una fecha y una hora similar a «2010-04-01, "
+"añadiendo un código estándar de formato entre corchetes. Por ejemplo, «%M{%Y-%"
+"m-%d, %T}» se reemplazará con una fecha y una hora similar a «2010-04-01, "
 "15:02:01»."
 
 #. (itstool) path: td/p
@@ -1534,15 +1534,15 @@ msgid ""
 "This symbol will be replaced with the date that the photo was original taken "
 "(normally determined from the EXIF datestamps embedded inside the photo). "
 "The formatting of this date (and optionally time) can be specified by adding "
-"a standard formatting code in curly braces. For example, \"%D{%Y-%m-%d, "
-"%T}\" would be replaced with a date and time like \"2010-04-01, 15:02:01\"."
+"a standard formatting code in curly braces. For example, \"%D{%Y-%m-%d, %T}"
+"\" would be replaced with a date and time like \"2010-04-01, 15:02:01\"."
 msgstr ""
 "Este símbolo se reemplazará con la fecha original en que se tomó la foto "
 "(normalmente determinada por las marcas de tiempo EXIF empotradas en la "
 "foto). El formato de esta fecha (y, opcionalmente, de la hora) se puede "
 "especificar añadiendo un código estándar de formateo entre corchetes. Por "
-"ejemplo, «%D{%Y-%m-%d, %T}» se reemplazará con una fecha y una hora "
-"similares a «2010-04-01, 15:02:01»."
+"ejemplo, «%D{%Y-%m-%d, %T}» se reemplazará con una fecha y una hora similares "
+"a «2010-04-01, 15:02:01»."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:114
@@ -1557,8 +1557,8 @@ msgid ""
 "with a size like \"320 x 240\"."
 msgstr ""
 "Este símbolo se reemplazará con los datos especificados por el "
-"identificador. Por ejemplo, «%A{ general::dimensions }» se reemplazará con "
-"un tamaño similar a «320 x 240»."
+"identificador. Por ejemplo, «%A{ general::dimensions }» se reemplazará con un "
+"tamaño similar a «320 x 240»."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:127
@@ -1591,10 +1591,10 @@ msgid ""
 "not overwrite the image; always overwrite; never overwrite; specify a new "
 "name."
 msgstr ""
-"Si al renombrar una imagen se puede sobrescribir una imagen ya existente, "
-"se le preguntará cómo proceder, hay cinco opciones disponibles: "
-"sobrescribir la imagen; no sobrescribir la imagen; sobrescribir siempre; "
-"no sobrescribir nunca; especificar un nombre nuevo."
+"Si al renombrar una imagen se puede sobrescribir una imagen ya existente, se "
+"le preguntará cómo proceder, hay cinco opciones disponibles: sobrescribir la "
+"imagen; no sobrescribir la imagen; sobrescribir siempre; no sobrescribir "
+"nunca; especificar un nombre nuevo."
 
 #. (itstool) path: page/title
 #: C/edit-save-undo-redo.page:6
@@ -2277,7 +2277,7 @@ msgstr "Ver y ocultar partes del interfaz de usuario"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:14 C/shortcuts.page:91 C/shortcuts.page:270
-#: C/shortcuts.page:495
+#: C/shortcuts.page:539
 msgid "Keyboard Shortcut"
 msgstr "Tecla rápida"
 
@@ -2448,13 +2448,14 @@ msgstr "Atajos de teclado (sensible a capitalización)"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:194
-msgid "<key>h</key>"
-msgstr "<key>h</key>"
+#| msgid "<key>#</key>"
+msgid "<key>a</key>"
+msgstr "<key>a</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:199
-msgid "Enhance colors."
-msgstr "Realzar colores."
+msgid "Adjust contrast."
+msgstr "Ajustar contraste."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:204
@@ -2542,7 +2543,7 @@ msgid "View the previous image."
 msgstr "Ver la imagen anterior."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:298 C/shortcuts.page:415
+#: C/shortcuts.page:298 C/shortcuts.page:459
 msgid "<key>Home</key>"
 msgstr "<key>Inicio</key>"
 
@@ -2552,7 +2553,7 @@ msgid "View the first image."
 msgstr "Ver la primera imagen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:308 C/shortcuts.page:425
+#: C/shortcuts.page:308 C/shortcuts.page:469
 msgid "<key>End</key>"
 msgstr "<key>Fin</key>"
 
@@ -2623,126 +2624,175 @@ msgstr "Ampliar hasta ajustar (reducir o aumentar, según se requiera)"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:385
+#| msgid "<key>#</key>"
+msgid "<key>w</key>"
+msgstr "<key>w</key>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:389
+#| msgid "Zoom to fit (scales down only, does not magnify)"
+msgid "Zoom to fit width (scales down only, does not magnify)"
+msgstr "Ampliar hasta ajustar (solo reducir, no ampliar)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:394
+#| msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
+msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
+msgstr "<keyseq> <key>Mayús</key> <key>w</key> </keyseq>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:402
+#| msgid "Zoom to fit (scale down or magnify, as required)"
+msgid "Zoom to fit width (scale down or magnify, as required)"
+msgstr ""
+"Ampliar hasta ajustar a la anchura (reducir o aumentar, según se requiera)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:407
+msgid "<key>h</key>"
+msgstr "<key>h</key>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:411
+#| msgid "Zoom to fit (scales down only, does not magnify)"
+msgid "Zoom to fit height (scales down only, does not magnify)"
+msgstr "Ampliar hasta ajustar a la altura (solo reducir, no ampliar)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:416
+#| msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
+msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
+msgstr "<keyseq> <key>Mayús</key> <key>h</key> </keyseq>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:424
+#| msgid "Zoom to fit (scale down or magnify, as required)"
+msgid "Zoom to fit height (scale down or magnify, as required)"
+msgstr ""
+"Ampliar hasta ajustar a la anchura (reducir o aumentar, según se requiera)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:429
 msgid "<key>Arrows</key>"
 msgstr "<key>Flechas</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:390
+#: C/shortcuts.page:434
 msgid "Scroll the image."
 msgstr "Desplazar la imagen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:395
+#: C/shortcuts.page:439
 msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
 msgstr "<keyseq> <key>Mayús</key> <key>Flechas</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:403
+#: C/shortcuts.page:447
 msgid "Scroll the image faster."
 msgstr "Desplazar la imagen más rápidamente."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:410
+#: C/shortcuts.page:454
 msgid "Browser Navigation"
 msgstr "Navegación con explorador"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:420
+#: C/shortcuts.page:464
 msgid "Go to the first file in the browser view."
 msgstr "Ir al primer archivo en la vista de navegador."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:431
+#: C/shortcuts.page:475
 msgid "Go to the last file in the browser view."
 msgstr "Ir al último archivo en la vista de navegador."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:436
+#: C/shortcuts.page:480
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
 msgstr "<key>Flecha abajo</key> o <key>AvPág</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:441
+#: C/shortcuts.page:485
 msgid "Scroll downwards through the thumbnails."
 msgstr "Desplazarse hacia abajo a través de las miniaturas."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:446
+#: C/shortcuts.page:490
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
 msgstr "<key>Flecha arriba</key> o <key>RePág</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:451
+#: C/shortcuts.page:495
 msgid "Scroll upwards through the thumbnails."
 msgstr "Desplazarse hacia arriba a través de las miniaturas."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:456
+#: C/shortcuts.page:500
 msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Flecha izquierda</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:461
+#: C/shortcuts.page:505
 msgid "Go back to the previously viewed folder."
 msgstr "Ir a la carpeta anteriormente visitada."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:466
+#: C/shortcuts.page:510
 msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Flecha derecha</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:471
+#: C/shortcuts.page:515
 msgid "Go forward (after going back to a folder)."
 msgstr "Ir hacia adelante (después de retroceder hasta una carpeta)."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:476
+#: C/shortcuts.page:520
 msgid "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
 msgstr "<keyseq> <key>Alt</key> <key>Arriba</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:484
+#: C/shortcuts.page:528
 msgid "Go up one level."
 msgstr "Subir un nivel."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:491
+#: C/shortcuts.page:535
 msgid "Slideshow controls"
 msgstr "Controles de las diapositivas"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:503
+#: C/shortcuts.page:547
 msgid "<key>F5</key>"
 msgstr "<key>F5</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:508
+#: C/shortcuts.page:552
 msgid "Start a slideshow."
 msgstr "Iniciar la muestra de diapositivas."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:513
+#: C/shortcuts.page:557
 msgid "<key>p</key>"
 msgstr "<key>p</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:518
+#: C/shortcuts.page:562
 msgid "Pause/Unpause the slideshow."
 msgstr "Pausar/Reanudar la muestra de diapositivas."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:523
+#: C/shortcuts.page:567
 msgid "<key>Esc</key> or <key>q</key>"
 msgstr "<key>Esc</key> o <key>q</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:528
+#: C/shortcuts.page:572
 msgid "Close the slideshow."
 msgstr "Cerrar la muestra de diapositivas."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:533
+#: C/shortcuts.page:577
 msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
@@ -2751,12 +2801,12 @@ msgstr ""
 "<key>Av pág</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:538
+#: C/shortcuts.page:582
 msgid "Load the next image."
 msgstr "Cargar la siguiente imagen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:543
+#: C/shortcuts.page:587
 msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
@@ -2765,7 +2815,7 @@ msgstr ""
 "key> o <key>Re Pág</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:548
+#: C/shortcuts.page:592
 msgid "Load the previous image."
 msgstr "Cargar la imagen anterior."
 
@@ -3095,10 +3145,10 @@ msgstr ""
 "para determinar cuando se tomó la foto). Hay una variedad de formatos "
 "estándar de fecha disponibles (<gui>año-mes</gui> por ejemplo). La casilla "
 "<gui>como una sola subcarpeta</gui> controla si se hace una jerarquía "
-"«profunda» o «poco profunda» (por ejemplo, con <gui>año-mes</gui>, puede "
-"tener subcarpetas con el año y subcarpetas con el mes dentro de ellas, o "
-"todas las subcarpetas puede estar al mismo nivel en el sistema de archivos, "
-"con el año y el nombre, ambos como nombre de la carpeta)."
+"«profunda» o «poco profunda» (por ejemplo, con <gui>año-mes</gui>, puede tener "
+"subcarpetas con el año y subcarpetas con el mes dentro de ellas, o todas las "
+"subcarpetas puede estar al mismo nivel en el sistema de archivos, con el año "
+"y el nombre, ambos como nombre de la carpeta)."
 
 #. (itstool) path: page/p
 #: C/import.page:61
@@ -3320,6 +3370,9 @@ msgstr ""
 "Como excepción especial, los poseedores de los derechos de autor le dan "
 "permiso para copiar, modificar y distribuir el código de ejemplo contenido "
 "en este documento bajo los términos que usted elija, sin restricción."
+
+#~ msgid "Enhance colors."
+#~ msgstr "Realzar colores."
 
 #~ msgid "<key>Space</key>"
 #~ msgstr "<key>Espacio</key>"
@@ -3970,8 +4023,8 @@ msgstr ""
 #~ msgid ""
 #~ "To create a new folder, perform the following steps: <placeholder-1/>"
 #~ msgstr ""
-#~ "Para crear una carpeta nueva, ejecute los siguientes pasos: "
-#~ "<placeholder-1/>"
+#~ "Para crear una carpeta nueva, ejecute los siguientes pasos: <placeholder-"
+#~ "1/>"
 
 #~ msgid "To Open a Folder"
 #~ msgstr "Abrir una carpeta"
@@ -5159,8 +5212,8 @@ msgstr ""
 #~ "<application>gThumb</application> searches for images that have \"holiday "
 #~ "in Rome\" OR \"my birthday\" in the comment."
 #~ msgstr ""
-#~ "<application>gThumb</application> busca imágenes que contengan "
-#~ "«vacaciones en Roma» O «mi cumpleaños» en el comentario."
+#~ "<application>gThumb</application> busca imágenes que contengan «vacaciones "
+#~ "en Roma» O «mi cumpleaños» en el comentario."
 
 #~ msgid "A list of phrases the place field of the comment must contain."
 #~ msgstr ""
@@ -5242,8 +5295,8 @@ msgstr ""
 #~ "<application>gThumb</application> searches for images with \"family\" and/"
 #~ "or \"me\" in the keywords list."
 #~ msgstr ""
-#~ "<application>gThumb</application> busca imágenes que contengan «familia» "
-#~ "y/o «yo» en la lista de palabras clave."
+#~ "<application>gThumb</application> busca imágenes que contengan «familia» y/"
+#~ "o «yo» en la lista de palabras clave."
 
 #~ msgid "If you use more than one criteria images must respect all of them."
 #~ msgstr "Si usa más de un criterio las imágenes deben respetarlos todos."
@@ -6011,13 +6064,13 @@ msgstr ""
 #~ "texto a continuación de la casilla <guilabel>Agrupar en subcarpetas</"
 #~ "guilabel>. Esta cadena puede contener una combinación de texto y/o "
 #~ "códigos de fechas. Cualquier código de fechas soportado por la función de "
-#~ "C estándar strftime está soportada. Por ejemplo, si introduce «Vacaciones "
-#~ "%B», el «%B» se reemplazará por el nombre completo del mes, de acuerdo a "
-#~ "la localización actual («Vacaciones septiembre», por ejemplo). La fecha "
-#~ "está basada en la fecha en que se tomó la foto. Esta fecha se obtiene de "
-#~ "los datos Exif de la foto, si están disponibles. Si no, se utiliza la "
-#~ "hora de modificación del archivo en su lugar. Éste es un resumen de los "
-#~ "códigos de formato válidos."
+#~ "C estándar strftime está soportada. Por ejemplo, si introduce «Vacaciones %"
+#~ "B», el «%B» se reemplazará por el nombre completo del mes, de acuerdo a la "
+#~ "localización actual («Vacaciones septiembre», por ejemplo). La fecha está "
+#~ "basada en la fecha en que se tomó la foto. Esta fecha se obtiene de los "
+#~ "datos Exif de la foto, si están disponibles. Si no, se utiliza la hora de "
+#~ "modificación del archivo en su lugar. Éste es un resumen de los códigos "
+#~ "de formato válidos."
 
 #~ msgid "Code"
 #~ msgstr "Código"
@@ -6230,8 +6283,8 @@ msgstr ""
 #~ "metadata, the file modification date will be used. Ordinary text can be "
 #~ "mixed with the date codes. If the format code starts with a \"#\" sign, "
 #~ "then the text will not be replaced, but the value will be remembered for "
-#~ "date prompts (see below). Example: <command>mkdir -p %p/{%A photos}; cp "
-#~ "%f %p/{%A photos}/</command> This script will create a subfolder prefixed "
+#~ "date prompts (see below). Example: <command>mkdir -p %p/{%A photos}; cp %"
+#~ "f %p/{%A photos}/</command> This script will create a subfolder prefixed "
 #~ "with the weekday name (like \"/home/user/Sunday photos\") and copy photos "
 #~ "to it. Refer to your system's documentation for a list of strftime format "
 #~ "codes that you can use."
@@ -6244,14 +6297,13 @@ msgstr ""
 #~ "están disponibles (por ejemplo, la etiqueta Exif DateTime). Si la foto no "
 #~ "tiene metadatos empotrados, se utilizará la fecha de modificación del "
 #~ "archivo. El texto ordinario se puede mezclar con códigos de fecha. Si el "
-#~ "código de formato comienza por un signo «#», entonces no se reemplazará "
-#~ "el texto, pero el valor será recordado para posteriores consultas de la "
+#~ "código de formato comienza por un signo «#», entonces no se reemplazará el "
+#~ "texto, pero el valor será recordado para posteriores consultas de la "
 #~ "fecha (ver a continuación). Ejemplo: <command>mkdir -p %p/{Fotos del %A}; "
 #~ "cp %f %p/{Fotos del %A}/</command>. Este script creará una subcarpeta "
 #~ "prefijada con el nombre del día de la semana (como \"/home/usuario/Fotos "
 #~ "del domingo\") y copiará allí las fotos. Consulte la documentación de su "
-#~ "sistema para una lista de los códigos de formato «strftime» que puede "
-#~ "usar."
+#~ "sistema para una lista de los códigos de formato «strftime» que puede usar."
 
 #~ msgid "{TEXT}"
 #~ msgstr "{TEXTO}"
@@ -6264,16 +6316,16 @@ msgstr ""
 #~ "\"#\" sign at the beginning of the prompt name to prevent the "
 #~ "replacement. This can be used to store a prompted value to insert later "
 #~ "on. (To treat a bracket-enclosed block of text literally, precede the "
-#~ "opening bracket with a backslash.) Examples: <command>mkdir -p %p/{%Y-%m-"
-#~ "%d_}{COMMENT}; cp %f %p/{%Y-%m-%d_}{COMMENT}/</command> This script will "
+#~ "opening bracket with a backslash.) Examples: <command>mkdir -p %p/{%Y-%m-%"
+#~ "d_}{COMMENT}; cp %f %p/{%Y-%m-%d_}{COMMENT}/</command> This script will "
 #~ "create a subfolder prefixed with the date of the picture and a user "
-#~ "comment (like \"/home/user/2007-05-04_MyBirthday\" or \"/home/"
-#~ "user/2007-03-17_St. Patrick's Day\") and copy photos to it. "
-#~ "<command>mkdir -p %p/{#%B}{FOLDER}; cp %f %p/{FOLDER}/</command> This "
-#~ "script will create a series of subfolders based on the month the picture "
-#~ "was taken, but they will be named according to the user's comments on the "
-#~ "date. So if you enter the word 'Ides' for March, all the photos taken in "
-#~ "March will be copied to \"/home/user/photos/Ides/\"."
+#~ "comment (like \"/home/user/2007-05-04_MyBirthday\" or \"/home/user/2007-"
+#~ "03-17_St. Patrick's Day\") and copy photos to it. <command>mkdir -p %p/{#%"
+#~ "B}{FOLDER}; cp %f %p/{FOLDER}/</command> This script will create a series "
+#~ "of subfolders based on the month the picture was taken, but they will be "
+#~ "named according to the user's comments on the date. So if you enter the "
+#~ "word 'Ides' for March, all the photos taken in March will be copied to \"/"
+#~ "home/user/photos/Ides/\"."
 #~ msgstr ""
 #~ "Una pregunta al usuario que depende de la cadena de formato de fecha "
 #~ "anterior. Esta consulta se usará una vez para cada resultado de la fecha "
@@ -6417,8 +6469,8 @@ msgstr ""
 #~ "unless the name of the prompt is \"password\" or \"PASSWORD\"."
 #~ msgstr ""
 #~ "gThumb guarda las respuestas más recientes apuntadas por el usuario en la "
-#~ "base de datos de gconf, salvo que el nombre de la solicitud sea "
-#~ "«password» o «PASSWORD»."
+#~ "base de datos de gconf, salvo que el nombre de la solicitud sea «password» "
+#~ "o «PASSWORD»."
 
 #~ msgid ""
 #~ "To configure <application>gThumb</application>, open the "
@@ -7352,11 +7404,11 @@ msgstr ""
 #~ "you a preview of the image. Moving the mouse you will move the image to "
 #~ "the desired position."
 #~ msgstr ""
-#~ "Otra forma de mover imágenes es con el botón de navegación: "
-#~ "<placeholder-1/> ubicado en la esquina inferior derecha de la ventana del "
-#~ "visor cuando la imagen no se ajusta a la ventana. Si pulsa y suelta este "
-#~ "botón se mostrará una vista previa de la imagen. Al mover y soltar el "
-#~ "ratón moverá la imagen a la posición deseada."
+#~ "Otra forma de mover imágenes es con el botón de navegación: <placeholder-"
+#~ "1/> ubicado en la esquina inferior derecha de la ventana del visor cuando "
+#~ "la imagen no se ajusta a la ventana. Si pulsa y suelta este botón se "
+#~ "mostrará una vista previa de la imagen. Al mover y soltar el ratón moverá "
+#~ "la imagen a la posición deseada."
 
 #~ msgid "To View the Image Properties"
 #~ msgstr "Ver las propiedades de la imagen"
