@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-09-01 21:13+0000\n"
-"PO-Revision-Date: 2015-09-17 12:13+0000\n"
+"PO-Revision-Date: 2015-09-17 12:21+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: is\n"
@@ -1425,7 +1425,6 @@ msgid "_Preferences"
 msgstr "_Kjörstillingar"
 
 #: ../extensions/desktop_background/actions.c:249
-#, fuzzy
 msgid "_Undo"
 msgstr "_Afturkalla"
 
@@ -1473,7 +1472,6 @@ msgid "_Place:"
 msgstr "S_taður:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:4
-#, fuzzy
 #: ../extensions/edit_metadata/data/ui/tag-chooser.ui.h:1
 msgid "T_ags:"
 msgstr "Mer_ki:"
@@ -1577,7 +1575,6 @@ msgid "Reading files"
 msgstr "Les skrár"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
-#, fuzzy
 msgid "Example"
 msgstr "Dæmi"
 
@@ -1627,7 +1624,6 @@ msgid "_City:"
 msgstr "_Borg/Sveitarfélag:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
-#, fuzzy
 msgid "_Language:"
 msgstr "_Tungumál:"
 
@@ -1648,7 +1644,6 @@ msgid "(invalid value)"
 msgstr ""
 
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:710
-#, fuzzy
 msgid "Exposure"
 msgstr "Lýsing"
 
@@ -1701,7 +1696,6 @@ msgid "date photo was taken"
 msgstr "tökudegi myndar"
 
 #: ../extensions/export_tools/callbacks.c:46
-#, fuzzy
 msgid "Export"
 msgstr "Flytja út"
 
@@ -1800,7 +1794,6 @@ msgid "Import from Picasa Web Album"
 msgstr "Flytja inn frá Picasa vefþjónustunni"
 
 #: ../extensions/facebook/data/ui/import-from-facebook.ui.h:2
-#, fuzzy
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
@@ -1922,7 +1915,7 @@ msgstr ""
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:552
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:566
-#, fuzzy, c-format
+#, c-format
 msgid "Import from %s"
 msgstr "Flytja inn úr %s"
 
@@ -1982,7 +1975,6 @@ msgid "Getting the photo list"
 msgstr ""
 
 #: ../extensions/file_manager/actions.c:136
-#, fuzzy
 msgid "New folder"
 msgstr "Ný mappa"
 
@@ -2103,7 +2095,6 @@ msgid "_Copy"
 msgstr "_Afrita"
 
 #: ../extensions/file_manager/callbacks.c:977
-#, fuzzy
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
 #: ../gthumb/gth-browser.c:5456 ../gthumb/gth-browser.c:5489
 #: ../gthumb/gth-progress-dialog.c:409
@@ -2176,7 +2167,6 @@ msgid "Selection"
 msgstr "Myndval"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:4
-#, fuzzy
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:6
 msgid "_Width:"
@@ -2192,7 +2182,6 @@ msgid "_Position:"
 msgstr "_Staða:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:7
-#, fuzzy
 msgid "Maximize"
 msgstr "Hámarka"
 
@@ -2201,7 +2190,6 @@ msgid "Center"
 msgstr "Miðja"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:9
-#, fuzzy
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:10
 msgid "Aspect ratio"
 msgstr "Stærðarhlutföll"
@@ -2274,7 +2262,6 @@ msgid "Pick a background color"
 msgstr "Veldu bakgrunnslit"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:5
-#, fuzzy
 msgid "_Transparent"
 msgstr "_Gegnsætt"
 
@@ -2283,7 +2270,6 @@ msgid "Original size"
 msgstr "Upprunaleg stærð"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:7
-#, fuzzy
 msgid "Bounding box"
 msgstr "Umgjörð"
 
@@ -2292,7 +2278,6 @@ msgid "Crop borders"
 msgstr "Skera jaðra"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:9
-#, fuzzy
 msgid "Angle"
 msgstr "Horn"
 
@@ -2301,7 +2286,6 @@ msgid "Align"
 msgstr "Hliðjafna"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:11
-#, fuzzy
 msgid "Image size"
 msgstr "Stærð myndar"
 
@@ -2436,7 +2420,6 @@ msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:531
-#, fuzzy
 msgid "Stretch"
 msgstr "Teygja"
 
@@ -2445,7 +2428,6 @@ msgid "Stretch the histogram trimming the 0.5%"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:536
-#, fuzzy
 msgid "Equalize"
 msgstr "Jafna"
 
@@ -2454,7 +2436,6 @@ msgid "Equalize the histogram using the square root function"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:541
-#, fuzzy
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
 #: ../extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Uniform"
@@ -2473,7 +2454,6 @@ msgid "Automatic contrast adjustment"
 msgstr "Sjálfvirk aðlögun birtuskila"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:434
-#, fuzzy
 #: ../extensions/file_tools/gth-file-tool-resize.c:579
 msgid "Square"
 msgstr "Ferningur"
@@ -2643,7 +2623,6 @@ msgid "Vignette"
 msgstr "Hornskygging"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:90
-#, fuzzy
 msgid "Flip"
 msgstr "Fletta"
 
@@ -2672,22 +2651,18 @@ msgid "Lomo"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:90
-#, fuzzy
 msgid "Mirror"
 msgstr "Spegla"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:91
-#, fuzzy
 msgid "Mirror the image horizontally"
 msgstr "Spegla myndinni lárétt"
 
 #: ../extensions/file_tools/gth-file-tool-negative.c:101
-#, fuzzy
 msgid "Negative"
 msgstr "Negatíva"
 
 #: ../extensions/file_tools/gth-file-tool-redo.c:81
-#, fuzzy
 msgid "Redo"
 msgstr "Endurtaka"
 
@@ -2699,12 +2674,10 @@ msgid "Resizing images"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-resize.c:832
-#, fuzzy
 msgid "Resize"
 msgstr "Breyta stærð"
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:683
-#, fuzzy
 msgid "Rotate"
 msgstr "Snúa"
 
@@ -2729,13 +2702,11 @@ msgid "Rotate the image by 90 degrees clockwise"
 msgstr "Snúa myndinni réttsælis um 90 gráður"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:70
-#, fuzzy
 #: ../gthumb/resources/gears-menu.ui.h:4
 msgid "Save As"
 msgstr "Vista sem"
 
 #: ../extensions/file_tools/gth-file-tool-save.c:66
-#, fuzzy
 #: ../gthumb/resources/gears-menu.ui.h:3
 msgid "Save"
 msgstr "Vista"
@@ -2749,19 +2720,16 @@ msgid "Enhance Focus"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-undo.c:81
-#, fuzzy
 msgid "Undo"
 msgstr "Afturkalla"
 
 #: ../extensions/find_duplicates/callbacks.c:37
-#, fuzzy
 msgid "Find _Duplicates…"
-msgstr "Finna tvítekningar"
+msgstr "Finna tvíte_kningar..."
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-choose-folders.ui.h:1
-#, fuzzy
 msgid "_Folders:"
-msgstr "Möppur"
+msgstr "_Möppur:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:1
 msgid "Search for Duplicates"
@@ -2780,7 +2748,6 @@ msgid "_View"
 msgstr "S_koða"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
-#, fuzzy
 #: ../gthumb/gth-tags-entry.c:1187 ../gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Eyða"
@@ -2790,7 +2757,6 @@ msgid "No duplicates found."
 msgstr "Engin tvítök fundust."
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:1
-#, fuzzy
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:1
 msgid "Find Duplicates"
 msgstr "Finna tvítekningar"
@@ -2802,7 +2768,6 @@ msgid "Start _at:"
 msgstr ""
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:4
-#, fuzzy
 msgid "_Filter:"
 msgstr "_Sía:"
 
@@ -2864,7 +2829,6 @@ msgid "Duplicates"
 msgstr "Tvítök"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:1298
-#, fuzzy
 msgid "Select"
 msgstr "Velja"
 
@@ -2932,7 +2896,6 @@ msgid "_Authorize..."
 msgstr "Heimil_a..."
 
 #: ../extensions/flicker_utils/flickr-consumer.c:124
-#, fuzzy
 #: ../extensions/flicker_utils/flickr-service.c:237
 #: ../extensions/flicker_utils/flickr-service.c:348
 #: ../extensions/flicker_utils/flickr-service.c:672
@@ -2975,7 +2938,6 @@ msgid "Image saved as %s"
 msgstr ""
 
 #: ../extensions/gstreamer_tools/actions.c:101
-#, fuzzy
 msgctxt "Filename"
 msgid "Screenshot"
 msgstr "Skjámynd"
@@ -2991,17 +2953,14 @@ msgid "Play"
 msgstr "Afspilun"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:2
-#, fuzzy
 msgid "Slower"
 msgstr "Hægar"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:3
-#, fuzzy
 msgid "Faster"
 msgstr "Hraðar"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
-#, fuzzy
 msgid "Time:"
 msgstr "Tími:"
 
@@ -3197,7 +3156,6 @@ msgid "Could not print"
 msgstr ""
 
 #: ../extensions/image_print/gth-image-print-job.c:1746
-#, fuzzy
 #: ../gthumb/gth-main-default-tests.c:261
 msgid "Images"
 msgstr "Myndir"
@@ -3210,7 +3168,7 @@ msgstr ""
 
 #. translators: %s is a filename
 #: ../extensions/image_print/gth-load-image-info-task.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "Loading \"%s\""
 msgstr "Hleð inn \"%s\""
 
@@ -3314,16 +3272,14 @@ msgstr "Frumstilla staðsetningar skrunsláa"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
 msgid "Zoom quality:"
-msgstr ""
+msgstr "Gæði aðdráttar:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
-#, fuzzy
 msgctxt "zoom quality"
 msgid "_High"
-msgstr "Hár"
+msgstr "Mikil"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
-#, fuzzy
 msgctxt "zoom quality"
 msgid "_Low"
 msgstr "Lítil"
@@ -3342,14 +3298,13 @@ msgstr "Líma mynd"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:855
 msgid "Fit to height"
-msgstr ""
+msgstr "Aðlaga að hæð"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:862
 msgid "Apply the embedded color profile"
 msgstr ""
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1472
-#, fuzzy
 msgid "Save Image"
 msgstr "Vista mynd"
 
@@ -3362,7 +3317,6 @@ msgid "Viewer"
 msgstr "Lesari"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
-#, fuzzy
 msgid "_Destination"
 msgstr "Á_fangastaður"
 
@@ -3423,7 +3377,6 @@ msgid "year-month"
 msgstr "ár-mánuður"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:342
-#, fuzzy
 msgid "year"
 msgstr "ár"
 
@@ -3474,7 +3427,6 @@ msgid "Tools"
 msgstr "Verkfæri"
 
 #: ../extensions/list_tools/data/ui/ask-value.ui.h:1
-#, fuzzy
 msgid "_Skip"
 msgstr "_Sleppa"
 
@@ -3568,7 +3520,6 @@ msgid "Quote the text "
 msgstr ""
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:30
-#, fuzzy
 msgid "_Command:"
 msgstr "_Skipun:"
 
@@ -3686,7 +3637,6 @@ msgid "Loading..."
 msgstr "Hleð..."
 
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:153
-#, fuzzy
 #: ../extensions/oauth/oauth-account-manager-dialog.c:140
 #: ../gthumb/gtk-utils.h:41
 msgid "_New"
@@ -3798,13 +3748,11 @@ msgid "Upload images to PhotoBucket"
 msgstr "Senda myndir á Photobucket vefþjónustu"
 
 #: ../extensions/photo_importer/actions.c:71
-#, fuzzy
 #: ../extensions/photo_importer/dlg-photo-importer.c:612
 msgid "Choose a folder"
 msgstr "Veldu möppu"
 
 #: ../extensions/photo_importer/actions.c:75
-#, fuzzy
 msgid "Import"
 msgstr "Flytja inn"
 
@@ -3813,9 +3761,8 @@ msgid "_Removable Device…"
 msgstr ""
 
 #: ../extensions/photo_importer/callbacks.c:42
-#, fuzzy
 msgid "F_older…"
-msgstr "Mappa"
+msgstr "M_appa..."
 
 #: ../extensions/photo_importer/callbacks.c:63
 msgid "I_mport From"
@@ -3836,7 +3783,6 @@ msgid "S_how:"
 msgstr "_Birta:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
-#, fuzzy
 msgid "_Tags:"
 msgstr "Mer_ki:"
 
@@ -3864,11 +3810,10 @@ msgid "Could not load the folder"
 msgstr ""
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:356
-#, fuzzy
 #: ../extensions/photo_importer/dlg-photo-importer.c:396
 #: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1097
 msgid "(Empty)"
-msgstr "(Tóm)"
+msgstr "(Tómt)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
 #: ../gthumb/gth-browser.c:1793
@@ -3938,17 +3883,14 @@ msgid "Allow to load raw format images."
 msgstr ""
 
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
-#, fuzzy
 msgid "_X:"
 msgstr "_X:"
 
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
-#, fuzzy
 msgid "_Y:"
 msgstr "_Y:"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
-#, fuzzy
 msgid "Red Eye Removal"
 msgstr "Laga rauð augu"
 
@@ -3973,7 +3915,6 @@ msgid "format:"
 msgstr "snið:"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:3
-#, fuzzy
 msgid "remove"
 msgstr "fjarlægja"
 
@@ -4033,12 +3974,10 @@ msgid "%A{ identifier }"
 msgstr ""
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:26
-#, fuzzy
 msgid "_Template:"
 msgstr "Sniðmá_t:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:27
-#, fuzzy
 msgid "Re_verse Order"
 msgstr "Öfu_g röð"
 
@@ -4063,7 +4002,6 @@ msgid "Original enumerator"
 msgstr ""
 
 #: ../extensions/rename_series/dlg-rename-series.c:62
-#, fuzzy
 msgid "Modification date"
 msgstr "Breytingardagsetning"
 
@@ -4093,7 +4031,6 @@ msgid "Old Name"
 msgstr "Eldra nafn"
 
 #: ../extensions/rename_series/dlg-rename-series.c:869
-#, fuzzy
 msgid "New Name"
 msgstr "Nýtt nafn"
 
@@ -4138,7 +4075,6 @@ msgid "New dimensions"
 msgstr "Nýjar stærðir"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:7
-#, fuzzy
 msgid "_Height:"
 msgstr "_Hæð:"
 
@@ -4177,7 +4113,6 @@ msgid "Find"
 msgstr "Finna"
 
 #: ../extensions/search/actions.c:81
-#, fuzzy
 msgid "_Find"
 msgstr "_Finna"
 
@@ -4191,7 +4126,6 @@ msgstr "Leita aftur"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
 #: ../extensions/search/callbacks.c:147
-#, fuzzy
 #: ../extensions/search/search.extension.in.in.h:1
 msgid "Search"
 msgstr "Leita"
@@ -4212,7 +4146,6 @@ msgid "Files found until now: %s"
 msgstr ""
 
 #: ../extensions/search/gth-search-task.c:274
-#, fuzzy
 msgid "Searching…"
 msgstr "Leita..."
 
@@ -4245,7 +4178,6 @@ msgid "Selection %d"
 msgstr "Myndval %d"
 
 #: ../extensions/selections/gth-selections-manager.c:231
-#, fuzzy
 #: ../extensions/selections/selections.extension.in.in.h:1
 msgid "Selections"
 msgstr "Myndval"
@@ -4255,12 +4187,10 @@ msgid "Advanced file selection."
 msgstr "Ítarlegt skráaval."
 
 #: ../extensions/slideshow/callbacks.c:51
-#, fuzzy
 msgid "Presentation"
 msgstr "Kynning"
 
 #: ../extensions/slideshow/callbacks.c:348
-#, fuzzy
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
 #: ../extensions/slideshow/preferences.c:162
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
@@ -4313,7 +4243,6 @@ msgid "Audio files"
 msgstr "Hljóðskrár"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:259
-#, fuzzy
 msgid "Random"
 msgstr "Slembið"
 
@@ -4334,7 +4263,6 @@ msgid "Slide from bottom"
 msgstr ""
 
 #: ../extensions/slideshow/main.c:321
-#, fuzzy
 msgid "Fade in"
 msgstr "Dofna inn"
 
@@ -4372,7 +4300,6 @@ msgid "Image %d of %d"
 msgstr "Mynd %d af %d"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:29
-#, fuzzy
 msgid "Index"
 msgstr "Atriðaskrá"
 
@@ -4745,7 +4672,6 @@ msgid "Go to the next visited location"
 msgstr "Fara á næstu heimsóttu staðsetningu"
 
 #: ../gthumb/gth-browser.c:4478
-#, fuzzy
 msgid "History"
 msgstr "Ferill"
 
@@ -4758,7 +4684,6 @@ msgid "Edit file"
 msgstr "Breyta skrá"
 
 #: ../gthumb/gth-browser.c:4525
-#, fuzzy
 msgid "Accept"
 msgstr "Samþykkja"
 
@@ -4791,14 +4716,12 @@ msgid "All Supported Files"
 msgstr "Allar studdar skrár"
 
 #: ../gthumb/gth-file-details.c:43
-#, fuzzy
 msgid "Details"
 msgstr "Nánar"
 
 #: ../gthumb/gth-file-source-vfs.c:223
-#, fuzzy
 msgid "Computer"
-msgstr "Tölva"
+msgstr "Tölvan"
 
 #: ../gthumb/gth-file-source-vfs.c:230
 msgid "Home Folder"
@@ -4816,7 +4739,7 @@ msgid "Could not move the files to the Trash"
 msgstr "Gat ekki fært þessar skrár í ruslið"
 
 #: ../gthumb/gth-file-source-vfs.c:798
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Ertu viss um að þú viljir endanlega eyða \"%s\"?"
 
@@ -4870,7 +4793,6 @@ msgid "No limit specified"
 msgstr "Engin takmörk tilgreind"
 
 #: ../gthumb/gth-folder-tree.c:1071
-#, fuzzy
 msgid "Loading…"
 msgstr "Hleð..."
 
@@ -4887,12 +4809,10 @@ msgid "Alpha"
 msgstr "Alfa gegnsæi"
 
 #: ../gthumb/gth-histogram-view.c:916
-#, fuzzy
 msgid "RGB"
 msgstr "RGB"
 
 #: ../gthumb/gth-image-list-task.c:141
-#, fuzzy
 msgid "Could not rename the file"
 msgstr "Ekki tókst að endurnefna skrána"
 
