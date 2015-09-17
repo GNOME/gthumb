@@ -1,0 +1,5429 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Sveinn í Felli <sv1@fellsnet.is>, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-09-01 21:13+0000\n"
+"PO-Revision-Date: 2015-09-17 09:22+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
+"Language: is\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:1
+msgid ""
+"gThumb is an image viewer, editor, browser and organizer. It is designed to "
+"be well integrated with the GNOME 3 desktop."
+msgstr ""
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:2
+msgid ""
+"As an image viewer gThumb allows to view common image file formats such as "
+"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
+"is also possible to view various metadata types embedded inside an image "
+"such as EXIF, IPTC and XMP."
+msgstr ""
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:3
+msgid ""
+"As an image editor gThumb allows to scale, rotate and crop the images; "
+"change the saturation, lightness, contrast as well as other color "
+"trasformations."
+msgstr ""
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:4
+msgid ""
+"As an image browser gThumb shows the thumbnails of the images saved on your "
+"disk, allows to perform the common operations of a file manager such as "
+"copy, move and delete files and folders. Furthermore there is a series of "
+"image specific tools such as JPEG lossless transformations; image resize; "
+"format conversion; slideshow; setting an image as desktop background and "
+"several others."
+msgstr ""
+
+#: ../data/appdata/gthumb.appdata.xml.in.h:5
+msgid ""
+"As an image organizer gThumb allows to add comments and other metadata to "
+"images; organize images in catalogs and catalogs in libraries; search for "
+"images and save the result as a catalog."
+msgstr ""
+
+#. manually set name and icon
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:386
+#: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
+msgid "gThumb"
+msgstr "gThumb"
+
+#: ../data/gthumb.desktop.in.in.h:2
+msgid "Image Viewer"
+msgstr "Myndarýnir"
+
+#: ../data/gthumb.desktop.in.in.h:3
+msgid "gThumb Image Viewer"
+msgstr "gThumb myndaskoðari"
+
+#: ../data/gthumb.desktop.in.in.h:4
+msgid "View and organize your images"
+msgstr "Skoða og raða myndunum þínum"
+
+#: ../data/gthumb.desktop.in.in.h:5
+msgid "Image;Viewer;"
+msgstr "mynd;myndarýnir;myndaskoðun;"
+
+#: ../data/gthumb-import.desktop.in.in.h:1
+msgid "Import with gThumb"
+msgstr "Flytja inn með gThumb"
+
+#: ../data/gthumb-import.desktop.in.in.h:2
+msgid "Photo Import Tool"
+msgstr "Mynda-innflutnings-tól"
+
+#: ../data/gthumb-import.desktop.in.in.h:3
+msgid "gThumb Photo Import Tool"
+msgstr "gThumb myndainnflutningstól"
+
+#: ../data/gthumb-import.desktop.in.in.h:4
+msgid "Import the photos on your camera card"
+msgstr ""
+
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+
+#: ../data/org.gnome.gthumb.gschema.xml.in.h:2
+msgid "Open files in the active window"
+msgstr "Opna skrár í virkum glugga"
+
+#: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:1
+msgid "Whether to reset the scrollbars position after changing image"
+msgstr ""
+
+#: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
+msgid "Possible values are: jpeg, jpg."
+msgstr "Möguleg gildi eru: jpeg, jpg."
+
+#: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:2
+msgid "Possible values are: tiff, tif."
+msgstr "Möguleg gildi eru: tiff, tif."
+
+#: ../data/org.gnome.gthumb.rename-series.gschema.xml.in.h:1
+msgid ""
+"Possible values include: general::unsorted, file::name, file::size, file::"
+"mtime, exif::photo::datetimeoriginal"
+msgstr ""
+
+#: ../data/ui/browser-preferences.ui.h:1
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
+#: ../extensions/image_print/data/ui/print-layout.ui.h:18
+msgid "Caption"
+msgstr "Skýring"
+
+#: ../data/ui/browser-preferences.ui.h:2 ../data/ui/preferences.ui.h:15
+#: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
+#: ../extensions/gstreamer_tools/main.c:34
+msgid "Other"
+msgstr "Annað"
+
+#: ../data/ui/browser-preferences.ui.h:3
+msgid "Thumbnail _size:"
+msgstr "_Stærð smámyndar:"
+
+#: ../data/ui/browser-preferences.ui.h:4
+msgid "48"
+msgstr "48"
+
+#: ../data/ui/browser-preferences.ui.h:5
+msgid "64"
+msgstr "64"
+
+#: ../data/ui/browser-preferences.ui.h:6
+msgid "85"
+msgstr "85"
+
+#: ../data/ui/browser-preferences.ui.h:7
+msgid "95"
+msgstr "95"
+
+#: ../data/ui/browser-preferences.ui.h:8
+msgid "112"
+msgstr "112"
+
+#: ../data/ui/browser-preferences.ui.h:9
+msgid "128"
+msgstr "128"
+
+#: ../data/ui/browser-preferences.ui.h:10
+msgid "164"
+msgstr "164"
+
+#: ../data/ui/browser-preferences.ui.h:11
+msgid "200"
+msgstr "200"
+
+#: ../data/ui/browser-preferences.ui.h:12
+msgid "256"
+msgstr "256"
+
+#: ../data/ui/browser-preferences.ui.h:13
+msgid "D_etermine image type from content (slower)"
+msgstr "Ákvarða tegund mynda út frá innihaldi (hægvirkara)"
+
+#: ../data/ui/extensions-preferences.ui.h:1
+msgid "_Extensions:"
+msgstr "_Viðbætur:"
+
+#: ../data/ui/extensions-preferences.ui.h:2
+msgid "More extensions..."
+msgstr "Fleiri viðbætur..."
+
+#: ../data/ui/filter-editor.ui.h:1
+msgid "Filter _Name:"
+msgstr "_Heiti síu:"
+
+#: ../data/ui/filter-editor.ui.h:2
+#: ../extensions/search/data/ui/search-editor.ui.h:3
+msgid "_Match"
+msgstr "Sa_msvörun"
+
+#. limit label
+#: ../data/ui/filter-editor.ui.h:3 ../gthumb/gth-filter.c:269
+#: ../gthumb/gth-filter.c:337
+msgid "_Limit to"
+msgstr "Ta_kmarka við"
+
+#: ../data/ui/filter-editor.ui.h:4
+msgid "selected by"
+msgstr "valið eftir"
+
+#: ../data/ui/histogram-info.ui.h:1
+msgid "Mean:"
+msgstr "Meðaltal:"
+
+#. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsizied at the end.
+#: ../data/ui/histogram-info.ui.h:3
+msgid "Std dev:"
+msgstr "Staðalfrávik:"
+
+#: ../data/ui/histogram-info.ui.h:4
+msgid "Median:"
+msgstr "Miðgildi:"
+
+#. After the colon there is the total number of pixels
+#: ../data/ui/histogram-info.ui.h:6
+msgid "Pixels:"
+msgstr "Mynddílar:"
+
+#. After the colon there is a percentile.
+#: ../data/ui/histogram-info.ui.h:8
+msgctxt "Pixels"
+msgid "Max:"
+msgstr "Hám:"
+
+#. After the colon there is the percentile of selected pixels.
+#: ../data/ui/histogram-info.ui.h:10
+msgctxt "Pixels"
+msgid "Selected:"
+msgstr "Valið:"
+
+#: ../data/ui/location.ui.h:1
+msgid "Open"
+msgstr "Opna"
+
+#: ../data/ui/location.ui.h:2
+msgid "_Location:"
+msgstr "_Staðsetning:"
+
+#: ../data/ui/overwrite-dialog.ui.h:1
+msgid "Overwrite the old file with the new one?"
+msgstr "Skrifa nýju myndina yfir þá gömlu?"
+
+#: ../data/ui/overwrite-dialog.ui.h:2
+msgid "Old File:"
+msgstr "Eldri skrá:"
+
+#: ../data/ui/overwrite-dialog.ui.h:3
+msgid "Filename:"
+msgstr "Skráarheiti:"
+
+#: ../data/ui/overwrite-dialog.ui.h:4
+#: ../extensions/image_print/data/ui/print-layout.ui.h:23
+msgid "Size:"
+msgstr "Stærð:"
+
+#: ../data/ui/overwrite-dialog.ui.h:5
+msgid "Modified:"
+msgstr "Breytt þann:"
+
+#: ../data/ui/overwrite-dialog.ui.h:6
+msgid "New File:"
+msgstr "Ný skrá:"
+
+#: ../data/ui/overwrite-dialog.ui.h:7
+msgid "Over_write the old file"
+msgstr "Skrifa _yfir gömlu myndina"
+
+#: ../data/ui/overwrite-dialog.ui.h:8
+msgid "Do not overwrite _the old file"
+msgstr "Ekki skrifa yfir _gömlu myndina"
+
+#: ../data/ui/overwrite-dialog.ui.h:9
+msgid "Overwrite _all files"
+msgstr "Skrifa yfir _allar skrár"
+
+#: ../data/ui/overwrite-dialog.ui.h:10
+msgid "_Do not overwrite any file"
+msgstr "Ekki skrifa yfir _neinar skrár"
+
+#: ../data/ui/overwrite-dialog.ui.h:11
+msgid "_Save the new file as:"
+msgstr "Vi_sta nýja skrá sem:"
+
+#: ../data/ui/personalize-filters.ui.h:1
+msgid "Filters"
+msgstr "Síur"
+
+#: ../data/ui/personalize-filters.ui.h:2
+msgid "_General filter:"
+msgstr ""
+
+#: ../data/ui/personalize-filters.ui.h:3
+msgid "_Other filters:"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:1
+msgid "below the folder list"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:2
+msgid "on the right"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:3
+msgid "gThumb Preferences"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:4
+msgid "Appearance"
+msgstr "Útlit"
+
+#: ../data/ui/preferences.ui.h:5
+msgid "T_humbnails in viewer:"
+msgstr "Smá_myndir í skoðara:"
+
+#: ../data/ui/preferences.ui.h:6
+msgid "on the bottom"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:7
+msgid "on the side"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:8
+msgid "File _properties in browser:"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:9
+msgid "On startup:"
+msgstr "Í ræsingu:"
+
+#: ../data/ui/preferences.ui.h:10
+msgid "Go to last _visited location"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:11
+msgid "Go to this _folder:"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:12
+msgid "Choose startup folder"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:13
+msgid "Set to C_urrent"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:14
+msgid "_Reuse the active window to open files"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:16
+msgid "As_k confirmation before deleting files or catalogs"
+msgstr ""
+
+#: ../data/ui/preferences.ui.h:17
+msgid "Ask whether to save _modified files"
+msgstr "Spyrja hvort skuli vista _breyttar skrár"
+
+#: ../data/ui/preferences.ui.h:18
+msgid "_Store metadata inside files if possible"
+msgstr "_Skrifa lýsigögn í skrár, ef mögulegt"
+
+#: ../data/ui/preferences.ui.h:19
+#: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
+#: ../extensions/edit_metadata/gth-edit-general-page.c:481
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
+msgid "General"
+msgstr "Almennt"
+
+#: ../data/ui/sort-order.ui.h:1
+msgid "Sort By"
+msgstr "Raða eftir"
+
+#: ../data/ui/sort-order.ui.h:2
+msgid "_Inverse order"
+msgstr "_Umhverfa röðun"
+
+#: ../extensions/23hq/23hq.extension.in.in.h:1
+msgid "23"
+msgstr "23"
+
+#: ../extensions/23hq/23hq.extension.in.in.h:2
+msgid "Upload images to 23hq.com"
+msgstr "Senda myndir á 23hq.com"
+
+#: ../extensions/23hq/23hq.extension.in.in.h:3
+#: ../extensions/bookmarks/bookmarks.extension.in.in.h:3
+#: ../extensions/burn_disc/burn_disc.extension.in.in.h:3
+#: ../extensions/catalogs/catalogs.extension.in.in.h:3
+#: ../extensions/change_date/change_date.extension.in.in.h:3
+#: ../extensions/comments/comments.extension.in.in.h:3
+#: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:3
+#: ../extensions/convert_format/convert_format.extension.in.in.h:3
+#: ../extensions/desktop_background/desktop_background.extension.in.in.h:3
+#: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:3
+#: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:3
+#: ../extensions/facebook/facebook.extension.in.in.h:3
+#: ../extensions/file_manager/file_manager.extension.in.in.h:3
+#: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:3
+#: ../extensions/flicker/flicker.extension.in.in.h:3
+#: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:3
+#: ../extensions/image_print/image_print.extension.in.in.h:3
+#: ../extensions/image_rotation/image_rotation.extension.in.in.h:3
+#: ../extensions/list_tools/list_tools.extension.in.in.h:3
+#: ../extensions/map_view/map_view.extension.in.in.h:3
+#: ../extensions/photobucket/photobucket.extension.in.in.h:3
+#: ../extensions/photo_importer/photo_importer.extension.in.in.h:3
+#: ../extensions/picasaweb/picasaweb.extension.in.in.h:3
+#: ../extensions/raw_files/raw_files.extension.in.in.h:3
+#: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:3
+#: ../extensions/rename_series/rename_series.extension.in.in.h:3
+#: ../extensions/resize_images/resize_images.extension.in.in.h:3
+#: ../extensions/search/search.extension.in.in.h:3
+#: ../extensions/selections/selections.extension.in.in.h:3
+#: ../extensions/slideshow/slideshow.extension.in.in.h:3
+#: ../extensions/webalbums/webalbums.extension.in.in.h:3
+#: ../gthumb/dlg-preferences-extensions.c:491
+msgid "gthumb development team"
+msgstr ""
+
+#: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
+#: ../extensions/bookmarks/callbacks.c:325
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
+msgid "Bookmarks"
+msgstr "Bókamerki"
+
+#: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
+msgid "Add bookmarks support."
+msgstr "Bæta við stuðningi við bókamerki."
+
+#: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:1
+msgid "_Add Bookmark"
+msgstr "Bæt_a við bókamerki"
+
+#: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:2
+msgid "_Edit Bookmarks…"
+msgstr "Br_eyta bókamerkjunum…"
+
+#: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:3
+msgid "_System Bookmarks"
+msgstr "Bókamerki _kerfisins"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:2
+msgid "_Bookmarks:"
+msgstr "_Bókamerki:"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
+msgid "Go to this location"
+msgstr "Fara á þessa staðsetningu"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
+#: ../extensions/catalogs/callbacks.c:72
+msgid "Remove"
+msgstr "Fjarlægja"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:5
+msgid "_Name"
+msgstr "_Heiti"
+
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:6
+msgid "_Location"
+msgstr "_Staðsetning"
+
+#: ../extensions/bookmarks/dlg-bookmarks.c:192
+msgid "Could not remove the bookmark"
+msgstr "Gat ekki fjarlægt bókamerkið"
+
+#: ../extensions/burn_disc/burn_disc.extension.in.in.h:1
+msgid "Burn CD/DVD"
+msgstr "Brenna CD/DVD"
+
+#: ../extensions/burn_disc/burn_disc.extension.in.in.h:2
+msgid "Save files to an optical disc."
+msgstr "Vistar skrár á geisladisk."
+
+#: ../extensions/burn_disc/callbacks.c:48
+msgid "_Optical Disc..."
+msgstr "_Geisladiskur..."
+
+#: ../extensions/burn_disc/data/ui/burn-disc-options.ui.h:1
+msgid "Disc Name"
+msgstr "Heiti disks"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:1
+msgid "Current _folder"
+msgstr "Núverandi _mappa"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:2
+msgid "Current folder and its s_ub-folders"
+msgstr "Núverandi mappa ásamt öllum undirmöppum"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:3
+msgid "_Selected files"
+msgstr "_Valdar skrár"
+
+#: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:4
+msgid "Source"
+msgstr "Uppruni"
+
+#: ../extensions/burn_disc/gth-burn-task.c:238
+#: ../extensions/burn_disc/gth-burn-task.c:259
+#: ../extensions/burn_disc/gth-burn-task.c:393
+msgid "Write to Disc"
+msgstr "Skrifa á disk"
+
+#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:65
+#, c-format
+msgid "Error interpreting JPEG image file: %s"
+msgstr "Villa við lestur JPEG skráar: %s"
+
+#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:529
+#, c-format
+msgid "Unknown JPEG color space (%d)"
+msgstr "Óþekkt JPEG litrýmd (%d)"
+
+#: ../extensions/cairo_io/data/ui/jpeg-options.ui.h:1
+#: ../extensions/cairo_io/data/ui/tiff-options.ui.h:1
+msgid "_Default extension:"
+msgstr "Sjálf_gefin skráarending:"
+
+#: ../extensions/cairo_io/data/ui/jpeg-options.ui.h:2
+#: ../extensions/cairo_io/data/ui/webp-options.ui.h:1
+msgid "_Quality:"
+msgstr "_Gæði:"
+
+#: ../extensions/cairo_io/data/ui/jpeg-options.ui.h:3
+msgid "_Smoothing:"
+msgstr "_Mýking:"
+
+#: ../extensions/cairo_io/data/ui/jpeg-options.ui.h:4
+msgid "Opti_mize"
+msgstr "_Bestað"
+
+#: ../extensions/cairo_io/data/ui/jpeg-options.ui.h:5
+msgid "_Progressive"
+msgstr "_Vaxandi (progressive)"
+
+#: ../extensions/cairo_io/data/ui/png-options.ui.h:1
+msgid "Compression _level:"
+msgstr "Þjö_ppunarstig:"
+
+#: ../extensions/cairo_io/data/ui/save-options-preferences.ui.h:1
+msgid "Default options:"
+msgstr "Sjálfgefnir valkostir:"
+
+#: ../extensions/cairo_io/data/ui/tga-options.ui.h:1
+msgid "_RLE compression"
+msgstr "_RLE þjöppun"
+
+#: ../extensions/cairo_io/data/ui/tiff-options.ui.h:2
+msgid "Compression"
+msgstr "Þjöppun"
+
+#: ../extensions/cairo_io/data/ui/tiff-options.ui.h:3
+msgid "_No compression"
+msgstr "E_ngin þjöppun"
+
+#: ../extensions/cairo_io/data/ui/tiff-options.ui.h:4
+msgid "No_rmal (Deflate)"
+msgstr "Ven_juleg (Deflate)"
+
+#: ../extensions/cairo_io/data/ui/tiff-options.ui.h:5
+msgid "_Loss compression (JPEG)"
+msgstr "_Þjöppun með tapi (JPEG)"
+
+#: ../extensions/cairo_io/data/ui/tiff-options.ui.h:6
+msgid "Resolution"
+msgstr "Upplausn"
+
+#: ../extensions/cairo_io/data/ui/tiff-options.ui.h:7
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:12
+msgid "_Horizontal:"
+msgstr "Lá_rétt:"
+
+#: ../extensions/cairo_io/data/ui/tiff-options.ui.h:8
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:13
+msgid "_Vertical:"
+msgstr "_Lóðrétt:"
+
+#: ../extensions/cairo_io/data/ui/tiff-options.ui.h:9
+msgid "dpi"
+msgstr "pát"
+
+#: ../extensions/cairo_io/data/ui/webp-options.ui.h:2
+#, fuzzy
+msgid "_Method:"
+msgstr "_Aðferð:"
+
+#: ../extensions/cairo_io/data/ui/webp-options.ui.h:3
+msgid "_Lossless"
+msgstr "_Taplaus"
+
+#: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:144
+msgid "JPEG"
+msgstr "JPEG"
+
+#: ../extensions/cairo_io/gth-image-saver-png.c:353
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:110
+msgid "PNG"
+msgstr "PNG"
+
+#: ../extensions/cairo_io/gth-image-saver-tga.c:257
+#: ../extensions/cairo_io/gth-image-saver-tiff.c:439
+#: ../gthumb/gth-buffer-data.c:84
+msgid "Insufficient memory"
+msgstr "Ekki nægilegt minni"
+
+#: ../extensions/cairo_io/gth-image-saver-tga.c:344
+msgid "TGA"
+msgstr "TGA"
+
+#: ../extensions/cairo_io/gth-image-saver-tiff.c:563
+msgid "TIFF"
+msgstr "TIFF"
+
+#: ../extensions/cairo_io/gth-image-saver-webp.c:382
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:173
+msgid "WebP"
+msgstr "WebP"
+
+#: ../extensions/cairo_io/preferences.c:134
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1369
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
+msgid "Saving"
+msgstr "Vista"
+
+#: ../extensions/catalogs/actions.c:85 ../extensions/catalogs/actions.c:208
+#: ../extensions/catalogs/dlg-add-to-catalog.c:368
+#: ../extensions/catalogs/dlg-add-to-catalog.c:488
+#: ../extensions/file_manager/actions.c:71
+#: ../extensions/file_tools/gth-file-tool-curves.c:372
+#: ../extensions/list_tools/gth-script-editor-dialog.c:289
+#: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1829
+#, c-format
+msgid "No name specified"
+msgstr "Ekkert heiti tilgreint"
+
+#: ../extensions/catalogs/actions.c:92 ../extensions/catalogs/actions.c:215
+#: ../extensions/catalogs/dlg-add-to-catalog.c:375
+#: ../extensions/catalogs/dlg-add-to-catalog.c:495
+#: ../extensions/file_manager/actions.c:78
+#: ../extensions/file_tools/gth-file-tool-curves.c:379
+#: ../gthumb/gth-folder-tree.c:1836
+#, c-format
+msgid "Invalid name. The following characters are not allowed: %s"
+msgstr ""
+
+#: ../extensions/catalogs/actions.c:148 ../extensions/catalogs/actions.c:262
+#: ../extensions/catalogs/dlg-add-to-catalog.c:432
+#: ../extensions/catalogs/dlg-add-to-catalog.c:542
+#: ../extensions/catalogs/gth-file-source-catalogs.c:508
+#: ../extensions/file_manager/actions.c:109
+msgid "Name already used"
+msgstr ""
+
+#: ../extensions/catalogs/actions.c:173
+#: ../extensions/catalogs/dlg-add-to-catalog.c:453
+msgid "New catalog"
+msgstr ""
+
+#: ../extensions/catalogs/actions.c:174
+#: ../extensions/catalogs/dlg-add-to-catalog.c:454
+msgid "Enter the catalog name:"
+msgstr ""
+
+#: ../extensions/catalogs/actions.c:176 ../extensions/catalogs/actions.c:290
+#, fuzzy
+#: ../extensions/catalogs/dlg-add-to-catalog.c:456
+#: ../extensions/catalogs/dlg-add-to-catalog.c:568
+#: ../extensions/file_manager/actions.c:139
+msgid "C_reate"
+msgstr "_Búa til"
+
+#: ../extensions/catalogs/actions.c:287
+#: ../extensions/catalogs/dlg-add-to-catalog.c:565
+msgid "New library"
+msgstr ""
+
+#: ../extensions/catalogs/actions.c:288
+#: ../extensions/catalogs/dlg-add-to-catalog.c:566
+msgid "Enter the library name:"
+msgstr ""
+
+#: ../extensions/catalogs/actions.c:323
+msgid "Could not remove the catalog"
+msgstr ""
+
+#: ../extensions/catalogs/actions.c:362
+#, c-format
+msgid "Are you sure you want to remove \"%s\"?"
+msgstr ""
+
+#: ../extensions/catalogs/callbacks.c:52
+msgid "Add to Catalog…"
+msgstr ""
+
+#: ../extensions/catalogs/callbacks.c:57
+#, fuzzy
+#: ../extensions/selections/callbacks.c:57
+msgid "Open Folder"
+msgstr "Opna möppu"
+
+#: ../extensions/catalogs/callbacks.c:62
+msgid "Remove from Catalog"
+msgstr ""
+
+#: ../extensions/catalogs/callbacks.c:67
+msgid "Create Catalog"
+msgstr ""
+
+#: ../extensions/catalogs/callbacks.c:68
+msgid "Create Library"
+msgstr ""
+
+#: ../extensions/catalogs/callbacks.c:73
+#, fuzzy
+#: ../extensions/file_manager/callbacks.c:78
+#: ../extensions/file_manager/callbacks.c:105
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:1
+#: ../gthumb/gth-folder-tree.c:1880
+msgid "Rename"
+msgstr "Endurnefna"
+
+#: ../extensions/catalogs/callbacks.c:78
+#, fuzzy
+#: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
+#: ../gthumb/gth-browser.c:4502 ../gthumb/gth-file-properties.c:256
+msgid "Properties"
+msgstr "Eiginleikar"
+
+#: ../extensions/catalogs/callbacks.c:201
+#, fuzzy
+#: ../extensions/catalogs/callbacks.c:204
+msgid "Command Line"
+msgstr "Skipanalína"
+
+#: ../extensions/catalogs/callbacks.c:351
+#, fuzzy
+msgid "Catalog Properties"
+msgstr "Eiginleikar þýðingaskrár"
+
+#: ../extensions/catalogs/callbacks.c:367
+#, fuzzy
+msgid "Organize"
+msgstr "Skipuleggja"
+
+#: ../extensions/catalogs/callbacks.c:368
+msgid "Automatically organize files by date"
+msgstr ""
+
+#: ../extensions/catalogs/catalogs.extension.in.in.h:1
+#: ../extensions/catalogs/gth-catalog.c:611
+#: ../extensions/catalogs/gth-catalog.c:662
+#: ../extensions/catalogs/gth-catalog.c:1016
+#: ../extensions/catalogs/gth-catalog.c:1017
+msgid "Catalogs"
+msgstr ""
+
+#: ../extensions/catalogs/catalogs.extension.in.in.h:2
+msgid "Create file collections."
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:1
+msgid "Add to Catalog"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
+msgid "A_dd and Close"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
+msgid "C_atalogs:"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
+msgid "_New Catalog"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
+msgid "New _Library"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
+#: ../extensions/file_manager/actions.c:684
+#: ../extensions/webalbums/gth-web-exporter.c:1842
+msgid "_View the destination"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/catalog-properties.ui.h:3
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:1
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
+msgid "_Name:"
+msgstr "_Nafn:"
+
+#: ../extensions/catalogs/data/ui/catalog-properties.ui.h:4
+#, fuzzy
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:2
+msgid "_Date:"
+msgstr "_Dagur:"
+
+#: ../extensions/catalogs/data/ui/catalog-properties.ui.h:5
+#, fuzzy
+msgid "Catalog"
+msgstr "Þýðingaskrá"
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:1
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:1
+msgid "Organize Files"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
+msgid "Organizing files"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
+#, fuzzy
+msgid "Organization:"
+msgstr "S_ofnun:"
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
+#, fuzzy
+msgid "Select All"
+msgstr "Velja allt"
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
+#, fuzzy
+msgid "Select None"
+msgstr "Velja ekkert"
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
+msgid "Catalog _Preview:"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:2
+msgid "_Group files by:"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:3
+#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:3
+#: ../extensions/search/data/ui/search-editor.ui.h:2
+msgid "_Include sub-folders"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:4
+msgid "Ignore catalogs with a single file"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:5
+msgid "Put single files in the catalog:"
+msgstr ""
+
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:6
+msgid "Singles"
+msgstr ""
+
+#: ../extensions/catalogs/dlg-add-to-catalog.c:149
+#: ../extensions/catalogs/dlg-add-to-catalog.c:183
+msgid "Could not add the files to the catalog"
+msgstr ""
+
+#: ../extensions/catalogs/dlg-add-to-catalog.c:311
+#: ../extensions/search/gth-search-task.c:360
+msgid "Could not create the catalog"
+msgstr ""
+
+#: ../extensions/catalogs/dlg-catalog-properties.c:80
+msgid "Could not save the catalog"
+msgstr ""
+
+#: ../extensions/catalogs/dlg-catalog-properties.c:151
+msgid "Could not load the catalog"
+msgstr ""
+
+#: ../extensions/catalogs/dlg-organize-files.c:112
+msgid "Files will be organized in catalogs. No file will be moved on disk."
+msgstr ""
+
+#: ../extensions/catalogs/dlg-organize-files.c:124
+#: ../extensions/edit_metadata/gth-edit-general-page.c:558
+#: ../gthumb/gth-main-default-tests.c:321
+msgid "Date photo was taken"
+msgstr ""
+
+#: ../extensions/catalogs/dlg-organize-files.c:131
+#: ../gthumb/gth-main-default-tests.c:313
+msgid "File modified date"
+msgstr ""
+
+#: ../extensions/catalogs/dlg-organize-files.c:138
+#, fuzzy
+#: ../extensions/comments/main.c:182
+msgid "Tag"
+msgstr "Merki"
+
+#: ../extensions/catalogs/dlg-organize-files.c:145
+#: ../gthumb/gth-main-default-tests.c:354
+msgid "Tag (embedded)"
+msgstr ""
+
+#: ../extensions/catalogs/gth-catalog.c:1114 ../extensions/comments/main.c:45
+#, fuzzy
+#: ../extensions/edit_metadata/callbacks.c:51
+#: ../extensions/edit_metadata/callbacks.c:85
+#: ../gthumb/gth-main-default-metadata.c:62
+msgid "Tags"
+msgstr "Tög"
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:953
+#, c-format
+msgid "The catalog '%s' already exists, do you want to overwrite it?"
+msgstr ""
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:955
+#, c-format
+msgid "The library '%s' already exists, do you want to overwrite it?"
+msgstr ""
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:963
+#, fuzzy
+msgid "Over_write"
+msgstr "_Skrifa yfir"
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1081
+msgid "Cannot move the files"
+msgstr ""
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1083
+msgid "Cannot copy the files"
+msgstr ""
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1088
+msgid "Invalid destination."
+msgstr ""
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1135
+#, c-format
+msgid "Copying files to '%s'"
+msgstr ""
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1322
+msgid "Could not remove the files from the catalog"
+msgstr ""
+
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1380
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:873
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:882
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:912
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:1443
+#: ../extensions/search/gth-search.c:265
+msgid "Invalid file format"
+msgstr ""
+
+#: ../extensions/catalogs/gth-organize-task.c:202
+#, c-format
+msgid "Operation completed. Catalogs: %d. Images: %d."
+msgstr ""
+
+#: ../extensions/change_date/callbacks.c:38
+msgid "Change _Date…"
+msgstr ""
+
+#: ../extensions/change_date/change_date.extension.in.in.h:1
+msgid "Change date"
+msgstr ""
+
+#: ../extensions/change_date/change_date.extension.in.in.h:2
+msgid "Change the files date"
+msgstr ""
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:1
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
+msgid "+"
+msgstr "+"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:2
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
+msgid "-"
+msgstr "-"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:3
+msgid "Change Date"
+msgstr "Breyta dagsetningu"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:4
+msgid "Change the following values:"
+msgstr ""
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:5
+msgid "_Last modified date"
+msgstr ""
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:6
+msgid "Co_mment date"
+msgstr ""
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:7
+#, fuzzy
+msgid "Change to:"
+msgstr "Breyta _í:"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:8
+msgid "The _following date:"
+msgstr ""
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:9
+msgid "File _modified date"
+msgstr ""
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:10
+msgid "File c_reation date"
+msgstr ""
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:11
+msgid "Date p_hoto was taken"
+msgstr ""
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:12
+msgid "A_djust by"
+msgstr ""
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:13
+msgid "hours"
+msgstr "klukkustundir"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:14
+msgid "minutes"
+msgstr "mínútur"
+
+#: ../extensions/change_date/data/ui/change-date.ui.h:15
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:6
+msgid "seconds"
+msgstr "sekúndur"
+
+#: ../extensions/comments/callbacks.c:39
+msgid "Import Embedded Metadata"
+msgstr ""
+
+#: ../extensions/comments/comments.extension.in.in.h:1
+msgid "Comments and tags"
+msgstr ""
+
+#: ../extensions/comments/comments.extension.in.in.h:2
+msgid "Add comments and tags to any file type."
+msgstr ""
+
+#: ../extensions/comments/data/ui/comments-preferences.ui.h:1
+#, fuzzy
+#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
+#: ../extensions/importer/gth-import-preferences-dialog.c:318
+#: ../gthumb/dlg-preferences-extensions.c:483
+msgid "Preferences"
+msgstr "Stillingar"
+
+#: ../extensions/comments/data/ui/comments-preferences.ui.h:2
+msgid "_Synchronize with the embedded metadata"
+msgstr ""
+
+#: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:50
+#: ../extensions/edit_metadata/callbacks.c:79
+msgid "Comment"
+msgstr "Athugasemd"
+
+#: ../extensions/comments/main.c:41 ../gthumb/gth-main-default-metadata.c:59
+msgid "Title"
+msgstr "Titill"
+
+#: ../extensions/comments/main.c:42 ../extensions/comments/main.c:166
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
+#: ../extensions/image_print/data/ui/print-layout.ui.h:8
+#: ../extensions/importer/data/ui/import-preferences.ui.h:6
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:11
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:12
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
+#: ../gthumb/gth-main-default-metadata.c:61
+msgid "Description"
+msgstr "Lýsing"
+
+#: ../extensions/comments/main.c:43 ../extensions/comments/main.c:174
+#: ../gthumb/gth-main-default-metadata.c:60
+msgid "Place"
+msgstr "Staður"
+
+#: ../extensions/comments/main.c:44 ../gthumb/gth-main-default-metadata.c:58
+msgid "Date"
+msgstr "Dagsetning"
+
+#: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:63
+#: ../gthumb/gth-main-default-tests.c:345
+msgid "Rating"
+msgstr "Einkunn"
+
+#: ../extensions/contact_sheet/callbacks.c:38
+msgid "Contact _Sheet…"
+msgstr ""
+
+#: ../extensions/contact_sheet/callbacks.c:39
+msgid "Image _Wall…"
+msgstr ""
+
+#: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:1
+msgid "Contact Sheet"
+msgstr ""
+
+#: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:2
+msgid "Create an index image displaying the thumbnails of the selected files."
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
+#, fuzzy
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#: ../extensions/file_tools/gth-file-tool-crop.c:464
+#: ../extensions/file_tools/gth-file-tool-resize.c:579
+#: ../extensions/file_tools/gth-file-tool-rotate.c:393
+#: ../extensions/slideshow/main.c:291
+msgid "None"
+msgstr "Ekkert"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:2
+#, fuzzy
+msgid "Simple"
+msgstr "Einfalt"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
+msgid "Simple with shadow"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
+#, fuzzy
+msgid "Shadow only"
+msgstr "Eingöngu skuggi"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:5
+#, fuzzy
+msgid "Slide"
+msgstr "_Skyggna..."
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
+msgid "Inward Shadow"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
+msgid "Outward Shadow"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
+#, fuzzy
+msgid "Background"
+msgstr "Bakgrunnur"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:10
+#, fuzzy
+msgid "_Solid color"
+msgstr "_Heill litur"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:11
+#, fuzzy
+msgid "_Gradient"
+msgstr "Stigull"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:14
+#, fuzzy
+msgid "Select a color"
+msgstr "Veldu lit"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:15
+#, fuzzy
+msgid "Frame"
+msgstr "Rammi"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:16
+#, fuzzy
+msgid "_Style:"
+msgstr "_Stíll:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:17
+#, fuzzy
+msgid "C_olor:"
+msgstr "Litur"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:18
+#, fuzzy
+#: ../extensions/rename_series/dlg-rename-series.c:57
+msgid "Text"
+msgstr "Texti"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:19
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
+#: ../extensions/image_print/data/ui/print-layout.ui.h:3
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:3
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
+msgid "_Header:"
+msgstr "haus"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:20
+msgid "Select a font"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:21
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
+#: ../extensions/image_print/data/ui/print-layout.ui.h:4
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:4
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
+msgid "_Footer:"
+msgstr "fótur"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:2
+msgid "Caption:"
+msgstr "S_kýring"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
+#: ../extensions/image_print/data/ui/print-layout.ui.h:5
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
+msgid "The current page number"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
+#: ../extensions/image_print/data/ui/print-layout.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
+msgid "The total number of pages"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
+#: ../extensions/image_print/data/ui/print-layout.ui.h:7
+#: ../extensions/importer/data/ui/import-preferences.ui.h:5
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:10
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
+msgid "Special code"
+msgstr ""
+
+#. translate only the text in the curly brackets
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
+#: ../extensions/image_print/data/ui/print-layout.ui.h:11
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
+#, no-c-format
+msgid "%D{ format }"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
+#: ../extensions/image_print/data/ui/print-layout.ui.h:12
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
+msgid "The current date"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:6
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:5
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:6
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
+msgid "_Destination:"
+msgstr "Áfangastaður"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:13
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:3
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:4
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:10
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
+msgid "Choose destination folder"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
+msgid "File_name:"
+msgstr "Skráar_heiti:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:8
+msgid "New enumerator digit"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
+msgid "Create _HTML image map"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
+msgid "Create a new theme"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
+msgid "Edit the selected theme"
+msgstr "Breyta völdu þema"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
+msgid "Delete the selected theme"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
+#, fuzzy
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
+msgid "Theme"
+msgstr "Þema"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
+#: ../extensions/image_print/data/ui/print-layout.ui.h:16
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
+msgid "Columns:"
+msgstr "Dálkar:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+msgid "Images per page:"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
+msgid "All images on a single page"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
+msgid "_All pages with the same size"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
+#: ../extensions/image_print/data/ui/print-layout.ui.h:15
+msgid "Layout"
+msgstr "Framsetning"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+msgid "S_ort:"
+msgstr "Flokka"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
+msgid "Re_verse order"
+msgstr "Öfu_g röð"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
+msgid "_Size:"
+msgstr "_Stærð:"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
+msgid "Sq_uared"
+msgstr ""
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
+#, fuzzy
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:16
+msgid "Thumbnails"
+msgstr "Smámyndir"
+
+#: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
+msgid "Image Wall"
+msgstr ""
+
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:495
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:506
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:520
+msgid "Could not save the theme"
+msgstr ""
+
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:665
+msgid "Could not delete the theme"
+msgstr ""
+
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:247
+msgid "Creating images"
+msgstr ""
+
+#: ../extensions/contact_sheet/gth-contact-sheet-creator.c:895
+msgid "Generating thumbnails"
+msgstr ""
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:32
+#, fuzzy
+msgid "Header"
+msgstr "Haus"
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme.c:33
+#, fuzzy
+msgid "Footer"
+msgstr "Síðufótur"
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:193
+msgid "Theme Properties"
+msgstr ""
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:205
+msgid "Copy _From"
+msgstr ""
+
+#: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:312
+msgid "New theme"
+msgstr ""
+
+#: ../extensions/convert_format/callbacks.c:38
+msgid "Convert Format…"
+msgstr ""
+
+#: ../extensions/convert_format/convert_format.extension.in.in.h:1
+msgid "Convert format"
+msgstr ""
+
+#: ../extensions/convert_format/convert_format.extension.in.in.h:2
+msgid "Save images in a different format"
+msgstr ""
+
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:1
+msgid "Convert Format"
+msgstr ""
+
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:2
+msgid "New format"
+msgstr ""
+
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:3
+#, fuzzy
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:9
+msgid "Destination"
+msgstr "Áfangastaður"
+
+#: ../extensions/convert_format/data/ui/convert-format.ui.h:5
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:11
+msgid "_Use the original image folder"
+msgstr ""
+
+#: ../extensions/convert_format/dlg-convert-format.c:87
+msgid "Converting images"
+msgstr ""
+
+#: ../extensions/desktop_background/actions.c:207
+msgid "Could not show the desktop background properties"
+msgstr ""
+
+#: ../extensions/desktop_background/actions.c:248
+#, fuzzy
+#: ../gthumb/resources/app-menu.ui.h:2
+msgid "_Preferences"
+msgstr "_Stillingar"
+
+#: ../extensions/desktop_background/actions.c:249
+#, fuzzy
+msgid "_Undo"
+msgstr "_Afturkalla"
+
+#: ../extensions/desktop_background/actions.c:276
+#: ../extensions/desktop_background/actions.c:331
+#: ../extensions/desktop_background/actions.c:350
+msgid "Could not set the desktop background"
+msgstr ""
+
+#: ../extensions/desktop_background/callbacks.c:47
+#, fuzzy
+#: ../extensions/desktop_background/callbacks.c:53
+msgid "Set as Background"
+msgstr "Setja sem bakgrunnsmynd"
+
+#: ../extensions/desktop_background/desktop_background.extension.in.in.h:1
+msgid "Desktop background"
+msgstr ""
+
+#: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
+msgid "Set the image as desktop background"
+msgstr ""
+
+#: ../extensions/edit_metadata/actions.c:75
+msgid ""
+"Are you sure you want to permanently delete the metadata of the selected "
+"files?"
+msgstr ""
+
+#: ../extensions/edit_metadata/actions.c:82
+msgid "If you delete the metadata, it will be permanently lost."
+msgstr ""
+
+#: ../extensions/edit_metadata/callbacks.c:45
+msgid "Delete Metadata"
+msgstr ""
+
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
+#, fuzzy
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
+msgid "D_escription:"
+msgstr "Lýsing"
+
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:3
+#, fuzzy
+msgid "_Place:"
+msgstr "S_taður:"
+
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:4
+#, fuzzy
+#: ../extensions/edit_metadata/data/ui/tag-chooser.ui.h:1
+msgid "T_ags:"
+msgstr "Tög"
+
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:5
+#, fuzzy
+msgid "_Rating:"
+msgstr "Stjörnugjöf:"
+
+#: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:6
+#, fuzzy
+msgid "_Title:"
+msgstr "_Titill:"
+
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:121
+msgid "Could not save the file metadata"
+msgstr ""
+
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:229
+#: ../gthumb/gth-overwrite-dialog.c:137
+msgid "Cannot read file information"
+msgstr ""
+
+#: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
+msgid "Edit metadata"
+msgstr "Breyta lýsigögnum"
+
+#: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
+msgid "Allow to edit files metadata."
+msgstr "Leyfa að lýsigögnum sé breytt"
+
+#. Translators: the %s symbol in the string is a file name
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:63
+#, c-format
+msgid "%s Metadata"
+msgstr ""
+
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:83
+#: ../extensions/facebook/dlg-import-from-facebook.c:319
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:320
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d skrá"
+msgstr[1] "%d skrár"
+
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:144
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:197
+msgid "Sa_ve and Close"
+msgstr "_Vista og loka..."
+
+#: ../extensions/edit_metadata/gth-edit-comment-dialog.c:155
+msgid "Save only cha_nged fields"
+msgstr ""
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:555
+msgid "No date"
+msgstr ""
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:556
+msgid "The following date"
+msgstr ""
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:557
+#: ../extensions/importer/gth-import-preferences-dialog.c:331
+msgid "Current date"
+msgstr ""
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:559
+msgid "Last modified date"
+msgstr ""
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:560
+msgid "File creation date"
+msgstr "Upprunadagsetning skráar"
+
+#: ../extensions/edit_metadata/gth-edit-general-page.c:561
+msgid "Do not modify"
+msgstr ""
+
+#. Translators: the %s symbol in the string is a file name
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:80
+#, c-format
+msgid "%s Tags"
+msgstr ""
+
+#: ../extensions/edit_metadata/gth-edit-tags-dialog.c:189
+msgid "Assign Tags"
+msgstr ""
+
+#: ../extensions/edit_metadata/gth-tag-task.c:119
+#: ../extensions/edit_metadata/gth-tag-task.c:136
+msgid "Assigning tags to the selected files"
+msgstr ""
+
+#: ../extensions/edit_metadata/gth-tag-task.c:119
+msgid "Writing files"
+msgstr "Skrifa skrár"
+
+#: ../extensions/edit_metadata/gth-tag-task.c:136
+msgid "Reading files"
+msgstr "Les skrár"
+
+#: ../extensions/example/src/example.extension.in.in.h:1
+#, fuzzy
+msgid "Example"
+msgstr "Dæmi"
+
+#: ../extensions/example/src/example.extension.in.in.h:2
+msgid "Extension example."
+msgstr ""
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:1
+#, fuzzy
+msgid "C_opyright:"
+msgstr "Höfundarréttur:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
+#, fuzzy
+msgid "Co_untry:"
+msgstr "_Land:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:3
+#, fuzzy
+msgid "_Code:"
+msgstr "Kóði:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:4
+msgid "Cr_edit:"
+msgstr "Þakkir fá:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
+#, fuzzy
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
+msgid "_Source:"
+msgstr "Uppruni"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
+msgid "_Urgency:"
+msgstr ""
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
+msgid "_Object Name:"
+msgstr ""
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
+msgid "Byline _Title:"
+msgstr ""
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
+msgid "_Byline:"
+msgstr ""
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
+#, fuzzy
+msgid "_City:"
+msgstr "_Borg/Sveitarfélag:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:12
+#, fuzzy
+msgid "_Language:"
+msgstr "_Tungumál:"
+
+#: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
+#, fuzzy
+msgid "State/Province:"
+msgstr "_Fylki/Svæði:"
+
+#: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:1
+msgid "EXIF, IPTC, XMP support"
+msgstr ""
+
+#: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:2
+msgid "Read and write exif, iptc and xmp metadata."
+msgstr ""
+
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:42 ../gthumb/glib-utils.c:1115
+msgid "(invalid value)"
+msgstr ""
+
+#: ../extensions/exiv2_tools/exiv2-utils.cpp:710
+#, fuzzy
+msgid "Exposure"
+msgstr "Lýsing"
+
+#: ../extensions/exiv2_tools/main.c:33
+msgid "Exif General"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:34
+msgid "Exif Conditions"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:35
+msgid "Exif Structure"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:36
+msgid "Exif Thumbnail"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:37
+msgid "Exif GPS"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:38
+msgid "Exif Maker Notes"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:39
+msgid "Exif Versions"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:40
+msgid "Exif Other"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:41
+msgid "IPTC"
+msgstr "IPTC"
+
+#: ../extensions/exiv2_tools/main.c:42
+msgid "XMP Embedded"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:43
+msgid "XMP Attached"
+msgstr ""
+
+#: ../extensions/exiv2_tools/main.c:272
+msgid "date photo was taken"
+msgstr ""
+
+#: ../extensions/export_tools/callbacks.c:46
+#, fuzzy
+msgid "Export"
+msgstr "Flytja út"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
+msgid "Export to Flickr"
+msgstr ""
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:9
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
+msgid "_Upload"
+msgstr ""
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
+#, fuzzy
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
+msgid "_Account:"
+msgstr "Aðgangur"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:3
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:11
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:2
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
+msgid "Edit accounts"
+msgstr "Breyta aðgöngum"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
+#, fuzzy
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
+msgid "A_lbum:"
+msgstr "Albúm:"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
+msgid "Add a new album"
+msgstr ""
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
+msgid "Resize the images if larger than this size"
+msgstr ""
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:17
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
+msgid "_Resize if larger than:"
+msgstr ""
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
+msgid "720 x 720"
+msgstr "720 x 720"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
+msgid "1024 x 1024"
+msgstr "1024 x 1024"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
+msgid "1280 x 1280"
+msgstr "1280 x 1280"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:12
+msgid "1600 x 1600"
+msgstr "1600 x 1600"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:13
+msgid "2048 x 2048"
+msgstr "2048 x 2048"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:1
+msgid "Public photos"
+msgstr ""
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:2
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:3
+msgid "Private photos, visible to friends"
+msgstr ""
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:3
+#, fuzzy
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
+msgid "Private"
+msgstr "Einka"
+
+#: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
+#, fuzzy
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
+msgid "_Visibility:"
+msgstr "Skyggni:"
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+msgid "Import from Picasa Web Album"
+msgstr ""
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:2
+#, fuzzy
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
+msgid "_Import"
+msgstr "Flytja _inn"
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:4
+#, fuzzy
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
+#: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
+msgid "A_ccount:"
+msgstr "Aðgangur"
+
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:5
+#, fuzzy
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
+msgid "_Album:"
+msgstr "Albúm:"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:123
+#: ../extensions/facebook/dlg-export-to-facebook.c:328
+#: ../extensions/facebook/dlg-import-from-facebook.c:226
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:138
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:412
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: ../extensions/oauth/web-service.c:376
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:131
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:373
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
+msgid "Could not connect to the server"
+msgstr ""
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:149
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:163
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:157
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:149
+msgid "Files successfully uploaded to the server."
+msgstr ""
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:152
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:166
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:160
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:152
+#: ../extensions/webalbums/gth-web-exporter.c:1841
+msgid "_Open in the Browser"
+msgstr ""
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:177
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:248
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:184
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:178
+msgid "Could not upload the files"
+msgstr ""
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:399
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:190
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:225
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:455
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:311
+msgid "Could not create the album"
+msgstr ""
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:467
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:526
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:377
+msgid "New Album"
+msgstr ""
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:559
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:581
+#: ../extensions/image_print/gth-image-print-job.c:1739
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:605
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:599
+msgid "No valid file selected."
+msgstr ""
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:560
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:582
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:606
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:600
+msgid "Could not export the files"
+msgstr ""
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:568
+#: ../extensions/find_duplicates/gth-find-duplicates.c:277
+#: ../extensions/find_duplicates/gth-find-duplicates.c:470
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:614
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:607
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
+#: ../gthumb/gth-browser.c:818
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d skrá (%s)"
+msgstr[1] "%d skrár (%s)"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:589
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:613
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:633
+#, fuzzy, c-format
+msgid "Export to %s"
+msgstr "Flytja út til %s"
+
+#: ../extensions/facebook/dlg-import-from-facebook.c:344
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:345
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:279
+msgid "Could not get the photo list"
+msgstr ""
+
+#: ../extensions/facebook/dlg-import-from-facebook.c:378
+#: ../extensions/facebook/dlg-import-from-facebook.c:534
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:382
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:548
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:587
+msgid "No album selected"
+msgstr ""
+
+#: ../extensions/facebook/dlg-import-from-facebook.c:552
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:566
+#, fuzzy, c-format
+msgid "Import from %s"
+msgstr "Flytja inn úr %s"
+
+#: ../extensions/facebook/dlg-import-from-facebook.c:552
+#: ../extensions/facebook/facebook.extension.in.in.h:1
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../extensions/facebook/facebook.extension.in.in.h:2
+msgid "Upload images to Facebook"
+msgstr "Senda myndir á Facebook"
+
+#: ../extensions/facebook/facebook-service.c:497
+#: ../extensions/flicker_utils/flickr-service.c:863
+#: ../extensions/photobucket/photobucket-service.c:310
+#: ../extensions/picasaweb/picasa-web-service.c:711
+msgid "Getting the album list"
+msgstr ""
+
+#: ../extensions/facebook/facebook-service.c:619
+#: ../extensions/flicker_utils/flickr-service.c:965
+#: ../extensions/flicker_utils/flickr-service.c:1087
+#: ../extensions/flicker_utils/flickr-service.c:1126
+#: ../extensions/photobucket/photobucket-service.c:423
+#: ../extensions/picasaweb/picasa-web-service.c:805
+msgid "Creating the new album"
+msgstr ""
+
+#: ../extensions/facebook/facebook-service.c:680
+#: ../extensions/flicker_utils/flickr-service.c:1176
+#: ../extensions/photobucket/photobucket-service.c:485
+#: ../extensions/picasaweb/picasa-web-service.c:860
+#, c-format
+msgid "Could not upload '%s': %s"
+msgstr ""
+
+#. Translators: %s is a filename
+#: ../extensions/facebook/facebook-service.c:745
+#: ../extensions/flicker_utils/flickr-service.c:1287
+#: ../extensions/photobucket/photobucket-service.c:542
+#: ../extensions/picasaweb/picasa-web-service.c:917
+#, c-format
+msgid "Uploading '%s'"
+msgstr ""
+
+#: ../extensions/facebook/facebook-service.c:958
+#: ../extensions/flicker_utils/flickr-service.c:1482
+#: ../extensions/photobucket/photobucket-service.c:714
+#: ../extensions/picasaweb/picasa-web-service.c:1138
+msgid "Uploading the files to the server"
+msgstr ""
+
+#: ../extensions/facebook/facebook-service.c:1057
+#: ../extensions/flicker_utils/flickr-service.c:1651
+#: ../extensions/picasaweb/picasa-web-service.c:1257
+msgid "Getting the photo list"
+msgstr ""
+
+#: ../extensions/file_manager/actions.c:136
+#, fuzzy
+msgid "New folder"
+msgstr "Ný mappa"
+
+#: ../extensions/file_manager/actions.c:137
+msgid "Enter the folder name:"
+msgstr ""
+
+#: ../extensions/file_manager/actions.c:409
+#: ../extensions/file_manager/callbacks.c:268
+#: ../extensions/file_manager/callbacks.c:811
+msgid "Could not move the files"
+msgstr ""
+
+#: ../extensions/file_manager/actions.c:410
+#: ../extensions/file_manager/callbacks.c:269
+#: ../extensions/file_manager/callbacks.c:812
+msgid ""
+"Files cannot be moved to the current location, as alternative you can choose "
+"to copy them."
+msgstr ""
+
+#: ../extensions/file_manager/actions.c:412
+#: ../extensions/file_manager/actions.c:663
+#: ../extensions/file_manager/callbacks.c:70
+#: ../extensions/file_manager/callbacks.c:99 ../gthumb/gtk-utils.h:38
+msgid "Copy"
+msgstr "Afrita"
+
+#: ../extensions/file_manager/actions.c:659
+msgid "Move To"
+msgstr "Færa í"
+
+#: ../extensions/file_manager/actions.c:659
+msgid "Copy To"
+msgstr "Afrita í"
+
+#: ../extensions/file_manager/actions.c:663
+#: ../extensions/file_manager/callbacks.c:796
+msgid "Move"
+msgstr "Færa"
+
+#: ../extensions/file_manager/actions.c:788
+msgid "Could not open the location"
+msgstr "Gat ekki opnað staðsetninguna"
+
+#: ../extensions/file_manager/callbacks.c:69
+#: ../extensions/file_manager/callbacks.c:98
+msgid "Cut"
+msgstr "Klippa"
+
+#: ../extensions/file_manager/callbacks.c:71
+msgid "Paste"
+msgstr "Líma"
+
+#: ../extensions/file_manager/callbacks.c:76
+#: ../extensions/file_manager/callbacks.c:106
+msgid "Copy to…"
+msgstr "Afrita í…"
+
+#: ../extensions/file_manager/callbacks.c:77
+#: ../extensions/file_manager/callbacks.c:107
+msgid "Move to…"
+msgstr "Færa í…"
+
+#: ../extensions/file_manager/callbacks.c:83
+#: ../extensions/file_manager/callbacks.c:108
+msgid "Move to Trash"
+msgstr "Flytja í ruslið"
+
+#: ../extensions/file_manager/callbacks.c:84
+#: ../extensions/file_manager/callbacks.c:109
+msgid "Delete"
+msgstr "Eyða"
+
+#: ../extensions/file_manager/callbacks.c:88
+msgid "Open with the File Manager"
+msgstr ""
+
+#: ../extensions/file_manager/callbacks.c:93
+msgid "Create Folder"
+msgstr "Búa til möppu"
+
+#: ../extensions/file_manager/callbacks.c:100
+msgid "Paste Into Folder"
+msgstr "Líma inn í möppu"
+
+#: ../extensions/file_manager/callbacks.c:114
+msgid "Duplicate"
+msgstr "Tvöfalda"
+
+#: ../extensions/file_manager/callbacks.c:533
+#: ../extensions/file_manager/callbacks.c:536
+msgid "Open _With"
+msgstr "Opna _með"
+
+#: ../extensions/file_manager/callbacks.c:779
+#, c-format
+msgid "Do you want to move \"%s\" to \"%s\"?"
+msgstr ""
+
+#: ../extensions/file_manager/callbacks.c:781
+#, c-format
+msgid "Do you want to copy \"%s\" to \"%s\"?"
+msgstr ""
+
+#: ../extensions/file_manager/callbacks.c:786
+#, c-format
+msgid "Do you want to move the dragged files to \"%s\"?"
+msgstr ""
+
+#: ../extensions/file_manager/callbacks.c:788
+#, c-format
+msgid "Do you want to copy the dragged files to \"%s\"?"
+msgstr ""
+
+#: ../extensions/file_manager/callbacks.c:796
+msgid "_Copy"
+msgstr "_Afrita"
+
+#: ../extensions/file_manager/callbacks.c:977
+#, fuzzy
+#: ../extensions/find_duplicates/gth-find-duplicates.c:766
+#: ../gthumb/gth-browser.c:5456 ../gthumb/gth-browser.c:5489
+#: ../gthumb/gth-progress-dialog.c:409
+msgid "Could not perform the operation"
+msgstr "Gat ekki framkvæmt aðgerð"
+
+#: ../extensions/file_manager/file_manager.extension.in.in.h:1
+msgid "File manager"
+msgstr "Skráastjóri"
+
+#: ../extensions/file_manager/file_manager.extension.in.in.h:2
+msgid "File manager operations."
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:1
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:1
+msgid "_Preview"
+msgstr "_Forskoðun"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:2
+#, fuzzy
+msgid "B_rightness:"
+msgstr "_Lýsing"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:3
+#, fuzzy
+msgid "Con_trast:"
+msgstr "Birtuskil:"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:4
+#, fuzzy
+msgid "_Saturation:"
+msgstr "_Mettun:"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:5
+#, fuzzy
+msgid "G_amma:"
+msgstr "Litróf (gamma)"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:6
+#, fuzzy
+msgid "Cyan-_Red:"
+msgstr "Blágrænt/Rautt:"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:7
+#, fuzzy
+msgid "_Magenta-Green:"
+msgstr "Blárautt/Grænt:"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:8
+#, fuzzy
+msgid "_Yellow-Blue:"
+msgstr "Gult/Blátt:"
+
+#: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:9
+msgid "Color Levels"
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:1
+#, fuzzy
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:1
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
+#: ../extensions/file_tools/gth-file-tool-crop.c:656
+#: ../extensions/file_tools/gth-file-tool-resize.c:749
+#: ../extensions/file_tools/gth-file-tool-rotate.c:616
+#: ../gthumb/gth-file-chooser-dialog.c:252
+msgid "Options"
+msgstr "Valkostir"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:2
+#, fuzzy
+msgid "_Grid:"
+msgstr "Hnitanet"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:3
+#, fuzzy
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
+msgid "Selection"
+msgstr "Myndval"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:4
+#, fuzzy
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:7
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:6
+msgid "_Width:"
+msgstr "_Breidd:"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:5
+#, fuzzy
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:8
+msgid "Heigh_t:"
+msgstr "Hæð"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:6
+#, fuzzy
+msgid "_Position:"
+msgstr "Staðsetning"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:7
+#, fuzzy
+msgid "Maximize"
+msgstr "Hámarka"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:8
+#, fuzzy
+msgid "Center"
+msgstr "Miðja"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:9
+#, fuzzy
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:10
+msgid "Aspect ratio"
+msgstr "Stærðarhlutföll"
+
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:10
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:11
+msgid "I_nvert aspect ratio"
+msgstr ""
+
+#. after the colon there is a control to select the size in pixels
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:12
+msgid "M_ultiple of:"
+msgstr ""
+
+#. abbreviation of pixel
+#: ../extensions/file_tools/data/ui/crop-options.ui.h:14
+msgid "px"
+msgstr "px"
+
+#: ../extensions/file_tools/data/ui/curves-options.ui.h:2
+msgid "Include current channel"
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:2
+msgid "High _quality"
+msgstr "Há_gæða"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:3
+#: ../extensions/image_print/data/ui/print-layout.ui.h:29
+msgid "pixels"
+msgstr "mynddílar"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:5
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:3
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:6
+#: ../gthumb/gth-main-default-metadata.c:46
+msgid "Dimensions"
+msgstr "Stærðir"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:9
+msgid "Set the image size to this value"
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:12
+msgid "Original dimensions:"
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:13
+msgid "Scale factor:"
+msgstr "Kvörðunargildi:"
+
+#: ../extensions/file_tools/data/ui/resize-options.ui.h:14
+msgid "New dimensions:"
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:2
+msgid "Grid:"
+msgstr "Hnitanet:"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:3
+#, fuzzy
+msgid "_Background:"
+msgstr "Bakgrunnur"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:4
+msgid "Pick a background color"
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:5
+#, fuzzy
+msgid "_Transparent"
+msgstr "_Gegnsætt"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:6
+msgid "Original size"
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:7
+#, fuzzy
+msgid "Bounding box"
+msgstr "Umgjörð"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:8
+msgid "Crop borders"
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:9
+#, fuzzy
+msgid "Angle"
+msgstr "Horn"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:10
+#, fuzzy
+msgid "Align"
+msgstr "Jafna"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:11
+#, fuzzy
+msgid "Image size"
+msgstr "Stærð myndar"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:12
+msgid "Point 1:"
+msgstr "Punktur 1:"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:13
+msgid "Point 2:"
+msgstr "Punktur 2:"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:14
+msgid "Keep aspect ratio"
+msgstr "Halda stærðarhlutföllum"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:15
+msgid ""
+"Draw a line on the image \n"
+"to set the alignment."
+msgstr ""
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:17
+msgid "Parallel"
+msgstr "Samhliða"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
+msgid "Perpendicular"
+msgstr "Hornrétt"
+
+#: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
+msgid "Alignment"
+msgstr "Jöfnun"
+
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:2
+msgid "Threshold:"
+msgstr "Litmörk:"
+
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:3
+msgid "Radius:"
+msgstr "Radíus:"
+
+#: ../extensions/file_tools/data/ui/sharpen-options.ui.h:4
+msgid "Amount:"
+msgstr "Magn:"
+
+#. Translators: the first number is converted to the second number
+#: ../extensions/file_tools/gth-curve-editor.c:416
+#, c-format
+msgid "%d → %d"
+msgstr "%d → %d"
+
+#: ../extensions/file_tools/gth-curve-editor.c:893
+#: ../gthumb/gth-histogram-view.c:837
+msgid "Linear scale"
+msgstr ""
+
+#: ../extensions/file_tools/gth-curve-editor.c:905
+#: ../gthumb/gth-histogram-view.c:849
+msgid "Logarithmic scale"
+msgstr ""
+
+#: ../extensions/file_tools/gth-curve-editor.c:925
+#: ../gthumb/gth-histogram-view.c:869
+msgid "Channel:"
+msgstr "Litrás:"
+
+#: ../extensions/file_tools/gth-curve-editor.c:947
+#: ../gthumb/gth-histogram-view.c:890
+msgid "Value"
+msgstr "Gildi"
+
+#: ../extensions/file_tools/gth-curve-editor.c:952
+#: ../gthumb/gth-histogram-view.c:895
+msgid "Red"
+msgstr "Rautt"
+
+#: ../extensions/file_tools/gth-curve-editor.c:957
+#: ../gthumb/gth-histogram-view.c:900
+msgid "Green"
+msgstr "Grænt"
+
+#: ../extensions/file_tools/gth-curve-editor.c:962
+#: ../gthumb/gth-histogram-view.c:905
+msgid "Blue"
+msgstr "Blátt"
+
+#: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
+#: ../extensions/file_tools/gth-file-tool-curves.c:686
+#: ../extensions/file_tools/gth-file-tool-curves.c:850
+msgid "Presets"
+msgstr "Forstillingar:"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:336
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:388
+#: ../extensions/file_tools/gth-file-tool-crop.c:627
+#: ../extensions/file_tools/gth-file-tool-curves.c:285
+#: ../extensions/file_tools/gth-file-tool-effects.c:400
+#: ../extensions/file_tools/gth-file-tool-effects.c:445
+#: ../extensions/file_tools/gth-file-tool-effects.c:493
+#: ../extensions/file_tools/gth-file-tool-effects.c:542
+#: ../extensions/file_tools/gth-file-tool-effects.c:590
+#: ../extensions/file_tools/gth-file-tool-effects.c:638
+#: ../extensions/file_tools/gth-file-tool-effects.c:686
+#: ../extensions/file_tools/gth-file-tool-effects.c:734
+#: ../extensions/file_tools/gth-file-tool-effects.c:784
+#: ../extensions/file_tools/gth-file-tool-effects.c:906
+#: ../extensions/file_tools/gth-file-tool-effects.c:942
+#: ../extensions/file_tools/gth-file-tool-flip.c:63
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:227
+#: ../extensions/file_tools/gth-file-tool-lomo.c:182
+#: ../extensions/file_tools/gth-file-tool-mirror.c:63
+#: ../extensions/file_tools/gth-file-tool-negative.c:100
+#: ../extensions/file_tools/gth-file-tool-rotate.c:568
+#: ../extensions/file_tools/gth-file-tool-rotate-left.c:63
+#: ../extensions/file_tools/gth-file-tool-rotate-right.c:63
+msgid "Applying changes"
+msgstr "Virkja breytingar"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:555
+#: ../extensions/file_tools/gth-file-tool-curves.c:822
+#: ../extensions/file_tools/gth-file-tool-rotate.c:603
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:365
+msgid "Reset"
+msgstr "Frumstilla"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
+msgid "Adjust Colors"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-colors.c:597
+msgid "Change brightness, contrast, saturation and gamma level of the image"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:531
+#, fuzzy
+msgid "Stretch"
+msgstr "Teygja"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:532
+msgid "Stretch the histogram trimming the 0.5%"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:536
+#, fuzzy
+msgid "Equalize"
+msgstr "Jafna"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:537
+msgid "Equalize the histogram using the square root function"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:541
+#, fuzzy
+#: ../extensions/file_tools/gth-file-tool-crop.c:468
+#: ../extensions/file_tools/gth-file-tool-rotate.c:397
+msgid "Uniform"
+msgstr "Einsleitt"
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:542
+msgid "Equalize the histogram using the linear function"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:656
+msgid "Adjust Contrast"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
+msgid "Automatic contrast adjustment"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:434
+#, fuzzy
+#: ../extensions/file_tools/gth-file-tool-resize.c:579
+msgid "Square"
+msgstr "Ferningur"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:435
+#: ../extensions/file_tools/gth-file-tool-resize.c:580
+#, c-format
+msgid "%d x %d (Image)"
+msgstr "%d x %d (mynd)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:438
+#: ../extensions/file_tools/gth-file-tool-resize.c:584
+#, c-format
+msgid "%d x %d (Screen)"
+msgstr "%d x %d (skjár)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:442
+#: ../extensions/file_tools/gth-file-tool-resize.c:589
+msgid "5:4"
+msgstr "5:4"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:443
+#: ../extensions/file_tools/gth-file-tool-resize.c:590
+msgid "4:3 (DVD, Book)"
+msgstr "4:3 (DVD, bók)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:444
+#: ../extensions/file_tools/gth-file-tool-resize.c:591
+msgid "7:5"
+msgstr "7:5"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:445
+#: ../extensions/file_tools/gth-file-tool-resize.c:592
+msgid "3:2 (Postcard)"
+msgstr "3:2 (póstkort)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:446
+#: ../extensions/file_tools/gth-file-tool-resize.c:593
+msgid "16:10"
+msgstr "16:10"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:447
+#: ../extensions/file_tools/gth-file-tool-resize.c:594
+msgid "16:9 (DVD)"
+msgstr "16:9 (DVD)"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:448
+#: ../extensions/file_tools/gth-file-tool-resize.c:595
+msgid "1.85:1"
+msgstr "1.85:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:449
+#: ../extensions/file_tools/gth-file-tool-resize.c:596
+msgid "2.39:1"
+msgstr "2.39:1"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:450
+#: ../extensions/file_tools/gth-file-tool-resize.c:597
+#: ../extensions/image_print/data/ui/print-layout.ui.h:2
+#: ../extensions/rename_series/gth-template-selector.c:234
+msgid "Custom"
+msgstr "Sérsniðið"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:465
+#: ../extensions/file_tools/gth-file-tool-rotate.c:394
+msgid "Rule of Thirds"
+msgstr "Þriðjungaregla"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:466
+#: ../extensions/file_tools/gth-file-tool-rotate.c:395
+msgid "Golden Sections"
+msgstr "Gullinsnið"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:467
+#: ../extensions/file_tools/gth-file-tool-rotate.c:396
+msgid "Center Lines"
+msgstr "Miðjulínur"
+
+#: ../extensions/file_tools/gth-file-tool-crop.c:682
+msgid "Crop"
+msgstr "Utansníða"
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:409
+msgid "Add to Presets"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:410
+msgid "Enter the preset name:"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:533
+#: ../extensions/gstreamer_tools/actions.c:69
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1299
+#: ../gthumb/gth-browser.c:1882
+msgid "Could not save the file"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:836
+msgid "Add to presets"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:897
+msgid "Color Curves"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-curves.c:898
+msgid "Adjust color curves"
+msgstr "Breyta litferlum"
+
+#: ../extensions/file_tools/gth-file-tool-effects.c:357
+msgid "Special Effects"
+msgstr ""
+
+#. Translators: this is the name of a filter that produces warmer colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:402
+msgid "Warmer"
+msgstr ""
+
+#. Translators: this is the name of a filter that produces cooler colors
+#: ../extensions/file_tools/gth-file-tool-effects.c:447
+msgid "Cooler"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:495
+msgid "Soil"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:544
+msgid "Desert"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:592
+msgid "Artic"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:640
+msgid "Mangos"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:688
+msgid "Fresh Blue"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:736
+msgid "Cherry"
+msgstr ""
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:786
+msgid "Vintage"
+msgstr "Gamaldags"
+
+#. Translators: this is the name of an image filter
+#: ../extensions/file_tools/gth-file-tool-effects.c:908
+msgid "Blurred Edges"
+msgstr ""
+
+#. Translators: this is the name of an image filter that produces darker edges
+#: ../extensions/file_tools/gth-file-tool-effects.c:944
+msgid "Vignette"
+msgstr "Hornskygging"
+
+#: ../extensions/file_tools/gth-file-tool-flip.c:90
+#, fuzzy
+msgid "Flip"
+msgstr "Fletta"
+
+#: ../extensions/file_tools/gth-file-tool-flip.c:91
+msgid "Flip the image vertically"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:370
+msgid "_Brightness"
+msgstr "_Birtustig"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:375
+msgid "_Saturation"
+msgstr "Litmett_un"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:380
+msgid "_Average"
+msgstr "Með_altal"
+
+#: ../extensions/file_tools/gth-file-tool-grayscale.c:496
+msgid "Grayscale"
+msgstr "Grátóna"
+
+#: ../extensions/file_tools/gth-file-tool-lomo.c:183
+msgid "Lomo"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-mirror.c:90
+#, fuzzy
+msgid "Mirror"
+msgstr "Spegla"
+
+#: ../extensions/file_tools/gth-file-tool-mirror.c:91
+#, fuzzy
+msgid "Mirror the image horizontally"
+msgstr "Spegla myndinni lárétt"
+
+#: ../extensions/file_tools/gth-file-tool-negative.c:101
+#, fuzzy
+msgid "Negative"
+msgstr "Negatíva"
+
+#: ../extensions/file_tools/gth-file-tool-redo.c:81
+#, fuzzy
+msgid "Redo"
+msgstr "Endurtaka"
+
+#. resize the original image
+#: ../extensions/file_tools/gth-file-tool-resize.c:180
+#: ../extensions/resize_images/dlg-resize-images.c:172
+#: ../gthumb/gth-filter-grid.c:575
+msgid "Resizing images"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-resize.c:832
+#, fuzzy
+msgid "Resize"
+msgstr "Breyta stærð"
+
+#: ../extensions/file_tools/gth-file-tool-rotate.c:683
+#, fuzzy
+msgid "Rotate"
+msgstr "Snúa"
+
+#: ../extensions/file_tools/gth-file-tool-rotate-left.c:90
+#, fuzzy
+#: ../extensions/image_rotation/callbacks.c:46
+#: ../extensions/image_rotation/callbacks.c:150
+msgid "Rotate Left"
+msgstr "Snúa til _vinstri"
+
+#: ../extensions/file_tools/gth-file-tool-rotate-left.c:91
+msgid "Rotate the image by 90 degrees counterclockwise"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-rotate-right.c:90
+#, fuzzy
+#: ../extensions/image_rotation/callbacks.c:47
+#: ../extensions/image_rotation/callbacks.c:158
+msgid "Rotate Right"
+msgstr "Snúa til _hægri"
+
+#: ../extensions/file_tools/gth-file-tool-rotate-right.c:91
+msgid "Rotate the image by 90 degrees clockwise"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-save-as.c:70
+#, fuzzy
+#: ../gthumb/resources/gears-menu.ui.h:4
+msgid "Save As"
+msgstr "Vista sem"
+
+#: ../extensions/file_tools/gth-file-tool-save.c:66
+#, fuzzy
+#: ../gthumb/resources/gears-menu.ui.h:3
+msgid "Save"
+msgstr "Vista"
+
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:333
+msgid "Sharpening image"
+msgstr "Skerpa mynd"
+
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:438
+msgid "Enhance Focus"
+msgstr ""
+
+#: ../extensions/file_tools/gth-file-tool-undo.c:81
+#, fuzzy
+msgid "Undo"
+msgstr "Afturkalla"
+
+#: ../extensions/find_duplicates/callbacks.c:37
+#, fuzzy
+msgid "Find _Duplicates…"
+msgstr "Finna tvítekningar"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-choose-folders.ui.h:1
+#, fuzzy
+msgid "_Folders:"
+msgstr "Möppur"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:1
+msgid "Search for Duplicates"
+msgstr ""
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:2
+msgid "Duplicates:"
+msgstr ""
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
+msgid "Files:"
+msgstr "Skrár:"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
+msgid "_View"
+msgstr "S_koða"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
+#, fuzzy
+#: ../gthumb/gth-tags-entry.c:1187 ../gthumb/gtk-utils.h:39
+msgid "_Delete"
+msgstr "_Eyða"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
+msgid "No duplicates found."
+msgstr ""
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:1
+#, fuzzy
+#: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:1
+msgid "Find Duplicates"
+msgstr "Finna tvítekningar"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:2
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:3
+#: ../extensions/search/data/ui/search-editor.ui.h:1
+msgid "Start _at:"
+msgstr ""
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:4
+#, fuzzy
+msgid "_Filter:"
+msgstr "_Sía:"
+
+#: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:2
+msgid "Find duplicated files."
+msgstr ""
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:65
+msgid "leave the newest duplicates"
+msgstr ""
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:66
+msgid "leave the oldest duplicates"
+msgstr ""
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:67
+msgid "by folder…"
+msgstr ""
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:68
+msgid "all files"
+msgstr "allar skrár"
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:69
+msgid "no file"
+msgstr "engin skrá"
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:560
+#: ../extensions/find_duplicates/gth-find-duplicates.c:668
+#, c-format
+msgid "%d duplicate"
+msgid_plural "%d duplicates"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:712
+msgid "Search completed"
+msgstr ""
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:725
+msgid "Searching for duplicates"
+msgstr ""
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:728
+#: ../gthumb/gth-load-file-data-task.c:106
+#: ../gthumb/gth-save-file-data-task.c:100
+#, c-format
+msgid "%d file remaining"
+msgid_plural "%d files remaining"
+msgstr[0] "%d skrá eftir"
+msgstr[1] "%d skrár eftir"
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:830
+msgid "Getting the file list"
+msgstr "Sæki skráarlistann"
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:1006
+msgid "Duplicates"
+msgstr ""
+
+#: ../extensions/find_duplicates/gth-find-duplicates.c:1298
+#, fuzzy
+msgid "Select"
+msgstr "Velja"
+
+#: ../extensions/flicker/flicker.extension.in.in.h:1
+msgid "Flicker"
+msgstr ""
+
+#: ../extensions/flicker/flicker.extension.in.in.h:2
+msgid "Upload images to Flickr"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:2
+msgid "Private photos, visible to family and friends"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:4
+msgid "Private photos, visible to family"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:5
+msgid "Private photos"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:6
+msgid "Safe content"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:7
+msgid "Moderate content"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:8
+msgid "Restricted content"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:12
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+msgid "Free space:"
+msgstr "Laust pláss:"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:13
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
+msgid "Ph_otoset:"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:14
+#, fuzzy
+msgid "_Privacy:"
+msgstr "Gagnaleynd"
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
+msgid "Hi_de from public searches"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
+msgid "_Safety:"
+msgstr ""
+
+#: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:1
+#, fuzzy
+msgid "C_ontinue"
+msgstr "_Halda áfram"
+
+#: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:2
+msgid "_Authorize..."
+msgstr ""
+
+#: ../extensions/flicker_utils/flickr-consumer.c:124
+#, fuzzy
+#: ../extensions/flicker_utils/flickr-service.c:237
+#: ../extensions/flicker_utils/flickr-service.c:348
+#: ../extensions/flicker_utils/flickr-service.c:672
+#: ../extensions/flicker_utils/flickr-service.c:937
+#: ../extensions/oauth/oauth-service.c:154
+#: ../extensions/photobucket/photobucket-consumer.c:74
+#: ../extensions/photobucket/photobucket-consumer.c:82
+#: ../extensions/photobucket/photobucket-consumer.c:149
+#: ../extensions/photobucket/photobucket-service.c:132
+msgid "Unknown error"
+msgstr "Óþekkt villa"
+
+#: ../extensions/flicker_utils/flickr-service.c:502
+#, c-format
+msgid ""
+"Return to this window when you have finished the authorization process on %s"
+msgstr ""
+
+#: ../extensions/flicker_utils/flickr-service.c:503
+msgid "Once you're done, click the 'Continue' button below."
+msgstr ""
+
+#: ../extensions/flicker_utils/flickr-service.c:571
+#, c-format
+msgid "gThumb requires your authorization to upload the photos to %s"
+msgstr ""
+
+#: ../extensions/flicker_utils/flickr-service.c:572
+#, c-format
+msgid ""
+"Click 'Authorize' to open your web browser and authorize gthumb to upload "
+"photos to %s. When you're finished, return to this window to complete the "
+"authorization."
+msgstr ""
+
+#. Translators: %s is a filename
+#: ../extensions/gstreamer_tools/actions.c:75
+#, c-format
+msgid "Image saved as %s"
+msgstr ""
+
+#: ../extensions/gstreamer_tools/actions.c:101
+#, fuzzy
+msgctxt "Filename"
+msgid "Screenshot"
+msgstr "Skjámynd"
+
+#: ../extensions/gstreamer_tools/actions.c:137
+#: ../extensions/gstreamer_tools/actions.c:148
+msgid "Could not take a screenshot"
+msgstr ""
+
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
+#, fuzzy
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:605
+msgid "Play"
+msgstr "Spila"
+
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:2
+#, fuzzy
+msgid "Slower"
+msgstr "Hægar"
+
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:3
+#, fuzzy
+msgid "Faster"
+msgstr "Hraðar"
+
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
+#, fuzzy
+msgid "Time:"
+msgstr "Tími:"
+
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
+msgid "--:--"
+msgstr "--:--"
+
+#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:2
+msgid "_Screenshots location:"
+msgstr ""
+
+#: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:1
+msgid "Audio/Video support"
+msgstr ""
+
+#: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:2
+msgid "Play audio and video files."
+msgstr ""
+
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:575
+msgid "Playing video"
+msgstr ""
+
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:588
+msgid "Pause"
+msgstr "Hlé"
+
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:640
+msgid "Take a screenshot"
+msgstr "Taka skjámynd"
+
+#: ../extensions/gstreamer_tools/main.c:32
+#: ../gthumb/gth-main-default-tests.c:268
+msgid "Video"
+msgstr "Myndskeið"
+
+#: ../extensions/gstreamer_tools/main.c:33
+#: ../gthumb/gth-main-default-tests.c:275
+msgid "Audio"
+msgstr "Hljóð"
+
+#: ../extensions/gstreamer_tools/main.c:40
+msgid "Artist"
+msgstr "Flytjandi"
+
+#: ../extensions/gstreamer_tools/main.c:41
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
+msgid "Album"
+msgstr "Albúm"
+
+#: ../extensions/gstreamer_tools/main.c:42
+msgid "Bitrate"
+msgstr "Bitahraði"
+
+#: ../extensions/gstreamer_tools/main.c:43
+msgid "Encoder"
+msgstr "Kóðari"
+
+#: ../extensions/gstreamer_tools/main.c:45
+#: ../extensions/gstreamer_tools/main.c:50
+msgid "Codec"
+msgstr "Kóðunarlyklun"
+
+#: ../extensions/gstreamer_tools/main.c:46
+msgid "Framerate"
+msgstr "Rammatíðni"
+
+#: ../extensions/gstreamer_tools/main.c:47
+#: ../extensions/image_print/data/ui/print-layout.ui.h:24
+msgid "Width"
+msgstr "Breidd"
+
+#: ../extensions/gstreamer_tools/main.c:48
+#: ../extensions/image_print/data/ui/print-layout.ui.h:25
+msgid "Height"
+msgstr "Hæð"
+
+#: ../extensions/gstreamer_tools/main.c:51
+msgid "Channels"
+msgstr "Litrásir"
+
+#: ../extensions/gstreamer_tools/main.c:52
+msgid "Sample rate"
+msgstr "Söfnunartíðni"
+
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
+msgid "Stereo"
+msgstr "Víðóma"
+
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:368
+msgid "Mono"
+msgstr "Einóma"
+
+#. Translators: this is an image size, such as 1024 × 768
+#: ../extensions/gstreamer_utils/gstreamer-utils.c:401
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1532
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:251
+#: ../extensions/raw_files/gth-metadata-provider-raw.c:112
+#: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:888
+#, c-format
+msgid "%d × %d"
+msgstr "%d × %d"
+
+#: ../extensions/image_print/actions.c:69
+msgid "Could not print the selected files"
+msgstr ""
+
+#: ../extensions/image_print/callbacks.c:53
+#: ../extensions/image_print/callbacks.c:59
+#: ../extensions/image_print/preferences.c:79
+msgid "Print"
+msgstr "Prenta"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:1
+msgid "Centered"
+msgstr "Miðjað"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:13
+msgid "The total number of files"
+msgstr ""
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:14
+#: ../extensions/importer/data/ui/import-preferences.ui.h:4
+msgid "The event description"
+msgstr ""
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:17
+msgid "_Rows:"
+msgstr "_Raðir:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:19
+msgid "Image"
+msgstr "Mynd"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:20
+msgid "Position:"
+msgstr "Staðsetning:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:21
+msgid "Left"
+msgstr "Vinstri"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:22
+msgid "Top"
+msgstr "Efst"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:26
+msgid "Rotation:"
+msgstr "Snúningur:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:27
+msgid "Unit:"
+msgstr "Eining:"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:28
+msgid "Preview"
+msgstr "Forskoðun"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:30
+msgid "millimeters"
+msgstr "millimetrar"
+
+#: ../extensions/image_print/data/ui/print-layout.ui.h:31
+msgid "inches"
+msgstr "tommur"
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:1
+msgid "Fonts"
+msgstr "Letur"
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:5
+msgid "Select Caption Font"
+msgstr ""
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:6
+msgid "Select Header Font"
+msgstr ""
+
+#: ../extensions/image_print/data/ui/print-preferences.ui.h:7
+msgid "Select Footer Font"
+msgstr ""
+
+#: ../extensions/image_print/gth-image-print-job.c:914
+#: ../extensions/webalbums/data/albumthemes/text.h:31
+#, c-format
+msgid "Page %d of %d"
+msgstr "Blaðsíða %d af %d"
+
+#: ../extensions/image_print/gth-image-print-job.c:1680
+#: ../extensions/image_print/gth-image-print-job.c:1845
+#: ../extensions/image_print/gth-image-print-job.c:1888
+msgid "Could not print"
+msgstr ""
+
+#: ../extensions/image_print/gth-image-print-job.c:1746
+#, fuzzy
+#: ../gthumb/gth-main-default-tests.c:261
+msgid "Images"
+msgstr "Myndir"
+
+#: ../extensions/image_print/gth-image-print-job.c:1847
+#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:341
+#: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
+msgid "No suitable loader available for this file type"
+msgstr ""
+
+#. translators: %s is a filename
+#: ../extensions/image_print/gth-load-image-info-task.c:165
+#, fuzzy, c-format
+msgid "Loading \"%s\""
+msgstr "Hleð inn \"%s\""
+
+#: ../extensions/image_print/gth-load-image-info-task.c:167
+#: ../extensions/webalbums/gth-web-exporter.c:2722
+msgid "Loading images"
+msgstr ""
+
+#: ../extensions/image_print/image_print.extension.in.in.h:1
+msgid "Image print"
+msgstr ""
+
+#: ../extensions/image_print/image_print.extension.in.in.h:2
+msgid "Allow to print images choosing the page layout."
+msgstr ""
+
+#: ../extensions/image_rotation/callbacks.c:52
+msgid "Rotate Physically"
+msgstr ""
+
+#: ../extensions/image_rotation/callbacks.c:53
+msgid "Reset the EXIF Orientation"
+msgstr ""
+
+#: ../extensions/image_rotation/gth-reset-orientation-task.c:111
+#, fuzzy
+#: ../extensions/image_rotation/gth-transform-task.c:143
+#: ../extensions/webalbums/gth-web-exporter.c:2340
+#: ../extensions/webalbums/gth-web-exporter.c:2425
+msgid "Saving images"
+msgstr "Vistun mynda"
+
+#: ../extensions/image_rotation/image_rotation.extension.in.in.h:1
+msgid "Image rotation"
+msgstr ""
+
+#: ../extensions/image_rotation/image_rotation.extension.in.in.h:2
+msgid "Rotate images without data loss."
+msgstr ""
+
+#: ../extensions/image_rotation/rotation-utils.c:105
+#, c-format
+msgid "Problem transforming the image: %s"
+msgstr ""
+
+#: ../extensions/image_rotation/rotation-utils.c:110
+msgid ""
+"This transformation may introduce small image distortions along one or more "
+"edges, because the image dimensions are not multiples of 8.\n"
+"\n"
+"The distortion is reversible, however. If the resulting image is "
+"unacceptable, simply apply the reverse transformation to return to the "
+"original image.\n"
+"\n"
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
+"transformation is not strictly lossless anymore."
+msgstr ""
+
+#: ../extensions/image_rotation/rotation-utils.c:116
+msgid "_Trim"
+msgstr "Skera u_tan af"
+
+#: ../extensions/image_rotation/rotation-utils.c:118
+msgid "_Accept distortion"
+msgstr ""
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
+msgid "After loading an image:"
+msgstr ""
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
+#: ../extensions/image_viewer/gth-image-viewer-page.c:834
+msgid "Set to actual size"
+msgstr ""
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
+msgid "Keep previous zoom"
+msgstr ""
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
+#: ../extensions/image_viewer/gth-image-viewer-page.c:841
+msgid "Fit to window"
+msgstr "Laga að glugga"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
+msgid "Fit to window if larger"
+msgstr ""
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
+#: ../extensions/image_viewer/gth-image-viewer-page.c:848
+msgid "Fit to width"
+msgstr ""
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
+msgid "Fit to width if larger"
+msgstr ""
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
+msgid "Reset scrollbar positions"
+msgstr ""
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
+msgid "Zoom quality:"
+msgstr ""
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
+#, fuzzy
+msgctxt "zoom quality"
+msgid "_High"
+msgstr "Hár"
+
+#: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
+#, fuzzy
+msgctxt "zoom quality"
+msgid "_Low"
+msgstr "Lítil"
+
+#: ../extensions/image_viewer/gth-image-histogram.c:85
+#, fuzzy
+msgid "Histogram"
+msgstr "Stuðlarit"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:75
+#, fuzzy
+msgid "Copy Image"
+msgstr "Afrita _mynd"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:76
+#, fuzzy
+msgid "Paste Image"
+msgstr "Líma _mynd"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:855
+msgid "Fit to height"
+msgstr ""
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:862
+msgid "Apply the embedded color profile"
+msgstr ""
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1472
+#, fuzzy
+msgid "Save Image"
+msgstr "Vista mynd"
+
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2056
+msgid "Loading the original image"
+msgstr ""
+
+#: ../extensions/image_viewer/preferences.c:117
+msgid "Viewer"
+msgstr "Lesari"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:1
+#, fuzzy
+msgid "_Destination"
+msgstr "Á_fangastaður"
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:2
+msgid "_Automatic subfolder"
+msgstr ""
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:3
+msgid "as _single subfolder"
+msgstr ""
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:7
+msgid "The year"
+msgstr ""
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:8
+msgid "The month"
+msgstr ""
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:9
+msgid "The day of the month"
+msgstr ""
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:10
+msgid "The hour"
+msgstr ""
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:11
+msgid "The minutes"
+msgstr ""
+
+#: ../extensions/importer/data/ui/import-preferences.ui.h:12
+msgid "The seconds"
+msgstr ""
+
+#: ../extensions/importer/gth-import-destination-button.c:111
+msgid "Invalid Destination"
+msgstr ""
+
+#: ../extensions/importer/gth-import-preferences-dialog.c:198
+#, c-format
+msgid "example: %s"
+msgstr ""
+
+#. subfolder type
+#: ../extensions/importer/gth-import-preferences-dialog.c:330
+msgid "File date"
+msgstr ""
+
+#. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
+#. subfolder format
+#: ../extensions/importer/gth-import-preferences-dialog.c:340
+msgid "year-month-day"
+msgstr ""
+
+#: ../extensions/importer/gth-import-preferences-dialog.c:341
+msgid "year-month"
+msgstr ""
+
+#: ../extensions/importer/gth-import-preferences-dialog.c:342
+#, fuzzy
+msgid "year"
+msgstr "ár"
+
+#: ../extensions/importer/gth-import-preferences-dialog.c:343
+#, fuzzy
+msgid "custom format"
+msgstr "Sérsnið"
+
+#: ../extensions/importer/gth-import-task.c:426
+#: ../extensions/importer/gth-import-task.c:461
+#: ../extensions/importer/gth-import-task.c:671
+msgid "Importing files"
+msgstr ""
+
+#: ../extensions/importer/gth-import-task.c:620
+msgid "No file imported"
+msgstr ""
+
+#: ../extensions/importer/gth-import-task.c:621
+msgid "The selected files are already present in the destination."
+msgstr ""
+
+#: ../extensions/importer/gth-import-task.c:644
+msgid "Could not delete the files"
+msgstr ""
+
+#: ../extensions/importer/gth-import-task.c:645
+msgid "Delete operation not supported."
+msgstr ""
+
+#: ../extensions/importer/gth-import-task.c:732
+msgid "Last imported"
+msgstr ""
+
+#: ../extensions/importer/gth-import-task.c:838
+msgid "No file specified."
+msgstr ""
+
+#. Translators: For example: Not enough free space in '/home/user/Images'.\n1.3 GB of space is required but only 300 MB is available.
+#: ../extensions/importer/gth-import-task.c:875
+#, c-format
+msgid ""
+"Not enough free space in '%s'.\n"
+"%s of space is required but only %s is available."
+msgstr ""
+
+#: ../extensions/list_tools/callbacks.c:174
+msgid "Tools"
+msgstr "Verkfæri"
+
+#: ../extensions/list_tools/data/ui/ask-value.ui.h:1
+#, fuzzy
+msgid "_Skip"
+msgstr "_Sleppa"
+
+#: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:1
+msgid "Commands"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:2
+msgid "Co_mmands:"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:2
+msgid "_Wait for the command to finish"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:3
+msgid "E_xecute command once for every file"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:4
+msgid "_Terminal command (shell script)"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:5
+#, fuzzy
+msgid "Sh_ortcut:"
+msgstr "Flýtilykill"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:6
+msgid "The file uri"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:7
+msgid "The file path"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:8
+msgid "The file basename"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:9
+msgid "The parent folder path"
+msgstr ""
+
+#. Translate only 'message' and 'default_value'.
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:14
+#, no-c-format
+msgid "%ask{ message }{ default value }"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:15
+msgid "Ask an input value"
+msgstr ""
+
+#. Translate only 'attribute name'
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:18
+#, no-c-format
+msgid "%attr{ attribute name }"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:19
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+msgid "A file attribute"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:21
+#, no-c-format
+msgid "%N"
+msgstr "%N"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:22
+msgid "The file basename without extension"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:24
+#, no-c-format
+msgid "%E"
+msgstr "%E"
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:25
+msgid "The file extension"
+msgstr ""
+
+#. Translate only 'text'.
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:28
+#, no-c-format
+msgid "%quote{ text }"
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:29
+msgid "Quote the text "
+msgstr ""
+
+#: ../extensions/list_tools/data/ui/script-editor.ui.h:30
+#, fuzzy
+msgid "_Command:"
+msgstr "_Skipun:"
+
+#: ../extensions/list_tools/data/ui/tools-menu.ui.h:1
+msgid "Personalize..."
+msgstr ""
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:257
+#, fuzzy
+msgid "Script"
+msgstr "Skrifta"
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:271
+#, fuzzy
+msgid "Shortcut"
+msgstr "Flýtilykill"
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:285
+#, fuzzy
+#: ../gthumb/dlg-personalize-filters.c:252
+msgid "Show"
+msgstr "Sýna"
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:355
+msgid "Could not save the script"
+msgstr ""
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:406
+msgid "New Command"
+msgstr ""
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:433
+msgid "Edit Command"
+msgstr "Breyta skipun"
+
+#: ../extensions/list_tools/dlg-personalize-scripts.c:461
+msgid "Are you sure you want to delete the selected command?"
+msgstr ""
+
+#: ../extensions/list_tools/gth-script.c:615
+msgid "Enter a value:"
+msgstr ""
+
+#: ../extensions/list_tools/gth-script.c:750
+#: ../extensions/webalbums/gth-web-exporter.c:558
+#: ../extensions/webalbums/gth-web-exporter.c:570
+#: ../extensions/webalbums/gth-web-exporter.c:578
+msgid "Malformed command"
+msgstr ""
+
+#: ../extensions/list_tools/gth-script-editor-dialog.c:146
+msgid "none"
+msgstr "ekkert"
+
+#: ../extensions/list_tools/gth-script-editor-dialog.c:152
+#, c-format
+msgid "key %d on the numeric keypad"
+msgstr ""
+
+#: ../extensions/list_tools/gth-script-editor-dialog.c:295
+#, c-format
+msgid "No command specified"
+msgstr ""
+
+#: ../extensions/list_tools/gth-script-task.c:83
+#, c-format
+msgid "Command exited abnormally with status %d"
+msgstr ""
+
+#: ../extensions/list_tools/list_tools.extension.in.in.h:1
+msgid "File list tools"
+msgstr "Verkfæri fyrir skráalista"
+
+#: ../extensions/list_tools/list_tools.extension.in.in.h:2
+msgid "Scripting and batch manipulation of files."
+msgstr ""
+
+#: ../extensions/map_view/gth-map-view.c:130
+msgctxt "Cardinal point"
+msgid "S"
+msgstr "S"
+
+#: ../extensions/map_view/gth-map-view.c:130
+msgctxt "Cardinal point"
+msgid "N"
+msgstr "N"
+
+#: ../extensions/map_view/gth-map-view.c:132
+msgctxt "Cardinal point"
+msgid "W"
+msgstr "V"
+
+#: ../extensions/map_view/gth-map-view.c:132
+msgctxt "Cardinal point"
+msgid "E"
+msgstr "A"
+
+#: ../extensions/map_view/gth-map-view.c:205
+#: ../extensions/map_view/map_view.extension.in.in.h:1
+msgid "Map"
+msgstr "Landakort"
+
+#. No GPS label
+#: ../extensions/map_view/gth-map-view.c:276
+msgid "The geographical position information is not available for this image."
+msgstr ""
+
+#: ../extensions/map_view/map_view.extension.in.in.h:2
+msgid "View the photo position on the map"
+msgstr ""
+
+#: ../extensions/oauth/data/ui/oauth-account-manager.ui.h:1
+#, fuzzy
+msgid "A_ccounts:"
+msgstr "Aðgangar"
+
+#: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
+#, fuzzy
+msgid "Loading..."
+msgstr "Hleð..."
+
+#: ../extensions/oauth/oauth-account-chooser-dialog.c:153
+#, fuzzy
+#: ../extensions/oauth/oauth-account-manager-dialog.c:140
+#: ../gthumb/gtk-utils.h:41
+msgid "_New"
+msgstr "_Nýtt"
+
+#: ../extensions/oauth/oauth-account-chooser-dialog.c:200
+msgid "New authentication…"
+msgstr ""
+
+#: ../extensions/oauth/oauth-ask-authorization-dialog.c:245
+msgid "Authorization Required"
+msgstr ""
+
+#: ../extensions/oauth/web-service.c:378
+msgid "Choose _Account…"
+msgstr ""
+
+#: ../extensions/oauth/web-service.c:656
+msgid "Choose Account"
+msgstr ""
+
+#: ../extensions/oauth/web-service.c:773
+msgid "Edit Accounts"
+msgstr "Breyta aðgöngum"
+
+#: ../extensions/oauth/web-service.c:791 ../extensions/oauth/web-service.c:808
+msgid "Connecting to the server"
+msgstr ""
+
+#: ../extensions/oauth/web-service.c:792
+msgid "Asking authorization"
+msgstr ""
+
+#: ../extensions/oauth/web-service.c:809
+msgid "Getting account information"
+msgstr ""
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
+msgid "Tiny ( 100 x 75 )"
+msgstr "Pínulítil ( 100 x 75 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
+msgid "Small ( 160 x 120 )"
+msgstr "Lítil ( 160 x 120 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
+msgid "Medium ( 320 x 240 )"
+msgstr "Miðlungs ( 320 x 240 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
+msgid "Large ( 640 x 480 )"
+msgstr "Stór ( 640 x 480 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
+msgid "15ʺ screen ( 800 x 600 )"
+msgstr "15ʺ skjár ( 800 x 600 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
+msgid "17ʺ screen ( 1024 x 768 )"
+msgstr "17ʺ skjár ( 1024 x 768 )"
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:294
+msgid "1 megabyte file size"
+msgstr ""
+
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
+msgid "_Scramble filenames"
+msgstr ""
+
+#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
+msgid "_Container:"
+msgstr "_Gagnagámur:"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
+#, fuzzy
+msgid "Tiny ( 100 × 75 )"
+msgstr "Örsmátt"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
+#, fuzzy
+msgid "Small ( 160 × 120 )"
+msgstr "Lítið"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
+#, fuzzy
+msgid "Medium ( 320 × 240 )"
+msgstr "Miðlungs"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
+#, fuzzy
+msgid "Large ( 640 × 480 )"
+msgstr "Stórt"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:292
+msgid "15ʺ screen ( 800 × 600 )"
+msgstr ""
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:293
+msgid "17ʺ screen ( 1024 × 768 )"
+msgstr ""
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:301
+msgid "2 megabyte file size"
+msgstr ""
+
+#: ../extensions/photobucket/photobucket.extension.in.in.h:1
+msgid "PhotoBucket"
+msgstr ""
+
+#: ../extensions/photobucket/photobucket.extension.in.in.h:2
+msgid "Upload images to PhotoBucket"
+msgstr ""
+
+#: ../extensions/photo_importer/actions.c:71
+#, fuzzy
+#: ../extensions/photo_importer/dlg-photo-importer.c:612
+msgid "Choose a folder"
+msgstr "Veldu möppu"
+
+#: ../extensions/photo_importer/actions.c:75
+#, fuzzy
+msgid "Import"
+msgstr "Flytja inn"
+
+#: ../extensions/photo_importer/callbacks.c:41
+msgid "_Removable Device…"
+msgstr ""
+
+#: ../extensions/photo_importer/callbacks.c:42
+#, fuzzy
+msgid "F_older…"
+msgstr "Mappa"
+
+#: ../extensions/photo_importer/callbacks.c:63
+msgid "I_mport From"
+msgstr ""
+
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
+msgid "After importing from a device:"
+msgstr ""
+
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
+msgid "_Rotate the images physically"
+msgstr ""
+
+#. view label
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
+#, fuzzy
+#: ../gthumb/gth-filterbar.c:404
+msgid "S_how:"
+msgstr "Sýna"
+
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+#, fuzzy
+msgid "_Tags:"
+msgstr "Mer_ki:"
+
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
+#, fuzzy
+msgid "_Event:"
+msgstr "Atvik"
+
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
+msgid "_Delete the imported files from the source"
+msgstr ""
+
+#: ../extensions/photo_importer/dlg-photo-importer.c:227
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:149
+msgid "Could not import the files"
+msgstr ""
+
+#. translators: %d is the number of files, %s the total size
+#: ../extensions/photo_importer/dlg-photo-importer.c:291
+#, c-format
+msgid "Files to import: %d (%s)"
+msgstr ""
+
+#: ../extensions/photo_importer/dlg-photo-importer.c:331
+msgid "Could not load the folder"
+msgstr ""
+
+#: ../extensions/photo_importer/dlg-photo-importer.c:356
+#, fuzzy
+#: ../extensions/photo_importer/dlg-photo-importer.c:396
+#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1097
+msgid "(Empty)"
+msgstr "(Tóm)"
+
+#: ../extensions/photo_importer/dlg-photo-importer.c:361
+#: ../gthumb/gth-browser.c:1793
+msgid "Getting the folder content…"
+msgstr ""
+
+#: ../extensions/photo_importer/dlg-photo-importer.c:407
+#, fuzzy
+msgid "Empty"
+msgstr "Tómt"
+
+#: ../extensions/photo_importer/dlg-photo-importer.c:578
+msgid "Import from Removable Device"
+msgstr ""
+
+#: ../extensions/photo_importer/dlg-photo-importer.c:610
+msgid "Import from Folder"
+msgstr ""
+
+#: ../extensions/photo_importer/photo_importer.extension.in.in.h:1
+msgid "Import photos"
+msgstr ""
+
+#: ../extensions/photo_importer/photo_importer.extension.in.in.h:2
+msgid "Import photos from removable devices."
+msgstr ""
+
+#: ../extensions/picasaweb/callbacks.c:50
+#: ../extensions/picasaweb/callbacks.c:56
+msgid "_Picasa Web Album…"
+msgstr ""
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
+msgid "Export to Picasa Web Albums"
+msgstr ""
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+#, fuzzy
+msgid "_Albums:"
+msgstr "Albúm"
+
+#: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
+#, fuzzy
+msgid "Public"
+msgstr "Opinbert"
+
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:460
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:470
+msgid "Could not get the album list"
+msgstr ""
+
+#: ../extensions/picasaweb/picasaweb.extension.in.in.h:1
+msgid "Picasa Web Albums"
+msgstr ""
+
+#: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
+msgid "Upload images to Picasa Web Albums"
+msgstr ""
+
+#: ../extensions/raw_files/gth-metadata-provider-raw.c:106
+msgid "RAW Format"
+msgstr ""
+
+#: ../extensions/raw_files/raw_files.extension.in.in.h:1
+msgid "Raw format support"
+msgstr ""
+
+#: ../extensions/raw_files/raw_files.extension.in.in.h:2
+msgid "Allow to load raw format images."
+msgstr ""
+
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
+#, fuzzy
+msgid "_X:"
+msgstr "_X:"
+
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
+#, fuzzy
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
+#, fuzzy
+msgid "Red Eye Removal"
+msgstr "Laga rauð augu"
+
+#: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:471
+#, fuzzy
+msgid "Remove the red eye effect caused by camera flashes"
+msgstr "Fjarlægja rauða litinn sem leifturljós myndavéla geta valdið"
+
+#: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:1
+#, fuzzy
+msgid "Red-eye removal"
+msgstr "Laga rauð augu"
+
+#: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:2
+msgid "Tool to remove the red-eye effect from a photo."
+msgstr ""
+
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:1
+#, fuzzy
+msgid "digits"
+msgstr "Tölustafir"
+
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:2
+#, fuzzy
+msgid "format:"
+msgstr "Skráarsnið"
+
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:3
+#, fuzzy
+msgid "remove"
+msgstr "fjarlægja"
+
+#: ../extensions/rename_series/data/ui/code-selector.ui.h:4
+#, fuzzy
+msgid "add"
+msgstr "_Bæta við"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:2
+#, fuzzy
+#: ../gthumb/gth-folder-tree.c:1883
+msgid "_Rename"
+msgstr "Endu_rnefna"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:4
+#, fuzzy
+msgid "_Sort by:"
+msgstr "_Raða eftir"
+
+#. Translators: this is the text case (upper or lower case).
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:6
+msgid "Cas_e:"
+msgstr ""
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:7
+msgid "Edit template"
+msgstr "Breyta sniðmáti"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:9
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
+msgid "The original filename"
+msgstr ""
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
+msgid "The original extension"
+msgstr ""
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
+msgid "The original enumerator"
+msgstr ""
+
+#. translate only the text in the curly brackets
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
+#, no-c-format
+msgid "%M{ format }"
+msgstr ""
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:17
+msgid "The modification date"
+msgstr ""
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
+msgid "The digitalization date"
+msgstr ""
+
+#. translate only the text in the curly brackets
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:24
+#, no-c-format
+msgid "%A{ identifier }"
+msgstr ""
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
+#, fuzzy
+msgid "_Template:"
+msgstr "Sniðmá_t:"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
+#, fuzzy
+msgid "Re_verse Order"
+msgstr "Öfu_g röð"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:28
+msgid "_Preview:"
+msgstr "_Forskoðun:"
+
+#: ../extensions/rename_series/dlg-rename-series.c:58
+msgid "Enumerator"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:59
+msgid "Original filename"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:60
+msgid "Original extension"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:61
+msgid "Original enumerator"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:62
+#, fuzzy
+msgid "Modification date"
+msgstr "Breytingardagsetning"
+
+#: ../extensions/rename_series/dlg-rename-series.c:63
+msgid "Digitalization date"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:64
+msgid "File attribute"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:558
+#: ../extensions/rename_series/dlg-rename-series.c:685
+msgid "Could not rename the files"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:782
+msgid "Could not save the template"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:800
+msgid "Edit Template"
+msgstr "Breyta sniðmáti"
+
+#: ../extensions/rename_series/dlg-rename-series.c:858
+msgid "Old Name"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:869
+#, fuzzy
+msgid "New Name"
+msgstr "Nýtt nafn"
+
+#: ../extensions/rename_series/dlg-rename-series.c:947
+msgid "Keep original case"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:948
+msgid "Convert to lower-case"
+msgstr ""
+
+#: ../extensions/rename_series/dlg-rename-series.c:949
+msgid "Convert to upper-case"
+msgstr ""
+
+#: ../extensions/rename_series/gth-rename-task.c:167
+msgid "Renaming files"
+msgstr ""
+
+#: ../extensions/rename_series/rename_series.extension.in.in.h:1
+msgid "Rename files"
+msgstr ""
+
+#: ../extensions/rename_series/rename_series.extension.in.in.h:2
+msgid "Rename series of files."
+msgstr ""
+
+#: ../extensions/resize_images/callbacks.c:38
+msgid "Resize Images…"
+msgstr ""
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:1
+#, fuzzy
+msgid "pixel"
+msgstr "mynddíll"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:4
+msgid "Resize Images"
+msgstr ""
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:5
+msgid "New dimensions"
+msgstr ""
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:7
+#, fuzzy
+msgid "_Height:"
+msgstr "_Hæð:"
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:8
+msgid "_Preserve original aspect ratios"
+msgstr ""
+
+#: ../extensions/resize_images/data/ui/resize-images.ui.h:12
+#, fuzzy
+#: ../gthumb/gth-main-default-metadata.c:45 ../gthumb/gth-toolbox.c:146
+msgid "Format"
+msgstr "Skráarsnið"
+
+#: ../extensions/resize_images/dlg-resize-images.c:415
+msgid "Keep the original format"
+msgstr ""
+
+#: ../extensions/resize_images/resize_images.extension.in.in.h:1
+msgid "Resize images"
+msgstr ""
+
+#: ../extensions/resize_images/resize_images.extension.in.in.h:2
+msgid "Resize series of images."
+msgstr ""
+
+#: ../extensions/search/actions.c:50 ../extensions/search/actions.c:120
+#: ../extensions/search/actions.c:126
+msgid "Could not perform the search"
+msgstr ""
+
+#: ../extensions/search/actions.c:55
+msgid "Search Result"
+msgstr ""
+
+#: ../extensions/search/actions.c:79
+#, fuzzy
+msgid "Find"
+msgstr "Finna"
+
+#: ../extensions/search/actions.c:81
+#, fuzzy
+msgid "_Find"
+msgstr "_Finna"
+
+#: ../extensions/search/callbacks.c:69
+msgid "Find files"
+msgstr ""
+
+#: ../extensions/search/callbacks.c:103
+msgid "Search again"
+msgstr ""
+
+#. Translators: This is not a verb, it's a name as in "the search properties".
+#: ../extensions/search/callbacks.c:147
+#, fuzzy
+#: ../extensions/search/search.extension.in.in.h:1
+msgid "Search"
+msgstr "Leita"
+
+#: ../extensions/search/gth-search-editor.c:112
+#: ../gthumb/gth-filter-editor-dialog.c:165
+msgid "all the following rules"
+msgstr ""
+
+#: ../extensions/search/gth-search-editor.c:113
+#: ../gthumb/gth-filter-editor-dialog.c:166
+msgid "any of the following rules"
+msgstr ""
+
+#: ../extensions/search/gth-search-task.c:183
+#, c-format
+msgid "Files found until now: %s"
+msgstr ""
+
+#: ../extensions/search/gth-search-task.c:274
+#, fuzzy
+msgid "Searching…"
+msgstr "Leita..."
+
+#: ../extensions/search/gth-search-task.c:281
+msgid "Cancel the operation"
+msgstr ""
+
+#: ../extensions/search/search.extension.in.in.h:2
+msgid "File search tool."
+msgstr ""
+
+#: ../extensions/selections/callbacks.c:62
+msgid "Remove from Selection"
+msgstr ""
+
+#: ../extensions/selections/callbacks.c:107
+#, c-format
+msgid "Show selection %d"
+msgstr ""
+
+#: ../extensions/selections/callbacks.c:329
+#, c-format
+msgid ""
+"Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
+msgstr ""
+
+#: ../extensions/selections/gth-selections-manager.c:228
+#, c-format
+msgid "Selection %d"
+msgstr ""
+
+#: ../extensions/selections/gth-selections-manager.c:231
+#, fuzzy
+#: ../extensions/selections/selections.extension.in.in.h:1
+msgid "Selections"
+msgstr "Myndval"
+
+#: ../extensions/selections/selections.extension.in.in.h:2
+msgid "Advanced file selection."
+msgstr ""
+
+#: ../extensions/slideshow/callbacks.c:51
+#, fuzzy
+msgid "Presentation"
+msgstr "Kynning"
+
+#: ../extensions/slideshow/callbacks.c:348
+#, fuzzy
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
+#: ../extensions/slideshow/preferences.c:162
+#: ../extensions/slideshow/slideshow.extension.in.in.h:1
+msgid "Slideshow"
+msgstr "Skyggnusýning"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:1
+msgid "_Personalize"
+msgstr ""
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
+msgid "_Transition effect:"
+msgstr ""
+
+#. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
+msgid "_Change automatically, every"
+msgstr ""
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
+msgid "_Restart when finished"
+msgstr ""
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
+msgid "R_andom order"
+msgstr ""
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
+#, fuzzy
+msgid "Playlist"
+msgstr "Spilunarlisti"
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
+msgid "Add files to the playlist"
+msgstr ""
+
+#: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
+msgid "Remove the selected files"
+msgstr ""
+
+#: ../extensions/slideshow/gth-slideshow.c:281
+msgid "Playing slideshow"
+msgstr ""
+
+#: ../extensions/slideshow/gth-slideshow-preferences.c:184
+msgid "Choose the files to play"
+msgstr ""
+
+#: ../extensions/slideshow/gth-slideshow-preferences.c:193
+msgid "Audio files"
+msgstr "Hljóðskrár"
+
+#: ../extensions/slideshow/gth-slideshow-preferences.c:259
+#, fuzzy
+msgid "Random"
+msgstr "Slembið"
+
+#: ../extensions/slideshow/main.c:297
+msgid "Push from right"
+msgstr ""
+
+#: ../extensions/slideshow/main.c:303
+msgid "Push from bottom"
+msgstr ""
+
+#: ../extensions/slideshow/main.c:309
+msgid "Slide from right"
+msgstr ""
+
+#: ../extensions/slideshow/main.c:315
+msgid "Slide from bottom"
+msgstr ""
+
+#: ../extensions/slideshow/main.c:321
+#, fuzzy
+msgid "Fade in"
+msgstr "Dofna inn"
+
+#: ../extensions/slideshow/main.c:327
+msgid "Flip page"
+msgstr ""
+
+#: ../extensions/slideshow/main.c:333
+msgid "Cube from right"
+msgstr ""
+
+#: ../extensions/slideshow/main.c:339
+msgid "Cube from bottom"
+msgstr ""
+
+#: ../extensions/slideshow/slideshow.extension.in.in.h:2
+msgid "View images as a slideshow."
+msgstr "Skoða myndir sem skyggnusýningu."
+
+#: ../extensions/webalbums/callbacks.c:48
+msgid "_Web Album…"
+msgstr ""
+
+#: ../extensions/webalbums/data/albumthemes/text.h:26
+msgid "Click to view the image"
+msgstr "Smelltu til að skoða myndina"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:27
+msgid "Go back to the index"
+msgstr ""
+
+#: ../extensions/webalbums/data/albumthemes/text.h:28
+#, c-format
+msgid "Image %d of %d"
+msgstr ""
+
+#: ../extensions/webalbums/data/albumthemes/text.h:29
+#, fuzzy
+msgid "Index"
+msgstr "Atriðaskrá"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:30
+#, fuzzy
+msgid "Next"
+msgstr "Næsta"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:32
+#, fuzzy
+msgid "Previous"
+msgstr "Fyrri"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:33
+#, c-format
+msgid "View page %d"
+msgstr "Skoða síðu %d"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:34
+msgid "View the next image"
+msgstr "Skoða næstu mynd"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:35
+msgid "View the next page"
+msgstr "Skoða næstu síðu"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:36
+msgid "View the previous image"
+msgstr "Skoða fyrri mynd"
+
+#: ../extensions/webalbums/data/albumthemes/text.h:37
+msgid "View the previous page"
+msgstr "Skoða fyrri síðu"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:1
+msgid "All images on  a single image"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:2
+msgid "Adapts to the window width"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
+msgid "Web Album"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
+#, no-c-format
+msgid "%P"
+msgstr "%P"
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
+msgid "_Copy originals to destination"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
+msgid "_Adapt to the window width "
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
+msgid "Index Page"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
+msgid "Thumbnail Caption"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
+msgid "The current image number"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
+msgid "The total number of images"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+msgid "The file comment"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
+msgid "Image Page"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
+msgid "Show the description, if available"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+msgid "Show the following attributes:"
+msgstr ""
+
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+msgid "Image Attributes"
+msgstr ""
+
+#: ../extensions/webalbums/gth-web-exporter.c:1802
+msgid "Could not show the destination"
+msgstr ""
+
+#: ../extensions/webalbums/gth-web-exporter.c:1838
+msgid "The album has been created successfully."
+msgstr ""
+
+#: ../extensions/webalbums/gth-web-exporter.c:2106
+#: ../extensions/webalbums/gth-web-exporter.c:2134
+msgid "Saving thumbnails"
+msgstr ""
+
+#: ../extensions/webalbums/gth-web-exporter.c:2162
+msgid "Saving HTML pages: Images"
+msgstr ""
+
+#: ../extensions/webalbums/gth-web-exporter.c:2220
+msgid "Saving HTML pages: Indexes"
+msgstr ""
+
+#: ../extensions/webalbums/gth-web-exporter.c:2505
+msgid "Copying original images"
+msgstr ""
+
+#: ../extensions/webalbums/gth-web-exporter.c:2966
+msgid "Could not find the style folder"
+msgstr ""
+
+#: ../extensions/webalbums/gth-web-exporter.c:3004
+msgid "Could not create a temporary folder"
+msgstr ""
+
+#: ../extensions/webalbums/webalbums.extension.in.in.h:1
+msgid "Web Albums"
+msgstr ""
+
+#: ../extensions/webalbums/webalbums.extension.in.in.h:2
+msgid "Create static web albums."
+msgstr ""
+
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1098
+#: ../gthumb/gth-browser.c:1673 ../gthumb/gth-browser.c:6404
+#: ../gthumb/gth-browser.c:6423 ../gthumb/gth-browser.c:6447
+#, c-format
+msgid "Could not load the position \"%s\""
+msgstr ""
+
+#: ../gthumb/dlg-personalize-filters.c:237
+msgid "Filter"
+msgstr "Sía"
+
+#: ../gthumb/dlg-personalize-filters.c:315
+msgid "Could not save the filter"
+msgstr ""
+
+#: ../gthumb/dlg-personalize-filters.c:358
+msgid "New Filter"
+msgstr "Ný sía"
+
+#: ../gthumb/dlg-personalize-filters.c:387
+msgid "Edit Filter"
+msgstr "Breyta síu"
+
+#. add the page to the preferences dialog
+#: ../gthumb/dlg-preferences-browser.c:150
+#: ../gthumb/dlg-preferences-extensions.c:65
+msgid "Browser"
+msgstr "Vafri"
+
+#: ../gthumb/dlg-preferences-extensions.c:61 ../gthumb/gth-filterbar.c:270
+msgid "All"
+msgstr "Allt"
+
+#: ../gthumb/dlg-preferences-extensions.c:62
+msgid "Enabled"
+msgstr "Virkt"
+
+#: ../gthumb/dlg-preferences-extensions.c:63
+msgid "Disabled"
+msgstr "Óvirkt"
+
+#: ../gthumb/dlg-preferences-extensions.c:66
+msgid "Viewers"
+msgstr "Skoðarar"
+
+#: ../gthumb/dlg-preferences-extensions.c:67
+#: ../gthumb/gth-main-default-metadata.c:33
+msgid "Metadata"
+msgstr "Lýsigögn"
+
+#: ../gthumb/dlg-preferences-extensions.c:68
+msgid "File tools"
+msgstr "Skráatól"
+
+#: ../gthumb/dlg-preferences-extensions.c:69
+msgid "List tools"
+msgstr "Listatól"
+
+#: ../gthumb/dlg-preferences-extensions.c:70
+msgid "Importers"
+msgstr "Innflutningstól"
+
+#: ../gthumb/dlg-preferences-extensions.c:71
+msgid "Exporters"
+msgstr "Útflutningstól"
+
+#: ../gthumb/dlg-preferences-extensions.c:368
+msgid "Could not activate the extension"
+msgstr "Get ekki virkjað viðbótina"
+
+#: ../gthumb/dlg-preferences-extensions.c:374
+msgid "Could not deactivate the extension"
+msgstr "Get ekki gert viðbótina óvirka"
+
+#. add the page to the preferences dialog
+#: ../gthumb/dlg-preferences-extensions.c:666
+msgid "Extensions"
+msgstr "Viðbætur"
+
+#: ../gthumb/dlg-preferences-extensions.c:715
+msgid "Restart required"
+msgstr "Endurræsingar er krafist"
+
+#: ../gthumb/dlg-preferences-extensions.c:716
+msgid "You need to restart gthumb for these changes to take effect"
+msgstr "Það þarf að endurræsa gthumb til að breytingarnar taki gildi"
+
+#: ../gthumb/dlg-preferences-extensions.c:717
+msgid "_Continue"
+msgstr "_Halda áfram"
+
+#: ../gthumb/dlg-preferences-extensions.c:718
+msgid "_Restart"
+msgstr "By_rja aftur"
+
+#. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
+#: ../gthumb/gio-utils.c:1361
+#, c-format
+msgid "%s of %s"
+msgstr "%s af %s"
+
+#: ../gthumb/gio-utils.c:1432
+#, c-format
+msgid "Moving \"%s\" to \"%s\""
+msgstr "Færi \"%s\" í \"%s\""
+
+#: ../gthumb/gio-utils.c:1434
+#, c-format
+msgid "Copying \"%s\" to \"%s\""
+msgstr "Afrita \"%s\" í \"%s\""
+
+#: ../gthumb/gio-utils.c:1793
+msgid "Moving files"
+msgstr "Færi skrár"
+
+#: ../gthumb/gio-utils.c:1793
+msgid "Copying files"
+msgstr "Afrita skrár"
+
+#: ../gthumb/gio-utils.c:1794
+msgid "Getting file information"
+msgstr "Sæki upplýsingar í skrá"
+
+#. hour:minutes:seconds
+#. Translators: This is a time format, like "9:05:02" for 9
+#. * hours, 5 minutes, and 2 seconds. You may change ":" to
+#. * the separator that your locale uses or use "%Id" instead
+#. * of "%d" if your locale uses localized digits.
+#.
+#: ../gthumb/glib-utils.c:3258
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#. minutes:seconds
+#. Translators: This is a time format, like "5:02" for 5
+#. * minutes and 2 seconds. You may change ":" to the
+#. * separator that your locale uses or use "%Id" instead of
+#. * "%d" if your locale uses localized digits.
+#.
+#: ../gthumb/glib-utils.c:3267
+#, c-format
+msgctxt "short time format"
+msgid "%d:%02d"
+msgstr "%d:%02d"
+
+#: ../gthumb/gth-browser-actions-callbacks.c:127
+msgid ""
+"gThumb is free software; you can redistribute it and/or modify it under the "
+"terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 2 of the License, or (at your option) any later "
+"version."
+msgstr ""
+"gThumb er frjáls hugbúnaður; þú mátt dreifa honum og/eða breyta samkvæmt "
+"skilmálum í almenna GNU GPL notkunarleyfinu eins og það er gefið út af "
+"Frjálsu hugbúnaðarstofnuninni; annaðhvort útgáfu 2 af GPL-leyfinu, eða (ef "
+"þér sýnist svo) einhverja nýrri útgáfu leyfisins."
+
+#: ../gthumb/gth-browser-actions-callbacks.c:131
+msgid ""
+"gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
+"FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
+"details."
+msgstr ""
+"Hugbúnaðnum er dreift í þeirri von að hann geti verið gagnlegur, en ÁN ALLRAR "
+"ÁBYRGÐAR; einnig án þeirrar ábyrgðar sem gefin er í skyn með SELJANLEIKA eða "
+"EIGINLEIKUM TIL TILTEKINNA NOTA. Sjá almenna GNU GPL notkunarleyfið fyrir "
+"nánari upplýsingar."
+
+#: ../gthumb/gth-browser-actions-callbacks.c:135
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"gThumb.  If not, see http://www.gnu.org/licenses/."
+msgstr ""
+"Þú hefðir átt að fá eintak af GNU General Public License með þessu forriti "
+"Ef svo reyndist ekki þá má sjá <http://www.gnu.org/licenses/."
+
+#: ../gthumb/gth-browser-actions-callbacks.c:155
+msgid "An image viewer and browser for GNOME."
+msgstr "Myndskoðari og myndavafri fyrir GNOME."
+
+#: ../gthumb/gth-browser-actions-callbacks.c:158
+msgid "translator-credits"
+msgstr "Sveinn í Felli, sv1@fellsnet.is"
+
+#: ../gthumb/gth-browser.c:371
+msgid "[modified]"
+msgstr "[breytt]"
+
+#: ../gthumb/gth-browser.c:819
+#, c-format
+msgid "%d file selected (%s)"
+msgid_plural "%d files selected (%s)"
+msgstr[0] "%d skrá valin (%s)"
+msgstr[1] "%d skrár valdar (%s)"
+
+#: ../gthumb/gth-browser.c:854
+#, c-format
+msgid "%s of free space"
+msgstr "%s laust pláss"
+
+#: ../gthumb/gth-browser.c:1777 ../gthumb/gth-browser.c:1804
+#, c-format
+msgid "No suitable module found for %s"
+msgstr "Engin hentug eining fannst fyrir %s"
+
+#: ../gthumb/gth-browser.c:1926
+#, c-format
+msgid "Save changes to file '%s'?"
+msgstr "Vista breytingar í skrá '%s'?"
+
+#: ../gthumb/gth-browser.c:1931
+msgid "If you don't save, changes to the file will be permanently lost."
+msgstr "Ef þú vistar ekki, tapast allar breytingar endanlega."
+
+#: ../gthumb/gth-browser.c:1932
+msgid "Do _Not Save"
+msgstr "_Ekki vista"
+
+#: ../gthumb/gth-browser.c:3007 ../gthumb/gth-source-tree.c:182
+msgid "Could not change name"
+msgstr ""
+
+#: ../gthumb/gth-browser.c:3453 ../gthumb/gth-main-default-metadata.c:41
+msgid "Modified"
+msgstr "Breytt"
+
+#: ../gthumb/gth-browser.c:4464
+msgid "Go to the previous visited location"
+msgstr "Fara á fyrri heimsóttu staðsetningu"
+
+#: ../gthumb/gth-browser.c:4470
+msgid "Go to the next visited location"
+msgstr "Fara á næstu heimsóttu staðsetningu"
+
+#: ../gthumb/gth-browser.c:4478
+#, fuzzy
+msgid "History"
+msgstr "Ferill"
+
+#: ../gthumb/gth-browser.c:4493
+msgid "View the folders"
+msgstr "Skoða möppurnar"
+
+#: ../gthumb/gth-browser.c:4508
+msgid "Edit file"
+msgstr "Breyta skrá"
+
+#: ../gthumb/gth-browser.c:4525
+#, fuzzy
+msgid "Accept"
+msgstr "Samþykkja"
+
+#: ../gthumb/gth-browser.c:6405
+#, c-format
+msgid "File type not supported"
+msgstr ""
+
+#: ../gthumb/gth-browser.c:6448
+#, c-format
+msgid "No suitable module found"
+msgstr ""
+
+#: ../gthumb/gth-delete-task.c:64
+msgid "Deleting files"
+msgstr "Eyði skrám"
+
+#: ../gthumb/gth-extensions.c:203
+#, c-format
+msgid "Could not open the module `%s`: %s"
+msgstr ""
+
+#: ../gthumb/gth-extensions.c:754
+#, c-format
+msgid "The extension '%1$s' is required by the extension '%2$s'"
+msgstr ""
+
+#: ../gthumb/gth-file-chooser-dialog.c:144
+msgid "All Supported Files"
+msgstr "Allar studdar skrár"
+
+#: ../gthumb/gth-file-details.c:43
+#, fuzzy
+msgid "Details"
+msgstr "Nánar"
+
+#: ../gthumb/gth-file-source-vfs.c:223
+#, fuzzy
+msgid "Computer"
+msgstr "Tölva"
+
+#: ../gthumb/gth-file-source-vfs.c:230
+#, fuzzy
+msgid "Home Folder"
+msgstr "Heimamappa"
+
+#: ../gthumb/gth-file-source-vfs.c:743
+msgid ""
+"The files cannot be moved to the Trash. Do you want to delete them "
+"permanently?"
+msgstr ""
+
+#: ../gthumb/gth-file-source-vfs.c:753
+msgid "Could not move the files to the Trash"
+msgstr ""
+
+#: ../gthumb/gth-file-source-vfs.c:798
+#, fuzzy, c-format
+msgid "Are you sure you want to permanently delete \"%s\"?"
+msgstr "Ertu viss um að þú viljir endanlega eyða \"%s\"?"
+
+#: ../gthumb/gth-file-source-vfs.c:801
+#, c-format
+msgid "Are you sure you want to permanently delete the %'d selected file?"
+msgid_plural ""
+"Are you sure you want to permanently delete the %'d selected files?"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../gthumb/gth-file-source-vfs.c:811
+msgid "If you delete a file, it will be permanently lost."
+msgstr ""
+
+#: ../gthumb/gth-filterbar.c:304
+msgid "Personalize…"
+msgstr ""
+
+#: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
+#: ../gthumb/gth-test-simple.c:77
+msgid "kB"
+msgstr "kB"
+
+#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
+#: ../gthumb/gth-test-simple.c:78
+msgid "MB"
+msgstr "MB"
+
+#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:180
+#: ../gthumb/gth-test-simple.c:79
+msgid "GB"
+msgstr "GB"
+
+#. "files" label
+#: ../gthumb/gth-filter.c:286 ../gthumb/gth-filter-editor-dialog.c:177
+msgid "files"
+msgstr "skrár"
+
+#: ../gthumb/gth-filter-editor-dialog.c:224
+#, fuzzy
+msgid "ascending"
+msgstr "_Hækkandi"
+
+#: ../gthumb/gth-filter-editor-dialog.c:225
+#, fuzzy
+msgid "descending"
+msgstr "_Lækkandi"
+
+#: ../gthumb/gth-filter-editor-dialog.c:515
+#, c-format
+msgid "No limit specified"
+msgstr ""
+
+#: ../gthumb/gth-folder-tree.c:1071
+#, fuzzy
+msgid "Loading…"
+msgstr "Hleð..."
+
+#: ../gthumb/gth-folder-tree.c:1365
+#, fuzzy
+msgid "(Open Parent)"
+msgstr "Opna yfirmö_ppu"
+
+#: ../gthumb/gth-folder-tree.c:1881
+msgid "Enter the new name:"
+msgstr ""
+
+#: ../gthumb/gth-histogram-view.c:910
+#, fuzzy
+msgid "Alpha"
+msgstr "Alfa gegnsæi"
+
+#: ../gthumb/gth-histogram-view.c:916
+#, fuzzy
+msgid "RGB"
+msgstr "RGB"
+
+#: ../gthumb/gth-image-list-task.c:141
+#, fuzzy
+msgid "Could not rename the file"
+msgstr "Ekki tókst að endurnefna skrána"
+
+#: ../gthumb/gth-image-saver.c:39
+msgid "No options available for this file type"
+msgstr ""
+
+#: ../gthumb/gth-image-saver.c:185
+#, c-format
+msgid "Could not find a suitable module to save the image as \"%s\""
+msgstr ""
+
+#: ../gthumb/gth-load-file-data-task.c:108
+msgid "Reading file information"
+msgstr "Les upplýsingar um skrá"
+
+#: ../gthumb/gth-main-default-metadata.c:32
+msgid "File"
+msgstr "Skrá"
+
+#: ../gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Heiti"
+
+#: ../gthumb/gth-main-default-metadata.c:40
+#: ../gthumb/gth-main-default-tests.c:305
+msgid "Size"
+msgstr "Stærð"
+
+#: ../gthumb/gth-main-default-metadata.c:42
+msgid "Type"
+msgstr "Tegund"
+
+#: ../gthumb/gth-main-default-metadata.c:44
+msgid "Location"
+msgstr "Staðsetning"
+
+#: ../gthumb/gth-main-default-metadata.c:47
+msgid "Duration"
+msgstr "Tímalengd"
+
+#: ../gthumb/gth-main-default-metadata.c:49
+msgid "Exposure Settings"
+msgstr "Stillingar lýsingar"
+
+#: ../gthumb/gth-main-default-metadata.c:50
+msgid "Aperture"
+msgstr "Ljósop"
+
+#: ../gthumb/gth-main-default-metadata.c:51
+msgid "ISO Speed"
+msgstr "ISO hraði"
+
+#: ../gthumb/gth-main-default-metadata.c:52
+msgid "Exposure Time"
+msgstr "Lýsingartími"
+
+#: ../gthumb/gth-main-default-metadata.c:53
+msgid "Shutter Speed"
+msgstr "Lokhraði"
+
+#: ../gthumb/gth-main-default-metadata.c:54
+msgid "Focal Length"
+msgstr "Brennivídd"
+
+#: ../gthumb/gth-main-default-metadata.c:55
+msgid "Flash"
+msgstr "Leifturljós"
+
+#: ../gthumb/gth-main-default-metadata.c:56
+msgid "Camera Model"
+msgstr "Gerð myndavélar"
+
+#: ../gthumb/gth-main-default-metadata.c:65
+msgid "Author"
+msgstr "Höfundur"
+
+#: ../gthumb/gth-main-default-metadata.c:66
+msgid "Copyright"
+msgstr "Höfundarréttur"
+
+#: ../gthumb/gth-main-default-sort-types.c:131
+msgid "file name"
+msgstr "skráarheiti"
+
+#: ../gthumb/gth-main-default-sort-types.c:132
+msgid "file path"
+msgstr "skráarslóð"
+
+#: ../gthumb/gth-main-default-sort-types.c:133
+msgid "file size"
+msgstr "skráarstærð"
+
+#: ../gthumb/gth-main-default-sort-types.c:134
+msgid "file modified date"
+msgstr "breytingardagsetning skráar"
+
+#: ../gthumb/gth-main-default-sort-types.c:135
+msgid "no sorting"
+msgstr "engin röðun"
+
+#: ../gthumb/gth-main-default-sort-types.c:136
+msgid "dimensions"
+msgstr "málsetningar"
+
+#: ../gthumb/gth-main-default-tests.c:254
+msgid "All Files"
+msgstr "Allar skrár"
+
+#: ../gthumb/gth-main-default-tests.c:282
+msgid "Media"
+msgstr "Gagnamiðill"
+
+#: ../gthumb/gth-main-default-tests.c:289
+msgid "Text Files"
+msgstr "Textaskrár"
+
+#: ../gthumb/gth-main-default-tests.c:297
+msgid "Filename"
+msgstr "Skráarheiti"
+
+#: ../gthumb/gth-main-default-tests.c:329
+msgid "Title (embedded)"
+msgstr "Titill (ívafinn)"
+
+#: ../gthumb/gth-main-default-tests.c:337
+msgid "Description (embedded)"
+msgstr "Lýsing (ívafin)"
+
+#: ../gthumb/gth-progress-dialog.c:149
+msgid "Cancel operation"
+msgstr "Hætta við aðgerð"
+
+#: ../gthumb/gth-save-file-data-task.c:102
+msgid "Saving file information"
+msgstr "Vista skráarupplýsingar"
+
+#. Translators: %s is a filename
+#: ../gthumb/gth-save-image-task.c:158
+#, c-format
+msgid "Saving '%s'"
+msgstr "Vista '%s'"
+
+#: ../gthumb/gth-tags-entry.c:481
+#, c-format
+msgid "Create tag «%s»"
+msgstr "Búa til merki «%s»"
+
+#: ../gthumb/gth-tags-entry.c:1130
+msgid "Show all the tags"
+msgstr "Sýna öll merkin"
+
+#: ../gthumb/gth-tags-file.c:235
+msgid "Holidays"
+msgstr "Frí"
+
+#: ../gthumb/gth-tags-file.c:236
+msgid "Temporary"
+msgstr "Tímabundið"
+
+#: ../gthumb/gth-tags-file.c:237
+msgid "Screenshots"
+msgstr "Skjámyndir"
+
+#: ../gthumb/gth-tags-file.c:238
+msgid "Science"
+msgstr "Vísindi"
+
+#: ../gthumb/gth-tags-file.c:239
+msgid "Favorite"
+msgstr "Eftirlæti"
+
+#: ../gthumb/gth-tags-file.c:240
+msgid "Important"
+msgstr "Mikilvægt"
+
+#: ../gthumb/gth-tags-file.c:241
+msgid "GNOME"
+msgstr "GNOME"
+
+#: ../gthumb/gth-tags-file.c:242
+msgid "Games"
+msgstr "Leikir"
+
+#: ../gthumb/gth-tags-file.c:243
+msgid "Party"
+msgstr "Partí"
+
+#: ../gthumb/gth-tags-file.c:244
+msgid "Birthday"
+msgstr "Afmæli"
+
+#: ../gthumb/gth-tags-file.c:245
+msgid "Astronomy"
+msgstr "Stjörnufræði"
+
+#: ../gthumb/gth-tags-file.c:246
+msgid "Family"
+msgstr "Fjölskyldan"
+
+#: ../gthumb/gth-test-category.c:46 ../gthumb/gth-test-simple.c:49
+#: ../gthumb/gth-test-simple.c:66
+msgid "is"
+msgstr "er"
+
+#: ../gthumb/gth-test-category.c:47
+msgid "is only"
+msgstr "er aðeins"
+
+#: ../gthumb/gth-test-category.c:48 ../gthumb/gth-test-simple.c:50
+#: ../gthumb/gth-test-simple.c:67
+msgid "is not"
+msgstr "er ekki"
+
+#: ../gthumb/gth-test-category.c:407 ../gthumb/gth-test-simple.c:908
+#: ../gthumb/gth-test-simple.c:929 ../gthumb/gth-test-simple.c:955
+#, c-format
+msgid "The test definition is incomplete"
+msgstr "Prófunarskilgreiningin er ókláruð"
+
+#: ../gthumb/gth-test-selector.c:251
+msgid "Add a new rule"
+msgstr "Bæta við nýrri reglu"
+
+#: ../gthumb/gth-test-selector.c:261
+msgid "Remove this rule"
+msgstr "Fjarlægja þessa reglu"
+
+#: ../gthumb/gth-test-simple.c:46
+msgid "contains"
+msgstr "inniheldur"
+
+#: ../gthumb/gth-test-simple.c:47
+msgid "starts with"
+msgstr "byrjar á"
+
+#: ../gthumb/gth-test-simple.c:48
+msgid "ends with"
+msgstr "endar á"
+
+#: ../gthumb/gth-test-simple.c:51
+msgid "does not contain"
+msgstr "inniheldur ekki"
+
+#: ../gthumb/gth-test-simple.c:52
+msgid "matches"
+msgstr "samsvarar"
+
+#: ../gthumb/gth-test-simple.c:56
+msgid "is lower than"
+msgstr "er minna en"
+
+#: ../gthumb/gth-test-simple.c:57
+msgid "is greater than"
+msgstr "er stærra en"
+
+#: ../gthumb/gth-test-simple.c:58
+msgid "is equal to"
+msgstr "er jafnt og"
+
+#: ../gthumb/gth-test-simple.c:59
+msgid "is greater than or equal to"
+msgstr "er stærra en eða jafnt og"
+
+#: ../gthumb/gth-test-simple.c:60
+msgid "is lower than or equal to"
+msgstr "er minna eða jafnt og"
+
+#: ../gthumb/gth-test-simple.c:64
+msgid "is before"
+msgstr "er fyrir"
+
+#: ../gthumb/gth-test-simple.c:65
+msgid "is after"
+msgstr "er eftir"
+
+#: ../gthumb/gth-time-selector.c:603
+msgid "Today"
+msgstr "Í dag"
+
+#: ../gthumb/gth-time-selector.c:611
+msgid "Now"
+msgstr "Núna"
+
+#: ../gthumb/gth-toolbox.c:144
+msgid "Colors"
+msgstr "Litir"
+
+#: ../gthumb/gth-toolbox.c:145
+msgid "Rotation"
+msgstr "Snúningur"
+
+#: ../gthumb/gth-trash-task.c:64
+msgid "Moving files to trash"
+msgstr "Flyt skrár í ruslið"
+
+#: ../gthumb/gtk-utils.c:329
+msgid "Could not display help"
+msgstr "Ekki tókst að sýna hjálpina"
+
+#: ../gthumb/gtk-utils.c:649 ../gthumb/gtk-utils.c:656
+msgid "Could not launch the application"
+msgstr "Gat ekki ræst forritið"
+
+#: ../gthumb/gtk-utils.c:759
+msgid "_Copy Here"
+msgstr "_Afrita hingað"
+
+#: ../gthumb/gtk-utils.c:764
+msgid "_Move Here"
+msgstr "_Færa hingað"
+
+#: ../gthumb/gtk-utils.c:769
+msgid "_Link Here"
+msgstr "_Tengja hingað"
+
+#: ../gthumb/gtk-utils.c:778
+msgid "Cancel"
+msgstr "Hætta við"
+
+#: ../gthumb/gtk-utils.h:36
+msgid "_Cancel"
+msgstr "_Hætta við"
+
+#: ../gthumb/gtk-utils.h:37
+msgid "_Close"
+msgstr "_Loka"
+
+#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:3
+msgid "_Help"
+msgstr "_Hjálp"
+
+#: ../gthumb/gtk-utils.h:42
+msgid "_Ok"
+msgstr "Í _lagi"
+
+#: ../gthumb/gtk-utils.h:43
+msgid "_Remove"
+msgstr "_Fjarlægja"
+
+#: ../gthumb/gtk-utils.h:44
+msgid "_Save"
+msgstr "_Vista"
+
+#: ../gthumb/main.c:59
+msgid "Open a new window"
+msgstr "Opna nýjan glugga"
+
+#: ../gthumb/main.c:63
+msgid "Start in fullscreen mode"
+msgstr "Byrja í skjáfylliham"
+
+#: ../gthumb/main.c:67
+msgid "Automatically start a slideshow"
+msgstr "Ræsa skyggnusýningu sjálfkrafa"
+
+#: ../gthumb/main.c:71
+msgid "Automatically import digital camera photos"
+msgstr "Flytja sjálfvirkt inn myndir úr stafrænum myndavélum"
+
+#: ../gthumb/main.c:75
+msgid "Show version"
+msgstr "Birta útgáfuupplýsingar"
+
+#: ../gthumb/main.c:265
+msgid "- Image browser and viewer"
+msgstr "- Myndavafri og skoðari"
+
+#: ../gthumb/resources/app-menu.ui.h:1
+msgid "New _Window"
+msgstr "Nýr _gluggi"
+
+#: ../gthumb/resources/app-menu.ui.h:4
+msgid "_About"
+msgstr "_Um hugbúnaðinn"
+
+#: ../gthumb/resources/app-menu.ui.h:5
+msgid "_Quit"
+msgstr "_Hætta"
+
+#: ../gthumb/resources/file-list-menu.ui.h:1
+#: ../gthumb/resources/file-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Fylla skjáinn"
+
+#: ../gthumb/resources/folder-menu.ui.h:1
+msgid "Open in New Window"
+msgstr "Opna í nýjum glugga"
+
+#: ../gthumb/resources/gears-menu.ui.h:1
+msgid "New Window"
+msgstr "Nýr gluggi"
+
+#: ../gthumb/resources/gears-menu.ui.h:2
+msgid "Open Location…"
+msgstr "Opna staðsetningu…"
+
+#: ../gthumb/resources/gears-menu.ui.h:5
+msgid "Revert"
+msgstr "Afturkalla"
+
+#: ../gthumb/resources/gears-menu.ui.h:6
+msgid "Sort By…"
+msgstr "Raða eftir…"
+
+#: ../gthumb/resources/gears-menu.ui.h:7
+msgid "Hidden Files"
+msgstr "Faldar skrár"
+
+#: ../gthumb/resources/history-menu.ui.h:1
+msgid "_Delete History"
+msgstr "_Eyða ferli"
+
+
