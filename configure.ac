@@ -199,7 +199,7 @@ if test x$enable_exiv2 = xyes ; then
 			  exiv2 >= $EXIV2_REQUIRED,
 			  [enable_exiv2=yes],
 			  [enable_exiv2=no])
-	if pkg-config --atleast-version=0.20 exiv2; then
+	if ${PKG_CONFIG} --atleast-version=0.20 exiv2; then
 		AC_DEFINE(HAVE_EXIV2_020, 1, [Have exiv2 0.20 or greater])
 	fi
 fi
