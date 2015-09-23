@@ -1,3 +1,27 @@
+version 3.4.1
+-------------
+
+ Bugs fixed:
+
+  * Fixed build on Fedora 23 (Kalev Lember) (#747982)
+  * Allow cross-compiling (Quentin Glidic) (#755390)
+
+ New or updated application translations:
+
+  * Catalan (Sílvia Miranda)
+  * Español; Castellano (Daniel Mustieles)
+  * Hungarian (Balázs Úr)
+  * Icelandic (Sveinn í Felli)
+  * Italiano (Gianvito Cavasoli)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Русский (Stas Solovey)
+
+ New or updated manual translations:
+
+  * Hungarian (Balázs Úr)
+  * Spanish (Daniel Mustieles)
+
 version 3.4.0
 -------------
 
