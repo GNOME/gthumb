@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-09-17 09:24+0000\n"
-"PO-Revision-Date: 2015-09-17 12:13+0000\n"
+"PO-Revision-Date: 2015-09-24 06:08+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: is\n"
@@ -37,29 +37,28 @@ msgid "Starting %s"
 msgstr "Ræsi %s"
 
 #: ../copy-n-paste/eggdesktopfile.c:1116
-#, fuzzy, c-format
+#, c-format
 msgid "Application does not accept documents on command line"
 msgstr "Þetta forrit tekur ekki á móti skrám á skipanalínunni"
 
 #: ../copy-n-paste/eggdesktopfile.c:1184
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized launch option: %d"
-msgstr "Þessi valmöguleiki er ekki þekktur: %d"
+msgstr "Þessi ræsivalmöguleiki er ekki þekktur: %d"
 
 #. translators: The 'Type=Link' string is found in a
 #. * desktop file, and should not be translated.
 #: ../copy-n-paste/eggdesktopfile.c:1391
-#, fuzzy, c-format
+#, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
 msgstr "Get ekki látið veffang ganga til 'Type=Link‘ skjáborðsfærslu"
 
 #: ../copy-n-paste/eggdesktopfile.c:1412
-#, fuzzy, c-format
+#, c-format
 msgid "Not a launchable item"
 msgstr "Þetta er ekki ræsanlegur íhlutur"
 
 #: ../copy-n-paste/eggsmclient.c:226
-#, fuzzy
 msgid "Disable connection to session manager"
 msgstr "Afvirkja tengingu við setustjóra"
 
@@ -72,17 +71,14 @@ msgid "FILE"
 msgstr "SKRÁ"
 
 #: ../copy-n-paste/eggsmclient.c:232
-#, fuzzy
 msgid "Specify session management ID"
 msgstr "Tilgreindu auðkenni (ID) setustjórnunar"
 
 #: ../copy-n-paste/eggsmclient.c:232
-#, fuzzy
 msgid "ID"
 msgstr "Auðkenni (ID)"
 
 #: ../copy-n-paste/eggsmclient.c:253
-#, fuzzy
 msgid "Session management options:"
 msgstr "Valkostir setustýringar:"
 
@@ -280,24 +276,23 @@ msgstr ""
 
 #: ../data/ui/personalize-filters.ui.h:3
 msgid "_Other filters:"
-msgstr ""
+msgstr "_Aðrar síur:"
 
 #: ../data/ui/preferences.ui.h:1
 msgid "below the folder list"
-msgstr ""
+msgstr "fyrir neðan möppulistann"
 
 #: ../data/ui/preferences.ui.h:2
 msgid "on the right"
-msgstr ""
+msgstr "hægra megin"
 
 #: ../data/ui/preferences.ui.h:3
 msgid "gThumb Preferences"
 msgstr "Kjörstillingar gThumb"
 
 #: ../data/ui/preferences.ui.h:4
-#, fuzzy
 msgid "_Toolbar style:"
-msgstr "Stíll tólstiku"
+msgstr "S_tíll verkfærastiku:"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "T_humbnails in viewer:"
@@ -308,32 +303,28 @@ msgid "System settings"
 msgstr "Kerfisstillingar"
 
 #: ../data/ui/preferences.ui.h:7
-#, fuzzy
 msgid "Text below icons"
 msgstr "Texti fyrir neðan táknmyndir"
 
 #: ../data/ui/preferences.ui.h:8
-#, fuzzy
 msgid "Text beside icons"
-msgstr "_Texti við hliðiná táknmyndum"
+msgstr "Texti við hlið táknmynda"
 
 #: ../data/ui/preferences.ui.h:9
-#, fuzzy
 msgid "Icons only"
 msgstr "Einungis táknmyndir"
 
 #: ../data/ui/preferences.ui.h:10
-#, fuzzy
 msgid "Text only"
 msgstr "Einungis texti"
 
 #: ../data/ui/preferences.ui.h:11
 msgid "on the bottom"
-msgstr ""
+msgstr "neðst"
 
 #: ../data/ui/preferences.ui.h:12
 msgid "on the side"
-msgstr ""
+msgstr "til hliðar"
 
 #: ../data/ui/preferences.ui.h:13
 msgid "File _properties in browser:"
@@ -353,15 +344,15 @@ msgstr "_Fara í þessa möppu:"
 
 #: ../data/ui/preferences.ui.h:17
 msgid "Choose startup folder"
-msgstr ""
+msgstr "Veldu upphafsmöppu"
 
 #: ../data/ui/preferences.ui.h:18
 msgid "Set to C_urrent"
-msgstr ""
+msgstr "Set_ja sem núverandi"
 
 #: ../data/ui/preferences.ui.h:19
 msgid "_Reuse the active window to open files"
-msgstr ""
+msgstr "Endu_rnýta virka gluggann til að opna skrár"
 
 #: ../data/ui/preferences.ui.h:20
 msgid "On startup:"
@@ -369,7 +360,7 @@ msgstr "Í ræsingu:"
 
 #: ../data/ui/preferences.ui.h:21
 msgid "As_k confirmation before deleting files or catalogs"
-msgstr ""
+msgstr "S_pyrja um staðfestingu ef einhverju er eytt"
 
 #: ../data/ui/preferences.ui.h:22
 msgid "Ask whether to save _modified files"
@@ -473,7 +464,7 @@ msgstr "Senda myndir á 23hq.com"
 
 #: ../extensions/23hq/callbacks.c:68
 msgid "_23..."
-msgstr ""
+msgstr "_23..."
 
 #: ../extensions/23hq/callbacks.c:69
 msgid "Upload photos to 23"
@@ -572,7 +563,7 @@ msgstr "_Geisladiskur..."
 
 #: ../extensions/burn_disc/callbacks.c:56
 msgid "Write files to an optical disc"
-msgstr ""
+msgstr "Skrifa skrár á geisladisk"
 
 #: ../extensions/burn_disc/data/ui/burn-disc-options.ui.h:1
 msgid "Disc Name"
@@ -738,7 +729,7 @@ msgstr "Ekkert heiti tilgreint"
 #: ../extensions/file_manager/actions.c:75
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
-msgstr ""
+msgstr "Ógilt heiti. Eftirfarandi stafir eru ekki leyfilegir: %s"
 
 #: ../extensions/catalogs/actions.c:155 ../extensions/catalogs/actions.c:267
 #: ../extensions/catalogs/dlg-add-to-catalog.c:338
@@ -746,7 +737,7 @@ msgstr ""
 #: ../extensions/catalogs/gth-file-source-catalogs.c:508
 #: ../extensions/file_manager/actions.c:106
 msgid "Name already used"
-msgstr ""
+msgstr "Þetta heiti er þegar í notkun"
 
 #: ../extensions/catalogs/actions.c:178
 #: ../extensions/catalogs/dlg-add-to-catalog.c:359
@@ -768,12 +759,12 @@ msgstr "_Búa til"
 #: ../extensions/catalogs/actions.c:290
 #: ../extensions/catalogs/dlg-add-to-catalog.c:471
 msgid "New library"
-msgstr ""
+msgstr "Nýtt myndasafn"
 
 #: ../extensions/catalogs/actions.c:291
 #: ../extensions/catalogs/dlg-add-to-catalog.c:472
 msgid "Enter the library name:"
-msgstr ""
+msgstr "Settu inn heiti fyrir myndasafnið:"
 
 #: ../extensions/catalogs/actions.c:326
 msgid "Could not remove the catalog"
@@ -782,7 +773,7 @@ msgstr "Gat ekki fjarlægt efnisskrána"
 #: ../extensions/catalogs/actions.c:363
 #, c-format
 msgid "Are you sure you want to remove \"%s\"?"
-msgstr ""
+msgstr "Ertu viss um að þú viljir fjarlægja \"%s\"?"
 
 #: ../extensions/catalogs/callbacks.c:102
 msgid "_Add to Catalog"
@@ -790,9 +781,8 @@ msgstr "Bæt_a í efnisskrá"
 
 #: ../extensions/catalogs/callbacks.c:105
 #: ../extensions/selections/callbacks.c:80
-#, fuzzy
 msgid "Open _Folder"
-msgstr "Opna möppu"
+msgstr "O_pna möppu"
 
 #: ../extensions/catalogs/callbacks.c:106
 #: ../extensions/selections/callbacks.c:81
@@ -813,7 +803,7 @@ msgstr "Bæt_a í efnisskrá..."
 
 #: ../extensions/catalogs/callbacks.c:116
 msgid "Add selected images to a catalog"
-msgstr ""
+msgstr "Bæta völdum myndum í efnisskrá"
 
 #: ../extensions/catalogs/callbacks.c:120
 msgid "Remo_ve from Catalog"
@@ -821,7 +811,7 @@ msgstr "_Fjarlægja úr efnisskrá"
 
 #: ../extensions/catalogs/callbacks.c:121
 msgid "Remove selected images from the catalog"
-msgstr ""
+msgstr "Fjarlægja valdar myndir úr efnisskránni"
 
 #: ../extensions/catalogs/callbacks.c:125
 msgid "Create _Catalog"
@@ -845,9 +835,8 @@ msgstr "Skipanalína"
 #: ../extensions/photo_importer/dlg-photo-importer.c:364
 #: ../extensions/photo_importer/dlg-photo-importer.c:404
 #: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1093
-#, fuzzy
 msgid "(Empty)"
-msgstr "(Tóm)"
+msgstr "(Tómt)"
 
 #: ../extensions/catalogs/callbacks.c:700
 msgid "Catalog Properties"
@@ -887,13 +876,13 @@ msgstr "_Ný efnisskrá"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:4
 msgid "New _Library"
-msgstr ""
+msgstr "Nýtt myndasa_fn"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:5
 #: ../extensions/file_manager/actions.c:944
 #: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
-msgstr ""
+msgstr "S_koða áfangastaðinn"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
 #: ../gthumb/gth-file-properties.c:209
@@ -946,13 +935,13 @@ msgstr "_Forskoðun efnisskrár:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:2
 msgid "_Group files by:"
-msgstr ""
+msgstr "_Hópa skrár eftir:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:3
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:3
 #: ../extensions/search/data/ui/search-editor.ui.h:2
 msgid "_Include sub-folders"
-msgstr ""
+msgstr "Tak_a með undirmöppur"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:4
 msgid "Ignore catalogs with a single file"
@@ -969,20 +958,20 @@ msgstr ""
 #: ../extensions/catalogs/dlg-add-to-catalog.c:105
 #: ../extensions/catalogs/dlg-add-to-catalog.c:136
 msgid "Could not add the files to the catalog"
-msgstr ""
+msgstr "Ekki tókst að bæta skrám við í efnisskrána"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:217
 #: ../extensions/search/gth-search-task.c:356
 msgid "Could not create the catalog"
-msgstr ""
+msgstr "Gat ekki búið til efnisskrána"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:80
 msgid "Could not save the catalog"
-msgstr ""
+msgstr "Gat ekki vistað efnisskrána"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:159
 msgid "Could not load the catalog"
-msgstr ""
+msgstr "Gat ekki að hlaðið inn efnisskránni"
 
 #: ../extensions/catalogs/dlg-organize-files.c:120
 msgid "Files will be organized in catalogs. No file will be moved on disk."
@@ -1023,7 +1012,7 @@ msgstr ""
 #: ../extensions/catalogs/gth-file-source-catalogs.c:955
 #, c-format
 msgid "The library '%s' already exists, do you want to overwrite it?"
-msgstr ""
+msgstr "Myndasafnið '%s' er þegar til staðar Viltu skrifa yfir það?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:963
 msgid "Over_write"
@@ -1031,24 +1020,24 @@ msgstr "_Skrifa yfir"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1081
 msgid "Cannot move the files"
-msgstr ""
+msgstr "Get ekki fært skrárnar"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1083
 msgid "Cannot copy the files"
-msgstr ""
+msgstr "Get ekki afritað skrárnar"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1088
 msgid "Invalid destination."
-msgstr ""
+msgstr "Ógildur áfangastaður."
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1135
 #, c-format
 msgid "Copying files to '%s'"
-msgstr ""
+msgstr "Afrita skrár í '%s'"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1322
 msgid "Could not remove the files from the catalog"
-msgstr ""
+msgstr "Gat ekki eytt skrám úr efnisskránni"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1380
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:746
@@ -1057,12 +1046,12 @@ msgstr ""
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:1316
 #: ../extensions/search/gth-search.c:265
 msgid "Invalid file format"
-msgstr ""
+msgstr "Ógilt skráasnið"
 
 #: ../extensions/catalogs/gth-organize-task.c:202
 #, c-format
 msgid "Operation completed. Catalogs: %d. Images: %d."
-msgstr ""
+msgstr "Aðgerð lokið. Efnisskrár: %d. Myndir: %d."
 
 #: ../extensions/change_date/callbacks.c:44
 #| msgid "Change Date"
@@ -1214,9 +1203,8 @@ msgid "Create a contact sheet"
 msgstr ""
 
 #: ../extensions/contact_sheet/callbacks.c:65
-#, fuzzy
 msgid "Image _Wall..."
-msgstr "Myndaveggur"
+msgstr "_Myndaveggur..."
 
 #: ../extensions/contact_sheet/callbacks.c:66
 msgid "Create an image-wall"
@@ -1328,13 +1316,13 @@ msgstr "Skýring:"
 #: ../extensions/image_print/data/ui/print-layout.ui.h:5
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
 msgid "The current page number"
-msgstr ""
+msgstr "Núverandi blaðsíðunúmer"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
 #: ../extensions/image_print/data/ui/print-layout.ui.h:6
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
 msgid "The total number of pages"
-msgstr ""
+msgstr "Heildarfjöldi blaðsíðna"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
@@ -1344,7 +1332,7 @@ msgstr ""
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:11
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
 msgid "Special code"
-msgstr ""
+msgstr "Sérkóði"
 
 #. translate only the text in the curly brackets
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
@@ -1353,7 +1341,7 @@ msgstr ""
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
 #, no-c-format
 msgid "%D{ format }"
-msgstr ""
+msgstr "%D{ format }"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:12
@@ -1379,7 +1367,7 @@ msgstr "Á_fangastaður:"
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:7
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
 msgid "Choose destination folder"
-msgstr ""
+msgstr "Veldu úttaksmöppu"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:14
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:4
@@ -1406,7 +1394,7 @@ msgstr "Breyta völdu þema"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
 msgid "Delete the selected theme"
-msgstr ""
+msgstr "Eyða völdu þema"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
@@ -1424,17 +1412,17 @@ msgstr "Dálkar:"
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
 msgid "Images per page:"
-msgstr ""
+msgstr "Myndir á hverri síðu:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
 msgid "All images on a single page"
-msgstr ""
+msgstr "Allar myndir á einni síðu"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
 msgid "_All pages with the same size"
-msgstr ""
+msgstr "Allar síður með sömu stærð"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
@@ -1476,19 +1464,19 @@ msgstr "Myndaveggur"
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:493
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:507
 msgid "Could not save the theme"
-msgstr ""
+msgstr "Gat ekki vistað þemað"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:652
 msgid "Could not delete the theme"
-msgstr ""
+msgstr "Gat ekki eytt þemanu"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-creator.c:247
 msgid "Creating images"
-msgstr ""
+msgstr "Bý til myndir"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-creator.c:896
 msgid "Generating thumbnails"
-msgstr ""
+msgstr "Útbý smámyndir"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme.c:32
 msgid "Header"
@@ -1500,15 +1488,15 @@ msgstr "Síðufótur"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:193
 msgid "Theme Properties"
-msgstr ""
+msgstr "Eiginleikar þema"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:208
 msgid "Copy _From"
-msgstr ""
+msgstr "Afrita _frá"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:316
 msgid "New theme"
-msgstr ""
+msgstr "Ný þema"
 
 #: ../extensions/convert_format/callbacks.c:45
 msgid "Convert Format..."
@@ -1524,7 +1512,7 @@ msgstr "Umbreyta sniði"
 
 #: ../extensions/convert_format/convert_format.extension.in.in.h:2
 msgid "Save images in a different format"
-msgstr ""
+msgstr "Vista myndir á öðru sniði"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:1
 msgid "Convert Format"
@@ -1542,7 +1530,7 @@ msgstr "Áfangastaður"
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:5
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:8
 msgid "_Use the original image folder"
-msgstr ""
+msgstr "_Nota upprunalega myndamöppu"
 
 #: ../extensions/convert_format/dlg-convert-format.c:95
 msgid "Converting images"
@@ -1555,7 +1543,7 @@ msgstr ""
 #: ../extensions/desktop_background/actions.c:259
 #: ../extensions/desktop_background/actions.c:277
 msgid "Could not set the desktop background"
-msgstr ""
+msgstr "Gat ekki stillt bakgrunn skjáborðs"
 
 #: ../extensions/desktop_background/callbacks.c:49
 msgid "Set as Desktop Background"
@@ -1564,7 +1552,7 @@ msgstr "Setja sem bakgrunnsmynd"
 #: ../extensions/desktop_background/callbacks.c:50
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
 msgid "Set the image as desktop background"
-msgstr ""
+msgstr "Setja myndina sem bakgrunnsmynd á skjáborði"
 
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:1
 msgid "Desktop background"
@@ -1625,12 +1613,12 @@ msgstr "_Titill:"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:121
 msgid "Could not save the file metadata"
-msgstr ""
+msgstr "Gat ekki vistað lýsigögn skrárinnar"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:234
 #: ../gthumb/gth-overwrite-dialog.c:136
 msgid "Cannot read file information"
-msgstr ""
+msgstr "Gat ekki lesið skráarupplýsingar"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
 msgid "Edit metadata"
@@ -1719,7 +1707,7 @@ msgstr "Dæmi"
 
 #: ../extensions/example/src/example.extension.in.in.h:2
 msgid "Extension example."
-msgstr ""
+msgstr "Dæmi um skráarendingu."
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:1
 msgid "C_opyright:"
@@ -1982,14 +1970,14 @@ msgstr "_Albúm:"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:375
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
 msgid "Could not connect to the server"
-msgstr ""
+msgstr "Gat ekki tengst við þjóninn"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:175
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:246
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:182
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:176
 msgid "Could not upload the files"
-msgstr ""
+msgstr "Gat ekki sent skrárnar"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:397
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:188
@@ -1997,7 +1985,7 @@ msgstr ""
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:457
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:309
 msgid "Could not create the album"
-msgstr ""
+msgstr "Gat ekki búið til albúmið"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:465
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:528
@@ -2045,7 +2033,7 @@ msgstr "Flytja út í %s"
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:349
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:279
 msgid "Could not get the photo list"
-msgstr ""
+msgstr "Gat ekki sótt myndalista"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:378
 #: ../extensions/facebook/dlg-import-from-facebook.c:533
@@ -2054,7 +2042,7 @@ msgstr ""
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:586
 msgid "No album selected"
-msgstr ""
+msgstr "Ekkert albúm valið"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:551
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:569
@@ -2076,7 +2064,7 @@ msgstr "Senda myndir á Facebook"
 #: ../extensions/photobucket/photobucket-service.c:310
 #: ../extensions/picasaweb/picasa-web-service.c:711
 msgid "Getting the album list"
-msgstr ""
+msgstr "Sæki albúmalistann"
 
 #: ../extensions/facebook/facebook-service.c:619
 #: ../extensions/flicker_utils/flickr-service.c:965
@@ -2085,7 +2073,7 @@ msgstr ""
 #: ../extensions/photobucket/photobucket-service.c:423
 #: ../extensions/picasaweb/picasa-web-service.c:805
 msgid "Creating the new album"
-msgstr ""
+msgstr "Bý til nýja albúmið"
 
 #: ../extensions/facebook/facebook-service.c:680
 #: ../extensions/flicker_utils/flickr-service.c:1176
@@ -2093,7 +2081,7 @@ msgstr ""
 #: ../extensions/picasaweb/picasa-web-service.c:860
 #, c-format
 msgid "Could not upload '%s': %s"
-msgstr ""
+msgstr "Gat ekki sent '%s': %s"
 
 #. Translators: %s is a filename
 #: ../extensions/facebook/facebook-service.c:745
@@ -2102,7 +2090,7 @@ msgstr ""
 #: ../extensions/picasaweb/picasa-web-service.c:917
 #, c-format
 msgid "Uploading '%s'"
-msgstr ""
+msgstr "Sendi '%s'"
 
 #: ../extensions/facebook/facebook-service.c:958
 #: ../extensions/flicker_utils/flickr-service.c:1482
@@ -2115,7 +2103,7 @@ msgstr ""
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
-msgstr ""
+msgstr "Sæki myndalistann"
 
 #: ../extensions/file_manager/actions.c:133
 msgid "New folder"
@@ -2123,13 +2111,13 @@ msgstr "Ný mappa"
 
 #: ../extensions/file_manager/actions.c:134
 msgid "Enter the folder name:"
-msgstr ""
+msgstr "Settu inn heiti á möppuna:"
 
 #: ../extensions/file_manager/actions.c:400
 #: ../extensions/file_manager/callbacks.c:380
 #: ../extensions/file_manager/callbacks.c:838
 msgid "Could not move the files"
-msgstr ""
+msgstr "Gat ekki fært skrárnar"
 
 #: ../extensions/file_manager/actions.c:401
 #: ../extensions/file_manager/callbacks.c:381
@@ -2173,7 +2161,7 @@ msgstr "Ertu viss um að þú viljir endanlega eyða \"%s\"?"
 #: ../extensions/file_manager/actions.c:826
 #: ../gthumb/gth-file-source-vfs.c:854
 msgid "If you delete a file, it will be permanently lost."
-msgstr ""
+msgstr "Ef þú eyðir skrá, hverfur hún fyrir fullt og allt."
 
 #: ../extensions/file_manager/actions.c:919
 msgid "Move To"
@@ -2245,7 +2233,7 @@ msgstr "Endurnefna valdar skrár"
 
 #: ../extensions/file_manager/callbacks.c:195
 msgid "Open with the _File Manager"
-msgstr ""
+msgstr "O_pna með skráastjóra"
 
 #: ../extensions/file_manager/callbacks.c:215
 #| msgid "Paste Into Folder"
@@ -2554,7 +2542,7 @@ msgstr "Myndaverkfæri"
 
 #: ../extensions/file_tools/file_tools.extension.in.in.h:2
 msgid "Basic tools to modify images."
-msgstr ""
+msgstr "Grunnverkfæri til að breyta myndum."
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:372
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:272
@@ -2586,7 +2574,6 @@ msgstr "Sjálfvirk aðlögun birtuskila"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:416
 #: ../extensions/file_tools/gth-file-tool-resize.c:589
-#, fuzzy
 msgid "Square"
 msgstr "Ferningur"
 
@@ -2670,10 +2657,9 @@ msgid "Uniform"
 msgstr "Einsleitt"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:608
-#, fuzzy
 #| msgid "Crop"
 msgid "Crop..."
-msgstr "Utansníða"
+msgstr "Sníða utan af..."
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:608
 msgid "Crop"
@@ -2684,9 +2670,8 @@ msgid "Equalizing image histogram"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:230
-#, fuzzy
 msgid "Equalize"
-msgstr "Jafna"
+msgstr "Bitrujafna"
 
 #: ../extensions/file_tools/gth-file-tool-equalize.c:231
 msgid "Equalize image histogram"
@@ -2701,17 +2686,15 @@ msgid "Flip the image vertically"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:507
-#, fuzzy
 #| msgid "Grayscale"
 msgid "Grayscale..."
-msgstr "Grátóna"
+msgstr "Grátóna..."
 
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:507
 msgid "Grayscale"
 msgstr "Grátóna"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:87
-#, fuzzy
 msgid "Mirror"
 msgstr "Spegla"
 
@@ -2724,7 +2707,6 @@ msgid "Negative"
 msgstr "Negatíva"
 
 #: ../extensions/file_tools/gth-file-tool-redo.c:75
-#, fuzzy
 msgid "Redo"
 msgstr "Endurtaka"
 
@@ -2734,9 +2716,8 @@ msgid "Resizing images"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-resize.c:808
-#, fuzzy
 msgid "Resize..."
-msgstr "Breyta stærð"
+msgstr "Breyta stærð..."
 
 #: ../extensions/file_tools/gth-file-tool-resize.c:808
 msgid "Resize"
@@ -2773,7 +2754,6 @@ msgid "Rotate the image by 90 degrees clockwise"
 msgstr "Snúa myndinni réttsælis um 90 gráður"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:70
-#, fuzzy
 msgid "Save As"
 msgstr "Vista sem"
 
@@ -2806,9 +2786,8 @@ msgid "Find duplicated files in the current location"
 msgstr ""
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-choose-folders.ui.h:1
-#, fuzzy
 msgid "_Folders:"
-msgstr "Möppur"
+msgstr "_Möppur:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:1
 msgid "Search for Duplicates"
@@ -2840,7 +2819,7 @@ msgstr "Finna tvítekningar"
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:3
 #: ../extensions/search/data/ui/search-editor.ui.h:1
 msgid "Start _at:"
-msgstr ""
+msgstr "_Byrja á:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:4
 msgid "_Filter:"
@@ -2852,11 +2831,11 @@ msgstr "Finna endurteknar skrár."
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:65
 msgid "leave the newest duplicates"
-msgstr ""
+msgstr "skilja eftir nýjustu tvítökin"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:66
 msgid "leave the oldest duplicates"
-msgstr ""
+msgstr "skilja eftir elstu tvítökin"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:67
 msgid "by folder..."
@@ -2880,7 +2859,7 @@ msgstr[1] "%d tvítök"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:712
 msgid "Search completed"
-msgstr ""
+msgstr "Leit lokið"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:725
 msgid "Searching for duplicates"
@@ -3022,11 +3001,11 @@ msgstr ""
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1042
 #: ../gthumb/gth-browser.c:2176
 msgid "Could not save the file"
-msgstr ""
+msgstr "Gat ekki vistað skrána"
 
 #: ../extensions/gstreamer_tools/actions.c:131
 msgid "Could not take a screenshot"
-msgstr ""
+msgstr "Gat ekki tekið skjámynd"
 
 #: ../extensions/gstreamer_tools/actions.c:137
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1215
@@ -3061,7 +3040,7 @@ msgstr "--:--"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
 msgid "Toggle volume"
-msgstr ""
+msgstr "Víxla hljóðstyrk"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
 msgid "Change volume level"
@@ -3075,11 +3054,11 @@ msgstr "Veldu möppu"
 
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:1
 msgid "Audio/Video support"
-msgstr ""
+msgstr "Stuðningur við hjóð/myndskeið"
 
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:2
 msgid "Play audio and video files."
-msgstr ""
+msgstr "Spila hljóð og myndskeiðaskrár."
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:104
 msgid "Screenshot"
@@ -3091,7 +3070,7 @@ msgstr "Taka skjámynd"
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:681
 msgid "Playing video"
-msgstr ""
+msgstr "Spila myndskeið"
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:694
 msgid "Pause"
@@ -3171,7 +3150,7 @@ msgstr "%d × %d"
 
 #: ../extensions/image_print/actions.c:68
 msgid "Could not print the selected files"
-msgstr ""
+msgstr "Gat ekki prentað valdar skrár"
 
 #: ../extensions/image_print/callbacks.c:65
 msgid "Print the selected images"
@@ -3183,12 +3162,12 @@ msgstr "Miðjað"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:13
 msgid "The total number of files"
-msgstr ""
+msgstr "Heildarfjöldi skráa"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:14
 #: ../extensions/importer/data/ui/import-preferences.ui.h:4
 msgid "The event description"
-msgstr ""
+msgstr "Lýsing á viðburðinum"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:17
 msgid "_Rows:"
@@ -3232,15 +3211,15 @@ msgstr "tommur"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
 msgid "Select Caption Font"
-msgstr ""
+msgstr "Veldu letur á fyrirsögn"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
 msgid "Select Header Font"
-msgstr ""
+msgstr "Veldu letur á síðuhaus"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:6
 msgid "Select Footer Font"
-msgstr ""
+msgstr "Veldu letur á síðufót"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:7
 msgid "Fonts"
@@ -3256,7 +3235,7 @@ msgstr "Blaðsíða %d af %d"
 #: ../extensions/image_print/gth-image-print-job.c:1845
 #: ../extensions/image_print/gth-image-print-job.c:1888
 msgid "Could not print"
-msgstr ""
+msgstr "Gat ekki prentað"
 
 #: ../extensions/image_print/gth-image-print-job.c:1746
 #: ../gthumb/gth-main-default-tests.c:240
@@ -3267,7 +3246,7 @@ msgstr "Myndir"
 #: ../gthumb/gth-image-loader.c:197 ../gthumb/gth-image-loader.c:304
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
-msgstr ""
+msgstr "Ekki er til nein innhleðsluaðferð fyrir þessa tegund af skrám"
 
 #. translators: %s is a filename
 #: ../extensions/image_print/gth-load-image-info-task.c:164
@@ -3329,7 +3308,7 @@ msgstr "Snúningur myndar"
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:2
 msgid "Rotate images without data loss."
-msgstr ""
+msgstr "Snúa myndum án gagnataps."
 
 #: ../extensions/image_rotation/rotation-utils.c:105
 #, c-format
@@ -3356,7 +3335,7 @@ msgstr "Skera u_tan af"
 
 #: ../extensions/image_rotation/rotation-utils.c:118
 msgid "_Accept distortion"
-msgstr ""
+msgstr "S_amþykkja aflögun"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
 msgid "Set to actual size"
@@ -3364,7 +3343,7 @@ msgstr "Setja í raunstærð"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 msgid "Keep previous zoom"
-msgstr ""
+msgstr "Halda fyrri aðdrætti"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
 msgid "Fit to window"
@@ -3388,7 +3367,7 @@ msgstr "Frumstilla staðsetningar skrunsláa"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
 msgid "After loading an image:"
-msgstr ""
+msgstr "Eftir að mynd er hlaðið inn:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
 msgid "_Zoom quality:"
@@ -3484,7 +3463,7 @@ msgstr "Myndarýnir"
 
 #: ../extensions/image_viewer/image_viewer.extension.in.in.h:2
 msgid "Basic image viewing."
-msgstr ""
+msgstr "Einföld myndaskoðun."
 
 #: ../extensions/image_viewer/preferences.c:125
 msgid "Viewer"
@@ -3528,12 +3507,12 @@ msgstr ""
 
 #: ../extensions/importer/gth-import-destination-button.c:183
 msgid "Invalid Destination"
-msgstr ""
+msgstr "Ógildur áfangastaður"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:198
 #, c-format
 msgid "example: %s"
-msgstr ""
+msgstr "dæmi: %s"
 
 #. subfolder type
 #: ../extensions/importer/gth-import-preferences-dialog.c:330
@@ -3562,7 +3541,7 @@ msgstr "sérsnið"
 #: ../extensions/importer/gth-import-task.c:461
 #: ../extensions/importer/gth-import-task.c:671
 msgid "Importing files"
-msgstr ""
+msgstr "Innflutningur skráa"
 
 #: ../extensions/importer/gth-import-task.c:620
 msgid "No file imported"
@@ -3587,7 +3566,7 @@ msgstr "Síðast flutt inn"
 
 #: ../extensions/importer/gth-import-task.c:838
 msgid "No file specified."
-msgstr ""
+msgstr "Engin skrá tilgreind."
 
 #. Translators: For example: Not enough free space in '/home/user/Images'.\n1.3 GB of space is required but only 300 MB is available.
 #: ../extensions/importer/gth-import-task.c:875
@@ -3596,6 +3575,8 @@ msgid ""
 "Not enough free space in '%s'.\n"
 "%s of space is required but only %s is available."
 msgstr ""
+"Ekki nægilegt laust pláss á '%s'.\n"
+"Þarfnast %s en einungis %s eru tiltæk."
 
 #: ../extensions/list_tools/callbacks.c:76 ../gthumb/gth-filterbar.c:311
 msgid "Personalize..."
@@ -3607,7 +3588,7 @@ msgstr "Verkfæri"
 
 #: ../extensions/list_tools/callbacks.c:321
 msgid "Batch tools for multiple files"
-msgstr ""
+msgstr "Magnvinnslutól fyrir vinnslu með margar skrár"
 
 #: ../extensions/list_tools/data/ui/ask-value.ui.h:1
 msgid "_Skip"
@@ -3672,7 +3653,7 @@ msgstr ""
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:19
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:25
 msgid "A file attribute"
-msgstr ""
+msgstr "Skráareigindi"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:21
 #, no-c-format
@@ -3690,7 +3671,7 @@ msgstr "%E"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:25
 msgid "The file extension"
-msgstr ""
+msgstr "Skráarending"
 
 #. Translate only 'text'.
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:28
@@ -3721,7 +3702,7 @@ msgstr "Sýna"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:355
 msgid "Could not save the script"
-msgstr ""
+msgstr "Gat ekki vistað skriftuna"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:406
 msgid "New Command"
@@ -3733,11 +3714,11 @@ msgstr "Breyta skipun"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:461
 msgid "Are you sure you want to delete the selected command?"
-msgstr ""
+msgstr "Ertu viss um að þú viljir eyða völdu skipuninni?"
 
 #: ../extensions/list_tools/gth-script.c:610
 msgid "Enter a value:"
-msgstr ""
+msgstr "Settu inn gildi:"
 
 #: ../extensions/list_tools/gth-script.c:745
 #: ../extensions/webalbums/gth-web-exporter.c:558
@@ -3753,7 +3734,7 @@ msgstr "ekkert"
 #: ../extensions/list_tools/gth-script-editor-dialog.c:153
 #, c-format
 msgid "key %d on the numeric keypad"
-msgstr ""
+msgstr "lykill %d á talnaborðinu"
 
 #: ../extensions/list_tools/gth-script-editor-dialog.c:296
 #, c-format
@@ -3771,7 +3752,7 @@ msgstr "Verkfæri fyrir skráalista"
 
 #: ../extensions/list_tools/list_tools.extension.in.in.h:2
 msgid "Scripting and batch manipulation of files."
-msgstr ""
+msgstr "Skriftun og magnvinnsla skráa."
 
 #: ../extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
@@ -3801,11 +3782,11 @@ msgstr "Landakort"
 #. No GPS label
 #: ../extensions/map_view/gth-map-view.c:276
 msgid "The geographical position information is not available for this image."
-msgstr ""
+msgstr "Það eru engar hnattstaðsetningarupplýsingar tiltækar fyrir þessa mynd."
 
 #: ../extensions/map_view/map_view.extension.in.in.h:2
 msgid "View the photo position on the map"
-msgstr ""
+msgstr "Sjá staðsetningu myndarinnar á landakorti"
 
 #: ../extensions/oauth/data/ui/oauth-account-manager.ui.h:1
 msgid "A_ccounts:"
@@ -3818,19 +3799,19 @@ msgstr "Hleð..."
 
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:200
 msgid "New authentication..."
-msgstr ""
+msgstr "Ný auðkenning..."
 
 #: ../extensions/oauth/oauth-ask-authorization-dialog.c:245
 msgid "Authorization Required"
-msgstr ""
+msgstr "Auðkenningar krafist"
 
 #: ../extensions/oauth/web-service.c:382
 msgid "Choose _Account..."
-msgstr ""
+msgstr "Veldu _aðgang..."
 
 #: ../extensions/oauth/web-service.c:660
 msgid "Choose Account"
-msgstr ""
+msgstr "Veldu aðgang"
 
 #: ../extensions/oauth/web-service.c:777
 msgid "Edit Accounts"
@@ -3842,15 +3823,15 @@ msgstr "Tengist þjóni"
 
 #: ../extensions/oauth/web-service.c:796
 msgid "Asking authorization"
-msgstr ""
+msgstr "Bið um heimild"
 
 #: ../extensions/oauth/web-service.c:813
 msgid "Getting account information"
-msgstr ""
+msgstr "Sæki aðgangsupplýsingar"
 
 #: ../extensions/photobucket/callbacks.c:54
 msgid "Photobucket..."
-msgstr ""
+msgstr "Photobucket..."
 
 #: ../extensions/photobucket/callbacks.c:55
 msgid "Upload photos to Photobucket"
@@ -3858,7 +3839,7 @@ msgstr "Senda myndir á Photobucket vefþjónustu"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
 msgid "_Scramble filenames"
-msgstr ""
+msgstr "Rugla _skráaheitum"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
 msgid "Tiny ( 100 x 75 )"
@@ -3923,7 +3904,7 @@ msgstr "2 megabæta skráarstærð"
 
 #: ../extensions/photobucket/photobucket.extension.in.in.h:1
 msgid "PhotoBucket"
-msgstr ""
+msgstr "PhotoBucket"
 
 #: ../extensions/photobucket/photobucket.extension.in.in.h:2
 msgid "Upload images to PhotoBucket"
@@ -3939,7 +3920,7 @@ msgstr "Úts_kiptanlegt tæki..."
 
 #: ../extensions/photo_importer/callbacks.c:53
 msgid "Import photos and other files from a removable device"
-msgstr ""
+msgstr "Flytja inn myndir og aðrar skrár af útskiptanlegu tæki"
 
 #: ../extensions/photo_importer/callbacks.c:56
 msgid "F_older..."
@@ -3947,7 +3928,7 @@ msgstr "_Mappa..."
 
 #: ../extensions/photo_importer/callbacks.c:57
 msgid "Import photos and other files from a folder"
-msgstr ""
+msgstr "Flytja inn myndir og aðrar skrár úr möppu"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
 msgid "_Rotate the images physically"
@@ -3955,7 +3936,7 @@ msgstr "Snúa _raunverulegum myndgögnum"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
 msgid "After importing from a device:"
-msgstr ""
+msgstr "Eftir að flutt hefur verið inn af tæki:"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
@@ -3973,12 +3954,12 @@ msgstr "_Atvik:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
 msgid "_Delete the imported files from the source"
-msgstr ""
+msgstr "_Eyða innfluttum skrám af upprunastaðsetningu"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:227
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:149
 msgid "Could not import the files"
-msgstr ""
+msgstr "Gat ekki flutt inn skrár"
 
 #. translators: %d is the number of files, %s the total size
 #: ../extensions/photo_importer/dlg-photo-importer.c:299
@@ -3988,7 +3969,7 @@ msgstr "Skrár sem á að flytja inn: %d (%s)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:339
 msgid "Could not load the folder"
-msgstr ""
+msgstr "Gat ekki að hlaðið inn möppunni"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:369
 #: ../gthumb/gth-browser.c:2090
@@ -4001,36 +3982,36 @@ msgstr "Tómt"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:586
 msgid "Import from Removable Device"
-msgstr ""
+msgstr "Flytja inn af útskiptanlegu tæki"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:618
 msgid "Import from Folder"
-msgstr ""
+msgstr "Flytja inn úr möppu"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:1
 msgid "Import photos"
-msgstr ""
+msgstr "Flytja inn myndir"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:2
 msgid "Import photos from removable devices."
-msgstr ""
+msgstr "Flytja inn myndir af útskiptanlegu tæki."
 
 #: ../extensions/picasaweb/callbacks.c:59
 #: ../extensions/picasaweb/callbacks.c:64
 msgid "_Picasa Web Album..."
-msgstr "_Picasa VefAlbúm..."
+msgstr "_Picasa Web Album..."
 
 #: ../extensions/picasaweb/callbacks.c:60
 msgid "Download photos from Picasa Web Album"
-msgstr ""
+msgstr "Ná í myndir frá Picasa Web Album vefþjónustu"
 
 #: ../extensions/picasaweb/callbacks.c:65
 msgid "Upload photos to Picasa Web Album"
-msgstr "Senda myndir á Picasa VefAlbúm"
+msgstr "Senda myndir á Picasa Web Album"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
 msgid "Export to Picasa Web Albums"
-msgstr "Flytja út í Picasa Web Albums"
+msgstr "Flytja út í Picasa Web Album"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
 msgid "_Albums:"
@@ -4043,7 +4024,7 @@ msgstr "Opinbert"
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:458
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:469
 msgid "Could not get the album list"
-msgstr ""
+msgstr "Gat ekki sótt albúmalista"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:1
 msgid "Picasa Web Albums"
@@ -4055,11 +4036,11 @@ msgstr "Senda myndir á Picasa Web Albums"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:1
 msgid "Raw format support"
-msgstr ""
+msgstr "Stuðningur við RAW-snið"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:2
 msgid "Allow to load raw format images."
-msgstr ""
+msgstr "Leyfa að myndum á RAW-sniði sé hlaðið inn."
 
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
 msgid "_X:"
@@ -4088,6 +4069,8 @@ msgstr "Laga rauð augu"
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:2
 msgid "Tool to remove the red-eye effect from a photo."
 msgstr ""
+"Verkfæri til að fjarlægja rauðann lit í augum sem leifturljós myndavéla geta "
+"valdið."
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:1
 msgid "digits"
@@ -4112,7 +4095,7 @@ msgstr "Endurnefna"
 #. Translators: this is the text case (upper or lower case).
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:6
 msgid "Cas_e:"
-msgstr ""
+msgstr "Stafstaða:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:7
 msgid "Edit template"
@@ -4121,21 +4104,21 @@ msgstr "Breyta sniðmáti"
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:9
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
 msgid "The original filename"
-msgstr ""
+msgstr "Upprunalegt skráarheiti"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:10
 msgid "The original extension"
-msgstr ""
+msgstr "Upprunaleg skráarending"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
 msgid "The original enumerator"
-msgstr ""
+msgstr "Upprunalegt raðnúmer"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:16
 #, no-c-format
 msgid "%M{ format }"
-msgstr ""
+msgstr "%M{ format }"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:17
 msgid "The modification date"
@@ -4143,13 +4126,13 @@ msgstr "Breytingardagsetningin"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:21
 msgid "The digitalization date"
-msgstr ""
+msgstr "Dagsetning þegar gert stafrænt"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:24
 #, no-c-format
 msgid "%A{ identifier }"
-msgstr ""
+msgstr "%A{ identifier }"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:26
 msgid "_Template:"
@@ -4161,7 +4144,7 @@ msgstr "Öfu_g röð"
 
 #: ../extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
-msgstr ""
+msgstr "Raðnúmer"
 
 #: ../extensions/rename_series/dlg-rename-series.c:59
 msgid "Original filename"
@@ -4173,7 +4156,7 @@ msgstr "Upprunaleg skráarending"
 
 #: ../extensions/rename_series/dlg-rename-series.c:61
 msgid "Original enumerator"
-msgstr ""
+msgstr "Upprunalegt raðnúmer"
 
 #: ../extensions/rename_series/dlg-rename-series.c:62
 msgid "Modification date"
@@ -4181,20 +4164,20 @@ msgstr "Breytingardagsetning"
 
 #: ../extensions/rename_series/dlg-rename-series.c:63
 msgid "Digitalization date"
-msgstr ""
+msgstr "Dagsetning þegar gert stafrænt"
 
 #: ../extensions/rename_series/dlg-rename-series.c:64
 msgid "File attribute"
-msgstr ""
+msgstr "Skráareigindi"
 
 #: ../extensions/rename_series/dlg-rename-series.c:558
 #: ../extensions/rename_series/dlg-rename-series.c:689
 msgid "Could not rename the files"
-msgstr ""
+msgstr "Ekki tókst að endurnefna skrárnar"
 
 #: ../extensions/rename_series/dlg-rename-series.c:786
 msgid "Could not save the template"
-msgstr ""
+msgstr "Gat ekki vistað sniðmátið"
 
 #: ../extensions/rename_series/dlg-rename-series.c:804
 msgid "Edit Template"
@@ -4210,7 +4193,7 @@ msgstr "Nýtt nafn"
 
 #: ../extensions/rename_series/dlg-rename-series.c:951
 msgid "Keep original case"
-msgstr ""
+msgstr "Halda upprunalegri stöðu"
 
 #: ../extensions/rename_series/dlg-rename-series.c:952
 msgid "Convert to lower-case"
@@ -4307,17 +4290,17 @@ msgstr "Leita"
 #: ../extensions/search/gth-search-editor.c:112
 #: ../gthumb/gth-filter-editor-dialog.c:165
 msgid "all the following rules"
-msgstr ""
+msgstr "allar eftirfarandi reglur"
 
 #: ../extensions/search/gth-search-editor.c:113
 #: ../gthumb/gth-filter-editor-dialog.c:166
 msgid "any of the following rules"
-msgstr ""
+msgstr "einhver eftirfarandi reglna"
 
 #: ../extensions/search/gth-search-task.c:181
 #, c-format
 msgid "Files found until now: %s"
-msgstr ""
+msgstr "Skrár fundnar fram til þessa: %s"
 
 #: ../extensions/search/gth-search-task.c:271
 msgid "Searching..."
@@ -4352,6 +4335,7 @@ msgstr "Myndval 3"
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
 msgstr ""
+"Nota Alt-%d til að bæta skrám við þetta val, Ctrl-%d til að skoða valið."
 
 #: ../extensions/selections/gth-selections-manager.c:239
 #, c-format
@@ -4393,11 +4377,11 @@ msgstr "_Millifærslubrella:"
 #. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
 msgid "_Change automatically, every"
-msgstr ""
+msgstr "S_kipta sjálfvirkt, hverjar"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
 msgid "_Restart when finished"
-msgstr ""
+msgstr "Endu_rræsa þegar lýkur"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
 msgid "R_andom order"
@@ -4409,19 +4393,19 @@ msgstr "Spilunarlisti"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
 msgid "Add files to the playlist"
-msgstr ""
+msgstr "Bæta skrám við spilunarlista"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
 msgid "Remove the selected files"
-msgstr ""
+msgstr "Fjarlægja valdar skrár"
 
 #: ../extensions/slideshow/gth-slideshow.c:233
 msgid "Playing slideshow"
-msgstr ""
+msgstr "Spila skyggnusýningu"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:184
 msgid "Choose the files to play"
-msgstr ""
+msgstr "Veldu skrár til að spila"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:193
 msgid "Audio files"
@@ -4433,19 +4417,19 @@ msgstr "Slembið"
 
 #: ../extensions/slideshow/main.c:283
 msgid "Push from right"
-msgstr ""
+msgstr "Ýta frá hægri"
 
 #: ../extensions/slideshow/main.c:289
 msgid "Push from bottom"
-msgstr ""
+msgstr "Ýta frá botni"
 
 #: ../extensions/slideshow/main.c:295
 msgid "Slide from right"
-msgstr ""
+msgstr "Renna frá hægri"
 
 #: ../extensions/slideshow/main.c:301
 msgid "Slide from bottom"
-msgstr ""
+msgstr "Renna frá botni"
 
 #: ../extensions/slideshow/main.c:307
 msgid "Fade in"
@@ -4453,15 +4437,15 @@ msgstr "Dofna inn"
 
 #: ../extensions/slideshow/main.c:313
 msgid "Flip page"
-msgstr ""
+msgstr "Fletta síðu"
 
 #: ../extensions/slideshow/main.c:319
 msgid "Cube from right"
-msgstr ""
+msgstr "Teningur frá hægri"
 
 #: ../extensions/slideshow/main.c:325
 msgid "Cube from bottom"
-msgstr ""
+msgstr "Teningur frá botni"
 
 #: ../extensions/slideshow/slideshow.extension.in.in.h:2
 msgid "View images as a slideshow."
@@ -4473,7 +4457,7 @@ msgstr "_Vefalbúm:"
 
 #: ../extensions/webalbums/callbacks.c:72
 msgid "Create a static web album"
-msgstr ""
+msgstr "Búa til vefalbúm"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:26
 msgid "Click to view the image"
@@ -4525,11 +4509,11 @@ msgstr "Skoða fyrri síðu"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:1
 msgid "All images on  a single image"
-msgstr ""
+msgstr "Allar myndir á einni mynd"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:2
 msgid "Adapts to the window width"
-msgstr ""
+msgstr "Aðlagast að breidd glugga"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
 msgid "Web Album"
@@ -4546,11 +4530,11 @@ msgstr ""
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
 msgid "_Adapt to the window width "
-msgstr ""
+msgstr "_Aðlagast að breidd glugga "
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
 msgid "Index Page"
-msgstr ""
+msgstr "Yfirlitssíða"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
 msgid "Thumbnail Caption"
@@ -4558,15 +4542,15 @@ msgstr ""
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
 msgid "The current image number"
-msgstr ""
+msgstr "Númer þessarar myndar"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
 msgid "The total number of images"
-msgstr ""
+msgstr "Heildarfjöldi mynda"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
 msgid "The file comment"
-msgstr ""
+msgstr "Athugasemd í skrá"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
 msgid "Image Page"
@@ -4582,7 +4566,7 @@ msgstr ""
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
 msgid "Image Attributes"
-msgstr ""
+msgstr "Eigindi myndar"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1802
 msgid "Could not show the destination"
@@ -4595,7 +4579,7 @@ msgstr ""
 #: ../extensions/webalbums/gth-web-exporter.c:2106
 #: ../extensions/webalbums/gth-web-exporter.c:2134
 msgid "Saving thumbnails"
-msgstr ""
+msgstr "Vista smámyndir"
 
 #: ../extensions/webalbums/gth-web-exporter.c:2162
 msgid "Saving HTML pages: Images"
@@ -4619,7 +4603,7 @@ msgstr ""
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:1
 msgid "Web Albums"
-msgstr ""
+msgstr "Vefalbúm"
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:2
 msgid "Create static web albums."
@@ -4638,7 +4622,7 @@ msgstr "Sía"
 
 #: ../gthumb/dlg-personalize-filters.c:315
 msgid "Could not save the filter"
-msgstr ""
+msgstr "Gat ekki vistað síuna"
 
 #: ../gthumb/dlg-personalize-filters.c:358
 msgid "New Filter"
@@ -4922,7 +4906,7 @@ msgstr "Skoða möppurnar"
 
 #: ../gthumb/gth-browser-actions-entries.h:186
 msgid "Show information about gthumb"
-msgstr ""
+msgstr "Birta upplýsingar um gthumb"
 
 #: ../gthumb/gth-browser-actions-entries.h:191
 msgid "Contents"
@@ -4930,7 +4914,7 @@ msgstr "Innihald"
 
 #: ../gthumb/gth-browser-actions-entries.h:192
 msgid "Display the gthumb Manual"
-msgstr ""
+msgstr "Birta gthumb handbókina"
 
 #: ../gthumb/gth-browser-actions-entries.h:197
 msgid "_Keyboard Shortcuts"
@@ -4952,7 +4936,7 @@ msgstr "_Verkfærastika"
 
 #: ../gthumb/gth-browser-actions-entries.h:213
 msgid "View or hide the toolbar of this window"
-msgstr ""
+msgstr "Sýna eða fela verkfærastikuna í þessum glugga"
 
 #: ../gthumb/gth-browser-actions-entries.h:217
 msgid "_Statusbar"
@@ -4960,7 +4944,7 @@ msgstr "_Stöðustika"
 
 #: ../gthumb/gth-browser-actions-entries.h:218
 msgid "View or hide the statusbar of this window"
-msgstr ""
+msgstr "Sýna eða fela stöðustikuna í þessum glugga"
 
 #: ../gthumb/gth-browser-actions-entries.h:222
 msgid "_Filterbar"
@@ -4968,7 +4952,7 @@ msgstr "Síusti_ka"
 
 #: ../gthumb/gth-browser-actions-entries.h:223
 msgid "View or hide the filterbar of this window"
-msgstr ""
+msgstr "Sýna eða fela síustikuna í þessum glugga"
 
 #: ../gthumb/gth-browser-actions-entries.h:227
 msgid "_Sidebar"
@@ -4976,7 +4960,7 @@ msgstr "Hliðar_spjald"
 
 #: ../gthumb/gth-browser-actions-entries.h:228
 msgid "View or hide the sidebar of this window"
-msgstr ""
+msgstr "Sýna eða fela hliðarspjaldið í þessum glugga"
 
 #: ../gthumb/gth-browser-actions-entries.h:232
 msgid "_Thumbnail Pane"
@@ -4984,7 +4968,7 @@ msgstr "Smámyndas_pjald"
 
 #: ../gthumb/gth-browser-actions-entries.h:233
 msgid "View or hide the thumbnail pane in viewer mode"
-msgstr ""
+msgstr "Sýna eða fela smámyndaspjaldið í skoðunarglugga"
 
 #: ../gthumb/gth-browser-actions-entries.h:237
 msgid "_Thumbnails"
@@ -5000,7 +4984,7 @@ msgstr "_Faldar skrár"
 
 #: ../gthumb/gth-browser-actions-entries.h:243
 msgid "Show hidden files and folders"
-msgstr ""
+msgstr "Sýna faldar skrár og möppur"
 
 #: ../gthumb/gth-browser-actions-entries.h:248
 #: ../gthumb/gth-browser-actions-entries.h:253
@@ -5009,11 +4993,11 @@ msgstr "Skoða eiginleika skráar"
 
 #: ../gthumb/gth-browser-actions-entries.h:262
 msgid "_Fit Window to Image"
-msgstr ""
+msgstr "Laga glugga að mynd"
 
 #: ../gthumb/gth-browser-actions-entries.h:263
 msgid "Resize the window to the size of the image"
-msgstr ""
+msgstr "Breyta stærð á glugga til samræmis við stærð myndar"
 
 #: ../gthumb/gth-browser.c:419
 #, c-format
@@ -5078,7 +5062,7 @@ msgstr ""
 #: ../gthumb/gth-browser.c:6261
 #, c-format
 msgid "No suitable module found"
-msgstr ""
+msgstr "Engin hentug eining fannst"
 
 #: ../gthumb/gth-extensions.c:203
 #, c-format
@@ -5130,12 +5114,12 @@ msgstr[1] "Ertu viss um að þú viljir flytja %'d valdar myndir í ruslið?"
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %'d selected files?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ertu viss að þú viljir endanlega eyða %'d valinni skrá?"
+msgstr[1] "Ertu viss að þú viljir endanlega eyða %'d völdum skrám?"
 
 #: ../gthumb/gth-filterbar.c:413
 msgid "Hide the filterbar"
-msgstr ""
+msgstr "Fela síustikuna"
 
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
 #: ../gthumb/gth-test-simple.c:75
