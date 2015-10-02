@@ -4886,8 +4886,8 @@ msgid ""
 "gthumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
 "Sie sollten eine Kopie der Allgemeinen Öffentlichen GNU-Lizenz zusammen mit "
-"gThumb erhalten haben. Falls nicht, schauen Sie unter <http://www.gnu.org/"
-"licences/>."
+"gThumb erhalten haben. Falls nicht, schauen Sie unter http://www.gnu.org/"
+"licences/."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:388
 msgid "An image viewer and browser for GNOME."
