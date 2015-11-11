@@ -1,21 +1,25 @@
+# Swedish messages for gThumb help 
+# Copyright © 2006-2015 Free Software Foundation, Inc.
+# Josef Andersson <josef.andersson@fripost.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
-"POT-Creation-Date: 2015-02-27 09:40+0000\n"
-"PO-Revision-Date: 2009-01-26 00:12+0100\n"
-"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"POT-Creation-Date: 2015-11-05 23:26+0000\n"
+"PO-Revision-Date: 2015-11-06 22:44+0100\n"
+"Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
-#, fuzzy
-#| msgid "translator-credits"
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009"
+msgstr ""
+"Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009\n"
+"Josef Andersson <josef.andersson@fripost.org>, 2015"
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -28,6 +32,7 @@ msgctxt "_"
 msgid ""
 "external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
 msgstr ""
+"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
 
 #. (itstool) path: credit/name
 #: C/index.page:7
@@ -37,31 +42,27 @@ msgstr "Paolo Bacchilega"
 #. (itstool) path: credit/name
 #: C/index.page:12
 msgid "Michael J. Chudobiak"
-msgstr ""
+msgstr "Michael J. Chudobiak"
 
 #. (itstool) path: page/title
 #: C/index.page:20
-#, fuzzy
-#| msgid "gThumb"
 msgid "gThumb Help"
-msgstr "gThumb"
+msgstr "gThumb hjälp"
 
 #. (itstool) path: section/title
 #: C/index.page:23
 msgid "Welcome"
-msgstr ""
+msgstr "Välkommen"
 
 #. (itstool) path: section/title
 #: C/index.page:27
-#, fuzzy
-#| msgid "To View an Image Comment"
 msgid "File Management"
-msgstr "Visa en bildkommentar"
+msgstr "Filhantering"
 
 #. (itstool) path: section/title
 #: C/index.page:31
 msgid "Editing Mode"
-msgstr ""
+msgstr "Redigerarläge"
 
 #. (itstool) path: section/p
 #: C/index.page:32
@@ -72,13 +73,17 @@ msgid ""
 "editing tools, open an image and then click the <gui>Edit File</gui> toolbar "
 "button (the palette icon), or press <keyseq><key>e</key></keyseq>."
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> Det "
+"finns flertalet redigeringsverktyg tillgängliga för att snygga till foton. "
+"Ångra och gör om-funktioner finns fram till det att fotot är sparat. För att "
+"komma åt redigeringsverktygen, öppna en bild och klicka på knappen "
+"<gui>Redigera fil</gui> i verktygsfältet (palettikonen) eller tryck "
+"<keyseq><key>e</key></keyseq>."
 
 #. (itstool) path: section/title
 #: C/index.page:42
-#, fuzzy
-#| msgid "Advanced Tools"
 msgid "Batch Tools"
-msgstr "Avancerade verktyg"
+msgstr "Verktyg för satsvis bearbetning"
 
 #. (itstool) path: section/p
 #: C/index.page:43
@@ -86,47 +91,43 @@ msgid ""
 "Batch tools are provided to modify multiple images simultaneously. Changes "
 "are written immediately, and are not undoable."
 msgstr ""
+"Verktyg för satsvis bearbetning finns tillgängliga för att ändra flera "
+"bilder samtidigt. Ändringar skrivs omedelbart och kan inte ångras."
 
 #. (itstool) path: section/title
 #: C/index.page:49
-#, fuzzy
-#| msgid "Slide Shows"
 msgid "Slideshows"
 msgstr "Bildspel"
 
 #. (itstool) path: section/title
 #: C/index.page:53
 msgid "Importing"
-msgstr ""
+msgstr "Att importera"
 
 #. (itstool) path: section/title
 #: C/index.page:57
 msgid "Sharing"
-msgstr ""
+msgstr "Att dela"
 
 #. (itstool) path: section/title
 #: C/index.page:61
 msgid "Organizing"
-msgstr ""
+msgstr "Att ordna"
 
 #. (itstool) path: section/title
 #: C/index.page:65
-#, fuzzy
-#| msgid "Other"
 msgid "Other Tools"
-msgstr "Annat"
+msgstr "Andra verktyg"
 
 #. (itstool) path: section/title
 #: C/index.page:69
-#, fuzzy
-#| msgid "Preferences"
 msgid "Reference"
-msgstr "Inställningar"
+msgstr "Referens"
 
 #. (itstool) path: page/title
 #: C/attributes.page:6
 msgid "Attribute Codes"
-msgstr ""
+msgstr "Attributkoder"
 
 #. (itstool) path: page/p
 #: C/attributes.page:7
@@ -135,171 +136,174 @@ msgid ""
 "may add more. The list below is a summary of some of the more common "
 "attributes:"
 msgstr ""
+"<app>gThumb</app> lagrar många olika attribut för varje fil. Tillägg kan "
+"lägga till ännu fler. Listan nedan sammanställer några av de vanligaste "
+"attributen:"
 
 #. (itstool) path: item/p
 #: C/attributes.page:12
 msgid "gth::file::display-size"
-msgstr ""
+msgstr "gth::file::display-size"
 
 #. (itstool) path: item/p
 #: C/attributes.page:15
 msgid "standard::fast-content-type"
-msgstr ""
+msgstr "standard::fast-content-type"
 
 #. (itstool) path: item/p
 #: C/attributes.page:18
 msgid "general::dimensions"
-msgstr ""
+msgstr "general::dimensions"
 
 #. (itstool) path: item/p
 #: C/attributes.page:21
 msgid "general::format"
-msgstr ""
+msgstr "general::format"
 
 #. (itstool) path: item/p
 #: C/attributes.page:24
 msgid "general::location"
-msgstr ""
+msgstr "general::location"
 
 #. (itstool) path: item/p
 #: C/attributes.page:27
 msgid "general::datetime"
-msgstr ""
+msgstr "general::datetime"
 
 #. (itstool) path: item/p
 #: C/attributes.page:30
 msgid "general::rating"
-msgstr ""
+msgstr "general::rating"
 
 #. (itstool) path: item/p
 #: C/attributes.page:33
 msgid "Exif::Image::Make"
-msgstr ""
+msgstr "Exif::Image::Make"
 
 #. (itstool) path: item/p
 #: C/attributes.page:36
 msgid "Exif::Image::Model"
-msgstr ""
+msgstr "Exif::Image::Model"
 
 #. (itstool) path: item/p
 #: C/attributes.page:39
 msgid "Exif::Image::Software"
-msgstr ""
+msgstr "Exif::Image::Software"
 
 #. (itstool) path: item/p
 #: C/attributes.page:42
 msgid "Exif::Image::Artist"
-msgstr ""
+msgstr "Exif::Image::Artist"
 
 #. (itstool) path: item/p
 #: C/attributes.page:45
 msgid "Exif::Image::Copyright"
-msgstr ""
+msgstr "Exif::Image::Copyright"
 
 #. (itstool) path: item/p
 #: C/attributes.page:48
 msgid "Exif::Photo::ISOSpeedRatings"
-msgstr ""
+msgstr "Exif::Photo::ISOSpeedRatings"
 
 #. (itstool) path: item/p
 #: C/attributes.page:51
 msgid "Exif::Photo::BrightnessValue"
-msgstr ""
+msgstr "Exif::Photo::BrightnessValue"
 
 #. (itstool) path: item/p
 #: C/attributes.page:54
 msgid "Exif::Photo::FNumber"
-msgstr ""
+msgstr "Exif::Photo::FNumber"
 
 #. (itstool) path: item/p
 #: C/attributes.page:57
 msgid "Exif::Photo::ApertureValue"
-msgstr ""
+msgstr "Exif::Photo::ApertureValue"
 
 #. (itstool) path: item/p
 #: C/attributes.page:60
 msgid "Exif::Photo::MaxApertureValue"
-msgstr ""
+msgstr "Exif::Photo::MaxApertureValue"
 
 #. (itstool) path: item/p
 #: C/attributes.page:63
 msgid "Exif::Photo::ExposureTime"
-msgstr ""
+msgstr "Exif::Photo::ExposureTime"
 
 #. (itstool) path: item/p
 #: C/attributes.page:66
 msgid "Exif::Photo::ExposureProgram"
-msgstr ""
+msgstr "Exif::Photo::ExposureProgram"
 
 #. (itstool) path: item/p
 #: C/attributes.page:69
 msgid "Exif::Photo::ExposureIndex"
-msgstr ""
+msgstr "Exif::Photo::ExposureIndex"
 
 #. (itstool) path: item/p
 #: C/attributes.page:72
 msgid "Exif::Photo::ExposureBiasValue"
-msgstr ""
+msgstr "Exif::Photo::ExposureBiasValue"
 
 #. (itstool) path: item/p
 #: C/attributes.page:75
 msgid "Exif::Photo::ExposureMode"
-msgstr ""
+msgstr "Exif::Photo::ExposureMode"
 
 #. (itstool) path: item/p
 #: C/attributes.page:78
 msgid "Exif::Photo::ShutterSpeedValue"
-msgstr ""
+msgstr "Exif::Photo::ShutterSpeedValue"
 
 #. (itstool) path: item/p
 #: C/attributes.page:81
 msgid "Exif::Photo::MeteringMode"
-msgstr ""
+msgstr "Exif::Photo::MeteringMode"
 
 #. (itstool) path: item/p
 #: C/attributes.page:84
 msgid "Exif::Photo::LightSource"
-msgstr ""
+msgstr "Exif::Photo::LightSource"
 
 #. (itstool) path: item/p
 #: C/attributes.page:87
 msgid "Exif::Photo::WhiteBalance"
-msgstr ""
+msgstr "Exif::Photo::WhiteBalance"
 
 #. (itstool) path: item/p
 #: C/attributes.page:90
 msgid "Exif::Photo::Flash"
-msgstr ""
+msgstr "Exif::Photo::Flash"
 
 #. (itstool) path: item/p
 #: C/attributes.page:93
 msgid "Exif::Photo::FocalLength"
-msgstr ""
+msgstr "Exif::Photo::FocalLength"
 
 #. (itstool) path: item/p
 #: C/attributes.page:96
 msgid "Exif::Photo::SubjectArea"
-msgstr ""
+msgstr "Exif::Photo::SubjectArea"
 
 #. (itstool) path: item/p
 #: C/attributes.page:99
 msgid "Exif::Photo::Contrast"
-msgstr ""
+msgstr "Exif::Photo::Contrast"
 
 #. (itstool) path: item/p
 #: C/attributes.page:102
 msgid "Exif::Photo::Saturation"
-msgstr ""
+msgstr "Exif::Photo::Saturation"
 
 #. (itstool) path: item/p
 #: C/attributes.page:105
 msgid "Exif::Photo::Sharpness"
-msgstr ""
+msgstr "Exif::Photo::Sharpness"
 
 #. (itstool) path: page/title
 #: C/strftime.page:6
 msgid "Date/Time Format Codes"
-msgstr ""
+msgstr "Datum/tid-formatkoder"
 
 #. (itstool) path: page/p
 #: C/strftime.page:8
@@ -307,77 +311,73 @@ msgid ""
 "This is a summary of standard date/time codes that may be used in format "
 "strings:"
 msgstr ""
+"Det här är en sammanställning av standard datum/tidskoder som kan användas i "
+"formatsträngar:"
 
 #. (itstool) path: table/title
 #: C/strftime.page:12
 msgid "Valid format codes for custom subfolders"
-msgstr ""
+msgstr "Giltiga format för anpassade undermappar"
 
 #. (itstool) path: td/p
 #: C/strftime.page:15
-#, fuzzy
-#| msgid "a"
 msgid "%a"
-msgstr "a"
+msgstr "%a"
 
 #. (itstool) path: td/p
 #: C/strftime.page:18
 msgid "The abbreviated weekday name according to the current locale."
-msgstr ""
+msgstr "Förkortade veckodagsnamnet enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
 #: C/strftime.page:24
 msgid "%A"
-msgstr ""
+msgstr "%A"
 
 #. (itstool) path: td/p
 #: C/strftime.page:27
 msgid "The full weekday name according to the current locale."
-msgstr ""
+msgstr "Fullständiga veckodagsnamnet enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
 #: C/strftime.page:33
 msgid "%b"
-msgstr ""
+msgstr "%b"
 
 #. (itstool) path: td/p
 #: C/strftime.page:36
 msgid "The abbreviated month name according to the current locale."
-msgstr ""
+msgstr "Förkortade månadsnamnet enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
 #: C/strftime.page:42
 msgid "%B"
-msgstr ""
+msgstr "%B"
 
 #. (itstool) path: td/p
 #: C/strftime.page:45
-#, fuzzy
-#| msgid "The locationbar contains the current folder name."
 msgid "The full month name according to the current locale."
-msgstr "Adressraden innehåller namnet på aktuell mapp."
+msgstr "Fullständiga månadsnamnet enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
 #: C/strftime.page:50
-#, fuzzy
-#| msgid "c"
 msgid "%c"
-msgstr "c"
+msgstr "%c"
 
 #. (itstool) path: td/p
 #: C/strftime.page:53
 msgid "The preferred date and time representation for the current locale."
-msgstr ""
+msgstr "Föredragna datum och tidsrepresentationen enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
 #: C/strftime.page:59
 msgid "%C"
-msgstr ""
+msgstr "%C"
 
 #. (itstool) path: td/p
 #: C/strftime.page:62
 msgid "The century number (year/100) as a 2-digit integer."
-msgstr ""
+msgstr "Århundradesiffran (år/100) som ett tvåsiffrigt heltal."
 
 #. (itstool) path: td/p
 #: C/strftime.page:67
@@ -387,14 +387,12 @@ msgstr "%d"
 #. (itstool) path: td/p
 #: C/strftime.page:70
 msgid "The day of the month as a decimal number (range 01 to 31)."
-msgstr ""
+msgstr "Dag i månaden som ett decimalnummer (01 till 31)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:76
-#, fuzzy
-#| msgid "D"
 msgid "%D"
-msgstr "D"
+msgstr "%D"
 
 #. (itstool) path: td/p
 #: C/strftime.page:79
@@ -403,6 +401,9 @@ msgid ""
 "that in other countries %d/%m/%y is rather common. This means that in "
 "international context this format is ambiguous and should not be used.)"
 msgstr ""
+"Samma som %m/%d/%y. (Usch -- endast för amerikaner. Amerikaner bör tänka på "
+"att i andra länder är %d/%m/%y vanligt. Det betyder att i internationella "
+"sammanhang är detta format tvetydigt och bör inte användas.)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:87
@@ -415,16 +416,18 @@ msgid ""
 "Like %d, the day of the month as a decimal number, but a leading zero is "
 "replaced by a space."
 msgstr ""
+"Som %d, dagen i månaden som ett decimaltal, men inledande nolla är ersatt "
+"med blanksteg."
 
 #. (itstool) path: td/p
 #: C/strftime.page:96
 msgid "%E"
-msgstr ""
+msgstr "%E"
 
 #. (itstool) path: td/p
 #: C/strftime.page:99 C/strftime.page:208
 msgid "Modifier: use alternative format, see below."
-msgstr ""
+msgstr "Modifierare: använd alternativt format, se nedan."
 
 #. (itstool) path: td/p
 #: C/strftime.page:104
@@ -434,12 +437,12 @@ msgstr "%F"
 #. (itstool) path: td/p
 #: C/strftime.page:107
 msgid "Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)"
-msgstr ""
+msgstr "Likvärdigt med %Y-%m-%d (datumformatet ISO 8601). (C99)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:113
 msgid "%G"
-msgstr ""
+msgstr "%G"
 
 #. (itstool) path: td/p
 #: C/strftime.page:116
@@ -449,67 +452,65 @@ msgid ""
 "value as %y, except that if the ISO week number belongs to the previous or "
 "next year, that year is used instead."
 msgstr ""
+"ISO 8601-år med sekel som ett decimaltal. Det fyrsiffriga året svarar mot "
+"ISO-veckonumret (se %V). Detta har samma format och värde som %y, förutom "
+"att om ISO-veckonumret tillhör föregående eller nästa år används det året "
+"istället."
 
 #. (itstool) path: td/p
 #: C/strftime.page:125
-#, fuzzy
-#| msgid "g"
 msgid "%g"
-msgstr "g"
+msgstr "%g"
 
 #. (itstool) path: td/p
 #: C/strftime.page:128
 msgid "Like %G, but without century, i.e., with a 2-digit year (00-99)."
-msgstr ""
+msgstr "Som %G men utan sekel, d.v.s. med ett tvåsiffrigt år (00-99)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:134
 msgid "%h"
-msgstr ""
+msgstr "%h"
 
 #. (itstool) path: td/p
 #: C/strftime.page:137
 msgid "Equivalent to %b."
-msgstr ""
+msgstr "Likvärdigt med %b."
 
 #. (itstool) path: td/p
 #: C/strftime.page:142
 msgid "%H"
-msgstr ""
+msgstr "%H"
 
 #. (itstool) path: td/p
 #: C/strftime.page:145
 msgid "The hour as a decimal number using a 24-hour clock (range 00 to 23)."
-msgstr ""
+msgstr "Timmen som ett decimaltal i 24-timmarsklocka (00 till 23)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:151
 msgid "%I"
-msgstr ""
+msgstr "%I"
 
 #. (itstool) path: td/p
 #: C/strftime.page:154
 msgid "The hour as a decimal number using a 12-hour clock (range 01 to 12)."
-msgstr ""
+msgstr "Timmen som ett decimaltal med 12-timmarsklocka (01-12)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:160
-#, fuzzy
-#| msgid "j"
 msgid "%j"
-msgstr "j"
+msgstr "%j"
 
 #. (itstool) path: td/p
 #: C/strftime.page:163
 msgid "The day of the year as a decimal number (range 001 to 366)."
-msgstr ""
+msgstr "Dagen på året som ett decimaltal (001 till 366)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:169
-#, fuzzy
-#| msgid "k"
 msgid "%k"
-msgstr "k"
+msgstr "%k"
 
 #. (itstool) path: td/p
 #: C/strftime.page:172
@@ -517,13 +518,13 @@ msgid ""
 "The hour (24-hour clock) as a decimal number (range 0 to 23); single digits "
 "are preceded by a blank. (See also %H.)"
 msgstr ""
+"Timmen (24-timmars klocka) som ett decimaltal (0 till 23); enskilda siffror "
+"startar med blanksteg. (Se också %H.)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:179
-#, fuzzy
-#| msgid "l"
 msgid "%l"
-msgstr "l"
+msgstr "%l"
 
 #. (itstool) path: td/p
 #: C/strftime.page:182
@@ -531,33 +532,33 @@ msgid ""
 "The hour (12-hour clock) as a decimal number (range 1 to 12); single digits "
 "are preceded by a blank. (See also %I.)"
 msgstr ""
+"Timmen (12-timmars klocka) som ett decimaltal (1 till 12); enskilda siffror "
+"startar med blanksteg. (Se också %I.)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:189
-#, fuzzy
-#| msgid "m"
 msgid "%m"
-msgstr "m"
+msgstr "%m"
 
 #. (itstool) path: td/p
 #: C/strftime.page:192
 msgid "The month as a decimal number (range 01 to 12)."
-msgstr ""
+msgstr "Månaden som ett decimaltal (01 till 12)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:197
 msgid "%M"
-msgstr ""
+msgstr "%M"
 
 #. (itstool) path: td/p
 #: C/strftime.page:200
 msgid "The minute as a decimal number (range 00 to 59)."
-msgstr ""
+msgstr "Minuten som ett decimaltal (00 till 59)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:205
 msgid "%O"
-msgstr ""
+msgstr "%O"
 
 #. (itstool) path: td/p
 #: C/strftime.page:213
@@ -570,11 +571,14 @@ msgid ""
 "Either 'AM' or 'PM' according to the given time value, or the corresponding "
 "strings for the current locale. Noon is treated as 'pm' and midnight as 'am'."
 msgstr ""
+"Antingen ”AM” eller ”PM” utefter det givna tidsvärdet eller motsvarande "
+"strängar för den aktuella lokalen. Middagstid behandlas som ”pm” och midnatt "
+"som ”am”."
 
 #. (itstool) path: td/p
 #: C/strftime.page:223
 msgid "%P"
-msgstr ""
+msgstr "%P"
 
 #. (itstool) path: td/p
 #: C/strftime.page:226
@@ -582,13 +586,13 @@ msgid ""
 "Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the "
 "current locale."
 msgstr ""
+"Som %p med gemener: ”am”, ”pm” eller motsvarande sträng för den aktuella "
+"lokalen."
 
 #. (itstool) path: td/p
 #: C/strftime.page:232
-#, fuzzy
-#| msgid "r"
 msgid "%r"
-msgstr "r"
+msgstr "%r"
 
 #. (itstool) path: td/p
 #: C/strftime.page:235
@@ -596,11 +600,13 @@ msgid ""
 "The time in a.m. or p.m. notation. In the POSIX locale this is equivalent to "
 "'%I:%M:%S %p'."
 msgstr ""
+"Tid i a.m.- eller p.m.-notation. I POSIX-lokal är detta motsvarande ”%I:%M:"
+"%S %p“."
 
 #. (itstool) path: td/p
 #: C/strftime.page:241
 msgid "%R"
-msgstr ""
+msgstr "%R"
 
 #. (itstool) path: td/p
 #: C/strftime.page:244
@@ -608,6 +614,7 @@ msgid ""
 "The time in 24-hour notation (%H:%M). For a version including the seconds, "
 "see %T below."
 msgstr ""
+"Tid i 24-timmars notation (%H:%M). För en version med sekunder, se %T nedan."
 
 #. (itstool) path: td/p
 #: C/strftime.page:250
@@ -618,12 +625,12 @@ msgstr "%s"
 #: C/strftime.page:253
 msgid ""
 "The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC."
-msgstr ""
+msgstr "Antal sekunder sedan Epoch, d.v.s. sedan 1970-01-01 00:00:00 UTC."
 
 #. (itstool) path: td/p
 #: C/strftime.page:259
 msgid "%S"
-msgstr ""
+msgstr "%S"
 
 #. (itstool) path: td/p
 #: C/strftime.page:262
@@ -631,21 +638,23 @@ msgid ""
 "The second as a decimal number (range 00 to 60). (The range is up to 60 to "
 "allow for occasional leap seconds.)"
 msgstr ""
+"Sekunder som decimaltal (00 till 60). (Intervallet är upp till 60 för att "
+"tillåta skottsekunder.)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:269
 msgid "%T"
-msgstr ""
+msgstr "%T"
 
 #. (itstool) path: td/p
 #: C/strftime.page:272
 msgid "The time in 24-hour notation (%H:%M:%S)."
-msgstr ""
+msgstr "Tiden i 24-timmarsnotation (%H:%M:%S)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:277
 msgid "%u"
-msgstr ""
+msgstr "%u"
 
 #. (itstool) path: td/p
 #: C/strftime.page:280
@@ -653,11 +662,13 @@ msgid ""
 "The day of the week as a decimal number, range 1 to 7, Monday being 1. See "
 "also %w."
 msgstr ""
+"Veckodagen som ett decimaltal, intervall 1 till 7, där måndag är 1. Se också "
+"%w."
 
 #. (itstool) path: td/p
 #: C/strftime.page:286
 msgid "%U"
-msgstr ""
+msgstr "%U"
 
 #. (itstool) path: td/p
 #: C/strftime.page:289
@@ -666,11 +677,13 @@ msgid ""
 "starting with the first Sunday as the first day of week 01. See also %V and "
 "%W."
 msgstr ""
+"Veckonumret för aktuellt år som ett decimaltal, intervall 00 till 53, "
+"startar med första söndagen som första dagen vecka 01. Se också %V och %W."
 
 #. (itstool) path: td/p
 #: C/strftime.page:296
 msgid "%V"
-msgstr ""
+msgstr "%V"
 
 #. (itstool) path: td/p
 #: C/strftime.page:299
@@ -680,22 +693,26 @@ msgid ""
 "current year, and with Monday as the first day of the week. See also %U and "
 "%W."
 msgstr ""
+"ISO 8601:1988-veckonumret för aktuellt år som ett decimaltal, intervall 01 "
+"till 53 där vecka 1 är den första veckan som har minst fyra dagar nuvarande "
+"år, och med måndag som den första veckodagen. Se också %U och %W."
 
 #. (itstool) path: td/p
 #: C/strftime.page:308
 msgid "%w"
-msgstr ""
+msgstr "%w"
 
 #. (itstool) path: td/p
 #: C/strftime.page:311
 msgid ""
 "The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u."
 msgstr ""
+"Veckodagen som ett decimaltal, intervall 0 till 6, söndag är 0. Se också %u."
 
 #. (itstool) path: td/p
 #: C/strftime.page:317
 msgid "%W"
-msgstr ""
+msgstr "%W"
 
 #. (itstool) path: td/p
 #: C/strftime.page:320
@@ -703,55 +720,55 @@ msgid ""
 "The week number of the current year as a decimal number, range 00 to 53, "
 "starting with the first Monday as the first day of week 01."
 msgstr ""
+"Veckonumret för nuvarande år som ett decimaltal, intervall 00 till 53, med "
+"början den första måndagen som den första dagen vecka 01."
 
 #. (itstool) path: td/p
 #: C/strftime.page:327
-#, fuzzy
-#| msgid "x"
 msgid "%x"
-msgstr "x"
+msgstr "%x"
 
 #. (itstool) path: td/p
 #: C/strftime.page:330
 msgid ""
 "The preferred date representation for the current locale without the time."
-msgstr ""
+msgstr "Föredragen datumrepresentation för den aktuella lokalen utan tiden."
 
 #. (itstool) path: td/p
 #: C/strftime.page:336
 msgid "%X"
-msgstr ""
+msgstr "%X"
 
 #. (itstool) path: td/p
 #: C/strftime.page:339
 msgid ""
 "The preferred time representation for the current locale without the date."
-msgstr ""
+msgstr "Föredragen tidsrepresentation för den aktuella lokalen utan datumet."
 
 #. (itstool) path: td/p
 #: C/strftime.page:345
 msgid "%y"
-msgstr ""
+msgstr "%y"
 
 #. (itstool) path: td/p
 #: C/strftime.page:348
 msgid "The year as a decimal number without a century (range 00 to 99)."
-msgstr ""
+msgstr "Året som ett decimalnummer utan sekel (intervall 00 till 99)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:354
 msgid "%Y"
-msgstr ""
+msgstr "%Y"
 
 #. (itstool) path: td/p
 #: C/strftime.page:357
 msgid "The year as a decimal number including the century."
-msgstr ""
+msgstr "Året som ett decimalnummer inklusive seklet."
 
 #. (itstool) path: td/p
 #: C/strftime.page:362
 msgid "%z"
-msgstr ""
+msgstr "%z"
 
 #. (itstool) path: td/p
 #: C/strftime.page:365
@@ -759,16 +776,18 @@ msgid ""
 "The time-zone as hour offset from GMT. Required to emit RFC 822-conformant "
 "dates (using \"%a, %d %b %Y %H:%M:%S %z\")."
 msgstr ""
+"Tidszonen som timförskjutning från GMT. Krävs för att sända RFC 822-"
+"anpassade datum (använder \"%a, %d %b %Y %H:%M:%S %z\")."
 
 #. (itstool) path: td/p
 #: C/strftime.page:372
 msgid "%Z"
-msgstr ""
+msgstr "%Z"
 
 #. (itstool) path: td/p
 #: C/strftime.page:375
 msgid "The time zone or name or abbreviation."
-msgstr ""
+msgstr "Tidszon, namn eller förkortning."
 
 #. (itstool) path: page/p
 #: C/strftime.page:380
@@ -783,29 +802,31 @@ msgid ""
 "numeric symbols (say, roman numerals), and that of the E modifier is to use "
 "a locale-dependent alternative representation."
 msgstr ""
+"En del konverteringsspecifikationer kan modifieras genom att före "
+"konverteringens specificerartecken lägga till E eller O-modifierarna för att "
+"indikera att ett alternativt format ska användas. Om det alternativa "
+"formatet eller specifikationen inte används för aktuell lokal kommer "
+"beteendet att vara som om ej modifierande specificerartecken användes. "
+"Single Unix-specifikationen nämner %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %Oe, "
+"%OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow, %OW, %Oy där effekten av O-"
+"modifieraren är för att använda alternativa numeriska symboler (exempelvis "
+"romerska siffror) och från E-modifieraren är att använda en lokalberoende "
+"alternativ representation."
 
 #. (itstool) path: page/title
 #: C/introduction.page:6
-#, fuzzy
-#| msgid "gThumb"
 msgid "About gThumb"
-msgstr "gThumb"
+msgstr "Om gThumb"
 
 #. (itstool) path: page/p
 #: C/introduction.page:8
-#, fuzzy
-#| msgid ""
-#| "<application>gThumb</application> is an image viewer and browser written "
-#| "for the GNOME environment. It lets you browse your hard disk, showing you "
-#| "thumbnails of image files and view single images of many different "
-#| "formats."
 msgid ""
 "<app>gThumb</app> is an image viewer and browser written for the GNOME "
 "environment. It lets you browse your hard disk, showing you thumbnails of "
 "image files and view single images of many different formats."
 msgstr ""
-"<application>gThumb</application> är en bildvisare och -bläddrare skriven "
-"för skrivbordsmiljön GNOME. Den låter dig bläddra på din hårddisk, visa dig "
+"<app>gThumb</app> är en bildvisare och -bläddrare skriven för "
+"skrivbordsmiljön GNOME. Den låter dig bläddra på din hårddisk, visa dig "
 "miniatyrbilder av bildfiler och visa bilder av många olika format."
 
 #. (itstool) path: page/p
@@ -816,6 +837,10 @@ msgid ""
 "image types if the supporting libraries are installed, including TGA, ICO, "
 "BMP, XPM, and others."
 msgstr ""
+"<app>gThumb</app> stöder de vanligaste grafiska formaten inklusive JPEG, "
+"GIF, TIF och PNG. <app>gThumb</app> kommer också att visa mindre kända "
+"bildtyper om stödbibliotek installeras, inklusive TGA, ICO, BMP, XPM och "
+"flera."
 
 #. (itstool) path: page/p
 #: C/introduction.page:18
@@ -823,24 +848,20 @@ msgid ""
 "Some support for RAW image types is included, especially if the dcraw "
 "program is installed on your system."
 msgstr ""
+"Ett visst stöd för RAW-bilder inkluderas, speciellt om programmet dcraw är "
+"installerat på ditt system."
 
 #. (itstool) path: page/p
 #: C/introduction.page:21
-#, fuzzy
-#| msgid ""
-#| "<application>gThumb</application> not only lets you view image files but "
-#| "has many other features such as add comments to images, organize images "
-#| "in catalogs, print images, view slideshows, set your desktop background, "
-#| "and more."
 msgid ""
 "<app>gThumb</app> not only lets you view image files but has many other "
 "features such as adding comments to images, organizing images into catalogs, "
 "printing images, slideshows, setting your desktop background, and more."
 msgstr ""
-"<application>gThumb</application> låter dig inte bara visa bildfiler utan "
-"har även många andra funktioner som bland annat lägga till kommentarer till "
-"bilder, organisera bilder i album, skriva ut bilder, visa bildspel, ställa "
-"in din skrivbordsbakgrund och många andra."
+"<app>gThumb</app> låter dig inte bara visa bildfiler utan har även många "
+"andra funktioner som bland annat att lägga till kommentarer till bilder, "
+"ordna bilder i album, skriva ut bilder, visa bildspel, ställa in din "
+"skrivbordsbakgrund och många andra."
 
 #. (itstool) path: page/p
 #: C/introduction.page:26
@@ -848,6 +869,8 @@ msgid ""
 "<app>gThumb</app> includes a tool to import photos from attached cameras and "
 "memory card readers."
 msgstr ""
+"<app>gThumb</app> kommer med ett verktyg för att importera foton från "
+"anslutna kameror och minneskortsläsare."
 
 #. (itstool) path: page/p
 #: C/introduction.page:29
@@ -855,6 +878,8 @@ msgid ""
 "<app>gThumb</app> can read EXIF, XMP, and IPTC metadata that is commonly "
 "embedded in files."
 msgstr ""
+"<app>gThumb</app> kan läsa EXIF-, XMP- och IPTC-metadata som vanligtvis är "
+"inbäddade i filer."
 
 #. (itstool) path: page/p
 #: C/introduction.page:32
@@ -862,6 +887,9 @@ msgid ""
 "<app>gThumb</app> provides a systems of extensions (or plug-ins), to allow "
 "users to extend the functionality of <app>gThumb</app>."
 msgstr ""
+"<app>gThumb</app> tillhandahåller ett system av tillägg (eller "
+"insticksmoduler) för att låta användarna utöka <app>gThumb</app>s "
+"funktionalitet."
 
 #. (itstool) path: page/p
 #: C/introduction.page:34
@@ -870,6 +898,9 @@ msgid ""
 "generally, is available at <link href=\"https://wiki.gnome.org/Apps/gthumb"
 "\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgstr ""
+"Ytterligare information om dessa tillägg och allmänt om <app>gThumb</app> "
+"finns tillgängligt på <link href=\"https://wiki.gnome.org/Apps/gthumb"
+"\">https://wiki.gnome.org/Apps/gthumb</link>."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -881,21 +912,17 @@ msgctxt "_"
 msgid ""
 "external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
 msgstr ""
+"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
 
 #. (itstool) path: page/title
 #: C/browser.page:6
-#, fuzzy
-#| msgid "Browsing Folders"
 msgid "Browsing Your Files"
-msgstr "Bläddra i mappar"
+msgstr "Bläddra bland dina filer"
 
 #. (itstool) path: page/p
 #: C/browser.page:8
-#, fuzzy
-#| msgid ""
-#| "You can start <application>gThumb</application> in the following ways:"
 msgid "When you start <app>gThumb</app> the following window is displayed:"
-msgstr "Du kan starta <application>gThumb</application> på följande sätt:"
+msgstr "När du startar <app>gThumb</app> visas följande fönster:"
 
 #. (itstool) path: figure/title
 #: C/browser.page:11
@@ -905,7 +932,7 @@ msgstr "Huvudfönstret"
 #. (itstool) path: page/p
 #: C/browser.page:16
 msgid "The <app>gThumb</app> browser contains the following elements:"
-msgstr ""
+msgstr "<app>gThumb</app>s bläddrare innehåller följande element:"
 
 #. (itstool) path: item/title
 #: C/browser.page:20
@@ -914,16 +941,12 @@ msgstr "Menyrad"
 
 #. (itstool) path: item/p
 #: C/browser.page:21
-#, fuzzy
-#| msgid ""
-#| "The menus on the menubar contain all of the commands that you can use in "
-#| "<application>gThumb</application>"
 msgid ""
 "The menus on the menubar contain all of the commands that you can use in "
 "<app>gThumb</app>"
 msgstr ""
 "Menyerna på menyraden innehåller alla kommandon som du kan använda i "
-"<application>gThumb</application>"
+"<app>gThumb</app>"
 
 #. (itstool) path: item/title
 #: C/browser.page:25
@@ -932,17 +955,14 @@ msgstr "Verktygsfält"
 
 #. (itstool) path: item/p
 #: C/browser.page:26
-#, fuzzy
-#| msgid ""
-#| "The toolbar contains a subset of the commands that you can access from "
-#| "the menubar."
 msgid ""
 "The toolbar contains a subset of the commands that you can access from the "
 "menubar. In particular, the Tools button contains functions for batch "
 "processing multiple images."
 msgstr ""
 "Verktygsfältet innehåller en mindre uppsättning kommandon som du kan komma "
-"åt från menyraden."
+"åt från menyraden. Speciellt innehåller verktygsknappen funktioner för "
+"satsvisbearbetning av flera bilder."
 
 #. (itstool) path: item/title
 #: C/browser.page:31
@@ -951,17 +971,13 @@ msgstr "Adressrad"
 
 #. (itstool) path: item/p
 #: C/browser.page:32
-#, fuzzy
-#| msgid "The locationbar contains the current folder name."
 msgid "The locationbar contains the current folder or catalog name."
-msgstr "Adressraden innehåller namnet på aktuell mapp."
+msgstr "Adressraden innehåller namnet på aktuell mapp eller albumnamn."
 
 #. (itstool) path: item/title
 #: C/browser.page:36
-#, fuzzy
-#| msgid "Folder list"
 msgid "Folder Tree"
-msgstr "Mapplista"
+msgstr "Mappträd"
 
 #. (itstool) path: item/p
 #: C/browser.page:37
@@ -971,13 +987,14 @@ msgid ""
 "or clicking the expander arrow, will also list folder's subfolders in the "
 "tree."
 msgstr ""
+"Mappträdet låter dig navigera filsystemet. Enkelklick på en mapp kommer att "
+"läsa in dess bilder i bläddrarvyn. Dubbelklick på en mapp eller att klicka "
+"på expanderarpilen kommer också att lista mappens undermappar i trädet."
 
 #. (itstool) path: item/title
 #: C/browser.page:44
-#, fuzzy
-#| msgid "Browser Tab"
 msgid "Browser View"
-msgstr "Fliken Bläddrare"
+msgstr "Bläddrarvyn"
 
 #. (itstool) path: item/p
 #: C/browser.page:45
@@ -987,18 +1004,22 @@ msgid ""
 "clicking an image will open it in the viewer mode. Double-clicking with the "
 "middle mouse button will load the image in fullscreen viewer mode."
 msgstr ""
+"Bläddrarvyn visar bilderna i aktuell mapp eller album. Att enkelklicka på en "
+"bild kommer aktivera sidopanelen för den bilden. Att dubbelklicka på en bild "
+"kommer att öppna den i visningsläge. Att dubbelklicka med mittenmusknappen "
+"kommer att läsa in bilden i helskärmsvisningsläge."
 
 #. (itstool) path: item/title
 #: C/browser.page:52
 msgid "Organize Button"
-msgstr ""
+msgstr "Ordna-knappen"
 
 #. (itstool) path: item/p
 #: C/browser.page:53
 msgid ""
 "The Organize button, just above the browser view, allows you to group images "
 "into catalogs."
-msgstr ""
+msgstr "Ordna-knappen, ovan bläddrarvyn låter dig gruppera bilder till album."
 
 #. (itstool) path: item/title
 #: C/browser.page:57
@@ -1007,23 +1028,17 @@ msgstr "Statusrad"
 
 #. (itstool) path: item/p
 #: C/browser.page:58
-#, fuzzy
-#| msgid "On the statusbar you can read: <placeholder-1/>"
 msgid "On the statusbar you can read:"
-msgstr "På statusraden kan du läsa: <placeholder-1/>"
+msgstr "På statusraden kan du läsa:"
 
 #. (itstool) path: item/p
 #: C/browser.page:61
-#, fuzzy
-#| msgid ""
-#| "the total number of images contained in the current folder and their "
-#| "total size."
 msgid ""
 "the total number of images contained in the current folder or catalog and "
 "their total size."
 msgstr ""
-"det totala antalet bilder som finns i den aktuella mappen och deras totala "
-"storlek."
+"det totala antalet bilder som finns i den aktuella mappen eller album och "
+"deras totala storlek."
 
 #. (itstool) path: item/p
 #: C/browser.page:65
@@ -1037,10 +1052,8 @@ msgstr "några egenskaper för den aktuella bilden som har fokus."
 
 #. (itstool) path: item/title
 #: C/browser.page:73
-#, fuzzy
-#| msgid "Locationbar"
 msgid "Information Sidebar"
-msgstr "Adressrad"
+msgstr "Informationssidopanel"
 
 #. (itstool) path: item/p
 #: C/browser.page:74
@@ -1049,11 +1062,14 @@ msgid ""
 "tree) will display detailed information (such as EXIF or XMP tags) about the "
 "selected image."
 msgstr ""
+"Om en enstaka bild markeras kommer informationssidopanelen (nedanför "
+"mappträdet) att visa detaljerad information (som EXIF- eller XMP-taggar) om "
+"den valda bilden."
 
 #. (itstool) path: item/title
 #: C/browser.page:79
 msgid "Filter Bar"
-msgstr ""
+msgstr "Filterfältet"
 
 #. (itstool) path: item/p
 #: C/browser.page:80
@@ -1063,11 +1079,15 @@ msgid ""
 "limited to files of a certain size, date, or name pattern, or other "
 "characteristics."
 msgstr ""
+"Ett bildfiltreringsverktyg finns nedanför bläddrarvyn. Detta kan användas "
+"till att filtrera de visade bilderna. Exempelvis kan bläddrarvyn begränsas "
+"till filer av en viss storlek, datum- eller namnmönster eller andra "
+"egenskaper."
 
 #. (itstool) path: page/title
 #: C/batch-rotate.page:6
 msgid "Rotating Images Losslessly"
-msgstr ""
+msgstr "Rotera bilder förlustfritt"
 
 #. (itstool) path: page/p
 #: C/batch-rotate.page:8
@@ -1078,35 +1098,34 @@ msgid ""
 "<guiseq><gui>Tools</gui><gui>Rotate Left</gui></guiseq>. The images will be "
 "rotated."
 msgstr ""
+"För att rotera en eller flera bilder, välj bilderna i bläddrarläget. Klicka "
+"sedan på knappen <gui>Verktyg</gui> på huvudverktygsfältet och välj antingen "
+"<guiseq><gui>Verktyg</gui><gui>Rotera åt höger</gui></guiseq> eller "
+"<guiseq><gui>Verktyg</gui><gui>Rotera åt vänster</gui></guiseq>. Bilderna "
+"kommer att roteras."
 
 #. (itstool) path: page/p
 #: C/batch-rotate.page:14
 msgid "Lossless rotation is used for jpeg images, when possible."
-msgstr ""
+msgstr "Om möjligt kommer förlustfri information att används för jpeg-bilder."
 
 #. (itstool) path: page/title
 #: C/batch-convert-format.page:6
-#, fuzzy
-#| msgid "To Convert the Image Format"
 msgid "Converting File Formats"
-msgstr "Konvertera bildformatet"
+msgstr "Konvertera filformat"
 
 #. (itstool) path: page/p
 #: C/batch-convert-format.page:8
-#, fuzzy
-#| msgid ""
-#| "To convert the image format, select the images you want to convert and "
-#| "choose <menuchoice><guimenu>Tools</guimenu><guimenuitem>Convert Format</"
-#| "guimenuitem></menuchoice>."
 msgid ""
 "To convert one or more images into a new file format, select the images in "
 "the browser view. Then click the <gui>Tools</gui> button on the main "
 "toolbar, and select <guiseq><gui>Tools</gui><gui>Convert Format</gui></"
 "guiseq>."
 msgstr ""
-"För att konvertera bildformatet, markera bilderna som du vill konvertera och "
-"välj <menuchoice><guimenu>Verktyg</guimenu><guimenuitem>Konvertera format</"
-"guimenuitem></menuchoice>."
+"För att konvertera en eller flera bilder till ett nytt format, markera "
+"bilderna som du vill i bläddrarläget. Klicka sedan knappen <gui>Verktyg</"
+"gui> och välj <guiseq><gui>Verktyg</gui><gui>Konvertera format</gui></"
+"guiseq>."
 
 #. (itstool) path: page/p
 #: C/batch-convert-format.page:12
@@ -1114,13 +1133,13 @@ msgid ""
 "Select the desired output format and destination folder. Click <gui>Execute</"
 "gui> to complete the process."
 msgstr ""
+"Välj önskat utdataformat och målmapp. Klicka på <gui>Verkställ</gui> för att "
+"slutföra processen."
 
 #. (itstool) path: page/title
 #: C/batch-resize.page:6
-#, fuzzy
-#| msgid "Viewing Images"
 msgid "Resizing Images"
-msgstr "Visa bilder"
+msgstr "Ändra bildstorlekar"
 
 #. (itstool) path: page/p
 #: C/batch-resize.page:8
@@ -1130,6 +1149,10 @@ msgid ""
 "button on the main toolbar, and select <guiseq><gui>Tools</gui><gui>Resize "
 "Images</gui></guiseq>."
 msgstr ""
+"För att ändra storlek på en eller flera bilder med samma dimensioner eller "
+"skalfaktorer, välj bilderna i bläddrarvyn. Klicka sedan på knappen "
+"<gui>Verktyg</gui> i huvudverktygsfältet och välj <guiseq><gui>Verktyg</"
+"gui><gui>Ändra storlek på bilder</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/batch-resize.page:12
@@ -1138,13 +1161,14 @@ msgid ""
 "scaling, and the destination folder. Click <gui>Execute</gui> to complete "
 "the process."
 msgstr ""
+"Välj sedan önskade maximala utdatadimensioner eller den önskade procenten "
+"skalning och målmappen. Klicka <gui>Verkställ</gui> för att slutföra "
+"processen."
 
 #. (itstool) path: page/title
 #: C/batch-change-date.page:6
-#, fuzzy
-#| msgid "To Change Images Date"
 msgid "Changing Dates"
-msgstr "Ändra bilddata"
+msgstr "Ändra datum"
 
 #. (itstool) path: page/p
 #: C/batch-change-date.page:8
@@ -1154,6 +1178,10 @@ msgid ""
 "view. Then click the <gui>Tools</gui> button on the main toolbar, and select "
 "<guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>."
 msgstr ""
+"För att ändra ändringstid på filen, kommentarsdatum eller Exif-taggen "
+"DateTimeOriginal för flera filer, markera filerna i bläddrarvyn. Klicka "
+"sedan på knappen <gui>Verktyg</gui> i huvudverktygsfältet och välj "
+"<guiseq><gui>Verktyg</gui><gui>Ändra datum</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/batch-change-date.page:13
@@ -1161,11 +1189,13 @@ msgid ""
 "Select the desired date options, and click <gui>Execute</gui> to complete "
 "the process."
 msgstr ""
+"Markera önskade datumalternativ och klicka <gui>Verkställ</gui> för att "
+"slutföra processen."
 
 #. (itstool) path: page/title
 #: C/batch-scripts.page:6
 msgid "User-Defined Scripts"
-msgstr ""
+msgstr "Användardefinierade skript"
 
 #. (itstool) path: page/p
 #: C/batch-scripts.page:8
@@ -1174,16 +1204,20 @@ msgid ""
 "execute on your files), click the <gui>Tools</gui> button on the main "
 "toolbar, and select <guiseq><gui>Tools</gui><gui>Personalize</gui></guiseq>."
 msgstr ""
+"För att definiera ett skript (en kommandoradssekvens som <app>gThumb</app> "
+"kommer att verkställa på dina filer) klicka på knappen <gui>Verktyg</gui> i "
+"huvudverktygsfältet och välj <guiseq><gui>Verktyg</gui><gui>Personalisera</"
+"gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/batch-scripts.page:12
 msgid "TODO: further documentation is need here."
-msgstr ""
+msgstr "ATT-GÖRA: Ytterligare dokumentation behövs här."
 
 #. (itstool) path: page/title
 #: C/thumbnails.page:6
 msgid "Thumbnail Sources"
-msgstr ""
+msgstr "Miniatyrbildskällor"
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:8
@@ -1192,6 +1226,9 @@ msgid ""
 "the selected folder. Generic icons for other files (audio files, for "
 "instance) may also be shown."
 msgstr ""
+"Bläddrarfönstret visar normalt miniatyrbilder för bilder och filmer i den "
+"markerade mappen. Generella ikoner för andra filer (till exempel ljudfiler) "
+"kan också visas."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:12
@@ -1201,6 +1238,10 @@ msgid ""
 "show all media files (images, movies, audio), but this can be made more or "
 "less restrictive."
 msgstr ""
+"Du kan välja vilka typer av filer som ska visas i bläddrarvyn genom att "
+"använda dialogen <guiseq><gui>Visa</gui><gui>Filter</gui></guiseq>. Som "
+"standard visas alla mediafiler (bilder, filmer, ljud) men detta kan göras "
+"mer eller mindre restriktivt."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:18
@@ -1209,6 +1250,9 @@ msgid ""
 "<app>gThumb</app> will first check for existing thumbnails in the system "
 "cache."
 msgstr ""
+"Miniatyrbilderna kan genereras utefter en mängd olika metoder. <app>gThumb</"
+"app> kommer först att se efter om det finns befintliga miniatyrbilder i "
+"systemcachen."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:22
@@ -1219,6 +1263,11 @@ msgid ""
 "that the aspect ratio of the thumbnail is similar to that of the main image, "
 "and ignore thumbnails that do not appear to match the main image."
 msgstr ""
+"Om inga cachade miniatyrbilder hittas och en bildfil innehåller en inbäddad "
+"miniatyrbild (jpeg-filer skapade av digitalkameror gör oftast det) kommer "
+"<app>gThumb</app> att försöka använda den. <app>gThumb</app> kommer att "
+"bekräfta att proportionerna för miniatyrbilden är liknande den i huvudbilden "
+"och ignorera miniatyrbilder som inte matchar med huvudbilden."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:29
@@ -1226,6 +1275,8 @@ msgid ""
 "If that doesn't work, <app>gThumb</app> will attempt to load the entire file "
 "and generate a scaled-down thumbnail."
 msgstr ""
+"Om det inte fungerar försöker <app>gThumb</app> att läsa in hela filen och "
+"generera en nedskalad miniatyrbild."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:32
@@ -1235,6 +1286,10 @@ msgid ""
 "<app>mplayer</app> or <app>totem</app> or other movie viewers to generate "
 "movie thumbnails."
 msgstr ""
+"Slutligen kommer <app>gThumb</app> att använda systemdefinierade skript för "
+"miniatyrbilder för speciella mediatyper. Exempelvis så kan vissa system "
+"använda <app>mplayer</app>, <app>totem</app> eller andra filmvisare för att "
+"skapa miniatyrbilder."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:37
@@ -1248,6 +1303,14 @@ msgid ""
 "applications (like <app>F-Spot</app>) may automatically increase these "
 "settings greatly."
 msgstr ""
+"<app>gThumb</app> kommer att spara miniatyrbilder till en systemcache för "
+"att dela dem med andra program. Som standard rensar Gnome-system bort "
+"cachade miniatyrbilder när de är äldre än 180 dagar eller när "
+"miniatyrbildscachen överskrider 512 MB. Tekniskt kunniga användare kan "
+"utforska dessa inställningar med <app>gconf-editor</app>. Se speciellt "
+"nycklarna /desktop/gnome/thumbnail_cache/maximum_age och /desktop/gnome/"
+"thumbnail_cache/maximum_size. Vissa program (som <app>F-Spot</app>) kan "
+"automatiskt öka dessa inställningar rejält."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -1260,11 +1323,13 @@ msgid ""
 "external ref='figures/thumbnail-pane.png' "
 "md5='af28541956094195dac6bc0e11624d64'"
 msgstr ""
+"external ref='figures/thumbnail-pane.png' "
+"md5='af28541956094195dac6bc0e11624d64'"
 
 #. (itstool) path: page/title
 #: C/thumbnail-pane.page:6
 msgid "Thumbnail Pane"
-msgstr ""
+msgstr "Miniatyrbildspanel"
 
 #. (itstool) path: page/p
 #: C/thumbnail-pane.page:8
@@ -1275,6 +1340,11 @@ msgid ""
 "<guiseq><gui>View</gui><gui>Thumbnail Pane</gui></guiseq> command, or by "
 "pressing <key>F8</key>."
 msgstr ""
+"När en bild har öppnats i <app>gThumb</app>-visaren har användaren valet att "
+"aktivera eller inaktivera en miniatyrbildspanel som visar de andra bilderna "
+"i mappen som miniatyrbilder. Denna egenskap kan växlas med kommandot "
+"<guiseq><gui>Visa</gui><gui>Miniatyrbildspanel</gui></guiseq> eller genom "
+"att trycka på <key>F8</key>."
 
 #. (itstool) path: page/p
 #: C/thumbnail-pane.page:14
@@ -1284,16 +1354,20 @@ msgid ""
 "gui><gui>Preferences</gui><gui>General</gui><gui>Thumbnails in Viewer</gui></"
 "guiseq>."
 msgstr ""
+"Miniatyrbildspanelen kan positioneras i nederkanten av huvudbilden eller vid "
+"sidan. Det kontrolleras av inställningarna i <guiseq><gui>Redigera</"
+"gui><gui>Inställningar</gui><gui>Allmänt</gui><gui>Miniatyrbilder i visare</"
+"gui></guiseq>."
 
 #. (itstool) path: figure/title
 #: C/thumbnail-pane.page:19
 msgid "Thumbnail Pane, Along Bottom of Main Image"
-msgstr ""
+msgstr "Miniatyrbildspanel, längs nederdelen av huvudbilden"
 
 #. (itstool) path: page/title
 #: C/rename-series.page:8
 msgid "Renaming Files"
-msgstr ""
+msgstr "Byta namn på filer"
 
 #. (itstool) path: page/p
 #: C/rename-series.page:10
@@ -1302,23 +1376,22 @@ msgid ""
 "browser and choose <guiseq><gui>Edit</gui><gui>Rename</gui></guiseq>, or "
 "press <key>F2</key>."
 msgstr ""
+"För att byta namn på en eller flera bilder med en namnmall, markera filerna "
+"i bläddraren och välj <guiseq><gui>Redigera</gui><gui>Byt namn</gui></"
+"guiseq> eller tryck på <key>F2</key>."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:15
-#, fuzzy
-#| msgid ""
-#| "The name template is simply a name that must be used for all of the "
-#| "images, furthermore you can use some special characters to make the new "
-#| "names differ each other:"
 msgid ""
 "The name template is simply a pattern that is used for renaming all of the "
 "selected images. You can use some special characters to make the new names "
 "differ each other (this is essential if you are renaming more than one "
 "image, and optional if you are renaming a single image):"
 msgstr ""
-"Namnmallen är helt enkelt ett namn som måste användas för alla bilder. Du "
-"kan även använda vissa specialtecken för att göra att de nya namnen skiljer "
-"sig från varandra:"
+"Namnmallen är helt enkelt ett mönster som används för att byta namn på alla "
+"valda bilder. Du kan även använda vissa specialtecken för att göra att de "
+"nya namnen skiljer sig från varandra (essentiellt om du byter namn på mer än "
+"en bild, och valfritt om du byter namn på en enstaka bild):"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:24
@@ -1327,14 +1400,14 @@ msgstr "Symbol"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:94
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:498
+#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:542
 msgid "Description"
 msgstr "Beskrivning"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:32
 msgid "<key>#</key>"
-msgstr ""
+msgstr "<key>#</key>"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:37
@@ -1347,47 +1420,40 @@ msgid ""
 msgstr ""
 "Den här symbolen kommer att ersättas med värdet för en räknare som ökar sig "
 "själv med 1 från en bild till en annan. Om du anger den här symbolen i en "
-"sekvens kommer du att få inledande noller om räknarens värde har ett mindre "
+"sekvens kommer du att få inledande nollor om räknarens värde har ett mindre "
 "antal siffror, till exempel ### kommer att producera sekvensen: 001, 002, "
-"003, etc.."
+"003 och så vidare.."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:47
 msgid "<key>%F</key>"
-msgstr ""
+msgstr "<key>%F</key>"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:52
-#, fuzzy
-#| msgid ""
-#| "This symbol will be replaced with the image original name, excluding the "
-#| "extension."
 msgid ""
 "This symbol will be replaced with the file's original name, excluding the "
 "original extension."
 msgstr ""
-"Den här symbolen kommer att ersättas med bildens originalnamn, undantaget "
+"Den här symbolen kommer att ersättas med filens originalnamn, undantaget "
 "filändelsen."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:58
 msgid "<key>%E</key>"
-msgstr ""
+msgstr "<key>%E</key>"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:63
-#, fuzzy
-#| msgid ""
-#| "This symbol will be replaced with the image original filename extension."
 msgid ""
 "This symbol will be replaced with the file's original filename extension."
 msgstr ""
-"Den här symbolen kommer att ersättas med bildens ursprungliga filändelse."
+"Den här symbolen kommer att ersättas med filens ursprungliga filändelse."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:69
 msgid "<key>%N</key>"
-msgstr ""
+msgstr "<key>%N</key>"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:74
@@ -1398,11 +1464,16 @@ msgid ""
 "(for example, IMG_123_456.JPG) only the first number will be used (\"123\" "
 "in this example)."
 msgstr ""
+"Den här symbolen kommer att ersättas med den ursprungliga bilduppräknaren. "
+"Exempelvis, om det ursprungliga filnamnet var IMG_9876.JPG extraherar detta "
+"delen ”9876”. Om filnamnet har fler än en grupp av siffror inbäddade i sig "
+"(exempelvis, IMG_123_456.JPG) används endast det första numret (”123” i "
+"detta exempel)."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:84
 msgid "<key>%M{format}</key>"
-msgstr ""
+msgstr "<key>%M{format}</key>"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:89
@@ -1412,11 +1483,15 @@ msgid ""
 "formatting code in curly braces. For example, \"%M{%Y-%m-%d, %T}\" would be "
 "replaced with a date and time like \"2010-04-01, 15:02:01\"."
 msgstr ""
+"Den här symbolen kommer att ersättas med filändringsdatum. Formateringen av "
+"detta datum (och valfritt, tid) kan specificeras genom att lägga till en "
+"standardformateringskod. Exempelvis skulle ”%M{%Y-%m-%d, %T}” ersättas med "
+"ett datum och tid som  ”2010-04-01, 15:02:01”."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:98
 msgid "<key>%D{format}</key>"
-msgstr ""
+msgstr "<key>%D{format}</key>"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:103
@@ -1427,11 +1502,17 @@ msgid ""
 "a standard formatting code in curly braces. For example, \"%D{%Y-%m-%d, "
 "%T}\" would be replaced with a date and time like \"2010-04-01, 15:02:01\"."
 msgstr ""
+"Den här symbolen kommer att ersättas med det datum som fotot ursprungligen "
+"togs (vanligtvis bestämt från EXIF-datumstämplarna inbäddade i fotot). "
+"Formateringen av detta datum (och valfritt, tid) kan specificeras genom att "
+"lägga till en standardformateringskod mellan hakparenteser. Exempelvis "
+"skulle ”%D{%Y-%m-%d, %T}” ersättas med ett datum och tid som ”2010-04-01, "
+"15:02:01”."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:114
 msgid "<key>%A{identifier}</key>"
-msgstr ""
+msgstr "<key>%A{identifier}</key>"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:119
@@ -1440,6 +1521,9 @@ msgid ""
 "identifier. For example, \"%A{ general::dimensions }\" would be replaced "
 "with a size like \"320 x 240\"."
 msgstr ""
+"Symbolen kommer att ersättas med data som har specificerats av "
+"identifieraren. Till exempel skulle ”%A{ general::dimensions }” ersättas med "
+"en storlek som ”320 x 240”."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:127
@@ -1447,6 +1531,8 @@ msgid ""
 "A summary of these special codes may be viewed by clicking on the Help icon "
 "inside the template field."
 msgstr ""
+"En sammanfattning av dessa speciella koder kan ses genom att klicka på "
+"ikonen Hjälp inuti mallfältet."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:130
@@ -1458,11 +1544,8 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/rename-series.page:133
-#, fuzzy
-#| msgid "To rename the images click on <guibutton>Rename</guibutton>."
 msgid "To rename the images click on <gui>Rename</gui>."
-msgstr ""
-"För att byta namn på bilderna, klicka på <guibutton>Byt namn</guibutton>."
+msgstr "För att byta namn på bilderna, klicka på <gui>Byt namn</gui>."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:135
@@ -1480,7 +1563,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/edit-save-undo-redo.page:6
 msgid "File Save, Undo, Redo"
-msgstr ""
+msgstr "Filsparande, ångra, gör om"
 
 #. (itstool) path: page/p
 #: C/edit-save-undo-redo.page:8 C/edit-colors.page:8 C/edit-rotate.page:8
@@ -1490,6 +1573,9 @@ msgid ""
 "access the editing tools, open an image and then click the <gui>Edit File</"
 "gui> toolbar button (the palette icon)."
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> För "
+"att komma åt redigeringsverktygen, öppna en bild och klicka sedan "
+"verktygsfältknappen <gui>Redigera fil</gui> (palettikonen)."
 
 #. (itstool) path: page/p
 #: C/edit-save-undo-redo.page:12
@@ -1498,6 +1584,8 @@ msgid ""
 "and <gui>Redo</gui> buttons are provided, and may be used up until the file "
 "is saved."
 msgstr ""
+"Flera ändringar kan göras på en bild innan den sparas. Knapparna <gui>Ångra</"
+"gui> och <gui>Gör om</gui> kan användas fram till det att filen sparas."
 
 #. (itstool) path: page/p
 #: C/edit-save-undo-redo.page:16
@@ -1506,6 +1594,9 @@ msgid ""
 "modified image to a new location instead, leaving the original image "
 "unchanged, use <gui>Save As</gui>."
 msgstr ""
+"En modifierad bild kan sparas genom att trycka <gui>Spara</gui>. För att "
+"spara den lagrade bilden till en ny plats istället och lämna den "
+"ursprungliga bilden oförändrad, använd <gui>Spara som</gui>."
 
 #. (itstool) path: page/p
 #: C/edit-save-undo-redo.page:20
@@ -1514,21 +1605,25 @@ msgid ""
 "the Folders</gui> toolbar button), or navigate away from the current image, "
 "you will be prompted to save or discard your changes."
 msgstr ""
+"Om du lämnar redigeringsläget (genom att trycka <key>Esc</key> eller "
+"verktygsfältknappen <gui>Visa mapparna</gui>) eller navigerar bort från "
+"aktuell bild kommer du tillfrågas om att spara eller förkasta dina ändringar."
 
 #. (itstool) path: page/title
 #: C/edit-colors.page:6
 msgid "Color Adjustments"
-msgstr ""
+msgstr "Färgjusteringar"
 
 #. (itstool) path: page/p
 #: C/edit-colors.page:12
 msgid "Several tools are provided to manipulate the colors in images."
 msgstr ""
+"Det finns flera tillgängliga verktyg för att manipulera färgerna i bilder."
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:17
 msgid "<gui>Enhance Colors</gui>"
-msgstr ""
+msgstr "<gui>Förbättra färger</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-colors.page:18
@@ -1536,11 +1631,13 @@ msgid ""
 "This tool provides automatic white balance correction. No user adjustments "
 "are required."
 msgstr ""
+"Detta verktyg tillhandahåller automatisk vitbalanskorrigering. Inga "
+"användarjusteringar krävs."
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:22
 msgid "<gui>Adjust Colors</gui>"
-msgstr ""
+msgstr "<gui>Justera färger</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-colors.page:23
@@ -1549,11 +1646,14 @@ msgid ""
 "brightness, contrast, saturation, and the cyan/red, magenta/green, and "
 "yellow/blue color balances may be made."
 msgstr ""
+"Detta verktyg tillhandahåller manuella färgjusteringar. Justeringar till "
+"gamma, ljusstyrka, kontrast, mättnad och färgbalanser för cyan/röd, magenta/"
+"grön och gul/blå kan ske."
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:29
 msgid "<gui>Equalize</gui>"
-msgstr ""
+msgstr "<gui>Utjämning</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-colors.page:30
@@ -1561,13 +1661,13 @@ msgid ""
 "This tool provides automatic histogram equalization. No user adjustments are "
 "required."
 msgstr ""
+"Detta verktyg tillhandahåller automatisk histogramutjämning. Inga "
+"användarjusteringar krävs."
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:34
-#, fuzzy
-#| msgid "Desaturate"
 msgid "<gui>Desaturate</gui>"
-msgstr "Avmätta"
+msgstr "<gui>Avmätta</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-colors.page:35
@@ -1575,75 +1675,69 @@ msgid ""
 "This tool converts the image colors into shades of grey. (This does not "
 "change this image storage format.)"
 msgstr ""
+"Detta verktyg konverterar bildfärgerna till gråskalor. (Detta ändrar inte "
+"bildlagringsformatet.)"
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:39
 msgid "<gui>Negative</gui>"
-msgstr ""
+msgstr "<gui>Negativ</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-colors.page:40
 msgid "This tool inverts the color levels, providing an image negative."
-msgstr ""
+msgstr "Detta verktyg inverterar färgnivåerna vilket ger ett bildnegativ."
 
 #. (itstool) path: page/title
 #: C/edit-rotate.page:6
 msgid "Rotations and Flips"
-msgstr ""
+msgstr "Rotation och vändningar"
 
 #. (itstool) path: page/p
 #: C/edit-rotate.page:12
 msgid "Several tools are provided to manipulate the orientation of images."
-msgstr ""
+msgstr "Flera verktyg tillhandahålls för att manipulera riktningen på bilder."
 
 #. (itstool) path: item/title
 #: C/edit-rotate.page:17
 msgid "<gui>Mirror</gui>"
-msgstr ""
+msgstr "<gui>Spegel</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-rotate.page:18
 msgid ""
 "This flips the image horizontally. The left and right sides are swapped."
-msgstr ""
+msgstr "Detta vänder bilden vågrätt. Vänster och höger sida byts."
 
 #. (itstool) path: item/title
 #: C/edit-rotate.page:22
 msgid "<gui>Flip</gui>"
-msgstr ""
+msgstr "<gui>Vänd</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-rotate.page:23
 msgid "This flips the image vertically. The top and bottom are swapped."
-msgstr ""
+msgstr "Detta vänder bilden lodrätt. Topp och botten byts."
 
 #. (itstool) path: item/title
 #: C/edit-rotate.page:27
-#, fuzzy
-#| msgid "Rotate Right"
 msgid "<gui>Rotate Right</gui>"
-msgstr "Rotera åt höger"
+msgstr "<gui>Rotera åt höger</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-rotate.page:28
-#, fuzzy
-#| msgid "Rotate the image 90 degrees clockwise."
 msgid "This rotates the image clockwise."
-msgstr "Rotera bilden 90 grader medsols."
+msgstr "Detta roterar bilden medsols."
 
 #. (itstool) path: item/title
 #: C/edit-rotate.page:31
-#, fuzzy
-#| msgid "Rotate Left"
 msgid "<gui>Rotate Left</gui>"
-msgstr "Rotera åt vänster"
+msgstr "<gui>Rotera åt vänster</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-rotate.page:32
-#, fuzzy
-#| msgid "Rotate the image 90 degrees counter-clockwise."
 msgid "This rotates the image counter-clockwise."
-msgstr "Rotera bilden 90 grader motsols."
+msgstr "Detta roterar bilden motsols."
 
 #. (itstool) path: page/p
 #: C/edit-rotate.page:36
@@ -1654,21 +1748,26 @@ msgid ""
 "encoded and saved. However, <app>gThumb</app> does provide lossless rotation "
 "tools. See <link xref=\"gthumb-batch-rotate\"/>."
 msgstr ""
+"Rotationerna som är möjliga i redigeringsläget utförs på bilden i minnet. De "
+"är inte direkta filoperationer. För jpeg betyder detta att de inte är "
+"förlustfria operationer - bilden kommer att försämras en aning när den "
+"omkodas och sparas. Men, <app>gThumb</app> erbjuder verktyg för förlustfri "
+"rotation. Se <link xref=\"gthumb-batch-rotate\"/>."
 
 #. (itstool) path: page/title
 #: C/edit-resize-crop.page:6
 msgid "Resizing and Cropping"
-msgstr ""
+msgstr "Ändra storlek och beskära"
 
 #. (itstool) path: page/p
 #: C/edit-resize-crop.page:12
 msgid "Two tools are provided to resize and crop images."
-msgstr ""
+msgstr "Två verktyg tillhandahålls för att ändra storlek och beskära bilder."
 
 #. (itstool) path: item/title
 #: C/edit-resize-crop.page:15
 msgid "<gui>Resize</gui>"
-msgstr ""
+msgstr "<gui>Ändra storlek</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-resize-crop.page:16
@@ -1677,11 +1776,15 @@ msgid ""
 "physical size, or to a certain percentage of the original size. The aspect "
 "ratio may be locked to a specific value, or freely adjusted."
 msgstr ""
+"Detta låter dig ändra storlek på bilden. Bilden kan skalas till en speciell "
+"fysisk storlek eller till en speciell procentdel av den ursprungliga "
+"storleken. Proportionerna kan låsas till ett specifikt värde eller justeras "
+"fritt."
 
 #. (itstool) path: item/title
 #: C/edit-resize-crop.page:22
 msgid "<gui>Crop</gui>"
-msgstr ""
+msgstr "<gui>Beskär</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-resize-crop.page:23
@@ -1691,6 +1794,10 @@ msgid ""
 "may be freely adjusted. A rule-of-thirds grid or golden-sections grid may be "
 "superimposed over the image for composition guidance."
 msgstr ""
+"Detta låter dig beskära bilden. Klicka och dra musen över det önskade "
+"bildområdet. Området kan låsas till en specifik proportion eller kan bli "
+"fritt justerat. Tredjedelsregeln eller gyllene snittet kan visas över bilden "
+"för kompositionsguidning."
 
 #. (itstool) path: page/p
 #: C/edit-resize-crop.page:31
@@ -1698,11 +1805,12 @@ msgid ""
 "<app>gThumb</app> also offers a batch-mode tool for resizing multiple images "
 "simultaneously. See <link xref=\"gthumb-batch-resize\"/>."
 msgstr ""
+"<app>gThumb</app> erbjuder också ett verktyg för satsvis bearbetning för "
+"ändra storlek på flera bilder samtidigt. Se <link xref=\"gthumb-batch-resize"
+"\"/>."
 
 #. (itstool) path: page/title
 #: C/edit-redeye.page:6
-#, fuzzy
-#| msgid "Redeye Removal"
 msgid "Red Eye Removal"
 msgstr "Ta bort röda ögon"
 
@@ -1715,6 +1823,12 @@ msgid ""
 "a more natural-looking gray region. If the results do not look correct, "
 "press <key>Escape</key> and click on the <gui>Undo</gui> item."
 msgstr ""
+"<app>gThumb</app> tillhandahåller också ett verktyg att <gui>Ta bort röda "
+"ögon</gui>. För att ta bort ett rött öga, placera muspekaren över det röda "
+"ögat och klicka på det. <app>gThumb</app> kommer att försöka att ta bort det "
+"röda området och ersätta det med ett mer naturligt grått område. Ser inte "
+"resultatet korrekt ut, tryck <key>Escape</key> och klicka på objektet "
+"<gui>Ångra</gui>."
 
 #. (itstool) path: page/p
 #: C/edit-redeye.page:18
@@ -1726,11 +1840,17 @@ msgid ""
 "clever, love matrix algebra and open source software, please <link href="
 "\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</link>"
 msgstr ""
+"Detta verktyg fungerar bäst när det finns en hög färgkonstrast mellan det "
+"röda ögat och omgivande ansikte. Det fungerar inte bra för \"orange ögon\" "
+"som ibland kan ses i foton på barn, eller om omgivande hud har en rödaktig "
+"ton. Detta verktyg kan förbättras - om du är smart, älskar matrisalgebra och "
+"öppen källkod, <link href=\"https://wiki.gnome.org/Apps/gthumb/development"
+"\">skicka in en programfix!</link>"
 
 #. (itstool) path: page/title
 #: C/extensions.page:6
 msgid "Extending gThumb"
-msgstr ""
+msgstr "Utöka gThumb"
 
 #. (itstool) path: page/p
 #: C/extensions.page:8
@@ -1739,6 +1859,9 @@ msgid ""
 "features are implemented as extensions and are supplied with the standard "
 "distribution. Users may write (and share) additional extensions."
 msgstr ""
+"<app>gThumb</app> har ett instickssystem för tillägg. Vissa "
+"standardegenskaper är implementerade som tillägg och kommer med "
+"standarddistributionen. Användare kan skriva (och dela) ytterligare tillägg."
 
 #. (itstool) path: page/p
 #: C/extensions.page:12
@@ -1747,6 +1870,9 @@ msgid ""
 "gui><gui>Extensions</gui></guiseq>. Some extensions will have "
 "<gui>Preferences</gui> that can be modified from this dialog."
 msgstr ""
+"Du kan aktivera eller inaktivera tillägg genom <guiseq><gui>Redigera</"
+"gui><gui>Tillägg</gui></guiseq>. En del tillägg har <gui>Inställningar</gui> "
+"som kan ändras från denna dialog."
 
 #. (itstool) path: page/p
 #: C/extensions.page:16
@@ -1755,6 +1881,8 @@ msgid ""
 "enabled. If you seem to be missing a feature, check to see which extensions "
 "are actually enabled."
 msgstr ""
+"Handboken är skriven utifrån antagandet att standardtilläggen är aktiverade. "
+"Om du saknar en egenskap, kontrollera då vilka tillägg som är aktiverade."
 
 #. (itstool) path: page/p
 #: C/extensions.page:20
@@ -1764,11 +1892,15 @@ msgid ""
 "link> for development information. An example extension is provided in the "
 "source code, which you can base your own extension on."
 msgstr ""
+"Om du vill skriva dina egna tillägg, besök <link href=\"https://wiki.gnome."
+"org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</link> för "
+"utvecklingsinformation. Ett exempeltillägg ges i källkoden vilket du kan "
+"basera egna tillägg på."
 
 #. (itstool) path: page/title
 #: C/gimp.page:6
 msgid "Launching GIMP"
-msgstr ""
+msgstr "Starta GIMP"
 
 #. (itstool) path: page/p
 #: C/gimp.page:7
@@ -1777,6 +1909,9 @@ msgid ""
 "you can open them in the <app>GNU Image Manipulation Program (GIMP)</app> by "
 "pressing <key>g</key>."
 msgstr ""
+"Om du har markerade filer i bläddraren eller en bild öppnad i visaren kan du "
+"öppna dem i <app>GNU:s bildmanipuleringsprogram (GIMP)</app> genom att "
+"trycka <key>g</key>."
 
 #. (itstool) path: page/p
 #: C/gimp.page:10
@@ -1784,13 +1919,13 @@ msgid ""
 "<app>GIMP</app> provides a more sophisticated set of editing tools than that "
 "provided with <app>gThumb</app>."
 msgstr ""
+"<app>GIMP</app> erbjuder mer sofistikerade redigeringsverktyg är vad som "
+"kommer med <app>gThumb</app>."
 
 #. (itstool) path: page/title
 #: C/viewer.page:6
-#, fuzzy
-#| msgid "Viewing Images"
 msgid "Opening an Image"
-msgstr "Visa bilder"
+msgstr "Öppna en bild"
 
 #. (itstool) path: page/p
 #: C/viewer.page:8
@@ -1799,6 +1934,9 @@ msgid ""
 "<link xref=\"gthumb-browser-view\"/>). Double-clicking an image (or pressing "
 "<key>Return</key>) in the browser will open it in the viewer mode."
 msgstr ""
+"Bläddraren visar bilderna i aktuell mapp eller album (se <link xref=\"gthumb-"
+"browser-view\"/>). Dubbelklick på bild (eller att trycka <key>Retur</key>) i "
+"bläddraren öppnar den i visningsläge."
 
 #. (itstool) path: page/p
 #: C/viewer.page:13
@@ -1807,6 +1945,9 @@ msgid ""
 "the browser mode. A toolbar button (<gui>View the folders</gui>) is also "
 "provided for this purpose."
 msgstr ""
+"Att trycka <key>Escape</key> kommer att lämna visningsläget och återgå till "
+"bläddrarläget. En knapp i verktygsfältet (<gui>Visa mapparna</gui>) finns "
+"för detta syfte."
 
 #. (itstool) path: page/p
 #: C/viewer.page:17
@@ -1814,13 +1955,13 @@ msgid ""
 "A <link xref=\"gthumb-thumbnail-pane\"/> may be displayed in the viewer "
 "mode, if desired."
 msgstr ""
+"En <link xref=\"gthumb-thumbnail-pane\"/> kan visas i visningsläget om så "
+"önskas."
 
 #. (itstool) path: figure/title
 #: C/viewer.page:21
-#, fuzzy
-#| msgid "View/Hide the thumbnails."
 msgid "Viewer Mode with Thumbnail Pane"
-msgstr "Visa/dölj miniatyrbilderna."
+msgstr "Visarläge med miniatyrbildspanel"
 
 #. (itstool) path: page/p
 #: C/viewer.page:26
@@ -1832,13 +1973,17 @@ msgid ""
 "can go also click on thumbnails in the thumbnail pane to open a different "
 "image."
 msgstr ""
+"I visningsläget kan du gå till nästa bild genom att klicka på knappen "
+"<gui>Nästa</gui> eller genom att trycka på <key>Mellanslag</key> eller "
+"<key>Page Down</key>. Du kan gå bakåt till föregående bild genom att klicka "
+"på knappen <gui>Föregående</gui> eller genom att trycka <key>Backsteg</key> "
+"eller <key>Page Up</key>. Du kan också klicka på miniatyrbilderna i "
+"miniatyrbildspanelen för att öppna en annan bild."
 
 #. (itstool) path: page/title
 #: C/fullscreen.page:8
-#, fuzzy
-#| msgid "Available in Fullscreen Mode"
 msgid "Manual Fullscreen Mode"
-msgstr "Tillgänglig i helskärmsläget"
+msgstr "Manuellt helskärmsläge"
 
 #. (itstool) path: page/p
 #: C/fullscreen.page:10
@@ -1847,6 +1992,9 @@ msgid ""
 "current image in fullscreen mode. (In the browser mode, you can also double-"
 "click with the middle mouse button.)"
 msgstr ""
+"Att trycka på <key>f</key> i bläddrar- eller visningslägena kommer att visa "
+"aktuell bild i helskärmsläge. (I bläddrarläget kan du också dubbelklicka med "
+"mittenmusknappen.)"
 
 #. (itstool) path: page/p
 #: C/fullscreen.page:14
@@ -1854,6 +2002,9 @@ msgid ""
 "Moving the mouse will activate a popup control panel briefly. This can be "
 "used to navigate to the next or previous image, or change zoom levels."
 msgstr ""
+"Att flytta på musen kommer snabbt att aktivera en poppupp-kontroll. Den kan "
+"användas för att navigera till nästa eller föregående bild eller att ändra "
+"zoomnivåer."
 
 #. (itstool) path: page/p
 #: C/fullscreen.page:18
@@ -1861,6 +2012,8 @@ msgid ""
 "You can also advance to the next image by pressing <key>PageDown</key> or "
 "<key>Space</key>."
 msgstr ""
+"Du kan också gå vidare till nästa bild genom att trycka <key>PageDown</key> "
+"eller <key>Mellanslag</key>."
 
 #. (itstool) path: page/p
 #: C/fullscreen.page:21
@@ -1868,23 +2021,25 @@ msgid ""
 "You can go back to the previous image by pressing <key>PageUp</key> or "
 "<key>Backspace</key>."
 msgstr ""
+"Du kan gå tillbaka till föregående bild genom att trycka <key>PageUp</key> "
+"eller <key>Backsteg</key>."
 
 #. (itstool) path: page/p
 #: C/fullscreen.page:24
 msgid "This can be used to implement a manually-controlled slideshow."
 msgstr ""
+"Detta kan användas för att implementera ett manuellt kontrollerat bildspel."
 
 #. (itstool) path: page/p
 #: C/fullscreen.page:27
 msgid "To exit the fullscreen mode, press <key>f</key> or <key>Escape</key>."
 msgstr ""
+"För att avsluta helskärmsläge, tryck <key>f</key> eller <key>Escape</key>."
 
 #. (itstool) path: page/title
 #: C/sorting.page:7
-#, fuzzy
-#| msgid "Browsing Folders"
 msgid "Sorting Files"
-msgstr "Bläddra i mappar"
+msgstr "Sortera filer"
 
 #. (itstool) path: page/p
 #: C/sorting.page:9
@@ -1894,6 +2049,9 @@ msgid ""
 "the basis of their name, the file size, the file modification date, or the "
 "date the photo was taken."
 msgstr ""
+"Använd menyn <guiseq><gui>Visa</gui><gui>Sortera efter</gui></guiseq> för "
+"att välja önskad sorteringsmetod för bläddrarvyn. Filer kan sorteras baserat "
+"på deras namn, filstorleken, filändringsdatum eller det datum fotot togs."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -1906,6 +2064,8 @@ msgid ""
 "external ref='figures/general-filter.png' "
 "md5='818fcb0f12da6496f3c72699f12beb28'"
 msgstr ""
+"external ref='figures/general-filter.png' "
+"md5='818fcb0f12da6496f3c72699f12beb28'"
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -1918,11 +2078,13 @@ msgid ""
 "external ref='figures/specific-filter.png' "
 "md5='e7036e5b958301c6acb3ab5e4a618bbe'"
 msgstr ""
+"external ref='figures/specific-filter.png' "
+"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
 
 #. (itstool) path: page/title
 #: C/filtering.page:7
 msgid "Filtering Files"
-msgstr ""
+msgstr "Filtrera filer"
 
 #. (itstool) path: page/p
 #: C/filtering.page:9
@@ -1932,11 +2094,15 @@ msgid ""
 "show all media files (images, movies, audio), but this can be made more or "
 "less restrictive."
 msgstr ""
+"Du kan välja vilka typer av filer att visa i bläddrarvyn genom att använda "
+"dialogen <guiseq><gui>Visa</gui><gui>Filter</gui></guiseq>. Standard är att "
+"visa alla mediafiler (bilder, filmer, ljud) men detta kan göras mer eller "
+"mindre restriktivt."
 
 #. (itstool) path: figure/title
 #: C/filtering.page:15
 msgid "Enabling Filters"
-msgstr ""
+msgstr "Aktivera filter"
 
 #. (itstool) path: page/p
 #: C/filtering.page:20
@@ -1944,6 +2110,8 @@ msgid ""
 "The figure above shows how to configure <app>gThumb</app> to display media "
 "files only, by setting the <gui>General Filter</gui>."
 msgstr ""
+"Figuren ovan visar hur man konfigurerar <app>gThumb</app> för att visa "
+"endast mediafiler genom att ange <gui>Allmänt filter</gui>."
 
 #. (itstool) path: page/p
 #: C/filtering.page:23
@@ -1952,13 +2120,13 @@ msgid ""
 "by-filename ability is added to the filter bar at the bottom of the browser "
 "view:"
 msgstr ""
+"Genom att aktivera <gui>Filnamn</gui> i <gui>Andra filter</gui> läggs ett "
+"filtrera-efter-filnamn till i filterfältet i nederkanten av bläddrarvyn:"
 
 #. (itstool) path: figure/title
 #: C/filtering.page:28
-#, fuzzy
-#| msgid "Browser Tab"
 msgid "Browser Filter Bar"
-msgstr "Fliken Bläddrare"
+msgstr "Bläddrarens filterfält"
 
 #. (itstool) path: page/p
 #: C/filtering.page:33
@@ -1966,13 +2134,13 @@ msgid ""
 "In the above figure, the filename filter has been configured to show only "
 "files with \"gen\" in the filename. The matching is case-insensitive."
 msgstr ""
+"I figuren ovan har filnamnsfiltret konfigurerats till att endast visa filer "
+"med ”gen” i filnamnet. Matchningen är ej skiftlägeskänslig."
 
 #. (itstool) path: page/title
 #: C/printing.page:7
-#, fuzzy
-#| msgid "Finding Images"
 msgid "Printing Images"
-msgstr "Sök efter bilder"
+msgstr "Skriva ut bilder"
 
 #. (itstool) path: page/p
 #: C/printing.page:9
@@ -1981,6 +2149,9 @@ msgid ""
 "gui><gui>Print</gui></guiseq> or <keyseq><key>Ctrl</key><key>p</key></"
 "keyseq>."
 msgstr ""
+"För att skriva ut aktuell bild i visarläget, använd <guiseq><gui>Arkiv</"
+"gui><gui>Skriv ut</gui></guiseq> eller <keyseq><key>Ctrl</key><key>p</key></"
+"keyseq>."
 
 #. (itstool) path: page/p
 #: C/printing.page:13
@@ -1989,6 +2160,9 @@ msgid ""
 "and then use <guiseq><gui>File</gui><gui>Print</gui></guiseq> or "
 "<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 msgstr ""
+"För att skriva ut en eller flera bilder från bläddrarläget, välj de önskade "
+"bilderna och använd sedan <guiseq><gui>Arkiv</gui><gui>Skriv ut</gui></"
+"guiseq> eller <keyseq><key>Ctrl</key><key>p</key></keyseq>."
 
 #. (itstool) path: page/p
 #: C/printing.page:18
@@ -1996,12 +2170,14 @@ msgid ""
 "The printer to use can be selected from the <gui>General</gui> tab of the "
 "print dialog."
 msgstr ""
+"Önskad skrivare kan väljas från fliken <gui>Allmänt</gui> i "
+"utskriftsdialogen."
 
 #. (itstool) path: page/p
 #: C/printing.page:21
 msgid ""
 "The type of paper to use can be selected from the <gui>Page Setup</gui> tab."
-msgstr ""
+msgstr "Papperstyp kan väljas från fliken <gui>Sidinställning</gui>."
 
 #. (itstool) path: page/p
 #: C/printing.page:24
@@ -2014,34 +2190,40 @@ msgid ""
 "shutter speed, and others). Each image can be repositioned inside its print "
 "area using the controls on this tab."
 msgstr ""
+"Fliken <gui>Layout</gui> erbjuder ytterligare specifika <app>gThumb</app>-"
+"alternativ. Du kan ställa in antalet bilder att inkludera på varje sida här, "
+"och en förhandsgranskningspanel finns. Texter kan också läggas till under "
+"bilden i ett anpassningsbart typsnitt. Texterna kan väljas från ett urval av "
+"listade filattribut (som filnamn, datum för foto, kamerans slutarhastighet "
+"och annat). Varje bild kan flyttas om inuti dess utskriftsområde genom att "
+"använda kontrollerna i denna flik."
 
 #. (itstool) path: page/p
 #: C/printing.page:34
 msgid "When you are ready to print, press the <gui>Print</gui> button."
 msgstr ""
+"När du är klar för att skriva ut, tryck på knappen <gui>Skriv ut</gui>."
 
 #. (itstool) path: page/title
 #: C/shortcuts.page:7
-#, fuzzy
-#| msgid "Keyboard Shortcut"
 msgid "Keyboard Shortcuts"
-msgstr "Genväg"
+msgstr "Tangentbordsgenvägar"
 
 #. (itstool) path: section/title
 #: C/shortcuts.page:10
 msgid "Viewing and hiding parts of the user interface"
-msgstr ""
+msgstr "Visa och dölja delar av användargränssnittet"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:14 C/shortcuts.page:91 C/shortcuts.page:270
-#: C/shortcuts.page:495
+#: C/shortcuts.page:539
 msgid "Keyboard Shortcut"
 msgstr "Genväg"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:22
 msgid "<key>F9</key>"
-msgstr ""
+msgstr "<key>F9</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:27
@@ -2049,267 +2231,233 @@ msgid ""
 "Show/Hide the sidebar in the browser mode. The sidebar contains the folder "
 "tree and the file properties summary (if enabled)."
 msgstr ""
+"Visa/dölj sidopanelen i bläddrarläget. Sidopanelen innehåller mappträdet och "
+"en sammanfattning av filegenskaperna (om aktiverat)."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:33
 msgid "<key>i</key>"
-msgstr ""
+msgstr "<key>i</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:38
 msgid "Show the file properties summary."
-msgstr ""
+msgstr "Visa sammanfattningen av filegenskaperna."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:43
 msgid "<key>F8</key>"
-msgstr ""
+msgstr "<key>F8</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:48
 msgid "Shows/hides the thumbnail pane in the viewer mode."
-msgstr ""
+msgstr "Visar/döljer miniatyrbildspanelen i visarläget."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:53
 msgid "<key>F11</key> or <key>f</key>"
-msgstr ""
+msgstr "<key>F11</key> eller <key>f</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:58
-#, fuzzy
-#| msgid "Exit the fullscreen mode."
 msgid "Toggles the fullscreen mode."
-msgstr "Lämna helskärmsläget."
+msgstr "Aktivera helskärmsläget."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:63
 msgid "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:68
 msgid "Shows/hides the thumbnails in the browser mode."
-msgstr ""
+msgstr "Visar/döljer miniatyrbilder i bläddrarläget."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:73
 msgid "<key>Esc</key>"
-msgstr ""
+msgstr "<key>Esc</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:78
-#, fuzzy
-#| msgid "Exit the fullscreen mode."
 msgid "Closes the viewer or fullscreen mode."
-msgstr "Lämna helskärmsläget."
+msgstr "Stänger visaren eller helskärmsläget."
 
 #. (itstool) path: section/title
 #: C/shortcuts.page:87
 msgid "Editing shortcuts for the browser and viewer"
-msgstr ""
+msgstr "Redigerar genvägar för bläddraren och visaren"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:99
 msgid "<key>e</key>"
-msgstr ""
+msgstr "<key>e</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:104
 msgid "Edit the image. Opens the viewer and shows the editing tools."
-msgstr ""
+msgstr "Redigerar bilden. Öppnar visaren och visar redigeringsverktygen."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:109
 msgid "<key>g</key>"
-msgstr ""
+msgstr "<key>g</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:114
 msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
-msgstr ""
+msgstr "Öppnar bilden med GNU:s bildmanipuleringsprogram (GIMP)."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:119
 msgid "<key>F2</key>"
-msgstr ""
+msgstr "<key>F2</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:124
-#, fuzzy
-#| msgid "Resize the image."
 msgid "Rename the image."
-msgstr "Ändra storlek på bilden."
+msgstr "Byt namn på bilden."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:129
-#, fuzzy
-#| msgid ""
-#| "<keycombo><keycap>+</keycap></keycombo> or <keycombo><keycap>=</keycap></"
-#| "keycombo>"
 msgid "<key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>"
-msgstr ""
-"<keycombo><keycap>+</keycap></keycombo> eller <keycombo><keycap>=</keycap></"
-"keycombo>"
+msgstr "<key>c</key> eller <keyseq><key>Ctrl</key><key>m</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:134
-#, fuzzy
-#| msgid "Add a comment to the selected images."
 msgid "Add comments or metadata to an image."
-msgstr "Lägg till en kommentar till de markerade bilderna."
+msgstr "Lägg till kommentarer eller metadata till en bild."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:139
 msgid "<key>]</key>"
-msgstr ""
+msgstr "<key>]</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:144
 msgid "Rotate right, losslessly if possible. The file is saved automatically."
-msgstr ""
+msgstr "Rotera vänster, om möjligt förlustfritt. Filen sparas automatiskt."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:149
 msgid "<key>[</key>"
-msgstr ""
+msgstr "<key>[</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:154
 msgid "Rotate left, losslessly if possible. The file is saved automatically."
-msgstr ""
+msgstr "Rotera vänster, om möjligt förlustfritt. Filen sparas automatiskt."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:159
 msgid "<key>Delete</key>"
-msgstr ""
+msgstr "<key>Delete</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:164
-#, fuzzy
-#| msgid "the number of the selected images and their size."
 msgid "Move the selected files to the Trash."
-msgstr "antalet markerade bilder och deras storlek."
+msgstr "Flytta de markerade filerna till papperskorgen."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:169
 msgid "<keyseq><key>Shift</key><key>Delete</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Skift</key><key>Delete</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:174
-#, fuzzy
-#| msgid "Delete the selected images."
 msgid "Delete the selected files permanently."
-msgstr "Ta bort de markerade bilderna."
+msgstr "Ta bort de markerade bilderna permanent."
 
 #. (itstool) path: section/title
 #: C/shortcuts.page:182
 msgid "Editing shortcuts for the viewer mode only"
-msgstr ""
+msgstr "Redigerar genvägar endast för visarläget"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:186
-#, fuzzy
-#| msgid "Keyboard Shortcut"
 msgid "Keyboard Shortcut (Case Sensitive)"
-msgstr "Genväg"
+msgstr "Tangentbordsgenvägar (skiftlägeskänslig)"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:194
-msgid "<key>h</key>"
-msgstr ""
+msgid "<key>a</key>"
+msgstr "<key>a</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:199
-#, fuzzy
-#| msgid "Enhance"
-msgid "Enhance colors."
-msgstr "Förbättra"
+msgid "Adjust contrast."
+msgstr "Justera kontrast."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:204
 msgid "<key>l</key>"
-msgstr ""
+msgstr "<key>l</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:209
-#, fuzzy
-#| msgid "Flip the image."
 msgid "Flip image."
-msgstr "Vänd bilden."
+msgstr "Vänd bild."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:214
 msgid "<key>m</key>"
-msgstr ""
+msgstr "<key>m</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:219
-#, fuzzy
-#| msgid "Mirror the image."
 msgid "Mirror image."
-msgstr "Spegelvänd bilden."
+msgstr "Spegelvänd bild."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:224
 msgid "<key>r</key>"
-msgstr ""
+msgstr "<key>r</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:229
-#, fuzzy
-#| msgid "Rotate Right"
 msgid "Rotate right."
-msgstr "Rotera åt höger"
+msgstr "Rotera åt höger."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:234
 msgid "<key>R</key>"
-msgstr ""
+msgstr "<key>R</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:239
-#, fuzzy
-#| msgid "Rotate Left"
 msgid "Rotate left."
-msgstr "Rotera åt vänster"
+msgstr "Rotera åt vänster."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:244
 msgid "<key>C</key>"
-msgstr ""
+msgstr "<key>C</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:249
-#, fuzzy
-#| msgid "Crop the image."
 msgid "Crop image."
-msgstr "Beskär bilden."
+msgstr "Beskär bild."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:254
 msgid "<key>S</key>"
-msgstr ""
+msgstr "<key>S</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:259
-#, fuzzy
-#| msgid "Resize the image."
 msgid "Resize image."
-msgstr "Ändra storlek på bilden."
+msgstr "Ändra storlek på bild."
 
 #. (itstool) path: section/title
 #: C/shortcuts.page:266
-#, fuzzy
-#| msgid "Other keyboard shortcuts."
 msgid "Viewer shortcuts"
-msgstr "Övriga tangentbordsgenvägar."
+msgstr "Visargenvägar"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:278
 msgid "<key>Space</key> or <key>Page Down</key>"
-msgstr ""
+msgstr "<key>Mellanslag</key> eller <key>Page Down</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:283
@@ -2319,7 +2467,7 @@ msgstr "Visa nästa bild."
 #. (itstool) path: td/p
 #: C/shortcuts.page:288
 msgid "<key>Backspace</key> or <key>Page Up</key>"
-msgstr ""
+msgstr "<key>Backsteg</key> eller <key>Page Up</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:293
@@ -2327,9 +2475,9 @@ msgid "View the previous image."
 msgstr "Visa föregående bild."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:298 C/shortcuts.page:415
+#: C/shortcuts.page:298 C/shortcuts.page:459
 msgid "<key>Home</key>"
-msgstr ""
+msgstr "<key>Home</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:303
@@ -2337,9 +2485,9 @@ msgid "View the first image."
 msgstr "Visa första bilden."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:308 C/shortcuts.page:425
+#: C/shortcuts.page:308 C/shortcuts.page:469
 msgid "<key>End</key>"
-msgstr ""
+msgstr "<key>End</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:313
@@ -2349,7 +2497,7 @@ msgstr "Visa sista bilden."
 #. (itstool) path: td/p
 #: C/shortcuts.page:318
 msgid "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
-msgstr ""
+msgstr "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:326
@@ -2359,7 +2507,7 @@ msgstr "Lägg till aktuell plats till bokmärken."
 #. (itstool) path: td/p
 #: C/shortcuts.page:331
 msgid "<key>+</key> or <key>=</key>"
-msgstr ""
+msgstr "<key>+</key> eller <key>=</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:336
@@ -2369,7 +2517,7 @@ msgstr "Zooma in."
 #. (itstool) path: td/p
 #: C/shortcuts.page:341
 msgid "<key>-</key>"
-msgstr ""
+msgstr "<key>-</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:346
@@ -2380,6 +2528,7 @@ msgstr "Zooma ut."
 #: C/shortcuts.page:351
 msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
 msgstr ""
+"<key>1</key> eller <key>z</key> eller <key>/ (numeriskt tangentbord)</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:357
@@ -2389,187 +2538,217 @@ msgstr "Naturlig storlek."
 #. (itstool) path: td/p
 #: C/shortcuts.page:362
 msgid "<key>x</key> or <key>* (numeric keypad)</key>"
-msgstr ""
+msgstr "<key>x</key> eller <key>* (numeriskt tangentbord)</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:367
 msgid "Zoom to fit (scales down only, does not magnify)"
-msgstr ""
+msgstr "Zooma för att passa (skalar endast ned, förstorar ej)"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:372
 msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
-msgstr ""
+msgstr "<keyseq> <key>Skift</key> <key>x</key> </keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:380
 msgid "Zoom to fit (scale down or magnify, as required)"
-msgstr ""
+msgstr "Zooma för att passa (skalar ned eller förstorar efter vad som krävs)"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:385
-msgid "<key>Arrows</key>"
-msgstr ""
+msgid "<key>w</key>"
+msgstr "<key>w</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:390
+#: C/shortcuts.page:389
+msgid "Zoom to fit width (scales down only, does not magnify)"
+msgstr "Zooma för att passa bredd (skalar endast ned, förstorar ej)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:394
+msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
+msgstr "<keyseq> <key>Skift</key> <key>w</key> </keyseq>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:402
+msgid "Zoom to fit width (scale down or magnify, as required)"
+msgstr ""
+"Zooma för att passa bredd (skalar ned eller förstorar efter vad som krävs)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:407
+msgid "<key>h</key>"
+msgstr "<key>h</key>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:411
+msgid "Zoom to fit height (scales down only, does not magnify)"
+msgstr "Zooma för att passa höjd (skalar endast ned, förstorar ej)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:416
+msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
+msgstr "<keyseq> <key>Skift</key> <key>h</key> </keyseq>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:424
+msgid "Zoom to fit height (scale down or magnify, as required)"
+msgstr ""
+"Zooma för att passa höjd (skalar ned eller förstorar efter vad som krävs)"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:429
+msgid "<key>Arrows</key>"
+msgstr "<key>Pilar</key>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:434
 msgid "Scroll the image."
 msgstr "Rulla bilden."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:395
+#: C/shortcuts.page:439
 msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
-msgstr ""
+msgstr "<keyseq> <key>Skift</key> <key>Pilar</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:403
+#: C/shortcuts.page:447
 msgid "Scroll the image faster."
 msgstr "Rulla bilden snabbare."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:410
-#, fuzzy
-#| msgid "Browser Tab"
+#: C/shortcuts.page:454
 msgid "Browser Navigation"
-msgstr "Fliken Bläddrare"
+msgstr "Bläddrarnavigation"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:420
+#: C/shortcuts.page:464
 msgid "Go to the first file in the browser view."
-msgstr ""
+msgstr "Gå till den första filen i bläddrarfönstret."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:431
+#: C/shortcuts.page:475
 msgid "Go to the last file in the browser view."
-msgstr ""
+msgstr "Gå till den sista filen i bläddrarfönstret."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:436
+#: C/shortcuts.page:480
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
-msgstr ""
+msgstr "<key>Down Arrow</key> eller <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:441
+#: C/shortcuts.page:485
 msgid "Scroll downwards through the thumbnails."
-msgstr ""
+msgstr "Rulla nedåt genom miniatyrbilderna."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:446
+#: C/shortcuts.page:490
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
-msgstr ""
+msgstr "<key>Uppåtpil</key> eller <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:451
+#: C/shortcuts.page:495
 msgid "Scroll upwards through the thumbnails."
-msgstr ""
+msgstr "Rulla uppåt genom miniatyrbilderna."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:456
+#: C/shortcuts.page:500
 msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Alt</key><key>Vänsterpil</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:461
-#, fuzzy
-#| msgid "Go to the previously visited folder."
+#: C/shortcuts.page:505
 msgid "Go back to the previously viewed folder."
-msgstr "Gå till den tidigare besökta mappen."
+msgstr "Gå till den tidigare visade mappen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:466
+#: C/shortcuts.page:510
 msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
-msgstr ""
+msgstr "<keyseq><key>Alt</key><key>Högerpil</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:471
+#: C/shortcuts.page:515
 msgid "Go forward (after going back to a folder)."
-msgstr ""
+msgstr "Stega framåt (efter att ha gått tillbaka till en mapp)."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:476
+#: C/shortcuts.page:520
 msgid "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
-msgstr ""
+msgstr "<keyseq> <key>Alt</key> <key>Upp</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:484
+#: C/shortcuts.page:528
 msgid "Go up one level."
 msgstr "Gå upp en nivå."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:491
-#, fuzzy
-#| msgid "Show comments"
+#: C/shortcuts.page:535
 msgid "Slideshow controls"
-msgstr "Visa kommentarer"
+msgstr "Bildspelskontroller"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:503
+#: C/shortcuts.page:547
 msgid "<key>F5</key>"
-msgstr ""
+msgstr "<key>F5</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:508
-#, fuzzy
-#| msgid "Start/Stop the slideshow."
+#: C/shortcuts.page:552
 msgid "Start a slideshow."
-msgstr "Starta/stoppa bildspelet."
+msgstr "Starta ett bildspel."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:513
+#: C/shortcuts.page:557
 msgid "<key>p</key>"
-msgstr ""
+msgstr "<key>p</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:518
-#, fuzzy
-#| msgid "Pause/Resume a slideshow."
+#: C/shortcuts.page:562
 msgid "Pause/Unpause the slideshow."
-msgstr "Pausa/spela upp ett bildspel."
+msgstr "Pausa/spela upp bildspelet."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:523
+#: C/shortcuts.page:567
 msgid "<key>Esc</key> or <key>q</key>"
-msgstr ""
+msgstr "<key>Esc</key> eller <key>q</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:528
-#, fuzzy
-#| msgid "Start/Stop the slideshow."
+#: C/shortcuts.page:572
 msgid "Close the slideshow."
-msgstr "Starta/stoppa bildspelet."
+msgstr "Stäng bildspelet."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:533
+#: C/shortcuts.page:577
 msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
 msgstr ""
+"<key>Mellanslag</key> Eller <key>Nedåtpil</key> eller <key>Högerpil</key> "
+"eller <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:538
-#, fuzzy
-#| msgid "View the next image."
+#: C/shortcuts.page:582
 msgid "Load the next image."
-msgstr "Visa nästa bild."
+msgstr "Läs in nästa bild."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:543
+#: C/shortcuts.page:587
 msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
 msgstr ""
+"<key>Backsteg</key> eller <key>Uppåtpil</key> eller <key>Vänsterpil</key> "
+"eller <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:548
-#, fuzzy
-#| msgid "View the previous image."
+#: C/shortcuts.page:592
 msgid "Load the previous image."
-msgstr "Visa föregående bild."
+msgstr "Läs in föregående bild."
 
 #. (itstool) path: page/title
 #: C/sharing-disc.page:6
 msgid "Creating a CD/DVD/ISO"
-msgstr ""
+msgstr "Skapa en cd/dvd/iso"
 
 #. (itstool) path: page/p
 #: C/sharing-disc.page:7
@@ -2578,6 +2757,9 @@ msgid ""
 "ISO disk image file, use the <guiseq><gui>File</gui> <gui>Export To</"
 "gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr ""
+"För att skriva ett antal filer till en optisk enhet (cd eller dvd) eller för "
+"att skapa en iso-avbild, använd menyobjektet <guiseq><gui>Arkiv</gui> "
+"<gui>Exportera till</gui><gui>Optisk enhet</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/sharing-disc.page:13
@@ -2586,6 +2768,9 @@ msgid ""
 "entire current folder, or the entire current folder and its subfolders. "
 "Click <gui>OK</gui> when you have made the appropriate selection."
 msgstr ""
+"Du kommer att få välja att skriva de valda filerna, hela aktuella mappen "
+"eller hela aktuella mappen och dess undermappar. Klicka <gui>OK</gui> när du "
+"har valt."
 
 #. (itstool) path: page/p
 #: C/sharing-disc.page:19
@@ -2595,11 +2780,15 @@ msgid ""
 "The optical disk writing process will then commence, or the ISO file will be "
 "written, completing the process."
 msgstr ""
+"Nästa dialog kommer att välja destinationsdisken eller ISO-filen att spara. "
+"När du är redo att slutföra processen, klicka <gui>Skapa bild</gui>. "
+"Skrivprocessen för den optiska disken kommer då att påbörjas, eller att ISO-"
+"filen kommer att skriva vilket färdigställer processen."
 
 #. (itstool) path: page/title
 #: C/sharing-social.page:6
 msgid "Uploading to Photo-Sharing Web Sites"
-msgstr ""
+msgstr "Skicka upp till webbplatser för fotodelning"
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:7
@@ -2608,6 +2797,9 @@ msgid ""
 "various \"social media\" web sites. By default, uploaders for Facebook, "
 "Flickr, Picasa, and Photobucket are enabled."
 msgstr ""
+"gThumb kommer med ett antal tillägg för att skicka upp foton till diverse "
+"olika webbplatser för “sociala media“. Som standard går det att skicka upp "
+"till Facebook, Flickr, Picasa och Photobucket."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:13
@@ -2616,6 +2808,9 @@ msgid ""
 "click the <gui>Share</gui> button in the toolbar. Select the appropriate web "
 "site from the menu that appears."
 msgstr ""
+"För att skicka upp en serie av foton, välj bilderna i bläddrarvyn och klicka "
+"på knappen <gui>Dela</gui> i verktygsfältet. Välj passande webbplats från "
+"meny som visas."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:17
@@ -2627,6 +2822,12 @@ msgid ""
 "completed the required authentication steps in the browser, return to gThumb "
 "and continue the upload."
 msgstr ""
+"Du kan frågas efter ytterligare information specifik för målwebbplatsen, som "
+"ett albumnamn. Du kan också tillfrågas om ditt användarnamn och lösenord för "
+"webbplatsen. Det kan bli nödvändigt för gThumb för att öppna en webbläsare "
+"där du har färdigställt begärda autentiseringsteg. När du väl har "
+"färdigställt de begärda autentiseringstegen i bläddraren, återvänd till "
+"gThumb och fortsätt att skicka upp."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:26
@@ -2635,6 +2836,9 @@ msgid ""
 "check that the appropriate exporter extensions are enabled in "
 "<guiseq><gui>Edit</gui><gui>Extensions</gui></guiseq>."
 msgstr ""
+"Om du inte ser den förväntade webbplatsen för uppskickning i menyn "
+"<gui>Dela</gui> kontrollera att förväntade exporttillägg är aktiverade i "
+"<guiseq><gui>Redigera</gui><gui>Tillägg</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:31
@@ -2643,13 +2847,14 @@ msgid ""
 "gThumb. See the <guiseq><gui>File</gui><gui>Import From</gui></guiseq> menu "
 "for the available download options."
 msgstr ""
+"För vissa webbplatser stödjer gThumb hämtning av foton till gThumb. Se "
+"<guiseq><gui>Arkiv</gui><gui>Importera från</gui></guiseq> för tillgängliga "
+"hämtningsalternativ."
 
 #. (itstool) path: page/title
 #: C/wallpaper.page:6
-#, fuzzy
-#| msgid "To Set the Desktop Wallpaper"
 msgid "Desktop Wallpaper"
-msgstr "Ställ in skrivbordsbakgrunden"
+msgstr "Skrivbordsbakgrund"
 
 #. (itstool) path: page/p
 #: C/wallpaper.page:7
@@ -2660,24 +2865,20 @@ msgid ""
 "Preferences dialog will appear. You can use this dialog to make adjustments "
 "to the background settings (positioning, stretching, tiling, et cetera.)."
 msgstr ""
+"För att ange en bild som systemets skrivbordsbakgrund, högerklicka på bilden "
+"och välj <guiseq><gui>Ange som skrivbordsbakgrund</gui></guiseq> från "
+"poppupp-menyn. Skrivbordsbakgrunden kommer att ändras och Gnomes "
+"utseendeinställningsdialog kommer att visas. Du kan använda denna dialog för "
+"att göra justeringar till bakgrundsinställningar (positionering, sträckning, "
+"sida-vid-sida med mera)."
 
 #. (itstool) path: page/title
 #: C/bookmarks.page:6
 msgid "Using Bookmarks"
-msgstr ""
+msgstr "Använda bokmärken"
 
 #. (itstool) path: page/p
 #: C/bookmarks.page:8
-#, fuzzy
-#| msgid ""
-#| "Frequently used folders can be added to the bookmark list for rapid "
-#| "access. Just go to the folder you want to add to the bookmarks and press "
-#| "<keycombo action=\"simul\"><keycap>Ctrl</keycap><keycap>D</keycap></"
-#| "keycombo> or use the command <menuchoice><guimenu>Bookmarks</"
-#| "guimenu><guimenuitem>Add Bookmark</guimenuitem></menuchoice>. To remove "
-#| "or rearrange bookmarks in a different order use the "
-#| "<menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit Bookmarks</"
-#| "guimenuitem></menuchoice> command."
 msgid ""
 "Frequently-used folders can be added to the bookmark list for rapid access. "
 "To add the current folder to the bookmark list, press <keyseq><key>Ctrl</"
@@ -2686,12 +2887,8 @@ msgid ""
 msgstr ""
 "Ofta använda mappar kan läggas till i bokmärkeslistan för snabb åtkomst. Gå "
 "helt enkelt till mappen som du vill lägga till i dina bokmärken och tryck på "
-"<keycombo action=\"simul\"><keycap>Ctrl</keycap><keycap>D</keycap></"
-"keycombo> eller använd kommandot <menuchoice><guimenu>Bokmärken</"
-"guimenu><guimenuitem>Lägg till bokmärke</guimenuitem></menuchoice>. För att "
-"ta bort eller arrangera om dina bokmärken i en annan ordning kan du använda "
-"kommandot <menuchoice><guimenu>Bokmärken</guimenu><guimenuitem>Redigera "
-"bokmärken</guimenuitem></menuchoice>."
+"<keyseq><key>Ctrl</key><key>D</key></keyseq> eller använd kommandot "
+"<guiseq><gui>Bokmärken</gui><gui>Lägg till bokmärke</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/bookmarks.page:13
@@ -2699,6 +2896,8 @@ msgid ""
 "To remove or rearrange bookmarks in a different order use the "
 "<guiseq><gui>Bookmarks</gui><gui>Edit Bookmarks</gui></guiseq> command."
 msgstr ""
+"För att flytta eller omarrangera bokmärken i en annan ordning använd "
+"kommandot <guiseq><gui>Bokmärken</gui><gui>Redigera bokmärken</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/bookmarks.page:16
@@ -2707,6 +2906,9 @@ msgid ""
 "access to the system bookmarks that have been defined in <app>Nautilus</app> "
 "or the file-chooser dialog used in most Gnome applications."
 msgstr ""
+"<guiseq><gui>Bokmärken</gui><gui>Systembokmärken</gui></guiseq> ger tillgång "
+"till systembokmärkena som har definierats i <app>Nautilus</app> eller "
+"filväljardialogen i de flesta Gnome-program."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -2718,6 +2920,7 @@ msgctxt "_"
 msgid ""
 "external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
 msgstr ""
+"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -2730,6 +2933,8 @@ msgid ""
 "external ref='figures/import-pref-auto-folder.png' "
 "md5='0a41de83da83b762e37f3962a7e4c042'"
 msgstr ""
+"external ref='figures/import-pref-auto-folder.png' "
+"md5='0a41de83da83b762e37f3962a7e4c042'"
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -2742,13 +2947,13 @@ msgid ""
 "external ref='figures/import-pref-custom-format.png' "
 "md5='989ca536c873ec926a4a71c876004b9f'"
 msgstr ""
+"external ref='figures/import-pref-custom-format.png' "
+"md5='989ca536c873ec926a4a71c876004b9f'"
 
 #. (itstool) path: page/title
 #: C/import.page:8
-#, fuzzy
-#| msgid "To Import Photos from a Digital Camera"
 msgid "Importing From a Camera"
-msgstr "Importera foton från en digitalkamera"
+msgstr "Importera från en kamera"
 
 #. (itstool) path: page/p
 #: C/import.page:10
@@ -2759,6 +2964,11 @@ msgid ""
 "registered as the default handler for x-content/image-dcf and x-content/"
 "image-picturecd mime types.)"
 msgstr ""
+"På de flesta system kommer <app>gThumb</app> automatiskt att starta "
+"importdialogen när en digitalkamera ansluts till en dator eller när ett "
+"minneskort med foton stoppas in i en kortläsare. (Detta sker eftersom den är "
+"registrerad som standardhanterare för mime-typerna x-content/image-dcf och x-"
+"content/image-picturecd.)"
 
 #. (itstool) path: page/p
 #: C/import.page:16
@@ -2766,11 +2976,13 @@ msgid ""
 "To manually launch the import dialog, use <guiseq><gui>File</gui><gui>Import "
 "From</gui><gui>Removable Device</gui></guiseq>."
 msgstr ""
+"För att manuellt starta importdialogen, använd <guiseq><gui>Arkiv</"
+"gui><gui>Importera från</gui><gui>Flyttbar enhet</gui></guiseq>."
 
 #. (itstool) path: figure/title
 #: C/import.page:20
 msgid "The Import Dialog"
-msgstr ""
+msgstr "Importdialogen"
 
 #. (itstool) path: page/p
 #: C/import.page:24
@@ -2781,6 +2993,11 @@ msgid ""
 "or click and drag the mouse over the desired photos.) If no photos are "
 "explicitly selected, all will be imported."
 msgstr ""
+"Importdialogen visar miniatyrbilder över fotona på den valda enheten. "
+"Användaren kan välja en eller flera foton med ett vanligt tangentbord eller "
+"med musen (exempelvis, Ctrl + klicka för att lägga till ett foto till "
+"urvalet, eller klicka och dra musen över önskade foton.) Om inga foton väljs "
+"explicit kommer alla att importeras."
 
 #. (itstool) path: page/p
 #: C/import.page:30
@@ -2789,6 +3006,9 @@ msgid ""
 "<gui>Tags</gui> control below the thumbnail window. Click the drop-down "
 "control to see the predefined tags."
 msgstr ""
+"Taggar kan valfritt associeras med importerade foton genom att använda "
+"kontrollen <gui>Taggar</gui> under miniatyrfönstret. Klicka på "
+"rullgardinskontrollen för att se de fördefinierade taggarna."
 
 #. (itstool) path: page/p
 #: C/import.page:34
@@ -2800,11 +3020,17 @@ msgid ""
 "<gui>Event</gui> field, you can configure generation of automatic subfolders "
 "like \"/photos/2010-07-31, Wedding-Jennifer\"."
 msgstr ""
+"Ett händelsenamn kan valfritt associeras med fotona. Händelsenamnet kan "
+"användas för att generera ett automatisk undermappsnamn (möjligen "
+"inbegripande ett datum) som beskrivs nedan. Till exempel, om basmålmappen är "
+"”/bilder” och du anger ”Fest-FSF” i <gui>Händelse</gui>-fältet kan du "
+"konfigurera generering av automatiska undermappar som ”/bilder/2015-10-01, "
+"Fest-FSF”."
 
 #. (itstool) path: figure/title
 #: C/import.page:42
 msgid "Standard Date-Based Subfolders"
-msgstr ""
+msgstr "Standarddatumbaserade undermappar"
 
 #. (itstool) path: page/p
 #: C/import.page:46
@@ -2816,6 +3042,12 @@ msgid ""
 "<gui>Destination</gui> folder). To generate automatic subfolders, select "
 "<gui>Automatic subfolder</gui>."
 msgstr ""
+"Som nämnts ovan kan undermappar för importerade foton automatiskt genereras "
+"baserat på händelsenamn och datum. Detta aktiveras eller inaktiveras genom "
+"att klicka på målmappnamnet i importdialogen. Detta öppnar en till dialog, "
+"där basmappen för importer kan väljas (mappen <gui>Destination</gui>). För "
+"att generera automatiska undermappar, välj <gui>Automatiska undermappar</"
+"gui>."
 
 #. (itstool) path: page/p
 #: C/import.page:52
@@ -2830,6 +3062,15 @@ msgid ""
 "subfolders under them, or all subfolders can be at the same level in the "
 "filesystem, with the year and name both the folder name."
 msgstr ""
+"Du kan välja antingen <gui>Fildatum</gui> eller <gui>Aktuellt datum</gui> "
+"för att använda som grund för undermappsnamn. (<gui>Fildatum</gui> "
+"undersöker datumet inbäddade i filmetadata för att bestämma när fotot togs.) "
+"En variation av standarddatumformaten är tillgängliga (exempelvis <gui>år-"
+"månad</gui>). Kryssrutan <gui>som en enkel undermapp</gui> kontrollerar "
+"huruvida en ”djup” eller ”ytlig” hierarki av filer skapas (exempelvis med "
+"<gui>år-månad</gui>, du kan ha år-undermappar med månadsundermappar under "
+"dem, eller alla undermappar kan vara på samma nivå i filsystemet, med året "
+"och namnet som mappnamn."
 
 #. (itstool) path: page/p
 #: C/import.page:61
@@ -2840,11 +3081,17 @@ msgid ""
 "\" is a special code that will embed the <gui>Event</gui> name defined in "
 "the main import dialog."
 msgstr ""
+"Det är inte nödvändigt att använda fördefinierade datumformat. Om du "
+"använder <gui>anpassade format</gui> kan standarddatumkoder användas. Klicka "
+"på hjälpikonen till höger om anpassade formatfält för en lista över "
+"formatkoder. ”%E” är en specialkod som kommer att inbädda <gui>Händelse</"
+"gui>-namnet definierat i huvudimportdialogen."
 
 #. (itstool) path: page/p
 #: C/import.page:67
 msgid "See <link xref=\"gthumb-date-formats\"/> for more date format codes."
 msgstr ""
+"Se <link xref=\"gthumb-date-formats\"/> för ytterligare datumformatkoder."
 
 #. (itstool) path: page/p
 #: C/import.page:69
@@ -2853,16 +3100,20 @@ msgid ""
 "the main import dialog will show the automatic portion of the folder in red. "
 "(For date-based formats, dummy data may be shown in the red portion.)"
 msgstr ""
+"Om du använder automatisk undermappsnamngivning kommer fältet "
+"<gui>Destination</gui> i huvudimportdialogen att visa den automatiska delen "
+"av mappen i rött. (För datumbaserade format kan tillfällig data visas i den "
+"röda delen.)"
 
 #. (itstool) path: figure/title
 #: C/import.page:74
 msgid "Using Custom Formats"
-msgstr ""
+msgstr "Använda anpassade format"
 
 #. (itstool) path: page/title
 #: C/slideshow.page:7
 msgid "Automatic Slideshow"
-msgstr ""
+msgstr "Automatiskt bildspel"
 
 #. (itstool) path: page/p
 #: C/slideshow.page:9
@@ -2872,6 +3123,10 @@ msgid ""
 "or by clicking <guiseq><gui>View</gui><gui>Slideshow</gui></guiseq>. If no "
 "images are selected, all images in the folder will be included."
 msgstr ""
+"Ett bildspel över de valda bilderna kan startas från bildbläddraren genom "
+"att trycka <key>F5</key>, genom att klicka bildspelsikonen i verktygsfältet "
+"eller genom att klicka <guiseq><gui>Visa</gui><gui>Bildspel</gui></guiseq>. "
+"Om inga bilder är markerade kommer att bilder i mappen att inkluderas."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:15
@@ -2880,6 +3135,9 @@ msgid ""
 "the <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Slideshow</gui></"
 "guiseq> dialog."
 msgstr ""
+"Övergångseffekter och tiden då varje bild visas kan ändras från dialogen "
+"<guiseq><gui>Redigera</gui><gui>Inställningar</gui><gui>Bildspel</gui></"
+"guiseq>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:19
@@ -2888,6 +3146,9 @@ msgid ""
 "transition effects are enabled. If you experience such difficulties, set the "
 "<gui>Transition effect</gui> preference to <gui>None</gui>."
 msgstr ""
+"En del grafikkort och drivrutiner kan ha problem (kraschar) om "
+"övergångseffekter är aktiverade. Om du upplever sådana problem, ange "
+"inställningen <gui>Övergångseffekt</gui> till <gui>Ingen</gui>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:23
@@ -2895,6 +3156,8 @@ msgid ""
 "You can advance manually to the next image by pressing <key>Down Arrow</"
 "key>, <key>Right Arrow</key>, <key>Page Down</key> or <key>Space</key>."
 msgstr ""
+"Du kan manuellt gå till nästa bild genom att trycka <key>nedåtpil</key>, "
+"<key>högerpil</key>, <key>page down</key> eller <key>mellanslag</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:27
@@ -2902,31 +3165,35 @@ msgid ""
 "You can go back to the previous image by pressing <key>Up Arrow</key>, "
 "<key>Left Arrow</key> or <key>Page Up</key>."
 msgstr ""
+"Du kan gå tillbaka till föregående bild genom att trycka <key>uppåtpil</"
+"key>, <key>vänsterpil</key> eller <key>page up</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:30
 msgid "You can pause or un-pause the slideshow by pressing <key>p</key>."
-msgstr ""
+msgstr "Du kan pausa eller fortsätta bildspelet genom att trycka <key>p</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:32
 msgid "To exit the slideshow, press <key>Escape</key> or <key>F5</key>."
 msgstr ""
+"För att avsluta bildspelet, tryck <key>Retur</key> eller <key>F5</key>."
 
 #. (itstool) path: page/title
 #: C/file-copy-move.page:6
 msgid "Copying and Moving Files"
-msgstr ""
+msgstr "Kopiera och flytta filer"
 
 #. (itstool) path: page/p
 #: C/file-copy-move.page:8
 msgid "There are three ways to copy or move files in <app>gThumb</app>."
 msgstr ""
+"Det finns tre sätt att kopiera eller flytta filer på i <app>gThumb</app>."
 
 #. (itstool) path: item/title
 #: C/file-copy-move.page:12
 msgid "Cut and Paste"
-msgstr ""
+msgstr "Klipp och klistra"
 
 #. (itstool) path: item/p
 #: C/file-copy-move.page:13
@@ -2939,11 +3206,19 @@ msgid ""
 "gui><gui>Paste</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>V</key></"
 "keyseq>, to complete the file transfer."
 msgstr ""
+"För att kopiera en fil i bläddrarläget, använd <guiseq><gui>Redigera</"
+"gui><gui>Kopiera</gui></guiseq>, eller tryck <keyseq><key>Ctrl</key><key>C</"
+"key></keyseq>. För att flytta en fil, använd <guiseq><gui>Redigera</"
+"gui><gui>Klipp ut</gui></guiseq>,eller tryck <keyseq><key>Ctrl</key><key>X</"
+"key></keyseq>. Navigera sedan till målmappen med mappträdet. Använd "
+"<guiseq><gui>Redigera</gui><gui>Klistra in</gui></guiseq> eller tryck "
+"<keyseq><key>Ctrl</key><key>V</key></keyseq> för att slutföra "
+"filöverföringen."
 
 #. (itstool) path: item/title
 #: C/file-copy-move.page:26
 msgid "Drag and Drop"
-msgstr ""
+msgstr "Dra-och-släpp"
 
 #. (itstool) path: item/p
 #: C/file-copy-move.page:27
@@ -2952,6 +3227,9 @@ msgid ""
 "left-mouse click) to the destination folder visible in the folder tree. To "
 "move a file, hold down the <key>Shift</key> key while dragging."
 msgstr ""
+"För att kopiera en fil till en annan mapp, dra filen (med ett förlängt "
+"vänstermusklick) till målmappen synlig i mappträdet. För att flytta en fil, "
+"håll nere tangenten <key>Skift</key> medan du drar."
 
 #. (itstool) path: item/p
 #: C/file-copy-move.page:31
@@ -2960,11 +3238,14 @@ msgid ""
 "<app>gThumb</app> will ask you if you wish to copy the files, move the "
 "files, or cancel the operation."
 msgstr ""
+"Du kan också använda mittenmusknappen till att dra filer. I det fallet "
+"kommer <app>gThumb</app> att fråga dig om du vill kopiera filerna, flytta "
+"filerna eller avbryta."
 
 #. (itstool) path: item/title
 #: C/file-copy-move.page:37
 msgid "File Copy / Move Dialog"
-msgstr ""
+msgstr "Filkopiering/flytt-dialogen"
 
 #. (itstool) path: item/p
 #: C/file-copy-move.page:38
@@ -2976,16 +3257,22 @@ msgid ""
 "<guiseq><gui>View the destination</gui></guiseq> option if you want to go to "
 "the destination folder after the file transfer is complete."
 msgstr ""
+"Markera filerna som ska överföras, högerklicka på urvalet och välj "
+"<guiseq><gui>Kopiera till…</gui></guiseq> eller <guiseq><gui>Flytta till…</"
+"gui></guiseq>. Det kommer att öppna en mappvalsdialog där du kan välja "
+"målmapp. I nederdelen av dialogen kan du aktivera alternativet "
+"<guiseq><gui>Visa destinationen</gui></guiseq> om du vill visa målmappen "
+"efter att filöverföringen är färdig."
 
 #. (itstool) path: p/link
 #: C/legal.xml:4
 msgid "Creative Commons Attribution-Share Alike 3.0 Unported License"
-msgstr ""
+msgstr "Creative Commons Attribution-Share Alike 3.0 Unported License"
 
 #. (itstool) path: license/p
 #: C/legal.xml:3
 msgid "This work is licensed under a <_:link-1/>."
-msgstr ""
+msgstr "Detta verk är licenserat under en <_:link-1/>."
 
 #. (itstool) path: license/p
 #: C/legal.xml:6
@@ -2994,4 +3281,11 @@ msgid ""
 "modify, and distribute the example code contained in this document under the "
 "terms of your choosing, without restriction."
 msgstr ""
+"Som ett speciellt undantag ger dig upphovsrättsinnehavarna dig rätten att "
+"kopiera, ändra och distribuera exempelkoden i detta dokument på det sätt du "
+"väljer, utan restriktioner."
 
+#, fuzzy
+#~| msgid "Enhance"
+#~ msgid "Enhance colors."
+#~ msgstr "Förbättra"
