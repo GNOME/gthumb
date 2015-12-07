@@ -10,21 +10,24 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-04-11 20:57+0000\n"
-"PO-Revision-Date: 2013-04-18 00:26+0200\n"
-"Last-Translator: Sílvia Miranda <silvia.gnome@gmail.com>\n"
+"POT-Creation-Date: 2015-12-02 23:23+0000\n"
+"PO-Revision-Date: 2015-12-03 11:48+0100\n"
+"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: catalan <tradgnome@softcatala.net>\n"
-"Language: \n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:1
 msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
+"gThumb és un visualitzador, editor, navegador i organitzador d'imatges. Està "
+"dissenyat perquè tingui una bona integració amb l'escriptori GNOME 3."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:2
 msgid ""
@@ -33,6 +36,11 @@ msgid ""
 "is also possible to view various metadata types embedded inside an image "
 "such as EXIF, IPTC and XMP."
 msgstr ""
+"Com a visualitzador d'imatges, gThumb permet la visualització dels formats "
+"més comuns de fitxers d'imatges, com ara les imatges BMP, JPEG, GIF "
+"(incloent-hi les animacions), PNG, TIFF, TGA i RAW. També és possible "
+"visualitzar alguns tipus de metadades incrustades dins d'una imatge com ara "
+"EXIF, IPTC i XMP."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:3
 msgid ""
@@ -40,6 +48,9 @@ msgid ""
 "change the saturation, lightness, contrast as well as other color "
 "trasformations."
 msgstr ""
+"Com a editor d'imatges, gThumb permet escalar, rotar i retallar les imatges; "
+"canviar la saturació, la lluminositat, el contrast, així com altres "
+"transformacions de color."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:4
 msgid ""
@@ -50,6 +61,13 @@ msgid ""
 "format conversion; slideshow; setting an image as desktop background and "
 "several others."
 msgstr ""
+"Com a navegador d'imatges, gThumb mostra les miniatures de les imatges "
+"desades al vostre disc, permet realitzar les operacions més comunes d'un "
+"gestor de fitxers tals com copiar, moure i suprimir fitxers i carpetes. A "
+"més hi ha una sèrie d'eines específiques d'imatges, com ara les "
+"transformacions sense pèrdua JPEG; redimensió d'imatge; conversió de format; "
+"presentació de diapositives; establiment d'una imatge com a fons "
+"d'escriptori i algunes altres més."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:5
 msgid ""
@@ -57,6 +75,9 @@ msgid ""
 "images; organize images in catalogs and catalogs in libraries; search for "
 "images and save the result as a catalog."
 msgstr ""
+"Com a organitzador d'imatges, gThumb us permet afegir comentaris i altres "
+"metadades a les imatges; organitzar les imatges en catàlegs i els catàlegs "
+"en biblioteques; buscar imatges i desar el resultat com un catàleg."
 
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:386
@@ -77,10 +98,8 @@ msgid "View and organize your images"
 msgstr "Visualitzeu i organitzeu les vostres imatges"
 
 #: ../data/gthumb.desktop.in.in.h:5
-#, fuzzy
-#| msgid "Image Viewer"
 msgid "Image;Viewer;"
-msgstr "Visualitzador d'imatges"
+msgstr "Imatge;Visualitzador;"
 
 #: ../data/gthumb-import.desktop.in.in.h:1
 msgid "Import with gThumb"
@@ -92,12 +111,11 @@ msgstr "Eina d'importació de fotografies"
 
 #: ../data/gthumb-import.desktop.in.in.h:3
 msgid "gThumb Photo Import Tool"
-msgstr ""
+msgstr "Eina d'importació de fotos de gThumb"
 
 #: ../data/gthumb-import.desktop.in.in.h:4
-#, fuzzy
 msgid "Import the photos on your camera card"
-msgstr "Importa fotografies d'una càmera digital"
+msgstr "Importa les fotos de la targeta de la vostra càmera"
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:1
 msgid ""
@@ -108,16 +126,14 @@ msgstr ""
 "Si voleu generar les miniatures de totes les imatges, utilitzeu 0."
 
 #: ../data/org.gnome.gthumb.gschema.xml.in.h:2
-#, fuzzy
 msgid "Open files in the active window"
-msgstr "Obre en una finestra nova"
+msgstr "Obre els fitxers a la finestra activa"
 
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.in.h:1
-#, fuzzy
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr ""
-"Si s'han de reiniciar les posicions de les barres de desplaçament després de "
-"canviar d'imatge."
+"Si es restableix la posició de les barres de desplaçament després de canviar "
+"la imatge"
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in.h:1
 msgid "Possible values are: jpeg, jpg."
@@ -132,12 +148,14 @@ msgid ""
 "Possible values include: general::unsorted, file::name, file::size, file::"
 "mtime, exif::photo::datetimeoriginal"
 msgstr ""
+"Els valors possibles inclouen: general::unsorted, file::name, file::size, "
+"file::mtime, exif::photo::datetimeoriginal"
 
 #: ../data/ui/browser-preferences.ui.h:1
 #: ../extensions/contact_sheet/gth-contact-sheet-theme.c:34
 #: ../extensions/image_print/data/ui/print-layout.ui.h:18
 msgid "Caption"
-msgstr "Títol"
+msgstr "L'anotació"
 
 #: ../data/ui/browser-preferences.ui.h:2 ../data/ui/preferences.ui.h:15
 #: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
@@ -146,9 +164,8 @@ msgid "Other"
 msgstr "Altres"
 
 #: ../data/ui/browser-preferences.ui.h:3
-#, fuzzy
 msgid "Thumbnail _size:"
-msgstr "Mida de la dia_positiva:"
+msgstr "_Mida de la miniatura:"
 
 #: ../data/ui/browser-preferences.ui.h:4
 msgid "48"
@@ -205,7 +222,7 @@ msgstr "_Nom del filtre:"
 #: ../data/ui/filter-editor.ui.h:2
 #: ../extensions/search/data/ui/search-editor.ui.h:3
 msgid "_Match"
-msgstr "_Coincidència"
+msgstr "_Coincideix amb"
 
 #. limit label
 #: ../data/ui/filter-editor.ui.h:3 ../gthumb/gth-filter.c:269
@@ -215,7 +232,7 @@ msgstr "_Limita a"
 
 #: ../data/ui/filter-editor.ui.h:4
 msgid "selected by"
-msgstr "seleccionat per"
+msgstr "que se seleccionen amb"
 
 #: ../data/ui/histogram-info.ui.h:1
 msgid "Mean:"
@@ -224,7 +241,7 @@ msgstr "Mitjana:"
 #. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsizied at the end.
 #: ../data/ui/histogram-info.ui.h:3
 msgid "Std dev:"
-msgstr "Desviació estàndard:"
+msgstr "Desv.:"
 
 #: ../data/ui/histogram-info.ui.h:4
 msgid "Median:"
@@ -239,14 +256,13 @@ msgstr "Píxels:"
 #: ../data/ui/histogram-info.ui.h:8
 msgctxt "Pixels"
 msgid "Max:"
-msgstr ""
+msgstr "Màx.:"
 
 #. After the colon there is the percentile of selected pixels.
 #: ../data/ui/histogram-info.ui.h:10
-#, fuzzy
 msgctxt "Pixels"
 msgid "Selected:"
-msgstr "_Selecciona"
+msgstr "Seleccionat:"
 
 #: ../data/ui/location.ui.h:1
 msgid "Open"
@@ -257,14 +273,12 @@ msgid "_Location:"
 msgstr "_Ubicació:"
 
 #: ../data/ui/overwrite-dialog.ui.h:1
-#, fuzzy
 msgid "Overwrite the old file with the new one?"
-msgstr "<b>Voleu sobreescriure la imatge antiga amb la nova?</b>"
+msgstr "Voleu sobreescriure el fitxer antic amb el nou?"
 
 #: ../data/ui/overwrite-dialog.ui.h:2
-#, fuzzy
 msgid "Old File:"
-msgstr "Imatge antiga:"
+msgstr "Fitxer antic:"
 
 #: ../data/ui/overwrite-dialog.ui.h:3
 msgid "Filename:"
@@ -280,93 +294,80 @@ msgid "Modified:"
 msgstr "Modificat:"
 
 #: ../data/ui/overwrite-dialog.ui.h:6
-#, fuzzy
 msgid "New File:"
-msgstr "Carpeta nova"
+msgstr "Fitxer nou:"
 
 #: ../data/ui/overwrite-dialog.ui.h:7
-#, fuzzy
 msgid "Over_write the old file"
-msgstr "Sobr_eescriu la imatge antiga"
+msgstr "Sobreescriu el fitxer antic"
 
 #: ../data/ui/overwrite-dialog.ui.h:8
-#, fuzzy
 msgid "Do not overwrite _the old file"
-msgstr "No sobreescriguis _les imatges antigues"
+msgstr "No sobreescriguis els fi_txers antics"
 
 #: ../data/ui/overwrite-dialog.ui.h:9
-#, fuzzy
 msgid "Overwrite _all files"
-msgstr "Sobreescriu _totes les imatges"
+msgstr "Sobreescriu tots els fitxers"
 
 #: ../data/ui/overwrite-dialog.ui.h:10
-#, fuzzy
 msgid "_Do not overwrite any file"
-msgstr "_No sobreescriguis cap imatge"
+msgstr "_No sobreescriguis cap fitxer"
 
 #: ../data/ui/overwrite-dialog.ui.h:11
-#, fuzzy
 msgid "_Save the new file as:"
-msgstr "_Anomena i desa la imatge:"
+msgstr "Anomena i de_sa el fitxer nou:"
 
 #: ../data/ui/personalize-filters.ui.h:1
-#, fuzzy
 msgid "Filters"
-msgstr "_Filtra"
+msgstr "Filtres"
 
 #: ../data/ui/personalize-filters.ui.h:2
-#, fuzzy
 msgid "_General filter:"
-msgstr "_General"
+msgstr "Filtre _general:"
 
 #: ../data/ui/personalize-filters.ui.h:3
 msgid "_Other filters:"
-msgstr ""
+msgstr "Altres filtres:"
 
 #: ../data/ui/preferences.ui.h:1
-#, fuzzy
 msgid "below the folder list"
-msgstr "Visualitza les carpetes"
+msgstr "a sota de la llista de les carpetes"
 
 #: ../data/ui/preferences.ui.h:2
 msgid "on the right"
-msgstr ""
+msgstr "a la part dreta"
 
 #: ../data/ui/preferences.ui.h:3
 msgid "gThumb Preferences"
-msgstr "Preferències del gThumb"
+msgstr "Preferències de gThumb"
 
 #: ../data/ui/preferences.ui.h:4
 msgid "Appearance"
 msgstr "Aparença"
 
 #: ../data/ui/preferences.ui.h:5
-#, fuzzy
 msgid "T_humbnails in viewer:"
-msgstr "Mida de la dia_positiva:"
+msgstr "Minia_tures al visualitzador:"
 
 #: ../data/ui/preferences.ui.h:6
 msgid "on the bottom"
-msgstr ""
+msgstr "a la part inferior"
 
 #: ../data/ui/preferences.ui.h:7
-#, fuzzy
 msgid "on the side"
-msgstr "Repeteix la cerca"
+msgstr "a la vora"
 
 #: ../data/ui/preferences.ui.h:8
 msgid "File _properties in browser:"
-msgstr ""
+msgstr "_Propietats del fitxer al navegador:"
 
 #: ../data/ui/preferences.ui.h:9
-#, fuzzy
 msgid "On startup:"
-msgstr "<b>A l'inici:</b>"
+msgstr "A l'inici:"
 
 #: ../data/ui/preferences.ui.h:10
-#, fuzzy
 msgid "Go to last _visited location"
-msgstr "Vés a la següent ubicació visitada"
+msgstr "Vés a l'última ubicació visitada"
 
 #: ../data/ui/preferences.ui.h:11
 msgid "Go to this _folder:"
@@ -378,26 +379,23 @@ msgstr "Seleccioneu la carpeta que es mostrarà a l'inici"
 
 #: ../data/ui/preferences.ui.h:13
 msgid "Set to C_urrent"
-msgstr "Ajusta a l'act_ual"
+msgstr "Estableix-ho a l'act_ual"
 
 #: ../data/ui/preferences.ui.h:14
-#, fuzzy
 msgid "_Reuse the active window to open files"
-msgstr "Utilitza aquesta finestra per a visualitzar altres imatges"
+msgstr "_Reutilitza la finestra activa per obrir els fitxers"
 
 #: ../data/ui/preferences.ui.h:16
-#, fuzzy
 msgid "As_k confirmation before deleting files or catalogs"
-msgstr "Es_pera la confirmació abans d'eliminar imatges o catàlegs"
+msgstr "De_mana'm la confirmació abans de suprimir fitxers o catàlegs"
 
 #: ../data/ui/preferences.ui.h:17
-#, fuzzy
 msgid "Ask whether to save _modified files"
-msgstr "Demana si s'han de desar les imatges _modificades"
+msgstr "Demana'm si s'han de desar els fitxers _modificats"
 
 #: ../data/ui/preferences.ui.h:18
 msgid "_Store metadata inside files if possible"
-msgstr ""
+msgstr "Desa les metadades dins dels fitxers si és possible"
 
 #: ../data/ui/preferences.ui.h:19
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:2
@@ -408,23 +406,20 @@ msgid "General"
 msgstr "General"
 
 #: ../data/ui/sort-order.ui.h:1
-#, fuzzy
 msgid "Sort By"
-msgstr "Ordena"
+msgstr "Ordena per"
 
 #: ../data/ui/sort-order.ui.h:2
-#, fuzzy
 msgid "_Inverse order"
-msgstr "In_verteix l'ordre"
+msgstr "Ordre _invers"
 
 #: ../extensions/23hq/23hq.extension.in.in.h:1
-#, fuzzy
 msgid "23"
-msgstr "2"
+msgstr "23"
 
 #: ../extensions/23hq/23hq.extension.in.in.h:2
 msgid "Upload images to 23hq.com"
-msgstr ""
+msgstr "Pugeu les imatges a 23hq.com"
 
 #: ../extensions/23hq/23hq.extension.in.in.h:3
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:3
@@ -459,7 +454,7 @@ msgstr ""
 #: ../extensions/webalbums/webalbums.extension.in.in.h:3
 #: ../gthumb/dlg-preferences-extensions.c:491
 msgid "gthumb development team"
-msgstr ""
+msgstr "l'equip de desenvolupament de gthumb"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
 #: ../extensions/bookmarks/callbacks.c:325
@@ -468,85 +463,73 @@ msgid "Bookmarks"
 msgstr "Adreces d'interès"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:2
-#, fuzzy
 msgid "Add bookmarks support."
-msgstr "_Afegeix a la llista d'adreces d'interès"
+msgstr "Afegeix a la compatibilitat amb les adreces d'interès."
 
 #: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:1
 msgid "_Add Bookmark"
 msgstr "_Afegeix a la llista d'adreces d'interès"
 
 #: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:2
-#, fuzzy
-#| msgid "_Edit Bookmarks..."
 msgid "_Edit Bookmarks…"
 msgstr "_Edita les adreces d'interès..."
 
 #: ../extensions/bookmarks/data/ui/bookmarks-menu.ui.h:3
-#, fuzzy
 msgid "_System Bookmarks"
-msgstr "_Adreces d'interès"
+msgstr "Adreces d'interès del _sistema"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:2
 msgid "_Bookmarks:"
 msgstr "_Adreces d'interès:"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
-#, fuzzy
 msgid "Go to this location"
-msgstr "Vés a la següent ubicació visitada"
+msgstr "Vés a aquesta ubicació"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 #: ../extensions/catalogs/callbacks.c:72
-#, fuzzy
 msgid "Remove"
-msgstr "_Suprimeix"
+msgstr "Suprimeix"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:5
-#, fuzzy
 msgid "_Name"
-msgstr "Nom"
+msgstr "_Nom"
 
 #: ../extensions/bookmarks/data/ui/bookmarks.ui.h:6
-#, fuzzy
 msgid "_Location"
-msgstr "Ubicació "
+msgstr "_Ubicació "
 
 #: ../extensions/bookmarks/dlg-bookmarks.c:192
-#, fuzzy
 msgid "Could not remove the bookmark"
-msgstr "No s'ha pogut moure la imatge:"
+msgstr "No s'ha pogut suprimir l'adreça d'interès"
 
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:1
 msgid "Burn CD/DVD"
-msgstr ""
+msgstr "Enregistra un CD o DVD"
 
 #: ../extensions/burn_disc/burn_disc.extension.in.in.h:2
 msgid "Save files to an optical disc."
-msgstr ""
+msgstr "Deseu els fitxers en un disc òptic."
 
 #: ../extensions/burn_disc/callbacks.c:48
 msgid "_Optical Disc..."
-msgstr ""
+msgstr "D_isc òptic..."
 
 #: ../extensions/burn_disc/data/ui/burn-disc-options.ui.h:1
-#, fuzzy
 msgid "Disc Name"
-msgstr "pel nom"
+msgstr "Nom del disc"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:1
-#, fuzzy
 msgid "Current _folder"
 msgstr "_Carpeta actual"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:2
 msgid "Current folder and its s_ub-folders"
-msgstr ""
+msgstr "La carpeta actual i les seves s_ubcarpetes"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:3
-#, fuzzy
 msgid "_Selected files"
-msgstr "Imatges _seleccionades"
+msgstr "Fitxers _seleccionats"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:4
 msgid "Source"
@@ -555,25 +538,23 @@ msgstr "Font"
 #: ../extensions/burn_disc/gth-burn-task.c:238
 #: ../extensions/burn_disc/gth-burn-task.c:259
 #: ../extensions/burn_disc/gth-burn-task.c:393
-#, fuzzy
 msgid "Write to Disc"
-msgstr "Escriu a un CD"
+msgstr "Escriu al disc"
 
 #: ../extensions/cairo_io/cairo-image-surface-jpeg.c:65
-#, fuzzy, c-format
+#, c-format
 msgid "Error interpreting JPEG image file: %s"
-msgstr "S'està convertint la imatge: %s"
+msgstr "S'ha produït un error en interpretar el fitxer d'imatge JPEG: %s"
 
 #: ../extensions/cairo_io/cairo-image-surface-jpeg.c:529
 #, c-format
 msgid "Unknown JPEG color space (%d)"
-msgstr ""
+msgstr "Espai de color desconegut de JPEG (%d)"
 
 #: ../extensions/cairo_io/data/ui/jpeg-options.ui.h:1
 #: ../extensions/cairo_io/data/ui/tiff-options.ui.h:1
-#, fuzzy
 msgid "_Default extension:"
-msgstr "Determina per l'extensió"
+msgstr "Extensió per _defecte:"
 
 #: ../extensions/cairo_io/data/ui/jpeg-options.ui.h:2
 #: ../extensions/cairo_io/data/ui/webp-options.ui.h:1
@@ -598,16 +579,15 @@ msgstr "Nive_ll de compressió:"
 
 #: ../extensions/cairo_io/data/ui/save-options-preferences.ui.h:1
 msgid "Default options:"
-msgstr ""
+msgstr "Opcions per defecte:"
 
 #: ../extensions/cairo_io/data/ui/tga-options.ui.h:1
 msgid "_RLE compression"
 msgstr "Compressió _RLE"
 
 #: ../extensions/cairo_io/data/ui/tiff-options.ui.h:2
-#, fuzzy
 msgid "Compression"
-msgstr "_Sense compressió"
+msgstr "Compressió"
 
 #: ../extensions/cairo_io/data/ui/tiff-options.ui.h:3
 msgid "_No compression"
@@ -645,7 +625,7 @@ msgstr "_Mètode:"
 
 #: ../extensions/cairo_io/data/ui/webp-options.ui.h:3
 msgid "_Lossless"
-msgstr ""
+msgstr "Sense _pèrdua"
 
 #: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:144
@@ -674,7 +654,7 @@ msgstr "TIFF"
 #: ../extensions/cairo_io/gth-image-saver-webp.c:382
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:173
 msgid "WebP"
-msgstr ""
+msgstr "WebP"
 
 # Pel context, ha de ser Ubicació
 #: ../extensions/cairo_io/preferences.c:134
@@ -682,9 +662,8 @@ msgstr ""
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1369
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
-#, fuzzy
 msgid "Saving"
-msgstr "<b>Ubicació</b>"
+msgstr "Desament"
 
 #: ../extensions/catalogs/actions.c:85 ../extensions/catalogs/actions.c:208
 #: ../extensions/catalogs/dlg-add-to-catalog.c:368
@@ -693,9 +672,9 @@ msgstr "<b>Ubicació</b>"
 #: ../extensions/file_tools/gth-file-tool-curves.c:372
 #: ../extensions/list_tools/gth-script-editor-dialog.c:289
 #: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1829
-#, fuzzy, c-format
+#, c-format
 msgid "No name specified"
-msgstr "_Previsualització dels noms nous:"
+msgstr "Cap nom especificat"
 
 #: ../extensions/catalogs/actions.c:92 ../extensions/catalogs/actions.c:215
 #: ../extensions/catalogs/dlg-add-to-catalog.c:375
@@ -705,7 +684,7 @@ msgstr "_Previsualització dels noms nous:"
 #: ../gthumb/gth-folder-tree.c:1836
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
-msgstr ""
+msgstr "Nom no vàlid. Els següents caràcters no estan permesos: %s"
 
 #: ../extensions/catalogs/actions.c:148 ../extensions/catalogs/actions.c:262
 #: ../extensions/catalogs/dlg-add-to-catalog.c:432
@@ -713,19 +692,17 @@ msgstr ""
 #: ../extensions/catalogs/gth-file-source-catalogs.c:508
 #: ../extensions/file_manager/actions.c:109
 msgid "Name already used"
-msgstr ""
+msgstr "El nom ja està en ús"
 
 #: ../extensions/catalogs/actions.c:173
 #: ../extensions/catalogs/dlg-add-to-catalog.c:453
-#, fuzzy
 msgid "New catalog"
 msgstr "Catàleg nou"
 
 #: ../extensions/catalogs/actions.c:174
 #: ../extensions/catalogs/dlg-add-to-catalog.c:454
-#, fuzzy
 msgid "Enter the catalog name:"
-msgstr "Introduïu el nom del catàleg: "
+msgstr "Introduïu el nom del catàleg:"
 
 #: ../extensions/catalogs/actions.c:176 ../extensions/catalogs/actions.c:290
 #: ../extensions/catalogs/dlg-add-to-catalog.c:456
@@ -741,48 +718,38 @@ msgstr "Biblioteca nova"
 
 #: ../extensions/catalogs/actions.c:288
 #: ../extensions/catalogs/dlg-add-to-catalog.c:566
-#, fuzzy
 msgid "Enter the library name:"
-msgstr "Introduïu el nom de la biblioteca: "
+msgstr "Introduïu el nom de la biblioteca:"
 
 #: ../extensions/catalogs/actions.c:323
-#, fuzzy
 msgid "Could not remove the catalog"
-msgstr "No s'ha pogut canviar el nom del catàleg «%s»: %s"
+msgstr "No s'ha pogut suprimir el catàleg"
 
 #: ../extensions/catalogs/actions.c:362
 #, c-format
 msgid "Are you sure you want to remove \"%s\"?"
-msgstr ""
+msgstr "Esteu segur que voleu suprimir «%s»?"
 
 #: ../extensions/catalogs/callbacks.c:52
-#, fuzzy
-#| msgid "Add to Catalog"
 msgid "Add to Catalog…"
-msgstr "Afegeix a un catàleg"
+msgstr "Afegeix al catàleg..."
 
 #: ../extensions/catalogs/callbacks.c:57
 #: ../extensions/selections/callbacks.c:57
-#, fuzzy
-#| msgid "Open _Folder"
 msgid "Open Folder"
-msgstr "_Obre una carpeta"
+msgstr "Obre la carpeta"
 
 #: ../extensions/catalogs/callbacks.c:62
-#, fuzzy
-#| msgid "Remo_ve from Catalog"
 msgid "Remove from Catalog"
-msgstr "Supr_imeix del catàleg"
+msgstr "Suprimeix del catàleg"
 
 #: ../extensions/catalogs/callbacks.c:67
-#, fuzzy
 msgid "Create Catalog"
-msgstr "Crea un catàleg nou"
+msgstr "Crea el catàleg"
 
 #: ../extensions/catalogs/callbacks.c:68
-#, fuzzy
 msgid "Create Library"
-msgstr "Bib_lioteca nova"
+msgstr "Crea la biblioteca"
 
 #: ../extensions/catalogs/callbacks.c:73
 #: ../extensions/file_manager/callbacks.c:78
@@ -804,18 +771,16 @@ msgid "Command Line"
 msgstr "Línia d'ordres"
 
 #: ../extensions/catalogs/callbacks.c:351
-#, fuzzy
 msgid "Catalog Properties"
-msgstr "Propietats de %s"
+msgstr "Propietats del catàleg"
 
 #: ../extensions/catalogs/callbacks.c:367
 msgid "Organize"
 msgstr "Organitza"
 
 #: ../extensions/catalogs/callbacks.c:368
-#, fuzzy
 msgid "Automatically organize files by date"
-msgstr "Normalitza el contrast automàticament"
+msgstr "Organitza automàticament els fitxers amb la data"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:1
 #: ../extensions/catalogs/gth-catalog.c:611
@@ -827,16 +792,15 @@ msgstr "Catàlegs"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:2
 msgid "Create file collections."
-msgstr ""
+msgstr "Creeu col·leccions de fitxers."
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:1
 msgid "Add to Catalog"
 msgstr "Afegeix a un catàleg"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
-#, fuzzy
 msgid "A_dd and Close"
-msgstr "_Data i hora"
+msgstr "A_fegeix i tanca"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
 msgid "C_atalogs:"
@@ -877,11 +841,11 @@ msgstr "Catàleg"
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:1
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:1
 msgid "Organize Files"
-msgstr ""
+msgstr "Organitza els fitxers"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
 msgid "Organizing files"
-msgstr ""
+msgstr "S'estan organitzant els fitxers"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
 msgid "Organization:"
@@ -892,18 +856,16 @@ msgid "Select All"
 msgstr "Selecciona-ho tot"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
-#, fuzzy
 msgid "Select None"
-msgstr "Seleccioneu un tipus de lletra"
+msgstr "Selecciona cap"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
-#, fuzzy
 msgid "Catalog _Preview:"
-msgstr "Previsualització de l'estil"
+msgstr "_Previsualització del catàleg:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:2
 msgid "_Group files by:"
-msgstr ""
+msgstr "A_grupa els fitxers segons:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:3
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:3
@@ -913,110 +875,101 @@ msgstr "_Inclou les subcarpetes"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:4
 msgid "Ignore catalogs with a single file"
-msgstr ""
+msgstr "Ignora els catàlegs amb un fitxer individual"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:5
 msgid "Put single files in the catalog:"
-msgstr ""
+msgstr "Posa els fitxers individuals al catàleg:"
 
 #: ../extensions/catalogs/data/ui/organize-files.ui.h:6
 msgid "Singles"
-msgstr ""
+msgstr "Individuals"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:149
 #: ../extensions/catalogs/dlg-add-to-catalog.c:183
-#, fuzzy
 msgid "Could not add the files to the catalog"
-msgstr "No s'ha pogut crear el catàleg «%s»: %s"
+msgstr "No s'han pogut afegir els fitxers el catàleg"
 
 #: ../extensions/catalogs/dlg-add-to-catalog.c:311
 #: ../extensions/search/gth-search-task.c:360
-#, fuzzy
 msgid "Could not create the catalog"
-msgstr "No s'ha pogut crear el catàleg «%s»: %s"
+msgstr "No s'ha pogut crear el catàleg"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:80
-#, fuzzy
 msgid "Could not save the catalog"
-msgstr "No s'ha pogut canviar el nom del catàleg «%s»: %s"
+msgstr "No s'ha pogut desar el catàleg"
 
 #: ../extensions/catalogs/dlg-catalog-properties.c:151
-#, fuzzy
 msgid "Could not load the catalog"
-msgstr "No s'ha pogut canviar el nom del catàleg «%s»: %s"
+msgstr "No s'ha pogut carregar el catàleg"
 
 #: ../extensions/catalogs/dlg-organize-files.c:112
 msgid "Files will be organized in catalogs. No file will be moved on disk."
 msgstr ""
+"Els fitxers s'organitzaran en catàlegs. Al disc no es mourà cap fitxer."
 
 #: ../extensions/catalogs/dlg-organize-files.c:124
 #: ../extensions/edit_metadata/gth-edit-general-page.c:558
 #: ../gthumb/gth-main-default-tests.c:321
 msgid "Date photo was taken"
-msgstr ""
+msgstr "La data en què la foto va ser presa"
 
 #: ../extensions/catalogs/dlg-organize-files.c:131
 #: ../gthumb/gth-main-default-tests.c:313
-#, fuzzy
 msgid "File modified date"
-msgstr "Data de l'última modificació"
+msgstr "La data en què el fitxer va ser modificat"
 
 #: ../extensions/catalogs/dlg-organize-files.c:138
 #: ../extensions/comments/main.c:182
 msgid "Tag"
-msgstr "Etiqueta"
+msgstr "L'etiqueta"
 
 #: ../extensions/catalogs/dlg-organize-files.c:145
 #: ../gthumb/gth-main-default-tests.c:354
 msgid "Tag (embedded)"
-msgstr ""
+msgstr "L'etiqueta (incrustada)"
 
 #: ../extensions/catalogs/gth-catalog.c:1114 ../extensions/comments/main.c:45
 #: ../extensions/edit_metadata/callbacks.c:51
 #: ../extensions/edit_metadata/callbacks.c:85
 #: ../gthumb/gth-main-default-metadata.c:62
 msgid "Tags"
-msgstr "Etiquetes"
+msgstr "Les etiquetes"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:953
-#, fuzzy, c-format
+#, c-format
 msgid "The catalog '%s' already exists, do you want to overwrite it?"
-msgstr "Ja hi ha una imatge amb el nom «%s». La voleu sobreescriure?"
+msgstr "El catàleg «%s» ja existeix, voleu sobreescriure'l?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:955
-#, fuzzy, c-format
+#, c-format
 msgid "The library '%s' already exists, do you want to overwrite it?"
-msgstr "Ja hi ha una imatge amb el nom «%s». La voleu sobreescriure?"
+msgstr "La biblioteca «%s» ja existeix, voleu sobreescriure-la?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:963
-#, fuzzy
 msgid "Over_write"
-msgstr "Sobreescriu"
+msgstr "So_breescriu"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1081
-#, fuzzy
 msgid "Cannot move the files"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'han pogut moure els fitxers"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1083
-#, fuzzy
 msgid "Cannot copy the files"
-msgstr "No s'ha pogut copiar la imatge:"
+msgstr "No s'han pogut copiar els fitxers"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1088
-#, fuzzy
 msgid "Invalid destination."
-msgstr "_Destinacions desades:"
+msgstr "Destinació no vàlida."
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1135
-#, fuzzy, c-format
+#, c-format
 msgid "Copying files to '%s'"
-msgstr "S'està copiant el fitxer %d de %d"
+msgstr "S'estan copiant els fitxers a «%s»"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1322
-#, fuzzy
 msgid "Could not remove the files from the catalog"
-msgstr "Suprimeix del catàleg les imatges seleccionades"
+msgstr "No s'han pogut suprimir els fitxers del catàleg"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1380
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:873
@@ -1024,30 +977,25 @@ msgstr "Suprimeix del catàleg les imatges seleccionades"
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:912
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:1443
 #: ../extensions/search/gth-search.c:265
-#, fuzzy
 msgid "Invalid file format"
-msgstr "Converteix el format de la imatge"
+msgstr "Format de fitxer no vàlid"
 
 #: ../extensions/catalogs/gth-organize-task.c:202
 #, c-format
 msgid "Operation completed. Catalogs: %d. Images: %d."
-msgstr ""
+msgstr "Operació completada. Catàlegs: %d. Imatges: %d."
 
 #: ../extensions/change_date/callbacks.c:38
-#, fuzzy
-#| msgid "Change Date"
 msgid "Change _Date…"
-msgstr "Canvia la data"
+msgstr "Canvia la _data..."
 
 #: ../extensions/change_date/change_date.extension.in.in.h:1
-#, fuzzy
 msgid "Change date"
 msgstr "Canvia la data"
 
 #: ../extensions/change_date/change_date.extension.in.in.h:2
-#, fuzzy
 msgid "Change the files date"
-msgstr "Canvia la data d'última modificació:"
+msgstr "Canvieu la data dels fitxers"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
@@ -1081,25 +1029,23 @@ msgstr "Canvia a:"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:8
 msgid "The _following date:"
-msgstr "La data _següent:"
+msgstr "La _següent data:"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:9
-#, fuzzy
 msgid "File _modified date"
-msgstr "Data de l'última modificació"
+msgstr "Data de _modificació del fitxer"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:10
-#, fuzzy
 msgid "File c_reation date"
-msgstr "Data de c_reació de la imatge"
+msgstr "La data en què el fitxer va ser c_reat"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:11
 msgid "Date p_hoto was taken"
-msgstr ""
+msgstr "La data en què la f_oto va ser presa"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:12
 msgid "A_djust by"
-msgstr ""
+msgstr "A_justa amb"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:13
 msgid "hours"
@@ -1116,16 +1062,15 @@ msgstr "segons"
 
 #: ../extensions/comments/callbacks.c:39
 msgid "Import Embedded Metadata"
-msgstr ""
+msgstr "Importa les metadades incrustades"
 
 #: ../extensions/comments/comments.extension.in.in.h:1
-#, fuzzy
 msgid "Comments and tags"
-msgstr "Data del comentari"
+msgstr "Comentaris i etiquetes"
 
 #: ../extensions/comments/comments.extension.in.in.h:2
 msgid "Add comments and tags to any file type."
-msgstr ""
+msgstr "Afegiu comentaris i etiquetes a qualsevol tipus de fitxer."
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 #: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
@@ -1136,16 +1081,16 @@ msgstr "Preferències"
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:2
 msgid "_Synchronize with the embedded metadata"
-msgstr ""
+msgstr "_Sincronitza amb les dades incrustades"
 
 #: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:50
 #: ../extensions/edit_metadata/callbacks.c:79
 msgid "Comment"
-msgstr "Comentari"
+msgstr "Comenta"
 
 #: ../extensions/comments/main.c:41 ../gthumb/gth-main-default-metadata.c:59
 msgid "Title"
-msgstr "Títol"
+msgstr "El títol"
 
 #: ../extensions/comments/main.c:42 ../extensions/comments/main.c:166
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:5
@@ -1157,40 +1102,40 @@ msgstr "Títol"
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
 #: ../gthumb/gth-main-default-metadata.c:61
 msgid "Description"
-msgstr "Descripció"
+msgstr "La descripció"
 
 #: ../extensions/comments/main.c:43 ../extensions/comments/main.c:174
 #: ../gthumb/gth-main-default-metadata.c:60
 msgid "Place"
-msgstr "Lloc"
+msgstr "El lloc"
 
 #: ../extensions/comments/main.c:44 ../gthumb/gth-main-default-metadata.c:58
 msgid "Date"
-msgstr "Data"
+msgstr "La data"
 
 #: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:63
 #: ../gthumb/gth-main-default-tests.c:345
 msgid "Rating"
-msgstr "Valoració"
+msgstr "La valoració"
 
 #: ../extensions/contact_sheet/callbacks.c:38
-#, fuzzy
 msgid "Contact _Sheet…"
-msgstr "Crea una categoria nova"
+msgstr "_Full de contacte..."
 
 #: ../extensions/contact_sheet/callbacks.c:39
-#, fuzzy
 msgid "Image _Wall…"
-msgstr "Dades de la imatge"
+msgstr "_Mur d'imatges..."
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:1
 msgid "Contact Sheet"
-msgstr ""
+msgstr "Full de contacte"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:2
 msgid "Create an index image displaying the thumbnails of the selected files."
 msgstr ""
+"Creeu una imatge d'índex mostrant-hi les miniatures dels fitxers "
+"seleccionats."
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
 #: ../extensions/file_tools/gth-file-tool-crop.c:434
@@ -1219,11 +1164,11 @@ msgstr "Diapositiva"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:6
 msgid "Inward Shadow"
-msgstr ""
+msgstr "Ombra cap a dins"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:7
 msgid "Outward Shadow"
-msgstr ""
+msgstr "Ombra cap a fora"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:9
 msgid "Background"
@@ -1281,22 +1226,20 @@ msgstr "_Peu de pàgina:"
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:2
-#, fuzzy
 msgid "Caption:"
-msgstr "Títol"
+msgstr "Anotació:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
 #: ../extensions/image_print/data/ui/print-layout.ui.h:5
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
-#, fuzzy
 msgid "The current page number"
-msgstr "Desa la imatge actual"
+msgstr "El número de la pàgina actual"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:3
 #: ../extensions/image_print/data/ui/print-layout.ui.h:6
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
 msgid "The total number of pages"
-msgstr ""
+msgstr "El nombre total de pàgines"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:4
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:6
@@ -1306,7 +1249,7 @@ msgstr ""
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:11
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
 msgid "Special code"
-msgstr ""
+msgstr "Codi especial"
 
 #. translate only the text in the curly brackets
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
@@ -1315,14 +1258,13 @@ msgstr ""
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
 #, no-c-format
 msgid "%D{ format }"
-msgstr ""
+msgstr "%D{ format }"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:12
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
-#, fuzzy
 msgid "The current date"
-msgstr "Data actual"
+msgstr "La data actual"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
@@ -1352,26 +1294,23 @@ msgstr "_Nom de fitxer:"
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:8
 msgid "New enumerator digit"
-msgstr ""
+msgstr "Dígit numerador nou"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:16
 msgid "Create _HTML image map"
-msgstr "Crea un mapa d'imatge _HTML"
+msgstr "Crea un mapa d'imatges _HTML"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
-#, fuzzy
 msgid "Create a new theme"
-msgstr "Crea una categoria nova"
+msgstr "Crea un tema nou"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
-#, fuzzy
 msgid "Edit the selected theme"
-msgstr "Obre la carpeta seleccionada"
+msgstr "Edita el tema seleccionat"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
-#, fuzzy
 msgid "Delete the selected theme"
-msgstr "Suprimeix les imatges seleccionades de la càmera"
+msgstr "Suprimeix el tema seleccionat"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
@@ -1395,7 +1334,7 @@ msgstr "Imatges per pàgina:"
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
 msgid "All images on a single page"
-msgstr ""
+msgstr "Totes les imatges en una pàgina individual"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
 msgid "_All pages with the same size"
@@ -1405,7 +1344,7 @@ msgstr "_Totes les pàgines amb la mateixa mida"
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
 #: ../extensions/image_print/data/ui/print-layout.ui.h:15
 msgid "Layout"
-msgstr "Format"
+msgstr "Disposició"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
@@ -1434,31 +1373,26 @@ msgid "Thumbnails"
 msgstr "Miniatures"
 
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
-#, fuzzy
 msgid "Image Wall"
-msgstr "Dades de la imatge"
+msgstr "Mur d'imatges"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:495
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:506
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:520
-#, fuzzy
 msgid "Could not save the theme"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'ha pogut desar el tema"
 
 #: ../extensions/contact_sheet/dlg-contact-sheet.c:665
-#, fuzzy
 msgid "Could not delete the theme"
-msgstr "No s'han pogut suprimir les imatges:"
+msgstr "No s'ha pogut suprimir el tema"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-creator.c:247
-#, fuzzy
 msgid "Creating images"
-msgstr "S'està creant la imatge: %s.%s"
+msgstr "S'estan creant les imatges"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-creator.c:895
-#, fuzzy
 msgid "Generating thumbnails"
-msgstr "S'estan desant les miniatures"
+msgstr "S'estan generant les miniatures"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme.c:32
 msgid "Header"
@@ -1469,42 +1403,36 @@ msgid "Footer"
 msgstr "Peu de pàgina"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:193
-#, fuzzy
 msgid "Theme Properties"
-msgstr "Propietats de %s"
+msgstr "Propietats del tema"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:205
 msgid "Copy _From"
-msgstr ""
+msgstr "Copia des _de"
 
 #: ../extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:312
-#, fuzzy
 msgid "New theme"
-msgstr "Nom nou"
+msgstr "Tema nou"
 
 #: ../extensions/convert_format/callbacks.c:38
-#, fuzzy
-#| msgid "Convert Format"
 msgid "Convert Format…"
-msgstr "Converteix el format"
+msgstr "Converteix el format..."
 
 #: ../extensions/convert_format/convert_format.extension.in.in.h:1
-#, fuzzy
 msgid "Convert format"
 msgstr "Converteix el format"
 
 #: ../extensions/convert_format/convert_format.extension.in.in.h:2
 msgid "Save images in a different format"
-msgstr ""
+msgstr "Deseu les imatges en un format diferent"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:1
 msgid "Convert Format"
 msgstr "Converteix el format"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:2
-#, fuzzy
 msgid "New format"
-msgstr "Imatge nova:"
+msgstr "Format nou"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:3
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:9
@@ -1513,75 +1441,66 @@ msgstr "Destinació"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:5
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:11
-#, fuzzy
 msgid "_Use the original image folder"
-msgstr "Navega la carpeta de la imatge"
+msgstr "_Utilitza la carpeta de la imatge original"
 
 #: ../extensions/convert_format/dlg-convert-format.c:87
-#, fuzzy
 msgid "Converting images"
-msgstr "S'està convertint la imatge: %s"
+msgstr "S'estan convertint les imatges"
 
 #: ../extensions/desktop_background/actions.c:207
-#, fuzzy
 msgid "Could not show the desktop background properties"
-msgstr "Utilitza la imatge com a fons de l'escriptori (en forma de mosaic)"
+msgstr "No s'han pogut mostrar les propietats del fons de l'escriptori"
 
 #: ../extensions/desktop_background/actions.c:248
 #: ../gthumb/resources/app-menu.ui.h:2
-#, fuzzy
-#| msgid "Preferences"
 msgid "_Preferences"
-msgstr "Preferències"
+msgstr "_Preferències"
 
 #: ../extensions/desktop_background/actions.c:249
-#, fuzzy
-#| msgid "Undo"
 msgid "_Undo"
-msgstr "Desfés"
+msgstr "_Desfés"
 
 #: ../extensions/desktop_background/actions.c:276
 #: ../extensions/desktop_background/actions.c:331
 #: ../extensions/desktop_background/actions.c:350
-#, fuzzy
 msgid "Could not set the desktop background"
-msgstr "Utilitza la imatge com a fons de l'escriptori (en forma de mosaic)"
+msgstr "No s'ha pogut establir la imatge com a fons de l'escriptori"
 
 #: ../extensions/desktop_background/callbacks.c:47
 #: ../extensions/desktop_background/callbacks.c:53
-#, fuzzy
 msgid "Set as Background"
-msgstr "Utilitza la imatge com a fons de l'escriptori (en forma de mosaic)"
+msgstr "Estableix com a fons de l'escriptori"
 
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:1
 msgid "Desktop background"
-msgstr ""
+msgstr "Imatge de fons de l'escriptori"
 
 #: ../extensions/desktop_background/desktop_background.extension.in.in.h:2
-#, fuzzy
 msgid "Set the image as desktop background"
-msgstr "Utilitza la imatge com a fons de l'escriptori (en forma de mosaic)"
+msgstr "Establiu la imatge com a fons de l'escriptori"
 
 #: ../extensions/edit_metadata/actions.c:75
 msgid ""
 "Are you sure you want to permanently delete the metadata of the selected "
 "files?"
 msgstr ""
+"Esteu segur que voleu eliminar permanentment les metadades dels fitxers "
+"seleccionats?"
 
 #: ../extensions/edit_metadata/actions.c:82
 msgid "If you delete the metadata, it will be permanently lost."
-msgstr ""
+msgstr "Si suprimiu les metadades, es perdran de forma permanent."
 
 #: ../extensions/edit_metadata/callbacks.c:45
 msgid "Delete Metadata"
-msgstr ""
+msgstr "Elimina les metadades"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:1
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:6
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:5
-#, fuzzy
 msgid "D_escription:"
-msgstr "_Destinació:"
+msgstr "D_escripció:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:3
 msgid "_Place:"
@@ -1590,58 +1509,53 @@ msgstr "_Lloc:"
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:4
 #: ../extensions/edit_metadata/data/ui/tag-chooser.ui.h:1
 msgid "T_ags:"
-msgstr ""
+msgstr "_Etiquetes:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:5
-#, fuzzy
 msgid "_Rating:"
-msgstr "_Suavitzat:"
+msgstr "Valo_ració:"
 
 #: ../extensions/edit_metadata/data/ui/edit-comment-page.ui.h:6
-#, fuzzy
 msgid "_Title:"
-msgstr "Títol"
+msgstr "_Títol:"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:121
-#, fuzzy
 msgid "Could not save the file metadata"
-msgstr "No s'ha pogut moure la imatge:"
+msgstr "No s'han pogut desar les metadades del fitxer"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:229
 #: ../gthumb/gth-overwrite-dialog.c:137
-#, fuzzy
 msgid "Cannot read file information"
-msgstr "Informació general"
+msgstr "No es pot llegir la informació del fitxer"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
 msgid "Edit metadata"
-msgstr ""
+msgstr "Edita les metadades"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
 msgid "Allow to edit files metadata."
-msgstr ""
+msgstr "Permet l'edició de les metadades dels fitxers."
 
 #. Translators: the %s symbol in the string is a file name
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:63
 #, c-format
 msgid "%s Metadata"
-msgstr ""
+msgstr "Metadades de %s"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:83
 #: ../extensions/facebook/dlg-import-from-facebook.c:319
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "%d file"
 msgid_plural "%d files"
-msgstr[0] "Fitxer d'índe_x:"
-msgstr[1] "Fitxer d'índe_x:"
+msgstr[0] "%d fitxer"
+msgstr[1] "%d fitxers"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:144
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:197
-#, fuzzy
 msgid "Sa_ve and Close"
-msgstr "_Data i hora"
+msgstr "De_sa i tanca"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:155
 msgid "Save only cha_nged fields"
@@ -1653,76 +1567,71 @@ msgstr "Sense data"
 
 #: ../extensions/edit_metadata/gth-edit-general-page.c:556
 msgid "The following date"
-msgstr "La data següent"
+msgstr "La següent data"
 
 #: ../extensions/edit_metadata/gth-edit-general-page.c:557
 #: ../extensions/importer/gth-import-preferences-dialog.c:331
 msgid "Current date"
-msgstr "Data actual"
+msgstr "La data actual"
 
 #: ../extensions/edit_metadata/gth-edit-general-page.c:559
 msgid "Last modified date"
 msgstr "Data de l'última modificació"
 
 #: ../extensions/edit_metadata/gth-edit-general-page.c:560
-#, fuzzy
 msgid "File creation date"
-msgstr "Data de creació de la imatge"
+msgstr "La data en què el fitxer va ser creat"
 
 #: ../extensions/edit_metadata/gth-edit-general-page.c:561
 msgid "Do not modify"
-msgstr "No la modifiquis"
+msgstr "No ho modifiquis"
 
 #. Translators: the %s symbol in the string is a file name
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:80
 #, c-format
 msgid "%s Tags"
-msgstr ""
+msgstr "Etiquetes de %s"
 
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:189
 msgid "Assign Tags"
-msgstr ""
+msgstr "Assigna etiquetes"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:119
 #: ../extensions/edit_metadata/gth-tag-task.c:136
-#, fuzzy
 msgid "Assigning tags to the selected files"
-msgstr "Assigna categories a la carpeta seleccionada"
+msgstr "S'estan assignant les categories als fitxers seleccionats"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:119
 msgid "Writing files"
-msgstr ""
+msgstr "S'estan escrivint els fitxers"
 
 #: ../extensions/edit_metadata/gth-tag-task.c:136
-#, fuzzy
 msgid "Reading files"
-msgstr "S'estan carregant les imatges"
+msgstr "S'estan llegint els fitxers"
 
 #: ../extensions/example/src/example.extension.in.in.h:1
-#, fuzzy
 msgid "Example"
-msgstr "Simple"
+msgstr "Exemple"
 
 #: ../extensions/example/src/example.extension.in.in.h:2
 msgid "Extension example."
-msgstr ""
+msgstr "Exemple d'extensió."
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:1
-#, fuzzy
 msgid "C_opyright:"
-msgstr "_Dreta:"
+msgstr "Drets d'aut_or:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:2
 msgid "Co_untry:"
-msgstr ""
+msgstr "_País:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:3
 msgid "_Code:"
-msgstr ""
+msgstr "__Codi:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:4
 msgid "Cr_edit:"
-msgstr ""
+msgstr "Crè_dit:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:2
@@ -1731,20 +1640,19 @@ msgstr "Ori_gen:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
 msgid "_Urgency:"
-msgstr ""
+msgstr "_Urgència:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:8
-#, fuzzy
 msgid "_Object Name:"
-msgstr "pel nom"
+msgstr "Nom de l'objecte:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
 msgid "Byline _Title:"
-msgstr ""
+msgstr "_Títol del peu de l'autor:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
 msgid "_Byline:"
-msgstr ""
+msgstr "_Peu de l'autor:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:11
 msgid "_City:"
@@ -1756,89 +1664,80 @@ msgstr "_Idioma:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:13
 msgid "State/Province:"
-msgstr ""
+msgstr "Estat o província:"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:1
 msgid "EXIF, IPTC, XMP support"
-msgstr ""
+msgstr "Compatibilitat amb EXIF, IPTC i XMP"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:2
 msgid "Read and write exif, iptc and xmp metadata."
-msgstr ""
+msgstr "Llegiu i escriviu les metadades EXIF, IPTC i XMP."
 
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:42 ../gthumb/glib-utils.c:1115
 msgid "(invalid value)"
-msgstr ""
+msgstr "(valor no vàlid)"
 
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:710
-#, fuzzy
 msgid "Exposure"
-msgstr "Temps d'exposició"
+msgstr "Exposició"
 
 #: ../extensions/exiv2_tools/main.c:33
-#, fuzzy
 msgid "Exif General"
-msgstr "General"
+msgstr "General d'EXIF"
 
 #: ../extensions/exiv2_tools/main.c:34
-#, fuzzy
 msgid "Exif Conditions"
-msgstr "Condicions en què s'ha fet la foto"
+msgstr "Condicions EXIF"
 
 #: ../extensions/exiv2_tools/main.c:35
-#, fuzzy
 msgid "Exif Structure"
-msgstr "Estructura de la imatge"
+msgstr "Estructura d'EXIF"
 
 #: ../extensions/exiv2_tools/main.c:36
-#, fuzzy
 msgid "Exif Thumbnail"
-msgstr "_Miniatures"
+msgstr "Miniatura d'EXIF"
 
 #: ../extensions/exiv2_tools/main.c:37
 msgid "Exif GPS"
-msgstr ""
+msgstr "GPS d'EXIF"
 
 #: ../extensions/exiv2_tools/main.c:38
-#, fuzzy
 msgid "Exif Maker Notes"
-msgstr "Notes de l'autor"
+msgstr "Notes del creador d'EXIF"
 
 #: ../extensions/exiv2_tools/main.c:39
-#, fuzzy
 msgid "Exif Versions"
-msgstr "Dimensions"
+msgstr "Versions d'EXIF"
 
 #: ../extensions/exiv2_tools/main.c:40
-#, fuzzy
 msgid "Exif Other"
-msgstr "Altres"
+msgstr "Altres d'EXIF"
 
 #: ../extensions/exiv2_tools/main.c:41
 msgid "IPTC"
-msgstr ""
+msgstr "IPTC"
 
 #: ../extensions/exiv2_tools/main.c:42
 msgid "XMP Embedded"
-msgstr ""
+msgstr "XMP incrustat"
 
 #: ../extensions/exiv2_tools/main.c:43
 msgid "XMP Attached"
-msgstr ""
+msgstr "XMP adjuntat"
 
 #: ../extensions/exiv2_tools/main.c:272
 msgid "date photo was taken"
-msgstr ""
+msgstr "la data en què la foto va ser presa"
 
 #: ../extensions/export_tools/callbacks.c:46
-#, fuzzy
 msgid "Export"
-msgstr "Temps d'exposició"
+msgstr "Exporta"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
 msgid "Export to Flickr"
-msgstr ""
+msgstr "Exporta a Flickr"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:9
@@ -1860,7 +1759,7 @@ msgstr "_Compte:"
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
 msgid "Edit accounts"
-msgstr ""
+msgstr "Edita els comptes"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
@@ -1870,12 +1769,11 @@ msgstr "À_lbum:"
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
 msgid "Add a new album"
-msgstr ""
+msgstr "Afegeix un àlbum nou"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
-#, fuzzy
 msgid "Resize the images if larger than this size"
-msgstr "Canvia la mida _si són més grans de:"
+msgstr "Redimensiona les imatges si són més grans que aquesta mida"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:17
@@ -1883,7 +1781,7 @@ msgstr "Canvia la mida _si són més grans de:"
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "_Resize if larger than:"
-msgstr "Canvia la mida _si són més grans de:"
+msgstr "_Redimensiona _si són més grans que:"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
 msgid "720 x 720"
@@ -1908,12 +1806,12 @@ msgstr "2048 x 2048"
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:1
 msgid "Public photos"
-msgstr ""
+msgstr "Fotografies públiques"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:2
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:3
 msgid "Private photos, visible to friends"
-msgstr ""
+msgstr "Fotografies privades, visibles per a les amistats"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:3
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:2
@@ -1923,12 +1821,12 @@ msgstr "Privat"
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:5
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:4
 msgid "_Visibility:"
-msgstr ""
+msgstr "_Visibilitat:"
 
 #: ../extensions/facebook/data/ui/import-from-facebook.ui.h:1
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
 msgid "Import from Picasa Web Album"
-msgstr ""
+msgstr "Importa de l'àlbum web de Picasa"
 
 #: ../extensions/facebook/data/ui/import-from-facebook.ui.h:2
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
@@ -1943,7 +1841,7 @@ msgstr "_Importa"
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
 msgid "A_ccount:"
-msgstr ""
+msgstr "_Compte:"
 
 #: ../extensions/facebook/data/ui/import-from-facebook.ui.h:5
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
@@ -1960,49 +1858,44 @@ msgstr "À_lbum:"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:131
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:373
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
-#, fuzzy
 msgid "Could not connect to the server"
-msgstr "No s'ha pogut copiar la imatge:"
+msgstr "No s'ha pogut connectar al servidor"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:149
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:163
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:157
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:149
 msgid "Files successfully uploaded to the server."
-msgstr ""
+msgstr "S'han pujat correctament els fitxers al servidor."
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:152
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:166
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:160
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:152
 #: ../extensions/webalbums/gth-web-exporter.c:1841
-#, fuzzy
 msgid "_Open in the Browser"
-msgstr "Obre en una finestra nova"
+msgstr "Obre-ho al navegador"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:177
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:248
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:184
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:178
-#, fuzzy
 msgid "Could not upload the files"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'han pogut pujar els fitxers"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:399
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:190
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:225
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:455
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:311
-#, fuzzy
 msgid "Could not create the album"
-msgstr "No s'ha pogut canviar el nom de la imatge:"
+msgstr "No s'ha pogut crear l'àlbum"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:467
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:526
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:377
-#, fuzzy
 msgid "New Album"
-msgstr "Àlbum web"
+msgstr "Àlbum nou"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:559
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:581
@@ -2010,15 +1903,14 @@ msgstr "Àlbum web"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:605
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:599
 msgid "No valid file selected."
-msgstr ""
+msgstr "No s'ha seleccionat cap fitxer vàlid."
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:560
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:582
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:606
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:600
-#, fuzzy
 msgid "Could not export the files"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'han pogut exportar els fitxers"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:568
 #: ../extensions/find_duplicates/gth-find-duplicates.c:277
@@ -2028,25 +1920,24 @@ msgstr "No s'han pogut moure els elements:"
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:607
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
 #: ../gthumb/gth-browser.c:818
-#, fuzzy, c-format
+#, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
-msgstr[0] "%d imatges (%s)"
-msgstr[1] "%d imatges (%s)"
+msgstr[0] "%d fitxer (%s)"
+msgstr[1] "%d fitxers (%s)"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:589
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:613
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:633
-#, fuzzy, c-format
+#, c-format
 msgid "Export to %s"
-msgstr "Importa les fotografies"
+msgstr "Exporta a %s"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:344
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:345
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:279
-#, fuzzy
 msgid "Could not get the photo list"
-msgstr "No s'han pogut importar les fotografies"
+msgstr "No s'ha pogut obtenir la llista de les imatges"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:378
 #: ../extensions/facebook/dlg-import-from-facebook.c:534
@@ -2054,15 +1945,14 @@ msgstr "No s'han pogut importar les fotografies"
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:548
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:587
-#, fuzzy
 msgid "No album selected"
-msgstr "No s'ha detectat cap càmera"
+msgstr "No s'ha seleccionat cap àlbum"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:552
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:566
-#, fuzzy, c-format
+#, c-format
 msgid "Import from %s"
-msgstr "Importa les fotografies"
+msgstr "Importa de %s"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:552
 #: ../extensions/facebook/facebook.extension.in.in.h:1
@@ -2071,14 +1961,14 @@ msgstr "Facebook"
 
 #: ../extensions/facebook/facebook.extension.in.in.h:2
 msgid "Upload images to Facebook"
-msgstr ""
+msgstr "Pugeu les imatges a Facebook"
 
 #: ../extensions/facebook/facebook-service.c:497
 #: ../extensions/flicker_utils/flickr-service.c:863
 #: ../extensions/photobucket/photobucket-service.c:310
 #: ../extensions/picasaweb/picasa-web-service.c:711
 msgid "Getting the album list"
-msgstr ""
+msgstr "S'està obtenint la llista dels àlbums"
 
 #: ../extensions/facebook/facebook-service.c:619
 #: ../extensions/flicker_utils/flickr-service.c:965
@@ -2086,17 +1976,16 @@ msgstr ""
 #: ../extensions/flicker_utils/flickr-service.c:1126
 #: ../extensions/photobucket/photobucket-service.c:423
 #: ../extensions/picasaweb/picasa-web-service.c:805
-#, fuzzy
 msgid "Creating the new album"
-msgstr "Crea un catàleg nou"
+msgstr "S'està creant l'àlbum nou"
 
 #: ../extensions/facebook/facebook-service.c:680
 #: ../extensions/flicker_utils/flickr-service.c:1176
 #: ../extensions/photobucket/photobucket-service.c:485
 #: ../extensions/picasaweb/picasa-web-service.c:860
-#, fuzzy, c-format
+#, c-format
 msgid "Could not upload '%s': %s"
-msgstr "No s'ha pogut copiar la carpeta «%s»: %s"
+msgstr "No s'ha pogut pujar «%s»: %s"
 
 #. Translators: %s is a filename
 #: ../extensions/facebook/facebook-service.c:745
@@ -2112,30 +2001,27 @@ msgstr "S'està pujant «%s»"
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
-msgstr ""
+msgstr "S'estan pujant els fitxers al servidor"
 
 #: ../extensions/facebook/facebook-service.c:1057
 #: ../extensions/flicker_utils/flickr-service.c:1651
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
-msgstr ""
+msgstr "S'està obtenint la llista de les fotos"
 
 #: ../extensions/file_manager/actions.c:136
-#, fuzzy
 msgid "New folder"
 msgstr "Carpeta nova"
 
 #: ../extensions/file_manager/actions.c:137
-#, fuzzy
 msgid "Enter the folder name:"
-msgstr "Introduïu el nom de la carpeta: "
+msgstr "Introduïu el nom de la carpeta:"
 
 #: ../extensions/file_manager/actions.c:409
 #: ../extensions/file_manager/callbacks.c:268
 #: ../extensions/file_manager/callbacks.c:811
-#, fuzzy
 msgid "Could not move the files"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'han pogut moure els fitxers"
 
 #: ../extensions/file_manager/actions.c:410
 #: ../extensions/file_manager/callbacks.c:269
@@ -2144,6 +2030,8 @@ msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
 msgstr ""
+"Els fitxers no es pot moure a la ubicació actual, com a alternativa podeu "
+"triar per copiar-los."
 
 #: ../extensions/file_manager/actions.c:412
 #: ../extensions/file_manager/actions.c:663
@@ -2153,9 +2041,8 @@ msgid "Copy"
 msgstr "Copia"
 
 #: ../extensions/file_manager/actions.c:659
-#, fuzzy
 msgid "Move To"
-msgstr "_Mou"
+msgstr "Mou a"
 
 #: ../extensions/file_manager/actions.c:659
 msgid "Copy To"
@@ -2167,122 +2054,97 @@ msgid "Move"
 msgstr "Mou"
 
 #: ../extensions/file_manager/actions.c:788
-#, fuzzy
 msgid "Could not open the location"
-msgstr "No s'ha pogut moure la imatge:"
+msgstr "No s'ha pogut obrir la ubicació"
 
 #: ../extensions/file_manager/callbacks.c:69
 #: ../extensions/file_manager/callbacks.c:98
-#, fuzzy
-#| msgid "Out"
 msgid "Cut"
-msgstr "Fora"
+msgstr "Retalla"
 
 #: ../extensions/file_manager/callbacks.c:71
-#, fuzzy
-#| msgid "Faster"
 msgid "Paste"
-msgstr "Més ràpid"
+msgstr "Enganxa"
 
 #: ../extensions/file_manager/callbacks.c:76
 #: ../extensions/file_manager/callbacks.c:106
-#, fuzzy
-#| msgid "Copy To"
 msgid "Copy to…"
-msgstr "Copia a"
+msgstr "Copia a..."
 
 #: ../extensions/file_manager/callbacks.c:77
 #: ../extensions/file_manager/callbacks.c:107
-#, fuzzy
 msgid "Move to…"
-msgstr "_Mou"
+msgstr "Mou a..."
 
 #: ../extensions/file_manager/callbacks.c:83
 #: ../extensions/file_manager/callbacks.c:108
-#, fuzzy
 msgid "Move to Trash"
-msgstr "Mou a _la paperera"
+msgstr "Mou a la paperera"
 
 #: ../extensions/file_manager/callbacks.c:84
 #: ../extensions/file_manager/callbacks.c:109
-#, fuzzy
-#| msgid "_Delete"
 msgid "Delete"
-msgstr "_Suprimeix"
+msgstr "Suprimeix"
 
 #: ../extensions/file_manager/callbacks.c:88
-#, fuzzy
-#| msgid "Open with the _File Manager"
 msgid "Open with the File Manager"
-msgstr "Obre amb el gestor de _fitxers"
+msgstr "Obreu-ho amb el gestor de fitxers"
 
 #: ../extensions/file_manager/callbacks.c:93
-#, fuzzy
 msgid "Create Folder"
-msgstr "_Carpeta actual"
+msgstr "Crea una carpeta"
 
 #: ../extensions/file_manager/callbacks.c:100
-#, fuzzy
 msgid "Paste Into Folder"
-msgstr "_Carpeta actual"
+msgstr "Enganxa a la carpeta"
 
 #: ../extensions/file_manager/callbacks.c:114
-#, fuzzy
-#| msgid "Duplicates"
 msgid "Duplicate"
-msgstr "Còpies"
+msgstr "Duplica"
 
 #: ../extensions/file_manager/callbacks.c:533
 #: ../extensions/file_manager/callbacks.c:536
-#, fuzzy
 msgid "Open _With"
 msgstr "_Obre amb"
 
 #: ../extensions/file_manager/callbacks.c:779
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to move \"%s\" to \"%s\"?"
-msgstr "S'està copiant el fitxer %d de %d"
+msgstr "Voleu moure «%s» a «%s»?"
 
 #: ../extensions/file_manager/callbacks.c:781
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to copy \"%s\" to \"%s\"?"
-msgstr "S'està copiant el fitxer %d de %d"
+msgstr "Voleu copiar «%s» a «%s»?"
 
 #: ../extensions/file_manager/callbacks.c:786
-#, fuzzy, c-format
-#| msgid "Are you sure you want to permanently delete \"%s\"?"
+#, c-format
 msgid "Do you want to move the dragged files to \"%s\"?"
-msgstr "Segur que voleu suprimir permanentment «%s»?"
+msgstr "Voleu moure els fitxers arrossegats a «%s»?"
 
 #: ../extensions/file_manager/callbacks.c:788
-#, fuzzy, c-format
-#| msgid "Are you sure you want to permanently delete \"%s\"?"
+#, c-format
 msgid "Do you want to copy the dragged files to \"%s\"?"
-msgstr "Segur que voleu suprimir permanentment «%s»?"
+msgstr "Voleu copiar els fitxers arrossegats a «%s»?"
 
 #: ../extensions/file_manager/callbacks.c:796
-#, fuzzy
-#| msgid "Copy"
 msgid "_Copy"
-msgstr "Copia"
+msgstr "_Copia"
 
 #: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:766
 #: ../gthumb/gth-browser.c:5456 ../gthumb/gth-browser.c:5489
 #: ../gthumb/gth-progress-dialog.c:409
-#, fuzzy
 msgid "Could not perform the operation"
-msgstr "No s'han pogut importar les fotografies"
+msgstr "No s'ha pogut realitzar l'operació"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:1
-#, fuzzy
 msgid "File manager"
-msgstr "_Nom del fitxer"
+msgstr "Gestor de fitxers"
 
 #: ../extensions/file_manager/file_manager.extension.in.in.h:2
-#, fuzzy
 msgid "File manager operations."
-msgstr "Visualitza les propietats de la imatge"
+msgstr "Les operacions del gestor de fitxers."
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:1
 #: ../extensions/file_tools/data/ui/curves-options.ui.h:1
@@ -2291,7 +2153,6 @@ msgid "_Preview"
 msgstr "_Previsualitza"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:2
-#, fuzzy
 msgid "B_rightness:"
 msgstr "_Lluminositat:"
 
@@ -2305,7 +2166,7 @@ msgstr "_Saturació:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:5
 msgid "G_amma:"
-msgstr ""
+msgstr "G_ama:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:6
 msgid "Cyan-_Red:"
@@ -2320,9 +2181,8 @@ msgid "_Yellow-Blue:"
 msgstr "_Groc-blau:"
 
 #: ../extensions/file_tools/data/ui/adjust-colors-options.ui.h:9
-#, fuzzy
 msgid "Color Levels"
-msgstr "<b>Nivells del color</b>"
+msgstr "Nivells del color"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:1
@@ -2340,9 +2200,8 @@ msgstr "_Graella:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:3
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
-#, fuzzy
 msgid "Selection"
-msgstr "Selecció del tipus de lletra"
+msgstr "Selecció"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:4
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:7
@@ -2352,14 +2211,12 @@ msgstr "_Amplada:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:5
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:8
-#, fuzzy
 msgid "Heigh_t:"
-msgstr "Alçada:"
+msgstr "A_lçada:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:6
-#, fuzzy
 msgid "_Position:"
-msgstr "_Destinació:"
+msgstr "_Posició:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:7
 msgid "Maximize"
@@ -2382,7 +2239,7 @@ msgstr "_Inverteix la relació d'aspecte"
 #. after the colon there is a control to select the size in pixels
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:12
 msgid "M_ultiple of:"
-msgstr ""
+msgstr "_Múltiple de:"
 
 #. abbreviation of pixel
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:14
@@ -2390,9 +2247,8 @@ msgid "px"
 msgstr "px"
 
 #: ../extensions/file_tools/data/ui/curves-options.ui.h:2
-#, fuzzy
 msgid "Include current channel"
-msgstr "Data actual"
+msgstr "Inclou el canal actual"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 msgid "High _quality"
@@ -2412,22 +2268,19 @@ msgstr "%"
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:6
 #: ../gthumb/gth-main-default-metadata.c:46
 msgid "Dimensions"
-msgstr "Dimensions"
+msgstr "Les dimensions"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:9
-#, fuzzy
 msgid "Set the image size to this value"
-msgstr "Utilitza la imatge com a fons de l'escriptori (en forma de mosaic)"
+msgstr "Estableix la mida de la imatge a aquest valor"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:12
-#, fuzzy
 msgid "Original dimensions:"
-msgstr "<b>Dimensions originals</b>"
+msgstr "Dimensions originals:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:13
-#, fuzzy
 msgid "Scale factor:"
-msgstr "_Escala:"
+msgstr "Factor d'escalat:"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:14
 msgid "New dimensions:"
@@ -2435,7 +2288,7 @@ msgstr "Dimensions noves:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:2
 msgid "Grid:"
-msgstr ""
+msgstr "Graella:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:3
 msgid "_Background:"
@@ -2443,12 +2296,11 @@ msgstr "F_ons:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:4
 msgid "Pick a background color"
-msgstr ""
+msgstr "Tria un color de fons"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:5
-#, fuzzy
 msgid "_Transparent"
-msgstr "_Tipus de transparència:"
+msgstr "_Transparència"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:6
 msgid "Original size"
@@ -2460,7 +2312,7 @@ msgstr "Capsa contenidora"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:8
 msgid "Crop borders"
-msgstr ""
+msgstr "Escapça les vores"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:9
 msgid "Angle"
@@ -2475,14 +2327,12 @@ msgid "Image size"
 msgstr "Mida de la imatge"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:12
-#, fuzzy
 msgid "Point 1:"
-msgstr "Imprimeix %s"
+msgstr "Punt 1:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:13
-#, fuzzy
 msgid "Point 2:"
-msgstr "Imprimeix %s"
+msgstr "Punt 2:"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:14
 msgid "Keep aspect ratio"
@@ -2493,6 +2343,8 @@ msgid ""
 "Draw a line on the image \n"
 "to set the alignment."
 msgstr ""
+"Dibuixa una línia sobre la imatge \n"
+"per establir l'alienació."
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:17
 msgid "Parallel"
@@ -2500,7 +2352,7 @@ msgstr "Paral·lel"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:18
 msgid "Perpendicular"
-msgstr ""
+msgstr "Perpendicular"
 
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:19
 msgid "Alignment"
@@ -2522,17 +2374,17 @@ msgstr "Quantitat:"
 #: ../extensions/file_tools/gth-curve-editor.c:416
 #, c-format
 msgid "%d → %d"
-msgstr ""
+msgstr "%d → %d"
 
 #: ../extensions/file_tools/gth-curve-editor.c:893
 #: ../gthumb/gth-histogram-view.c:837
 msgid "Linear scale"
-msgstr ""
+msgstr "Escalat lineal"
 
 #: ../extensions/file_tools/gth-curve-editor.c:905
 #: ../gthumb/gth-histogram-view.c:849
 msgid "Logarithmic scale"
-msgstr ""
+msgstr "Escalat logarítmic"
 
 #: ../extensions/file_tools/gth-curve-editor.c:925
 #: ../gthumb/gth-histogram-view.c:869
@@ -2562,10 +2414,8 @@ msgstr "Blau"
 #: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
 #: ../extensions/file_tools/gth-file-tool-curves.c:686
 #: ../extensions/file_tools/gth-file-tool-curves.c:850
-#, fuzzy
-#| msgid "Reset"
 msgid "Presets"
-msgstr "Reinicia"
+msgstr "Predefinicions"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:336
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:388
@@ -2601,30 +2451,30 @@ msgid "Reset"
 msgstr "Reinicia"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:596
-#, fuzzy
 msgid "Adjust Colors"
-msgstr "Redueix els colors"
+msgstr "Ajusta els colors"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:597
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr ""
+"Canvia la lluminositat, el contrast, la saturació i el nivell gamma de la "
+"imatge"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:531
 msgid "Stretch"
-msgstr ""
+msgstr "Estira"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:532
 msgid "Stretch the histogram trimming the 0.5%"
 msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:536
-#, fuzzy
 msgid "Equalize"
-msgstr "_Equalitza"
+msgstr "Equalitza"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:537
 msgid "Equalize the histogram using the square root function"
-msgstr ""
+msgstr "Equalitza l'histograma amb la funció arrel quadrada"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:541
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
@@ -2634,16 +2484,15 @@ msgstr "Uniforma"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:542
 msgid "Equalize the histogram using the linear function"
-msgstr ""
+msgstr "Equalitza l'histograma amb la funció lineal"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:656
-#, fuzzy
 msgid "Adjust Contrast"
-msgstr "Con_trast:"
+msgstr "Ajusta el contrast"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
 msgid "Automatic contrast adjustment"
-msgstr ""
+msgstr "Ajustament automàtic del contrast"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:434
 #: ../extensions/file_tools/gth-file-tool-resize.c:579
@@ -2664,46 +2513,43 @@ msgstr "%d x %d (pantalla)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:442
 #: ../extensions/file_tools/gth-file-tool-resize.c:589
-#, fuzzy
 msgid "5:4"
-msgstr "5:"
+msgstr "5:4"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:443
 #: ../extensions/file_tools/gth-file-tool-resize.c:590
 msgid "4:3 (DVD, Book)"
-msgstr ""
+msgstr "4:3 (DVD, Llibre)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:444
 #: ../extensions/file_tools/gth-file-tool-resize.c:591
-#, fuzzy
 msgid "7:5"
-msgstr "75"
+msgstr "7:5"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:445
 #: ../extensions/file_tools/gth-file-tool-resize.c:592
-#, fuzzy
 msgid "3:2 (Postcard)"
-msgstr "4 x 6 (postal)"
+msgstr "3:2 (postal)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:446
 #: ../extensions/file_tools/gth-file-tool-resize.c:593
 msgid "16:10"
-msgstr ""
+msgstr "16:10"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:447
 #: ../extensions/file_tools/gth-file-tool-resize.c:594
 msgid "16:9 (DVD)"
-msgstr ""
+msgstr "16:9 (DVD)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:448
 #: ../extensions/file_tools/gth-file-tool-resize.c:595
 msgid "1.85:1"
-msgstr ""
+msgstr "1.85:1"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:449
 #: ../extensions/file_tools/gth-file-tool-resize.c:596
 msgid "2.39:1"
-msgstr ""
+msgstr "2.39:1"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:450
 #: ../extensions/file_tools/gth-file-tool-resize.c:597
@@ -2715,126 +2561,115 @@ msgstr "Personalitza"
 #: ../extensions/file_tools/gth-file-tool-crop.c:465
 #: ../extensions/file_tools/gth-file-tool-rotate.c:394
 msgid "Rule of Thirds"
-msgstr ""
+msgstr "Regulació de tercers"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:466
 #: ../extensions/file_tools/gth-file-tool-rotate.c:395
-#, fuzzy
 msgid "Golden Sections"
-msgstr "Selecció del tipus de lletra"
+msgstr "Seccions d'or"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:467
 #: ../extensions/file_tools/gth-file-tool-rotate.c:396
-#, fuzzy
 msgid "Center Lines"
-msgstr "Centra a la _pàgina"
+msgstr "Línies centrals"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:682
 msgid "Crop"
 msgstr "Escapça"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:409
-#, fuzzy
 msgid "Add to Presets"
-msgstr "Selecció del tipus de lletra"
+msgstr "Afegeix a les predefinicions"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:410
-#, fuzzy
 msgid "Enter the preset name:"
-msgstr "Introduïu el nom de la carpeta: "
+msgstr "Introduïu el nom de la predefinició:"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:533
 #: ../extensions/gstreamer_tools/actions.c:69
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1299
 #: ../gthumb/gth-browser.c:1882
-#, fuzzy
 msgid "Could not save the file"
-msgstr "No s'ha pogut moure la imatge:"
+msgstr "No s'ha pogut desar el fitxer"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:836
-#, fuzzy
 msgid "Add to presets"
-msgstr "Selecció del tipus de lletra"
+msgstr "Afegeix a les predefinicions"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:897
-#, fuzzy
 msgid "Color Curves"
-msgstr "<b>Nivells del color</b>"
+msgstr "Corbes del color"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:898
-#, fuzzy
 msgid "Adjust color curves"
-msgstr "Redueix els colors"
+msgstr "Ajusta les corbes del color"
 
 #: ../extensions/file_tools/gth-file-tool-effects.c:357
 msgid "Special Effects"
-msgstr ""
+msgstr "Efectes especials"
 
 #. Translators: this is the name of a filter that produces warmer colors
 #: ../extensions/file_tools/gth-file-tool-effects.c:402
 msgid "Warmer"
-msgstr ""
+msgstr "Escalfador"
 
 #. Translators: this is the name of a filter that produces cooler colors
 #: ../extensions/file_tools/gth-file-tool-effects.c:447
 msgid "Cooler"
-msgstr ""
+msgstr "Refrigerador"
 
 #. Translators: this is the name of an image filter
 #: ../extensions/file_tools/gth-file-tool-effects.c:495
 msgid "Soil"
-msgstr ""
+msgstr "Sòls"
 
 #. Translators: this is the name of an image filter
 #: ../extensions/file_tools/gth-file-tool-effects.c:544
 msgid "Desert"
-msgstr ""
+msgstr "Desert"
 
 #. Translators: this is the name of an image filter
 #: ../extensions/file_tools/gth-file-tool-effects.c:592
-#, fuzzy
-#| msgid "Artist"
 msgid "Artic"
-msgstr "Artista"
+msgstr "Àrtic"
 
 #. Translators: this is the name of an image filter
 #: ../extensions/file_tools/gth-file-tool-effects.c:640
 msgid "Mangos"
-msgstr ""
+msgstr "Mànecs"
 
 #. Translators: this is the name of an image filter
 #: ../extensions/file_tools/gth-file-tool-effects.c:688
 msgid "Fresh Blue"
-msgstr ""
+msgstr "Blau fresc"
 
 #. Translators: this is the name of an image filter
 #: ../extensions/file_tools/gth-file-tool-effects.c:736
 msgid "Cherry"
-msgstr ""
+msgstr "Cirera"
 
 #. Translators: this is the name of an image filter
 #: ../extensions/file_tools/gth-file-tool-effects.c:786
 msgid "Vintage"
-msgstr ""
+msgstr "Vintage"
 
 #. Translators: this is the name of an image filter
 #: ../extensions/file_tools/gth-file-tool-effects.c:908
 msgid "Blurred Edges"
-msgstr ""
+msgstr "Vores borroses"
 
 #. Translators: this is the name of an image filter that produces darker edges
 #: ../extensions/file_tools/gth-file-tool-effects.c:944
 msgid "Vignette"
-msgstr ""
+msgstr "Vinyeta"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:90
 msgid "Flip"
-msgstr "Inverteix"
+msgstr "Capgira"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:91
-#, fuzzy
 msgid "Flip the image vertically"
-msgstr "Inverteix la imatge"
+msgstr "Capgira verticalment la imatge"
 
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:370
 msgid "_Brightness"
@@ -2854,22 +2689,19 @@ msgstr "Escala de grisos"
 
 #: ../extensions/file_tools/gth-file-tool-lomo.c:183
 msgid "Lomo"
-msgstr ""
+msgstr "Polaritzador"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:90
 msgid "Mirror"
-msgstr "Reflecteix en un mirall"
+msgstr "Reflecteix"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:91
-#, fuzzy
 msgid "Mirror the image horizontally"
-msgstr ""
-"Reflecteix la imatge horitzontalment en un mirall (part esquerra-part dreta)"
+msgstr "Reflecteix horitzontalment la imatge"
 
 #: ../extensions/file_tools/gth-file-tool-negative.c:101
-#, fuzzy
 msgid "Negative"
-msgstr "_Negatiu"
+msgstr "Negatiu"
 
 #: ../extensions/file_tools/gth-file-tool-redo.c:81
 msgid "Redo"
@@ -2879,14 +2711,12 @@ msgstr "Refés"
 #: ../extensions/file_tools/gth-file-tool-resize.c:180
 #: ../extensions/resize_images/dlg-resize-images.c:172
 #: ../gthumb/gth-filter-grid.c:575
-#, fuzzy
 msgid "Resizing images"
-msgstr "Canvia la mida de la imatge"
+msgstr "S'estan redimensionant les imatges"
 
 #: ../extensions/file_tools/gth-file-tool-resize.c:832
-#, fuzzy
 msgid "Resize"
-msgstr "Can_via la mida..."
+msgstr "Redimensiona"
 
 #: ../extensions/file_tools/gth-file-tool-rotate.c:683
 msgid "Rotate"
@@ -2895,76 +2725,64 @@ msgstr "Gira"
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:90
 #: ../extensions/image_rotation/callbacks.c:46
 #: ../extensions/image_rotation/callbacks.c:150
-#, fuzzy
 msgid "Rotate Left"
-msgstr "Gira a l'_esquerra"
+msgstr "Gira a l'esquerra"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:91
-#, fuzzy
 msgid "Rotate the image by 90 degrees counterclockwise"
 msgstr "Gira la imatge 90 graus en sentit antihorari"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:90
 #: ../extensions/image_rotation/callbacks.c:47
 #: ../extensions/image_rotation/callbacks.c:158
-#, fuzzy
 msgid "Rotate Right"
-msgstr "Gira a la _dreta"
+msgstr "Gira a la dreta"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:91
-#, fuzzy
 msgid "Rotate the image by 90 degrees clockwise"
 msgstr "Gira la imatge 90 graus en sentit horari"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:70
 #: ../gthumb/resources/gears-menu.ui.h:4
-#, fuzzy
 msgid "Save As"
-msgstr "_Anomena i desa..."
+msgstr "Anomena i desa"
 
 #: ../extensions/file_tools/gth-file-tool-save.c:66
 #: ../gthumb/resources/gears-menu.ui.h:3
 msgid "Save"
-msgstr "Guardar"
+msgstr "Desa"
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:333
-#, fuzzy
 msgid "Sharpening image"
-msgstr "S'estan desant les imatges"
+msgstr "S'està aguditzant la imatge"
 
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:438
-#, fuzzy
 msgid "Enhance Focus"
-msgstr "_Millora"
+msgstr "_Millora l'enfocament"
 
 #: ../extensions/file_tools/gth-file-tool-undo.c:81
 msgid "Undo"
 msgstr "Desfés"
 
 #: ../extensions/find_duplicates/callbacks.c:37
-#, fuzzy
-#| msgid "Find Duplicates"
 msgid "Find _Duplicates…"
-msgstr "Cerca duplicats"
+msgstr "Troba _duplicats..."
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-choose-folders.ui.h:1
-#, fuzzy
 msgid "_Folders:"
-msgstr "_Carpetes"
+msgstr "_Carpetes:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:1
 msgid "Search for Duplicates"
 msgstr "Cerca duplicats"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:2
-#, fuzzy
 msgid "Duplicates:"
-msgstr "Còpies"
+msgstr "Duplicats:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
-#, fuzzy
 msgid "Files:"
-msgstr "_Fitxer"
+msgstr "Fitxers:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
 msgid "_View"
@@ -2976,14 +2794,13 @@ msgid "_Delete"
 msgstr "_Suprimeix"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
-#, fuzzy
 msgid "No duplicates found."
-msgstr "No s'ha trobat cap imatge"
+msgstr "No s'ha trobat cap duplicat."
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:1
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:1
 msgid "Find Duplicates"
-msgstr "Cerca duplicats"
+msgstr "Troba duplicats"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:2
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:3
@@ -2992,56 +2809,48 @@ msgid "Start _at:"
 msgstr "Comença _a:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:4
-#, fuzzy
 msgid "_Filter:"
-msgstr "_Filtra"
+msgstr "_Filtre:"
 
 #: ../extensions/find_duplicates/find_duplicates.extension.in.in.h:2
-#, fuzzy
 msgid "Find duplicated files."
-msgstr "Cerca duplicats"
+msgstr "Trobeu els fitxers duplicats."
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:65
-#, fuzzy
 msgid "leave the newest duplicates"
-msgstr "_Anomena i desa la imatge:"
+msgstr "deixa els duplicats més nous"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:66
-#, fuzzy
 msgid "leave the oldest duplicates"
-msgstr "Cerca duplicats"
+msgstr "deixa els duplicats més antics"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:67
-#, fuzzy
 msgid "by folder…"
-msgstr "Carpeta _nova..."
+msgstr "per carpeta..."
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:68
 msgid "all files"
-msgstr ""
+msgstr "tots els fitxers"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:69
-#, fuzzy
 msgid "no file"
-msgstr "Fitxer d'índe_x:"
+msgstr "cap fitxer"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:560
 #: ../extensions/find_duplicates/gth-find-duplicates.c:668
-#, fuzzy, c-format
+#, c-format
 msgid "%d duplicate"
 msgid_plural "%d duplicates"
-msgstr[0] "Duplicats trobats:"
-msgstr[1] "Duplicats trobats:"
+msgstr[0] "%d duplicat"
+msgstr[1] "%d duplicats"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:712
-#, fuzzy
 msgid "Search completed"
-msgstr "Cerca duplicats"
+msgstr "S'ha completat la cerca"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:725
-#, fuzzy
 msgid "Searching for duplicates"
-msgstr "Cerca duplicats"
+msgstr "Se cerquen duplicats"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:728
 #: ../gthumb/gth-load-file-data-task.c:106
@@ -3049,55 +2858,52 @@ msgstr "Cerca duplicats"
 #, c-format
 msgid "%d file remaining"
 msgid_plural "%d files remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d fitxer restant"
+msgstr[1] "%d fitxers restants"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:830
-#, fuzzy
 msgid "Getting the file list"
-msgstr "S'està obtenint la llista de carpetes..."
+msgstr "S'està obtenint la llista dels fitxers"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:1006
 msgid "Duplicates"
-msgstr "Còpies"
+msgstr "Duplicats"
 
 #: ../extensions/find_duplicates/gth-find-duplicates.c:1298
-#, fuzzy
 msgid "Select"
-msgstr "_Selecciona"
+msgstr "Selecciona"
 
 #: ../extensions/flicker/flicker.extension.in.in.h:1
 msgid "Flicker"
-msgstr ""
+msgstr "Flicker"
 
 #: ../extensions/flicker/flicker.extension.in.in.h:2
 msgid "Upload images to Flickr"
-msgstr ""
+msgstr "Pugeu les imatges a Flickr"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:2
 msgid "Private photos, visible to family and friends"
-msgstr ""
+msgstr "Fotos privades, visibles a la família i les amistats"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:4
 msgid "Private photos, visible to family"
-msgstr ""
+msgstr "Fotos privades, visibles a la família"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:5
 msgid "Private photos"
-msgstr ""
+msgstr "Fotos privades"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:6
-#, fuzzy
 msgid "Safe content"
-msgstr "Comentari de la imatge"
+msgstr "Contingut segur"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:7
 msgid "Moderate content"
-msgstr ""
+msgstr "Contingut moderat"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:8
 msgid "Restricted content"
-msgstr ""
+msgstr "Contingut restringit"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:12
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
@@ -3108,29 +2914,27 @@ msgstr "Espai lliure:"
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:13
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
 msgid "Ph_otoset:"
-msgstr ""
+msgstr "F_otocomposició:"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:14
 msgid "_Privacy:"
-msgstr ""
+msgstr "_Privacitat:"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
 msgid "Hi_de from public searches"
-msgstr ""
+msgstr "Oculta _de cerques públiques"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
 msgid "_Safety:"
-msgstr ""
+msgstr "_Protecció:"
 
 #: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:1
-#, fuzzy
 msgid "C_ontinue"
-msgstr "Continua"
+msgstr "C_ontinua"
 
 #: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:2
-#, fuzzy
 msgid "_Authorize..."
-msgstr "_Redueix el nombre de colors..."
+msgstr "_Autoritza..."
 
 #: ../extensions/flicker_utils/flickr-consumer.c:124
 #: ../extensions/flicker_utils/flickr-service.c:237
@@ -3150,15 +2954,16 @@ msgstr "Error desconegut"
 msgid ""
 "Return to this window when you have finished the authorization process on %s"
 msgstr ""
+"Torneu a aquesta finestra quan hàgiu acabat el procés d'autorització a% s"
 
 #: ../extensions/flicker_utils/flickr-service.c:503
 msgid "Once you're done, click the 'Continue' button below."
-msgstr ""
+msgstr "Una vegada hàgiu acabat, feu clic al botó «Continua» de sota."
 
 #: ../extensions/flicker_utils/flickr-service.c:571
 #, c-format
 msgid "gThumb requires your authorization to upload the photos to %s"
-msgstr ""
+msgstr "gThumb requereix la vostra autorització per pujar les fotos a %s"
 
 #: ../extensions/flicker_utils/flickr-service.c:572
 #, c-format
@@ -3167,24 +2972,25 @@ msgid ""
 "photos to %s. When you're finished, return to this window to complete the "
 "authorization."
 msgstr ""
+"Feu clic a «Autoritza» per a obrir el vostre navegador i autoritzar a gthumb "
+"perquè pugi les fotos a %s. Quan ho hàgiu fet, torneu a aquesta finestra per "
+"completar l'autorització."
 
 #. Translators: %s is a filename
 #: ../extensions/gstreamer_tools/actions.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "Image saved as %s"
-msgstr "Pàgina %d de %d"
+msgstr "S'ha desat la imatge com %s"
 
 #: ../extensions/gstreamer_tools/actions.c:101
-#, fuzzy
 msgctxt "Filename"
 msgid "Screenshot"
-msgstr "Captures de pantalla"
+msgstr "Captura de pantalla"
 
 #: ../extensions/gstreamer_tools/actions.c:137
 #: ../extensions/gstreamer_tools/actions.c:148
-#, fuzzy
 msgid "Could not take a screenshot"
-msgstr "No s'han pogut importar les fotografies"
+msgstr "No s'ha pogut fer la captura de pantalla"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:605
@@ -3208,18 +3014,16 @@ msgid "--:--"
 msgstr "--:--"
 
 #: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:2
-#, fuzzy
-#| msgid "Screenshots"
 msgid "_Screenshots location:"
-msgstr "Captures de pantalla"
+msgstr "U_bicació de la captura de pantalla:"
 
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:1
 msgid "Audio/Video support"
-msgstr ""
+msgstr "Compatibilitat amb àudio i vídeo"
 
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:2
 msgid "Play audio and video files."
-msgstr ""
+msgstr "Reproduïu els fitxers d'àudio i de vídeo."
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:575
 msgid "Playing video"
@@ -3230,28 +3034,27 @@ msgid "Pause"
 msgstr "Fes una pausa"
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:640
-#, fuzzy
 msgid "Take a screenshot"
-msgstr "Captures de pantalla"
+msgstr "Fes una captura de pantalla"
 
 #: ../extensions/gstreamer_tools/main.c:32
 #: ../gthumb/gth-main-default-tests.c:268
 msgid "Video"
-msgstr "Vídeo"
+msgstr "El vídeo"
 
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../gthumb/gth-main-default-tests.c:275
 msgid "Audio"
-msgstr "Àudio"
+msgstr "L'àudio"
 
 #: ../extensions/gstreamer_tools/main.c:40
 msgid "Artist"
-msgstr "Artista"
+msgstr "L'artista"
 
 #: ../extensions/gstreamer_tools/main.c:41
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "Album"
-msgstr "Àlbum"
+msgstr "L'àlbum"
 
 #: ../extensions/gstreamer_tools/main.c:42
 msgid "Bitrate"
@@ -3267,9 +3070,8 @@ msgid "Codec"
 msgstr "Còdec"
 
 #: ../extensions/gstreamer_tools/main.c:46
-#, fuzzy
 msgid "Framerate"
-msgstr "E_stil del marc:"
+msgstr "Taxa de fotogrames"
 
 #: ../extensions/gstreamer_tools/main.c:47
 #: ../extensions/image_print/data/ui/print-layout.ui.h:24
@@ -3287,7 +3089,7 @@ msgstr "Canals"
 
 #: ../extensions/gstreamer_tools/main.c:52
 msgid "Sample rate"
-msgstr ""
+msgstr "Freqüència de mostreig"
 
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:368
 msgid "Stereo"
@@ -3308,29 +3110,27 @@ msgid "%d × %d"
 msgstr "%d × %d"
 
 #: ../extensions/image_print/actions.c:69
-#, fuzzy
 msgid "Could not print the selected files"
-msgstr "Obre la carpeta seleccionada"
+msgstr "No s'han pogut imprimir els fitxers seleccionats"
 
 #: ../extensions/image_print/callbacks.c:53
 #: ../extensions/image_print/callbacks.c:59
 #: ../extensions/image_print/preferences.c:79
 msgid "Print"
-msgstr "Imprimeix"
+msgstr "Impressió"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:1
 msgid "Centered"
 msgstr "Centrat"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:13
-#, fuzzy
 msgid "The total number of files"
-msgstr "Redueix el nombre de colors"
+msgstr "El nombre total de fitxers"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:14
 #: ../extensions/importer/data/ui/import-preferences.ui.h:4
 msgid "The event description"
-msgstr ""
+msgstr "La descripció de l'esdeveniment"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:17
 msgid "_Rows:"
@@ -3349,14 +3149,12 @@ msgid "Left"
 msgstr "Esquerra"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:22
-#, fuzzy
 msgid "Top"
-msgstr "Part _superior:"
+msgstr "Superior"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:26
-#, fuzzy
 msgid "Rotation:"
-msgstr "Ubicació "
+msgstr "Rotació:"
 
 #: ../extensions/image_print/data/ui/print-layout.ui.h:27
 msgid "Unit:"
@@ -3379,19 +3177,16 @@ msgid "Fonts"
 msgstr "Tipus de lletres"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:5
-#, fuzzy
 msgid "Select Caption Font"
-msgstr "Seleccioneu un tipus de lletra"
+msgstr "Seleccioneu el tipus de lletra de l'anotació"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:6
-#, fuzzy
 msgid "Select Header Font"
-msgstr "Seleccioneu un tipus de lletra"
+msgstr "Seleccioneu el tipus de lletra de la capçalera"
 
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:7
-#, fuzzy
 msgid "Select Footer Font"
-msgstr "Seleccioneu un tipus de lletra"
+msgstr "Seleccioneu el tipus de lletra del peu de pàgina"
 
 #: ../extensions/image_print/gth-image-print-job.c:914
 #: ../extensions/webalbums/data/albumthemes/text.h:31
@@ -3402,26 +3197,26 @@ msgstr "Pàgina %d de %d"
 #: ../extensions/image_print/gth-image-print-job.c:1680
 #: ../extensions/image_print/gth-image-print-job.c:1845
 #: ../extensions/image_print/gth-image-print-job.c:1888
-#, fuzzy
 msgid "Could not print"
-msgstr "No s'han pogut importar les fotografies"
+msgstr "No s'ha pogut imprimir"
 
 #: ../extensions/image_print/gth-image-print-job.c:1746
 #: ../gthumb/gth-main-default-tests.c:261
 msgid "Images"
-msgstr "Imatges"
+msgstr "Les imatges"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
 #: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:341
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr ""
+"No hi ha disponible cap carregador adequat per a aquest tipus de fitxer"
 
 #. translators: %s is a filename
 #: ../extensions/image_print/gth-load-image-info-task.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "Loading \"%s\""
-msgstr "S'estan carregant les imatges"
+msgstr "S'està carregant «%s»"
 
 #: ../extensions/image_print/gth-load-image-info-task.c:167
 #: ../extensions/webalbums/gth-web-exporter.c:2722
@@ -3429,23 +3224,20 @@ msgid "Loading images"
 msgstr "S'estan carregant les imatges"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:1
-#, fuzzy
 msgid "Image print"
-msgstr "Previsualització de la imatge"
+msgstr "Impressió de la imatge"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:2
 msgid "Allow to print images choosing the page layout."
-msgstr ""
+msgstr "Permet imprimir imatges amb la selecció de la disposició de la pàgina."
 
 #: ../extensions/image_rotation/callbacks.c:52
-#, fuzzy
 msgid "Rotate Physically"
-msgstr "Gira les imatges físicament"
+msgstr "Gira físicament"
 
 #: ../extensions/image_rotation/callbacks.c:53
-#, fuzzy
 msgid "Reset the EXIF Orientation"
-msgstr "Reinicia l'orientació _Exif"
+msgstr "Restableix l'orientació d'EXIF"
 
 #: ../extensions/image_rotation/gth-reset-orientation-task.c:111
 #: ../extensions/image_rotation/gth-transform-task.c:143
@@ -3455,14 +3247,12 @@ msgid "Saving images"
 msgstr "S'estan desant les imatges"
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:1
-#, fuzzy
 msgid "Image rotation"
-msgstr "Títol de la imatge"
+msgstr "Rotació de la imatge"
 
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:2
-#, fuzzy
 msgid "Rotate images without data loss."
-msgstr "Gira les imatges sense perdre qualitat"
+msgstr "Gireu les imatges sense pèrdua de dades."
 
 #: ../extensions/image_rotation/rotation-utils.c:105
 #, c-format
@@ -3500,18 +3290,16 @@ msgstr "Re_talla"
 
 #: ../extensions/image_rotation/rotation-utils.c:118
 msgid "_Accept distortion"
-msgstr ""
+msgstr "_Accepta la distorsió"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:1
-#, fuzzy
 msgid "After loading an image:"
-msgstr "Després de ca_rregar una imatge:"
+msgstr "Després de carregar una imatge:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
 #: ../extensions/image_viewer/gth-image-viewer-page.c:834
-#, fuzzy
 msgid "Set to actual size"
-msgstr "Ajusta la imatge a la mida actual"
+msgstr "Estableix-ho a la mida real"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:3
 msgid "Keep previous zoom"
@@ -3519,9 +3307,8 @@ msgstr "Conserva l'ampliació anterior"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
 #: ../extensions/image_viewer/gth-image-viewer-page.c:841
-#, fuzzy
 msgid "Fit to window"
-msgstr "Ajusta la imatge a la finestra"
+msgstr "Ajusta a la finestra"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
 msgid "Fit to window if larger"
@@ -3529,29 +3316,22 @@ msgstr "Si és més gran, ajusta a la finestra"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
 #: ../extensions/image_viewer/gth-image-viewer-page.c:848
-#, fuzzy
 msgid "Fit to width"
-msgstr "Si és més gran, ajusta a l'amplada de pàgina"
+msgstr "Ajusta a l'amplada"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:7
 msgid "Fit to width if larger"
 msgstr "Si és més gran, ajusta a l'amplada de pàgina"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:8
-#, fuzzy
 msgid "Reset scrollbar positions"
-msgstr ""
-"Reinicia les posicions de les barres de desplaçament després de carregar una "
-"imatge"
+msgstr "Restableix la posició de les barres de desplaçament"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:9
-#, fuzzy
 msgid "Zoom quality:"
-msgstr "_Qualitat de l'ampliació"
+msgstr "Qualitat de l'ampliació:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:10
-#, fuzzy
-#| msgid "High"
 msgctxt "zoom quality"
 msgid "_High"
 msgstr "Alta"
@@ -3559,111 +3339,99 @@ msgstr "Alta"
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:11
 msgctxt "zoom quality"
 msgid "_Low"
-msgstr ""
+msgstr "_Baixa"
 
 #: ../extensions/image_viewer/gth-image-histogram.c:85
-#, fuzzy
 msgid "Histogram"
-msgstr "_Histograma"
+msgstr "Histograma"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:75
-#, fuzzy
 msgid "Copy Image"
-msgstr "Escapça la imatge"
+msgstr "Copia la imatge"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:76
-#, fuzzy
 msgid "Paste Image"
-msgstr "Desa la imatge"
+msgstr "Enganxa la imatge"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:855
-#, fuzzy
 msgid "Fit to height"
-msgstr "Si és més gran ajusta a l'ample de pàgina"
+msgstr "Ajusta a l'alçada"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:862
 msgid "Apply the embedded color profile"
-msgstr ""
+msgstr "Aplica el perfil de color incrustat"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1472
 msgid "Save Image"
 msgstr "Desa la imatge"
 
 #: ../extensions/image_viewer/gth-image-viewer-page.c:2056
-#, fuzzy
-#| msgid "Copying original images"
 msgid "Loading the original image"
-msgstr "S'estan copiant les imatges originals"
+msgstr "S'està carregant la imatge original"
 
 #: ../extensions/image_viewer/preferences.c:117
 msgid "Viewer"
 msgstr "Visualitzador"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:1
-#, fuzzy
 msgid "_Destination"
-msgstr "_Destinació:"
+msgstr "_Destinació"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:2
-#, fuzzy
 msgid "_Automatic subfolder"
-msgstr "Mida automàtica"
+msgstr "Subcarpetes _automàtiques"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:3
-#, fuzzy
 msgid "as _single subfolder"
-msgstr "_Inclou les subcarpetes"
+msgstr "com una _subcarpeta individual"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:7
 msgid "The year"
-msgstr ""
+msgstr "L'any"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:8
 msgid "The month"
-msgstr ""
+msgstr "El mes"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:9
 msgid "The day of the month"
-msgstr ""
+msgstr "El dia del mes"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:10
-#, fuzzy
 msgid "The hour"
-msgstr "hores"
+msgstr "L'hora"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:11
 msgid "The minutes"
-msgstr ""
+msgstr "Els minuts"
 
 #: ../extensions/importer/data/ui/import-preferences.ui.h:12
-#, fuzzy
 msgid "The seconds"
-msgstr "segons"
+msgstr "Els segons"
 
 #: ../extensions/importer/gth-import-destination-button.c:111
 msgid "Invalid Destination"
-msgstr ""
+msgstr "Destinació no vàlida"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:198
 #, c-format
 msgid "example: %s"
-msgstr ""
+msgstr "exemple: %s"
 
 #. subfolder type
 #: ../extensions/importer/gth-import-preferences-dialog.c:330
-#, fuzzy
 msgid "File date"
-msgstr "_Nom del fitxer"
+msgstr "Dates de fitxers"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
 #: ../extensions/importer/gth-import-preferences-dialog.c:340
 msgid "year-month-day"
-msgstr ""
+msgstr "any-mes-dia"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:341
 msgid "year-month"
-msgstr ""
+msgstr "any-mes"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:342
 msgid "year"
@@ -3671,40 +3439,37 @@ msgstr "any"
 
 #: ../extensions/importer/gth-import-preferences-dialog.c:343
 msgid "custom format"
-msgstr ""
+msgstr "format personalitzat"
 
 #: ../extensions/importer/gth-import-task.c:426
 #: ../extensions/importer/gth-import-task.c:461
 #: ../extensions/importer/gth-import-task.c:671
 msgid "Importing files"
-msgstr ""
+msgstr "S'estan important els fitxers"
 
 #: ../extensions/importer/gth-import-task.c:620
 msgid "No file imported"
-msgstr ""
+msgstr "Cap fitxer importat"
 
 #: ../extensions/importer/gth-import-task.c:621
 msgid "The selected files are already present in the destination."
-msgstr ""
+msgstr "Els fitxers seleccionats ja estan presents a la destinació."
 
 #: ../extensions/importer/gth-import-task.c:644
-#, fuzzy
 msgid "Could not delete the files"
-msgstr "No s'han pogut suprimir les imatges:"
+msgstr "No s'han pogut eliminar els fitxers"
 
 #: ../extensions/importer/gth-import-task.c:645
-#, fuzzy
 msgid "Delete operation not supported."
-msgstr "El tipus d'imatge no està implementat: %s"
+msgstr "L'operació de supressió no és compatible."
 
 #: ../extensions/importer/gth-import-task.c:732
-#, fuzzy
 msgid "Last imported"
-msgstr "Ultima modificació"
+msgstr "Ultima importació"
 
 #: ../extensions/importer/gth-import-task.c:838
 msgid "No file specified."
-msgstr ""
+msgstr "Cap fitxer especificat."
 
 #. Translators: For example: Not enough free space in '/home/user/Images'.\n1.3 GB of space is required but only 300 MB is available.
 #: ../extensions/importer/gth-import-task.c:875
@@ -3713,122 +3478,113 @@ msgid ""
 "Not enough free space in '%s'.\n"
 "%s of space is required but only %s is available."
 msgstr ""
+"No hi ha prou espai lliure a «%s»\n"
+"Es requereixen %s però tan sols hi ha disponible %s."
 
 #: ../extensions/list_tools/callbacks.c:174
-#, fuzzy
 msgid "Tools"
-msgstr "Ei_nes"
+msgstr "Eines"
 
 #: ../extensions/list_tools/data/ui/ask-value.ui.h:1
-#, fuzzy
 msgid "_Skip"
-msgstr "Omet"
+msgstr "I_gnora"
 
 #: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:1
-#, fuzzy
 msgid "Commands"
-msgstr "Línia d'ordres"
+msgstr "Ordres"
 
 #: ../extensions/list_tools/data/ui/personalize-scripts.ui.h:2
-#, fuzzy
 msgid "Co_mmands:"
-msgstr "Co_mentari:"
+msgstr "_Ordres:"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:2
 msgid "_Wait for the command to finish"
-msgstr ""
+msgstr "A l'espera que finalitzi l'ordre"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:3
 msgid "E_xecute command once for every file"
-msgstr ""
+msgstr "Executa l'ordre un cop per cadascun dels fitxers"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:4
 msgid "_Terminal command (shell script)"
-msgstr ""
+msgstr "Ordre del _terminal (script de shell)"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:5
-#, fuzzy
 msgid "Sh_ortcut:"
-msgstr "_Ordena:"
+msgstr "D_recera:"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:6
 msgid "The file uri"
-msgstr ""
+msgstr "L'URI del fitxer"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:7
-#, fuzzy
 msgid "The file path"
-msgstr "Ca_mí del fitxer"
+msgstr "El camí al fitxer"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:8
-#, fuzzy
 msgid "The file basename"
-msgstr "Inclou el nom de fitxer"
+msgstr "El nom base del fitxer"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:9
-#, fuzzy
 msgid "The parent folder path"
 msgstr "Mou la carpeta actual"
 
-#. Translate only 'message' and 'default_value'.
+#. Translate only
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:14
 #, no-c-format
 msgid "%ask{ message }{ default value }"
-msgstr ""
+msgstr "%ask{ missatge }{ valor per defecte }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:15
 msgid "Ask an input value"
-msgstr ""
+msgstr "Demana'm l'entrada d'un valor"
 
-#. Translate only 'attribute name'
+#. Translate only
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:18
 #, no-c-format
 msgid "%attr{ attribute name }"
-msgstr ""
+msgstr "%attr{ nom de l'atribut }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:19
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:25
 msgid "A file attribute"
-msgstr ""
+msgstr "Un atribut de fitxer"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:21
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%N"
-msgstr "%"
+msgstr "%N"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:22
 msgid "The file basename without extension"
-msgstr ""
+msgstr "El nom base del fitxer sense l'extensió"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:24
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "%E"
-msgstr "%"
+msgstr "%E"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:25
-#, fuzzy
 msgid "The file extension"
-msgstr "Determina per l'extensió"
+msgstr "L'extensió del fitxer"
 
-#. Translate only 'text'.
+#. Translate only
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:28
 #, no-c-format
 msgid "%quote{ text }"
-msgstr ""
+msgstr "%quote{ text }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:29
 msgid "Quote the text "
-msgstr ""
+msgstr "Cita el text"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:30
-#, fuzzy
 msgid "_Command:"
-msgstr "Línia d'ordres"
+msgstr "_Ordre:"
 
 #: ../extensions/list_tools/data/ui/tools-menu.ui.h:1
-#, fuzzy
 msgid "Personalize..."
-msgstr "_Redueix el nombre de colors..."
+msgstr "Personalitza..."
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:257
 msgid "Script"
@@ -3840,39 +3596,35 @@ msgstr "Drecera"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:285
 #: ../gthumb/dlg-personalize-filters.c:252
-#, fuzzy
 msgid "Show"
-msgstr "Mostra la mida"
+msgstr "Mostra"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:355
-#, fuzzy
 msgid "Could not save the script"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'ha pogut desar l'script"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:406
-#, fuzzy
 msgid "New Command"
-msgstr "Línia d'ordres"
+msgstr "Ordre nova"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:433
-#, fuzzy
 msgid "Edit Command"
-msgstr "Edita la llista d'adreces d'interès"
+msgstr "Edita l'ordre"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:461
 msgid "Are you sure you want to delete the selected command?"
-msgstr ""
+msgstr "Esteu segur que voleu suprimir l'ordre seleccionada?"
 
 #: ../extensions/list_tools/gth-script.c:615
 msgid "Enter a value:"
-msgstr ""
+msgstr "Introduïu un valor:"
 
 #: ../extensions/list_tools/gth-script.c:750
 #: ../extensions/webalbums/gth-web-exporter.c:558
 #: ../extensions/webalbums/gth-web-exporter.c:570
 #: ../extensions/webalbums/gth-web-exporter.c:578
 msgid "Malformed command"
-msgstr ""
+msgstr "ordre amb format incorrecte"
 
 #: ../extensions/list_tools/gth-script-editor-dialog.c:146
 msgid "none"
@@ -3881,45 +3633,45 @@ msgstr "cap"
 #: ../extensions/list_tools/gth-script-editor-dialog.c:152
 #, c-format
 msgid "key %d on the numeric keypad"
-msgstr ""
+msgstr "la tecla %d al teclat numèric"
 
 #: ../extensions/list_tools/gth-script-editor-dialog.c:295
 #, c-format
 msgid "No command specified"
-msgstr ""
+msgstr "Cap ordre especificada"
 
 #: ../extensions/list_tools/gth-script-task.c:83
 #, c-format
 msgid "Command exited abnormally with status %d"
-msgstr ""
+msgstr "L'ordre va sortir amb l'estat no normal %d"
 
 #: ../extensions/list_tools/list_tools.extension.in.in.h:1
 msgid "File list tools"
-msgstr ""
+msgstr "Eines de llistat dels fitxers"
 
 #: ../extensions/list_tools/list_tools.extension.in.in.h:2
 msgid "Scripting and batch manipulation of files."
-msgstr ""
+msgstr "Creació de scripts i manipulació per lots de fitxers."
 
 #: ../extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: ../extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
 msgid "N"
-msgstr ""
+msgstr "N"
 
 #: ../extensions/map_view/gth-map-view.c:132
 msgctxt "Cardinal point"
 msgid "W"
-msgstr ""
+msgstr "O"
 
 #: ../extensions/map_view/gth-map-view.c:132
 msgctxt "Cardinal point"
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: ../extensions/map_view/gth-map-view.c:205
 #: ../extensions/map_view/map_view.extension.in.in.h:1
@@ -3930,40 +3682,38 @@ msgstr "Mapa"
 #: ../extensions/map_view/gth-map-view.c:276
 msgid "The geographical position information is not available for this image."
 msgstr ""
+"La informació de la posició geogràfica no està disponible per a aquesta "
+"imatge."
 
 #: ../extensions/map_view/map_view.extension.in.in.h:2
 msgid "View the photo position on the map"
-msgstr ""
+msgstr "Visualitza la posició de la foto sobre el mapa"
 
 #: ../extensions/oauth/data/ui/oauth-account-manager.ui.h:1
-#, fuzzy
 msgid "A_ccounts:"
-msgstr "_Recents:"
+msgstr "_Comptes:"
 
 #: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
 msgid "Loading..."
-msgstr "S'està carregant…"
+msgstr "S'està carregant..."
 
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:153
 #: ../extensions/oauth/oauth-account-manager-dialog.c:140
 #: ../gthumb/gtk-utils.h:41
 msgid "_New"
-msgstr ""
+msgstr "_Nou"
 
 #: ../extensions/oauth/oauth-account-chooser-dialog.c:200
-#, fuzzy
 msgid "New authentication…"
-msgstr "_Visualitza la destinació"
+msgstr "Autenticació nova..."
 
 #: ../extensions/oauth/oauth-ask-authorization-dialog.c:245
 msgid "Authorization Required"
-msgstr ""
+msgstr "Cal autenticació"
 
 #: ../extensions/oauth/web-service.c:378
-#, fuzzy
-#| msgid "Choose Account"
 msgid "Choose _Account…"
-msgstr "Trieu un compte"
+msgstr "Seleccion_a un compte..."
 
 #: ../extensions/oauth/web-service.c:656
 msgid "Choose Account"
@@ -3971,169 +3721,154 @@ msgstr "Trieu un compte"
 
 #: ../extensions/oauth/web-service.c:773
 msgid "Edit Accounts"
-msgstr ""
+msgstr "Edita els comptes"
 
 #: ../extensions/oauth/web-service.c:791 ../extensions/oauth/web-service.c:808
 msgid "Connecting to the server"
-msgstr ""
+msgstr "S'està connectant al servidor"
 
 #: ../extensions/oauth/web-service.c:792
 msgid "Asking authorization"
-msgstr ""
+msgstr "S'està demanant l'autorització"
 
 #: ../extensions/oauth/web-service.c:809
-#, fuzzy
 msgid "Getting account information"
-msgstr "Informació general"
+msgstr "S'està important la informació del compte"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
 msgid "Tiny ( 100 x 75 )"
-msgstr ""
+msgstr "Ínfima ( 100 x 75 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
 msgid "Small ( 160 x 120 )"
-msgstr ""
+msgstr "Petita ( 160 x 120 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
 msgid "Medium ( 320 x 240 )"
-msgstr ""
+msgstr "Mitjana ( 320 x 240 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
-#, fuzzy
 msgid "Large ( 640 x 480 )"
-msgstr "640 x 480"
+msgstr "Gran ( 640 x 480 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
 msgid "15ʺ screen ( 800 x 600 )"
-msgstr ""
+msgstr "pantalla de 15ʺ ( 800 x 600 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
 msgid "17ʺ screen ( 1024 x 768 )"
-msgstr ""
+msgstr "pantalla de 17ʺ ( 1024 x 768 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:294
-#, fuzzy
 msgid "1 megabyte file size"
-msgstr "Ordena les imatges per la mida de fitxer"
+msgstr "mida del fitxer d'1 megabyte"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
-#, fuzzy
 msgid "_Scramble filenames"
-msgstr "Inclou el nom de fitxer"
+msgstr "Noms de fitxer regirats"
 
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
-#, fuzzy
 msgid "_Container:"
-msgstr "_Continua"
+msgstr "_Contenidor:"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:288
 msgid "Tiny ( 100 × 75 )"
-msgstr ""
+msgstr "Ínfima ( 100 × 75 )"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:289
 msgid "Small ( 160 × 120 )"
-msgstr ""
+msgstr "Petita ( 160 × 120 )"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:290
 msgid "Medium ( 320 × 240 )"
-msgstr ""
+msgstr "Mitjana ( 320 × 240 )"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:291
 msgid "Large ( 640 × 480 )"
-msgstr ""
+msgstr "Gran ( 640 × 480 )"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:292
 msgid "15ʺ screen ( 800 × 600 )"
-msgstr ""
+msgstr "pantalla de 15ʺ ( 800 × 600 )"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:293
 msgid "17ʺ screen ( 1024 × 768 )"
-msgstr ""
+msgstr "pantalla de 17ʺ ( 1024 × 768 )"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:301
-#, fuzzy
 msgid "2 megabyte file size"
-msgstr "Ordena les imatges per la mida de fitxer"
+msgstr "mida del fitxer de 2 megabytes"
 
 #: ../extensions/photobucket/photobucket.extension.in.in.h:1
 msgid "PhotoBucket"
-msgstr ""
+msgstr "PhotoBucket"
 
 #: ../extensions/photobucket/photobucket.extension.in.in.h:2
 msgid "Upload images to PhotoBucket"
-msgstr ""
+msgstr "Pugeu les imatges a PhotoBucket"
 
 #: ../extensions/photo_importer/actions.c:71
 #: ../extensions/photo_importer/dlg-photo-importer.c:612
-#, fuzzy
 msgid "Choose a folder"
-msgstr "Seleccioneu la carpeta que es mostrarà a l'inici"
+msgstr "Selecciona una carpeta"
 
 #: ../extensions/photo_importer/actions.c:75
-#, fuzzy
 msgid "Import"
-msgstr "_Importa"
+msgstr "Importa"
 
 #: ../extensions/photo_importer/callbacks.c:41
 msgid "_Removable Device…"
-msgstr ""
+msgstr "Dispositiu ext_raïble..."
 
 #: ../extensions/photo_importer/callbacks.c:42
-#, fuzzy
 msgid "F_older…"
-msgstr "Carpeta _nova..."
+msgstr "C_arpeta..."
 
 #: ../extensions/photo_importer/callbacks.c:63
-#, fuzzy
 msgid "I_mport From"
-msgstr "Importa les fotografies"
+msgstr "I_mporta de"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
 msgid "After importing from a device:"
-msgstr ""
+msgstr "Després de la importació des d'un dispositiu:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
-#, fuzzy
 msgid "_Rotate the images physically"
-msgstr "Gira les imatges físicament"
+msgstr "Gira físicament les imatges"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
 #: ../gthumb/gth-filterbar.c:404
 msgid "S_how:"
-msgstr ""
+msgstr "M_ostra:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
 msgid "_Tags:"
-msgstr ""
+msgstr "E_tiquetes:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
-#, fuzzy
 msgid "_Event:"
-msgstr "Co_mentari:"
+msgstr "Esdeveniment:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
-#, fuzzy
 msgid "_Delete the imported files from the source"
-msgstr "Suprimeix les imatges importa_des de la càmera"
+msgstr "Suprimeix els fitxers importats _de l'origen"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:227
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:149
-#, fuzzy
 msgid "Could not import the files"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'han pogut importar els fitxers"
 
 #. translators: %d is the number of files, %s the total size
 #: ../extensions/photo_importer/dlg-photo-importer.c:291
 #, c-format
 msgid "Files to import: %d (%s)"
-msgstr ""
+msgstr "Fitxers a importar: %d (%s)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:331
-#, fuzzy
 msgid "Could not load the folder"
-msgstr "No s'ha pogut moure la carpeta «%s»: %s"
+msgstr "No s'ha pogut carregar la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:356
 #: ../extensions/photo_importer/dlg-photo-importer.c:396
@@ -4143,9 +3878,8 @@ msgstr "(Buit)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
 #: ../gthumb/gth-browser.c:1793
-#, fuzzy
 msgid "Getting the folder content…"
-msgstr "S'està obtenint la llista de carpetes..."
+msgstr "S'està obtenint el contingut del directori..."
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:407
 msgid "Empty"
@@ -4153,35 +3887,32 @@ msgstr "Buida"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:578
 msgid "Import from Removable Device"
-msgstr ""
+msgstr "Importa del dispositiu extraïble"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:610
 msgid "Import from Folder"
-msgstr ""
+msgstr "Importa de la carpeta"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:1
-#, fuzzy
 msgid "Import photos"
-msgstr "Importa les fotografies"
+msgstr "Importació de fotos"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:2
-#, fuzzy
 msgid "Import photos from removable devices."
-msgstr "Importa fotografies d'una càmera digital"
+msgstr "Importeu les fotos dels dispositius extraïbles."
 
 #: ../extensions/picasaweb/callbacks.c:50
 #: ../extensions/picasaweb/callbacks.c:56
-#, fuzzy
 msgid "_Picasa Web Album…"
-msgstr "Àlbum web"
+msgstr "Àlbum web de _Picasa..."
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
 msgid "Export to Picasa Web Albums"
-msgstr ""
+msgstr "Exporta als àlbums web de Picasa"
 
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
 msgid "_Albums:"
-msgstr ""
+msgstr "_Àlbums:"
 
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
 msgid "Public"
@@ -4189,31 +3920,28 @@ msgstr "Públic"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:460
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:470
-#, fuzzy
 msgid "Could not get the album list"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'ha pogut obtenir la llista dels àlbums"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:1
-#, fuzzy
 msgid "Picasa Web Albums"
-msgstr "Àlbum web"
+msgstr "Àlbums web de Picasa"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:2
 msgid "Upload images to Picasa Web Albums"
-msgstr ""
+msgstr "Pugeu les imatges als àlbums web de Picasa"
 
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:106
-#, fuzzy
 msgid "RAW Format"
-msgstr "Converteix el format"
+msgstr "Format RAW"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:1
 msgid "Raw format support"
-msgstr ""
+msgstr "Compatibilitat amb el format RAW"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:2
 msgid "Allow to load raw format images."
-msgstr ""
+msgstr "Permet carregar les imatges en format RAW."
 
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
 msgid "_X:"
@@ -4224,36 +3952,33 @@ msgid "_Y:"
 msgstr "_Y:"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
-#, fuzzy
 msgid "Red Eye Removal"
-msgstr "Reducció d'ulls vermells"
+msgstr "Eliminació d'ulls vermells"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:471
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr ""
-"Elimina l'efecte dels ulls vermells que causen els flaixos de les càmeres"
+"Suprimeix l'efecte dels ulls vermells que causen els flaixos de les càmeres"
 
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:1
-#, fuzzy
 msgid "Red-eye removal"
-msgstr "Reducció d'ulls vermells"
+msgstr "Eliminació d'ulls vermells"
 
 #: ../extensions/red_eye_removal/red_eye_removal.extension.in.in.h:2
 msgid "Tool to remove the red-eye effect from a photo."
-msgstr ""
+msgstr "L'eina per suprimir l'efecte dels ulls vermells d'una foto."
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:1
 msgid "digits"
-msgstr ""
+msgstr "dígits"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:2
 msgid "format:"
 msgstr "format:"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:3
-#, fuzzy
 msgid "remove"
-msgstr "_Suprimeix"
+msgstr "suprimeix"
 
 #: ../extensions/rename_series/data/ui/code-selector.ui.h:4
 msgid "add"
@@ -4265,57 +3990,50 @@ msgid "_Rename"
 msgstr "Canvia el _nom"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:4
-#, fuzzy
 msgid "_Sort by:"
-msgstr "O_rdena:"
+msgstr "O_rdena per:"
 
 #. Translators: this is the text case (upper or lower case).
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:6
 msgid "Cas_e:"
-msgstr ""
+msgstr "Ca_s:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:7
-#, fuzzy
 msgid "Edit template"
-msgstr "Plan_tilla:"
+msgstr "Edita la plantilla"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:9
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
-#, fuzzy
 msgid "The original filename"
-msgstr "Mantén els noms de fit_xer originals"
+msgstr "El nom de fitxer original"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:10
-#, fuzzy
 msgid "The original extension"
-msgstr "Determina per l'extensió"
+msgstr "L'extensió original"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
-#, fuzzy
 msgid "The original enumerator"
-msgstr "Mantén els noms de fit_xer originals"
+msgstr "El numerador original"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:16
 #, no-c-format
 msgid "%M{ format }"
-msgstr ""
+msgstr "%M{ format }"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:17
-#, fuzzy
 msgid "The modification date"
-msgstr "per _hora de modificació"
+msgstr "La data de modificació"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:21
-#, fuzzy
 msgid "The digitalization date"
-msgstr "Data de la digitalització de la foto (de les dades EXIF)"
+msgstr "La data de digitalització"
 
 #. translate only the text in the curly brackets
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:24
 #, no-c-format
 msgid "%A{ identifier }"
-msgstr ""
+msgstr "%A{ identificador }"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:26
 msgid "_Template:"
@@ -4331,50 +4049,44 @@ msgstr "_Previsualitza:"
 
 #: ../extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
-msgstr ""
+msgstr "Numerador"
 
 #: ../extensions/rename_series/dlg-rename-series.c:59
-#, fuzzy
 msgid "Original filename"
-msgstr "Mantén els noms de fit_xer originals"
+msgstr "Nom de fitxer original"
 
 #: ../extensions/rename_series/dlg-rename-series.c:60
-#, fuzzy
 msgid "Original extension"
-msgstr "<b>Dimensions originals</b>"
+msgstr "Extensió original"
 
 #: ../extensions/rename_series/dlg-rename-series.c:61
 msgid "Original enumerator"
-msgstr ""
+msgstr "Numerador original"
 
 #: ../extensions/rename_series/dlg-rename-series.c:62
-#, fuzzy
 msgid "Modification date"
-msgstr "per _hora de modificació"
+msgstr "Data de modificació"
 
 #: ../extensions/rename_series/dlg-rename-series.c:63
 msgid "Digitalization date"
-msgstr ""
+msgstr "Data de digitalització"
 
 #: ../extensions/rename_series/dlg-rename-series.c:64
 msgid "File attribute"
-msgstr ""
+msgstr "Atribut del fitxer"
 
 #: ../extensions/rename_series/dlg-rename-series.c:558
 #: ../extensions/rename_series/dlg-rename-series.c:685
-#, fuzzy
 msgid "Could not rename the files"
-msgstr "No s'ha pogut canviar el nom de la imatge:"
+msgstr "No s'han pogut canviar els noms dels fitxers"
 
 #: ../extensions/rename_series/dlg-rename-series.c:782
-#, fuzzy
 msgid "Could not save the template"
-msgstr "No s'ha pogut moure la imatge:"
+msgstr "No s'ha pogut desar la plantilla"
 
 #: ../extensions/rename_series/dlg-rename-series.c:800
-#, fuzzy
 msgid "Edit Template"
-msgstr "Plan_tilla:"
+msgstr "Edita la plantilla"
 
 #: ../extensions/rename_series/dlg-rename-series.c:858
 msgid "Old Name"
@@ -4385,90 +4097,74 @@ msgid "New Name"
 msgstr "Nom nou"
 
 #: ../extensions/rename_series/dlg-rename-series.c:947
-#, fuzzy
 msgid "Keep original case"
-msgstr "Mantén els noms de fit_xer originals"
+msgstr "Mantén el cas original"
 
 #: ../extensions/rename_series/dlg-rename-series.c:948
-#, fuzzy
 msgid "Convert to lower-case"
-msgstr "Converteix el format"
+msgstr "Converteix a minúscules"
 
 #: ../extensions/rename_series/dlg-rename-series.c:949
-#, fuzzy
 msgid "Convert to upper-case"
-msgstr "Converteix el format"
+msgstr "Converteix a majúscules"
 
 #: ../extensions/rename_series/gth-rename-task.c:167
-#, fuzzy
 msgid "Renaming files"
-msgstr "Canvia el _nom de les sèries"
+msgstr "S'està canviant el nom dels fitxers"
 
 #: ../extensions/rename_series/rename_series.extension.in.in.h:1
-#, fuzzy
 msgid "Rename files"
-msgstr "Canvia el _nom de les sèries"
+msgstr "Canvia el nom dels fitxers"
 
 #: ../extensions/rename_series/rename_series.extension.in.in.h:2
-#, fuzzy
 msgid "Rename series of files."
-msgstr "Canvia el _nom de les sèries"
+msgstr "Reanomeneu sèries de fitxers."
 
 #: ../extensions/resize_images/callbacks.c:38
-#, fuzzy
 msgid "Resize Images…"
-msgstr "Canvia la mida de la imatge"
+msgstr "Redimensiona les imatges..."
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:1
-#, fuzzy
 msgid "pixel"
-msgstr "píxels"
+msgstr "píxel"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:4
-#, fuzzy
 msgid "Resize Images"
-msgstr "Canvia la mida de la imatge"
+msgstr "Redimensiona les imatges"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:5
-#, fuzzy
 msgid "New dimensions"
-msgstr "<b>Dimensions noves</b>"
+msgstr "Dimensions noves"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:7
 msgid "_Height:"
 msgstr "A_lçada:"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:8
-#, fuzzy
 msgid "_Preserve original aspect ratios"
-msgstr "_Inverteix la relació d'aspecte"
+msgstr "_Preserva la relació d'aspecte"
 
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:12
 #: ../gthumb/gth-main-default-metadata.c:45 ../gthumb/gth-toolbox.c:146
-#, fuzzy
 msgid "Format"
-msgstr "Converteix el format"
+msgstr "El format"
 
 #: ../extensions/resize_images/dlg-resize-images.c:415
-#, fuzzy
 msgid "Keep the original format"
-msgstr "Mantén els noms de fit_xer originals"
+msgstr "Mantén el format original"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:1
-#, fuzzy
 msgid "Resize images"
-msgstr "Canvia la mida de la imatge"
+msgstr "Redimensiona les imatges"
 
 #: ../extensions/resize_images/resize_images.extension.in.in.h:2
-#, fuzzy
 msgid "Resize series of images."
-msgstr "Canvia la mida de la imatge"
+msgstr "Redimensioneu sèries d'imatges."
 
 #: ../extensions/search/actions.c:50 ../extensions/search/actions.c:120
 #: ../extensions/search/actions.c:126
-#, fuzzy
 msgid "Could not perform the search"
-msgstr "No s'ha pogut canviar el nom de la imatge:"
+msgstr "No s'ha pogut realitzar la cerca"
 
 #: ../extensions/search/actions.c:55
 msgid "Search Result"
@@ -4479,20 +4175,16 @@ msgid "Find"
 msgstr "Cerca"
 
 #: ../extensions/search/actions.c:81
-#, fuzzy
-#| msgid "Find"
 msgid "_Find"
-msgstr "Cerca"
+msgstr "_Troba"
 
 #: ../extensions/search/callbacks.c:69
-#, fuzzy
 msgid "Find files"
-msgstr "Cerca les imatges"
+msgstr "Cerca fitxers"
 
 #: ../extensions/search/callbacks.c:103
-#, fuzzy
 msgid "Search again"
-msgstr "S'està cercant a:"
+msgstr "Cerca de nou"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
 #: ../extensions/search/callbacks.c:147
@@ -4502,103 +4194,93 @@ msgstr "Cerca"
 
 #: ../extensions/search/gth-search-editor.c:112
 #: ../gthumb/gth-filter-editor-dialog.c:165
-#, fuzzy
 msgid "all the following rules"
-msgstr "La data següent"
+msgstr "totes les següents regles"
 
 #: ../extensions/search/gth-search-editor.c:113
 #: ../gthumb/gth-filter-editor-dialog.c:166
-#, fuzzy
 msgid "any of the following rules"
-msgstr "<b>Canvia els valors següents:</b>"
+msgstr "qualsevol de les següents regles"
 
 #: ../extensions/search/gth-search-task.c:183
 #, c-format
 msgid "Files found until now: %s"
-msgstr ""
+msgstr "Fitxers trobats fins ara: %s"
 
 #: ../extensions/search/gth-search-task.c:274
-#, fuzzy
 msgid "Searching…"
-msgstr "_Cerca..."
+msgstr "S'està cercant..."
 
 #: ../extensions/search/gth-search-task.c:281
 msgid "Cancel the operation"
-msgstr ""
+msgstr "Cancel·la l'operació"
 
 #: ../extensions/search/search.extension.in.in.h:2
 msgid "File search tool."
-msgstr ""
+msgstr "L'eina de cerca de fitxers."
 
 #: ../extensions/selections/callbacks.c:62
-#, fuzzy
-#| msgid "Remo_ve from Catalog"
 msgid "Remove from Selection"
-msgstr "Supr_imeix del catàleg"
+msgstr "Suprimeix de la selecció"
 
 #: ../extensions/selections/callbacks.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Show selection %d"
-msgstr "Selecció del tipus de lletra"
+msgstr "Mostra la selecció %d"
 
 #: ../extensions/selections/callbacks.c:329
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
 msgstr ""
+"Utilitzeu Alt-%d per afegir fitxers a aquesta selecció, Ctrl-%d per "
+"visualitzar aquesta selecció."
 
 #: ../extensions/selections/gth-selections-manager.c:228
-#, fuzzy, c-format
+#, c-format
 msgid "Selection %d"
-msgstr "Selecció del tipus de lletra"
+msgstr "Selecció %d"
 
 #: ../extensions/selections/gth-selections-manager.c:231
 #: ../extensions/selections/selections.extension.in.in.h:1
-#, fuzzy
 msgid "Selections"
-msgstr "Selecció del tipus de lletra"
+msgstr "Seleccions"
 
 #: ../extensions/selections/selections.extension.in.in.h:2
 msgid "Advanced file selection."
-msgstr ""
+msgstr "Selecció avançada de fitxers."
 
 #: ../extensions/slideshow/callbacks.c:51
-#, fuzzy
-#| msgid "Destination"
 msgid "Presentation"
-msgstr "Destinació"
+msgstr "Presentació"
 
 #: ../extensions/slideshow/callbacks.c:348
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:2
 #: ../extensions/slideshow/preferences.c:162
 #: ../extensions/slideshow/slideshow.extension.in.in.h:1
-#, fuzzy
 msgid "Slideshow"
 msgstr "Projecció de diapositives"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:1
-#, fuzzy
 msgid "_Personalize"
-msgstr "_Normalitza"
+msgstr "_Personalitza"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:3
 msgid "_Transition effect:"
-msgstr ""
+msgstr "Efecte de _transició:"
 
 #. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:5
 msgid "_Change automatically, every"
-msgstr ""
+msgstr "_Canvia automàticament, cada"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:7
-#, fuzzy
 msgid "_Restart when finished"
 msgstr "_Reinicia quan acabi"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
-#, fuzzy
 msgid "R_andom order"
-msgstr "ordre manual"
+msgstr "Ordre aleatori"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
 msgid "Playlist"
@@ -4606,25 +4288,23 @@ msgstr "Llista de reproducció"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
 msgid "Add files to the playlist"
-msgstr ""
+msgstr "Afegeix els fitxers a la llista de reproducció"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
-#, fuzzy
 msgid "Remove the selected files"
-msgstr "Obre la carpeta seleccionada"
+msgstr "Suprimeix els fitxers seleccionats"
 
 #: ../extensions/slideshow/gth-slideshow.c:281
 msgid "Playing slideshow"
-msgstr ""
+msgstr "S'està reproduint la presentació de diapositives"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:184
-#, fuzzy
 msgid "Choose the files to play"
-msgstr "Seleccioneu la carpeta de destinació"
+msgstr "Seleccioneu els fitxers reproduir"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:193
 msgid "Audio files"
-msgstr ""
+msgstr "Fitxers d'àudio"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:259
 msgid "Random"
@@ -4632,61 +4312,56 @@ msgstr "Aleatori"
 
 #: ../extensions/slideshow/main.c:297
 msgid "Push from right"
-msgstr ""
+msgstr "Empeny des de la part dreta"
 
 #: ../extensions/slideshow/main.c:303
 msgid "Push from bottom"
-msgstr ""
+msgstr "Empeny des de la part inferior"
 
 #: ../extensions/slideshow/main.c:309
 msgid "Slide from right"
-msgstr ""
+msgstr "Llisca des de la part dreta"
 
 #: ../extensions/slideshow/main.c:315
 msgid "Slide from bottom"
-msgstr ""
+msgstr "Llisca des de la part inferior"
 
 #: ../extensions/slideshow/main.c:321
 msgid "Fade in"
-msgstr ""
+msgstr "Aparició"
 
 #: ../extensions/slideshow/main.c:327
-#, fuzzy
 msgid "Flip page"
-msgstr "Inverteix la imatge"
+msgstr "Capgira la pàgina"
 
 #: ../extensions/slideshow/main.c:333
 msgid "Cube from right"
-msgstr ""
+msgstr "Cub des de la part dreta"
 
 #: ../extensions/slideshow/main.c:339
 msgid "Cube from bottom"
-msgstr ""
+msgstr "Cub des de la part inferior"
 
 #: ../extensions/slideshow/slideshow.extension.in.in.h:2
-#, fuzzy
 msgid "View images as a slideshow."
-msgstr "Visualitza com a presentació de diapositives"
+msgstr "Visualitzeu les imatges com una presentació de diapositives."
 
 #: ../extensions/webalbums/callbacks.c:48
-#, fuzzy
-#| msgid "Web Album"
 msgid "_Web Album…"
-msgstr "Àlbum web"
+msgstr "Àlbum _web..."
 
 #: ../extensions/webalbums/data/albumthemes/text.h:26
-#, fuzzy
 msgid "Click to view the image"
-msgstr "No s'ha pogut moure la imatge:"
+msgstr "Feu clic per veure la imatge"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:27
 msgid "Go back to the index"
-msgstr ""
+msgstr "Torna al principi de l'índex"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:28
-#, fuzzy, c-format
+#, c-format
 msgid "Image %d of %d"
-msgstr "Pàgina %d de %d"
+msgstr "Imatge %d de %d"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:29
 msgid "Index"
@@ -4701,37 +4376,33 @@ msgid "Previous"
 msgstr "Anterior"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:33
-#, fuzzy, c-format
+#, c-format
 msgid "View page %d"
-msgstr "Visualitza la imatge"
+msgstr "Visualitza la pàgina %d"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:34
-#, fuzzy
 msgid "View the next image"
 msgstr "Visualitza la imatge següent"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:35
-#, fuzzy
 msgid "View the next page"
-msgstr "Visualitza la imatge següent"
+msgstr "Visualitza la pàgina següent"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:36
-#, fuzzy
 msgid "View the previous image"
 msgstr "Visualitza la imatge anterior"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:37
-#, fuzzy
 msgid "View the previous page"
-msgstr "Visualitza la imatge anterior"
+msgstr "Visualitza la pàgina anterior"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:1
 msgid "All images on  a single image"
-msgstr ""
+msgstr "Totes les imatges en una pàgina individual"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:2
 msgid "Adapts to the window width"
-msgstr ""
+msgstr "Adapta a l'amplada de la finestra"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
 msgid "Web Album"
@@ -4748,60 +4419,51 @@ msgstr "_Copia els originals a la destinació"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
 msgid "_Adapt to the window width "
-msgstr ""
+msgstr "_Adapta a l'amplada de la finestra"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
-#, fuzzy
 msgid "Index Page"
-msgstr "Estil de l'índex d'imatges"
+msgstr "Pàgina d'índex"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
-#, fuzzy
 msgid "Thumbnail Caption"
-msgstr "Títol de la minia_tura..."
+msgstr "Anotació de la miniatura"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
-#, fuzzy
 msgid "The current image number"
-msgstr "Desa la imatge actual"
+msgstr "El número de la imatge actual"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
 msgid "The total number of images"
-msgstr ""
+msgstr "El nombre total d'imatges"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
-#, fuzzy
 msgid "The file comment"
-msgstr "Visualitza el comentari de la imatge"
+msgstr "El comentari del fitxer"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
-#, fuzzy
 msgid "Image Page"
-msgstr "Dades de la imatge"
+msgstr "Pàgina d'imatges"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
-#, fuzzy
 msgid "Show the description, if available"
-msgstr "Seleccioneu la carpeta de destinació"
+msgstr "Mostra la descripció, si està disponible"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
-#, fuzzy
 msgid "Show the following attributes:"
-msgstr "La data _següent:"
+msgstr "Mostra els següents atributs:"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
-#, fuzzy
 msgid "Image Attributes"
-msgstr "Estructura de la imatge"
+msgstr "Atributs de la imatge"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1802
-#, fuzzy
 msgid "Could not show the destination"
-msgstr "Seleccioneu la carpeta de destinació"
+msgstr "No s'ha pogut mostrar la destinació"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1838
 msgid "The album has been created successfully."
-msgstr ""
+msgstr "S'ha creat correctament l'àlbum."
 
 #: ../extensions/webalbums/gth-web-exporter.c:2106
 #: ../extensions/webalbums/gth-web-exporter.c:2134
@@ -4821,50 +4483,43 @@ msgid "Copying original images"
 msgstr "S'estan copiant les imatges originals"
 
 #: ../extensions/webalbums/gth-web-exporter.c:2966
-#, fuzzy
 msgid "Could not find the style folder"
-msgstr "No s'ha pogut suprimir la carpeta «%s»: %s"
+msgstr "No s'ha pogut trobar la carpeta de l'estil"
 
 #: ../extensions/webalbums/gth-web-exporter.c:3004
 msgid "Could not create a temporary folder"
 msgstr "No s'ha pogut crear una carpeta temporal"
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:1
-#, fuzzy
 msgid "Web Albums"
-msgstr "Àlbum web"
+msgstr "Àlbums web"
 
 #: ../extensions/webalbums/webalbums.extension.in.in.h:2
-#, fuzzy
 msgid "Create static web albums."
-msgstr "Crea un àlbum _web..."
+msgstr "Creeu àlbums web estàtics."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1098
 #: ../gthumb/gth-browser.c:1673 ../gthumb/gth-browser.c:6404
 #: ../gthumb/gth-browser.c:6423 ../gthumb/gth-browser.c:6447
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load the position \"%s\""
-msgstr "No s'ha pogut moure la carpeta «%s»: %s"
+msgstr "No s'ha pogut carregar la posició «%s»"
 
 #: ../gthumb/dlg-personalize-filters.c:237
-#, fuzzy
 msgid "Filter"
-msgstr "_Filtra"
+msgstr "Filtra"
 
 #: ../gthumb/dlg-personalize-filters.c:315
-#, fuzzy
 msgid "Could not save the filter"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'ha pogut desar el filtre"
 
 #: ../gthumb/dlg-personalize-filters.c:358
-#, fuzzy
 msgid "New Filter"
-msgstr "Carpeta nova"
+msgstr "Filtre nou"
 
 #: ../gthumb/dlg-personalize-filters.c:387
-#, fuzzy
 msgid "Edit Filter"
-msgstr "_Filtra"
+msgstr "Edita el filtre"
 
 #. add the page to the preferences dialog
 #: ../gthumb/dlg-preferences-browser.c:150
@@ -4885,9 +4540,8 @@ msgid "Disabled"
 msgstr "Inhabilitat"
 
 #: ../gthumb/dlg-preferences-extensions.c:66
-#, fuzzy
 msgid "Viewers"
-msgstr "Visualitzador"
+msgstr "Visualitzadors"
 
 #: ../gthumb/dlg-preferences-extensions.c:67
 #: ../gthumb/gth-main-default-metadata.c:33
@@ -4895,57 +4549,49 @@ msgid "Metadata"
 msgstr "Metadades"
 
 #: ../gthumb/dlg-preferences-extensions.c:68
-#, fuzzy
 msgid "File tools"
-msgstr "Ca_mí del fitxer"
+msgstr "Eines de fitxers"
 
 #: ../gthumb/dlg-preferences-extensions.c:69
 msgid "List tools"
-msgstr ""
+msgstr "Eines de llistat"
 
 #: ../gthumb/dlg-preferences-extensions.c:70
-#, fuzzy
 msgid "Importers"
-msgstr "_Importa"
+msgstr "Importadors"
 
 #: ../gthumb/dlg-preferences-extensions.c:71
-#, fuzzy
 msgid "Exporters"
-msgstr "Temps d'exposició"
+msgstr "Exportadors"
 
 #: ../gthumb/dlg-preferences-extensions.c:368
-#, fuzzy
 msgid "Could not activate the extension"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'ha pogut activar l'extensió"
 
 #: ../gthumb/dlg-preferences-extensions.c:374
-#, fuzzy
 msgid "Could not deactivate the extension"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'ha pogut desactivar l'extensió"
 
 #. add the page to the preferences dialog
 #: ../gthumb/dlg-preferences-extensions.c:666
-#, fuzzy
 msgid "Extensions"
-msgstr "Dimensions"
+msgstr "Extensions"
 
 #: ../gthumb/dlg-preferences-extensions.c:715
-#, fuzzy
 msgid "Restart required"
-msgstr "_Reinicia quan acabi"
+msgstr "Cal que es reiniciï"
 
 #: ../gthumb/dlg-preferences-extensions.c:716
 msgid "You need to restart gthumb for these changes to take effect"
-msgstr ""
+msgstr "Heu de reiniciar gthumb perquè aquests canvis tinguin efecte"
 
 #: ../gthumb/dlg-preferences-extensions.c:717
 msgid "_Continue"
 msgstr "_Continua"
 
 #: ../gthumb/dlg-preferences-extensions.c:718
-#, fuzzy
 msgid "_Restart"
-msgstr "_Restaura"
+msgstr "_Reinicia"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
 #: ../gthumb/gio-utils.c:1361
@@ -4956,27 +4602,24 @@ msgstr "%s de %s"
 #: ../gthumb/gio-utils.c:1432
 #, c-format
 msgid "Moving \"%s\" to \"%s\""
-msgstr ""
+msgstr "S'està movent «%s» a «%s»"
 
 #: ../gthumb/gio-utils.c:1434
-#, fuzzy, c-format
+#, c-format
 msgid "Copying \"%s\" to \"%s\""
-msgstr "S'està copiant el fitxer %d de %d"
+msgstr "S'està copiant «%s» a «%s»"
 
 #: ../gthumb/gio-utils.c:1793
-#, fuzzy
 msgid "Moving files"
-msgstr "S'està movent el fitxer %ld de %ld"
+msgstr "S'estan movent els fitxers"
 
 #: ../gthumb/gio-utils.c:1793
-#, fuzzy
 msgid "Copying files"
-msgstr "S'està copiant el fitxer %d de %d"
+msgstr "S'estan copiant els fitxers"
 
 #: ../gthumb/gio-utils.c:1794
-#, fuzzy
 msgid "Getting file information"
-msgstr "Informació general"
+msgstr "S'està obtenint la informació del fitxer"
 
 #. hour:minutes:seconds
 #. Translators: This is a time format, like "9:05:02" for 9
@@ -5009,6 +4652,10 @@ msgid ""
 "Foundation; either version 2 of the License, or (at your option) any later "
 "version."
 msgstr ""
+"gThumb és programari lliure; el podeu redistribuir i/o modificar sota els "
+"termes de la llicència de documentació lliure GNU, tal com està publicat per "
+"la Free Software Foundation; ja sigui a la versió 2 de la llicència, o (a "
+"elecció vostra) a qualsevol versió posterior."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:131
 msgid ""
@@ -5017,70 +4664,74 @@ msgid ""
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
+"gThumb es distribueix amb l'esperança que sigui útil, però SENSE CAP MENA DE "
+"GARANTIA; ni tan sols la garantia implícita de COMERCIALITZACIÓ o ADEQUACIÓ "
+"PER A CAP PROPÒSIT PARTICULAR. Vegeu la Llicència Publica General de la GNU "
+"per a més detalls."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:135
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
+"Hauríeu d'haver rebut una còpia de la Llicència Pública General GNU "
+"juntament amb aquest programa; en cas contrari, consulteu http://www.gnu.org/"
+"licenses/."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:155
 msgid "An image viewer and browser for GNOME."
 msgstr "Un visualitzador i navegador d'imatges per al GNOME."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:158
-#, fuzzy
-#| msgid "translator_credits"
 msgid "translator-credits"
 msgstr ""
 "Softcatalà <gnome@softcatala.net>\n"
 "Maria Soler Climent <maria.soler@eupm.upc.edu>\n"
 "Aleix Badia i Bosch <a.badia@callusdigital.org>\n"
-"Sílvia Miranda <silvia.gnome@gmail.com>"
+"Sílvia Miranda <silvia.gnome@gmail.com>\n"
+"Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>"
 
 #: ../gthumb/gth-browser.c:371
 msgid "[modified]"
 msgstr "[modificat]"
 
 #: ../gthumb/gth-browser.c:819
-#, fuzzy, c-format
+#, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
-msgstr[0] "se n'han seleccionat %d (%s)"
-msgstr[1] "se n'han seleccionat %d (%s)"
+msgstr[0] "%d fitxer seleccionat (%s)"
+msgstr[1] "%d fitxers seleccionats (%s)"
 
 #: ../gthumb/gth-browser.c:854
 #, c-format
 msgid "%s of free space"
-msgstr ""
+msgstr "%s d'espai lliure"
 
 #: ../gthumb/gth-browser.c:1777 ../gthumb/gth-browser.c:1804
 #, c-format
 msgid "No suitable module found for %s"
-msgstr ""
+msgstr "No s'ha trobat cap mòdul adequat per %s"
 
 #: ../gthumb/gth-browser.c:1926
-#, fuzzy, c-format
+#, c-format
 msgid "Save changes to file '%s'?"
-msgstr "Desa únicament els camps mod_ificats"
+msgstr "Voleu desar els canvis al fitxer «%s»?"
 
 #: ../gthumb/gth-browser.c:1931
 msgid "If you don't save, changes to the file will be permanently lost."
-msgstr ""
+msgstr "Si no deseu, els canvis al fitxer es perdran permanentment."
 
 #: ../gthumb/gth-browser.c:1932
-#, fuzzy
 msgid "Do _Not Save"
-msgstr "No la desis"
+msgstr "_No ho desis"
 
 #: ../gthumb/gth-browser.c:3007 ../gthumb/gth-source-tree.c:182
-#, fuzzy
 msgid "Could not change name"
-msgstr "No s'ha pogut copiar la imatge:"
+msgstr "No s'ha pogut canviar el nom"
 
 #: ../gthumb/gth-browser.c:3453 ../gthumb/gth-main-default-metadata.c:41
 msgid "Modified"
-msgstr "Modificat"
+msgstr "La modificació"
 
 #: ../gthumb/gth-browser.c:4464
 msgid "Go to the previous visited location"
@@ -5091,78 +4742,72 @@ msgid "Go to the next visited location"
 msgstr "Vés a la següent ubicació visitada"
 
 #: ../gthumb/gth-browser.c:4478
-#, fuzzy
 msgid "History"
-msgstr "_Histograma"
+msgstr "Històric"
 
 #: ../gthumb/gth-browser.c:4493
 msgid "View the folders"
 msgstr "Visualitza les carpetes"
 
 #: ../gthumb/gth-browser.c:4508
-#, fuzzy
 msgid "Edit file"
-msgstr "Edita la cerca"
+msgstr "Edita el fitxer"
 
 #: ../gthumb/gth-browser.c:4525
 msgid "Accept"
-msgstr ""
+msgstr "Accepta"
 
 #: ../gthumb/gth-browser.c:6405
-#, fuzzy, c-format
+#, c-format
 msgid "File type not supported"
-msgstr "El tipus d'imatge no està implementat: %s"
+msgstr "El tipus de fitxer no és compatible"
 
 #: ../gthumb/gth-browser.c:6448
-#, fuzzy, c-format
+#, c-format
 msgid "No suitable module found"
-msgstr "No s'ha trobat cap imatge"
+msgstr "No s'ha trobat el mòdul adequat"
 
 #: ../gthumb/gth-delete-task.c:64
-#, fuzzy
 msgid "Deleting files"
-msgstr "S'està suprimint el fitxer %ld de %ld"
+msgstr "Se suprimeixen els fitxers"
 
 #: ../gthumb/gth-extensions.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the module `%s`: %s"
-msgstr "No s'ha pogut moure la carpeta «%s»: %s"
+msgstr "No s'ha pogut obrir el mòdul «%s»: %s"
 
 #: ../gthumb/gth-extensions.c:754
 #, c-format
 msgid "The extension '%1$s' is required by the extension '%2$s'"
-msgstr ""
+msgstr "L'extensió «%1$s» és requerida per l'extensió «%2$s»"
 
 #: ../gthumb/gth-file-chooser-dialog.c:144
 msgid "All Supported Files"
-msgstr ""
+msgstr "Tots els fitxers compatibles"
 
 #: ../gthumb/gth-file-details.c:43
 msgid "Details"
-msgstr ""
+msgstr "Detalls"
 
 #: ../gthumb/gth-file-source-vfs.c:223
 msgid "Computer"
-msgstr ""
+msgstr "Ordinador"
 
 #: ../gthumb/gth-file-source-vfs.c:230
-#, fuzzy
 msgid "Home Folder"
-msgstr "Carpeta nova"
+msgstr "Carpeta de l'usuari"
 
 #: ../gthumb/gth-file-source-vfs.c:743
-#, fuzzy
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
-"No s'han pogut moure les imatges a la paperera. Les voleu eliminar "
-"permanentment?"
+"Els fitxers no es poden moure a la paperera. Voleu eliminar-los de forma "
+"permanent?"
 
 #: ../gthumb/gth-file-source-vfs.c:753
-#, fuzzy
 msgid "Could not move the files to the Trash"
-msgstr "No s'han pogut moure els elements:"
+msgstr "No s'han pogut moure els fitxers a la paperera"
 
 #: ../gthumb/gth-file-source-vfs.c:798
 #, c-format
@@ -5179,17 +4824,16 @@ msgstr[1] ""
 
 #: ../gthumb/gth-file-source-vfs.c:811
 msgid "If you delete a file, it will be permanently lost."
-msgstr ""
+msgstr "Si suprimiu un fitxer, es perdrà permanentment."
 
 #: ../gthumb/gth-filterbar.c:304
-#, fuzzy
 msgid "Personalize…"
-msgstr "_Normalitza"
+msgstr "Personalitza..."
 
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
 #: ../gthumb/gth-test-simple.c:77
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
 #: ../gthumb/gth-test-simple.c:78
@@ -5208,31 +4852,28 @@ msgstr "fitxers"
 
 #: ../gthumb/gth-filter-editor-dialog.c:224
 msgid "ascending"
-msgstr ""
+msgstr "en ordre ascendent"
 
 #: ../gthumb/gth-filter-editor-dialog.c:225
 msgid "descending"
-msgstr ""
+msgstr "en ordre descendent"
 
 #: ../gthumb/gth-filter-editor-dialog.c:515
 #, c-format
 msgid "No limit specified"
-msgstr ""
+msgstr "Cap limitació especificada"
 
 #: ../gthumb/gth-folder-tree.c:1071
-#, fuzzy
-#| msgid "Loading..."
 msgid "Loading…"
-msgstr "S'està carregant…"
+msgstr "S'està carregant..."
 
 #: ../gthumb/gth-folder-tree.c:1365
 msgid "(Open Parent)"
 msgstr ""
 
 #: ../gthumb/gth-folder-tree.c:1881
-#, fuzzy
 msgid "Enter the new name:"
-msgstr "Introduïu el nom de la carpeta: "
+msgstr "Introduïu el nom nou:"
 
 #: ../gthumb/gth-histogram-view.c:910
 msgid "Alpha"
@@ -5243,124 +4884,110 @@ msgid "RGB"
 msgstr "RGB"
 
 #: ../gthumb/gth-image-list-task.c:141
-#, fuzzy
 msgid "Could not rename the file"
-msgstr "No s'ha pogut canviar el nom de la imatge:"
+msgstr "No s'ha pogut canviar el nom del fitxer"
 
 #: ../gthumb/gth-image-saver.c:39
 msgid "No options available for this file type"
-msgstr ""
+msgstr "No hi ha opcions disponibles per a aquest tipus de fitxer"
 
 #: ../gthumb/gth-image-saver.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find a suitable module to save the image as \"%s\""
-msgstr "No s'ha pogut duplicar la imatge «%s»: %s"
+msgstr "No s'ha pogut trobar el mòdul adequat per desar la imatge com «%s»"
 
 #: ../gthumb/gth-load-file-data-task.c:108
-#, fuzzy
 msgid "Reading file information"
-msgstr "Informació general"
+msgstr "S'està llegint la informació del fitxer"
 
 #: ../gthumb/gth-main-default-metadata.c:32
-#, fuzzy
 msgid "File"
-msgstr "_Fitxer"
+msgstr "Fitxer"
 
 #: ../gthumb/gth-main-default-metadata.c:39
 msgid "Name"
-msgstr "Nom"
+msgstr "El nom"
 
 #: ../gthumb/gth-main-default-metadata.c:40
 #: ../gthumb/gth-main-default-tests.c:305
 msgid "Size"
-msgstr "Mida"
+msgstr "La mida"
 
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Type"
-msgstr "Tipus"
+msgstr "El tipus"
 
 #: ../gthumb/gth-main-default-metadata.c:44
-#, fuzzy
 msgid "Location"
-msgstr "Ubicació "
+msgstr "La ubicació"
 
 #: ../gthumb/gth-main-default-metadata.c:47
-#, fuzzy
 msgid "Duration"
-msgstr "_Saturació:"
+msgstr "La duració"
 
 #: ../gthumb/gth-main-default-metadata.c:49
-#, fuzzy
-#| msgid "System settings"
 msgid "Exposure Settings"
-msgstr "Paràmetres de configuració del sistema"
+msgstr "Els paràmetres de l'exposició"
 
 #: ../gthumb/gth-main-default-metadata.c:50
 msgid "Aperture"
-msgstr ""
+msgstr "L'apertura"
 
 #: ../gthumb/gth-main-default-metadata.c:51
 msgid "ISO Speed"
-msgstr ""
+msgstr "La velocitat ISO"
 
 #: ../gthumb/gth-main-default-metadata.c:52
 msgid "Exposure Time"
-msgstr ""
+msgstr "El temps d'exposició"
 
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Shutter Speed"
-msgstr ""
+msgstr "La velocitat del disparador"
 
 #: ../gthumb/gth-main-default-metadata.c:54
 msgid "Focal Length"
-msgstr ""
+msgstr "La longitud focal"
 
 #: ../gthumb/gth-main-default-metadata.c:55
 msgid "Flash"
-msgstr ""
+msgstr "El flaix"
 
 #: ../gthumb/gth-main-default-metadata.c:56
 msgid "Camera Model"
-msgstr ""
+msgstr "El model de càmera"
 
 #: ../gthumb/gth-main-default-metadata.c:65
-#, fuzzy
 msgid "Author"
-msgstr "_Redueix el nombre de colors..."
+msgstr "L'autor"
 
 #: ../gthumb/gth-main-default-metadata.c:66
-#, fuzzy
 msgid "Copyright"
-msgstr "_Dreta:"
+msgstr "Els drets d'autor"
 
 #: ../gthumb/gth-main-default-sort-types.c:131
-#, fuzzy
 msgid "file name"
-msgstr "_Nom del fitxer"
+msgstr "el nom del fitxer"
 
 #: ../gthumb/gth-main-default-sort-types.c:132
-#, fuzzy
 msgid "file path"
-msgstr "Ca_mí del fitxer"
+msgstr "el camí al fitxer"
 
 #: ../gthumb/gth-main-default-sort-types.c:133
-#, fuzzy
 msgid "file size"
-msgstr "Mi_da del fitxer"
+msgstr "la mida del fitxer"
 
 #: ../gthumb/gth-main-default-sort-types.c:134
-#, fuzzy
 msgid "file modified date"
-msgstr "per data de modificació"
+msgstr "la data en què el fitxer va ser modificat"
 
 #: ../gthumb/gth-main-default-sort-types.c:135
 msgid "no sorting"
-msgstr ""
+msgstr "cap ordre en concret"
 
 #: ../gthumb/gth-main-default-sort-types.c:136
-#, fuzzy
 msgid "dimensions"
-msgstr "Dimensions"
+msgstr "les dimensions"
 
 #: ../gthumb/gth-main-default-tests.c:254
 msgid "All Files"
@@ -5368,34 +4995,31 @@ msgstr "Tots els fitxers"
 
 #: ../gthumb/gth-main-default-tests.c:282
 msgid "Media"
-msgstr "Suports"
+msgstr "Els suports"
 
 #: ../gthumb/gth-main-default-tests.c:289
-#, fuzzy
 msgid "Text Files"
-msgstr "Només text"
+msgstr "Els fitxers de text"
 
 #: ../gthumb/gth-main-default-tests.c:297
 msgid "Filename"
-msgstr "Nom de fitxer"
+msgstr "El nom del fitxer"
 
 #: ../gthumb/gth-main-default-tests.c:329
 msgid "Title (embedded)"
-msgstr ""
+msgstr "El títol (incrustat)"
 
 #: ../gthumb/gth-main-default-tests.c:337
 msgid "Description (embedded)"
-msgstr ""
+msgstr "La descripció (incrustada)"
 
 #: ../gthumb/gth-progress-dialog.c:149
-#, fuzzy
 msgid "Cancel operation"
-msgstr "Informació general"
+msgstr "Cancel·la l'operació"
 
 #: ../gthumb/gth-save-file-data-task.c:102
-#, fuzzy
 msgid "Saving file information"
-msgstr "Informació general"
+msgstr "S'està desant la informació del fitxer"
 
 #. Translators: %s is a filename
 #: ../gthumb/gth-save-image-task.c:158
@@ -5406,11 +5030,11 @@ msgstr "S'està desant «%s»"
 #: ../gthumb/gth-tags-entry.c:481
 #, c-format
 msgid "Create tag «%s»"
-msgstr ""
+msgstr "Crea l'etiqueta «%s»"
 
 #: ../gthumb/gth-tags-entry.c:1130
 msgid "Show all the tags"
-msgstr ""
+msgstr "Mostra totes les etiquetes"
 
 #: ../gthumb/gth-tags-file.c:235
 msgid "Holidays"
@@ -5466,9 +5090,8 @@ msgid "is"
 msgstr "és"
 
 #: ../gthumb/gth-test-category.c:47
-#, fuzzy
 msgid "is only"
-msgstr "Només icones"
+msgstr "només és"
 
 #: ../gthumb/gth-test-category.c:48 ../gthumb/gth-test-simple.c:50
 #: ../gthumb/gth-test-simple.c:67
@@ -5479,16 +5102,15 @@ msgstr "no és"
 #: ../gthumb/gth-test-simple.c:929 ../gthumb/gth-test-simple.c:955
 #, c-format
 msgid "The test definition is incomplete"
-msgstr ""
+msgstr "La definició de la prova està incompleta"
 
 #: ../gthumb/gth-test-selector.c:251
 msgid "Add a new rule"
-msgstr "Afegeix una regla nova"
+msgstr "Afegeix una nova regla"
 
 #: ../gthumb/gth-test-selector.c:261
-#, fuzzy
 msgid "Remove this rule"
-msgstr "Canvia el nom d'aquesta imatge"
+msgstr "Suprimeix aquesta regla"
 
 #: ../gthumb/gth-test-simple.c:46
 msgid "contains"
@@ -5507,33 +5129,28 @@ msgid "does not contain"
 msgstr "no conté"
 
 #: ../gthumb/gth-test-simple.c:52
-#, fuzzy
 msgid "matches"
-msgstr "Polzades"
+msgstr "coincideix amb"
 
 #: ../gthumb/gth-test-simple.c:56
 msgid "is lower than"
-msgstr "és més petit de"
+msgstr "és més petit(a) que"
 
 #: ../gthumb/gth-test-simple.c:57
 msgid "is greater than"
-msgstr "és més gran de"
+msgstr "és més gran que"
 
 #: ../gthumb/gth-test-simple.c:58
 msgid "is equal to"
-msgstr "és igual a"
+msgstr "és igual que"
 
 #: ../gthumb/gth-test-simple.c:59
-#, fuzzy
-#| msgid "is greater than"
 msgid "is greater than or equal to"
-msgstr "és més gran de"
+msgstr "és més gran o igual que"
 
 #: ../gthumb/gth-test-simple.c:60
-#, fuzzy
-#| msgid "is lower than"
 msgid "is lower than or equal to"
-msgstr "és més petit de"
+msgstr "és més petit(a) o igual que"
 
 #: ../gthumb/gth-test-simple.c:64
 msgid "is before"
@@ -5548,43 +5165,36 @@ msgid "Today"
 msgstr "Avui"
 
 #: ../gthumb/gth-time-selector.c:611
-#, fuzzy
 msgid "Now"
-msgstr "Baixa"
+msgstr "Ara"
 
 #: ../gthumb/gth-toolbox.c:144
-#, fuzzy
-#| msgid "C_olor:"
 msgid "Colors"
-msgstr "C_olor:"
+msgstr "Colors"
 
 #: ../gthumb/gth-toolbox.c:145
-#, fuzzy
 msgid "Rotation"
-msgstr "Ubicació "
+msgstr "Rotació"
 
 #: ../gthumb/gth-trash-task.c:64
-#, fuzzy
 msgid "Moving files to trash"
-msgstr "S'està movent el fitxer %ld de %ld"
+msgstr "S'estan movent els fitxers a la paperera"
 
 #: ../gthumb/gtk-utils.c:329
 msgid "Could not display help"
 msgstr "No s'ha pogut mostrar l'ajuda"
 
 #: ../gthumb/gtk-utils.c:649 ../gthumb/gtk-utils.c:656
-#, fuzzy
 msgid "Could not launch the application"
-msgstr "No s'ha pogut copiar la imatge:"
+msgstr "No s'ha pogut llançar l'aplicació"
 
 #: ../gthumb/gtk-utils.c:759
 msgid "_Copy Here"
 msgstr "_Copia aquí"
 
 #: ../gthumb/gtk-utils.c:764
-#, fuzzy
 msgid "_Move Here"
-msgstr "_Mou"
+msgstr "_Mou aquí"
 
 #: ../gthumb/gtk-utils.c:769
 msgid "_Link Here"
@@ -5595,14 +5205,12 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 #: ../gthumb/gtk-utils.h:36
-#, fuzzy
-#| msgid "Cancel"
 msgid "_Cancel"
-msgstr "Cancel·la"
+msgstr "_Cancel·la"
 
 #: ../gthumb/gtk-utils.h:37
 msgid "_Close"
-msgstr ""
+msgstr "_Tanca"
 
 #: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:3
 msgid "_Help"
@@ -5610,23 +5218,19 @@ msgstr "A_juda"
 
 #: ../gthumb/gtk-utils.h:42
 msgid "_Ok"
-msgstr ""
+msgstr "D'ac_ord"
 
 #: ../gthumb/gtk-utils.h:43
-#, fuzzy
 msgid "_Remove"
-msgstr "_Suprimeix"
+msgstr "Sup_rimeix"
 
 #: ../gthumb/gtk-utils.h:44
-#, fuzzy
-#| msgid "Save"
 msgid "_Save"
-msgstr "Guardar"
+msgstr "De_sa"
 
 #: ../gthumb/main.c:59
-#, fuzzy
 msgid "Open a new window"
-msgstr "Obre en una finestra nova"
+msgstr "Obre en una nova finestra"
 
 #: ../gthumb/main.c:63
 msgid "Start in fullscreen mode"
@@ -5641,14 +5245,12 @@ msgid "Automatically import digital camera photos"
 msgstr "Importa automàticament les fotografies de la càmera digital"
 
 #: ../gthumb/main.c:75
-#, fuzzy
 msgid "Show version"
-msgstr "Mostra la mida"
+msgstr "Mostra la versió"
 
 #: ../gthumb/main.c:265
-#, fuzzy
 msgid "- Image browser and viewer"
-msgstr "Previsualització de la imatge"
+msgstr "- navegador i visualitzador de fitxers"
 
 #: ../gthumb/resources/app-menu.ui.h:1
 msgid "New _Window"
@@ -5656,46 +5258,40 @@ msgstr "_Finestra nova"
 
 #: ../gthumb/resources/app-menu.ui.h:4
 msgid "_About"
-msgstr ""
+msgstr "_Quant a"
 
 #: ../gthumb/resources/app-menu.ui.h:5
 msgid "_Quit"
-msgstr ""
+msgstr "_Surt"
 
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
-#, fuzzy
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
 #: ../gthumb/resources/folder-menu.ui.h:1
 msgid "Open in New Window"
-msgstr "Obre en una finestra nova"
+msgstr "Obre en una nova finestra"
 
 #: ../gthumb/resources/gears-menu.ui.h:1
-#, fuzzy
-#| msgid "New _Window"
 msgid "New Window"
-msgstr "_Finestra nova"
+msgstr "Finestra nova"
 
 #: ../gthumb/resources/gears-menu.ui.h:2
-#, fuzzy
 msgid "Open Location…"
-msgstr "Ubicació "
+msgstr "Obre la ubicació..."
 
 #: ../gthumb/resources/gears-menu.ui.h:5
 msgid "Revert"
-msgstr ""
+msgstr "Reverteix"
 
 #: ../gthumb/resources/gears-menu.ui.h:6
-#, fuzzy
 msgid "Sort By…"
-msgstr "Ordena"
+msgstr "Ordena..."
 
 #: ../gthumb/resources/gears-menu.ui.h:7
-#, fuzzy
 msgid "Hidden Files"
-msgstr "Mostra els fitxers _amagats"
+msgstr "Fitxers ocults"
 
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
