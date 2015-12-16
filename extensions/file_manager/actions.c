@@ -761,7 +761,7 @@ gth_browser_activate_move_to_folder (GSimpleAction *action,
 				     GVariant      *parameter,
 				     gpointer       user_data)
 {
-	copy_selected_files_to_folder (GTH_BROWSER (user_data), FALSE);
+	copy_selected_files_to_folder (GTH_BROWSER (user_data), TRUE);
 }
 
 
