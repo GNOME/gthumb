@@ -41,7 +41,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">1</property>
-                <property name="label" translatable="yes" comments="Short for &quot;Standard deviation&quot;.  Try to keep it under the 12 characters in the translation or it will be ellipsizied at the end.">Std dev:</property>
+                <property name="label" translatable="yes" comments="Short for &quot;Standard deviation&quot;.  Try to keep it under the 12 characters in the translation or it will be ellipsized at the end.">Std dev:</property>
                 <property name="ellipsize">end</property>
                 <property name="width_chars">12</property>
                 <attributes>

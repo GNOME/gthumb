@@ -520,7 +520,7 @@ id="gthumb-shortcuts">
           <p>
           <keyseq>
             <key>Alt</key>
-            <key>Up</key>
+            <key>Up Arrow</key>
           </keyseq>
           </p>
         </td>

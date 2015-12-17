@@ -589,7 +589,7 @@ artic_add_to_special_effects (GthFilterGrid *grid)
 				    GTH_FILTER_GRID_NEW_FILTER_ID,
 				    gth_image_task_new (_("Applying changes"), NULL, artic_exec, NULL, NULL, NULL),
 				    /* Translators: this is the name of an image filter */
-				    _("Artic"),
+				    _("Arctic"),
 				    NULL);
 }
 

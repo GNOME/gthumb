@@ -16,7 +16,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">All images on  a single image</col>
+        <col id="0" translatable="yes">All images on a single image</col>
       </row>
       <row>
         <col id="0" translatable="yes">Adapts to the window width</col>

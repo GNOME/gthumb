@@ -38,9 +38,9 @@ id="gthumb-thumbnails">
   with other applications. By default, Gnome systems prune cached
   thumbnails when they are older than 180 days, or when the
   thumbnail cache exceeds 512 MB. Technically-inclined users can
-  explore these settings with <app>gconf-editor</app>. See the
-  /desktop/gnome/thumbnail_cache/maximum_age and
-  /desktop/gnome/thumbnail_cache/maximum_size keys in particular.
+  explore these settings with <app>dconf-editor</app>. See the
+  org.gnome.desktop.thumbnail_cache.maximum_age and
+  org.gnome.desktop.thumbnail_cache.maximum_size keys in particular.
   Certain applications (like <app>F-Spot</app>) may automatically increase
   these settings greatly.</p>
 </page>
