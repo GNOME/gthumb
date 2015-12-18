@@ -163,7 +163,7 @@
                           <object class="GtkLabel" id="label2">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">seconds</property>
+                            <property name="label" translatable="yes" context="Every x seconds">seconds</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
