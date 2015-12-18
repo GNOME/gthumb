@@ -978,6 +978,7 @@ gth_curve_editor_init (GthCurveEditor *self)
 
 	button = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("edit-undo-symbolic", GTK_ICON_SIZE_BUTTON));
+	gtk_widget_set_tooltip_text (button, _("Reset"));
 	gtk_widget_show_all (button);
 	gtk_box_pack_start (GTK_BOX (sub_box), button, FALSE, FALSE, 0);
 
