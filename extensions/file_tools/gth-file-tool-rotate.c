@@ -589,17 +589,15 @@ gth_file_tool_rotate_populate_headerbar (GthFileTool *base,
 					 GthBrowser  *browser)
 {
 	GthFileToolRotate *self;
-	gboolean           rtl;
 	GtkWidget         *button;
 
 	self = (GthFileToolRotate *) base;
 
 	/* reset button */
 
-	rtl = gtk_widget_get_direction (GTK_WIDGET (base)) == GTK_TEXT_DIR_RTL;
 	button = gth_browser_add_header_bar_button (browser,
 						    GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS,
-						    rtl ? "edit-undo-rtl-symbolic" : "edit-undo-symbolic",
+						    "edit-undo-symbolic",
 						    _("Reset"),
 						    NULL,
 						    NULL);

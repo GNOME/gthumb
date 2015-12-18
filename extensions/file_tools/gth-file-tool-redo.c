@@ -72,11 +72,8 @@ gth_file_tool_redo_class_init (GthFileToolRedoClass *klass)
 static void
 gth_file_tool_redo_init (GthFileToolRedo *self)
 {
-	gboolean rtl;
-
-	rtl = gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL;
-
-	gth_file_tool_construct (GTH_FILE_TOOL (self), rtl ? "edit-redo-rtl-symbolic" :
-							     "edit-redo-symbolic",
-						       _("Redo"), GTH_TOOLBOX_SECTION_FILE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self),
+				 "edit-redo-symbolic",
+				 _("Redo"),
+				 GTH_TOOLBOX_SECTION_FILE);
 }
