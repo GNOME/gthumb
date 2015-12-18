@@ -35,6 +35,7 @@ const char *raw_mime_types[] = {
 	"image/x-olympus-orf",
 	"image/x-pentax-pef",
 	"image/x-sony-arw",
+	"image/x-fuji-raf",
 	NULL };
 
 
