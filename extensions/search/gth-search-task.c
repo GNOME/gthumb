@@ -180,7 +180,7 @@ update_secondary_text (GthSearchTask *task)
 	char *msg;
 
 	format_str = g_strdup_printf ("%"G_GSIZE_FORMAT, task->priv->n_files);
-	msg = g_strdup_printf (_("Files found until now: %s"), format_str);
+	msg = g_strdup_printf (_("Files found so far: %s"), format_str);
 	gth_info_bar_set_secondary_text (GTH_INFO_BAR (task->priv->dialog), msg);
 
 	g_free (format_str);
