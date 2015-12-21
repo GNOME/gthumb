@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-07 11:25+0000\n"
-"PO-Revision-Date: 2015-12-07 15:48+0100\n"
+"POT-Creation-Date: 2015-12-20 23:30+0000\n"
+"PO-Revision-Date: 2015-12-21 09:00+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -1243,7 +1243,8 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/batch-scripts.page:12
-msgid "TODO: further documentation is need here."
+#| msgid "TODO: further documentation is need here."
+msgid "TODO: further documentation is needed here."
 msgstr "TODO: aquí se necesita documentación adicional."
 
 #. (itstool) path: page/title
@@ -1326,13 +1327,22 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:37
+#| msgid ""
+#| "<app>gThumb</app> will save thumbnails to a system cache, to share them "
+#| "with other applications. By default, Gnome systems prune cached "
+#| "thumbnails when they are older than 180 days, or when the thumbnail cache "
+#| "exceeds 512 MB. Technically-inclined users can explore these settings "
+#| "with <app>gconf-editor</app>. See the /desktop/gnome/thumbnail_cache/"
+#| "maximum_age and /desktop/gnome/thumbnail_cache/maximum_size keys in "
+#| "particular. Certain applications (like <app>F-Spot</app>) may "
+#| "automatically increase these settings greatly."
 msgid ""
 "<app>gThumb</app> will save thumbnails to a system cache, to share them with "
 "other applications. By default, Gnome systems prune cached thumbnails when "
 "they are older than 180 days, or when the thumbnail cache exceeds 512 MB. "
-"Technically-inclined users can explore these settings with <app>gconf-"
-"editor</app>. See the /desktop/gnome/thumbnail_cache/maximum_age and /"
-"desktop/gnome/thumbnail_cache/maximum_size keys in particular. Certain "
+"Technically-inclined users can explore these settings with <app>dconf-"
+"editor</app>. See the org.gnome.desktop.thumbnail_cache.maximum_age and org."
+"gnome.desktop.thumbnail_cache.maximum_size keys in particular. Certain "
 "applications (like <app>F-Spot</app>) may automatically increase these "
 "settings greatly."
 msgstr ""
@@ -1341,9 +1351,9 @@ msgstr ""
 "GNOME cortan las miniaturas cacheadas cuando sobrepasan los 180 días, o "
 "cuando la caché de miniaturas supera los 512 MB. Los usuarios técnicos puede "
 "explorar esta configuración con <app>gconf-editor</app>. En particular, vea "
-"las claves «desktop/gnome/thumbnail_cache/maximum_age» y «/desktop/gnome/"
-"thumbnail_cache/maximum_size». Ciertas aplicaciones (como <app>F-Spot</app>) "
-"pueden incrementar automáticamente estos valores extensamente."
+"las claves «org.gnome.desktop.thumbnail_cache.maximum_age» y «org.gnome."
+"desktop.thumbnail_cache.maximum_size». Ciertas aplicaciones (como <app>F-"
+"Spot</app>) pueden incrementar automáticamente estos valores notablemente."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -2600,7 +2610,7 @@ msgstr "<key>1</key> o <key>z</key> o <key>/ (teclado numérico)</key>"
 #. (itstool) path: td/p
 #: C/shortcuts.page:357
 msgid "Actual size."
-msgstr "Tamaño actual."
+msgstr "Tamaño real."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:362
@@ -2741,8 +2751,9 @@ msgstr "Ir hacia adelante (después de retroceder hasta una carpeta)."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:520
-msgid "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
-msgstr "<keyseq> <key>Alt</key> <key>Arriba</key> </keyseq>"
+#| msgid "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
+msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
+msgstr "<keyseq> <key>Alt</key> <key>Flecha arriba</key> </keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:528
