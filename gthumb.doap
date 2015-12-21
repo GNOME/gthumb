@@ -20,7 +20,7 @@
 
    + View single images (including GIF animations).  Supported image
      types are: BMP, JPEG, GIF, PNG, TIFF, TGA, ICO, XPM.
-   + Optional support for RAW and HDR (high dynamic range) images.
+   + Optional support for RAW images.
    + View EXIF data attached to JPEG images.
    + View in fullscreen mode.
    + View images rotated, flipped, mirrored.

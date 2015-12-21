@@ -438,27 +438,6 @@ gthumb_extension_activate (void)
 #include <gthumb.h>
 
 
-static gboolean
-_g_mime_type_is_raw (const char *mime_type)
-{
-	return (g_content_type_is_a (mime_type, "application/x-crw")	/* ? */
-		|| g_content_type_is_a (mime_type, "image/x-raw")       /* mimelnk */
-		|| g_content_type_is_a (mime_type, "image/x-dcraw"));	/* freedesktop.org.xml - this should
-									   catch most RAW formats, which are
-									   registered as sub-classes of
-									   image/x-dcraw */
-}
-
-
-static gboolean
-_g_mime_type_is_hdr (const char *mime_type)
-{
-	/* Note that some HDR file extensions have been hard-coded into
-	   the get_file_mime_type function above. */
-	return g_content_type_is_a (mime_type, "image/x-hdr");
-}
-
-
 static char *
 get_cache_full_path (const char *filename,
 		     const char *extension)
@@ -509,8 +488,6 @@ dcraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 	GthImage    *image = NULL;
 	GdkPixbuf   *pixbuf;
 	gboolean     is_thumbnail;
-	gboolean     is_raw;
-	gboolean     is_hdr;
 	char        *local_file;
 	char         *local_file_md5;
 	char	     *cache_file;
@@ -525,8 +502,6 @@ dcraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 	}
 
 	is_thumbnail = requested_size > 0;
-	is_raw = _g_mime_type_is_raw (gth_file_data_get_mime_type (file_data));
-	is_hdr = _g_mime_type_is_hdr (gth_file_data_get_mime_type (file_data));
 
 	/* The output filename, and its persistence, depend on the input file
 	 * type, and whether or not a thumbnail has been requested. */
@@ -534,18 +509,12 @@ dcraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 	local_file = g_file_get_path (file_data->file);
 	local_file_md5 = gnome_desktop_thumbnail_md5 (local_file);
 
-	if (is_raw && !is_thumbnail)
+	if (!is_thumbnail)
 		/* Full-sized converted RAW file */
 		cache_file = get_cache_full_path (local_file_md5, "conv.pnm");
-	else if (is_raw && is_thumbnail)
+	else
 		/* RAW: thumbnails generated in pnm format. The converted file is later removed. */
 		cache_file = get_cache_full_path (local_file_md5, "conv-thumb.pnm");
-	else if (is_hdr && is_thumbnail)
-		/* HDR: thumbnails generated in tiff format. The converted file is later removed. */
-		cache_file = get_cache_full_path (local_file_md5, "conv-thumb.tiff");
-	else
-		/* Full-sized converted HDR files */
-		cache_file = get_cache_full_path (local_file_md5, "conv.tiff");
 
 	g_free (local_file_md5);
 
@@ -561,7 +530,7 @@ dcraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 	if (! g_file_test (cache_file, G_FILE_TEST_EXISTS)
 	    || (gth_file_data_get_mtime (file_data) > get_file_mtime (cache_file)))
 	{
-		if (is_raw) {
+		{
 			if (is_thumbnail) {
 				char *first_part;
 				char *jpg_thumbnail;
@@ -609,28 +578,6 @@ dcraw_pixbuf_animation_new_from_file (GInputStream  *istream,
 							   local_file_esc,
 							   cache_file_esc);
 			}
-		}
-
-		if (is_hdr) {
-			/* HDR files. We can use the pfssize tool to speed up
-			   thumbnail generation considerably, so we treat
-			   thumbnailing as a special case. */
-			char *resize_command;
-
-			if (is_thumbnail)
-				resize_command = g_strdup_printf (" | pfssize --maxx %d --maxy %d",
-								  requested_size,
-								  requested_size);
-			else
-				resize_command = g_strdup_printf (" ");
-
-			command = g_strconcat ( "pfsin ",
-						local_file_esc,
-						resize_command,
-						" |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
-						cache_file_esc,
-						NULL );
-			g_free (resize_command);
 		}
 
 		if (command != NULL) {
