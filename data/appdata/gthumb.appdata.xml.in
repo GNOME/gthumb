@@ -41,4 +41,10 @@
   </screenshots>
   <url type="homepage">https://wiki.gnome.org/Apps/gthumb</url>
   <updatecontact>paobac_at_src.gnome.org</updatecontact>
+  <kudos>
+    <kudo>AppMenu</kudo>
+    <kudo>HiDpiIcon</kudo>
+    <kudo>ModernToolkit</kudo>
+    <kudo>UserDocs</kudo>
+  </kudos>
 </application>
