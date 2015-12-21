@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2015-03-22 21:31+0000\n"
+"POT-Creation-Date: 2015-12-20 23:30+0000\n"
 "PO-Revision-Date: 2015-03-22 23:31+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -1222,7 +1222,7 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/batch-scripts.page:12
-msgid "TODO: further documentation is need here."
+msgid "TODO: further documentation is needed here."
 msgstr "TODO: zde je potřeba doplnit další dokumentaci."
 
 #. (itstool) path: page/title
@@ -1307,9 +1307,9 @@ msgid ""
 "<app>gThumb</app> will save thumbnails to a system cache, to share them with "
 "other applications. By default, Gnome systems prune cached thumbnails when "
 "they are older than 180 days, or when the thumbnail cache exceeds 512 MB. "
-"Technically-inclined users can explore these settings with <app>gconf-"
-"editor</app>. See the /desktop/gnome/thumbnail_cache/maximum_age and /"
-"desktop/gnome/thumbnail_cache/maximum_size keys in particular. Certain "
+"Technically-inclined users can explore these settings with <app>dconf-"
+"editor</app>. See the org.gnome.desktop.thumbnail_cache.maximum_age and org."
+"gnome.desktop.thumbnail_cache.maximum_size keys in particular. Certain "
 "applications (like <app>F-Spot</app>) may automatically increase these "
 "settings greatly."
 msgstr ""
@@ -1317,10 +1317,10 @@ msgstr ""
 "mohly sdílet ostatní aplikace. Systémy Gnome standardně zahazují miniatury v "
 "mezipaměti, které jsou starší než 180 dní nebo když velikost mezipaměti "
 "miniatur překročí 512 MB. Technicky zdatní uživatelé si mohou tyto hodnoty "
-"vyladit pomocí aplikace <app>gconf-editor</app>. Hledejte klíče /desktop/"
-"gnome/thumbnail_cache/maximum_age a /desktop/gnome/thumbnail_cache/"
-"maximum_size. Některé aplikace (jako <app>F-Spot</app>) mohout toto "
-"nastavení rapidně zvýšit bez zásahu uživatele."
+"vyladit pomocí aplikace <app>gconf-editor</app>. Konkrétně hledejte klíče "
+"org.gnome.desktop.thumbnail_cache.maximum_age a org.gnome.desktop."
+"thumbnail_cache.maximum_size keys. Některé aplikace (jako <app>F-Spot</app>) "
+"mohout toto nastavení rapidně zvýšit bez zásahu uživatele."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -2588,7 +2588,8 @@ msgstr "<keyseq><key>Shift</key> <key>w</key></keyseq>"
 #. (itstool) path: td/p
 #: C/shortcuts.page:402
 msgid "Zoom to fit width (scale down or magnify, as required)"
-msgstr "Přizpůsobit přiblížení šířce (směrem dolů nebo použít lupu, dle potřeby)"
+msgstr ""
+"Přizpůsobit přiblížení šířce (směrem dolů nebo použít lupu, dle potřeby)"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:407
@@ -2608,7 +2609,8 @@ msgstr "<keyseq><key>Shift</key> <key>h</key></keyseq>"
 #. (itstool) path: td/p
 #: C/shortcuts.page:424
 msgid "Zoom to fit height (scale down or magnify, as required)"
-msgstr "Přizpůsobit přiblížení výšce (směrem dolů nebo použít lupu, dle potřeby)"
+msgstr ""
+"Přizpůsobit přiblížení výšce (směrem dolů nebo použít lupu, dle potřeby)"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:429
@@ -2648,7 +2650,7 @@ msgstr "Přejít na poslední soubor v režimu procházení."
 #. (itstool) path: td/p
 #: C/shortcuts.page:480
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
-msgstr "<key>šipka dolů</key> nebo <key>Page Down</key>"
+msgstr "<key>↓</key> nebo <key>Page Down</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:485
@@ -2658,7 +2660,7 @@ msgstr "Posunout se v miniaturách dolů."
 #. (itstool) path: td/p
 #: C/shortcuts.page:490
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
-msgstr "<key>šipka nahoru</key> nebo <key>Page Up</key>"
+msgstr "<key>↑</key> nebo <key>Page Up</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:495
@@ -2668,7 +2670,7 @@ msgstr "Posunout se v miniaturách nahoru."
 #. (itstool) path: td/p
 #: C/shortcuts.page:500
 msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
+msgstr "<keyseq><key>Alt</key><key>←</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:505
@@ -2678,7 +2680,7 @@ msgstr "Vrátit se zpět do předchozí zobrazené složky."
 #. (itstool) path: td/p
 #: C/shortcuts.page:510
 msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
+msgstr "<keyseq><key>Alt</key><key>→</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:515
@@ -2687,8 +2689,8 @@ msgstr "Přejít vpřed (po té, co jste ve složkách přešli zpět)."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:520
-msgid "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
-msgstr "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
+msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
+msgstr "<keyseq> <key>Alt</key> <key>↑</key> </keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:528
@@ -2736,7 +2738,7 @@ msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
 msgstr ""
-"<key>mezerník</key> nebo <key>šipka dolů</key> nebo <key>šipka vpravo</key> "
+"<key>mezerník</key> nebo <key>↓</key> nebo <key>→</key> "
 "nebo <key>Page Down</key>"
 
 #. (itstool) path: td/p
@@ -2750,8 +2752,8 @@ msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
 msgstr ""
-"<key>Backspace</key> nebo <key>šipka nahoru</key> nebo <key>šipka vlevo</"
-"key> nebo <key>Page Up</key>"
+"<key>Backspace</key> nebo <key>↑</key> nebo <key>←</key> nebo <key>"
+"Page Up</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:592
@@ -3169,8 +3171,8 @@ msgid ""
 "You can advance manually to the next image by pressing <key>Down Arrow</"
 "key>, <key>Right Arrow</key>, <key>Page Down</key> or <key>Space</key>."
 msgstr ""
-"Na následující obrázek můžete navíc přejít i ručně zmáčknutím <key>šipky "
-"dolů</key>, <key>šipky doprava</key>, <key>Page Down</key> nebo "
+"Na následující obrázek můžete navíc přejít i ručně zmáčknutím <key>↓</key>, "
+"<key>→</key>, <key>Page Down</key> nebo "
 "<key>mezerník</key>."
 
 #. (itstool) path: page/p
@@ -3179,8 +3181,8 @@ msgid ""
 "You can go back to the previous image by pressing <key>Up Arrow</key>, "
 "<key>Left Arrow</key> or <key>Page Up</key>."
 msgstr ""
-"Na předchozí obrázek se zpět dostanete zmáčknutím <key>šipky nahoru</key>, "
-"<key>šipky vlevo</key> nebo <key>Page Up</key>."
+"Na předchozí obrázek se zpět dostanete zmáčknutím <key>↑</key>, "
+"<key>←</key> nebo <key>Page Up</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:30
