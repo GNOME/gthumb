@@ -22,21 +22,8 @@
 
 #include <config.h>
 #include <glib.h>
+#include <gthumb.h>
 #include "main.h"
-
-
-const char *raw_mime_types[] = {
-	"image/x-adobe-dng",
-	"image/x-canon-cr2",
-	"image/x-canon-crw",
-	"image/x-epson-erf",
-	"image/x-minolta-mrw",
-	"image/x-nikon-nef",
-	"image/x-olympus-orf",
-	"image/x-pentax-pef",
-	"image/x-sony-arw",
-	"image/x-fuji-raf",
-	NULL };
 
 
 #ifdef HAVE_LIBRAW
@@ -44,12 +31,8 @@ const char *raw_mime_types[] = {
 
 #include <cairo.h>
 #include <gtk/gtk.h>
-#include <gthumb.h>
 #include <libraw.h>
 #include "gth-metadata-provider-raw.h"
-
-
-#define RAW_USE_EMBEDDED_THUMBNAIL 1
 
 
 typedef enum {
@@ -184,9 +167,6 @@ _libraw_read_bitmap_data (int     width,
 }
 
 
-#ifdef RAW_USE_EMBEDDED_THUMBNAIL
-
-
 static GthTransform
 _libraw_get_tranform (libraw_data_t *raw_data)
 {
@@ -209,9 +189,6 @@ _libraw_get_tranform (libraw_data_t *raw_data)
 
 	return transform;
 }
-
-
-#endif
 
 
 static int
@@ -267,9 +244,6 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 		goto fatal_error;
 	}
 
-	/*  */
-
-#if RAW_USE_EMBEDDED_THUMBNAIL
 
 	if (requested_size > 0) {
 
@@ -345,12 +319,7 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 			*original_width = raw_data->sizes.iwidth;
 			*original_height = raw_data->sizes.iheight;
 		}
-	}
-	else
-
-#endif
-
-	{
+	} else {
 		/* read the image */
 
 		libraw_processed_image_t *processed_image;
@@ -423,210 +392,48 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+	GList *mime_types;
+	mime_types = g_content_types_get_registered ();
+
+	GList *l = mime_types;
+	while (l != NULL) {
+		GList *next = l->next;
+		if (!_g_mime_type_is_raw (l->data)) {
+			g_free (l->data);
+			mime_types = g_list_delete_link (mime_types, l);
+		}
+		l = next;
+	}
+
+	int count_of_raw_types, i;
+	count_of_raw_types = g_list_length (mime_types);
+
+	gchar *raw_mime_types[count_of_raw_types];
+
+	i = 0;
+	l = mime_types;
+	while (l != NULL) {
+		GList *next = l->next;
+		raw_mime_types[i] = (gchar *) l->data;
+		i++;
+		l = next;
+	}
+
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_RAW);
 	gth_main_register_image_loader_func_v (_cairo_image_surface_create_from_raw,
 					       GTH_IMAGE_FORMAT_CAIRO_SURFACE,
-					       raw_mime_types);
+					       (const gchar **) raw_mime_types);
+
+	g_list_free_full (mime_types, g_free);
 }
 
 
-#else /* ! HAVE_LIBRAW */
-
-
-#define GDK_PIXBUF_ENABLE_BACKEND
-#include <gtk/gtk.h>
-#include <gthumb.h>
-
-
-static char *
-get_cache_full_path (const char *filename,
-		     const char *extension)
-{
-	char  *name;
-	GFile *file;
-	char  *cache_filename;
-
-	if (extension == NULL)
-		name = g_strdup (filename);
-	else
-		name = g_strconcat (filename, ".", extension, NULL);
-	file = gth_user_dir_get_file_for_write (GTH_DIR_CACHE, GTHUMB_DIR, name, NULL);
-	cache_filename = g_file_get_path (file);
-
-	g_object_unref (file);
-	g_free (name);
-
-	return cache_filename;
-}
-
-
-static time_t
-get_file_mtime (const char *path)
-{
-	GFile  *file;
-	time_t  t;
-
-	file = g_file_new_for_path (path);
-	t = _g_file_get_mtime (file);
-	g_object_unref (file);
-
-	return t;
-}
-
-
-static GthImage *
-dcraw_pixbuf_animation_new_from_file (GInputStream  *istream,
-					GthFileData   *file_data,
-					int            requested_size,
-					int           *original_width,
-					int           *original_height,
-					gboolean      *loaded_original,
-					gpointer       user_data,
-					GCancellable  *cancellable,
-					GError       **error)
-{
-	GthImage    *image = NULL;
-	GdkPixbuf   *pixbuf;
-	gboolean     is_thumbnail;
-	char        *local_file;
-	char         *local_file_md5;
-	char	     *cache_file;
-	char	     *cache_file_esc;
-	char	     *local_file_esc;
-	char	     *command = NULL;
-
-	if (file_data == NULL) {
-		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, "Could not load file");
-		return NULL;
-	}
-
-	is_thumbnail = requested_size > 0;
-
-	/* The output filename, and its persistence, depend on the input file
-	 * type, and whether or not a thumbnail has been requested. */
-
-	local_file = g_file_get_path (file_data->file);
-	local_file_md5 = gnome_desktop_thumbnail_md5 (local_file);
-
-	if (!is_thumbnail)
-		/* Full-sized converted RAW file */
-		cache_file = get_cache_full_path (local_file_md5, "conv.pnm");
-	else
-		/* RAW: thumbnails generated in pnm format. The converted file is later removed. */
-		cache_file = get_cache_full_path (local_file_md5, "conv-thumb.pnm");
-
-	g_free (local_file_md5);
-
-	if (cache_file == NULL) {
-		g_free (local_file);
-		return NULL;
-	}
-
-	local_file_esc = g_shell_quote (local_file);
-	cache_file_esc = g_shell_quote (cache_file);
-
-	/* Do nothing if an up-to-date converted file is already in the cache */
-	if (! g_file_test (cache_file, G_FILE_TEST_EXISTS)
-	    || (gth_file_data_get_mtime (file_data) > get_file_mtime (cache_file)))
-	{
-		{
-			if (is_thumbnail) {
-				char *first_part;
-				char *jpg_thumbnail;
-				char *tiff_thumbnail;
-				char *ppm_thumbnail;
-				char *thumb_command;
-
-				thumb_command = g_strdup_printf ("dcraw -e %s", local_file_esc);
-				g_spawn_command_line_sync (thumb_command, NULL, NULL, NULL, NULL);
-				g_free (thumb_command);
-
-				first_part = _g_uri_remove_extension (local_file);
-				jpg_thumbnail = g_strdup_printf ("%s.thumb.jpg", first_part);
-				tiff_thumbnail = g_strdup_printf ("%s.thumb.tiff", first_part);
-				ppm_thumbnail = g_strdup_printf ("%s.thumb.ppm", first_part);
-
-				if (g_file_test (jpg_thumbnail, G_FILE_TEST_EXISTS)) {
-					g_free (cache_file);
-					cache_file = g_strdup (jpg_thumbnail);
-				}
-				else if (g_file_test (tiff_thumbnail, G_FILE_TEST_EXISTS)) {
-					g_free (cache_file);
-					cache_file = g_strdup (tiff_thumbnail);
-				}
-				else if (g_file_test (ppm_thumbnail, G_FILE_TEST_EXISTS)) {
-					g_free (cache_file);
-					cache_file = g_strdup (ppm_thumbnail);
-				}
-				else {
-					/* No embedded thumbnail. Read the whole file. */
-					/* Add -h option to speed up thumbnail generation. */
-					command = g_strdup_printf ("dcraw -w -c -h %s > %s",
-								   local_file_esc,
-								   cache_file_esc);
-				}
-
-				g_free (first_part);
-				g_free (jpg_thumbnail);
-				g_free (tiff_thumbnail);
-				g_free (ppm_thumbnail);
-			}
-			else {
-				/* -w option = camera-specified white balance */
-				command = g_strdup_printf ("dcraw -w -c %s > %s",
-							   local_file_esc,
-							   cache_file_esc);
-			}
-		}
-
-		if (command != NULL) {
-			if (system (command) == -1) {
-				g_free (command);
-				g_free (cache_file_esc);
-				g_free (local_file_esc);
-				g_free (cache_file);
-				g_free (local_file);
-
-				return NULL;
-			}
-			g_free (command);
-		}
-	}
-
-	pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
-
-	/* Thumbnail files are already cached, so delete the conversion cache copies */
-	if (is_thumbnail) {
-		GFile *file;
-
-		file = g_file_new_for_path (cache_file);
-		g_file_delete (file, NULL, NULL);
-		g_object_unref (file);
-	}
-
-	if (pixbuf != NULL) {
-		image = gth_image_new_for_pixbuf (pixbuf);
-		g_object_unref (pixbuf);
-	}
-
-	g_free (cache_file_esc);
-	g_free (local_file_esc);
-	g_free (cache_file);
-	g_free (local_file);
-
-	return image;
-}
-
+#else
 
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
-	gth_main_register_image_loader_func_v (dcraw_pixbuf_animation_new_from_file,
-					       GTH_IMAGE_FORMAT_GDK_PIXBUF,
-					       raw_mime_types);
 }
-
 
 #endif
 

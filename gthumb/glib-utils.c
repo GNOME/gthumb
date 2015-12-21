@@ -3078,16 +3078,15 @@ gboolean
 _g_mime_type_is_image (const char *mime_type)
 {
 	g_return_val_if_fail (mime_type != NULL, FALSE);
+	return (g_content_type_is_a (mime_type, "image/*"));
+}
 
-	/* Valid image mime types:
-		1. All *image* types,
-		2. application/x-crw
-			This is a RAW photo file, which for some reason
-			uses an "application" prefix instead of "image".
-	*/
 
-	return (g_content_type_is_a (mime_type, "image/*")
-		|| (strcmp (mime_type, "application/x-crw") == 0));
+gboolean
+_g_mime_type_is_raw (const char *mime_type)
+{
+        g_return_val_if_fail (mime_type != NULL, FALSE);
+        return (g_content_type_is_a (mime_type, "image/x-dcraw"));
 }
 
 

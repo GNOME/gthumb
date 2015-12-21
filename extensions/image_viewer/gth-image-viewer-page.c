@@ -265,24 +265,15 @@ _g_mime_type_can_load_different_quality (const char *mime_type)
 	static const char *supported[] = {
 		"image/jpeg",
 		"image/x-portable-pixmap"
-
-		/* RAW formats: to keep in sync with raw_mime_types in extensions/raw_files/main.c */
-
-		"image/x-adobe-dng",
-		"image/x-canon-cr2",
-		"image/x-canon-crw",
-		"image/x-epson-erf",
-		"image/x-minolta-mrw",
-		"image/x-nikon-nef",
-		"image/x-olympus-orf",
-		"image/x-pentax-pef",
-		"image/x-sony-arw"
 	};
-	int i;
 
+	int i;
 	for (i = 0; i < G_N_ELEMENTS (supported); i++)
 		if (g_strcmp0 (mime_type, supported[i]) == 0)
 			return TRUE;
+
+	if (_g_mime_type_is_raw (mime_type))
+		return TRUE;
 
 	return FALSE;
 }

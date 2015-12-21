@@ -25,6 +25,4 @@
 
 #include <config.h>
 
-extern const char *raw_mime_types[];
-
 #endif /* GTH_RAW_FILES_MAIN_H */

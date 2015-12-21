@@ -44,22 +44,6 @@ gth_metadata_provider_raw_can_read (GthMetadataProvider  *self,
 }
 
 
-static gboolean
-supported_mime_type (GthFileData *file_data)
-{
-	const char *mime_type;
-	int         i;
-
-	mime_type = gth_file_data_get_mime_type (file_data);
-	for (i = 0; raw_mime_types[i] != NULL; i++) {
-		if (g_strcmp0 (raw_mime_types[i], mime_type) == 0)
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-
 static void
 gth_metadata_provider_raw_read (GthMetadataProvider *self,
 				GthFileData         *file_data,
@@ -74,7 +58,7 @@ gth_metadata_provider_raw_read (GthMetadataProvider *self,
 	char          *size;
 	guint          width, height;
 
-	if (! supported_mime_type (file_data))
+	if (!_g_mime_type_is_raw (gth_file_data_get_mime_type (file_data)))
 		return;
 
 	raw_data = libraw_init (LIBRAW_OPIONS_NO_MEMERR_CALLBACK | LIBRAW_OPIONS_NO_DATAERR_CALLBACK);

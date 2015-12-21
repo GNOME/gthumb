@@ -476,7 +476,7 @@ dnl ===========================================================================
 
 AC_MSG_CHECKING(libraw)
 AC_ARG_ENABLE([libraw],
-	      [AS_HELP_STRING([--disable-libraw],[do not use libraw to read raw files (will use dcraw directly)])],,
+	      [AS_HELP_STRING([--disable-libraw],[do not use libraw - disables raw photo file support])],,
 	      [enable_libraw=yes])
 
 if test x$enable_libraw = xyes ; then
@@ -485,11 +485,12 @@ if test x$enable_libraw = xyes ; then
 			  [enable_libraw=yes],
 			  [enable_libraw=no])
 	if test "x$enable_libraw" = "xyes"; then
-		AC_DEFINE(HAVE_LIBRAW, 1, [Define to 1 if libraw is used to read raw files instead of dcraw])
+		AC_DEFINE(HAVE_LIBRAW, 1, [Define to 1 if libraw is used to provide raw photo file support])
+
 	fi
 fi
 if test x$enable_libraw = xno ; then
-	enable_libraw='no (uses dcraw)'
+	enable_libraw='no'
 fi
 AC_SUBST(LIBRAW_LIBS)
 AC_SUBST(LIBRAW_CFLAGS)

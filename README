@@ -71,8 +71,8 @@ Compiling
   version 2 or greater, with the development tools installed properly.
   The following is the detailed list of libraries you need:
 
-	* glib	 		version >= 2.16.0
-	* gtk 			version >= 2.18.0
+	* glib	 		version >= 2.36.0
+	* gtk 			version >= 3.13.2
 	* gthread
  	* gmodule
 	* gio-unix
@@ -84,10 +84,10 @@ Compiling
   While not mandatory, these libraries greatly increase gThumb's
   basic usefulness:
 
-	* exiv2			version >= 0.18
+	* exiv2			version >= 0.21
 	  (embedded metadata support)
 
-	* gstreamer		version >= 0.10
+	* gstreamer		version >= 1.0.0
 	  (video support)
 
 	* libjpeg
@@ -101,12 +101,9 @@ Compiling
 	* clutter-gtk		version >= 0.10.0
           (These libraries provide enhanced slideshow effects.)
 
-	* libopenraw		version >= 0.0.8
+	* libraw
           (This adds some support for RAW photos)
 
-
-  If dcraw is present (and is in your executable search path), 
-  gthumb can view full RAW photos.
 
 
 Extensions

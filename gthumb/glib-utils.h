@@ -331,6 +331,7 @@ const char *    _g_content_type_get_from_stream  (GInputStream  *istream,
 						  GCancellable  *cancellable,
 						  GError       **error);
 gboolean        _g_mime_type_is_image            (const char *mime_type);
+gboolean        _g_mime_type_is_raw              (const char *mime_type);
 gboolean        _g_mime_type_is_video            (const char *mime_type);
 gboolean        _g_mime_type_is_audio            (const char *mime_type);
 
