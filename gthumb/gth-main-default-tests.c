@@ -55,6 +55,36 @@ is_image_test (GthTest        *test,
 
 
 static gint64
+is_jpeg_test (GthTest        *test,
+	      GthFileData    *file_data,
+	      gconstpointer  *data,
+	      GDestroyNotify *data_destroy_func)
+{
+	gboolean result = FALSE;
+
+	if (file_data->info != NULL)
+		result = g_content_type_equals (gth_file_data_get_mime_type (file_data), "image/jpeg");
+
+	return result;
+}
+
+
+static gint64
+is_raw_test (GthTest        *test,
+	     GthFileData    *file_data,
+	     gconstpointer  *data,
+	     GDestroyNotify *data_destroy_func)
+{
+	gboolean result = FALSE;
+
+	if (file_data->info != NULL)
+		result = _g_mime_type_is_raw (gth_file_data_get_mime_type (file_data));
+
+	return result;
+}
+
+
+static gint64
 is_video_test (GthTest        *test,
 	       GthFileData    *file_data,
 	       gconstpointer  *data,
@@ -258,9 +288,23 @@ gth_main_register_default_tests (void)
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "file::type::is_image",
 				  GTH_TYPE_TEST_SIMPLE,
-				  "display-name", _("Images"),
+				  "display-name", _("All Images"),
 				  "data-type", GTH_TEST_DATA_TYPE_NONE,
 				  "get-data-func", is_image_test,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "file::type::is_jpeg",
+				  GTH_TYPE_TEST_SIMPLE,
+				  "display-name", _("JPEG Images"),
+				  "data-type", GTH_TEST_DATA_TYPE_NONE,
+				  "get-data-func", is_jpeg_test,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "file::type::is_raw",
+				  GTH_TYPE_TEST_SIMPLE,
+				  "display-name", _("Raw Photos"),
+				  "data-type", GTH_TEST_DATA_TYPE_NONE,
+				  "get-data-func", is_raw_test,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "file::type::is_video",
