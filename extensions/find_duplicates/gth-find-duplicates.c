@@ -371,6 +371,7 @@ duplicates_list_view_selection_changed_cb (GthFileView *fileview,
 	GList             *file_data_list;
 	GHashTable        *selected_files;
 	GtkTreeModel      *files_treemodel;
+	GtkTreeModel      *files_treemodelfilter;
 	GtkTreeIter        iter;
 	GList             *scan;
 
@@ -394,6 +395,11 @@ duplicates_list_view_selection_changed_cb (GthFileView *fileview,
 	}
 
 	files_treemodel = GTK_TREE_MODEL (GET_WIDGET ("files_liststore"));
+
+	files_treemodelfilter = GTK_TREE_MODEL (GET_WIDGET ("files_treemodelfilter"));
+	g_object_ref (files_treemodelfilter);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (GET_WIDGET ("files_treeview")), NULL); /* to avoid excessive recomputation */
+
 	if (gtk_tree_model_get_iter_first (files_treemodel, &iter)) {
 		do {
 			GthFileData *file_data;
@@ -409,6 +415,9 @@ duplicates_list_view_selection_changed_cb (GthFileView *fileview,
 		}
 		while (gtk_tree_model_iter_next (files_treemodel, &iter));
 	}
+
+	gtk_tree_view_set_model (GTK_TREE_VIEW (GET_WIDGET ("files_treeview")), files_treemodelfilter);
+	g_object_unref (files_treemodelfilter);
 
 	update_file_list_sensitivity (self);
 	update_file_list_selection_info (self);
