@@ -746,8 +746,6 @@ trash_task_completed_cb (GthTask  *task,
 	else if (g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_NOT_SUPPORTED)) {
 		GtkWidget *d;
 
-		g_clear_error (&error);
-
 		d = _gtk_yesno_dialog_new (tdata->window,
 					   GTK_DIALOG_MODAL,
 					   _("The files cannot be moved to the Trash. Do you want to delete them permanently?"),
@@ -761,7 +759,6 @@ trash_task_completed_cb (GthTask  *task,
 	}
 	else {
 		_gtk_error_dialog_from_gerror_show (tdata->window, _("Could not move the files to the Trash"), error);
-		g_clear_error (&error);
 		trash_data_free (tdata);
 	}
 }
