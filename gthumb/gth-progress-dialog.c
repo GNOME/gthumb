@@ -250,6 +250,7 @@ struct _GthProgressDialogPrivate {
 	GtkWidget *task_box;
 	gulong     show_event;
 	gboolean   custom_dialog_opened;
+	gboolean   destroy_with_tasks;
 };
 
 
@@ -294,6 +295,7 @@ gth_progress_dialog_init (GthProgressDialog *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PROGRESS_DIALOG, GthProgressDialogPrivate);
 	self->priv->custom_dialog_opened = FALSE;
+	self->priv->destroy_with_tasks = FALSE;
 
 	gtk_widget_set_size_request (GTK_WIDGET (self), DIALOG_WIDTH, -1);
 	gtk_window_set_title (GTK_WINDOW (self), "");
@@ -322,6 +324,15 @@ gth_progress_dialog_new (GtkWindow *parent)
 	self->priv->parent = parent;
 
 	return (GtkWidget *) self;
+}
+
+
+void
+gth_progress_dialog_destroy_with_tasks	(GthProgressDialog	*self,
+					 gboolean		 value)
+{
+	g_return_if_fail (GTH_IS_PROGRESS_DIALOG (self));
+	self->priv->destroy_with_tasks = value;
 }
 
 
@@ -454,6 +465,9 @@ gth_progress_dialog_child_removed (GthProgressDialog *self)
 			g_source_remove (self->priv->show_event);
 			self->priv->show_event = 0;
 		}
-		gtk_widget_hide (GTK_WIDGET (self));
+		if (self->priv->destroy_with_tasks)
+			gtk_widget_destroy (self);
+		else
+			gtk_widget_hide (GTK_WIDGET (self));
 	}
 }
