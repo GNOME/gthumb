@@ -366,6 +366,11 @@ gth_image_get_original_size (GthImage *image,
 		break;
 	}
 
+	if (value_set) {
+		if (width != NULL) *width = local_width;
+		if (height != NULL) *height = local_height;
+	}
+
 	return value_set;
 }
 
