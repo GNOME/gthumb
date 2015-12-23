@@ -31,6 +31,7 @@
 #include "gth-file-source-vfs.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
+#include "gth-progress-dialog.h"
 #include "gth-trash-task.h"
 #include "gtk-utils.h"
 
@@ -661,7 +662,16 @@ delete_file_permanently (GtkWindow *window,
 
 	files = gth_file_data_list_to_file_list (file_list);
 	task = gth_delete_task_new (files);
-	gth_browser_exec_task (GTH_BROWSER (window), task, GTH_TASK_FLAGS_DEFAULT);
+	if (GTH_IS_BROWSER (window)) {
+		gth_browser_exec_task (GTH_BROWSER (window), task, GTH_TASK_FLAGS_DEFAULT);
+	}
+	else {
+		GtkWidget *dialog;
+
+		dialog = gth_progress_dialog_new (window);
+		gth_progress_dialog_destroy_with_tasks (GTH_PROGRESS_DIALOG (dialog), TRUE);
+		gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (dialog), task, GTH_TASK_FLAGS_DEFAULT);
+	}
 
 	g_object_unref (task);
 	_g_object_list_unref (files);

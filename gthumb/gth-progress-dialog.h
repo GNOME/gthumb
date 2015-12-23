@@ -47,13 +47,15 @@ struct _GthProgressDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType          gth_progress_dialog_get_type    (void);
-GtkWidget *    gth_progress_dialog_new         (GtkWindow         *parent);
-void           gth_progress_dialog_add_task    (GthProgressDialog *dialog,
-						GthTask           *task,
-						GthTaskFlags       flags);
+GType          gth_progress_dialog_get_type		(void);
+GtkWidget *    gth_progress_dialog_new			(GtkWindow		*parent);
+void           gth_progress_dialog_destroy_with_tasks	(GthProgressDialog	*dialog,
+							 gboolean		 value);
+void           gth_progress_dialog_add_task		(GthProgressDialog	*dialog,
+							 GthTask		*task,
+							 GthTaskFlags		 flags);
 
-GtkWidget *    gth_task_progress_new           (GthTask           *task);
+GtkWidget *    gth_task_progress_new			(GthTask		*task);
 
 G_END_DECLS
 

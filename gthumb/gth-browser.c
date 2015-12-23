@@ -5512,6 +5512,7 @@ gth_browser_exec_task (GthBrowser   *browser,
 		       GthTask      *task,
 		       GthTaskFlags  flags)
 {
+	g_return_if_fail (GTH_IS_BROWSER (browser));
 	g_return_if_fail (task != NULL);
 
 	if ((flags & GTH_TASK_FLAGS_FOREGROUND) == 0) {
