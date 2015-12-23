@@ -1860,7 +1860,7 @@ static void
 ask_whether_to_save__done (AskSaveData *data,
 			   gboolean     cancelled)
 {
-	if (cancelled)
+	if (cancelled && (data->browser->priv->current_file != NULL))
 		g_file_info_set_attribute_boolean (data->browser->priv->current_file->info, "gth::file::is-modified", TRUE);
 	if (data->callback != NULL)
 		(*data->callback) (data->browser, cancelled, data->user_data);
@@ -1897,7 +1897,7 @@ ask_whether_to_save__response_cb (GtkWidget   *dialog,
 {
 	gtk_widget_destroy (dialog);
 
-	if (response_id == RESPONSE_SAVE)
+	if ((response_id == RESPONSE_SAVE) && (data->browser->priv->viewer_page != NULL))
 		gth_viewer_page_save (data->browser->priv->viewer_page,
 				      NULL,
 				      ask_whether_to_save__file_saved_cb,
@@ -3308,7 +3308,7 @@ folder_changed_cb (GthMonitor      *monitor,
 					g_signal_handlers_unblock_by_data (gth_browser_get_file_list_view (browser), browser);
 			}
 
-			if (current_file_deleted) {
+			if (current_file_deleted && ! gth_browser_get_file_modified (browser)) {
 				g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 
 				if (new_file != NULL) {
@@ -3390,7 +3390,7 @@ renamed_file_attributes_ready_cb (GthFileSource *file_source,
 		g_object_unref (new_info);
 		g_object_unref (new_location);
 	}
-	else if ((browser->priv->current_file != NULL) && g_file_equal (rename_data->file, browser->priv->current_file->file))
+	else if ((browser->priv->current_file != NULL) && g_file_equal (rename_data->file, browser->priv->current_file->file) && ! gth_browser_get_file_modified (browser))
 		gth_browser_load_file (browser, file_data, FALSE);
 
 	rename_data_free (rename_data);
