@@ -408,7 +408,7 @@ gthumb_extension_activate (void)
 	int count_of_raw_types, i;
 	count_of_raw_types = g_list_length (mime_types);
 
-	gchar *raw_mime_types[count_of_raw_types];
+	gchar *raw_mime_types[count_of_raw_types+1];
 
 	i = 0;
 	l = mime_types;
@@ -418,6 +418,7 @@ gthumb_extension_activate (void)
 		i++;
 		l = next;
 	}
+	raw_mime_types[i] = NULL;
 
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_RAW);
 	gth_main_register_image_loader_func_v (_cairo_image_surface_create_from_raw,
