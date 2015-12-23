@@ -5422,9 +5422,10 @@ gth_browser_reload (GthBrowser *browser)
 
 
 typedef struct {
-	GthBrowser *browser;
-	GthTask    *task;
-	gulong      completed_event;
+	GthBrowser   *browser;
+	GthTask      *task;
+	GthTaskFlags  flags;
+	gulong        completed_event;
 } TaskData;
 
 
@@ -5452,20 +5453,26 @@ background_task_completed_cb (GthTask  *task,
 	if (error == NULL)
 		return;
 
-	if ((error->domain == G_IO_ERROR) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if ((error->domain == G_IO_ERROR)
+	    && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)
+	    && ((task_data->flags & GTH_TASK_FLAGS_IGNORE_ERROR) == 0))
+	{
 		_gth_browser_show_error (browser, _("Could not perform the operation"), error);
+	}
 }
 
 
 static TaskData *
-task_data_new (GthBrowser *browser,
-	       GthTask    *task)
+task_data_new (GthBrowser   *browser,
+	       GthTask      *task,
+	       GthTaskFlags  flags)
 {
 	TaskData *task_data;
 
 	task_data = g_new0 (TaskData, 1);
 	task_data->browser = g_object_ref (browser);
 	task_data->task = g_object_ref (task);
+	task_data->flags = flags;
 	task_data->completed_event = g_signal_connect (task_data->task,
 						       "completed",
 						       G_CALLBACK (background_task_completed_cb),
@@ -5516,7 +5523,7 @@ gth_browser_exec_task (GthBrowser   *browser,
 	if ((flags & GTH_TASK_FLAGS_FOREGROUND) == 0) {
 		TaskData *task_data;
 
-		task_data = task_data_new (browser, task);
+		task_data = task_data_new (browser, task, flags);
 		browser->priv->background_tasks = g_list_prepend (browser->priv->background_tasks, task_data);
 
 		if (browser->priv->progress_dialog == NULL) {
