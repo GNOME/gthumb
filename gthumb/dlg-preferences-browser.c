@@ -98,6 +98,14 @@ thumbnail_caption_chooser_changed_cb (GthMetadataChooser *chooser,
 }
 
 
+static void
+click_behavior_changed_cb (GtkToggleButton *button,
+			   BrowserData     *data)
+{
+	g_settings_set_boolean (data->browser_settings, PREF_BROWSER_SINGLE_CLICK_ACTIVATION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_click_radiobutton"))));
+}
+
+
 void
 browser__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				       GthBrowser *browser,
@@ -125,6 +133,15 @@ browser__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (data->thumbnail_caption_chooser), current_caption);
 	g_free (current_caption);
 
+	/* behavior */
+
+	if (g_settings_get_boolean (data->browser_settings, PREF_BROWSER_SINGLE_CLICK_ACTIVATION))
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_click_radiobutton")), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("double_click_radiobutton")), TRUE);
+
+	/* other */
+
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")),
 				  get_idx_from_size (g_settings_get_int (data->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE)));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("slow_mime_type_checkbutton")),
@@ -139,6 +156,14 @@ browser__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	g_signal_connect (G_OBJECT (GET_WIDGET ("slow_mime_type_checkbutton")),
 			  "toggled",
 			  G_CALLBACK (fast_file_type_toggled_cb),
+			  data);
+	g_signal_connect (G_OBJECT (GET_WIDGET ("single_click_radiobutton")),
+			  "toggled",
+			  G_CALLBACK (click_behavior_changed_cb),
+			  data);
+	g_signal_connect (G_OBJECT (GET_WIDGET ("double_click_radiobutton")),
+			  "toggled",
+			  G_CALLBACK (click_behavior_changed_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->thumbnail_caption_chooser),
 			  "changed",

@@ -61,7 +61,7 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_THUMBNAIL_SIZE           "thumbnail-size"
 #define PREF_BROWSER_THUMBNAIL_LIMIT          "thumbnail-limit"
 #define PREF_BROWSER_THUMBNAIL_CAPTION        "thumbnail-caption"
-#define PREF_BROWSER_CLICK_POLICY             "click-policy"
+#define PREF_BROWSER_SINGLE_CLICK_ACTIVATION  "single-click-activation"
 #define PREF_BROWSER_SORT_TYPE                "sort-type"
 #define PREF_BROWSER_SORT_INVERSE             "sort-inverse"
 #define PREF_BROWSER_WINDOW_WIDTH             "window-width"

@@ -4155,6 +4155,18 @@ pref_thumbnail_caption_changed (GSettings  *settings,
 }
 
 
+static void
+pref_single_click_activation_changed (GSettings  *settings,
+				      const char *key,
+				      gpointer    user_data)
+{
+	GthBrowser *browser = user_data;
+	gboolean    single_click = g_settings_get_boolean (settings, key);
+
+	gth_file_view_set_activate_on_single_click (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))), single_click);
+}
+
+
 static gboolean
 _gth_browser_realize (GtkWidget *browser,
 		      gpointer  *data)
@@ -4766,7 +4778,7 @@ gth_browser_init (GthBrowser *browser)
 				      g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE));
 	caption = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_CAPTION);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
-	gth_file_view_set_activate_on_single_click (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))), FALSE);
+	gth_file_view_set_activate_on_single_click (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))), g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_SINGLE_CLICK_ACTIVATION));
 
 	g_free (caption);
 	g_free (sort_type);
@@ -4986,6 +4998,10 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (browser->priv->browser_settings,
 			  "changed::" PREF_BROWSER_THUMBNAIL_CAPTION,
 			  G_CALLBACK (pref_thumbnail_caption_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_SINGLE_CLICK_ACTIVATION,
+			  G_CALLBACK (pref_single_click_activation_changed),
 			  browser);
 
 	browser->priv->constructed = TRUE;

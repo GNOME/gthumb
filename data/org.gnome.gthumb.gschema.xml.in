@@ -80,6 +80,9 @@
     <key name="thumbnail-caption" type="s">
       <default>'comment::note,comment::time'</default>
     </key>
+    <key name="single-click-activation" type="b">
+      <default>true</default>
+    </key>
     <key name="sort-type" type="s">
       <default>'file::mtime'</default>
     </key>
@@ -94,9 +97,6 @@
     </key>
     <key name="maximized" type="b">
       <default>false</default>
-    </key>
-    <key name="image-pane-visible" type="b">
-      <default>true</default>
     </key>
     <key name="statusbar-visible" type="b">
       <default>true</default>
