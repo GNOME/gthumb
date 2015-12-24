@@ -86,6 +86,12 @@ gth_file_view_default_init (GthFileViewInterface *iface)
 							       G_MAXINT32,
 							       DEFAULT_THUMBNAIL_SIZE,
 							       G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT));
+	g_object_interface_install_property (iface,
+					     g_param_spec_boolean ("activate-on-single-click",
+							     	   "Activate on single click",
+								   "Emit the activated signal after a single click",
+								   TRUE,
+								   G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT));
 }
 
 
@@ -153,6 +159,29 @@ gth_file_view_get_thumbnail_size (GthFileView *self)
 	g_return_val_if_fail (GTH_IS_FILE_VIEW (self), FALSE);
 
 	g_object_get (self, "thumbnail-size", &value, NULL);
+
+	return value;
+}
+
+
+void
+gth_file_view_set_activate_on_single_click (GthFileView *self,
+					    gboolean	 single)
+{
+	g_return_if_fail (GTH_IS_FILE_VIEW (self));
+
+	g_object_set (self, "activate-on-single-click", single, NULL);
+}
+
+
+gboolean
+gth_file_view_get_activate_on_single_click (GthFileView *self)
+{
+	gboolean value;
+
+	g_return_val_if_fail (GTH_IS_FILE_VIEW (self), FALSE);
+
+	g_object_get (self, "activate-on-single-click", &value, NULL);
 
 	return value;
 }

@@ -107,6 +107,11 @@ char *          gth_file_view_get_caption        (GthFileView             *self)
 void            gth_file_view_set_thumbnail_size (GthFileView             *self,
 						  int                      value);
 gboolean        gth_file_view_get_thumbnail_size (GthFileView             *self);
+void		gth_file_view_set_activate_on_single_click
+						 (GthFileView             *self,
+						  gboolean		   single);
+gboolean        gth_file_view_get_activate_on_single_click
+						 (GthFileView             *self);
 void            gth_file_view_scroll_to          (GthFileView             *self,
 						  int                      pos,
 						  double                   yalign);

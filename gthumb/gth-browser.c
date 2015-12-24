@@ -4353,6 +4353,7 @@ gth_browser_init (GthBrowser *browser)
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
 	gth_grid_view_set_cell_spacing (GTH_GRID_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
+
 	if (browser->priv->viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) {
 		gth_paned_set_position2 (GTH_PANED (browser->priv->viewer_thumbnails_pane), g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_LIST_SIZE));
 		gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
@@ -4765,6 +4766,7 @@ gth_browser_init (GthBrowser *browser)
 				      g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE));
 	caption = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_CAPTION);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
+	gth_file_view_set_activate_on_single_click (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))), FALSE);
 
 	g_free (caption);
 	g_free (sort_type);

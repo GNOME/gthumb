@@ -89,6 +89,7 @@ enum {
 	PROP_HSCROLL_POLICY,
 	PROP_MODEL,
 	PROP_THUMBNAIL_SIZE,
+	PROP_ACTIVATE_ON_SINGLE_CLICK,
 	PROP_VADJUSTMENT,
 	PROP_VSCROLL_POLICY
 };
@@ -3042,7 +3043,8 @@ gth_grid_view_button_release (GtkWidget      *widget,
 		_gth_grid_view_set_item_selected_and_emit_signal (self, TRUE, self->priv->select_pending_pos);
 		self->priv->last_selected_pos = self->priv->select_pending_pos;
 		self->priv->last_selected_item = self->priv->select_pending_item;
-		gth_file_view_activated (GTH_FILE_VIEW (self), self->priv->last_selected_pos);
+		if (self->priv->activate_on_single_click)
+			gth_file_view_activated (GTH_FILE_VIEW (self), self->priv->last_selected_pos);
 	}
 
 	if (self->priv->activate_pending) {
@@ -3534,6 +3536,15 @@ _gth_grid_view_set_caption (GthGridView *self,
 
 
 static void
+_gth_grid_view_set_activate_on_single_click (GthGridView *self,
+					     gboolean     value)
+{
+	self->priv->activate_on_single_click = value;
+	g_object_notify (G_OBJECT (self), "activate-on-single-click");
+}
+
+
+static void
 gth_grid_view_set_property (GObject      *object,
 			    guint         prop_id,
 			    const GValue *value,
@@ -3558,6 +3569,9 @@ gth_grid_view_set_property (GObject      *object,
 		break;
 	case PROP_THUMBNAIL_SIZE:
 		_gth_grid_view_set_thumbnail_size (self, g_value_get_int (value));
+		break;
+	case PROP_ACTIVATE_ON_SINGLE_CLICK:
+		_gth_grid_view_set_activate_on_single_click (self, g_value_get_boolean (value));
 		break;
 	case PROP_VADJUSTMENT:
 		_gth_grid_view_set_vadjustment (self, g_value_get_object (value));
@@ -3599,6 +3613,9 @@ gth_grid_view_get_property (GObject    *object,
 		break;
 	case PROP_THUMBNAIL_SIZE:
 		g_value_set_int (value, self->priv->thumbnail_size);
+		break;
+	case PROP_ACTIVATE_ON_SINGLE_CLICK:
+		g_value_set_boolean (value, self->priv->activate_on_single_click);
 		break;
 	case PROP_VADJUSTMENT:
 		g_value_set_object (value, self->priv->vadjustment);
@@ -3732,6 +3749,7 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	g_object_class_override_property (gobject_class, PROP_CAPTION, "caption");
 	g_object_class_override_property (gobject_class, PROP_MODEL, "model");
 	g_object_class_override_property (gobject_class, PROP_THUMBNAIL_SIZE, "thumbnail-size");
+	g_object_class_override_property (gobject_class, PROP_ACTIVATE_ON_SINGLE_CLICK, "activate-on-single-click");
 
 	/* Key bindings */
 
