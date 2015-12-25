@@ -38,7 +38,7 @@ GthMetadataCategory file_metadata_category[] = {
 GthMetadataInfo file_metadata_info[] = {
 	{ "standard::display-name", N_("Name"), "file", 1, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "gth::file::display-size", N_("Size"), "file", 2, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "gth::file::display-mtime", N_("Modified"), "file", 3, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "gth::file::display-mtime", NC_("the file mtime", "Modified Date & Time"), "file", 3, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "standard::fast-content-type", N_("Type"), "file", 4, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "gth::file::is-modified", NULL, "file", 5, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "gth::file::full-name", N_("Location"), "file", 6, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
@@ -55,7 +55,7 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "Embedded::Photo::Flash", N_("Flash"), "general", 17, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
 	{ "Embedded::Photo::CameraModel", N_("Camera Model"), "general", 18, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
 
-	{ "general::datetime", N_("Date"), "general", 20, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "general::datetime", N_("General Date & Time"), "general", 20, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::title", N_("Title"), "general", 21, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::location", N_("Place"), "general", 22, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::description", N_("Description"), "general", 23, NULL, GTH_METADATA_ALLOW_IN_PRINT },

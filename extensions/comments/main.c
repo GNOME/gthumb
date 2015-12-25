@@ -41,7 +41,7 @@ GthMetadataInfo comments_metadata_info[] = {
 	{ "comment::caption", N_("Title"), "comment", 1, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
 	{ "comment::note", N_("Description"), "comment", 2, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
 	{ "comment::place", N_("Place"), "comment", 3, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
-	{ "comment::time", N_("Date"), "comment", 4, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
+	{ "comment::time", N_("Comment Date & Time"), "comment", 4, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
 	{ "comment::categories", N_("Tags"), "comment", 5, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
 	{ "comment::rating", N_("Rating"), "comment", 6, NULL, GTH_METADATA_ALLOW_IN_FILE_LIST },
 	{ NULL, NULL, NULL, 0, 0 }
