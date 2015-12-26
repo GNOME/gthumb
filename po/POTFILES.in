@@ -548,6 +548,8 @@ extensions/photo_importer/callbacks.h
 [type: gettext/glade]extensions/photo_importer/data/ui/photo-importer.ui
 extensions/photo_importer/dlg-photo-importer.c
 extensions/photo_importer/dlg-photo-importer.h
+extensions/photo_importer/dlg-photo-importer-preferences.c
+extensions/photo_importer/dlg-photo-importer-preferences.h
 extensions/photo_importer/main.c
 [type: gettext/ini]extensions/photo_importer/photo_importer.extension.in.in
 extensions/photo_importer/photo-importer.h
