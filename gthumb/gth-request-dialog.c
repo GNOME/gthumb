@@ -86,7 +86,7 @@ _gth_request_dialog_construct (GthRequestDialog *self,
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	vbox_entry = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
 
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 15);
 	gtk_box_set_spacing (GTK_BOX (hbox), 12);
 	gtk_box_set_spacing (GTK_BOX (vbox), 6);
 
