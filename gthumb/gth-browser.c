@@ -195,6 +195,7 @@ struct _GthBrowserPrivate {
 	gboolean           fullscreen;
 	gboolean	   was_fullscreen;
 	GtkWidget	  *fullscreen_toolbar;
+	GtkWidget	  *fullscreen_headerbar;
 	GtkWidget         *next_image_button;
 	GtkWidget         *previous_image_button;
 	GList             *viewer_controls;
@@ -204,13 +205,17 @@ struct _GthBrowserPrivate {
 	guint              motion_signal;
 	gdouble            last_mouse_x;
 	gdouble            last_mouse_y;
+	gboolean           view_files_in_fullscreen;
 	struct {
-		int      page;
-		gboolean viewer_properties;
-		gboolean viewer_tools;
-		gboolean thumbnail_list;
-		gboolean browser_properties;
+		int		page;
+		gboolean	thumbnail_list;
+		gboolean	browser_properties;
+		GthSidebarState	viewer_sidebar;
 	} before_fullscreen;
+	struct {
+		gboolean	thumbnail_list;
+		GthSidebarState	sidebar;
+	} fullscreen_state;
 
 	/* history */
 
@@ -2034,6 +2039,9 @@ _gth_browser_close_final_step (gpointer user_data)
 		}
 
 		g_settings_set_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_SIDEBAR, browser->priv->viewer_sidebar);
+
+		g_settings_set_enum (browser->priv->browser_settings, PREF_FULLSCREEN_SIDEBAR, browser->priv->fullscreen_state.sidebar);
+		g_settings_set_boolean (browser->priv->browser_settings, PREF_FULLSCREEN_THUMBNAILS_VISIBLE, browser->priv->fullscreen_state.thumbnail_list);
 	}
 
 	/**/
@@ -2289,7 +2297,8 @@ hide_mouse_pointer_cb (gpointer data)
 	/* do not hide the pointer if it's over a viewer control */
 
 	if (pointer_on_control (hmdata, browser->priv->fixed_viewer_controls)
-	    || pointer_on_control (hmdata, browser->priv->viewer_controls))
+	    || pointer_on_control (hmdata, browser->priv->viewer_controls)
+	    || pointer_on_widget (browser->priv->viewer_sidebar_alignment, hmdata->device))
 	{
 		return FALSE;
 	}
@@ -2649,12 +2658,7 @@ viewer_container_get_child_position_cb (GtkOverlay   *overlay,
 	gtk_widget_get_preferred_width (widget, NULL, &allocation->width);
 	gtk_widget_get_preferred_height (widget, NULL, &allocation->height);
 
-	if (widget == browser->priv->fullscreen_toolbar) {
-		allocation->x = 0;
-		allocation->y = 0;
-		allocation_filled = TRUE;
-	}
-	else if (widget == browser->priv->previous_image_button) {
+	if (widget == browser->priv->previous_image_button) {
 		allocation->x = rtl ? main_alloc.width - allocation->width - OVERLAY_MARGIN :
 				OVERLAY_MARGIN;
 		allocation->y = (main_alloc.height - allocation->height) / 2;
@@ -3188,9 +3192,11 @@ _g_file_list_find_file_or_ancestor (GList *l,
 }
 
 
-static void _gth_browser_load_file (GthBrowser  *browser,
-				    GthFileData *file_data,
-				    gboolean     view);
+static void _gth_browser_load_file_more_options (GthBrowser  *browser,
+						 GthFileData *file_data,
+						 gboolean     view,
+						 gboolean     fullscreen,
+						 gboolean     no_delay);
 
 
 static void
@@ -3321,7 +3327,7 @@ folder_changed_cb (GthMonitor      *monitor,
 				}
 				else {
 					gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
-					_gth_browser_load_file (browser, NULL, FALSE);
+					_gth_browser_load_file_more_options (browser, NULL, FALSE, FALSE, FALSE);
 				}
 			}
 
@@ -3677,6 +3683,24 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 		}
 		return FALSE;
 	}
+	else if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1) && (event->state & GDK_MOD1_MASK)) {
+		GtkWidget *file_view;
+		int        pos;
+
+		file_view = gth_browser_get_file_list_view (browser);
+		pos = gth_file_view_get_at_position (GTH_FILE_VIEW (file_view), event->x, event->y);
+		if (pos >= 0) {
+			GtkTreeModel *file_store = gth_file_view_get_model (GTH_FILE_VIEW (file_view));
+			GtkTreeIter   iter;
+
+			if (gth_file_store_get_nth_visible (GTH_FILE_STORE (file_store), pos, &iter)) {
+				GthFileData *file_data;
+
+				file_data = gth_file_store_get_file (GTH_FILE_STORE (file_store), &iter);
+				_gth_browser_load_file_more_options (browser, file_data, TRUE, ! browser->priv->view_files_in_fullscreen, TRUE);
+			}
+		}
+	}
 	else if ((event->type == GDK_2BUTTON_PRESS) && (event->button == 2)) {
 		gth_browser_fullscreen (browser);
 		return TRUE;
@@ -3796,7 +3820,7 @@ gth_file_view_file_activated_cb (GthFileView *file_view,
 
 		file_data = gth_file_store_get_file (file_store, &iter);
 		if (file_data != NULL)
-			gth_browser_load_file (browser, file_data, TRUE);
+			_gth_browser_load_file_more_options (browser, file_data, TRUE, browser->priv->view_files_in_fullscreen, TRUE);
 	}
 }
 
@@ -4167,6 +4191,16 @@ pref_single_click_activation_changed (GSettings  *settings,
 }
 
 
+static void
+pref_open_files_in_fullscreen_changed (GSettings  *settings,
+				       const char *key,
+				       gpointer    user_data)
+{
+	GthBrowser *browser = user_data;
+	browser->priv->view_files_in_fullscreen = g_settings_get_boolean (settings, key);
+}
+
+
 static gboolean
 _gth_browser_realize (GtkWidget *browser,
 		      gpointer  *data)
@@ -4252,6 +4286,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->location_free_space = NULL;
 	browser->priv->recalc_location_free_space = TRUE;
 	browser->priv->fullscreen = FALSE;
+	browser->priv->fullscreen_headerbar = NULL;
 	browser->priv->was_fullscreen = FALSE;
 	browser->priv->viewer_controls = NULL;
 	browser->priv->fixed_viewer_controls = NULL;
@@ -4270,6 +4305,9 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->screen_profile = NULL;
 	browser->priv->folder_tree_last_dest_row = NULL;
 	browser->priv->folder_tree_open_folder_id = 0;
+	browser->priv->view_files_in_fullscreen = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_OPEN_FILES_IN_FULLSCREEN);;
+	browser->priv->fullscreen_state.sidebar = g_settings_get_enum (browser->priv->browser_settings, PREF_FULLSCREEN_SIDEBAR);
+	browser->priv->fullscreen_state.thumbnail_list = g_settings_get_boolean (browser->priv->browser_settings, PREF_FULLSCREEN_THUMBNAILS_VISIBLE);
 
 	browser_state_init (&browser->priv->state);
 
@@ -4340,6 +4378,7 @@ gth_browser_init (GthBrowser *browser)
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_thumbnails_pane);
 
 	browser->priv->viewer_sidebar_pane = gth_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->viewer_sidebar_pane), GTK_STYLE_CLASS_SIDEBAR);
 	gtk_widget_set_size_request (browser->priv->viewer_sidebar_pane, -1, MIN_VIEWER_SIZE);
 	gtk_widget_show (browser->priv->viewer_sidebar_pane);
 	if (browser->priv->viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
@@ -4548,18 +4587,9 @@ gth_browser_init (GthBrowser *browser)
 
 	/* fullscreen toolbar */
 
-	{
-		GtkWidget *button;
-
-		browser->priv->fullscreen_toolbar = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-		gtk_overlay_add_overlay (GTK_OVERLAY (browser->priv->viewer_container), browser->priv->fullscreen_toolbar);
-
-		button = gtk_button_new_from_icon_name ("view-restore-symbolic", GTK_ICON_SIZE_BUTTON);
-		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.unfullscreen");
-		gtk_style_context_add_class (gtk_widget_get_style_context (button), GTK_STYLE_CLASS_OSD);
-		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (browser->priv->fullscreen_toolbar), button, FALSE, FALSE, 0);
-	}
+	browser->priv->fullscreen_toolbar = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->fullscreen_toolbar), GTK_STYLE_CLASS_BACKGROUND);
+	gth_window_add_overlay (GTH_WINDOW (browser), browser->priv->fullscreen_toolbar);
 
 	/* overlay commands */
 
@@ -5002,6 +5032,10 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (browser->priv->browser_settings,
 			  "changed::" PREF_BROWSER_SINGLE_CLICK_ACTIVATION,
 			  G_CALLBACK (pref_single_click_activation_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_BROWSER_OPEN_FILES_IN_FULLSCREEN,
+			  G_CALLBACK (pref_open_files_in_fullscreen_changed),
 			  browser);
 
 	browser->priv->constructed = TRUE;
@@ -5778,6 +5812,12 @@ view_focused_image (GthBrowser *browser)
 }
 
 
+static void _gth_browser_load_file_keep_view (GthBrowser  *browser,
+					      GthFileData *file_data,
+					      gboolean     view,
+					      gboolean     no_delay);
+
+
 gboolean
 gth_browser_show_next_image (GthBrowser *browser,
 			     gboolean    skip_broken,
@@ -5811,7 +5851,7 @@ gth_browser_show_next_image (GthBrowser *browser,
 			GthFileData *file_data;
 
 			file_data = gth_file_store_get_file (GTH_FILE_STORE (gth_file_view_get_model (view)), &iter);
-			gth_browser_load_file (browser, file_data, TRUE);
+			_gth_browser_load_file_keep_view (browser, file_data, TRUE, TRUE);
 		}
 	}
 	else
@@ -5854,7 +5894,7 @@ gth_browser_show_prev_image (GthBrowser *browser,
 			GthFileData *file_data;
 
 			file_data = gth_file_store_get_file (GTH_FILE_STORE (gth_file_view_get_model (view)), &iter);
-			gth_browser_load_file (browser, file_data, TRUE);
+			_gth_browser_load_file_keep_view (browser, file_data, TRUE, TRUE);
 		}
 	}
 	else
@@ -5887,7 +5927,7 @@ gth_browser_show_first_image (GthBrowser *browser,
 		return FALSE;
 
 	file_data = gth_file_store_get_file (GTH_FILE_STORE (gth_file_view_get_model (view)), &iter);
-	gth_browser_load_file (browser, file_data, TRUE);
+	_gth_browser_load_file_keep_view (browser, file_data, TRUE, TRUE);
 
 	return TRUE;
 }
@@ -5916,7 +5956,7 @@ gth_browser_show_last_image (GthBrowser *browser,
 		return FALSE;
 
 	file_data = gth_file_store_get_file (GTH_FILE_STORE (gth_file_view_get_model (view)), &iter);
-	gth_browser_load_file (browser, file_data, TRUE);
+	_gth_browser_load_file_keep_view (browser, file_data, TRUE, TRUE);
 
 	return TRUE;
 }
@@ -5930,6 +5970,7 @@ typedef struct {
 	GthBrowser   *browser;
 	GthFileData  *file_data;
 	gboolean      view;
+	gboolean      fullscreen;
 	GCancellable *cancellable;
 } LoadFileData;
 
@@ -5949,7 +5990,8 @@ cancel_all_metadata_operations (GthBrowser  *browser)
 static LoadFileData *
 load_file_data_new (GthBrowser  *browser,
 		    GthFileData *file_data,
-		    gboolean     view)
+		    gboolean     view,
+		    gboolean     fullscreen)
 {
 	LoadFileData *data;
 
@@ -5959,6 +6001,7 @@ load_file_data_new (GthBrowser  *browser,
 	if (file_data != NULL)
 		data->file_data = gth_file_data_dup (file_data);
 	data->view = view;
+	data->fullscreen = fullscreen;
 	data->cancellable = g_cancellable_new ();
 
 	cancel_all_metadata_operations (browser);
@@ -6067,7 +6110,7 @@ file_metadata_ready_cb (GList    *files,
 		 * a different viewer_page. */
 
 		if (different_mime_type && (G_OBJECT_TYPE (browser->priv->viewer_page) == G_OBJECT_TYPE (basic_viewer_page)))
-			_gth_browser_load_file (browser, data->file_data, data->view);
+			_gth_browser_load_file_more_options (browser, data->file_data, data->view, data->fullscreen, data->view);
 		else
 			gth_viewer_page_update_info (browser->priv->viewer_page, browser->priv->current_file);
 	}
@@ -6152,7 +6195,7 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 	if (browser->priv->load_metadata_timeout != 0)
 		g_source_remove (browser->priv->load_metadata_timeout);
 
-	data = load_file_data_new (browser, browser->priv->current_file, FALSE);
+	data = load_file_data_new (browser, browser->priv->current_file, FALSE, FALSE);
 	browser->priv->load_metadata_timeout = g_timeout_add_full (G_PRIORITY_DEFAULT,
 								   LOAD_METADATA_DELAY,
 								   load_metadata_cb,
@@ -6164,7 +6207,8 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 static void
 _gth_browser_load_file (GthBrowser  *browser,
 			GthFileData *file_data,
-			gboolean     view)
+			gboolean     view,
+			gboolean     fullcreen)
 {
 	GList *scan;
 
@@ -6200,8 +6244,14 @@ _gth_browser_load_file (GthBrowser  *browser,
 		}
 	}
 
-	if (view)
-		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+	if (view) {
+		if (fullcreen) {
+			if (! gth_browser_get_is_fullscreen (browser))
+				gth_browser_fullscreen (browser);
+		}
+		else
+			gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+	}
 
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
 		int file_pos;
@@ -6249,7 +6299,7 @@ load_file__previuos_file_saved_cb (GthBrowser *browser,
 	LoadFileData *data = user_data;
 
 	if (! cancelled)
-		_gth_browser_load_file (data->browser, data->file_data, data->view);
+		_gth_browser_load_file (data->browser, data->file_data, data->view, data->fullscreen);
 
 	load_file_data_unref (data);
 }
@@ -6277,7 +6327,7 @@ load_file_delayed_cb (gpointer user_data)
 						 data);
 	}
 	else
-		_gth_browser_load_file (data->browser, data->file_data, data->view);
+		_gth_browser_load_file (data->browser, data->file_data, data->view, data->fullscreen);
 
 	load_file_data_unref (data);
 
@@ -6285,10 +6335,12 @@ load_file_delayed_cb (gpointer user_data)
 }
 
 
-void
-gth_browser_load_file (GthBrowser  *browser,
-		       GthFileData *file_data,
-		       gboolean     view)
+static void
+_gth_browser_load_file_more_options (GthBrowser  *browser,
+				     GthFileData *file_data,
+				     gboolean     view,
+				     gboolean     fullscreen,
+				     gboolean     no_delay)
 {
 	LoadFileData *data;
 
@@ -6304,8 +6356,8 @@ gth_browser_load_file (GthBrowser  *browser,
 		browser->priv->load_metadata_timeout = 0;
 	}
 
-	data = load_file_data_new (browser, file_data, view);
-	if (view) {
+	data = load_file_data_new (browser, file_data, view, fullscreen);
+	if (no_delay) {
 		load_file_delayed_cb (data);
 		load_file_data_unref (data);
 	}
@@ -6316,6 +6368,33 @@ gth_browser_load_file (GthBrowser  *browser,
 						    load_file_delayed_cb,
 						    data,
 						    (GDestroyNotify) load_file_data_unref);
+}
+
+
+static void
+_gth_browser_load_file_keep_view (GthBrowser  *browser,
+				  GthFileData *file_data,
+				  gboolean     view,
+				  gboolean     no_delay)
+{
+	gboolean fullscreen;
+
+	if (browser->priv->view_files_in_fullscreen && gth_browser_get_is_fullscreen (browser))
+		view = FALSE;
+	else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
+		view = FALSE;
+	fullscreen = view && browser->priv->view_files_in_fullscreen;
+
+	_gth_browser_load_file_more_options (browser, file_data, view, browser->priv->view_files_in_fullscreen, no_delay);
+}
+
+
+void
+gth_browser_load_file (GthBrowser  *browser,
+		       GthFileData *file_data,
+		       gboolean     view)
+{
+	_gth_browser_load_file_keep_view (browser, file_data, view, FALSE);
 }
 
 
@@ -6617,32 +6696,51 @@ gth_browser_fullscreen (GthBrowser *browser)
 		return;
 	}
 
+	if (browser->priv->current_file == NULL) {
+		if (! gth_browser_show_first_image (browser, FALSE, FALSE)) {
+			browser->priv->fullscreen = FALSE;
+			return;
+		}
+	}
+
 	browser->priv->was_fullscreen = FALSE;
 	browser->priv->fullscreen = TRUE;
+
+	if (browser->priv->fullscreen_headerbar == NULL) {
+		browser->priv->fullscreen_headerbar = gth_window_get_header_bar (GTH_WINDOW (browser));
+
+		gtk_widget_set_margin_top (browser->priv->viewer_sidebar_alignment,
+					   gtk_widget_get_allocated_height (browser->priv->fullscreen_headerbar));
+
+		g_object_ref (browser->priv->fullscreen_headerbar);
+		gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (browser->priv->fullscreen_headerbar)), browser->priv->fullscreen_headerbar);
+		gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (browser->priv->fullscreen_headerbar), FALSE);
+		gtk_box_pack_start (GTK_BOX (browser->priv->fullscreen_toolbar), browser->priv->fullscreen_headerbar, TRUE, TRUE, 0);
+		g_object_unref (browser->priv->fullscreen_headerbar);
+	}
 
 	g_list_free (browser->priv->viewer_controls);
 	browser->priv->viewer_controls = g_list_append (NULL, browser->priv->fullscreen_toolbar);
 
 	browser->priv->before_fullscreen.page = gth_window_get_current_page (GTH_WINDOW (browser));
-	browser->priv->before_fullscreen.viewer_properties = gth_window_get_action_state (GTH_WINDOW (browser), "viewer-properties");
-	browser->priv->before_fullscreen.viewer_tools = gth_window_get_action_state (GTH_WINDOW (browser), "viewer-edit-file");
 	browser->priv->before_fullscreen.thumbnail_list = gth_window_get_action_state (GTH_WINDOW (browser), "show-thumbnail-list");
 	browser->priv->before_fullscreen.browser_properties = gth_window_get_action_state (GTH_WINDOW (browser), "browser-properties");
-
-	if (browser->priv->current_file == NULL)
-		if (! gth_browser_show_first_image (browser, FALSE, FALSE)) {
-			browser->priv->fullscreen = FALSE;
-			return;
-		}
+	browser->priv->before_fullscreen.viewer_sidebar = browser->priv->viewer_sidebar;
 
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
-	gth_browser_hide_sidebar (browser);
-	_gth_browser_set_thumbnail_list_visibility (browser, FALSE);
+	if (browser->priv->fullscreen_state.sidebar == GTH_SIDEBAR_STATE_PROPERTIES)
+		gth_browser_show_file_properties (browser);
+	else if (browser->priv->fullscreen_state.sidebar == GTH_SIDEBAR_STATE_TOOLS)
+		gth_browser_show_viewer_tools (browser);
+	else
+		gth_browser_hide_sidebar (browser);
+	_gth_browser_set_thumbnail_list_visibility (browser, browser->priv->fullscreen_state.thumbnail_list);
 	gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
 
 	browser->priv->properties_on_screen = FALSE;
 
 	gtk_window_fullscreen (GTK_WINDOW (browser));
+
 	if (browser->priv->viewer_page != NULL) {
 		gth_viewer_page_show_properties (browser->priv->viewer_page, browser->priv->properties_on_screen);
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
@@ -6660,22 +6758,39 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	browser->priv->was_fullscreen = TRUE;
 	browser->priv->fullscreen = FALSE;
 
+	if (browser->priv->fullscreen_headerbar != NULL) {
+		g_object_ref (browser->priv->fullscreen_headerbar);
+		gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (browser->priv->fullscreen_headerbar)), browser->priv->fullscreen_headerbar);
+		gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (browser->priv->fullscreen_headerbar), TRUE);
+		gth_window_set_header_bar (GTH_WINDOW (browser), browser->priv->fullscreen_headerbar);
+		g_object_unref (browser->priv->fullscreen_headerbar);
+		browser->priv->fullscreen_headerbar = NULL;
+	}
+	gtk_widget_set_margin_top (browser->priv->viewer_sidebar_alignment, 0);
 	gtk_widget_hide (browser->priv->fullscreen_toolbar);
 
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
+
+	browser->priv->fullscreen_state.sidebar = browser->priv->viewer_sidebar;
+	browser->priv->fullscreen_state.thumbnail_list = gth_window_get_action_state (GTH_WINDOW (browser), "show-thumbnail-list");
+
+	if (browser->priv->before_fullscreen.page < 0)
+		browser->priv->before_fullscreen.page = GTH_BROWSER_PAGE_BROWSER;
 	gth_window_set_current_page (GTH_WINDOW (browser), browser->priv->before_fullscreen.page);
+
 	_gth_browser_set_thumbnail_list_visibility (browser, browser->priv->before_fullscreen.thumbnail_list);
 
 	if (browser->priv->before_fullscreen.page == GTH_BROWSER_PAGE_BROWSER) {
+		browser->priv->viewer_sidebar = browser->priv->before_fullscreen.viewer_sidebar;
 		if (browser->priv->before_fullscreen.browser_properties)
 			gth_browser_show_file_properties (browser);
 		else
 			gth_browser_hide_sidebar (browser);
 	}
 	else if (browser->priv->before_fullscreen.page == GTH_BROWSER_PAGE_VIEWER) {
-		if (browser->priv->before_fullscreen.viewer_properties)
+		if (browser->priv->before_fullscreen.viewer_sidebar == GTH_SIDEBAR_STATE_PROPERTIES)
 			gth_browser_show_file_properties (browser);
-		else if (browser->priv->before_fullscreen.viewer_tools)
+		else if (browser->priv->before_fullscreen.viewer_sidebar == GTH_SIDEBAR_STATE_TOOLS)
 			gth_browser_show_viewer_tools (browser);
 		else
 			gth_browser_hide_sidebar (browser);
@@ -6692,8 +6807,6 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	}
 	g_list_free (browser->priv->viewer_controls);
 	browser->priv->viewer_controls = NULL;
-
-	gtk_alignment_set_padding (GTK_ALIGNMENT (browser->priv->viewer_sidebar_alignment), 0, 0, 0, 0);
 
 	gth_browser_update_sensitivity (browser);
 	browser->priv->was_fullscreen = browser->priv->fullscreen;
@@ -6764,7 +6877,7 @@ gth_browser_restore_state (GthBrowser *browser)
 					   browser->priv->state.current_file);
 		}
 		else {
-			_gth_browser_load_file (browser, NULL, FALSE);
+			_gth_browser_load_file_more_options (browser, NULL, FALSE, FALSE, FALSE);
 			gth_browser_go_to_with_state (browser,
 						      browser->priv->state.location,
 						      browser->priv->state.selected,
@@ -6831,6 +6944,13 @@ gth_browser_get_screen_profile (GthBrowser *browser)
 	}
 #endif
 	return browser->priv->screen_profile;
+}
+
+
+GtkWidget *
+gth_browser_get_fullscreen_headerbar (GthBrowser *browser)
+{
+	return browser->priv->fullscreen_headerbar;
 }
 
 

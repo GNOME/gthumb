@@ -2692,7 +2692,7 @@ _gth_grid_view_select_single (GthGridView     *self,
 		self->priv->last_selected_pos = pos;
 		self->priv->last_selected_item = item;
 
-		if (self->priv->activate_on_single_click)
+		if (self->priv->activate_on_single_click && ((event->state & GDK_MOD1_MASK) == 0))
 			self->priv->activate_pending = TRUE;
 	}
 
@@ -2762,8 +2762,9 @@ gth_grid_view_button_press (GtkWidget      *widget,
 	if ((pos != -1) && (event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) {
 		/* Double click activates the item */
 
-		if (((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
-		    && ((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK))
+		if (! (event->state & GDK_CONTROL_MASK)
+		    && ! (event->state & GDK_SHIFT_MASK)
+		    && ! (event->state & GDK_MOD1_MASK))
 		{
 			gth_file_view_activated (GTH_FILE_VIEW (self), pos);
 		}
@@ -2774,6 +2775,7 @@ gth_grid_view_button_press (GtkWidget      *widget,
 
 		if (! (event->state & GDK_CONTROL_MASK)
 		    && ! (event->state & GDK_SHIFT_MASK)
+		    && ! (event->state & GDK_MOD1_MASK)
 		    && self->priv->drag_source_enabled)
 		{
 			self->priv->dragging = TRUE;
@@ -2788,6 +2790,7 @@ gth_grid_view_button_press (GtkWidget      *widget,
 
 		if (! (event->state & GDK_CONTROL_MASK)
 		    && ! (event->state & GDK_SHIFT_MASK)
+		    && ! (event->state & GDK_MOD1_MASK)
 		    && self->priv->drag_source_enabled)
 		{
 			self->priv->dragging = TRUE;
@@ -3043,8 +3046,8 @@ gth_grid_view_button_release (GtkWidget      *widget,
 		_gth_grid_view_set_item_selected_and_emit_signal (self, TRUE, self->priv->select_pending_pos);
 		self->priv->last_selected_pos = self->priv->select_pending_pos;
 		self->priv->last_selected_item = self->priv->select_pending_item;
-		if (self->priv->activate_on_single_click)
-			gth_file_view_activated (GTH_FILE_VIEW (self), self->priv->last_selected_pos);
+		if (self->priv->activate_on_single_click && ((event->state & GDK_MOD1_MASK) == 0))
+			self->priv->activate_pending = TRUE;
 	}
 
 	if (self->priv->activate_pending) {

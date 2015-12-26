@@ -62,6 +62,7 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_THUMBNAIL_LIMIT          "thumbnail-limit"
 #define PREF_BROWSER_THUMBNAIL_CAPTION        "thumbnail-caption"
 #define PREF_BROWSER_SINGLE_CLICK_ACTIVATION  "single-click-activation"
+#define PREF_BROWSER_OPEN_FILES_IN_FULLSCREEN "open-files-in-fullscreen"
 #define PREF_BROWSER_SORT_TYPE                "sort-type"
 #define PREF_BROWSER_SORT_INVERSE             "sort-inverse"
 #define PREF_BROWSER_WINDOW_WIDTH             "window-width"
@@ -78,6 +79,9 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_VIEWER_SIDEBAR_WIDTH     "viewer-sidebar-width"
 #define PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT "viewer-thumbnails-orientation"
 #define PREF_BROWSER_REUSE_ACTIVE_WINDOW      "reuse-active-window"
+
+#define PREF_FULLSCREEN_THUMBNAILS_VISIBLE    "fullscreen-thumbnails-visible"
+#define PREF_FULLSCREEN_SIDEBAR		      "fullscreen-sidebar"
 
 /* keys: add to catalog */
 

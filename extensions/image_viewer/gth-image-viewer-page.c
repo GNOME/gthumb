@@ -577,6 +577,8 @@ image_navigator_get_child_position_cb	(GtkOverlay   *overlay,
 	if (widget == self->priv->overview_revealer) {
 		allocation->x = main_alloc.width - allocation->width - OVERLAY_MARGIN;
 		allocation->y = OVERLAY_MARGIN;
+		if (gth_browser_get_is_fullscreen (self->priv->browser))
+			allocation->y += gtk_widget_get_allocated_height (gth_browser_get_fullscreen_headerbar (self->priv->browser));
 		allocation_filled = TRUE;
 	}
 

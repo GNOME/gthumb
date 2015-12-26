@@ -145,3 +145,11 @@ GthToolbox .header-bar {
 	box-shadow: none;
 	background-image: none;
 }
+
+/* -- header-bar in fullscreen -- */
+
+.window-overlay .header-bar {
+	border-radius: 0;
+	box-shadow: none;
+	background-image: none;
+}

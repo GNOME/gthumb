@@ -83,6 +83,9 @@
     <key name="single-click-activation" type="b">
       <default>true</default>
     </key>
+    <key name="open-files-in-fullscreen" type="b">
+      <default>false</default>
+    </key>
     <key name="sort-type" type="s">
       <default>'file::mtime'</default>
     </key>
@@ -131,6 +134,12 @@
     <key name="reuse-active-window" type="b">
       <default>false</default>
       <_description>Open files in the active window</_description>
+    </key>
+    <key name="fullscreen-sidebar" enum="org.gnome.gthumb.GthSidebarState">
+      <default>'hidden'</default>
+    </key>
+    <key name="fullscreen-thumbnails-visible" type="b">
+      <default>false</default>
     </key>
   </schema>
 

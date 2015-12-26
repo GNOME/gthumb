@@ -263,6 +263,8 @@ void             gth_browser_save_state             (GthBrowser       *browser);
 gboolean         gth_browser_restore_state          (GthBrowser       *browser);
 void		 gth_browser_apply_editor_changes   (GthBrowser	      *browser);
 GthICCProfile    gth_browser_get_screen_profile     (GthBrowser	      *browser);
+GtkWidget *      gth_browser_get_fullscreen_headerbar
+						    (GthBrowser	      *browser);
 
 /* utilities */
 

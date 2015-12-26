@@ -41,8 +41,10 @@ struct _GthWindowPrivate {
 	int              n_pages;
 	gboolean         use_header_bar;
 	int              current_page;
+	GtkWidget       *overlay;
 	GtkWidget       *grid;
 	GtkWidget       *stack;
+	GtkWidget       *headerbar_container;
 	GtkWidget       *headerbar;
 	GtkWidget       *title;
 	GtkWidget       *menubar;
@@ -58,6 +60,25 @@ struct _GthWindowPrivate {
 };
 
 
+static gboolean
+overlay_get_child_position_cb (GtkOverlay   *overlay,
+			       GtkWidget    *widget,
+			       GdkRectangle *allocation,
+			       gpointer      user_data)
+{
+	GtkAllocation main_alloc;
+
+	gtk_widget_get_allocation (gtk_bin_get_child (GTK_BIN (overlay)), &main_alloc);
+
+	allocation->x = 0;
+	allocation->y = 0;
+	allocation->width = main_alloc.width;
+	gtk_widget_get_preferred_height (widget, NULL, &allocation->height);
+
+	return TRUE;
+}
+
+
 static void
 gth_window_set_n_pages (GthWindow *self,
 			int        n_pages)
@@ -71,9 +92,19 @@ gth_window_set_n_pages (GthWindow *self,
 
 	self->priv->n_pages = n_pages;
 
+	self->priv->overlay = gtk_overlay_new ();
+	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->overlay), "window-overlay");
+	gtk_widget_show (self->priv->overlay);
+	gtk_container_add (GTK_CONTAINER (self), self->priv->overlay);
+
+	g_signal_connect (self->priv->overlay,
+			  "get-child-position",
+			  G_CALLBACK (overlay_get_child_position_cb),
+			  self);
+
 	self->priv->grid = gtk_grid_new ();
 	gtk_widget_show (self->priv->grid);
-	gtk_container_add (GTK_CONTAINER (self), self->priv->grid);
+	gtk_container_add (GTK_CONTAINER (self->priv->overlay), self->priv->grid);
 
 	self->priv->stack = gtk_stack_new ();
 	gtk_stack_set_transition_type (GTK_STACK (self->priv->stack), GTK_STACK_TRANSITION_TYPE_CROSSFADE);
@@ -116,6 +147,8 @@ _gth_window_add_header_bar (GthWindow *self)
 	gtk_widget_show (self->priv->headerbar);
 	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->priv->headerbar), TRUE);
 
+	g_object_add_weak_pointer (G_OBJECT (self->priv->headerbar), &self->priv->headerbar);
+
 #if GTK_CHECK_VERSION(3,12,0)
 	{
 		gboolean  shell_shows_app_menu;
@@ -145,7 +178,12 @@ _gth_window_add_header_bar (GthWindow *self)
 	self->priv->title = gth_window_title_new ();
 	gtk_widget_show (self->priv->title);
 	gtk_header_bar_set_custom_title (GTK_HEADER_BAR (self->priv->headerbar), self->priv->title);
-	gtk_window_set_titlebar (GTK_WINDOW (self), self->priv->headerbar);
+
+	self->priv->headerbar_container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_show (self->priv->headerbar_container);
+	gtk_box_pack_start (GTK_BOX (self->priv->headerbar_container), self->priv->headerbar, TRUE, TRUE, 0);
+
+	gtk_window_set_titlebar (GTK_WINDOW (self), self->priv->headerbar_container);
 }
 
 
@@ -452,6 +490,10 @@ void
 gth_window_set_current_page (GthWindow *window,
 			     int        page)
 {
+	g_return_if_fail (window != NULL);
+	g_return_if_fail (GTH_IS_WINDOW (window));
+	g_return_if_fail (page >= 0 && page < window->priv->n_pages);
+
 	GTH_WINDOW_GET_CLASS (window)->set_current_page (window, page);
 }
 
@@ -524,6 +566,28 @@ gth_window_get_area (GthWindow     *window,
 	}
 
 	return NULL;
+}
+
+
+void
+gth_window_add_overlay (GthWindow *window,
+			GtkWidget *widget)
+{
+	gtk_overlay_add_overlay (GTK_OVERLAY (window->priv->overlay), widget);
+}
+
+
+void
+gth_window_set_header_bar (GthWindow *window,
+			   GtkWidget *header_bar)
+{
+	if (window->priv->headerbar != header_bar) {
+		if (window->priv->headerbar != NULL)
+			gtk_widget_destroy (window->priv->headerbar);
+		window->priv->headerbar = header_bar;
+	}
+	gtk_widget_show (window->priv->headerbar);
+	gtk_box_pack_start (GTK_BOX (window->priv->headerbar_container), window->priv->headerbar, TRUE, TRUE, 0);
 }
 
 

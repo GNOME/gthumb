@@ -88,6 +88,10 @@ void           gth_window_show_only_content  (GthWindow     *window,
 					      gboolean       only_content);
 GtkWidget *    gth_window_get_area           (GthWindow     *window,
 					      GthWindowArea  area);
+void           gth_window_add_overlay        (GthWindow     *window,
+					      GtkWidget     *widget);
+void           gth_window_set_header_bar     (GthWindow     *window,
+					      GtkWidget     *header_bar);
 GtkWidget *    gth_window_get_header_bar     (GthWindow     *window);
 void           gth_window_save_page_size     (GthWindow     *window,
 					      int            page,

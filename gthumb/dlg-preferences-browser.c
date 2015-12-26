@@ -106,6 +106,14 @@ click_behavior_changed_cb (GtkToggleButton *button,
 }
 
 
+static void
+open_in_fullscreen_toggled_cb (GtkToggleButton *button,
+			       BrowserData     *data)
+{
+	g_settings_set_boolean (data->browser_settings, PREF_BROWSER_OPEN_FILES_IN_FULLSCREEN, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("open_in_fullscreen_checkbutton"))));
+}
+
+
 void
 browser__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				       GthBrowser *browser,
@@ -140,6 +148,9 @@ browser__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("double_click_radiobutton")), TRUE);
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("open_in_fullscreen_checkbutton")),
+				      g_settings_get_boolean (data->browser_settings, PREF_BROWSER_OPEN_FILES_IN_FULLSCREEN));
+
 	/* other */
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("thumbnail_size_combobox")),
@@ -164,6 +175,10 @@ browser__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	g_signal_connect (G_OBJECT (GET_WIDGET ("double_click_radiobutton")),
 			  "toggled",
 			  G_CALLBACK (click_behavior_changed_cb),
+			  data);
+	g_signal_connect (G_OBJECT (GET_WIDGET ("open_in_fullscreen_checkbutton")),
+			  "toggled",
+			  G_CALLBACK (open_in_fullscreen_toggled_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->thumbnail_caption_chooser),
 			  "changed",
