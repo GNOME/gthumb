@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2015 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,13 +19,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CALLBACKS_H
-#define CALLBACKS_H
+#ifndef DLG_PHOTO_IMPORTER_PREFERENCES_H
+#define DLG_PHOTO_IMPORTER_PREFERENCES_H
 
 #include <gthumb.h>
 
-void pi__gth_browser_construct_cb      (GthBrowser *browser);
-void pi__import_photos_cb              (GthBrowser *browser,
-				        GFile      *source);
+void dlg_photo_importer_preferences (GtkWindow *parent);
 
-#endif /* CALLBACKS_H */
+#endif /* DLG_PHOTO_IMPORTER_PREFERENCES_H */

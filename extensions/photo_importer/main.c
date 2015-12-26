@@ -24,6 +24,7 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "callbacks.h"
+#include "dlg-photo-importer-preferences.h"
 
 
 G_MODULE_EXPORT void
@@ -31,7 +32,6 @@ gthumb_extension_activate (void)
 {
 	gth_hook_add_callback ("import-photos", 10, G_CALLBACK (pi__import_photos_cb), NULL);
 	gth_hook_add_callback ("gth-browser-construct", 9, G_CALLBACK (pi__gth_browser_construct_cb), NULL);
-	gth_hook_add_callback ("dlg-preferences-construct", 10, G_CALLBACK (pi__dlg_preferences_construct_cb), NULL);
 }
 
 
@@ -44,11 +44,12 @@ gthumb_extension_deactivate (void)
 G_MODULE_EXPORT gboolean
 gthumb_extension_is_configurable (void)
 {
-	return FALSE;
+	return TRUE;
 }
 
 
 G_MODULE_EXPORT void
 gthumb_extension_configure (GtkWindow *parent)
 {
+	dlg_photo_importer_preferences (parent);
 }

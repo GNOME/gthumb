@@ -3,17 +3,19 @@ SUBDIRS = data
 extensiondir = $(pkglibdir)/extensions
 extension_LTLIBRARIES = libphoto_importer.la
 
-libphoto_importer_la_SOURCES = 		\
-	actions.c			\
-	actions.h			\
-	callbacks.c			\
-	callbacks.h			\
-	dlg-photo-importer.c		\
-	dlg-photo-importer.h		\
-	main.c				\
-	photo-importer.h		\
-	preferences.h			\
-	resources.c			\
+libphoto_importer_la_SOURCES = 			\
+	actions.c				\
+	actions.h				\
+	callbacks.c				\
+	callbacks.h				\
+	dlg-photo-importer.c			\
+	dlg-photo-importer.h			\
+	dlg-photo-importer-preferences.c	\
+	dlg-photo-importer-preferences.h	\
+	main.c					\
+	photo-importer.h			\
+	preferences.h				\
+	resources.c				\
 	resources.h
 	
 libphoto_importer_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
