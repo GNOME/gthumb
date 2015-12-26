@@ -1865,8 +1865,8 @@ static void
 ask_whether_to_save__done (AskSaveData *data,
 			   gboolean     cancelled)
 {
-	if (cancelled && (data->browser->priv->current_file != NULL))
-		g_file_info_set_attribute_boolean (data->browser->priv->current_file->info, "gth::file::is-modified", TRUE);
+	if (data->browser->priv->current_file != NULL)
+		g_file_info_set_attribute_boolean (data->browser->priv->current_file->info, "gth::file::is-modified", cancelled);
 	if (data->callback != NULL)
 		(*data->callback) (data->browser, cancelled, data->user_data);
 	g_free (data);
