@@ -92,10 +92,11 @@ struct _GthSlideshowPrivate {
 
 
 static void
-_gth_slideshow_close (GthSlideshow *self)
+_gth_slideshow_close_cb (gpointer user_data)
 {
-	gboolean    close_browser;
-	GthBrowser *browser;
+	GthSlideshow *self = user_data;
+	gboolean      close_browser;
+	GthBrowser   *browser;
 
 	browser = self->priv->browser;
 	close_browser = ! gtk_widget_get_visible (GTK_WIDGET (browser));
@@ -105,6 +106,13 @@ _gth_slideshow_close (GthSlideshow *self)
 
 	if (close_browser)
 		gth_window_close (GTH_WINDOW (browser));
+}
+
+
+static void
+_gth_slideshow_close (GthSlideshow *self)
+{
+	call_when_idle (_gth_slideshow_close_cb, self);
 }
 
 
