@@ -73,13 +73,10 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_PROPERTIES_VISIBLE       "properties-visible"
 #define PREF_BROWSER_PROPERTIES_ON_THE_RIGHT  "properties-on-the-right"
 #define PREF_BROWSER_THUMBNAIL_LIST_VISIBLE   "thumbnail-list-visible"
-#define PREF_BROWSER_THUMBNAIL_LIST_SIZE      "thumbnail-list-size"
 #define PREF_BROWSER_BROWSER_SIDEBAR_WIDTH    "browser-sidebar-width"
 #define PREF_BROWSER_VIEWER_SIDEBAR           "viewer-sidebar"
-#define PREF_BROWSER_VIEWER_SIDEBAR_WIDTH     "viewer-sidebar-width"
 #define PREF_BROWSER_VIEWER_THUMBNAILS_ORIENT "viewer-thumbnails-orientation"
 #define PREF_BROWSER_REUSE_ACTIVE_WINDOW      "reuse-active-window"
-
 #define PREF_FULLSCREEN_THUMBNAILS_VISIBLE    "fullscreen-thumbnails-visible"
 #define PREF_FULLSCREEN_SIDEBAR		      "fullscreen-sidebar"
 

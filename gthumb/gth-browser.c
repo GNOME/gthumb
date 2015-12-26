@@ -2018,26 +2018,6 @@ _gth_browser_close_final_step (gpointer user_data)
 		if (allocation.width > MIN_SIDEBAR_SIZE)
 			g_settings_set_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH, allocation.width);
 
-		gtk_widget_get_allocation (browser->priv->viewer_sidebar_alignment, &allocation);
-		if (allocation.width > MIN_SIDEBAR_SIZE)
-			g_settings_set_int (browser->priv->browser_settings, PREF_BROWSER_VIEWER_SIDEBAR_WIDTH, allocation.width);
-
-		switch (gth_file_list_get_mode (GTH_FILE_LIST (browser->priv->thumbnail_list))) {
-		case GTH_FILE_LIST_MODE_H_SIDEBAR:
-			g_settings_set_int (browser->priv->browser_settings,
-					    PREF_BROWSER_THUMBNAIL_LIST_SIZE,
-					    _gtk_paned_get_position2 (GTK_PANED (browser->priv->viewer_thumbnails_pane)));
-			break;
-		case GTH_FILE_LIST_MODE_V_SIDEBAR:
-			g_settings_set_int (browser->priv->browser_settings,
-					    PREF_BROWSER_THUMBNAIL_LIST_SIZE,
-					    gtk_paned_get_position (GTK_PANED (browser->priv->viewer_thumbnails_pane)));
-			break;
-		default:
-			g_warning ("Wrong thumbnail list mode");
-			break;
-		}
-
 		g_settings_set_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_SIDEBAR, browser->priv->viewer_sidebar);
 
 		g_settings_set_enum (browser->priv->browser_settings, PREF_FULLSCREEN_SIDEBAR, browser->priv->fullscreen_state.sidebar);
@@ -4397,7 +4377,6 @@ gth_browser_init (GthBrowser *browser)
 
 	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, FALSE);
 	browser->priv->viewer_sidebar_alignment = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gth_paned_set_position2 (GTH_PANED (browser->priv->viewer_sidebar_pane), g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH));
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_alignment, FALSE, FALSE);
 
 	browser->priv->thumbnail_list = gth_file_list_new (gth_grid_view_new (), (browser->priv->viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_MODE_H_SIDEBAR : GTH_FILE_LIST_MODE_V_SIDEBAR, TRUE);
@@ -4405,14 +4384,10 @@ gth_browser_init (GthBrowser *browser)
 	gth_grid_view_set_cell_spacing (GTH_GRID_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
 
-	if (browser->priv->viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) {
-		gth_paned_set_position2 (GTH_PANED (browser->priv->viewer_thumbnails_pane), g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_LIST_SIZE));
+	if (browser->priv->viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
 		gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
-	}
-	else {
-		gtk_paned_set_position (GTK_PANED (browser->priv->viewer_thumbnails_pane), g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_LIST_SIZE));
+	else
 		gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
-	}
 	_gth_browser_set_thumbnail_list_visibility (browser, g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE));
 
 	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list)),
@@ -6706,6 +6681,11 @@ gth_browser_fullscreen (GthBrowser *browser)
 	browser->priv->was_fullscreen = FALSE;
 	browser->priv->fullscreen = TRUE;
 
+	browser->priv->before_fullscreen.page = gth_window_get_current_page (GTH_WINDOW (browser));
+	browser->priv->before_fullscreen.thumbnail_list = gth_window_get_action_state (GTH_WINDOW (browser), "show-thumbnail-list");
+	browser->priv->before_fullscreen.browser_properties = gth_window_get_action_state (GTH_WINDOW (browser), "browser-properties");
+	browser->priv->before_fullscreen.viewer_sidebar = browser->priv->viewer_sidebar;
+
 	if (browser->priv->fullscreen_headerbar == NULL) {
 		browser->priv->fullscreen_headerbar = gth_window_get_header_bar (GTH_WINDOW (browser));
 
@@ -6722,10 +6702,7 @@ gth_browser_fullscreen (GthBrowser *browser)
 	g_list_free (browser->priv->viewer_controls);
 	browser->priv->viewer_controls = g_list_append (NULL, browser->priv->fullscreen_toolbar);
 
-	browser->priv->before_fullscreen.page = gth_window_get_current_page (GTH_WINDOW (browser));
-	browser->priv->before_fullscreen.thumbnail_list = gth_window_get_action_state (GTH_WINDOW (browser), "show-thumbnail-list");
-	browser->priv->before_fullscreen.browser_properties = gth_window_get_action_state (GTH_WINDOW (browser), "browser-properties");
-	browser->priv->before_fullscreen.viewer_sidebar = browser->priv->viewer_sidebar;
+	gtk_window_fullscreen (GTK_WINDOW (browser));
 
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	if (browser->priv->fullscreen_state.sidebar == GTH_SIDEBAR_STATE_PROPERTIES)
@@ -6734,12 +6711,12 @@ gth_browser_fullscreen (GthBrowser *browser)
 		gth_browser_show_viewer_tools (browser);
 	else
 		gth_browser_hide_sidebar (browser);
+
 	_gth_browser_set_thumbnail_list_visibility (browser, browser->priv->fullscreen_state.thumbnail_list);
+
 	gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
 
 	browser->priv->properties_on_screen = FALSE;
-
-	gtk_window_fullscreen (GTK_WINDOW (browser));
 
 	if (browser->priv->viewer_page != NULL) {
 		gth_viewer_page_show_properties (browser->priv->viewer_page, browser->priv->properties_on_screen);
@@ -6796,11 +6773,12 @@ gth_browser_unfullscreen (GthBrowser *browser)
 			gth_browser_hide_sidebar (browser);
 	}
 
+	gtk_window_unfullscreen (GTK_WINDOW (browser));
+
 	browser->priv->properties_on_screen = FALSE;
 	if (GTH_VIEWER_PAGE_GET_INTERFACE (browser->priv->viewer_page)->show_properties != NULL)
 		gth_viewer_page_show_properties (browser->priv->viewer_page, FALSE);
 
-	gtk_window_unfullscreen (GTK_WINDOW (browser));
 	if (browser->priv->viewer_page != NULL) {
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, FALSE);
 		_gth_browser_show_pointer_on_viewer (browser, TRUE);

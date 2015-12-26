@@ -116,17 +116,11 @@
     <key name="thumbnail-list-visible" type="b">
       <default>true</default>
     </key>
-    <key name="thumbnail-list-size" type="i">
-      <default>0</default>
-    </key>
     <key name="browser-sidebar-width" type="i">
       <default>285</default>
     </key>
     <key name="viewer-sidebar" enum="org.gnome.gthumb.GthSidebarState">
       <default>'hidden'</default>
-    </key>
-    <key name="viewer-sidebar-width" type="i">
-      <default>285</default>
     </key>
     <key name="viewer-thumbnails-orientation" enum="org.gnome.gthumb.GtkOrientation">
       <default>'horizontal'</default>
