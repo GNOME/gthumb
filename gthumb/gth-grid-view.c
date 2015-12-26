@@ -1192,8 +1192,10 @@ gth_grid_view_size_allocate (GtkWidget     *widget,
 				   MAX (self->priv->width, allocation->width),
 				   MAX (self->priv->height, allocation->height));
 
-		if (self->priv->needs_relayout || (old_cells_per_line != gth_grid_view_get_items_per_line (self)))
+		if (self->priv->needs_relayout || (old_cells_per_line != gth_grid_view_get_items_per_line (self))) {
+			self->priv->make_focused_visible = TRUE;
 			_gth_grid_view_queue_relayout (self);
+		}
 	}
 	else
 		self->priv->needs_relayout_after_size_allocate = TRUE;
