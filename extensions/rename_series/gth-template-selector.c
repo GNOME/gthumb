@@ -175,6 +175,19 @@ date_format_combobox_changed_cb (GtkComboBox         *combo_box,
 
 
 static void
+custom_date_format_entry_icon_release_cb (GtkEntry            *entry,
+					  GtkEntryIconPosition icon_pos,
+					  GdkEvent            *event,
+					  gpointer             user_data)
+{
+	GthTemplateSelector *self = user_data;
+
+	if (icon_pos == GTK_ENTRY_ICON_SECONDARY)
+		gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), 0);
+}
+
+
+static void
 gth_template_selector_construct (GthTemplateSelector *self,
 				 GthTemplateCode     *allowed_codes,
 				 int                  n_codes)
@@ -312,6 +325,10 @@ gth_template_selector_construct (GthTemplateSelector *self,
 	g_signal_connect (GET_WIDGET ("date_format_combobox"),
 			  "changed",
 			  G_CALLBACK (date_format_combobox_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("custom_date_format_entry"),
+			  "icon-release",
+			  G_CALLBACK (custom_date_format_entry_icon_release_cb),
 			  self);
 }
 
