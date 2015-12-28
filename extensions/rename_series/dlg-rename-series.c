@@ -720,10 +720,10 @@ dlg_rename_series_update_preview (DialogData *data)
 
 
 static void
-template_entry_icon_press_cb (GtkEntry             *entry,
-                              GtkEntryIconPosition  icon_pos,
-                              GdkEvent             *event,
-                              gpointer              user_data)
+template_entry_icon_release_cb (GtkEntry             *entry,
+                                GtkEntryIconPosition  icon_pos,
+				GdkEvent             *event,
+				gpointer              user_data)
 {
 	DialogData *data = user_data;
 
@@ -979,8 +979,8 @@ dlg_rename_series (GthBrowser *browser,
 			  G_CALLBACK (dialog_response_cb),
 			  data);
 	g_signal_connect (GET_WIDGET ("template_entry"),
-  			  "icon-press",
-  			  G_CALLBACK (template_entry_icon_press_cb),
+  			  "icon-release",
+  			  G_CALLBACK (template_entry_icon_release_cb),
   			  data);
 	g_signal_connect (GET_WIDGET ("template_entry"),
 			  "changed",
