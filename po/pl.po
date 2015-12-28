@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-20 17:12+0100\n"
-"PO-Revision-Date: 2015-12-20 17:13+0100\n"
+"POT-Creation-Date: 2015-12-28 01:07+0100\n"
+"PO-Revision-Date: 2015-12-28 01:08+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -84,8 +84,8 @@ msgstr ""
 "katalog."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:386
-#: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:391
+#: ../gthumb/gth-progress-dialog.c:404 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -159,53 +159,69 @@ msgstr ""
 msgid "Caption"
 msgstr "Opis"
 
-#: ../data/ui/browser-preferences.ui.h:2 ../data/ui/preferences.ui.h:15
+#: ../data/ui/browser-preferences.ui.h:2
+msgid "Behavior"
+msgstr "Zachowanie"
+
+#: ../data/ui/browser-preferences.ui.h:3
+msgid "_Single click to open files"
+msgstr "_Pojedyncze kliknięcie otwiera pliki"
+
+#: ../data/ui/browser-preferences.ui.h:4
+msgid "_Double click to open files"
+msgstr "Po_dwójne kliknięcie otwiera pliki"
+
+#: ../data/ui/browser-preferences.ui.h:5
+msgid "_Open files in fullscreen mode"
+msgstr "_Otwieranie plików trybie pełnoekranowym"
+
+#: ../data/ui/browser-preferences.ui.h:6 ../data/ui/preferences.ui.h:15
 #: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
 #: ../extensions/gstreamer_tools/main.c:34
 msgid "Other"
 msgstr "Inne"
 
-#: ../data/ui/browser-preferences.ui.h:3
+#: ../data/ui/browser-preferences.ui.h:7
 msgid "Thumbnail _size:"
 msgstr "_Rozmiar miniatur:"
 
-#: ../data/ui/browser-preferences.ui.h:4
+#: ../data/ui/browser-preferences.ui.h:8
 msgid "48"
 msgstr "48"
 
-#: ../data/ui/browser-preferences.ui.h:5
+#: ../data/ui/browser-preferences.ui.h:9
 msgid "64"
 msgstr "64"
 
-#: ../data/ui/browser-preferences.ui.h:6
+#: ../data/ui/browser-preferences.ui.h:10
 msgid "85"
 msgstr "85"
 
-#: ../data/ui/browser-preferences.ui.h:7
+#: ../data/ui/browser-preferences.ui.h:11
 msgid "95"
 msgstr "95"
 
-#: ../data/ui/browser-preferences.ui.h:8
+#: ../data/ui/browser-preferences.ui.h:12
 msgid "112"
 msgstr "112"
 
-#: ../data/ui/browser-preferences.ui.h:9
+#: ../data/ui/browser-preferences.ui.h:13
 msgid "128"
 msgstr "128"
 
-#: ../data/ui/browser-preferences.ui.h:10
+#: ../data/ui/browser-preferences.ui.h:14
 msgid "164"
 msgstr "164"
 
-#: ../data/ui/browser-preferences.ui.h:11
+#: ../data/ui/browser-preferences.ui.h:15
 msgid "200"
 msgstr "200"
 
-#: ../data/ui/browser-preferences.ui.h:12
+#: ../data/ui/browser-preferences.ui.h:16
 msgid "256"
 msgstr "256"
 
-#: ../data/ui/browser-preferences.ui.h:13
+#: ../data/ui/browser-preferences.ui.h:17
 msgid "D_etermine image type from content (slower)"
 msgstr "_Określanie typu obrazu na podstawie zawartości (wolniejsze)"
 
@@ -661,7 +677,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1369
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1362
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "Zapisywanie"
@@ -762,7 +778,7 @@ msgstr "Zmień nazwę"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4504 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4531 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Właściwości"
 
@@ -816,7 +832,7 @@ msgid "New _Library"
 msgstr "Nowa _kolekcja"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
-#: ../extensions/file_manager/actions.c:684
+#: ../extensions/file_manager/actions.c:687
 #: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "_Wyświetl miejsce docelowe"
@@ -912,12 +928,12 @@ msgstr ""
 
 #: ../extensions/catalogs/dlg-organize-files.c:124
 #: ../extensions/edit_metadata/gth-edit-general-page.c:558
-#: ../gthumb/gth-main-default-tests.c:321
+#: ../gthumb/gth-main-default-tests.c:365
 msgid "Date photo was taken"
 msgstr "Data wykonania zdjęcia"
 
 #: ../extensions/catalogs/dlg-organize-files.c:131
-#: ../gthumb/gth-main-default-tests.c:313
+#: ../gthumb/gth-main-default-tests.c:357
 msgid "File modified date"
 msgstr "Data modyfikacji pliku"
 
@@ -927,7 +943,7 @@ msgid "Tag"
 msgstr "Etykieta"
 
 #: ../extensions/catalogs/dlg-organize-files.c:145
-#: ../gthumb/gth-main-default-tests.c:354
+#: ../gthumb/gth-main-default-tests.c:398
 msgid "Tag (embedded)"
 msgstr "Etykieta (osadzona)"
 
@@ -1074,15 +1090,16 @@ msgid "Add comments and tags to any file type."
 msgstr "Dodawanie komentarzy i etykiet do każdego typu pliku."
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
+msgid "_Synchronize with the embedded metadata"
+msgstr "_Synchronizowanie z osadzonymi metadanymi"
+
+#: ../extensions/comments/dlg-comments-preferences.c:68
+#: ../extensions/gstreamer_tools/dlg-media-viewer-preferences.c:77
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
+#: ../extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: ../gthumb/dlg-preferences-extensions.c:483
 msgid "Preferences"
 msgstr "Preferencje"
-
-#: ../extensions/comments/data/ui/comments-preferences.ui.h:2
-msgid "_Synchronize with the embedded metadata"
-msgstr "_Synchronizowanie z osadzonymi metadanymi"
 
 #: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:50
 #: ../extensions/edit_metadata/callbacks.c:79
@@ -1110,12 +1127,12 @@ msgstr "Opis"
 msgid "Place"
 msgstr "Miejsce"
 
-#: ../extensions/comments/main.c:44 ../gthumb/gth-main-default-metadata.c:58
-msgid "Date"
-msgstr "Data"
+#: ../extensions/comments/main.c:44
+msgid "Comment Date & Time"
+msgstr "Data i czas komentarza"
 
 #: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:63
-#: ../gthumb/gth-main-default-tests.c:345
+#: ../gthumb/gth-main-default-tests.c:389
 msgid "Rating"
 msgstr "Ocena"
 
@@ -1912,12 +1929,12 @@ msgstr "Nie można wyeksportować plików"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:568
 #: ../extensions/find_duplicates/gth-find-duplicates.c:277
-#: ../extensions/find_duplicates/gth-find-duplicates.c:470
+#: ../extensions/find_duplicates/gth-find-duplicates.c:479
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:614
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:607
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:818
+#: ../gthumb/gth-browser.c:823
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2051,7 +2068,7 @@ msgstr "Skopiuj do"
 msgid "Move"
 msgstr "Przenieś"
 
-#: ../extensions/file_manager/actions.c:788
+#: ../extensions/file_manager/actions.c:791
 msgid "Could not open the location"
 msgstr "Nie można otworzyć położenia"
 
@@ -2130,9 +2147,9 @@ msgid "_Copy"
 msgstr "S_kopiuj"
 
 #: ../extensions/file_manager/callbacks.c:977
-#: ../extensions/find_duplicates/gth-find-duplicates.c:766
-#: ../gthumb/gth-browser.c:5458 ../gthumb/gth-browser.c:5491
-#: ../gthumb/gth-progress-dialog.c:409
+#: ../extensions/find_duplicates/gth-find-duplicates.c:775
+#: ../gthumb/gth-browser.c:5489 ../gthumb/gth-browser.c:5525
+#: ../gthumb/gth-progress-dialog.c:420
 msgid "Could not perform the operation"
 msgstr "Nie można wykonać działania"
 
@@ -2584,8 +2601,8 @@ msgstr "Nazwa ustawienia:"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:533
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1299
-#: ../gthumb/gth-browser.c:1882
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1292
+#: ../gthumb/gth-browser.c:1887
 msgid "Could not save the file"
 msgstr "Nie można zapisać pliku"
 
@@ -2833,8 +2850,8 @@ msgstr "wszystkie pliki"
 msgid "no file"
 msgstr "brak pliku"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:560
-#: ../extensions/find_duplicates/gth-find-duplicates.c:668
+#: ../extensions/find_duplicates/gth-find-duplicates.c:569
+#: ../extensions/find_duplicates/gth-find-duplicates.c:677
 #, c-format
 msgid "%d duplicate"
 msgid_plural "%d duplicates"
@@ -2842,15 +2859,15 @@ msgstr[0] "%d duplikat"
 msgstr[1] "%d duplikaty"
 msgstr[2] "%d duplikatów"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:712
+#: ../extensions/find_duplicates/gth-find-duplicates.c:721
 msgid "Search completed"
 msgstr "Ukończono wyszukiwanie"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:725
+#: ../extensions/find_duplicates/gth-find-duplicates.c:734
 msgid "Searching for duplicates"
 msgstr "Wyszukiwanie duplikatów"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:728
+#: ../extensions/find_duplicates/gth-find-duplicates.c:737
 #: ../gthumb/gth-load-file-data-task.c:106
 #: ../gthumb/gth-save-file-data-task.c:100
 #, c-format
@@ -2860,15 +2877,15 @@ msgstr[0] "Pozostał %d plik"
 msgstr[1] "Pozostały %d pliki"
 msgstr[2] "Pozostało %d plików"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:830
+#: ../extensions/find_duplicates/gth-find-duplicates.c:839
 msgid "Getting the file list"
 msgstr "Pobieranie listy plików"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:1006
+#: ../extensions/find_duplicates/gth-find-duplicates.c:1015
 msgid "Duplicates"
 msgstr "Duplikaty"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:1298
+#: ../extensions/find_duplicates/gth-find-duplicates.c:1307
 msgid "Select"
 msgstr "Wybierz"
 
@@ -3012,7 +3029,7 @@ msgstr "Czas:"
 msgid "--:--"
 msgstr "--∶--"
 
-#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:2
+#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
 msgid "_Screenshots location:"
 msgstr "_Położenie zrzutów ekranu:"
 
@@ -3037,12 +3054,12 @@ msgid "Take a screenshot"
 msgstr "Wykonaj zrzut ekranu"
 
 #: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:268
+#: ../gthumb/gth-main-default-tests.c:312
 msgid "Video"
 msgstr "Wideo"
 
 #: ../extensions/gstreamer_tools/main.c:33
-#: ../gthumb/gth-main-default-tests.c:275
+#: ../gthumb/gth-main-default-tests.c:319
 msgid "Audio"
 msgstr "Dźwięk"
 
@@ -3100,9 +3117,9 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1532
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1525
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:251
-#: ../extensions/raw_files/gth-metadata-provider-raw.c:112
+#: ../extensions/raw_files/gth-metadata-provider-raw.c:96
 #: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:888
 #, c-format
 msgid "%d × %d"
@@ -3200,7 +3217,6 @@ msgid "Could not print"
 msgstr "Nie można wydrukować"
 
 #: ../extensions/image_print/gth-image-print-job.c:1746
-#: ../gthumb/gth-main-default-tests.c:261
 msgid "Images"
 msgstr "Obrazy"
 
@@ -3296,7 +3312,7 @@ msgid "After loading an image:"
 msgstr "Po wczytaniu obrazu:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:834
+#: ../extensions/image_viewer/gth-image-viewer-page.c:827
 msgid "Set to actual size"
 msgstr "Ustawianie na rzeczywisty rozmiar"
 
@@ -3305,7 +3321,7 @@ msgid "Keep previous zoom"
 msgstr "Zachowanie poprzedniego powiększenia"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-#: ../extensions/image_viewer/gth-image-viewer-page.c:841
+#: ../extensions/image_viewer/gth-image-viewer-page.c:834
 msgid "Fit to window"
 msgstr "Dopasowanie do okna"
 
@@ -3314,7 +3330,7 @@ msgid "Fit to window if larger"
 msgstr "Dopasowanie do okna, jeśli większy"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
-#: ../extensions/image_viewer/gth-image-viewer-page.c:848
+#: ../extensions/image_viewer/gth-image-viewer-page.c:841
 msgid "Fit to width"
 msgstr "Dopasowanie do szerokości"
 
@@ -3352,19 +3368,19 @@ msgstr "Skopiuj obraz"
 msgid "Paste Image"
 msgstr "Wklej obraz"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:855
+#: ../extensions/image_viewer/gth-image-viewer-page.c:848
 msgid "Fit to height"
 msgstr "Dopasowanie do wysokości"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:862
+#: ../extensions/image_viewer/gth-image-viewer-page.c:855
 msgid "Apply the embedded color profile"
 msgstr "Zastosowanie osadzonego profilu kolorów"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1472
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1465
 msgid "Save Image"
 msgstr "Zapis obrazu"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2056
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2049
 msgid "Loading the original image"
 msgstr "Wczytywanie oryginalnego obrazu"
 
@@ -3834,6 +3850,11 @@ msgstr "Po zaimportowaniu z urządzenia:"
 msgid "_Rotate the images physically"
 msgstr "_Fizyczne obracanie obrazów"
 
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:3
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
+msgid "_Delete the imported files from the source"
+msgstr "_Usuwanie zaimportowanych plików ze źródła"
+
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
 #: ../gthumb/gth-filterbar.c:404
@@ -3847,10 +3868,6 @@ msgstr "_Etykiety:"
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
 msgid "_Event:"
 msgstr "Wydarz_enie:"
-
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
-msgid "_Delete the imported files from the source"
-msgstr "_Usuwanie zaimportowanych plików ze źródła"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:227
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:149
@@ -3874,7 +3891,7 @@ msgid "(Empty)"
 msgstr "(Pusty)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1793
+#: ../gthumb/gth-browser.c:1798
 msgid "Getting the folder content…"
 msgstr "Pobieranie zawartości katalogu…"
 
@@ -3928,7 +3945,7 @@ msgstr "Picasa Web Album"
 msgid "Upload images to Picasa Web Albums"
 msgstr "Wysyłanie obrazów do serwisu Picasa Web Album"
 
-#: ../extensions/raw_files/gth-metadata-provider-raw.c:106
+#: ../extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
 msgstr "Format RAW"
 
@@ -4200,7 +4217,7 @@ msgstr "dowolna z poniższych reguł"
 
 #: ../extensions/search/gth-search-task.c:183
 #, c-format
-msgid "Files found until now: %s"
+msgid "Files found so far: %s"
 msgstr "Odnalezione pliki: %s"
 
 #: ../extensions/search/gth-search-task.c:274
@@ -4295,7 +4312,7 @@ msgstr "Dodaj pliki do listy odtwarzania"
 msgid "Remove the selected files"
 msgstr "Usuń zaznaczone pliki"
 
-#: ../extensions/slideshow/gth-slideshow.c:281
+#: ../extensions/slideshow/gth-slideshow.c:289
 msgid "Playing slideshow"
 msgstr "Odtwarzanie pokazu slajdów"
 
@@ -4499,9 +4516,9 @@ msgstr "Albumy WWW"
 msgid "Create static web albums."
 msgstr "Tworzenie statycznych albumów WWW."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1098
-#: ../gthumb/gth-browser.c:1673 ../gthumb/gth-browser.c:6406
-#: ../gthumb/gth-browser.c:6425 ../gthumb/gth-browser.c:6449
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1103
+#: ../gthumb/gth-browser.c:1678 ../gthumb/gth-browser.c:6486
+#: ../gthumb/gth-browser.c:6505 ../gthumb/gth-browser.c:6529
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nie można wczytać położenia „%s”"
@@ -4523,7 +4540,7 @@ msgid "Edit Filter"
 msgstr "Modyfikuj filtr"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-browser.c:150
+#: ../gthumb/dlg-preferences-browser.c:190
 #: ../gthumb/dlg-preferences-extensions.c:65
 msgid "Browser"
 msgstr "Przeglądarka"
@@ -4628,7 +4645,7 @@ msgstr "Pobieranie informacji o pliku"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3258
+#: ../gthumb/glib-utils.c:3257
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -4640,7 +4657,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3267
+#: ../gthumb/glib-utils.c:3266
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
@@ -4691,11 +4708,11 @@ msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2011-2015\n"
 "Aviary.pl <gnomepl@aviary.pl>, 2007-2015"
 
-#: ../gthumb/gth-browser.c:371
+#: ../gthumb/gth-browser.c:376
 msgid "[modified]"
 msgstr "[zmodyfikowano]"
 
-#: ../gthumb/gth-browser.c:819
+#: ../gthumb/gth-browser.c:824
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -4703,68 +4720,68 @@ msgstr[0] "Zaznaczono %d plik (%s)"
 msgstr[1] "Zaznaczono %d pliki (%s)"
 msgstr[2] "Zaznaczono %d plików (%s)"
 
-#: ../gthumb/gth-browser.c:854
+#: ../gthumb/gth-browser.c:859
 #, c-format
 msgid "%s of free space"
 msgstr "Wolne miejsce: %s"
 
-#: ../gthumb/gth-browser.c:1777 ../gthumb/gth-browser.c:1804
+#: ../gthumb/gth-browser.c:1782 ../gthumb/gth-browser.c:1809
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nie odnaleziono odpowiedniego modułu dla %s"
 
-#: ../gthumb/gth-browser.c:1926
+#: ../gthumb/gth-browser.c:1931
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Zapisać zmiany w pliku „%s”?"
 
-#: ../gthumb/gth-browser.c:1931
+#: ../gthumb/gth-browser.c:1936
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr ""
 "Jeśli nie zostanie zapisane, to wszystkie zmiany zostaną trwale utracone."
 
-#: ../gthumb/gth-browser.c:1932
+#: ../gthumb/gth-browser.c:1937
 msgid "Do _Not Save"
 msgstr "_Nie zapisuj"
 
-#: ../gthumb/gth-browser.c:3012 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2996 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nie można zmienić nazwy"
 
-#: ../gthumb/gth-browser.c:3458 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3444
 msgid "Modified"
 msgstr "Zmodyfikowano"
 
-#: ../gthumb/gth-browser.c:4466
+#: ../gthumb/gth-browser.c:4493
 msgid "Go to the previous visited location"
 msgstr "Przechodzi do poprzednio odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4472
+#: ../gthumb/gth-browser.c:4499
 msgid "Go to the next visited location"
 msgstr "Przechodzi do kolejnej odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4480
+#: ../gthumb/gth-browser.c:4507
 msgid "History"
 msgstr "Historia"
 
-#: ../gthumb/gth-browser.c:4495
+#: ../gthumb/gth-browser.c:4522
 msgid "View the folders"
 msgstr "Wyświetla katalogi"
 
-#: ../gthumb/gth-browser.c:4510
+#: ../gthumb/gth-browser.c:4537
 msgid "Edit file"
 msgstr "Modyfikuje plik"
 
-#: ../gthumb/gth-browser.c:4527
+#: ../gthumb/gth-browser.c:4554
 msgid "Accept"
 msgstr "Zaakceptuj"
 
-#: ../gthumb/gth-browser.c:6407
+#: ../gthumb/gth-browser.c:6487
 #, c-format
 msgid "File type not supported"
 msgstr "Nieobsługiwany typ pliku"
 
-#: ../gthumb/gth-browser.c:6450
+#: ../gthumb/gth-browser.c:6530
 #, c-format
 msgid "No suitable module found"
 msgstr "Nie odnaleziono odpowiedniego modułu"
@@ -4791,30 +4808,30 @@ msgstr "Wszystkie obsługiwane pliki"
 msgid "Details"
 msgstr "Szczegóły"
 
-#: ../gthumb/gth-file-source-vfs.c:223
+#: ../gthumb/gth-file-source-vfs.c:224
 msgid "Computer"
 msgstr "Komputer"
 
-#: ../gthumb/gth-file-source-vfs.c:230
+#: ../gthumb/gth-file-source-vfs.c:231
 msgid "Home Folder"
 msgstr "Katalog domowy"
 
-#: ../gthumb/gth-file-source-vfs.c:743
+#: ../gthumb/gth-file-source-vfs.c:751
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Nie można przenieść plików do kosza. Usunąć je trwale?"
 
-#: ../gthumb/gth-file-source-vfs.c:753
+#: ../gthumb/gth-file-source-vfs.c:761
 msgid "Could not move the files to the Trash"
 msgstr "Nie można przenieść plików do kosza"
 
-#: ../gthumb/gth-file-source-vfs.c:798
+#: ../gthumb/gth-file-source-vfs.c:805
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Na pewno trwale usunąć „%s”?"
 
-#: ../gthumb/gth-file-source-vfs.c:801
+#: ../gthumb/gth-file-source-vfs.c:808
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4823,7 +4840,7 @@ msgstr[0] "Na pewno trwale usunąć %'d zaznaczony plik?"
 msgstr[1] "Na pewno trwale usunąć %'d zaznaczone pliki?"
 msgstr[2] "Na pewno trwale usunąć %'d zaznaczonych plików?"
 
-#: ../gthumb/gth-file-source-vfs.c:811
+#: ../gthumb/gth-file-source-vfs.c:818
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Usunięcie pliku spowoduje jego trwałe utracenie."
 
@@ -4910,9 +4927,14 @@ msgid "Name"
 msgstr "Nazwa"
 
 #: ../gthumb/gth-main-default-metadata.c:40
-#: ../gthumb/gth-main-default-tests.c:305
+#: ../gthumb/gth-main-default-tests.c:349
 msgid "Size"
 msgstr "Rozmiar"
+
+#: ../gthumb/gth-main-default-metadata.c:41
+msgctxt "the file mtime"
+msgid "Modified Date & Time"
+msgstr "Data i czas modyfikacji"
 
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Type"
@@ -4958,6 +4980,10 @@ msgstr "Lampa błyskowa"
 msgid "Camera Model"
 msgstr "Model aparatu"
 
+#: ../gthumb/gth-main-default-metadata.c:58
+msgid "General Date & Time"
+msgstr "Ogólna data i czas"
+
 #: ../gthumb/gth-main-default-metadata.c:65
 msgid "Author"
 msgstr "Autor"
@@ -4990,27 +5016,39 @@ msgstr "bez porządkowania"
 msgid "dimensions"
 msgstr "wymiary"
 
-#: ../gthumb/gth-main-default-tests.c:254
+#: ../gthumb/gth-main-default-tests.c:284
 msgid "All Files"
 msgstr "Wszystkie pliki"
 
-#: ../gthumb/gth-main-default-tests.c:282
+#: ../gthumb/gth-main-default-tests.c:291
+msgid "All Images"
+msgstr "Wszystkie obrazy"
+
+#: ../gthumb/gth-main-default-tests.c:298
+msgid "JPEG Images"
+msgstr "Obrazy JPEG"
+
+#: ../gthumb/gth-main-default-tests.c:305
+msgid "Raw Photos"
+msgstr "Zdjęcia RAW"
+
+#: ../gthumb/gth-main-default-tests.c:326
 msgid "Media"
 msgstr "Multimedia"
 
-#: ../gthumb/gth-main-default-tests.c:289
+#: ../gthumb/gth-main-default-tests.c:333
 msgid "Text Files"
 msgstr "Pliki tekstowe"
 
-#: ../gthumb/gth-main-default-tests.c:297
+#: ../gthumb/gth-main-default-tests.c:341
 msgid "Filename"
 msgstr "Nazwa pliku"
 
-#: ../gthumb/gth-main-default-tests.c:329
+#: ../gthumb/gth-main-default-tests.c:373
 msgid "Title (embedded)"
 msgstr "Tytuł (osadzony)"
 
-#: ../gthumb/gth-main-default-tests.c:337
+#: ../gthumb/gth-main-default-tests.c:381
 msgid "Description (embedded)"
 msgstr "Opis (osadzony)"
 
