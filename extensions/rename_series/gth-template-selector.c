@@ -254,29 +254,32 @@ gth_template_selector_construct (GthTemplateSelector *self,
 
 	gtk_combo_box_set_model (GTK_COMBO_BOX (GET_WIDGET ("attribute_combobox")), NULL);
 	tree_store = (GtkTreeStore *) GET_WIDGET ("attribute_treestore");
-	category_root = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, (GDestroyNotify) gtk_tree_row_reference_free);
+	category_root = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, (GDestroyNotify) gtk_tree_iter_free);
 	attributes_v = gth_main_get_metadata_attributes ("*");
 	for (i = 0; attributes_v[i] != NULL; i++) {
 		GthMetadataInfo     *info;
 		const char          *name;
 		GthMetadataCategory *category;
-		GtkTreeRowReference *parent_row;
-		GtkTreePath         *path;
-		GtkTreeIter          root_iter;
+		GtkTreeIter         *root_iter;
 
 		info = gth_main_get_metadata_info (attributes_v[i]);
 		if (info == NULL)
 			continue;
-		if ((info->flags & GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW) == 0)
+
+		if ((info->flags & GTH_METADATA_ALLOW_EVERYWHERE) == 0)
 			continue;
 
-		name = info->display_name;
-		if (name == NULL)
+		category = gth_main_get_metadata_category (info->category);
+		if (category == NULL)
+			continue;
+
+		if (info->display_name != NULL)
+			name = _(info->display_name);
+		else
 			name = info->id;
 
-		category = gth_main_get_metadata_category (info->category);
-		parent_row = g_hash_table_lookup (category_root, category->id);
-		if (parent_row == NULL) {
+		root_iter = g_hash_table_lookup (category_root, category->id);
+		if (root_iter == NULL) {
 			gtk_tree_store_append (tree_store, &iter, NULL);
 			gtk_tree_store_set (tree_store,
 					    &iter,
@@ -284,19 +287,11 @@ gth_template_selector_construct (GthTemplateSelector *self,
 					    ATTRIBUTE_NAME_COLUMN, _(category->display_name),
 					    ATTRIBUTE_SORT_ORDER_COLUMN, category->sort_order,
 					    -1);
-
-			path = gtk_tree_model_get_path (GTK_TREE_MODEL (tree_store), &iter);
-			parent_row = gtk_tree_row_reference_new (GTK_TREE_MODEL (tree_store), path);
-			g_hash_table_insert (category_root, g_strdup (info->category), parent_row);
-
-			gtk_tree_path_free (path);
+			root_iter = gtk_tree_iter_copy (&iter);
+			g_hash_table_insert (category_root, g_strdup (info->category), root_iter);
 		}
 
-		path = gtk_tree_row_reference_get_path (parent_row);
-		gtk_tree_model_get_iter (GTK_TREE_MODEL (tree_store), &root_iter, path);
-		gtk_tree_path_free (path);
-
-		gtk_tree_store_append (tree_store, &iter, &root_iter);
+		gtk_tree_store_append (tree_store, &iter, root_iter);
 		gtk_tree_store_set (tree_store, &iter,
 				    ATTRIBUTE_ID_COLUMN, info->id,
 				    ATTRIBUTE_NAME_COLUMN, name,
