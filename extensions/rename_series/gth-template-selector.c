@@ -242,9 +242,9 @@ gth_template_selector_construct (GthTemplateSelector *self,
 	}
 
 	gtk_list_store_append (list_store, &iter);
-	/* Translators: this is an option for the format -> Format: Custom */
 	gtk_list_store_set (list_store, &iter,
 			    DATE_FORMAT_FORMAT_COLUMN, "",
+			    /* Translators: this is an option for the format -> Format: Custom */
 			    DATE_FORMAT_NAME_COLUMN, _("Custom"),
 			    -1);
 
