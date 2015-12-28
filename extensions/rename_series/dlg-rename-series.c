@@ -468,7 +468,7 @@ load_file_data_task_completed_cb (GthTask  *task,
 
 	gtk_widget_hide (GET_WIDGET ("task_box"));
 	gtk_widget_set_sensitive (GET_WIDGET ("options_table"), TRUE);
-	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), TRUE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, TRUE);
 
 	data->tasks = g_list_remove (data->tasks, update_data->task);
 
@@ -518,7 +518,7 @@ update_file_list (DialogData *data,
 			GtkWidget *child;
 
 			gtk_widget_set_sensitive (GET_WIDGET ("options_table"), FALSE);
-			gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), FALSE);
+			gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, FALSE);
 			gtk_widget_show (GET_WIDGET ("task_box"));
 
 			update_data->task = gth_load_file_data_task_new (data->file_list, data->required_attributes);
@@ -840,7 +840,22 @@ dlg_rename_series (GthBrowser *browser,
 
 	/* Get the widgets. */
 
-	data->dialog = _gtk_builder_get_widget (data->builder, "rename_series_dialog");
+	data->dialog = g_object_new (GTK_TYPE_DIALOG,
+				     "title", _("Rename"),
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", FALSE,
+				     "destroy-with-parent", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			   _gtk_builder_get_widget (data->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_("_Rename"), GTK_RESPONSE_OK,
+				NULL);
+	gtk_style_context_add_class (gtk_widget_get_style_context (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK)),
+				     GTK_STYLE_CLASS_SUGGESTED_ACTION);
+
 	gth_browser_set_dialog (browser, "rename_series", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
