@@ -3180,6 +3180,9 @@ select_range_with_keyboard (GthGridView *self,
 	int    i;
 	GList *link;
 
+	if (self->priv->focused_item == -1)
+		return;
+
 	begin_idx = MIN (MIN (self->priv->first_focused_item, self->priv->focused_item), next_focused_item);
 	end_idx = MAX (MAX (self->priv->first_focused_item, self->priv->focused_item), next_focused_item);
 	begin = g_list_nth (self->priv->items, begin_idx);
