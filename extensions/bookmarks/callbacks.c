@@ -321,9 +321,8 @@ bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 		GtkWidget  *button;
 		GMenuModel *menu;
 
-		button = _gtk_menu_button_new_for_header_bar ();
+		button = _gtk_menu_button_new_for_header_bar ("user-bookmarks-symbolic");
 		gtk_widget_set_tooltip_text (button, _("Bookmarks"));
-		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("user-bookmarks-symbolic", GTK_ICON_SIZE_MENU));
 
 		data->builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/bookmarks/data/ui/bookmarks-menu.ui");
 		data->system_bookmarks_menu = G_MENU (gtk_builder_get_object (data->builder, "system-bookmarks"));
@@ -334,7 +333,7 @@ bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 		gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
 		_gtk_window_add_accelerators_from_menu ((GTK_WINDOW (browser)), menu);
 
-		gtk_widget_show_all (button);
+		gtk_widget_show (button);
 		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS)), button, FALSE, FALSE, 0);
 	}
 

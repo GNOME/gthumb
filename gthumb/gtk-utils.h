@@ -134,7 +134,7 @@ void            _gtk_combo_box_add_image_sizes             (GtkComboBox      *co
 gboolean        _gtk_file_chooser_set_file_parent          (GtkFileChooser   *chooser,
 							    GFile            *file,
 							    GError          **error);
-GtkWidget *     _gtk_menu_button_new_for_header_bar        (void);
+GtkWidget *     _gtk_menu_button_new_for_header_bar        (const char       *icon_name);
 GtkWidget *     _gtk_image_button_new_for_header_bar       (const char       *icon_name);
 GtkWidget *     _gtk_toggle_image_button_new_for_header_bar(const char       *icon_name);
 void		_gtk_window_add_accelerator_for_action     (GtkWindow		*window,

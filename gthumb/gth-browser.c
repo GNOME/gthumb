@@ -4458,7 +4458,7 @@ gth_browser_init (GthBrowser *browser)
 
 		builder = _gtk_builder_new_from_resource ("gears-menu.ui");
 		menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
-		browser->priv->menu_button = _gtk_menu_button_new_for_header_bar ();
+		browser->priv->menu_button = _gtk_menu_button_new_for_header_bar (NULL);
 #if ! GTK_CHECK_VERSION(3,13,0)
 		gtk_container_add (GTK_CONTAINER (browser->priv->menu_button), gtk_image_new_from_icon_name ("emblem-system-symbolic", GTK_ICON_SIZE_MENU));
 #else
@@ -4503,13 +4503,12 @@ gth_browser_init (GthBrowser *browser)
 		/* history menu button */
 
 		builder = _gtk_builder_new_from_resource ("history-menu.ui");
-		button = _gtk_menu_button_new_for_header_bar ();
+		button = _gtk_menu_button_new_for_header_bar ("document-open-recent-symbolic");
 		gtk_widget_set_tooltip_text (button, _("History"));
-		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("document-open-recent-symbolic", GTK_ICON_SIZE_MENU));
 
 		browser->priv->history_menu = G_MENU (gtk_builder_get_object (builder, "visited-locations"));
 		gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (gtk_builder_get_object (builder, "menu")));
-		gtk_widget_show_all (button);
+		gtk_widget_show (button);
 		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION)), button, FALSE, FALSE, 0);
 
 		g_object_unref (builder);

@@ -44,8 +44,8 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	dialog = g_object_new (GTK_TYPE_MESSAGE_DIALOG,
 			       "title", "",
 			       "transient-for", parent,
-			       "modal", (flags & GTK_DIALOG_MODAL),
-			       "destroy-with-parent", (flags & GTK_DIALOG_DESTROY_WITH_PARENT),
+			       "modal", ((flags & GTK_DIALOG_MODAL) == GTK_DIALOG_MODAL),
+			       "destroy-with-parent", ((flags & GTK_DIALOG_DESTROY_WITH_PARENT) == GTK_DIALOG_DESTROY_WITH_PARENT),
 			       "text", message,
 			       NULL);
 
@@ -927,11 +927,18 @@ _gtk_menu_button_set_style_for_header_bar (GtkWidget *button)
 
 
 GtkWidget *
-_gtk_menu_button_new_for_header_bar (void)
+_gtk_menu_button_new_for_header_bar (const char *icon_name)
 {
 	GtkWidget *button;
 
 	button = gtk_menu_button_new ();
+	if (icon_name != NULL) {
+		GtkWidget *image;
+
+		image = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU);
+		gtk_widget_show (image);
+		gtk_container_add (GTK_CONTAINER (button), image);
+	}
 	_gtk_menu_button_set_style_for_header_bar (button);
 
 	return button;

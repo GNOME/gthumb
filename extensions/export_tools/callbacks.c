@@ -42,10 +42,9 @@ export_tools__gth_browser_construct_cb (GthBrowser *browser)
 	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_OTHER_EXPORTERS, G_MENU (gtk_builder_get_object (builder, "other-exporters")));
 	menu = G_MENU_MODEL (gtk_builder_get_object (builder, "export-menu"));
 
-	button = _gtk_menu_button_new_for_header_bar ();
+	button = _gtk_menu_button_new_for_header_bar ("export-symbolic");
 	gtk_widget_set_tooltip_text (button, _("Export"));
-	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("export-symbolic", GTK_ICON_SIZE_MENU));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
-	gtk_widget_show_all (button);
+	gtk_widget_show (button);
 	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS)), button, FALSE, FALSE, 0);
 }
