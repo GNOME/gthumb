@@ -175,8 +175,6 @@ gth_browser_activate_video_screenshot (GSimpleAction	*action,
 	GthMediaViewerPage	*page;
 	GstElement		*playbin;
 	SaveData		*save_data;
-	int			 video_fps_n;
-	int			 video_fps_d;
 
 	page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 	playbin = gth_media_viewer_page_get_playbin (page);
@@ -191,10 +189,7 @@ gth_browser_activate_video_screenshot (GSimpleAction	*action,
 
 	if (save_data->playing_before_screenshot)
 		gst_element_set_state (playbin, GST_STATE_PAUSED);
-	gth_media_viewer_page_get_video_fps (page, &video_fps_n, &video_fps_d);
 	_gst_playbin_get_current_frame (playbin,
-					video_fps_n,
-					video_fps_d,
 					screenshot_ready_cb,
 					save_data);
 }

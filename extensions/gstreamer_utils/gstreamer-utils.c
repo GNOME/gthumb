@@ -652,8 +652,6 @@ gstreamer_read_metadata_from_file (GFile       *file,
 
 /* -- _gst_playbin_get_current_frame -- */
 
-/* this is voodoo code taken from totem, kudos to the authors, license is GPL */
-
 
 typedef struct {
 	GdkPixbuf          *pixbuf;
@@ -680,8 +678,6 @@ destroy_pixbuf (guchar *pix, gpointer data)
 
 gboolean
 _gst_playbin_get_current_frame (GstElement          *playbin,
-				int                  video_fps_n,
-				int                  video_fps_d,
 				FrameReadyCallback   cb,
 				gpointer             user_data)
 {

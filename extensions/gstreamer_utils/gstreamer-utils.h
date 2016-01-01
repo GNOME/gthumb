@@ -36,8 +36,6 @@ gboolean    gstreamer_read_metadata_from_file (GFile               *file,
 					       GFileInfo           *info,
 					       GError             **error);
 gboolean    _gst_playbin_get_current_frame    (GstElement          *playbin,
-					       int                  video_fps_n,
-					       int                  video_fps_d,
 					       FrameReadyCallback   cb,
 					       gpointer             user_data);
 
