@@ -2110,6 +2110,11 @@ gth_image_viewer_set_zoom_quality (GthImageViewer *self,
 				   GthZoomQuality  quality)
 {
 	self->priv->zoom_quality = quality;
+
+	/* to update the zoom filter */
+
+	if (self->priv->tool != NULL)
+		gth_image_viewer_tool_zoom_changed (self->priv->tool);
 }
 
 
@@ -2130,7 +2135,7 @@ gth_image_viewer_get_zoom_quality_filter (GthImageViewer *viewer)
 	else
 		filter = CAIRO_FILTER_BEST;
 
-	if (gth_image_viewer_get_zoom (viewer) >= 1.0)
+	if (viewer->priv->zoom_level >= 1.0)
 		filter = CAIRO_FILTER_FAST;
 
 	return filter;

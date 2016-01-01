@@ -29,6 +29,7 @@
 
 
 #define SIZE_TOO_BIG_FOR_SCALE_BILINEAR (3000 * 3000)
+#define MAX_ZOOM_LEVEL_FOR_HIGH_QUALITY 3.0
 #define FRAME_BORDER 15
 
 
@@ -266,7 +267,7 @@ gth_image_dragger_draw (GthImageViewerTool *self,
 
 	gth_image_viewer_paint_frame (viewer, cr);
 
-	if (dragger->priv->scaled != NULL)
+	if (dragger->priv->scaled != NULL) {
 		gth_image_viewer_paint_region (viewer,
 					       cr,
 					       dragger->priv->scaled,
@@ -274,14 +275,18 @@ gth_image_dragger_draw (GthImageViewerTool *self,
 					       viewer->image_area.y,
 					       &viewer->visible_area,
 					       CAIRO_FILTER_FAST);
-	else
+	}
+	else {
+		double zoom = gth_image_viewer_get_zoom (viewer);
+
 		gth_image_viewer_paint_region (viewer,
 					       cr,
 					       gth_image_viewer_get_current_image (viewer),
 					       viewer->image_area.x,
 					       viewer->image_area.y,
 					       &viewer->visible_area,
-					       CAIRO_FILTER_FAST);
+					       (gth_image_viewer_get_zoom_quality (viewer) == GTH_ZOOM_QUALITY_HIGH) && (zoom > 1.0) && (zoom <= MAX_ZOOM_LEVEL_FOR_HIGH_QUALITY) ? CAIRO_FILTER_BILINEAR : CAIRO_FILTER_FAST);
+	}
 
 	gth_image_viewer_apply_painters (viewer, cr);
 }
