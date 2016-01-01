@@ -75,6 +75,18 @@ gth_browser_activate_image_zoom_fit (GSimpleAction	*action,
 
 
 void
+gth_browser_activate_image_zoom_fit_if_larger (GSimpleAction	*action,
+					       GVariant		*parameter,
+					       gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), GTH_FIT_SIZE_IF_LARGER);
+}
+
+
+void
 gth_browser_activate_image_zoom_fit_width (GSimpleAction	*action,
 					   GVariant		*parameter,
 					   gpointer		 user_data)
@@ -147,4 +159,39 @@ gth_browser_activate_apply_icc_profile  (GSimpleAction	*action,
 
 	g_simple_action_set_state (action, state);
 	gth_image_viewer_page_apply_icc_profile (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser)), g_variant_get_boolean (state));
+}
+
+
+void
+gth_browser_activate_image_zoom  (GSimpleAction	*action,
+				  GVariant	*parameter,
+				  gpointer	 user_data)
+{
+	GthBrowser     *browser = user_data;
+	const char     *state;
+	GthImageViewer *image_viewer;
+
+	state = g_variant_get_string (parameter, NULL);
+	g_simple_action_set_state (action, g_variant_new_string (state));
+
+	if (state == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser))));
+	if (strcmp (state, "automatic") == 0)
+		gth_image_viewer_set_fit_mode (image_viewer, GTH_FIT_SIZE_IF_LARGER);
+	else if (strcmp (state, "fit") == 0)
+		gth_image_viewer_set_fit_mode (image_viewer, GTH_FIT_SIZE);
+	else if (strcmp (state, "fit-width") == 0)
+		gth_image_viewer_set_fit_mode (image_viewer, GTH_FIT_WIDTH);
+	else if (strcmp (state, "fit-height") == 0)
+		gth_image_viewer_set_fit_mode (image_viewer, GTH_FIT_HEIGHT);
+	else if (strcmp (state, "50") == 0)
+		gth_image_viewer_set_zoom (image_viewer, 0.5);
+	else if (strcmp (state, "100") == 0)
+		gth_image_viewer_set_zoom (image_viewer, 1.0);
+	else if (strcmp (state, "200") == 0)
+		gth_image_viewer_set_zoom (image_viewer, 2.0);
+	else if (strcmp (state, "300") == 0)
+		gth_image_viewer_set_zoom (image_viewer, 3.0);
 }

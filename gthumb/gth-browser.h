@@ -173,6 +173,12 @@ GtkWidget *	 gth_browser_add_header_bar_label_button
 						     const char			*tooltip,
 						     const char			*action_name,
 						     const char			*accelerator);
+GtkWidget *      gth_browser_add_header_bar_menu_button
+						    (GthBrowser			*browser,
+						     GthBrowserHeaderSection	 section,
+						     const char      	        *icon_name,
+						     const char                 *tooltip,
+						     GtkWidget                  *popover);
 void		 gth_browser_add_menu_manager_for_menu
 						    (GthBrowser			*browser,
 						     const char			*menu_id,

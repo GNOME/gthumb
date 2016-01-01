@@ -5273,7 +5273,7 @@ _gth_browser_setup_header_bar_button (GthBrowser			*browser,
 				      const char			*tooltip,
 				      const char 			*action_name,
 				      const char			*accelerator,
-				      GtkWidget *button)
+				      GtkWidget 			*button)
 {
 	if (action_name != NULL)
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), action_name);
@@ -5342,6 +5342,25 @@ gth_browser_add_header_bar_label_button (GthBrowser			*browser,
 
 	button = gtk_button_new_with_label (label);
 	_gth_browser_setup_header_bar_button (browser, section, tooltip, action_name, accelerator, button);
+
+	return button;
+}
+
+
+GtkWidget *
+gth_browser_add_header_bar_menu_button (GthBrowser		*browser,
+					GthBrowserHeaderSection	 section,
+					const char              *icon_name,
+					const char              *tooltip,
+					GtkWidget               *popover)
+{
+	GtkWidget *button;
+
+	g_return_val_if_fail (icon_name != NULL, NULL);
+
+	button = _gtk_menu_button_new_for_header_bar (icon_name);
+	gtk_menu_button_set_popover (GTK_MENU_BUTTON (button), popover);
+	_gth_browser_setup_header_bar_button (browser, section, tooltip, NULL, NULL, button);
 
 	return button;
 }

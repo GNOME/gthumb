@@ -30,10 +30,11 @@
 
 #define UPDATE_QUALITY_DELAY 200
 #define UPDATE_VISIBILITY_DELAY 100
-#define N_HEADER_BAR_BUTTONS 5
+#define N_HEADER_BAR_BUTTONS 4
 #define HIDE_OVERVIEW_TIMEOUT 2 /* in seconds */
 #define OVERLAY_MARGIN 10
-#define APPLY_ICC_PROFILE_BUTTON 4
+#define ZOOM_BUTTON 2
+#define APPLY_ICC_PROFILE_BUTTON 3
 #undef ALWAYS_LOAD_ORIGINAL_SIZE
 
 
@@ -52,6 +53,7 @@ static const GActionEntry actions[] = {
 	{ "image-zoom-out", gth_browser_activate_image_zoom_out },
 	{ "image-zoom-100", gth_browser_activate_image_zoom_100 },
 	{ "image-zoom-fit", gth_browser_activate_image_zoom_fit },
+	{ "image-zoom-fit-if-larger", gth_browser_activate_image_zoom_fit_if_larger },
 	{ "image-zoom-fit-width", gth_browser_activate_image_zoom_fit_width },
 	{ "image-zoom-fit-height", gth_browser_activate_image_zoom_fit_height },
 	{ "image-undo", gth_browser_activate_image_undo },
@@ -59,6 +61,7 @@ static const GActionEntry actions[] = {
 	{ "copy-image", gth_browser_activate_copy_image },
 	{ "paste-image", gth_browser_activate_paste_image },
 	{ "apply-icc-profile", toggle_action_activated, NULL, "true", gth_browser_activate_apply_icc_profile },
+	{ "image-zoom", gth_browser_activate_image_zoom, "s", "''", NULL },
 };
 
 
@@ -96,6 +99,7 @@ struct _GthImageViewerPagePrivate {
 	guint              update_quality_id;
 	guint		   update_visibility_id;
 	GtkWidget         *buttons[N_HEADER_BAR_BUTTONS];
+	GtkBuilder        *builder;
 	gboolean           pointer_on_viewer;
 	gboolean           pointer_on_overview;
 	guint              hide_overview_id;
@@ -404,17 +408,93 @@ update_overview_visibility (GthImageViewerPage *self)
 }
 
 
+#define MIN_ZOOM_LEVEL 0.3
+#define MAX_ZOOM_LEVEL 3.0
+
+
+static void
+zoom_scale_value_changed_cb (GtkScale *scale,
+			     gdouble   value,
+			     gpointer  user_data)
+{
+	GthImageViewerPage *self = user_data;
+	double              x, zoom;
+
+	x = gtk_range_get_value (GTK_RANGE (scale));
+	zoom = MIN_ZOOM_LEVEL + (x / 100.0 * (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL));
+	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (self->priv->viewer), zoom);
+}
+
+
+static void
+zoom_popover_closed_cb (GtkPopover *popover,
+			gpointer    user_data)
+{
+	call_when_idle ((DataFunc) gth_viewer_page_focus, user_data);
+}
+
+
+#define ZOOM_EQUAL(a,b) (fabs (a - b) < 1e-3)
+
+
 static void
 update_zoom_info (GthImageViewerPage *self)
 {
 	double  zoom;
 	char   *text;
+	double  x;
+
+	/* status bar */
 
 	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
 	text = g_strdup_printf ("  %d%%  ", (int) (zoom * 100));
 	gth_statusbar_set_secondary_text (GTH_STATUSBAR (gth_browser_get_statusbar (self->priv->browser)), text);
-
 	g_free (text);
+
+	/* zoom menu */
+
+	gboolean    zoom_enabled;
+	GthFit      fit_mode;
+	GAction    *action;
+	const char *state;
+
+	zoom_enabled = gth_image_viewer_get_zoom_enabled (GTH_IMAGE_VIEWER (self->priv->viewer));
+	fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer));
+
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom", zoom_enabled);
+
+	state = "";
+	if (fit_mode == GTH_FIT_SIZE)
+		state = "fit";
+	else if (fit_mode == GTH_FIT_WIDTH)
+		state = "fit-width";
+	else if (fit_mode == GTH_FIT_HEIGHT)
+		state = "fit-height";
+	else if (fit_mode == GTH_FIT_SIZE_IF_LARGER)
+		state = "automatic";
+	else if (ZOOM_EQUAL (zoom, 0.5))
+		state = "50";
+	else if (ZOOM_EQUAL (zoom, 1.0))
+		state = "100";
+	else if (ZOOM_EQUAL (zoom, 2.0))
+		state = "200";
+	else if (ZOOM_EQUAL (zoom, 3.0))
+		state = "300";
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (self->priv->browser), "image-zoom");
+	g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_string (state));
+
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-100", ! ZOOM_EQUAL (zoom, 1.0));
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-if-larger", fit_mode != GTH_FIT_SIZE_IF_LARGER);
+
+	/* zoom menu scale */
+
+	GtkWidget *scale = _gtk_builder_get_widget (self->priv->builder, "zoom_level_scale");
+
+	g_signal_handlers_block_by_data (scale, self);
+	x = (zoom - MIN_ZOOM_LEVEL) / (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) * 100.0;
+	gtk_range_set_value (GTK_RANGE (scale), CLAMP (x, 0, 100));
+	g_signal_handlers_unblock_by_data (scale, self);
 }
 
 
@@ -422,7 +502,6 @@ static void
 viewer_zoom_changed_cb (GtkWidget          *widget,
 			GthImageViewerPage *self)
 {
-	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
 	update_image_quality_if_required (self);
 	self->priv->pointer_on_viewer = TRUE;
 	update_overview_visibility (self);
@@ -820,6 +899,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 					 actions,
 					 G_N_ELEMENTS (actions),
 					 browser);
+
 	self->priv->buttons[0] =
 			gth_browser_add_header_bar_button (browser,
 							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
@@ -831,23 +911,26 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 			gth_browser_add_header_bar_button (browser,
 							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
 							   "view-zoom-fit-symbolic",
-							   _("Fit to window"),
-							   "win.image-zoom-fit",
+							   _("Fit to window if larger"),
+							   "win.image-zoom-fit-if-larger",
 							   NULL);
-	self->priv->buttons[2] =
-			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
-							   "view-zoom-fit-width-symbolic",
-							   _("Fit to width"),
-							   "win.image-zoom-fit-width",
-							   NULL);
-	self->priv->buttons[3] =
-			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
-							   "view-zoom-fit-height-symbolic",
-							   _("Fit to height"),
-							   "win.image-zoom-fit-height",
-							   NULL);
+
+	self->priv->builder = _gtk_builder_new_from_file ("toolbar-zoom-menu.ui", "image_viewer");
+	self->priv->buttons[ZOOM_BUTTON] =
+			gth_browser_add_header_bar_menu_button (browser,
+								GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+								"view-zoom-in-symbolic",
+								NULL,
+								_gtk_builder_get_widget (self->priv->builder, "zoom_popover"));
+	g_signal_connect (_gtk_builder_get_widget (self->priv->builder, "zoom_level_scale"),
+			  "value-changed",
+			  G_CALLBACK (zoom_scale_value_changed_cb),
+			  self);
+	g_signal_connect (_gtk_builder_get_widget (self->priv->builder, "zoom_popover"),
+			  "closed",
+			  G_CALLBACK (zoom_popover_closed_cb),
+			  self);
+
 	self->priv->buttons[APPLY_ICC_PROFILE_BUTTON] =
 			gth_browser_add_header_bar_toggle_button (browser,
 							   	  GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_COMMANDS,
@@ -959,10 +1042,13 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 	self = (GthImageViewerPage*) base;
 
 	for (i = 0; i < N_HEADER_BAR_BUTTONS; i++) {
-		gtk_widget_destroy (self->priv->buttons[i]);
-		self->priv->buttons[i] = NULL;
+		if (self->priv->buttons[i] != NULL) {
+			gtk_widget_destroy (self->priv->buttons[i]);
+			self->priv->buttons[i] = NULL;
+		}
 	}
 
+	_g_object_unref (self->priv->builder);
 	_g_object_unref (self->priv->preloader);
 	self->priv->preloader = NULL;
 	self->priv->active = FALSE;
@@ -1222,9 +1308,6 @@ static void
 gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
 	GthImageViewerPage *self;
-	gboolean            zoom_enabled;
-	double              zoom;
-	GthFit              fit_mode;
 	GthImage           *image;
 
 	self = (GthImageViewerPage*) base;
@@ -1232,23 +1315,13 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-undo", gth_image_history_can_undo (self->priv->history));
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-redo", gth_image_history_can_redo (self->priv->history));
 
-	zoom_enabled = gth_image_viewer_get_zoom_enabled (GTH_IMAGE_VIEWER (self->priv->viewer));
-	zoom = gth_image_viewer_get_zoom (GTH_IMAGE_VIEWER (self->priv->viewer));
-
-	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-100", zoom_enabled && ! FLOAT_EQUAL (zoom, 1.0));
-	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-out", zoom_enabled && (zoom > 0.05));
-	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-in", zoom_enabled && (zoom < 100.0));
-
-	fit_mode = gth_image_viewer_get_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit", zoom_enabled && (fit_mode != GTH_FIT_SIZE));
-	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-width", zoom_enabled && (fit_mode != GTH_FIT_WIDTH));
-	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-zoom-fit-height", zoom_enabled && (fit_mode != GTH_FIT_HEIGHT));
-
 	image = gth_image_viewer_get_image (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gtk_widget_set_visible (self->priv->buttons[APPLY_ICC_PROFILE_BUTTON], (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "apply-icc-profile", (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
 
 	_gth_image_viewer_page_update_paste_command_sensitivity (self, NULL);
+
+	update_zoom_info (self);
 }
 
 
@@ -1676,6 +1749,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->update_visibility_id = 0;
 	for (i = 0; i < N_HEADER_BAR_BUTTONS; i++)
 		self->priv->buttons[i] = NULL;
+	self->priv->builder = NULL;
 	self->priv->pointer_on_overview = FALSE;
 	self->priv->pointer_on_viewer = FALSE;
 	self->priv->hide_overview_id = 0;
