@@ -7,15 +7,15 @@
 # Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005, 2006.
 # Jakub Friedl <jfriedl@suse.cz>, 2006, 2007.
 # Kamil Páral <ripper42@gmail.com>, 2008.
-# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013, 2014, 2015.
+# Marek Černocký <marek@manet.cz>, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-12-24 23:24+0000\n"
-"PO-Revision-Date: 2015-12-25 08:45+0100\n"
+"POT-Creation-Date: 2016-01-01 18:47+0000\n"
+"PO-Revision-Date: 2016-01-01 20:12+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -81,7 +81,7 @@ msgstr ""
 "hledat obrázky a ukládat výsledky jako katalog."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:386
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:391
 #: ../gthumb/gth-progress-dialog.c:404 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
@@ -169,53 +169,57 @@ msgstr "_Soubory se otevírají jednoduchým kliknutím"
 msgid "_Double click to open files"
 msgstr "Soubory se otevírají _dvojitým kliknutím"
 
-#: ../data/ui/browser-preferences.ui.h:5 ../data/ui/preferences.ui.h:15
+#: ../data/ui/browser-preferences.ui.h:5
+msgid "_Open files in fullscreen mode"
+msgstr "_Otevírat soubory v režimu celé obrazovky"
+
+#: ../data/ui/browser-preferences.ui.h:6 ../data/ui/preferences.ui.h:15
 #: ../extensions/exiv2_tools/gth-edit-iptc-page.c:198
 #: ../extensions/gstreamer_tools/main.c:34
 msgid "Other"
 msgstr "Ostatní"
 
-#: ../data/ui/browser-preferences.ui.h:6
+#: ../data/ui/browser-preferences.ui.h:7
 msgid "Thumbnail _size:"
 msgstr "Veliko_st náhledu:"
 
-#: ../data/ui/browser-preferences.ui.h:7
+#: ../data/ui/browser-preferences.ui.h:8
 msgid "48"
 msgstr "48"
 
-#: ../data/ui/browser-preferences.ui.h:8
+#: ../data/ui/browser-preferences.ui.h:9
 msgid "64"
 msgstr "64"
 
-#: ../data/ui/browser-preferences.ui.h:9
+#: ../data/ui/browser-preferences.ui.h:10
 msgid "85"
 msgstr "85"
 
-#: ../data/ui/browser-preferences.ui.h:10
+#: ../data/ui/browser-preferences.ui.h:11
 msgid "95"
 msgstr "95"
 
-#: ../data/ui/browser-preferences.ui.h:11
+#: ../data/ui/browser-preferences.ui.h:12
 msgid "112"
 msgstr "112"
 
-#: ../data/ui/browser-preferences.ui.h:12
+#: ../data/ui/browser-preferences.ui.h:13
 msgid "128"
 msgstr "128"
 
-#: ../data/ui/browser-preferences.ui.h:13
+#: ../data/ui/browser-preferences.ui.h:14
 msgid "164"
 msgstr "164"
 
-#: ../data/ui/browser-preferences.ui.h:14
+#: ../data/ui/browser-preferences.ui.h:15
 msgid "200"
 msgstr "200"
 
-#: ../data/ui/browser-preferences.ui.h:15
+#: ../data/ui/browser-preferences.ui.h:16
 msgid "256"
 msgstr "256"
 
-#: ../data/ui/browser-preferences.ui.h:16
+#: ../data/ui/browser-preferences.ui.h:17
 msgid "D_etermine image type from content (slower)"
 msgstr "_Určit typ obrázku podle jeho obsahu (pomalejší)"
 
@@ -671,7 +675,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1360
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1362
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "Ukládání"
@@ -765,14 +769,14 @@ msgstr "Vytvořit knihovnu"
 #: ../extensions/catalogs/callbacks.c:73
 #: ../extensions/file_manager/callbacks.c:78
 #: ../extensions/file_manager/callbacks.c:105
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:1
+#: ../extensions/rename_series/dlg-rename-series.c:844
 #: ../gthumb/gth-folder-tree.c:1880
 msgid "Rename"
 msgstr "Přejmenovat"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4517 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4531 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -826,7 +830,7 @@ msgid "New _Library"
 msgstr "Nová _knihovna"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:6
-#: ../extensions/file_manager/actions.c:684
+#: ../extensions/file_manager/actions.c:687
 #: ../extensions/webalbums/gth-web-exporter.c:1842
 msgid "_View the destination"
 msgstr "_Zobrazit cíl"
@@ -1084,15 +1088,16 @@ msgid "Add comments and tags to any file type."
 msgstr "Přidávání komentářů a štítků k libovolnému typu souboru."
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
-#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
+msgid "_Synchronize with the embedded metadata"
+msgstr "_Synchronizovat s vloženými metadaty"
+
+#: ../extensions/comments/dlg-comments-preferences.c:68
+#: ../extensions/gstreamer_tools/dlg-media-viewer-preferences.c:77
 #: ../extensions/importer/gth-import-preferences-dialog.c:318
+#: ../extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: ../gthumb/dlg-preferences-extensions.c:483
 msgid "Preferences"
 msgstr "Předvolby"
-
-#: ../extensions/comments/data/ui/comments-preferences.ui.h:2
-msgid "_Synchronize with the embedded metadata"
-msgstr "_Synchronizovat s vloženými metadaty"
 
 #: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:50
 #: ../extensions/edit_metadata/callbacks.c:79
@@ -1109,7 +1114,7 @@ msgstr "Název"
 #: ../extensions/image_print/data/ui/print-layout.ui.h:8
 #: ../extensions/importer/data/ui/import-preferences.ui.h:6
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:11
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:12
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:17
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
 #: ../gthumb/gth-main-default-metadata.c:61
 msgid "Description"
@@ -1120,9 +1125,9 @@ msgstr "Popis"
 msgid "Place"
 msgstr "Umístění"
 
-#: ../extensions/comments/main.c:44 ../gthumb/gth-main-default-metadata.c:58
-msgid "Date"
-msgstr "Datum"
+#: ../extensions/comments/main.c:44
+msgid "Comment Date & Time"
+msgstr "Datum a čas komentáře"
 
 #: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:63
 #: ../gthumb/gth-main-default-tests.c:389
@@ -1255,7 +1260,7 @@ msgstr "Celkový počet stránek"
 #: ../extensions/image_print/data/ui/print-layout.ui.h:7
 #: ../extensions/importer/data/ui/import-preferences.ui.h:5
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:10
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:11
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:7
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
 msgid "Special code"
 msgstr "Speciální kód"
@@ -1263,7 +1268,7 @@ msgstr "Speciální kód"
 #. translate only the text in the curly brackets
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
 #: ../extensions/image_print/data/ui/print-layout.ui.h:11
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
 #, no-c-format
 msgid "%D{ format }"
@@ -1301,7 +1306,7 @@ msgstr "_Název souboru:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:15
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:5
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:8
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:18
 msgid "New enumerator digit"
 msgstr "Číslice čítače nového"
 
@@ -1930,7 +1935,7 @@ msgstr "Nelze exportovat soubory"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:614
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:607
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:818
+#: ../gthumb/gth-browser.c:823
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2065,7 +2070,7 @@ msgstr "Kopírování do"
 msgid "Move"
 msgstr "Přesunout"
 
-#: ../extensions/file_manager/actions.c:788
+#: ../extensions/file_manager/actions.c:791
 msgid "Could not open the location"
 msgstr "Nelze otevřít umístění"
 
@@ -2145,7 +2150,7 @@ msgstr "_Kopírovat"
 
 #: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:775
-#: ../gthumb/gth-browser.c:5480 ../gthumb/gth-browser.c:5516
+#: ../gthumb/gth-browser.c:5489 ../gthumb/gth-browser.c:5525
 #: ../gthumb/gth-progress-dialog.c:420
 msgid "Could not perform the operation"
 msgstr "Nelze provést tuto operaci"
@@ -2562,10 +2567,11 @@ msgstr "1,85:1"
 msgid "2.39:1"
 msgstr "2,39:1"
 
+#. Translators: this is an option for the format -> Format: Custom
 #: ../extensions/file_tools/gth-file-tool-crop.c:450
 #: ../extensions/file_tools/gth-file-tool-resize.c:597
 #: ../extensions/image_print/data/ui/print-layout.ui.h:2
-#: ../extensions/rename_series/gth-template-selector.c:234
+#: ../extensions/rename_series/gth-template-selector.c:248
 msgid "Custom"
 msgstr "Vlastní"
 
@@ -2598,8 +2604,8 @@ msgstr "Zadejte název přednastavení:"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:533
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1290
-#: ../gthumb/gth-browser.c:1882
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1292
+#: ../gthumb/gth-browser.c:1887
 msgid "Could not save the file"
 msgstr "Nelze uložit soubor"
 
@@ -2814,7 +2820,7 @@ msgid "Find Duplicates"
 msgstr "Hledání duplicit"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:2
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:3
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:1
 #: ../extensions/search/data/ui/search-editor.ui.h:1
 msgid "Start _at:"
 msgstr "Z_ačít od:"
@@ -3025,7 +3031,7 @@ msgstr "Čas:"
 msgid "--:--"
 msgstr "--:--"
 
-#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:2
+#: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
 msgid "_Screenshots location:"
 msgstr "Umístění _snímků obrazovky:"
 
@@ -3113,7 +3119,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1523
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1525
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:251
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:96
 #: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:888
@@ -3307,7 +3313,7 @@ msgid "After loading an image:"
 msgstr "Po načtení obrázku:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:825
+#: ../extensions/image_viewer/gth-image-viewer-page.c:827
 msgid "Set to actual size"
 msgstr "Nastavit na aktuální velikost"
 
@@ -3316,7 +3322,7 @@ msgid "Keep previous zoom"
 msgstr "Zachovat předchozí přiblížení"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-#: ../extensions/image_viewer/gth-image-viewer-page.c:832
+#: ../extensions/image_viewer/gth-image-viewer-page.c:834
 msgid "Fit to window"
 msgstr "Přizpůsobit oknu"
 
@@ -3325,7 +3331,7 @@ msgid "Fit to window if larger"
 msgstr "Přizpůsobit oknu, když je větší"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
-#: ../extensions/image_viewer/gth-image-viewer-page.c:839
+#: ../extensions/image_viewer/gth-image-viewer-page.c:841
 msgid "Fit to width"
 msgstr "Přizpůsobit šířce"
 
@@ -3363,19 +3369,19 @@ msgstr "Kopírovat obrázek"
 msgid "Paste Image"
 msgstr "Vložit obrázek"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:846
+#: ../extensions/image_viewer/gth-image-viewer-page.c:848
 msgid "Fit to height"
 msgstr "Přizpůsobit výšce"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:853
+#: ../extensions/image_viewer/gth-image-viewer-page.c:855
 msgid "Apply the embedded color profile"
 msgstr "Použít vložený profil barev"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1463
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1465
 msgid "Save Image"
 msgstr "Uložení obrázku"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2047
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2049
 msgid "Loading the original image"
 msgstr "Načítá se původní obrázek"
 
@@ -3556,7 +3562,7 @@ msgid "%attr{ attribute name }"
 msgstr "%attr{ název atributu }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:19
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:24
 msgid "A file attribute"
 msgstr "Atribut souboru"
 
@@ -3846,6 +3852,11 @@ msgstr "Po naimportování ze zařízení:"
 msgid "_Rotate the images physically"
 msgstr "Otáčet ob_rázky fyzicky"
 
+#: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:3
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
+msgid "_Delete the imported files from the source"
+msgstr "_Smazat importované obrázky ze zdrojového místa"
+
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
 #: ../gthumb/gth-filterbar.c:404
@@ -3859,10 +3870,6 @@ msgstr "Š_títky:"
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
 msgid "_Event:"
 msgstr "_Událost:"
-
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:7
-msgid "_Delete the imported files from the source"
-msgstr "_Smazat importované obrázky ze zdrojového místa"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:227
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:149
@@ -3886,7 +3893,7 @@ msgid "(Empty)"
 msgstr "(Prázdné)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1793
+#: ../gthumb/gth-browser.c:1798
 msgid "Getting the folder content…"
 msgstr "Získává se obsah složky…"
 
@@ -3993,63 +4000,66 @@ msgid "add"
 msgstr "Přidat"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:2
-#: ../gthumb/gth-folder-tree.c:1883
-msgid "_Rename"
-msgstr "_Přejmenovat"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:4
 msgid "_Sort by:"
 msgstr "Řa_dit podle:"
 
 #. Translators: this is the text case (upper or lower case).
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:6
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:4
 msgid "Cas_e:"
 msgstr "V_elikost písmen:"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:7
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:5
+msgid "Help"
+msgstr "Nápověda"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:6
 msgid "Edit template"
 msgstr "Upravit šablonu"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:9
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
-msgid "The original filename"
-msgstr "Původní název souboru"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
-msgid "The original extension"
-msgstr "Původní přípona"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:13
-msgid "The original enumerator"
-msgstr "Čítač původního"
-
 #. translate only the text in the curly brackets
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:10
 #, no-c-format
 msgid "%M{ format }"
 msgstr "%M{ formát }"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:17
-msgid "The modification date"
-msgstr "Datum změny"
-
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
-msgid "The digitalization date"
-msgstr "Datum digitalizace"
-
 #. translate only the text in the curly brackets
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:24
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:16
 #, no-c-format
 msgid "%A{ identifier }"
 msgstr "%A{ identifikátor }"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
-msgid "_Template:"
-msgstr "Ša_blona:"
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:19
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
+msgid "The original filename"
+msgstr "Původní název souboru"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:20
+msgid "The original extension"
+msgstr "Původní přípona"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:21
+msgid "The original enumerator"
+msgstr "Čítač původního"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:22
+msgid "The modification date"
+msgstr "Datum změny"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:23
+msgid "The digitalization date"
+msgstr "Datum digitalizace"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:25
+msgid "1"
+msgstr "1"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:26
 msgid "Re_verse Order"
 msgstr "_Obrácené pořadí"
+
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:27
+msgid "_Template:"
+msgstr "Ša_blona:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:28
 msgid "_Preview:"
@@ -4096,23 +4106,28 @@ msgstr "Nelze uložit šablonu"
 msgid "Edit Template"
 msgstr "Úprava šablony"
 
-#: ../extensions/rename_series/dlg-rename-series.c:858
+#: ../extensions/rename_series/dlg-rename-series.c:854
+#: ../gthumb/gth-folder-tree.c:1883
+msgid "_Rename"
+msgstr "_Přejmenovat"
+
+#: ../extensions/rename_series/dlg-rename-series.c:873
 msgid "Old Name"
 msgstr "Starý název"
 
-#: ../extensions/rename_series/dlg-rename-series.c:869
+#: ../extensions/rename_series/dlg-rename-series.c:884
 msgid "New Name"
 msgstr "Nový název"
 
-#: ../extensions/rename_series/dlg-rename-series.c:947
+#: ../extensions/rename_series/dlg-rename-series.c:962
 msgid "Keep original case"
 msgstr "Zachovat původní velikost písmen"
 
-#: ../extensions/rename_series/dlg-rename-series.c:948
+#: ../extensions/rename_series/dlg-rename-series.c:963
 msgid "Convert to lower-case"
 msgstr "Převést na malá písmena"
 
-#: ../extensions/rename_series/dlg-rename-series.c:949
+#: ../extensions/rename_series/dlg-rename-series.c:964
 msgid "Convert to upper-case"
 msgstr "Převést na velká písmena"
 
@@ -4307,7 +4322,7 @@ msgstr "Přidat soubory do seznamu přehrávání"
 msgid "Remove the selected files"
 msgstr "Odstranit vybrané soubory"
 
-#: ../extensions/slideshow/gth-slideshow.c:281
+#: ../extensions/slideshow/gth-slideshow.c:289
 msgid "Playing slideshow"
 msgstr "Promítání snímků"
 
@@ -4511,9 +4526,9 @@ msgstr "Webová alba"
 msgid "Create static web albums."
 msgstr "Vytváření statických webových alb."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1098
-#: ../gthumb/gth-browser.c:1673 ../gthumb/gth-browser.c:6432
-#: ../gthumb/gth-browser.c:6451 ../gthumb/gth-browser.c:6475
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1103
+#: ../gthumb/gth-browser.c:1678 ../gthumb/gth-browser.c:6486
+#: ../gthumb/gth-browser.c:6505 ../gthumb/gth-browser.c:6529
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nelze načíst polohu „%s“"
@@ -4535,7 +4550,7 @@ msgid "Edit Filter"
 msgstr "Upravit filtr"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-browser.c:175
+#: ../gthumb/dlg-preferences-browser.c:190
 #: ../gthumb/dlg-preferences-extensions.c:65
 msgid "Browser"
 msgstr "Prohlížeč"
@@ -4702,11 +4717,11 @@ msgstr ""
 "Kamil Páral <ripper42@gmail.com>\n"
 "Marek Černocký <marek@manet.cz>"
 
-#: ../gthumb/gth-browser.c:371
+#: ../gthumb/gth-browser.c:376
 msgid "[modified]"
 msgstr "[změněno]"
 
-#: ../gthumb/gth-browser.c:819
+#: ../gthumb/gth-browser.c:824
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -4714,67 +4729,67 @@ msgstr[0] "Vybrán %d soubor (%s)"
 msgstr[1] "Vybrány %d soubory (%s)"
 msgstr[2] "Vybráno %d souborů (%s)"
 
-#: ../gthumb/gth-browser.c:854
+#: ../gthumb/gth-browser.c:859
 #, c-format
 msgid "%s of free space"
 msgstr "%s volného místa"
 
-#: ../gthumb/gth-browser.c:1777 ../gthumb/gth-browser.c:1804
+#: ../gthumb/gth-browser.c:1782 ../gthumb/gth-browser.c:1809
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nenalezen žádný použitelný modul pro %s"
 
-#: ../gthumb/gth-browser.c:1926
+#: ../gthumb/gth-browser.c:1931
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Uložit změny do souboru „%s“?"
 
-#: ../gthumb/gth-browser.c:1931
+#: ../gthumb/gth-browser.c:1936
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Pokud změny do souboru neuložíte, budou nenávratně ztraceny."
 
-#: ../gthumb/gth-browser.c:1932
+#: ../gthumb/gth-browser.c:1937
 msgid "Do _Not Save"
 msgstr "_Neukládat"
 
-#: ../gthumb/gth-browser.c:3012 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2996 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nelze změnit název"
 
-#: ../gthumb/gth-browser.c:3458 ../gthumb/gth-main-default-metadata.c:41
+#: ../gthumb/gth-browser.c:3444
 msgid "Modified"
 msgstr "Změněno"
 
-#: ../gthumb/gth-browser.c:4479
+#: ../gthumb/gth-browser.c:4493
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
-#: ../gthumb/gth-browser.c:4485
+#: ../gthumb/gth-browser.c:4499
 msgid "Go to the next visited location"
 msgstr "Přejít na následující navštívené místo"
 
-#: ../gthumb/gth-browser.c:4493
+#: ../gthumb/gth-browser.c:4507
 msgid "History"
 msgstr "Historie"
 
-#: ../gthumb/gth-browser.c:4508
+#: ../gthumb/gth-browser.c:4522
 msgid "View the folders"
 msgstr "Zobrazit složky"
 
-#: ../gthumb/gth-browser.c:4523
+#: ../gthumb/gth-browser.c:4537
 msgid "Edit file"
 msgstr "Upravit soubor"
 
-#: ../gthumb/gth-browser.c:4540
+#: ../gthumb/gth-browser.c:4554
 msgid "Accept"
 msgstr "Přijmout"
 
-#: ../gthumb/gth-browser.c:6433
+#: ../gthumb/gth-browser.c:6487
 #, c-format
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: ../gthumb/gth-browser.c:6476
+#: ../gthumb/gth-browser.c:6530
 #, c-format
 msgid "No suitable module found"
 msgstr "Nenalezen žádný použitelný modul"
@@ -4924,6 +4939,11 @@ msgstr "Název"
 msgid "Size"
 msgstr "Velikost"
 
+#: ../gthumb/gth-main-default-metadata.c:41
+msgctxt "the file mtime"
+msgid "Modified Date & Time"
+msgstr "Datum a čas změny"
+
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Type"
 msgstr "Typ"
@@ -4967,6 +4987,10 @@ msgstr "Blesk"
 #: ../gthumb/gth-main-default-metadata.c:56
 msgid "Camera Model"
 msgstr "Model fotoaparátu"
+
+#: ../gthumb/gth-main-default-metadata.c:58
+msgid "General Date & Time"
+msgstr "Povšechné datum a čas"
 
 #: ../gthumb/gth-main-default-metadata.c:65
 msgid "Author"
