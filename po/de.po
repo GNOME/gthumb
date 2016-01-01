@@ -8,13 +8,15 @@
 # Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2010.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2011, 2012.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2008, 2010, 2012, 2013.
+# Bernd Homuth <dev@hmt.im>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-07 15:17+0200\n"
-"PO-Revision-Date: 2015-10-07 15:25+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&keywords=I18N"
+"+L10N&component=general\n"
+"POT-Creation-Date: 2015-12-26 21:23+0000\n"
+"PO-Revision-Date: 2016-01-01 18:47+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -22,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:1
 msgid ""
@@ -79,7 +81,7 @@ msgstr ""
 
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:386
-#: ../gthumb/gth-progress-dialog.c:393 ../gthumb/main.c:201
+#: ../gthumb/gth-progress-dialog.c:404 ../gthumb/main.c:201
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -278,8 +280,7 @@ msgstr "Alte Datei:"
 msgid "Filename:"
 msgstr "Dateiname:"
 
-#: ../data/ui/overwrite-dialog.ui.h:4
-#: ../extensions/image_print/data/ui/print-layout.ui.h:23
+#: ../data/ui/overwrite-dialog.ui.h:4 ../extensions/image_print/data/ui/print-layout.ui.h:23
 msgid "Size:"
 msgstr "Größe:"
 
@@ -733,8 +734,7 @@ msgstr "Bibliothek anlegen"
 
 #: ../extensions/catalogs/callbacks.c:73 ../extensions/file_manager/callbacks.c:78
 #: ../extensions/file_manager/callbacks.c:105
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:1
-#: ../gthumb/gth-folder-tree.c:1880
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:1 ../gthumb/gth-folder-tree.c:1880
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -1090,7 +1090,6 @@ msgid "Rating"
 msgstr "Bewertung"
 
 #: ../extensions/contact_sheet/callbacks.c:38
-#, fuzzy
 msgid "Contact _Sheet…"
 msgstr "_Kontaktinformationen …"
 
@@ -1879,7 +1878,7 @@ msgstr "Die Dateien konnten nicht exportiert werden"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:568
 #: ../extensions/find_duplicates/gth-find-duplicates.c:277
-#: ../extensions/find_duplicates/gth-find-duplicates.c:470
+#: ../extensions/find_duplicates/gth-find-duplicates.c:479
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:614
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:607
@@ -2071,22 +2070,22 @@ msgid "Do you want to copy \"%s\" to \"%s\"?"
 msgstr "Wollen Sie »%s« nach »%s« kopieren?"
 
 #: ../extensions/file_manager/callbacks.c:786
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to move the dragged files to \"%s\"?"
-msgstr "Soll »%s« wirklich unwiderruflich gelöscht werden?"
+msgstr "Sollen die gezogenen Dateien nach »%s« verschoben werden?"
 
 #: ../extensions/file_manager/callbacks.c:788
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to copy the dragged files to \"%s\"?"
-msgstr "Soll »%s« wirklich unwiderruflich gelöscht werden?"
+msgstr "Sollen die gezogenen Dateien nach »%s« kopiert werden?"
 
 #: ../extensions/file_manager/callbacks.c:796
 msgid "_Copy"
 msgstr "_Kopieren"
 
 #: ../extensions/file_manager/callbacks.c:977
-#: ../extensions/find_duplicates/gth-find-duplicates.c:766 ../gthumb/gth-browser.c:5456
-#: ../gthumb/gth-browser.c:5489 ../gthumb/gth-progress-dialog.c:409
+#: ../extensions/find_duplicates/gth-find-duplicates.c:775 ../gthumb/gth-browser.c:5460
+#: ../gthumb/gth-browser.c:5496 ../gthumb/gth-progress-dialog.c:420
 msgid "Could not perform the operation"
 msgstr "Die Aktion konnte nicht ausgeführt werden"
 
@@ -2199,9 +2198,8 @@ msgid "px"
 msgstr "px"
 
 #: ../extensions/file_tools/data/ui/curves-options.ui.h:2
-#, fuzzy
 msgid "Include current channel"
-msgstr "Das aktuelle Datum"
+msgstr "Den aktuellen Kanal dazunehmen"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:2
 msgid "High _quality"
@@ -2410,7 +2408,7 @@ msgstr "Dehnen"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:532
 msgid "Stretch the histogram trimming the 0.5%"
-msgstr ""
+msgstr "Das Histogramm durch Trimmen der 0,5% strecken"
 
 # CHECK
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:536
@@ -2419,7 +2417,7 @@ msgstr "Angleichen"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:537
 msgid "Equalize the histogram using the square root function"
-msgstr ""
+msgstr "Das Histogramm durch die Quadratwurzelfunktion ausgleichen"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:541
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
@@ -2429,7 +2427,7 @@ msgstr "Gleichmäßig"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:542
 msgid "Equalize the histogram using the linear function"
-msgstr ""
+msgstr "Das Histogramm durch die lineare Funktion ausgleichen"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:656
 msgid "Adjust Contrast"
@@ -2634,7 +2632,7 @@ msgstr "Graustufen"
 
 #: ../extensions/file_tools/gth-file-tool-lomo.c:183
 msgid "Lomo"
-msgstr ""
+msgstr "Lomo"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:90
 msgid "Mirror"
@@ -2684,8 +2682,7 @@ msgstr "Rechts herum drehen"
 msgid "Rotate the image by 90 degrees clockwise"
 msgstr "Das Bild um 90 Grad im Uhrzeigersinn drehen"
 
-#: ../extensions/file_tools/gth-file-tool-save-as.c:70
-#: ../gthumb/resources/gears-menu.ui.h:4
+#: ../extensions/file_tools/gth-file-tool-save-as.c:70 ../gthumb/resources/gears-menu.ui.h:4
 msgid "Save As"
 msgstr "Speichern unter"
 
@@ -2777,23 +2774,23 @@ msgstr "Alle Dateien"
 msgid "no file"
 msgstr "Keine Datei"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:560
-#: ../extensions/find_duplicates/gth-find-duplicates.c:668
+#: ../extensions/find_duplicates/gth-find-duplicates.c:569
+#: ../extensions/find_duplicates/gth-find-duplicates.c:677
 #, c-format
 msgid "%d duplicate"
 msgid_plural "%d duplicates"
 msgstr[0] "%d Duplikat"
 msgstr[1] "%d Duplikate"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:712
+#: ../extensions/find_duplicates/gth-find-duplicates.c:721
 msgid "Search completed"
 msgstr "Suche abgeschlossen"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:725
+#: ../extensions/find_duplicates/gth-find-duplicates.c:734
 msgid "Searching for duplicates"
 msgstr "Nach Duplikaten wird gesucht"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:728
+#: ../extensions/find_duplicates/gth-find-duplicates.c:737
 #: ../gthumb/gth-load-file-data-task.c:106 ../gthumb/gth-save-file-data-task.c:100
 #, c-format
 msgid "%d file remaining"
@@ -2801,15 +2798,15 @@ msgid_plural "%d files remaining"
 msgstr[0] "%d Datei verbleibend"
 msgstr[1] "%d Dateien verbleibend"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:830
+#: ../extensions/find_duplicates/gth-find-duplicates.c:839
 msgid "Getting the file list"
 msgstr "Dateiliste wird geholt"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:1006
+#: ../extensions/find_duplicates/gth-find-duplicates.c:1015
 msgid "Duplicates"
 msgstr "Duplikate"
 
-#: ../extensions/find_duplicates/gth-find-duplicates.c:1298
+#: ../extensions/find_duplicates/gth-find-duplicates.c:1307
 msgid "Select"
 msgstr "Auswählen"
 
@@ -2953,9 +2950,8 @@ msgid "--:--"
 msgstr "--:--"
 
 #: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:2
-#, fuzzy
 msgid "_Screenshots location:"
-msgstr "Bildschirmfotos"
+msgstr "Ort für _Bildschirmfotos:"
 
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:1
 msgid "Audio/Video support"
@@ -3375,8 +3371,7 @@ msgstr "Jahr"
 msgid "custom format"
 msgstr "Benutzerdefiniertes Format"
 
-#: ../extensions/importer/gth-import-task.c:426
-#: ../extensions/importer/gth-import-task.c:461
+#: ../extensions/importer/gth-import-task.c:426 ../extensions/importer/gth-import-task.c:461
 #: ../extensions/importer/gth-import-task.c:671
 msgid "Importing files"
 msgstr "Dateien werden importiert"
@@ -3912,8 +3907,7 @@ msgstr "entfernen"
 msgid "add"
 msgstr "hinzufügen"
 
-#: ../extensions/rename_series/data/ui/rename-series.ui.h:2
-#: ../gthumb/gth-folder-tree.c:1883
+#: ../extensions/rename_series/data/ui/rename-series.ui.h:2 ../gthumb/gth-folder-tree.c:1883
 msgid "_Rename"
 msgstr "_Umbenennen"
 
@@ -4218,7 +4212,7 @@ msgstr "Dateien zur Wiedergabeliste hinzufügen"
 msgid "Remove the selected files"
 msgstr "Die gewählten Dateien entfernen"
 
-#: ../extensions/slideshow/gth-slideshow.c:281
+#: ../extensions/slideshow/gth-slideshow.c:289
 msgid "Playing slideshow"
 msgstr "Diaschau wird abgespielt"
 
@@ -4423,7 +4417,7 @@ msgid "Create static web albums."
 msgstr "Statische Web-Alben anlegen."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1098 ../gthumb/gth-browser.c:1673
-#: ../gthumb/gth-browser.c:6404 ../gthumb/gth-browser.c:6423 ../gthumb/gth-browser.c:6447
+#: ../gthumb/gth-browser.c:6412 ../gthumb/gth-browser.c:6431 ../gthumb/gth-browser.c:6455
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Die Position »%s« konnte nicht geladen werden"
@@ -4678,12 +4672,12 @@ msgstr "Datei bearbeiten"
 msgid "Accept"
 msgstr "Annehmen"
 
-#: ../gthumb/gth-browser.c:6405
+#: ../gthumb/gth-browser.c:6413
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: ../gthumb/gth-browser.c:6448
+#: ../gthumb/gth-browser.c:6456
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
@@ -4710,37 +4704,37 @@ msgstr "Alle unterstützten Dateien"
 msgid "Details"
 msgstr "Details"
 
-#: ../gthumb/gth-file-source-vfs.c:223
+#: ../gthumb/gth-file-source-vfs.c:224
 msgid "Computer"
 msgstr "Rechner"
 
-#: ../gthumb/gth-file-source-vfs.c:230
+#: ../gthumb/gth-file-source-vfs.c:231
 msgid "Home Folder"
 msgstr "Persönlicher Ordner"
 
-#: ../gthumb/gth-file-source-vfs.c:743
+#: ../gthumb/gth-file-source-vfs.c:751
 msgid "The files cannot be moved to the Trash. Do you want to delete them permanently?"
 msgstr ""
 "Die Dateien können nicht in den Papierkorb verschoben werden. Sollen die Dateien "
 "dauerhaft gelöscht werden?"
 
-#: ../gthumb/gth-file-source-vfs.c:753
+#: ../gthumb/gth-file-source-vfs.c:761
 msgid "Could not move the files to the Trash"
 msgstr "Die Dateien konnten nicht in den Papierkorb verschoben werden"
 
-#: ../gthumb/gth-file-source-vfs.c:798
+#: ../gthumb/gth-file-source-vfs.c:805
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Soll »%s« wirklich unwiderruflich gelöscht werden?"
 
-#: ../gthumb/gth-file-source-vfs.c:801
+#: ../gthumb/gth-file-source-vfs.c:808
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural "Are you sure you want to permanently delete the %'d selected files?"
 msgstr[0] "Soll %'d ausgewählte Datei unwiderruflich gelöscht werden?"
 msgstr[1] "Sollen %'d ausgewählte Dateien unwiderruflich gelöscht werden?"
 
-#: ../gthumb/gth-file-source-vfs.c:811
+#: ../gthumb/gth-file-source-vfs.c:818
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Wenn Sie eine Datei löschen, geht diese für Sie dauerhaft verloren."
 
