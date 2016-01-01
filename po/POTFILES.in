@@ -428,6 +428,7 @@ extensions/image_rotation/rotation-utils.h
 extensions/image_viewer/actions.c
 extensions/image_viewer/actions.h
 [type: gettext/glade]extensions/image_viewer/data/ui/image-viewer-preferences.ui
+[type: gettext/glade]extensions/image_viewer/data/ui/toolbar-zoom-menu.ui
 extensions/image_viewer/gth-image-histogram.c
 extensions/image_viewer/gth-image-histogram.h
 extensions/image_viewer/gth-image-viewer-page.c
