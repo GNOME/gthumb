@@ -222,6 +222,8 @@ void           gth_image_viewer_enable_zoom_with_keys    (GthImageViewer        
 void           gth_image_viewer_clicked                  (GthImageViewer        *viewer);
 void           gth_image_viewer_set_tool                 (GthImageViewer        *viewer,
 							  GthImageViewerTool    *tool);
+GthImageViewerTool *
+	       gth_image_viewer_get_tool                 (GthImageViewer        *viewer);
 
 /* Scrolling. */
 

@@ -2398,6 +2398,7 @@ _gth_browser_update_header_bar_content (GthBrowser *browser)
 
 	section_visible = (page == GTH_BROWSER_PAGE_VIEWER) && active_tool;
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_EDITOR_NAVIGATION, section_visible);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_EDITOR_VIEW, section_visible);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS, section_visible);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_EDITOR_APPLY, section_visible);
 
@@ -4434,6 +4435,7 @@ gth_browser_init (GthBrowser *browser)
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_left (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]);
@@ -4456,6 +4458,7 @@ gth_browser_init (GthBrowser *browser)
 #endif
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_NAVIGATION]);
+		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_VIEW]);
 
 #if ! GTK_CHECK_VERSION(3,11,4)
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS]);
@@ -4561,6 +4564,15 @@ gth_browser_init (GthBrowser *browser)
 						   "go-previous-symbolic",
 						   NULL,
 						   "win.browser-mode",
+						   NULL);
+
+		/* editor view */
+
+		gth_browser_add_header_bar_button (browser,
+						   GTH_BROWSER_HEADER_SECTION_EDITOR_VIEW,
+						   "view-fullscreen-symbolic",
+						   _("Fullscreen"),
+						   "win.fullscreen",
 						   NULL);
 
 		/* editor commands */
@@ -6457,12 +6469,14 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 		break;
 
 	case GTH_BROWSER_PAGE_VIEWER:
-		if (browser->priv->viewer_sidebar == GTH_SIDEBAR_STATE_PROPERTIES)
-			gth_window_change_action_state (GTH_WINDOW (browser), "viewer-properties", FALSE);
-		else if (browser->priv->viewer_sidebar == GTH_SIDEBAR_STATE_TOOLS)
-			gth_window_change_action_state (GTH_WINDOW (browser), "viewer-edit-file", FALSE);
-		browser->priv->viewer_sidebar = GTH_SIDEBAR_STATE_HIDDEN;
-		gtk_widget_hide (browser->priv->viewer_sidebar_alignment);
+		if (! gth_sidebar_tool_is_active (GTH_SIDEBAR (browser->priv->file_properties))) {
+			if (browser->priv->viewer_sidebar == GTH_SIDEBAR_STATE_PROPERTIES)
+				gth_window_change_action_state (GTH_WINDOW (browser), "viewer-properties", FALSE);
+			else if (browser->priv->viewer_sidebar == GTH_SIDEBAR_STATE_TOOLS)
+				gth_window_change_action_state (GTH_WINDOW (browser), "viewer-edit-file", FALSE);
+			browser->priv->viewer_sidebar = GTH_SIDEBAR_STATE_HIDDEN;
+			gtk_widget_hide (browser->priv->viewer_sidebar_alignment);
+		}
 		break;
 	}
 }
@@ -6783,7 +6797,8 @@ gth_browser_unfullscreen (GthBrowser *browser)
 
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
 
-	browser->priv->fullscreen_state.sidebar = browser->priv->viewer_sidebar;
+	if (! gth_sidebar_tool_is_active (GTH_SIDEBAR (browser->priv->file_properties)))
+		browser->priv->fullscreen_state.sidebar = browser->priv->viewer_sidebar;
 	browser->priv->fullscreen_state.thumbnail_list = gth_window_get_action_state (GTH_WINDOW (browser), "show-thumbnail-list");
 
 	if (browser->priv->before_fullscreen.page < 0)
