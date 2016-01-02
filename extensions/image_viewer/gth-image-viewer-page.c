@@ -1297,7 +1297,16 @@ static void
 gth_image_viewer_page_real_fullscreen (GthViewerPage *base,
 				       gboolean       active)
 {
-	/* void */
+	GthImageViewerPage *self;
+	GthImageViewerTool *tool;
+
+	self = (GthImageViewerPage *) base;
+	tool = gth_image_viewer_get_tool (GTH_IMAGE_VIEWER (self->priv->viewer));
+
+	if (! GTH_IS_IMAGE_DRAGGER (tool))
+		return;
+
+	g_object_set (tool, "show-frame", ! active, NULL);
 }
 
 
