@@ -37,5 +37,7 @@ DEF_ACTION_CALLBACK (gth_browser_activate_copy_image)
 DEF_ACTION_CALLBACK (gth_browser_activate_paste_image)
 DEF_ACTION_CALLBACK (gth_browser_activate_apply_icc_profile)
 DEF_ACTION_CALLBACK (gth_browser_activate_image_zoom)
+DEF_ACTION_CALLBACK (gth_browser_activate_toggle_animation)
+DEF_ACTION_CALLBACK (gth_browser_activate_step_animation)
 
 #endif /* ACTIONS_H */

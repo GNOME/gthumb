@@ -30,11 +30,13 @@
 
 #define UPDATE_QUALITY_DELAY 200
 #define UPDATE_VISIBILITY_DELAY 100
-#define N_HEADER_BAR_BUTTONS 4
+#define N_HEADER_BAR_BUTTONS 6
 #define HIDE_OVERVIEW_TIMEOUT 2 /* in seconds */
 #define OVERLAY_MARGIN 10
 #define ZOOM_BUTTON 2
 #define APPLY_ICC_PROFILE_BUTTON 3
+#define TOGGLE_ANIMATION_BUTTON 4
+#define STEP_ANIMATION_BUTTON 5
 #undef ALWAYS_LOAD_ORIGINAL_SIZE
 
 
@@ -61,6 +63,8 @@ static const GActionEntry actions[] = {
 	{ "copy-image", gth_browser_activate_copy_image },
 	{ "paste-image", gth_browser_activate_paste_image },
 	{ "apply-icc-profile", toggle_action_activated, NULL, "true", gth_browser_activate_apply_icc_profile },
+	{ "toggle-animation", toggle_action_activated, NULL, "true", gth_browser_activate_toggle_animation },
+	{ "step-animation", gth_browser_activate_step_animation },
 	{ "image-zoom", gth_browser_activate_image_zoom, "s", "''", NULL },
 };
 
@@ -959,6 +963,21 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 								  "win.apply-icc-profile",
 								  NULL);
 
+	self->priv->buttons[TOGGLE_ANIMATION_BUTTON] =
+			gth_browser_add_header_bar_toggle_button (browser,
+							   	  GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+								  "media-playback-start-symbolic",
+								  _("Play"),
+								  "win.toggle-animation",
+								  NULL);
+	self->priv->buttons[STEP_ANIMATION_BUTTON] =
+			gth_browser_add_header_bar_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS,
+							   "media-skip-forward-symbolic",
+							   _("Next frame"),
+							   "win.step-animation",
+							   NULL);
+
 	gth_window_add_accelerators (GTH_WINDOW (browser), accelerators, G_N_ELEMENTS (accelerators));
 
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
@@ -1338,6 +1357,7 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
 	GthImageViewerPage *self;
 	GthImage           *image;
+	gboolean            is_animation;
 
 	self = (GthImageViewerPage*) base;
 
@@ -1347,6 +1367,11 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	image = gth_image_viewer_get_image (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gtk_widget_set_visible (self->priv->buttons[APPLY_ICC_PROFILE_BUTTON], (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "apply-icc-profile", (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
+
+	is_animation = gth_image_viewer_is_animation (GTH_IMAGE_VIEWER (self->priv->viewer));
+	gtk_widget_set_visible (self->priv->buttons[TOGGLE_ANIMATION_BUTTON], is_animation);
+	gtk_widget_set_visible (self->priv->buttons[STEP_ANIMATION_BUTTON], is_animation);
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "step-animation", ! gth_image_viewer_is_playing_animation (GTH_IMAGE_VIEWER (self->priv->viewer)));
 
 	_gth_image_viewer_page_update_paste_command_sensitivity (self, NULL);
 
@@ -2062,15 +2087,28 @@ gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
 						  gth_image_viewer_page_get_original);
 	data->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
 
-	_gth_image_preloader_init_preloader (self);
-	gth_image_preloader_load (self->priv->preloader,
-				  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
-				  GTH_ORIGINAL_SIZE,
-				  data->cancellable,
-				  original_image_ready_cb,
-				  data,
-				  GTH_NO_PRELOADERS,
-				  NULL);
+	if (gth_image_viewer_is_animation (GTH_IMAGE_VIEWER (self->priv->viewer))) {
+		GthImage *image;
+
+		image = gth_image_new_for_surface (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)));
+		g_simple_async_result_set_op_res_gpointer (data->result,
+							   image,
+							   (GDestroyNotify) g_object_unref);
+		g_simple_async_result_complete_in_idle (data->result);
+
+		get_original_data_free (data);
+	}
+	else {
+		_gth_image_preloader_init_preloader (self);
+		gth_image_preloader_load (self->priv->preloader,
+					  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
+					  GTH_ORIGINAL_SIZE,
+					  data->cancellable,
+					  original_image_ready_cb,
+					  data,
+					  GTH_NO_PRELOADERS,
+					  NULL);
+	}
 }
 
 

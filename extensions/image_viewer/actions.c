@@ -195,3 +195,40 @@ gth_browser_activate_image_zoom  (GSimpleAction	*action,
 	else if (strcmp (state, "300") == 0)
 		gth_image_viewer_set_zoom (image_viewer, 3.0);
 }
+
+
+void
+gth_browser_activate_toggle_animation (GSimpleAction	*action,
+				       GVariant		*state,
+				       gpointer	 	 user_data)
+{
+	GthBrowser     *browser = user_data;
+	GthViewerPage  *viewer_page;
+	GthImageViewer *image_viewer;
+
+	g_simple_action_set_state (action, state);
+
+	viewer_page = gth_browser_get_viewer_page (browser);
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+
+	if (gth_image_viewer_is_playing_animation (image_viewer))
+		gth_image_viewer_stop_animation (image_viewer);
+	else
+		gth_image_viewer_start_animation (image_viewer);
+	gth_viewer_page_update_sensitivity (viewer_page);
+}
+
+
+void
+gth_browser_activate_step_animation (GSimpleAction	*action,
+				     GVariant		*state,
+				     gpointer	 	 user_data)
+{
+	GthBrowser     *browser = user_data;
+	GthViewerPage  *viewer_page;
+	GthImageViewer *image_viewer;
+
+	viewer_page = gth_browser_get_viewer_page (browser);
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+	gth_image_viewer_step_animation (image_viewer);
+}
