@@ -347,18 +347,18 @@ set_zoom (GthImageViewer *self,
 		image = gth_image_viewer_get_current_image (self);
 		if (image != NULL) {
 			double quality_zoom;
-			double zoom;
+			double old_zoom_level;
 			int    x, y;
 			int    frame_border;
 			int    new_center_x, new_center_y;
 
 			quality_zoom = (double) self->priv->original_width / cairo_image_surface_get_width (image);
-			zoom = self->priv->zoom_level * quality_zoom;
-			x = (center_x + self->visible_area.x - self->image_area.x) / zoom;
-			y = (center_y + self->visible_area.y - self->image_area.y) / zoom;
+			old_zoom_level = self->priv->zoom_level * quality_zoom;
+			x = (center_x + self->visible_area.x - self->image_area.x) / old_zoom_level;
+			y = (center_y + self->visible_area.y - self->image_area.y) / old_zoom_level;
 			frame_border = _gth_image_viewer_get_frame_border (self);
-			new_center_x = x * zoom_level * quality_zoom + frame_border;
-			new_center_y = y * zoom_level * quality_zoom + frame_border;
+			new_center_x = x * zoom_level * quality_zoom + frame_border + 1;
+			new_center_y = y * zoom_level * quality_zoom + frame_border + 1;
 
 			self->visible_area.x = new_center_x - (self->visible_area.width / 2);
 			self->visible_area.y = new_center_y - (self->visible_area.height / 2);
