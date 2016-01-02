@@ -250,8 +250,8 @@ _gth_image_viewer_get_zoomed_size_for_zoom (GthImageViewer *self,
 	}
 	else {
 		int frame_border = _gth_image_viewer_get_frame_border (self);
-		if (width != NULL) *width  = (int) floor ((double) self->priv->original_width * zoom_level) + (frame_border * 2);
-		if (height != NULL) *height = (int) floor ((double) self->priv->original_height * zoom_level) + (frame_border * 2);
+		if (width != NULL) *width  = (int) round ((double) self->priv->original_width * zoom_level) + (frame_border * 2);
+		if (height != NULL) *height = (int) round ((double) self->priv->original_height * zoom_level) + (frame_border * 2);
 	}
 }
 
