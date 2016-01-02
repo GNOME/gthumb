@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-01-01 18:47+0000\n"
-"PO-Revision-Date: 2016-01-01 20:12+0100\n"
+"POT-Creation-Date: 2016-01-01 23:28+0000\n"
+"PO-Revision-Date: 2016-01-02 12:23+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -675,7 +675,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1362
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1435
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Saving"
 msgstr "Ukládání"
@@ -776,7 +776,7 @@ msgstr "Přejmenovat"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../gthumb/gth-browser.c:4531 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4538 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -2150,7 +2150,7 @@ msgstr "_Kopírovat"
 
 #: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:775
-#: ../gthumb/gth-browser.c:5489 ../gthumb/gth-browser.c:5525
+#: ../gthumb/gth-browser.c:5524 ../gthumb/gth-browser.c:5560
 #: ../gthumb/gth-progress-dialog.c:420
 msgid "Could not perform the operation"
 msgstr "Nelze provést tuto operaci"
@@ -2604,7 +2604,7 @@ msgstr "Zadejte název přednastavení:"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:533
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1292
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1365
 #: ../gthumb/gth-browser.c:1887
 msgid "Could not save the file"
 msgstr "Nelze uložit soubor"
@@ -3119,7 +3119,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1525
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1598
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:251
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:96
 #: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:888
@@ -3313,7 +3313,7 @@ msgid "After loading an image:"
 msgstr "Po načtení obrázku:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:827
+#: ../extensions/image_viewer/gth-image-viewer-page.c:907
 msgid "Set to actual size"
 msgstr "Nastavit na aktuální velikost"
 
@@ -3322,16 +3322,17 @@ msgid "Keep previous zoom"
 msgstr "Zachovat předchozí přiblížení"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:4
-#: ../extensions/image_viewer/gth-image-viewer-page.c:834
+#: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:2
 msgid "Fit to window"
 msgstr "Přizpůsobit oknu"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
+#: ../extensions/image_viewer/gth-image-viewer-page.c:914
 msgid "Fit to window if larger"
 msgstr "Přizpůsobit oknu, když je větší"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:6
-#: ../extensions/image_viewer/gth-image-viewer-page.c:841
+#: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:3
 msgid "Fit to width"
 msgstr "Přizpůsobit šířce"
 
@@ -3357,31 +3358,55 @@ msgctxt "zoom quality"
 msgid "_Low"
 msgstr "_Nízká"
 
+#: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:1
+msgid "Automatic"
+msgstr "Automatické"
+
+#: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:4
+msgid "Fit to height"
+msgstr "Přizpůsobit výšce"
+
+#: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:6
+#, no-c-format
+msgid "50%"
+msgstr "50%"
+
+#: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:8
+#, no-c-format
+msgid "100%"
+msgstr "100%"
+
+#: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:10
+#, no-c-format
+msgid "200%"
+msgstr "200%"
+
+#: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:12
+#, no-c-format
+msgid "300%"
+msgstr "300%"
+
 #: ../extensions/image_viewer/gth-image-histogram.c:85
 msgid "Histogram"
 msgstr "Histogram"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:75
+#: ../extensions/image_viewer/gth-image-viewer-page.c:78
 msgid "Copy Image"
 msgstr "Kopírovat obrázek"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:76
+#: ../extensions/image_viewer/gth-image-viewer-page.c:79
 msgid "Paste Image"
 msgstr "Vložit obrázek"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:848
-msgid "Fit to height"
-msgstr "Přizpůsobit výšce"
-
-#: ../extensions/image_viewer/gth-image-viewer-page.c:855
+#: ../extensions/image_viewer/gth-image-viewer-page.c:938
 msgid "Apply the embedded color profile"
 msgstr "Použít vložený profil barev"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1465
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1538
 msgid "Save Image"
 msgstr "Uložení obrázku"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2049
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2123
 msgid "Loading the original image"
 msgstr "Načítá se původní obrázek"
 
@@ -4527,8 +4552,8 @@ msgid "Create static web albums."
 msgstr "Vytváření statických webových alb."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1103
-#: ../gthumb/gth-browser.c:1678 ../gthumb/gth-browser.c:6486
-#: ../gthumb/gth-browser.c:6505 ../gthumb/gth-browser.c:6529
+#: ../gthumb/gth-browser.c:1678 ../gthumb/gth-browser.c:6521
+#: ../gthumb/gth-browser.c:6540 ../gthumb/gth-browser.c:6564
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nelze načíst polohu „%s“"
@@ -4752,44 +4777,49 @@ msgstr "Pokud změny do souboru neuložíte, budou nenávratně ztraceny."
 msgid "Do _Not Save"
 msgstr "_Neukládat"
 
-#: ../gthumb/gth-browser.c:2996 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2997 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nelze změnit název"
 
-#: ../gthumb/gth-browser.c:3444
+#: ../gthumb/gth-browser.c:3445
 msgid "Modified"
 msgstr "Změněno"
 
-#: ../gthumb/gth-browser.c:4493
+#: ../gthumb/gth-browser.c:4501
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
-#: ../gthumb/gth-browser.c:4499
+#: ../gthumb/gth-browser.c:4507
 msgid "Go to the next visited location"
 msgstr "Přejít na následující navštívené místo"
 
-#: ../gthumb/gth-browser.c:4507
+#: ../gthumb/gth-browser.c:4515
 msgid "History"
 msgstr "Historie"
 
-#: ../gthumb/gth-browser.c:4522
+#: ../gthumb/gth-browser.c:4529
 msgid "View the folders"
 msgstr "Zobrazit složky"
 
-#: ../gthumb/gth-browser.c:4537
+#: ../gthumb/gth-browser.c:4544
 msgid "Edit file"
 msgstr "Upravit soubor"
 
-#: ../gthumb/gth-browser.c:4554
+#: ../gthumb/gth-browser.c:4553 ../gthumb/resources/file-list-menu.ui.h:1
+#: ../gthumb/resources/file-menu.ui.h:1
+msgid "Fullscreen"
+msgstr "Celá obrazovka"
+
+#: ../gthumb/gth-browser.c:4570
 msgid "Accept"
 msgstr "Přijmout"
 
-#: ../gthumb/gth-browser.c:6487
+#: ../gthumb/gth-browser.c:6522
 #, c-format
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: ../gthumb/gth-browser.c:6530
+#: ../gthumb/gth-browser.c:6565
 #, c-format
 msgid "No suitable module found"
 msgstr "Nenalezen žádný použitelný modul"
@@ -5310,11 +5340,6 @@ msgstr "O _aplikaci"
 #: ../gthumb/resources/app-menu.ui.h:5
 msgid "_Quit"
 msgstr "U_končit"
-
-#: ../gthumb/resources/file-list-menu.ui.h:1
-#: ../gthumb/resources/file-menu.ui.h:1
-msgid "Fullscreen"
-msgstr "Celá obrazovka"
 
 #: ../gthumb/resources/folder-menu.ui.h:1
 msgid "Open in New Window"
