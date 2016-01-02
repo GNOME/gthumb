@@ -56,6 +56,7 @@ static const GthMenuEntry tools2_action_entries[] = {
 
 typedef struct {
 	GtkWidget *buttons[2];
+	gulong     image_changed_id;
 } BrowserData;
 
 
@@ -77,6 +78,7 @@ ir__gth_browser_construct_cb (GthBrowser *browser)
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 	data->buttons[0] = NULL;
 	data->buttons[1] = NULL;
+	data->image_changed_id = 0;
 
 	g_action_map_add_action_entries (G_ACTION_MAP (browser),
 					 actions,
@@ -131,6 +133,31 @@ ir__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 }
 
 
+static void
+viewer_image_changed_cb  (GtkWidget  *widget,
+		          GthBrowser *browser)
+{
+	BrowserData *data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	if (data == NULL)
+		return;
+
+	if ((data->buttons[0] != NULL) && (data->buttons[1] != NULL)) {
+		GtkWidget *viewer_page = gth_browser_get_viewer_page (browser);
+		gboolean   visible = FALSE;
+
+		if (GTH_IS_IMAGE_VIEWER_PAGE (viewer_page)) {
+			GtkWidget *image_viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+			visible = ! gth_image_viewer_is_animation (GTH_IMAGE_VIEWER (image_viewer));
+		}
+
+		gtk_widget_set_visible (data->buttons[0], visible);
+		gtk_widget_set_visible (data->buttons[1], visible);
+	}
+}
+
+
 void
 ir__gth_browser_activate_viewer_page_cb (GthBrowser *browser)
 {
@@ -158,6 +185,11 @@ ir__gth_browser_activate_viewer_page_cb (GthBrowser *browser)
 									   _("Rotate Right"),
 									   "win.rotate-right",
 									   NULL);
+		if (data->image_changed_id == 0)
+			data->image_changed_id = g_signal_connect (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page)),
+								   "image-changed",
+								   G_CALLBACK (viewer_image_changed_cb),
+								   browser);
 	}
 }
 
@@ -173,11 +205,17 @@ ir__gth_browser_deactivate_viewer_page_cb (GthBrowser *browser)
 
 	viewer_page = gth_browser_get_viewer_page (browser);
 	if (GTH_IS_IMAGE_VIEWER_PAGE (viewer_page)) {
-		if (data->buttons[0] != NULL)
+		if (data->image_changed_id != 0) {
+			g_signal_handler_disconnect (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page)), data->image_changed_id);
+			data->image_changed_id = 0;
+		}
+		if (data->buttons[0] != NULL) {
 			gtk_widget_destroy (data->buttons[0]);
-		if (data->buttons[1] != NULL)
+			data->buttons[0] = NULL;
+		}
+		if (data->buttons[1] != NULL) {
 			gtk_widget_destroy (data->buttons[1]);
-		data->buttons[0] = NULL;
-		data->buttons[1] = NULL;
+			data->buttons[1] = NULL;
+		}
 	}
 }
