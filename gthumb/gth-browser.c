@@ -206,6 +206,7 @@ struct _GthBrowserPrivate {
 	gdouble            last_mouse_x;
 	gdouble            last_mouse_y;
 	gboolean           view_files_in_fullscreen;
+	gboolean           keep_mouse_visible;
 	struct {
 		int		page;
 		gboolean	thumbnail_list;
@@ -2276,7 +2277,8 @@ hide_mouse_pointer_cb (gpointer data)
 
 	/* do not hide the pointer if it's over a viewer control */
 
-	if (pointer_on_control (hmdata, browser->priv->fixed_viewer_controls)
+	if (browser->priv->keep_mouse_visible
+	    || pointer_on_control (hmdata, browser->priv->fixed_viewer_controls)
 	    || pointer_on_control (hmdata, browser->priv->viewer_controls)
 	    || pointer_on_widget (browser->priv->viewer_sidebar_alignment, hmdata->device))
 	{
@@ -4288,6 +4290,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->folder_tree_last_dest_row = NULL;
 	browser->priv->folder_tree_open_folder_id = 0;
 	browser->priv->view_files_in_fullscreen = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_OPEN_FILES_IN_FULLSCREEN);;
+	browser->priv->keep_mouse_visible = FALSE;
 	browser->priv->fullscreen_state.sidebar = g_settings_get_enum (browser->priv->browser_settings, PREF_FULLSCREEN_SIDEBAR);
 	browser->priv->fullscreen_state.thumbnail_list = g_settings_get_boolean (browser->priv->browser_settings, PREF_FULLSCREEN_THUMBNAILS_VISIBLE);
 
@@ -6979,6 +6982,14 @@ GtkWidget *
 gth_browser_get_fullscreen_headerbar (GthBrowser *browser)
 {
 	return browser->priv->fullscreen_headerbar;
+}
+
+
+void
+gth_browser_keep_mouse_visible (GthBrowser *browser,
+			        gboolean    value)
+{
+	browser->priv->keep_mouse_visible = value;
 }
 
 

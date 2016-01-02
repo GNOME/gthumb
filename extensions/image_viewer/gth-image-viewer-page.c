@@ -427,10 +427,26 @@ zoom_scale_value_changed_cb (GtkScale *scale,
 
 
 static void
+zoom_button_toggled_cb (GtkToggleButton *togglebutton,
+	                gpointer         user_data)
+{
+	GthImageViewerPage *self = user_data;
+
+	if (! gtk_toggle_button_get_active (togglebutton))
+		return;
+
+	gth_browser_keep_mouse_visible (self->priv->browser, TRUE);
+}
+
+
+static void
 zoom_popover_closed_cb (GtkPopover *popover,
 			gpointer    user_data)
 {
-	call_when_idle ((DataFunc) gth_viewer_page_focus, user_data);
+	GthImageViewerPage *self = user_data;
+
+	gth_browser_keep_mouse_visible (self->priv->browser, FALSE);
+	call_when_idle ((DataFunc) gth_viewer_page_focus, self);
 }
 
 
@@ -925,6 +941,10 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (_gtk_builder_get_widget (self->priv->builder, "zoom_level_scale"),
 			  "value-changed",
 			  G_CALLBACK (zoom_scale_value_changed_cb),
+			  self);
+	g_signal_connect (self->priv->buttons[ZOOM_BUTTON],
+			  "toggled",
+			  G_CALLBACK (zoom_button_toggled_cb),
 			  self);
 	g_signal_connect (_gtk_builder_get_widget (self->priv->builder, "zoom_popover"),
 			  "closed",
