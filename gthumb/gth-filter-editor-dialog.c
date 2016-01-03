@@ -131,9 +131,7 @@ limit_to_checkbutton_toggled_cb (GtkToggleButton *button,
 
 
 static void
-gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
-				    const char            *title,
-			            GtkWindow             *parent)
+gth_filter_editor_dialog_construct (GthFilterEditorDialog *self)
 {
 	GtkWidget       *content;
 	GList           *sort_types;
@@ -141,16 +139,15 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 	GtkListStore    *selection_model;
 	GtkCellRenderer *renderer;
 
-	if (title != NULL)
-    		gtk_window_set_title (GTK_WINDOW (self), title);
-  	if (parent != NULL)
-    		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
     	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_SAVE, GTK_RESPONSE_OK);
+
+	gtk_style_context_add_class (gtk_widget_get_style_context (gtk_dialog_get_widget_for_response (GTK_DIALOG (self), GTK_RESPONSE_OK)),
+				     GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
     	self->priv->builder = _gtk_builder_new_from_file ("filter-editor.ui", NULL);
 
@@ -250,8 +247,12 @@ gth_filter_editor_dialog_new (const char *title,
 {
 	GthFilterEditorDialog *self;
 
-	self = g_object_new (GTH_TYPE_FILTER_EDITOR_DIALOG, NULL);
-	gth_filter_editor_dialog_construct (self, title, parent);
+	self = g_object_new (GTH_TYPE_FILTER_EDITOR_DIALOG,
+			     "title", title,
+			     "transient-for", parent,
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     NULL);
+	gth_filter_editor_dialog_construct (self);
 
 	return (GtkWidget *) self;
 }
