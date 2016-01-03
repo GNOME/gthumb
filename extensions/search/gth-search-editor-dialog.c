@@ -82,7 +82,7 @@ gth_search_editor_dialog_construct (GthSearchEditorDialog *self,
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
    	self->priv->search_editor = gth_search_editor_new (search);
-    	gtk_container_set_border_width (GTK_CONTAINER (self->priv->search_editor), 5);
+    	gtk_container_set_border_width (GTK_CONTAINER (self->priv->search_editor), 10);
     	gtk_widget_show (self->priv->search_editor);
   	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), self->priv->search_editor, TRUE, TRUE, 0);
 }
@@ -95,7 +95,13 @@ gth_search_editor_dialog_new (const char *title,
 {
 	GthSearchEditorDialog *self;
 
-	self = g_object_new (GTH_TYPE_SEARCH_EDITOR_DIALOG, NULL);
+	self = g_object_new (GTH_TYPE_SEARCH_EDITOR_DIALOG,
+			     "title", title,
+			     "transient-for", parent,
+			     "modal", FALSE,
+			     "destroy-with-parent", FALSE,
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     NULL);
 	gth_search_editor_dialog_construct (self, title, search, parent);
 
 	return (GtkWidget *) self;
