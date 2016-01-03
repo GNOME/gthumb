@@ -45,7 +45,7 @@ struct _GthTestSelector {
 
 struct _GthTestSelectorClass {
 	GtkBoxClass parent_class;
-	
+
 	void (*add_test)    (GthTestSelector *selector);
 	void (*remove_test) (GthTestSelector *selector);
 };
@@ -59,6 +59,7 @@ GthTest *   gth_test_selector_get_test      (GthTestSelector  *selector,
 					     GError          **error);
 void        gth_test_selector_can_remove    (GthTestSelector  *selector,
 					     gboolean          value);
+void        gth_test_selector_focus         (GthTestSelector  *self);
 
 G_END_DECLS
 

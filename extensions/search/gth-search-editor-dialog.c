@@ -122,3 +122,10 @@ gth_search_editor_dialog_get_search (GthSearchEditorDialog  *self,
 {
 	return gth_search_editor_get_search (GTH_SEARCH_EDITOR (self->priv->search_editor), error);
 }
+
+
+void
+gth_search_editor_dialog_focus_first_rule (GthSearchEditorDialog *self)
+{
+	gth_search_editor_focus_first_rule (GTH_SEARCH_EDITOR (self->priv->search_editor));
+}

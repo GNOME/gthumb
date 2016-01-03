@@ -996,6 +996,33 @@ gth_test_simple_real_update_from_control (GthTest  *base,
 }
 
 
+static void
+gth_test_simple_real_focus_control (GthTest *base)
+{
+	GthTestSimple *self;
+
+	self = GTH_TEST_SIMPLE (base);
+
+	switch (self->priv->data_type) {
+	case GTH_TEST_DATA_TYPE_INT:
+		gtk_widget_grab_focus (self->priv->spinbutton);
+		break;
+
+	case GTH_TEST_DATA_TYPE_STRING:
+	case GTH_TEST_DATA_TYPE_SIZE:
+		gtk_widget_grab_focus (self->priv->text_entry);
+		break;
+
+	case GTH_TEST_DATA_TYPE_DATE:
+		gth_time_selector_focus (GTH_TIME_SELECTOR (self->priv->time_selector));
+		break;
+
+	default:
+		break;
+	}
+}
+
+
 static GObject *
 gth_test_simple_real_duplicate (GthDuplicable *duplicable)
 {
@@ -1155,6 +1182,7 @@ gth_test_simple_class_init (GthTestSimpleClass *class)
 	test_class = (GthTestClass *) class;
 	test_class->create_control = gth_test_simple_real_create_control;
 	test_class->update_from_control = gth_test_simple_real_update_from_control;
+	test_class->focus_control = gth_test_simple_real_focus_control;
 	test_class->match = gth_test_simple_real_match;
 
 	/* properties */

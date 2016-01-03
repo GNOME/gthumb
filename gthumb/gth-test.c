@@ -111,6 +111,13 @@ base_update_from_control (GthTest   *self,
 }
 
 
+static void
+base_focus_control (GthTest *self)
+{
+	/* void */
+}
+
+
 static GthMatch
 base_match (GthTest     *self,
 	    GthFileData *fdata)
@@ -270,6 +277,7 @@ gth_test_class_init (GthTestClass *klass)
 	klass->get_attributes = base_get_attributes;
 	klass->create_control = base_create_control;
 	klass->update_from_control = base_update_from_control;
+	klass->focus_control = base_focus_control;
 	klass->match = base_match;
 	klass->set_file_list = base_set_file_list;
 	klass->get_next = base_get_next;
@@ -385,6 +393,13 @@ gth_test_update_from_control (GthTest   *self,
 			      GError   **error)
 {
 	return GTH_TEST_GET_CLASS (self)->update_from_control (self, error);
+}
+
+
+void
+gth_test_focus_control (GthTest *self)
+{
+	GTH_TEST_GET_CLASS (self)->focus_control (self);
 }
 
 

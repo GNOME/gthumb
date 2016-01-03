@@ -89,6 +89,7 @@ gth_browser_activate_find (GSimpleAction *action,
 
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
+	gth_search_editor_dialog_focus_first_rule (GTH_SEARCH_EDITOR_DIALOG (dialog));
 
 	g_object_unref (search);
 }

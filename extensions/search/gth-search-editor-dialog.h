@@ -47,11 +47,13 @@ struct _GthSearchEditorDialogClass {
 
 GType       gth_search_editor_dialog_get_type   (void);
 GtkWidget * gth_search_editor_dialog_new        (const char             *title,
-						 GthSearch              *search, 
+						 GthSearch              *search,
 						 GtkWindow              *parent);
-void        gth_search_editor_dialog_set_search (GthSearchEditorDialog  *self, 
+void        gth_search_editor_dialog_set_search (GthSearchEditorDialog  *self,
 						 GthSearch              *search);
 GthSearch * gth_search_editor_dialog_get_search (GthSearchEditorDialog  *self,
 						 GError                **error);
+void        gth_search_editor_dialog_focus_first_rule
+						(GthSearchEditorDialog	*self);
 
 #endif /* GTH_SEARCH_EDITOR_DIALOG_H */

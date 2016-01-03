@@ -105,6 +105,7 @@ gth_time_selector_class_init (GthTimeSelectorClass *class)
 
 	widget_class = (GtkWidgetClass *) class;
 	widget_class->unmap = gth_time_selector_unmap;
+	widget_class->focus = gth_time_selector_focus;
 
 	gth_time_selector_signals[CHANGED] =
 		g_signal_new ("changed",
@@ -744,4 +745,11 @@ gth_time_selector_get_value (GthTimeSelector *self,
 		*date_time->time = *self->priv->date_time->time;
 	else
 		gth_time_clear (date_time->time);
+}
+
+
+void
+gth_time_selector_focus (GthTimeSelector *self)
+{
+	gtk_widget_grab_focus (self->priv->date_entry);
 }

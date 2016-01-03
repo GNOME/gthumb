@@ -288,3 +288,16 @@ gth_search_editor_get_search (GthSearchEditor  *self,
 
 	return search;
 }
+
+
+void
+gth_search_editor_focus_first_rule (GthSearchEditor *self)
+{
+	GList *test_selectors;
+
+	test_selectors = gtk_container_get_children (GTK_CONTAINER (GET_WIDGET ("tests_box")));
+	if (test_selectors == NULL)
+		return;
+
+	gth_test_selector_focus (GTH_TEST_SELECTOR (test_selectors->data));
+}

@@ -132,6 +132,8 @@ test_combo_box_changed_cb (GtkComboBox     *scope_combo_box,
 
 		test = gth_main_get_registered_object (GTH_TYPE_TEST, test_name);
 		gth_test_selector_set_test (self, test);
+		gth_test_selector_focus (self);
+
 		g_object_unref (test);
 	}
 }
@@ -197,7 +199,7 @@ gth_test_selector_construct (GthTestSelector *self,
 	GList           *scan;
 
 	gtk_box_set_spacing (GTK_BOX (self), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 2);
+	gtk_container_set_border_width (GTK_CONTAINER (self), 0);
 
 	/* scope combo box */
 
@@ -398,4 +400,12 @@ gth_test_selector_can_remove (GthTestSelector *self,
 			      gboolean         value)
 {
 	gtk_widget_set_sensitive (self->priv->remove_button, value);
+}
+
+
+void
+gth_test_selector_focus (GthTestSelector *self)
+{
+	if (self->priv->test != NULL)
+		gth_test_focus_control (self->priv->test);
 }

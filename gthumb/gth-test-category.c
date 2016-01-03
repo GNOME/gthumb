@@ -412,6 +412,16 @@ gth_test_category_real_update_from_control (GthTest  *base,
 }
 
 
+static void
+gth_test_category_real_focus_control (GthTest *base)
+{
+	GthTestCategory *self;
+
+	self = GTH_TEST_CATEGORY (base);
+	gtk_widget_grab_focus (self->priv->text_entry);
+}
+
+
 static GObject *
 gth_test_category_real_duplicate (GthDuplicable *duplicable)
 {
@@ -444,6 +454,7 @@ gth_test_category_class_init (GthTestCategoryClass *class)
 	test_class = (GthTestClass *) class;
 	test_class->create_control = gth_test_category_real_create_control;
 	test_class->update_from_control = gth_test_category_real_update_from_control;
+	test_class->focus_control = gth_test_category_real_focus_control;
 	test_class->match = gth_test_category_real_match;
 }
 
