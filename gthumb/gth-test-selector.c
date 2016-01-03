@@ -343,9 +343,10 @@ void
 gth_test_selector_set_test (GthTestSelector *self,
 			    GthTest         *test)
 {
+	GthTest   *old_test;
 	GtkWidget *control;
 
-	_g_object_unref (self->priv->test);
+	old_test = self->priv->test;
 	if (test != NULL)
 		self->priv->test = (GthTest *) gth_duplicable_duplicate (GTH_DUPLICABLE (test));
 	else
@@ -376,6 +377,8 @@ gth_test_selector_set_test (GthTestSelector *self,
 		gtk_container_add (GTK_CONTAINER (self->priv->control_box),
 				   self->priv->control);
 	}
+
+	_g_object_unref (old_test);
 }
 
 
