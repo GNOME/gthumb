@@ -181,10 +181,12 @@ static void
 _gth_filterbar_set_test (GthFilterbar *filterbar,
 			  GthTest      *test)
 {
-	if (filterbar->priv->test != NULL) {
+	GthTest *old_test;
+
+	old_test = filterbar->priv->test;
+	if (old_test != NULL) {
 		if (filterbar->priv->test_changed_id != 0)
-			g_signal_handler_disconnect (filterbar->priv->test, filterbar->priv->test_changed_id);
-		g_object_unref (filterbar->priv->test);
+			g_signal_handler_disconnect (old_test, filterbar->priv->test_changed_id);
 		filterbar->priv->test = NULL;
 	}
 
@@ -195,11 +197,12 @@ _gth_filterbar_set_test (GthFilterbar *filterbar,
 								     G_CALLBACK (test_changed_cb),
 								     filterbar);
 		_gth_filterbar_set_test_control (filterbar, gth_test_create_control (filterbar->priv->test));
+		gth_test_focus_control (filterbar->priv->test);
 	}
 	else
 		_gth_filterbar_set_test_control (filterbar, NULL);
 
-	gth_filterbar_changed (filterbar);
+	_g_object_unref (old_test);
 }
 
 
