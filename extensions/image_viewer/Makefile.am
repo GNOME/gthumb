@@ -19,7 +19,9 @@ libimage_viewer_la_SOURCES = 		\
 	image-viewer.h			\
 	main.c				\
 	preferences.c			\
-	preferences.h
+	preferences.h			\
+	resources.c			\
+	resources.h
 
 libimage_viewer_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libimage_viewer_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
@@ -36,8 +38,11 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 @GTHUMB_EXTENSION_IN_RULE@
 @GTHUMB_EXTENSION_RULE@
 
-EXTRA_DIST = $(extensionini_in_files) 
+EXTRA_DIST = 				\
+	$(extensionini_in_files)	\
+	resources.xml
 
 DISTCLEANFILES = $(extensionini_DATA)
 
 -include $(top_srcdir)/git.mk
+-include $(top_srcdir)/extension-resources.mk
