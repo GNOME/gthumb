@@ -5,7 +5,7 @@
   <object class="GtkBox" id="dialog_content">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="border_width">6</property>
+    <property name="border_width">15</property>
     <property name="spacing">24</property>
     <child>
       <object class="GtkBox" id="vbox47">
