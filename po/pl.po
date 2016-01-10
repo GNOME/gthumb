@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-03 09:02+0100\n"
-"PO-Revision-Date: 2016-01-03 09:04+0100\n"
+"POT-Creation-Date: 2016-01-10 13:20+0100\n"
+"PO-Revision-Date: 2016-01-10 13:21+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -239,8 +239,8 @@ msgstr "_Nazwa filtru:"
 
 #: ../data/ui/filter-editor.ui.h:2
 #: ../extensions/search/data/ui/search-editor.ui.h:3
-msgid "_Match"
-msgstr "_Dopasowanie"
+msgid "_Match:"
+msgstr "_Dopasowanie:"
 
 #. limit label
 #: ../data/ui/filter-editor.ui.h:3 ../gthumb/gth-filter.c:269
@@ -336,14 +336,10 @@ msgid "_Save the new file as:"
 msgstr "Zapi_sanie nowego pliku jako:"
 
 #: ../data/ui/personalize-filters.ui.h:1
-msgid "Filters"
-msgstr "Filtry"
-
-#: ../data/ui/personalize-filters.ui.h:2
 msgid "_General filter:"
 msgstr "_Ogólny filtr:"
 
-#: ../data/ui/personalize-filters.ui.h:3
+#: ../data/ui/personalize-filters.ui.h:2
 msgid "_Other filters:"
 msgstr "_Inne filtry:"
 
@@ -476,7 +472,7 @@ msgstr "Zespół programistów gThumb"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
 #: ../extensions/bookmarks/callbacks.c:325
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
+#: ../extensions/bookmarks/dlg-bookmarks.c:350
 msgid "Bookmarks"
 msgstr "Zakładki"
 
@@ -496,24 +492,24 @@ msgstr "_Modyfikuj zakładki…"
 msgid "_System Bookmarks"
 msgstr "Zakładki _systemowe"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:2
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
 msgid "_Bookmarks:"
 msgstr "_Zakładki:"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:2
 msgid "Go to this location"
 msgstr "Przejdź do tego położenia"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
 #: ../extensions/catalogs/callbacks.c:72
 msgid "Remove"
 msgstr "Usuń"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:5
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 msgid "_Name"
 msgstr "_Nazwa"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:6
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:5
 msgid "_Location"
 msgstr "_Położenie"
 
@@ -688,7 +684,7 @@ msgstr "Zapisywanie"
 #: ../extensions/file_manager/actions.c:71
 #: ../extensions/file_tools/gth-file-tool-curves.c:372
 #: ../extensions/list_tools/gth-script-editor-dialog.c:289
-#: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1829
+#: ../gthumb/gth-filter-editor-dialog.c:462 ../gthumb/gth-folder-tree.c:1829
 #, c-format
 msgid "No name specified"
 msgstr "Nie podano nazwy"
@@ -3888,7 +3884,7 @@ msgstr "_Usuwanie zaimportowanych plików ze źródła"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#: ../gthumb/gth-filterbar.c:404
+#: ../gthumb/gth-filterbar.c:407
 msgid "S_how:"
 msgstr "_Wyświetlanie:"
 
@@ -4213,8 +4209,8 @@ msgstr "Zmienianie rozmiarów obrazów"
 msgid "Resize series of images."
 msgstr "Zmienianie rozmiarów serii obrazów."
 
-#: ../extensions/search/actions.c:50 ../extensions/search/actions.c:120
-#: ../extensions/search/actions.c:126
+#: ../extensions/search/actions.c:50 ../extensions/search/actions.c:124
+#: ../extensions/search/actions.c:130
 msgid "Could not perform the search"
 msgstr "Nie można wykonać wyszukiwania"
 
@@ -4244,13 +4240,17 @@ msgstr "Znajdź ponownie"
 msgid "Search"
 msgstr "Wyszukiwanie"
 
+#: ../extensions/search/data/ui/search-editor.ui.h:4
+msgid "Rules:"
+msgstr "Reguły:"
+
 #: ../extensions/search/gth-search-editor.c:112
-#: ../gthumb/gth-filter-editor-dialog.c:165
+#: ../gthumb/gth-filter-editor-dialog.c:162
 msgid "all the following rules"
 msgstr "wszystkie poniższe reguły"
 
 #: ../extensions/search/gth-search-editor.c:113
-#: ../gthumb/gth-filter-editor-dialog.c:166
+#: ../gthumb/gth-filter-editor-dialog.c:163
 msgid "any of the following rules"
 msgstr "dowolna z poniższych reguł"
 
@@ -4578,13 +4578,17 @@ msgstr "Nowy filtr"
 msgid "Edit Filter"
 msgstr "Modyfikuj filtr"
 
+#: ../gthumb/dlg-personalize-filters.c:519
+msgid "Filters"
+msgstr "Filtry"
+
 #. add the page to the preferences dialog
 #: ../gthumb/dlg-preferences-browser.c:190
 #: ../gthumb/dlg-preferences-extensions.c:65
 msgid "Browser"
 msgstr "Przeglądarka"
 
-#: ../gthumb/dlg-preferences-extensions.c:61 ../gthumb/gth-filterbar.c:270
+#: ../gthumb/dlg-preferences-extensions.c:61 ../gthumb/gth-filterbar.c:273
 msgid "All"
 msgstr "Wszystko"
 
@@ -4889,39 +4893,39 @@ msgstr[2] "Na pewno trwale usunąć %'d zaznaczonych plików?"
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Usunięcie pliku spowoduje jego trwałe utracenie."
 
-#: ../gthumb/gth-filterbar.c:304
+#: ../gthumb/gth-filterbar.c:307
 msgid "Personalize…"
 msgstr "Dostosuj…"
 
-#: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
+#: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:175
 #: ../gthumb/gth-test-simple.c:77
 msgid "kB"
 msgstr "kB"
 
-#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
+#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:176
 #: ../gthumb/gth-test-simple.c:78
 msgid "MB"
 msgstr "MB"
 
-#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:180
+#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:177
 #: ../gthumb/gth-test-simple.c:79
 msgid "GB"
 msgstr "GB"
 
 #. "files" label
-#: ../gthumb/gth-filter.c:286 ../gthumb/gth-filter-editor-dialog.c:177
+#: ../gthumb/gth-filter.c:286 ../gthumb/gth-filter-editor-dialog.c:174
 msgid "files"
 msgstr "pliki"
 
-#: ../gthumb/gth-filter-editor-dialog.c:224
+#: ../gthumb/gth-filter-editor-dialog.c:221
 msgid "ascending"
 msgstr "rosnąco"
 
-#: ../gthumb/gth-filter-editor-dialog.c:225
+#: ../gthumb/gth-filter-editor-dialog.c:222
 msgid "descending"
 msgstr "malejąco"
 
-#: ../gthumb/gth-filter-editor-dialog.c:515
+#: ../gthumb/gth-filter-editor-dialog.c:516
 #, c-format
 msgid "No limit specified"
 msgstr "Nie podano ograniczenia"
@@ -5188,11 +5192,11 @@ msgstr "nie wynosi"
 msgid "The test definition is incomplete"
 msgstr "Określenie testu jest niepełne"
 
-#: ../gthumb/gth-test-selector.c:251
+#: ../gthumb/gth-test-selector.c:253
 msgid "Add a new rule"
 msgstr "Dodaj nową regułę"
 
-#: ../gthumb/gth-test-selector.c:261
+#: ../gthumb/gth-test-selector.c:263
 msgid "Remove this rule"
 msgstr "Usuń tę regułę"
 
@@ -5244,11 +5248,11 @@ msgstr "jest przed"
 msgid "is after"
 msgstr "jest po"
 
-#: ../gthumb/gth-time-selector.c:603
+#: ../gthumb/gth-time-selector.c:604
 msgid "Today"
 msgstr "Dzisiaj"
 
-#: ../gthumb/gth-time-selector.c:611
+#: ../gthumb/gth-time-selector.c:612
 msgid "Now"
 msgstr "Teraz"
 
