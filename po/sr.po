@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&"
 "keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-01-02 13:36+0000\n"
-"PO-Revision-Date: 2016-01-02 21:04+0200\n"
+"POT-Creation-Date: 2016-02-20 23:28+0000\n"
+"PO-Revision-Date: 2016-02-21 08:07+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -42,10 +42,6 @@ msgstr ""
 "угњеждених унутар слике као што су ЕКСИФ, ИПТЦ и ИКсМП."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:3
-#| msgid ""
-#| "As an image editor gThumb allows to scale, rotate and crop the images; "
-#| "change the saturation, lightness, contrast as well as other color "
-#| "trasformations."
 msgid ""
 "As an image editor gThumb allows to scale, rotate and crop the images; "
 "change the saturation, lightness, contrast as well as other color "
@@ -162,17 +158,14 @@ msgid "Behavior"
 msgstr "Понашање"
 
 #: ../data/ui/browser-preferences.ui.h:3
-#| msgid "_Selected files"
 msgid "_Single click to open files"
 msgstr "_Један притисак отвара датотеке"
 
 #: ../data/ui/browser-preferences.ui.h:4
-#| msgid "_Reuse the active window to open files"
 msgid "_Double click to open files"
 msgstr "_Два притиска отварају датотеке"
 
 #: ../data/ui/browser-preferences.ui.h:5
-#| msgid "Start in fullscreen mode"
 msgid "_Open files in fullscreen mode"
 msgstr "_Отвори датотеке преко целог екрана"
 
@@ -240,8 +233,9 @@ msgstr "Услов је _назив:"
 
 #: ../data/ui/filter-editor.ui.h:2
 #: ../extensions/search/data/ui/search-editor.ui.h:3
-msgid "_Match"
-msgstr "_Поклапање"
+#| msgid "_Match"
+msgid "_Match:"
+msgstr "_Поклопи:"
 
 #. limit label
 #: ../data/ui/filter-editor.ui.h:3 ../gthumb/gth-filter.c:269
@@ -337,14 +331,10 @@ msgid "_Save the new file as:"
 msgstr "_Сачувај нову датотеку као:"
 
 #: ../data/ui/personalize-filters.ui.h:1
-msgid "Filters"
-msgstr "Услови"
-
-#: ../data/ui/personalize-filters.ui.h:2
 msgid "_General filter:"
 msgstr "_Општи услови:"
 
-#: ../data/ui/personalize-filters.ui.h:3
+#: ../data/ui/personalize-filters.ui.h:2
 msgid "_Other filters:"
 msgstr "Други _услови:"
 
@@ -477,7 +467,7 @@ msgstr "Развојна дружина Гномовог сличка"
 
 #: ../extensions/bookmarks/bookmarks.extension.in.in.h:1
 #: ../extensions/bookmarks/callbacks.c:325
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
+#: ../extensions/bookmarks/dlg-bookmarks.c:350
 msgid "Bookmarks"
 msgstr "Обележивачи"
 
@@ -497,24 +487,24 @@ msgstr "_Уреди обележиваче…"
 msgid "_System Bookmarks"
 msgstr "_Системски обележивачи"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:2
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:1
 msgid "_Bookmarks:"
 msgstr "_Обележивачи:"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:2
 msgid "Go to this location"
 msgstr "Идите на ово место"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:3
 #: ../extensions/catalogs/callbacks.c:72
 msgid "Remove"
 msgstr "Уклони"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:5
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:4
 msgid "_Name"
 msgstr "_Назив"
 
-#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:6
+#: ../extensions/bookmarks/data/ui/bookmarks.ui.h:5
 msgid "_Location"
 msgstr "_Место"
 
@@ -689,7 +679,7 @@ msgstr "Снимање"
 #: ../extensions/file_manager/actions.c:71
 #: ../extensions/file_tools/gth-file-tool-curves.c:372
 #: ../extensions/list_tools/gth-script-editor-dialog.c:289
-#: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1829
+#: ../gthumb/gth-filter-editor-dialog.c:462 ../gthumb/gth-folder-tree.c:1829
 #, c-format
 msgid "No name specified"
 msgstr "Није одређен назив"
@@ -1128,7 +1118,6 @@ msgid "Place"
 msgstr "Место"
 
 #: ../extensions/comments/main.c:44
-#| msgid "Co_mment date"
 msgid "Comment Date & Time"
 msgstr "Датум и време напомене"
 
@@ -2130,30 +2119,25 @@ msgstr "_Отвори са"
 
 #: ../extensions/file_manager/callbacks.c:779
 #, c-format
-#| msgid "Are you sure you want to move \"%s\" to trash?"
 msgid "Do you want to move \"%s\" to \"%s\"?"
 msgstr "Да ли желите да преместите „%s“ у „%s“?"
 
 #: ../extensions/file_manager/callbacks.c:781
 #, c-format
-#| msgid "Are you sure you want to move \"%s\" to trash?"
 msgid "Do you want to copy \"%s\" to \"%s\"?"
 msgstr "Да ли желите да умножите „%s“ у „%s“?"
 
 #: ../extensions/file_manager/callbacks.c:786
 #, c-format
-#| msgid "Are you sure you want to permanently delete \"%s\"?"
 msgid "Do you want to move the dragged files to \"%s\"?"
 msgstr "Да ли желите да преместите превучене датотеке у „%s“?"
 
 #: ../extensions/file_manager/callbacks.c:788
 #, c-format
-#| msgid "Are you sure you want to permanently delete \"%s\"?"
 msgid "Do you want to copy the dragged files to \"%s\"?"
 msgstr "Да ли желите да умножите превучене датотеке у „%s“?"
 
 #: ../extensions/file_manager/callbacks.c:796
-#| msgid "Copy"
 msgid "_Copy"
 msgstr "_Умножи"
 
@@ -2273,7 +2257,6 @@ msgid "px"
 msgstr "px"
 
 #: ../extensions/file_tools/data/ui/curves-options.ui.h:2
-#| msgid "The current date"
 msgid "Include current channel"
 msgstr "Укључи текући канал"
 
@@ -2450,7 +2433,6 @@ msgstr "Врати на задате вредности"
 #: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
 #: ../extensions/file_tools/gth-file-tool-curves.c:686
 #: ../extensions/file_tools/gth-file-tool-curves.c:848
-#| msgid "Reset"
 msgid "Presets"
 msgstr "Претподешавања"
 
@@ -2607,12 +2589,10 @@ msgid "Crop"
 msgstr "Острижи ивице"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:409
-#| msgid "Add to _Selection"
 msgid "Add to Presets"
 msgstr "Додај у претподешавања"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:410
-#| msgid "Enter the new name:"
 msgid "Enter the preset name:"
 msgstr "Унесите назив претподешавања:"
 
@@ -2624,22 +2604,18 @@ msgid "Could not save the file"
 msgstr "Нисам успео да сачувам датотеку"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:834
-#| msgid "Add to _Selection"
 msgid "Add to presets"
 msgstr "Додај у претподешавања"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:895
-#| msgid "Color Levels"
 msgid "Color Curves"
 msgstr "Криве боја"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:896
-#| msgid "Adjust Colors"
 msgid "Adjust color curves"
 msgstr "Подеси криве боја"
 
 #: ../extensions/file_tools/gth-file-tool-effects.c:357
-#| msgid "Special code"
 msgid "Special Effects"
 msgstr "Нарочита дејства"
 
@@ -3378,12 +3354,10 @@ msgid "_Low"
 msgstr "_Низак"
 
 #: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:1
-#| msgid "_Automatic subfolder"
 msgid "Automatic"
 msgstr "Самостално"
 
 #: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:4
-#| msgid "Fit to width"
 msgid "Fit to height"
 msgstr "Поравнај по висини"
 
@@ -3908,7 +3882,7 @@ msgstr "О_бриши увезене слике са извора"
 
 #. view label
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-#: ../gthumb/gth-filterbar.c:404
+#: ../gthumb/gth-filterbar.c:407
 msgid "S_how:"
 msgstr "П_рикажи:"
 
@@ -4058,7 +4032,6 @@ msgid "Cas_e:"
 msgstr "_Величина слова:"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:5
-#| msgid "_Help"
 msgid "Help"
 msgstr "Помоћ"
 
@@ -4234,8 +4207,8 @@ msgstr "Промени величину сликама"
 msgid "Resize series of images."
 msgstr "Промени величину низу слика."
 
-#: ../extensions/search/actions.c:50 ../extensions/search/actions.c:120
-#: ../extensions/search/actions.c:126
+#: ../extensions/search/actions.c:50 ../extensions/search/actions.c:124
+#: ../extensions/search/actions.c:130
 msgid "Could not perform the search"
 msgstr "Нисам успео извршити претрагу"
 
@@ -4265,19 +4238,23 @@ msgstr "Претражи опет"
 msgid "Search"
 msgstr "Претражи"
 
+#: ../extensions/search/data/ui/search-editor.ui.h:4
+#| msgid "Files:"
+msgid "Rules:"
+msgstr "Правила:"
+
 #: ../extensions/search/gth-search-editor.c:112
-#: ../gthumb/gth-filter-editor-dialog.c:165
+#: ../gthumb/gth-filter-editor-dialog.c:162
 msgid "all the following rules"
 msgstr "сва следећа правила"
 
 #: ../extensions/search/gth-search-editor.c:113
-#: ../gthumb/gth-filter-editor-dialog.c:166
+#: ../gthumb/gth-filter-editor-dialog.c:163
 msgid "any of the following rules"
 msgstr "било које следеће правило"
 
 #: ../extensions/search/gth-search-task.c:183
 #, c-format
-#| msgid "Files found until now: %s"
 msgid "Files found so far: %s"
 msgstr "Пронађених датотека до сада: %s"
 
@@ -4349,7 +4326,6 @@ msgid "_Change automatically, every"
 msgstr "Самостално _мењај, сваких"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:6
-#| msgid "seconds"
 msgctxt "Every x seconds"
 msgid "seconds"
 msgstr "секунде"
@@ -4477,7 +4453,6 @@ msgid "View the previous page"
 msgstr "Погледај претходну слику"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:1
-#| msgid "All images on  a single image"
 msgid "All images on a single image"
 msgstr "Све слике у једној слици"
 
@@ -4602,13 +4577,17 @@ msgstr "Нови услов"
 msgid "Edit Filter"
 msgstr "Измени услов"
 
+#: ../gthumb/dlg-personalize-filters.c:519
+msgid "Filters"
+msgstr "Услови"
+
 #. add the page to the preferences dialog
 #: ../gthumb/dlg-preferences-browser.c:190
 #: ../gthumb/dlg-preferences-extensions.c:65
 msgid "Browser"
 msgstr "Прегледник"
 
-#: ../gthumb/dlg-preferences-extensions.c:61 ../gthumb/gth-filterbar.c:270
+#: ../gthumb/dlg-preferences-extensions.c:61 ../gthumb/gth-filterbar.c:273
 msgid "All"
 msgstr "Све"
 
@@ -4915,39 +4894,39 @@ msgstr[3] "Да ли сигурно желите да трајно обрише�
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Ако обришете датотеку, биће трајно изгубљена."
 
-#: ../gthumb/gth-filterbar.c:304
+#: ../gthumb/gth-filterbar.c:307
 msgid "Personalize…"
 msgstr "Прилагоди…"
 
-#: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:178
+#: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:175
 #: ../gthumb/gth-test-simple.c:77
 msgid "kB"
 msgstr "kB"
 
-#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:179
+#: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:176
 #: ../gthumb/gth-test-simple.c:78
 msgid "MB"
 msgstr "MB"
 
-#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:180
+#: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:177
 #: ../gthumb/gth-test-simple.c:79
 msgid "GB"
 msgstr "GB"
 
 #. "files" label
-#: ../gthumb/gth-filter.c:286 ../gthumb/gth-filter-editor-dialog.c:177
+#: ../gthumb/gth-filter.c:286 ../gthumb/gth-filter-editor-dialog.c:174
 msgid "files"
 msgstr "датотеке"
 
-#: ../gthumb/gth-filter-editor-dialog.c:224
+#: ../gthumb/gth-filter-editor-dialog.c:221
 msgid "ascending"
 msgstr "узлазно"
 
-#: ../gthumb/gth-filter-editor-dialog.c:225
+#: ../gthumb/gth-filter-editor-dialog.c:222
 msgid "descending"
 msgstr "силазно"
 
-#: ../gthumb/gth-filter-editor-dialog.c:515
+#: ../gthumb/gth-filter-editor-dialog.c:516
 #, c-format
 msgid "No limit specified"
 msgstr "Није наведено ограничење"
@@ -5092,17 +5071,14 @@ msgid "All Files"
 msgstr "Све датотеке"
 
 #: ../gthumb/gth-main-default-tests.c:291
-#| msgid "Images"
 msgid "All Images"
 msgstr "Све слике"
 
 #: ../gthumb/gth-main-default-tests.c:298
-#| msgid "Images"
 msgid "JPEG Images"
 msgstr "ЈПЕГ слике"
 
 #: ../gthumb/gth-main-default-tests.c:305
-#| msgid "Ph_otoset:"
 msgid "Raw Photos"
 msgstr "Сирове фотографије"
 
@@ -5217,11 +5193,11 @@ msgstr "није"
 msgid "The test definition is incomplete"
 msgstr "Опис пробе је непотпун"
 
-#: ../gthumb/gth-test-selector.c:251
+#: ../gthumb/gth-test-selector.c:253
 msgid "Add a new rule"
 msgstr "Додај ново правило"
 
-#: ../gthumb/gth-test-selector.c:261
+#: ../gthumb/gth-test-selector.c:263
 msgid "Remove this rule"
 msgstr "Уклони ово правило"
 
@@ -5273,11 +5249,11 @@ msgstr "је пре"
 msgid "is after"
 msgstr "је након"
 
-#: ../gthumb/gth-time-selector.c:603
+#: ../gthumb/gth-time-selector.c:604
 msgid "Today"
 msgstr "Данас"
 
-#: ../gthumb/gth-time-selector.c:611
+#: ../gthumb/gth-time-selector.c:612
 msgid "Now"
 msgstr "Сада"
 
@@ -5290,7 +5266,6 @@ msgid "Rotation"
 msgstr "Окренутост"
 
 #: ../gthumb/gth-trash-task.c:64
-#| msgid "Moving files"
 msgid "Moving files to trash"
 msgstr "Премештам датотеке у смеће"
 
