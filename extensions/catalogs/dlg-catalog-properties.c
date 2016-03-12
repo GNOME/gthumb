@@ -69,8 +69,8 @@ catalog_saved_cb (void     **buffer,
 			gth_monitor_file_renamed (gth_main_get_default_monitor (),
 						  data->original_file,
 						  data->file_data->file);
-
 		}
+
 		gth_catalog_update_metadata (data->catalog, data->file_data);
 		gth_monitor_metadata_changed (gth_main_get_default_monitor (), data->file_data);
 

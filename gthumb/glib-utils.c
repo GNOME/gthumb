@@ -2937,6 +2937,21 @@ _g_file_info_swap_attributes (GFileInfo  *info,
 }
 
 
+void
+_g_file_info_set_secondary_sort_order (GFileInfo  *info,
+				       gint32      sort_order)
+{
+	g_file_info_set_attribute_int32 (info, "gth::standard::secondary-sort-order", sort_order);
+}
+
+
+gint32
+_g_file_info_get_secondary_sort_order (GFileInfo  *info)
+{
+	return g_file_info_get_attribute_int32 (info, "gth::standard::secondary-sort-order");
+}
+
+
 const char *
 _g_content_type_guess_from_name (const char *filename)
 {

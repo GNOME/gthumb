@@ -56,6 +56,7 @@ enum {
 	COLUMN_FILE_DATA,
 	COLUMN_SORT_KEY,
 	COLUMN_SORT_ORDER,
+	COLUMN_SECONDARY_SORT_ORDER,
 	COLUMN_NAME,
 	COLUMN_NO_CHILD,
 	COLUMN_LOADED,
@@ -867,28 +868,35 @@ column_name_compare_func (GtkTreeModel *model,
 			  GtkTreeIter  *b,
 			  gpointer      user_data)
 {
-	char       *key_a;
-	char       *key_b;
-	int         order_a;
-	int         order_b;
-	PangoStyle  style_a;
-	PangoStyle  style_b;
+	char       *key_a, *key_b;
+	int         order_a, order_b;
+	int         sec_order_a, sec_order_b;
+	PangoStyle  style_a, style_b;
 	gboolean    result;
 
 	gtk_tree_model_get (model, a,
 			    COLUMN_SORT_KEY, &key_a,
 			    COLUMN_SORT_ORDER, &order_a,
+			    COLUMN_SECONDARY_SORT_ORDER, &sec_order_a,
 			    COLUMN_STYLE, &style_a,
 			    -1);
 	gtk_tree_model_get (model, b,
 			    COLUMN_SORT_KEY, &key_b,
 			    COLUMN_SORT_ORDER, &order_b,
+			    COLUMN_SECONDARY_SORT_ORDER, &sec_order_b,
 			    COLUMN_STYLE, &style_b,
 			    -1);
 
 	if (order_a == order_b) {
-		if (style_a == style_b)
+		if (style_a == style_b) {
 			result = strcmp (key_a, key_b);
+			if (result == 0) {
+				if (sec_order_a < sec_order_b)
+					result = -1;
+				else if (sec_order_a > sec_order_b)
+					result = 1;
+			}
+		}
 		else if (style_a == PANGO_STYLE_ITALIC)
 			result = -1;
 		else
@@ -1071,6 +1079,7 @@ _gth_folder_tree_add_loading_item (GthFolderTree *folder_tree,
 			    COLUMN_NAME, _("Loading…"),
 			    COLUMN_SORT_KEY, sort_key,
 			    COLUMN_SORT_ORDER, 0,
+			    COLUMN_SECONDARY_SORT_ORDER, 0,
 			    -1);
 
 	g_free (sort_key);
@@ -1097,6 +1106,7 @@ _gth_folder_tree_add_empty_item (GthFolderTree *folder_tree,
 			    COLUMN_NAME, _("(Empty)"),
 			    COLUMN_SORT_KEY, sort_key,
 			    COLUMN_SORT_ORDER, 0,
+			    COLUMN_SECONDARY_SORT_ORDER, 0,
 			    -1);
 
 	g_free (sort_key);
@@ -1108,22 +1118,28 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 				GtkTreeIter   *iter,
 				GthFileData   *file_data)
 {
-	const char *name;
+	const char *display_name;
+	const char *name_for_sorting;
 	char       *sort_key;
 
-	name = g_file_info_get_display_name (file_data->info);
-	if (name == NULL)
+	display_name = g_file_info_get_display_name (file_data->info);
+	if (display_name == NULL)
 		return FALSE;
 
-	sort_key = g_utf8_collate_key_for_filename (name, -1);
+	name_for_sorting = g_file_info_get_edit_name (file_data->info);
+	if (name_for_sorting == NULL)
+		name_for_sorting = display_name;
+
+	sort_key = g_utf8_collate_key_for_filename (name_for_sorting, -1);
 	gtk_tree_store_set (folder_tree->priv->tree_store, iter,
 			    COLUMN_STYLE, PANGO_STYLE_NORMAL,
 			    COLUMN_ICON, g_file_info_get_symbolic_icon (file_data->info),
 			    COLUMN_TYPE, ENTRY_TYPE_FILE,
 			    COLUMN_FILE_DATA, file_data,
-			    COLUMN_NAME, name,
+			    COLUMN_NAME, display_name,
 			    COLUMN_SORT_KEY, sort_key,
 			    COLUMN_SORT_ORDER, g_file_info_get_sort_order (file_data->info),
+			    COLUMN_SECONDARY_SORT_ORDER, _g_file_info_get_secondary_sort_order (file_data->info),
 			    COLUMN_NO_CHILD, g_file_info_get_attribute_boolean (file_data->info, "gthumb::no-child"),
 			    COLUMN_LOADED, FALSE,
 			    -1);
@@ -1265,6 +1281,7 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 							    G_TYPE_OBJECT,
 							    G_TYPE_STRING,
 							    G_TYPE_INT,
+							    G_TYPE_INT,
 							    G_TYPE_STRING,
 							    G_TYPE_BOOLEAN,
 							    G_TYPE_BOOLEAN);
@@ -1365,6 +1382,7 @@ gth_folder_tree_set_list (GthFolderTree *folder_tree,
 				    COLUMN_NAME, _("(Open Parent)"),
 				    COLUMN_SORT_KEY, sort_key,
 				    COLUMN_SORT_ORDER, 0,
+				    COLUMN_SECONDARY_SORT_ORDER, 0,
 				    -1);
 
 		g_object_unref (icon);
