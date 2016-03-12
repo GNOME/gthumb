@@ -436,9 +436,16 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 void
 gth_browser_update_extra_widget (GthBrowser *browser)
 {
+	GtkWidget *location_chooser;
+
 	gtk_widget_show (browser->priv->location_bar);
 	_gtk_container_remove_children (GTK_CONTAINER (gth_location_bar_get_action_area (GTH_LOCATION_BAR (browser->priv->location_bar))), NULL, NULL);
-	gth_location_bar_set_from_file (GTH_LOCATION_BAR (browser->priv->location_bar), browser->priv->location->file);
+
+	location_chooser = gth_location_bar_get_chooser (GTH_LOCATION_BAR (browser->priv->location_bar));
+	g_signal_handlers_block_by_data (location_chooser, browser);
+	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (location_chooser), browser->priv->location->file);
+	g_signal_handlers_unblock_by_data (location_chooser, browser);
+
 	gth_hook_invoke ("gth-browser-update-extra-widget", browser);
 }
 
@@ -447,23 +454,20 @@ static void
 _gth_browser_set_location (GthBrowser  *browser,
 			   GthFileData *location)
 {
-	GtkWidget *location_chooser;
-
 	if (location == NULL)
 		return;
 
-	if (browser->priv->location != NULL)
-		g_object_unref (browser->priv->location);
-	browser->priv->location = gth_file_data_dup (location);
+	if (location != browser->priv->location) {
+		if (browser->priv->location != NULL)
+			g_object_unref (browser->priv->location);
+		browser->priv->location = gth_file_data_dup (location);
+	}
 
 	_gth_browser_update_current_file_position (browser);
 	gth_browser_update_title (browser);
 	gth_browser_update_sensitivity (browser);
 
-	location_chooser = gth_location_bar_get_chooser (GTH_LOCATION_BAR (browser->priv->location_bar));
-	g_signal_handlers_block_by_data (location_chooser, browser);
 	gth_browser_update_extra_widget (browser);
-	g_signal_handlers_unblock_by_data (location_chooser, browser);
 }
 
 
@@ -3380,6 +3384,7 @@ renamed_file_attributes_ready_cb (GthFileSource *file_source,
 		new_location = gth_file_data_new (rename_data->new_file, browser->priv->location->info);
 		new_info = gth_file_source_get_file_info (rename_data->file_source, new_location->file, GFILE_DISPLAY_ATTRIBUTES);
 		g_file_info_copy_into (new_info, new_location->info);
+
 		_gth_browser_set_location (browser, new_location);
 
 		g_object_unref (new_info);
@@ -3476,10 +3481,15 @@ metadata_changed_cb (GthMonitor  *monitor,
 		     GthBrowser  *browser)
 {
 	if ((browser->priv->location != NULL) && g_file_equal (browser->priv->location->file, file_data->file)) {
+		GtkWidget *location_chooser;
+
 		if (file_data->info != browser->priv->location->info)
 			g_file_info_copy_into (file_data->info, browser->priv->location->info);
-		gth_browser_update_extra_widget (browser);
-		return;
+
+		location_chooser = gth_location_bar_get_chooser (GTH_LOCATION_BAR (browser->priv->location_bar));
+		gth_location_chooser_reload (GTH_LOCATION_CHOOSER (location_chooser));
+
+		_gth_browser_set_location (browser, browser->priv->location);
 	}
 
 	if ((browser->priv->current_file != NULL) && g_file_equal (browser->priv->current_file->file, file_data->file)) {
@@ -3492,6 +3502,8 @@ metadata_changed_cb (GthMonitor  *monitor,
 		gth_browser_update_title (browser);
 		gth_browser_update_sensitivity (browser);
 	}
+
+	gth_folder_tree_update_child (GTH_FOLDER_TREE (browser->priv->folder_tree), file_data->file, file_data);
 }
 
 

@@ -85,14 +85,6 @@ gth_location_bar_new (void)
 }
 
 
-void
-gth_location_bar_set_from_file (GthLocationBar *self,
-				GFile          *file)
-{
-	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (self->priv->location_chooser), file);
-}
-
-
 GtkWidget *
 gth_location_bar_get_chooser (GthLocationBar *self)
 {
