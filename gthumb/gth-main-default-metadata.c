@@ -66,6 +66,7 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "Embedded::Photo::Copyright", N_("Copyright"), "general", 31, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
 
 	{ "gth::file::emblems", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
+	{ "gth::standard::secondary-sort-order", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "image::width", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "image::height", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "frame::width", "", "", 0, NULL, GTH_METADATA_ALLOW_NOWHERE },

@@ -694,16 +694,14 @@ update_standard_attributes (GFile       *file,
 
 	if (gth_datetime_valid_date (date_time)) {
 		char *sort_order_s;
-		int   sort_order;
 
 		sort_order_s = gth_datetime_strftime (date_time, "%Y%m%d");
-		sort_order = atoi (sort_order_s);
-		g_file_info_set_sort_order (info, sort_order);
+		_g_file_info_set_secondary_sort_order (info, atoi (sort_order_s));
 
 		g_free (sort_order_s);
 	}
-	else if (g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
-		g_file_info_set_sort_order (info, 99999999);
+	else
+		g_file_info_remove_attribute (info, "gth::standard::secondary-sort-order");
 
 	display_name = get_display_name (file, name, date_time);
 	if (display_name != NULL) {
@@ -745,7 +743,6 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 		char    *raw;
 		char    *formatted;
 		char    *sort_order_s;
-		int      sort_order;
 
 		metadata = (GObject *) gth_metadata_new ();
 		raw = gth_datetime_to_exif_date (catalog->priv->date_time);
@@ -758,15 +755,16 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 		g_file_info_set_attribute_object (file_data->info, "general::event-date", metadata);
 
 		sort_order_s = gth_datetime_strftime (catalog->priv->date_time, "%Y%m%d");
-		sort_order = atoi (sort_order_s);
-		g_file_info_set_sort_order (file_data->info, sort_order);
+		_g_file_info_set_secondary_sort_order (file_data->info, atoi (sort_order_s));
 
 		g_free (formatted);
 		g_free (raw);
 		g_object_unref (metadata);
 	}
-	else
+	else {
 		g_file_info_remove_attribute (file_data->info, "general::event-date");
+		g_file_info_remove_attribute (file_data->info, "gth::standard::secondary-sort-order");
+	}
 
 	/* standard::display-name,standard::sort-order */
 
