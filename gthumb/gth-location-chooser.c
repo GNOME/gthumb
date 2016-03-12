@@ -79,6 +79,7 @@ struct _GthLocationChooserPrivate
 	guint           update_location_list_id;
 	gboolean        show_entry_points;
 	GtkReliefStyle  relief;
+	gboolean        reload;
 };
 
 
@@ -436,7 +437,7 @@ update_location_list (gpointer user_data)
 	if (self->priv->location == NULL)
 		return;
 
-	if (get_iter_from_current_file_entries (self, self->priv->location, &iter)) {
+	if (! self->priv->reload && get_iter_from_current_file_entries (self, self->priv->location, &iter)) {
 		g_signal_handlers_block_by_func (self->priv->combo, combo_changed_cb, self);
 		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (self->priv->combo), &iter);
 		g_signal_handlers_unblock_by_func (self->priv->combo, combo_changed_cb, self);
@@ -469,6 +470,8 @@ update_location_list (gpointer user_data)
 
 		_g_object_list_unref (list);
 	}
+
+	self->priv->reload = FALSE;
 }
 
 
@@ -476,7 +479,7 @@ static void
 current_location_changed (GthLocationChooser *self)
 {
 	if (self->priv->update_location_list_id != 0)
-		return;
+		g_source_remove (self->priv->update_location_list_id);
 	self->priv->update_location_list_id = call_when_idle ((DataFunc) update_location_list, self);
 }
 
@@ -565,6 +568,7 @@ gth_location_chooser_init (GthLocationChooser *self)
 	self->priv->arrow = NULL;
 	self->priv->show_entry_points = TRUE;
 	self->priv->relief = GTK_RELIEF_NORMAL;
+	self->priv->reload = FALSE;
 
 	self->priv->model = gtk_tree_store_new (N_COLUMNS,
 						G_TYPE_ICON,
@@ -739,21 +743,22 @@ void
 gth_location_chooser_set_current (GthLocationChooser *self,
 				  GFile              *file)
 {
+	if (file != self->priv->location) {
+		if (self->priv->file_source != NULL)
+			g_object_unref (self->priv->file_source);
+		self->priv->file_source = gth_main_get_file_source (file);
 
+		if (self->priv->file_source == NULL)
+			return;
 
-	if (self->priv->file_source != NULL)
-		g_object_unref (self->priv->file_source);
-	self->priv->file_source = gth_main_get_file_source (file);
+		if (self->priv->location != NULL) {
+			g_object_unref (self->priv->location);
+			self->priv->location = NULL;
+		}
 
-	if (self->priv->file_source == NULL)
-		return;
-
-	if ((self->priv->location != NULL) && g_file_equal (file, self->priv->location))
-		return;
-
-	if (self->priv->location != NULL)
-		g_object_unref (self->priv->location);
-	self->priv->location = g_file_dup (file);
+		if (file != NULL)
+			self->priv->location = g_file_dup (file);
+	}
 
 	if (gtk_widget_get_realized (GTK_WIDGET (self)))
 		current_location_changed (self);
@@ -766,4 +771,16 @@ GFile *
 gth_location_chooser_get_current (GthLocationChooser *self)
 {
 	return self->priv->location;
+}
+
+void
+gth_location_chooser_reload (GthLocationChooser *self)
+{
+	if (self->priv->location == NULL)
+		return;
+
+	self->priv->reload = TRUE;
+
+	if (gtk_widget_get_realized (GTK_WIDGET (self)))
+		current_location_changed (self);
 }

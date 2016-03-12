@@ -64,8 +64,7 @@ gboolean         gth_location_chooser_get_show_entry_points  (GthLocationChooser
 void             gth_location_chooser_set_current            (GthLocationChooser *chooser,
 							      GFile              *location);
 GFile *          gth_location_chooser_get_current            (GthLocationChooser *chooser);
-GthFileSource *  gth_location_chooser_get_file_source        (GthLocationChooser *chooser);
-void             gth_location_chooser_open_other             (GthLocationChooser *chooser);
+void             gth_location_chooser_reload                 (GthLocationChooser *chooser);
 
 G_END_DECLS
 

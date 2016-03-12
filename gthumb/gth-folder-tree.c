@@ -1752,18 +1752,20 @@ gth_folder_tree_update_child (GthFolderTree *folder_tree,
 		return;
 
 	if (gth_folder_tree_get_iter (folder_tree, file_data->file, &new_file_iter, NULL)) {
-		GFile *parent;
-		GList *files;
+		if (! _g_file_equal (old_file, file_data->file)) {
+			GFile *parent;
+			GList *files;
 
-		/* the new file is already present, remove the old file */
+			/* the new file is already present, remove the old file */
 
-		parent = g_file_get_parent (old_file);
-		files = g_list_prepend (NULL, g_object_ref (old_file));
-		gth_folder_tree_delete_children (folder_tree, parent, files);
-		_g_object_list_unref (files);
-		g_object_unref (parent);
+			parent = g_file_get_parent (old_file);
+			files = g_list_prepend (NULL, g_object_ref (old_file));
+			gth_folder_tree_delete_children (folder_tree, parent, files);
+			_g_object_list_unref (files);
+			g_object_unref (parent);
+		}
 
-		/* update the data old of the new file */
+		/* update the data of the new file */
 
 		_gth_folder_tree_set_file_data (folder_tree, &new_file_iter, file_data);
 	}

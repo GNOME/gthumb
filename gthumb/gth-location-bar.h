@@ -50,8 +50,6 @@ struct _GthLocationBarClass
 
 GType		gth_location_bar_get_type		(void) G_GNUC_CONST;
 GtkWidget *	gth_location_bar_new			(void);
-void		gth_location_bar_set_from_file		(GthLocationBar		*dialog,
-							 GFile			*file);
 GtkWidget *	gth_location_bar_get_chooser		(GthLocationBar		*dialog);
 GtkWidget *	gth_location_bar_get_action_area	(GthLocationBar		*self);
 
