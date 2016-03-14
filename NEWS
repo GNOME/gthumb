@@ -1,3 +1,36 @@
+version 3.4.2
+-------------
+
+ User visible changes:
+
+  * Sort catalogs first by name then by date, 
+    instead of doing the opposite.
+
+ Bugs fixed:
+
+  * Crash after pressing shift-arrow. (#760050)
+  * Stopping slideshow freezes entire program. (#759787)
+  * Crash if trying to delete image on sftp mounted. (#759727)
+  * Crash when deleting duplicate. (#759631)
+  * Crash after changing and renaming file. (#750142)
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Rafael Fontenelle)
+  * catalan (Robert Antoni Buj Gelonch)
+  * Deutsch (Christian Kirbach)
+  * Icelandic (Sveinn í Felli)
+  * Latvian (Rūdolfs Mazurs)
+  * Português (Pedro Albuquerque)
+  * Swedish (Josef Andersson)
+  * Русский (Yuri Myasoedov)
+
+ New or updated manual translations:
+
+  * Deutsch (Mario Blättermann)
+  * Español; Castellano (Daniel Mustieles)
+  * Swedish (Josef Andersson)
+
 version 3.4.1
 -------------
 
