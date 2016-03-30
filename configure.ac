@@ -296,12 +296,6 @@ AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[Gettext package])
 AM_GLIB_GNU_GETTEXT
 
-if test "x${prefix}" = "xNONE"; then
-	AC_DEFINE_UNQUOTED(LOCALEDIR, "${ac_default_prefix}/${DATADIRNAME}/locale", [Locale directory])
-else
-	AC_DEFINE_UNQUOTED(LOCALEDIR, "${prefix}/${DATADIRNAME}/locale", [Locale directory])
-fi
-
 dnl ===========================================================================
 
 AC_MSG_CHECKING([for some Win32 platform])
