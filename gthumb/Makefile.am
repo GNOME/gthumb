@@ -331,17 +331,12 @@ gthumb_CFLAGS =							\
 	$(LIBSOUP_CFLAGS)					\
 	$(LIBCHAMPLAIN_CFLAGS)					\
 	$(SMCLIENT_CFLAGS)					\
-	$(LCMS2_CFLAGS)							\
-	-DGTHUMB_PREFIX=\"$(prefix)\"           		\
-	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"   		\
-	-DGTHUMB_LIBDIR=\"$(libdir)\" 				\
-	-DGTHUMB_PKGDATADIR=\"$(pkgdatadir)\"			\
+	$(LCMS2_CFLAGS)						\
 	-DGTHUMB_LOCALEDIR=\"$(localedir)\"			\
 	-DGTHUMB_UI_DIR=\"$(ui_dir)\"				\
 	-DGTHUMB_ICON_DIR=\"$(icon_dir)\"			\
 	-DGTHUMB_EXTENSIONS_UI_DIR=\"$(extensions_ui_dir)\"	\
 	-DGTHUMB_EXTENSIONS_DIR=\"$(extensions_dir)\"		\
-	-DGTHUMB_APPLICATIONS_DIR=\"$(applications_dir)\"	\
 	$(NULL)
 
 gth-enum-types.h: $(PUBLIC_HEADER_FILES)
