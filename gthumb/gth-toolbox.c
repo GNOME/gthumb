@@ -184,7 +184,7 @@ gth_toolbox_init (GthToolbox *toolbox)
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_NONE);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_NEVER,
 					GTK_POLICY_AUTOMATIC);
 	gtk_widget_show (scrolled);
 	gtk_stack_add_named (GTK_STACK (toolbox), scrolled, GTH_TOOLBOX_PAGE_TOOLS);
@@ -246,6 +246,9 @@ gth_toolbox_init (GthToolbox *toolbox)
 
 	toolbox->priv->options = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_SHADOW_NONE);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (toolbox->priv->options),
+					GTK_POLICY_NEVER,
+					GTK_POLICY_AUTOMATIC);
 	gtk_widget_show (toolbox->priv->options);
 	gtk_box_pack_start (GTK_BOX (options_box), toolbox->priv->options, TRUE, TRUE, 0);
 }
