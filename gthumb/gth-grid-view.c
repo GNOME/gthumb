@@ -1470,7 +1470,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		cairo_pattern_destroy (pattern);
 	}
 
-	if (item_state & GTK_STATE_FLAG_SELECTED) {
+	if ((item_state & GTK_STATE_FLAG_SELECTED) || (item_state & GTK_STATE_FLAG_FOCUSED)) {
 		GdkRGBA color;
 
 		gtk_style_context_get_background_color (style_context, item_state, &color);
@@ -1583,7 +1583,7 @@ _gth_grid_view_draw_item (GthGridView     *self,
 			  GthGridViewItem *item,
 			  cairo_t         *cr)
 {
-	GtkStateType item_state;
+	GtkStateFlags item_state;
 
 	item_state = item->state;
 	if (! gtk_widget_has_focus (GTK_WIDGET (self)) && (item_state & GTK_STATE_FLAG_FOCUSED))
@@ -1597,6 +1597,10 @@ _gth_grid_view_draw_item (GthGridView     *self,
 
 		cairo_save (cr);
 		style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
+		gtk_style_context_save (style_context);
+		gtk_style_context_remove_class (style_context, GTK_STYLE_CLASS_VIEW);
+		gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_CELL);
+		gtk_style_context_set_state (style_context, item_state);
 		gtk_style_context_get_background_color (style_context, item_state, &color);
 		_gdk_rgba_lighter (&color, &color);
 		cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
@@ -1627,6 +1631,7 @@ _gth_grid_view_draw_item (GthGridView     *self,
 						 4);
 		cairo_fill (cr);
 
+		gtk_style_context_restore (style_context);
 		cairo_restore (cr);
 	}
 
