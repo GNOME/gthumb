@@ -4353,7 +4353,6 @@ gth_browser_init (GthBrowser *browser)
 
 	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, FALSE);
 	browser->priv->viewer_sidebar_alignment = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gth_paned_set_position2 (GTH_PANED (browser->priv->viewer_sidebar_pane), g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH));
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_alignment, FALSE, FALSE);
 
 	browser->priv->thumbnail_list = gth_file_list_new (gth_grid_view_new (), (browser->priv->viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_MODE_H_SIDEBAR : GTH_FILE_LIST_MODE_V_SIDEBAR, TRUE);
