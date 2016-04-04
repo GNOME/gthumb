@@ -113,21 +113,21 @@ GtkScrolledWindow.comment.undershoot {
 
 /* -- highlighed text on the destination button in the import dialog -- */
 
-GtkLabel.highlighted-text {
+.highlighted-text {
 	color: #8fb1e0;
 }
 
-GtkLabel.highlighted-text:backdrop {
+.highlighted-text:backdrop {
 	color: #333333;
 }
 
 /* -- extension list in the preferences dialog -- */
 
-GtkLabel.extension-name {
+.extension-name {
 	font-weight: bold;
 }
 
-GtkLabel.extension-description {
+.extension-description {
 	font-size: 80%;
 	color: @theme_unfocused_fg_color;
 }
@@ -140,7 +140,8 @@ GtkLabel.extension-description {
 
 /* -- header-bar inside the toolbox -- */
 
-GthToolbox .header-bar {
+GthToolbox .header-bar,
+.toolbox headerbar {
 	border-radius: 0;
 	box-shadow: none;
 	background-image: none;
@@ -148,7 +149,8 @@ GthToolbox .header-bar {
 
 /* -- header-bar in fullscreen -- */
 
-.window-overlay .header-bar {
+.window-overlay .header-bar,
+.window-overlay headerbar {
 	border-radius: 0;
 	box-shadow: none;
 	background-image: none;

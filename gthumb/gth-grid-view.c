@@ -1012,7 +1012,6 @@ gth_grid_view_realize (GtkWidget *widget)
 	GdkWindowAttr    attributes;
 	int              attributes_mask;
 	GdkWindow       *window;
-	GtkStyleContext *style_context;
 
 	self = GTH_GRID_VIEW (widget);
 
@@ -1058,12 +1057,6 @@ gth_grid_view_realize (GtkWidget *widget)
 
 	/* style */
 
-	style_context = gtk_widget_get_style_context (widget);
-	gtk_style_context_save (style_context);
-	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_set_background (style_context, self->priv->bin_window);
-	gtk_style_context_restore (style_context);
-
 	self->priv->caption_layout = gtk_widget_create_pango_layout (widget, NULL);
 	pango_layout_set_wrap (self->priv->caption_layout, PANGO_WRAP_WORD_CHAR);
 	pango_layout_set_alignment (self->priv->caption_layout, PANGO_ALIGN_LEFT);
@@ -1104,28 +1097,9 @@ gth_grid_view_unrealize (GtkWidget *widget)
 
 
 static void
-_gth_grid_view_update_background (GthGridView *self)
-{
-	GtkWidget       *widget = GTK_WIDGET (self);
-	GtkStyleContext *style_context;
-
-	if (! gtk_widget_get_realized (widget))
-		return;
-
-	style_context = gtk_widget_get_style_context (widget);
-	gtk_style_context_save (style_context);
-	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_set_background (style_context, gtk_widget_get_window (widget));
-	gtk_style_context_set_background (style_context, self->priv->bin_window);
-	gtk_style_context_restore (style_context);
-}
-
-
-static void
 gth_grid_view_state_flags_changed (GtkWidget     *widget,
                                    GtkStateFlags  previous_state)
 {
-	_gth_grid_view_update_background (GTH_GRID_VIEW (widget));
 	gtk_widget_queue_draw (widget);
 }
 
@@ -1135,7 +1109,6 @@ gth_grid_view_style_updated (GtkWidget *widget)
 {
 	GTK_WIDGET_CLASS (gth_grid_view_parent_class)->style_updated (widget);
 
-	_gth_grid_view_update_background (GTH_GRID_VIEW (widget));
 	gtk_widget_queue_resize (widget);
 }
 
@@ -1311,9 +1284,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	cairo_surface_t       *image;
 	GtkStyleContext       *style_context;
 	cairo_rectangle_int_t  frame_rect;
-	GdkRGBA                background_color;
-	GdkRGBA                lighter_color;
-	GdkRGBA                darker_color;
+	gboolean               gtk320 = ((gtk_major_version >= 3) && (gtk_minor_version >= 20));
 
 	image = item->thumbnail;
 	if (image == NULL)
@@ -1324,8 +1295,13 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	cairo_save (cr);
 	style_context = gtk_widget_get_style_context (widget);
 	gtk_style_context_save (style_context);
-	gtk_style_context_remove_class (style_context, GTK_STYLE_CLASS_VIEW);
-	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_CELL);
+	if (gtk320) {
+		gtk_style_context_set_state (style_context, item_state);
+	}
+	else {
+		gtk_style_context_remove_class (style_context, GTK_STYLE_CLASS_VIEW);
+		gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_CELL);
+	}
 
 	frame_rect = item->pixbuf_area;
 
@@ -1337,22 +1313,30 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		/* use a gray rounded box for icons or when the original size
 		 * is smaller than the thumbnail size... */
 
-		gtk_style_context_get_background_color (style_context, item_state, &background_color);
-		gdk_cairo_set_source_rgba (cr, &background_color);
+		if (gtk320) {
+			gtk_style_context_save (style_context);
+			gtk_style_context_add_class (style_context, "icon");
+			gtk_render_background (style_context,
+					       cr,
+					       item->thumbnail_area.x,
+					       item->thumbnail_area.y,
+					       item->thumbnail_area.width,
+					       item->thumbnail_area.height);
+			gtk_style_context_restore (style_context);
+		}
+		else {
+			gtk_style_context_get_background_color (style_context, item_state, &background_color);
+			gdk_cairo_set_source_rgba (cr, &background_color);
 
-		_cairo_draw_rounded_box (cr,
-					 item->thumbnail_area.x,
-					 item->thumbnail_area.y,
-					 item->thumbnail_area.width,
-					 item->thumbnail_area.height,
-					 4);
-		cairo_fill (cr);
+			_cairo_draw_rounded_box (cr,
+						 item->thumbnail_area.x,
+						 item->thumbnail_area.y,
+						 item->thumbnail_area.width,
+						 item->thumbnail_area.height,
+						 4);
+			cairo_fill (cr);
+		}
 	}
-
-	gdk_rgba_parse (&background_color, "#edeceb");
-	gtk_style_context_get_background_color (style_context, item_state, &background_color);
-	_gdk_rgba_darker (&background_color, &lighter_color);
-	_gdk_rgba_darker (&lighter_color, &darker_color);
 
 	if (item->style == ITEM_STYLE_IMAGE) {
 
@@ -1398,7 +1382,7 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 
 		/* the drop shadow */
 
-		gdk_cairo_set_source_rgba (cr, &darker_color);
+		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.33);
 		cairo_rectangle (cr,
 				 frame_rect.x + 2,
 				 frame_rect.y + 2,
@@ -1471,21 +1455,33 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		cairo_pattern_destroy (pattern);
 	}
 
-	if (item_state & GTK_STATE_FLAG_SELECTED) {
-		GdkRGBA color;
+	if ((item_state & GTK_STATE_FLAG_SELECTED) || (item_state & GTK_STATE_FLAG_FOCUSED)) {
+		if (gtk320) {
+			gtk_style_context_save (style_context);
+			gtk_style_context_add_class (style_context, "icon-effect");
+			gtk_render_background (style_context,
+					       cr,
+					       frame_rect.x,
+					       frame_rect.y,
+					       frame_rect.width,
+					       frame_rect.height);
+			gtk_style_context_restore (style_context);
+		}
+		else {
+			GdkRGBA color;
+			gtk_style_context_get_background_color (style_context, item_state, &color);
+			cairo_set_source_rgba (cr, color.red, color.green, color.blue, 0.5);
+			cairo_rectangle (cr,
+					 frame_rect.x,
+					 frame_rect.y,
+					 frame_rect.width,
+					 frame_rect.height);
+			cairo_fill_preserve (cr);
 
-		gtk_style_context_get_background_color (style_context, item_state, &color);
-		cairo_set_source_rgba (cr, color.red, color.green, color.blue, 0.5);
-		cairo_rectangle (cr,
-				 frame_rect.x,
-				 frame_rect.y,
-				 frame_rect.width,
-				 frame_rect.height);
-		cairo_fill_preserve (cr);
-
-		cairo_set_line_width (cr, 2);
-		cairo_set_source_rgb (cr, color.red, color.green, color.blue);
-		cairo_stroke (cr);
+			cairo_set_line_width (cr, 2);
+			cairo_set_source_rgb (cr, color.red, color.green, color.blue);
+			cairo_stroke (cr);
+		}
 	}
 
 	gtk_style_context_restore (style_context);
@@ -1584,7 +1580,7 @@ _gth_grid_view_draw_item (GthGridView     *self,
 			  GthGridViewItem *item,
 			  cairo_t         *cr)
 {
-	GtkStateType item_state;
+	GtkStateFlags item_state;
 
 	item_state = item->state;
 	if (! gtk_widget_has_focus (GTK_WIDGET (self)) && (item_state & GTK_STATE_FLAG_FOCUSED))
@@ -1593,41 +1589,79 @@ _gth_grid_view_draw_item (GthGridView     *self,
 		item_state ^= GTK_STATE_FLAG_ACTIVE;
 
 	if (item_state ^ GTK_STATE_FLAG_NORMAL) {
+		gboolean         gtk320 = ((gtk_major_version >= 3) && (gtk_minor_version >= 20));
 		GtkStyleContext *style_context;
 		GdkRGBA          color;
 
 		cairo_save (cr);
 		style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
-		gtk_style_context_get_background_color (style_context, item_state, &color);
-		_gdk_rgba_lighter (&color, &color);
-		cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
+		gtk_style_context_save (style_context);
 
-		if (item->style != ITEM_STYLE_ICON) {
-			cairo_region_t		 *area;
-			cairo_rectangle_int_t	  extents;
+		if (gtk320) {
+			gtk_style_context_set_state (style_context, item_state);
 
-			area = cairo_region_create_rectangle (&item->thumbnail_area);
-			cairo_region_union_rectangle (area, &item->caption_area);
-			cairo_region_get_extents (area, &extents);
+			if (item->style != ITEM_STYLE_ICON) {
+				cairo_region_t		 *area;
+				cairo_rectangle_int_t	  extents;
 
-			_cairo_draw_rounded_box (cr,
-						 extents.x - self->priv->cell_padding,
-						 extents.y - self->priv->cell_padding,
-						 extents.width + (self->priv->cell_padding * 2),
-						 extents.height + (self->priv->cell_padding * 2),
-						 4);
+				area = cairo_region_create_rectangle (&item->thumbnail_area);
+				cairo_region_union_rectangle (area, &item->caption_area);
+				cairo_region_get_extents (area, &extents);
 
-			cairo_region_destroy (area);
+				gtk_render_background (style_context,
+						       cr,
+						       extents.x - self->priv->cell_padding,
+						       extents.y - self->priv->cell_padding,
+						       extents.width + (self->priv->cell_padding * 2),
+						       extents.height + (self->priv->cell_padding * 2));
+
+				cairo_region_destroy (area);
+			}
+			else
+				gtk_render_background (style_context,
+						       cr,
+						       item->area.x,
+						       item->area.y,
+						       item->area.width,
+						       item->area.height);
 		}
-		else
-			_cairo_draw_rounded_box (cr,
-						 item->area.x,
-						 item->area.y,
-						 item->area.width,
-						 item->area.height,
-						 4);
-		cairo_fill (cr);
+		else {
+			gtk_style_context_remove_class (style_context, GTK_STYLE_CLASS_VIEW);
+			gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_CELL);
+			gtk_style_context_set_state (style_context, item_state);
+			gtk_style_context_get_background_color (style_context, item_state, &color);
+			_gdk_rgba_lighter (&color, &color);
+			cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
 
+			if (item->style != ITEM_STYLE_ICON) {
+				cairo_region_t		 *area;
+				cairo_rectangle_int_t	  extents;
+
+				area = cairo_region_create_rectangle (&item->thumbnail_area);
+				cairo_region_union_rectangle (area, &item->caption_area);
+				cairo_region_get_extents (area, &extents);
+
+				_cairo_draw_rounded_box (cr,
+							 extents.x - self->priv->cell_padding,
+							 extents.y - self->priv->cell_padding,
+							 extents.width + (self->priv->cell_padding * 2),
+							 extents.height + (self->priv->cell_padding * 2),
+							 4);
+
+				cairo_region_destroy (area);
+			}
+			else
+				_cairo_draw_rounded_box (cr,
+							 item->area.x,
+							 item->area.y,
+							 item->area.width,
+							 item->area.height,
+							 4);
+
+			cairo_fill (cr);
+		}
+
+		gtk_style_context_restore (style_context);
 		cairo_restore (cr);
 	}
 
@@ -1702,41 +1736,59 @@ _gth_grid_view_draw_drop_target (GthGridView *self,
 }
 
 
+static void
+_gth_grid_draw_background (GthGridView *self,
+		 	   cairo_t     *cr)
+{
+	GtkAllocation allocation;
+
+	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
+	gtk_render_background (gtk_widget_get_style_context (GTK_WIDGET (self)),
+			       cr,
+			       0,
+			       gtk_adjustment_get_value (self->priv->vadjustment),
+			       allocation.width,
+			       allocation.height);
+}
+
+
 static gboolean
 gth_grid_view_draw (GtkWidget *widget,
 		    cairo_t   *cr)
 {
 	GthGridView *self = (GthGridView*) widget;
 	int          first_visible;
-	int          last_visible;
-	int          i;
-	GList       *scan;
 
 	if (! gtk_cairo_should_draw_window (cr, self->priv->bin_window))
 		return FALSE;
-
-	first_visible = gth_grid_view_get_first_visible (GTH_FILE_VIEW (self));
-	if (first_visible == -1)
-		return TRUE;
-
-	last_visible = gth_grid_view_get_last_visible (GTH_FILE_VIEW (self));
 
 	cairo_save (cr);
 	gtk_cairo_transform_to_window (cr, widget, self->priv->bin_window);
 	cairo_set_line_width (cr, 1.0);
 
-	for (i = first_visible, scan = g_list_nth (self->priv->items, first_visible);
-	     (i <= last_visible) && scan;
-	     i++, scan = scan->next)
-	{
-		_gth_grid_view_draw_item (self, GTH_GRID_VIEW_ITEM (scan->data), cr);
+	_gth_grid_draw_background (self, cr);
+
+	first_visible = gth_grid_view_get_first_visible (GTH_FILE_VIEW (self));
+	if (first_visible >= 0) {
+		int    last_visible;
+		int    i;
+		GList *scan;
+
+		last_visible = gth_grid_view_get_last_visible (GTH_FILE_VIEW (self));
+
+		for (i = first_visible, scan = g_list_nth (self->priv->items, first_visible);
+		     (i <= last_visible) && scan;
+		     i++, scan = scan->next)
+		{
+			_gth_grid_view_draw_item (self, GTH_GRID_VIEW_ITEM (scan->data), cr);
+		}
+
+		if (self->priv->selecting || self->priv->multi_selecting_with_keyboard)
+			_gth_grid_view_draw_rubberband (self, cr);
+
+		if (self->priv->drop_pos != GTH_DROP_POSITION_NONE)
+			_gth_grid_view_draw_drop_target (self, cr);
 	}
-
-	if (self->priv->selecting || self->priv->multi_selecting_with_keyboard)
-		_gth_grid_view_draw_rubberband (self, cr);
-
-	if (self->priv->drop_pos != GTH_DROP_POSITION_NONE)
-		_gth_grid_view_draw_drop_target (self, cr);
 
 	cairo_restore (cr);
 
@@ -3798,6 +3850,10 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 				      "activate-cursor-item", 0);
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Enter, 0,
 				      "activate-cursor-item", 0);
+
+#if GTK_CHECK_VERSION(3,20,0)
+	gtk_widget_class_set_css_name (widget_class, "iconview");
+#endif
 }
 
 
@@ -3840,6 +3896,12 @@ gth_grid_view_gth_file_view_interface_init (GthFileViewInterface *iface)
 static void
 gth_grid_view_init (GthGridView *self)
 {
+	GtkStyleContext *style_context;
+
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_FRAME);
+
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_GRID_VIEW, GthGridViewPrivate);
