@@ -1505,8 +1505,9 @@ _gth_grid_view_item_draw_caption (GthGridViewItem *item,
 		return;
 
 	cairo_save (cr);
-
 	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_save (style_context);
+
 	gtk_style_context_get_color (style_context, item_state, &color);
 	gdk_cairo_set_source_rgba (cr, &color);
 	cairo_move_to (cr, item->caption_area.x, item->caption_area.y + grid_view->priv->caption_padding);
@@ -1521,6 +1522,7 @@ _gth_grid_view_item_draw_caption (GthGridViewItem *item,
 				  item->caption_area.width,
 				  item->caption_area.height);
 
+	gtk_style_context_restore (style_context);
 	cairo_restore (cr);
 }
 
