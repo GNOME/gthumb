@@ -1,18 +1,19 @@
 # Swedish messages for gThumb help 
 # Copyright © 2006-2015 Free Software Foundation, Inc.
-# Josef Andersson <josef.andersson@fripost.org>, 2015
+# Josef Andersson <josef.andersson@fripost.org>, 2015.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
-"POT-Creation-Date: 2015-11-05 23:26+0000\n"
-"PO-Revision-Date: 2015-11-06 22:44+0100\n"
-"Last-Translator: Josef Andersson <josef.andersson@fripost.org>\n"
+"POT-Creation-Date: 2016-02-17 23:30+0000\n"
+"PO-Revision-Date: 2016-02-18 11:55+0100\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -601,7 +602,7 @@ msgid ""
 "'%I:%M:%S %p'."
 msgstr ""
 "Tid i a.m.- eller p.m.-notation. I POSIX-lokal är detta motsvarande ”%I:%M:"
-"%S %p“."
+"%S %p”."
 
 #. (itstool) path: td/p
 #: C/strftime.page:241
@@ -1211,7 +1212,7 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/batch-scripts.page:12
-msgid "TODO: further documentation is need here."
+msgid "TODO: further documentation is needed here."
 msgstr "ATT-GÖRA: Ytterligare dokumentation behövs här."
 
 #. (itstool) path: page/title
@@ -1297,9 +1298,9 @@ msgid ""
 "<app>gThumb</app> will save thumbnails to a system cache, to share them with "
 "other applications. By default, Gnome systems prune cached thumbnails when "
 "they are older than 180 days, or when the thumbnail cache exceeds 512 MB. "
-"Technically-inclined users can explore these settings with <app>gconf-"
-"editor</app>. See the /desktop/gnome/thumbnail_cache/maximum_age and /"
-"desktop/gnome/thumbnail_cache/maximum_size keys in particular. Certain "
+"Technically-inclined users can explore these settings with <app>dconf-"
+"editor</app>. See the org.gnome.desktop.thumbnail_cache.maximum_age and org."
+"gnome.desktop.thumbnail_cache.maximum_size keys in particular. Certain "
 "applications (like <app>F-Spot</app>) may automatically increase these "
 "settings greatly."
 msgstr ""
@@ -1307,10 +1308,10 @@ msgstr ""
 "att dela dem med andra program. Som standard rensar Gnome-system bort "
 "cachade miniatyrbilder när de är äldre än 180 dagar eller när "
 "miniatyrbildscachen överskrider 512 MB. Tekniskt kunniga användare kan "
-"utforska dessa inställningar med <app>gconf-editor</app>. Se speciellt "
-"nycklarna /desktop/gnome/thumbnail_cache/maximum_age och /desktop/gnome/"
-"thumbnail_cache/maximum_size. Vissa program (som <app>F-Spot</app>) kan "
-"automatiskt öka dessa inställningar rejält."
+"utforska dessa inställningar med <app>dconf-editor</app>. Se speciellt "
+"nycklarna org.gnome.desktop.thumbnail_cache.maximum_age och org.gnome."
+"desktop.thumbnail_cache.maximum_size. Vissa program (som <app>F-Spot</app>) "
+"kan automatiskt öka dessa inställningar rejält."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -2674,8 +2675,8 @@ msgstr "Stega framåt (efter att ha gått tillbaka till en mapp)."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:520
-msgid "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
-msgstr "<keyseq> <key>Alt</key> <key>Upp</key> </keyseq>"
+msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
+msgstr "<keyseq> <key>Alt</key> <key>Uppåtpil</key> </keyseq>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:528
@@ -2798,7 +2799,7 @@ msgid ""
 "Flickr, Picasa, and Photobucket are enabled."
 msgstr ""
 "gThumb kommer med ett antal tillägg för att skicka upp foton till diverse "
-"olika webbplatser för “sociala media“. Som standard går det att skicka upp "
+"olika webbplatser för ”sociala media”. Som standard går det att skicka upp "
 "till Facebook, Flickr, Picasa och Photobucket."
 
 #. (itstool) path: page/p
