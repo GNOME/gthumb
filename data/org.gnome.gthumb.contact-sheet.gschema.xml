@@ -1,29 +1,29 @@
 <!--
   gThumb
- 
+
   Copyright © 2011 Free Software Foundation, Inc.
- 
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
- 
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-   
+
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <schemalist>
-  
+
   <schema id="org.gnome.gthumb.contact-sheet" path="/org/gnome/gthumb/contact-sheet/">
     <child name="contact-sheet" schema="org.gnome.gthumb.contact-sheet.contact-sheet" />
     <child name="image-wall" schema="org.gnome.gthumb.contact-sheet.image-wall" />
   </schema>
-  
-  <schema id="org.gnome.gthumb.contact-sheet.contact-sheet" path="/org/gnome/gthumb/contact-sheet/contact-sheet/">
+
+  <schema id="org.gnome.gthumb.contact-sheet.contact-sheet" path="/org/gnome/gthumb/contact-sheet/contact-sheet/" gettext-domain="gthumb">
     <key name="header" type="s">
       <default>''</default>
     </key>
@@ -73,8 +73,8 @@
       <default>'general::datetime,general::dimensions,gth::file::display-size'</default>
     </key>
   </schema>
-  
-  <schema id="org.gnome.gthumb.contact-sheet.image-wall" path="/org/gnome/gthumb/contact-sheet/image-wall/">
+
+  <schema id="org.gnome.gthumb.contact-sheet.image-wall" path="/org/gnome/gthumb/contact-sheet/image-wall/" gettext-domain="gthumb">
     <key name="destination" type="s">
       <default>''</default>
     </key>

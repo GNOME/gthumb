@@ -30,7 +30,7 @@
     <child name="dialogs" schema="org.gnome.gthumb.dialogs" />
   </schema>
 
-  <schema id="org.gnome.gthumb.general" path="/org/gnome/gthumb/general/">
+  <schema id="org.gnome.gthumb.general" path="/org/gnome/gthumb/general/" gettext-domain="gthumb">
     <key name="active-extensions" type="as">
       <default>[ 'default' ]</default>
     </key>
@@ -39,13 +39,13 @@
     </key>
   </schema>
 
-  <schema id="org.gnome.gthumb.data-migration" path="/org/gnome/gthumb/data-migration/">
+  <schema id="org.gnome.gthumb.data-migration" path="/org/gnome/gthumb/data-migration/" gettext-domain="gthumb">
     <key name="catalogs-2-10" type="b">
       <default>false</default>
     </key>
   </schema>
 
-  <schema id="org.gnome.gthumb.browser" path="/org/gnome/gthumb/browser/">
+  <schema id="org.gnome.gthumb.browser" path="/org/gnome/gthumb/browser/" gettext-domain="gthumb">
     <key name="go-to-last-location" type="b">
       <default>true</default>
     </key>
@@ -75,7 +75,7 @@
     </key>
     <key name="thumbnail-limit" type="i">
       <default>0</default>
-      <_description>Images over this size (in bytes) will not be thumbnailed.  Use 0 if you want to generate thumbnails for all images.</_description>
+      <description>Images over this size (in bytes) will not be thumbnailed.  Use 0 if you want to generate thumbnails for all images.</description>
     </key>
     <key name="thumbnail-caption" type="s">
       <default>'comment::note,comment::time'</default>
@@ -127,7 +127,7 @@
     </key>
     <key name="reuse-active-window" type="b">
       <default>false</default>
-      <_description>Open files in the active window</_description>
+      <description>Open files in the active window</description>
     </key>
     <key name="fullscreen-sidebar" enum="org.gnome.gthumb.GthSidebarState">
       <default>'hidden'</default>
@@ -143,7 +143,7 @@
     <child name="save-file" schema="org.gnome.gthumb.dialogs.save-file" />
   </schema>
 
-  <schema id="org.gnome.gthumb.dialogs.messages" path="/org/gnome/gthumb/dialogs/messages/">
+  <schema id="org.gnome.gthumb.dialogs.messages" path="/org/gnome/gthumb/dialogs/messages/" gettext-domain="gthumb">
     <key name="cannot-move-to-trash" type="b">
       <default>true</default>
     </key>
@@ -155,13 +155,13 @@
     </key>
   </schema>
 
-  <schema id="org.gnome.gthumb.dialogs.add-to-catalog" path="/org/gnome/gthumb/dialogs/add-to-catalog/">
+  <schema id="org.gnome.gthumb.dialogs.add-to-catalog" path="/org/gnome/gthumb/dialogs/add-to-catalog/" gettext-domain="gthumb">
     <key name="view" type="b">
       <default>false</default>
     </key>
   </schema>
 
-  <schema id="org.gnome.gthumb.dialogs.save-file" path="/org/gnome/gthumb/dialogs/save-file/">
+  <schema id="org.gnome.gthumb.dialogs.save-file" path="/org/gnome/gthumb/dialogs/save-file/" gettext-domain="gthumb">
     <key name="show-options" type="b">
       <default>true</default>
     </key>

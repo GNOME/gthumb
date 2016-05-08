@@ -7,28 +7,28 @@
 data/appdata/gthumb.appdata.xml.in
 data/gthumb.desktop.in.in
 data/gthumb-import.desktop.in.in
-data/org.gnome.gthumb.change-date.gschema.xml.in
-data/org.gnome.gthumb.comments.gschema.xml.in
-data/org.gnome.gthumb.contact-sheet.gschema.xml.in
-data/org.gnome.gthumb.convert-format.gschema.xml.in
-data/org.gnome.gthumb.crop.gschema.xml.in
-data/org.gnome.gthumb.facebook.gschema.xml.in
-data/org.gnome.gthumb.file-manager.gschema.xml.in
-data/org.gnome.gthumb.flickr.gschema.xml.in
-data/org.gnome.gthumb.gschema.xml.in
-data/org.gnome.gthumb.gstreamer-tools.gschema.xml.in
-data/org.gnome.gthumb.image-print.gschema.xml.in
-data/org.gnome.gthumb.image-viewer.gschema.xml.in
-data/org.gnome.gthumb.importer.gschema.xml.in
-data/org.gnome.gthumb.photo-importer.gschema.xml.in
-data/org.gnome.gthumb.picasaweb.gschema.xml.in
-data/org.gnome.gthumb.pixbuf-savers.gschema.xml.in
-data/org.gnome.gthumb.rename-series.gschema.xml.in
-data/org.gnome.gthumb.resize.gschema.xml.in
-data/org.gnome.gthumb.resize-images.gschema.xml.in
-data/org.gnome.gthumb.rotate.gschema.xml.in
-data/org.gnome.gthumb.slideshow.gschema.xml.in
-data/org.gnome.gthumb.webalbums.gschema.xml.in
+[type: gettext/gsettings]data/org.gnome.gthumb.change-date.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.comments.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.contact-sheet.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.convert-format.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.crop.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.facebook.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.file-manager.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.flickr.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.gstreamer-tools.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.image-print.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.image-viewer.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.importer.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.photo-importer.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.picasaweb.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.pixbuf-savers.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.rename-series.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.resize.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.resize-images.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.rotate.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.slideshow.gschema.xml
+[type: gettext/gsettings]data/org.gnome.gthumb.webalbums.gschema.xml
 [type: gettext/glade]data/ui/browser-preferences.ui
 [type: gettext/glade]data/ui/extensions-preferences.ui
 [type: gettext/glade]data/ui/filter-editor.ui

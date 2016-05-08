@@ -18,33 +18,24 @@
 -->
 <schemalist>
 
-  <schema id="org.gnome.gthumb.change-date" path="/org/gnome/gthumb/change-date/">
-    <key name="set-last-modified-date" type="b">
-      <default>false</default>
+  <schema id="org.gnome.gthumb.resize-images" path="/org/gnome/gthumb/resize-images/" gettext-domain="gthumb">
+    <key name="width" type="i">
+      <default>100</default>
     </key>
-    <key name="set-comment-date" type="b">
-      <default>false</default>
+    <key name="height" type="i">
+      <default>100</default>
     </key>
-    <key name="to-following-date" type="b">
-      <default>false</default>
+    <key name="unit" enum="org.gnome.gthumb.GthUnit">
+      <default>'percentage'</default>
     </key>
-    <key name="date" type="s">
+    <key name="keep-aspect-ratio" type="b">
+      <default>true</default>
+    </key>
+    <key name="allow-swap-width-height" type="b">
+      <default>true</default>
+    </key>
+    <key name="mime-type" type="s">
       <default>''</default>
-    </key>
-    <key name="to-file-modified-date" type="b">
-      <default>false</default>
-    </key>
-    <key name="to-file-creation-date" type="b">
-      <default>false</default>
-    </key>
-    <key name="to-photo-original-date" type="b">
-      <default>false</default>
-    </key>
-    <key name="adjust-time" type="b">
-      <default>false</default>
-    </key>
-    <key name="time-adjustment" type="i">
-      <default>0</default>
     </key>
   </schema>
 

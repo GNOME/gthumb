@@ -26,10 +26,10 @@
     <child name="webp" schema="org.gnome.gthumb.pixbuf-savers.webp" />
   </schema>
 
-  <schema id="org.gnome.gthumb.pixbuf-savers.jpeg" path="/org/gnome/gthumb/pixbuf-savers/jpeg/">
+  <schema id="org.gnome.gthumb.pixbuf-savers.jpeg" path="/org/gnome/gthumb/pixbuf-savers/jpeg/" gettext-domain="gthumb">
     <key name="default-ext" type="s">
       <default>'jpeg'</default>
-      <_description>Possible values are: jpeg, jpg.</_description>
+      <description>Possible values are: jpeg, jpg.</description>
     </key>
     <key name="quality" type="i">
       <default>85</default>
@@ -45,22 +45,22 @@
     </key>
   </schema>
 
-  <schema id="org.gnome.gthumb.pixbuf-savers.png" path="/org/gnome/gthumb/pixbuf-savers/png/">
+  <schema id="org.gnome.gthumb.pixbuf-savers.png" path="/org/gnome/gthumb/pixbuf-savers/png/" gettext-domain="gthumb">
     <key name="compression-level" type="i">
       <default>6</default>
     </key>
   </schema>
 
-  <schema id="org.gnome.gthumb.pixbuf-savers.tga" path="/org/gnome/gthumb/pixbuf-savers/tga/">
+  <schema id="org.gnome.gthumb.pixbuf-savers.tga" path="/org/gnome/gthumb/pixbuf-savers/tga/" gettext-domain="gthumb">
     <key name="rle-compression" type="b">
       <default>true</default>
     </key>
   </schema>
 
-  <schema id="org.gnome.gthumb.pixbuf-savers.tiff" path="/org/gnome/gthumb/pixbuf-savers/tiff/">
+  <schema id="org.gnome.gthumb.pixbuf-savers.tiff" path="/org/gnome/gthumb/pixbuf-savers/tiff/" gettext-domain="gthumb">
     <key name="default-ext" type="s">
       <default>'tiff'</default>
-      <_description>Possible values are: tiff, tif.</_description>
+      <description>Possible values are: tiff, tif.</description>
     </key>
     <key name="compression" enum="org.gnome.gthumb.GthTiffCompression">
       <default>'deflate'</default>
@@ -73,7 +73,7 @@
     </key>
   </schema>
 
-  <schema id="org.gnome.gthumb.pixbuf-savers.webp" path="/org/gnome/gthumb/pixbuf-savers/webp/">
+  <schema id="org.gnome.gthumb.pixbuf-savers.webp" path="/org/gnome/gthumb/pixbuf-savers/webp/" gettext-domain="gthumb">
     <key name="lossless" type="b">
       <default>false</default>
     </key>

@@ -290,7 +290,7 @@ AM_CONDITIONAL(ENABLE_LCMS2, test "x$enable_lcms2" = xyes)
 
 dnl ===========================================================================
 
-IT_PROG_INTLTOOL([0.35.0])
+IT_PROG_INTLTOOL([0.50.1])
 GETTEXT_PACKAGE=gthumb
 AC_SUBST([GETTEXT_PACKAGE])
 AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[Gettext package])

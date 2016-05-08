@@ -1,38 +1,50 @@
 <!--
   gThumb
- 
+
   Copyright © 2011 Free Software Foundation, Inc.
- 
+
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   (at your option) any later version.
- 
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-   
+
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <schemalist>
-  
-  <schema id="org.gnome.gthumb.slideshow" path="/org/gnome/gthumb/slideshow/">
-    <key name="change-delay" type="d">
-      <default>5.0</default>
-    </key>
-    <key name="wrap-around" type="b">
+
+  <schema id="org.gnome.gthumb.change-date" path="/org/gnome/gthumb/change-date/" gettext-domain="gthumb">
+    <key name="set-last-modified-date" type="b">
       <default>false</default>
     </key>
-    <key name="automatic" type="b">
-      <default>true</default>
-    </key>
-    <key name="transition" type="s">
-      <default>'fade-in'</default>
-    </key>
-    <key name="random-order" type="b">
+    <key name="set-comment-date" type="b">
       <default>false</default>
+    </key>
+    <key name="to-following-date" type="b">
+      <default>false</default>
+    </key>
+    <key name="date" type="s">
+      <default>''</default>
+    </key>
+    <key name="to-file-modified-date" type="b">
+      <default>false</default>
+    </key>
+    <key name="to-file-creation-date" type="b">
+      <default>false</default>
+    </key>
+    <key name="to-photo-original-date" type="b">
+      <default>false</default>
+    </key>
+    <key name="adjust-time" type="b">
+      <default>false</default>
+    </key>
+    <key name="time-adjustment" type="i">
+      <default>0</default>
     </key>
   </schema>
 
