@@ -126,6 +126,41 @@ gth_general_data_cmp_dimensions (GthFileData *a,
 	return result;
 }
 
+static int
+gth_general_data_cmp_aspect_ratio (GthFileData *a,
+				 GthFileData *b)
+{
+	int width_a;
+	int height_a;
+	int width_b;
+	int height_b;
+	int result;
+	float ratio_a;
+	float ratio_b;
+
+	width_a = g_file_info_get_attribute_int32 (a->info, "frame::width");
+	height_a = g_file_info_get_attribute_int32 (a->info, "frame::height");
+	width_b = g_file_info_get_attribute_int32 (b->info, "frame::width");
+	height_b = g_file_info_get_attribute_int32 (b->info, "frame::height");
+
+	if (height_a == 0)
+		height_a = 1;
+	if (height_b == 0)
+		height_b = 1;
+
+	ratio_a = (float)width_a / (float)height_a;
+	ratio_b = (float)width_b / (float)height_b;
+
+	if (ratio_a > ratio_b)
+		result = 1;
+	else if (ratio_a < ratio_b)
+		result = -1;
+	else
+		result = gth_file_data_cmp_filename (a, b);
+
+	return result;
+}
+
 
 GthFileDataSort default_sort_types[] = {
 	{ "file::name", N_("file name"), "standard::display-name", gth_file_data_cmp_filename },
@@ -134,6 +169,7 @@ GthFileDataSort default_sort_types[] = {
 	{ "file::mtime", N_("file modified date"), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
 	{ "general::unsorted", N_("no sorting"), "", NULL },
 	{ "general::dimensions", N_("dimensions"), "frame::width,frame::height", gth_general_data_cmp_dimensions },
+	{ "general::aspect-ratio", N_("aspect ratio"), "frame::width,frame::height", gth_general_data_cmp_aspect_ratio },
 };
 
 

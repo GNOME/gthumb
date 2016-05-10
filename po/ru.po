@@ -5424,20 +5424,6 @@ msgstr "Скрытые файлы"
 msgid "_Delete History"
 msgstr "_Удалить историю"
 
-#~ msgid "Organizing files"
-#~ msgstr "Упорядочивание файлов"
-
-#~ msgid "Date"
-#~ msgstr "Дата"
-
-#~ msgid "Artic"
-#~ msgstr "Арктика"
-
-#~ msgid "Search for Duplicates"
-#~ msgstr "Поиск дубликатов"
-
-#~ msgid "Personalize..."
-#~ msgstr "Персонализировать…"
-
-#~ msgid "Loading..."
-#~ msgstr "Загрузка…"
+#: ../gthumb/gthumb/gth-main-default-sort-types.c
+msgid "aspect ratio"
+msgstr "соотношение сторон"
