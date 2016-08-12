@@ -73,6 +73,7 @@ SelectCommand select_commands[] = {
 struct _GthFindDuplicatesPrivate
 {
 	GthBrowser    *browser;
+	GtkWidget     *dialog;
 	GFile         *location;
 	gboolean       recursive;
 	GthTest       *test;
@@ -528,7 +529,7 @@ file_input_stream_read_ready_cb (GObject      *source,
 
 	self->priv->io_operation = FALSE;
 	if (self->priv->closing) {
-		gtk_widget_destroy (GET_WIDGET ("find_duplicates_dialog"));
+		gtk_widget_destroy (self->priv->dialog);
 		return;
 	}
 
@@ -617,7 +618,7 @@ read_current_file_ready_cb (GObject      *source,
 
 	self->priv->io_operation = FALSE;
 	if (self->priv->closing) {
-		gtk_widget_destroy (GET_WIDGET ("find_duplicates_dialog"));
+		gtk_widget_destroy (self->priv->dialog);
 		return;
 	}
 
@@ -767,13 +768,13 @@ done_func (GObject  *object,
 	self->priv->io_operation = FALSE;
 
 	if (self->priv->closing) {
-		gtk_widget_destroy (GET_WIDGET ("find_duplicates_dialog"));
+		gtk_widget_destroy (self->priv->dialog);
 		return;
 	}
 
 	if ((error != NULL) && ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not perform the operation"), error);
-		gtk_widget_destroy (GET_WIDGET ("find_duplicates_dialog"));
+		gtk_widget_destroy (self->priv->dialog);
 		return;
 	}
 
@@ -867,7 +868,7 @@ close_button_clicked_cb (GtkButton *button,
 	GthFindDuplicates *self = user_data;
 
 	if (! self->priv->io_operation) {
-		gtk_widget_destroy (GET_WIDGET ("find_duplicates_dialog"));
+		gtk_widget_destroy (self->priv->dialog);
 	}
 	else {
 		self->priv->closing = TRUE;
@@ -1034,7 +1035,7 @@ delete_button_clicked_cb (GtkWidget *button,
 
 	file_data_list = get_selected_files (self);
 	if (file_data_list != NULL) {
-		gth_file_mananger_delete_files (GTK_WINDOW (GET_WIDGET ("find_duplicates_dialog")), file_data_list);
+		gth_file_mananger_delete_files (GTK_WINDOW (self->priv->dialog), file_data_list);
 		_g_object_list_unref (file_data_list);
 	}
 }
@@ -1200,7 +1201,7 @@ select_menu_item_activate_cb (GtkMenuItem *menu_item,
 			}
 
 			dialog = gth_folder_chooser_dialog_new (folders);
-			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (GET_WIDGET ("find_duplicates_dialog")));
+			gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (self->priv->dialog));
 			gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 			gtk_widget_show (dialog);
 
@@ -1293,15 +1294,29 @@ gth_find_duplicates_exec (GthBrowser *browser,
 	}
 
 	self->priv->builder = _gtk_builder_new_from_file ("find-duplicates-dialog.ui", "find_duplicates");
+
+	self->priv->dialog = g_object_new (GTK_TYPE_DIALOG,
+			     	     	   "title", _("Find Duplicates"),
+					   "transient-for", GTK_WINDOW (self->priv->browser),
+					   "modal", FALSE,
+					   "destroy-with-parent", FALSE,
+					   "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+					   NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (self->priv->dialog))),
+			   _gtk_builder_get_widget (self->priv->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (self->priv->dialog),
+				_GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE,
+				NULL);
+
 	self->priv->duplicates_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_MODE_NORMAL, FALSE);
 	gtk_tree_model_filter_set_visible_column (GTK_TREE_MODEL_FILTER (GET_WIDGET ("files_treemodelfilter")), FILE_LIST_COLUMN_VISIBLE);
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("files_liststore")), FILE_LIST_COLUMN_FILENAME, GTK_SORT_ASCENDING);
 	gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (gth_file_list_get_view (GTH_FILE_LIST (self->priv->duplicates_list))), GTK_SELECTION_MULTIPLE);
 	gth_file_list_set_caption (GTH_FILE_LIST (self->priv->duplicates_list), "find-duplicates::n-duplicates,gth::file::display-size");
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (self->priv->duplicates_list), 112);
-	gtk_widget_set_size_request (self->priv->duplicates_list, -1, 300);
+	gtk_widget_set_size_request (self->priv->duplicates_list, 750, 300);
 	gtk_widget_show (self->priv->duplicates_list);
-	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("duplicates_list_box")), self->priv->duplicates_list);
+	gtk_box_pack_start (GTK_CONTAINER (GET_WIDGET ("duplicates_list_box")), self->priv->duplicates_list, TRUE, TRUE, 0);
 
 	self->priv->select_button = gtk_menu_button_new ();
 	gtk_container_add (GTK_CONTAINER (self->priv->select_button), gtk_label_new (_("Select")));
@@ -1327,11 +1342,11 @@ gth_find_duplicates_exec (GthBrowser *browser,
 
 	g_object_unref (settings);
 
-	g_signal_connect (GET_WIDGET ("find_duplicates_dialog"),
+	g_signal_connect (self->priv->dialog,
 			  "destroy",
 			  G_CALLBACK (find_duplicates_dialog_destroy_cb),
 			  self);
-	g_signal_connect (GET_WIDGET ("close_button"),
+	g_signal_connect (gtk_dialog_get_widget_for_response (GTK_DIALOG (self->priv->dialog), GTK_RESPONSE_CLOSE),
 			  "clicked",
 			  G_CALLBACK (close_button_clicked_cb),
 			  self);
@@ -1372,8 +1387,6 @@ gth_find_duplicates_exec (GthBrowser *browser,
 			  G_CALLBACK (delete_button_clicked_cb),
 			  self);
 
-	gtk_widget_show (GET_WIDGET ("find_duplicates_dialog"));
-	gtk_window_set_transient_for (GTK_WINDOW (GET_WIDGET ("find_duplicates_dialog")), GTK_WINDOW (self->priv->browser));
-
+	gtk_widget_show (self->priv->dialog);
 	search_directory (self, self->priv->location);
 }

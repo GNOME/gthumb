@@ -100,11 +100,8 @@ gth_folder_chooser_dialog_init (GthFolderChooserDialog *self)
 	self->priv->builder = _gtk_builder_new_from_file ("find-duplicates-choose-folders.ui", "find_duplicates");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
 	content = _gtk_builder_get_widget (self->priv->builder, "folder_chooser");
-	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("folders_liststore")), FOLDER_NAME_COLUMN, GTK_SORT_ASCENDING);
@@ -121,6 +118,7 @@ gth_folder_chooser_dialog_init (GthFolderChooserDialog *self)
 			       _GTK_LABEL_OK,
 			       GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_CLOSE, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 }
 
 
@@ -156,7 +154,10 @@ gth_folder_chooser_dialog_new (GList *folders)
 {
 	GthFolderChooserDialog *self;
 
-	self = g_object_new (GTH_TYPE_FOLDER_CHOOSER_DIALOG, NULL);
+	self = g_object_new (GTH_TYPE_FOLDER_CHOOSER_DIALOG,
+			     /*"title", _("Folders"),*/
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     NULL);
 	gth_folder_chooser_dialog_construct (self, folders);
 
 	return (GtkWidget *) self;
