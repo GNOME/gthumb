@@ -112,6 +112,7 @@ new_folder_dialog_response_cb (GtkWidget *dialog,
 		g_clear_error (&error);
 	}
 	else {
+		gth_browser_load_location (data->browser, folder);
 		new_folder_data_free (data);
 		gtk_widget_destroy (dialog);
 	}
