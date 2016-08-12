@@ -467,9 +467,6 @@ files_tree_view_selection_changed_cb (GtkTreeSelection *tree_selection,
 }
 
 
-static void start_next_checksum (GthFindDuplicates *self);
-
-
 static void
 update_total_duplicates_label (GthFindDuplicates *self)
 {
@@ -483,6 +480,89 @@ update_total_duplicates_label (GthFindDuplicates *self)
 	g_free (text);
 	g_free (size_formatted);
 }
+
+
+static void
+folder_changed_cb (GthMonitor      *monitor,
+		   GFile           *parent,
+		   GList           *list,
+		   int              position,
+		   GthMonitorEvent  event,
+		   gpointer         user_data)
+{
+	GthFindDuplicates *self = user_data;
+	GList             *file_scan;
+
+	if (event != GTH_MONITOR_EVENT_DELETED)
+		return;
+
+	for (file_scan = list; file_scan; file_scan = file_scan->next) {
+		GFile *file = file_scan->data;
+		GList *values;
+		GList *scan;
+
+		values = g_hash_table_get_values (self->priv->duplicated);
+		for (scan = values; scan; scan = scan->next) {
+			DuplicatedData *d_data = scan->data;
+			GList          *link;
+			char           *text;
+			GList          *singleton;
+
+			link = gth_file_data_list_find_file (d_data->files, file);
+			if (link == NULL)
+				continue;
+
+			d_data->files = g_list_remove_link (d_data->files, link);
+			d_data->n_files -= 1;
+			d_data->total_size -= g_file_info_get_size (d_data->file_data->info);
+
+			text = g_strdup_printf (g_dngettext (NULL, "%d duplicate", "%d duplicates", d_data->n_files - 1), d_data->n_files - 1);
+			g_file_info_set_attribute_string (d_data->file_data->info,
+							  "find-duplicates::n-duplicates",
+							  text);
+			g_free (text);
+
+			singleton = g_list_append (NULL, d_data->file_data);
+			if (d_data->n_files <= 1)
+				gth_file_list_delete_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
+			else
+				gth_file_list_update_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
+			g_list_free (singleton);
+
+			self->priv->n_duplicates -= 1;
+			self->priv->duplicates_size -= g_file_info_get_size (d_data->file_data->info);
+			update_total_duplicates_label (self);
+
+			_g_object_list_unref (link);
+		}
+
+		g_list_free (values);
+	}
+
+	duplicates_list_view_selection_changed_cb (NULL, self);
+	update_file_list_sensitivity (self);
+	update_file_list_selection_info (self);
+}
+
+
+static void
+after_checksums (GthFindDuplicates *self)
+{
+	self->priv->folder_changed_id = g_signal_connect (gth_main_get_default_monitor (),
+							  "folder-changed",
+							  G_CALLBACK (folder_changed_cb),
+							  self);
+
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("pages_notebook")), (self->priv->n_duplicates > 0) ? 0 : 1);
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), _("Search completed"));
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("search_details_label")), "");
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (GET_WIDGET ("search_progressbar")), 1.0);
+	gtk_widget_set_sensitive (GET_WIDGET ("stop_button"), FALSE);
+	duplicates_list_view_selection_changed_cb (NULL, self);
+}
+
+
+static void start_next_checksum (GthFindDuplicates *self);
 
 
 static void
@@ -589,7 +669,6 @@ file_input_stream_read_ready_cb (GObject      *source,
 		}
 
 		duplicates_list_view_selection_changed_cb (NULL, self);
-
 		start_next_checksum (self);
 
 		return;
@@ -642,69 +721,6 @@ read_current_file_ready_cb (GObject      *source,
 
 
 static void
-folder_changed_cb (GthMonitor      *monitor,
-		   GFile           *parent,
-		   GList           *list,
-		   int              position,
-		   GthMonitorEvent  event,
-		   gpointer         user_data)
-{
-	GthFindDuplicates *self = user_data;
-	GList             *file_scan;
-
-	if (event != GTH_MONITOR_EVENT_DELETED)
-		return;
-
-	for (file_scan = list; file_scan; file_scan = file_scan->next) {
-		GFile *file = file_scan->data;
-		GList *values;
-		GList *scan;
-
-		values = g_hash_table_get_values (self->priv->duplicated);
-		for (scan = values; scan; scan = scan->next) {
-			DuplicatedData *d_data = scan->data;
-			GList          *link;
-			char           *text;
-			GList          *singleton;
-
-			link = gth_file_data_list_find_file (d_data->files, file);
-			if (link == NULL)
-				continue;
-
-			d_data->files = g_list_remove_link (d_data->files, link);
-			d_data->n_files -= 1;
-			d_data->total_size -= g_file_info_get_size (d_data->file_data->info);
-
-			text = g_strdup_printf (g_dngettext (NULL, "%d duplicate", "%d duplicates", d_data->n_files - 1), d_data->n_files - 1);
-			g_file_info_set_attribute_string (d_data->file_data->info,
-							  "find-duplicates::n-duplicates",
-							  text);
-			g_free (text);
-
-			singleton = g_list_append (NULL, d_data->file_data);
-			if (d_data->n_files <= 1)
-				gth_file_list_delete_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
-			else
-				gth_file_list_update_files (GTH_FILE_LIST (self->priv->duplicates_list), singleton);
-			g_list_free (singleton);
-
-			self->priv->n_duplicates -= 1;
-			self->priv->duplicates_size -= g_file_info_get_size (d_data->file_data->info);
-			update_total_duplicates_label (self);
-
-			_g_object_list_unref (link);
-		}
-
-		g_list_free (values);
-	}
-
-	duplicates_list_view_selection_changed_cb (NULL, self);
-	update_file_list_sensitivity (self);
-	update_file_list_selection_info (self);
-}
-
-
-static void
 start_next_checksum (GthFindDuplicates *self)
 {
 	GList *link;
@@ -713,17 +729,7 @@ start_next_checksum (GthFindDuplicates *self)
 
 	link = self->priv->files;
 	if (link == NULL) {
-		self->priv->folder_changed_id = g_signal_connect (gth_main_get_default_monitor (),
-								  "folder-changed",
-								  G_CALLBACK (folder_changed_cb),
-								  self);
-
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("pages_notebook")), (self->priv->n_duplicates > 0) ? 0 : 1);
-		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("progress_label")), _("Search completed"));
-		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("search_details_label")), "");
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (GET_WIDGET ("search_progressbar")), 1.0);
-		gtk_widget_set_sensitive (GET_WIDGET ("stop_button"), FALSE);
-		duplicates_list_view_selection_changed_cb (NULL, self);
+		after_checksums (self);
 		return;
 	}
 
@@ -756,12 +762,18 @@ start_next_checksum (GthFindDuplicates *self)
 }
 
 
+/* -- search_directory -- */
+
+
 static void
 done_func (GObject  *object,
 	   GError   *error,
 	   gpointer  user_data)
 {
 	GthFindDuplicates *self = user_data;
+	GList             *scan;
+	GHashTable        *file_sizes;
+	GList             *possible_duplicates;
 
 	g_source_remove (self->priv->pulse_event_id);
 	self->priv->pulse_event_id = 0;
@@ -778,7 +790,45 @@ done_func (GObject  *object,
 		return;
 	}
 
-	self->priv->files = g_list_reverse (self->priv->files);
+	/* ignore files with an unique size */
+
+	file_sizes = g_hash_table_new_full (g_int64_hash, g_int64_equal, NULL, NULL);
+	for (scan = self->priv->files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		gpointer     value;
+		int          n_files;
+		gint64       size;
+
+		size = g_file_info_get_size (file_data->info);
+		value = g_hash_table_lookup (file_sizes, &size);
+		n_files = (value == NULL) ? 0 : GPOINTER_TO_INT (value);
+		n_files += 1;
+		g_hash_table_insert (file_sizes, &size, GINT_TO_POINTER (n_files));
+	}
+
+	possible_duplicates = NULL;
+	for (scan = self->priv->files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		gint64       size;
+		gpointer     value;
+		int          n_files;
+
+		size = g_file_info_get_size (file_data->info);
+		value = g_hash_table_lookup (file_sizes, &size);
+		if (value == NULL)
+			continue;
+
+		n_files = GPOINTER_TO_INT (value);
+		if (n_files > 1)
+			possible_duplicates = g_list_prepend (possible_duplicates, g_object_ref (file_data));
+	}
+
+	g_hash_table_destroy (file_sizes);
+
+	/* start computing checksums */
+
+	_g_object_list_unref (self->priv->files);
+	self->priv->files = possible_duplicates;
 	self->priv->n_files = g_list_length (self->priv->files);
 	self->priv->n_file = 0;
 	start_next_checksum (self);
@@ -963,6 +1013,7 @@ position_treeviewcolumn_clicked_cb (GtkTreeViewColumn *treeviewcolumn,
 	GthFindDuplicates *self = user_data;
 	_file_list_set_sort_column_id (self, treeviewcolumn, FILE_LIST_COLUMN_POSITION);
 }
+
 
 static GList *
 get_selected_files (GthFindDuplicates *self)
