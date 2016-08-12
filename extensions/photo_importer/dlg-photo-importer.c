@@ -252,7 +252,7 @@ update_sensitivity (DialogData *data)
 		can_import = data->source != NULL;
 	else
 		can_import = TRUE;
-	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), can_import);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, can_import);
 	gtk_widget_set_sensitive (GET_WIDGET ("source_selector_box"), can_import);
 	gtk_widget_set_sensitive (GET_WIDGET ("tags_box"), can_import);
 	gtk_widget_set_sensitive (GET_WIDGET ("delete_checkbutton"), can_import);
@@ -569,7 +569,21 @@ dlg_photo_importer (GthBrowser            *browser,
 
 	/* Get the widgets. */
 
-	data->dialog = _gtk_builder_get_widget (data->builder, "photo_importer_dialog");
+	data->dialog = g_object_new (GTK_TYPE_DIALOG,
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", FALSE,
+				     "destroy-with-parent", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			   _gtk_builder_get_widget (data->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_("_Import"), GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
+
+
 	_gtk_window_resize_to_fit_screen_height (data->dialog, 580);
 	gth_browser_set_dialog (browser, "photo_importer", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
@@ -687,11 +701,11 @@ dlg_photo_importer (GthBrowser            *browser,
 			  "delete-event",
 			  G_CALLBACK (dialog_delete_event_cb),
 			  data);
-	g_signal_connect (GET_WIDGET ("ok_button"),
+	g_signal_connect (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK),
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
-	g_signal_connect (GET_WIDGET ("cancel_button"),
+	g_signal_connect (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_CANCEL),
 			  "clicked",
 			  G_CALLBACK (close_dialog),
 			  data);
@@ -728,8 +742,6 @@ dlg_photo_importer (GthBrowser            *browser,
 
 	/* Run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 
 	gth_import_preferences_dialog_set_event (GTH_IMPORT_PREFERENCES_DIALOG (data->preferences_dialog),
