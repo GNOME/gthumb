@@ -111,14 +111,10 @@ gth_folder_chooser_dialog_init (GthFolderChooserDialog *self)
 			  G_CALLBACK (folder_cellrenderertoggle_toggled_cb),
 			  self);
 
-	gtk_dialog_add_button (GTK_DIALOG (self),
-			       _GTK_LABEL_CANCEL,
-			       GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (self),
-			       _GTK_LABEL_OK,
-			       GTK_RESPONSE_OK);
+	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (self),  _GTK_LABEL_OK, GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
-	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_CLOSE, GTK_STYLE_CLASS_SUGGESTED_ACTION);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 }
 
 
