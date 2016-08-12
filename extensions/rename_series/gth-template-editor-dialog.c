@@ -165,8 +165,7 @@ gth_template_editor_dialog_construct (GthTemplateEditorDialog *self,
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_OK, GTK_RESPONSE_OK);
 
-	gtk_style_context_add_class (gtk_widget_get_style_context (gtk_dialog_get_widget_for_response (GTK_DIALOG (self), GTK_RESPONSE_OK)),
-				     GTK_STYLE_CLASS_SUGGESTED_ACTION);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
     	self->priv->content = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
     	gtk_container_set_border_width (GTK_CONTAINER (self->priv->content), 5);

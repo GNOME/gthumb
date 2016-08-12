@@ -146,8 +146,7 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self)
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_SAVE, GTK_RESPONSE_OK);
 
-	gtk_style_context_add_class (gtk_widget_get_style_context (gtk_dialog_get_widget_for_response (GTK_DIALOG (self), GTK_RESPONSE_OK)),
-				     GTK_STYLE_CLASS_SUGGESTED_ACTION);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
     	self->priv->builder = _gtk_builder_new_from_file ("filter-editor.ui", NULL);
 

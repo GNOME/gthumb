@@ -78,6 +78,9 @@ void            _gtk_info_dialog_run                       (GtkWindow        *pa
 					    	    	    const gchar      *format,
 					    	    	    ...) G_GNUC_PRINTF (2, 3);
 void            _gtk_dialog_add_to_window_group            (GtkDialog        *dialog);
+void            _gtk_dialog_add_class_to_response          (GtkDialog        *dialog,
+		   	   	   	   	   	    int               respose_id,
+							    const char	     *class_name);
 GdkPixbuf *     _g_icon_get_pixbuf                         (GIcon            *icon,
 		 			    	    	    int               icon_size,
 		 			    	    	    GtkIconTheme     *icon_theme);

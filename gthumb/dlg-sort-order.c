@@ -121,8 +121,7 @@ dlg_sort_order (GthBrowser *browser)
 	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
 				_GTK_LABEL_OK, GTK_RESPONSE_CLOSE,
 				NULL);
-	gtk_style_context_add_class (gtk_widget_get_style_context (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_CLOSE)),
-				     GTK_STYLE_CLASS_SUGGESTED_ACTION);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_CLOSE, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	gth_browser_set_dialog (browser, "sort-order", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);

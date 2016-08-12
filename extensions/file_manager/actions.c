@@ -664,8 +664,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 					      (move ? _("Move") : _("Copy")), GTK_RESPONSE_ACCEPT,
 					      NULL);
 
-	gtk_style_context_add_class (gtk_widget_get_style_context (gtk_dialog_get_widget_for_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT)),
-				     GTK_STYLE_CLASS_SUGGESTED_ACTION);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	start_uri = g_settings_get_string (settings, PREF_FILE_MANAGER_COPY_LAST_FOLDER);
 	if ((start_uri == NULL) || (strcmp (start_uri, "") == 0)) {

@@ -853,8 +853,7 @@ dlg_rename_series (GthBrowser *browser,
 				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 				_("_Rename"), GTK_RESPONSE_OK,
 				NULL);
-	gtk_style_context_add_class (gtk_widget_get_style_context (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK)),
-				     GTK_STYLE_CLASS_SUGGESTED_ACTION);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	gth_browser_set_dialog (browser, "rename_series", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);

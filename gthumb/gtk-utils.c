@@ -261,6 +261,15 @@ _gtk_dialog_add_to_window_group (GtkDialog *dialog)
 }
 
 
+void
+_gtk_dialog_add_class_to_response (GtkDialog    *dialog,
+				   int           respose_id,
+				   const char	*class_name)
+{
+	gtk_style_context_add_class (gtk_widget_get_style_context (gtk_dialog_get_widget_for_response (dialog, respose_id)), class_name);
+}
+
+
 GdkPixbuf *
 _g_icon_get_pixbuf (GIcon        *icon,
 		    int           icon_size,
