@@ -109,12 +109,25 @@ dlg_sort_order (GthBrowser *browser)
 
 	/* Get the widgets. */
 
-	data->dialog = _gtk_builder_get_widget (data->builder, "sort_order_dialog");
+	data->dialog = g_object_new (GTK_TYPE_DIALOG,
+				     "title", _("Sort By"),
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", FALSE,
+				     "destroy-with-parent", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			   _gtk_builder_get_widget (data->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+				_GTK_LABEL_OK, GTK_RESPONSE_CLOSE,
+				NULL);
+	gtk_style_context_add_class (gtk_widget_get_style_context (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_CLOSE)),
+				     GTK_STYLE_CLASS_SUGGESTED_ACTION);
+
 	gth_browser_set_dialog (browser, "sort-order", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
 	/* Set widgets data. */
-
 
 	file_data = gth_browser_get_location_data (data->browser);
 	if (file_data != NULL) {
@@ -159,7 +172,7 @@ dlg_sort_order (GthBrowser *browser)
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect_swapped (GET_WIDGET ("close_button"),
+	g_signal_connect_swapped (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_CLOSE),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
