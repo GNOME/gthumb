@@ -42,7 +42,7 @@ typedef struct {
 
 
 static void
-new_fodler_data_free (NewFolderData *data)
+new_folder_data_free (NewFolderData *data)
 {
 	g_object_unref (data->parent);
 	g_free (data);
@@ -60,7 +60,7 @@ new_folder_dialog_response_cb (GtkWidget *dialog,
 	GError        *error = NULL;
 
 	if (response_id != GTK_RESPONSE_OK) {
-		new_fodler_data_free (data);
+		new_folder_data_free (data);
 		gtk_widget_destroy (dialog);
 		return;
 	}
@@ -112,7 +112,8 @@ new_folder_dialog_response_cb (GtkWidget *dialog,
 		g_clear_error (&error);
 	}
 	else {
-		new_fodler_data_free (data);
+		gth_browser_load_location (data->browser, folder);
+		new_folder_data_free (data);
 		gtk_widget_destroy (dialog);
 	}
 
