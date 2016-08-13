@@ -340,7 +340,22 @@ dlg_resize_images (GthBrowser *browser,
 
 	/* Get the widgets. */
 
-	data->dialog = _gtk_builder_get_widget (data->builder, "resize_images_dialog");
+	data->dialog = g_object_new (GTK_TYPE_DIALOG,
+				     "title", _("Resize Images"),
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", FALSE,
+				     "destroy-with-parent", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			   _gtk_builder_get_widget (data->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_EXECUTE, GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
+
+
 	gth_browser_set_dialog (browser, "resize_images", data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
@@ -453,11 +468,11 @@ dlg_resize_images (GthBrowser *browser,
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect (GET_WIDGET ("ok_button"),
+	g_signal_connect (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK),
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
-	g_signal_connect_swapped (GET_WIDGET ("cancel_button"),
+	g_signal_connect_swapped (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_CANCEL),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
@@ -487,7 +502,5 @@ dlg_resize_images (GthBrowser *browser,
         if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
         	gtk_widget_hide (GET_WIDGET ("use_destination_checkbutton"));
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 }
