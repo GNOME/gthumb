@@ -631,7 +631,7 @@ ask_value (ReplaceData  *replace_data,
 	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), _gtk_builder_get_widget (builder, "dialog_content"));
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-				_("Execute"), GTK_RESPONSE_OK,
+				_GTK_LABEL_EXECUTE, GTK_RESPONSE_OK,
 				(gth_script_for_each_file (replace_data->script) ? _("_Skip") : NULL), GTK_RESPONSE_NO,
 				NULL);
 	_gtk_dialog_add_class_to_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);

@@ -42,6 +42,7 @@ G_BEGIN_DECLS
 #define _GTK_LABEL_OK _("_Ok")
 #define _GTK_LABEL_REMOVE _("_Remove")
 #define _GTK_LABEL_SAVE _("_Save")
+#define _GTK_LABEL_EXECUTE _("E_xecute")
 
 
 typedef struct {
