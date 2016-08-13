@@ -2434,35 +2434,36 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	gth_statusbar_show_section (GTH_STATUSBAR (browser->priv->statusbar), (page == GTH_BROWSER_PAGE_BROWSER) ? GTH_STATUSBAR_SECTION_FILE_LIST : GTH_STATUSBAR_SECTION_FILE);
 	_gth_browser_hide_infobar (browser);
 
-        if (browser->priv->viewer_page != NULL) {
-                if (page == GTH_BROWSER_PAGE_VIEWER) {
-                        gth_viewer_page_show (browser->priv->viewer_page);
-                        _gth_browser_show_pointer_on_viewer (browser, FALSE);
-                        hide_mouse_pointer_after_delay (browser, NULL);
+	if (page == GTH_BROWSER_PAGE_VIEWER) {
+		if (browser->priv->viewer_page != NULL) {
+			gth_viewer_page_show (browser->priv->viewer_page);
+			_gth_browser_show_pointer_on_viewer (browser, FALSE);
+			hide_mouse_pointer_after_delay (browser, NULL);
 
-                	browser->priv->last_mouse_x = 0.0;
-                	browser->priv->last_mouse_y = 0.0;
-                	if (browser->priv->motion_signal == 0)
+			browser->priv->last_mouse_x = 0.0;
+			browser->priv->last_mouse_y = 0.0;
+			if (browser->priv->motion_signal == 0)
 				browser->priv->motion_signal = g_signal_connect (browser,
 										 "motion_notify_event",
 										 G_CALLBACK (viewer_motion_notify_event_cb),
 										 browser);
-                }
-                else {
-                        gth_viewer_page_hide (browser->priv->viewer_page);
+		}
+	}
+	else {
+		if (browser->priv->viewer_page != NULL)
+			gth_viewer_page_hide (browser->priv->viewer_page);
 
-                	if (browser->priv->motion_signal != 0) {
-                		g_signal_handler_disconnect (browser, browser->priv->motion_signal);
-                		browser->priv->motion_signal = 0;
-                	}
-                	if (browser->priv->hide_mouse_timeout != 0) {
-                		g_source_remove (browser->priv->hide_mouse_timeout);
-                		browser->priv->hide_mouse_timeout = 0;
-                	}
-                }
-        }
+		if (browser->priv->motion_signal != 0) {
+			g_signal_handler_disconnect (browser, browser->priv->motion_signal);
+			browser->priv->motion_signal = 0;
+		}
+		if (browser->priv->hide_mouse_timeout != 0) {
+			g_source_remove (browser->priv->hide_mouse_timeout);
+			browser->priv->hide_mouse_timeout = 0;
+		}
+	}
 
-        _gth_browser_update_header_bar_content (browser);
+	_gth_browser_update_header_bar_content (browser);
         gtk_widget_set_visible (browser->priv->browser_status_commands, page == GTH_BROWSER_PAGE_BROWSER);
 	gtk_widget_set_visible (browser->priv->viewer_status_commands, page == GTH_BROWSER_PAGE_VIEWER);
 
@@ -2511,7 +2512,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 
 	/* restore the browser window size */
 
-	if (page == GTH_BROWSER_PAGE_BROWSER && ! (browser->priv->fullscreen || browser->priv->was_fullscreen))
+	if ((page == GTH_BROWSER_PAGE_BROWSER) && ! (browser->priv->fullscreen || browser->priv->was_fullscreen))
 		gth_window_apply_saved_size (GTH_WINDOW (window), page);
 
 	/* set the focus */
@@ -2520,6 +2521,11 @@ _gth_browser_real_set_current_page (GthWindow *window,
 		gtk_widget_grab_focus (browser->priv->file_list);
 	else if (page == GTH_BROWSER_PAGE_VIEWER)
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
+
+	/* exit from fullscreen after switching to the browser */
+
+	if ((page == GTH_BROWSER_PAGE_BROWSER) && gth_browser_get_is_fullscreen (browser))
+		gth_browser_unfullscreen (browser);
 
 	/* extension hook */
 
@@ -6842,13 +6848,12 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	gtk_window_unfullscreen (GTK_WINDOW (browser));
 
 	browser->priv->properties_on_screen = FALSE;
-	if (GTH_VIEWER_PAGE_GET_INTERFACE (browser->priv->viewer_page)->show_properties != NULL)
-		gth_viewer_page_show_properties (browser->priv->viewer_page, FALSE);
-
 	if (browser->priv->viewer_page != NULL) {
+		if (GTH_VIEWER_PAGE_GET_INTERFACE (browser->priv->viewer_page)->show_properties != NULL)
+			gth_viewer_page_show_properties (browser->priv->viewer_page, FALSE);
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, FALSE);
-		_gth_browser_show_pointer_on_viewer (browser, TRUE);
 	}
+	_gth_browser_show_pointer_on_viewer (browser, TRUE);
 	g_list_free (browser->priv->viewer_controls);
 	browser->priv->viewer_controls = NULL;
 
