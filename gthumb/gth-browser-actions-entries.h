@@ -68,6 +68,7 @@ static const GthAccelerator gth_browser_accelerators[] = {
 	{ "browser-mode", "Escape" },
 	{ "browser-properties", "<Control>i" },
 	{ "close", "<Control>w" },
+	{ "open-location", "<Control>o" },
 	{ "fullscreen", "F11" },
 	{ "revert-to-saved", "F4" },
 	{ "show-sidebar", "F9" },
