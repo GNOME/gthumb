@@ -115,7 +115,6 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 				    const char            *title,
 			            GtkWindow             *parent)
 {
-	GtkWidget   *content;
 	GtkTreeIter  iter;
 	int          i;
 
@@ -124,17 +123,15 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 	if (parent != NULL)
 		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
-	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_SAVE, GTK_RESPONSE_OK);
+	gtk_dialog_add_buttons (GTK_DIALOG (self),
+			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_SAVE, GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	self->priv->builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/list_tools/data/ui/script-editor.ui");
-
-	content = _gtk_builder_get_widget (self->priv->builder, "script_editor");
-	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), _gtk_builder_get_widget (self->priv->builder, "script_editor"), TRUE, TRUE, 0);
 
 	g_signal_connect (GET_WIDGET ("command_entry"),
 			  "icon-press",
@@ -170,7 +167,9 @@ gth_script_editor_dialog_new (const char *title,
 {
 	GthScriptEditorDialog *self;
 
-	self = g_object_new (GTH_TYPE_SCRIPT_EDITOR_DIALOG, NULL);
+	self = g_object_new (GTH_TYPE_SCRIPT_EDITOR_DIALOG,
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     NULL);
 	gth_script_editor_dialog_construct (self, title, parent);
 
 	return (GtkWidget *) self;

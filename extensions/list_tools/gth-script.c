@@ -619,16 +619,27 @@ ask_value (ReplaceData  *replace_data,
 		default_value = "";
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/list_tools/data/ui/ask-value.ui");
-	dialog = _gtk_builder_get_widget (builder, "ask_value_dialog");
+
+	dialog = g_object_new (GTK_TYPE_DIALOG,
+			       "title", "",
+			       "transient-for", GTK_WINDOW (replace_data->parent),
+			       "modal", TRUE,
+			       "destroy-with-parent", FALSE,
+			       "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			       "resizable", TRUE,
+			       NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), _gtk_builder_get_widget (builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_("Execute"), GTK_RESPONSE_OK,
+				(gth_script_for_each_file (replace_data->script) ? _("_Skip") : NULL), GTK_RESPONSE_NO,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
+
 	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "title_label")), gth_script_get_display_name (replace_data->script));
 	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "filename_label")), g_file_info_get_display_name (file_data->info));
 	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "request_label")), prompt);
 	gtk_entry_set_text (GTK_ENTRY (_gtk_builder_get_widget (builder, "request_entry")), default_value);
-	gtk_window_set_title (GTK_WINDOW (dialog), "");
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), replace_data->parent);
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	if (! gth_script_for_each_file (replace_data->script))
-		gtk_widget_hide (_gtk_builder_get_widget (builder, "skip_button"));
 
 	g_object_ref (builder);
 	thumb_loader = gth_thumb_loader_new (128);
@@ -639,11 +650,11 @@ ask_value (ReplaceData  *replace_data,
 			       builder);
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (result == 2) {
+	if (result == GTK_RESPONSE_OK) {
 		value = g_utf8_normalize (gtk_entry_get_text (GTK_ENTRY (_gtk_builder_get_widget (builder, "request_entry"))), -1, G_NORMALIZE_NFC);
 	}
 	else {
-		if (result == 3)
+		if (result == GTK_RESPONSE_NO)
 			*error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_SKIP_TO_NEXT_FILE, "");
 		else
 			*error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
