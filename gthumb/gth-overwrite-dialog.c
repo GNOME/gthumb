@@ -241,14 +241,13 @@ gth_overwrite_dialog_construct (GthOverwriteDialog   *self,
 	GtkWidget *overwrite_radiobutton;
 	GList     *files;
 
-	gtk_window_set_title (GTK_WINDOW (self), "");
+	gtk_window_set_title (GTK_WINDOW (self), _("Overwrite"));
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_OK, GTK_RESPONSE_OK);
+	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_EXECUTE, GTK_RESPONSE_OK);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	self->priv->builder = _gtk_builder_new_from_file ("overwrite-dialog.ui", NULL);
 	box = _gtk_builder_get_widget (self->priv->builder, "overwrite_dialog_box");
@@ -332,7 +331,9 @@ gth_overwrite_dialog_new (GFile                *source,
 {
 	GthOverwriteDialog *self;
 
-	self = g_object_new (GTH_TYPE_OVERWRITE_DIALOG, NULL);
+	self = g_object_new (GTH_TYPE_OVERWRITE_DIALOG,
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     NULL);
 	self->priv->source = _g_object_ref (source);
 	self->priv->source_image = _g_object_ref (source_image);
 	self->priv->destination = g_object_ref (destination);
