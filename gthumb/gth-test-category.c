@@ -45,7 +45,8 @@ typedef struct {
 GthOpData category_op_data[] = {
 	{ N_("is"), GTH_TEST_OP_CONTAINS, FALSE },
 	{ N_("is only"), GTH_TEST_OP_CONTAINS_ONLY, FALSE },
-	{ N_("is not"), GTH_TEST_OP_CONTAINS, TRUE }
+	{ N_("is not"), GTH_TEST_OP_CONTAINS, TRUE },
+	{ N_("matches"), GTH_TEST_OP_MATCHES, FALSE }
 };
 
 
@@ -281,7 +282,8 @@ gth_test_category_real_match (GthTest     *test,
 	if (test_category->priv->category != NULL) {
 		GthMetadata   *metadata;
 		GList         *list, *scan;
-		char          *test_category_casefolded;
+		char          *test_category_casefolded = NULL;
+		GPatternSpec  *pattern = NULL;
 
 		list = NULL;
 		metadata = (GthMetadata *) g_file_info_get_attribute_object (file->info, gth_test_get_attributes (GTH_TEST (test_category)));
@@ -297,17 +299,33 @@ gth_test_category_real_match (GthTest     *test,
 				return test_category->priv->negative ? GTH_MATCH_YES : GTH_MATCH_NO;
 		}
 
-		test_category_casefolded = g_utf8_casefold (test_category->priv->category, -1);
 		for (scan = list; ! result && scan; scan = scan->next) {
-			char *category;
+			char *category = g_utf8_casefold (scan->data, -1);
 
-			category = g_utf8_casefold (scan->data, -1);
-			if (g_utf8_collate (category, test_category_casefolded) == 0)
-				result = TRUE;
+			switch (test_category->priv->op) {
+			case GTH_TEST_OP_CONTAINS:
+			case GTH_TEST_OP_CONTAINS_ONLY:
+				if (test_category_casefolded == NULL)
+					test_category_casefolded = g_utf8_casefold (test_category->priv->category, -1);
+				if (g_utf8_collate (category, test_category_casefolded) == 0)
+					result = TRUE;
+				break;
+
+			case GTH_TEST_OP_MATCHES:
+				if (pattern == NULL)
+					pattern = g_pattern_spec_new (test_category->priv->category);
+				result = g_pattern_match_string (pattern, scan->data);
+				break;
+
+			default:
+				break;
+			}
 
 			g_free (category);
 		}
 
+		if (pattern != NULL)
+			g_pattern_spec_free (pattern);
 		g_free (test_category_casefolded);
 	}
 
