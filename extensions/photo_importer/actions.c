@@ -74,6 +74,7 @@ gth_browser_activate_import_folder (GSimpleAction	*action,
 					       _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 					       _("Import"), GTK_RESPONSE_OK,
 					       NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (chooser), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), FALSE);
 
 	folder = NULL;
