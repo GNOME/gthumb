@@ -710,10 +710,12 @@ gth_image_viewer_size_allocate (GtkWidget     *widget,
 
 	/* Keep the scrollbars offset in a valid range */
 
-	_gth_image_viewer_get_zoomed_size (self, &zoomed_width, &zoomed_height);
 	current_image = gth_image_viewer_get_current_image (self);
-	self->visible_area.x = (current_image == NULL || zoomed_width <= self->visible_area.width) ? 0 : CLAMP (self->visible_area.x, 0, zoomed_width - self->visible_area.width);
-	self->visible_area.y = (current_image == NULL || zoomed_height <= self->visible_area.height) ? 0 : CLAMP (self->visible_area.y, 0, zoomed_height - self->visible_area.height);
+	if (current_image != NULL) {
+		_gth_image_viewer_get_zoomed_size (self, &zoomed_width, &zoomed_height);
+		self->visible_area.x = (zoomed_width <= self->visible_area.width) ? 0 : CLAMP (self->visible_area.x, 0, zoomed_width - self->visible_area.width);
+		self->visible_area.y = (zoomed_height <= self->visible_area.height) ? 0 : CLAMP (self->visible_area.y, 0, zoomed_height - self->visible_area.height);
+	}
 
 	_gth_image_viewer_configure_hadjustment (self);
 	_gth_image_viewer_configure_vadjustment (self);
