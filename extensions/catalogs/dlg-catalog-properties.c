@@ -194,9 +194,23 @@ dlg_catalog_properties (GthBrowser  *browser,
 	data->file_data = gth_file_data_dup (file_data);
 	data->original_file = g_file_dup (data->file_data->file);
 	data->builder = _gtk_builder_new_from_file ("catalog-properties.ui", "catalogs");
-	data->dialog = GET_WIDGET ("properties_dialog");
 
 	/* Set widgets data. */
+
+	data->dialog = g_object_new (GTK_TYPE_DIALOG,
+				     "title", _("Properties"),
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", TRUE,
+				     "destroy-with-parent", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			   _gtk_builder_get_widget (data->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_SAVE, GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	data->time_selector = gth_time_selector_new ();
 	gth_time_selector_show_time (GTH_TIME_SELECTOR (data->time_selector), FALSE, FALSE);
@@ -209,11 +223,11 @@ dlg_catalog_properties (GthBrowser  *browser,
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("save_button")),
+	g_signal_connect (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK),
 			  "clicked",
 			  G_CALLBACK (save_button_clicked_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (GET_WIDGET ("cancel_button")),
+	g_signal_connect_swapped (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_CANCEL),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  data->dialog);
@@ -221,8 +235,5 @@ dlg_catalog_properties (GthBrowser  *browser,
 	/* run dialog. */
 
 	gtk_widget_grab_focus (GET_WIDGET ("name_entry"));
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
-
 	gth_catalog_load_from_file_async (file_data->file, NULL, catalog_ready_cb, data);
 }
