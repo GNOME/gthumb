@@ -3030,6 +3030,8 @@ toolbox_options_visibility_cb (GthToolbox *toolbox,
 			       gboolean    toolbox_options_visible,
 			       GthBrowser *browser)
 {
+	_gth_browser_update_header_bar_content (browser);
+
 	if (toolbox_options_visible) {
 		GtkWidget *file_tool;
 
@@ -3050,8 +3052,6 @@ toolbox_options_visibility_cb (GthToolbox *toolbox,
 		}
 		_gtk_container_remove_children (GTK_CONTAINER (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS]), NULL, NULL);
 	}
-
-	_gth_browser_update_header_bar_content (browser);
 }
 
 
