@@ -206,20 +206,15 @@ gth_curve_preset_editor_dialog_construct (GthCurvePresetEditorDialog	*self,
 	int           n, i;
 	GtkTreeIter   iter;
 
-	gtk_window_set_title (GTK_WINDOW (self), _("Presets"));
-  	if (parent != NULL)
-    		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
-    	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 8);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
-	button = gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE);
-	g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_destroy), self);
-
     	self->priv->builder = _gtk_builder_new_from_file ("curve-preset-editor.ui", "file_tools");
-
     	content = _gtk_builder_get_widget (self->priv->builder, "curve_preset_editor");
-    	gtk_container_set_border_width (GTK_CONTAINER (content), 0);
   	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
+
+	button = gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE);
+	g_signal_connect_swapped (button,
+			          "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  self);
 
   	g_signal_connect (gtk_builder_get_object (self->priv->builder, "preset_name_cellrenderertext"),
   			  "edited",
@@ -267,7 +262,12 @@ gth_curve_preset_editor_dialog_new (GtkWindow		*parent,
 
 	g_return_val_if_fail (preset != NULL, NULL);
 
-	self = g_object_new (GTH_TYPE_CURVE_PRESET_EDITOR_DIALOG, NULL);
+	self = g_object_new (GTH_TYPE_CURVE_PRESET_EDITOR_DIALOG,
+			     "title", _("Presets"),
+			     "transient-for", parent,
+			     "resizable", TRUE,
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     NULL);
 	gth_curve_preset_editor_dialog_construct (self, parent, preset);
 
 	return (GtkWidget *) self;
