@@ -160,5 +160,5 @@ GthToolbox .header-bar,
 
 .gthumb-circular-button {
 	border-radius: 20px;
-	outline-radius: 20px;
+	-gtk-outline-radius: 20px;
 }
