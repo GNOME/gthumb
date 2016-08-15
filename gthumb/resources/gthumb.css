@@ -155,3 +155,10 @@ GthToolbox .header-bar,
 	box-shadow: none;
 	background-image: none;
 }
+
+/* -- circular button for progress dialog -- */
+
+.gthumb-circular-button {
+	border-radius: 20px;
+	outline-radius: 20px;
+}

@@ -24,7 +24,7 @@
 #include "gth-progress-dialog.h"
 #include "gtk-utils.h"
 
-#define DIALOG_WIDTH 450
+#define MAX_DESCRIPTION_LABEL_WIDTH_CHARS 60
 #define SHOW_DELAY 500
 #define PULSE_INTERVAL (1000 / 12)
 #define PULSE_STEP (1.0 / 20.0)
@@ -107,6 +107,7 @@ gth_task_progress_init (GthTaskProgress *self)
 	GtkWidget     *image;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
+	gtk_box_set_spacing (GTK_BOX (self), 15);
 
 	self->task = NULL;
 	self->task_progress = 0;
@@ -119,14 +120,17 @@ gth_task_progress_init (GthTaskProgress *self)
 	gtk_box_pack_start (GTK_BOX (self), vbox, TRUE, TRUE, 0);
 
 	self->description_label = gtk_label_new ("");
+	gtk_widget_set_halign (self->description_label, GTK_ALIGN_START);
 	gtk_misc_set_alignment (GTK_MISC (self->description_label), 0.0, 0.5);
 	gtk_label_set_ellipsize (GTK_LABEL (self->description_label), PANGO_ELLIPSIZE_END);
+	gtk_label_set_max_width_chars (GTK_LABEL (self->description_label), MAX_DESCRIPTION_LABEL_WIDTH_CHARS);
+	gtk_label_set_width_chars (GTK_LABEL (self->description_label), MAX_DESCRIPTION_LABEL_WIDTH_CHARS);
 	gtk_widget_show (self->description_label);
 	gtk_box_pack_start (GTK_BOX (vbox), self->description_label, FALSE, FALSE, 0);
 
 	self->fraction_progressbar = gtk_progress_bar_new ();
 	gtk_progress_bar_set_pulse_step (GTK_PROGRESS_BAR (self->fraction_progressbar), PULSE_STEP);
-	gtk_widget_set_size_request (self->fraction_progressbar, -1, 15);
+	gtk_widget_set_margin_top (self->fraction_progressbar, 5);
 	gtk_widget_show (self->fraction_progressbar);
 	gtk_box_pack_start (GTK_BOX (vbox), self->fraction_progressbar, FALSE, FALSE, 0);
 
@@ -134,8 +138,11 @@ gth_task_progress_init (GthTaskProgress *self)
 	attr_list = pango_attr_list_new ();
 	pango_attr_list_insert (attr_list, pango_attr_size_new (8500));
 	g_object_set (self->details_label, "attributes", attr_list, NULL);
-	gtk_misc_set_alignment (GTK_MISC (self->details_label), 0.0, 0.5);
+	gtk_widget_set_halign (self->details_label, GTK_ALIGN_START);
+	gtk_widget_set_margin_top (self->details_label, 2);
+	gtk_widget_set_margin_start (self->details_label, 2);
 	gtk_label_set_ellipsize (GTK_LABEL (self->details_label), PANGO_ELLIPSIZE_END);
+
 	gtk_widget_show (self->details_label);
 	gtk_box_pack_start (GTK_BOX (vbox), self->details_label, FALSE, FALSE, 0);
 
@@ -144,12 +151,13 @@ gth_task_progress_init (GthTaskProgress *self)
 	gtk_box_pack_start (GTK_BOX (self), vbox, FALSE, FALSE, 0);
 
 	self->cancel_button = gtk_button_new ();
+	gtk_style_context_add_class (gtk_widget_get_style_context (self->cancel_button), "gthumb-circular-button");
 	gtk_widget_show (self->cancel_button);
 	g_signal_connect (self->cancel_button, "clicked", G_CALLBACK (cancel_button_clicked_cb), self);
 	gtk_widget_set_tooltip_text (self->cancel_button, _("Cancel operation"));
 	gtk_box_pack_start (GTK_BOX (vbox), self->cancel_button, TRUE, FALSE, 0);
 
-	image = gtk_image_new_from_icon_name ("edit-delete-symbolic", GTK_ICON_SIZE_MENU);
+	image = gtk_image_new_from_icon_name ("window-close-symbolic", GTK_ICON_SIZE_MENU);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (self->cancel_button), image);
 
@@ -297,17 +305,14 @@ gth_progress_dialog_init (GthProgressDialog *self)
 	self->priv->custom_dialog_opened = FALSE;
 	self->priv->destroy_with_tasks = FALSE;
 
-	gtk_widget_set_size_request (GTK_WIDGET (self), DIALOG_WIDTH, -1);
-	gtk_window_set_title (GTK_WINDOW (self), "");
+	gtk_window_set_title (GTK_WINDOW (self), _("Operations"));
 	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
 	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE);
 
-	self->priv->task_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	self->priv->task_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 15);
 	gtk_widget_show (self->priv->task_box);
-	gtk_container_set_border_width (GTK_CONTAINER (self->priv->task_box), 5);
+	gtk_container_set_border_width (GTK_CONTAINER (self->priv->task_box), 15);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), self->priv->task_box, FALSE, FALSE, 0);
 
 	g_signal_connect (self, "response", G_CALLBACK (progress_dialog_response_cb), self);
@@ -320,7 +325,9 @@ gth_progress_dialog_new (GtkWindow *parent)
 {
 	GthProgressDialog *self;
 
-	self = g_object_new (GTH_TYPE_PROGRESS_DIALOG, NULL);
+	self = g_object_new (GTH_TYPE_PROGRESS_DIALOG,
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     NULL);
 	self->priv->parent = parent;
 
 	return (GtkWidget *) self;
@@ -443,7 +450,7 @@ gth_progress_dialog_add_task (GthProgressDialog *self,
 				  G_CALLBACK (progress_dialog_task_completed_cb),
 				  self);
 
-	gtk_window_set_title (GTK_WINDOW (self), "");
+	gtk_window_set_title (GTK_WINDOW (self), _("Operations"));
 
 	child = gth_task_progress_new (task);
 	gtk_widget_show (child);
@@ -466,7 +473,7 @@ gth_progress_dialog_child_removed (GthProgressDialog *self)
 			self->priv->show_event = 0;
 		}
 		if (self->priv->destroy_with_tasks)
-			gtk_widget_destroy (self);
+			gtk_widget_destroy (GTK_WIDGET (self));
 		else
 			gtk_widget_hide (GTK_WIDGET (self));
 	}
