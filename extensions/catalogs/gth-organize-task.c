@@ -166,20 +166,24 @@ done_func (GError   *error,
 						    CARDINALITY_COLUMN, &n,
 						    -1);
 				if (n == 1) {
-					GthCatalog *catalog;
-					GList      *file_list;
-
 					gtk_list_store_set (self->priv->results_liststore, &iter,
 							    CREATE_CATALOG_COLUMN, FALSE,
 							    -1);
 					singletons++;
-					catalog = g_hash_table_lookup (self->priv->catalogs, key);
-					file_list = gth_catalog_get_file_list (catalog);
-					gth_catalog_insert_file (self->priv->singletons_catalog, file_list->data, -1);
-					if (singletons == 1)
-						g_hash_table_insert (self->priv->catalogs,
-								     g_strdup (gth_catalog_get_name (self->priv->singletons_catalog)),
-								     g_object_ref (self->priv->singletons_catalog));
+
+					if (self->priv->singletons_catalog != NULL) {
+						GthCatalog *catalog;
+						GList      *file_list;
+
+						catalog = g_hash_table_lookup (self->priv->catalogs, key);
+						file_list = gth_catalog_get_file_list (catalog);
+
+						gth_catalog_insert_file (self->priv->singletons_catalog, file_list->data, -1);
+						if (singletons == 1)
+							g_hash_table_insert (self->priv->catalogs,
+									     g_strdup (gth_catalog_get_name (self->priv->singletons_catalog)),
+									     g_object_ref (self->priv->singletons_catalog));
+					}
 				}
 
 				g_free (key);
@@ -192,7 +196,7 @@ done_func (GError   *error,
 			gtk_list_store_set (self->priv->results_liststore, &iter,
 					    KEY_COLUMN, gth_catalog_get_name (self->priv->singletons_catalog),
 					    NAME_COLUMN, gth_catalog_get_name (self->priv->singletons_catalog),
-					    CARDINALITY_COLUMN, singletons,
+					    CARDINALITY_COLUMN, gth_catalog_get_size (self->priv->singletons_catalog),
 					    CREATE_CATALOG_COLUMN, TRUE,
 					    ICON_COLUMN, self->priv->icon_pixbuf,
 					    -1);
@@ -417,6 +421,9 @@ add_file_to_catalog (GthOrganizeTask *self,
 	GtkTreeIter iter;
 	int         n = 0;
 
+	if (! gth_catalog_insert_file (catalog, file_data->file, -1))
+		return;
+
 	if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->results_liststore), &iter)) {
 		do {
 			char *k;
@@ -427,11 +434,11 @@ add_file_to_catalog (GthOrganizeTask *self,
 					    CARDINALITY_COLUMN, &n,
 					    -1);
 			if (g_strcmp0 (k, catalog_key) == 0) {
-				gtk_list_store_set (self->priv->results_liststore, &iter,
-						    CARDINALITY_COLUMN, n + 1,
-						    -1);
 				self->priv->n_files++;
-
+				n += 1;
+				gtk_list_store_set (self->priv->results_liststore, &iter,
+						    CARDINALITY_COLUMN, n,
+						    -1);
 				g_free (k);
 				break;
 			}
@@ -440,8 +447,6 @@ add_file_to_catalog (GthOrganizeTask *self,
 		}
 		while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->results_liststore), &iter));
 	}
-
-	gth_catalog_insert_file (catalog, file_data->file, -1);
 }
 
 
