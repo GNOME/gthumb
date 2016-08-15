@@ -109,6 +109,7 @@ void          gth_catalog_list_async      (GthCatalog           *catalog,
 void          gth_catalog_cancel          (GthCatalog           *catalog);
 void          gth_catalog_update_metadata (GthCatalog           *catalog,
 					   GthFileData          *file_data);
+int           gth_catalog_get_size        (GthCatalog           *catalog);
 
 /* utils */
 

@@ -777,6 +777,13 @@ gth_catalog_update_metadata (GthCatalog  *catalog,
 }
 
 
+int
+gth_catalog_get_size (GthCatalog *catalog)
+{
+	return g_hash_table_size (catalog->priv->file_hash);
+}
+
+
 /* utils */
 
 
