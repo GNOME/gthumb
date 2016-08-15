@@ -48,6 +48,7 @@ struct _GthOrganizeTaskPrivate
 	gboolean        create_singletons;
 	GthCatalog     *singletons_catalog;
 	GtkBuilder     *builder;
+	GtkWidget      *dialog;
 	GtkListStore   *results_liststore;
 	GHashTable     *catalogs;
 	GdkPixbuf      *icon_pixbuf;
@@ -69,7 +70,7 @@ gth_organize_task_finalize (GObject *object)
 
 	self = GTH_ORGANIZE_TASK (object);
 
-	gtk_widget_destroy (GET_WIDGET ("organize_files_dialog"));
+	gtk_widget_destroy (self->priv->dialog);
 	g_object_unref (self->priv->folder);
 	_g_object_unref (self->priv->singletons_catalog);
 	g_object_unref (self->priv->builder);
@@ -204,9 +205,8 @@ done_func (GError   *error,
 	gtk_label_set_ellipsize (GTK_LABEL (GET_WIDGET ("progress_label")), PANGO_ELLIPSIZE_NONE);
 	g_free (status_text);
 
-	gtk_widget_hide (GET_WIDGET ("cancel_button"));
-	gtk_widget_show (GET_WIDGET ("close_button"));
-	gtk_widget_show (GET_WIDGET ("ok_button"));
+	gtk_widget_set_sensitive (GET_WIDGET ("cancel_button"), FALSE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (self->priv->dialog), GTK_RESPONSE_OK, TRUE);
 }
 
 
@@ -576,14 +576,13 @@ gth_organize_task_exec (GthTask *base)
 				   done_func,
 				   self);
 
-	gtk_widget_show (GET_WIDGET ("cancel_button"));
-	gtk_widget_hide (GET_WIDGET ("close_button"));
-	gtk_widget_hide (GET_WIDGET ("ok_button"));
-	gtk_window_set_transient_for (GTK_WINDOW (GET_WIDGET ("organize_files_dialog")), GTK_WINDOW (self->priv->browser));
-	gtk_window_set_modal (GTK_WINDOW (GET_WIDGET ("organize_files_dialog")), TRUE);
-	gtk_widget_show (GET_WIDGET ("organize_files_dialog"));
+	gtk_widget_set_sensitive (GET_WIDGET ("cancel_button"), TRUE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (self->priv->dialog), GTK_RESPONSE_OK, FALSE);
+	gtk_window_set_transient_for (GTK_WINDOW (self->priv->dialog), GTK_WINDOW (self->priv->browser));
+	gtk_window_set_modal (GTK_WINDOW (self->priv->dialog), TRUE);
+	gtk_widget_show (self->priv->dialog);
 
-	gth_task_dialog (base, TRUE, GET_WIDGET ("organize_files_dialog"));
+	gth_task_dialog (base, TRUE, self->priv->dialog);
 }
 
 
@@ -606,6 +605,9 @@ organize_files_dialog_response_cb (GtkDialog *dialog,
 		else
 			response_id = GTK_RESPONSE_CANCEL;
 	}
+
+	if (self->priv->organized && (response_id == GTK_RESPONSE_CANCEL))
+		response_id = GTK_RESPONSE_CLOSE;
 
 	switch (response_id) {
 	case GTK_RESPONSE_CANCEL:
@@ -782,6 +784,17 @@ select_none_button_clicked_cb (GtkButton *button,
 
 
 static void
+cancel_button_clicked_cb (GtkButton *button,
+			  gpointer   user_data)
+{
+	GthOrganizeTask *self = user_data;
+
+	if (! self->priv->organized)
+		gth_task_cancel (GTH_TASK (self));
+}
+
+
+static void
 gth_organize_task_init (GthOrganizeTask *self)
 {
 	GIcon *icon;
@@ -791,6 +804,20 @@ gth_organize_task_init (GthOrganizeTask *self)
 	self->priv->results_liststore = (GtkListStore *) gtk_builder_get_object (self->priv->builder, "results_liststore");
 	self->priv->catalogs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	self->priv->filter = gth_main_get_general_filter ();
+
+	self->priv->dialog = g_object_new (GTK_TYPE_DIALOG,
+				           "title", _("Organize Files"),
+					   "transient-for", GTK_WINDOW (self->priv->browser),
+					   "resizable", TRUE,
+					   "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+					   NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (self->priv->dialog))),
+			   _gtk_builder_get_widget (self->priv->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (self->priv->dialog),
+				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_SAVE, GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (self->priv->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->results_liststore), KEY_COLUMN, GTK_SORT_ASCENDING);
 	g_object_set (GET_WIDGET ("catalog_name_cellrenderertext"), "editable", TRUE, NULL);
@@ -804,6 +831,7 @@ gth_organize_task_init (GthOrganizeTask *self)
 	self->priv->file_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_MODE_NORMAL, FALSE);
 	gth_file_list_set_caption (GTH_FILE_LIST (self->priv->file_list), "standard::display-name");
 	gtk_widget_show (self->priv->file_list);
+	gtk_widget_set_size_request (self->priv->file_list, 350, -1);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_box")), self->priv->file_list, TRUE, TRUE, 0);
 
 	g_signal_connect (GET_WIDGET ("catalog_name_cellrenderertext"),
@@ -814,11 +842,11 @@ gth_organize_task_init (GthOrganizeTask *self)
 			  "toggled",
 			  G_CALLBACK (create_cellrenderertoggle_toggled_cb),
 			  self);
-	g_signal_connect (GET_WIDGET ("organize_files_dialog"),
+	g_signal_connect (self->priv->dialog,
 			  "delete-event",
 			  G_CALLBACK (gtk_true),
 			  NULL);
-	g_signal_connect (GET_WIDGET ("organize_files_dialog"),
+	g_signal_connect (self->priv->dialog,
 			  "response",
 			  G_CALLBACK (organize_files_dialog_response_cb),
 			  self);
@@ -833,6 +861,10 @@ gth_organize_task_init (GthOrganizeTask *self)
 	g_signal_connect (GET_WIDGET ("select_none_button"),
 			  "clicked",
 			  G_CALLBACK (select_none_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("cancel_button"),
+			  "clicked",
+			  G_CALLBACK (cancel_button_clicked_cb),
 			  self);
 }
 
