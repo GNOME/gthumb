@@ -1592,6 +1592,7 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 	file_sel = gth_file_chooser_dialog_new (_("Save Image"),
 						GTK_WINDOW (self->priv->browser),
 						"image-saver");
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (file_sel), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	uri = g_file_get_uri (self->priv->file_data->file);
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), uri);
