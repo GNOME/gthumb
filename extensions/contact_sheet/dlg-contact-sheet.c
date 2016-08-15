@@ -383,8 +383,6 @@ static void
 load_themes (DialogData *data)
 {
 	GFile        *style_dir;
-	int           visible_columns;
-	int           col_spacing;
 	GFile        *data_dir;
 	char         *default_theme;
 	GtkTreeModel *model;
@@ -406,11 +404,6 @@ load_themes (DialogData *data)
 
 	/**/
 
-	visible_columns = 3;
-	col_spacing = gtk_icon_view_get_item_padding (GTK_ICON_VIEW (GET_WIDGET ("theme_iconview")));
-	gtk_widget_set_size_request (GET_WIDGET ("theme_iconview"),
-				     (col_spacing * (visible_columns + 1) + (PREVIEW_SIZE + col_spacing * 2) * visible_columns),
-				     (PREVIEW_SIZE + col_spacing * 2));
 	gtk_widget_realize (GET_WIDGET ("theme_iconview"));
 
 	default_theme = g_settings_get_string (data->settings, PREF_CONTACT_SHEET_THEME);
