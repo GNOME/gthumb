@@ -191,7 +191,7 @@ gth_file_chooser_dialog_construct (GthFileChooserDialog *self,
 
 	settings = g_settings_new (GTHUMB_SAVE_FILE_SCHEMA);
 
-	self->priv->options_checkbutton = gtk_check_button_new_with_mnemonic ("_Show Format Options");
+	self->priv->options_checkbutton = gtk_check_button_new_with_mnemonic (_("_Show Format Options"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->options_checkbutton), g_settings_get_boolean (settings, PREF_SAVE_FILE_SHOW_OPTIONS));
 	gtk_widget_show (self->priv->options_checkbutton);
 	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (self), self->priv->options_checkbutton);
