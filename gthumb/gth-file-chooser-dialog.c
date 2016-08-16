@@ -245,37 +245,37 @@ static gboolean
 _gth_file_chooser_change_format_options (GthFileChooserDialog *self,
 					 GthImageSaver        *saver)
 {
-	GtkWidget *d;
+	GtkWidget *dialog;
 	GtkWidget *control;
 	gboolean   result;
 
-	d = gtk_dialog_new_with_buttons (_("Options"),
-					 GTK_WINDOW (self),
-					 GTK_DIALOG_MODAL,
-					 _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-					 _GTK_LABEL_OK, GTK_RESPONSE_OK,
-					 NULL);
-	_gtk_dialog_add_to_window_group (GTK_DIALOG (d));
-
-	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 0);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
-	gtk_window_set_default_size (GTK_WINDOW (d), 400, -1);
-
 	control = gth_image_saver_get_control (saver);
-	if (control == NULL) {
-		gtk_widget_destroy (d);
+	if (control == NULL)
 		return TRUE;
-	}
 
+	dialog = g_object_new (GTK_TYPE_DIALOG,
+			       "title", _("Options"),
+			       "transient-for", GTK_WINDOW (self),
+			       "modal", TRUE,
+			       "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			       "default-width", 400,
+			       NULL);
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_SAVE, GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
+	_gtk_dialog_add_to_window_group (GTK_DIALOG (dialog));
+
+	gtk_container_set_border_width (GTK_CONTAINER (control), 15);
 	gtk_widget_show (control);
-	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), control);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), control);
 
-	result = gtk_dialog_run (GTK_DIALOG (d)) == GTK_RESPONSE_OK;
+	result = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK;
 	if (result)
 		gth_image_saver_save_options (saver);
 
-	gtk_widget_destroy (d);
+	gtk_widget_destroy (dialog);
 
 	return result;
 }
