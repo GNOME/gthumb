@@ -500,8 +500,21 @@ dlg_export_to_facebook (GthBrowser *browser,
 	data->settings = g_settings_new (GTHUMB_FACEBOOK_SCHEMA);
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("export-to-facebook.ui", "facebook");
-	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
 	data->cancellable = g_cancellable_new ();
+
+	data->dialog = g_object_new (GTK_TYPE_DIALOG,
+				     "title", _("Export to Facebook"),
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			   _gtk_builder_get_widget (data->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_UPLOAD, GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	{
 		GtkCellLayout   *cell_layout;

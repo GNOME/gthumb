@@ -68,6 +68,15 @@ oauth_account_manager_dialog_class_init (OAuthAccountManagerDialogClass *klass)
 
 
 static void
+add_button_clicked_cb (GtkWidget *button,
+		       gpointer   user_data)
+{
+	OAuthAccountManagerDialog *self = user_data;
+	gtk_dialog_response (GTK_DIALOG (self), OAUTH_ACCOUNT_CHOOSER_RESPONSE_NEW);
+}
+
+
+static void
 delete_button_clicked_cb (GtkWidget *button,
 		          gpointer   user_data)
 {
@@ -128,23 +137,15 @@ oauth_account_manager_dialog_init (OAuthAccountManagerDialog *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, OAuthAccountManagerDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("oauth-account-manager.ui", "oauth");
 
-	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
-
 	content = _gtk_builder_get_widget (self->priv->builder, "account_manager");
-	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
-	gtk_dialog_add_button (GTK_DIALOG (self),
-			       _("_New"),
-			       OAUTH_ACCOUNT_MANAGER_RESPONSE_NEW);
-	gtk_dialog_add_button (GTK_DIALOG (self),
-			       _GTK_LABEL_CANCEL,
-			       GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (self),
-			       _GTK_LABEL_OK,
-			       GTK_RESPONSE_OK);
+	gtk_dialog_add_buttons (GTK_DIALOG (self),
+				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_SAVE, GTK_RESPONSE_OK,
+				NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	g_object_set (GET_WIDGET ("account_cellrenderertext"), "editable", TRUE, NULL);
         g_signal_connect (GET_WIDGET ("account_cellrenderertext"),
@@ -152,6 +153,10 @@ oauth_account_manager_dialog_init (OAuthAccountManagerDialog *self)
                           G_CALLBACK (text_renderer_edited_cb),
                           self);
 
+	g_signal_connect (GET_WIDGET ("add_button"),
+			  "clicked",
+			  G_CALLBACK (add_button_clicked_cb),
+			  self);
 	g_signal_connect (GET_WIDGET ("delete_button"),
 			  "clicked",
 			  G_CALLBACK (delete_button_clicked_cb),
@@ -186,7 +191,10 @@ oauth_account_manager_dialog_new (GList *accounts)
 {
 	OAuthAccountManagerDialog *self;
 
-	self = g_object_new (OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, NULL);
+	self = g_object_new (OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG,
+			     "resizable", FALSE,
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     NULL);
 	oauth_account_manager_dialog_construct (self, accounts);
 
 	return (GtkWidget *) self;

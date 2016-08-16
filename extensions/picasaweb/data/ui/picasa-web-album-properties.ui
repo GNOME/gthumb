@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkListStore" id="visibility_liststore">
@@ -16,9 +16,11 @@
       </row>
     </data>
   </object>
-  <object class="GtkVBox" id="album_properties">
+  <object class="GtkBox" id="album_properties">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <property name="border_width">15</property>
     <child>
       <object class="GtkTable" id="table1">
         <property name="visible">True</property>
@@ -31,6 +33,7 @@
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">end</property>
             <property name="label" translatable="yes">_Name:</property>
             <property name="use_underline">True</property>
             <property name="mnemonic_widget">name_entry</property>
@@ -58,6 +61,7 @@
           <object class="GtkLabel" id="label2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">end</property>
             <property name="label" translatable="yes">_Visibility:</property>
             <property name="use_underline">True</property>
             <property name="xalign">0</property>
@@ -70,7 +74,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox1">
+          <object class="GtkBox" id="hbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -119,6 +123,7 @@
           <object class="GtkLabel" id="label3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">end</property>
             <property name="label" translatable="yes">D_escription:</property>
             <property name="use_underline">True</property>
             <property name="mnemonic_widget">description_entry</property>

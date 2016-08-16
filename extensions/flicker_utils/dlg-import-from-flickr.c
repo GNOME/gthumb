@@ -125,7 +125,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 			GList          *file_list;
 
 			if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("photoset_combobox")), &iter)) {
-				gtk_widget_set_sensitive (GET_WIDGET ("download_button"), FALSE);
+				gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, FALSE);
 				return;
 			}
 
@@ -365,7 +365,7 @@ list_photos_ready_cb (GObject      *source_object,
 	}
 	gth_file_list_set_files (GTH_FILE_LIST (data->file_list), list);
 	update_selection_status (data);
-	gtk_widget_set_sensitive (GET_WIDGET ("download_button"), list != NULL);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, list != NULL);
 
 	_g_object_list_unref (list);
 }
@@ -506,8 +506,21 @@ dlg_import_from_flickr (FlickrServer *server,
 	data->browser = browser;
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("import-from-flickr.ui", "flicker_utils");
-	data->dialog = _gtk_builder_get_widget (data->builder, "import_dialog");
 	data->cancellable = g_cancellable_new ();
+
+	data->dialog = g_object_new (GTK_TYPE_DIALOG,
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", FALSE,
+				     "destroy-with-parent", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			   _gtk_builder_get_widget (data->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_("_Import"), GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	{
 		GtkCellLayout   *cell_layout;
@@ -551,7 +564,7 @@ dlg_import_from_flickr (FlickrServer *server,
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (GET_WIDGET ("photoset_liststore")), PHOTOSET_TITLE_COLUMN, GTK_SORT_ASCENDING);
 
-	gtk_widget_set_sensitive (GET_WIDGET ("download_button"), FALSE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, FALSE);
 
 	data->preferences_dialog = gth_import_preferences_dialog_new ();
 	gtk_window_set_transient_for (GTK_WINDOW (data->preferences_dialog), GTK_WINDOW (data->dialog));

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.16.0 on Tue Nov 19 19:33:31 2013 -->
+<!-- Generated with glade 3.20.0 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkVBox" id="import_preferences">
+  <requires lib="gtk+" version="3.0"/>
+  <object class="GtkBox" id="import_preferences">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
+    <property name="border_width">15</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">12</property>
     <child>
       <object class="GtkFrame" id="frame1">
@@ -20,12 +21,13 @@
             <property name="top_padding">6</property>
             <property name="left_padding">12</property>
             <child>
-              <object class="GtkVBox" id="vbox4">
+              <object class="GtkBox" id="vbox4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkHBox" id="hbox2">
+                  <object class="GtkBox" id="hbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
@@ -75,9 +77,10 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vbox6">
+      <object class="GtkBox" id="vbox6">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkCheckButton" id="autosubfolder_checkbutton">
             <property name="visible">True</property>
@@ -110,16 +113,17 @@
             <property name="top_padding">6</property>
             <property name="left_padding">14</property>
             <child>
-              <object class="GtkHBox" id="subfolder_type_box1">
+              <object class="GtkBox" id="subfolder_type_box1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkVBox" id="vbox2">
+                  <object class="GtkBox" id="vbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkHBox" id="subfolder_type_box">
+                      <object class="GtkBox" id="subfolder_type_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
@@ -141,9 +145,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkVBox" id="vbox1">
+                  <object class="GtkBox" id="vbox1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkNotebook" id="subfolder_options_notebook">
                         <property name="visible">True</property>
@@ -220,7 +225,7 @@
             <property name="top_padding">6</property>
             <property name="left_padding">28</property>
             <child>
-              <object class="GtkHBox" id="hbox1">
+              <object class="GtkBox" id="hbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -235,8 +240,8 @@
                       <object class="GtkLabel" id="label6">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label">%E</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -250,8 +255,8 @@
                       <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">The event description</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -267,8 +272,8 @@
                       <object class="GtkLabel" id="label14">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Special code</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="weight" value="bold"/>
                           <attribute name="size" value="8000"/>
@@ -279,8 +284,8 @@
                       <object class="GtkLabel" id="label15">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Description</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="weight" value="bold"/>
                           <attribute name="size" value="8000"/>
@@ -295,8 +300,8 @@
                       <object class="GtkLabel" id="label4">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label">%Y</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -310,8 +315,8 @@
                       <object class="GtkLabel" id="label5">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label">%m</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -325,8 +330,8 @@
                       <object class="GtkLabel" id="label7">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label">%d</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -340,8 +345,8 @@
                       <object class="GtkLabel" id="label8">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label">%H</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -355,8 +360,8 @@
                       <object class="GtkLabel" id="label9">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label">%M</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -370,8 +375,8 @@
                       <object class="GtkLabel" id="label10">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label">%S</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -385,8 +390,8 @@
                       <object class="GtkLabel" id="label12">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">The year</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -402,8 +407,8 @@
                       <object class="GtkLabel" id="label13">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">The month</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -419,8 +424,8 @@
                       <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">The day of the month</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -436,8 +441,8 @@
                       <object class="GtkLabel" id="label17">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">The hour</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -453,8 +458,8 @@
                       <object class="GtkLabel" id="label18">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">The minutes</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -470,8 +475,8 @@
                       <object class="GtkLabel" id="label19">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">The seconds</property>
+                        <property name="xalign">0</property>
                         <attributes>
                           <attribute name="size" value="8000"/>
                         </attributes>
@@ -509,8 +514,8 @@
               <object class="GtkLabel" id="example_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
                 <property name="label">example: file:///home/paolo/images/2009/08/12</property>
+                <property name="xalign">0</property>
                 <attributes>
                   <attribute name="size" value="8500"/>
                 </attributes>

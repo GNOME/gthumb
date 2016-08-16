@@ -67,19 +67,15 @@ picasa_album_properties_dialog_init (PicasaAlbumPropertiesDialog *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PICASA_TYPE_ALBUM_PROPERTIES_DIALOG, PicasaAlbumPropertiesDialogPrivate);
 	self->priv->builder = _gtk_builder_new_from_file ("picasa-web-album-properties.ui", "picasaweb");
 
-	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
-
 	content = _gtk_builder_get_widget (self->priv->builder, "album_properties");
-	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
   	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (self),
 				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-				_GTK_LABEL_OK, GTK_RESPONSE_OK,
+				_GTK_LABEL_SAVE, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (self), GTK_RESPONSE_OK);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 }
 
 
@@ -104,7 +100,10 @@ picasa_album_properties_dialog_new (const char      *name,
 {
 	PicasaAlbumPropertiesDialog *self;
 
-	self = g_object_new (PICASA_TYPE_ALBUM_PROPERTIES_DIALOG, NULL);
+	self = g_object_new (PICASA_TYPE_ALBUM_PROPERTIES_DIALOG,
+			     "resizable", FALSE,
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     NULL);
 	picasa_album_properties_dialog_construct (self, name, description, access);
 
 	return (GtkWidget *) self;

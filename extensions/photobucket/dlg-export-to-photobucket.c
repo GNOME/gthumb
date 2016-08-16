@@ -435,7 +435,7 @@ album_combobox_changed_cb (GtkComboBox *widget,
 	DialogData  *data = user_data;
 	GtkTreeIter  iter;
 
-	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), gtk_combo_box_get_active_iter (widget, &iter));
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, gtk_combo_box_get_active_iter (widget, &iter));
 }
 
 
@@ -546,8 +546,21 @@ dlg_export_to_photobucket (GthBrowser *browser,
 	data->browser = browser;
 	data->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	data->builder = _gtk_builder_new_from_file ("export-to-photobucket.ui", "photobucket");
-	data->dialog = _gtk_builder_get_widget (data->builder, "export_dialog");
 	data->cancellable = g_cancellable_new ();
+
+	data->dialog = g_object_new (GTK_TYPE_DIALOG,
+				     "title", _("Export to Photobucket"),
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			   _gtk_builder_get_widget (data->builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_UPLOAD, GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	{
 		GtkCellLayout   *cell_layout;
@@ -628,7 +641,7 @@ dlg_export_to_photobucket (GthBrowser *browser,
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("images_box")), data->list_view, TRUE, TRUE, 0);
 	gth_file_list_set_files (GTH_FILE_LIST (data->list_view), data->file_list);
 
-	gtk_widget_set_sensitive (GET_WIDGET ("upload_button"), FALSE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, FALSE);
 
 	title = g_strdup_printf (_("Export to %s"), "Photobucket");
 	gtk_window_set_title (GTK_WINDOW (data->dialog), title);

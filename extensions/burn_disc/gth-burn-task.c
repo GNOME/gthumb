@@ -390,13 +390,21 @@ gth_burn_task_exec (GthTask *base)
 	GthBurnTask *task = (GthBurnTask *) base;
 
 	task->priv->builder = _gtk_builder_new_from_file ("burn-source-selector.ui", "burn_disc");
-	task->priv->dialog = gtk_dialog_new_with_buttons (_("Write to Disc"),
-							  GTK_WINDOW (task->priv->browser),
-							  0,
-							  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-							  _GTK_LABEL_OK, GTK_RESPONSE_OK,
-							  NULL);
-	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (task->priv->dialog))), _gtk_builder_get_widget (task->priv->builder, "source_selector"));
+
+	task->priv->dialog = g_object_new (GTK_TYPE_DIALOG,
+					   "title", _("Write to Disc"),
+					   "transient-for", GTK_WINDOW (task->priv->browser),
+					   "modal", FALSE,
+					   "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+					   NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (task->priv->dialog))),
+			   _gtk_builder_get_widget (task->priv->builder, "source_selector"));
+	gtk_dialog_add_buttons (GTK_DIALOG (task->priv->dialog),
+				_GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_("_Continue"), GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (task->priv->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
+
 	if (task->priv->selected_files == NULL)
 		gtk_widget_set_sensitive (_gtk_builder_get_widget (task->priv->builder, "selection_radiobutton"), FALSE);
 	else if ((task->priv->selected_files != NULL) && (task->priv->selected_files->next != NULL))

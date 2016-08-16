@@ -491,14 +491,14 @@ static void
 old_authorization_complete (FlickrService *self)
 {
 	GtkWidget  *dialog;
-	GtkBuilder *builder;
 	char       *text;
 	char       *secondary_text;
 
 	dialog = _web_service_get_auth_dialog (WEB_SERVICE (self));
-	builder = g_object_get_data (G_OBJECT (dialog), "builder");
-	gtk_widget_hide (_gtk_builder_get_widget (builder, "authorize_button"));
-	gtk_widget_show (_gtk_builder_get_widget (builder, "complete_button"));
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), _RESPONSE_AUTHORIZE, FALSE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), _RESPONSE_CONTINUE, TRUE);
+
 	text = g_strdup_printf (_("Return to this window when you have finished the authorization process on %s"), self->priv->server->display_name);
 	secondary_text = g_strdup (_("Once you're done, click the 'Continue' button below."));
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
@@ -556,7 +556,6 @@ old_auth_frob_ready_cb (GObject      *source_object,
 {
 	FlickrService *self = user_data;
 	GError        *error = NULL;
-	GtkBuilder    *builder;
 	GtkWidget     *dialog;
 	char          *text;
 	char          *secondary_text;
@@ -566,14 +565,24 @@ old_auth_frob_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	builder = _gtk_builder_new_from_file ("flickr-ask-authorization-old.ui", "flicker_utils");
-	dialog = _gtk_builder_get_widget (builder, "ask_authorization_dialog");
+	dialog = gtk_message_dialog_new (NULL,
+				         GTK_DIALOG_MODAL,
+					 GTK_MESSAGE_OTHER,
+					 GTK_BUTTONS_NONE,
+					 NULL);
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_("C_ontinue"), _RESPONSE_CONTINUE,
+				_("_Authorize..."), _RESPONSE_AUTHORIZE,
+				NULL);
+
 	text = g_strdup_printf (_("gThumb requires your authorization to upload the photos to %s"), self->priv->server->display_name);
 	secondary_text = g_strdup_printf (_("Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."), self->priv->server->display_name);
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
-	gtk_widget_show (_gtk_builder_get_widget (builder, "authorize_button"));
-	gtk_widget_hide (_gtk_builder_get_widget (builder, "complete_button"));
-	g_object_set_data_full (G_OBJECT (dialog), "builder", builder, g_object_unref);
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), _RESPONSE_AUTHORIZE, TRUE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), _RESPONSE_CONTINUE, FALSE);
+
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (old_authorization_dialog_response_cb),

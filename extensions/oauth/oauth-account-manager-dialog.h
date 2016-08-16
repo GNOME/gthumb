@@ -27,8 +27,6 @@
 
 G_BEGIN_DECLS
 
-#define OAUTH_ACCOUNT_MANAGER_RESPONSE_NEW 1
-
 #define OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG            (oauth_account_manager_dialog_get_type ())
 #define OAUTH_ACCOUNT_MANAGER_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, OAuthAccountManagerDialog))
 #define OAUTH_ACCOUNT_MANAGER_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, OAuthAccountManagerDialogClass))

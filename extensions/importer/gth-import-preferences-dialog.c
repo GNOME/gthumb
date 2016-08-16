@@ -315,14 +315,7 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 	self->priv->settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
 	self->priv->help_visible = FALSE;
 
-	gtk_window_set_title (GTK_WINDOW (self), _("Preferences"));
-	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
-	gtk_window_set_modal (GTK_WINDOW (self), TRUE);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
-
 	content = _gtk_builder_get_widget (self->priv->builder, "import_preferences");
-	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
 	/* subfolder type  */
@@ -346,9 +339,7 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 	gtk_widget_show (self->priv->subfolder_format_list);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("subfolder_type_box")), self->priv->subfolder_format_list, TRUE, TRUE, 0);
 
-	gtk_dialog_add_button (GTK_DIALOG (self),
-			       _GTK_LABEL_CLOSE,
-			       GTK_RESPONSE_CLOSE);
+	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE);
 
 	/* set widget data */
 
@@ -421,7 +412,12 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 GtkWidget *
 gth_import_preferences_dialog_new (void)
 {
-	return (GtkWidget *) g_object_new (GTH_TYPE_IMPORT_PREFERENCES_DIALOG, NULL);
+	return (GtkWidget *) g_object_new (GTH_TYPE_IMPORT_PREFERENCES_DIALOG,
+					   "title", _("Preferences"),
+					   "resizable", FALSE,
+					   "modal", TRUE,
+					   "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+					   NULL);
 }
 
 

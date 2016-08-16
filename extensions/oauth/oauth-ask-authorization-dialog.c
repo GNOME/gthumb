@@ -212,13 +212,9 @@ oauth_ask_authorization_dialog_init (OAuthAskAuthorizationDialog *self)
 	self->priv->builder = _gtk_builder_new_from_file ("oauth-ask-authorization.ui", "oauth");
 
 	gtk_window_set_default_size (GTK_WINDOW (self), 500, 500);
-	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
-	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
 	dialog_content = GET_WIDGET ("dialog_content");
 	gtk_widget_show (dialog_content);
-	gtk_container_set_border_width (GTK_CONTAINER (dialog_content), 5);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), dialog_content, TRUE, TRUE, 0);
 
 	self->priv->view = _webkit_web_view_new (self);
@@ -230,9 +226,7 @@ oauth_ask_authorization_dialog_init (OAuthAskAuthorizationDialog *self)
 			  G_CALLBACK (webkit_view_load_changed_cb),
 			  self);
 
-	gtk_dialog_add_button (GTK_DIALOG (self),
-			       _GTK_LABEL_CANCEL,
-			       GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
 }
 
 
@@ -243,6 +237,8 @@ oauth_ask_authorization_dialog_new (const char *uri)
 
 	self = g_object_new (OAUTH_TYPE_ASK_AUTHORIZATION_DIALOG,
 			     "title", _("Authorization Required"),
+			     "resizable", TRUE,
+			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
 			     NULL);
 	if (uri != NULL)
 		webkit_web_view_load_uri (WEBKIT_WEB_VIEW (self->priv->view), uri);

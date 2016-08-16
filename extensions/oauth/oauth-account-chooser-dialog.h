@@ -28,8 +28,6 @@
 
 G_BEGIN_DECLS
 
-#define OAUTH_ACCOUNT_CHOOSER_RESPONSE_NEW 1
-
 #define OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG            (oauth_account_chooser_dialog_get_type ())
 #define OAUTH_ACCOUNT_CHOOSER_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG, OAuthAccountChooserDialog))
 #define OAUTH_ACCOUNT_CHOOSER_DIALOG_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), OAUTH_TYPE_ACCOUNT_CHOOSER_DIALOG, OAuthAccountChooserDialogClass))
