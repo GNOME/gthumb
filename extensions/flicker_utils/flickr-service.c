@@ -573,7 +573,7 @@ old_auth_frob_ready_cb (GObject      *source_object,
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 				_("C_ontinue"), _RESPONSE_CONTINUE,
-				_("_Authorize..."), _RESPONSE_AUTHORIZE,
+				_("_Authorize…"), _RESPONSE_AUTHORIZE,
 				NULL);
 
 	text = g_strdup_printf (_("gThumb requires your authorization to upload the photos to %s"), self->priv->server->display_name);

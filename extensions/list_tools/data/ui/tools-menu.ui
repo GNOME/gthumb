@@ -10,7 +10,7 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">Personalize...</attribute>
+        <attribute name="label" translatable="yes">Personalize…</attribute>
         <attribute name="action">win.personalize-tools</attribute>
       </item>
     </section>
