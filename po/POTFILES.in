@@ -360,7 +360,6 @@ extensions/flicker/callbacks.h
 [type: gettext/ini]extensions/flicker/flicker.extension.in.in
 extensions/flicker/main.c
 [type: gettext/glade]extensions/flicker_utils/data/ui/export-to-flickr.ui
-[type: gettext/glade]extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui
 [type: gettext/glade]extensions/flicker_utils/data/ui/import-from-flickr.ui
 extensions/flicker_utils/dlg-export-to-flickr.c
 extensions/flicker_utils/dlg-export-to-flickr.h
