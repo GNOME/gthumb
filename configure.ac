@@ -12,9 +12,10 @@ AC_INIT([gthumb], [gthumb_version],
         [gthumb])
 AM_INIT_AUTOMAKE([1.11 foreign no-dist-gzip dist-xz tar-ustar])
 
+AC_CONFIG_SRCDIR([configure.ac])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_SRCDIR([configure.ac])
+AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \${ACLOCAL_FLAGS}"])
 
 GTHUMB_API_VERSION=gthumb_api_version
 AC_SUBST([GTHUMB_API_VERSION])
@@ -49,11 +50,8 @@ AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal, glib-genmarshal)
 AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums, glib-mkenums)
 AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources, glib-compile-resources)
 
-GNOME_COMMON_INIT
 YELP_HELP_INIT
 GNOME_MAINTAINER_MODE_DEFINES
-GNOME_COMPILE_WARNINGS([maximum])
-GNOME_CXX_WARNINGS
 GLIB_GSETTINGS
 GTHUMB_EXTENSION_RULES
 
