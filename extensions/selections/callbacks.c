@@ -46,13 +46,6 @@ static const GActionEntry actions[] = {
 };
 
 
-static const GthAccelerator accelerators[] = {
-	{ "go-to-selection-1", "<control>1" },
-	{ "go-to-selection-2", "<control>2" },
-	{ "go-to-selection-3", "<control>3" },
-};
-
-
 static const GthMenuEntry file_list_popup_open_entries[] = {
 	{ N_("Open Folder"), "win.go-to-container-from-selection", "<Alt>end" },
 };
