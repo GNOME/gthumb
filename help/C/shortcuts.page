@@ -469,7 +469,6 @@ id="gthumb-shortcuts">
           <p>
             <key>End</key>
           </p>
-
         </td>
         <td>
           <p>Go to the last file in the browser view.</p>
@@ -526,6 +525,16 @@ id="gthumb-shortcuts">
         </td>
         <td>
           <p>Go up one level.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+            <keyseq><key>Ctrl</key><key>o</key></keyseq>
+          </p>
+        </td>
+        <td>
+          <p>Open a location typing the path.</p>
         </td>
       </tr>
     </table>
