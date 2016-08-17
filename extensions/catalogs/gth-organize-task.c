@@ -807,7 +807,10 @@ gth_organize_task_init (GthOrganizeTask *self)
 	g_object_unref (icon);
 
 	self->priv->file_list = gth_file_list_new (gth_grid_view_new (), GTH_FILE_LIST_MODE_NORMAL, FALSE);
+	gth_file_list_set_filter (GTH_FILE_LIST (self->priv->file_list), NULL);
 	gth_file_list_set_caption (GTH_FILE_LIST (self->priv->file_list), "standard::display-name");
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (self->priv->file_list), 128);
+	gth_file_list_set_ignore_hidden (GTH_FILE_LIST (self->priv->file_list), FALSE);
 	gtk_widget_show (self->priv->file_list);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("preview_box")), self->priv->file_list, TRUE, TRUE, 0);
 
