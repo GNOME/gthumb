@@ -2244,6 +2244,13 @@ gth_image_viewer_set_tool (GthImageViewer     *self,
 }
 
 
+GthImageViewerTool *
+gth_image_viewer_get_tool (GthImageViewer *self)
+{
+	return self->priv->tool;
+}
+
+
 void
 gth_image_viewer_scroll_to (GthImageViewer *self,
 			    int             x_offset,
