@@ -529,7 +529,7 @@ gth_file_tool_adjust_contrast_get_options (GthFileTool *base)
 				    METHOD_STRETCH_0_5,
 				    get_image_task_for_method (METHOD_STRETCH_0_5),
 				    _("Stretch"),
-				    _("Stretch the histogram trimming the 0.5%"));
+				    _("Stretch the histogram after trimming 0.5% from both ends"));
 	gth_filter_grid_add_filter (GTH_FILTER_GRID (filter_grid),
 				    METHOD_EQUALIZE_SQUARE_ROOT,
 				    get_image_task_for_method (METHOD_EQUALIZE_SQUARE_ROOT),
