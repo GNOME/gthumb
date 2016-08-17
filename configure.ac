@@ -130,7 +130,7 @@ CFLAGS="$CFLAGS $WARNINGS"
 dnl ===========================================================================
 
 AC_ARG_ENABLE(run_in_place,
-	      AS_HELP_STRING([--enable-run-in-place],[load ui data and extensions from the source tree]),
+	      AS_HELP_STRING([--enable-run-in-place],[load ui data and extensions from the source tree, you still need to 'make install' the data directory (useful for development)]),
 	      [case "${enableval}" in
 	      yes) enable_run_in_place=yes ;;
 	      no) enable_run_in_place=no ;;
