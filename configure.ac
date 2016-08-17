@@ -99,6 +99,8 @@ AC_ARG_ENABLE(debug,
 if test x$ENABLE_DEBUG = xyes; then
 	AC_DEFINE(DEBUG, 1, [enable compilation of debugging messages])
 	CFLAGS="$CFLAGS -g -O0 -DDEBUG"
+else
+	CFLAGS="$CFLAGS -Wno-deprecated-declarations"
 fi
 
 dnl ===========================================================================
