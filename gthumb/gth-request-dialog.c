@@ -59,8 +59,6 @@ _gth_request_dialog_construct (GthRequestDialog *self,
 			       const char       *cancel_button_text,
 			       const char       *ok_button_text)
 {
-	GtkWidget     *title_label;
-	PangoAttrList *attributes;
 	GtkWidget     *prompt_label;
 	GtkWidget     *hbox;
 	GtkWidget     *vbox_entry;

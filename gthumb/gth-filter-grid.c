@@ -390,8 +390,6 @@ void
 gth_filter_grid_activate (GthFilterGrid	*self,
 			  int		 filter_id)
 {
-	GtkWidget *button;
-
 	if (filter_id == GTH_FILTER_GRID_NO_FILTER) {
 		if (self->priv->active_button != NULL)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->active_button), FALSE);
@@ -555,8 +553,7 @@ generate_previews (GthFilterGrid	*self,
 		   cairo_surface_t	*image,
 		   GList		*tasks)
 {
-	GeneratePreviewData	*data;
-	GList			*scan;
+	GeneratePreviewData *data;
 
 	if (self->priv->gp_data != NULL)
 		generate_preview_data_cancel (self->priv->gp_data);

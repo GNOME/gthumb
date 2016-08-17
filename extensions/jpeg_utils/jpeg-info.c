@@ -255,7 +255,6 @@ _jpeg_exif_colorimetry_from_app1_segment (guchar	*in_buffer,
 	gboolean  big_endian;
 	guchar   *exif_data;
 	guint     offset, number_of_tags, tagnum;
-	int       orientation;
 	int       remaining_tags;
 
 	/* Length includes itself, so must be at least 2 */

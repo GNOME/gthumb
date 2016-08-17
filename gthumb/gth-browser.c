@@ -2275,7 +2275,6 @@ hide_mouse_pointer_cb (gpointer data)
 {
 	HideMouseData *hmdata = data;
 	GthBrowser    *browser = hmdata->browser;
-	GList         *scan;
 
 	browser->priv->hide_mouse_timeout = 0;
 
@@ -6421,14 +6420,10 @@ _gth_browser_load_file_keep_view (GthBrowser  *browser,
 				  gboolean     view,
 				  gboolean     no_delay)
 {
-	gboolean fullscreen;
-
 	if (browser->priv->view_files_in_fullscreen && gth_browser_get_is_fullscreen (browser))
 		view = FALSE;
 	else if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER)
 		view = FALSE;
-	fullscreen = view && browser->priv->view_files_in_fullscreen;
-
 	_gth_browser_load_file_more_options (browser, file_data, view, browser->priv->view_files_in_fullscreen, no_delay);
 }
 
@@ -6969,7 +6964,6 @@ gth_browser_get_screen_profile (GthBrowser *browser)
 		GdkAtom    type    = GDK_NONE;
 		int        format  = 0;
 		int        nitems  = 0;
-		int        monitor = 0;
 		guchar    *data    = NULL;
 
 		screen = gtk_widget_get_screen (GTK_WIDGET (browser));

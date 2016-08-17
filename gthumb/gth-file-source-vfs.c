@@ -769,7 +769,6 @@ gth_file_mananger_trash_files (GtkWindow *window,
 			       GList     *file_list /* GthFileData list */)
 {
 	TrashData *tdata;
-	GList     *files;
 	GthTask   *task;
 
 	tdata = g_new0 (TrashData, 1);

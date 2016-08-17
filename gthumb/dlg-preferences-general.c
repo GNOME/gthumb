@@ -135,9 +135,6 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	BrowserData   *data;
 	char          *startup_location;
 	GthFileSource *file_source;
-	char          *current_caption;
-	GtkWidget     *label;
-	GtkWidget     *page;
 
 	data = g_new0 (BrowserData, 1);
 	data->builder = g_object_ref (dialog_builder);

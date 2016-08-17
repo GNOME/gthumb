@@ -722,7 +722,6 @@ dom_str_equal (const char *a,
 	       const char *b)
 {
 	const char *ai, *bi;
-	gboolean    a_valid, b_valid;
 
 	if ((a != NULL) && ! g_utf8_validate (a, -1, NULL))
 		a = NULL;

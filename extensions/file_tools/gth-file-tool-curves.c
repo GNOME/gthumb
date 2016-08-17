@@ -77,8 +77,7 @@ static void
 curves_setup (TaskData        *task_data,
 	      cairo_surface_t *source)
 {
-	long **value_map;
-	int    c, v;
+	int c, v;
 
 	for (c = GTH_HISTOGRAM_CHANNEL_VALUE; c <= GTH_HISTOGRAM_CHANNEL_BLUE; c++) {
 		task_data->value_map[c] = g_new (long, 256);
@@ -242,7 +241,7 @@ static TaskData *
 task_data_new (GthPoints *points)
 {
 	TaskData *task_data;
-	int       c, n;
+	int       c;
 
 	task_data = g_new (TaskData, 1);
 	for (c = 0; c < GTH_HISTOGRAM_N_CHANNELS; c++) {
@@ -297,7 +296,6 @@ apply_cb (gpointer user_data)
 	GthFileToolCurves *self = user_data;
 	GtkWidget         *window;
 	GthPoints          points[GTH_HISTOGRAM_N_CHANNELS];
-	int                c;
 
 	if (self->priv->apply_event != 0) {
 		g_source_remove (self->priv->apply_event);
@@ -523,7 +521,6 @@ preset_changed_cb (GthCurvePreset	*preset,
 		   gpointer		 user_data)
 {
 	GthFileToolCurves *self = user_data;
-	gboolean           saved;
 	const char        *preset_name;
 	GthPoints         *points;
 	GError            *error = NULL;
@@ -715,7 +712,6 @@ gth_file_tool_curves_get_options (GthFileTool *base)
 		self->priv->filter_grid = gth_filter_grid_new ();
 		for (i = 0; i < gth_curve_preset_get_size (self->priv->preset); i++) {
 			GthPoints  *points;
-			int         c;
 			const char *name;
 			int         id;
 
@@ -881,8 +877,6 @@ gth_file_tool_sharpen_reset_image (GthImageViewerPageTool *base)
 static void
 gth_file_tool_curves_init (GthFileToolCurves *self)
 {
-	int c;
-
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_CURVES, GthFileToolCurvesPrivate);
 	self->priv->preview = NULL;
 	self->priv->destination = NULL;

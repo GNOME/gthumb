@@ -40,12 +40,12 @@ gpointer
 file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 						GdkEventKey *event)
 {
-	gpointer     result = NULL;
-	GtkWidget   *sidebar;
-	GtkWidget   *toolbox;
-	GthFileTool *tool = NULL;
-	guint        modifiers;
-	GtkWidget   *page;
+	gpointer       result = NULL;
+	GtkWidget     *sidebar;
+	GtkWidget     *toolbox;
+	GthFileTool   *tool = NULL;
+	guint          modifiers;
+	GthViewerPage *page;
 
 	sidebar = gth_browser_get_viewer_sidebar (browser);
 	toolbox = gth_sidebar_get_toolbox (GTH_SIDEBAR (sidebar));

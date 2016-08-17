@@ -130,8 +130,7 @@ visible_child_changed_cb (GObject    *playbin,
 static void
 gth_multipage_init (GthMultipage *multipage)
 {
-	GtkWidget       *switcher_box;
-	GtkCellRenderer *renderer;
+	GtkWidget *switcher_box;
 
 	multipage->priv = GTH_MULTIPAGE_GET_PRIVATE (multipage);
 	multipage->priv->children = NULL;
@@ -180,8 +179,7 @@ void
 gth_multipage_add_child (GthMultipage      *multipage,
 			 GthMultipageChild *child)
 {
-	GtkWidget   *box;
-	GtkTreeIter  iter;
+	GtkWidget *box;
 
 	multipage->priv->children = g_list_append (multipage->priv->children, child);
 

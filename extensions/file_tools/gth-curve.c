@@ -50,7 +50,6 @@ gth_curve_new_for_points (GType		 curve_type,
 {
 	GthCurve  *curve;
 	va_list    args;
-	int        i;
 	GthPoints  points;
 
 	curve = g_object_new (curve_type, NULL);
@@ -375,9 +374,11 @@ gth_cspline_finalize (GObject *object)
 }
 
 
+#if 0
 static int number_sign (double x) {
 	return (x < 0) ? -1 : (x > 0) ? 1 : 0;
 }
+#endif
 
 
 static void

@@ -369,7 +369,6 @@ warmer_exec (GthAsyncTask *task,
 	cairo_surface_t *original;
 	cairo_surface_t *source;
 	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
-	gboolean         cancelled = FALSE;
 
 	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
 	source = _cairo_image_surface_copy (original);
@@ -414,7 +413,6 @@ cooler_exec (GthAsyncTask *task,
 	cairo_surface_t *original;
 	cairo_surface_t *source;
 	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
-	gboolean         cancelled = FALSE;
 
 	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
 	source = _cairo_image_surface_copy (original);
@@ -700,7 +698,6 @@ cherry_exec (GthAsyncTask *task,
 	cairo_surface_t *original;
 	cairo_surface_t *source;
 	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
-	gboolean         cancelled = FALSE;
 
 	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
 	source = _cairo_image_surface_copy (original);
@@ -748,7 +745,6 @@ vintage_exec (GthAsyncTask *task,
 	cairo_surface_t *original;
 	cairo_surface_t *source;
 	GthCurve	*curve[GTH_HISTOGRAM_N_CHANNELS];
-	gboolean         cancelled = FALSE;
 
 	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
 	source = _cairo_image_surface_copy (original);
@@ -919,7 +915,6 @@ vignette_exec (GthAsyncTask *task,
 {
 	cairo_surface_t *original;
 	cairo_surface_t *destination;
-	gboolean         cancelled = FALSE;
 
 	original = gth_image_task_get_source_surface (GTH_IMAGE_TASK (task));
 	destination = _cairo_image_surface_copy (original);

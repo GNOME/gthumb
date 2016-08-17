@@ -255,11 +255,8 @@ gth_color_scale_draw (GtkWidget *widget,
 	GtkStyleContext       *context;
 	GtkOrientation         orientation;
 	GdkRectangle           range_rect;
-	int                    slider_width;
-	int                    slider_length;
 	int                    slider_start;
 	int                    slider_end;
-	int                    slider_spacing;
 	GtkStateFlags          widget_state;
 	GtkStateFlags          slider_state;
 	gboolean               gtk320 = ((gtk_major_version >= 3) && (gtk_minor_version >= 20));

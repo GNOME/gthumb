@@ -76,13 +76,12 @@ list_box_row_activated_cb (GtkListBox    *box,
 void
 dlg_preferences (GthBrowser *browser)
 {
-	DialogData       *data;
-	GtkWidget        *notebook;
-	GList            *children;
-	GList            *scan;
-	int               page_num;
-	GtkWidget        *list_box;
-	GtkTreeSelection *selection;
+	DialogData *data;
+	GtkWidget  *notebook;
+	GList      *children;
+	GList      *scan;
+	int         page_num;
+	GtkWidget  *list_box;
 
 	if (gth_browser_get_dialog (browser, "preferences") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "preferences")));

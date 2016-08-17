@@ -1245,8 +1245,6 @@ gth_main_activate_extensions (void)
 						"slideshow",
 						"webalbums",
 						NULL };
-	int                   i;
-	GError               *error = NULL;
 	GSettings            *settings;
 	char                **user_actived_extensions;
 	char                **actived_extensions;

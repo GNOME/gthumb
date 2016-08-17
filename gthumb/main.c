@@ -218,7 +218,6 @@ static const GActionEntry app_menu_entries[] = {
 static void
 _gth_application_initialize_app_menu (GApplication *application)
 {
-	gboolean    show_app_menu;
 	GtkBuilder *builder;
 
 	g_action_map_add_action_entries (G_ACTION_MAP (application),

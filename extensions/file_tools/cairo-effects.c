@@ -225,8 +225,6 @@ cairo_image_surface_apply_bcs (cairo_surface_t  *source,
 			       GthAsyncTask     *task)
 {
 	PixbufCache     *cache;
-	int		 i;
-	double           midtone_distance[256];
 	int              width;
 	int              height;
 	int              source_stride;
@@ -235,15 +233,11 @@ cairo_image_surface_apply_bcs (cairo_surface_t  *source,
 	gboolean         cancelled = FALSE;
 	double           progress;
 	unsigned char   *p_source;
-	int              image_red, image_green, image_blue, image_alpha;
 	unsigned char    values[4];
-	int              red, green, blue, alpha;
-	int              temp, min, max, lightness, value;
+	int              temp, value;
 
 	gimp_op_init ();
 	cache = pixbuf_cache_new ();
-	for (i = 0; i < 256; i++)
-		midtone_distance[i] = 0.667 * (1 - SQR (((double) i - 127.0) / 127.0));
 
 	if (saturation < 0)
 		saturation = tan (saturation * G_PI_2);
@@ -406,7 +400,6 @@ cairo_image_surface_add_color (cairo_surface_t  *source,
 			       guchar            color_alpha,
 			       GthAsyncTask     *task)
 {
-	int		 i;
 	int              width;
 	int              height;
 	int              source_stride;

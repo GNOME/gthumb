@@ -373,7 +373,6 @@ update_overview_visibility_now (gpointer user_data)
 {
 	GthImageViewerPage *self;
 	gboolean            overview_visible;
-	gboolean            revealed;
 
 	self = GTH_IMAGE_VIEWER_PAGE (user_data);
 

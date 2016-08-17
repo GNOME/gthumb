@@ -205,7 +205,6 @@ adjust_contrast_setup (EqualizeData    *equalize_data,
 		       cairo_surface_t *source)
 {
 	GthHistogram *histogram;
-	int           c;
 
 	histogram = gth_histogram_new ();
 	gth_histogram_calculate_for_image (histogram, source);

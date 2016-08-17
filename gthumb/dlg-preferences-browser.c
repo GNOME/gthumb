@@ -120,8 +120,6 @@ browser__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				       GtkBuilder *dialog_builder)
 {
 	BrowserData   *data;
-	char          *startup_location;
-	GthFileSource *file_source;
 	char          *current_caption;
 	GtkWidget     *label;
 	GtkWidget     *page;

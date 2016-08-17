@@ -40,24 +40,9 @@ G_DEFINE_TYPE (GthWindowTitle,
 
 
 static void
-gth_window_title_finalize (GObject *object)
-{
-	GthWindowTitle *self;
-
-	self = GTH_WINDOW_TITLE (object);
-
-	G_OBJECT_CLASS (gth_window_title_parent_class)->finalize (object);
-}
-
-static void
 gth_window_title_class_init (GthWindowTitleClass *klass)
 {
-	GObjectClass *object_class;
-
 	g_type_class_add_private (klass, sizeof (GthWindowTitlePrivate));
-
-	object_class = (GObjectClass*) klass;
-	object_class->finalize = gth_window_title_finalize;
 }
 
 
