@@ -703,6 +703,8 @@ gthumb/gnome-desktop-thumbnail.h
 gthumb/gnome-thumbnail-pixbuf-utils.c
 gthumb/gsignature.c
 gthumb/gsignature.h
+gthumb/gth-application.c
+gthumb/gth-application.h
 gthumb/gth-async-task.c
 gthumb/gth-async-task.h
 gthumb/gth-auto-paned.c
