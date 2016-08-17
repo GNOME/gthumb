@@ -132,6 +132,7 @@ PRIVATE_HEADER_FILES = 					\
 	dlg-preferences-browser.h			\
 	dlg-preferences-extensions.h			\
 	dlg-preferences-general.h			\
+	gth-application.h				\
 	gth-browser-actions-callbacks.h			\
 	gth-browser-actions-entries.h			\
 	gth-file-details.h				\
@@ -171,6 +172,7 @@ gthumb_SOURCES = 					\
 	gio-utils.c					\
 	glib-utils.c					\
 	gsignature.c					\
+	gth-application.c				\
 	gth-auto-paned.c				\
 	gth-async-task.c				\
 	gth-browser.c					\
