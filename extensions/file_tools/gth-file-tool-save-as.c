@@ -35,7 +35,7 @@ gth_file_tool_save_as_update_sensitivity (GthFileTool *base)
 
 	window = gth_file_tool_get_window (base);
 
-	can_save = gth_viewer_page_can_save (GTH_VIEWER_PAGE (gth_browser_get_viewer_page (GTH_BROWSER (window))));
+	can_save = gth_viewer_page_can_save (gth_browser_get_viewer_page (GTH_BROWSER (window)));
 	can_save = can_save && (gth_browser_get_current_file (GTH_BROWSER (window)) != NULL);
 	gtk_widget_set_sensitive (GTK_WIDGET (base), can_save);
 }
@@ -44,12 +44,12 @@ gth_file_tool_save_as_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_save_as_activate (GthFileTool *tool)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
+	GtkWidget     *window;
+	GthViewerPage *viewer_page;
 
 	window = gth_file_tool_get_window (tool);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_viewer_page_save_as (GTH_VIEWER_PAGE (viewer_page), NULL, NULL);
+	gth_viewer_page_save_as (viewer_page, NULL, NULL);
 }
 
 

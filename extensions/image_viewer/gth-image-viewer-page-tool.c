@@ -66,7 +66,7 @@ gth_image_viewer_page_tool_activate (GthFileTool *base)
 {
 	GthImageViewerPageTool *self = (GthImageViewerPageTool *) base;
 	GtkWidget              *window;
-	GtkWidget              *viewer_page;
+	GthViewerPage          *viewer_page;
 
 	/* load the original image */
 
@@ -103,7 +103,7 @@ gth_image_viewer_page_tool_cancel (GthFileTool *base)
 static void
 gth_image_viewer_page_tool_update_sensitivity (GthFileTool *base)
 {
-	GtkWidget *viewer_page;
+	GthViewerPage *viewer_page;
 
 	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (base));
 	gtk_widget_set_sensitive (GTK_WIDGET (base), viewer_page != NULL);
@@ -185,11 +185,11 @@ gth_image_viewer_page_tool_get_task (GthImageViewerPageTool *self)
 }
 
 
-GtkWidget *
+GthViewerPage *
 gth_image_viewer_page_tool_get_page (GthImageViewerPageTool *self)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
+	GtkWidget     *window;
+	GthViewerPage *viewer_page;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));

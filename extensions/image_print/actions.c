@@ -41,7 +41,7 @@ gth_browser_activate_print (GSimpleAction *action,
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	if (file_list != NULL) {
 		cairo_surface_t  *current_image;
-		GtkWidget        *viewer_page;
+		GthViewerPage    *viewer_page;
 		GthImagePrintJob *print_job;
 		GError           *error = NULL;
 

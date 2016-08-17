@@ -218,8 +218,8 @@ image_task_completed_cb (GthTask  *task,
 
 	if (self->priv->apply_to_original) {
 		if (self->priv->destination != NULL) {
-			GtkWidget *window;
-			GtkWidget *viewer_page;
+			GtkWidget     *window;
+			GthViewerPage *viewer_page;
 
 			window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 			viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -600,7 +600,7 @@ static GtkWidget *
 gth_file_tool_curves_get_options (GthFileTool *base)
 {
 	GthFileToolCurves *self;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 	GtkWidget         *viewer;
 	cairo_surface_t   *source;
 	GtkWidget         *options;
@@ -756,7 +756,7 @@ static void
 gth_file_tool_curves_destroy_options (GthFileTool *base)
 {
 	GthFileToolCurves *self;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 
 	self = (GthFileToolCurves *) base;
 
@@ -767,7 +767,7 @@ gth_file_tool_curves_destroy_options (GthFileTool *base)
 
 	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	gth_image_viewer_page_reset_viewer_tool (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
+	gth_viewer_page_update_sensitivity (viewer_page);
 
 	_cairo_clear_surface (&self->priv->preview);
 	_cairo_clear_surface (&self->priv->destination);

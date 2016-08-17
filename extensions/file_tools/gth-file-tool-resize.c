@@ -88,7 +88,7 @@ resize_task_completed_cb (GthTask  *task,
 {
 	GthFileToolResize *self = user_data;
 	GtkWidget         *window;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 
 	self->priv->resize_task = NULL;
 
@@ -121,7 +121,7 @@ resize_task_completed_cb (GthTask  *task,
 					       self->priv->new_image,
 					       -1,
 					       TRUE);
-		gth_viewer_page_focus (GTH_VIEWER_PAGE (viewer_page));
+		gth_viewer_page_focus (viewer_page);
 		gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 	}
 	else {
@@ -513,7 +513,7 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	GthFileToolResize *self = (GthFileToolResize *) base;
 	cairo_surface_t   *source;
 	GtkWidget         *window;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 	GtkWidget         *viewer;
 	GtkAllocation      allocation;
 	int                preview_width;
@@ -672,7 +672,7 @@ gth_file_tool_resize_destroy_options (GthFileTool *base)
 {
 	GthFileToolResize *self;
 	GtkWidget         *window;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 	GtkWidget         *viewer;
 	GSettings         *viewer_settings;
 

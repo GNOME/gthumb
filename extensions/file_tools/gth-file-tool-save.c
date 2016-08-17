@@ -40,12 +40,12 @@ gth_file_tool_save_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_save_activate (GthFileTool *tool)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
+	GtkWidget     *window;
+	GthViewerPage *viewer_page;
 
 	window = gth_file_tool_get_window (tool);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	gth_viewer_page_save (GTH_VIEWER_PAGE (viewer_page), NULL, NULL, NULL);
+	gth_viewer_page_save (viewer_page, NULL, NULL, NULL);
 }
 
 

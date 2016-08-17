@@ -28,6 +28,7 @@
 #include "gth-image.h"
 #include "gth-menu-manager.h"
 #include "gth-task.h"
+#include "gth-viewer-page.h"
 #include "gth-window.h"
 #include "typedefs.h"
 
@@ -221,7 +222,7 @@ gboolean         gth_browser_viewer_key_press_cb    (GthBrowser       *browser,
 void             gth_browser_set_viewer_widget      (GthBrowser       *browser,
 						     GtkWidget        *widget);
 GtkWidget *      gth_browser_get_viewer_widget      (GthBrowser       *browser);
-GtkWidget *      gth_browser_get_viewer_page        (GthBrowser       *browser);
+GthViewerPage *  gth_browser_get_viewer_page        (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_viewer_sidebar     (GthBrowser       *browser);
 gboolean         gth_browser_show_next_image        (GthBrowser       *browser,
 						     gboolean          skip_broken,

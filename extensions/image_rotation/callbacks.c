@@ -144,8 +144,8 @@ viewer_image_changed_cb  (GtkWidget  *widget,
 		return;
 
 	if ((data->buttons[0] != NULL) && (data->buttons[1] != NULL)) {
-		GtkWidget *viewer_page = gth_browser_get_viewer_page (browser);
-		gboolean   visible = FALSE;
+		GthViewerPage *viewer_page = gth_browser_get_viewer_page (browser);
+		gboolean       visible = FALSE;
 
 		if (GTH_IS_IMAGE_VIEWER_PAGE (viewer_page)) {
 			GtkWidget *image_viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
@@ -161,8 +161,8 @@ viewer_image_changed_cb  (GtkWidget  *widget,
 void
 ir__gth_browser_activate_viewer_page_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	GtkWidget   *viewer_page;
+	BrowserData   *data;
+	GthViewerPage *viewer_page;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	g_return_if_fail (data != NULL);
@@ -197,8 +197,8 @@ ir__gth_browser_activate_viewer_page_cb (GthBrowser *browser)
 void
 ir__gth_browser_deactivate_viewer_page_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	GtkWidget   *viewer_page;
+	BrowserData   *data;
+	GthViewerPage *viewer_page;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	g_return_if_fail (data != NULL);

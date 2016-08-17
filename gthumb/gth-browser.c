@@ -5814,10 +5814,10 @@ gth_browser_get_viewer_widget (GthBrowser *browser)
 }
 
 
-GtkWidget *
+GthViewerPage *
 gth_browser_get_viewer_page (GthBrowser *browser)
 {
-	return (GtkWidget *) browser->priv->viewer_page;
+	return browser->priv->viewer_page;
 }
 
 

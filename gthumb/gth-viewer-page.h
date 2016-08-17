@@ -23,10 +23,11 @@
 #define GTH_VIEWER_PAGE_H
 
 #include <gtk/gtk.h>
-#include "gth-browser.h"
 #include "gth-file-data.h"
 
 G_BEGIN_DECLS
+
+typedef struct _GthBrowser GthBrowser;
 
 #define GTH_TYPE_VIEWER_PAGE (gth_viewer_page_get_type ())
 #define GTH_VIEWER_PAGE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_VIEWER_PAGE, GthViewerPage))

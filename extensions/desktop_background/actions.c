@@ -380,7 +380,7 @@ gth_browser_activate_set_desktop_background (GSimpleAction *action,
 	if (gth_main_extension_is_active ("image_viewer")
 	    && (gth_browser_get_file_modified (browser) || ! _gdk_pixbuf_mime_type_is_readable (mime_type)))
 	{
-		GtkWidget *viewer_page;
+		GthViewerPage *viewer_page;
 
 		viewer_page = gth_browser_get_viewer_page (browser);
 		if (viewer_page != NULL) {

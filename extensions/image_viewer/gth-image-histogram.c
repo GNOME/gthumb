@@ -56,7 +56,7 @@ gth_image_histogram_real_set_file (GthPropertyView *base,
 {
 	GthImageHistogram *self = GTH_IMAGE_HISTOGRAM (base);
 	GthBrowser        *browser;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 
 	if (file_data == NULL) {
 		gth_histogram_calculate_for_image (self->priv->histogram, NULL);

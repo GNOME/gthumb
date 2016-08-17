@@ -313,7 +313,7 @@ static void
 gth_file_tool_sharpen_apply_options (GthFileTool *base)
 {
 	GthFileToolSharpen *self;
-	GtkWidget          *viewer_page;
+	GthViewerPage      *viewer_page;
 	SharpenData        *sharpen_data;
 	GthTask            *task;
 

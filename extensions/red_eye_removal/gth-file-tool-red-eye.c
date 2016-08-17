@@ -306,7 +306,7 @@ selector_selected_cb (GthImageSelector  *selector,
 		      int                y,
 		      GthFileToolRedEye *self)
 {
-	GtkWidget *viewer_page;
+	GthViewerPage *viewer_page;
 
 	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 
@@ -334,7 +334,7 @@ gth_file_tool_red_eye_get_options (GthFileTool *base)
 {
 	GthFileToolRedEye *self;
 	GtkWidget         *window;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 	GtkWidget         *viewer;
 	GtkWidget         *options;
 
@@ -373,7 +373,7 @@ gth_file_tool_red_eye_destroy_options (GthFileTool *base)
 {
 	GthFileToolRedEye *self;
 	GtkWidget         *window;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 
 	self = (GthFileToolRedEye *) base;
 
@@ -394,7 +394,7 @@ static void
 gth_file_tool_red_eye_apply_options (GthFileTool *base)
 {
 	GthFileToolRedEye *self;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 	GtkWidget         *viewer;
 
 	self = (GthFileToolRedEye *) base;

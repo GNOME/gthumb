@@ -93,8 +93,8 @@ image_task_completed_cb (GthTask  *task,
 
 	if (self->priv->apply_to_original) {
 		if (self->priv->destination != NULL) {
-			GtkWidget *window;
-			GtkWidget *viewer_page;
+			GtkWidget     *window;
+			GthViewerPage *viewer_page;
 
 			window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 			viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -202,7 +202,7 @@ gth_file_tool_effects_get_options (GthFileTool *base)
 {
 	GthFileToolEffects *self;
 	GtkWidget          *window;
-	GtkWidget          *viewer_page;
+	GthViewerPage      *viewer_page;
 	GtkWidget          *viewer;
 	cairo_surface_t    *source;
 	GtkWidget          *options;
@@ -264,7 +264,7 @@ gth_file_tool_effects_destroy_options (GthFileTool *base)
 {
 	GthFileToolEffects *self;
 	GtkWidget          *window;
-	GtkWidget          *viewer_page;
+	GthViewerPage      *viewer_page;
 
 	self = (GthFileToolEffects *) base;
 
@@ -276,7 +276,7 @@ gth_file_tool_effects_destroy_options (GthFileTool *base)
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	gth_image_viewer_page_reset_viewer_tool (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
+	gth_viewer_page_update_sensitivity (viewer_page);
 
 	_g_clear_object (&self->priv->builder);
 

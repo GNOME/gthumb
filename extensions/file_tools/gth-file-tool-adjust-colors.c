@@ -285,7 +285,7 @@ image_task_completed_cb (GthTask  *task,
 
 	if (self->priv->apply_to_original) {
 		if (self->priv->destination != NULL) {
-			GtkWidget *viewer_page;
+			GthViewerPage *viewer_page;
 
 			viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 			gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->destination, TRUE);
@@ -390,7 +390,7 @@ static GtkWidget *
 gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 {
 	GthFileToolAdjustColors *self;
-	GtkWidget               *viewer_page;
+	GthViewerPage           *viewer_page;
 	GtkWidget               *viewer;
 	cairo_surface_t         *source;
 	GtkWidget               *options;
@@ -506,7 +506,7 @@ static void
 gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 {
 	GthFileToolAdjustColors *self;
-	GtkWidget               *viewer_page;
+	GthViewerPage           *viewer_page;
 
 	self = (GthFileToolAdjustColors *) base;
 
@@ -517,7 +517,7 @@ gth_file_tool_adjust_colors_destroy_options (GthFileTool *base)
 
 	viewer_page = gth_image_viewer_page_tool_get_page (GTH_IMAGE_VIEWER_PAGE_TOOL (self));
 	gth_image_viewer_page_reset_viewer_tool (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
+	gth_viewer_page_update_sensitivity (viewer_page);
 
 	_cairo_clear_surface (&self->priv->preview);
 	_cairo_clear_surface (&self->priv->destination);

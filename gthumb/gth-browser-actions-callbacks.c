@@ -334,14 +334,14 @@ gth_browser_activate_revert_to_saved (GSimpleAction *action,
 				      GVariant      *parameter,
 				      gpointer       user_data)
 {
-	GthBrowser *browser = user_data;
-	GtkWidget  *viewer_page;
+	GthBrowser    *browser = user_data;
+	GthViewerPage *viewer_page;
 
 	viewer_page = gth_browser_get_viewer_page (browser);
 	if (viewer_page == NULL)
 		return;
 
-	gth_viewer_page_revert (GTH_VIEWER_PAGE (viewer_page));
+	gth_viewer_page_revert (viewer_page);
 }
 
 
@@ -350,14 +350,14 @@ gth_browser_activate_save (GSimpleAction *action,
 			   GVariant      *parameter,
 			   gpointer       user_data)
 {
-	GthBrowser *browser = user_data;
-	GtkWidget  *viewer_page;
+	GthBrowser    *browser = user_data;
+	GthViewerPage *viewer_page;
 
 	viewer_page = gth_browser_get_viewer_page (browser);
 	if (viewer_page == NULL)
 		return;
 
-	gth_viewer_page_save (GTH_VIEWER_PAGE (viewer_page), NULL, NULL, browser);
+	gth_viewer_page_save (viewer_page, NULL, NULL, browser);
 }
 
 
@@ -366,14 +366,14 @@ gth_browser_activate_save_as (GSimpleAction *action,
 			      GVariant      *parameter,
 			      gpointer       user_data)
 {
-	GthBrowser *browser = user_data;
-	GtkWidget  *viewer_page;
+	GthBrowser    *browser = user_data;
+	GthViewerPage *viewer_page;
 
 	viewer_page = gth_browser_get_viewer_page (browser);
 	if (viewer_page == NULL)
 		return;
 
-	gth_viewer_page_save_as (GTH_VIEWER_PAGE (viewer_page), NULL, NULL);
+	gth_viewer_page_save_as (viewer_page, NULL, NULL);
 }
 
 

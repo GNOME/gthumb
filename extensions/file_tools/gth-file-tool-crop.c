@@ -85,7 +85,7 @@ image_task_completed_cb (GthTask  *task,
 {
 	GthFileToolCrop *self = user_data;
 	cairo_surface_t *destination;
-	GtkWidget       *viewer_page;
+	GthViewerPage   *viewer_page;
 
 	if (error != NULL) {
 		g_object_unref (task);
@@ -401,7 +401,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 {
 	GthFileToolCrop *self;
 	GtkWidget       *window;
-	GtkWidget       *viewer_page;
+	GthViewerPage   *viewer_page;
 	GtkWidget       *viewer;
 	cairo_surface_t *source;
 	GtkWidget       *options;
@@ -571,7 +571,7 @@ gth_file_tool_crop_destroy_options (GthFileTool *base)
 {
 	GthFileToolCrop *self;
 	GtkWidget       *window;
-	GtkWidget       *viewer_page;
+	GthViewerPage   *viewer_page;
 	GtkWidget       *viewer;
 	GSettings       *viewer_settings;
 

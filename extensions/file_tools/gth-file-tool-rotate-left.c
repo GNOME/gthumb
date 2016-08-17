@@ -50,9 +50,9 @@ rotate_left_exec (GthAsyncTask *task,
 static void
 gth_file_tool_rotate_left_activate (GthFileTool *base)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GthTask   *task;
+	GtkWidget     *window;
+	GthViewerPage *viewer_page;
+	GthTask       *task;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));

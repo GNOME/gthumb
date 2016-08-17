@@ -31,8 +31,8 @@ G_DEFINE_TYPE (GthFileToolRedo, gth_file_tool_redo, GTH_TYPE_FILE_TOOL)
 static void
 gth_file_tool_redo_update_sensitivity (GthFileTool *base)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
+	GtkWidget     *window;
+	GthViewerPage *viewer_page;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -46,8 +46,8 @@ gth_file_tool_redo_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_redo_activate (GthFileTool *base)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
+	GtkWidget     *window;
+	GthViewerPage *viewer_page;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));

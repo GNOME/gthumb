@@ -145,12 +145,12 @@ static void
 alignment_changed_cb (GthImageLineTool  *line_tool,
 		      GthFileToolRotate *self)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GtkWidget *viewer;
-	GdkPoint   p1;
-	GdkPoint   p2;
-	double     angle;
+	GtkWidget     *window;
+	GthViewerPage *viewer_page;
+	GtkWidget     *viewer;
+	GdkPoint       p1;
+	GdkPoint       p2;
+	double         angle;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -177,9 +177,9 @@ static void
 alignment_cancel_button_clicked_cb (GtkButton         *button,
 				    GthFileToolRotate *self)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GtkWidget *viewer;
+	GtkWidget     *window;
+	GthViewerPage *viewer_page;
+	GtkWidget     *viewer;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -193,9 +193,9 @@ static void
 align_button_clicked_cb (GtkButton         *button,
 			 GthFileToolRotate *self)
 {
-	GtkWidget *window;
-	GtkWidget *viewer_page;
-	GtkWidget *viewer;
+	GtkWidget     *window;
+	GthViewerPage *viewer_page;
+	GtkWidget     *viewer;
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -353,7 +353,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 {
 	GthFileToolRotate *self;
 	GtkWidget         *window;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 	GtkWidget         *viewer;
 	char              *color_spec;
 	GdkRGBA            background_color;
@@ -436,7 +436,7 @@ gth_file_tool_rotate_get_options (GthFileTool *base)
 	gth_image_viewer_page_set_image (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->image, FALSE);
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), self->priv->rotator);
-	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
+	gth_viewer_page_update_sensitivity (viewer_page);
 
 	self->priv->crop_enabled = TRUE;
 	self->priv->crop_region.x = 0;
@@ -518,7 +518,7 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 {
 	GthFileToolRotate *self;
 	GtkWidget         *window;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 
 	self = (GthFileToolRotate *) base;
 
@@ -542,7 +542,7 @@ gth_file_tool_rotate_destroy_options (GthFileTool *base)
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	gth_image_viewer_page_reset_viewer_tool (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
+	gth_viewer_page_update_sensitivity (viewer_page);
 
 	cairo_surface_destroy (self->priv->image);
 	self->priv->image = NULL;
@@ -557,7 +557,7 @@ gth_file_tool_rotate_apply_options (GthFileTool *base)
 {
 	GthFileToolRotate *self;
 	GtkWidget         *window;
-	GtkWidget         *viewer_page;
+	GthViewerPage     *viewer_page;
 	GthTask           *task;
 
 	self = (GthFileToolRotate *) base;
