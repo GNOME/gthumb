@@ -147,7 +147,7 @@ _gth_window_add_header_bar (GthWindow *self)
 	gtk_widget_show (self->priv->headerbar);
 	gtk_header_bar_set_show_close_button (GTK_HEADER_BAR (self->priv->headerbar), TRUE);
 
-	g_object_add_weak_pointer (G_OBJECT (self->priv->headerbar), &self->priv->headerbar);
+	g_object_add_weak_pointer (G_OBJECT (self->priv->headerbar), (gpointer *) &self->priv->headerbar);
 
 #if GTK_CHECK_VERSION(3,12,0)
 	{

@@ -92,6 +92,16 @@ gth_time_selector_unmap (GtkWidget *widget)
 }
 
 
+gboolean
+gth_time_selector_real_focus (GtkWidget        *base,
+			      GtkDirectionType  direction)
+{
+	GthTimeSelector *self = GTH_TIME_SELECTOR (base);
+	gtk_widget_grab_focus (self->priv->date_entry);
+	return TRUE;
+}
+
+
 static void
 gth_time_selector_class_init (GthTimeSelectorClass *class)
 {
@@ -105,7 +115,7 @@ gth_time_selector_class_init (GthTimeSelectorClass *class)
 
 	widget_class = (GtkWidgetClass *) class;
 	widget_class->unmap = gth_time_selector_unmap;
-	widget_class->focus = gth_time_selector_focus;
+	widget_class->focus = gth_time_selector_real_focus;
 
 	gth_time_selector_signals[CHANGED] =
 		g_signal_new ("changed",
@@ -751,5 +761,5 @@ gth_time_selector_get_value (GthTimeSelector *self,
 void
 gth_time_selector_focus (GthTimeSelector *self)
 {
-	gtk_widget_grab_focus (self->priv->date_entry);
+	gth_time_selector_real_focus (GTK_WIDGET (self), GTK_DIR_RIGHT);
 }

@@ -91,6 +91,7 @@ get_histogram_value (GthHistogram        *histogram,
 		     Method               method)
 {
 	double h = gth_histogram_get_value (histogram, channel, bin);
+
 	switch (method) {
 	case METHOD_EQUALIZE_SQUARE_ROOT:
 		return (h >= 2) ? sqrt (h) : h;
@@ -99,6 +100,8 @@ get_histogram_value (GthHistogram        *histogram,
 	default:
 		g_assert_not_reached ();
 	}
+
+	return 0;
 }
 
 
