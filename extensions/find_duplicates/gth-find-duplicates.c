@@ -1367,7 +1367,7 @@ gth_find_duplicates_exec (GthBrowser *browser,
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (self->priv->duplicates_list), 112);
 	gtk_widget_set_size_request (self->priv->duplicates_list, 750, 300);
 	gtk_widget_show (self->priv->duplicates_list);
-	gtk_box_pack_start (GTK_CONTAINER (GET_WIDGET ("duplicates_list_box")), self->priv->duplicates_list, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("duplicates_list_box")), self->priv->duplicates_list, TRUE, TRUE, 0);
 
 	self->priv->select_button = gtk_menu_button_new ();
 	gtk_container_add (GTK_CONTAINER (self->priv->select_button), gtk_label_new (_("Select")));
