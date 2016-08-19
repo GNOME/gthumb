@@ -5,22 +5,22 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb docs master\n"
-"POT-Creation-Date: 2016-01-02 22:05+0000\n"
-"PO-Revision-Date: 2016-01-02 23:07+0100\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2016-08-17 19:20+0000\n"
+"PO-Revision-Date: 2016-08-18 10:45+0200\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.8\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Christian Kirbach <Christian.Kirbach@googlemail.com>, 2008\n"
+"Christian Kirbach <Christian.Kirbach@googlemail.com>, 2008, 2016\n"
 "Mario Blättermann <mario.blaettermann@gmail.com>, 2009, 2010, 2011, 2013, 2016"
 
 #. (itstool) path: media
@@ -1415,7 +1415,7 @@ msgstr "Symbol"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:94
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:542
+#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:551
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -2251,7 +2251,7 @@ msgstr "Anzeigen und verbergen von Teilen der grafischen Oberflächen"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:14 C/shortcuts.page:91 C/shortcuts.page:270
-#: C/shortcuts.page:539
+#: C/shortcuts.page:548
 msgid "Keyboard Shortcut"
 msgstr "Tastenkombination"
 
@@ -2667,97 +2667,107 @@ msgid "Go to the first file in the browser view."
 msgstr "Zur ersten Datei in der Browseransicht wechseln."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:475
+#: C/shortcuts.page:474
 msgid "Go to the last file in the browser view."
 msgstr "Zur letzten Datei in der Browseransicht wechseln."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:480
+#: C/shortcuts.page:479
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
 msgstr "<key>Pfeiltaste runter</key> oder <key>Bild ab</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:485
+#: C/shortcuts.page:484
 msgid "Scroll downwards through the thumbnails."
 msgstr "Nach unten durch die Vorschaubilder bewegen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:490
+#: C/shortcuts.page:489
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
 msgstr "<key>Pfeiltaste rauf</key> oder <key>Bild rauf</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:495
+#: C/shortcuts.page:494
 msgid "Scroll upwards through the thumbnails."
 msgstr "Nach oben durch die Vorschaubilder bewegen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:500
+#: C/shortcuts.page:499
 msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Linke Pfeiltaste</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:505
+#: C/shortcuts.page:504
 msgid "Go back to the previously viewed folder."
 msgstr "Zum zuletzt besuchten Ordner gehen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:510
+#: C/shortcuts.page:509
 msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Rechte Pfeiltaste</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:515
+#: C/shortcuts.page:514
 msgid "Go forward (after going back to a folder)."
 msgstr "Vorwärts gehen (nach vorhergehendem rückwärts gehen)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:520
+#: C/shortcuts.page:519
 msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
 msgstr "<keyseq> <key>Alt</key> <key>Pfeiltaste hoch</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:528
+#: C/shortcuts.page:527
 msgid "Go up one level."
 msgstr "Eine Ebene hoch gehen."
 
+#. (itstool) path: td/p
+#: C/shortcuts.page:532
+msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Strg</key><key>o</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:537
+msgid "Open a location typing the path."
+msgstr "Einen Ort durch Eingabe des Pfads öffnen"
+
 #. (itstool) path: section/title
-#: C/shortcuts.page:535
+#: C/shortcuts.page:544
 msgid "Slideshow controls"
 msgstr "Steuerung von Dia-Vorführungen"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:547
+#: C/shortcuts.page:556
 msgid "<key>F5</key>"
 msgstr "<key>F5</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:552
+#: C/shortcuts.page:561
 msgid "Start a slideshow."
 msgstr "Die Diaschau starten."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:557
+#: C/shortcuts.page:566
 msgid "<key>p</key>"
 msgstr "<key>p</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:562
+#: C/shortcuts.page:571
 msgid "Pause/Unpause the slideshow."
 msgstr "Eine Diaschau pausieren/fortsetzen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:567
+#: C/shortcuts.page:576
 msgid "<key>Esc</key> or <key>q</key>"
 msgstr "<key>Esc</key> oder <key>q</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:572
+#: C/shortcuts.page:581
 msgid "Close the slideshow."
 msgstr "Die Diashow schließen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:577
+#: C/shortcuts.page:586
 msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
@@ -2766,12 +2776,12 @@ msgstr ""
 "rechts</key> oder <key>Bild ab</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:582
+#: C/shortcuts.page:591
 msgid "Load the next image."
 msgstr "Das nächste Bild zeigen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:587
+#: C/shortcuts.page:596
 msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
@@ -2780,7 +2790,7 @@ msgstr ""
 "links</key> oder <key>Bild rauf</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:592
+#: C/shortcuts.page:601
 msgid "Load the previous image."
 msgstr "Das vorhergehende Bild zeigen."
 
