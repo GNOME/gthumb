@@ -1,13 +1,13 @@
-# Hungarian translation for gthumb.
-# Copyright (C) 2015 Free Software Foundation, Inc.
+# Hungarian translation for gthumb help.
+# Copyright (C) 2015-2016 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
-# Balázs Úr <urbalazs@gmail.com>, 2015.
+# Balázs Úr <urbalazs@gmail.com>, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2015-09-19 15:45+0000\n"
-"PO-Revision-Date: 2015-09-19 23:55+0200\n"
+"POT-Creation-Date: 2016-08-17 19:20+0000\n"
+"PO-Revision-Date: 2016-08-19 22:03+0200\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -405,8 +405,8 @@ msgid ""
 "international context this format is ambiguous and should not be used.)"
 msgstr ""
 "Egyenértékű a következővel: %m/%d/%y. (Yecch -- csak amerikaiaknak. Az "
-"amerikaiaknak figyelembe kell venniük, hogy más országokban inkább a %d/%m/%y "
-"gyakori. Ez azt jelenti, hogy nemzetközi környezetben ez a formátum "
+"amerikaiaknak figyelembe kell venniük, hogy más országokban inkább a %d/%m/"
+"%y gyakori. Ez azt jelenti, hogy nemzetközi környezetben ez a formátum "
 "kétértelmű, és nem kellene használni.)"
 
 #. (itstool) path: td/p
@@ -578,8 +578,9 @@ msgid ""
 "Either 'AM' or 'PM' according to the given time value, or the corresponding "
 "strings for the current locale. Noon is treated as 'pm' and midnight as 'am'."
 msgstr ""
-"Vagy „DE”, vagy „DU” a megadott időérték szerint, vagy a megfelelő szövegek a "
-"jelenlegi területi beállításnál. A dél „du”-ként, az éjfél „de”-ként értendő."
+"Vagy „DE”, vagy „DU” a megadott időérték szerint, vagy a megfelelő szövegek "
+"a jelenlegi területi beállításnál. A dél „du”-ként, az éjfél „de”-ként "
+"értendő."
 
 #. (itstool) path: td/p
 #: C/strftime.page:223
@@ -820,11 +821,11 @@ msgstr ""
 "formátumot kell használni. Ha az alternatív formátum vagy specifikáció nem "
 "létezik a jelenlegi területi beállításnál, akkor a viselkedés olyan lesz, "
 "mint ha módosítatlan átalakítási specifikáció lett volna használva. A Single "
-"Unix Specification a következőket említi: %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %"
-"Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow, %OW, %Oy, ahol a 0 módosító "
-"hatása az, hogy alternatív numerikus szimbólumokat (mondjuk római számokat) "
-"használjon, és az E módosítóé az, hogy területi beállítástól független "
-"alternatív ábrázolást használjon."
+"Unix Specification a következőket említi: %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, "
+"%Oe, %OH, %OI, %Om, %OM, %OS, %Ou, %OU, %OV, %Ow, %OW, %Oy, ahol a 0 "
+"módosító hatása az, hogy alternatív numerikus szimbólumokat (mondjuk római "
+"számokat) használjon, és az E módosítóé az, hogy területi beállítástól "
+"független alternatív ábrázolást használjon."
 
 #. (itstool) path: page/title
 #: C/introduction.page:6
@@ -1232,7 +1233,7 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/batch-scripts.page:12
-msgid "TODO: further documentation is need here."
+msgid "TODO: further documentation is needed here."
 msgstr "TEENDŐ: ide további dokumentáció szükséges."
 
 #. (itstool) path: page/title
@@ -1318,22 +1319,21 @@ msgid ""
 "<app>gThumb</app> will save thumbnails to a system cache, to share them with "
 "other applications. By default, Gnome systems prune cached thumbnails when "
 "they are older than 180 days, or when the thumbnail cache exceeds 512 MB. "
-"Technically-inclined users can explore these settings with <app>gconf-"
-"editor</app>. See the /desktop/gnome/thumbnail_cache/maximum_age and /"
-"desktop/gnome/thumbnail_cache/maximum_size keys in particular. Certain "
+"Technically-inclined users can explore these settings with <app>dconf-"
+"editor</app>. See the org.gnome.desktop.thumbnail_cache.maximum_age and org."
+"gnome.desktop.thumbnail_cache.maximum_size keys in particular. Certain "
 "applications (like <app>F-Spot</app>) may automatically increase these "
 "settings greatly."
 msgstr ""
 "A <app>gThumb</app> el fogja menteni a bélyegképeket a rendszer "
 "gyorsítótárába, hogy megoszthassa azokat az egyéb alkalmazásokkal. "
-"Alapértelmezetten a Gnome rendszerek törlik a gyorsítótárazott "
-"bélyegképeket, ha azok 180 napnál régebbiek, vagy ha a bélyegkép-gyorsítótár "
-"meghaladja az 512 MB-os méretet. A technikai vénájú felhasználók "
-"felfedezhetik ezeket a beállításokat <app>gconf-szerkesztővel</app>. "
-"Különösen a /desktop/gnome/thumbnail_cache/maximum_age és a /desktop/gnome/"
-"thumbnail_cache/maximum_size kulcsokat nézze meg. Bizonyos alkalmazások "
-"(mint például az <app>F-Spot</app>) automatikusan nagymértékben növelhetik "
-"ezeket a beállításokat."
+"Alapértelmezetten a Gnome rendszerek törlik a gyorsítótárazott bélyegképeket, "
+"ha azok 180 napnál régebbiek, vagy ha a bélyegkép-gyorsítótár meghaladja az "
+"512 MB-os méretet. A technikai vénájú felhasználók felfedezhetik ezeket a "
+"beállításokat <app>dconf-szerkesztővel</app>. Különösen az org.gnome.desktop."
+"thumbnail_cache.maximum_age és az org.gnome.desktop.thumbnail_cache."
+"maximum_size kulcsokat nézze meg. Bizonyos alkalmazások (mint például az <app>"
+"F-Spot</app>) automatikusan nagymértékben növelhetik ezeket a beállításokat."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -1425,7 +1425,7 @@ msgstr "Szimbólum"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:94
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:542
+#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:551
 msgid "Description"
 msgstr "Leírás"
 
@@ -2259,7 +2259,7 @@ msgstr "A felhasználói felület egyes részeinek megtekintése vagy elrejtése
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:14 C/shortcuts.page:91 C/shortcuts.page:270
-#: C/shortcuts.page:539
+#: C/shortcuts.page:548
 msgid "Keyboard Shortcut"
 msgstr "Gyorsbillentyű"
 
@@ -2682,97 +2682,107 @@ msgid "Go to the first file in the browser view."
 msgstr "Ugrás az első fájlra a böngészőnézetben."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:475
+#: C/shortcuts.page:474
 msgid "Go to the last file in the browser view."
 msgstr "Ugrás az utolsó fájlra a böngészőnézetben."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:480
+#: C/shortcuts.page:479
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
 msgstr "<key>Lefelé nyíl</key> vagy <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:485
+#: C/shortcuts.page:484
 msgid "Scroll downwards through the thumbnails."
 msgstr "Görgetés lefelé a bélyegképek között."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:490
+#: C/shortcuts.page:489
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
 msgstr "<key>Felfelé nyíl</key> vagy <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:495
+#: C/shortcuts.page:494
 msgid "Scroll upwards through the thumbnails."
 msgstr "Görgetés felfelé a bélyegképek között."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:500
+#: C/shortcuts.page:499
 msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Balra nyíl</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:505
+#: C/shortcuts.page:504
 msgid "Go back to the previously viewed folder."
 msgstr "Vissza az előzőleg megtekintett mappához."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:510
+#: C/shortcuts.page:509
 msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Jobbra nyíl</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:515
+#: C/shortcuts.page:514
 msgid "Go forward (after going back to a folder)."
 msgstr "Ugrás előre (miután visszament egy mappára)."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:520
-msgid "<keyseq> <key>Alt</key> <key>Up</key> </keyseq>"
-msgstr "<keyseq> <key>Alt</key> <key>Fel</key> </keyseq>"
+#: C/shortcuts.page:519
+msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
+msgstr "<keyseq> <key>Alt</key> <key>Fel nyíl</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:528
+#: C/shortcuts.page:527
 msgid "Go up one level."
 msgstr "Ugrás egy szinttel feljebb."
 
+#. (itstool) path: td/p
+#: C/shortcuts.page:532
+msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:537
+msgid "Open a location typing the path."
+msgstr "Az útvonalhoz beírt hely megnyitása."
+
 #. (itstool) path: section/title
-#: C/shortcuts.page:535
+#: C/shortcuts.page:544
 msgid "Slideshow controls"
 msgstr "Diavetítés vezérlők"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:547
+#: C/shortcuts.page:556
 msgid "<key>F5</key>"
 msgstr "<key>F5</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:552
+#: C/shortcuts.page:561
 msgid "Start a slideshow."
 msgstr "Egy diavetítés indítása."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:557
+#: C/shortcuts.page:566
 msgid "<key>p</key>"
 msgstr "<key>p</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:562
+#: C/shortcuts.page:571
 msgid "Pause/Unpause the slideshow."
 msgstr "A diavetítés szüneteltetése vagy folytatása."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:567
+#: C/shortcuts.page:576
 msgid "<key>Esc</key> or <key>q</key>"
 msgstr "<key>Esc</key> vagy <key>q</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:572
+#: C/shortcuts.page:581
 msgid "Close the slideshow."
 msgstr "A diavetítés bezárása."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:577
+#: C/shortcuts.page:586
 msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
@@ -2781,12 +2791,12 @@ msgstr ""
 "vagy <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:582
+#: C/shortcuts.page:591
 msgid "Load the next image."
 msgstr "A következő kép betöltése."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:587
+#: C/shortcuts.page:596
 msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
@@ -2795,7 +2805,7 @@ msgstr ""
 "vagy <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:592
+#: C/shortcuts.page:601
 msgid "Load the previous image."
 msgstr "Az előző kép betöltése."
 
