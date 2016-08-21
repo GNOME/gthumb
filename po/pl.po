@@ -1,21 +1,19 @@
-# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Aviary.pl
-# Jeśli masz jakiekolwiek uwagi odnoszące się do tłumaczenia lub chcesz
-# pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
-# gnomepl@aviary.pl
-# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Polish translation for gthumb.
+# Copyright © 2003-2016 the gthumb authors.
+# This file is distributed under the same license as the gthumb package.
 # Artur Flinta <aflinta@at.kernel.pl>, 2003-2004.
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2007.
 # Piotr Drąg <piotrdrag@gmail.com>, 2011-2016.
-# Aviary.pl <gnomepl@aviary.pl>, 2007-2016.
+# Aviary.pl <community-poland@mozilla.org>, 2007-2016.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-14 23:34+0200\n"
-"PO-Revision-Date: 2016-08-14 23:35+0200\n"
+"POT-Creation-Date: 2016-08-21 10:45+0200\n"
+"PO-Revision-Date: 2016-08-21 10:47+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
-"Language-Team: Polish <gnomepl@aviary.pl>\n"
+"Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,8 +26,8 @@ msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
-"gThumb to przeglądarka, edytor i organizator obrazów. Został on "
-"zaprojektowany w celu integracji ze środowiskiem GNOME 3."
+"gThumb to przeglądarka, edytor i organizator obrazów. Został on "
+"zaprojektowany w celu integracji ze środowiskiem GNOME 3."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:2
 msgid ""
@@ -41,7 +39,7 @@ msgstr ""
 "Jako przeglądarka obrazów program gThumb umożliwia przeglądanie popularnych "
 "formatów plików, takich jak BMP, JPEG, GIF (w tym animacje), PNG, TIFF, TGA "
 "oraz RAW. Umożliwia on także wyświetlanie różnych metadanych osadzonych "
-"wewnątrz obrazów, takich jak EXIF, IPTC i XMP."
+"wewnątrz obrazów, takich jak EXIF, IPTC i XMP."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:3
 msgid ""
@@ -49,9 +47,9 @@ msgid ""
 "change the saturation, lightness, contrast as well as other color "
 "transformations."
 msgstr ""
-"Jako edytor obrazów program gThumb umożliwia skalowanie, obracanie i "
-"kadrowanie obrazów, zmienianie nasycenia, jasności, kontrastu, a także inne "
-"przekształcenia kolorów."
+"Jako edytor obrazów program gThumb umożliwia skalowanie, obracanie "
+"i kadrowanie obrazów, zmienianie nasycenia, jasności, kontrastu, a także "
+"inne przekształcenia kolorów."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:4
 msgid ""
@@ -64,11 +62,11 @@ msgid ""
 msgstr ""
 "Jako przeglądarka plików obrazów program gThumb wyświetla miniatury obrazów "
 "zapisanych na dysku twardym, umożliwiając wykonywanie często używanych "
-"działań menedżera plików, takich jak kopiowanie, przenoszenie i usuwanie "
+"działań menedżera plików, takich jak kopiowanie, przenoszenie i usuwanie "
 "plików oraz katalogów. Poza tym dostępne są także różne narzędzia do obsługi "
 "obrazów, takie jak bezstratne przekształcenia JPEG, zmienianie wymiarów "
 "obrazów, konwersja między formatami, pokaz slajdów, ustawianie obrazu jako "
-"tło pulpitu i kilka innych."
+"tło pulpitu i kilka innych."
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:5
 msgid ""
@@ -76,14 +74,14 @@ msgid ""
 "images; organize images in catalogs and catalogs in libraries; search for "
 "images and save the result as a catalog."
 msgstr ""
-"Jako organizator obrazów program gThumb umożliwia dodawanie komentarzy i "
-"innych metadanych do obrazów, organizowanie obrazów w katalogach, a "
-"katalogów w kolekcjach, wyszukiwanie obrazów i zapisywanie wyników jako "
+"Jako organizator obrazów program gThumb umożliwia dodawanie komentarzy "
+"i innych metadanych do obrazów, organizowanie obrazów w katalogach, "
+"a katalogów w kolekcjach, wyszukiwanie obrazów i zapisywanie wyników jako "
 "katalog."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-browser.c:392
-#: ../gthumb/gth-progress-dialog.c:404 ../gthumb/main.c:201
+#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-application.c:135
+#: ../gthumb/gth-browser.c:392 ../gthumb/gth-progress-dialog.c:411
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -97,7 +95,7 @@ msgstr "Przeglądarka obrazów gThumb"
 
 #: ../data/gthumb.desktop.in.in.h:4
 msgid "View and organize your images"
-msgstr "Wyświetlanie i organizacja obrazów"
+msgstr "Wyświetlanie i organizacja obrazów"
 
 #: ../data/gthumb.desktop.in.in.h:5
 msgid "Image;Viewer;"
@@ -117,7 +115,7 @@ msgstr "Narzędzie do importu zdjęć gThumb"
 
 #: ../data/gthumb-import.desktop.in.in.h:4
 msgid "Import the photos on your camera card"
-msgstr "Import fotografii z aparatu cyfrowego"
+msgstr "Import fotografii z aparatu cyfrowego"
 
 #: ../data/org.gnome.gthumb.gschema.xml.h:1
 msgid ""
@@ -129,7 +127,7 @@ msgstr ""
 
 #: ../data/org.gnome.gthumb.gschema.xml.h:2
 msgid "Open files in the active window"
-msgstr "Otwieranie plików w aktywnym oknie"
+msgstr "Otwieranie plików w aktywnym oknie"
 
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.h:1
 msgid "Whether to reset the scrollbars position after changing image"
@@ -228,7 +226,7 @@ msgid "_Extensions:"
 msgstr "_Rozszerzenia:"
 
 #: ../data/ui/extensions-preferences.ui.h:2
-msgid "More extensions..."
+msgid "More extensions…"
 msgstr "Więcej rozszerzeń…"
 
 #: ../data/ui/filter-editor.ui.h:1
@@ -355,7 +353,7 @@ msgstr "Wygląd"
 
 #: ../data/ui/preferences.ui.h:5
 msgid "T_humbnails in viewer:"
-msgstr "_Miniatury w przeglądarce:"
+msgstr "_Miniatury w przeglądarce:"
 
 #: ../data/ui/preferences.ui.h:6
 msgid "on the bottom"
@@ -367,7 +365,7 @@ msgstr "na boku"
 
 #: ../data/ui/preferences.ui.h:8
 msgid "File _properties in browser:"
-msgstr "_Właściwości pliku w przeglądarce:"
+msgstr "_Właściwości pliku w przeglądarce:"
 
 #: ../data/ui/preferences.ui.h:9
 msgid "On startup:"
@@ -395,21 +393,21 @@ msgstr "Uży_cie aktywnego okna do otwierania plików"
 
 #: ../data/ui/preferences.ui.h:16
 msgid "As_k confirmation before deleting files or catalogs"
-msgstr "_Pytanie o potwierdzenie przed usunięciem plików lub katalogów"
+msgstr "_Pytanie o potwierdzenie przed usunięciem plików lub katalogów"
 
 #: ../data/ui/preferences.ui.h:17
 msgid "Ask whether to save _modified files"
-msgstr "Pytanie o zapis z_modyfikowanych plików"
+msgstr "Pytanie o zapis z_modyfikowanych plików"
 
 #: ../data/ui/preferences.ui.h:18
 msgid "_Store metadata inside files if possible"
-msgstr "Prze_chowywanie metadanych w plikach, jeśli to możliwe"
+msgstr "Prze_chowywanie metadanych w plikach, jeśli to możliwe"
 
 #: ../data/ui/preferences.ui.h:19
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
 #: ../extensions/edit_metadata/gth-edit-general-page.c:481
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
 msgid "General"
 msgstr "Ogólne"
 
@@ -516,7 +514,7 @@ msgid "Save files to an optical disc."
 msgstr "Zapisywanie plików na płyty optyczne."
 
 #: ../extensions/burn_disc/callbacks.c:48
-msgid "_Optical Disc..."
+msgid "_Optical Disc…"
 msgstr "Płyta _optyczna…"
 
 #: ../extensions/burn_disc/data/ui/burn-disc-options.ui.h:1
@@ -529,7 +527,7 @@ msgstr "Bieżący _katalog"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:2
 msgid "Current folder and its s_ub-folders"
-msgstr "Bieżący katalog i jego p_odkatalogi"
+msgstr "Bieżący katalog i jego p_odkatalogi"
 
 #: ../extensions/burn_disc/data/ui/burn-source-selector.ui.h:3
 msgid "_Selected files"
@@ -541,9 +539,15 @@ msgstr "Źródło"
 
 #: ../extensions/burn_disc/gth-burn-task.c:238
 #: ../extensions/burn_disc/gth-burn-task.c:259
-#: ../extensions/burn_disc/gth-burn-task.c:393
+#: ../extensions/burn_disc/gth-burn-task.c:395
 msgid "Write to Disc"
 msgstr "Zapisz na płytę"
+
+#: ../extensions/burn_disc/gth-burn-task.c:404
+#: ../extensions/oauth/oauth-account-chooser-dialog.c:149
+#: ../gthumb/dlg-preferences-extensions.c:717
+msgid "_Continue"
+msgstr "_Kontynuuj"
 
 #: ../extensions/cairo_io/cairo-image-surface-jpeg.c:65
 #, c-format
@@ -663,8 +667,8 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1489
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1488
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "Saving"
 msgstr "Zapisywanie"
 
@@ -672,7 +676,7 @@ msgstr "Zapisywanie"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:368
 #: ../extensions/catalogs/dlg-add-to-catalog.c:488
 #: ../extensions/file_manager/actions.c:71
-#: ../extensions/file_tools/gth-file-tool-curves.c:372
+#: ../extensions/file_tools/gth-file-tool-curves.c:370
 #: ../extensions/list_tools/gth-script-editor-dialog.c:288
 #: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1849
 #, c-format
@@ -683,7 +687,7 @@ msgstr "Nie podano nazwy"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:375
 #: ../extensions/catalogs/dlg-add-to-catalog.c:495
 #: ../extensions/file_manager/actions.c:78
-#: ../extensions/file_tools/gth-file-tool-curves.c:379
+#: ../extensions/file_tools/gth-file-tool-curves.c:377
 #: ../gthumb/gth-folder-tree.c:1856
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
@@ -738,13 +742,13 @@ msgid "Add to Catalog…"
 msgstr "Dodaj do katalogu…"
 
 #: ../extensions/catalogs/callbacks.c:57
-#: ../extensions/selections/callbacks.c:57
+#: ../extensions/selections/callbacks.c:50
 msgid "Open Folder"
 msgstr "Otwórz katalog"
 
 #: ../extensions/catalogs/callbacks.c:62
 msgid "Remove from Catalog"
-msgstr "Usuń z katalogu"
+msgstr "Usuń z katalogu"
 
 #: ../extensions/catalogs/callbacks.c:67
 msgid "Create Catalog"
@@ -764,7 +768,7 @@ msgstr "Zmień nazwę"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/dlg-catalog-properties.c:201
-#: ../gthumb/gth-browser.c:4563 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4562 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Właściwości"
 
@@ -788,8 +792,8 @@ msgstr "Automatycznie organizuje pliki według daty"
 #: ../extensions/catalogs/catalogs.extension.in.in.h:1
 #: ../extensions/catalogs/gth-catalog.c:611
 #: ../extensions/catalogs/gth-catalog.c:662
-#: ../extensions/catalogs/gth-catalog.c:1014
-#: ../extensions/catalogs/gth-catalog.c:1015
+#: ../extensions/catalogs/gth-catalog.c:1021
+#: ../extensions/catalogs/gth-catalog.c:1022
 msgid "Catalogs"
 msgstr "Katalogi"
 
@@ -803,7 +807,7 @@ msgstr "Dodanie do katalogu"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:2
 msgid "A_dd and Close"
-msgstr "_Dodaj i zamknij"
+msgstr "_Dodaj i zamknij"
 
 #: ../extensions/catalogs/data/ui/add-to-catalog.ui.h:3
 msgid "C_atalogs:"
@@ -838,53 +842,58 @@ msgid "_Date:"
 msgstr "_Data:"
 
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:4
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
 msgid "Catalog"
 msgstr "Katalog"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:1
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:1
-msgid "Organize Files"
-msgstr "Organizuj pliki"
+#: ../gthumb/gth-progress-dialog.c:157
+msgid "Cancel operation"
+msgstr "Anuluj działanie"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
-msgid "Organizing files"
-msgstr "Organizowanie plików"
-
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:3
 msgid "Organization:"
 msgstr "Organizacja:"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
+msgid "Files"
+msgstr "Pliki"
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
+msgid "Create"
+msgstr "Utworzenie"
+
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
 msgid "Select All"
 msgstr "Zaznacz wszystko"
 
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:7
 msgid "Select None"
 msgstr "Odznacz wszystko"
 
-#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
+#: ../extensions/catalogs/data/ui/organize-files-task.ui.h:8
 msgid "Catalog _Preview:"
 msgstr "Podgląd _katalogu:"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:2
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:1
 msgid "_Group files by:"
 msgstr "_Grupowanie plików według:"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:3
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:2
 #: ../extensions/find_duplicates/data/ui/find-duplicates.ui.h:2
 #: ../extensions/search/data/ui/search-editor.ui.h:2
 msgid "_Include sub-folders"
 msgstr "P_rzeszukiwanie podkatalogów"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:4
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:3
 msgid "Ignore catalogs with a single file"
 msgstr "Ignorowanie katalog zawierających jeden plik"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:5
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:4
 msgid "Put single files in the catalog:"
-msgstr "Umieszczanie pojedynczych plików w katalogu:"
+msgstr "Umieszczanie pojedynczych plików w katalogu:"
 
-#: ../extensions/catalogs/data/ui/organize-files.ui.h:6
+#: ../extensions/catalogs/data/ui/organize-files.ui.h:5
 msgid "Singles"
 msgstr "Pojedyncze"
 
@@ -906,34 +915,39 @@ msgstr "Nie można zapisać katalogu"
 msgid "Could not load the catalog"
 msgstr "Nie można wczytać katalogu"
 
-#: ../extensions/catalogs/dlg-organize-files.c:112
+#: ../extensions/catalogs/dlg-organize-files.c:106
+#: ../extensions/catalogs/gth-organize-task.c:814
+msgid "Organize Files"
+msgstr "Organizuj pliki"
+
+#: ../extensions/catalogs/dlg-organize-files.c:126
 msgid "Files will be organized in catalogs. No file will be moved on disk."
 msgstr ""
-"Pliki zostaną zorganizowane w katalogach. Żaden plik nie zostanie "
+"Pliki zostaną zorganizowane w katalogach. Żaden plik nie zostanie "
 "przeniesiony na dysku."
 
-#: ../extensions/catalogs/dlg-organize-files.c:124
+#: ../extensions/catalogs/dlg-organize-files.c:138
 #: ../extensions/edit_metadata/gth-edit-general-page.c:558
 #: ../gthumb/gth-main-default-tests.c:365
 msgid "Date photo was taken"
 msgstr "Data wykonania zdjęcia"
 
-#: ../extensions/catalogs/dlg-organize-files.c:131
+#: ../extensions/catalogs/dlg-organize-files.c:145
 #: ../gthumb/gth-main-default-tests.c:357
 msgid "File modified date"
 msgstr "Data modyfikacji pliku"
 
-#: ../extensions/catalogs/dlg-organize-files.c:138
+#: ../extensions/catalogs/dlg-organize-files.c:152
 #: ../extensions/comments/main.c:182
 msgid "Tag"
 msgstr "Etykieta"
 
-#: ../extensions/catalogs/dlg-organize-files.c:145
+#: ../extensions/catalogs/dlg-organize-files.c:159
 #: ../gthumb/gth-main-default-tests.c:398
 msgid "Tag (embedded)"
 msgstr "Etykieta (osadzona)"
 
-#: ../extensions/catalogs/gth-catalog.c:1112 ../extensions/comments/main.c:45
+#: ../extensions/catalogs/gth-catalog.c:1119 ../extensions/comments/main.c:45
 #: ../extensions/edit_metadata/callbacks.c:51
 #: ../extensions/edit_metadata/callbacks.c:85
 #: ../gthumb/gth-main-default-metadata.c:62
@@ -973,7 +987,7 @@ msgstr "Kopiowanie plików do „%s”"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1322
 msgid "Could not remove the files from the catalog"
-msgstr "Nie można usunąć plików z katalogu"
+msgstr "Nie można usunąć plików z katalogu"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1380
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:873
@@ -984,7 +998,7 @@ msgstr "Nie można usunąć plików z katalogu"
 msgid "Invalid file format"
 msgstr "Nieprawidłowy format pliku"
 
-#: ../extensions/catalogs/gth-organize-task.c:202
+#: ../extensions/catalogs/gth-organize-task.c:207
 #, c-format
 msgid "Operation completed. Catalogs: %d. Images: %d."
 msgstr "Ukończono działanie. Katalogi: %d. Obrazy: %d."
@@ -1069,19 +1083,19 @@ msgstr "Zaimportuj osadzone metadane"
 
 #: ../extensions/comments/comments.extension.in.in.h:1
 msgid "Comments and tags"
-msgstr "Komentarze i etykiety"
+msgstr "Komentarze i etykiety"
 
 #: ../extensions/comments/comments.extension.in.in.h:2
 msgid "Add comments and tags to any file type."
-msgstr "Dodawanie komentarzy i etykiet do każdego typu pliku."
+msgstr "Dodawanie komentarzy i etykiet do każdego typu pliku."
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 msgid "_Synchronize with the embedded metadata"
-msgstr "_Synchronizowanie z osadzonymi metadanymi"
+msgstr "_Synchronizowanie z osadzonymi metadanymi"
 
 #: ../extensions/comments/dlg-comments-preferences.c:68
 #: ../extensions/gstreamer_tools/dlg-media-viewer-preferences.c:77
-#: ../extensions/importer/gth-import-preferences-dialog.c:318
+#: ../extensions/importer/gth-import-preferences-dialog.c:416
 #: ../extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: ../gthumb/dlg-preferences-extensions.c:483
 msgid "Preferences"
@@ -1103,7 +1117,7 @@ msgstr "Tytuł"
 #: ../extensions/importer/data/ui/import-preferences.ui.h:6
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:11
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:17
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:9
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
 #: ../gthumb/gth-main-default-metadata.c:61
 msgid "Description"
 msgstr "Opis"
@@ -1115,7 +1129,7 @@ msgstr "Miejsce"
 
 #: ../extensions/comments/main.c:44
 msgid "Comment Date & Time"
-msgstr "Data i czas komentarza"
+msgstr "Data i czas komentarza"
 
 #: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:63
 #: ../gthumb/gth-main-default-tests.c:389
@@ -1132,7 +1146,7 @@ msgstr "Ś_ciana obrazów…"
 
 #: ../extensions/contact_sheet/contact_sheet.extension.in.in.h:1
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:11
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:713
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:706
 msgid "Contact Sheet"
 msgstr "Odbitka stykowa"
 
@@ -1155,7 +1169,7 @@ msgstr "Zwykły"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:3
 msgid "Simple with shadow"
-msgstr "Zwykły z cieniem"
+msgstr "Zwykły z cieniem"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:4
 msgid "Shadow only"
@@ -1210,7 +1224,7 @@ msgstr "Tekst"
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:10
 #: ../extensions/image_print/data/ui/print-layout.ui.h:3
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:3
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
 msgid "_Header:"
 msgstr "_Nagłówek:"
 
@@ -1222,25 +1236,25 @@ msgstr "Wybór czcionki"
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:9
 #: ../extensions/image_print/data/ui/print-layout.ui.h:4
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:4
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:14
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
 msgid "_Footer:"
 msgstr "_Stopka:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:22
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
 #: ../extensions/image_print/data/ui/print-preferences.ui.h:2
 msgid "Caption:"
 msgstr "Opis:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:1
 #: ../extensions/image_print/data/ui/print-layout.ui.h:5
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
 msgid "The current page number"
 msgstr "Bieżący numer strony"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:2
 #: ../extensions/image_print/data/ui/print-layout.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:6
 msgid "The total number of pages"
 msgstr "Całkowita liczba stron"
 
@@ -1250,7 +1264,7 @@ msgstr "Całkowita liczba stron"
 #: ../extensions/importer/data/ui/import-preferences.ui.h:5
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:10
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:7
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:7
 msgid "Special code"
 msgstr "Kod specjalny"
 
@@ -1258,25 +1272,25 @@ msgstr "Kod specjalny"
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:7
 #: ../extensions/image_print/data/ui/print-layout.ui.h:11
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:11
 #, no-c-format
 msgid "%D{ format }"
 msgstr "%D{ format }"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:8
 #: ../extensions/image_print/data/ui/print-layout.ui.h:12
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:13
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:12
 msgid "The current date"
 msgstr "Bieżąca data"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:12
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:1
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:5
-#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:6
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:5
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:4
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
 msgid "_Destination:"
 msgstr "Miejsce _docelowe:"
 
@@ -1284,7 +1298,7 @@ msgstr "Miejsce _docelowe:"
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:2
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:3
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:9
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:17
 msgid "Choose destination folder"
 msgstr "Wybór katalogu docelowego"
 
@@ -1303,85 +1317,89 @@ msgstr "Nowa cyfra wyliczania"
 msgid "Create _HTML image map"
 msgstr "Utwórz mapę _HTML obrazu"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:18
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
 msgid "Create a new theme"
 msgstr "Utwórz nowy motyw"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:19
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
 msgid "Edit the selected theme"
 msgstr "Modyfikuj zaznaczony motyw"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:20
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
 msgid "Delete the selected theme"
 msgstr "Usuń zaznaczony motyw"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:21
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:22
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:22
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:21
 msgid "Theme"
 msgstr "Motyw"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:23
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:8
 #: ../extensions/image_print/data/ui/print-layout.ui.h:16
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
 msgid "Columns:"
 msgstr "Kolumny:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
+msgid "0"
+msgstr "0"
+
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
 msgid "Images per page:"
 msgstr "Obrazy na stronę:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:10
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:28
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
 msgid "All images on a single page"
 msgstr "Wszystkie obrazy na jednej stronie"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:26
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
 msgid "_All pages with the same size"
 msgstr "_Wszystkie strony tego samego rozmiaru"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:27
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:11
 #: ../extensions/image_print/data/ui/print-layout.ui.h:15
 msgid "Layout"
 msgstr "Układ"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:28
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:12
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:23
 msgid "S_ort:"
 msgstr "P_orządkowanie:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:29
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:13
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:25
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:24
 msgid "Re_verse order"
 msgstr "Od_wrócony porządek"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:30
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:14
 msgid "_Size:"
 msgstr "_Rozmiar:"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:31
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:32
 msgid "Sq_uared"
 msgstr "_Kwadratowo"
 
-#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:33
+#: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:34
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:15
 msgid "Thumbnails"
 msgstr "Miniatury"
 
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:495
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:506
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:520
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:488
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:499
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:513
 msgid "Could not save the theme"
 msgstr "Nie można zapisać motywu"
 
-#: ../extensions/contact_sheet/dlg-contact-sheet.c:665
+#: ../extensions/contact_sheet/dlg-contact-sheet.c:658
 msgid "Could not delete the theme"
 msgstr "Nie można usunąć motywu"
 
@@ -1427,7 +1445,7 @@ msgstr "Konwersja formatu"
 
 #: ../extensions/convert_format/convert_format.extension.in.in.h:2
 msgid "Save images in a different format"
-msgstr "Zapisywanie obrazów w innym formacie"
+msgstr "Zapisywanie obrazów w innym formacie"
 
 #: ../extensions/convert_format/data/ui/convert-format.ui.h:1
 msgid "New format"
@@ -1527,7 +1545,7 @@ msgstr "Nie można zapisać metadanych pliku"
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:229
 #: ../gthumb/gth-overwrite-dialog.c:137
 msgid "Cannot read file information"
-msgstr "Nie można odczytać informacji o pliku"
+msgstr "Nie można odczytać informacji o pliku"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
 msgid "Edit metadata"
@@ -1557,7 +1575,7 @@ msgstr[2] "%d plików"
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:144
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:197
 msgid "Sa_ve and Close"
-msgstr "_Zapisz i zamknij"
+msgstr "_Zapisz i zamknij"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:155
 msgid "Save only cha_nged fields"
@@ -1572,7 +1590,7 @@ msgid "The following date"
 msgstr "Następująca data"
 
 #: ../extensions/edit_metadata/gth-edit-general-page.c:557
-#: ../extensions/importer/gth-import-preferences-dialog.c:331
+#: ../extensions/importer/gth-import-preferences-dialog.c:324
 msgid "Current date"
 msgstr "Bieżąca data"
 
@@ -1650,7 +1668,7 @@ msgstr "Nazwa _obiektu:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:9
 msgid "Byline _Title:"
-msgstr "_Tytuł i autor:"
+msgstr "_Tytuł i autor:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:10
 msgid "_Byline:"
@@ -1670,11 +1688,11 @@ msgstr "Stan/województwo:"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:1
 msgid "EXIF, IPTC, XMP support"
-msgstr "Obsługa EXIF, IPTC i XMP"
+msgstr "Obsługa EXIF, IPTC i XMP"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:2
 msgid "Read and write exif, iptc and xmp metadata."
-msgstr "Odczytywanie i zapisywanie metadanych EXIF, IPTC i XMP."
+msgstr "Odczytywanie i zapisywanie metadanych EXIF, IPTC i XMP."
 
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:42 ../gthumb/glib-utils.c:1115
 msgid "(invalid value)"
@@ -1737,73 +1755,61 @@ msgid "Export"
 msgstr "Wyeksportuj"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
-msgid "Export to Flickr"
-msgstr "Wyeksportuj do serwisu Flickr"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:9
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
-msgid "_Upload"
-msgstr "_Wyślij"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
-msgid "_Account:"
-msgstr "_Konto:"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
-#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:3
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:11
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:2
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
-msgid "Edit accounts"
-msgstr "Modyfikuj konta"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
-msgid "A_lbum:"
-msgstr "A_lbum:"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
-msgid "Add a new album"
-msgstr "Dodaj nowy album"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
-msgid "Resize the images if larger than this size"
-msgstr "Zmiana rozmiaru obrazów, jeśli jest większy niż dany rozmiar"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:17
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:15
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
-msgid "_Resize if larger than:"
-msgstr "_Zmienianie rozmiaru, jeśli większe od:"
-
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
 msgid "720 x 720"
 msgstr "720×720"
 
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
 msgid "1024 x 1024"
 msgstr "1024×1024"
 
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
 msgid "1280 x 1280"
 msgstr "1280×1280"
 
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:12
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
 msgid "1600 x 1600"
 msgstr "1600×1600"
 
-#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:13
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
 msgid "2048 x 2048"
 msgstr "2048×2048"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:1
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
+msgid "Edit accounts"
+msgstr "Modyfikuj konta"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
+msgid "A_lbum:"
+msgstr "A_lbum:"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
+msgid "Add a new album"
+msgstr "Dodaj nowy album"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:9
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
+msgid "_Account:"
+msgstr "_Konto:"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
+msgid "Resize the images if larger than this size"
+msgstr "Zmiana rozmiaru obrazów, jeśli jest większy niż dany rozmiar"
+
+#: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
+msgid "_Resize if larger than:"
+msgstr "_Zmienianie rozmiaru, jeśli większe od:"
 
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:1
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:1
@@ -1825,28 +1831,16 @@ msgstr "Prywatne"
 msgid "_Visibility:"
 msgstr "_Widoczność:"
 
-#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:1
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
-msgid "Import from Picasa Web Album"
-msgstr "Zaimportuj z serwisu Picasa Web Album"
-
 #: ../extensions/facebook/data/ui/import-from-facebook.ui.h:2
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
-#: ../extensions/photo_importer/dlg-photo-importer.c:582
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
-msgid "_Import"
-msgstr "Za_importuj"
-
-#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:4
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:2
 #: ../extensions/oauth/data/ui/oauth-account-chooser.ui.h:1
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:2
 msgid "A_ccount:"
 msgstr "_Konto:"
 
-#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:5
-#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:5
+#: ../extensions/facebook/data/ui/import-from-facebook.ui.h:3
+#: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:3
 msgid "_Album:"
 msgstr "_Album:"
 
@@ -1861,7 +1855,7 @@ msgstr "_Album:"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:373
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
 msgid "Could not connect to the server"
-msgstr "Nie można połączyć się z serwerem"
+msgstr "Nie można połączyć z serwerem"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:149
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:163
@@ -1876,7 +1870,7 @@ msgstr "Pomyślnie wysłano pliki do serwera."
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:152
 #: ../extensions/webalbums/gth-web-exporter.c:1841
 msgid "_Open in the Browser"
-msgstr "_Otwórz w przeglądarce"
+msgstr "_Otwórz w przeglądarce"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:177
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:248
@@ -1899,27 +1893,31 @@ msgstr "Nie można utworzyć albumu"
 msgid "New Album"
 msgstr "Nowy album"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:559
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:581
+#: ../extensions/facebook/dlg-export-to-facebook.c:506
+msgid "Export to Facebook"
+msgstr "Wyeksportuj do serwisu Facebook"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:572
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:594
 #: ../extensions/image_print/gth-image-print-job.c:1739
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:605
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:599
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:618
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:612
 msgid "No valid file selected."
 msgstr "Nie zaznaczono prawidłowych plików."
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:560
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:582
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:606
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:600
+#: ../extensions/facebook/dlg-export-to-facebook.c:573
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:595
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:619
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:613
 msgid "Could not export the files"
 msgstr "Nie można wyeksportować plików"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:568
+#: ../extensions/facebook/dlg-export-to-facebook.c:581
 #: ../extensions/find_duplicates/gth-find-duplicates.c:278
 #: ../extensions/find_duplicates/gth-find-duplicates.c:477
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:590
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:614
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:607
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:603
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:627
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:620
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
 #: ../gthumb/gth-browser.c:828
 #, c-format
@@ -1929,9 +1927,9 @@ msgstr[0] "%d plik (%s)"
 msgstr[1] "%d pliki (%s)"
 msgstr[2] "%d plików (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:589
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:613
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:633
+#: ../extensions/facebook/dlg-export-to-facebook.c:602
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:626
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:646
 #, c-format
 msgid "Export to %s"
 msgstr "Eksport do serwisu %s"
@@ -1943,21 +1941,32 @@ msgid "Could not get the photo list"
 msgstr "Nie można pobrać listy zdjęć"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:378
-#: ../extensions/facebook/dlg-import-from-facebook.c:534
+#: ../extensions/facebook/dlg-import-from-facebook.c:547
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:382
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:548
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:561
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:587
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:598
 msgid "No album selected"
 msgstr "Nie wybrano albumu"
 
-#: ../extensions/facebook/dlg-import-from-facebook.c:552
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:566
+#: ../extensions/facebook/dlg-import-from-facebook.c:498
+msgid "Import from Facebook"
+msgstr "Zaimportuj z serwisu Facebook"
+
+#: ../extensions/facebook/dlg-import-from-facebook.c:507
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:521
+#: ../extensions/photo_importer/dlg-photo-importer.c:582
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:556
+msgid "_Import"
+msgstr "Za_importuj"
+
+#: ../extensions/facebook/dlg-import-from-facebook.c:565
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:579
 #, c-format
 msgid "Import from %s"
-msgstr "Import zdjęć z serwisu %s"
+msgstr "Import zdjęć z serwisu %s"
 
-#: ../extensions/facebook/dlg-import-from-facebook.c:552
+#: ../extensions/facebook/dlg-import-from-facebook.c:565
 #: ../extensions/facebook/facebook.extension.in.in.h:1
 msgid "Facebook"
 msgstr "Facebook"
@@ -1967,23 +1976,23 @@ msgid "Upload images to Facebook"
 msgstr "Wysyłanie obrazów do serwisu Facebook"
 
 #: ../extensions/facebook/facebook-service.c:497
-#: ../extensions/flicker_utils/flickr-service.c:863
+#: ../extensions/flicker_utils/flickr-service.c:872
 #: ../extensions/photobucket/photobucket-service.c:310
 #: ../extensions/picasaweb/picasa-web-service.c:711
 msgid "Getting the album list"
 msgstr "Pobieranie listy albumów"
 
 #: ../extensions/facebook/facebook-service.c:619
-#: ../extensions/flicker_utils/flickr-service.c:965
-#: ../extensions/flicker_utils/flickr-service.c:1087
-#: ../extensions/flicker_utils/flickr-service.c:1126
+#: ../extensions/flicker_utils/flickr-service.c:974
+#: ../extensions/flicker_utils/flickr-service.c:1096
+#: ../extensions/flicker_utils/flickr-service.c:1135
 #: ../extensions/photobucket/photobucket-service.c:423
 #: ../extensions/picasaweb/picasa-web-service.c:805
 msgid "Creating the new album"
 msgstr "Tworzenie nowego albumu"
 
 #: ../extensions/facebook/facebook-service.c:680
-#: ../extensions/flicker_utils/flickr-service.c:1176
+#: ../extensions/flicker_utils/flickr-service.c:1185
 #: ../extensions/photobucket/photobucket-service.c:485
 #: ../extensions/picasaweb/picasa-web-service.c:860
 #, c-format
@@ -1992,7 +2001,7 @@ msgstr "Nie można wysłać „%s”: %s"
 
 #. Translators: %s is a filename
 #: ../extensions/facebook/facebook-service.c:745
-#: ../extensions/flicker_utils/flickr-service.c:1287
+#: ../extensions/flicker_utils/flickr-service.c:1296
 #: ../extensions/photobucket/photobucket-service.c:542
 #: ../extensions/picasaweb/picasa-web-service.c:917
 #, c-format
@@ -2000,14 +2009,14 @@ msgid "Uploading '%s'"
 msgstr "Wysyłanie „%s”"
 
 #: ../extensions/facebook/facebook-service.c:958
-#: ../extensions/flicker_utils/flickr-service.c:1482
+#: ../extensions/flicker_utils/flickr-service.c:1491
 #: ../extensions/photobucket/photobucket-service.c:714
 #: ../extensions/picasaweb/picasa-web-service.c:1138
 msgid "Uploading the files to the server"
 msgstr "Wysyłanie plików na serwer"
 
 #: ../extensions/facebook/facebook-service.c:1057
-#: ../extensions/flicker_utils/flickr-service.c:1651
+#: ../extensions/flicker_utils/flickr-service.c:1660
 #: ../extensions/picasaweb/picasa-web-service.c:1257
 msgid "Getting the photo list"
 msgstr "Pobieranie listy zdjęć"
@@ -2090,7 +2099,7 @@ msgstr "Usuń"
 
 #: ../extensions/file_manager/callbacks.c:88
 msgid "Open with the File Manager"
-msgstr "Otwórz w menedżerze plików"
+msgstr "Otwórz w menedżerze plików"
 
 #: ../extensions/file_manager/callbacks.c:93
 msgid "Create Folder"
@@ -2135,8 +2144,8 @@ msgstr "S_kopiuj"
 
 #: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:788
-#: ../gthumb/gth-browser.c:5558 ../gthumb/gth-browser.c:5594
-#: ../gthumb/gth-progress-dialog.c:420
+#: ../gthumb/gth-browser.c:5557 ../gthumb/gth-browser.c:5593
+#: ../gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "Nie można wykonać działania"
 
@@ -2192,7 +2201,7 @@ msgstr "Poziomy kolorów"
 #: ../extensions/file_tools/gth-file-tool-crop.c:656
 #: ../extensions/file_tools/gth-file-tool-resize.c:749
 #: ../extensions/file_tools/gth-file-tool-rotate.c:614
-#: ../gthumb/gth-file-chooser-dialog.c:252
+#: ../gthumb/gth-file-chooser-dialog.c:257
 msgid "Options"
 msgstr "Opcje"
 
@@ -2415,33 +2424,33 @@ msgstr "Niebieski"
 
 #: ../extensions/file_tools/gth-curve-editor.c:981
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:553
-#: ../extensions/file_tools/gth-file-tool-curves.c:820
+#: ../extensions/file_tools/gth-file-tool-curves.c:816
 #: ../extensions/file_tools/gth-file-tool-rotate.c:601
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:363
 msgid "Reset"
 msgstr "Przywróć"
 
-#: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:209
-#: ../extensions/file_tools/gth-file-tool-curves.c:686
-#: ../extensions/file_tools/gth-file-tool-curves.c:848
+#: ../extensions/file_tools/gth-curve-preset-editor-dialog.c:266
+#: ../extensions/file_tools/gth-file-tool-curves.c:683
+#: ../extensions/file_tools/gth-file-tool-curves.c:844
 msgid "Presets"
 msgstr "Ustawienia"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:336
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:388
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:390
 #: ../extensions/file_tools/gth-file-tool-crop.c:627
-#: ../extensions/file_tools/gth-file-tool-curves.c:285
-#: ../extensions/file_tools/gth-file-tool-effects.c:400
-#: ../extensions/file_tools/gth-file-tool-effects.c:445
-#: ../extensions/file_tools/gth-file-tool-effects.c:493
-#: ../extensions/file_tools/gth-file-tool-effects.c:542
-#: ../extensions/file_tools/gth-file-tool-effects.c:590
-#: ../extensions/file_tools/gth-file-tool-effects.c:638
-#: ../extensions/file_tools/gth-file-tool-effects.c:686
-#: ../extensions/file_tools/gth-file-tool-effects.c:734
-#: ../extensions/file_tools/gth-file-tool-effects.c:784
-#: ../extensions/file_tools/gth-file-tool-effects.c:906
-#: ../extensions/file_tools/gth-file-tool-effects.c:942
+#: ../extensions/file_tools/gth-file-tool-curves.c:284
+#: ../extensions/file_tools/gth-file-tool-effects.c:399
+#: ../extensions/file_tools/gth-file-tool-effects.c:443
+#: ../extensions/file_tools/gth-file-tool-effects.c:491
+#: ../extensions/file_tools/gth-file-tool-effects.c:540
+#: ../extensions/file_tools/gth-file-tool-effects.c:588
+#: ../extensions/file_tools/gth-file-tool-effects.c:636
+#: ../extensions/file_tools/gth-file-tool-effects.c:684
+#: ../extensions/file_tools/gth-file-tool-effects.c:731
+#: ../extensions/file_tools/gth-file-tool-effects.c:780
+#: ../extensions/file_tools/gth-file-tool-effects.c:902
+#: ../extensions/file_tools/gth-file-tool-effects.c:937
 #: ../extensions/file_tools/gth-file-tool-flip.c:63
 #: ../extensions/file_tools/gth-file-tool-grayscale.c:227
 #: ../extensions/file_tools/gth-file-tool-lomo.c:182
@@ -2459,39 +2468,40 @@ msgstr "Dostosowanie kolorów"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:595
 msgid "Change brightness, contrast, saturation and gamma level of the image"
-msgstr "Zmiana jasności, kontrastu, nasycenia i poziomu gamma obrazu"
+msgstr "Zmiana jasności, kontrastu, nasycenia i poziomu gamma obrazu"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:531
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:533
 msgid "Stretch"
 msgstr "Rozciągnij"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:532
-msgid "Stretch the histogram trimming the 0.5%"
-msgstr "Rozciąga histogram, obcinając 0,5%"
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:534
+#, no-c-format
+msgid "Stretch the histogram after trimming 0.5% from both ends"
+msgstr "Rozciąga histogram po obcięciu 0,5% z obu końców"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:536
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:538
 msgid "Equalize"
 msgstr "Wyrównaj"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:537
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:539
 msgid "Equalize the histogram using the square root function"
 msgstr "Wyrównuje histogram, używając pierwiastka kwadratowego"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:541
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:543
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
 #: ../extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Uniform"
 msgstr "Jednolite"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:542
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:544
 msgid "Equalize the histogram using the linear function"
 msgstr "Wyrównuje histogram, używając funkcji liniowej"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:656
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
 msgid "Adjust Contrast"
 msgstr "Dostosowanie kontrastu"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:660
 msgid "Automatic contrast adjustment"
 msgstr "Automatyczne dostosowanie kontrastu"
 
@@ -2579,30 +2589,30 @@ msgstr "Linie wyśrodkowane"
 msgid "Crop"
 msgstr "Przycięcie"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:409
+#: ../extensions/file_tools/gth-file-tool-curves.c:407
 msgid "Add to Presets"
 msgstr "Dodaj do ustawień"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:410
+#: ../extensions/file_tools/gth-file-tool-curves.c:408
 msgid "Enter the preset name:"
 msgstr "Nazwa ustawienia:"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:533
+#: ../extensions/file_tools/gth-file-tool-curves.c:530
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1419
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1418
 #: ../gthumb/gth-browser.c:1892
 msgid "Could not save the file"
 msgstr "Nie można zapisać pliku"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:834
+#: ../extensions/file_tools/gth-file-tool-curves.c:830
 msgid "Add to presets"
 msgstr "Dodaj do ustawień"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:895
+#: ../extensions/file_tools/gth-file-tool-curves.c:889
 msgid "Color Curves"
 msgstr "Krzywe kolorów"
 
-#: ../extensions/file_tools/gth-file-tool-curves.c:896
+#: ../extensions/file_tools/gth-file-tool-curves.c:890
 msgid "Adjust color curves"
 msgstr "Dostosowanie krzywych kolorów"
 
@@ -2611,63 +2621,63 @@ msgid "Special Effects"
 msgstr "Efekty specjalne"
 
 #. Translators: this is the name of a filter that produces warmer colors
-#: ../extensions/file_tools/gth-file-tool-effects.c:402
+#: ../extensions/file_tools/gth-file-tool-effects.c:401
 msgid "Warmer"
 msgstr "Cieplejsze"
 
 #. Translators: this is the name of a filter that produces cooler colors
-#: ../extensions/file_tools/gth-file-tool-effects.c:447
+#: ../extensions/file_tools/gth-file-tool-effects.c:445
 msgid "Cooler"
 msgstr "Chłodniejsze"
 
 #. Translators: this is the name of an image filter
-#: ../extensions/file_tools/gth-file-tool-effects.c:495
+#: ../extensions/file_tools/gth-file-tool-effects.c:493
 msgid "Soil"
 msgstr "Gleba"
 
 #. Translators: this is the name of an image filter
-#: ../extensions/file_tools/gth-file-tool-effects.c:544
+#: ../extensions/file_tools/gth-file-tool-effects.c:542
 msgid "Desert"
 msgstr "Pustynia"
 
 #. Translators: this is the name of an image filter
-#: ../extensions/file_tools/gth-file-tool-effects.c:592
+#: ../extensions/file_tools/gth-file-tool-effects.c:590
 msgid "Arctic"
 msgstr "Arktyka"
 
 #. Translators: this is the name of an image filter
-#: ../extensions/file_tools/gth-file-tool-effects.c:640
+#: ../extensions/file_tools/gth-file-tool-effects.c:638
 msgid "Mangos"
 msgstr "Mango"
 
 #. Translators: this is the name of an image filter
-#: ../extensions/file_tools/gth-file-tool-effects.c:688
+#: ../extensions/file_tools/gth-file-tool-effects.c:686
 msgid "Fresh Blue"
 msgstr "Świeży błękit"
 
 #. Translators: this is the name of an image filter
-#: ../extensions/file_tools/gth-file-tool-effects.c:736
+#: ../extensions/file_tools/gth-file-tool-effects.c:733
 msgid "Cherry"
 msgstr "Wiśnia"
 
 #. Translators: this is the name of an image filter
-#: ../extensions/file_tools/gth-file-tool-effects.c:786
+#: ../extensions/file_tools/gth-file-tool-effects.c:782
 msgid "Vintage"
 msgstr "Vintage"
 
 #. Translators: this is the name of an image filter
-#: ../extensions/file_tools/gth-file-tool-effects.c:908
+#: ../extensions/file_tools/gth-file-tool-effects.c:904
 msgid "Blurred Edges"
 msgstr "Rozmyte brzegi"
 
 #. Translators: this is the name of an image filter that produces darker edges
-#: ../extensions/file_tools/gth-file-tool-effects.c:944
+#: ../extensions/file_tools/gth-file-tool-effects.c:939
 msgid "Vignette"
 msgstr "Winieta"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:90
 msgid "Flip"
-msgstr "Odbij w pionie"
+msgstr "Odbij w pionie"
 
 #: ../extensions/file_tools/gth-file-tool-flip.c:91
 msgid "Flip the image vertically"
@@ -2695,7 +2705,7 @@ msgstr "Lomo"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:90
 msgid "Mirror"
-msgstr "Odbij w poziomie"
+msgstr "Odbij w poziomie"
 
 #: ../extensions/file_tools/gth-file-tool-mirror.c:91
 msgid "Mirror the image horizontally"
@@ -2712,7 +2722,7 @@ msgstr "Ponów"
 #. resize the original image
 #: ../extensions/file_tools/gth-file-tool-resize.c:180
 #: ../extensions/resize_images/dlg-resize-images.c:172
-#: ../gthumb/gth-filter-grid.c:575
+#: ../gthumb/gth-filter-grid.c:572
 msgid "Resizing images"
 msgstr "Zmienianie rozmiarów obrazów"
 
@@ -2728,26 +2738,26 @@ msgstr "Obróć"
 #: ../extensions/image_rotation/callbacks.c:46
 #: ../extensions/image_rotation/callbacks.c:177
 msgid "Rotate Left"
-msgstr "Obróć w lewo"
+msgstr "Obróć w lewo"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-left.c:91
 msgid "Rotate the image by 90 degrees counterclockwise"
-msgstr "Obraca obraz o 90 stopni w lewo"
+msgstr "Obraca obraz o 90 stopni w lewo"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:90
 #: ../extensions/image_rotation/callbacks.c:47
 #: ../extensions/image_rotation/callbacks.c:185
 msgid "Rotate Right"
-msgstr "Obróć w prawo"
+msgstr "Obróć w prawo"
 
 #: ../extensions/file_tools/gth-file-tool-rotate-right.c:91
 msgid "Rotate the image by 90 degrees clockwise"
-msgstr "Obraca obraz o 90 stopni w prawo"
+msgstr "Obraca obraz o 90 stopni w prawo"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:70
 #: ../gthumb/resources/gears-menu.ui.h:4
-msgid "Save As"
-msgstr "Zapisz jako"
+msgid "Save As…"
+msgstr "Zapisz jako…"
 
 #: ../extensions/file_tools/gth-file-tool-save.c:66
 #: ../gthumb/resources/gears-menu.ui.h:3
@@ -2889,7 +2899,7 @@ msgstr "Wysyłanie obrazów do serwisu Flickr"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:2
 msgid "Private photos, visible to family and friends"
-msgstr "Prywatne zdjęcia, widoczne dla rodziny i przyjaciół"
+msgstr "Prywatne zdjęcia, widoczne dla rodziny i przyjaciół"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:4
 msgid "Private photos, visible to family"
@@ -2911,42 +2921,34 @@ msgstr "Umiarkowana treść"
 msgid "Restricted content"
 msgstr "Ograniczona treść"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:12
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:11
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Free space:"
 msgstr "Wolne miejsce:"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:13
-#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:4
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:12
+#: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:3
 msgid "Ph_otoset:"
 msgstr "Z_estaw zdjęć:"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:14
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:13
 msgid "_Privacy:"
 msgstr "_Prywatność:"
 
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
-msgid "Hi_de from public searches"
-msgstr "_Ukrycie z publicznych wyszukiwań"
-
-#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:14
 msgid "_Safety:"
 msgstr "_Bezpieczeństwo:"
 
-#: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:1
-msgid "C_ontinue"
-msgstr "K_ontynuuj"
-
-#: ../extensions/flicker_utils/data/ui/flickr-ask-authorization-old.ui.h:2
-msgid "_Authorize..."
-msgstr "_Upoważnij…"
+#: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:15
+msgid "Hi_de from public searches"
+msgstr "_Ukrycie z publicznych wyszukiwań"
 
 #: ../extensions/flicker_utils/flickr-consumer.c:124
 #: ../extensions/flicker_utils/flickr-service.c:237
 #: ../extensions/flicker_utils/flickr-service.c:348
-#: ../extensions/flicker_utils/flickr-service.c:672
-#: ../extensions/flicker_utils/flickr-service.c:937
+#: ../extensions/flicker_utils/flickr-service.c:681
+#: ../extensions/flicker_utils/flickr-service.c:946
 #: ../extensions/oauth/oauth-service.c:154
 #: ../extensions/photobucket/photobucket-consumer.c:74
 #: ../extensions/photobucket/photobucket-consumer.c:82
@@ -2960,26 +2962,34 @@ msgstr "Nieznany błąd"
 msgid ""
 "Return to this window when you have finished the authorization process on %s"
 msgstr ""
-"Należy wrócić do tego okna po ukończeniu procesu upoważnienia w serwisie %s"
+"Należy wrócić do tego okna po ukończeniu procesu upoważnienia w serwisie %s"
 
 #: ../extensions/flicker_utils/flickr-service.c:503
 msgid "Once you're done, click the 'Continue' button below."
 msgstr "Po ukończeniu należy kliknąć przycisk „Kontynuuj” poniżej."
 
-#: ../extensions/flicker_utils/flickr-service.c:571
+#: ../extensions/flicker_utils/flickr-service.c:575
+msgid "C_ontinue"
+msgstr "K_ontynuuj"
+
+#: ../extensions/flicker_utils/flickr-service.c:576
+msgid "_Authorize…"
+msgstr "_Upoważnij…"
+
+#: ../extensions/flicker_utils/flickr-service.c:579
 #, c-format
 msgid "gThumb requires your authorization to upload the photos to %s"
 msgstr "Program gthumb wymaga upoważnienia, aby wysłać zdjęcia do serwisu %s"
 
-#: ../extensions/flicker_utils/flickr-service.c:572
+#: ../extensions/flicker_utils/flickr-service.c:580
 #, c-format
 msgid ""
 "Click 'Authorize' to open your web browser and authorize gthumb to upload "
 "photos to %s. When you're finished, return to this window to complete the "
 "authorization."
 msgstr ""
-"Należy kliknąć przycisk „Upoważnij”, aby otworzyć przeglądarkę WWW i "
-"upoważnić program gthumb do wysyłania zdjęć do serwisu %s. Po ukończeniu "
+"Należy kliknąć przycisk „Upoważnij”, aby otworzyć przeglądarkę WWW "
+"i upoważnić program gthumb do wysyłania zdjęć do serwisu %s. Po ukończeniu "
 "należy wrócić do tego okna, aby zakończyć upoważnienie."
 
 #. Translators: %s is a filename
@@ -3000,7 +3010,7 @@ msgstr "Nie można wykonać zrzutu ekranu"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:602
-#: ../extensions/image_viewer/gth-image-viewer-page.c:970
+#: ../extensions/image_viewer/gth-image-viewer-page.c:969
 msgid "Play"
 msgstr "Odtwórz"
 
@@ -3030,7 +3040,7 @@ msgstr "Obsługa nagrań dźwiękowych/wideo"
 
 #: ../extensions/gstreamer_tools/gstreamer_tools.extension.in.in.h:2
 msgid "Play audio and video files."
-msgstr "Odtwarzanie plików dźwiękowych i wideo."
+msgstr "Odtwarzanie plików dźwiękowych i wideo."
 
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:575
 msgid "Playing video"
@@ -3059,7 +3069,7 @@ msgid "Artist"
 msgstr "Wykonawca"
 
 #: ../extensions/gstreamer_tools/main.c:41
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:16
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
 msgid "Album"
 msgstr "Album"
 
@@ -3199,7 +3209,7 @@ msgstr "Wybór czcionki stopki"
 #: ../extensions/webalbums/data/albumthemes/text.h:31
 #, c-format
 msgid "Page %d of %d"
-msgstr "Strona %d z %d"
+msgstr "Strona %d z %d"
 
 #: ../extensions/image_print/gth-image-print-job.c:1680
 #: ../extensions/image_print/gth-image-print-job.c:1845
@@ -3287,7 +3297,7 @@ msgstr ""
 "stanu.\n"
 "\n"
 "Można tez porzucić (lub przyciąć) wszelkie nieprzetwarzalne piksele na "
-"krawędziach. W praktycznym zastosowaniu ten tryb daje najlepsze rezultaty, "
+"krawędziach. W praktycznym zastosowaniu ten tryb daje najlepsze rezultaty, "
 "ale przekształcenie nie jest wtedy do końca bezstratne."
 
 #: ../extensions/image_rotation/rotation-utils.c:116
@@ -3303,7 +3313,7 @@ msgid "After loading an image:"
 msgstr "Po wczytaniu obrazu:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:927
+#: ../extensions/image_viewer/gth-image-viewer-page.c:926
 msgid "Set to actual size"
 msgstr "Ustawianie na rzeczywisty rozmiar"
 
@@ -3317,7 +3327,7 @@ msgid "Fit to window"
 msgstr "Dopasowanie do okna"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
-#: ../extensions/image_viewer/gth-image-viewer-page.c:934
+#: ../extensions/image_viewer/gth-image-viewer-page.c:933
 msgid "Fit to window if larger"
 msgstr "Dopasowanie do okna, jeśli większy"
 
@@ -3388,15 +3398,15 @@ msgstr "Skopiuj obraz"
 msgid "Paste Image"
 msgstr "Wklej obraz"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:962
+#: ../extensions/image_viewer/gth-image-viewer-page.c:961
 msgid "Apply the embedded color profile"
 msgstr "Zastosowanie osadzonego profilu kolorów"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:977
+#: ../extensions/image_viewer/gth-image-viewer-page.c:976
 msgid "Next frame"
 msgstr "Następna klatka"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1592
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1591
 msgid "Save Image"
 msgstr "Zapis obrazu"
 
@@ -3454,25 +3464,25 @@ msgid "example: %s"
 msgstr "przykład: %s"
 
 #. subfolder type
-#: ../extensions/importer/gth-import-preferences-dialog.c:330
+#: ../extensions/importer/gth-import-preferences-dialog.c:323
 msgid "File date"
 msgstr "Data pliku"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: ../extensions/importer/gth-import-preferences-dialog.c:340
+#: ../extensions/importer/gth-import-preferences-dialog.c:333
 msgid "year-month-day"
 msgstr "rok-miesiąc-dzień"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:341
+#: ../extensions/importer/gth-import-preferences-dialog.c:334
 msgid "year-month"
 msgstr "rok-miesiąc"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:342
+#: ../extensions/importer/gth-import-preferences-dialog.c:335
 msgid "year"
 msgstr "rok"
 
-#: ../extensions/importer/gth-import-preferences-dialog.c:343
+#: ../extensions/importer/gth-import-preferences-dialog.c:336
 msgid "custom format"
 msgstr "własny format"
 
@@ -3488,7 +3498,7 @@ msgstr "Nie zaimportowano plików"
 
 #: ../extensions/importer/gth-import-task.c:621
 msgid "The selected files are already present in the destination."
-msgstr "Zaznaczone pliki już znajdują się w miejscu docelowym."
+msgstr "Zaznaczone pliki już znajdują się w miejscu docelowym."
 
 #: ../extensions/importer/gth-import-task.c:644
 msgid "Could not delete the files"
@@ -3513,7 +3523,7 @@ msgid ""
 "Not enough free space in '%s'.\n"
 "%s of space is required but only %s is available."
 msgstr ""
-"Za mało wolnego miejsca w „%s”.\n"
+"Za mało wolnego miejsca w „%s”.\n"
 "Wymagane: %s. Dostępne: %s."
 
 #: ../extensions/list_tools/callbacks.c:174
@@ -3564,7 +3574,7 @@ msgstr "%ask{ wiadomość }{ domyślna wartość }"
 
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:15
 msgid "Ask an input value"
-msgstr "Pytanie o wartość wejściową"
+msgstr "Pytanie o wartość wejściową"
 
 #. Translate only
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:18
@@ -3610,7 +3620,8 @@ msgid "_Command:"
 msgstr "Pole_cenie:"
 
 #: ../extensions/list_tools/data/ui/tools-menu.ui.h:1
-msgid "Personalize..."
+#: ../gthumb/gth-filterbar.c:307
+msgid "Personalize…"
 msgstr "Dostosuj…"
 
 #: ../extensions/list_tools/dlg-personalize-scripts.c:257
@@ -3686,7 +3697,7 @@ msgstr "Narzędzie list plików"
 
 #: ../extensions/list_tools/list_tools.extension.in.in.h:2
 msgid "Scripting and batch manipulation of files."
-msgstr "Skrypty i wsadowe modyfikowanie plików."
+msgstr "Skrypty i wsadowe modyfikowanie plików."
 
 #: ../extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
@@ -3716,7 +3727,7 @@ msgstr "Mapa"
 #. No GPS label
 #: ../extensions/map_view/gth-map-view.c:276
 msgid "The geographical position information is not available for this image."
-msgstr "Informacje o położeniu geograficznym nie są dostępne dla tego obrazu."
+msgstr "Informacje o położeniu geograficznym nie są dostępne dla tego obrazu."
 
 #: ../extensions/map_view/map_view.extension.in.in.h:2
 msgid "View the photo position on the map"
@@ -3727,20 +3738,15 @@ msgid "A_ccounts:"
 msgstr "_Konta:"
 
 #: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
-msgid "Loading..."
+#: ../gthumb/gth-folder-tree.c:1079
+msgid "Loading…"
 msgstr "Wczytywanie…"
 
-#: ../extensions/oauth/oauth-account-chooser-dialog.c:153
-#: ../extensions/oauth/oauth-account-manager-dialog.c:140
-#: ../gthumb/gtk-utils.h:41
-msgid "_New"
-msgstr "_Nowe"
-
-#: ../extensions/oauth/oauth-account-chooser-dialog.c:200
+#: ../extensions/oauth/oauth-account-chooser-dialog.c:191
 msgid "New authentication…"
 msgstr "Nowe dane uwierzytelniające…"
 
-#: ../extensions/oauth/oauth-ask-authorization-dialog.c:245
+#: ../extensions/oauth/oauth-ask-authorization-dialog.c:239
 msgid "Authorization Required"
 msgstr "Wymagane jest upoważnienie"
 
@@ -3758,15 +3764,15 @@ msgstr "Modyfikuj konta"
 
 #: ../extensions/oauth/web-service.c:791 ../extensions/oauth/web-service.c:808
 msgid "Connecting to the server"
-msgstr "Łączenie z serwerem"
+msgstr "Łączenie z serwerem"
 
 #: ../extensions/oauth/web-service.c:792
 msgid "Asking authorization"
-msgstr "Pytanie o upoważnienie"
+msgstr "Pytanie o upoważnienie"
 
 #: ../extensions/oauth/web-service.c:809
 msgid "Getting account information"
-msgstr "Pobieranie informacji o koncie"
+msgstr "Pobieranie informacji o koncie"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
 msgid "Tiny ( 100 x 75 )"
@@ -3795,9 +3801,9 @@ msgstr "Ekran 17ʺ (1024×768)"
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:294
 msgid "1 megabyte file size"
-msgstr "Plik o rozmiarze 1 megabajta"
+msgstr "Plik o rozmiarze 1 megabajta"
 
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:16
+#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
 msgid "_Scramble filenames"
 msgstr "_Szyfrowanie nazw plików"
 
@@ -3831,7 +3837,11 @@ msgstr "Ekran 17ʺ (1024×768)"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:301
 msgid "2 megabyte file size"
-msgstr "Plik o rozmiarze 2 megabajtów"
+msgstr "Plik o rozmiarze 2 megabajtów"
+
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:552
+msgid "Export to Photobucket"
+msgstr "Wyeksportuj do serwisu PhotoBucket"
 
 #: ../extensions/photobucket/photobucket.extension.in.in.h:1
 msgid "PhotoBucket"
@@ -3864,7 +3874,7 @@ msgstr "Zai_mportuj z"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:1
 msgid "After importing from a device:"
-msgstr "Po zaimportowaniu z urządzenia:"
+msgstr "Po zaimportowaniu z urządzenia:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer-options.ui.h:2
 msgid "_Rotate the images physically"
@@ -3882,12 +3892,12 @@ msgid "S_how:"
 msgstr "_Wyświetlanie:"
 
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:3
-msgid "_Tags:"
-msgstr "_Etykiety:"
-
-#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:4
 msgid "_Event:"
 msgstr "Wydarz_enie:"
+
+#: ../extensions/photo_importer/data/ui/photo-importer.ui.h:5
+msgid "_Tags:"
+msgstr "_Etykiety:"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:227
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:149
@@ -3921,11 +3931,11 @@ msgstr "Puste"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:592
 msgid "Import from Removable Device"
-msgstr "Zaimportuj z urządzenia wymiennego"
+msgstr "Zaimportuj z urządzenia wymiennego"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:624
 msgid "Import from Folder"
-msgstr "Zaimportuj z katalogu"
+msgstr "Zaimportuj z katalogu"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:1
 msgid "Import photos"
@@ -3933,18 +3943,14 @@ msgstr "Importowanie zdjęć"
 
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:2
 msgid "Import photos from removable devices."
-msgstr "Importowanie zdjęć z urządzeń wymiennych."
+msgstr "Importowanie zdjęć z urządzeń wymiennych."
 
 #: ../extensions/picasaweb/callbacks.c:50
 #: ../extensions/picasaweb/callbacks.c:56
 msgid "_Picasa Web Album…"
 msgstr "_Picasa Web Album…"
 
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:1
-msgid "Export to Picasa Web Albums"
-msgstr "Wyeksportuj do serwisu Picasa Web Album"
-
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:3
 msgid "_Albums:"
 msgstr "_Albumy:"
 
@@ -3953,9 +3959,17 @@ msgid "Public"
 msgstr "Publiczne"
 
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:460
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:470
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:468
 msgid "Could not get the album list"
 msgstr "Nie można pobrać listy albumów"
+
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:547
+msgid "Export to Picasa Web Albums"
+msgstr "Wyeksportuj do serwisu Picasa Web Album"
+
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:547
+msgid "Import from Picasa Web Album"
+msgstr "Zaimportuj z serwisu Picasa Web Album"
 
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:1
 msgid "Picasa Web Albums"
@@ -3975,7 +3989,7 @@ msgstr "Obsługa formatu RAW"
 
 #: ../extensions/raw_files/raw_files.extension.in.in.h:2
 msgid "Allow to load raw format images."
-msgstr "Umożliwienie wczytywania obrazów w formacie RAW."
+msgstr "Umożliwienie wczytywania obrazów w formacie RAW."
 
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
 msgid "_X:"
@@ -4047,7 +4061,7 @@ msgid "%A{ identifier }"
 msgstr "%A{ identyfikator }"
 
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:19
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
 msgid "The original filename"
 msgstr "Pierwotna nazwa pliku"
 
@@ -4241,7 +4255,7 @@ msgstr "wszystkie poniższe reguły"
 #: ../extensions/search/gth-search-editor.c:113
 #: ../gthumb/gth-filter-editor-dialog.c:162
 msgid "any of the following rules"
-msgstr "dowolna z poniższych reguł"
+msgstr "dowolna z poniższych reguł"
 
 #: ../extensions/search/gth-search-task.c:183
 #, c-format
@@ -4260,21 +4274,21 @@ msgstr "Anuluj działanie"
 msgid "File search tool."
 msgstr "Narzędzie do wyszukiwania plików."
 
-#: ../extensions/selections/callbacks.c:62
+#: ../extensions/selections/callbacks.c:55
 msgid "Remove from Selection"
-msgstr "Usuń z zaznaczenia"
+msgstr "Usuń z zaznaczenia"
 
-#: ../extensions/selections/callbacks.c:107
+#: ../extensions/selections/callbacks.c:100
 #, c-format
 msgid "Show selection %d"
 msgstr "Wyświetl zaznaczenie %d"
 
-#: ../extensions/selections/callbacks.c:329
+#: ../extensions/selections/callbacks.c:322
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
 msgstr ""
-"Użycie klawiszy Alt-%d dodaje pliki do tego zaznaczenia, a użycie Ctrl-%d je "
+"Użycie klawiszy Alt-%d dodaje pliki do tego zaznaczenia, a użycie Ctrl-%d je "
 "wyświetla."
 
 #: ../extensions/selections/gth-selections-manager.c:228
@@ -4407,7 +4421,7 @@ msgstr "Wróć do indeksu"
 #: ../extensions/webalbums/data/albumthemes/text.h:28
 #, c-format
 msgid "Image %d of %d"
-msgstr "Obraz %d z %d"
+msgstr "Obraz %d z %d"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:29
 msgid "Index"
@@ -4450,58 +4464,58 @@ msgstr "Wszystkie obrazy na jednym"
 msgid "Adapts to the window width"
 msgstr "Dostosowanie do szerokości okna"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:3
-msgid "Web Album"
-msgstr "Album WWW"
-
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:5
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:4
 #, no-c-format
 msgid "%P"
 msgstr "%P"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:18
 msgid "_Copy originals to destination"
 msgstr "_Kopiowanie oryginałów do katalogu docelowego"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:27
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:26
 msgid "_Adapt to the window width "
 msgstr "_Dostosowanie do szerokości okna "
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:29
 msgid "Index Page"
 msgstr "Strona indeksu"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:30
 msgid "Thumbnail Caption"
 msgstr "Podpis miniatury"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:31
 msgid "The current image number"
 msgstr "Numer bieżącego obrazu"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:33
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:32
 msgid "The total number of images"
 msgstr "Całkowita liczba obrazów"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:34
 msgid "The file comment"
 msgstr "Komentarz pliku"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:35
 msgid "Image Page"
 msgstr "Strona obrazu"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:36
 msgid "Show the description, if available"
 msgstr "Wyświetlanie opisu, jeśli jest dostępny"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:37
 msgid "Show the following attributes:"
 msgstr "Wyświetlanie następujących atrybutów:"
 
-#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:39
+#: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:38
 msgid "Image Attributes"
 msgstr "Atrybuty obrazu"
+
+#: ../extensions/webalbums/dlg-web-exporter.c:379
+msgid "Web Album"
+msgstr "Album WWW"
 
 #: ../extensions/webalbums/gth-web-exporter.c:1802
 msgid "Could not show the destination"
@@ -4545,8 +4559,8 @@ msgid "Create static web albums."
 msgstr "Tworzenie statycznych albumów WWW."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1108
-#: ../gthumb/gth-browser.c:1683 ../gthumb/gth-browser.c:6557
-#: ../gthumb/gth-browser.c:6576 ../gthumb/gth-browser.c:6600
+#: ../gthumb/gth-browser.c:1683 ../gthumb/gth-browser.c:6552
+#: ../gthumb/gth-browser.c:6571 ../gthumb/gth-browser.c:6595
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Nie można wczytać położenia „%s”"
@@ -4576,7 +4590,7 @@ msgid "Filters"
 msgstr "Filtry"
 
 #. add the page to the preferences dialog
-#: ../gthumb/dlg-preferences-browser.c:190
+#: ../gthumb/dlg-preferences-browser.c:188
 #: ../gthumb/dlg-preferences-extensions.c:65
 msgid "Browser"
 msgstr "Przeglądarka"
@@ -4639,10 +4653,6 @@ msgstr "Wymagane jest ponowne uruchomienie"
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Należy ponownie uruchomić program gthumb, aby zastosować zmiany"
 
-#: ../gthumb/dlg-preferences-extensions.c:717
-msgid "_Continue"
-msgstr "_Kontynuuj"
-
 #: ../gthumb/dlg-preferences-extensions.c:718
 msgid "_Restart"
 msgstr "_Przywróć"
@@ -4655,7 +4665,7 @@ msgstr "Porządkowanie według"
 #: ../gthumb/gio-utils.c:1361
 #, c-format
 msgid "%s of %s"
-msgstr "%s z %s"
+msgstr "%s z %s"
 
 #: ../gthumb/gio-utils.c:1432
 #, c-format
@@ -4677,7 +4687,7 @@ msgstr "Kopiowanie plików"
 
 #: ../gthumb/gio-utils.c:1794
 msgid "Getting file information"
-msgstr "Pobieranie informacji o pliku"
+msgstr "Pobieranie informacji o pliku"
 
 #. hour:minutes:seconds
 #. Translators: This is a time format, like "9:05:02" for 9
@@ -4703,6 +4713,30 @@ msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d∶%02d"
 
+#: ../gthumb/gth-application.c:52
+msgid "Open a new window"
+msgstr "Otwiera nowe okno"
+
+#: ../gthumb/gth-application.c:56
+msgid "Start in fullscreen mode"
+msgstr "Uruchamia w trybie pełnoekranowym"
+
+#: ../gthumb/gth-application.c:60
+msgid "Automatically start a slideshow"
+msgstr "Automatycznie uruchomia pokaz slajdów"
+
+#: ../gthumb/gth-application.c:64
+msgid "Automatically import digital camera photos"
+msgstr "Automatycznie importuje zdjęcia z aparatu"
+
+#: ../gthumb/gth-application.c:68
+msgid "Show version"
+msgstr "Wyświetla wersję"
+
+#: ../gthumb/gth-application.c:205
+msgid "- Image browser and viewer"
+msgstr "— przeglądarka obrazów"
+
 #: ../gthumb/gth-browser-actions-callbacks.c:127
 msgid ""
 "gThumb is free software; you can redistribute it and/or modify it under the "
@@ -4713,7 +4747,7 @@ msgstr ""
 "Program gThumb jest wolnym oprogramowaniem; można go rozprowadzać dalej i/"
 "lub modyfikować na warunkach Powszechnej Licencji Publicznej GNU, wydanej "
 "przez Fundację Wolnego Oprogramowania (Free Software Foundation) — według "
-"wersji drugiej tej Licencji lub którejś z późniejszych wersji."
+"wersji drugiej tej Licencji lub którejś z późniejszych wersji."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:131
 msgid ""
@@ -4722,17 +4756,17 @@ msgid ""
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
-"Program gThumb rozpowszechniany jest z nadzieją, iż będzie on użyteczny — "
+"Program gThumb rozpowszechniany jest z nadzieją, iż będzie on użyteczny — "
 "jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej gwarancji PRZYDATNOŚCI "
-"HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH ZASTOSOWAŃ. W celu uzyskania "
-"bliższych informacji należy zapoznać się z Powszechną Licencją Publiczną GNU."
+"HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH ZASTOSOWAŃ. W celu uzyskania "
+"bliższych informacji należy zapoznać się z Powszechną Licencją Publiczną GNU."
 
 #: ../gthumb/gth-browser-actions-callbacks.c:135
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
-"Z pewnością wraz z programem gThumb dostarczono także egzemplarz Powszechnej "
+"Z pewnością wraz z programem gThumb dostarczono także egzemplarz Powszechnej "
 "Licencji Publicznej GNU (GNU General Public License); jeśli nie — proszę "
 "odwiedzić stronę internetową http://www.gnu.org/licenses/."
 
@@ -4746,7 +4780,7 @@ msgstr ""
 "Artur Flinta <aflinta@at.kernel.pl>, 2003-2004\n"
 "Tomasz Dominikowski <dominikowski@gmail.com>, 2007\n"
 "Piotr Drąg <piotrdrag@gmail.com>, 2011-2016\n"
-"Aviary.pl <gnomepl@aviary.pl>, 2007-2016"
+"Aviary.pl <community-poland@mozilla.org>, 2007-2016"
 
 #: ../gthumb/gth-browser.c:377
 msgid "[modified]"
@@ -4773,7 +4807,7 @@ msgstr "Nie odnaleziono odpowiedniego modułu dla %s"
 #: ../gthumb/gth-browser.c:1936
 #, c-format
 msgid "Save changes to file '%s'?"
-msgstr "Zapisać zmiany w pliku „%s”?"
+msgstr "Zapisać zmiany w pliku „%s”?"
 
 #: ../gthumb/gth-browser.c:1941
 msgid "If you don't save, changes to the file will be permanently lost."
@@ -4784,50 +4818,50 @@ msgstr ""
 msgid "Do _Not Save"
 msgstr "_Nie zapisuj"
 
-#: ../gthumb/gth-browser.c:3010 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:3009 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nie można zmienić nazwy"
 
-#: ../gthumb/gth-browser.c:3459
+#: ../gthumb/gth-browser.c:3458
 msgid "Modified"
 msgstr "Zmodyfikowano"
 
-#: ../gthumb/gth-browser.c:4526
+#: ../gthumb/gth-browser.c:4525
 msgid "Go to the previous visited location"
 msgstr "Przechodzi do poprzednio odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4532
+#: ../gthumb/gth-browser.c:4531
 msgid "Go to the next visited location"
 msgstr "Przechodzi do kolejnej odwiedzonego położenia"
 
-#: ../gthumb/gth-browser.c:4540
+#: ../gthumb/gth-browser.c:4539
 msgid "History"
 msgstr "Historia"
 
-#: ../gthumb/gth-browser.c:4554
+#: ../gthumb/gth-browser.c:4553
 msgid "View the folders"
 msgstr "Wyświetla katalogi"
 
-#: ../gthumb/gth-browser.c:4569
+#: ../gthumb/gth-browser.c:4568
 msgid "Edit file"
 msgstr "Modyfikuje plik"
 
-#: ../gthumb/gth-browser.c:4578 ../gthumb/gth-browser.c:4596
+#: ../gthumb/gth-browser.c:4577 ../gthumb/gth-browser.c:4595
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Tryb pełnoekranowy"
 
-#: ../gthumb/gth-browser.c:4604
+#: ../gthumb/gth-browser.c:4603
 msgid "Accept"
 msgstr "Zaakceptuj"
 
-#: ../gthumb/gth-browser.c:6558
+#: ../gthumb/gth-browser.c:6553
 #, c-format
 msgid "File type not supported"
 msgstr "Nieobsługiwany typ pliku"
 
-#: ../gthumb/gth-browser.c:6601
+#: ../gthumb/gth-browser.c:6596
 #, c-format
 msgid "No suitable module found"
 msgstr "Nie odnaleziono odpowiedniego modułu"
@@ -4849,6 +4883,10 @@ msgstr "Rozszerzenie „%1$s” jest wymagane przez rozszerzenie „%2$s”"
 #: ../gthumb/gth-file-chooser-dialog.c:144
 msgid "All Supported Files"
 msgstr "Wszystkie obsługiwane pliki"
+
+#: ../gthumb/gth-file-chooser-dialog.c:194
+msgid "_Show Format Options"
+msgstr "_Opcje formatu"
 
 #: ../gthumb/gth-file-details.c:43
 msgid "Details"
@@ -4872,12 +4910,12 @@ msgstr "Nie można przenieść plików do kosza. Usunąć je trwale?"
 msgid "Could not move the files to the Trash"
 msgstr "Nie można przenieść plików do kosza"
 
-#: ../gthumb/gth-file-source-vfs.c:805
+#: ../gthumb/gth-file-source-vfs.c:804
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "Na pewno trwale usunąć „%s”?"
 
-#: ../gthumb/gth-file-source-vfs.c:808
+#: ../gthumb/gth-file-source-vfs.c:807
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4886,13 +4924,9 @@ msgstr[0] "Na pewno trwale usunąć %'d zaznaczony plik?"
 msgstr[1] "Na pewno trwale usunąć %'d zaznaczone pliki?"
 msgstr[2] "Na pewno trwale usunąć %'d zaznaczonych plików?"
 
-#: ../gthumb/gth-file-source-vfs.c:818
+#: ../gthumb/gth-file-source-vfs.c:817
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Usunięcie pliku spowoduje jego trwałe utracenie."
-
-#: ../gthumb/gth-filterbar.c:307
-msgid "Personalize…"
-msgstr "Dostosuj…"
 
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:174
 #: ../gthumb/gth-test-simple.c:77
@@ -4927,10 +4961,6 @@ msgstr "malejąco"
 msgid "No limit specified"
 msgstr "Nie podano ograniczenia"
 
-#: ../gthumb/gth-folder-tree.c:1079
-msgid "Loading…"
-msgstr "Wczytywanie…"
-
 #: ../gthumb/gth-folder-tree.c:1382
 msgid "(Open Parent)"
 msgstr "(Otwórz nadrzędny)"
@@ -4962,7 +4992,7 @@ msgstr "Nie można odnaleźć odpowiedniego modułu do zapisania obrazu jako „
 
 #: ../gthumb/gth-load-file-data-task.c:108
 msgid "Reading file information"
-msgstr "Odczytywanie informacji o pliku"
+msgstr "Odczytywanie informacji o pliku"
 
 #: ../gthumb/gth-main-default-metadata.c:32
 msgid "File"
@@ -4980,7 +5010,7 @@ msgstr "Rozmiar"
 #: ../gthumb/gth-main-default-metadata.c:41
 msgctxt "the file mtime"
 msgid "Modified Date & Time"
-msgstr "Data i czas modyfikacji"
+msgstr "Data i czas modyfikacji"
 
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Type"
@@ -5028,7 +5058,7 @@ msgstr "Model aparatu"
 
 #: ../gthumb/gth-main-default-metadata.c:58
 msgid "General Date & Time"
-msgstr "Ogólna data i czas"
+msgstr "Ogólna data i czas"
 
 #: ../gthumb/gth-main-default-metadata.c:65
 msgid "Author"
@@ -5102,13 +5132,13 @@ msgstr "Opis (osadzony)"
 msgid "Overwrite"
 msgstr "Zastąp"
 
-#: ../gthumb/gth-progress-dialog.c:149
-msgid "Cancel operation"
-msgstr "Anuluj działanie"
+#: ../gthumb/gth-progress-dialog.c:308 ../gthumb/gth-progress-dialog.c:453
+msgid "Operations"
+msgstr "Działania"
 
 #: ../gthumb/gth-save-file-data-task.c:102
 msgid "Saving file information"
-msgstr "Zapisywanie informacji o pliku"
+msgstr "Zapisywanie informacji o pliku"
 
 #. Translators: %s is a filename
 #: ../gthumb/gth-save-image-task.c:158
@@ -5249,11 +5279,11 @@ msgstr "jest przed"
 msgid "is after"
 msgstr "jest po"
 
-#: ../gthumb/gth-time-selector.c:604
+#: ../gthumb/gth-time-selector.c:614
 msgid "Today"
 msgstr "Dzisiaj"
 
-#: ../gthumb/gth-time-selector.c:612
+#: ../gthumb/gth-time-selector.c:622
 msgid "Now"
 msgstr "Teraz"
 
@@ -5301,9 +5331,13 @@ msgstr "_Anuluj"
 msgid "_Close"
 msgstr "Za_mknij"
 
-#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:3
+#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:4
 msgid "_Help"
 msgstr "Pomo_c"
+
+#: ../gthumb/gtk-utils.h:41
+msgid "_New"
+msgstr "_Nowe"
 
 #: ../gthumb/gtk-utils.h:42
 msgid "_Ok"
@@ -5321,45 +5355,29 @@ msgstr "_Zapisz"
 msgid "E_xecute"
 msgstr "_Wykonaj"
 
-#: ../gthumb/main.c:59
-msgid "Open a new window"
-msgstr "Otwiera nowe okno"
-
-#: ../gthumb/main.c:63
-msgid "Start in fullscreen mode"
-msgstr "Uruchamia w trybie pełnoekranowym"
-
-#: ../gthumb/main.c:67
-msgid "Automatically start a slideshow"
-msgstr "Automatycznie uruchomia pokaz slajdów"
-
-#: ../gthumb/main.c:71
-msgid "Automatically import digital camera photos"
-msgstr "Automatycznie importuje zdjęcia z aparatu"
-
-#: ../gthumb/main.c:75
-msgid "Show version"
-msgstr "Wyświetla wersję"
-
-#: ../gthumb/main.c:265
-msgid "- Image browser and viewer"
-msgstr "— przeglądarka obrazów"
+#: ../gthumb/gtk-utils.h:46
+msgid "_Upload"
+msgstr "_Wyślij"
 
 #: ../gthumb/resources/app-menu.ui.h:1
 msgid "New _Window"
 msgstr "_Nowe okno"
 
-#: ../gthumb/resources/app-menu.ui.h:4
-msgid "_About"
-msgstr "_O programie"
+#: ../gthumb/resources/app-menu.ui.h:3
+msgid "Keyboard Shortcuts"
+msgstr "Skróty klawiszowe"
 
 #: ../gthumb/resources/app-menu.ui.h:5
+msgid "_About"
+msgstr "_O programie"
+
+#: ../gthumb/resources/app-menu.ui.h:6
 msgid "_Quit"
 msgstr "Za_kończ"
 
 #: ../gthumb/resources/folder-menu.ui.h:1
 msgid "Open in New Window"
-msgstr "Otwiera w nowym oknie"
+msgstr "Otwiera w nowym oknie"
 
 #: ../gthumb/resources/gears-menu.ui.h:1
 msgid "New Window"
