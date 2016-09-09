@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-21 10:45+0200\n"
-"PO-Revision-Date: 2016-08-21 10:47+0200\n"
+"POT-Creation-Date: 2016-09-09 03:53+0200\n"
+"PO-Revision-Date: 2016-09-09 03:54+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -37,7 +37,7 @@ msgid ""
 "such as EXIF, IPTC and XMP."
 msgstr ""
 "Jako przeglądarka obrazów program gThumb umożliwia przeglądanie popularnych "
-"formatów plików, takich jak BMP, JPEG, GIF (w tym animacje), PNG, TIFF, TGA "
+"formatów plików, takich jak BMP, JPEG, GIF (w tym animacje), PNG, TIFF, TGA "
 "oraz RAW. Umożliwia on także wyświetlanie różnych metadanych osadzonych "
 "wewnątrz obrazów, takich jak EXIF, IPTC i XMP."
 
@@ -122,7 +122,7 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Dla obrazy powyżej tego rozmiaru (w bajtach) nie zostaną utworzone "
+"Dla obrazy powyżej tego rozmiaru (w bajtach) nie zostaną utworzone "
 "miniatury. Należy użyć 0, aby tworzyć miniatury dla wszystkich obrazów."
 
 #: ../data/org.gnome.gthumb.gschema.xml.h:2
@@ -1656,7 +1656,7 @@ msgstr "_Zasługi:"
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:6
 #: ../extensions/photo_importer/data/ui/photo-importer.ui.h:1
 msgid "_Source:"
-msgstr "Ż_ródło:"
+msgstr "Ź_ródło:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:7
 msgid "_Urgency:"
@@ -2474,34 +2474,34 @@ msgstr "Zmiana jasności, kontrastu, nasycenia i poziomu gamma obrazu"
 msgid "Stretch"
 msgstr "Rozciągnij"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:534
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:535
 #, no-c-format
 msgid "Stretch the histogram after trimming 0.5% from both ends"
 msgstr "Rozciąga histogram po obcięciu 0,5% z obu końców"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:538
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:539
 msgid "Equalize"
 msgstr "Wyrównaj"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:539
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:540
 msgid "Equalize the histogram using the square root function"
-msgstr "Wyrównuje histogram, używając pierwiastka kwadratowego"
+msgstr "Wyrównuje histogram za pomocą pierwiastka kwadratowego"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:543
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:544
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
 #: ../extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Uniform"
 msgstr "Jednolite"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:544
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:545
 msgid "Equalize the histogram using the linear function"
-msgstr "Wyrównuje histogram, używając funkcji liniowej"
+msgstr "Wyrównuje histogram za pomocą funkcji liniowej"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:659
 msgid "Adjust Contrast"
 msgstr "Dostosowanie kontrastu"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:660
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:661
 msgid "Automatic contrast adjustment"
 msgstr "Automatyczne dostosowanie kontrastu"
 
@@ -3296,7 +3296,7 @@ msgstr ""
 "należy zastosować odwrotne przekształcenie, aby powrócić do pierwotnego "
 "stanu.\n"
 "\n"
-"Można tez porzucić (lub przyciąć) wszelkie nieprzetwarzalne piksele na "
+"Można też porzucić (lub przyciąć) wszelkie nieprzetwarzalne piksele na "
 "krawędziach. W praktycznym zastosowaniu ten tryb daje najlepsze rezultaty, "
 "ale przekształcenie nie jest wtedy do końca bezstratne."
 
