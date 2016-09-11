@@ -1798,23 +1798,11 @@ gth_grid_view_draw (GtkWidget *widget,
 }
 
 
-static void
-_gth_grid_view_keep_focus_consistent (GthGridView *self)
-{
-	if (self->priv->focused_item > self->priv->n_items - 1)
-		self->priv->focused_item = - 1;
-}
-
-
 static gboolean
 gth_grid_view_focus_in (GtkWidget     *widget,
 			GdkEventFocus *event)
 {
-	GthGridView *self = GTH_GRID_VIEW (widget);
-
-	_gth_grid_view_keep_focus_consistent (self);
 	gtk_widget_queue_draw (widget);
-
 	return TRUE;
 }
 
@@ -2272,9 +2260,15 @@ model_row_deleted_cb (GtkTreeModel *tree_model,
 		g_list_free (selected_link);
 	}
 
+	/* update the cursor position */
+
+	if (pos < self->priv->focused_item)
+		self->priv->focused_item--;
+	else if (pos == self->priv->focused_item)
+		self->priv->focused_item = -1;
+
 	/* relayout from the minimum changed position */
 
-	_gth_grid_view_keep_focus_consistent (self);
 	_gth_grid_view_queue_relayout_from_position (self, pos);
 
 	gth_grid_view_item_unref (GTH_GRID_VIEW_ITEM (link->data));
@@ -2319,6 +2313,11 @@ model_row_inserted_cb (GtkTreeModel *tree_model,
 			scan->data = GINT_TO_POINTER (selected_pos + 1);
 	}
 
+	/* update the cursor position */
+
+	if (pos <= self->priv->focused_item)
+		self->priv->focused_item++;
+
 	/* relayout from the minimum changed position */
 
 	_gth_grid_view_queue_relayout_from_position (self, pos);
@@ -2339,6 +2338,7 @@ model_rows_reordered_cb (GtkTreeModel *tree_model,
 	GList       *items;
 	int          i;
 	int          min_changed_pos;
+	gboolean     focused_updated = FALSE;
 	GList       *scan;
 
 	/* change the order of the items list */
@@ -2352,6 +2352,13 @@ model_rows_reordered_cb (GtkTreeModel *tree_model,
 		old_pos = ((int *) new_order)[i];
 		if ((min_changed_pos == -1) && (old_pos != i))
 			min_changed_pos = i;
+
+		/* update the cursor position */
+
+		if (! focused_updated && (old_pos == self->priv->focused_item)) {
+			self->priv->focused_item = i;
+			focused_updated = TRUE;
+		}
 
 		link = g_list_nth (self->priv->items, old_pos);
 		g_return_if_fail (link != NULL);
