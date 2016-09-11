@@ -3165,6 +3165,10 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 			/**/
 
 			self->priv->drag_started = TRUE;
+			self->priv->select_pending = FALSE;
+			self->priv->activate_pending = FALSE;
+			self->priv->selecting = FALSE;
+
 			context = gtk_drag_begin_with_coordinates (widget,
 								   self->priv->drag_target_list,
 								   self->priv->drag_actions,
@@ -3225,6 +3229,15 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 	}
 
 	return FALSE;
+}
+
+
+static void
+gth_grid_view_drag_end (GtkWidget      *widget,
+	                GdkDragContext *context,
+	                gpointer        user_data)
+{
+	_gth_grid_view_stop_dragging (GTH_GRID_VIEW (widget));
 }
 
 
@@ -3726,6 +3739,7 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	widget_class->button_press_event = gth_grid_view_button_press;
 	widget_class->button_release_event = gth_grid_view_button_release;
 	widget_class->motion_notify_event = gth_grid_view_motion_notify;
+	widget_class->drag_end = gth_grid_view_drag_end;
 
 	grid_view_class->select_all = gth_grid_view_select_all;
 	grid_view_class->unselect_all = gth_grid_view_unselect_all;
