@@ -1160,7 +1160,6 @@ static gboolean
 gth_file_source_catalogs_is_reorderable (GthFileSource *file_source)
 {
 	return TRUE;
-
 }
 
 
