@@ -3246,7 +3246,15 @@ gth_grid_view_drag_end (GtkWidget      *widget,
 	                GdkDragContext *context,
 	                gpointer        user_data)
 {
-	_gth_grid_view_stop_dragging (GTH_GRID_VIEW (widget));
+	GthGridView *self = GTH_GRID_VIEW (widget);
+
+	_gth_grid_view_stop_dragging (self);
+
+	if ((self->priv->drop_pos != GTH_DROP_POSITION_NONE) || (self->priv->drop_item != -1)) {
+		self->priv->drop_item = -1;
+		self->priv->drop_pos = GTH_DROP_POSITION_NONE;
+		gtk_widget_queue_draw (GTK_WIDGET (self));
+	}
 }
 
 
