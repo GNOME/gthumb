@@ -136,6 +136,7 @@ saver_completed_cb (GthTask  *task,
 		close_dialog (data);
 
 	dialog_data_unref (data);
+	_g_object_unref (task);
 }
 
 
@@ -195,9 +196,6 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 			  G_CALLBACK (saver_completed_cb),
 			  data);
 	gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_IGNORE_ERROR);
-
-	g_object_unref (task);
-
 }
 
 

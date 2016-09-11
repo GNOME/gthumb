@@ -1323,6 +1323,7 @@ save_image_task_completed_cb (GthTask *task,
 	}
 
 	save_data_free (data);
+	_g_object_unref (task);
 }
 
 
@@ -1384,8 +1385,6 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 			  G_CALLBACK (save_image_task_completed_cb),
 			  data);
 	gth_browser_exec_task (GTH_BROWSER (self->priv->browser), task, GTH_TASK_FLAGS_DEFAULT);
-
-	_g_object_unref (task);
 }
 
 

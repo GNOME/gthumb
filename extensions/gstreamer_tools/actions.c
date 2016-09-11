@@ -162,7 +162,6 @@ screenshot_ready_cb (GdkPixbuf *pixbuf,
 			  G_CALLBACK (save_screenshot_task_completed_cb),
 			  save_data);
 	gth_browser_exec_task (GTH_BROWSER (save_data->browser), task, GTH_TASK_FLAGS_IGNORE_ERROR);
-
 }
 
 
