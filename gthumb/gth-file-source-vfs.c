@@ -653,15 +653,53 @@ gth_file_source_vfs_monitor_directory (GthFileSource *file_source,
 /* -- gth_file_source_vfs_remove -- */
 
 
+typedef struct {
+	GtkWindow *window;
+	GList     *files;
+} DeleteData;
+
+
+static void
+delete_data_free (DeleteData *ddata)
+{
+	_g_object_list_unref (ddata->files);
+	g_free (ddata);
+}
+
+
+static void
+delete_task_completed_cb (GthTask  *task,
+		          GError   *error,
+			  gpointer  user_data)
+{
+	DeleteData *ddata = user_data;
+
+	if (error == NULL)
+		gth_monitor_files_deleted (gth_main_get_default_monitor (), ddata->files);
+	else if (! g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_CANCELLED))
+		_gtk_error_dialog_from_gerror_show (ddata->window, _("Could not delete the files"), error);
+
+	delete_data_free (ddata);
+	g_object_unref (task);
+}
+
+
 static void
 delete_file_permanently (GtkWindow *window,
 			 GList     *file_list /* GthFileData list */)
 {
-	GList   *files;
-	GthTask *task;
+	DeleteData *ddata;
+	GthTask    *task;
 
-	files = gth_file_data_list_to_file_list (file_list);
-	task = gth_delete_task_new (files);
+	ddata = g_new0 (DeleteData, 1);
+	ddata->window = window;
+	ddata->files = gth_file_data_list_to_file_list (file_list);
+	task = gth_delete_task_new (ddata->files);
+	g_signal_connect (task,
+			  "completed",
+			  G_CALLBACK (delete_task_completed_cb),
+			  ddata);
+
 	if (GTH_IS_BROWSER (window)) {
 		gth_browser_exec_task (GTH_BROWSER (window), task, GTH_TASK_FLAGS_DEFAULT);
 	}
@@ -672,9 +710,6 @@ delete_file_permanently (GtkWindow *window,
 		gth_progress_dialog_destroy_with_tasks (GTH_PROGRESS_DIALOG (dialog), TRUE);
 		gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (dialog), task, GTH_TASK_FLAGS_DEFAULT);
 	}
-
-	g_object_unref (task);
-	_g_object_list_unref (files);
 }
 
 
@@ -717,12 +752,8 @@ trash_failed_delete_permanently_response_cb (GtkDialog *dialog,
 {
 	TrashData *tdata = user_data;
 
-	if (response_id == GTK_RESPONSE_YES) {
-		GthTask *task = gth_delete_task_new (tdata->files);
-		gth_browser_exec_task (GTH_BROWSER (tdata->window), task, GTH_TASK_FLAGS_DEFAULT);
-
-		g_object_unref (task);
-	}
+	if (response_id == GTK_RESPONSE_YES)
+		delete_file_permanently (tdata->window, tdata->files);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	trash_data_free (tdata);
@@ -761,6 +792,8 @@ trash_task_completed_cb (GthTask  *task,
 		_gtk_error_dialog_from_gerror_show (tdata->window, _("Could not move the files to the Trash"), error);
 		trash_data_free (tdata);
 	}
+
+	g_object_unref (task);
 }
 
 
