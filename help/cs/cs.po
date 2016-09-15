@@ -2,13 +2,13 @@
 # Copyright (C) 2012 gthumb's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 #
-# Marek Černocký <marek@manet.cz>, 2013, 2015.
+# Marek Černocký <marek@manet.cz>, 2013, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2015-12-20 23:30+0000\n"
-"PO-Revision-Date: 2015-03-22 23:31+0100\n"
+"POT-Creation-Date: 2016-08-22 11:54+0000\n"
+"PO-Revision-Date: 2016-09-15 11:09+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -1409,7 +1409,7 @@ msgstr "Symbol"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:94
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:542
+#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:551
 msgid "Description"
 msgstr "Popis"
 
@@ -2227,7 +2227,7 @@ msgstr "Zobrazování a skrývání částí uživatelského rozhraní"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:14 C/shortcuts.page:91 C/shortcuts.page:270
-#: C/shortcuts.page:539
+#: C/shortcuts.page:548
 msgid "Keyboard Shortcut"
 msgstr "Klávesová zkratka"
 
@@ -2643,120 +2643,130 @@ msgid "Go to the first file in the browser view."
 msgstr "Přejít na první soubor v režimu procházení."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:475
+#: C/shortcuts.page:474
 msgid "Go to the last file in the browser view."
 msgstr "Přejít na poslední soubor v režimu procházení."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:480
+#: C/shortcuts.page:479
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
 msgstr "<key>↓</key> nebo <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:485
+#: C/shortcuts.page:484
 msgid "Scroll downwards through the thumbnails."
 msgstr "Posunout se v miniaturách dolů."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:490
+#: C/shortcuts.page:489
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
 msgstr "<key>↑</key> nebo <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:495
+#: C/shortcuts.page:494
 msgid "Scroll upwards through the thumbnails."
 msgstr "Posunout se v miniaturách nahoru."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:500
+#: C/shortcuts.page:499
 msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>←</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:505
+#: C/shortcuts.page:504
 msgid "Go back to the previously viewed folder."
 msgstr "Vrátit se zpět do předchozí zobrazené složky."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:510
+#: C/shortcuts.page:509
 msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>→</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:515
+#: C/shortcuts.page:514
 msgid "Go forward (after going back to a folder)."
 msgstr "Přejít vpřed (po té, co jste ve složkách přešli zpět)."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:520
+#: C/shortcuts.page:519
 msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
 msgstr "<keyseq> <key>Alt</key> <key>↑</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:528
+#: C/shortcuts.page:527
 msgid "Go up one level."
 msgstr "Přejít o úroveň výš."
 
+#. (itstool) path: td/p
+#: C/shortcuts.page:532
+msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:537
+msgid "Open a location typing the path."
+msgstr "Otevřít umístěním napsaním cesty."
+
 #. (itstool) path: section/title
-#: C/shortcuts.page:535
+#: C/shortcuts.page:544
 msgid "Slideshow controls"
 msgstr "Ovládání promítání"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:547
+#: C/shortcuts.page:556
 msgid "<key>F5</key>"
 msgstr "<key>F5</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:552
+#: C/shortcuts.page:561
 msgid "Start a slideshow."
 msgstr "Začít promítání."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:557
+#: C/shortcuts.page:566
 msgid "<key>p</key>"
 msgstr "<key>p</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:562
+#: C/shortcuts.page:571
 msgid "Pause/Unpause the slideshow."
 msgstr "Pozastavit/pokračovat v promítání."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:567
+#: C/shortcuts.page:576
 msgid "<key>Esc</key> or <key>q</key>"
 msgstr "<key>Esc</key> nebo <key>q</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:572
+#: C/shortcuts.page:581
 msgid "Close the slideshow."
 msgstr "Zavřít promítání."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:577
+#: C/shortcuts.page:586
 msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
 msgstr ""
-"<key>mezerník</key> nebo <key>↓</key> nebo <key>→</key> "
-"nebo <key>Page Down</key>"
+"<key>mezerník</key> nebo <key>↓</key> nebo <key>→</key> nebo <key>Page Down</"
+"key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:582
+#: C/shortcuts.page:591
 msgid "Load the next image."
 msgstr "Načíst následující obrázek."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:587
+#: C/shortcuts.page:596
 msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
 msgstr ""
-"<key>Backspace</key> nebo <key>↑</key> nebo <key>←</key> nebo <key>"
-"Page Up</key>"
+"<key>Backspace</key> nebo <key>↑</key> nebo <key>←</key> nebo <key>Page Up</"
+"key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:592
+#: C/shortcuts.page:601
 msgid "Load the previous image."
 msgstr "Načíst předchozí obrázek"
 
@@ -3172,8 +3182,7 @@ msgid ""
 "key>, <key>Right Arrow</key>, <key>Page Down</key> or <key>Space</key>."
 msgstr ""
 "Na následující obrázek můžete navíc přejít i ručně zmáčknutím <key>↓</key>, "
-"<key>→</key>, <key>Page Down</key> nebo "
-"<key>mezerník</key>."
+"<key>→</key>, <key>Page Down</key> nebo <key>mezerník</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:27
@@ -3181,8 +3190,8 @@ msgid ""
 "You can go back to the previous image by pressing <key>Up Arrow</key>, "
 "<key>Left Arrow</key> or <key>Page Up</key>."
 msgstr ""
-"Na předchozí obrázek se zpět dostanete zmáčknutím <key>↑</key>, "
-"<key>←</key> nebo <key>Page Up</key>."
+"Na předchozí obrázek se zpět dostanete zmáčknutím <key>↑</key>, <key>←</key> "
+"nebo <key>Page Up</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:30
