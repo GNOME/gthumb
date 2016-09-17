@@ -267,9 +267,18 @@ gth_file_source_selections_remove (GthFileSource *file_source,
 	GList *files;
 
 	files = gth_file_data_list_to_file_list (file_list);
-	gth_selections_manager_remove_files (location->file, files);
+	gth_selections_manager_remove_files (location->file, files, TRUE);
 
 	_g_object_list_unref (files);
+}
+
+
+static void
+gth_file_source_selections_deleted_from_disk (GthFileSource *file_source,
+					      GthFileData   *location,
+					      GList         *file_list)
+{
+	gth_selections_manager_remove_files (location->file, file_list, FALSE);
 }
 
 
@@ -317,6 +326,7 @@ gth_file_source_selections_class_init (GthFileSourceSelectionsClass *class)
 	file_source_class->is_reorderable  = gth_file_source_selections_is_reorderable;
 	file_source_class->reorder = gth_file_source_selections_reorder;
 	file_source_class->remove = gth_file_source_selections_remove;
+	file_source_class->deleted_from_disk = gth_file_source_selections_deleted_from_disk;
 	file_source_class->shows_extra_widget = gth_file_source_selections_shows_extra_widget;
 }
 

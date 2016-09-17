@@ -132,6 +132,9 @@ struct _GthFileSourceClass
 					       GList                *file_list, /* GthFileData list */
 					       gboolean              permanently,
 					       GtkWindow            *parent);
+	void         (*deleted_from_disk)     (GthFileSource        *file_source,
+					       GthFileData          *location,
+					       GList                *files /* GFile list */);
 	void         (*get_free_space)        (GthFileSource        *file_source,
 					       GFile                *location,
 					       SpaceReadyCallback    callback,
@@ -221,6 +224,9 @@ void           gth_file_source_remove                (GthFileSource        *file
 		       	       	       	       	      GList                *file_list /* GthFileData list */,
 		       	       	       	       	      gboolean              permanently,
 		       	       	       	       	      GtkWindow            *parent);
+void           gth_file_source_deleted_from_disk     (GthFileSource        *file_source,
+						      GthFileData          *location,
+						      GList                *file_list /* GFile list */);
 void           gth_file_source_get_free_space        (GthFileSource        *file_source,
 						      GFile                *location,
 						      SpaceReadyCallback    callback,

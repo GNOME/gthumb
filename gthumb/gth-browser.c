@@ -3242,9 +3242,6 @@ folder_changed_cb (GthMonitor      *monitor,
 		}
 	}
 
-	if ((event == GTH_MONITOR_EVENT_REMOVED) && g_file_equal (parent, browser->priv->location->file))
-		event = GTH_MONITOR_EVENT_DELETED;
-
 	if (update_folder_tree || update_file_list) {
 		MonitorEventData *monitor_data;
 		gboolean          current_file_deleted = FALSE;
@@ -3270,7 +3267,11 @@ folder_changed_cb (GthMonitor      *monitor,
 						 	 monitor_data);
 			break;
 
+		case GTH_MONITOR_EVENT_REMOVED:
 		case GTH_MONITOR_EVENT_DELETED:
+			if ((event == GTH_MONITOR_EVENT_REMOVED) && ! g_file_equal (parent, browser->priv->location->file))
+				break;
+
 			if (browser->priv->current_file != NULL) {
 				GList *link;
 
@@ -3303,6 +3304,8 @@ folder_changed_cb (GthMonitor      *monitor,
 					g_signal_handlers_block_by_data (gth_browser_get_file_list_view (browser), browser);
 				gth_file_list_delete_files (GTH_FILE_LIST (browser->priv->file_list), list);
 				gth_file_list_delete_files (GTH_FILE_LIST (browser->priv->thumbnail_list), list);
+				if (event == GTH_MONITOR_EVENT_DELETED)
+					gth_file_source_deleted_from_disk (browser->priv->location_source, browser->priv->location, list);
 				if (current_file_deleted)
 					g_signal_handlers_unblock_by_data (gth_browser_get_file_list_view (browser), browser);
 			}

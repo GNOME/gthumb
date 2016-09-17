@@ -393,8 +393,9 @@ gth_selections_manager_add_files (GFile *folder,
 
 
 void
-gth_selections_manager_remove_files (GFile *folder,
-				     GList *file_list)
+gth_selections_manager_remove_files (GFile    *folder,
+				     GList    *file_list,
+				     gboolean  notify)
 {
 	GthSelectionsManager *self;
 	int                   n_selection;
@@ -433,10 +434,11 @@ gth_selections_manager_remove_files (GFile *folder,
 
 	g_mutex_unlock (&self->priv->mutex);
 
-	gth_monitor_folder_changed (gth_main_get_default_monitor (),
-				    folder,
-				    file_list,
-				    GTH_MONITOR_EVENT_REMOVED);
+	if (notify)
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    folder,
+					    file_list,
+					    GTH_MONITOR_EVENT_REMOVED);
 	gth_monitor_emblems_changed (gth_main_get_default_monitor (), file_list);
 }
 

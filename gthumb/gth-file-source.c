@@ -55,6 +55,7 @@ typedef enum {
 	FILE_SOURCE_OP_COPY,
 	FILE_SOURCE_OP_REORDER,
 	FILE_SOURCE_OP_REMOVE,
+	FILE_SOURCE_OP_DELETED_FROM_DISK,
 	FILE_SOURCE_OP_GET_FREE_SPACE
 } FileSourceOp;
 
@@ -141,6 +142,12 @@ typedef struct {
 
 
 typedef struct {
+	GthFileData *location;
+	GList       *file_list;
+} DeletedFromDiskData;
+
+
+typedef struct {
 	GFile              *location;
 	SpaceReadyCallback  callback;
 	gpointer            data;
@@ -151,16 +158,17 @@ typedef struct {
 	GthFileSource *file_source;
 	FileSourceOp   op;
 	union {
-		ListData           list;
-		ForEachChildData   fec;
-		ReadAttributesData read_attributes;
-		RenameData         rename;
-		CopyData           copy;
-		ReorderData        reorder;
-		WriteMetadataData  write_metadata;
-		ReadMetadataData   read_metadata;
-		RemoveData         remove;
-		GetFreeSpaceData   get_free_space;
+		ListData            list;
+		ForEachChildData    fec;
+		ReadAttributesData  read_attributes;
+		RenameData          rename;
+		CopyData            copy;
+		ReorderData         reorder;
+		WriteMetadataData   write_metadata;
+		ReadMetadataData    read_metadata;
+		RemoveData          remove;
+		DeletedFromDiskData deleted_from_disk;
+		GetFreeSpaceData    get_free_space;
 	} data;
 } FileSourceAsyncOp;
 
@@ -201,6 +209,10 @@ file_source_async_op_free (FileSourceAsyncOp *async_op)
 	case FILE_SOURCE_OP_REMOVE:
 		_g_object_unref (async_op->data.remove.location);
 		_g_object_list_unref (async_op->data.remove.file_list);
+		break;
+	case FILE_SOURCE_OP_DELETED_FROM_DISK:
+		_g_object_unref (async_op->data.deleted_from_disk.location);
+		_g_object_list_unref (async_op->data.deleted_from_disk.file_list);
 		break;
 	case FILE_SOURCE_OP_GET_FREE_SPACE:
 		_g_object_unref (async_op->data.get_free_space.location);
@@ -419,6 +431,23 @@ gth_file_source_queue_remove (GthFileSource *file_source,
 
 
 static void
+gth_file_source_queue_deleted_from_disk (GthFileSource *file_source,
+					 GthFileData   *location,
+					 GList         *file_list)
+{
+	FileSourceAsyncOp *async_op;
+
+	async_op = g_new0 (FileSourceAsyncOp, 1);
+	async_op->file_source = file_source;
+	async_op->op = FILE_SOURCE_OP_DELETED_FROM_DISK;
+	async_op->data.deleted_from_disk.location = gth_file_data_dup (location);
+	async_op->data.deleted_from_disk.file_list = _g_file_list_dup (file_list);
+
+	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
+}
+
+
+static void
 gth_file_source_queue_get_free_space (GthFileSource      *file_source,
 				      GFile              *location,
 				      SpaceReadyCallback  callback,
@@ -524,6 +553,12 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 					async_op->data.remove.file_list,
 					async_op->data.remove.permanently,
 					async_op->data.remove.parent);
+		break;
+
+	case FILE_SOURCE_OP_DELETED_FROM_DISK:
+		gth_file_source_queue_deleted_from_disk (file_source,
+							 async_op->data.deleted_from_disk.location,
+							 async_op->data.deleted_from_disk.file_list);
 		break;
 
 	case FILE_SOURCE_OP_GET_FREE_SPACE:
@@ -848,6 +883,14 @@ base_remove (GthFileSource *file_source,
 }
 
 
+static void
+base_deleted_from_disk (GthFileSource *file_source,
+			GList         *file_list /* GFile list */)
+{
+	/* void */
+}
+
+
 static gboolean
 base_shows_extra_widget (GthFileSource *file_source)
 {
@@ -895,6 +938,7 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->is_reorderable = base_is_reorderable;
 	class->reorder = base_reorder;
 	class->remove = base_remove;
+	class->deleted_from_disk = base_deleted_from_disk;
 	class->get_free_space = base_get_free_space;
 	class->shows_extra_widget = base_shows_extra_widget;
 }
@@ -1084,6 +1128,7 @@ list__done_func (GObject  *source,
 {
 	ListOpData *data = user_data;
 
+	data->files = g_list_reverse (data->files);
 	data->ready_func (data->file_source, data->files, error, data->user_data);
 
 	_g_object_list_unref (data->files);
@@ -1352,6 +1397,20 @@ gth_file_source_remove (GthFileSource *file_source,
 	}
 	g_cancellable_reset (file_source->priv->cancellable);
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->remove (file_source, location, file_list, permanently, parent);
+}
+
+
+void
+gth_file_source_deleted_from_disk (GthFileSource *file_source,
+				   GthFileData   *location,
+				   GList         *file_list /* GFile list */)
+{
+	if (gth_file_source_is_active (file_source)) {
+		gth_file_source_queue_deleted_from_disk (file_source, location, file_list);
+		return;
+	}
+	g_cancellable_reset (file_source->priv->cancellable);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->deleted_from_disk (file_source, location, file_list);
 }
 
 

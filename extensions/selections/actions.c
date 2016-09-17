@@ -170,7 +170,7 @@ gth_browser_activate_remove_from_selection (GthBrowser *browser,
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	files = gth_file_data_list_to_file_list (file_list);
-	gth_selections_manager_remove_files (folder, files);
+	gth_selections_manager_remove_files (folder, files, TRUE);
 
 	_g_object_list_unref (files);
 	_g_object_list_unref (file_list);

@@ -1307,9 +1307,10 @@ gth_file_source_catalogs_reorder (GthFileSource *file_source,
 
 typedef struct {
 	GtkWindow  *parent;
-	GList      *file_data_list;
+	GList      *file_list;
 	GFile      *gio_file;
 	GthCatalog *catalog;
+	gboolean    notify;
 } RemoveFromCatalogData;
 
 
@@ -1322,7 +1323,7 @@ remove_from_catalog_end (GError                *error,
 
 	g_object_unref (data->catalog);
 	g_object_unref (data->gio_file);
-	_g_object_list_unref (data->file_data_list);
+	_g_object_list_unref (data->file_list);
 	g_free (data);
 }
 
@@ -1335,22 +1336,15 @@ remove_files__catalog_save_done_cb (void     **buffer,
 {
 	RemoveFromCatalogData *data = user_data;
 
-	if (error == NULL) {
+	if ((error == NULL) && data->notify) {
 		GFile *catalog_file;
-		GList *files = NULL;
-		GList *scan;
 
 		catalog_file = gth_catalog_file_from_gio_file (data->gio_file, NULL);
-		for (scan = data->file_data_list; scan; scan = scan->next)
-			files = g_list_prepend (files, g_object_ref (((GthFileData*) scan->data)->file));
-		files = g_list_reverse (files);
-
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 					    catalog_file,
-					    files,
+					    data->file_list,
 					    GTH_MONITOR_EVENT_REMOVED);
 
-		_g_object_list_unref (files);
 		g_object_unref (catalog_file);
 	}
 
@@ -1387,9 +1381,9 @@ catalog_buffer_ready_cb (void     **buffer,
 		return;
 	}
 
-	for (scan = data->file_data_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-		gth_catalog_remove_file (data->catalog, file_data->file);
+	for (scan = data->file_list; scan; scan = scan->next) {
+		GFile *file = scan->data;
+		gth_catalog_remove_file (data->catalog, file);
 	}
 
 	catalog_buffer = gth_catalog_to_data (data->catalog, &catalog_size);
@@ -1412,14 +1406,16 @@ catalog_buffer_ready_cb (void     **buffer,
 void
 gth_catalog_manager_remove_files (GtkWindow   *parent,
 				  GthFileData *location,
-				  GList       *file_list)
+				  GList       *file_list,
+				  gboolean     notify)
 {
 	RemoveFromCatalogData *data;
 
 	data = g_new0 (RemoveFromCatalogData, 1);
 	data->parent = parent;
-	data->file_data_list = gth_file_data_list_dup (file_list);
+	data->file_list = _g_file_list_dup (file_list);
 	data->gio_file = gth_main_get_gio_file (location->file);
+	data->notify = notify;
 
 	_g_file_load_async (data->gio_file,
 			    G_PRIORITY_DEFAULT,
@@ -1432,11 +1428,25 @@ gth_catalog_manager_remove_files (GtkWindow   *parent,
 static void
 gth_file_source_catalogs_remove (GthFileSource *file_source,
 				 GthFileData   *location,
-	       	       	         GList         *file_list /* GthFileData list */,
+	       	       	         GList         *file_data_list /* GthFileData list */,
 	       	       	         gboolean       permanently,
 	       	       	         GtkWindow     *parent)
 {
-	gth_catalog_manager_remove_files (parent, location, file_list);
+	GList *file_list;
+
+	file_list = gth_file_data_list_to_file_list (file_data_list);
+	gth_catalog_manager_remove_files (parent, location, file_list, TRUE);
+
+	_g_object_list_unref (file_list);
+}
+
+
+static void
+gth_file_source_catalogs_deleted_from_disk (GthFileSource *file_source,
+					    GthFileData   *location,
+					    GList         *file_list)
+{
+	gth_catalog_manager_remove_files (NULL, location, file_list, FALSE);
 }
 
 
@@ -1481,6 +1491,7 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->is_reorderable  = gth_file_source_catalogs_is_reorderable;
 	file_source_class->reorder = gth_file_source_catalogs_reorder;
 	file_source_class->remove = gth_file_source_catalogs_remove;
+	file_source_class->deleted_from_disk = gth_file_source_catalogs_deleted_from_disk;
 }
 
 

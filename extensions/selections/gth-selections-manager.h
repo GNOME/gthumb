@@ -62,7 +62,8 @@ gboolean gth_selections_manager_add_files        (GFile                *folder,
 						  GList                *file_list, /* GFile list */
 						  int                   destination_position);
 void     gth_selections_manager_remove_files     (GFile                *folder,
-						  GList                *file_list);
+						  GList                *file_list,
+						  gboolean              notify);
 void     gth_selections_manager_reorder          (GFile                *folder,
 						  GList                *visible_files, /* GFile list */
 						  GList                *files_to_move, /* GFile list */
