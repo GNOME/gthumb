@@ -197,6 +197,30 @@ _gth_file_store_free_rows (GthFileStore *file_store)
 }
 
 
+#ifdef DEBUG_FILE_STORE
+
+static void
+_print_rows (GthFileRow **rows, int n, char *info)
+{
+	int i;
+
+	g_print ("%s\n", info);
+	for (i = 0; i < n; i++) {
+		GthFileRow *row = rows[i];
+		g_print ("(%d) [%d] %s\n", i, row->pos, g_file_get_uri (row->file_data->file));
+	}
+}
+
+
+static void
+_gth_file_store_print (GthFileStore *file_store, char *info)
+{
+	_print_rows (file_store->priv->rows, file_store->priv->num_rows, info);
+}
+
+#endif
+
+
 static void
 gth_file_store_finalize (GObject *object)
 {
