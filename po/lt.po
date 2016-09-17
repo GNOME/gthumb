@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: lt\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-17 19:19+0000\n"
-"PO-Revision-Date: 2016-08-21 17:37+0300\n"
+"POT-Creation-Date: 2016-08-22 11:54+0000\n"
+"PO-Revision-Date: 2016-09-17 16:55+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -226,7 +226,6 @@ msgid "_Extensions:"
 msgstr "_Plėtiniai:"
 
 #: ../data/ui/extensions-preferences.ui.h:2
-#| msgid "More extensions..."
 msgid "More extensions…"
 msgstr "Daugiau papildinių…"
 
@@ -515,7 +514,6 @@ msgid "Save files to an optical disc."
 msgstr "Įrašyti failus į optinį diską."
 
 #: ../extensions/burn_disc/callbacks.c:48
-#| msgid "_Optical Disc..."
 msgid "_Optical Disc…"
 msgstr "_Optinis diskas…"
 
@@ -858,12 +856,10 @@ msgid "Organization:"
 msgstr "Tvarkymas:"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
-#| msgid "Files:"
 msgid "Files"
 msgstr "Failai"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
-#| msgid "C_reate"
 msgid "Create"
 msgstr "Sukurti"
 
@@ -1896,7 +1892,6 @@ msgid "New Album"
 msgstr "Naujas albumas"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:506
-#| msgid "Export to Flickr"
 msgid "Export to Facebook"
 msgstr "Eksportuoti į Facebook"
 
@@ -1953,7 +1948,6 @@ msgid "No album selected"
 msgstr "Nepasirinkta jokių albumų"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:498
-#| msgid "Import from Folder"
 msgid "Import from Facebook"
 msgstr "Importuoti iš Facebook"
 
@@ -2478,35 +2472,34 @@ msgstr "Keisti paveikslėlio skaistį, kontrastą, grynį ir gamą lygį"
 msgid "Stretch"
 msgstr "Ištempti"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:534
-#, c-format
-#| msgid "Stretch the histogram trimming the 0.5%"
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:535
+#, no-c-format
 msgid "Stretch the histogram after trimming 0.5% from both ends"
-msgstr ""
+msgstr "Išplėsti histogramą abiejuose galuose nukerpant po 0.5%"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:538
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:539
 msgid "Equalize"
 msgstr "Išlyginti"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:539
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:540
 msgid "Equalize the histogram using the square root function"
 msgstr "Išlyginti histogramą naudojant kvadratinės šaknies funkciją"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:543
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:544
 #: ../extensions/file_tools/gth-file-tool-crop.c:468
 #: ../extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Uniform"
 msgstr "Vienodas"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:544
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:545
 msgid "Equalize the histogram using the linear function"
 msgstr "Išlyginti histogramą naudojant tiesinę funkciją"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:658
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:659
 msgid "Adjust Contrast"
 msgstr "Koreguoti kontrastą"
 
-#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:660
+#: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:661
 msgid "Automatic contrast adjustment"
 msgstr "Automatinis kontrasto koregavimas"
 
@@ -2761,7 +2754,6 @@ msgstr "Pasukti paveikslėlį 90 laipsnių pagal laikrodžio rodyklę"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:70
 #: ../gthumb/resources/gears-menu.ui.h:4
-#| msgid "Save As"
 msgid "Save As…"
 msgstr "Įrašyti taip…"
 
@@ -2978,7 +2970,6 @@ msgid "C_ontinue"
 msgstr "_Tęsti"
 
 #: ../extensions/flicker_utils/flickr-service.c:576
-#| msgid "_Authorize..."
 msgid "_Authorize…"
 msgstr "_Autorizuoti…"
 
@@ -3844,7 +3835,6 @@ msgid "2 megabyte file size"
 msgstr "2 megabaitų dydžio failas"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:552
-#| msgid "Upload images to PhotoBucket"
 msgid "Export to Photobucket"
 msgstr "Eksportuoti į Photobucket"
 
@@ -5134,7 +5124,6 @@ msgid "Overwrite"
 msgstr "Perrašyti"
 
 #: ../gthumb/gth-progress-dialog.c:308 ../gthumb/gth-progress-dialog.c:453
-#| msgid "Options"
 msgid "Operations"
 msgstr "Veiksmai"
 
@@ -5366,7 +5355,6 @@ msgid "New _Window"
 msgstr "Naujas _langas"
 
 #: ../gthumb/resources/app-menu.ui.h:3
-#| msgid "Shortcut"
 msgid "Keyboard Shortcuts"
 msgstr "Klaviatūros trumpiniai"
 
