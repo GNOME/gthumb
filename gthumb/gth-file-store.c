@@ -1627,50 +1627,20 @@ gth_file_store_clear (GthFileStore *file_store)
 }
 
 
-static int
-reorder_sort_func (gconstpointer a,
-		   gconstpointer b,
-		   gpointer      user_data)
-{
-	GHashTable *new_positions = user_data;
-	int         apos = GPOINTER_TO_INT (g_hash_table_lookup (new_positions, * (GthFileRow **) a));
-	int         bpos = GPOINTER_TO_INT (g_hash_table_lookup (new_positions, * (GthFileRow **) b));
-
-	if (apos < bpos)
-		return -1;
-	if (apos > bpos)
-		return 1;
-	return 0;
-}
-
-
 void
 gth_file_store_reorder (GthFileStore *file_store,
 			int          *new_order)
 {
-	int         *order;
-	GHashTable  *new_positions;
-	int          i;
+	int i;
 
-	order = g_new (int, file_store->priv->num_rows);
 	for (i = 0; i < file_store->priv->num_rows; i++)
-		order[new_order[i]] = i;
-
-	new_positions = g_hash_table_new (g_direct_hash, g_direct_equal);
-	for (i = 0; i < file_store->priv->num_rows; i++)
-		g_hash_table_insert (new_positions, file_store->priv->rows[i], GINT_TO_POINTER (order[i]));
+		file_store->priv->rows[new_order[i]]->pos = i;
 
 	g_qsort_with_data (file_store->priv->rows,
 			   file_store->priv->num_rows,
 			   (gsize) sizeof (GthFileRow *),
-			   reorder_sort_func,
-			   new_positions);
-
-	for (i = 0; i < file_store->priv->num_rows; i++)
-		file_store->priv->rows[i]->pos = i;
+			   compare_by_pos,
+			   NULL);
 
 	gtk_tree_model_rows_reordered (GTK_TREE_MODEL (file_store), NULL, NULL, new_order);
-
-	g_hash_table_destroy (new_positions);
-	g_free (order);
 }
