@@ -3243,12 +3243,19 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 
 static void
 gth_grid_view_drag_end (GtkWidget      *widget,
-	                GdkDragContext *context,
-	                gpointer        user_data)
+	                GdkDragContext *context)
 {
 	GthGridView *self = GTH_GRID_VIEW (widget);
-
 	_gth_grid_view_stop_dragging (self);
+}
+
+
+static void
+gth_grid_view_drag_leave (GtkWidget      *widget,
+	                  GdkDragContext *context,
+			  guint           time)
+{
+	GthGridView *self = GTH_GRID_VIEW (widget);
 
 	if ((self->priv->drop_pos != GTH_DROP_POSITION_NONE) || (self->priv->drop_item != -1)) {
 		self->priv->drop_item = -1;
@@ -3757,6 +3764,7 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	widget_class->button_release_event = gth_grid_view_button_release;
 	widget_class->motion_notify_event = gth_grid_view_motion_notify;
 	widget_class->drag_end = gth_grid_view_drag_end;
+	widget_class->drag_leave = gth_grid_view_drag_leave;
 
 	grid_view_class->select_all = gth_grid_view_select_all;
 	grid_view_class->unselect_all = gth_grid_view_unselect_all;
