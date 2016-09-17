@@ -661,7 +661,7 @@ _gth_file_store_get_files (GthFileStore *file_store)
 
 
 static int
-campare_row_func (gconstpointer a,
+compare_row_func (gconstpointer a,
 		  gconstpointer b,
 		  gpointer      user_data)
 {
@@ -671,11 +671,9 @@ campare_row_func (gconstpointer a,
 	int           result;
 
 	if (file_store->priv->cmp_func == NULL)
-		result = -1 /*strcmp (gth_file_data_get_filename_sort_key (row_a->file),
-			       gth_file_data_get_filename_sort_key (row_b->file))*/;
-	else
-		result = file_store->priv->cmp_func (row_a->file_data, row_b->file_data);
+		return -1;
 
+	result = file_store->priv->cmp_func (row_a->file_data, row_b->file_data);
 	if (file_store->priv->inverse_sort)
 		result = result * -1;
 
@@ -694,13 +692,13 @@ _gth_file_store_sort (GthFileStore *file_store,
 	g_qsort_with_data (pbase,
 			   total_elems,
 			   (gsize) sizeof (GthFileRow *),
-			   campare_row_func,
+			   compare_row_func,
 			   file_store);
 }
 
 
 static int
-campare_by_pos (gconstpointer a,
+compare_by_pos (gconstpointer a,
 		gconstpointer b,
 		gpointer      user_data)
 {
@@ -758,6 +756,7 @@ _gth_file_store_update_visibility (GthFileStore *file_store,
 {
 	GthFileRow **all_rows = NULL;
 	guint        all_rows_n = 0;
+	int          add_queue_size;
 	GthFileRow **old_rows = NULL;
 	guint        old_rows_n = 0;
 	GthFileRow **new_rows = NULL;
@@ -771,14 +770,14 @@ _gth_file_store_update_visibility (GthFileStore *file_store,
 	gboolean     row_deleted;
 	GHashTable  *new_rows_index;
 
-
 #ifdef DEBUG_FILE_STORE
 g_print ("UPDATE VISIBILITY\n");
 #endif
 
 	/* store the current state */
 
-	all_rows_n = file_store->priv->tot_rows + g_list_length (add_queue);
+	add_queue_size = g_list_length (add_queue);
+	all_rows_n = file_store->priv->tot_rows + add_queue_size;
 	all_rows = g_new (GthFileRow *, all_rows_n);
 
 	/* append to the end if position is -1 */
@@ -789,12 +788,33 @@ g_print ("UPDATE VISIBILITY\n");
 	/* insert the new rows at position */
 
 	j = 0;
-	for (i = 0; i < position; i++)
-		all_rows[j++] = _gth_file_row_copy (file_store->priv->all_rows[i]);
-	for (scan = add_queue; scan; scan = scan->next)
-		all_rows[j++] = _gth_file_row_ref ((GthFileRow *) scan->data);
-	for (i = position; i < file_store->priv->tot_rows; i++)
-		all_rows[j++] = _gth_file_row_copy (file_store->priv->all_rows[i]);
+	for (i = 0; i < file_store->priv->tot_rows; i++) {
+		all_rows[j] = _gth_file_row_copy (file_store->priv->all_rows[i]);
+		if (all_rows[j]->visible && (all_rows[j]->pos >= position))
+			all_rows[j]->pos += add_queue_size;
+		j++;
+	}
+
+	for (scan = add_queue; scan; scan = scan->next) {
+		all_rows[j] = _gth_file_row_ref ((GthFileRow *) scan->data);
+		all_rows[j]->pos = position++;
+		j++;
+	}
+
+	/* reorder
+	 *
+	 * if there is no ordering (file_store->priv->cmp_func == NULL) make
+	 * sure all_rows preserve the order of the visible rows, sorting by
+	 * position (compare_by_pos) */
+
+	g_qsort_with_data (all_rows,
+			   all_rows_n,
+			   (gsize) sizeof (GthFileRow *),
+			   (file_store->priv->cmp_func == NULL) ? compare_by_pos : compare_row_func,
+			   file_store);
+
+	/* old_rows is equal to file_store->priv->rows but points to
+	 * the rows of all_rows */
 
 	old_rows_n = file_store->priv->num_rows;
 	old_rows = g_new (GthFileRow *, old_rows_n);
@@ -806,9 +826,7 @@ g_print ("UPDATE VISIBILITY\n");
 		}
 	}
 
-	/* reorder and filter */
-
-	_gth_file_store_sort (file_store, all_rows, all_rows_n);
+	/* filter */
 
 	/* store the new_rows file positions in an hash table for
 	 * faster searching. */
@@ -983,7 +1001,7 @@ g_print ("\n");
 	g_qsort_with_data (old_rows,
 			   old_rows_n,
 			   (gsize) sizeof (GthFileRow *),
-			   campare_by_pos,
+			   compare_by_pos,
 			   NULL);
 
 	g_free (file_store->priv->rows);
@@ -1366,6 +1384,7 @@ void
 gth_file_store_exec_add (GthFileStore *file_store,
 			 int           position)
 {
+	file_store->priv->queue = g_list_reverse (file_store->priv->queue);
 	_gth_file_store_update_visibility (file_store, file_store->priv->queue, position);
 	_gth_file_store_clear_queue (file_store);
 }
