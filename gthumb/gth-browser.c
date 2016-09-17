@@ -3088,7 +3088,8 @@ _gth_browser_change_file_list_order (GthBrowser *browser,
 {
 	g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", "general::unsorted");
 	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", FALSE);
-	gth_file_store_reorder (gth_browser_get_file_store (browser), new_order);
+	gth_file_store_reorder (GTH_FILE_STORE (gth_file_view_get_model (GTH_FILE_VIEW (gth_browser_get_file_list_view (browser)))), new_order);
+	gth_file_store_reorder (GTH_FILE_STORE (gth_file_view_get_model (GTH_FILE_VIEW (gth_browser_get_thumbnail_list_view (browser)))), new_order);
 	_gth_browser_update_current_file_position (browser);
 	gth_browser_update_title (browser);
 }
