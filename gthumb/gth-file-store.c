@@ -849,12 +849,11 @@ g_print ("UPDATE VISIBILITY\n");
 
 	/* sort */
 
-	if (file_store->priv->cmp_func != NULL)
-		g_qsort_with_data (all_rows,
-				   all_rows_n,
-				   (gsize) sizeof (GthFileRow *),
-				   compare_row_func,
-				   file_store);
+	g_qsort_with_data (all_rows,
+			   all_rows_n,
+			   (gsize) sizeof (GthFileRow *),
+			   (file_store->priv->cmp_func != NULL) ? compare_row_func : compare_by_pos,
+			   file_store);
 
 	/* filter */
 
