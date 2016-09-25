@@ -825,18 +825,6 @@ g_print ("UPDATE VISIBILITY\n");
 		j++;
 	}
 
-	/* reorder
-	 *
-	 * if there is no ordering (file_store->priv->cmp_func == NULL) make
-	 * sure all_rows preserve the order of the visible rows, sorting by
-	 * position (compare_by_pos) */
-
-	g_qsort_with_data (all_rows,
-			   all_rows_n,
-			   (gsize) sizeof (GthFileRow *),
-			   (file_store->priv->cmp_func == NULL) ? compare_by_pos : compare_row_func,
-			   file_store);
-
 	/* old_rows is equal to file_store->priv->rows but points to
 	 * the rows of all_rows */
 
@@ -849,6 +837,24 @@ g_print ("UPDATE VISIBILITY\n");
 			j++;
 		}
 	}
+
+	/* make sure old_rows preserve the order of the visible rows, sorting by
+	 * position (compare_by_pos) */
+
+	g_qsort_with_data (old_rows,
+			   old_rows_n,
+			   (gsize) sizeof (GthFileRow *),
+			   compare_by_pos,
+			   file_store);
+
+	/* sort */
+
+	if (file_store->priv->cmp_func != NULL)
+		g_qsort_with_data (all_rows,
+				   all_rows_n,
+				   (gsize) sizeof (GthFileRow *),
+				   compare_row_func,
+				   file_store);
 
 	/* filter */
 
