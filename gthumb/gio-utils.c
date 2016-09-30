@@ -2602,7 +2602,7 @@ _g_directory_make (GFile    *file,
 		   GError  **error)
 {
 	if (! g_file_make_directory (file, NULL, error)) {
-		if (! (*error)->code == G_IO_ERROR_EXISTS)
+		if ((*error)->code != G_IO_ERROR_EXISTS)
 			return FALSE;
 		g_clear_error (error);
 	}
