@@ -1,3 +1,23 @@
+version 3.4.4
+-------------
+
+ Bugs fixed:
+
+  * Sizing issues in gthumb preferences under gtk+ git master. (#770546)
+  * Hide the image frame when in fullscreen mode. (#767731)
+  * Fixed headerbar buttons not shown correctly after activating a tool.
+  * Orginaze files: fixed wrong catalog cardinality.
+  * Fixed scrollbars resetting their position when changing image.
+  * Find duplicates: faster.
+  * New folder: open the created folder.
+  * Print dialog: expand the options side to make the zoom slider visible.
+  * Fixed wrong image loaded after deleting an image from a catalog.
+
+ New or updated application translations:
+
+  * Croatian (gogo)
+  * Indonesian (Andika Triwidada)
+
 version 3.4.3
 -------------
 
@@ -16,7 +36,7 @@ version 3.4.2
 
  User visible changes:
 
-  * Sort catalogs first by name then by date, 
+  * Sort catalogs first by name then by date,
     instead of doing the opposite.
 
  Bugs fixed:
