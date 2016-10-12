@@ -1,3 +1,15 @@
+version 3.4.4.1
+---------------
+
+ Bugs fixed:
+
+  * gthumb 3.4.4 fails post build check 64bit-portability-issue
+    (#772739)
+
+ New or updated application translations:
+
+  * Croatian (gogo)
+
 version 3.4.4
 -------------
 
