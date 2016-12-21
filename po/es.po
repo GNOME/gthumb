@@ -2,12 +2,11 @@
 # Spanish translation of gthumb
 # Copyright © 2002-2003, 2006, 2007, 2008 the Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
-# 
+#
 # Daniel Baeyens <danibens@terra.es>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
-# 
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 #
 msgid ""
@@ -15,10 +14,10 @@ msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-22 11:54+0000\n"
-"PO-Revision-Date: 2016-01-07 11:37+0100\n"
+"POT-Creation-Date: 2016-11-24 21:35+0000\n"
+"PO-Revision-Date: 2016-12-21 10:14+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
+"Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -231,7 +230,6 @@ msgid "_Extensions:"
 msgstr "_Extensiones:"
 
 #: ../data/ui/extensions-preferences.ui.h:2
-#, fuzzy
 #| msgid "More extensions..."
 msgid "More extensions…"
 msgstr "Más extensiones…"
@@ -521,7 +519,6 @@ msgid "Save files to an optical disc."
 msgstr "Guardar archivos en un disco óptico."
 
 #: ../extensions/burn_disc/callbacks.c:48
-#, fuzzy
 #| msgid "_Optical Disc..."
 msgid "_Optical Disc…"
 msgstr "Disco óptic_o…"
@@ -676,12 +673,12 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1488
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1489
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "Saving"
 msgstr "Guardando"
 
-#: ../extensions/catalogs/actions.c:85 ../extensions/catalogs/actions.c:208
+#: ../extensions/catalogs/actions.c:89 ../extensions/catalogs/actions.c:212
 #: ../extensions/catalogs/dlg-add-to-catalog.c:368
 #: ../extensions/catalogs/dlg-add-to-catalog.c:488
 #: ../extensions/file_manager/actions.c:71
@@ -692,7 +689,7 @@ msgstr "Guardando"
 msgid "No name specified"
 msgstr "No se especificó ningún nombre"
 
-#: ../extensions/catalogs/actions.c:92 ../extensions/catalogs/actions.c:215
+#: ../extensions/catalogs/actions.c:96 ../extensions/catalogs/actions.c:219
 #: ../extensions/catalogs/dlg-add-to-catalog.c:375
 #: ../extensions/catalogs/dlg-add-to-catalog.c:495
 #: ../extensions/file_manager/actions.c:78
@@ -702,7 +699,7 @@ msgstr "No se especificó ningún nombre"
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Nombre no válido. Los siguientes caracteres no están permitidos: %s"
 
-#: ../extensions/catalogs/actions.c:148 ../extensions/catalogs/actions.c:262
+#: ../extensions/catalogs/actions.c:152 ../extensions/catalogs/actions.c:266
 #: ../extensions/catalogs/dlg-add-to-catalog.c:432
 #: ../extensions/catalogs/dlg-add-to-catalog.c:542
 #: ../extensions/catalogs/gth-file-source-catalogs.c:508
@@ -710,38 +707,38 @@ msgstr "Nombre no válido. Los siguientes caracteres no están permitidos: %s"
 msgid "Name already used"
 msgstr "El nombre  ya está en uso"
 
-#: ../extensions/catalogs/actions.c:173
+#: ../extensions/catalogs/actions.c:177
 #: ../extensions/catalogs/dlg-add-to-catalog.c:453
 msgid "New catalog"
 msgstr "Catálogo nuevo"
 
-#: ../extensions/catalogs/actions.c:174
+#: ../extensions/catalogs/actions.c:178
 #: ../extensions/catalogs/dlg-add-to-catalog.c:454
 msgid "Enter the catalog name:"
 msgstr "Introduzca el nombre del catálogo:"
 
-#: ../extensions/catalogs/actions.c:176 ../extensions/catalogs/actions.c:290
+#: ../extensions/catalogs/actions.c:180 ../extensions/catalogs/actions.c:294
 #: ../extensions/catalogs/dlg-add-to-catalog.c:456
 #: ../extensions/catalogs/dlg-add-to-catalog.c:568
 #: ../extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "C_rear"
 
-#: ../extensions/catalogs/actions.c:287
+#: ../extensions/catalogs/actions.c:291
 #: ../extensions/catalogs/dlg-add-to-catalog.c:565
 msgid "New library"
 msgstr "Biblioteca nueva"
 
-#: ../extensions/catalogs/actions.c:288
+#: ../extensions/catalogs/actions.c:292
 #: ../extensions/catalogs/dlg-add-to-catalog.c:566
 msgid "Enter the library name:"
 msgstr "Introduzca el nombre de la biblioteca: "
 
-#: ../extensions/catalogs/actions.c:323
+#: ../extensions/catalogs/actions.c:327
 msgid "Could not remove the catalog"
 msgstr "No se pudo quitar el catálogo "
 
-#: ../extensions/catalogs/actions.c:362
+#: ../extensions/catalogs/actions.c:366
 #, c-format
 msgid "Are you sure you want to remove \"%s\"?"
 msgstr "¿Seguro que quiere quitar «%s»?"
@@ -777,7 +774,7 @@ msgstr "Renombrar"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/dlg-catalog-properties.c:201
-#: ../gthumb/gth-browser.c:4562 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4566 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Propiedades"
 
@@ -865,16 +862,14 @@ msgid "Organization:"
 msgstr "Organización:"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:4
-#, fuzzy
 #| msgid "Files:"
 msgid "Files"
-msgstr "Archivos:"
+msgstr "Archivos"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:5
-#, fuzzy
 #| msgid "C_reate"
 msgid "Create"
-msgstr "C_rear"
+msgstr "Crear"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:6
 msgid "Select All"
@@ -1002,7 +997,7 @@ msgstr "Copiando archivos a «%s»"
 msgid "Could not remove the files from the catalog"
 msgstr "No se pudieron quitar los archivos del catálogo"
 
-#: ../extensions/catalogs/gth-file-source-catalogs.c:1380
+#: ../extensions/catalogs/gth-file-source-catalogs.c:1373
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:873
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:882
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:912
@@ -1358,7 +1353,7 @@ msgstr "Columnas:"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:24
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:25
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:9
@@ -1559,7 +1554,7 @@ msgstr "Tít_ulo:"
 msgid "Could not save the file metadata"
 msgstr "No se pudieron guardar los metadatos del archivo"
 
-#: ../extensions/edit_metadata/dlg-edit-metadata.c:229
+#: ../extensions/edit_metadata/dlg-edit-metadata.c:227
 #: ../gthumb/gth-overwrite-dialog.c:137
 msgid "Cannot read file information"
 msgstr "No se puede leer la información del archivo"
@@ -1910,10 +1905,9 @@ msgid "New Album"
 msgstr "Álbum nuevo"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:506
-#, fuzzy
 #| msgid "Export to Flickr"
 msgid "Export to Facebook"
-msgstr "Exportar a Flickr"
+msgstr "Exportar a Facebook"
 
 #: ../extensions/facebook/dlg-export-to-facebook.c:572
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:594
@@ -1967,10 +1961,9 @@ msgid "No album selected"
 msgstr "No se seleccionó ningún álbum"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:498
-#, fuzzy
 #| msgid "Import from Folder"
 msgid "Import from Facebook"
-msgstr "Importar desde carpeta"
+msgstr "Importar desde Facebook"
 
 #: ../extensions/facebook/dlg-import-from-facebook.c:507
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:521
@@ -2164,7 +2157,7 @@ msgstr "_Copiar"
 
 #: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:788
-#: ../gthumb/gth-browser.c:5557 ../gthumb/gth-browser.c:5593
+#: ../gthumb/gth-browser.c:5561 ../gthumb/gth-browser.c:5597
 #: ../gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "No se pudo efectuar la operación"
@@ -2495,10 +2488,10 @@ msgid "Stretch"
 msgstr "Estirar"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:535
-#, fuzzy, no-c-format
+#, no-c-format
 #| msgid "Stretch the histogram trimming the 0.5%"
 msgid "Stretch the histogram after trimming 0.5% from both ends"
-msgstr "Estirar el histograma recortando el 0.5%"
+msgstr "Estirar el histograma recortando el 0.5% de ambos extremos"
 
 #: ../extensions/file_tools/gth-file-tool-adjust-contrast.c:539
 msgid "Equalize"
@@ -2777,10 +2770,9 @@ msgstr "Rotar la imagen 90 grados en sentido horario"
 
 #: ../extensions/file_tools/gth-file-tool-save-as.c:70
 #: ../gthumb/resources/gears-menu.ui.h:4
-#, fuzzy
 #| msgid "Save As"
 msgid "Save As…"
-msgstr "Guardar como"
+msgstr "Guardar como…"
 
 #: ../extensions/file_tools/gth-file-tool-save.c:66
 #: ../gthumb/resources/gears-menu.ui.h:3
@@ -2994,10 +2986,9 @@ msgid "C_ontinue"
 msgstr "Continuar"
 
 #: ../extensions/flicker_utils/flickr-service.c:576
-#, fuzzy
 #| msgid "_Authorize..."
 msgid "_Authorize…"
-msgstr "Autorizar…"
+msgstr "_Autorizar…"
 
 #: ../extensions/flicker_utils/flickr-service.c:579
 #, c-format
@@ -3141,7 +3132,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1652
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1651
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:251
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:96
 #: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:897
@@ -3428,11 +3419,11 @@ msgstr "Aplicar el perfil de color empotrado"
 msgid "Next frame"
 msgstr "Siguiente marco"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1591
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1590
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2190
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2189
 msgid "Loading the original image"
 msgstr "Cargando la imágen original"
 
@@ -3523,6 +3514,7 @@ msgid "The selected files are already present in the destination."
 msgstr "Los archivos seleccionados ya existen en el destino."
 
 #: ../extensions/importer/gth-import-task.c:644
+#: ../gthumb/gth-file-source-vfs.c:680
 msgid "Could not delete the files"
 msgstr "No se pudieron eliminar los archivos"
 
@@ -3864,10 +3856,9 @@ msgid "2 megabyte file size"
 msgstr "tamaño de archivo de 2 megabytes"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:552
-#, fuzzy
 #| msgid "Upload photos to Photobucket"
 msgid "Export to Photobucket"
-msgstr "Subir fotos a Photobucket"
+msgstr "Exportar a Photobucket"
 
 #: ../extensions/photobucket/photobucket.extension.in.in.h:1
 msgid "PhotoBucket"
@@ -4585,8 +4576,8 @@ msgid "Create static web albums."
 msgstr "Creando álbumes web estáticos."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1108
-#: ../gthumb/gth-browser.c:1683 ../gthumb/gth-browser.c:6552
-#: ../gthumb/gth-browser.c:6571 ../gthumb/gth-browser.c:6595
+#: ../gthumb/gth-browser.c:1683 ../gthumb/gth-browser.c:6556
+#: ../gthumb/gth-browser.c:6575 ../gthumb/gth-browser.c:6599
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "No se pudo cargar la posición «%s»"
@@ -4847,46 +4838,46 @@ msgstr "_No guardar"
 msgid "Could not change name"
 msgstr "No se pudo cambiar el nombre"
 
-#: ../gthumb/gth-browser.c:3458
+#: ../gthumb/gth-browser.c:3462
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../gthumb/gth-browser.c:4525
+#: ../gthumb/gth-browser.c:4529
 msgid "Go to the previous visited location"
 msgstr "Ir a la ubicación visitada previamente"
 
-#: ../gthumb/gth-browser.c:4531
+#: ../gthumb/gth-browser.c:4535
 msgid "Go to the next visited location"
 msgstr "Ir a la siguiente ubicación visitada"
 
-#: ../gthumb/gth-browser.c:4539
+#: ../gthumb/gth-browser.c:4543
 msgid "History"
 msgstr "Histórico"
 
-#: ../gthumb/gth-browser.c:4553
+#: ../gthumb/gth-browser.c:4557
 msgid "View the folders"
 msgstr "Ver las carpetas"
 
-#: ../gthumb/gth-browser.c:4568
+#: ../gthumb/gth-browser.c:4572
 msgid "Edit file"
 msgstr "Editar archivo"
 
-#: ../gthumb/gth-browser.c:4577 ../gthumb/gth-browser.c:4595
+#: ../gthumb/gth-browser.c:4581 ../gthumb/gth-browser.c:4599
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: ../gthumb/gth-browser.c:4603
+#: ../gthumb/gth-browser.c:4607
 msgid "Accept"
 msgstr "Aceptar"
 
-#: ../gthumb/gth-browser.c:6553
+#: ../gthumb/gth-browser.c:6557
 #, c-format
 msgid "File type not supported"
 msgstr "Tipo de archivo no soportado"
 
-#: ../gthumb/gth-browser.c:6596
+#: ../gthumb/gth-browser.c:6600
 #, c-format
 msgid "No suitable module found"
 msgstr "No se encontró un modulo adecuado"
@@ -4910,10 +4901,9 @@ msgid "All Supported Files"
 msgstr "Todos los archivos soportados"
 
 #: ../gthumb/gth-file-chooser-dialog.c:194
-#, fuzzy
 #| msgid "Show session management options"
 msgid "_Show Format Options"
-msgstr "Mostrar las opciones de gestión de la sesión"
+msgstr "Mo_strar las opciones de formato"
 
 #: ../gthumb/gth-file-details.c:43
 msgid "Details"
@@ -4927,7 +4917,7 @@ msgstr "Equipo"
 msgid "Home Folder"
 msgstr "Carpeta personal"
 
-#: ../gthumb/gth-file-source-vfs.c:751
+#: ../gthumb/gth-file-source-vfs.c:782
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -4935,16 +4925,16 @@ msgstr ""
 "No se pueden mover los archivos a la papelera. ¿Quiere eliminarlos "
 "permanentemente?"
 
-#: ../gthumb/gth-file-source-vfs.c:761
+#: ../gthumb/gth-file-source-vfs.c:792
 msgid "Could not move the files to the Trash"
 msgstr "No se pudieron mover los archivos a la papelera"
 
-#: ../gthumb/gth-file-source-vfs.c:804
+#: ../gthumb/gth-file-source-vfs.c:837
 #, c-format
 msgid "Are you sure you want to permanently delete \"%s\"?"
 msgstr "¿Seguro que quiere eliminar permanentemente «%s»?"
 
-#: ../gthumb/gth-file-source-vfs.c:807
+#: ../gthumb/gth-file-source-vfs.c:840
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4956,7 +4946,7 @@ msgstr[1] ""
 "¿Está seguro de que quiere eliminar permanentemente los %'d archivos "
 "seleccionados?"
 
-#: ../gthumb/gth-file-source-vfs.c:817
+#: ../gthumb/gth-file-source-vfs.c:850
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Si elimina un archivo, se perderá definitivamente."
 
@@ -5162,16 +5152,14 @@ msgid "Description (embedded)"
 msgstr "Descripción (empotrada)"
 
 #: ../gthumb/gth-overwrite-dialog.c:244
-#, fuzzy
 #| msgid "Over_write"
 msgid "Overwrite"
-msgstr "Sobr_eescribir"
+msgstr "Sobrescribir"
 
 #: ../gthumb/gth-progress-dialog.c:308 ../gthumb/gth-progress-dialog.c:453
-#, fuzzy
 #| msgid "Options"
 msgid "Operations"
-msgstr "Opciones"
+msgstr "Operaciones"
 
 #: ../gthumb/gth-save-file-data-task.c:102
 msgid "Saving file information"
@@ -5389,10 +5377,9 @@ msgid "_Save"
 msgstr "_Guardar"
 
 #: ../gthumb/gtk-utils.h:45
-#, fuzzy
 #| msgid "Executive"
 msgid "E_xecute"
-msgstr "E_jecutivo"
+msgstr "E_jecutar"
 
 #: ../gthumb/gtk-utils.h:46
 msgid "_Upload"
@@ -5403,10 +5390,9 @@ msgid "New _Window"
 msgstr "_Ventana nueva"
 
 #: ../gthumb/resources/app-menu.ui.h:3
-#, fuzzy
 #| msgid "_Keyboard Shortcuts"
 msgid "Keyboard Shortcuts"
-msgstr "Combinaciones de _teclas"
+msgstr "Atajo del teclado"
 
 #: ../gthumb/resources/app-menu.ui.h:5
 msgid "_About"
