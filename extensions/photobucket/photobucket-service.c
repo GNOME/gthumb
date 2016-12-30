@@ -431,12 +431,11 @@ photobucket_service_create_album (PhotobucketService  *self,
 	url = g_strconcat ("http://api.photobucket.com/album/", identifier, NULL);
 	oauth_service_add_signature (OAUTH_SERVICE (self), "POST", url, data_set);
 
-	g_free (identifier);
 	g_free (url);
 
 	account = web_service_get_current_account (WEB_SERVICE (self));
 
-	url = g_strconcat ("http://", PHOTOBUCKET_ACCOUNT (account)->subdomain, "/album/", parent_album, NULL);
+	url = g_strconcat ("http://", PHOTOBUCKET_ACCOUNT (account)->subdomain, "/album/", identifier, NULL);
 	msg = soup_form_request_new_from_hash ("POST", url, data_set);
 	_web_service_send_message (WEB_SERVICE (self),
 				   msg,
@@ -448,6 +447,7 @@ photobucket_service_create_album (PhotobucketService  *self,
 				   create_album_data);
 
 	g_free (url);
+	g_free (identifier);
 	g_hash_table_destroy (data_set);
 }
 
