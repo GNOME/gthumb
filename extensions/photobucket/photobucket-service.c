@@ -651,6 +651,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 				   self);
 
 	g_free (url);
+	g_free (identifier);
 	soup_multipart_free (multipart);
 }
 
