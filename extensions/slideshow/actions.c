@@ -45,7 +45,6 @@ gth_browser_activate_slideshow (GSimpleAction *action,
 	GthFileData  *location;
 	char         *transition_id;
 	GList        *transitions = NULL;
-	GdkScreen    *screen;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	if ((items == NULL) || (items->next == NULL))
@@ -129,10 +128,18 @@ gth_browser_activate_slideshow (GSimpleAction *action,
 	}
 	gth_slideshow_set_transitions (GTH_SLIDESHOW (slideshow), transitions);
 
-	screen = gtk_widget_get_screen (slideshow);
-	gtk_window_set_default_size (GTK_WINDOW (slideshow), gdk_screen_get_width (screen), gdk_screen_get_height (screen));
-	gtk_window_fullscreen (GTK_WINDOW (slideshow));
-	gtk_window_present (GTK_WINDOW (slideshow));
+	{
+		GdkRectangle  monitor_geometry;
+		int           monitor_num;
+
+		if (_gtk_window_get_monitor_info (GTK_WINDOW (browser), &monitor_geometry, &monitor_num)) {
+			gtk_window_set_default_size (GTK_WINDOW (slideshow), monitor_geometry.width, monitor_geometry.height);
+			gtk_window_fullscreen_on_monitor (GTK_WINDOW (slideshow), gtk_window_get_screen (GTK_WINDOW (browser)), monitor_num);
+		}
+		else
+			gtk_window_fullscreen (GTK_WINDOW (slideshow));
+		gtk_window_present (GTK_WINDOW (slideshow));
+	}
 
 	_g_object_list_unref (transitions);
 	g_object_unref (settings);

@@ -1150,6 +1150,72 @@ _gtk_window_get_is_maximized (GtkWindow *window)
 }
 
 
+gboolean
+_gtk_window_get_monitor_info (GtkWindow	   *window,
+			      GdkRectangle *geometry,
+			      int          *number)
+{
+#if GTK_CHECK_VERSION(3, 22, 0)
+
+	GdkWindow  *win;
+	GdkMonitor *monitor;
+
+	win = gtk_widget_get_window (GTK_WIDGET (window));
+	if (win == NULL)
+		return FALSE;
+
+	monitor = gdk_display_get_monitor_at_window (gdk_window_get_display (win), win);
+	if (monitor == NULL)
+		return FALSE;
+
+	if (geometry != NULL)
+		gdk_monitor_get_geometry (monitor, geometry);
+
+	if (number != NULL) {
+		GdkDisplay *display;
+		int         monitor_num;
+		int         i;
+
+		display = gdk_monitor_get_display (monitor);
+		monitor_num = 0;
+		for (i = 0; /* void */; i++) {
+			GdkMonitor *m = gdk_display_get_monitor (display, i);
+			if (m == monitor) {
+				monitor_num = i;
+				break;
+			}
+			if (m == NULL)
+				break;
+		}
+		*number = monitor_num;
+	}
+
+#else
+
+	GdkWindow *win;
+	GdkScreen *screen;
+	int        monitor_num;
+
+	win = gtk_widget_get_window (GTK_WIDGET (window));
+	if (win == NULL)
+		return FALSE;
+
+	screen = gdk_window_get_screen (win);
+	if (screen == NULL)
+		return FALSE;
+
+	monitor_num = gdk_screen_get_monitor_at_window (screen, win);
+	if (number != NULL)
+		*number = monitor_num;
+
+	if (geometry != NULL)
+		gdk_screen_get_monitor_geometry (screen, monitor_num, geometry);
+#endif
+
+	return TRUE;
+}
+
+
 GdkDevice *
 _gtk_widget_get_client_pointer (GtkWidget *widget)
 {
