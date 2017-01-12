@@ -391,7 +391,10 @@ gth_browser_activate_set_desktop_background (GSimpleAction *action,
 			GthImage *image;
 			GthTask  *task;
 
-			image = gth_image_new_for_surface (gth_image_viewer_page_get_modified_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+			if (gth_image_viewer_page_get_is_modified (GTH_IMAGE_VIEWER_PAGE (viewer_page)))
+				image = gth_image_new_for_surface (gth_image_viewer_page_get_modified_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+			else
+				image = gth_image_new_for_surface (gth_image_viewer_page_get_current_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
 			file_data = gth_file_data_new (wdata->new_style.file, NULL);
 			task = gth_save_image_task_new (image,
 							"image/jpeg",
