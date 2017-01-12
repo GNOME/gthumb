@@ -269,7 +269,10 @@ wallpaper_metadata_ready_cb (GObject      *source_object,
 	WallpaperData *wdata = user_data;
 	GList         *file_list;
 	GError        *error = NULL;
-	GdkScreen     *screen;
+	GthFileData   *file_data;
+	int            image_width;
+	int            image_height;
+	GdkRectangle   monitor_geometry;
 
 	file_list = _g_query_metadata_finish (result, &error);
 	if (error != NULL) {
@@ -282,23 +285,24 @@ wallpaper_metadata_ready_cb (GObject      *source_object,
 
 	wdata->new_style.background_style = BACKGROUND_STYLE_WALLPAPER;
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (wdata->browser));
-	if (gdk_screen_get_n_monitors (screen) == 1) {
-		GthFileData *file_data;
-		int          image_width;
-		int          image_height;
-		int          screen_width;
-		int          screen_height;
+	/* use ZOOM if the image has a size similar to the monitor's */
 
-		file_data = file_list->data;
-		image_width = g_file_info_get_attribute_int32 (file_data->info, "image::width");
-		image_height = g_file_info_get_attribute_int32 (file_data->info, "image::height");
-		screen_width = gdk_screen_get_width (screen);
-		screen_height = gdk_screen_get_height (screen);
+#if GTK_CHECK_VERSION(3, 22, 0)
 
-		if ((image_width >= screen_width / 2) && (image_height >= screen_height / 2))
-			wdata->new_style.background_style = BACKGROUND_STYLE_STRETCHED;
-	}
+	gdk_monitor_get_geometry (gdk_display_get_primary_monitor (gtk_widget_get_display (GTK_WIDGET (wdata->browser))), &monitor_geometry);
+
+#else
+
+	gdk_screen_get_monitor_geometry (gtk_widget_get_screen (GTK_WIDGET (wdata->browser)), 0, &monitor_geometry);
+
+#endif
+
+	file_data = file_list->data;
+	image_width = g_file_info_get_attribute_int32 (file_data->info, "image::width");
+	image_height = g_file_info_get_attribute_int32 (file_data->info, "image::height");
+
+	if ((image_width >= monitor_geometry.width / 2) && (image_height >= monitor_geometry.height / 2))
+		wdata->new_style.background_style = BACKGROUND_STYLE_ZOOM;
 
 	wallpaper_data_set__step2 (wdata);
 }
