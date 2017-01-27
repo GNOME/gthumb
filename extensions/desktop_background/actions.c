@@ -114,46 +114,127 @@ wallpaper_style_free (WallpaperStyle *style)
 }
 
 
-static GFile *
-get_wallpaper_file_n (int n)
+/* -- get_new_wallpaper_file_async -- */
+
+
+typedef struct {
+	GFile  *folder;
+	int     max_n;
+	GList  *wallpaper_files;
+	GRegex *wallpaper_name_regex;
+} NewWallpaperData;
+
+
+static void
+new_wallpaper_data_free (NewWallpaperData *data)
 {
-	char  *name;
-	GFile *file;
+	_g_object_unref (data->folder);
+	_g_string_list_free (data->wallpaper_files);
+	g_regex_unref (data->wallpaper_name_regex);
+	g_slice_free (NewWallpaperData, data);
+}
 
-	name = g_strdup_printf ("wallpaper%d.jpeg", n);
-	file = gth_user_dir_get_file_for_write (GTH_DIR_DATA, GTHUMB_DIR, name, NULL);
 
-	g_free (name);
+static void
+nw_for_each_file_func (GFile     *file,
+		       GFileInfo *info,
+		       gpointer   user_data)
+{
+	GTask             *task = user_data;
+	NewWallpaperData  *nw_data = g_task_get_task_data (task);
+	const char        *filename;
+	char             **tokens;
 
-	return file;
+	filename = g_file_info_get_name (info);
+	tokens = g_regex_split (nw_data->wallpaper_name_regex, filename, 0);
+	if (g_strv_length (tokens) >= 2) {
+		int n = atoi (tokens[1]);
+		if (n > nw_data->max_n)
+			nw_data->max_n = n;
+		nw_data->wallpaper_files = g_list_prepend (nw_data->wallpaper_files, g_strdup (filename));
+	}
+
+	g_strfreev (tokens);
+}
+
+
+static void
+nw_done_func (GError     *error,
+	      gpointer    user_data)
+{
+	GTask            *task = user_data;
+	NewWallpaperData *nw_data = g_task_get_task_data (task);
+	GList            *scan;
+	char             *display_name;
+	GFile            *proposed_file;
+
+	if (error != NULL) {
+		g_task_return_error (task, error);
+		g_object_unref (task);
+		return;
+	}
+
+	/* delete the old wallpapers */
+	for (scan = nw_data->wallpaper_files; scan; scan = scan->next) {
+		char  *name = scan->data;
+		GFile *file;
+
+		file = g_file_get_child (nw_data->folder, name);
+		g_file_delete (file, NULL, NULL);
+
+		g_object_unref (file);
+	}
+
+	/* use a unique name to force a reload */
+	display_name = g_strdup_printf ("wallpaper%d.jpeg", nw_data->max_n + 1);
+	proposed_file = g_file_get_child_for_display_name (nw_data->folder, display_name, NULL);
+	g_task_return_pointer (task, proposed_file, g_object_unref);
+
+	g_free (display_name);
+	g_object_unref (task);
+}
+
+
+static void
+get_new_wallpaper_file_async (GCancellable        *cancellable,
+			      GAsyncReadyCallback  callback,
+			      gpointer             user_data)
+{
+	NewWallpaperData *nw_data;
+	GTask            *task;
+
+	nw_data = g_slice_new (NewWallpaperData);
+	nw_data->folder = gth_user_dir_get_dir_for_write (GTH_DIR_DATA, GTHUMB_DIR, NULL);
+	nw_data->max_n = 0;
+	nw_data->wallpaper_files = NULL;
+	nw_data->wallpaper_name_regex = g_regex_new ("wallpaper([0-9]+).jpeg", 0, 0, NULL);
+
+	task = g_task_new (NULL, cancellable, callback, user_data);
+	g_task_set_task_data (task, nw_data, (GDestroyNotify) new_wallpaper_data_free);
+
+	g_directory_foreach_child (nw_data->folder,
+				   FALSE,
+				   FALSE,
+				   GFILE_NAME_TYPE_ATTRIBUTES,
+				   cancellable,
+				   NULL,
+				   nw_for_each_file_func,
+				   nw_done_func,
+				   task);
 }
 
 
 static GFile *
-get_new_wallpaper_file (WallpaperData *wdata)
+get_new_wallpaper_file_finish (GAsyncResult  *result,
+                               GError       **error)
 {
-	GFile *wallpaper_file;
-	int    i;
-
-	/* Use a new filename to force an update. */
-
-	wallpaper_file = NULL;
-	for (i = 1; i <= 2; i++) {
-		wallpaper_file = get_wallpaper_file_n (i);
-		if ((wdata->old_style.file == NULL) || ! g_file_equal (wallpaper_file, wdata->old_style.file))
-			break;
-		g_object_unref (wallpaper_file);
-	}
-
-	if (wallpaper_file != NULL)
-		g_file_delete (wallpaper_file, NULL, NULL);
-
-	return wallpaper_file;
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 
 static WallpaperData *
-wallpaper_data_new (GthBrowser *browser)
+wallpaper_data_new (GthBrowser *browser,
+		    GFile      *wallpaper_file)
 {
 	WallpaperData *wdata;
 
@@ -161,7 +242,7 @@ wallpaper_data_new (GthBrowser *browser)
 	wdata->browser = browser;
 	wallpaper_style_init_from_current (&wdata->old_style);
 	wallpaper_style_init (&wdata->new_style);
-	wdata->new_style.file = get_new_wallpaper_file (wdata);
+	wdata->new_style.file = g_object_ref (wallpaper_file);
 
 	return wdata;
 }
@@ -361,20 +442,30 @@ copy_wallpaper_ready_cb (GObject      *source_object,
 }
 
 
-void
-gth_browser_activate_set_desktop_background (GSimpleAction *action,
-					     GVariant      *parameter,
-					     gpointer       user_data)
+static void
+wallpaper_file_read_cb (GObject      *source_object,
+		        GAsyncResult *res,
+			gpointer      user_data)
 {
-	GthBrowser    *browser = GTH_BROWSER (user_data);
-	WallpaperData *wdata;
-	gboolean       saving_wallpaper = FALSE;
-	GList         *items;
-	GList         *file_list;
-	GthFileData   *file_data;
-	const char    *mime_type;
+	GthBrowser     *browser = GTH_BROWSER (user_data);
+	GFile          *wallpaper_file;
+	GError        **error = NULL;
+	WallpaperData  *wdata;
+	gboolean        saving_wallpaper = FALSE;
+	GList          *items;
+	GList          *file_list;
+	GthFileData    *file_data;
+	const char     *mime_type;
 
-	wdata = wallpaper_data_new (browser);
+	wallpaper_file = get_new_wallpaper_file_finish (res, error);
+	if (wallpaper_file == NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),  _("Could not set the desktop background"), *error);
+		g_clear_error (error);
+		return;
+	}
+
+	wdata = wallpaper_data_new (browser, wallpaper_file);
+	g_object_unref (wallpaper_file);
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
@@ -436,4 +527,13 @@ gth_browser_activate_set_desktop_background (GSimpleAction *action,
 
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
+}
+
+
+void
+gth_browser_activate_set_desktop_background (GSimpleAction *action,
+					     GVariant      *parameter,
+					     gpointer       user_data)
+{
+	get_new_wallpaper_file_async (NULL, wallpaper_file_read_cb, user_data);
 }

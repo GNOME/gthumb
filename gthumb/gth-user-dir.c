@@ -128,6 +128,24 @@ gth_user_dir_mkdir_with_parents (GthDir      dir_type,
 
 
 GFile *
+gth_user_dir_get_dir_for_write (GthDir      dir_type,
+			        const char *first_element,
+                                ...)
+{
+	va_list  var_args;
+	GFile   *file;
+
+	va_start (var_args, first_element);
+	file = _gth_user_dir_get_file_va_list (dir_type, first_element, var_args);
+	va_end (var_args);
+
+	_gth_user_dir_mkdir_with_parents (dir_type, file);
+
+	return file;
+}
+
+
+GFile *
 gth_user_dir_get_file_for_read (GthDir      dir_type,
 				const char *first_element,
 				...)
