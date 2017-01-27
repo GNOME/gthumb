@@ -393,8 +393,8 @@ ratio_combobox_changed_cb (GtkComboBox       *combobox,
 	self->priv->fixed_aspect_ratio = use_ratio;
 	self->priv->aspect_ratio = (double) w / h;
 	selection_width_value_changed_cb (GTK_SPIN_BUTTON (GET_WIDGET ("resize_width_spinbutton")), self);
-  if (!use_ratio)
-    selection_height_value_changed_cb (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), self);
+	if (! use_ratio)
+		selection_height_value_changed_cb (GTK_SPIN_BUTTON (GET_WIDGET ("resize_height_spinbutton")), self);
 }
 
 
