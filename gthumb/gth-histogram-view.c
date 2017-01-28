@@ -911,8 +911,8 @@ gth_histogram_view_init (GthHistogramView *self)
 			    CHANNEL_COLUMN_SENSITIVE, FALSE,
 			    -1);
 	gtk_list_store_append (channel_model, &iter);
-	/* Translators: RGB is an acronym for Red Green Blue */
 	gtk_list_store_set (channel_model, &iter,
+			    /* Translators: RGB is an acronym for Red Green Blue */
 			    CHANNEL_COLUMN_NAME, _("RGB"),
 			    CHANNEL_COLUMN_SENSITIVE, TRUE,
 			    -1);
