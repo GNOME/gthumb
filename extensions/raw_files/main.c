@@ -292,12 +292,16 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 							error);
 			break;
 		case LIBRAW_THUMBNAIL_BITMAP:
-			image = _libraw_read_bitmap_data (raw_data->thumbnail.twidth,
-							  raw_data->thumbnail.theight,
-							  raw_data->thumbnail.tcolors,
-							  8,
-							  (guchar *) raw_data->thumbnail.thumb,
-							  raw_data->thumbnail.tlength);
+			if ((raw_data->thumbnail.tcolors > 0) && (raw_data->thumbnail.tcolors <= 4)) {
+				image = _libraw_read_bitmap_data (raw_data->thumbnail.twidth,
+								  raw_data->thumbnail.theight,
+								  raw_data->thumbnail.tcolors,
+								  8,
+								  (guchar *) raw_data->thumbnail.thumb,
+								  raw_data->thumbnail.tlength);
+			}
+			else
+				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "Unsupported data format");
 			break;
 		default:
 			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA, "Unsupported data format");
