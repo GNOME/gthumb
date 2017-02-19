@@ -5324,8 +5324,8 @@ _gth_browser_setup_header_bar_button (GthBrowser			*browser,
 							action_name,
 							accelerator,
 							NULL);
-	gtk_widget_show (button);
 	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, section)), button, FALSE, FALSE, 0);
+	gtk_widget_show (button);
 }
 
 
