@@ -2071,6 +2071,8 @@ _gth_browser_close_final_step (gpointer user_data)
 		gtk_widget_destroy (browser->priv->progress_dialog);
 	}
 
+	g_settings_sync ();
+
 	gtk_widget_destroy (GTK_WIDGET (browser));
 }
 
