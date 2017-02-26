@@ -269,6 +269,7 @@ extensions/file_tools/callbacks.c
 extensions/file_tools/callbacks.h
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/adjust-contrast-options.ui
+[type: gettext/glade]extensions/file_tools/data/ui/color-picker-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/crop-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/curve-preset-editor.ui
 [type: gettext/glade]extensions/file_tools/data/ui/curves-options.ui
@@ -290,6 +291,8 @@ extensions/file_tools/gth-file-tool-adjust-colors.c
 extensions/file_tools/gth-file-tool-adjust-colors.h
 extensions/file_tools/gth-file-tool-adjust-contrast.c
 extensions/file_tools/gth-file-tool-adjust-contrast.h
+extensions/file_tools/gth-file-tool-color-picker.c
+extensions/file_tools/gth-file-tool-color-picker.h
 extensions/file_tools/gth-file-tool-crop.c
 extensions/file_tools/gth-file-tool-crop.h
 extensions/file_tools/gth-file-tool-curves.c
