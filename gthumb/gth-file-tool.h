@@ -74,6 +74,9 @@ const char *		gth_file_tool_get_icon_name		(GthFileTool		*self);
 void			gth_file_tool_activate			(GthFileTool		*self);
 void			gth_file_tool_cancel			(GthFileTool		*self);
 gboolean		gth_file_tool_is_cancelled		(GthFileTool		*self);
+void			gth_file_tool_set_zoomable		(GthFileTool		*self,
+								 gboolean		 zoomable);
+gboolean		gth_file_tool_get_zoomable		(GthFileTool		*self);
 void			gth_file_tool_update_sensitivity	(GthFileTool		*self);
 GtkWidget *		gth_file_tool_get_options		(GthFileTool		*self);
 const char *		gth_file_tool_get_options_title		(GthFileTool 		*self);

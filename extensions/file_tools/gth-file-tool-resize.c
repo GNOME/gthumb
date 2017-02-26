@@ -832,4 +832,5 @@ gth_file_tool_resize_init (GthFileToolResize *self)
 	self->priv->preview = NULL;
 	self->priv->new_image = NULL;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-resize-symbolic", _("Resize"), GTH_TOOLBOX_SECTION_FORMAT);
+	gth_file_tool_set_zoomable (GTH_FILE_TOOL (self), TRUE);
 }

@@ -921,14 +921,14 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 
 	self->priv->buttons[0] =
 			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_ZOOM,
 							   "view-zoom-original-symbolic",
 							   _("Set to actual size"),
 							   "win.image-zoom-100",
 							   NULL);
 	self->priv->buttons[1] =
 			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_ZOOM,
 							   "view-zoom-fit-symbolic",
 							   _("Fit to window if larger"),
 							   "win.image-zoom-fit-if-larger",
@@ -937,7 +937,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/image_viewer/data/ui/toolbar-zoom-menu.ui");
 	self->priv->buttons[ZOOM_BUTTON] =
 			gth_browser_add_header_bar_menu_button (browser,
-								GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+								GTH_BROWSER_HEADER_SECTION_VIEWER_ZOOM,
 								"view-zoom-in-symbolic",
 								NULL,
 								_gtk_builder_get_widget (self->priv->builder, "zoom_popover"));

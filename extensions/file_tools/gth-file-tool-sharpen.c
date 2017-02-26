@@ -435,4 +435,5 @@ gth_file_tool_sharpen_init (GthFileToolSharpen *self)
 				 "image-sharpen-symbolic",
 				 _("Enhance Focus"),
 				 GTH_TOOLBOX_SECTION_COLORS);
+	gth_file_tool_set_zoomable (GTH_FILE_TOOL (self), TRUE);
 }
