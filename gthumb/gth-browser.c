@@ -183,6 +183,7 @@ struct _GthBrowserPrivate {
 	GthICCProfile      screen_profile;
 	GtkTreePath       *folder_tree_last_dest_row; /* used to open a folder during D&D */
 	guint              folder_tree_open_folder_id;
+	GtkWidget         *apply_editor_changes_button;
 
 	/* settings */
 
@@ -2417,8 +2418,11 @@ _gth_browser_update_header_bar_content (GthBrowser *browser)
 		toolbox = gth_sidebar_get_toolbox (GTH_SIDEBAR (browser->priv->file_properties));
 		file_tool = gth_toolbox_get_active_tool (GTH_TOOLBOX (toolbox));
 		section_visible = gth_file_tool_get_zoomable (GTH_FILE_TOOL (file_tool));
+		gtk_button_set_label (GTK_BUTTON (browser->priv->apply_editor_changes_button),
+				      gth_file_tool_get_changes_image (GTH_FILE_TOOL (file_tool)) ? _("Accept") : _("_Close"));
 	}
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_ZOOM, section_visible);
+
 	gtk_widget_set_visible (browser->priv->menu_button, ! ((page == GTH_BROWSER_PAGE_VIEWER) && active_tool));
 
 	gth_browser_update_title (browser);
@@ -4608,6 +4612,7 @@ gth_browser_init (GthBrowser *browser)
 #ifdef GTK_STYLE_CLASS_SUGGESTED_ACTION
 		gtk_style_context_add_class (gtk_widget_get_style_context (button), GTK_STYLE_CLASS_SUGGESTED_ACTION);
 #endif
+		browser->priv->apply_editor_changes_button = button;
 	}
 
 	/* fullscreen toolbar */
@@ -5375,6 +5380,7 @@ gth_browser_add_header_bar_label_button (GthBrowser			*browser,
 	g_return_val_if_fail (label != NULL, NULL);
 
 	button = gtk_button_new_with_label (label);
+	gtk_button_set_use_underline (GTK_BUTTON (button), TRUE);
 	_gth_browser_setup_header_bar_button (browser, section, tooltip, action_name, accelerator, button);
 
 	return button;

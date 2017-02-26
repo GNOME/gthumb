@@ -40,6 +40,7 @@ struct _GthFileToolPrivate {
 	GthToolboxSection	 section;
 	gboolean		 cancelled;
 	gboolean                 zoomable;
+	gboolean                 changes_image;
 };
 
 
@@ -154,6 +155,7 @@ gth_file_tool_init (GthFileTool *self)
 	self->priv->options_title = NULL;
 	self->priv->cancelled = FALSE;
 	self->priv->zoomable = FALSE;
+	self->priv->changes_image = TRUE;
 	self->priv->section = GTH_TOOLBOX_SECTION_COLORS;
 
 	/*gtk_button_set_relief (GTK_BUTTON (self), GTK_RELIEF_NONE);*/
@@ -244,6 +246,21 @@ gboolean
 gth_file_tool_get_zoomable (GthFileTool *self)
 {
 	return self->priv->zoomable;
+}
+
+
+void
+gth_file_tool_set_changes_image (GthFileTool *self,
+				 gboolean     value)
+{
+	self->priv->changes_image = value;
+}
+
+
+gboolean
+gth_file_tool_get_changes_image (GthFileTool *self)
+{
+	return self->priv->changes_image;
 }
 
 
