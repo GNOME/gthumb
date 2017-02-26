@@ -149,7 +149,6 @@ _gth_window_add_header_bar (GthWindow *self)
 
 	g_object_add_weak_pointer (G_OBJECT (self->priv->headerbar), (gpointer *) &self->priv->headerbar);
 
-#if GTK_CHECK_VERSION(3,12,0)
 	{
 		gboolean  shell_shows_app_menu;
 		char     *decoration_layout;
@@ -173,7 +172,6 @@ _gth_window_add_header_bar (GthWindow *self)
 
 		g_free (decoration_layout);
 	}
-#endif
 
 	self->priv->title = gth_window_title_new ();
 	gtk_widget_show (self->priv->title);
