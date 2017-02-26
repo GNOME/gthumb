@@ -17,6 +17,7 @@ HEADER_FILES = 					\
 	gth-curve-preset-editor-dialog.h	\
 	gth-file-tool-adjust-colors.h		\
 	gth-file-tool-adjust-contrast.h		\
+	gth-file-tool-color-picker.h		\
 	gth-file-tool-crop.h			\
 	gth-file-tool-curves.h			\
 	gth-file-tool-effects.h			\
@@ -74,6 +75,7 @@ libfile_tools_la_SOURCES = 			\
 	gth-curve-preset-editor-dialog.c	\
 	gth-file-tool-adjust-colors.c		\
 	gth-file-tool-adjust-contrast.c		\
+	gth-file-tool-color-picker.c		\
 	gth-file-tool-crop.c			\
 	gth-file-tool-curves.c			\
 	gth-file-tool-effects.c			\

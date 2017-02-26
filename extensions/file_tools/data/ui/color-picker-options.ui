@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.20.0 -->
 <interface>
-  <requires lib="gtk+" version="3.0"/>
+  <requires lib="gtk+" version="3.12"/>
   <object class="GtkAdjustment" id="x_adjustment">
     <property name="upper">10000</property>
     <property name="step_increment">1</property>
@@ -13,15 +13,18 @@
   <object class="GtkAlignment" id="options">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="border_width">12</property>
     <child>
-      <object class="GtkVBox" id="vbox2">
+      <object class="GtkBox" id="vbox2">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">12</property>
         <child>
-          <object class="GtkVBox" id="vbox1">
+          <object class="GtkBox" id="vbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="border_width">12</property>
+            <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkBox" id="box1">
@@ -33,8 +36,8 @@
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="halign">start</property>
                     <property name="label" translatable="yes">Position</property>
-                    <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -84,7 +87,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="hbox5">
+                      <object class="GtkBox" id="hbox5">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
@@ -110,7 +113,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="hbox6">
+                      <object class="GtkBox" id="hbox6">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
@@ -156,6 +159,92 @@
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="color_section">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Color</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkColorButton" id="color_chooser">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_alpha">True</property>
+                <property name="title" translatable="yes"/>
+                <property name="show_editor">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="hex_color">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="secondary_icon_name">edit-copy-symbolic</property>
+                <property name="secondary_icon_tooltip_text" translatable="yes">Copy</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="rgb_color">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="secondary_icon_name">edit-copy-symbolic</property>
+                <property name="secondary_icon_tooltip_text" translatable="yes">Copy</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkLabel" id="alpha_color">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="selectable">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>

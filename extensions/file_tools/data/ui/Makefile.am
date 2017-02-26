@@ -2,6 +2,7 @@ uidir = $(pkgdatadir)/ui
 ui_DATA = 				\
 	adjust-colors-options.ui 	\
 	adjust-contrast-options.ui 	\
+	color-picker-options.ui		\
 	crop-options.ui			\
 	curve-preset-editor.ui		\
 	curves-options.ui		\

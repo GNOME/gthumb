@@ -17,6 +17,7 @@ icons_DATA = 					\
 	emblem-flag-red.svg			\
 	emblem-flag-symbolic.svg		\
 	export-symbolic.svg			\
+	eyedropper-symbolic.svg			\
 	file-catalog-symbolic.svg		\
 	file-library-symbolic.svg		\
 	file-search-symbolic.svg		\

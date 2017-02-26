@@ -21,11 +21,13 @@
 
 
 #include <config.h>
+#include <gth-file-tool-color-picker.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "callbacks.h"
 #include "gth-file-tool-adjust-colors.h"
 #include "gth-file-tool-adjust-contrast.h"
+#include "gth-file-tool-color-picker.h"
 #include "gth-file-tool-crop.h"
 #include "gth-file-tool-curves.h"
 #include "gth-file-tool-effects.h"
@@ -61,6 +63,7 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_GRAYSCALE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CURVES);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_EFFECTS);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_COLOR_PICKER);
 
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE_LEFT);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE_RIGHT);
