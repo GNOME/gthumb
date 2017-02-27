@@ -1,3 +1,120 @@
+version 3.5.1
+-------------
+
+ New features and user visible changes:
+
+  * Added support for double click activation.
+  * Added option to open files in fullscreen mode.
+  * Added a zoom popover with various zoom commands and a zoom slider.
+  * Added a color picker.
+  * All dialogs: use the headerbar if supported by the desktop environment
+    (if 'gtk-dialogs-use-header' is set).
+  * App menu: added 'keyboard shortcuts'.
+  * Tag filter: added ability to filter using a regular expression.
+  * Sort catalogs by name, then by date.
+  * Gif animations: allow to pause and view the next frame.
+  * Added the control-o accelerator to open the location dialog.
+  * Keep the zoom buttons on the headerbar if the tool allow to zoom the image.
+  * Added a fullscreen button to the headerbar in viewer mode.
+  * Find duplicates: speed optimizations.
+  * New folder: open the folder after creating it.
+  * Hide the image frame when in fullscreen mode.
+  * Moved the photo importer preferences to the extension section.
+  * Find duplicates: more responsive when the duplicate list is huge.
+  * Added support for image/x-fuji-raf raw files. (Michael J. Chudobiak) (#709385)
+  * Fixed RTL icons and arrow rendering. (Michael J. Chudobiak) (#747380)
+
+ Bugs fixed:
+
+  * Ensure the settings have been saved before exiting.
+  * Desktop background: always create a unique filename to force an update.
+  * Desktop background: fixed error when setting an xcf image as background.
+  * Resize: fixed wrong aspect ratio after opening. (Vaclav Brozek)
+  * Slideshow: start on the same monitor of the window.
+  * Sizing issues in gthumb preferences under gtk+ git master. (#770546)
+  * Adjust contrast: better description of the stretch method (#767615)
+  * Removed deprecated gnome-common macros (#768528)
+  * Fixed scrollbars resetting their position when changing image.
+  * Fixed theme errors with gtk+ 3.20.
+  * Do not show rotation tools for animations.
+  * Crash after pressing shift-arrow. (#760050)
+  * Stopping slideshow freezes entire program. (#759787)
+  * Disambiguate labels of various metadata "date" fields. (#728471)
+  * Crash if trying to delete image on sftp mounted. (#759727)
+  * Crash when deleting duplicate. (#750142)
+  * Various minor typos fixed. (Michael J. Chudobiak) (#756486)
+
+ New or updated application translations:
+
+  * Albanian (Laurent Dhima)
+  * Amharic (Ge'ez Frontier Foundation)
+  * Arabeyes (Djihed Afifi)
+  * Azerbaijani (Metin Amiroff)
+  * Brazilian Portuguese (Rafael Fontenelle)
+  * Bulgarian (Julia Velkova)
+  * Canadian English (Adam Weinberger)
+  * catalan (Jordi Mas)
+  * catalan (Sílvia Miranda)
+  * Chinese (Hong Kong) (taijuin)
+  * Chinese (simplified) (tuhaihe)
+  * Chinese/Traditional (Cheng-Chia Tseng)
+  * Croatian (gogo)
+  * Danish (Ask Hjorth Larsen)
+  * Deutsch (Wolfgang Stoeggl)
+  * Dzongkha (sonam pelden)
+  * English/GB (David Lodge)
+  * es (Daniel Mustieles)
+  * Esperanto (Kristjan SCHMIDT)
+  * French (Claude Paroz)
+  * Galego (Francisco Diéguez)
+  * Gujarati (Sweta Kothari)
+  * Hindi (Rajesh Ranjan)
+  * Hungarian (Balázs Úr)
+  * Icelandic (Sveinn í Felli)
+  * Indonesian (Andika Triwidada)
+  * Irish (Alastair McKinstry)
+  * Italiano (Gianvito Cavasoli)
+  * Kannada (Shankar Prasad)
+  * Kinyarwanda (Steve Murphy)
+  * Korea (Young-Ho Cha)
+  * Latvian (Rūdolfs Mazurs)
+  * Lietuvių (Aurimas Černius)
+  * Low German (Nils-Christoph Fiedler)
+  * Macedonian (Arangel Angov)
+  * Malay (Hasbullah Bin Pit)
+  * Malayalam (FSF-India)
+  * Nepali (Shyam Krishna Bal)
+  * Norwegian Nynorsk (Åsmund Skjæveland)
+  * Norwegian/Bokmaal (Kjartan Maraas)
+  * Occitan (Yannig Marchegay (Kokoyaya))
+  * Pashto (Zabeeh Khan)
+  * Persian (Meelad Zakaria)
+  * Polish (Piotr Drąg)
+  * Português (Pedro Albuquerque)
+  * Punjabi/Panjabi (A S Alam)
+  * Romanian (Adi Roiban)
+  * Slovak (Peter Tuhársky)
+  * Slovenian (Matej Urbančič)
+  * srpski (Miroslav Nikolić)
+  * Swedish (Anders Jonsson)
+  * Thai (Sira Nokyoongtong)
+  * Turkish (Simge Sezgin)
+  * Ukrainian (Maxim Dziumanenko)
+  * Vietnamese (Clytie Siddall)
+  * Xhosa (Canonical Ltd)
+  * čeština (Marek Černocký)
+  * Русский (Yuri Myasoedov)
+  * српски (Мирослав Николић)
+  * עברית (Yosef Or Boczko)
+
+ New or updated manual translations:
+
+  * Czech (Marek Černocký)
+  * Deutsch (Christian Kirbach)
+  * Español; Castellano (Daniel Mustieles)
+  * Hungarian (Balázs Úr)
+  * Swedish (Anders Jonsson)
+
 version 3.4.1
 -------------
 
