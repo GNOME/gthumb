@@ -2,15 +2,15 @@
 # Copyright (C) 2004 THE gthumb'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 # Abdul Hamid.A.N <hameed@linuxmail.org>, 2004.
-# Andika Triwidada <andika@gmail.com>, 2010, 2011, 2012, 2013, 2014.
+# Andika Triwidada <andika@gmail.com>, 2010-2014, 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-01-28 00:07+0000\n"
-"PO-Revision-Date: 2017-02-18 15:02+0700\n"
+"POT-Creation-Date: 2017-03-10 11:28+0000\n"
+"PO-Revision-Date: 2017-03-20 01:50+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "Language: id\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:1
 msgid ""
@@ -78,7 +78,7 @@ msgstr ""
 
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-application.c:135
-#: ../gthumb/gth-browser.c:392 ../gthumb/gth-progress-dialog.c:411
+#: ../gthumb/gth-browser.c:393 ../gthumb/gth-progress-dialog.c:411
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -765,7 +765,7 @@ msgstr "Ganti nama"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/dlg-catalog-properties.c:201
-#: ../gthumb/gth-browser.c:4566 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4567 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Tag (tertanam)"
 
@@ -1917,7 +1917,7 @@ msgstr "Tak bisa mengekspor berkas"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:627
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:620
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:828
+#: ../gthumb/gth-browser.c:829
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2044,7 +2044,9 @@ msgstr ""
 #: ../extensions/file_manager/actions.c:413
 #: ../extensions/file_manager/actions.c:664
 #: ../extensions/file_manager/callbacks.c:70
-#: ../extensions/file_manager/callbacks.c:99 ../gthumb/gtk-utils.h:38
+#: ../extensions/file_manager/callbacks.c:99
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:5
+#: ../gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Salin"
 
@@ -2141,7 +2143,7 @@ msgstr "_Salin"
 
 #: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:788
-#: ../gthumb/gth-browser.c:5561 ../gthumb/gth-browser.c:5597
+#: ../gthumb/gth-browser.c:5564 ../gthumb/gth-browser.c:5600
 #: ../gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "Operasi tidak dapat dilakukan"
@@ -2192,6 +2194,25 @@ msgstr "_Kuning-Biru:"
 msgid "Color Levels"
 msgstr "Tingkatan Warna"
 
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:1
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
+msgid "Position"
+msgstr "Posisi"
+
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:2
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
+msgid "_X:"
+msgstr "_X:"
+
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:3
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:4
+msgid "Color"
+msgstr "Warna"
+
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:1
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
@@ -2207,7 +2228,6 @@ msgid "_Grid:"
 msgstr "_Kisi:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:3
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Selection"
 msgstr "Pilihan"
 
@@ -2503,6 +2523,14 @@ msgstr "Atur Kontras"
 msgid "Automatic contrast adjustment"
 msgstr "Pengaturan kontras otomatis"
 
+#: ../extensions/file_tools/gth-file-tool-color-picker.c:247
+msgid "Color Picker"
+msgstr "Pemilih Warna"
+
+#: ../extensions/file_tools/gth-file-tool-color-picker.c:250
+msgid "Pick a color from the image"
+msgstr "Pilih sebuah warna dari gambar"
+
 #: ../extensions/file_tools/gth-file-tool-crop.c:434
 #: ../extensions/file_tools/gth-file-tool-resize.c:581
 msgid "Square"
@@ -2598,7 +2626,7 @@ msgstr "Masukkan nama pratata: "
 #: ../extensions/file_tools/gth-file-tool-curves.c:530
 #: ../extensions/gstreamer_tools/actions.c:69
 #: ../extensions/image_viewer/gth-image-viewer-page.c:1418
-#: ../gthumb/gth-browser.c:1892
+#: ../gthumb/gth-browser.c:1893
 msgid "Could not save the file"
 msgstr "Tak bisa menyimpan berkas"
 
@@ -3913,7 +3941,7 @@ msgid "(Empty)"
 msgstr "(Kosong)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1803
+#: ../gthumb/gth-browser.c:1804
 msgid "Getting the folder content…"
 msgstr "Mengambil isi folder…"
 
@@ -3982,14 +4010,6 @@ msgstr "Dukungan format mentah"
 #: ../extensions/raw_files/raw_files.extension.in.in.h:2
 msgid "Allow to load raw format images."
 msgstr "Ijinkan memuat gambar format mentah."
-
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
-msgid "_X:"
-msgstr "_X:"
-
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
-msgid "_Y:"
-msgstr "_Y:"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
 msgid "Red Eye Removal"
@@ -4550,9 +4570,9 @@ msgstr "Album Web"
 msgid "Create static web albums."
 msgstr "Buat album web statik."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1108
-#: ../gthumb/gth-browser.c:1683 ../gthumb/gth-browser.c:6556
-#: ../gthumb/gth-browser.c:6575 ../gthumb/gth-browser.c:6599
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1109
+#: ../gthumb/gth-browser.c:1684 ../gthumb/gth-browser.c:6559
+#: ../gthumb/gth-browser.c:6578 ../gthumb/gth-browser.c:6602
 #, c-format
 msgid "Could not load the position \"%s\""
 msgstr "Tidak dapat memuat posisi \"%s\""
@@ -4769,85 +4789,89 @@ msgstr "Sebuah penampil dan browser gambar untuk GNOME"
 msgid "translator-credits"
 msgstr ""
 "Abdul Hamid.A.N <hameed@linuxmail.org>, 2004.\n"
-"Andika Triwidada <andika@gmail.com>, 2010-2014, 2016."
+"Andika Triwidada <andika@gmail.com>, 2010-2014, 2016, 2017."
 
-#: ../gthumb/gth-browser.c:377
+#: ../gthumb/gth-browser.c:378
 msgid "[modified]"
 msgstr "[diubah]"
 
-#: ../gthumb/gth-browser.c:829
+#: ../gthumb/gth-browser.c:830
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d berkas dipilih (%s)"
 
-#: ../gthumb/gth-browser.c:864
+#: ../gthumb/gth-browser.c:865
 #, c-format
 msgid "%s of free space"
 msgstr "%s dari ruang bebas"
 
-#: ../gthumb/gth-browser.c:1787 ../gthumb/gth-browser.c:1814
+#: ../gthumb/gth-browser.c:1788 ../gthumb/gth-browser.c:1815
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Tak ditemukan modul yang cocok bagi %s"
 
-#: ../gthumb/gth-browser.c:1936
+#: ../gthumb/gth-browser.c:1937
 #, c-format
 msgid "Save changes to file '%s'?"
 msgstr "Simpan perubahan ke berkas '%s'?"
 
-#: ../gthumb/gth-browser.c:1941
+#: ../gthumb/gth-browser.c:1942
 msgid "If you don't save, changes to the file will be permanently lost."
 msgstr "Bila Anda tidak menyimpan, perubahan ke berkas akan hilang selamanya."
 
-#: ../gthumb/gth-browser.c:1942
+#: ../gthumb/gth-browser.c:1943
 msgid "Do _Not Save"
 msgstr "Janga_n Simpan"
 
-#: ../gthumb/gth-browser.c:3009 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2422 ../gthumb/gth-browser.c:4608
+msgid "Accept"
+msgstr "Terima"
+
+#: ../gthumb/gth-browser.c:2422 ../gthumb/gtk-utils.h:37
+msgid "_Close"
+msgstr "_Tutup"
+
+#: ../gthumb/gth-browser.c:3025 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Tidak dapat mengubah nama"
 
-#: ../gthumb/gth-browser.c:3462
+#: ../gthumb/gth-browser.c:3478
 msgid "Modified"
 msgstr "Diubah"
 
-#: ../gthumb/gth-browser.c:4529
+#: ../gthumb/gth-browser.c:4530
 msgid "Go to the previous visited location"
 msgstr "Pergi ke lokasi sebelumnya yang telah dikunjungi"
 
-#: ../gthumb/gth-browser.c:4535
+#: ../gthumb/gth-browser.c:4536
 msgid "Go to the next visited location"
 msgstr "Pergi ke lokasi selanjutnya yang telah dikunjungi"
 
-#: ../gthumb/gth-browser.c:4543
+#: ../gthumb/gth-browser.c:4544
 msgid "History"
 msgstr "Riwayat"
 
-#: ../gthumb/gth-browser.c:4557
+#: ../gthumb/gth-browser.c:4558
 msgid "View the folders"
 msgstr "Tampilkan folder"
 
-#: ../gthumb/gth-browser.c:4572
+#: ../gthumb/gth-browser.c:4573
 msgid "Edit file"
 msgstr "Sunting berkas"
 
-#: ../gthumb/gth-browser.c:4581 ../gthumb/gth-browser.c:4599
+#: ../gthumb/gth-browser.c:4582 ../gthumb/gth-browser.c:4600
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Layar Penuh"
 
-#: ../gthumb/gth-browser.c:4607
-msgid "Accept"
-msgstr "Terima"
-
-#: ../gthumb/gth-browser.c:6557
+#: ../gthumb/gth-browser.c:6560
 #, c-format
 msgid "File type not supported"
 msgstr "Jenis berkas tidak didukung"
 
-#: ../gthumb/gth-browser.c:6600
+#: ../gthumb/gth-browser.c:6603
 #, c-format
 msgid "No suitable module found"
 msgstr "Tak ditemukan modul yang cocok"
@@ -5315,10 +5339,6 @@ msgstr "Batal"
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: ../gthumb/gtk-utils.h:37
-msgid "_Close"
-msgstr "_Tutup"
-
 #: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:4
 msgid "_Help"
 msgstr "_Bantuan"
@@ -5390,15 +5410,3 @@ msgstr "Berkas Tersembunyi"
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
 msgstr "Hap_us History"
-
-#~ msgid "Organizing files"
-#~ msgstr "Mengatur berkas"
-
-#~ msgid "Search for Duplicates"
-#~ msgstr "Cari Duplikat"
-
-#~ msgid "Personalize..."
-#~ msgstr "Personalisasikan..."
-
-#~ msgid "Loading..."
-#~ msgstr "Sedang membuka..."
