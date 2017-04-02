@@ -35,6 +35,8 @@
 #define OVERLAY_MARGIN 10
 #define APPLY_ICC_PROFILE_BUTTON 4
 #undef ALWAYS_LOAD_ORIGINAL_SIZE
+#define N_FORWARD_PRELOADERS 2
+#define N_BACKWARD_PRELOADERS 2
 
 
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
@@ -100,6 +102,8 @@ struct _GthImageViewerPagePrivate {
 	gboolean           pointer_on_overview;
 	guint              hide_overview_id;
 	gboolean           apply_icc_profile;
+	GthFileData       *next_file_data[N_FORWARD_PRELOADERS];
+	GthFileData       *prev_file_data[N_BACKWARD_PRELOADERS];
 };
 
 
@@ -289,12 +293,29 @@ _g_mime_type_can_load_different_quality (const char *mime_type)
 
 
 static void
-_gth_image_preloader_init_preloader (GthImageViewerPage *self)
+_gth_image_viewer_page_load_with_preloader (GthImageViewerPage  *self,
+					    GthFileData         *file_data,
+					    int                  requested_size,
+					    GCancellable        *cancellable,
+					    GAsyncReadyCallback  callback,
+					    gpointer		 user_data)
 {
 	if (self->priv->apply_icc_profile)
 		gth_image_preloader_set_out_profile (self->priv->preloader, gth_browser_get_screen_profile (self->priv->browser));
 	else
 		gth_image_preloader_set_out_profile (self->priv->preloader, NULL);
+
+	gth_image_preloader_load (self->priv->preloader,
+				  file_data,
+				  requested_size,
+				  cancellable,
+				  callback,
+				  user_data,
+				  N_FORWARD_PRELOADERS + N_BACKWARD_PRELOADERS,
+				  self->priv->next_file_data[0],
+				  self->priv->next_file_data[1],
+				  self->priv->prev_file_data[0],
+				  self->priv->prev_file_data[1]);
 }
 
 
@@ -314,15 +335,12 @@ update_quality_cb (gpointer user_data)
 	if (! self->priv->image_changed && ! _g_mime_type_can_load_different_quality (gth_file_data_get_mime_type (self->priv->file_data)))
 		return FALSE;
 
-	_gth_image_preloader_init_preloader (self);
-	gth_image_preloader_load (self->priv->preloader,
-				  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
-				  _gth_image_preloader_get_requested_size_for_current_image (self),
-				  NULL,
-				  different_quality_ready_cb,
-				  self,
-				  GTH_NO_PRELOADERS,
-				  NULL);
+	_gth_image_viewer_page_load_with_preloader (self,
+						    self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
+						    _gth_image_preloader_get_requested_size_for_current_image (self),
+						    NULL,
+						    different_quality_ready_cb,
+						    self);
 
 	return FALSE;
 }
@@ -1090,10 +1108,6 @@ clear_data:
 }
 
 
-#define N_FORWARD_PRELOADERS 2
-#define N_BACKWARD_PRELOADERS 2
-
-
 static void
 _gth_image_viewer_page_load (GthImageViewerPage *self,
 		             GthFileData        *file_data)
@@ -1101,8 +1115,6 @@ _gth_image_viewer_page_load (GthImageViewerPage *self,
 	GthFileStore *file_store;
 	GtkTreeIter   iter;
 	int           i;
-	GthFileData  *next_file_data[N_FORWARD_PRELOADERS];
-	GthFileData  *prev_file_data[N_BACKWARD_PRELOADERS];
 
 	if (self->priv->file_data != file_data) {
 		_g_object_unref (self->priv->file_data);
@@ -1112,9 +1124,9 @@ _gth_image_viewer_page_load (GthImageViewerPage *self,
 	self->priv->loading_image = TRUE;
 
 	for (i = 0; i < N_FORWARD_PRELOADERS; i++)
-		next_file_data[i] = NULL;
+		_g_clear_object (&self->priv->next_file_data[i]);
 	for (i = 0; i < N_BACKWARD_PRELOADERS; i++)
-		prev_file_data[i] = NULL;
+		_g_clear_object (&self->priv->prev_file_data[i]);
 
 	file_store = gth_browser_get_file_store (self->priv->browser);
 	if (gth_file_store_find_visible (file_store, self->priv->file_data->file, &iter)) {
@@ -1124,36 +1136,29 @@ _gth_image_viewer_page_load (GthImageViewerPage *self,
 		for (i = 0; i < N_FORWARD_PRELOADERS; i++) {
 			if (! gth_file_store_get_next_visible (file_store, &next_iter))
 				break;
-			next_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
+			self->priv->next_file_data[i] = g_object_ref (gth_file_store_get_file (file_store, &next_iter));
 		}
 
 		next_iter = iter;
 		for (i = 0; i < N_BACKWARD_PRELOADERS; i++) {
 			if (! gth_file_store_get_prev_visible (file_store, &next_iter))
 				break;
-			prev_file_data[i] = gth_file_store_get_file (file_store, &next_iter);
+			self->priv->prev_file_data[i] = g_object_ref (gth_file_store_get_file (file_store, &next_iter));
 		}
 
 		gth_image_viewer_set_void (GTH_IMAGE_VIEWER (self->priv->viewer));
 	}
 
-	_gth_image_preloader_init_preloader (self);
-	gth_image_preloader_load (self->priv->preloader,
-				  self->priv->file_data,
+	_gth_image_viewer_page_load_with_preloader (self,
+						    self->priv->file_data,
 #ifdef ALWAYS_LOAD_ORIGINAL_SIZE
-				  GTH_ORIGINAL_SIZE,
+						    GTH_ORIGINAL_SIZE,
 #else
-				  _gth_image_preloader_get_requested_size_for_next_images (self),
+						    _gth_image_preloader_get_requested_size_for_next_images (self),
 #endif
-				  NULL,
-				  preloader_load_ready_cb,
-				  self,
-				  N_FORWARD_PRELOADERS + N_BACKWARD_PRELOADERS,
-				  next_file_data[0],
-				  next_file_data[1],
-				  prev_file_data[0],
-				  prev_file_data[1]);
-
+						    NULL,
+						    preloader_load_ready_cb,
+						    self);
 }
 
 
@@ -1615,6 +1620,7 @@ static void
 gth_image_viewer_page_finalize (GObject *obj)
 {
 	GthImageViewerPage *self;
+	int                 i;
 
 	self = GTH_IMAGE_VIEWER_PAGE (obj);
 
@@ -1635,6 +1641,11 @@ gth_image_viewer_page_finalize (GObject *obj)
 	g_object_unref (self->priv->history);
 	_g_object_unref (self->priv->file_data);
 	_g_object_unref (self->priv->last_loaded);
+
+	for (i = 0; i < N_FORWARD_PRELOADERS; i++)
+		_g_clear_object (&self->priv->next_file_data[i]);
+	for (i = 0; i < N_BACKWARD_PRELOADERS; i++)
+		_g_clear_object (&self->priv->prev_file_data[i]);
 
 	G_OBJECT_CLASS (gth_image_viewer_page_parent_class)->finalize (obj);
 }
@@ -1695,6 +1706,11 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->pointer_on_viewer = FALSE;
 	self->priv->hide_overview_id = 0;
 	self->priv->apply_icc_profile = TRUE;
+
+	for (i = 0; i < N_FORWARD_PRELOADERS; i++)
+		self->priv->next_file_data[i] = NULL;
+	for (i = 0; i < N_BACKWARD_PRELOADERS; i++)
+		self->priv->prev_file_data[i] = NULL;
 }
 
 
@@ -1974,15 +1990,25 @@ gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
 						  gth_image_viewer_page_get_original);
 	data->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
 
-	_gth_image_preloader_init_preloader (self);
-	gth_image_preloader_load (self->priv->preloader,
-				  self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
-				  GTH_ORIGINAL_SIZE,
-				  data->cancellable,
-				  original_image_ready_cb,
-				  data,
-				  GTH_NO_PRELOADERS,
-				  NULL);
+	if (gth_image_viewer_is_animation (GTH_IMAGE_VIEWER (self->priv->viewer))) {
+		GthImage *image;
+
+		image = gth_image_new_for_surface (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)));
+		g_simple_async_result_set_op_res_gpointer (data->result,
+							   image,
+							   (GDestroyNotify) g_object_unref);
+		g_simple_async_result_complete_in_idle (data->result);
+
+		get_original_data_free (data);
+	}
+	else {
+		_gth_image_viewer_page_load_with_preloader (self,
+							    self->priv->image_changed ? GTH_MODIFIED_IMAGE : self->priv->file_data,
+							    GTH_ORIGINAL_SIZE,
+							    data->cancellable,
+							    original_image_ready_cb,
+							    data);
+	}
 }
 
 
