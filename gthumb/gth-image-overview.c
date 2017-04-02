@@ -61,6 +61,7 @@ struct _GthImageOverviewPrivate {
 	gboolean		 update_preview;
 	GdkDevice		*grab_pointer;
 	GdkDevice		*grab_keyboard;
+	GthTask                 *scale_task;
 };
 
 
@@ -119,7 +120,9 @@ gth_image_overview_finalize (GObject *object)
 	self = GTH_IMAGE_OVERVIEW (object);
 
 	_gth_image_overviewer_disconnect_from_viewer (self);
-	cairo_surface_destroy (self->priv->preview);
+	_cairo_clear_surface (&self->priv->preview);
+	if (self->priv->scale_task != NULL)
+		gth_task_cancel (self->priv->scale_task);
 
 	G_OBJECT_CLASS (gth_image_overview_parent_class)->finalize (object);
 }
@@ -160,10 +163,75 @@ _gth_image_overview_update_zoom_info (GthImageOverview *self)
 }
 
 
+/* -- _gth_image_overview_update_preview -- */
+
+
+typedef struct {
+	GthImageOverview *overview;
+	cairo_surface_t  *scaled;
+} ScaleData;
+
+
+static void
+scale_data_free (ScaleData *scale_data)
+{
+	if (scale_data == NULL)
+		return;
+	cairo_surface_destroy (scale_data->scaled);
+	g_object_unref (scale_data->overview);
+	g_free (scale_data);
+}
+
+
+static gpointer
+_gth_image_overview_scale_exec (GthAsyncTask *task,
+			        gpointer      user_data)
+{
+	ScaleData        *scale_data = user_data;
+	GthImageOverview *overview = scale_data->overview;
+	cairo_surface_t  *image;
+
+	_gth_image_overview_update_zoom_info (overview);
+	image = gth_image_viewer_get_current_image (scale_data->overview->priv->viewer);
+	if (image != NULL)
+		scale_data->scaled = _cairo_image_surface_scale (image,
+								 overview->priv->preview_area.width,
+								 overview->priv->preview_area.height,
+								 SCALE_FILTER_GOOD,
+								 task);
+
+	return NULL;
+}
+
+
+static void
+_gth_image_overview_scale_after (GthAsyncTask *task,
+				 GError       *error,
+				 gpointer      user_data)
+{
+	ScaleData *scale_data = user_data;
+
+	if (error == NULL) {
+		GthImageOverview *overview = scale_data->overview;
+
+		_cairo_clear_surface (&overview->priv->preview);
+		if (scale_data->scaled != NULL)
+			overview->priv->preview = cairo_surface_reference (scale_data->scaled);
+		gtk_widget_queue_resize (GTK_WIDGET (overview));
+
+		if (GTH_TASK (task) == overview->priv->scale_task)
+			overview->priv->scale_task = NULL;
+	}
+
+	g_object_unref (task);
+}
+
+
 static void
 _gth_image_overview_update_preview (GthImageOverview *self)
 {
-	cairo_surface_t  *image;
+	cairo_surface_t *image;
+	ScaleData       *scale_data;
 
 	if (self->priv->viewer == NULL)
 		return;
@@ -175,22 +243,31 @@ _gth_image_overview_update_preview (GthImageOverview *self)
 
 	cairo_surface_destroy (self->priv->preview);
 	self->priv->preview = NULL;
+	self->priv->preview_width = 50;
+	self->priv->preview_height = 50;
+	self->priv->visible_area.width = 0;
+	self->priv->visible_area.height = 0;
 
 	image = gth_image_viewer_get_current_image (self->priv->viewer);
 	if (image == NULL) {
-		self->priv->preview_width = 0;
-		self->priv->preview_height = 0;
-		self->priv->visible_area.width = 0;
-		self->priv->visible_area.height = 0;
 		gtk_widget_queue_draw (GTK_WIDGET (self));
-
 		return;
 	}
 
-	_gth_image_overview_update_zoom_info (self);
-	self->priv->preview = _cairo_image_surface_scale_fast (image,
-							       self->priv->preview_area.width,
-							       self->priv->preview_area.height);
+	/* queue scale task */
+
+	if (self->priv->scale_task != NULL)
+		gth_task_cancel (self->priv->scale_task);
+
+	scale_data = g_new0 (ScaleData, 1);
+	scale_data->overview = g_object_ref (self);
+
+	self->priv->scale_task = gth_async_task_new (NULL,
+						     _gth_image_overview_scale_exec,
+						     _gth_image_overview_scale_after,
+						     scale_data,
+						     (GDestroyNotify) scale_data_free);
+	gth_task_exec (self->priv->scale_task, NULL);
 }
 
 
@@ -699,6 +776,7 @@ gth_image_overview_init (GthImageOverview *self)
 	self->priv->update_preview = TRUE;
 	self->priv->grab_pointer = NULL;
 	self->priv->grab_keyboard = NULL;
+	self->priv->scale_task = NULL;
 
 	gtk_widget_set_has_window (GTK_WIDGET (self), TRUE);
 	gtk_widget_set_can_focus (GTK_WIDGET (self), FALSE);
