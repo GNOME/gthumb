@@ -6440,7 +6440,7 @@ gth_browser_load_file (GthBrowser  *browser,
 		       GthFileData *file_data,
 		       gboolean     view)
 {
-	_gth_browser_load_file_keep_view (browser, file_data, view, FALSE);
+	_gth_browser_load_file_keep_view (browser, file_data, view, view);
 }
 
 
