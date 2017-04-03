@@ -461,7 +461,7 @@ static void
 _gth_image_preloader_add_to_cache (GthImagePreloader *self,
 				   CacheData         *cache_data)
 {
-	if (g_queue_get_length (self->priv->cache) > CACHE_MAX_SIZE) {
+	while (g_queue_get_length (self->priv->cache) >= CACHE_MAX_SIZE) {
 		CacheData *oldest = g_queue_pop_tail (self->priv->cache);
 		cache_data_unref (oldest);
 	}
