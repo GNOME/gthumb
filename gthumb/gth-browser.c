@@ -2581,6 +2581,7 @@ gth_browser_finalize (GObject *object)
 {
 	GthBrowser *browser = GTH_BROWSER (object);
 
+	g_list_free (browser->priv->fixed_viewer_controls);
 	g_hash_table_destroy (browser->priv->menu_managers);
 	browser_state_free (&browser->priv->state);
 	_g_object_unref (browser->priv->browser_settings);
@@ -2748,20 +2749,21 @@ folder_tree_drag_motion_cb (GtkWidget      *file_view,
 	/* use COPY if dropping a file in a catalog */
 
 	if (action == GDK_ACTION_MOVE) {
-		GthFileData   *destination;
-		GthFileSource *file_source;
+		GthFileData *destination;
 
 		destination = gth_folder_tree_get_file (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
 		if (destination != NULL) {
-			file_source = gth_main_get_file_source (destination->file);
-			_g_object_unref (destination);
+			GthFileSource *file_source = gth_main_get_file_source (destination->file);
 
+			_g_object_unref (destination);
 			if (file_source != NULL) {
 				if (gth_file_source_is_reorderable (file_source))
 					action = GDK_ACTION_COPY;
 			}
 			else
 				action = 0;
+
+			_g_object_unref (file_source);
 		}
 		else
 			action = 0;
@@ -3024,6 +3026,8 @@ folder_tree_rename_cb (GthFolderTree *folder_tree,
 
 	file_source = gth_main_get_file_source (file);
 	gth_file_source_rename (file_source, file, new_name, file_source_rename_ready_cb, browser);
+
+	g_object_unref (file_source);
 }
 
 
@@ -6857,6 +6861,7 @@ _g_menu_item_new_for_file (GFile      *file,
 	}
 
 	_g_object_unref (info);
+	_g_object_unref (file_source);
 
 	return item;
 }

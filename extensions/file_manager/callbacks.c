@@ -1064,6 +1064,8 @@ _gth_browser_update_open_menu (GthBrowser *browser)
 		else
 			g_menu_item_set_icon (item, icon);
 		g_menu_append_item (data->open_with_menu, item);
+
+		g_object_unref (item);
 	}
 
 	gth_window_enable_action (GTH_WINDOW (browser), "open-with-application", data->applications != NULL);
@@ -1155,7 +1157,7 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 				 * for example: when viewing a catalog removes
 				 * the files from the catalog; when viewing a
 				 * folder removes the files from the folder. */
-				source = gth_browser_get_location_source (browser);
+				source = _g_object_ref (gth_browser_get_location_source (browser));
 				location = gth_browser_get_location_data (browser);
 			}
 			else {
@@ -1183,6 +1185,7 @@ fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 
 			_g_object_list_unref (file_data_list);
 			_gtk_tree_path_list_free (items);
+			_g_object_unref (source);
 		}
 		break;
 	}

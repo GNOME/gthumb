@@ -694,10 +694,11 @@ gth_window_change_action_state (GthWindow  *window,
 	g_return_if_fail (action != NULL);
 
 	old_state = g_action_get_state (action);
-	new_state = g_variant_new_boolean (value);
+	new_state = g_variant_ref_sink (g_variant_new_boolean (value));
 	if ((old_state == NULL) || ! g_variant_equal (old_state, new_state))
 		g_action_change_state (action, new_state);
 
 	if (old_state != NULL)
 		g_variant_unref (old_state);
+	g_variant_unref (new_state);
 }

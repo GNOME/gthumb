@@ -63,6 +63,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 	gboolean          format_recognized;
 	GFileInputStream *stream;
 	char             *description = NULL;
+	gboolean          free_description = FALSE;
 	int               width;
 	int               height;
 	const char       *mime_type = NULL;
@@ -229,6 +230,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 			if (format != NULL) {
 				format_recognized = TRUE;
 				description = gdk_pixbuf_format_get_description (format);
+				free_description = TRUE;
 			}
 
 			g_free (filename);
@@ -253,6 +255,9 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 
 		g_free (size);
 	}
+
+	if (free_description)
+		g_free (description);
 }
 
 

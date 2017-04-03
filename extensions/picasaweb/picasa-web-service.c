@@ -977,11 +977,14 @@ post_photo_file_buffer_ready_cb (void     **buffer,
 		value = gth_file_data_get_attribute_as_string (file_data, "general::title");
 	dom_element_append_child (entry,
 				  dom_document_create_element_with_text (doc, value, "summary", NULL));
+	g_free (value);
 
 	value = gth_file_data_get_attribute_as_string (file_data, "general::location");
-	if (value != NULL)
+	if (value != NULL) {
 		dom_element_append_child (entry,
 					  dom_document_create_element_with_text (doc, value, "gphoto:location", NULL));
+		g_free (value);
+	}
 
 	metadata = g_file_info_get_attribute_object (file_data->info, "general::tags");
 	if (metadata != NULL)
