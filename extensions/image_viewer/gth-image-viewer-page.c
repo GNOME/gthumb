@@ -196,6 +196,44 @@ _gth_image_preloader_get_requested_size_for_current_image (GthImageViewerPage *s
 
 
 static void
+_gth_image_viewer_page_load_with_preloader (GthImageViewerPage  *self,
+					    GthFileData         *file_data,
+					    int                  requested_size,
+					    GCancellable        *cancellable,
+					    GAsyncReadyCallback  callback,
+					    gpointer		 user_data)
+{
+	if (self->priv->apply_icc_profile)
+		gth_image_preloader_set_out_profile (self->priv->preloader, gth_browser_get_screen_profile (self->priv->browser));
+	else
+		gth_image_preloader_set_out_profile (self->priv->preloader, NULL);
+
+	g_object_ref (self);
+	gth_image_preloader_load (self->priv->preloader,
+				  file_data,
+				  requested_size,
+				  cancellable,
+				  callback,
+				  user_data,
+				  N_FORWARD_PRELOADERS + N_BACKWARD_PRELOADERS,
+				  self->priv->next_file_data[0],
+				  self->priv->next_file_data[1],
+				  self->priv->prev_file_data[0],
+				  self->priv->prev_file_data[1]);
+}
+
+
+static gboolean
+_gth_image_viewer_page_load_with_preloader_finish (GthImageViewerPage  *self)
+{
+	gboolean active = self->priv->active;
+	g_object_unref (self);
+
+	return active;
+}
+
+
+static void
 different_quality_ready_cb (GObject		*source_object,
 			    GAsyncResult	*result,
 			    gpointer	 	 user_data)
@@ -211,6 +249,9 @@ different_quality_ready_cb (GObject		*source_object,
 	cairo_surface_t    *s2;
 	int                 w1, h1, w2, h2;
 	gboolean            got_better_quality;
+
+	if (! _gth_image_viewer_page_load_with_preloader_finish (self))
+		return;
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -292,33 +333,6 @@ _g_mime_type_can_load_different_quality (const char *mime_type)
 }
 
 
-static void
-_gth_image_viewer_page_load_with_preloader (GthImageViewerPage  *self,
-					    GthFileData         *file_data,
-					    int                  requested_size,
-					    GCancellable        *cancellable,
-					    GAsyncReadyCallback  callback,
-					    gpointer		 user_data)
-{
-	if (self->priv->apply_icc_profile)
-		gth_image_preloader_set_out_profile (self->priv->preloader, gth_browser_get_screen_profile (self->priv->browser));
-	else
-		gth_image_preloader_set_out_profile (self->priv->preloader, NULL);
-
-	gth_image_preloader_load (self->priv->preloader,
-				  file_data,
-				  requested_size,
-				  cancellable,
-				  callback,
-				  user_data,
-				  N_FORWARD_PRELOADERS + N_BACKWARD_PRELOADERS,
-				  self->priv->next_file_data[0],
-				  self->priv->next_file_data[1],
-				  self->priv->prev_file_data[0],
-				  self->priv->prev_file_data[1]);
-}
-
-
 static gboolean
 update_quality_cb (gpointer user_data)
 {
@@ -328,6 +342,12 @@ update_quality_cb (gpointer user_data)
 		g_source_remove (self->priv->update_quality_id);
 		self->priv->update_quality_id = 0;
 	}
+
+	if (! self->priv->active)
+		return FALSE;
+
+	if (self->priv->viewer == NULL)
+		return FALSE;
 
 	if (self->priv->loading_image)
 		return FALSE;
@@ -565,7 +585,7 @@ viewer_realize_cb (GtkWidget *widget,
 	GthImageViewerPage *self = user_data;
 	GtkClipboard       *clipboard;
 
-	clipboard = gtk_widget_get_clipboard (self->priv->viewer, GDK_SELECTION_CLIPBOARD);
+	clipboard = gtk_widget_get_clipboard (widget, GDK_SELECTION_CLIPBOARD);
 	g_signal_connect (clipboard,
 	                  "owner_change",
 	                  G_CALLBACK (clipboard_owner_change_cb),
@@ -580,7 +600,7 @@ viewer_unrealize_cb (GtkWidget *widget,
 	GthImageViewerPage *self = user_data;
 	GtkClipboard       *clipboard;
 
-	clipboard = gtk_widget_get_clipboard (self->priv->viewer, GDK_SELECTION_CLIPBOARD);
+	clipboard = gtk_widget_get_clipboard (widget, GDK_SELECTION_CLIPBOARD);
 	g_signal_handlers_disconnect_by_func (clipboard,
 	                                      G_CALLBACK (clipboard_owner_change_cb),
 	                                      self);
@@ -653,6 +673,9 @@ pref_zoom_quality_changed (GSettings *settings,
 {
 	GthImageViewerPage *self = user_data;
 
+	if (! self->priv->active || (self->priv->viewer == NULL))
+		return;
+
 	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer),
 					   g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_QUALITY));
 	gtk_widget_queue_draw (self->priv->viewer);
@@ -666,6 +689,9 @@ pref_zoom_change_changed (GSettings *settings,
 {
 	GthImageViewerPage *self = user_data;
 
+	if (! self->priv->active || (self->priv->viewer == NULL))
+		return;
+
 	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer),
 					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
 	gtk_widget_queue_draw (self->priv->viewer);
@@ -678,6 +704,9 @@ pref_reset_scrollbars_changed (GSettings *settings,
 		   	       gpointer   user_data)
 {
 	GthImageViewerPage *self = user_data;
+
+	if (! self->priv->active || (self->priv->viewer == NULL))
+		return;
 
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
 					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
@@ -886,6 +915,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 
 	self->priv->viewer = gth_image_viewer_new ();
+	g_object_add_weak_pointer (G_OBJECT (self->priv->viewer), &self->priv->viewer);
 	gtk_widget_add_events (self->priv->viewer, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 	gth_image_viewer_page_reset_viewer_tool (self);
 	gtk_widget_show (self->priv->viewer);
@@ -1043,6 +1073,8 @@ preloader_load_ready_cb (GObject	*source_object,
 	GError		   *error = NULL;
 
 	self->priv->loading_image = FALSE;
+	if (! _gth_image_viewer_page_load_with_preloader_finish (self))
+		return;
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -1938,6 +1970,7 @@ get_original_data_free (OriginalImageData *data)
 	if (data == NULL)
 		return;
 
+	_g_object_unref (data->viewer_page);
 	_g_object_unref (data->cancellable);
 	_g_object_unref (data->result);
 	g_free (data);
@@ -1950,8 +1983,13 @@ original_image_ready_cb (GObject	*source_object,
 			 gpointer	 user_data)
 {
 	OriginalImageData *data = user_data;
-	GthImage        *image = NULL;
-	GError          *error = NULL;
+	GthImage          *image = NULL;
+	GError            *error = NULL;
+
+	if (! _gth_image_viewer_page_load_with_preloader_finish (data->viewer_page)) {
+		get_original_data_free (data);
+		return;
+	}
 
 	if (! gth_image_preloader_load_finish (GTH_IMAGE_PRELOADER (source_object),
 					       result,
@@ -1983,7 +2021,7 @@ gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
 	OriginalImageData *data;
 
 	data = get_original_data_new ();
-	data->viewer_page = self;
+	data->viewer_page = g_object_ref (self);
 	data->result = g_simple_async_result_new (G_OBJECT (self),
 						  ready_callback,
 						  user_data,

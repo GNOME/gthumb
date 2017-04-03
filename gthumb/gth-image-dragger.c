@@ -166,7 +166,9 @@ gth_image_dragger_set_viewer (GthImageViewerTool *base,
 			      GthImageViewer     *image_viewer)
 {
 	GthImageDragger *self = GTH_IMAGE_DRAGGER (base);
+
 	self->priv->viewer = image_viewer;
+	g_object_add_weak_pointer (G_OBJECT (image_viewer), &self->priv->viewer);
 	if (self->priv->show_frame)
 		gth_image_viewer_show_frame (self->priv->viewer, FRAME_BORDER);
 }
@@ -180,6 +182,7 @@ gth_image_dragger_unset_viewer (GthImageViewerTool *base,
 
 	if ((self->priv->viewer != NULL) && self->priv->show_frame)
 		gth_image_viewer_hide_frame (self->priv->viewer);
+	g_object_remove_weak_pointer (G_OBJECT (image_viewer), &self->priv->viewer);
 	self->priv->viewer = NULL;
 }
 
@@ -400,6 +403,7 @@ scale_data_free (ScaleData *scale_data)
 		return;
 	cairo_surface_destroy (scale_data->image);
 	cairo_surface_destroy (scale_data->scaled);
+	g_object_unref (scale_data->dragger);
 	g_free (scale_data);
 }
 
@@ -430,10 +434,12 @@ _gth_image_dragger_scale_after (GthAsyncTask *task,
 	if (error == NULL) {
 		GthImageDragger *dragger = scale_data->dragger;
 
-		_cairo_clear_surface (&dragger->priv->scaled);
-		dragger->priv->scaled = cairo_surface_reference (scale_data->scaled);
-		if (dragger->priv->viewer != NULL)
-			gtk_widget_queue_draw (GTK_WIDGET (dragger->priv->viewer));
+		if ((scale_data->scaled != NULL) && (dragger->priv->viewer != NULL)) {
+			_cairo_clear_surface (&dragger->priv->scaled);
+			dragger->priv->scaled = cairo_surface_reference (scale_data->scaled);
+			if (dragger->priv->viewer != NULL)
+				gtk_widget_queue_draw (GTK_WIDGET (dragger->priv->viewer));
+		}
 
 		if (GTH_TASK (task) == dragger->priv->scale_task)
 			dragger->priv->scale_task = NULL;
@@ -456,7 +462,7 @@ _gth_image_dragger_create_scaled_high_quality (GthImageDragger *self,
 		gth_task_cancel (self->priv->scale_task);
 
 	scale_data = g_new0 (ScaleData, 1);
-	scale_data->dragger = self;
+	scale_data->dragger = g_object_ref (self);
 	scale_data->image = cairo_surface_reference (image);
 	scale_data->new_width = new_width;
 	scale_data->new_height = new_height;
