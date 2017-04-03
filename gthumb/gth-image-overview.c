@@ -23,6 +23,7 @@
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
 #include "cairo-scale.h"
+#include "cairo-utils.h"
 #include "gth-image-overview.h"
 #include "gth-image-utils.h"
 #include "gth-image-viewer.h"
@@ -107,6 +108,11 @@ _gth_image_overviewer_disconnect_from_viewer (GthImageOverview *self)
 			g_signal_handler_disconnect (self->priv->viewer->hadj, self->priv->hadj_changed_id);
 		self->priv->hadj_changed_id = 0;
 	}
+
+	if (self->priv->viewer != NULL) {
+		g_object_remove_weak_pointer (G_OBJECT (self->priv->viewer), &self->priv->viewer);
+		self->priv->viewer = NULL;
+	}
 }
 
 
@@ -128,33 +134,69 @@ gth_image_overview_finalize (GObject *object)
 }
 
 
-static void
-_gth_image_overview_update_zoom_info (GthImageOverview *self)
+static gboolean
+_gth_image_overview_calc_preview_size (GthImageOverview *self,
+				       int              *out_width,
+				       int              *out_height,
+				       double           *out_zoom_factor)
 {
-	cairo_surface_t *image;
-	int              width, height;
-	double           zoom;
+	int    width, height;
+	double zoom;
+	int    preview_width, preview_height;
 
-	image = gth_image_viewer_get_current_image (self->priv->viewer);
-	if (image == NULL)
-		return;
+	if (self->priv->viewer == NULL)
+		return FALSE;
 
 	gth_image_viewer_get_original_size (self->priv->viewer, &width, &height);
-	self->priv->quality_zoom = (double) width / cairo_image_surface_get_width (image);
 	zoom = gth_image_viewer_get_zoom (self->priv->viewer);
 	width = width * zoom;
 	height = height * zoom;
 
-	self->priv->preview_width = width;
-	self->priv->preview_height = height;
-	scale_keeping_ratio (&self->priv->preview_width,
-			     &self->priv->preview_height,
-			     MAX_IMAGE_SIZE,
-			     MAX_IMAGE_SIZE,
-			     TRUE);
+	preview_width = width;
+	preview_height = height;
+	scale_keeping_ratio (&preview_width, &preview_height, MAX_IMAGE_SIZE, MAX_IMAGE_SIZE, TRUE);
 
-	self->priv->zoom_factor = MIN ((double) (self->priv->preview_width) / width,
-				       (double) (self->priv->preview_height) / height);
+	if (out_width) *out_width = preview_width;
+	if (out_height) *out_height = preview_height;
+	if (out_zoom_factor) *out_zoom_factor = MIN ((double) (preview_width) / width,
+						     (double) (preview_height) / height);
+
+	return TRUE;
+}
+
+
+static double
+_gth_image_overview_calc_quality_zoom (GthImageOverview *self)
+{
+	cairo_surface_t *image;
+	int              width, height;
+
+	if (self->priv->viewer == NULL)
+		return 0.0;
+
+	image = gth_image_viewer_get_current_image (self->priv->viewer);
+	if (image == NULL)
+		return 0.0;
+
+	if (cairo_image_surface_get_width (image) == 0)
+		return 0.0;
+
+	gth_image_viewer_get_original_size (self->priv->viewer, &width, &height);
+	return (double) width / cairo_image_surface_get_width (image);
+}
+
+
+static void
+_gth_image_overview_update_zoom_info (GthImageOverview *self)
+{
+	self->priv->quality_zoom = _gth_image_overview_calc_quality_zoom (self);
+	if (self->priv->quality_zoom == 0.0)
+		return;
+
+	_gth_image_overview_calc_preview_size (self,
+					       &self->priv->preview_width,
+					       &self->priv->preview_height,
+					       &self->priv->zoom_factor);
 
 	self->priv->preview_area.x = IMAGE_BORDER;
 	self->priv->preview_area.y = IMAGE_BORDER;
@@ -168,7 +210,10 @@ _gth_image_overview_update_zoom_info (GthImageOverview *self)
 
 typedef struct {
 	GthImageOverview *overview;
+	cairo_surface_t  *image;
 	cairo_surface_t  *scaled;
+	int               width;
+	int               height;
 } ScaleData;
 
 
@@ -178,6 +223,7 @@ scale_data_free (ScaleData *scale_data)
 	if (scale_data == NULL)
 		return;
 	cairo_surface_destroy (scale_data->scaled);
+	cairo_surface_destroy (scale_data->image);
 	g_object_unref (scale_data->overview);
 	g_free (scale_data);
 }
@@ -187,18 +233,13 @@ static gpointer
 _gth_image_overview_scale_exec (GthAsyncTask *task,
 			        gpointer      user_data)
 {
-	ScaleData        *scale_data = user_data;
-	GthImageOverview *overview = scale_data->overview;
-	cairo_surface_t  *image;
+	ScaleData *scale_data = user_data;
 
-	_gth_image_overview_update_zoom_info (overview);
-	image = gth_image_viewer_get_current_image (scale_data->overview->priv->viewer);
-	if (image != NULL)
-		scale_data->scaled = _cairo_image_surface_scale (image,
-								 overview->priv->preview_area.width,
-								 overview->priv->preview_area.height,
-								 SCALE_FILTER_GOOD,
-								 task);
+	scale_data->scaled = _cairo_image_surface_scale (scale_data->image,
+							 scale_data->width,
+							 scale_data->height,
+							 SCALE_FILTER_GOOD,
+							 task);
 
 	return NULL;
 }
@@ -214,10 +255,13 @@ _gth_image_overview_scale_after (GthAsyncTask *task,
 	if (error == NULL) {
 		GthImageOverview *overview = scale_data->overview;
 
-		_cairo_clear_surface (&overview->priv->preview);
-		if (scale_data->scaled != NULL)
-			overview->priv->preview = cairo_surface_reference (scale_data->scaled);
-		gtk_widget_queue_resize (GTK_WIDGET (overview));
+		if (overview->priv->viewer != NULL) {
+			_gth_image_overview_update_zoom_info (overview);
+			_cairo_clear_surface (&overview->priv->preview);
+			if (scale_data->scaled != NULL)
+				overview->priv->preview = cairo_surface_reference (scale_data->scaled);
+			gtk_widget_queue_resize (GTK_WIDGET (overview));
+		}
 
 		if (GTH_TASK (task) == overview->priv->scale_task)
 			overview->priv->scale_task = NULL;
@@ -261,6 +305,11 @@ _gth_image_overview_update_preview (GthImageOverview *self)
 
 	scale_data = g_new0 (ScaleData, 1);
 	scale_data->overview = g_object_ref (self);
+	scale_data->image = cairo_surface_reference (image);
+	_gth_image_overview_calc_preview_size (self,
+					       &scale_data->width,
+					       &scale_data->height,
+					       NULL);
 
 	self->priv->scale_task = gth_async_task_new (NULL,
 						     _gth_image_overview_scale_exec,
@@ -347,10 +396,6 @@ _gth_image_overview_set_viewer (GthImageOverview *self,
 		return;
 
 	_gth_image_overviewer_disconnect_from_viewer (self);
-	if (self->priv->viewer != NULL) {
-		g_object_remove_weak_pointer (G_OBJECT (viewer), (gpointer*) &self->priv->viewer);
-		self->priv->viewer = NULL;
-	}
 
 	if (viewer == NULL)
 		return;
