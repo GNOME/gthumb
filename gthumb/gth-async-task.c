@@ -50,6 +50,7 @@ struct _GthAsyncTaskPrivate {
 	gboolean            cancelled;
 	gboolean            terminated;
 	double              progress;
+	GThread            *thread;
 };
 
 
@@ -105,6 +106,9 @@ update_progress (gpointer data)
 
 	if (terminated) {
 		GError *error = NULL;
+
+		g_thread_join (self->priv->thread);
+		self->priv->thread = NULL;
 
 		g_source_remove (self->priv->progress_event);
 		self->priv->progress_event = 0;
@@ -162,7 +166,7 @@ gth_async_task_exec (GthTask *task)
 
 	if (self->priv->before_func != NULL)
 		self->priv->before_func (self, self->priv->user_data);
-	g_thread_new ("gth_async_task_exec", exec_task, self);
+	self->priv->thread = g_thread_new ("asynctask", exec_task, self);
 
 	if (self->priv->progress_event == 0)
 		self->priv->progress_event = g_timeout_add (PROGRESS_DELAY, update_progress, self);
