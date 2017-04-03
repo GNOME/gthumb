@@ -25,9 +25,6 @@
 #include "typedefs.h"
 
 
-#define PROGRESS_DELAY 100 /* delay between progress notifications */
-
-
 /* Properties */
 enum {
         PROP_0,
@@ -123,7 +120,7 @@ update_progress (gpointer data)
 
 		ready_with_error (task_completed, self, error);
 
-		return FALSE;
+		return G_SOURCE_REMOVE;
 	}
 
 	gth_task_progress (GTH_TASK (self),
@@ -132,7 +129,7 @@ update_progress (gpointer data)
 			   FALSE,
 			   progress);
 
-	return TRUE;
+	return G_SOURCE_CONTINUE;
 }
 
 
@@ -169,7 +166,7 @@ gth_async_task_exec (GthTask *task)
 	self->priv->thread = g_thread_new ("asynctask", exec_task, self);
 
 	if (self->priv->progress_event == 0)
-		self->priv->progress_event = g_timeout_add (PROGRESS_DELAY, update_progress, self);
+		self->priv->progress_event = g_idle_add (update_progress, self);
 }
 
 
