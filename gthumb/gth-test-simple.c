@@ -1273,6 +1273,7 @@ static void
 gth_test_simple_init (GthTestSimple *test)
 {
 	test->priv = g_new0 (GthTestSimplePrivate, 1);
+	test->priv->data_type = GTH_TEST_DATA_TYPE_NONE;
 }
 
 
