@@ -908,7 +908,6 @@ _gth_browser_update_statusbar_list_info (GthBrowser *browser)
 typedef struct {
 	GthBrowser    *browser;
 	GthFileData   *requested_folder;
-	GFile         *requested_folder_parent;
 	GFile         *file_to_select;
 	GList         *selected;
 	double         vscroll;
@@ -938,7 +937,6 @@ load_data_new (GthBrowser *browser,
 	load_data = g_new0 (LoadData, 1);
 	load_data->browser = browser;
 	load_data->requested_folder = gth_file_data_new (location, NULL);
-	load_data->requested_folder_parent = g_file_get_parent (load_data->requested_folder->file);
 	if (file_to_select != NULL)
 		load_data->file_to_select = g_file_dup (file_to_select);
 	else if (browser->priv->current_file != NULL)
@@ -981,7 +979,6 @@ load_data_free (LoadData *data)
 	data->browser->priv->load_data_queue = g_list_remove (data->browser->priv->load_data_queue, data);
 
 	g_object_unref (data->requested_folder);
-	_g_object_unref (data->requested_folder_parent);
 	_g_object_unref (data->file_to_select);
 	g_list_free_full (data->selected, (GDestroyNotify) gtk_tree_path_free);
 	_g_object_unref (data->file_source);
@@ -1335,17 +1332,6 @@ load_data_load_next_folder (LoadData *load_data)
 
 		if (g_file_equal (folder_to_load, load_data->requested_folder->file))
 			break;
-
-		if ((load_data->requested_folder_parent != NULL) && g_file_equal (folder_to_load, load_data->requested_folder_parent)) {
-			path = gth_folder_tree_get_path (folder_tree, folder_to_load);
-			if (path == NULL)
-				break;
-
-			if (! gth_folder_tree_is_loaded (folder_tree, path)) {
-				gtk_tree_path_free (path);
-				break;
-			}
-		}
 
 		path = gth_folder_tree_get_path (folder_tree, folder_to_load);
 		if (path == NULL)
