@@ -473,7 +473,7 @@ _gth_folder_tree_add_to_monitor (GthFolderTree *folder_tree,
 	}
 
 	gth_file_source_monitor_directory (file_source, file, TRUE);
-	g_hash_table_add (folder_tree->priv->monitor.locations, file);
+	g_hash_table_add (folder_tree->priv->monitor.locations, g_file_dup (file));
 }
 
 
