@@ -167,7 +167,7 @@ create_menu_item (const char *label,
 {
 	GMenuItem *item;
 
-	item = g_menu_item_new (label,detailed_action);
+	item = g_menu_item_new (label, detailed_action);
 	g_menu_item_set_attribute (item, _G_MENU_ATTRIBUTE_DETAILED_ACTION, "s", detailed_action, NULL);
 	if (accel != NULL)
 		g_menu_item_set_attribute (item, "accel", "s", accel, NULL);
@@ -205,6 +205,8 @@ gth_menu_manager_append_entries (GthMenuManager     *menu_manager,
 		g_menu_append_item (menu_manager->priv->menu, item);
 
 		items = g_list_prepend (items, g_strdup (entry->detailed_action));
+
+		g_object_unref (item);
 	}
 
 	items = g_list_reverse (items);
@@ -302,4 +304,6 @@ gth_menu_manager_append_entry (GthMenuManager  	*menu_manager,
 	items = g_hash_table_lookup (menu_manager->priv->items, GINT_TO_POINTER (merge_id));
 	items = g_list_append (items, g_strdup (detailed_action));
 	g_hash_table_insert (menu_manager->priv->items, GINT_TO_POINTER (merge_id), items);
+
+	g_object_unref (item);
 }

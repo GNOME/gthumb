@@ -613,6 +613,8 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 		g_list_free (keys);
 		g_free (url);
 		g_free (s_size);
+		g_free (description);
+		g_free (title);
 		g_hash_table_unref (data_set);
 	}
 

@@ -300,6 +300,7 @@ gth_application_command_line (GApplication            *application,
 		return EXIT_FAILURE;
 	}
 	g_option_context_free (context);
+	g_strfreev (argv);
 
 	gdk_notify_startup_complete ();
 

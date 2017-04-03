@@ -665,6 +665,7 @@ external_thumbnailers_disabled_all_changed_cb (GSettings                    *set
 		factory->priv->disabled_types = NULL;
 	}
 	else {
+		g_strfreev (factory->priv->disabled_types);
 		factory->priv->disabled_types = g_settings_get_strv (factory->priv->settings, "disable");
 		gnome_desktop_thumbnail_factory_load_thumbnailers (factory);
 	}
@@ -697,8 +698,10 @@ gnome_desktop_thumbnail_factory_init_scripts (GnomeDesktopThumbnailFactory *fact
 							       (GDestroyNotify)thumbnailer_unref);
 	factory->priv->settings = g_settings_new ("org.gnome.desktop.thumbnailers");
 	factory->priv->disabled = g_settings_get_boolean (factory->priv->settings, "disable-all");
-	if (! factory->priv->disabled)
+	if (! factory->priv->disabled) {
+		g_strfreev (factory->priv->disabled_types);
 		factory->priv->disabled_types = g_settings_get_strv (factory->priv->settings, "disable");
+	}
 	g_signal_connect (factory->priv->settings,
 			  "changed::disable-all",
 			  G_CALLBACK (external_thumbnailers_disabled_all_changed_cb),
@@ -782,6 +785,7 @@ gnome_desktop_thumbnail_factory_init (GnomeDesktopThumbnailFactory *factory)
 {
 	factory->priv = GNOME_DESKTOP_THUMBNAIL_FACTORY_GET_PRIVATE (factory);
 	factory->priv->size = GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL;
+	factory->priv->disabled_types = NULL;
 	g_mutex_init (&factory->priv->lock);
 
 	gnome_desktop_thumbnail_factory_init_scripts (factory);

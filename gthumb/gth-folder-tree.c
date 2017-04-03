@@ -139,6 +139,7 @@ gth_folder_tree_finalize (GObject *object)
 		_g_object_list_unref (folder_tree->priv->monitor.sources);
 		if (folder_tree->priv->root != NULL)
 			g_object_unref (folder_tree->priv->root);
+		g_object_unref (folder_tree->priv->tree_store);
 
 		g_free (folder_tree->priv);
 		folder_tree->priv = NULL;
@@ -418,7 +419,7 @@ get_monitor_file_source_for_file (GthFolderTree *folder_tree,
 
 		if (gth_file_source_supports_scheme (file_source, uri)) {
 			g_free (uri);
-			return file_source;
+			return g_object_ref (file_source);
 		}
 	}
 
@@ -439,6 +440,8 @@ _gth_folder_tree_remove_from_monitor (GthFolderTree *folder_tree,
 		return;
 
 	gth_file_source_monitor_directory (file_source, file, FALSE);
+
+	g_object_unref (file_source);
 }
 
 
@@ -468,12 +471,13 @@ _gth_folder_tree_add_to_monitor (GthFolderTree *folder_tree,
 		file_source = gth_main_get_file_source (file);
 		if (file_source == NULL)
 			return;
-
-		folder_tree->priv->monitor.sources = g_list_prepend (folder_tree->priv->monitor.sources, file_source);
+		folder_tree->priv->monitor.sources = g_list_prepend (folder_tree->priv->monitor.sources, g_object_ref (file_source));
 	}
 
 	gth_file_source_monitor_directory (file_source, file, TRUE);
 	g_hash_table_add (folder_tree->priv->monitor.locations, g_file_dup (file));
+
+	g_object_unref (file_source);
 }
 
 
