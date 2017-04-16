@@ -303,6 +303,63 @@ create_control_for_integer (GthTestSimple *test)
 	return control;
 }
 
+static GtkWidget *
+create_control_for_fixpoint (GthTestSimple *test)
+{
+	GtkWidget *control;
+	int        i, op_idx;
+
+	control = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+
+	/* text operation combo box */
+
+	test->priv->text_op_combo_box = gtk_combo_box_text_new ();
+	gtk_widget_show (test->priv->text_op_combo_box);
+
+	op_idx = 0;
+	for (i = 0; i < G_N_ELEMENTS (int_op_data); i++) {
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (test->priv->text_op_combo_box),
+						_(int_op_data[i].name));
+		if ((int_op_data[i].op == test->priv->op) && (int_op_data[i].negative == test->priv->negative))
+			op_idx = i;
+	}
+	gtk_combo_box_set_active (GTK_COMBO_BOX (test->priv->text_op_combo_box), op_idx);
+
+	g_signal_connect (G_OBJECT (test->priv->text_op_combo_box),
+			  "changed",
+			  G_CALLBACK (size_op_combo_box_changed_cb),
+			  test);
+
+	/* spin button */
+
+	test->priv->spinbutton = gtk_spin_button_new_with_range (0, 100, 0.01);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (test->priv->spinbutton), test->priv->data.i / 100.0);
+	gtk_widget_show (test->priv->spinbutton);
+
+	g_signal_connect (G_OBJECT (test->priv->spinbutton),
+			  "value-changed",
+			  G_CALLBACK (spinbutton_changed_cb),
+			  test);
+	g_signal_connect (G_OBJECT (test->priv->spinbutton),
+			  "activate",
+			  G_CALLBACK (size_text_entry_activate_cb),
+			  test);
+	g_signal_connect (G_OBJECT (test->priv->spinbutton),
+			  "focus-in-event",
+			  G_CALLBACK (focus_event_cb),
+			  test);
+	g_signal_connect (G_OBJECT (test->priv->spinbutton),
+			  "focus-out-event",
+			  G_CALLBACK (focus_event_cb),
+			  test);
+
+	/**/
+
+	gtk_box_pack_start (GTK_BOX (control), test->priv->text_op_combo_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (control), test->priv->spinbutton, FALSE, FALSE, 0);
+
+	return control;
+}
 
 static GtkWidget *
 create_control_for_size (GthTestSimple *test)
@@ -563,6 +620,10 @@ gth_test_simple_real_create_control (GthTest *test)
 	case GTH_TEST_DATA_TYPE_DATE:
 		control = create_control_for_date (GTH_TEST_SIMPLE (test));
 		break;
+
+	case GTH_TEST_DATA_TYPE_FIXPOINT:
+		control = create_control_for_fixpoint (GTH_TEST_SIMPLE (test));
+		break;
 	}
 
 	return control;
@@ -651,6 +712,31 @@ test_integer (GthTestSimple *test,
 	return result;
 }
 
+static gboolean
+test_fixpoint (GthTestSimple *test,
+              gint64       value)
+{
+	gboolean result = FALSE;
+
+	switch (test->priv->op) {
+	case GTH_TEST_OP_EQUAL:
+		result = (value == test->priv->data.i);
+		break;
+
+	case GTH_TEST_OP_LOWER:
+		result = (value < test->priv->data.i);
+		break;
+
+	case GTH_TEST_OP_GREATER:
+		result = (value > test->priv->data.i);
+		break;
+
+	default:
+		break;
+	}
+
+	return result;
+}
 
 static gboolean
 test_date (GthTestSimple *test,
@@ -704,6 +790,12 @@ _gth_test_simple_get_int (GthTestSimple *test,
         return test->priv->get_data (GTH_TEST (test), file, NULL, NULL);
 }
 
+static gint64
+_gth_test_simple_get_fixpoint (GthTestSimple *test,
+			  GthFileData   *file)
+{
+        return test->priv->get_data (GTH_TEST (test), file, NULL, NULL);
+}
 
 static GthMatch
 gth_test_simple_real_match (GthTest   *test,
@@ -724,6 +816,10 @@ gth_test_simple_real_match (GthTest   *test,
 	case GTH_TEST_DATA_TYPE_INT:
 	case GTH_TEST_DATA_TYPE_SIZE:
 		result = test_integer (test_simple, _gth_test_simple_get_int (test_simple, file));
+		break;
+
+	case GTH_TEST_DATA_TYPE_FIXPOINT:
+		result = test_fixpoint (test_simple, _gth_test_simple_get_fixpoint (test_simple, file));
 		break;
 
 	case GTH_TEST_DATA_TYPE_STRING:
@@ -773,6 +869,7 @@ gth_test_simple_real_create_element (DomDomizable *base,
 
 	case GTH_TEST_DATA_TYPE_INT:
 	case GTH_TEST_DATA_TYPE_SIZE:
+	case GTH_TEST_DATA_TYPE_FIXPOINT:
 		dom_element_set_attribute (element, "op", _g_enum_type_get_value (GTH_TYPE_TEST_OP, self->priv->op)->value_nick);
 		if (self->priv->op != GTH_TEST_OP_NONE) {
 			if (self->priv->negative)
@@ -846,6 +943,10 @@ gth_test_simple_real_load_from_element (DomDomizable *base,
 		gth_test_simple_set_data_as_int (self, atol (value));
 		break;
 
+	case GTH_TEST_DATA_TYPE_FIXPOINT:
+		gth_test_simple_set_data_as_fixpoint (self, atol (value));
+		break;
+
 	case GTH_TEST_DATA_TYPE_SIZE:
 		gth_test_simple_set_data_as_size (self, atol (value));
 		break;
@@ -886,6 +987,18 @@ update_from_control_for_integer (GthTestSimple  *self,
 	return TRUE;
 }
 
+static gboolean
+update_from_control_for_fixpoint (GthTestSimple  *self,
+				 GError        **error)
+{
+	GthOpData op_data;
+
+	op_data = int_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->text_op_combo_box))];
+	self->priv->op = op_data.op;
+	self->priv->negative = op_data.negative;
+	gth_test_simple_set_data_as_fixpoint (self, (gint64)((gtk_spin_button_get_value  (GTK_SPIN_BUTTON (self->priv->spinbutton)))*100));
+	return TRUE;
+}
 
 static gboolean
 update_from_control_for_size (GthTestSimple  *self,
@@ -974,6 +1087,10 @@ gth_test_simple_real_update_from_control (GthTest  *base,
 		retval = update_from_control_for_integer (self, error);
 		break;
 
+	case GTH_TEST_DATA_TYPE_FIXPOINT:
+		retval = update_from_control_for_fixpoint (self, error);
+		break;
+
 	case GTH_TEST_DATA_TYPE_SIZE:
 		retval = update_from_control_for_size (self, error);
 		break;
@@ -1005,6 +1122,7 @@ gth_test_simple_real_focus_control (GthTest *base)
 
 	switch (self->priv->data_type) {
 	case GTH_TEST_DATA_TYPE_INT:
+	case GTH_TEST_DATA_TYPE_FIXPOINT:
 		gtk_widget_grab_focus (self->priv->spinbutton);
 		break;
 
@@ -1042,6 +1160,10 @@ gth_test_simple_real_duplicate (GthDuplicable *duplicable)
 
 	case GTH_TEST_DATA_TYPE_INT:
 		gth_test_simple_set_data_as_int (new_test, test->priv->data.i);
+		break;
+
+	case GTH_TEST_DATA_TYPE_FIXPOINT:
+		gth_test_simple_set_data_as_fixpoint (new_test, test->priv->data.i);
 		break;
 
 	case GTH_TEST_DATA_TYPE_SIZE:
@@ -1296,6 +1418,14 @@ gth_test_simple_set_data_as_int (GthTestSimple *test,
 	test->priv->data.i = i;
 }
 
+void
+gth_test_simple_set_data_as_fixpoint (GthTestSimple *test,
+			         gint64         i)
+{
+	_gth_test_simple_free_data (test);
+	test->priv->data_type = GTH_TEST_DATA_TYPE_FIXPOINT;
+	test->priv->data.i = i;
+}
 
 void
 gth_test_simple_set_data_as_size (GthTestSimple *test,

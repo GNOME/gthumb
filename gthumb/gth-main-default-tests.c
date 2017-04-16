@@ -275,6 +275,30 @@ get_embedded_rating_for_test (GthTest        *test,
 }
 
 
+static gint64
+get_aspect_ratio_for_test (GthTest        *test,
+			      GthFileData    *file,
+			      gconstpointer  *data,
+			      GDestroyNotify *data_destroy_func)
+{
+	int width;
+	int height;
+	gfloat ratio;
+	gint64 result;
+
+	const char* size = g_file_info_get_attribute_string (file->info, "general::dimensions");
+	if (size == NULL)
+		return 0;
+	sscanf (size, "%d x %d", &width, &height);
+	if (height == 0)
+		height = 1;
+
+	ratio = (gfloat)width / (gfloat)height;
+	result = (gint64) (ratio * 100);
+	return result;
+}
+
+
 void
 gth_main_register_default_tests (void)
 {
@@ -396,5 +420,13 @@ gth_main_register_default_tests (void)
 				  GTH_TYPE_TEST_CATEGORY,
 				  "attributes", "general::tags",
 				  "display-name", _("Tag (embedded)"),
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "general::aspect-ratio",
+				  GTH_TYPE_TEST_SIMPLE,
+				  "attributes", "general::dimensions",
+				  "display-name", _("aspect ratio"),
+				  "data-type", GTH_TEST_DATA_TYPE_FIXPOINT,
+				  "get-data-func", get_aspect_ratio_for_test,
 				  NULL);
 }
