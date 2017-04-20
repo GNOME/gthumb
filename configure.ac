@@ -1,9 +1,8 @@
 m4_define([gthumb_major_version], [3])
 m4_define([gthumb_minor_version], [4])
-m4_define([gthumb_micro_version], [4])
-m4_define([gthumb_nano_version], [1])
+m4_define([gthumb_micro_version], [5])
 m4_define([gthumb_version],
-          [gthumb_major_version.gthumb_minor_version.gthumb_micro_version.gthumb_nano_version])
+          [gthumb_major_version.gthumb_minor_version.gthumb_micro_version])
 m4_define([gthumb_api_version],
           [gthumb_major_version.gthumb_minor_version])
 

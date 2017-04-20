@@ -1,3 +1,23 @@
+version 3.4.5
+-------------
+
+ Bugs fixed:
+
+  * Fixed big memory leak and other minor memory leaks.
+  * Speed improvements:
+    * Make the preloader actually preload the images.
+    * Image overview: scale the image asynchronously.
+    * Faster execution for asynchronous tasks.
+  * Resize tool: fixed initial selection (Vaclav Brozek)
+  * Ensure the settings have been saved before exiting.
+  * Fixed possible crash when switching from the image viewer
+    to the video viewer.
+
+ New or updated application translations:
+
+  * Basque (Iñaki Larrañaga Murgoitio)
+  * Indonesian (Andika Triwidada)
+
 version 3.4.4.1
 ---------------
 
