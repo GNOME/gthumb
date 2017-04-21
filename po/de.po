@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-03-10 11:28+0000\n"
-"PO-Revision-Date: 2017-03-15 10:11+0100\n"
+"POT-Creation-Date: 2017-03-15 09:13+0000\n"
+"PO-Revision-Date: 2017-04-21 21:08+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -2972,7 +2972,7 @@ msgstr "Eingeschränkter Inhalt"
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Free space:"
-msgstr "Freier Platz:"
+msgstr "Freier Speicherplatz:"
 
 # CHECK: Bildersatz? Wie heißt das denn bei Flickr?
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:12
@@ -3574,7 +3574,7 @@ msgid ""
 "Not enough free space in '%s'.\n"
 "%s of space is required but only %s is available."
 msgstr ""
-"Nicht genug freier Platz in »%s«.\n"
+"Nicht genug freier Speicherplatz in »%s«.\n"
 "%s werden benötigt, aber es sind nur %s verfügbar."
 
 #: ../extensions/list_tools/callbacks.c:174
@@ -4850,7 +4850,7 @@ msgstr[1] "%d Dateien ausgewählt (%s)"
 #: ../gthumb/gth-browser.c:865
 #, c-format
 msgid "%s of free space"
-msgstr "%s des freien Platzes"
+msgstr "%s freier Speicherplatz"
 
 #: ../gthumb/gth-browser.c:1788 ../gthumb/gth-browser.c:1815
 #, c-format
@@ -5461,4 +5461,3 @@ msgstr "Verborgene Dateien"
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
 msgstr "Chronik _vergessen"
-
