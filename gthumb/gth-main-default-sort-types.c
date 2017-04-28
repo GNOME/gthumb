@@ -169,7 +169,7 @@ GthFileDataSort default_sort_types[] = {
 	{ "file::mtime", N_("file modified date"), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
 	{ "general::unsorted", N_("no sorting"), "", NULL },
 	{ "general::dimensions", N_("dimensions"), "frame::width,frame::height", gth_general_data_cmp_dimensions },
-	{ "general::aspect-ratio", N_("aspect ratio"), "frame::width,frame::height", gth_general_data_cmp_aspect_ratio },
+	{ "frame::aspect-ratio", N_("aspect ratio"), "frame::width,frame::height", gth_general_data_cmp_aspect_ratio },
 };
 
 

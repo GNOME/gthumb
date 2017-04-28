@@ -283,19 +283,16 @@ get_aspect_ratio_for_test (GthTest        *test,
 {
 	int width;
 	int height;
-	gfloat ratio;
-	gint64 result;
+	gdouble ratio;
 
-	const char* size = g_file_info_get_attribute_string (file->info, "general::dimensions");
-	if (size == NULL)
-		return 0;
-	sscanf (size, "%d x %d", &width, &height);
+	width  = g_file_info_get_attribute_int32(file->info, "frame::width");
+	height = g_file_info_get_attribute_int32(file->info, "frame::height");
 	if (height == 0)
 		height = 1;
 
-	ratio = (gfloat)width / (gfloat)height;
-	result = (gint64) (ratio * 100);
-	return result;
+	ratio = (gdouble)width / (gdouble)height;
+	*(gdouble*)data = ratio;
+	return 0;
 }
 
 
@@ -422,11 +419,12 @@ gth_main_register_default_tests (void)
 				  "display-name", _("Tag (embedded)"),
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
-				  "general::aspect-ratio",
+				  "frame::aspect-ratio",
 				  GTH_TYPE_TEST_SIMPLE,
-				  "attributes", "general::dimensions",
-				  "display-name", _("aspect ratio"),
-				  "data-type", GTH_TEST_DATA_TYPE_FIXPOINT,
+				  "attributes", "frame::width, frame::height",
+				  "display-name", _("Aspect ratio"),
+				  "data-type", GTH_TEST_DATA_TYPE_FRACTIONAL,
 				  "get-data-func", get_aspect_ratio_for_test,
+				  "max-int", 100,
 				  NULL);
 }
