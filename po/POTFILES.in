@@ -866,6 +866,8 @@ gthumb/gth-tags-file.c
 gthumb/gth-tags-file.h
 gthumb/gth-task.c
 gthumb/gth-task.h
+gthumb/gth-test-aspect-ratio.c
+gthumb/gth-test-aspect-ratio.h
 gthumb/gth-test.c
 gthumb/gth-test-category.c
 gthumb/gth-test-category.h
