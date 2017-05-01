@@ -128,7 +128,7 @@ gth_general_data_cmp_dimensions (GthFileData *a,
 
 static int
 gth_general_data_cmp_aspect_ratio (GthFileData *a,
-				 GthFileData *b)
+				   GthFileData *b)
 {
 	int width_a;
 	int height_a;
