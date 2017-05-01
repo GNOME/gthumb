@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include "glib-utils.h"
 #include "gth-main.h"
+#include "gth-test-aspect-ratio.h"
 #include "gth-test-category.h"
 #include "gth-test-simple.h"
 #include "gth-time.h"
@@ -275,27 +276,6 @@ get_embedded_rating_for_test (GthTest        *test,
 }
 
 
-static gint64
-get_aspect_ratio_for_test (GthTest        *test,
-			      GthFileData    *file,
-			      gconstpointer  *data,
-			      GDestroyNotify *data_destroy_func)
-{
-	int width;
-	int height;
-	gdouble ratio;
-
-	width  = g_file_info_get_attribute_int32(file->info, "frame::width");
-	height = g_file_info_get_attribute_int32(file->info, "frame::height");
-	if (height == 0)
-		height = 1;
-
-	ratio = (gdouble)width / (gdouble)height;
-	*(gdouble*)data = ratio;
-	return 0;
-}
-
-
 void
 gth_main_register_default_tests (void)
 {
@@ -420,11 +400,8 @@ gth_main_register_default_tests (void)
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "frame::aspect-ratio",
-				  GTH_TYPE_TEST_SIMPLE,
+				  GTH_TYPE_TEST_ASPECT_RATIO,
 				  "attributes", "frame::width, frame::height",
 				  "display-name", _("Aspect ratio"),
-				  "data-type", GTH_TEST_DATA_TYPE_FRACTIONAL,
-				  "get-data-func", get_aspect_ratio_for_test,
-				  "max-int", 100,
 				  NULL);
 }
