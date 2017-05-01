@@ -182,7 +182,7 @@ _gth_image_save_to_buffer_common (GthImage      *image,
 	saver = gth_main_get_image_saver (mime_type);
 	if (saver == NULL) {
 		if (p_error != NULL)
-			*p_error = g_error_new (GTH_ERROR, GTH_ERROR_GENERIC, _("Could not find a suitable module to save the image as \"%s\""), mime_type);
+			*p_error = g_error_new (GTH_ERROR, GTH_ERROR_GENERIC, _("Could not find a suitable module to save the image as “%s”"), mime_type);
 		return NULL;
 	}
 

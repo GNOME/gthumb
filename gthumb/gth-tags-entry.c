@@ -478,7 +478,7 @@ text_changed_cb (GtkEntry     *entry,
 	if (can_create_tag (self, self->priv->new_tag)) {
 		char *action_text;
 
-		action_text = g_strdup_printf (_("Create tag «%s»"), self->priv->new_tag);
+		action_text = g_strdup_printf (_("Create tag “%s”"), self->priv->new_tag);
 		gtk_entry_completion_insert_action_text (self->priv->completion, 0, action_text);
 		self->priv->action_create = TRUE;
 

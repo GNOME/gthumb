@@ -363,7 +363,7 @@ gth_browser_activate_remove_catalog (GSimpleAction	 *action,
 		char      *prompt;
 		GtkWidget *d;
 
-		prompt = g_strdup_printf (_("Are you sure you want to remove \"%s\"?"), g_file_info_get_display_name (file_data->info));
+		prompt = g_strdup_printf (_("Are you sure you want to remove “%s”?"), g_file_info_get_display_name (file_data->info));
 		d = _gtk_message_dialog_new (GTK_WINDOW (browser),
 					     GTK_DIALOG_MODAL,
 					     _GTK_ICON_NAME_DIALOG_QUESTION,

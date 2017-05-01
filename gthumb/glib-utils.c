@@ -3264,21 +3264,21 @@ _g_format_duration_for_display (gint64 msecs)
         if (hour > 0)
         {
                 /* hour:minutes:seconds */
-                /* Translators: This is a time format, like "9:05:02" for 9
-                 * hours, 5 minutes, and 2 seconds. You may change ":" to
+                /* Translators: This is a time format, like "9∶05∶02" for 9
+                 * hours, 5 minutes, and 2 seconds. You may change "∶" to
                  * the separator that your locale uses or use "%Id" instead
                  * of "%d" if your locale uses localized digits.
                  */
-                return g_strdup_printf (C_("long time format", "%d:%02d:%02d"), hour, min, sec);
+                return g_strdup_printf (C_("long time format", "%d∶%02d∶%02d"), hour, min, sec);
         }
 
         /* minutes:seconds */
-        /* Translators: This is a time format, like "5:02" for 5
-         * minutes and 2 seconds. You may change ":" to the
+        /* Translators: This is a time format, like "5∶02" for 5
+         * minutes and 2 seconds. You may change "∶" to the
          * separator that your locale uses or use "%Id" instead of
          * "%d" if your locale uses localized digits.
          */
-        return g_strdup_printf (C_("short time format", "%d:%02d"), min, sec);
+        return g_strdup_printf (C_("short time format", "%d∶%02d"), min, sec);
 }
 
 

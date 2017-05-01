@@ -950,9 +950,9 @@ copy_catalog_ready_cb (GError   *error,
 		uri = g_file_get_uri (first_file);
 		extension = _g_uri_get_file_extension (uri);
 		if ((g_strcmp0 (extension, ".catalog") == 0) || (g_strcmp0 (extension, ".search") == 0))
-			msg = g_strdup_printf (_("The catalog '%s' already exists, do you want to overwrite it?"), g_file_info_get_display_name (ccd->destination->info));
+			msg = g_strdup_printf (_("The catalog “%s” already exists, do you want to overwrite it?"), g_file_info_get_display_name (ccd->destination->info));
 		else
-			msg = g_strdup_printf (_("The library '%s' already exists, do you want to overwrite it?"), g_file_info_get_display_name (ccd->destination->info));
+			msg = g_strdup_printf (_("The library “%s” already exists, do you want to overwrite it?"), g_file_info_get_display_name (ccd->destination->info));
 
 		d = _gtk_message_dialog_new (NULL,
 					     GTK_DIALOG_MODAL,
@@ -1132,7 +1132,7 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 		if (cod->progress_callback != NULL) {
 			char *message;
 
-			message = g_strdup_printf (_("Copying files to '%s'"), g_file_info_get_display_name (destination->info));
+			message = g_strdup_printf (_("Copying files to “%s”"), g_file_info_get_display_name (destination->info));
 			(cod->progress_callback) (G_OBJECT (file_source), message, NULL, TRUE, 0.0, cod->user_data);
 
 			g_free (message);

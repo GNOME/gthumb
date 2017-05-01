@@ -162,7 +162,7 @@ load_current_image (GthLoadImageInfoTask *self)
 	image_info = self->priv->images[self->priv->current];
 
 	/* translators: %s is a filename */
-	details = g_strdup_printf (_("Loading \"%s\""), g_file_info_get_display_name (image_info->file_data->info));
+	details = g_strdup_printf (_("Loading “%s”"), g_file_info_get_display_name (image_info->file_data->info));
 	gth_task_progress (GTH_TASK (self),
 			   _("Loading images"),
 			   details,

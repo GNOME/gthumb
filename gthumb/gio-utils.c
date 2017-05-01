@@ -1429,9 +1429,9 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 		destination_parent = g_file_get_parent (copy_file_data->current_destination);
 		destination_name = g_file_get_parse_name (destination_parent);
 		if (copy_file_data->move)
-			copy_file_data->message = g_strdup_printf (_("Moving \"%s\" to \"%s\""), g_file_info_get_display_name (copy_file_data->source->info), destination_name);
+			copy_file_data->message = g_strdup_printf (_("Moving “%s” to “%s”"), g_file_info_get_display_name (copy_file_data->source->info), destination_name);
 		else
-			copy_file_data->message = g_strdup_printf (_("Copying \"%s\" to \"%s\""), g_file_info_get_display_name (copy_file_data->source->info), destination_name);
+			copy_file_data->message = g_strdup_printf (_("Copying “%s” to “%s”"), g_file_info_get_display_name (copy_file_data->source->info), destination_name);
 
 		copy_file_progress_cb (0, 0, copy_file_data);
 

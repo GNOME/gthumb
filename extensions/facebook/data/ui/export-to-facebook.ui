@@ -31,23 +31,23 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">720 x 720</col>
+        <col id="0" translatable="yes">720 × 720</col>
         <col id="1">720</col>
       </row>
       <row>
-        <col id="0" translatable="yes">1024 x 1024</col>
+        <col id="0" translatable="yes">1024 × 1024</col>
         <col id="1">1024</col>
       </row>
       <row>
-        <col id="0" translatable="yes">1280 x 1280</col>
+        <col id="0" translatable="yes">1280 × 1280</col>
         <col id="1">1280</col>
       </row>
       <row>
-        <col id="0" translatable="yes">1600 x 1600</col>
+        <col id="0" translatable="yes">1600 × 1600</col>
         <col id="1">1600</col>
       </row>
       <row>
-        <col id="0" translatable="yes">2048 x 2048</col>
+        <col id="0" translatable="yes">2048 × 2048</col>
         <col id="1">2048</col>
       </row>
     </data>

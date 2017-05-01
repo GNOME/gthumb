@@ -834,7 +834,7 @@ gth_file_mananger_delete_files (GtkWindow *window,
 		file_count = g_list_length (file_list);
 		if (file_count == 1) {
 			GthFileData *file_data = file_list->data;
-			prompt = g_strdup_printf (_("Are you sure you want to permanently delete \"%s\"?"), g_file_info_get_display_name (file_data->info));
+			prompt = g_strdup_printf (_("Are you sure you want to permanently delete “%s”?"), g_file_info_get_display_name (file_data->info));
 		}
 		else
 			prompt = g_strdup_printf (ngettext("Are you sure you want to permanently delete "

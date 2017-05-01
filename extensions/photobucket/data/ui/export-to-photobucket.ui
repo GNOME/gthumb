@@ -31,27 +31,27 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">Tiny ( 100 x 75 )</col>
+        <col id="0" translatable="yes">Tiny ( 100 × 75 )</col>
         <col id="1">100</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Small ( 160 x 120 )</col>
+        <col id="0" translatable="yes">Small ( 160 × 120 )</col>
         <col id="1">160</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Medium ( 320 x 240 )</col>
+        <col id="0" translatable="yes">Medium ( 320 × 240 )</col>
         <col id="1">320</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Large ( 640 x 480 )</col>
+        <col id="0" translatable="yes">Large ( 640 × 480 )</col>
         <col id="1">640</col>
       </row>
       <row>
-        <col id="0" translatable="yes">15ʺ screen ( 800 x 600 )</col>
+        <col id="0" translatable="yes">15ʺ screen ( 800 × 600 )</col>
         <col id="1">800</col>
       </row>
       <row>
-        <col id="0" translatable="yes">17ʺ screen ( 1024 x 768 )</col>
+        <col id="0" translatable="yes">17ʺ screen ( 1024 × 768 )</col>
         <col id="1">1024</col>
       </row>
       <row>

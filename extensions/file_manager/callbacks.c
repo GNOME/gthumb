@@ -776,16 +776,16 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 		if (n_files == 1) {
 			char *filename = _g_file_get_display_name ((GFile *) file_list->data);
 			if (action == GDK_ACTION_MOVE)
-				message = g_strdup_printf (_("Do you want to move \"%s\" to \"%s\"?"), filename, g_file_info_get_display_name (destination->info));
+				message = g_strdup_printf (_("Do you want to move “%s” to “%s”?"), filename, g_file_info_get_display_name (destination->info));
 			else
-				message = g_strdup_printf (_("Do you want to copy \"%s\" to \"%s\"?"), filename, g_file_info_get_display_name (destination->info));
+				message = g_strdup_printf (_("Do you want to copy “%s” to “%s”?"), filename, g_file_info_get_display_name (destination->info));
 			g_free (filename);
 		}
 		else {
 			if (action == GDK_ACTION_MOVE)
-				message = g_strdup_printf (_("Do you want to move the dragged files to \"%s\"?"), g_file_info_get_display_name (destination->info));
+				message = g_strdup_printf (_("Do you want to move the dragged files to “%s”?"), g_file_info_get_display_name (destination->info));
 			else
-				message = g_strdup_printf (_("Do you want to copy the dragged files to \"%s\"?"), g_file_info_get_display_name (destination->info));
+				message = g_strdup_printf (_("Do you want to copy the dragged files to “%s”?"), g_file_info_get_display_name (destination->info));
 		}
 		dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
 						  GTK_DIALOG_MODAL,

@@ -579,23 +579,23 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), self->priv->unit);
 
 	self->priv->ratio_combobox = _gtk_combo_box_new_with_texts (_("None"), _("Square"), NULL);
-	text = g_strdup_printf (_("%d x %d (Image)"), self->priv->original_width, self->priv->original_height);
+	text = g_strdup_printf (_("%d × %d (Image)"), self->priv->original_width, self->priv->original_height);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("image_size_label")), text);
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox), text);
 	g_free (text);
-	text = g_strdup_printf (_("%d x %d (Screen)"), self->priv->screen_width, self->priv->screen_height);
+	text = g_strdup_printf (_("%d × %d (Screen)"), self->priv->screen_width, self->priv->screen_height);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("screen_size_label")), text);
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox), text);
 	g_free (text);
 	_gtk_combo_box_append_texts (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox),
-				     _("5:4"),
-				     _("4:3 (DVD, Book)"),
-				     _("7:5"),
-				     _("3:2 (Postcard)"),
-				     _("16:10"),
-				     _("16:9 (DVD)"),
-				     _("1.85:1"),
-				     _("2.39:1"),
+				     _("5∶4"),
+				     _("4∶3 (DVD, Book)"),
+				     _("7∶5"),
+				     _("3∶2 (Postcard)"),
+				     _("16∶10"),
+				     _("16∶9 (DVD)"),
+				     _("1.85∶1"),
+				     _("2.39∶1"),
 				     _("Custom"),
 				     NULL);
 	gtk_widget_show (self->priv->ratio_combobox);

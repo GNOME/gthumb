@@ -857,7 +857,7 @@ post_photos_done (PicasaWebService *self,
 			GthFileData *file_data = self->priv->post_photos->current->data;
 			char        *msg;
 
-			msg = g_strdup_printf (_("Could not upload '%s': %s"), g_file_info_get_display_name (file_data->info), error->message);
+			msg = g_strdup_printf (_("Could not upload “%s”: %s"), g_file_info_get_display_name (file_data->info), error->message);
 			g_free (error->message);
 			error->message = msg;
 		}
@@ -914,7 +914,7 @@ upload_photo_wrote_body_data_cb (SoupMessage *msg,
 
 	file_data = self->priv->post_photos->current->data;
 	/* Translators: %s is a filename */
-	details = g_strdup_printf (_("Uploading '%s'"), g_file_info_get_display_name (file_data->info));
+	details = g_strdup_printf (_("Uploading “%s”"), g_file_info_get_display_name (file_data->info));
 	current_file_fraction = (double) self->priv->post_photos->wrote_body_data_size / msg->request_body->length;
 	gth_task_progress (GTH_TASK (self),
 			   NULL,

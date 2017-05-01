@@ -500,7 +500,7 @@ old_authorization_complete (FlickrService *self)
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), _RESPONSE_CONTINUE, TRUE);
 
 	text = g_strdup_printf (_("Return to this window when you have finished the authorization process on %s"), self->priv->server->display_name);
-	secondary_text = g_strdup (_("Once you're done, click the 'Continue' button below."));
+	secondary_text = g_strdup (_("Once you’re done, click the “Continue” button below."));
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 	gtk_window_present (GTK_WINDOW (dialog));
 
@@ -577,7 +577,7 @@ old_auth_frob_ready_cb (GObject      *source_object,
 				NULL);
 
 	text = g_strdup_printf (_("gThumb requires your authorization to upload the photos to %s"), self->priv->server->display_name);
-	secondary_text = g_strdup_printf (_("Click 'Authorize' to open your web browser and authorize gthumb to upload photos to %s. When you're finished, return to this window to complete the authorization."), self->priv->server->display_name);
+	secondary_text = g_strdup_printf (_("Click “Authorize” to open your web browser and authorize gthumb to upload photos to %s. When you’re finished, return to this window to complete the authorization."), self->priv->server->display_name);
 	g_object_set (dialog, "text", text, "secondary-text", secondary_text, NULL);
 
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), _RESPONSE_AUTHORIZE, TRUE);
@@ -1182,7 +1182,7 @@ post_photos_done (FlickrService *self,
 			GthFileData *file_data = self->priv->post_photos->current->data;
 			char        *msg;
 
-			msg = g_strdup_printf (_("Could not upload '%s': %s"), g_file_info_get_display_name (file_data->info), error->message);
+			msg = g_strdup_printf (_("Could not upload “%s”: %s"), g_file_info_get_display_name (file_data->info), error->message);
 			g_free (error->message);
 			error->message = msg;
 		}
@@ -1293,7 +1293,7 @@ upload_photo_wrote_body_data_cb (SoupMessage *msg,
 
 	file_data = self->priv->post_photos->current->data;
 	/* Translators: %s is a filename */
-	details = g_strdup_printf (_("Uploading '%s'"), g_file_info_get_display_name (file_data->info));
+	details = g_strdup_printf (_("Uploading “%s”"), g_file_info_get_display_name (file_data->info));
 	current_file_fraction = (double) self->priv->post_photos->wrote_body_data_size / msg->request_body->length;
 	gth_task_progress (GTH_TASK (self),
 			   NULL,

@@ -432,21 +432,21 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	self->priv->crop_height_spinbutton = _gtk_builder_get_widget (self->priv->builder, "crop_height_spinbutton");
 
 	self->priv->ratio_combobox = _gtk_combo_box_new_with_texts (_("None"), _("Square"), NULL);
-	text = g_strdup_printf (_("%d x %d (Image)"), self->priv->original_width, self->priv->original_height);
+	text = g_strdup_printf (_("%d × %d (Image)"), self->priv->original_width, self->priv->original_height);
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox), text);
 	g_free (text);
-	text = g_strdup_printf (_("%d x %d (Screen)"), self->priv->screen_width, self->priv->screen_height);
+	text = g_strdup_printf (_("%d × %d (Screen)"), self->priv->screen_width, self->priv->screen_height);
 	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox), text);
 	g_free (text);
 	_gtk_combo_box_append_texts (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox),
-				     _("5:4"),
-				     _("4:3 (DVD, Book)"),
-				     _("7:5"),
-				     _("3:2 (Postcard)"),
-				     _("16:10"),
-				     _("16:9 (DVD)"),
-				     _("1.85:1"),
-				     _("2.39:1"),
+				     _("5∶4"),
+				     _("4∶3 (DVD, Book)"),
+				     _("7∶5"),
+				     _("3∶2 (Postcard)"),
+				     _("16∶10"),
+				     _("16∶9 (DVD)"),
+				     _("1.85∶1"),
+				     _("2.39∶1"),
 				     _("Custom"),
 				     NULL);
 	gtk_widget_show (self->priv->ratio_combobox);

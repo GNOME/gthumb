@@ -1103,7 +1103,7 @@ load_data_done (LoadData *load_data,
 	}
 
 	gth_browser_update_sensitivity (browser);
-	title = file_format (_("Could not load the position \"%s\""), load_data->requested_folder->file);
+	title = file_format (_("Could not load the position “%s”"), load_data->requested_folder->file);
 	_gth_browser_show_error (browser, title, error);
 
 	g_free (title);
@@ -1667,7 +1667,7 @@ mount_volume_ready_cb (GObject      *source_object,
 	if (! g_file_mount_enclosing_volume_finish (G_FILE (source_object), result, &error)) {
 		char *title;
 
-		title = file_format (_("Could not load the position \"%s\""), load_data->requested_folder->file);
+		title = file_format (_("Could not load the position “%s”"), load_data->requested_folder->file);
 		_gth_browser_show_error (load_data->browser, title, error);
 		g_clear_error (&error);
 
@@ -1920,12 +1920,12 @@ gth_browser_ask_whether_to_save (GthBrowser         *browser,
 
 	gtk_window_present (GTK_WINDOW (browser));
 
-	title = g_strdup_printf (_("Save changes to file '%s'?"), g_file_info_get_display_name (browser->priv->current_file->info));
+	title = g_strdup_printf (_("Save changes to file “%s”?"), g_file_info_get_display_name (browser->priv->current_file->info));
 	d = _gtk_message_dialog_new (GTK_WINDOW (browser),
 				     GTK_DIALOG_MODAL,
 				     _GTK_ICON_NAME_DIALOG_QUESTION,
 				     title,
-				     _("If you don't save, changes to the file will be permanently lost."),
+				     _("If you don’t save, changes to the file will be permanently lost."),
 				     _("Do _Not Save"), RESPONSE_NO_SAVE,
 				     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 				     _GTK_LABEL_SAVE, RESPONSE_SAVE,
@@ -6546,7 +6546,7 @@ load_file_attributes_ready_cb (GObject  *object,
 			char   *title;
 			GError *error;
 
-			title =  file_format (_("Could not load the position \"%s\""), data->location_data->file);
+			title =  file_format (_("Could not load the position “%s”"), data->location_data->file);
 			error = g_error_new (GTH_ERROR, 0, _("File type not supported"));
 			_gth_browser_show_error (browser, title, error);
 			g_clear_error (&error);
@@ -6565,7 +6565,7 @@ load_file_attributes_ready_cb (GObject  *object,
 	else {
 		char *title;
 
-		title =  file_format (_("Could not load the position \"%s\""), data->location_data->file);
+		title =  file_format (_("Could not load the position “%s”"), data->location_data->file);
 		_gth_browser_show_error (browser, title, error);
 
 		g_free (title);
@@ -6589,7 +6589,7 @@ gth_browser_load_location (GthBrowser *browser,
 		char   *title;
 		GError *error;
 
-		title =  file_format (_("Could not load the position \"%s\""), data->location_data->file);
+		title =  file_format (_("Could not load the position “%s”"), data->location_data->file);
 		error = g_error_new (GTH_ERROR, 0, _("No suitable module found"));
 		_gth_browser_show_error (browser, title, error);
 		g_clear_error (&error);

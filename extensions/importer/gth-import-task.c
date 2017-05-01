@@ -871,8 +871,8 @@ gth_import_task_check_free_space (GFile   *destination,
 
 		*error = g_error_new (G_IO_ERROR,
 				      G_IO_ERROR_NO_SPACE,
-				      /* Translators: For example: Not enough free space in '/home/user/Images'.\n1.3 GB of space is required but only 300 MB is available. */
-				      _("Not enough free space in '%s'.\n%s of space is required but only %s is available."),
+				      /* Translators: For example: Not enough free space in “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is available. */
+				      _("Not enough free space in “%s”.\n%s of space is required but only %s is available."),
 				      destination_name,
 				      min_free_space_s,
 				      free_space_s);

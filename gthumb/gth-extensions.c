@@ -200,7 +200,7 @@ gth_extension_module_real_open (GthExtension  *base,
 
 	if (self->priv->module == NULL) {
 		if (error != NULL)
-			*error = g_error_new (G_IO_ERROR, G_IO_ERROR_FAILED, _("Could not open the module `%s`: %s"), self->priv->module_name, g_module_error ());
+			*error = g_error_new (G_IO_ERROR, G_IO_ERROR_FAILED, _("Could not open the module “%s”: %s"), self->priv->module_name, g_module_error ());
 	}
 
 	return self->priv->module != NULL;
@@ -751,7 +751,7 @@ gth_extension_manager_deactivate (GthExtensionManager  *manager,
 		GthExtensionDescription *child_description = scan->data;
 
 		if (gth_extension_description_is_active (child_description)) {
-			*error = g_error_new (GTH_ERROR, GTH_ERROR_EXTENSION_DEPENDENCY, _("The extension '%1$s' is required by the extension '%2$s'"), description->name, child_description->name);
+			*error = g_error_new (GTH_ERROR, GTH_ERROR_EXTENSION_DEPENDENCY, _("The extension “%1$s” is required by the extension “%2$s”"), description->name, child_description->name);
 			break;
 		}
 	}

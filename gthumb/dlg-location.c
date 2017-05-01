@@ -197,7 +197,7 @@ ok_button_clicked_cb (GtkWidget  *widget,
 	if (uri == NULL) {
 		char *title;
 
-		title = g_strdup_printf (_("Could not load the position \"%s\""), gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("location_entry"))));
+		title = g_strdup_printf (_("Could not load the position “%s”"), gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("location_entry"))));
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (GET_WIDGET ("location_dialog")), title, error);
 
 		g_free (title);
