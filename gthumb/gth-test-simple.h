@@ -51,7 +51,7 @@ typedef enum {
 	GTH_TEST_DATA_TYPE_SIZE,
 	GTH_TEST_DATA_TYPE_STRING,
 	GTH_TEST_DATA_TYPE_DATE,
-	GTH_TEST_DATA_TYPE_FRACTIONAL
+	GTH_TEST_DATA_TYPE_DOUBLE
 } GthTestDataType;
 
 struct _GthTestSimple
@@ -74,8 +74,8 @@ void   gth_test_simple_set_data_as_size   (GthTestSimple *test,
 					   guint64        i);
 void   gth_test_simple_set_data_as_date   (GthTestSimple *test,
 				   	   GDate         *date);
-void   gth_test_simple_set_data_as_fractional   (GthTestSimple *test,
-				   	   gdouble         f);
+void   gth_test_simple_set_data_as_double (GthTestSimple *test,
+				   	   gdouble        f);
 
 G_END_DECLS
 

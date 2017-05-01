@@ -86,12 +86,13 @@ enum {
         PROP_DATA_TYPE,
         PROP_DATA_AS_STRING,
         PROP_DATA_AS_INT,
-        PROP_DATA_AS_FRACTIONAL,
+	PROP_DATA_AS_DOUBLE,
         PROP_DATA_AS_DATE,
         PROP_GET_DATA,
         PROP_OP,
         PROP_NEGATIVE,
-        PROP_MAX_INT
+	PROP_MAX_INT,
+	PROP_MAX_DOUBLE
 };
 
 
@@ -108,6 +109,7 @@ struct _GthTestSimplePrivate
 	GthTestOp        op;
 	gboolean         negative;
 	gint64           max_int;
+	double           max_double;
 	GPatternSpec    *pattern;
 	gboolean         has_focus;
 	GtkWidget       *text_entry;
@@ -120,11 +122,11 @@ struct _GthTestSimplePrivate
 };
 
 
-static DomDomizableInterface* dom_domizable_parent_iface = NULL;
+static DomDomizableInterface *dom_domizable_parent_iface = NULL;
 static GthDuplicableInterface *gth_duplicable_parent_iface = NULL;
 
 
-static void gth_test_simple_dom_domizable_interface_init (DomDomizableInterface * iface);
+static void gth_test_simple_dom_domizable_interface_init (DomDomizableInterface *iface);
 static void gth_test_simple_gth_duplicable_interface_init (GthDuplicableInterface *iface);
 
 
@@ -307,7 +309,7 @@ create_control_for_integer (GthTestSimple *test)
 }
 
 static GtkWidget *
-create_control_for_fractional (GthTestSimple *test)
+create_control_for_double (GthTestSimple *test)
 {
 	GtkWidget *control;
 	int        i, op_idx;
@@ -335,7 +337,7 @@ create_control_for_fractional (GthTestSimple *test)
 
 	/* spin button */
 
-	test->priv->spinbutton = gtk_spin_button_new_with_range (0, test->priv->max_int, 0.01);
+	test->priv->spinbutton = gtk_spin_button_new_with_range (0, test->priv->max_double, 0.01);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (test->priv->spinbutton), test->priv->data.f);
 	gtk_widget_show (test->priv->spinbutton);
 
@@ -612,8 +614,8 @@ gth_test_simple_real_create_control (GthTest *test)
 		control = create_control_for_date (GTH_TEST_SIMPLE (test));
 		break;
 
-	case GTH_TEST_DATA_TYPE_FRACTIONAL:
-		control = create_control_for_fractional (GTH_TEST_SIMPLE (test));
+	case GTH_TEST_DATA_TYPE_DOUBLE:
+		control = create_control_for_double (GTH_TEST_SIMPLE (test));
 		break;
 	}
 
@@ -703,15 +705,16 @@ test_integer (GthTestSimple *test,
 	return result;
 }
 
+
 static gboolean
-test_fractional (GthTestSimple *test,
-              gdouble       value)
+test_double (GthTestSimple *test,
+             gdouble        value)
 {
 	gboolean result = FALSE;
 
 	switch (test->priv->op) {
 	case GTH_TEST_OP_EQUAL:
-		result = (fabs(value - test->priv->data.f) <= 0.005);
+		result = FLOAT_EQUAL (value, test->priv->data.f);
 		break;
 
 	case GTH_TEST_OP_LOWER:
@@ -727,6 +730,7 @@ test_fractional (GthTestSimple *test,
 	}
 	return result;
 }
+
 
 static gboolean
 test_date (GthTestSimple *test,
@@ -780,14 +784,18 @@ _gth_test_simple_get_int (GthTestSimple *test,
         return test->priv->get_data (GTH_TEST (test), file, NULL, NULL);
 }
 
+
 static gdouble
-_gth_test_simple_get_fractional (GthTestSimple *test,
-			  GthFileData   *file)
+_gth_test_simple_get_double (GthTestSimple *test,
+			     GthFileData   *file)
 {
-		gdouble stuff;
-        test->priv->get_data (GTH_TEST (test), file, (gpointer)&stuff, NULL);
-        return stuff;
+	gdouble value;
+
+	test->priv->get_data (GTH_TEST (test), file, (gpointer)&value, NULL);
+
+	return value;
 }
+
 
 static GthMatch
 gth_test_simple_real_match (GthTest   *test,
@@ -810,8 +818,8 @@ gth_test_simple_real_match (GthTest   *test,
 		result = test_integer (test_simple, _gth_test_simple_get_int (test_simple, file));
 		break;
 
-	case GTH_TEST_DATA_TYPE_FRACTIONAL:
-		result = test_fractional (test_simple, _gth_test_simple_get_fractional (test_simple, file));
+	case GTH_TEST_DATA_TYPE_DOUBLE:
+		result = test_double (test_simple, _gth_test_simple_get_double (test_simple, file));
 		break;
 
 	case GTH_TEST_DATA_TYPE_STRING:
@@ -871,7 +879,7 @@ gth_test_simple_real_create_element (DomDomizable *base,
 		}
 		break;
 
-	case GTH_TEST_DATA_TYPE_FRACTIONAL:
+	case GTH_TEST_DATA_TYPE_DOUBLE:
 		dom_element_set_attribute (element, "op", _g_enum_type_get_value (GTH_TYPE_TEST_OP, self->priv->op)->value_nick);
 		if (self->priv->op != GTH_TEST_OP_NONE) {
 			if (self->priv->negative)
@@ -945,8 +953,8 @@ gth_test_simple_real_load_from_element (DomDomizable *base,
 		gth_test_simple_set_data_as_int (self, atol (value));
 		break;
 
-	case GTH_TEST_DATA_TYPE_FRACTIONAL:
-		gth_test_simple_set_data_as_fractional (self, atof (value));
+	case GTH_TEST_DATA_TYPE_DOUBLE:
+		gth_test_simple_set_data_as_double (self, atof (value));
 		break;
 
 	case GTH_TEST_DATA_TYPE_SIZE:
@@ -989,18 +997,21 @@ update_from_control_for_integer (GthTestSimple  *self,
 	return TRUE;
 }
 
+
 static gboolean
-update_from_control_for_fractional (GthTestSimple  *self,
-				 GError        **error)
+update_from_control_for_double (GthTestSimple  *self,
+				GError        **error)
 {
 	GthOpData op_data;
 
 	op_data = int_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->text_op_combo_box))];
 	self->priv->op = op_data.op;
 	self->priv->negative = op_data.negative;
-	gth_test_simple_set_data_as_fractional (self, gtk_spin_button_get_value  (GTK_SPIN_BUTTON (self->priv->spinbutton)));
+	gth_test_simple_set_data_as_double (self, gtk_spin_button_get_value  (GTK_SPIN_BUTTON (self->priv->spinbutton)));
+
 	return TRUE;
 }
+
 
 static gboolean
 update_from_control_for_size (GthTestSimple  *self,
@@ -1089,8 +1100,8 @@ gth_test_simple_real_update_from_control (GthTest  *base,
 		retval = update_from_control_for_integer (self, error);
 		break;
 
-	case GTH_TEST_DATA_TYPE_FRACTIONAL:
-		retval = update_from_control_for_fractional (self, error);
+	case GTH_TEST_DATA_TYPE_DOUBLE:
+		retval = update_from_control_for_double (self, error);
 		break;
 
 	case GTH_TEST_DATA_TYPE_SIZE:
@@ -1124,7 +1135,7 @@ gth_test_simple_real_focus_control (GthTest *base)
 
 	switch (self->priv->data_type) {
 	case GTH_TEST_DATA_TYPE_INT:
-	case GTH_TEST_DATA_TYPE_FRACTIONAL:
+	case GTH_TEST_DATA_TYPE_DOUBLE:
 		gtk_widget_grab_focus (self->priv->spinbutton);
 		break;
 
@@ -1164,8 +1175,8 @@ gth_test_simple_real_duplicate (GthDuplicable *duplicable)
 		gth_test_simple_set_data_as_int (new_test, test->priv->data.i);
 		break;
 
-	case GTH_TEST_DATA_TYPE_FRACTIONAL:
-		gth_test_simple_set_data_as_fractional (new_test, test->priv->data.f);
+	case GTH_TEST_DATA_TYPE_DOUBLE:
+		gth_test_simple_set_data_as_double (new_test, test->priv->data.f);
 		break;
 
 	case GTH_TEST_DATA_TYPE_SIZE:
@@ -1185,6 +1196,7 @@ gth_test_simple_real_duplicate (GthDuplicable *duplicable)
 	new_test->priv->op = test->priv->op;
 	new_test->priv->negative = test->priv->negative;
 	new_test->priv->max_int = test->priv->max_int;
+	new_test->priv->max_double = test->priv->max_double;
 
 	return (GObject *) new_test;
 }
@@ -1215,7 +1227,7 @@ gth_test_simple_set_property (GObject      *object,
 		test->priv->data.i = g_value_get_int (value);
 		break;
 
-	case PROP_DATA_AS_FRACTIONAL:
+	case PROP_DATA_AS_DOUBLE:
 		_gth_test_simple_free_data (test);
 		test->priv->data.f = g_value_get_double (value);
 		break;
@@ -1239,6 +1251,10 @@ gth_test_simple_set_property (GObject      *object,
 
 	case PROP_MAX_INT:
 		test->priv->max_int = g_value_get_int (value);
+		break;
+
+	case PROP_MAX_DOUBLE:
+		test->priv->max_double = g_value_get_double (value);
 		break;
 
 	default:
@@ -1270,7 +1286,7 @@ gth_test_simple_get_property (GObject    *object,
 		g_value_set_int (value, test->priv->data.i);
 		break;
 
-	case PROP_DATA_AS_FRACTIONAL:
+	case PROP_DATA_AS_DOUBLE:
 		g_value_set_double (value, test->priv->data.f);
 		break;
 
@@ -1292,6 +1308,10 @@ gth_test_simple_get_property (GObject    *object,
 
 	case PROP_MAX_INT:
 		g_value_set_int (value, test->priv->max_int);
+		break;
+
+	case PROP_MAX_DOUBLE:
+		g_value_set_double (value, test->priv->max_double);
 		break;
 
 	default:
@@ -1345,14 +1365,14 @@ gth_test_simple_class_init (GthTestSimpleClass *class)
                                                            0,
                                                            G_PARAM_READWRITE));
 	g_object_class_install_property (object_class,
-					 PROP_DATA_AS_FRACTIONAL,
-					 g_param_spec_double ("data-as-fractional",
-                                                           "Data as fractional",
-                                                           "The data value as an fractional",
-                                                           G_MINDOUBLE,
-                                                           G_MAXDOUBLE,
-                                                           1.0,
-                                                           G_PARAM_READWRITE));
+					 PROP_DATA_AS_DOUBLE,
+					 g_param_spec_double ("data-as-double",
+                                                              "Data as double",
+							      "The data value as a double precision real number",
+							      G_MINDOUBLE,
+							      G_MAXDOUBLE,
+							      1.0,
+							      G_PARAM_READWRITE));
 	g_object_class_install_property (object_class,
 					 PROP_DATA_AS_DATE,
 					 g_param_spec_boxed ("data-as-date",
@@ -1381,7 +1401,6 @@ gth_test_simple_class_init (GthTestSimpleClass *class)
                                                                "Whether to negate the test result",
                                                                FALSE,
                                                                G_PARAM_READWRITE));
-
 	g_object_class_install_property (object_class,
 					 PROP_MAX_INT,
 					 g_param_spec_int ("max-int",
@@ -1390,6 +1409,15 @@ gth_test_simple_class_init (GthTestSimpleClass *class)
                                                            G_MININT,
                                                            G_MAXINT,
                                                            0,
+                                                           G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_MAX_DOUBLE,
+					 g_param_spec_int ("max-double",
+                                                           "Max double",
+                                                           "Max value for doubles",
+                                                           G_MININT,
+                                                           G_MAXINT,
+                                                           0.0,
                                                            G_PARAM_READWRITE));
 }
 
@@ -1438,14 +1466,16 @@ gth_test_simple_set_data_as_int (GthTestSimple *test,
 	test->priv->data.i = i;
 }
 
+
 void
-gth_test_simple_set_data_as_fractional (GthTestSimple *test,
-			         gdouble         f)
+gth_test_simple_set_data_as_double (GthTestSimple *test,
+			            gdouble        f)
 {
 	_gth_test_simple_free_data (test);
-	test->priv->data_type = GTH_TEST_DATA_TYPE_FRACTIONAL;
+	test->priv->data_type = GTH_TEST_DATA_TYPE_DOUBLE;
 	test->priv->data.f = f;
 }
+
 
 void
 gth_test_simple_set_data_as_size (GthTestSimple *test,
