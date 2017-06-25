@@ -110,7 +110,7 @@ _gth_image_overviewer_disconnect_from_viewer (GthImageOverview *self)
 	}
 
 	if (self->priv->viewer != NULL) {
-		g_object_remove_weak_pointer (G_OBJECT (self->priv->viewer), &self->priv->viewer);
+		g_object_remove_weak_pointer (G_OBJECT (self->priv->viewer), (gpointer *) &self->priv->viewer);
 		self->priv->viewer = NULL;
 	}
 }

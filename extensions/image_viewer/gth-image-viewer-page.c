@@ -1029,7 +1029,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 
 	self->priv->viewer = gth_image_viewer_new ();
-	g_object_add_weak_pointer (G_OBJECT (self->priv->viewer), &self->priv->viewer);
+	g_object_add_weak_pointer (G_OBJECT (self->priv->viewer), (gpointer *) &self->priv->viewer);
 	gtk_widget_add_events (self->priv->viewer, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
 	gth_image_viewer_page_reset_viewer_tool (self);
 	gtk_widget_show (self->priv->viewer);

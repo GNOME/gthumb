@@ -169,7 +169,7 @@ gth_image_dragger_set_viewer (GthImageViewerTool *base,
 	GthImageDragger *self = GTH_IMAGE_DRAGGER (base);
 
 	self->priv->viewer = image_viewer;
-	g_object_add_weak_pointer (G_OBJECT (image_viewer), &self->priv->viewer);
+	g_object_add_weak_pointer (G_OBJECT (image_viewer), (gpointer *) &self->priv->viewer);
 	if (self->priv->show_frame)
 		gth_image_viewer_show_frame (self->priv->viewer, FRAME_BORDER);
 }
@@ -183,7 +183,7 @@ gth_image_dragger_unset_viewer (GthImageViewerTool *base,
 
 	if ((self->priv->viewer != NULL) && self->priv->show_frame)
 		gth_image_viewer_hide_frame (self->priv->viewer);
-	g_object_remove_weak_pointer (G_OBJECT (image_viewer), &self->priv->viewer);
+	g_object_remove_weak_pointer (G_OBJECT (image_viewer),  (gpointer *) &self->priv->viewer);
 	self->priv->viewer = NULL;
 }
 

@@ -117,8 +117,6 @@ color_text_icon_press_cb (GtkEntry             *entry,
 			  GdkEvent             *event,
 			  gpointer              user_data)
 {
-	GthFileToolColorPicker *self = user_data;
-
 	if (icon_pos == GTK_ENTRY_ICON_SECONDARY) {
 		gtk_clipboard_set_text (gtk_clipboard_get_default (gtk_widget_get_display (GTK_WIDGET (entry))),
 					gtk_entry_get_text (GTK_ENTRY (entry)),

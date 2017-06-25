@@ -92,7 +92,7 @@ gth_time_selector_unmap (GtkWidget *widget)
 }
 
 
-gboolean
+static gboolean
 gth_time_selector_real_focus (GtkWidget        *base,
 			      GtkDirectionType  direction)
 {
