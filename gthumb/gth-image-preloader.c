@@ -78,7 +78,7 @@ struct _GthImagePreloaderPrivate {
 	GthImageLoader		*loader;
 	GQueue			*cache;
 	guint                    load_next_id;
-	GthICCProfile            out_profile;
+	GthICCData              *out_profile;
 };
 
 
@@ -251,6 +251,7 @@ gth_image_preloader_finalize (GObject *object)
 	g_list_free (self->priv->requests);
 
 	g_object_unref (self->priv->loader);
+	_g_object_unref (self->priv->out_profile);
 	g_queue_free_full (self->priv->cache, (GDestroyNotify) cache_data_unref);
 
 	G_OBJECT_CLASS (gth_image_preloader_parent_class)->finalize (object);
@@ -292,9 +293,12 @@ gth_image_preloader_new (void)
 
 void
 gth_image_preloader_set_out_profile (GthImagePreloader *self,
-				     GthICCProfile      out_profile)
+				     GthICCData        *out_profile)
 {
 	g_return_if_fail (self != NULL);
+
+	_g_object_ref (out_profile);
+	_g_object_unref (self->priv->out_profile);
 	self->priv->out_profile = out_profile;
 }
 

@@ -203,20 +203,39 @@ _gth_image_preloader_get_requested_size_for_current_image (GthImageViewerPage *s
 }
 
 
-static void
-_gth_image_viewer_page_load_with_preloader (GthImageViewerPage  *self,
-					    GthFileData         *file_data,
-					    int                  requested_size,
-					    GCancellable        *cancellable,
-					    GAsyncReadyCallback  callback,
-					    gpointer		 user_data)
-{
-	if (self->priv->apply_icc_profile)
-		gth_image_preloader_set_out_profile (self->priv->preloader, gth_browser_get_screen_profile (self->priv->browser));
-	else
-		gth_image_preloader_set_out_profile (self->priv->preloader, NULL);
+/* -- _gth_image_viewer_page_load_with_preloader -- */
 
+
+typedef struct {
+	GthImageViewerPage  *self;
+	GthFileData         *file_data;
+	int                  requested_size;
+	GCancellable        *cancellable;
+	GAsyncReadyCallback  callback;
+	gpointer	     user_data;
+} ProfileData;
+
+
+static void
+profile_data_free (ProfileData *profile_data)
+{
+	_g_object_unref (profile_data->cancellable);
+	_g_object_unref (profile_data->file_data);
+	_g_object_unref (profile_data->self);
+	g_free (profile_data);
+}
+
+
+static void
+_gth_image_viewer_page_load_with_preloader_step2 (GthImageViewerPage  *self,
+						  GthFileData         *file_data,
+						  int                  requested_size,
+						  GCancellable        *cancellable,
+						  GAsyncReadyCallback  callback,
+						  gpointer	       user_data)
+{
 	g_object_ref (self);
+
 	gth_image_preloader_load (self->priv->preloader,
 				  file_data,
 				  requested_size,
@@ -228,6 +247,69 @@ _gth_image_viewer_page_load_with_preloader (GthImageViewerPage  *self,
 				  self->priv->next_file_data[1],
 				  self->priv->prev_file_data[0],
 				  self->priv->prev_file_data[1]);
+}
+
+
+static void
+profile_ready_cb (GObject      *source_object,
+                  GAsyncResult *res,
+                  gpointer      user_data)
+{
+	ProfileData        *profile_data = user_data;
+	GthImageViewerPage *self = profile_data->self;
+	GthICCData         *profile;
+
+	profile = gth_color_manager_get_profile_finish (GTH_COLOR_MANAGER (source_object), res, NULL);
+	if (profile == NULL)
+		profile = gth_browser_get_monitor_profile (self->priv->browser);
+	gth_image_preloader_set_out_profile (self->priv->preloader, profile);
+
+	_gth_image_viewer_page_load_with_preloader_step2 (profile_data->self,
+							  profile_data->file_data,
+							  profile_data->requested_size,
+							  profile_data->cancellable,
+							  profile_data->callback,
+							  profile_data->user_data);
+
+	_g_object_unref (profile);
+	profile_data_free (profile_data);
+}
+
+
+static void
+_gth_image_viewer_page_load_with_preloader (GthImageViewerPage  *self,
+					    GthFileData         *file_data,
+					    int                  requested_size,
+					    GCancellable        *cancellable,
+					    GAsyncReadyCallback  callback,
+					    gpointer		 user_data)
+{
+	if (self->priv->apply_icc_profile) {
+		char *monitor_name = NULL;
+
+		if (_gtk_window_get_monitor_info (GTK_WINDOW (self->priv->browser), NULL, NULL, &monitor_name)) {
+			ProfileData *profile_data;
+
+			profile_data = g_new (ProfileData, 1);
+			profile_data->self = g_object_ref (self);
+			profile_data->file_data = g_object_ref (file_data);
+			profile_data->requested_size = requested_size;
+			profile_data->cancellable = _g_object_ref (cancellable);
+			profile_data->callback = callback;
+			profile_data->user_data = user_data;
+
+			gth_color_manager_get_profile_async (gth_main_get_default_color_manager(),
+							     monitor_name,
+							     cancellable,
+							     profile_ready_cb,
+							     profile_data);
+
+			return;
+		}
+	}
+
+	gth_image_preloader_set_out_profile (self->priv->preloader, NULL);
+	_gth_image_viewer_page_load_with_preloader_step2 (self, file_data, requested_size, cancellable, callback, user_data);
 }
 
 

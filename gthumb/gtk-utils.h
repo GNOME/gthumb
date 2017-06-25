@@ -152,7 +152,8 @@ void		_gtk_window_add_accelerators_from_menu	   (GtkWindow		*window,
 gboolean	_gtk_window_get_is_maximized 		   (GtkWindow		*window);
 gboolean        _gtk_window_get_monitor_info               (GtkWindow		*window,
 							    GdkRectangle        *geometry,
-							    int                 *number);
+							    int                 *number,
+							    char               **name);
 GdkDevice *     _gtk_widget_get_client_pointer		   (GtkWidget		*widget);
 void            _gtk_list_box_add_separator		   (GtkListBox		*list_box);
 gboolean        _gtk_settings_get_dialogs_use_header       (void);

@@ -1151,9 +1151,10 @@ _gtk_window_get_is_maximized (GtkWindow *window)
 
 
 gboolean
-_gtk_window_get_monitor_info (GtkWindow	   *window,
-			      GdkRectangle *geometry,
-			      int          *number)
+_gtk_window_get_monitor_info (GtkWindow	    *window,
+			      GdkRectangle  *geometry,
+			      int           *number,
+			      char         **name)
 {
 #if GTK_CHECK_VERSION(3, 22, 0)
 
@@ -1171,9 +1172,10 @@ _gtk_window_get_monitor_info (GtkWindow	   *window,
 	if (geometry != NULL)
 		gdk_monitor_get_geometry (monitor, geometry);
 
-	if (number != NULL) {
+	if ((number != NULL) || (name != NULL)) {
 		GdkDisplay *display;
 		int         monitor_num;
+		const char *monitor_name;
 		int         i;
 
 		display = gdk_monitor_get_display (monitor);
@@ -1182,12 +1184,15 @@ _gtk_window_get_monitor_info (GtkWindow	   *window,
 			GdkMonitor *m = gdk_display_get_monitor (display, i);
 			if (m == monitor) {
 				monitor_num = i;
+				monitor_name = gdk_monitor_get_model (monitor);
 				break;
 			}
 			if (m == NULL)
 				break;
 		}
-		*number = monitor_num;
+
+		if (number != NULL) *number = monitor_num;
+		if (name != NULL) *name = g_strdup (monitor_name);
 	}
 
 #else
@@ -1207,9 +1212,11 @@ _gtk_window_get_monitor_info (GtkWindow	   *window,
 	monitor_num = gdk_screen_get_monitor_at_window (screen, win);
 	if (number != NULL)
 		*number = monitor_num;
-
 	if (geometry != NULL)
 		gdk_screen_get_monitor_geometry (screen, monitor_num, geometry);
+	if (name != NULL)
+		*name = gdk_screen_get_monitor_plug_name (screen, monitor_num);
+
 #endif
 
 	return TRUE;

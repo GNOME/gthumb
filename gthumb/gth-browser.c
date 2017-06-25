@@ -2599,7 +2599,7 @@ gth_browser_finalize (GObject *object)
 	g_free (browser->priv->list_attributes);
 	_g_object_unref (browser->priv->folder_popup_file_data);
 	_g_object_unref (browser->priv->history_menu);
-	gth_icc_profile_free (browser->priv->screen_profile);
+	_g_object_unref (browser->priv->screen_profile);
 	gtk_tree_path_free (browser->priv->folder_tree_last_dest_row);
 
 	G_OBJECT_CLASS (gth_browser_parent_class)->finalize (object);
@@ -6951,36 +6951,45 @@ gth_browser_apply_editor_changes (GthBrowser *browser)
 }
 
 
-GthICCProfile
-gth_browser_get_screen_profile (GthBrowser *browser)
+GthICCData *
+gth_browser_get_monitor_profile (GthBrowser *browser)
 {
 #if HAVE_LCMS2
 	if (browser->priv->screen_profile == NULL) {
-		GdkScreen *screen;
-		char      *atom_name;
-		GdkAtom    type    = GDK_NONE;
-		int        format  = 0;
-		int        nitems  = 0;
-		guchar    *data    = NULL;
+		int monitor_num;
 
-		screen = gtk_widget_get_screen (GTK_WIDGET (browser));
-		if (gdk_screen_get_number (screen) > 0)
-			atom_name = g_strdup_printf ("_ICC_PROFILE_%d", gdk_screen_get_number (screen));
-		else
-			atom_name = g_strdup ("_ICC_PROFILE");
+		if (_gtk_window_get_monitor_info (GTK_WINDOW (browser), NULL, &monitor_num, NULL)) {
+			char      *atom_name;
+			GdkAtom    type    = GDK_NONE;
+			int        format  = 0;
+			int        nitems  = 0;
+			guchar    *data    = NULL;
 
-		if (gdk_property_get (gdk_screen_get_root_window (screen),
-		                      gdk_atom_intern (atom_name, FALSE),
-				      GDK_NONE,
-				      0, 64 * 1024 * 1024, FALSE,
-				      &type, &format, &nitems, &data) && nitems > 0)
-		{
-			browser->priv->screen_profile = cmsOpenProfileFromMem (data, nitems);
-			g_free (data);
+			if (monitor_num > 0)
+				atom_name = g_strdup_printf ("_ICC_PROFILE_%d", monitor_num);
+			else
+				atom_name = g_strdup ("_ICC_PROFILE");
+
+			if (gdk_property_get (gdk_screen_get_root_window (gtk_widget_get_screen (GTK_WIDGET (browser))),
+			                      gdk_atom_intern (atom_name, FALSE),
+					      GDK_NONE,
+					      0, 64 * 1024 * 1024, FALSE,
+					      &type, &format, &nitems, &data) && nitems > 0)
+			{
+				GthICCProfile profile;
+
+				profile = cmsOpenProfileFromMem (data, nitems);
+				if (profile != NULL) {
+					char *filename = g_strdup_printf ("icc-profile://%d", monitor_num);
+					browser->priv->screen_profile = gth_icc_data_new (filename, profile);
+					g_free (filename);
+				}
+
+				g_free (data);
+			}
+
+			g_free (atom_name);
 		}
-
-		g_free (atom_name);
-
 	}
 #endif
 	return browser->priv->screen_profile;

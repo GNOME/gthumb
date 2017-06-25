@@ -25,6 +25,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include "gth-color-manager.h"
 #include "gth-extensions.h"
 #include "gth-file-data.h"
 #include "gth-file-source.h"
@@ -118,6 +119,7 @@ char **                gth_main_get_all_tags                  (void);
 void                   gth_main_tags_changed                  (void);
 GthMonitor *           gth_main_get_default_monitor           (void);
 GthExtensionManager *  gth_main_get_default_extension_manager (void);
+GthColorManager *      gth_main_get_default_color_manager     (void);
 void                   gth_main_register_default_hooks        (void);
 void                   gth_main_register_default_tests        (void);
 void                   gth_main_register_default_types        (void);

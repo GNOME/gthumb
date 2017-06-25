@@ -28,6 +28,7 @@
 #include <gio/gio.h>
 #include <cairo.h>
 #include "gth-file-data.h"
+#include "gth-icc-profile.h"
 
 G_BEGIN_DECLS
 
@@ -37,8 +38,6 @@ typedef enum {
 	GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION,
 	GTH_IMAGE_N_FORMATS
 } GthImageFormat;
-
-typedef gpointer GthICCProfile;
 
 #define GTH_TYPE_IMAGE            (gth_image_get_type ())
 #define GTH_IMAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_IMAGE, GthImage))
@@ -104,20 +103,18 @@ void                  gth_image_set_pixbuf_animation        (GthImage           
 GdkPixbufAnimation *  gth_image_get_pixbuf_animation        (GthImage           *image);
 gboolean              gth_image_get_is_animation            (GthImage           *image);
 void		      gth_image_set_icc_profile		    (GthImage           *image,
-							     GthICCProfile	 profile);
-GthICCProfile	      gth_image_get_icc_profile		    (GthImage           *image);
+							     GthICCData		*profile);
+GthICCData *	      gth_image_get_icc_profile		    (GthImage           *image);
 void		      gth_image_apply_icc_profile           (GthImage           *image,
-							     GthICCProfile       out_profile,
+							     GthICCData         *out_profile,
 							     GCancellable       *cancellable);
 void		      gth_image_apply_icc_profile_async     (GthImage           *image,
-							     GthICCProfile       out_profile,
+							     GthICCData		*out_profile,
 							     GCancellable	*cancellable,
 							     GAsyncReadyCallback callback,
 							     gpointer            user_data);
 gboolean	      gth_image_apply_icc_profile_finish    (GAsyncResult       *result,
 							     GError            **error);
-
-void		      gth_icc_profile_free		    (GthICCProfile       icc_profile);
 
 G_END_DECLS
 

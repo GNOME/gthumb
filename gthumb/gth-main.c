@@ -110,6 +110,7 @@ struct _GthMainPrivate
 	GthTagsFile         *tags;
 	GthMonitor          *monitor;
 	GthExtensionManager *extension_manager;
+	GthColorManager     *color_manager;
 };
 
 
@@ -146,6 +147,7 @@ gth_main_finalize (GObject *object)
 
 		_g_object_unref (gth_main->priv->monitor);
 		_g_object_unref (gth_main->priv->extension_manager);
+		_g_object_unref (gth_main->priv->color_manager);
 		gth_filter_file_free (gth_main->priv->filters);
 		gth_tags_file_free (gth_main->priv->tags);
 
@@ -180,6 +182,7 @@ gth_main_init (GthMain *main)
 	main->priv->metadata_info = g_ptr_array_new ();
 	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	main->priv->metadata_info_sorted = FALSE;
+	main->priv->extension_manager = gth_extension_manager_new ();
 }
 
 
@@ -1196,6 +1199,15 @@ GthExtensionManager *
 gth_main_get_default_extension_manager (void)
 {
 	return Main->priv->extension_manager;
+}
+
+
+GthColorManager *
+gth_main_get_default_color_manager (void)
+{
+	if (Main->priv->color_manager == NULL)
+		Main->priv->color_manager = gth_color_manager_new ();
+	return Main->priv->color_manager;
 }
 
 

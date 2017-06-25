@@ -71,6 +71,7 @@ LIBWEBP_REQUIRED=0.2.0
 JSON_GLIB_REQUIRED=0.15.0
 WEBKIT2_REQUIRED=1.10.0
 LCMS2_REQUIRED=2.6
+COLORD_REQUIRED=1.3
 
 dnl ===========================================================================
 
@@ -287,6 +288,26 @@ fi
 AC_SUBST(LCMS2_LIBS)
 AC_SUBST(LCMS2_CFLAGS)
 AM_CONDITIONAL(ENABLE_LCMS2, test "x$enable_lcms2" = xyes)
+
+dnl ===========================================================================
+
+AC_ARG_ENABLE([colord],
+	      [AS_HELP_STRING([--disable-colord],[do not compile code that uses the colord library])],,
+	      [enable_colord=yes])
+
+if test x$enable_colord = xyes ; then
+	PKG_CHECK_MODULES(COLORD,
+			  colord >= $COLORD_REQUIRED,
+			  [enable_colord=yes],
+			  [enable_colord=no])
+fi
+if test x$enable_colord = xyes ; then
+	AC_DEFINE(HAVE_COLORD, 1, [Define to 1 if colord support is included])
+fi
+
+AC_SUBST(COLORD_LIBS)
+AC_SUBST(COLORD_CFLAGS)
+AM_CONDITIONAL(ENABLE_COLORD, test "x$enable_colord" = xyes)
 
 dnl ===========================================================================
 
@@ -808,4 +829,5 @@ Configuration:
 	SVG support          : ${enable_librsvg}
 	WebP support         : ${enable_libwebp}
 	LCMS2 support	     : ${enable_lcms2}
+	colord support       : ${enable_colord}
 "

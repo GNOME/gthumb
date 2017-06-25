@@ -30,89 +30,8 @@
 #include "cairo-utils.h"
 #include "glib-utils.h"
 #include "gth-image.h"
+#include "gth-main.h"
 #include "pixbuf-utils.h"
-
-
-/* -- GthICCData -- */
-
-
-#define GTH_TYPE_ICC_DATA            (gth_icc_data_get_type ())
-#define GTH_ICC_DATA(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_ICC_DATA, GthICCData))
-#define GTH_ICC_DATA_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_ICC_DATA, GthICCDataClass))
-#define GTH_IS_ICC_DATA(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_ICC_DATA))
-#define GTH_IS_ICC_DATA_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_ICC_DATA))
-#define GTH_ICC_DATA_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_ICC_DATA, GthICCDataClass))
-
-typedef struct _GthICCData         GthICCData;
-typedef struct _GthICCDataClass    GthICCDataClass;
-
-struct _GthICCData {
-	GObject __parent;
-	GthICCProfile icc_profile;
-};
-
-struct _GthICCDataClass {
-	GObjectClass __parent_class;
-};
-
-
-static GType gth_icc_data_get_type (void);
-
-
-G_DEFINE_TYPE (GthICCData, gth_icc_data, G_TYPE_OBJECT)
-
-
-static void
-gth_icc_data_finalize (GObject *object)
-{
-	GthICCData *icc_data;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (GTH_IS_ICC_DATA (object));
-
-	icc_data = GTH_ICC_DATA (object);
-	gth_icc_profile_free (icc_data->icc_profile);
-
-	/* Chain up */
-	G_OBJECT_CLASS (gth_icc_data_parent_class)->finalize (object);
-}
-
-
-static void
-gth_icc_data_class_init (GthICCDataClass *klass)
-{
-	GObjectClass *gobject_class;
-
-	gobject_class = (GObjectClass*) klass;
-	gobject_class->finalize = gth_icc_data_finalize;
-}
-
-
-static void
-gth_icc_data_init (GthICCData *self)
-{
-	self->icc_profile = NULL;
-}
-
-
-static GthICCData *
-gth_icc_data_new (GthICCProfile profile)
-{
-	GthICCData *icc_data;
-
-	icc_data = g_object_new (GTH_TYPE_ICC_DATA, NULL);
-	icc_data->icc_profile = profile;
-
-	return icc_data;
-}
-
-
-static GthICCProfile
-gth_icc_data_get_profile (GthICCData *self)
-{
-	g_return_val_if_fail (self != NULL, NULL);
-	return self->icc_profile;
-}
 
 
 /* -- GthImage -- */
@@ -502,55 +421,43 @@ gth_image_get_is_animation (GthImage *image)
 
 
 void
-gth_image_set_icc_profile (GthImage	 *image,
-			   GthICCProfile  profile)
+gth_image_set_icc_profile (GthImage   *image,
+			   GthICCData *profile)
 {
+	_g_object_ref (profile);
 	_gth_image_free_icc_profile (image);
-	if (profile != NULL)
-		image->priv->icc_data = gth_icc_data_new (profile);
+	image->priv->icc_data = profile;
 }
 
 
-GthICCProfile
+GthICCData *
 gth_image_get_icc_profile (GthImage *image)
 {
 	g_return_val_if_fail (image != NULL, NULL);
-	return (image->priv->icc_data != NULL) ? gth_icc_data_get_profile (image->priv->icc_data) : NULL;
+	return image->priv->icc_data;
 }
 
 
 /* -- gth_image_apply_icc_profile -- */
 
 
-#if HAVE_LCMS2
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
-#define _LCMS2_CAIRO_FORMAT TYPE_BGRA_8
-#elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
-#define _LCMS2_CAIRO_FORMAT TYPE_ARGB_8
-#else
-#define _LCMS2_CAIRO_FORMAT TYPE_ABGR_8
-#endif
-#endif
-
-
 void
 gth_image_apply_icc_profile (GthImage      *image,
-			     GthICCProfile  out_profile,
+			     GthICCData    *out_profile,
 			     GCancellable  *cancellable)
 {
 #if HAVE_LCMS2
 
-	GthICCProfile    image_profile;
-	cmsHTRANSFORM    hTransform;
 	cairo_surface_t *surface;
+	cmsHTRANSFORM    hTransform;
+	gboolean         delete_transform = FALSE;
 
 	g_return_if_fail (image != NULL);
 
 	if (out_profile == NULL)
 		return;
 
-	image_profile = gth_image_get_icc_profile (image);
-	if (image_profile == NULL)
+	if (image->priv->icc_data == NULL)
 		return;
 
 	if (image->priv->format != GTH_IMAGE_FORMAT_CAIRO_SURFACE)
@@ -560,11 +467,16 @@ gth_image_apply_icc_profile (GthImage      *image,
 	if (surface == NULL)
 		return;
 
-	hTransform = cmsCreateTransform ((cmsHPROFILE) image_profile,
-					 _LCMS2_CAIRO_FORMAT,
-					 (cmsHPROFILE) out_profile,
-					 _LCMS2_CAIRO_FORMAT,
-					 INTENT_PERCEPTUAL, 0);
+	hTransform = (cmsHTRANSFORM) gth_color_manager_get_transform (gth_main_get_default_color_manager (),
+								      image->priv->icc_data,
+								      out_profile);
+
+	if (hTransform == NULL) {
+		hTransform = (cmsHTRANSFORM) gth_color_manager_create_transform (gth_main_get_default_color_manager (),
+										 image->priv->icc_data,
+										 out_profile);
+		delete_transform = (hTransform != NULL);
+	}
 
 	if (hTransform != NULL) {
 		unsigned char   *surface_row;
@@ -587,9 +499,10 @@ gth_image_apply_icc_profile (GthImage      *image,
 		cairo_surface_mark_dirty (surface);
 
 		cairo_surface_destroy (surface);
-		cmsDeleteTransform (hTransform);
 	}
 
+	if (delete_transform)
+		cmsDeleteTransform (hTransform);
 #endif
 }
 
@@ -598,8 +511,8 @@ gth_image_apply_icc_profile (GthImage      *image,
 
 
 typedef struct {
-	GthImage	*image;
-	GthICCProfile	 out_profile;
+	GthImage   *image;
+	GthICCData *out_profile;
 } ApplyProfileData;
 
 
@@ -609,6 +522,7 @@ apply_profile_data_free (gpointer user_data)
 	ApplyProfileData *apd = user_data;
 
 	g_object_unref (apd->image);
+	_g_object_unref (apd->out_profile);
 	g_free (apd);
 }
 
@@ -636,7 +550,7 @@ _gth_image_apply_icc_profile_thread (GSimpleAsyncResult *result,
 
 void
 gth_image_apply_icc_profile_async (GthImage		*image,
-				   GthICCProfile	 out_profile,
+				   GthICCData		*out_profile,
 				   GCancellable		*cancellable,
 				   GAsyncReadyCallback	 callback,
 				   gpointer		 user_data)
@@ -653,7 +567,7 @@ gth_image_apply_icc_profile_async (GthImage		*image,
 
 	apd = g_new (ApplyProfileData, 1);
 	apd->image = g_object_ref (image);
-	apd->out_profile = out_profile;
+	apd->out_profile = _g_object_ref (out_profile);
 	g_simple_async_result_set_op_res_gpointer (result, apd, apply_profile_data_free);
 	g_simple_async_result_run_in_thread (result,
 	                                     _gth_image_apply_icc_profile_thread,
@@ -670,14 +584,4 @@ gth_image_apply_icc_profile_finish (GAsyncResult	 *result,
 {
 	g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, gth_image_apply_icc_profile_async), FALSE);
 	return g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error);
-}
-
-
-void
-gth_icc_profile_free (GthICCProfile icc_profile)
-{
-#ifdef HAVE_LCMS2
-	if (icc_profile != NULL)
-		cmsCloseProfile ((cmsHPROFILE) icc_profile);
-#endif
 }

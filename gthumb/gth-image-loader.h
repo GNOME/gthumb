@@ -58,7 +58,7 @@ void              gth_image_loader_set_loader_func        (GthImageLoader       
 void              gth_image_loader_set_preferred_format   (GthImageLoader       *loader,
 							   GthImageFormat        preferred_format);
 void              gth_image_loader_set_out_profile        (GthImageLoader       *loader,
-							   GthICCProfile         profile);
+							   GthICCData           *profile);
 void              gth_image_loader_load                   (GthImageLoader       *loader,
 							   GthFileData          *file_data,
 							   int                   requested_size,

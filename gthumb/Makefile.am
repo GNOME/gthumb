@@ -35,6 +35,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-async-task.h				\
 	gth-buffer-data.h				\
 	gth-browser.h					\
+	gth-color-manager.h				\
 	gth-color-scale.h				\
 	gth-delete-task.h				\
 	gth-dumb-notebook.h				\
@@ -62,6 +63,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-histogram.h					\
 	gth-histogram-view.h				\
 	gth-hook.h					\
+	gth-icc-profile.h				\
 	gth-icon-cache.h				\
 	gth-image.h					\
 	gth-image-dragger.h				\
@@ -179,6 +181,7 @@ gthumb_SOURCES = 					\
 	gth-browser.c					\
 	gth-browser-actions-callbacks.c			\
 	gth-buffer-data.c				\
+	gth-color-manager.c				\
 	gth-color-scale.c				\
 	gth-delete-task.c				\
 	gth-dumb-notebook.c				\
@@ -207,6 +210,7 @@ gthumb_SOURCES = 					\
 	gth-histogram.c					\
 	gth-histogram-view.c				\
 	gth-hook.c					\
+	gth-icc-profile.c				\
 	gth-icon-cache.c				\
 	gth-image.c					\
 	gth-image-dragger.c				\
@@ -305,6 +309,7 @@ gthumb_LDADD =						\
 	$(JSON_GLIB_LIBS)				\
 	$(WEBKIT2_LIBS)					\
 	$(LCMS2_LIBS)					\
+	$(COLORD_LIBS)					\
 	$(NULL)
 
 if RUN_IN_PLACE
@@ -336,6 +341,7 @@ gthumb_CFLAGS =							\
 	$(LIBCHAMPLAIN_CFLAGS)					\
 	$(SMCLIENT_CFLAGS)					\
 	$(LCMS2_CFLAGS)						\
+	$(COLORD_CFLAGS)					\
 	-DGTHUMB_LOCALEDIR=\"$(localedir)\"			\
 	-DGTHUMB_UI_DIR=\"$(ui_dir)\"				\
 	-DGTHUMB_ICON_DIR=\"$(icon_dir)\"			\

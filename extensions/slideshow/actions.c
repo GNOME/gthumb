@@ -132,7 +132,7 @@ gth_browser_activate_slideshow (GSimpleAction *action,
 		GdkRectangle  monitor_geometry;
 		int           monitor_num;
 
-		if (_gtk_window_get_monitor_info (GTK_WINDOW (browser), &monitor_geometry, &monitor_num)) {
+		if (_gtk_window_get_monitor_info (GTK_WINDOW (browser), &monitor_geometry, &monitor_num, NULL)) {
 			gtk_window_set_default_size (GTK_WINDOW (slideshow), monitor_geometry.width, monitor_geometry.height);
 			gtk_window_fullscreen_on_monitor (GTK_WINDOW (slideshow), gtk_window_get_screen (GTK_WINDOW (browser)), monitor_num);
 		}
