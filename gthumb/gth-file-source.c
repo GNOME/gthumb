@@ -885,6 +885,7 @@ base_remove (GthFileSource *file_source,
 
 static void
 base_deleted_from_disk (GthFileSource *file_source,
+			GthFileData   *location,
 			GList         *file_list /* GFile list */)
 {
 	/* void */
