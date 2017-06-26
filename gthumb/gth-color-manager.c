@@ -33,9 +33,9 @@
 
 
 typedef struct {
-	GthICCData      *in_profile;
-	GthICCData      *out_profile;
-	GthICCTransform  transform;
+	GthICCProfile   *in_profile;
+	GthICCProfile   *out_profile;
+	GthICCTransform *transform;
 } TransformData;
 
 
@@ -58,7 +58,7 @@ transform_data_free (TransformData *data)
 {
 	_g_object_unref (data->in_profile);
 	_g_object_unref (data->out_profile);
-	gth_icc_transform_free (data->transform);
+	_g_object_unref (data->transform);
 	g_free (data);
 }
 
@@ -143,6 +143,19 @@ gth_color_manager_new (void)
 }
 
 
+static void
+_gth_color_manager_add_profile (GthColorManager	 *self,
+			        const char       *id,
+			        GthICCProfile    *profile)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (id != NULL);
+	g_return_if_fail (profile != NULL);
+
+	g_hash_table_insert (self->priv->profile_cache, g_strdup (id), g_object_ref (profile));
+}
+
+
 #if HAVE_LCMS2 && HAVE_COLORD
 
 
@@ -177,17 +190,17 @@ profile_buffer_ready_cb (void     **buffer,
 		g_task_return_error (task, g_error_copy (error));
 	}
 	else {
-		ProfilesData *data = g_task_get_task_data (task);
-		char         *filename;
-		GthICCData   *icc_data;
+		ProfilesData  *data = g_task_get_task_data (task);
+		char          *uri;
+		GthICCProfile *profile;
 
-		filename = g_file_get_path (data->icc_file);
-		icc_data = gth_icc_data_new (filename, (GthICCProfile) cmsOpenProfileFromMem (*buffer, count));
-		gth_color_manager_add_profile (data->color_manager, data->cache_id, icc_data);
-		g_task_return_pointer (task, g_object_ref (icc_data), g_object_unref);
+		uri = g_file_get_uri (data->icc_file);
+		profile = gth_icc_profile_new (uri, (GthCMSProfile) cmsOpenProfileFromMem (*buffer, count));
+		_gth_color_manager_add_profile (data->color_manager, data->cache_id, profile);
+		g_task_return_pointer (task, g_object_ref (profile), g_object_unref);
 
-		g_object_unref (icc_data);
-		g_free (filename);
+		g_object_unref (profile);
+		g_free (uri);
 	}
 
 	g_object_unref (task);
@@ -308,6 +321,20 @@ cd_client_connected_cb (GObject      *source_object,
 #endif /* HAVE_LCMS2 && HAVE_COLORD */
 
 
+static GthICCProfile *
+_gth_color_manager_get_profile (GthColorManager	 *self,
+			        const char       *id)
+{
+	GthICCProfile *profile;
+
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (id != NULL, NULL);
+
+	profile = g_hash_table_lookup (self->priv->profile_cache, id);
+	return _g_object_ref (profile);
+}
+
+
 void
 gth_color_manager_get_profile_async (GthColorManager	 *self,
 				     char                *monitor_name,
@@ -322,12 +349,12 @@ gth_color_manager_get_profile_async (GthColorManager	 *self,
 #if HAVE_LCMS2
 
 	{
-		char         *id;
-		GthICCData   *profile;
-		ProfilesData *data;
+		char          *id;
+		GthICCProfile *profile;
+		ProfilesData  *data;
 
 		id = g_strdup_printf ("monitor://%s", monitor_name);
-		profile = gth_color_manager_get_profile (self, id);
+		profile = _gth_color_manager_get_profile (self, id);
 		if (profile != NULL) {
 			g_task_return_pointer (task, g_object_ref (profile), g_object_unref);
 			g_object_unref (task);
@@ -373,7 +400,7 @@ gth_color_manager_get_profile_async (GthColorManager	 *self,
 }
 
 
-GthICCData *
+GthICCProfile *
 gth_color_manager_get_profile_finish (GthColorManager	 *self,
 				      GAsyncResult	 *result,
 				      GError		**error)
@@ -383,99 +410,43 @@ gth_color_manager_get_profile_finish (GthColorManager	 *self,
 }
 
 
-void
-gth_color_manager_add_profile (GthColorManager	 *self,
-			       const char        *id,
-			       GthICCData        *profile)
-{
-	g_return_if_fail (self != NULL);
-	g_return_if_fail (id != NULL);
-	g_return_if_fail (profile != NULL);
-
-	g_hash_table_insert (self->priv->profile_cache, g_strdup (id), g_object_ref (profile));
-}
-
-
-GthICCData *
-gth_color_manager_get_profile (GthColorManager	 *self,
-			       const char        *id)
-{
-	GthICCData *profile;
-
-	g_return_val_if_fail (self != NULL, NULL);
-	g_return_val_if_fail (id != NULL, NULL);
-
-	profile = g_hash_table_lookup (self->priv->profile_cache, id);
-	return _g_object_ref (profile);
-}
-
-
-#if HAVE_LCMS2
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN /* BGRA */
-#define _LCMS2_CAIRO_FORMAT TYPE_BGRA_8
-#elif G_BYTE_ORDER == G_BIG_ENDIAN /* ARGB */
-#define _LCMS2_CAIRO_FORMAT TYPE_ARGB_8
-#else
-#define _LCMS2_CAIRO_FORMAT TYPE_ABGR_8
-#endif
-#endif
-
-
 static char *
-create_transform_id (GthICCData *from_profile,
-		     GthICCData *to_profile)
+create_transform_id_for_cache (GthICCProfile *from_profile,
+			       GthICCProfile *to_profile)
 {
-	const char *from_filename = gth_icc_data_get_filename (from_profile);
-	const char *to_filename = gth_icc_data_get_filename (to_profile);
+	const char *from_id = gth_icc_profile_get_id (from_profile);
+	const char *to_id = gth_icc_profile_get_id (to_profile);
 
-	if ((g_strcmp0 (from_filename, "") != 0) && (g_strcmp0 (to_filename, "") != 0))
-		return g_strdup_printf ("%s -> %s", from_filename, to_filename);
-	else
+	g_print ("  -> gth_color_manager_get_transform: %s -> %s\n", from_id, to_id);
+
+	if (gth_icc_profile_id_is_unknown (from_id) || gth_icc_profile_id_is_unknown (to_id))
 		return NULL;
+
+	return g_strdup_printf ("%s -> %s", from_id, to_id);
 }
 
 
-GthICCTransform
-gth_color_manager_create_transform (GthColorManager *self,
-				    GthICCData      *from_profile,
-				    GthICCData      *to_profile)
-{
-#if HAVE_LCMS2
-	g_print ("gth_color_manager_create_transform (%p, %p)\n", gth_icc_data_get_profile (from_profile), gth_icc_data_get_profile (to_profile));
-
-	return (GthICCTransform) cmsCreateTransform ((cmsHPROFILE) gth_icc_data_get_profile (from_profile),
-						     _LCMS2_CAIRO_FORMAT,
-						     (cmsHPROFILE) gth_icc_data_get_profile (to_profile),
-						     _LCMS2_CAIRO_FORMAT,
-						     INTENT_PERCEPTUAL,
-						     0);
-#else
-	return NULL;
-#endif
-}
-
-
-GthICCTransform
+GthICCTransform *
 gth_color_manager_get_transform (GthColorManager *self,
-				 GthICCData      *from_profile,
-				 GthICCData      *to_profile)
+				 GthICCProfile   *in_profile,
+				 GthICCProfile   *out_profile)
 {
 #if HAVE_LCMS2
 
-	GthICCTransform  transform = NULL;
+	GthICCTransform *transform = NULL;
 	char            *transform_id;
 
 	g_return_val_if_fail (self != NULL, NULL);
 
-	transform_id = create_transform_id (from_profile, to_profile);
+	transform_id = create_transform_id_for_cache (in_profile, out_profile);
 	if (transform_id != NULL) {
 		TransformData *transform_data = g_hash_table_lookup (self->priv->transform_cache, transform_id);
 
 		if (transform_data == NULL) {
 			transform_data = transform_data_new ();
-			transform_data->in_profile = g_object_ref (from_profile);
-			transform_data->out_profile = g_object_ref (to_profile);
-			transform_data->transform = gth_color_manager_create_transform (self, transform_data->in_profile, transform_data->out_profile);
+			transform_data->in_profile = g_object_ref (in_profile);
+			transform_data->out_profile = g_object_ref (out_profile);
+			transform_data->transform = gth_icc_transform_new_from_profiles (transform_data->in_profile, transform_data->out_profile);
 
 			if (transform_data->transform != NULL) {
 				g_hash_table_insert (self->priv->transform_cache, g_strdup (transform_id), transform_data);
@@ -487,14 +458,18 @@ gth_color_manager_get_transform (GthColorManager *self,
 		}
 
 		if (transform_data != NULL)
-			transform = transform_data->transform;
+			transform = g_object_ref (transform_data->transform);
 
 		g_free (transform_id);
 	}
+	else
+		transform = gth_icc_transform_new_from_profiles (in_profile, out_profile);
 
 	return transform;
 
-#endif
+#else
 
 	return NULL;
+
+#endif
 }

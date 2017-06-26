@@ -59,20 +59,12 @@ void			gth_color_manager_get_profile_async	(GthColorManager	 *color_manager,
 		     	     	     	     	     	         GCancellable		 *cancellable,
 								 GAsyncReadyCallback	  callback,
 								 gpointer		  user_data);
-GthICCData *		gth_color_manager_get_profile_finish	(GthColorManager	 *color_manager,
+GthICCProfile *		gth_color_manager_get_profile_finish	(GthColorManager	 *color_manager,
 								 GAsyncResult		 *result,
 								 GError			**error);
-void			gth_color_manager_add_profile           (GthColorManager	 *color_manager,
-								 const char              *id,
-								 GthICCData              *profile);
-GthICCData *		gth_color_manager_get_profile		(GthColorManager	 *color_manager,
-								 const char       	 *id);
-GthICCTransform		gth_color_manager_create_transform	(GthColorManager	 *self,
-				    	    	    	    	 GthICCData		 *from_profile,
-								 GthICCData		 *to_profile);
-GthICCTransform         gth_color_manager_get_transform         (GthColorManager	 *color_manager,
-								 GthICCData              *from_profile,
-								 GthICCData              *to_profile);
+GthICCTransform *       gth_color_manager_get_transform         (GthColorManager	 *color_manager,
+								 GthICCProfile           *from_profile,
+								 GthICCProfile           *to_profile);
 
 G_END_DECLS
 

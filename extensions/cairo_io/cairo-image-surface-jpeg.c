@@ -209,7 +209,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 		orientation = GTH_TRANSFORM_NONE;
 #if HAVE_LCMS2
 	if (jpeg_info.valid & _JPEG_INFO_ICC_PROFILE) {
-		GthICCData *profile = gth_icc_data_new (NULL, cmsOpenProfileFromMem (jpeg_info.icc_data, jpeg_info.icc_data_size));
+		GthICCProfile *profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN, cmsOpenProfileFromMem (jpeg_info.icc_data, jpeg_info.icc_data_size));
 		gth_image_set_icc_profile (image, profile);
 		g_object_unref (profile);
 	}

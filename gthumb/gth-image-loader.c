@@ -33,7 +33,7 @@ struct _GthImageLoaderPrivate {
 	gboolean           as_animation;  /* Whether to load the image in a
 				           * GdkPixbufAnimation structure. */
 	GthImageFormat     preferred_format;
-	GthICCData        *out_profile;
+	GthICCProfile     *out_profile;
 	GthImageLoaderFunc loader_func;
 	gpointer           loader_data;
 };
@@ -114,7 +114,7 @@ gth_image_loader_set_preferred_format (GthImageLoader *self,
 
 void
 gth_image_loader_set_out_profile (GthImageLoader *self,
-				  GthICCData     *out_profile)
+				  GthICCProfile  *out_profile)
 {
 	g_return_if_fail (self != NULL);
 

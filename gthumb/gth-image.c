@@ -44,7 +44,7 @@ struct _GthImagePrivate {
 		GdkPixbuf          *pixbuf;
 		GdkPixbufAnimation *pixbuf_animation;
 	} data;
-	GthICCData *icc_data;
+	GthICCProfile *icc_data;
 };
 
 
@@ -422,7 +422,7 @@ gth_image_get_is_animation (GthImage *image)
 
 void
 gth_image_set_icc_profile (GthImage   *image,
-			   GthICCData *profile)
+			   GthICCProfile *profile)
 {
 	_g_object_ref (profile);
 	_gth_image_free_icc_profile (image);
@@ -430,7 +430,7 @@ gth_image_set_icc_profile (GthImage   *image,
 }
 
 
-GthICCData *
+GthICCProfile *
 gth_image_get_icc_profile (GthImage *image)
 {
 	g_return_val_if_fail (image != NULL, NULL);
@@ -443,14 +443,13 @@ gth_image_get_icc_profile (GthImage *image)
 
 void
 gth_image_apply_icc_profile (GthImage      *image,
-			     GthICCData    *out_profile,
+			     GthICCProfile *out_profile,
 			     GCancellable  *cancellable)
 {
 #if HAVE_LCMS2
 
 	cairo_surface_t *surface;
-	cmsHTRANSFORM    hTransform;
-	gboolean         delete_transform = FALSE;
+	GthICCTransform *transform;
 
 	g_return_if_fail (image != NULL);
 
@@ -467,24 +466,19 @@ gth_image_apply_icc_profile (GthImage      *image,
 	if (surface == NULL)
 		return;
 
-	hTransform = (cmsHTRANSFORM) gth_color_manager_get_transform (gth_main_get_default_color_manager (),
-								      image->priv->icc_data,
-								      out_profile);
+	transform = gth_color_manager_get_transform (gth_main_get_default_color_manager (),
+			      	      	      	     image->priv->icc_data,
+						     out_profile);
 
-	if (hTransform == NULL) {
-		hTransform = (cmsHTRANSFORM) gth_color_manager_create_transform (gth_main_get_default_color_manager (),
-										 image->priv->icc_data,
-										 out_profile);
-		delete_transform = (hTransform != NULL);
-	}
-
-	if (hTransform != NULL) {
+	if (transform != NULL) {
+		cmsHTRANSFORM    hTransform;
 		unsigned char   *surface_row;
 		int              width;
 		int              height;
 		int              row_stride;
 		int              row;
 
+		hTransform = (cmsHTRANSFORM) gth_icc_transform_get_transform (transform);
 		surface_row = _cairo_image_surface_flush_and_get_data (surface);
 		width = cairo_image_surface_get_width (surface);
 		height = cairo_image_surface_get_height (surface);
@@ -501,8 +495,8 @@ gth_image_apply_icc_profile (GthImage      *image,
 		cairo_surface_destroy (surface);
 	}
 
-	if (delete_transform)
-		cmsDeleteTransform (hTransform);
+	_g_object_unref (transform);
+
 #endif
 }
 
@@ -512,7 +506,7 @@ gth_image_apply_icc_profile (GthImage      *image,
 
 typedef struct {
 	GthImage   *image;
-	GthICCData *out_profile;
+	GthICCProfile *out_profile;
 } ApplyProfileData;
 
 
@@ -550,7 +544,7 @@ _gth_image_apply_icc_profile_thread (GSimpleAsyncResult *result,
 
 void
 gth_image_apply_icc_profile_async (GthImage		*image,
-				   GthICCData		*out_profile,
+				   GthICCProfile	*out_profile,
 				   GCancellable		*cancellable,
 				   GAsyncReadyCallback	 callback,
 				   gpointer		 user_data)

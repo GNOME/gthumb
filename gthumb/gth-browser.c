@@ -180,7 +180,7 @@ struct _GthBrowserPrivate {
 	gboolean           file_properties_on_the_right;
 	GthSidebarState    viewer_sidebar;
 	BrowserState       state;
-	GthICCProfile      screen_profile;
+	GthICCProfile     *screen_profile;
 	GtkTreePath       *folder_tree_last_dest_row; /* used to open a folder during D&D */
 	guint              folder_tree_open_folder_id;
 	GtkWidget         *apply_editor_changes_button;
@@ -6951,7 +6951,7 @@ gth_browser_apply_editor_changes (GthBrowser *browser)
 }
 
 
-GthICCData *
+GthICCProfile *
 gth_browser_get_monitor_profile (GthBrowser *browser)
 {
 #if HAVE_LCMS2
@@ -6976,13 +6976,13 @@ gth_browser_get_monitor_profile (GthBrowser *browser)
 					      0, 64 * 1024 * 1024, FALSE,
 					      &type, &format, &nitems, &data) && nitems > 0)
 			{
-				GthICCProfile profile;
+				GthCMSProfile cms_profile;
 
-				profile = cmsOpenProfileFromMem (data, nitems);
-				if (profile != NULL) {
-					char *filename = g_strdup_printf ("icc-profile://%d", monitor_num);
-					browser->priv->screen_profile = gth_icc_data_new (filename, profile);
-					g_free (filename);
+				cms_profile = (GthCMSProfile) cmsOpenProfileFromMem (data, nitems);
+				if (cms_profile != NULL) {
+					char *id = g_strdup_printf ("%s%d", GTH_ICC_PROFILE_FROM_PROPERTY, monitor_num);
+					browser->priv->screen_profile = gth_icc_profile_new (id, cms_profile);
+					g_free (id);
 				}
 
 				g_free (data);

@@ -26,39 +26,71 @@
 
 G_BEGIN_DECLS
 
-typedef gpointer GthICCProfile;
-typedef gpointer GthICCTransform;
+typedef gpointer GthCMSProfile;
+typedef gpointer GthCMSTransform;
 
-#define GTH_TYPE_ICC_DATA            (gth_icc_data_get_type ())
-#define GTH_ICC_DATA(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_ICC_DATA, GthICCData))
-#define GTH_ICC_DATA_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_ICC_DATA, GthICCDataClass))
-#define GTH_IS_ICC_DATA(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_ICC_DATA))
-#define GTH_IS_ICC_DATA_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_ICC_DATA))
-#define GTH_ICC_DATA_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_ICC_DATA, GthICCDataClass))
+#define GTH_ICC_PROFILE_ID_UNKNOWN "unknown://"
+#define GTH_ICC_PROFILE_WITH_MD5 "md5://"
+#define GTH_ICC_PROFILE_FROM_PROPERTY "property://"
 
-typedef struct _GthICCData         GthICCData;
-typedef struct _GthICCDataPrivate  GthICCDataPrivate;
-typedef struct _GthICCDataClass    GthICCDataClass;
+#define GTH_TYPE_ICC_PROFILE            (gth_icc_profile_get_type ())
+#define GTH_ICC_PROFILE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_ICC_PROFILE, GthICCProfile))
+#define GTH_ICC_PROFILE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_ICC_PROFILE, GthICCProfileClass))
+#define GTH_IS_ICC_PROFILE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_ICC_PROFILE))
+#define GTH_IS_ICC_PROFILE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_ICC_PROFILE))
+#define GTH_ICC_PROFILE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_ICC_PROFILE, GthICCProfileClass))
 
-struct _GthICCData {
+#define GTH_TYPE_ICC_TRANSFORM            (gth_icc_transform_get_type ())
+#define GTH_ICC_TRANSFORM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_ICC_TRANSFORM, GthICCTransform))
+#define GTH_ICC_TRANSFORM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_ICC_TRANSFORM, GthICCTransformClass))
+#define GTH_IS_ICC_TRANSFORM(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_ICC_TRANSFORM))
+#define GTH_IS_ICC_TRANSFORM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_ICC_TRANSFORM))
+#define GTH_ICC_TRANSFORM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_ICC_TRANSFORM, GthICCTransformClass))
+
+typedef struct _GthICCProfile         GthICCProfile;
+typedef struct _GthICCProfilePrivate  GthICCProfilePrivate;
+typedef struct _GthICCProfileClass    GthICCProfileClass;
+
+typedef struct _GthICCTransform         GthICCTransform;
+typedef struct _GthICCTransformPrivate  GthICCTransformPrivate;
+typedef struct _GthICCTransformClass    GthICCTransformClass;
+
+struct _GthICCProfile {
 	GObject __parent;
-	GthICCDataPrivate *priv;
+	GthICCProfilePrivate *priv;
 };
 
-struct _GthICCDataClass {
+struct _GthICCProfileClass {
 	GObjectClass __parent_class;
 };
 
-void		gth_icc_profile_free		(GthICCProfile	 icc_profile);
-void		gth_icc_transform_free		(GthICCTransform transform);
+struct _GthICCTransform {
+	GObject __parent;
+	GthICCTransformPrivate *priv;
+};
 
-GType		gth_icc_data_get_type		(void);
-GthICCData * 	gth_icc_data_new		(const char	*filename,
-						 GthICCProfile	 profile);
-const char *	gth_icc_data_get_filename	(GthICCData	*icc_data);
-GthICCProfile	gth_icc_data_get_profile	(GthICCData	*icc_data);
-gboolean	gth_icc_data_equal		(GthICCData	*a,
-		    	    	    	    	 GthICCData	*b);
+struct _GthICCTransformClass {
+	GObjectClass __parent_class;
+};
+
+void			gth_cms_profile_free		(GthCMSProfile	  profile);
+void			gth_cms_transform_free		(GthCMSTransform  transform);
+
+GType			gth_icc_profile_get_type	(void);
+GthICCProfile *		gth_icc_profile_new		(const char	 *id,
+						 	 GthCMSProfile	  profile);
+const char *		gth_icc_profile_get_id		(GthICCProfile	 *icc_profile);
+gboolean                gth_icc_profile_id_is_unknown   (const char      *id);
+GthCMSProfile		gth_icc_profile_get_profile	(GthICCProfile	 *icc_profile);
+gboolean		gth_icc_profile_equal		(GthICCProfile	 *a,
+		    	    	    	    	 	 GthICCProfile	 *b);
+
+GType			gth_icc_transform_get_type	(void);
+GthICCTransform * 	gth_icc_transform_new		(GthCMSTransform  transform);
+GthICCTransform *	gth_icc_transform_new_from_profiles
+							(GthICCProfile   *from_profile,
+							 GthICCProfile   *to_profile);
+GthCMSTransform         gth_icc_transform_get_transform (GthICCTransform *transform);
 
 G_END_DECLS
 

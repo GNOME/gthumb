@@ -103,13 +103,13 @@ void                  gth_image_set_pixbuf_animation        (GthImage           
 GdkPixbufAnimation *  gth_image_get_pixbuf_animation        (GthImage           *image);
 gboolean              gth_image_get_is_animation            (GthImage           *image);
 void		      gth_image_set_icc_profile		    (GthImage           *image,
-							     GthICCData		*profile);
-GthICCData *	      gth_image_get_icc_profile		    (GthImage           *image);
+							     GthICCProfile	*profile);
+GthICCProfile *	      gth_image_get_icc_profile		    (GthImage           *image);
 void		      gth_image_apply_icc_profile           (GthImage           *image,
-							     GthICCData         *out_profile,
+							     GthICCProfile      *out_profile,
 							     GCancellable       *cancellable);
 void		      gth_image_apply_icc_profile_async     (GthImage           *image,
-							     GthICCData		*out_profile,
+							     GthICCProfile	*out_profile,
 							     GCancellable	*cancellable,
 							     GAsyncReadyCallback callback,
 							     gpointer            user_data);

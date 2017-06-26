@@ -257,7 +257,7 @@ profile_ready_cb (GObject      *source_object,
 {
 	ProfileData        *profile_data = user_data;
 	GthImageViewerPage *self = profile_data->self;
-	GthICCData         *profile;
+	GthICCProfile      *profile;
 
 	profile = gth_color_manager_get_profile_finish (GTH_COLOR_MANAGER (source_object), res, NULL);
 	if (profile == NULL)

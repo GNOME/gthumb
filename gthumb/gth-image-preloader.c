@@ -78,7 +78,7 @@ struct _GthImagePreloaderPrivate {
 	GthImageLoader		*loader;
 	GQueue			*cache;
 	guint                    load_next_id;
-	GthICCData              *out_profile;
+	GthICCProfile           *out_profile;
 };
 
 
@@ -293,7 +293,7 @@ gth_image_preloader_new (void)
 
 void
 gth_image_preloader_set_out_profile (GthImagePreloader *self,
-				     GthICCData        *out_profile)
+				     GthICCProfile     *out_profile)
 {
 	g_return_if_fail (self != NULL);
 
