@@ -478,7 +478,7 @@ create_transform_id_for_cache (GthICCProfile *from_profile,
 	const char *from_id = gth_icc_profile_get_id (from_profile);
 	const char *to_id = gth_icc_profile_get_id (to_profile);
 
-	g_print ("  -> gth_color_manager_get_transform: %s -> %s\n", from_id, to_id);
+	/*g_print (" -> gth_color_manager_get_transform: %s -> %s\n", from_id, to_id);*/
 
 	if (gth_icc_profile_id_is_unknown (from_id) || gth_icc_profile_id_is_unknown (to_id))
 		return NULL;
