@@ -97,6 +97,7 @@ struct _GthImageViewerPagePrivate {
 	guint              file_popup_merge_id;
 	GthImageHistory   *history;
 	GthFileData       *file_data;
+	GFileInfo         *updated_info;
 	gboolean           active;
 	gboolean           image_changed;
 	gboolean           loading_image;
@@ -127,6 +128,7 @@ gth_image_viewer_page_file_loaded (GthImageViewerPage *self,
 
 	gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self),
 				     self->priv->file_data,
+				     self->priv->updated_info,
 				     success);
 }
 
@@ -1319,12 +1321,28 @@ preloader_load_ready_cb (GObject	*source_object,
 		gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (self->priv->viewer),
 						    &original_width,
 						    &original_height);
-	g_file_info_set_attribute_int32 (self->priv->file_data->info,
+	g_file_info_set_attribute_int32 (self->priv->updated_info,
 					 "frame::width",
 					 original_width);
-	g_file_info_set_attribute_int32 (self->priv->file_data->info,
+	g_file_info_set_attribute_int32 (self->priv->updated_info,
 					 "frame::height",
 					 original_height);
+
+	{
+		GthICCProfile *profile;
+
+		profile = gth_image_get_icc_profile (image);
+		if (profile != NULL) {
+			char *desc = gth_icc_profile_get_description (profile);
+
+			if (desc != NULL) {
+				g_file_info_set_attribute_string (self->priv->updated_info,
+								  "Loaded::Image::ColorProfile",
+								  desc);
+				g_free (desc);
+			}
+		}
+	}
 
 	gth_image_viewer_page_file_loaded (self, TRUE);
 	update_image_quality_if_required (self);
@@ -1350,6 +1368,8 @@ _gth_image_viewer_page_load (GthImageViewerPage *self,
 	if (self->priv->file_data != file_data) {
 		_g_object_unref (self->priv->file_data);
 		self->priv->file_data = gth_file_data_dup (file_data);
+		_g_object_unref (self->priv->updated_info);
+		self->priv->updated_info = g_file_info_new ();
 	}
 	self->priv->image_changed = FALSE;
 	self->priv->loading_image = TRUE;
@@ -1918,6 +1938,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 	self->priv->file_popup_merge_id = 0;
 	self->priv->history = gth_image_history_new ();
 	self->priv->file_data = NULL;
+	self->priv->updated_info = NULL;
 	self->priv->active = FALSE;
 	self->priv->image_changed = FALSE;
 	self->priv->loading_image = FALSE;

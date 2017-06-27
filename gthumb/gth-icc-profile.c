@@ -26,6 +26,7 @@
 #include <lcms2.h>
 #endif /* HAVE_LCMS2 */
 #include "gth-icc-profile.h"
+#include "glib-utils.h"
 
 
 struct _GthICCProfilePrivate {
@@ -158,6 +159,8 @@ gth_icc_profile_new (const char    *id,
 {
 	GthICCProfile *icc_profile;
 
+	g_return_val_if_fail (profile != NULL, NULL);
+
 	icc_profile = g_object_new (GTH_TYPE_ICC_PROFILE, NULL);
 	if (! gth_icc_profile_id_is_unknown (id))
 		icc_profile->priv->id = g_strdup (id);
@@ -197,8 +200,44 @@ gth_icc_profile_new_srgb (void)
 const char *
 gth_icc_profile_get_id (GthICCProfile *self)
 {
-	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (GTH_IS_ICC_PROFILE (self), NULL);
 	return self->priv->id;
+}
+
+
+char *
+gth_icc_profile_get_description	(GthICCProfile *self)
+{
+#ifdef HAVE_LCMS2
+
+	GString         *color_profile;
+	cmsHPROFILE      hProfile;
+	const int        buffer_size = 128;
+	wchar_t          buffer[buffer_size];
+	cmsUInt32Number  size;
+	char            *result;
+
+	color_profile = g_string_new ("");
+	hProfile = (cmsHPROFILE) gth_icc_profile_get_profile (self);
+	size = cmsGetProfileInfo (hProfile, cmsInfoDescription, "en", "US", (wchar_t *) buffer, buffer_size);
+	if (size > 0) {
+		for (int i = 0; (i < size) && (buffer[i] != 0); i++)
+			g_string_append_c (color_profile, buffer[i]);
+	}
+
+	result = NULL;
+	if (color_profile->len > 0)
+		result = _g_utf8_try_from_any (color_profile->str);
+
+	g_string_free (color_profile, TRUE);
+
+	return result;
+
+#else
+
+	return NULL;
+
+#endif
 }
 
 
@@ -221,7 +260,7 @@ gboolean
 gth_icc_profile_equal (GthICCProfile *a,
 		       GthICCProfile *b)
 {
-	g_return_val_if_fail ((a == NULL) || (b == NULL), NULL);
+	g_return_val_if_fail ((a == NULL) || (b == NULL), FALSE);
 
 	if (gth_icc_profile_id_is_unknown (a->priv->id) || gth_icc_profile_id_is_unknown (b->priv->id))
 		return FALSE;

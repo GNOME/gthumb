@@ -54,6 +54,7 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "Embedded::Photo::FocalLength", N_("Focal Length"), "general", 16, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
 	{ "Embedded::Photo::Flash", N_("Flash"), "general", 17, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
 	{ "Embedded::Photo::CameraModel", N_("Camera Model"), "general", 18, NULL, GTH_METADATA_ALLOW_EVERYWHERE  },
+	{ "Loaded::Image::ColorProfile", N_("Color Profile"), "general", 19, NULL, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "general::datetime", N_("General Date & Time"), "general", 20, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::title", N_("Title"), "general", 21, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
