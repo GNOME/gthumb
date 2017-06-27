@@ -111,144 +111,10 @@ _jpeg_skip_segment_data (GInputStream  *stream,
 
 
 static gboolean
-_jpeg_exif_orientation_from_app1_segment (guchar	*in_buffer,
-					  gsize		 app1_segment_size,
-					  JpegInfoData	*data)
-{
-	int       pos;
-	guint     length;
-	gboolean  big_endian;
-	guchar   *exif_data;
-	guint     offset, number_of_tags, tagnum;
-	int       orientation;
-
-	/* Length includes itself, so must be at least 2 */
-	/* Following Exif data length must be at least 6 */
-
-	length = app1_segment_size;
-	if (length < 6)
-		return FALSE;
-
-	pos = 0;
-
-	/* Read Exif head, check for "Exif" */
-
-	if ((in_buffer[pos++] != 'E')
-	    || (in_buffer[pos++] != 'x')
-	    || (in_buffer[pos++] != 'i')
-	    || (in_buffer[pos++] != 'f')
-	    || (in_buffer[pos++] != 0)
-	    || (in_buffer[pos++] != 0))
-	{
-		return FALSE;
-	}
-
-	/* Length of an IFD entry */
-
-	if (length < 12)
-		return FALSE;
-
-	exif_data = in_buffer + pos;
-
-	/* Discover byte order */
-
-	if ((exif_data[0] == 0x49) && (exif_data[1] == 0x49))
-		big_endian = FALSE;
-	else if ((exif_data[0] == 0x4D) && (exif_data[1] == 0x4D))
-		big_endian = TRUE;
-	else
-		return FALSE;
-
-	/* Check Tag Mark */
-
-	if (big_endian) {
-		if (exif_data[2] != 0)
-			return FALSE;
-		if (exif_data[3] != 0x2A)
-			return FALSE;
-	}
-	else {
-		if (exif_data[3] != 0)
-			return FALSE;
-		if (exif_data[2] != 0x2A)
-			return FALSE;
-	}
-
-	/* Get first IFD offset (offset to IFD0) */
-
-	if (big_endian) {
-		if (exif_data[4] != 0)
-			return FALSE;
-		if (exif_data[5] != 0)
-			return FALSE;
-		offset = (exif_data[6] << 8) + exif_data[7];
-	}
-	else {
-		if (exif_data[7] != 0)
-			return FALSE;
-		if (exif_data[6] != 0)
-			return FALSE;
-		offset = (exif_data[5] << 8) + exif_data[4];
-	}
-
-	if (offset > length - 2) /* check end of data segment */
-		return FALSE;
-
-	/* Get the number of directory entries contained in this IFD */
-
-	if (big_endian)
-		number_of_tags = (exif_data[offset] << 8) + exif_data[offset+1];
-	else
-		number_of_tags = (exif_data[offset+1] << 8) + exif_data[offset];
-	if (number_of_tags == 0)
-		return FALSE;
-
-	offset += 2;
-
-	/* Search for Orientation Tag in IFD0 */
-
-	for (;;) {
-		if (offset > length - 12) /* check end of data segment */
-			return FALSE;
-
-		/* Get Tag number */
-
-		if (big_endian)
-			tagnum = (exif_data[offset] << 8) + exif_data[offset+1];
-		else
-			tagnum = (exif_data[offset+1] << 8) + exif_data[offset];
-
-		if (tagnum == 0x0112) { /* found Orientation Tag */
-			if (big_endian) {
-				if (exif_data[offset + 8] != 0)
-					return FALSE;
-				orientation = exif_data[offset + 9];
-			}
-			else {
-				if (exif_data[offset + 9] != 0)
-					return FALSE;
-				orientation = exif_data[offset + 8];
-			}
-			if (orientation > 8)
-				orientation = 0;
-			data->orientation = orientation;
-			break;
-		}
-
-		if (--number_of_tags == 0)
-			return FALSE;
-
-		offset += 12;
-	}
-
-	return TRUE;
-}
-
-
-static gboolean
-_jpeg_exif_colorimetry_from_app1_segment (guchar	*in_buffer,
-					  gsize		 app1_segment_size,
-					  JpegInfoData	*data)
+_jpeg_exif_tags_from_app1_segment (guchar	 *in_buffer,
+				   gsize	  app1_segment_size,
+				   JpegInfoFlags  flags,
+				   JpegInfoData	 *data)
 {
 	int       pos;
 	guint     length;
@@ -342,7 +208,14 @@ _jpeg_exif_colorimetry_from_app1_segment (guchar	*in_buffer,
 
 	/* Search the tags in IFD0 */
 
-	remaining_tags = 3;
+	remaining_tags = 0;
+	if (flags & _JPEG_INFO_EXIF_ORIENTATION)
+		remaining_tags += 1;
+	if (flags & _JPEG_INFO_EXIF_COLORIMETRY)
+		remaining_tags += 3;
+	if (flags & _JPEG_INFO_EXIF_COLOR_SPACE)
+		remaining_tags += 1;
+
 	for (;;) {
 		if (offset > length - 12) /* check end of data segment */
 			return FALSE;
@@ -354,15 +227,61 @@ _jpeg_exif_colorimetry_from_app1_segment (guchar	*in_buffer,
 		else
 			tagnum = (exif_data[offset+1] << 8) + exif_data[offset];
 
-		if (tagnum == 0x012D) { /* TransferFunction */
+		if ((flags & _JPEG_INFO_EXIF_ORIENTATION) && (tagnum == 0x0112)) { /* Orientation */
+			int orientation;
+
+			if (big_endian) {
+				if (exif_data[offset + 8] != 0)
+					return FALSE;
+				orientation = exif_data[offset + 9];
+			}
+			else {
+				if (exif_data[offset + 9] != 0)
+					return FALSE;
+				orientation = exif_data[offset + 8];
+			}
+			if (orientation > 8)
+				orientation = 0;
+			data->orientation = orientation;
+			data->valid |= _JPEG_INFO_EXIF_ORIENTATION;
+
 			remaining_tags--;
 		}
 
-		if (tagnum == 0x013E) { /* WhitePoint */
+		if ((flags & _JPEG_INFO_EXIF_COLORIMETRY) && (tagnum == 0x012D)) { /* TransferFunction */
 			remaining_tags--;
 		}
 
-		if (tagnum == 0x013F) { /* PrimaryChromaticities */
+		if ((flags & _JPEG_INFO_EXIF_COLORIMETRY) && (tagnum == 0x013E)) { /* WhitePoint */
+			remaining_tags--;
+		}
+
+		if ((flags & _JPEG_INFO_EXIF_COLORIMETRY) && (tagnum == 0x013F)) { /* PrimaryChromaticities */
+			remaining_tags--;
+		}
+
+		if ((flags & _JPEG_INFO_EXIF_COLOR_SPACE) && (tagnum == 0xA001)) { /* ColorSpace */
+			int value;
+
+			if (big_endian) {
+				if (exif_data[offset + 8] != 0)
+					return FALSE;
+				value = exif_data[offset + 9];
+			}
+			else {
+				if (exif_data[offset + 9] != 0)
+					return FALSE;
+				value = exif_data[offset + 8];
+			}
+
+			if (value == 1)
+				data->color_space = GTH_COLOR_SPACE_SRGB;
+			else if (value == 0xFFFF)
+				data->color_space = GTH_COLOR_SPACE_UNCALIBRATED;
+			else
+				data->color_space = GTH_COLOR_SPACE_UNKNOWN;
+			data->valid |= _JPEG_INFO_EXIF_COLOR_SPACE;
+
 			remaining_tags--;
 		}
 
@@ -512,7 +431,9 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 			segment_data_consumed = TRUE;
 		}
 
-		if (((flags & _JPEG_INFO_EXIF_ORIENTATION) || (flags & _JPEG_INFO_EXIF_COLORIMETRY))
+		if (((flags & _JPEG_INFO_EXIF_ORIENTATION)
+		     || (flags & _JPEG_INFO_EXIF_COLORIMETRY)
+		     || (flags & _JPEG_INFO_EXIF_COLOR_SPACE))
 		    && (marker_id == _JPEG_MARKER_APP1))
 		{
 			guint   h, l;
@@ -530,15 +451,7 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 						 cancellable,
 						 error) > 0)
 			{
-				if (flags & _JPEG_INFO_EXIF_ORIENTATION) {
-					if (_jpeg_exif_orientation_from_app1_segment (app1_segment, app1_segment_size, data))
-						data->valid |= _JPEG_INFO_EXIF_ORIENTATION;
-				}
-
-				if (flags & _JPEG_INFO_EXIF_COLORIMETRY) {
-					if (_jpeg_exif_colorimetry_from_app1_segment (app1_segment, app1_segment_size, data))
-						data->valid |= _JPEG_INFO_EXIF_ORIENTATION;
-				}
+				_jpeg_exif_tags_from_app1_segment (app1_segment, app1_segment_size, flags, data);
 			}
 
 			segment_data_consumed = TRUE;

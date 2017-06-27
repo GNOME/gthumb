@@ -29,9 +29,10 @@
 typedef enum /*< skip >*/ {
 	_JPEG_INFO_NONE = 0,
 	_JPEG_INFO_IMAGE_SIZE = 1 << 0,
-	_JPEG_INFO_EXIF_ORIENTATION = 1 << 1,
-	_JPEG_INFO_ICC_PROFILE = 1 << 2,
-	_JPEG_INFO_EXIF_COLORIMETRY = 1 << 3
+	_JPEG_INFO_ICC_PROFILE = 1 << 1,
+	_JPEG_INFO_EXIF_ORIENTATION = 1 << 2,
+	_JPEG_INFO_EXIF_COLORIMETRY = 1 << 3,
+	_JPEG_INFO_EXIF_COLOR_SPACE = 1 << 4,
 } JpegInfoFlags;
 
 typedef struct {
@@ -41,6 +42,7 @@ typedef struct {
 	GthTransform	orientation;
 	gpointer	icc_data;
 	gsize		icc_data_size;
+	GthColorSpace   color_space;
 } JpegInfoData;
 
 void		_jpeg_info_data_init			(JpegInfoData		 *data);

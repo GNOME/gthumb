@@ -123,6 +123,13 @@ typedef enum /*< skip >*/ {
 } GthChannel;
 
 
+typedef enum /*< skip >*/ {
+	GTH_COLOR_SPACE_UNKNOWN,
+	GTH_COLOR_SPACE_SRGB,
+	GTH_COLOR_SPACE_UNCALIBRATED
+} GthColorSpace;
+
+
 typedef void (*DataFunc)         (gpointer    user_data);
 typedef void (*ReadyFunc)        (GError     *error,
 			 	  gpointer    user_data);
