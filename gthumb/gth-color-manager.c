@@ -143,6 +143,10 @@ gth_color_manager_new (void)
 }
 
 
+
+#if HAVE_LCMS2 && HAVE_COLORD
+
+
 static void
 _gth_color_manager_add_profile (GthColorManager	 *self,
 			        const char       *id,
@@ -154,9 +158,6 @@ _gth_color_manager_add_profile (GthColorManager	 *self,
 
 	g_hash_table_insert (self->priv->profile_cache, g_strdup (id), g_object_ref (profile));
 }
-
-
-#if HAVE_LCMS2 && HAVE_COLORD
 
 
 typedef struct {
@@ -410,7 +411,6 @@ gth_color_manager_get_profile_async (GthColorManager	 *self,
 	{
 		char          *id;
 		GthICCProfile *profile;
-		ProfilesData  *data;
 
 		id = g_strdup_printf ("monitor://%s", monitor_name);
 		profile = _gth_color_manager_get_profile (self, id);
@@ -425,6 +425,8 @@ gth_color_manager_get_profile_async (GthColorManager	 *self,
 #if HAVE_COLORD
 
 		{
+			ProfilesData  *data;
+
 			data = g_slice_new (ProfilesData);
 			data->color_manager = g_object_ref (self);
 			data->monitor_name = g_strdup (monitor_name);
