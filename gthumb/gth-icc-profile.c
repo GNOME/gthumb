@@ -169,6 +169,31 @@ gth_icc_profile_new (const char    *id,
 }
 
 
+GthICCProfile *
+gth_icc_profile_new_srgb (void)
+{
+#ifdef HAVE_LCMS2
+
+	char          *id;
+	GthCMSProfile  cmd_profile;
+	GthICCProfile *icc_profile;
+
+	id = g_strdup ("standard://srgb");
+	cmd_profile = (GthCMSProfile) cmsCreate_sRGBProfile ();
+	icc_profile = gth_icc_profile_new (id, cmd_profile);
+
+	g_free (id);
+
+	return icc_profile;
+
+#else
+
+	return NULL;
+
+#endif
+}
+
+
 const char *
 gth_icc_profile_get_id (GthICCProfile *self)
 {

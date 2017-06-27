@@ -200,7 +200,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	_jpeg_info_data_init (&jpeg_info);
 	info_flags = _JPEG_INFO_EXIF_ORIENTATION;
 #if HAVE_LCMS2
-	info_flags |= _JPEG_INFO_ICC_PROFILE;
+	info_flags |= _JPEG_INFO_EXIF_COLOR_SPACE | _JPEG_INFO_ICC_PROFILE;
 #endif
 	_jpeg_info_get_from_buffer (in_buffer, in_buffer_size, info_flags, &jpeg_info);
 	if (jpeg_info.valid & _JPEG_INFO_EXIF_ORIENTATION)
@@ -208,10 +208,21 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	else
 		orientation = GTH_TRANSFORM_NONE;
 #if HAVE_LCMS2
-	if (jpeg_info.valid & _JPEG_INFO_ICC_PROFILE) {
-		GthICCProfile *profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN, cmsOpenProfileFromMem (jpeg_info.icc_data, jpeg_info.icc_data_size));
-		gth_image_set_icc_profile (image, profile);
-		g_object_unref (profile);
+	{
+		GthICCProfile *profile = NULL;
+
+		if (jpeg_info.valid & _JPEG_INFO_ICC_PROFILE) {
+			profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN, cmsOpenProfileFromMem (jpeg_info.icc_data, jpeg_info.icc_data_size));
+		}
+		else if (jpeg_info.valid & _JPEG_INFO_EXIF_COLOR_SPACE) {
+			if (jpeg_info.color_space == GTH_COLOR_SPACE_SRGB)
+				profile = gth_icc_profile_new_srgb ();
+		}
+
+		if (profile != NULL) {
+			gth_image_set_icc_profile (image, profile);
+			g_object_unref (profile);
+		}
 	}
 #endif
 	_jpeg_info_data_dispose (&jpeg_info);

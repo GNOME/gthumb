@@ -79,6 +79,7 @@ void			gth_cms_transform_free		(GthCMSTransform  transform);
 GType			gth_icc_profile_get_type	(void);
 GthICCProfile *		gth_icc_profile_new		(const char	 *id,
 						 	 GthCMSProfile	  profile);
+GthICCProfile *		gth_icc_profile_new_srgb	(void);
 const char *		gth_icc_profile_get_id		(GthICCProfile	 *icc_profile);
 gboolean                gth_icc_profile_id_is_unknown   (const char      *id);
 GthCMSProfile		gth_icc_profile_get_profile	(GthICCProfile	 *icc_profile);
