@@ -6994,6 +6994,10 @@ gth_browser_get_monitor_profile (GthBrowser *browser)
 		}
 	}
 #endif
+
+	if (browser->priv->screen_profile == NULL)
+		browser->priv->screen_profile = gth_icc_profile_new_srgb();
+
 	return browser->priv->screen_profile;
 }
 
