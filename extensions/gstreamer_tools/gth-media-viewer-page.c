@@ -47,6 +47,7 @@ G_DEFINE_TYPE_WITH_CODE (GthMediaViewerPage,
 struct _GthMediaViewerPagePrivate {
 	GthBrowser     *browser;
 	GthFileData    *file_data;
+	GFileInfo      *updated_info;
 	GstElement     *playbin;
 	GtkBuilder     *builder;
 	GtkWidget      *video_area;
@@ -838,8 +839,8 @@ update_stream_info (GthMediaViewerPage *self)
 				if (gst_structure_get_int (structure, "width", &video_width)
 				    && gst_structure_get_int (structure, "height", &video_height))
 				{
-					g_file_info_set_attribute_int32 (self->priv->file_data->info, "frame::width", video_width);
-					g_file_info_set_attribute_int32 (self->priv->file_data->info, "frame::height", video_height);
+					g_file_info_set_attribute_int32 (self->priv->updated_info, "frame::width", video_width);
+					g_file_info_set_attribute_int32 (self->priv->updated_info, "frame::height", video_height);
 					self->priv->has_video = TRUE;
 				}
 
@@ -879,12 +880,12 @@ bus_message_cb (GstBus     *bus,
 		if ((old_state == GST_STATE_NULL) && (new_state == GST_STATE_READY) && (pending_state != GST_STATE_PAUSED)) {
 			update_stream_info (self);
 			gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
-			gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
+			gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, self->priv->updated_info, TRUE);
 		}
 		if ((old_state == GST_STATE_READY) && (new_state == GST_STATE_PAUSED)) {
 			update_stream_info (self);
 			gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
-			gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
+			gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, self->priv->updated_info, TRUE);
 		}
 		if ((old_state == GST_STATE_READY) || (new_state == GST_STATE_PAUSED))
 			update_volume_from_playbin (self);
@@ -910,7 +911,7 @@ bus_message_cb (GstBus     *bus,
 	}
 
 	case GST_MESSAGE_ERROR:
-		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, FALSE);
+		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, NULL, FALSE);
 		break;
 
 	default:
@@ -1092,7 +1093,9 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	/**/
 
 	_g_object_unref (self->priv->file_data);
+	_g_object_unref (self->priv->updated_info);
 	self->priv->file_data = gth_file_data_dup (file_data);
+	self->priv->updated_info = g_file_info_new ();
 
 	self->priv->duration = 0;
 	self->priv->has_audio = FALSE;
@@ -1222,6 +1225,7 @@ gth_media_viewer_page_real_update_info (GthViewerPage *base,
 
 	if (! _g_file_equal (self->priv->file_data->file, file_data->file))
 		return;
+
 	_g_object_unref (self->priv->file_data);
 	self->priv->file_data = gth_file_data_dup (file_data);
 }
@@ -1252,6 +1256,7 @@ gth_media_viewer_page_finalize (GObject *obj)
 	}
 	_g_object_unref (self->priv->icon);
 	_g_object_unref (self->priv->file_data);
+	_g_object_unref (self->priv->updated_info);
 	if (self->priv->screensaver != NULL) {
 		gth_screensaver_uninhibit (self->priv->screensaver);
 		g_object_unref (self->priv->screensaver);
@@ -1307,6 +1312,8 @@ gth_media_viewer_page_init (GthMediaViewerPage *self)
 	self->priv->visible = FALSE;
 	self->priv->screenshot_button = NULL;
 	self->priv->background_painted = FALSE;
+	self->priv->file_data = NULL;
+	self->priv->updated_info = NULL;
 }
 
 

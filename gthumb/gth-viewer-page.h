@@ -114,6 +114,7 @@ void         gth_viewer_page_show_properties     (GthViewerPage  *self,
 						  gboolean        show);
 void         gth_viewer_page_file_loaded         (GthViewerPage  *self,
 						  GthFileData    *file_data,
+						  GFileInfo      *updated_metadata,
 						  gboolean        success);
 
 G_END_DECLS

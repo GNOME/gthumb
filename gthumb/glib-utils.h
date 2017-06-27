@@ -328,6 +328,8 @@ void            _g_file_info_set_secondary_sort_order
 						  gint32      sort_order);
 gint32          _g_file_info_get_secondary_sort_order
 						 (GFileInfo  *info);
+void            _g_file_info_update              (GFileInfo  *dest_info,
+						  GFileInfo  *src_info);
 const char *    _g_content_type_guess_from_name  (const char *filename);
 gboolean        _g_content_type_is_a             (const char *type,
 						  const char *supertype);

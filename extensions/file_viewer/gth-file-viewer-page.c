@@ -210,7 +210,7 @@ thumb_loader_ready_cb (GObject      *source_object,
 			_g_object_unref (pixbuf);
 		}
 
-		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, TRUE);
+		gth_viewer_page_file_loaded (GTH_VIEWER_PAGE (self), self->priv->file_data, NULL, TRUE);
 	}
 
 	cairo_surface_destroy (image);

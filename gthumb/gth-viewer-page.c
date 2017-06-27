@@ -49,10 +49,11 @@ gth_viewer_page_default_init (GthViewerPageInterface *iface)
 	                          G_SIGNAL_RUN_LAST,
 	                          G_STRUCT_OFFSET (GthViewerPageInterface, file_loaded),
 	                          NULL, NULL,
-	                          gth_marshal_VOID__OBJECT_BOOLEAN,
+	                          gth_marshal_VOID__OBJECT_OBJECT_BOOLEAN,
 	                          G_TYPE_NONE,
-	                          2,
+	                          3,
 	                          G_TYPE_OBJECT,
+				  G_TYPE_OBJECT,
 	                          G_TYPE_BOOLEAN);
 
 	initialized = TRUE;
@@ -193,7 +194,8 @@ gth_viewer_page_show_properties (GthViewerPage *self,
 void
 gth_viewer_page_file_loaded (GthViewerPage *self,
 			     GthFileData   *file_data,
+			     GFileInfo     *updated_metadata,
 			     gboolean       success)
 {
-	g_signal_emit (self, gth_viewer_page_signals[FILE_LOADED], 0, file_data, success);
+	g_signal_emit (self, gth_viewer_page_signals[FILE_LOADED], 0, file_data, updated_metadata, success);
 }

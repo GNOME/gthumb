@@ -2952,6 +2952,33 @@ _g_file_info_get_secondary_sort_order (GFileInfo  *info)
 }
 
 
+void
+_g_file_info_update (GFileInfo  *dest_info,
+		     GFileInfo  *src_info)
+{
+	char **attributes;
+	int    i;
+
+	attributes = g_file_info_list_attributes (src_info, NULL);
+	for (i = 0; attributes[i] != NULL; i++) {
+		GFileAttributeType   type;
+		gpointer             value_pp;
+		GFileAttributeStatus status;
+
+		if (g_file_info_get_attribute_data (src_info,
+						    attributes[i],
+						    &type,
+						    &value_pp,
+						    &status))
+		{
+			g_file_info_set_attribute (dest_info, attributes[i], type, value_pp);
+		}
+	}
+
+	g_strfreev (attributes);
+}
+
+
 const char *
 _g_content_type_guess_from_name (const char *filename)
 {

@@ -6075,6 +6075,7 @@ load_file_data_unref (LoadFileData *data)
 static void
 gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 				GthFileData   *file_data,
+				GFileInfo     *updated_metadata,
 				gboolean       success,
 				gpointer       user_data);
 
@@ -6124,8 +6125,7 @@ file_metadata_ready_cb (GList    *files,
 	/* the mime type can be different for example when a jpeg image has a .png extension */
 	different_mime_type = ! g_str_equal (gth_file_data_get_mime_type (browser->priv->current_file), gth_file_data_get_mime_type (file_data));
 
-	g_file_info_copy_into (file_data->info, browser->priv->current_file->info);
-	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
+	_g_file_info_update (browser->priv->current_file->info, file_data->info);
 
 	gth_browser_update_title (browser);
 	gth_browser_update_statusbar_file_info (browser);
@@ -6205,6 +6205,7 @@ load_metadata_cb (gpointer user_data)
 static void
 gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 				GthFileData   *file_data,
+				GFileInfo     *updated_metadata,
 				gboolean       success,
 				gpointer       user_data)
 {
@@ -6230,6 +6231,7 @@ gth_viewer_page_file_loaded_cb (GthViewerPage *viewer_page,
 		return;
 	}
 
+	_g_file_info_update (browser->priv->current_file->info, updated_metadata);
 	g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 
 	if (browser->priv->load_metadata_timeout != 0)
@@ -6327,7 +6329,7 @@ _gth_browser_load_file (GthBrowser  *browser,
 	if (browser->priv->viewer_page != NULL)
 		gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
 	else
-		gth_viewer_page_file_loaded_cb (NULL, browser->priv->current_file, FALSE, browser);
+		gth_viewer_page_file_loaded_cb (NULL, browser->priv->current_file, NULL, FALSE, browser);
 }
 
 
