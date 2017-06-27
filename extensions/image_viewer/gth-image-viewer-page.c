@@ -263,7 +263,7 @@ profile_ready_cb (GObject      *source_object,
 
 	profile = gth_color_manager_get_profile_finish (GTH_COLOR_MANAGER (source_object), res, NULL);
 	if (profile == NULL)
-		profile = gth_browser_get_monitor_profile (self->priv->browser);
+		profile = _g_object_ref (gth_browser_get_monitor_profile (self->priv->browser));
 	gth_image_preloader_set_out_profile (self->priv->preloader, profile);
 
 	_gth_image_viewer_page_load_with_preloader_step2 (profile_data->self,
