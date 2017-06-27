@@ -184,6 +184,7 @@ struct _GthBrowserPrivate {
 	GtkTreePath       *folder_tree_last_dest_row; /* used to open a folder during D&D */
 	guint              folder_tree_open_folder_id;
 	GtkWidget         *apply_editor_changes_button;
+	gboolean           ask_to_save_modified_images;
 
 	/* settings */
 
@@ -4212,6 +4213,16 @@ pref_open_files_in_fullscreen_changed (GSettings  *settings,
 }
 
 
+static void
+pref_msg_save_modified_image_changed (GSettings  *settings,
+				      const char *key,
+				      gpointer    user_data)
+{
+	GthBrowser *browser = user_data;
+	browser->priv->ask_to_save_modified_images = g_settings_get_boolean (settings, key);
+}
+
+
 static gboolean
 _gth_browser_realize (GtkWidget *browser,
 		      gpointer  *data)
@@ -4992,8 +5003,8 @@ gth_browser_init (GthBrowser *browser)
 		gth_browser_hide_sidebar (browser);
 
 	browser->priv->viewer_sidebar = g_settings_get_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_SIDEBAR);
-
 	browser->priv->fast_file_type = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_FAST_FILE_TYPE);
+	browser->priv->ask_to_save_modified_images = g_settings_get_boolean (browser->priv->messages_settings, PREF_MSG_SAVE_MODIFIED_IMAGE);
 
 	/* load the history only for the first window */
 	{
@@ -5056,6 +5067,10 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (browser->priv->browser_settings,
 			  "changed::" PREF_BROWSER_OPEN_FILES_IN_FULLSCREEN,
 			  G_CALLBACK (pref_open_files_in_fullscreen_changed),
+			  browser);
+	g_signal_connect (browser->priv->messages_settings,
+			  "changed::" PREF_MSG_SAVE_MODIFIED_IMAGE,
+			  G_CALLBACK (pref_msg_save_modified_image_changed),
 			  browser);
 
 	browser->priv->constructed = TRUE;
@@ -6360,9 +6375,7 @@ load_file_delayed_cb (gpointer user_data)
 		browser->priv->load_file_timeout = 0;
 	}
 
-	if (g_settings_get_boolean (browser->priv->messages_settings, PREF_MSG_SAVE_MODIFIED_IMAGE)
-	    && gth_browser_get_file_modified (browser))
-	{
+	if (browser->priv->ask_to_save_modified_images && gth_browser_get_file_modified (browser)) {
 		load_file_data_ref (data);
 		gth_browser_ask_whether_to_save (browser,
 						 load_file__previuos_file_saved_cb,
