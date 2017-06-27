@@ -264,17 +264,76 @@ cd_device_connected_cb (GObject      *source_object,
 
 
 static void
-find_device_by_property_cb (GObject      *source_object,
-			    GAsyncResult *res,
-			    gpointer      user_data)
+find_device_by_kind_cb (GObject      *source_object,
+			GAsyncResult *res,
+			gpointer      user_data)
 {
+	CdClient  *cd_client = CD_CLIENT (source_object);
+	GTask     *task = user_data;
+	GPtrArray *devices;
+	CdDevice  *device;
+
+	devices = cd_client_get_devices_by_kind_finish (cd_client, res, NULL);
+	if (devices->len == 0) {
+		g_task_return_pointer (task, NULL, NULL);
+		g_object_unref (task);
+		return;
+	}
+
+	device = g_object_ref (g_ptr_array_index (devices, 0));
+	cd_device_connect (device,
+			   g_task_get_cancellable (task),
+			   cd_device_connected_cb,
+			   task);
+
+	g_ptr_array_free (devices, TRUE);
+}
+
+
+static void
+find_device_by_xrandr_name_cb (GObject      *source_object,
+			       GAsyncResult *res,
+			       gpointer      user_data)
+{
+	CdClient *cd_client = CD_CLIENT (source_object);
 	GTask    *task = user_data;
 	CdDevice *device;
 
-	device = cd_client_find_device_by_property_finish (CD_CLIENT (source_object), res, NULL);
+	device = cd_client_find_device_by_property_finish (cd_client, res, NULL);
 	if (device == NULL) {
-		g_task_return_pointer (task, NULL, NULL);
-		g_object_unref (task);
+		cd_client_get_devices_by_kind (cd_client,
+					       CD_DEVICE_KIND_DISPLAY,
+					       g_task_get_cancellable (task),
+					       find_device_by_kind_cb,
+					       task);
+		return;
+	}
+
+	cd_device_connect (device,
+			   g_task_get_cancellable (task),
+			   cd_device_connected_cb,
+			   task);
+}
+
+
+static void
+find_device_by_model_cb (GObject      *source_object,
+			 GAsyncResult *res,
+			 gpointer      user_data)
+{
+	CdClient *cd_client = CD_CLIENT (source_object);
+	GTask    *task = user_data;
+	CdDevice *device;
+
+	device = cd_client_find_device_by_property_finish (cd_client, res, NULL);
+	if (device == NULL) {
+		ProfilesData *data = g_task_get_task_data (task);
+		cd_client_find_device_by_property (cd_client,
+						   CD_DEVICE_METADATA_XRANDR_NAME,
+						   data->monitor_name,
+						   g_task_get_cancellable (task),
+						   find_device_by_xrandr_name_cb,
+						   task);
 		return;
 	}
 
@@ -292,10 +351,10 @@ _cd_client_find_device_for_task (CdClient *cd_client,
 	ProfilesData *data = g_task_get_task_data (task);
 
 	cd_client_find_device_by_property (cd_client,
-					   CD_DEVICE_METADATA_XRANDR_NAME,
+					   CD_DEVICE_PROPERTY_MODEL,
 					   data->monitor_name,
 					   g_task_get_cancellable (task),
-					   find_device_by_property_cb,
+					   find_device_by_model_cb,
 					   task);
 }
 
