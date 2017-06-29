@@ -719,6 +719,8 @@ gthumb/gth-browser.c
 gthumb/gth-browser.h
 gthumb/gth-buffer-data.c
 gthumb/gth-buffer-data.h
+gthumb/gth-color-manager.c
+gthumb/gth-color-manager.h
 gthumb/gth-color-scale.c
 gthumb/gth-color-scale.h
 gthumb/gth-delete-task.c
@@ -775,6 +777,8 @@ gthumb/gth-histogram-view.c
 gthumb/gth-histogram-view.h
 gthumb/gth-hook.c
 gthumb/gth-hook.h
+gthumb/gth-icc-profile.c
+gthumb/gth-icc-profile.h
 gthumb/gth-icon-cache.c
 gthumb/gth-icon-cache.h
 gthumb/gth-image.c
