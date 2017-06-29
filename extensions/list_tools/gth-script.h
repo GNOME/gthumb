@@ -63,6 +63,7 @@ char *            gth_script_get_requested_attributes  (GthScript  *script);
 char *            gth_script_get_command_line          (GthScript  *script,
 						        GtkWindow  *parent,
 						        GList      *file_list /* GthFileData */,
+							gboolean    can_skip,
 						        GError    **error);
 guint             gth_script_get_shortcut              (GthScript  *script);
 

@@ -479,7 +479,7 @@ extensions/list_tools/actions.c
 extensions/list_tools/actions.h
 extensions/list_tools/callbacks.c
 extensions/list_tools/callbacks.h
-[type: gettext/glade]extensions/list_tools/data/ui/ask-value.ui
+[type: gettext/glade]extensions/list_tools/data/ui/ask-values.ui
 [type: gettext/glade]extensions/list_tools/data/ui/personalize-scripts.ui
 [type: gettext/glade]extensions/list_tools/data/ui/script-editor.ui
 [type: gettext/glade]extensions/list_tools/data/ui/tools-menu.ui

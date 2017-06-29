@@ -962,14 +962,14 @@ _g_utf8_strndup (const char *str,
 }
 
 
-static const char *
+const char *
 _g_utf8_strstr (const char *haystack,
 		const char *needle)
 {
 	const char *s;
-	gsize       i;
-	gsize       haystack_len = g_utf8_strlen (haystack, -1);
-	gsize       needle_len = g_utf8_strlen (needle, -1);
+	glong       i;
+	glong       haystack_len = g_utf8_strlen (haystack, -1);
+	glong       needle_len = g_utf8_strlen (needle, -1);
 	int         needle_size = strlen (needle);
 
 	s = haystack;

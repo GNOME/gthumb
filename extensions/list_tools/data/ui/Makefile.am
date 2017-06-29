@@ -1,5 +1,5 @@
 EXTRA_DIST =			\
-	ask-value.ui		\
+	ask-values.ui		\
 	personalize-scripts.ui	\
 	script-editor.ui	\
 	tools-menu.ui

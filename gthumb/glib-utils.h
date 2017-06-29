@@ -190,6 +190,8 @@ char *          _g_utf8_replace                  (const char  *string,
 						  const char  *replacement);
 char *          _g_utf8_strndup                  (const char  *str,
 						  gsize        n);
+const char *	_g_utf8_strstr			 (const char  *haystack,
+						  const char  *needle);
 char **         _g_utf8_strsplit                 (const char  *string,
 						  const char  *delimiter,
 						  int          max_tokens);

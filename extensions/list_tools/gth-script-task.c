@@ -113,6 +113,7 @@ _gth_script_task_exec (GthScriptTask *self)
 		command_line = gth_script_get_command_line (self->priv->script,
 							    self->priv->parent,
 							    list,
+							    (self->priv->file_list->next != NULL),
 							    &error);
 
 		g_list_free (list);
@@ -127,6 +128,7 @@ _gth_script_task_exec (GthScriptTask *self)
 		command_line = gth_script_get_command_line (self->priv->script,
 							    self->priv->parent,
 							    self->priv->file_list,
+							    FALSE,
 							    &error);
 	}
 

@@ -453,10 +453,47 @@ typedef struct {
 	GList      *file_list;
 	GError    **error;
 	gboolean    quote_values;
+	GList      *asked_values;
+	GList      *last_asked_value;;
 } ReplaceData;
 
 
 typedef char * (*GetFileDataValueFunc) (GthFileData *file_data);
+
+
+typedef struct {
+	int        n_param;
+	char      *prompt;
+	char      *default_value;
+	char      *value;
+	GtkWidget *entry;
+} AskedValue;
+
+
+static AskedValue *
+asked_value_new (int n_param)
+{
+	AskedValue *asked_value;
+
+	asked_value = g_new (AskedValue, 1);
+	asked_value->n_param = n_param;
+	asked_value->prompt = g_strdup (_("Enter a value:"));;
+	asked_value->default_value = NULL;
+	asked_value->value = NULL;
+	asked_value->entry = NULL;
+
+	return asked_value;
+}
+
+
+static void
+asked_value_free (AskedValue *asked_value)
+{
+	g_free (asked_value->prompt);
+	g_free (asked_value->default_value);
+	g_free (asked_value->value);
+	g_free (asked_value);
+}
 
 
 static char *
@@ -588,93 +625,9 @@ thumb_loader_ready_cb (GObject      *source_object,
 
 
 static char *
-ask_value (ReplaceData  *replace_data,
-	   char         *match,
-	   GError      **error)
-{
-	GthFileData     *file_data;
-	GRegex          *re;
-	char           **a;
-	int              len;
-	char            *prompt;
-	char            *default_value;
-	GtkBuilder      *builder;
-	GtkWidget       *dialog;
-	GthThumbLoader  *thumb_loader;
-	int              result;
-	char            *value;
-
-	file_data = (GthFileData *) replace_data->file_list->data;
-
-	re = g_regex_new ("%ask(\\{([^}]+)\\}(\\{([^}]+)\\})?)?", 0, 0, NULL);
-	a = g_regex_split (re, match, 0);
-	len = g_strv_length (a);
-	if (len >= 3)
-		prompt = g_strstrip (a[2]);
-	else
-		prompt = _("Enter a value:");
-	if (len >= 5)
-		default_value = g_strstrip (a[4]);
-	else
-		default_value = "";
-
-	builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/list_tools/data/ui/ask-value.ui");
-
-	dialog = g_object_new (GTK_TYPE_DIALOG,
-			       "title", "",
-			       "transient-for", GTK_WINDOW (replace_data->parent),
-			       "modal", TRUE,
-			       "destroy-with-parent", FALSE,
-			       "use-header-bar", _gtk_settings_get_dialogs_use_header (),
-			       "resizable", TRUE,
-			       NULL);
-	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), _gtk_builder_get_widget (builder, "dialog_content"));
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-				_GTK_LABEL_EXECUTE, GTK_RESPONSE_OK,
-				(gth_script_for_each_file (replace_data->script) ? _("_Skip") : NULL), GTK_RESPONSE_NO,
-				NULL);
-	_gtk_dialog_add_class_to_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
-
-	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "title_label")), gth_script_get_display_name (replace_data->script));
-	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "filename_label")), g_file_info_get_display_name (file_data->info));
-	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "request_label")), prompt);
-	gtk_entry_set_text (GTK_ENTRY (_gtk_builder_get_widget (builder, "request_entry")), default_value);
-
-	g_object_ref (builder);
-	thumb_loader = gth_thumb_loader_new (128);
-	gth_thumb_loader_load (thumb_loader,
-			       file_data,
-			       NULL,
-			       thumb_loader_ready_cb,
-			       builder);
-
-	result = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (result == GTK_RESPONSE_OK) {
-		value = g_utf8_normalize (gtk_entry_get_text (GTK_ENTRY (_gtk_builder_get_widget (builder, "request_entry"))), -1, G_NORMALIZE_NFC);
-	}
-	else {
-		if (result == GTK_RESPONSE_NO)
-			*error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_SKIP_TO_NEXT_FILE, "");
-		else
-			*error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
-		value = NULL;
-	}
-
-	gtk_widget_destroy (dialog);
-
-	g_object_unref (builder);
-	g_strfreev (a);
-	g_regex_unref (re);
-
-	return value;
-}
-
-
-static char *
 create_attribute_list (GList    *file_list,
-		      char     *match,
-		      gboolean  quote_value)
+		       char     *match,
+		       gboolean  quote_value)
 {
 	GRegex    *re;
 	char     **a;
@@ -683,7 +636,7 @@ create_attribute_list (GList    *file_list,
 	GString   *s;
 	GList     *scan;
 
-	re = g_regex_new ("%attr\\{([^}]+)\\}", 0, 0, NULL);
+	re = g_regex_new ("%attr{([^}]+)}", 0, 0, NULL);
 	a = g_regex_split (re, match, 0);
 	if (g_strv_length (a) >= 2)
 		attribute = g_strstrip (a[1]);
@@ -761,7 +714,11 @@ command_line_eval_cb (const GMatchInfo *info,
 			*replace_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_FAILED, _("Malformed command"));
 	}
 	else if (strncmp (match, "%ask", 4) == 0) {
-		r = ask_value (replace_data, match, replace_data->error);
+		if (replace_data->last_asked_value != NULL) {
+			AskedValue *asked_value = replace_data->last_asked_value->data;
+			r = g_strdup (asked_value->value);
+			replace_data->last_asked_value = replace_data->last_asked_value->next;
+		}
 		if ((r != NULL) && replace_data->quote_values) {
 			char *q;
 
@@ -781,14 +738,189 @@ command_line_eval_cb (const GMatchInfo *info,
 }
 
 
+static gboolean
+ask_values (ReplaceData  *replace_data,
+	    gboolean      can_skip,
+	    GError      **error)
+{
+	GthFileData     *file_data;
+	GtkBuilder      *builder;
+	GtkWidget       *dialog;
+	GthThumbLoader  *thumb_loader;
+	int              result;
+
+	if (replace_data->asked_values == NULL)
+		return TRUE;
+
+	file_data = (GthFileData *) replace_data->file_list->data;
+	builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/list_tools/data/ui/ask-values.ui");
+	dialog = g_object_new (GTK_TYPE_DIALOG,
+			       "title", "",
+			       "transient-for", GTK_WINDOW (replace_data->parent),
+			       "modal", TRUE,
+			       "destroy-with-parent", FALSE,
+			       "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			       "resizable", TRUE,
+			       NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (dialog))), _gtk_builder_get_widget (builder, "dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_EXECUTE, GTK_RESPONSE_OK,
+				! can_skip ? NULL : (gth_script_for_each_file (replace_data->script) ? _("_Skip") : NULL), GTK_RESPONSE_NO,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
+
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "title_label")), gth_script_get_display_name (replace_data->script));
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "filename_label")), g_file_info_get_display_name (file_data->info));
+
+	{
+		GtkWidget *prompts = _gtk_builder_get_widget (builder, "prompts");
+		GList     *scan;
+
+		for (scan = replace_data->asked_values; scan; scan = scan->next) {
+			AskedValue *asked_value = scan->data;
+			GtkWidget  *label;
+			GtkWidget  *entry;
+			GtkWidget  *box;
+
+			label = gtk_label_new (asked_value->prompt);
+			gtk_label_set_xalign (GTK_LABEL (label), 0.0);
+
+			entry = gtk_entry_new ();
+			if (asked_value->default_value != NULL)
+				gtk_entry_set_text (GTK_ENTRY (entry), asked_value->default_value);
+			gtk_widget_set_size_request (entry, 300, -1);
+
+			box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+			gtk_box_pack_start (GTK_BOX (box), label, TRUE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX (box), entry, TRUE, FALSE, 0);
+			gtk_widget_show_all (box);
+			gtk_box_pack_start (GTK_BOX (prompts), box, FALSE, FALSE, 0);
+
+			asked_value->entry = entry;
+		}
+	}
+
+	g_object_ref (builder);
+	thumb_loader = gth_thumb_loader_new (128);
+	gth_thumb_loader_load (thumb_loader,
+			       file_data,
+			       NULL,
+			       thumb_loader_ready_cb,
+			       builder);
+
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (result == GTK_RESPONSE_OK) {
+		for (GList *scan = replace_data->asked_values; scan; scan = scan->next) {
+			AskedValue *asked_value = scan->data;
+
+			g_free (asked_value->value);
+			asked_value->value = g_utf8_normalize (gtk_entry_get_text (GTK_ENTRY (asked_value->entry)), -1, G_NORMALIZE_NFC);
+		}
+	}
+	else if (error != NULL) {
+		if (result == GTK_RESPONSE_NO)
+			*error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_SKIP_TO_NEXT_FILE, "");
+		else
+			*error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
+	}
+
+	gtk_widget_destroy (dialog);
+	g_object_unref (builder);
+
+	return (result == GTK_RESPONSE_OK);
+}
+
+
+static const char *
+_g_utf8_find_matching_bracket (const char *string,
+		               const char *open_bracket,
+			       const char *closed_bracket)
+{
+	const char *s;
+	gsize       i;
+	gsize       string_len = g_utf8_strlen (string, -1);
+	int         n_open_brackets = 1;
+
+	s = string;
+	for (i = 0; i <= string_len - 1; i++) {
+		if (strncmp (s, open_bracket, 1) == 0)
+			n_open_brackets++;
+		else if (strncmp (s, closed_bracket, 1) == 0)
+			n_open_brackets--;
+		if (n_open_brackets == 0)
+			return s;
+		s = g_utf8_next_char(s);
+	}
+
+	return NULL;
+}
+
+
+static char **
+_split_command_for_quotation (char *string)
+{
+	const char  *delimiter = "%quote{";
+	char       **str_array;
+	const char  *s;
+	const char  *remainder;
+	GSList      *string_list = NULL, *slist;
+	int          n;
+
+	remainder = string;
+	s = _g_utf8_strstr (remainder, delimiter);
+	if (s != NULL) {
+		gsize delimiter_size = strlen (delimiter);
+
+		while (s != NULL) {
+			gsize  size = s - remainder;
+			char  *new_string;
+
+			new_string = g_new (char, size + 1);
+			strncpy (new_string, remainder, size);
+			new_string[size] = 0;
+
+			string_list = g_slist_prepend (string_list, new_string);
+
+			/* search the matching bracket */
+			remainder = s + delimiter_size;
+			s = _g_utf8_find_matching_bracket (remainder, "{", "}");
+			if (s != NULL) {
+				size = s - remainder;
+				new_string = g_new (char, size + 1);
+				strncpy (new_string, remainder, size);
+				new_string[size] = 0;
+				string_list = g_slist_prepend (string_list, new_string);
+
+				remainder = s + 1 /* strlen("}") */;
+				s = _g_utf8_strstr (remainder, delimiter);
+			}
+		}
+	}
+
+	if ((remainder != NULL) && (*remainder != 0))
+		string_list = g_slist_prepend (string_list, g_strdup (remainder));
+
+	n = g_slist_length (string_list);
+	str_array = g_new (char*, n + 1);
+	str_array[n--] = NULL;
+	for (slist = string_list; slist; slist = slist->next)
+		str_array[n--] = slist->data;
+
+	g_slist_free (string_list);
+
+	return str_array;
+}
+
+
 char *
 gth_script_get_command_line (GthScript  *script,
 			     GtkWindow  *parent,
 			     GList      *file_list /* GthFileData */,
+			     gboolean    can_skip,
 			     GError    **error)
 {
 	ReplaceData  *replace_data;
-	GRegex       *qre;
 	GRegex       *re;
 	char        **a;
 	GString      *command_line;
@@ -801,14 +933,69 @@ gth_script_get_command_line (GthScript  *script,
 	replace_data->file_list = file_list;
 	replace_data->error = error;
 
-	re = g_regex_new ("%U|%F|%B|%N|%E|%P|%ask(\\{[^}]+\\}(\\{[^}]+\\})?)?|%attr\\{[^}]+\\}", 0, 0, NULL);
+	/* collect the values to ask to the user */
+
+	replace_data->asked_values = NULL;
+	re = g_regex_new ("(%ask)({[^}]+})?({[^}]+})?", 0, 0, NULL);
+	if (re != NULL) {
+		GRegex *param_re;
+
+		param_re = g_regex_new ("{([^}]+)}", 0, 0, NULL);
+		a = g_regex_split (re, script->priv->command, 0);
+		for (i = 0; a[i] != NULL; i++) {
+
+			if (g_strcmp0 (a[i], "%ask") == 0) {
+				AskedValue *asked_value;
+				GMatchInfo *match_info = NULL;
+				int         n_param = 0;
+
+				asked_value = asked_value_new (n_param);
+				i++;
+				while ((n_param < 2) && (a[i] != NULL) && g_regex_match (param_re, a[i], 0, &match_info)) {
+					char *value;
+
+					value = g_match_info_fetch (match_info, 1);
+					n_param++;
+
+					if (n_param == 1) {
+						g_free (asked_value->prompt);
+						asked_value->prompt = _g_utf8_strstrip (value);
+					}
+					else if (n_param == 2)
+						asked_value->default_value = _g_utf8_strstrip (value);
+					else
+						g_assert_not_reached ();
+
+					g_free (value);
+					g_match_info_free (match_info);
+					match_info = NULL;
+					i++;
+				}
+				replace_data->asked_values = g_list_prepend (replace_data->asked_values, asked_value);
+
+				g_match_info_free (match_info);
+			}
+		}
+
+		g_strfreev (a);
+		g_regex_unref (param_re);
+		g_regex_unref (re);
+	}
+
+	replace_data->asked_values = g_list_reverse (replace_data->asked_values);
+	if (! ask_values (replace_data, can_skip, error))
+		return NULL;
+
+	/* replace the parameters in the command line */
+
+	re = g_regex_new ("%U|%F|%B|%N|%E|%P|%ask({[^}]+}({[^}]+})?)?|%attr{[^}]+}", 0, 0, NULL);
 
 	replace_data->quote_values = FALSE;
+	replace_data->last_asked_value = replace_data->asked_values;
 	command_line = g_string_new ("");
-	qre = g_regex_new ("%quote\\{([^}]+)\\}", 0, 0, NULL);
-	a = g_regex_split (qre, script->priv->command, 0);
+	a = _split_command_for_quotation (script->priv->command);
 	for (i = 0; a[i] != NULL; i++) {
-		if (i % 2 == 1) {
+		if ((i % 2) == 1) { /* the quote content */
 			char *sub_result;
 			char *quoted;
 
@@ -824,12 +1011,14 @@ gth_script_get_command_line (GthScript  *script,
 	}
 
 	replace_data->quote_values = TRUE;
+	replace_data->last_asked_value = replace_data->asked_values;
 	result = g_regex_replace_eval (re, command_line->str, -1, 0, 0, command_line_eval_cb, replace_data, error);
 
-	g_free (replace_data);
+	g_strfreev (a);
 	g_string_free (command_line, TRUE);
-	g_regex_unref (qre);
 	g_regex_unref (re);
+	g_list_free_full (replace_data->asked_values, (GDestroyNotify) asked_value_free);
+	g_free (replace_data);
 
 	return result;
 }

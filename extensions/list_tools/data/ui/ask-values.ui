@@ -13,7 +13,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">5</property>
-        <property name="spacing">12</property>
+        <property name="spacing">24</property>
         <child>
           <object class="GtkBox" id="vbox2">
             <property name="visible">True</property>
@@ -71,7 +71,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">6</property>
+            <property name="spacing">12</property>
             <child>
               <object class="GtkAlignment" id="alignment1">
                 <property name="visible">True</property>
@@ -96,29 +96,19 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="request_label">
+              <object class="GtkBox" id="prompts">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">start</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">12</property>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="request_entry">
-                <property name="width_request">300</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">●</property>
-                <property name="activates_default">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
               </packing>
             </child>
           </object>
