@@ -2959,6 +2959,9 @@ _g_file_info_update (GFileInfo  *dest_info,
 	char **attributes;
 	int    i;
 
+	if (src_info == NULL)
+		return;
+
 	attributes = g_file_info_list_attributes (src_info, NULL);
 	for (i = 0; attributes[i] != NULL; i++) {
 		GFileAttributeType   type;
