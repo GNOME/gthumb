@@ -1042,6 +1042,7 @@ gth_grid_view_realize (GtkWidget *widget)
 	attributes.height = MAX (self->priv->height, allocation.height);
 	attributes.event_mask = (GDK_EXPOSURE_MASK
 				 | GDK_SCROLL_MASK
+				 | GDK_SMOOTH_SCROLL_MASK
 				 | GDK_POINTER_MOTION_MASK
 				 | GDK_ENTER_NOTIFY_MASK
 				 | GDK_LEAVE_NOTIFY_MASK
