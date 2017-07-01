@@ -1557,17 +1557,19 @@ _gth_grid_view_item_draw_emblems (GthGridViewItem *item,
 		icon = g_themed_icon_new (emblem);
 		image = gth_icon_cache_get_surface (grid_view->priv->icon_cache, icon);
 		if (image != NULL) {
-			cairo_set_source_surface (cr, image, item->thumbnail_area.x + emblem_offset + 1, item->thumbnail_area.y + 1);
 			cairo_rectangle (cr,
 					 item->thumbnail_area.x + emblem_offset + 1,
 					 item->thumbnail_area.y + 1,
 					 cairo_image_surface_get_width (image),
 					 cairo_image_surface_get_height (image));
+			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+			cairo_fill_preserve (cr);
+			cairo_set_source_surface (cr, image, item->thumbnail_area.x + emblem_offset + 1, item->thumbnail_area.y + 1);
 			cairo_fill (cr);
 
 			cairo_surface_destroy (image);
 
-			emblem_offset += EMBLEM_SIZE + (EMBLEM_SIZE / 2);
+			emblem_offset += EMBLEM_SIZE;
 		}
 
 		g_object_unref (icon);
