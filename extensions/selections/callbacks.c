@@ -41,7 +41,7 @@ static const GActionEntry actions[] = {
 	{ "go-to-selection-1", gth_browser_activate_go_to_selection_1 },
 	{ "go-to-selection-2", gth_browser_activate_go_to_selection_2 },
 	{ "go-to-selection-3", gth_browser_activate_go_to_selection_3 },
-	{ "go-to-file-container", gth_browser_activate_go_to_file_container },
+	{ "go-to-container-from-selection", gth_browser_activate_go_to_file_container },
 	{ "remove-from-selection", gth_browser_activate_remove_from_current_selection }
 };
 
