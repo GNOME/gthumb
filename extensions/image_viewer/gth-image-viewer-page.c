@@ -286,7 +286,7 @@ _gth_image_viewer_page_load_with_preloader (GthImageViewerPage  *self,
 					    GAsyncReadyCallback  callback,
 					    gpointer		 user_data)
 {
-	if (self->priv->apply_icc_profile) {
+	if ((file_data != NULL) && self->priv->apply_icc_profile) {
 		char *monitor_name = NULL;
 
 		if (_gtk_window_get_monitor_info (GTK_WINDOW (self->priv->browser), NULL, NULL, &monitor_name)) {
