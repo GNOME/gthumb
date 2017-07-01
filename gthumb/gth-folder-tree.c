@@ -1887,6 +1887,7 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 	RenameData  *data;
 	GtkWidget   *toplevel;
 	GtkWidget   *dialog;
+	const char  *edit_name;
 
 	if (! gth_folder_tree_get_iter (folder_tree, file, &iter, NULL))
 		return;
@@ -1914,8 +1915,11 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 			    &iter,
 			    COLUMN_FILE_DATA, &file_data,
 			    -1);
-	gtk_entry_set_text (GTK_ENTRY (gth_request_dialog_get_entry (GTH_REQUEST_DIALOG (dialog))),
-			    g_file_info_get_edit_name (file_data->info));
+	edit_name = g_file_info_get_edit_name (file_data->info);
+	if (edit_name == NULL)
+		edit_name = g_file_info_get_display_name (file_data->info);
+	if (edit_name != NULL)
+		gtk_entry_set_text (GTK_ENTRY (gth_request_dialog_get_entry (GTH_REQUEST_DIALOG (dialog))), edit_name);
 
 	gtk_widget_show (dialog);
 
