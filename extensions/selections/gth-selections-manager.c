@@ -33,6 +33,8 @@ struct _GthSelectionsManagerPrivate {
 	char       *order[GTH_SELECTIONS_MANAGER_N_SELECTIONS];
 	gboolean    order_inverse[GTH_SELECTIONS_MANAGER_N_SELECTIONS];
 	GMutex      mutex;
+	gboolean    loaded;
+	gboolean    changed;
 };
 
 
@@ -106,6 +108,8 @@ gth_selections_manager_init (GthSelectionsManager *self)
 		self->priv->order[i] = NULL;
 		self->priv->order_inverse[i] = FALSE;
 	}
+	self->priv->loaded = FALSE;
+	self->priv->changed = FALSE;
 }
 
 
@@ -293,6 +297,88 @@ _gth_selections_manager_for_each_selection (gpointer user_data)
 }
 
 
+static void
+_gth_selections_manager_load_from_node (GthSelectionsManager *self,
+					DomElement           *node)
+{
+	DomElement *child;
+	int         n_selection;
+	GList      *file_list;
+
+	n_selection = atoi (dom_element_get_attribute (node, "n"));
+	if ((n_selection < 0) || (n_selection > GTH_SELECTIONS_MANAGER_N_SELECTIONS))
+		return;
+
+	g_hash_table_remove_all (self->priv->files_hash[n_selection - 1]);
+	_g_object_list_unref (self->priv->files[n_selection - 1]);
+	self->priv->files[n_selection - 1] = NULL;
+
+	file_list = NULL;
+	for (child = node->first_child; child; child = child->next_sibling) {
+		if (g_strcmp0 (child->tag_name, "file") == 0) {
+			const char *uri;
+
+			uri = dom_element_get_attribute (child, "uri");
+			if (uri != NULL) {
+				GFile *file = g_file_new_for_uri (uri);
+				file_list = g_list_prepend (file_list, file);
+				g_hash_table_insert (self->priv->files_hash[n_selection - 1], file, GINT_TO_POINTER (1));
+			}
+		}
+	}
+	self->priv->files[n_selection - 1] = g_list_reverse (file_list);
+}
+
+
+static void
+_gth_selections_manager_load_if_required (GthSelectionsManager *self)
+{
+	GFile       *file;
+	char        *buffer;
+	gsize        size;
+	DomDocument *doc;
+
+	if (self->priv->loaded)
+		return;
+
+	file = gth_user_dir_get_file_for_read (GTH_DIR_DATA, GTHUMB_DIR, "selections.xml", NULL);
+	if (! _g_file_load_in_buffer (file, (void **) &buffer, &size, NULL, NULL)) {
+		g_object_unref (file);
+		return;
+	}
+
+	g_mutex_lock (&self->priv->mutex);
+
+	doc = dom_document_new ();
+	if (dom_document_load (doc, buffer, size, NULL)) {
+		DomElement *root = DOM_ELEMENT (doc)->first_child;
+
+		if (g_strcmp0 (root->tag_name, "selections") == 0) {
+			DomElement *child;
+			for (child = root->first_child; child; child = child->next_sibling) {
+				if (g_strcmp0 (child->tag_name, "selection") == 0)
+					_gth_selections_manager_load_from_node (self, child);
+			}
+		}
+	}
+
+	self->priv->loaded = TRUE;
+
+	g_mutex_unlock (&self->priv->mutex);
+
+	g_object_unref (doc);
+	g_free (buffer);
+	g_object_unref (file);
+}
+
+
+static void
+_gth_selections_manager_changed (GthSelectionsManager *self)
+{
+	self->priv->changed = TRUE;
+}
+
+
 void
 gth_selections_manager_for_each_child (GFile                *folder,
 				       const char           *attributes,
@@ -307,6 +393,8 @@ gth_selections_manager_for_each_child (GFile                *folder,
 
 	self = gth_selections_manager_get_default ();
 	n_selection = _g_file_get_n_selection (folder);
+
+	_gth_selections_manager_load_if_required (self);
 
 	g_mutex_lock (&self->priv->mutex);
 	data = g_new0 (ForEachChildData, 1);
@@ -356,6 +444,8 @@ gth_selections_manager_add_files (GFile *folder,
 	if (n_selection <= 0)
 		return FALSE;
 
+	_gth_selections_manager_load_if_required (self);
+
 	g_mutex_lock (&self->priv->mutex);
 
 	new_list = _g_file_list_dup (file_list);
@@ -382,6 +472,7 @@ gth_selections_manager_add_files (GFile *folder,
 
 	g_mutex_unlock (&self->priv->mutex);
 
+	_gth_selections_manager_changed (self);
 	gth_monitor_emblems_changed (gth_main_get_default_monitor (), file_list);
 	gth_monitor_folder_changed (gth_main_get_default_monitor (),
 				    folder,
@@ -407,6 +498,8 @@ gth_selections_manager_remove_files (GFile    *folder,
 	n_selection = _g_file_get_n_selection (folder);
 	if (n_selection <= 0)
 		return;
+
+	_gth_selections_manager_load_if_required (self);
 
 	g_mutex_lock (&self->priv->mutex);
 
@@ -434,6 +527,7 @@ gth_selections_manager_remove_files (GFile    *folder,
 
 	g_mutex_unlock (&self->priv->mutex);
 
+	_gth_selections_manager_changed (self);
 	if (notify)
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 					    folder,
@@ -460,6 +554,8 @@ gth_selections_manager_reorder (GFile *folder,
 
 	self = gth_selections_manager_get_default ();
 
+	_gth_selections_manager_load_if_required (self);
+
 	/* reorder the file list */
 
 	g_mutex_lock (&self->priv->mutex);
@@ -475,6 +571,7 @@ gth_selections_manager_reorder (GFile *folder,
 
 	gth_selections_manager_set_sort_type (folder, "general::unsorted", FALSE);
 
+	_gth_selections_manager_changed (self);
 	gth_monitor_order_changed (gth_main_get_default_monitor (),
 				   folder,
 				   new_order);
@@ -503,6 +600,8 @@ gth_selections_manager_set_sort_type (GFile      *folder,
 	self->priv->order_inverse[n_selection - 1] = sort_inverse;
 
 	g_mutex_unlock (&self->priv->mutex);
+
+	_gth_selections_manager_changed (self);
 }
 
 
@@ -517,6 +616,7 @@ gth_selections_manager_file_exists (int    n_selection,
 		return FALSE;
 
 	self = gth_selections_manager_get_default ();
+	_gth_selections_manager_load_if_required (self);
 	g_mutex_lock (&self->priv->mutex);
 
 	result = (g_hash_table_lookup (self->priv->files_hash[n_selection - 1], file) != NULL);
@@ -537,6 +637,7 @@ gth_selections_manager_get_is_empty (int n_selection)
 		return TRUE;
 
 	self = gth_selections_manager_get_default ();
+	_gth_selections_manager_load_if_required (self);
 	g_mutex_lock (&self->priv->mutex);
 
 	size = g_hash_table_size (self->priv->files_hash[n_selection - 1]);
@@ -544,6 +645,78 @@ gth_selections_manager_get_is_empty (int n_selection)
 	g_mutex_unlock (&self->priv->mutex);
 
 	return size == 0;
+}
+
+
+static DomElement *
+_gth_selections_manager_create_selection_node (GthSelectionsManager *self,
+					       int                   n_selection,
+					       DomDocument          *doc)
+{
+	char       *n_selection_txt;
+	DomElement *selection_node;
+	GList      *scan;
+
+	n_selection_txt = g_strdup_printf ("%d", n_selection);
+	selection_node = dom_document_create_element (doc, "selection", "n", n_selection_txt, NULL);
+	for (scan = self->priv->files[n_selection - 1]; scan; scan = scan->next) {
+		GFile *file = scan->data;
+		char  *uri;
+
+		uri = g_file_get_uri (file);
+		dom_element_append_child (selection_node, dom_document_create_element (doc, "file", "uri", uri, NULL));
+
+		g_free (uri);
+	}
+
+	g_free (n_selection_txt);
+
+	return selection_node;
+}
+
+
+void
+gth_selections_manager_load_from_file (void)
+{
+	GthSelectionsManager *self;
+
+	self = gth_selections_manager_get_default ();
+	_gth_selections_manager_load_if_required (self);
+}
+
+
+void
+gth_selections_manager_save_to_file (void)
+{
+	GthSelectionsManager *self;
+	DomDocument          *doc;
+	DomElement           *root, *selections;
+	GFile                *file;
+	char                 *buffer;
+	gsize                 size;
+
+	self = gth_selections_manager_get_default ();
+	if (! self->priv->changed)
+		return;
+
+	g_mutex_lock (&self->priv->mutex);
+
+	doc = dom_document_new ();
+	root = DOM_ELEMENT (doc);
+	selections = dom_document_create_element (doc, "selections", NULL);
+	dom_element_append_child (root, selections);
+	for (int i = 1; i <= GTH_SELECTIONS_MANAGER_N_SELECTIONS; i++)
+		dom_element_append_child (selections, _gth_selections_manager_create_selection_node (self, i, doc));
+
+	buffer = dom_document_dump (doc, &size);
+	file = gth_user_dir_get_file_for_write (GTH_DIR_DATA, GTHUMB_DIR, "selections.xml", NULL);
+	_g_file_write (file, FALSE, G_FILE_CREATE_REPLACE_DESTINATION, buffer, size, NULL, NULL);
+	self->priv->changed = FALSE;
+
+	g_mutex_unlock (&self->priv->mutex);
+
+	g_object_unref (file);
+	g_free (buffer);
 }
 
 

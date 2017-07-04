@@ -103,7 +103,7 @@ _selection_button_new (int      n_selection,
 	gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name (gth_selection_get_icon_name (n_selection), GTK_ICON_SIZE_MENU));
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show_all (button);
-	gtk_widget_set_sensitive (button, FALSE);
+	gtk_widget_set_sensitive (button, ! gth_selections_manager_get_is_empty (n_selection));
 	gtk_widget_set_tooltip_text (button, tooltip);
 
 	g_signal_connect (button,
@@ -161,6 +161,13 @@ folder_changed_cb (GthMonitor      *monitor,
 
 
 void
+selections__initialize_cb (void)
+{
+	gth_selections_manager_load_from_file ();
+}
+
+
+void
 selections__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
@@ -189,6 +196,30 @@ selections__gth_browser_construct_cb (GthBrowser *browser)
 						    "folder-changed",
 						    G_CALLBACK (folder_changed_cb),
 						    data);
+}
+
+
+void
+selections__gth_browser_close_last_window_cb (GthBrowser *browser)
+{
+	gth_selections_manager_save_to_file ();
+}
+
+
+void
+selections__gth_browser_update_sensitivity_cb (GthBrowser *browser)
+{
+	BrowserData *data;
+	int          n_selected;
+
+	if (! GTH_IS_FILE_SOURCE_SELECTIONS (gth_browser_get_location_source (browser)))
+		return;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	gth_window_enable_action (GTH_WINDOW (browser), "go-to-container-from-selection", n_selected == 1);
 }
 
 

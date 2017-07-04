@@ -76,6 +76,8 @@ void     gth_selections_manager_update_file_info (GFile                *file,
 gboolean gth_selections_manager_file_exists      (int                   n_selection,
 						  GFile                *file);
 gboolean gth_selections_manager_get_is_empty     (int                   n_selection);
+void     gth_selections_manager_load_from_file   (void);
+void     gth_selections_manager_save_to_file     (void);
 
 /* utilities */
 
@@ -83,7 +85,7 @@ int      _g_file_get_n_selection                 (GFile                *file);
 const char *
 	 gth_selection_get_icon_name		 (int			n_selection);
 const char *
-	gth_selection_get_symbolic_icon_name	 (int			n_selection);
+	 gth_selection_get_symbolic_icon_name	 (int			n_selection);
 
 G_END_DECLS
 
