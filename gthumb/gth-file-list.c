@@ -24,7 +24,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include "glib-utils.h"
-#include "gth-dumb-notebook.h"
 #include "gth-empty-list.h"
 #include "gth-file-list.h"
 #include "gth-file-selection.h"
@@ -42,6 +41,8 @@
 #define N_CREATEAHEAD 50000
 #define EMPTY (N_("(Empty)"))
 #define CHECK_JOBS_INTERVAL 50
+#define _FILE_VIEW "file-view"
+#define _EMPTY_VIEW "empty-view"
 
 
 typedef enum {
@@ -99,12 +100,6 @@ typedef struct {
 	int             pos;
 	gboolean        started;
 } ThumbnailJob;
-
-
-enum {
-	GTH_FILE_LIST_PANE_VIEW,
-	GTH_FILE_LIST_PANE_MESSAGE
-};
 
 
 typedef enum {
@@ -629,7 +624,7 @@ gth_file_list_construct (GthFileList     *file_list,
 
 	/* the main notebook */
 
-	file_list->priv->notebook = gth_dumb_notebook_new ();
+	file_list->priv->notebook = gtk_stack_new ();
 
 	/* the message pane */
 
@@ -679,15 +674,15 @@ gth_file_list_construct (GthFileList     *file_list,
 	gtk_container_add (GTK_CONTAINER (file_list->priv->scrolled_window), file_list->priv->view);
 
 	gtk_widget_show (file_list->priv->scrolled_window);
-	gtk_container_add (GTK_CONTAINER (file_list->priv->notebook), file_list->priv->scrolled_window);
+	gtk_stack_add_named (GTK_STACK (file_list->priv->notebook), file_list->priv->scrolled_window, _FILE_VIEW);
 
 	gtk_widget_show (file_list->priv->message);
-	gtk_container_add (GTK_CONTAINER (file_list->priv->notebook), file_list->priv->message);
+	gtk_stack_add_named (GTK_STACK (file_list->priv->notebook), file_list->priv->message, _EMPTY_VIEW);
 
 	gtk_widget_show (file_list->priv->notebook);
 	gtk_box_pack_start (GTK_BOX (file_list), file_list->priv->notebook, TRUE, TRUE, 0);
 
-	gth_dumb_notebook_show_child (GTH_DUMB_NOTEBOOK (file_list->priv->notebook), GTH_FILE_LIST_PANE_MESSAGE);
+	gtk_stack_set_visible_child_name (GTK_STACK (file_list->priv->notebook), _EMPTY_VIEW);
 }
 
 
@@ -833,7 +828,7 @@ gfl_clear_list (GthFileList *file_list,
 	g_hash_table_remove_all (file_list->priv->thumb_data);
 
 	gth_empty_list_set_text (GTH_EMPTY_LIST (file_list->priv->message), message);
-	gth_dumb_notebook_show_child (GTH_DUMB_NOTEBOOK (file_list->priv->notebook), GTH_FILE_LIST_PANE_MESSAGE);
+	gtk_stack_set_visible_child_name (GTK_STACK (file_list->priv->notebook), _EMPTY_VIEW);
 }
 
 
@@ -857,11 +852,11 @@ _gth_file_list_update_pane (GthFileList *file_list)
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
 	if (gth_file_store_n_visibles (file_store) > 0) {
-		gth_dumb_notebook_show_child (GTH_DUMB_NOTEBOOK (file_list->priv->notebook), GTH_FILE_LIST_PANE_VIEW);
+		gtk_stack_set_visible_child_name (GTK_STACK (file_list->priv->notebook), _FILE_VIEW);
 	}
 	else {
 		gth_empty_list_set_text (GTH_EMPTY_LIST (file_list->priv->message), _(EMPTY));
-		gth_dumb_notebook_show_child (GTH_DUMB_NOTEBOOK (file_list->priv->notebook), GTH_FILE_LIST_PANE_MESSAGE);
+		gtk_stack_set_visible_child_name (GTK_STACK (file_list->priv->notebook), _EMPTY_VIEW);
 	}
 }
 

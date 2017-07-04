@@ -39,7 +39,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-color-manager.h				\
 	gth-color-scale.h				\
 	gth-delete-task.h				\
-	gth-dumb-notebook.h				\
 	gth-duplicable.h				\
 	gth-empty-list.h				\
 	gth-extensions.h				\
@@ -186,7 +185,6 @@ gthumb_SOURCES = 					\
 	gth-color-manager.c				\
 	gth-color-scale.c				\
 	gth-delete-task.c				\
-	gth-dumb-notebook.c				\
 	gth-duplicable.c				\
 	gth-empty-list.c				\
 	gth-error.c					\

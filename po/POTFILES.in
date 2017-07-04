@@ -727,8 +727,6 @@ gthumb/gth-color-scale.c
 gthumb/gth-color-scale.h
 gthumb/gth-delete-task.c
 gthumb/gth-delete-task.h
-gthumb/gth-dumb-notebook.c
-gthumb/gth-dumb-notebook.h
 gthumb/gth-duplicable.c
 gthumb/gth-duplicable.h
 gthumb/gth-empty-list.c
