@@ -3542,6 +3542,8 @@ _gth_grid_view_set_hadjustment (GthGridView   *self,
 				  G_CALLBACK (adjustment_value_changed),
 				  self);
 	}
+	else
+		_gth_grid_view_configure_hadjustment (self);
 }
 
 
@@ -3572,6 +3574,8 @@ _gth_grid_view_set_vadjustment (GthGridView   *self,
 				  G_CALLBACK (adjustment_value_changed),
 				  self);
 	}
+	else
+		_gth_grid_view_configure_vadjustment (self);
 }
 
 
