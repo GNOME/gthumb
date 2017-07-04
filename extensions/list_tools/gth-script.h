@@ -52,20 +52,22 @@ struct _GthScriptClass
 
 GType             gth_script_get_type                  (void) G_GNUC_CONST;
 GthScript *       gth_script_new                       (void);
-const char *      gth_script_get_id                    (GthScript  *script);
-const char *      gth_script_get_display_name          (GthScript  *script);
-const char *      gth_script_get_command               (GthScript  *script);
-gboolean          gth_script_is_visible                (GthScript  *script);
-gboolean          gth_script_is_shell_script           (GthScript  *script);
-gboolean          gth_script_for_each_file             (GthScript  *script);
-gboolean          gth_script_wait_command              (GthScript  *script);
-char *            gth_script_get_requested_attributes  (GthScript  *script);
-char *            gth_script_get_command_line          (GthScript  *script,
-						        GtkWindow  *parent,
-						        GList      *file_list /* GthFileData */,
-							gboolean    can_skip,
-						        GError    **error);
-guint             gth_script_get_shortcut              (GthScript  *script);
+const char *      gth_script_get_id                    (GthScript       *script);
+const char *      gth_script_get_display_name          (GthScript       *script);
+const char *      gth_script_get_command               (GthScript       *script);
+gboolean          gth_script_is_visible                (GthScript       *script);
+gboolean          gth_script_is_shell_script           (GthScript       *script);
+gboolean          gth_script_for_each_file             (GthScript       *script);
+gboolean          gth_script_wait_command              (GthScript       *script);
+char *            gth_script_get_requested_attributes  (GthScript       *script);
+char *            gth_script_get_command_line          (GthScript       *script,
+						        GtkWindow       *parent,
+						        GList           *file_list /* GthFileData */,
+							gboolean         can_skip,
+						        GError         **error);
+void              gth_script_get_accelerator           (GthScript       *script,
+			    	    	    	        guint           *keyval,
+							GdkModifierType *modifiers);
 
 G_END_DECLS
 

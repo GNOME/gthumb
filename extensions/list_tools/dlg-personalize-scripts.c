@@ -133,16 +133,11 @@ row_inserted_cb (GtkTreeModel *tree_model,
 static char *
 get_script_shortcut (GthScript *script)
 {
-	guint        keyval;
-	char        *shortcut;
+	guint           keyval;
+	GdkModifierType modifiers;
 
-	keyval = gth_script_get_shortcut (script);
-	if ((keyval >= GDK_KEY_KP_0) && (keyval <= GDK_KEY_KP_9))
-		shortcut = g_strdup_printf ("%c", '0' + (keyval - GDK_KEY_KP_0));
-	else
-		shortcut = g_strdup ("");
-
-	return shortcut;
+	gth_script_get_accelerator (script, &keyval, &modifiers);
+	return gtk_accelerator_get_label (keyval, modifiers);
 }
 
 

@@ -2,14 +2,6 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
-  <object class="GtkListStore" id="shortcut_liststore">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name sensitive -->
-      <column type="gboolean"/>
-    </columns>
-  </object>
   <object class="GtkBox" id="script_editor">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -108,7 +100,6 @@
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">Sh_ortcut:</property>
             <property name="use_underline">True</property>
-            <property name="mnemonic_widget">shortcut_combobox</property>
             <property name="xalign">1</property>
           </object>
           <packing>
@@ -119,28 +110,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="hbox1">
+          <object class="GtkBox" id="accel_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
             <child>
-              <object class="GtkComboBox" id="shortcut_combobox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="model">shortcut_liststore</property>
-                <child>
-                  <object class="GtkCellRendererText" id="cellrenderertext1"/>
-                  <attributes>
-                    <attribute name="sensitive">1</attribute>
-                    <attribute name="text">0</attribute>
-                  </attributes>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>

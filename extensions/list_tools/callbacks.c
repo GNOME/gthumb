@@ -193,15 +193,23 @@ gpointer
 list_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 						GdkEventKey *event)
 {
-	gpointer  result = NULL;
-	GList    *script_list;
-	GList    *scan;
+	gpointer         result = NULL;
+	guint            event_key;
+	GdkModifierType  event_modifiers;
+	GList           *script_list;
+	GList           *scan;
+
+	event_key = gdk_keyval_to_lower (event->keyval);
+	event_modifiers = event->state & gtk_accelerator_get_default_mod_mask ();
 
 	script_list = gth_script_file_get_scripts (gth_script_file_get ());
 	for (scan = script_list; scan; scan = scan->next) {
-		GthScript *script = scan->data;
+		GthScript       *script = scan->data;
+		guint            keyval;
+		GdkModifierType  modifiers;
 
-		if (gth_script_get_shortcut (script) == event->keyval) {
+		gth_script_get_accelerator (script, &keyval, &modifiers);
+		if ((keyval == event_key) && (modifiers == event_modifiers)) {
 			gth_browser_exec_script (browser, script);
 			result = GINT_TO_POINTER (1);
 			break;

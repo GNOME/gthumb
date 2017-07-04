@@ -31,6 +31,7 @@ PUBLIC_HEADER_FILES = 					\
 	glib-utils.h					\
 	gnome-desktop-thumbnail.h			\
 	gsignature.h					\
+	gth-accel-button.h				\
 	gth-auto-paned.h				\
 	gth-async-task.h				\
 	gth-buffer-data.h				\
@@ -175,6 +176,7 @@ gthumb_SOURCES = 					\
 	gio-utils.c					\
 	glib-utils.c					\
 	gsignature.c					\
+	gth-accel-button.c				\
 	gth-application.c				\
 	gth-auto-paned.c				\
 	gth-async-task.c				\
