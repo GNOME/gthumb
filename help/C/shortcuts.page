@@ -61,16 +61,6 @@ id="gthumb-shortcuts">
       <tr>
         <td>
           <p>
-          <keyseq><key>Ctrl</key><key>t</key></keyseq>
-          </p>
-        </td>
-        <td>
-          <p>Shows/hides the thumbnails in the browser mode.</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
           <key>Esc</key>
           </p>
         </td>
@@ -127,11 +117,21 @@ id="gthumb-shortcuts">
       <tr>
         <td>
           <p>
-          <key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>
+          <key>c</key>
           </p>
         </td>
         <td>
-          <p>Add comments or metadata to an image.</p>
+          <p>Add comments or metadata to the selected images.</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>
+          <key>t</key>
+          </p>
+        </td>
+        <td>
+          <p>Add tags to the selected images.</p>
         </td>
       </tr>
       <tr>
@@ -311,19 +311,6 @@ id="gthumb-shortcuts">
         </td>
         <td>
           <p>View the last image.</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>
-            <keyseq>
-              <key>Ctrl</key>
-              <key>D</key>
-            </keyseq>
-          </p>
-        </td>
-        <td>
-          <p>Add the current location to the bookmarks.</p>
         </td>
       </tr>
       <tr>
