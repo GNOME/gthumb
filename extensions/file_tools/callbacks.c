@@ -60,12 +60,6 @@ file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (page))
 		return NULL;
 
-	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER
-	    && ! gtk_widget_has_focus (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (page))))
-	{
-		return NULL;
-	}
-
 	switch (event->keyval) {
 	case GDK_KEY_a:
 		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ADJUST_CONTRAST);

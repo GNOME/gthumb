@@ -698,15 +698,6 @@ viewer_image_map_event_cb (GtkWidget          *widget,
 }
 
 
-static gboolean
-viewer_key_press_cb (GtkWidget          *widget,
-		     GdkEventKey        *event,
-		     GthImageViewerPage *self)
-{
-	return gth_browser_viewer_key_press_cb (self->priv->browser, event);
-}
-
-
 static void
 clipboard_targets_received_cb (GtkClipboard *clipboard,
 			       GdkAtom      *atoms,
@@ -1142,10 +1133,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				"map_event",
 				G_CALLBACK (viewer_image_map_event_cb),
 				self);
-	g_signal_connect (G_OBJECT (self->priv->viewer),
-			  "key_press_event",
-			  G_CALLBACK (viewer_key_press_cb),
-			  self);
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "realize",
 			  G_CALLBACK (viewer_realize_cb),

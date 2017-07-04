@@ -157,15 +157,6 @@ gth_location_chooser_finalize (GObject *object)
 }
 
 
-static void
-gth_location_chooser_grab_focus (GtkWidget *widget)
-{
-	GthLocationChooser *self = GTH_LOCATION_CHOOSER (widget);
-
-	gtk_widget_grab_focus (self->priv->combo);
-}
-
-
 static gboolean
 get_nth_separator_pos (GthLocationChooser *self,
 		       int                 pos,
@@ -509,7 +500,6 @@ gth_location_chooser_class_init (GthLocationChooserClass *klass)
 	object_class->finalize = gth_location_chooser_finalize;
 
 	widget_class = (GtkWidgetClass *) klass;
-	widget_class->grab_focus = gth_location_chooser_grab_focus;
 	widget_class->realize = gth_location_chooser_realize;
 
 	/* properties */
@@ -560,7 +550,7 @@ gth_location_chooser_init (GthLocationChooser *self)
 {
 	GtkCellRenderer *renderer;
 
-	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
+	gtk_widget_set_can_focus (GTK_WIDGET (self), FALSE);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOCATION_CHOOSER, GthLocationChooserPrivate);

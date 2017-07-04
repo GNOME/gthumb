@@ -448,7 +448,7 @@ gth_grid_view_finalize (GObject *object)
 }
 
 
-static gboolean
+static void
 adjustment_value_changed (GtkAdjustment *adj,
 			  GthGridView   *self)
 {
@@ -456,8 +456,6 @@ adjustment_value_changed (GtkAdjustment *adj,
 		gdk_window_move (self->priv->bin_window,
 				 (int) - gtk_adjustment_get_value (self->priv->hadjustment),
 				 (int) - gtk_adjustment_get_value (self->priv->vadjustment));
-
-	return FALSE;
 }
 
 
@@ -1796,25 +1794,6 @@ gth_grid_view_draw (GtkWidget *widget,
 	}
 
 	cairo_restore (cr);
-
-	return TRUE;
-}
-
-
-static gboolean
-gth_grid_view_focus_in (GtkWidget     *widget,
-			GdkEventFocus *event)
-{
-	gtk_widget_queue_draw (widget);
-	return TRUE;
-}
-
-
-static gboolean
-gth_grid_view_focus_out (GtkWidget     *widget,
-			 GdkEventFocus *event)
-{
-	gtk_widget_queue_draw (widget);
 
 	return TRUE;
 }
@@ -3759,8 +3738,6 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	widget_class->get_preferred_height = gth_grid_view_get_preferred_height;
 	widget_class->size_allocate = gth_grid_view_size_allocate;
 	widget_class->draw = gth_grid_view_draw;
-	widget_class->focus_in_event = gth_grid_view_focus_in;
-	widget_class->focus_out_event = gth_grid_view_focus_out;
 	widget_class->key_press_event = gth_grid_view_key_press;
 	widget_class->key_release_event = gth_grid_view_key_release;
 	widget_class->button_press_event = gth_grid_view_button_press;

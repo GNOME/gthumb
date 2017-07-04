@@ -50,6 +50,8 @@ gth_location_bar_init (GthLocationBar *self)
 {
 	GtkWidget *box;
 
+	gtk_widget_set_can_focus (GTK_WIDGET (self), FALSE);
+
 	self->priv = gth_location_bar_get_instance_private (self);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);

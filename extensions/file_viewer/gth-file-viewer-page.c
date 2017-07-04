@@ -55,15 +55,6 @@ viewer_scroll_event_cb (GtkWidget 	     *widget,
 
 
 static gboolean
-viewer_key_press_cb (GtkWidget         *widget,
-		     GdkEventKey       *event,
-		     GthFileViewerPage *self)
-{
-	return gth_browser_viewer_key_press_cb (self->priv->browser, event);
-}
-
-
-static gboolean
 viewer_button_press_cb (GtkWidget         *widget,
 		        GdkEventButton    *event,
 		        GthFileViewerPage *self)
@@ -127,10 +118,6 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "popup-menu",
 			  G_CALLBACK (viewer_popup_menu_cb),
-			  self);
-	g_signal_connect (G_OBJECT (self->priv->label),
-			  "key_press_event",
-			  G_CALLBACK (viewer_key_press_cb),
 			  self);
 
 	gth_browser_set_viewer_widget (browser, self->priv->viewer);

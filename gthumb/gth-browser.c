@@ -1503,7 +1503,7 @@ load_data_continue (LoadData *load_data,
 		g_object_unref (filter);
 
 		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
-			gtk_widget_grab_focus (browser->priv->file_list);
+			gth_file_list_focus (GTH_FILE_LIST (browser->priv->file_list));
 
 		if (load_data->file_to_select != NULL)
 			gth_file_list_make_file_visible (GTH_FILE_LIST (browser->priv->file_list), load_data->file_to_select);
@@ -2520,7 +2520,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 	/* set the focus */
 
 	if (page == GTH_BROWSER_PAGE_BROWSER)
-		gtk_widget_grab_focus (browser->priv->file_list);
+		gth_file_list_focus (GTH_FILE_LIST (browser->priv->file_list));
 	else if (page == GTH_BROWSER_PAGE_VIEWER)
 		_gth_browser_make_file_visible (browser, browser->priv->current_file);
 
@@ -3838,11 +3838,9 @@ gth_file_view_file_activated_cb (GthFileView *file_view,
 
 
 static gboolean
-gth_file_list_key_press_cb (GtkWidget   *widget,
-			    GdkEventKey *event,
-			    gpointer     user_data)
+gth_browser_file_list_key_press_cb (GthBrowser  *browser,
+			            GdkEventKey *event)
 {
-	GthBrowser *browser = user_data;
 	gboolean    result = FALSE;
 	guint       modifiers;
 
@@ -4251,6 +4249,29 @@ _gth_browser_register_fixed_viewer_control (GthBrowser *browser,
 }
 
 
+static gboolean
+browser_key_press_cb (GthBrowser  *browser,
+		      GdkEventKey *event)
+{
+	GtkWidget *focus_widget;
+
+	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
+	case GTH_BROWSER_PAGE_VIEWER:
+		if (! _gth_browser_file_tool_is_active (browser))
+			return gth_browser_viewer_key_press_cb (browser, event);
+		break;
+	case GTH_BROWSER_PAGE_BROWSER:
+		focus_widget = gtk_window_get_focus (GTK_WINDOW (browser));
+		if (! GTK_IS_ENTRY (focus_widget) && ! GTK_IS_TREE_VIEW (focus_widget))
+			return gth_browser_file_list_key_press_cb (browser, event);
+		break;
+	default:
+		break;
+	}
+	return FALSE;
+}
+
+
 static void
 gth_browser_init (GthBrowser *browser)
 {
@@ -4377,6 +4398,11 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (browser, "realize", G_CALLBACK (_gth_browser_realize), NULL);
 	g_signal_connect (browser, "unrealize", G_CALLBACK (_gth_browser_unrealize), NULL);
 	gtk_widget_realize (GTK_WIDGET (browser));
+
+	g_signal_connect (browser,
+			  "key-press-event",
+			  G_CALLBACK (browser_key_press_cb),
+			  browser);
 
 	/* ui actions */
 
@@ -4867,10 +4893,6 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list)),
 			  "file-activated",
 			  G_CALLBACK (gth_file_view_file_activated_cb),
-			  browser);
-	g_signal_connect (browser->priv->file_list,
-			  "key-press-event",
-			  G_CALLBACK (gth_file_list_key_press_cb),
 			  browser);
 
 	/* the filter bar */

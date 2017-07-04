@@ -357,15 +357,6 @@ gth_file_list_get_preferred_height (GtkWidget *widget,
 
 
 static void
-gth_file_list_grab_focus (GtkWidget *widget)
-{
-	GthFileList *file_list = GTH_FILE_LIST (widget);
-
-	gtk_widget_grab_focus (file_list->priv->notebook);
-}
-
-
-static void
 gth_file_list_class_init (GthFileListClass *class)
 {
 	GObjectClass   *object_class;
@@ -378,7 +369,6 @@ gth_file_list_class_init (GthFileListClass *class)
 	widget_class->get_request_mode = gth_file_list_get_request_mode;
 	widget_class->get_preferred_width = gth_file_list_get_preferred_width;
 	widget_class->get_preferred_height = gth_file_list_get_preferred_height;
-	widget_class->grab_focus = gth_file_list_grab_focus;
 }
 
 
@@ -422,6 +412,8 @@ thumb_data_unref (ThumbData *data)
 static void
 gth_file_list_init (GthFileList *file_list)
 {
+	gtk_widget_set_can_focus (GTK_WIDGET (file_list), FALSE);
+
 	file_list->priv = g_new0 (GthFileListPrivateData, 1);
 	file_list->priv->settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 	file_list->priv->thumb_data = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, (GDestroyNotify) thumb_data_unref);
@@ -625,6 +617,7 @@ gth_file_list_construct (GthFileList     *file_list,
 	/* the main notebook */
 
 	file_list->priv->notebook = gtk_stack_new ();
+	gtk_widget_set_can_focus (file_list->priv->notebook, FALSE);
 
 	/* the message pane */
 
@@ -633,6 +626,7 @@ gth_file_list_construct (GthFileList     *file_list,
 	/* the file view */
 
 	file_list->priv->scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_set_can_focus (file_list->priv->scrolled_window, FALSE);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window), GTK_SHADOW_ETCHED_IN);
 
 	file_list->priv->vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (file_list->priv->scrolled_window));
@@ -2160,4 +2154,16 @@ void
 gth_file_list_unset_drag_source (GthFileList *file_list)
 {
 	gth_file_view_unset_drag_source (GTH_FILE_VIEW (file_list->priv->view));
+}
+
+
+void
+gth_file_list_focus (GthFileList *file_list)
+{
+	GtkWidget *child;
+
+	child = gtk_stack_get_visible_child (GTK_STACK (file_list->priv->notebook));
+	if (GTK_IS_BIN (child))
+		child = gtk_bin_get_child (GTK_BIN (child));
+	gtk_widget_grab_focus ((child != NULL) ? child : GTK_WIDGET (file_list));
 }

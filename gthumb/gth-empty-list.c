@@ -247,16 +247,6 @@ gth_empty_list_draw (GtkWidget *widget,
 }
 
 
-static gboolean
-gth_empty_list_button_press (GtkWidget      *widget,
-			     GdkEventButton *event)
-{
-	if (! gtk_widget_has_focus (widget))
-		gtk_widget_grab_focus (widget);
-	return TRUE;
-}
-
-
 static void
 gth_empty_list_class_init (GthEmptyListClass *klass)
 {
@@ -277,7 +267,6 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 	widget_class->unmap = gth_empty_list_unmap;
 	widget_class->size_allocate = gth_empty_list_size_allocate;
 	widget_class->draw = gth_empty_list_draw;
-	widget_class->button_press_event = gth_empty_list_button_press;
 
 	/* properties */
 
@@ -297,7 +286,7 @@ gth_empty_list_init (GthEmptyList *self)
 	GtkStyleContext *style_context;
 
 	gtk_widget_set_has_window (GTK_WIDGET (self), TRUE);
-	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
+	gtk_widget_set_can_focus (GTK_WIDGET (self), FALSE);
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMPTY_LIST, GthEmptyListPrivate);
 	self->priv->layout = NULL;
