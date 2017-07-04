@@ -140,6 +140,20 @@ monitor_folder_changed_cb (GthMonitor      *monitor,
 }
 
 
+static void
+catalogs_button_clicked_cb (GtkButton *button,
+			    gpointer   user_data)
+{
+	GthBrowser *browser = user_data;
+	GFile      *location;
+
+	location = g_file_new_for_uri ("catalog:///");
+	gth_browser_go_to (browser, location, NULL);
+
+	g_object_unref (location);
+}
+
+
 void
 catalogs__gth_browser_construct_cb (GthBrowser *browser)
 {
@@ -163,6 +177,16 @@ catalogs__gth_browser_construct_cb (GthBrowser *browser)
 	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_OTHER_ACTIONS),
 					 fixed_menu_entries,
 				         G_N_ELEMENTS (fixed_menu_entries));
+
+	{
+		GtkWidget  *button;
+
+		button = _gtk_image_button_new_for_header_bar ("file-library-symbolic");
+		gtk_widget_set_tooltip_text (button, _("Catalogs"));
+		gtk_widget_show (button);
+		g_signal_connect (button, "clicked", G_CALLBACK (catalogs_button_clicked_cb), browser);
+		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS)), button, FALSE, FALSE, 0);
+	}
 
 	data->monitor_events = g_signal_connect (gth_main_get_default_monitor (),
 						 "folder-changed",
