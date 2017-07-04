@@ -57,6 +57,7 @@ struct _GthMediaViewerPagePrivate {
 	gboolean        visible;
 	gboolean        playing;
 	gboolean        paused;
+	gboolean        loop;
 	gint64          duration;
 	int             video_fps_n;
 	int             video_fps_d;
@@ -271,15 +272,6 @@ video_area_scroll_event_cb (GtkWidget 	       *widget,
 			    GthMediaViewerPage *self)
 {
 	return gth_browser_viewer_scroll_event_cb (self->priv->browser, event);
-}
-
-
-static gboolean
-video_area_key_press_cb (GtkWidget          *widget,
-			 GdkEventKey        *event,
-			 GthMediaViewerPage *self)
-{
-	return gth_browser_viewer_key_press_cb (self->priv->browser, event);
 }
 
 
@@ -513,6 +505,15 @@ play_faster_button_clicked_cb (GtkButton *button,
 }
 
 
+static void
+loop_button_clicked_cb (GtkButton *button,
+	 	        gpointer   user_data)
+{
+	GthMediaViewerPage *self = user_data;
+	self->priv->loop = ! self->priv->loop;
+}
+
+
 static gboolean
 update_volume_from_playbin (GthMediaViewerPage *self)
 {
@@ -664,10 +665,6 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 			  "scroll_event",
 			  G_CALLBACK (video_area_scroll_event_cb),
 			  self);
-	g_signal_connect (G_OBJECT (self->priv->audio_area),
-			  "key_press_event",
-			  G_CALLBACK (video_area_key_press_cb),
-			  self);
 
 	/* mediabar */
 
@@ -682,6 +679,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_faster_image")),
 				      "media-seek-forward-symbolic",
 				      GTK_ICON_SIZE_MENU);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("loop_button")), self->priv->loop);
 
 	g_signal_connect (GET_WIDGET ("volume_adjustment"),
 			  "value-changed",
@@ -702,6 +701,10 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (GET_WIDGET ("play_faster_button"),
 			  "clicked",
 			  G_CALLBACK (play_faster_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("loop_button"),
+			  "clicked",
+			  G_CALLBACK (loop_button_clicked_cb),
 			  self);
 
 	self->priv->mediabar_revealer = gtk_revealer_new ();
@@ -853,6 +856,27 @@ update_stream_info (GthMediaViewerPage *self)
 }
 
 
+/*
+static char *
+state_description (GstState state)
+{
+	switch (state) {
+	case GST_STATE_VOID_PENDING:
+		return "void pending";
+	case GST_STATE_NULL:
+		return "null";
+	case GST_STATE_READY:
+		return "ready";
+	case GST_STATE_PAUSED:
+		return "paused";
+	case GST_STATE_PLAYING:
+		return "playing";
+	}
+	return "error";
+}
+*/
+
+
 static void
 bus_message_cb (GstBus     *bus,
                 GstMessage *message,
@@ -873,6 +897,13 @@ bus_message_cb (GstBus     *bus,
 		gst_message_parse_state_changed (message, &old_state, &new_state, &pending_state);
 		if (old_state == new_state)
 			break;
+
+		/*
+		g_print ("old state: %s\n", state_description (old_state));
+		g_print ("new state: %s\n", state_description (new_state));
+		g_print ("pending state: %s\n", state_description (pending_state));
+		g_print ("\n");
+		*/
 
 		self->priv->paused = (new_state == GST_STATE_PAUSED);
 		update_current_position_bar (self);
@@ -900,7 +931,17 @@ bus_message_cb (GstBus     *bus,
 		break;
 
 	case GST_MESSAGE_EOS:
-		reset_player_state (self);
+		if (self->priv->loop && self->priv->playing)
+			gst_element_seek (self->priv->playbin,
+					  self->priv->rate,
+					  GST_FORMAT_TIME,
+					  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+					  GST_SEEK_TYPE_SET,
+					  0.0,
+					  GST_SEEK_TYPE_NONE,
+					  0.0);
+		else
+			reset_player_state (self);
 		break;
 
 	case GST_MESSAGE_BUFFERING: {
@@ -979,10 +1020,6 @@ create_playbin (GthMediaViewerPage *self)
 	g_signal_connect (G_OBJECT (self->priv->video_area),
 			  "scroll_event",
 			  G_CALLBACK (video_area_scroll_event_cb),
-			  self);
-	g_signal_connect (G_OBJECT (self->priv->video_area),
-			  "key_press_event",
-			  G_CALLBACK (video_area_key_press_cb),
 			  self);
 
 	gtk_stack_add_named (GTK_STACK (self->priv->area_box), self->priv->video_area, "video-area");
@@ -1314,6 +1351,7 @@ gth_media_viewer_page_init (GthMediaViewerPage *self)
 	self->priv->background_painted = FALSE;
 	self->priv->file_data = NULL;
 	self->priv->updated_info = NULL;
+	self->priv->loop = FALSE;
 }
 
 
