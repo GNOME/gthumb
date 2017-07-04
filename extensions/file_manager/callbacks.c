@@ -527,6 +527,13 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 				     accelerators,
 				     G_N_ELEMENTS (accelerators));
 
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS,
+					   "user-home-symbolic",
+					   _("Home Folder"),
+					   "win.go-home",
+					   NULL);
+
 	data->open_with_menu = g_menu_new ();
 
 	open_actions = gth_menu_manager_get_menu (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS));
