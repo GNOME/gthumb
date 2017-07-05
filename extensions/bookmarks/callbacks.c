@@ -334,7 +334,7 @@ bookmarks__gth_browser_construct_cb (GthBrowser *browser)
 		_gtk_window_add_accelerators_from_menu ((GTK_WINDOW (browser)), menu);
 
 		gtk_widget_show (button);
-		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS)), button, FALSE, FALSE, 0);
+		gtk_box_pack_end (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS)), button, FALSE, FALSE, 0);
 	}
 
 	data->browser = browser;
