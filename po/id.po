@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-05-02 07:33+0000\n"
-"PO-Revision-Date: 2017-05-02 17:07+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"POT-Creation-Date: 2017-06-28 09:51+0000\n"
+"PO-Revision-Date: 2017-07-11 10:01+0700\n"
+"Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 2.0.2\n"
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:1
 msgid ""
@@ -78,7 +78,7 @@ msgstr ""
 
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-application.c:135
-#: ../gthumb/gth-browser.c:393 ../gthumb/gth-progress-dialog.c:411
+#: ../gthumb/gth-browser.c:394 ../gthumb/gth-progress-dialog.c:411
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -551,7 +551,7 @@ msgstr "_Lanjut"
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Galat menginterpretasi berkas citra JPEG (%s)"
 
-#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:529
+#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:543
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Ruang warna JPEG tak dikenal (%d)"
@@ -664,7 +664,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1526
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1628
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "Saving"
 msgstr "Menyimpan"
@@ -765,7 +765,7 @@ msgstr "Ganti nama"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/dlg-catalog-properties.c:201
-#: ../gthumb/gth-browser.c:4557 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4568 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Tag (tertanam)"
 
@@ -947,7 +947,7 @@ msgstr "Tag (tertanam)"
 #: ../extensions/catalogs/gth-catalog.c:1119 ../extensions/comments/main.c:45
 #: ../extensions/edit_metadata/callbacks.c:51
 #: ../extensions/edit_metadata/callbacks.c:85
-#: ../gthumb/gth-main-default-metadata.c:62
+#: ../gthumb/gth-main-default-metadata.c:63
 msgid "Tags"
 msgstr "Tag"
 
@@ -1103,7 +1103,7 @@ msgstr "Preferensi"
 msgid "Comment"
 msgstr "Komentar"
 
-#: ../extensions/comments/main.c:41 ../gthumb/gth-main-default-metadata.c:59
+#: ../extensions/comments/main.c:41 ../gthumb/gth-main-default-metadata.c:60
 msgid "Title"
 msgstr "Judul"
 
@@ -1115,12 +1115,12 @@ msgstr "Judul"
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:11
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:17
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
-#: ../gthumb/gth-main-default-metadata.c:61
+#: ../gthumb/gth-main-default-metadata.c:62
 msgid "Description"
 msgstr "Deskripsi"
 
 #: ../extensions/comments/main.c:43 ../extensions/comments/main.c:174
-#: ../gthumb/gth-main-default-metadata.c:60
+#: ../gthumb/gth-main-default-metadata.c:61
 msgid "Place"
 msgstr "Tempat"
 
@@ -1128,7 +1128,7 @@ msgstr "Tempat"
 msgid "Comment Date & Time"
 msgstr "Tanggal & Waktu Komentar"
 
-#: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:63
+#: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:64
 #: ../gthumb/gth-main-default-tests.c:390
 msgid "Rating"
 msgstr "Peringkat"
@@ -1917,7 +1917,7 @@ msgstr "Tak bisa mengekspor berkas"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:627
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:620
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:829
+#: ../gthumb/gth-browser.c:830
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2143,7 +2143,7 @@ msgstr "_Salin"
 
 #: ../extensions/file_manager/callbacks.c:977
 #: ../extensions/find_duplicates/gth-find-duplicates.c:788
-#: ../gthumb/gth-browser.c:5554 ../gthumb/gth-browser.c:5590
+#: ../gthumb/gth-browser.c:5569 ../gthumb/gth-browser.c:5605
 #: ../gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "Operasi tidak dapat dilakukan"
@@ -2525,11 +2525,11 @@ msgstr "Atur Kontras"
 msgid "Automatic contrast adjustment"
 msgstr "Pengaturan kontras otomatis"
 
-#: ../extensions/file_tools/gth-file-tool-color-picker.c:247
+#: ../extensions/file_tools/gth-file-tool-color-picker.c:245
 msgid "Color Picker"
 msgstr "Pemilih Warna"
 
-#: ../extensions/file_tools/gth-file-tool-color-picker.c:250
+#: ../extensions/file_tools/gth-file-tool-color-picker.c:248
 msgid "Pick a color from the image"
 msgstr "Pilih sebuah warna dari gambar"
 
@@ -2637,8 +2637,8 @@ msgstr "Masukkan nama pratata: "
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:530
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1455
-#: ../gthumb/gth-browser.c:1879
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1557
+#: ../gthumb/gth-browser.c:1880
 msgid "Could not save the file"
 msgstr "Tak bisa menyimpan berkas"
 
@@ -3043,8 +3043,8 @@ msgid "Could not take a screenshot"
 msgstr "Tak bisa mengambil cuplikan layar"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:602
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1016
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:598
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1100
 msgid "Play"
 msgstr "Mainkan"
 
@@ -3076,15 +3076,15 @@ msgstr "Dukungan audio/video"
 msgid "Play audio and video files."
 msgstr "Putar berkas audio dan video."
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:575
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:571
 msgid "Playing video"
 msgstr "Memutar video"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:588
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:584
 msgid "Pause"
 msgstr "Jeda"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:636
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:632
 msgid "Take a screenshot"
 msgstr "Ambil cuplikan layar"
 
@@ -3152,7 +3152,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1688
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1790
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:253
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:96
 #: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:897
@@ -3256,7 +3256,7 @@ msgid "Images"
 msgstr "Gambar"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
-#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:341
+#: ../gthumb/gth-image-loader.c:222 ../gthumb/gth-image-loader.c:348
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "Tak ada pemuat yang cocok bagi berkas jenis ini"
@@ -3344,7 +3344,7 @@ msgid "After loading an image:"
 msgstr "Setelah memuat gambar:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:973
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1057
 msgid "Set to actual size"
 msgstr "Tata ke ukuran sebenarnya"
 
@@ -3358,7 +3358,7 @@ msgid "Fit to window"
 msgstr "Paskan ke jendela"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
-#: ../extensions/image_viewer/gth-image-viewer-page.c:980
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1064
 msgid "Fit to window if larger"
 msgstr "Paskan ke jendela jika lebih besar"
 
@@ -3429,19 +3429,19 @@ msgstr "Salin Gambar"
 msgid "Paste Image"
 msgstr "Salin Gambar"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1008
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1092
 msgid "Apply the embedded color profile"
 msgstr "Terapkan profil warna yang tertanam"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1023
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1107
 msgid "Next frame"
 msgstr "Bingkai selanjutnya"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1627
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1729
 msgid "Save Image"
 msgstr "Simpan Gambar"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2240
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2343
 msgid "Loading the original image"
 msgstr "Memuat gambar asli"
 
@@ -3935,7 +3935,7 @@ msgid "(Empty)"
 msgstr "(Kosong)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1790
+#: ../gthumb/gth-browser.c:1791
 msgid "Getting the folder content…"
 msgstr "Mengambil isi folder…"
 
@@ -4564,9 +4564,9 @@ msgstr "Album Web"
 msgid "Create static web albums."
 msgstr "Buat album web statik."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1106
-#: ../gthumb/gth-browser.c:1670 ../gthumb/gth-browser.c:6549
-#: ../gthumb/gth-browser.c:6568 ../gthumb/gth-browser.c:6592
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
+#: ../gthumb/gth-browser.c:1671 ../gthumb/gth-browser.c:6564
+#: ../gthumb/gth-browser.c:6583 ../gthumb/gth-browser.c:6607
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Tidak dapat memuat posisi \"%s\""
@@ -4701,7 +4701,7 @@ msgstr "Mengambil informasi berkas"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3272
+#: ../gthumb/glib-utils.c:3299
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4713,7 +4713,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3281
+#: ../gthumb/glib-utils.c:3308
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -4786,87 +4786,87 @@ msgstr ""
 "Andika Triwidada <andika@gmail.com>, 2010-2014, 2016, 2017.\n"
 "Kukuh Syafaat <syafaatkukuh@gmail.com>, 2017."
 
-#: ../gthumb/gth-browser.c:378
+#: ../gthumb/gth-browser.c:379
 msgid "[modified]"
 msgstr "[diubah]"
 
-#: ../gthumb/gth-browser.c:830
+#: ../gthumb/gth-browser.c:831
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d berkas dipilih (%s)"
 
-#: ../gthumb/gth-browser.c:865
+#: ../gthumb/gth-browser.c:866
 #, c-format
 msgid "%s of free space"
 msgstr "%s dari ruang bebas"
 
-#: ../gthumb/gth-browser.c:1774 ../gthumb/gth-browser.c:1801
+#: ../gthumb/gth-browser.c:1775 ../gthumb/gth-browser.c:1802
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Tak ditemukan modul yang cocok bagi %s"
 
-#: ../gthumb/gth-browser.c:1923
+#: ../gthumb/gth-browser.c:1924
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Simpan perubahan ke berkas \"%s\"?"
 
-#: ../gthumb/gth-browser.c:1928
+#: ../gthumb/gth-browser.c:1929
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Bila Anda tidak menyimpan, perubahan ke berkas akan hilang selamanya."
 
-#: ../gthumb/gth-browser.c:1929
+#: ../gthumb/gth-browser.c:1930
 msgid "Do _Not Save"
 msgstr "Janga_n Simpan"
 
-#: ../gthumb/gth-browser.c:2408 ../gthumb/gth-browser.c:4598
+#: ../gthumb/gth-browser.c:2409 ../gthumb/gth-browser.c:4609
 msgid "Accept"
 msgstr "Terima"
 
-#: ../gthumb/gth-browser.c:2408 ../gthumb/gtk-utils.h:37
+#: ../gthumb/gth-browser.c:2409 ../gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Tutup"
 
-#: ../gthumb/gth-browser.c:3013 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:3014 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Tidak dapat mengubah nama"
 
-#: ../gthumb/gth-browser.c:3468
+#: ../gthumb/gth-browser.c:3469
 msgid "Modified"
 msgstr "Diubah"
 
-#: ../gthumb/gth-browser.c:4520
+#: ../gthumb/gth-browser.c:4531
 msgid "Go to the previous visited location"
 msgstr "Pergi ke lokasi sebelumnya yang telah dikunjungi"
 
-#: ../gthumb/gth-browser.c:4526
+#: ../gthumb/gth-browser.c:4537
 msgid "Go to the next visited location"
 msgstr "Pergi ke lokasi selanjutnya yang telah dikunjungi"
 
-#: ../gthumb/gth-browser.c:4534
+#: ../gthumb/gth-browser.c:4545
 msgid "History"
 msgstr "Riwayat"
 
-#: ../gthumb/gth-browser.c:4548
+#: ../gthumb/gth-browser.c:4559
 msgid "View the folders"
 msgstr "Tampilkan folder"
 
-#: ../gthumb/gth-browser.c:4563
+#: ../gthumb/gth-browser.c:4574
 msgid "Edit file"
 msgstr "Sunting berkas"
 
-#: ../gthumb/gth-browser.c:4572 ../gthumb/gth-browser.c:4590
+#: ../gthumb/gth-browser.c:4583 ../gthumb/gth-browser.c:4601
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Layar Penuh"
 
-#: ../gthumb/gth-browser.c:6550
+#: ../gthumb/gth-browser.c:6565
 #, c-format
 msgid "File type not supported"
 msgstr "Jenis berkas tidak didukung"
 
-#: ../gthumb/gth-browser.c:6593
+#: ../gthumb/gth-browser.c:6608
 #, c-format
 msgid "No suitable module found"
 msgstr "Tak ditemukan modul yang cocok"
@@ -5063,15 +5063,19 @@ msgstr "Lampu Kilat"
 msgid "Camera Model"
 msgstr "Model Kamera"
 
-#: ../gthumb/gth-main-default-metadata.c:58
+#: ../gthumb/gth-main-default-metadata.c:57
+msgid "Color Profile"
+msgstr "Profil Warna"
+
+#: ../gthumb/gth-main-default-metadata.c:59
 msgid "General Date & Time"
 msgstr "Tanggal & Waktu Umum"
 
-#: ../gthumb/gth-main-default-metadata.c:65
+#: ../gthumb/gth-main-default-metadata.c:66
 msgid "Author"
 msgstr "Otoris_asikan…"
 
-#: ../gthumb/gth-main-default-metadata.c:66
+#: ../gthumb/gth-main-default-metadata.c:67
 msgid "Copyright"
 msgstr "Hak Cipta"
 
