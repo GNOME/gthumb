@@ -815,7 +815,10 @@ image_has_alpha (GthImageViewer *viewer)
 	if (image == NULL)
 		return FALSE;
 
-	first_pixel = cairo_image_surface_get_data (image);
+	first_pixel = _cairo_image_surface_flush_and_get_data (image);
+	if (first_pixel == NULL)
+		return FALSE;
+
 	return first_pixel[CAIRO_ALPHA] < 255;
 }
 
