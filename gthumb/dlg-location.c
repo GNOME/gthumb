@@ -418,7 +418,7 @@ dlg_location (GthBrowser *browser)
 				_("Open"), GTK_RESPONSE_OK,
 				NULL);
 	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
-
+	gtk_widget_grab_default (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK));
 	gth_browser_set_dialog (browser, "location", data->dialog);
 
 	/* set the widget data */
