@@ -434,7 +434,7 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 
 			self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
 			g_object_set (self->priv->playbin,
-				      "audio-sink", gst_element_factory_make ("gsettingsaudiosink", "audiosink"),
+				      "audio-sink", gst_element_factory_make ("autoaudiosink", "audiosink"),
 				      "flags", _GST_PLAY_FLAG_AUDIO,
 				      "volume", 1.0,
 				      NULL);
