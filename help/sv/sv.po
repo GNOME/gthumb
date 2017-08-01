@@ -1,19 +1,21 @@
 # Swedish messages for gThumb help 
-# Copyright © 2006-2015 Free Software Foundation, Inc.
+# Copyright © 2006-2017 Free Software Foundation, Inc.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009
 # Josef Andersson <josef.andersson@fripost.org>, 2015.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
-"POT-Creation-Date: 2016-08-22 11:54+0000\n"
-"PO-Revision-Date: 2016-08-25 22:33+0200\n"
+"POT-Creation-Date: 2017-08-01 09:27+0000\n"
+"PO-Revision-Date: 2017-08-02 01:34+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 2.0.2\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -21,19 +23,6 @@ msgid "translator-credits"
 msgstr ""
 "Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009\n"
 "Josef Andersson <josef.andersson@fripost.org>, 2015"
-
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/index.page:33 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
-#: C/edit-rotate.page:8 C/edit-resize-crop.page:8 C/edit-redeye.page:7
-msgctxt "_"
-msgid ""
-"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
-msgstr ""
-"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
 
 #. (itstool) path: credit/name
 #: C/index.page:7
@@ -64,6 +53,19 @@ msgstr "Filhantering"
 #: C/index.page:31
 msgid "Editing Mode"
 msgstr "Redigerarläge"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/index.page:33 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
+#: C/edit-rotate.page:8 C/edit-resize-crop.page:8 C/edit-redeye.page:7
+msgctxt "_"
+msgid ""
+"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
+msgstr ""
+"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
 
 #. (itstool) path: section/p
 #: C/index.page:32
@@ -903,18 +905,6 @@ msgstr ""
 "finns tillgängligt på <link href=\"https://wiki.gnome.org/Apps/gthumb"
 "\">https://wiki.gnome.org/Apps/gthumb</link>."
 
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/browser.page:13
-msgctxt "_"
-msgid ""
-"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
-msgstr ""
-"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
-
 #. (itstool) path: page/title
 #: C/browser.page:6
 msgid "Browsing Your Files"
@@ -929,6 +919,18 @@ msgstr "När du startar <app>gThumb</app> visas följande fönster:"
 #: C/browser.page:11
 msgid "The main window"
 msgstr "Huvudfönstret"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/browser.page:13
+msgctxt "_"
+msgid ""
+"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
+msgstr ""
+"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
 
 #. (itstool) path: page/p
 #: C/browser.page:16
@@ -1313,20 +1315,6 @@ msgstr ""
 "desktop.thumbnail_cache.maximum_size. Vissa program (som <app>F-Spot</app>) "
 "kan automatiskt öka dessa inställningar rejält."
 
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/thumbnail-pane.page:21 C/viewer.page:23
-msgctxt "_"
-msgid ""
-"external ref='figures/thumbnail-pane.png' "
-"md5='af28541956094195dac6bc0e11624d64'"
-msgstr ""
-"external ref='figures/thumbnail-pane.png' "
-"md5='af28541956094195dac6bc0e11624d64'"
-
 #. (itstool) path: page/title
 #: C/thumbnail-pane.page:6
 msgid "Thumbnail Pane"
@@ -1365,6 +1353,20 @@ msgstr ""
 msgid "Thumbnail Pane, Along Bottom of Main Image"
 msgstr "Miniatyrbildspanel, längs nederdelen av huvudbilden"
 
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/thumbnail-pane.page:21 C/viewer.page:23
+msgctxt "_"
+msgid ""
+"external ref='figures/thumbnail-pane.png' "
+"md5='af28541956094195dac6bc0e11624d64'"
+msgstr ""
+"external ref='figures/thumbnail-pane.png' "
+"md5='af28541956094195dac6bc0e11624d64'"
+
 #. (itstool) path: page/title
 #: C/rename-series.page:8
 msgid "Renaming Files"
@@ -1400,8 +1402,8 @@ msgid "Symbol"
 msgstr "Symbol"
 
 #. (itstool) path: td/p
-#: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:94
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:551
+#: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:84
+#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:538
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -2054,34 +2056,6 @@ msgstr ""
 "att välja önskad sorteringsmetod för bläddrarvyn. Filer kan sorteras baserat "
 "på deras namn, filstorleken, filändringsdatum eller det datum fotot togs."
 
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/filtering.page:17
-msgctxt "_"
-msgid ""
-"external ref='figures/general-filter.png' "
-"md5='818fcb0f12da6496f3c72699f12beb28'"
-msgstr ""
-"external ref='figures/general-filter.png' "
-"md5='818fcb0f12da6496f3c72699f12beb28'"
-
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/filtering.page:30
-msgctxt "_"
-msgid ""
-"external ref='figures/specific-filter.png' "
-"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
-msgstr ""
-"external ref='figures/specific-filter.png' "
-"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
-
 #. (itstool) path: page/title
 #: C/filtering.page:7
 msgid "Filtering Files"
@@ -2104,6 +2078,20 @@ msgstr ""
 #: C/filtering.page:15
 msgid "Enabling Filters"
 msgstr "Aktivera filter"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/filtering.page:17
+msgctxt "_"
+msgid ""
+"external ref='figures/general-filter.png' "
+"md5='818fcb0f12da6496f3c72699f12beb28'"
+msgstr ""
+"external ref='figures/general-filter.png' "
+"md5='818fcb0f12da6496f3c72699f12beb28'"
 
 #. (itstool) path: page/p
 #: C/filtering.page:20
@@ -2128,6 +2116,20 @@ msgstr ""
 #: C/filtering.page:28
 msgid "Browser Filter Bar"
 msgstr "Bläddrarens filterfält"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/filtering.page:30
+msgctxt "_"
+msgid ""
+"external ref='figures/specific-filter.png' "
+"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
+msgstr ""
+"external ref='figures/specific-filter.png' "
+"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
 
 #. (itstool) path: page/p
 #: C/filtering.page:33
@@ -2216,8 +2218,8 @@ msgid "Viewing and hiding parts of the user interface"
 msgstr "Visa och dölja delar av användargränssnittet"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:14 C/shortcuts.page:91 C/shortcuts.page:270
-#: C/shortcuts.page:548
+#: C/shortcuts.page:14 C/shortcuts.page:81 C/shortcuts.page:270
+#: C/shortcuts.page:535
 msgid "Keyboard Shortcut"
 msgstr "Genväg"
 
@@ -2267,68 +2269,70 @@ msgstr "Aktivera helskärmsläget."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:63
-msgid "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:68
-msgid "Shows/hides the thumbnails in the browser mode."
-msgstr "Visar/döljer miniatyrbilder i bläddrarläget."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:73
 msgid "<key>Esc</key>"
 msgstr "<key>Esc</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:78
+#: C/shortcuts.page:68
 msgid "Closes the viewer or fullscreen mode."
 msgstr "Stänger visaren eller helskärmsläget."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:87
+#: C/shortcuts.page:77
 msgid "Editing shortcuts for the browser and viewer"
 msgstr "Redigerar genvägar för bläddraren och visaren"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:99
+#: C/shortcuts.page:89
 msgid "<key>e</key>"
 msgstr "<key>e</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:104
+#: C/shortcuts.page:94
 msgid "Edit the image. Opens the viewer and shows the editing tools."
 msgstr "Redigerar bilden. Öppnar visaren och visar redigeringsverktygen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:109
+#: C/shortcuts.page:99
 msgid "<key>g</key>"
 msgstr "<key>g</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:114
+#: C/shortcuts.page:104
 msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
 msgstr "Öppnar bilden med GNU:s bildmanipuleringsprogram (GIMP)."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:119
+#: C/shortcuts.page:109
 msgid "<key>F2</key>"
 msgstr "<key>F2</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:124
+#: C/shortcuts.page:114
 msgid "Rename the image."
 msgstr "Byt namn på bilden."
 
 #. (itstool) path: td/p
+#: C/shortcuts.page:119
+#| msgid "<key>Esc</key>"
+msgid "<key>c</key>"
+msgstr "<key>c</key>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:124
+msgid "Add comments or metadata to the selected images."
+msgstr "Lägg till kommentarer eller metadata till de markerade bilderna."
+
+#. (itstool) path: td/p
 #: C/shortcuts.page:129
-msgid "<key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>"
-msgstr "<key>c</key> eller <keyseq><key>Ctrl</key><key>m</key></keyseq>"
+#| msgid "<key>#</key>"
+msgid "<key>t</key>"
+msgstr "<key>t</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:134
-msgid "Add comments or metadata to an image."
-msgstr "Lägg till kommentarer eller metadata till en bild."
+msgid "Add tags to the selected images."
+msgstr "Lägg till taggar till de markerade bilderna."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:139
@@ -2476,7 +2480,7 @@ msgid "View the previous image."
 msgstr "Visa föregående bild."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:298 C/shortcuts.page:459
+#: C/shortcuts.page:298 C/shortcuts.page:446
 msgid "<key>Home</key>"
 msgstr "<key>Home</key>"
 
@@ -2486,7 +2490,7 @@ msgid "View the first image."
 msgstr "Visa första bilden."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:308 C/shortcuts.page:469
+#: C/shortcuts.page:308 C/shortcuts.page:456
 msgid "<key>End</key>"
 msgstr "<key>End</key>"
 
@@ -2497,239 +2501,229 @@ msgstr "Visa sista bilden."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:318
-msgid "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
-msgstr "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:326
-msgid "Add the current location to the bookmarks."
-msgstr "Lägg till aktuell plats till bokmärken."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:331
 msgid "<key>+</key> or <key>=</key>"
 msgstr "<key>+</key> eller <key>=</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:336
+#: C/shortcuts.page:323
 msgid "Zoom in."
 msgstr "Zooma in."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:341
+#: C/shortcuts.page:328
 msgid "<key>-</key>"
 msgstr "<key>-</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:346
+#: C/shortcuts.page:333
 msgid "Zoom out."
 msgstr "Zooma ut."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:351
+#: C/shortcuts.page:338
 msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
 msgstr ""
 "<key>1</key> eller <key>z</key> eller <key>/ (numeriskt tangentbord)</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:357
+#: C/shortcuts.page:344
 msgid "Actual size."
 msgstr "Naturlig storlek."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:362
+#: C/shortcuts.page:349
 msgid "<key>x</key> or <key>* (numeric keypad)</key>"
 msgstr "<key>x</key> eller <key>* (numeriskt tangentbord)</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:367
+#: C/shortcuts.page:354
 msgid "Zoom to fit (scales down only, does not magnify)"
 msgstr "Zooma för att passa (skalar endast ned, förstorar ej)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:372
+#: C/shortcuts.page:359
 msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
 msgstr "<keyseq> <key>Skift</key> <key>x</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:380
+#: C/shortcuts.page:367
 msgid "Zoom to fit (scale down or magnify, as required)"
 msgstr "Zooma för att passa (skalar ned eller förstorar efter vad som krävs)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:385
+#: C/shortcuts.page:372
 msgid "<key>w</key>"
 msgstr "<key>w</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:389
+#: C/shortcuts.page:376
 msgid "Zoom to fit width (scales down only, does not magnify)"
 msgstr "Zooma för att passa bredd (skalar endast ned, förstorar ej)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:394
+#: C/shortcuts.page:381
 msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
 msgstr "<keyseq> <key>Skift</key> <key>w</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:402
+#: C/shortcuts.page:389
 msgid "Zoom to fit width (scale down or magnify, as required)"
 msgstr ""
 "Zooma för att passa bredd (skalar ned eller förstorar efter vad som krävs)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:407
+#: C/shortcuts.page:394
 msgid "<key>h</key>"
 msgstr "<key>h</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:411
+#: C/shortcuts.page:398
 msgid "Zoom to fit height (scales down only, does not magnify)"
 msgstr "Zooma för att passa höjd (skalar endast ned, förstorar ej)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:416
+#: C/shortcuts.page:403
 msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
 msgstr "<keyseq> <key>Skift</key> <key>h</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:424
+#: C/shortcuts.page:411
 msgid "Zoom to fit height (scale down or magnify, as required)"
 msgstr ""
 "Zooma för att passa höjd (skalar ned eller förstorar efter vad som krävs)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:429
+#: C/shortcuts.page:416
 msgid "<key>Arrows</key>"
 msgstr "<key>Pilar</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:434
+#: C/shortcuts.page:421
 msgid "Scroll the image."
 msgstr "Rulla bilden."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:439
+#: C/shortcuts.page:426
 msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
 msgstr "<keyseq> <key>Skift</key> <key>Pilar</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:447
+#: C/shortcuts.page:434
 msgid "Scroll the image faster."
 msgstr "Rulla bilden snabbare."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:454
+#: C/shortcuts.page:441
 msgid "Browser Navigation"
 msgstr "Bläddrarnavigation"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:464
+#: C/shortcuts.page:451
 msgid "Go to the first file in the browser view."
 msgstr "Gå till den första filen i bläddrarfönstret."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:474
+#: C/shortcuts.page:461
 msgid "Go to the last file in the browser view."
 msgstr "Gå till den sista filen i bläddrarfönstret."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:479
+#: C/shortcuts.page:466
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
 msgstr "<key>Down Arrow</key> eller <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:484
+#: C/shortcuts.page:471
 msgid "Scroll downwards through the thumbnails."
 msgstr "Rulla nedåt genom miniatyrbilderna."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:489
+#: C/shortcuts.page:476
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
 msgstr "<key>Uppåtpil</key> eller <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:494
+#: C/shortcuts.page:481
 msgid "Scroll upwards through the thumbnails."
 msgstr "Rulla uppåt genom miniatyrbilderna."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:499
+#: C/shortcuts.page:486
 msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Vänsterpil</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:504
+#: C/shortcuts.page:491
 msgid "Go back to the previously viewed folder."
 msgstr "Gå till den tidigare visade mappen."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:509
+#: C/shortcuts.page:496
 msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Högerpil</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:514
+#: C/shortcuts.page:501
 msgid "Go forward (after going back to a folder)."
 msgstr "Stega framåt (efter att ha gått tillbaka till en mapp)."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:519
+#: C/shortcuts.page:506
 msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
 msgstr "<keyseq> <key>Alt</key> <key>Uppåtpil</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:527
+#: C/shortcuts.page:514
 msgid "Go up one level."
 msgstr "Gå upp en nivå."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:532
+#: C/shortcuts.page:519
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:537
+#: C/shortcuts.page:524
 msgid "Open a location typing the path."
 msgstr "Öppna en plats genom att skriva sökvägen."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:544
+#: C/shortcuts.page:531
 msgid "Slideshow controls"
 msgstr "Bildspelskontroller"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:556
+#: C/shortcuts.page:543
 msgid "<key>F5</key>"
 msgstr "<key>F5</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:561
+#: C/shortcuts.page:548
 msgid "Start a slideshow."
 msgstr "Starta ett bildspel."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:566
+#: C/shortcuts.page:553
 msgid "<key>p</key>"
 msgstr "<key>p</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:571
+#: C/shortcuts.page:558
 msgid "Pause/Unpause the slideshow."
 msgstr "Pausa/spela upp bildspelet."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:576
+#: C/shortcuts.page:563
 msgid "<key>Esc</key> or <key>q</key>"
 msgstr "<key>Esc</key> eller <key>q</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:581
+#: C/shortcuts.page:568
 msgid "Close the slideshow."
 msgstr "Stäng bildspelet."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:586
+#: C/shortcuts.page:573
 msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
@@ -2738,12 +2732,12 @@ msgstr ""
 "eller <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:591
+#: C/shortcuts.page:578
 msgid "Load the next image."
 msgstr "Läs in nästa bild."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:596
+#: C/shortcuts.page:583
 msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
@@ -2752,7 +2746,7 @@ msgstr ""
 "eller <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:601
+#: C/shortcuts.page:588
 msgid "Load the previous image."
 msgstr "Läs in föregående bild."
 
@@ -2921,46 +2915,6 @@ msgstr ""
 "till systembokmärkena som har definierats i <app>Nautilus</app> eller "
 "filväljardialogen i de flesta Gnome-program."
 
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/import.page:21
-msgctxt "_"
-msgid ""
-"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
-msgstr ""
-"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
-
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/import.page:43
-msgctxt "_"
-msgid ""
-"external ref='figures/import-pref-auto-folder.png' "
-"md5='0a41de83da83b762e37f3962a7e4c042'"
-msgstr ""
-"external ref='figures/import-pref-auto-folder.png' "
-"md5='0a41de83da83b762e37f3962a7e4c042'"
-
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/import.page:75
-msgctxt "_"
-msgid ""
-"external ref='figures/import-pref-custom-format.png' "
-"md5='989ca536c873ec926a4a71c876004b9f'"
-msgstr ""
-"external ref='figures/import-pref-custom-format.png' "
-"md5='989ca536c873ec926a4a71c876004b9f'"
-
 #. (itstool) path: page/title
 #: C/import.page:8
 msgid "Importing From a Camera"
@@ -2994,6 +2948,18 @@ msgstr ""
 #: C/import.page:20
 msgid "The Import Dialog"
 msgstr "Importdialogen"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/import.page:21
+msgctxt "_"
+msgid ""
+"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
+msgstr ""
+"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
 
 #. (itstool) path: page/p
 #: C/import.page:24
@@ -3042,6 +3008,20 @@ msgstr ""
 #: C/import.page:42
 msgid "Standard Date-Based Subfolders"
 msgstr "Standarddatumbaserade undermappar"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/import.page:43
+msgctxt "_"
+msgid ""
+"external ref='figures/import-pref-auto-folder.png' "
+"md5='0a41de83da83b762e37f3962a7e4c042'"
+msgstr ""
+"external ref='figures/import-pref-auto-folder.png' "
+"md5='0a41de83da83b762e37f3962a7e4c042'"
 
 #. (itstool) path: page/p
 #: C/import.page:46
@@ -3120,6 +3100,20 @@ msgstr ""
 #: C/import.page:74
 msgid "Using Custom Formats"
 msgstr "Använda anpassade format"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/import.page:75
+msgctxt "_"
+msgid ""
+"external ref='figures/import-pref-custom-format.png' "
+"md5='989ca536c873ec926a4a71c876004b9f'"
+msgstr ""
+"external ref='figures/import-pref-custom-format.png' "
+"md5='989ca536c873ec926a4a71c876004b9f'"
 
 #. (itstool) path: page/title
 #: C/slideshow.page:7
@@ -3295,6 +3289,21 @@ msgstr ""
 "Som ett speciellt undantag ger dig upphovsrättsinnehavarna dig rätten att "
 "kopiera, ändra och distribuera exempelkoden i detta dokument på det sätt du "
 "väljer, utan restriktioner."
+
+#~ msgid "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
+#~ msgstr "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
+
+#~ msgid "Shows/hides the thumbnails in the browser mode."
+#~ msgstr "Visar/döljer miniatyrbilder i bläddrarläget."
+
+#~ msgid "<key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>"
+#~ msgstr "<key>c</key> eller <keyseq><key>Ctrl</key><key>m</key></keyseq>"
+
+#~ msgid "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
+
+#~ msgid "Add the current location to the bookmarks."
+#~ msgstr "Lägg till aktuell plats till bokmärken."
 
 #, fuzzy
 #~| msgid "Enhance"
