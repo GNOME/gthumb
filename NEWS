@@ -1,3 +1,50 @@
+version 3.5.2
+-------------
+
+ New features and user visible changes:
+
+  * Faster image loading.
+  * Fixed big memory leak and other minor memory leaks.
+  * Aspect ratio filtering. (Vasdi)
+  * Video player works on wayland as well.
+  * Color profiles work on wayland as well (requires colord).
+  * Show the color profile description in the property view.
+  * Headerbar: show the tools menu button in viewer mode as well; added a
+    button to go to the catalogs root; added a button to go to the home folder.
+  * Scripts: allow to specify a generic accelerator.
+  * Selections: save at exit and restore at start.
+  * Video player: added a loop button.
+  * Use Unicode in translatable strings. (Piotr Drąg) (#782038)
+
+ Bugs fixed:
+
+  * Slideshow: no need to specify autoaudiosink as audio-sink. It is
+    already the default audio sink. (#785612)
+  * SEGFAULT when a svg image could not be loaded (784886)
+  * Do not process bitmap thumbnails with invalid color settings.
+    (Jan de Groot) (#778556)
+  * Fixed possible crash when switching from the image viewer to another viewer.
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Rafael Fontenelle)
+  * Deutsch (Mario Blättermann)
+  * es (Daniel Mustieles)
+  * French (Julien Hardelin)
+  * Hungarian (Balázs Úr)
+  * Indonesian (Kukuh Syafaat)
+  * Italiano (Gianvito Cavasoli)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Swedish (Anders Jonsson)
+  * čeština (Marek Černocký)
+  * Русский (Stas Solovey)
+
+ New or updated manual translations:
+
+  * French (Julien Hardelin)
+  * Swedish (Anders Jonsson)
+
 version 3.5.1
 -------------
 
