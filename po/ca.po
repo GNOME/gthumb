@@ -9,8 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-18 15:30+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-08-01 09:27+0000\n"
 "PO-Revision-Date: 2016-09-18 15:30+0200\n"
 "Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
 "Language-Team: catalan <tradgnome@softcatala.net>\n"
@@ -81,7 +82,7 @@ msgstr ""
 
 #. manually set name and icon
 #: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-application.c:135
-#: ../gthumb/gth-browser.c:392 ../gthumb/gth-progress-dialog.c:411
+#: ../gthumb/gth-browser.c:394 ../gthumb/gth-progress-dialog.c:411
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -556,7 +557,7 @@ msgstr "_Continua"
 msgid "Error interpreting JPEG image file: %s"
 msgstr "S'ha produït un error en interpretar el fitxer d'imatge JPEG: %s"
 
-#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:529
+#: ../extensions/cairo_io/cairo-image-surface-jpeg.c:543
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Espai de color desconegut de JPEG (%d)"
@@ -638,12 +639,12 @@ msgid "_Lossless"
 msgstr "Sense _pèrdua"
 
 #: ../extensions/cairo_io/gth-image-saver-jpeg.c:516
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:144
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:145
 msgid "JPEG"
 msgstr "JPEG"
 
 #: ../extensions/cairo_io/gth-image-saver-png.c:353
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:110
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:111
 msgid "PNG"
 msgstr "PNG"
 
@@ -662,7 +663,7 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: ../extensions/cairo_io/gth-image-saver-webp.c:382
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:173
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:174
 msgid "WebP"
 msgstr "WebP"
 
@@ -670,7 +671,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1489
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1615
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "Saving"
 msgstr "Desament"
@@ -680,8 +681,8 @@ msgstr "Desament"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:488
 #: ../extensions/file_manager/actions.c:71
 #: ../extensions/file_tools/gth-file-tool-curves.c:370
-#: ../extensions/list_tools/gth-script-editor-dialog.c:288
-#: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1849
+#: ../extensions/list_tools/gth-script-editor-dialog.c:235
+#: ../gthumb/gth-filter-editor-dialog.c:461 ../gthumb/gth-folder-tree.c:1853
 #, c-format
 msgid "No name specified"
 msgstr "Cap nom especificat"
@@ -691,7 +692,7 @@ msgstr "Cap nom especificat"
 #: ../extensions/catalogs/dlg-add-to-catalog.c:495
 #: ../extensions/file_manager/actions.c:78
 #: ../extensions/file_tools/gth-file-tool-curves.c:377
-#: ../gthumb/gth-folder-tree.c:1856
+#: ../gthumb/gth-folder-tree.c:1860
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Nom no vàlid. Els següents caràcters no estan permesos: %s"
@@ -737,7 +738,8 @@ msgstr "No s'ha pogut suprimir el catàleg"
 
 #: ../extensions/catalogs/actions.c:366
 #, c-format
-msgid "Are you sure you want to remove \"%s\"?"
+#| msgid "Are you sure you want to remove \"%s\"?"
+msgid "Are you sure you want to remove “%s”?"
 msgstr "Esteu segur que voleu suprimir «%s»?"
 
 #: ../extensions/catalogs/callbacks.c:52
@@ -765,33 +767,17 @@ msgstr "Crea la biblioteca"
 #: ../extensions/file_manager/callbacks.c:78
 #: ../extensions/file_manager/callbacks.c:105
 #: ../extensions/rename_series/dlg-rename-series.c:844
-#: ../gthumb/gth-folder-tree.c:1900
+#: ../gthumb/gth-folder-tree.c:1905
 msgid "Rename"
 msgstr "Canvia el nom"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/dlg-catalog-properties.c:201
-#: ../gthumb/gth-browser.c:4566 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4595 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Propietats"
 
-#: ../extensions/catalogs/callbacks.c:201
-#: ../extensions/catalogs/callbacks.c:204
-msgid "Command Line"
-msgstr "Línia d'ordres"
-
-#: ../extensions/catalogs/callbacks.c:351
-msgid "Catalog Properties"
-msgstr "Propietats del catàleg"
-
-#: ../extensions/catalogs/callbacks.c:367
-msgid "Organize"
-msgstr "Organitza"
-
-#: ../extensions/catalogs/callbacks.c:368
-msgid "Automatically organize files by date"
-msgstr "Organitza automàticament els fitxers amb la data"
-
+#: ../extensions/catalogs/callbacks.c:185
 #: ../extensions/catalogs/catalogs.extension.in.in.h:1
 #: ../extensions/catalogs/gth-catalog.c:611
 #: ../extensions/catalogs/gth-catalog.c:662
@@ -799,6 +785,23 @@ msgstr "Organitza automàticament els fitxers amb la data"
 #: ../extensions/catalogs/gth-catalog.c:1022
 msgid "Catalogs"
 msgstr "Catàlegs"
+
+#: ../extensions/catalogs/callbacks.c:225
+#: ../extensions/catalogs/callbacks.c:228
+msgid "Command Line"
+msgstr "Línia d'ordres"
+
+#: ../extensions/catalogs/callbacks.c:375
+msgid "Catalog Properties"
+msgstr "Propietats del catàleg"
+
+#: ../extensions/catalogs/callbacks.c:391
+msgid "Organize"
+msgstr "Organitza"
+
+#: ../extensions/catalogs/callbacks.c:392
+msgid "Automatically organize files by date"
+msgstr "Organitza automàticament els fitxers amb la data"
 
 #: ../extensions/catalogs/catalogs.extension.in.in.h:2
 msgid "Create file collections."
@@ -930,12 +933,12 @@ msgstr ""
 
 #: ../extensions/catalogs/dlg-organize-files.c:138
 #: ../extensions/edit_metadata/gth-edit-general-page.c:558
-#: ../gthumb/gth-main-default-tests.c:365
+#: ../gthumb/gth-main-default-tests.c:366
 msgid "Date photo was taken"
 msgstr "La data en què la foto va ser presa"
 
 #: ../extensions/catalogs/dlg-organize-files.c:145
-#: ../gthumb/gth-main-default-tests.c:357
+#: ../gthumb/gth-main-default-tests.c:358
 msgid "File modified date"
 msgstr "La data en què el fitxer va ser modificat"
 
@@ -945,25 +948,25 @@ msgid "Tag"
 msgstr "L'etiqueta"
 
 #: ../extensions/catalogs/dlg-organize-files.c:159
-#: ../gthumb/gth-main-default-tests.c:398
+#: ../gthumb/gth-main-default-tests.c:399
 msgid "Tag (embedded)"
 msgstr "L'etiqueta (incrustada)"
 
 #: ../extensions/catalogs/gth-catalog.c:1119 ../extensions/comments/main.c:45
 #: ../extensions/edit_metadata/callbacks.c:51
 #: ../extensions/edit_metadata/callbacks.c:85
-#: ../gthumb/gth-main-default-metadata.c:62
+#: ../gthumb/gth-main-default-metadata.c:63
 msgid "Tags"
 msgstr "Les etiquetes"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:953
 #, c-format
-msgid "The catalog '%s' already exists, do you want to overwrite it?"
+msgid "The catalog “%s” already exists, do you want to overwrite it?"
 msgstr "El catàleg «%s» ja existeix, voleu sobreescriure'l?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:955
 #, c-format
-msgid "The library '%s' already exists, do you want to overwrite it?"
+msgid "The library “%s” already exists, do you want to overwrite it?"
 msgstr "La biblioteca «%s» ja existeix, voleu sobreescriure-la?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:963
@@ -984,7 +987,8 @@ msgstr "Destinació no vàlida."
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1135
 #, c-format
-msgid "Copying files to '%s'"
+#| msgid "Copying files to '%s'"
+msgid "Copying files to “%s”"
 msgstr "S'estan copiant els fitxers a «%s»"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1322
@@ -1018,12 +1022,12 @@ msgid "Change the files date"
 msgstr "Canvieu la data dels fitxers"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:1
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
 msgid "+"
 msgstr "+"
 
 #: ../extensions/change_date/data/ui/change-date.ui.h:2
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:7
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:8
 msgid "-"
 msgstr "-"
 
@@ -1103,13 +1107,13 @@ msgstr "_Sincronitza amb les dades incrustades"
 msgid "Preferences"
 msgstr "Preferències"
 
+# N.T: Títol d'una secció a les preferències
 #: ../extensions/comments/main.c:35 ../extensions/edit_metadata/callbacks.c:50
 #: ../extensions/edit_metadata/callbacks.c:79
-# N.T: Títol d'una secció a les preferències
 msgid "Comment"
 msgstr "Comentaris"
 
-#: ../extensions/comments/main.c:41 ../gthumb/gth-main-default-metadata.c:59
+#: ../extensions/comments/main.c:41 ../gthumb/gth-main-default-metadata.c:60
 msgid "Title"
 msgstr "El títol"
 
@@ -1121,12 +1125,12 @@ msgstr "El títol"
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:11
 #: ../extensions/rename_series/data/ui/rename-series.ui.h:17
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:8
-#: ../gthumb/gth-main-default-metadata.c:61
+#: ../gthumb/gth-main-default-metadata.c:62
 msgid "Description"
 msgstr "La descripció"
 
 #: ../extensions/comments/main.c:43 ../extensions/comments/main.c:174
-#: ../gthumb/gth-main-default-metadata.c:60
+#: ../gthumb/gth-main-default-metadata.c:61
 msgid "Place"
 msgstr "El lloc"
 
@@ -1134,8 +1138,8 @@ msgstr "El lloc"
 msgid "Comment Date & Time"
 msgstr "Data i hora del comentari"
 
-#: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:63
-#: ../gthumb/gth-main-default-tests.c:389
+#: ../extensions/comments/main.c:46 ../gthumb/gth-main-default-metadata.c:64
+#: ../gthumb/gth-main-default-tests.c:390
 msgid "Rating"
 msgstr "La valoració"
 
@@ -1162,9 +1166,9 @@ msgstr ""
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:1
 #: ../extensions/file_tools/gth-file-tool-crop.c:434
 #: ../extensions/file_tools/gth-file-tool-crop.c:464
-#: ../extensions/file_tools/gth-file-tool-resize.c:579
+#: ../extensions/file_tools/gth-file-tool-resize.c:581
 #: ../extensions/file_tools/gth-file-tool-rotate.c:393
-#: ../extensions/slideshow/main.c:291
+#: ../extensions/slideshow/main.c:291 ../gthumb/gth-accel-button.c:172
 msgid "None"
 msgstr "Cap"
 
@@ -1474,22 +1478,23 @@ msgstr "S'estan convertint les imatges"
 msgid "Convert Format"
 msgstr "Converteix el format"
 
-#: ../extensions/desktop_background/actions.c:207
+#: ../extensions/desktop_background/actions.c:288
 msgid "Could not show the desktop background properties"
 msgstr "No s'han pogut mostrar les propietats del fons de l'escriptori"
 
-#: ../extensions/desktop_background/actions.c:248
+#: ../extensions/desktop_background/actions.c:329
 #: ../gthumb/resources/app-menu.ui.h:2
 msgid "_Preferences"
 msgstr "_Preferències"
 
-#: ../extensions/desktop_background/actions.c:249
+#: ../extensions/desktop_background/actions.c:330
 msgid "_Undo"
 msgstr "_Desfés"
 
-#: ../extensions/desktop_background/actions.c:276
-#: ../extensions/desktop_background/actions.c:331
-#: ../extensions/desktop_background/actions.c:350
+#: ../extensions/desktop_background/actions.c:360
+#: ../extensions/desktop_background/actions.c:416
+#: ../extensions/desktop_background/actions.c:435
+#: ../extensions/desktop_background/actions.c:462
 msgid "Could not set the desktop background"
 msgstr "No s'ha pogut establir la imatge com a fons de l'escriptori"
 
@@ -1761,23 +1766,23 @@ msgid "Export"
 msgstr "Exporta"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:1
-msgid "720 x 720"
+msgid "720 × 720"
 msgstr "720 x 720"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:2
-msgid "1024 x 1024"
+msgid "1024 × 1024"
 msgstr "1024 x 1024"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:3
-msgid "1280 x 1280"
+msgid "1280 × 1280"
 msgstr "1280 x 1280"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:4
-msgid "1600 x 1600"
+msgid "1600 × 1600"
 msgstr "1600 x 1600"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:5
-msgid "2048 x 2048"
+msgid "2048 × 2048"
 msgstr "2048 x 2048"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:6
@@ -1925,7 +1930,7 @@ msgstr "No s'han pogut exportar els fitxers"
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:627
 #: ../extensions/picasaweb/dlg-export-to-picasaweb.c:620
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: ../gthumb/gth-browser.c:828
+#: ../gthumb/gth-browser.c:830
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2001,7 +2006,7 @@ msgstr "S'està creant l'àlbum nou"
 #: ../extensions/photobucket/photobucket-service.c:485
 #: ../extensions/picasaweb/picasa-web-service.c:860
 #, c-format
-msgid "Could not upload '%s': %s"
+msgid "Could not upload “%s”: %s"
 msgstr "No s'ha pogut pujar «%s»: %s"
 
 #. Translators: %s is a filename
@@ -2010,19 +2015,19 @@ msgstr "No s'ha pogut pujar «%s»: %s"
 #: ../extensions/photobucket/photobucket-service.c:542
 #: ../extensions/picasaweb/picasa-web-service.c:917
 #, c-format
-msgid "Uploading '%s'"
+msgid "Uploading “%s”"
 msgstr "S'està pujant «%s»"
 
-#: ../extensions/facebook/facebook-service.c:958
-#: ../extensions/flicker_utils/flickr-service.c:1491
-#: ../extensions/photobucket/photobucket-service.c:714
-#: ../extensions/picasaweb/picasa-web-service.c:1138
+#: ../extensions/facebook/facebook-service.c:960
+#: ../extensions/flicker_utils/flickr-service.c:1493
+#: ../extensions/photobucket/photobucket-service.c:717
+#: ../extensions/picasaweb/picasa-web-service.c:1141
 msgid "Uploading the files to the server"
 msgstr "S'estan pujant els fitxers al servidor"
 
-#: ../extensions/facebook/facebook-service.c:1057
-#: ../extensions/flicker_utils/flickr-service.c:1660
-#: ../extensions/picasaweb/picasa-web-service.c:1257
+#: ../extensions/facebook/facebook-service.c:1059
+#: ../extensions/flicker_utils/flickr-service.c:1662
+#: ../extensions/picasaweb/picasa-web-service.c:1260
 msgid "Getting the photo list"
 msgstr "S'està obtenint la llista de les fotos"
 
@@ -2036,13 +2041,13 @@ msgstr "Introduïu el nom de la carpeta:"
 
 #: ../extensions/file_manager/actions.c:410
 #: ../extensions/file_manager/callbacks.c:268
-#: ../extensions/file_manager/callbacks.c:811
+#: ../extensions/file_manager/callbacks.c:818
 msgid "Could not move the files"
 msgstr "No s'han pogut moure els fitxers"
 
 #: ../extensions/file_manager/actions.c:411
 #: ../extensions/file_manager/callbacks.c:269
-#: ../extensions/file_manager/callbacks.c:812
+#: ../extensions/file_manager/callbacks.c:819
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -2053,7 +2058,9 @@ msgstr ""
 #: ../extensions/file_manager/actions.c:413
 #: ../extensions/file_manager/actions.c:664
 #: ../extensions/file_manager/callbacks.c:70
-#: ../extensions/file_manager/callbacks.c:99 ../gthumb/gtk-utils.h:38
+#: ../extensions/file_manager/callbacks.c:99
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:5
+#: ../gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Copia"
 
@@ -2066,7 +2073,7 @@ msgid "Copy To"
 msgstr "Copia a"
 
 #: ../extensions/file_manager/actions.c:664
-#: ../extensions/file_manager/callbacks.c:796
+#: ../extensions/file_manager/callbacks.c:803
 msgid "Move"
 msgstr "Mou"
 
@@ -2120,37 +2127,41 @@ msgid "Duplicate"
 msgstr "Duplica"
 
 #: ../extensions/file_manager/callbacks.c:533
-#: ../extensions/file_manager/callbacks.c:536
+#: ../gthumb/gth-file-source-vfs.c:231
+msgid "Home Folder"
+msgstr "Carpeta de l'usuari"
+
+#: ../extensions/file_manager/callbacks.c:540
+#: ../extensions/file_manager/callbacks.c:543
 msgid "Open _With"
 msgstr "_Obre amb"
 
-#: ../extensions/file_manager/callbacks.c:779
-#, c-format
-msgid "Do you want to move \"%s\" to \"%s\"?"
-msgstr "Voleu moure «%s» a «%s»?"
-
-#: ../extensions/file_manager/callbacks.c:781
-#, c-format
-msgid "Do you want to copy \"%s\" to \"%s\"?"
-msgstr "Voleu copiar «%s» a «%s»?"
-
 #: ../extensions/file_manager/callbacks.c:786
 #, c-format
-msgid "Do you want to move the dragged files to \"%s\"?"
-msgstr "Voleu moure els fitxers arrossegats a «%s»?"
+msgid "Do you want to move “%s” to “%s”?"
+msgstr "Voleu moure «%s» a «%s»?"
 
 #: ../extensions/file_manager/callbacks.c:788
+#,c-format
+msgid "Do you want to copy “%s” to “%s”?"
+msgstr "Voleu copiar «%s» a «%s»?"
+
+#: ../extensions/file_manager/callbacks.c:793
+msgid "Do you want to move the dragged files to “%s”?"
+msgstr "Voleu moure els fitxers arrossegats a «%s»?"
+
+#: ../extensions/file_manager/callbacks.c:795
 #, c-format
-msgid "Do you want to copy the dragged files to \"%s\"?"
+msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Voleu copiar els fitxers arrossegats a «%s»?"
 
-#: ../extensions/file_manager/callbacks.c:796
+#: ../extensions/file_manager/callbacks.c:803
 msgid "_Copy"
 msgstr "_Copia"
 
-#: ../extensions/file_manager/callbacks.c:977
+#: ../extensions/file_manager/callbacks.c:984
 #: ../extensions/find_duplicates/gth-find-duplicates.c:788
-#: ../gthumb/gth-browser.c:5561 ../gthumb/gth-browser.c:5597
+#: ../gthumb/gth-browser.c:5592 ../gthumb/gth-browser.c:5628
 #: ../gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "No s'ha pogut realitzar l'operació"
@@ -2201,11 +2212,30 @@ msgstr "_Groc-blau:"
 msgid "Color Levels"
 msgstr "Nivells del color"
 
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:1
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
+msgid "Position"
+msgstr "Posició"
+
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:2
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
+msgid "_X:"
+msgstr "_X:"
+
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:3
+#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../extensions/file_tools/data/ui/color-picker-options.ui.h:4
+msgid "Color"
+msgstr "Colors"
+
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:1
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:1
 #: ../extensions/file_tools/data/ui/rotate-options.ui.h:1
 #: ../extensions/file_tools/gth-file-tool-crop.c:656
-#: ../extensions/file_tools/gth-file-tool-resize.c:749
+#: ../extensions/file_tools/gth-file-tool-resize.c:751
 #: ../extensions/file_tools/gth-file-tool-rotate.c:614
 #: ../gthumb/gth-file-chooser-dialog.c:257
 msgid "Options"
@@ -2216,7 +2246,6 @@ msgid "_Grid:"
 msgstr "_Graella:"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:3
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Selection"
 msgstr "Selecció"
 
@@ -2245,6 +2274,7 @@ msgstr "Centrat"
 
 #: ../extensions/file_tools/data/ui/crop-options.ui.h:9
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:10
+#: ../gthumb/gth-main-default-tests.c:405
 msgid "Aspect ratio"
 msgstr "Relació d'aspecte"
 
@@ -2433,6 +2463,7 @@ msgstr "Blau"
 #: ../extensions/file_tools/gth-file-tool-curves.c:816
 #: ../extensions/file_tools/gth-file-tool-rotate.c:601
 #: ../extensions/file_tools/gth-file-tool-sharpen.c:363
+#: ../gthumb/gth-test-aspect-ratio.c:234
 msgid "Reset"
 msgstr "Reinicia"
 
@@ -2513,68 +2544,86 @@ msgstr "Ajusta el contrast"
 msgid "Automatic contrast adjustment"
 msgstr "Ajustament automàtic del contrast"
 
+#: ../extensions/file_tools/gth-file-tool-color-picker.c:245
+msgid "Color Picker"
+msgstr "Selector de color"
+
+#: ../extensions/file_tools/gth-file-tool-color-picker.c:248
+msgid "Pick a color from the image"
+msgstr "Seleccioneu un color la imatge"
+
 #: ../extensions/file_tools/gth-file-tool-crop.c:434
-#: ../extensions/file_tools/gth-file-tool-resize.c:579
+#: ../extensions/file_tools/gth-file-tool-resize.c:581
+#: ../gthumb/gth-test-aspect-ratio.c:47
 msgid "Square"
 msgstr "Quadrat"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:435
-#: ../extensions/file_tools/gth-file-tool-resize.c:580
-#, c-format
-msgid "%d x %d (Image)"
-msgstr "%d x %d (imatge)"
+#: ../extensions/file_tools/gth-file-tool-resize.c:582
+# c-format
+msgid "%d × %d (Image)"
+msgstr "%d × %d (imatge)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:438
-#: ../extensions/file_tools/gth-file-tool-resize.c:584
-#, c-format
-msgid "%d x %d (Screen)"
-msgstr "%d x %d (pantalla)"
+#: ../extensions/file_tools/gth-file-tool-resize.c:586
+# c-format
+msgid "%d × %d (Screen)"
+msgstr "%d × %d (pantalla)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:442
-#: ../extensions/file_tools/gth-file-tool-resize.c:589
-msgid "5:4"
-msgstr "5:4"
+#: ../extensions/file_tools/gth-file-tool-resize.c:591
+#: ../gthumb/gth-test-aspect-ratio.c:48
+msgid "5∶4"
+msgstr "5∶4"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:443
-#: ../extensions/file_tools/gth-file-tool-resize.c:590
-msgid "4:3 (DVD, Book)"
+#: ../extensions/file_tools/gth-file-tool-resize.c:592
+#: ../gthumb/gth-test-aspect-ratio.c:49
+msgid "4∶3 (DVD, Book)"
 msgstr "4:3 (DVD, Llibre)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:444
-#: ../extensions/file_tools/gth-file-tool-resize.c:591
-msgid "7:5"
-msgstr "7:5"
+#: ../extensions/file_tools/gth-file-tool-resize.c:593
+#: ../gthumb/gth-test-aspect-ratio.c:50
+msgid "7∶5"
+msgstr ""
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:445
-#: ../extensions/file_tools/gth-file-tool-resize.c:592
-msgid "3:2 (Postcard)"
+#: ../extensions/file_tools/gth-file-tool-resize.c:594
+#: ../gthumb/gth-test-aspect-ratio.c:51
+msgid "3∶2 (Postcard)"
 msgstr "3:2 (postal)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:446
-#: ../extensions/file_tools/gth-file-tool-resize.c:593
-msgid "16:10"
-msgstr "16:10"
+#: ../extensions/file_tools/gth-file-tool-resize.c:595
+#: ../gthumb/gth-test-aspect-ratio.c:52
+msgid "16∶10"
+msgstr "16∶10"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:447
-#: ../extensions/file_tools/gth-file-tool-resize.c:594
-msgid "16:9 (DVD)"
+#: ../extensions/file_tools/gth-file-tool-resize.c:596
+#: ../gthumb/gth-test-aspect-ratio.c:53
+msgid "16∶9 (DVD)"
 msgstr "16:9 (DVD)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:448
-#: ../extensions/file_tools/gth-file-tool-resize.c:595
-msgid "1.85:1"
+#: ../extensions/file_tools/gth-file-tool-resize.c:597
+#: ../gthumb/gth-test-aspect-ratio.c:54
+msgid "1.85∶1"
 msgstr "1.85:1"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:449
-#: ../extensions/file_tools/gth-file-tool-resize.c:596
-msgid "2.39:1"
+#: ../extensions/file_tools/gth-file-tool-resize.c:598
+#: ../gthumb/gth-test-aspect-ratio.c:55
+msgid "2.39∶1"
 msgstr "2.39:1"
 
 #. Translators: this is an option for the format -> Format: Custom
 #: ../extensions/file_tools/gth-file-tool-crop.c:450
-#: ../extensions/file_tools/gth-file-tool-resize.c:597
+#: ../extensions/file_tools/gth-file-tool-resize.c:599
 #: ../extensions/image_print/data/ui/print-layout.ui.h:2
 #: ../extensions/rename_series/gth-template-selector.c:248
+#: ../gthumb/gth-test-aspect-ratio.c:209
 msgid "Custom"
 msgstr "Personalitza"
 
@@ -2607,8 +2656,8 @@ msgstr "Introduïu el nom de la predefinició:"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:530
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1418
-#: ../gthumb/gth-browser.c:1892
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1544
+#: ../gthumb/gth-browser.c:1880
 msgid "Could not save the file"
 msgstr "No s'ha pogut desar el fitxer"
 
@@ -2734,7 +2783,7 @@ msgstr "Refés"
 msgid "Resizing images"
 msgstr "S'estan redimensionant les imatges"
 
-#: ../extensions/file_tools/gth-file-tool-resize.c:832
+#: ../extensions/file_tools/gth-file-tool-resize.c:834
 msgid "Resize"
 msgstr "Redimensiona"
 
@@ -2971,7 +3020,7 @@ msgstr ""
 "Torneu a aquesta finestra quan hàgiu acabat el procés d'autorització a% s"
 
 #: ../extensions/flicker_utils/flickr-service.c:503
-msgid "Once you're done, click the 'Continue' button below."
+msgid "Once you’re done, click the “Continue” button below."
 msgstr "Una vegada hàgiu acabat, feu clic al botó «Continua» de sota."
 
 #: ../extensions/flicker_utils/flickr-service.c:575
@@ -2990,8 +3039,8 @@ msgstr "gThumb requereix la vostra autorització per pujar les fotos a %s"
 #: ../extensions/flicker_utils/flickr-service.c:580
 #, c-format
 msgid ""
-"Click 'Authorize' to open your web browser and authorize gthumb to upload "
-"photos to %s. When you're finished, return to this window to complete the "
+"Click “Authorize” to open your web browser and authorize gthumb to upload "
+"photos to %s. When you’re finished, return to this window to complete the "
 "authorization."
 msgstr ""
 "Feu clic a «Autoritza» per a obrir el vostre navegador i autoritzar a gthumb "
@@ -3015,8 +3064,8 @@ msgid "Could not take a screenshot"
 msgstr "No s'ha pogut fer la captura de pantalla"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:602
-#: ../extensions/image_viewer/gth-image-viewer-page.c:969
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:599
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1091
 msgid "Play"
 msgstr "Reprodueix"
 
@@ -3029,12 +3078,16 @@ msgid "Faster"
 msgstr "Més ràpid"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
+msgid "Restart when finished"
+msgstr "Reinicia quan acabi"
+
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
 msgid "Time:"
 msgstr "Hora:"
 
-#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:5
-msgid "--:--"
-msgstr "--:--"
+#: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:6
+msgid "--∶--"
+msgstr "--∶--"
 
 #: ../extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui.h:1
 msgid "_Screenshots location:"
@@ -3048,25 +3101,25 @@ msgstr "Compatibilitat amb àudio i vídeo"
 msgid "Play audio and video files."
 msgstr "Reproduïu els fitxers d'àudio i de vídeo."
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:575
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:572
 msgid "Playing video"
 msgstr "Reproduint vídeo"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:588
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:585
 msgid "Pause"
 msgstr "Fes una pausa"
 
-#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:636
+#: ../extensions/gstreamer_tools/gth-media-viewer-page.c:633
 msgid "Take a screenshot"
 msgstr "Fes una captura de pantalla"
 
 #: ../extensions/gstreamer_tools/main.c:32
-#: ../gthumb/gth-main-default-tests.c:312
+#: ../gthumb/gth-main-default-tests.c:313
 msgid "Video"
 msgstr "El vídeo"
 
 #: ../extensions/gstreamer_tools/main.c:33
-#: ../gthumb/gth-main-default-tests.c:319
+#: ../gthumb/gth-main-default-tests.c:320
 msgid "Audio"
 msgstr "L'àudio"
 
@@ -3124,8 +3177,8 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1651
-#: ../extensions/image_viewer/gth-metadata-provider-image.c:251
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1777
+#: ../extensions/image_viewer/gth-metadata-provider-image.c:253
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:96
 #: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:897
 #, c-format
@@ -3228,7 +3281,7 @@ msgid "Images"
 msgstr "Les imatges"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
-#: ../gthumb/gth-image-loader.c:215 ../gthumb/gth-image-loader.c:341
+#: ../gthumb/gth-image-loader.c:222 ../gthumb/gth-image-loader.c:348
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr ""
@@ -3237,13 +3290,8 @@ msgstr ""
 #. translators: %s is a filename
 #: ../extensions/image_print/gth-load-image-info-task.c:165
 #, c-format
-msgid "Loading \"%s\""
+msgid "Loading “%s”"
 msgstr "S'està carregant «%s»"
-
-#: ../extensions/image_print/gth-load-image-info-task.c:167
-#: ../extensions/webalbums/gth-web-exporter.c:2722
-msgid "Loading images"
-msgstr "S'estan carregant les imatges"
 
 #: ../extensions/image_print/image_print.extension.in.in.h:1
 msgid "Image print"
@@ -3319,7 +3367,7 @@ msgid "After loading an image:"
 msgstr "Després de carregar una imatge:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:926
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1048
 msgid "Set to actual size"
 msgstr "Estableix-ho a la mida real"
 
@@ -3333,7 +3381,7 @@ msgid "Fit to window"
 msgstr "Ajusta a la finestra"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
-#: ../extensions/image_viewer/gth-image-viewer-page.c:933
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1055
 msgid "Fit to window if larger"
 msgstr "Si és més gran, ajusta a la finestra"
 
@@ -3396,27 +3444,27 @@ msgstr "300%"
 msgid "Histogram"
 msgstr "Histograma"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:82
+#: ../extensions/image_viewer/gth-image-viewer-page.c:84
 msgid "Copy Image"
 msgstr "Copia la imatge"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:83
+#: ../extensions/image_viewer/gth-image-viewer-page.c:85
 msgid "Paste Image"
 msgstr "Enganxa la imatge"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:961
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1083
 msgid "Apply the embedded color profile"
 msgstr "Aplica el perfil de color incrustat"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:976
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1098
 msgid "Next frame"
 msgstr "Fotograma següent"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1590
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1716
 msgid "Save Image"
 msgstr "Desa la imatge"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2189
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2330
 msgid "Loading the original image"
 msgstr "S'està carregant la imatge original"
 
@@ -3517,23 +3565,24 @@ msgstr "L'operació de supressió no és compatible."
 
 #: ../extensions/importer/gth-import-task.c:732
 msgid "Last imported"
-msgstr "Ultima importació"
+msgstr "Última importació"
 
 #: ../extensions/importer/gth-import-task.c:838
 msgid "No file specified."
 msgstr "Cap fitxer especificat."
 
-#. Translators: For example: Not enough free space in '/home/user/Images'.\n1.3 GB of space is required but only 300 MB is available.
+#. Translators: For example: Not enough free space in “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is available.
 #: ../extensions/importer/gth-import-task.c:875
 #, c-format
 msgid ""
-"Not enough free space in '%s'.\n"
+"Not enough free space in “%s”.\n"
 "%s of space is required but only %s is available."
 msgstr ""
 "No hi ha prou espai lliure a «%s»\n"
 "Es requereixen %s però tan sols hi ha disponible %s."
 
 #: ../extensions/list_tools/callbacks.c:174
+#: ../extensions/list_tools/callbacks.c:183
 msgid "Tools"
 msgstr "Eines"
 
@@ -3631,64 +3680,56 @@ msgstr "_Ordre:"
 msgid "Personalize…"
 msgstr "Personalitza..."
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:257
+#: ../extensions/list_tools/dlg-personalize-scripts.c:252
 msgid "Script"
 msgstr "Script"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:271
+#: ../extensions/list_tools/dlg-personalize-scripts.c:266
+#: ../gthumb/gth-accel-button.c:228
 msgid "Shortcut"
 msgstr "Drecera"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:285
+#: ../extensions/list_tools/dlg-personalize-scripts.c:280
 #: ../gthumb/dlg-personalize-filters.c:252
 msgid "Show"
 msgstr "Mostra"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:355
+#: ../extensions/list_tools/dlg-personalize-scripts.c:350
 msgid "Could not save the script"
 msgstr "No s'ha pogut desar l'script"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:406
+#: ../extensions/list_tools/dlg-personalize-scripts.c:401
 msgid "New Command"
 msgstr "Ordre nova"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:433
+#: ../extensions/list_tools/dlg-personalize-scripts.c:428
 msgid "Edit Command"
 msgstr "Edita l'ordre"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:461
+#: ../extensions/list_tools/dlg-personalize-scripts.c:456
 msgid "Are you sure you want to delete the selected command?"
 msgstr "Esteu segur que voleu suprimir l'ordre seleccionada?"
 
-#: ../extensions/list_tools/dlg-personalize-scripts.c:549
+#: ../extensions/list_tools/dlg-personalize-scripts.c:544
 msgid "Commands"
 msgstr "Ordres"
 
-#: ../extensions/list_tools/gth-script.c:615
+#: ../extensions/list_tools/gth-script.c:482
 msgid "Enter a value:"
 msgstr "Introduïu un valor:"
 
-#: ../extensions/list_tools/gth-script.c:635
-msgid "_Skip"
-msgstr "I_gnora"
-
-#: ../extensions/list_tools/gth-script.c:761
+#: ../extensions/list_tools/gth-script.c:716
 #: ../extensions/webalbums/gth-web-exporter.c:558
 #: ../extensions/webalbums/gth-web-exporter.c:570
 #: ../extensions/webalbums/gth-web-exporter.c:578
 msgid "Malformed command"
 msgstr "ordre amb format incorrecte"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:143
-msgid "none"
-msgstr "cap"
+#: ../extensions/list_tools/gth-script.c:771
+msgid "_Skip"
+msgstr "I_gnora"
 
-#: ../extensions/list_tools/gth-script-editor-dialog.c:149
-#, c-format
-msgid "key %d on the numeric keypad"
-msgstr "la tecla %d al teclat numèric"
-
-#: ../extensions/list_tools/gth-script-editor-dialog.c:294
+#: ../extensions/list_tools/gth-script-editor-dialog.c:241
 #, c-format
 msgid "No command specified"
 msgstr "Cap ordre especificada"
@@ -3747,7 +3788,7 @@ msgid "A_ccounts:"
 msgstr "_Comptes:"
 
 #: ../extensions/oauth/data/ui/oauth-ask-authorization.ui.h:1
-#: ../gthumb/gth-folder-tree.c:1079
+#: ../gthumb/gth-folder-tree.c:1083
 msgid "Loading…"
 msgstr "S'està carregant..."
 
@@ -3784,28 +3825,34 @@ msgid "Getting account information"
 msgstr "S'està important la informació del compte"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
-msgid "Tiny ( 100 x 75 )"
-msgstr "Ínfima ( 100 x 75 )"
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
+msgid "Tiny ( 100 × 75 )"
+msgstr "Ínfima ( 100 × 75 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
-msgid "Small ( 160 x 120 )"
-msgstr "Petita ( 160 x 120 )"
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
+msgid "Small ( 160 × 120 )"
+msgstr "Petita ( 160 × 120 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
-msgid "Medium ( 320 x 240 )"
-msgstr "Mitjana ( 320 x 240 )"
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
+msgid "Medium ( 320 × 240 )"
+msgstr "Mitjana ( 320 × 240 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
-msgid "Large ( 640 x 480 )"
-msgstr "Gran ( 640 x 480 )"
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
+msgid "Large ( 640 × 480 )"
+msgstr "Gran ( 640 × 480 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
-msgid "15ʺ screen ( 800 x 600 )"
-msgstr "pantalla de 15ʺ ( 800 x 600 )"
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:292
+msgid "15ʺ screen ( 800 × 600 )"
+msgstr "pantalla de 15ʺ ( 800 × 600 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
-msgid "17ʺ screen ( 1024 x 768 )"
-msgstr "pantalla de 17ʺ ( 1024 x 768 )"
+#: ../extensions/photobucket/dlg-export-to-photobucket.c:293
+msgid "17ʺ screen ( 1024 × 768 )"
+msgstr "pantalla de 17ʺ ( 1024 × 768 )"
 
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:294
@@ -3819,30 +3866,6 @@ msgstr "Noms de fitxer regirats"
 #: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
 msgid "_Container:"
 msgstr "_Contenidor:"
-
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
-msgid "Tiny ( 100 × 75 )"
-msgstr "Ínfima ( 100 × 75 )"
-
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
-msgid "Small ( 160 × 120 )"
-msgstr "Petita ( 160 × 120 )"
-
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
-msgid "Medium ( 320 × 240 )"
-msgstr "Mitjana ( 320 × 240 )"
-
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
-msgid "Large ( 640 × 480 )"
-msgstr "Gran ( 640 × 480 )"
-
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:292
-msgid "15ʺ screen ( 800 × 600 )"
-msgstr "pantalla de 15ʺ ( 800 × 600 )"
-
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:293
-msgid "17ʺ screen ( 1024 × 768 )"
-msgstr "pantalla de 17ʺ ( 1024 × 768 )"
 
 #: ../extensions/photobucket/dlg-export-to-photobucket.c:301
 msgid "2 megabyte file size"
@@ -3925,12 +3948,12 @@ msgstr "No s'ha pogut carregar la carpeta"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:356
 #: ../extensions/photo_importer/dlg-photo-importer.c:396
-#: ../gthumb/gth-file-list.c:43 ../gthumb/gth-folder-tree.c:1106
+#: ../gthumb/gth-file-list.c:42 ../gthumb/gth-folder-tree.c:1110
 msgid "(Empty)"
 msgstr "(Buit)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1803
+#: ../gthumb/gth-browser.c:1791
 msgid "Getting the folder content…"
 msgstr "S'està obtenint el contingut del directori..."
 
@@ -3999,14 +4022,6 @@ msgstr "Compatibilitat amb el format RAW"
 #: ../extensions/raw_files/raw_files.extension.in.in.h:2
 msgid "Allow to load raw format images."
 msgstr "Permet carregar les imatges en format RAW."
-
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:2
-msgid "_X:"
-msgstr "_X:"
-
-#: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:3
-msgid "_Y:"
-msgstr "_Y:"
 
 #: ../extensions/red_eye_removal/gth-file-tool-red-eye.c:470
 msgid "Red Eye Removal"
@@ -4149,7 +4164,7 @@ msgid "Edit Template"
 msgstr "Edita la plantilla"
 
 #: ../extensions/rename_series/dlg-rename-series.c:854
-#: ../gthumb/gth-folder-tree.c:1903
+#: ../gthumb/gth-folder-tree.c:1908
 msgid "_Rename"
 msgstr "Canvia el _nom"
 
@@ -4270,7 +4285,7 @@ msgstr "qualsevol de les següents regles"
 #: ../extensions/search/gth-search-task.c:183
 #, c-format
 msgid "Files found so far: %s"
-msgstr "Fitxer trobats de moment:  %s"
+msgstr "Fitxers trobats de moment: %s"
 
 #: ../extensions/search/gth-search-task.c:274
 msgid "Searching…"
@@ -4293,7 +4308,7 @@ msgstr "Suprimeix de la selecció"
 msgid "Show selection %d"
 msgstr "Mostra la selecció %d"
 
-#: ../extensions/selections/callbacks.c:322
+#: ../extensions/selections/callbacks.c:353
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -4301,12 +4316,12 @@ msgstr ""
 "Utilitzeu Alt-%d per afegir fitxers a aquesta selecció, Ctrl-%d per "
 "visualitzar aquesta selecció."
 
-#: ../extensions/selections/gth-selections-manager.c:228
+#: ../extensions/selections/gth-selections-manager.c:232
 #, c-format
 msgid "Selection %d"
 msgstr "Selecció %d"
 
-#: ../extensions/selections/gth-selections-manager.c:231
+#: ../extensions/selections/gth-selections-manager.c:235
 #: ../extensions/selections/selections.extension.in.in.h:1
 msgid "Selections"
 msgstr "Seleccions"
@@ -4568,11 +4583,11 @@ msgstr "Àlbums web"
 msgid "Create static web albums."
 msgstr "Creeu àlbums web estàtics."
 
-#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1108
-#: ../gthumb/gth-browser.c:1683 ../gthumb/gth-browser.c:6556
-#: ../gthumb/gth-browser.c:6575 ../gthumb/gth-browser.c:6599
+#: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
+#: ../gthumb/gth-browser.c:1671 ../gthumb/gth-browser.c:6587
+#: ../gthumb/gth-browser.c:6606 ../gthumb/gth-browser.c:6630
 #, c-format
-msgid "Could not load the position \"%s\""
+msgid "Could not load the position “%s”"
 msgstr "No s'ha pogut carregar la posició «%s»"
 
 #: ../gthumb/dlg-location.c:408 ../gthumb/dlg-location.c:418
@@ -4679,12 +4694,12 @@ msgstr "%s de %s"
 
 #: ../gthumb/gio-utils.c:1432
 #, c-format
-msgid "Moving \"%s\" to \"%s\""
+msgid "Moving “%s” to “%s”"
 msgstr "S'està movent «%s» a «%s»"
 
 #: ../gthumb/gio-utils.c:1434
 #, c-format
-msgid "Copying \"%s\" to \"%s\""
+msgid "Copying “%s” to “%s”"
 msgstr "S'està copiant «%s» a «%s»"
 
 #: ../gthumb/gio-utils.c:1793
@@ -4700,28 +4715,36 @@ msgid "Getting file information"
 msgstr "S'està obtenint la informació del fitxer"
 
 #. hour:minutes:seconds
-#. Translators: This is a time format, like "9:05:02" for 9
-#. * hours, 5 minutes, and 2 seconds. You may change ":" to
+#. Translators: This is a time format, like "9∶05∶02" for 9
+#. * hours, 5 minutes, and 2 seconds. You may change "∶" to
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3272
+#: ../gthumb/glib-utils.c:3302
 #, c-format
 msgctxt "long time format"
-msgid "%d:%02d:%02d"
+msgid "%d∶%02d∶%02d"
 msgstr "%d:%02d:%02d"
 
 #. minutes:seconds
-#. Translators: This is a time format, like "5:02" for 5
-#. * minutes and 2 seconds. You may change ":" to the
+#. Translators: This is a time format, like "5∶02" for 5
+#. * minutes and 2 seconds. You may change "∶" to the
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3281
+#: ../gthumb/glib-utils.c:3311
 #, c-format
 msgctxt "short time format"
-msgid "%d:%02d"
+msgid "%d∶%02d"
 msgstr "%d:%02d"
+
+#: ../gthumb/gth-accel-button.c:238
+msgid "Press a combination of keys to use as shortcut."
+msgstr "Premeu una combinació de tecles per a usar com a drecera."
+
+#: ../gthumb/gth-accel-button.c:239
+msgid "Press Esc to cancel"
+msgstr "Premeu ESC per cancel·lar"
 
 #: ../gthumb/gth-application.c:52
 msgid "Open a new window"
@@ -4744,8 +4767,8 @@ msgid "Show version"
 msgstr "Mostra la versió"
 
 #: ../gthumb/gth-application.c:205
-msgid "- Image browser and viewer"
-msgstr "- navegador i visualitzador de fitxers"
+msgid "— Image browser and viewer"
+msgstr "— navegador i visualitzador de fitxers"
 
 #: ../gthumb/gth-browser-actions-callbacks.c:127
 msgid ""
@@ -4794,84 +4817,88 @@ msgstr ""
 "Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Jordi Mas i Hernàndez <jmas@softcatala.org>"
 
-#: ../gthumb/gth-browser.c:377
+#: ../gthumb/gth-browser.c:379
 msgid "[modified]"
 msgstr "[modificat]"
 
-#: ../gthumb/gth-browser.c:829
+#: ../gthumb/gth-browser.c:831
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d fitxer seleccionat (%s)"
 msgstr[1] "%d fitxers seleccionats (%s)"
 
-#: ../gthumb/gth-browser.c:864
+#: ../gthumb/gth-browser.c:866
 #, c-format
 msgid "%s of free space"
 msgstr "%s d'espai lliure"
 
-#: ../gthumb/gth-browser.c:1787 ../gthumb/gth-browser.c:1814
+#: ../gthumb/gth-browser.c:1775 ../gthumb/gth-browser.c:1802
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No s'ha trobat cap mòdul adequat per %s"
 
-#: ../gthumb/gth-browser.c:1936
-#, c-format
-msgid "Save changes to file '%s'?"
+#: ../gthumb/gth-browser.c:1924
+# ,c-format
+msgid "Save changes to file “%s”?"
 msgstr "Voleu desar els canvis al fitxer «%s»?"
 
-#: ../gthumb/gth-browser.c:1941
-msgid "If you don't save, changes to the file will be permanently lost."
+#: ../gthumb/gth-browser.c:1929
+msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Si no deseu, els canvis al fitxer es perdran permanentment."
 
-#: ../gthumb/gth-browser.c:1942
+#: ../gthumb/gth-browser.c:1930
 msgid "Do _Not Save"
 msgstr "_No ho desis"
 
-#: ../gthumb/gth-browser.c:3009 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:2409 ../gthumb/gth-browser.c:4636
+msgid "Accept"
+msgstr "Accepta"
+
+#: ../gthumb/gth-browser.c:2409 ../gthumb/gtk-utils.h:37
+msgid "_Close"
+msgstr "_Tanca"
+
+#: ../gthumb/gth-browser.c:3014 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "No s'ha pogut canviar el nom"
 
-#: ../gthumb/gth-browser.c:3462
+#: ../gthumb/gth-browser.c:3469
 msgid "Modified"
 msgstr "La modificació"
 
-#: ../gthumb/gth-browser.c:4529
+#: ../gthumb/gth-browser.c:4558
 msgid "Go to the previous visited location"
 msgstr "Vés a l'anterior ubicació visitada"
 
-#: ../gthumb/gth-browser.c:4535
+#: ../gthumb/gth-browser.c:4564
 msgid "Go to the next visited location"
 msgstr "Vés a la següent ubicació visitada"
 
-#: ../gthumb/gth-browser.c:4543
+#: ../gthumb/gth-browser.c:4572
 msgid "History"
 msgstr "Històric"
 
-#: ../gthumb/gth-browser.c:4557
+#: ../gthumb/gth-browser.c:4586
 msgid "View the folders"
 msgstr "Visualitza les carpetes"
 
-#: ../gthumb/gth-browser.c:4572
+#: ../gthumb/gth-browser.c:4601
 msgid "Edit file"
 msgstr "Edita el fitxer"
 
-#: ../gthumb/gth-browser.c:4581 ../gthumb/gth-browser.c:4599
+#: ../gthumb/gth-browser.c:4610 ../gthumb/gth-browser.c:4628
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: ../gthumb/gth-browser.c:4607
-msgid "Accept"
-msgstr "Accepta"
-
-#: ../gthumb/gth-browser.c:6557
+#: ../gthumb/gth-browser.c:6588
 #, c-format
 msgid "File type not supported"
 msgstr "El tipus de fitxer no és compatible"
 
-#: ../gthumb/gth-browser.c:6600
+#: ../gthumb/gth-browser.c:6631
 #, c-format
 msgid "No suitable module found"
 msgstr "No s'ha trobat el mòdul adequat"
@@ -4882,12 +4909,12 @@ msgstr "Se suprimeixen els fitxers"
 
 #: ../gthumb/gth-extensions.c:203
 #, c-format
-msgid "Could not open the module `%s`: %s"
+msgid "Could not open the module “%s”: %s"
 msgstr "No s'ha pogut obrir el mòdul «%s»: %s"
 
 #: ../gthumb/gth-extensions.c:754
 #, c-format
-msgid "The extension '%1$s' is required by the extension '%2$s'"
+msgid "The extension “%1$s” is required by the extension “%2$s”"
 msgstr "L'extensió «%1$s» és requerida per l'extensió «%2$s»"
 
 #: ../gthumb/gth-file-chooser-dialog.c:144
@@ -4906,10 +4933,6 @@ msgstr "Detalls"
 msgid "Computer"
 msgstr "Ordinador"
 
-#: ../gthumb/gth-file-source-vfs.c:231
-msgid "Home Folder"
-msgstr "Carpeta de l'usuari"
-
 #: ../gthumb/gth-file-source-vfs.c:782
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
@@ -4924,7 +4947,7 @@ msgstr "No s'han pogut moure els fitxers a la paperera"
 
 #: ../gthumb/gth-file-source-vfs.c:837
 #, c-format
-msgid "Are you sure you want to permanently delete \"%s\"?"
+msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Segur que voleu suprimir permanentment «%s»?"
 
 #: ../gthumb/gth-file-source-vfs.c:840
@@ -4932,25 +4955,28 @@ msgstr "Segur que voleu suprimir permanentment «%s»?"
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %'d selected files?"
-msgstr[0] "Esteu segur que voleu suprimir de forma permanent el fitxer seleccionat?"
-msgstr[1] "Esteu segur que voleu suprimir de forma permanent els %'d fitxers seleccionats?"
+msgstr[0] ""
+"Esteu segur que voleu suprimir de forma permanent el fitxer seleccionat?"
+msgstr[1] ""
+"Esteu segur que voleu suprimir de forma permanent els %'d fitxers "
+"seleccionats?"
 
 #: ../gthumb/gth-file-source-vfs.c:850
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Si suprimiu un fitxer, es perdrà permanentment."
 
 #: ../gthumb/gth-filter.c:43 ../gthumb/gth-filter-editor-dialog.c:174
-#: ../gthumb/gth-test-simple.c:77
+#: ../gthumb/gth-test-simple.c:78
 msgid "kB"
 msgstr "kB"
 
 #: ../gthumb/gth-filter.c:44 ../gthumb/gth-filter-editor-dialog.c:175
-#: ../gthumb/gth-test-simple.c:78
+#: ../gthumb/gth-test-simple.c:79
 msgid "MB"
 msgstr "MB"
 
 #: ../gthumb/gth-filter.c:45 ../gthumb/gth-filter-editor-dialog.c:176
-#: ../gthumb/gth-test-simple.c:79
+#: ../gthumb/gth-test-simple.c:80
 msgid "GB"
 msgstr "GB"
 
@@ -4972,11 +4998,11 @@ msgstr "en ordre descendent"
 msgid "No limit specified"
 msgstr "Cap limitació especificada"
 
-#: ../gthumb/gth-folder-tree.c:1382
+#: ../gthumb/gth-folder-tree.c:1386
 msgid "(Open Parent)"
 msgstr "(obre el pare)"
 
-#: ../gthumb/gth-folder-tree.c:1901
+#: ../gthumb/gth-folder-tree.c:1906
 msgid "Enter the new name:"
 msgstr "Introduïu el nom nou:"
 
@@ -4984,6 +5010,7 @@ msgstr "Introduïu el nom nou:"
 msgid "Alpha"
 msgstr "Alfa"
 
+#. Translators: RGB is an acronym for Red Green Blue
 #: ../gthumb/gth-histogram-view.c:916
 msgid "RGB"
 msgstr "RGB"
@@ -4998,7 +5025,7 @@ msgstr "No hi ha opcions disponibles per a aquest tipus de fitxer"
 
 #: ../gthumb/gth-image-saver.c:185
 #, c-format
-msgid "Could not find a suitable module to save the image as \"%s\""
+msgid "Could not find a suitable module to save the image as “%s”"
 msgstr "No s'ha pogut trobar el mòdul adequat per desar la imatge com «%s»"
 
 #: ../gthumb/gth-load-file-data-task.c:108
@@ -5014,7 +5041,7 @@ msgid "Name"
 msgstr "El nom"
 
 #: ../gthumb/gth-main-default-metadata.c:40
-#: ../gthumb/gth-main-default-tests.c:349
+#: ../gthumb/gth-main-default-tests.c:350
 msgid "Size"
 msgstr "La mida"
 
@@ -5067,75 +5094,83 @@ msgstr "El flaix"
 msgid "Camera Model"
 msgstr "El model de càmera"
 
-#: ../gthumb/gth-main-default-metadata.c:58
+#: ../gthumb/gth-main-default-metadata.c:57
+msgid "Color Profile"
+msgstr "Perfil de color"
+
+#: ../gthumb/gth-main-default-metadata.c:59
 msgid "General Date & Time"
 msgstr "Data i hora general"
 
-#: ../gthumb/gth-main-default-metadata.c:65
+#: ../gthumb/gth-main-default-metadata.c:66
 msgid "Author"
 msgstr "L'autor"
 
-#: ../gthumb/gth-main-default-metadata.c:66
+#: ../gthumb/gth-main-default-metadata.c:67
 msgid "Copyright"
 msgstr "Els drets d'autor"
 
-#: ../gthumb/gth-main-default-sort-types.c:131
+#: ../gthumb/gth-main-default-sort-types.c:166
 msgid "file name"
 msgstr "el nom del fitxer"
 
-#: ../gthumb/gth-main-default-sort-types.c:132
+#: ../gthumb/gth-main-default-sort-types.c:167
 msgid "file path"
 msgstr "el camí al fitxer"
 
-#: ../gthumb/gth-main-default-sort-types.c:133
+#: ../gthumb/gth-main-default-sort-types.c:168
 msgid "file size"
 msgstr "la mida del fitxer"
 
-#: ../gthumb/gth-main-default-sort-types.c:134
+#: ../gthumb/gth-main-default-sort-types.c:169
 msgid "file modified date"
 msgstr "la data en què el fitxer va ser modificat"
 
-#: ../gthumb/gth-main-default-sort-types.c:135
+#: ../gthumb/gth-main-default-sort-types.c:170
 msgid "no sorting"
 msgstr "cap ordre en concret"
 
-#: ../gthumb/gth-main-default-sort-types.c:136
+#: ../gthumb/gth-main-default-sort-types.c:171
 msgid "dimensions"
 msgstr "les dimensions"
 
-#: ../gthumb/gth-main-default-tests.c:284
+#: ../gthumb/gth-main-default-sort-types.c:172
+msgid "aspect ratio"
+msgstr "relació d'aspecte"
+
+#: ../gthumb/gth-main-default-tests.c:285
 msgid "All Files"
 msgstr "Tots els fitxers"
 
-#: ../gthumb/gth-main-default-tests.c:291
+#: ../gthumb/gth-main-default-tests.c:292
 msgid "All Images"
 msgstr "Totes les imatges"
 
-#: ../gthumb/gth-main-default-tests.c:298
+#: ../gthumb/gth-main-default-tests.c:299
 msgid "JPEG Images"
 msgstr "Imatges JPEG"
 
-#: ../gthumb/gth-main-default-tests.c:305
+#: ../gthumb/gth-main-default-tests.c:306
 msgid "Raw Photos"
 msgstr "Fotografies RAW"
 
-#: ../gthumb/gth-main-default-tests.c:326
+#: ../gthumb/gth-main-default-tests.c:327
 msgid "Media"
 msgstr "Els suports"
 
-#: ../gthumb/gth-main-default-tests.c:333
+#: ../gthumb/gth-main-default-tests.c:334
 msgid "Text Files"
 msgstr "Els fitxers de text"
 
-#: ../gthumb/gth-main-default-tests.c:341
+#: ../gthumb/gth-main-default-tests.c:342
 msgid "Filename"
 msgstr "El nom del fitxer"
 
-#: ../gthumb/gth-main-default-tests.c:373
+#: ../gthumb/gth-main-default-tests.c:374
 msgid "Title (embedded)"
 msgstr "El títol (incrustat)"
 
-#: ../gthumb/gth-main-default-tests.c:381
+#: ../gthumb/gth-main-default-tests.c:382
 msgid "Description (embedded)"
 msgstr "La descripció (incrustada)"
 
@@ -5154,12 +5189,12 @@ msgstr "S'està desant la informació del fitxer"
 #. Translators: %s is a filename
 #: ../gthumb/gth-save-image-task.c:158
 #, c-format
-msgid "Saving '%s'"
+msgid "Saving “%s”"
 msgstr "S'està desant «%s»"
 
 #: ../gthumb/gth-tags-entry.c:481
 #, c-format
-msgid "Create tag «%s»"
+msgid "Create tag “%s”"
 msgstr "Crea l'etiqueta «%s»"
 
 #: ../gthumb/gth-tags-entry.c:1130
@@ -5214,8 +5249,35 @@ msgstr "Astronomia"
 msgid "Family"
 msgstr "Família"
 
-#: ../gthumb/gth-test-category.c:46 ../gthumb/gth-test-simple.c:49
-#: ../gthumb/gth-test-simple.c:66
+#: ../gthumb/gth-test-aspect-ratio.c:67 ../gthumb/gth-test-simple.c:57
+msgid "is lower than"
+msgstr "és més petit(a) que"
+
+#: ../gthumb/gth-test-aspect-ratio.c:68 ../gthumb/gth-test-simple.c:58
+msgid "is greater than"
+msgstr "és més gran que"
+
+#: ../gthumb/gth-test-aspect-ratio.c:69 ../gthumb/gth-test-simple.c:59
+msgid "is equal to"
+msgstr "és igual que"
+
+#: ../gthumb/gth-test-aspect-ratio.c:70 ../gthumb/gth-test-simple.c:60
+msgid "is greater than or equal to"
+msgstr "és més gran o igual que"
+
+#: ../gthumb/gth-test-aspect-ratio.c:71 ../gthumb/gth-test-simple.c:61
+msgid "is lower than or equal to"
+msgstr "és més petit(a) o igual que"
+
+#: ../gthumb/gth-test-aspect-ratio.c:385 ../gthumb/gth-test-category.c:425
+#: ../gthumb/gth-test-simple.c:1034 ../gthumb/gth-test-simple.c:1055
+#: ../gthumb/gth-test-simple.c:1081
+#, c-format
+msgid "The test definition is incomplete"
+msgstr "La definició de la prova està incompleta"
+
+#: ../gthumb/gth-test-category.c:46 ../gthumb/gth-test-simple.c:50
+#: ../gthumb/gth-test-simple.c:67
 msgid "is"
 msgstr "és"
 
@@ -5223,20 +5285,14 @@ msgstr "és"
 msgid "is only"
 msgstr "només és"
 
-#: ../gthumb/gth-test-category.c:48 ../gthumb/gth-test-simple.c:50
-#: ../gthumb/gth-test-simple.c:67
+#: ../gthumb/gth-test-category.c:48 ../gthumb/gth-test-simple.c:51
+#: ../gthumb/gth-test-simple.c:68
 msgid "is not"
 msgstr "no és"
 
-#: ../gthumb/gth-test-category.c:49 ../gthumb/gth-test-simple.c:52
+#: ../gthumb/gth-test-category.c:49 ../gthumb/gth-test-simple.c:53
 msgid "matches"
 msgstr "coincideix amb"
-
-#: ../gthumb/gth-test-category.c:425 ../gthumb/gth-test-simple.c:908
-#: ../gthumb/gth-test-simple.c:929 ../gthumb/gth-test-simple.c:955
-#, c-format
-msgid "The test definition is incomplete"
-msgstr "La definició de la prova està incompleta"
 
 #: ../gthumb/gth-test-selector.c:253
 msgid "Add a new rule"
@@ -5246,47 +5302,27 @@ msgstr "Afegeix una nova regla"
 msgid "Remove this rule"
 msgstr "Suprimeix aquesta regla"
 
-#: ../gthumb/gth-test-simple.c:46
+#: ../gthumb/gth-test-simple.c:47
 msgid "contains"
 msgstr "conté"
 
-#: ../gthumb/gth-test-simple.c:47
+#: ../gthumb/gth-test-simple.c:48
 msgid "starts with"
 msgstr "comença amb"
 
-#: ../gthumb/gth-test-simple.c:48
+#: ../gthumb/gth-test-simple.c:49
 msgid "ends with"
 msgstr "acaba amb"
 
-#: ../gthumb/gth-test-simple.c:51
+#: ../gthumb/gth-test-simple.c:52
 msgid "does not contain"
 msgstr "no conté"
 
-#: ../gthumb/gth-test-simple.c:56
-msgid "is lower than"
-msgstr "és més petit(a) que"
-
-#: ../gthumb/gth-test-simple.c:57
-msgid "is greater than"
-msgstr "és més gran que"
-
-#: ../gthumb/gth-test-simple.c:58
-msgid "is equal to"
-msgstr "és igual que"
-
-#: ../gthumb/gth-test-simple.c:59
-msgid "is greater than or equal to"
-msgstr "és més gran o igual que"
-
-#: ../gthumb/gth-test-simple.c:60
-msgid "is lower than or equal to"
-msgstr "és més petit(a) o igual que"
-
-#: ../gthumb/gth-test-simple.c:64
+#: ../gthumb/gth-test-simple.c:65
 msgid "is before"
 msgstr "és abans de"
 
-#: ../gthumb/gth-test-simple.c:65
+#: ../gthumb/gth-test-simple.c:66
 msgid "is after"
 msgstr "és després de"
 
@@ -5337,10 +5373,6 @@ msgstr "Cancel·la"
 #: ../gthumb/gtk-utils.h:36
 msgid "_Cancel"
 msgstr "_Cancel·la"
-
-#: ../gthumb/gtk-utils.h:37
-msgid "_Close"
-msgstr "_Tanca"
 
 #: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:4
 msgid "_Help"
@@ -5413,3 +5445,39 @@ msgstr "Fitxers ocults"
 #: ../gthumb/resources/history-menu.ui.h:1
 msgid "_Delete History"
 msgstr "_Suprimeix l'historial"
+
+#~ msgid "5:4"
+#~ msgstr "5:4"
+
+#~ msgid "7:5"
+#~ msgstr "7:5"
+
+#~ msgid "16:10"
+#~ msgstr "16:10"
+
+#~ msgid "--:--"
+#~ msgstr "--:--"
+
+#~ msgid "none"
+#~ msgstr "cap"
+
+#~ msgid "key %d on the numeric keypad"
+#~ msgstr "la tecla %d al teclat numèric"
+
+#~ msgid "Tiny ( 100 x 75 )"
+#~ msgstr "Ínfima ( 100 x 75 )"
+
+#~ msgid "Small ( 160 x 120 )"
+#~ msgstr "Petita ( 160 x 120 )"
+
+#~ msgid "Medium ( 320 x 240 )"
+#~ msgstr "Mitjana ( 320 x 240 )"
+
+#~ msgid "Large ( 640 x 480 )"
+#~ msgstr "Gran ( 640 x 480 )"
+
+#~ msgid "15ʺ screen ( 800 x 600 )"
+#~ msgstr "pantalla de 15ʺ ( 800 x 600 )"
+
+#~ msgid "17ʺ screen ( 1024 x 768 )"
+#~ msgstr "pantalla de 17ʺ ( 1024 x 768 )"
