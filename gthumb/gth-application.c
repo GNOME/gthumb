@@ -152,18 +152,27 @@ static const GActionEntry app_menu_entries[] = {
 static void
 _gth_application_initialize_app_menu (GApplication *application)
 {
-	GtkBuilder *builder;
-
 	g_action_map_add_action_entries (G_ACTION_MAP (application),
 					 app_menu_entries,
 					 G_N_ELEMENTS (app_menu_entries),
 					 application);
 
-	builder = _gtk_builder_new_from_resource ("app-menu.ui");
-	gtk_application_set_app_menu (GTK_APPLICATION (application),
-				      G_MENU_MODEL (gtk_builder_get_object (builder, "app-menu")));
+	if (gtk_application_prefers_app_menu (GTK_APPLICATION (application))) {
+		GtkBuilder *builder;
 
-	g_object_unref (builder);
+		builder = _gtk_builder_new_from_resource ("app-menu.ui");
+		gtk_application_set_app_menu (GTK_APPLICATION (application),
+					      G_MENU_MODEL (gtk_builder_get_object (builder, "app-menu")));
+
+		g_object_unref (builder);
+	}
+	else {
+		const char * const new_window_accel[] = { "<Primary>n", NULL };
+		const char * const quit_accel[] = { "<Primary>q", NULL };
+
+		gtk_application_set_accels_for_action (GTK_APPLICATION (application), "app.new-window", new_window_accel);
+		gtk_application_set_accels_for_action (GTK_APPLICATION (application), "app.quit", quit_accel);
+	}
 }
 
 

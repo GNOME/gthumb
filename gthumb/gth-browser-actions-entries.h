@@ -81,4 +81,21 @@ static const GthAccelerator gth_browser_accelerators[] = {
 };
 
 
+static const GthMenuEntry gears_preferences_action_entries[] = {
+	{ N_("_Preferences"), "app.preferences" }
+};
+
+
+static const GthMenuEntry gears_help_action_entries[] = {
+	{ N_("Keyboard Shortcuts"), "app.shortcuts" },
+	{ N_("_Help"), "app.help" },
+	{ N_("_About"), "app.about" }
+};
+
+
+static const GthMenuEntry gears_close_action_entries[] = {
+	{ N_("_Quit"), "app.quit" }
+};
+
+
 #endif /* GTH_BROWSER_ACTION_ENTRIES_H */

@@ -44,5 +44,11 @@
     </section>
     <section id="other-actions">
     </section>
+    <section id="preferences-actions">
+    </section>
+    <section id="help-actions">
+    </section>
+    <section id="close-actions">
+    </section>
   </menu>
 </interface>
