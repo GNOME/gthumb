@@ -10,7 +10,7 @@ id="gthumb-date-formats">
   <p>This is a summary of standard date/time codes that may be used
   in format strings:</p>
 
-  <table id="gthumb-TBL-strftime">
+  <table>
     <title>Valid format codes for custom subfolders</title>
     <tr>
       <td>
