@@ -39,10 +39,7 @@ HELP_FILES = \
 	legal.xml
 
 HELP_MEDIA = \
-	figures/comment.png \
 	figures/main-win.png \
-	figures/nav-button.png \
-	figures/preferences.png \
 	figures/palette.png \
 	figures/thumbnail-pane.png \
 	figures/general-filter.png \
