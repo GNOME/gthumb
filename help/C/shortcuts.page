@@ -6,7 +6,7 @@ id="gthumb-shortcuts">
 
   <title>Keyboard Shortcuts</title>
 
-  <section>
+  <section id="view-hide-ui">
     <title>Viewing and hiding parts of the user interface</title>
     <table frame="all" rules="all">
       <tr>
@@ -73,7 +73,7 @@ id="gthumb-shortcuts">
   </section>
 
 
-  <section>
+  <section id="browser-viewer">
     <title>Editing shortcuts for the browser and viewer</title>
     <table frame="all" rules="all">
       <tr>
@@ -178,7 +178,7 @@ id="gthumb-shortcuts">
     </table>
   </section>
 
-  <section>
+  <section id="viewer-mode">
     <title>Editing shortcuts for the viewer mode only</title>
     <table frame="all" rules="all">
       <tr>
@@ -262,7 +262,7 @@ id="gthumb-shortcuts">
     </table>
   </section>
 
-  <section>
+  <section id="viewer">
     <title>Viewer shortcuts</title>
     <table frame="all" rules="all">
       <tr>
@@ -437,7 +437,7 @@ id="gthumb-shortcuts">
     </table>
   </section>
 
-  <section>
+  <section id="browser-navigation">
     <title>Browser Navigation</title>
     <table frame="all" rules="all">
 
@@ -527,7 +527,7 @@ id="gthumb-shortcuts">
     </table>
   </section>
 
-  <section>
+  <section id="slideshow">
     <title>Slideshow controls</title>
     <table frame="all" rules="all">
       <tr>
