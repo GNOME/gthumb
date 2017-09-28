@@ -363,7 +363,7 @@
                                         </child>
                                         <child>
                                           <object class="GtkTreeViewColumn" id="file_treeviewcolumn">
-                                            <property name="title">File</property>
+                                            <property name="title" translatable="yes">File</property>
                                             <property name="clickable">True</property>
                                             <property name="reorderable">True</property>
                                             <property name="sort_indicator">True</property>
@@ -378,7 +378,7 @@
                                         <child>
                                           <object class="GtkTreeViewColumn" id="modified_treeviewcolumn">
                                             <property name="sizing">autosize</property>
-                                            <property name="title">Last modified</property>
+                                            <property name="title" translatable="yes">Last modified</property>
                                             <property name="clickable">True</property>
                                             <property name="reorderable">True</property>
                                             <child>
@@ -392,7 +392,7 @@
                                         <child>
                                           <object class="GtkTreeViewColumn" id="position_treeviewcolumn">
                                             <property name="resizable">True</property>
-                                            <property name="title">Position</property>
+                                            <property name="title" translatable="yes">Position</property>
                                             <property name="clickable">True</property>
                                             <property name="reorderable">True</property>
                                             <child>
