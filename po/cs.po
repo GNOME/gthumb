@@ -14,10 +14,10 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-31 06:07+0000\n"
-"PO-Revision-Date: 2017-08-01 11:26+0200\n"
+"POT-Creation-Date: 2017-09-28 11:52+0000\n"
+"PO-Revision-Date: 2017-10-01 19:46+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: čeština <gnome-cs-list@gnome.org>>\n"
+"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -770,7 +770,7 @@ msgstr "Přejmenovat"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/dlg-catalog-properties.c:201
-#: ../gthumb/gth-browser.c:4595 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4610 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Vlastnosti"
 
@@ -1477,6 +1477,7 @@ msgid "Could not show the desktop background properties"
 msgstr "Nelze zobrazit vlastnosti pozadí pracovní plochy"
 
 #: ../extensions/desktop_background/actions.c:329
+#: ../gthumb/gth-browser-actions-entries.h:85
 #: ../gthumb/resources/app-menu.ui.h:2
 msgid "_Preferences"
 msgstr "_Předvolby"
@@ -1813,7 +1814,7 @@ msgstr "Změnit velikost obrázku, když je větší než tato"
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 msgid "_Resize if larger than:"
 msgstr "Z_menšit, je-li větší než:"
@@ -2159,7 +2160,7 @@ msgstr "_Kopírovat"
 
 #: ../extensions/file_manager/callbacks.c:984
 #: ../extensions/find_duplicates/gth-find-duplicates.c:788
-#: ../gthumb/gth-browser.c:5592 ../gthumb/gth-browser.c:5628
+#: ../gthumb/gth-browser.c:5607 ../gthumb/gth-browser.c:5643
 #: ../gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "Nelze provést tuto operaci"
@@ -2211,6 +2212,7 @@ msgid "Color Levels"
 msgstr "Úrovně barev"
 
 #: ../extensions/file_tools/data/ui/color-picker-options.ui.h:1
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Position"
 msgstr "Pozice"
@@ -2846,15 +2848,24 @@ msgid "Files:"
 msgstr "Soubory:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
+#: ../gthumb/gth-main-default-metadata.c:32
+msgid "File"
+msgstr "Soubor"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
+msgid "Last modified"
+msgstr "Naposledy změněno"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
 msgid "_View"
 msgstr "Zo_brazit"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:7
 #: ../gthumb/gth-tags-entry.c:1187 ../gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Smazat"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:8
 msgid "No duplicates found."
 msgstr "Nenalezeny žádné duplicity."
 
@@ -3986,6 +3997,19 @@ msgstr "Webové album _Picasa…"
 msgid "_Albums:"
 msgstr "_Alba:"
 
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Název"
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+msgid "Used"
+msgstr "Použito"
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
+msgid "Remaining photos"
+msgstr "Zbývající fotografie"
+
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
 msgid "Public"
 msgstr "Veřejné"
@@ -4583,8 +4607,8 @@ msgid "Create static web albums."
 msgstr "Vytváření statických webových alb."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
-#: ../gthumb/gth-browser.c:1671 ../gthumb/gth-browser.c:6587
-#: ../gthumb/gth-browser.c:6606 ../gthumb/gth-browser.c:6630
+#: ../gthumb/gth-browser.c:1671 ../gthumb/gth-browser.c:6602
+#: ../gthumb/gth-browser.c:6621 ../gthumb/gth-browser.c:6645
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Nelze načíst polohu „%s“"
@@ -4765,7 +4789,7 @@ msgstr "Automaticky importovat fotografie z digitálního fotoaparátu"
 msgid "Show version"
 msgstr "Zobrazit verzi"
 
-#: ../gthumb/gth-application.c:205
+#: ../gthumb/gth-application.c:214
 msgid "— Image browser and viewer"
 msgstr "– prohlížeč obrázků"
 
@@ -4813,6 +4837,26 @@ msgstr ""
 "Kamil Páral <ripper42@gmail.com>\n"
 "Marek Černocký <marek@manet.cz>"
 
+#: ../gthumb/gth-browser-actions-entries.h:90
+#: ../gthumb/resources/app-menu.ui.h:3
+msgid "Keyboard Shortcuts"
+msgstr "Klávesové zkratky"
+
+#: ../gthumb/gth-browser-actions-entries.h:91 ../gthumb/gtk-utils.h:40
+#: ../gthumb/resources/app-menu.ui.h:4
+msgid "_Help"
+msgstr "Nápo_věda"
+
+#: ../gthumb/gth-browser-actions-entries.h:92
+#: ../gthumb/resources/app-menu.ui.h:5
+msgid "_About"
+msgstr "O _aplikaci"
+
+#: ../gthumb/gth-browser-actions-entries.h:97
+#: ../gthumb/resources/app-menu.ui.h:6
+msgid "_Quit"
+msgstr "U_končit"
+
 #: ../gthumb/gth-browser.c:379
 msgid "[modified]"
 msgstr "[změněno]"
@@ -4848,7 +4892,7 @@ msgstr "Pokud změny do souboru neuložíte, budou nenávratně ztraceny."
 msgid "Do _Not Save"
 msgstr "_Neukládat"
 
-#: ../gthumb/gth-browser.c:2409 ../gthumb/gth-browser.c:4636
+#: ../gthumb/gth-browser.c:2409 ../gthumb/gth-browser.c:4651
 msgid "Accept"
 msgstr "Přijmout"
 
@@ -4864,38 +4908,38 @@ msgstr "Nelze změnit název"
 msgid "Modified"
 msgstr "Změněno"
 
-#: ../gthumb/gth-browser.c:4558
+#: ../gthumb/gth-browser.c:4573
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
-#: ../gthumb/gth-browser.c:4564
+#: ../gthumb/gth-browser.c:4579
 msgid "Go to the next visited location"
 msgstr "Přejít na následující navštívené místo"
 
-#: ../gthumb/gth-browser.c:4572
+#: ../gthumb/gth-browser.c:4587
 msgid "History"
 msgstr "Historie"
 
-#: ../gthumb/gth-browser.c:4586
+#: ../gthumb/gth-browser.c:4601
 msgid "View the folders"
 msgstr "Zobrazit složky"
 
-#: ../gthumb/gth-browser.c:4601
+#: ../gthumb/gth-browser.c:4616
 msgid "Edit file"
 msgstr "Upravit soubor"
 
-#: ../gthumb/gth-browser.c:4610 ../gthumb/gth-browser.c:4628
+#: ../gthumb/gth-browser.c:4625 ../gthumb/gth-browser.c:4643
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
-#: ../gthumb/gth-browser.c:6588
+#: ../gthumb/gth-browser.c:6603
 #, c-format
 msgid "File type not supported"
 msgstr "Typ souboru není podporován"
 
-#: ../gthumb/gth-browser.c:6631
+#: ../gthumb/gth-browser.c:6646
 #, c-format
 msgid "No suitable module found"
 msgstr "Nenalezen žádný použitelný modul"
@@ -5024,14 +5068,6 @@ msgstr "Nelze najít vhodný modul k uložení obrázku jako „%s“"
 #: ../gthumb/gth-load-file-data-task.c:108
 msgid "Reading file information"
 msgstr "Čtou se informace o souboru"
-
-#: ../gthumb/gth-main-default-metadata.c:32
-msgid "File"
-msgstr "Soubor"
-
-#: ../gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Název"
 
 #: ../gthumb/gth-main-default-metadata.c:40
 #: ../gthumb/gth-main-default-tests.c:350
@@ -5367,10 +5403,6 @@ msgstr "Zrušit"
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:4
-msgid "_Help"
-msgstr "Nápo_věda"
-
 #: ../gthumb/gtk-utils.h:41
 msgid "_New"
 msgstr "_Nový"
@@ -5398,18 +5430,6 @@ msgstr "_Nahrát"
 #: ../gthumb/resources/app-menu.ui.h:1
 msgid "New _Window"
 msgstr "No_vé okno"
-
-#: ../gthumb/resources/app-menu.ui.h:3
-msgid "Keyboard Shortcuts"
-msgstr "Klávesové zkratky"
-
-#: ../gthumb/resources/app-menu.ui.h:5
-msgid "_About"
-msgstr "O _aplikaci"
-
-#: ../gthumb/resources/app-menu.ui.h:6
-msgid "_Quit"
-msgstr "U_končit"
 
 #: ../gthumb/resources/folder-menu.ui.h:1
 msgid "Open in New Window"
