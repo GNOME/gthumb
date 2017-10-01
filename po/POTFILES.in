@@ -4,14 +4,13 @@
 # update the content run the following command:
 # sh update-potfiles.sh > POTFILES.in
 [encoding: UTF-8]
-data/appdata/gthumb.appdata.xml.in
-data/gthumb.desktop.in.in
-data/gthumb-import.desktop.in.in
+data/appdata/org.gnome.gThumb.appdata.xml.in
 [type: gettext/gsettings]data/org.gnome.gthumb.change-date.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.comments.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.contact-sheet.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.convert-format.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.crop.gschema.xml
+data/org.gnome.gThumb.desktop.in.in
 [type: gettext/gsettings]data/org.gnome.gthumb.facebook.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.file-manager.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.flickr.gschema.xml
@@ -19,6 +18,7 @@ data/gthumb-import.desktop.in.in
 [type: gettext/gsettings]data/org.gnome.gthumb.gstreamer-tools.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.image-print.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.image-viewer.gschema.xml
+data/org.gnome.gThumb.Import.desktop.in.in
 [type: gettext/gsettings]data/org.gnome.gthumb.importer.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.photo-importer.gschema.xml
 [type: gettext/gsettings]data/org.gnome.gthumb.picasaweb.gschema.xml

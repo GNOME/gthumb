@@ -1,9 +1,9 @@
 SUBDIRS = appdata icons ui
 
 desktopdir = $(datadir)/applications
-desktop_in_in_files = gthumb.desktop.in.in gthumb-import.desktop.in.in
-desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in) 
-desktop_DATA = $(desktop_in_files:.desktop.in=.desktop) 
+desktop_in_in_files = org.gnome.gThumb.desktop.in.in org.gnome.gThumb.Import.desktop.in.in
+desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in)
+desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2014 Paolo Bacchilega <paobac@src.gnome.org> -->
-<application>
-  <id type="desktop">gthumb.desktop</id>
+<!-- Copyright 2014-2017 Paolo Bacchilega <paobac@src.gnome.org> -->
+<component type="desktop-application">
+  <id>org.gnome.gThumb.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
+
+  <_name>gThumb Image Viewer</_name>
+  <_summary>View and organize your images</_summary>
   <description>
     <_p>
       gThumb is an image viewer, editor, browser and organizer.  It is designed
@@ -35,12 +38,19 @@
       for images and save the result as a catalog.
     </_p>
   </description>
-  <screenshots>
-    <screenshot type="default">https://git.gnome.org/browse/gthumb/plain/data/appdata/ss-browser.png</screenshot>
-    <screenshot>https://git.gnome.org/browse/gthumb/plain/data/appdata/ss-viewer.png</screenshot>
-  </screenshots>
+
+  <launchable type="desktop-id">org.gnome.gThumb.desktop</launchable>
   <url type="homepage">https://wiki.gnome.org/Apps/gthumb</url>
-  <updatecontact>paobac_at_src.gnome.org</updatecontact>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://git.gnome.org/browse/gthumb/plain/data/appdata/ss-browser.png</image>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://git.gnome.org/browse/gthumb/plain/data/appdata/ss-viewer.png</image>
+    </screenshot>
+  </screenshots>
+
+  <update_contact>paobac_at_src.gnome.org</update_contact>
   <kudos>
     <kudo>AppMenu</kudo>
     <kudo>HiDpiIcon</kudo>
@@ -49,4 +59,8 @@
   </kudos>
   <project_group>GNOME</project_group>
   <translation type="gettext">gthumb</translation>
-</application>
+
+  <provides>
+    <id>org.gnome.gThumb.desktop</id>
+  </provides>
+</component>

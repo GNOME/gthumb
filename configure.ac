@@ -668,9 +668,9 @@ AC_CONFIG_FILES([
 Makefile
 data/Makefile
 data/appdata/Makefile
-data/gthumb.desktop.in
 data/gthumb-${GTHUMB_API_VERSION}.pc:data/gthumb.pc.in
-data/gthumb-import.desktop.in
+data/org.gnome.gThumb.desktop.in
+data/org.gnome.gThumb.Import.desktop.in
 data/icons/Makefile
 data/icons/hicolor/Makefile
 data/icons/hicolor/16x16/Makefile
