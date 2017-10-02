@@ -1,3 +1,36 @@
+version 3.5.3
+-------------
+
+ New features and user visible changes:
+
+  * Add app menu entries to the gear menu if the app menu is not supported by
+    the desktop environment.
+  * Updated appdata file.
+  * Fixed help markup. (Andre Klapper)
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Rafael Fontenelle)
+  * catalan (Jordi Mas)
+  * Chinese/Traditional (Cheng-Chia Tseng)
+  * Danish (Ask Hjorth Larsen)
+  * Deutsch (Mario Blättermann)
+  * es (Daniel Mustieles)
+  * French (Claude Paroz)
+  * Hungarian (Balázs Úr)
+  * Indonesian (Kukuh Syafaat)
+  * Italiano (Gianvito Cavasoli)
+  * Polish (Piotr Drąg)
+  * srpski (Miroslav Nikolić)
+  * Swedish (Josef Andersson)
+  * čeština (Marek Černocký)
+  * српски (Мирослав Николић)
+
+ New or updated manual translations:
+
+  * es (Daniel Mustieles)
+  * čeština (Marek Černocký)
+
 version 3.5.2
 -------------
 
