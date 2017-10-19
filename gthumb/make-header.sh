@@ -1,7 +1,9 @@
 #!/bin/sh
 
-template="$1"
+outfile="$1"
+infile="$2"
 
+shift
 shift
 includes="\\\\n"
 for i in "$@"; do
@@ -9,4 +11,4 @@ for i in "$@"; do
 done
 
 sed -e 's|@@|'"$includes"'|' -e 's|\\n|\
-|g' $template
+|g' < $infile > $outfile

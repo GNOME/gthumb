@@ -150,7 +150,7 @@ gth_application_activate_about (GSimpleAction *action,
 					 NULL);
 
 	gtk_show_about_dialog (GTK_WINDOW (window),
-			       "version", VERSION,
+			       "version", PACKAGE_VERSION,
 			       "copyright", "Copyright \xc2\xa9 2001-2013 Free Software Foundation, Inc.",
 			       "comments", _("An image viewer and browser for GNOME."),
 			       "authors", authors,
