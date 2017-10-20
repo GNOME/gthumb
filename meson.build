@@ -317,6 +317,7 @@ subdir('gthumb')
 subdir('data')
 subdir('help')
 subdir('po')
+subdir('m4')
 
 # Summary
 
