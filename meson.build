@@ -34,14 +34,18 @@ datadir = join_paths(prefix, get_option('datadir'))
 pkgdatadir = join_paths(datadir, meson.project_name())
 pkgincludedir = join_paths(prefix, 'include', meson.project_name())
 pkglibdir = join_paths(prefix, 'lib', meson.project_name())
+po_dir = join_paths(meson.source_root(), 'po')
+extensions_install_dir = join_paths(pkglibdir, 'extensions')
+ui_install_dir = join_paths(pkgdatadir, 'ui')
+icons_install_dir = join_paths(pkgdatadir, 'icons')
 if get_option('run-in-place')
-  uidir = join_paths(meson.source_root(), 'data', 'ui')
-  icondir = join_paths(meson.source_root(), 'data', 'icons')
-  extensionsdir = join_paths(meson.build_root(), 'extensions')
+  ui_data_dir = join_paths(meson.source_root(), 'data', 'ui')
+  icons_data_dir = join_paths(meson.source_root(), 'data', 'icons')
+  extensions_data_dir = join_paths(meson.build_root(), 'extensions')
 else
-  uidir = join_paths(pkgdatadir, 'ui')
-  icondir = join_paths(pkgdatadir, 'icons')
-  extensionsdir = join_paths(pkglibdir, 'extensions')
+  ui_data_dir = ui_install_dir
+  icons_data_dir = icons_install_dir
+  extensions_data_dir = extensions_install_dir  
 endif
 
 # Dependencies
@@ -213,10 +217,10 @@ config_data.set_quoted('PACKAGE_NAME', meson.project_name())
 config_data.set_quoted('PACKAGE_VERSION', meson.project_version())
 config_data.set_quoted('GTHUMB_API_VERSION', api_version)
 config_data.set_quoted('GTHUMB_LOCALEDIR', join_paths(prefix, get_option('localedir')))
-config_data.set_quoted('GTHUMB_UI_DIR', uidir)
-config_data.set_quoted('GTHUMB_ICON_DIR', icondir)
-config_data.set_quoted('GTHUMB_EXTENSIONS_UI_DIR', uidir)
-config_data.set_quoted('GTHUMB_EXTENSIONS_DIR', extensionsdir)
+config_data.set_quoted('GTHUMB_UI_DIR', ui_data_dir)
+config_data.set_quoted('GTHUMB_ICON_DIR', icons_data_dir)
+config_data.set_quoted('GTHUMB_EXTENSIONS_UI_DIR', ui_data_dir)
+config_data.set_quoted('GTHUMB_EXTENSIONS_DIR', extensions_data_dir)
 if get_option('buildtype').contains('debug')
   config_data.set('DEBUG', 1)
 endif
@@ -308,9 +312,9 @@ c_args += c_comp.get_supported_arguments(test_args)
 
 # Subdirectories
 
-#subdir('data')
 #subdir('extensions')
 subdir('gthumb')
+subdir('data')
 subdir('help')
 subdir('po')
 

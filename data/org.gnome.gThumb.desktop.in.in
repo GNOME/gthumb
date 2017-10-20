@@ -1,9 +1,9 @@
 [Desktop Entry]
-_Name=gThumb
-_GenericName=Image Viewer
-_X-GNOME-FullName=gThumb Image Viewer
-_Comment=View and organize your images
-_Keywords=Image;Viewer;
+Name=gThumb
+GenericName=Image Viewer
+X-GNOME-FullName=gThumb Image Viewer
+Comment=View and organize your images
+Keywords=Image;Viewer;
 Categories=GNOME;GTK;Graphics;Viewer;RasterGraphics;2DGraphics;Photography;
 Exec=gthumb %U
 Icon=gthumb
