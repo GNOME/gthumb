@@ -311,8 +311,8 @@ c_args += c_comp.get_supported_arguments(test_args)
 #subdir('data')
 #subdir('extensions')
 subdir('gthumb')
-#subdir('help')
-#subdir('po')
+subdir('help')
+subdir('po')
 
 # Summary
 
