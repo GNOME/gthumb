@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-31 06:07+0000\n"
-"PO-Revision-Date: 2017-08-01 09:16+0700\n"
+"POT-Creation-Date: 2017-09-28 11:52+0000\n"
+"PO-Revision-Date: 2017-10-04 16:57+0700\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "Language: id\n"
@@ -765,7 +765,7 @@ msgstr "Ganti nama"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/dlg-catalog-properties.c:201
-#: ../gthumb/gth-browser.c:4595 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4610 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Tag (tertanam)"
 
@@ -1474,6 +1474,7 @@ msgid "Could not show the desktop background properties"
 msgstr "Tak bisa tampilkan properti latar belakang desktop"
 
 #: ../extensions/desktop_background/actions.c:329
+#: ../gthumb/gth-browser-actions-entries.h:85
 #: ../gthumb/resources/app-menu.ui.h:2
 msgid "_Preferences"
 msgstr "_Preferensi"
@@ -1805,7 +1806,7 @@ msgstr "Ubah ukuran gambar jika lebih dari ukuran ini"
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 msgid "_Resize if larger than:"
 msgstr "Ubah uku_ran jika lebih besar dari:"
@@ -2149,7 +2150,7 @@ msgstr "_Salin"
 
 #: ../extensions/file_manager/callbacks.c:984
 #: ../extensions/find_duplicates/gth-find-duplicates.c:788
-#: ../gthumb/gth-browser.c:5592 ../gthumb/gth-browser.c:5628
+#: ../gthumb/gth-browser.c:5607 ../gthumb/gth-browser.c:5643
 #: ../gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "Operasi tidak dapat dilakukan"
@@ -2201,6 +2202,7 @@ msgid "Color Levels"
 msgstr "Tingkatan Warna"
 
 #: ../extensions/file_tools/data/ui/color-picker-options.ui.h:1
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Position"
 msgstr "Posisi"
@@ -2837,15 +2839,24 @@ msgid "Files:"
 msgstr "Berkas:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
+#: ../gthumb/gth-main-default-metadata.c:32
+msgid "File"
+msgstr "Berkas"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
+msgid "Last modified"
+msgstr "Modifikasi terakhir"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
 msgid "_View"
 msgstr "_Lihat"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:7
 #: ../gthumb/gth-tags-entry.c:1187 ../gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Hapus"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:8
 msgid "No duplicates found."
 msgstr "Duplikat tak ditemukan."
 
@@ -3971,6 +3982,19 @@ msgstr "Album Web _Picasa…"
 msgid "_Albums:"
 msgstr "_Album:"
 
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Nama"
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+msgid "Used"
+msgstr "Dipakai"
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
+msgid "Remaining photos"
+msgstr "Foto tersisa"
+
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
 msgid "Public"
 msgstr "Publik"
@@ -4568,8 +4592,8 @@ msgid "Create static web albums."
 msgstr "Buat album web statik."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
-#: ../gthumb/gth-browser.c:1671 ../gthumb/gth-browser.c:6587
-#: ../gthumb/gth-browser.c:6606 ../gthumb/gth-browser.c:6630
+#: ../gthumb/gth-browser.c:1671 ../gthumb/gth-browser.c:6602
+#: ../gthumb/gth-browser.c:6621 ../gthumb/gth-browser.c:6645
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Tidak dapat memuat posisi \"%s\""
@@ -4750,7 +4774,7 @@ msgstr "Otomatis impor foto kamera digital"
 msgid "Show version"
 msgstr "Tampilkan versi"
 
-#: ../gthumb/gth-application.c:205
+#: ../gthumb/gth-application.c:214
 msgid "— Image browser and viewer"
 msgstr "— Peramban dan penilik gambar"
 
@@ -4797,6 +4821,26 @@ msgstr ""
 "Andika Triwidada <andika@gmail.com>, 2010-2014, 2016, 2017.\n"
 "Kukuh Syafaat <syafaatkukuh@gmail.com>, 2017."
 
+#: ../gthumb/gth-browser-actions-entries.h:90
+#: ../gthumb/resources/app-menu.ui.h:3
+msgid "Keyboard Shortcuts"
+msgstr "Pintasan Papan Ketik"
+
+#: ../gthumb/gth-browser-actions-entries.h:91 ../gthumb/gtk-utils.h:40
+#: ../gthumb/resources/app-menu.ui.h:4
+msgid "_Help"
+msgstr "_Bantuan"
+
+#: ../gthumb/gth-browser-actions-entries.h:92
+#: ../gthumb/resources/app-menu.ui.h:5
+msgid "_About"
+msgstr "Tent_ang"
+
+#: ../gthumb/gth-browser-actions-entries.h:97
+#: ../gthumb/resources/app-menu.ui.h:6
+msgid "_Quit"
+msgstr "_Keluar"
+
 #: ../gthumb/gth-browser.c:379
 msgid "[modified]"
 msgstr "[diubah]"
@@ -4830,7 +4874,7 @@ msgstr "Bila Anda tidak menyimpan, perubahan ke berkas akan hilang selamanya."
 msgid "Do _Not Save"
 msgstr "Janga_n Simpan"
 
-#: ../gthumb/gth-browser.c:2409 ../gthumb/gth-browser.c:4636
+#: ../gthumb/gth-browser.c:2409 ../gthumb/gth-browser.c:4651
 msgid "Accept"
 msgstr "Terima"
 
@@ -4846,38 +4890,38 @@ msgstr "Tidak dapat mengubah nama"
 msgid "Modified"
 msgstr "Diubah"
 
-#: ../gthumb/gth-browser.c:4558
+#: ../gthumb/gth-browser.c:4573
 msgid "Go to the previous visited location"
 msgstr "Pergi ke lokasi sebelumnya yang telah dikunjungi"
 
-#: ../gthumb/gth-browser.c:4564
+#: ../gthumb/gth-browser.c:4579
 msgid "Go to the next visited location"
 msgstr "Pergi ke lokasi selanjutnya yang telah dikunjungi"
 
-#: ../gthumb/gth-browser.c:4572
+#: ../gthumb/gth-browser.c:4587
 msgid "History"
 msgstr "Riwayat"
 
-#: ../gthumb/gth-browser.c:4586
+#: ../gthumb/gth-browser.c:4601
 msgid "View the folders"
 msgstr "Tampilkan folder"
 
-#: ../gthumb/gth-browser.c:4601
+#: ../gthumb/gth-browser.c:4616
 msgid "Edit file"
 msgstr "Sunting berkas"
 
-#: ../gthumb/gth-browser.c:4610 ../gthumb/gth-browser.c:4628
+#: ../gthumb/gth-browser.c:4625 ../gthumb/gth-browser.c:4643
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Layar Penuh"
 
-#: ../gthumb/gth-browser.c:6588
+#: ../gthumb/gth-browser.c:6603
 #, c-format
 msgid "File type not supported"
 msgstr "Jenis berkas tidak didukung"
 
-#: ../gthumb/gth-browser.c:6631
+#: ../gthumb/gth-browser.c:6646
 #, c-format
 msgid "No suitable module found"
 msgstr "Tak ditemukan modul yang cocok"
@@ -5007,14 +5051,6 @@ msgstr ""
 #: ../gthumb/gth-load-file-data-task.c:108
 msgid "Reading file information"
 msgstr "Membaca informasi berkas"
-
-#: ../gthumb/gth-main-default-metadata.c:32
-msgid "File"
-msgstr "Berkas"
-
-#: ../gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Nama"
 
 #: ../gthumb/gth-main-default-metadata.c:40
 #: ../gthumb/gth-main-default-tests.c:350
@@ -5350,10 +5386,6 @@ msgstr "Batal"
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:4
-msgid "_Help"
-msgstr "_Bantuan"
-
 #: ../gthumb/gtk-utils.h:41
 msgid "_New"
 msgstr "_Baru"
@@ -5381,18 +5413,6 @@ msgstr "_Unggah"
 #: ../gthumb/resources/app-menu.ui.h:1
 msgid "New _Window"
 msgstr "_Jendela Baru"
-
-#: ../gthumb/resources/app-menu.ui.h:3
-msgid "Keyboard Shortcuts"
-msgstr "Pintasan Papan Ketik"
-
-#: ../gthumb/resources/app-menu.ui.h:5
-msgid "_About"
-msgstr "Tent_ang"
-
-#: ../gthumb/resources/app-menu.ui.h:6
-msgid "_Quit"
-msgstr "_Keluar"
 
 #: ../gthumb/resources/folder-menu.ui.h:1
 msgid "Open in New Window"
