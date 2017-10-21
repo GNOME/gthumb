@@ -3,6 +3,5 @@ Mandatory=true
 
 [Loader]
 Type=module
-File=%LIBRARY%
-API=%GTHUMB_API_VERSION%
+API=@GTHUMB_API_VERSION@
 Requires=image_viewer

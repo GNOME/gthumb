@@ -1,13 +1,12 @@
 [Extension]
-_Name=EXIF, IPTC, XMP support
-_Description=Read and write exif, iptc and xmp metadata.
-_Authors=gthumb development team
+Name=EXIF, IPTC, XMP support
+Comment=Read and write exif, iptc and xmp metadata.
+Authors=gthumb development team
 Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
-Version=%VERSION%
+Version=@GTHUMB_VERSION@
 Category=Metadata
 
 [Loader]
 Type=module
-File=%LIBRARY%
-API=%GTHUMB_API_VERSION%
+API=@GTHUMB_API_VERSION@
 After=image_rotation;comments;edit_metadata

@@ -41,10 +41,12 @@ icons_install_dir = join_paths(pkgdatadir, 'icons')
 if get_option('run-in-place')
   ui_data_dir = join_paths(meson.source_root(), 'data', 'ui')
   icons_data_dir = join_paths(meson.source_root(), 'data', 'icons')
+  extensions_ui_data_dir = join_paths(meson.source_root(), 'extensions')
   extensions_data_dir = join_paths(meson.build_root(), 'extensions')
 else
   ui_data_dir = ui_install_dir
   icons_data_dir = icons_install_dir
+  extensions_ui_data_dir = ui_data_dir
   extensions_data_dir = extensions_install_dir  
 endif
 
@@ -121,7 +123,7 @@ libz_dep = dependency('zlib')
 libm_dep = c_comp.find_library('m')
 libjpeg_dep = c_comp.find_library('jpeg')
 if libjpeg_dep.found()
-  jpeg_dep = [ libm_dep, libz_dep, libjpeg_dep ]
+  jpeg_deps = [ libm_dep, libz_dep, libjpeg_dep ]
 endif
 
 code = '''#include <stdio.h>
@@ -130,16 +132,16 @@ code = '''#include <stdio.h>
 #error "wrong version"
 #endif
 int main(int c, char**v) { return 0; }'''
-have_libjpeg_80 = c_comp.compiles(code, name : 'libjpeg version is 8 or greater', dependencies : jpeg_dep)
+have_libjpeg_80 = c_comp.compiles(code, name : 'libjpeg version is 8 or greater', dependencies : jpeg_deps)
 
-have_progressive_jpeg = c_comp.has_function('jpeg_simple_progression', prefix : '#include <stdio.h>\n#include<jpeglib.h>', dependencies : jpeg_dep)
+have_progressive_jpeg = c_comp.has_function('jpeg_simple_progression', prefix : '#include <stdio.h>\n#include<jpeglib.h>', dependencies : jpeg_deps)
 
 # tiff
 
 if get_option('libtiff')
   libtiff_dep = c_comp.find_library('tiff')
   use_libtiff = libtiff_dep.found()
-  tiff_dep = [ libm_dep, libz_dep, libtiff_dep ]  
+  tiff_deps = [ libm_dep, libz_dep, libtiff_dep ]  
 else
   use_libtiff = false
 endif
@@ -195,7 +197,7 @@ with_webalbums = bison.found() and flex.found()
 
 vector_ops = (c_comp.get_id() == 'gcc') and (c_comp.version().version_compare('>=4.0.7'))
 
-common_dep = [
+common_deps = [
   libm_dep,
   dependency('threads'),
   dependency('glib-2.0', version : glib_version),
@@ -205,7 +207,6 @@ common_dep = [
   dependency('gtk+-3.0', version : gtk_version),
   dependency('libpng'),
   dependency('zlib'),
-  jpeg_dep,
   dependency('gsettings-desktop-schemas')
 ]
 
@@ -219,7 +220,7 @@ config_data.set_quoted('GTHUMB_API_VERSION', api_version)
 config_data.set_quoted('GTHUMB_LOCALEDIR', join_paths(prefix, get_option('localedir')))
 config_data.set_quoted('GTHUMB_UI_DIR', ui_data_dir)
 config_data.set_quoted('GTHUMB_ICON_DIR', icons_data_dir)
-config_data.set_quoted('GTHUMB_EXTENSIONS_UI_DIR', ui_data_dir)
+config_data.set_quoted('GTHUMB_EXTENSIONS_UI_DIR', extensions_ui_data_dir)
 config_data.set_quoted('GTHUMB_EXTENSIONS_DIR', extensions_data_dir)
 if get_option('buildtype').contains('debug')
   config_data.set('DEBUG', 1)
@@ -312,8 +313,8 @@ c_args += c_comp.get_supported_arguments(test_args)
 
 # Subdirectories
 
-#subdir('extensions')
 subdir('gthumb')
+subdir('extensions')
 subdir('data')
 subdir('help')
 subdir('po')

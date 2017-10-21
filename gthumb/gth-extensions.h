@@ -116,7 +116,6 @@ struct _GthExtensionDescription {
 	char      *url;
 	char      *category;
 	char      *loader_type;
-	char      *loader_file;
 	char     **loader_requires;
 	char     **loader_after;
 	gboolean   mandatory;

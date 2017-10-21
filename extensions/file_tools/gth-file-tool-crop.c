@@ -22,7 +22,7 @@
 #include <config.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/image-viewer.h>
-#include "enum-types.h"
+#include "file-tools-enum-types.h"
 #include "gth-file-tool-crop.h"
 #include "preferences.h"
 

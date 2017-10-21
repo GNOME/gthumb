@@ -1,13 +1,11 @@
 [Extension]
-_Name=Map
-_Description=View the photo position on the map
-_Authors=gthumb development team
+Name=Map
+Comment=View the photo position on the map
+Authors=gthumb development team
 Copyright=Copyright © 2011-2013 The Free Software Foundation, Inc.
-Version=%VERSION%
-Icon=map
+Version=@GTHUMB_VERSION@
 Category=Viewer
 
 [Loader]
 Type=module
-File=%LIBRARY%
-API=%GTHUMB_API_VERSION%
+API=@GTHUMB_API_VERSION@

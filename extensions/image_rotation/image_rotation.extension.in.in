@@ -1,13 +1,12 @@
 [Extension]
-_Name=Image rotation
-_Description=Rotate images without data loss.
-_Authors=gthumb development team
+Name=Image rotation
+Comment=Rotate images without data loss.
+Authors=gthumb development team
 Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
-Version=%VERSION%
+Version=@GTHUMB_VERSION@
 Category=List-Tool
 
 [Loader]
 Type=module
-File=%LIBRARY%
-API=%GTHUMB_API_VERSION%
+API=@GTHUMB_API_VERSION@
 Requires=jpeg_utils;list_tools

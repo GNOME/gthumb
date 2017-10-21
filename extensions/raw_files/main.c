@@ -23,15 +23,10 @@
 #include <config.h>
 #include <glib.h>
 #include <gthumb.h>
-#include "main.h"
-
-
-#ifdef HAVE_LIBRAW
-
-
 #include <cairo.h>
 #include <gtk/gtk.h>
 #include <libraw.h>
+#include "main.h"
 #include "gth-metadata-provider-raw.h"
 
 
@@ -431,16 +426,6 @@ gthumb_extension_activate (void)
 
 	g_list_free_full (mime_types, g_free);
 }
-
-
-#else
-
-G_MODULE_EXPORT void
-gthumb_extension_activate (void)
-{
-}
-
-#endif
 
 
 G_MODULE_EXPORT void

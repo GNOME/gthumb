@@ -1167,7 +1167,7 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 	if (g_file_info_get_attribute_boolean (info, "gth::file::image-changed")) {
 		if (software_name == NULL)
-			software_name = g_strconcat (g_get_application_name (), " ", VERSION, NULL);
+			software_name = g_strconcat (g_get_application_name (), " ", PACKAGE_VERSION, NULL);
 		ed["Exif.Image.ProcessingSoftware"] = software_name;
 	}
 

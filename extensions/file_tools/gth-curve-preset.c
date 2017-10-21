@@ -20,7 +20,7 @@
  */
 
 #include <config.h>
-#include "enum-types.h"
+#include "file-tools-enum-types.h"
 #include "gth-curve-preset.h"
 
 

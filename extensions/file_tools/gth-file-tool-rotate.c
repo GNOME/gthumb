@@ -24,7 +24,7 @@
 #include <gthumb.h>
 #include <extensions/image_viewer/image-viewer.h>
 #include "cairo-rotate.h"
-#include "enum-types.h"
+#include "file-tools-enum-types.h"
 #include "gth-file-tool-rotate.h"
 #include "gth-image-line-tool.h"
 #include "gth-image-rotator.h"

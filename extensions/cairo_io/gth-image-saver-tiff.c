@@ -25,7 +25,7 @@
 #endif /* HAVE_LIBTIFF */
 #include <glib/gi18n.h>
 #include <gthumb.h>
-#include "enum-types.h"
+#include "cairo-io-enum-types.h"
 #include "gth-image-saver-tiff.h"
 #include "preferences.h"
 

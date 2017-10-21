@@ -1,14 +1,13 @@
 [Extension]
-_Name=Desktop background
-_Description=Set the image as desktop background
-_Authors=gthumb development team
+Name=Desktop background
+Comment=Set the image as desktop background
+Authors=gthumb development team
 Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
-Version=%VERSION%
+Version=@GTHUMB_VERSION@
 Icon=desktop
 Category=List-Tool
 
 [Loader]
 Type=module
-File=%LIBRARY%
-API=%GTHUMB_API_VERSION%
+API=@GTHUMB_API_VERSION@
 After=image_viewer

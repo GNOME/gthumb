@@ -110,25 +110,40 @@ public_header_files = [
   'zlib-utils.h'
 ]
 
-enum_files = gnome.mkenums_simple('gth-enum-types', sources: files(public_header_files))
+install_headers(
+  public_header_files, 
+  install_dir : pkgincludedir
+)
 
-marshal_files = gnome.genmarshal('gth-marshal', prefix : 'gth_marshal', sources : 'gth-marshal.list' )
+enum_files = gnome.mkenums_simple('gth-enum-types', 
+  sources: files(public_header_files),
+  install_header : true,
+  install_dir : pkgincludedir,
+)
 
-public_header_files += [ 'gth-enum-types.h', 'gth-marshal.h' ]
+marshal_files = gnome.genmarshal('gth-marshal', 
+  prefix : 'gth_marshal', 
+  sources : 'gth-marshal.list',
+  install_header : true,
+  install_dir : pkgincludedir,
+)
 
 gthumb_h = custom_target('gthumb.h',
-  input : 'gthumb.h.template',
+  input : [ 'gthumb.h.template' ],
   output : 'gthumb.h',
-  command : [ find_program('make-header.sh'), '@OUTPUT@', '@INPUT@', public_header_files ],
-  build_by_default : true
+  command : [ find_program('make-header.sh'), '@OUTPUT@', '@INPUT@', 'gth-enum-types.h', 'gth-marshal.h', public_header_files ],
+  install : true,
+  install_dir : pkgincludedir  
 )
+
+gthumb_h_dep = declare_dependency(sources : [ enum_files, marshal_files, gthumb_h ])
 
 authors_tab = custom_target('authors.tab',
   input : join_paths(meson.source_root(), 'AUTHORS'),
   output : 'AUTHORS.tab',
-  command : [ find_program('make-authors-tab.sh'), '@INPUT@', '@OUTPUT@' ],
-  build_by_default : true
+  command : [ find_program('make-authors-tab.sh'), '@INPUT@', '@OUTPUT@' ]
 )
+authors_dep = declare_dependency(sources : [ authors_tab ])
 
 gresource_files = gnome.compile_resources('gth-resources', 'gthumb.gresource.xml', c_name : 'gth')
 
@@ -263,34 +278,39 @@ other_files = files(
   'gnome-thumbnail-pixbuf-utils.c'
 )
 
+gthumb_inc = include_directories('.')
+
 # Build targets
 
-executable('gthumb', 
+gthumb_exe = executable('gthumb', 
   sources : [ 
     config_file, 
+    marshal_files,
+    enum_files,
     source_files, 
     other_files,
-    gresource_files, 
-    marshal_files,
-    enum_files
-  ],     
+    gresource_files
+  ],
   dependencies : [ 
-    common_dep,    
+    common_deps,     
+    jpeg_deps,  
     exiv2_dep,
     clutter_deps,
     gstreamer_deps,
-    libchamplain_deps,
+    use_libchamplain ? libchamplain_deps : [],
     lcms2_dep,
     colord_dep,
-    tiff_dep,
-    libwebp_dep,
-    libraw_dep,
-    librsvg_dep,
+    use_libtiff ? tiff_deps : [],
+    use_libwebp ? libwebp_dep : [],
+    use_libraw ? libraw_dep : [],
+    use_librsvg ? librsvg_dep : [],
     webkit2_dep,
     libsecret_dep,
-    libbrasero_dep    
+    libbrasero_dep,
+    authors_dep
   ],
-  include_directories : config_inc,
+  include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
+  implib : true,
   install : true
 )

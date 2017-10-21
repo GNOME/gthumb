@@ -188,7 +188,7 @@ gth_extension_module_real_open (GthExtension  *base,
 	{
 		char *extension_dir;
 
-		extension_dir = g_build_filename (GTHUMB_EXTENSIONS_DIR, self->priv->module_name, ".libs", NULL);
+		extension_dir = g_build_filename (GTHUMB_EXTENSIONS_DIR, self->priv->module_name, NULL);
 		file_name = g_module_build_path (extension_dir, self->priv->module_name);
 		g_free (extension_dir);
 	}
@@ -416,7 +416,6 @@ gth_extension_description_finalize (GObject *obj)
 	g_free (self->url);
 	g_free (self->category);
 	g_free (self->loader_type);
-	g_free (self->loader_file);
 	g_strfreev (self->loader_requires);
 	g_strfreev (self->loader_after);
 	_g_object_unref (self->priv->extension);
@@ -470,7 +469,9 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 	basename = g_file_get_basename (file);
 	desc->id = _g_uri_remove_extension (basename);
 	desc->name = g_key_file_get_locale_string (key_file, "Extension", "Name", NULL, NULL);
-	desc->description = g_key_file_get_locale_string (key_file, "Extension", "Description", NULL, NULL);
+	desc->description = g_key_file_get_locale_string (key_file, "Extension", "Comment", NULL, NULL);
+	if (desc->description == NULL)
+		desc->description = g_key_file_get_locale_string (key_file, "Extension", "Description", NULL, NULL);
 	desc->version = g_key_file_get_locale_string (key_file, "Extension", "Version", NULL, NULL);
 	desc->authors = g_key_file_get_locale_string_list (key_file, "Extension", "Authors", NULL, NULL, NULL);
 	desc->copyright = g_key_file_get_locale_string (key_file, "Extension", "Copyright", NULL, NULL);
@@ -480,7 +481,6 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 	desc->mandatory = g_key_file_get_boolean (key_file, "Extension", "Mandatory", NULL);
 	desc->hidden = g_key_file_get_boolean (key_file, "Extension", "Hidden", NULL);
 	desc->loader_type = g_key_file_get_string (key_file, "Loader", "Type", NULL);
-	desc->loader_file = g_key_file_get_string (key_file, "Loader", "File", NULL);
 	desc->loader_requires = g_key_file_get_string_list (key_file, "Loader", "Requires", NULL, NULL);
 	desc->loader_after = g_key_file_get_string_list (key_file, "Loader", "After", NULL, NULL);
 
