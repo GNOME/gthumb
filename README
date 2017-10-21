@@ -119,15 +119,15 @@ Download
 
     http://ftp.gnome.org/pub/GNOME/sources/gthumb
 
-  * If you know what git is and how to use it, you can download and
-    compile the latest development version using the following
-    commands:
+  * You can download and compile the latest development version using the 
+    following commands:
 
         git clone git://git.gnome.org/gthumb
         cd gthumb
-        ./autogen.sh --prefix=/usr CFLAGS="-ggdb"
-        make
-        sudo make install
+        mkdir build && cd build
+        meson ..
+        ninja
+        sudo ninja install
 
     More development information is available at
     https://wiki.gnome.org/Apps/Gthumb/development
