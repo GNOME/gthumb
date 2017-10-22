@@ -30,6 +30,8 @@ importer_mod = shared_module('importer',
   install_dir : extensions_install_dir
 )
 
+importer_inc = include_directories('.')
+
 # .extension file
 
 extension_in_file = configure_file(

@@ -23,3 +23,5 @@ gschema_files = files(
   'org.gnome.gthumb.webalbums.gschema.xml'
 )
 install_data(gschema_files, install_dir : join_paths(datadir, 'glib-2.0', 'schemas'))
+
+gnome.compile_schemas()

@@ -23,37 +23,37 @@ subdir('importer')
 
 # list tools
 subdir('list_tools')
-#subdir('change_date')
-#subdir('convert_format')
-#subdir('rename_series')
-#subdir('resize_images')
+subdir('change_date')
+subdir('convert_format')
+subdir('rename_series')
+subdir('resize_images')
 
 # importers 
 subdir('photo_importer')
   
 # exporters
 subdir('export_tools')
-#subdir('burn_disc')
-#subdir('contact_sheet')
+subdir('burn_disc')
+subdir('contact_sheet')
 if with_webservices
-  #subdir('oauth')
-  #subdir('facebook')  
+  subdir('oauth')
+  subdir('facebook')  
 
   # flickr exporters
-  #subdir('flicker_utils')
-  #subdir('23hq')
-  #subdir('flicker')
+  subdir('flicker_utils')
+  subdir('23hq')
+  subdir('flicker')
 
-  #subdir('photobucket')
-  #subdir('picasaweb')
+  subdir('photobucket')
+  subdir('picasaweb')
 endif
 if with_webalbums
-  #subdir('webalbums')
+  subdir('webalbums')
 endif
 
 # file tools
 subdir('file_tools')
-#subdir('red_eye_removal')
+subdir('red_eye_removal')
 
 # other tools
 subdir('bookmarks')

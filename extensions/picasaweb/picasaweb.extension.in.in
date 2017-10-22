@@ -1,13 +1,12 @@
 [Extension]
-_Name=Picasa Web Albums
-_Description=Upload images to Picasa Web Albums
-_Authors=gthumb development team
+Name=Picasa Web Albums
+Comment=Upload images to Picasa Web Albums
+Authors=gthumb development team
 Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
-Version=%VERSION%
-Icon=site-picasaweb
+Version=@GTHUMB_VERSION@
 Category=Exporter
 
 [Loader]
 Type=module
-API=%GTHUMB_API_VERSION%
+API=@GTHUMB_API_VERSION@
 Requires=importer;export_tools;oauth

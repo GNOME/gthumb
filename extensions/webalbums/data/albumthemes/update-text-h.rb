@@ -43,5 +43,5 @@ end
 
 puts <<EOF
 \tNULL
-}
+};
 EOF

@@ -36,4 +36,4 @@ static char *text[] = {
 	N_("View the previous image"),
 	N_("View the previous page"),
 	NULL
-}
+};

@@ -23,7 +23,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
-#include "enum-types.h"
+#include "contact-sheet-enum-types.h"
 #include "gth-contact-sheet-theme.h"
 
 

@@ -43,11 +43,15 @@ if get_option('run-in-place')
   icons_data_dir = join_paths(meson.source_root(), 'data', 'icons')
   extensions_ui_data_dir = join_paths(meson.source_root(), 'extensions')
   extensions_data_dir = join_paths(meson.build_root(), 'extensions')
+  contact_sheet_data_dir = join_paths(meson.source_root(), 'extensions', 'contact_sheet', 'data')
+  webalbum_data_dir = join_paths(meson.source_root(), 'extensions', 'webalbums', 'data')
 else
   ui_data_dir = ui_install_dir
   icons_data_dir = icons_install_dir
   extensions_ui_data_dir = ui_data_dir
-  extensions_data_dir = extensions_install_dir  
+  extensions_data_dir = extensions_install_dir
+  contact_sheet_data_dir = pkgdatadir
+  webalbum_data_dir = pkgdatadir
 endif
 
 # Dependencies
@@ -222,6 +226,8 @@ config_data.set_quoted('GTHUMB_UI_DIR', ui_data_dir)
 config_data.set_quoted('GTHUMB_ICON_DIR', icons_data_dir)
 config_data.set_quoted('GTHUMB_EXTENSIONS_UI_DIR', extensions_ui_data_dir)
 config_data.set_quoted('GTHUMB_EXTENSIONS_DIR', extensions_data_dir)
+config_data.set_quoted('CONTACT_SHEET_DATADIR', contact_sheet_data_dir)
+config_data.set_quoted('WEBALBUM_DATADIR', webalbum_data_dir)
 if get_option('buildtype').contains('debug')
   config_data.set('DEBUG', 1)
 endif

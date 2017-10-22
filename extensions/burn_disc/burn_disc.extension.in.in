@@ -1,13 +1,13 @@
 [Extension]
-_Name=Burn CD/DVD
-_Description=Save files to an optical disc.
-_Authors=gthumb development team
+Name=Burn CD/DVD
+Comment=Save files to an optical disc.
+Authors=gthumb development team
 Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
-Version=%VERSION%
+Version=@GTHUMB_VERSION@
 Icon=brasero
 Category=Exporter
 
 [Loader]
 Type=module
-API=%GTHUMB_API_VERSION%
+API=@GTHUMB_API_VERSION@
 Requires=export_tools

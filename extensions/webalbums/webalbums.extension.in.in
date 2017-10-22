@@ -1,12 +1,12 @@
 [Extension]
-_Name=Web Albums
-_Description=Create static web albums.
-_Authors=gthumb development team
+Name=Web Albums
+Comment=Create static web albums.
+Authors=gthumb development team
 Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
-Version=%VERSION%
+Version=@GTHUMB_VERSION@
 Category=Exporter
 
 [Loader]
 Type=module
-API=%GTHUMB_API_VERSION%
+API=@GTHUMB_API_VERSION@
 Requires=export_tools

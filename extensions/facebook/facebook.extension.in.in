@@ -1,13 +1,12 @@
 [Extension]
-_Name=Facebook
-_Description=Upload images to Facebook
-_Authors=gthumb development team
+Name=Facebook
+Comment=Upload images to Facebook
+Authors=gthumb development team
 Copyright=Copyright © 2010-2013 The Free Software Foundation, Inc.
-Version=%VERSION%
-Icon=site-facebook
+Version=@GTHUMB_VERSION@
 Category=Exporter
 
 [Loader]
 Type=module
-API=%GTHUMB_API_VERSION%
+API=@GTHUMB_API_VERSION@
 Requires=photo_importer;export_tools;oauth
