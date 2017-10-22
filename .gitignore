@@ -1,6 +1,7 @@
 *~
 .cproject
 .project
+.pydevproject
 .settings/
 build/
 _build/
