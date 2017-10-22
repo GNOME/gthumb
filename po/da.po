@@ -25,15 +25,16 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-01 09:27+0000\n"
-"PO-Revision-Date: 2017-09-12 20:43+0200\n"
-"Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
+"POT-Creation-Date: 2017-09-28 11:52+0000\n"
+"PO-Revision-Date: 2017-10-19 17:03+0200\n"
+"Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../data/appdata/gthumb.appdata.xml.in.h:1
 msgid ""
@@ -783,7 +784,7 @@ msgstr "Omdøb"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/dlg-catalog-properties.c:201
-#: ../gthumb/gth-browser.c:4595 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4610 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Egenskaber"
 
@@ -1490,6 +1491,7 @@ msgid "Could not show the desktop background properties"
 msgstr "Kunne ikke vise egenskaber for skrivebordsbaggrunden"
 
 #: ../extensions/desktop_background/actions.c:329
+#: ../gthumb/gth-browser-actions-entries.h:85
 #: ../gthumb/resources/app-menu.ui.h:2
 msgid "_Preferences"
 msgstr "_Indstillinger"
@@ -1825,7 +1827,7 @@ msgstr "Ændr størrelsen på billederne hvis større end denne størrelse"
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
 #: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 msgid "_Resize if larger than:"
 msgstr "_Ændre størrelsen hvis større end:"
@@ -2171,7 +2173,7 @@ msgstr "_Kopiér"
 
 #: ../extensions/file_manager/callbacks.c:984
 #: ../extensions/find_duplicates/gth-find-duplicates.c:788
-#: ../gthumb/gth-browser.c:5592 ../gthumb/gth-browser.c:5628
+#: ../gthumb/gth-browser.c:5607 ../gthumb/gth-browser.c:5643
 #: ../gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "Kunne ikke udføre handlingen"
@@ -2223,6 +2225,7 @@ msgid "Color Levels"
 msgstr "Farveniveauer"
 
 #: ../extensions/file_tools/data/ui/color-picker-options.ui.h:1
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Position"
 msgstr "Placering"
@@ -2860,15 +2863,24 @@ msgid "Files:"
 msgstr "Filer:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
+#: ../gthumb/gth-main-default-metadata.c:32
+msgid "File"
+msgstr "Fil"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
+msgid "Last modified"
+msgstr "Sidst ændret"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
 msgid "_View"
 msgstr "_Vis"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:7
 #: ../gthumb/gth-tags-entry.c:1187 ../gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Slet"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:8
 msgid "No duplicates found."
 msgstr "Ingen duplikater fundet."
 
@@ -3053,7 +3065,10 @@ msgid ""
 "Click “Authorize” to open your web browser and authorize gthumb to upload "
 "photos to %s. When you’re finished, return to this window to complete the "
 "authorization."
-msgstr "Klik “Godkend” for at åbne din webbrowser og give tilladelse til, at gThumb kan overføre billederne til %s. Når du er færdig, så returnér til dette vindue for at færdiggøre godkendelsen."
+msgstr ""
+"Klik “Godkend” for at åbne din webbrowser og give tilladelse til, at gThumb "
+"kan overføre billederne til %s. Når du er færdig, så returnér til dette "
+"vindue for at færdiggøre godkendelsen."
 
 #. Translators: %s is a filename
 #: ../extensions/gstreamer_tools/actions.c:75
@@ -3998,6 +4013,19 @@ msgstr "_Picasa-webalbum …"
 msgid "_Albums:"
 msgstr "_Album:"
 
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Navn"
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+msgid "Used"
+msgstr "Brugt"
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
+msgid "Remaining photos"
+msgstr "Resterende billeder"
+
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
 msgid "Public"
 msgstr "Offentlig"
@@ -4597,8 +4625,8 @@ msgid "Create static web albums."
 msgstr "Opret statisk internetalbum."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
-#: ../gthumb/gth-browser.c:1671 ../gthumb/gth-browser.c:6587
-#: ../gthumb/gth-browser.c:6606 ../gthumb/gth-browser.c:6630
+#: ../gthumb/gth-browser.c:1671 ../gthumb/gth-browser.c:6602
+#: ../gthumb/gth-browser.c:6621 ../gthumb/gth-browser.c:6645
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Kunne ikke indlæse positionen “%s”"
@@ -4780,7 +4808,7 @@ msgstr "Importer billeder fra ditalkamera automatisk"
 msgid "Show version"
 msgstr "Vis version"
 
-#: ../gthumb/gth-application.c:205
+#: ../gthumb/gth-application.c:214
 msgid "— Image browser and viewer"
 msgstr "— Billedhåndtering og -visning"
 
@@ -4832,6 +4860,26 @@ msgstr ""
 "Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
 "Mere info: http://www.dansk-gruppen.dk"
 
+#: ../gthumb/gth-browser-actions-entries.h:90
+#: ../gthumb/resources/app-menu.ui.h:3
+msgid "Keyboard Shortcuts"
+msgstr "Tastaturgenveje"
+
+#: ../gthumb/gth-browser-actions-entries.h:91 ../gthumb/gtk-utils.h:40
+#: ../gthumb/resources/app-menu.ui.h:4
+msgid "_Help"
+msgstr "_Hjælp"
+
+#: ../gthumb/gth-browser-actions-entries.h:92
+#: ../gthumb/resources/app-menu.ui.h:5
+msgid "_About"
+msgstr "_Om"
+
+#: ../gthumb/gth-browser-actions-entries.h:97
+#: ../gthumb/resources/app-menu.ui.h:6
+msgid "_Quit"
+msgstr "_Afslut"
+
 #: ../gthumb/gth-browser.c:379
 msgid "[modified]"
 msgstr "[ændret]"
@@ -4866,7 +4914,7 @@ msgstr "Hvis du ikke gemmer, vil ændringer til filen gå tabt."
 msgid "Do _Not Save"
 msgstr "Gem _ikke"
 
-#: ../gthumb/gth-browser.c:2409 ../gthumb/gth-browser.c:4636
+#: ../gthumb/gth-browser.c:2409 ../gthumb/gth-browser.c:4651
 msgid "Accept"
 msgstr "Acceptér"
 
@@ -4883,38 +4931,38 @@ msgstr "Kunne ikke ændre navn"
 msgid "Modified"
 msgstr "Ændret"
 
-#: ../gthumb/gth-browser.c:4558
+#: ../gthumb/gth-browser.c:4573
 msgid "Go to the previous visited location"
 msgstr "Gå til foregående besøgte sted"
 
-#: ../gthumb/gth-browser.c:4564
+#: ../gthumb/gth-browser.c:4579
 msgid "Go to the next visited location"
 msgstr "Gå til næste besøgte sted"
 
-#: ../gthumb/gth-browser.c:4572
+#: ../gthumb/gth-browser.c:4587
 msgid "History"
 msgstr "Historik"
 
-#: ../gthumb/gth-browser.c:4586
+#: ../gthumb/gth-browser.c:4601
 msgid "View the folders"
 msgstr "Vis mapperne"
 
-#: ../gthumb/gth-browser.c:4601
+#: ../gthumb/gth-browser.c:4616
 msgid "Edit file"
 msgstr "Rediger fil"
 
-#: ../gthumb/gth-browser.c:4610 ../gthumb/gth-browser.c:4628
+#: ../gthumb/gth-browser.c:4625 ../gthumb/gth-browser.c:4643
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Fuldskærm"
 
-#: ../gthumb/gth-browser.c:6588
+#: ../gthumb/gth-browser.c:6603
 #, c-format
 msgid "File type not supported"
 msgstr "Filtypen understøttes ikke"
 
-#: ../gthumb/gth-browser.c:6631
+#: ../gthumb/gth-browser.c:6646
 #, c-format
 msgid "No suitable module found"
 msgstr "Intet passende modul fundet"
@@ -5044,14 +5092,6 @@ msgstr "Kunne ikke finde et passende modul til at gemme billedet som “%s”"
 #: ../gthumb/gth-load-file-data-task.c:108
 msgid "Reading file information"
 msgstr "Læser filinformation"
-
-#: ../gthumb/gth-main-default-metadata.c:32
-msgid "File"
-msgstr "Fil"
-
-#: ../gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Navn"
 
 #: ../gthumb/gth-main-default-metadata.c:40
 #: ../gthumb/gth-main-default-tests.c:350
@@ -5388,10 +5428,6 @@ msgstr "Annullér"
 msgid "_Cancel"
 msgstr "_Annullér"
 
-#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:4
-msgid "_Help"
-msgstr "_Hjælp"
-
 #: ../gthumb/gtk-utils.h:41
 msgid "_New"
 msgstr "_Ny"
@@ -5419,18 +5455,6 @@ msgstr "_Upload"
 #: ../gthumb/resources/app-menu.ui.h:1
 msgid "New _Window"
 msgstr "Nyt _vindue"
-
-#: ../gthumb/resources/app-menu.ui.h:3
-msgid "Keyboard Shortcuts"
-msgstr "Tastaturgenveje"
-
-#: ../gthumb/resources/app-menu.ui.h:5
-msgid "_About"
-msgstr "_Om"
-
-#: ../gthumb/resources/app-menu.ui.h:6
-msgid "_Quit"
-msgstr "_Afslut"
 
 #: ../gthumb/resources/folder-menu.ui.h:1
 msgid "Open in New Window"
