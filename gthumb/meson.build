@@ -129,9 +129,9 @@ marshal_files = gnome.genmarshal('gth-marshal',
 )
 
 gthumb_h = custom_target('gthumb.h',
-  input : [ 'gthumb.h.template' ],
+  input : [ 'gthumb.h.in' ],
   output : 'gthumb.h',
-  command : [ find_program('make-header.sh'), '@OUTPUT@', '@INPUT@', 'gth-enum-types.h', 'gth-marshal.h', public_header_files ],
+  command : [ find_program('make-gthumb-h.py'), '@INPUT@', '@OUTPUT@', 'gth-enum-types.h', 'gth-marshal.h', public_header_files ],
   install : true,
   install_dir : pkgincludedir  
 )
@@ -141,7 +141,7 @@ gthumb_h_dep = declare_dependency(sources : [ enum_files, marshal_files, gthumb_
 authors_tab = custom_target('authors.tab',
   input : join_paths(meson.source_root(), 'AUTHORS'),
   output : 'AUTHORS.tab',
-  command : [ find_program('make-authors-tab.sh'), '@INPUT@', '@OUTPUT@' ]
+  command : [ find_program('make-authors-tab.py'), '@INPUT@', '@OUTPUT@' ]
 )
 authors_dep = declare_dependency(sources : [ authors_tab ])
 
