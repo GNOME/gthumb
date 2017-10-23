@@ -77,12 +77,18 @@ source_files = files(
 file_tools_mod = shared_module('file_tools', 
   sources : [ source_files, enum_files ],
   dependencies : extension_common_deps, 
-  include_directories : [ config_inc, gthumb_inc ],
+  include_directories : [ 
+    config_inc, 
+    gthumb_inc 
+  ],
   c_args : c_args,
   link_with : image_viewer_mod,
   install : true,
   install_dir : extensions_install_dir
 )
+
+file_tools_inc = include_directories('.')
+file_tools_dep = declare_dependency(sources : enum_files)
 
 # .extension file
 

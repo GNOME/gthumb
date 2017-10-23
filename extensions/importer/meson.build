@@ -31,6 +31,7 @@ importer_mod = shared_module('importer',
 )
 
 importer_inc = include_directories('.')
+importer_dep = declare_dependency(sources : enum_files)
 
 # .extension file
 

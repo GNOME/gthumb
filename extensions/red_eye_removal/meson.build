@@ -5,10 +5,20 @@ source_files = files(
 
 shared_module('red_eye_removal', 
   sources : source_files,
-  dependencies : [ extension_common_deps ],
-  include_directories : [ config_inc, gthumb_inc ],
+  dependencies : [ 
+    extension_common_deps,
+    file_tools_dep 
+  ],
+  include_directories : [ 
+    config_inc, 
+    gthumb_inc,
+    file_tools_inc
+  ],
   c_args : c_args,
-  link_with: [ image_viewer_mod ],
+  link_with: [
+    file_tools_mod, 
+    image_viewer_mod 
+  ],
   install : true,
   install_dir : extensions_install_dir
 )

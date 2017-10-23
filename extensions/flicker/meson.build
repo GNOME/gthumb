@@ -9,10 +9,15 @@ shared_module('flicker',
   sources : source_files,
   dependencies : [
     extension_common_deps,
+    importer_dep,
     libsoup_dep,
     use_libsecret ? libsecret_dep : [],    
   ],
-  include_directories : [ config_inc, gthumb_inc ],
+  include_directories : [ 
+    config_inc, 
+    gthumb_inc,
+    importer_inc
+  ],
   c_args : c_args,
   link_with : [
     flicker_utils_mod,

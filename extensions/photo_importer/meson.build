@@ -10,8 +10,15 @@ gresource_files = gnome.compile_resources('photo-importer-resources', 'resources
 
 photo_importer_mod = shared_module('photo_importer', 
   sources : [ source_files, gresource_files ],
-  dependencies : extension_common_deps,
-  include_directories : [ config_inc, gthumb_inc ],
+  dependencies : [
+    extension_common_deps,
+    importer_dep
+  ],
+  include_directories : [ 
+    config_inc, 
+    gthumb_inc,
+    importer_inc
+  ],
   c_args : c_args,
   link_with : [ 
     catalogs_mod, 
