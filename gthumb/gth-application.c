@@ -97,13 +97,17 @@ gth_application_finalize (GObject *object)
 static void
 gth_application_init (GthApplication *app)
 {
-#ifdef GDK_WINDOWING_X11
-
 	GDesktopAppInfo *app_info;
 
 	app_info = g_desktop_app_info_new ("gthumb.desktop");
-	if (app_info == NULL)
+	if (app_info == NULL) {
+		/* manually set name and icon */
+
+		g_set_application_name (_("gThumb"));
+		gtk_window_set_default_icon_name ("gthumb");
+
 		return;
+	}
 
 	if (g_desktop_app_info_has_key (app_info, "Name")) {
 		char *app_name;
@@ -127,15 +131,6 @@ gth_application_init (GthApplication *app)
 	}
 
 	g_object_unref (app_info);
-
-#else
-
-	/* manually set name and icon */
-
-	g_set_application_name (_("gThumb"));
-	gtk_window_set_default_icon_name ("gthumb");
-
-#endif
 }
 
 
