@@ -27,7 +27,8 @@ importer_mod = shared_module('importer',
     use_exiv2 ? exiv2_tools_mod : []
   ],
   install : true,
-  install_dir : extensions_install_dir
+  install_dir : extensions_install_dir,
+  install_rpath : extensions_install_dir
 )
 
 importer_inc = include_directories('.')

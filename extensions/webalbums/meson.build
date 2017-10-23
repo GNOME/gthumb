@@ -28,7 +28,8 @@ shared_module('webalbums',
   c_args : c_args,
   link_with : [ export_tools_mod, image_rotation_mod ],
   install : true,
-  install_dir : extensions_install_dir
+  install_dir : extensions_install_dir,
+  install_rpath : extensions_install_dir
 )
 
 # .extension file

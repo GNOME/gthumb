@@ -22,7 +22,8 @@ shared_module('slideshow',
     use_gstreamer ? gstreamer_utils_mod : []
   ],
   install : true,
-  install_dir : extensions_install_dir
+  install_dir : extensions_install_dir,
+  install_rpath : extensions_install_dir
 )
 
 # .extension file

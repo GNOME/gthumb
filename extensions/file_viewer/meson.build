@@ -9,7 +9,8 @@ shared_module('file_viewer',
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
   install : true,
-  install_dir : extensions_install_dir
+  install_dir : extensions_install_dir,
+  install_rpath : extensions_install_dir
 )
 
 # .extension file

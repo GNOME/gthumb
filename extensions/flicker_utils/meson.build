@@ -30,7 +30,8 @@ flicker_utils_mod = shared_module('flicker_utils',
     importer_mod
   ],
   install : true,
-  install_dir : extensions_install_dir
+  install_dir : extensions_install_dir,
+  install_rpath : extensions_install_dir
 )
 
 # .extension file

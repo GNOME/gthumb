@@ -422,6 +422,8 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 	gth_image_viewer_get_original_size (GTH_IMAGE_VIEWER (viewer), &self->priv->original_width, &self->priv->original_height);
 	_gtk_widget_get_screen_size (window, &self->priv->screen_width, &self->priv->screen_height);
 
+	if (self->priv->settings == NULL)
+		self->priv->settings = g_settings_new (GTHUMB_CROP_SCHEMA);
 	self->priv->builder = _gtk_builder_new_from_file ("crop-options.ui", "file_tools");
 
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
@@ -678,7 +680,6 @@ static void
 gth_file_tool_crop_init (GthFileToolCrop *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_CROP, GthFileToolCropPrivate);
-	self->priv->settings = g_settings_new (GTHUMB_CROP_SCHEMA);
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-crop-symbolic", _("Crop"), GTH_TOOLBOX_SECTION_FORMAT);
 }
 

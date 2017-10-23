@@ -15,7 +15,8 @@ shared_module('comments',
   c_args : c_args,
   link_with : use_exiv2 ? exiv2_tools_mod : [],
   install : true,
-  install_dir : extensions_install_dir
+  install_dir : extensions_install_dir,
+  install_rpath : extensions_install_dir
 )
 
 # .extension file

@@ -18,7 +18,8 @@ image_viewer_mod = shared_module('image_viewer',
   c_args : c_args,
   link_with : jpeg_utils_mod,
   install : true,
-  install_dir : extensions_install_dir
+  install_dir : extensions_install_dir,
+  install_rpath : extensions_install_dir
 )
 
 # .extension file

@@ -29,7 +29,8 @@ shared_module('contact_sheet',
   c_args : c_args,
   link_with: [ image_rotation_mod, export_tools_mod ],
   install : true,
-  install_dir : extensions_install_dir
+  install_dir : extensions_install_dir,
+  install_rpath : extensions_install_dir
 )
 
 # .extension file
