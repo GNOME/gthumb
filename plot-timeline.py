@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
 import math
 import optparse
 import os
 import re
 import sys
-
 import cairo
 
 FONT_NAME = "Bitstream Vera Sans"
@@ -117,7 +117,7 @@ class ExecMark(BaseMark):
     colors = (1.0, 0.0, 0.0)
     def __init__(self, timestamp, log, is_complete, is_resumed):
 #        if is_complete:
-	text = 'execve: '
+        text = 'execve: '
 #        elif is_resumed:
 #            text = 'execve resumed: '
 #        else:
@@ -187,16 +187,16 @@ class SyscallParser:
                 self.syscalls.append (FirstMark (timestamp, text))
             else:
 #                if program == "nautilus: ":
-		    if not string_has_substrings (text, ignore_strings):
-                        s = AccessMark (timestamp, text)
-                        c = get_special_color (text)
-                        if c:
-                            s.colors = c
-                        else:
-                            program_hash = program.__hash__ ()
-                            s.colors = palette[program_hash % len (palette)]
+                if not string_has_substrings (text, ignore_strings):
+                    s = AccessMark (timestamp, text)
+                    c = get_special_color (text)
+                    if c:
+                        s.colors = c
+                    else:
+                        program_hash = program.__hash__ ()
+                        s.colors = palette[program_hash % len (palette)]
 
-                        self.syscalls.append (s)
+                    self.syscalls.append (s)
 
             return
 
@@ -228,7 +228,7 @@ class SyscallParser:
 
             (index, old_timestamp, command) = self.search_pending_execs (pid)
             if index == None:
-                print "Didn't find pid %s in pending_execs!" % pid
+                print("Didn't find pid %s in pending_execs!" % pid)
                 sys.exit (1)
 
             del self.pending_execs[index]
@@ -239,7 +239,7 @@ class SyscallParser:
 def parse_strace(filename):
     parser = SyscallParser ()
 
-    for line in file(filename, "r").readlines():
+    for line in open(filename, "r").readlines():
         if line == "":
             break
 
@@ -276,7 +276,7 @@ def compute_syscall_metrics(syscalls):
     return metrics
 
 def plot_time_scale(surface, ctx, metrics):
-    num_seconds = (metrics.height + PIXELS_PER_SECOND - 1) / PIXELS_PER_SECOND
+    num_seconds = int((metrics.height + PIXELS_PER_SECOND - 1) / PIXELS_PER_SECOND)
 
     ctx.set_source_rgb(0.5, 0.5, 0.5)
     ctx.set_line_width(1.0)
@@ -347,11 +347,11 @@ def main(args):
     options, args = option_parser.parse_args()
 
     if not options.output:
-        print 'Please specify an output filename with "-o file.png" or "--output=file.png".'
+        print('Please specify an output filename with "-o file.png" or "--output=file.png".')
         return 1
 
     if len(args) != 1:
-        print 'Please specify only one input filename, which is an strace log taken with "strace -ttt -f"'
+        print('Please specify only one input filename, which is an strace log taken with "strace -ttt -f"')
         return 1
 
     in_filename = args[0]
@@ -366,7 +366,7 @@ def main(args):
             break
 
     if not syscalls:
-        print 'No marks in %s, add access("MARK: ...", F_OK)' % in_filename
+        print('No marks in %s, add access("MARK: ...", F_OK)' % in_filename)
         return 1
 
     normalize_timestamps(syscalls)
