@@ -273,7 +273,7 @@ source_files = files(
   'zlib-utils.c'
 )
 
-other_files = files(
+external_files = files(
   'gnome-desktop-thumbnail.c',
   'gnome-thumbnail-pixbuf-utils.c'
 )
@@ -288,26 +288,28 @@ gthumb_exe = executable('gthumb',
     marshal_files,
     enum_files,
     source_files, 
-    other_files,
+    external_files,
     gresource_files
   ],
   dependencies : [ 
     common_deps,     
     jpeg_deps,  
-    exiv2_dep,
-    clutter_deps,
-    gstreamer_deps,
+    authors_dep,
+    use_exiv2 ? exiv2_dep : [],
+    use_clutter ? clutter_deps : [],
+    use_gstreamer ? gstreamer_deps : [],
     use_libchamplain ? libchamplain_deps : [],
-    lcms2_dep,
-    colord_dep,
+    use_lcms2 ? lcms2_dep : [],
+    use_colord ? colord_dep : [],
     use_libtiff ? tiff_deps : [],
     use_libwebp ? libwebp_dep : [],
     use_libraw ? libraw_dep : [],
     use_librsvg ? librsvg_dep : [],
-    webkit2_dep,
-    libsecret_dep,
-    libbrasero_dep,
-    authors_dep
+    with_webservices ? webkit2_dep : [],    
+    with_webservices ? libsoup_dep : [],
+    with_webservices ? libjson_glib_dep : [],    
+    use_libsecret ? libsecret_dep : [],
+    use_libbrasero ? libbrasero_dep : []    
   ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
