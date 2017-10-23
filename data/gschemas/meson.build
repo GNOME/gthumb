@@ -26,7 +26,7 @@ gschema_files = files(
 )
 
 enums_schema = custom_target('enums_schema',
-  output : 'org.gnome.gthumb.enums.gschema.xml',
+  output : 'org.gnome.gthumb.enums.xml',
   command : [ 
     find_program('make-enums.py'),
     join_paths(meson.source_root(), 'gthumb'),
