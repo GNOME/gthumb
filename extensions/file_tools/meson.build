@@ -76,13 +76,7 @@ source_files = files(
 
 file_tools_mod = shared_module('file_tools', 
   sources : [ source_files, enum_files ],
-  dependencies : [ 
-    extension_common_deps, 
-    jpeg_deps,
-    use_libtiff ? tiff_deps : [],
-    use_librsvg ? librsvg_dep : [],
-    use_libwebp ? libwebp_dep : []    
-  ],  
+  dependencies : extension_common_deps, 
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
   link_with : image_viewer_mod,
