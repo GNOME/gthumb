@@ -730,16 +730,16 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 		GstMapInfo  info;
 
 		memory = gst_buffer_get_memory (gst_sample_get_buffer (sample), 0);
-		gst_memory_map (memory, &info, GST_MAP_READ);
-		data->pixbuf = gdk_pixbuf_new_from_data (info.data,
-							 GDK_COLORSPACE_RGB,
-							 FALSE,
-							 8,
-							 outwidth,
-							 outheight,
-							 GST_ROUND_UP_4 (outwidth * 3),
-							 destroy_pixbuf,
-							 sample);
+		if (gst_memory_map (memory, &info, GST_MAP_READ))
+			data->pixbuf = gdk_pixbuf_new_from_data (info.data,
+								 GDK_COLORSPACE_RGB,
+								 FALSE,
+								 8,
+								 outwidth,
+								 outheight,
+								 GST_ROUND_UP_4 (outwidth * 3),
+								 destroy_pixbuf,
+								 sample);
 
 		gst_memory_unmap (memory, &info);
 	}
