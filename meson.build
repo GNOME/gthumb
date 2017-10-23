@@ -54,6 +54,8 @@ else
   webalbum_data_dir = pkgdatadir
 endif
 
+meson.add_install_script('postinstall.py')
+
 # Dependencies
 
 if get_option('exiv2')
