@@ -199,7 +199,7 @@ endif
 # web albums
 
 bison = find_program('bison', required : false)
-flex = find_program('flex', required : false)
+flex = find_program('flex', 'lex', required : false)
 with_webalbums = bison.found() and flex.found()
 
 vector_ops = (c_comp.get_id() == 'gcc') and (c_comp.version().version_compare('>=4.0.7'))
