@@ -1,7 +1,7 @@
 project('gthumb', ['c', 'cpp'],
   license : 'GPL2+',
   version : '3.5.3',
-  meson_version : '>=0.43'
+  meson_version : '>=0.42.1'
 )
 
 glib_version = '>=2.36.0'
@@ -145,7 +145,7 @@ have_progressive_jpeg = c_comp.has_function('jpeg_simple_progression', prefix : 
 # tiff
 
 if get_option('libtiff')
-  libtiff_dep = c_comp.find_library('tiff')
+  libtiff_dep = c_comp.find_library('tiff', required : false)
   use_libtiff = libtiff_dep.found()
   tiff_deps = [ libm_dep, libz_dep, libtiff_dep ]  
 else
@@ -320,7 +320,12 @@ else
   c_args += [ '-Wno-deprecated-declarations' ]
   test_args = [ '-Wall' ]
 endif
-c_args += c_comp.get_supported_arguments(test_args)
+#c_args += c_comp.get_supported_arguments(test_args)
+foreach arg : test_args
+  if c_comp.has_argument(arg)
+    c_args += arg
+  endif
+endforeach
 
 # Subdirectories
 
