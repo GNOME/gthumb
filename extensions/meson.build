@@ -33,7 +33,9 @@ subdir('photo_importer')
   
 # exporters
 subdir('export_tools')
-subdir('burn_disc')
+if use_libbrasero
+  subdir('burn_disc')
+endif
 subdir('contact_sheet')
 if with_webservices
   subdir('oauth')
