@@ -1,3 +1,5 @@
+schemas_dir = join_paths(datadir, 'glib-2.0', 'schemas')
+
 gschema_files = files(
   'org.gnome.gthumb.gschema.xml',
   'org.gnome.gthumb.change-date.gschema.xml',
@@ -22,6 +24,17 @@ gschema_files = files(
   'org.gnome.gthumb.slideshow.gschema.xml',
   'org.gnome.gthumb.webalbums.gschema.xml'
 )
-install_data(gschema_files, install_dir : join_paths(datadir, 'glib-2.0', 'schemas'))
 
-gnome.compile_schemas()
+enums_schema = custom_target('enums_schema',
+  output : 'org.gnome.gthumb.enums.gschema.xml',
+  command : [ 
+    find_program('make-enums.py'),
+    join_paths(meson.source_root(), 'gthumb'),
+    join_paths(meson.source_root(), 'extensions'),
+  ],
+  capture : true,
+  install : true,
+  install_dir : schemas_dir
+)
+
+install_data(gschema_files, install_dir : schemas_dir)
