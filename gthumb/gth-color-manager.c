@@ -275,7 +275,7 @@ find_device_by_kind_cb (GObject      *source_object,
 	CdDevice  *device;
 
 	devices = cd_client_get_devices_by_kind_finish (cd_client, res, NULL);
-	if (devices->len == 0) {
+	if ((devices == NULL) || (devices->len == 0)) {
 		g_task_return_pointer (task, NULL, NULL);
 		g_object_unref (task);
 		return;
