@@ -29,19 +29,12 @@ compare_loaded_and_dumped_xml (DomDocument *doc)
 	char        *xml;
 	gsize        len;
 	DomDocument *loaded_doc;
-	char        *loaded_xml;
 
 	xml = dom_document_dump (doc, &len);
-	/*g_print ("%s", xml);*/
-
 	loaded_doc = dom_document_new ();
 	dom_document_load (loaded_doc, xml, len, NULL);
-	loaded_xml = dom_document_dump (loaded_doc, NULL);
-	/*g_print ("%s", loaded_xml);*/
+	g_assert_true (dom_document_equal (doc, loaded_doc));
 
-	g_assert_cmpstr (xml, ==, loaded_xml);
-
-	g_free (loaded_xml);
 	g_object_unref (loaded_doc);
 	g_free (xml);
 }
@@ -54,7 +47,6 @@ check_dumped_xml (DomDocument *doc,
 	char *xml;
 
 	xml = dom_document_dump (doc, NULL);
-	/*g_print ("%s", xml);*/
 	g_assert_cmpstr (xml, ==, expected_xml);
 	g_free (xml);
 }
@@ -150,13 +142,13 @@ test_dom_3 (void)
 			        "<filters version=\"1.0\">\n"
 				"  <filter name=\"test1\">\n"
 				"    <match type=\"all\">\n"
-				"      <test id=\"::filesize\" op=\"lt\" value=\"10\" unit=\"kB\"/>\n"
+				"      <test id=\"::filesize\" op=\"lt\" unit=\"kB\" value=\"10\"/>\n"
 				"      <test id=\"::filename\" op=\"contains\" value=\"logo\"/>\n"
 				"    </match>\n"
-				"    <limit value=\"25\" type=\"files\" selected_by=\"more_recent\"/>\n"
+				"    <limit selected_by=\"more_recent\" type=\"files\" value=\"25\"/>\n"
 				"  </filter>\n"
 				"  <filter name=\"test2\">\n"
-				"    <limit value=\"25\" type=\"files\" selected_by=\"more_recent\"/>\n"
+				"    <limit selected_by=\"more_recent\" type=\"files\" value=\"25\"/>\n"
 				"  </filter>\n"
 				"</filters>\n");
 

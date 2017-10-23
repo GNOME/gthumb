@@ -92,8 +92,10 @@ struct _DomElement {
 struct _DomElementClass {
 	GInitiallyUnownedClass parent_class;
 
-	char * (*dump) (DomElement *self,
-			int         level);
+	char *		(*dump)		(DomElement *self,
+					 int         level);
+	gboolean	(*equal)	(DomElement *self,
+					 DomElement *other);
 };
 
 struct _DomTextNode {
@@ -174,6 +176,8 @@ gboolean      dom_document_load                     (DomDocument  *self,
 					             const char   *xml,
 					             gssize        len,
 					             GError      **error);
+gboolean      dom_document_equal                    (DomDocument   *a,
+						     DomDocument   *b);
 
 /* DomDomizable */
 

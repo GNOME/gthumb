@@ -28,6 +28,7 @@
 #define XML_TEXT_NODE_TAG_NAME ("#text")
 #define XML_TAB_WIDTH (2)
 #define XML_RC ("\n")
+#define XML_SORT_ATTRIBUTES
 
 
 struct _DomDocumentPrivate {
@@ -141,6 +142,14 @@ dom_element_dump (DomElement *self,
 }
 
 
+static gboolean
+dom_element_equal (DomElement *self,
+		   DomElement *other)
+{
+	return DOM_ELEMENT_GET_CLASS (self)->equal (self, other);
+}
+
+
 static char *
 dom_element_real_dump (DomElement *self,
 		       int         level)
@@ -159,7 +168,24 @@ dom_element_real_dump (DomElement *self,
 		_g_string_append_c_n_times (xml, ' ', level * XML_TAB_WIDTH);
 		g_string_append_c (xml, '<');
 		g_string_append (xml, self->tag_name);
+
+#ifdef XML_SORT_ATTRIBUTES
+		/* attributes, sorted by name to make the xml testable */
+
+		{
+			GList *attrs = g_hash_table_get_keys (self->attributes);
+			GList *sorted_attrs = g_list_sort (attrs, g_utf8_collate);
+			GList *scan;
+
+			for (scan = sorted_attrs; scan; scan = scan->next) {
+				const char *key = scan->data;
+				const char *value = g_hash_table_lookup (self->attributes, key);
+				dom_attribute_dump (key, value, xml);
+			}
+		}
+#else
 		g_hash_table_foreach (self->attributes, (GHFunc) dom_attribute_dump, xml);
+#endif
 		if (self->child_nodes != NULL) {
 			g_string_append_c (xml, '>');
 			if (! DOM_IS_TEXT_NODE (self->first_child))
@@ -195,6 +221,116 @@ dom_element_real_dump (DomElement *self,
 	}
 
 	return g_string_free (xml, FALSE);
+}
+
+
+static gboolean
+_empty_text_node (DomElement *node)
+{
+	GRegex   *regex;
+	char     *data;
+	gboolean  empty;
+
+	if (! DOM_IS_TEXT_NODE (node))
+		return FALSE;
+
+	regex = g_regex_new ("[ \t\r\n]+", G_REGEX_MULTILINE, G_REGEX_MATCH_NEWLINE_ANY, NULL);
+	data = g_regex_replace_literal (regex,
+					DOM_TEXT_NODE (node)->data,
+					-1,
+					0,
+					"",
+					G_REGEX_MATCH_NEWLINE_ANY,
+					NULL);
+	empty = g_utf8_collate (data, "") == 0;
+	/*g_print ("data: >>%s<<\n", data);*/
+
+	g_free (data);
+	g_regex_unref (regex);
+
+	return empty;
+}
+
+
+static gboolean
+dom_element_real_equal (DomElement *a,
+		        DomElement *b)
+{
+	gboolean  equal;
+	GList    *scan_a, *scan_b;
+
+	if (a == b)
+		return TRUE;
+
+	if ((a == NULL) || (b == NULL))
+		return FALSE;
+
+	equal = TRUE;
+
+	/* tag */
+
+	if (g_utf8_collate (a->tag_name, b->tag_name) != 0)
+		equal = FALSE;
+
+	/* attributes */
+
+	if (equal) {
+		GList *a_attributes, *b_attributes;
+
+		a_attributes = g_hash_table_get_keys (a->attributes);
+		b_attributes = g_hash_table_get_keys (b->attributes);
+
+		if (g_list_length (a_attributes) != g_list_length (b_attributes))
+			equal = FALSE;
+
+		for (scan_a = a_attributes; equal && scan_a; scan_a = scan_a->next) {
+			const char *key_a = scan_a->data;
+			gboolean    key_found = FALSE;
+
+			for (scan_b = b_attributes; equal && ! key_found && scan_b; scan_b = scan_b->next) {
+				const char *key_b = scan_b->data;
+
+				if (strcmp (key_a, key_b) == 0) {
+					key_found = TRUE;
+					equal = g_utf8_collate (dom_element_get_attribute (a, key_a), dom_element_get_attribute (b, key_b)) == 0;
+				}
+			}
+
+			if (! key_found)
+				equal = FALSE;
+		}
+
+		g_list_free (a_attributes);
+		g_list_free (b_attributes);
+	}
+
+	/* children */
+
+	if (equal) {
+		scan_a = a->child_nodes;
+		scan_b = b->child_nodes;
+		while (equal && scan_a && scan_b) {
+			while (scan_a && _empty_text_node (scan_a->data))
+				scan_a = scan_a->next;
+
+			while (scan_b && _empty_text_node (scan_b->data))
+				scan_b = scan_b->next;
+
+			if ((scan_a == NULL) && (scan_b == NULL))
+				break;
+
+			if ((scan_a == NULL) || (scan_b == NULL))
+				equal = FALSE;
+
+			if (equal && ! dom_element_equal (scan_a->data, scan_b->data))
+				equal = FALSE;
+
+			scan_a = scan_a->next;
+			scan_b = scan_b->next;
+		}
+	}
+
+	return equal;
 }
 
 
@@ -236,6 +372,7 @@ dom_element_class_init (DomElementClass *klass)
 {
 	G_OBJECT_CLASS (klass)->finalize = dom_element_finalize;
 	DOM_ELEMENT_CLASS (klass)->dump = dom_element_real_dump;
+	DOM_ELEMENT_CLASS (klass)->equal = dom_element_real_equal;
 }
 
 
@@ -417,6 +554,23 @@ dom_text_node_real_dump (DomElement *base,
 }
 
 
+static gboolean
+dom_text_node_real_equal (DomElement *a,
+		          DomElement *b)
+{
+	if (a == b)
+		return TRUE;
+
+	if ((a == NULL) || (b == NULL))
+		return FALSE;
+
+	if (! DOM_IS_TEXT_NODE (b))
+		return FALSE;
+
+	return dom_str_equal (DOM_TEXT_NODE (a)->data, DOM_TEXT_NODE (b)->data);
+}
+
+
 static void
 dom_text_node_finalize (GObject *obj)
 {
@@ -434,6 +588,7 @@ dom_text_node_class_init (DomTextNodeClass *klass)
 {
 	G_OBJECT_CLASS (klass)->finalize = dom_text_node_finalize;
 	DOM_ELEMENT_CLASS (klass)->dump = dom_text_node_real_dump;
+	DOM_ELEMENT_CLASS (klass)->equal = dom_text_node_real_equal;
 }
 
 
@@ -679,6 +834,14 @@ dom_document_load (DomDocument  *self,
 	g_markup_parse_context_free (context);
 
 	return TRUE;
+}
+
+
+gboolean
+dom_document_equal (DomDocument *a,
+		    DomDocument *b)
+{
+	return dom_element_equal (DOM_ELEMENT (a), DOM_ELEMENT (b));
 }
 
 
