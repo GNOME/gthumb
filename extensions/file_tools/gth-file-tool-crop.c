@@ -680,6 +680,7 @@ static void
 gth_file_tool_crop_init (GthFileToolCrop *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_CROP, GthFileToolCropPrivate);
+	self->priv->settings = NULL;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-crop-symbolic", _("Crop"), GTH_TOOLBOX_SECTION_FORMAT);
 }
 

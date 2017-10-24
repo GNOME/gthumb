@@ -527,6 +527,9 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 	if (source == NULL)
 		return NULL;
 
+	if (self->priv->settings == NULL)
+		self->priv->settings = g_settings_new (GTHUMB_RESIZE_SCHEMA);
+
 	self->priv->original_width = cairo_image_surface_get_width (source);
 	self->priv->original_height = cairo_image_surface_get_height (source);
 
@@ -827,7 +830,7 @@ static void
 gth_file_tool_resize_init (GthFileToolResize *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RESIZE, GthFileToolResizePrivate);
-	self->priv->settings = g_settings_new (GTHUMB_RESIZE_SCHEMA);
+	self->priv->settings = NULL;
 	self->priv->builder = NULL;
 	self->priv->preview = NULL;
 	self->priv->new_image = NULL;
