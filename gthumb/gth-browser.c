@@ -1295,6 +1295,11 @@ requested_folder_attributes_ready_cb (GObject  *file_source,
 		return;
 	}
 
+	if (browser->priv->location == NULL) {
+		load_data_free (load_data);
+		return;
+	}
+
 	gth_file_data_set_info (browser->priv->location, load_data->requested_folder->info);
 
 	browser->priv->current_sort_type = gth_main_get_sort_type (g_file_info_get_attribute_string (browser->priv->location->info, "sort::type"));
