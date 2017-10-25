@@ -170,7 +170,7 @@ _gth_image_preloader_get_requested_size_for_next_images (GthImageViewerPage *sel
 		break;
 	}
 
-	return requested_size;
+	return requested_size * gtk_widget_get_scale_factor (GTK_WIDGET (self->priv->viewer));
 }
 
 
@@ -201,7 +201,7 @@ _gth_image_preloader_get_requested_size_for_current_image (GthImageViewerPage *s
 		break;
 	}
 
-	return requested_size;
+	return requested_size * gtk_widget_get_scale_factor (GTK_WIDGET (self->priv->viewer));
 }
 
 

@@ -493,6 +493,7 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 	int              image_width, image_height;
 	int              original_width, original_height;
 	int              new_width, new_height;
+	int              screen_scale_factor;
 	scale_filter_t   filter;
 
 	self->priv->scaled_zoom = 0;
@@ -517,20 +518,22 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 		return;
 	}
 
-	if (gth_image_viewer_get_zoom_quality_filter (self->priv->viewer) == CAIRO_FILTER_FAST) {
+	screen_scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self->priv->viewer));
+
+	if ((screen_scale_factor == 1) && (gth_image_viewer_get_zoom_quality_filter (self->priv->viewer) == CAIRO_FILTER_FAST)) {
 		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 		return;
 	}
 
 	zoom_from_original = gth_image_viewer_get_zoom (self->priv->viewer);
 	gth_image_viewer_get_original_size (self->priv->viewer, &original_width, &original_height);
-	new_width = zoom_from_original * original_width;
-	new_height = zoom_from_original * original_height;
+	new_width = zoom_from_original * original_width * screen_scale_factor;
+	new_height = zoom_from_original * original_height * screen_scale_factor;
 	image_width = cairo_image_surface_get_width (image);
 	image_height = cairo_image_surface_get_height (image);
 	zoom_from_image = (double) new_width / image_width;
 
-	if (zoom_from_image >= 1.0) {
+	if ((screen_scale_factor == 1) && (zoom_from_image >= 1.0)) {
 		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 		return;
 	}
