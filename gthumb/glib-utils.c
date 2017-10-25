@@ -3211,12 +3211,7 @@ _g_settings_set_uri (GSettings  *settings,
 		     const char *key,
 		     const char *uri)
 {
-	char *value;
-
-	value = _g_replace (uri, g_get_home_dir (), "~");
-	g_settings_set_string (settings, key, value);
-
-	g_free (value);
+	g_settings_set_string (settings, key, uri);
 }
 
 
