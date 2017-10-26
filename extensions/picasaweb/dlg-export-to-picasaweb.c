@@ -99,37 +99,6 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
-	case _OPEN_IN_BROWSER_RESPONSE:
-		{
-			OAuthAccount *account;
-			GdkScreen    *screen;
-			char         *url = NULL;
-			GError       *error = NULL;
-
-			account = web_service_get_current_account (WEB_SERVICE (data->service));
-			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
-			gtk_widget_destroy (GTK_WIDGET (dialog));
-
-			if (data->album != NULL) {
-				if (data->album->alternate_url != NULL)
-					url = g_strdup (data->album->alternate_url);
-				else
-					url = g_strconcat ("http://picasaweb.google.com/", account->id, "/", data->album->id, NULL);
-			}
-			else
-				url = g_strconcat ("http://picasaweb.google.com/", account->id, NULL);
-
-			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
-				gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
-				g_clear_error (&error);
-			}
-			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
-
-			g_free (url);
-		}
-		break;
-
 	default:
 		break;
 	}
@@ -149,7 +118,6 @@ export_completed_with_success (DialogData *data)
 					  _("Files successfully uploaded to the server."),
 					  NULL,
 					  _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE,
-					  _("_Open in the Browser"), _OPEN_IN_BROWSER_RESPONSE,
 					  NULL);
 	g_signal_connect (dialog,
 			  "delete-event",
