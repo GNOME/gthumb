@@ -39,6 +39,7 @@
 #define PICASA_WEB_REDIRECT_URI "urn:ietf:wg:oauth:2.0:oob"
 #define PICASA_WEB_REDIRECT_TITLE "Success code="
 #define PICASA_WEB_SERVICE_ERROR_TOKEN_EXPIRED 190
+#define PICASA_WEB_SERVICE_ERROR_UNAUTHORIZED 401
 #define GTHUMB_PICASA_WEB_CLIENT_ID "499958842898.apps.googleusercontent.com"
 #define GTHUMB_PICASA_WEB_CLIENT_SECRET "-DdIqzDxVRc_Wkobuf-2g-of"
 
@@ -87,6 +88,7 @@ struct _PicasaWebServicePrivate {
 	guint64         	 quota_limit;
 	guint64       		 quota_used;
 	PostPhotosData		*post_photos;
+	int                      n_auth_errors;
 };
 
 
@@ -173,6 +175,7 @@ picasa_web_utils_parse_json_response (SoupMessage  *msg,
 
 
 /* -- _picasa_web_service_get_refresh_token -- */
+
 
 static void
 _picasa_web_service_get_refresh_token_ready_cb (SoupSession *session,
@@ -299,6 +302,7 @@ picasa_web_service_get_authorization_url (PicasaWebService *self)
 	g_hash_table_insert (data_set, "client_id", GTHUMB_PICASA_WEB_CLIENT_ID);
 	g_hash_table_insert (data_set, "redirect_uri", PICASA_WEB_REDIRECT_URI);
 	g_hash_table_insert (data_set, "scope", "https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.profile");
+	g_hash_table_insert (data_set, "access_type", "offline");
 
 	link = g_string_new ("https://accounts.google.com/o/oauth2/auth?");
 	keys = g_hash_table_get_keys (data_set);
@@ -424,40 +428,6 @@ _picasa_web_service_get_access_token_finish (PicasaWebService  *service,
 /* -- picasa_web_service_get_user_info -- */
 
 
-static void
-picasa_web_service_get_user_info_ready_cb (SoupSession *session,
-				           SoupMessage *msg,
-				           gpointer     user_data)
-{
-	PicasaWebService   *self = user_data;
-	GSimpleAsyncResult *result;
-	GError             *error = NULL;
-	JsonNode           *node;
-
-	result = _web_service_get_result (WEB_SERVICE (self));
-
-	if (picasa_web_utils_parse_json_response (msg, &node, &error)) {
-		OAuthAccount *account;
-
-		account = (OAuthAccount *) json_gobject_deserialize (OAUTH_TYPE_ACCOUNT, node);
-		g_object_set (account,
-			      "token", self->priv->access_token,
-			      "token-secret", self->priv->refresh_token,
-			      NULL);
-		g_simple_async_result_set_op_res_gpointer (result,
-							   g_object_ref (account),
-							   (GDestroyNotify) g_object_unref);
-
-		_g_object_unref (account);
-		json_node_free (node);
-	}
-	else
-		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
-}
-
-
 typedef struct {
 	PicasaWebService    *service;
 	GCancellable        *cancellable;
@@ -482,6 +452,65 @@ picasa_web_service_get_user_info (WebService          *base,
 
 
 static void
+picasa_web_service_get_user_info_ready_cb (SoupSession *session,
+				           SoupMessage *msg,
+				           gpointer     user_data)
+{
+	AccessTokenData    *data = user_data;
+	PicasaWebService   *self = data->service;
+	GSimpleAsyncResult *result;
+	GError             *error = NULL;
+	JsonNode           *node;
+
+	result = _web_service_get_result (WEB_SERVICE (self));
+
+	if (picasa_web_utils_parse_json_response (msg, &node, &error)) {
+		OAuthAccount *account;
+
+		account = (OAuthAccount *) json_gobject_deserialize (OAUTH_TYPE_ACCOUNT, node);
+		g_object_set (account,
+			      "token", self->priv->access_token,
+			      "token-secret", self->priv->refresh_token,
+			      NULL);
+		g_simple_async_result_set_op_res_gpointer (result,
+							   g_object_ref (account),
+							   (GDestroyNotify) g_object_unref);
+
+		_g_object_unref (account);
+		json_node_free (node);
+	}
+	else {
+		if (error->code == PICASA_WEB_SERVICE_ERROR_UNAUTHORIZED) {
+			self->priv->n_auth_errors += 1;
+			if (self->priv->n_auth_errors == 1) {
+				OAuthAccount *account;
+
+				/* reset the account token to force asking the
+				 * access token again. */
+
+				account = web_service_get_current_account (WEB_SERVICE (self));
+				if (account != NULL)
+					_g_strset (&account->token, NULL);
+
+				picasa_web_service_get_user_info (WEB_SERVICE (self),
+								  data->cancellable,
+								  data->callback,
+								  data->user_data);
+				access_token_data_free (data);
+				return;
+			}
+		}
+		g_simple_async_result_set_from_error (result, error);
+	}
+
+	self->priv->n_auth_errors = 0;
+	g_simple_async_result_complete_in_idle (result);
+
+	access_token_data_free (data);
+}
+
+
+static void
 access_token_ready_cb (GObject      *source_object,
 		       GAsyncResult *result,
 		       gpointer      user_data)
@@ -492,6 +521,9 @@ access_token_ready_cb (GObject      *source_object,
 
 	if (! _picasa_web_service_get_access_token_finish (self, result, &error)) {
 		GSimpleAsyncResult *result;
+
+		if (error->code == PICASA_WEB_SERVICE_ERROR_UNAUTHORIZED)
+			self->priv->n_auth_errors += 1;
 
 		result = g_simple_async_result_new (G_OBJECT (self),
 						    data->callback,
@@ -522,8 +554,8 @@ picasa_web_service_get_user_info (WebService          *base,
 {
 	PicasaWebService *self = PICASA_WEB_SERVICE (base);
 	OAuthAccount     *account;
-	GHashTable       *data_set;
 	SoupMessage      *msg;
+	AccessTokenData  *data;
 
 	account = web_service_get_current_account (WEB_SERVICE (self));
 	if (account != NULL) {
@@ -531,8 +563,16 @@ picasa_web_service_get_user_info (WebService          *base,
 		_g_strset (&self->priv->access_token, account->token);
 	}
 
-	data_set = g_hash_table_new (g_str_hash, g_str_equal);
+	data = g_new0 (AccessTokenData, 1);
+	data->service = self;
+	data->cancellable = _g_object_ref (cancellable);
+	data->callback = callback;
+	data->user_data = user_data;
+
 	if (self->priv->access_token != NULL) {
+		GHashTable *data_set;
+
+		data_set = g_hash_table_new (g_str_hash, g_str_equal);
 		msg = soup_form_request_new_from_hash ("GET", "https://www.googleapis.com/oauth2/v2/userinfo", data_set);
 		_picasa_web_service_add_headers (self, msg);
 		_web_service_send_message (WEB_SERVICE (self),
@@ -542,26 +582,18 @@ picasa_web_service_get_user_info (WebService          *base,
 					   user_data,
 					   picasa_web_service_get_user_info,
 					   picasa_web_service_get_user_info_ready_cb,
-					   self);
+					   data);
+
+		g_hash_table_destroy (data_set);
 	}
 	else {
 		/* Get the access token from the refresh token */
-
-		AccessTokenData *data;
-
-		data = g_new0 (AccessTokenData, 1);
-		data->service = self;
-		data->cancellable = _g_object_ref (cancellable);
-		data->callback = callback;
-		data->user_data = user_data;
 		_picasa_web_service_get_access_token (self,
 						      self->priv->refresh_token,
 						      cancellable,
 						      access_token_ready_cb,
 						      data);
 	}
-
-	g_hash_table_destroy (data_set);
 }
 
 
@@ -591,6 +623,7 @@ picasa_web_service_init (PicasaWebService *self)
 	self->priv->quota_limit = 0;
 	self->priv->quota_used = 0;
 	self->priv->post_photos = NULL;
+	self->priv->n_auth_errors = 0;
 }
 
 
