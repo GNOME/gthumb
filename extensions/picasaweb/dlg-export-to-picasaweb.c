@@ -71,12 +71,14 @@ destroy_dialog (DialogData *data)
 {
 	if (data->dialog != NULL)
 		gtk_widget_destroy (data->dialog);
-	gth_task_completed (GTH_TASK (data->service), NULL);
+	if (data->service != NULL)
+		gth_task_completed (GTH_TASK (data->service), NULL);
 	_g_object_unref (data->cancellable);
 	_g_object_unref (data->album);
 	_g_object_unref (data->service);
 	_g_object_list_unref (data->albums);
-	gtk_widget_destroy (data->progress_dialog);
+	if (data->progress_dialog != NULL)
+		gtk_widget_destroy (data->progress_dialog);
 	_g_object_unref (data->builder);
 	_g_object_list_unref (data->file_list);
 	_g_object_unref (data->location);
@@ -593,8 +595,6 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 
 	if (data->file_list == NULL) {
 		GError *error;
-
-		gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
 
 		error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, _("No valid file selected."));
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not export the files"), error);
