@@ -296,92 +296,6 @@ update_album_list (DialogData *data)
 
 
 static void
-create_album_ready_cb (GObject      *source_object,
-		       GAsyncResult *result,
-		       gpointer      user_data)
-{
-	DialogData       *data = user_data;
-	PicasaWebService *picasaweb = PICASA_WEB_SERVICE (source_object);
-	PicasaWebAlbum   *album;
-	GError           *error = NULL;
-
-	album = picasa_web_service_create_album_finish (picasaweb, result, &error);
-	if (error != NULL) {
-		gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not create the album"), error);
-		g_clear_error (&error);
-		return;
-	}
-
-	data->albums = g_list_append (data->albums, album);
-	update_album_list (data);
-}
-
-
-static void
-new_album_dialog_response_cb (GtkDialog *dialog,
-			      int        response_id,
-			      gpointer   user_data)
-{
-	DialogData *data = user_data;
-
-	switch (response_id) {
-	case GTK_RESPONSE_DELETE_EVENT:
-	case GTK_RESPONSE_CANCEL:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		break;
-
-	case GTK_RESPONSE_OK:
-		{
-			PicasaWebAlbum *album;
-
-			album = picasa_web_album_new ();
-			picasa_web_album_set_title (album, picasa_album_properties_dialog_get_name (PICASA_ALBUM_PROPERTIES_DIALOG (dialog)));
-			album->access = picasa_album_properties_dialog_get_access (PICASA_ALBUM_PROPERTIES_DIALOG (dialog));
-			picasa_web_service_create_album (data->service,
-							 album,
-							 data->cancellable,
-							 create_album_ready_cb,
-							 data);
-
-			g_object_unref (album);
-		}
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		break;
-
-	default:
-		break;
-	}
-}
-
-
-static void
-add_album_button_clicked_cb (GtkButton *button,
-			     gpointer   user_data)
-{
-	DialogData *data = user_data;
-	GtkWidget  *dialog;
-
-	dialog = picasa_album_properties_dialog_new (g_file_info_get_edit_name (data->location->info),
-						     NULL,
-						     PICASA_WEB_ACCESS_PUBLIC);
-	g_signal_connect (dialog,
-			  "delete-event",
-			  G_CALLBACK (gtk_true),
-			  NULL);
-	g_signal_connect (dialog,
-			  "response",
-			  G_CALLBACK (new_album_dialog_response_cb),
-			  data);
-
-	gtk_window_set_title (GTK_WINDOW (dialog), _("New Album"));
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gtk_window_present (GTK_WINDOW (dialog));
-}
-
-
-static void
 edit_accounts_button_clicked_cb (GtkButton *button,
 			         gpointer   user_data)
 {
@@ -654,10 +568,6 @@ dlg_export_to_picasaweb (GthBrowser *browser,
 	g_signal_connect (data->dialog,
 			  "response",
 			  G_CALLBACK (export_dialog_response_cb),
-			  data);
-	g_signal_connect (GET_WIDGET ("add_album_button"),
-			  "clicked",
-			  G_CALLBACK (add_album_button_clicked_cb),
 			  data);
 	g_signal_connect (GET_WIDGET ("edit_accounts_button"),
 			  "clicked",

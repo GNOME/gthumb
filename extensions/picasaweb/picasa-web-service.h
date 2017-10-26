@@ -62,14 +62,6 @@ void                 picasa_web_service_list_albums         (PicasaWebService   
 GList *              picasa_web_service_list_albums_finish  (PicasaWebService     *self,
 						             GAsyncResult         *result,
 						             GError              **error);
-void                 picasa_web_service_create_album        (PicasaWebService     *self,
-							     PicasaWebAlbum       *album,
-							     GCancellable         *cancellable,
-							     GAsyncReadyCallback   callback,
-							     gpointer              user_data);
-PicasaWebAlbum *     picasa_web_service_create_album_finish (PicasaWebService     *self,
-							     GAsyncResult         *result,
-							     GError              **error);
 void                 picasa_web_service_post_photos         (PicasaWebService     *self,
 							     PicasaWebAlbum       *album,
 							     GList                *file_list, /* GFile list */
