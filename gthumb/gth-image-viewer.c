@@ -806,24 +806,6 @@ queue_animation_frame_change (GthImageViewer *self)
 
 
 static gboolean
-image_has_alpha (GthImageViewer *viewer)
-{
-	cairo_surface_t *image;
-	guchar          *first_pixel;
-
-	image = gth_image_viewer_get_current_image (viewer);
-	if (image == NULL)
-		return FALSE;
-
-	first_pixel = _cairo_image_surface_flush_and_get_data (image);
-	if (first_pixel == NULL)
-		return FALSE;
-
-	return first_pixel[CAIRO_ALPHA] < 255;
-}
-
-
-static gboolean
 gth_image_viewer_draw (GtkWidget *widget,
 		       cairo_t   *cr)
 {
@@ -2632,50 +2614,64 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 }
 
 
+#define FRAME_SHADOW_OFS 1
+
+
 void
 gth_image_viewer_paint_frame (GthImageViewer *self,
 			      cairo_t        *cr)
 {
-	if (! gth_image_viewer_is_frame_visible (self)
-	    || gth_image_viewer_is_animation (self)
-	    || image_has_alpha (self))
-	{
-		return;
-	}
+	gboolean background_only;
+
+	background_only = ! gth_image_viewer_is_frame_visible (self);
 
 	cairo_save (cr);
 
 	cairo_translate (cr, -self->visible_area.x, -self->visible_area.y);
 
-	/* drop shadow */
+	if (! background_only) {
+		/* drop shadow */
 
-	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
+		cairo_rectangle (cr,
+				 self->image_area.x + FRAME_SHADOW_OFS + 0.5,
+				 self->image_area.y + FRAME_SHADOW_OFS + 0.5,
+				 self->image_area.width + 2 + FRAME_SHADOW_OFS,
+				 self->image_area.height + 2 + FRAME_SHADOW_OFS);
+		cairo_fill (cr);
+	}
+
+	/* background */
+
+	cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
 	cairo_rectangle (cr,
-			 self->image_area.x + 2 + 0.5,
-			 self->image_area.y + 2 + 0.5,
-			 self->image_area.width + 2,
-			 self->image_area.height + 2);
+			 self->image_area.x,
+			 self->image_area.y,
+			 self->image_area.width,
+			 self->image_area.height);
 	cairo_fill (cr);
 
-	/* frame */
+	if (! background_only) {
+		/* frame */
 
-	cairo_set_line_width (cr, 2.0);
-	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-	cairo_rectangle (cr,
-			 self->image_area.x - 1,
-			 self->image_area.y - 1,
-			 self->image_area.width + 2,
-			 self->image_area.height + 2);
-	cairo_stroke (cr);
+		cairo_set_line_width (cr, 2.0);
+		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+		cairo_rectangle (cr,
+				 self->image_area.x - 1,
+				 self->image_area.y - 1,
+				 self->image_area.width + 2,
+				 self->image_area.height + 2);
+		cairo_stroke (cr);
 
-	cairo_set_line_width (cr, 1.0);
-	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-	cairo_rectangle (cr,
-			 self->image_area.x - 2,
-			 self->image_area.y - 2,
-			 self->image_area.width + 5,
-			 self->image_area.height + 5);
-	cairo_stroke (cr);
+		cairo_set_line_width (cr, 1.0);
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		cairo_rectangle (cr,
+				 self->image_area.x - 2,
+				 self->image_area.y - 2,
+				 self->image_area.width + 5,
+				 self->image_area.height + 5);
+		cairo_stroke (cr);
+	}
 
 	cairo_restore (cr);
 }
