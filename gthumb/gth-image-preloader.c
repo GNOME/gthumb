@@ -223,6 +223,20 @@ load_request_unref (LoadRequest *request)
 }
 
 
+static void
+load_request_completed_with_error (LoadRequest *request,
+				   GQuark       domain,
+				   int          code)
+{
+	GError *error;
+
+	error = g_error_new_literal (domain, code, "");
+	g_simple_async_result_set_from_error (request->result, error);
+
+	g_error_free (error);
+}
+
+
 /* -- GthImagePreloader -- */
 
 
@@ -417,14 +431,8 @@ _gth_image_preloader_request_completed (GthImagePreloader *self,
 								   (GDestroyNotify) cache_data_unref);
 			g_simple_async_result_complete_in_idle (request->result);
 		}
-		else {
-			GError *error;
-
-			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_FOUND, "");
-			g_simple_async_result_set_from_error (request->result, error);
-
-			g_error_free (error);
-		}
+		else
+			load_request_completed_with_error (request, G_IO_ERROR, G_IO_ERROR_NOT_FOUND);
 	}
 
 	/* queue the next file */
@@ -752,10 +760,13 @@ _gth_image_preloader_cancel_current_request (GthImagePreloader *self)
 	if (self->priv->current_request == NULL)
 		return;
 
-	if (self->priv->load_next_id > 0) {
-		g_source_remove (self->priv->load_next_id);
-		self->priv->load_next_id = 0;
+	if ((self->priv->load_next_id > 0) || g_cancellable_is_cancelled (self->priv->current_request->cancellable)) {
+		if (self->priv->load_next_id > 0) {
+			g_source_remove (self->priv->load_next_id);
+			self->priv->load_next_id = 0;
+		}
 
+		load_request_completed_with_error (self->priv->current_request, G_IO_ERROR, G_IO_ERROR_CANCELLED);
 		_gth_image_preloader_request_finished (self, self->priv->current_request);
 		_gth_image_preloader_start_request (self, self->priv->last_request);
 	}

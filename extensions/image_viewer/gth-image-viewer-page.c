@@ -2310,11 +2310,13 @@ get_original_image_ready_cb (GObject		*source_object,
 	cairo_surface_t      *image = NULL;
 	GError               *error = NULL;
 
-	gth_image_viewer_page_get_original_finish (self->viewer_page,
-						   result,
-						   &image,
-						   &error);
-	gth_image_task_set_destination_surface (GTH_IMAGE_TASK (self), image);
+	if (gth_image_viewer_page_get_original_finish (self->viewer_page,
+						       result,
+						       &image,
+						       &error))
+	{
+		gth_image_task_set_destination_surface (GTH_IMAGE_TASK (self), image);
+	}
 	gth_task_completed (GTH_TASK (self), error);
 
 	cairo_surface_destroy (image);
