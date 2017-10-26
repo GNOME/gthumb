@@ -425,7 +425,7 @@ oauth_accounts_save_to_file (const char   *service_name,
 		OAuthAccount *account = scan->data;
 		DomElement    *node;
 
-		if ((default_account != NULL) && g_strcmp0 (account->username, default_account->username) == 0)
+		if ((default_account != NULL) && g_strcmp0 (account->id, default_account->id) == 0)
 			account->is_default = TRUE;
 		else
 			account->is_default = FALSE;

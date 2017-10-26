@@ -168,7 +168,7 @@ oauth_account_chooser_dialog_construct (OAuthAccountChooserDialog *self,
 	for (scan = accounts, idx = 0; scan; scan = scan->next, idx++) {
 		OAuthAccount *account = scan->data;
 
-		if ((default_account != NULL) && (g_strcmp0 (account->username, default_account->username) == 0))
+		if ((default_account != NULL) && (oauth_account_cmp (account, default_account) == 0))
 			active = idx;
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
