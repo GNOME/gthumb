@@ -174,7 +174,7 @@ oauth_account_chooser_dialog_construct (OAuthAccountChooserDialog *self,
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("account_liststore")), &iter,
 				    ACCOUNT_DATA_COLUMN, account,
-				    ACCOUNT_NAME_COLUMN, account->username,
+				    ACCOUNT_NAME_COLUMN, account->name,
 				    ACCOUNT_SEPARATOR_COLUMN, FALSE,
 				    ACCOUNT_ICON_COLUMN, "dialog-password-symbolic",
 				    -1);
