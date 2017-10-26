@@ -219,7 +219,7 @@ _picasa_web_service_get_refresh_token (PicasaWebService    *self,
 	g_hash_table_insert (data_set, "client_secret", GTHUMB_PICASA_WEB_CLIENT_SECRET);
 	g_hash_table_insert (data_set, "redirect_uri", PICASA_WEB_REDIRECT_URI);
 	g_hash_table_insert (data_set, "grant_type", "authorization_code");
-	msg = soup_form_request_new_from_hash ("POST", "https://accounts.google.com/o/oauth2/token", data_set);
+	msg = soup_form_request_new_from_hash ("POST", "https://www.googleapis.com/oauth2/v4/token", data_set);
 	_picasa_web_service_add_headers (self, msg);
 	_web_service_send_message (WEB_SERVICE (self),
 				   msg,
@@ -304,7 +304,7 @@ picasa_web_service_get_authorization_url (PicasaWebService *self)
 	g_hash_table_insert (data_set, "scope", "https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.profile");
 	g_hash_table_insert (data_set, "access_type", "offline");
 
-	link = g_string_new ("https://accounts.google.com/o/oauth2/auth?");
+	link = g_string_new ("https://accounts.google.com/o/oauth2/v2/auth?");
 	keys = g_hash_table_get_keys (data_set);
 	for (scan = keys; scan; scan = scan->next) {
 		char *key = scan->data;
