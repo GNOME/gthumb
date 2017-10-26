@@ -76,8 +76,6 @@ void     gth_selections_manager_update_file_info (GFile                *file,
 gboolean gth_selections_manager_file_exists      (int                   n_selection,
 						  GFile                *file);
 gboolean gth_selections_manager_get_is_empty     (int                   n_selection);
-void     gth_selections_manager_load_from_file   (void);
-void     gth_selections_manager_save_to_file     (void);
 
 /* utilities */
 

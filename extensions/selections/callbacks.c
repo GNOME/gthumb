@@ -161,13 +161,6 @@ folder_changed_cb (GthMonitor      *monitor,
 
 
 void
-selections__initialize_cb (void)
-{
-	gth_selections_manager_load_from_file ();
-}
-
-
-void
 selections__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
@@ -196,13 +189,6 @@ selections__gth_browser_construct_cb (GthBrowser *browser)
 						    "folder-changed",
 						    G_CALLBACK (folder_changed_cb),
 						    data);
-}
-
-
-void
-selections__gth_browser_close_last_window_cb (GthBrowser *browser)
-{
-	gth_selections_manager_save_to_file ();
 }
 
 
