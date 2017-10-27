@@ -232,8 +232,6 @@ extensions/facebook/callbacks.h
 [type: gettext/glade]extensions/facebook/data/ui/import-from-facebook.ui
 extensions/facebook/dlg-export-to-facebook.c
 extensions/facebook/dlg-export-to-facebook.h
-extensions/facebook/dlg-import-from-facebook.c
-extensions/facebook/dlg-import-from-facebook.h
 extensions/facebook/facebook-album.c
 extensions/facebook/facebook-album.h
 extensions/facebook/facebook-album-properties-dialog.c
@@ -520,28 +518,6 @@ extensions/oauth/oauth-service.c
 extensions/oauth/oauth-service.h
 extensions/oauth/web-service.c
 extensions/oauth/web-service.h
-extensions/photobucket/actions.c
-extensions/photobucket/actions.h
-extensions/photobucket/callbacks.c
-extensions/photobucket/callbacks.h
-[type: gettext/glade]extensions/photobucket/data/ui/export-to-photobucket.ui
-[type: gettext/glade]extensions/photobucket/data/ui/photobucket-album-properties.ui
-extensions/photobucket/dlg-export-to-photobucket.c
-extensions/photobucket/dlg-export-to-photobucket.h
-extensions/photobucket/main.c
-extensions/photobucket/photobucket-account.c
-extensions/photobucket/photobucket-account.h
-extensions/photobucket/photobucket-album.c
-extensions/photobucket/photobucket-album.h
-extensions/photobucket/photobucket-album-properties-dialog.c
-extensions/photobucket/photobucket-album-properties-dialog.h
-extensions/photobucket/photobucket-consumer.c
-extensions/photobucket/photobucket-consumer.h
-[type: gettext/ini]extensions/photobucket/photobucket.extension.in.in
-extensions/photobucket/photobucket-photo.c
-extensions/photobucket/photobucket-photo.h
-extensions/photobucket/photobucket-service.c
-extensions/photobucket/photobucket-service.h
 extensions/photo_importer/actions.c
 extensions/photo_importer/actions.h
 extensions/photo_importer/callbacks.c
