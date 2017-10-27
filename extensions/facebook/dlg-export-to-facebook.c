@@ -31,7 +31,6 @@
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (data->builder, (x)))
-#define _OPEN_IN_BROWSER_RESPONSE 1
 
 
 enum {
@@ -106,30 +105,6 @@ completed_messagedialog_response_cb (GtkDialog *dialog,
 		gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
 		break;
 
-	case _OPEN_IN_BROWSER_RESPONSE:
-		{
-			GdkScreen *screen;
-			char      *url = NULL;
-			GError    *error = NULL;
-
-			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
-			gtk_widget_destroy (GTK_WIDGET (dialog));
-
-			if ((data->album != NULL) && (data->album->link != NULL))
-				url = g_strdup (data->album->link);
-
-			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
-				gth_task_dialog (GTH_TASK (data->service), TRUE, NULL);
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), _("Could not connect to the server"), error);
-				g_clear_error (&error);
-			}
-
-			gtk_dialog_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_DELETE_EVENT);
-
-			g_free (url);
-		}
-		break;
-
 	default:
 		break;
 	}
@@ -149,7 +124,6 @@ export_completed_with_success (DialogData *data)
 					  _("Files successfully uploaded to the server."),
 					  NULL,
 					  _GTK_LABEL_CLOSE, GTK_RESPONSE_CLOSE,
-					  _("_Open in the Browser"), _OPEN_IN_BROWSER_RESPONSE,
 					  NULL);
 	g_signal_connect (dialog,
 			  "delete-event",
