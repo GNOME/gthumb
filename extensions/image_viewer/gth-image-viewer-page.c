@@ -337,7 +337,7 @@ different_quality_ready_cb (GObject		*source_object,
 	int		    original_width;
 	int		    original_height;
 	GError		   *error = NULL;
-	cairo_surface_t    *s1;
+	cairo_surface_t    *s1 = NULL;
 	cairo_surface_t    *s2;
 	int                 w1, h1, w2, h2;
 	gboolean            got_better_quality;
@@ -367,12 +367,20 @@ different_quality_ready_cb (GObject		*source_object,
 	/* check whether the image is of different quality */
 
 	s1 = gth_image_get_cairo_surface (image);
+	if (s1 == NULL)
+		goto clear_data;
+
 	s2 = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer));
-	w1 = cairo_image_surface_get_width (s1);
-	h1 = cairo_image_surface_get_height (s1);
-	w2 = cairo_image_surface_get_width (s2);
-	h2 = cairo_image_surface_get_height (s2);
-	got_better_quality = ((w1 > w2) || (h1 > h2));
+	if (s2 == NULL) {
+		got_better_quality = TRUE;
+	}
+	else {
+		w1 = cairo_image_surface_get_width (s1);
+		h1 = cairo_image_surface_get_height (s1);
+		w2 = cairo_image_surface_get_width (s2);
+		h2 = cairo_image_surface_get_height (s2);
+		got_better_quality = ((w1 > w2) || (h1 > h2));
+	}
 
 	if (got_better_quality) {
 		gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
@@ -384,10 +392,10 @@ different_quality_ready_cb (GObject		*source_object,
 		gtk_widget_queue_draw (self->priv->viewer);
 	}
 
-	cairo_surface_destroy (s1);
-
 clear_data:
 
+	if (s1 != NULL)
+		cairo_surface_destroy (s1);
 	_g_object_unref (requested);
 	_g_object_unref (image);
 	g_clear_error (&error);
@@ -2189,6 +2197,8 @@ original_image_ready_cb (GObject	*source_object,
 	GError            *error = NULL;
 
 	if (! _gth_image_viewer_page_load_with_preloader_finish (data->viewer_page)) {
+		g_simple_async_result_take_error (data->result, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
+		g_simple_async_result_complete_in_idle (data->result);
 		get_original_data_free (data);
 		return;
 	}

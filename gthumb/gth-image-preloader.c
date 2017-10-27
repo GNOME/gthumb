@@ -60,6 +60,7 @@ typedef struct {
 
 typedef struct {
 	int			 ref;
+	gboolean                 loading;
 	gboolean                 finalized;
 	GthImagePreloader	*preloader;
 	GList			*files;			/* List of GthFileData */
@@ -188,6 +189,7 @@ load_request_new (GthImagePreloader *preloader)
 
 	request = g_new0 (LoadRequest, 1);
 	request->ref = 1;
+	request->loading = FALSE;
 	request->finalized = FALSE;
 	request->preloader = preloader;
 	request->files = NULL;
@@ -366,8 +368,10 @@ _gth_image_preloader_request_finished (GthImagePreloader *self,
 {
 	if (self->priv->last_request == load_request)
 		self->priv->last_request = NULL;
-	load_request_unref (self->priv->current_request);
-	self->priv->current_request = NULL;
+	if (self->priv->current_request == load_request) {
+		load_request_unref (self->priv->current_request);
+		self->priv->current_request = NULL;
+	}
 	load_request_unref (load_request);
 }
 
@@ -603,6 +607,22 @@ _gth_image_preloader_resize_at_requested_size (GthImagePreloader *self,
 
 
 static void
+_gth_image_preloader_request_cancelled (GthImagePreloader *self,
+				        LoadRequest       *request)
+{
+	if (request->current_file == request->requested_file) {
+		g_simple_async_result_take_error (request->result, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
+		g_simple_async_result_complete_in_idle (request->result);
+	}
+
+	_gth_image_preloader_request_finished (self, request);
+
+	if (self->priv->last_request != NULL)
+		_gth_image_preloader_start_request (self, self->priv->last_request);
+}
+
+
+static void
 image_loader_ready_cb (GObject      *source_object,
 		       GAsyncResult *result,
 		       gpointer      user_data)
@@ -618,6 +638,8 @@ image_loader_ready_cb (GObject      *source_object,
 	gboolean           success;
 	CacheData         *cache_data;
 	gboolean           resized;
+
+	request->loading = FALSE;
 
 	if (request->finalized) {
 #ifdef DEBUG_PRELOADER
@@ -645,11 +667,7 @@ image_loader_ready_cb (GObject      *source_object,
 		if (error != NULL)
 			g_error_free (error);
 		_g_object_unref (image);
-		_gth_image_preloader_request_finished (self, request);
-
-		if (self->priv->last_request != NULL)
-			_gth_image_preloader_start_request (self, self->priv->last_request);
-
+		_gth_image_preloader_request_cancelled (self, request);
 		return;
 	}
 
@@ -731,6 +749,7 @@ _gth_image_preloader_load_current_file (GthImagePreloader *self,
 	g_print ("load %s @%d\n", g_file_get_uri (requested_file->file), ignore_requested_size ? -1 : request->requested_size);
 #endif
 
+	request->loading = TRUE;
 	gth_image_loader_set_out_profile (self->priv->loader, self->priv->out_profile);
 	gth_image_loader_load (self->priv->loader,
 			       requested_file,
@@ -760,16 +779,13 @@ _gth_image_preloader_cancel_current_request (GthImagePreloader *self)
 	if (self->priv->current_request == NULL)
 		return;
 
-	if ((self->priv->load_next_id > 0) || g_cancellable_is_cancelled (self->priv->current_request->cancellable)) {
-		if (self->priv->load_next_id > 0) {
-			g_source_remove (self->priv->load_next_id);
-			self->priv->load_next_id = 0;
-		}
-
-		load_request_completed_with_error (self->priv->current_request, G_IO_ERROR, G_IO_ERROR_CANCELLED);
-		_gth_image_preloader_request_finished (self, self->priv->current_request);
-		_gth_image_preloader_start_request (self, self->priv->last_request);
+	if (self->priv->load_next_id > 0) {
+		g_source_remove (self->priv->load_next_id);
+		self->priv->load_next_id = 0;
 	}
+
+	if (! self->priv->current_request->loading)
+		_gth_image_preloader_request_cancelled (self, self->priv->current_request);
 	else
 		g_cancellable_cancel (self->priv->current_request->cancellable);
 }
@@ -827,11 +843,15 @@ gth_image_preloader_load (GthImagePreloader	 *self,
 	va_end (args);
 	request->files = g_list_reverse (request->files);
 	request->requested_file = request->files;
+	request->current_file = request->files;
 	request->result = g_simple_async_result_new (G_OBJECT (self),
 						     callback,
 						     user_data,
 						     gth_image_preloader_load);
 	request->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
+
+	if ((self->priv->last_request != NULL) && (self->priv->last_request != self->priv->current_request))
+		_gth_image_preloader_request_cancelled (self, self->priv->last_request);
 
 	self->priv->last_request = request;
 	if (self->priv->current_request != NULL)
@@ -854,6 +874,9 @@ gth_image_preloader_load_finish (GthImagePreloader	 *self,
 	CacheData *cache_data;
 
 	g_return_val_if_fail (g_simple_async_result_is_valid (result, G_OBJECT (self), gth_image_preloader_load), FALSE);
+
+	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
+		return FALSE;
 
 	cache_data = g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
 	g_return_val_if_fail (cache_data != NULL, FALSE);
