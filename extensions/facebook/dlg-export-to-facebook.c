@@ -266,23 +266,18 @@ update_album_list (DialogData    *data,
 	gtk_list_store_clear (GTK_LIST_STORE (GET_WIDGET ("album_liststore")));
 	for (scan = data->albums; scan; scan = scan->next) {
 		FacebookAlbum *album = scan->data;
-		char          *size;
 		GtkTreeIter    iter;
-
-		size = g_strdup_printf ("(%d)", album->count);
 
 		gtk_list_store_append (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter);
 		gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("album_liststore")), &iter,
 				    ALBUM_DATA_COLUMN, album,
 				    ALBUM_ICON_COLUMN, "file-catalog-symbolic",
 				    ALBUM_TITLE_COLUMN, album->name,
-				    ALBUM_SIZE_COLUMN, size,
+				    ALBUM_SIZE_COLUMN, "", /* the count field is not returned anymore */
 				    -1);
 
 		if ((to_select != NULL) && g_str_equal (to_select->id, album->id))
 			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("album_combobox")), &iter);
-
-		g_free (size);
 	}
 }
 
