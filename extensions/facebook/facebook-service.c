@@ -319,6 +319,10 @@ facebook_service_ask_authorization (WebService *base)
 			  "redirected",
 			  G_CALLBACK (ask_authorization_dialog_redirected_cb),
 			  self);
+	g_signal_connect (OAUTH_ASK_AUTHORIZATION_DIALOG (dialog),
+			  "load-request",
+			  G_CALLBACK (ask_authorization_dialog_redirected_cb),
+			  self);
 
 	gtk_widget_show (dialog);
 }
