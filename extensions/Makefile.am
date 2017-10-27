@@ -14,7 +14,6 @@ EXPORTERS = 			\
 	facebook		\
 	flicker_utils		\
 	$(FLICKR_EXPORTERS)	\
-	photobucket		\
 	picasaweb		\
 	webalbums		\
 	$(NULL)
