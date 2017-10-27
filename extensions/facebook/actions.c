@@ -25,7 +25,6 @@
 #include <gthumb.h>
 #include "actions.h"
 #include "dlg-export-to-facebook.h"
-#include "dlg-import-from-facebook.h"
 
 
 void
@@ -45,13 +44,4 @@ gth_browser_activate_export_facebook (GSimpleAction	*action,
 
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
-}
-
-
-void
-gth_browser_activate_import_facebook (GSimpleAction	*action,
-				      GVariant		*parameter,
-				      gpointer		 user_data)
-{
-	dlg_import_from_facebook (GTH_BROWSER (user_data));
 }

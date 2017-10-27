@@ -32,7 +32,6 @@
 
 static const GActionEntry actions[] = {
 	{ "export-facebook", gth_browser_activate_export_facebook },
-	{ "import-facebook", gth_browser_activate_import_facebook }
 };
 
 
@@ -49,12 +48,6 @@ fb__gth_browser_construct_cb (GthBrowser *browser)
 				       GTH_MENU_MANAGER_NEW_MERGE_ID,
 				       "Facebook…",
 				       "win.export-facebook",
-				       NULL,
-				       "site-facebook");
-	gth_menu_manager_append_entry (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_WEB_IMPORTERS),
-				       GTH_MENU_MANAGER_NEW_MERGE_ID,
-				       "Facebook…",
-				       "win.import-facebook",
 				       NULL,
 				       "site-facebook");
 }

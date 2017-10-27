@@ -12,8 +12,6 @@ libfacebook_la_SOURCES = 			\
 	callbacks.h				\
 	dlg-export-to-facebook.c		\
 	dlg-export-to-facebook.h		\
-	dlg-import-from-facebook.c		\
-	dlg-import-from-facebook.h		\
 	facebook-album.c			\
 	facebook-album.h			\
 	facebook-album-properties-dialog.c	\
