@@ -281,6 +281,7 @@ gth_image_dragger_draw (GthImageViewerTool *self,
 	}
 	else {
 		double zoom = gth_image_viewer_get_zoom (viewer);
+		int    screen_scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (viewer));
 
 		gth_image_viewer_paint_region (viewer,
 					       cr,
@@ -288,7 +289,7 @@ gth_image_dragger_draw (GthImageViewerTool *self,
 					       viewer->image_area.x,
 					       viewer->image_area.y,
 					       &viewer->visible_area,
-					       (gth_image_viewer_get_zoom_quality (viewer) == GTH_ZOOM_QUALITY_HIGH) && (zoom > 1.0) && (zoom <= MAX_ZOOM_LEVEL_FOR_HIGH_QUALITY) ? CAIRO_FILTER_BILINEAR : CAIRO_FILTER_FAST);
+					       (gth_image_viewer_get_zoom_quality (viewer) == GTH_ZOOM_QUALITY_HIGH) && (zoom * screen_scale_factor > 1.0) && (zoom <= MAX_ZOOM_LEVEL_FOR_HIGH_QUALITY) ? CAIRO_FILTER_BILINEAR : CAIRO_FILTER_FAST);
 	}
 
 	gth_image_viewer_apply_painters (viewer, cr);
@@ -520,7 +521,7 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 
 	screen_scale_factor = gtk_widget_get_scale_factor (GTK_WIDGET (self->priv->viewer));
 
-	if ((screen_scale_factor == 1) && (gth_image_viewer_get_zoom_quality_filter (self->priv->viewer) == CAIRO_FILTER_FAST)) {
+	if (gth_image_viewer_get_zoom_quality_filter (self->priv->viewer) == CAIRO_FILTER_FAST) {
 		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 		return;
 	}
@@ -533,7 +534,7 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 	image_height = cairo_image_surface_get_height (image);
 	zoom_from_image = (double) new_width / image_width;
 
-	if ((screen_scale_factor == 1) && (zoom_from_image >= 1.0)) {
+	if (zoom_from_image >= 1.0) {
 		gtk_widget_queue_draw (GTK_WIDGET (self->priv->viewer));
 		return;
 	}
