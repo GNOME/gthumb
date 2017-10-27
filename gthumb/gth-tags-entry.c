@@ -1078,7 +1078,6 @@ gth_tags_entry_init (GthTagsEntry *self)
 	GtkCellRenderer   *renderer;
 	GtkWidget         *menu_item;
 
-	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), GTK_STYLE_CLASS_COMBOBOX_ENTRY);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (self), 3);
