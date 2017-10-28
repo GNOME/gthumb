@@ -231,8 +231,6 @@ extensions/facebook/data/ui/facebook-album-properties.ui
 extensions/facebook/data/ui/import-from-facebook.ui
 extensions/facebook/dlg-export-to-facebook.c
 extensions/facebook/dlg-export-to-facebook.h
-extensions/facebook/dlg-import-from-facebook.c
-extensions/facebook/dlg-import-from-facebook.h
 extensions/facebook/facebook-album-properties-dialog.c
 extensions/facebook/facebook-album-properties-dialog.h
 extensions/facebook/facebook-album.c
@@ -523,19 +521,6 @@ extensions/photo_importer/actions.c
 extensions/photo_importer/actions.h
 extensions/photo_importer/callbacks.c
 extensions/photo_importer/callbacks.h
-<<<<<<< HEAD
-[type: gettext/glade]extensions/photo_importer/data/ui/import-menu.ui
-[type: gettext/glade]extensions/photo_importer/data/ui/photo-importer-options.ui
-[type: gettext/glade]extensions/photo_importer/data/ui/photo-importer.ui
-extensions/photo_importer/dlg-photo-importer.c
-extensions/photo_importer/dlg-photo-importer.h
-extensions/photo_importer/dlg-photo-importer-preferences.c
-extensions/photo_importer/dlg-photo-importer-preferences.h
-extensions/photo_importer/main.c
-[type: gettext/ini]extensions/photo_importer/photo_importer.extension.in.in
-extensions/photo_importer/photo-importer.h
-extensions/photo_importer/preferences.h
-=======
 extensions/photo_importer/data/ui/import-menu.ui
 extensions/photo_importer/data/ui/photo-importer-options.ui
 extensions/photo_importer/data/ui/photo-importer.ui
@@ -547,29 +532,6 @@ extensions/photo_importer/main.c
 extensions/photo_importer/photo-importer.h
 extensions/photo_importer/photo_importer.extension.in.in
 extensions/photo_importer/preferences.h
-extensions/photobucket/actions.c
-extensions/photobucket/actions.h
-extensions/photobucket/callbacks.c
-extensions/photobucket/callbacks.h
-extensions/photobucket/data/ui/export-to-photobucket.ui
-extensions/photobucket/data/ui/photobucket-album-properties.ui
-extensions/photobucket/dlg-export-to-photobucket.c
-extensions/photobucket/dlg-export-to-photobucket.h
-extensions/photobucket/main.c
-extensions/photobucket/photobucket-account.c
-extensions/photobucket/photobucket-account.h
-extensions/photobucket/photobucket-album-properties-dialog.c
-extensions/photobucket/photobucket-album-properties-dialog.h
-extensions/photobucket/photobucket-album.c
-extensions/photobucket/photobucket-album.h
-extensions/photobucket/photobucket-consumer.c
-extensions/photobucket/photobucket-consumer.h
-extensions/photobucket/photobucket-photo.c
-extensions/photobucket/photobucket-photo.h
-extensions/photobucket/photobucket-service.c
-extensions/photobucket/photobucket-service.h
-extensions/photobucket/photobucket.extension.in.in
->>>>>>> meson: converted build scripts to python3
 extensions/picasaweb/actions.c
 extensions/picasaweb/actions.h
 extensions/picasaweb/callbacks.c

@@ -3,7 +3,6 @@ source_files = files(
   'actions.c',
   'callbacks.c',
   'dlg-export-to-facebook.c',
-  'dlg-import-from-facebook.c',
   'facebook-album.c',
   'facebook-album-properties-dialog.c',
   'facebook-photo.c',
