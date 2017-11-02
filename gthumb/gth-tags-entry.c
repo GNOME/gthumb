@@ -317,44 +317,59 @@ sort_tag_data (gconstpointer a,
 }
 
 
+static gboolean
+_tag_is_valid (const char *tag)
+{
+	if (tag == NULL)
+		return FALSE;
+	if (_g_utf8_all_spaces (tag))
+		return FALSE;
+	return TRUE;
+}
+
+
 static void
 update_expanded_list_from_entry (GthTagsEntry *self)
 {
 	char        **all_tags;
 	char        **used_tags;
 	TagData     **tag_data;
-	int           i;
+	int           i, t;
 	GtkTreeIter   iter;
 	gboolean      separator_required;
 
 	all_tags = g_strdupv (self->priv->tags);
 	used_tags = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (self), FALSE);
 
-	tag_data = g_new (TagData *, g_strv_length (all_tags) + 1);
-	for (i = 0; all_tags[i] != NULL; i++) {
+	tag_data = g_new0 (TagData *, g_strv_length (all_tags) + 1);
+	for (i = 0, t = 0; all_tags[i] != NULL; i++) {
 		int j;
 
-		tag_data[i] = g_new0 (TagData, 1);
-		tag_data[i]->name = g_strdup (all_tags[i]);
-		tag_data[i]->used = FALSE;
-		tag_data[i]->inconsistent = (g_hash_table_lookup (self->priv->inconsistent, tag_data[i]->name) != NULL);
-		tag_data[i]->suggested = tag_data[i]->inconsistent;
-		for (j = 0; ! tag_data[i]->used && (used_tags[j] != NULL); j++)
-			if (g_utf8_collate (tag_data[i]->name, used_tags[j]) == 0) {
-				tag_data[i]->used = TRUE;
-				tag_data[i]->inconsistent = FALSE;
-				tag_data[i]->suggested = FALSE;
+		if (! _tag_is_valid (all_tags[i]))
+			continue;
+
+		tag_data[t] = g_new0 (TagData, 1);
+		tag_data[t]->name = g_strdup (all_tags[i]);
+		tag_data[t]->used = FALSE;
+		tag_data[t]->inconsistent = (g_hash_table_lookup (self->priv->inconsistent, tag_data[t]->name) != NULL);
+		tag_data[t]->suggested = tag_data[t]->inconsistent;
+		for (j = 0; ! tag_data[t]->used && (used_tags[j] != NULL); j++)
+			if (g_utf8_collate (tag_data[t]->name, used_tags[j]) == 0) {
+				tag_data[t]->used = TRUE;
+				tag_data[t]->inconsistent = FALSE;
+				tag_data[t]->suggested = FALSE;
 			}
 
-		if (! tag_data[i]->used)
-			for (j = 0; ! tag_data[i]->suggested && (self->priv->expanded_list.last_used[j] != NULL); j++)
-				if (g_utf8_collate (tag_data[i]->name, self->priv->expanded_list.last_used[j]) == 0)
-					tag_data[i]->suggested = TRUE;
+		if (! tag_data[t]->used)
+			for (j = 0; ! tag_data[t]->suggested && (self->priv->expanded_list.last_used[j] != NULL); j++)
+				if (g_utf8_collate (tag_data[t]->name, self->priv->expanded_list.last_used[j]) == 0)
+					tag_data[t]->suggested = TRUE;
+
+		t++;
 	}
-	tag_data[i] = NULL;
 
 	g_qsort_with_data (tag_data,
-			   g_strv_length (all_tags),
+			   g_strv_length (tag_data),
 			   sizeof (TagData *),
 			   sort_tag_data,
 			   NULL);
@@ -1304,25 +1319,31 @@ gth_tags_entry_set_tags (GthTagsEntry  *self,
 			 char         **tags)
 {
 	GthTagsFile *tags_file;
+	GString     *valid_tags;
 	int          i;
 	gboolean     global_tags_changed = FALSE;
-	char        *s;
 
 	if ((tags == NULL) || (tags[0] == NULL)) {
 		gtk_entry_set_text (GTK_ENTRY (self->priv->entry), "");
 		return;
 	}
 
+	valid_tags = g_string_new ("");
 	tags_file = gth_main_get_default_tag_file ();
-	for (i = 0; tags[i] != NULL; i++)
+	for (i = 0; tags[i] != NULL; i++) {
+		if (! _tag_is_valid (tags[i]))
+			continue;
+		g_string_append (valid_tags, tags[i]);
+		g_string_append (valid_tags, ", ");
 		if (gth_tags_file_add (tags_file, tags[i]))
 			global_tags_changed = TRUE;
+	}
 	if (global_tags_changed)
 		gth_main_tags_changed ();
 
-	s = g_strjoinv (", ", tags);
-	gtk_entry_set_text (GTK_ENTRY (self->priv->entry), s);
-	g_free (s);
+	gtk_entry_set_text (GTK_ENTRY (self->priv->entry), valid_tags->str);
+
+	g_string_free (valid_tags, TRUE);
 }
 
 
@@ -1362,13 +1383,12 @@ gth_tags_entry_get_tags (GthTagsEntry *self,
 	all_tags = g_strsplit (gtk_entry_get_text (GTK_ENTRY (self->priv->entry)), ",", -1);
 	tags = g_new0 (char *, g_strv_length (all_tags) + 1);
 	for (i = 0, j = 0; all_tags[i] != NULL; i++) {
-		all_tags[i] = g_strstrip (all_tags[i]);
-		if (all_tags[i][0] != '\0') {
-			tags[j] = g_strdup (g_strstrip (all_tags[i]));
-			if (update_globals)
-				gth_tags_file_add (tags_file, tags[j]);
-			j++;
-		}
+		if (! _tag_is_valid (all_tags[i]))
+			continue;
+		tags[j] = g_strdup (g_strstrip (all_tags[i]));
+		if (update_globals)
+			gth_tags_file_add (tags_file, tags[j]);
+		j++;
 	}
 	g_strfreev (all_tags);
 
@@ -1391,14 +1411,20 @@ gth_tags_entry_set_tag_list (GthTagsEntry *self,
 	GList   *scan;
 
 	g_hash_table_remove_all (self->priv->inconsistent);
-	for (scan = inconsistent; scan; scan = scan->next)
-		g_hash_table_insert (self->priv->inconsistent, g_strdup (scan->data), GINT_TO_POINTER (1));
+	for (scan = inconsistent; scan; scan = scan->next) {
+		char *tag = scan->data;
+		if (! _tag_is_valid (tag))
+			continue;
+		g_hash_table_insert (self->priv->inconsistent, g_strdup (tag), GINT_TO_POINTER (1));
+	}
 
 	str = g_string_new ("");
 	for (scan = checked; scan; scan = scan->next) {
-		if (scan != checked)
-			g_string_append (str, ", ");
-		g_string_append (str, (char *) scan->data);
+		char *tag = scan->data;
+		if (! _tag_is_valid (tag))
+			continue;
+		g_string_append (str, tag);
+		g_string_append (str, ", ");
 	}
 	gth_tags_entry_set_tags_from_text (self, str->str);
 
@@ -1422,7 +1448,8 @@ gth_tags_entry_get_tag_list (GthTagsEntry  *self,
 		tags_v = gth_tags_entry_get_tags (self, update_globals);
 		*checked = NULL;
 		for (i = 0; tags_v[i] != NULL; i++)
-			*checked = g_list_prepend (*checked, g_strdup (tags_v[i]));
+			if (_tag_is_valid(tags_v[i]))
+				*checked = g_list_prepend (*checked, g_strdup (tags_v[i]));
 		*checked = g_list_reverse (*checked);
 	}
 
