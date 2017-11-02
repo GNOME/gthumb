@@ -266,7 +266,7 @@ gboolean
 gth_tags_file_has_tag (GthTagsFile *tags,
 		       const char  *tag)
 {
-	return g_list_find_custom (tags->items, tag, (GCompareFunc) strcmp) != NULL;
+	return g_list_find_custom (tags->items, tag, (GCompareFunc) g_utf8_collate) != NULL;
 }
 
 
@@ -276,7 +276,7 @@ gth_tags_file_add (GthTagsFile *tags,
 {
 	GList *link;
 
-	link = g_list_find_custom (tags->items, tag, (GCompareFunc) strcmp);
+	link = g_list_find_custom (tags->items, tag, (GCompareFunc) g_utf8_collate);
 	if (link == NULL) {
 		tags->items = g_list_append (tags->items, g_strdup (tag));
 		return TRUE;
@@ -292,7 +292,7 @@ gth_tags_file_remove (GthTagsFile *tags,
 {
 	GList *link;
 
-	link = g_list_find_custom (tags->items, tag, (GCompareFunc) strcmp);
+	link = g_list_find_custom (tags->items, tag, (GCompareFunc) g_utf8_collate);
 	if (link == NULL)
 		return FALSE;
 
