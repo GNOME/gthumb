@@ -39,6 +39,7 @@ enum {
 
 
 enum {
+	EXPANDED_LIST_HIGHLIGHTED_COLUMN,
 	EXPANDED_LIST_USED_COLUMN,
 	EXPANDED_LIST_INCONSISTENT_COLUMN,
 	EXPANDED_LIST_SEPARATOR_COLUMN,
@@ -62,6 +63,7 @@ enum {
 
 typedef struct {
 	char     *name;
+	gboolean  highlighted;
 	gboolean  used;
 	gboolean  suggested;
 	gboolean  inconsistent;
@@ -304,9 +306,9 @@ sort_tag_data (gconstpointer a,
 	TagData *tag_data_a = * (TagData **) a;
 	TagData *tag_data_b = * (TagData **) b;
 
-	if (tag_data_a->used && tag_data_b->used)
+	if (tag_data_a->highlighted && tag_data_b->highlighted)
 		return g_utf8_collate (tag_data_a->name, tag_data_b->name);
-	else if (tag_data_a->used || tag_data_b->used)
+	else if (tag_data_a->highlighted || tag_data_b->highlighted)
 		return tag_data_a->used ? -1 : 1;
 	else if (tag_data_a->suggested && tag_data_b->suggested)
 		return g_utf8_collate (tag_data_a->name, tag_data_b->name);
@@ -350,11 +352,13 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 
 		tag_data[t] = g_new0 (TagData, 1);
 		tag_data[t]->name = g_strdup (all_tags[i]);
+		tag_data[t]->highlighted = FALSE;
 		tag_data[t]->used = FALSE;
 		tag_data[t]->inconsistent = (g_hash_table_lookup (self->priv->inconsistent, tag_data[t]->name) != NULL);
 		tag_data[t]->suggested = tag_data[t]->inconsistent;
 		for (j = 0; ! tag_data[t]->used && (used_tags[j] != NULL); j++)
 			if (g_utf8_collate (tag_data[t]->name, used_tags[j]) == 0) {
+				tag_data[t]->highlighted = TRUE;
 				tag_data[t]->used = TRUE;
 				tag_data[t]->inconsistent = FALSE;
 				tag_data[t]->suggested = FALSE;
@@ -376,19 +380,20 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 
 	gtk_list_store_clear (self->priv->expanded_list.store);
 
-	/* used */
+	/* highlighted */
 
 	separator_required = FALSE;
 	for (i = 0; tag_data[i] != NULL; i++) {
 		GtkTreeIter iter;
 
-		if (! tag_data[i]->used)
+		if (! tag_data[i]->highlighted)
 			continue;
 
 		separator_required = TRUE;
 
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_HIGHLIGHTED_COLUMN, TRUE,
 				    EXPANDED_LIST_USED_COLUMN, TRUE,
 				    EXPANDED_LIST_INCONSISTENT_COLUMN, tag_data[i]->inconsistent,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, FALSE,
@@ -399,6 +404,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 	if (separator_required) {
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_HIGHLIGHTED_COLUMN, FALSE,
 				    EXPANDED_LIST_USED_COLUMN, FALSE,
 				    EXPANDED_LIST_INCONSISTENT_COLUMN, FALSE,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, TRUE,
@@ -419,6 +425,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_HIGHLIGHTED_COLUMN, FALSE,
 				    EXPANDED_LIST_USED_COLUMN, FALSE,
 				    EXPANDED_LIST_INCONSISTENT_COLUMN, tag_data[i]->inconsistent,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, FALSE,
@@ -429,6 +436,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 	if (separator_required) {
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_HIGHLIGHTED_COLUMN, FALSE,
 				    EXPANDED_LIST_USED_COLUMN, FALSE,
 				    EXPANDED_LIST_INCONSISTENT_COLUMN, FALSE,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, TRUE,
@@ -446,6 +454,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 
 		gtk_list_store_append (self->priv->expanded_list.store, &iter);
 		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_HIGHLIGHTED_COLUMN, FALSE,
 				    EXPANDED_LIST_USED_COLUMN, FALSE,
 				    EXPANDED_LIST_INCONSISTENT_COLUMN, tag_data[i]->inconsistent,
 				    EXPANDED_LIST_SEPARATOR_COLUMN, FALSE,
@@ -708,7 +717,11 @@ update_entry_from_expanded_list (GthTagsEntry *self)
 	for (i = 0, scan = name_list; scan; scan = scan->next)
 		tags[i++] = scan->data;
 	tags[i] = NULL;
+	g_signal_handlers_block_by_func (G_OBJECT (self->priv->entry), text_changed_cb, self);
+	g_signal_handler_block (gth_main_get_default_monitor (), self->priv->monitor_event);
 	gth_tags_entry_set_tags (GTH_TAGS_ENTRY (self), tags);
+	g_signal_handler_unblock (gth_main_get_default_monitor (), self->priv->monitor_event);
+	g_signal_handlers_unblock_by_func (G_OBJECT (self->priv->entry), text_changed_cb, self);
 
 	g_free (tags);
 	_g_string_list_free (name_list);
@@ -1154,6 +1167,7 @@ gth_tags_entry_init (GthTagsEntry *self)
 	/* expanded list, the treeview */
 
 	self->priv->expanded_list.store = gtk_list_store_new (EXPANDED_LIST_N_COLUMNS,
+							      G_TYPE_BOOLEAN,
 							      G_TYPE_BOOLEAN,
 							      G_TYPE_BOOLEAN,
 							      G_TYPE_BOOLEAN,
