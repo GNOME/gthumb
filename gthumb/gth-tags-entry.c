@@ -1098,6 +1098,17 @@ expand_button_toggled_cb (GtkToggleButton *button,
 }
 
 
+static gboolean
+entry_focus_in_event_cb (GtkWidget *widget,
+	                 GdkEvent  *event,
+	                 gpointer   user_data)
+{
+	GthTagsEntry *self = user_data;
+	gtk_editable_set_position (GTK_EDITABLE (self->priv->entry), -1);
+	return GDK_EVENT_PROPAGATE;
+}
+
+
 static void
 gth_tags_entry_init (GthTagsEntry *self)
 {
@@ -1150,6 +1161,10 @@ gth_tags_entry_init (GthTagsEntry *self)
 	gtk_entry_set_completion (GTK_ENTRY (self->priv->entry), self->priv->completion);
 	gtk_widget_show (self->priv->entry);
 	gtk_box_pack_start (GTK_BOX (hbox), self->priv->entry, TRUE, TRUE, 0);
+	g_signal_connect (self->priv->entry,
+			  "focus-in-event",
+			  G_CALLBACK (entry_focus_in_event_cb),
+			  self);
 
 	/* expand button */
 
