@@ -35,9 +35,6 @@ gsettings_SCHEMAS = 					\
 
 @GSETTINGS_RULES@
 
-convertdir = $(datadir)/GConf/gsettings
-convert_DATA = gthumb.convert
-
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = gthumb-$(GTHUMB_API_VERSION).pc
 
@@ -47,7 +44,6 @@ EXTRA_DIST =                    	\
 	$(desktop_in_in_files)  	\
 	$(gsettings_SCHEMAS)  		\
 	$(pkgconfig_DATA)		\
-	gthumb.convert			\
 	$(man_MANS)
 
 DISTCLEANFILES =                	\
