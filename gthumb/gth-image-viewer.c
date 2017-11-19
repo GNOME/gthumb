@@ -1418,6 +1418,25 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_PAGE_UP);
 
+	/* For scrolling (Keypad) */
+
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Right, 0,
+			      "scroll", 2,
+			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_RIGHT,
+			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Left, 0,
+			      "scroll", 2,
+			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_LEFT,
+			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Down, 0,
+			      "scroll", 2,
+			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
+			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_DOWN);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Up, 0,
+			      "scroll", 2,
+			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
+			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_UP);
+
 	/* Zoom in */
 
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_plus, 0,

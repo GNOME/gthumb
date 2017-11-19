@@ -5807,20 +5807,24 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 	if ((event->state & modifiers) == 0) {
 		switch (event->keyval) {
 		case GDK_KEY_Page_Up:
+		case GDK_KEY_KP_Page_Up:
 		case GDK_KEY_BackSpace:
 			gth_browser_show_prev_image (browser, FALSE, FALSE);
 			return TRUE;
 
 		case GDK_KEY_Page_Down:
+		case GDK_KEY_KP_Page_Down:
 		case GDK_KEY_space:
 			gth_browser_show_next_image (browser, FALSE, FALSE);
 			return TRUE;
 
 		case GDK_KEY_Home:
+		case GDK_KEY_KP_Home:
 			gth_browser_show_first_image (browser, FALSE, FALSE);
 			return TRUE;
 
 		case GDK_KEY_End:
+		case GDK_KEY_KP_End:
 			gth_browser_show_last_image (browser, FALSE, FALSE);
 			return TRUE;
 

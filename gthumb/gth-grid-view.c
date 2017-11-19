@@ -3849,6 +3849,15 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_Home, GTH_CURSOR_MOVE_BEGIN);
 	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_End, GTH_CURSOR_MOVE_END);
 
+	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_KP_Right, GTH_CURSOR_MOVE_RIGHT);
+	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_KP_Left, GTH_CURSOR_MOVE_LEFT);
+	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_KP_Down, GTH_CURSOR_MOVE_DOWN);
+	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_KP_Up, GTH_CURSOR_MOVE_UP);
+	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_KP_Page_Up, GTH_CURSOR_MOVE_PAGE_UP);
+	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_KP_Page_Down, GTH_CURSOR_MOVE_PAGE_DOWN);
+	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_KP_Home, GTH_CURSOR_MOVE_BEGIN);
+	_gtk_binding_entry_add_move_cursor_signals (binding_set, GDK_KEY_KP_End, GTH_CURSOR_MOVE_END);
+
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_space, 0,
 				      "select-cursor-item", 0);
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Space, 0,
