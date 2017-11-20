@@ -1,3 +1,14 @@
+version 3.6.0
+-------------
+
+ Bugs fixed:
+
+  * Numeric keypad nav keys don't work (#667390)
+
+ New or updated application translations:
+
+  * Danish (Alan Mortensen)
+
 version 3.5.4
 -------------
 
