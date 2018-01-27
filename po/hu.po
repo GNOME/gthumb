@@ -1,18 +1,18 @@
 # Hungarian translation for gthumb.
-# Copyright (C) 2003-2017 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2007, 2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
 # Andras Timar <timar at gnome dot hu>, 2003, 2004.
 # Laszlo Dvornik <dvornik at gnome dot hu>, 2004.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2005, 2007, 2009, 2011, 2012.
-# Balázs Úr <urbalazs at gmail dot com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
+# Balázs Úr <urbalazs at gmail dot com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-01 09:27+0000\n"
-"PO-Revision-Date: 2017-09-05 17:10+0200\n"
+"POT-Creation-Date: 2017-11-19 16:31+0000\n"
+"PO-Revision-Date: 2018-01-27 09:55+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope@googlegroups.com>\n"
 "Language: hu\n"
@@ -22,7 +22,17 @@ msgstr ""
 "X-Generator: Lokalize 1.2\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: ../data/appdata/gthumb.appdata.xml.in.h:1
+#: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:1
+#: ../data/org.gnome.gThumb.desktop.in.in.h:3
+msgid "gThumb Image Viewer"
+msgstr "gThumb képmegjelenítő"
+
+#: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:2
+#: ../data/org.gnome.gThumb.desktop.in.in.h:4
+msgid "View and organize your images"
+msgstr "Képek megtekintése és rendszerezése"
+
+#: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:3
 msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
@@ -30,7 +40,7 @@ msgstr ""
 "A gThumb egy képnézegető, szerkesztő, böngésző és kezelő. Úgy tervezték, "
 "hogy jól integrálódjon a GNOME 3 asztalba."
 
-#: ../data/appdata/gthumb.appdata.xml.in.h:2
+#: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:4
 msgid ""
 "As an image viewer gThumb allows to view common image file formats such as "
 "BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
@@ -42,7 +52,7 @@ msgstr ""
 "TIFF, TGA és RAW képeket. Lehetséges továbbá a képekbe ágyazott különféle "
 "metaadat típusok megtekintése, úgymint az EXIF, IPTC és XMP."
 
-#: ../data/appdata/gthumb.appdata.xml.in.h:3
+#: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:5
 msgid ""
 "As an image editor gThumb allows to scale, rotate and crop the images; "
 "change the saturation, lightness, contrast as well as other color "
@@ -52,7 +62,7 @@ msgstr ""
 "levágását. Módosíthatja a telítettséget, fényességet, kontrasztot, valamint "
 "egyéb színátalakításokat hajthat végre."
 
-#: ../data/appdata/gthumb.appdata.xml.in.h:4
+#: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:6
 msgid ""
 "As an image browser gThumb shows the thumbnails of the images saved on your "
 "disk, allows to perform the common operations of a file manager such as "
@@ -68,7 +78,7 @@ msgstr ""
 "képátméretezés, formátumátalakítás, diavetítés, kép beállítása az asztal "
 "hátterének és még sok más."
 
-#: ../data/appdata/gthumb.appdata.xml.in.h:5
+#: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:7
 msgid ""
 "As an image organizer gThumb allows to add comments and other metadata to "
 "images; organize images in catalogs and catalogs in libraries; search for "
@@ -80,42 +90,18 @@ msgstr ""
 "katalógusként."
 
 #. manually set name and icon
-#: ../data/gthumb.desktop.in.in.h:1 ../gthumb/gth-application.c:135
+#: ../data/org.gnome.gThumb.desktop.in.in.h:1 ../gthumb/gth-application.c:106
 #: ../gthumb/gth-browser.c:394 ../gthumb/gth-progress-dialog.c:411
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../data/gthumb.desktop.in.in.h:2
+#: ../data/org.gnome.gThumb.desktop.in.in.h:2
 msgid "Image Viewer"
 msgstr "Képmegjelenítő"
 
-#: ../data/gthumb.desktop.in.in.h:3
-msgid "gThumb Image Viewer"
-msgstr "gThumb képmegjelenítő"
-
-#: ../data/gthumb.desktop.in.in.h:4
-msgid "View and organize your images"
-msgstr "Képek megtekintése és rendszerezése"
-
-#: ../data/gthumb.desktop.in.in.h:5
+#: ../data/org.gnome.gThumb.desktop.in.in.h:5
 msgid "Image;Viewer;"
 msgstr "Kép;Megjelenítő;"
-
-#: ../data/gthumb-import.desktop.in.in.h:1
-msgid "Import with gThumb"
-msgstr "Importálás a gThumb programmal"
-
-#: ../data/gthumb-import.desktop.in.in.h:2
-msgid "Photo Import Tool"
-msgstr "Fénykép-importáló eszköz"
-
-#: ../data/gthumb-import.desktop.in.in.h:3
-msgid "gThumb Photo Import Tool"
-msgstr "gThumb fénykép-importáló eszköz"
-
-#: ../data/gthumb-import.desktop.in.in.h:4
-msgid "Import the photos on your camera card"
-msgstr "Fényképek importálása a fényképezőgép kártyájáról"
 
 #: ../data/org.gnome.gthumb.gschema.xml.h:1
 msgid ""
@@ -132,6 +118,22 @@ msgstr "Fájlok megnyitása az aktív ablakban"
 #: ../data/org.gnome.gthumb.image-viewer.gschema.xml.h:1
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr "Képváltás után a görgetősáv pozíciói vissza legyenek-e állítva"
+
+#: ../data/org.gnome.gThumb.Import.desktop.in.in.h:1
+msgid "Import with gThumb"
+msgstr "Importálás a gThumb programmal"
+
+#: ../data/org.gnome.gThumb.Import.desktop.in.in.h:2
+msgid "Photo Import Tool"
+msgstr "Fénykép-importáló eszköz"
+
+#: ../data/org.gnome.gThumb.Import.desktop.in.in.h:3
+msgid "gThumb Photo Import Tool"
+msgstr "gThumb fénykép-importáló eszköz"
+
+#: ../data/org.gnome.gThumb.Import.desktop.in.in.h:4
+msgid "Import the photos on your camera card"
+msgstr "Fényképek importálása a fényképezőgép kártyájáról"
 
 #: ../data/org.gnome.gthumb.pixbuf-savers.gschema.xml.h:1
 msgid "Possible values are: jpeg, jpg."
@@ -443,7 +445,6 @@ msgstr "Képek feltöltése a 23hq.com oldalra"
 #: ../extensions/image_rotation/image_rotation.extension.in.in.h:3
 #: ../extensions/list_tools/list_tools.extension.in.in.h:3
 #: ../extensions/map_view/map_view.extension.in.in.h:3
-#: ../extensions/photobucket/photobucket.extension.in.in.h:3
 #: ../extensions/photo_importer/photo_importer.extension.in.in.h:3
 #: ../extensions/picasaweb/picasaweb.extension.in.in.h:3
 #: ../extensions/raw_files/raw_files.extension.in.in.h:3
@@ -667,7 +668,7 @@ msgstr "WebP"
 #: ../extensions/cairo_io/preferences.c:134
 #: ../extensions/contact_sheet/data/ui/contact-sheet.ui.h:17
 #: ../extensions/contact_sheet/data/ui/image-wall.ui.h:7
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1615
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1623
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:20
 msgid "Saving"
 msgstr "Mentés"
@@ -768,7 +769,7 @@ msgstr "Átnevezés"
 
 #: ../extensions/catalogs/callbacks.c:78
 #: ../extensions/catalogs/dlg-catalog-properties.c:201
-#: ../gthumb/gth-browser.c:4595 ../gthumb/gth-file-properties.c:256
+#: ../gthumb/gth-browser.c:4615 ../gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -832,7 +833,6 @@ msgstr "A cél _megjelenítése"
 #: ../extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui.h:8
 #: ../extensions/facebook/data/ui/facebook-album-properties.ui.h:4
 #: ../extensions/list_tools/data/ui/script-editor.ui.h:1
-#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:1
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:3
 msgid "_Name:"
 msgstr "_Név:"
@@ -1476,6 +1476,7 @@ msgid "Could not show the desktop background properties"
 msgstr "Nem sikerült megjeleníteni az asztal hátterének tulajdonságait"
 
 #: ../extensions/desktop_background/actions.c:329
+#: ../gthumb/gth-browser-actions-entries.h:85
 #: ../gthumb/resources/app-menu.ui.h:2
 msgid "_Preferences"
 msgstr "_Beállítások"
@@ -1566,7 +1567,6 @@ msgstr "%s metaadatai"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:83
-#: ../extensions/facebook/dlg-import-from-facebook.c:319
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:320
 #, c-format
 msgid "%d file"
@@ -1780,24 +1780,20 @@ msgstr "2048 × 2048"
 #: ../extensions/facebook/data/ui/import-from-facebook.ui.h:1
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:10
 #: ../extensions/flicker_utils/data/ui/import-from-flickr.ui.h:1
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:9
 #: ../extensions/picasaweb/data/ui/import-from-picasaweb.ui.h:1
 msgid "Edit accounts"
 msgstr "Fiókok szerkesztése"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:7
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:11
 msgid "A_lbum:"
 msgstr "A_lbum:"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:8
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:12
 msgid "Add a new album"
 msgstr "Új album hozzáadása"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:9
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:9
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:8
 msgid "_Account:"
 msgstr "F_iók:"
 
@@ -1807,8 +1803,7 @@ msgstr "Képek átméretezése, ha nagyobbak ennél a méretnél"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:13
-#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:7
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:19
 msgid "_Resize if larger than:"
 msgstr "Át_méretezés, ha nagyobb mint:"
@@ -1846,80 +1841,58 @@ msgstr "F_iók:"
 msgid "_Album:"
 msgstr "_Album:"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:123
-#: ../extensions/facebook/dlg-export-to-facebook.c:328
-#: ../extensions/facebook/dlg-import-from-facebook.c:226
+#: ../extensions/facebook/dlg-export-to-facebook.c:124
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:163
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:120
+msgid "Files successfully uploaded to the server."
+msgstr "A fájlok sikeresen feltöltve a kiszolgálóra."
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:151
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:248
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:148
+msgid "Could not upload the files"
+msgstr "Nem sikerült feltölteni a fájlokat"
+
+#: ../extensions/facebook/dlg-export-to-facebook.c:297
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:138
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:412
 #: ../extensions/flicker_utils/dlg-import-from-flickr.c:227
 #: ../extensions/oauth/web-service.c:376
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:131
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:373
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:124
 msgid "Could not connect to the server"
 msgstr "Nem sikerült csatlakozni a kiszolgálóhoz"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:149
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:163
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:157
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:149
-msgid "Files successfully uploaded to the server."
-msgstr "A fájlok sikeresen feltöltve a kiszolgálóra."
-
-#: ../extensions/facebook/dlg-export-to-facebook.c:152
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:166
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:160
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:152
-#: ../extensions/webalbums/gth-web-exporter.c:1841
-msgid "_Open in the Browser"
-msgstr "_Megnyitás a böngészőben"
-
-#: ../extensions/facebook/dlg-export-to-facebook.c:177
-#: ../extensions/flicker_utils/dlg-export-to-flickr.c:248
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:184
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:178
-msgid "Could not upload the files"
-msgstr "Nem sikerült feltölteni a fájlokat"
-
-#: ../extensions/facebook/dlg-export-to-facebook.c:399
+#: ../extensions/facebook/dlg-export-to-facebook.c:368
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:190
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:225
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:455
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:311
 msgid "Could not create the album"
 msgstr "Nem sikerült létrehozni az albumot"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:467
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:526
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:377
+#: ../extensions/facebook/dlg-export-to-facebook.c:436
 msgid "New Album"
 msgstr "Új album"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:506
+#: ../extensions/facebook/dlg-export-to-facebook.c:475
 msgid "Export to Facebook"
 msgstr "Exportálás a Facebookra"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:572
+#: ../extensions/facebook/dlg-export-to-facebook.c:541
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:594
 #: ../extensions/image_print/gth-image-print-job.c:1739
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:618
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:612
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:494
 msgid "No valid file selected."
 msgstr "Nincs érvényes fájl kiválasztva."
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:573
+#: ../extensions/facebook/dlg-export-to-facebook.c:542
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:595
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:619
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:613
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:495
 msgid "Could not export the files"
 msgstr "Nem sikerült exportálni a fájlokat"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:581
+#: ../extensions/facebook/dlg-export-to-facebook.c:550
 #: ../extensions/find_duplicates/gth-find-duplicates.c:278
 #: ../extensions/find_duplicates/gth-find-duplicates.c:477
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:603
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:627
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:620
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:502
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:254
 #: ../gthumb/gth-browser.c:830
 #, c-format
@@ -1928,46 +1901,12 @@ msgid_plural "%d files (%s)"
 msgstr[0] "%d fájl (%s)"
 msgstr[1] "%d fájl (%s)"
 
-#: ../extensions/facebook/dlg-export-to-facebook.c:602
+#: ../extensions/facebook/dlg-export-to-facebook.c:571
 #: ../extensions/flicker_utils/dlg-export-to-flickr.c:626
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:646
 #, c-format
 msgid "Export to %s"
 msgstr "Exportálás ide: %s"
 
-#: ../extensions/facebook/dlg-import-from-facebook.c:344
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:345
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:279
-msgid "Could not get the photo list"
-msgstr "Nem sikerült lekérni a fényképlistát"
-
-#: ../extensions/facebook/dlg-import-from-facebook.c:378
-#: ../extensions/facebook/dlg-import-from-facebook.c:547
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:382
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:561
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:598
-msgid "No album selected"
-msgstr "Nincs album kiválasztva"
-
-#: ../extensions/facebook/dlg-import-from-facebook.c:498
-msgid "Import from Facebook"
-msgstr "Importálás a Facebookról"
-
-#: ../extensions/facebook/dlg-import-from-facebook.c:507
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:521
-#: ../extensions/photo_importer/dlg-photo-importer.c:582
-#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:556
-msgid "_Import"
-msgstr "_Importálás"
-
-#: ../extensions/facebook/dlg-import-from-facebook.c:565
-#: ../extensions/flicker_utils/dlg-import-from-flickr.c:579
-#, c-format
-msgid "Import from %s"
-msgstr "Importálás innen: %s"
-
-#: ../extensions/facebook/dlg-import-from-facebook.c:565
 #: ../extensions/facebook/facebook.extension.in.in.h:1
 msgid "Facebook"
 msgstr "Facebook"
@@ -1976,49 +1915,43 @@ msgstr "Facebook"
 msgid "Upload images to Facebook"
 msgstr "Képek feltöltése a Facebookra"
 
-#: ../extensions/facebook/facebook-service.c:497
+#: ../extensions/facebook/facebook-service.c:501
 #: ../extensions/flicker_utils/flickr-service.c:872
-#: ../extensions/photobucket/photobucket-service.c:310
-#: ../extensions/picasaweb/picasa-web-service.c:711
+#: ../extensions/picasaweb/picasa-web-service.c:744
 msgid "Getting the album list"
 msgstr "Albumok listájának lekérése"
 
-#: ../extensions/facebook/facebook-service.c:619
+#: ../extensions/facebook/facebook-service.c:623
 #: ../extensions/flicker_utils/flickr-service.c:974
 #: ../extensions/flicker_utils/flickr-service.c:1096
 #: ../extensions/flicker_utils/flickr-service.c:1135
-#: ../extensions/photobucket/photobucket-service.c:423
-#: ../extensions/picasaweb/picasa-web-service.c:805
 msgid "Creating the new album"
 msgstr "Új album létrehozása"
 
-#: ../extensions/facebook/facebook-service.c:680
+#: ../extensions/facebook/facebook-service.c:684
 #: ../extensions/flicker_utils/flickr-service.c:1185
-#: ../extensions/photobucket/photobucket-service.c:485
-#: ../extensions/picasaweb/picasa-web-service.c:860
+#: ../extensions/picasaweb/picasa-web-service.c:792
 #, c-format
 msgid "Could not upload “%s”: %s"
 msgstr "Nem sikerült feltölteni a(z) „%s” fájlt: %s"
 
 #. Translators: %s is a filename
-#: ../extensions/facebook/facebook-service.c:745
+#: ../extensions/facebook/facebook-service.c:749
 #: ../extensions/flicker_utils/flickr-service.c:1296
-#: ../extensions/photobucket/photobucket-service.c:542
-#: ../extensions/picasaweb/picasa-web-service.c:917
+#: ../extensions/picasaweb/picasa-web-service.c:849
 #, c-format
 msgid "Uploading “%s”"
 msgstr "„%s” feltöltése"
 
-#: ../extensions/facebook/facebook-service.c:960
+#: ../extensions/facebook/facebook-service.c:964
 #: ../extensions/flicker_utils/flickr-service.c:1493
-#: ../extensions/photobucket/photobucket-service.c:717
-#: ../extensions/picasaweb/picasa-web-service.c:1141
+#: ../extensions/picasaweb/picasa-web-service.c:1073
 msgid "Uploading the files to the server"
 msgstr "Fájlok feltöltése a kiszolgálóra"
 
-#: ../extensions/facebook/facebook-service.c:1059
+#: ../extensions/facebook/facebook-service.c:1063
 #: ../extensions/flicker_utils/flickr-service.c:1662
-#: ../extensions/picasaweb/picasa-web-service.c:1260
+#: ../extensions/picasaweb/picasa-web-service.c:1192
 msgid "Getting the photo list"
 msgstr "Fényképek listájának lekérése"
 
@@ -2153,7 +2086,7 @@ msgstr "_Másolás"
 
 #: ../extensions/file_manager/callbacks.c:984
 #: ../extensions/find_duplicates/gth-find-duplicates.c:788
-#: ../gthumb/gth-browser.c:5592 ../gthumb/gth-browser.c:5628
+#: ../gthumb/gth-browser.c:5612 ../gthumb/gth-browser.c:5648
 #: ../gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "Nem sikerült végrehajtani a műveletet"
@@ -2205,6 +2138,7 @@ msgid "Color Levels"
 msgstr "Színszintek"
 
 #: ../extensions/file_tools/data/ui/color-picker-options.ui.h:1
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
 #: ../extensions/red_eye_removal/data/ui/red-eye-removal-options.ui.h:1
 msgid "Position"
 msgstr "Pozíció"
@@ -2646,8 +2580,8 @@ msgstr "Adja meg az alapbeállítás nevet:"
 
 #: ../extensions/file_tools/gth-file-tool-curves.c:530
 #: ../extensions/gstreamer_tools/actions.c:69
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1544
-#: ../gthumb/gth-browser.c:1880
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1552
+#: ../gthumb/gth-browser.c:1885
 msgid "Could not save the file"
 msgstr "Nem sikerült elmenteni a fájlt"
 
@@ -2840,15 +2774,25 @@ msgid "Files:"
 msgstr "Fájlok:"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:3
+#: ../gthumb/gth-main-default-metadata.c:32
+msgid "File"
+msgstr "Fájl"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
+#| msgid "Last modified date"
+msgid "Last modified"
+msgstr "Utoljára módosítva"
+
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:6
 msgid "_View"
 msgstr "_Nézet"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:4
-#: ../gthumb/gth-tags-entry.c:1187 ../gthumb/gtk-utils.h:39
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:7
+#: ../gthumb/gth-tags-entry.c:1230 ../gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Törlés"
 
-#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:5
+#: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:8
 msgid "No duplicates found."
 msgstr "Nem találhatók azonosak."
 
@@ -2967,7 +2911,6 @@ msgid "Restricted content"
 msgstr "Korlátozott tartalom"
 
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:11
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:10
 #: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:2
 msgid "Free space:"
 msgstr "Szabad hely:"
@@ -2989,16 +2932,40 @@ msgstr "_Biztonság:"
 msgid "Hi_de from public searches"
 msgstr "_Elrejtés a nyilvános keresés elől"
 
+#: ../extensions/flicker_utils/dlg-export-to-flickr.c:166
+#: ../extensions/webalbums/gth-web-exporter.c:1841
+msgid "_Open in the Browser"
+msgstr "_Megnyitás a böngészőben"
+
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:345
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:279
+msgid "Could not get the photo list"
+msgstr "Nem sikerült lekérni a fényképlistát"
+
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:382
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:561
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:313
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:598
+msgid "No album selected"
+msgstr "Nincs album kiválasztva"
+
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:521
+#: ../extensions/photo_importer/dlg-photo-importer.c:582
+#: ../extensions/picasaweb/dlg-import-from-picasaweb.c:556
+msgid "_Import"
+msgstr "_Importálás"
+
+#: ../extensions/flicker_utils/dlg-import-from-flickr.c:579
+#, c-format
+msgid "Import from %s"
+msgstr "Importálás innen: %s"
+
 #: ../extensions/flicker_utils/flickr-consumer.c:124
 #: ../extensions/flicker_utils/flickr-service.c:237
 #: ../extensions/flicker_utils/flickr-service.c:348
 #: ../extensions/flicker_utils/flickr-service.c:681
 #: ../extensions/flicker_utils/flickr-service.c:946
 #: ../extensions/oauth/oauth-service.c:154
-#: ../extensions/photobucket/photobucket-consumer.c:74
-#: ../extensions/photobucket/photobucket-consumer.c:82
-#: ../extensions/photobucket/photobucket-consumer.c:149
-#: ../extensions/photobucket/photobucket-service.c:132
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
@@ -3056,7 +3023,7 @@ msgstr "Nem sikerült képernyőképet készíteni"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:1
 #: ../extensions/gstreamer_tools/gth-media-viewer-page.c:599
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1091
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1099
 msgid "Play"
 msgstr "Lejátszás"
 
@@ -3069,7 +3036,6 @@ msgid "Faster"
 msgstr "Gyorsabb"
 
 #: ../extensions/gstreamer_tools/data/ui/mediabar.ui.h:4
-#| msgid "_Restart when finished"
 msgid "Restart when finished"
 msgstr "Újraindítás, miután befejeződött"
 
@@ -3169,7 +3135,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: ../extensions/gstreamer_utils/gstreamer-utils.c:401
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1777
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1785
 #: ../extensions/image_viewer/gth-metadata-provider-image.c:253
 #: ../extensions/raw_files/gth-metadata-provider-raw.c:96
 #: ../extensions/webalbums/gth-web-exporter.c:2448 ../gthumb/gtk-utils.c:897
@@ -3362,7 +3328,7 @@ msgid "After loading an image:"
 msgstr "A kép betöltése után:"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:2
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1048
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1056
 msgid "Set to actual size"
 msgstr "Beállítás a tényleges mérethez"
 
@@ -3376,7 +3342,7 @@ msgid "Fit to window"
 msgstr "Kép igazítása az ablakmérethez"
 
 #: ../extensions/image_viewer/data/ui/image-viewer-preferences.ui.h:5
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1055
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1063
 msgid "Fit to window if larger"
 msgstr "Kép igazítása az ablakmérethez, ha nagyobb"
 
@@ -3447,19 +3413,19 @@ msgstr "Kép másolása"
 msgid "Paste Image"
 msgstr "Kép beillesztése"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1083
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1091
 msgid "Apply the embedded color profile"
 msgstr "A beágyazott színprofil alkalmazása"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1098
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1106
 msgid "Next frame"
 msgstr "Következő képkocka"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:1716
+#: ../extensions/image_viewer/gth-image-viewer-page.c:1724
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: ../extensions/image_viewer/gth-image-viewer-page.c:2330
+#: ../extensions/image_viewer/gth-image-viewer-page.c:2342
 msgid "Loading the original image"
 msgstr "Az eredeti kép betöltése"
 
@@ -3817,65 +3783,6 @@ msgstr "Felhatalmazás kérése"
 msgid "Getting account information"
 msgstr "Fiókinformációk lekérése"
 
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:1
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:288
-msgid "Tiny ( 100 × 75 )"
-msgstr "Apró ( 100 x 75 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:2
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:289
-msgid "Small ( 160 × 120 )"
-msgstr "Kicsi ( 160 x 120 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:3
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:290
-msgid "Medium ( 320 × 240 )"
-msgstr "Közepes ( 320 x 240 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:4
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:291
-msgid "Large ( 640 × 480 )"
-msgstr "Nagy ( 640 x 480 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:5
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:292
-msgid "15ʺ screen ( 800 × 600 )"
-msgstr "15ʺ kijelző ( 800 x 600 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:6
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:293
-msgid "17ʺ screen ( 1024 × 768 )"
-msgstr "17ʺ kijelző ( 1024 x 768 )"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:7
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:294
-msgid "1 megabyte file size"
-msgstr "1 megabájt fájlméret"
-
-#: ../extensions/photobucket/data/ui/export-to-photobucket.ui.h:14
-msgid "_Scramble filenames"
-msgstr "_Fájlnevek összezavarása"
-
-#: ../extensions/photobucket/data/ui/photobucket-album-properties.ui.h:2
-msgid "_Container:"
-msgstr "_Konténer:"
-
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:301
-msgid "2 megabyte file size"
-msgstr "2 megabájt fájlméret"
-
-#: ../extensions/photobucket/dlg-export-to-photobucket.c:552
-msgid "Export to Photobucket"
-msgstr "Exportálás a Photobucketre"
-
-#: ../extensions/photobucket/photobucket.extension.in.in.h:1
-msgid "PhotoBucket"
-msgstr "PhotoBucket"
-
-#: ../extensions/photobucket/photobucket.extension.in.in.h:2
-msgid "Upload images to PhotoBucket"
-msgstr "Fényképek feltöltése a PhotoBucketre"
-
 #: ../extensions/photo_importer/actions.c:71
 #: ../extensions/photo_importer/dlg-photo-importer.c:626
 msgid "Choose a folder"
@@ -3946,7 +3853,7 @@ msgid "(Empty)"
 msgstr "(Üres)"
 
 #: ../extensions/photo_importer/dlg-photo-importer.c:361
-#: ../gthumb/gth-browser.c:1791
+#: ../gthumb/gth-browser.c:1796
 msgid "Getting the folder content…"
 msgstr "Mappatartalom lekérdezése…"
 
@@ -3979,16 +3886,30 @@ msgstr "_Picasa Webalbum…"
 msgid "_Albums:"
 msgstr "_Albumok:"
 
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:4
+#: ../gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Név"
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:5
+msgid "Used"
+msgstr "Használt"
+
+#: ../extensions/picasaweb/data/ui/export-to-picasaweb.ui.h:6
+#| msgid "Raw Photos"
+msgid "Remaining photos"
+msgstr "Hátralévő fényképek"
+
 #: ../extensions/picasaweb/data/ui/picasa-web-album-properties.ui.h:1
 msgid "Public"
 msgstr "Publikus"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:460
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:344
 #: ../extensions/picasaweb/dlg-import-from-picasaweb.c:468
 msgid "Could not get the album list"
 msgstr "Nem sikerült lekérni az albumlistát"
 
-#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:547
+#: ../extensions/picasaweb/dlg-export-to-picasaweb.c:431
 msgid "Export to Picasa Web Albums"
 msgstr "Exportálás Picasa Webalbumba"
 
@@ -4301,7 +4222,7 @@ msgstr "Eltávolítás a kijelölésből"
 msgid "Show selection %d"
 msgstr "%d. kijelölés megjelenítése"
 
-#: ../extensions/selections/callbacks.c:353
+#: ../extensions/selections/callbacks.c:339
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -4309,12 +4230,12 @@ msgstr ""
 "Az Alt-%d használatával adhatók hozzá fájlok a kijelöléshez, a Ctrl-%d "
 "használatával nézhető meg a kijelölés."
 
-#: ../extensions/selections/gth-selections-manager.c:232
+#: ../extensions/selections/gth-selections-manager.c:228
 #, c-format
 msgid "Selection %d"
 msgstr "%d. kijelölés"
 
-#: ../extensions/selections/gth-selections-manager.c:235
+#: ../extensions/selections/gth-selections-manager.c:231
 #: ../extensions/selections/selections.extension.in.in.h:1
 msgid "Selections"
 msgstr "Kijelölések"
@@ -4577,8 +4498,8 @@ msgid "Create static web albums."
 msgstr "Statikus webalbumok létrehozása."
 
 #: ../gthumb/dlg-location.c:200 ../gthumb/gth-browser.c:1107
-#: ../gthumb/gth-browser.c:1671 ../gthumb/gth-browser.c:6587
-#: ../gthumb/gth-browser.c:6606 ../gthumb/gth-browser.c:6630
+#: ../gthumb/gth-browser.c:1676 ../gthumb/gth-browser.c:6611
+#: ../gthumb/gth-browser.c:6630 ../gthumb/gth-browser.c:6654
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Nem sikerült betölteni a(z) „%s” pozíciót"
@@ -4713,7 +4634,7 @@ msgstr "Fájlinformációk lekérése"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3302
+#: ../gthumb/glib-utils.c:3297
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4725,7 +4646,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3311
+#: ../gthumb/glib-utils.c:3306
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -4759,7 +4680,7 @@ msgstr "Fényképek automatikus importálása a digitális fényképezőgépből
 msgid "Show version"
 msgstr "Verzió megjelenítése"
 
-#: ../gthumb/gth-application.c:205
+#: ../gthumb/gth-application.c:209
 msgid "— Image browser and viewer"
 msgstr "— Képböngésző és -megjelenítő"
 
@@ -4806,6 +4727,26 @@ msgstr ""
 "Tímár András <timar at gnome dot hu>\n"
 "Úr Balázs <urbalazs at gmail dot com>"
 
+#: ../gthumb/gth-browser-actions-entries.h:90
+#: ../gthumb/resources/app-menu.ui.h:3
+msgid "Keyboard Shortcuts"
+msgstr "Gyorsbillentyűk"
+
+#: ../gthumb/gth-browser-actions-entries.h:91 ../gthumb/gtk-utils.h:40
+#: ../gthumb/resources/app-menu.ui.h:4
+msgid "_Help"
+msgstr "_Súgó"
+
+#: ../gthumb/gth-browser-actions-entries.h:92
+#: ../gthumb/resources/app-menu.ui.h:5
+msgid "_About"
+msgstr "_Névjegy"
+
+#: ../gthumb/gth-browser-actions-entries.h:97
+#: ../gthumb/resources/app-menu.ui.h:6
+msgid "_Quit"
+msgstr "_Kilépés"
+
 #: ../gthumb/gth-browser.c:379
 msgid "[modified]"
 msgstr "[módosítva]"
@@ -4822,72 +4763,72 @@ msgstr[1] "%d fájl kijelölve (%s)"
 msgid "%s of free space"
 msgstr "%s szabad hely"
 
-#: ../gthumb/gth-browser.c:1775 ../gthumb/gth-browser.c:1802
+#: ../gthumb/gth-browser.c:1780 ../gthumb/gth-browser.c:1807
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nem található megfelelő modul ehhez: %s"
 
-#: ../gthumb/gth-browser.c:1924
+#: ../gthumb/gth-browser.c:1929
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Menti a módosításokat a(z) „%s” fájlba?"
 
-#: ../gthumb/gth-browser.c:1929
+#: ../gthumb/gth-browser.c:1934
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Ha nem menti, a fájl módosításai azonnal elvesznek."
 
-#: ../gthumb/gth-browser.c:1930
+#: ../gthumb/gth-browser.c:1935
 msgid "Do _Not Save"
 msgstr "_Ne mentse"
 
-#: ../gthumb/gth-browser.c:2409 ../gthumb/gth-browser.c:4636
+#: ../gthumb/gth-browser.c:2414 ../gthumb/gth-browser.c:4656
 msgid "Accept"
 msgstr "Elfogadás"
 
-#: ../gthumb/gth-browser.c:2409 ../gthumb/gtk-utils.h:37
+#: ../gthumb/gth-browser.c:2414 ../gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Bezárás"
 
-#: ../gthumb/gth-browser.c:3014 ../gthumb/gth-source-tree.c:182
+#: ../gthumb/gth-browser.c:3019 ../gthumb/gth-source-tree.c:182
 msgid "Could not change name"
 msgstr "Nem sikerült megváltoztatni a nevet"
 
-#: ../gthumb/gth-browser.c:3469
+#: ../gthumb/gth-browser.c:3474
 msgid "Modified"
 msgstr "Módosítva"
 
-#: ../gthumb/gth-browser.c:4558
+#: ../gthumb/gth-browser.c:4578
 msgid "Go to the previous visited location"
 msgstr "Ugrás az előző meglátogatott helyre"
 
-#: ../gthumb/gth-browser.c:4564
+#: ../gthumb/gth-browser.c:4584
 msgid "Go to the next visited location"
 msgstr "Ugrás a következő meglátogatott helyre"
 
-#: ../gthumb/gth-browser.c:4572
+#: ../gthumb/gth-browser.c:4592
 msgid "History"
 msgstr "Előzmények"
 
-#: ../gthumb/gth-browser.c:4586
+#: ../gthumb/gth-browser.c:4606
 msgid "View the folders"
 msgstr "A mappák megtekintése"
 
-#: ../gthumb/gth-browser.c:4601
+#: ../gthumb/gth-browser.c:4621
 msgid "Edit file"
 msgstr "Fájl szerkesztése"
 
-#: ../gthumb/gth-browser.c:4610 ../gthumb/gth-browser.c:4628
+#: ../gthumb/gth-browser.c:4630 ../gthumb/gth-browser.c:4648
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
 msgstr "Teljes képernyő"
 
-#: ../gthumb/gth-browser.c:6588
+#: ../gthumb/gth-browser.c:6612
 #, c-format
 msgid "File type not supported"
 msgstr "A fájltípus nem támogatott"
 
-#: ../gthumb/gth-browser.c:6631
+#: ../gthumb/gth-browser.c:6655
 #, c-format
 msgid "No suitable module found"
 msgstr "Nem található megfelelő modul"
@@ -5017,14 +4958,6 @@ msgstr "Nem sikerült megfelelő modult találni a kép „%s”-ként való men
 msgid "Reading file information"
 msgstr "Fájlinformációk olvasása"
 
-#: ../gthumb/gth-main-default-metadata.c:32
-msgid "File"
-msgstr "Fájl"
-
-#: ../gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Név"
-
 #: ../gthumb/gth-main-default-metadata.c:40
 #: ../gthumb/gth-main-default-tests.c:350
 msgid "Size"
@@ -5080,7 +5013,6 @@ msgid "Camera Model"
 msgstr "Fényképezőgép-típus"
 
 #: ../gthumb/gth-main-default-metadata.c:57
-#| msgid "Color Picker"
 msgid "Color Profile"
 msgstr "Színprofil"
 
@@ -5178,12 +5110,12 @@ msgstr "Fájlinformációk mentése"
 msgid "Saving “%s”"
 msgstr "„%s” mentése"
 
-#: ../gthumb/gth-tags-entry.c:481
+#: ../gthumb/gth-tags-entry.c:505
 #, c-format
 msgid "Create tag “%s”"
 msgstr "„%s” címke létrehozása"
 
-#: ../gthumb/gth-tags-entry.c:1130
+#: ../gthumb/gth-tags-entry.c:1172
 msgid "Show all the tags"
 msgstr "Minden címke megjelenítése"
 
@@ -5360,10 +5292,6 @@ msgstr "Mégse"
 msgid "_Cancel"
 msgstr "_Mégse"
 
-#: ../gthumb/gtk-utils.h:40 ../gthumb/resources/app-menu.ui.h:4
-msgid "_Help"
-msgstr "_Súgó"
-
 #: ../gthumb/gtk-utils.h:41
 msgid "_New"
 msgstr "Ú_j"
@@ -5391,18 +5319,6 @@ msgstr "_Feltöltés"
 #: ../gthumb/resources/app-menu.ui.h:1
 msgid "New _Window"
 msgstr "Új _ablak"
-
-#: ../gthumb/resources/app-menu.ui.h:3
-msgid "Keyboard Shortcuts"
-msgstr "Gyorsbillentyűk"
-
-#: ../gthumb/resources/app-menu.ui.h:5
-msgid "_About"
-msgstr "_Névjegy"
-
-#: ../gthumb/resources/app-menu.ui.h:6
-msgid "_Quit"
-msgstr "_Kilépés"
 
 #: ../gthumb/resources/folder-menu.ui.h:1
 msgid "Open in New Window"
