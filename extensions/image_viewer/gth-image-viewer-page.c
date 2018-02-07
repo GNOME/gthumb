@@ -259,22 +259,27 @@ profile_ready_cb (GObject      *source_object,
 {
 	ProfileData        *profile_data = user_data;
 	GthImageViewerPage *self = profile_data->self;
-	GthICCProfile      *profile;
 
-	profile = gth_color_manager_get_profile_finish (GTH_COLOR_MANAGER (source_object), res, NULL);
-	if (profile == NULL)
-		profile = _g_object_ref (gth_browser_get_monitor_profile (self->priv->browser));
-	gth_image_preloader_set_out_profile (self->priv->preloader, profile);
+	if (self->priv->active) {
+		GthICCProfile *profile;
 
-	_gth_image_viewer_page_load_with_preloader_step2 (profile_data->self,
-							  profile_data->file_data,
-							  profile_data->requested_size,
-							  profile_data->cancellable,
-							  profile_data->callback,
-							  profile_data->user_data);
+		profile = gth_color_manager_get_profile_finish (GTH_COLOR_MANAGER (source_object), res, NULL);
+		if (profile == NULL)
+			profile = _g_object_ref (gth_browser_get_monitor_profile (self->priv->browser));
+		gth_image_preloader_set_out_profile (self->priv->preloader, profile);
 
-	_g_object_unref (profile);
+		_gth_image_viewer_page_load_with_preloader_step2 (profile_data->self,
+								  profile_data->file_data,
+								  profile_data->requested_size,
+								  profile_data->cancellable,
+								  profile_data->callback,
+								  profile_data->user_data);
+
+		_g_object_unref (profile);
+	}
+
 	profile_data_free (profile_data);
+	g_object_unref (res);
 }
 
 
@@ -1416,6 +1421,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 
 	self = (GthImageViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
+	g_return_if_fail (self->priv->active);
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
@@ -2388,6 +2394,8 @@ gth_image_viewer_page_apply_icc_profile	(GthImageViewerPage *self,
 					 gboolean            apply)
 {
 	GthFileData *file_data;
+
+	g_return_if_fail (self->priv->active);
 
 	self->priv->apply_icc_profile = apply;
 	gth_image_preloader_clear_cache (self->priv->preloader);
