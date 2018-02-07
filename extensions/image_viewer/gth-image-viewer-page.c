@@ -279,7 +279,6 @@ profile_ready_cb (GObject      *source_object,
 	}
 
 	profile_data_free (profile_data);
-	g_object_unref (res);
 }
 
 
