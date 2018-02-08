@@ -610,182 +610,25 @@ update_play_button (GthMediaViewerPage *self,
 }
 
 
-static void
-gth_media_viewer_page_real_activate (GthViewerPage *base,
-				     GthBrowser    *browser)
+/*
+static char *
+state_description (GstState state)
 {
-	GthMediaViewerPage *self;
-
-	if (! gstreamer_init ())
-		return;
-
-	self = (GthMediaViewerPage*) base;
-
-	self->priv->browser = browser;
-	g_action_map_add_action_entries (G_ACTION_MAP (browser),
-					 actions,
-					 G_N_ELEMENTS (actions),
-					 browser);
-	self->priv->screenshot_button =
-			gth_browser_add_header_bar_button (browser,
-							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
-							   "camera-photo-symbolic",
-							   _("Take a screenshot"),
-							   "win.video-screenshot",
-							   NULL);
-
-	/* audio area */
-
-	self->priv->audio_area = gtk_drawing_area_new ();
-	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->audio_area), "video-player");
-	gtk_widget_add_events (self->priv->audio_area, (gtk_widget_get_events (self->priv->audio_area)
-						  | GDK_EXPOSURE_MASK
-						  | GDK_BUTTON_PRESS_MASK
-						  | GDK_BUTTON_RELEASE_MASK
-						  | GDK_POINTER_MOTION_MASK
-						  | GDK_POINTER_MOTION_HINT_MASK
-						  | GDK_BUTTON_MOTION_MASK
-						  | GDK_SCROLL_MASK));
-	gtk_widget_set_can_focus (self->priv->audio_area, TRUE);
-	gtk_widget_show (self->priv->audio_area);
-
-	g_signal_connect (G_OBJECT (self->priv->audio_area),
-			  "draw",
-			  G_CALLBACK (video_area_draw_cb),
-			  self);
-	g_signal_connect (G_OBJECT (self->priv->audio_area),
-			  "button_press_event",
-			  G_CALLBACK (video_area_button_press_cb),
-			  self);
-	g_signal_connect (G_OBJECT (self->priv->audio_area),
-			  "popup-menu",
-			  G_CALLBACK (video_area_popup_menu_cb),
-			  self);
-	g_signal_connect (G_OBJECT (self->priv->audio_area),
-			  "scroll_event",
-			  G_CALLBACK (video_area_scroll_event_cb),
-			  self);
-
-	/* mediabar */
-
-	self->priv->builder = _gtk_builder_new_from_file ("mediabar.ui", "gstreamer_tools");
-	self->priv->mediabar = GET_WIDGET ("mediabar");
-	gtk_widget_set_halign (self->priv->mediabar, GTK_ALIGN_FILL);
-	gtk_widget_set_valign (self->priv->mediabar, GTK_ALIGN_END);
-
-	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_slower_image")),
-				      "media-seek-backward-symbolic",
-				      GTK_ICON_SIZE_MENU);
-	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_faster_image")),
-				      "media-seek-forward-symbolic",
-				      GTK_ICON_SIZE_MENU);
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("loop_button")), self->priv->loop);
-
-	g_signal_connect (GET_WIDGET ("volume_adjustment"),
-			  "value-changed",
-			  G_CALLBACK (volume_value_changed_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("position_adjustment"),
-			  "value-changed",
-			  G_CALLBACK (position_value_changed_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("play_button"),
-			  "clicked",
-			  G_CALLBACK (play_button_clicked_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("play_slower_button"),
-			  "clicked",
-			  G_CALLBACK (play_slower_button_clicked_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("play_faster_button"),
-			  "clicked",
-			  G_CALLBACK (play_faster_button_clicked_cb),
-			  self);
-	g_signal_connect (GET_WIDGET ("loop_button"),
-			  "clicked",
-			  G_CALLBACK (loop_button_clicked_cb),
-			  self);
-
-	self->priv->mediabar_revealer = gtk_revealer_new ();
-	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->mediabar_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_UP);
-	gtk_widget_set_halign (self->priv->mediabar_revealer, GTK_ALIGN_FILL);
-	gtk_widget_set_valign (self->priv->mediabar_revealer, GTK_ALIGN_END);
-	gtk_widget_show (self->priv->mediabar_revealer);
-	gtk_container_add (GTK_CONTAINER (self->priv->mediabar_revealer), self->priv->mediabar);
-
-	self->priv->area_box = gtk_stack_new ();
-	gtk_stack_add_named (GTK_STACK (self->priv->area_box), self->priv->audio_area, "audio-area");
-	gtk_widget_show (self->priv->area_box);
-
-	self->priv->area_overlay = gtk_overlay_new ();
-	gtk_container_add (GTK_CONTAINER (self->priv->area_overlay), self->priv->area_box);
-	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->area_overlay), self->priv->mediabar_revealer);
-	gtk_widget_show (self->priv->area_overlay);
-
-	gth_browser_set_viewer_widget (browser, self->priv->area_overlay);
-
-	gtk_widget_realize (self->priv->audio_area);
-	gth_browser_register_viewer_control (self->priv->browser, self->priv->mediabar_revealer);
-	gth_browser_register_viewer_control (self->priv->browser, gtk_scale_button_get_popup (GTK_SCALE_BUTTON (GET_WIDGET ("volumebutton"))));
-
-	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
-}
-
-
-static void
-save_volume (GthMediaViewerPage *self)
-{
-	GSettings *settings;
-	double     volume;
-
-	settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
-	g_object_get (self->priv->playbin, "volume", &volume, NULL);
-	g_settings_set_int (settings, PREF_GSTREAMER_TOOLS_VOLUME, (int) (volume * 100.0));
-
-	g_object_unref (settings);
-}
-
-
-static void
-gth_media_viewer_page_real_deactivate (GthViewerPage *base)
-{
-	GthMediaViewerPage *self;
-
-	self = (GthMediaViewerPage*) base;
-
-	gth_browser_unregister_viewer_control (self->priv->browser, gtk_scale_button_get_popup (GTK_SCALE_BUTTON (GET_WIDGET ("volumebutton"))));
-	gth_browser_unregister_viewer_control (self->priv->browser, self->priv->mediabar_revealer);
-
-	if (self->priv->builder != NULL) {
-		g_object_unref (self->priv->builder);
-		self->priv->builder = NULL;
+	switch (state) {
+	case GST_STATE_VOID_PENDING:
+		return "void pending";
+	case GST_STATE_NULL:
+		return "null";
+	case GST_STATE_READY:
+		return "ready";
+	case GST_STATE_PAUSED:
+		return "paused";
+	case GST_STATE_PLAYING:
+		return "playing";
 	}
-
-        if (self->priv->update_progress_id != 0) {
-                g_source_remove (self->priv->update_progress_id);
-                self->priv->update_progress_id = 0;
-        }
-
-        if (self->priv->update_volume_id != 0) {
-                g_source_remove (self->priv->update_volume_id);
-                self->priv->update_volume_id = 0;
-        }
-
-	if (self->priv->playbin != NULL) {
-		save_volume (self);
-		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
-		gst_object_unref (GST_OBJECT (self->priv->playbin));
-		self->priv->playbin = NULL;
-		self->priv->video_area = NULL;
-		self->priv->audio_area = NULL;
-	}
-
-	gtk_widget_destroy (self->priv->screenshot_button);
-	self->priv->screenshot_button = NULL;
-
-	gth_browser_set_viewer_widget (self->priv->browser, NULL);
+	return "error";
 }
+*/
 
 
 static void
@@ -854,27 +697,6 @@ update_stream_info (GthMediaViewerPage *self)
 
 	gtk_stack_set_visible_child_name (GTK_STACK (self->priv->area_box), self->priv->has_video ? "video-area" : "audio-area");
 }
-
-
-/*
-static char *
-state_description (GstState state)
-{
-	switch (state) {
-	case GST_STATE_VOID_PENDING:
-		return "void pending";
-	case GST_STATE_NULL:
-		return "null";
-	case GST_STATE_READY:
-		return "ready";
-	case GST_STATE_PAUSED:
-		return "paused";
-	case GST_STATE_PLAYING:
-		return "playing";
-	}
-	return "error";
-}
-*/
 
 
 static void
@@ -1047,6 +869,201 @@ create_playbin (GthMediaViewerPage *self)
 
 
 static void
+gth_media_viewer_page_real_activate (GthViewerPage *base,
+				     GthBrowser    *browser)
+{
+	GthMediaViewerPage *self;
+
+	if (! gstreamer_init ())
+		return;
+
+	self = (GthMediaViewerPage*) base;
+
+	self->priv->browser = browser;
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
+	self->priv->screenshot_button =
+			gth_browser_add_header_bar_button (browser,
+							   GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW,
+							   "camera-photo-symbolic",
+							   _("Take a screenshot"),
+							   "win.video-screenshot",
+							   NULL);
+
+	/* audio area */
+
+	self->priv->audio_area = gtk_drawing_area_new ();
+	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->audio_area), "video-player");
+	gtk_widget_add_events (self->priv->audio_area, (gtk_widget_get_events (self->priv->audio_area)
+						  | GDK_EXPOSURE_MASK
+						  | GDK_BUTTON_PRESS_MASK
+						  | GDK_BUTTON_RELEASE_MASK
+						  | GDK_POINTER_MOTION_MASK
+						  | GDK_POINTER_MOTION_HINT_MASK
+						  | GDK_BUTTON_MOTION_MASK
+						  | GDK_SCROLL_MASK));
+	gtk_widget_set_can_focus (self->priv->audio_area, TRUE);
+	gtk_widget_show (self->priv->audio_area);
+
+	g_signal_connect (G_OBJECT (self->priv->audio_area),
+			  "draw",
+			  G_CALLBACK (video_area_draw_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->audio_area),
+			  "button_press_event",
+			  G_CALLBACK (video_area_button_press_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->audio_area),
+			  "popup-menu",
+			  G_CALLBACK (video_area_popup_menu_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->audio_area),
+			  "scroll_event",
+			  G_CALLBACK (video_area_scroll_event_cb),
+			  self);
+
+	/* mediabar */
+
+	self->priv->builder = _gtk_builder_new_from_file ("mediabar.ui", "gstreamer_tools");
+	self->priv->mediabar = GET_WIDGET ("mediabar");
+	gtk_widget_set_halign (self->priv->mediabar, GTK_ALIGN_FILL);
+	gtk_widget_set_valign (self->priv->mediabar, GTK_ALIGN_END);
+
+	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_slower_image")),
+				      "media-seek-backward-symbolic",
+				      GTK_ICON_SIZE_MENU);
+	gtk_image_set_from_icon_name (GTK_IMAGE (GET_WIDGET ("play_faster_image")),
+				      "media-seek-forward-symbolic",
+				      GTK_ICON_SIZE_MENU);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("loop_button")), self->priv->loop);
+
+	g_signal_connect (GET_WIDGET ("volume_adjustment"),
+			  "value-changed",
+			  G_CALLBACK (volume_value_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("position_adjustment"),
+			  "value-changed",
+			  G_CALLBACK (position_value_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("play_button"),
+			  "clicked",
+			  G_CALLBACK (play_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("play_slower_button"),
+			  "clicked",
+			  G_CALLBACK (play_slower_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("play_faster_button"),
+			  "clicked",
+			  G_CALLBACK (play_faster_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("loop_button"),
+			  "clicked",
+			  G_CALLBACK (loop_button_clicked_cb),
+			  self);
+
+	self->priv->mediabar_revealer = gtk_revealer_new ();
+	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->mediabar_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_UP);
+	gtk_widget_set_halign (self->priv->mediabar_revealer, GTK_ALIGN_FILL);
+	gtk_widget_set_valign (self->priv->mediabar_revealer, GTK_ALIGN_END);
+	gtk_widget_show (self->priv->mediabar_revealer);
+	gtk_container_add (GTK_CONTAINER (self->priv->mediabar_revealer), self->priv->mediabar);
+
+	self->priv->area_box = gtk_stack_new ();
+	gtk_stack_add_named (GTK_STACK (self->priv->area_box), self->priv->audio_area, "audio-area");
+	gtk_widget_show (self->priv->area_box);
+
+	self->priv->area_overlay = gtk_overlay_new ();
+	gtk_container_add (GTK_CONTAINER (self->priv->area_overlay), self->priv->area_box);
+	gtk_overlay_add_overlay (GTK_OVERLAY (self->priv->area_overlay), self->priv->mediabar_revealer);
+	gtk_widget_show (self->priv->area_overlay);
+
+	gth_browser_set_viewer_widget (browser, self->priv->area_overlay);
+
+	gtk_widget_realize (self->priv->audio_area);
+	gth_browser_register_viewer_control (self->priv->browser, self->priv->mediabar_revealer);
+	gth_browser_register_viewer_control (self->priv->browser, gtk_scale_button_get_popup (GTK_SCALE_BUTTON (GET_WIDGET ("volumebutton"))));
+
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
+
+	create_playbin (self);
+}
+
+
+static void
+save_volume (GthMediaViewerPage *self)
+{
+	GSettings *settings;
+	double     volume;
+
+	settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
+	g_object_get (self->priv->playbin, "volume", &volume, NULL);
+	g_settings_set_int (settings, PREF_GSTREAMER_TOOLS_VOLUME, (int) (volume * 100.0));
+
+	g_object_unref (settings);
+}
+
+
+static void
+wait_playbin_state_change_to_complete (GthMediaViewerPage *self)
+{
+	(void) gst_element_get_state (self->priv->playbin,
+				      NULL,
+				      NULL,
+				      GST_SECOND * 10);
+}
+
+
+static void
+gth_media_viewer_page_real_deactivate (GthViewerPage *base)
+{
+	GthMediaViewerPage *self;
+
+	self = (GthMediaViewerPage*) base;
+
+	gth_browser_unregister_viewer_control (self->priv->browser, gtk_scale_button_get_popup (GTK_SCALE_BUTTON (GET_WIDGET ("volumebutton"))));
+	gth_browser_unregister_viewer_control (self->priv->browser, self->priv->mediabar_revealer);
+
+	if (self->priv->builder != NULL) {
+		g_object_unref (self->priv->builder);
+		self->priv->builder = NULL;
+	}
+
+        if (self->priv->update_progress_id != 0) {
+                g_source_remove (self->priv->update_progress_id);
+                self->priv->update_progress_id = 0;
+        }
+
+        if (self->priv->update_volume_id != 0) {
+                g_source_remove (self->priv->update_volume_id);
+                self->priv->update_volume_id = 0;
+        }
+
+	if (self->priv->playbin != NULL) {
+		save_volume (self);
+
+	        g_signal_handlers_disconnect_by_data (self->priv->playbin, self);
+	        g_signal_handlers_disconnect_by_data (self->priv->video_area, self);
+
+		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
+		wait_playbin_state_change_to_complete (self);
+		gst_object_unref (GST_OBJECT (self->priv->playbin));
+		self->priv->playbin = NULL;
+		self->priv->video_area = NULL;
+		self->priv->audio_area = NULL;
+	}
+
+	gtk_widget_destroy (self->priv->screenshot_button);
+	self->priv->screenshot_button = NULL;
+
+	gth_browser_set_viewer_widget (self->priv->browser, NULL);
+}
+
+
+static void
 _gth_media_viewer_page_set_uri (GthMediaViewerPage *self,
 				const char         *uri,
 				GstState            state)
@@ -1057,7 +1074,7 @@ _gth_media_viewer_page_set_uri (GthMediaViewerPage *self,
 
 	g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
 	gst_element_set_state (self->priv->playbin, state);
-	/*gst_element_get_state (self->priv->playbin, NULL, NULL, GST_CLOCK_TIME_NONE);*/
+	wait_playbin_state_change_to_complete (self);
 }
 
 
@@ -1070,7 +1087,6 @@ gth_media_viewer_page_real_show (GthViewerPage *base)
 	self->priv->background_painted = FALSE;
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
-	create_playbin (self);
 	if (self->priv->file_data != NULL) {
 		char *uri;
 
@@ -1114,9 +1130,7 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 
 	self = (GthMediaViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
-
-	if (! gstreamer_init ())
-		return;
+	g_return_if_fail (self->priv->playbin != NULL);
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
@@ -1150,10 +1164,6 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment")), 0.0);
 	g_signal_handlers_unblock_by_func(GET_WIDGET ("position_adjustment"), position_value_changed_cb, self);
 	reset_player_state (self);
-
-	create_playbin (self);
-	if (self->priv->playbin == NULL)
-		return;
 
 	uri = g_file_get_uri (self->priv->file_data->file);
 	_gth_media_viewer_page_set_uri (self, uri, self->priv->visible ? GST_STATE_PLAYING : GST_STATE_PAUSED);
@@ -1285,13 +1295,7 @@ gth_media_viewer_page_finalize (GObject *obj)
                 self->priv->update_volume_id = 0;
         }
 
-	if (self->priv->playbin != NULL) {
-		save_volume (self);
-		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
-		gst_object_unref (GST_OBJECT (self->priv->playbin));
-		self->priv->playbin = NULL;
-	}
-	_g_object_unref (self->priv->icon);
+        _g_object_unref (self->priv->icon);
 	_g_object_unref (self->priv->file_data);
 	_g_object_unref (self->priv->updated_info);
 	if (self->priv->screensaver != NULL) {
