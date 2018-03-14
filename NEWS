@@ -1,3 +1,22 @@
+version 3.6.1
+-------------
+
+ Bugs fixed:
+
+  * Fixed crash when browsing folders with images and videos. (#760214)
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Isaac Ferreira Filho)
+  * Croatian (gogo)
+  * es (Daniel Mustieles)
+  * Esperanto (Kristjan SCHMIDT)
+  * Hungarian (Balázs Úr)
+
+ New or updated manual translations:
+
+  * es (Daniel Mustieles)
+
 version 3.6.0
 -------------
 
@@ -15,14 +34,14 @@ version 3.5.4
  Bugs fixed:
 
   * No application icon on Wayland.
-  * Tags dialog: improved usability.  Do not select the entry content after 
-    opening the dialog; add a comma at the end of the tags entry to simplify 
+  * Tags dialog: improved usability.  Do not select the entry content after
+    opening the dialog; add a comma at the end of the tags entry to simplify
     the addition of a new tag; support keyboard navigation. (#777234)
   * Hi-DPI: "High" quality zoom is pixelated on hi-dpi monitors. (#779340)
-  * Web services: fixed errors and removed features no longer supported by 
+  * Web services: fixed errors and removed features no longer supported by
     the APIs:
     * Facebook: fixed authorization process; removed photo importer.
-    * PicasaWeb: removed album creation; remember application 
+    * PicasaWeb: removed album creation; remember application
       authorization. (#784142)
     * Photobucket: removed uploader.
   * Image viewer: use a white background for transparency. (#780207)
@@ -30,7 +49,7 @@ version 3.5.4
   * Color manager: fixed crash when no device is found. (#789347)
   * Do not save selections. This broke workflows where selections were involved.
   * Removed obsolete file gthumb.convert (#767034)
-  
+
  New or updated application translations:
 
   * Danish (Alan Mortensen)
