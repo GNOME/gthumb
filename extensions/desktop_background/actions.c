@@ -370,7 +370,7 @@ wallpaper_metadata_ready_cb (GObject      *source_object,
 
 #if GTK_CHECK_VERSION(3, 22, 0)
 
-	gdk_monitor_get_geometry (gdk_display_get_primary_monitor (gtk_widget_get_display (GTK_WIDGET (wdata->browser))), &monitor_geometry);
+	gdk_monitor_get_geometry (gdk_display_get_monitor_at_window (gtk_widget_get_display (GTK_WIDGET (wdata->browser)), gtk_widget_get_window (GTK_WIDGET (wdata->browser))), &monitor_geometry);
 
 #else
 
