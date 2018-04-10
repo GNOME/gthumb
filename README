@@ -1,7 +1,7 @@
 This is the distribution of gThumb, an image viewer and browser utility
 for the GNOME environment.
 
-Information about gthumb can be found at https://wiki.gnome.org/Apps/gthumb.
+Information about gthumb can be found at https://wiki.gnome.org/Apps/Gthumb.
 
 
 What is gThumb
@@ -113,7 +113,7 @@ Extensions
   are implemented as extensions and are supplied with the standard
   distribution. Users may write (and share) additional extensions.
 
-  See https://wiki.gnome.org/Apps/gthumb/extensions for details.
+  See https://wiki.gnome.org/Apps/Gthumb/extensions for details.
 
 
 Download
@@ -134,7 +134,7 @@ Download
         sudo make install
 
     More development information is available at
-    https://wiki.gnome.org/Apps/gthumb/development
+    https://wiki.gnome.org/Apps/Gthumb/development
 
 
 18 January 2010
