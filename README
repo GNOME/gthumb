@@ -71,15 +71,11 @@ Compiling
   version 2 or greater, with the development tools installed properly.
   The following is the detailed list of libraries you need:
 
-	* glib	 		version >= 2.36.0
-	* gtk 			version >= 3.13.2
+	* glib			version >= 2.36.0
+	* gtk			version >= 3.16
 	* gthread
- 	* gmodule
+	* gmodule
 	* gio-unix
-	* gconf			version >= 2.6.0
-	* intltool		version >= 0.35.0
-	* unique		version >= 1.1.2
-
 
   While not mandatory, these libraries greatly increase gThumb's
   basic usefulness:
@@ -97,8 +93,8 @@ Compiling
 
   These libraries are optional:
 
-	* clutter		version >= 1.0.0
-	* clutter-gtk		version >= 0.10.0
+	* clutter		version >= 1.12.0
+	* clutter-gtk		version >= 1.0.0
           (These libraries provide enhanced slideshow effects.)
 
 	* libraw
@@ -134,7 +130,4 @@ Download
         sudo make install
 
     More development information is available at
-
-
-18 January 2010
     https://wiki.gnome.org/Apps/Gthumb/development
