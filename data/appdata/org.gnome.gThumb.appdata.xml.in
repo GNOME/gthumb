@@ -40,7 +40,7 @@
   </description>
 
   <launchable type="desktop-id">org.gnome.gThumb.desktop</launchable>
-  <url type="homepage">https://wiki.gnome.org/Apps/gthumb</url>
+  <url type="homepage">https://wiki.gnome.org/Apps/Gthumb</url>
   <screenshots>
     <screenshot type="default">
       <image type="source">https://git.gnome.org/browse/gthumb/plain/data/appdata/ss-browser.png</image>
