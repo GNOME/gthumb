@@ -1384,6 +1384,24 @@ _g_copy_file_to_destination_call_ready_callback (gpointer user_data)
 
 
 static void
+make_directory_ready_cb (GObject      *source_object,
+                	 GAsyncResult *result,
+			 gpointer      user_data)
+{
+	CopyFileData *copy_file_data = user_data;
+	GError       *error = NULL;
+
+	if (! g_file_make_directory_finish (G_FILE (source_object), result, &error))
+		/* ignore this kind of errors */
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
+			g_clear_error (&error);
+
+	copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
+	copy_file_data_free (copy_file_data);
+}
+
+
+static void
 _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 			     GFile          *destination,
 			     GFileCopyFlags  flags)
@@ -1439,20 +1457,13 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 		g_object_unref (destination_parent);
 	}
 
-	if (g_file_info_get_file_type (copy_file_data->source->info) == G_FILE_TYPE_DIRECTORY) {
-		GError *error = NULL;
-
-		/* FIXME: use the async version, available since glib 2.38 */
+	if (g_file_info_get_file_type (copy_file_data->source->info) == G_FILE_TYPE_DIRECTORY)
 		/* FIXME: handle the GTH_FILE_COPY_RENAME_SAME_FILE flag for directories */
-
-		if (! g_file_make_directory (copy_file_data->current_destination, copy_file_data->cancellable, &error)) {
-			if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
-				g_clear_error (&error);
-		}
-		copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
-		copy_file_data_free (copy_file_data);
-		return;
-	}
+		g_file_make_directory_async (copy_file_data->current_destination,
+					     copy_file_data->io_priority,
+					     copy_file_data->cancellable,
+					     make_directory_ready_cb,
+					     copy_file_data);
 	else
 		g_file_copy_async (copy_file_data->source->file,
 				   copy_file_data->current_destination,
@@ -1796,7 +1807,7 @@ _g_copy_files_async (GList                *sources, /* GFile list */
 					      0.0,
 					      copy_data->progress_callback_data);
 
-	/* for each directory in 'source' this query will add all of its content
+	/* for each directory in 'sources' this query will add all of its content
 	 * to the file list. */
 	_g_query_info_async (sources,
 			     GTH_LIST_RECURSIVE,
