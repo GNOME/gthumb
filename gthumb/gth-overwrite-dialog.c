@@ -331,6 +331,8 @@ gth_overwrite_dialog_new (GFile                *source,
 {
 	GthOverwriteDialog *self;
 
+	g_return_val_if_fail (G_IS_FILE (source), NULL);
+
 	self = g_object_new (GTH_TYPE_OVERWRITE_DIALOG,
 			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
 			     NULL);

@@ -71,6 +71,7 @@ typedef void (*InfoReadyCallback)    (GList                *files,
 				      GError               *error,
 				      gpointer              user_data);
 typedef void (*CopyReadyCallback)    (GthOverwriteResponse  default_response,
+				      GList                *other_files,
 				      GError               *error,
 			 	      gpointer              user_data);
 

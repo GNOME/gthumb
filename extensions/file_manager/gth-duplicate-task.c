@@ -77,6 +77,7 @@ static void duplicate_current_file (GthDuplicateTask *self);
 
 static void
 copy_ready_cb (GthOverwriteResponse  response,
+	       GList                *other_files,
 	       GError               *error,
                gpointer              user_data)
 {

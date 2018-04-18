@@ -1108,6 +1108,7 @@ typedef struct {
 	gpointer              dialog_callback_data;
 	CopyReadyCallback     ready_callback;
 	gpointer              user_data;
+	gboolean              move_succeed;
 
 	GFile                *current_destination;
 	char                 *message;
@@ -1140,10 +1141,12 @@ copy_file__delete_source (CopyFileData *copy_file_data)
 {
 	GError *error = NULL;
 
-	if (copy_file_data->move)
+	/* delete the source if we are moving the file but the move operation
+	 * is not supported. */
+	if (copy_file_data->move && ! copy_file_data->move_succeed)
 		g_file_delete (copy_file_data->source->file, copy_file_data->cancellable, &error);
 
-	copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
+	copy_file_data->ready_callback (copy_file_data->default_response, copy_file_data->source_sidecars, error, copy_file_data->user_data);
 	copy_file_data_free (copy_file_data);
 }
 
@@ -1212,6 +1215,28 @@ copy_file__copy_current_sidecar (CopyFileData *copy_file_data)
 }
 
 
+static void
+copy_file__copy_sidecars (CopyFileData *copy_file_data)
+{
+	/* copy the metadata sidecars if requested */
+
+	_g_object_list_unref (copy_file_data->source_sidecars);
+	_g_object_list_unref (copy_file_data->destination_sidecars);
+	copy_file_data->source_sidecars = NULL;
+	copy_file_data->destination_sidecars = NULL;
+	if (copy_file_data->flags & GTH_FILE_COPY_ALL_METADATA) {
+		gth_hook_invoke ("add-sidecars", copy_file_data->source->file, &copy_file_data->source_sidecars);
+		gth_hook_invoke ("add-sidecars", copy_file_data->destination, &copy_file_data->destination_sidecars);
+		copy_file_data->source_sidecars = g_list_reverse (copy_file_data->source_sidecars);
+		copy_file_data->destination_sidecars = g_list_reverse (copy_file_data->destination_sidecars);
+	}
+
+	copy_file_data->current_source_sidecar = copy_file_data->source_sidecars;
+	copy_file_data->current_destination_sidecar = copy_file_data->destination_sidecars;
+	copy_file__copy_current_sidecar (copy_file_data);
+}
+
+
 static void _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 					 GFile          *destination,
 					 GFileCopyFlags  flags);
@@ -1246,7 +1271,7 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 				error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
 			else
 				error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_EXISTS, "");
-			copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
+			copy_file_data->ready_callback (copy_file_data->default_response, NULL, error, copy_file_data->user_data);
 			copy_file_data_free (copy_file_data);
 			return;
 		}
@@ -1276,6 +1301,53 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 
 
 static void
+copy_file__handle_error (CopyFileData *copy_file_data,
+			 GError       *error)
+{
+	g_return_if_fail (GTH_IS_FILE_DATA (copy_file_data->source));
+	g_return_if_fail (G_IS_FILE (copy_file_data->source->file));
+
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+		if (copy_file_data->duplicating_file) {
+
+			/* the duplicated file already exists, try another one */
+
+			GFile *new_destination = _g_file_get_duplicated (copy_file_data->current_destination);
+			_g_copy_file_to_destination (copy_file_data, new_destination, G_FILE_COPY_NONE);
+
+			g_object_unref (new_destination);
+		}
+		else if (copy_file_data->default_response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO) {
+			GtkWidget *dialog;
+
+			dialog = gth_overwrite_dialog_new (copy_file_data->source->file,
+							   NULL,
+							   copy_file_data->current_destination,
+							   copy_file_data->default_response,
+							   copy_file_data->tot_files == 1);
+
+			if (copy_file_data->dialog_callback != NULL)
+				copy_file_data->dialog_callback (TRUE, dialog, copy_file_data->dialog_callback_data);
+
+			g_signal_connect (dialog,
+					  "response",
+					  G_CALLBACK (copy_file__overwrite_dialog_response_cb),
+					  copy_file_data);
+			gtk_widget_show (dialog);
+		}
+		else {
+			copy_file_data->ready_callback (copy_file_data->default_response, NULL, error, copy_file_data->user_data);
+			copy_file_data_free (copy_file_data);
+		}
+	}
+	else {
+		copy_file_data->ready_callback (copy_file_data->default_response, NULL, error, copy_file_data->user_data);
+		copy_file_data_free (copy_file_data);
+	}
+}
+
+
+static void
 copy_file_ready_cb (GObject      *source_object,
 		    GAsyncResult *result,
 		    gpointer      user_data)
@@ -1283,62 +1355,12 @@ copy_file_ready_cb (GObject      *source_object,
 	CopyFileData *copy_file_data = user_data;
 	GError       *error = NULL;
 
-	if (! g_file_copy_finish ((GFile *) source_object, result, &error)) {
-		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
-			if (copy_file_data->duplicating_file) {
-
-				/* the duplicated file already exists, try another one */
-
-				GFile *new_destination = _g_file_get_duplicated (copy_file_data->current_destination);
-				_g_copy_file_to_destination (copy_file_data, new_destination, G_FILE_COPY_NONE);
-
-				g_object_unref (new_destination);
-			}
-			else if (copy_file_data->default_response != GTH_OVERWRITE_RESPONSE_ALWAYS_NO) {
-				GtkWidget *dialog;
-
-				dialog = gth_overwrite_dialog_new (copy_file_data->source->file,
-								   NULL,
-								   copy_file_data->current_destination,
-								   copy_file_data->default_response,
-								   copy_file_data->tot_files == 1);
-
-				if (copy_file_data->dialog_callback != NULL)
-					copy_file_data->dialog_callback (TRUE, dialog, copy_file_data->dialog_callback_data);
-
-				g_signal_connect (dialog,
-						  "response",
-						  G_CALLBACK (copy_file__overwrite_dialog_response_cb),
-						  copy_file_data);
-				gtk_widget_show (dialog);
-			}
-			else {
-				copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
-				copy_file_data_free (copy_file_data);
-			}
-			return;
-		}
-		copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
-		copy_file_data_free (copy_file_data);
+	if (! g_file_copy_finish (G_FILE (source_object), result, &error)) {
+		copy_file__handle_error (copy_file_data, error);
 		return;
 	}
 
-	/* copy the metadata sidecars if requested */
-
-	_g_object_list_unref (copy_file_data->source_sidecars);
-	_g_object_list_unref (copy_file_data->destination_sidecars);
-	copy_file_data->source_sidecars = NULL;
-	copy_file_data->destination_sidecars = NULL;
-	if (copy_file_data->flags & GTH_FILE_COPY_ALL_METADATA) {
-		gth_hook_invoke ("add-sidecars", copy_file_data->source->file, &copy_file_data->source_sidecars);
-		gth_hook_invoke ("add-sidecars", copy_file_data->destination, &copy_file_data->destination_sidecars);
-		copy_file_data->source_sidecars = g_list_reverse (copy_file_data->source_sidecars);
-		copy_file_data->destination_sidecars = g_list_reverse (copy_file_data->destination_sidecars);
-	}
-
-	copy_file_data->current_source_sidecar = copy_file_data->source_sidecars;
-	copy_file_data->current_destination_sidecar = copy_file_data->destination_sidecars;
-	copy_file__copy_current_sidecar (copy_file_data);
+	copy_file__copy_sidecars (copy_file_data);
 }
 
 
@@ -1378,14 +1400,14 @@ _g_copy_file_to_destination_call_ready_callback (gpointer user_data)
 {
 	CopyFileData *copy_file_data = user_data;
 
-	copy_file_data->ready_callback (copy_file_data->default_response, NULL, copy_file_data->user_data);
+	copy_file_data->ready_callback (copy_file_data->default_response, NULL, NULL, copy_file_data->user_data);
 	copy_file_data_free (copy_file_data);
 }
 
 
 static void
 make_directory_ready_cb (GObject      *source_object,
-                	 GAsyncResult *result,
+			 GAsyncResult *result,
 			 gpointer      user_data)
 {
 	CopyFileData *copy_file_data = user_data;
@@ -1396,7 +1418,7 @@ make_directory_ready_cb (GObject      *source_object,
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS))
 			g_clear_error (&error);
 
-	copy_file_data->ready_callback (copy_file_data->default_response, error, copy_file_data->user_data);
+	copy_file_data->ready_callback (copy_file_data->default_response, NULL, error, copy_file_data->user_data);
 	copy_file_data_free (copy_file_data);
 }
 
@@ -1457,23 +1479,53 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 		g_object_unref (destination_parent);
 	}
 
-	if (g_file_info_get_file_type (copy_file_data->source->info) == G_FILE_TYPE_DIRECTORY)
+	switch (g_file_info_get_file_type (copy_file_data->source->info)) {
+	case G_FILE_TYPE_DIRECTORY:
 		/* FIXME: handle the GTH_FILE_COPY_RENAME_SAME_FILE flag for directories */
 		g_file_make_directory_async (copy_file_data->current_destination,
 					     copy_file_data->io_priority,
 					     copy_file_data->cancellable,
 					     make_directory_ready_cb,
 					     copy_file_data);
-	else
+		break;
+
+	default:
+		if (copy_file_data->move) {
+			GError *error = NULL;
+
+			flags |= G_FILE_COPY_NO_FALLBACK_FOR_MOVE;
+			if (g_file_move (copy_file_data->source->file,
+					copy_file_data->current_destination,
+					flags,
+					copy_file_data->cancellable,
+					copy_file_progress_cb,
+					copy_file_data,
+					&error))
+			{
+				copy_file_data->move_succeed = TRUE;
+				copy_file__copy_sidecars (copy_file_data);
+				return;
+			}
+			else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
+				/* fallback to copy and delete */
+			}
+			else {
+				copy_file__handle_error (copy_file_data, error);
+				return;
+			}
+		}
+
 		g_file_copy_async (copy_file_data->source->file,
-				   copy_file_data->current_destination,
-				   flags,
-				   copy_file_data->io_priority,
-				   copy_file_data->cancellable,
-				   copy_file_progress_cb,
-				   copy_file_data,
-				   copy_file_ready_cb,
-				   copy_file_data);
+				copy_file_data->current_destination,
+				flags,
+				copy_file_data->io_priority,
+				copy_file_data->cancellable,
+				copy_file_progress_cb,
+				copy_file_data,
+				copy_file_ready_cb,
+				copy_file_data);
+		break;
+	}
 }
 
 
@@ -1497,6 +1549,9 @@ _g_copy_file_async_private (GthFileData           *source,
 {
 	CopyFileData *copy_file_data;
 
+	g_return_if_fail (GTH_IS_FILE_DATA (source));
+	g_return_if_fail (G_IS_FILE (destination));
+
 	copy_file_data = g_new0 (CopyFileData, 1);
 	copy_file_data->source = g_object_ref (source);
 	copy_file_data->destination = g_object_ref (destination);
@@ -1514,6 +1569,7 @@ _g_copy_file_async_private (GthFileData           *source,
 	copy_file_data->ready_callback = ready_callback;
 	copy_file_data->user_data = user_data;
 	copy_file_data->default_response = default_response;
+	copy_file_data->move_succeed = FALSE;
 
 	_g_copy_file_to_destination (copy_file_data, copy_file_data->destination, G_FILE_COPY_NONE);
 }
@@ -1563,6 +1619,7 @@ typedef struct {
 	GList                *files;  /* GthFileData list */
 	GList                *current;
 	GList                *copied_directories; /* GFile list */
+	GHashTable           *copied_files;
 	GFile                *source_base;
 	GFile                *current_destination;
 
@@ -1599,6 +1656,7 @@ copy_data_free (CopyData *copy_data)
 	_g_object_list_unref (copy_data->source_sidecars);
 	_g_object_unref (copy_data->current_destination);
 	_g_object_list_unref (copy_data->copied_directories);
+	g_hash_table_destroy (copy_data->copied_files);
 	_g_object_list_unref (copy_data->files);
 	_g_object_unref (copy_data->source_base);
 	g_hash_table_destroy (copy_data->source_hash);
@@ -1633,18 +1691,18 @@ copy_data__copy_next_file (CopyData *copy_data)
 
 static void
 copy_data__copy_current_file_ready_cb (GthOverwriteResponse  response,
+				       GList                *other_files,
 				       GError               *error,
 			 	       gpointer              user_data)
 {
-	CopyData *copy_data = user_data;
+	CopyData    *copy_data = user_data;
+	GthFileData *source = (GthFileData *) copy_data->current->data;
+	GList       *scan;
 
 	if (error == NULL) {
 		/* save the correctly copied directories in order to delete
 		 * them after moving their content. */
 		if (copy_data->move) {
-			GthFileData *source;
-
-			source = (GthFileData *) copy_data->current->data;
 			if (g_file_info_get_file_type (source->info) == G_FILE_TYPE_DIRECTORY)
 				copy_data->copied_directories = g_list_prepend (copy_data->copied_directories, g_file_dup (source->file));
 		}
@@ -1652,6 +1710,12 @@ copy_data__copy_current_file_ready_cb (GthOverwriteResponse  response,
 	else if ((response == GTH_OVERWRITE_RESPONSE_ALWAYS_NO) || ! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 		copy_data__done (copy_data, error);
 		return;
+	}
+
+	g_hash_table_insert (copy_data->copied_files, g_file_dup (source->file), GINT_TO_POINTER (1));
+	for (scan = other_files; scan != NULL; scan = scan->next) {
+		GFile *other_file = G_FILE (scan->data);
+		g_hash_table_insert (copy_data->copied_files, g_file_dup (other_file), GINT_TO_POINTER (1));
 	}
 
 	copy_data->default_response = response;
@@ -1670,8 +1734,16 @@ copy_data__delete_source_directories (CopyData *copy_data)
 		for (scan = copy_data->copied_directories; scan; scan = scan->next) {
 			GFile *file = scan->data;
 
-			if (! g_file_delete (file, copy_data->cancellable, &error))
-				break;
+			if (! g_file_delete (file, copy_data->cancellable, &error)) {
+				if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_EMPTY)) {
+					/* ignore this kind of errors, because
+					 * it is caused by the user choice of
+					 * not move a file. */
+					g_clear_error (&error);
+				}
+				else
+					break;
+			}
 		}
 	}
 
@@ -1691,13 +1763,21 @@ copy_data__copy_current_file (CopyData *copy_data)
 		return;
 	}
 
-	source = (GthFileData *) copy_data->current->data;
-	explicitly_requested = (g_hash_table_lookup (copy_data->source_hash, source->file) != NULL);
+	source = GTH_FILE_DATA (copy_data->current->data);
+
+	/* Ignore already copied files.  These are sidecar files already copied
+	 * with _g_copy_file_async_private */
+
+	if (g_hash_table_lookup (copy_data->copied_files, source->file) != NULL) {
+		call_when_idle ((DataFunc) copy_data__copy_next_file, copy_data);
+		return;
+	}
 
 	/* Ignore non-existent files that weren't explicitly requested,
 	 * they are children of some requested directory and if they don't
 	 * exist anymore they have been already moved to the destination
 	 * because they are metadata of other files. */
+	explicitly_requested = (g_hash_table_lookup (copy_data->source_hash, source->file) != NULL);
 	if (! explicitly_requested) {
 		if (! g_file_query_exists (source->file, copy_data->cancellable)) {
 			call_when_idle ((DataFunc) copy_data__copy_next_file, copy_data);
@@ -1750,7 +1830,7 @@ copy_files__sources_info_ready_cb (GList    *files,
 	copy_data->tot_size = 0;
 	copy_data->tot_files = 0;
 	for (scan = copy_data->files; scan; scan = scan->next) {
-		GthFileData *file_data = (GthFileData *) scan->data;
+		GthFileData *file_data = GTH_FILE_DATA (scan->data);
 
 		copy_data->tot_size += g_file_info_get_size (file_data->info);
 		copy_data->tot_files += 1;
@@ -1793,6 +1873,7 @@ _g_copy_files_async (GList                *sources, /* GFile list */
 	copy_data->done_callback = done_callback;
 	copy_data->user_data = user_data;
 	copy_data->default_response = default_response;
+	copy_data->copied_files = g_hash_table_new_full ((GHashFunc) g_file_hash, (GEqualFunc) g_file_equal, (GDestroyNotify) g_object_unref, NULL);
 
 	/* save the explicitly requested files */
 	copy_data->source_hash = g_hash_table_new_full ((GHashFunc) g_file_hash, (GEqualFunc) g_file_equal, (GDestroyNotify) g_object_unref, NULL);
