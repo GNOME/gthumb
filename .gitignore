@@ -1,8 +1,11 @@
 *~
+.autotools
+.externalToolBuilders/
 .cproject
 .project
 .pydevproject
 .settings/
+.vscode/
 build/
 _build/
 po/gthumb.pot
