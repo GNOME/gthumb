@@ -1495,12 +1495,12 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 
 			flags |= G_FILE_COPY_NO_FALLBACK_FOR_MOVE;
 			if (g_file_move (copy_file_data->source->file,
-					copy_file_data->current_destination,
-					flags,
-					copy_file_data->cancellable,
-					copy_file_progress_cb,
-					copy_file_data,
-					&error))
+					 copy_file_data->current_destination,
+					 flags,
+					 copy_file_data->cancellable,
+					 copy_file_progress_cb,
+					 copy_file_data,
+					 &error))
 			{
 				copy_file_data->move_succeed = TRUE;
 				copy_file__copy_sidecars (copy_file_data);
@@ -1516,14 +1516,14 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 		}
 
 		g_file_copy_async (copy_file_data->source->file,
-				copy_file_data->current_destination,
-				flags,
-				copy_file_data->io_priority,
-				copy_file_data->cancellable,
-				copy_file_progress_cb,
-				copy_file_data,
-				copy_file_ready_cb,
-				copy_file_data);
+				   copy_file_data->current_destination,
+				   flags,
+				   copy_file_data->io_priority,
+				   copy_file_data->cancellable,
+				   copy_file_progress_cb,
+				   copy_file_data,
+				   copy_file_ready_cb,
+				   copy_file_data);
 		break;
 	}
 }
