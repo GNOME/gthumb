@@ -18,7 +18,7 @@ shared_module('desktop_background',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'desktop_background.extension.in.in',
+  input : 'desktop_background.extension.desktop.in.in',
   output : 'desktop_background.extension.in',
   configuration : extension_data
 )

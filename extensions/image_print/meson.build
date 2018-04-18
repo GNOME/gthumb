@@ -21,7 +21,7 @@ shared_module('image_print',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'image_print.extension.in.in',
+  input : 'image_print.extension.desktop.in.in',
   output : 'image_print.extension.in',
   configuration : extension_data
 )

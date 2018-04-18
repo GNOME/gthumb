@@ -27,7 +27,7 @@ shared_module('red_eye_removal',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'red_eye_removal.extension.in.in',
+  input : 'red_eye_removal.extension.desktop.in.in',
   output : 'red_eye_removal.extension.in',
   configuration : extension_data
 )

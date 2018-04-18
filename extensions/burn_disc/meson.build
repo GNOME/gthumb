@@ -20,7 +20,7 @@ shared_module('burn_disc',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'burn_disc.extension.in.in',
+  input : 'burn_disc.extension.desktop.in.in',
   output : 'burn_disc.extension.in',
   configuration : extension_data
 )

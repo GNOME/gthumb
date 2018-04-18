@@ -40,7 +40,7 @@ shared_module('facebook',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'facebook.extension.in.in',
+  input : 'facebook.extension.desktop.in.in',
   output : 'facebook.extension.in',
   configuration : extension_data
 )

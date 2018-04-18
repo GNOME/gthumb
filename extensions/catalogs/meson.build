@@ -23,7 +23,7 @@ catalogs_mod = shared_module('catalogs',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'catalogs.extension.in.in',
+  input : 'catalogs.extension.desktop.in.in',
   output : 'catalogs.extension.in',
   configuration : extension_data
 )

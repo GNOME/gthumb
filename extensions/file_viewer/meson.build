@@ -16,7 +16,7 @@ shared_module('file_viewer',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'file_viewer.extension.in.in',
+  input : 'file_viewer.extension.desktop.in.in',
   output : 'file_viewer.extension.in',
   configuration : extension_data
 )

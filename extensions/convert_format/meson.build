@@ -19,7 +19,7 @@ shared_module('convert_format',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'convert_format.extension.in.in',
+  input : 'convert_format.extension.desktop.in.in',
   output : 'convert_format.extension.in',
   configuration : extension_data
 )

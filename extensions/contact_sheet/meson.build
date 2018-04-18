@@ -36,7 +36,7 @@ shared_module('contact_sheet',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'contact_sheet.extension.in.in',
+  input : 'contact_sheet.extension.desktop.in.in',
   output : 'contact_sheet.extension.in',
   configuration : extension_data
 )

@@ -29,7 +29,7 @@ oauth_mod = shared_module('oauth',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'oauth.extension.in.in',
+  input : 'oauth.extension.desktop.in.in',
   output : 'oauth.extension.in',
   configuration : extension_data
 )

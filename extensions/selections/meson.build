@@ -20,7 +20,7 @@ shared_module('selections',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'selections.extension.in.in',
+  input : 'selections.extension.desktop.in.in',
   output : 'selections.extension.in',
   configuration : extension_data
 )

@@ -29,7 +29,7 @@ shared_module('slideshow',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'slideshow.extension.in.in',
+  input : 'slideshow.extension.desktop.in.in',
   output : 'slideshow.extension.in',
   configuration : extension_data
 )

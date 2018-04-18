@@ -39,7 +39,7 @@ shared_module('picasaweb',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'picasaweb.extension.in.in',
+  input : 'picasaweb.extension.desktop.in.in',
   output : 'picasaweb.extension.in',
   configuration : extension_data
 )

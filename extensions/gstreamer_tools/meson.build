@@ -20,7 +20,7 @@ shared_module('gstreamer_tools',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'gstreamer_tools.extension.in.in',
+  input : 'gstreamer_tools.extension.desktop.in.in',
   output : 'gstreamer_tools.extension.in',
   configuration : extension_data
 )

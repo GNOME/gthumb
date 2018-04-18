@@ -27,7 +27,7 @@ shared_module('23hq',
 # .extension file
 
 extension_in_file = configure_file(
-  input : '23hq.extension.in.in',
+  input : '23hq.extension.desktop.in.in',
   output : '23hq.extension.in',
   configuration : extension_data
 )

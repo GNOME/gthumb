@@ -22,7 +22,7 @@ shared_module('search',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'search.extension.in.in',
+  input : 'search.extension.desktop.in.in',
   output : 'search.extension.in',
   configuration : extension_data
 )

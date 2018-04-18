@@ -37,7 +37,7 @@ flicker_utils_mod = shared_module('flicker_utils',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'flicker_utils.extension.in.in',
+  input : 'flicker_utils.extension.desktop.in.in',
   output : 'flicker_utils.extension.in',
   configuration : extension_data
 )

@@ -21,7 +21,7 @@ shared_module('rename_series',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'rename_series.extension.in.in',
+  input : 'rename_series.extension.desktop.in.in',
   output : 'rename_series.extension.in',
   configuration : extension_data
 )

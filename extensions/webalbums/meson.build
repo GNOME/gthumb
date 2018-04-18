@@ -35,7 +35,7 @@ shared_module('webalbums',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'webalbums.extension.in.in',
+  input : 'webalbums.extension.desktop.in.in',
   output : 'webalbums.extension.in',
   configuration : extension_data
 )

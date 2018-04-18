@@ -25,7 +25,7 @@ image_viewer_mod = shared_module('image_viewer',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'image_viewer.extension.in.in',
+  input : 'image_viewer.extension.desktop.in.in',
   output : 'image_viewer.extension.in',
   configuration : extension_data
 )

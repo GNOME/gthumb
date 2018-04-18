@@ -94,7 +94,7 @@ file_tools_dep = declare_dependency(sources : enum_files)
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'file_tools.extension.in.in',
+  input : 'file_tools.extension.desktop.in.in',
   output : 'file_tools.extension.in',
   configuration : extension_data
 )

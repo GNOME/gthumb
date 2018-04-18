@@ -18,7 +18,7 @@ export_tools_mod = shared_module('export_tools',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'export_tools.extension.in.in',
+  input : 'export_tools.extension.desktop.in.in',
   output : 'export_tools.extension.in',
   configuration : extension_data
 )

@@ -23,7 +23,7 @@ shared_module('bookmarks',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'bookmarks.extension.in.in',
+  input : 'bookmarks.extension.desktop.in.in',
   output : 'bookmarks.extension.in',
   configuration : extension_data
 )

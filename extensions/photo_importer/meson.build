@@ -33,7 +33,7 @@ photo_importer_mod = shared_module('photo_importer',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'photo_importer.extension.in.in',
+  input : 'photo_importer.extension.desktop.in.in',
   output : 'photo_importer.extension.in',
   configuration : extension_data
 )

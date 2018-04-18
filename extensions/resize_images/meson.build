@@ -20,7 +20,7 @@ shared_module('resize_images',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'resize_images.extension.in.in',
+  input : 'resize_images.extension.desktop.in.in',
   output : 'resize_images.extension.in',
   configuration : extension_data
 )

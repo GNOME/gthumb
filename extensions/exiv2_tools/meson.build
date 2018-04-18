@@ -19,7 +19,7 @@ exiv2_tools_mod = shared_module('exiv2_tools',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'exiv2_tools.extension.in.in',
+  input : 'exiv2_tools.extension.desktop.in.in',
   output : 'exiv2_tools.extension.in',
   configuration : extension_data
 )

@@ -20,7 +20,7 @@ shared_module('file_manager',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'file_manager.extension.in.in',
+  input : 'file_manager.extension.desktop.in.in',
   output : 'file_manager.extension.in',
   configuration : extension_data
 )

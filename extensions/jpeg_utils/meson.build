@@ -28,7 +28,7 @@ jpeg_utils_mod = shared_module('jpeg_utils',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'jpeg_utils.extension.in.in',
+  input : 'jpeg_utils.extension.desktop.in.in',
   output : 'jpeg_utils.extension.in',
   configuration : extension_data
 )

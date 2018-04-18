@@ -21,7 +21,7 @@ shared_module('find_duplicates',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'find_duplicates.extension.in.in',
+  input : 'find_duplicates.extension.desktop.in.in',
   output : 'find_duplicates.extension.in',
   configuration : extension_data
 )

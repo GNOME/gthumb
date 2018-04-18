@@ -20,7 +20,7 @@ shared_module('change_date',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'change_date.extension.in.in',
+  input : 'change_date.extension.desktop.in.in',
   output : 'change_date.extension.in',
   configuration : extension_data
 )

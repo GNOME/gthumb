@@ -21,7 +21,7 @@ image_rotation_mod = shared_module('image_rotation',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'image_rotation.extension.in.in',
+  input : 'image_rotation.extension.desktop.in.in',
   output : 'image_rotation.extension.in',
   configuration : extension_data
 )

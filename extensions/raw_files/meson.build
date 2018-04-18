@@ -16,7 +16,7 @@ shared_module('raw_files',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'raw_files.extension.in.in',
+  input : 'raw_files.extension.desktop.in.in',
   output : 'raw_files.extension.in',
   configuration : extension_data
 )

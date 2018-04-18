@@ -16,7 +16,7 @@ shared_module('map_view',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'map_view.extension.in.in',
+  input : 'map_view.extension.desktop.in.in',
   output : 'map_view.extension.in',
   configuration : extension_data
 )

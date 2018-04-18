@@ -22,7 +22,7 @@ shared_module('comments',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'comments.extension.in.in',
+  input : 'comments.extension.desktop.in.in',
   output : 'comments.extension.in',
   configuration : extension_data
 )

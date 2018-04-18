@@ -33,7 +33,7 @@ shared_module('flicker',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'flicker.extension.in.in',
+  input : 'flicker.extension.desktop.in.in',
   output : 'flicker.extension.in',
   configuration : extension_data
 )

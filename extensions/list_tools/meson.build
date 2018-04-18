@@ -24,7 +24,7 @@ list_tools_mod = shared_module('list_tools',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'list_tools.extension.in.in',
+  input : 'list_tools.extension.desktop.in.in',
   output : 'list_tools.extension.in',
   configuration : extension_data
 )

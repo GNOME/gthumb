@@ -44,7 +44,7 @@ shared_module('cairo_io',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'cairo_io.extension.in.in',
+  input : 'cairo_io.extension.desktop.in.in',
   output : 'cairo_io.extension.in',
   configuration : extension_data
 )

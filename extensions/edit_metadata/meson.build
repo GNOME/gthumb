@@ -25,7 +25,7 @@ edit_metadata_mod = shared_module('edit_metadata',
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'edit_metadata.extension.in.in',
+  input : 'edit_metadata.extension.desktop.in.in',
   output : 'edit_metadata.extension.in',
   configuration : extension_data
 )

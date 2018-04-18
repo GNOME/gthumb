@@ -37,7 +37,7 @@ importer_dep = declare_dependency(sources : enum_files)
 # .extension file
 
 extension_in_file = configure_file(
-  input : 'importer.extension.in.in',
+  input : 'importer.extension.desktop.in.in',
   output : 'importer.extension.in',
   configuration : extension_data
 )
