@@ -4,16 +4,16 @@ import os
 import re
 
 root_dir = '..'
-valid_extensions = [ 
-    '.c', 
-    '.h', 
-    '.cpp', 
-    '.ui', 
-    '.gschema.xml', 
-    '.schemas.in', 
-    '.xml.in', 
-    '.desktop.in.in', 
-    '.extension.in.in' 
+valid_extensions = [
+    '.c',
+    '.h',
+    '.cpp',
+    '.ui',
+    '.gschema.xml',
+    '.schemas.in',
+    '.xml.in',
+    '.desktop.in.in',
+    '.extension.in.in'
 ]
 prefix_for_ext = {
     '.ui'              : '[type: gettext/glade]',
@@ -31,14 +31,14 @@ print("# ./make-potfiles-in.py > POTFILES.in")
 all_files = []
 for root, dirs, files in os.walk(root_dir):
     all_files += map(lambda file: os.path.join(root, file), files)
-    
+
 for file in sorted(all_files):
-    # ignore the build directory   
+    # ignore the build directory
     if 'build' in file:
         continue
-    
+
     for ext in valid_extensions:
-        if file.endswith(ext):        
-            prefix = ''#prefix_for_ext.get(ext, '')
+        if file.endswith(ext):
+            prefix = '' #prefix_for_ext.get(ext, '')
             file = os.path.relpath(file, root_dir)
-            print("{0}{1}".format(prefix, file)) 
+            print("{0}{1}".format(prefix, file))
