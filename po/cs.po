@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-04-16 16:41+0000\n"
-"PO-Revision-Date: 2018-04-18 07:43+0200\n"
+"POT-Creation-Date: 2018-04-18 19:35+0000\n"
+"PO-Revision-Date: 2018-04-21 21:34+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -419,10 +419,23 @@ msgstr "Obecné"
 msgid "_Inverse order"
 msgstr "_Obrácené pořadí"
 
+#: extensions/23hq/23hq.extension.desktop.in.in:3
+msgid "23"
+msgstr "23"
+
+#: extensions/23hq/23hq.extension.desktop.in.in:4
+msgid "Upload images to 23hq.com"
+msgstr "Nahrávejte si obrázky na 23hq.com"
+
+#: extensions/bookmarks/bookmarks.extension.desktop.in.in:3
 #: extensions/bookmarks/callbacks.c:325
 #: extensions/bookmarks/dlg-bookmarks.c:350
 msgid "Bookmarks"
 msgstr "Záložky"
+
+#: extensions/bookmarks/bookmarks.extension.desktop.in.in:4
+msgid "Add bookmarks support."
+msgstr "Přidejte si podporu záložek"
 
 #: extensions/bookmarks/data/ui/bookmarks-menu.ui:7
 msgid "_Add Bookmark"
@@ -460,6 +473,18 @@ msgstr "U_místění"
 #: extensions/bookmarks/dlg-bookmarks.c:192
 msgid "Could not remove the bookmark"
 msgstr "Nelze odstranit záložku"
+
+#: extensions/burn_disc/burn_disc.extension.desktop.in.in:3
+msgid "Burn CD/DVD"
+msgstr "Vypalování CD/DVD"
+
+#: extensions/burn_disc/burn_disc.extension.desktop.in.in:4
+msgid "Save files to an optical disc."
+msgstr "Ukládejte si soubory na optické disky."
+
+#: extensions/burn_disc/burn_disc.extension.desktop.in.in:8
+msgid "brasero"
+msgstr "brasero"
 
 #: extensions/burn_disc/callbacks.c:48
 msgid "_Optical Disc…"
@@ -718,8 +743,10 @@ msgstr "Přejmenovat"
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: extensions/catalogs/callbacks.c:185 extensions/catalogs/gth-catalog.c:611
-#: extensions/catalogs/gth-catalog.c:662 extensions/catalogs/gth-catalog.c:1021
+#: extensions/catalogs/callbacks.c:185
+#: extensions/catalogs/catalogs.extension.desktop.in.in:3
+#: extensions/catalogs/gth-catalog.c:611 extensions/catalogs/gth-catalog.c:662
+#: extensions/catalogs/gth-catalog.c:1021
 #: extensions/catalogs/gth-catalog.c:1022
 msgid "Catalogs"
 msgstr "Katalogy"
@@ -739,6 +766,14 @@ msgstr "Uspořádat"
 #: extensions/catalogs/callbacks.c:392
 msgid "Automatically organize files by date"
 msgstr "Automaticky uspořádat soubory podle data"
+
+#: extensions/catalogs/catalogs.extension.desktop.in.in:4
+msgid "Create file collections."
+msgstr "Vytvářejte sbírky souborů"
+
+#: extensions/catalogs/catalogs.extension.desktop.in.in:8
+msgid "file-catalog-symbolic"
+msgstr "file-catalog-symbolic"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:10
 msgid "Add to Catalog"
@@ -944,6 +979,14 @@ msgstr "Operace dokončena. Katalogů: %d. Obrázků: %d."
 msgid "Change _Date…"
 msgstr "Změnit _datum…"
 
+#: extensions/change_date/change_date.extension.desktop.in.in:3
+msgid "Change date"
+msgstr "Změna data"
+
+#: extensions/change_date/change_date.extension.desktop.in.in:4
+msgid "Change the files date"
+msgstr "Měňte datum souborů"
+
 #: extensions/change_date/data/ui/change-date.ui:12
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:236
 msgid "+"
@@ -1010,6 +1053,14 @@ msgstr "Změna data"
 msgid "Import Embedded Metadata"
 msgstr "Importovat vložená metadata"
 
+#: extensions/comments/comments.extension.desktop.in.in:3
+msgid "Comments and tags"
+msgstr "Komentáře a štítky"
+
+#: extensions/comments/comments.extension.desktop.in.in:4
+msgid "Add comments and tags to any file type."
+msgstr "Přidávejte komentáře a štítky do libovolných typů souborů"
+
 #: extensions/comments/data/ui/comments-preferences.ui:12
 msgid "_Synchronize with the embedded metadata"
 msgstr "_Synchronizovat s vloženými metadaty"
@@ -1066,6 +1117,16 @@ msgstr "Náhledový li_st…"
 #: extensions/contact_sheet/callbacks.c:39
 msgid "Image _Wall…"
 msgstr "Stěna s obrázky…"
+
+#: extensions/contact_sheet/contact_sheet.extension.desktop.in.in:3
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:308
+#: extensions/contact_sheet/dlg-contact-sheet.c:706
+msgid "Contact Sheet"
+msgstr "Náhledový list"
+
+#: extensions/contact_sheet/contact_sheet.extension.desktop.in.in:4
+msgid "Create an index image displaying the thumbnails of the selected files."
+msgstr "Vytvářejte indexy zobrazující náhledy vybraných souborů"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:12
 #: extensions/file_tools/gth-file-tool-crop.c:436
@@ -1210,11 +1271,6 @@ msgstr "%D{ formát }"
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1072
 msgid "The current date"
 msgstr "Aktuální datum"
-
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:308
-#: extensions/contact_sheet/dlg-contact-sheet.c:706
-msgid "Contact Sheet"
-msgstr "Náhledový list"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:354
 #: extensions/contact_sheet/data/ui/image-wall.ui:85
@@ -1373,6 +1429,14 @@ msgstr "Zápatí"
 msgid "Convert Format…"
 msgstr "Převést formát…"
 
+#: extensions/convert_format/convert_format.extension.desktop.in.in:3
+msgid "Convert format"
+msgstr "Převod formátu"
+
+#: extensions/convert_format/convert_format.extension.desktop.in.in:4
+msgid "Save images in a different format"
+msgstr "Ukládejte si obrázky v různých formátech"
+
 #: extensions/convert_format/data/ui/convert-format.ui:40
 msgid "New format"
 msgstr "Nový formát"
@@ -1420,6 +1484,18 @@ msgstr "Nelze nastavit pozadí pracovní plochy"
 msgid "Set as Background"
 msgstr "Nastavit jako pozadí"
 
+#: extensions/desktop_background/desktop_background.extension.desktop.in.in:3
+msgid "Desktop background"
+msgstr "Pozadí pracovní plochy"
+
+#: extensions/desktop_background/desktop_background.extension.desktop.in.in:4
+msgid "Set the image as desktop background"
+msgstr "Nastavte si obrázek jako pozadí pracovní plochy"
+
+#: extensions/desktop_background/desktop_background.extension.desktop.in.in:8
+msgid "desktop"
+msgstr "desktop"
+
 #: extensions/edit_metadata/actions.c:75
 msgid ""
 "Are you sure you want to permanently delete the metadata of the selected "
@@ -1465,6 +1541,14 @@ msgstr "Nelze uložit metadata souboru"
 #: gthumb/gth-overwrite-dialog.c:137
 msgid "Cannot read file information"
 msgstr "Nelze načíst informace o souboru"
+
+#: extensions/edit_metadata/edit_metadata.extension.desktop.in.in:3
+msgid "Edit metadata"
+msgstr "Úpravy metadat"
+
+#: extensions/edit_metadata/edit_metadata.extension.desktop.in.in:4
+msgid "Allow to edit files metadata."
+msgstr "Upravujte si metadata souborů"
 
 #. Translators: the %s symbol in the string is a file name
 #: extensions/edit_metadata/gth-edit-comment-dialog.c:63
@@ -1598,6 +1682,14 @@ msgstr "(neplatná hodnota)"
 #: extensions/exiv2_tools/exiv2-utils.cpp:710
 msgid "Exposure"
 msgstr "Expozice"
+
+#: extensions/exiv2_tools/exiv2_tools.extension.desktop.in.in:3
+msgid "EXIF, IPTC, XMP support"
+msgstr "Podpora EXIF, IPTC, XMP"
+
+#: extensions/exiv2_tools/exiv2_tools.extension.desktop.in.in:4
+msgid "Read and write exif, iptc and xmp metadata."
+msgstr "Čtěte a zapisujte metadata exif, iptc a xmp"
 
 #: extensions/exiv2_tools/main.c:33
 msgid "Exif General"
@@ -1844,6 +1936,14 @@ msgstr "Nahrávají se soubory na server"
 msgid "Getting the photo list"
 msgstr "Získává se seznam fotografií"
 
+#: extensions/facebook/facebook.extension.desktop.in.in:3
+msgid "Facebook"
+msgstr "Facebook"
+
+#: extensions/facebook/facebook.extension.desktop.in.in:4
+msgid "Upload images to Facebook"
+msgstr "Nahrávejte si obrázky na Facebook"
+
 #: extensions/file_manager/actions.c:137
 msgid "New folder"
 msgstr "Nová složka"
@@ -1978,6 +2078,18 @@ msgstr "_Kopírovat"
 #: gthumb/gth-progress-dialog.c:427
 msgid "Could not perform the operation"
 msgstr "Nelze provést tuto operaci"
+
+#: extensions/file_manager/file_manager.extension.desktop.in.in:3
+msgid "File manager"
+msgstr "Správa souborů"
+
+#: extensions/file_manager/file_manager.extension.desktop.in.in:4
+msgid "File manager operations."
+msgstr "Operace správy souborů"
+
+#: extensions/file_manager/file_manager.extension.desktop.in.in:8
+msgid "system-file-manager"
+msgstr "system-file-manager"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:56
 #: extensions/file_tools/data/ui/curves-options.ui:35
@@ -2681,6 +2793,7 @@ msgid "_Filter:"
 msgstr "_Filtr:"
 
 #: extensions/find_duplicates/dlg-find-duplicates.c:98
+#: extensions/find_duplicates/find_duplicates.extension.desktop.in.in:3
 #: extensions/find_duplicates/gth-find-duplicates.c:1350
 msgid "Find Duplicates"
 msgstr "Hledání duplicit"
@@ -2689,6 +2802,10 @@ msgstr "Hledání duplicit"
 #: extensions/search/actions.c:81
 msgid "_Find"
 msgstr "_Hledat"
+
+#: extensions/find_duplicates/find_duplicates.extension.desktop.in.in:4
+msgid "Find duplicated files."
+msgstr "Vyhledejte duplicitní soubory"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:65
 msgid "leave the newest duplicates"
@@ -2747,6 +2864,14 @@ msgstr "Duplicity"
 #: extensions/find_duplicates/gth-find-duplicates.c:1373
 msgid "Select"
 msgstr "Vybrat"
+
+#: extensions/flicker/flicker.extension.desktop.in.in:3
+msgid "Flicker"
+msgstr "Flicker"
+
+#: extensions/flicker/flicker.extension.desktop.in.in:4
+msgid "Upload images to Flickr"
+msgstr "Nahrávejte si obrázky na Flickr"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
 msgid "Private photos, visible to family and friends"
@@ -2910,6 +3035,18 @@ msgstr "Čas:"
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:194
 msgid "--∶--"
 msgstr "--∶--"
+
+#: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
+msgid "Audio/Video support"
+msgstr "Podpora zvuku/videa"
+
+#: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:4
+msgid "Play audio and video files."
+msgstr "Přehrávejte si soubory se zvukem a videem"
+
+#: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:8
+msgid "video-x-generic"
+msgstr "video-x-generic"
 
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:572
 msgid "Playing video"
@@ -3105,6 +3242,18 @@ msgstr "Načítá se „%s“"
 msgid "Loading images"
 msgstr "Načítají se obrázky"
 
+#: extensions/image_print/image_print.extension.desktop.in.in:3
+msgid "Image print"
+msgstr "Tisk obrázků"
+
+#: extensions/image_print/image_print.extension.desktop.in.in:4
+msgid "Allow to print images choosing the page layout."
+msgstr "Vytiskněte si obrázky se zvolenou šablonou"
+
+#: extensions/image_print/image_print.extension.desktop.in.in:8
+msgid "document-print"
+msgstr "document-print"
+
 #: extensions/image_rotation/callbacks.c:52
 msgid "Rotate Physically"
 msgstr "Fyzicky otočit"
@@ -3119,6 +3268,14 @@ msgstr "Vynulovat údaj EXIF o orientaci"
 #: extensions/webalbums/gth-web-exporter.c:2425
 msgid "Saving images"
 msgstr "Ukládám obrázky"
+
+#: extensions/image_rotation/image_rotation.extension.desktop.in.in:3
+msgid "Image rotation"
+msgstr "Otočení obrázku"
+
+#: extensions/image_rotation/image_rotation.extension.desktop.in.in:4
+msgid "Rotate images without data loss."
+msgstr "Otáčejte obrázky bez ztráty kvality"
 
 #: extensions/image_rotation/rotation-utils.c:105
 #, c-format
@@ -3525,6 +3682,18 @@ msgstr "Nesprávně zadaný přikaz"
 msgid "_Skip"
 msgstr "Pře_skočit"
 
+#: extensions/list_tools/list_tools.extension.desktop.in.in:3
+msgid "File list tools"
+msgstr "Nástroje pro seznamy souborů"
+
+#: extensions/list_tools/list_tools.extension.desktop.in.in:4
+msgid "Scripting and batch manipulation of files."
+msgstr "Skriptování a dávkové zpracování souborů"
+
+#: extensions/list_tools/list_tools.extension.desktop.in.in:8
+msgid "applications-engineering"
+msgstr "applications-engineering"
+
 #: extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
 msgid "S"
@@ -3546,6 +3715,7 @@ msgid "E"
 msgstr "V"
 
 #: extensions/map_view/gth-map-view.c:205
+#: extensions/map_view/map_view.extension.desktop.in.in:3
 msgid "Map"
 msgstr "Mapa"
 
@@ -3554,6 +3724,10 @@ msgstr "Mapa"
 msgid "The geographical position information is not available for this image."
 msgstr ""
 "Pro tento obrázek nejsou k dispozici žádné informace o geografické poloze."
+
+#: extensions/map_view/map_view.extension.desktop.in.in:4
+msgid "View the photo position on the map"
+msgstr "Zobrazte si na mapě místo vztahující se k fotografii"
 
 #: extensions/oauth/data/ui/oauth-account-manager.ui:23
 msgid "A_ccounts:"
@@ -3681,6 +3855,18 @@ msgstr "Import z výměnného zařízení"
 msgid "Import from Folder"
 msgstr "Import ze složky"
 
+#: extensions/photo_importer/photo_importer.extension.desktop.in.in:3
+msgid "Import photos"
+msgstr "Import fotek"
+
+#: extensions/photo_importer/photo_importer.extension.desktop.in.in:4
+msgid "Import photos from removable devices."
+msgstr "Importujte fotografie z výměnných zařízení"
+
+#: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
+msgid "camera-photo"
+msgstr "camera-photo"
+
 #: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
 msgid "_Picasa Web Album…"
 msgstr "Webové album _Picasa…"
@@ -3719,9 +3905,25 @@ msgstr "Exportovat do webového alba Picasa"
 msgid "Import from Picasa Web Album"
 msgstr "Importovat z webového alba Picasa"
 
+#: extensions/picasaweb/picasaweb.extension.desktop.in.in:3
+msgid "Picasa Web Albums"
+msgstr "Webové album Picasa"
+
+#: extensions/picasaweb/picasaweb.extension.desktop.in.in:4
+msgid "Upload images to Picasa Web Albums"
+msgstr "Nahrávejte si obrázky do webového alba Picasa"
+
 #: extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
 msgstr "Formát RAW"
+
+#: extensions/raw_files/raw_files.extension.desktop.in.in:3
+msgid "Raw format support"
+msgstr "Podpora formátu RAW"
+
+#: extensions/raw_files/raw_files.extension.desktop.in.in:4
+msgid "Allow to load raw format images."
+msgstr "Načítejte si obrázky v surové podobě"
 
 #: extensions/red_eye_removal/gth-file-tool-red-eye.c:470
 msgid "Red Eye Removal"
@@ -3730,6 +3932,14 @@ msgstr "Odstranění červených očí"
 #: extensions/red_eye_removal/gth-file-tool-red-eye.c:471
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Odstraní efekt červených očí způsobený bleskem fotoaparátu"
+
+#: extensions/red_eye_removal/red_eye_removal.extension.desktop.in.in:3
+msgid "Red-eye removal"
+msgstr "Odstranění červených očí"
+
+#: extensions/red_eye_removal/red_eye_removal.extension.desktop.in.in:4
+msgid "Tool to remove the red-eye effect from a photo."
+msgstr "Odstraňte na fotografiích efekt červených očí"
 
 #: extensions/rename_series/data/ui/code-selector.ui:105
 msgid "digits"
@@ -3882,6 +4092,14 @@ msgstr "Převést na velká písmena"
 msgid "Renaming files"
 msgstr "Přejmenovávají se soubory"
 
+#: extensions/rename_series/rename_series.extension.desktop.in.in:3
+msgid "Rename files"
+msgstr "Přejmenování souborů"
+
+#: extensions/rename_series/rename_series.extension.desktop.in.in:4
+msgid "Rename series of files."
+msgstr "Přejmenovávejte posloupnosti souborů"
+
 #: extensions/resize_images/callbacks.c:38
 msgid "Resize Images…"
 msgstr "Změnit velikost obrázků…"
@@ -3915,6 +4133,14 @@ msgstr "Změnit velikost obrázků"
 msgid "Keep the original format"
 msgstr "Zachovat původní formát"
 
+#: extensions/resize_images/resize_images.extension.desktop.in.in:3
+msgid "Resize images"
+msgstr "Změnit velikost obrázků"
+
+#: extensions/resize_images/resize_images.extension.desktop.in.in:4
+msgid "Resize series of images."
+msgstr "Měňte velikost obrázků"
+
 #: extensions/search/actions.c:50 extensions/search/actions.c:123
 #: extensions/search/actions.c:129
 msgid "Could not perform the search"
@@ -3938,6 +4164,7 @@ msgstr "Hledat znovu"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
 #: extensions/search/callbacks.c:147
+#: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Hledání"
 
@@ -3968,6 +4195,14 @@ msgstr "Hledá se…"
 msgid "Cancel the operation"
 msgstr "Zrušit operaci"
 
+#: extensions/search/search.extension.desktop.in.in:4
+msgid "File search tool."
+msgstr "Nástroj k vyhledávání souborů"
+
+#: extensions/search/search.extension.desktop.in.in:8
+msgid "edit-find"
+msgstr "edit-find"
+
 #: extensions/selections/callbacks.c:55
 msgid "Remove from Selection"
 msgstr "Odstranit z výběru"
@@ -3991,8 +4226,17 @@ msgid "Selection %d"
 msgstr "Výběr %d"
 
 #: extensions/selections/gth-selections-manager.c:231
+#: extensions/selections/selections.extension.desktop.in.in:3
 msgid "Selections"
 msgstr "Výběry"
+
+#: extensions/selections/selections.extension.desktop.in.in:4
+msgid "Advanced file selection."
+msgstr "Pokročilý výběr souborů"
+
+#: extensions/selections/selections.extension.desktop.in.in:8
+msgid "emblem-flag-gray"
+msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:51
 msgid "Presentation"
@@ -4001,6 +4245,7 @@ msgstr "Prezentace"
 #: extensions/slideshow/callbacks.c:348
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:65
 #: extensions/slideshow/preferences.c:162
+#: extensions/slideshow/slideshow.extension.desktop.in.in:3
 msgid "Slideshow"
 msgstr "Promítání snímků"
 
@@ -4089,6 +4334,14 @@ msgstr "Kostka zprava"
 #: extensions/slideshow/main.c:339
 msgid "Cube from bottom"
 msgstr "Kostka zdola"
+
+#: extensions/slideshow/slideshow.extension.desktop.in.in:4
+msgid "View images as a slideshow."
+msgstr "Nechejte si obrázky promítnout"
+
+#: extensions/slideshow/slideshow.extension.desktop.in.in:8
+msgid "x-office-presentation"
+msgstr "x-office-presentation"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -4235,6 +4488,14 @@ msgstr "Nelze najít složku se styly"
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasnou složku"
 
+#: extensions/webalbums/webalbums.extension.desktop.in.in:3
+msgid "Web Albums"
+msgstr "Webová alba"
+
+#: extensions/webalbums/webalbums.extension.desktop.in.in:4
+msgid "Create static web albums."
+msgstr "Vytvářejte statická webová alba"
+
 #: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1107
 #: gthumb/gth-browser.c:1676 gthumb/gth-browser.c:6611
 #: gthumb/gth-browser.c:6630 gthumb/gth-browser.c:6654
@@ -4341,30 +4602,30 @@ msgid "Sort By"
 msgstr "Řadit podle"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: gthumb/gio-utils.c:1361
+#: gthumb/gio-utils.c:1383
 #, c-format
 msgid "%s of %s"
 msgstr "%s z %s"
 
-#: gthumb/gio-utils.c:1432
+#: gthumb/gio-utils.c:1472
 #, c-format
 msgid "Moving “%s” to “%s”"
 msgstr "Přesouvá se „%s“ do „%s“"
 
-#: gthumb/gio-utils.c:1434
+#: gthumb/gio-utils.c:1474
 #, c-format
 msgid "Copying “%s” to “%s”"
 msgstr "Kopíruje se „%s“ do „%s“"
 
-#: gthumb/gio-utils.c:1793
+#: gthumb/gio-utils.c:1885
 msgid "Moving files"
 msgstr "Přesouvají se soubory"
 
-#: gthumb/gio-utils.c:1793
+#: gthumb/gio-utils.c:1885
 msgid "Copying files"
 msgstr "Kopírují se soubory"
 
-#: gthumb/gio-utils.c:1794
+#: gthumb/gio-utils.c:1886
 msgid "Getting file information"
 msgstr "Získávají se informace o souboru"
 
