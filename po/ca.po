@@ -1658,7 +1658,7 @@ msgstr "_País:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:3
 msgid "_Code:"
-msgstr "__Codi:"
+msgstr "_Codi:"
 
 #: ../extensions/exiv2_tools/data/ui/edit-exiv2-page.ui.h:4
 msgid "Cr_edit:"
@@ -2315,7 +2315,7 @@ msgstr "%"
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:6
 #: ../gthumb/gth-main-default-metadata.c:46
 msgid "Dimensions"
-msgstr "Les dimensions"
+msgstr "Dimensions"
 
 #: ../extensions/file_tools/data/ui/resize-options.ui.h:9
 msgid "Set the image size to this value"
@@ -3116,21 +3116,21 @@ msgstr "Fes una captura de pantalla"
 #: ../extensions/gstreamer_tools/main.c:32
 #: ../gthumb/gth-main-default-tests.c:313
 msgid "Video"
-msgstr "El vídeo"
+msgstr "Vídeo"
 
 #: ../extensions/gstreamer_tools/main.c:33
 #: ../gthumb/gth-main-default-tests.c:320
 msgid "Audio"
-msgstr "L'àudio"
+msgstr "Àudio"
 
 #: ../extensions/gstreamer_tools/main.c:40
 msgid "Artist"
-msgstr "L'artista"
+msgstr "Artista"
 
 #: ../extensions/gstreamer_tools/main.c:41
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:15
 msgid "Album"
-msgstr "L'àlbum"
+msgstr "Àlbum"
 
 #: ../extensions/gstreamer_tools/main.c:42
 msgid "Bitrate"
@@ -4223,7 +4223,7 @@ msgstr "_Preserva la relació d'aspecte"
 #: ../extensions/resize_images/data/ui/resize-images.ui.h:11
 #: ../gthumb/gth-main-default-metadata.c:45 ../gthumb/gth-toolbox.c:146
 msgid "Format"
-msgstr "El format"
+msgstr "Format"
 
 #: ../extensions/resize_images/dlg-resize-images.c:344
 msgid "Resize Images"
@@ -5038,12 +5038,12 @@ msgstr "Fitxer"
 
 #: ../gthumb/gth-main-default-metadata.c:39
 msgid "Name"
-msgstr "El nom"
+msgstr "Nom"
 
 #: ../gthumb/gth-main-default-metadata.c:40
 #: ../gthumb/gth-main-default-tests.c:350
 msgid "Size"
-msgstr "La mida"
+msgstr "Mida"
 
 #: ../gthumb/gth-main-default-metadata.c:41
 msgctxt "the file mtime"
@@ -5052,47 +5052,47 @@ msgstr "Data i hora de modificació"
 
 #: ../gthumb/gth-main-default-metadata.c:42
 msgid "Type"
-msgstr "El tipus"
+msgstr "Tipus"
 
 #: ../gthumb/gth-main-default-metadata.c:44
 msgid "Location"
-msgstr "La ubicació"
+msgstr "Ubicació"
 
 #: ../gthumb/gth-main-default-metadata.c:47
 msgid "Duration"
-msgstr "La duració"
+msgstr "Duració"
 
 #: ../gthumb/gth-main-default-metadata.c:49
 msgid "Exposure Settings"
-msgstr "Els paràmetres de l'exposició"
+msgstr "Paràmetres de l'exposició"
 
 #: ../gthumb/gth-main-default-metadata.c:50
 msgid "Aperture"
-msgstr "L'apertura"
+msgstr "Apertura"
 
 #: ../gthumb/gth-main-default-metadata.c:51
 msgid "ISO Speed"
-msgstr "La velocitat ISO"
+msgstr "Velocitat ISO"
 
 #: ../gthumb/gth-main-default-metadata.c:52
 msgid "Exposure Time"
-msgstr "El temps d'exposició"
+msgstr "Temps d'exposició"
 
 #: ../gthumb/gth-main-default-metadata.c:53
 msgid "Shutter Speed"
-msgstr "La velocitat del disparador"
+msgstr "Velocitat del disparador"
 
 #: ../gthumb/gth-main-default-metadata.c:54
 msgid "Focal Length"
-msgstr "La longitud focal"
+msgstr "Longitud focal"
 
 #: ../gthumb/gth-main-default-metadata.c:55
 msgid "Flash"
-msgstr "El flaix"
+msgstr "Flaix"
 
 #: ../gthumb/gth-main-default-metadata.c:56
 msgid "Camera Model"
-msgstr "El model de càmera"
+msgstr "Model de càmera"
 
 #: ../gthumb/gth-main-default-metadata.c:57
 msgid "Color Profile"
@@ -5104,27 +5104,27 @@ msgstr "Data i hora general"
 
 #: ../gthumb/gth-main-default-metadata.c:66
 msgid "Author"
-msgstr "L'autor"
+msgstr "Autor"
 
 #: ../gthumb/gth-main-default-metadata.c:67
 msgid "Copyright"
-msgstr "Els drets d'autor"
+msgstr "Drets d'autor"
 
 #: ../gthumb/gth-main-default-sort-types.c:166
 msgid "file name"
-msgstr "el nom del fitxer"
+msgstr "nom del fitxer"
 
 #: ../gthumb/gth-main-default-sort-types.c:167
 msgid "file path"
-msgstr "el camí al fitxer"
+msgstr "camí al fitxer"
 
 #: ../gthumb/gth-main-default-sort-types.c:168
 msgid "file size"
-msgstr "la mida del fitxer"
+msgstr "mida del fitxer"
 
 #: ../gthumb/gth-main-default-sort-types.c:169
 msgid "file modified date"
-msgstr "la data en què el fitxer va ser modificat"
+msgstr "data en què el fitxer va ser modificat"
 
 #: ../gthumb/gth-main-default-sort-types.c:170
 msgid "no sorting"
@@ -5132,7 +5132,7 @@ msgstr "cap ordre en concret"
 
 #: ../gthumb/gth-main-default-sort-types.c:171
 msgid "dimensions"
-msgstr "les dimensions"
+msgstr "dimensions"
 
 #: ../gthumb/gth-main-default-sort-types.c:172
 msgid "aspect ratio"
@@ -5160,15 +5160,15 @@ msgstr "Els suports"
 
 #: ../gthumb/gth-main-default-tests.c:334
 msgid "Text Files"
-msgstr "Els fitxers de text"
+msgstr "Fitxers de text"
 
 #: ../gthumb/gth-main-default-tests.c:342
 msgid "Filename"
-msgstr "El nom del fitxer"
+msgstr "Nom del fitxer"
 
 #: ../gthumb/gth-main-default-tests.c:374
 msgid "Title (embedded)"
-msgstr "El títol (incrustat)"
+msgstr "Títol (incrustat)"
 
 #: ../gthumb/gth-main-default-tests.c:382
 msgid "Description (embedded)"
