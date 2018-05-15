@@ -617,7 +617,8 @@ gth_color_scale_label_new (GtkWidget         *parent_box,
 	g_object_set_data_full (G_OBJECT (adj), "gth-scale-data", scale_data, scale_data_free);
 
 	gtk_label_set_width_chars (GTK_LABEL (scale_data->value_label), 3);
-	gtk_misc_set_alignment (GTK_MISC (scale_data->value_label), 1.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (scale_data->value_label), 1.0);
+	gtk_label_set_yalign (GTK_LABEL (scale_data->value_label), 0.5);
 	gtk_widget_show (scale_data->value_label);
 	g_signal_connect (adj,
 			  "value-changed",

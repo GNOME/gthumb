@@ -116,6 +116,11 @@ int             _gtk_widget_get_allocated_width            (GtkWidget        *wi
 int             _gtk_widget_get_allocated_height           (GtkWidget        *widget);
 int             _gtk_widget_lookup_for_size                (GtkWidget        *widget,
 							    GtkIconSize       icon_size);
+void            _gtk_widget_set_margin                     (GtkWidget        *widget,
+							    int               top,
+							    int               right,
+							    int               bottom,
+							    int               left);
 void            _gtk_tree_path_list_free                   (GList            *list);
 int             _gtk_paned_get_position2                   (GtkPaned         *paned);
 void            _g_launch_command                          (GtkWidget        *parent,

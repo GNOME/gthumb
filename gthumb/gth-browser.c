@@ -128,7 +128,7 @@ struct _GthBrowserPrivate {
 	GtkOrientation     viewer_thumbnails_orientation;
 	GtkWidget         *viewer_thumbnails_pane;
 	GtkWidget         *viewer_sidebar_pane;
-	GtkWidget         *viewer_sidebar_alignment;
+	GtkWidget         *viewer_sidebar_container;
 	GtkWidget         *viewer_container;
 	GthViewerPage     *viewer_page;
 	GthImagePreloader *image_preloader;
@@ -2278,7 +2278,7 @@ hide_mouse_pointer_cb (gpointer data)
 	if (browser->priv->keep_mouse_visible
 	    || pointer_on_control (hmdata, browser->priv->fixed_viewer_controls)
 	    || pointer_on_control (hmdata, browser->priv->viewer_controls)
-	    || pointer_on_widget (browser->priv->viewer_sidebar_alignment, hmdata->device))
+	    || pointer_on_widget (browser->priv->viewer_sidebar_container, hmdata->device))
 	{
 		return FALSE;
 	}
@@ -2490,7 +2490,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 					 NULL);
 	}
 	else
-		gtk_widget_reparent (browser->priv->file_properties, browser->priv->viewer_sidebar_alignment);
+		gtk_widget_reparent (browser->priv->file_properties, browser->priv->viewer_sidebar_container);
 
 	/* update the sidebar state depending on the current visible page */
 
@@ -4450,8 +4450,9 @@ gth_browser_init (GthBrowser *browser)
 			  browser);
 
 	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_container, TRUE, FALSE);
-	browser->priv->viewer_sidebar_alignment = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_alignment, FALSE, FALSE);
+	browser->priv->viewer_sidebar_container = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_set_vexpand (browser->priv->viewer_sidebar_container, TRUE);
+	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_sidebar_pane), browser->priv->viewer_sidebar_container, FALSE, FALSE);
 
 	browser->priv->thumbnail_list = gth_file_list_new (gth_grid_view_new (), (browser->priv->viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_MODE_H_SIDEBAR : GTH_FILE_LIST_MODE_V_SIDEBAR, TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
@@ -6512,7 +6513,7 @@ gth_browser_show_file_properties (GthBrowser *browser)
 		gth_window_change_action_state (GTH_WINDOW (browser), "viewer-edit-file", FALSE);
 		browser->priv->viewer_sidebar = GTH_SIDEBAR_STATE_PROPERTIES;
 		gth_window_change_action_state (GTH_WINDOW (browser), "viewer-properties", TRUE);
-		gtk_widget_show (browser->priv->viewer_sidebar_alignment);
+		gtk_widget_show (browser->priv->viewer_sidebar_container);
 		gtk_widget_show (browser->priv->file_properties);
 		gth_sidebar_show_properties (GTH_SIDEBAR (browser->priv->file_properties));
 		break;
@@ -6528,7 +6529,7 @@ gth_browser_show_viewer_tools (GthBrowser *browser)
 	gth_window_change_action_state (GTH_WINDOW (browser), "viewer-properties", FALSE);
 	browser->priv->viewer_sidebar = GTH_SIDEBAR_STATE_TOOLS;
 	gth_window_change_action_state (GTH_WINDOW (browser), "viewer-edit-file", TRUE);
-	gtk_widget_show (browser->priv->viewer_sidebar_alignment);
+	gtk_widget_show (browser->priv->viewer_sidebar_container);
 	gtk_widget_show (browser->priv->file_properties);
 	gth_sidebar_show_tools (GTH_SIDEBAR (browser->priv->file_properties));
 }
@@ -6551,7 +6552,7 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 			else if (browser->priv->viewer_sidebar == GTH_SIDEBAR_STATE_TOOLS)
 				gth_window_change_action_state (GTH_WINDOW (browser), "viewer-edit-file", FALSE);
 			browser->priv->viewer_sidebar = GTH_SIDEBAR_STATE_HIDDEN;
-			gtk_widget_hide (browser->priv->viewer_sidebar_alignment);
+			gtk_widget_hide (browser->priv->viewer_sidebar_container);
 		}
 		break;
 	}
@@ -6814,7 +6815,7 @@ gth_browser_fullscreen (GthBrowser *browser)
 	if (browser->priv->fullscreen_headerbar == NULL) {
 		browser->priv->fullscreen_headerbar = gth_window_get_header_bar (GTH_WINDOW (browser));
 
-		gtk_widget_set_margin_top (browser->priv->viewer_sidebar_alignment,
+		gtk_widget_set_margin_top (browser->priv->viewer_sidebar_container,
 					   gtk_widget_get_allocated_height (browser->priv->fullscreen_headerbar));
 
 		g_object_ref (browser->priv->fullscreen_headerbar);
@@ -6868,7 +6869,7 @@ gth_browser_unfullscreen (GthBrowser *browser)
 		g_object_unref (browser->priv->fullscreen_headerbar);
 		browser->priv->fullscreen_headerbar = NULL;
 	}
-	gtk_widget_set_margin_top (browser->priv->viewer_sidebar_alignment, 0);
+	gtk_widget_set_margin_top (browser->priv->viewer_sidebar_container, 0);
 	gtk_widget_hide (browser->priv->fullscreen_toolbar);
 
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);

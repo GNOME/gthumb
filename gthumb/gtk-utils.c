@@ -609,6 +609,20 @@ _gtk_widget_lookup_for_size (GtkWidget   *widget,
 
 
 void
+_gtk_widget_set_margin (GtkWidget        *widget,
+			int               top,
+			int               right,
+			int               bottom,
+			int               left)
+{
+	gtk_widget_set_margin_top (widget, top);
+	gtk_widget_set_margin_end (widget, right);
+	gtk_widget_set_margin_bottom (widget, bottom);
+	gtk_widget_set_margin_start (widget, left);
+}
+
+
+void
 _gtk_tree_path_list_free (GList *list)
 {
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);

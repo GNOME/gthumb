@@ -68,8 +68,8 @@ _gth_request_dialog_construct (GthRequestDialog *self,
 	prompt_label = gtk_label_new (prompt);
 	gtk_label_set_line_wrap (GTK_LABEL (prompt_label), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (prompt_label), FALSE);
-	gtk_misc_set_alignment (GTK_MISC (prompt_label), 0.0, 0.5);
-
+	gtk_label_set_xalign (GTK_LABEL (prompt_label), 0.0);
+	gtk_label_set_yalign (GTK_LABEL (prompt_label), 0.5);
 	self->priv->entry = gtk_entry_new ();
 	gtk_entry_set_width_chars (GTK_ENTRY (self->priv->entry), REQUEST_ENTRY_WIDTH_IN_CHARS);
 	gtk_entry_set_activates_default (GTK_ENTRY (self->priv->entry), TRUE);

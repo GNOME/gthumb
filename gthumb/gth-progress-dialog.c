@@ -121,7 +121,8 @@ gth_task_progress_init (GthTaskProgress *self)
 
 	self->description_label = gtk_label_new ("");
 	gtk_widget_set_halign (self->description_label, GTK_ALIGN_START);
-	gtk_misc_set_alignment (GTK_MISC (self->description_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (self->description_label), 0.0);
+	gtk_label_set_yalign (GTK_LABEL (self->description_label), 0.5);
 	gtk_label_set_ellipsize (GTK_LABEL (self->description_label), PANGO_ELLIPSIZE_END);
 	gtk_label_set_max_width_chars (GTK_LABEL (self->description_label), MAX_DESCRIPTION_LABEL_WIDTH_CHARS);
 	gtk_label_set_width_chars (GTK_LABEL (self->description_label), MAX_DESCRIPTION_LABEL_WIDTH_CHARS);

@@ -133,7 +133,6 @@ search__dlg_catalog_properties (GtkBuilder  *builder,
 	GtkWidget     *vbox;
 	GtkWidget     *label;
 	PangoAttrList *attrs;
-	GtkWidget     *alignment;
 	GtkWidget     *search_editor;
 
 	if (! _g_content_type_is_a (g_file_info_get_content_type (file_data->info), "gthumb/search"))
@@ -145,7 +144,9 @@ search__dlg_catalog_properties (GtkBuilder  *builder,
 
 	/* Translators: This is not a verb, it's a name as in "the search properties". */
 	label = gtk_label_new (_("Search"));
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_widget_set_valign (label, GTK_ALIGN_CENTER);
+
 	attrs = pango_attr_list_new ();
 	pango_attr_list_insert (attrs, pango_attr_weight_new (PANGO_WEIGHT_BOLD));
 	gtk_label_set_attributes (GTK_LABEL (label), attrs);
@@ -153,14 +154,10 @@ search__dlg_catalog_properties (GtkBuilder  *builder,
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 
-	alignment = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
-	gtk_widget_show (alignment);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 0, 0, 12, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), alignment, FALSE, FALSE, 0);
-
 	search_editor = gth_search_editor_new (GTH_SEARCH (catalog));
+	gtk_widget_set_margin_start (search_editor, 12);
 	gtk_widget_show (search_editor);
-	gtk_container_add (GTK_CONTAINER (alignment), search_editor);
+	gtk_box_pack_start (GTK_BOX (vbox), search_editor, FALSE, FALSE, 0);
 	g_object_set_data (G_OBJECT (builder), "search_editor", search_editor);
 }
 

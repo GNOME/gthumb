@@ -68,7 +68,8 @@ gth_import_destination_button_init (GthImportDestinationButton *self)
 	self->priv->subfolder_label = gtk_label_new ("");
 	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->subfolder_label), "highlighted-text");
 	gtk_label_set_ellipsize (GTK_LABEL (self->priv->subfolder_label), PANGO_ELLIPSIZE_END);
-	gtk_misc_set_alignment (GTK_MISC (self->priv->subfolder_label), 0.0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (self->priv->subfolder_label), 0.0);
+	gtk_label_set_yalign (GTK_LABEL (self->priv->subfolder_label), 0.5);
 
 	gtk_widget_show (self->priv->subfolder_label);
 	gtk_box_pack_start (GTK_BOX (label_box), self->priv->subfolder_label, TRUE, TRUE, 0);

@@ -139,6 +139,7 @@ _gth_sidebar_construct (GthSidebar *sidebar,
 {
 	sidebar->priv->properties = gth_multipage_new ();
 	gtk_style_context_add_class (gtk_widget_get_style_context (sidebar->priv->properties), GTK_STYLE_CLASS_SIDEBAR);
+	gtk_widget_set_vexpand (sidebar->priv->properties, TRUE);
 	gtk_widget_show (sidebar->priv->properties);
 	gtk_stack_add_named (GTK_STACK (sidebar), sidebar->priv->properties, GTH_SIDEBAR_PAGE_PROPERTIES);
 

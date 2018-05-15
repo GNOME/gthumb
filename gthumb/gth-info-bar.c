@@ -71,7 +71,8 @@ gth_info_bar_init (GthInfoBar *self)
 
 	self->priv->icon_image = image = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (hbox_content), image, FALSE, FALSE, 0);
-	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.5);
+	gtk_widget_set_halign (image, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign (image, GTK_ALIGN_CENTER);
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (vbox);
@@ -82,9 +83,10 @@ gth_info_bar_init (GthInfoBar *self)
 	gtk_widget_set_can_focus (primary_label, TRUE);
 	gtk_label_set_use_markup (GTK_LABEL (primary_label), TRUE);
 	gtk_label_set_line_wrap (GTK_LABEL (primary_label), TRUE);
-	gtk_misc_set_padding (GTK_MISC (primary_label), 0, 0);
+	_gtk_widget_set_margin (primary_label, 0, 0, 0, 0);
 	gtk_label_set_ellipsize (GTK_LABEL (primary_label), PANGO_ELLIPSIZE_MIDDLE);
-	gtk_misc_set_alignment (GTK_MISC (primary_label), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (primary_label), 0.0);
+	gtk_label_set_yalign (GTK_LABEL (primary_label), 0.5);
 	gtk_label_set_selectable (GTK_LABEL (primary_label), TRUE);
 
 	self->priv->secondary_text_label = secondary_label = gtk_label_new (NULL);
@@ -92,9 +94,10 @@ gth_info_bar_init (GthInfoBar *self)
 	gtk_widget_set_can_focus (secondary_label, TRUE);
 	gtk_label_set_use_markup (GTK_LABEL (secondary_label), TRUE);
 	gtk_label_set_line_wrap (GTK_LABEL (secondary_label), TRUE);
-	gtk_misc_set_padding (GTK_MISC (secondary_label), 0, 0);
+	_gtk_widget_set_margin (secondary_label, 0, 0, 0, 0);
 	gtk_label_set_ellipsize (GTK_LABEL (secondary_label), PANGO_ELLIPSIZE_END);
-	gtk_misc_set_alignment (GTK_MISC (secondary_label), 0, 0.5);
+	gtk_label_set_xalign (GTK_LABEL (secondary_label), 0.0);
+	gtk_label_set_yalign (GTK_LABEL (secondary_label), 0.5);
 	gtk_label_set_selectable (GTK_LABEL (secondary_label), TRUE);
 
 	area = gtk_info_bar_get_action_area (GTK_INFO_BAR (self));
