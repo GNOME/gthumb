@@ -26,6 +26,7 @@
 #include "glib-utils.h"
 #include "gth-image-selector.h"
 #include "gth-marshal.h"
+#include "gtk-utils.h"
 
 
 #define DEFAULT_BORDER 40
@@ -44,7 +45,7 @@ typedef struct {
 
 
 static EventArea *
-event_area_new (GthImageSelector *self,
+event_area_new (GtkWidget        *widget,
 		int               id,
 		GdkCursorType     cursor_type)
 {
@@ -58,7 +59,7 @@ event_area_new (GthImageSelector *self,
 	event_area->area.y = 0;
 	event_area->area.width = 0;
 	event_area->area.height = 0;
-	event_area->cursor = _gdk_cursor_new_for_widget (GTK_WIDGET (self->priv->viewer), cursor_type);
+	event_area->cursor = _gdk_cursor_new_for_widget (widget, cursor_type);
 
 	return event_area;
 }
@@ -293,7 +294,7 @@ add_event_area (GthImageSelector *self,
 {
 	EventArea *event_area;
 
-	event_area = event_area_new (self, area_id, cursor_type);
+	event_area = event_area_new (GTK_WIDGET (self->priv->viewer), area_id, cursor_type);
 	self->priv->event_list = g_list_prepend (self->priv->event_list, event_area);
 }
 
