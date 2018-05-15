@@ -214,7 +214,7 @@ burn_content_to_disc (GthBurnTask *task)
 	GtkWidget       *options;
 	GtkResponseType  result;
 
-	cursor = gdk_cursor_new (GDK_WATCH);
+	cursor = _gdk_cursor_new_for_widget (GTK_WIDGET (task->priv->browser), GDK_WATCH);
 	gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (task->priv->browser)), cursor);
 	g_object_unref (cursor);
 

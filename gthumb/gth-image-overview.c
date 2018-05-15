@@ -966,7 +966,7 @@ gth_image_overview_activate_scrolling (GthImageOverview	*self,
 			keyboard = gdk_device_get_associated_device (device);
 		}
 
-		cursor = gdk_cursor_new_for_display (gtk_widget_get_display (GTK_WIDGET (self->priv->viewer)), GDK_FLEUR);
+		cursor = _gdk_cursor_new_for_widget (GTK_WIDGET (self->priv->viewer), GDK_FLEUR);
 
 		if (_gth_image_overview_grab_devices (self,
 						      keyboard,

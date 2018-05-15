@@ -44,8 +44,9 @@ typedef struct {
 
 
 static EventArea *
-event_area_new (int           id,
-		GdkCursorType cursor_type)
+event_area_new (GthImageSelector *self,
+		int               id,
+		GdkCursorType     cursor_type)
 {
 	EventArea *event_area;
 
@@ -57,7 +58,7 @@ event_area_new (int           id,
 	event_area->area.y = 0;
 	event_area->area.width = 0;
 	event_area->area.height = 0;
-	event_area->cursor = gdk_cursor_new_for_display (gdk_display_get_default (), cursor_type);
+	event_area->cursor = _gdk_cursor_new_for_widget (GTK_WIDGET (self->priv->viewer), cursor_type);
 
 	return event_area;
 }
@@ -292,7 +293,7 @@ add_event_area (GthImageSelector *self,
 {
 	EventArea *event_area;
 
-	event_area = event_area_new (area_id, cursor_type);
+	event_area = event_area_new (self, area_id, cursor_type);
 	self->priv->event_list = g_list_prepend (self->priv->event_list, event_area);
 }
 
@@ -636,9 +637,9 @@ gth_image_selector_realize (GthImageViewerTool *base)
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
 	if (self->priv->type == GTH_SELECTOR_TYPE_REGION)
-		self->priv->default_cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_CROSSHAIR /*GDK_LEFT_PTR*/);
+		self->priv->default_cursor = _gdk_cursor_new_for_widget (GTK_WIDGET (self->priv->viewer), GDK_CROSSHAIR /*GDK_LEFT_PTR*/);
 	else if (self->priv->type == GTH_SELECTOR_TYPE_POINT)
-		self->priv->default_cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_CROSSHAIR);
+		self->priv->default_cursor = _gdk_cursor_new_for_widget (GTK_WIDGET (self->priv->viewer), GDK_CROSSHAIR);
 	gth_image_viewer_set_cursor (self->priv->viewer, self->priv->default_cursor);
 
 	add_event_area (self, C_SELECTION_AREA, GDK_FLEUR);

@@ -650,7 +650,7 @@ curve_editor_button_press_event_cb (GtkWidget      *widget,
 
 			self->priv->dragging = TRUE;
 
-			cursor = gdk_cursor_new_for_display (gtk_widget_get_display (self->priv->view), GDK_BLANK_CURSOR);
+			cursor = _gdk_cursor_new_for_widget (self->priv->view, GDK_BLANK_CURSOR);
 			gdk_window_set_cursor (gtk_widget_get_window (self->priv->view), cursor);
 			g_object_unref (cursor);
 		}
@@ -689,7 +689,7 @@ curve_editor_button_release_event_cb (GtkWidget      *widget,
 	if (self->priv->dragging) {
 		GdkCursor *cursor;
 
-		cursor = gdk_cursor_new_for_display (gtk_widget_get_display (self->priv->view), GDK_CROSSHAIR);
+		cursor = _gdk_cursor_new_for_widget (self->priv->view, GDK_CROSSHAIR);
 		gdk_window_set_cursor (gtk_widget_get_window (self->priv->view), cursor);
 		g_object_unref (cursor);
 	}
@@ -754,7 +754,7 @@ curve_editor_realize_cb (GtkWidget *widget,
 	GthCurveEditor *self = user_data;
 	GdkCursor      *cursor;
 
-	cursor = gdk_cursor_new_for_display (gtk_widget_get_display (self->priv->view), GDK_CROSSHAIR);
+	cursor = _gdk_cursor_new_for_widget (self->priv->view, GDK_CROSSHAIR);
 	gdk_window_set_cursor (gtk_widget_get_window (self->priv->view), cursor);
 	g_object_unref (cursor);
 }

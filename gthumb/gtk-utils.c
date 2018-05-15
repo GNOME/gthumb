@@ -1285,3 +1285,11 @@ _gtk_settings_get_dialogs_use_header (void)
 
 	return use_header;
 }
+
+
+GdkCursor *
+_gdk_cursor_new_for_widget (GtkWidget     *widget,
+			    GdkCursorType  cursor_type)
+{
+	return gdk_cursor_new_for_display (gtk_widget_get_display (widget), cursor_type);
+}

@@ -60,7 +60,7 @@ gth_preview_tool_set_viewer (GthImageViewerTool *base,
 	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (viewer), GTH_FIT_SIZE_IF_LARGER);
 	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), FALSE);
 
-	cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	cursor = _gdk_cursor_new_for_widget (GTK_WIDGET (self->priv->viewer), GDK_LEFT_PTR);
 	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
 
 	g_object_unref (cursor);

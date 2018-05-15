@@ -450,8 +450,8 @@ gth_image_viewer_realize (GtkWidget *widget)
 	gtk_widget_set_window (widget, window);
 	gtk_style_context_set_background (gtk_widget_get_style_context (widget), window);
 
-	self->priv->cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	self->priv->cursor_void = gdk_cursor_new_for_display (gtk_widget_get_display (widget), GDK_BLANK_CURSOR);
+	self->priv->cursor = _gdk_cursor_new_for_widget (widget, GDK_LEFT_PTR);
+	self->priv->cursor_void = _gdk_cursor_new_for_widget (widget, GDK_BLANK_CURSOR);
 	if (self->priv->cursor_visible)
 		gdk_window_set_cursor (window, self->priv->cursor);
 	else

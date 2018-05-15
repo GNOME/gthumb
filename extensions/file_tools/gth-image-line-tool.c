@@ -87,7 +87,7 @@ gth_image_line_tool_set_viewer (GthImageViewerTool *base,
 	gth_image_viewer_set_zoom_enabled (GTH_IMAGE_VIEWER (viewer), FALSE);
 	self->priv->first_point_set = FALSE;
 
-	cursor = gdk_cursor_new (GDK_CROSSHAIR);
+	cursor = _gdk_cursor_new_for_widget (GTK_WIDGET (self->priv->viewer), GDK_CROSSHAIR);
 	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
 
 	g_object_unref (cursor);

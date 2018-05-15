@@ -127,8 +127,8 @@ video_area_realize_cb (GtkWidget *widget,
 {
 	GthMediaViewerPage *self = user_data;
 
-	self->priv->cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	self->priv->cursor_void = gdk_cursor_new_for_display (gtk_widget_get_display (self->priv->video_area), GDK_BLANK_CURSOR);
+	self->priv->cursor = _gdk_cursor_new_for_widget (widget, GDK_LEFT_PTR);
+	self->priv->cursor_void = _gdk_cursor_new_for_widget (self->priv->video_area, GDK_BLANK_CURSOR);
 
 	if (self->priv->cursor_visible)
 		gdk_window_set_cursor (gtk_widget_get_window (self->priv->video_area), self->priv->cursor);
