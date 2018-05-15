@@ -67,7 +67,7 @@ typedef struct {
 	GList			*current_file;
 	GList                   *requested_file;
 	int			 requested_size;
-	GSimpleAsyncResult	*result;
+	GTask			*task;
 	GCancellable            *cancellable;
 } LoadRequest;
 
@@ -195,7 +195,7 @@ load_request_new (GthImagePreloader *preloader)
 	request->files = NULL;
 	request->current_file = NULL;
 	request->requested_size = GTH_ORIGINAL_SIZE;
-	request->result = NULL;
+	request->task = NULL;
 	request->cancellable = NULL;
 
 	return request;
@@ -219,7 +219,7 @@ load_request_unref (LoadRequest *request)
 		return;
 
 	_g_object_unref (request->cancellable);
-	_g_object_unref (request->result);
+	_g_object_unref (request->task);
 	_g_object_list_unref (request->files);
 	g_free (request);
 }
@@ -230,12 +230,7 @@ load_request_completed_with_error (LoadRequest *request,
 				   GQuark       domain,
 				   int          code)
 {
-	GError *error;
-
-	error = g_error_new_literal (domain, code, "");
-	g_simple_async_result_set_from_error (request->result, error);
-
-	g_error_free (error);
+	g_task_return_error (request->task, g_error_new_literal (domain, code, ""));
 }
 
 
@@ -430,10 +425,9 @@ _gth_image_preloader_request_completed (GthImagePreloader *self,
 			}
 #endif
 
-			g_simple_async_result_set_op_res_gpointer (request->result,
-								   cache_data_ref (cache_data),
-								   (GDestroyNotify) cache_data_unref);
-			g_simple_async_result_complete_in_idle (request->result);
+			g_task_return_pointer (request->task,
+					       cache_data_ref (cache_data),
+					       (GDestroyNotify) cache_data_unref);
 		}
 		else
 			load_request_completed_with_error (request, G_IO_ERROR, G_IO_ERROR_NOT_FOUND);
@@ -610,10 +604,8 @@ static void
 _gth_image_preloader_request_cancelled (GthImagePreloader *self,
 				        LoadRequest       *request)
 {
-	if (request->current_file == request->requested_file) {
-		g_simple_async_result_take_error (request->result, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
-		g_simple_async_result_complete_in_idle (request->result);
-	}
+	if (request->current_file == request->requested_file)
+		g_task_return_error (request->task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
 
 	_gth_image_preloader_request_finished (self, request);
 
@@ -844,11 +836,8 @@ gth_image_preloader_load (GthImagePreloader	 *self,
 	request->files = g_list_reverse (request->files);
 	request->requested_file = request->files;
 	request->current_file = request->files;
-	request->result = g_simple_async_result_new (G_OBJECT (self),
-						     callback,
-						     user_data,
-						     gth_image_preloader_load);
 	request->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
+	request->task = g_task_new (G_OBJECT (self), request->cancellable, callback, user_data);
 
 	if ((self->priv->last_request != NULL) && (self->priv->last_request != self->priv->current_request))
 		_gth_image_preloader_request_cancelled (self, self->priv->last_request);
@@ -873,17 +862,16 @@ gth_image_preloader_load_finish (GthImagePreloader	 *self,
 {
 	CacheData *cache_data;
 
-	g_return_val_if_fail (g_simple_async_result_is_valid (result, G_OBJECT (self), gth_image_preloader_load), FALSE);
+	g_return_val_if_fail (g_task_is_valid (G_TASK (result), G_OBJECT (self)), FALSE);
 
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
+	cache_data = g_task_propagate_pointer (G_TASK (result), error);
+	if (cache_data == NULL)
 		return FALSE;
-
-	cache_data = g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
-	g_return_val_if_fail (cache_data != NULL, FALSE);
 
 	if (cache_data->error != NULL) {
 		if (error != NULL)
 			*error = g_error_copy (cache_data->error);
+		cache_data_unref (cache_data);
 		return FALSE;
 	}
 
@@ -897,6 +885,8 @@ gth_image_preloader_load_finish (GthImagePreloader	 *self,
 		*original_width = cache_data->original_width;
 	if (original_height != NULL)
 		*original_height = cache_data->original_height;
+
+	cache_data_unref (cache_data);
 
 	return TRUE;
 }

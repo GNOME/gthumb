@@ -32,7 +32,7 @@
 typedef void   (*OAuthResponseFunc)	(OAuthService       *self,
 				 	 SoupMessage        *msg,
 				 	 SoupBuffer         *body,
-				 	 GSimpleAsyncResult *result);
+				 	 GTask              *task);
 typedef char * (*OAuthStringFunc)      (OAuthService        *self);
 
 

@@ -548,23 +548,22 @@ apply_profile_data_free (gpointer user_data)
 
 
 static void
-_gth_image_apply_icc_profile_thread (GSimpleAsyncResult *result,
-				     GObject            *object,
-				     GCancellable       *cancellable)
+_gth_image_apply_icc_profile_thread (GTask        *task,
+				     gpointer      source_object,
+				     gpointer      task_data,
+				     GCancellable *cancellable)
 {
 	ApplyProfileData *apd;
-	GError           *error = NULL;
 
-	apd = g_simple_async_result_get_op_res_gpointer (result);
+	apd = g_task_get_task_data (task);
 	gth_image_apply_icc_profile (apd->image, apd->out_profile, cancellable);
 
-	if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable))
-		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
-
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
+	if ((cancellable != NULL) && g_cancellable_is_cancelled (cancellable)) {
+		g_task_return_error (task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
+		return;
 	}
+
+	g_task_return_boolean (task, TRUE);
 }
 
 
@@ -575,33 +574,26 @@ gth_image_apply_icc_profile_async (GthImage		*image,
 				   GAsyncReadyCallback	 callback,
 				   gpointer		 user_data)
 {
-	GSimpleAsyncResult *result;
-	ApplyProfileData   *apd;
+	GTask            *task;
+	ApplyProfileData *apd;
 
 	g_return_if_fail (image != NULL);
 
-	result = g_simple_async_result_new (NULL,
-	                                    callback,
-					    user_data,
-					    gth_image_apply_icc_profile_async);
+	task = g_task_new (NULL, cancellable, callback, user_data);
 
 	apd = g_new (ApplyProfileData, 1);
 	apd->image = g_object_ref (image);
 	apd->out_profile = _g_object_ref (out_profile);
-	g_simple_async_result_set_op_res_gpointer (result, apd, apply_profile_data_free);
-	g_simple_async_result_run_in_thread (result,
-	                                     _gth_image_apply_icc_profile_thread,
-					     G_PRIORITY_DEFAULT,
-					     cancellable);
+	g_task_set_task_data (task, apd, apply_profile_data_free);
+	g_task_run_in_thread (task, _gth_image_apply_icc_profile_thread);
 
-	g_object_unref (result);
+	g_object_unref (task);
 }
 
 
 gboolean
-gth_image_apply_icc_profile_finish (GAsyncResult	 *result,
-				    GError		**error)
+gth_image_apply_icc_profile_finish (GAsyncResult  *result,
+				    GError	 **error)
 {
-	g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, gth_image_apply_icc_profile_async), FALSE);
-	return g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }

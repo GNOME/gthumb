@@ -183,11 +183,11 @@ _picasa_web_service_get_refresh_token_ready_cb (SoupSession *session,
 						gpointer     user_data)
 {
 	PicasaWebService   *self = user_data;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	GError             *error = NULL;
 	JsonNode           *node;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 
 	if (picasa_web_utils_parse_json_response (msg, &node, &error)) {
 		JsonObject *obj;
@@ -195,11 +195,11 @@ _picasa_web_service_get_refresh_token_ready_cb (SoupSession *session,
 		obj = json_node_get_object (node);
 		_g_strset (&self->priv->access_token, json_object_get_string_member (obj, "access_token"));
 		_g_strset (&self->priv->refresh_token, json_object_get_string_member (obj, "refresh_token"));
+
+		g_task_return_boolean (task, TRUE);
 	}
 	else
-		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
+		g_task_return_error (task, error);
 }
 
 
@@ -239,7 +239,7 @@ _picasa_web_service_get_refresh_token_finish (PicasaWebService  *service,
 					      GAsyncResult      *result,
 					      GError           **error)
 {
-	return ! g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 
@@ -358,11 +358,11 @@ _picasa_web_service_get_access_token_ready_cb (SoupSession *session,
 					       gpointer     user_data)
 {
 	PicasaWebService   *self = user_data;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	GError             *error = NULL;
 	JsonNode           *node;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 
 	if (picasa_web_utils_parse_json_response (msg, &node, &error)) {
 		JsonObject   *obj;
@@ -376,11 +376,11 @@ _picasa_web_service_get_access_token_ready_cb (SoupSession *session,
 				      NULL);
 		else
 			_g_strset (&self->priv->access_token, json_object_get_string_member (obj, "access_token"));
+
+		g_task_return_boolean (task, TRUE);
 	}
 	else
-		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
+		g_task_return_error (task, error);
 }
 
 
@@ -421,7 +421,7 @@ _picasa_web_service_get_access_token_finish (PicasaWebService  *service,
 					     GAsyncResult      *result,
 					     GError           **error)
 {
-	return ! g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error);
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 
@@ -458,11 +458,11 @@ picasa_web_service_get_user_info_ready_cb (SoupSession *session,
 {
 	AccessTokenData    *data = user_data;
 	PicasaWebService   *self = data->service;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	GError             *error = NULL;
 	JsonNode           *node;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 
 	if (picasa_web_utils_parse_json_response (msg, &node, &error)) {
 		OAuthAccount *account;
@@ -472,9 +472,7 @@ picasa_web_service_get_user_info_ready_cb (SoupSession *session,
 			      "token", self->priv->access_token,
 			      "token-secret", self->priv->refresh_token,
 			      NULL);
-		g_simple_async_result_set_op_res_gpointer (result,
-							   g_object_ref (account),
-							   (GDestroyNotify) g_object_unref);
+		g_task_return_pointer (task, g_object_ref (account), (GDestroyNotify) g_object_unref);
 
 		_g_object_unref (account);
 		json_node_free (node);
@@ -500,11 +498,10 @@ picasa_web_service_get_user_info_ready_cb (SoupSession *session,
 				return;
 			}
 		}
-		g_simple_async_result_set_from_error (result, error);
+		g_task_return_error (task, error);
 	}
 
 	self->priv->n_auth_errors = 0;
-	g_simple_async_result_complete_in_idle (result);
 
 	access_token_data_free (data);
 }
@@ -520,18 +517,18 @@ access_token_ready_cb (GObject      *source_object,
 	GError           *error = NULL;
 
 	if (! _picasa_web_service_get_access_token_finish (self, result, &error)) {
-		GSimpleAsyncResult *result;
+		GTask *task;
 
 		if (error->code == PICASA_WEB_SERVICE_ERROR_UNAUTHORIZED)
 			self->priv->n_auth_errors += 1;
 
-		result = g_simple_async_result_new (G_OBJECT (self),
-						    data->callback,
-						    data->user_data,
-						    picasa_web_service_get_user_info);
-		g_simple_async_result_take_error (result, error);
-		g_simple_async_result_complete_in_idle (result);
+		task = g_task_new (G_OBJECT (self),
+				   NULL,
+				   data->callback,
+				   data->user_data);
+		g_task_return_error (task, error);
 
+		g_object_unref (task);
 		access_token_data_free (data);
 		return;
 	}
@@ -662,20 +659,19 @@ list_albums_ready_cb (SoupSession *session,
 		      gpointer     user_data)
 {
 	PicasaWebService   *self = user_data;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	SoupBuffer         *body;
 	DomDocument        *doc;
 	GError             *error = NULL;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 
 	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
+		g_task_return_new_error (task,
+					 SOUP_HTTP_ERROR,
+					 msg->status_code,
+					 "%s",
+					 soup_status_get_phrase (msg->status_code));
 		return;
 	}
 
@@ -715,13 +711,10 @@ list_albums_ready_cb (SoupSession *session,
 				albums = g_list_prepend (albums, album);
 		}
 		albums = g_list_reverse (albums);
-		g_simple_async_result_set_op_res_gpointer (result, albums, (GDestroyNotify) _g_object_list_unref);
+		g_task_return_pointer (task, albums, (GDestroyNotify) _g_object_list_unref);
 	}
-	else {
-		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
-	}
-	g_simple_async_result_complete_in_idle (result);
+	else
+		g_task_return_error (task, error);
 
 	g_object_unref (doc);
 	soup_buffer_free (body);
@@ -764,10 +757,7 @@ picasa_web_service_list_albums_finish (PicasaWebService  *service,
 				       GAsyncResult      *result,
 				       GError           **error)
 {
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
-	else
-		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 
@@ -778,11 +768,11 @@ static void
 post_photos_done (PicasaWebService *self,
 		  GError           *error)
 {
-	GSimpleAsyncResult *result;
+	GTask *task;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 	if (error == NULL) {
-		g_simple_async_result_set_op_res_gboolean (result, TRUE);
+		g_task_return_boolean (task, TRUE);
 	}
 	else  {
 		if (self->priv->post_photos->current != NULL) {
@@ -793,10 +783,8 @@ post_photos_done (PicasaWebService *self,
 			g_free (error->message);
 			error->message = msg;
 		}
-		g_simple_async_result_set_from_error (result, error);
+		g_task_return_error (task, error);
 	}
-
-	g_simple_async_result_complete_in_idle (result);
 }
 
 
@@ -1097,10 +1085,7 @@ picasa_web_service_post_photos_finish (PicasaWebService  *self,
 				       GAsyncResult      *result,
 				       GError           **error)
 {
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return FALSE;
-	else
-		return TRUE;
+	return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 
@@ -1113,20 +1098,19 @@ list_photos_ready_cb (SoupSession *session,
 		      gpointer     user_data)
 {
 	PicasaWebService   *self = user_data;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	SoupBuffer         *body;
 	DomDocument        *doc;
 	GError             *error = NULL;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 
 	if (msg->status_code != 200) {
-		g_simple_async_result_set_error (result,
-						 SOUP_HTTP_ERROR,
-						 msg->status_code,
-						 "%s",
-						 soup_status_get_phrase (msg->status_code));
-		g_simple_async_result_complete_in_idle (result);
+		g_task_return_new_error (task,
+					 SOUP_HTTP_ERROR,
+					 msg->status_code,
+					 "%s",
+					 soup_status_get_phrase (msg->status_code));
 		return;
 	}
 
@@ -1160,13 +1144,10 @@ list_photos_ready_cb (SoupSession *session,
 				photos = g_list_prepend (photos, photo);
 		}
 		photos = g_list_reverse (photos);
-		g_simple_async_result_set_op_res_gpointer (result, photos, (GDestroyNotify) _g_object_list_unref);
+		g_task_return_pointer (task, photos, (GDestroyNotify) _g_object_list_unref);
 	}
-	else {
-		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
-	}
-	g_simple_async_result_complete_in_idle (result);
+	else
+		g_task_return_error (task, error);
 
 	g_object_unref (doc);
 	soup_buffer_free (body);
@@ -1219,8 +1200,5 @@ picasa_web_service_list_photos_finish (PicasaWebService  *self,
 				       GAsyncResult      *result,
 				       GError           **error)
 {
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
-	else
-		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+	return g_task_propagate_pointer (G_TASK (result), error);
 }

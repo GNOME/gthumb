@@ -313,40 +313,41 @@ gth_image_save_to_buffer_finish (GAsyncResult      *result,
 		       	         GthImageSaveData **save_data,
 		       	         GError           **error)
 {
-	  GSimpleAsyncResult *simple;
+	GthImageSaveData *data;
 
-	  g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, gth_image_save_to_buffer_async), FALSE);
+	data = g_task_propagate_pointer (G_TASK (result), error);
+	if (data == NULL)
+		return FALSE;
 
-	  simple = G_SIMPLE_ASYNC_RESULT (result);
+	if (save_data != NULL)
+		*save_data = data;
+	else
+		gth_image_save_data_free (data);
 
-	  if (g_simple_async_result_propagate_error (simple, error))
-		  return FALSE;
-
-	  *save_data = g_simple_async_result_get_op_res_gpointer (simple);
-
-	  return TRUE;
+	return TRUE;
 }
 
 
 static void
-save_to_buffer_thread (GSimpleAsyncResult *result,
-		       GObject	 	  *object,
-		       GCancellable	  *cancellable)
+save_to_buffer_thread (GTask        *task,
+		       gpointer      source_object,
+		       gpointer      task_data,
+		       GCancellable *cancellable)
 {
 	SaveArguments    *arguments;
 	GthImageSaveData *data;
 	GError           *error = NULL;
 
-	arguments = g_simple_async_result_get_op_res_gpointer (result);
+	arguments = g_task_get_task_data (task);
 	data = _gth_image_save_to_buffer_common (arguments->image,
 						 arguments->mime_type,
 						 arguments->file_data,
 						 cancellable,
 						 &error);
 	if (data != NULL)
-		g_simple_async_result_set_op_res_gpointer (result, data, NULL);
+		g_task_return_pointer (task, data, (GDestroyNotify) gth_image_save_data_free);
 	else
-		g_simple_async_result_take_error (result, error);
+		g_task_return_error (task, error);
 }
 
 
@@ -358,8 +359,8 @@ gth_image_save_to_buffer_async (GthImage            *image,
 				GAsyncReadyCallback  callback,
 				gpointer             user_data)
 {
-	GSimpleAsyncResult *result;
-	SaveArguments      *arguments;
+	GTask         *task;
+	SaveArguments *arguments;
 
 	g_return_if_fail (image != NULL);
 	g_return_if_fail (file_data != NULL);
@@ -369,19 +370,11 @@ gth_image_save_to_buffer_async (GthImage            *image,
 	arguments->mime_type = g_strdup (mime_type);
 	arguments->file_data = g_object_ref (file_data);
 
-	result = g_simple_async_result_new (NULL,
-					    callback,
-					    user_data,
-					    gth_image_save_to_buffer_async);
-	g_simple_async_result_set_op_res_gpointer (result,
-						   arguments,
-						   (GDestroyNotify) save_arguments_free);
-	g_simple_async_result_run_in_thread (result,
-					     save_to_buffer_thread,
-					     G_PRIORITY_DEFAULT,
-					     cancellable);
+	task = g_task_new (NULL, cancellable, callback, user_data);
+	g_task_set_task_data (task, arguments, (GDestroyNotify) save_arguments_free);
+	g_task_run_in_thread (task, save_to_buffer_thread);
 
-	g_object_unref (result);
+	g_object_unref (task);
 }
 
 

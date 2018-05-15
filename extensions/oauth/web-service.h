@@ -102,9 +102,8 @@ void            _web_service_send_message	(WebService		 *self,
 						 gpointer		  source_tag,
 						 SoupSessionCallback	  soup_session_cb,
 						 gpointer		  soup_session_cb_data);
-GSimpleAsyncResult *
-		_web_service_get_result		(WebService		 *self);
-void            _web_service_reset_result       (WebService		 *self);
+GTask *		_web_service_get_task		(WebService		 *self);
+void            _web_service_reset_task       (WebService		 *self);
 SoupMessage *	_web_service_get_message	(WebService		 *self);
 void            _web_service_set_auth_dialog	(WebService		 *self,
 						 GtkDialog               *dialog);

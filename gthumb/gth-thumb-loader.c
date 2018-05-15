@@ -321,7 +321,7 @@ typedef struct {
 	GthThumbLoader     *thumb_loader;
 	GthFileData        *file_data;
 	int                 requested_size;
-	GSimpleAsyncResult *simple;
+	GTask              *task;
 	GCancellable       *cancellable;
 	char               *thumbnailer_tmpfile;
 	GPid                thumbnailer_pid;
@@ -351,7 +351,7 @@ load_data_unref (LoadData *load_data)
 {
 	g_object_unref (load_data->thumb_loader);
 	g_object_unref (load_data->file_data);
-	_g_object_unref (load_data->simple);
+	_g_object_unref (load_data->task);
 	_g_object_unref (load_data->cancellable);
 	g_free (load_data->thumbnailer_tmpfile);
 	g_free (load_data);
@@ -485,8 +485,7 @@ cache_image_ready_cb (GObject      *source_object,
 	load_result = g_new0 (LoadResult, 1);
 	load_result->file_data = g_object_ref (load_data->file_data);
 	load_result->image = surface;
-	g_simple_async_result_set_op_res_gpointer (load_data->simple, load_result, (GDestroyNotify) load_result_unref);
-	g_simple_async_result_complete_in_idle (load_data->simple);
+	g_task_return_pointer (load_data->task, load_result, (GDestroyNotify) load_result_unref);
 
 	load_data_unref (load_data);
 	g_object_unref (image);
@@ -619,8 +618,7 @@ original_image_loaded_correctly (GthThumbLoader *self,
 	load_result = g_new0 (LoadResult, 1);
 	load_result->file_data = g_object_ref (load_data->file_data);
 	load_result->image = cairo_surface_reference (local_image);
-	g_simple_async_result_set_op_res_gpointer (load_data->simple, load_result, (GDestroyNotify) load_result_unref);
-	g_simple_async_result_complete_in_idle (load_data->simple);
+	g_task_return_pointer (load_data->task, load_result, (GDestroyNotify) load_result_unref);
 
 	cairo_surface_destroy (local_image);
 }
@@ -630,19 +628,14 @@ static void
 failed_to_load_original_image (GthThumbLoader *self,
 			       LoadData       *load_data)
 {
-	char   *uri;
-	GError *error;
+	char *uri;
 
 	uri = g_file_get_uri (load_data->file_data->file);
 	gnome_desktop_thumbnail_factory_create_failed_thumbnail (self->priv->thumb_factory,
 								 uri,
 								 gth_file_data_get_mtime (load_data->file_data));
+	g_task_return_error (load_data->task, g_error_new_literal (GTH_ERROR, 0, "failed to generate the thumbnail"));
 
-	error = g_error_new_literal (GTH_ERROR, 0, "failed to generate the thumbnail");
-	g_simple_async_result_set_from_error (load_data->simple, error);
-	g_simple_async_result_complete_in_idle (load_data->simple);
-
-	g_error_free (error);
 	g_free (uri);
 }
 
@@ -708,19 +701,13 @@ watch_thumbnailer_cb (GPid     pid,
 	load_data->thumbnailer_watch = 0;
 
 	if (load_data->script_cancelled) {
-		GError *error;
-
 		if (load_data->thumbnailer_tmpfile != NULL) {
 			g_unlink (load_data->thumbnailer_tmpfile);
 			g_free (load_data->thumbnailer_tmpfile);
 			load_data->thumbnailer_tmpfile = NULL;
 		}
 
-		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "script cancelled");
-		g_simple_async_result_set_from_error (load_data->simple, error);
-		g_simple_async_result_complete_in_idle (load_data->simple);
-
-		g_error_free (error);
+		g_task_return_error (load_data->task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "script cancelled"));
 
 		return;
 	}
@@ -771,8 +758,7 @@ original_image_ready_cb (GObject      *source_object,
 		char *uri;
 
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			g_simple_async_result_set_from_error (load_data->simple, error);
-			g_simple_async_result_complete_in_idle (load_data->simple);
+			g_task_return_error (load_data->task, error);
 			return;
 		}
 
@@ -827,15 +813,12 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 		       GAsyncReadyCallback  callback,
 		       gpointer             user_data)
 {
-	GSimpleAsyncResult *simple;
-	char               *cache_path;
-	char               *uri;
-	LoadData           *load_data;
+	GTask    *task;
+	char     *cache_path;
+	char     *uri;
+	LoadData *load_data;
 
-	simple = g_simple_async_result_new (G_OBJECT (self),
-					    callback,
-					    user_data,
-					    gth_thumb_loader_load);
+	task = g_task_new (G_OBJECT (self), cancellable, callback, user_data);
 
 	cache_path = NULL;
 
@@ -850,15 +833,10 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 		mtime = gth_file_data_get_mtime (file_data);
 
 		if (gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (self->priv->thumb_factory, uri, mtime)) {
-			GError *error;
+			g_task_return_error (task, g_error_new_literal (GTH_ERROR, 0, "found a failed thumbnail"));
 
-			error = g_error_new_literal (GTH_ERROR, 0, "found a failed thumbnail");
-			g_simple_async_result_set_from_error (simple, error);
-			g_simple_async_result_complete_in_idle (simple);
-
-			g_error_free (error);
 			g_free (uri);
-			g_object_unref (simple);
+			g_object_unref (task);
 
 			return;
 		}
@@ -872,22 +850,15 @@ gth_thumb_loader_load (GthThumbLoader      *self,
 	    && (self->priv->max_file_size > 0)
 	    && (g_file_info_get_size (file_data->info) > self->priv->max_file_size))
 	{
-		GError *error;
-
-		error = g_error_new_literal (GTH_ERROR, 0, "file too big to generate the thumbnail");
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete_in_idle (simple);
-
-		g_error_free (error);
-		g_object_unref (simple);
-
+		g_task_return_error (task, g_error_new_literal (GTH_ERROR, 0, "file too big to generate the thumbnail"));
+		g_object_unref (task);
 		return;
 	}
 
 	load_data = load_data_new (file_data, self->priv->requested_size);
 	load_data->thumb_loader = g_object_ref (self);
 	load_data->cancellable = _g_object_ref (cancellable);
-	load_data->simple = simple;
+	load_data->task = task;
 
 	if (cache_path != NULL) {
 		GFile       *cache_file;
@@ -925,19 +896,17 @@ gth_thumb_loader_load_finish (GthThumbLoader   *self,
 			      cairo_surface_t **image,
 			      GError          **error)
 {
-	GSimpleAsyncResult *simple;
-	LoadResult         *load_result;
+	LoadResult *load_result;
 
-	g_return_val_if_fail (g_simple_async_result_is_valid (result, G_OBJECT (self), gth_thumb_loader_load), FALSE);
+	g_return_val_if_fail (g_task_is_valid (G_TASK (result), G_OBJECT (self)), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	if (g_simple_async_result_propagate_error (simple, error))
+	load_result = g_task_propagate_pointer (G_TASK (result), error);
+	if (load_result == NULL)
 		return FALSE;
 
-	load_result = g_simple_async_result_get_op_res_gpointer (simple);
 	if (image != NULL)
 		*image = cairo_surface_reference (load_result->image);
+	load_result_unref (load_result);
 
 	return TRUE;
 }

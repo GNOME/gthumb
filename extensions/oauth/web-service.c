@@ -82,7 +82,7 @@ struct _WebServicePrivate
 	SoupSession        *session;
 	SoupMessage        *msg;
 	GCancellable       *cancellable;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	GList              *accounts;
 	OAuthAccount       *account;
 	GtkWidget          *browser;
@@ -98,7 +98,7 @@ web_service_finalize (GObject *object)
 
 	_g_object_unref (self->priv->account);
 	_g_object_list_unref (self->priv->accounts);
-	_g_object_unref (self->priv->result);
+	_g_object_unref (self->priv->task);
 	_g_object_unref (self->priv->cancellable);
 	_g_object_unref (self->priv->session);
 	g_free (self->priv->service_protocol);
@@ -319,7 +319,7 @@ web_service_init (WebService *self)
 	self->priv->session = NULL;
 	self->priv->msg = NULL;
 	self->priv->cancellable = NULL;
-	self->priv->result = NULL;
+	self->priv->task = NULL;
 	self->priv->accounts = NULL;
 	self->priv->account = NULL;
 	self->priv->browser = NULL;
@@ -819,10 +819,7 @@ web_service_get_user_info_finish (WebService	   *self,
 				  GAsyncResult	   *result,
 				  GError	  **error)
 {
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
-	else
-		return g_object_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 
@@ -857,11 +854,11 @@ _web_service_send_message (WebService          *self,
 	_g_object_unref (self->priv->cancellable);
 	self->priv->cancellable = _g_object_ref (cancellable);
 
-	_g_object_unref (self->priv->result);
-	self->priv->result = g_simple_async_result_new (G_OBJECT (self),
-							callback,
-							user_data,
-							source_tag);
+	_g_object_unref (self->priv->task);
+	self->priv->task = g_task_new (G_OBJECT (self),
+				       self->priv->cancellable,
+				       callback,
+				       user_data);
 
 	self->priv->msg = msg;
 	g_object_add_weak_pointer (G_OBJECT (msg), (gpointer *) &self->priv->msg);
@@ -873,17 +870,17 @@ _web_service_send_message (WebService          *self,
 }
 
 
-GSimpleAsyncResult *
-_web_service_get_result (WebService *self)
+GTask *
+_web_service_get_task (WebService *self)
 {
-	return self->priv->result;
+	return self->priv->task;
 }
 
 
 void
-_web_service_reset_result (WebService *self)
+_web_service_reset_task (WebService *self)
 {
-	self->priv->result = NULL;
+	self->priv->task = NULL;
 }
 
 

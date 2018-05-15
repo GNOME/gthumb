@@ -124,66 +124,94 @@ gth_image_loader_set_out_profile (GthImageLoader *self,
 }
 
 
+/* -- gth_image_loader_load -- */
+
+
 typedef struct {
 	GthFileData  *file_data;
 	int           requested_size;
-	GCancellable *cancellable;
 	GthImage     *image;
 	int           original_width;
 	int           original_height;
-	gboolean      loaded_original;
-} LoadData;
+} LoaderOptions;
 
 
-static LoadData *
-load_data_new (GthFileData  *file_data,
-	       int           requested_size,
-	       GCancellable *cancellable)
+static LoaderOptions *
+loader_options_new (GthFileData  *file_data,
+	            int           requested_size)
 {
-	LoadData *load_data;
+	LoaderOptions *load_data;
 
-	load_data = g_new0 (LoadData, 1);
+	load_data = g_new0 (LoaderOptions, 1);
 	load_data->file_data = _g_object_ref (file_data);
 	load_data->requested_size = requested_size;
-	load_data->cancellable = _g_object_ref (cancellable);
-	load_data->loaded_original = TRUE;
 
 	return load_data;
 }
 
 
 static void
-load_data_unref (LoadData *load_data)
+loader_options_free (LoaderOptions *options)
 {
-	_g_object_unref (load_data->file_data);
-	_g_object_unref (load_data->cancellable);
-	_g_object_unref (load_data->image);
-	g_free (load_data);
+	_g_object_unref (options->file_data);
+	g_free (options);
+}
+
+
+typedef struct {
+	GthImage *image;
+	int       original_width;
+	int       original_height;
+	gboolean  loaded_original;
+} LoaderResult;
+
+
+static LoaderResult *
+loader_result_new (void)
+{
+	LoaderResult *result;
+
+	result = g_new0 (LoaderResult, 1);
+	result->image = NULL;
+	result->original_width = -1;
+	result->original_height = -1;
+	result->loaded_original = FALSE;
+
+	return result;
 }
 
 
 static void
-load_image_thread (GSimpleAsyncResult *result,
-		   GObject            *object,
-		   GCancellable       *cancellable)
+loader_result_free (LoaderResult *result)
 {
-	GthImageLoader *self = GTH_IMAGE_LOADER (object);
-	LoadData       *load_data;
+	_g_object_unref (result->image);
+	g_free (result);
+}
+
+
+static void
+load_image_thread (GTask        *task,
+                   gpointer      source_object,
+		   gpointer      task_data,
+		   GCancellable *cancellable)
+{
+	GthImageLoader *self = GTH_IMAGE_LOADER (source_object);
+	LoaderOptions  *options;
 	int             original_width;
 	int             original_height;
 	gboolean        loaded_original;
 	GInputStream   *istream;
 	GthImage       *image = NULL;
 	GError         *error = NULL;
+	LoaderResult   *result;
 
-	load_data = g_simple_async_result_get_op_res_gpointer (result);
+	options = g_task_get_task_data (task);
 	original_width = -1;
 	original_height = -1;
 
-	istream = (GInputStream *) g_file_read (load_data->file_data->file, cancellable, &error);
+	istream = (GInputStream *) g_file_read (options->file_data->file, cancellable, &error);
 	if (istream == NULL) {
-		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
+		g_task_return_error (task, error);
 		return;
 	}
 
@@ -191,8 +219,8 @@ load_image_thread (GSimpleAsyncResult *result,
 
 	if (self->priv->loader_func != NULL) {
 		image = (*self->priv->loader_func) (istream,
-						    load_data->file_data,
-						    load_data->requested_size,
+						    options->file_data,
+						    options->requested_size,
 						    &original_width,
 						    &original_height,
 						    &loaded_original,
@@ -204,14 +232,14 @@ load_image_thread (GSimpleAsyncResult *result,
 		GthImageLoaderFunc  loader_func = NULL;
 		const char         *mime_type;
 
-		mime_type = _g_content_type_get_from_stream (istream, load_data->file_data->file, cancellable, NULL);
+		mime_type = _g_content_type_get_from_stream (istream, options->file_data->file, cancellable, NULL);
 		if (mime_type != NULL)
 			loader_func = gth_main_get_image_loader_func (mime_type, self->priv->preferred_format);
 
 		if (loader_func != NULL)
 			image = loader_func (istream,
-					     load_data->file_data,
-					     load_data->requested_size,
+					     options->file_data,
+					     options->requested_size,
 					     &original_width,
 					     &original_height,
 					     &loaded_original,
@@ -241,8 +269,7 @@ load_image_thread (GSimpleAsyncResult *result,
 	if (error != NULL) {
 		if ((image == NULL) || gth_image_get_is_null (image)) {
 			_g_object_unref (image);
-			g_simple_async_result_set_from_error (result, error);
-			g_error_free (error);
+			g_task_return_error (task, error);
 			return;
 		}
 
@@ -250,10 +277,12 @@ load_image_thread (GSimpleAsyncResult *result,
 		g_clear_error (&error);
 	}
 
-	load_data->image = image;
-	load_data->original_width = original_width;
-	load_data->original_height = original_height;
-	load_data->loaded_original = loaded_original;
+	result = loader_result_new ();
+	result->image = image;
+	result->original_width = original_width;
+	result->original_height = original_height;
+	result->loaded_original = loaded_original;
+	g_task_return_pointer (task, result, (GDestroyNotify) loader_result_free);
 }
 
 
@@ -266,54 +295,45 @@ gth_image_loader_load (GthImageLoader      *loader,
 		       GAsyncReadyCallback  callback,
 		       gpointer             user_data)
 {
-	GSimpleAsyncResult *result;
+	GTask *task;
 
-	result = g_simple_async_result_new (G_OBJECT (loader),
-					    callback,
-					    user_data,
-					    gth_image_loader_load);
-	g_simple_async_result_set_op_res_gpointer (result,
-						   load_data_new (file_data,
-								  requested_size,
-								  cancellable),
-						   (GDestroyNotify) load_data_unref);
-	g_simple_async_result_run_in_thread (result,
-					     load_image_thread,
-					     io_priority,
-					     cancellable);
+	task = g_task_new (G_OBJECT (loader), cancellable, callback, user_data);
+	g_task_set_task_data (task,
+			      loader_options_new (file_data, requested_size),
+			      (GDestroyNotify) loader_options_free);
+	g_task_run_in_thread (task, load_image_thread);
 
-	g_object_unref (result);
+	g_object_unref (task);
 }
 
 
 gboolean
 gth_image_loader_load_finish (GthImageLoader   *loader,
-			      GAsyncResult     *result,
+			      GAsyncResult     *task,
 			      GthImage        **image,
 			      int              *original_width,
 			      int              *original_height,
 			      gboolean         *loaded_original,
 			      GError         **error)
 {
-	  GSimpleAsyncResult *simple;
-	  LoadData           *load_data;
+	  LoaderResult *result;
 
-	  g_return_val_if_fail (g_simple_async_result_is_valid (result, G_OBJECT (loader), gth_image_loader_load), FALSE);
+	  g_return_val_if_fail (g_task_is_valid (G_TASK (task), G_OBJECT (loader)), FALSE);
 
-	  simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	  if (g_simple_async_result_propagate_error (simple, error))
+	  result = g_task_propagate_pointer (G_TASK (task), error);
+	  if (result == NULL)
 		  return FALSE;
 
-	  load_data = g_simple_async_result_get_op_res_gpointer (simple);
 	  if (image != NULL)
-		  *image = _g_object_ref (load_data->image);
+		  *image = _g_object_ref (result->image);
 	  if (original_width != NULL)
-	  	  *original_width = load_data->original_width;
+	  	  *original_width = result->original_width;
 	  if (original_height != NULL)
-	  	  *original_height = load_data->original_height;
+	  	  *original_height = result->original_height;
 	  if (loaded_original != NULL)
-	  	  *loaded_original = load_data->loaded_original;
+	  	  *loaded_original = result->loaded_original;
+
+	  loader_result_free (result);
 
 	  return TRUE;
 }

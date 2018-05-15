@@ -150,9 +150,10 @@ query_metadata_data_free (gpointer user_data)
 
 
 static void
-_g_query_metadata_async_thread (GSimpleAsyncResult *result,
-				GObject            *object,
-				GCancellable       *cancellable)
+_g_query_metadata_async_thread (GTask        *task,
+				gpointer      source_object,
+				gpointer      task_data,
+				GCancellable *cancellable)
 {
 	QueryMetadataData  *qmd;
 	GList              *providers;
@@ -161,7 +162,7 @@ _g_query_metadata_async_thread (GSimpleAsyncResult *result,
 
 	performance (DEBUG_INFO, "_g_query_metadata_async_thread start");
 
-	qmd = g_simple_async_result_get_op_res_gpointer (result);
+	qmd = g_task_get_task_data (task);
 
 	providers = NULL;
 	for (scan = gth_main_get_all_metadata_providers (); scan; scan = scan->next)
@@ -209,10 +210,10 @@ _g_query_metadata_async_thread (GSimpleAsyncResult *result,
 	if (error == NULL)
 		gth_hook_invoke ("read-metadata-ready", qmd->files, qmd->attributes);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_task_return_error (task, error);
+	else
+		g_task_return_boolean (task, TRUE);
 
 	performance (DEBUG_INFO, "_g_query_metadata_async_thread end");
 }
@@ -225,25 +226,19 @@ _g_query_metadata_async (GList               *files,       /* GthFileData * list
 			 GAsyncReadyCallback  callback,
 			 gpointer             user_data)
 {
-	GSimpleAsyncResult *result;
-	QueryMetadataData  *qmd;
-
-	result = g_simple_async_result_new (NULL,
-					    callback,
-					    user_data,
-					    _g_query_metadata_async);
+	GTask             *task;
+	QueryMetadataData *qmd;
 
 	qmd = g_new0 (QueryMetadataData, 1);
 	qmd->files = _g_object_list_ref (files);
 	qmd->attributes = g_strdup (attributes);
 	qmd->attributes_v = gth_main_get_metadata_attributes (attributes);
-	g_simple_async_result_set_op_res_gpointer (result, qmd, query_metadata_data_free);
-	g_simple_async_result_run_in_thread (result,
-					     _g_query_metadata_async_thread,
-					     G_PRIORITY_DEFAULT,
-					     cancellable);
 
-	g_object_unref (result);
+	task = g_task_new (NULL, cancellable, callback, user_data);
+	g_task_set_task_data (task, qmd, query_metadata_data_free);
+	g_task_run_in_thread (task, _g_query_metadata_async_thread);
+
+	g_object_unref (task);
 }
 
 
@@ -251,20 +246,12 @@ GList *
 _g_query_metadata_finish (GAsyncResult  *result,
 			  GError       **error)
 {
-	GSimpleAsyncResult *simple;
 	QueryMetadataData  *qmd;
 
-	/* GLib 2.24 gives a wrong warning here */
-#if GLIB_CHECK_VERSION(2, 26, 0)
-	g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, _g_query_metadata_async), NULL);
-#endif
-
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (! g_task_propagate_boolean (G_TASK (result), error))
 		return NULL;
 
-	qmd = g_simple_async_result_get_op_res_gpointer (simple);
+	qmd = g_task_get_task_data (G_TASK (result));
 
 	return qmd->files;
 }
@@ -294,16 +281,17 @@ write_metadata_data_free (gpointer user_data)
 
 
 static void
-_g_write_metadata_async_thread (GSimpleAsyncResult *result,
-				GObject            *object,
-				GCancellable       *cancellable)
+_g_write_metadata_async_thread (GTask        *task,
+				gpointer      source_object,
+				gpointer      task_data,
+				GCancellable *cancellable)
 {
 	WriteMetadataData  *wmd;
 	GList              *providers;
 	GList              *scan;
 	GError             *error = NULL;
 
-	wmd = g_simple_async_result_get_op_res_gpointer (result);
+	wmd = g_task_get_task_data (task);
 
 	providers = NULL;
 	for (scan = gth_main_get_all_metadata_providers (); scan; scan = scan->next)
@@ -329,10 +317,10 @@ _g_write_metadata_async_thread (GSimpleAsyncResult *result,
 
 	_g_object_list_unref (providers);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (result, error);
-		g_error_free (error);
-	}
+	if (error != NULL)
+		g_task_return_error (task, error);
+	else
+		g_task_return_boolean (task, TRUE);
 }
 
 
@@ -344,25 +332,19 @@ _g_write_metadata_async (GList                  *files, /* GthFileData * list */
 			 GAsyncReadyCallback     callback,
 			 gpointer                user_data)
 {
-	GSimpleAsyncResult *result;
-	WriteMetadataData  *wmd;
-
-	result = g_simple_async_result_new (NULL,
-					    callback,
-					    user_data,
-					    _g_write_metadata_async);
+	GTask             *task;
+	WriteMetadataData *wmd;
 
 	wmd = g_new0 (WriteMetadataData, 1);
 	wmd->files = _g_object_list_ref (files);
 	wmd->attributes = g_strdup (attributes);
 	wmd->attributes_v = gth_main_get_metadata_attributes (attributes);
-	g_simple_async_result_set_op_res_gpointer (result, wmd, write_metadata_data_free);
-	g_simple_async_result_run_in_thread (result,
-					     _g_write_metadata_async_thread,
-					     G_PRIORITY_DEFAULT,
-					     cancellable);
 
-	g_object_unref (result);
+	task = g_task_new (NULL, cancellable, callback, user_data);
+	g_task_set_task_data (task, wmd, write_metadata_data_free);
+	g_task_run_in_thread (task, _g_write_metadata_async_thread);
+
+	g_object_unref (task);
 }
 
 
@@ -370,19 +352,7 @@ gboolean
 _g_write_metadata_finish (GAsyncResult  *result,
 			  GError       **error)
 {
-	  GSimpleAsyncResult *simple;
-
-	  /* GLib 2.24 gives a wrong warning here */
-#if GLIB_CHECK_VERSION(2, 26, 0)
-	  g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, _g_write_metadata_async), FALSE);
-#endif
-
-	  simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	  if (g_simple_async_result_propagate_error (simple, error))
-		  return FALSE;
-
-	  return TRUE;
+	  return g_task_propagate_boolean (G_TASK (result), error);
 }
 
 

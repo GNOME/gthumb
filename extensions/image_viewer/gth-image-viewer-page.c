@@ -2161,7 +2161,7 @@ gth_image_viewer_page_paste_image (GthImageViewerPage *self)
 
 typedef struct {
 	GthImageViewerPage *viewer_page;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	GCancellable       *cancellable;
 } OriginalImageData;
 
@@ -2172,8 +2172,8 @@ get_original_data_new (void)
 	OriginalImageData *data;
 
 	data = g_new0 (OriginalImageData, 1);
-	data->result = NULL;
 	data->cancellable = NULL;
+	data->task = NULL;
 
 	return data;
 }
@@ -2187,7 +2187,7 @@ get_original_data_free (OriginalImageData *data)
 
 	_g_object_unref (data->viewer_page);
 	_g_object_unref (data->cancellable);
-	_g_object_unref (data->result);
+	_g_object_unref (data->task);
 	g_free (data);
 }
 
@@ -2202,8 +2202,7 @@ original_image_ready_cb (GObject	*source_object,
 	GError            *error = NULL;
 
 	if (! _gth_image_viewer_page_load_with_preloader_finish (data->viewer_page)) {
-		g_simple_async_result_take_error (data->result, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
-		g_simple_async_result_complete_in_idle (data->result);
+		g_task_return_error (data->task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
 		get_original_data_free (data);
 		return;
 	}
@@ -2217,13 +2216,10 @@ original_image_ready_cb (GObject	*source_object,
 					       NULL,
 					       &error))
 	{
-		g_simple_async_result_take_error (data->result, error);
+		g_task_return_error (data->task, error);
 	}
 	else
-		g_simple_async_result_set_op_res_gpointer (data->result,
-							   image,
-							   (GDestroyNotify) g_object_unref);
-	g_simple_async_result_complete_in_idle (data->result);
+		g_task_return_pointer (data->task, image, (GDestroyNotify) g_object_unref);
 
 	get_original_data_free (data);
 }
@@ -2239,20 +2235,17 @@ gth_image_viewer_page_get_original (GthImageViewerPage	 *self,
 
 	data = get_original_data_new ();
 	data->viewer_page = g_object_ref (self);
-	data->result = g_simple_async_result_new (G_OBJECT (self),
-						  ready_callback,
-						  user_data,
-						  gth_image_viewer_page_get_original);
 	data->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
+	data->task = g_task_new (G_OBJECT (self),
+				 data->cancellable,
+				 ready_callback,
+				 user_data);
 
 	if (gth_image_viewer_is_animation (GTH_IMAGE_VIEWER (self->priv->viewer))) {
 		GthImage *image;
 
 		image = gth_image_new_for_surface (gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (self->priv->viewer)));
-		g_simple_async_result_set_op_res_gpointer (data->result,
-							   image,
-							   (GDestroyNotify) g_object_unref);
-		g_simple_async_result_complete_in_idle (data->result);
+		g_task_return_pointer (data->task, image, (GDestroyNotify) g_object_unref);
 
 		get_original_data_free (data);
 	}
@@ -2275,16 +2268,16 @@ gth_image_viewer_page_get_original_finish (GthImageViewerPage	 *self,
 {
 	GthImage *image;
 
-	g_return_val_if_fail (g_simple_async_result_is_valid (result, G_OBJECT (self), gth_image_viewer_page_get_original), FALSE);
+	g_return_val_if_fail (g_task_is_valid (G_TASK (result), G_OBJECT (self)), FALSE);
 
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
+	image = g_task_propagate_pointer (G_TASK (result), error);
+	if (image == NULL)
 		return FALSE;
-
-	image = g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result));
-	g_return_val_if_fail (image != NULL, FALSE);
 
 	if (image_p != NULL)
 		*image_p = gth_image_get_cairo_surface (image);
+
+	g_object_unref (image);
 
 	return TRUE;
 }

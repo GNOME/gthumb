@@ -336,12 +336,12 @@ facebook_service_get_user_info_ready_cb (SoupSession *session,
 				         SoupMessage *msg,
 				         gpointer     user_data)
 {
-	FacebookService    *self = user_data;
-	GSimpleAsyncResult *result;
-	GError             *error = NULL;
-	JsonNode           *node;
+	FacebookService *self = user_data;
+	GTask           *task;
+	GError          *error = NULL;
+	JsonNode        *node;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 
 	if (facebook_utils_parse_response (msg, &node, &error)) {
 		OAuthAccount *account;
@@ -351,17 +351,13 @@ facebook_service_get_user_info_ready_cb (SoupSession *session,
 			      "token", _facebook_service_get_access_token (self),
 			      "token-secret", _facebook_service_get_access_token (self),
 			      NULL);
-		g_simple_async_result_set_op_res_gpointer (result,
-							   g_object_ref (account),
-							   (GDestroyNotify) g_object_unref);
+		g_task_return_pointer (task, g_object_ref (account), (GDestroyNotify) g_object_unref);
 
 		_g_object_unref (account);
 		json_node_free (node);
 	}
 	else
-		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
+		g_task_return_error (task, error);
 }
 
 
@@ -448,11 +444,11 @@ facebook_service_get_albums_ready_cb (SoupSession *session,
 				      gpointer     user_data)
 {
 	FacebookService    *self = user_data;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	JsonNode           *node;
 	GError             *error = NULL;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 
 	if (facebook_utils_parse_response (msg, &node, &error)) {
 		GList      *albums = NULL;
@@ -472,14 +468,12 @@ facebook_service_get_albums_ready_cb (SoupSession *session,
 		}
 
 		albums = g_list_reverse (albums);
-		g_simple_async_result_set_op_res_gpointer (result, albums, (GDestroyNotify) _g_object_list_unref);
+		g_task_return_pointer (task, albums, (GDestroyNotify) _g_object_list_unref);
 
 		json_node_free (node);
 	}
 	else
-		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
+		g_task_return_error (task, error);
 }
 
 
@@ -526,10 +520,7 @@ facebook_service_get_albums_finish (FacebookService  *service,
 				    GAsyncResult     *result,
 				    GError          **error)
 {
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
-	else
-		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 
@@ -572,11 +563,11 @@ facebook_service_create_album_ready_cb (SoupSession *session,
 {
 	CreateAlbumData    *ca_data = user_data;
 	FacebookService    *self = ca_data->service;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	JsonNode           *node;
 	GError             *error = NULL;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 
 	if (facebook_utils_parse_response (msg, &node, &error)) {
 		FacebookAlbum *album;
@@ -587,14 +578,12 @@ facebook_service_create_album_ready_cb (SoupSession *session,
 		obj = json_node_get_object (node);
 		id = json_object_get_string_member (obj, "id");
 		g_object_set (album, "id", id, NULL);
-		g_simple_async_result_set_op_res_gpointer (result, album, (GDestroyNotify) _g_object_unref);
+		g_task_return_pointer (task, album, (GDestroyNotify) _g_object_unref);
 
 		json_node_free (node);
 	}
 	else
-		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
+		g_task_return_error (task, error);
 
 	create_album_data_free (ca_data);
 }
@@ -654,10 +643,7 @@ facebook_service_create_album_finish (FacebookService  *self,
 				      GAsyncResult     *result,
 				      GError          **error)
 {
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
-	else
-		return g_object_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 
@@ -668,12 +654,12 @@ static void
 upload_photos_done (FacebookService *self,
 		    GError          *error)
 {
-	GSimpleAsyncResult *result;
+	GTask *task;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 	if (error == NULL) {
 		self->priv->post_photos->ids = g_list_reverse (self->priv->post_photos->ids);
-		g_simple_async_result_set_op_res_gpointer (result, self->priv->post_photos->ids, (GDestroyNotify) _g_string_list_free);
+		g_task_return_pointer (task, self->priv->post_photos->ids, (GDestroyNotify) _g_string_list_free);
 		self->priv->post_photos->ids = NULL;
 	}
 	else {
@@ -685,10 +671,8 @@ upload_photos_done (FacebookService *self,
 			g_free (error->message);
 			error->message = msg;
 		}
-		g_simple_async_result_set_from_error (result, error);
+		g_task_return_error (task, error);
 	}
-
-	g_simple_async_result_complete_in_idle (result);
 }
 
 
@@ -990,10 +974,7 @@ facebook_service_upload_photos_finish (FacebookService  *self,
 				       GAsyncResult     *result,
 				       GError          **error)
 {
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
-	else
-		return _g_string_list_dup (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 
@@ -1006,11 +987,11 @@ facebook_service_list_photos_ready_cb (SoupSession *session,
 				       gpointer     user_data)
 {
 	FacebookService    *self = user_data;
-	GSimpleAsyncResult *result;
+	GTask              *task;
 	JsonNode           *node;
 	GError             *error = NULL;
 
-	result = _web_service_get_result (WEB_SERVICE (self));
+	task = _web_service_get_task (WEB_SERVICE (self));
 
 	if (facebook_utils_parse_response (msg, &node, &error)) {
 		GList      *photos = NULL;
@@ -1033,14 +1014,12 @@ facebook_service_list_photos_ready_cb (SoupSession *session,
 		}
 
 		photos = g_list_reverse (photos);
-		g_simple_async_result_set_op_res_gpointer (result, photos, (GDestroyNotify) _g_object_list_unref);
+		g_task_return_pointer (task, photos, (GDestroyNotify) _g_object_list_unref);
 
 		json_node_free (node);
 	}
 	else
-		g_simple_async_result_set_from_error (result, error);
-
-	g_simple_async_result_complete_in_idle (result);
+		g_task_return_error (task, error);
 }
 
 
@@ -1096,8 +1075,5 @@ facebook_service_list_photos_finish (FacebookService  *self,
 				   GAsyncResult   *result,
 				   GError        **error)
 {
-	if (g_simple_async_result_propagate_error (G_SIMPLE_ASYNC_RESULT (result), error))
-		return NULL;
-	else
-		return _g_object_list_ref (g_simple_async_result_get_op_res_gpointer (G_SIMPLE_ASYNC_RESULT (result)));
+	return g_task_propagate_pointer (G_TASK (result), error);
 }

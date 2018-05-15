@@ -618,7 +618,6 @@ typedef struct {
 	int		 new_width;
 	int		 new_height;
 	scale_filter_t   quality;
-	cairo_surface_t *scaled;
 	GthTask         *task;
 } ScaleData;
 
@@ -637,7 +636,6 @@ scale_data_new (cairo_surface_t	 *image,
 	scale_data->new_width = new_width;
 	scale_data->new_height = new_height;
 	scale_data->quality = quality;
-	scale_data->scaled = NULL;
 	scale_data->task = gth_async_task_new (NULL, NULL, NULL, NULL, NULL);
 	gth_task_set_cancellable (scale_data->task, cancellable);
 
@@ -649,25 +647,27 @@ static void
 scale_data_free (ScaleData *scale_data)
 {
 	_g_object_unref (scale_data->task);
-	cairo_surface_destroy (scale_data->scaled);
 	cairo_surface_destroy (scale_data->original);
 	g_free (scale_data);
 }
 
 
 static void
-scale_image_thread (GSimpleAsyncResult *result,
-		    GObject            *object,
-		    GCancellable       *cancellable)
+scale_image_thread (GTask        *task,
+		    gpointer      source_object,
+		    gpointer      task_data,
+		    GCancellable *cancellable)
 {
-	ScaleData *scale_data;
+	ScaleData       *scale_data;
+	cairo_surface_t *scaled;
 
-	scale_data = g_simple_async_result_get_op_res_gpointer (result);
-	scale_data->scaled = _cairo_image_surface_scale (scale_data->original,
-							 scale_data->new_width,
-							 scale_data->new_height,
-							 scale_data->quality,
-							 GTH_ASYNC_TASK (scale_data->task));
+	scale_data = g_task_get_task_data (task);
+	scaled = _cairo_image_surface_scale (scale_data->original,
+					     scale_data->new_width,
+					     scale_data->new_height,
+					     scale_data->quality,
+					     GTH_ASYNC_TASK (scale_data->task));
+	g_task_return_pointer (task, scaled, (GDestroyNotify) cairo_surface_destroy);
 }
 
 
@@ -680,25 +680,19 @@ _cairo_image_surface_scale_async (cairo_surface_t 	 *image,
 				  GAsyncReadyCallback	  ready_callback,
 				  gpointer		  user_data)
 {
-	GSimpleAsyncResult *result;
+	GTask *task;
 
-	result = g_simple_async_result_new (NULL,
-					    ready_callback,
-					    user_data,
-					    _cairo_image_surface_scale_async);
-	g_simple_async_result_set_op_res_gpointer (result,
-						   scale_data_new (image,
-								   new_width,
-								   new_height,
-								   quality,
-								   cancellable),
-						   (GDestroyNotify) scale_data_free);
-	g_simple_async_result_run_in_thread (result,
-					     scale_image_thread,
-					     G_PRIORITY_DEFAULT,
-					     cancellable);
+	task = g_task_new (NULL, cancellable, ready_callback, user_data);
+	g_task_set_task_data (task,
+			      scale_data_new (image,
+					      new_width,
+					      new_height,
+					      quality,
+					      cancellable),
+			      (GDestroyNotify) scale_data_free);
+	g_task_run_in_thread (task, scale_image_thread);
 
-	g_object_unref (result);
+	g_object_unref (task);
 }
 
 
@@ -706,17 +700,5 @@ cairo_surface_t *
 _cairo_image_surface_scale_finish (GAsyncResult	 *result,
 				   GError	**error)
 {
-	  GSimpleAsyncResult *simple;
-	  ScaleData          *scale_data;
-
-	  g_return_val_if_fail (g_simple_async_result_is_valid (result, NULL, _cairo_image_surface_scale_async), NULL);
-
-	  simple = G_SIMPLE_ASYNC_RESULT (result);
-
-	  if (g_simple_async_result_propagate_error (simple, error))
-		  return NULL;
-
-	  scale_data = g_simple_async_result_get_op_res_gpointer (simple);
-
-	  return cairo_surface_reference (scale_data->scaled);
+	return g_task_propagate_pointer (G_TASK (result), error);
 }
