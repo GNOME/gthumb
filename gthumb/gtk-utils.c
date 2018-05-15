@@ -573,8 +573,8 @@ _gtk_widget_get_allocated_width (GtkWidget *widget)
 
 	if ((widget != NULL) && gtk_widget_get_mapped (widget)) {
 		width = gtk_widget_get_allocated_width (widget);
-		width += gtk_widget_get_margin_left (widget);
-		width += gtk_widget_get_margin_right (widget);
+		width += gtk_widget_get_margin_start (widget);
+		width += gtk_widget_get_margin_end (widget);
 	}
 
 	return width;
