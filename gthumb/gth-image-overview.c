@@ -27,6 +27,7 @@
 #include "gth-image-overview.h"
 #include "gth-image-utils.h"
 #include "gth-image-viewer.h"
+#include "gtk-utils.h"
 
 
 #define MAX_ALLOCATION_SIZE	180

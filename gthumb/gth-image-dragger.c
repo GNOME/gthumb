@@ -25,6 +25,7 @@
 #include "cairo-utils.h"
 #include "glib-utils.h"
 #include "gth-image-dragger.h"
+#include "gtk-utils.h"
 #include "pixbuf-utils.h"
 
 
