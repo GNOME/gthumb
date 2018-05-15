@@ -461,7 +461,6 @@ gth_file_properties_init (GthFileProperties *self)
 
 	self->priv->tree_view = gtk_tree_view_new ();
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (self->priv->tree_view), FALSE);
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (self->priv->tree_view), TRUE);
 	gtk_tree_view_set_tooltip_column (GTK_TREE_VIEW (self->priv->tree_view), TOOLTIP_COLUMN);
 	self->priv->tree_model = gtk_list_store_new (NUM_COLUMNS,
 						     G_TYPE_BOOLEAN,

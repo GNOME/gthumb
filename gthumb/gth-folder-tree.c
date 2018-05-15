@@ -1290,7 +1290,6 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 							    G_TYPE_BOOLEAN,
 							    G_TYPE_BOOLEAN);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (folder_tree), GTK_TREE_MODEL (folder_tree->priv->tree_store));
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (folder_tree), FALSE);
 
 	add_columns (folder_tree, GTK_TREE_VIEW (folder_tree));
 

@@ -151,7 +151,6 @@ gth_uri_list_init (GthUriList *uri_list)
 	gtk_tree_view_set_model (GTK_TREE_VIEW (uri_list), GTK_TREE_MODEL (uri_list->priv->list_store));
 	g_object_unref (uri_list->priv->list_store);
 
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (uri_list), FALSE);
         add_columns (GTK_TREE_VIEW (uri_list));
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (uri_list), FALSE);
         gtk_tree_view_set_enable_search (GTK_TREE_VIEW (uri_list), TRUE);

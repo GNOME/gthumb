@@ -865,7 +865,6 @@ dlg_rename_series (GthBrowser *browser,
 					       G_TYPE_STRING);
 	data->list_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (data->list_store));
 	g_object_unref (data->list_store);
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (data->list_view), TRUE);
 
 	renderer = gtk_cell_renderer_text_new ();
 	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
