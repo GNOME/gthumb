@@ -3418,7 +3418,7 @@ gth_grid_view_move_cursor (GthGridView        *self,
 		if (((next_focused_item < 0) && (self->priv->focused_item == 0))
 		    || ((next_focused_item > self->priv->n_items - 1) && (self->priv->focused_item == self->priv->n_items - 1)))
 		{
-			gdk_beep ();
+			gdk_window_beep (gtk_widget_get_window (GTK_WIDGET (self)));
 		}
 		next_focused_item = CLAMP (next_focused_item, 0, self->priv->n_items - 1);
 	}

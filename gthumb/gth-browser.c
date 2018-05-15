@@ -5958,7 +5958,7 @@ gth_browser_show_next_image (GthBrowser *browser,
 		}
 	}
 	else
-		gdk_beep ();
+		gdk_window_beep (gtk_widget_get_window (GTK_WIDGET (browser)));
 
 	return (pos >= 0);
 }
@@ -6001,7 +6001,7 @@ gth_browser_show_prev_image (GthBrowser *browser,
 		}
 	}
 	else
-		gdk_beep ();
+		gdk_window_beep (gtk_widget_get_window (GTK_WIDGET (browser)));
 
 	return (pos >= 0);
 }
