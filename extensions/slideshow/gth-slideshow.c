@@ -1069,35 +1069,35 @@ stage_input_cb (ClutterStage *stage,
 	}
 	else if (event->type == CLUTTER_KEY_PRESS) {
 		switch (clutter_event_get_key_symbol (event)) {
-		case CLUTTER_F5:
+		case CLUTTER_KEY_F5:
 			_gth_slideshow_close (self);
 			break;
 		}
 	}
 	else if (event->type == CLUTTER_KEY_RELEASE) {
 		switch (clutter_event_get_key_symbol (event)) {
-		case CLUTTER_Escape:
-		case CLUTTER_q:
+		case CLUTTER_KEY_Escape:
+		case CLUTTER_KEY_q:
 			_gth_slideshow_close (self);
 			break;
-		case CLUTTER_p:
+		case CLUTTER_KEY_p:
 			_gth_slideshow_toggle_pause (self);
 			break;
 
-		case CLUTTER_space:
-		case CLUTTER_Down:
-		case CLUTTER_Right:
-		case CLUTTER_Page_Down:
+		case CLUTTER_KEY_space:
+		case CLUTTER_KEY_Down:
+		case CLUTTER_KEY_Right:
+		case CLUTTER_KEY_Page_Down:
 			if (self->priv->paused)
 				_gth_slideshow_toggle_pause (self);
 			else
 				_gth_slideshow_load_next_image (self);
 			break;
 
-		case CLUTTER_BackSpace:
-		case CLUTTER_Up:
-		case CLUTTER_Left:
-		case CLUTTER_Page_Up:
+		case CLUTTER_KEY_BackSpace:
+		case CLUTTER_KEY_Up:
+		case CLUTTER_KEY_Left:
+		case CLUTTER_KEY_Page_Up:
 			_gth_slideshow_load_prev_image (self);
 			break;
 		}
