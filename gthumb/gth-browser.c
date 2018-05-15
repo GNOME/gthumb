@@ -4501,19 +4501,19 @@ gth_browser_init (GthBrowser *browser)
 		header_bar = gth_window_get_header_bar (GTH_WINDOW (browser));
 
 		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_ZOOM], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_ZOOM], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
-		gtk_widget_set_margin_right (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION]);
 		gtk_header_bar_pack_start (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS]);

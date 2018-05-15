@@ -57,7 +57,7 @@ gth_location_bar_init (GthLocationBar *self)
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 	gtk_widget_set_margin_top (GTK_WIDGET (self), LOCATION_BAR_MARGIN);
 	gtk_widget_set_margin_bottom (GTK_WIDGET (self), LOCATION_BAR_MARGIN);
-	gtk_widget_set_margin_right (GTK_WIDGET (self), LOCATION_BAR_MARGIN);
+	gtk_widget_set_margin_end (GTK_WIDGET (self), LOCATION_BAR_MARGIN);
 	gtk_widget_set_margin_start (GTK_WIDGET (self), LOCATION_BAR_MARGIN);
 
 	/* location chooser */
