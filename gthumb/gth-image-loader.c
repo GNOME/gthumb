@@ -233,6 +233,7 @@ load_image_thread (GSimpleAsyncResult *result,
 	}
 
 	if (g_cancellable_is_cancelled (cancellable)) {
+		_g_clear_object (&image);
 		g_clear_error (&error);
 		g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
 	}
