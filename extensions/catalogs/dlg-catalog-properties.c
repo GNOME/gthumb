@@ -153,7 +153,7 @@ catalog_ready_cb (GObject  *object,
 		return;
 	}
 
-	data->catalog = g_object_ref (object);
+	data->catalog = GTH_CATALOG (g_object_ref (object));
 
 	if (gth_catalog_get_name (data->catalog) != NULL) {
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), gth_catalog_get_name (data->catalog));

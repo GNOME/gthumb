@@ -324,7 +324,7 @@ apply_cb (gpointer user_data)
 
 	adjust_data = g_new0 (AdjustData, 1);
 	adjust_data->self = self;
-	adjust_data->viewer_page = g_object_ref (gth_browser_get_viewer_page (GTH_BROWSER (window)));
+	adjust_data->viewer_page = GTK_WIDGET (g_object_ref (gth_browser_get_viewer_page (GTH_BROWSER (window))));
 	adjust_data->gamma = pow (10, - (gtk_adjustment_get_value (self->priv->gamma_adj) / 100.0));
 	adjust_data->brightness = gtk_adjustment_get_value (self->priv->brightness_adj) / 100.0 * -1.0;
 	adjust_data->contrast = gtk_adjustment_get_value (self->priv->contrast_adj) / 100.0 * -1.0;

@@ -504,7 +504,7 @@ gth_image_list_task_new (GthBrowser    *browser,
 	self = GTH_IMAGE_LIST_TASK (g_object_new (GTH_TYPE_IMAGE_LIST_TASK, NULL));
 	self->priv->browser = browser;
 	self->priv->file_list = _g_object_list_ref (file_list);
-	self->priv->task = g_object_ref (task);
+	self->priv->task = GTH_TASK (g_object_ref (task));
 	self->priv->task_completed = g_signal_connect (self->priv->task,
 						       "completed",
 						       G_CALLBACK (image_task_completed_cb),
