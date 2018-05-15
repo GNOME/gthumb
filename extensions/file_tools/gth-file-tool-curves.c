@@ -844,7 +844,7 @@ gth_file_tool_curves_populate_headerbar (GthFileTool *base,
 							   _("Presets"),
 							   NULL,
 							   NULL);
-	gtk_widget_set_margin_left (button, GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+	gtk_widget_set_margin_start (button, GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 	self->priv->show_presets_button = button;
 	g_signal_connect (button,
 			  "toggled",

@@ -78,7 +78,7 @@ gth_statusbar_init (GthStatusbar *statusbar)
 	gtk_widget_set_margin_top (GTK_WIDGET (statusbar), 3);
 	gtk_widget_set_margin_right (GTK_WIDGET (statusbar), 6);
 	gtk_widget_set_margin_bottom (GTK_WIDGET (statusbar), 3);
-	gtk_widget_set_margin_left (GTK_WIDGET (statusbar), 6);
+	gtk_widget_set_margin_start (GTK_WIDGET (statusbar), 6);
 
 	/* List info */
 
