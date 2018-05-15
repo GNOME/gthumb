@@ -305,6 +305,32 @@ gth_image_get_is_zoomable (GthImage *self)
 
 
 gboolean
+gth_image_get_is_null (GthImage *self)
+{
+	gboolean is_null = TRUE;
+
+	switch (self->priv->format) {
+	case GTH_IMAGE_FORMAT_CAIRO_SURFACE:
+		is_null = self->priv->data.surface == NULL;
+		break;
+
+	case GTH_IMAGE_FORMAT_GDK_PIXBUF:
+		is_null = self->priv->data.pixbuf == NULL;
+		break;
+
+	case GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION:
+		is_null = self->priv->data.pixbuf_animation == NULL;
+		break;
+
+	default:
+		break;
+	}
+
+	return is_null;
+}
+
+
+gboolean
 gth_image_set_zoom (GthImage *self,
 		    double    zoom,
 		    int      *original_width,

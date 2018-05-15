@@ -91,6 +91,7 @@ gboolean              gth_image_get_original_size	    (GthImage           *image
 							     int                *width,
 							     int                *height);
 gboolean              gth_image_get_is_zoomable             (GthImage           *image);
+gboolean              gth_image_get_is_null                 (GthImage           *image);
 gboolean              gth_image_set_zoom                    (GthImage           *image,
 							     double              zoom,
 							     int                *original_width,
