@@ -197,7 +197,7 @@ preview_checkbutton_toggled_cb (GtkToggleButton    *toggle_button,
 
 
 static void
-preview_site_allocate_cb (GtkWidget    *widget,
+preview_size_allocate_cb (GtkWidget    *widget,
 	                  GdkRectangle *allocation,
 	                  gpointer      user_data)
 {
@@ -283,7 +283,7 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 			  self);
 	g_signal_connect (self->priv->preview,
 			  "size-allocate",
-			  G_CALLBACK (preview_site_allocate_cb),
+			  G_CALLBACK (preview_size_allocate_cb),
 			  self);
 
 	return options;
