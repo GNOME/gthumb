@@ -64,7 +64,7 @@ _g_string_append_c_n_times (GString *string,
 
 
 static char *
-_g_xml_attribute_quote (char *value)
+_g_xml_attribute_quote (const char *value)
 {
 	char       *escaped;
 	GString    *dest;
@@ -118,8 +118,8 @@ G_DEFINE_TYPE (DomElement, dom_element, G_TYPE_INITIALLY_UNOWNED)
 
 
 static void
-dom_attribute_dump (gpointer key,
-		    gpointer value,
+dom_attribute_dump (gconstpointer key,
+		    gconstpointer value,
 		    gpointer user_data)
 {
 	GString *xml = user_data;
@@ -174,7 +174,7 @@ dom_element_real_dump (DomElement *self,
 
 		{
 			GList *attrs = g_hash_table_get_keys (self->attributes);
-			GList *sorted_attrs = g_list_sort (attrs, g_utf8_collate);
+			GList *sorted_attrs = g_list_sort (attrs, (GCompareFunc) g_utf8_collate);
 			GList *scan;
 
 			for (scan = sorted_attrs; scan; scan = scan->next) {
