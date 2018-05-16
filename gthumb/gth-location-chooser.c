@@ -70,7 +70,6 @@ enum {
 struct _GthLocationChooserPrivate
 {
 	GtkWidget      *combo;
-	GtkWidget      *arrow;
 	GtkTreeStore   *model;
 	GFile          *location;
 	GthFileSource  *file_source;
@@ -536,16 +535,6 @@ gth_location_chooser_class_init (GthLocationChooserClass *klass)
 
 
 static void
-get_combo_box_button (GtkWidget *widget,
-		      gpointer   data)
-{
-	GtkWidget **p_child = data;
-
-	if (GTK_IS_BUTTON (widget))
-		*p_child = widget;
-}
-
-static void
 gth_location_chooser_init (GthLocationChooser *self)
 {
 	GtkCellRenderer *renderer;
@@ -555,7 +544,6 @@ gth_location_chooser_init (GthLocationChooser *self)
 
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOCATION_CHOOSER, GthLocationChooserPrivate);
 	self->priv->entry_points_changed_id = 0;
-	self->priv->arrow = NULL;
 	self->priv->show_entry_points = TRUE;
 	self->priv->relief = GTK_RELIEF_NORMAL;
 	self->priv->reload = FALSE;
@@ -621,71 +609,14 @@ gth_location_chooser_new (void)
 /* -- gth_location_chooser_set_relief -- */
 
 
-static void
-get_combo_box_arrow (GtkWidget *widget,
-		      gpointer   data)
-{
-	GtkWidget **p_child = data;
-
-	if (GTK_IS_ARROW (widget))
-		*p_child = widget;
-}
-
-
-static gboolean
-show_combo_box_arrow (GthLocationChooser *self)
-{
-	if ((self->priv->arrow != NULL) && (self->priv->relief == GTK_RELIEF_NONE))
-		gtk_widget_show (self->priv->arrow);
-
-	return FALSE;
-}
-
-
-static gboolean
-hide_combo_box_arrow (GthLocationChooser *self)
-{
-	if ((self->priv->arrow != NULL) && (self->priv->relief == GTK_RELIEF_NONE))
-		gtk_widget_hide (self->priv->arrow);
-
-	return FALSE;
-}
-
-
 void
 gth_location_chooser_set_relief (GthLocationChooser *self,
 				 GtkReliefStyle      value)
 {
-	GtkWidget *button;
-
 	if (self->priv->relief == value)
 		return;
 
 	self->priv->relief = value;
-
-	button = NULL;
-	gtk_container_forall (GTK_CONTAINER (self->priv->combo), get_combo_box_button, &button);
-	if (button != NULL) {
-		gtk_button_set_relief (GTK_BUTTON (button), self->priv->relief);
-
-		/* show the arrow only when the pointer is over the combo_box */
-
-		if (self->priv->arrow == NULL) {
-			gtk_container_forall (GTK_CONTAINER (gtk_bin_get_child (GTK_BIN (button))), get_combo_box_arrow, &self->priv->arrow);
-			g_signal_connect_swapped (button,
-					  	  "enter-notify-event",
-					  	  G_CALLBACK (show_combo_box_arrow),
-					  	  self);
-			g_signal_connect_swapped (button,
-					  	  "leave-notify-event",
-					  	  G_CALLBACK (hide_combo_box_arrow),
-					  	  self);
-		}
-
-		if (self->priv->arrow != NULL)
-			gtk_widget_set_visible (self->priv->arrow, self->priv->relief != GTK_RELIEF_NONE);
-	}
-
 	g_object_notify (G_OBJECT (self), "relief");
 }
 
