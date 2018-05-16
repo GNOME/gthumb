@@ -190,6 +190,7 @@ gth_image_navigator_size_allocate (GtkWidget     *widget,
 	}
 
 	gtk_widget_size_allocate (self->priv->viewer, &viewer_allocation);
+	gtk_widget_queue_draw (widget);
 }
 
 
@@ -465,7 +466,6 @@ gth_image_navigator_init (GthImageNavigator *self)
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE ((self), GTH_TYPE_IMAGE_NAVIGATOR, GthImageNavigatorPrivate);
 
 	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
-	gtk_container_set_reallocate_redraws (GTK_CONTAINER (self), TRUE);
 
 	self->priv->automatic_scrollbars = TRUE;
 	self->priv->hscrollbar_visible = FALSE;
