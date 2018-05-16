@@ -108,7 +108,6 @@ void            _gtk_combo_box_append_texts                (GtkComboBoxText  *co
 					    	    	    const char       *first_text,
 					    	    	    ...);
 GtkWidget *     _gtk_image_new_from_xpm_data               (char             *xpm_data[]);
-GtkWidget *     _gtk_image_new_from_inline                 (const guint8     *data);
 void            _gtk_widget_get_screen_size                (GtkWidget        *widget,
 					    	    	    int              *width,
 					    	    	    int              *height);

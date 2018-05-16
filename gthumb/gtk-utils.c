@@ -532,22 +532,6 @@ _gtk_image_new_from_xpm_data (char * xpm_data[])
 }
 
 
-GtkWidget *
-_gtk_image_new_from_inline (const guint8 *data)
-{
-	GdkPixbuf *pixbuf;
-	GtkWidget *image;
-
-	pixbuf = gdk_pixbuf_new_from_inline (-1, data, FALSE, NULL);
-	image = gtk_image_new_from_pixbuf (pixbuf);
-	gtk_widget_show (image);
-
-	g_object_unref (G_OBJECT (pixbuf));
-
-	return image;
-}
-
-
 void
 _gtk_widget_get_screen_size (GtkWidget *widget,
 			     int       *width,
