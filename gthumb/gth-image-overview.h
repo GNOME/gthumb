@@ -62,6 +62,7 @@ void		gth_image_overview_activate_scrolling	(GthImageOverview	*self,
 							 GdkEventButton		*event);
 gboolean	gth_image_overview_get_scrolling_is_active
 							(GthImageOverview	*self);
+gboolean        gth_image_overview_has_preview		(GthImageOverview	*self);
 
 G_END_DECLS
 

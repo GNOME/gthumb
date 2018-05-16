@@ -999,3 +999,10 @@ gth_image_overview_get_scrolling_is_active (GthImageOverview	*self)
 {
 	return self->priv->scrolling_active;
 }
+
+
+gboolean
+gth_image_overview_has_preview (GthImageOverview *self)
+{
+	return self->priv->preview != NULL;
+}
