@@ -713,8 +713,10 @@ gth_location_chooser_set_show_entry_points (GthLocationChooser *self,
 		entry_points_changed_cb (NULL, self);
 	}
 	else {
-		if (self->priv->entry_points_changed_id != 0)
+		if (self->priv->entry_points_changed_id != 0) {
 			g_source_remove (self->priv->entry_points_changed_id);
+			self->priv->entry_points_changed_id = 0;
+		}
 		clear_entry_point_list (self);
 	}
 
