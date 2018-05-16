@@ -34,6 +34,7 @@
 #define IMAGE_BORDER		3.0
 #define VISIBLE_AREA_BORDER	2.0
 #define MAX_IMAGE_SIZE		(MAX_ALLOCATION_SIZE - (IMAGE_BORDER * 2))
+#define DEFAULT_PREVIEW_SIZE    50
 
 
 /* Properties */
@@ -259,8 +260,11 @@ _gth_image_overview_scale_after (GthAsyncTask *task,
 		if (overview->priv->viewer != NULL) {
 			_gth_image_overview_update_zoom_info (overview);
 			_cairo_clear_surface (&overview->priv->preview);
-			if (scale_data->scaled != NULL)
+			if (scale_data->scaled != NULL) {
+				if (overview->priv->preview != NULL)
+					cairo_surface_destroy (overview->priv->preview);
 				overview->priv->preview = cairo_surface_reference (scale_data->scaled);
+			}
 			gtk_widget_queue_resize (GTK_WIDGET (overview));
 		}
 
@@ -286,15 +290,14 @@ _gth_image_overview_update_preview (GthImageOverview *self)
 
 	self->priv->update_preview = FALSE;
 
-	cairo_surface_destroy (self->priv->preview);
-	self->priv->preview = NULL;
-	self->priv->preview_width = 50;
-	self->priv->preview_height = 50;
-	self->priv->visible_area.width = 0;
-	self->priv->visible_area.height = 0;
-
 	image = gth_image_viewer_get_current_image (self->priv->viewer);
 	if (image == NULL) {
+		cairo_surface_destroy (self->priv->preview);
+		self->priv->preview = NULL;
+		self->priv->preview_width = DEFAULT_PREVIEW_SIZE;
+		self->priv->preview_height = DEFAULT_PREVIEW_SIZE;
+		self->priv->visible_area.width = 0;
+		self->priv->visible_area.height = 0;
 		gtk_widget_queue_draw (GTK_WIDGET (self));
 		return;
 	}
@@ -808,6 +811,8 @@ gth_image_overview_init (GthImageOverview *self)
 	self->priv = gth_image_overview_get_instance_private (self);
 	self->priv->viewer = NULL;
 	self->priv->preview = NULL;
+	self->priv->preview_width = DEFAULT_PREVIEW_SIZE;
+	self->priv->preview_height = DEFAULT_PREVIEW_SIZE;
 	self->priv->visible_area.width = 0;
 	self->priv->visible_area.height = 0;
 	self->priv->zoom_factor = 1.0;
