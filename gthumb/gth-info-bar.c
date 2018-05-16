@@ -22,6 +22,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "gth-info-bar.h"
+#include "gtk-utils.h"
 
 
 struct _GthInfoBarPrivate {
