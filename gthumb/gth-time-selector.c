@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include "glib-utils.h"
 #include "gth-time-selector.h"
+#include "gtk-utils.h"
 
 
 enum {
@@ -236,9 +237,7 @@ show_calendar_popup (GthTimeSelector *self)
 	int                    y;
 	GtkAllocation          allocation;
 	int                    selector_height;
-	GdkScreen             *screen;
-	gint                   monitor_num;
-	cairo_rectangle_int_t  monitor;
+	GdkRectangle           monitor;
 	GdkDevice             *device;
 	GdkDevice             *pointer;
 	GdkDevice             *keyboard;
@@ -253,10 +252,7 @@ show_calendar_popup (GthTimeSelector *self)
 	y += allocation.y;
 	selector_height = allocation.height;
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (self));
-	monitor_num = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (GTK_WIDGET (self)));
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
+	_gtk_widget_get_monitor_geometry (GTK_WIDGET (self), &monitor);
 	if (x < monitor.x)
 		x = monitor.x;
 	else if (x + popup_req.width > monitor.x + monitor.width)
