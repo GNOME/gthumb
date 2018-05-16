@@ -337,7 +337,7 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 	char        **all_tags;
 	char        **used_tags;
 	TagData     **tag_data;
-	int           i, t;
+	int           i, t, tag_data_len;
 	GtkTreeIter   iter;
 	gboolean      separator_required;
 
@@ -372,9 +372,10 @@ update_expanded_list_from_entry (GthTagsEntry *self)
 
 		t++;
 	}
+	tag_data_len = t - 1;
 
 	g_qsort_with_data (tag_data,
-			   g_strv_length (tag_data),
+			   tag_data_len,
 			   sizeof (TagData *),
 			   sort_tag_data,
 			   NULL);
