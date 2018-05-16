@@ -4396,7 +4396,6 @@ gth_browser_init (GthBrowser *browser)
 	gtk_window_set_default_size (GTK_WINDOW (browser), window_width, window_height);
 	if (g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_WINDOW_MAXIMIZED))
 		gtk_window_maximize(GTK_WINDOW (browser));
-	gtk_window_set_has_resize_grip (GTK_WINDOW (browser), TRUE);
 
 	/* realize the widget before adding the ui to get the icons from the icon theme */
 
