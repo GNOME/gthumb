@@ -286,8 +286,6 @@ gth_file_tool_sharpen_get_options (GthFileTool *base)
 			  G_CALLBACK (preview_site_allocate_cb),
 			  self);
 
-	cairo_surface_destroy (source);
-
 	return options;
 }
 
