@@ -1221,6 +1221,27 @@ _gtk_window_get_monitor_info (GtkWindow	    *window,
 }
 
 
+void
+_gtk_widget_get_monitor_geometry (GtkWidget    *widget,
+				  GdkRectangle *geometry)
+{
+	GdkScreen             *screen;
+	int                    monitor_num;
+	cairo_rectangle_int_t  monitor;
+
+	screen = gtk_widget_get_screen (widget);
+	monitor_num = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (widget));
+	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+
+	if (geometry != NULL) {
+		geometry->x = monitor.x;
+		geometry->y = monitor.y;
+		geometry->width = monitor.width;
+		geometry->height = monitor.height;
+	}
+}
+
+
 GdkDevice *
 _gtk_widget_get_client_pointer (GtkWidget *widget)
 {

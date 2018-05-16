@@ -26,6 +26,7 @@
 #include "gth-main.h"
 #include "gth-tags-entry.h"
 #include "gth-tags-file.h"
+#include "gtk-utils.h"
 
 
 #define EXPANDED_LIST_HEIGHT 160
@@ -1005,9 +1006,7 @@ popup_window_show (GthTagsEntry *self)
 	int                    y;
 	GtkAllocation          allocation;
 	int                    selector_height;
-	GdkScreen             *screen;
-	gint                   monitor_num;
-	cairo_rectangle_int_t  monitor;
+	GdkRectangle           monitor;
 	GdkDevice             *device;
 	GdkDevice             *pointer;
 	GdkDevice             *keyboard;
@@ -1022,10 +1021,7 @@ popup_window_show (GthTagsEntry *self)
 	popup_req.width = allocation.width;
 	popup_req.height = POPUP_WINDOW_HEIGHT;
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (self));
-	monitor_num = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (GTK_WIDGET (self)));
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
+	_gtk_widget_get_monitor_geometry (GTK_WIDGET (self), &monitor);
 	if (x < monitor.x)
 		x = monitor.x;
 	else if (x + popup_req.width > monitor.x + monitor.width)
