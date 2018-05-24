@@ -68,7 +68,7 @@ _gth_file_tool_color_picker_show_color (GthFileToolColorPicker *self,
 
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("color_chooser")), &color);
 
-	description = g_strdup_printf ("#%02X%02X%02X", r, g, b);
+	description = g_strdup_printf ("#%02x%02x%02x", r, g, b);
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("hex_color")), description);
 	g_free (description);
 
