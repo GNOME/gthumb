@@ -52,6 +52,7 @@ browser_data_free (BrowserData *data)
 	g_object_unref (data->browser_settings);
 	g_object_unref (data->messages_settings);
 	g_object_unref (data->builder);
+	g_object_unref (data->browser);
 	g_free (data);
 }
 
@@ -137,6 +138,7 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	GthFileSource *file_source;
 
 	data = g_new0 (BrowserData, 1);
+	data->browser = g_object_ref (browser);
 	data->builder = g_object_ref (dialog_builder);
 	data->general_settings = g_settings_new (GTHUMB_GENERAL_SCHEMA);
 	data->browser_settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
