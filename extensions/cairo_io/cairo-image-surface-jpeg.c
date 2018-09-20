@@ -582,7 +582,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
 
 		cairo_surface_destroy (surface);
-		surface = NULL;
+		surface = NULL; /* ignore other jpeg errors */
 	}
 
 	if (read_all_scanlines)
