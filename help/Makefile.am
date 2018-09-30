@@ -50,4 +50,4 @@ HELP_MEDIA = \
 
 EXTRA_DIST = album-theme-format.txt
 
-HELP_LINGUAS = cs de el es eu fr hu oc sl sv zh_CN
+HELP_LINGUAS = cs de el es eu fr hu nl oc sl sv zh_CN
