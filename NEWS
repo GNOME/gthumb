@@ -1,3 +1,29 @@
+version 3.6.2
+-------------
+
+ Bugs fixed:
+
+  * Updated links to wiki page (#795126)
+  * Desktop background: fixed the way to obtain the monitor geometry.
+  * Recognize the asf mime type as a video format.
+  * Image loader: fixed memory leak when the operation was cancelled.
+  * Avoid flickering when scaling the image takes some time.
+  * Image navigator: fixed popup positioning.
+  * Do not crash when loading broken jpeg images.
+  * Preferences: fixed crash when setting the current location as default.
+
+ New or updated application translations:
+
+  * Dutch (Paul Matthijsse)
+  * French (Claude Paroz)
+  * Icelandic (Sveinn í Felli)
+
+ New or updated manual translations:
+
+  * Dutch (Paul Matthijsse)
+  * es (Daniel Mustieles)
+  * French (Claude Paroz)
+
 version 3.6.1
 -------------
 
