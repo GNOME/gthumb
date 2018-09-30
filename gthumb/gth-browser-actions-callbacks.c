@@ -158,7 +158,7 @@ gth_application_activate_about (GSimpleAction *action,
 			       "translator-credits", _("translator-credits"),
 			       "license", license_text,
 			       "wrap-license", TRUE,
-			       "website", "http://live.gnome.org/Apps/gthumb",
+			       "website", "https://wiki.gnome.org/Apps/Gthumb",
 			       (logo != NULL ? "logo" : NULL), logo,
 			       NULL);
 
