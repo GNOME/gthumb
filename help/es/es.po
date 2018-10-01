@@ -419,7 +419,7 @@ msgstr "Igual que %G, pero sin siglo, ej. con un año de dos dígitos (00-99)."
 #. (itstool) path: td/p
 #: C/strftime.page:139
 msgid "Equivalent to %b."
-msgstr "Equivalente a &b."
+msgstr "Equivalente a %b."
 
 #. (itstool) path: td/p
 #: C/strftime.page:147
