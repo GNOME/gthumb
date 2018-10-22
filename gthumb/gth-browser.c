@@ -4543,9 +4543,7 @@ gth_browser_init (GthBrowser *browser)
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS, G_MENU (menu));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS_FOLDER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "folder-actions")));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS_OTHER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "other-actions")));
-		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS_PREFERENCES_ACTIONS, G_MENU (gtk_builder_get_object (builder, "preferences-actions")));
-		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS_HELP_ACTIONS, G_MENU (gtk_builder_get_object (builder, "help-actions")));
-		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS_CLOSE_ACTIONS, G_MENU (gtk_builder_get_object (builder, "close-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_GEARS_APP_ACTIONS, G_MENU (gtk_builder_get_object (builder, "app-actions")));
 		_gtk_window_add_accelerators_from_menu ((GTK_WINDOW (browser)), menu);
 		g_object_unref (builder);
 
@@ -4558,17 +4556,9 @@ gth_browser_init (GthBrowser *browser)
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_APPLY]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS]);
 
-		if (! gtk_application_prefers_app_menu (gtk_window_get_application (GTK_WINDOW (browser)))) {
-			gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_PREFERENCES_ACTIONS),
-							 gears_preferences_action_entries,
-							 G_N_ELEMENTS (gears_preferences_action_entries));
-			gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_HELP_ACTIONS),
-							 gears_help_action_entries,
-							 G_N_ELEMENTS (gears_help_action_entries));
-			gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_CLOSE_ACTIONS),
-							 gears_close_action_entries,
-							 G_N_ELEMENTS (gears_close_action_entries));
-		}
+		gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_APP_ACTIONS),
+						 gears_app_action_entries,
+						 G_N_ELEMENTS (gears_app_action_entries));
 
 		/* browser navigation */
 
