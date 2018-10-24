@@ -1,417 +1,1525 @@
-# Croatian translation for podcasts.
-# Copyright (C) 2018 podcasts's COPYRIGHT HOLDER
-# This file is distributed under the same license as the podcasts package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Croatian translation for apt
+# Copyright (c) 2018 Rosetta Contributors and Canonical Ltd 2018
+# This file is distributed under the same license as the apt package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: podcasts master\n"
-"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/podcasts/issues\n"
-"POT-Creation-Date: 2018-10-05 11:47+0000\n"
-"PO-Revision-Date: 2018-10-24 21:44+0200\n"
-"Last-Translator: \n"
+"Project-Id-Version: apt\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2018-10-08 11:17+0000\n"
+"PO-Revision-Date: 2018-10-24 17:30+0000\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
-"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Launchpad-Export-Date: 2018-10-24 17:32+0000\n"
+"X-Generator: Launchpad (build 18810)\n"
 
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:15
-msgid "Top position of the last open main window"
-msgstr "Gornji položaj posljednjeg otvorenog prozora"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:19
-msgid "Left position of the last open main window"
-msgstr "Lijevi položaj posljednjeg otvorenog prozora"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:23
-msgid "Height of the last open main window"
-msgstr "Visina posljednjeg otvorenog prozora"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:27
-msgid "Width of the last open main window"
-msgstr "Širina posljednjeg otvorenog prozora"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:31
-msgid "Maximized state of the last open main window"
-msgstr "Stanje uvećanja posljednjeg otvorenog prozora"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:36
-msgid "Enable or disable dark theme"
-msgstr "Omogući ili onemogući tamnu temu"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:41
-msgid "Whether to periodically refresh content"
-msgstr "Treba li povremeno osvježiti sadržaj"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:46
-msgid "How many periods of time to wait between automatic refreshes"
+#: apt-pkg/acquire-item.cc:176
+msgid ""
+"Updating from such a repository can't be done securely, and is therefore "
+"disabled by default."
 msgstr ""
-"Koliko vremenskih razdoblja treba pričekati između automatskih osvježavanja"
+"Nadopuna iz takvog repozitorija ne može se izvesti sigurno i stoga je "
+"onemogućena po zadanom."
 
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:50
-msgid "What period of time to wait between automatic refreshes"
+#: apt-pkg/acquire-item.cc:181
+msgid ""
+"Data from such a repository can't be authenticated and is therefore "
+"potentially dangerous to use."
 msgstr ""
-"Koliko vremensko razdoblje treba pričekati između automatskih osvježavanja"
+"Podaci iz takvog repozitorija ne mogu se ovjeriti i stoga su potencijalno "
+"opasni za korištenje."
 
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:54
-msgid "Whether to refresh content after startup"
-msgstr "Treba li osvježiti sadržaj nakon pokretanja"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:60
-msgid "How many periods of time to wait between automatic cleanups"
+#: apt-pkg/acquire-item.cc:183
+msgid ""
+"See apt-secure(8) manpage for repository creation and user configuration "
+"details."
 msgstr ""
-"Koliko vremenskih razdoblja treba pričekati između automatskih čišćenja"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.gschema.xml:64
-msgid "What period of time to wait between automatic cleanups"
-msgstr "Koliko vremensko razdoblje treba pričekati između automatskih čišćenja"
-
-#. Weird magic I copy-pasted that sets the Application Name in the Shell.
-#: podcasts-gtk/resources/org.gnome.Podcasts.desktop.in.in:3
-#: podcasts-gtk/resources/org.gnome.Podcasts.appdata.xml.in.in:4
-#: podcasts-gtk/src/app.rs:92 podcasts-gtk/src/app.rs:416
-#: podcasts-gtk/src/widgets/aboutdialog.rs:31
-msgid "Podcasts"
-msgstr "Podcasti"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.desktop.in.in:4
-#: podcasts-gtk/resources/org.gnome.Podcasts.appdata.xml.in.in:10
-msgid "Listen to your favorite podcasts, right from your desktop."
-msgstr "Slušajte svoje omiljene podcaste."
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: podcasts-gtk/resources/org.gnome.Podcasts.desktop.in.in:6
-msgid "@icon@"
-msgstr "@icon@"
-
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
-#: podcasts-gtk/resources/org.gnome.Podcasts.desktop.in.in:13
-msgid "Podcast;RSS;"
-msgstr "Podcast;RSS;"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.appdata.xml.in.in:8
-msgid "Podcast app for GNOME"
-msgstr "Podcast aplikacija za GNOME"
-
-#: podcasts-gtk/resources/org.gnome.Podcasts.appdata.xml.in.in:51
-msgid "Jordan Petridis"
-msgstr "Jordan Petridis"
-
-#: podcasts-gtk/resources/gtk/empty_view.ui:46
-msgid "This show does not have episodes yet"
-msgstr "Ova emisjia još nema epizoda"
-
-#: podcasts-gtk/resources/gtk/empty_view.ui:62
-msgid "If you think this is an error, please consider writing a bug report."
-msgstr "Ako mislite da je ovo greška, prijavite izvještaj greške."
-
-#: podcasts-gtk/resources/gtk/empty_view.ui:106
-msgid "Get some shows"
-msgstr "Nabavite nove emisije"
-
-#: podcasts-gtk/resources/gtk/empty_view.ui:143
-msgid "Add new shows via feed URL"
-msgstr "Dodaj novu emisiju putem kanala ili URL-a"
-
-#: podcasts-gtk/resources/gtk/empty_view.ui:172
-msgid "Import shows from another device"
-msgstr "Uvezi emisije iz drugog uređaja"
-
-#: podcasts-gtk/resources/gtk/episode_widget.ui:180
-msgid "Calculating episode size…"
-msgstr "Izračunavanje veličine emisjie…"
-
-#: podcasts-gtk/resources/gtk/episode_widget.ui:220
-msgid "Play this episode"
-msgstr "Slušaj ovu epizodu"
-
-#: podcasts-gtk/resources/gtk/episode_widget.ui:241
-msgid "Cancel the download process"
-msgstr "Prekini preuzimanja"
-
-#: podcasts-gtk/resources/gtk/episode_widget.ui:264
-msgid "Download this episode"
-msgstr "Preuzmi ovu epizodu"
-
-#: podcasts-gtk/resources/gtk/hamburger.ui:7
-msgid "_Check for New Episodes"
-msgstr "_Provjeri ima li novih epizoda"
-
-#: podcasts-gtk/resources/gtk/hamburger.ui:12
-msgid "_Import Shows"
-msgstr "_Uvezi emisije"
-
-#: podcasts-gtk/resources/gtk/hamburger.ui:22
-msgid "_Preferences"
-msgstr "_Osobitosti"
-
-#: podcasts-gtk/resources/gtk/hamburger.ui:27
-msgid "_Keyboard Shortcuts"
-msgstr "_Prečaci tipkovnice"
-
-#: podcasts-gtk/resources/gtk/hamburger.ui:35
-msgid "_About Podcasts"
-msgstr "_O Podcasti"
-
-#: podcasts-gtk/resources/gtk/headerbar.ui:35
-#: podcasts-gtk/resources/gtk/headerbar.ui:189
-msgid "Add a new feed"
-msgstr "Dodaj novi kanal"
-
-#: podcasts-gtk/resources/gtk/headerbar.ui:53
-msgid "Enter feed address to add"
-msgstr "Upišite adresu kanala za dodavanje"
-
-#: podcasts-gtk/resources/gtk/headerbar.ui:89
-msgid "Add"
-msgstr "Dodaj"
-
-#: podcasts-gtk/resources/gtk/headerbar.ui:133
-msgid "You are already subscribed to that feed!"
-msgstr "Već ste pretplaćeni na ovaj kanal!"
-
-#: podcasts-gtk/resources/gtk/headerbar.ui:169
-msgid "Show Title"
-msgstr "Prikaži naslov"
-
-#: podcasts-gtk/resources/gtk/headerbar.ui:210
-msgid "Back"
-msgstr "Natrag"
-
-#: podcasts-gtk/resources/gtk/help-overlay.ui:12
-msgid "General"
-msgstr "Općenito"
-
-#: podcasts-gtk/resources/gtk/help-overlay.ui:18
-msgctxt "shortcut window"
-msgid "Check for new episodes"
-msgstr "Provjeri ima li novih epizoda"
-
-#: podcasts-gtk/resources/gtk/help-overlay.ui:25
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Osobitosti"
-
-#: podcasts-gtk/resources/gtk/help-overlay.ui:32
-msgctxt "shortcut window"
-msgid "Quit the application"
-msgstr "Zatvori aplikaciju"
-
-#: podcasts-gtk/resources/gtk/home_view.ui:56
-msgid "Today"
-msgstr "Danas"
-
-#: podcasts-gtk/resources/gtk/home_view.ui:112
-msgid "Yesterday"
-msgstr "Jučer"
-
-#: podcasts-gtk/resources/gtk/home_view.ui:168
-msgid "This Week"
-msgstr "Ovaj tjedan"
-
-#: podcasts-gtk/resources/gtk/home_view.ui:224
-msgid "This Month"
-msgstr "Ovaj mjesec"
-
-#: podcasts-gtk/resources/gtk/home_view.ui:281
-msgid "Older"
-msgstr "Starije"
-
-#: podcasts-gtk/resources/gtk/inapp_notif.ui:101
-msgid "An in-app action notification"
-msgstr "Obavijesti radnja iz aplikacije"
-
-#: podcasts-gtk/resources/gtk/inapp_notif.ui:112
-msgid "Undo"
-msgstr "Vrati"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:72
-msgid "Rewind 10 seconds"
-msgstr "Premotaj 10 sekundi"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:87
-msgid "Play"
-msgstr "Reproduciraj"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:103
-msgid "Pause"
-msgstr "Pauziraj"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:119
-msgid "Fast forward 10 seconds"
-msgstr "Brzo premotaj 10 sekundi"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:285
-msgid "Change the playback speed"
-msgstr "Promijeni brzinu reprodukcije"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:300
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:380
-msgid "1.00×"
-msgstr "1.00×"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:344
-msgid "1.50×"
-msgstr "1.50×"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:348
-msgid "1.5 speed rate"
-msgstr "1.5 brže"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:362
-msgid "1.25×"
-msgstr "1.25×"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:366
-msgid "1.25 speed rate"
-msgstr "1.25 brže"
-
-#: podcasts-gtk/resources/gtk/player_toolbar.ui:384
-msgid "Normal speed"
-msgstr "Normalna brzina"
-
-#: podcasts-gtk/resources/gtk/prefs.ui:42
-#: podcasts-gtk/resources/gtk/prefs.ui:295
-msgid "Preferences"
-msgstr "Osobitosti"
-
-#: podcasts-gtk/resources/gtk/prefs.ui:76
-msgid "Appearance"
-msgstr "Izgled"
-
-#: podcasts-gtk/resources/gtk/prefs.ui:120
-msgid "Dark Theme"
-msgstr "Tamna tema"
-
-#: podcasts-gtk/resources/gtk/prefs.ui:166
-msgid "Delete played episodes"
-msgstr "Obriši poslušane epizode"
-
-#: podcasts-gtk/resources/gtk/prefs.ui:211
-msgid "After"
-msgstr "Poslije"
-
-#: podcasts-gtk/resources/gtk/secondary_menu.ui:7
-msgid "_Mark All Episodes as Played"
-msgstr "_Označi se epizode kao odslušane"
-
-#: podcasts-gtk/resources/gtk/secondary_menu.ui:11
-msgid "_Website"
-msgstr "_Web stranica"
-
-#: podcasts-gtk/resources/gtk/secondary_menu.ui:15
-msgid "_Unsubscribe"
-msgstr "_Ukini pretplatu"
-
-#: podcasts-gtk/resources/gtk/show_menu.ui:51
-msgid "Open Website"
-msgstr "Otvori web stranicu"
-
-#: podcasts-gtk/resources/gtk/show_menu.ui:64
-msgid "Mark All as Played"
-msgstr "Označi sve kao odslušano"
-
-#: podcasts-gtk/resources/gtk/show_menu.ui:89
-msgid "Unsubscribe"
-msgstr "Ukini pretplatu"
-
-#: podcasts-gtk/src/app.rs:333
-msgid "Fetching new episodes"
-msgstr "Preuzimanje novi epizoda"
-
-#: podcasts-gtk/src/headerbar.rs:98
-msgid "You are already subscribed to this show"
-msgstr "Već ste pretplaćeni na ovu emisiju"
-
-#: podcasts-gtk/src/headerbar.rs:106
-msgid "Invalid URL"
-msgstr "Nevažeći URL"
-
-#: podcasts-gtk/src/prefs.rs:59
-msgid "Seconds"
-msgstr "Sekunda"
-
-#: podcasts-gtk/src/prefs.rs:60
-msgid "Minutes"
-msgstr "Minuta"
-
-#: podcasts-gtk/src/prefs.rs:61
-msgid "Hours"
-msgstr "Sata"
-
-#: podcasts-gtk/src/prefs.rs:62
-msgid "Days"
-msgstr "Dana"
-
-#: podcasts-gtk/src/prefs.rs:63
-msgid "Weeks"
-msgstr "Tjedana"
-
-#: podcasts-gtk/src/stacks/content.rs:35
-msgid "New"
-msgstr "Novo"
-
-#: podcasts-gtk/src/stacks/content.rs:36
-msgid "Shows"
-msgstr "Emisije"
-
-#: podcasts-gtk/src/utils.rs:357
-msgid "Select the file from which to you want to import shows."
-msgstr "Odaberite datoteku iz koje želite uvesti emisije."
-
-#: podcasts-gtk/src/utils.rs:360
-msgid "_Import"
-msgstr "_Uvoz"
-
-#: podcasts-gtk/src/utils.rs:369
-msgid "OPML file"
-msgstr "OPML datoteka"
-
-#: podcasts-gtk/src/utils.rs:386
-msgid "Failed to parse the imported file"
-msgstr "Neuspjela obrada uvezene datoteke"
-
-#: podcasts-gtk/src/utils.rs:391
-msgid "Selected file could not be accessed."
-msgstr "Nemoguć pristup dabranoj datoteci."
-
-#: podcasts-gtk/src/widgets/aboutdialog.rs:26
-msgid "Podcast Client for the GNOME Desktop."
-msgstr "Podcast klijent za GNOME radnu površinu."
-
-#: podcasts-gtk/src/widgets/aboutdialog.rs:33
-msgid "Learn more about GNOME Podcasts"
-msgstr "Saznajte više o GNOME Podcasti"
-
-#: podcasts-gtk/src/widgets/aboutdialog.rs:38
-msgid "translator-credits"
+"Pogledajte apt-secure(8) manpage za stvaranje repozitorija i pojedinosti "
+"podešavanja korisnika."
+
+#: apt-pkg/acquire-item.cc:224
+#, c-format
+msgid "The repository '%s' is no longer signed."
+msgstr "Repozitorij '%s' nije više potpisan."
+
+#: apt-pkg/acquire-item.cc:225
+#, c-format
+msgid "The repository '%s' no longer has a Release file."
+msgstr "Repozitorij '%s' više ne sadrži datoteku izdanja."
+
+#: apt-pkg/acquire-item.cc:234
+msgid ""
+"This is normally not allowed, but the option "
+"Acquire::AllowDowngradeToInsecureRepositories was given to override it."
 msgstr ""
-"Launchpad Contributions:\n"
-"  gogo https://launchpad.net/~trebelnik-stefina"
+"Uobičajeno ovo nije dopušteno, ali mogućnost "
+"Acquire::AllowDowngradeToInsecureRepositories je zadana za zaobilaženje."
 
-#: podcasts-gtk/src/widgets/episode.rs:130
-msgid "{} min"
-msgstr "{} min"
+#: apt-pkg/acquire-item.cc:252
+#, c-format
+msgid "The repository '%s' is not signed."
+msgstr "Repozitorij'%s' njije potpisan."
 
-#. sender.send(Action::ErrorNotification(format!("Player Error: {}", error)));
-#: podcasts-gtk/src/widgets/player.rs:363
-msgid "The media player was unable to execute an action."
-msgstr "Medijski reproduktor nije uspio izvršiti radnju."
+#: apt-pkg/acquire-item.cc:253
+#, c-format
+msgid "The repository '%s' does not have a Release file."
+msgstr "Repozitorij '%s' ne sadrži datoteku izdanja."
 
-#: podcasts-gtk/src/widgets/show_menu.rs:150
-msgid "Marked all episodes as listened"
-msgstr "Označi sve epizodae kao odslušane"
+#: apt-pkg/acquire-item.cc:254
+#, c-format
+msgid "The repository '%s' provides only weak security information."
+msgstr "Repozitorij '%s' pruža slabu informaciju sigurnosti."
 
-#: podcasts-gtk/src/widgets/show_menu.rs:155
-msgid "Unsubscribed from {}"
-msgstr "Ukini pretplatu za {}"
+#: apt-pkg/acquire-item.cc:589
+#, c-format
+msgid "Failed to readlink %s"
+msgstr "Nemoguće učitavanje poveznice %s"
 
-#~ msgid "_About"
-#~ msgstr "_O programu"
+#: apt-pkg/acquire-item.cc:598
+#, c-format
+msgid "Failed to stat %s"
+msgstr "Nemoguće pokretanje %s"
 
-#~ msgid "Cancel"
-#~ msgstr "Odustani"
+#: apt-pkg/acquire-item.cc:948 apt-pkg/acquire-item.cc:1088
+msgid "Hash Sum mismatch"
+msgstr "Zbroj jedinstvene vrijednosti se ne podudara"
+
+#: apt-pkg/acquire-item.cc:951
+msgid "Insufficient information available to perform this download securely"
+msgstr ""
+"Nije dostupno dovoljno informacija za sigurno izvođenje ovog preuzimanja"
+
+#: apt-pkg/acquire-item.cc:1063 apt-pkg/contrib/fileutl.cc:3140
+#, c-format
+msgid "rename failed, %s (%s -> %s)."
+msgstr "preimenovanje neuspjelo, %s (%s -> %s)."
+
+#: apt-pkg/acquire-item.cc:1091
+msgid "Size mismatch"
+msgstr "Veličina se ne podudara"
+
+#: apt-pkg/acquire-item.cc:1095
+msgid "Invalid file format"
+msgstr "Neispravan format datoteke"
+
+#: apt-pkg/acquire-item.cc:1100
+msgid "Signature error"
+msgstr "Greška potpisa"
+
+#: apt-pkg/acquire-item.cc:1104
+#, c-format
+msgid ""
+"Clearsigned file isn't valid, got '%s' (does the network require "
+"authentication?)"
+msgstr ""
+"Datoteka brisanja potpisa nije valjana, sadrži '%s' (zahtjeva li mreža "
+"ovjeru?)"
+
+#: apt-pkg/acquire-item.cc:1353
+#, c-format
+msgid ""
+"An error occurred during the signature verification. The repository is not "
+"updated and the previous index files will be used. GPG error: %s: %s"
+msgstr ""
+"Dogodila se greška tijekom ovjere potpisa. Repozitorij nije nadopunjen i "
+"prijašnji popis datoteka će se koristiti. GPG greška: %s: %s"
+
+#. Invalid signature file, reject (LP: #346386) (Closes: #627642)
+#: apt-pkg/acquire-item.cc:1362 apt-pkg/acquire-item.cc:1368
+#, c-format
+msgid "GPG error: %s: %s"
+msgstr "GPG greška: %s: %s"
+
+#: apt-pkg/acquire-item.cc:1591
+#, c-format
+msgid ""
+"Skipping acquire of configured file '%s' as repository '%s' doesn't have the "
+"component '%s' (component misspelt in sources.list?)"
+msgstr ""
+"Neuspjelo dobivanje datoteke podešavanja '%s' pošto repozitorij '%s' ne "
+"sadrži komponentu '%s' (komponenta je neispravno upisana u datoteku "
+"sources.list?)"
+
+#: apt-pkg/acquire-item.cc:1610
+#, c-format
+msgid ""
+"Skipping acquire of configured file '%s' as repository '%s' doesn't support "
+"architecture '%s'"
+msgstr ""
+"Neuspjelo dobivanje datoteke podešavanja '%s' pošto repozitorij '%s' ne "
+"podržava arhitekturu '%s'"
+
+#: apt-pkg/acquire-item.cc:1627
+#, c-format
+msgid ""
+"Skipping acquire of configured file '%s' as repository '%s' does not seem to "
+"provide it (sources.list entry misspelt?)"
+msgstr ""
+"Neuspjelo dobivanje datoteke podešavanja '%s' pošto ju izgleda repozitorij "
+"'%s' ne omogućuje (stavka je neispravno upisana u datoteku sources.list?)"
+
+#: apt-pkg/acquire-item.cc:1645
+#, c-format
+msgid ""
+"Skipping acquire of configured file '%s' as repository '%s' provides only "
+"weak security information for it"
+msgstr ""
+"Neuspjelo dobivanje datoteke podešavanja '%s' pošto repozitorij '%s' pruža "
+"samo slabu informaciju sigurnosti"
+
+#. TRANSLATOR: The first %s is the URL of the bad Release file, the second is
+#. the time since then the file is invalid - formatted in the same way as in
+#. the download progress display (e.g. 7d 3h 42min 1s)
+#: apt-pkg/acquire-item.cc:1747
+#, c-format
+msgid ""
+"Release file for %s is expired (invalid since %s). Updates for this "
+"repository will not be applied."
+msgstr ""
+"Datoteka izdanja za %s je istekla (neispravna je od %s). Nadopune za ovaj "
+"repozitorij neće biti primijenjene."
+
+#. TRANSLATOR: The first %s is the URL of the bad Release file, the second is
+#. the time until the file will be valid - formatted in the same way as in
+#. the download progress display (e.g. 7d 3h 42min 1s)
+#: apt-pkg/acquire-item.cc:1766
+#, c-format
+msgid ""
+"Release file for %s is not valid yet (invalid for another %s). Updates for "
+"this repository will not be applied."
+msgstr ""
+"Datoteka izdanja za %s nije valjana (neispravna je do %s). Nadopune za ovaj "
+"repozitorij neće biti primijenjene."
+
+#: apt-pkg/acquire-item.cc:1801
+#, c-format
+msgid "Conflicting distribution: %s (expected %s but got %s)"
+msgstr "Sukob distribucije: %s (očekivano %s ali je dobiveno %s)"
+
+#: apt-pkg/acquire-item.cc:1831
+#, c-format
+msgid "Repository '%s' changed its '%s' value from '%s' to '%s'"
+msgstr "Repozitorij '%s' je promijenio svoje '%s' vrijednosti iz '%s' u '%s'"
+
+#: apt-pkg/acquire-item.cc:1847
+#, c-format
+msgid "Repository '%s' changed its default priority for %s from %hi to %hi."
+msgstr ""
+"Repozitorij '%s' je promijenio svoj zadani prioritet za '%s' iz %hi u %hi."
+
+#. TRANSLATOR: the "this" refers to changes in the repository like a new release or owner change
+#: apt-pkg/acquire-item.cc:1860
+#, c-format
+msgid ""
+"More information about this can be found online in the Release notes at: %s"
+msgstr ""
+"Više informacija o ovome se može pronaći putem interneta u bilješkama "
+"izdanja na: %s"
+
+#. TRANSLATOR: %s is the name of the manpage in question, e.g. apt-secure(8)
+#: apt-pkg/acquire-item.cc:1867
+#, c-format
+msgid ""
+"This must be accepted explicitly before updates for this repository can be "
+"applied. See %s manpage for details."
+msgstr ""
+"Ovo se mora prihvatiti izričito prije nego što se nadopune za ovaj "
+"repozitorij primijene. Pogledajte %s man stranicu za više pojedinosti."
+
+#: apt-pkg/acquire-item.cc:1998 apt-pkg/update.cc:93 apt-pkg/update.cc:96
+#, c-format
+msgid "Failed to fetch %s  %s"
+msgstr "Neuspjelo preuzimanje %s  %s"
+
+#: apt-pkg/acquire-item.cc:3345
+#, c-format
+msgid ""
+"I wasn't able to locate a file for the %s package. This might mean you need "
+"to manually fix this package. (due to missing arch)"
+msgstr ""
+"Neuspjelo lociranje datoteke za %s paket. Možda ćete morati ručno popraviti "
+"paket (zbog nedostajuće arhitekture)."
+
+#: apt-pkg/acquire-item.cc:3475
+#, c-format
+msgid "Can't find a source to download version '%s' of '%s'"
+msgstr "Nemoguć pronalazak izvora za preuzimanje inačice '%s' od '%s'"
+
+#. TRANSLATOR: %s=%s is sourcename=sourceversion, e.g. apt=1.1
+#: apt-pkg/acquire-item.cc:3627 apt-pkg/acquire-item.cc:3816
+#, c-format
+msgid "Changelog unavailable for %s=%s"
+msgstr "Nedostupan zapis promjena za %s=%s"
+
+#: apt-pkg/acquire-worker.cc:107
+#, c-format
+msgid "The method '%s' is explicitly disabled via configuration."
+msgstr "Način '%s' je izričito onemogućen putem podešavanja."
+
+#: apt-pkg/acquire-worker.cc:109
+#, c-format
+msgid "If you meant to use Tor remember to use %s instead of %s."
+msgstr "Ako mislite koristiti Tor ne zaboravite upotrijebiti %s umjesto %s."
+
+#: apt-pkg/acquire-worker.cc:112
+#, c-format
+msgid "The method driver %s could not be found."
+msgstr "Način upravljačkog programa %s ne može se pronaći."
+
+#: apt-pkg/acquire-worker.cc:116
+#, c-format
+msgid "Is the package %s installed?"
+msgstr "Je li paket %s instaliran?"
+
+#: apt-pkg/acquire-worker.cc:171
+#, c-format
+msgid "Method %s did not start correctly"
+msgstr "Način %s nije ispravno pokrenut"
+
+#: apt-pkg/acquire-worker.cc:688
+#, c-format
+msgid ""
+"Please insert the disc labeled: '%s' in the drive '%s' and press [Enter]."
+msgstr "Umetnite disk oznake: '%s' u pogon '%s' i pritisnite [Enter]."
+
+#: apt-pkg/acquire.cc:137 apt-pkg/acquire.cc:161 apt-pkg/cdrom.cc:833
+#, c-format
+msgid "List directory %s is missing."
+msgstr "Direktorij prikaza %s nedostaje."
+
+#: apt-pkg/acquire.cc:144 apt-pkg/acquire.cc:166
+#, c-format
+msgid "Archives directory %s is missing."
+msgstr "Direktorij arhiva %s nedostaje."
+
+#: apt-pkg/acquire.cc:184
+#, c-format
+msgid "Unable to lock directory %s"
+msgstr "Nemoguće zaključavanje direktorija %s"
+
+#: apt-pkg/acquire.cc:612
+#, c-format
+msgid "No sandbox user '%s' on the system, can not drop privileges"
+msgstr ""
+"Nema korisnika osiguranog okruženja '%s' na sustavu, nemoguće odbacivanje "
+"ovlasti"
+
+#: apt-pkg/acquire.cc:649 apt-pkg/acquire.cc:666
+#, c-format
+msgid ""
+"Download is performed unsandboxed as root as file '%s' couldn't be accessed "
+"by user '%s'."
+msgstr ""
+"Preuzimanje je izvedeno korijenski bez osiguranog okruženja, datoteci '%s' "
+"ne može pristupiti korisnik '%s'."
+
+#: apt-pkg/acquire.cc:789 apt-pkg/clean.cc:39
+#, c-format
+msgid "Clean of %s is not supported"
+msgstr "Brisanje %s nije podržano"
+
+#. Only warn if there are no sources.list.d.
+#. Only warn if there is no sources.list file.
+#: apt-pkg/acquire.cc:793 apt-pkg/acquire.cc:796 apt-pkg/clean.cc:49
+#: apt-pkg/clean.cc:59 apt-pkg/contrib/cdromutl.cc:189
+#: apt-pkg/contrib/cdromutl.cc:211 apt-pkg/contrib/fileutl.cc:413
+#: apt-pkg/contrib/fileutl.cc:415 apt-pkg/contrib/fileutl.cc:528
+#: apt-pkg/contrib/fileutl.cc:3382 apt-pkg/deb/dpkgpm.cc:1394
+#: apt-pkg/init.cc:221 apt-pkg/init.cc:229 apt-pkg/policy.cc:314
+#: apt-pkg/sourcelist.cc:320 apt-pkg/sourcelist.cc:327
+#, c-format
+msgid "Unable to read %s"
+msgstr "Nemoguće čitanje %s"
+
+#: apt-pkg/acquire.cc:1384
+#, c-format
+msgid "Retrieving file %li of %li (%s remaining)"
+msgstr "Preuzimanje datoteke %li od %li (%s preostalo)"
+
+#: apt-pkg/acquire.cc:1386
+#, c-format
+msgid "Retrieving file %li of %li"
+msgstr "Preuzimanje datoteke %li od %li"
+
+#: apt-pkg/algorithms.cc:322
+#, c-format
+msgid ""
+"The package %s needs to be reinstalled, but I can't find an archive for it."
+msgstr ""
+"Paket %s je potrebno ponovno instalirati, ali ne mogu pronaći potrebnu "
+"arhivu."
+
+#: apt-pkg/algorithms.cc:1137
+msgid ""
+"Error, pkgProblemResolver::Resolve generated breaks, this may be caused by "
+"held packages."
+msgstr ""
+"Greška, pkgProblemResolver::Resolve je stvorio prekide, to mogu uzrokovati "
+"zadržani paketi."
+
+#: apt-pkg/algorithms.cc:1139
+msgid "Unable to correct problems, you have held broken packages."
+msgstr "Nemoguće ispravljanje paketa, imate zadržane slomljene pakete."
+
+#: apt-pkg/cachefile.cc:129
+msgid "The package lists or status file could not be parsed or opened."
+msgstr "Nemoguće otvaranje ili obrada popisa paketa ili datoteke stanja."
+
+#: apt-pkg/cachefile.cc:133
+msgid "You may want to run apt-get update to correct these problems"
+msgstr "Možda želite pokrenuti apt-get update za ispravljanje ovih problema"
+
+#: apt-pkg/cachefile.cc:156
+msgid "The list of sources could not be read."
+msgstr "Nemoguće čitanje popisa izvora."
+
+#: apt-pkg/cachefilter.cc:44
+#, c-format
+msgid "Regex compilation error - %s"
+msgstr "Greška kompiliranja uobičajenog izraza - %s"
+
+#: apt-pkg/cacheset.cc:486
+#, c-format
+msgid "Release '%s' for '%s' was not found"
+msgstr "Izdanje '%s' za '%s' nije pronađeno"
+
+#: apt-pkg/cacheset.cc:489
+#, c-format
+msgid "Version '%s' for '%s' was not found"
+msgstr "Inačica '%s' za '%s' nije pronađena"
+
+#: apt-pkg/cacheset.cc:724
+#, c-format
+msgid "Couldn't find task '%s'"
+msgstr "Nemoguć pronalazak zadatka '%s'"
+
+#: apt-pkg/cacheset.cc:730
+#, c-format
+msgid "Couldn't find any package by regex '%s'"
+msgstr "Nemoguć pronalazak bilo kojeg paketa s uobičajenim izrazom '%s'"
+
+#: apt-pkg/cacheset.cc:736
+#, c-format
+msgid "Couldn't find any package by glob '%s'"
+msgstr "Nemoguć pronalazak svih paketa '%s'"
+
+#: apt-pkg/cacheset.cc:748
+#, c-format
+msgid "Unable to locate package %s"
+msgstr "Nemoguće je locirati paket %s"
+
+#: apt-pkg/cacheset.cc:775
+#, c-format
+msgid "Can't select versions from package '%s' as it is purely virtual"
+msgstr "Nemoguć odabir inačice iz paketa '%s' jer je potpuno virtualna"
+
+#: apt-pkg/cacheset.cc:814
+#, c-format
+msgid "Can't select newest version from package '%s' as it is purely virtual"
+msgstr ""
+"Nemoguć odabir najnovije inačice iz paketa '%s' jer je potpuno virtualna"
+
+#: apt-pkg/cacheset.cc:822
+#, c-format
+msgid "Can't select candidate version from package %s as it has no candidate"
+msgstr ""
+"Nemoguć odabir inačice kandidata iz paketa '%s' jer ne sadrži kandidata."
+
+#: apt-pkg/cacheset.cc:830
+#, c-format
+msgid "Can't select installed version from package %s as it is not installed"
+msgstr ""
+"Nemoguć odabir instalirane inačice iz paketa '%s' jer nije instalirana."
+
+#: apt-pkg/cacheset.cc:838 apt-pkg/cacheset.cc:846
+#, c-format
+msgid ""
+"Can't select installed nor candidate version from package '%s' as it has "
+"neither of them"
+msgstr ""
+"Nemoguć odabir instalirane inačice ili inačice kandidata iz paketa '%s' jer "
+"ne sadrži nijednu od njih."
+
+#: apt-pkg/cdrom.cc:498
+#, c-format
+msgid "Line %u too long in source list %s."
+msgstr "Redak %u je predugačak u popisu izvora %s."
+
+#: apt-pkg/cdrom.cc:572
+msgid "Unmounting CD-ROM...\n"
+msgstr "Odmontiravanje CD-ROM-a...\n"
+
+#: apt-pkg/cdrom.cc:587
+#, c-format
+msgid "Using CD-ROM mount point %s\n"
+msgstr "Koristi se CD-ROM točka montiranja %s\n"
+
+#: apt-pkg/cdrom.cc:600
+msgid "Waiting for disc...\n"
+msgstr "Čekanje diska...\n"
+
+#: apt-pkg/cdrom.cc:610
+msgid "Mounting CD-ROM...\n"
+msgstr "Montiranje CD-ROM...\n"
+
+#: apt-pkg/cdrom.cc:621
+msgid "Identifying... "
+msgstr "Identifikacija... "
+
+#: apt-pkg/cdrom.cc:663
+#, c-format
+msgid "Stored label: %s\n"
+msgstr "Spremljeni naslov: %s\n"
+
+#: apt-pkg/cdrom.cc:681
+msgid "Scanning disc for index files...\n"
+msgstr "Pretraživanje diska za datotekama sadržaja...\n"
+
+#: apt-pkg/cdrom.cc:735
+#, c-format
+msgid ""
+"Found %zu package indexes, %zu source indexes, %zu translation indexes and "
+"%zu signatures\n"
+msgstr ""
+"Pronađeno %zu sadržaja paketa, %zu sadržaja izvora, %zu sadržaja prijevoda i "
+"%zu potpisa\n"
+
+#: apt-pkg/cdrom.cc:745
+msgid ""
+"Unable to locate any package files, perhaps this is not a Debian Disc or the "
+"wrong architecture?"
+msgstr ""
+"Nemoguće lociranje ni jedne datoteke paketa, možda to nije Debianov disk ili "
+"je nevaljana arhitektura?"
+
+#: apt-pkg/cdrom.cc:772
+#, c-format
+msgid "Found label '%s'\n"
+msgstr "Pronađeni naslov '%s'\n"
+
+#: apt-pkg/cdrom.cc:801
+msgid "That is not a valid name, try again.\n"
+msgstr "To nije valjani naziv, pokušajte ponvno.\n"
+
+#: apt-pkg/cdrom.cc:818
+#, c-format
+msgid ""
+"This disc is called: \n"
+"'%s'\n"
+msgstr ""
+"Ovaj disk se naziva: \n"
+"'%s'\n"
+
+#: apt-pkg/cdrom.cc:820
+msgid "Copying package lists..."
+msgstr "Kopiranje popisa paketa..."
+
+#: apt-pkg/cdrom.cc:867
+msgid "Writing new source list\n"
+msgstr "Zapisivanje novog popisa izvora\n"
+
+#: apt-pkg/cdrom.cc:878
+msgid "Source list entries for this disc are:\n"
+msgstr "Unosi popisa izvora za ovaj disk su:\n"
+
+#: apt-pkg/clean.cc:55 apt-pkg/clean.cc:145
+#, c-format
+msgid "Unable to change to %s"
+msgstr "Nemoguća promjena na %s"
+
+#: apt-pkg/clean.cc:75
+#, c-format
+msgid "Unable to stat %s."
+msgstr "Nemoguće pokretanje %s."
+
+#: apt-pkg/contrib/cdromutl.cc:64
+#, c-format
+msgid "Unable to stat the mount point %s"
+msgstr "Nemoguće pokretanje točke montiranja %s"
+
+#: apt-pkg/contrib/cdromutl.cc:244
+msgid "Failed to stat the cdrom"
+msgstr "Nemoguće pokretanje CD-ROM-a"
+
+#: apt-pkg/contrib/cmndline.cc:126
+#, c-format
+msgid ""
+"Command line option '%c' [from %s] is not understood in combination with the "
+"other options."
+msgstr ""
+"Mogućnost naredbenog redka '%c' [iz %s] nije razumljiva u kombinaciji s "
+"ostalim mogućnostima."
+
+#: apt-pkg/contrib/cmndline.cc:151 apt-pkg/contrib/cmndline.cc:160
+#: apt-pkg/contrib/cmndline.cc:168
+#, c-format
+msgid ""
+"Command line option %s is not understood in combination with the other "
+"options"
+msgstr ""
+"Mogućnost naredbenog redka %s nije razumljiva u kombinaciji s ostalim "
+"mogućnostima."
+
+#: apt-pkg/contrib/cmndline.cc:173
+#, c-format
+msgid "Command line option %s is not boolean"
+msgstr "Mogućnost naredbenog redka %s nije boolean"
+
+#: apt-pkg/contrib/cmndline.cc:229
+#, c-format
+msgid "Option %s requires an argument."
+msgstr "Mogućnost %s zahtijeva argument."
+
+#: apt-pkg/contrib/cmndline.cc:242
+#, c-format
+msgid "Option %s: Configuration item specification must have an =<val>."
+msgstr "Mogućnost %s: Pojedinost stavke podešavanja mora imati =<val>."
+
+#: apt-pkg/contrib/cmndline.cc:268
+#, c-format
+msgid "Option %s requires an integer argument, not '%s'"
+msgstr "Mogućnost %s zahtijeva cijeli broj kao argument, a ne '%s'"
+
+#: apt-pkg/contrib/cmndline.cc:299
+#, c-format
+msgid "Option '%s' is too long"
+msgstr "Mogućnost %s je predugačka"
+
+#: apt-pkg/contrib/cmndline.cc:331
+#, c-format
+msgid "Sense %s is not understood, try true or false."
+msgstr "Značenje %s nije razumljivo, pokušajte true ili false."
+
+#: apt-pkg/contrib/cmndline.cc:379
+#, c-format
+msgid "Invalid operation %s"
+msgstr "Neispravna radnja %s"
+
+#: apt-pkg/contrib/configuration.cc:720
+#, c-format
+msgid "Unrecognized type abbreviation: '%c'"
+msgstr "Neprepoznata vrsta kratice: '%c'"
+
+#: apt-pkg/contrib/configuration.cc:1001
+#, c-format
+msgid "Syntax error %s:%u: Block starts with no name."
+msgstr "Greška sintakse %s:%u: Blok je pokrenut bez naziva."
+
+#: apt-pkg/contrib/configuration.cc:1015
+#, c-format
+msgid "Syntax error %s:%u: Malformed tag"
+msgstr "Greška sintakse %s:%u: Oštećena oznaka."
+
+#: apt-pkg/contrib/configuration.cc:1032
+#, c-format
+msgid "Syntax error %s:%u: Extra junk after value"
+msgstr "Greška sintakse %s:%u: Dodatno smeće nakon vrijednosti."
+
+#: apt-pkg/contrib/configuration.cc:1070
+#, c-format
+msgid "Syntax error %s:%u: Directives can only be done at the top level"
+msgstr ""
+"Greška sintakse %s:%u: Upute se mogu završiti samo na najvišoj razini."
+
+#: apt-pkg/contrib/configuration.cc:1077
+#, c-format
+msgid "Syntax error %s:%u: Too many nested includes"
+msgstr "Greška sintakse %s:%u: Previše stavka uključeno."
+
+#: apt-pkg/contrib/configuration.cc:1081 apt-pkg/contrib/configuration.cc:1086
+#, c-format
+msgid "Syntax error %s:%u: Included from here"
+msgstr "Greška sintakse %s:%u: Uključujući odavdje."
+
+#: apt-pkg/contrib/configuration.cc:1095
+#, c-format
+msgid "Syntax error %s:%u: Unsupported directive '%s'"
+msgstr "Greška sintakse %s:%u: Nepodržane upute '%s'."
+
+#: apt-pkg/contrib/configuration.cc:1098
+#, c-format
+msgid ""
+"Syntax error %s:%u: clear directive requires an option tree as argument"
+msgstr ""
+"Greška sintakse %s:%u: nove upute zahtjevaju mogućnost stabla kao argumenta."
+
+#: apt-pkg/contrib/configuration.cc:1142
+#, c-format
+msgid "Syntax error %s:%u: Extra junk at end of file"
+msgstr "Greška sintakse %s:%u: Dodatno smeće na kraju datoteke."
+
+#: apt-pkg/contrib/fileutl.cc:198 apt-pkg/contrib/fileutl.cc:213
+#, c-format
+msgid "Problem unlinking the file %s"
+msgstr "Problem prekidanja poveznice datoteke %s"
+
+#: apt-pkg/contrib/fileutl.cc:234
+#, c-format
+msgid "Not using locking for read only lock file %s"
+msgstr "Ne koristi zaključavanje samo za čitanje zaključane datoteke %s"
+
+#: apt-pkg/contrib/fileutl.cc:239
+#, c-format
+msgid "Could not open lock file %s"
+msgstr "Nemoguće otvaranje zaključane datoteke %s"
+
+#: apt-pkg/contrib/fileutl.cc:262
+#, c-format
+msgid "Not using locking for nfs mounted lock file %s"
+msgstr "Ne korist zaključavanje za nfs montiranu zaključanu datoteku %s"
+
+#: apt-pkg/contrib/fileutl.cc:267
+#, c-format
+msgid "Could not get lock %s"
+msgstr "Nemoguće dobivanje zaključavana %s"
+
+#: apt-pkg/contrib/fileutl.cc:404 apt-pkg/contrib/fileutl.cc:521
+#, c-format
+msgid "List of files can't be created as '%s' is not a directory"
+msgstr "Popis datoteka koje se ne mogu stvoriti kao '%s' nije direktorij"
+
+#: apt-pkg/contrib/fileutl.cc:441
+#, c-format
+msgid "Ignoring '%s' in directory '%s' as it is not a regular file"
+msgstr "Zanemarujem '%s' u direktoriju '%s' jer nije uobičajena datoteka"
+
+#: apt-pkg/contrib/fileutl.cc:459
+#, c-format
+msgid "Ignoring file '%s' in directory '%s' as it has no filename extension"
+msgstr ""
+"Zanemarujem '%s' u direktoriju '%s' jer nema proširenje naziva datoteke"
+
+#: apt-pkg/contrib/fileutl.cc:468
+#, c-format
+msgid ""
+"Ignoring file '%s' in directory '%s' as it has an invalid filename extension"
+msgstr ""
+"Zanemarujem '%s' u direktoriju '%s' jer ima nevaljano proširenje naziva "
+"datoteke"
+
+#: apt-pkg/contrib/fileutl.cc:909 apt-pkg/contrib/gpgv.cc:265
+#: apt-pkg/deb/debsystem.cc:430
+#, c-format
+msgid "Waited for %s but it wasn't there"
+msgstr "Čekanje %s ali on nije tamo"
+
+#: apt-pkg/contrib/fileutl.cc:921
+#, c-format
+msgid "Sub-process %s received a segmentation fault."
+msgstr "Podproces %s je primio segmentacijsku grešku."
+
+#: apt-pkg/contrib/fileutl.cc:923
+#, c-format
+msgid "Sub-process %s received signal %u."
+msgstr "Podproces %s je primio signal %u."
+
+#. we forward the statuscode, so don't generate a message on the fd in this case
+#: apt-pkg/contrib/fileutl.cc:927 apt-pkg/contrib/gpgv.cc:280
+#, c-format
+msgid "Sub-process %s returned an error code (%u)"
+msgstr "Podproces %s vratio je kôd greške (%u)"
+
+#: apt-pkg/contrib/fileutl.cc:929 apt-pkg/contrib/gpgv.cc:272
+#, c-format
+msgid "Sub-process %s exited unexpectedly"
+msgstr "Podproces %s je završio neočekivano"
+
+#: apt-pkg/contrib/fileutl.cc:1103 apt-pkg/contrib/fileutl.cc:1409
+#: apt-pkg/contrib/fileutl.cc:1536 apt-pkg/contrib/fileutl.cc:1653
+#: apt-pkg/contrib/fileutl.cc:1829 apt-pkg/contrib/fileutl.cc:2096
+#: apt-pkg/contrib/fileutl.cc:2722
+msgid "Read error"
+msgstr "Greška čitanja"
+
+#: apt-pkg/contrib/fileutl.cc:1150 apt-pkg/contrib/fileutl.cc:1425
+#: apt-pkg/contrib/fileutl.cc:1548 apt-pkg/contrib/fileutl.cc:1672
+#: apt-pkg/contrib/fileutl.cc:1857 apt-pkg/contrib/fileutl.cc:1967
+#: apt-pkg/contrib/fileutl.cc:2129 apt-pkg/contrib/fileutl.cc:2823
+msgid "Write error"
+msgstr "Greška zapisivanja"
+
+#: apt-pkg/contrib/fileutl.cc:1503
+#, c-format
+msgid "Problem closing the gzip file %s"
+msgstr "Problem zatvaranja gzip datoteke %s"
+
+#: apt-pkg/contrib/fileutl.cc:1629 apt-pkg/contrib/fileutl.cc:1791
+msgid "Unexpected end of file"
+msgstr "Neočekivani kraj datoteke"
+
+#: apt-pkg/contrib/fileutl.cc:2183 apt-pkg/contrib/fileutl.cc:3165
+msgid "Failed to create subprocess IPC"
+msgstr "Nemoguće stvoriti IPC subprocesa"
+
+#: apt-pkg/contrib/fileutl.cc:2241
+msgid "Failed to exec compressor "
+msgstr "Neuspjelo pokretanje sažimanja "
+
+#: apt-pkg/contrib/fileutl.cc:2525
+#, c-format
+msgid "Could not open file %s"
+msgstr "Nemoguće otvaranje datoteke %s"
+
+#: apt-pkg/contrib/fileutl.cc:2584 apt-pkg/contrib/fileutl.cc:2635
+#, c-format
+msgid "Could not open file descriptor %d"
+msgstr "Nemoguće otvoriti opis %d"
+
+#: apt-pkg/contrib/fileutl.cc:2702 apt-pkg/contrib/fileutl.cc:2733
+#, c-format
+msgid "read, still have %llu to read but none left"
+msgstr "čitam, još ima %llu za pročitati ali niša nije preostalo"
+
+#: apt-pkg/contrib/fileutl.cc:2811 apt-pkg/contrib/fileutl.cc:2832
+#, c-format
+msgid "write, still have %llu to write but couldn't"
+msgstr "zapisujem, još ima %llu za zapisati ali je nezapisivo"
+
+#: apt-pkg/contrib/fileutl.cc:2949
+#, c-format
+msgid "Problem closing the file %s"
+msgstr "Problem zatvaranja datoteke %s"
+
+#: apt-pkg/contrib/fileutl.cc:2961
+#, c-format
+msgid "Problem renaming the file %s to %s"
+msgstr "Problem preimenovanja datoteke %s u %s"
+
+#: apt-pkg/contrib/fileutl.cc:2984
+msgid "Problem syncing the file"
+msgstr "Problem usklađivanja datoteke"
+
+#: apt-pkg/contrib/fileutl.cc:3121
+#, c-format
+msgid "Unable to mkstemp %s"
+msgstr "Nemoguće mkstemp %s"
+
+#: apt-pkg/contrib/fileutl.cc:3128
+#, c-format
+msgid "Unable to write to %s"
+msgstr "Nemoguće zapisivanje u %s"
+
+#: apt-pkg/contrib/mmap.cc:77
+msgid "Can't mmap an empty file"
+msgstr "Nemoguće mapiranje prazne datoteke"
+
+#: apt-pkg/contrib/mmap.cc:86 apt-pkg/contrib/mmap.cc:106
+#: apt-pkg/contrib/mmap.cc:117 apt-pkg/contrib/mmap.cc:123
+#, c-format
+msgid "Couldn't make mmap of %llu bytes"
+msgstr "Nemoguće mapiranje od %llu bajta"
+
+#: apt-pkg/contrib/mmap.cc:113
+#, c-format
+msgid "Couldn't duplicate file descriptor %i"
+msgstr "Namoguće udvostručenje opisa datoteke %i"
+
+#: apt-pkg/contrib/mmap.cc:149
+msgid "Unable to close mmap"
+msgstr "Nemoguće zatvaranje mapiranja"
+
+#: apt-pkg/contrib/mmap.cc:177 apt-pkg/contrib/mmap.cc:205
+msgid "Unable to synchronize mmap"
+msgstr "Nemoguće usklađivanje mapiranja"
+
+#: apt-pkg/contrib/mmap.cc:287
+#, c-format
+msgid "Couldn't make mmap of %lu bytes"
+msgstr "Nemoguće mapiranje od %lu bajta"
+
+#: apt-pkg/contrib/mmap.cc:319
+msgid "Failed to truncate file"
+msgstr "Nemoguće odbacivanje datoteke"
+
+#: apt-pkg/contrib/mmap.cc:338
+#, c-format
+msgid ""
+"Dynamic MMap ran out of room. Please increase the size of APT::Cache-Start. "
+"Current value: %lu. (man 5 apt.conf)"
+msgstr ""
+"Promjenjivo mapiranje je pokrenuto izvan dodjeljenog prostora. Povećajte "
+"veličinu APT::Cache-Start. Trenutna vrijednosti: %lu. (man 5 apt.conf)"
+
+#: apt-pkg/contrib/mmap.cc:456
+#, c-format
+msgid ""
+"Unable to increase the size of the MMap as the limit of %lu bytes is already "
+"reached."
+msgstr ""
+"Nemoguće povećanje veličine mapiranja jer je ograničenje %lu bajta već "
+"dosegnuto."
+
+#: apt-pkg/contrib/mmap.cc:459
+msgid ""
+"Unable to increase size of the MMap as automatic growing is disabled by user."
+msgstr ""
+"Nemoguće povećanje veličine mapiranja jer je automatsko povećanje onemogućio "
+"korisnik."
+
+#: apt-pkg/contrib/progress.cc:155
+#, c-format
+msgid "%c%s... Error!"
+msgstr "%c%s... Greška!"
+
+#: apt-pkg/contrib/progress.cc:157
+#, c-format
+msgid "%c%s... Done"
+msgstr "%c%s... Završeno"
+
+#: apt-pkg/contrib/progress.cc:188
+msgid "..."
+msgstr "..."
+
+#. Print the spinner
+#: apt-pkg/contrib/progress.cc:204
+#, c-format
+msgid "%c%s... %u%%"
+msgstr "%c%s... %u%%"
+
+#. TRANSLATOR: d means days, h means hours, min means minutes, s means seconds
+#: apt-pkg/contrib/strutl.cc:435
+#, c-format
+msgid "%lid %lih %limin %lis"
+msgstr "%lid %lih %limin %lis"
+
+#. TRANSLATOR: h means hours, min means minutes, s means seconds
+#: apt-pkg/contrib/strutl.cc:440
+#, c-format
+msgid "%lih %limin %lis"
+msgstr "%lih %limin %lis"
+
+#. TRANSLATOR: min means minutes, s means seconds
+#: apt-pkg/contrib/strutl.cc:445
+#, c-format
+msgid "%limin %lis"
+msgstr "%limin %lis"
+
+#. TRANSLATOR: s means seconds
+#: apt-pkg/contrib/strutl.cc:450
+#, c-format
+msgid "%lis"
+msgstr "%lis"
+
+#: apt-pkg/contrib/strutl.cc:1434
+#, c-format
+msgid "Selection %s not found"
+msgstr "Odabir %s nije pronađen"
+
+#. TRANSLATOR: an identifier like Packages; Releasefile key indicating
+#. a file like main/binary-amd64/Packages; another identifier like Contents;
+#. filename and linenumber of the sources.list entry currently parsed
+#: apt-pkg/deb/debmetaindex.cc:263
+#, c-format
+msgid "Target %s wants to acquire the same file (%s) as %s from source %s"
+msgstr "Odredište %s želi dobaviti istu datoteku (%s) kao %s iz izvora %s"
+
+#. TRANSLATOR: an identifier like Packages; Releasefile key indicating
+#. a file like main/binary-amd64/Packages; filename and linenumber of
+#. two sources.list entries
+#: apt-pkg/deb/debmetaindex.cc:284
+#, c-format
+msgid "Target %s (%s) is configured multiple times in %s and %s"
+msgstr "Odredište %s (%s) je podešeno više puta u %s i %s"
+
+#: apt-pkg/deb/debmetaindex.cc:384
+#, c-format
+msgid "Unable to parse Release file %s"
+msgstr "Nemoguća obrada datoteke izdanja %s"
+
+#: apt-pkg/deb/debmetaindex.cc:393
+#, c-format
+msgid "No sections in Release file %s"
+msgstr "Nema odjeljaka u datoteci izdanja %s"
+
+#: apt-pkg/deb/debmetaindex.cc:476
+#, c-format
+msgid "No Hash entry in Release file %s"
+msgstr "Nema unosa jedinstvene vrijednosti u datoteci izdanja %s"
+
+#: apt-pkg/deb/debmetaindex.cc:478
+#, c-format
+msgid ""
+"No Hash entry in Release file %s which is considered strong enough for "
+"security purposes"
+msgstr ""
+"Nema unosa jedinstvene vrijednosti u datoteci izdanja %s koja se smatra "
+"dovoljno jakom za sigurnosne svrhe."
+
+#: apt-pkg/deb/debmetaindex.cc:485 apt-pkg/deb/debmetaindex.cc:525
+#: apt-pkg/deb/debmetaindex.cc:578
+#, c-format
+msgid "Invalid '%s' entry in Release file %s"
+msgstr "Neispravan '%s' unos u datoteci izdanja %s"
+
+#. TRANSLATOR: The first is an option name from sources.list manpage, the other two URI and Suite
+#: apt-pkg/deb/debmetaindex.cc:693 apt-pkg/deb/debmetaindex.cc:701
+#: apt-pkg/deb/debmetaindex.cc:709 apt-pkg/deb/debmetaindex.cc:717
+#: apt-pkg/deb/debmetaindex.cc:725 apt-pkg/deb/debmetaindex.cc:733
+#: apt-pkg/deb/debmetaindex.cc:1105 apt-pkg/deb/debmetaindex.cc:1107
+#: apt-pkg/deb/debmetaindex.cc:1112 apt-pkg/deb/debmetaindex.cc:1114
+#: apt-pkg/deb/debmetaindex.cc:1123
+#, c-format
+msgid "Conflicting values set for option %s regarding source %s %s"
+msgstr ""
+"Sukobljene vrijednosti su postavljene za mogućnost %s u odnosu na izvor %s %s"
+
+#: apt-pkg/deb/debmetaindex.cc:752
+#, c-format
+msgid "Invalid value set for option %s regarding source %s %s (%s)"
+msgstr ""
+"Neispravne vrijednosti su postavljene za mogućnost %s u odnosu na izvor %s "
+"%s (%s)"
+
+#: apt-pkg/deb/debmetaindex.cc:771
+#, c-format
+msgid "Conflicting values set for option %s regarding source %s %s: %s != %s"
+msgstr ""
+"Sukobljene vrijednosti su postavljene za mogućnost %s u odnosu na izvor %s "
+"%s: %s != %s"
+
+#: apt-pkg/deb/debrecords.cc:219 apt-pkg/tagfile.cc:217 apt-pkg/tagfile.cc:464
+#, c-format
+msgid "Unable to parse package file %s (%d)"
+msgstr "Nemoguća obrada datoteke paketa %s (%d)"
+
+#: apt-pkg/deb/debsystem.cc:94
+#, c-format
+msgid ""
+"Unable to acquire the dpkg frontend lock (%s), is another process using it?"
+msgstr ""
+"Neuspjelo dobivanje dpkg prednjeg programa (%s), koristi li ga drugi proces?"
+
+#: apt-pkg/deb/debsystem.cc:97
+#, c-format
+msgid "Unable to acquire the dpkg frontend lock (%s), are you root?"
+msgstr ""
+"Neuspjelo dobivanje dpkg prednjeg programa (%s), jeste li korijenski "
+"korisnik?"
+
+#. TRANSLATORS: the %s contains the recovery command, usually
+#. dpkg --configure -a
+#: apt-pkg/deb/debsystem.cc:120
+#, c-format
+msgid ""
+"dpkg was interrupted, you must manually run '%s' to correct the problem. "
+msgstr ""
+"dpkg je prekinut, morate ručno pokrenuti '%s' za ispravljanje problema. "
+
+#: apt-pkg/deb/debsystem.cc:135
+#, c-format
+msgid ""
+"Unable to lock the administration directory (%s), is another process using "
+"it?"
+msgstr ""
+"Nemoguće zaključavanje administratorskog direktorija (%s), koristi li ga "
+"drugi proces?"
+
+#: apt-pkg/deb/debsystem.cc:138
+#, c-format
+msgid "Unable to lock the administration directory (%s), are you root?"
+msgstr ""
+"Nemoguće zaključavanje administratorskog direktorija (%s), jeste li "
+"korijenski korisnik?"
+
+#: apt-pkg/deb/debsystem.cc:153
+msgid "Not locked"
+msgstr "Nije zaključano"
+
+#. we don't care for the difference
+#: apt-pkg/deb/dpkgpm.cc:145 apt-pkg/deb/dpkgpm.cc:147
+#, c-format
+msgid "Preparing %s"
+msgstr "Pripremam %s"
+
+#: apt-pkg/deb/dpkgpm.cc:148
+#, c-format
+msgid "Preparing to configure %s"
+msgstr "Pripremanje za podešavanje %s"
+
+#: apt-pkg/deb/dpkgpm.cc:149
+#, c-format
+msgid "Preparing for removal of %s"
+msgstr "Pripremanje za uklanjanje %s"
+
+#: apt-pkg/deb/dpkgpm.cc:150
+#, c-format
+msgid "Preparing to completely remove %s"
+msgstr "Pripremanje za potpuno uklanjanje %s"
+
+#: apt-pkg/deb/dpkgpm.cc:151
+#, c-format
+msgid "Noting disappearance of %s"
+msgstr "Ništa ne nedostaje za %s"
+
+#: apt-pkg/deb/dpkgpm.cc:152
+#, c-format
+msgid "Running post-installation trigger %s"
+msgstr "Pokretanje završne instalacije za %s"
+
+#: apt-pkg/deb/dpkgpm.cc:869 apt-pkg/deb/dpkgpm.cc:1169
+#, c-format
+msgid "Installed %s"
+msgstr "%s je instaliran"
+
+#: apt-pkg/deb/dpkgpm.cc:870 apt-pkg/deb/dpkgpm.cc:1168
+#, c-format
+msgid "Configuring %s"
+msgstr "Podešavam %s"
+
+#. FIXME: use a better string after freeze
+#: apt-pkg/deb/dpkgpm.cc:1018 apt-pkg/deb/dpkgpm.cc:1051
+#, c-format
+msgid "Directory '%s' missing"
+msgstr "Direktorij '%s' nedostaje"
+
+#: apt-pkg/deb/dpkgpm.cc:1032 apt-pkg/deb/dpkgpm.cc:1056 apt-pkg/edsp.cc:1049
+#, c-format
+msgid "Could not open file '%s'"
+msgstr "Nemoguće otvaranje datoteke '%s'"
+
+#: apt-pkg/deb/dpkgpm.cc:1163
+#, c-format
+msgid "Unpacking %s"
+msgstr "Raspakiravam %s"
+
+#: apt-pkg/deb/dpkgpm.cc:1164
+#, c-format
+msgid "Installing %s"
+msgstr "Instaliram %s"
+
+#: apt-pkg/deb/dpkgpm.cc:1173 apt-pkg/deb/dpkgpm.cc:1174
+#, c-format
+msgid "Removing %s"
+msgstr "Uklanjam %s"
+
+#: apt-pkg/deb/dpkgpm.cc:1178
+#, c-format
+msgid "Completely removing %s"
+msgstr "Uklanjam u potpunosti %s"
+
+#: apt-pkg/deb/dpkgpm.cc:1179
+#, c-format
+msgid "Completely removed %s"
+msgstr "%s je uklonjen u potpunosti"
+
+#: apt-pkg/deb/dpkgpm.cc:1255 apt-pkg/deb/dpkgpm.cc:1349
+#, c-format
+msgid "Can not write log (%s)"
+msgstr "Nemoguće zapisivanje zapisa (%s)"
+
+#: apt-pkg/deb/dpkgpm.cc:1255 apt-pkg/deb/dpkgpm.cc:1349
+msgid "Is /dev/pts mounted?"
+msgstr "Je li /dev/pts montiran?"
+
+#: apt-pkg/deb/dpkgpm.cc:2158
+msgid "Operation was interrupted before it could finish"
+msgstr "Radnja je prekinuta prije završetka"
+
+#: apt-pkg/deb/dpkgpm.cc:2243
+msgid "No apport report written because MaxReports is reached already"
+msgstr ""
+"Nema zapisanih izvještaja aplikacije jer je najveći broj izvještaja već "
+"dosegnut"
+
+#. check if its not a follow up error
+#: apt-pkg/deb/dpkgpm.cc:2248
+msgid "dependency problems - leaving unconfigured"
+msgstr "problemi zavisnosti - ostavljam nepodešeno"
+
+#: apt-pkg/deb/dpkgpm.cc:2250
+msgid ""
+"No apport report written because the error message indicates its a followup "
+"error from a previous failure."
+msgstr ""
+"Nema zapisanih izvještaja aplikacije jer poruke greške ukazuju kako je "
+"slijeđena greška iz prijašnjeg neuspjeha."
+
+#: apt-pkg/deb/dpkgpm.cc:2256
+msgid ""
+"No apport report written because the error message indicates a disk full "
+"error"
+msgstr ""
+"Nema zapisanih izvještaja aplikacije jer poruke greške ukazuju grešku punog "
+"diska."
+
+#: apt-pkg/deb/dpkgpm.cc:2263
+msgid ""
+"No apport report written because the error message indicates a out of memory "
+"error"
+msgstr ""
+"Nema zapisanih izvještaja aplikacije jer poruke greške ukazuju manjak "
+"memorije."
+
+#: apt-pkg/deb/dpkgpm.cc:2270 apt-pkg/deb/dpkgpm.cc:2276
+msgid ""
+"No apport report written because the error message indicates an issue on the "
+"local system"
+msgstr ""
+"Nema zapisanih izvještaja aplikacije jer poruke greške ukazuju problem na "
+"lokalnom sustavu."
+
+#: apt-pkg/deb/dpkgpm.cc:2298
+msgid ""
+"No apport report written because the error message indicates a dpkg I/O error"
+msgstr ""
+"Nema zapisanih izvještaja aplikacije jer poruke greške ukazuju dpkg I/U "
+"grešku"
+
+#: apt-pkg/depcache.cc:139 apt-pkg/depcache.cc:167
+msgid "Building dependency tree"
+msgstr "Izgradnja stabla zavisnosti"
+
+#: apt-pkg/depcache.cc:140
+msgid "Candidate versions"
+msgstr "Inačica kandidata"
+
+#: apt-pkg/depcache.cc:168
+msgid "Dependency generation"
+msgstr "Stvaranje zavisnosti"
+
+#: apt-pkg/depcache.cc:188 apt-pkg/depcache.cc:221 apt-pkg/depcache.cc:225
+msgid "Reading state information"
+msgstr "Čitanje informacija stanja"
+
+#: apt-pkg/depcache.cc:252
+#, c-format
+msgid "Failed to open StateFile %s"
+msgstr "Neuspjelo otvaranje datoteke stanja %s"
+
+#: apt-pkg/depcache.cc:257
+#, c-format
+msgid "Failed to write temporary StateFile %s"
+msgstr "Neuspjelo čitanje privremene datoteke stanja %s"
+
+#: apt-pkg/edsp.cc:397 apt-pkg/edsp.cc:421 apt-pkg/edsp.cc:451
+#: apt-pkg/edsp.cc:473
+msgid "Send scenario to solver"
+msgstr "Pošalji scenarij razrješitelju"
+
+#: apt-pkg/edsp.cc:503 apt-pkg/edsp.cc:557
+msgid "Send request to solver"
+msgstr "Pošalji zahtjev razrješitelju"
+
+#: apt-pkg/edsp.cc:645 apt-pkg/edsp.cc:1348
+msgid "Prepare for receiving solution"
+msgstr "Priprema za primanje rješenja"
+
+#: apt-pkg/edsp.cc:658
+msgid "External solver failed without a proper error message"
+msgstr "Vanjski razrješitelj neuspio, bez prikladne poruke greške"
+
+#: apt-pkg/edsp.cc:1075 apt-pkg/edsp.cc:1078 apt-pkg/edsp.cc:1083
+msgid "Execute external solver"
+msgstr "Pokreni vanjskog razrješitelja"
+
+#: apt-pkg/edsp.cc:1133 apt-pkg/edsp.cc:1136 apt-pkg/edsp.cc:1143
+msgid "Execute external planner"
+msgstr "Pokreni vanjski planer"
+
+#: apt-pkg/edsp.cc:1164
+msgid "Send request to planner"
+msgstr "Pošalji zahtjev planeru"
+
+#: apt-pkg/edsp.cc:1254
+msgid "Send scenario to planner"
+msgstr "Pošalji scenarij planeru"
+
+#: apt-pkg/edsp.cc:1361
+msgid "External planner failed without a proper error message"
+msgstr "Vanjski planer se srušio bez valjane poruke greške"
+
+#: apt-pkg/indexcopy.cc:226 apt-pkg/indexcopy.cc:765
+#, c-format
+msgid "Wrote %i records.\n"
+msgstr "Zapiši %i snimke.\n"
+
+#: apt-pkg/indexcopy.cc:228 apt-pkg/indexcopy.cc:767
+#, c-format
+msgid "Wrote %i records with %i missing files.\n"
+msgstr "Zapiši %i snimka s %i nedostajućih datoteka.\n"
+
+#: apt-pkg/indexcopy.cc:231 apt-pkg/indexcopy.cc:770
+#, c-format
+msgid "Wrote %i records with %i mismatched files\n"
+msgstr "Zapiši %i snimka s %i neodgovarajućih datoteka\n"
+
+#: apt-pkg/indexcopy.cc:234 apt-pkg/indexcopy.cc:773
+#, c-format
+msgid "Wrote %i records with %i missing files and %i mismatched files\n"
+msgstr ""
+"Zapiši %i snimka s %i nedostajućih datoteka %i neodgovarajućih datoteka\n"
+
+#: apt-pkg/indexcopy.cc:510
+#, c-format
+msgid "Can't find authentication record for: %s"
+msgstr "Nemoguć pronalazak snimke ovjere za: %s"
+
+#: apt-pkg/indexcopy.cc:516
+#, c-format
+msgid "Hash mismatch for: %s"
+msgstr "Jedinstvena vrijednost se ne podudara: %s"
+
+#: apt-pkg/init.cc:263
+#, c-format
+msgid "Packaging system '%s' is not supported"
+msgstr "Sustav pakiranja '%s' nije podržan"
+
+#: apt-pkg/init.cc:279
+msgid "Unable to determine a suitable packaging system type"
+msgstr "Nemoguće određivanje vrste prikladnog sustava pakiranja"
+
+#: apt-pkg/install-progress.cc:59
+#, c-format
+msgid "Progress: [%3li%%]"
+msgstr "Napredak: [%3li%%]"
+
+#. send status information that we are about to fork dpkg
+#: apt-pkg/install-progress.cc:103 apt-pkg/install-progress.cc:184
+msgid "Running dpkg"
+msgstr "Pokretanje dpkg-a"
+
+#: apt-pkg/packagemanager.cc:330 apt-pkg/packagemanager.cc:1018
+#, c-format
+msgid ""
+"Could not perform immediate configuration on '%s'. Please see man 5 apt.conf "
+"under APT::Immediate-Configure for details. (%d)"
+msgstr ""
+"Nemoguće pokretanje trenutnog podešavanja na '%s'. Pogledajte man 5 apt.conf "
+"pod APT::Immediate-Configure za više pojedinosti. (%d)"
+
+#: apt-pkg/packagemanager.cc:589 apt-pkg/packagemanager.cc:627
+#, c-format
+msgid "Could not configure '%s'. "
+msgstr "Nemoguće podešavanje '%s'. "
+
+#: apt-pkg/packagemanager.cc:677
+#, c-format
+msgid ""
+"This installation run will require temporarily removing the essential "
+"package %s due to a Conflicts/Pre-Depends loop. This is often bad, but if "
+"you really want to do it, activate the APT::Force-LoopBreak option."
+msgstr ""
+"Ovo pokretanje instalacije će zahtijevati privremeno uklanjanje osnovnog "
+"paketa %s uslijed Sukoba/Predzavisnosti petlje. Ovo je često loše, ali ako "
+"stvarno to želite učiniti, aktivirajte APT::Force-LoopBreak mogućnost."
+
+#: apt-pkg/pkgcache.cc:164
+msgid "Empty package cache"
+msgstr "Isprazni predmemoriju paketa"
+
+#: apt-pkg/pkgcache.cc:170 apt-pkg/pkgcache.cc:178
+msgid "The package cache file is corrupted"
+msgstr "Datoteka predmemorije paketa je oštećena"
+
+#: apt-pkg/pkgcache.cc:175
+msgid "The package cache file is an incompatible version"
+msgstr "Datoteka predmemorije paketa je nekompatibilne inačica"
+
+#: apt-pkg/pkgcache.cc:182
+#, c-format
+msgid "This APT does not support the versioning system '%s'"
+msgstr "Ovaj APT ne podržava sustav inačica '%s'"
+
+#: apt-pkg/pkgcache.cc:194
+#, c-format
+msgid "The package cache was built for different architectures: %s vs %s"
+msgstr "Predmemorija paketa je izgrađena za drugačije arhitekture: %s vs %s"
+
+#: apt-pkg/pkgcache.cc:201
+msgid "The package cache file is corrupted, it has the wrong hash"
+msgstr ""
+"Datoteka predmemorije paketa je oštećena, ima pogrešnu jedinstvenu vrijednost"
+
+#: apt-pkg/pkgcache.cc:350
+msgid "Depends"
+msgstr "Zavisnosti"
+
+#: apt-pkg/pkgcache.cc:350
+msgid "PreDepends"
+msgstr "Predzavisnosti"
+
+#: apt-pkg/pkgcache.cc:350
+msgid "Suggests"
+msgstr "Prijedlozi"
+
+#: apt-pkg/pkgcache.cc:351
+msgid "Recommends"
+msgstr "Preporuke"
+
+#: apt-pkg/pkgcache.cc:351
+msgid "Conflicts"
+msgstr "Sukobi"
+
+#: apt-pkg/pkgcache.cc:351
+msgid "Replaces"
+msgstr ""
+
+#: apt-pkg/pkgcache.cc:352
+msgid "Obsoletes"
+msgstr "Zastarjelo"
+
+#: apt-pkg/pkgcache.cc:352
+msgid "Breaks"
+msgstr "Slomljeno"
+
+#: apt-pkg/pkgcache.cc:352
+msgid "Enhances"
+msgstr "Poboljšanja"
+
+#: apt-pkg/pkgcache.cc:363
+msgid "required"
+msgstr "potrebno"
+
+#: apt-pkg/pkgcache.cc:363
+msgid "important"
+msgstr "bitno"
+
+#: apt-pkg/pkgcache.cc:363
+msgid "standard"
+msgstr "uobičajeno"
+
+#: apt-pkg/pkgcache.cc:364
+msgid "optional"
+msgstr "neobavezno"
+
+#: apt-pkg/pkgcache.cc:364
+msgid "extra"
+msgstr "dodatno"
+
+#: apt-pkg/pkgcachegen.cc:121
+msgid "Cache has an incompatible versioning system"
+msgstr "Predmemorija ima nekompatibilan sustav inačica"
+
+#. TRANSLATOR: The first placeholder is a package name,
+#. the other two should be copied verbatim as they include debug info
+#: apt-pkg/pkgcachegen.cc:277 apt-pkg/pkgcachegen.cc:339
+#: apt-pkg/pkgcachegen.cc:418 apt-pkg/pkgcachegen.cc:422
+#: apt-pkg/pkgcachegen.cc:439 apt-pkg/pkgcachegen.cc:447
+#: apt-pkg/pkgcachegen.cc:451 apt-pkg/pkgcachegen.cc:455
+#: apt-pkg/pkgcachegen.cc:476 apt-pkg/pkgcachegen.cc:481
+#: apt-pkg/pkgcachegen.cc:525 apt-pkg/pkgcachegen.cc:539
+#, c-format
+msgid "Error occurred while processing %s (%s%d)"
+msgstr "Greška se dogodila pri obradi %s (%s%d)"
+
+#: apt-pkg/pkgcachegen.cc:297
+msgid "Wow, you exceeded the number of package names this APT is capable of."
+msgstr "Vau, premašili ste broj naziva paketa koji ovaj APT može isporučiti."
+
+#: apt-pkg/pkgcachegen.cc:300
+msgid "Wow, you exceeded the number of versions this APT is capable of."
+msgstr "Vau, premašili ste broj inačica koji ovaj APT može isporučiti."
+
+#: apt-pkg/pkgcachegen.cc:303
+msgid "Wow, you exceeded the number of descriptions this APT is capable of."
+msgstr "Vau, premašili ste broj opisa koji ovaj APT može isporučiti."
+
+#: apt-pkg/pkgcachegen.cc:306
+msgid "Wow, you exceeded the number of dependencies this APT is capable of."
+msgstr "Vau, premašili ste broj zavisnosti koji ovaj APT može isporučiti."
+
+#: apt-pkg/pkgcachegen.cc:1546 apt-pkg/pkgcachegen.cc:1683
+#: apt-pkg/pkgcachegen.cc:1712 apt-pkg/pkgcachegen.cc:1830
+msgid "Reading package lists"
+msgstr "Čitanje popisa paketa"
+
+#: apt-pkg/pkgcachegen.cc:1617 apt-pkg/pkgcachegen.cc:1624
+msgid "IO Error saving source cache"
+msgstr "IU greška spremanja predmemorije izvora"
+
+#: apt-pkg/pkgrecords.cc:36
+#, c-format
+msgid "Index file type '%s' is not supported"
+msgstr "Sadržaj datoteka '%s' nije podržan"
+
+#: apt-pkg/policy.cc:77
+#, c-format
+msgid ""
+"The value '%s' is invalid for APT::Default-Release as such a release is not "
+"available in the sources"
+msgstr ""
+"Vrijednost '%s' je neispravna za APT::Default-Release jer takvo izdanje nije "
+"dostupno u izvorima"
+
+#: apt-pkg/policy.cc:363
+#, c-format
+msgid "Invalid record in the preferences file %s, no Package header"
+msgstr "Neispravna snimka u datoteci osobitosti %s, nema zaglavlja paketa"
+
+#: apt-pkg/policy.cc:385
+#, c-format
+msgid "Did not understand pin type %s"
+msgstr "Nije razumljiva vrsta prikačivanja %s"
+
+#: apt-pkg/policy.cc:397
+#, c-format
+msgid "%s: Value %s is outside the range of valid pin priorities (%d to %d)"
+msgstr ""
+"%s: vrijednost %s je izvan raspona pinova valjanih prioriteta (%d do %d)"
+
+#: apt-pkg/policy.cc:404
+msgid "No priority (or zero) specified for pin"
+msgstr "Nema prioriteta (ili je nula) određenog za prikačivanje"
+
+#. TRANSLATOR: %u is a line number, the first %s is a filename of a file with the extension "second %s" and the third %s is a unique identifier for bugreports
+#: apt-pkg/sourcelist.cc:157 apt-pkg/sourcelist.cc:160
+#: apt-pkg/sourcelist.cc:165 apt-pkg/sourcelist.cc:172
+#: apt-pkg/sourcelist.cc:179 apt-pkg/sourcelist.cc:218
+#: apt-pkg/sourcelist.cc:221 apt-pkg/sourcelist.cc:232
+#: apt-pkg/sourcelist.cc:238 apt-pkg/sourcelist.cc:241
+#: apt-pkg/sourcelist.cc:254 apt-pkg/sourcelist.cc:256
+#: apt-pkg/sourcelist.cc:259 apt-pkg/sourcelist.cc:265
+#: apt-pkg/sourcelist.cc:272
+#, c-format
+msgid "Malformed entry %u in %s file %s (%s)"
+msgstr "Oštećen unos %u u %s datoteci %s (%s)"
+
+#: apt-pkg/sourcelist.cc:408
+#, c-format
+msgid "Malformed line %u in source list %s (type)"
+msgstr "Oštećen redak %u u popisu izvora %s (vrsta)"
+
+#: apt-pkg/sourcelist.cc:412
+#, c-format
+msgid "Type '%s' is not known on line %u in source list %s"
+msgstr "Vrsta '%s' nije poznata u redku %u u popisu izvora %s"
+
+#: apt-pkg/sourcelist.cc:431 apt-pkg/sourcelist.cc:440
+#, c-format
+msgid "Malformed stanza %u in source list %s (type)"
+msgstr "Oštećen redak  %u u popisu izvora %s (vrsta)"
+
+#: apt-pkg/sourcelist.cc:447
+#, c-format
+msgid "Type '%s' is not known on stanza %u in source list %s"
+msgstr "Vrsta '%s' nije poznata u stavki %u u popisu izvora %s"
+
+#: apt-pkg/sourcelist.cc:620 apt-pkg/sourcelist.cc:637
+#, c-format
+msgid "Unsupported file %s given on commandline"
+msgstr "Nepodržana datoteka %s zadana u naredbenom redku"
+
+#: apt-pkg/srcrecords.cc:55
+msgid "You must put some 'source' URIs in your sources.list"
+msgstr "Morate upisati neki URI 'izvora' u vašu sources.list datoteku"
+
+#: apt-pkg/tagfile.cc:760
+#, c-format
+msgid "Cannot convert %s to integer: out of range"
+msgstr "Nemoguće pretvaranje %s u cijeli broj: izvan raspona"
+
+#: apt-pkg/update.cc:118 apt-pkg/update.cc:120
+msgid ""
+"Some index files failed to download. They have been ignored, or old ones "
+"used instead."
+msgstr ""
+"Neke datoteke sadržaja se nisu uspjele preuzeti. Zanemarene su ili se "
+"umjesto koriste stare."
+
+#: apt-pkg/upgrade.cc:34 apt-pkg/upgrade.cc:138 apt-pkg/upgrade.cc:182
+msgid "Calculating upgrade"
+msgstr "Izračunavanje nadogradnje"
