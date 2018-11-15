@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2018-06-10 17:29+0000\n"
-"PO-Revision-Date: 2018-07-06 14:10+0700\n"
+"POT-Creation-Date: 2018-10-22 18:11+0000\n"
+"PO-Revision-Date: 2018-11-15 23:36+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "Language: id\n"
@@ -90,7 +90,7 @@ msgid ""
 "to generate thumbnails for all images."
 msgstr ""
 "Gambar melebihi ukuran ini (dalam byte) tidak akan disketsakan. Gunakan 0 "
-"jika anda ingin menghasilkan sketsa untuk seluruh gambar"
+"jika anda ingin menghasilkan sketsa untuk seluruh gambar."
 
 #: data/gschemas/org.gnome.gthumb.gschema.xml:130
 msgid "Open files in the active window"
@@ -136,7 +136,7 @@ msgstr "gthumb"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:394 gthumb/gth-progress-dialog.c:411
+#: gthumb/gth-browser.c:394 gthumb/gth-progress-dialog.c:412
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -227,7 +227,7 @@ msgstr "_Ekstensi:"
 
 #: data/ui/extensions-preferences.ui:116
 msgid "More extensions…"
-msgstr "Lebih banyak ekstensi..."
+msgstr "Lebih banyak ekstensi…"
 
 #: data/ui/filter-editor.ui:20
 msgid "Filter _Name:"
@@ -482,7 +482,7 @@ msgstr "brasero"
 
 #: extensions/burn_disc/callbacks.c:48
 msgid "_Optical Disc…"
-msgstr "Cakram _Optik..."
+msgstr "Cakram _Optik…"
 
 #: extensions/burn_disc/data/ui/burn-disc-options.ui:21
 msgid "Disc Name"
@@ -516,12 +516,12 @@ msgstr "Tulis ke Cakram"
 msgid "_Continue"
 msgstr "_Lanjut"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:65
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:62
 #, c-format
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Galat menginterpretasi berkas citra JPEG (%s)"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:542
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:536
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Ruang warna JPEG tak dikenal (%d)"
@@ -550,7 +550,7 @@ msgstr "_Progresif"
 
 #: extensions/cairo_io/data/ui/png-options.ui:24
 msgid "Compression _level:"
-msgstr "_level Kompresi"
+msgstr "_Level kompresi:"
 
 #: extensions/cairo_io/data/ui/save-options-preferences.ui:25
 msgid "Default options:"
@@ -645,7 +645,7 @@ msgstr "Menyimpan"
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:370
 #: extensions/list_tools/gth-script-editor-dialog.c:235
-#: gthumb/gth-filter-editor-dialog.c:461 gthumb/gth-folder-tree.c:1853
+#: gthumb/gth-filter-editor-dialog.c:461 gthumb/gth-folder-tree.c:1852
 #, c-format
 msgid "No name specified"
 msgstr "Nama tak dinyatakan"
@@ -655,7 +655,7 @@ msgstr "Nama tak dinyatakan"
 #: extensions/catalogs/dlg-add-to-catalog.c:495
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:377
-#: gthumb/gth-folder-tree.c:1860
+#: gthumb/gth-folder-tree.c:1859
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Nama tak valid. Karakter berikut tak diijinkan: %s"
@@ -676,7 +676,7 @@ msgstr "Katalog baru"
 #: extensions/catalogs/actions.c:178
 #: extensions/catalogs/dlg-add-to-catalog.c:454
 msgid "Enter the catalog name:"
-msgstr "Masukkan nama katalog: "
+msgstr "Masukkan nama katalog:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
 #: extensions/catalogs/dlg-add-to-catalog.c:456
@@ -693,7 +693,7 @@ msgstr "Pustaka baru"
 #: extensions/catalogs/actions.c:292
 #: extensions/catalogs/dlg-add-to-catalog.c:566
 msgid "Enter the library name:"
-msgstr "Masukkan nama pustaka: "
+msgstr "Masukkan nama pustaka:"
 
 #: extensions/catalogs/actions.c:327
 msgid "Could not remove the catalog"
@@ -727,12 +727,12 @@ msgstr "Buat Pustaka"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:78
 #: extensions/file_manager/callbacks.c:105
 #: extensions/rename_series/dlg-rename-series.c:844
-#: gthumb/gth-folder-tree.c:1905
+#: gthumb/gth-folder-tree.c:1904
 msgid "Rename"
 msgstr "Ganti nama"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:201 gthumb/gth-browser.c:4615
+#: extensions/catalogs/dlg-catalog-properties.c:201 gthumb/gth-browser.c:4605
 #: gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Tag (tertanam)"
@@ -814,7 +814,7 @@ msgid "Catalog"
 msgstr "Katalog"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:93
-#: gthumb/gth-progress-dialog.c:157
+#: gthumb/gth-progress-dialog.c:158
 msgid "Cancel operation"
 msgstr "Batalkan operasi"
 
@@ -1009,7 +1009,7 @@ msgstr "Ubah ke:"
 
 #: extensions/change_date/data/ui/change-date.ui:171
 msgid "The _following date:"
-msgstr "tanggal _berikut:"
+msgstr "Tanggal _berikut:"
 
 #: extensions/change_date/data/ui/change-date.ui:217
 msgid "File _modified date"
@@ -1053,7 +1053,7 @@ msgstr "Komentar dan Tag"
 
 #: extensions/comments/comments.extension.desktop.in.in:4
 msgid "Add comments and tags to any file type."
-msgstr "Tambahkan komentar dan tag ke sebarang jenis berkas"
+msgstr "Tambahkan komentar dan tag ke sebarang jenis berkas."
 
 #: extensions/comments/data/ui/comments-preferences.ui:12
 msgid "_Synchronize with the embedded metadata"
@@ -1363,7 +1363,7 @@ msgstr "_Urutkan:"
 #: extensions/contact_sheet/data/ui/image-wall.ui:492
 #: extensions/webalbums/data/ui/web-album-exporter.ui:645
 msgid "Re_verse order"
-msgstr "urutkan Ter_balik"
+msgstr "Urutkan ter_balik"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:961
 #: extensions/contact_sheet/data/ui/image-wall.ui:518
@@ -1514,7 +1514,7 @@ msgstr "D_eskripsi:"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:81
 msgid "_Place:"
-msgstr "Tem_pat"
+msgstr "Tem_pat:"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:120
 #: extensions/edit_metadata/data/ui/tag-chooser.ui:16
@@ -1575,16 +1575,16 @@ msgstr "Tidak bertanggal"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:556
 msgid "The following date"
-msgstr "tanggal Berikut"
+msgstr "Tanggal berikut"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:557
 #: extensions/importer/gth-import-preferences-dialog.c:324
 msgid "Current date"
-msgstr "tanggal Sekarang"
+msgstr "Tanggal sekarang"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:559
 msgid "Last modified date"
-msgstr "tanggal Pengubahan terakhir"
+msgstr "Tanggal pengubahan terakhir"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:560
 msgid "File creation date"
@@ -1764,7 +1764,7 @@ msgstr "Sunting akun"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:180
 msgid "A_lbum:"
-msgstr "A_lbum"
+msgstr "A_lbum:"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:212
 msgid "Add a new album"
@@ -1824,7 +1824,7 @@ msgstr "_Album:"
 #: extensions/flicker_utils/dlg-export-to-flickr.c:163
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:120
 msgid "Files successfully uploaded to the server."
-msgstr "Berkas sukses diunggah ke server"
+msgstr "Berkas sukses diunggah ke server."
 
 #: extensions/facebook/dlg-export-to-facebook.c:151
 #: extensions/flicker_utils/dlg-export-to-flickr.c:248
@@ -1885,43 +1885,43 @@ msgstr[0] "%d berkas (%s)"
 msgid "Export to %s"
 msgstr "Ekspor ke %s"
 
-#: extensions/facebook/facebook-service.c:501
-#: extensions/flicker_utils/flickr-service.c:872
-#: extensions/picasaweb/picasa-web-service.c:744
+#: extensions/facebook/facebook-service.c:495
+#: extensions/flicker_utils/flickr-service.c:850
+#: extensions/picasaweb/picasa-web-service.c:737
 msgid "Getting the album list"
 msgstr "Mengambil daftar album"
 
-#: extensions/facebook/facebook-service.c:623
-#: extensions/flicker_utils/flickr-service.c:974
-#: extensions/flicker_utils/flickr-service.c:1096
-#: extensions/flicker_utils/flickr-service.c:1135
+#: extensions/facebook/facebook-service.c:612
+#: extensions/flicker_utils/flickr-service.c:944
+#: extensions/flicker_utils/flickr-service.c:1059
+#: extensions/flicker_utils/flickr-service.c:1098
 msgid "Creating the new album"
 msgstr "Membuatan album baru"
 
-#: extensions/facebook/facebook-service.c:684
-#: extensions/flicker_utils/flickr-service.c:1185
-#: extensions/picasaweb/picasa-web-service.c:792
+#: extensions/facebook/facebook-service.c:670
+#: extensions/flicker_utils/flickr-service.c:1145
+#: extensions/picasaweb/picasa-web-service.c:782
 #, c-format
 msgid "Could not upload “%s”: %s"
 msgstr "Tak bisa mengunggah \"%s\": %s"
 
 #. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:749
-#: extensions/flicker_utils/flickr-service.c:1296
-#: extensions/picasaweb/picasa-web-service.c:849
+#: extensions/facebook/facebook-service.c:733
+#: extensions/flicker_utils/flickr-service.c:1254
+#: extensions/picasaweb/picasa-web-service.c:837
 #, c-format
 msgid "Uploading “%s”"
 msgstr "Mengunggah \"%s\""
 
-#: extensions/facebook/facebook-service.c:964
-#: extensions/flicker_utils/flickr-service.c:1493
-#: extensions/picasaweb/picasa-web-service.c:1073
+#: extensions/facebook/facebook-service.c:948
+#: extensions/flicker_utils/flickr-service.c:1451
+#: extensions/picasaweb/picasa-web-service.c:1061
 msgid "Uploading the files to the server"
 msgstr "Mengunggah berkas ke server"
 
-#: extensions/facebook/facebook-service.c:1063
-#: extensions/flicker_utils/flickr-service.c:1662
-#: extensions/picasaweb/picasa-web-service.c:1192
+#: extensions/facebook/facebook-service.c:1042
+#: extensions/flicker_utils/flickr-service.c:1612
+#: extensions/picasaweb/picasa-web-service.c:1173
 msgid "Getting the photo list"
 msgstr "Mengambil daftar foto"
 
@@ -1939,7 +1939,7 @@ msgstr "Folder baru"
 
 #: extensions/file_manager/actions.c:138
 msgid "Enter the folder name:"
-msgstr "Masukkan nama folder: "
+msgstr "Masukkan nama folder:"
 
 #: extensions/file_manager/actions.c:410
 #: extensions/file_manager/callbacks.c:268
@@ -2063,8 +2063,8 @@ msgstr "_Salin"
 
 #: extensions/file_manager/callbacks.c:984
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5612 gthumb/gth-browser.c:5648
-#: gthumb/gth-progress-dialog.c:427
+#: gthumb/gth-browser.c:5602 gthumb/gth-browser.c:5638
+#: gthumb/gth-progress-dialog.c:428
 msgid "Could not perform the operation"
 msgstr "Operasi tidak dapat dilakukan"
 
@@ -2232,7 +2232,7 @@ msgstr "Tata ukuran gambar ke nilai ini"
 
 #: extensions/file_tools/data/ui/resize-options.ui:515
 msgid "Original dimensions:"
-msgstr "Dimensi asli"
+msgstr "Dimensi asli:"
 
 #: extensions/file_tools/data/ui/resize-options.ui:530
 msgid "Scale factor:"
@@ -2364,7 +2364,7 @@ msgstr "Biru"
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:553
 #: extensions/file_tools/gth-file-tool-curves.c:816
 #: extensions/file_tools/gth-file-tool-rotate.c:601
-#: extensions/file_tools/gth-file-tool-sharpen.c:363
+#: extensions/file_tools/gth-file-tool-sharpen.c:361
 #: gthumb/gth-test-aspect-ratio.c:234
 msgid "Reset"
 msgstr "Reset"
@@ -2417,7 +2417,7 @@ msgstr "Regangkan"
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:535
 #, no-c-format
 msgid "Stretch the histogram after trimming 0.5% from both ends"
-msgstr " Regangkan histogram setelah memangkas 0,5% dari kedua ujung"
+msgstr "Regangkan histogram setelah memangkas 0,5% dari kedua ujung"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:539
 msgid "Equalize"
@@ -2553,7 +2553,7 @@ msgstr "Tambah ke Pratata"
 
 #: extensions/file_tools/gth-file-tool-curves.c:408
 msgid "Enter the preset name:"
-msgstr "Masukkan nama pratata: "
+msgstr "Masukkan nama pratata:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:530
 #: extensions/gstreamer_tools/actions.c:69
@@ -2722,11 +2722,11 @@ msgstr "Simpan Sebagai…"
 msgid "Save"
 msgstr "Simpan"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:333
+#: extensions/file_tools/gth-file-tool-sharpen.c:331
 msgid "Sharpening image"
 msgstr "Pertajam citra"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:436
+#: extensions/file_tools/gth-file-tool-sharpen.c:434
 msgid "Enhance Focus"
 msgstr "Tingkatkan Fokus"
 
@@ -2764,7 +2764,7 @@ msgid "_View"
 msgstr "_Lihat"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:454
-#: gthumb/gth-tags-entry.c:1230 gthumb/gtk-utils.h:39
+#: gthumb/gth-tags-entry.c:1227 gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Hapus"
 
@@ -2933,40 +2933,40 @@ msgstr "_Impor"
 msgid "Import from %s"
 msgstr "Impor dari %s"
 
-#: extensions/flicker_utils/flickr-consumer.c:124
+#: extensions/flicker_utils/flickr-consumer.c:122
 #: extensions/flicker_utils/flickr-service.c:237
-#: extensions/flicker_utils/flickr-service.c:348
-#: extensions/flicker_utils/flickr-service.c:681
-#: extensions/flicker_utils/flickr-service.c:946
-#: extensions/oauth/oauth-service.c:154
+#: extensions/flicker_utils/flickr-service.c:341
+#: extensions/flicker_utils/flickr-service.c:666
+#: extensions/flicker_utils/flickr-service.c:920
+#: extensions/oauth/oauth-service.c:151
 msgid "Unknown error"
 msgstr "Galat tak dikenal"
 
-#: extensions/flicker_utils/flickr-service.c:502
+#: extensions/flicker_utils/flickr-service.c:488
 #, c-format
 msgid ""
 "Return to this window when you have finished the authorization process on %s"
 msgstr ""
 "Kembali ke jendela ini setelah Anda menyelesaikan proses otorisasi pada %s"
 
-#: extensions/flicker_utils/flickr-service.c:503
+#: extensions/flicker_utils/flickr-service.c:489
 msgid "Once you’re done, click the “Continue” button below."
 msgstr "Setelah Anda selesai, klik tombol \"Lanjutkan\" di bawah."
 
-#: extensions/flicker_utils/flickr-service.c:575
+#: extensions/flicker_utils/flickr-service.c:561
 msgid "C_ontinue"
 msgstr "_Lanjut"
 
-#: extensions/flicker_utils/flickr-service.c:576
+#: extensions/flicker_utils/flickr-service.c:562
 msgid "_Authorize…"
-msgstr "Otoris_asikan..."
+msgstr "_Autorisasikan…"
 
-#: extensions/flicker_utils/flickr-service.c:579
+#: extensions/flicker_utils/flickr-service.c:565
 #, c-format
 msgid "gThumb requires your authorization to upload the photos to %s"
 msgstr "gThumb memerlukan otorisasi Anda untuk mengunggah foto ke %s"
 
-#: extensions/flicker_utils/flickr-service.c:580
+#: extensions/flicker_utils/flickr-service.c:566
 #, c-format
 msgid ""
 "Click “Authorize” to open your web browser and authorize gthumb to upload "
@@ -3074,11 +3074,11 @@ msgstr "Enkoder"
 
 #: extensions/gstreamer_tools/main.c:45 extensions/gstreamer_tools/main.c:50
 msgid "Codec"
-msgstr "Kodek:"
+msgstr "Kodek"
 
 #: extensions/gstreamer_tools/main.c:46
 msgid "Framerate"
-msgstr "Laju frame:"
+msgstr "Laju frame"
 
 #: extensions/gstreamer_tools/main.c:47
 #: extensions/image_print/data/ui/print-layout.ui:723
@@ -3111,7 +3111,7 @@ msgstr "Mono"
 #: extensions/image_viewer/gth-image-viewer-page.c:1790
 #: extensions/image_viewer/gth-metadata-provider-image.c:253
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2448 gthumb/gtk-utils.c:897
+#: extensions/webalbums/gth-web-exporter.c:2448 gthumb/gtk-utils.c:895
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3211,7 +3211,7 @@ msgid "Images"
 msgstr "Gambar"
 
 #: extensions/image_print/gth-image-print-job.c:1847
-#: gthumb/gth-image-loader.c:222 gthumb/gth-image-loader.c:354
+#: gthumb/gth-image-loader.c:250 gthumb/gth-image-loader.c:374
 #: gthumb/gth-image-utils.c:131 gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "Tak ada pemuat yang cocok bagi berkas jenis ini"
@@ -3396,7 +3396,7 @@ msgstr "Bingkai selanjutnya"
 msgid "Save Image"
 msgstr "Simpan Gambar"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2347
+#: extensions/image_viewer/gth-image-viewer-page.c:2340
 msgid "Loading the original image"
 msgstr "Memuat gambar asli"
 
@@ -3440,7 +3440,7 @@ msgstr "Menit"
 msgid "The seconds"
 msgstr "Detik"
 
-#: extensions/importer/gth-import-destination-button.c:111
+#: extensions/importer/gth-import-destination-button.c:112
 msgid "Invalid Destination"
 msgstr "Tujuan Tak Valid"
 
@@ -3598,7 +3598,7 @@ msgstr "%quote{ teks }"
 
 #: extensions/list_tools/data/ui/script-editor.ui:488
 msgid "Quote the text "
-msgstr "Kutip teks"
+msgstr "Kutip teks "
 
 #: extensions/list_tools/data/ui/script-editor.ui:534
 msgid "_Command:"
@@ -4048,27 +4048,27 @@ msgid "Edit Template"
 msgstr "Sunting Templat"
 
 #: extensions/rename_series/dlg-rename-series.c:854
-#: gthumb/gth-folder-tree.c:1908
+#: gthumb/gth-folder-tree.c:1907
 msgid "_Rename"
 msgstr "_Ganti nama"
 
-#: extensions/rename_series/dlg-rename-series.c:872
+#: extensions/rename_series/dlg-rename-series.c:871
 msgid "Old Name"
 msgstr "Nama Lama"
 
-#: extensions/rename_series/dlg-rename-series.c:883
+#: extensions/rename_series/dlg-rename-series.c:882
 msgid "New Name"
 msgstr "Nama Baru"
 
-#: extensions/rename_series/dlg-rename-series.c:961
+#: extensions/rename_series/dlg-rename-series.c:960
 msgid "Keep original case"
 msgstr "Pertahankan huruf besar kecil seperti semula"
 
-#: extensions/rename_series/dlg-rename-series.c:962
+#: extensions/rename_series/dlg-rename-series.c:961
 msgid "Convert to lower-case"
 msgstr "Ubah ke huruf kecil"
 
-#: extensions/rename_series/dlg-rename-series.c:963
+#: extensions/rename_series/dlg-rename-series.c:962
 msgid "Convert to upper-case"
 msgstr "Ubah ke huruf besar"
 
@@ -4147,7 +4147,7 @@ msgid "Search again"
 msgstr "Cari lagi"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:147
+#: extensions/search/callbacks.c:146
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Cari"
@@ -4395,7 +4395,7 @@ msgstr "_Salin yang asli ke tujuan"
 
 #: extensions/webalbums/data/ui/web-album-exporter.ui:706
 msgid "_Adapt to the window width "
-msgstr "Sesuaik_an ke lebar jendela"
+msgstr "Sesuaik_an ke lebar jendela "
 
 #: extensions/webalbums/data/ui/web-album-exporter.ui:794
 #: extensions/webalbums/data/ui/web-album-exporter.ui:869
@@ -4481,8 +4481,8 @@ msgid "Create static web albums."
 msgstr "Buat album web statik."
 
 #: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1107
-#: gthumb/gth-browser.c:1676 gthumb/gth-browser.c:6611
-#: gthumb/gth-browser.c:6630 gthumb/gth-browser.c:6654
+#: gthumb/gth-browser.c:1676 gthumb/gth-browser.c:6601
+#: gthumb/gth-browser.c:6620 gthumb/gth-browser.c:6644
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Tidak dapat memuat posisi \"%s\""
@@ -4665,7 +4665,7 @@ msgstr "Otomatis impor foto kamera digital"
 msgid "Show version"
 msgstr "Tampilkan versi"
 
-#: gthumb/gth-application.c:209
+#: gthumb/gth-application.c:198
 msgid "— Image browser and viewer"
 msgstr "— Peramban dan penilik gambar"
 
@@ -4703,7 +4703,7 @@ msgstr ""
 
 #: gthumb/gth-browser-actions-callbacks.c:155
 msgid "An image viewer and browser for GNOME."
-msgstr "Sebuah penampil dan browser gambar untuk GNOME"
+msgstr "Sebuah penampil dan browser gambar untuk GNOME."
 
 #: gthumb/gth-browser-actions-callbacks.c:158
 msgid "translator-credits"
@@ -4712,22 +4712,18 @@ msgstr ""
 "Andika Triwidada <andika@gmail.com>, 2010-2014, 2016, 2017.\n"
 "Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017, 2018."
 
-#: gthumb/gth-browser-actions-entries.h:90 gthumb/resources/app-menu.ui:20
+#: gthumb/gth-browser-actions-entries.h:86 gthumb/resources/app-menu.ui:20
 msgid "Keyboard Shortcuts"
 msgstr "Pintasan Papan Ketik"
 
-#: gthumb/gth-browser-actions-entries.h:91 gthumb/gtk-utils.h:40
+#: gthumb/gth-browser-actions-entries.h:87 gthumb/gtk-utils.h:40
 #: gthumb/resources/app-menu.ui:24
 msgid "_Help"
 msgstr "_Bantuan"
 
-#: gthumb/gth-browser-actions-entries.h:92 gthumb/resources/app-menu.ui:29
-msgid "_About"
-msgstr "Tent_ang"
-
-#: gthumb/gth-browser-actions-entries.h:97 gthumb/resources/app-menu.ui:33
-msgid "_Quit"
-msgstr "_Keluar"
+#: gthumb/gth-browser-actions-entries.h:88
+msgid "_About gThumb"
+msgstr "Tent_ang gThumb"
 
 #: gthumb/gth-browser.c:379
 msgid "[modified]"
@@ -4762,7 +4758,7 @@ msgstr "Bila Anda tidak menyimpan, perubahan ke berkas akan hilang selamanya."
 msgid "Do _Not Save"
 msgstr "Janga_n Simpan"
 
-#: gthumb/gth-browser.c:2414 gthumb/gth-browser.c:4656
+#: gthumb/gth-browser.c:2414 gthumb/gth-browser.c:4646
 msgid "Accept"
 msgstr "Terima"
 
@@ -4778,37 +4774,37 @@ msgstr "Tidak dapat mengubah nama"
 msgid "Modified"
 msgstr "Diubah"
 
-#: gthumb/gth-browser.c:4578
+#: gthumb/gth-browser.c:4568
 msgid "Go to the previous visited location"
 msgstr "Pergi ke lokasi sebelumnya yang telah dikunjungi"
 
-#: gthumb/gth-browser.c:4584
+#: gthumb/gth-browser.c:4574
 msgid "Go to the next visited location"
 msgstr "Pergi ke lokasi selanjutnya yang telah dikunjungi"
 
-#: gthumb/gth-browser.c:4592
+#: gthumb/gth-browser.c:4582
 msgid "History"
 msgstr "Riwayat"
 
-#: gthumb/gth-browser.c:4606
+#: gthumb/gth-browser.c:4596
 msgid "View the folders"
 msgstr "Tampilkan folder"
 
-#: gthumb/gth-browser.c:4621
+#: gthumb/gth-browser.c:4611
 msgid "Edit file"
 msgstr "Sunting berkas"
 
-#: gthumb/gth-browser.c:4630 gthumb/gth-browser.c:4648
+#: gthumb/gth-browser.c:4620 gthumb/gth-browser.c:4638
 #: gthumb/resources/file-list-menu.ui:7 gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Layar Penuh"
 
-#: gthumb/gth-browser.c:6612
+#: gthumb/gth-browser.c:6602
 #, c-format
 msgid "File type not supported"
 msgstr "Jenis berkas tidak didukung"
 
-#: gthumb/gth-browser.c:6655
+#: gthumb/gth-browser.c:6645
 #, c-format
 msgid "No suitable module found"
 msgstr "Tak ditemukan modul yang cocok"
@@ -4904,13 +4900,13 @@ msgstr "turun"
 msgid "No limit specified"
 msgstr "Batas tak dinyatakan"
 
-#: gthumb/gth-folder-tree.c:1386
+#: gthumb/gth-folder-tree.c:1385
 msgid "(Open Parent)"
 msgstr "(Buka Induk)"
 
-#: gthumb/gth-folder-tree.c:1906
+#: gthumb/gth-folder-tree.c:1905
 msgid "Enter the new name:"
-msgstr "Masukkan nama baru: "
+msgstr "Masukkan nama baru:"
 
 #: gthumb/gth-histogram-view.c:910
 msgid "Alpha"
@@ -5002,7 +4998,7 @@ msgstr "Tanggal & Waktu Umum"
 
 #: gthumb/gth-main-default-metadata.c:66
 msgid "Author"
-msgstr "Otoris_asikan…"
+msgstr "Penulis"
 
 #: gthumb/gth-main-default-metadata.c:67
 msgid "Copyright"
@@ -5062,7 +5058,7 @@ msgstr "Berkas Teks"
 
 #: gthumb/gth-main-default-tests.c:342
 msgid "Filename"
-msgstr "nama File"
+msgstr "Nama berkas"
 
 #: gthumb/gth-main-default-tests.c:374
 msgid "Title (embedded)"
@@ -5076,7 +5072,7 @@ msgstr "Keterangan (tertempel)"
 msgid "Overwrite"
 msgstr "Timpa"
 
-#: gthumb/gth-progress-dialog.c:308 gthumb/gth-progress-dialog.c:453
+#: gthumb/gth-progress-dialog.c:309 gthumb/gth-progress-dialog.c:454
 msgid "Operations"
 msgstr "Operasi"
 
@@ -5090,12 +5086,12 @@ msgstr "Menyimpan informasi berkas"
 msgid "Saving “%s”"
 msgstr "Menyimpan \"%s\""
 
-#: gthumb/gth-tags-entry.c:505
+#: gthumb/gth-tags-entry.c:507
 #, c-format
 msgid "Create tag “%s”"
 msgstr "Membuat tag \"%s\""
 
-#: gthumb/gth-tags-entry.c:1172
+#: gthumb/gth-tags-entry.c:1169
 msgid "Show all the tags"
 msgstr "Tampilkan semua tag"
 
@@ -5224,11 +5220,11 @@ msgstr "sebelum"
 msgid "is after"
 msgstr "setelah"
 
-#: gthumb/gth-time-selector.c:614
+#: gthumb/gth-time-selector.c:610
 msgid "Today"
 msgstr "Hari ini"
 
-#: gthumb/gth-time-selector.c:622
+#: gthumb/gth-time-selector.c:618
 msgid "Now"
 msgstr "Kini"
 
@@ -5248,23 +5244,23 @@ msgstr "Memindah berkas ke tong sampah"
 msgid "Could not display help"
 msgstr "Tidak dapat menampilkan bantuan"
 
-#: gthumb/gtk-utils.c:658 gthumb/gtk-utils.c:665
+#: gthumb/gtk-utils.c:656 gthumb/gtk-utils.c:663
 msgid "Could not launch the application"
 msgstr "Tidak dapat menjalankan aplikasi"
 
-#: gthumb/gtk-utils.c:768
+#: gthumb/gtk-utils.c:766
 msgid "_Copy Here"
 msgstr "_Salin ke Sini"
 
-#: gthumb/gtk-utils.c:773
+#: gthumb/gtk-utils.c:771
 msgid "_Move Here"
 msgstr "_Pindahkan ke Sini"
 
-#: gthumb/gtk-utils.c:778
+#: gthumb/gtk-utils.c:776
 msgid "_Link Here"
 msgstr "_Tautkan ke Sini"
 
-#: gthumb/gtk-utils.c:787
+#: gthumb/gtk-utils.c:785
 msgid "Cancel"
 msgstr "Batal"
 
@@ -5299,6 +5295,14 @@ msgstr "_Unggah"
 #: gthumb/resources/app-menu.ui:7
 msgid "New _Window"
 msgstr "_Jendela Baru"
+
+#: gthumb/resources/app-menu.ui:29
+msgid "_About"
+msgstr "Tent_ang"
+
+#: gthumb/resources/app-menu.ui:33
+msgid "_Quit"
+msgstr "_Keluar"
 
 #: gthumb/resources/folder-menu.ui:7
 msgid "Open in New Window"
