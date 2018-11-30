@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2018-06-10 17:29+0000\n"
-"PO-Revision-Date: 2018-09-06 00:24+0200\n"
+"POT-Creation-Date: 2018-10-22 18:11+0000\n"
+"PO-Revision-Date: 2018-11-30 22:43+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -135,13 +135,12 @@ msgstr "Importera foton från din digitalkamera"
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.gThumb.Import.desktop.in.in:10
 #: data/org.gnome.gThumb.desktop.in.in:12
-#| msgid "gThumb"
 msgid "gthumb"
 msgstr "gthumb"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:394 gthumb/gth-progress-dialog.c:411
+#: gthumb/gth-browser.c:394 gthumb/gth-progress-dialog.c:412
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -521,12 +520,12 @@ msgstr "Skriv till skiva"
 msgid "_Continue"
 msgstr "_Fortsätt"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:65
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:62
 #, c-format
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Misslyckade med att tolka JPEG-bildfilen: %s"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:542
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:536
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Okänd JPEG-färgrymd (%d)"
@@ -650,7 +649,7 @@ msgstr "Sparar"
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:370
 #: extensions/list_tools/gth-script-editor-dialog.c:235
-#: gthumb/gth-filter-editor-dialog.c:461 gthumb/gth-folder-tree.c:1853
+#: gthumb/gth-filter-editor-dialog.c:461 gthumb/gth-folder-tree.c:1852
 #, c-format
 msgid "No name specified"
 msgstr "Inget namn angivet"
@@ -660,7 +659,7 @@ msgstr "Inget namn angivet"
 #: extensions/catalogs/dlg-add-to-catalog.c:495
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:377
-#: gthumb/gth-folder-tree.c:1860
+#: gthumb/gth-folder-tree.c:1859
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Ogiltigt namn. Följande tecken tillåts ej: %s"
@@ -732,12 +731,12 @@ msgstr "Skapa bibliotek"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:78
 #: extensions/file_manager/callbacks.c:105
 #: extensions/rename_series/dlg-rename-series.c:844
-#: gthumb/gth-folder-tree.c:1905
+#: gthumb/gth-folder-tree.c:1904
 msgid "Rename"
 msgstr "Byt namn"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:201 gthumb/gth-browser.c:4615
+#: extensions/catalogs/dlg-catalog-properties.c:201 gthumb/gth-browser.c:4605
 #: gthumb/gth-file-properties.c:256
 msgid "Properties"
 msgstr "Egenskaper"
@@ -819,7 +818,7 @@ msgid "Catalog"
 msgstr "Album"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:93
-#: gthumb/gth-progress-dialog.c:157
+#: gthumb/gth-progress-dialog.c:158
 msgid "Cancel operation"
 msgstr "Avbryt åtgärden"
 
@@ -1891,43 +1890,43 @@ msgstr[1] "%d filer (%s)"
 msgid "Export to %s"
 msgstr "Exportera till %s"
 
-#: extensions/facebook/facebook-service.c:501
-#: extensions/flicker_utils/flickr-service.c:872
-#: extensions/picasaweb/picasa-web-service.c:744
+#: extensions/facebook/facebook-service.c:495
+#: extensions/flicker_utils/flickr-service.c:850
+#: extensions/picasaweb/picasa-web-service.c:737
 msgid "Getting the album list"
 msgstr "Hämtar albumlistan"
 
-#: extensions/facebook/facebook-service.c:623
-#: extensions/flicker_utils/flickr-service.c:974
-#: extensions/flicker_utils/flickr-service.c:1096
-#: extensions/flicker_utils/flickr-service.c:1135
+#: extensions/facebook/facebook-service.c:612
+#: extensions/flicker_utils/flickr-service.c:944
+#: extensions/flicker_utils/flickr-service.c:1059
+#: extensions/flicker_utils/flickr-service.c:1098
 msgid "Creating the new album"
 msgstr "Skapar nya albumet"
 
-#: extensions/facebook/facebook-service.c:684
-#: extensions/flicker_utils/flickr-service.c:1185
-#: extensions/picasaweb/picasa-web-service.c:792
+#: extensions/facebook/facebook-service.c:670
+#: extensions/flicker_utils/flickr-service.c:1145
+#: extensions/picasaweb/picasa-web-service.c:782
 #, c-format
 msgid "Could not upload “%s”: %s"
 msgstr "Kunde inte skicka upp ”%s”: %s"
 
 #. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:749
-#: extensions/flicker_utils/flickr-service.c:1296
-#: extensions/picasaweb/picasa-web-service.c:849
+#: extensions/facebook/facebook-service.c:733
+#: extensions/flicker_utils/flickr-service.c:1254
+#: extensions/picasaweb/picasa-web-service.c:837
 #, c-format
 msgid "Uploading “%s”"
 msgstr "Skickar upp ”%s”"
 
-#: extensions/facebook/facebook-service.c:964
-#: extensions/flicker_utils/flickr-service.c:1493
-#: extensions/picasaweb/picasa-web-service.c:1073
+#: extensions/facebook/facebook-service.c:948
+#: extensions/flicker_utils/flickr-service.c:1451
+#: extensions/picasaweb/picasa-web-service.c:1061
 msgid "Uploading the files to the server"
 msgstr "Skickar upp filerna till servern"
 
-#: extensions/facebook/facebook-service.c:1063
-#: extensions/flicker_utils/flickr-service.c:1662
-#: extensions/picasaweb/picasa-web-service.c:1192
+#: extensions/facebook/facebook-service.c:1042
+#: extensions/flicker_utils/flickr-service.c:1612
+#: extensions/picasaweb/picasa-web-service.c:1173
 msgid "Getting the photo list"
 msgstr "Hämtar fotolistan"
 
@@ -2069,8 +2068,8 @@ msgstr "_Kopiera"
 
 #: extensions/file_manager/callbacks.c:984
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5612 gthumb/gth-browser.c:5648
-#: gthumb/gth-progress-dialog.c:427
+#: gthumb/gth-browser.c:5602 gthumb/gth-browser.c:5638
+#: gthumb/gth-progress-dialog.c:428
 msgid "Could not perform the operation"
 msgstr "Kunde inte genomföra åtgärden"
 
@@ -2083,7 +2082,6 @@ msgid "File manager operations."
 msgstr "Filhanteraråtgärder."
 
 #: extensions/file_manager/file_manager.extension.desktop.in.in:8
-#| msgid "File manager"
 msgid "system-file-manager"
 msgstr "system-file-manager"
 
@@ -2371,7 +2369,7 @@ msgstr "Blå"
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:553
 #: extensions/file_tools/gth-file-tool-curves.c:816
 #: extensions/file_tools/gth-file-tool-rotate.c:601
-#: extensions/file_tools/gth-file-tool-sharpen.c:363
+#: extensions/file_tools/gth-file-tool-sharpen.c:361
 #: gthumb/gth-test-aspect-ratio.c:234
 msgid "Reset"
 msgstr "Återställ"
@@ -2730,11 +2728,11 @@ msgstr "Spara som…"
 msgid "Save"
 msgstr "Spara"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:333
+#: extensions/file_tools/gth-file-tool-sharpen.c:331
 msgid "Sharpening image"
 msgstr "Lägger till skärpa på bilder"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:436
+#: extensions/file_tools/gth-file-tool-sharpen.c:434
 msgid "Enhance Focus"
 msgstr "Förbättra fokus"
 
@@ -2772,7 +2770,7 @@ msgid "_View"
 msgstr "_Visa"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:454
-#: gthumb/gth-tags-entry.c:1230 gthumb/gtk-utils.h:39
+#: gthumb/gth-tags-entry.c:1227 gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Ta bort"
 
@@ -2943,41 +2941,41 @@ msgstr "_Importera"
 msgid "Import from %s"
 msgstr "Importera från %s"
 
-#: extensions/flicker_utils/flickr-consumer.c:124
+#: extensions/flicker_utils/flickr-consumer.c:122
 #: extensions/flicker_utils/flickr-service.c:237
-#: extensions/flicker_utils/flickr-service.c:348
-#: extensions/flicker_utils/flickr-service.c:681
-#: extensions/flicker_utils/flickr-service.c:946
-#: extensions/oauth/oauth-service.c:154
+#: extensions/flicker_utils/flickr-service.c:341
+#: extensions/flicker_utils/flickr-service.c:666
+#: extensions/flicker_utils/flickr-service.c:920
+#: extensions/oauth/oauth-service.c:151
 msgid "Unknown error"
 msgstr "Okänt fel"
 
 # to-do
-#: extensions/flicker_utils/flickr-service.c:502
+#: extensions/flicker_utils/flickr-service.c:488
 #, c-format
 msgid ""
 "Return to this window when you have finished the authorization process on %s"
 msgstr ""
 "Återvänd till fönstret när du har avslutat autentiseringsprocessen på %s"
 
-#: extensions/flicker_utils/flickr-service.c:503
+#: extensions/flicker_utils/flickr-service.c:489
 msgid "Once you’re done, click the “Continue” button below."
 msgstr "När du är klar, klicka på knappen ”Fortsätt” nedan."
 
-#: extensions/flicker_utils/flickr-service.c:575
+#: extensions/flicker_utils/flickr-service.c:561
 msgid "C_ontinue"
 msgstr "F_ortsätt"
 
-#: extensions/flicker_utils/flickr-service.c:576
+#: extensions/flicker_utils/flickr-service.c:562
 msgid "_Authorize…"
 msgstr "A_uktorisera…"
 
-#: extensions/flicker_utils/flickr-service.c:579
+#: extensions/flicker_utils/flickr-service.c:565
 #, c-format
 msgid "gThumb requires your authorization to upload the photos to %s"
 msgstr "gThumb kräver din behörighet för att kunna skicka upp foton till %s"
 
-#: extensions/flicker_utils/flickr-service.c:580
+#: extensions/flicker_utils/flickr-service.c:566
 #, c-format
 msgid ""
 "Click “Authorize” to open your web browser and authorize gthumb to upload "
@@ -3122,7 +3120,7 @@ msgstr "Mono"
 #: extensions/image_viewer/gth-image-viewer-page.c:1790
 #: extensions/image_viewer/gth-metadata-provider-image.c:253
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2448 gthumb/gtk-utils.c:897
+#: extensions/webalbums/gth-web-exporter.c:2448 gthumb/gtk-utils.c:895
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3222,7 +3220,7 @@ msgid "Images"
 msgstr "Bilder"
 
 #: extensions/image_print/gth-image-print-job.c:1847
-#: gthumb/gth-image-loader.c:222 gthumb/gth-image-loader.c:354
+#: gthumb/gth-image-loader.c:250 gthumb/gth-image-loader.c:374
 #: gthumb/gth-image-utils.c:131 gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "Ingen passande inläsare tillgänglig för denna filtyp"
@@ -3247,7 +3245,6 @@ msgid "Allow to print images choosing the page layout."
 msgstr "Gör det möjligt att skriva ut bilder genom att välja sidlayout."
 
 #: extensions/image_print/image_print.extension.desktop.in.in:8
-#| msgid "Could not print"
 msgid "document-print"
 msgstr "document-print"
 
@@ -3409,7 +3406,7 @@ msgstr "Nästa bildruta"
 msgid "Save Image"
 msgstr "Spara bild"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2347
+#: extensions/image_viewer/gth-image-viewer-page.c:2340
 msgid "Loading the original image"
 msgstr "Läser in den ursprungliga bilden"
 
@@ -3453,7 +3450,7 @@ msgstr "Minuterna"
 msgid "The seconds"
 msgstr "Sekunderna"
 
-#: extensions/importer/gth-import-destination-button.c:111
+#: extensions/importer/gth-import-destination-button.c:112
 msgid "Invalid Destination"
 msgstr "Ogiltigt mål"
 
@@ -4062,27 +4059,27 @@ msgid "Edit Template"
 msgstr "Redigera mall"
 
 #: extensions/rename_series/dlg-rename-series.c:854
-#: gthumb/gth-folder-tree.c:1908
+#: gthumb/gth-folder-tree.c:1907
 msgid "_Rename"
 msgstr "_Byt namn"
 
-#: extensions/rename_series/dlg-rename-series.c:872
+#: extensions/rename_series/dlg-rename-series.c:871
 msgid "Old Name"
 msgstr "Gammalt namn"
 
-#: extensions/rename_series/dlg-rename-series.c:883
+#: extensions/rename_series/dlg-rename-series.c:882
 msgid "New Name"
 msgstr "Nytt namn"
 
-#: extensions/rename_series/dlg-rename-series.c:961
+#: extensions/rename_series/dlg-rename-series.c:960
 msgid "Keep original case"
 msgstr "Behåll ursprungligt skiftläge"
 
-#: extensions/rename_series/dlg-rename-series.c:962
+#: extensions/rename_series/dlg-rename-series.c:961
 msgid "Convert to lower-case"
 msgstr "Konvertera till gemener"
 
-#: extensions/rename_series/dlg-rename-series.c:963
+#: extensions/rename_series/dlg-rename-series.c:962
 msgid "Convert to upper-case"
 msgstr "Konvertera till versaler"
 
@@ -4161,7 +4158,7 @@ msgid "Search again"
 msgstr "Sök igen"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:147
+#: extensions/search/callbacks.c:146
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Sök"
@@ -4338,7 +4335,6 @@ msgid "View images as a slideshow."
 msgstr "Visa bilder som ett bildspel."
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:8
-#| msgid "Presentation"
 msgid "x-office-presentation"
 msgstr "x-office-presentation"
 
@@ -4496,8 +4492,8 @@ msgid "Create static web albums."
 msgstr "Skapa statiska webbalbum."
 
 #: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1107
-#: gthumb/gth-browser.c:1676 gthumb/gth-browser.c:6611
-#: gthumb/gth-browser.c:6630 gthumb/gth-browser.c:6654
+#: gthumb/gth-browser.c:1676 gthumb/gth-browser.c:6601
+#: gthumb/gth-browser.c:6620 gthumb/gth-browser.c:6644
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Kunde inte läsa in positionen ”%s”"
@@ -4680,7 +4676,7 @@ msgstr "Importera digitalkamerabilder automatiskt"
 msgid "Show version"
 msgstr "Visa version"
 
-#: gthumb/gth-application.c:209
+#: gthumb/gth-application.c:198
 msgid "— Image browser and viewer"
 msgstr "— Bildbläddrare och bildvisare"
 
@@ -4730,22 +4726,18 @@ msgstr ""
 "Skicka synpunkter på översättningen till\n"
 "<tp-sv@listor.tp-sv.se>."
 
-#: gthumb/gth-browser-actions-entries.h:90 gthumb/resources/app-menu.ui:20
+#: gthumb/gth-browser-actions-entries.h:86 gthumb/resources/app-menu.ui:20
 msgid "Keyboard Shortcuts"
 msgstr "Tangentbordsgenvägar"
 
-#: gthumb/gth-browser-actions-entries.h:91 gthumb/gtk-utils.h:40
+#: gthumb/gth-browser-actions-entries.h:87 gthumb/gtk-utils.h:40
 #: gthumb/resources/app-menu.ui:24
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: gthumb/gth-browser-actions-entries.h:92 gthumb/resources/app-menu.ui:29
-msgid "_About"
-msgstr "_Om"
-
-#: gthumb/gth-browser-actions-entries.h:97 gthumb/resources/app-menu.ui:33
-msgid "_Quit"
-msgstr "_Avsluta"
+#: gthumb/gth-browser-actions-entries.h:88
+msgid "_About gThumb"
+msgstr "_Om gThumb"
 
 #: gthumb/gth-browser.c:379
 msgid "[modified]"
@@ -4782,7 +4774,7 @@ msgstr ""
 msgid "Do _Not Save"
 msgstr "Spara _inte"
 
-#: gthumb/gth-browser.c:2414 gthumb/gth-browser.c:4656
+#: gthumb/gth-browser.c:2414 gthumb/gth-browser.c:4646
 msgid "Accept"
 msgstr "Acceptera"
 
@@ -4798,37 +4790,37 @@ msgstr "Kunde inte ändra namnet"
 msgid "Modified"
 msgstr "Ändrad"
 
-#: gthumb/gth-browser.c:4578
+#: gthumb/gth-browser.c:4568
 msgid "Go to the previous visited location"
 msgstr "Gå till föregående besökta plats"
 
-#: gthumb/gth-browser.c:4584
+#: gthumb/gth-browser.c:4574
 msgid "Go to the next visited location"
 msgstr "Gå till nästa besökta plats"
 
-#: gthumb/gth-browser.c:4592
+#: gthumb/gth-browser.c:4582
 msgid "History"
 msgstr "Historik"
 
-#: gthumb/gth-browser.c:4606
+#: gthumb/gth-browser.c:4596
 msgid "View the folders"
 msgstr "Visa mapparna"
 
-#: gthumb/gth-browser.c:4621
+#: gthumb/gth-browser.c:4611
 msgid "Edit file"
 msgstr "Redigera fil"
 
-#: gthumb/gth-browser.c:4630 gthumb/gth-browser.c:4648
+#: gthumb/gth-browser.c:4620 gthumb/gth-browser.c:4638
 #: gthumb/resources/file-list-menu.ui:7 gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Helskärm"
 
-#: gthumb/gth-browser.c:6612
+#: gthumb/gth-browser.c:6602
 #, c-format
 msgid "File type not supported"
 msgstr "Filtypen stöds inte"
 
-#: gthumb/gth-browser.c:6655
+#: gthumb/gth-browser.c:6645
 #, c-format
 msgid "No suitable module found"
 msgstr "Ingen lämplig modul hittades"
@@ -4926,11 +4918,11 @@ msgstr "fallande"
 msgid "No limit specified"
 msgstr "Ingen gräns specificerad"
 
-#: gthumb/gth-folder-tree.c:1386
+#: gthumb/gth-folder-tree.c:1385
 msgid "(Open Parent)"
 msgstr "(Öppna överordnad)"
 
-#: gthumb/gth-folder-tree.c:1906
+#: gthumb/gth-folder-tree.c:1905
 msgid "Enter the new name:"
 msgstr "Ange det nya namnet:"
 
@@ -5097,7 +5089,7 @@ msgstr "Beskrivning (inbäddad)"
 msgid "Overwrite"
 msgstr "Skriv över"
 
-#: gthumb/gth-progress-dialog.c:308 gthumb/gth-progress-dialog.c:453
+#: gthumb/gth-progress-dialog.c:309 gthumb/gth-progress-dialog.c:454
 msgid "Operations"
 msgstr "Åtgärder"
 
@@ -5111,12 +5103,12 @@ msgstr "Sparar filinformation"
 msgid "Saving “%s”"
 msgstr "Sparar ”%s”"
 
-#: gthumb/gth-tags-entry.c:505
+#: gthumb/gth-tags-entry.c:507
 #, c-format
 msgid "Create tag “%s”"
 msgstr "Skapa taggen ”%s”"
 
-#: gthumb/gth-tags-entry.c:1172
+#: gthumb/gth-tags-entry.c:1169
 msgid "Show all the tags"
 msgstr "Visa alla taggar"
 
@@ -5245,11 +5237,11 @@ msgstr "är före"
 msgid "is after"
 msgstr "är efter"
 
-#: gthumb/gth-time-selector.c:614
+#: gthumb/gth-time-selector.c:610
 msgid "Today"
 msgstr "Idag"
 
-#: gthumb/gth-time-selector.c:622
+#: gthumb/gth-time-selector.c:618
 msgid "Now"
 msgstr "Nu"
 
@@ -5269,23 +5261,23 @@ msgstr "Flyttar filer till papperskorgen"
 msgid "Could not display help"
 msgstr "Kunde inte visa hjälp"
 
-#: gthumb/gtk-utils.c:658 gthumb/gtk-utils.c:665
+#: gthumb/gtk-utils.c:656 gthumb/gtk-utils.c:663
 msgid "Could not launch the application"
 msgstr "Kunde inte starta programmet"
 
-#: gthumb/gtk-utils.c:768
+#: gthumb/gtk-utils.c:766
 msgid "_Copy Here"
 msgstr "_Kopiera hit"
 
-#: gthumb/gtk-utils.c:773
+#: gthumb/gtk-utils.c:771
 msgid "_Move Here"
 msgstr "_Flytta hit"
 
-#: gthumb/gtk-utils.c:778
+#: gthumb/gtk-utils.c:776
 msgid "_Link Here"
 msgstr "_Länka hit"
 
-#: gthumb/gtk-utils.c:787
+#: gthumb/gtk-utils.c:785
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -5320,6 +5312,14 @@ msgstr "Skicka _upp"
 #: gthumb/resources/app-menu.ui:7
 msgid "New _Window"
 msgstr "Nytt _fönster"
+
+#: gthumb/resources/app-menu.ui:29
+msgid "_About"
+msgstr "_Om"
+
+#: gthumb/resources/app-menu.ui:33
+msgid "_Quit"
+msgstr "_Avsluta"
 
 #: gthumb/resources/folder-menu.ui:7
 msgid "Open in New Window"
