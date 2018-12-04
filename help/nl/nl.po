@@ -1022,7 +1022,7 @@ msgid ""
 "toolbar, and select <guiseq><gui>Tools</gui><gui>Personalize</gui></guiseq>."
 msgstr ""
 "Om een script te maken - een reeks commando’s voor de opdrachtregel die "
-"<app>gThumb</app> op uw foto’s toepast - klik op gui>Gereedschappen</gui>-"
+"<app>gThumb</app> op uw foto’s toepast - klik op <gui>Gereedschappen</gui>-"
 "knop op de menubalk en kies <guiseq><gui>Gereedschappen</"
 "gui><gui>Personaliseren...</gui></guiseq>."
 
