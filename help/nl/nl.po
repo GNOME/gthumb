@@ -77,7 +77,7 @@ msgstr ""
 "gThumb bevat diverse gereedschappen om foto's te verbeteren. U kunt "
 "bewerkingen ongedaan maken of weer opnieuw uitvoeren, tot de foto bewaard "
 "wordt. Om deze gereedschappen te gebruiken dient u eerst een foto te openen "
-"en dan op de knop <gui>Bewerk bestand>/gui> klikken (het paleticoon) of de "
+"en dan op de knop <gui>Bewerk bestand</gui> klikken (het paleticoon) of de "
 "toets <keyseq><key>e</key></keyseq> indrukken."
 
 # Serieverwerking?
