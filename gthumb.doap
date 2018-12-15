@@ -57,7 +57,7 @@
   <homepage rdf:resource="https://wiki.gnome.org/Apps/Gthumb" />
   <mailing-list rdf:resource="https://mail.gnome.org/mailman/listinfo/gthumb-list" />
   <download-page rdf:resource="https://download.gnome.org/sources/gthumb/" />
-  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=gthumb" />
+  <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/gthumb/issues/" />
   <programming-language>C</programming-language>
   <maintainer>
     <foaf:Person>
