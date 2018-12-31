@@ -39,14 +39,12 @@ update_settings (DialogData *data)
 	char *uri;
 
 	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (gtk_builder_get_object (data->builder, "screenshots_filechooserbutton")));
-	if (uri == NULL)
-		return;
+	if (uri != NULL) {
+		_g_settings_set_uri (data->settings, PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION, uri);
+		g_free (uri);
+	}
 
-	_g_settings_set_uri (data->settings,
-			     PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION,
-			     uri);
-
-	g_free (uri);
+	g_settings_set_boolean (data->settings, PREF_GSTREAMER_USE_HARDWARE_ACCEL, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (data->builder, "use_hardware_acceleration_checkbutton"))));
 }
 
 
@@ -91,6 +89,8 @@ dlg_media_viewer_preferences (GtkWindow *parent)
 	uri = _g_settings_get_uri_or_special_dir (data->settings, PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION, G_USER_DIRECTORY_PICTURES);
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (gtk_builder_get_object (data->builder, "screenshots_filechooserbutton")), uri);
 	g_free (uri);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gtk_builder_get_object (data->builder, "use_hardware_acceleration_checkbutton")), g_settings_get_boolean (data->settings, PREF_GSTREAMER_USE_HARDWARE_ACCEL));
 
 	/* Set the signals handlers. */
 

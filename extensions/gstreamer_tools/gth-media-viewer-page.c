@@ -806,8 +806,31 @@ create_playbin (GthMediaViewerPage *self)
 		return;
 
 	self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
-	video_sink = gst_element_factory_make ("gtksink", NULL);
-	g_object_set (self->priv->playbin, "video-sink", video_sink, NULL);
+
+	settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
+	if (g_settings_get_boolean (settings, PREF_GSTREAMER_USE_HARDWARE_ACCEL)) {
+		GstElement *video_bin;
+		GstElement *glupload;
+		GstPad     *pad;
+		GstPad     *ghost_pad;
+
+		/* pipeline taken from GNOME Twitch */
+
+		video_sink = gst_element_factory_make ("gtkglsink", "sink");
+		video_bin = gst_bin_new ("video_bin");
+		glupload = gst_element_factory_make ("glupload", NULL);
+		gst_bin_add_many (GST_BIN(video_bin), glupload, video_sink, NULL);
+		gst_element_link_many (glupload, video_sink, NULL);
+		pad = gst_element_get_static_pad (glupload, "sink");
+		ghost_pad = gst_ghost_pad_new ("sink", pad);
+		gst_pad_set_active (ghost_pad, TRUE);
+		gst_element_add_pad (video_bin, ghost_pad);
+		g_object_set (self->priv->playbin, "video-sink", video_bin, NULL);
+	}
+	else {
+		video_sink = gst_element_factory_make ("gtksink", "sink");
+		g_object_set (self->priv->playbin, "video-sink", video_sink, NULL);
+	}
 
 	g_object_get (video_sink, "widget", &self->priv->video_area, NULL);
 	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->video_area), "video-player");
@@ -847,7 +870,6 @@ create_playbin (GthMediaViewerPage *self)
 	gtk_stack_add_named (GTK_STACK (self->priv->area_box), self->priv->video_area, "video-area");
 	gtk_widget_show (self->priv->video_area);
 
-	settings = g_settings_new (GTHUMB_GSTREAMER_TOOLS_SCHEMA);
 	g_object_set (self->priv->playbin,
 		      "volume", (double) g_settings_get_int (settings, PREF_GSTREAMER_TOOLS_VOLUME) / 100.0,
 		      "force-aspect-ratio", TRUE,
