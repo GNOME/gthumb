@@ -383,7 +383,7 @@ dom_element_new (const char *a_tag_name)
 
 	g_return_val_if_fail (a_tag_name != NULL, NULL);
 
-	self = g_object_newv (DOM_TYPE_ELEMENT, 0, NULL);
+	self = g_object_new (DOM_TYPE_ELEMENT, NULL);
 	self->tag_name = (a_tag_name == NULL) ? NULL : g_strdup (a_tag_name);
 
 	return self;
@@ -605,7 +605,7 @@ dom_text_node_new (const char *a_data)
 {
 	DomTextNode *self;
 
-	self = g_object_newv (DOM_TYPE_TEXT_NODE, 0, NULL);
+	self = g_object_new (DOM_TYPE_TEXT_NODE, NULL);
 	self->data = (a_data == NULL ? g_strdup ("") : g_strdup (a_data));
 
 	return self;
@@ -656,7 +656,7 @@ dom_document_new (void)
 {
 	DomDocument *self;
 
-	self = g_object_newv (DOM_TYPE_DOCUMENT, 0, NULL);
+	self = g_object_new (DOM_TYPE_DOCUMENT, NULL);
 	return g_object_ref_sink (self);
 }
 

@@ -45,9 +45,10 @@ static GMutex register_mutex;
 
 
 typedef struct {
-	GType       object_type;
-	guint       n_params;
-	GParameter *params;
+	GType        object_type;
+	guint        n_params;
+	const char **names;
+	GValue      *values;
 } GthTypeSpec;
 
 
@@ -59,7 +60,8 @@ gth_type_spec_new (GType object_type)
 	spec = g_new0 (GthTypeSpec, 1);
 	spec->object_type = object_type;
 	spec->n_params = 0;
-	spec->params = NULL;
+	spec->names = NULL;
+	spec->values = NULL;
 
 	return spec;
 }
@@ -69,8 +71,9 @@ static void
 gth_type_spec_free (GthTypeSpec *spec)
 {
 	while (spec->n_params--)
-		g_value_unset (&spec->params[spec->n_params].value);
-	g_free (spec->params);
+		g_value_unset (&spec->values[spec->n_params]);
+	g_free (spec->names);
+	g_free (spec->values);
 	g_free (spec);
 }
 
@@ -81,7 +84,10 @@ gth_type_spec_create_object (GthTypeSpec *spec,
 {
 	GObject *object;
 
-	object = g_object_newv (spec->object_type, spec->n_params, spec->params);
+	object = g_object_new_with_properties (spec->object_type,
+					       spec->n_params,
+					       spec->names,
+					       spec->values);
 	if (g_object_class_find_property (G_OBJECT_GET_CLASS (object), "id"))
 		g_object_set (object, "id", object_id, NULL);
 
@@ -641,7 +647,7 @@ _gth_main_create_type_spec (GType       object_type,
 	GObject     *object;
 	GthTypeSpec *type_spec;
 	const char  *name;
-	guint        n_alloced_params = 16;
+	guint        max_params = 16;
 
 	type_spec = gth_type_spec_new (object_type);
 
@@ -651,8 +657,27 @@ _gth_main_create_type_spec (GType       object_type,
 		GParamSpec *pspec;
 		char       *error = NULL;
 
-		if (type_spec->params == NULL)
-			type_spec->params = g_new (GParameter, n_alloced_params);
+		if (type_spec->n_params == max_params - 1) {
+			g_warning ("%s: too many params (max: %d)", G_STRFUNC, max_params);
+			break;
+		}
+
+		if (type_spec->names == NULL) {
+			int i;
+
+			type_spec->names = g_new (const char *, max_params);
+			for (i = 0; i < max_params; i++)
+				type_spec->names[i] = NULL;
+		}
+
+		if (type_spec->values == NULL) {
+			int i;
+
+			type_spec->values = g_new (GValue, max_params);
+			for (i = 0; i < max_params; i++) {
+				type_spec->values[i].g_type = 0;
+			}
+		}
 
 		pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (object), name);
 		if (pspec == NULL) {
@@ -662,14 +687,13 @@ _gth_main_create_type_spec (GType       object_type,
 				   name);
 			break;
 		}
-		type_spec->params[type_spec->n_params].name = name;
-		type_spec->params[type_spec->n_params].value.g_type = 0;
-		g_value_init (&type_spec->params[type_spec->n_params].value, G_PARAM_SPEC_VALUE_TYPE (pspec));
-		G_VALUE_COLLECT (&type_spec->params[type_spec->n_params].value, var_args, 0, &error);
+		type_spec->names[type_spec->n_params] = name;
+		g_value_init (&type_spec->values[type_spec->n_params], G_PARAM_SPEC_VALUE_TYPE (pspec));
+		G_VALUE_COLLECT (&type_spec->values[type_spec->n_params], var_args, 0, &error);
 		if (error != NULL) {
 			g_warning ("%s: %s", G_STRFUNC, error);
 			g_free (error);
-			g_value_unset (&type_spec->params[type_spec->n_params].value);
+			g_value_unset (&type_spec->values[type_spec->n_params]);
 			break;
 		}
 		type_spec->n_params++;

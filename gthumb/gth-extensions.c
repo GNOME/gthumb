@@ -642,7 +642,7 @@ gth_extension_manager_new (void)
 {
 	GthExtensionManager *manager;
 
-	manager = (GthExtensionManager *) g_object_newv (GTH_TYPE_EXTENSION_MANAGER, 0, NULL);
+	manager = (GthExtensionManager *) g_object_new (GTH_TYPE_EXTENSION_MANAGER, NULL);
 	gth_extension_manager_load_extensions (manager);
 
 	return manager;
