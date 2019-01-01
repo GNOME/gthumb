@@ -35,9 +35,6 @@
 #define PREVIEW_SIZE 0.9
 
 
-G_DEFINE_TYPE (GthFileToolEffects, gth_file_tool_effects, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
-
-
 struct _GthFileToolEffectsPrivate {
 	cairo_surface_t    *destination;
 	cairo_surface_t    *preview;
@@ -52,6 +49,12 @@ struct _GthFileToolEffectsPrivate {
 	int                 last_applied_method;
 	GtkWidget          *filter_grid;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileToolEffects,
+			 gth_file_tool_effects,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolEffects))
 
 
 static void apply_changes (GthFileToolEffects *self);
@@ -326,8 +329,6 @@ gth_file_tool_effects_class_init (GthFileToolEffectsClass *klass)
 	GthFileToolClass            *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileToolEffectsPrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_effects_finalize;
 
@@ -344,7 +345,7 @@ gth_file_tool_effects_class_init (GthFileToolEffectsClass *klass)
 static void
 gth_file_tool_effects_init (GthFileToolEffects *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_EFFECTS, GthFileToolEffectsPrivate);
+	self->priv = gth_file_tool_effects_get_instance_private (self);
 	self->priv->preview = NULL;
 	self->priv->destination = NULL;
 	self->priv->builder = NULL;

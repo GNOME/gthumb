@@ -615,7 +615,10 @@ dom_text_node_new (const char *a_data)
 /* -- DomDocument -- */
 
 
-G_DEFINE_TYPE (DomDocument, dom_document, DOM_TYPE_ELEMENT)
+G_DEFINE_TYPE_WITH_CODE (DomDocument,
+			 dom_document,
+			 DOM_TYPE_ELEMENT,
+			 G_ADD_PRIVATE (DomDocument))
 
 
 static void
@@ -625,10 +628,7 @@ dom_document_finalize (GObject *obj)
 
 	self = DOM_DOCUMENT (obj);
 
-	if (self->priv != NULL) {
-		g_queue_free (self->priv->open_nodes);
-		g_free (self->priv);
-	}
+	g_queue_free (self->priv->open_nodes);
 
 	G_OBJECT_CLASS (dom_document_parent_class)->finalize (obj);
 }
@@ -646,7 +646,7 @@ dom_document_init (DomDocument *self)
 {
 	DOM_ELEMENT (self)->tag_name = g_strdup (XML_DOCUMENT_TAG_NAME);
 
-	self->priv = g_new0 (DomDocumentPrivate, 1);
+	self->priv = dom_document_get_instance_private (self);
 	self->priv->open_nodes = g_queue_new ();
 }
 

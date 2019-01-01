@@ -38,7 +38,10 @@ struct _GthScreensaverPrivate {
 };
 
 
-G_DEFINE_TYPE (GthScreensaver, gth_screensaver, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthScreensaver,
+			 gth_screensaver,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthScreensaver))
 
 
 static void
@@ -103,8 +106,6 @@ gth_screensaver_class_init (GthScreensaverClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthScreensaverPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = gth_screensaver_set_property;
 	object_class->get_property = gth_screensaver_get_property;
@@ -125,7 +126,7 @@ gth_screensaver_class_init (GthScreensaverClass *klass)
 static void
 gth_screensaver_init (GthScreensaver *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SCREENSAVER, GthScreensaverPrivate);
+	self->priv = gth_screensaver_get_instance_private (self);
 	self->priv->application = NULL;
 	self->priv->cookie = 0;
 }

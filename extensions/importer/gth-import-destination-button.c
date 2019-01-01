@@ -24,9 +24,6 @@
 #include "gth-import-destination-button.h"
 
 
-G_DEFINE_TYPE (GthImportDestinationButton, gth_import_destination_button, GTK_TYPE_BUTTON)
-
-
 struct _GthImportDestinationButtonPrivate {
 	GtkWidget *destination_icon;
 	GtkWidget *destination_label;
@@ -34,10 +31,16 @@ struct _GthImportDestinationButtonPrivate {
 };
 
 
+G_DEFINE_TYPE_WITH_CODE (GthImportDestinationButton,
+			 gth_import_destination_button,
+			 GTK_TYPE_BUTTON,
+			 G_ADD_PRIVATE (GthImportDestinationButton))
+
+
 static void
 gth_import_destination_button_class_init (GthImportDestinationButtonClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthImportDestinationButtonPrivate));
+	/* void */
 }
 
 
@@ -47,7 +50,7 @@ gth_import_destination_button_init (GthImportDestinationButton *self)
 	GtkWidget *box;
 	GtkWidget *label_box;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_DESTINATION_BUTTON, GthImportDestinationButtonPrivate);
+	self->priv = gth_import_destination_button_get_instance_private (self);
 
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_widget_show (box);

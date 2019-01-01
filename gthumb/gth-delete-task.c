@@ -30,7 +30,10 @@ struct _GthDeleteTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthDeleteTask, gth_delete_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthDeleteTask,
+			 gth_delete_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthDeleteTask))
 
 
 static void
@@ -78,8 +81,6 @@ gth_delete_task_class_init (GthDeleteTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthDeleteTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_delete_task_finalize;
 
@@ -91,7 +92,7 @@ gth_delete_task_class_init (GthDeleteTaskClass *klass)
 static void
 gth_delete_task_init (GthDeleteTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DELETE_TASK, GthDeleteTaskPrivate);
+	self->priv = gth_delete_task_get_instance_private (self);
 }
 
 

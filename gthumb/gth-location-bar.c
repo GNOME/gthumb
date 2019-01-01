@@ -34,7 +34,9 @@ struct _GthLocationBarPrivate {
 };
 
 
-G_DEFINE_TYPE_WITH_CODE (GthLocationBar, gth_location_bar, GTK_TYPE_BOX,
+G_DEFINE_TYPE_WITH_CODE (GthLocationBar,
+			 gth_location_bar,
+			 GTK_TYPE_BOX,
 			 G_ADD_PRIVATE (GthLocationBar))
 
 

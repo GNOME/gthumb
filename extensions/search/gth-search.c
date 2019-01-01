@@ -32,20 +32,21 @@ static void gth_search_dom_domizable_interface_init (DomDomizableInterface *ifac
 static void gth_search_gth_duplicable_interface_init (GthDuplicableInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthSearch,
-			 gth_search,
-			 GTH_TYPE_CATALOG,
-			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					        gth_search_dom_domizable_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-		        		        gth_search_gth_duplicable_interface_init))
-
-
 struct _GthSearchPrivate {
 	GFile        *folder;
 	gboolean      recursive;
 	GthTestChain *test;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthSearch,
+			 gth_search,
+			 GTH_TYPE_CATALOG,
+			 G_ADD_PRIVATE (GthSearch)
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+						gth_search_dom_domizable_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+						gth_search_gth_duplicable_interface_init))
 
 
 static DomDomizableInterface  *dom_domizable_parent_iface = NULL;
@@ -187,14 +188,10 @@ gth_search_finalize (GObject *object)
 
 	search = GTH_SEARCH (object);
 
-	if (search->priv != NULL) {
-		if (search->priv->folder != NULL)
-			g_object_unref (search->priv->folder);
-		if (search->priv->test != NULL)
-			g_object_unref (search->priv->test);
-		g_free (search->priv);
-		search->priv = NULL;
-	}
+	if (search->priv->folder != NULL)
+		g_object_unref (search->priv->folder);
+	if (search->priv->test != NULL)
+		g_object_unref (search->priv->test);
 
 	G_OBJECT_CLASS (gth_search_parent_class)->finalize (object);
 }
@@ -236,7 +233,10 @@ gth_search_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 static void
 gth_search_init (GthSearch *search)
 {
-	search->priv = g_new0 (GthSearchPrivate, 1);
+	search->priv = gth_search_get_instance_private (search);
+	search->priv->folder = NULL;
+	search->priv->recursive = FALSE;
+	search->priv->test = NULL;
 }
 
 

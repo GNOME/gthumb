@@ -79,9 +79,6 @@ post_photos_data_free (PostPhotosData *post_photos)
 /* -- picasa_web_service -- */
 
 
-G_DEFINE_TYPE (PicasaWebService, picasa_web_service, WEB_TYPE_SERVICE)
-
-
 struct _PicasaWebServicePrivate {
 	char                    *access_token;
 	char                    *refresh_token;
@@ -90,6 +87,12 @@ struct _PicasaWebServicePrivate {
 	PostPhotosData		*post_photos;
 	int                      n_auth_errors;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (PicasaWebService,
+			 picasa_web_service,
+			 WEB_TYPE_SERVICE,
+			 G_ADD_PRIVATE (PicasaWebService))
 
 
 static void
@@ -600,8 +603,6 @@ picasa_web_service_class_init (PicasaWebServiceClass *klass)
 	GObjectClass    *object_class;
 	WebServiceClass *service_class;
 
-	g_type_class_add_private (klass, sizeof (PicasaWebServicePrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = picasa_web_service_finalize;
 
@@ -614,7 +615,7 @@ picasa_web_service_class_init (PicasaWebServiceClass *klass)
 static void
 picasa_web_service_init (PicasaWebService *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PICASA_TYPE_WEB_SERVICE, PicasaWebServicePrivate);
+	self->priv = picasa_web_service_get_instance_private (self);
 	self->priv->refresh_token = NULL;
 	self->priv->access_token = NULL;
 	self->priv->quota_limit = 0;

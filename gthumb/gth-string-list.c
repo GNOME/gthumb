@@ -29,7 +29,10 @@ struct _GthStringListPrivate {
 };
 
 
-G_DEFINE_TYPE (GthStringList, gth_string_list, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthStringList,
+			 gth_string_list,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthStringList))
 
 
 static void
@@ -48,14 +51,13 @@ gth_string_list_finalize (GObject *obj)
 static void
 gth_string_list_class_init (GthStringListClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthStringListPrivate));
 	G_OBJECT_CLASS (klass)->finalize = gth_string_list_finalize;
 }
 
 
 static void
 gth_string_list_init (GthStringList *self) {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_STRING_LIST, GthStringListPrivate);
+	self->priv = gth_string_list_get_instance_private (self);
 	self->priv->list = NULL;
 }
 

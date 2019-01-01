@@ -29,8 +29,6 @@
 #define APPLY_DELAY 150
 #define PREVIEW_SIZE 0.9
 
-G_DEFINE_TYPE (GthFileToolAdjustColors, gth_file_tool_adjust_colors, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
-
 
 struct _GthFileToolAdjustColorsPrivate {
 	cairo_surface_t    *destination;
@@ -51,6 +49,12 @@ struct _GthFileToolAdjustColorsPrivate {
 	gboolean            apply_to_original;
 	gboolean            closing;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileToolAdjustColors,
+			 gth_file_tool_adjust_colors,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolAdjustColors))
 
 
 typedef struct {
@@ -584,7 +588,7 @@ gth_file_tool_sharpen_reset_image (GthImageViewerPageTool *base)
 static void
 gth_file_tool_adjust_colors_init (GthFileToolAdjustColors *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ADJUST_COLORS, GthFileToolAdjustColorsPrivate);
+	self->priv = gth_file_tool_adjust_colors_get_instance_private (self);
 	self->priv->histogram = gth_histogram_new ();
 	self->priv->preview = NULL;
 	self->priv->destination = NULL;
@@ -621,8 +625,6 @@ gth_file_tool_adjust_colors_class_init (GthFileToolAdjustColorsClass *klass)
 	GObjectClass                *gobject_class;
 	GthFileToolClass            *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
-
-	g_type_class_add_private (klass, sizeof (GthFileToolAdjustColorsPrivate));
 
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_adjust_colors_finalize;

@@ -84,7 +84,10 @@ struct _GthColorManagerPrivate {
 static guint gth_color_manager_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthColorManager, gth_color_manager, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthColorManager,
+			 gth_color_manager,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthColorManager))
 
 
 static void
@@ -107,8 +110,6 @@ gth_color_manager_class_init (GthColorManagerClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthColorManagerPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_color_manager_finalize;
 
@@ -129,7 +130,7 @@ gth_color_manager_class_init (GthColorManagerClass *klass)
 static void
 gth_color_manager_init (GthColorManager *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_COLOR_MANAGER, GthColorManagerPrivate);
+	self->priv = gth_color_manager_get_instance_private (self);
 	self->priv->profile_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	self->priv->transform_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) transform_data_free);
 	self->priv->cd_client = NULL;

@@ -50,8 +50,14 @@
 #define MAX_THUMBNAILER_LIFETIME  4000   /* kill the thumbnailer after this amount of time*/
 #define CHECK_CANCELLABLE_DELAY   200
 
-struct _GthThumbLoaderPrivate
-{
+
+enum {
+	READY,
+	LAST_SIGNAL
+};
+
+
+struct _GthThumbLoaderPrivate {
 	GthImageLoader   *iloader;
 	GthImageLoader   *tloader;
 	guint             use_cache : 1;
@@ -69,13 +75,10 @@ struct _GthThumbLoaderPrivate
 };
 
 
-enum {
-	READY,
-	LAST_SIGNAL
-};
-
-
-G_DEFINE_TYPE (GthThumbLoader, gth_thumb_loader, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthThumbLoader,
+			 gth_thumb_loader,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthThumbLoader))
 
 
 static void
@@ -96,8 +99,6 @@ gth_thumb_loader_class_init (GthThumbLoaderClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (GthThumbLoaderPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_thumb_loader_finalize;
 }
@@ -106,10 +107,16 @@ gth_thumb_loader_class_init (GthThumbLoaderClass *class)
 static void
 gth_thumb_loader_init (GthThumbLoader *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_THUMB_LOADER, GthThumbLoaderPrivate);
+	self->priv = gth_thumb_loader_get_instance_private (self);
+	self->priv->iloader = NULL;
+	self->priv->tloader = NULL;
 	self->priv->use_cache = TRUE;
 	self->priv->save_thumbnails = TRUE;
+	self->priv->requested_size = 0;
+	self->priv->cache_max_size = 0;
 	self->priv->max_file_size = 0;
+	self->priv->thumb_size = GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL;
+	self->priv->thumb_factory = NULL;
 }
 
 

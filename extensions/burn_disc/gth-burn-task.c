@@ -33,8 +33,7 @@
 #include "gth-burn-task.h"
 
 
-struct _GthBurnTaskPrivate
-{
+struct _GthBurnTaskPrivate {
 	GthBrowser          *browser;
 	GFile               *location;
 	GList               *selected_files;
@@ -51,7 +50,10 @@ struct _GthBurnTaskPrivate
 };
 
 
-G_DEFINE_TYPE (GthBurnTask, gth_burn_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthBurnTask,
+			 gth_burn_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthBurnTask))
 
 
 static void
@@ -70,23 +72,18 @@ gth_burn_task_finalize (GObject *object)
 
 	task = GTH_BURN_TASK (object);
 
-	if (task->priv != NULL) {
-		gtk_widget_destroy (task->priv->dialog);
-		g_hash_table_foreach (task->priv->content, free_file_list_from_content, NULL);
-		g_hash_table_unref (task->priv->content);
-		g_hash_table_unref (task->priv->parents);
-		g_free (task->priv->current_directory);
-		_g_object_unref (task->priv->file_source);
-		_g_object_unref (task->priv->test);
-		_g_object_unref (task->priv->builder);
-		_g_object_list_unref (task->priv->selected_files);
-		g_free (task->priv->base_directory);
-		g_object_unref (task->priv->location);
-		g_object_unref (task->priv->browser);
-
-		g_free (task->priv);
-		task->priv = NULL;
-	}
+	gtk_widget_destroy (task->priv->dialog);
+	g_hash_table_foreach (task->priv->content, free_file_list_from_content, NULL);
+	g_hash_table_unref (task->priv->content);
+	g_hash_table_unref (task->priv->parents);
+	g_free (task->priv->current_directory);
+	_g_object_unref (task->priv->file_source);
+	_g_object_unref (task->priv->test);
+	_g_object_unref (task->priv->builder);
+	_g_object_list_unref (task->priv->selected_files);
+	g_free (task->priv->base_directory);
+	g_object_unref (task->priv->location);
+	g_object_unref (task->priv->browser);
 
 	G_OBJECT_CLASS (gth_burn_task_parent_class)->finalize (object);
 }
@@ -445,10 +442,20 @@ gth_burn_task_class_init (GthBurnTaskClass *class)
 static void
 gth_burn_task_init (GthBurnTask *task)
 {
-	task->priv = g_new0 (GthBurnTaskPrivate, 1);
+	task->priv = gth_burn_task_get_instance_private (task);
+	task->priv->browser = NULL;
+	task->priv->location = NULL;
+	task->priv->selected_files = NULL;
+	task->priv->dialog = NULL;
+	task->priv->builder = NULL;
+	task->priv->test = NULL;
+	task->priv->file_source = NULL;
+	task->priv->base_directory = NULL;
+	task->priv->current_directory = NULL;
 	task->priv->content = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	task->priv->parents = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) gtk_tree_path_free);
-	task->priv->builder = NULL;
+	task->priv->session = NULL;
+	task->priv->track = NULL;
 }
 
 

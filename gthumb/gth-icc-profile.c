@@ -40,8 +40,15 @@ struct _GthICCTransformPrivate {
 };
 
 
-G_DEFINE_TYPE (GthICCProfile, gth_icc_profile, G_TYPE_OBJECT)
-G_DEFINE_TYPE (GthICCTransform, gth_icc_transform, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthICCProfile,
+			 gth_icc_profile,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthICCProfile))
+
+G_DEFINE_TYPE_WITH_CODE (GthICCTransform,
+			 gth_icc_transform,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthICCTransform))
 
 
 void
@@ -89,8 +96,6 @@ gth_icc_profile_class_init (GthICCProfileClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (klass, sizeof (GthICCProfilePrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_icc_profile_finalize;
 }
@@ -99,7 +104,7 @@ gth_icc_profile_class_init (GthICCProfileClass *klass)
 static void
 gth_icc_profile_init (GthICCProfile *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ICC_PROFILE, GthICCProfilePrivate);
+	self->priv = gth_icc_profile_get_instance_private (self);
 	self->priv->cms_profile = NULL;
 	self->priv->id = NULL;
 }
@@ -293,8 +298,6 @@ gth_icc_transform_class_init (GthICCTransformClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (klass, sizeof (GthICCTransformPrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_icc_transform_finalize;
 }
@@ -303,7 +306,7 @@ gth_icc_transform_class_init (GthICCTransformClass *klass)
 static void
 gth_icc_transform_init (GthICCTransform *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ICC_TRANSFORM, GthICCTransformPrivate);
+	self->priv = gth_icc_transform_get_instance_private (self);
 	self->priv->cms_transform = NULL;
 }
 

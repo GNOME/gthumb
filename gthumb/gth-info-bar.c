@@ -32,13 +32,16 @@ struct _GthInfoBarPrivate {
 };
 
 
-G_DEFINE_TYPE (GthInfoBar, gth_info_bar, GTK_TYPE_INFO_BAR)
+G_DEFINE_TYPE_WITH_CODE (GthInfoBar,
+			 gth_info_bar,
+			 GTK_TYPE_INFO_BAR,
+			 G_ADD_PRIVATE (GthInfoBar))
 
 
 static void
 gth_info_bar_class_init (GthInfoBarClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthInfoBarPrivate));
+	/* void */
 }
 
 
@@ -65,7 +68,7 @@ gth_info_bar_init (GthInfoBar *self)
 	GtkWidget *secondary_label;
 	GtkWidget *area;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_INFO_BAR, GthInfoBarPrivate);
+	self->priv = gth_info_bar_get_instance_private (self);
 
 	hbox_content = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 8);
 	gtk_widget_show (hbox_content);

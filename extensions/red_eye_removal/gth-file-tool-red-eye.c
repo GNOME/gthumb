@@ -44,7 +44,10 @@ struct _GthFileToolRedEyePrivate {
 };
 
 
-G_DEFINE_TYPE (GthFileToolRedEye, gth_file_tool_red_eye, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
+G_DEFINE_TYPE_WITH_CODE (GthFileToolRedEye,
+			 gth_file_tool_red_eye,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolRedEye))
 
 
 static int
@@ -446,8 +449,6 @@ gth_file_tool_red_eye_class_init (GthFileToolRedEyeClass *klass)
 	GthFileToolClass	    *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileToolRedEyePrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_red_eye_finalize;
 
@@ -464,7 +465,7 @@ gth_file_tool_red_eye_class_init (GthFileToolRedEyeClass *klass)
 static void
 gth_file_tool_red_eye_init (GthFileToolRedEye *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RED_EYE, GthFileToolRedEyePrivate);
+	self->priv = gth_file_tool_red_eye_get_instance_private (self);
 	self->priv->new_pixbuf = NULL;
 	self->priv->is_red = NULL;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-red-eye-symbolic", _("Red Eye Removal"), GTH_TOOLBOX_SECTION_COLORS);

@@ -70,8 +70,7 @@ SelectCommand select_commands[] = {
 };
 
 
-struct _GthFindDuplicatesPrivate
-{
+struct _GthFindDuplicatesPrivate {
 	GthBrowser    *browser;
 	GtkWidget     *dialog;
 	GFile         *location;
@@ -103,7 +102,10 @@ struct _GthFindDuplicatesPrivate
 };
 
 
-G_DEFINE_TYPE (GthFindDuplicates, gth_find_duplicates, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthFindDuplicates,
+			 gth_find_duplicates,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthFindDuplicates))
 
 
 typedef struct {
@@ -175,8 +177,6 @@ gth_find_duplicates_class_init (GthFindDuplicatesClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthFindDuplicatesPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_find_duplicates_finalize;
 }
@@ -185,7 +185,7 @@ gth_find_duplicates_class_init (GthFindDuplicatesClass *klass)
 static void
 gth_find_duplicates_init (GthFindDuplicates *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FIND_DUPLICATES, GthFindDuplicatesPrivate);
+	self->priv = gth_find_duplicates_get_instance_private (self);
 	self->priv->test = NULL;
 	self->priv->builder = NULL;
 	self->priv->attributes = NULL;

@@ -37,7 +37,10 @@ struct _GthSourceTreePrivate {
 };
 
 
-G_DEFINE_TYPE (GthSourceTree, gth_source_tree, GTH_TYPE_FOLDER_TREE)
+G_DEFINE_TYPE_WITH_CODE (GthSourceTree,
+			 gth_source_tree,
+			 GTH_TYPE_FOLDER_TREE,
+			 G_ADD_PRIVATE (GthSourceTree))
 
 
 /* -- monitor_event_data -- */
@@ -285,7 +288,8 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 static void
 gth_source_tree_init (GthSourceTree *source_tree)
 {
-	source_tree->priv = g_new0 (GthSourceTreePrivate, 1);
+	source_tree->priv = gth_source_tree_get_instance_private (source_tree);
+	source_tree->priv->file_source = NULL;
 
 	g_signal_connect (source_tree,
 			  "list_children",
@@ -295,6 +299,7 @@ gth_source_tree_init (GthSourceTree *source_tree)
 			  "rename",
 			  G_CALLBACK (source_tree_rename_cb),
 			  source_tree);
+
 	source_tree->priv->monitor_folder_changed_id =
 		g_signal_connect (gth_main_get_default_monitor (),
 				  "folder-changed",
@@ -313,15 +318,11 @@ gth_source_tree_finalize (GObject *object)
 {
 	GthSourceTree *source_tree = GTH_SOURCE_TREE (object);
 
-	if (source_tree->priv != NULL) {
-		g_signal_handler_disconnect (gth_main_get_default_monitor (), source_tree->priv->monitor_folder_changed_id);
-		g_signal_handler_disconnect (gth_main_get_default_monitor (), source_tree->priv->monitor_file_renamed_id);
+	g_signal_handler_disconnect (gth_main_get_default_monitor (), source_tree->priv->monitor_folder_changed_id);
+	g_signal_handler_disconnect (gth_main_get_default_monitor (), source_tree->priv->monitor_file_renamed_id);
 
-		if (source_tree->priv->file_source != NULL)
-			g_object_unref (source_tree->priv->file_source);
-		g_free (source_tree->priv);
-		source_tree->priv = NULL;
-	}
+	if (source_tree->priv->file_source != NULL)
+		g_object_unref (source_tree->priv->file_source);
 
 	G_OBJECT_CLASS (gth_source_tree_parent_class)->finalize (object);
 }

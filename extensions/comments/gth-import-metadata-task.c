@@ -33,7 +33,10 @@ struct _GthImportMetadataTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthImportMetadataTask, gth_import_metadata_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthImportMetadataTask,
+			 gth_import_metadata_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthImportMetadataTask))
 
 
 static void
@@ -210,8 +213,6 @@ gth_import_metadata_task_class_init (GthImportMetadataTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthImportMetadataTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_import_metadata_task_finalize;
 
@@ -223,7 +224,7 @@ gth_import_metadata_task_class_init (GthImportMetadataTaskClass *klass)
 static void
 gth_import_metadata_task_init (GthImportMetadataTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_METADATA_TASK, GthImportMetadataTaskPrivate);
+	self->priv = gth_import_metadata_task_get_instance_private (self);
 	self->priv->file_data = NULL;
 }
 

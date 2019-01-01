@@ -27,9 +27,6 @@
 #include "main.h"
 
 
-G_DEFINE_TYPE (GthWindow, gth_window, GTK_TYPE_APPLICATION_WINDOW)
-
-
 enum  {
 	PROP_0,
 	PROP_N_PAGES,
@@ -58,6 +55,12 @@ struct _GthWindowPrivate {
 	GtkWindowGroup  *window_group;
 	GtkAccelGroup   *accel_group;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthWindow,
+			 gth_window,
+			 GTK_TYPE_APPLICATION_WINDOW,
+			 G_ADD_PRIVATE (GthWindow))
 
 
 static gboolean
@@ -343,8 +346,6 @@ gth_window_class_init (GthWindowClass *klass)
 	GObjectClass   *gobject_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (GthWindowPrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->set_property = gth_window_set_property;
 	gobject_class->get_property = gth_window_get_property;
@@ -379,7 +380,7 @@ gth_window_class_init (GthWindowClass *klass)
 static void
 gth_window_init (GthWindow *window)
 {
-	window->priv = G_TYPE_INSTANCE_GET_PRIVATE (window, GTH_TYPE_WINDOW, GthWindowPrivate);
+	window->priv = gth_window_get_instance_private (window);
 	window->priv->grid = NULL;
 	window->priv->contents = NULL;
 	window->priv->pages = NULL;

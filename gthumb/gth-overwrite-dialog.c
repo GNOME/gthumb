@@ -47,7 +47,10 @@ struct _GthOverwriteDialogPrivate {
 };
 
 
-G_DEFINE_TYPE (GthOverwriteDialog, gth_overwrite_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_CODE (GthOverwriteDialog,
+			 gth_overwrite_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthOverwriteDialog))
 
 
 static void
@@ -73,7 +76,6 @@ gth_overwrite_dialog_finalize (GObject *object)
 static void
 gth_overwrite_dialog_class_init (GthOverwriteDialogClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthOverwriteDialogPrivate));
 	G_OBJECT_CLASS (klass)->finalize = gth_overwrite_dialog_finalize;
 }
 
@@ -81,7 +83,7 @@ gth_overwrite_dialog_class_init (GthOverwriteDialogClass *klass)
 static void
 gth_overwrite_dialog_init (GthOverwriteDialog *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_OVERWRITE_DIALOG, GthOverwriteDialogPrivate);
+	self->priv = gth_overwrite_dialog_get_instance_private (self);
 	self->priv->source_data = NULL;
 	self->priv->destination_data = NULL;
 }

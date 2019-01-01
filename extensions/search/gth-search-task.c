@@ -27,11 +27,7 @@
 #include "gth-search-task.h"
 
 
-G_DEFINE_TYPE (GthSearchTask, gth_search_task, GTH_TYPE_TASK)
-
-
-struct _GthSearchTaskPrivate
-{
+struct _GthSearchTaskPrivate {
 	GthBrowser    *browser;
 	GthSearch     *search;
 	GthTestChain  *test;
@@ -44,6 +40,12 @@ struct _GthSearchTaskPrivate
 	GthFileSource *file_source;
 	gsize          n_files;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthSearchTask,
+			 gth_search_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthSearchTask))
 
 
 static void
@@ -61,16 +63,12 @@ gth_search_task_finalize (GObject *object)
 
 	task = GTH_SEARCH_TASK (object);
 
-	if (task->priv != NULL) {
-		g_object_unref (task->priv->file_source);
-		g_object_unref (task->priv->search);
-		g_object_unref (task->priv->test);
-		g_object_unref (task->priv->search_catalog);
-		if (task->priv->browser != NULL)
-			g_object_weak_unref (G_OBJECT (task->priv->browser), browser_unref_cb, task);
-		g_free (task->priv);
-		task->priv = NULL;
-	}
+	g_object_unref (task->priv->file_source);
+	g_object_unref (task->priv->search);
+	g_object_unref (task->priv->test);
+	g_object_unref (task->priv->search_catalog);
+	if (task->priv->browser != NULL)
+		g_object_weak_unref (G_OBJECT (task->priv->browser), browser_unref_cb, task);
 
 	G_OBJECT_CLASS (gth_search_task_parent_class)->finalize (object);
 }
@@ -441,7 +439,18 @@ gth_search_task_class_init (GthSearchTaskClass *class)
 static void
 gth_search_task_init (GthSearchTask *task)
 {
-	task->priv = g_new0 (GthSearchTaskPrivate, 1);
+	task->priv = gth_search_task_get_instance_private (task);
+	task->priv->browser = NULL;
+	task->priv->search = NULL;
+	task->priv->test = NULL;
+	task->priv->search_catalog = NULL;
+	task->priv->show_hidden_files = FALSE;
+	task->priv->io_operation = FALSE;
+	task->priv->error = NULL;
+	task->priv->location_ready_id = 0;
+	task->priv->dialog = NULL;
+	task->priv->file_source = NULL;
+	task->priv->n_files = 0;
 }
 
 

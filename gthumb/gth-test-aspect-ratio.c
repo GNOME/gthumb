@@ -72,8 +72,7 @@ GthOpData aspect_ratio_op_data[] = {
 };
 
 
-struct _GthTestAspectRatioPrivate
-{
+struct _GthTestAspectRatioPrivate {
 	GthTestOp     op;
 	gboolean      negative;
 	double        aspect_ratio;
@@ -96,26 +95,11 @@ static void gth_test_aspect_ratio_gth_duplicable_interface_init (GthDuplicableIn
 G_DEFINE_TYPE_WITH_CODE (GthTestAspectRatio,
 			 gth_test_aspect_ratio,
 			 GTH_TYPE_TEST,
+			 G_ADD_PRIVATE (GthTestAspectRatio)
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					 	gth_test_aspect_ratio_dom_domizable_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-		        		 	gth_test_aspect_ratio_gth_duplicable_interface_init))
-
-
-static void
-gth_test_aspect_ratio_finalize (GObject *object)
-{
-	GthTestAspectRatio *test;
-
-	test = GTH_TEST_ASPECT_RATIO (object);
-
-	if (test->priv != NULL) {
-		g_free (test->priv);
-		test->priv = NULL;
-	}
-
-	G_OBJECT_CLASS (gth_test_aspect_ratio_parent_class)->finalize (object);
-}
+						gth_test_aspect_ratio_dom_domizable_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+						gth_test_aspect_ratio_gth_duplicable_interface_init))
 
 
 static void
@@ -426,11 +410,7 @@ gth_test_aspect_ratio_real_duplicate (GthDuplicable *duplicable)
 static void
 gth_test_aspect_ratio_class_init (GthTestAspectRatioClass *class)
 {
-	GObjectClass *object_class;
 	GthTestClass *test_class;
-
-	object_class = (GObjectClass*) class;
-	object_class->finalize = gth_test_aspect_ratio_finalize;
 
 	test_class = (GthTestClass *) class;
 	test_class->create_control = gth_test_aspect_ratio_real_create_control;
@@ -460,8 +440,13 @@ gth_test_aspect_ratio_gth_duplicable_interface_init (GthDuplicableInterface *ifa
 static void
 gth_test_aspect_ratio_init (GthTestAspectRatio *self)
 {
-	self->priv = g_new0 (GthTestAspectRatioPrivate, 1);
-	self->priv->aspect_ratio = 1.0;
+	self->priv = gth_test_aspect_ratio_get_instance_private (self);
 	self->priv->op = GTH_TEST_OP_EQUAL;
 	self->priv->negative = FALSE;
+	self->priv->aspect_ratio = 1.0;
+	self->priv->custom_ratio_idx = 0;
+	self->priv->op_combo_box = NULL;
+	self->priv->ratio_combobox = NULL;
+	self->priv->ratio_spinbutton = NULL;
+	self->priv->custom_ratio_box = NULL;
 }

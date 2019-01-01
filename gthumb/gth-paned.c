@@ -24,9 +24,6 @@
 #include "gth-paned.h"
 
 
-G_DEFINE_TYPE (GthPaned, gth_paned, GTK_TYPE_PANED)
-
-
 enum {
 	PROP_0,
 	PROP_POSITION2
@@ -37,6 +34,12 @@ struct _GthPanedPrivate {
 	int child2_size;
 	gboolean position2_set;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthPaned,
+			 gth_paned,
+			 GTK_TYPE_PANED,
+			 G_ADD_PRIVATE (GthPaned))
 
 
 static void
@@ -110,8 +113,6 @@ gth_paned_class_init (GthPanedClass *paned_class)
 	GObjectClass   *gobject_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (paned_class, sizeof (GthPanedPrivate));
-
 	gobject_class = (GObjectClass*) paned_class;
 	gobject_class->set_property = gth_paned_set_property;
 	gobject_class->get_property = gth_paned_get_property;
@@ -138,7 +139,7 @@ gth_paned_init (GthPaned *self)
 {
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PANED, GthPanedPrivate);
+	self->priv = gth_paned_get_instance_private (self);
 	self->priv->position2_set = FALSE;
 	self->priv->child2_size = 0;
 }

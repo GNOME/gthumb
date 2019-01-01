@@ -59,8 +59,7 @@ typedef struct {
 } GthFileRow;
 
 
-struct _GthFileStorePrivate
-{
+struct _GthFileStorePrivate {
 	GthFileRow         **all_rows;
 	GthFileRow         **rows;
 	guint                size;
@@ -83,10 +82,11 @@ static void gtk_tree_drag_source_interface_init (GtkTreeDragSourceIface *iface);
 G_DEFINE_TYPE_WITH_CODE (GthFileStore,
 			 gth_file_store,
 			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthFileStore)
 			 G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL,
-					        gtk_tree_model_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_DRAG_SOURCE,
-		        		 	gtk_tree_drag_source_interface_init))
+						gtk_tree_model_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_DRAG_SOURCE,
+						gtk_tree_drag_source_interface_init))
 
 
 static GthFileRow *
@@ -240,8 +240,6 @@ gth_file_store_class_init (GthFileStoreClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileStorePrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_file_store_finalize;
 
@@ -271,7 +269,7 @@ gth_file_store_class_init (GthFileStoreClass *klass)
 static void
 gth_file_store_init (GthFileStore *file_store)
 {
-	file_store->priv = G_TYPE_INSTANCE_GET_PRIVATE (file_store, GTH_TYPE_FILE_STORE, GthFileStorePrivate);
+	file_store->priv = gth_file_store_get_instance_private (file_store);
 	file_store->priv->all_rows = NULL;
 	file_store->priv->rows = NULL;
 	file_store->priv->size = 0;

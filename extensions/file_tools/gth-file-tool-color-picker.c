@@ -35,7 +35,10 @@ struct _GthFileToolColorPickerPrivate {
 };
 
 
-G_DEFINE_TYPE (GthFileToolColorPicker, gth_file_tool_color_picker, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
+G_DEFINE_TYPE_WITH_CODE (GthFileToolColorPicker,
+			 gth_file_tool_color_picker,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolColorPicker))
 
 
 static void
@@ -224,8 +227,6 @@ gth_file_tool_color_picker_class_init (GthFileToolColorPickerClass *klass)
 	GObjectClass	 *gobject_class;
 	GthFileToolClass *file_tool_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileToolColorPickerPrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_color_picker_finalize;
 
@@ -239,7 +240,7 @@ gth_file_tool_color_picker_class_init (GthFileToolColorPickerClass *klass)
 static void
 gth_file_tool_color_picker_init (GthFileToolColorPicker *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_COLOR_PICKER, GthFileToolColorPickerPrivate);
+	self->priv = gth_file_tool_color_picker_get_instance_private (self);
 	self->priv->builder = NULL;
 	self->priv->selector = NULL;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "eyedropper-symbolic", _("Color Picker"), GTH_TOOLBOX_SECTION_COLORS);

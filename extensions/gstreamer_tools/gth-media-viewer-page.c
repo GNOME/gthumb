@@ -37,13 +37,6 @@
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthMediaViewerPage,
-			 gth_media_viewer_page,
-			 G_TYPE_OBJECT,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_VIEWER_PAGE,
-					 	gth_viewer_page_interface_init))
-
-
 struct _GthMediaViewerPagePrivate {
 	GthBrowser     *browser;
 	GthFileData    *file_data;
@@ -77,6 +70,14 @@ struct _GthMediaViewerPagePrivate {
 	GtkWidget      *screenshot_button;
 	gboolean        background_painted;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthMediaViewerPage,
+			 gth_media_viewer_page,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthMediaViewerPage)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_VIEWER_PAGE,
+						gth_viewer_page_interface_init))
 
 
 static double default_rates[] = { 0.03, 0.06, 0.12, 0.25, 0.33, 0.50, 0.66, 1.0, 1.50, 2.0, 3.0, 4.0, 8.0, 16.0, 32.0 };
@@ -1332,8 +1333,6 @@ gth_media_viewer_page_finalize (GObject *obj)
 static void
 gth_media_viewer_page_class_init (GthMediaViewerPageClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthMediaViewerPagePrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_media_viewer_page_finalize;
 }
 
@@ -1362,7 +1361,7 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 static void
 gth_media_viewer_page_init (GthMediaViewerPage *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_MEDIA_VIEWER_PAGE, GthMediaViewerPagePrivate);
+	self->priv = gth_media_viewer_page_get_instance_private (self);
 	self->priv->update_progress_id = 0;
 	self->priv->update_volume_id = 0;
 	self->priv->has_video = FALSE;

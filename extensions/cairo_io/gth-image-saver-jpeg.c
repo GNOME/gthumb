@@ -35,14 +35,17 @@
 #include "preferences.h"
 
 
-G_DEFINE_TYPE (GthImageSaverJpeg, gth_image_saver_jpeg, GTH_TYPE_IMAGE_SAVER)
-
-
 struct _GthImageSaverJpegPrivate {
 	GtkBuilder *builder;
 	GSettings  *settings;
 	char       *default_ext;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageSaverJpeg,
+			 gth_image_saver_jpeg,
+			 GTH_TYPE_IMAGE_SAVER,
+			 G_ADD_PRIVATE (GthImageSaverJpeg))
 
 
 static void
@@ -506,8 +509,6 @@ gth_image_saver_jpeg_class_init (GthImageSaverJpegClass *klass)
 	GObjectClass        *object_class;
 	GthImageSaverClass *image_saver_class;
 
-	g_type_class_add_private (klass, sizeof (GthImageSaverJpegPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_image_saver_jpeg_finalize;
 
@@ -527,7 +528,7 @@ gth_image_saver_jpeg_class_init (GthImageSaverJpegClass *klass)
 static void
 gth_image_saver_jpeg_init (GthImageSaverJpeg *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_JPEG, GthImageSaverJpegPrivate);
+	self->priv = gth_image_saver_jpeg_get_instance_private (self);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_SAVERS_JPEG_SCHEMA);
 	self->priv->builder = NULL;
 	self->priv->default_ext = NULL;

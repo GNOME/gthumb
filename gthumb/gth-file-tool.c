@@ -44,7 +44,10 @@ struct _GthFileToolPrivate {
 };
 
 
-G_DEFINE_TYPE (GthFileTool, gth_file_tool, GTK_TYPE_BUTTON)
+G_DEFINE_TYPE_WITH_CODE (GthFileTool,
+			 gth_file_tool,
+			 GTK_TYPE_BUTTON,
+			 G_ADD_PRIVATE (GthFileTool))
 
 
 static void
@@ -113,8 +116,6 @@ gth_file_tool_class_init (GthFileToolClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileToolPrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_finalize;
 
@@ -150,7 +151,7 @@ gth_file_tool_class_init (GthFileToolClass *klass)
 static void
 gth_file_tool_init (GthFileTool *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL, GthFileToolPrivate);
+	self->priv = gth_file_tool_get_instance_private (self);
 	self->priv->icon_name = NULL;
 	self->priv->options_title = NULL;
 	self->priv->cancelled = FALSE;

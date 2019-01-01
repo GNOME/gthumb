@@ -47,9 +47,6 @@ web_service_error_quark (void)
 }
 
 
-G_DEFINE_TYPE (WebService, web_service, GTH_TYPE_TASK)
-
-
 enum {
         PROP_0,
         PROP_SERVICE_NAME,
@@ -89,6 +86,12 @@ struct _WebServicePrivate
 	GtkWidget          *dialog;
 	GtkWidget          *auth_dialog;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (WebService,
+			 web_service,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (WebService))
 
 
 static void
@@ -223,8 +226,6 @@ web_service_class_init (WebServiceClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (WebServicePrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = web_service_finalize;
 	object_class->set_property = web_service_set_property;
@@ -311,7 +312,7 @@ web_service_class_init (WebServiceClass *klass)
 static void
 web_service_init (WebService *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, WEB_TYPE_SERVICE, WebServicePrivate);
+	self->priv = web_service_get_instance_private (self);
 	self->priv->service_name = NULL;
 	self->priv->service_address = NULL;
 	self->priv->service_protocol = NULL;

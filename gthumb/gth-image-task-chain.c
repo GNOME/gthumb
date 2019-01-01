@@ -35,7 +35,10 @@ struct _GthImageTaskChainPrivate {
 };
 
 
-G_DEFINE_TYPE (GthImageTaskChain, gth_image_task_chain, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthImageTaskChain,
+			 gth_image_task_chain,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthImageTaskChain))
 
 
 static void
@@ -164,8 +167,6 @@ gth_image_task_chain_class_init (GthImageTaskChainClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthImageTaskChainPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_image_task_chain_finalize;
 
@@ -177,7 +178,7 @@ gth_image_task_chain_class_init (GthImageTaskChainClass *klass)
 static void
 gth_image_task_chain_init (GthImageTaskChain *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_TASK_CHAIN, GthImageTaskChainPrivate);
+	self->priv = gth_image_task_chain_get_instance_private (self);
 	self->priv->tasks = NULL;
 	self->priv->task_completed = 0;
 	self->priv->task_dialog = 0;

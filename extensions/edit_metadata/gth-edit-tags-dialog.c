@@ -41,8 +41,9 @@ static void gth_edit_tags_dialog_gth_edit_metadata_dialog_interface_init (GthEdi
 G_DEFINE_TYPE_WITH_CODE (GthEditTagsDialog,
 			 gth_edit_tags_dialog,
 			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthEditTagsDialog)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_METADATA_DIALOG,
-					 	gth_edit_tags_dialog_gth_edit_metadata_dialog_interface_init))
+						gth_edit_tags_dialog_gth_edit_metadata_dialog_interface_init))
 
 
 static void
@@ -173,8 +174,6 @@ gth_edit_tags_dialog_class_init (GthEditTagsDialogClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthEditTagsDialogPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_edit_tags_dialog_finalize;
 }
@@ -183,7 +182,7 @@ gth_edit_tags_dialog_class_init (GthEditTagsDialogClass *klass)
 static void
 gth_edit_tags_dialog_init (GthEditTagsDialog *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EDIT_TAGS_DIALOG, GthEditTagsDialogPrivate);
+	self->priv = gth_edit_tags_dialog_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("tag-chooser.ui", "edit_metadata");
 
 	gtk_window_set_title (GTK_WINDOW (self), _("Assign Tags"));

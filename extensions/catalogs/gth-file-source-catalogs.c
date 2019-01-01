@@ -28,8 +28,7 @@
 #include "gth-file-source-catalogs.h"
 
 
-struct _GthFileSourceCatalogsPrivate
-{
+struct _GthFileSourceCatalogsPrivate {
 	GList        *files;
 	GthCatalog   *catalog;
 	ListReady     ready_func;
@@ -37,7 +36,10 @@ struct _GthFileSourceCatalogsPrivate
 };
 
 
-G_DEFINE_TYPE (GthFileSourceCatalogs, gth_file_source_catalogs, GTH_TYPE_FILE_SOURCE)
+G_DEFINE_TYPE_WITH_CODE (GthFileSourceCatalogs,
+			 gth_file_source_catalogs,
+			 GTH_TYPE_FILE_SOURCE,
+			 G_ADD_PRIVATE (GthFileSourceCatalogs))
 
 
 static GList *
@@ -1455,14 +1457,9 @@ gth_file_source_catalogs_finalize (GObject *object)
 {
 	GthFileSourceCatalogs *catalogs = GTH_FILE_SOURCE_CATALOGS (object);
 
-	if (catalogs->priv != NULL) {
-		g_object_unref (catalogs->priv->catalog);
-		_g_object_list_unref (catalogs->priv->files);
-		catalogs->priv->files = NULL;
-
-		g_free (catalogs->priv);
-		catalogs->priv = NULL;
-	}
+	g_object_unref (catalogs->priv->catalog);
+	_g_object_list_unref (catalogs->priv->files);
+	catalogs->priv->files = NULL;
 
 	G_OBJECT_CLASS (gth_file_source_catalogs_parent_class)->finalize (object);
 }
@@ -1500,6 +1497,9 @@ gth_file_source_catalogs_init (GthFileSourceCatalogs *catalogs)
 {
 	gth_file_source_add_scheme (GTH_FILE_SOURCE (catalogs), "catalog");
 
-	catalogs->priv = g_new0 (GthFileSourceCatalogsPrivate, 1);
+	catalogs->priv = gth_file_source_catalogs_get_instance_private (catalogs);
+	catalogs->priv->files = NULL;
 	catalogs->priv->catalog = gth_catalog_new ();
+	catalogs->priv->ready_func = NULL;
+	catalogs->priv->ready_data = NULL;
 }

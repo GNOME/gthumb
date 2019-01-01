@@ -42,7 +42,10 @@ struct _GthMenuManagerPrivate {
 };
 
 
-G_DEFINE_TYPE (GthMenuManager, gth_menu_manager, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthMenuManager,
+			 gth_menu_manager,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthMenuManager))
 
 
 static void
@@ -116,8 +119,6 @@ gth_menu_manager_class_init (GthMenuManagerClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthMenuManagerPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = gth_menu_manager_set_property;
 	object_class->get_property = gth_menu_manager_get_property;
@@ -138,7 +139,7 @@ gth_menu_manager_class_init (GthMenuManagerClass *klass)
 static void
 gth_menu_manager_init (GthMenuManager *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_MENU_MANAGER, GthMenuManagerPrivate);
+	self->priv = gth_menu_manager_get_instance_private (self);
 	self->priv->items = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, NULL);
 	self->priv->last_id = 1;
 	self->priv->menu = NULL;

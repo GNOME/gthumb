@@ -57,8 +57,9 @@ static void gth_edit_general_page_gth_edit_general_page_interface_init (GthEditC
 G_DEFINE_TYPE_WITH_CODE (GthEditGeneralPage,
 			 gth_edit_general_page,
 			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthEditGeneralPage)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_COMMENT_PAGE,
-					 	gth_edit_general_page_gth_edit_general_page_interface_init))
+						gth_edit_general_page_gth_edit_general_page_interface_init))
 
 
 static void
@@ -499,8 +500,6 @@ gth_edit_general_page_finalize (GObject *object)
 static void
 gth_edit_general_page_class_init (GthEditGeneralPageClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthEditGeneralPagePrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_edit_general_page_finalize;
 }
 
@@ -541,7 +540,7 @@ tags_entry_list_collapsed_cb (GthTagsEntry *widget,
 static void
 gth_edit_general_page_init (GthEditGeneralPage *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EDIT_GENERAL_PAGE, GthEditGeneralPagePrivate);
+	self->priv = gth_edit_general_page_get_instance_private (self);
 	self->priv->info = NULL;
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);

@@ -46,7 +46,10 @@ struct _GthMetadataPrivate {
 };
 
 
-G_DEFINE_TYPE (GthMetadata, gth_metadata, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthMetadata,
+			 gth_metadata,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthMetadata))
 
 
 static void
@@ -142,8 +145,6 @@ gth_metadata_finalize (GObject *obj)
 static void
 gth_metadata_class_init (GthMetadataClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthMetadataPrivate));
-
 	G_OBJECT_CLASS (klass)->get_property = gth_metadata_get_property;
 	G_OBJECT_CLASS (klass)->set_property = gth_metadata_set_property;
 	G_OBJECT_CLASS (klass)->finalize = gth_metadata_finalize;
@@ -196,7 +197,7 @@ gth_metadata_class_init (GthMetadataClass *klass)
 static void
 gth_metadata_init (GthMetadata *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_METADATA, GthMetadataPrivate);
+	self->priv = gth_metadata_get_instance_private (self);
 	self->priv->data_type = GTH_METADATA_TYPE_STRING;
 	self->priv->id = NULL;
 	self->priv->description = NULL;

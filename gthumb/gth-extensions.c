@@ -169,7 +169,10 @@ struct _GthExtensionModulePrivate {
 };
 
 
-G_DEFINE_TYPE (GthExtensionModule, gth_extension_module, GTH_TYPE_EXTENSION)
+G_DEFINE_TYPE_WITH_CODE (GthExtensionModule,
+			 gth_extension_module,
+			 GTH_TYPE_EXTENSION,
+			 G_ADD_PRIVATE (GthExtensionModule))
 
 
 static gboolean
@@ -354,8 +357,6 @@ gth_extension_module_class_init (GthExtensionModuleClass *klass)
 {
 	GthExtensionClass *elc;
 
-	g_type_class_add_private (klass, sizeof (GthExtensionModulePrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_extension_module_finalize;
 
 	elc = GTH_EXTENSION_CLASS (klass);
@@ -371,7 +372,7 @@ gth_extension_module_class_init (GthExtensionModuleClass *klass)
 static void
 gth_extension_module_init (GthExtensionModule *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EXTENSION_MODULE, GthExtensionModulePrivate);
+	self->priv = gth_extension_module_get_instance_private (self);
 }
 
 
@@ -396,7 +397,10 @@ struct _GthExtensionDescriptionPrivate {
 };
 
 
-G_DEFINE_TYPE (GthExtensionDescription, gth_extension_description, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthExtensionDescription,
+			 gth_extension_description,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthExtensionDescription))
 
 
 static void
@@ -427,7 +431,6 @@ gth_extension_description_finalize (GObject *obj)
 static void
 gth_extension_description_class_init (GthExtensionDescriptionClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthExtensionDescriptionPrivate));
 	G_OBJECT_CLASS (klass)->finalize = gth_extension_description_finalize;
 }
 
@@ -435,7 +438,7 @@ gth_extension_description_class_init (GthExtensionDescriptionClass *klass)
 static void
 gth_extension_description_init (GthExtensionDescription *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EXTENSION_DESCRIPTION, GthExtensionDescriptionPrivate);
+	self->priv = gth_extension_description_get_instance_private (self);
 	self->priv->opened = FALSE;
 	self->priv->extension = NULL;
 }
@@ -530,7 +533,10 @@ struct _GthExtensionManagerPrivate {
 };
 
 
-G_DEFINE_TYPE (GthExtensionManager, gth_extension_manager, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthExtensionManager,
+			 gth_extension_manager,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthExtensionManager))
 
 
 static void
@@ -550,7 +556,6 @@ gth_extension_manager_finalize (GObject *obj)
 static void
 gth_extension_manager_class_init (GthExtensionManagerClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthExtensionManagerPrivate));
 	G_OBJECT_CLASS (klass)->finalize = gth_extension_manager_finalize;
 }
 
@@ -558,7 +563,7 @@ gth_extension_manager_class_init (GthExtensionManagerClass *klass)
 static void
 gth_extension_manager_init (GthExtensionManager *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EXTENSION_MANAGER, GthExtensionManagerPrivate);
+	self->priv = gth_extension_manager_get_instance_private (self);
 	self->priv->extensions = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 }
 

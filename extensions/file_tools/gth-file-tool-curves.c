@@ -35,9 +35,6 @@
 #define PREVIEW_SIZE 0.9
 
 
-G_DEFINE_TYPE (GthFileToolCurves, gth_file_tool_curves, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
-
-
 struct _GthFileToolCurvesPrivate {
 	cairo_surface_t    *destination;
 	cairo_surface_t    *preview;
@@ -60,6 +57,12 @@ struct _GthFileToolCurvesPrivate {
 	GthCurvePreset     *preset;
 	GtkWidget          *filter_grid;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileToolCurves,
+			 gth_file_tool_curves,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolCurves))
 
 
 /* -- apply_changes -- */
@@ -877,7 +880,7 @@ gth_file_tool_sharpen_reset_image (GthImageViewerPageTool *base)
 static void
 gth_file_tool_curves_init (GthFileToolCurves *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_CURVES, GthFileToolCurvesPrivate);
+	self->priv = gth_file_tool_curves_get_instance_private (self);
 	self->priv->preview = NULL;
 	self->priv->destination = NULL;
 	self->priv->builder = NULL;
@@ -916,8 +919,6 @@ gth_file_tool_curves_class_init (GthFileToolCurvesClass *klass)
 	GObjectClass                *gobject_class;
 	GthFileToolClass            *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
-
-	g_type_class_add_private (klass, sizeof (GthFileToolCurvesPrivate));
 
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_curves_finalize;

@@ -25,9 +25,6 @@
 #include "gth-transition.h"
 
 
-G_DEFINE_TYPE (GthSlideshowPreferences, gth_slideshow_preferences, GTK_TYPE_BOX)
-
-
 enum {
 	TRANSITION_COLUMN_ID,
 	TRANSITION_COLUMN_DISPLAY_NAME
@@ -47,6 +44,12 @@ struct _GthSlideshowPreferencesPrivate {
 };
 
 
+G_DEFINE_TYPE_WITH_CODE (GthSlideshowPreferences,
+			 gth_slideshow_preferences,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthSlideshowPreferences))
+
+
 static void
 gth_slideshow_preferences_finalize (GObject *object)
 {
@@ -62,8 +65,6 @@ gth_slideshow_preferences_class_init (GthSlideshowPreferencesClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthSlideshowPreferencesPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_slideshow_preferences_finalize;
 }
@@ -72,7 +73,7 @@ gth_slideshow_preferences_class_init (GthSlideshowPreferencesClass *klass)
 static void
 gth_slideshow_preferences_init (GthSlideshowPreferences *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SLIDESHOW_PREFERENCES, GthSlideshowPreferencesPrivate);
+	self->priv = gth_slideshow_preferences_get_instance_private (self);
 	self->priv->builder = NULL;
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 }

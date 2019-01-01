@@ -30,14 +30,17 @@
 #include "preferences.h"
 
 
-G_DEFINE_TYPE (GthImageSaverTiff, gth_image_saver_tiff, GTH_TYPE_IMAGE_SAVER)
-
-
 struct _GthImageSaverTiffPrivate {
 	GSettings  *settings;
 	GtkBuilder *builder;
 	char       *default_ext;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageSaverTiff,
+			 gth_image_saver_tiff,
+			 GTH_TYPE_IMAGE_SAVER,
+			 G_ADD_PRIVATE (GthImageSaverTiff))
 
 
 static void
@@ -553,8 +556,6 @@ gth_image_saver_tiff_class_init (GthImageSaverTiffClass *klass)
 	GObjectClass       *object_class;
 	GthImageSaverClass *image_saver_class;
 
-	g_type_class_add_private (klass, sizeof (GthImageSaverTiffPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_image_saver_tiff_finalize;
 
@@ -574,7 +575,7 @@ gth_image_saver_tiff_class_init (GthImageSaverTiffClass *klass)
 static void
 gth_image_saver_tiff_init (GthImageSaverTiff *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_TIFF, GthImageSaverTiffPrivate);
+	self->priv = gth_image_saver_tiff_get_instance_private (self);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_SAVERS_TIFF_SCHEMA);
 	self->priv->builder = NULL;
 	self->priv->default_ext = NULL;

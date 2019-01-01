@@ -46,7 +46,10 @@ struct _GthCurvePresetEditorDialogPrivate {
 };
 
 
-G_DEFINE_TYPE (GthCurvePresetEditorDialog, gth_curve_preset_editor_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_CODE (GthCurvePresetEditorDialog,
+			 gth_curve_preset_editor_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthCurvePresetEditorDialog))
 
 
 static void
@@ -70,8 +73,6 @@ gth_curve_preset_editor_dialog_class_init (GthCurvePresetEditorDialogClass *klas
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthCurvePresetEditorDialogPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_curve_preset_editor_dialog_finalize;
 }
@@ -80,7 +81,7 @@ gth_curve_preset_editor_dialog_class_init (GthCurvePresetEditorDialogClass *klas
 static void
 gth_curve_preset_editor_dialog_init (GthCurvePresetEditorDialog *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CURVE_PRESET_EDITOR_DIALOG, GthCurvePresetEditorDialogPrivate);
+	self->priv = gth_curve_preset_editor_dialog_get_instance_private (self);
 	self->priv->changed_id = 0;
 }
 

@@ -103,7 +103,10 @@ struct _GthFilterGridPrivate {
 static guint gth_filter_grid_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthFilterGrid, gth_filter_grid, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_CODE (GthFilterGrid,
+			 gth_filter_grid,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthFilterGrid))
 
 
 static void
@@ -192,8 +195,6 @@ gth_filter_grid_class_init (GthFilterGridClass *klass)
 {
 	GObjectClass   *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthFilterGridPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = gth_filter_grid_set_property;
 	object_class->get_property = gth_filter_grid_get_property;
@@ -229,7 +230,7 @@ gth_filter_grid_class_init (GthFilterGridClass *klass)
 static void
 gth_filter_grid_init (GthFilterGrid *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILTER_GRID, GthFilterGridPrivate);
+	self->priv = gth_filter_grid_get_instance_private (self);
 	self->priv->n_columns = DEFAULT_N_COLUMNS;
 	self->priv->filter_ids = NULL;
 	self->priv->cell_data = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) cell_data_free);

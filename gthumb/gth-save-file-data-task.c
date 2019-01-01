@@ -35,7 +35,10 @@ struct _GthSaveFileDataTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthSaveFileDataTask, gth_save_file_data_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthSaveFileDataTask,
+			 gth_save_file_data_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthSaveFileDataTask))
 
 
 static void
@@ -136,8 +139,6 @@ gth_save_file_data_task_class_init (GthSaveFileDataTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthSaveFileDataTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_save_file_data_task_finalize;
 
@@ -149,7 +150,7 @@ gth_save_file_data_task_class_init (GthSaveFileDataTaskClass *klass)
 static void
 gth_save_file_data_task_init (GthSaveFileDataTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SAVE_FILE_DATA_TASK, GthSaveFileDataTaskPrivate);
+	self->priv = gth_save_file_data_task_get_instance_private (self);
 	self->priv->file_data_list = NULL;
 	self->priv->attributes = NULL;
 }

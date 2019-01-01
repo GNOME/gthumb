@@ -44,7 +44,10 @@ struct _GthCatalogPrivate {
 };
 
 
-G_DEFINE_TYPE (GthCatalog, gth_catalog, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthCatalog,
+			 gth_catalog,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthCatalog))
 
 
 static void
@@ -54,17 +57,13 @@ gth_catalog_finalize (GObject *object)
 
 	g_value_hash_unref (catalog->attributes);
 
-	if (catalog->priv != NULL) {
-		if (catalog->priv->file != NULL)
-			g_object_unref (catalog->priv->file);
-		g_free (catalog->priv->name);
-		_g_object_list_unref (catalog->priv->file_list);
-		g_hash_table_destroy (catalog->priv->file_hash);
-		gth_datetime_free (catalog->priv->date_time);
-		g_free (catalog->priv->order);
-		g_free (catalog->priv);
-		catalog->priv = NULL;
-	}
+	if (catalog->priv->file != NULL)
+		g_object_unref (catalog->priv->file);
+	g_free (catalog->priv->name);
+	_g_object_list_unref (catalog->priv->file_list);
+	g_hash_table_destroy (catalog->priv->file_hash);
+	gth_datetime_free (catalog->priv->date_time);
+	g_free (catalog->priv->order);
 
 	G_OBJECT_CLASS (gth_catalog_parent_class)->finalize (object);
 }
@@ -245,9 +244,17 @@ static void
 gth_catalog_init (GthCatalog *catalog)
 {
 	catalog->attributes = g_value_hash_new ();
-	catalog->priv = g_new0 (GthCatalogPrivate, 1);
-	catalog->priv->date_time = gth_datetime_new ();
+	catalog->priv = gth_catalog_get_instance_private (catalog);
+	catalog->priv->type = GTH_CATALOG_TYPE_INVALID;
+	catalog->priv->file = NULL;
+	catalog->priv->file_list = NULL;
 	catalog->priv->file_hash = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, NULL, NULL);
+	catalog->priv->name = NULL;
+	catalog->priv->date_time = gth_datetime_new ();
+	catalog->priv->active = FALSE;
+	catalog->priv->order = NULL;
+	catalog->priv->order_inverse = FALSE;
+	catalog->priv->cancellable = NULL;
 }
 
 

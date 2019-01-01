@@ -36,9 +36,10 @@ struct _GthSelectionsManagerPrivate {
 };
 
 
-G_DEFINE_TYPE (GthSelectionsManager,
-	       gth_selections_manager,
-	       G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthSelectionsManager,
+			 gth_selections_manager,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthSelectionsManager))
 
 
 static GthSelectionsManager *the_manager = NULL;
@@ -86,19 +87,18 @@ gth_selections_manager_class_init (GthSelectionsManagerClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthSelectionsManagerPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->constructor = gth_selections_manager_constructor;
 	object_class->finalize = gth_selections_manager_finalize;
 }
+
 
 static void
 gth_selections_manager_init (GthSelectionsManager *self)
 {
 	int i;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SELECTIONS_MANAGER, GthSelectionsManagerPrivate);
+	self->priv = gth_selections_manager_get_instance_private (self);
 	g_mutex_init (&self->priv->mutex);
 	for (i = 0; i < GTH_SELECTIONS_MANAGER_N_SELECTIONS; i++) {
 		self->priv->files[i] = NULL;

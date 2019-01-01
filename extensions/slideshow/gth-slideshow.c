@@ -39,9 +39,6 @@
 #define _GST_PLAY_FLAG_AUDIO (1 << 1)
 
 
-G_DEFINE_TYPE (GthSlideshow, gth_slideshow, GTK_TYPE_WINDOW)
-
-
 typedef enum {
 	GTH_SLIDESHOW_DIRECTION_FORWARD,
 	GTH_SLIDESHOW_DIRECTION_BACKWARD
@@ -89,6 +86,12 @@ struct _GthSlideshowPrivate {
 	gboolean               random_order;
 	GthScreensaver        *screensaver;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthSlideshow,
+			 gth_slideshow,
+			 GTK_TYPE_WINDOW,
+			 G_ADD_PRIVATE (GthSlideshow))
 
 
 static void
@@ -339,8 +342,6 @@ gth_slideshow_class_init (GthSlideshowClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (klass, sizeof (GthSlideshowPrivate));
-
 	gobject_class = G_OBJECT_CLASS (klass);
 	gobject_class->finalize = gth_slideshow_finalize;
 }
@@ -456,7 +457,7 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 static void
 gth_slideshow_init (GthSlideshow *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SLIDESHOW, GthSlideshowPrivate);
+	self->priv = gth_slideshow_get_instance_private (self);
 	self->priv->file_list = NULL;
 	self->priv->next_event = 0;
 	self->priv->delay = DEFAULT_DELAY;

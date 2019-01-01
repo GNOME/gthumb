@@ -41,8 +41,7 @@ enum {
 	LAST_SIGNAL
 };
 
-struct _GthTaskPrivate
-{
+struct _GthTaskPrivate {
 	char         *description;
 	gboolean      running;
 	GCancellable *cancellable;
@@ -53,14 +52,18 @@ struct _GthTaskPrivate
 static guint gth_task_signals[LAST_SIGNAL] = { 0 };
 
 
+
+G_DEFINE_TYPE_WITH_CODE (GthTask,
+			 gth_task,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthTask))
+
+
 GQuark
 gth_task_error_quark (void)
 {
 	return g_quark_from_static_string ("gth-task-error-quark");
 }
-
-
-G_DEFINE_TYPE (GthTask, gth_task, G_TYPE_OBJECT)
 
 
 static void
@@ -142,8 +145,6 @@ gth_task_class_init (GthTaskClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (GthTaskPrivate));
-
 	object_class = (GObjectClass*) class;
 	object_class->set_property = gth_task_set_property;
 	object_class->get_property = gth_task_get_property;
@@ -206,7 +207,7 @@ gth_task_class_init (GthTaskClass *class)
 static void
 gth_task_init (GthTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TASK, GthTaskPrivate);
+	self->priv = gth_task_get_instance_private (self);
 	self->priv->running = FALSE;
 	self->priv->cancellable = NULL;
 	self->priv->cancellable_cancelled = 0;

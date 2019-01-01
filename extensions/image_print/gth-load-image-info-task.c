@@ -32,7 +32,10 @@ struct _GthLoadImageInfoTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthLoadImageInfoTask, gth_load_image_info_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthLoadImageInfoTask,
+			 gth_load_image_info_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthLoadImageInfoTask))
 
 
 static void
@@ -210,8 +213,6 @@ gth_load_image_info_task_class_init (GthLoadImageInfoTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthLoadImageInfoTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_load_image_info_task_finalize;
 
@@ -224,7 +225,7 @@ gth_load_image_info_task_class_init (GthLoadImageInfoTaskClass *klass)
 static void
 gth_load_image_info_task_init (GthLoadImageInfoTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOAD_IMAGE_INFO_TASK, GthLoadImageInfoTaskPrivate);
+	self->priv = gth_load_image_info_task_get_instance_private (self);
 	self->priv->loader = gth_image_loader_new (NULL, NULL);
 }
 

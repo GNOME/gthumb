@@ -30,9 +30,6 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (GthFileToolCrop, gth_file_tool_crop, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
-
-
 struct _GthFileToolCropPrivate {
 	GSettings        *settings;
 	GtkBuilder       *builder;
@@ -48,6 +45,12 @@ struct _GthFileToolCropPrivate {
 	GtkWidget        *crop_height_spinbutton;
 	GtkWidget	 *grid_type_combobox;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileToolCrop,
+			 gth_file_tool_crop,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolCrop))
 
 
 static gpointer
@@ -679,7 +682,7 @@ gth_file_tool_crop_reset_image (GthImageViewerPageTool *base)
 static void
 gth_file_tool_crop_init (GthFileToolCrop *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_CROP, GthFileToolCropPrivate);
+	self->priv = gth_file_tool_crop_get_instance_private (self);
 	self->priv->settings = NULL;
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-crop-symbolic", _("Crop"), GTH_TOOLBOX_SECTION_FORMAT);
 }
@@ -710,8 +713,6 @@ gth_file_tool_crop_class_init (GthFileToolCropClass *klass)
 	GObjectClass                *gobject_class;
 	GthFileToolClass            *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
-
-	g_type_class_add_private (klass, sizeof (GthFileToolCropPrivate));
 
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_crop_finalize;

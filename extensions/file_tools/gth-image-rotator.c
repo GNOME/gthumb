@@ -48,14 +48,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static void gth_image_rotator_gth_image_tool_interface_init (GthImageViewerToolInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthImageRotator,
-			 gth_image_rotator,
-			 G_TYPE_OBJECT,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
-					        gth_image_rotator_gth_image_tool_interface_init))
-
-
-
 struct _GthImageRotatorPrivate {
 	GthImageViewer        *viewer;
 
@@ -86,6 +78,14 @@ struct _GthImageRotatorPrivate {
 	GthFit                 original_fit_mode;
 	gboolean               original_zoom_enabled;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageRotator,
+			 gth_image_rotator,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImageRotator)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
+						gth_image_rotator_gth_image_tool_interface_init))
 
 
 static void
@@ -639,8 +639,6 @@ gth_image_rotator_class_init (GthImageRotatorClass *class)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (class, sizeof (GthImageRotatorPrivate));
-
 	gobject_class = (GObjectClass*) class;
 	gobject_class->finalize = gth_image_rotator_finalize;
 
@@ -696,7 +694,7 @@ gth_image_rotator_gth_image_tool_interface_init (GthImageViewerToolInterface *if
 static void
 gth_image_rotator_init (GthImageRotator *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_ROTATOR, GthImageRotatorPrivate);
+	self->priv = gth_image_rotator_get_instance_private (self);
 	self->priv->preview_image = NULL;
 	self->priv->grid_type = GTH_GRID_NONE;
 	self->priv->resize = GTH_TRANSFORM_RESIZE_BOUNDING_BOX;

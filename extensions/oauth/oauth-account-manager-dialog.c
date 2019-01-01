@@ -28,9 +28,6 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (OAuthAccountManagerDialog, oauth_account_manager_dialog, GTK_TYPE_DIALOG)
-
-
 enum {
 	ACCOUNT_DATA_COLUMN,
 	ACCOUNT_NAME_COLUMN,
@@ -40,6 +37,12 @@ enum {
 struct _OAuthAccountManagerDialogPrivate {
 	GtkBuilder *builder;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (OAuthAccountManagerDialog,
+			 oauth_account_manager_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (OAuthAccountManagerDialog))
 
 
 static void
@@ -59,8 +62,6 @@ static void
 oauth_account_manager_dialog_class_init (OAuthAccountManagerDialogClass *klass)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (OAuthAccountManagerDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = oauth_account_manager_dialog_finalize;
@@ -134,7 +135,7 @@ oauth_account_manager_dialog_init (OAuthAccountManagerDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ACCOUNT_MANAGER_DIALOG, OAuthAccountManagerDialogPrivate);
+	self->priv = oauth_account_manager_dialog_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("oauth-account-manager.ui", "oauth");
 
 	content = _gtk_builder_get_widget (self->priv->builder, "account_manager");

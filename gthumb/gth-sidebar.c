@@ -29,7 +29,6 @@
 #include "gtk-utils.h"
 
 
-#define GTH_SIDEBAR_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_SIDEBAR, GthSidebarPrivate))
 #define GTH_SIDEBAR_PAGE_PROPERTIES "GthSidebar.Properties"
 #define GTH_SIDEBAR_PAGE_TOOLS "GthSidebar.Tools"
 
@@ -42,7 +41,10 @@ struct _GthSidebarPrivate {
 };
 
 
-G_DEFINE_TYPE (GthSidebar, gth_sidebar, GTK_TYPE_STACK)
+G_DEFINE_TYPE_WITH_CODE (GthSidebar,
+			 gth_sidebar,
+			 GTK_TYPE_STACK,
+			 G_ADD_PRIVATE (GthSidebar))
 
 
 static void
@@ -95,8 +97,6 @@ gth_sidebar_class_init (GthSidebarClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthSidebarPrivate));
-
 	object_class = (GObjectClass *) klass;
 	object_class->finalize = gth_sidebar_finalize;
 }
@@ -105,7 +105,7 @@ gth_sidebar_class_init (GthSidebarClass *klass)
 static void
 gth_sidebar_init (GthSidebar *sidebar)
 {
-	sidebar->priv = GTH_SIDEBAR_GET_PRIVATE (sidebar);
+	sidebar->priv = gth_sidebar_get_instance_private (sidebar);
 	sidebar->priv->dirty = NULL;
 	sidebar->priv->file_data = NULL;
 }

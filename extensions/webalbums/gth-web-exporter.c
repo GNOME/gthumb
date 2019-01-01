@@ -41,9 +41,6 @@
 #define SAVING_TIMEOUT 5
 
 
-G_DEFINE_TYPE (GthWebExporter, gth_web_exporter, GTH_TYPE_TASK)
-
-
 typedef enum {
 	GTH_TEMPLATE_TYPE_INDEX,
 	GTH_TEMPLATE_TYPE_IMAGE,
@@ -163,6 +160,12 @@ struct _GthWebExporterPrivate {
 	GError            *error;
 	gboolean           interrupted;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthWebExporter,
+			 gth_web_exporter,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthWebExporter))
 
 
 static LoopInfo *
@@ -3143,8 +3146,6 @@ gth_web_exporter_class_init (GthWebExporterClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthWebExporterPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_web_exporter_finalize;
 
@@ -3157,7 +3158,7 @@ gth_web_exporter_class_init (GthWebExporterClass *klass)
 static void
 gth_web_exporter_init (GthWebExporter *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_WEB_EXPORTER, GthWebExporterPrivate);
+	self->priv = gth_web_exporter_get_instance_private (self);
 	self->priv->header = NULL;
 	self->priv->footer = NULL;
 	self->priv->image_page_header = NULL;

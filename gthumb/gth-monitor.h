@@ -45,12 +45,12 @@ typedef enum {
 
 typedef struct _GthMonitor            GthMonitor;
 typedef struct _GthMonitorClass       GthMonitorClass;
-typedef struct _GthMonitorPrivateData GthMonitorPrivateData;
+typedef struct _GthMonitorPrivate     GthMonitorPrivate;
 
 struct _GthMonitor
 {
 	GObject __parent;
-	GthMonitorPrivateData *priv;
+	GthMonitorPrivate *priv;
 };
 
 struct _GthMonitorClass

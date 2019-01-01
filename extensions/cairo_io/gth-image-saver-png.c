@@ -42,13 +42,16 @@
 #endif
 
 
-G_DEFINE_TYPE (GthImageSaverPng, gth_image_saver_png, GTH_TYPE_IMAGE_SAVER)
-
-
 struct _GthImageSaverPngPrivate {
 	GtkBuilder *builder;
 	GSettings  *settings;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageSaverPng,
+			 gth_image_saver_png,
+			 GTH_TYPE_IMAGE_SAVER,
+			 G_ADD_PRIVATE (GthImageSaverPng))
 
 
 static void
@@ -343,8 +346,6 @@ gth_image_saver_png_class_init (GthImageSaverPngClass *klass)
 	GObjectClass       *object_class;
 	GthImageSaverClass *image_saver_class;
 
-	g_type_class_add_private (klass, sizeof (GthImageSaverPngPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_image_saver_png_finalize;
 
@@ -364,7 +365,7 @@ gth_image_saver_png_class_init (GthImageSaverPngClass *klass)
 static void
 gth_image_saver_png_init (GthImageSaverPng *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_PNG, GthImageSaverPngPrivate);
+	self->priv = gth_image_saver_png_get_instance_private (self);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_SAVERS_PNG_SCHEMA);
 	self->priv->builder = NULL;
 }

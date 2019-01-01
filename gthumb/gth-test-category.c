@@ -50,8 +50,7 @@ GthOpData category_op_data[] = {
 };
 
 
-struct _GthTestCategoryPrivate
-{
+struct _GthTestCategoryPrivate {
 	char         *category;
 	GthTestOp     op;
 	gboolean      negative;
@@ -75,10 +74,11 @@ static void gth_test_category_gth_duplicable_interface_init (GthDuplicableInterf
 G_DEFINE_TYPE_WITH_CODE (GthTestCategory,
 			 gth_test_category,
 			 GTH_TYPE_TEST,
+			 G_ADD_PRIVATE (GthTestCategory)
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					 	gth_test_category_dom_domizable_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-		        		 	gth_test_category_gth_duplicable_interface_init))
+						gth_test_category_dom_domizable_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+						gth_test_category_gth_duplicable_interface_init))
 
 
 static void
@@ -88,15 +88,11 @@ gth_test_category_finalize (GObject *object)
 
 	test = GTH_TEST_CATEGORY (object);
 
-	if (test->priv != NULL) {
-		if (test->priv->monitor_events != 0) {
-			g_signal_handler_disconnect (gth_main_get_default_monitor (), test->priv->monitor_events);
-			test->priv->monitor_events = 0;
-		}
-		g_free (test->priv->category);
-		g_free (test->priv);
-		test->priv = NULL;
+	if (test->priv->monitor_events != 0) {
+		g_signal_handler_disconnect (gth_main_get_default_monitor (), test->priv->monitor_events);
+		test->priv->monitor_events = 0;
 	}
+	g_free (test->priv->category);
 
 	G_OBJECT_CLASS (gth_test_category_parent_class)->finalize (object);
 }
@@ -497,7 +493,15 @@ gth_test_category_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 static void
 gth_test_category_init (GthTestCategory *test)
 {
-	test->priv = g_new0 (GthTestCategoryPrivate, 1);
+	test->priv = gth_test_category_get_instance_private (test);
+	test->priv->category = NULL;
+	test->priv->op = GTH_TEST_OP_NONE;
+	test->priv->negative = FALSE;
+	test->priv->has_focus = FALSE;
+	test->priv->tag_store = NULL;
+	test->priv->combo_entry = NULL;
+	test->priv->text_entry = NULL;
+	test->priv->op_combo_box = NULL;
 	test->priv->monitor_events = 0;
 }
 

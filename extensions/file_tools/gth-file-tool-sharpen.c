@@ -31,9 +31,6 @@
 #define DEFAULT_THRESHOLD 0.0
 
 
-G_DEFINE_TYPE (GthFileToolSharpen, gth_file_tool_sharpen, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
-
-
 struct _GthFileToolSharpenPrivate {
 	GtkBuilder      *builder;
 	GtkAdjustment   *radius_adj;
@@ -45,6 +42,12 @@ struct _GthFileToolSharpenPrivate {
 	cairo_surface_t *preview_source;
 	gboolean         image_centered;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileToolSharpen,
+			 gth_file_tool_sharpen,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolSharpen))
 
 
 typedef struct {
@@ -405,8 +408,6 @@ gth_file_tool_sharpen_class_init (GthFileToolSharpenClass *klass)
 	GthFileToolClass            *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileToolSharpenPrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_sharpen_finalize;
 
@@ -424,7 +425,7 @@ gth_file_tool_sharpen_class_init (GthFileToolSharpenClass *klass)
 static void
 gth_file_tool_sharpen_init (GthFileToolSharpen *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_SHARPEN, GthFileToolSharpenPrivate);
+	self->priv = gth_file_tool_sharpen_get_instance_private (self);
 	self->priv->builder = NULL;
 	self->priv->show_preview = TRUE;
 	self->priv->preview_source = NULL;

@@ -33,7 +33,10 @@ struct _GthSaveImageTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthSaveImageTask, gth_save_image_task, GTH_TYPE_IMAGE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthSaveImageTask,
+			 gth_save_image_task,
+			 GTH_TYPE_IMAGE_TASK,
+			 G_ADD_PRIVATE (GthSaveImageTask))
 
 
 static void
@@ -186,8 +189,6 @@ gth_save_image_task_class_init (GthSaveImageTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthSaveImageTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_save_image_task_finalize;
 
@@ -199,7 +200,7 @@ gth_save_image_task_class_init (GthSaveImageTaskClass *klass)
 static void
 gth_save_image_task_init (GthSaveImageTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SAVE_IMAGE_TASK, GthSaveImageTaskPrivate);
+	self->priv = gth_save_image_task_get_instance_private (self);
 	self->priv->mime_type = NULL;
 	self->priv->file_data = NULL;
 }

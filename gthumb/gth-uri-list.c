@@ -54,7 +54,10 @@ struct _GthUriListPrivate {
 static guint uri_list_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthUriList, gth_uri_list, GTK_TYPE_TREE_VIEW)
+G_DEFINE_TYPE_WITH_CODE (GthUriList,
+			 gth_uri_list,
+			 GTK_TYPE_TREE_VIEW,
+			 G_ADD_PRIVATE (GthUriList))
 
 
 static void
@@ -133,7 +136,7 @@ row_inserted_cb (GtkTreeModel *tree_model,
 static void
 gth_uri_list_init (GthUriList *uri_list)
 {
-	uri_list->priv = g_new0 (GthUriListPrivate, 1);
+	uri_list->priv = gth_uri_list_get_instance_private (uri_list);
 
 	uri_list->priv->list_store = gtk_list_store_new (URI_LIST_NUM_COLUMNS,
 						         GDK_TYPE_PIXBUF,
@@ -163,28 +166,8 @@ gth_uri_list_init (GthUriList *uri_list)
 
 
 static void
-gth_uri_list_finalize (GObject *object)
-{
-	GthUriList *uri_list = GTH_URI_LIST (object);
-
-	if (uri_list->priv != NULL) {
-		g_free (uri_list->priv);
-		uri_list->priv = NULL;
-	}
-
-	G_OBJECT_CLASS (gth_uri_list_parent_class)->finalize (object);
-}
-
-
-static void
 gth_uri_list_class_init (GthUriListClass *klass)
 {
-	GObjectClass *gobject_class;
-
-	gobject_class = G_OBJECT_CLASS (klass);
-
-	gobject_class->finalize = gth_uri_list_finalize;
-
 	uri_list_signals[ORDER_CHANGED] =
 		g_signal_new ("order-changed",
 			      G_TYPE_FROM_CLASS (klass),

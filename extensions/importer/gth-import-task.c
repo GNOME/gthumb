@@ -31,9 +31,6 @@
 #define IMPORTED_KEY "imported"
 
 
-G_DEFINE_TYPE (GthImportTask, gth_import_task, GTH_TYPE_TASK)
-
-
 struct _GthImportTaskPrivate {
 	GthBrowser          *browser;
 	GList               *files;
@@ -63,6 +60,12 @@ struct _GthImportTaskPrivate {
 	void                *buffer;
 	gsize                buffer_size;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImportTask,
+			 gth_import_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthImportTask))
 
 
 static void
@@ -759,8 +762,6 @@ gth_import_task_class_init (GthImportTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthImportTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_import_task_finalize;
 
@@ -772,7 +773,7 @@ gth_import_task_class_init (GthImportTaskClass *klass)
 static void
 gth_import_task_init (GthImportTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_TASK, GthImportTaskPrivate);
+	self->priv = gth_import_task_get_instance_private (self);
 	self->priv->catalogs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	self->priv->delete_not_supported = FALSE;
 	self->priv->destinations = g_hash_table_new_full (g_file_hash,

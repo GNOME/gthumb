@@ -55,8 +55,9 @@ static void gth_file_data_gth_duplicable_interface_init (GthDuplicableInterface 
 G_DEFINE_TYPE_WITH_CODE (GthFileData,
 			 gth_file_data,
 			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthFileData)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-					 	gth_file_data_gth_duplicable_interface_init))
+						gth_file_data_gth_duplicable_interface_init))
 
 
 static void
@@ -75,8 +76,6 @@ gth_file_data_finalize (GObject *obj)
 static void
 gth_file_data_class_init (GthFileDataClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthFileDataPrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_file_data_finalize;
 }
 
@@ -98,7 +97,7 @@ gth_file_data_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 static void
 gth_file_data_init (GthFileData *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_DATA, GthFileDataPrivate);
+	self->priv = gth_file_data_get_instance_private (self);
 	self->priv->dtime.tv_sec = 0;
 	self->priv->sort_key = NULL;
 	self->file = NULL;

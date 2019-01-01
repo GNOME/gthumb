@@ -61,7 +61,10 @@ static guint mount_added_event_id = 0;
 static guint mount_removed_event_id = 0;
 
 
-G_DEFINE_TYPE (GthFileSourceVfs, gth_file_source_vfs, GTH_TYPE_FILE_SOURCE)
+G_DEFINE_TYPE_WITH_CODE (GthFileSourceVfs,
+			 gth_file_source_vfs,
+			 GTH_TYPE_FILE_SOURCE,
+			 G_ADD_PRIVATE (GthFileSourceVfs))
 
 
 static GList *
@@ -881,27 +884,21 @@ static void
 gth_file_source_vfs_finalize (GObject *object)
 {
 	GthFileSourceVfs *file_source_vfs = GTH_FILE_SOURCE_VFS (object);
+	int               i;
 
-	if (file_source_vfs->priv != NULL) {
-		int i;
-
-		if (file_source_vfs->priv->monitor_update_id != 0) {
-			g_source_remove (file_source_vfs->priv->monitor_update_id);
-			file_source_vfs->priv->monitor_update_id = 0;
-		}
-
-		g_hash_table_destroy (file_source_vfs->priv->hidden_files);
-		g_hash_table_destroy (file_source_vfs->priv->monitors);
-
-		for (i = 0; i < GTH_MONITOR_N_EVENTS; i++) {
-			_g_object_list_unref (file_source_vfs->priv->monitor_queue[i]);
-			file_source_vfs->priv->monitor_queue[i] = NULL;
-		}
-		_g_object_list_unref (file_source_vfs->priv->files);
-
-		g_free (file_source_vfs->priv);
-		file_source_vfs->priv = NULL;
+	if (file_source_vfs->priv->monitor_update_id != 0) {
+		g_source_remove (file_source_vfs->priv->monitor_update_id);
+		file_source_vfs->priv->monitor_update_id = 0;
 	}
+
+	g_hash_table_destroy (file_source_vfs->priv->hidden_files);
+	g_hash_table_destroy (file_source_vfs->priv->monitors);
+
+	for (i = 0; i < GTH_MONITOR_N_EVENTS; i++) {
+		_g_object_list_unref (file_source_vfs->priv->monitor_queue[i]);
+		file_source_vfs->priv->monitor_queue[i] = NULL;
+	}
+	_g_object_list_unref (file_source_vfs->priv->files);
 
 	G_OBJECT_CLASS (gth_file_source_vfs_parent_class)->finalize (object);
 }
@@ -934,10 +931,20 @@ gth_file_source_vfs_init (GthFileSourceVfs *file_source)
 {
 	int i;
 
-	file_source->priv = g_new0 (GthFileSourceVfsPrivate, 1);
-	gth_file_source_add_scheme (GTH_FILE_SOURCE (file_source), "vfs+");
+	file_source->priv = gth_file_source_vfs_get_instance_private (file_source);
+	file_source->priv->files = NULL;
+	file_source->priv->list_ready_func = NULL;
+	file_source->priv->start_dir_func = NULL;
+	file_source->priv->for_each_file_func = NULL;
+	file_source->priv->ready_func = NULL;
+	file_source->priv->user_data = NULL;
 	file_source->priv->hidden_files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	file_source->priv->monitors = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, g_object_unref);
 	for (i = 0; i < GTH_MONITOR_N_EVENTS; i++)
 		file_source->priv->monitor_queue[i] = NULL;
+	file_source->priv->monitor_update_id = 0;
+	file_source->priv->mount_monitor = NULL;
+	file_source->priv->check_hidden_files = FALSE;
+
+	gth_file_source_add_scheme (GTH_FILE_SOURCE (file_source), "vfs+");
 }

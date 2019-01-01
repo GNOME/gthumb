@@ -48,8 +48,9 @@ static void flickr_photo_dom_domizable_interface_init (DomDomizableInterface *if
 G_DEFINE_TYPE_WITH_CODE (FlickrPhoto,
 			 flickr_photo,
 			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (FlickrPhoto)
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					        flickr_photo_dom_domizable_interface_init))
+						flickr_photo_dom_domizable_interface_init))
 
 
 static void
@@ -77,7 +78,6 @@ flickr_photo_finalize (GObject *obj)
 static void
 flickr_photo_class_init (FlickrPhotoClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (FlickrPhotoPrivate));
 	G_OBJECT_CLASS (klass)->finalize = flickr_photo_finalize;
 }
 
@@ -150,7 +150,7 @@ flickr_photo_init (FlickrPhoto *self)
 {
 	int i;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FLICKR_TYPE_PHOTO, FlickrPhotoPrivate);
+	self->priv = flickr_photo_get_instance_private (self);
 	self->priv->server = NULL;
 
 	self->id = NULL;

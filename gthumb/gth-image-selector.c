@@ -229,8 +229,9 @@ static void gth_image_selector_gth_image_tool_interface_init (GthImageViewerTool
 G_DEFINE_TYPE_WITH_CODE (GthImageSelector,
 			 gth_image_selector,
 			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImageSelector)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
-					 	gth_image_selector_gth_image_tool_interface_init))
+						gth_image_selector_gth_image_tool_interface_init))
 
 
 static gboolean
@@ -1606,7 +1607,7 @@ gth_image_selector_zoom_changed (GthImageViewerTool *base)
 static void
 gth_image_selector_init (GthImageSelector *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SELECTOR, GthImageSelectorPrivate);
+	self->priv = gth_image_selector_get_instance_private (self);
 
 	self->priv->type = GTH_SELECTOR_TYPE_REGION;
 	self->priv->ratio = 1.0;
@@ -1637,8 +1638,6 @@ static void
 gth_image_selector_class_init (GthImageSelectorClass *class)
 {
 	GObjectClass *gobject_class;
-
-	g_type_class_add_private (class, sizeof (GthImageSelectorPrivate));
 
 	gobject_class = (GObjectClass*) class;
 	gobject_class->finalize = gth_image_selector_finalize;

@@ -50,11 +50,11 @@ typedef enum {
 
 typedef struct _GthFileList             GthFileList;
 typedef struct _GthFileListClass        GthFileListClass;
-typedef struct _GthFileListPrivateData  GthFileListPrivateData;
+typedef struct _GthFileListPrivate      GthFileListPrivate;
 
 struct _GthFileList {
 	GtkBox __parent;
-	GthFileListPrivateData *priv;
+	GthFileListPrivate *priv;
 };
 
 struct _GthFileListClass {

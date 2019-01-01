@@ -96,8 +96,7 @@ enum {
 };
 
 
-struct _GthTestSimplePrivate
-{
+struct _GthTestSimplePrivate {
 	GthTestDataType  data_type;
 	union {
 		char   *s;
@@ -133,10 +132,11 @@ static void gth_test_simple_gth_duplicable_interface_init (GthDuplicableInterfac
 G_DEFINE_TYPE_WITH_CODE (GthTestSimple,
 			 gth_test_simple,
 			 GTH_TYPE_TEST,
+			 G_ADD_PRIVATE (GthTestSimple)
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					 	gth_test_simple_dom_domizable_interface_init)
+						gth_test_simple_dom_domizable_interface_init)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-					 	gth_test_simple_gth_duplicable_interface_init))
+						gth_test_simple_gth_duplicable_interface_init))
 
 
 static void
@@ -172,13 +172,9 @@ gth_test_simple_finalize (GObject *object)
 
 	test = GTH_TEST_SIMPLE (object);
 
-	if (test->priv != NULL) {
-		_gth_test_simple_free_data (test);
-		if (test->priv->pattern != NULL)
-			g_pattern_spec_free (test->priv->pattern);
-		g_free (test->priv);
-		test->priv = NULL;
-	}
+	_gth_test_simple_free_data (test);
+	if (test->priv->pattern != NULL)
+		g_pattern_spec_free (test->priv->pattern);
 
 	G_OBJECT_CLASS (gth_test_simple_parent_class)->finalize (object);
 }
@@ -1442,8 +1438,22 @@ gth_test_simple_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 static void
 gth_test_simple_init (GthTestSimple *test)
 {
-	test->priv = g_new0 (GthTestSimplePrivate, 1);
+	test->priv = gth_test_simple_get_instance_private (test);
 	test->priv->data_type = GTH_TEST_DATA_TYPE_NONE;
+	test->priv->get_data = NULL;
+	test->priv->op = GTH_TEST_OP_NONE;
+	test->priv->negative = FALSE;
+	test->priv->max_int = 0;
+	test->priv->max_double = 0;
+	test->priv->pattern = NULL;
+	test->priv->has_focus = FALSE;
+	test->priv->text_entry = NULL;
+	test->priv->text_op_combo_box = NULL;
+	test->priv->size_op_combo_box = NULL;
+	test->priv->date_op_combo_box = NULL;
+	test->priv->size_combo_box = NULL;
+	test->priv->time_selector = NULL;
+	test->priv->spinbutton = NULL;
 }
 
 

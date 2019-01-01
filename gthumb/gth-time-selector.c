@@ -37,8 +37,7 @@ enum {
 };
 
 
-struct _GthTimeSelectorPrivate
-{
+struct _GthTimeSelectorPrivate {
 	GthDateTime *date_time;
 	GtkWidget   *date_entry;
 	GtkWidget   *calendar_button;
@@ -59,7 +58,10 @@ struct _GthTimeSelectorPrivate
 static guint gth_time_selector_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthTimeSelector, gth_time_selector, GTK_TYPE_BOX);
+G_DEFINE_TYPE_WITH_CODE (GthTimeSelector,
+			 gth_time_selector,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthTimeSelector));
 
 
 static void
@@ -108,8 +110,6 @@ gth_time_selector_class_init (GthTimeSelectorClass *class)
 {
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (GthTimeSelectorPrivate));
 
 	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_time_selector_finalize;
@@ -164,7 +164,7 @@ _gth_time_selector_grab_broken_event (GtkWidget          *widget,
 static void
 gth_time_selector_init (GthTimeSelector *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TIME_SELECTOR, GthTimeSelectorPrivate);
+	self->priv = gth_time_selector_get_instance_private (self);
 	self->priv->date_time = gth_datetime_new ();
 	self->priv->use_time = TRUE;
 	self->priv->grab_pointer = NULL;

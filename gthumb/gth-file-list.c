@@ -120,8 +120,7 @@ typedef struct {
 } ThumbnailerState;
 
 
-struct _GthFileListPrivateData
-{
+struct _GthFileListPrivate {
 	GSettings        *settings;
 	GthFileListMode   type;
 	GtkAdjustment    *vadj;
@@ -148,6 +147,12 @@ struct _GthFileListPrivateData
 	GList            *visibles;
 	ThumbnailerState  thumbnailer_state;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileList,
+			 gth_file_list,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthFileList))
 
 
 /* OPs */
@@ -274,9 +279,6 @@ _gth_file_list_queue_op (GthFileList   *file_list,
 /* -- gth_file_list -- */
 
 
-G_DEFINE_TYPE (GthFileList, gth_file_list, GTK_TYPE_BOX)
-
-
 static void
 gth_file_list_finalize (GObject *object)
 {
@@ -284,18 +286,13 @@ gth_file_list_finalize (GObject *object)
 
 	file_list = GTH_FILE_LIST (object);
 
-	if (file_list->priv != NULL) {
-		_gth_file_list_clear_queue (file_list);
-		_g_object_unref (file_list->priv->thumb_loader);
-		_g_object_list_unref (file_list->priv->visibles);
-		g_hash_table_unref (file_list->priv->thumb_data);
-		if (file_list->priv->icon_cache != NULL)
-			gth_icon_cache_free (file_list->priv->icon_cache);
-		g_object_unref (file_list->priv->settings);
-
-		g_free (file_list->priv);
-		file_list->priv = NULL;
-	}
+	_gth_file_list_clear_queue (file_list);
+	_g_object_unref (file_list->priv->thumb_loader);
+	_g_object_list_unref (file_list->priv->visibles);
+	g_hash_table_unref (file_list->priv->thumb_data);
+	if (file_list->priv->icon_cache != NULL)
+		gth_icon_cache_free (file_list->priv->icon_cache);
+	g_object_unref (file_list->priv->settings);
 
 	G_OBJECT_CLASS (gth_file_list_parent_class)->finalize (object);
 }
@@ -414,19 +411,32 @@ gth_file_list_init (GthFileList *file_list)
 {
 	gtk_widget_set_can_focus (GTK_WIDGET (file_list), FALSE);
 
-	file_list->priv = g_new0 (GthFileListPrivateData, 1);
+	file_list->priv = gth_file_list_get_instance_private (file_list);
 	file_list->priv->settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
-	file_list->priv->thumb_data = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, (GDestroyNotify) thumb_data_unref);
+	file_list->priv->type = GTH_FILE_LIST_MODE_NORMAL;
+	file_list->priv->vadj = NULL;
+	file_list->priv->notebook = NULL;
+	file_list->priv->view = NULL;
+	file_list->priv->message = NULL;
+	file_list->priv->scrolled_window = NULL;
+	file_list->priv->icon_cache = NULL;
+	file_list->priv->file_source = NULL;
+	file_list->priv->load_thumbs = TRUE;
 	file_list->priv->thumb_size = g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_SIZE);
 	file_list->priv->ignore_hidden_thumbs = FALSE;
-	file_list->priv->load_thumbs = TRUE;
-	file_list->priv->cancelling = FALSE;
-	file_list->priv->update_event = 0;
-	file_list->priv->visibles = NULL;
-	file_list->priv->visibility_changed = FALSE;
-	file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
+	file_list->priv->thumb_data = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, (GDestroyNotify) thumb_data_unref);
+	file_list->priv->thumb_loader = NULL;
+	file_list->priv->loading_thumbs = FALSE;
+	file_list->priv->dirty = FALSE;
 	file_list->priv->dirty_event = 0;
 	file_list->priv->restart_thumb_update = 0;
+	file_list->priv->queue = NULL;
+	file_list->priv->jobs = NULL;
+	file_list->priv->cancelling = FALSE;
+	file_list->priv->update_event = 0;
+	file_list->priv->visibility_changed = FALSE;
+	file_list->priv->visibles = NULL;
+	file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
 }
 
 

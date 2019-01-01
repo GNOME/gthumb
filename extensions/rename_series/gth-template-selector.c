@@ -28,9 +28,6 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (GthTemplateSelector, gth_template_selector, GTK_TYPE_BOX)
-
-
 enum {
 	TYPE_DATA_COLUMN,
 	TYPE_NAME_COLUMN,
@@ -61,6 +58,13 @@ struct _GthTemplateSelectorPrivate {
 	GtkBuilder *builder;
 };
 
+
+G_DEFINE_TYPE_WITH_CODE (GthTemplateSelector,
+			 gth_template_selector,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthTemplateSelector))
+
+
 static char * Date_Formats[] = { "%Y-%m-%d--%H.%M.%S", "%Y-%m-%d", "%x %X", "%x", NULL };
 static guint  gth_template_selector_signals[LAST_SIGNAL] = { 0 };
 
@@ -72,11 +76,7 @@ gth_template_selector_finalize (GObject *object)
 
 	selector = GTH_TEMPLATE_SELECTOR (object);
 
-	if (selector->priv != NULL) {
-		_g_object_unref (selector->priv->builder);
-		g_free (selector->priv);
-		selector->priv = NULL;
-	}
+	_g_object_unref (selector->priv->builder);
 
 	G_OBJECT_CLASS (gth_template_selector_parent_class)->finalize (object);
 }
@@ -113,7 +113,7 @@ gth_template_selector_class_init (GthTemplateSelectorClass *klass)
 static void
 gth_template_selector_init (GthTemplateSelector *self)
 {
-	self->priv = g_new0 (GthTemplateSelectorPrivate, 1);
+	self->priv = gth_template_selector_get_instance_private (self);
 	self->priv->builder = NULL;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);

@@ -51,7 +51,10 @@ struct _GthImageListTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthImageListTask, gth_image_list_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthImageListTask,
+			 gth_image_list_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthImageListTask))
 
 
 static void
@@ -469,8 +472,6 @@ gth_image_list_task_class_init (GthImageListTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthImageListTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_image_list_task_finalize;
 
@@ -482,7 +483,7 @@ gth_image_list_task_class_init (GthImageListTaskClass *klass)
 static void
 gth_image_list_task_init (GthImageListTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_LIST_TASK, GthImageListTaskPrivate);
+	self->priv = gth_image_list_task_get_instance_private (self);
 	self->priv->original_image = NULL;
 	self->priv->new_image = NULL;
 	self->priv->destination_folder = NULL;

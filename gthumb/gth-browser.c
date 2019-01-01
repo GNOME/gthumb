@@ -79,9 +79,6 @@
 #define AUTO_OPEN_FOLDER_DELAY 500
 
 
-G_DEFINE_TYPE (GthBrowser, gth_browser, GTH_TYPE_WINDOW)
-
-
 enum {
 	LOCATION_READY,
 	LAST_SIGNAL
@@ -227,8 +224,13 @@ struct _GthBrowserPrivate {
 	GMenu             *history_menu;
 };
 
-
 static guint gth_browser_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthBrowser,
+			 gth_browser,
+			 GTH_TYPE_WINDOW,
+			 G_ADD_PRIVATE (GthBrowser))
 
 
 /* -- browser_state -- */
@@ -2618,8 +2620,6 @@ gth_browser_class_init (GthBrowserClass *klass)
 	GObjectClass   *gobject_class;
 	GthWindowClass *window_class;
 
-	g_type_class_add_private (klass, sizeof (GthBrowserPrivate));
-
 	gobject_class = G_OBJECT_CLASS (klass);
 	gobject_class->finalize = gth_browser_finalize;
 
@@ -4296,7 +4296,7 @@ gth_browser_init (GthBrowser *browser)
 
 	gtk_widget_add_events (GTK_WIDGET (browser), GDK_POINTER_MOTION_HINT_MASK);
 
-	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (browser, GTH_TYPE_BROWSER, GthBrowserPrivate);
+	browser->priv = gth_browser_get_instance_private (browser);
 	browser->priv->viewer_pages = NULL;
 	browser->priv->viewer_page = NULL;
 	browser->priv->image_preloader = gth_image_preloader_new ();

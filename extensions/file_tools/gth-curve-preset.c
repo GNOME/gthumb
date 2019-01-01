@@ -49,7 +49,10 @@ struct _GthCurvePresetPrivate {
 static guint gth_curve_preset_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthCurvePreset, gth_curve_preset, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthCurvePreset,
+			 gth_curve_preset,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthCurvePreset))
 
 
 static char * Channel_Names[GTH_HISTOGRAM_N_CHANNELS] = { "value", "red", "green", "blue", "alpha" };
@@ -194,8 +197,6 @@ gth_curve_preset_class_init (GthCurvePresetClass *klass)
 {
 	GObjectClass   *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthCurvePresetPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_curve_preset_finalize;
 
@@ -234,7 +235,7 @@ gth_curve_preset_changed (GthCurvePreset *self)
 static void
 gth_curve_preset_init (GthCurvePreset *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CURVE_PRESET, GthCurvePresetPrivate);
+	self->priv = gth_curve_preset_get_instance_private (self);
 	self->priv->set = NULL;
 	self->priv->file = NULL;
 	self->priv->next_id = 0;

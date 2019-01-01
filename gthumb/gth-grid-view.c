@@ -60,16 +60,6 @@ static void gth_grid_view_gth_file_selection_interface_init (GthFileSelectionInt
 static void gth_grid_view_gth_file_view_interface_init (GthFileViewInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthGridView,
-			 gth_grid_view,
-			 GTK_TYPE_WIDGET,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_FILE_SELECTION,
-					 	gth_grid_view_gth_file_selection_interface_init)
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_FILE_VIEW,
-					 	gth_grid_view_gth_file_view_interface_init)
-                         G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
-
-
 enum {
 	SELECT_ALL,
 	UNSELECT_ALL,
@@ -224,6 +214,17 @@ struct _GthGridViewPrivate {
 
 	GthIconCache          *icon_cache;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthGridView,
+			 gth_grid_view,
+			 GTK_TYPE_WIDGET,
+			 G_ADD_PRIVATE (GthGridView)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_FILE_SELECTION,
+						gth_grid_view_gth_file_selection_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_FILE_VIEW,
+						gth_grid_view_gth_file_view_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
 
 
 /* -- gth_grid_view_item -- */
@@ -3722,8 +3723,6 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	GtkWidgetClass *widget_class;
 	GtkBindingSet  *binding_set;
 
-	g_type_class_add_private (grid_view_class, sizeof (GthGridViewPrivate));
-
 	/* Methods */
 
 	gobject_class = (GObjectClass*) grid_view_class;
@@ -3938,7 +3937,7 @@ gth_grid_view_init (GthGridView *self)
 
 	gtk_widget_set_can_focus (GTK_WIDGET (self), TRUE);
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_GRID_VIEW, GthGridViewPrivate);
+	self->priv = gth_grid_view_get_instance_private (self);
 
 	/* self->priv->model = NULL; */
 	self->priv->items = NULL;

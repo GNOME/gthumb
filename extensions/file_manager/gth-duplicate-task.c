@@ -30,7 +30,10 @@ struct _GthDuplicateTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthDuplicateTask, gth_duplicate_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthDuplicateTask,
+			 gth_duplicate_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthDuplicateTask))
 
 
 static void
@@ -155,8 +158,6 @@ gth_duplicate_task_class_init (GthDuplicateTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthDuplicateTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_duplicate_task_finalize;
 
@@ -168,7 +169,7 @@ gth_duplicate_task_class_init (GthDuplicateTaskClass *klass)
 static void
 gth_duplicate_task_init (GthDuplicateTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DUPLICATE_TASK, GthDuplicateTaskPrivate);
+	self->priv = gth_duplicate_task_get_instance_private (self);
 	self->priv->destination = NULL;
 }
 

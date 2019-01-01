@@ -48,7 +48,10 @@ static guint gth_script_file_signals[LAST_SIGNAL] = { 0 };
 static GType gth_script_file_get_type (void);
 
 
-G_DEFINE_TYPE (GthScriptFile, gth_script_file, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthScriptFile,
+			 gth_script_file,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthScriptFile))
 
 
 static void
@@ -68,8 +71,6 @@ gth_script_file_class_init (GthScriptFileClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthScriptFilePrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_script_file_finalize;
 
@@ -88,7 +89,7 @@ gth_script_file_class_init (GthScriptFileClass *klass)
 static void
 gth_script_file_init (GthScriptFile *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SCRIPT_FILE, GthScriptFilePrivate);
+	self->priv = gth_script_file_get_instance_private (self);
 	self->priv->items = NULL;
 	self->priv->loaded = FALSE;
 }

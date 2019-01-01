@@ -109,7 +109,10 @@ struct _GthTagsEntryPrivate {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthTagsEntry, gth_tags_entry, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_CODE (GthTagsEntry,
+			 gth_tags_entry,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthTagsEntry))
 
 
 static void
@@ -205,8 +208,6 @@ gth_tags_entry_class_init (GthTagsEntryClass *klass)
 {
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (klass, sizeof (GthTagsEntryPrivate));
 
 	object_class = (GObjectClass*) (klass);
 	object_class->set_property = gth_tags_entry_set_property;
@@ -1118,7 +1119,7 @@ gth_tags_entry_init (GthTagsEntry *self)
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (self), 3);
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TAGS_ENTRY, GthTagsEntryPrivate);
+	self->priv = gth_tags_entry_get_instance_private (self);
 	self->priv->mode = GTH_TAGS_ENTRY_MODE_INLINE;
 	self->priv->expanded_list.last_used = g_new0 (char *, 1);
 	self->priv->expanded = FALSE;

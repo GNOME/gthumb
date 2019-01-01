@@ -57,8 +57,9 @@ static void gth_image_dragger_gth_image_tool_interface_init (GthImageViewerToolI
 G_DEFINE_TYPE_WITH_CODE (GthImageDragger,
 			 gth_image_dragger,
 			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImageDragger)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
-					        gth_image_dragger_gth_image_tool_interface_init))
+						gth_image_dragger_gth_image_tool_interface_init))
 
 
 static void
@@ -131,8 +132,6 @@ gth_image_dragger_class_init (GthImageDraggerClass *class)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (class, sizeof (GthImageDraggerPrivate));
-
 	gobject_class = (GObjectClass*) class;
 	gobject_class->finalize = gth_image_dragger_finalize;
 	gobject_class->set_property = gth_image_dragger_set_property;
@@ -153,7 +152,7 @@ gth_image_dragger_class_init (GthImageDraggerClass *class)
 static void
 gth_image_dragger_init (GthImageDragger *dragger)
 {
-	dragger->priv = G_TYPE_INSTANCE_GET_PRIVATE (dragger, GTH_TYPE_IMAGE_DRAGGER, GthImageDraggerPrivate);
+	dragger->priv = gth_image_dragger_get_instance_private (dragger);
 	dragger->priv->scaled = NULL;
 	dragger->priv->scaled_zoom = 0;
 	dragger->priv->scale_task = NULL;

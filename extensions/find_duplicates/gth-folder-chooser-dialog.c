@@ -33,12 +33,15 @@ enum {
 };
 
 
-G_DEFINE_TYPE (GthFolderChooserDialog, gth_folder_chooser_dialog, GTK_TYPE_DIALOG)
-
-
 struct _GthFolderChooserDialogPrivate {
 	GtkBuilder *builder;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFolderChooserDialog,
+			 gth_folder_chooser_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthFolderChooserDialog))
 
 
 static void
@@ -58,8 +61,6 @@ static void
 gth_folder_chooser_dialog_class_init (GthFolderChooserDialogClass *klass)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (GthFolderChooserDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_folder_chooser_dialog_finalize;
@@ -96,7 +97,7 @@ gth_folder_chooser_dialog_init (GthFolderChooserDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FOLDER_CHOOSER_DIALOG, GthFolderChooserDialogPrivate);
+	self->priv = gth_folder_chooser_dialog_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("find-duplicates-choose-folders.ui", "find_duplicates");
 
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);

@@ -33,7 +33,10 @@ struct _GthImageViewerTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthImageViewerTask, gth_image_viewer_task, GTH_TYPE_IMAGE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthImageViewerTask,
+			 gth_image_viewer_task,
+			 GTH_TYPE_IMAGE_TASK,
+			 G_ADD_PRIVATE (GthImageViewerTask))
 
 
 static void
@@ -119,8 +122,6 @@ gth_image_viewer_task_class_init (GthImageViewerTaskClass *class)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (class, sizeof (GthImageViewerTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_image_viewer_task_finalize;
 
@@ -132,7 +133,7 @@ gth_image_viewer_task_class_init (GthImageViewerTaskClass *class)
 static void
 gth_image_viewer_task_init (GthImageViewerTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_VIEWER_TASK, GthImageViewerTaskPrivate);
+	self->priv = gth_image_viewer_task_get_instance_private (self);
 	self->priv->viewer_page = NULL;
 	self->priv->original_image_task = NULL;
 	self->priv->load_original = TRUE;

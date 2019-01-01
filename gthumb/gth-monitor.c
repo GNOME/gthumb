@@ -45,7 +45,7 @@ enum {
 };
 
 
-struct _GthMonitorPrivateData {
+struct _GthMonitorPrivate {
 	gboolean    active;
 	GHashTable *paused_files;
 };
@@ -54,7 +54,10 @@ struct _GthMonitorPrivateData {
 static guint monitor_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthMonitor, gth_monitor, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthMonitor,
+			 gth_monitor,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthMonitor))
 
 
 static void
@@ -71,7 +74,7 @@ gth_monitor_finalize (GObject *object)
 static void
 gth_monitor_init (GthMonitor *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_MONITOR, GthMonitorPrivateData);
+	self->priv = gth_monitor_get_instance_private (self);
 	self->priv->active = TRUE;
 	self->priv->paused_files = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 }
@@ -81,8 +84,6 @@ static void
 gth_monitor_class_init (GthMonitorClass *class)
 {
 	GObjectClass  *gobject_class;
-
-	g_type_class_add_private (class, sizeof (GthMonitorPrivateData));
 
 	gobject_class = (GObjectClass*) class;
 	gobject_class->finalize = gth_monitor_finalize;

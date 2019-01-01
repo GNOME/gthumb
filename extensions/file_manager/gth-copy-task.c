@@ -32,7 +32,10 @@ struct _GthCopyTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthCopyTask, gth_copy_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthCopyTask,
+			 gth_copy_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthCopyTask))
 
 
 static void
@@ -118,8 +121,6 @@ gth_copy_task_class_init (GthCopyTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthCopyTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_copy_task_finalize;
 
@@ -131,7 +132,7 @@ gth_copy_task_class_init (GthCopyTaskClass *klass)
 static void
 gth_copy_task_init (GthCopyTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_COPY_TASK, GthCopyTaskPrivate);
+	self->priv = gth_copy_task_get_instance_private (self);
 }
 
 

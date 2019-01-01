@@ -37,7 +37,10 @@ struct _GthChangeDateTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthChangeDateTask, gth_change_date_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthChangeDateTask,
+			 gth_change_date_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthChangeDateTask))
 
 
 static void
@@ -342,8 +345,6 @@ gth_change_date_task_class_init (GthChangeDateTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthChangeDateTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_change_date_task_finalize;
 
@@ -355,7 +356,7 @@ gth_change_date_task_class_init (GthChangeDateTaskClass *klass)
 static void
 gth_change_date_task_init (GthChangeDateTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CHANGE_DATE_TASK, GthChangeDateTaskPrivate);
+	self->priv = gth_change_date_task_get_instance_private (self);
 	self->priv->date_time = gth_datetime_new ();
 }
 

@@ -73,7 +73,10 @@ struct _GthCurveEditorPrivate {
 static guint gth_curve_editor_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthCurveEditor, gth_curve_editor, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_CODE (GthCurveEditor,
+			 gth_curve_editor,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthCurveEditor))
 
 
 static void
@@ -152,8 +155,6 @@ static void
 gth_curve_editor_class_init (GthCurveEditorClass *klass)
 {
 	GObjectClass   *object_class;
-
-	g_type_class_add_private (klass, sizeof (GthCurveEditorPrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = gth_curve_editor_set_property;
@@ -864,7 +865,7 @@ gth_curve_editor_init (GthCurveEditor *self)
 	GtkWidget       *button;
 	int              c;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CURVE_EDITOR, GthCurveEditorPrivate);
+	self->priv = gth_curve_editor_get_instance_private (self);
 	self->priv->histogram = NULL;
 	self->priv->current_channel = GTH_HISTOGRAM_CHANNEL_VALUE;
 	self->priv->scale_type = GTH_HISTOGRAM_SCALE_LINEAR;

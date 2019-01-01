@@ -35,20 +35,23 @@ struct _GthRequestDialogPrivate {
 };
 
 
-G_DEFINE_TYPE (GthRequestDialog, gth_request_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_CODE (GthRequestDialog,
+			 gth_request_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthRequestDialog))
 
 
 static void
 gth_request_dialog_class_init (GthRequestDialogClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthRequestDialogPrivate));
+	/* void */
 }
 
 
 static void
 gth_request_dialog_init (GthRequestDialog *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_REQUEST_DIALOG, GthRequestDialogPrivate);
+	self->priv = gth_request_dialog_get_instance_private (self);
 	gtk_window_set_title (GTK_WINDOW (self), "");
 }
 

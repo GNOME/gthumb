@@ -28,8 +28,7 @@
 #include "gth-test-chain.h"
 
 
-struct _GthTestChainPrivate
-{
+struct _GthTestChainPrivate {
 	GthMatchType  match_type;
 	GList        *tests;
 	GString      *attributes;
@@ -47,10 +46,11 @@ static void gth_test_chain_gth_duplicable_interface_init (GthDuplicableInterface
 G_DEFINE_TYPE_WITH_CODE (GthTestChain,
 			 gth_test_chain,
 			 GTH_TYPE_TEST,
+			 G_ADD_PRIVATE (GthTestChain)
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					        gth_test_chain_dom_domizable_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-		        		        gth_test_chain_gth_duplicable_interface_init))
+						gth_test_chain_dom_domizable_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+						gth_test_chain_gth_duplicable_interface_init))
 
 
 static void
@@ -60,13 +60,9 @@ gth_test_chain_finalize (GObject *object)
 
 	test = GTH_TEST_CHAIN (object);
 
-	if (test->priv != NULL) {
-		_g_object_list_unref (test->priv->tests);
-		if (test->priv->attributes != NULL)
-			g_string_free (test->priv->attributes, TRUE);
-		g_free (test->priv);
-		test->priv = NULL;
-	}
+	_g_object_list_unref (test->priv->tests);
+	if (test->priv->attributes != NULL)
+		g_string_free (test->priv->attributes, TRUE);
 
 	G_OBJECT_CLASS (gth_test_chain_parent_class)->finalize (object);
 }
@@ -245,7 +241,10 @@ gth_test_chain_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 static void
 gth_test_chain_init (GthTestChain *test)
 {
-	test->priv = g_new0 (GthTestChainPrivate, 1);
+	test->priv = gth_test_chain_get_instance_private (test);
+	test->priv->match_type = GTH_MATCH_TYPE_NONE;
+	test->priv->tests = NULL;
+	test->priv->attributes = NULL;
 }
 
 

@@ -56,21 +56,22 @@ static GthDuplicableInterface *gth_duplicable_parent_iface = NULL;
 static guint gth_test_signals[LAST_SIGNAL] = { 0 };
 
 
+static void gth_test_gth_duplicable_interface_init (GthDuplicableInterface *iface);
+
+
+G_DEFINE_TYPE_WITH_CODE (GthTest,
+			 gth_test,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthTest)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+						gth_test_gth_duplicable_interface_init))
+
+
 GQuark
 gth_test_error_quark (void)
 {
 	return g_quark_from_static_string ("gth-test-error-quark");
 }
-
-
-static void gth_test_gth_duplicable_interface_init (GthDuplicableInterface *iface);
-
-
-G_DEFINE_TYPE_WITH_CODE (GthTest,
-		         gth_test,
-		         G_TYPE_OBJECT,
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-		        		        gth_test_gth_duplicable_interface_init))
 
 
 static void
@@ -267,8 +268,6 @@ gth_test_class_init (GthTestClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthTestPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = gth_test_set_property;
 	object_class->get_property = gth_test_get_property;
@@ -338,7 +337,7 @@ gth_test_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 static void
 gth_test_init (GthTest *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TEST, GthTestPrivate);
+	self->priv = gth_test_get_instance_private (self);
 	self->priv->id = g_strdup ("");
 	self->priv->attributes = g_strdup ("");
 	self->priv->display_name = g_strdup ("");

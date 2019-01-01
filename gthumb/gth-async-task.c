@@ -51,7 +51,10 @@ struct _GthAsyncTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthAsyncTask, gth_async_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE	(GthAsyncTask,
+			 gth_async_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthAsyncTask))
 
 
 static void
@@ -256,8 +259,6 @@ gth_async_task_class_init (GthAsyncTaskClass *class)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (class, sizeof (GthAsyncTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = gth_async_task_set_property;
 	object_class->get_property = gth_async_task_get_property;
@@ -303,7 +304,7 @@ gth_async_task_class_init (GthAsyncTaskClass *class)
 static void
 gth_async_task_init (GthAsyncTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ASYNC_TASK, GthAsyncTaskPrivate);
+	self->priv = gth_async_task_get_instance_private (self);
 	self->priv->cancelled = FALSE;
 	self->priv->terminated = FALSE;
 	self->priv->progress_event = 0;

@@ -37,8 +37,9 @@ static void gth_edit_comment_dialog_gth_edit_metadata_dialog_interface_init (Gth
 G_DEFINE_TYPE_WITH_CODE (GthEditCommentDialog,
 			 gth_edit_comment_dialog,
 			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthEditCommentDialog)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_METADATA_DIALOG,
-					 	gth_edit_comment_dialog_gth_edit_metadata_dialog_interface_init))
+						gth_edit_comment_dialog_gth_edit_metadata_dialog_interface_init))
 
 
 
@@ -122,7 +123,7 @@ gth_edit_comment_dialog_gth_edit_metadata_dialog_interface_init (GthEditMetadata
 static void
 gth_edit_comment_dialog_class_init (GthEditCommentDialogClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthEditCommentDialogPrivate));
+	/* void */
 }
 
 
@@ -133,7 +134,7 @@ gth_edit_comment_dialog_init (GthEditCommentDialog *self)
 	GArray    *pages;
 	int        i;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EDIT_COMMENT_DIALOG, GthEditCommentDialogPrivate);
+	self->priv = gth_edit_comment_dialog_get_instance_private (self);
 
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);

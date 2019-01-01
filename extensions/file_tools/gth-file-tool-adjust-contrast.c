@@ -34,9 +34,6 @@
 #define HISTOGRAM_CROP_1_5 0.015 /* ignores the 1.5% on each side of the histogram */
 
 
-G_DEFINE_TYPE (GthFileToolAdjustContrast, gth_file_tool_adjust_contrast, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
-
-
 typedef enum {
 	METHOD_STRETCH,
 	METHOD_STRETCH_0_5,
@@ -59,6 +56,12 @@ struct _GthFileToolAdjustContrastPrivate {
 	Method              last_applied_method;
 	gboolean            view_original;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileToolAdjustContrast,
+			 gth_file_tool_adjust_contrast,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolAdjustContrast))
 
 
 /* equalize histogram */
@@ -628,8 +631,6 @@ gth_file_tool_adjust_contrast_class_init (GthFileToolAdjustContrastClass *klass)
 	GthFileToolClass            *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileToolAdjustContrastPrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_adjust_contrast_finalize;
 
@@ -646,7 +647,7 @@ gth_file_tool_adjust_contrast_class_init (GthFileToolAdjustContrastClass *klass)
 static void
 gth_file_tool_adjust_contrast_init (GthFileToolAdjustContrast *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ADJUST_CONTRAST, GthFileToolAdjustContrastPrivate);
+	self->priv = gth_file_tool_adjust_contrast_get_instance_private (self);
 	self->priv->preview = NULL;
 	self->priv->destination = NULL;
 	self->priv->builder = NULL;

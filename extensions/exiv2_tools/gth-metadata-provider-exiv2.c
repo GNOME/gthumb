@@ -33,7 +33,10 @@ struct _GthMetadataProviderExiv2Private {
 };
 
 
-G_DEFINE_TYPE (GthMetadataProviderExiv2, gth_metadata_provider_exiv2, GTH_TYPE_METADATA_PROVIDER)
+G_DEFINE_TYPE_WITH_CODE (GthMetadataProviderExiv2,
+			 gth_metadata_provider_exiv2,
+			 GTH_TYPE_METADATA_PROVIDER,
+			 G_ADD_PRIVATE (GthMetadataProviderExiv2))
 
 
 static void
@@ -336,8 +339,6 @@ gth_metadata_provider_exiv2_class_init (GthMetadataProviderExiv2Class *klass)
 	GObjectClass             *object_class;
 	GthMetadataProviderClass *mp_class;
 
-	g_type_class_add_private (klass, sizeof (GthMetadataProviderExiv2Private));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_metadata_provider_exiv2_finalize;
 
@@ -352,6 +353,6 @@ gth_metadata_provider_exiv2_class_init (GthMetadataProviderExiv2Class *klass)
 static void
 gth_metadata_provider_exiv2_init (GthMetadataProviderExiv2 *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_METADATA_PROVIDER_EXIV2, GthMetadataProviderExiv2Private);
+	self->priv = gth_metadata_provider_exiv2_get_instance_private (self);
 	self->priv->general_settings = NULL;
 }

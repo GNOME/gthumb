@@ -32,7 +32,10 @@ struct _FacebookAlbumPropertiesDialogPrivate {
 };
 
 
-G_DEFINE_TYPE (FacebookAlbumPropertiesDialog, facebook_album_properties_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_CODE (FacebookAlbumPropertiesDialog,
+			 facebook_album_properties_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (FacebookAlbumPropertiesDialog))
 
 
 static void
@@ -52,8 +55,6 @@ facebook_album_properties_dialog_class_init (FacebookAlbumPropertiesDialogClass 
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (FacebookAlbumPropertiesDialogPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = facebook_album_properties_dialog_finalize;
 }
@@ -64,7 +65,7 @@ facebook_album_properties_dialog_init (FacebookAlbumPropertiesDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FACEBOOK_TYPE_ALBUM_PROPERTIES_DIALOG, FacebookAlbumPropertiesDialogPrivate);
+	self->priv = facebook_album_properties_dialog_get_instance_private(self);
 	self->priv->builder = _gtk_builder_new_from_file ("facebook-album-properties.ui", "facebook");
 
 	content = _gtk_builder_get_widget (self->priv->builder, "album_properties");

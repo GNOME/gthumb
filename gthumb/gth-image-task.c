@@ -30,7 +30,10 @@ struct _GthImageTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthImageTask, gth_image_task, GTH_TYPE_ASYNC_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthImageTask,
+			 gth_image_task,
+			 GTH_TYPE_ASYNC_TASK,
+			 G_ADD_PRIVATE (GthImageTask))
 
 
 static void
@@ -53,8 +56,6 @@ gth_image_task_class_init (GthImageTaskClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (GthImageTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_image_task_finalize;
 }
@@ -63,7 +64,7 @@ gth_image_task_class_init (GthImageTaskClass *class)
 static void
 gth_image_task_init (GthImageTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_TASK, GthImageTaskPrivate);
+	self->priv = gth_image_task_get_instance_private (self);
 	self->priv->source = NULL;
 	self->priv->destination = NULL;
 }

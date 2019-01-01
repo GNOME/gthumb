@@ -29,14 +29,17 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-G_DEFINE_TYPE (GthSearchEditor, gth_search_editor, GTK_TYPE_BOX)
-
-
 struct _GthSearchEditorPrivate {
 	GtkBuilder *builder;
 	GtkWidget  *location_chooser;
 	GtkWidget  *match_type_combobox;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthSearchEditor,
+			 gth_search_editor,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthSearchEditor))
 
 
 static void
@@ -46,11 +49,7 @@ gth_search_editor_finalize (GObject *object)
 
 	dialog = GTH_SEARCH_EDITOR (object);
 
-	if (dialog->priv != NULL) {
-		g_object_unref (dialog->priv->builder);
-		g_free (dialog->priv);
-		dialog->priv = NULL;
-	}
+	_g_object_unref (dialog->priv->builder);
 
 	G_OBJECT_CLASS (gth_search_editor_parent_class)->finalize (object);
 }
@@ -68,7 +67,10 @@ gth_search_editor_class_init (GthSearchEditorClass *class)
 static void
 gth_search_editor_init (GthSearchEditor *dialog)
 {
-	dialog->priv = g_new0 (GthSearchEditorPrivate, 1);
+	dialog->priv = gth_search_editor_get_instance_private (dialog);
+	dialog->priv->builder = NULL;
+	dialog->priv->location_chooser = NULL;
+	dialog->priv->match_type_combobox = NULL;
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (dialog), GTK_ORIENTATION_VERTICAL);
 }
 

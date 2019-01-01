@@ -27,12 +27,15 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (PicasaAlbumPropertiesDialog, picasa_album_properties_dialog, GTK_TYPE_DIALOG)
-
-
 struct _PicasaAlbumPropertiesDialogPrivate {
 	GtkBuilder *builder;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (PicasaAlbumPropertiesDialog,
+			 picasa_album_properties_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (PicasaAlbumPropertiesDialog))
 
 
 static void
@@ -52,8 +55,6 @@ picasa_album_properties_dialog_class_init (PicasaAlbumPropertiesDialogClass *kla
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (PicasaAlbumPropertiesDialogPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = picasa_album_properties_dialog_finalize;
 }
@@ -64,7 +65,7 @@ picasa_album_properties_dialog_init (PicasaAlbumPropertiesDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, PICASA_TYPE_ALBUM_PROPERTIES_DIALOG, PicasaAlbumPropertiesDialogPrivate);
+	self->priv = picasa_album_properties_dialog_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("picasa-web-album-properties.ui", "picasaweb");
 
 	content = _gtk_builder_get_widget (self->priv->builder, "album_properties");

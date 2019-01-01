@@ -22,9 +22,6 @@
 #include "gth-file-viewer-page.h"
 
 
-#define GTH_FILE_VIEWER_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_VIEWER_PAGE, GthFileViewerPagePrivate))
-
-
 struct _GthFileViewerPagePrivate {
 	GthBrowser     *browser;
 	GtkWidget      *viewer;
@@ -41,8 +38,9 @@ static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
 G_DEFINE_TYPE_WITH_CODE (GthFileViewerPage,
 			 gth_file_viewer_page,
 			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthFileViewerPage)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_VIEWER_PAGE,
-					 	gth_viewer_page_interface_init))
+						gth_viewer_page_interface_init))
 
 
 static gboolean
@@ -307,7 +305,6 @@ gth_file_viewer_page_finalize (GObject *obj)
 static void
 gth_file_viewer_page_class_init (GthFileViewerPageClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthFileViewerPagePrivate));
 	G_OBJECT_CLASS (klass)->finalize = gth_file_viewer_page_finalize;
 }
 
@@ -333,7 +330,7 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 static void
 gth_file_viewer_page_init (GthFileViewerPage *self)
 {
-	self->priv = GTH_FILE_VIEWER_PAGE_GET_PRIVATE (self);
+	self->priv = gth_file_viewer_page_get_instance_private (self);
 	self->priv->thumb_loader = NULL;
 	self->priv->file_data = NULL;
 }

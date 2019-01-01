@@ -67,7 +67,10 @@ struct _GthHistogramViewPrivate {
 };
 
 
-G_DEFINE_TYPE (GthHistogramView, gth_histogram_view, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_CODE (GthHistogramView,
+			 gth_histogram_view,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthHistogramView))
 
 
 static void
@@ -149,8 +152,6 @@ static void
 gth_histogram_view_class_init (GthHistogramViewClass *klass)
 {
 	GObjectClass   *object_class;
-
-	g_type_class_add_private (klass, sizeof (GthHistogramViewPrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = gth_histogram_set_property;
@@ -809,7 +810,7 @@ gth_histogram_view_init (GthHistogramView *self)
 	GtkCellRenderer *renderer;
 	GtkTreeIter      iter;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_HISTOGRAM_VIEW, GthHistogramViewPrivate);
+	self->priv = gth_histogram_view_get_instance_private (self);
 	self->priv->histogram = NULL;
 	self->priv->current_channel = GTH_HISTOGRAM_CHANNEL_VALUE;
 	self->priv->display_mode = GTH_HISTOGRAM_MODE_ONE_CHANNEL;

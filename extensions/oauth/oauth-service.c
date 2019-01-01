@@ -33,9 +33,6 @@
 #define OAUTH_CALLBACK "http://localhost/"
 
 
-G_DEFINE_TYPE (OAuthService, oauth_service, WEB_TYPE_SERVICE)
-
-
 enum {
         PROP_0,
         PROP_CONSUMER
@@ -51,6 +48,12 @@ struct _OAuthServicePrivate {
 	char          *token_secret;
 	char          *verifier;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (OAuthService,
+			 oauth_service,
+			 WEB_TYPE_SERVICE,
+			 G_ADD_PRIVATE (OAuthService))
 
 
 static void
@@ -375,8 +378,6 @@ oauth_service_class_init (OAuthServiceClass *klass)
 	GObjectClass    *object_class;
 	WebServiceClass *service_class;
 
-	g_type_class_add_private (klass, sizeof (OAuthServicePrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = oauth_service_set_property;
 	object_class->get_property = oauth_service_get_property;
@@ -399,7 +400,7 @@ oauth_service_class_init (OAuthServiceClass *klass)
 static void
 oauth_service_init (OAuthService *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_SERVICE, OAuthServicePrivate);
+	self->priv = oauth_service_get_instance_private (self);
 	self->priv->consumer = NULL;
 	self->priv->timestamp = NULL;
 	self->priv->nonce = NULL;

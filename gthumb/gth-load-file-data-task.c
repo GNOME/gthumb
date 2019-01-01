@@ -36,7 +36,10 @@ struct _GthLoadFileDataTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthLoadFileDataTask, gth_load_file_data_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthLoadFileDataTask,
+			 gth_load_file_data_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthLoadFileDataTask))
 
 
 static void
@@ -142,8 +145,6 @@ gth_load_file_data_task_class_init (GthLoadFileDataTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthLoadFileDataTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_load_file_data_task_finalize;
 
@@ -155,7 +156,7 @@ gth_load_file_data_task_class_init (GthLoadFileDataTaskClass *klass)
 static void
 gth_load_file_data_task_init (GthLoadFileDataTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOAD_FILE_DATA_TASK, GthLoadFileDataTaskPrivate);
+	self->priv = gth_load_file_data_task_get_instance_private (self);
 	self->priv->file_data_list = NULL;
 }
 

@@ -23,9 +23,6 @@
 #include "gth-transition.h"
 
 
-G_DEFINE_TYPE (GthTransition, gth_transition, G_TYPE_OBJECT)
-
-
 /* Properties */
 enum {
         PROP_0,
@@ -40,6 +37,12 @@ struct _GthTransitionPrivate {
 	char      *display_name;
 	FrameFunc  frame_func;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthTransition,
+			 gth_transition,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthTransition))
 
 
 static void
@@ -119,8 +122,6 @@ gth_transition_class_init (GthTransitionClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthTransitionPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->get_property = gth_transition_get_property;
 	object_class->set_property = gth_transition_set_property;
@@ -152,7 +153,7 @@ gth_transition_class_init (GthTransitionClass *klass)
 static void
 gth_transition_init (GthTransition *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TRANSITION, GthTransitionPrivate);
+	self->priv = gth_transition_get_instance_private (self);
 	self->priv->id = g_strdup ("");
 	self->priv->display_name = g_strdup ("");
 	self->priv->frame_func = NULL;

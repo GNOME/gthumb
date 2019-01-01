@@ -35,19 +35,20 @@ static void gth_image_histogram_gth_multipage_child_interface_init (GthMultipage
 static void gth_image_histogram_gth_property_view_interface_init (GthPropertyViewInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthImageHistogram,
-			 gth_image_histogram,
-			 GTK_TYPE_BOX,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
-					        gth_image_histogram_gth_multipage_child_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
-		        		        gth_image_histogram_gth_property_view_interface_init))
-
-
 struct _GthImageHistogramPrivate {
 	GthHistogram *histogram;
 	GtkWidget    *histogram_view;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageHistogram,
+			 gth_image_histogram,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthImageHistogram)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
+						gth_image_histogram_gth_multipage_child_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
+						gth_image_histogram_gth_property_view_interface_init))
 
 
 static void
@@ -106,7 +107,6 @@ gth_image_histogram_finalize (GObject *base)
 static void
 gth_image_histogram_class_init (GthImageHistogramClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthImageHistogramPrivate));
 	G_OBJECT_CLASS (klass)->finalize = gth_image_histogram_finalize;
 }
 
@@ -145,7 +145,7 @@ gth_image_histogram_init (GthImageHistogram *self)
 {
 	GSettings *settings;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_HISTOGRAM, GthImageHistogramPrivate);
+	self->priv = gth_image_histogram_get_instance_private (self);
 	self->priv->histogram = gth_histogram_new ();
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);

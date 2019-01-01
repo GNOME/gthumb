@@ -31,9 +31,6 @@
 #define DEFAULT_FONT "Sans 12"
 
 
-G_DEFINE_TYPE (GthContactSheetCreator, gth_contact_sheet_creator, GTH_TYPE_TASK)
-
-
 typedef struct {
 	GthFileData     *file_data;
 	cairo_surface_t *thumbnail;
@@ -115,6 +112,12 @@ struct _GthContactSheetCreatorPrivate {
 	char                **thumbnail_caption_v;
 	char                **template_v;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthContactSheetCreator,
+			 gth_contact_sheet_creator,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthContactSheetCreator))
 
 
 static int
@@ -1059,8 +1062,6 @@ gth_contact_sheet_creator_class_init (GthContactSheetCreatorClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthContactSheetCreatorPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_contact_sheet_creator_finalize;
 
@@ -1072,7 +1073,7 @@ gth_contact_sheet_creator_class_init (GthContactSheetCreatorClass *klass)
 static void
 gth_contact_sheet_creator_init (GthContactSheetCreator *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CONTACT_SHEET_CREATOR, GthContactSheetCreatorPrivate);
+	self->priv = gth_contact_sheet_creator_get_instance_private (self);
 	self->priv->header = NULL;
 	self->priv->footer = NULL;
 	self->priv->destination = NULL;

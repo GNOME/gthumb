@@ -92,8 +92,7 @@ gth_type_spec_create_object (GthTypeSpec *spec,
 static GthMain *Main = NULL;
 
 
-struct _GthMainPrivate
-{
+struct _GthMainPrivate {
 	GList               *file_sources;
 	GList               *metadata_provider;
 	GPtrArray           *metadata_category;
@@ -114,7 +113,10 @@ struct _GthMainPrivate
 };
 
 
-G_DEFINE_TYPE (GthMain, gth_main, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthMain,
+			 gth_main,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthMain))
 
 
 static void
@@ -122,38 +124,33 @@ gth_main_finalize (GObject *object)
 {
 	GthMain *gth_main = GTH_MAIN (object);
 
-	if (gth_main->priv != NULL) {
-		_g_object_list_unref (gth_main->priv->file_sources);
+	_g_object_list_unref (gth_main->priv->file_sources);
 
-		g_hash_table_unref (gth_main->priv->metadata_info_hash);
-		g_ptr_array_free (gth_main->priv->metadata_category, TRUE);
-		g_ptr_array_free (gth_main->priv->metadata_info, TRUE);
-		g_list_foreach (gth_main->priv->metadata_provider, (GFunc) g_object_unref, NULL);
-		g_list_free (gth_main->priv->metadata_provider);
+	g_hash_table_unref (gth_main->priv->metadata_info_hash);
+	g_ptr_array_free (gth_main->priv->metadata_category, TRUE);
+	g_ptr_array_free (gth_main->priv->metadata_info, TRUE);
+	g_list_foreach (gth_main->priv->metadata_provider, (GFunc) g_object_unref, NULL);
+	g_list_free (gth_main->priv->metadata_provider);
 
-		if (gth_main->priv->sort_types != NULL)
-			g_hash_table_unref (gth_main->priv->sort_types);
-		if (gth_main->priv->image_loaders != NULL)
-			g_hash_table_unref (gth_main->priv->image_loaders);
-		if (gth_main->priv->types != NULL)
-			g_hash_table_unref (gth_main->priv->types);
-		if (gth_main->priv->classes != NULL)
-			g_hash_table_unref (gth_main->priv->classes);
-		if (gth_main->priv->objects_order != NULL)
-			g_hash_table_unref (gth_main->priv->objects_order);
+	if (gth_main->priv->sort_types != NULL)
+		g_hash_table_unref (gth_main->priv->sort_types);
+	if (gth_main->priv->image_loaders != NULL)
+		g_hash_table_unref (gth_main->priv->image_loaders);
+	if (gth_main->priv->types != NULL)
+		g_hash_table_unref (gth_main->priv->types);
+	if (gth_main->priv->classes != NULL)
+		g_hash_table_unref (gth_main->priv->classes);
+	if (gth_main->priv->objects_order != NULL)
+		g_hash_table_unref (gth_main->priv->objects_order);
 
-		if (gth_main->priv->bookmarks != NULL)
-			g_bookmark_file_free (gth_main->priv->bookmarks);
+	if (gth_main->priv->bookmarks != NULL)
+		g_bookmark_file_free (gth_main->priv->bookmarks);
 
-		_g_object_unref (gth_main->priv->monitor);
-		_g_object_unref (gth_main->priv->extension_manager);
-		_g_object_unref (gth_main->priv->color_manager);
-		gth_filter_file_free (gth_main->priv->filters);
-		gth_tags_file_free (gth_main->priv->tags);
-
-		g_free (gth_main->priv);
-		gth_main->priv = NULL;
-	}
+	_g_object_unref (gth_main->priv->monitor);
+	_g_object_unref (gth_main->priv->extension_manager);
+	_g_object_unref (gth_main->priv->color_manager);
+	gth_filter_file_free (gth_main->priv->filters);
+	gth_tags_file_free (gth_main->priv->tags);
 
 	G_OBJECT_CLASS (gth_main_parent_class)->finalize (object);
 }
@@ -172,17 +169,27 @@ gth_main_class_init (GthMainClass *class)
 static void
 gth_main_init (GthMain *main)
 {
-	main->priv = g_new0 (GthMainPrivate, 1);
+	main->priv = gth_main_get_instance_private (main);
+	main->priv->file_sources = NULL;
+	main->priv->metadata_provider = NULL;
+	main->priv->metadata_category = g_ptr_array_new ();
+	main->priv->metadata_info = g_ptr_array_new ();
+	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
+	main->priv->metadata_info_sorted = FALSE;
 	main->priv->sort_types = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	main->priv->image_loaders = g_hash_table_new_full (g_str_hash,
 						           (GEqualFunc) g_content_type_equals,
 						           g_free,
 						           NULL);
-	main->priv->metadata_category = g_ptr_array_new ();
-	main->priv->metadata_info = g_ptr_array_new ();
-	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
-	main->priv->metadata_info_sorted = FALSE;
+	main->priv->types = NULL;
+	main->priv->classes = NULL;
+	main->priv->objects_order = NULL;
+	main->priv->bookmarks = NULL;
+	main->priv->filters = NULL;
+	main->priv->tags = NULL;
+	main->priv->monitor = NULL;
 	main->priv->extension_manager = gth_extension_manager_new ();
+	main->priv->color_manager = NULL;
 }
 
 

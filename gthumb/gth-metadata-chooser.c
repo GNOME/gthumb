@@ -60,14 +60,15 @@ struct _GthMetadataChooserPrivate {
 static guint gth_metadata_chooser_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthMetadataChooser, gth_metadata_chooser, GTK_TYPE_TREE_VIEW)
+G_DEFINE_TYPE_WITH_CODE (GthMetadataChooser,
+			 gth_metadata_chooser,
+			 GTK_TYPE_TREE_VIEW,
+			 G_ADD_PRIVATE (GthMetadataChooser))
 
 
 static void
 gth_metadata_chooser_class_init (GthMetadataChooserClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthMetadataChooserPrivate));
-
 	/* signals */
 
 	gth_metadata_chooser_signals[CHANGED] =
@@ -300,7 +301,7 @@ gth_metadata_chooser_init (GthMetadataChooser *self)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer   *renderer;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_METADATA_CHOOSER, GthMetadataChooserPrivate);
+	self->priv = gth_metadata_chooser_get_instance_private (self);
 
 	/* the list view */
 

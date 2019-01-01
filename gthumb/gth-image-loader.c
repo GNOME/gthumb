@@ -39,7 +39,10 @@ struct _GthImageLoaderPrivate {
 };
 
 
-G_DEFINE_TYPE (GthImageLoader, gth_image_loader, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthImageLoader,
+			 gth_image_loader,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImageLoader))
 
 
 static void
@@ -58,8 +61,6 @@ gth_image_loader_class_init (GthImageLoaderClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (GthImageLoaderPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_image_loader_finalize;
 
@@ -69,7 +70,7 @@ gth_image_loader_class_init (GthImageLoaderClass *class)
 static void
 gth_image_loader_init (GthImageLoader *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_LOADER, GthImageLoaderPrivate);
+	self->priv = gth_image_loader_get_instance_private (self);
 	self->priv->as_animation = FALSE;
 	self->priv->loader_func = NULL;
 	self->priv->loader_data = NULL;

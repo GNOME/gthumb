@@ -81,8 +81,7 @@ typedef struct {
 } MonitorData;
 
 
-struct _GthFolderTreePrivate
-{
+struct _GthFolderTreePrivate {
 	GFile            *root;
 	GHashTable       *entry_points;		/* An entry point is a root child */
 	gboolean          recalc_entry_points;
@@ -111,7 +110,10 @@ struct _GthFolderTreePrivate
 static guint gth_folder_tree_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthFolderTree, gth_folder_tree, GTK_TYPE_TREE_VIEW)
+G_DEFINE_TYPE_WITH_CODE (GthFolderTree,
+			 gth_folder_tree,
+			 GTK_TYPE_TREE_VIEW,
+			 G_ADD_PRIVATE (GthFolderTree))
 
 
 static void remove_all_locations_from_the_monitor (GthFolderTree *folder_tree);
@@ -124,26 +126,21 @@ gth_folder_tree_finalize (GObject *object)
 
 	folder_tree = GTH_FOLDER_TREE (object);
 
-	if (folder_tree->priv != NULL) {
-		if (folder_tree->priv->drag_target_list != NULL) {
-			gtk_target_list_unref (folder_tree->priv->drag_target_list);
-			folder_tree->priv->drag_target_list = NULL;
-		}
-		if (folder_tree->priv->monitor.update_id != 0) {
-			g_source_remove (folder_tree->priv->monitor.update_id);
-			folder_tree->priv->monitor.update_id = 0;
-		}
-		g_hash_table_unref (folder_tree->priv->entry_points);
-		remove_all_locations_from_the_monitor (folder_tree);
-		g_hash_table_unref (folder_tree->priv->monitor.locations);
-		_g_object_list_unref (folder_tree->priv->monitor.sources);
-		if (folder_tree->priv->root != NULL)
-			g_object_unref (folder_tree->priv->root);
-		g_object_unref (folder_tree->priv->tree_store);
-
-		g_free (folder_tree->priv);
-		folder_tree->priv = NULL;
+	if (folder_tree->priv->drag_target_list != NULL) {
+		gtk_target_list_unref (folder_tree->priv->drag_target_list);
+		folder_tree->priv->drag_target_list = NULL;
 	}
+	if (folder_tree->priv->monitor.update_id != 0) {
+		g_source_remove (folder_tree->priv->monitor.update_id);
+		folder_tree->priv->monitor.update_id = 0;
+	}
+	g_hash_table_unref (folder_tree->priv->entry_points);
+	remove_all_locations_from_the_monitor (folder_tree);
+	g_hash_table_unref (folder_tree->priv->monitor.locations);
+	_g_object_list_unref (folder_tree->priv->monitor.sources);
+	if (folder_tree->priv->root != NULL)
+		g_object_unref (folder_tree->priv->root);
+	g_object_unref (folder_tree->priv->tree_store);
 
 	G_OBJECT_CLASS (gth_folder_tree_parent_class)->finalize (object);
 }
@@ -1266,17 +1263,10 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 {
 	GtkTreeSelection *selection;
 
-	folder_tree->priv = g_new0 (GthFolderTreePrivate, 1);
-	folder_tree->priv->drag_source_enabled = FALSE;
-	folder_tree->priv->dragging = FALSE;
-	folder_tree->priv->drag_started = FALSE;
-	folder_tree->priv->drag_target_list = NULL;
+	folder_tree->priv = gth_folder_tree_get_instance_private (folder_tree);
+	folder_tree->priv->root = NULL;
 	folder_tree->priv->entry_points = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 	folder_tree->priv->recalc_entry_points = FALSE;
-	folder_tree->priv->monitor.locations = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
-	folder_tree->priv->monitor.sources = NULL;
-	folder_tree->priv->monitor.update_id = 0;
-
 	folder_tree->priv->tree_store = gtk_tree_store_new (NUM_COLUMNS,
 							    PANGO_TYPE_STYLE,
 							    PANGO_TYPE_WEIGHT,
@@ -1289,6 +1279,22 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 							    G_TYPE_STRING,
 							    G_TYPE_BOOLEAN,
 							    G_TYPE_BOOLEAN);
+	folder_tree->priv->text_renderer = NULL;
+	folder_tree->priv->hover_path = NULL;
+
+	folder_tree->priv->drag_source_enabled = FALSE;
+	folder_tree->priv->drag_start_button_mask = 0;
+	folder_tree->priv->drag_target_list = NULL;
+	folder_tree->priv->drag_actions = 0;
+	folder_tree->priv->dragging = FALSE;
+	folder_tree->priv->drag_started = FALSE;
+	folder_tree->priv->drag_start_x = 0;
+	folder_tree->priv->drag_start_y = 0;
+
+	folder_tree->priv->monitor.locations = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
+	folder_tree->priv->monitor.sources = NULL;
+	folder_tree->priv->monitor.update_id = 0;
+
 	gtk_tree_view_set_model (GTK_TREE_VIEW (folder_tree), GTK_TREE_MODEL (folder_tree->priv->tree_store));
 
 	add_columns (folder_tree, GTK_TREE_VIEW (folder_tree));

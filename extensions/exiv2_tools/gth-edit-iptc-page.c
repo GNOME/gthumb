@@ -30,21 +30,22 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
+struct _GthEditIptcPagePrivate {
+	GtkBuilder *builder;
+	gboolean    supported;
+	GFileInfo  *info;
+};
+
+
 static void gth_edit_iptc_page_gth_edit_comment_page_interface_init (GthEditCommentPageInterface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (GthEditIptcPage,
 			 gth_edit_iptc_page,
 			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthEditIptcPage)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_EDIT_COMMENT_PAGE,
-					        gth_edit_iptc_page_gth_edit_comment_page_interface_init))
-
-
-struct _GthEditIptcPagePrivate {
-	GtkBuilder *builder;
-	gboolean    supported;
-	GFileInfo  *info;
-};
+						gth_edit_iptc_page_gth_edit_comment_page_interface_init))
 
 
 static void
@@ -216,7 +217,6 @@ gth_edit_iptc_page_finalize (GObject *object)
 static void
 gth_edit_iptc_page_class_init (GthEditIptcPageClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthEditIptcPagePrivate));
 	G_OBJECT_CLASS (klass)->finalize = gth_edit_iptc_page_finalize;
 }
 
@@ -224,7 +224,7 @@ gth_edit_iptc_page_class_init (GthEditIptcPageClass *klass)
 static void
 gth_edit_iptc_page_init (GthEditIptcPage *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EDIT_IPTC_PAGE, GthEditIptcPagePrivate);
+	self->priv = gth_edit_iptc_page_get_instance_private (self);
 	self->priv->info = NULL;
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);

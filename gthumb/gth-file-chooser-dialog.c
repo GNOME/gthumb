@@ -33,9 +33,6 @@
 #define FORMAT_KEY "gthumb-format"
 
 
-G_DEFINE_TYPE (GthFileChooserDialog, gth_file_chooser_dialog, GTK_TYPE_FILE_CHOOSER_DIALOG)
-
-
 typedef struct {
 	GthImageSaver  *saver;
 	char          **extensions;
@@ -55,6 +52,12 @@ struct _GthFileChooserDialogPrivate {
 	GList     *supported_formats;
 	GtkWidget *options_checkbutton;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileChooserDialog,
+			 gth_file_chooser_dialog,
+			 GTK_TYPE_FILE_CHOOSER_DIALOG,
+			 G_ADD_PRIVATE (GthFileChooserDialog))
 
 
 static void
@@ -93,8 +96,6 @@ gth_file_chooser_dialog_class_init (GthFileChooserDialogClass *class)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (GthFileChooserDialogPrivate));
-
 	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_file_chooser_dialog_finalize;
 
@@ -106,7 +107,7 @@ gth_file_chooser_dialog_class_init (GthFileChooserDialogClass *class)
 static void
 gth_file_chooser_dialog_init (GthFileChooserDialog *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_CHOOSER_DIALOG, GthFileChooserDialogPrivate);
+	self->priv = gth_file_chooser_dialog_get_instance_private (self);
 	self->priv->supported_formats = NULL;
 }
 

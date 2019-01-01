@@ -53,6 +53,12 @@ struct _GthImageNavigatorPrivate {
 };
 
 
+G_DEFINE_TYPE_WITH_CODE (GthImageNavigator,
+			 gth_image_navigator,
+			 GTK_TYPE_CONTAINER,
+			 G_ADD_PRIVATE (GthImageNavigator))
+
+
 static void
 _gth_image_navigator_set_viewer (GthImageNavigator *self,
 			         GtkWidget         *viewer)
@@ -296,8 +302,6 @@ gth_image_navigator_class_init (GthImageNavigatorClass *klass)
 	GtkWidgetClass    *widget_class;
 	GtkContainerClass *container_class;
 
-	g_type_class_add_private (klass, sizeof (GthImageNavigatorPrivate));
-
 	object_class = (GObjectClass *) klass;
 	object_class->set_property = gth_image_navigator_set_property;
 	object_class->get_property = gth_image_navigator_get_property;
@@ -506,10 +510,9 @@ gth_image_navigator_init (GthImageNavigator *self)
 {
 	GtkWidget *navigator_icon;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE ((self), GTH_TYPE_IMAGE_NAVIGATOR, GthImageNavigatorPrivate);
-
 	gtk_widget_set_has_window (GTK_WIDGET (self), FALSE);
 
+	self->priv = gth_image_navigator_get_instance_private (self);
 	self->priv->automatic_scrollbars = TRUE;
 	self->priv->hscrollbar_visible = FALSE;
 	self->priv->vscrollbar_visible = FALSE;
@@ -541,9 +544,6 @@ gth_image_navigator_init (GthImageNavigator *self)
 	gtk_widget_show (self->priv->vscrollbar);
 	gtk_widget_show_all (self->priv->navigator_event_area);
 }
-
-
-G_DEFINE_TYPE (GthImageNavigator, gth_image_navigator, GTK_TYPE_CONTAINER)
 
 
 GtkWidget *

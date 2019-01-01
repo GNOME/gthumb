@@ -31,9 +31,6 @@
 #define PREVIEW_SIZE 0.9
 
 
-G_DEFINE_TYPE (GthFileToolGrayscale, gth_file_tool_grayscale, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
-
-
 typedef enum {
 	METHOD_BRIGHTNESS,
 	METHOD_SATURATION,
@@ -54,6 +51,12 @@ struct _GthFileToolGrayscalePrivate {
 	Method              last_applied_method;
 	gboolean            view_original;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileToolGrayscale,
+			 gth_file_tool_grayscale,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolGrayscale))
 
 
 typedef struct {
@@ -465,8 +468,6 @@ gth_file_tool_grayscale_class_init (GthFileToolGrayscaleClass *klass)
 	GthFileToolClass            *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileToolGrayscalePrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_grayscale_finalize;
 
@@ -483,7 +484,7 @@ gth_file_tool_grayscale_class_init (GthFileToolGrayscaleClass *klass)
 static void
 gth_file_tool_grayscale_init (GthFileToolGrayscale *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_GRAYSCALE, GthFileToolGrayscalePrivate);
+	self->priv = gth_file_tool_grayscale_get_instance_private (self);
 	self->priv->preview = NULL;
 	self->priv->destination = NULL;
 	self->priv->builder = NULL;

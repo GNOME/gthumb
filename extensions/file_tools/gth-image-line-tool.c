@@ -69,8 +69,9 @@ static void gth_image_line_tool_gth_image_tool_interface_init (GthImageViewerToo
 G_DEFINE_TYPE_WITH_CODE (GthImageLineTool,
 			 gth_image_line_tool,
 			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImageLineTool)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
-					        gth_image_line_tool_gth_image_tool_interface_init))
+						gth_image_line_tool_gth_image_tool_interface_init))
 
 
 static void
@@ -334,8 +335,6 @@ gth_image_line_tool_class_init (GthImageLineToolClass *class)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (class, sizeof (GthImageLineToolPrivate));
-
 	gobject_class = (GObjectClass*) class;
 	gobject_class->finalize = gth_image_line_tool_finalize;
 
@@ -353,7 +352,7 @@ gth_image_line_tool_class_init (GthImageLineToolClass *class)
 static void
 gth_image_line_tool_init (GthImageLineTool *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_LINE_TOOL, GthImageLineToolPrivate);
+	self->priv = gth_image_line_tool_get_instance_private (self);
 	self->priv->preview_image = NULL;
 	self->priv->first_point_set = FALSE;
 }

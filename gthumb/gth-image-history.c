@@ -27,9 +27,6 @@
 #define MAX_UNDO_HISTORY_LEN 5
 
 
-G_DEFINE_TYPE (GthImageHistory, gth_image_history, G_TYPE_OBJECT)
-
-
 /* GthImageData */
 
 
@@ -88,12 +85,6 @@ gth_image_data_list_free (GList *list)
 /* GthImageHistory */
 
 
-struct _GthImageHistoryPrivate {
-	GList *undo_history;  /* GthImageData items */
-	GList *redo_history;  /* GthImageData items */
-};
-
-
 enum {
 	CHANGED,
 	LAST_SIGNAL
@@ -101,6 +92,18 @@ enum {
 
 
 static guint gth_image_history_signals[LAST_SIGNAL] = { 0 };
+
+
+struct _GthImageHistoryPrivate {
+	GList *undo_history;  /* GthImageData items */
+	GList *redo_history;  /* GthImageData items */
+};
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageHistory,
+			 gth_image_history,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImageHistory))
 
 
 static void
@@ -111,11 +114,7 @@ gth_image_history_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_IMAGE_HISTORY (object));
 	history = GTH_IMAGE_HISTORY (object);
 
-	if (history->priv != NULL) {
-		gth_image_history_clear (history);
-		g_free (history->priv);
-		history->priv = NULL;
-	}
+	gth_image_history_clear (history);
 
 	G_OBJECT_CLASS (gth_image_history_parent_class)->finalize (object);
 }
@@ -143,7 +142,9 @@ gth_image_history_class_init (GthImageHistoryClass *class)
 static void
 gth_image_history_init (GthImageHistory *history)
 {
-	history->priv = g_new0 (GthImageHistoryPrivate, 1);
+	history->priv = gth_image_history_get_instance_private (history);
+	history->priv->undo_history = NULL;
+	history->priv->redo_history = NULL;
 }
 
 

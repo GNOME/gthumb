@@ -263,7 +263,10 @@ struct _GthProgressDialogPrivate {
 };
 
 
-G_DEFINE_TYPE (GthProgressDialog, gth_progress_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_CODE (GthProgressDialog,
+			 gth_progress_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthProgressDialog))
 
 
 static void
@@ -283,8 +286,6 @@ gth_progress_dialog_finalize (GObject *base)
 static void
 gth_progress_dialog_class_init (GthProgressDialogClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthProgressDialogPrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_progress_dialog_finalize;
 }
 
@@ -302,7 +303,7 @@ progress_dialog_response_cb (GtkDialog *dialog,
 static void
 gth_progress_dialog_init (GthProgressDialog *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PROGRESS_DIALOG, GthProgressDialogPrivate);
+	self->priv = gth_progress_dialog_get_instance_private (self);
 	self->priv->custom_dialog_opened = FALSE;
 	self->priv->destroy_with_tasks = FALSE;
 

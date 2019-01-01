@@ -33,7 +33,10 @@ struct _GthEmptyListPrivate {
 };
 
 
-G_DEFINE_TYPE (GthEmptyList, gth_empty_list, GTK_TYPE_WIDGET)
+G_DEFINE_TYPE_WITH_CODE (GthEmptyList,
+			 gth_empty_list,
+			 GTK_TYPE_WIDGET,
+			 G_ADD_PRIVATE (GthEmptyList))
 
 
 static void
@@ -253,8 +256,6 @@ gth_empty_list_class_init (GthEmptyListClass *klass)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (GthEmptyListPrivate));
-
 	object_class = (GObjectClass*) (klass);
 	object_class->set_property = gth_empty_list_set_property;
 	object_class->get_property = gth_empty_list_get_property;
@@ -288,7 +289,7 @@ gth_empty_list_init (GthEmptyList *self)
 	gtk_widget_set_has_window (GTK_WIDGET (self), TRUE);
 	gtk_widget_set_can_focus (GTK_WIDGET (self), FALSE);
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EMPTY_LIST, GthEmptyListPrivate);
+	self->priv = gth_empty_list_get_instance_private (self);
 	self->priv->layout = NULL;
 	self->priv->text = NULL;
 

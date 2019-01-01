@@ -30,7 +30,10 @@ struct _GthTrashTaskPrivate {
 };
 
 
-G_DEFINE_TYPE (GthTrashTask, gth_trash_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthTrashTask,
+			 gth_trash_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthTrashTask))
 
 
 static void
@@ -76,8 +79,6 @@ gth_trash_task_class_init (GthTrashTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthTrashTaskPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_trash_task_finalize;
 
@@ -89,7 +90,7 @@ gth_trash_task_class_init (GthTrashTaskClass *klass)
 static void
 gth_trash_task_init (GthTrashTask *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TRASH_TASK, GthTrashTaskPrivate);
+	self->priv = gth_trash_task_get_instance_private (self);
 }
 
 

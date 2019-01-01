@@ -24,13 +24,16 @@
 #include "gth-image-viewer-page-tool.h"
 
 
-G_DEFINE_TYPE (GthImageViewerPageTool, gth_image_viewer_page_tool, GTH_TYPE_FILE_TOOL)
-
-
 struct _GthImageViewerPageToolPrivate {
 	cairo_surface_t *source;
 	GthTask         *image_task;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageViewerPageTool,
+			 gth_image_viewer_page_tool,
+			 GTH_TYPE_FILE_TOOL,
+			 G_ADD_PRIVATE (GthImageViewerPageTool))
 
 
 static void
@@ -147,8 +150,6 @@ gth_image_viewer_page_tool_class_init (GthImageViewerPageToolClass *klass)
 	GObjectClass     *gobject_class;
 	GthFileToolClass *file_tool_class;
 
-	g_type_class_add_private (klass, sizeof (GthImageViewerPageToolPrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_image_viewer_page_tool_finalize;
 
@@ -165,7 +166,7 @@ gth_image_viewer_page_tool_class_init (GthImageViewerPageToolClass *klass)
 static void
 gth_image_viewer_page_tool_init (GthImageViewerPageTool *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL, GthImageViewerPageToolPrivate);
+	self->priv = gth_image_viewer_page_tool_get_instance_private (self);
 	self->priv->source = NULL;
 	self->priv->image_task = NULL;
 }

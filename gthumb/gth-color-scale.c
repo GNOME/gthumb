@@ -49,7 +49,10 @@ struct _GthColorScalePrivate {
 };
 
 
-G_DEFINE_TYPE (GthColorScale, gth_color_scale, GTK_TYPE_SCALE)
+G_DEFINE_TYPE_WITH_CODE (GthColorScale,
+			 gth_color_scale,
+			 GTK_TYPE_SCALE,
+			 G_ADD_PRIVATE (GthColorScale))
 
 
 static void
@@ -440,8 +443,6 @@ gth_color_scale_class_init (GthColorScaleClass *class)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (GthColorScalePrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = gth_color_scale_set_property;
 	object_class->get_property = gth_color_scale_get_property;
@@ -508,7 +509,7 @@ notify_adjustment_cb (GObject    *gobject,
 static void
 gth_color_scale_init (GthColorScale *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_COLOR_SCALE, GthColorScalePrivate);
+	self->priv = gth_color_scale_get_instance_private (self);
 	self->priv->surface = NULL;
 	self->priv->width = -1;
 	self->priv->height = -1;

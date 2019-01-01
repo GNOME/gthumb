@@ -39,7 +39,6 @@ G_BEGIN_DECLS
 
 typedef struct _GthExtension GthExtension;
 typedef struct _GthExtensionClass GthExtensionClass;
-typedef struct _GthExtensionPrivate GthExtensionPrivate;
 
 #define GTH_TYPE_EXTENSION_MODULE            (gth_extension_module_get_type ())
 #define GTH_EXTENSION_MODULE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_EXTENSION_MODULE, GthExtensionModule))
@@ -76,7 +75,6 @@ typedef struct _GthExtensionManagerPrivate GthExtensionManagerPrivate;
 
 struct _GthExtension {
 	GObject parent_instance;
-	GthExtensionPrivate *priv;
 	gboolean initialized;
 	gboolean active;
 };

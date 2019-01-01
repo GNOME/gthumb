@@ -34,9 +34,6 @@
 #define RESPONSE_FORMAT "rest"
 
 
-G_DEFINE_TYPE (FlickrService, flickr_service, OAUTH_TYPE_SERVICE)
-
-
 enum {
         PROP_0,
         PROP_SERVER
@@ -110,6 +107,12 @@ struct _FlickrServicePrivate {
 	GChecksum      *checksum;
 	char           *frob;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (FlickrService,
+			 flickr_service,
+			 OAUTH_TYPE_SERVICE,
+			 G_ADD_PRIVATE (FlickrService))
 
 
 static void
@@ -716,8 +719,6 @@ flickr_service_class_init (FlickrServiceClass *klass)
 	GObjectClass    *object_class;
 	WebServiceClass *service_class;
 
-	g_type_class_add_private (klass, sizeof (FlickrServicePrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = flickr_service_set_property;
 	object_class->get_property = flickr_service_get_property;
@@ -741,7 +742,7 @@ flickr_service_class_init (FlickrServiceClass *klass)
 static void
 flickr_service_init (FlickrService *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FLICKR_TYPE_SERVICE, FlickrServicePrivate);
+	self->priv = flickr_service_get_instance_private (self);
 	self->priv->post_photos = NULL;
 	self->priv->add_photos = NULL;
 	self->priv->server = NULL;

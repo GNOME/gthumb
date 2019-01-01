@@ -24,13 +24,16 @@
 #include "gth-auto-paned.h"
 
 
-G_DEFINE_TYPE (GthAutoPaned, gth_auto_paned, GTK_TYPE_PANED)
-
-
 struct _GthAutoPanedPrivate {
 	gboolean child1_visible;
 	gboolean child2_visible;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthAutoPaned,
+			 gth_auto_paned,
+			 GTK_TYPE_PANED,
+			 G_ADD_PRIVATE (GthAutoPaned))
 
 
 static gboolean
@@ -86,8 +89,6 @@ gth_auto_paned_class_init (GthAutoPanedClass *klass)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (GthAutoPanedPrivate));
-
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->size_allocate = gth_auto_paned_size_allocate;
 }
@@ -96,7 +97,7 @@ gth_auto_paned_class_init (GthAutoPanedClass *klass)
 static void
 gth_auto_paned_init (GthAutoPaned *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_AUTO_PANED, GthAutoPanedPrivate);
+	self->priv = gth_auto_paned_get_instance_private (self);
 	self->priv->child1_visible = FALSE;
 	self->priv->child2_visible = FALSE;
 }

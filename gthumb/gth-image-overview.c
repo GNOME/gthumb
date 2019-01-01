@@ -68,7 +68,9 @@ struct _GthImageOverviewPrivate {
 };
 
 
-G_DEFINE_TYPE_WITH_CODE (GthImageOverview, gth_image_overview, GTK_TYPE_WIDGET,
+G_DEFINE_TYPE_WITH_CODE (GthImageOverview,
+			 gth_image_overview,
+			 GTK_TYPE_WIDGET,
 			 G_ADD_PRIVATE (GthImageOverview))
 
 

@@ -53,8 +53,7 @@ enum {
 	LAST_SIGNAL
 };
 
-struct _GthFilterbarPrivate
-{
+struct _GthFilterbarPrivate {
 	GtkListStore *model;
 	GtkWidget    *test_combo_box;
 	GthTest      *test;
@@ -70,7 +69,10 @@ struct _GthFilterbarPrivate
 static guint gth_filterbar_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthFilterbar, gth_filterbar, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_CODE (GthFilterbar,
+			 gth_filterbar,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthFilterbar))
 
 
 static void
@@ -80,14 +82,10 @@ gth_filterbar_finalize (GObject *object)
 
 	filterbar = GTH_FILTERBAR (object);
 
-	if (filterbar->priv != NULL) {
-		g_signal_handler_disconnect (gth_main_get_default_monitor (), filterbar->priv->filters_changed_id);
-		if (filterbar->priv->test != NULL) {
-			g_signal_handler_disconnect (filterbar->priv->test, filterbar->priv->test_changed_id);
-			g_object_unref (filterbar->priv->test);
-		}
-		g_free (filterbar->priv);
-		filterbar->priv = NULL;
+	g_signal_handler_disconnect (gth_main_get_default_monitor (), filterbar->priv->filters_changed_id);
+	if (filterbar->priv->test != NULL) {
+		g_signal_handler_disconnect (filterbar->priv->test, filterbar->priv->test_changed_id);
+		g_object_unref (filterbar->priv->test);
 	}
 
 	G_OBJECT_CLASS (gth_filterbar_parent_class)->finalize (object);
@@ -135,7 +133,16 @@ gth_filterbar_class_init (GthFilterbarClass *class)
 static void
 gth_filterbar_init (GthFilterbar *filterbar)
 {
-	filterbar->priv = g_new0 (GthFilterbarPrivate, 1);
+	filterbar->priv = gth_filterbar_get_instance_private (filterbar);
+	filterbar->priv->model = NULL;
+	filterbar->priv->test_combo_box = NULL;
+	filterbar->priv->test = NULL;
+	filterbar->priv->control_box = NULL;
+	filterbar->priv->control = NULL;
+	filterbar->priv->extra_area = NULL;
+	filterbar->priv->filters_changed_id = 0;
+	filterbar->priv->test_changed_id = 0;
+
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (filterbar), GTK_ORIENTATION_HORIZONTAL);
 }
 

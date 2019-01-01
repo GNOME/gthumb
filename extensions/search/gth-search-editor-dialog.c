@@ -27,43 +27,29 @@
 #include "gth-search-editor-dialog.h"
 
 
-G_DEFINE_TYPE (GthSearchEditorDialog, gth_search_editor_dialog, GTK_TYPE_DIALOG)
-
-
 struct _GthSearchEditorDialogPrivate {
 	GtkWidget  *search_editor;
 };
 
 
-static void
-gth_search_editor_dialog_finalize (GObject *object)
-{
-	GthSearchEditorDialog *dialog;
+G_DEFINE_TYPE_WITH_CODE (GthSearchEditorDialog,
+			 gth_search_editor_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthSearchEditorDialog))
 
-	dialog = GTH_SEARCH_EDITOR_DIALOG (object);
-
-	if (dialog->priv != NULL) {
-		g_free (dialog->priv);
-		dialog->priv = NULL;
-	}
-
-	G_OBJECT_CLASS (gth_search_editor_dialog_parent_class)->finalize (object);
-}
 
 static void
 gth_search_editor_dialog_class_init (GthSearchEditorDialogClass *class)
 {
-	GObjectClass *object_class;
-
-	object_class = (GObjectClass*) class;
-	object_class->finalize = gth_search_editor_dialog_finalize;
+	/* void */
 }
 
 
 static void
 gth_search_editor_dialog_init (GthSearchEditorDialog *dialog)
 {
-	dialog->priv = g_new0 (GthSearchEditorDialogPrivate, 1);
+	dialog->priv = gth_search_editor_dialog_get_instance_private (dialog);
+	dialog->priv->search_editor = NULL;
 }
 
 

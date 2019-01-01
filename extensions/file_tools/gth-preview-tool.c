@@ -29,14 +29,6 @@
 static void gth_preview_tool_gth_image_tool_interface_init (GthImageViewerToolInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthPreviewTool,
-			 gth_preview_tool,
-			 G_TYPE_OBJECT,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
-					        gth_preview_tool_gth_image_tool_interface_init))
-
-
-
 struct _GthPreviewToolPrivate {
 	GthImageViewer        *viewer;
 	GthFit                 original_fit_mode;
@@ -45,6 +37,14 @@ struct _GthPreviewToolPrivate {
 	cairo_rectangle_int_t  preview_image_area;
 	GdkRGBA                background_color;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthPreviewTool,
+			 gth_preview_tool,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthPreviewTool)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_IMAGE_VIEWER_TOOL,
+						gth_preview_tool_gth_image_tool_interface_init))
 
 
 static void
@@ -287,8 +287,6 @@ gth_preview_tool_class_init (GthPreviewToolClass *class)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (class, sizeof (GthPreviewToolPrivate));
-
 	gobject_class = (GObjectClass*) class;
 	gobject_class->finalize = gth_preview_tool_finalize;
 }
@@ -316,7 +314,7 @@ gth_preview_tool_gth_image_tool_interface_init (GthImageViewerToolInterface *ifa
 static void
 gth_preview_tool_init (GthPreviewTool *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PREVIEW_TOOL, GthPreviewToolPrivate);
+	self->priv = gth_preview_tool_get_instance_private (self);
 	self->priv->preview_image = NULL;
 	self->priv->background_color.red = 0.2;
 	self->priv->background_color.green = 0.2;

@@ -29,15 +29,6 @@ static void gth_script_dom_domizable_interface_init (DomDomizableInterface *ifac
 static void gth_script_gth_duplicable_interface_init (GthDuplicableInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthScript,
-			 gth_script,
-			 G_TYPE_OBJECT,
-			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					        gth_script_dom_domizable_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-		        		        gth_script_gth_duplicable_interface_init))
-
-
 enum {
         PROP_0,
         PROP_ID,
@@ -67,6 +58,16 @@ struct _GthScriptPrivate {
 	gboolean         wait_command;
 	_Accel           accelerator;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthScript,
+			 gth_script,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthScript)
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+						gth_script_dom_domizable_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+						gth_script_gth_duplicable_interface_init))
 
 
 static DomElement*
@@ -255,8 +256,6 @@ gth_script_class_init (GthScriptClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthScriptPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = gth_script_set_property;
 	object_class->get_property = gth_script_get_property;
@@ -341,7 +340,7 @@ gth_script_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 static void
 gth_script_init (GthScript *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SCRIPT, GthScriptPrivate);
+	self->priv = gth_script_get_instance_private (self);
 	self->priv->id = NULL;
 	self->priv->display_name = NULL;
 	self->priv->command = NULL;

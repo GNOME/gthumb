@@ -55,7 +55,10 @@ struct _GthTestSelectorPrivate {
 static guint gth_test_selector_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthTestSelector, gth_test_selector, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_CODE (GthTestSelector,
+			 gth_test_selector,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthTestSelector))
 
 
 static void
@@ -65,12 +68,8 @@ gth_test_selector_finalize (GObject *object)
 
 	selector = GTH_TEST_SELECTOR (object);
 
-	if (selector->priv != NULL) {
-		if (selector->priv->test != NULL)
-			g_object_unref (selector->priv->test);
-		g_free (selector->priv);
-		selector->priv = NULL;
-	}
+	if (selector->priv->test != NULL)
+		g_object_unref (selector->priv->test);
 
 	G_OBJECT_CLASS (gth_test_selector_parent_class)->finalize (object);
 }
@@ -107,7 +106,14 @@ gth_test_selector_class_init (GthTestSelectorClass *klass)
 static void
 gth_test_selector_init (GthTestSelector *self)
 {
-	self->priv = g_new0 (GthTestSelectorPrivate, 1);
+	self->priv = gth_test_selector_get_instance_private (self);
+	self->priv->test = NULL;
+	self->priv->model = NULL;
+	self->priv->test_combo_box = NULL;
+	self->priv->control_box = NULL;
+	self->priv->control = NULL;
+	self->priv->add_button = NULL;
+	self->priv->remove_button = NULL;
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 }
 

@@ -39,8 +39,7 @@ enum {
 };
 
 
-struct _GthOrganizeTaskPrivate
-{
+struct _GthOrganizeTaskPrivate {
 	GthBrowser     *browser;
 	GFile          *folder;
 	GthGroupPolicy  group_policy;
@@ -60,7 +59,10 @@ struct _GthOrganizeTaskPrivate
 };
 
 
-G_DEFINE_TYPE (GthOrganizeTask, gth_organize_task, GTH_TYPE_TASK)
+G_DEFINE_TYPE_WITH_CODE (GthOrganizeTask,
+			 gth_organize_task,
+			 GTH_TYPE_TASK,
+			 G_ADD_PRIVATE (GthOrganizeTask))
 
 
 static void
@@ -636,8 +638,6 @@ gth_organize_task_class_init (GthOrganizeTaskClass *klass)
 	GObjectClass *object_class;
 	GthTaskClass *task_class;
 
-	g_type_class_add_private (klass, sizeof (GthOrganizeTaskPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_organize_task_finalize;
 
@@ -804,7 +804,7 @@ gth_organize_task_init (GthOrganizeTask *self)
 {
 	GIcon *icon;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ORGANIZE_TASK, GthOrganizeTaskPrivate);
+	self->priv = gth_organize_task_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("organize-files-task.ui", "catalogs");
 	self->priv->results_liststore = (GtkListStore *) gtk_builder_get_object (self->priv->builder, "results_liststore");
 	self->priv->catalogs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);

@@ -87,13 +87,11 @@ static const char *appname = "gnome-thumbnail-factory";
 static void gnome_desktop_thumbnail_factory_init          (GnomeDesktopThumbnailFactory      *factory);
 static void gnome_desktop_thumbnail_factory_class_init    (GnomeDesktopThumbnailFactoryClass *class);
 
-G_DEFINE_TYPE (GnomeDesktopThumbnailFactory,
-	       gnome_desktop_thumbnail_factory,
-	       G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GnomeDesktopThumbnailFactory,
+			 gnome_desktop_thumbnail_factory,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GnomeDesktopThumbnailFactory))
 #define parent_class gnome_desktop_thumbnail_factory_parent_class
-
-#define GNOME_DESKTOP_THUMBNAIL_FACTORY_GET_PRIVATE(object) \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((object), GNOME_DESKTOP_TYPE_THUMBNAIL_FACTORY, GnomeDesktopThumbnailFactoryPrivate))
 
 typedef struct {
     gint width;
@@ -783,7 +781,7 @@ gnome_desktop_thumbnail_factory_finalize (GObject *object)
 static void
 gnome_desktop_thumbnail_factory_init (GnomeDesktopThumbnailFactory *factory)
 {
-	factory->priv = GNOME_DESKTOP_THUMBNAIL_FACTORY_GET_PRIVATE (factory);
+	factory->priv = gnome_desktop_thumbnail_factory_get_instance_private (factory);
 	factory->priv->size = GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL;
 	factory->priv->disabled_types = NULL;
 	g_mutex_init (&factory->priv->lock);
@@ -800,8 +798,6 @@ gnome_desktop_thumbnail_factory_class_init (GnomeDesktopThumbnailFactoryClass *c
   gobject_class = G_OBJECT_CLASS (class);
 
   gobject_class->finalize = gnome_desktop_thumbnail_factory_finalize;
-
-  g_type_class_add_private (class, sizeof (GnomeDesktopThumbnailFactoryPrivate));
 }
 
 /**

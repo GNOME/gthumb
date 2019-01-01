@@ -34,9 +34,6 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (GthFileToolRotate, gth_file_tool_rotate, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
-
-
 struct _GthFileToolRotatePrivate {
 	GSettings             *settings;
 	cairo_surface_t       *image;
@@ -52,6 +49,12 @@ struct _GthFileToolRotatePrivate {
 	GthImageViewerTool    *alignment;
 	GthImageViewerTool    *rotator;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileToolRotate,
+			 gth_file_tool_rotate,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolRotate))
 
 
 static void
@@ -656,8 +659,6 @@ gth_file_tool_rotate_class_init (GthFileToolRotateClass *klass)
 	GthFileToolClass            *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileToolRotatePrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_rotate_finalize;
 
@@ -675,7 +676,7 @@ gth_file_tool_rotate_class_init (GthFileToolRotateClass *klass)
 static void
 gth_file_tool_rotate_init (GthFileToolRotate *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ROTATE, GthFileToolRotatePrivate);
+	self->priv = gth_file_tool_rotate_get_instance_private (self);
 	self->priv->settings = g_settings_new (GTHUMB_ROTATE_SCHEMA);
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self), "image-rotate-symbolic", _("Rotate"), GTH_TOOLBOX_SECTION_ROTATION);

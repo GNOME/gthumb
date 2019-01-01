@@ -26,9 +26,6 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (GthContactSheetThemeDialog, gth_contact_sheet_theme_dialog, GTK_TYPE_DIALOG)
-
-
 struct _GthContactSheetThemeDialogPrivate {
 	GtkBuilder           *builder;
 	GtkWidget            *copy_from_button;
@@ -36,6 +33,12 @@ struct _GthContactSheetThemeDialogPrivate {
 	GthContactSheetTheme *theme;
 	GList                *all_themes;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthContactSheetThemeDialog,
+			 gth_contact_sheet_theme_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthContactSheetThemeDialog))
 
 
 static void
@@ -57,8 +60,6 @@ static void
 gth_contact_sheet_theme_dialog_class_init (GthContactSheetThemeDialogClass *klass)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (GthContactSheetThemeDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_contact_sheet_theme_dialog_finalize;
@@ -185,7 +186,7 @@ gth_contact_sheet_theme_dialog_init (GthContactSheetThemeDialog *self)
 {
 	GtkWidget *content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_CONTACT_SHEET_THEME_DIALOG, GthContactSheetThemeDialogPrivate);
+	self->priv = gth_contact_sheet_theme_dialog_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("contact-sheet-theme-properties.ui", "contact_sheet");
 	self->priv->theme = NULL;
 	self->priv->all_themes = NULL;

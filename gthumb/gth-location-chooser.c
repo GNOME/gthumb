@@ -36,9 +36,6 @@
 #define MIN_WIDTH 200
 
 
-G_DEFINE_TYPE (GthLocationChooser, gth_location_chooser, GTK_TYPE_BOX)
-
-
 enum {
 	ITEM_TYPE_NONE,
 	ITEM_TYPE_SEPARATOR,
@@ -67,8 +64,8 @@ enum {
 	LAST_SIGNAL
 };
 
-struct _GthLocationChooserPrivate
-{
+
+struct _GthLocationChooserPrivate {
 	GtkWidget      *combo;
 	GtkTreeStore   *model;
 	GFile          *location;
@@ -84,6 +81,11 @@ struct _GthLocationChooserPrivate
 
 static guint gth_location_chooser_signals[LAST_SIGNAL] = { 0 };
 
+
+G_DEFINE_TYPE_WITH_CODE (GthLocationChooser,
+			 gth_location_chooser,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthLocationChooser))
 
 
 static void
@@ -491,8 +493,6 @@ gth_location_chooser_class_init (GthLocationChooserClass *klass)
 	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (GthLocationChooserPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = gth_location_chooser_set_property;
 	object_class->get_property = gth_location_chooser_get_property;
@@ -542,7 +542,7 @@ gth_location_chooser_init (GthLocationChooser *self)
 	gtk_widget_set_can_focus (GTK_WIDGET (self), FALSE);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_LOCATION_CHOOSER, GthLocationChooserPrivate);
+	self->priv = gth_location_chooser_get_instance_private (self);
 	self->priv->entry_points_changed_id = 0;
 	self->priv->show_entry_points = TRUE;
 	self->priv->relief = GTK_RELIEF_NORMAL;

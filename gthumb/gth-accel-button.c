@@ -51,7 +51,10 @@ struct _GthAccelButtonPrivate {
 static guint gth_accel_button_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthAccelButton, gth_accel_button, GTK_TYPE_BUTTON)
+G_DEFINE_TYPE_WITH_CODE (GthAccelButton,
+			 gth_accel_button,
+			 GTK_TYPE_BUTTON,
+			 G_ADD_PRIVATE (GthAccelButton))
 
 
 static void
@@ -117,8 +120,6 @@ static void
 gth_accel_button_class_init (GthAccelButtonClass *klass)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (GthAccelButtonPrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->set_property = gth_accel_button_set_property;
@@ -263,7 +264,7 @@ button_clicked_cb (GtkButton *button,
 static void
 gth_accel_button_init (GthAccelButton *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_ACCEL_BUTTON, GthAccelButtonPrivate);
+	self->priv = gth_accel_button_get_instance_private (self);
 	self->priv->keyval = 0;
 	self->priv->modifiers = 0;
 	self->priv->valid = FALSE;

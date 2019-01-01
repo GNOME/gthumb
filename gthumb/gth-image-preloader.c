@@ -34,7 +34,6 @@
 
 #undef DEBUG_PRELOADER
 #undef RESIZE_TO_REQUESTED_SIZE
-#define GTH_IMAGE_PRELOADER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_IMAGE_PRELOADER, GthImagePreloaderPrivate))
 #define LOAD_NEXT_FILE_DELAY 100
 #define CACHE_MAX_SIZE 10
 
@@ -83,7 +82,10 @@ struct _GthImagePreloaderPrivate {
 };
 
 
-G_DEFINE_TYPE (GthImagePreloader, gth_image_preloader, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthImagePreloader,
+			 gth_image_preloader,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImagePreloader))
 
 
 /* -- CacheData -- */
@@ -274,8 +276,6 @@ gth_image_preloader_class_init (GthImagePreloaderClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (GthImagePreloaderPrivate));
-
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_image_preloader_finalize;
 }
@@ -284,7 +284,7 @@ gth_image_preloader_class_init (GthImagePreloaderClass *class)
 static void
 gth_image_preloader_init (GthImagePreloader *self)
 {
-	self->priv = GTH_IMAGE_PRELOADER_GET_PRIVATE (self);
+	self->priv = gth_image_preloader_get_instance_private (self);
 	self->priv->requests = NULL;
 	self->priv->current_request = NULL;
 	self->priv->last_request = NULL;

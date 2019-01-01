@@ -48,7 +48,10 @@ struct _GthImagePrivate {
 };
 
 
-G_DEFINE_TYPE (GthImage, gth_image, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthImage,
+			 gth_image,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImage))
 
 
 static void
@@ -120,8 +123,6 @@ gth_image_class_init (GthImageClass *klass)
 {
 	GObjectClass *gobject_class;
 
-	g_type_class_add_private (klass, sizeof (GthImagePrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_image_finalize;
 
@@ -133,7 +134,7 @@ gth_image_class_init (GthImageClass *klass)
 static void
 gth_image_init (GthImage *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE, GthImagePrivate);
+	self->priv = gth_image_get_instance_private (self);
 	self->priv->format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
 	self->priv->data.surface = NULL;
 	self->priv->icc_data = NULL;

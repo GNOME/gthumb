@@ -34,7 +34,10 @@ struct _GthFileSourceSelectionsPrivate {
 };
 
 
-G_DEFINE_TYPE (GthFileSourceSelections, gth_file_source_selections, GTH_TYPE_FILE_SOURCE)
+G_DEFINE_TYPE_WITH_CODE (GthFileSourceSelections,
+			 gth_file_source_selections,
+			 GTH_TYPE_FILE_SOURCE,
+			 G_ADD_PRIVATE (GthFileSourceSelections))
 
 
 static GList *
@@ -290,27 +293,9 @@ gth_file_source_selections_shows_extra_widget (GthFileSource *file_source)
 
 
 static void
-gth_file_source_selections_finalize (GObject *object)
-{
-	GthFileSourceSelections *self = GTH_FILE_SOURCE_SELECTIONS (object);
-
-	if (self->priv != NULL) {
-		g_free (self->priv);
-		self->priv = NULL;
-	}
-
-	G_OBJECT_CLASS (gth_file_source_selections_parent_class)->finalize (object);
-}
-
-
-static void
 gth_file_source_selections_class_init (GthFileSourceSelectionsClass *class)
 {
-	GObjectClass       *object_class;
 	GthFileSourceClass *file_source_class;
-
-	object_class = (GObjectClass*) class;
-	object_class->finalize = gth_file_source_selections_finalize;
 
 	file_source_class = (GthFileSourceClass*) class;
 	file_source_class->get_entry_points = get_entry_points;
@@ -335,6 +320,7 @@ static void
 gth_file_source_selections_init (GthFileSourceSelections *self)
 {
 	gth_file_source_add_scheme (GTH_FILE_SOURCE (self), "selection");
-
-	self->priv = g_new0 (GthFileSourceSelectionsPrivate, 1);
+	self->priv = gth_file_source_selections_get_instance_private (self);
+	self->priv->ready_func = NULL;
+	self->priv->ready_data = NULL;
 }

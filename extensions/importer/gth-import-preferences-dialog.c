@@ -30,9 +30,6 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (GthImportPreferencesDialog, gth_import_preferences_dialog, GTK_TYPE_DIALOG)
-
-
 /* Signals */
 enum {
 	DESTINATION_CHANGED,
@@ -51,6 +48,12 @@ struct _GthImportPreferencesDialogPrivate {
 	char       *event;
 	gboolean    help_visible;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImportPreferencesDialog,
+			 gth_import_preferences_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthImportPreferencesDialog))
 
 
 static void
@@ -72,8 +75,6 @@ static void
 gth_import_preferences_dialog_class_init (GthImportPreferencesDialogClass *klass)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (GthImportPreferencesDialogPrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_import_preferences_dialog_finalize;
@@ -310,7 +311,7 @@ gth_import_preferences_dialog_init (GthImportPreferencesDialog *self)
 	GthSubfolderType  subfolder_type;
 	char             *custom_format;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_PREFERENCES_DIALOG, GthImportPreferencesDialogPrivate);
+	self->priv = gth_import_preferences_dialog_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("import-preferences.ui", "importer");
 	self->priv->settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
 	self->priv->help_visible = FALSE;

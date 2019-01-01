@@ -56,7 +56,11 @@ struct _GthToolboxPrivate {
 
 static guint gth_toolbox_signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (GthToolbox, gth_toolbox, GTK_TYPE_STACK)
+
+G_DEFINE_TYPE_WITH_CODE (GthToolbox,
+			 gth_toolbox,
+			 GTK_TYPE_STACK,
+			 G_ADD_PRIVATE (GthToolbox))
 
 
 static void
@@ -109,8 +113,6 @@ static void
 gth_toolbox_class_init (GthToolboxClass *klass)
 {
 	GObjectClass *gobject_class;
-
-	g_type_class_add_private (klass, sizeof (GthToolboxPrivate));
 
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_toolbox_finalize;
@@ -177,7 +179,7 @@ gth_toolbox_init (GthToolbox *toolbox)
 	GtkWidget *close_button;
 	GtkWidget *ok_button;
 
-	toolbox->priv = G_TYPE_INSTANCE_GET_PRIVATE (toolbox, GTH_TYPE_TOOLBOX, GthToolboxPrivate);
+	toolbox->priv = gth_toolbox_get_instance_private (toolbox);
 
 	/* tool list page */
 

@@ -45,13 +45,6 @@
 static void gth_viewer_page_interface_init (GthViewerPageInterface *iface);
 
 
-G_DEFINE_TYPE_WITH_CODE (GthImageViewerPage,
-			 gth_image_viewer_page,
-			 G_TYPE_OBJECT,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_VIEWER_PAGE,
-					        gth_viewer_page_interface_init))
-
-
 static const GActionEntry actions[] = {
 	{ "image-zoom-in", gth_browser_activate_image_zoom_in },
 	{ "image-zoom-out", gth_browser_activate_image_zoom_out },
@@ -114,6 +107,14 @@ struct _GthImageViewerPagePrivate {
 	GthFileData       *next_file_data[N_FORWARD_PRELOADERS];
 	GthFileData       *prev_file_data[N_BACKWARD_PRELOADERS];
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageViewerPage,
+			 gth_image_viewer_page,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImageViewerPage)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_VIEWER_PAGE,
+						gth_viewer_page_interface_init))
 
 
 static void
@@ -1899,8 +1900,6 @@ gth_image_viewer_page_finalize (GObject *obj)
 static void
 gth_image_viewer_page_class_init (GthImageViewerPageClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthImageViewerPagePrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_image_viewer_page_finalize;
 }
 
@@ -1932,7 +1931,7 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 {
 	int i;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_VIEWER_PAGE, GthImageViewerPagePrivate);
+	self->priv = gth_image_viewer_page_get_instance_private (self);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
 	self->priv->preloader = NULL;
 	self->priv->file_popup_merge_id = 0;

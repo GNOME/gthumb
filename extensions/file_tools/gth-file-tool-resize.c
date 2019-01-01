@@ -33,9 +33,6 @@
 #define PIXELS_UNIT_POSITION 0
 
 
-G_DEFINE_TYPE (GthFileToolResize, gth_file_tool_resize, GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL)
-
-
 struct _GthFileToolResizePrivate {
 	GSettings       *settings;
 	cairo_surface_t *preview;
@@ -57,6 +54,12 @@ struct _GthFileToolResizePrivate {
 	gboolean         apply_to_original;
 	guint            update_size_id;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthFileToolResize,
+			 gth_file_tool_resize,
+			 GTH_TYPE_IMAGE_VIEWER_PAGE_TOOL,
+			 G_ADD_PRIVATE (GthFileToolResize))
 
 
 static void update_image_size (GthFileToolResize *self);
@@ -810,8 +813,6 @@ gth_file_tool_resize_class_init (GthFileToolResizeClass *klass)
 	GthFileToolClass            *file_tool_class;
 	GthImageViewerPageToolClass *image_viewer_page_tool_class;
 
-	g_type_class_add_private (klass, sizeof (GthFileToolResizePrivate));
-
 	gobject_class = (GObjectClass*) klass;
 	gobject_class->finalize = gth_file_tool_resize_finalize;
 
@@ -829,7 +830,7 @@ gth_file_tool_resize_class_init (GthFileToolResizeClass *klass)
 static void
 gth_file_tool_resize_init (GthFileToolResize *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_RESIZE, GthFileToolResizePrivate);
+	self->priv = gth_file_tool_resize_get_instance_private (self);
 	self->priv->settings = NULL;
 	self->priv->builder = NULL;
 	self->priv->preview = NULL;

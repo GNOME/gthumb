@@ -46,7 +46,10 @@ struct _GthHistogramPrivate {
 static guint gth_histogram_signals[LAST_SIGNAL] = { 0 };
 
 
-G_DEFINE_TYPE (GthHistogram, gth_histogram, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthHistogram,
+			 gth_histogram,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthHistogram))
 
 
 static void
@@ -73,8 +76,6 @@ gth_histogram_class_init (GthHistogramClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthHistogramPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_histogram_finalize;
 
@@ -97,7 +98,7 @@ gth_histogram_init (GthHistogram *self)
 {
 	int i;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_HISTOGRAM, GthHistogramPrivate);
+	self->priv = gth_histogram_get_instance_private (self);
 	self->priv->values = g_new0 (int *, GTH_HISTOGRAM_N_CHANNELS + 1);
 	for (i = 0; i < GTH_HISTOGRAM_N_CHANNELS + 1; i++)
 		self->priv->values[i] = g_new0 (int, 256);

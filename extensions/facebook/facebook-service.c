@@ -78,14 +78,17 @@ post_photos_data_free (PostPhotosData *post_photos)
 /* -- facebook_service -- */
 
 
-G_DEFINE_TYPE (FacebookService, facebook_service, WEB_TYPE_SERVICE)
-
-
 struct _FacebookServicePrivate {
 	char           *state;
 	char           *token;
 	PostPhotosData *post_photos;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (FacebookService,
+			 facebook_service,
+			 WEB_TYPE_SERVICE,
+			 G_ADD_PRIVATE (FacebookService))
 
 
 static void
@@ -398,8 +401,6 @@ facebook_service_class_init (FacebookServiceClass *klass)
 	GObjectClass    *object_class;
 	WebServiceClass *service_class;
 
-	g_type_class_add_private (klass, sizeof (FacebookServicePrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = facebook_service_finalize;
 
@@ -412,7 +413,7 @@ facebook_service_class_init (FacebookServiceClass *klass)
 static void
 facebook_service_init (FacebookService *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, FACEBOOK_TYPE_SERVICE, FacebookServicePrivate);
+	self->priv = facebook_service_get_instance_private (self);
 	self->priv->state = NULL;
 	self->priv->token = NULL;
 	self->priv->post_photos = NULL;

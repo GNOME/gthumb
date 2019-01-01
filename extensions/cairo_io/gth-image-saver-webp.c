@@ -30,13 +30,16 @@
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
 
-G_DEFINE_TYPE (GthImageSaverWebp, gth_image_saver_webp, GTH_TYPE_IMAGE_SAVER)
-
-
 struct _GthImageSaverWebpPrivate {
 	GtkBuilder *builder;
 	GSettings  *settings;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageSaverWebp,
+			 gth_image_saver_webp,
+			 GTH_TYPE_IMAGE_SAVER,
+			 G_ADD_PRIVATE (GthImageSaverWebp))
 
 
 static void
@@ -372,8 +375,6 @@ gth_image_saver_webp_class_init (GthImageSaverWebpClass *klass)
 	GObjectClass       *object_class;
 	GthImageSaverClass *image_saver_class;
 
-	g_type_class_add_private (klass, sizeof (GthImageSaverWebpPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_image_saver_webp_finalize;
 
@@ -393,7 +394,7 @@ gth_image_saver_webp_class_init (GthImageSaverWebpClass *klass)
 static void
 gth_image_saver_webp_init (GthImageSaverWebp *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_SAVER_WEBP, GthImageSaverWebpPrivate);
+	self->priv = gth_image_saver_webp_get_instance_private (self);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_SAVERS_WEBP_SCHEMA);
 	self->priv->builder = NULL;
 }

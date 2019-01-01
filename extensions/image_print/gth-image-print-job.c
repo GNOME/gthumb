@@ -33,9 +33,6 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-G_DEFINE_TYPE (GthImagePrintJob, gth_image_print_job, G_TYPE_OBJECT)
-
-
 struct _GthImagePrintJobPrivate {
 	GSettings          *settings;
 	GtkPrintOperationAction  action;
@@ -90,6 +87,12 @@ struct _GthImagePrintJobPrivate {
 };
 
 
+G_DEFINE_TYPE_WITH_CODE (GthImagePrintJob,
+			 gth_image_print_job,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthImagePrintJob))
+
+
 static void
 gth_image_print_job_finalize (GObject *base)
 {
@@ -125,8 +128,6 @@ gth_image_print_job_class_init (GthImagePrintJobClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthImagePrintJobPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_image_print_job_finalize;
 }
@@ -135,7 +136,7 @@ gth_image_print_job_class_init (GthImagePrintJobClass *klass)
 static void
 gth_image_print_job_init (GthImagePrintJob *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_PRINT_JOB, GthImagePrintJobPrivate);
+	self->priv = gth_image_print_job_get_instance_private (self);
 	self->priv->settings = g_settings_new (GTHUMB_IMAGE_PRINT_SCHEMA);
 	self->priv->event_name = NULL;
 	self->priv->builder = NULL;

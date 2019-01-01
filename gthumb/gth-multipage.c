@@ -25,9 +25,6 @@
 #include "gth-multipage.h"
 
 
-#define GTH_MULTIPAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_MULTIPAGE, GthMultipagePrivate))
-
-
 enum {
 	CHANGED,
 	LAST_SIGNAL
@@ -45,7 +42,10 @@ struct _GthMultipagePrivate {
 };
 
 
-G_DEFINE_TYPE (GthMultipage, gth_multipage, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_CODE (GthMultipage,
+			 gth_multipage,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthMultipage))
 
 
 static void
@@ -66,8 +66,6 @@ static void
 gth_multipage_class_init (GthMultipageClass *klass)
 {
 	GObjectClass *object_class;
-
-	g_type_class_add_private (klass, sizeof (GthMultipagePrivate));
 
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_multipage_finalize;
@@ -132,7 +130,7 @@ gth_multipage_init (GthMultipage *multipage)
 {
 	GtkWidget *switcher_box;
 
-	multipage->priv = GTH_MULTIPAGE_GET_PRIVATE (multipage);
+	multipage->priv = gth_multipage_get_instance_private (multipage);
 	multipage->priv->children = NULL;
 	multipage->priv->boxes = NULL;
 

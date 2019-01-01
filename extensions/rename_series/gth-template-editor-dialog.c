@@ -30,15 +30,18 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
-G_DEFINE_TYPE (GthTemplateEditorDialog, gth_template_editor_dialog, GTK_TYPE_DIALOG)
-
-
 struct _GthTemplateEditorDialogPrivate {
 	GtkWidget       *content;
 	GRegex          *re;
 	GthTemplateCode *allowed_codes;
 	int              n_codes;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthTemplateEditorDialog,
+			 gth_template_editor_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthTemplateEditorDialog))
 
 
 static void
@@ -48,12 +51,8 @@ gth_template_editor_dialog_finalize (GObject *object)
 
 	dialog = GTH_TEMPLATE_EDITOR_DIALOG (object);
 
-	if (dialog->priv != NULL) {
-		if (dialog->priv->re != NULL)
-			g_regex_unref (dialog->priv->re);
-		g_free (dialog->priv);
-		dialog->priv = NULL;
-	}
+	if (dialog->priv->re != NULL)
+		g_regex_unref (dialog->priv->re);
 
 	G_OBJECT_CLASS (gth_template_editor_dialog_parent_class)->finalize (object);
 }
@@ -72,8 +71,11 @@ gth_template_editor_dialog_class_init (GthTemplateEditorDialogClass *class)
 static void
 gth_template_editor_dialog_init (GthTemplateEditorDialog *dialog)
 {
-	dialog->priv = g_new0 (GthTemplateEditorDialogPrivate, 1);
+	dialog->priv = gth_template_editor_dialog_get_instance_private (dialog);
+	dialog->priv->content = NULL;
 	dialog->priv->re = NULL;
+	dialog->priv->allowed_codes = NULL;
+	dialog->priv->n_codes = 0;
 }
 
 

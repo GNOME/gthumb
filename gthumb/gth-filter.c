@@ -66,10 +66,11 @@ static void gth_filter_gth_duplicable_interface_init (GthDuplicableInterface *if
 G_DEFINE_TYPE_WITH_CODE (GthFilter,
 			 gth_filter,
 			 GTH_TYPE_TEST,
+			 G_ADD_PRIVATE (GthFilter)
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					 	gth_filter_dom_domizable_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-		        		 	gth_filter_gth_duplicable_interface_init))
+						gth_filter_dom_domizable_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
+						gth_filter_gth_duplicable_interface_init))
 
 
 static DomElement*
@@ -445,8 +446,6 @@ gth_filter_class_init (GthFilterClass *klass)
 	GObjectClass *object_class;
 	GthTestClass *test_class;
 
-	g_type_class_add_private (klass, sizeof (GthFilterPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_filter_finalize;
 
@@ -476,7 +475,7 @@ gth_filter_gth_duplicable_interface_init (GthDuplicableInterface *iface)
 static void
 gth_filter_init (GthFilter *filter)
 {
-	filter->priv = G_TYPE_INSTANCE_GET_PRIVATE (filter, GTH_TYPE_FILTER, GthFilterPrivate);
+	filter->priv = gth_filter_get_instance_private (filter);
 	filter->priv->test = NULL;
 	filter->priv->limit_type = GTH_LIMIT_TYPE_NONE;
 	filter->priv->limit = 0;

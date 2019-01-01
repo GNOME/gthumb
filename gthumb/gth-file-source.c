@@ -30,8 +30,7 @@
 #include "gth-main.h"
 
 
-struct _GthFileSourcePrivate
-{
+struct _GthFileSourcePrivate {
 	GList        *schemes;
 	gboolean      active;
 	GList        *queue;
@@ -39,7 +38,10 @@ struct _GthFileSourcePrivate
 };
 
 
-G_DEFINE_TYPE (GthFileSource, gth_file_source, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (GthFileSource,
+			 gth_file_source,
+			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthFileSource))
 
 
 /* -- queue -- */
@@ -904,14 +906,9 @@ gth_file_source_finalize (GObject *object)
 {
 	GthFileSource *file_source = GTH_FILE_SOURCE (object);
 
-	if (file_source->priv != NULL) {
-		gth_file_source_clear_queue (file_source);
-		_g_string_list_free (file_source->priv->schemes);
-		_g_object_unref (file_source->priv->cancellable);
-
-		g_free (file_source->priv);
-		file_source->priv = NULL;
-	}
+	gth_file_source_clear_queue (file_source);
+	_g_string_list_free (file_source->priv->schemes);
+	_g_object_unref (file_source->priv->cancellable);
 
 	G_OBJECT_CLASS (gth_file_source_parent_class)->finalize (object);
 }
@@ -948,7 +945,10 @@ gth_file_source_class_init (GthFileSourceClass *class)
 static void
 gth_file_source_init (GthFileSource *file_source)
 {
-	file_source->priv = g_new0 (GthFileSourcePrivate, 1);
+	file_source->priv = gth_file_source_get_instance_private (file_source);
+	file_source->priv->schemes = NULL;
+	file_source->priv->active = FALSE;
+	file_source->priv->queue = NULL;
 	file_source->priv->cancellable = g_cancellable_new ();
 }
 

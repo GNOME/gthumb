@@ -34,22 +34,23 @@ struct _GthWindowTitlePrivate {
 };
 
 
-G_DEFINE_TYPE (GthWindowTitle,
-	       gth_window_title,
-	       GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_CODE (GthWindowTitle,
+			 gth_window_title,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthWindowTitle))
 
 
 static void
 gth_window_title_class_init (GthWindowTitleClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthWindowTitlePrivate));
+	/* void */
 }
 
 
 static void
 gth_window_title_init (GthWindowTitle *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_WINDOW_TITLE, GthWindowTitlePrivate);
+	self->priv = gth_window_title_get_instance_private (self);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_set_spacing (GTK_BOX (self), 10);

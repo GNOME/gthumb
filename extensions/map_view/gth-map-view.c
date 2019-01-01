@@ -28,20 +28,11 @@
 #include <gthumb.h>
 #include "gth-map-view.h"
 
-#define GTH_MAP_VIEW_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_MAP_VIEW, GthMapViewPrivate))
 #define LABEL_MAX_WIDTH 200
 
 
 static void gth_map_view_gth_multipage_child_interface_init (GthMultipageChildInterface *iface);
 static void gth_map_view_gth_property_view_interface_init (GthPropertyViewInterface *iface);
-
-G_DEFINE_TYPE_WITH_CODE (GthMapView,
-			 gth_map_view,
-			 GTK_TYPE_BOX,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
-					        gth_map_view_gth_multipage_child_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
-		        		        gth_map_view_gth_property_view_interface_init))
 
 
 struct _GthMapViewPrivate {
@@ -51,6 +42,16 @@ struct _GthMapViewPrivate {
 	ChamplainMarkerLayer *marker_layer;
 	ClutterActor         *marker;
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthMapView,
+			 gth_map_view,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthMapView)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
+						gth_map_view_gth_multipage_child_interface_init)
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
+						gth_map_view_gth_property_view_interface_init))
 
 
 /* Exif format: %d/%d %d/%d %d/%d */
@@ -250,8 +251,6 @@ gth_map_view_class_init (GthMapViewClass *klass)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (klass, sizeof (GthMapViewPrivate));
-
 	G_OBJECT_CLASS (klass)->finalize = gth_map_view_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (klass);
@@ -265,7 +264,7 @@ gth_map_view_init (GthMapView *self)
 {
 	ClutterActor *scale;
 
-	self->priv = GTH_MAP_VIEW_GET_PRIVATE (self);
+	self->priv = gth_map_view_get_instance_private (self);
 
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 2);

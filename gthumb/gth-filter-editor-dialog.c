@@ -50,7 +50,10 @@ struct _GthFilterEditorDialogPrivate {
 };
 
 
-G_DEFINE_TYPE (GthFilterEditorDialog, gth_filter_editor_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE_WITH_CODE (GthFilterEditorDialog,
+			 gth_filter_editor_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthFilterEditorDialog))
 
 
 static void
@@ -60,12 +63,8 @@ gth_filter_editor_dialog_finalize (GObject *object)
 
 	dialog = GTH_FILTER_EDITOR_DIALOG (object);
 
-	if (dialog->priv != NULL) {
-		g_object_unref (dialog->priv->builder);
-		g_free (dialog->priv->filter_id);
-		g_free (dialog->priv);
-		dialog->priv = NULL;
-	}
+	g_object_unref (dialog->priv->builder);
+	g_free (dialog->priv->filter_id);
 
 	G_OBJECT_CLASS (gth_filter_editor_dialog_parent_class)->finalize (object);
 }
@@ -84,7 +83,14 @@ gth_filter_editor_dialog_class_init (GthFilterEditorDialogClass *class)
 static void
 gth_filter_editor_dialog_init (GthFilterEditorDialog *dialog)
 {
-	dialog->priv = g_new0 (GthFilterEditorDialogPrivate, 1);
+	dialog->priv = gth_filter_editor_dialog_get_instance_private (dialog);
+	dialog->priv->builder = NULL;
+	dialog->priv->match_type_combobox = NULL;
+	dialog->priv->limit_object_combobox = NULL;
+	dialog->priv->selection_combobox = NULL;
+	dialog->priv->selection_order_combobox = NULL;
+	dialog->priv->filter_id = NULL;
+	dialog->priv->filter_visible = FALSE;
 }
 
 

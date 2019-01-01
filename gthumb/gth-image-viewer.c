@@ -43,12 +43,6 @@
 #define BLACK_VALUE 0.2
 
 
-G_DEFINE_TYPE_WITH_CODE (GthImageViewer,
-			 gth_image_viewer,
-			 GTK_TYPE_WIDGET,
-                         G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
-
-
 enum {
 	PROP_0,
 	PROP_HADJUSTMENT,
@@ -123,6 +117,13 @@ struct _GthImageViewerPrivate {
 
 
 static guint gth_image_viewer_signals[LAST_SIGNAL] = { 0 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthImageViewer,
+			 gth_image_viewer,
+			 GTK_TYPE_WIDGET,
+			 G_ADD_PRIVATE (GthImageViewer)
+			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
 
 
 typedef struct {
@@ -1239,8 +1240,6 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 	GtkWidgetClass *widget_class;
 	GtkBindingSet  *binding_set;
 
-	g_type_class_add_private (class, sizeof (GthImageViewerPrivate));
-
 	/* signals */
 
 	gth_image_viewer_signals[CLICKED] =
@@ -1518,7 +1517,7 @@ gth_image_viewer_init (GthImageViewer *self)
 
 	/* Initialize data. */
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_VIEWER, GthImageViewerPrivate);
+	self->priv = gth_image_viewer_get_instance_private (self);
 
 	self->priv->is_animation = FALSE;
 	self->priv->play_animation = TRUE;

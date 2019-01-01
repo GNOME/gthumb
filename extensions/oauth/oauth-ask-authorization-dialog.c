@@ -30,9 +30,6 @@
 #define _WEB_VIEW_PAGE 0
 
 
-G_DEFINE_TYPE (OAuthAskAuthorizationDialog, oauth_ask_authorization_dialog, GTK_TYPE_DIALOG)
-
-
 /* Signals */
 enum {
 	LOAD_REQUEST,
@@ -51,6 +48,12 @@ struct _OAuthAskAuthorizationDialogPrivate {
 };
 
 
+G_DEFINE_TYPE_WITH_CODE (OAuthAskAuthorizationDialog,
+			 oauth_ask_authorization_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (OAuthAskAuthorizationDialog))
+
+
 static void
 oauth_ask_authorization_dialog_finalize (GObject *obj)
 {
@@ -67,8 +70,6 @@ static void
 oauth_ask_authorization_dialog_class_init (OAuthAskAuthorizationDialogClass *klass)
 {
 	GObjectClass   *object_class;
-
-	g_type_class_add_private (klass, sizeof (OAuthAskAuthorizationDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = oauth_ask_authorization_dialog_finalize;
@@ -208,7 +209,7 @@ oauth_ask_authorization_dialog_init (OAuthAskAuthorizationDialog *self)
 {
 	GtkWidget *dialog_content;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, OAUTH_TYPE_ASK_AUTHORIZATION_DIALOG, OAuthAskAuthorizationDialogPrivate);
+	self->priv = oauth_ask_authorization_dialog_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("oauth-ask-authorization.ui", "oauth");
 
 	gtk_window_set_default_size (GTK_WINDOW (self), 500, 500);

@@ -48,10 +48,11 @@ static void gth_comment_dom_domizable_interface_init (DomDomizableInterface *ifa
 G_DEFINE_TYPE_WITH_CODE (GthComment,
 			 gth_comment,
 			 G_TYPE_OBJECT,
+			 G_ADD_PRIVATE (GthComment)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_DUPLICABLE,
-					 	gth_comment_gth_duplicable_interface_init)
-		         G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-		        		 	gth_comment_dom_domizable_interface_init))
+						gth_comment_gth_duplicable_interface_init)
+			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
+						gth_comment_dom_domizable_interface_init))
 
 
 static void
@@ -92,7 +93,6 @@ gth_comment_finalize (GObject *obj)
 static void
 gth_comment_class_init (GthCommentClass *klass)
 {
-	g_type_class_add_private (klass, sizeof (GthCommentPrivate));
 	G_OBJECT_CLASS (klass)->finalize = gth_comment_finalize;
 }
 
@@ -100,7 +100,7 @@ gth_comment_class_init (GthCommentClass *klass)
 static void
 gth_comment_init (GthComment *self)
 {
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_COMMENT, GthCommentPrivate);
+	self->priv = gth_comment_get_instance_private (self);
 	self->priv->caption = NULL;
 	self->priv->note = NULL;
 	self->priv->place = NULL;

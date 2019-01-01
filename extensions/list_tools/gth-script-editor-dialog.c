@@ -31,9 +31,6 @@
 #define NO_SHORTCUT 0
 
 
-G_DEFINE_TYPE (GthScriptEditorDialog, gth_script_editor_dialog, GTK_TYPE_DIALOG)
-
-
 enum {
 	SHORTCUT_NAME_COLUMN = 0,
 	SHORTCUT_SENSITIVE_COLUMN
@@ -51,6 +48,12 @@ struct _GthScriptEditorDialogPrivate {
 };
 
 
+G_DEFINE_TYPE_WITH_CODE (GthScriptEditorDialog,
+			 gth_script_editor_dialog,
+			 GTK_TYPE_DIALOG,
+			 G_ADD_PRIVATE (GthScriptEditorDialog))
+
+
 static void
 gth_script_editor_dialog_finalize (GObject *object)
 {
@@ -58,12 +61,8 @@ gth_script_editor_dialog_finalize (GObject *object)
 
 	dialog = GTH_SCRIPT_EDITOR_DIALOG (object);
 
-	if (dialog->priv != NULL) {
-		g_object_unref (dialog->priv->builder);
-		g_free (dialog->priv->script_id);
-		g_free (dialog->priv);
-		dialog->priv = NULL;
-	}
+	g_object_unref (dialog->priv->builder);
+	g_free (dialog->priv->script_id);
 
 	G_OBJECT_CLASS (gth_script_editor_dialog_parent_class)->finalize (object);
 }
@@ -82,7 +81,14 @@ gth_script_editor_dialog_class_init (GthScriptEditorDialogClass *class)
 static void
 gth_script_editor_dialog_init (GthScriptEditorDialog *dialog)
 {
-	dialog->priv = g_new0 (GthScriptEditorDialogPrivate, 1);
+	dialog->priv = gth_script_editor_dialog_get_instance_private (dialog);
+	dialog->priv->builder = NULL;
+	dialog->priv->accel_button = NULL;
+	dialog->priv->script_id = NULL;
+	dialog->priv->script_visible = FALSE;
+	dialog->priv->wait_command = FALSE;
+	dialog->priv->shell_script = FALSE;
+	dialog->priv->for_each_file = FALSE;
 	dialog->priv->help_visible = FALSE;
 }
 

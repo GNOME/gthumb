@@ -36,7 +36,10 @@ struct _GthStatusbarPrivate {
 };
 
 
-G_DEFINE_TYPE (GthStatusbar, gth_statusbar, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_CODE (GthStatusbar,
+			 gth_statusbar,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthStatusbar))
 
 
 static void
@@ -61,8 +64,6 @@ gth_statusbar_class_init (GthStatusbarClass *klass)
 
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthStatusbarPrivate));
-
 	object_class = (GObjectClass*) klass;
 	object_class->finalize = gth_statusbar_finalize;
 }
@@ -71,7 +72,7 @@ gth_statusbar_class_init (GthStatusbarClass *klass)
 static void
 gth_statusbar_init (GthStatusbar *statusbar)
 {
-	statusbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (statusbar, GTH_TYPE_STATUSBAR, GthStatusbarPrivate);
+	statusbar->priv = gth_statusbar_get_instance_private (statusbar);
 	statusbar->priv->hide_secondary_text_id = 0;
 
 	gtk_box_set_spacing (GTK_BOX (statusbar), 6);

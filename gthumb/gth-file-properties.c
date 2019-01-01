@@ -31,7 +31,6 @@
 #include "gtk-utils.h"
 
 
-#define GTH_FILE_PROPERTIES_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_PROPERTIES, GthFilePropertiesPrivate))
 #define FONT_SCALE (0.85)
 #define MIN_HEIGHT 100
 #define COMMENT_DEFAULT_HEIGHT 100
@@ -78,10 +77,11 @@ static void gth_file_properties_gth_property_view_interface_init (GthPropertyVie
 G_DEFINE_TYPE_WITH_CODE (GthFileProperties,
 			 gth_file_properties,
 			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthFileProperties)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
 					 	gth_file_properties_gth_multipage_child_interface_init)
-		         G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
-		        		 	gth_file_properties_gth_property_view_interface_init))
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
+						gth_file_properties_gth_property_view_interface_init))
 
 
 static char *
@@ -325,8 +325,6 @@ gth_file_properties_class_init (GthFilePropertiesClass *klass)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (klass, sizeof (GthFilePropertiesPrivate));
-
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->set_property = gth_file_properties_set_property;
 	object_class->get_property = gth_file_properties_get_property;
@@ -433,7 +431,7 @@ gth_file_properties_init (GthFileProperties *self)
 	GtkTreeViewColumn *column;
 
 
-	self->priv = GTH_FILE_PROPERTIES_GET_PRIVATE (self);
+	self->priv = gth_file_properties_get_instance_private (self);
 	self->priv->show_details = FALSE;
 	self->priv->last_file_data = NULL;
 
