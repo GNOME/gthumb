@@ -25,10 +25,10 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_ID,
-        PROP_DISPLAY_NAME,
-        PROP_FRAME_FUNC
+	PROP_0,
+	PROP_ID,
+	PROP_DISPLAY_NAME,
+	PROP_FRAME_FUNC
 };
 
 

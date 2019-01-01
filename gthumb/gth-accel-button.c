@@ -29,15 +29,15 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_KEY,
-        PROP_MODS
+	PROP_0,
+	PROP_KEY,
+	PROP_MODS
 };
 
 /* Signals */
 enum {
-        CHANGED,
-        LAST_SIGNAL
+	CHANGED,
+	LAST_SIGNAL
 };
 
 struct _GthAccelButtonPrivate {

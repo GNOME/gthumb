@@ -82,15 +82,15 @@ static GthSizeData size_data[] = {
 
 
 enum {
-        PROP_0,
-        PROP_DATA_TYPE,
-        PROP_DATA_AS_STRING,
-        PROP_DATA_AS_INT,
+	PROP_0,
+	PROP_DATA_TYPE,
+	PROP_DATA_AS_STRING,
+	PROP_DATA_AS_INT,
 	PROP_DATA_AS_DOUBLE,
-        PROP_DATA_AS_DATE,
-        PROP_GET_DATA,
-        PROP_OP,
-        PROP_NEGATIVE,
+	PROP_DATA_AS_DATE,
+	PROP_GET_DATA,
+	PROP_OP,
+	PROP_NEGATIVE,
 	PROP_MAX_INT,
 	PROP_MAX_DOUBLE
 };

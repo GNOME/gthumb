@@ -23,8 +23,8 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_TEXT
+	PROP_0,
+	PROP_TEXT
 };
 
 struct _GthEmptyListPrivate {

@@ -39,8 +39,8 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_VIEWER
+	PROP_0,
+	PROP_VIEWER
 };
 
 

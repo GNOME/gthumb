@@ -39,12 +39,12 @@ enum {
 struct _GthScriptEditorDialogPrivate {
 	GtkBuilder *builder;
 	GtkWidget  *accel_button;
-  	char       *script_id;
-  	gboolean    script_visible;
-  	gboolean    wait_command;
-  	gboolean    shell_script;
-  	gboolean    for_each_file;
-  	gboolean    help_visible;
+	char       *script_id;
+	gboolean    script_visible;
+	gboolean    wait_command;
+	gboolean    shell_script;
+	gboolean    for_each_file;
+	gboolean    help_visible;
 };
 
 

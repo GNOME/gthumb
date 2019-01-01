@@ -34,20 +34,20 @@ G_DEFINE_TYPE_WITH_CODE (FacebookPhoto,
 			 facebook_photo,
 			 G_TYPE_OBJECT,
 			 G_IMPLEMENT_INTERFACE (JSON_TYPE_SERIALIZABLE,
-					 	facebook_photo_json_serializable_interface_init))
+						facebook_photo_json_serializable_interface_init))
 
 
 enum {
-        PROP_0,
-        PROP_ID,
-        PROP_PICTURE,
-        PROP_SOURCE,
-        PROP_WIDTH,
-        PROP_HEIGHT,
-        PROP_LINK,
-        PROP_CREATED_TIME,
-        PROP_UPDATED_TIME,
-        PROP_IMAGES
+	PROP_0,
+	PROP_ID,
+	PROP_PICTURE,
+	PROP_SOURCE,
+	PROP_WIDTH,
+	PROP_HEIGHT,
+	PROP_LINK,
+	PROP_CREATED_TIME,
+	PROP_UPDATED_TIME,
+	PROP_IMAGES
 };
 
 

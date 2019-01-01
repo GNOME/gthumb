@@ -31,8 +31,8 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_MENU
+	PROP_0,
+	PROP_MENU
 };
 
 struct _GthMenuManagerPrivate {

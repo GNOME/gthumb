@@ -51,8 +51,8 @@ enum {
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_MODE
+	PROP_0,
+	PROP_MODE
 };
 
 /* Signals */

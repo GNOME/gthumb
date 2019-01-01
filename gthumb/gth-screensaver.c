@@ -27,8 +27,8 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_APPLICATION
+	PROP_0,
+	PROP_APPLICATION
 };
 
 

@@ -51,8 +51,8 @@ typedef struct {
 	int                  max_resolution;
 	FacebookVisibility   visibility_level;
 	GCancellable        *cancellable;
-        GAsyncReadyCallback  callback;
-        gpointer             user_data;
+	GAsyncReadyCallback  callback;
+	gpointer             user_data;
 	GList               *current;
 	goffset              total_size;
 	goffset              uploaded_size;

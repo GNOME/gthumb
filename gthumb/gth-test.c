@@ -31,17 +31,17 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_ID,
-        PROP_ATTRIBUTES,
-        PROP_DISPLAY_NAME,
-        PROP_VISIBLE
+	PROP_0,
+	PROP_ID,
+	PROP_ATTRIBUTES,
+	PROP_DISPLAY_NAME,
+	PROP_VISIBLE
 };
 
 /* Signals */
 enum {
-        CHANGED,
-        LAST_SIGNAL
+	CHANGED,
+	LAST_SIGNAL
 };
 
 struct _GthTestPrivate {

@@ -28,8 +28,8 @@
 
 /* Signals */
 enum {
-        CHANGED,
-        LAST_SIGNAL
+	CHANGED,
+	LAST_SIGNAL
 };
 
 

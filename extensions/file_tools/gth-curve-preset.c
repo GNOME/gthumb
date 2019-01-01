@@ -26,9 +26,9 @@
 
 /* Signals */
 enum {
-        CHANGED,
+	CHANGED,
 	PRESET_CHANGED,
-        LAST_SIGNAL
+	LAST_SIGNAL
 };
 
 

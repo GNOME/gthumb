@@ -53,8 +53,8 @@ typedef struct {
 	int                  max_width;
 	int                  max_height;
 	GCancellable        *cancellable;
-        GAsyncReadyCallback  callback;
-        gpointer             user_data;
+	GAsyncReadyCallback  callback;
+	gpointer             user_data;
 	GList               *current;
 	guint64              total_size;
 	guint64              uploaded_size;

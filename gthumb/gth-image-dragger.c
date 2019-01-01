@@ -36,8 +36,8 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_SHOW_FRAME
+	PROP_0,
+	PROP_SHOW_FRAME
 };
 
 

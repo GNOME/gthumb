@@ -35,8 +35,8 @@
 
 /* Signals */
 enum {
-        OPTIONS_VISIBILITY,
-        LAST_SIGNAL
+	OPTIONS_VISIBILITY,
+	LAST_SIGNAL
 };
 
 

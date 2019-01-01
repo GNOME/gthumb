@@ -33,13 +33,13 @@
 
 
 enum {
-        PROP_0,
-        PROP_ID,
-        PROP_USERNAME,
-        PROP_NAME,
-        PROP_TOKEN,
-        PROP_TOKEN_SECRET,
-        PROP_IS_DEFAULT
+	PROP_0,
+	PROP_ID,
+	PROP_USERNAME,
+	PROP_NAME,
+	PROP_TOKEN,
+	PROP_TOKEN_SECRET,
+	PROP_IS_DEFAULT
 };
 
 
@@ -50,7 +50,7 @@ G_DEFINE_TYPE_WITH_CODE (OAuthAccount,
 			 oauth_account,
 			 G_TYPE_OBJECT,
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					        oauth_account_dom_domizable_interface_init))
+						oauth_account_dom_domizable_interface_init))
 
 
 static void

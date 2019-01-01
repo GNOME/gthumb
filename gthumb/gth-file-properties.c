@@ -40,8 +40,8 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_SHOW_DETAILS
+	PROP_0,
+	PROP_SHOW_DETAILS
 };
 
 enum {

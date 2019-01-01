@@ -34,8 +34,8 @@
 
 
 enum {
-        PROP_0,
-        PROP_CONSUMER
+	PROP_0,
+	PROP_CONSUMER
 };
 
 

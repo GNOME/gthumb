@@ -30,15 +30,15 @@ static void gth_script_gth_duplicable_interface_init (GthDuplicableInterface *if
 
 
 enum {
-        PROP_0,
-        PROP_ID,
-        PROP_DISPLAY_NAME,
-        PROP_COMMAND,
-        PROP_VISIBLE,
-        PROP_SHELL_SCRIPT,
-        PROP_FOR_EACH_FILE,
-        PROP_WAIT_COMMAND,
-        PROP_ACCELERATOR
+	PROP_0,
+	PROP_ID,
+	PROP_DISPLAY_NAME,
+	PROP_COMMAND,
+	PROP_VISIBLE,
+	PROP_SHELL_SCRIPT,
+	PROP_FOR_EACH_FILE,
+	PROP_WAIT_COMMAND,
+	PROP_ACCELERATOR
 };
 
 

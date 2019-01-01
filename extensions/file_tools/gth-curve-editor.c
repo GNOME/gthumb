@@ -32,10 +32,10 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_HISTOGRAM,
-        PROP_CURRENT_CHANNEL,
-        PROP_SCALE_TYPE
+	PROP_0,
+	PROP_HISTOGRAM,
+	PROP_CURRENT_CHANNEL,
+	PROP_SCALE_TYPE
 };
 
 enum {
@@ -46,8 +46,8 @@ enum {
 
 /* Signals */
 enum {
-        CHANGED,
-        LAST_SIGNAL
+	CHANGED,
+	LAST_SIGNAL
 };
 
 

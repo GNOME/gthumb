@@ -24,9 +24,9 @@
 
 
 enum {
-        SHOW_OPTIONS,
-        HIDE_OPTIONS,
-        LAST_SIGNAL
+	SHOW_OPTIONS,
+	HIDE_OPTIONS,
+	LAST_SIGNAL
 };
 
 

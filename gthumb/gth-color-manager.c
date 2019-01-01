@@ -65,8 +65,8 @@ transform_data_free (TransformData *data)
 
 /* Signals */
 enum {
-        CHANGED,
-        LAST_SIGNAL
+	CHANGED,
+	LAST_SIGNAL
 };
 
 

@@ -33,7 +33,7 @@ G_DEFINE_TYPE_WITH_CODE (FlickrPhotoset,
 			 flickr_photoset,
 			 G_TYPE_OBJECT,
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					        flickr_photoset_dom_domizable_interface_init))
+						flickr_photoset_dom_domizable_interface_init))
 
 
 static void

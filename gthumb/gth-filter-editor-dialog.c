@@ -42,11 +42,11 @@ enum {
 struct _GthFilterEditorDialogPrivate {
 	GtkBuilder *builder;
 	GtkWidget  *match_type_combobox;
-  	GtkWidget  *limit_object_combobox;
-  	GtkWidget  *selection_combobox;
-  	GtkWidget  *selection_order_combobox;
-  	char       *filter_id;
-  	gboolean    filter_visible;
+	GtkWidget  *limit_object_combobox;
+	GtkWidget  *selection_combobox;
+	GtkWidget  *selection_order_combobox;
+	char       *filter_id;
+	gboolean    filter_visible;
 };
 
 

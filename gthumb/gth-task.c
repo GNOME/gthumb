@@ -28,8 +28,8 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_DESCRIPTION
+	PROP_0,
+	PROP_DESCRIPTION
 };
 
 

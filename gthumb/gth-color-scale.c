@@ -31,8 +31,8 @@
 
 
 enum {
-        PROP_0,
-        PROP_SCALE_TYPE
+	PROP_0,
+	PROP_SCALE_TYPE
 };
 
 

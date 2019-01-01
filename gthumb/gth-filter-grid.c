@@ -39,15 +39,15 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_COLUMNS
+	PROP_0,
+	PROP_COLUMNS
 };
 
 
 /* Signals */
 enum {
-        ACTIVATED,
-        LAST_SIGNAL
+	ACTIVATED,
+	LAST_SIGNAL
 };
 
 

@@ -52,11 +52,10 @@ enum {
 	N_COLUMNS
 };
 
-
 enum {
-        PROP_0,
-        PROP_SHOW_ENTRY_POINTS,
-        PROP_RELIEF
+	PROP_0,
+	PROP_SHOW_ENTRY_POINTS,
+	PROP_RELIEF
 };
 
 enum {

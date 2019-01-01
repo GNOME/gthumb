@@ -48,9 +48,9 @@ enum {
 };
 
 enum {
-        ADD_TEMPLATE,
-        REMOVE_TEMPLATE,
-        LAST_SIGNAL
+	ADD_TEMPLATE,
+	REMOVE_TEMPLATE,
+	LAST_SIGNAL
 };
 
 

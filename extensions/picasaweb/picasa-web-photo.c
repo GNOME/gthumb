@@ -33,7 +33,7 @@ G_DEFINE_TYPE_WITH_CODE (PicasaWebPhoto,
 			 picasa_web_photo,
 			 G_TYPE_OBJECT,
 			 G_IMPLEMENT_INTERFACE (DOM_TYPE_DOMIZABLE,
-					        picasa_web_photo_dom_domizable_interface_init))
+						picasa_web_photo_dom_domizable_interface_init))
 
 
 static void

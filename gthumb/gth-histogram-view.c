@@ -35,11 +35,11 @@
 
 /* Properties */
 enum {
-        PROP_0,
-        PROP_HISTOGRAM,
-        PROP_CURRENT_CHANNEL,
-        PROP_DISPLAY_MODE,
-        PROP_SCALE_TYPE
+	PROP_0,
+	PROP_HISTOGRAM,
+	PROP_CURRENT_CHANNEL,
+	PROP_DISPLAY_MODE,
+	PROP_SCALE_TYPE
 };
 
 enum {

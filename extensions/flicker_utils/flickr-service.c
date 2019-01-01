@@ -35,8 +35,8 @@
 
 
 enum {
-        PROP_0,
-        PROP_SERVER
+	PROP_0,
+	PROP_SERVER
 };
 
 
@@ -48,8 +48,8 @@ typedef struct {
 	int                  max_height;
 	GList               *file_list;
 	GCancellable        *cancellable;
-        GAsyncReadyCallback  callback;
-        gpointer             user_data;
+	GAsyncReadyCallback  callback;
+	gpointer             user_data;
 	GList               *current;
 	goffset              total_size;
 	goffset              uploaded_size;
@@ -76,11 +76,11 @@ typedef struct {
 	FlickrPhotoset      *photoset;
 	GList               *photo_ids;
 	GCancellable        *cancellable;
-        GAsyncReadyCallback  callback;
-        gpointer             user_data;
-        int                  n_files;
-        GList               *current;
-        int                  n_current;
+	GAsyncReadyCallback  callback;
+	gpointer             user_data;
+	int                  n_files;
+	GList               *current;
+	int                  n_current;
 } AddPhotosData;
 
 

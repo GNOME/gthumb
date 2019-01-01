@@ -40,19 +40,19 @@ web_service_error_quark (void)
 {
 	static GQuark quark;
 
-        if (! quark)
-                quark = g_quark_from_static_string ("web-service-error");
+	if (! quark)
+		quark = g_quark_from_static_string ("web-service-error");
 
-        return quark;
+	return quark;
 }
 
 
 enum {
-        PROP_0,
-        PROP_SERVICE_NAME,
-        PROP_SERVICE_ADDRESS,
-        PROP_SERVICE_PROTOCOL,
-        PROP_ACCOUNT_TYPE,
+	PROP_0,
+	PROP_SERVICE_NAME,
+	PROP_SERVICE_ADDRESS,
+	PROP_SERVICE_PROTOCOL,
+	PROP_ACCOUNT_TYPE,
 	PROP_CANCELLABLE,
 	PROP_BROWSER,
 	PROP_DIALOG
