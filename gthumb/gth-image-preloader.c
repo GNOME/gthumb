@@ -68,6 +68,8 @@ typedef struct {
 	int			 requested_size;
 	GTask			*task;
 	GCancellable            *cancellable;
+	GCancellable            *extern_cancellable;
+	gulong                   cancellable_id;
 } LoadRequest;
 
 
@@ -199,6 +201,8 @@ load_request_new (GthImagePreloader *preloader)
 	request->requested_size = GTH_ORIGINAL_SIZE;
 	request->task = NULL;
 	request->cancellable = NULL;
+	request->extern_cancellable = NULL;
+	request->cancellable_id = 0;
 
 	return request;
 }
@@ -220,6 +224,9 @@ load_request_unref (LoadRequest *request)
 	if (--request->ref > 0)
 		return;
 
+	if (request->cancellable_id != 0)
+		g_signal_handler_disconnect (request->extern_cancellable, request->cancellable_id);
+	_g_object_unref (request->extern_cancellable);
 	_g_object_unref (request->cancellable);
 	_g_object_unref (request->task);
 	_g_object_list_unref (request->files);
@@ -799,6 +806,15 @@ check_file (GthFileData *file_data)
 }
 
 
+static void
+request_cancelled (GCancellable *cancellable,
+		   gpointer      user_data)
+{
+	LoadRequest *request = user_data;
+	g_cancellable_cancel (request->cancellable);
+}
+
+
 void
 gth_image_preloader_load (GthImagePreloader	 *self,
 			  GthFileData		 *requested,
@@ -836,8 +852,12 @@ gth_image_preloader_load (GthImagePreloader	 *self,
 	request->files = g_list_reverse (request->files);
 	request->requested_file = request->files;
 	request->current_file = request->files;
-	request->cancellable = (cancellable != NULL) ? g_object_ref (cancellable) : g_cancellable_new ();
+	request->cancellable = g_cancellable_new ();
 	request->task = g_task_new (G_OBJECT (self), request->cancellable, callback, user_data);
+	if (cancellable != NULL) {
+		request->extern_cancellable = g_object_ref (cancellable);
+		request->cancellable_id = g_cancellable_connect (cancellable, G_CALLBACK (request_cancelled), request, NULL);
+	}
 
 	if ((self->priv->last_request != NULL) && (self->priv->last_request != self->priv->current_request))
 		_gth_image_preloader_request_cancelled (self, self->priv->last_request);
