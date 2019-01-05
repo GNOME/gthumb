@@ -50,8 +50,7 @@ struct _GthTimeSelectorPrivate {
 	gboolean     use_time;
 	gboolean     optional_time;
 	gulong       day_selected_event;
-	GdkDevice   *grab_pointer;
-	GdkDevice   *grab_keyboard;
+	GdkDevice   *grab_device;
 };
 
 
@@ -79,8 +78,13 @@ gth_time_selector_finalize (GObject *object)
 
 
 static void
-_gth_time_selector_ungrab_devices (GthTimeSelector *self,
-				   guint32          time);
+_gth_time_selector_ungrab_devices (GthTimeSelector *self)
+{
+	if (self->priv->grab_device != NULL) {
+		gtk_device_grab_remove (self->priv->calendar_popup, self->priv->grab_device);
+		self->priv->grab_device = NULL;
+	}
+}
 
 
 static void
@@ -89,7 +93,7 @@ gth_time_selector_unmap (GtkWidget *widget)
 	GthTimeSelector *self;
 
 	self = GTH_TIME_SELECTOR (widget);
-	_gth_time_selector_ungrab_devices (self, GDK_CURRENT_TIME);
+	_gth_time_selector_ungrab_devices (self);
 
 	GTK_WIDGET_CLASS (gth_time_selector_parent_class)->unmap (widget);
 }
@@ -130,23 +134,6 @@ gth_time_selector_class_init (GthTimeSelectorClass *class)
 }
 
 
-static void
-_gth_time_selector_ungrab_devices (GthTimeSelector *self,
-				   guint32          time)
-{
-	if (self->priv->grab_pointer != NULL) {
-		gdk_device_ungrab (self->priv->grab_pointer, time);
-		gtk_device_grab_remove (self->priv->calendar_popup, self->priv->grab_pointer);
-		self->priv->grab_pointer = NULL;
-	}
-
-	if (self->priv->grab_keyboard != NULL) {
-		gdk_device_ungrab (self->priv->grab_keyboard, time);
-		self->priv->grab_keyboard = NULL;
-	}
-}
-
-
 static gboolean
 _gth_time_selector_grab_broken_event (GtkWidget          *widget,
 				      GdkEventGrabBroken *event,
@@ -155,7 +142,7 @@ _gth_time_selector_grab_broken_event (GtkWidget          *widget,
 	GthTimeSelector *self = user_data;
 
 	if (event->grab_window == NULL)
-		_gth_time_selector_ungrab_devices (self, GDK_CURRENT_TIME);
+		_gth_time_selector_ungrab_devices (self);
 
 	return TRUE;
 }
@@ -166,9 +153,18 @@ gth_time_selector_init (GthTimeSelector *self)
 {
 	self->priv = gth_time_selector_get_instance_private (self);
 	self->priv->date_time = gth_datetime_new ();
+	self->priv->date_entry = NULL;
+	self->priv->calendar_button = NULL;
+	self->priv->calendar = NULL;
+	self->priv->calendar_popup = NULL;
+	self->priv->use_time_checkbutton = NULL;
+	self->priv->time_combo_box = NULL;
+	self->priv->popup_box = NULL;
+	self->priv->now_button = NULL;
 	self->priv->use_time = TRUE;
-	self->priv->grab_pointer = NULL;
-	self->priv->grab_keyboard = NULL;
+	self->priv->optional_time = FALSE;
+	self->priv->day_selected_event = 0;
+	self->priv->grab_device = NULL;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_HORIZONTAL);
 
@@ -182,50 +178,10 @@ gth_time_selector_init (GthTimeSelector *self)
 static void
 hide_calendar_popup (GthTimeSelector *self)
 {
-	_gth_time_selector_ungrab_devices (self, GDK_CURRENT_TIME);
+	_gth_time_selector_ungrab_devices (self);
 
 	gtk_widget_hide (self->priv->calendar_popup);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->calendar_button), FALSE);
-}
-
-
-static gboolean
-_gth_time_selector_grab_devices (GdkWindow	*window,
-				 GdkDevice	*keyboard,
-				 GdkDevice	*pointer,
-				 GdkCursor	*cursor,
-				 guint32	 time)
-{
-	if (keyboard != NULL) {
-		if (gdk_device_grab (keyboard,
-				     window,
-				     GDK_OWNERSHIP_APPLICATION,
-				     TRUE,
-				     (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
-				     NULL,
-				     time) != GDK_GRAB_SUCCESS)
-		{
-			return FALSE;
-		}
-	}
-
-	if (pointer != NULL) {
-		if (gdk_device_grab (pointer,
-				     window,
-				     GDK_OWNERSHIP_APPLICATION,
-				     TRUE,
-				     GDK_ALL_EVENTS_MASK,
-				     cursor,
-				     time) != GDK_GRAB_SUCCESS)
-		{
-			if (keyboard != NULL)
-				gdk_device_ungrab (keyboard, time);
-
-			return FALSE;
-		}
-	}
-
-	return TRUE;
 }
 
 
@@ -238,9 +194,7 @@ show_calendar_popup (GthTimeSelector *self)
 	GtkAllocation          allocation;
 	int                    selector_height;
 	GdkRectangle           monitor;
-	GdkDevice             *device;
-	GdkDevice             *pointer;
-	GdkDevice             *keyboard;
+	GdkGrabStatus          grab_status;
 
 	gtk_widget_get_preferred_size (self->priv->popup_box, &popup_req, NULL);
 
@@ -265,40 +219,18 @@ show_calendar_popup (GthTimeSelector *self)
 	gtk_window_move (GTK_WINDOW (self->priv->calendar_popup), x, y);
 	gtk_widget_show (self->priv->calendar_popup);
 
-	device = gtk_get_current_event_device ();
-	if (device == NULL) {
-		GdkDeviceManager *device_manager;
-		GdkDisplay	 *display;
-		GList		 *devices;
-
-		display = gtk_widget_get_display (GTK_WIDGET (self));
-		device_manager = gdk_display_get_device_manager (display);
-		devices = gdk_device_manager_list_devices (device_manager, GDK_DEVICE_TYPE_MASTER);
-		device = devices->data;
-
-		g_list_free (devices);
-	}
-
-	if (gdk_device_get_source (device) == GDK_SOURCE_KEYBOARD) {
-		keyboard = device;
-		pointer = gdk_device_get_associated_device (device);
-	}
-	else {
-		pointer = device;
-		keyboard = gdk_device_get_associated_device (device);
-	}
-
-	gtk_widget_grab_focus (self->priv->calendar);
-
-	if (_gth_time_selector_grab_devices (gtk_widget_get_window (self->priv->calendar_popup),
-					     keyboard,
-					     pointer,
-					     NULL,
-					     GDK_CURRENT_TIME))
-	{
-		self->priv->grab_pointer = pointer;
-		self->priv->grab_keyboard = keyboard;
-		gtk_device_grab_add (self->priv->calendar_popup, self->priv->grab_pointer, TRUE);
+	self->priv->grab_device = gtk_get_current_event_device ();
+	grab_status = gdk_seat_grab (gdk_device_get_seat (self->priv->grab_device),
+				     gtk_widget_get_window (self->priv->calendar_popup),
+				     GDK_SEAT_CAPABILITY_KEYBOARD | GDK_SEAT_CAPABILITY_ALL_POINTING,
+				     TRUE,
+				     NULL,
+				     NULL,
+				     NULL,
+				     NULL);
+	if (grab_status == GDK_GRAB_SUCCESS) {
+		gtk_widget_grab_focus (self->priv->calendar);
+		gtk_device_grab_add (self->priv->calendar_popup, self->priv->grab_device, TRUE);
 	}
 }
 

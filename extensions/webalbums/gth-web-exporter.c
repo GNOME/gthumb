@@ -1779,9 +1779,7 @@ success_dialog_response_cb (GtkDialog *dialog,
 			    gpointer   user_data)
 {
 	GthWebExporter *self = user_data;
-	GdkScreen      *screen;
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
 	switch (response_id) {
@@ -1800,7 +1798,7 @@ success_dialog_response_cb (GtkDialog *dialog,
 				break;
 
 			url = g_file_get_uri (file);
-			if ((url != NULL) && ! gtk_show_uri (screen, url, 0, &error)) {
+			if ((url != NULL) && ! gtk_show_uri_on_window (GTK_WINDOW (self->priv->browser), url, GDK_CURRENT_TIME, &error)) {
 				gth_task_dialog (GTH_TASK (self), TRUE, NULL);
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (self->priv->browser), _("Could not show the destination"), error);
 				g_clear_error (&error);

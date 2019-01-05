@@ -188,10 +188,7 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 	}
 
 	if (action == GDK_ACTION_ASK) {
-		GdkDragAction actions =
-			_gtk_menu_ask_drag_drop_action (file_view,
-							gdk_drag_context_get_actions (context),
-							time);
+		GdkDragAction actions = _gtk_menu_ask_drag_drop_action (file_view, gdk_drag_context_get_actions (context));
 		gdk_drag_status (context, actions, time);
 		success = gdk_drag_context_get_selected_action (context) != 0;
 	}

@@ -319,15 +319,14 @@ gth_image_dragger_button_press (GthImageViewerTool *self,
 		GdkGrabStatus  retval;
 
 		cursor = gdk_cursor_new_from_name (gtk_widget_get_display (widget), "grabbing");
-		retval = gdk_device_grab (event->device,
-					  gtk_widget_get_window (widget),
-					  GDK_OWNERSHIP_WINDOW,
-					  FALSE,
-					  (GDK_POINTER_MOTION_MASK
-					   | GDK_POINTER_MOTION_HINT_MASK
-					   | GDK_BUTTON_RELEASE_MASK),
-					  cursor,
-					  event->time);
+		retval = gdk_seat_grab (gdk_device_get_seat (gdk_event_get_device ((GdkEvent *) event)),
+					gtk_widget_get_window (widget),
+					GDK_SEAT_CAPABILITY_ALL_POINTING,
+					TRUE,
+					cursor,
+					(GdkEvent *) event,
+					NULL,
+					NULL);
 
 		if (cursor != NULL)
 			g_object_unref (cursor);
@@ -359,7 +358,7 @@ gth_image_dragger_button_release (GthImageViewerTool *self,
 	viewer = dragger->priv->viewer;
 
 	if (viewer->dragging)
-		gdk_device_ungrab (event->device, event->time);
+		gdk_seat_ungrab (gdk_device_get_seat (event->device));
 
 	return TRUE;
 }

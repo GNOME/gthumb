@@ -384,13 +384,7 @@ tree_view_button_press_event_cb (GtkWidget      *widget,
 			return FALSE;
 
 		gtk_tree_selection_select_path (GTK_TREE_SELECTION (gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->tree_view))), path);
-		gtk_menu_popup (GTK_MENU (self->priv->popup_menu),
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				event->button,
-				event->time);
+		gtk_menu_popup_at_pointer (GTK_MENU (self->priv->popup_menu), (GdkEvent *) event);
 
 		gtk_tree_path_free (path);
 
@@ -406,15 +400,7 @@ tree_view_popup_menu_cb (GtkWidget *widget,
 			 gpointer   user_data)
 {
 	GthFileProperties *self = user_data;
-
-	gtk_menu_popup (GTK_MENU (self->priv->popup_menu),
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			0,
-			gtk_get_current_event_time ());
-
+	gtk_menu_popup_at_pointer (GTK_MENU (self->priv->popup_menu), NULL);
 	return TRUE;
 }
 

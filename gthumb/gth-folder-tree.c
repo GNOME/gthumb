@@ -1421,9 +1421,9 @@ emit_fake_motion_notify_event (GthFolderTree *folder_tree)
 	if (! gtk_widget_get_realized (widget))
 		return;
 
-	device = gdk_device_manager_get_client_pointer (
-		   gdk_display_get_device_manager (
-		     gtk_widget_get_display (GTK_WIDGET (folder_tree))));
+	device = _gtk_widget_get_client_pointer (widget);
+	if (device == NULL)
+		return;
 	window = gdk_window_get_device_position (gtk_widget_get_window (widget),
 						 device,
 						 &x,

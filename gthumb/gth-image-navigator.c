@@ -479,8 +479,6 @@ navigator_event_area_button_press_event_cb (GtkWidget      *widget,
 	nav_popup->y_root = event->y_root;
 	nav_popup->window_moved = FALSE;
 
-	gtk_window_set_wmclass (GTK_WINDOW (nav_popup->popup_win), "", "gthumb_navigator");
-
 	out_frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (out_frame), GTK_SHADOW_OUT);
 	gtk_container_add (GTK_CONTAINER (nav_popup->popup_win), out_frame);

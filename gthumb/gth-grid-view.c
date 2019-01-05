@@ -1284,7 +1284,6 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	cairo_surface_t       *image;
 	GtkStyleContext       *style_context;
 	cairo_rectangle_int_t  frame_rect;
-	gboolean               gtk320 = ((gtk_major_version >= 3) && (gtk_minor_version >= 20));
 
 	image = item->thumbnail;
 	if (image == NULL)
@@ -1295,47 +1294,46 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	cairo_save (cr);
 	style_context = gtk_widget_get_style_context (widget);
 	gtk_style_context_save (style_context);
-	if (gtk320) {
-		gtk_style_context_set_state (style_context, item_state);
-	}
-	else {
-		gtk_style_context_remove_class (style_context, GTK_STYLE_CLASS_VIEW);
-		gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_CELL);
-	}
+
+#if GTK_CHECK_VERSION(3, 20, 0)
+	gtk_style_context_set_state (style_context, item_state);
+#else
+	gtk_style_context_remove_class (style_context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_CELL);
+#endif
 
 	frame_rect = item->pixbuf_area;
 
 	if ((item->style == ITEM_STYLE_ICON)
             || ! (item->is_image || (item_state & GTK_STATE_FLAG_SELECTED) || (item_state == GTK_STATE_FLAG_NORMAL)))
 	{
-		GdkRGBA background_color;
-
 		/* use a gray rounded box for icons or when the original size
 		 * is smaller than the thumbnail size... */
 
-		if (gtk320) {
-			gtk_style_context_save (style_context);
-			gtk_style_context_add_class (style_context, "icon");
-			gtk_render_background (style_context,
-					       cr,
-					       item->thumbnail_area.x,
-					       item->thumbnail_area.y,
-					       item->thumbnail_area.width,
-					       item->thumbnail_area.height);
-			gtk_style_context_restore (style_context);
-		}
-		else {
-			gtk_style_context_get_background_color (style_context, item_state, &background_color);
-			gdk_cairo_set_source_rgba (cr, &background_color);
+#if GTK_CHECK_VERSION(3, 20, 0)
+		gtk_style_context_save (style_context);
+		gtk_style_context_add_class (style_context, "icon");
+		gtk_render_background (style_context,
+				       cr,
+				       item->thumbnail_area.x,
+				       item->thumbnail_area.y,
+				       item->thumbnail_area.width,
+				       item->thumbnail_area.height);
+		gtk_style_context_restore (style_context);
+#else
+		GdkRGBA background_color;
 
-			_cairo_draw_rounded_box (cr,
-						 item->thumbnail_area.x,
-						 item->thumbnail_area.y,
-						 item->thumbnail_area.width,
-						 item->thumbnail_area.height,
-						 4);
-			cairo_fill (cr);
-		}
+		gtk_style_context_get_background_color (style_context, item_state, &background_color);
+		gdk_cairo_set_source_rgba (cr, &background_color);
+
+		_cairo_draw_rounded_box (cr,
+					 item->thumbnail_area.x,
+					 item->thumbnail_area.y,
+					 item->thumbnail_area.width,
+					 item->thumbnail_area.height,
+					 4);
+		cairo_fill (cr);
+#endif
 	}
 
 	if (item->style == ITEM_STYLE_IMAGE) {
@@ -1456,32 +1454,31 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	}
 
 	if ((item_state & GTK_STATE_FLAG_SELECTED) || (item_state & GTK_STATE_FLAG_FOCUSED)) {
-		if (gtk320) {
-			gtk_style_context_save (style_context);
-			gtk_style_context_add_class (style_context, "icon-effect");
-			gtk_render_background (style_context,
-					       cr,
-					       frame_rect.x,
-					       frame_rect.y,
-					       frame_rect.width,
-					       frame_rect.height);
-			gtk_style_context_restore (style_context);
-		}
-		else {
-			GdkRGBA color;
-			gtk_style_context_get_background_color (style_context, item_state, &color);
-			cairo_set_source_rgba (cr, color.red, color.green, color.blue, 0.5);
-			cairo_rectangle (cr,
-					 frame_rect.x,
-					 frame_rect.y,
-					 frame_rect.width,
-					 frame_rect.height);
-			cairo_fill_preserve (cr);
+#if GTK_CHECK_VERSION(3, 20, 0)
+		gtk_style_context_save (style_context);
+		gtk_style_context_add_class (style_context, "icon-effect");
+		gtk_render_background (style_context,
+				       cr,
+				       frame_rect.x,
+				       frame_rect.y,
+				       frame_rect.width,
+				       frame_rect.height);
+		gtk_style_context_restore (style_context);
+#else
+		GdkRGBA color;
+		gtk_style_context_get_background_color (style_context, item_state, &color);
+		cairo_set_source_rgba (cr, color.red, color.green, color.blue, 0.5);
+		cairo_rectangle (cr,
+				 frame_rect.x,
+				 frame_rect.y,
+				 frame_rect.width,
+				 frame_rect.height);
+		cairo_fill_preserve (cr);
 
-			cairo_set_line_width (cr, 2);
-			cairo_set_source_rgb (cr, color.red, color.green, color.blue);
-			cairo_stroke (cr);
-		}
+		cairo_set_line_width (cr, 2);
+		cairo_set_source_rgb (cr, color.red, color.green, color.blue);
+		cairo_stroke (cr);
+#endif
 	}
 
 	gtk_style_context_restore (style_context);
@@ -1593,77 +1590,76 @@ _gth_grid_view_draw_item (GthGridView     *self,
 		item_state ^= GTK_STATE_FLAG_ACTIVE;
 
 	if (item_state ^ GTK_STATE_FLAG_NORMAL) {
-		gboolean         gtk320 = ((gtk_major_version >= 3) && (gtk_minor_version >= 20));
 		GtkStyleContext *style_context;
-		GdkRGBA          color;
 
 		cairo_save (cr);
 		style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
 		gtk_style_context_save (style_context);
 
-		if (gtk320) {
-			gtk_style_context_set_state (style_context, item_state);
+#if GTK_CHECK_VERSION(3, 20, 0)
+		gtk_style_context_set_state (style_context, item_state);
 
-			if (item->style != ITEM_STYLE_ICON) {
-				cairo_region_t		 *area;
-				cairo_rectangle_int_t	  extents;
+		if (item->style != ITEM_STYLE_ICON) {
+			cairo_region_t		 *area;
+			cairo_rectangle_int_t	  extents;
 
-				area = cairo_region_create_rectangle (&item->thumbnail_area);
-				cairo_region_union_rectangle (area, &item->caption_area);
-				cairo_region_get_extents (area, &extents);
+			area = cairo_region_create_rectangle (&item->thumbnail_area);
+			cairo_region_union_rectangle (area, &item->caption_area);
+			cairo_region_get_extents (area, &extents);
 
-				gtk_render_background (style_context,
-						       cr,
-						       extents.x - self->priv->cell_padding,
-						       extents.y - self->priv->cell_padding,
-						       extents.width + (self->priv->cell_padding * 2),
-						       extents.height + (self->priv->cell_padding * 2));
+			gtk_render_background (style_context,
+					       cr,
+					       extents.x - self->priv->cell_padding,
+					       extents.y - self->priv->cell_padding,
+					       extents.width + (self->priv->cell_padding * 2),
+					       extents.height + (self->priv->cell_padding * 2));
 
-				cairo_region_destroy (area);
-			}
-			else
-				gtk_render_background (style_context,
-						       cr,
-						       item->area.x,
-						       item->area.y,
-						       item->area.width,
-						       item->area.height);
+			cairo_region_destroy (area);
 		}
-		else {
-			gtk_style_context_remove_class (style_context, GTK_STYLE_CLASS_VIEW);
-			gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_CELL);
-			gtk_style_context_set_state (style_context, item_state);
-			gtk_style_context_get_background_color (style_context, item_state, &color);
-			_gdk_rgba_lighter (&color, &color);
-			cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
+		else
+			gtk_render_background (style_context,
+					       cr,
+					       item->area.x,
+					       item->area.y,
+					       item->area.width,
+					       item->area.height);
+#else
+		GdkRGBA color;
 
-			if (item->style != ITEM_STYLE_ICON) {
-				cairo_region_t		 *area;
-				cairo_rectangle_int_t	  extents;
+		gtk_style_context_remove_class (style_context, GTK_STYLE_CLASS_VIEW);
+		gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_CELL);
+		gtk_style_context_set_state (style_context, item_state);
+		gtk_style_context_get_background_color (style_context, item_state, &color);
+		_gdk_rgba_lighter (&color, &color);
+		cairo_set_source_rgba (cr, color.red, color.green, color.blue, color.alpha);
 
-				area = cairo_region_create_rectangle (&item->thumbnail_area);
-				cairo_region_union_rectangle (area, &item->caption_area);
-				cairo_region_get_extents (area, &extents);
+		if (item->style != ITEM_STYLE_ICON) {
+			cairo_region_t		 *area;
+			cairo_rectangle_int_t	  extents;
 
-				_cairo_draw_rounded_box (cr,
-							 extents.x - self->priv->cell_padding,
-							 extents.y - self->priv->cell_padding,
-							 extents.width + (self->priv->cell_padding * 2),
-							 extents.height + (self->priv->cell_padding * 2),
-							 4);
+			area = cairo_region_create_rectangle (&item->thumbnail_area);
+			cairo_region_union_rectangle (area, &item->caption_area);
+			cairo_region_get_extents (area, &extents);
 
-				cairo_region_destroy (area);
-			}
-			else
-				_cairo_draw_rounded_box (cr,
-							 item->area.x,
-							 item->area.y,
-							 item->area.width,
-							 item->area.height,
-							 4);
+			_cairo_draw_rounded_box (cr,
+						 extents.x - self->priv->cell_padding,
+						 extents.y - self->priv->cell_padding,
+						 extents.width + (self->priv->cell_padding * 2),
+						 extents.height + (self->priv->cell_padding * 2),
+						 4);
 
-			cairo_fill (cr);
+			cairo_region_destroy (area);
 		}
+		else
+			_cairo_draw_rounded_box (cr,
+						 item->area.x,
+						 item->area.y,
+						 item->area.width,
+						 item->area.height,
+						 4);
+
+		cairo_fill (cr);
+#endif
 
 		gtk_style_context_restore (style_context);
 		cairo_restore (cr);

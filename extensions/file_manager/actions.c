@@ -783,10 +783,10 @@ gth_browser_activate_folder_context_open_in_file_manager (GSimpleAction *action,
 		return;
 
 	uri = g_file_get_uri (file_data->file);
-	if (! gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (browser)),
-			    uri,
-                            gtk_get_current_event_time (),
-                            &error))
+	if (! gtk_show_uri_on_window (GTK_WINDOW (browser),
+				      uri,
+				      GDK_CURRENT_TIME,
+				      &error))
 	{
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), _("Could not open the location"), error);
 		g_clear_error (&error);

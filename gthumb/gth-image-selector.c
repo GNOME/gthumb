@@ -1480,18 +1480,17 @@ gth_image_selector_motion_notify (GthImageViewerTool *base,
 		|| (abs (self->priv->viewer->drag_y - self->priv->viewer->drag_y_prev) > DRAG_THRESHOLD))
 	    && (self->priv->current_area != NULL))
 	{
-		GdkGrabStatus retval;
+		GdkGrabStatus status;
 
-		retval = gdk_device_grab (event->device,
-					  gtk_widget_get_window (widget),
-					  GDK_OWNERSHIP_WINDOW,
-					  FALSE,
-					  (GDK_POINTER_MOTION_MASK
-					   | GDK_POINTER_MOTION_HINT_MASK
-					   | GDK_BUTTON_RELEASE_MASK),
-					  self->priv->current_area->cursor,
-					  event->time);
-		if (retval == GDK_GRAB_SUCCESS)
+		status = gdk_seat_grab (gdk_device_get_seat (gdk_event_get_device ((GdkEvent *) event)),
+					gtk_widget_get_window (widget),
+					GDK_SEAT_CAPABILITY_ALL_POINTING,
+					TRUE,
+					self->priv->current_area->cursor,
+					(GdkEvent *) event,
+					NULL,
+					NULL);
+		if (status == GDK_GRAB_SUCCESS)
 			self->priv->viewer->dragging = TRUE;
 
 		return FALSE;

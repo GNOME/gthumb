@@ -126,17 +126,17 @@ update_theme_from_controls (GthContactSheetThemeDialog *self)
 
 	/* header */
 
-	self->priv->theme->header_font_name = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("header_fontpicker"))));
+	self->priv->theme->header_font_name = g_strdup (gtk_font_chooser_get_font (GTK_FONT_CHOOSER (GET_WIDGET ("header_fontpicker"))));
 	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("header_colorpicker")), &self->priv->theme->header_color);
 
 	/* footer */
 
-	self->priv->theme->footer_font_name = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("footer_fontpicker"))));
+	self->priv->theme->footer_font_name = g_strdup (gtk_font_chooser_get_font (GTK_FONT_CHOOSER (GET_WIDGET ("footer_fontpicker"))));
 	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("footer_colorpicker")), &self->priv->theme->footer_color);
 
 	/* caption */
 
-	self->priv->theme->caption_font_name = g_strdup (gtk_font_button_get_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontpicker"))));
+	self->priv->theme->caption_font_name = g_strdup (gtk_font_chooser_get_font (GTK_FONT_CHOOSER (GET_WIDGET ("caption_fontpicker"))));
 	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("caption_colorpicker")), &self->priv->theme->caption_color);
 }
 
@@ -376,13 +376,13 @@ update_controls_from_theme (GthContactSheetThemeDialog *self,
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("frame_style_combobox")), theme->frame_style);
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("frame_colorpicker")), &theme->frame_color);
 
-	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("header_fontpicker")), theme->header_font_name);
+	gtk_font_chooser_set_font (GTK_FONT_CHOOSER (GET_WIDGET ("header_fontpicker")), theme->header_font_name);
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("header_colorpicker")), &theme->header_color);
 
-	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("footer_fontpicker")), theme->footer_font_name);
+	gtk_font_chooser_set_font (GTK_FONT_CHOOSER (GET_WIDGET ("footer_fontpicker")), theme->footer_font_name);
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("footer_colorpicker")), &theme->footer_color);
 
-	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontpicker")), theme->caption_font_name);
+	gtk_font_chooser_set_font (GTK_FONT_CHOOSER (GET_WIDGET ("caption_fontpicker")), theme->caption_font_name);
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("caption_colorpicker")), &theme->caption_color);
 
 	update_preview (self);

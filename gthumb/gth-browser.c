@@ -2483,7 +2483,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 		GtkWidget *file_properties_parent;
 
 		file_properties_parent = _gth_browser_get_browser_file_properties_container (browser);
-		gtk_widget_reparent (browser->priv->file_properties, file_properties_parent);
+		_gtk_widget_reparent (browser->priv->file_properties, file_properties_parent);
 		/* restore the child properties that gtk_widget_reparent doesn't preserve. */
 		gtk_container_child_set (GTK_CONTAINER (file_properties_parent),
 					 browser->priv->file_properties,
@@ -2492,7 +2492,7 @@ _gth_browser_real_set_current_page (GthWindow *window,
 					 NULL);
 	}
 	else
-		gtk_widget_reparent (browser->priv->file_properties, browser->priv->viewer_sidebar_container);
+		_gtk_widget_reparent (browser->priv->file_properties, browser->priv->viewer_sidebar_container);
 
 	/* update the sidebar state depending on the current visible page */
 
@@ -2838,10 +2838,7 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	}
 
 	if (success && (suggested_action == GDK_ACTION_ASK)) {
-		GdkDragAction action =
-			_gtk_menu_ask_drag_drop_action (tree_view,
-							gdk_drag_context_get_actions (context),
-							time);
+		GdkDragAction action = _gtk_menu_ask_drag_drop_action (tree_view, gdk_drag_context_get_actions (context));
 		gdk_drag_status (context, action, time);
 		success = gdk_drag_context_get_selected_action (context) != 0;
 	}
@@ -2960,13 +2957,7 @@ folder_tree_folder_popup_cb (GthFolderTree *folder_tree,
 		file_source = NULL;
 	gth_hook_invoke ("gth-browser-folder-tree-popup-before", browser, file_source, file_data);
 
-	gtk_menu_popup (GTK_MENU (browser->priv->folder_popup),
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			3,
-			(guint32) time);
+	gtk_menu_popup_at_pointer (GTK_MENU (browser->priv->folder_popup), NULL);
 
 	if (file_data != NULL) {
 		GtkTreePath *path;
@@ -3634,26 +3625,8 @@ static void
 gth_file_list_popup_menu (GthBrowser     *browser,
 			  GdkEventButton *event)
 {
-	int button, event_time;
-
 	gth_hook_invoke ("gth-browser-file-list-popup-before", browser);
-
-	if (event != NULL) {
-		button = event->button;
-		event_time = event->time;
-	}
-	else {
-		button = 0;
-		event_time = gtk_get_current_event_time ();
-	}
-
-	gtk_menu_popup (GTK_MENU (browser->priv->file_list_popup),
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			button,
-			event_time);
+	gtk_menu_popup_at_pointer (GTK_MENU (browser->priv->file_list_popup), (GdkEvent *) event);
 }
 
 
@@ -3941,7 +3914,7 @@ pref_browser_properties_on_the_right_changed (GSettings  *settings,
 		return;
 
 	gtk_widget_unrealize (browser->priv->file_properties);
-	gtk_widget_reparent (browser->priv->file_properties, new_parent);
+	_gtk_widget_reparent (browser->priv->file_properties, new_parent);
 	/* restore the child properties that gtk_widget_reparent doesn't preserve. */
 	gtk_container_child_set (GTK_CONTAINER (new_parent),
 				 browser->priv->file_properties,
@@ -4366,18 +4339,17 @@ gth_browser_init (GthBrowser *browser)
 	window_height = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_WINDOW_HEIGHT);
 
 	if ((window_width == 0) || (window_height == 0)) {
-		GdkScreen *screen;
-		int        max_width;
-		int        max_height;
-		int        sidebar_width;
-		int        thumb_size;
-		int        thumb_spacing;
-		int        default_columns_of_thumbnails;
-		int        n_cols;
+		int max_width;
+		int max_height;
+		int sidebar_width;
+		int thumb_size;
+		int thumb_spacing;
+		int default_columns_of_thumbnails;
+		int n_cols;
 
-		screen = gtk_widget_get_screen (GTK_WIDGET (browser));
-		max_width = gdk_screen_get_width (screen) * 5 / 6;
-		max_height = gdk_screen_get_height (screen) * 3 / 4;
+		_gtk_widget_get_screen_size (GTK_WIDGET (browser), &max_width, &max_height);
+		max_width = max_width * 5 / 6;
+		max_height = max_height * 3 / 4;
 
 		sidebar_width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH) + 10;
 		thumb_size = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE);
@@ -6917,26 +6889,8 @@ void
 gth_browser_file_menu_popup (GthBrowser     *browser,
 			     GdkEventButton *event)
 {
-	int button;
-	int event_time;
-
-	if (event != NULL) {
-		button = event->button;
-		event_time = event->time;
-	}
-	else {
-		button = 0;
-		event_time = gtk_get_current_event_time ();
-	}
-
 	gth_hook_invoke ("gth-browser-file-popup-before", browser);
-	gtk_menu_popup (GTK_MENU (browser->priv->file_popup),
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			button,
-			event_time);
+	gtk_menu_popup_at_pointer (GTK_MENU (browser->priv->file_popup), (GdkEvent *) event);
 }
 
 

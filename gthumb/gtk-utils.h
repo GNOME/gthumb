@@ -108,7 +108,7 @@ void            _gtk_combo_box_append_texts                (GtkComboBoxText  *co
 					    	    	    const char       *first_text,
 					    	    	    ...);
 GtkWidget *     _gtk_image_new_from_xpm_data               (char             *xpm_data[]);
-void            _gtk_widget_get_screen_size                (GtkWidget        *widget,
+gboolean        _gtk_widget_get_screen_size                (GtkWidget        *widget,
 					    	    	    int              *width,
 					    	    	    int              *height);
 int             _gtk_widget_get_allocated_width            (GtkWidget        *widget);
@@ -130,8 +130,7 @@ void            _gtk_window_resize_to_fit_screen_height    (GtkWidget        *wi
 					    	    	    int               default_width);
 void            _gtk_info_bar_clear_action_area            (GtkInfoBar       *info_bar);
 GdkDragAction   _gtk_menu_ask_drag_drop_action             (GtkWidget        *widget,
-					      	      	    GdkDragAction     actions,
-					      	      	    guint32           activate_time);
+					      	      	    GdkDragAction     actions);
 gboolean        _gdk_rgba_darker                           (GdkRGBA          *color,
 		 					    GdkRGBA          *result);
 gboolean        _gdk_rgba_lighter                          (GdkRGBA          *color,
@@ -158,13 +157,15 @@ gboolean        _gtk_window_get_monitor_info               (GtkWindow		*window,
 							    GdkRectangle        *geometry,
 							    int                 *number,
 							    char               **name);
-void            _gtk_widget_get_monitor_geometry           (GtkWidget           *widget,
+gboolean        _gtk_widget_get_monitor_geometry           (GtkWidget           *widget,
 							    GdkRectangle        *geometry);
 GdkDevice *     _gtk_widget_get_client_pointer		   (GtkWidget		*widget);
 void            _gtk_list_box_add_separator		   (GtkListBox		*list_box);
 gboolean        _gtk_settings_get_dialogs_use_header       (void);
 GdkCursor *     _gdk_cursor_new_for_widget                 (GtkWidget           *widget,
 							    GdkCursorType        cursor_type);
+void		_gtk_widget_reparent			   (GtkWidget		*widget,
+							    GtkWidget		*new_parent);
 
 G_END_DECLS
 

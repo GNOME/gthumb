@@ -329,7 +329,7 @@ show_help_dialog (GtkWindow  *parent,
 	GError *error = NULL;
 
 	uri = g_strconcat ("help:gthumb", section ? "/" : NULL, section, NULL);
-	if (! gtk_show_uri (gtk_window_get_screen (parent), uri, GDK_CURRENT_TIME, &error)) {
+	if (! gtk_show_uri_on_window (parent, uri, GDK_CURRENT_TIME, &error)) {
   		GtkWidget *dialog;
 
 		dialog = _gtk_message_dialog_new (parent,
@@ -532,21 +532,26 @@ _gtk_image_new_from_xpm_data (char * xpm_data[])
 }
 
 
-void
+gboolean
 _gtk_widget_get_screen_size (GtkWidget *widget,
 			     int       *width,
 			     int       *height)
 {
-	GdkScreen             *screen;
-	cairo_rectangle_int_t  geometry;
+	GdkRectangle geometry;
+	gboolean     success;
 
-	screen = gtk_widget_get_screen (widget);
-	gdk_screen_get_monitor_geometry (screen,
-					 gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (widget)),
-					 &geometry);
+	if (_gtk_widget_get_monitor_geometry (widget, &geometry)) {
+		if (width != NULL) *width = geometry.width;
+		if (height != NULL) *height = geometry.height;
+		success = TRUE;
+	}
+	else {
+		if (width != NULL) *width = 0;
+		if (height != NULL) *height = 0;
+		success = FALSE;
+	}
 
-	*width = geometry.width;
-	*height = geometry.height;
+	return success;
 }
 
 
@@ -673,10 +678,10 @@ void
 _gtk_window_resize_to_fit_screen_height (GtkWidget *window,
 					 int        default_width)
 {
-	GdkScreen *screen;
+	int screen_height;
 
-	screen = gtk_widget_get_screen (window);
-	if ((screen != NULL) && (gdk_screen_get_height (screen) < 768))
+	_gtk_widget_get_screen_size (window, NULL, &screen_height);
+	if (screen_height < 768)
 		/* maximize on netbooks */
 		gtk_window_maximize (GTK_WINDOW (window));
 	else
@@ -749,8 +754,7 @@ _gtk_menu_ask_drag_drop_action_append_item (GtkWidget      *menu,
 
 GdkDragAction
 _gtk_menu_ask_drag_drop_action (GtkWidget     *widget,
-				GdkDragAction  actions,
-				guint32        activate_time)
+				GdkDragAction  actions)
 {
 	DropActionData  drop_data;
 	GtkWidget      *menu;
@@ -787,17 +791,11 @@ _gtk_menu_ask_drag_drop_action (GtkWidget     *widget,
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	g_signal_connect (menu,
-        		  "deactivate",
-                          G_CALLBACK (ask_drag_drop_action_menu_deactivate_cb),
-                          &drop_data);
+			  "deactivate",
+			  G_CALLBACK (ask_drag_drop_action_menu_deactivate_cb),
+			  &drop_data);
 
-	gtk_menu_popup (GTK_MENU (menu),
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			0,
-			activate_time);
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
 	gtk_grab_add (menu);
 	g_main_loop_run (drop_data.loop);
 
@@ -1221,42 +1219,39 @@ _gtk_window_get_monitor_info (GtkWindow	    *window,
 }
 
 
-void
+gboolean
 _gtk_widget_get_monitor_geometry (GtkWidget    *widget,
 				  GdkRectangle *geometry)
 {
-	GdkScreen             *screen;
-	int                    monitor_num;
-	cairo_rectangle_int_t  monitor;
+	gboolean   result = FALSE;
+	GtkWidget *window;
 
-	screen = gtk_widget_get_screen (widget);
-	monitor_num = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (widget));
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
-	if (geometry != NULL) {
-		geometry->x = monitor.x;
-		geometry->y = monitor.y;
-		geometry->width = monitor.width;
-		geometry->height = monitor.height;
+	window = gtk_widget_get_toplevel (widget);
+	if (GTK_IS_WINDOW (window)) {
+		if (_gtk_window_get_monitor_info (GTK_WINDOW (window), geometry, NULL, NULL)) {
+			result = TRUE;
+		}
 	}
+
+	return result;
 }
 
 
 GdkDevice *
 _gtk_widget_get_client_pointer (GtkWidget *widget)
 {
-	GdkDisplay       *display;
-	GdkDeviceManager *device_manager;
+	GdkDisplay *display;
+	GdkSeat    *seat;;
 
 	display = gtk_widget_get_display (widget);
 	if (display == NULL)
 		return NULL;
 
-	device_manager = gdk_display_get_device_manager (display);
-	if (device_manager == NULL)
+	seat = gdk_display_get_default_seat (display);
+	if (seat == NULL)
 		return NULL;
 
-	return gdk_device_manager_get_client_pointer (device_manager);
+	return gdk_seat_get_pointer (seat);
 }
 
 
@@ -1298,3 +1293,15 @@ _gdk_cursor_new_for_widget (GtkWidget     *widget,
 {
 	return gdk_cursor_new_for_display (gtk_widget_get_display (widget), cursor_type);
 }
+
+
+void
+_gtk_widget_reparent (GtkWidget *widget,
+		      GtkWidget *new_parent)
+{
+	g_object_ref (widget);
+	gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (widget)), widget);
+	gtk_container_add (GTK_CONTAINER (new_parent), widget);
+	g_object_unref (widget);
+}
+

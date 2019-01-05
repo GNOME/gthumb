@@ -62,8 +62,7 @@ struct _GthImageOverviewPrivate {
 	gulong			 hadj_changed_id;
 	gboolean                 scrolling_active;
 	gboolean		 update_preview;
-	GdkDevice		*grab_pointer;
-	GdkDevice		*grab_keyboard;
+	GdkDevice		*grab_device;
 	GthTask                 *scale_task;
 };
 
@@ -519,8 +518,7 @@ gth_image_overview_realize (GtkWidget *widget)
 
 
 static void
-_gth_image_overview_ungrab_devices (GthImageOverview *self,
-				    guint32           time);
+_gth_image_overview_ungrab_devices (GthImageOverview *self);
 
 
 static void
@@ -529,7 +527,7 @@ gth_image_overview_unmap (GtkWidget *widget)
 	GthImageOverview *self;
 
 	self = GTH_IMAGE_OVERVIEW (widget);
-	_gth_image_overview_ungrab_devices (self, GDK_CURRENT_TIME);
+	_gth_image_overview_ungrab_devices (self);
 
 	GTK_WIDGET_CLASS (gth_image_overview_parent_class)->unmap (widget);
 }
@@ -801,7 +799,7 @@ _gth_image_overview_grab_broken_event (GtkWidget          *widget,
 	GthImageOverview *self = user_data;
 
 	if (event->grab_window == NULL)
-		_gth_image_overview_ungrab_devices (self, GDK_CURRENT_TIME);
+		_gth_image_overview_ungrab_devices (self);
 
 	return TRUE;
 }
@@ -827,8 +825,7 @@ gth_image_overview_init (GthImageOverview *self)
 	self->priv->hadj_changed_id = 0;
 	self->priv->scrolling_active = FALSE;
 	self->priv->update_preview = TRUE;
-	self->priv->grab_pointer = NULL;
-	self->priv->grab_keyboard = NULL;
+	self->priv->grab_device = NULL;
 	self->priv->scale_task = NULL;
 
 	gtk_widget_set_has_window (GTK_WIDGET (self), TRUE);
@@ -885,61 +882,14 @@ gth_image_overview_get_visible_area (GthImageOverview	*self,
 }
 
 
-static gboolean
-_gth_image_overview_grab_devices (GthImageOverview	*self,
-				  GdkDevice		*keyboard,
-				  GdkDevice		*pointer,
-				  GdkCursor		*cursor,
-				  guint32		 time)
-{
-	if (keyboard != NULL) {
-		if (gdk_device_grab (keyboard,
-				     gtk_widget_get_window (GTK_WIDGET (self)),
-				     GDK_OWNERSHIP_WINDOW,
-				     FALSE,
-				     (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
-				     NULL,
-				     time) != GDK_GRAB_SUCCESS)
-		{
-			return FALSE;
-		}
-	}
-
-	if (pointer != NULL) {
-		if (gdk_device_grab (pointer,
-				     gtk_widget_get_window (GTK_WIDGET (self)),
-				     GDK_OWNERSHIP_WINDOW,
-				     FALSE,
-				     (GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_SCROLL_MASK),
-				     cursor,
-				     time) != GDK_GRAB_SUCCESS)
-		{
-			if (keyboard != NULL)
-				gdk_device_ungrab (keyboard, time);
-
-			return FALSE;
-		}
-	}
-
-	return TRUE;
-}
-
-
 static void
-_gth_image_overview_ungrab_devices (GthImageOverview *self,
-				    guint32           time)
+_gth_image_overview_ungrab_devices (GthImageOverview *self)
 {
-	if (self->priv->grab_pointer != NULL) {
-		gdk_device_ungrab (self->priv->grab_pointer, time);
-		gtk_device_grab_remove (GTK_WIDGET (self), self->priv->grab_pointer);
-		self->priv->grab_pointer = NULL;
+	if (self->priv->grab_device != NULL) {
+		gdk_seat_ungrab (gdk_device_get_seat (self->priv->grab_device));
+		gtk_device_grab_remove (GTK_WIDGET (self), self->priv->grab_device);
+		self->priv->grab_device = NULL;
 	}
-	if (self->priv->grab_keyboard != NULL) {
-		gdk_device_ungrab (self->priv->grab_keyboard, time);
-		self->priv->grab_keyboard = NULL;
-	}
-
-	self->priv->scrolling_active = FALSE;
 }
 
 
@@ -954,43 +904,29 @@ gth_image_overview_activate_scrolling (GthImageOverview	*self,
 		return;
 
 	if (active && ! self->priv->scrolling_active) {
-		GdkDevice *device;
-		GdkDevice *pointer;
-		GdkDevice *keyboard;
-		GdkCursor *cursor;
+		GdkCursor     *cursor;
+		GdkGrabStatus  grab_status;
 
-		if ((self->priv->grab_pointer != NULL) || (self->priv->grab_keyboard != NULL))
-			return;
+		/* capture mouse and keyboard events */
 
-		/* capture mouse events */
-
-		device = gdk_event_get_device ((GdkEvent *) event);
-		if (gdk_device_get_source (device) == GDK_SOURCE_KEYBOARD) {
-			keyboard = device;
-			pointer = gdk_device_get_associated_device (device);
-		}
-		else {
-			pointer = device;
-			keyboard = gdk_device_get_associated_device (device);
-		}
-
+		self->priv->grab_device = gdk_event_get_device ((GdkEvent *) event);
 		cursor = _gdk_cursor_new_for_widget (GTK_WIDGET (self->priv->viewer), GDK_FLEUR);
 
-		if (_gth_image_overview_grab_devices (self,
-						      keyboard,
-						      pointer,
-						      cursor,
-						      event->time))
-		{
-			self->priv->grab_pointer = pointer;
-			self->priv->grab_keyboard = keyboard;
-			gtk_device_grab_add (GTK_WIDGET (self), self->priv->grab_pointer, TRUE);
-		}
+		grab_status = gdk_seat_grab (gdk_device_get_seat (self->priv->grab_device),
+					     gtk_widget_get_window (GTK_WIDGET (self)),
+					     GDK_SEAT_CAPABILITY_KEYBOARD | GDK_SEAT_CAPABILITY_ALL_POINTING,
+					     TRUE,
+					     cursor,
+					     (GdkEvent *) event,
+					     NULL,
+					     NULL);
+		if (grab_status == GDK_GRAB_SUCCESS)
+			gtk_device_grab_add (GTK_WIDGET (self), self->priv->grab_device, TRUE);
 
 		g_object_unref (cursor);
 	}
 	else if (! active && self->priv->scrolling_active)
-		_gth_image_overview_ungrab_devices (self, event->time);
+		_gth_image_overview_ungrab_devices (self);
 
 	self->priv->scrolling_active = active;
 }

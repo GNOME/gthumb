@@ -84,8 +84,7 @@ typedef struct  {
 typedef struct {
 	GtkWidget *window;
 	GtkWidget *container;
-	GdkDevice *grab_pointer;
-	GdkDevice *grab_keyboard;
+	GdkDevice *grab_device;
 } PopupWindow;
 
 
@@ -852,16 +851,8 @@ expanded_list_button_press_event_cb (GtkStatusIcon  *status_icon,
 {
 	GthTagsEntry *self = user_data;
 
-	if (event->button == 3) {
-		gtk_menu_popup (GTK_MENU (self->priv->expanded_list.popup_menu),
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				event->button,
-				event->time);
-		return FALSE;
-	}
+	if (event->button == 3)
+		gtk_menu_popup_at_pointer (GTK_MENU (self->priv->expanded_list.popup_menu), (GdkEvent *) event);
 
 	return FALSE;
 }
@@ -874,15 +865,9 @@ static void
 _gth_tags_entry_ungrab_devices (GthTagsEntry *self,
 				guint32       time)
 {
-	if (self->priv->popup.grab_pointer != NULL) {
-		gdk_device_ungrab (self->priv->popup.grab_pointer, time);
-		gtk_device_grab_remove (self->priv->popup.window, self->priv->popup.grab_pointer);
-		self->priv->popup.grab_pointer = NULL;
-	}
-
-	if (self->priv->popup.grab_keyboard != NULL) {
-		gdk_device_ungrab (self->priv->popup.grab_keyboard, time);
-		self->priv->popup.grab_keyboard = NULL;
+	if (self->priv->popup.grab_device != NULL) {
+		gtk_device_grab_remove (self->priv->popup.window, self->priv->popup.grab_device);
+		self->priv->popup.grab_device = NULL;
 	}
 }
 
@@ -960,46 +945,6 @@ popup_window_key_press_event_cb (GtkWidget   *widget,
 }
 
 
-static gboolean
-_gth_tags_entry_grab_devices (GdkWindow	*window,
-			      GdkDevice	*keyboard,
-			      GdkDevice	*pointer,
-			      GdkCursor	*cursor,
-			      guint32	 time)
-{
-	if (keyboard != NULL) {
-		if (gdk_device_grab (keyboard,
-				     window,
-				     GDK_OWNERSHIP_APPLICATION,
-				     TRUE,
-				     (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
-				     NULL,
-				     time) != GDK_GRAB_SUCCESS)
-		{
-			return FALSE;
-		}
-	}
-
-	if (pointer != NULL) {
-		if (gdk_device_grab (pointer,
-				     window,
-				     GDK_OWNERSHIP_APPLICATION,
-				     TRUE,
-				     GDK_ALL_EVENTS_MASK,
-				     cursor,
-				     time) != GDK_GRAB_SUCCESS)
-		{
-			if (keyboard != NULL)
-				gdk_device_ungrab (keyboard, time);
-
-			return FALSE;
-		}
-	}
-
-	return TRUE;
-}
-
-
 static void
 popup_window_show (GthTagsEntry *self)
 {
@@ -1009,9 +954,7 @@ popup_window_show (GthTagsEntry *self)
 	GtkAllocation          allocation;
 	int                    selector_height;
 	GdkRectangle           monitor;
-	GdkDevice             *device;
-	GdkDevice             *pointer;
-	GdkDevice             *keyboard;
+	GdkGrabStatus          grab_status;
 
 	gdk_window_get_position (gtk_widget_get_window (GTK_WIDGET (self)), &x, &y);
 	gtk_widget_get_allocation (self->priv->entry, &allocation);
@@ -1037,40 +980,18 @@ popup_window_show (GthTagsEntry *self)
 	gtk_window_move (GTK_WINDOW (self->priv->popup.window), x, y);
 	gtk_widget_show (self->priv->popup.window);
 
-	device = gtk_get_current_event_device ();
-	if (device == NULL) {
-		GdkDeviceManager *device_manager;
-		GdkDisplay	 *display;
-		GList		 *devices;
-
-		display = gtk_widget_get_display (GTK_WIDGET (self));
-		device_manager = gdk_display_get_device_manager (display);
-		devices = gdk_device_manager_list_devices (device_manager, GDK_DEVICE_TYPE_MASTER);
-		device = devices->data;
-
-		g_list_free (devices);
-	}
-
-	if (gdk_device_get_source (device) == GDK_SOURCE_KEYBOARD) {
-		keyboard = device;
-		pointer = gdk_device_get_associated_device (device);
-	}
-	else {
-		pointer = device;
-		keyboard = gdk_device_get_associated_device (device);
-	}
-
-	gtk_widget_grab_focus (self->priv->expanded_list.tree_view);
-
-	if (_gth_tags_entry_grab_devices (gtk_widget_get_window (self->priv->popup.window),
-					  keyboard,
-					  pointer,
-					  NULL,
-					  GDK_CURRENT_TIME))
-	{
-		self->priv->popup.grab_pointer = pointer;
-		self->priv->popup.grab_keyboard = keyboard;
-		gtk_device_grab_add (self->priv->popup.window, self->priv->popup.grab_pointer, TRUE);
+	self->priv->popup.grab_device = gtk_get_current_event_device ();
+	grab_status = gdk_seat_grab (gdk_device_get_seat (self->priv->popup.grab_device),
+				     gtk_widget_get_window (self->priv->popup.window),
+				     GDK_SEAT_CAPABILITY_KEYBOARD | GDK_SEAT_CAPABILITY_ALL_POINTING,
+				     TRUE,
+				     NULL,
+				     NULL,
+				     NULL,
+				     NULL);
+	if (grab_status == GDK_GRAB_SUCCESS) {
+		gtk_widget_grab_focus (self->priv->expanded_list.tree_view);
+		gtk_device_grab_add (self->priv->popup.window, self->priv->popup.grab_device, TRUE);
 	}
 }
 
@@ -1124,8 +1045,7 @@ gth_tags_entry_init (GthTagsEntry *self)
 	self->priv->expanded_list.last_used = g_new0 (char *, 1);
 	self->priv->expanded = FALSE;
 	self->priv->inconsistent = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-	self->priv->popup.grab_pointer = NULL;
-	self->priv->popup.grab_keyboard = NULL;
+	self->priv->popup.grab_device = NULL;
 
 	/* entry / expander button box */
 

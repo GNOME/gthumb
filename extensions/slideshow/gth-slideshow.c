@@ -195,7 +195,6 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 	GthFileData *prev_file;
 	int          screen_width;
 	int          screen_height;
-	GdkScreen   *screen;
 
 	if (self->priv->next_event != 0) {
 		g_source_remove (self->priv->next_event);
@@ -220,14 +219,7 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 	else
 		prev_file = NULL;
 
-	screen_width = -1;
-	screen_height = -1;
-	screen = gtk_widget_get_screen (GTK_WIDGET (self));
-	if (screen != NULL) {
-		screen_width = gdk_screen_get_width (screen);
-		screen_height = gdk_screen_get_height (screen);
-	}
-
+	_gtk_widget_get_screen_size (GTK_WIDGET (self), &screen_width, &screen_height);
 	gth_image_preloader_load (self->priv->preloader,
 				  requested_file,
 				  MAX (screen_width, screen_height),
@@ -717,19 +709,19 @@ default_projector_pause_painter (GthImageViewer *image_viewer,
 				 gpointer        user_data)
 {
 	GthSlideshow *self = user_data;
-	GdkScreen    *screen;
+	int           screen_width;
+	int           screen_height;
 	double        dest_x;
 	double        dest_y;
 
 	if (! self->priv->paused || ! self->priv->paint_paused || (self->priv->pause_pixbuf == NULL))
 		return;
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (image_viewer));
-	if (screen == NULL)
+	if (! _gtk_widget_get_screen_size (GTK_WIDGET (image_viewer), &screen_width, &screen_height))
 		return;
 
-	dest_x = (gdk_screen_get_width (screen) - gdk_pixbuf_get_width (self->priv->pause_pixbuf)) / 2.0;
-	dest_y = (gdk_screen_get_height (screen) - gdk_pixbuf_get_height (self->priv->pause_pixbuf)) / 2.0;
+	dest_x = (screen_width - gdk_pixbuf_get_width (self->priv->pause_pixbuf)) / 2.0;
+	dest_y = (screen_height - gdk_pixbuf_get_height (self->priv->pause_pixbuf)) / 2.0;
 	gdk_cairo_set_source_pixbuf (cr, self->priv->pause_pixbuf, dest_x, dest_y);
 	cairo_rectangle (cr, dest_x, dest_y, gdk_pixbuf_get_width (self->priv->pause_pixbuf), gdk_pixbuf_get_height (self->priv->pause_pixbuf));
 	cairo_fill (cr);

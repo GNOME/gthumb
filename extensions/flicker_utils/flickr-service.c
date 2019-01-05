@@ -508,13 +508,11 @@ old_authorization_dialog_response_cb (GtkDialog *dialog,
 	switch (response_id) {
 	case _RESPONSE_AUTHORIZE:
 		{
-			GdkScreen *screen;
-			char      *url;
-			GError    *error = NULL;
+			char   *url;
+			GError *error = NULL;
 
-			screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
 			url = flickr_service_old_auth_get_login_link (self, WEB_AUTHORIZATION_WRITE);
-			if (gtk_show_uri (screen, url, 0, &error))
+			if (gtk_show_uri_on_window (GTK_WINDOW (dialog), url, GDK_CURRENT_TIME, &error))
 				old_authorization_complete (self);
 			else
 				gth_task_completed (GTH_TASK (self), error);
