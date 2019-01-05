@@ -14,21 +14,22 @@
 # Stéphane Raimbault <stephane.raimbault@gmail.com>, 2007.
 # Laurent Coudeur <laurentc@iol.ie>, 2010.
 # Julien Hardelin <jhardlin@orange.fr>, 2016.
+# Charles Monzat <charles.monzat@numericable.fr>, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.14\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=gthumb&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-04-16 16:31+0000\n"
-"PO-Revision-Date: 2018-04-17 08:57+0200\n"
-"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
+"POT-Creation-Date: 2018-06-17 06:52+0000\n"
+"PO-Revision-Date: 2019-01-04 09:43+0100\n"
+"Last-Translator: Charles Monzat <charles.monzat@numericable.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"X-Generator: Gtranslator 3.30.0\n"
 
 #: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:1
 #: ../data/org.gnome.gThumb.desktop.in.in.h:3
@@ -46,7 +47,7 @@ msgid ""
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
 "gThumb est un visionneur d’images, un éditeur, un navigateur et un "
-"organiseur. Il est conçu pour s’intégrer parfaitemnt au bureau GNOME 3."
+"organiseur. Il est conçu pour s’intégrer parfaitement au bureau GNOME 3."
 
 #: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:4
 msgid ""
@@ -85,7 +86,7 @@ msgstr ""
 "fichiers et de dossiers. En outre, il possède toute une série d’outils "
 "spécifiques des images comme les transformations sans perte de JPEG, le "
 "redimensionnement des images, la conversion de format, les diaporamas, la "
-"définition d’une image comme arrière-plan de bureau, etc."
+"définition d’une image comme arrière-plan de bureau, etc."
 
 #: ../data/appdata/org.gnome.gThumb.appdata.xml.in.h:7
 msgid ""
@@ -106,7 +107,7 @@ msgstr "gThumb"
 
 #: ../data/org.gnome.gThumb.desktop.in.in.h:2
 msgid "Image Viewer"
-msgstr "Visionneur d’image"
+msgstr "Visionneur d’images"
 
 #: ../data/org.gnome.gThumb.desktop.in.in.h:5
 msgid "Image;Viewer;"
@@ -180,7 +181,7 @@ msgstr "_Simple clic pour ouvrir les fichiers"
 
 #: ../data/ui/browser-preferences.ui.h:4
 msgid "_Double click to open files"
-msgstr "_Double clic pour ouvrir les fichiers"
+msgstr "_Double-clic pour ouvrir les fichiers"
 
 #: ../data/ui/browser-preferences.ui.h:5
 msgid "_Open files in fullscreen mode"
@@ -274,7 +275,7 @@ msgstr "Écart-type :"
 
 #: ../data/ui/histogram-info.ui.h:4
 msgid "Median:"
-msgstr "Médiane :"
+msgstr "Médiane :"
 
 #. After the colon there is the total number of pixels
 #: ../data/ui/histogram-info.ui.h:6
@@ -418,7 +419,7 @@ msgstr "Demander si on veut enregistrer les fichiers _modifiés"
 
 #: ../data/ui/preferences.ui.h:18
 msgid "_Store metadata inside files if possible"
-msgstr "Enre_gistrer les méta-données à l’intérieur des fichiers si possible"
+msgstr "Enre_gistrer les métadonnées à l’intérieur des fichiers si possible"
 
 #: ../data/ui/preferences.ui.h:19
 #: ../extensions/catalogs/data/ui/catalog-properties.ui.h:1
@@ -865,7 +866,7 @@ msgstr "Catalogue"
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:1
 #: ../gthumb/gth-progress-dialog.c:157
 msgid "Cancel operation"
-msgstr "Annule l’opération"
+msgstr "Annule l’opération"
 
 #: ../extensions/catalogs/data/ui/organize-files-task.ui.h:2
 msgid "Organization:"
@@ -968,7 +969,7 @@ msgstr "Étiquette (incorporée)"
 #: ../extensions/edit_metadata/callbacks.c:85
 #: ../gthumb/gth-main-default-metadata.c:63
 msgid "Tags"
-msgstr "Étiquettes"
+msgstr "Étiquettes"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:953
 #, c-format
@@ -982,7 +983,7 @@ msgstr "La bibliothèque « %s » existe déjà, voulez-vous l’écraser ?"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:963
 msgid "Over_write"
-msgstr "Éc_raser"
+msgstr "Éc_raser"
 
 #: ../extensions/catalogs/gth-file-source-catalogs.c:1081
 msgid "Cannot move the files"
@@ -1107,7 +1108,7 @@ msgstr "Ajoute des commentaires et des étiquettes à tout type de fichier."
 
 #: ../extensions/comments/data/ui/comments-preferences.ui.h:1
 msgid "_Synchronize with the embedded metadata"
-msgstr "_Synchroniser avec les méta-données incorporées"
+msgstr "_Synchroniser avec les métadonnées incorporées"
 
 #: ../extensions/comments/dlg-comments-preferences.c:68
 #: ../extensions/gstreamer_tools/dlg-media-viewer-preferences.c:77
@@ -1562,7 +1563,7 @@ msgstr "T_itre :"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:121
 msgid "Could not save the file metadata"
-msgstr "Impossible d’enregistrer les méta-données du fichier"
+msgstr "Impossible d’enregistrer les métadonnées du fichier"
 
 #: ../extensions/edit_metadata/dlg-edit-metadata.c:227
 #: ../gthumb/gth-overwrite-dialog.c:137
@@ -1571,17 +1572,17 @@ msgstr "Impossible de lire les informations du fichier"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:1
 msgid "Edit metadata"
-msgstr "Modifier les méta-données"
+msgstr "Modifier les métadonnées"
 
 #: ../extensions/edit_metadata/edit_metadata.extension.in.in.h:2
 msgid "Allow to edit files metadata."
-msgstr "Permettre la modification des méta-données des fichiers."
+msgstr "Permettre la modification des métadonnées des fichiers."
 
 #. Translators: the %s symbol in the string is a file name
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:63
 #, c-format
 msgid "%s Metadata"
-msgstr "Méta-données %s"
+msgstr "Métadonnées %s"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:66
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:83
@@ -1599,7 +1600,7 @@ msgstr "Enregistrer et fer_mer"
 
 #: ../extensions/edit_metadata/gth-edit-comment-dialog.c:155
 msgid "Save only cha_nged fields"
-msgstr "E_nregistrer que les champs modifiés"
+msgstr "E_nregistrer uniquement les champs modifiés"
 
 #: ../extensions/edit_metadata/gth-edit-general-page.c:555
 msgid "No date"
@@ -1630,7 +1631,7 @@ msgstr "Ne pas modifier"
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:80
 #, c-format
 msgid "%s Tags"
-msgstr "Étiquettes de %s"
+msgstr "Étiquettes de %s"
 
 #: ../extensions/edit_metadata/gth-edit-tags-dialog.c:189
 msgid "Assign Tags"
@@ -1713,7 +1714,7 @@ msgstr "Prise en charge EXIF, IPTC, XMP"
 
 #: ../extensions/exiv2_tools/exiv2_tools.extension.in.in.h:2
 msgid "Read and write exif, iptc and xmp metadata."
-msgstr "Lire et écrire les méta-données exif, iptc et xmp."
+msgstr "Lire et écrire les métadonnées exif, iptc et xmp."
 
 #: ../extensions/exiv2_tools/exiv2-utils.cpp:42 ../gthumb/glib-utils.c:1115
 msgid "(invalid value)"
@@ -1819,7 +1820,7 @@ msgstr "_Compte :"
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:10
 msgid "Resize the images if larger than this size"
 msgstr ""
-"Redimensionne les images quand elles sont plus grandes que cette taille"
+"Redimensionne les images quand elles sont plus grandes que cette taille"
 
 #: ../extensions/facebook/data/ui/export-to-facebook.ui.h:11
 #: ../extensions/flicker_utils/data/ui/export-to-flickr.ui.h:16
@@ -2408,7 +2409,7 @@ msgstr "Bleu"
 #: ../extensions/file_tools/gth-file-tool-adjust-colors.c:553
 #: ../extensions/file_tools/gth-file-tool-curves.c:816
 #: ../extensions/file_tools/gth-file-tool-rotate.c:601
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:363
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:361
 #: ../gthumb/gth-test-aspect-ratio.c:234
 msgid "Reset"
 msgstr "Réinitialiser"
@@ -2507,13 +2508,13 @@ msgstr "Carré"
 #: ../extensions/file_tools/gth-file-tool-resize.c:582
 #, c-format
 msgid "%d × %d (Image)"
-msgstr "%d × %d (image)"
+msgstr "%d × %d (image)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:438
 #: ../extensions/file_tools/gth-file-tool-resize.c:586
 #, c-format
 msgid "%d × %d (Screen)"
-msgstr "%d × %d (écran)"
+msgstr "%d × %d (écran)"
 
 #: ../extensions/file_tools/gth-file-tool-crop.c:442
 #: ../extensions/file_tools/gth-file-tool-resize.c:591
@@ -2766,11 +2767,11 @@ msgstr "Enregistrer sous…"
 msgid "Save"
 msgstr "Enregistrer"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:333
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:331
 msgid "Sharpening image"
 msgstr "Augmentation de la netteté de l’image"
 
-#: ../extensions/file_tools/gth-file-tool-sharpen.c:436
+#: ../extensions/file_tools/gth-file-tool-sharpen.c:434
 msgid "Enhance Focus"
 msgstr "Améliorer la netteté"
 
@@ -2809,7 +2810,7 @@ msgid "_View"
 msgstr "_Affichage"
 
 #: ../extensions/find_duplicates/data/ui/find-duplicates-dialog.ui.h:7
-#: ../gthumb/gth-tags-entry.c:1230 ../gthumb/gtk-utils.h:39
+#: ../gthumb/gth-tags-entry.c:1226 ../gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Supprimer"
 
@@ -3118,7 +3119,7 @@ msgstr "Débit"
 
 #: ../extensions/gstreamer_tools/main.c:43
 msgid "Encoder"
-msgstr "Encodeur"
+msgstr "Codeur"
 
 #: ../extensions/gstreamer_tools/main.c:45
 #: ../extensions/gstreamer_tools/main.c:50
@@ -3261,7 +3262,7 @@ msgid "Images"
 msgstr "Images"
 
 #: ../extensions/image_print/gth-image-print-job.c:1847
-#: ../gthumb/gth-image-loader.c:222 ../gthumb/gth-image-loader.c:348
+#: ../gthumb/gth-image-loader.c:222 ../gthumb/gth-image-loader.c:349
 #: ../gthumb/gth-image-utils.c:131 ../gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "Aucun chargeur approprié pour ce type de fichier"
@@ -3407,22 +3408,22 @@ msgstr "Ajuster en hauteur"
 #: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:6
 #, no-c-format
 msgid "50%"
-msgstr "50%"
+msgstr "50 %"
 
 #: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:8
 #, no-c-format
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 #: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:10
 #, no-c-format
 msgid "200%"
-msgstr "200%"
+msgstr "200 %"
 
 #: ../extensions/image_viewer/data/ui/toolbar-zoom-menu.ui.h:12
 #, no-c-format
 msgid "300%"
-msgstr "300%"
+msgstr "300 %"
 
 #: ../extensions/image_viewer/gth-image-histogram.c:85
 msgid "Histogram"
@@ -4195,7 +4196,7 @@ msgstr "Rechercher des fichiers"
 
 #: ../extensions/search/callbacks.c:103
 msgid "Search again"
-msgstr "Rechercher à nouveau"
+msgstr "Rechercher à nouveau"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
 #: ../extensions/search/callbacks.c:147
@@ -4215,7 +4216,7 @@ msgstr "toutes les règles suivantes"
 #: ../extensions/search/gth-search-editor.c:113
 #: ../gthumb/gth-filter-editor-dialog.c:162
 msgid "any of the following rules"
-msgstr "parmi les règles suivantes"
+msgstr "parmi les règles suivantes"
 
 #: ../extensions/search/gth-search-task.c:183
 #, c-format
@@ -4228,7 +4229,7 @@ msgstr "Recherche…"
 
 #: ../extensions/search/gth-search-task.c:281
 msgid "Cancel the operation"
-msgstr "Annule l’opération"
+msgstr "Annule l’opération"
 
 #: ../extensions/search/search.extension.in.in.h:2
 msgid "File search tool."
@@ -4300,7 +4301,7 @@ msgstr "_Redémarrer à la fin"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:8
 msgid "R_andom order"
-msgstr "Ordre _aléatoire"
+msgstr "Ordre _aléatoire"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:9
 msgid "Playlist"
@@ -4308,11 +4309,11 @@ msgstr "Liste de lecture"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:10
 msgid "Add files to the playlist"
-msgstr "Ajouter les fichiers à la liste de lecture"
+msgstr "Ajouter les fichiers à la liste de lecture"
 
 #: ../extensions/slideshow/data/ui/slideshow-preferences.ui.h:11
 msgid "Remove the selected files"
-msgstr "Supprimer les fichiers sélectionnés"
+msgstr "Supprimer les fichiers sélectionnés"
 
 #: ../extensions/slideshow/gth-slideshow.c:289
 msgid "Playing slideshow"
@@ -4328,7 +4329,7 @@ msgstr "Fichiers audio"
 
 #: ../extensions/slideshow/gth-slideshow-preferences.c:259
 msgid "Random"
-msgstr "Aléatoire"
+msgstr "Aléatoire"
 
 #: ../extensions/slideshow/main.c:297
 msgid "Push from right"
@@ -4406,7 +4407,7 @@ msgstr "Affiche l’image suivante"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:35
 msgid "View the next page"
-msgstr "Affiche l’image suivante"
+msgstr "Affiche la page suivante"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:36
 msgid "View the previous image"
@@ -4414,7 +4415,7 @@ msgstr "Affiche l’image précédente"
 
 #: ../extensions/webalbums/data/albumthemes/text.h:37
 msgid "View the previous page"
-msgstr "Affiche l’image précédente"
+msgstr "Affiche la page précédente"
 
 #: ../extensions/webalbums/data/ui/web-album-exporter.ui.h:1
 msgid "All images on a single image"
@@ -4561,11 +4562,11 @@ msgstr "Tout"
 
 #: ../gthumb/dlg-preferences-extensions.c:62
 msgid "Enabled"
-msgstr "Activé"
+msgstr "Activé"
 
 #: ../gthumb/dlg-preferences-extensions.c:63
 msgid "Disabled"
-msgstr "Désactivé"
+msgstr "Désactivé"
 
 #: ../gthumb/dlg-preferences-extensions.c:66
 msgid "Viewers"
@@ -4574,7 +4575,7 @@ msgstr "Visionneurs"
 #: ../gthumb/dlg-preferences-extensions.c:67
 #: ../gthumb/gth-main-default-metadata.c:33
 msgid "Metadata"
-msgstr "Méta-données"
+msgstr "Métadonnées"
 
 #: ../gthumb/dlg-preferences-extensions.c:68
 msgid "File tools"
@@ -4611,11 +4612,11 @@ msgstr "Redémarrage requis"
 
 #: ../gthumb/dlg-preferences-extensions.c:716
 msgid "You need to restart gthumb for these changes to take effect"
-msgstr "Vous devez redémarrer gthumb pour que ces changements prennent effet"
+msgstr "Vous devez redémarrer gthumb pour que ces changements prennent effet"
 
 #: ../gthumb/dlg-preferences-extensions.c:718
 msgid "_Restart"
-msgstr "_Redémarrer"
+msgstr "_Redémarrer"
 
 #: ../gthumb/dlg-sort-order.c:113
 msgid "Sort By"
@@ -4655,7 +4656,7 @@ msgstr "Obtention des informations du fichier"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3297
+#: ../gthumb/glib-utils.c:3298
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4667,7 +4668,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../gthumb/glib-utils.c:3306
+#: ../gthumb/glib-utils.c:3307
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -4683,7 +4684,7 @@ msgstr "Appuyez sur Échap pour annuler"
 
 #: ../gthumb/gth-application.c:52
 msgid "Open a new window"
-msgstr "Ouvre une nouvelle fenêtre"
+msgstr "Ouvre une nouvelle fenêtre"
 
 #: ../gthumb/gth-application.c:56
 msgid "Start in fullscreen mode"
@@ -4796,7 +4797,7 @@ msgstr "%s d’espace libre"
 #: ../gthumb/gth-browser.c:1780 ../gthumb/gth-browser.c:1807
 #, c-format
 msgid "No suitable module found for %s"
-msgstr "Aucun module approprié trouvé pour « %s »"
+msgstr "Aucun module approprié trouvé pour « %s »"
 
 #: ../gthumb/gth-browser.c:1929
 #, c-format
@@ -4807,7 +4808,7 @@ msgstr "Enregistrer les modifications dans le fichier « %s » ?"
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr ""
 "Si vous n’enregistrez pas, les modifications de ce fichier seront "
-"définitivement perdues."
+"définitivement perdues."
 
 #: ../gthumb/gth-browser.c:1935
 msgid "Do _Not Save"
@@ -4853,7 +4854,7 @@ msgstr "Modifier le fichier"
 #: ../gthumb/resources/file-list-menu.ui.h:1
 #: ../gthumb/resources/file-menu.ui.h:1
 msgid "Fullscreen"
-msgstr "Plein écran"
+msgstr "Plein écran"
 
 #: ../gthumb/gth-browser.c:6612
 #, c-format
@@ -4863,7 +4864,7 @@ msgstr "Type de fichier non pris en charge"
 #: ../gthumb/gth-browser.c:6655
 #, c-format
 msgid "No suitable module found"
-msgstr "Aucun module qui convient n’a été trouvé"
+msgstr "Aucun module qui convient n’a été trouvé"
 
 #: ../gthumb/gth-delete-task.c:64
 msgid "Deleting files"
@@ -4952,7 +4953,7 @@ msgstr "croissant"
 
 #: ../gthumb/gth-filter-editor-dialog.c:221
 msgid "descending"
-msgstr "décroissant"
+msgstr "décroissant"
 
 #: ../gthumb/gth-filter-editor-dialog.c:515
 #, c-format
@@ -5015,7 +5016,7 @@ msgstr "Emplacement"
 
 #: ../gthumb/gth-main-default-metadata.c:47
 msgid "Duration"
-msgstr "Durée"
+msgstr "Durée"
 
 #: ../gthumb/gth-main-default-metadata.c:49
 msgid "Exposure Settings"
@@ -5111,7 +5112,7 @@ msgstr "Photos Raw"
 
 #: ../gthumb/gth-main-default-tests.c:327
 msgid "Media"
-msgstr "Média"
+msgstr "Média"
 
 #: ../gthumb/gth-main-default-tests.c:334
 msgid "Text Files"
@@ -5131,7 +5132,7 @@ msgstr "Description (incorporée)"
 
 #: ../gthumb/gth-overwrite-dialog.c:244
 msgid "Overwrite"
-msgstr "Écraser"
+msgstr "Écraser"
 
 #: ../gthumb/gth-progress-dialog.c:308 ../gthumb/gth-progress-dialog.c:453
 msgid "Operations"
@@ -5147,12 +5148,12 @@ msgstr "Enregistrement des informations du fichier"
 msgid "Saving “%s”"
 msgstr "Enregistrement de « %s »"
 
-#: ../gthumb/gth-tags-entry.c:505
+#: ../gthumb/gth-tags-entry.c:506
 #, c-format
 msgid "Create tag “%s”"
-msgstr "Créer l’étiquette « %s »"
+msgstr "Créer l’étiquette « %s »"
 
-#: ../gthumb/gth-tags-entry.c:1172
+#: ../gthumb/gth-tags-entry.c:1168
 msgid "Show all the tags"
 msgstr "Affiche toutes les étiquettes"
 
@@ -5281,11 +5282,11 @@ msgstr "précède"
 msgid "is after"
 msgstr "est après"
 
-#: ../gthumb/gth-time-selector.c:614
+#: ../gthumb/gth-time-selector.c:610
 msgid "Today"
 msgstr "Aujourd’hui"
 
-#: ../gthumb/gth-time-selector.c:622
+#: ../gthumb/gth-time-selector.c:618
 msgid "Now"
 msgstr "Maintenant"
 
