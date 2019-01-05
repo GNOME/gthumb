@@ -450,6 +450,11 @@ update_quality_cb (gpointer user_data)
 	GthImageViewerPage *self = data->self;
 	gboolean            file_changed;
 
+	if (! _gth_image_viewer_page_load_with_preloader_finish (self)) {
+		update_quality_data_free (data);
+		return FALSE;
+	}
+
 	if (self->priv->update_quality_id != 0) {
 		g_source_remove (self->priv->update_quality_id);
 		self->priv->update_quality_id = 0;
@@ -508,6 +513,7 @@ update_image_quality_if_required (GthImageViewerPage *self)
 	data->self = self;
 	data->file_data = _g_object_ref (self->priv->file_data);
 
+	_g_object_ref (self);
 	self->priv->update_quality_id = g_timeout_add (UPDATE_QUALITY_DELAY,
 						       update_quality_cb,
 						       data);
