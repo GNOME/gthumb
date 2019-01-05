@@ -223,6 +223,7 @@ dlg_image_wall (GthBrowser *browser,
 	char       *default_sort_type;
 	GList      *sort_types;
 	GList      *scan;
+	GFile      *location;
 	char       *s_value;
 	char       *default_mime_type;
 	GArray     *savers;
@@ -258,14 +259,13 @@ dlg_image_wall (GthBrowser *browser,
 
 	/* Set widgets data. */
 
-	s_value = _g_settings_get_uri (data->settings, PREF_IMAGE_WALL_DESTINATION);
-	if (s_value == NULL) {
-		GFile *location = gth_browser_get_location (data->browser);
-		if (location != NULL)
-			s_value = g_file_get_uri (location);
-		else
-			s_value = g_strdup (get_home_uri ());
-	}
+	location = gth_browser_get_location (data->browser);
+	if (location != NULL)
+		s_value = g_file_get_uri (location);
+	else
+		s_value = _g_settings_get_uri (data->settings, PREF_IMAGE_WALL_DESTINATION);
+	if (s_value == NULL)
+		s_value = g_strdup (get_home_uri ());
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), s_value);
 	g_free (s_value);
 
