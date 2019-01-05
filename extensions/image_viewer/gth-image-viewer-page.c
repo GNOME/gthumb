@@ -261,7 +261,7 @@ profile_ready_cb (GObject      *source_object,
 	ProfileData        *profile_data = user_data;
 	GthImageViewerPage *self = profile_data->self;
 
-	if (self->priv->active) {
+	if (self->priv->active && ! self->priv->image_changed && _g_file_equal (self->priv->file_data->file, profile_data->file_data->file)) {
 		GthICCProfile *profile;
 
 		profile = gth_color_manager_get_profile_finish (GTH_COLOR_MANAGER (source_object), res, NULL);
@@ -429,15 +429,37 @@ _g_mime_type_can_load_different_quality (const char *mime_type)
 }
 
 
+typedef struct {
+	GthImageViewerPage *self;
+	GthFileData *file_data;
+} UpdateQualityData;
+
+
+static void
+update_quality_data_free (UpdateQualityData *data)
+{
+	_g_object_unref (data->file_data);
+	g_free (data);
+}
+
+
 static gboolean
 update_quality_cb (gpointer user_data)
 {
-	GthImageViewerPage *self = user_data;
+	UpdateQualityData  *data = user_data;
+	GthImageViewerPage *self = data->self;
+	gboolean            file_changed;
 
 	if (self->priv->update_quality_id != 0) {
 		g_source_remove (self->priv->update_quality_id);
 		self->priv->update_quality_id = 0;
 	}
+
+	file_changed = ! _g_file_equal_uris (data->file_data->file, self->priv->file_data->file);
+	update_quality_data_free (data);
+
+	if (file_changed)
+		return FALSE;
 
 	if (! self->priv->active)
 		return FALSE;
@@ -480,9 +502,15 @@ update_image_quality_if_required (GthImageViewerPage *self)
 		self->priv->update_quality_id = 0;
 	}
 
+	UpdateQualityData *data;
+
+	data = g_new0 (UpdateQualityData, 1);
+	data->self = self;
+	data->file_data = _g_object_ref (self->priv->file_data);
+
 	self->priv->update_quality_id = g_timeout_add (UPDATE_QUALITY_DELAY,
 						       update_quality_cb,
-						       self);
+						       data);
 #endif
 }
 
