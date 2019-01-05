@@ -443,7 +443,7 @@ gth_image_viewer_realize (GtkWidget *widget)
 				  | GDK_BUTTON_MOTION_MASK
 				  | GDK_SCROLL_MASK
 				  | GDK_STRUCTURE_MASK);
-	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
+	attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_WMCLASS;
 	window = gdk_window_new (gtk_widget_get_parent_window (widget),
 				 &attributes,
 				 attributes_mask);
