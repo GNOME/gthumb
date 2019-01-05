@@ -3164,8 +3164,6 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 								   (GdkEvent *) event,
 								   -1,
 								   -1);
-			if (self->priv->drag_button == 2)
-				gdk_drag_status (context, GDK_ACTION_ASK, event->time);
 
 			/* FIXME: create a cool drag icon here */
 			multi_dnd = self->priv->selection->next != NULL;
