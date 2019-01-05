@@ -873,7 +873,7 @@ overview_leave_notify_event_cb (GtkWidget *widget,
 	GthImageViewerPage *self = data;
 
 	if (widget == self->priv->overview)
-		self->priv->pointer_on_overview = FALSE;
+		self->priv->pointer_on_overview = gth_image_overview_get_scrolling_is_active (GTH_IMAGE_OVERVIEW (self->priv->overview));
 
 	return FALSE;
 }
