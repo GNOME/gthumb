@@ -455,8 +455,6 @@ set_attribute_from_metadata (GFileInfo  *info,
 	char *formatted_value;
 	char *raw_value;
 	char *type_name;
-	char *formatted_value_utf8;
-	char *raw_value_utf8;
 
 	if (metadata == NULL)
 		return;
