@@ -4797,7 +4797,7 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the file property box */
 
-	browser->priv->file_properties = gth_sidebar_new ("file-tools");
+	browser->priv->file_properties = gth_sidebar_new ();
 	gtk_widget_set_size_request (browser->priv->file_properties, -1, FILE_PROPERTIES_MINIMUM_HEIGHT);
 	gtk_widget_hide (browser->priv->file_properties);
 	gtk_paned_pack2 (GTK_PANED (_gth_browser_get_browser_file_properties_container (browser)),

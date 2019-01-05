@@ -70,7 +70,7 @@ struct _GthPropertyViewInterface {
 };
 
 GType          gth_sidebar_get_type            (void);
-GtkWidget *    gth_sidebar_new                 (const char      *name);
+GtkWidget *    gth_sidebar_new                 (void);
 GtkWidget *    gth_sidebar_get_toolbox         (GthSidebar      *sidebar);
 void           gth_sidebar_set_file            (GthSidebar      *sidebar,
 						GthFileData     *file_data);
