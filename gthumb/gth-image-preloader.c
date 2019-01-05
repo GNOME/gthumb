@@ -74,7 +74,7 @@ typedef struct {
 
 
 struct _GthImagePreloaderPrivate {
-	GList			*requests;		/* List of LoadRequest */
+	GList			*requests;		/* List of queued LoadRequest */
 	LoadRequest		*current_request;
 	LoadRequest             *last_request;
 	GthImageLoader		*loader;
@@ -374,9 +374,13 @@ _gth_image_preloader_request_finished (GthImagePreloader *self,
 		load_request_unref (self->priv->current_request);
 		self->priv->current_request = NULL;
 	}
+	self->priv->requests = g_list_remove (self->priv->requests, load_request);
 	load_request_unref (load_request);
 }
 
+static void
+_gth_image_preloader_cancel_request (GthImagePreloader *self,
+				     LoadRequest       *request);
 
 static void
 _gth_image_preloader_load_current_file (GthImagePreloader *self,
@@ -391,11 +395,16 @@ load_current_file (gpointer user_data)
 
 	g_return_val_if_fail (request->current_file != NULL, FALSE);
 
-	if (self->priv->load_next_id > 0) {
-		g_source_remove (self->priv->load_next_id);
-		self->priv->load_next_id = 0;
+	if (self->priv->last_request != request) {
+		_gth_image_preloader_cancel_request (self, request);
 	}
-	_gth_image_preloader_load_current_file (self, request);
+	else {
+		if (self->priv->load_next_id > 0) {
+			g_source_remove (self->priv->load_next_id);
+			self->priv->load_next_id = 0;
+		}
+		_gth_image_preloader_load_current_file (self, request);
+	}
 
 	return FALSE;
 }
@@ -470,8 +479,7 @@ _gth_image_preloader_request_completed (GthImagePreloader *self,
 
 
 static void
-_gth_image_preloader_start_request (GthImagePreloader *self,
-				    LoadRequest       *request);
+_gth_image_preloader_start_last_request (GthImagePreloader *self);
 
 
 static void
@@ -546,8 +554,7 @@ image_scale_ready_cb (GObject      *source_object,
 		cairo_surface_destroy (surface);
 		_gth_image_preloader_request_finished (self, request);
 
-		if (self->priv->last_request != NULL)
-			_gth_image_preloader_start_request (self, self->priv->last_request);
+		_gth_image_preloader_start_last_request (self);
 
 		return;
 	}
@@ -608,16 +615,21 @@ _gth_image_preloader_resize_at_requested_size (GthImagePreloader *self,
 
 
 static void
-_gth_image_preloader_request_cancelled (GthImagePreloader *self,
-				        LoadRequest       *request)
+_gth_image_preloader_cancel_request (GthImagePreloader *self,
+				     LoadRequest       *request)
 {
 	if (request->current_file == request->requested_file)
 		g_task_return_error (request->task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
-
 	_gth_image_preloader_request_finished (self, request);
+}
 
-	if (self->priv->last_request != NULL)
-		_gth_image_preloader_start_request (self, self->priv->last_request);
+
+static void
+_gth_image_preloader_request_cancelled (GthImagePreloader *self,
+				        LoadRequest       *request)
+{
+	_gth_image_preloader_cancel_request (self, request);
+	_gth_image_preloader_start_last_request (self);
 }
 
 
@@ -642,7 +654,7 @@ image_loader_ready_cb (GObject      *source_object,
 
 	if (request->finalized) {
 #ifdef DEBUG_PRELOADER
-		g_print (" --> cancelled\n");
+		g_print (" --> cancelled [0]\n");
 #endif
 		load_data_free (load_data);
 		return;
@@ -660,7 +672,7 @@ image_loader_ready_cb (GObject      *source_object,
 	    || (self->priv->last_request != request))
 	{
 #ifdef DEBUG_PRELOADER
-		g_print (" --> cancelled\n");
+		g_print (" --> cancelled [1] %s\n", g_file_get_uri (GTH_FILE_DATA (request->current_file->data)->file));
 #endif
 		load_data_free (load_data);
 		if (error != NULL)
@@ -764,11 +776,33 @@ static void
 _gth_image_preloader_start_request (GthImagePreloader *self,
 				    LoadRequest       *request)
 {
+	if (request == NULL)
+		return
+
 	load_request_unref (self->priv->current_request);
 	self->priv->current_request = load_request_ref (request);
 
 	request->current_file = request->files;
 	_gth_image_preloader_load_current_file (self, request);
+
+}
+
+
+static void
+_gth_image_preloader_start_last_request (GthImagePreloader *self)
+{
+	GList *tmp_requests;
+	GList *scan;
+
+	tmp_requests = g_list_copy (self->priv->requests);
+	for (scan = tmp_requests; scan; scan = scan->next) {
+		LoadRequest *request = scan->data;
+		if (request != self->priv->last_request)
+			_gth_image_preloader_cancel_request (self, request);
+	}
+	g_list_free (tmp_requests);
+
+	_gth_image_preloader_start_request (self, self->priv->last_request);
 }
 
 
@@ -859,14 +893,13 @@ gth_image_preloader_load (GthImagePreloader	 *self,
 		request->cancellable_id = g_cancellable_connect (cancellable, G_CALLBACK (request_cancelled), request, NULL);
 	}
 
-	if ((self->priv->last_request != NULL) && (self->priv->last_request != self->priv->current_request))
-		_gth_image_preloader_request_cancelled (self, self->priv->last_request);
-
+	self->priv->requests = g_list_prepend (self->priv->requests, request);
 	self->priv->last_request = request;
+
 	if (self->priv->current_request != NULL)
 		_gth_image_preloader_cancel_current_request (self);
 	else
-		_gth_image_preloader_start_request (self, self->priv->last_request);
+		_gth_image_preloader_start_last_request (self);
 }
 
 
