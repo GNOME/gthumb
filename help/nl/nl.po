@@ -1,21 +1,22 @@
 # Dutch translation for gthumb.
 # Copyright (C) 2018 gthumb's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
-# PaulMatthijsse <paul.matthijsse@wanadoo.fr>, 2018.
 #
+# PaulMatthijsse <paul.matthijsse@wanadoo.fr>, 2018.
+# Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb gthumb-3-6\n"
 "POT-Creation-Date: 2018-06-17 06:52+0000\n"
-"PO-Revision-Date: 2018-06-26 11:37+0200\n"
-"Last-Translator: Paul Matthijsse <paul.matthijsse@wanadoo.fr>\n"
+"PO-Revision-Date: 2019-01-07 10:24+0100\n"
+"Last-Translator: PaulMatthijsse <paul.matthijsse@wanadoo.fr>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Lokalize 2.0\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -2626,6 +2627,8 @@ msgstr "Laad vorige afbeelding."
 msgid "Creating a CD/DVD/ISO"
 msgstr "Een CD/DVD/ISO maken"
 
+# Foutmelding Bugzilla. <guiseq> ontbreekt. Hersteld op 7-1-2019.
+# Hannie
 #. (itstool) path: page/p
 #: C/sharing-disc.page:7
 msgid ""
@@ -2634,7 +2637,8 @@ msgid ""
 "gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr ""
 "Om een aantal bestanden naar een optische schijf te schrijven (cd of dvd) of "
-"om een ISO schijf-image te maken, kiest u <gui>Exporteren</gui><gui>Optische "
+"om een ISO-schijfimage te maken, kiest u <guiseq><gui>File</gui> <gui"
+">Exporteren</gui><gui>Optische "
 "schijf</gui></guiseq> in de menubalk."
 
 #. (itstool) path: page/p
@@ -3169,3 +3173,4 @@ msgstr ""
 "toestemming om de voorbeeldcode die in dit document is opgenomen te "
 "kopiëren, te modifiëren en te distribueren onder uw eigen voorwaarden, "
 "zonder beperking."
+
