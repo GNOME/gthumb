@@ -160,7 +160,8 @@ struct _GthGridViewPrivate {
 	int                    thumbnail_size;
 	int                    thumbnail_border;
 	int                    cell_size;           /* max size of any cell area */
-	int                    cell_spacing;        /* space between adjacent cell areas both horizontally and vertically */
+	int                    cell_spacing;        /* vertical space and mininum horizontal space between adjacent cell areas */
+	double                 cell_x_spacing;      /* horizontal space between adjacent cell areas (calculated automatically to fill the horizontal space uniformly). */
 	int                    cell_padding;        /* space between the cell area border and its content */
 	int                    caption_spacing;     /* space between the thumbnail area and the caption area */
 	int                    caption_padding;     /* space between the caption area border and its content */
@@ -736,7 +737,7 @@ static void
 _gth_grid_view_layout_line (GthGridView     *self,
 			    GthGridViewLine *line)
 {
-	int    x;
+	double x;
 	int    direction;
 	GList *scan;
 
@@ -752,9 +753,10 @@ _gth_grid_view_layout_line (GthGridView     *self,
 	for (scan = line->items; scan; scan = scan->next) {
 		GthGridViewItem *item = scan->data;
 
-		x += direction * self->priv->cell_spacing;
-		_gth_grid_view_place_item_at (self, item, x, line->y);
+		x += direction * self->priv->cell_x_spacing;
+		_gth_grid_view_place_item_at (self, item, round (x), line->y);
 		x += direction * self->priv->cell_size;
+		x += direction * self->priv->cell_x_spacing;
 	}
 }
 
@@ -1142,16 +1144,61 @@ gth_grid_view_get_preferred_height (GtkWidget *widget,
 
 
 static void
+_gth_grid_view_relayout_lines (GthGridView *self)
+{
+	GList *scan;
+
+	for (scan = self->priv->lines; scan; scan = scan->next) {
+		GthGridViewLine *line = scan->data;
+		_gth_grid_view_layout_line (self, line);
+	}
+
+	gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
+
+static double
+round_to_0_2 (double n)
+{
+	double i = floor (n);
+	double f = n - i;
+	double r = 0;
+
+	if (f < 0.1)
+		r = 0;
+	else if (f < 0.3)
+		r = 0.2;
+	else if (f < 0.5)
+		r = 0.4;
+	else if (f < 0.7)
+		r = 0.6;
+	else if (f < 0.9)
+		r = 0.8;
+	else
+		r = 1.0;
+	return i + r;
+}
+
+
+static void
 gth_grid_view_size_allocate (GtkWidget     *widget,
 			     GtkAllocation *allocation)
 {
 	GthGridView *self;
 	int          old_cells_per_line;
+	int          new_cells_per_line;
+	double       new_cell_x_spacing;
+	gboolean     cell_x_spacing_changed;
 
 	self = GTH_GRID_VIEW (widget);
 
 	old_cells_per_line = gth_grid_view_get_items_per_line (self);
 	self->priv->width = allocation->width;
+
+	new_cells_per_line = gth_grid_view_get_items_per_line (self);
+	new_cell_x_spacing = round_to_0_2 ((((double) self->priv->width / new_cells_per_line) - self->priv->cell_size) / 2.0);
+	cell_x_spacing_changed = (new_cell_x_spacing != self->priv->cell_x_spacing);
+	self->priv->cell_x_spacing = new_cell_x_spacing;
 
 	gtk_widget_set_allocation (widget, allocation);
 
@@ -1165,10 +1212,12 @@ gth_grid_view_size_allocate (GtkWidget     *widget,
 				   MAX (self->priv->width, allocation->width),
 				   MAX (self->priv->height, allocation->height));
 
-		if (self->priv->needs_relayout || (old_cells_per_line != gth_grid_view_get_items_per_line (self))) {
+		if (self->priv->needs_relayout || (old_cells_per_line != new_cells_per_line)) {
 			self->priv->make_focused_visible = TRUE;
 			_gth_grid_view_queue_relayout (self);
 		}
+		else if (cell_x_spacing_changed)
+			_gth_grid_view_relayout_lines (self);
 	}
 	else
 		self->priv->needs_relayout_after_size_allocate = TRUE;
@@ -1723,9 +1772,9 @@ _gth_grid_view_draw_drop_target (GthGridView *self,
 
 	x = 0;
 	if (self->priv->drop_pos == GTH_DROP_POSITION_LEFT)
-		x = item->area.x - (self->priv->cell_spacing / 2);
+		x = item->area.x - (self->priv->cell_x_spacing / 2);
 	else if (self->priv->drop_pos == GTH_DROP_POSITION_RIGHT)
-		x = item->area.x + self->priv->cell_size + (self->priv->cell_spacing / 2);
+		x = item->area.x + self->priv->cell_size + (self->priv->cell_x_spacing / 2);
 
 	gtk_render_focus (style_context,
 			   cr,
@@ -2596,7 +2645,7 @@ _gth_grid_view_get_drop_target_at (GthGridView *self,
 	row = MAX (row, 0);
 
 	items_per_line = gth_grid_view_get_items_per_line (self);
-	col = (x - (self->priv->cell_spacing / 2)) / (self->priv->cell_size + self->priv->cell_spacing) + 1;
+	col = (x - (self->priv->cell_x_spacing / 2)) / (self->priv->cell_size + self->priv->cell_x_spacing) + 1;
 	col = MIN (col, items_per_line);
 
 	return (items_per_line * row) + col - 1;
@@ -3954,6 +4003,7 @@ gth_grid_view_init (GthGridView *self)
 
 	/* self->priv->cell_size = 0; */
 	self->priv->cell_spacing = DEFAULT_CELL_SPACING;
+	self->priv->cell_x_spacing = -1;
 	/* self->priv->cell_padding = DEFAULT_CELL_PADDING; */
 	self->priv->caption_spacing = DEFAULT_CAPTION_SPACING;
 	self->priv->caption_padding = DEFAULT_CAPTION_PADDING;
