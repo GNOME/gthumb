@@ -260,7 +260,7 @@ dlg_image_wall (GthBrowser *browser,
 	/* Set widgets data. */
 
 	location = gth_browser_get_location (data->browser);
-	if (location != NULL)
+	if ((location != NULL) && g_file_has_uri_scheme (location, "file"))
 		s_value = g_file_get_uri (location);
 	else
 		s_value = _g_settings_get_uri (data->settings, PREF_IMAGE_WALL_DESTINATION);
