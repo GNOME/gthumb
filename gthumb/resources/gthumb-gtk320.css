@@ -29,7 +29,7 @@ iconview.icon-effect:selected:focus {
 
 scrolledwindow.comment {
 	background-color: @comment_bg;
-	padding: 5px 0 5px 5px;
+	padding: 10px 0 10px 5px;
 }
 
 scrolledwindow.comment:backdrop {
@@ -37,7 +37,7 @@ scrolledwindow.comment:backdrop {
 }
 
 scrolledwindow.comment {
-	border-color: transparent;
+	border-color: @comment_border;
 }
 
 scrolledwindow.comment scrollbar trough {
