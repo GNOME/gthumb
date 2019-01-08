@@ -31,13 +31,17 @@
 
 #define GTH_SIDEBAR_PAGE_PROPERTIES "GthSidebar.Properties"
 #define GTH_SIDEBAR_PAGE_TOOLS "GthSidebar.Tools"
+#define GTH_SIDEBAR_PAGE_EMPTY "GthSidebar.Empty"
+#define MIN_SIDEBAR_WIDTH 365
 
 
 struct _GthSidebarPrivate {
 	GtkWidget   *properties;
 	GtkWidget   *toolbox;
 	GthFileData *file_data;
+	const char  *selected_page;
 	GList       *sections;
+	int          n_visibles;
 };
 
 
@@ -74,6 +78,8 @@ gth_sidebar_init (GthSidebar *sidebar)
 	sidebar->priv = gth_sidebar_get_instance_private (sidebar);
 	sidebar->priv->file_data = NULL;
 	sidebar->priv->sections = NULL;
+	sidebar->priv->selected_page = GTH_SIDEBAR_PAGE_EMPTY;
+	sidebar->priv->n_visibles = 0;
 }
 
 
@@ -165,7 +171,6 @@ _gth_sidebar_add_sections (GthSidebar  *sidebar,
 		if (status != NULL) {
 			gth_sidebar_section_set_expanded (GTH_SIDEBAR_SECTION (section), status->expanded);
 		}
-		gtk_widget_show (section);
 
 		sidebar->priv->sections = g_list_prepend (sidebar->priv->sections, section);
 		gtk_box_pack_start (GTK_BOX (sidebar->priv->properties),
@@ -184,6 +189,8 @@ static void
 _gth_sidebar_construct (GthSidebar *sidebar)
 {
 	GtkWidget *properties_win;
+	GtkWidget *empty_view;
+	GtkWidget *icon;
 
 	properties_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (properties_win), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
@@ -193,14 +200,25 @@ _gth_sidebar_construct (GthSidebar *sidebar)
 	gtk_stack_add_named (GTK_STACK (sidebar), properties_win, GTH_SIDEBAR_PAGE_PROPERTIES);
 
 	sidebar->priv->properties = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_set_size_request (GTK_WIDGET (sidebar->priv->properties), MIN_SIDEBAR_WIDTH, -1);
 	gtk_widget_show (sidebar->priv->properties);
 	gtk_container_add (GTK_CONTAINER (properties_win), sidebar->priv->properties);
 
 	sidebar->priv->toolbox = gth_toolbox_new ("file-tools");
 	gtk_style_context_add_class (gtk_widget_get_style_context (sidebar->priv->toolbox), GTK_STYLE_CLASS_SIDEBAR);
 	gtk_widget_set_vexpand (sidebar->priv->toolbox, TRUE);
+	gtk_widget_set_size_request (GTK_WIDGET (sidebar->priv->toolbox), MIN_SIDEBAR_WIDTH, -1);
 	gtk_widget_show (sidebar->priv->toolbox);
 	gtk_stack_add_named (GTK_STACK (sidebar), sidebar->priv->toolbox, GTH_SIDEBAR_PAGE_TOOLS);
+
+	empty_view = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (empty_view);
+	gtk_stack_add_named (GTK_STACK (sidebar), empty_view, GTH_SIDEBAR_PAGE_EMPTY);
+
+	icon = gtk_image_new_from_icon_name("action-unavailable-symbolic", GTK_ICON_SIZE_DIALOG);
+	gtk_style_context_add_class (gtk_widget_get_style_context (icon), "void-view");
+	gtk_widget_show (icon);
+	gtk_box_pack_start (GTK_BOX (empty_view), icon, TRUE, FALSE, 0);
 }
 
 
@@ -224,6 +242,12 @@ gth_sidebar_get_toolbox (GthSidebar *sidebar)
 }
 
 
+static void
+_gth_sidebar_update_view (GthSidebar  *sidebar)
+{
+	gtk_stack_set_visible_child_name (GTK_STACK (sidebar), (sidebar->priv->n_visibles == 0) ? GTH_SIDEBAR_PAGE_EMPTY : sidebar->priv->selected_page);
+}
+
 void
 gth_sidebar_set_file (GthSidebar  *sidebar,
 		      GthFileData *file_data)
@@ -236,24 +260,39 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 	_g_object_unref (sidebar->priv->file_data);
 	sidebar->priv->file_data = gth_file_data_dup (file_data);
 
+	sidebar->priv->n_visibles = 0;
 	for (scan = sidebar->priv->sections; scan; scan = scan->next) {
 		GtkWidget *child = scan->data;
-		gth_sidebar_section_set_file (GTH_SIDEBAR_SECTION (child), sidebar->priv->file_data);
+		if (gth_sidebar_section_set_file (GTH_SIDEBAR_SECTION (child), sidebar->priv->file_data))
+			sidebar->priv->n_visibles++;
 	}
+
+	_gth_sidebar_update_view (sidebar);
+}
+
+
+static void
+_gth_sidebar_set_visible_page (GthSidebar *sidebar,
+			       const char *page)
+{
+	sidebar->priv->selected_page = page;
+	gtk_stack_set_visible_child_name (GTK_STACK (sidebar), sidebar->priv->selected_page);
+
+	_gth_sidebar_update_view (sidebar);
 }
 
 
 void
 gth_sidebar_show_properties (GthSidebar *sidebar)
 {
-	gtk_stack_set_visible_child_name (GTK_STACK (sidebar), GTH_SIDEBAR_PAGE_PROPERTIES);
+	_gth_sidebar_set_visible_page (sidebar, GTH_SIDEBAR_PAGE_PROPERTIES);
 }
 
 
 void
 gth_sidebar_show_tools (GthSidebar *sidebar)
 {
-	gtk_stack_set_visible_child_name (GTK_STACK (sidebar), GTH_SIDEBAR_PAGE_TOOLS);
+	_gth_sidebar_set_visible_page (sidebar, GTH_SIDEBAR_PAGE_TOOLS);
 }
 
 
@@ -335,8 +374,16 @@ gth_property_view_get_icon (GthPropertyView *self)
 
 
 gboolean
+gth_property_view_can_view (GthPropertyView *self,
+				    GthFileData     *file_data)
+{
+	return GTH_PROPERTY_VIEW_GET_INTERFACE (self)->can_view (self, file_data);
+}
+
+
+void
 gth_property_view_set_file (GthPropertyView *self,
 			    GthFileData     *file_data)
 {
-	return GTH_PROPERTY_VIEW_GET_INTERFACE (self)->set_file (self, file_data);
+	GTH_PROPERTY_VIEW_GET_INTERFACE (self)->set_file (self, file_data);
 }

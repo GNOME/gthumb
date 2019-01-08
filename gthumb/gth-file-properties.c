@@ -78,11 +78,60 @@ G_DEFINE_TYPE_WITH_CODE (GthFileProperties,
 
 
 static gboolean
+gth_file_properties_real_can_view (GthPropertyView *base,
+				   GthFileData     *file_data)
+{
+	GthFileProperties *self = GTH_FILE_PROPERTIES (base);
+	gboolean           data_available;
+	GList             *metadata_info;
+	GList             *scan;
+
+	if (file_data == NULL)
+		return FALSE;
+
+	if (! self->priv->show_details)
+		return TRUE;
+
+	data_available = FALSE;
+	metadata_info = gth_main_get_all_metadata_info ();
+	for (scan = metadata_info; scan; scan = scan->next) {
+		GthMetadataInfo *info = scan->data;
+		char            *value;
+
+		if ((info->flags & GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW) != GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW)
+			continue;
+
+		value = gth_file_data_get_attribute_as_string (file_data, info->id);
+		if ((value == NULL) || (*value == '\0')) {
+			g_free (value);
+			continue;
+		}
+
+		if (info->id != NULL) {
+			if (g_str_has_prefix (info->id, "Exif")) {
+				data_available = TRUE;
+				break;
+			}
+			else if (g_str_has_prefix (info->id, "Iptc")) {
+				data_available = TRUE;
+				break;
+			}
+			else if (g_str_has_prefix (info->id, "Xmp")) {
+				data_available = TRUE;
+				break;
+			}
+		}
+	}
+
+	return data_available;
+}
+
+
+static void
 gth_file_properties_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
 	GthFileProperties *self;
-	gboolean           data_available;
 	GHashTable        *category_hash;
 	GList             *metadata_info;
 	GList             *scan;
@@ -96,14 +145,11 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 
 	gtk_list_store_clear (self->priv->tree_model);
 
-	if (file_data == NULL) {
-		gtk_widget_hide (self->priv->main_container);
-		return FALSE;
-	}
+	if (file_data == NULL)
+		return;
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 
-	data_available = FALSE;
 	category_hash = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 	metadata_info = gth_main_get_all_metadata_info ();
 	for (scan = metadata_info; scan; scan = scan->next) {
@@ -183,18 +229,13 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 
 		g_free (tooltip);
 		g_free (value);
-
-		data_available = TRUE;
 	}
 	g_list_free (metadata_info);
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (self->priv->tree_view));
-	gtk_widget_set_visible (self->priv->main_container, data_available);
 
 	g_hash_table_destroy (category_hash);
-
-	return data_available;
 }
 
 
@@ -459,5 +500,6 @@ gth_file_properties_gth_property_view_interface_init (GthPropertyViewInterface *
 {
 	iface->get_name = gth_file_properties_real_get_name;
 	iface->get_icon = gth_file_properties_real_get_icon;
+	iface->can_view = gth_file_properties_real_can_view;
 	iface->set_file = gth_file_properties_real_set_file;
 }

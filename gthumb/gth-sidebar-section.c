@@ -27,11 +27,8 @@
 #include "gtk-utils.h"
 
 
-#define MIN_SECTION_WIDTH 365
-
-
 struct _GthSidebarSectionPrivate {
-	GtkWidget       *container;
+	GtkWidget       *void_view;
 	GtkWidget       *expander;
 	GthPropertyView *view;
 	GthFileData     *file_data;
@@ -69,7 +66,7 @@ static void
 gth_sidebar_section_init (GthSidebarSection *self)
 {
 	self->priv = gth_sidebar_section_get_instance_private (self);
-	self->priv->container = NULL;
+	self->priv->void_view = NULL;
 	self->priv->expander = NULL;
 	self->priv->view = NULL;
 	self->priv->dirty = FALSE;
@@ -79,11 +76,7 @@ gth_sidebar_section_init (GthSidebarSection *self)
 static void
 _gth_sidebar_section_update_view (GthSidebarSection *self)
 {
-	gboolean success;
-
-	success = gth_property_view_set_file (self->priv->view, self->priv->file_data);
-	gtk_widget_set_visible (GTK_WIDGET (self->priv->view), success);
-	gtk_widget_set_sensitive (self->priv->expander, success);
+	gth_property_view_set_file (self->priv->view, self->priv->file_data);
 	self->priv->dirty = FALSE;
 }
 
@@ -108,14 +101,13 @@ _gth_sidebar_section_add_view (GthSidebarSection *self,
 {
 	GtkWidget *exp;
 	GtkWidget *exp_label;
+	GtkWidget *exp_content;
 	GtkWidget *icon;
 	GtkWidget *label;
 
-	gtk_widget_set_size_request (GTK_WIDGET (self), MIN_SECTION_WIDTH, -1);
-
 	self->priv->view = view;
-	_gtk_widget_set_margin (GTK_WIDGET (view), 3, 2, 3, 2);
-	gtk_widget_hide (GTK_WIDGET (view));
+	_gtk_widget_set_margin (GTK_WIDGET (view), 1, 2, 1, 2);
+	gtk_widget_show (GTK_WIDGET (view));
 
 	self->priv->expander = exp = gtk_expander_new (NULL);
 	exp_label = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
@@ -128,10 +120,27 @@ _gth_sidebar_section_add_view (GthSidebarSection *self,
 	gtk_widget_show_all (exp_label);
 	gtk_expander_set_label_widget (GTK_EXPANDER (exp), exp_label);
 
-	gtk_expander_set_expanded (GTK_EXPANDER (exp), TRUE);
-	gtk_container_add (GTK_CONTAINER (exp), GTK_WIDGET (view));
-	gtk_widget_show (exp);
+	self->priv->void_view = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (self->priv->void_view), GTK_SHADOW_IN);
+	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->void_view), GTK_STYLE_CLASS_VIEW);
+	_gtk_widget_set_margin (self->priv->void_view, 0, 2, 0, 2);
+	gtk_widget_hide (self->priv->void_view);
 
+	icon = gtk_image_new_from_icon_name ("action-unavailable-symbolic", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	gtk_widget_set_sensitive (icon, FALSE);
+	_gtk_widget_set_margin (icon, 10, 0, 10, 0);
+	gtk_style_context_add_class (gtk_widget_get_style_context (icon), "void-view");
+	gtk_widget_show (icon);
+	gtk_container_add (GTK_CONTAINER (self->priv->void_view), icon);
+
+	exp_content = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_box_pack_start (GTK_BOX (exp_content), GTK_WIDGET (view), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (exp_content), self->priv->void_view, FALSE, FALSE, 0);
+	gtk_widget_show (exp_content);
+
+	gtk_expander_set_expanded (GTK_EXPANDER (exp), TRUE);
+	gtk_container_add (GTK_CONTAINER (exp), exp_content);
+	gtk_widget_show (exp);
 	gtk_box_pack_start (GTK_BOX (self), exp, FALSE, FALSE, 0);
 
 	g_signal_connect (exp,
@@ -148,6 +157,7 @@ gth_sidebar_section_new (GthPropertyView *view)
 
 	sidebar = g_object_new (GTH_TYPE_SIDEBAR_SECTION,
 				"orientation", GTK_ORIENTATION_VERTICAL,
+				"vexpand", FALSE,
 				NULL);
 	_gth_sidebar_section_add_view (sidebar, view);
 
@@ -162,21 +172,28 @@ _gth_sidebar_section_visible (GthSidebarSection *self)
 }
 
 
-void
+gboolean
 gth_sidebar_section_set_file (GthSidebarSection  *self,
 			      GthFileData        *file_data)
 {
+	gboolean can_view;
+
 	_g_object_unref (self->priv->file_data);
 	self->priv->file_data = NULL;
 	if (file_data != NULL)
 		self->priv->file_data = _g_object_ref (file_data);
 
-	if (! _gth_sidebar_section_visible (self)) {
-		self->priv->dirty = TRUE;
-		return;
-	}
+	can_view = (self->priv->file_data != NULL) && gth_property_view_can_view (self->priv->view, self->priv->file_data);
+	gtk_widget_set_visible (GTK_WIDGET (self), can_view);
 
-	_gth_sidebar_section_update_view (self);
+	if (! can_view)
+		self->priv->dirty = FALSE;
+	else if (! _gth_sidebar_section_visible (self))
+		self->priv->dirty = TRUE;
+	else
+		_gth_sidebar_section_update_view (self);
+
+	return can_view;
 }
 
 

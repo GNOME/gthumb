@@ -65,7 +65,9 @@ struct _GthPropertyViewInterface {
 	GTypeInterface parent_iface;
 	const char *	(*get_name)	(GthPropertyView *self);
 	const char *	(*get_icon)	(GthPropertyView *self);
-	gboolean	(*set_file)	(GthPropertyView *self,
+	gboolean	(*can_view)	(GthPropertyView *self,
+					 GthFileData     *file_data);
+	void		(*set_file)	(GthPropertyView *self,
 					 GthFileData     *file_data);
 };
 
@@ -84,7 +86,9 @@ char **        gth_sidebar_get_sections_status (GthSidebar      *sidebar);
 GType          gth_property_view_get_type      (void);
 const char *   gth_property_view_get_name      (GthPropertyView *self);
 const char *   gth_property_view_get_icon      (GthPropertyView *self);
-gboolean       gth_property_view_set_file      (GthPropertyView *self,
+gboolean       gth_property_view_can_view      (GthPropertyView *self,
+						GthFileData     *file_data);
+void           gth_property_view_set_file      (GthPropertyView *self,
 						GthFileData     *file_data);
 
 G_END_DECLS

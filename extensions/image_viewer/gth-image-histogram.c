@@ -48,30 +48,43 @@ G_DEFINE_TYPE_WITH_CODE (GthImageHistogram,
 						gth_image_histogram_gth_property_view_interface_init))
 
 
+static cairo_surface_t *
+gth_image_histogram_get_current_image (GthImageHistogram *self)
+{
+	GthBrowser    *browser;
+	GthViewerPage *viewer_page;
+
+	browser = (GthBrowser *) gtk_widget_get_toplevel (GTK_WIDGET (self));
+	if (! gtk_widget_is_toplevel (GTK_WIDGET (browser)))
+		return NULL;
+
+	viewer_page = gth_browser_get_viewer_page (browser);
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		return NULL;
+
+	return gth_image_viewer_page_get_current_image (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+}
+
+
 static gboolean
+gth_image_histogram_real_can_view (GthPropertyView *base,
+		 		  GthFileData     *file_data)
+{
+	GthImageHistogram *self = GTH_IMAGE_HISTOGRAM (base);
+	return gth_image_histogram_get_current_image (self) != NULL;
+}
+
+
+static void
 gth_image_histogram_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
 	GthImageHistogram *self = GTH_IMAGE_HISTOGRAM (base);
-	GthBrowser        *browser;
-	GthViewerPage     *viewer_page;
+	cairo_surface_t   *image;
 
-	if (file_data == NULL) {
-		gth_histogram_calculate_for_image (self->priv->histogram, NULL);
-		return FALSE;
-	}
-
-	browser = (GthBrowser *) gtk_widget_get_toplevel (GTK_WIDGET (base));
-	if (! gtk_widget_is_toplevel (GTK_WIDGET (browser)))
-		return FALSE;
-
-	viewer_page = gth_browser_get_viewer_page (browser);
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		return FALSE;
-
-	gth_histogram_calculate_for_image (self->priv->histogram, gth_image_viewer_page_get_current_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
-
-	return TRUE;
+	image = gth_image_histogram_get_current_image (self);
+	if (image != NULL)
+		gth_histogram_calculate_for_image (self->priv->histogram, image);
 }
 
 
@@ -111,6 +124,7 @@ gth_image_histogram_gth_property_view_interface_init (GthPropertyViewInterface *
 {
 	iface->get_name = gth_image_histogram_real_get_name;
 	iface->get_icon = gth_image_histogram_real_get_icon;
+	iface->can_view = gth_image_histogram_real_can_view;
 	iface->set_file = gth_image_histogram_real_set_file;
 }
 

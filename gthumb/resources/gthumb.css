@@ -162,3 +162,9 @@ GthToolbox .header-bar,
 	border-radius: 20px;
 	-gtk-outline-radius: 20px;
 }
+
+/* --  void sibebar section-- */
+
+.void-view {
+	opacity: 0.12;
+}

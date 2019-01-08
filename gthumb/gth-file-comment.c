@@ -48,6 +48,28 @@ G_DEFINE_TYPE_WITH_CODE (GthFileComment,
 						gth_file_comment_gth_property_view_interface_init))
 
 
+static gboolean
+gth_file_comment_real_can_view (GthPropertyView *base,
+				GthFileData     *file_data)
+{
+	GthMetadata *value;
+	gboolean     value_available = FALSE;
+
+	if (file_data == NULL)
+		return FALSE;
+
+	value_available = FALSE;
+	value = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
+	if (value != NULL) {
+		const char *formatted = gth_metadata_get_formatted (value);
+		if ((formatted != NULL) && (*formatted != '\0'))
+			value_available = TRUE;
+	}
+
+	return value_available;
+}
+
+
 static char *
 get_comment (GthFileData *file_data)
 {
@@ -72,7 +94,7 @@ get_comment (GthFileData *file_data)
 }
 
 
-static gboolean
+static void
 gth_file_comment_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
@@ -87,10 +109,8 @@ gth_file_comment_real_set_file (GthPropertyView *base,
 		self->priv->last_file_data = gth_file_data_dup (file_data);
 	}
 
-	if (file_data == NULL) {
-		gtk_widget_hide (self->priv->comment_win);
-		return FALSE;
-	}
+	if (file_data == NULL)
+		return;
 
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (self->priv->comment_view));
 	comment = get_comment (file_data);
@@ -105,14 +125,8 @@ gth_file_comment_real_set_file (GthPropertyView *base,
 		vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (self->priv->comment_win));
 		gtk_adjustment_set_value (vadj, 0.0);
 
-		gtk_widget_show (self->priv->comment_win);
-
 		g_free (comment);
 	}
-	else
-		gtk_widget_hide (self->priv->comment_win);
-
-	return (comment != NULL);
 }
 
 
@@ -167,6 +181,7 @@ gth_file_comment_init (GthFileComment *self)
 	//gtk_widget_set_size_request (self->priv->comment_win, -1, COMMENT_DEFAULT_HEIGHT);
 	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->comment_win), GTH_STYLE_CLASS_COMMENT);
 	gtk_box_pack_start (GTK_BOX (self), self->priv->comment_win, TRUE, TRUE, 0);
+	gtk_widget_show (self->priv->comment_win);
 
 	self->priv->comment_view = gtk_text_view_new ();
 	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->comment_view), GTH_STYLE_CLASS_COMMENT);
@@ -184,5 +199,6 @@ gth_file_comment_gth_property_view_interface_init (GthPropertyViewInterface *ifa
 {
 	iface->get_name = gth_file_comment_real_get_name;
 	iface->get_icon = gth_file_comment_real_get_icon;
+	iface->can_view = gth_file_comment_real_can_view;
 	iface->set_file = gth_file_comment_real_set_file;
 }

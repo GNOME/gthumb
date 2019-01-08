@@ -50,7 +50,7 @@ struct _GthSidebarSectionClass {
 
 GType		gth_sidebar_section_get_type	(void);
 GtkWidget *	gth_sidebar_section_new		(GthPropertyView	*view);
-void		gth_sidebar_section_set_file	(GthSidebarSection	*section,
+gboolean	gth_sidebar_section_set_file	(GthSidebarSection	*section,
 						 GthFileData		*file_data);
 void		gth_sidebar_section_set_expanded(GthSidebarSection	*section,
 						 gboolean		 expanded);
