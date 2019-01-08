@@ -111,18 +111,18 @@ public_header_files = [
 ]
 
 install_headers(
-  public_header_files, 
+  public_header_files,
   install_dir : pkgincludedir
 )
 
-enum_files = gnome.mkenums_simple('gth-enum-types', 
+enum_files = gnome.mkenums_simple('gth-enum-types',
   sources: files(public_header_files),
   install_header : true,
   install_dir : pkgincludedir,
 )
 
-marshal_files = gnome.genmarshal('gth-marshal', 
-  prefix : 'gth_marshal', 
+marshal_files = gnome.genmarshal('gth-marshal',
+  prefix : 'gth_marshal',
   sources : 'gth-marshal.list',
   install_header : true,
   install_dir : pkgincludedir,
@@ -133,7 +133,7 @@ gthumb_h = custom_target('gthumb.h',
   output : 'gthumb.h',
   command : [ find_program('make-gthumb-h.py'), '@INPUT@', '@OUTPUT@', 'gth-enum-types.h', 'gth-marshal.h', public_header_files ],
   install : true,
-  install_dir : pkgincludedir  
+  install_dir : pkgincludedir
 )
 
 gthumb_h_dep = declare_dependency(sources : [ enum_files, marshal_files, gthumb_h ])
@@ -283,18 +283,18 @@ gthumb_inc = include_directories('.')
 
 # Build targets
 
-gthumb_exe = executable('gthumb', 
-  sources : [ 
-    config_file, 
+gthumb_exe = executable('gthumb',
+  sources : [
+    config_file,
     marshal_files,
     enum_files,
-    source_files, 
+    source_files,
     external_files,
     gresource_files
   ],
-  dependencies : [ 
-    common_deps,     
-    jpeg_deps,  
+  dependencies : [
+    common_deps,
+    jpeg_deps,
     authors_dep,
     use_exiv2 ? exiv2_dep : [],
     use_clutter ? clutter_deps : [],
@@ -306,11 +306,11 @@ gthumb_exe = executable('gthumb',
     use_libwebp ? libwebp_dep : [],
     use_libraw ? libraw_dep : [],
     use_librsvg ? librsvg_dep : [],
-    with_webservices ? webkit2_dep : [],    
+    with_webservices ? webkit2_dep : [],
     with_webservices ? libsoup_dep : [],
-    with_webservices ? libjson_glib_dep : [],    
+    with_webservices ? libjson_glib_dep : [],
     use_libsecret ? libsecret_dep : [],
-    use_libbrasero ? libbrasero_dep : []    
+    use_libbrasero ? libbrasero_dep : []
   ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
@@ -320,7 +320,7 @@ gthumb_exe = executable('gthumb',
 
 # Tests
 
-test('dom', 
+test('dom',
   executable('test-dom',
     sources : [ 'test-dom.c', 'dom.c'],
     dependencies : common_deps,
@@ -328,7 +328,7 @@ test('dom',
   )
 )
 
-test('glib-utils', 
+test('glib-utils',
   executable('test-glib-utils',
     sources : [ 'test-glib-utils.c', 'glib-utils.c' ],
     dependencies : common_deps,
@@ -336,7 +336,7 @@ test('glib-utils',
   )
 )
 
-test('gsignature', 
+test('gsignature',
   executable('test-gsignature',
     sources : [ 'test-gsignature.c', 'gsignature.c'],
     dependencies : common_deps,
@@ -344,7 +344,7 @@ test('gsignature',
   )
 )
 
-test('oauth', 
+test('oauth',
   executable('test-oauth',
     sources : [ 'test-oauth.c', 'gsignature.c'],
     dependencies : common_deps   ,

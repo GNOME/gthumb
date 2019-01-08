@@ -167,7 +167,7 @@ _gth_image_preloader_get_requested_size_for_next_images (GthImageViewerPage *sel
 		requested_size = -1;
 		break;
 	default:
-		requested_size = get_viewer_size (self);
+		requested_size = (int) floor ((double) get_viewer_size (self) * 0.5);
 		break;
 	}
 

@@ -4,7 +4,7 @@ install_man('gthumb.1')
 # .desktop file
 
 desktop_data = configuration_data()
-desktop_data.set('VERSION', meson.project_version())            
+desktop_data.set('VERSION', meson.project_version())
 desktop_in_file = configure_file(
   input : 'org.gnome.gThumb.desktop.in.in',
   output : 'org.gnome.gThumb.desktop.in',
@@ -30,7 +30,7 @@ gthumb_pc = pkg.generate(
   subdirs : 'gthumb-@0@'.format(api_version),
   requires : [ 'gtk+-3.0' ],
   version: meson.project_version(),
-  variables : [ 
+  variables : [
     'extensionsdir=${libdir}/gthumb/extensions',
     'datarootdir=${prefix}/share',
     'datadir=${datarootdir}'

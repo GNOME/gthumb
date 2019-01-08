@@ -7,7 +7,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('change_date', 
+shared_module('change_date',
   sources : source_files,
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],

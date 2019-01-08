@@ -12,11 +12,11 @@ else
   source_files += files('transupp-62.c')
 endif
 
-jpeg_utils_mod = shared_module('jpeg_utils', 
+jpeg_utils_mod = shared_module('jpeg_utils',
   sources : source_files,
-  dependencies : [ 
-    extension_common_deps, 
-    jpeg_deps 
+  dependencies : [
+    extension_common_deps,
+    jpeg_deps
   ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,

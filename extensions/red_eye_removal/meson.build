@@ -3,21 +3,21 @@ source_files = files(
   'main.c'
 )
 
-shared_module('red_eye_removal', 
+shared_module('red_eye_removal',
   sources : source_files,
-  dependencies : [ 
+  dependencies : [
     extension_common_deps,
-    file_tools_dep 
+    file_tools_dep
   ],
-  include_directories : [ 
-    config_inc, 
+  include_directories : [
+    config_inc,
     gthumb_inc,
     file_tools_inc
   ],
   c_args : c_args,
   link_with: [
-    file_tools_mod, 
-    image_viewer_mod 
+    file_tools_mod,
+    image_viewer_mod
   ],
   install : true,
   install_dir : extensions_install_dir,

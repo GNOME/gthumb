@@ -3,7 +3,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('map_view', 
+shared_module('map_view',
   sources : source_files,
   dependencies : [ extension_common_deps, libchamplain_deps ],
   include_directories : [ config_inc, gthumb_inc ],

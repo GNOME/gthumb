@@ -8,7 +8,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('image_print', 
+shared_module('image_print',
   sources : source_files,
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],

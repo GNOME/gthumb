@@ -10,7 +10,7 @@ source_files = files(
   'main.c'
 )
 
-catalogs_mod = shared_module('catalogs', 
+catalogs_mod = shared_module('catalogs',
   sources : source_files,
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],

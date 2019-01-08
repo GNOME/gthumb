@@ -20,8 +20,8 @@ albumtheme_parser = custom_target('albumtheme_parser',
    command : [ bison, '@INPUT@', '-pgth_albumtheme_yy', '-o@OUTPUT@' ],
    depends : albumtheme_lexer
 )
- 
-shared_module('webalbums', 
+
+shared_module('webalbums',
   sources : [ source_files, albumtheme_parser ],
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],

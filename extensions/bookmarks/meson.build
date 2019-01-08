@@ -10,7 +10,7 @@ source_files = files(
 
 gresource_files = gnome.compile_resources('bookmarks-resources', 'resources.xml', c_name : 'gth')
 
-shared_module('bookmarks', 
+shared_module('bookmarks',
   sources : [ source_files, gresource_files ],
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],

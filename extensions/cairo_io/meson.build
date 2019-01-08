@@ -24,15 +24,15 @@ endif
 
 enum_files = gnome.mkenums_simple('cairo-io-enum-types', sources: [ 'preferences.h' ])
 
-shared_module('cairo_io', 
+shared_module('cairo_io',
   sources : [ source_files, enum_files ],
-  dependencies : [ 
-    extension_common_deps, 
+  dependencies : [
+    extension_common_deps,
     jpeg_deps,
     use_libtiff ? tiff_deps : [],
     use_librsvg ? librsvg_dep : [],
-    use_libwebp ? libwebp_dep : []    
-  ],  
+    use_libwebp ? libwebp_dep : []
+  ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
   link_with : jpeg_utils_mod,

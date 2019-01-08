@@ -10,7 +10,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('facebook', 
+shared_module('facebook',
   sources : source_files,
   dependencies : [
     extension_common_deps,
@@ -18,12 +18,12 @@ shared_module('facebook',
     libsoup_dep,
     libjson_glib_dep,
     webkit2_dep,
-    use_libsecret ? libsecret_dep : [],    
+    use_libsecret ? libsecret_dep : [],
   ],
-  include_directories : [ 
-    config_inc, 
+  include_directories : [
+    config_inc,
     gthumb_inc,
-    importer_inc 
+    importer_inc
   ],
   c_args : c_args,
   link_with : [

@@ -5,9 +5,9 @@ source_files = files(
   'main.c'
 )
 
-exiv2_tools_mod = shared_module('exiv2_tools', 
+exiv2_tools_mod = shared_module('exiv2_tools',
   sources : source_files,
-  dependencies : [ extension_common_deps, exiv2_dep ],  
+  dependencies : [ extension_common_deps, exiv2_dep ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
   link_with : [ edit_metadata_mod ],

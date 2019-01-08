@@ -3,7 +3,7 @@ source_files = files(
   'main.c'
 )
 
-gstreamer_utils_mod = shared_module('gstreamer_utils', 
+gstreamer_utils_mod = shared_module('gstreamer_utils',
   sources : source_files,
   dependencies : [ extension_common_deps, gstreamer_deps ],
   include_directories : [ config_inc, gthumb_inc ],

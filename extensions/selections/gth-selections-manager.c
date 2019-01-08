@@ -293,6 +293,7 @@ _gth_selections_manager_for_each_selection (gpointer user_data)
 }
 
 
+G_GNUC_UNUSED
 static void
 _gth_selections_manager_load_from_node (GthSelectionsManager *self,
 					DomElement           *node)
@@ -580,6 +581,7 @@ gth_selections_manager_get_is_empty (int n_selection)
 }
 
 
+G_GNUC_UNUSED
 static DomElement *
 _gth_selections_manager_create_selection_node (GthSelectionsManager *self,
 					       int                   n_selection,

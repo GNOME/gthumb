@@ -22,7 +22,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('contact_sheet', 
+shared_module('contact_sheet',
   sources : [ source_files, enum_files ],
   dependencies : [ extension_common_deps, gstreamer_deps ],
   include_directories : [ config_inc, gthumb_inc ],

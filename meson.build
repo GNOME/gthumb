@@ -115,12 +115,12 @@ if not have_tm_gmtoff
             int main() { timezone = 1; }'''
   have_timezone = c_comp.compiles(code, name : 'timezone variable is defined')
   if have_timezone
-    code = '''#include <time.h>    
+    code = '''#include <time.h>
               int main() { altzone = 1; }'''
-    have_altzone = c_comp.compiles(code, name : 'altzone variable is defined')    
+    have_altzone = c_comp.compiles(code, name : 'altzone variable is defined')
   else
     error('unable to find a way to determine timezone')
-  endif 
+  endif
 endif
 
 # libjpeg
@@ -147,7 +147,7 @@ have_progressive_jpeg = c_comp.has_function('jpeg_simple_progression', prefix : 
 if get_option('libtiff')
   libtiff_dep = c_comp.find_library('tiff', required : false)
   use_libtiff = libtiff_dep.found()
-  tiff_deps = [ libm_dep, libz_dep, libtiff_dep ]  
+  tiff_deps = [ libm_dep, libz_dep, libtiff_dep ]
 else
   use_libtiff = false
 endif
@@ -182,11 +182,11 @@ if get_option('webservices')
     webkit2_dep = dependency('webkit2gtk-3.0', version : webkit2_version, required : false)
   endif
   with_webservices = libsoup_dep.found() and libjson_glib_dep.found() and webkit2_dep.found()
-  
+
   if with_webservices and get_option('libsecret')
     libsecret_dep = dependency('libsecret-1', version : libsecret_version, required : false)
     use_libsecret = libsecret_dep.found()
-  endif  
+  endif
 else
   with_webservices = false
 endif
@@ -278,8 +278,8 @@ if use_libtiff
   config_data.set('HAVE_LIBTIFF', 1)
 endif
 if use_libwebp
-  config_data.set('HAVE_LIBWEBP', 1)  
-  config_data.set('WEBP_IS_UNKNOWN_TO_GLIB', 1) # Define to 1 if webp images area not recognized by the glib functions 
+  config_data.set('HAVE_LIBWEBP', 1)
+  config_data.set('WEBP_IS_UNKNOWN_TO_GLIB', 1) # Define to 1 if webp images area not recognized by the glib functions
 endif
 if use_libraw
   config_data.set('HAVE_LIBRAW', 1)
@@ -303,17 +303,17 @@ config_inc = include_directories('.')
 
 c_args = []
 if get_option('buildtype').contains('debug')
-  test_args = [ 
-    '-Wall', 
-    '-Wcast-align', 
-    '-Wtype-limits', 
-    '-Wclobbered', 
-    '-Wempty-body', 
-    '-Wignored-qualifiers', 
+  test_args = [
+    '-Wall',
+    '-Wcast-align',
+    '-Wtype-limits',
+    '-Wclobbered',
+    '-Wempty-body',
+    '-Wignored-qualifiers',
     '-Wmissing-prototypes',
-    '-Wnested-externs', 
-    '-Wpointer-arith', 
-    '-Wno-sign-compare', 
+    '-Wnested-externs',
+    '-Wpointer-arith',
+    '-Wno-sign-compare',
     '-Wformat-security'
   ]
 else
@@ -358,8 +358,8 @@ summary = [
   '               raw: @0@'.format(use_libraw),
   '               svg: @0@'.format(use_librsvg),
   '      web services: @0@'.format(with_webservices),
-  '         libsecret: @0@'.format(use_libsecret), 
-  '        libbrasero: @0@'.format(use_libbrasero),  
+  '         libsecret: @0@'.format(use_libsecret),
+  '        libbrasero: @0@'.format(use_libbrasero),
   '        web albums: @0@'.format(with_webalbums),
   '        vector ops: @0@'.format(vector_ops),
   ''

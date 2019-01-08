@@ -3,7 +3,7 @@ source_files = files(
   'gth-metadata-provider-raw.c'
 )
 
-shared_module('raw_files', 
+shared_module('raw_files',
   sources : source_files,
   dependencies : [ extension_common_deps, libraw_dep ],
   include_directories : [ config_inc, gthumb_inc ],

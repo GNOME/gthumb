@@ -7,7 +7,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('file_manager', 
+shared_module('file_manager',
   sources : source_files,
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],

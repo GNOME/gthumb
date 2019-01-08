@@ -7,7 +7,7 @@ source_files = files(
   'rotation-utils.c'
 )
 
-image_rotation_mod = shared_module('image_rotation', 
+image_rotation_mod = shared_module('image_rotation',
   sources : source_files,
   dependencies : [ extension_common_deps, jpeg_deps ],
   include_directories : [ config_inc, gthumb_inc ],

@@ -74,12 +74,12 @@ source_files = files(
   'main.c'
 )
 
-file_tools_mod = shared_module('file_tools', 
+file_tools_mod = shared_module('file_tools',
   sources : [ source_files, enum_files ],
-  dependencies : extension_common_deps, 
-  include_directories : [ 
-    config_inc, 
-    gthumb_inc 
+  dependencies : extension_common_deps,
+  include_directories : [
+    config_inc,
+    gthumb_inc
   ],
   c_args : c_args,
   link_with : image_viewer_mod,

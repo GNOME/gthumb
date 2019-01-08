@@ -7,7 +7,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('find_duplicates', 
+shared_module('find_duplicates',
   sources : source_files,
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],

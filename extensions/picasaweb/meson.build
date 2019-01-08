@@ -11,17 +11,17 @@ source_files = files(
   'picasa-web-service.c'
 )
 
-shared_module('picasaweb', 
+shared_module('picasaweb',
   sources : source_files,
   dependencies : [
     extension_common_deps,
     importer_dep,
     libsoup_dep,
     libjson_glib_dep,
-    use_libsecret ? libsecret_dep : [],    
+    use_libsecret ? libsecret_dep : [],
   ],
-  include_directories : [ 
-    config_inc, 
+  include_directories : [
+    config_inc,
     gthumb_inc,
     importer_inc
   ],

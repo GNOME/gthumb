@@ -8,7 +8,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('search', 
+shared_module('search',
   sources : [ source_files, gresource_files ],
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],

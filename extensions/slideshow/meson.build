@@ -8,7 +8,7 @@ source_files = files(
   'preferences.c'
 )
 
-shared_module('slideshow', 
+shared_module('slideshow',
   sources : source_files,
   dependencies : [
     extension_common_deps,

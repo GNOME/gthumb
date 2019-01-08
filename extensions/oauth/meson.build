@@ -10,14 +10,14 @@ source_files = files(
   'web-service.c'
 )
 
-oauth_mod = shared_module('oauth', 
+oauth_mod = shared_module('oauth',
   sources : source_files,
   dependencies : [
     extension_common_deps,
     jpeg_deps,
     libsoup_dep,
     webkit2_dep,
-    use_libsecret ? libsecret_dep : [],    
+    use_libsecret ? libsecret_dep : [],
   ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,

@@ -11,7 +11,7 @@ source_files = files(
 
 gresource_files = gnome.compile_resources('list-tools-resources', 'resources.xml', c_name : 'gth')
 
-list_tools_mod = shared_module('list_tools', 
+list_tools_mod = shared_module('list_tools',
   sources : [ source_files, gresource_files ],
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],

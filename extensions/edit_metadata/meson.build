@@ -12,9 +12,9 @@ source_files = files(
   'utils.c'
 )
 
-edit_metadata_mod = shared_module('edit_metadata', 
+edit_metadata_mod = shared_module('edit_metadata',
   sources : source_files,
-  dependencies : extension_common_deps,  
+  dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
   install : true,

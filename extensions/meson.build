@@ -1,5 +1,5 @@
 extension_data = configuration_data()
-extension_data.set('GTHUMB_VERSION', meson.project_version())            
+extension_data.set('GTHUMB_VERSION', meson.project_version())
 extension_data.set('GTHUMB_API_VERSION', api_version)
 
 extension_common_deps = [ common_deps, gthumb_h_dep ]
@@ -28,9 +28,9 @@ subdir('convert_format')
 subdir('rename_series')
 subdir('resize_images')
 
-# importers 
+# importers
 subdir('photo_importer')
-  
+
 # exporters
 subdir('export_tools')
 if use_libbrasero
@@ -39,7 +39,7 @@ endif
 subdir('contact_sheet')
 if with_webservices
   subdir('oauth')
-  subdir('facebook')  
+  subdir('facebook')
 
   # flickr exporters
   subdir('flicker_utils')

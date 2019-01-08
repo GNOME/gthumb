@@ -5,12 +5,12 @@ source_files = files(
   'main.c'
 )
 
-shared_module('23hq', 
+shared_module('23hq',
   sources : source_files,
   dependencies : [
     extension_common_deps,
     libsoup_dep,
-    use_libsecret ? libsecret_dep : [],    
+    use_libsecret ? libsecret_dep : [],
   ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,

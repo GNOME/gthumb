@@ -6,7 +6,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('burn_disc', 
+shared_module('burn_disc',
   sources : source_files,
   dependencies : [ extension_common_deps, libbrasero_dep ],
   include_directories : [ config_inc, gthumb_inc ],

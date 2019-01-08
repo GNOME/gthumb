@@ -3,7 +3,7 @@ source_files = files(
   'main.c'
 )
 
-shared_module('file_viewer', 
+shared_module('file_viewer',
   sources : [ source_files ],
   dependencies : extension_common_deps,
   include_directories : [ config_inc, gthumb_inc ],
