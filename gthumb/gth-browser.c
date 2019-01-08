@@ -4675,16 +4675,17 @@ gth_browser_init (GthBrowser *browser)
 
 		/* statusbar commands in browser mode */
 
-		browser->priv->browser_status_commands = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+		browser->priv->browser_status_commands = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_widget_show (browser->priv->browser_status_commands);
-		/*gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->browser_status_commands), GTK_STYLE_CLASS_LINKED);*/
+		gtk_style_context_add_class (gtk_widget_get_style_context (browser->priv->browser_status_commands), GTK_STYLE_CLASS_LINKED);
 		gtk_box_pack_start (GTK_BOX (gth_statubar_get_action_area (GTH_STATUSBAR (browser->priv->statusbar))), browser->priv->browser_status_commands, FALSE, FALSE, 0);
 
 		button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("dialog-information-symbolic", GTK_ICON_SIZE_MENU));
+		gtk_widget_set_tooltip_text (button, _("Properties"));
 		gtk_widget_show_all (button);
 		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.browser-properties");
-		gtk_box_pack_end (GTK_BOX (browser->priv->browser_status_commands), button, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (browser->priv->browser_status_commands), button, FALSE, FALSE, 0);
 
 		/* statusbar commands in viewer mode */
 
