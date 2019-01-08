@@ -31,7 +31,6 @@
 #define MIN_HISTOGRAM_HEIGHT 280
 
 
-static void gth_image_histogram_gth_multipage_child_interface_init (GthMultipageChildInterface *iface);
 static void gth_image_histogram_gth_property_view_interface_init (GthPropertyViewInterface *iface);
 
 
@@ -45,13 +44,11 @@ G_DEFINE_TYPE_WITH_CODE (GthImageHistogram,
 			 gth_image_histogram,
 			 GTK_TYPE_BOX,
 			 G_ADD_PRIVATE (GthImageHistogram)
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
-						gth_image_histogram_gth_multipage_child_interface_init)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
 						gth_image_histogram_gth_property_view_interface_init))
 
 
-static void
+static gboolean
 gth_image_histogram_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
@@ -61,34 +58,32 @@ gth_image_histogram_real_set_file (GthPropertyView *base,
 
 	if (file_data == NULL) {
 		gth_histogram_calculate_for_image (self->priv->histogram, NULL);
-		return;
+		return FALSE;
 	}
 
 	browser = (GthBrowser *) gtk_widget_get_toplevel (GTK_WIDGET (base));
-	if (! gtk_widget_is_toplevel (GTK_WIDGET (browser))) {
-		gth_histogram_calculate_for_image (self->priv->histogram, NULL);
-		return;
-	}
+	if (! gtk_widget_is_toplevel (GTK_WIDGET (browser)))
+		return FALSE;
 
 	viewer_page = gth_browser_get_viewer_page (browser);
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page)) {
-		gth_histogram_calculate_for_image (self->priv->histogram, NULL);
-		return;
-	}
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		return FALSE;
 
 	gth_histogram_calculate_for_image (self->priv->histogram, gth_image_viewer_page_get_current_image (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+
+	return TRUE;
 }
 
 
 static const char *
-gth_image_histogram_real_get_name (GthMultipageChild *self)
+gth_image_histogram_real_get_name (GthPropertyView *self)
 {
 	return _("Histogram");
 }
 
 
 static const char *
-gth_image_histogram_real_get_icon (GthMultipageChild *self)
+gth_image_histogram_real_get_icon (GthPropertyView *self)
 {
 	return "histogram-symbolic";
 }
@@ -112,16 +107,10 @@ gth_image_histogram_class_init (GthImageHistogramClass *klass)
 
 
 static void
-gth_image_histogram_gth_multipage_child_interface_init (GthMultipageChildInterface *iface)
+gth_image_histogram_gth_property_view_interface_init (GthPropertyViewInterface *iface)
 {
 	iface->get_name = gth_image_histogram_real_get_name;
 	iface->get_icon = gth_image_histogram_real_get_icon;
-}
-
-
-static void
-gth_image_histogram_gth_property_view_interface_init (GthPropertyViewInterface *iface)
-{
 	iface->set_file = gth_image_histogram_real_set_file;
 }
 
@@ -150,7 +139,6 @@ gth_image_histogram_init (GthImageHistogram *self)
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (self), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (self), 2);
 
 	settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
 

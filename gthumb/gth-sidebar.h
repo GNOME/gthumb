@@ -49,14 +49,12 @@ typedef struct _GthSidebar        GthSidebar;
 typedef struct _GthSidebarClass   GthSidebarClass;
 typedef struct _GthSidebarPrivate GthSidebarPrivate;
 
-struct _GthSidebar
-{
+struct _GthSidebar {
 	GtkStack __parent;
 	GthSidebarPrivate *priv;
 };
 
-struct _GthSidebarClass
-{
+struct _GthSidebarClass {
 	GtkStackClass __parent_class;
 };
 
@@ -65,12 +63,14 @@ typedef struct _GthPropertyViewInterface GthPropertyViewInterface;
 
 struct _GthPropertyViewInterface {
 	GTypeInterface parent_iface;
-	void  (*set_file)  (GthPropertyView *self,
-			    GthFileData     *file_data);
+	const char *	(*get_name)	(GthPropertyView *self);
+	const char *	(*get_icon)	(GthPropertyView *self);
+	gboolean	(*set_file)	(GthPropertyView *self,
+					 GthFileData     *file_data);
 };
 
 GType          gth_sidebar_get_type            (void);
-GtkWidget *    gth_sidebar_new                 (void);
+GtkWidget *    gth_sidebar_new                 (char           **sections_status);
 GtkWidget *    gth_sidebar_get_toolbox         (GthSidebar      *sidebar);
 void           gth_sidebar_set_file            (GthSidebar      *sidebar,
 						GthFileData     *file_data);
@@ -79,9 +79,12 @@ void           gth_sidebar_show_tools          (GthSidebar      *sidebar);
 gboolean       gth_sidebar_tool_is_active      (GthSidebar      *sidebar);
 void           gth_sidebar_deactivate_tool     (GthSidebar      *sidebar);
 void           gth_sidebar_update_sensitivity  (GthSidebar      *sidebar);
+char **        gth_sidebar_get_sections_status (GthSidebar      *sidebar);
 
 GType          gth_property_view_get_type      (void);
-void           gth_property_view_set_file      (GthPropertyView *self,
+const char *   gth_property_view_get_name      (GthPropertyView *self);
+const char *   gth_property_view_get_icon      (GthPropertyView *self);
+gboolean       gth_property_view_set_file      (GthPropertyView *self,
 						GthFileData     *file_data);
 
 G_END_DECLS

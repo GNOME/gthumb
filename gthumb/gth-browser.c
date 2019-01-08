@@ -1986,8 +1986,9 @@ _gth_browser_close_final_step (gpointer user_data)
 	last_window = g_list_length (gtk_application_get_windows (gtk_window_get_application (GTK_WINDOW (browser)))) == 1;
 
 	if (gtk_widget_get_realized (GTK_WIDGET (browser))) {
-		gboolean       maximized;
-		GtkAllocation  allocation;
+		gboolean        maximized;
+		GtkAllocation   allocation;
+		char          **sidebar_sections;
 
 		/* Save visualization options only if the window is not maximized. */
 
@@ -2022,6 +2023,10 @@ _gth_browser_close_final_step (gpointer user_data)
 
 		g_settings_set_enum (browser->priv->browser_settings, PREF_FULLSCREEN_SIDEBAR, browser->priv->fullscreen_state.sidebar);
 		g_settings_set_boolean (browser->priv->browser_settings, PREF_FULLSCREEN_THUMBNAILS_VISIBLE, browser->priv->fullscreen_state.thumbnail_list);
+
+		sidebar_sections = gth_sidebar_get_sections_status (GTH_SIDEBAR (browser->priv->file_properties));
+		g_settings_set_strv (browser->priv->browser_settings, PREF_BROWSER_SIDEBAR_SECTIONS, (const char **) sidebar_sections);
+		g_strfreev (sidebar_sections);
 	}
 
 	/**/
@@ -4255,6 +4260,7 @@ gth_browser_init (GthBrowser *browser)
 {
 	int             window_width;
 	int             window_height;
+	char          **sidebar_sections;
 	GtkWidget      *vbox;
 	GtkWidget      *scrolled_window;
 	char           *general_filter;
@@ -4797,13 +4803,15 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the file property box */
 
-	browser->priv->file_properties = gth_sidebar_new ();
+	sidebar_sections = g_settings_get_strv (browser->priv->browser_settings, PREF_BROWSER_SIDEBAR_SECTIONS);
+	browser->priv->file_properties = gth_sidebar_new (sidebar_sections);
 	gtk_widget_set_size_request (browser->priv->file_properties, -1, FILE_PROPERTIES_MINIMUM_HEIGHT);
 	gtk_widget_hide (browser->priv->file_properties);
 	gtk_paned_pack2 (GTK_PANED (_gth_browser_get_browser_file_properties_container (browser)),
 			 browser->priv->file_properties,
 			 ! browser->priv->file_properties_on_the_right,
 			 FALSE);
+	g_strfreev (sidebar_sections);
 
 	g_signal_connect (gth_sidebar_get_toolbox (GTH_SIDEBAR (browser->priv->file_properties)),
 			  "options-visibility",

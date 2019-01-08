@@ -31,7 +31,6 @@
 #define LABEL_MAX_WIDTH 200
 
 
-static void gth_map_view_gth_multipage_child_interface_init (GthMultipageChildInterface *iface);
 static void gth_map_view_gth_property_view_interface_init (GthPropertyViewInterface *iface);
 
 
@@ -48,8 +47,6 @@ G_DEFINE_TYPE_WITH_CODE (GthMapView,
 			 gth_map_view,
 			 GTK_TYPE_BOX,
 			 G_ADD_PRIVATE (GthMapView)
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
-						gth_map_view_gth_multipage_child_interface_init)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
 						gth_map_view_gth_property_view_interface_init))
 
@@ -139,7 +136,7 @@ decimal_coordinates_to_string (double latitude,
 }
 
 
-static void
+static gboolean
 gth_map_view_real_set_file (GthPropertyView *base,
 		 	    GthFileData     *file_data)
 {
@@ -197,18 +194,20 @@ gth_map_view_real_set_file (GthPropertyView *base,
 		gtk_widget_hide (self->priv->embed);
 		gtk_widget_show (self->priv->no_gps_label);
 	}
+
+	return (coordinates_available == 2);
 }
 
 
 static const char *
-gth_map_view_real_get_name (GthMultipageChild *self)
+gth_map_view_real_get_name (GthPropertyView *self)
 {
 	return _("Map");
 }
 
 
 static const char *
-gth_map_view_real_get_icon (GthMultipageChild *self)
+gth_map_view_real_get_icon (GthPropertyView *self)
 {
 	return "map-symbolic";
 }
@@ -320,15 +319,9 @@ gth_map_view_init (GthMapView *self)
 
 
 static void
-gth_map_view_gth_multipage_child_interface_init (GthMultipageChildInterface *iface)
+gth_map_view_gth_property_view_interface_init (GthPropertyViewInterface *iface)
 {
 	iface->get_name = gth_map_view_real_get_name;
 	iface->get_icon = gth_map_view_real_get_icon;
-}
-
-
-static void
-gth_map_view_gth_property_view_interface_init (GthPropertyViewInterface *iface)
-{
 	iface->set_file = gth_map_view_real_set_file;
 }

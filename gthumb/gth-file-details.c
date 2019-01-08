@@ -23,37 +23,37 @@
 #include <glib/gi18n.h>
 #include "glib-utils.h"
 #include "gth-file-details.h"
-#include "gth-multipage.h"
 #include "gth-sidebar.h"
 
 
-static void gth_file_details_gth_multipage_child_interface_init (GthMultipageChildInterface *iface);
+static void gth_file_details_gth_property_view_interface_init (GthPropertyViewInterface *iface);
 
 
 G_DEFINE_TYPE_WITH_CODE (GthFileDetails,
 			 gth_file_details,
 			 GTH_TYPE_FILE_PROPERTIES,
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
-					 	gth_file_details_gth_multipage_child_interface_init))
+			 G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
+					 	gth_file_details_gth_property_view_interface_init))
 
 
 static const char *
-gth_file_details_real_get_name (GthMultipageChild *self)
+gth_file_details_real_get_name (GthPropertyView *self)
 {
-	return _("Details");
+	return _("Metadata");
 }
 
 
 static const char *
-gth_file_details_real_get_icon (GthMultipageChild *self)
+gth_file_details_real_get_icon (GthPropertyView *self)
 {
-	return "format-justify-fill-symbolic";
+	return "tag-symbolic";
 }
 
 
 static void
 gth_file_details_class_init (GthFileDetailsClass *klass)
 {
+	/* void */
 }
 
 
@@ -65,7 +65,7 @@ gth_file_details_init (GthFileDetails *self)
 
 
 static void
-gth_file_details_gth_multipage_child_interface_init (GthMultipageChildInterface *iface)
+gth_file_details_gth_property_view_interface_init (GthPropertyViewInterface *iface)
 {
 	iface->get_name = gth_file_details_real_get_name;
 	iface->get_icon = gth_file_details_real_get_icon;

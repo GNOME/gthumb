@@ -70,6 +70,7 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_WINDOW_MAXIMIZED         "maximized"
 #define PREF_BROWSER_STATUSBAR_VISIBLE        "statusbar-visible"
 #define PREF_BROWSER_SIDEBAR_VISIBLE          "sidebar-visible"
+#define PREF_BROWSER_SIDEBAR_SECTIONS         "sidebar-sections"
 #define PREF_BROWSER_PROPERTIES_VISIBLE       "properties-visible"
 #define PREF_BROWSER_PROPERTIES_ON_THE_RIGHT  "properties-on-the-right"
 #define PREF_BROWSER_THUMBNAIL_LIST_VISIBLE   "thumbnail-list-visible"

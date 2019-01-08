@@ -107,6 +107,9 @@
     <key name="sidebar-visible" type="b">
       <default>true</default>
     </key>
+    <key name="sidebar-sections" type="as">
+      <default>[]</default>
+    </key>
     <key name="properties-visible" type="b">
       <default>false</default>
     </key>

@@ -24,7 +24,6 @@
 #include "glib-utils.h"
 #include "gth-file-properties.h"
 #include "gth-main.h"
-#include "gth-multipage.h"
 #include "gth-sidebar.h"
 #include "gth-string-list.h"
 #include "gth-time.h"
@@ -36,7 +35,6 @@
 #define COMMENT_DEFAULT_HEIGHT 100
 #define CATEGORY_SIZE 1000
 #define MAX_ATTRIBUTE_LENGTH 128
-#define GTH_STYLE_CLASS_COMMENT "comment"
 
 /* Properties */
 enum {
@@ -59,18 +57,15 @@ enum {
 
 
 struct _GthFilePropertiesPrivate {
+	GtkWidget     *main_container;
 	GtkWidget     *tree_view;
-	GtkWidget     *comment_view;
-	GtkWidget     *comment_win;
 	GtkListStore  *tree_model;
 	GtkWidget     *popup_menu;
 	gboolean       show_details;
-	gboolean       details_available;
 	GthFileData   *last_file_data;
 };
 
 
-static void gth_file_properties_gth_multipage_child_interface_init (GthMultipageChildInterface *iface);
 static void gth_file_properties_gth_property_view_interface_init (GthPropertyViewInterface *iface);
 
 
@@ -78,46 +73,19 @@ G_DEFINE_TYPE_WITH_CODE (GthFileProperties,
 			 gth_file_properties,
 			 GTK_TYPE_BOX,
 			 G_ADD_PRIVATE (GthFileProperties)
-			 G_IMPLEMENT_INTERFACE (GTH_TYPE_MULTIPAGE_CHILD,
-					 	gth_file_properties_gth_multipage_child_interface_init)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_PROPERTY_VIEW,
 						gth_file_properties_gth_property_view_interface_init))
 
 
-static char *
-get_comment (GthFileData *file_data)
-{
-	GString     *string;
-	GthMetadata *value;
-	gboolean     not_void = FALSE;
-
-	string = g_string_new (NULL);
-
-	value = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "general::description");
-	if (value != NULL) {
-		const char *formatted;
-
-		formatted = gth_metadata_get_formatted (value);
-		if ((formatted != NULL) && (*formatted != '\0')) {
-			g_string_append (string, formatted);
-			not_void = TRUE;
-		}
-	}
-
-	return g_string_free (string, ! not_void);
-}
-
-
-static void
+static gboolean
 gth_file_properties_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
 	GthFileProperties *self;
+	gboolean           data_available;
 	GHashTable        *category_hash;
 	GList             *metadata_info;
 	GList             *scan;
-	GtkTextBuffer     *text_buffer;
-	char              *comment;
 
 	self = GTH_FILE_PROPERTIES (base);
 
@@ -129,13 +97,13 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 	gtk_list_store_clear (self->priv->tree_model);
 
 	if (file_data == NULL) {
-		gtk_widget_hide (self->priv->comment_win);
-		return;
+		gtk_widget_hide (self->priv->main_container);
+		return FALSE;
 	}
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 
-	self->priv->details_available = FALSE;
+	data_available = FALSE;
 	category_hash = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 	metadata_info = gth_main_get_all_metadata_info ();
 	for (scan = metadata_info; scan; scan = scan->next) {
@@ -156,20 +124,20 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 
 		if (info->id != NULL) {
 			if (g_str_has_prefix (info->id, "Exif")) {
-				self->priv->details_available = TRUE;
 				if (! self->priv->show_details)
 					continue;
 			}
-			if (g_str_has_prefix (info->id, "Iptc")) {
-				self->priv->details_available = TRUE;
+			else if (g_str_has_prefix (info->id, "Iptc")) {
 				if (! self->priv->show_details)
 					continue;
 			}
-			if (g_str_has_prefix (info->id, "Xmp")) {
-				self->priv->details_available = TRUE;
+			else if (g_str_has_prefix (info->id, "Xmp")) {
 				if (! self->priv->show_details)
 					continue;
 			}
+			else
+				if (self->priv->show_details)
+					continue;
 		}
 
 		if (value != NULL) {
@@ -215,50 +183,30 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 
 		g_free (tooltip);
 		g_free (value);
+
+		data_available = TRUE;
 	}
 	g_list_free (metadata_info);
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (self->priv->tree_view));
+	gtk_widget_set_visible (self->priv->main_container, data_available);
 
 	g_hash_table_destroy (category_hash);
 
-	/* comment */
-
-	comment = NULL;
-	if (! self->priv->show_details) {
-		text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (self->priv->comment_view));
-		comment = get_comment (file_data);
-	}
-	if (comment != NULL) {
-		GtkTextIter    iter;
-		GtkAdjustment *vadj;
-
-		gtk_text_buffer_set_text (text_buffer, comment, strlen (comment));
-		gtk_text_buffer_get_iter_at_line (text_buffer, &iter, 0);
-		gtk_text_buffer_place_cursor (text_buffer, &iter);
-
-		vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (self->priv->comment_win));
-		gtk_adjustment_set_value (vadj, 0.0);
-
-		gtk_widget_show (self->priv->comment_win);
-
-		g_free (comment);
-	}
-	else
-		gtk_widget_hide (self->priv->comment_win);
+	return data_available;
 }
 
 
 static const char *
-gth_file_properties_real_get_name (GthMultipageChild *self)
+gth_file_properties_real_get_name (GthPropertyView *self)
 {
 	return _("Properties");
 }
 
 
 static const char *
-gth_file_properties_real_get_icon (GthMultipageChild *self)
+gth_file_properties_real_get_icon (GthPropertyView *self)
 {
 	return "document-properties-symbolic";
 }
@@ -287,7 +235,7 @@ gth_file_properties_set_property (GObject      *object,
 {
 	GthFileProperties *self;
 
-        self = GTH_FILE_PROPERTIES (object);
+	self = GTH_FILE_PROPERTIES (object);
 
 	switch (property_id) {
 	case PROP_SHOW_DETAILS:
@@ -307,7 +255,7 @@ gth_file_properties_get_property (GObject    *object,
 {
 	GthFileProperties *self;
 
-        self = GTH_FILE_PROPERTIES (object);
+	self = GTH_FILE_PROPERTIES (object);
 
 	switch (property_id) {
 	case PROP_SHOW_DETAILS:
@@ -408,14 +356,10 @@ tree_view_popup_menu_cb (GtkWidget *widget,
 static void
 gth_file_properties_init (GthFileProperties *self)
 {
-	GtkWidget         *vpaned;
-	GtkWidget         *properties_box;
 	GtkWidget         *scrolled_win;
-	GtkWidget         *button_box;
 	GtkWidget         *menu_item;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-
 
 	self->priv = gth_file_properties_get_instance_private (self);
 	self->priv->show_details = FALSE;
@@ -424,24 +368,12 @@ gth_file_properties_init (GthFileProperties *self)
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 
-	vpaned = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
-	gtk_widget_show (vpaned);
-	gtk_box_pack_start (GTK_BOX (self), vpaned, TRUE, TRUE, 0);
-
-	properties_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	gtk_widget_show (properties_box);
-	gtk_paned_pack1 (GTK_PANED (vpaned), properties_box, TRUE, FALSE);
-
-	scrolled_win = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_NONE);
+	self->priv->main_container = scrolled_win = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_IN);
 	gtk_widget_show (scrolled_win);
 	gtk_widget_set_size_request (scrolled_win, -1, MIN_HEIGHT);
-	gtk_box_pack_start (GTK_BOX (properties_box), scrolled_win, TRUE, TRUE, 0);
-
-	button_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
-	gtk_widget_show (button_box);
-	gtk_box_pack_start (GTK_BOX (properties_box), button_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (self), scrolled_win, TRUE, TRUE, 0);
 
 	self->priv->tree_view = gtk_tree_view_new ();
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (self->priv->tree_view), FALSE);
@@ -519,37 +451,13 @@ gth_file_properties_init (GthFileProperties *self)
 				     column);
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (self->priv->tree_model), POS_COLUMN, GTK_SORT_ASCENDING);
-
-	/* comment */
-
-	self->priv->comment_win = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (self->priv->comment_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (self->priv->comment_win), GTK_SHADOW_ETCHED_IN);
-	gtk_widget_set_size_request (self->priv->comment_win, -1, COMMENT_DEFAULT_HEIGHT);
-	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->comment_win), GTH_STYLE_CLASS_COMMENT);
-	gtk_paned_pack2 (GTK_PANED (vpaned), self->priv->comment_win, FALSE, FALSE);
-
-	self->priv->comment_view = gtk_text_view_new ();
-	gtk_style_context_add_class (gtk_widget_get_style_context (self->priv->comment_view), GTH_STYLE_CLASS_COMMENT);
-	gtk_text_view_set_editable (GTK_TEXT_VIEW (self->priv->comment_view), FALSE);
-	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (self->priv->comment_view), GTK_WRAP_WORD);
-	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (self->priv->comment_view), TRUE);
-
-	gtk_widget_show (self->priv->comment_view);
-	gtk_container_add (GTK_CONTAINER (self->priv->comment_win), self->priv->comment_view);
-}
-
-
-static void
-gth_file_properties_gth_multipage_child_interface_init (GthMultipageChildInterface *iface)
-{
-	iface->get_name = gth_file_properties_real_get_name;
-	iface->get_icon = gth_file_properties_real_get_icon;
 }
 
 
 static void
 gth_file_properties_gth_property_view_interface_init (GthPropertyViewInterface *iface)
 {
+	iface->get_name = gth_file_properties_real_get_name;
+	iface->get_icon = gth_file_properties_real_get_icon;
 	iface->set_file = gth_file_properties_real_set_file;
 }

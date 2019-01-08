@@ -25,6 +25,7 @@
 #include "dlg-preferences-browser.h"
 #include "dlg-preferences-extensions.h"
 #include "dlg-preferences-general.h"
+#include "gth-file-comment.h"
 #include "gth-file-details.h"
 #include "gth-file-properties.h"
 #include "gth-main.h"
@@ -64,6 +65,7 @@ void
 gth_main_register_default_types (void)
 {
 	gth_main_register_type ("file-properties", GTH_TYPE_FILE_PROPERTIES);
+	gth_main_register_type ("file-properties", GTH_TYPE_FILE_COMMENT);
 	gth_main_register_type ("file-properties", GTH_TYPE_FILE_DETAILS);
 	gth_main_register_default_file_loader ();
 	gth_hook_add_callback ("dlg-preferences-construct", 1, G_CALLBACK (general__dlg_preferences_construct_cb), NULL);

@@ -23,8 +23,8 @@
 #include <gtk/gtk.h>
 #include "glib-utils.h"
 #include "gth-main.h"
-#include "gth-multipage.h"
 #include "gth-sidebar.h"
+#include "gth-sidebar-section.h"
 #include "gth-toolbox.h"
 #include "gtk-utils.h"
 
@@ -36,8 +36,8 @@
 struct _GthSidebarPrivate {
 	GtkWidget   *properties;
 	GtkWidget   *toolbox;
-	gboolean    *dirty;
 	GthFileData *file_data;
+	GList       *sections;
 };
 
 
@@ -52,43 +52,9 @@ gth_sidebar_finalize (GObject *object)
 {
 	GthSidebar *sidebar = GTH_SIDEBAR (object);
 
-	g_free (sidebar->priv->dirty);
 	_g_object_unref (sidebar->priv->file_data);
 
 	G_OBJECT_CLASS (gth_sidebar_parent_class)->finalize (object);
-}
-
-
-static gboolean
-_gth_sidebar_properties_visible (GthSidebar *sidebar)
-{
-	return (gtk_widget_get_mapped (GTK_WIDGET (sidebar->priv->properties))
-		&& (g_strcmp0 (gtk_stack_get_visible_child_name (GTK_STACK (sidebar)), GTH_SIDEBAR_PAGE_PROPERTIES) == 0));
-}
-
-
-static void
-_gth_sidebar_update_current_child (GthSidebar *sidebar)
-{
-	int current;
-
-	if (! _gth_sidebar_properties_visible (sidebar))
-		return;
-
-	current = gth_multipage_get_current (GTH_MULTIPAGE (sidebar->priv->properties));
-	if (sidebar->priv->dirty == NULL)
-		return;
-
-	if (sidebar->priv->dirty[current]) {
-		GList     *children;
-		GtkWidget *current_child;
-
-		children = gth_multipage_get_children (GTH_MULTIPAGE (sidebar->priv->properties));
-		current_child = g_list_nth_data (children, current);
-
-		sidebar->priv->dirty[current] = FALSE;
-		gth_property_view_set_file (GTH_PROPERTY_VIEW (current_child), sidebar->priv->file_data);
-	}
 }
 
 
@@ -106,66 +72,146 @@ static void
 gth_sidebar_init (GthSidebar *sidebar)
 {
 	sidebar->priv = gth_sidebar_get_instance_private (sidebar);
-	sidebar->priv->dirty = NULL;
 	sidebar->priv->file_data = NULL;
+	sidebar->priv->sections = NULL;
+}
+
+
+#define STATUS_DELIMITER ":"
+#define STATUS_EXPANDED  "expanded"
+#define STATUS_NOT_EXPANDED  "collapsed"
+
+
+typedef struct {
+	char     *id;
+	gboolean  expanded;
+} SectionStatus;
+
+
+static SectionStatus *
+section_status_new (const char *str)
+{
+	SectionStatus  *status;
+	char          **strv;
+
+	status = g_new (SectionStatus, 1);
+	status->id = NULL;
+	status->expanded = TRUE;
+
+	strv = g_strsplit (str, STATUS_DELIMITER, 2);
+	if (strv[0] != NULL)
+		status->id = g_strdup (strv[0]);
+	if (strv[1] != NULL)
+		status->expanded = (strcmp (strv[1], STATUS_EXPANDED) == 0);
+	g_strfreev (strv);
+
+	return status;
 }
 
 
 static void
-_gth_sidebar_add_property_views (GthSidebar *sidebar)
+section_status_free (SectionStatus *status)
 {
-	GArray *children;
-	int     i;
+	g_free (status->id);
+	g_free (status);
+}
+
+
+static GHashTable *
+create_section_status_hash (char **sections_status)
+{
+	GHashTable *status_hash;
+	int         i;
+
+	status_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, (GDestroyNotify) section_status_free);
+	if (sections_status == NULL)
+		return status_hash;
+
+	for (i = 0; sections_status[i] != NULL; i++) {
+		SectionStatus *status = section_status_new (sections_status[i]);
+		if (status != NULL)
+			g_hash_table_insert (status_hash, status->id, status);
+	}
+
+	return status_hash;
+}
+
+
+static void
+_gth_sidebar_add_sections (GthSidebar  *sidebar,
+			   char       **sections_status)
+{
+	GArray     *children;
+	GHashTable *status_hash;
+	int         i;
 
 	children = gth_main_get_type_set ("file-properties");
 	if (children == NULL)
 		return;
 
+	status_hash = create_section_status_hash (sections_status);
 	for (i = 0; i < children->len; i++) {
-		GType      child_type;
-		GtkWidget *child;
+		GType          child_type;
+		GtkWidget     *child;
+		GtkWidget     *section;
+		SectionStatus *status;
 
 		child_type = g_array_index (children, GType, i);
 		child = g_object_new (child_type, NULL);
-		gth_multipage_add_child (GTH_MULTIPAGE (sidebar->priv->properties), GTH_MULTIPAGE_CHILD (child));
+		g_return_if_fail (GTH_IS_PROPERTY_VIEW (child));
+
+		section = gth_sidebar_section_new (GTH_PROPERTY_VIEW (child));
+		status = g_hash_table_lookup (status_hash, gth_sidebar_section_get_id (GTH_SIDEBAR_SECTION (section)));
+		if (status != NULL) {
+			gth_sidebar_section_set_expanded (GTH_SIDEBAR_SECTION (section), status->expanded);
+		}
+		gtk_widget_show (section);
+
+		sidebar->priv->sections = g_list_prepend (sidebar->priv->sections, section);
+		gtk_box_pack_start (GTK_BOX (sidebar->priv->properties),
+				    section,
+				    FALSE,
+				    FALSE,
+				    0);
 	}
-	gth_multipage_set_current (GTH_MULTIPAGE (sidebar->priv->properties), 0);
+	g_hash_table_unref (status_hash);
+
+	sidebar->priv->sections = g_list_reverse (sidebar->priv->sections);
 }
 
 
 static void
 _gth_sidebar_construct (GthSidebar *sidebar)
 {
-	sidebar->priv->properties = gth_multipage_new ();
-	gtk_style_context_add_class (gtk_widget_get_style_context (sidebar->priv->properties), GTK_STYLE_CLASS_SIDEBAR);
-	gtk_widget_set_vexpand (sidebar->priv->properties, TRUE);
-	gtk_widget_show (sidebar->priv->properties);
-	gtk_stack_add_named (GTK_STACK (sidebar), sidebar->priv->properties, GTH_SIDEBAR_PAGE_PROPERTIES);
+	GtkWidget *properties_win;
 
-	g_signal_connect_swapped (sidebar->priv->properties,
-			  	  "map",
-			  	  G_CALLBACK (_gth_sidebar_update_current_child),
-			  	  sidebar);
-	g_signal_connect_swapped (sidebar->priv->properties,
-			  	  "changed",
-			  	  G_CALLBACK (_gth_sidebar_update_current_child),
-			  	  sidebar);
+	properties_win = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (properties_win), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (properties_win), GTK_SHADOW_NONE);
+	gtk_widget_set_vexpand (properties_win, TRUE);
+	gtk_widget_show (properties_win);
+	gtk_stack_add_named (GTK_STACK (sidebar), properties_win, GTH_SIDEBAR_PAGE_PROPERTIES);
+
+	sidebar->priv->properties = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_show (sidebar->priv->properties);
+	gtk_container_add (GTK_CONTAINER (properties_win), sidebar->priv->properties);
 
 	sidebar->priv->toolbox = gth_toolbox_new ("file-tools");
 	gtk_style_context_add_class (gtk_widget_get_style_context (sidebar->priv->toolbox), GTK_STYLE_CLASS_SIDEBAR);
+	gtk_widget_set_vexpand (sidebar->priv->toolbox, TRUE);
 	gtk_widget_show (sidebar->priv->toolbox);
 	gtk_stack_add_named (GTK_STACK (sidebar), sidebar->priv->toolbox, GTH_SIDEBAR_PAGE_TOOLS);
 }
 
 
 GtkWidget *
-gth_sidebar_new (void)
+gth_sidebar_new (char **sections_status)
 {
 	GthSidebar *sidebar;
 
 	sidebar = g_object_new (GTH_TYPE_SIDEBAR, NULL);
 	_gth_sidebar_construct (sidebar);
-	_gth_sidebar_add_property_views (sidebar);
+	_gth_sidebar_add_sections (sidebar, sections_status);
 
 	return (GtkWidget *) sidebar;
 }
@@ -182,38 +228,17 @@ void
 gth_sidebar_set_file (GthSidebar  *sidebar,
 		      GthFileData *file_data)
 {
-	GList *children;
-	int    current;
 	GList *scan;
-	int    i;
 
 	if ((file_data == NULL) || ! g_file_info_get_attribute_boolean (file_data->info, "gth::file::is-modified"))
 		gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox));
 
-	children = gth_multipage_get_children (GTH_MULTIPAGE (sidebar->priv->properties));
-	current = gth_multipage_get_current (GTH_MULTIPAGE (sidebar->priv->properties));
-
 	_g_object_unref (sidebar->priv->file_data);
 	sidebar->priv->file_data = gth_file_data_dup (file_data);
 
-	g_free (sidebar->priv->dirty);
-	sidebar->priv->dirty = g_new0 (gboolean, g_list_length (children));
-
-	for (scan = children, i = 0; scan; scan = scan->next, i++) {
+	for (scan = sidebar->priv->sections; scan; scan = scan->next) {
 		GtkWidget *child = scan->data;
-
-		if (! GTH_IS_PROPERTY_VIEW (child)) {
-			sidebar->priv->dirty[i] = FALSE;
-			continue;
-		}
-
-		if (! _gth_sidebar_properties_visible (sidebar) || (i != current)) {
-			sidebar->priv->dirty[i] = TRUE;
-			continue;
-		}
-
-		sidebar->priv->dirty[i] = FALSE;
-		gth_property_view_set_file (GTH_PROPERTY_VIEW (child), sidebar->priv->file_data);
+		gth_sidebar_section_set_file (GTH_SIDEBAR_SECTION (child), sidebar->priv->file_data);
 	}
 }
 
@@ -253,6 +278,35 @@ gth_sidebar_update_sensitivity (GthSidebar *sidebar)
 }
 
 
+char **
+gth_sidebar_get_sections_status (GthSidebar *sidebar)
+{
+	GList  *status_list;
+	GList  *scan;
+	char  **result;
+
+	status_list = NULL;
+	for (scan = sidebar->priv->sections; scan; scan = scan->next) {
+		GtkWidget *section = scan->data;
+		GString   *status;
+
+		status = g_string_new ("");
+		g_string_append (status, gth_sidebar_section_get_id (GTH_SIDEBAR_SECTION (section)));
+		g_string_append (status, STATUS_DELIMITER);
+		g_string_append (status, gth_sidebar_section_get_expanded (GTH_SIDEBAR_SECTION (section)) ? STATUS_EXPANDED : STATUS_NOT_EXPANDED);
+		status_list = g_list_prepend (status_list, status->str);
+
+		g_string_free (status, FALSE);
+	}
+	status_list = g_list_reverse (status_list);
+
+	result = _g_string_list_to_strv (status_list);
+	_g_string_list_free (status_list);
+
+	return result;
+}
+
+
 /* -- gth_property_view -- */
 
 
@@ -266,9 +320,23 @@ gth_property_view_default_init (GthPropertyViewInterface *iface)
 }
 
 
-void
+const char *
+gth_property_view_get_name (GthPropertyView *self)
+{
+	return GTH_PROPERTY_VIEW_GET_INTERFACE (self)->get_name (self);
+}
+
+
+const char *
+gth_property_view_get_icon (GthPropertyView *self)
+{
+	return GTH_PROPERTY_VIEW_GET_INTERFACE (self)->get_icon (self);
+}
+
+
+gboolean
 gth_property_view_set_file (GthPropertyView *self,
 			    GthFileData     *file_data)
 {
-	GTH_PROPERTY_VIEW_GET_INTERFACE (self)->set_file (self, file_data);
+	return GTH_PROPERTY_VIEW_GET_INTERFACE (self)->set_file (self, file_data);
 }
