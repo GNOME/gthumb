@@ -298,6 +298,7 @@ gth_grid_view_item_update_caption (GthGridViewItem  *item,
 		value = gth_file_data_get_attribute_as_string (item->file_data, attributes_v[i]);
 		if ((value != NULL) && ! g_str_equal (value, "")) {
 			char *escaped;
+			char *style;
 
 			if (metadata->len > 0)
 				g_string_append (metadata, "\n");
@@ -313,7 +314,11 @@ gth_grid_view_item_update_caption (GthGridViewItem  *item,
 			}
 
 			escaped = g_markup_escape_text (value, -1);
-			g_string_append_printf (metadata, "<span%s>%s</span>", (odd ? ODD_ROW_ATTR_STYLE : EVEN_ROW_ATTR_STYLE), escaped);
+			if (strcmp (attributes_v[i], "general::rating") == 0)
+				style = "";
+			else
+				style = (odd ? ODD_ROW_ATTR_STYLE : EVEN_ROW_ATTR_STYLE);
+			g_string_append_printf (metadata, "<span%s>%s</span>", style, escaped);
 
 			g_free (escaped);
 		}

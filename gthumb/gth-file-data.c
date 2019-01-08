@@ -534,7 +534,18 @@ gth_file_data_get_attribute_as_string (GthFileData *file_data,
 		if (GTH_IS_METADATA (obj)) {
 			switch (gth_metadata_get_data_type (GTH_METADATA (obj))) {
 			case GTH_METADATA_TYPE_STRING:
-				value = g_strdup (gth_metadata_get_formatted (GTH_METADATA (obj)));
+				if (strcmp (id, "general::rating") == 0) {
+					int n = atoi (gth_metadata_get_formatted (GTH_METADATA (obj)));
+					if ((n >= 0) && (n <= 5)) {
+						GString *str = g_string_new ("");
+						int      i;
+						for (i = 1; i <= n; i++)
+							g_string_append (str, "⭐");
+						value = g_string_free (str, FALSE);
+					}
+				}
+				if (value == NULL)
+					value = g_strdup (gth_metadata_get_formatted (GTH_METADATA (obj)));
 				break;
 			case GTH_METADATA_TYPE_STRING_LIST:
 				value = gth_string_list_join (GTH_STRING_LIST (gth_metadata_get_string_list (GTH_METADATA (obj))), " ");
