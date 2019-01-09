@@ -22,7 +22,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "glib-utils.h"
-#include "gth-sidebar.h"
+#include "gth-property-view.h"
 #include "gth-sidebar-section.h"
 #include "gtk-utils.h"
 

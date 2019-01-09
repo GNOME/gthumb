@@ -23,6 +23,7 @@
 #include <gtk/gtk.h>
 #include "glib-utils.h"
 #include "gth-main.h"
+#include "gth-property-view.h"
 #include "gth-sidebar.h"
 #include "gth-sidebar-section.h"
 #include "gth-toolbox.h"
@@ -248,6 +249,7 @@ _gth_sidebar_update_view (GthSidebar  *sidebar)
 	gtk_stack_set_visible_child_name (GTK_STACK (sidebar), (sidebar->priv->n_visibles == 0) ? GTH_SIDEBAR_PAGE_EMPTY : sidebar->priv->selected_page);
 }
 
+
 void
 gth_sidebar_set_file (GthSidebar  *sidebar,
 		      GthFileData *file_data)
@@ -343,47 +345,4 @@ gth_sidebar_get_sections_status (GthSidebar *sidebar)
 	_g_string_list_free (status_list);
 
 	return result;
-}
-
-
-/* -- gth_property_view -- */
-
-
-G_DEFINE_INTERFACE (GthPropertyView, gth_property_view, 0)
-
-
-static void
-gth_property_view_default_init (GthPropertyViewInterface *iface)
-{
-	/* void */
-}
-
-
-const char *
-gth_property_view_get_name (GthPropertyView *self)
-{
-	return GTH_PROPERTY_VIEW_GET_INTERFACE (self)->get_name (self);
-}
-
-
-const char *
-gth_property_view_get_icon (GthPropertyView *self)
-{
-	return GTH_PROPERTY_VIEW_GET_INTERFACE (self)->get_icon (self);
-}
-
-
-gboolean
-gth_property_view_can_view (GthPropertyView *self,
-				    GthFileData     *file_data)
-{
-	return GTH_PROPERTY_VIEW_GET_INTERFACE (self)->can_view (self, file_data);
-}
-
-
-void
-gth_property_view_set_file (GthPropertyView *self,
-			    GthFileData     *file_data)
-{
-	GTH_PROPERTY_VIEW_GET_INTERFACE (self)->set_file (self, file_data);
 }

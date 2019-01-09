@@ -23,7 +23,7 @@
 #include <glib/gi18n.h>
 #include "glib-utils.h"
 #include "gth-file-details.h"
-#include "gth-sidebar.h"
+#include "gth-property-view.h"
 
 
 static void gth_file_details_gth_property_view_interface_init (GthPropertyViewInterface *iface);

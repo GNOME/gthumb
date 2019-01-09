@@ -34,11 +34,6 @@ G_BEGIN_DECLS
 #define GTH_IS_SIDEBAR_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_SIDEBAR))
 #define GTH_SIDEBAR_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_SIDEBAR, GthSidebarClass))
 
-#define GTH_TYPE_PROPERTY_VIEW               (gth_property_view_get_type ())
-#define GTH_PROPERTY_VIEW(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_PROPERTY_VIEW, GthPropertyView))
-#define GTH_IS_PROPERTY_VIEW(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_PROPERTY_VIEW))
-#define GTH_PROPERTY_VIEW_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), GTH_TYPE_PROPERTY_VIEW, GthPropertyViewInterface))
-
 typedef enum {
 	GTH_SIDEBAR_STATE_HIDDEN,
 	GTH_SIDEBAR_STATE_PROPERTIES,
@@ -58,19 +53,6 @@ struct _GthSidebarClass {
 	GtkStackClass __parent_class;
 };
 
-typedef struct _GthPropertyView GthPropertyView;
-typedef struct _GthPropertyViewInterface GthPropertyViewInterface;
-
-struct _GthPropertyViewInterface {
-	GTypeInterface parent_iface;
-	const char *	(*get_name)	(GthPropertyView *self);
-	const char *	(*get_icon)	(GthPropertyView *self);
-	gboolean	(*can_view)	(GthPropertyView *self,
-					 GthFileData     *file_data);
-	void		(*set_file)	(GthPropertyView *self,
-					 GthFileData     *file_data);
-};
-
 GType          gth_sidebar_get_type            (void);
 GtkWidget *    gth_sidebar_new                 (char           **sections_status);
 GtkWidget *    gth_sidebar_get_toolbox         (GthSidebar      *sidebar);
@@ -82,14 +64,6 @@ gboolean       gth_sidebar_tool_is_active      (GthSidebar      *sidebar);
 void           gth_sidebar_deactivate_tool     (GthSidebar      *sidebar);
 void           gth_sidebar_update_sensitivity  (GthSidebar      *sidebar);
 char **        gth_sidebar_get_sections_status (GthSidebar      *sidebar);
-
-GType          gth_property_view_get_type      (void);
-const char *   gth_property_view_get_name      (GthPropertyView *self);
-const char *   gth_property_view_get_icon      (GthPropertyView *self);
-gboolean       gth_property_view_can_view      (GthPropertyView *self,
-						GthFileData     *file_data);
-void           gth_property_view_set_file      (GthPropertyView *self,
-						GthFileData     *file_data);
 
 G_END_DECLS
 

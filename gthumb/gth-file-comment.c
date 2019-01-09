@@ -24,7 +24,7 @@
 #include "glib-utils.h"
 #include "gth-file-comment.h"
 #include "gth-main.h"
-#include "gth-sidebar.h"
+#include "gth-property-view.h"
 
 
 #define GTH_STYLE_CLASS_COMMENT "comment"

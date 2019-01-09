@@ -24,7 +24,7 @@
 #include "glib-utils.h"
 #include "gth-file-properties.h"
 #include "gth-main.h"
-#include "gth-sidebar.h"
+#include "gth-property-view.h"
 #include "gth-string-list.h"
 #include "gth-time.h"
 #include "gtk-utils.h"
