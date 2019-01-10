@@ -1,3 +1,27 @@
+version 3.7.1
+-------------
+
+ New features and user visible changes:
+
+  * Removed the application menu.
+  * Sidebar: show the property views in expandable sections.
+  * Thumbnail list: spread the thumbnails horizontally to fill the available
+    space.
+  * Video viewer: added option to use opengl instead of cairo.
+  * Show the rating as a sequence of stars.
+  * Color picker: use lowercase letters for the hexadecimal value.
+  * Contact sheet: set the current directory as destination if possible.
+  * Script dialog: wider list to make all columns visible.
+  * Use meson as build system.
+
+ Bugs fixed:
+
+  * Image navigator: fixed popup positioning.
+  * Preferences: fixed crash when setting the current location as default.
+  * About dialog: fixed website url.
+  * Jpeg loader: try to load broken images.
+  * Removed deprecated functions.
+
 version 3.6.1
 -------------
 
