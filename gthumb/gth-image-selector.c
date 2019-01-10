@@ -1565,6 +1565,16 @@ selection_is_valid (GthImageSelector *self)
 
 
 static void
+update_selection (GthImageSelector *self)
+{
+	cairo_rectangle_int_t selection;
+
+	gth_image_selector_get_selection (self, &selection);
+	set_selection (self, selection, TRUE);
+}
+
+
+static void
 gth_image_selector_image_changed (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
@@ -1589,17 +1599,15 @@ gth_image_selector_image_changed (GthImageViewerTool *base)
 
 	if (! selection_is_valid (self))
 		init_selection (self);
+	else
+		update_selection (self);
 }
 
 
 static void
 gth_image_selector_zoom_changed (GthImageViewerTool *base)
 {
-	GthImageSelector      *self = GTH_IMAGE_SELECTOR (base);
-	cairo_rectangle_int_t  selection;
-
-	gth_image_selector_get_selection (self, &selection);
-	set_selection (self, selection, TRUE);
+	update_selection (GTH_IMAGE_SELECTOR (base));
 }
 
 
