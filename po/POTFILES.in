@@ -712,6 +712,8 @@ gthumb/gth-extensions.c
 gthumb/gth-extensions.h
 gthumb/gth-file-chooser-dialog.c
 gthumb/gth-file-chooser-dialog.h
+gthumb/gth-file-comment.c
+gthumb/gth-file-comment.h
 gthumb/gth-file-data.c
 gthumb/gth-file-data.h
 gthumb/gth-file-details.c
@@ -813,8 +815,6 @@ gthumb/gth-metadata.c
 gthumb/gth-metadata.h
 gthumb/gth-monitor.c
 gthumb/gth-monitor.h
-gthumb/gth-multipage.c
-gthumb/gth-multipage.h
 gthumb/gth-overwrite-dialog.c
 gthumb/gth-overwrite-dialog.h
 gthumb/gth-paned.c
@@ -823,6 +823,8 @@ gthumb/gth-preferences.c
 gthumb/gth-preferences.h
 gthumb/gth-progress-dialog.c
 gthumb/gth-progress-dialog.h
+gthumb/gth-property-view.c
+gthumb/gth-property-view.h
 gthumb/gth-request-dialog.c
 gthumb/gth-request-dialog.h
 gthumb/gth-save-file-data-task.c
@@ -831,6 +833,8 @@ gthumb/gth-save-image-task.c
 gthumb/gth-save-image-task.h
 gthumb/gth-screensaver.c
 gthumb/gth-screensaver.h
+gthumb/gth-sidebar-section.c
+gthumb/gth-sidebar-section.h
 gthumb/gth-sidebar.c
 gthumb/gth-sidebar.h
 gthumb/gth-source-tree.c
