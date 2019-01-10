@@ -379,9 +379,6 @@ gth_image_dragger_motion_notify (GthImageViewerTool *self,
 
 	viewer->dragging = TRUE;
 
-	if (! event->is_hint)
-		return FALSE;
-
 	gth_image_viewer_scroll_to (viewer,
 				    viewer->drag_x_start - event->x,
 				    viewer->drag_y_start - event->y);
