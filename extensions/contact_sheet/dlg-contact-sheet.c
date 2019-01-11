@@ -354,6 +354,7 @@ add_themes_from_dir (DialogData *data,
 			g_free (buffer);
 			g_object_unref (file);
 			g_object_unref (file_info);
+			continue;
 		}
 
 		theme = gth_contact_sheet_theme_new_from_key_file (key_file);
