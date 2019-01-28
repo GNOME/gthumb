@@ -1,15 +1,15 @@
 # Hungarian translation for gthumb help.
-# Copyright (C) 2015-2016 Free Software Foundation, Inc.
+# Copyright (C) 2015, 2016, 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
-# Balázs Úr <urbalazs@gmail.com>, 2015, 2016.
+# Balázs Úr <urbalazs at gmail dot com>, 2015, 2016, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2016-08-17 19:20+0000\n"
-"PO-Revision-Date: 2016-08-19 22:03+0200\n"
+"POT-Creation-Date: 2018-06-10 17:30+0000\n"
+"PO-Revision-Date: 2019-01-28 23:20+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
-"Language-Team: Hungarian <openscope at googlegroups dot com>\n"
+"Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,19 +21,6 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr "Úr Balázs <urbalazs at gmail dot hu>, 2015."
-
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/index.page:33 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
-#: C/edit-rotate.page:8 C/edit-resize-crop.page:8 C/edit-redeye.page:7
-msgctxt "_"
-msgid ""
-"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
-msgstr ""
-"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
 
 #. (itstool) path: credit/name
 #: C/index.page:7
@@ -64,6 +51,19 @@ msgstr "Fájlkezelés"
 #: C/index.page:31
 msgid "Editing Mode"
 msgstr "Szerkesztőmód"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/index.page:33 C/edit-save-undo-redo.page:8 C/edit-colors.page:8
+#: C/edit-rotate.page:8 C/edit-resize-crop.page:8 C/edit-redeye.page:7
+msgctxt "_"
+msgid ""
+"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
+msgstr ""
+"external ref='figures/palette.png' md5='32835e7d77efd9833244ca80a4adb48e'"
 
 #. (itstool) path: section/p
 #: C/index.page:32
@@ -302,12 +302,12 @@ msgid "Exif::Photo::Sharpness"
 msgstr "Exif::Photo::Sharpness"
 
 #. (itstool) path: page/title
-#: C/strftime.page:6
+#: C/strftime.page:8
 msgid "Date/Time Format Codes"
 msgstr "Dátum és idő formátumkódok"
 
 #. (itstool) path: page/p
-#: C/strftime.page:8
+#: C/strftime.page:10
 msgid ""
 "This is a summary of standard date/time codes that may be used in format "
 "strings:"
@@ -316,89 +316,49 @@ msgstr ""
 "formátumszövegekben:"
 
 #. (itstool) path: table/title
-#: C/strftime.page:12
+#: C/strftime.page:14
 msgid "Valid format codes for custom subfolders"
 msgstr "Érvényes formátumkódok az egyéni almappáknál"
 
 #. (itstool) path: td/p
-#: C/strftime.page:15
-msgid "%a"
-msgstr "%a"
-
-#. (itstool) path: td/p
-#: C/strftime.page:18
+#: C/strftime.page:20
 msgid "The abbreviated weekday name according to the current locale."
 msgstr "A rövidített hétköznapnév a jelenlegi területi beállítás szerint."
 
 #. (itstool) path: td/p
-#: C/strftime.page:24
-msgid "%A"
-msgstr "%A"
-
-#. (itstool) path: td/p
-#: C/strftime.page:27
+#: C/strftime.page:29
 msgid "The full weekday name according to the current locale."
 msgstr "A teljes hétköznapnév a jelenlegi területi beállítás szerint."
 
 #. (itstool) path: td/p
-#: C/strftime.page:33
-msgid "%b"
-msgstr "%b"
-
-#. (itstool) path: td/p
-#: C/strftime.page:36
+#: C/strftime.page:38
 msgid "The abbreviated month name according to the current locale."
 msgstr "A rövidített hónapnév a jelenlegi területi beállítás szerint."
 
 #. (itstool) path: td/p
-#: C/strftime.page:42
-msgid "%B"
-msgstr "%B"
-
-#. (itstool) path: td/p
-#: C/strftime.page:45
+#: C/strftime.page:47
 msgid "The full month name according to the current locale."
 msgstr "A teljes hónapnév a jelenlegi területi beállítás szerint."
 
 #. (itstool) path: td/p
-#: C/strftime.page:50
-msgid "%c"
-msgstr "%c"
-
-#. (itstool) path: td/p
-#: C/strftime.page:53
+#: C/strftime.page:55
 msgid "The preferred date and time representation for the current locale."
 msgstr ""
 "Az előnyben részesített dátum- és időábrázolás a jelenlegi területi "
 "beállításnál."
 
 #. (itstool) path: td/p
-#: C/strftime.page:59
-msgid "%C"
-msgstr "%C"
-
-#. (itstool) path: td/p
-#: C/strftime.page:62
+#: C/strftime.page:64
 msgid "The century number (year/100) as a 2-digit integer."
 msgstr "Az évszázad száma (év/100) 2 számjegyű egészként."
 
 #. (itstool) path: td/p
-#: C/strftime.page:67
-msgid "%d"
-msgstr "%d"
-
-#. (itstool) path: td/p
-#: C/strftime.page:70
+#: C/strftime.page:72
 msgid "The day of the month as a decimal number (range 01 to 31)."
 msgstr "A hónap napja decimális számként (01 és 31 közötti tartomány)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:76
-msgid "%D"
-msgstr "%D"
-
-#. (itstool) path: td/p
-#: C/strftime.page:79
+#: C/strftime.page:81
 msgid ""
 "Equivalent to %m/%d/%y. (Yecch -- for Americans only. Americans should note "
 "that in other countries %d/%m/%y is rather common. This means that in "
@@ -410,12 +370,7 @@ msgstr ""
 "kétértelmű, és nem kellene használni.)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:87
-msgid "%e"
-msgstr "%e"
-
-#. (itstool) path: td/p
-#: C/strftime.page:90
+#: C/strftime.page:92
 msgid ""
 "Like %d, the day of the month as a decimal number, but a leading zero is "
 "replaced by a space."
@@ -424,33 +379,18 @@ msgstr ""
 "van helyettesítve."
 
 #. (itstool) path: td/p
-#: C/strftime.page:96
-msgid "%E"
-msgstr "%E"
-
-#. (itstool) path: td/p
-#: C/strftime.page:99 C/strftime.page:208
+#: C/strftime.page:101 C/strftime.page:210
 msgid "Modifier: use alternative format, see below."
 msgstr "Módosító: alternatív formátum használata, lásd alább."
 
 #. (itstool) path: td/p
-#: C/strftime.page:104
-msgid "%F"
-msgstr "%F"
-
-#. (itstool) path: td/p
-#: C/strftime.page:107
+#: C/strftime.page:109
 msgid "Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)"
 msgstr ""
 "Egyenértékű a következővel: %Y-%m-%d (az ISO 8601 dátumformátum). (C99)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:113
-msgid "%G"
-msgstr "%G"
-
-#. (itstool) path: td/p
-#: C/strftime.page:116
+#: C/strftime.page:118
 msgid ""
 "The ISO 8601 year with century as a decimal number. The 4-digit year "
 "corresponding to the ISO week number (see %V). This has the same format and "
@@ -463,64 +403,34 @@ msgstr ""
 "évhez tartozik, akkor az az év lesz használva helyette."
 
 #. (itstool) path: td/p
-#: C/strftime.page:125
-msgid "%g"
-msgstr "%g"
-
-#. (itstool) path: td/p
-#: C/strftime.page:128
+#: C/strftime.page:130
 msgid "Like %G, but without century, i.e., with a 2-digit year (00-99)."
 msgstr "Mint a %G, de évszázad nélkül, azaz egy 2 számjegyű évvel (00-99)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:134
-msgid "%h"
-msgstr "%h"
-
-#. (itstool) path: td/p
-#: C/strftime.page:137
+#: C/strftime.page:139
 msgid "Equivalent to %b."
 msgstr "Egyenértékű a %b-vel."
 
 #. (itstool) path: td/p
-#: C/strftime.page:142
-msgid "%H"
-msgstr "%H"
-
-#. (itstool) path: td/p
-#: C/strftime.page:145
+#: C/strftime.page:147
 msgid "The hour as a decimal number using a 24-hour clock (range 00 to 23)."
 msgstr ""
 "A óra decimális számként 24-órás órát használva (00 és 23 közötti tartomány)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:151
-msgid "%I"
-msgstr "%I"
-
-#. (itstool) path: td/p
-#: C/strftime.page:154
+#: C/strftime.page:156
 msgid "The hour as a decimal number using a 12-hour clock (range 01 to 12)."
 msgstr ""
 "A óra decimális számként 12-órás órát használva (01 és 12 közötti tartomány)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:160
-msgid "%j"
-msgstr "%j"
-
-#. (itstool) path: td/p
-#: C/strftime.page:163
+#: C/strftime.page:165
 msgid "The day of the year as a decimal number (range 001 to 366)."
 msgstr "Az év napja decimális számként (001 és 366 közötti tartomány)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:169
-msgid "%k"
-msgstr "%k"
-
-#. (itstool) path: td/p
-#: C/strftime.page:172
+#: C/strftime.page:174
 msgid ""
 "The hour (24-hour clock) as a decimal number (range 0 to 23); single digits "
 "are preceded by a blank. (See also %H.)"
@@ -529,12 +439,7 @@ msgstr ""
 "egyedülálló számjegyeket egy üres hely előzi meg. (Lásd még: %H.)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:179
-msgid "%l"
-msgstr "%l"
-
-#. (itstool) path: td/p
-#: C/strftime.page:182
+#: C/strftime.page:184
 msgid ""
 "The hour (12-hour clock) as a decimal number (range 1 to 12); single digits "
 "are preceded by a blank. (See also %I.)"
@@ -543,37 +448,17 @@ msgstr ""
 "egyedülálló számjegyeket egy üres hely előzi meg. (Lásd még: %I.)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:189
-msgid "%m"
-msgstr "%m"
-
-#. (itstool) path: td/p
-#: C/strftime.page:192
+#: C/strftime.page:194
 msgid "The month as a decimal number (range 01 to 12)."
 msgstr "A hónap decimális számként (01 és 12 közötti tartomány)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:197
-msgid "%M"
-msgstr "%M"
-
-#. (itstool) path: td/p
-#: C/strftime.page:200
+#: C/strftime.page:202
 msgid "The minute as a decimal number (range 00 to 59)."
 msgstr "A perc decimális számként (00 és 59 közötti tartomány)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:205
-msgid "%O"
-msgstr "%O"
-
-#. (itstool) path: td/p
-#: C/strftime.page:213
-msgid "%p"
-msgstr "%p"
-
-#. (itstool) path: td/p
-#: C/strftime.page:216
+#: C/strftime.page:218
 msgid ""
 "Either 'AM' or 'PM' according to the given time value, or the corresponding "
 "strings for the current locale. Noon is treated as 'pm' and midnight as 'am'."
@@ -583,12 +468,7 @@ msgstr ""
 "értendő."
 
 #. (itstool) path: td/p
-#: C/strftime.page:223
-msgid "%P"
-msgstr "%P"
-
-#. (itstool) path: td/p
-#: C/strftime.page:226
+#: C/strftime.page:228
 msgid ""
 "Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the "
 "current locale."
@@ -597,12 +477,7 @@ msgstr ""
 "jelenlegi területi beállításnál."
 
 #. (itstool) path: td/p
-#: C/strftime.page:232
-msgid "%r"
-msgstr "%r"
-
-#. (itstool) path: td/p
-#: C/strftime.page:235
+#: C/strftime.page:237
 msgid ""
 "The time in a.m. or p.m. notation. In the POSIX locale this is equivalent to "
 "'%I:%M:%S %p'."
@@ -611,12 +486,7 @@ msgstr ""
 "egyenértékű a következővel: „%I:%M:%S %p”."
 
 #. (itstool) path: td/p
-#: C/strftime.page:241
-msgid "%R"
-msgstr "%R"
-
-#. (itstool) path: td/p
-#: C/strftime.page:244
+#: C/strftime.page:246
 msgid ""
 "The time in 24-hour notation (%H:%M). For a version including the seconds, "
 "see %T below."
@@ -625,23 +495,13 @@ msgstr ""
 "beleértve, lásd lent: %T."
 
 #. (itstool) path: td/p
-#: C/strftime.page:250
-msgid "%s"
-msgstr "%s"
-
-#. (itstool) path: td/p
-#: C/strftime.page:253
+#: C/strftime.page:255
 msgid ""
 "The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC."
 msgstr "Az epocha, azaz 1970-01-01 00:00:00 UTC óta eltelt másodpercek száma."
 
 #. (itstool) path: td/p
-#: C/strftime.page:259
-msgid "%S"
-msgstr "%S"
-
-#. (itstool) path: td/p
-#: C/strftime.page:262
+#: C/strftime.page:264
 msgid ""
 "The second as a decimal number (range 00 to 60). (The range is up to 60 to "
 "allow for occasional leap seconds.)"
@@ -650,22 +510,12 @@ msgstr ""
 "legfeljebb 60, hogy lehetővé tegye az alkalmi szökőmásodperceket.)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:269
-msgid "%T"
-msgstr "%T"
-
-#. (itstool) path: td/p
-#: C/strftime.page:272
+#: C/strftime.page:274
 msgid "The time in 24-hour notation (%H:%M:%S)."
 msgstr "Az idő 24-órás jelölésben (%H:%M:%S)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:277
-msgid "%u"
-msgstr "%u"
-
-#. (itstool) path: td/p
-#: C/strftime.page:280
+#: C/strftime.page:282
 msgid ""
 "The day of the week as a decimal number, range 1 to 7, Monday being 1. See "
 "also %w."
@@ -674,12 +524,7 @@ msgstr ""
 "még: %w."
 
 #. (itstool) path: td/p
-#: C/strftime.page:286
-msgid "%U"
-msgstr "%U"
-
-#. (itstool) path: td/p
-#: C/strftime.page:289
+#: C/strftime.page:291
 msgid ""
 "The week number of the current year as a decimal number, range 00 to 53, "
 "starting with the first Sunday as the first day of week 01. See also %V and "
@@ -689,12 +534,7 @@ msgstr ""
 "az első vasárnaptól kezdve mint a 01. hét első napja. Lásd még: %V és %W."
 
 #. (itstool) path: td/p
-#: C/strftime.page:296
-msgid "%V"
-msgstr "%V"
-
-#. (itstool) path: td/p
-#: C/strftime.page:299
+#: C/strftime.page:301
 msgid ""
 "The ISO 8601:1988 week number of the current year as a decimal number, range "
 "01 to 53, where week 1 is the first week that has at least 4 days in the "
@@ -707,12 +547,7 @@ msgstr ""
 "és %W."
 
 #. (itstool) path: td/p
-#: C/strftime.page:308
-msgid "%w"
-msgstr "%w"
-
-#. (itstool) path: td/p
-#: C/strftime.page:311
+#: C/strftime.page:313
 msgid ""
 "The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u."
 msgstr ""
@@ -720,12 +555,7 @@ msgstr ""
 "még: %u."
 
 #. (itstool) path: td/p
-#: C/strftime.page:317
-msgid "%W"
-msgstr "%W"
-
-#. (itstool) path: td/p
-#: C/strftime.page:320
+#: C/strftime.page:322
 msgid ""
 "The week number of the current year as a decimal number, range 00 to 53, "
 "starting with the first Monday as the first day of week 01."
@@ -734,12 +564,7 @@ msgstr ""
 "az első hétfőtől kezdve mint a 01. hét első napja."
 
 #. (itstool) path: td/p
-#: C/strftime.page:327
-msgid "%x"
-msgstr "%x"
-
-#. (itstool) path: td/p
-#: C/strftime.page:330
+#: C/strftime.page:332
 msgid ""
 "The preferred date representation for the current locale without the time."
 msgstr ""
@@ -747,12 +572,7 @@ msgstr ""
 "idő nélkül."
 
 #. (itstool) path: td/p
-#: C/strftime.page:336
-msgid "%X"
-msgstr "%X"
-
-#. (itstool) path: td/p
-#: C/strftime.page:339
+#: C/strftime.page:341
 msgid ""
 "The preferred time representation for the current locale without the date."
 msgstr ""
@@ -760,32 +580,17 @@ msgstr ""
 "dátum nélkül."
 
 #. (itstool) path: td/p
-#: C/strftime.page:345
-msgid "%y"
-msgstr "%y"
-
-#. (itstool) path: td/p
-#: C/strftime.page:348
+#: C/strftime.page:350
 msgid "The year as a decimal number without a century (range 00 to 99)."
 msgstr "Az év decimális számként évszázad nélkül (00 és 99 közötti tartomány)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:354
-msgid "%Y"
-msgstr "%Y"
-
-#. (itstool) path: td/p
-#: C/strftime.page:357
+#: C/strftime.page:359
 msgid "The year as a decimal number including the century."
 msgstr "Az év decimális számként, beleértve az évszázadot is."
 
 #. (itstool) path: td/p
-#: C/strftime.page:362
-msgid "%z"
-msgstr "%z"
-
-#. (itstool) path: td/p
-#: C/strftime.page:365
+#: C/strftime.page:367
 msgid ""
 "The time-zone as hour offset from GMT. Required to emit RFC 822-conformant "
 "dates (using \"%a, %d %b %Y %H:%M:%S %z\")."
@@ -794,17 +599,12 @@ msgstr ""
 "kibocsátása („%a, %d %b %Y %H:%M:%S %z” használata)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:372
-msgid "%Z"
-msgstr "%Z"
-
-#. (itstool) path: td/p
-#: C/strftime.page:375
+#: C/strftime.page:377
 msgid "The time zone or name or abbreviation."
 msgstr "Az időzóna vagy név vagy rövidítés."
 
 #. (itstool) path: page/p
-#: C/strftime.page:380
+#: C/strftime.page:382
 msgid ""
 "Some conversion specifications can be modified by preceding the conversion "
 "specifier character by the E or O modifier to indicate that an alternative "
@@ -917,18 +717,6 @@ msgstr ""
 "információk érhetők el a <link href=\"https://wiki.gnome.org/Apps/gthumb"
 "\">https://wiki.gnome.org/Apps/gthumb</link> címen."
 
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/browser.page:13
-msgctxt "_"
-msgid ""
-"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
-msgstr ""
-"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
-
 #. (itstool) path: page/title
 #: C/browser.page:6
 msgid "Browsing Your Files"
@@ -943,6 +731,18 @@ msgstr "A <app>gThumb</app> indításakor a következő ablak fog megjelenni:"
 #: C/browser.page:11
 msgid "The main window"
 msgstr "A főablak"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/browser.page:13
+msgctxt "_"
+msgid ""
+"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
+msgstr ""
+"external ref='figures/main-win.png' md5='93cf84bd05a153ab61951ae12bbe3f26'"
 
 #. (itstool) path: page/p
 #: C/browser.page:16
@@ -1327,27 +1127,14 @@ msgid ""
 msgstr ""
 "A <app>gThumb</app> el fogja menteni a bélyegképeket a rendszer "
 "gyorsítótárába, hogy megoszthassa azokat az egyéb alkalmazásokkal. "
-"Alapértelmezetten a Gnome rendszerek törlik a gyorsítótárazott bélyegképeket, "
-"ha azok 180 napnál régebbiek, vagy ha a bélyegkép-gyorsítótár meghaladja az "
-"512 MB-os méretet. A technikai vénájú felhasználók felfedezhetik ezeket a "
-"beállításokat <app>dconf-szerkesztővel</app>. Különösen az org.gnome.desktop."
-"thumbnail_cache.maximum_age és az org.gnome.desktop.thumbnail_cache."
-"maximum_size kulcsokat nézze meg. Bizonyos alkalmazások (mint például az <app>"
-"F-Spot</app>) automatikusan nagymértékben növelhetik ezeket a beállításokat."
-
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/thumbnail-pane.page:21 C/viewer.page:23
-msgctxt "_"
-msgid ""
-"external ref='figures/thumbnail-pane.png' "
-"md5='af28541956094195dac6bc0e11624d64'"
-msgstr ""
-"external ref='figures/thumbnail-pane.png' "
-"md5='af28541956094195dac6bc0e11624d64'"
+"Alapértelmezetten a Gnome rendszerek törlik a gyorsítótárazott "
+"bélyegképeket, ha azok 180 napnál régebbiek, vagy ha a bélyegkép-gyorsítótár "
+"meghaladja az 512 MB-os méretet. A technikai vénájú felhasználók "
+"felfedezhetik ezeket a beállításokat <app>dconf-szerkesztővel</app>. "
+"Különösen az org.gnome.desktop.thumbnail_cache.maximum_age és az org.gnome."
+"desktop.thumbnail_cache.maximum_size kulcsokat nézze meg. Bizonyos "
+"alkalmazások (mint például az <app>F-Spot</app>) automatikusan nagymértékben "
+"növelhetik ezeket a beállításokat."
 
 #. (itstool) path: page/title
 #: C/thumbnail-pane.page:6
@@ -1388,6 +1175,20 @@ msgstr ""
 msgid "Thumbnail Pane, Along Bottom of Main Image"
 msgstr "Bélyegkép ablaktábla a fő kép alja mentén"
 
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/thumbnail-pane.page:21 C/viewer.page:23
+msgctxt "_"
+msgid ""
+"external ref='figures/thumbnail-pane.png' "
+"md5='af28541956094195dac6bc0e11624d64'"
+msgstr ""
+"external ref='figures/thumbnail-pane.png' "
+"md5='af28541956094195dac6bc0e11624d64'"
+
 #. (itstool) path: page/title
 #: C/rename-series.page:8
 msgid "Renaming Files"
@@ -1424,8 +1225,8 @@ msgid "Symbol"
 msgstr "Szimbólum"
 
 #. (itstool) path: td/p
-#: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:94
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:551
+#: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:84
+#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:538
 msgid "Description"
 msgstr "Leírás"
 
@@ -2089,34 +1890,6 @@ msgstr ""
 "rendezhetők a nevük, a fájlméret, a fájl módosítási dátuma alapján, vagy "
 "azon dátum szerint, amikor a fénykép készült."
 
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/filtering.page:17
-msgctxt "_"
-msgid ""
-"external ref='figures/general-filter.png' "
-"md5='818fcb0f12da6496f3c72699f12beb28'"
-msgstr ""
-"external ref='figures/general-filter.png' "
-"md5='818fcb0f12da6496f3c72699f12beb28'"
-
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/filtering.page:30
-msgctxt "_"
-msgid ""
-"external ref='figures/specific-filter.png' "
-"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
-msgstr ""
-"external ref='figures/specific-filter.png' "
-"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
-
 #. (itstool) path: page/title
 #: C/filtering.page:7
 msgid "Filtering Files"
@@ -2139,6 +1912,20 @@ msgstr ""
 #: C/filtering.page:15
 msgid "Enabling Filters"
 msgstr "Szűrők engedélyezése"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/filtering.page:17
+msgctxt "_"
+msgid ""
+"external ref='figures/general-filter.png' "
+"md5='818fcb0f12da6496f3c72699f12beb28'"
+msgstr ""
+"external ref='figures/general-filter.png' "
+"md5='818fcb0f12da6496f3c72699f12beb28'"
 
 #. (itstool) path: page/p
 #: C/filtering.page:20
@@ -2165,6 +1952,20 @@ msgstr ""
 #: C/filtering.page:28
 msgid "Browser Filter Bar"
 msgstr "A böngésző szűrősávja"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/filtering.page:30
+msgctxt "_"
+msgid ""
+"external ref='figures/specific-filter.png' "
+"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
+msgstr ""
+"external ref='figures/specific-filter.png' "
+"md5='e7036e5b958301c6acb3ab5e4a618bbe'"
 
 #. (itstool) path: page/p
 #: C/filtering.page:33
@@ -2258,8 +2059,8 @@ msgid "Viewing and hiding parts of the user interface"
 msgstr "A felhasználói felület egyes részeinek megtekintése vagy elrejtése"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:14 C/shortcuts.page:91 C/shortcuts.page:270
-#: C/shortcuts.page:548
+#: C/shortcuts.page:14 C/shortcuts.page:81 C/shortcuts.page:270
+#: C/shortcuts.page:535
 msgid "Keyboard Shortcut"
 msgstr "Gyorsbillentyű"
 
@@ -2310,71 +2111,71 @@ msgstr "Be- vagy kikapcsolja a teljes képernyős módot."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:63
-msgid "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:68
-msgid "Shows/hides the thumbnails in the browser mode."
-msgstr "Megjeleníti vagy elrejti a bélyegképeket a böngészőmódban."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:73
 msgid "<key>Esc</key>"
 msgstr "<key>Esc</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:78
+#: C/shortcuts.page:68
 msgid "Closes the viewer or fullscreen mode."
 msgstr "Bezárja a megjelenítőt vagy a teljes képernyős módot."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:87
+#: C/shortcuts.page:77
 msgid "Editing shortcuts for the browser and viewer"
 msgstr "Szerkesztés gyorsbillentyűk a böngészőnél és a megjelenítőnél"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:99
+#: C/shortcuts.page:89
 msgid "<key>e</key>"
 msgstr "<key>e</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:104
+#: C/shortcuts.page:94
 msgid "Edit the image. Opens the viewer and shows the editing tools."
 msgstr ""
 "A kép szerkesztése. Megnyitja a megjelenítőt, és megjeleníti a "
 "szerkesztőeszközöket."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:109
+#: C/shortcuts.page:99
 msgid "<key>g</key>"
 msgstr "<key>g</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:114
+#: C/shortcuts.page:104
 msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
 msgstr ""
 "A kép megnyitása a GNU Image Manipulation Program (GIMP) használatával."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:119
+#: C/shortcuts.page:109
 msgid "<key>F2</key>"
 msgstr "<key>F2</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:124
+#: C/shortcuts.page:114
 msgid "Rename the image."
 msgstr "A kép átnevezése."
 
 #. (itstool) path: td/p
+#: C/shortcuts.page:119
+msgid "<key>c</key>"
+msgstr "<key>c</key>"
+
+#. (itstool) path: td/p
+#: C/shortcuts.page:124
+msgid "Add comments or metadata to the selected images."
+msgstr "Megjegyzések vagy metaadatok hozzáadása a kijelölt képekhez."
+
+#. (itstool) path: td/p
 #: C/shortcuts.page:129
-msgid "<key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>"
-msgstr "<key>c</key> vagy <keyseq><key>Ctrl</key><key>m</key></keyseq>"
+msgid "<key>t</key>"
+msgstr "<key>t</key>"
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:134
-msgid "Add comments or metadata to an image."
-msgstr "Megjegyzések vagy metaadatok hozzáadása egy képhez."
+msgid "Add tags to the selected images."
+msgstr "Címkék hozzáadása a kijelölt képekhez."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:139
@@ -2526,7 +2327,7 @@ msgid "View the previous image."
 msgstr "Az előző kép megtekintése."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:298 C/shortcuts.page:459
+#: C/shortcuts.page:298 C/shortcuts.page:446
 msgid "<key>Home</key>"
 msgstr "<key>Home</key>"
 
@@ -2536,7 +2337,7 @@ msgid "View the first image."
 msgstr "Az első kép megtekintése."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:308 C/shortcuts.page:469
+#: C/shortcuts.page:308 C/shortcuts.page:456
 msgid "<key>End</key>"
 msgstr "<key>End</key>"
 
@@ -2547,242 +2348,232 @@ msgstr "Az utolsó kép megtekintése."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:318
-msgid "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
-msgstr "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:326
-msgid "Add the current location to the bookmarks."
-msgstr "A jelenlegi hely hozzáadása a könyvjelzőkhöz."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:331
 msgid "<key>+</key> or <key>=</key>"
 msgstr "<key>+</key> vagy <key>=</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:336
+#: C/shortcuts.page:323
 msgid "Zoom in."
 msgstr "Nagyítás."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:341
+#: C/shortcuts.page:328
 msgid "<key>-</key>"
 msgstr "<key>-</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:346
+#: C/shortcuts.page:333
 msgid "Zoom out."
 msgstr "Kicsinyítés."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:351
+#: C/shortcuts.page:338
 msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
 msgstr ""
 "<key>1</key> vagy <key>z</key> vagy <key>/ (numerikus billentyűzet)</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:357
+#: C/shortcuts.page:344
 msgid "Actual size."
 msgstr "Tényleges méret."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:362
+#: C/shortcuts.page:349
 msgid "<key>x</key> or <key>* (numeric keypad)</key>"
 msgstr "<key>x</key> vagy <key>* (numerikus billentyűzet)</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:367
+#: C/shortcuts.page:354
 msgid "Zoom to fit (scales down only, does not magnify)"
 msgstr "Nagyítás az igazításhoz (csak lefelé méretez, nem nagyít)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:372
+#: C/shortcuts.page:359
 msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
 msgstr "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:380
+#: C/shortcuts.page:367
 msgid "Zoom to fit (scale down or magnify, as required)"
 msgstr ""
 "Nagyítás az igazításhoz (lefelé méretezés vagy nagyítás, ahogy szükséges)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:385
+#: C/shortcuts.page:372
 msgid "<key>w</key>"
 msgstr "<key>w</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:389
+#: C/shortcuts.page:376
 msgid "Zoom to fit width (scales down only, does not magnify)"
 msgstr "Nagyítás a szélesség igazításához (csak lefelé méretez, nem nagyít)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:394
+#: C/shortcuts.page:381
 msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
 msgstr "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:402
+#: C/shortcuts.page:389
 msgid "Zoom to fit width (scale down or magnify, as required)"
 msgstr ""
 "Nagyítás a szélesség igazításához (lefelé méretezés vagy nagyítás, ahogy "
 "szükséges)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:407
+#: C/shortcuts.page:394
 msgid "<key>h</key>"
 msgstr "<key>h</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:411
+#: C/shortcuts.page:398
 msgid "Zoom to fit height (scales down only, does not magnify)"
 msgstr "Nagyítás a magasság igazításához (csak lefelé méretez, nem nagyít)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:416
+#: C/shortcuts.page:403
 msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
 msgstr "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:424
+#: C/shortcuts.page:411
 msgid "Zoom to fit height (scale down or magnify, as required)"
 msgstr ""
 "Nagyítás a magasság igazításához (lefelé méretezés vagy nagyítás, ahogy "
 "szükséges)"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:429
+#: C/shortcuts.page:416
 msgid "<key>Arrows</key>"
 msgstr "<key>Nyilak</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:434
+#: C/shortcuts.page:421
 msgid "Scroll the image."
 msgstr "A kép görgetése."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:439
+#: C/shortcuts.page:426
 msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
 msgstr "<keyseq> <key>Shift</key> <key>Nyilak</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:447
+#: C/shortcuts.page:434
 msgid "Scroll the image faster."
 msgstr "A kép görgetése gyorsabban."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:454
+#: C/shortcuts.page:441
 msgid "Browser Navigation"
 msgstr "Böngészőnavigáció"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:464
+#: C/shortcuts.page:451
 msgid "Go to the first file in the browser view."
 msgstr "Ugrás az első fájlra a böngészőnézetben."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:474
+#: C/shortcuts.page:461
 msgid "Go to the last file in the browser view."
 msgstr "Ugrás az utolsó fájlra a böngészőnézetben."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:479
+#: C/shortcuts.page:466
 msgid "<key>Down Arrow</key> or <key>Page Down</key>"
 msgstr "<key>Lefelé nyíl</key> vagy <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:484
+#: C/shortcuts.page:471
 msgid "Scroll downwards through the thumbnails."
 msgstr "Görgetés lefelé a bélyegképek között."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:489
+#: C/shortcuts.page:476
 msgid "<key>Up Arrow</key> or <key>Page Up</key>"
 msgstr "<key>Felfelé nyíl</key> vagy <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:494
+#: C/shortcuts.page:481
 msgid "Scroll upwards through the thumbnails."
 msgstr "Görgetés felfelé a bélyegképek között."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:499
+#: C/shortcuts.page:486
 msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Balra nyíl</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:504
+#: C/shortcuts.page:491
 msgid "Go back to the previously viewed folder."
 msgstr "Vissza az előzőleg megtekintett mappához."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:509
+#: C/shortcuts.page:496
 msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
 msgstr "<keyseq><key>Alt</key><key>Jobbra nyíl</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:514
+#: C/shortcuts.page:501
 msgid "Go forward (after going back to a folder)."
 msgstr "Ugrás előre (miután visszament egy mappára)."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:519
+#: C/shortcuts.page:506
 msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
 msgstr "<keyseq> <key>Alt</key> <key>Fel nyíl</key> </keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:527
+#: C/shortcuts.page:514
 msgid "Go up one level."
 msgstr "Ugrás egy szinttel feljebb."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:532
+#: C/shortcuts.page:519
 msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:537
+#: C/shortcuts.page:524
 msgid "Open a location typing the path."
 msgstr "Az útvonalhoz beírt hely megnyitása."
 
 #. (itstool) path: section/title
-#: C/shortcuts.page:544
+#: C/shortcuts.page:531
 msgid "Slideshow controls"
 msgstr "Diavetítés vezérlők"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:556
+#: C/shortcuts.page:543
 msgid "<key>F5</key>"
 msgstr "<key>F5</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:561
+#: C/shortcuts.page:548
 msgid "Start a slideshow."
 msgstr "Egy diavetítés indítása."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:566
+#: C/shortcuts.page:553
 msgid "<key>p</key>"
 msgstr "<key>p</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:571
+#: C/shortcuts.page:558
 msgid "Pause/Unpause the slideshow."
 msgstr "A diavetítés szüneteltetése vagy folytatása."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:576
+#: C/shortcuts.page:563
 msgid "<key>Esc</key> or <key>q</key>"
 msgstr "<key>Esc</key> vagy <key>q</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:581
+#: C/shortcuts.page:568
 msgid "Close the slideshow."
 msgstr "A diavetítés bezárása."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:586
+#: C/shortcuts.page:573
 msgid ""
 "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
 "<key>Page Down</key>"
@@ -2791,12 +2582,12 @@ msgstr ""
 "vagy <key>Page Down</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:591
+#: C/shortcuts.page:578
 msgid "Load the next image."
 msgstr "A következő kép betöltése."
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:596
+#: C/shortcuts.page:583
 msgid ""
 "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
 "<key>Page Up</key>"
@@ -2805,7 +2596,7 @@ msgstr ""
 "vagy <key>Page Up</key>"
 
 #. (itstool) path: td/p
-#: C/shortcuts.page:601
+#: C/shortcuts.page:588
 msgid "Load the previous image."
 msgstr "Az előző kép betöltése."
 
@@ -2980,46 +2771,6 @@ msgstr ""
 "<app>Nautilus</app> fájlkezelőben vagy a legtöbb Gnome alkalmazásban "
 "használt fájlválasztó párbeszédablakban vannak meghatározva."
 
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/import.page:21
-msgctxt "_"
-msgid ""
-"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
-msgstr ""
-"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
-
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/import.page:43
-msgctxt "_"
-msgid ""
-"external ref='figures/import-pref-auto-folder.png' "
-"md5='0a41de83da83b762e37f3962a7e4c042'"
-msgstr ""
-"external ref='figures/import-pref-auto-folder.png' "
-"md5='0a41de83da83b762e37f3962a7e4c042'"
-
-#. (itstool) path: media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/import.page:75
-msgctxt "_"
-msgid ""
-"external ref='figures/import-pref-custom-format.png' "
-"md5='989ca536c873ec926a4a71c876004b9f'"
-msgstr ""
-"external ref='figures/import-pref-custom-format.png' "
-"md5='989ca536c873ec926a4a71c876004b9f'"
-
 #. (itstool) path: page/title
 #: C/import.page:8
 msgid "Importing From a Camera"
@@ -3055,6 +2806,18 @@ msgstr ""
 #: C/import.page:20
 msgid "The Import Dialog"
 msgstr "Az importálás párbeszédablak"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/import.page:21
+msgctxt "_"
+msgid ""
+"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
+msgstr ""
+"external ref='figures/import.png' md5='aab2ba4d889d170b219c554294d69b0f'"
 
 #. (itstool) path: page/p
 #: C/import.page:24
@@ -3104,6 +2867,20 @@ msgstr ""
 #: C/import.page:42
 msgid "Standard Date-Based Subfolders"
 msgstr "Szabványos dátum-alapú almappák"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/import.page:43
+msgctxt "_"
+msgid ""
+"external ref='figures/import-pref-auto-folder.png' "
+"md5='0a41de83da83b762e37f3962a7e4c042'"
+msgstr ""
+"external ref='figures/import-pref-auto-folder.png' "
+"md5='0a41de83da83b762e37f3962a7e4c042'"
 
 #. (itstool) path: page/p
 #: C/import.page:46
@@ -3185,6 +2962,20 @@ msgstr ""
 #: C/import.page:74
 msgid "Using Custom Formats"
 msgstr "Egyéni formátumok használata"
+
+#. (itstool) path: figure/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/import.page:75
+msgctxt "_"
+msgid ""
+"external ref='figures/import-pref-custom-format.png' "
+"md5='989ca536c873ec926a4a71c876004b9f'"
+msgstr ""
+"external ref='figures/import-pref-custom-format.png' "
+"md5='989ca536c873ec926a4a71c876004b9f'"
 
 #. (itstool) path: page/title
 #: C/slideshow.page:7
