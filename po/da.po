@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2018-06-10 17:29+0000\n"
-"PO-Revision-Date: 2018-09-11 19:40+0200\n"
+"POT-Creation-Date: 2019-01-12 11:52+0000\n"
+"PO-Revision-Date: 2019-01-25 19:25+0100\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 # Jeg bryder mig ikke om "Tuborg Appelsinvand"-konstruktionen men det er måske alligevel den bedste løsning
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
@@ -109,7 +109,7 @@ msgstr ""
 "Billeder over denne størrelse (i byte) vil ikke blive vist som "
 "miniaturebilleder. Vælg 0 hvis du ønsker altid at lave miniaturebilleder."
 
-#: data/gschemas/org.gnome.gthumb.gschema.xml:130
+#: data/gschemas/org.gnome.gthumb.gschema.xml:133
 msgid "Open files in the active window"
 msgstr "Åbn filer i det aktive vindue"
 
@@ -153,7 +153,7 @@ msgstr "gthumb"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:394 gthumb/gth-progress-dialog.c:411
+#: gthumb/gth-browser.c:396 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -189,7 +189,7 @@ msgid "_Open files in fullscreen mode"
 msgstr "_Åbn filer i fuldskærmstilstand"
 
 #: data/ui/browser-preferences.ui:167 data/ui/preferences.ui:364
-#: extensions/exiv2_tools/gth-edit-iptc-page.c:198
+#: extensions/exiv2_tools/gth-edit-iptc-page.c:199
 #: extensions/gstreamer_tools/main.c:34
 msgid "Other"
 msgstr "Andet"
@@ -255,7 +255,7 @@ msgid "_Match:"
 msgstr "_Match:"
 
 #. limit label
-#: data/ui/filter-editor.ui:153 gthumb/gth-filter.c:269 gthumb/gth-filter.c:337
+#: data/ui/filter-editor.ui:153 gthumb/gth-filter.c:270 gthumb/gth-filter.c:338
 msgid "_Limit to"
 msgstr "_Begræns til"
 
@@ -421,7 +421,7 @@ msgstr "_Gem metadata i filer hvis det er muligt"
 #: data/ui/preferences.ui:460
 #: extensions/catalogs/data/ui/catalog-properties.ui:39
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:576
-#: extensions/edit_metadata/gth-edit-general-page.c:481
+#: extensions/edit_metadata/gth-edit-general-page.c:482
 #: extensions/webalbums/data/ui/web-album-exporter.ui:571
 msgid "General"
 msgstr "Generelt"
@@ -521,24 +521,24 @@ msgstr "_Valgte filer"
 msgid "Source"
 msgstr "Kilde"
 
-#: extensions/burn_disc/gth-burn-task.c:238
-#: extensions/burn_disc/gth-burn-task.c:259
-#: extensions/burn_disc/gth-burn-task.c:395
+#: extensions/burn_disc/gth-burn-task.c:235
+#: extensions/burn_disc/gth-burn-task.c:256
+#: extensions/burn_disc/gth-burn-task.c:392
 msgid "Write to Disc"
 msgstr "Skriv til disk"
 
-#: extensions/burn_disc/gth-burn-task.c:404
-#: extensions/oauth/oauth-account-chooser-dialog.c:149
+#: extensions/burn_disc/gth-burn-task.c:401
+#: extensions/oauth/oauth-account-chooser-dialog.c:150
 #: gthumb/dlg-preferences-extensions.c:717
 msgid "_Continue"
 msgstr "_Fortsæt"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:65
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:62
 #, c-format
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Fejl ved fortolkning af JPEG-billedfil: %s"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:542
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:536
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Ukendt JPEG-farverum (%d)"
@@ -620,30 +620,30 @@ msgstr "_Metode:"
 msgid "_Lossless"
 msgstr "_Tabsfri"
 
-#: extensions/cairo_io/gth-image-saver-jpeg.c:516
+#: extensions/cairo_io/gth-image-saver-jpeg.c:517
 #: extensions/image_viewer/gth-metadata-provider-image.c:145
 msgid "JPEG"
 msgstr "JPEG"
 
-#: extensions/cairo_io/gth-image-saver-png.c:353
+#: extensions/cairo_io/gth-image-saver-png.c:354
 #: extensions/image_viewer/gth-metadata-provider-image.c:111
 msgid "PNG"
 msgstr "PNG"
 
-#: extensions/cairo_io/gth-image-saver-tga.c:257
-#: extensions/cairo_io/gth-image-saver-tiff.c:439 gthumb/gth-buffer-data.c:84
+#: extensions/cairo_io/gth-image-saver-tga.c:260
+#: extensions/cairo_io/gth-image-saver-tiff.c:442 gthumb/gth-buffer-data.c:84
 msgid "Insufficient memory"
 msgstr "Utilstrækkelig hukommelse"
 
-#: extensions/cairo_io/gth-image-saver-tga.c:344
+#: extensions/cairo_io/gth-image-saver-tga.c:345
 msgid "TGA"
 msgstr "TGA"
 
-#: extensions/cairo_io/gth-image-saver-tiff.c:563
+#: extensions/cairo_io/gth-image-saver-tiff.c:564
 msgid "TIFF"
 msgstr "TIFF"
 
-#: extensions/cairo_io/gth-image-saver-webp.c:382
+#: extensions/cairo_io/gth-image-saver-webp.c:383
 #: extensions/image_viewer/gth-metadata-provider-image.c:174
 msgid "WebP"
 msgstr "WebP"
@@ -651,7 +651,7 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:556
 #: extensions/contact_sheet/data/ui/image-wall.ui:269
-#: extensions/image_viewer/gth-image-viewer-page.c:1628
+#: extensions/image_viewer/gth-image-viewer-page.c:1663
 #: extensions/webalbums/data/ui/web-album-exporter.ui:484
 msgid "Saving"
 msgstr "Gemmer"
@@ -660,9 +660,9 @@ msgstr "Gemmer"
 #: extensions/catalogs/dlg-add-to-catalog.c:368
 #: extensions/catalogs/dlg-add-to-catalog.c:488
 #: extensions/file_manager/actions.c:71
-#: extensions/file_tools/gth-file-tool-curves.c:370
-#: extensions/list_tools/gth-script-editor-dialog.c:235
-#: gthumb/gth-filter-editor-dialog.c:461 gthumb/gth-folder-tree.c:1853
+#: extensions/file_tools/gth-file-tool-curves.c:373
+#: extensions/list_tools/gth-script-editor-dialog.c:241
+#: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1858
 #, c-format
 msgid "No name specified"
 msgstr "Intet navn angivet"
@@ -671,8 +671,8 @@ msgstr "Intet navn angivet"
 #: extensions/catalogs/dlg-add-to-catalog.c:375
 #: extensions/catalogs/dlg-add-to-catalog.c:495
 #: extensions/file_manager/actions.c:78
-#: extensions/file_tools/gth-file-tool-curves.c:377
-#: gthumb/gth-folder-tree.c:1860
+#: extensions/file_tools/gth-file-tool-curves.c:380
+#: gthumb/gth-folder-tree.c:1865
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Ugyldigt navn. De følgende tegn er ikke tilladte: %s"
@@ -680,7 +680,7 @@ msgstr "Ugyldigt navn. De følgende tegn er ikke tilladte: %s"
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
 #: extensions/catalogs/dlg-add-to-catalog.c:432
 #: extensions/catalogs/dlg-add-to-catalog.c:542
-#: extensions/catalogs/gth-file-source-catalogs.c:508
+#: extensions/catalogs/gth-file-source-catalogs.c:510
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
 msgstr "Navn allerede brugt"
@@ -744,21 +744,21 @@ msgstr "Opret bibliotek"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:78
 #: extensions/file_manager/callbacks.c:105
 #: extensions/rename_series/dlg-rename-series.c:844
-#: gthumb/gth-folder-tree.c:1905
+#: gthumb/gth-folder-tree.c:1910
 msgid "Rename"
 msgstr "Omdøb"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:201 gthumb/gth-browser.c:4615
-#: gthumb/gth-file-properties.c:256
+#: extensions/catalogs/dlg-catalog-properties.c:201 gthumb/gth-browser.c:4583
+#: gthumb/gth-browser.c:4685 gthumb/gth-file-properties.c:245
 msgid "Properties"
 msgstr "Egenskaber"
 
 #: extensions/catalogs/callbacks.c:185
 #: extensions/catalogs/catalogs.extension.desktop.in.in:3
-#: extensions/catalogs/gth-catalog.c:611 extensions/catalogs/gth-catalog.c:662
-#: extensions/catalogs/gth-catalog.c:1021
-#: extensions/catalogs/gth-catalog.c:1022
+#: extensions/catalogs/gth-catalog.c:618 extensions/catalogs/gth-catalog.c:669
+#: extensions/catalogs/gth-catalog.c:1028
+#: extensions/catalogs/gth-catalog.c:1029
 msgid "Catalogs"
 msgstr "Albummer"
 
@@ -808,7 +808,7 @@ msgstr "Nyt _bibliotek"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:194
 #: extensions/file_manager/actions.c:687
-#: extensions/webalbums/gth-web-exporter.c:1842
+#: extensions/webalbums/gth-web-exporter.c:1843
 msgid "_View the destination"
 msgstr "_Vis målmappen"
 
@@ -831,7 +831,7 @@ msgid "Catalog"
 msgstr "Album"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:93
-#: gthumb/gth-progress-dialog.c:157
+#: gthumb/gth-progress-dialog.c:158
 msgid "Cancel operation"
 msgstr "Annullér handling"
 
@@ -887,7 +887,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Kunne ikke tilføje filerne til albummet"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:311
-#: extensions/search/gth-search-task.c:360
+#: extensions/search/gth-search-task.c:358
 msgid "Could not create the catalog"
 msgstr "Kunne ikke oprette albummet"
 
@@ -910,7 +910,7 @@ msgstr ""
 "Filer vil blive organiseret i album. Ingen filer vil blive flyttet på disken."
 
 #: extensions/catalogs/dlg-organize-files.c:138
-#: extensions/edit_metadata/gth-edit-general-page.c:558
+#: extensions/edit_metadata/gth-edit-general-page.c:557
 #: gthumb/gth-main-default-tests.c:366
 msgid "Date photo was taken"
 msgstr "Dato billedet blev taget"
@@ -929,58 +929,58 @@ msgstr "Mærke"
 msgid "Tag (embedded)"
 msgstr "Mærke (indlejret)"
 
-#: extensions/catalogs/gth-catalog.c:1119 extensions/comments/main.c:45
+#: extensions/catalogs/gth-catalog.c:1126 extensions/comments/main.c:45
 #: extensions/edit_metadata/callbacks.c:51
 #: extensions/edit_metadata/callbacks.c:85
 #: gthumb/gth-main-default-metadata.c:63
 msgid "Tags"
 msgstr "Mærker"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:953
+#: extensions/catalogs/gth-file-source-catalogs.c:955
 #, c-format
 msgid "The catalog “%s” already exists, do you want to overwrite it?"
 msgstr "Albummet “%s” findes allerede. Ønsker du at overskrive det?"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:955
+#: extensions/catalogs/gth-file-source-catalogs.c:957
 #, c-format
 msgid "The library “%s” already exists, do you want to overwrite it?"
 msgstr "Biblioteket “%s” findes allerede. Ønsker du at overskrive det?"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:963
+#: extensions/catalogs/gth-file-source-catalogs.c:965
 msgid "Over_write"
 msgstr "Over_skriv"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1081
+#: extensions/catalogs/gth-file-source-catalogs.c:1083
 msgid "Cannot move the files"
 msgstr "Kan ikke flytte filerne"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1083
+#: extensions/catalogs/gth-file-source-catalogs.c:1085
 msgid "Cannot copy the files"
 msgstr "Kan ikke kopiere filerne"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1088
+#: extensions/catalogs/gth-file-source-catalogs.c:1090
 msgid "Invalid destination."
 msgstr "Ugyldig destination."
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1135
+#: extensions/catalogs/gth-file-source-catalogs.c:1137
 #, c-format
 msgid "Copying files to “%s”"
 msgstr "Kopierer filer til “%s”"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1322
+#: extensions/catalogs/gth-file-source-catalogs.c:1324
 msgid "Could not remove the files from the catalog"
 msgstr "Kunne ikke fjerne filerne fra albummet"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1373
-#: extensions/exiv2_tools/exiv2-utils.cpp:873
-#: extensions/exiv2_tools/exiv2-utils.cpp:882
-#: extensions/exiv2_tools/exiv2-utils.cpp:912
-#: extensions/exiv2_tools/exiv2-utils.cpp:1443
+#: extensions/catalogs/gth-file-source-catalogs.c:1375
+#: extensions/exiv2_tools/exiv2-utils.cpp:871
+#: extensions/exiv2_tools/exiv2-utils.cpp:880
+#: extensions/exiv2_tools/exiv2-utils.cpp:910
+#: extensions/exiv2_tools/exiv2-utils.cpp:1441
 #: extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Ugyldigt filformat"
 
-#: extensions/catalogs/gth-organize-task.c:207
+#: extensions/catalogs/gth-organize-task.c:209
 #, c-format
 msgid "Operation completed. Catalogs: %d. Images: %d."
 msgstr "Handling færdig. Album: %d. Billeder: %d."
@@ -1076,15 +1076,15 @@ msgid "_Synchronize with the embedded metadata"
 msgstr "_Synkroniser med de indlejrede metadata"
 
 #: extensions/comments/dlg-comments-preferences.c:68
-#: extensions/gstreamer_tools/dlg-media-viewer-preferences.c:77
-#: extensions/importer/gth-import-preferences-dialog.c:416
+#: extensions/gstreamer_tools/dlg-media-viewer-preferences.c:75
+#: extensions/importer/gth-import-preferences-dialog.c:417
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: gthumb/dlg-preferences-extensions.c:483
 msgid "Preferences"
 msgstr "Indstillinger"
 
 #: extensions/comments/main.c:35 extensions/edit_metadata/callbacks.c:50
-#: extensions/edit_metadata/callbacks.c:79
+#: extensions/edit_metadata/callbacks.c:79 gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -1130,7 +1130,7 @@ msgstr "Billed_væg …"
 
 #: extensions/contact_sheet/contact_sheet.extension.desktop.in.in:3
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:308
-#: extensions/contact_sheet/dlg-contact-sheet.c:706
+#: extensions/contact_sheet/dlg-contact-sheet.c:708
 msgid "Contact Sheet"
 msgstr "Kontaktark"
 
@@ -1140,11 +1140,11 @@ msgstr ""
 "Opret et indeksbillede, der viser miniaturebilleder af de valgte filer."
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:12
-#: extensions/file_tools/gth-file-tool-crop.c:436
-#: extensions/file_tools/gth-file-tool-crop.c:466
-#: extensions/file_tools/gth-file-tool-resize.c:584
-#: extensions/file_tools/gth-file-tool-rotate.c:393
-#: extensions/slideshow/main.c:291 gthumb/gth-accel-button.c:172
+#: extensions/file_tools/gth-file-tool-crop.c:439
+#: extensions/file_tools/gth-file-tool-crop.c:469
+#: extensions/file_tools/gth-file-tool-resize.c:587
+#: extensions/file_tools/gth-file-tool-rotate.c:396
+#: extensions/slideshow/main.c:291 gthumb/gth-accel-button.c:173
 msgid "None"
 msgstr "Ingen"
 
@@ -1394,37 +1394,37 @@ msgstr "_Kvadrat"
 msgid "Thumbnails"
 msgstr "Miniaturebilleder"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:488
-#: extensions/contact_sheet/dlg-contact-sheet.c:499
-#: extensions/contact_sheet/dlg-contact-sheet.c:513
+#: extensions/contact_sheet/dlg-contact-sheet.c:489
+#: extensions/contact_sheet/dlg-contact-sheet.c:500
+#: extensions/contact_sheet/dlg-contact-sheet.c:514
 msgid "Could not save the theme"
 msgstr "Kunne ikke gemme temaet"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:658
+#: extensions/contact_sheet/dlg-contact-sheet.c:659
 msgid "Could not delete the theme"
 msgstr "Kunne ikke slette temaet"
 
-#: extensions/contact_sheet/dlg-image-wall.c:242
+#: extensions/contact_sheet/dlg-image-wall.c:243
 msgid "Image Wall"
 msgstr "Billedvæg"
 
-#: extensions/contact_sheet/gth-contact-sheet-creator.c:247
+#: extensions/contact_sheet/gth-contact-sheet-creator.c:250
 msgid "Creating images"
 msgstr "Opretter billeder"
 
-#: extensions/contact_sheet/gth-contact-sheet-creator.c:895
+#: extensions/contact_sheet/gth-contact-sheet-creator.c:898
 msgid "Generating thumbnails"
 msgstr "Opretter miniaturebilleder"
 
-#: extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:193
+#: extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:194
 msgid "Theme Properties"
 msgstr "Temaegenskaber"
 
-#: extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:205
+#: extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:206
 msgid "Copy _From"
 msgstr "Kopier _fra"
 
-#: extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:312
+#: extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:313
 msgid "New theme"
 msgstr "Nyt tema"
 
@@ -1552,7 +1552,7 @@ msgid "Could not save the file metadata"
 msgstr "Kunne ikke gemme filmetadataene"
 
 #: extensions/edit_metadata/dlg-edit-metadata.c:227
-#: gthumb/gth-overwrite-dialog.c:137
+#: gthumb/gth-overwrite-dialog.c:139
 msgid "Cannot read file information"
 msgstr "Kan ikke læse filinformation"
 
@@ -1565,13 +1565,13 @@ msgid "Allow to edit files metadata."
 msgstr "Tillad redigering af filernes metadata."
 
 #. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:63
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:64
 #, c-format
 msgid "%s Metadata"
 msgstr "%s metadata"
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:66
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:83
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:67
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:84
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
 #, c-format
 msgid "%d file"
@@ -1579,60 +1579,60 @@ msgid_plural "%d files"
 msgstr[0] "%d fil"
 msgstr[1] "%d filer"
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:144
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:197
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:145
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:196
 msgid "Sa_ve and Close"
 msgstr "_Gem og luk"
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:155
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:156
 msgid "Save only cha_nged fields"
 msgstr "Gem kun _ændrede felter"
 
-#: extensions/edit_metadata/gth-edit-general-page.c:555
+#: extensions/edit_metadata/gth-edit-general-page.c:554
 msgid "No date"
 msgstr "Ingen dato"
 
-#: extensions/edit_metadata/gth-edit-general-page.c:556
+#: extensions/edit_metadata/gth-edit-general-page.c:555
 msgid "The following date"
 msgstr "Nedenstående dato"
 
-#: extensions/edit_metadata/gth-edit-general-page.c:557
-#: extensions/importer/gth-import-preferences-dialog.c:324
+#: extensions/edit_metadata/gth-edit-general-page.c:556
+#: extensions/importer/gth-import-preferences-dialog.c:325
 msgid "Current date"
 msgstr "Dags dato"
 
-#: extensions/edit_metadata/gth-edit-general-page.c:559
+#: extensions/edit_metadata/gth-edit-general-page.c:558
 msgid "Last modified date"
 msgstr "Dato for seneste ændring"
 
-#: extensions/edit_metadata/gth-edit-general-page.c:560
+#: extensions/edit_metadata/gth-edit-general-page.c:559
 msgid "File creation date"
 msgstr "Filens oprettelsesdato"
 
-#: extensions/edit_metadata/gth-edit-general-page.c:561
+#: extensions/edit_metadata/gth-edit-general-page.c:560
 msgid "Do not modify"
 msgstr "Behold nuværende"
 
 #. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:80
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:81
 #, c-format
 msgid "%s Tags"
 msgstr "%s mærker"
 
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:189
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:188
 msgid "Assign Tags"
 msgstr "Tildel mærker"
 
-#: extensions/edit_metadata/gth-tag-task.c:119
-#: extensions/edit_metadata/gth-tag-task.c:136
+#: extensions/edit_metadata/gth-tag-task.c:122
+#: extensions/edit_metadata/gth-tag-task.c:139
 msgid "Assigning tags to the selected files"
 msgstr "Tildeler mærker til valgte filer"
 
-#: extensions/edit_metadata/gth-tag-task.c:119
+#: extensions/edit_metadata/gth-tag-task.c:122
 msgid "Writing files"
 msgstr "Skriver filer"
 
-#: extensions/edit_metadata/gth-tag-task.c:136
+#: extensions/edit_metadata/gth-tag-task.c:139
 msgid "Reading files"
 msgstr "Læser filer"
 
@@ -1689,7 +1689,7 @@ msgstr "Stat/provins:"
 msgid "(invalid value)"
 msgstr "(ugyldig værdi)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:710
+#: extensions/exiv2_tools/exiv2-utils.cpp:708
 msgid "Exposure"
 msgstr "Eksponering"
 
@@ -1841,28 +1841,28 @@ msgid "_Album:"
 msgstr "_Album:"
 
 #: extensions/facebook/dlg-export-to-facebook.c:124
-#: extensions/flicker_utils/dlg-export-to-flickr.c:163
+#: extensions/flicker_utils/dlg-export-to-flickr.c:161
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:120
 msgid "Files successfully uploaded to the server."
 msgstr "Filer overført til serveren."
 
 #: extensions/facebook/dlg-export-to-facebook.c:151
-#: extensions/flicker_utils/dlg-export-to-flickr.c:248
+#: extensions/flicker_utils/dlg-export-to-flickr.c:246
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:148
 msgid "Could not upload the files"
 msgstr "Kunne ikke overføre filerne"
 
 #: extensions/facebook/dlg-export-to-facebook.c:297
-#: extensions/flicker_utils/dlg-export-to-flickr.c:138
-#: extensions/flicker_utils/dlg-export-to-flickr.c:412
+#: extensions/flicker_utils/dlg-export-to-flickr.c:136
+#: extensions/flicker_utils/dlg-export-to-flickr.c:410
 #: extensions/flicker_utils/dlg-import-from-flickr.c:227
-#: extensions/oauth/web-service.c:376
+#: extensions/oauth/web-service.c:377
 msgid "Could not connect to the server"
 msgstr "Kunne ikke forbinde til serveren"
 
 #: extensions/facebook/dlg-export-to-facebook.c:368
-#: extensions/flicker_utils/dlg-export-to-flickr.c:190
-#: extensions/flicker_utils/dlg-export-to-flickr.c:225
+#: extensions/flicker_utils/dlg-export-to-flickr.c:188
+#: extensions/flicker_utils/dlg-export-to-flickr.c:223
 msgid "Could not create the album"
 msgstr "Kunne ikke oprette albummet"
 
@@ -1875,14 +1875,14 @@ msgid "Export to Facebook"
 msgstr "Eksportér til Facebook"
 
 #: extensions/facebook/dlg-export-to-facebook.c:541
-#: extensions/flicker_utils/dlg-export-to-flickr.c:594
-#: extensions/image_print/gth-image-print-job.c:1739
+#: extensions/flicker_utils/dlg-export-to-flickr.c:592
+#: extensions/image_print/gth-image-print-job.c:1740
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:494
 msgid "No valid file selected."
 msgstr "Ingen gyldig fil valgt."
 
 #: extensions/facebook/dlg-export-to-facebook.c:542
-#: extensions/flicker_utils/dlg-export-to-flickr.c:595
+#: extensions/flicker_utils/dlg-export-to-flickr.c:593
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:495
 msgid "Could not export the files"
 msgstr "Kunne ikke eksportere filerne"
@@ -1890,10 +1890,10 @@ msgstr "Kunne ikke eksportere filerne"
 #: extensions/facebook/dlg-export-to-facebook.c:550
 #: extensions/find_duplicates/gth-find-duplicates.c:278
 #: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:603
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:502
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:830
+#: gthumb/gth-browser.c:832
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1901,48 +1901,48 @@ msgstr[0] "%d fil (%s)"
 msgstr[1] "%d filer (%s)"
 
 #: extensions/facebook/dlg-export-to-facebook.c:571
-#: extensions/flicker_utils/dlg-export-to-flickr.c:626
+#: extensions/flicker_utils/dlg-export-to-flickr.c:624
 #, c-format
 msgid "Export to %s"
 msgstr "Eksporter til %s"
 
-#: extensions/facebook/facebook-service.c:501
-#: extensions/flicker_utils/flickr-service.c:872
-#: extensions/picasaweb/picasa-web-service.c:744
+#: extensions/facebook/facebook-service.c:496
+#: extensions/flicker_utils/flickr-service.c:849
+#: extensions/picasaweb/picasa-web-service.c:738
 msgid "Getting the album list"
 msgstr "Hent albumlisten"
 
-#: extensions/facebook/facebook-service.c:623
-#: extensions/flicker_utils/flickr-service.c:974
-#: extensions/flicker_utils/flickr-service.c:1096
-#: extensions/flicker_utils/flickr-service.c:1135
+#: extensions/facebook/facebook-service.c:613
+#: extensions/flicker_utils/flickr-service.c:943
+#: extensions/flicker_utils/flickr-service.c:1058
+#: extensions/flicker_utils/flickr-service.c:1097
 msgid "Creating the new album"
 msgstr "Opretter det nye album"
 
-#: extensions/facebook/facebook-service.c:684
-#: extensions/flicker_utils/flickr-service.c:1185
-#: extensions/picasaweb/picasa-web-service.c:792
+#: extensions/facebook/facebook-service.c:671
+#: extensions/flicker_utils/flickr-service.c:1144
+#: extensions/picasaweb/picasa-web-service.c:783
 #, c-format
 msgid "Could not upload “%s”: %s"
 msgstr "Kunne ikke overføre “%s”: %s"
 
 #. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:749
-#: extensions/flicker_utils/flickr-service.c:1296
-#: extensions/picasaweb/picasa-web-service.c:849
+#: extensions/facebook/facebook-service.c:734
+#: extensions/flicker_utils/flickr-service.c:1253
+#: extensions/picasaweb/picasa-web-service.c:838
 #, c-format
 msgid "Uploading “%s”"
 msgstr "Overfører “%s”"
 
-#: extensions/facebook/facebook-service.c:964
-#: extensions/flicker_utils/flickr-service.c:1493
-#: extensions/picasaweb/picasa-web-service.c:1073
+#: extensions/facebook/facebook-service.c:949
+#: extensions/flicker_utils/flickr-service.c:1450
+#: extensions/picasaweb/picasa-web-service.c:1062
 msgid "Uploading the files to the server"
 msgstr "Overfører filerne til serveren"
 
-#: extensions/facebook/facebook-service.c:1063
-#: extensions/flicker_utils/flickr-service.c:1662
-#: extensions/picasaweb/picasa-web-service.c:1192
+#: extensions/facebook/facebook-service.c:1043
+#: extensions/flicker_utils/flickr-service.c:1611
+#: extensions/picasaweb/picasa-web-service.c:1174
 msgid "Getting the photo list"
 msgstr "Henter billedlisten"
 
@@ -1963,14 +1963,14 @@ msgid "Enter the folder name:"
 msgstr "Indtast mappenavnet:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:268
-#: extensions/file_manager/callbacks.c:818
+#: extensions/file_manager/callbacks.c:265
+#: extensions/file_manager/callbacks.c:815
 msgid "Could not move the files"
 msgstr "Kunne ikke flytte filerne"
 
 #: extensions/file_manager/actions.c:411
-#: extensions/file_manager/callbacks.c:269
-#: extensions/file_manager/callbacks.c:819
+#: extensions/file_manager/callbacks.c:266
+#: extensions/file_manager/callbacks.c:816
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1996,7 +1996,7 @@ msgid "Copy To"
 msgstr "Kopier til"
 
 #: extensions/file_manager/actions.c:664
-#: extensions/file_manager/callbacks.c:803
+#: extensions/file_manager/callbacks.c:800
 msgid "Move"
 msgstr "Flyt"
 
@@ -2050,43 +2050,43 @@ msgstr "Indsæt i mappe"
 msgid "Duplicate"
 msgstr "Duplikér"
 
-#: extensions/file_manager/callbacks.c:533 gthumb/gth-file-source-vfs.c:231
+#: extensions/file_manager/callbacks.c:530 gthumb/gth-file-source-vfs.c:234
 msgid "Home Folder"
 msgstr "Hjemmemappe"
 
+#: extensions/file_manager/callbacks.c:537
 #: extensions/file_manager/callbacks.c:540
-#: extensions/file_manager/callbacks.c:543
 msgid "Open _With"
 msgstr "_Åbn med"
 
-#: extensions/file_manager/callbacks.c:786
+#: extensions/file_manager/callbacks.c:783
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Vil du flytte “%s” til “%s”?"
 
-#: extensions/file_manager/callbacks.c:788
+#: extensions/file_manager/callbacks.c:785
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Vil du kopiere “%s” til “%s”?"
 
-#: extensions/file_manager/callbacks.c:793
+#: extensions/file_manager/callbacks.c:790
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Vil du flytte de trukne filer til “%s”?"
 
-#: extensions/file_manager/callbacks.c:795
+#: extensions/file_manager/callbacks.c:792
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Vil du kopiere de trukne filer til “%s”?"
 
-#: extensions/file_manager/callbacks.c:803
+#: extensions/file_manager/callbacks.c:800
 msgid "_Copy"
 msgstr "_Kopiér"
 
-#: extensions/file_manager/callbacks.c:984
+#: extensions/file_manager/callbacks.c:981
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5612 gthumb/gth-browser.c:5648
-#: gthumb/gth-progress-dialog.c:427
+#: gthumb/gth-browser.c:5583 gthumb/gth-browser.c:5619
+#: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Kunne ikke udføre handlingen"
 
@@ -2099,7 +2099,6 @@ msgid "File manager operations."
 msgstr "Handlinger for filhåndtering."
 
 #: extensions/file_manager/file_manager.extension.desktop.in.in:8
-#| msgid "File manager"
 msgid "system-file-manager"
 msgstr "system-file-manager"
 
@@ -2164,10 +2163,10 @@ msgstr "Farve"
 #: extensions/file_tools/data/ui/crop-options.ui:31
 #: extensions/file_tools/data/ui/resize-options.ui:9
 #: extensions/file_tools/data/ui/rotate-options.ui:9
-#: extensions/file_tools/gth-file-tool-crop.c:658
-#: extensions/file_tools/gth-file-tool-resize.c:754
-#: extensions/file_tools/gth-file-tool-rotate.c:614
-#: gthumb/gth-file-chooser-dialog.c:257
+#: extensions/file_tools/gth-file-tool-crop.c:661
+#: extensions/file_tools/gth-file-tool-resize.c:757
+#: extensions/file_tools/gth-file-tool-rotate.c:617
+#: gthumb/gth-file-chooser-dialog.c:258
 msgid "Options"
 msgstr "Indstillinger"
 
@@ -2350,309 +2349,309 @@ msgid "Amount:"
 msgstr "Konto:"
 
 #. Translators: the first number is converted to the second number
-#: extensions/file_tools/gth-curve-editor.c:416
+#: extensions/file_tools/gth-curve-editor.c:417
 #, c-format
 msgid "%d → %d"
 msgstr "%d → %d"
 
-#: extensions/file_tools/gth-curve-editor.c:893 gthumb/gth-histogram-view.c:837
+#: extensions/file_tools/gth-curve-editor.c:894 gthumb/gth-histogram-view.c:838
 msgid "Linear scale"
 msgstr "Lineær skala"
 
-#: extensions/file_tools/gth-curve-editor.c:905 gthumb/gth-histogram-view.c:849
+#: extensions/file_tools/gth-curve-editor.c:906 gthumb/gth-histogram-view.c:850
 msgid "Logarithmic scale"
 msgstr "Logaritmisk skala"
 
-#: extensions/file_tools/gth-curve-editor.c:925 gthumb/gth-histogram-view.c:869
+#: extensions/file_tools/gth-curve-editor.c:926 gthumb/gth-histogram-view.c:870
 msgid "Channel:"
 msgstr "Kanal:"
 
-#: extensions/file_tools/gth-curve-editor.c:947 gthumb/gth-histogram-view.c:890
+#: extensions/file_tools/gth-curve-editor.c:948 gthumb/gth-histogram-view.c:891
 msgid "Value"
 msgstr "Værdi"
 
-#: extensions/file_tools/gth-curve-editor.c:952 gthumb/gth-histogram-view.c:895
+#: extensions/file_tools/gth-curve-editor.c:953 gthumb/gth-histogram-view.c:896
 msgid "Red"
 msgstr "Rød"
 
-#: extensions/file_tools/gth-curve-editor.c:957 gthumb/gth-histogram-view.c:900
+#: extensions/file_tools/gth-curve-editor.c:958 gthumb/gth-histogram-view.c:901
 msgid "Green"
 msgstr "Grøn"
 
-#: extensions/file_tools/gth-curve-editor.c:962 gthumb/gth-histogram-view.c:905
+#: extensions/file_tools/gth-curve-editor.c:963 gthumb/gth-histogram-view.c:906
 msgid "Blue"
 msgstr "Blå"
 
-#: extensions/file_tools/gth-curve-editor.c:981
-#: extensions/file_tools/gth-file-tool-adjust-colors.c:553
-#: extensions/file_tools/gth-file-tool-curves.c:816
-#: extensions/file_tools/gth-file-tool-rotate.c:601
-#: extensions/file_tools/gth-file-tool-sharpen.c:363
-#: gthumb/gth-test-aspect-ratio.c:234
+#: extensions/file_tools/gth-curve-editor.c:982
+#: extensions/file_tools/gth-file-tool-adjust-colors.c:557
+#: extensions/file_tools/gth-file-tool-curves.c:819
+#: extensions/file_tools/gth-file-tool-rotate.c:604
+#: extensions/file_tools/gth-file-tool-sharpen.c:364
+#: gthumb/gth-test-aspect-ratio.c:218
 msgid "Reset"
 msgstr "Nulstil"
 
-#: extensions/file_tools/gth-curve-preset-editor-dialog.c:266
-#: extensions/file_tools/gth-file-tool-curves.c:683
-#: extensions/file_tools/gth-file-tool-curves.c:844
+#: extensions/file_tools/gth-curve-preset-editor-dialog.c:267
+#: extensions/file_tools/gth-file-tool-curves.c:686
+#: extensions/file_tools/gth-file-tool-curves.c:847
 msgid "Presets"
 msgstr "Forudindstillinger"
 
-#: extensions/file_tools/gth-file-tool-adjust-colors.c:336
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:390
-#: extensions/file_tools/gth-file-tool-crop.c:629
-#: extensions/file_tools/gth-file-tool-curves.c:284
-#: extensions/file_tools/gth-file-tool-effects.c:399
-#: extensions/file_tools/gth-file-tool-effects.c:443
-#: extensions/file_tools/gth-file-tool-effects.c:491
-#: extensions/file_tools/gth-file-tool-effects.c:540
-#: extensions/file_tools/gth-file-tool-effects.c:588
-#: extensions/file_tools/gth-file-tool-effects.c:636
-#: extensions/file_tools/gth-file-tool-effects.c:684
-#: extensions/file_tools/gth-file-tool-effects.c:731
-#: extensions/file_tools/gth-file-tool-effects.c:780
-#: extensions/file_tools/gth-file-tool-effects.c:902
-#: extensions/file_tools/gth-file-tool-effects.c:937
+#: extensions/file_tools/gth-file-tool-adjust-colors.c:340
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:393
+#: extensions/file_tools/gth-file-tool-crop.c:632
+#: extensions/file_tools/gth-file-tool-curves.c:287
+#: extensions/file_tools/gth-file-tool-effects.c:400
+#: extensions/file_tools/gth-file-tool-effects.c:444
+#: extensions/file_tools/gth-file-tool-effects.c:492
+#: extensions/file_tools/gth-file-tool-effects.c:541
+#: extensions/file_tools/gth-file-tool-effects.c:589
+#: extensions/file_tools/gth-file-tool-effects.c:637
+#: extensions/file_tools/gth-file-tool-effects.c:685
+#: extensions/file_tools/gth-file-tool-effects.c:732
+#: extensions/file_tools/gth-file-tool-effects.c:781
+#: extensions/file_tools/gth-file-tool-effects.c:903
+#: extensions/file_tools/gth-file-tool-effects.c:938
 #: extensions/file_tools/gth-file-tool-flip.c:63
-#: extensions/file_tools/gth-file-tool-grayscale.c:227
+#: extensions/file_tools/gth-file-tool-grayscale.c:230
 #: extensions/file_tools/gth-file-tool-lomo.c:182
 #: extensions/file_tools/gth-file-tool-mirror.c:63
 #: extensions/file_tools/gth-file-tool-negative.c:100
 #: extensions/file_tools/gth-file-tool-rotate-left.c:63
 #: extensions/file_tools/gth-file-tool-rotate-right.c:63
-#: extensions/file_tools/gth-file-tool-rotate.c:568
+#: extensions/file_tools/gth-file-tool-rotate.c:571
 msgid "Applying changes"
 msgstr "Anvender ændringer"
 
-#: extensions/file_tools/gth-file-tool-adjust-colors.c:594
+#: extensions/file_tools/gth-file-tool-adjust-colors.c:598
 msgid "Adjust Colors"
 msgstr "Juster farver"
 
-#: extensions/file_tools/gth-file-tool-adjust-colors.c:595
+#: extensions/file_tools/gth-file-tool-adjust-colors.c:599
 msgid "Change brightness, contrast, saturation and gamma level of the image"
 msgstr "Ændr billedets lysstyrke, kontrast, mætning og gammaværdi"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:533
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:536
 msgid "Stretch"
 msgstr "Stræk"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:535
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:538
 #, no-c-format
 msgid "Stretch the histogram after trimming 0.5% from both ends"
 msgstr "Skær 0,5 % af i begge ender og stræk histogrammet"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:539
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:542
 msgid "Equalize"
 msgstr "Udjævn"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:540
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:543
 msgid "Equalize the histogram using the square root function"
 msgstr "Udjævn histogrammet ved brug af kvadratrodsfunktionen"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:544
-#: extensions/file_tools/gth-file-tool-crop.c:470
-#: extensions/file_tools/gth-file-tool-rotate.c:397
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:547
+#: extensions/file_tools/gth-file-tool-crop.c:473
+#: extensions/file_tools/gth-file-tool-rotate.c:400
 msgid "Uniform"
 msgstr "Ensartet"
 
 # sætter ikke "lineær funktion" i bestemt form, med mindre nogen kan vise at det i konteksten er klart, hvilken det drejer sig om
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:545
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:548
 msgid "Equalize the histogram using the linear function"
 msgstr "Udjævn histogrammet ved brug af lineær funktion"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:659
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:660
 msgid "Adjust Contrast"
 msgstr "Justér kontrast"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:661
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:662
 msgid "Automatic contrast adjustment"
 msgstr "Automatisk justering af kontrast"
 
-#: extensions/file_tools/gth-file-tool-color-picker.c:245
+#: extensions/file_tools/gth-file-tool-color-picker.c:246
 msgid "Color Picker"
 msgstr "Farvevælger"
 
-#: extensions/file_tools/gth-file-tool-color-picker.c:248
+#: extensions/file_tools/gth-file-tool-color-picker.c:249
 msgid "Pick a color from the image"
 msgstr "Vælg en farve fra billedet"
 
-#: extensions/file_tools/gth-file-tool-crop.c:436
-#: extensions/file_tools/gth-file-tool-resize.c:584
+#: extensions/file_tools/gth-file-tool-crop.c:439
+#: extensions/file_tools/gth-file-tool-resize.c:587
 #: gthumb/gth-test-aspect-ratio.c:47
 msgid "Square"
 msgstr "Kvadrat"
 
-#: extensions/file_tools/gth-file-tool-crop.c:437
-#: extensions/file_tools/gth-file-tool-resize.c:585
+#: extensions/file_tools/gth-file-tool-crop.c:440
+#: extensions/file_tools/gth-file-tool-resize.c:588
 #, c-format
 msgid "%d × %d (Image)"
 msgstr "%d × %d (Billede)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:440
-#: extensions/file_tools/gth-file-tool-resize.c:589
+#: extensions/file_tools/gth-file-tool-crop.c:443
+#: extensions/file_tools/gth-file-tool-resize.c:592
 #, c-format
 msgid "%d × %d (Screen)"
 msgstr "%d × %d (Skærm)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:444
-#: extensions/file_tools/gth-file-tool-resize.c:594
+#: extensions/file_tools/gth-file-tool-crop.c:447
+#: extensions/file_tools/gth-file-tool-resize.c:597
 #: gthumb/gth-test-aspect-ratio.c:48
 msgid "5∶4"
 msgstr "5∶4"
 
-#: extensions/file_tools/gth-file-tool-crop.c:445
-#: extensions/file_tools/gth-file-tool-resize.c:595
+#: extensions/file_tools/gth-file-tool-crop.c:448
+#: extensions/file_tools/gth-file-tool-resize.c:598
 #: gthumb/gth-test-aspect-ratio.c:49
 msgid "4∶3 (DVD, Book)"
 msgstr "4∶3 (dvd, bog)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:446
-#: extensions/file_tools/gth-file-tool-resize.c:596
+#: extensions/file_tools/gth-file-tool-crop.c:449
+#: extensions/file_tools/gth-file-tool-resize.c:599
 #: gthumb/gth-test-aspect-ratio.c:50
 msgid "7∶5"
 msgstr "7∶5"
 
-#: extensions/file_tools/gth-file-tool-crop.c:447
-#: extensions/file_tools/gth-file-tool-resize.c:597
+#: extensions/file_tools/gth-file-tool-crop.c:450
+#: extensions/file_tools/gth-file-tool-resize.c:600
 #: gthumb/gth-test-aspect-ratio.c:51
 msgid "3∶2 (Postcard)"
 msgstr "3∶2 (postkort)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:448
-#: extensions/file_tools/gth-file-tool-resize.c:598
+#: extensions/file_tools/gth-file-tool-crop.c:451
+#: extensions/file_tools/gth-file-tool-resize.c:601
 #: gthumb/gth-test-aspect-ratio.c:52
 msgid "16∶10"
 msgstr "16∶10"
 
-#: extensions/file_tools/gth-file-tool-crop.c:449
-#: extensions/file_tools/gth-file-tool-resize.c:599
+#: extensions/file_tools/gth-file-tool-crop.c:452
+#: extensions/file_tools/gth-file-tool-resize.c:602
 #: gthumb/gth-test-aspect-ratio.c:53
 msgid "16∶9 (DVD)"
 msgstr "16∶9 (dvd)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:450
-#: extensions/file_tools/gth-file-tool-resize.c:600
+#: extensions/file_tools/gth-file-tool-crop.c:453
+#: extensions/file_tools/gth-file-tool-resize.c:603
 #: gthumb/gth-test-aspect-ratio.c:54
 msgid "1.85∶1"
 msgstr "1,85∶1"
 
-#: extensions/file_tools/gth-file-tool-crop.c:451
-#: extensions/file_tools/gth-file-tool-resize.c:601
+#: extensions/file_tools/gth-file-tool-crop.c:454
+#: extensions/file_tools/gth-file-tool-resize.c:604
 #: gthumb/gth-test-aspect-ratio.c:55
 msgid "2.39∶1"
 msgstr "2,39∶1"
 
 #. Translators: this is an option for the format -> Format: Custom
-#: extensions/file_tools/gth-file-tool-crop.c:452
-#: extensions/file_tools/gth-file-tool-resize.c:602
+#: extensions/file_tools/gth-file-tool-crop.c:455
+#: extensions/file_tools/gth-file-tool-resize.c:605
 #: extensions/image_print/data/ui/print-layout.ui:17
 #: extensions/rename_series/gth-template-selector.c:248
-#: gthumb/gth-test-aspect-ratio.c:209
+#: gthumb/gth-test-aspect-ratio.c:193
 msgid "Custom"
 msgstr "Selvvalgt"
 
-#: extensions/file_tools/gth-file-tool-crop.c:467
-#: extensions/file_tools/gth-file-tool-rotate.c:394
+#: extensions/file_tools/gth-file-tool-crop.c:470
+#: extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Rule of Thirds"
 msgstr "Tredjedelsreglen"
 
-#: extensions/file_tools/gth-file-tool-crop.c:468
-#: extensions/file_tools/gth-file-tool-rotate.c:395
+#: extensions/file_tools/gth-file-tool-crop.c:471
+#: extensions/file_tools/gth-file-tool-rotate.c:398
 msgid "Golden Sections"
 msgstr "Gyldne snit"
 
-#: extensions/file_tools/gth-file-tool-crop.c:469
-#: extensions/file_tools/gth-file-tool-rotate.c:396
+#: extensions/file_tools/gth-file-tool-crop.c:472
+#: extensions/file_tools/gth-file-tool-rotate.c:399
 msgid "Center Lines"
 msgstr "Centerlinjer"
 
-#: extensions/file_tools/gth-file-tool-crop.c:684
+#: extensions/file_tools/gth-file-tool-crop.c:687
 msgid "Crop"
 msgstr "Beskær"
 
-#: extensions/file_tools/gth-file-tool-curves.c:407
+#: extensions/file_tools/gth-file-tool-curves.c:410
 msgid "Add to Presets"
 msgstr "Føj til forudindstillinger"
 
-#: extensions/file_tools/gth-file-tool-curves.c:408
+#: extensions/file_tools/gth-file-tool-curves.c:411
 msgid "Enter the preset name:"
 msgstr "Indtast navn på forudindstillinger:"
 
-#: extensions/file_tools/gth-file-tool-curves.c:530
+#: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1557
-#: gthumb/gth-browser.c:1885
+#: extensions/image_viewer/gth-image-viewer-page.c:1592
+#: gthumb/gth-browser.c:1887
 msgid "Could not save the file"
 msgstr "Kunne ikke gemme filen"
 
-#: extensions/file_tools/gth-file-tool-curves.c:830
+#: extensions/file_tools/gth-file-tool-curves.c:833
 msgid "Add to presets"
 msgstr "Føj til forudindstillinger"
 
-#: extensions/file_tools/gth-file-tool-curves.c:889
+#: extensions/file_tools/gth-file-tool-curves.c:892
 msgid "Color Curves"
 msgstr "Farvekurver"
 
-#: extensions/file_tools/gth-file-tool-curves.c:890
+#: extensions/file_tools/gth-file-tool-curves.c:893
 msgid "Adjust color curves"
 msgstr "Justér farvekurver"
 
-#: extensions/file_tools/gth-file-tool-effects.c:357
+#: extensions/file_tools/gth-file-tool-effects.c:358
 msgid "Special Effects"
 msgstr "Specielle effekter"
 
 #. Translators: this is the name of a filter that produces warmer colors
-#: extensions/file_tools/gth-file-tool-effects.c:401
+#: extensions/file_tools/gth-file-tool-effects.c:402
 msgid "Warmer"
 msgstr "Varmere"
 
 #. Translators: this is the name of a filter that produces cooler colors
-#: extensions/file_tools/gth-file-tool-effects.c:445
+#: extensions/file_tools/gth-file-tool-effects.c:446
 msgid "Cooler"
 msgstr "Koldere"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:493
+#: extensions/file_tools/gth-file-tool-effects.c:494
 msgid "Soil"
 msgstr "Jord"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:542
+#: extensions/file_tools/gth-file-tool-effects.c:543
 msgid "Desert"
 msgstr "Ørken"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:590
+#: extensions/file_tools/gth-file-tool-effects.c:591
 msgid "Arctic"
 msgstr "Arktisk"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:638
+#: extensions/file_tools/gth-file-tool-effects.c:639
 msgid "Mangos"
 msgstr "Mango"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:686
+#: extensions/file_tools/gth-file-tool-effects.c:687
 msgid "Fresh Blue"
 msgstr "Frisk blå"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:733
+#: extensions/file_tools/gth-file-tool-effects.c:734
 msgid "Cherry"
 msgstr "Kirsebær"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:782
+#: extensions/file_tools/gth-file-tool-effects.c:783
 msgid "Vintage"
 msgstr "Gammelt"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:904
+#: extensions/file_tools/gth-file-tool-effects.c:905
 msgid "Blurred Edges"
 msgstr "Slørede kanter"
 
 #. Translators: this is the name of an image filter that produces darker edges
-#: extensions/file_tools/gth-file-tool-effects.c:939
+#: extensions/file_tools/gth-file-tool-effects.c:940
 msgid "Vignette"
 msgstr "Vignettering"
 
@@ -2664,19 +2663,19 @@ msgstr "Vend"
 msgid "Flip the image vertically"
 msgstr "Vend billedet lodret"
 
-#: extensions/file_tools/gth-file-tool-grayscale.c:370
+#: extensions/file_tools/gth-file-tool-grayscale.c:373
 msgid "_Brightness"
 msgstr "_Lysstyrke"
 
-#: extensions/file_tools/gth-file-tool-grayscale.c:375
+#: extensions/file_tools/gth-file-tool-grayscale.c:378
 msgid "_Saturation"
 msgstr "_Mætning"
 
-#: extensions/file_tools/gth-file-tool-grayscale.c:380
+#: extensions/file_tools/gth-file-tool-grayscale.c:383
 msgid "_Average"
 msgstr "_Gennemsnit"
 
-#: extensions/file_tools/gth-file-tool-grayscale.c:496
+#: extensions/file_tools/gth-file-tool-grayscale.c:497
 msgid "Grayscale"
 msgstr "Gråtoner"
 
@@ -2702,13 +2701,13 @@ msgid "Redo"
 msgstr "Omgør"
 
 #. resize the original image
-#: extensions/file_tools/gth-file-tool-resize.c:180
+#: extensions/file_tools/gth-file-tool-resize.c:183
 #: extensions/resize_images/dlg-resize-images.c:172
-#: gthumb/gth-filter-grid.c:572
+#: gthumb/gth-filter-grid.c:573
 msgid "Resizing images"
 msgstr "Ændrer størrelse på billeder"
 
-#: extensions/file_tools/gth-file-tool-resize.c:837
+#: extensions/file_tools/gth-file-tool-resize.c:838
 msgid "Resize"
 msgstr "Ændr størrelse"
 
@@ -2732,7 +2731,7 @@ msgstr "Roter højre om"
 msgid "Rotate the image by 90 degrees clockwise"
 msgstr "Roter billedet med 90 grader med uret"
 
-#: extensions/file_tools/gth-file-tool-rotate.c:681
+#: extensions/file_tools/gth-file-tool-rotate.c:682
 msgid "Rotate"
 msgstr "Roter"
 
@@ -2746,11 +2745,11 @@ msgstr "Gem som …"
 msgid "Save"
 msgstr "Gem"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:333
+#: extensions/file_tools/gth-file-tool-sharpen.c:334
 msgid "Sharpening image"
 msgstr "Skærper billede"
 
-#: extensions/file_tools/gth-file-tool-sharpen.c:436
+#: extensions/file_tools/gth-file-tool-sharpen.c:435
 msgid "Enhance Focus"
 msgstr "Gør skarpere"
 
@@ -2788,7 +2787,7 @@ msgid "_View"
 msgstr "_Vis"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:454
-#: gthumb/gth-tags-entry.c:1230 gthumb/gtk-utils.h:39
+#: gthumb/gth-tags-entry.c:1148 gthumb/gtk-utils.h:39
 msgid "_Delete"
 msgstr "_Slet"
 
@@ -2858,7 +2857,7 @@ msgid "Searching for duplicates"
 msgstr "Søger efter duplikater"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:744
-#: gthumb/gth-load-file-data-task.c:106 gthumb/gth-save-file-data-task.c:100
+#: gthumb/gth-load-file-data-task.c:109 gthumb/gth-save-file-data-task.c:103
 #, c-format
 msgid "%d file remaining"
 msgid_plural "%d files remaining"
@@ -2932,8 +2931,8 @@ msgstr "_Sikkerhed:"
 msgid "Hi_de from public searches"
 msgstr "_Skjul for offentlige søgninger"
 
-#: extensions/flicker_utils/dlg-export-to-flickr.c:166
-#: extensions/webalbums/gth-web-exporter.c:1841
+#: extensions/flicker_utils/dlg-export-to-flickr.c:164
+#: extensions/webalbums/gth-web-exporter.c:1842
 msgid "_Open in the Browser"
 msgstr "_Åbn i browseren"
 
@@ -2960,40 +2959,40 @@ msgstr "_Importer"
 msgid "Import from %s"
 msgstr "Importer fra %s"
 
-#: extensions/flicker_utils/flickr-consumer.c:124
-#: extensions/flicker_utils/flickr-service.c:237
-#: extensions/flicker_utils/flickr-service.c:348
-#: extensions/flicker_utils/flickr-service.c:681
-#: extensions/flicker_utils/flickr-service.c:946
+#: extensions/flicker_utils/flickr-consumer.c:122
+#: extensions/flicker_utils/flickr-service.c:240
+#: extensions/flicker_utils/flickr-service.c:344
+#: extensions/flicker_utils/flickr-service.c:667
+#: extensions/flicker_utils/flickr-service.c:919
 #: extensions/oauth/oauth-service.c:154
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
-#: extensions/flicker_utils/flickr-service.c:502
+#: extensions/flicker_utils/flickr-service.c:491
 #, c-format
 msgid ""
 "Return to this window when you have finished the authorization process on %s"
 msgstr ""
 "Returner til dette vindue, når du har afsluttet godkendelsesprocessen på %s"
 
-#: extensions/flicker_utils/flickr-service.c:503
+#: extensions/flicker_utils/flickr-service.c:492
 msgid "Once you’re done, click the “Continue” button below."
 msgstr "Når du er færdig, så klik på knappen “Fortsæt” nedenfor."
 
-#: extensions/flicker_utils/flickr-service.c:575
+#: extensions/flicker_utils/flickr-service.c:562
 msgid "C_ontinue"
 msgstr "_Fortsæt"
 
-#: extensions/flicker_utils/flickr-service.c:576
+#: extensions/flicker_utils/flickr-service.c:563
 msgid "_Authorize…"
 msgstr "_Godkend …"
 
-#: extensions/flicker_utils/flickr-service.c:579
+#: extensions/flicker_utils/flickr-service.c:566
 #, c-format
 msgid "gThumb requires your authorization to upload the photos to %s"
 msgstr "gThumb kræver din godkendelse for at overføre billederne til %s"
 
-#: extensions/flicker_utils/flickr-service.c:580
+#: extensions/flicker_utils/flickr-service.c:567
 #, c-format
 msgid ""
 "Click “Authorize” to open your web browser and authorize gthumb to upload "
@@ -3020,13 +3019,17 @@ msgstr "Skærmbillede"
 msgid "Could not take a screenshot"
 msgstr "Kunne ikke tage et skærmbillede"
 
-#: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:15
+#: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
+msgid "Use hardware acceleration"
+msgstr "Benyt hardwareacceleration"
+
+#: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:35
 msgid "_Screenshots location:"
 msgstr "Sted for _skærmbilleder:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:30
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:599
-#: extensions/image_viewer/gth-image-viewer-page.c:1103
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:600
+#: extensions/image_viewer/gth-image-viewer-page.c:1138
 msgid "Play"
 msgstr "Afspil"
 
@@ -3062,15 +3065,15 @@ msgstr "Afspil lyd- og videofiler."
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:572
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:573
 msgid "Playing video"
 msgstr "Afspiller video"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:585
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:586
 msgid "Pause"
 msgstr "Pause"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:891
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:914
 msgid "Take a screenshot"
 msgstr "Tag et skærmbillede"
 
@@ -3125,20 +3128,20 @@ msgstr "Kanaler"
 msgid "Sample rate"
 msgstr "Samplefrekvens"
 
-#: extensions/gstreamer_utils/gstreamer-utils.c:368
+#: extensions/gstreamer_utils/gstreamer-utils.c:369
 msgid "Stereo"
 msgstr "Stereo"
 
-#: extensions/gstreamer_utils/gstreamer-utils.c:368
+#: extensions/gstreamer_utils/gstreamer-utils.c:369
 msgid "Mono"
 msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
-#: extensions/gstreamer_utils/gstreamer-utils.c:401
-#: extensions/image_viewer/gth-image-viewer-page.c:1790
+#: extensions/gstreamer_utils/gstreamer-utils.c:402
+#: extensions/image_viewer/gth-image-viewer-page.c:1825
 #: extensions/image_viewer/gth-metadata-provider-image.c:253
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2448 gthumb/gtk-utils.c:897
+#: extensions/webalbums/gth-web-exporter.c:2449 gthumb/gtk-utils.c:893
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3221,36 +3224,36 @@ msgstr "Vælg skrifttype til overskrift"
 msgid "Select Footer Font"
 msgstr "Vælg skrift for sidefod"
 
-#: extensions/image_print/gth-image-print-job.c:914
+#: extensions/image_print/gth-image-print-job.c:915
 #: extensions/webalbums/data/albumthemes/text.h:31
 #, c-format
 msgid "Page %d of %d"
 msgstr "Side %d af %d"
 
-#: extensions/image_print/gth-image-print-job.c:1680
-#: extensions/image_print/gth-image-print-job.c:1845
-#: extensions/image_print/gth-image-print-job.c:1888
+#: extensions/image_print/gth-image-print-job.c:1681
+#: extensions/image_print/gth-image-print-job.c:1846
+#: extensions/image_print/gth-image-print-job.c:1889
 msgid "Could not print"
 msgstr "Kunne ikke udskrive"
 
-#: extensions/image_print/gth-image-print-job.c:1746
+#: extensions/image_print/gth-image-print-job.c:1747
 msgid "Images"
 msgstr "Billeder"
 
-#: extensions/image_print/gth-image-print-job.c:1847
-#: gthumb/gth-image-loader.c:222 gthumb/gth-image-loader.c:354
+#: extensions/image_print/gth-image-print-job.c:1848
+#: gthumb/gth-image-loader.c:251 gthumb/gth-image-loader.c:375
 #: gthumb/gth-image-utils.c:131 gthumb/gth-image-utils.c:137
 msgid "No suitable loader available for this file type"
 msgstr "Der er ingen passende indlæser til denne filtype"
 
 #. translators: %s is a filename
-#: extensions/image_print/gth-load-image-info-task.c:165
+#: extensions/image_print/gth-load-image-info-task.c:168
 #, c-format
 msgid "Loading “%s”"
 msgstr "Indlæser “%s”"
 
-#: extensions/image_print/gth-load-image-info-task.c:167
-#: extensions/webalbums/gth-web-exporter.c:2722
+#: extensions/image_print/gth-load-image-info-task.c:170
+#: extensions/webalbums/gth-web-exporter.c:2723
 msgid "Loading images"
 msgstr "Indlæser billeder"
 
@@ -3263,7 +3266,6 @@ msgid "Allow to print images choosing the page layout."
 msgstr "Tillad udskrift af billeder ved valg af sidelayout."
 
 #: extensions/image_print/image_print.extension.desktop.in.in:8
-#| msgid "Could not print"
 msgid "document-print"
 msgstr "document-print"
 
@@ -3275,10 +3277,10 @@ msgstr "Roter fysisk"
 msgid "Reset the EXIF Orientation"
 msgstr "Nulstil EXIF-orientering"
 
-#: extensions/image_rotation/gth-reset-orientation-task.c:111
-#: extensions/image_rotation/gth-transform-task.c:143
-#: extensions/webalbums/gth-web-exporter.c:2340
-#: extensions/webalbums/gth-web-exporter.c:2425
+#: extensions/image_rotation/gth-reset-orientation-task.c:114
+#: extensions/image_rotation/gth-transform-task.c:146
+#: extensions/webalbums/gth-web-exporter.c:2341
+#: extensions/webalbums/gth-web-exporter.c:2426
 msgid "Saving images"
 msgstr "Gemmer billeder"
 
@@ -3332,7 +3334,7 @@ msgid "After loading an image:"
 msgstr "Når et billede er indlæst:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:53
-#: extensions/image_viewer/gth-image-viewer-page.c:1060
+#: extensions/image_viewer/gth-image-viewer-page.c:1095
 msgid "Set to actual size"
 msgstr "Sæt til naturlig størrelse"
 
@@ -3346,7 +3348,7 @@ msgid "Fit to window"
 msgstr "Tilpas til vindue"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:56
-#: extensions/image_viewer/gth-image-viewer-page.c:1067
+#: extensions/image_viewer/gth-image-viewer-page.c:1102
 msgid "Fit to window if larger"
 msgstr "Tilpas til vinduet hvis billedet er større"
 
@@ -3402,31 +3404,31 @@ msgstr "200 %"
 msgid "300%"
 msgstr "300 %"
 
-#: extensions/image_viewer/gth-image-histogram.c:85
+#: extensions/image_viewer/gth-image-histogram.c:94
 msgid "Histogram"
 msgstr "Histogram"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:84
+#: extensions/image_viewer/gth-image-viewer-page.c:77
 msgid "Copy Image"
 msgstr "Kopier billede"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:85
+#: extensions/image_viewer/gth-image-viewer-page.c:78
 msgid "Paste Image"
 msgstr "Indsæt billede"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1095
+#: extensions/image_viewer/gth-image-viewer-page.c:1130
 msgid "Apply the embedded color profile"
 msgstr "Anvend den indlejrede farveprofil"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1110
+#: extensions/image_viewer/gth-image-viewer-page.c:1145
 msgid "Next frame"
 msgstr "Næste billede"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1729
+#: extensions/image_viewer/gth-image-viewer-page.c:1764
 msgid "Save Image"
 msgstr "Gem billede"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2347
+#: extensions/image_viewer/gth-image-viewer-page.c:2373
 msgid "Loading the original image"
 msgstr "Indlæser det originale billede"
 
@@ -3470,70 +3472,70 @@ msgstr "Minutterne"
 msgid "The seconds"
 msgstr "Sekunderne"
 
-#: extensions/importer/gth-import-destination-button.c:111
+#: extensions/importer/gth-import-destination-button.c:115
 msgid "Invalid Destination"
 msgstr "Ugyldig destination"
 
-#: extensions/importer/gth-import-preferences-dialog.c:198
+#: extensions/importer/gth-import-preferences-dialog.c:199
 #, c-format
 msgid "example: %s"
 msgstr "eksempel: %s"
 
 #. subfolder type
-#: extensions/importer/gth-import-preferences-dialog.c:323
+#: extensions/importer/gth-import-preferences-dialog.c:324
 msgid "File date"
 msgstr "Fildato"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
-#: extensions/importer/gth-import-preferences-dialog.c:333
+#: extensions/importer/gth-import-preferences-dialog.c:334
 msgid "year-month-day"
 msgstr "år-måned-dag"
 
-#: extensions/importer/gth-import-preferences-dialog.c:334
+#: extensions/importer/gth-import-preferences-dialog.c:335
 msgid "year-month"
 msgstr "år-måned"
 
-#: extensions/importer/gth-import-preferences-dialog.c:335
+#: extensions/importer/gth-import-preferences-dialog.c:336
 msgid "year"
 msgstr "år"
 
-#: extensions/importer/gth-import-preferences-dialog.c:336
+#: extensions/importer/gth-import-preferences-dialog.c:337
 msgid "custom format"
 msgstr "tilpasset format"
 
-#: extensions/importer/gth-import-task.c:426
-#: extensions/importer/gth-import-task.c:461
-#: extensions/importer/gth-import-task.c:671
+#: extensions/importer/gth-import-task.c:429
+#: extensions/importer/gth-import-task.c:464
+#: extensions/importer/gth-import-task.c:674
 msgid "Importing files"
 msgstr "Importerer filer"
 
-#: extensions/importer/gth-import-task.c:620
+#: extensions/importer/gth-import-task.c:623
 msgid "No file imported"
 msgstr "Ingen fil importeret"
 
-#: extensions/importer/gth-import-task.c:621
+#: extensions/importer/gth-import-task.c:624
 msgid "The selected files are already present in the destination."
 msgstr "De valgte filer er allerede til stede på destinationen."
 
-#: extensions/importer/gth-import-task.c:644 gthumb/gth-file-source-vfs.c:680
+#: extensions/importer/gth-import-task.c:647 gthumb/gth-file-source-vfs.c:683
 msgid "Could not delete the files"
 msgstr "Kunne ikke slette filerne"
 
-#: extensions/importer/gth-import-task.c:645
+#: extensions/importer/gth-import-task.c:648
 msgid "Delete operation not supported."
 msgstr "Slettehandling er ikke understøttet."
 
-#: extensions/importer/gth-import-task.c:732
+#: extensions/importer/gth-import-task.c:735
 msgid "Last imported"
 msgstr "Senest importeret"
 
-#: extensions/importer/gth-import-task.c:838
+#: extensions/importer/gth-import-task.c:839
 msgid "No file specified."
 msgstr "Ingen fil angivet."
 
 #. Translators: For example: Not enough free space in “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is available.
-#: extensions/importer/gth-import-task.c:875
+#: extensions/importer/gth-import-task.c:876
 #, c-format
 msgid ""
 "Not enough free space in “%s”.\n"
@@ -3635,7 +3637,7 @@ msgstr "Citer teksten "
 msgid "_Command:"
 msgstr "_Kommando:"
 
-#: extensions/list_tools/data/ui/tools-menu.ui:13 gthumb/gth-filterbar.c:307
+#: extensions/list_tools/data/ui/tools-menu.ui:13 gthumb/gth-filterbar.c:314
 msgid "Personalize…"
 msgstr "Tilpas …"
 
@@ -3644,7 +3646,7 @@ msgid "Script"
 msgstr "Skript"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:266
-#: gthumb/gth-accel-button.c:228
+#: gthumb/gth-accel-button.c:229
 msgid "Shortcut"
 msgstr "Genvej"
 
@@ -3673,28 +3675,28 @@ msgstr "Er du sikker på, at du ønsker at slette den valgte kommando?"
 msgid "Commands"
 msgstr "Kommandoer"
 
-#: extensions/list_tools/gth-script-editor-dialog.c:241
+#: extensions/list_tools/gth-script-editor-dialog.c:247
 #, c-format
 msgid "No command specified"
 msgstr "Ingen kommando anført"
 
-#: extensions/list_tools/gth-script-task.c:83
+#: extensions/list_tools/gth-script-task.c:86
 #, c-format
 msgid "Command exited abnormally with status %d"
 msgstr "Kommando afsluttedes unormalt med status %d"
 
-#: extensions/list_tools/gth-script.c:482
+#: extensions/list_tools/gth-script.c:481
 msgid "Enter a value:"
 msgstr "Indtast en værdi:"
 
-#: extensions/list_tools/gth-script.c:716
-#: extensions/webalbums/gth-web-exporter.c:558
-#: extensions/webalbums/gth-web-exporter.c:570
-#: extensions/webalbums/gth-web-exporter.c:578
+#: extensions/list_tools/gth-script.c:715
+#: extensions/webalbums/gth-web-exporter.c:561
+#: extensions/webalbums/gth-web-exporter.c:573
+#: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "Fejludformet kommando"
 
-#: extensions/list_tools/gth-script.c:771
+#: extensions/list_tools/gth-script.c:770
 msgid "_Skip"
 msgstr "_Spring over"
 
@@ -3710,36 +3712,30 @@ msgstr "Scripting og batchhåndtering af filer."
 msgid "applications-engineering"
 msgstr "applications-engineering"
 
-#: extensions/map_view/gth-map-view.c:130
+#: extensions/map_view/gth-map-view.c:128
 msgctxt "Cardinal point"
 msgid "S"
 msgstr "S"
 
-#: extensions/map_view/gth-map-view.c:130
+#: extensions/map_view/gth-map-view.c:128
 msgctxt "Cardinal point"
 msgid "N"
 msgstr "N"
 
-#: extensions/map_view/gth-map-view.c:132
+#: extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
 msgid "W"
 msgstr "V"
 
-#: extensions/map_view/gth-map-view.c:132
+#: extensions/map_view/gth-map-view.c:130
 msgctxt "Cardinal point"
 msgid "E"
 msgstr "Ø"
 
-#: extensions/map_view/gth-map-view.c:205
+#: extensions/map_view/gth-map-view.c:225
 #: extensions/map_view/map_view.extension.desktop.in.in:3
 msgid "Map"
 msgstr "Kort"
-
-#. No GPS label
-#: extensions/map_view/gth-map-view.c:276
-msgid "The geographical position information is not available for this image."
-msgstr ""
-"Der er ingen tilgængelig geografisk positionsinformation for dette billede."
 
 #: extensions/map_view/map_view.extension.desktop.in.in:4
 msgid "View the photo position on the map"
@@ -3750,39 +3746,39 @@ msgid "A_ccounts:"
 msgstr "_Konti:"
 
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-folder-tree.c:1083
+#: gthumb/gth-folder-tree.c:1080
 msgid "Loading…"
 msgstr "Indlæser …"
 
-#: extensions/oauth/oauth-account-chooser-dialog.c:191
+#: extensions/oauth/oauth-account-chooser-dialog.c:192
 msgid "New authentication…"
 msgstr "Ny godkendelse …"
 
-#: extensions/oauth/oauth-ask-authorization-dialog.c:239
+#: extensions/oauth/oauth-ask-authorization-dialog.c:240
 msgid "Authorization Required"
 msgstr "Godkendelse påkrævet"
 
-#: extensions/oauth/web-service.c:378
+#: extensions/oauth/web-service.c:379
 msgid "Choose _Account…"
 msgstr "Vælg _konto …"
 
-#: extensions/oauth/web-service.c:656
+#: extensions/oauth/web-service.c:657
 msgid "Choose Account"
 msgstr "Vælg konto"
 
-#: extensions/oauth/web-service.c:773
+#: extensions/oauth/web-service.c:774
 msgid "Edit Accounts"
 msgstr "Rediger konti"
 
-#: extensions/oauth/web-service.c:791 extensions/oauth/web-service.c:808
+#: extensions/oauth/web-service.c:792 extensions/oauth/web-service.c:809
 msgid "Connecting to the server"
 msgstr "Forbinder til serveren"
 
-#: extensions/oauth/web-service.c:792
+#: extensions/oauth/web-service.c:793
 msgid "Asking authorization"
 msgstr "Beder om godkendelse"
 
-#: extensions/oauth/web-service.c:809
+#: extensions/oauth/web-service.c:810
 msgid "Getting account information"
 msgstr "Henter kontoinformation"
 
@@ -3822,7 +3818,7 @@ msgstr "_Slet de importerede billeder fra kilden"
 
 #. view label
 #: extensions/photo_importer/data/ui/photo-importer.ui:54
-#: gthumb/gth-filterbar.c:407
+#: gthumb/gth-filterbar.c:414
 msgid "S_how:"
 msgstr "_Vis:"
 
@@ -3851,11 +3847,11 @@ msgstr "Kunne ikke indlæse mappen"
 
 #: extensions/photo_importer/dlg-photo-importer.c:356
 #: extensions/photo_importer/dlg-photo-importer.c:396 gthumb/gth-file-list.c:42
-#: gthumb/gth-folder-tree.c:1110
+#: gthumb/gth-folder-tree.c:1107
 msgid "(Empty)"
 msgstr "(Tom)"
 
-#: extensions/photo_importer/dlg-photo-importer.c:361 gthumb/gth-browser.c:1796
+#: extensions/photo_importer/dlg-photo-importer.c:361 gthumb/gth-browser.c:1798
 msgid "Getting the folder content…"
 msgstr "Henter mappeindholdet …"
 
@@ -3941,11 +3937,11 @@ msgstr "Understøttelse af rå-format (raw)"
 msgid "Allow to load raw format images."
 msgstr "Tillad indlæsning af billeder i rå-format (raw)."
 
-#: extensions/red_eye_removal/gth-file-tool-red-eye.c:470
+#: extensions/red_eye_removal/gth-file-tool-red-eye.c:471
 msgid "Red Eye Removal"
 msgstr "Fjern rødøjeeffekt"
 
-#: extensions/red_eye_removal/gth-file-tool-red-eye.c:471
+#: extensions/red_eye_removal/gth-file-tool-red-eye.c:472
 msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Fjern rødøje-effekten udløst af kamerablitz"
 
@@ -4080,31 +4076,31 @@ msgid "Edit Template"
 msgstr "Rediger skabelon"
 
 #: extensions/rename_series/dlg-rename-series.c:854
-#: gthumb/gth-folder-tree.c:1908
+#: gthumb/gth-folder-tree.c:1913
 msgid "_Rename"
 msgstr "_Omdøb"
 
-#: extensions/rename_series/dlg-rename-series.c:872
+#: extensions/rename_series/dlg-rename-series.c:871
 msgid "Old Name"
 msgstr "Gammelt navn"
 
-#: extensions/rename_series/dlg-rename-series.c:883
+#: extensions/rename_series/dlg-rename-series.c:882
 msgid "New Name"
 msgstr "Nyt navn"
 
-#: extensions/rename_series/dlg-rename-series.c:961
+#: extensions/rename_series/dlg-rename-series.c:960
 msgid "Keep original case"
 msgstr "Behold store/små bogstaver som før"
 
-#: extensions/rename_series/dlg-rename-series.c:962
+#: extensions/rename_series/dlg-rename-series.c:961
 msgid "Convert to lower-case"
 msgstr "Konverter til små bogstaver"
 
-#: extensions/rename_series/dlg-rename-series.c:963
+#: extensions/rename_series/dlg-rename-series.c:962
 msgid "Convert to upper-case"
 msgstr "Konverter til store bogstaver"
 
-#: extensions/rename_series/gth-rename-task.c:167
+#: extensions/rename_series/gth-rename-task.c:170
 msgid "Renaming files"
 msgstr "Omdøber filer"
 
@@ -4137,7 +4133,7 @@ msgid "_Preserve original aspect ratios"
 msgstr "_Bevar oprindeligt størrelsesforhold"
 
 #: extensions/resize_images/data/ui/resize-images.ui:324
-#: gthumb/gth-main-default-metadata.c:45 gthumb/gth-toolbox.c:146
+#: gthumb/gth-main-default-metadata.c:45 gthumb/gth-toolbox.c:148
 msgid "Format"
 msgstr "Format"
 
@@ -4179,7 +4175,7 @@ msgid "Search again"
 msgstr "Søg igen"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:147
+#: extensions/search/callbacks.c:146
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Søg"
@@ -4188,26 +4184,26 @@ msgstr "Søg"
 msgid "Rules:"
 msgstr "Regler:"
 
-#: extensions/search/gth-search-editor.c:112
-#: gthumb/gth-filter-editor-dialog.c:161
+#: extensions/search/gth-search-editor.c:114
+#: gthumb/gth-filter-editor-dialog.c:167
 msgid "all the following rules"
 msgstr "alle de følgende regler"
 
-#: extensions/search/gth-search-editor.c:113
-#: gthumb/gth-filter-editor-dialog.c:162
+#: extensions/search/gth-search-editor.c:115
+#: gthumb/gth-filter-editor-dialog.c:168
 msgid "any of the following rules"
 msgstr "enhver af de følgende regler"
 
-#: extensions/search/gth-search-task.c:183
+#: extensions/search/gth-search-task.c:181
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Filer fundet indtil videre: %s"
 
-#: extensions/search/gth-search-task.c:274
+#: extensions/search/gth-search-task.c:272
 msgid "Searching…"
 msgstr "Søger …"
 
-#: extensions/search/gth-search-task.c:281
+#: extensions/search/gth-search-task.c:279
 msgid "Cancel the operation"
 msgstr "Afbryd handlingen"
 
@@ -4304,19 +4300,19 @@ msgstr "Tilføj filer til afspilningsliste"
 msgid "Remove the selected files"
 msgstr "Fjern de valgte filer"
 
-#: extensions/slideshow/gth-slideshow-preferences.c:184
+#: extensions/slideshow/gth-slideshow-preferences.c:185
 msgid "Choose the files to play"
 msgstr "Vælg de filer der skal afspilles"
 
-#: extensions/slideshow/gth-slideshow-preferences.c:193
+#: extensions/slideshow/gth-slideshow-preferences.c:194
 msgid "Audio files"
 msgstr "Lydfiler"
 
-#: extensions/slideshow/gth-slideshow-preferences.c:259
+#: extensions/slideshow/gth-slideshow-preferences.c:260
 msgid "Random"
 msgstr "Tilfældig"
 
-#: extensions/slideshow/gth-slideshow.c:289
+#: extensions/slideshow/gth-slideshow.c:284
 msgid "Playing slideshow"
 msgstr "Viser slideshow"
 
@@ -4358,7 +4354,6 @@ msgid "View images as a slideshow."
 msgstr "Vis billeder som et slideshow."
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:8
-#| msgid "Presentation"
 msgid "x-office-presentation"
 msgstr "x-office-presentation"
 
@@ -4474,36 +4469,36 @@ msgstr "Billedattributter"
 msgid "Web Album"
 msgstr "Webalbum"
 
-#: extensions/webalbums/gth-web-exporter.c:1802
+#: extensions/webalbums/gth-web-exporter.c:1803
 msgid "Could not show the destination"
 msgstr "Kunne ikke vise destinationen"
 
-#: extensions/webalbums/gth-web-exporter.c:1838
+#: extensions/webalbums/gth-web-exporter.c:1839
 msgid "The album has been created successfully."
 msgstr "Albummet er blevet oprettet."
 
-#: extensions/webalbums/gth-web-exporter.c:2106
-#: extensions/webalbums/gth-web-exporter.c:2134
+#: extensions/webalbums/gth-web-exporter.c:2107
+#: extensions/webalbums/gth-web-exporter.c:2135
 msgid "Saving thumbnails"
 msgstr "Gemmer miniaturebilleder"
 
-#: extensions/webalbums/gth-web-exporter.c:2162
+#: extensions/webalbums/gth-web-exporter.c:2163
 msgid "Saving HTML pages: Images"
 msgstr "Gemmer HTML sider: Billeder"
 
-#: extensions/webalbums/gth-web-exporter.c:2220
+#: extensions/webalbums/gth-web-exporter.c:2221
 msgid "Saving HTML pages: Indexes"
 msgstr "Gemmer HTML sider: Indexfiler"
 
-#: extensions/webalbums/gth-web-exporter.c:2505
+#: extensions/webalbums/gth-web-exporter.c:2506
 msgid "Copying original images"
 msgstr "Kopierer originale billeder"
 
-#: extensions/webalbums/gth-web-exporter.c:2966
+#: extensions/webalbums/gth-web-exporter.c:2967
 msgid "Could not find the style folder"
 msgstr "Kunne ikke finde stilmappen"
 
-#: extensions/webalbums/gth-web-exporter.c:3004
+#: extensions/webalbums/gth-web-exporter.c:3005
 msgid "Could not create a temporary folder"
 msgstr "Kunne ikke oprette en midlertidig mappe"
 
@@ -4515,9 +4510,9 @@ msgstr "Webalbum"
 msgid "Create static web albums."
 msgstr "Opret statisk internetalbum."
 
-#: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1107
-#: gthumb/gth-browser.c:1676 gthumb/gth-browser.c:6611
-#: gthumb/gth-browser.c:6630 gthumb/gth-browser.c:6654
+#: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1109
+#: gthumb/gth-browser.c:1678 gthumb/gth-browser.c:6582
+#: gthumb/gth-browser.c:6601 gthumb/gth-browser.c:6625
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Kunne ikke indlæse positionen “%s”"
@@ -4551,7 +4546,7 @@ msgstr "Filtre"
 msgid "Browser"
 msgstr "Netlæser"
 
-#: gthumb/dlg-preferences-extensions.c:61 gthumb/gth-filterbar.c:273
+#: gthumb/dlg-preferences-extensions.c:61 gthumb/gth-filterbar.c:280
 msgid "All"
 msgstr "Alle"
 
@@ -4567,7 +4562,8 @@ msgstr "Deaktiveret"
 msgid "Viewers"
 msgstr "Fremvisere"
 
-#: gthumb/dlg-preferences-extensions.c:67 gthumb/gth-main-default-metadata.c:33
+#: gthumb/dlg-preferences-extensions.c:67 gthumb/gth-file-details.c:42
+#: gthumb/gth-main-default-metadata.c:33
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -4673,11 +4669,11 @@ msgctxt "short time format"
 msgid "%d∶%02d"
 msgstr "%d∶%02d"
 
-#: gthumb/gth-accel-button.c:238
+#: gthumb/gth-accel-button.c:239
 msgid "Press a combination of keys to use as shortcut."
 msgstr "Tryk en tastekombination, du vil bruge som genvej."
 
-#: gthumb/gth-accel-button.c:239
+#: gthumb/gth-accel-button.c:240
 msgid "Press Esc to cancel"
 msgstr "Tryk Esc for at afbryde"
 
@@ -4701,7 +4697,7 @@ msgstr "Importer billeder fra ditalkamera automatisk"
 msgid "Show version"
 msgstr "Vis version"
 
-#: gthumb/gth-application.c:209
+#: gthumb/gth-application.c:198
 msgid "— Image browser and viewer"
 msgstr "— Billedhåndtering og -visning"
 
@@ -4753,157 +4749,149 @@ msgstr ""
 "Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
 "Mere info: http://www.dansk-gruppen.dk"
 
-#: gthumb/gth-browser-actions-entries.h:90 gthumb/resources/app-menu.ui:20
+#: gthumb/gth-browser-actions-entries.h:86 gthumb/resources/app-menu.ui:20
 msgid "Keyboard Shortcuts"
 msgstr "Tastaturgenveje"
 
-#: gthumb/gth-browser-actions-entries.h:91 gthumb/gtk-utils.h:40
+#: gthumb/gth-browser-actions-entries.h:87 gthumb/gtk-utils.h:40
 #: gthumb/resources/app-menu.ui:24
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: gthumb/gth-browser-actions-entries.h:92 gthumb/resources/app-menu.ui:29
-msgid "_About"
-msgstr "_Om"
+#: gthumb/gth-browser-actions-entries.h:88
+msgid "_About gThumb"
+msgstr "_Om gThumb"
 
-#: gthumb/gth-browser-actions-entries.h:97 gthumb/resources/app-menu.ui:33
-msgid "_Quit"
-msgstr "_Afslut"
-
-#: gthumb/gth-browser.c:379
+#: gthumb/gth-browser.c:381
 msgid "[modified]"
 msgstr "[ændret]"
 
-#: gthumb/gth-browser.c:831
+#: gthumb/gth-browser.c:833
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d fil valgt (%s)"
 msgstr[1] "%d filer valgt (%s)"
 
-#: gthumb/gth-browser.c:866
+#: gthumb/gth-browser.c:868
 #, c-format
 msgid "%s of free space"
 msgstr "%s ledig plads"
 
-#: gthumb/gth-browser.c:1780 gthumb/gth-browser.c:1807
+#: gthumb/gth-browser.c:1782 gthumb/gth-browser.c:1809
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Intet egnet modul fundet for %s"
 
-#: gthumb/gth-browser.c:1929
+#: gthumb/gth-browser.c:1931
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Gem ændringer til filen “%s”?"
 
-#: gthumb/gth-browser.c:1934
+#: gthumb/gth-browser.c:1936
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Hvis du ikke gemmer, vil ændringer til filen gå tabt."
 
-#: gthumb/gth-browser.c:1935
+#: gthumb/gth-browser.c:1937
 msgid "Do _Not Save"
 msgstr "Gem _ikke"
 
-#: gthumb/gth-browser.c:2414 gthumb/gth-browser.c:4656
+#: gthumb/gth-browser.c:2421 gthumb/gth-browser.c:4624
 msgid "Accept"
 msgstr "Acceptér"
 
 # næppe samme menu som _Link ovenfor
-#: gthumb/gth-browser.c:2414 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2421 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Luk"
 
-#: gthumb/gth-browser.c:3019 gthumb/gth-source-tree.c:182
+#: gthumb/gth-browser.c:3015 gthumb/gth-source-tree.c:185
 msgid "Could not change name"
 msgstr "Kunne ikke ændre navn"
 
-#: gthumb/gth-browser.c:3474
+#: gthumb/gth-browser.c:3470
 msgid "Modified"
 msgstr "Ændret"
 
-#: gthumb/gth-browser.c:4578
+#: gthumb/gth-browser.c:4546
 msgid "Go to the previous visited location"
 msgstr "Gå til foregående besøgte sted"
 
-#: gthumb/gth-browser.c:4584
+#: gthumb/gth-browser.c:4552
 msgid "Go to the next visited location"
 msgstr "Gå til næste besøgte sted"
 
-#: gthumb/gth-browser.c:4592
+#: gthumb/gth-browser.c:4560
 msgid "History"
 msgstr "Historik"
 
-#: gthumb/gth-browser.c:4606
+#: gthumb/gth-browser.c:4574
 msgid "View the folders"
 msgstr "Vis mapperne"
 
-#: gthumb/gth-browser.c:4621
+#: gthumb/gth-browser.c:4589
 msgid "Edit file"
 msgstr "Rediger fil"
 
-#: gthumb/gth-browser.c:4630 gthumb/gth-browser.c:4648
+#: gthumb/gth-browser.c:4598 gthumb/gth-browser.c:4616
 #: gthumb/resources/file-list-menu.ui:7 gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Fuldskærm"
 
-#: gthumb/gth-browser.c:6612
+#: gthumb/gth-browser.c:6583
 #, c-format
 msgid "File type not supported"
 msgstr "Filtypen understøttes ikke"
 
-#: gthumb/gth-browser.c:6655
+#: gthumb/gth-browser.c:6626
 #, c-format
 msgid "No suitable module found"
 msgstr "Intet passende modul fundet"
 
-#: gthumb/gth-delete-task.c:64
+#: gthumb/gth-delete-task.c:67
 msgid "Deleting files"
 msgstr "Sletter filer"
 
-#: gthumb/gth-extensions.c:203
+#: gthumb/gth-extensions.c:206
 #, c-format
 msgid "Could not open the module “%s”: %s"
 msgstr "Kunne ikke åbne modulet “%s”: %s"
 
-#: gthumb/gth-extensions.c:754
+#: gthumb/gth-extensions.c:759
 #, c-format
 msgid "The extension “%1$s” is required by the extension “%2$s”"
 msgstr "Udvidelsen “%2$s” kræver udvidelsen “%1$s”"
 
-#: gthumb/gth-file-chooser-dialog.c:144
+#: gthumb/gth-file-chooser-dialog.c:145
 msgid "All Supported Files"
 msgstr "Alle understøttede filer"
 
 # må være (fil)format, ikke (tekst)formatering
-#: gthumb/gth-file-chooser-dialog.c:194
+#: gthumb/gth-file-chooser-dialog.c:195
 msgid "_Show Format Options"
 msgstr "_Vis formatindstillinger"
 
-#: gthumb/gth-file-details.c:43
-msgid "Details"
-msgstr "Detaljer"
-
-#: gthumb/gth-file-source-vfs.c:224
+#: gthumb/gth-file-source-vfs.c:227
 msgid "Computer"
 msgstr "Computer"
 
-#: gthumb/gth-file-source-vfs.c:782
+#: gthumb/gth-file-source-vfs.c:785
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
 "Billederne kan ikke flyttes til papirkurven. Vil du slette dem permanent?"
 
-#: gthumb/gth-file-source-vfs.c:792
+#: gthumb/gth-file-source-vfs.c:795
 msgid "Could not move the files to the Trash"
 msgstr "Kunne ikke flytte filerne til papirkurven"
 
-#: gthumb/gth-file-source-vfs.c:837
+#: gthumb/gth-file-source-vfs.c:840
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Er du sikker på, at du ønsker at slette “%s” permanent?"
 
-#: gthumb/gth-file-source-vfs.c:840
+#: gthumb/gth-file-source-vfs.c:843
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4911,61 +4899,61 @@ msgid_plural ""
 msgstr[0] "Er du sikker på, at du vil slette %'d valgt fil permanent?"
 msgstr[1] "Er du sikker på, at du vil slette %'d valgte filer permanent?"
 
-#: gthumb/gth-file-source-vfs.c:850
+#: gthumb/gth-file-source-vfs.c:853
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Hvis du sletter en fil, vil den være væk for bestandig."
 
 #. "files" label
-#: gthumb/gth-filter-editor-dialog.c:173 gthumb/gth-filter.c:286
+#: gthumb/gth-filter-editor-dialog.c:179 gthumb/gth-filter.c:287
 msgid "files"
 msgstr "filer"
 
-#: gthumb/gth-filter-editor-dialog.c:174 gthumb/gth-filter.c:43
+#: gthumb/gth-filter-editor-dialog.c:180 gthumb/gth-filter.c:43
 #: gthumb/gth-test-simple.c:78
 msgid "kB"
 msgstr "kB"
 
-#: gthumb/gth-filter-editor-dialog.c:175 gthumb/gth-filter.c:44
+#: gthumb/gth-filter-editor-dialog.c:181 gthumb/gth-filter.c:44
 #: gthumb/gth-test-simple.c:79
 msgid "MB"
 msgstr "MB"
 
-#: gthumb/gth-filter-editor-dialog.c:176 gthumb/gth-filter.c:45
+#: gthumb/gth-filter-editor-dialog.c:182 gthumb/gth-filter.c:45
 #: gthumb/gth-test-simple.c:80
 msgid "GB"
 msgstr "GB"
 
-#: gthumb/gth-filter-editor-dialog.c:220
+#: gthumb/gth-filter-editor-dialog.c:226
 msgid "ascending"
 msgstr "stigende"
 
-#: gthumb/gth-filter-editor-dialog.c:221
+#: gthumb/gth-filter-editor-dialog.c:227
 msgid "descending"
 msgstr "faldende"
 
-#: gthumb/gth-filter-editor-dialog.c:515
+#: gthumb/gth-filter-editor-dialog.c:521
 #, c-format
 msgid "No limit specified"
 msgstr "Ingen grænse givet"
 
-#: gthumb/gth-folder-tree.c:1386
+#: gthumb/gth-folder-tree.c:1391
 msgid "(Open Parent)"
 msgstr "(Åbn ophavsmappe)"
 
-#: gthumb/gth-folder-tree.c:1906
+#: gthumb/gth-folder-tree.c:1911
 msgid "Enter the new name:"
 msgstr "Indtast det nye navn:"
 
-#: gthumb/gth-histogram-view.c:910
+#: gthumb/gth-histogram-view.c:911
 msgid "Alpha"
 msgstr "Alfa"
 
 #. Translators: RGB is an acronym for Red Green Blue
-#: gthumb/gth-histogram-view.c:916
+#: gthumb/gth-histogram-view.c:917
 msgid "RGB"
 msgstr "RGB"
 
-#: gthumb/gth-image-list-task.c:141
+#: gthumb/gth-image-list-task.c:144
 msgid "Could not rename the file"
 msgstr "Kunne ikke omdøbe filen"
 
@@ -4978,7 +4966,7 @@ msgstr "Ingen tilgængelige tilvalg for denne filtype"
 msgid "Could not find a suitable module to save the image as “%s”"
 msgstr "Kunne ikke finde et passende modul til at gemme billedet som “%s”"
 
-#: gthumb/gth-load-file-data-task.c:108
+#: gthumb/gth-load-file-data-task.c:111
 msgid "Reading file information"
 msgstr "Læser filinformation"
 
@@ -5115,30 +5103,30 @@ msgstr "Titel (indlejret)"
 msgid "Description (embedded)"
 msgstr "Beskrivelse (indlejret)"
 
-#: gthumb/gth-overwrite-dialog.c:244
+#: gthumb/gth-overwrite-dialog.c:246
 msgid "Overwrite"
 msgstr "Overskriv"
 
-#: gthumb/gth-progress-dialog.c:308 gthumb/gth-progress-dialog.c:453
+#: gthumb/gth-progress-dialog.c:310 gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Handlinger"
 
-#: gthumb/gth-save-file-data-task.c:102
+#: gthumb/gth-save-file-data-task.c:105
 msgid "Saving file information"
 msgstr "Gemmer filinformation"
 
 #. Translators: %s is a filename
-#: gthumb/gth-save-image-task.c:158
+#: gthumb/gth-save-image-task.c:161
 #, c-format
 msgid "Saving “%s”"
 msgstr "Gemmer “%s”"
 
-#: gthumb/gth-tags-entry.c:505
+#: gthumb/gth-tags-entry.c:507
 #, c-format
 msgid "Create tag “%s”"
 msgstr "Opret mærket “%s”"
 
-#: gthumb/gth-tags-entry.c:1172
+#: gthumb/gth-tags-entry.c:1090
 msgid "Show all the tags"
 msgstr "Vis alle mærkerne"
 
@@ -5210,9 +5198,9 @@ msgstr "er større end eller lig med"
 msgid "is lower than or equal to"
 msgstr "er mindre end eller lig med"
 
-#: gthumb/gth-test-aspect-ratio.c:385 gthumb/gth-test-category.c:425
-#: gthumb/gth-test-simple.c:1034 gthumb/gth-test-simple.c:1055
-#: gthumb/gth-test-simple.c:1081
+#: gthumb/gth-test-aspect-ratio.c:369 gthumb/gth-test-category.c:421
+#: gthumb/gth-test-simple.c:1030 gthumb/gth-test-simple.c:1051
+#: gthumb/gth-test-simple.c:1077
 #, c-format
 msgid "The test definition is incomplete"
 msgstr "Testdefinitionen er ufuldstændig"
@@ -5235,11 +5223,11 @@ msgstr "er ikke"
 msgid "matches"
 msgstr "matcher"
 
-#: gthumb/gth-test-selector.c:253
+#: gthumb/gth-test-selector.c:259
 msgid "Add a new rule"
 msgstr "Tilføj en ny regel"
 
-#: gthumb/gth-test-selector.c:263
+#: gthumb/gth-test-selector.c:269
 msgid "Remove this rule"
 msgstr "Fjern denne regel"
 
@@ -5267,23 +5255,23 @@ msgstr "er før"
 msgid "is after"
 msgstr "er efter"
 
-#: gthumb/gth-time-selector.c:614
+#: gthumb/gth-time-selector.c:542
 msgid "Today"
 msgstr "I dag"
 
-#: gthumb/gth-time-selector.c:622
+#: gthumb/gth-time-selector.c:550
 msgid "Now"
 msgstr "Nu"
 
-#: gthumb/gth-toolbox.c:144
+#: gthumb/gth-toolbox.c:146
 msgid "Colors"
 msgstr "Farver"
 
-#: gthumb/gth-toolbox.c:145
+#: gthumb/gth-toolbox.c:147
 msgid "Rotation"
 msgstr "Rotation"
 
-#: gthumb/gth-trash-task.c:64
+#: gthumb/gth-trash-task.c:67
 msgid "Moving files to trash"
 msgstr "Flytter filer til papirkurv"
 
@@ -5291,24 +5279,24 @@ msgstr "Flytter filer til papirkurv"
 msgid "Could not display help"
 msgstr "Kunne ikke vise hjælp"
 
-#: gthumb/gtk-utils.c:658 gthumb/gtk-utils.c:665
+#: gthumb/gtk-utils.c:661 gthumb/gtk-utils.c:668
 msgid "Could not launch the application"
 msgstr "Kunne ikke køre programmet"
 
-#: gthumb/gtk-utils.c:768
+#: gthumb/gtk-utils.c:770
 msgid "_Copy Here"
 msgstr "_Kopiér hertil"
 
-#: gthumb/gtk-utils.c:773
+#: gthumb/gtk-utils.c:775
 msgid "_Move Here"
 msgstr "_Flyt hertil"
 
 # lidt sjovt at det pludselig bliver -fra; forhåbentlig gør det ikke noget
-#: gthumb/gtk-utils.c:778
+#: gthumb/gtk-utils.c:780
 msgid "_Link Here"
 msgstr "_Link herfra"
 
-#: gthumb/gtk-utils.c:787
+#: gthumb/gtk-utils.c:789
 msgid "Cancel"
 msgstr "Annullér"
 
@@ -5344,6 +5332,14 @@ msgstr "_Upload"
 msgid "New _Window"
 msgstr "Nyt _vindue"
 
+#: gthumb/resources/app-menu.ui:29
+msgid "_About"
+msgstr "_Om"
+
+#: gthumb/resources/app-menu.ui:33
+msgid "_Quit"
+msgstr "_Afslut"
+
 #: gthumb/resources/folder-menu.ui:7
 msgid "Open in New Window"
 msgstr "Åbn i nyt vindue"
@@ -5371,6 +5367,15 @@ msgstr "Skjulte filer"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Slet historik"
+
+#~ msgid ""
+#~ "The geographical position information is not available for this image."
+#~ msgstr ""
+#~ "Der er ingen tilgængelig geografisk positionsinformation for dette "
+#~ "billede."
+
+#~ msgid "Details"
+#~ msgstr "Detaljer"
 
 # gThumb - billedimporteringsværktøj"
 #~ msgid "gThumb Photo Import Tool"
