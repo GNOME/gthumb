@@ -20,6 +20,7 @@ version 3.7.1
   * Preferences: fixed crash when setting the current location as default.
   * About dialog: fixed website url.
   * Jpeg loader: try to load broken images.
+  * Contact sheet: error if the theme file could not be loaded. (issue 18)
   * Removed deprecated functions.
 
 version 3.6.1
