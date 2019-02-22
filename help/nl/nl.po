@@ -2634,7 +2634,7 @@ msgid ""
 "gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr ""
 "Om een aantal bestanden naar een optische schijf te schrijven (cd of dvd) of "
-"om een ISO schijf-image te maken, kiest u <gui>Exporteren</gui><gui>Optische "
+"om een ISO schijf-image te maken, kiest u <guiseq><gui>Exporteren</gui><gui>Optische "
 "schijf</gui></guiseq> in de menubalk."
 
 #. (itstool) path: page/p
