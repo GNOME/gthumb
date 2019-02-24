@@ -24,7 +24,10 @@ source_files = files(
 
 shared_module('contact_sheet',
   sources : [ source_files, enum_files ],
-  dependencies : [ extension_common_deps, gstreamer_deps ],
+  dependencies : [
+    extension_common_deps,
+    use_gstreamer ? gstreamer_deps : [],
+  ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
   link_with: [ image_rotation_mod, export_tools_mod ],
