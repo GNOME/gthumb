@@ -180,6 +180,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	unsigned char                 *p_buffer;
 	int                            x;
 	gboolean                       read_all_scanlines = FALSE;
+	gboolean                       finished = FALSE;
 
 	image = gth_image_new ();
 	surface = NULL;
@@ -585,12 +586,15 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 		surface = NULL; /* ignore other jpeg errors */
 	}
 
-	if (read_all_scanlines)
-		jpeg_finish_decompress (&srcinfo);
-	else
-		jpeg_abort_decompress (&srcinfo);
-	jpeg_destroy_decompress (&srcinfo);
-	g_free (in_buffer);
+	if (! finished) {
+		finished = TRUE;
+		if (read_all_scanlines)
+			jpeg_finish_decompress (&srcinfo);
+		else
+			jpeg_abort_decompress (&srcinfo);
+		jpeg_destroy_decompress (&srcinfo);
+		g_free (in_buffer);
+	}
 
 	return image;
 }
