@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2019-01-10 18:17+0000\n"
-"PO-Revision-Date: 2019-03-14 23:32+0200\n"
+"POT-Creation-Date: 2019-03-14 21:33+0000\n"
+"PO-Revision-Date: 2019-03-15 11:50+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Rosetta-Export-Date: 2007-03-13 09:08+0000\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -106,12 +106,10 @@ msgid "Whether to reset the scrollbars position after changing image"
 msgstr "Nollataanko vierityspalkkien paikat kuvan vaihtamisen jälkeen"
 
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:32
-#| msgid "Possible values are: png, jpeg."
 msgid "Possible values are: jpeg, jpg."
 msgstr "Mahdolliset arvot: jpeg, jpg."
 
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:63
-#| msgid "Possible values are: high, low."
 msgid "Possible values are: tiff, tif."
 msgstr "Mahdolliset arvot: tiff, tif."
 
@@ -136,7 +134,6 @@ msgstr "Tuo valokuvia digitaalikamerasta"
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.gThumb.Import.desktop.in.in:10
 #: data/org.gnome.gThumb.desktop.in.in:12
-#| msgid "gThumb"
 msgid "gthumb"
 msgstr "gthumb"
 
@@ -152,7 +149,6 @@ msgstr "Kuvakatselin"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gThumb.desktop.in.in:8
-#| msgid "Image Viewer"
 msgid "Image;Viewer;"
 msgstr "Image;Viewer;Kuvakatselin;"
 
@@ -171,7 +167,6 @@ msgid "_Single click to open files"
 msgstr "Kerta_napsautus avaa tiedostot"
 
 #: data/ui/browser-preferences.ui:111
-#| msgid "Resize the window to the size of the image"
 msgid "_Double click to open files"
 msgstr "_Kaksoisnapsautus avaa tiedostot"
 
@@ -242,10 +237,8 @@ msgid "Filter _Name:"
 msgstr "Suodattimen _nimi:"
 
 #: data/ui/filter-editor.ui:61 extensions/search/data/ui/search-editor.ui:76
-#, fuzzy
-#| msgid "_Match"
 msgid "_Match:"
-msgstr "_Näytä"
+msgstr "_Vastaavuus:"
 
 #. limit label
 #: data/ui/filter-editor.ui:153 gthumb/gth-filter.c:270 gthumb/gth-filter.c:338
@@ -428,12 +421,10 @@ msgid "_Inverse order"
 msgstr "Kään_teinen järjestys"
 
 #: extensions/23hq/23hq.extension.desktop.in.in:3
-#| msgid "2"
 msgid "23"
 msgstr "23"
 
 #: extensions/23hq/23hq.extension.desktop.in.in:4
-#| msgid "Upload images to Facebook"
 msgid "Upload images to 23hq.com"
 msgstr "Lähetä kuvat 23hq.com-palveluun"
 
@@ -537,7 +528,7 @@ msgstr "_Jatka"
 msgid "Error interpreting JPEG image file: %s"
 msgstr ""
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:536
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:537
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Tuntematon JPEG-väriavaruus (%d)"
@@ -964,7 +955,6 @@ msgstr "Virheellinen kohde."
 
 #: extensions/catalogs/gth-file-source-catalogs.c:1137
 #, c-format
-#| msgid "Copying files to '%s'"
 msgid "Copying files to “%s”"
 msgstr "Kopioidaan tiedostoja sijaintiin “%s”"
 
@@ -973,10 +963,10 @@ msgid "Could not remove the files from the catalog"
 msgstr "Tiedostoja ei voitu poistaa kuvastosta"
 
 #: extensions/catalogs/gth-file-source-catalogs.c:1375
-#: extensions/exiv2_tools/exiv2-utils.cpp:871
-#: extensions/exiv2_tools/exiv2-utils.cpp:880
-#: extensions/exiv2_tools/exiv2-utils.cpp:910
-#: extensions/exiv2_tools/exiv2-utils.cpp:1441
+#: extensions/exiv2_tools/exiv2-utils.cpp:876
+#: extensions/exiv2_tools/exiv2-utils.cpp:885
+#: extensions/exiv2_tools/exiv2-utils.cpp:915
+#: extensions/exiv2_tools/exiv2-utils.cpp:1450
 #: extensions/search/gth-search.c:265
 msgid "Invalid file format"
 msgstr "Viallinen tiedostotyyppi"
@@ -1131,7 +1121,7 @@ msgstr ""
 
 #: extensions/contact_sheet/contact_sheet.extension.desktop.in.in:3
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:308
-#: extensions/contact_sheet/dlg-contact-sheet.c:707
+#: extensions/contact_sheet/dlg-contact-sheet.c:708
 msgid "Contact Sheet"
 msgstr ""
 
@@ -1403,13 +1393,13 @@ msgstr "Neliö"
 msgid "Thumbnails"
 msgstr "Pienoiskuvat"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:488
-#: extensions/contact_sheet/dlg-contact-sheet.c:499
-#: extensions/contact_sheet/dlg-contact-sheet.c:513
+#: extensions/contact_sheet/dlg-contact-sheet.c:489
+#: extensions/contact_sheet/dlg-contact-sheet.c:500
+#: extensions/contact_sheet/dlg-contact-sheet.c:514
 msgid "Could not save the theme"
 msgstr "Teemaa ei voitu tallentaa"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:658
+#: extensions/contact_sheet/dlg-contact-sheet.c:659
 msgid "Could not delete the theme"
 msgstr "Teemaa ei voitu poistaa"
 
@@ -1694,11 +1684,11 @@ msgstr "K_ieli:"
 msgid "State/Province:"
 msgstr "Osavaltio/provinssi:"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:42 gthumb/glib-utils.c:1115
+#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1115
 msgid "(invalid value)"
 msgstr "(virheellinen arvo)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:708
+#: extensions/exiv2_tools/exiv2-utils.cpp:713
 #, fuzzy
 #| msgid "Exposure mode"
 msgid "Exposure"
@@ -1706,7 +1696,7 @@ msgstr "Valoitusohjelma"
 
 #: extensions/exiv2_tools/exiv2_tools.extension.desktop.in.in:3
 msgid "EXIF, IPTC, XMP support"
-msgstr "EXIF, IPTC ja XMP tietojen tuki"
+msgstr "EXIF-, IPTC- ja XMP-tietojen tuki"
 
 #: extensions/exiv2_tools/exiv2_tools.extension.desktop.in.in:4
 msgid "Read and write exif, iptc and xmp metadata."
@@ -1765,27 +1755,22 @@ msgid "Export"
 msgstr "Vie"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:34
-#| msgid "320 x 200"
 msgid "720 × 720"
 msgstr "720 × 720"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:38
-#| msgid "1024 x 1024"
 msgid "1024 × 1024"
 msgstr "1024 × 1024"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:42
-#| msgid "1280 x 1280"
 msgid "1280 × 1280"
 msgstr "1280 × 1280"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:46
-#| msgid "800 x 600"
 msgid "1600 × 1600"
 msgstr "1600 × 1600"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:50
-#| msgid "48 x 48"
 msgid "2048 × 2048"
 msgstr "2048 × 2048"
 
@@ -1812,10 +1797,8 @@ msgstr "_Tunnus:"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:274
 #: extensions/facebook/data/ui/export-to-facebook.ui:275
-#, fuzzy
-#| msgid "_Resize if larger than:"
 msgid "Resize the images if larger than this size"
-msgstr "_Muuta kokoa, jos suurempi kuin:"
+msgstr "Muuta kokoa, jos kuvat ovat suurempia kuin"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:276
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
@@ -1939,16 +1922,15 @@ msgstr "Luodaan uutta albumia"
 #: extensions/facebook/facebook-service.c:671
 #: extensions/flicker_utils/flickr-service.c:1144
 #: extensions/picasaweb/picasa-web-service.c:783
-#, fuzzy, c-format
+#, c-format
 msgid "Could not upload “%s”: %s"
-msgstr "Objektien siirto ei onnistunut:"
+msgstr "Ei voitu lähettää “%s”: %s"
 
 #. Translators: %s is a filename
 #: extensions/facebook/facebook-service.c:734
 #: extensions/flicker_utils/flickr-service.c:1253
 #: extensions/picasaweb/picasa-web-service.c:838
 #, c-format
-#| msgid "Uploading '%s'"
 msgid "Uploading “%s”"
 msgstr "Lähetetään “%s”"
 
@@ -2080,7 +2062,6 @@ msgstr "_Avaa ohjelmalla"
 
 #: extensions/file_manager/callbacks.c:783
 #, c-format
-#| msgid "Are you sure you want to move \"%s\" to trash?"
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Siirretäänkö “%s” sijaintiin “%s”?"
 
@@ -2119,7 +2100,6 @@ msgid "File manager operations."
 msgstr "Tiedostohallinnan työkalut"
 
 #: extensions/file_manager/file_manager.extension.desktop.in.in:8
-#| msgid "File manager"
 msgid "system-file-manager"
 msgstr "system-file-manager"
 
@@ -2419,10 +2399,8 @@ msgstr "Sininen"
 #: extensions/file_tools/gth-file-tool-rotate.c:604
 #: extensions/file_tools/gth-file-tool-sharpen.c:364
 #: gthumb/gth-test-aspect-ratio.c:218
-#, fuzzy
-#| msgid "_Reset"
 msgid "Reset"
-msgstr "_Palauta"
+msgstr "Palauta"
 
 #: extensions/file_tools/gth-curve-preset-editor-dialog.c:267
 #: extensions/file_tools/gth-file-tool-curves.c:686
@@ -2516,14 +2494,12 @@ msgstr "Neliö"
 #: extensions/file_tools/gth-file-tool-crop.c:440
 #: extensions/file_tools/gth-file-tool-resize.c:588
 #, c-format
-#| msgid "%d x %d (Image)"
 msgid "%d × %d (Image)"
 msgstr "%d × %d (kuva)"
 
 #: extensions/file_tools/gth-file-tool-crop.c:443
 #: extensions/file_tools/gth-file-tool-resize.c:592
 #, c-format
-#| msgid "%d x %d (Screen)"
 msgid "%d × %d (Screen)"
 msgstr "%d × %d (näyttö)"
 
@@ -2536,7 +2512,6 @@ msgstr "5∶4"
 #: extensions/file_tools/gth-file-tool-crop.c:448
 #: extensions/file_tools/gth-file-tool-resize.c:598
 #: gthumb/gth-test-aspect-ratio.c:49
-#| msgid "4:3 (DVD, Book)"
 msgid "4∶3 (DVD, Book)"
 msgstr "4∶3 (DVD, kirja)"
 
@@ -2549,7 +2524,6 @@ msgstr "7∶5"
 #: extensions/file_tools/gth-file-tool-crop.c:450
 #: extensions/file_tools/gth-file-tool-resize.c:600
 #: gthumb/gth-test-aspect-ratio.c:51
-#| msgid "3:2 (Postcard)"
 msgid "3∶2 (Postcard)"
 msgstr "3∶2 (Postikortti)"
 
@@ -2562,21 +2536,18 @@ msgstr "16∶10"
 #: extensions/file_tools/gth-file-tool-crop.c:452
 #: extensions/file_tools/gth-file-tool-resize.c:602
 #: gthumb/gth-test-aspect-ratio.c:53
-#| msgid "16:9 (DVD)"
 msgid "16∶9 (DVD)"
 msgstr "16∶9 (DVD)"
 
 #: extensions/file_tools/gth-file-tool-crop.c:453
 #: extensions/file_tools/gth-file-tool-resize.c:603
 #: gthumb/gth-test-aspect-ratio.c:54
-#| msgid "1.85:1"
 msgid "1.85∶1"
 msgstr "1.85∶1"
 
 #: extensions/file_tools/gth-file-tool-crop.c:454
 #: extensions/file_tools/gth-file-tool-resize.c:604
 #: gthumb/gth-test-aspect-ratio.c:55
-#| msgid "2.39:1"
 msgid "2.39∶1"
 msgstr "2.39∶1"
 
@@ -2689,7 +2660,7 @@ msgstr "Vintage"
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:905
 msgid "Blurred Edges"
-msgstr ""
+msgstr "Sumennetut reunat"
 
 #. Translators: this is the name of an image filter that produces darker edges
 #: extensions/file_tools/gth-file-tool-effects.c:940
@@ -2800,7 +2771,6 @@ msgid "Undo"
 msgstr "Peru"
 
 #: extensions/find_duplicates/callbacks.c:37
-#| msgid "Find Duplicates"
 msgid "Find _Duplicates…"
 msgstr "Etsi kaksoiska_ppaleet…"
 
@@ -2891,7 +2861,6 @@ msgstr "Muokkaa tiedostoa"
 #: extensions/find_duplicates/gth-find-duplicates.c:519
 #: extensions/find_duplicates/gth-find-duplicates.c:650
 #, c-format
-#| msgid "Found duplicates:"
 msgid "%d duplicate"
 msgid_plural "%d duplicates"
 msgstr[0] "%d kaksoiskappale"
@@ -2926,9 +2895,8 @@ msgid "Select"
 msgstr "Valitse"
 
 #: extensions/flicker/flicker.extension.desktop.in.in:3
-#, fuzzy
 msgid "Flicker"
-msgstr "Suodatin"
+msgstr "Flickr"
 
 #: extensions/flicker/flicker.extension.desktop.in.in:4
 msgid "Upload images to Flickr"
@@ -2947,9 +2915,8 @@ msgid "Private photos"
 msgstr "Yksityisiä kuvia"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:73
-#, fuzzy
 msgid "Safe content"
-msgstr "Kuvan kommentti"
+msgstr "Turvallinen sisältö"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:77
 msgid "Moderate content"
@@ -2974,9 +2941,8 @@ msgid "_Privacy:"
 msgstr "_Yksityisyys:"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:329
-#, fuzzy
 msgid "_Safety:"
-msgstr "_Koko:"
+msgstr "_Turvallisuus:"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:405
 msgid "Hi_de from public searches"
@@ -3057,7 +3023,6 @@ msgstr ""
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
 #, c-format
-#| msgid "Image %d of %d"
 msgid "Image saved as %s"
 msgstr "Kuva tallennettu nimellä %s"
 
@@ -3301,7 +3266,6 @@ msgstr ""
 #. translators: %s is a filename
 #: extensions/image_print/gth-load-image-info-task.c:168
 #, c-format
-#| msgid "Loading \"%s\""
 msgid "Loading “%s”"
 msgstr "Ladataan “%s”"
 
@@ -3319,7 +3283,6 @@ msgid "Allow to print images choosing the page layout."
 msgstr "Monipuolinen kuvien tulostus halutulla sivuasettelulla."
 
 #: extensions/image_print/image_print.extension.desktop.in.in:8
-#| msgid "Could not print"
 msgid "document-print"
 msgstr "document-print"
 
@@ -3690,10 +3653,9 @@ msgid "_Command:"
 msgstr "Ko_mento:"
 
 #: extensions/list_tools/data/ui/tools-menu.ui:13 gthumb/gth-filterbar.c:314
-#, fuzzy
 #| msgid "_Personalize"
 msgid "Personalize…"
-msgstr "_Vaihda oletuksesta"
+msgstr "Mukauta…"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:252
 msgid "Script"
@@ -3805,7 +3767,6 @@ msgstr "_Käyttäjätunnukset:"
 
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
 #: gthumb/gth-folder-tree.c:1080
-#| msgid "Loading..."
 msgid "Loading…"
 msgstr "Ladataan…"
 
@@ -3818,7 +3779,6 @@ msgid "Authorization Required"
 msgstr "Valtuutus vaaditaan"
 
 #: extensions/oauth/web-service.c:379
-#| msgid "Choose Account"
 msgid "Choose _Account…"
 msgstr "Valitse _tili…"
 
@@ -3912,7 +3872,6 @@ msgid "(Empty)"
 msgstr "(Tyhjä)"
 
 #: extensions/photo_importer/dlg-photo-importer.c:361 gthumb/gth-browser.c:1798
-#| msgid "Getting folder listing..."
 msgid "Getting the folder content…"
 msgstr "Haetaan kansion sisältöä…"
 
@@ -4277,7 +4236,6 @@ msgid "Files found so far: %s"
 msgstr "Tiedostoja löytynyt toistaiseksi: %s"
 
 #: extensions/search/gth-search-task.c:272
-#| msgid "Searching..."
 msgid "Searching…"
 msgstr "Etsitään…"
 
@@ -4299,7 +4257,6 @@ msgstr "Poista valinnasta"
 
 #: extensions/selections/callbacks.c:100
 #, c-format
-#| msgid "Selection"
 msgid "Show selection %d"
 msgstr "Näytä valinta %d"
 
@@ -4313,7 +4270,6 @@ msgstr ""
 
 #: extensions/selections/gth-selections-manager.c:228
 #, c-format
-#| msgid "Selection"
 msgid "Selection %d"
 msgstr "Valinta %d"
 
@@ -4432,12 +4388,10 @@ msgid "View images as a slideshow."
 msgstr "Näytä kuvat diaesityksenä."
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:8
-#| msgid "Destination"
 msgid "x-office-presentation"
 msgstr "x-office-presentation"
 
 #: extensions/webalbums/callbacks.c:48
-#| msgid "Web Album"
 msgid "_Web Album…"
 msgstr "_Verkkoalbumi…"
 
@@ -4712,7 +4666,6 @@ msgstr "Siirretään “%s” sijaintiin “%s”"
 
 #: gthumb/gio-utils.c:1474
 #, c-format
-#| msgid "Copying files to '%s'"
 msgid "Copying “%s” to “%s”"
 msgstr "Kopioidaan “%s” sijaintiin “%s”"
 
@@ -4725,9 +4678,8 @@ msgid "Copying files"
 msgstr "Kopioidaan tiedostoja"
 
 #: gthumb/gio-utils.c:1886
-#, fuzzy
 msgid "Getting file information"
-msgstr "Yleisiä tietoja"
+msgstr "Haetaan tiedoston tietoja"
 
 #. hour:minutes:seconds
 #. Translators: This is a time format, like "9∶05∶02" for 9
@@ -4833,7 +4785,6 @@ msgid "_Help"
 msgstr "_Ohje"
 
 #: gthumb/gth-browser-actions-entries.h:88
-#| msgid "gThumb"
 msgid "_About gThumb"
 msgstr "_Tietoja - gThumb"
 
@@ -4843,7 +4794,6 @@ msgstr "[muokattu]"
 
 #: gthumb/gth-browser.c:833
 #, c-format
-#| msgid "%d selected (%s)"
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d tiedosto valittu (%s)"
@@ -4851,7 +4801,6 @@ msgstr[1] "%d tiedostoa valittu (%s)"
 
 #: gthumb/gth-browser.c:868
 #, c-format
-#| msgid "Free space:"
 msgid "%s of free space"
 msgstr "%s tilaa vapaana"
 
@@ -4862,7 +4811,6 @@ msgstr ""
 
 #: gthumb/gth-browser.c:1931
 #, c-format
-#| msgid "Save changes to file '%s'?"
 msgid "Save changes to file “%s”?"
 msgstr "Tallennetaanko muutokset tiedostoon “%s”?"
 
@@ -4931,7 +4879,6 @@ msgstr "Poistetaan tiedost"
 
 #: gthumb/gth-extensions.c:206
 #, c-format
-#| msgid "Could not open the module `%s`: %s"
 msgid "Could not open the module “%s”: %s"
 msgstr "Ei voitu avata moduulia “%s”: %s"
 
@@ -4964,7 +4911,6 @@ msgstr "Tiedostoja ei voitu siirtää roskakoriin"
 
 #: gthumb/gth-file-source-vfs.c:840
 #, c-format
-#| msgid "Are you sure you want to permanently delete \"%s\"?"
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Poistetaanko “%s” pysyvästi?"
 
@@ -5027,7 +4973,6 @@ msgstr "Alpha"
 
 #. Translators: RGB is an acronym for Red Green Blue
 #: gthumb/gth-histogram-view.c:917
-#| msgid "GB"
 msgid "RGB"
 msgstr "RGB"
 
@@ -5040,9 +4985,9 @@ msgid "No options available for this file type"
 msgstr "Tälle tiedostotyypille ei ole valintoja"
 
 #: gthumb/gth-image-saver.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find a suitable module to save the image as “%s”"
-msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
+msgstr "Kuvan tallentamiseksi muotoon “%s” ei löytynyt soveltuvaa moduulia"
 
 #: gthumb/gth-load-file-data-task.c:111
 msgid "Reading file information"
@@ -5198,7 +5143,6 @@ msgstr "Tallennetaan tiedoston tietoja"
 #. Translators: %s is a filename
 #: gthumb/gth-save-image-task.c:161
 #, c-format
-#| msgid "Starting %s"
 msgid "Saving “%s”"
 msgstr "Tallennetaan “%s”"
 
@@ -5381,7 +5325,6 @@ msgid "Cancel"
 msgstr "Peru"
 
 #: gthumb/gtk-utils.h:36
-#| msgid "_Enhance"
 msgid "_Cancel"
 msgstr "_Peru"
 
@@ -5398,13 +5341,12 @@ msgid "_Remove"
 msgstr "Poi_sta"
 
 #: gthumb/gtk-utils.h:44
-#| msgid "Save"
 msgid "_Save"
 msgstr "_Tallenna"
 
 #: gthumb/gtk-utils.h:45
 msgid "E_xecute"
-msgstr ""
+msgstr "_Suorita"
 
 #: gthumb/gtk-utils.h:46
 msgid "_Upload"
@@ -5415,7 +5357,6 @@ msgid "New _Window"
 msgstr "Uusi _ikkuna"
 
 #: gthumb/resources/app-menu.ui:29
-#| msgid "_Abort"
 msgid "_About"
 msgstr "_Tietoja"
 
