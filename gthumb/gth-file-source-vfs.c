@@ -805,19 +805,23 @@ gth_file_mananger_trash_files (GtkWindow *window,
 			       GList     *file_list /* GthFileData list */)
 {
 	TrashData *tdata;
+	GList     *files;
 	GthTask   *task;
 
 	tdata = g_new0 (TrashData, 1);
 	tdata->window = window;
-	tdata->files = gth_file_data_list_to_file_list (file_list);
+	tdata->files = gth_file_data_list_dup (file_list);
 
-	task = gth_trash_task_new (tdata->files);
+	files = gth_file_data_list_to_file_list (file_list);
+	task = gth_trash_task_new (files);
 	g_signal_connect (task,
 			  "completed",
 			  G_CALLBACK (trash_task_completed_cb),
 			  tdata);
 
 	gth_browser_exec_task (GTH_BROWSER (window), task, GTH_TASK_FLAGS_IGNORE_ERROR);
+
+	_g_object_list_unref (files);
 }
 
 
