@@ -41,6 +41,7 @@
 			       * delay use this delay instead. */
 #define STEP_INCREMENT  20.0  /* Scroll increment. */
 #define BLACK_VALUE 0.2
+#define CHECKED_PATTERN_SIZE 20
 
 
 enum {
@@ -72,6 +73,7 @@ struct _GthImageViewerPrivate {
 
 	GthImage               *image;
 	cairo_surface_t        *surface;
+	cairo_pattern_t        *background_pattern;
 	GdkPixbufAnimation     *animation;
 	int                     original_width;
 	int                     original_height;
@@ -175,6 +177,7 @@ gth_image_viewer_finalize (GObject *object)
 	_g_clear_object (&self->priv->iter);
 	_cairo_clear_surface (&self->priv->iter_surface);
 	_cairo_clear_surface (&self->priv->surface);
+	cairo_pattern_destroy (self->priv->background_pattern);
 
 	G_OBJECT_CLASS (gth_image_viewer_parent_class)->finalize (object);
 }
@@ -1518,6 +1521,7 @@ gth_image_viewer_init (GthImageViewer *self)
 
 	self->priv = gth_image_viewer_get_instance_private (self);
 
+	self->priv->background_pattern = _cairo_create_checked_pattern (CHECKED_PATTERN_SIZE);
 	self->priv->is_animation = FALSE;
 	self->priv->play_animation = TRUE;
 	self->priv->cursor_visible = TRUE;
@@ -2660,7 +2664,7 @@ gth_image_viewer_paint_frame (GthImageViewer *self,
 
 	/* background */
 
-	cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
+	cairo_set_source (cr, self->priv->background_pattern);
 	cairo_rectangle (cr,
 			 self->image_area.x,
 			 self->image_area.y,

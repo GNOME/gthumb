@@ -1170,3 +1170,37 @@ _cairo_paint_grid (cairo_t               *cr,
 
 	cairo_restore (cr);
 }
+
+
+cairo_pattern_t *
+_cairo_create_checked_pattern (int size)
+{
+	int              h_size;
+	cairo_surface_t *surface;
+	cairo_t         *ctx;
+	cairo_pattern_t *pattern;
+
+	h_size = size / 2;
+	surface = cairo_image_surface_create (CAIRO_FORMAT_RGB24, size, size);
+	ctx = cairo_create (surface);
+
+	cairo_set_source_rgba (ctx, 0.4, 0.4, 0.4, 1.0);
+	cairo_rectangle (ctx, 0, 0, h_size, h_size);
+	cairo_fill (ctx);
+	cairo_rectangle (ctx, h_size, h_size, h_size, h_size);
+	cairo_fill (ctx);
+
+	cairo_set_source_rgba (ctx, 0.5, 0.5, 0.5, 1.0);
+	cairo_rectangle (ctx, h_size, 0, h_size, h_size);
+	cairo_fill (ctx);
+	cairo_rectangle (ctx, 0, h_size, h_size, h_size);
+	cairo_fill (ctx);
+
+	pattern = cairo_pattern_create_for_surface (surface);
+	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
+
+	cairo_surface_destroy (surface);
+	cairo_destroy (ctx);
+
+	return pattern;
+}

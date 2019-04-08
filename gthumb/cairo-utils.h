@@ -265,5 +265,6 @@ void              _cairo_draw_slide                         (cairo_t            
 void              _cairo_paint_grid                         (cairo_t               *cr,
 							     cairo_rectangle_int_t *rectangle,
 							     GthGridType            grid_type);
+cairo_pattern_t * _cairo_create_checked_pattern	            (int		    size);
 
 #endif /* CAIRO_UTILS_H */
