@@ -1321,8 +1321,8 @@ remove_from_catalog_end (GError                *error,
 	if (error != NULL)
 		_gtk_error_dialog_from_gerror_show (data->parent, _("Could not remove the files from the catalog"), error);
 
-	g_object_unref (data->catalog);
-	g_object_unref (data->gio_file);
+	_g_object_unref (data->catalog);
+	_g_object_unref (data->gio_file);
 	_g_object_list_unref (data->file_list);
 	g_free (data);
 }
@@ -1416,6 +1416,7 @@ gth_catalog_manager_remove_files (GtkWindow   *parent,
 	data->file_list = _g_file_list_dup (file_list);
 	data->gio_file = gth_main_get_gio_file (location->file);
 	data->notify = notify;
+	data->catalog = NULL;
 
 	_g_file_load_async (data->gio_file,
 			    G_PRIORITY_DEFAULT,
