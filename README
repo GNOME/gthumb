@@ -122,7 +122,7 @@ Download
   * You can download and compile the latest development version using the
     following commands:
 
-        git clone git://git.gnome.org/gthumb
+        git clone https://gitlab.gnome.org/GNOME/gthumb.git
         cd gthumb
         meson build
         ninja -C build
