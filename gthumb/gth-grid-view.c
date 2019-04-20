@@ -111,6 +111,7 @@ typedef struct {
 	char                  *caption;
 	gboolean               is_image : 1;
 	gboolean               is_video : 1;
+	gboolean               has_alpha : 1;
 	ItemStyle	       style;
 
 	/* item state */
@@ -253,10 +254,12 @@ gth_grid_view_item_set_thumbnail (GthGridViewItem *item,
 	if (item->thumbnail != NULL) {
 		item->pixbuf_area.width = cairo_image_surface_get_width (item->thumbnail);
 		item->pixbuf_area.height = cairo_image_surface_get_height (item->thumbnail);
+		item->has_alpha = _cairo_image_surface_get_has_alpha (item->thumbnail);
 	}
 	else {
 		item->pixbuf_area.width = 0;
 		item->pixbuf_area.height = 0;
+		item->has_alpha = FALSE;
 	}
 
 	item->pixbuf_area.x = item->thumbnail_area.x  + ((item->thumbnail_area.width - item->pixbuf_area.width) / 2);
@@ -657,6 +660,7 @@ _gth_grid_view_update_item_size (GthGridView     *self,
 	thumbnail_size = self->priv->cell_size - (self->priv->cell_padding * 2);
 
 	if (item->is_icon
+	    || item->has_alpha
 	    || ((item->pixbuf_area.width < self->priv->thumbnail_size) && (item->pixbuf_area.height < self->priv->thumbnail_size))
             || (item->file_data == NULL))
 	{
