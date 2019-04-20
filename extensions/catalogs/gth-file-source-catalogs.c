@@ -1320,7 +1320,7 @@ static void
 remove_from_catalog_end (GError                *error,
 			 RemoveFromCatalogData *data)
 {
-	if (error != NULL)
+	if ((data->catalog != NULL) && (error != NULL))
 		_gtk_error_dialog_from_gerror_show (data->parent, _("Could not remove the files from the catalog"), error);
 
 	_g_object_unref (data->catalog);
