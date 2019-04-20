@@ -104,7 +104,7 @@ _cairo_metadata_set_has_alpha (cairo_surface_metadata_t	*metadata,
 			       gboolean                  has_alpha)
 {
 	metadata->valid_data |= _CAIRO_METADATA_FLAG_HAS_ALPHA;
-	metadata->has_alpha = has_alpha;
+	metadata->has_alpha = has_alpha ? TRUE : FALSE;
 }
 
 
