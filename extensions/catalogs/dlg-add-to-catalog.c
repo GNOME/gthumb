@@ -88,6 +88,7 @@ typedef struct {
 	AddData       *add_data;
 	GthFileSource *catalog_source;
 	GthFileData   *new_catalog;
+	GthFileData   *new_library;
 	gulong         file_selection_changed_event;
 	guint          update_selectection_event;
 } DialogData;
@@ -110,6 +111,7 @@ destroy_cb (GtkWidget  *widget,
 	add_data_unref (data->add_data);
 	_g_object_unref (data->catalog_source);
 	_g_object_unref (data->new_catalog);
+	_g_object_unref (data->new_library);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -464,6 +466,51 @@ new_catalog_button_clicked_cb (GtkWidget  *widget,
 
 
 static void
+new_library_metadata_ready_cb (GObject  *object,
+			       GError   *error,
+			       gpointer  user_data)
+{
+	DialogData  *data = user_data;
+	GFile       *parent;
+	GList       *file_list;
+	GtkTreePath *tree_path;
+
+	if (error != NULL)
+		return;
+
+	/* add the new library to the tree and select it */
+
+	parent = g_file_get_parent (data->new_library->file);
+	file_list = g_list_append (NULL, g_object_ref (data->new_library));
+	gth_folder_tree_add_children (GTH_FOLDER_TREE (data->source_tree),
+				      parent,
+				      file_list);
+
+	_g_object_list_unref (file_list);
+
+	/* select the new library */
+
+	tree_path = gth_folder_tree_get_path (GTH_FOLDER_TREE (data->source_tree), data->new_library->file);
+	if (tree_path != NULL) {
+		gth_folder_tree_select_path (GTH_FOLDER_TREE (data->source_tree), tree_path);
+		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (data->source_tree), tree_path, NULL, TRUE, 0.5, 0.0);
+		gtk_tree_path_free (tree_path);
+	}
+
+	/* notify the library creation */
+
+	file_list = g_list_prepend (NULL, g_object_ref (data->new_library->file));
+	gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				    parent,
+				    file_list,
+				    GTH_MONITOR_EVENT_CREATED);
+
+	_g_object_list_unref (file_list);
+	g_object_unref (parent);
+}
+
+
+static void
 new_library_dialog_response_cb (GtkWidget *dialog,
 				int        response_id,
 				gpointer   user_data)
@@ -524,16 +571,18 @@ new_library_dialog_response_cb (GtkWidget *dialog,
 	gio_file = g_file_get_child_for_display_name (gio_parent, name, &error);
 	if ((gio_file != NULL) && g_file_make_directory (gio_file, NULL, &error)) {
 		GFile *file;
-		GList *list;
 
+		data->catalog_source = gth_main_get_file_source (parent);
+
+		_g_object_unref (data->new_library);
 		file = gth_catalog_file_from_gio_file (gio_file, NULL);
-		list = g_list_prepend (NULL, file);
-		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-					    parent,
-					    list,
-					    GTH_MONITOR_EVENT_CREATED);
+		data->new_library = gth_file_data_new (file, NULL);
+		gth_file_source_read_metadata (data->catalog_source,
+					       data->new_library,
+					       "*",
+					       new_library_metadata_ready_cb,
+					       data);
 
-		g_list_free (list);
 		g_object_unref (file);
 	}
 
