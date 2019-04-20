@@ -213,6 +213,7 @@ gboolean
 _cairo_image_surface_get_has_alpha (cairo_surface_t *surface)
 {
 	cairo_surface_metadata_t *metadata;
+	gboolean                  has_alpha;
 	int                       width;
 	int                       height;
 	int                       row_stride;
@@ -222,31 +223,34 @@ _cairo_image_surface_get_has_alpha (cairo_surface_t *surface)
 	if (surface == NULL)
 		return FALSE;
 
-	metadata = cairo_surface_get_user_data (surface, &surface_metadata_key);
+	metadata = _cairo_image_surface_get_metadata (surface);
 	if ((metadata != NULL) && (metadata->valid_data & _CAIRO_METADATA_FLAG_HAS_ALPHA))
 		return metadata->has_alpha;
 
-	if (cairo_image_surface_get_format (surface) != CAIRO_FORMAT_ARGB32)
-		return FALSE;
+	has_alpha = FALSE;
+	if (cairo_image_surface_get_format (surface) == CAIRO_FORMAT_ARGB32) {
+		/* search an alpha value lower than 255 */
 
-	/* search an alpha value lower than 255 */
+		width = cairo_image_surface_get_width (surface);
+		height = cairo_image_surface_get_height (surface);
+		row_stride = cairo_image_surface_get_stride (surface);
+		row = _cairo_image_surface_flush_and_get_data (surface);
 
-	width = cairo_image_surface_get_width (surface);
-	height = cairo_image_surface_get_height (surface);
-	row_stride = cairo_image_surface_get_stride (surface);
-	row = _cairo_image_surface_flush_and_get_data (surface);
-
-	for (h = 0; h < height; h++) {
-		guchar *pixel = row;
-		for (w = 0; w < width; w++) {
-			if (pixel[CAIRO_ALPHA] < 255)
-				return TRUE;
-			pixel += 4;
+		for (h = 0; ! has_alpha && (h < height); h++) {
+			guchar *pixel = row;
+			for (w = 0; w < width; w++) {
+				if (pixel[CAIRO_ALPHA] < 255) {
+					has_alpha = TRUE;
+					break;
+				}
+				pixel += 4;
+			}
+			row += row_stride;
 		}
-		row += row_stride;
 	}
+	_cairo_metadata_set_has_alpha (metadata, has_alpha);
 
-	return FALSE;
+	return has_alpha;
 }
 
 
