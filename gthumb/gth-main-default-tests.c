@@ -268,7 +268,6 @@ get_embedded_rating_for_test (GthTest        *test,
 		int rating;
 
 		sscanf (gth_metadata_get_raw (metadata), "%d", &rating);
-		fprintf(stderr, "Rating: %d\n", rating);
 		return rating;
 	}
 
