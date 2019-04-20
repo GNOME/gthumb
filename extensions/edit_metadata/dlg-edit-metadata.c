@@ -123,9 +123,12 @@ saver_completed_cb (GthTask  *task,
 	else {
 		for (scan = data->file_list; scan; scan = scan->next) {
 			GthFileData *file_data = scan->data;
+			GFile       *parent;
 			GList       *files;
 
+			parent = g_file_get_parent (file_data->file);
 			files = g_list_prepend (NULL, g_object_ref (file_data->file));
+			gth_monitor_folder_changed (monitor, parent, files, GTH_MONITOR_EVENT_CHANGED);
 			gth_monitor_metadata_changed (monitor, file_data);
 
 			_g_object_list_unref (files);
