@@ -680,6 +680,7 @@ _gtk_window_resize_to_fit_screen_height (GtkWidget *window,
 {
 	int screen_height;
 
+	gtk_widget_realize (window);
 	_gtk_widget_get_screen_size (window, NULL, &screen_height);
 	if (screen_height < 768)
 		/* maximize on netbooks */
