@@ -6329,34 +6329,12 @@ _gth_browser_load_file (GthBrowser  *browser,
 	}
 
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_VIEWER) {
-		int file_pos;
-
 		gth_viewer_page_show (browser->priv->viewer_page);
 		if (browser->priv->fullscreen) {
 			gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
 			_gth_browser_show_pointer_on_viewer (browser, FALSE);
 		}
-
-		file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), browser->priv->current_file->file);
-		if (file_pos >= 0) {
-			GtkWidget *view;
-
-			/* the main file list */
-
-			view = gth_browser_get_file_list_view (browser);
-			g_signal_handlers_block_by_func (view, gth_file_view_selection_changed_cb, browser);
-			gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
-			g_signal_handlers_unblock_by_func (view, gth_file_view_selection_changed_cb, browser);
-
-			/* the thumbnail list in viewer mode */
-
-			view = gth_browser_get_thumbnail_list_view (browser);
-			g_signal_handlers_block_by_func (view, gth_thumbnail_view_selection_changed_cb, browser);
-			gth_file_selection_unselect_all (GTH_FILE_SELECTION (view));
-			gth_file_selection_select (GTH_FILE_SELECTION (view), file_pos);
-			gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
-			g_signal_handlers_unblock_by_func (view, gth_thumbnail_view_selection_changed_cb, browser);
-		}
+		_gth_browser_make_file_visible (browser, browser->priv->current_file);
 	}
 
 	if (browser->priv->viewer_page != NULL)
