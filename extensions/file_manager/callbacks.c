@@ -37,6 +37,7 @@
 #define GTHUMB_REORDERABLE_LIST_ATOM (gdk_atom_intern_static_string ("gthumb/reorderable-list"))
 #define TEXT_PLAIN_ATOM              (gdk_atom_intern_static_string ("text/plain"))
 #define SCROLL_TIMEOUT               30 /* autoscroll timeout in milliseconds */
+#define UPDATE_OPEN_MENU_DELAY       500
 
 
 static const GActionEntry actions[] = {
@@ -148,6 +149,7 @@ typedef struct {
 	guint     folder_context_create_id;
 	guint     folder_context_edit_id;
 	guint     folder_context_folder_id;
+	guint     update_open_menu_id;
 	GMenu    *open_with_menu;
 	GList    *applications;
 	gboolean  can_paste;
@@ -160,6 +162,10 @@ typedef struct {
 static void
 browser_data_free (BrowserData *data)
 {
+	if (data->update_open_menu_id > 0) {
+		g_source_remove (data->update_open_menu_id);
+		data->update_open_menu_id = 0;
+	}
 	_g_object_unref (data->open_with_menu);
 	_g_object_list_unref (data->applications);
 	g_free (data);
@@ -503,6 +509,7 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
 	data = g_new0 (BrowserData, 1);
+	data->update_open_menu_id = 0;
 
 	g_action_map_add_action_entries (G_ACTION_MAP (browser),
 					 actions,
@@ -1080,10 +1087,36 @@ _gth_browser_update_open_menu (GthBrowser *browser)
 }
 
 
+static gboolean
+update_open_menu_cb (gpointer user_data)
+{
+	GthBrowser  *browser = user_data;
+	BrowserData *data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	if (data->update_open_menu_id > 0) {
+		g_source_remove (data->update_open_menu_id);
+		data->update_open_menu_id = 0;
+	}
+	_gth_browser_update_open_menu (GTH_BROWSER (user_data));
+
+	return FALSE;
+}
+
+
 void
 fm__gth_browser_selection_changed_cb (GthBrowser *browser)
 {
-	_gth_browser_update_open_menu (browser);
+	BrowserData *data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	if (data->update_open_menu_id > 0)
+		g_source_remove (data->update_open_menu_id);
+	data->update_open_menu_id = g_timeout_add (UPDATE_OPEN_MENU_DELAY, update_open_menu_cb, browser);
 }
 
 
