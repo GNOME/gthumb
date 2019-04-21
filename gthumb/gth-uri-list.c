@@ -73,7 +73,7 @@ add_columns (GtkTreeView *treeview)
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes (column, renderer,
-					     "pixbuf", URI_LIST_COLUMN_ICON,
+					     "gicon", URI_LIST_COLUMN_ICON,
 					     NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
@@ -139,7 +139,7 @@ gth_uri_list_init (GthUriList *uri_list)
 	uri_list->priv = gth_uri_list_get_instance_private (uri_list);
 
 	uri_list->priv->list_store = gtk_list_store_new (URI_LIST_NUM_COLUMNS,
-						         GDK_TYPE_PIXBUF,
+						         G_TYPE_ICON,
 						         G_TYPE_STRING,
 						         G_TYPE_STRING);
 	g_signal_connect (uri_list->priv->list_store,
@@ -198,7 +198,6 @@ _gth_uri_list_set_iter (GthUriList  *uri_list,
 	GFileInfo     *info;
 	const char    *display_name;
 	GIcon         *icon;
-	GdkPixbuf     *pixbuf;
 
 	file = g_file_new_for_uri (uri);
 	file_source = gth_main_get_file_source (file);
@@ -206,21 +205,20 @@ _gth_uri_list_set_iter (GthUriList  *uri_list,
 
 	if (info != NULL) {
 		display_name = (name != NULL) ? name : g_file_info_get_display_name (info);
-		icon = g_file_info_get_symbolic_icon (info);
+		icon = _g_object_ref (g_file_info_get_symbolic_icon (info));
 	}
 	else {
 		display_name = (name != NULL) ? name : _g_file_get_display_name (file);
 		icon = _g_file_get_symbolic_icon (file);
 	}
-	pixbuf = gth_icon_cache_get_pixbuf (uri_list->priv->icon_cache, icon);
 
 	gtk_list_store_set (uri_list->priv->list_store, iter,
-			    URI_LIST_COLUMN_ICON, pixbuf,
+			    URI_LIST_COLUMN_ICON, icon,
 			    URI_LIST_COLUMN_NAME, display_name,
 			    URI_LIST_COLUMN_URI, uri,
 			    -1);
 
-	_g_object_unref (pixbuf);
+	_g_object_unref (icon);
 	g_object_unref (file_source);
 	g_object_unref (file);
 
@@ -276,7 +274,6 @@ gth_uri_list_set_bookmarks (GthUriList    *uri_list,
 		GFileInfo     *info;
 		char          *display_name;
 		GIcon         *icon;
-		GdkPixbuf     *pixbuf;
 		GtkTreeIter    iter;
 
 		file = g_file_new_for_uri (uri);
@@ -287,23 +284,22 @@ gth_uri_list_set_bookmarks (GthUriList    *uri_list,
 		if (info != NULL) {
 			if (display_name == NULL)
 				display_name = g_strdup (g_file_info_get_display_name (info));
-			icon = g_file_info_get_symbolic_icon (info);
+			icon = _g_object_ref (g_file_info_get_symbolic_icon (info));
 		}
 		else {
 			if (display_name == NULL)
 				display_name = g_strdup (_g_file_get_display_name (file));
 			icon = _g_file_get_symbolic_icon (file);
 		}
-		pixbuf = gth_icon_cache_get_pixbuf (uri_list->priv->icon_cache, icon);
 
 		gtk_list_store_append (uri_list->priv->list_store, &iter);
 		gtk_list_store_set (uri_list->priv->list_store, &iter,
-				    URI_LIST_COLUMN_ICON, pixbuf,
+				    URI_LIST_COLUMN_ICON, icon,
 				    URI_LIST_COLUMN_NAME, display_name,
 				    URI_LIST_COLUMN_URI, uri,
 				    -1);
 
-		_g_object_unref (pixbuf);
+		_g_object_unref (icon);
 		g_object_unref (file_source);
 		g_object_unref (file);
 	}
