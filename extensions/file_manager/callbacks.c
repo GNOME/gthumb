@@ -499,6 +499,185 @@ gth_file_list_drag_end (GtkWidget      *widget,
 }
 
 
+/* -- selection_changed -- */
+
+
+void
+gth_browser_activate_open_with_application (GSimpleAction *action,
+					    GVariant      *parameter,
+					    gpointer       user_data)
+{
+	GthBrowser          *browser = user_data;
+	BrowserData         *data;
+	GList               *appinfo_link;
+	GAppInfo            *appinfo;
+	GList               *items;
+	GList               *file_list;
+	GList               *uris;
+	GList               *scan;
+	GdkAppLaunchContext *context;
+	GError              *error = NULL;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	appinfo_link = g_list_nth (data->applications, g_variant_get_int32 (parameter));
+	g_return_if_fail (appinfo_link != NULL);
+
+	appinfo = appinfo_link->data;
+	g_return_if_fail (G_IS_APP_INFO (appinfo));
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+
+	uris = NULL;
+	for (scan = file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		uris = g_list_prepend (uris, g_file_get_uri (file_data->file));
+	}
+	uris = g_list_reverse (uris);
+
+	context = gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (browser)));
+	gdk_app_launch_context_set_timestamp (context, 0);
+	gdk_app_launch_context_set_icon (context, g_app_info_get_icon (appinfo));
+	if (! g_app_info_launch_uris (appinfo, uris, G_APP_LAUNCH_CONTEXT (context), &error)) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),
+						    _("Could not perform the operation"),
+						    error);
+		g_clear_error (&error);
+	}
+
+	g_object_unref (context);
+	g_list_free (uris);
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
+static int
+sort_app_info_by_display_name (gconstpointer a,
+			       gconstpointer b)
+{
+	GAppInfo *app_info_a = G_APP_INFO (a);
+	GAppInfo *app_info_b = G_APP_INFO (b);
+
+	return g_utf8_collate (g_app_info_get_display_name (app_info_a),
+			       g_app_info_get_display_name (app_info_b));
+}
+
+
+static void
+_gth_browser_update_open_menu (GthBrowser *browser)
+{
+	BrowserData  *data;
+	GList        *items;
+	GList        *file_list;
+	GList        *scan;
+	int           n;
+	GHashTable   *used_mime_types;
+	GHashTable   *used_apps;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	g_menu_remove_all (data->open_with_menu);
+	_g_object_list_unref (data->applications);
+	data->applications = NULL;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+
+	data->applications = NULL;
+	used_mime_types = g_hash_table_new (g_str_hash, g_str_equal);
+	for (scan = file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		const char  *mime_type;
+
+		mime_type = gth_file_data_get_mime_type (file_data);
+		if ((mime_type == NULL) || g_content_type_is_unknown (mime_type))
+			continue;
+		if (g_hash_table_lookup (used_mime_types, mime_type) != NULL)
+			continue;
+
+		data->applications = g_list_concat (data->applications, g_app_info_get_all_for_type (mime_type));
+
+		g_hash_table_insert (used_mime_types, (gpointer) mime_type, GINT_TO_POINTER (1));
+	}
+	g_hash_table_destroy (used_mime_types);
+
+	data->applications = g_list_sort (data->applications, sort_app_info_by_display_name);
+
+	used_apps = g_hash_table_new (g_str_hash, g_str_equal);
+	for (scan = data->applications, n = 0; scan; scan = scan->next, n++) {
+		GAppInfo  *appinfo = scan->data;
+		GIcon     *icon;
+		GMenuItem *item;
+
+		if (strstr (g_app_info_get_executable (appinfo), "gthumb") != NULL)
+			continue;
+		if (g_hash_table_lookup (used_apps, g_app_info_get_id (appinfo)) != NULL)
+			continue;
+		g_hash_table_insert (used_apps, (gpointer) g_app_info_get_id (appinfo), GINT_TO_POINTER (1));
+
+		item = g_menu_item_new (g_app_info_get_display_name (appinfo), NULL);
+		g_menu_item_set_action_and_target (item, "win.open-with-application", "i", n);
+		icon = g_app_info_get_icon (appinfo);
+		if (icon == NULL) {
+			icon = g_themed_icon_new ("application-x-executable");
+			if (icon != NULL) {
+				g_menu_item_set_icon (item, icon);
+				g_object_unref (icon);
+			}
+		}
+		else
+			g_menu_item_set_icon (item, icon);
+		g_menu_append_item (data->open_with_menu, item);
+
+		g_object_unref (item);
+	}
+
+	gth_window_enable_action (GTH_WINDOW (browser), "open-with-application", data->applications != NULL);
+
+	g_hash_table_destroy (used_apps);
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
+static gboolean
+update_open_menu_cb (gpointer user_data)
+{
+	GthBrowser  *browser = user_data;
+	BrowserData *data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	if (data->update_open_menu_id > 0) {
+		g_source_remove (data->update_open_menu_id);
+		data->update_open_menu_id = 0;
+	}
+	_gth_browser_update_open_menu (GTH_BROWSER (user_data));
+
+	return FALSE;
+}
+
+
+static void
+file_selection_changed_cb (GthFileSelection *self,
+			   GthBrowser       *browser)
+{
+	BrowserData *data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	if (data->update_open_menu_id > 0)
+		g_source_remove (data->update_open_menu_id);
+	data->update_open_menu_id = g_timeout_add (UPDATE_OPEN_MENU_DELAY, update_open_menu_cb, browser);
+}
+
+
 void
 fm__gth_browser_construct_cb (GthBrowser *browser)
 {
@@ -569,6 +748,10 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	                  "drag_end",
 	                  G_CALLBACK (gth_file_list_drag_end),
 	                  browser);
+	g_signal_connect (file_view,
+			  "file-selection-changed",
+			  G_CALLBACK (file_selection_changed_cb),
+			  browser);
 
 	file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 	g_signal_connect (file_view,
@@ -939,184 +1122,6 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	_g_object_unref (folder);
 
 	_gth_browser_update_paste_command_sensitivity (browser, NULL);
-}
-
-
-/* -- selection_changed -- */
-
-
-void
-gth_browser_activate_open_with_application (GSimpleAction *action,
-					    GVariant      *parameter,
-					    gpointer       user_data)
-{
-	GthBrowser          *browser = user_data;
-	BrowserData         *data;
-	GList               *appinfo_link;
-	GAppInfo            *appinfo;
-	GList               *items;
-	GList               *file_list;
-	GList               *uris;
-	GList               *scan;
-	GdkAppLaunchContext *context;
-	GError              *error = NULL;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
-
-	appinfo_link = g_list_nth (data->applications, g_variant_get_int32 (parameter));
-	g_return_if_fail (appinfo_link != NULL);
-
-	appinfo = appinfo_link->data;
-	g_return_if_fail (G_IS_APP_INFO (appinfo));
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-
-	uris = NULL;
-	for (scan = file_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-		uris = g_list_prepend (uris, g_file_get_uri (file_data->file));
-	}
-	uris = g_list_reverse (uris);
-
-	context = gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (browser)));
-	gdk_app_launch_context_set_timestamp (context, 0);
-	gdk_app_launch_context_set_icon (context, g_app_info_get_icon (appinfo));
-	if (! g_app_info_launch_uris (appinfo, uris, G_APP_LAUNCH_CONTEXT (context), &error)) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),
-						    _("Could not perform the operation"),
-						    error);
-		g_clear_error (&error);
-	}
-
-	g_object_unref (context);
-	g_list_free (uris);
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
-}
-
-
-static int
-sort_app_info_by_display_name (gconstpointer a,
-			       gconstpointer b)
-{
-	GAppInfo *app_info_a = G_APP_INFO (a);
-	GAppInfo *app_info_b = G_APP_INFO (b);
-
-	return g_utf8_collate (g_app_info_get_display_name (app_info_a),
-			       g_app_info_get_display_name (app_info_b));
-}
-
-
-static void
-_gth_browser_update_open_menu (GthBrowser *browser)
-{
-	BrowserData  *data;
-	GList        *items;
-	GList        *file_list;
-	GList        *scan;
-	int           n;
-	GHashTable   *used_mime_types;
-	GHashTable   *used_apps;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
-
-	g_menu_remove_all (data->open_with_menu);
-	_g_object_list_unref (data->applications);
-	data->applications = NULL;
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-
-	data->applications = NULL;
-	used_mime_types = g_hash_table_new (g_str_hash, g_str_equal);
-	for (scan = file_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-		const char  *mime_type;
-
-		mime_type = gth_file_data_get_mime_type (file_data);
-		if ((mime_type == NULL) || g_content_type_is_unknown (mime_type))
-			continue;
-		if (g_hash_table_lookup (used_mime_types, mime_type) != NULL)
-			continue;
-
-		data->applications = g_list_concat (data->applications, g_app_info_get_all_for_type (mime_type));
-
-		g_hash_table_insert (used_mime_types, (gpointer) mime_type, GINT_TO_POINTER (1));
-	}
-	g_hash_table_destroy (used_mime_types);
-
-	data->applications = g_list_sort (data->applications, sort_app_info_by_display_name);
-
-	used_apps = g_hash_table_new (g_str_hash, g_str_equal);
-	for (scan = data->applications, n = 0; scan; scan = scan->next, n++) {
-		GAppInfo  *appinfo = scan->data;
-		GIcon     *icon;
-		GMenuItem *item;
-
-		if (strstr (g_app_info_get_executable (appinfo), "gthumb") != NULL)
-			continue;
-		if (g_hash_table_lookup (used_apps, g_app_info_get_id (appinfo)) != NULL)
-			continue;
-		g_hash_table_insert (used_apps, (gpointer) g_app_info_get_id (appinfo), GINT_TO_POINTER (1));
-
-		item = g_menu_item_new (g_app_info_get_display_name (appinfo), NULL);
-		g_menu_item_set_action_and_target (item, "win.open-with-application", "i", n);
-		icon = g_app_info_get_icon (appinfo);
-		if (icon == NULL) {
-			icon = g_themed_icon_new ("application-x-executable");
-			if (icon != NULL) {
-				g_menu_item_set_icon (item, icon);
-				g_object_unref (icon);
-			}
-		}
-		else
-			g_menu_item_set_icon (item, icon);
-		g_menu_append_item (data->open_with_menu, item);
-
-		g_object_unref (item);
-	}
-
-	gth_window_enable_action (GTH_WINDOW (browser), "open-with-application", data->applications != NULL);
-
-	g_hash_table_destroy (used_apps);
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
-}
-
-
-static gboolean
-update_open_menu_cb (gpointer user_data)
-{
-	GthBrowser  *browser = user_data;
-	BrowserData *data;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_val_if_fail (data != NULL, FALSE);
-
-	if (data->update_open_menu_id > 0) {
-		g_source_remove (data->update_open_menu_id);
-		data->update_open_menu_id = 0;
-	}
-	_gth_browser_update_open_menu (GTH_BROWSER (user_data));
-
-	return FALSE;
-}
-
-
-void
-fm__gth_browser_selection_changed_cb (GthBrowser *browser)
-{
-	BrowserData *data;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
-
-	if (data->update_open_menu_id > 0)
-		g_source_remove (data->update_open_menu_id);
-	data->update_open_menu_id = g_timeout_add (UPDATE_OPEN_MENU_DELAY, update_open_menu_cb, browser);
 }
 
 

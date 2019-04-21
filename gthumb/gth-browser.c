@@ -3729,8 +3729,6 @@ update_selection_cb (gpointer user_data)
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
 
-	gth_hook_invoke ("gth-browser-selection-changed", browser);
-
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_BROWSER)
 		return FALSE;
 
@@ -4069,7 +4067,6 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (view));
 	gth_file_selection_select (GTH_FILE_SELECTION (view), file_pos);
 	gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
-	gth_hook_invoke ("gth-browser-selection-changed", browser);
 	g_signal_handlers_unblock_by_func (view, gth_file_view_selection_changed_cb, browser);
 
 	/* the thumbnail list in viewer mode */
