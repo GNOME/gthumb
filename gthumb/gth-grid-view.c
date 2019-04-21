@@ -3641,7 +3641,7 @@ _gth_grid_view_set_thumbnail_size (GthGridView *self,
 	self->priv->update_caption_height = TRUE;
 	g_object_notify (G_OBJECT (self), "thumbnail-size");
 
-	_gth_grid_view_queue_relayout (self);
+	gtk_widget_queue_resize (GTK_WIDGET (self));
 }
 
 
