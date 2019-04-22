@@ -2484,13 +2484,13 @@ gth_grid_view_set_model (GthFileView  *file_view,
 
 
 static int
-gth_grid_view_get_at_position (GthFileView *file_view,
-			       int          x,
-			       int          y)
+_gth_grid_view_get_at_position (GthGridView      *self,
+			        int               x,
+			        int               y,
+			        GthGridViewItem **item_ref)
 {
-	GthGridView *self = GTH_GRID_VIEW (file_view);
-	GList       *scan;
-	int          n;
+	GList *scan;
+	int    n;
 
 	for (scan = self->priv->items, n = 0;
 	     scan != NULL;
@@ -2501,11 +2501,25 @@ gth_grid_view_get_at_position (GthFileView *file_view,
 		if (_cairo_rectangle_contains_point (&item->thumbnail_area, x, y)
 		    || _cairo_rectangle_contains_point (&item->caption_area, x, y))
 		{
+			if (item_ref != NULL)
+				*item_ref = item;
 			return n;
 		}
 	}
 
+	if (item_ref != NULL)
+		*item_ref = NULL;
+
 	return -1;
+}
+
+
+static int
+gth_grid_view_get_at_position (GthFileView     *file_view,
+			       int               x,
+			       int               y)
+{
+	return _gth_grid_view_get_at_position (GTH_GRID_VIEW (file_view), x, y, NULL);
 }
 
 
@@ -2828,9 +2842,10 @@ static int
 gth_grid_view_button_press (GtkWidget      *widget,
 			    GdkEventButton *event)
 {
-	GthGridView *self = GTH_GRID_VIEW (widget);
-	int          retval = FALSE;
-	int          pos;
+	GthGridView *    self = GTH_GRID_VIEW (widget);
+	int              retval = FALSE;
+	int              pos;
+	GthGridViewItem *item;
 
 	if (event->window != self->priv->bin_window)
 		return FALSE;
@@ -2838,7 +2853,7 @@ gth_grid_view_button_press (GtkWidget      *widget,
 	if (! gtk_widget_has_focus (widget))
 		gtk_widget_grab_focus (widget);
 
-	pos = gth_grid_view_get_at_position (GTH_FILE_VIEW (self), event->x, event->y);
+	pos = _gth_grid_view_get_at_position (self, event->x, event->y, &item);
 
 	if ((pos != -1) && (event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) {
 		/* Double click activates the item */
@@ -2881,9 +2896,6 @@ gth_grid_view_button_press (GtkWidget      *widget,
 		}
 
 		if (self->priv->selection_mode != GTK_SELECTION_NONE) {
-			GthGridViewItem *item;
-
-			item = g_list_nth (self->priv->items, pos)->data;
 			if (self->priv->selection_mode == GTK_SELECTION_MULTIPLE)
 				_gth_grid_view_select_multiple (self, item, pos, event);
 			else
@@ -3175,15 +3187,17 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 						 event->x,
 						 event->y))
 		{
-			int             pos;
-			GdkDragContext *context;
-			gboolean        multi_dnd;
+			GthGridViewItem *item;
+			int              pos;
+			GdkDragContext  *context;
+			gboolean         multi_dnd;
 
 			/**/
 
-			pos = gth_grid_view_get_at_position (GTH_FILE_VIEW (self),
-							     self->priv->drag_start_x,
-							     self->priv->drag_start_y);
+			pos = _gth_grid_view_get_at_position (self,
+							      self->priv->drag_start_x,
+							      self->priv->drag_start_y,
+							      &item);
 			if (pos != -1)
 				gth_file_view_set_cursor (GTH_FILE_VIEW (self), pos);
 
@@ -3202,12 +3216,18 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 								   -1,
 								   -1);
 
-			/* FIXME: create a cool drag icon here */
 			multi_dnd = self->priv->selection->next != NULL;
-			gtk_drag_set_icon_name (context,
-						multi_dnd ? "emblem-documents-symbolic" : "folder-documents-symbolic",
-						-4,
-						-4);
+
+			if ((pos != -1) && (item != NULL) && (item->thumbnail != NULL)) {
+				cairo_surface_t *icon = _cairo_create_dnd_icon (item->thumbnail, self->priv->thumbnail_size, multi_dnd);
+				gtk_drag_set_icon_surface (context, icon);
+				cairo_surface_destroy (icon);
+			}
+			else
+				gtk_drag_set_icon_name (context,
+							multi_dnd ? "emblem-documents-symbolic" : "folder-documents-symbolic",
+							-4,
+							-4);
 		}
 
 		return TRUE;
