@@ -51,8 +51,14 @@ struct _GthImageDraggerClass
 	GObjectClass __parent_class;
 };
 
-GType                 gth_image_dragger_get_type (void);
-GthImageViewerTool *  gth_image_dragger_new      (gboolean show_frame);
+GType			gth_image_dragger_get_type		(void);
+GthImageViewerTool *	gth_image_dragger_new			(gboolean		 show_frame);
+void			gth_image_dragger_enable_drag_source	(GthImageDragger	*self,
+								 GdkModifierType	 start_button_mask,
+								 const GtkTargetEntry	*targets,
+								 int			 n_targets,
+								 GdkDragAction		 actions);
+void			gth_image_dragger_disable_drag_source	(GthImageDragger	*self);
 
 G_END_DECLS
 

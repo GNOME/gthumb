@@ -266,5 +266,13 @@ void              _cairo_paint_grid                         (cairo_t            
 							     cairo_rectangle_int_t *rectangle,
 							     GthGridType            grid_type);
 cairo_pattern_t * _cairo_create_checked_pattern	            (int		    size);
+void              _cairo_draw_thumbnail_frame               (cairo_t               *cr,
+							     int                    x,
+							     int                    y,
+							     int                    width,
+							     int                    height);
+cairo_surface_t * _cairo_create_dnd_icon                    (cairo_surface_t       *image,
+							     int                    icon_size,
+							     gboolean               multi_dnd);
 
 #endif /* CAIRO_UTILS_H */

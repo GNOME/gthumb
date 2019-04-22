@@ -23,6 +23,8 @@
 #include <math.h>
 #include <string.h>
 #include "cairo-utils.h"
+#include "cairo-scale.h"
+#include "gth-image-utils.h"
 
 
 G_DEFINE_BOXED_TYPE (GthCairoSurface,
@@ -1207,4 +1209,84 @@ _cairo_create_checked_pattern (int size)
 	cairo_destroy (ctx);
 
 	return pattern;
+}
+
+
+void
+_cairo_draw_thumbnail_frame (cairo_t *cr,
+			     int      x,
+			     int      y,
+			     int      width,
+			     int      height)
+{
+	/* the drop shadow */
+
+	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.33);
+	_cairo_draw_rounded_box (cr,
+				 x + 2,
+				 y + 2,
+				 width - 1,
+				 height - 1,
+				 0);
+	cairo_fill (cr);
+
+	/* the outer frame */
+
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	_cairo_draw_rounded_box (cr,
+				 x,
+				 y,
+				 width - 1,
+				 height - 1,
+				 0);
+	cairo_fill_preserve (cr);
+
+	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.55);
+	cairo_stroke (cr);
+}
+
+
+#define DRAG_ICON_BORDER 8
+#define DRAG_ICON_THUMBNAIL_OFFSET 3
+
+
+cairo_surface_t *
+_cairo_create_dnd_icon (cairo_surface_t *image,
+			int              icon_size,
+			gboolean         multi_dnd)
+{
+	int              width, height;
+	cairo_surface_t *thumbnail;
+	cairo_surface_t *icon;
+	cairo_t         *cr;
+
+	width = cairo_image_surface_get_width (image);
+	height = cairo_image_surface_get_height (image);
+	scale_keeping_ratio (&width, &height, icon_size, icon_size, FALSE);
+	thumbnail = _cairo_image_surface_scale_fast (image, width, height);
+
+	icon = _cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
+					    width + DRAG_ICON_BORDER + (multi_dnd ? DRAG_ICON_BORDER : 0),
+					    height + DRAG_ICON_BORDER + (multi_dnd ? DRAG_ICON_BORDER : 0));
+	cr = cairo_create (icon);
+
+	if (multi_dnd)
+		_cairo_draw_thumbnail_frame (cr, DRAG_ICON_THUMBNAIL_OFFSET, DRAG_ICON_THUMBNAIL_OFFSET, width + DRAG_ICON_BORDER - 1, height + DRAG_ICON_BORDER - 1);
+	_cairo_draw_thumbnail_frame (cr, 0, 0, width + DRAG_ICON_BORDER - 1, height + DRAG_ICON_BORDER - 1);
+
+
+	cairo_save (cr);
+	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+	cairo_set_source_surface (cr, thumbnail, DRAG_ICON_THUMBNAIL_OFFSET, DRAG_ICON_THUMBNAIL_OFFSET);
+	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
+	cairo_rectangle (cr, DRAG_ICON_THUMBNAIL_OFFSET, DRAG_ICON_THUMBNAIL_OFFSET, width, height);
+	cairo_fill (cr);
+	cairo_restore (cr);
+
+	cairo_surface_set_device_offset (icon, -width / 2, -height / 2);
+
+	cairo_surface_destroy (thumbnail);
+	cairo_destroy (cr);
+
+	return icon;
 }

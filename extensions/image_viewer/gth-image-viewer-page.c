@@ -106,6 +106,7 @@ struct _GthImageViewerPagePrivate {
 	gboolean           apply_icc_profile;
 	GthFileData       *next_file_data[N_FORWARD_PRELOADERS];
 	GthFileData       *prev_file_data[N_BACKWARD_PRELOADERS];
+	gulong             drag_data_get_event;
 };
 
 
@@ -1991,6 +1992,8 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 		self->priv->next_file_data[i] = NULL;
 	for (i = 0; i < N_BACKWARD_PRELOADERS; i++)
 		self->priv->prev_file_data[i] = NULL;
+
+	self->priv->drag_data_get_event = 0;
 }
 
 
@@ -2096,6 +2099,70 @@ gth_image_viewer_page_reset (GthImageViewerPage *self)
 }
 
 
+static void
+viewer_drag_data_get_cb (GtkWidget        *widget,
+			 GdkDragContext   *context,
+			 GtkSelectionData *data,
+			 guint             info,
+			 guint             time,
+			 gpointer          user_data)
+{
+	GthImageViewerPage *self = user_data;
+	char               *uris[2];
+
+	if (self->priv->file_data == NULL)
+		return;
+
+	uris[0] = g_file_get_uri (self->priv->file_data->file);
+	uris[1] = NULL;
+	gtk_selection_data_set_uris (data, (char **) uris);
+
+	g_free (uris[0]);
+}
+
+
+static void
+_gth_image_viewer_page_enable_drag_source (GthImageViewerPage *self,
+					   gboolean            enable)
+{
+	GthImageViewerTool *dragger;
+	GtkTargetList      *source_target_list;
+	GtkTargetEntry     *source_targets;
+	int                 n_source_targets;
+
+	dragger = gth_image_viewer_get_tool (GTH_IMAGE_VIEWER (self->priv->viewer));
+	if (! GTH_IS_IMAGE_DRAGGER (dragger))
+		return;
+
+	if (! enable) {
+		if (self->priv->drag_data_get_event > 0) {
+			g_signal_handler_disconnect (self->priv->viewer, self->priv->drag_data_get_event);
+			self->priv->drag_data_get_event = 0;
+		}
+		gth_image_dragger_disable_drag_source (GTH_IMAGE_DRAGGER (dragger));
+		return;
+	}
+
+	source_target_list = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_uri_targets (source_target_list, 0);
+	gtk_target_list_add_text_targets (source_target_list, 0);
+	source_targets = gtk_target_table_new_from_list (source_target_list, &n_source_targets);
+	gth_image_dragger_enable_drag_source (GTH_IMAGE_DRAGGER (dragger),
+					      GDK_BUTTON1_MASK,
+					      source_targets,
+					      n_source_targets,
+					      GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	gtk_target_table_free (source_targets, n_source_targets);
+	gtk_target_list_unref (source_target_list);
+
+	if (self->priv->drag_data_get_event == 0)
+		self->priv->drag_data_get_event = g_signal_connect (self->priv->viewer,
+				  "drag-data-get",
+				  G_CALLBACK (viewer_drag_data_get_cb),
+				  self);
+}
+
+
 void
 gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage *self)
 {
@@ -2112,6 +2179,8 @@ gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage *self)
 					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
 					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
+
+	_gth_image_viewer_page_enable_drag_source (self, TRUE);
 }
 
 

@@ -863,6 +863,17 @@ gth_image_viewer_button_press (GtkWidget      *widget,
 	return retval;
 }
 
+static void
+_gth_image_viewer_button_release (GthImageViewer *self,
+		 	 	  GdkEventButton *event)
+{
+	gth_image_viewer_tool_button_release (self->priv->tool, event);
+
+	self->priv->just_focused = FALSE;
+	self->pressed = FALSE;
+	self->dragging = FALSE;
+}
+
 
 static gboolean
 gth_image_viewer_button_release (GtkWidget      *widget,
@@ -880,11 +891,7 @@ gth_image_viewer_button_release (GtkWidget      *widget,
 			       0);
 	}
 
-	gth_image_viewer_tool_button_release (self->priv->tool, event);
-
-	self->priv->just_focused = FALSE;
-	self->pressed = FALSE;
-	self->dragging = FALSE;
+	_gth_image_viewer_button_release (self, event);
 
 	return FALSE;
 }
@@ -1007,6 +1014,19 @@ gth_image_viewer_scroll_event (GtkWidget      *widget,
 	}
 
 	return retval;
+}
+
+
+static void
+gth_image_viewer_drag_end (GtkWidget      *widget,
+			   GdkDragContext *context)
+{
+	GthImageViewer *self;
+
+	g_return_if_fail (GTH_IS_IMAGE_VIEWER (widget));
+
+	self = GTH_IMAGE_VIEWER (widget);
+	_gth_image_viewer_button_release (self, NULL);
 }
 
 
@@ -1355,6 +1375,7 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 	widget_class->button_release_event = gth_image_viewer_button_release;
 	widget_class->motion_notify_event = gth_image_viewer_motion_notify;
 	widget_class->scroll_event = gth_image_viewer_scroll_event;
+	widget_class->drag_end = gth_image_viewer_drag_end;
 
 	class->clicked      = NULL;
 	class->zoom_changed = NULL;

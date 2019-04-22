@@ -32,6 +32,7 @@
 #define SIZE_TOO_BIG_FOR_SCALE_BILINEAR (3000 * 3000)
 #define MAX_ZOOM_LEVEL_FOR_HIGH_QUALITY 3.0
 #define FRAME_BORDER 15
+#define DRAG_ICON_SIZE 128
 
 
 /* Properties */
@@ -43,11 +44,20 @@ enum {
 
 struct _GthImageDraggerPrivate {
 	GthImageViewer  *viewer;
-	gboolean         draggable;
+	gboolean         scrollable;
 	gboolean         show_frame;
 	cairo_surface_t *scaled;
 	double           scaled_zoom;
 	GthTask         *scale_task;
+
+	/* drag & drop */
+
+	gboolean         dnd_source_enabled;
+	GdkModifierType  dnd_start_button_mask;
+	GtkTargetList   *dnd_target_list;
+	GdkDragAction    dnd_actions;
+	gboolean         dnd_started;
+	gboolean         dnd_began;
 };
 
 
@@ -74,6 +84,10 @@ gth_image_dragger_finalize (GObject *object)
 	_cairo_clear_surface (&self->priv->scaled);
 	if (self->priv->scale_task != NULL)
 		gth_task_cancel (self->priv->scale_task);
+	if (self->priv->dnd_target_list != NULL) {
+		gtk_target_list_unref (self->priv->dnd_target_list);
+		self->priv->dnd_target_list = NULL;
+	}
 
 	/* Chain up */
 	G_OBJECT_CLASS (gth_image_dragger_parent_class)->finalize (object);
@@ -157,8 +171,15 @@ gth_image_dragger_init (GthImageDragger *dragger)
 	dragger->priv->scaled_zoom = 0;
 	dragger->priv->scale_task = NULL;
 	dragger->priv->viewer = NULL;
-	dragger->priv->draggable = FALSE;
+	dragger->priv->scrollable = FALSE;
 	dragger->priv->show_frame = FALSE;
+
+	dragger->priv->dnd_source_enabled = FALSE;
+	dragger->priv->dnd_start_button_mask = 0;
+	dragger->priv->dnd_target_list = NULL;
+	dragger->priv->dnd_actions = 0;
+	dragger->priv->dnd_started = FALSE;
+	dragger->priv->dnd_began = FALSE;
 }
 
 
@@ -235,7 +256,7 @@ gth_image_dragger_size_allocate (GthImageViewerTool *base,
 	h_upper = gtk_adjustment_get_upper (viewer->hadj);
 	v_upper = gtk_adjustment_get_upper (viewer->vadj);
 
-	self->priv->draggable = (h_page_size > 0) && (v_page_size > 0) && ((h_upper > h_page_size) || (v_upper > v_page_size));
+	self->priv->scrollable = (h_page_size > 0) && (v_page_size > 0) && ((h_upper > h_page_size) || (v_upper > v_page_size));
 	if (gtk_widget_get_realized (GTK_WIDGET (viewer)))
 		_gth_image_dragger_update_cursor (self);
 }
@@ -310,11 +331,10 @@ gth_image_dragger_button_press (GthImageViewerTool *self,
 	viewer = dragger->priv->viewer;
 	widget = GTK_WIDGET (viewer);
 
-	if (! dragger->priv->draggable)
-		return FALSE;
-
-	if (((event->button == 1) || (event->button == 2)) &&
-			! viewer->dragging) {
+	if (dragger->priv->scrollable
+		&& ! viewer->dragging
+		&& ((event->button == 1) || (event->button == 2)))
+	{
 		GdkCursor     *cursor;
 		GdkGrabStatus  retval;
 
@@ -340,6 +360,18 @@ gth_image_dragger_button_press (GthImageViewerTool *self,
 		return TRUE;
 	}
 
+	if (dragger->priv->dnd_source_enabled
+		&& ! viewer->dragging
+		&& (event->button == 1)
+		&& (event->type == GDK_BUTTON_PRESS)
+		&& ! (event->state & GDK_CONTROL_MASK)
+		&& ! (event->state & GDK_SHIFT_MASK))
+	{
+		viewer->pressed = TRUE;
+		viewer->dragging = TRUE;
+		dragger->priv->dnd_began = FALSE;
+	}
+
 	return FALSE;
 }
 
@@ -351,16 +383,16 @@ gth_image_dragger_button_release (GthImageViewerTool *self,
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
 
-	if ((event->button != 1) && (event->button != 2))
-		return FALSE;
-
 	dragger = (GthImageDragger *) self;
 	viewer = dragger->priv->viewer;
 
-	if (viewer->dragging)
+	if (dragger->priv->scrollable && viewer->dragging)
 		gdk_seat_ungrab (gdk_device_get_seat (event->device));
 
-	return TRUE;
+	if (dragger->priv->dnd_source_enabled && viewer->dragging)
+		dragger->priv->dnd_began = FALSE;
+
+	return FALSE;
 }
 
 
@@ -374,16 +406,46 @@ gth_image_dragger_motion_notify (GthImageViewerTool *self,
 	dragger = (GthImageDragger *) self;
 	viewer = dragger->priv->viewer;
 
-	if (! viewer->pressed)
-		return FALSE;
+	if (dragger->priv->scrollable && viewer->dragging) {
+		gth_image_viewer_scroll_to (viewer,
+					    viewer->drag_x_start - event->x,
+					    viewer->drag_y_start - event->y);
+		return TRUE;
+	}
 
-	viewer->dragging = TRUE;
+	if (dragger->priv->dnd_source_enabled
+		&& viewer->dragging
+		&& ! dragger->priv->dnd_began
+		&& gtk_drag_check_threshold (GTK_WIDGET (viewer),
+					     viewer->drag_x_start,
+					     viewer->drag_y_start,
+					     event->x,
+					     event->y))
+	{
+		GdkDragContext  *context;
+		cairo_surface_t *image;
 
-	gth_image_viewer_scroll_to (viewer,
-				    viewer->drag_x_start - event->x,
-				    viewer->drag_y_start - event->y);
+		context = gtk_drag_begin_with_coordinates (GTK_WIDGET (viewer),
+							   dragger->priv->dnd_target_list,
+							   dragger->priv->dnd_actions,
+							   1,
+							   (GdkEvent *) event,
+							   viewer->drag_x_start,
+							   viewer->drag_y_start);
 
-	return TRUE;
+		image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
+		if (image != NULL) {
+			cairo_surface_t *icon = _cairo_create_dnd_icon (image, DRAG_ICON_SIZE, FALSE);
+			gtk_drag_set_icon_surface (context, icon);
+			cairo_surface_destroy (icon);
+		}
+
+		dragger->priv->dnd_began = TRUE;
+
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 
@@ -593,4 +655,27 @@ gth_image_dragger_new (gboolean show_frame)
 	return (GthImageViewerTool *) g_object_new (GTH_TYPE_IMAGE_DRAGGER,
 						    "show-frame", show_frame,
 						    NULL);
+}
+
+
+void
+gth_image_dragger_enable_drag_source (GthImageDragger      *self,
+				      GdkModifierType       start_button_mask,
+				      const GtkTargetEntry *targets,
+				      int                   n_targets,
+				      GdkDragAction         actions)
+{
+	if (self->priv->dnd_target_list != NULL)
+		gtk_target_list_unref (self->priv->dnd_target_list);
+
+	self->priv->dnd_source_enabled = TRUE;
+	self->priv->dnd_start_button_mask = start_button_mask;
+	self->priv->dnd_target_list = gtk_target_list_new (targets, n_targets);
+	self->priv->dnd_actions = actions;
+}
+
+void
+gth_image_dragger_disable_drag_source (GthImageDragger      *self)
+{
+	self->priv->dnd_source_enabled = FALSE;
 }
