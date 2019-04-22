@@ -1403,32 +1403,11 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 		cairo_set_line_width (cr, 0.5);
 		cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
 
-		frame_rect = item->thumbnail_area;
-
-		/* the drop shadow */
-
-		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.33);
-		_cairo_draw_rounded_box (cr,
-					 frame_rect.x + 2,
-					 frame_rect.y + 2,
-					 frame_rect.width - 1,
-					 frame_rect.height - 1,
-					 0);
-		cairo_fill (cr);
-
-		/* the outer frame */
-
-		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-		_cairo_draw_rounded_box (cr,
-					 frame_rect.x,
-					 frame_rect.y,
-					 frame_rect.width - 1,
-					 frame_rect.height - 1,
-					 0);
-		cairo_fill_preserve (cr);
-
-		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.55);
-		cairo_stroke (cr);
+		_cairo_draw_thumbnail_frame (cr,
+					     item->thumbnail_area.x,
+					     item->thumbnail_area.y,
+					     item->thumbnail_area.width,
+					     item->thumbnail_area.height);
 
 		cairo_restore (cr);
 	}
