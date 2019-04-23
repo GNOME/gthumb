@@ -1219,6 +1219,11 @@ _cairo_draw_thumbnail_frame (cairo_t *cr,
 			     int      width,
 			     int      height)
 {
+	cairo_save (cr);
+	cairo_translate (cr, 0.5, 0.5);
+	cairo_set_line_width (cr, 0.5);
+	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+
 	/* the drop shadow */
 
 	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.33);
@@ -1243,47 +1248,228 @@ _cairo_draw_thumbnail_frame (cairo_t *cr,
 
 	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.55);
 	cairo_stroke (cr);
+
+	cairo_restore (cr);
 }
 
 
-#define DRAG_ICON_BORDER 8
-#define DRAG_ICON_THUMBNAIL_OFFSET 3
+void
+_cairo_draw_film_background (cairo_t *cr,
+			     int      x,
+			     int      y,
+			     int      width,
+			     int      height)
+{
+	cairo_save (cr);
+
+	/* the drop shadow */
+
+	cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.33);
+	cairo_rectangle (cr,
+			 x + 2,
+			 y + 2,
+			 width,
+			 height);
+	cairo_fill (cr);
+
+	/* dark background */
+
+	cairo_set_source_rgb (cr, 0.1, 0.1, 0.1);
+	cairo_rectangle (cr,
+			 x,
+			 y ,
+			 width,
+			 height);
+	cairo_fill (cr);
+
+	cairo_restore (cr);
+}
+
+
+static cairo_pattern_t *
+_cairo_film_pattern_create (void)
+{
+	static cairo_pattern_t *film_pattern = NULL;
+	cairo_pattern_t        *pattern;
+	static GMutex           mutex;
+
+	g_mutex_lock (&mutex);
+	if (film_pattern == NULL) {
+		char            *filename;
+		cairo_surface_t *surface;
+
+		filename = g_build_filename (GTHUMB_ICON_DIR, "filmholes.png", NULL);
+		surface = cairo_image_surface_create_from_png (filename);
+		film_pattern = cairo_pattern_create_for_surface (surface);
+		cairo_pattern_set_filter (film_pattern, CAIRO_FILTER_GOOD);
+		cairo_pattern_set_extend (film_pattern, CAIRO_EXTEND_REPEAT);
+
+		cairo_surface_destroy (surface);
+		g_free (filename);
+
+	}
+	pattern = cairo_pattern_reference (film_pattern);
+	g_mutex_unlock (&mutex);
+
+	return pattern;
+}
+
+
+void
+_cairo_draw_film_foreground (cairo_t *cr,
+			     int      x,
+			     int      y,
+			     int      width,
+			     int      height,
+			     int      thumbnail_size)
+{
+	cairo_pattern_t *pattern;
+	double           film_scale;
+	cairo_matrix_t   matrix;
+	double           film_strip;
+
+	/* left film strip */
+
+	pattern = _cairo_film_pattern_create ();
+
+	if (thumbnail_size > 128)
+		film_scale = 256.0 / thumbnail_size;
+	else
+		film_scale = 128.0 / thumbnail_size;
+	film_strip = 9.0 / film_scale;
+
+	cairo_matrix_init_identity (&matrix);
+	cairo_matrix_scale (&matrix, film_scale, film_scale);
+	cairo_matrix_translate (&matrix, -x, 0);
+	cairo_pattern_set_matrix (pattern, &matrix);
+	cairo_set_source (cr, pattern);
+	cairo_rectangle (cr,
+			 x,
+			 y,
+			 film_strip,
+			 height);
+	cairo_fill (cr);
+
+	/* right film strip */
+
+	x = x + width - film_strip;
+	cairo_matrix_init_identity (&matrix);
+	cairo_matrix_scale (&matrix, film_scale, film_scale);
+	cairo_matrix_translate (&matrix, -x, 0);
+	cairo_pattern_set_matrix (pattern, &matrix);
+	cairo_set_source (cr, pattern);
+	cairo_rectangle (cr,
+			 x,
+			 y,
+			 film_strip,
+			 height);
+	cairo_fill (cr);
+
+	cairo_pattern_destroy (pattern);
+}
+
+
+#define DRAG_ICON_THUMBNAIL_OFFSET 4
 
 
 cairo_surface_t *
 _cairo_create_dnd_icon (cairo_surface_t *image,
 			int              icon_size,
+			ItemStyle        style,
 			gboolean         multi_dnd)
 {
-	int              width, height;
-	cairo_surface_t *thumbnail;
-	cairo_surface_t *icon;
-	cairo_t         *cr;
+	cairo_rectangle_int_t  thumbnail_rect;
+	cairo_surface_t       *thumbnail;
+	cairo_rectangle_int_t  icon_rect;
+	int                    icon_padding;
+	cairo_rectangle_int_t  frame_rect;
+	cairo_surface_t       *icon;
+	cairo_t               *cr;
 
-	width = cairo_image_surface_get_width (image);
-	height = cairo_image_surface_get_height (image);
-	scale_keeping_ratio (&width, &height, icon_size, icon_size, FALSE);
-	thumbnail = _cairo_image_surface_scale_fast (image, width, height);
+	thumbnail_rect.width = cairo_image_surface_get_width (image);
+	thumbnail_rect.height = cairo_image_surface_get_height (image);
+	if (scale_keeping_ratio (&thumbnail_rect.width, &thumbnail_rect.height, icon_size, icon_size, FALSE))
+		thumbnail = _cairo_image_surface_scale_fast (image, thumbnail_rect.width, thumbnail_rect.height);
+	else
+		thumbnail = cairo_surface_reference (image);
 
-	icon = _cairo_image_surface_create (CAIRO_FORMAT_ARGB32,
-					    width + DRAG_ICON_BORDER + (multi_dnd ? DRAG_ICON_BORDER : 0),
-					    height + DRAG_ICON_BORDER + (multi_dnd ? DRAG_ICON_BORDER : 0));
+	switch (style) {
+	case ITEM_STYLE_ICON:
+		icon_padding = 8;
+		icon_rect.width = icon_size + icon_padding;
+		icon_rect.height = icon_size + icon_padding;
+		thumbnail_rect.x = round ((double) (icon_rect.width - thumbnail_rect.width) / 2.0);
+		thumbnail_rect.y = round ((double) (icon_rect.height - thumbnail_rect.height) / 2.0);
+		frame_rect.x = 0;
+		frame_rect.y = 0;
+		frame_rect.width = icon_rect.width;
+		frame_rect.height = icon_rect.height;
+		break;
+
+	case ITEM_STYLE_IMAGE:
+		icon_padding = 8; /* padding for the frame border */
+		icon_rect.width = thumbnail_rect.width + icon_padding;
+		icon_rect.height = thumbnail_rect.height + icon_padding;
+		thumbnail_rect.x = 3;
+		thumbnail_rect.y = 3;
+		frame_rect.x = 0;
+		frame_rect.y = 0;
+		frame_rect.width = thumbnail_rect.width + icon_padding - 2;
+		frame_rect.height = thumbnail_rect.height + icon_padding - 2;
+		break;
+
+	case ITEM_STYLE_VIDEO:
+		icon_padding = 4; /* padding for the drop shadow effect */
+		icon_rect.width = thumbnail_rect.width + icon_padding;
+		icon_rect.height = icon_size + icon_padding;
+		thumbnail_rect.x = 0;
+		thumbnail_rect.y = round ((double) (icon_size - thumbnail_rect.height) / 2.0);
+		frame_rect.x = thumbnail_rect.x;
+		frame_rect.y = 0;
+		frame_rect.width = thumbnail_rect.width;
+		frame_rect.height = icon_size;
+		break;
+	}
+
+	if (multi_dnd) {
+		icon_rect.width += DRAG_ICON_THUMBNAIL_OFFSET;
+		icon_rect.height += DRAG_ICON_THUMBNAIL_OFFSET;
+	}
+	icon = _cairo_image_surface_create (CAIRO_FORMAT_ARGB32, icon_rect.width, icon_rect.height);
 	cr = cairo_create (icon);
 
-	if (multi_dnd)
-		_cairo_draw_thumbnail_frame (cr, DRAG_ICON_THUMBNAIL_OFFSET, DRAG_ICON_THUMBNAIL_OFFSET, width + DRAG_ICON_BORDER - 1, height + DRAG_ICON_BORDER - 1);
-	_cairo_draw_thumbnail_frame (cr, 0, 0, width + DRAG_ICON_BORDER - 1, height + DRAG_ICON_BORDER - 1);
+	switch (style) {
+	case ITEM_STYLE_ICON:
+		cairo_save (cr);
+		cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.2);
+		_cairo_draw_rounded_box (cr, frame_rect.x, frame_rect.y, frame_rect.width, frame_rect.height, 4);
+		cairo_fill (cr);
+		cairo_restore (cr);
+		break;
 
+	case ITEM_STYLE_IMAGE:
+		if (multi_dnd)
+			_cairo_draw_thumbnail_frame (cr, frame_rect.x + DRAG_ICON_THUMBNAIL_OFFSET, frame_rect.y + DRAG_ICON_THUMBNAIL_OFFSET, frame_rect.width, frame_rect.height);
+		_cairo_draw_thumbnail_frame (cr, frame_rect.x, frame_rect.y, frame_rect.width, frame_rect.height);
+		break;
+
+	case ITEM_STYLE_VIDEO:
+		_cairo_draw_film_background (cr, frame_rect.x, frame_rect.y, frame_rect.width, frame_rect.height);
+		break;
+	}
 
 	cairo_save (cr);
 	cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
-	cairo_set_source_surface (cr, thumbnail, DRAG_ICON_THUMBNAIL_OFFSET, DRAG_ICON_THUMBNAIL_OFFSET);
+	cairo_set_source_surface (cr, thumbnail, thumbnail_rect.x, thumbnail_rect.y);
 	cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_FAST);
-	cairo_rectangle (cr, DRAG_ICON_THUMBNAIL_OFFSET, DRAG_ICON_THUMBNAIL_OFFSET, width, height);
+	cairo_rectangle (cr, thumbnail_rect.x, thumbnail_rect.y, thumbnail_rect.width, thumbnail_rect.height);
 	cairo_fill (cr);
 	cairo_restore (cr);
 
-	cairo_surface_set_device_offset (icon, -width / 2, -height / 2);
+	if (style == ITEM_STYLE_VIDEO)
+		_cairo_draw_film_foreground (cr, frame_rect.x, frame_rect.y, frame_rect.width, frame_rect.height, icon_size);
+
+	cairo_surface_set_device_offset (icon, -icon_rect.width / 2, -icon_rect.height / 2);
 
 	cairo_surface_destroy (thumbnail);
 	cairo_destroy (cr);

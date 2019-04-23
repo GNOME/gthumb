@@ -154,6 +154,12 @@ typedef struct {
 
 extern const unsigned char cairo_channel[4];
 
+typedef enum {
+	ITEM_STYLE_ICON,
+	ITEM_STYLE_IMAGE,
+	ITEM_STYLE_VIDEO
+} ItemStyle;
+
 /* math */
 
 int                _cairo_multiply_alpha                    (int                    color,
@@ -271,8 +277,20 @@ void              _cairo_draw_thumbnail_frame               (cairo_t            
 							     int                    y,
 							     int                    width,
 							     int                    height);
+void              _cairo_draw_film_background               (cairo_t               *cr,
+							     int                    x,
+							     int                    y,
+							     int                    width,
+							     int                    height);
+void              _cairo_draw_film_foreground               (cairo_t               *cr,
+							     int                    x,
+							     int                    y,
+							     int                    width,
+							     int                    height,
+							     int                    thumbnail_size);
 cairo_surface_t * _cairo_create_dnd_icon                    (cairo_surface_t       *image,
 							     int                    icon_size,
+							     ItemStyle              style,
 							     gboolean               multi_dnd);
 
 #endif /* CAIRO_UTILS_H */

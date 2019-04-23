@@ -435,7 +435,7 @@ gth_image_dragger_motion_notify (GthImageViewerTool *self,
 
 		image = gth_image_viewer_get_current_image (GTH_IMAGE_VIEWER (viewer));
 		if (image != NULL) {
-			cairo_surface_t *icon = _cairo_create_dnd_icon (image, DRAG_ICON_SIZE, FALSE);
+			cairo_surface_t *icon = _cairo_create_dnd_icon (image, DRAG_ICON_SIZE, ITEM_STYLE_IMAGE, FALSE);
 			gtk_drag_set_icon_surface (context, icon);
 			cairo_surface_destroy (icon);
 		}

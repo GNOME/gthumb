@@ -91,13 +91,6 @@ typedef enum {
 } SyncType;
 
 
-typedef enum {
-	ITEM_STYLE_ICON,
-	ITEM_STYLE_IMAGE,
-	ITEM_STYLE_VIDEO
-} ItemStyle;
-
-
 static guint grid_view_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -1303,35 +1296,6 @@ gth_grid_view_get_last_visible (GthFileView *file_view)
 /* -- gth_grid_view_draw -- */
 
 
-static cairo_pattern_t *
-_cairo_film_pattern_create (void)
-{
-	static cairo_pattern_t *film_pattern = NULL;
-	cairo_pattern_t        *pattern;
-	static GMutex           mutex;
-
-	g_mutex_lock (&mutex);
-	if (film_pattern == NULL) {
-		char            *filename;
-		cairo_surface_t *surface;
-
-		filename = g_build_filename (GTHUMB_ICON_DIR, "filmholes.png", NULL);
-		surface = cairo_image_surface_create_from_png (filename);
-		film_pattern = cairo_pattern_create_for_surface (surface);
-		cairo_pattern_set_filter (film_pattern, CAIRO_FILTER_GOOD);
-		cairo_pattern_set_extend (film_pattern, CAIRO_EXTEND_REPEAT);
-
-		cairo_surface_destroy (surface);
-		g_free (filename);
-
-	}
-	pattern = cairo_pattern_reference (film_pattern);
-	g_mutex_unlock (&mutex);
-
-	return pattern;
-}
-
-
 static void
 _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 				    cairo_t         *cr,
@@ -1398,42 +1362,21 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 
 		/* ...draw a frame with a drop-shadow effect */
 
-		cairo_save (cr);
-		cairo_translate (cr, 0.5, 0.5);
-		cairo_set_line_width (cr, 0.5);
-		cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
-
 		_cairo_draw_thumbnail_frame (cr,
 					     item->thumbnail_area.x,
 					     item->thumbnail_area.y,
 					     item->thumbnail_area.width,
 					     item->thumbnail_area.height);
-
-		cairo_restore (cr);
 	}
 
 	if (item->style == ITEM_STYLE_VIDEO) {
 		frame_rect = item->thumbnail_area;
 
-		/* the drop shadow */
-
-		cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.33);
-		cairo_rectangle (cr,
-				 frame_rect.x + 2,
-				 frame_rect.y + 2,
-				 frame_rect.width,
-				 frame_rect.height);
-		cairo_fill (cr);
-
-		/* dark background */
-
-		cairo_set_source_rgb (cr, 0.1, 0.1, 0.1);
-		cairo_rectangle (cr,
-				 frame_rect.x,
-				 frame_rect.y ,
-				 frame_rect.width,
-				 frame_rect.height);
-		cairo_fill (cr);
+		_cairo_draw_film_background (cr,
+					     item->thumbnail_area.x,
+					     item->thumbnail_area.y,
+					     item->thumbnail_area.width,
+					     item->thumbnail_area.height);
 	}
 
 	/* thumbnail */
@@ -1443,51 +1386,12 @@ _gth_grid_view_item_draw_thumbnail (GthGridViewItem *item,
 	cairo_fill (cr);
 
 	if (item->style == ITEM_STYLE_VIDEO) {
-		cairo_pattern_t *pattern;
-		double           x;
-		double           film_scale;
-		cairo_matrix_t   matrix;
-		double           film_strip;
-
-		/* left film strip */
-
-		pattern = _cairo_film_pattern_create ();
-
-		if (grid_view->priv->thumbnail_size > 128)
-			film_scale = 256.0 / grid_view->priv->thumbnail_size;
-		else
-			film_scale = 128.0 / grid_view->priv->thumbnail_size;
-		film_strip = 9.0 / film_scale;
-
-		x = frame_rect.x;
-		cairo_matrix_init_identity (&matrix);
-		cairo_matrix_scale (&matrix, film_scale, film_scale);
-		cairo_matrix_translate (&matrix, -frame_rect.x, -item->pixbuf_area.y);
-		cairo_pattern_set_matrix (pattern, &matrix);
-		cairo_set_source (cr, pattern);
-		cairo_rectangle (cr,
-				 x,
-				 frame_rect.y,
-				 film_strip,
-				 frame_rect.height);
-		cairo_fill (cr);
-
-		/* right film strip */
-
-		x = frame_rect.x + item->pixbuf_area.width - film_strip;
-		cairo_matrix_init_identity (&matrix);
-		cairo_matrix_scale (&matrix, film_scale, film_scale);
-		cairo_matrix_translate (&matrix, -x, -item->pixbuf_area.y);
-		cairo_pattern_set_matrix (pattern, &matrix);
-		cairo_set_source (cr, pattern);
-		cairo_rectangle (cr,
-				 x,
-				 frame_rect.y,
-				 film_strip,
-				 frame_rect.height);
-		cairo_fill (cr);
-
-		cairo_pattern_destroy (pattern);
+		_cairo_draw_film_foreground (cr,
+					     item->thumbnail_area.x,
+					     item->thumbnail_area.y,
+					     item->thumbnail_area.width,
+					     item->thumbnail_area.height,
+					     grid_view->priv->thumbnail_size);
 	}
 
 	if ((item_state & GTK_STATE_FLAG_SELECTED) || (item_state & GTK_STATE_FLAG_FOCUSED)) {
@@ -3219,7 +3123,13 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 			multi_dnd = self->priv->selection->next != NULL;
 
 			if ((pos != -1) && (item != NULL) && (item->thumbnail != NULL)) {
-				cairo_surface_t *icon = _cairo_create_dnd_icon (item->thumbnail, self->priv->thumbnail_size, multi_dnd);
+				cairo_surface_t *icon = _cairo_create_dnd_icon (item->thumbnail,
+										self->priv->thumbnail_size,
+										item->style,
+										multi_dnd);
+				cairo_surface_set_device_offset (icon,
+								 item->thumbnail_area.x - event->x,
+								 item->thumbnail_area.y - event->y);
 				gtk_drag_set_icon_surface (context, icon);
 				cairo_surface_destroy (icon);
 			}
