@@ -526,6 +526,8 @@ filter_combobox_changed_cb (GtkComboBox *widget,
 	test = gth_main_get_registered_object (GTH_TYPE_TEST, test_id);
 	gth_file_list_set_filter (GTH_FILE_LIST (data->file_list), test);
 
+	g_settings_set_string (data->settings, PREF_PHOTO_IMPORTER_FILTER, test_id);
+
 	g_object_unref (test);
 }
 
@@ -548,7 +550,7 @@ dlg_photo_importer (GthBrowser            *browser,
 	GtkCellRenderer  *renderer;
 	GthFileDataSort  *sort_type;
 	GList            *tests, *scan;
-	char             *general_filter;
+	char             *default_filter;
 	int               i, active_filter;
 	int               i_general;
 
@@ -643,7 +645,7 @@ dlg_photo_importer (GthBrowser            *browser,
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("filelist_box")), data->file_list, TRUE, TRUE, 0);
 
 	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
-	general_filter = "file::type::is_media"; /* default value */
+	default_filter = g_settings_get_string (data->settings, PREF_PHOTO_IMPORTER_FILTER); /* default value */
 	active_filter = 0;
 
 	data->filter_combobox = gtk_combo_box_text_new ();
@@ -656,7 +658,7 @@ dlg_photo_importer (GthBrowser            *browser,
 
 		i_general += 1;
 		test = gth_main_get_registered_object (GTH_TYPE_TEST, registered_test_id);
-		if (strcmp (registered_test_id, general_filter) == 0) {
+		if (strcmp (registered_test_id, default_filter) == 0) {
 			active_filter = i_general;
 			gth_file_list_set_filter (GTH_FILE_LIST (data->file_list), test);
 		}
@@ -676,6 +678,7 @@ dlg_photo_importer (GthBrowser            *browser,
 	gtk_label_set_use_underline (GTK_LABEL (GET_WIDGET ("filter_label")), TRUE);
 
 	_g_string_list_free (tests);
+	g_free (default_filter);
 
 	data->tags_entry = gth_tags_entry_new (GTH_TAGS_ENTRY_MODE_POPUP);
 	gtk_widget_show (data->tags_entry);

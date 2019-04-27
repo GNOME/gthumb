@@ -30,10 +30,11 @@ G_BEGIN_DECLS
 
 #define GTHUMB_PHOTO_IMPORTER_SCHEMA             GTHUMB_SCHEMA ".photo-importer"
 
-/* keys: viewer */
+/* keys */
 
 #define PREF_PHOTO_IMPORTER_DELETE_FROM_DEVICE   "delete-from-device"
 #define PREF_PHOTO_IMPORTER_ADJUST_ORIENTATION   "adjust-orientation"
+#define PREF_PHOTO_IMPORTER_FILTER               "filter"
 
 G_END_DECLS
 
