@@ -1,3 +1,47 @@
+version 3.7.2
+-------------
+
+ New features and user visible changes:
+
+  * Added ability to drag an image from the viewer. (!24)
+  * Image viewer: use a checked pattern as background for transparent images.
+  * Thumbnails: do not use a white background for images with
+    transparencies. (!37)
+  * Photo importer: remember the last used filter.
+
+ Bugs fixed:
+
+  * Deleting picture sometimes removes wrong file. (!29)
+  * When changing a file metadata update the folder as well. (!28)
+  * New library: always shows 'name already used' error. (!43)
+  * Fixed crash when deleting files and moving to trash is not possible.
+  * JPEG loader: fixed possible crash when a jpeg image is broken.
+  * Fixed JPEG lossless rotation. (!22)
+  * Fixed git url in README. (!40)
+  * Fix the build with exiv2 0.27 (Kalev Lember) (!30)
+  * Fails to build when passing -Dgstreamer=false (!35)
+  * Fixed other build issues. (Kalev Lember) (Timo Gurr)
+  * Preferences dialog: fix link to "More extensions".
+  * Grid view: fixed layout after changing thumbnail size.
+  * Bookmarks dialog: fixed icons color.
+
+ New or updated application translations:
+
+  * catalan (Jordi Mas)
+  * Dutch (Nathan Follens)
+  * Finnish (Jiri Grönroos)
+  * French (Claude Paroz)
+  * German (Mario Blättermann)
+  * Indonesian (Kukuh Syafaat)
+  * Italiano (Gianvito Cavasoli)
+  * Lietuvių (Aurimas Černius)
+  * Portuguese - Brazil (Rafael Fontenelle)
+  * српски (Марко М. Костић)
+
+ New or updated manual translations:
+
+  * Dutch (Paul Matthijsse)
+
 version 3.7.1
 -------------
 
