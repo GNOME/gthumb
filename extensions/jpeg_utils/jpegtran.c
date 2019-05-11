@@ -186,18 +186,18 @@ jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
 	}
 
 	transformoption.transform = transform;
-	transformoption.perfect = (mcu_action == JPEG_MCU_ACTION_ABORT);
 	transformoption.trim = (mcu_action == JPEG_MCU_ACTION_TRIM);
 	transformoption.force_grayscale = FALSE;
 #if JPEG_LIB_VERSION >= 80
+	transformoption.perfect = (mcu_action == JPEG_MCU_ACTION_ABORT);
 	transformoption.crop = FALSE;
 	transformoption.crop_width_set = FALSE;
 	transformoption.crop_height_set = FALSE;
 	transformoption.crop_xoffset_set = FALSE;
 	transformoption.crop_yoffset_set = FALSE;
-#endif
 #ifdef LIBJPEG_TURBO_VERSION
 	transformoption.slow_hflip = FALSE;
+#endif
 #endif
 
 	/* Enable saving of extra markers that we want to copy */
