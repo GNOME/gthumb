@@ -785,6 +785,7 @@ trash_task_completed_cb (GthTask  *task,
 					   _("The files cannot be moved to the Trash. Do you want to delete them permanently?"),
 					   _GTK_LABEL_CANCEL,
 					   _GTK_LABEL_DELETE);
+		_gtk_dialog_add_class_to_response (GTK_DIALOG (d), GTK_RESPONSE_YES, GTK_STYLE_CLASS_DESTRUCTIVE_ACTION);
 		g_signal_connect (d,
 				  "response",
 				  G_CALLBACK (trash_failed_delete_permanently_response_cb),
@@ -858,6 +859,7 @@ gth_file_mananger_delete_files (GtkWindow *window,
 					     _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 					     _GTK_LABEL_DELETE, GTK_RESPONSE_YES,
 					     NULL);
+		_gtk_dialog_add_class_to_response (GTK_DIALOG (d), GTK_RESPONSE_YES, GTK_STYLE_CLASS_DESTRUCTIVE_ACTION);
 		g_signal_connect (d, "response", G_CALLBACK (delete_permanently_response_cb), file_list);
 		gtk_widget_show (d);
 
