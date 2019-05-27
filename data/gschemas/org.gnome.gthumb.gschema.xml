@@ -138,6 +138,10 @@
     <key name="fullscreen-thumbnails-visible" type="b">
       <default>false</default>
     </key>
+    <key name="scrollwheel-cycle" type="b">
+      <default>true</default>
+      <description>Whether to cycle between pictures by rotating the scrollwheel</description>
+    </key>    
   </schema>
 
   <schema id="org.gnome.gthumb.dialogs" path="/org/gnome/gthumb/dialogs/">
