@@ -477,6 +477,20 @@ gth_selections_manager_remove_files (GFile    *folder,
 }
 
 
+static void
+_gth_selections_manager_files_changed_for_selection (GthSelectionsManager *self,
+						     int                   n_selection)
+{
+	GList *scan;
+
+	g_hash_table_remove_all (self->priv->files_hash[n_selection - 1]);
+	for (scan = self->priv->files[n_selection - 1]; scan; scan = scan->next) {
+		GFile *file = scan->data;
+		g_hash_table_insert (self->priv->files_hash[n_selection - 1], file, GINT_TO_POINTER (1));
+	}
+}
+
+
 void
 gth_selections_manager_reorder (GFile *folder,
 				GList *visible_files, /* GFile list */
@@ -505,6 +519,7 @@ gth_selections_manager_reorder (GFile *folder,
 			 &new_file_list);
 	_g_object_list_unref (self->priv->files[n_selection - 1]);
 	self->priv->files[n_selection - 1] = new_file_list;
+	_gth_selections_manager_files_changed_for_selection (self, n_selection);
 	g_mutex_unlock (&self->priv->mutex);
 
 	gth_selections_manager_set_sort_type (folder, "general::unsorted", FALSE);
