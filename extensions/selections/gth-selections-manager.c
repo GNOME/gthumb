@@ -256,8 +256,8 @@ gth_selections_manager_update_file_info (GFile     *file,
 			g_file_info_set_attribute_boolean (info, "sort::inverse", self->priv->order_inverse[n_selection - 1]);
 		}
 		else {
-			g_file_info_remove_attribute (info, "sort::type");
-			g_file_info_remove_attribute (info, "sort::inverse");
+			g_file_info_set_attribute_string (info, "sort::type", "general::unsorted");
+			g_file_info_set_attribute_boolean (info, "sort::inverse", FALSE);
 		}
 	}
 }
