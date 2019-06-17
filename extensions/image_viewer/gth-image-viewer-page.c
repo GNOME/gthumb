@@ -587,7 +587,6 @@ update_overview_visibility (GthImageViewerPage *self)
 
 static void
 zoom_scale_value_changed_cb (GtkScale *scale,
-			     gdouble   value,
 			     gpointer  user_data)
 {
 	GthImageViewerPage *self = user_data;
