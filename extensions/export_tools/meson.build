@@ -31,3 +31,7 @@ i18n.merge_file(
   install : true,
   install_dir : extensions_install_dir
 )
+
+# Subdirectories
+
+subdir('data')
