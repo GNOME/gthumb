@@ -3573,7 +3573,7 @@ msgstr "El nom base del fitxer"
 
 #: extensions/list_tools/data/ui/script-editor.ui:286
 msgid "The parent folder path"
-msgstr "Mou la carpeta actual"
+msgstr "El camí a la carpeta pare"
 
 #. Translate only 'message' and 'default_value'.
 #: extensions/list_tools/data/ui/script-editor.ui:336
