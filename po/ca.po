@@ -924,7 +924,7 @@ msgstr "L'etiqueta (incrustada)"
 #: extensions/edit_metadata/callbacks.c:85
 #: gthumb/gth-main-default-metadata.c:63
 msgid "Tags"
-msgstr "Les etiquetes"
+msgstr "Etiquetes"
 
 #: extensions/catalogs/gth-file-source-catalogs.c:955
 #, c-format
@@ -1081,7 +1081,7 @@ msgstr "Comentaris"
 
 #: extensions/comments/main.c:41 gthumb/gth-main-default-metadata.c:60
 msgid "Title"
-msgstr "El títol"
+msgstr "Títol"
 
 #: extensions/comments/main.c:42 extensions/comments/main.c:166
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:184
@@ -1095,12 +1095,12 @@ msgstr "El títol"
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
 #: gthumb/gth-main-default-metadata.c:62
 msgid "Description"
-msgstr "La descripció"
+msgstr "Descripció"
 
 #: extensions/comments/main.c:43 extensions/comments/main.c:174
 #: gthumb/gth-main-default-metadata.c:61
 msgid "Place"
-msgstr "El lloc"
+msgstr "Lloc"
 
 #: extensions/comments/main.c:44
 msgid "Comment Date & Time"
@@ -1109,7 +1109,7 @@ msgstr "Data i hora del comentari"
 #: extensions/comments/main.c:46 gthumb/gth-main-default-metadata.c:64
 #: gthumb/gth-main-default-tests.c:390
 msgid "Rating"
-msgstr "La valoració"
+msgstr "Valoració"
 
 #: extensions/contact_sheet/callbacks.c:38
 msgid "Contact _Sheet…"
@@ -2111,7 +2111,7 @@ msgstr "_Saturació:"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:213
 msgid "G_amma:"
-msgstr "G_ama:"
+msgstr "G_amma:"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:230
 msgid "Cyan-_Red:"
@@ -3143,7 +3143,7 @@ msgstr "No s'han pogut imprimir els fitxers seleccionats"
 #: extensions/image_print/callbacks.c:53 extensions/image_print/callbacks.c:59
 #: extensions/image_print/preferences.c:79
 msgid "Print"
-msgstr "Impressió"
+msgstr "Imprimeix"
 
 #: extensions/image_print/data/ui/print-layout.ui:13
 msgid "Centered"
@@ -5075,7 +5075,7 @@ msgstr "Fotografies RAW"
 
 #: gthumb/gth-main-default-tests.c:327
 msgid "Media"
-msgstr "Els suports"
+msgstr "Suports"
 
 #: gthumb/gth-main-default-tests.c:334
 msgid "Text Files"
@@ -5091,7 +5091,7 @@ msgstr "Títol (incrustat)"
 
 #: gthumb/gth-main-default-tests.c:382
 msgid "Description (embedded)"
-msgstr "La descripció (incrustada)"
+msgstr "Descripció (incrustada)"
 
 #: gthumb/gth-overwrite-dialog.c:246
 msgid "Overwrite"
