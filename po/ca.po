@@ -57,7 +57,7 @@ msgid ""
 "change the saturation, lightness, contrast as well as other color "
 "transformations."
 msgstr ""
-"Com a editor d'imatges, gThumb permet escalar, rotar i retallar les imatges; "
+"Com a editor d'imatges, gThumb permet escalar, girar i retallar les imatges; "
 "canviar la saturació, la lluminositat, el contrast, així com altres "
 "transformacions de color."
 
@@ -843,7 +843,7 @@ msgstr "Selecciona-ho tot"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:295
 msgid "Select None"
-msgstr "Selecciona cap"
+msgstr "No en seleccionis cap"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:330
 msgid "Catalog _Preview:"
@@ -912,12 +912,12 @@ msgstr "La data en què el fitxer va ser modificat"
 
 #: extensions/catalogs/dlg-organize-files.c:152 extensions/comments/main.c:182
 msgid "Tag"
-msgstr "L'etiqueta"
+msgstr "Etiqueta"
 
 #: extensions/catalogs/dlg-organize-files.c:159
 #: gthumb/gth-main-default-tests.c:399
 msgid "Tag (embedded)"
-msgstr "L'etiqueta (incrustada)"
+msgstr "Etiqueta (incrustada)"
 
 #: extensions/catalogs/gth-catalog.c:1126 extensions/comments/main.c:45
 #: extensions/edit_metadata/callbacks.c:51
@@ -1585,7 +1585,7 @@ msgstr "Sense data"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:555
 msgid "The following date"
-msgstr "La següent data"
+msgstr "La data següent"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:556
 #: extensions/importer/gth-import-preferences-dialog.c:325
@@ -2947,7 +2947,7 @@ msgstr "_Importa"
 #: extensions/flicker_utils/dlg-import-from-flickr.c:579
 #, c-format
 msgid "Import from %s"
-msgstr "Importa de %s"
+msgstr "Importa des de %s"
 
 #: extensions/flicker_utils/flickr-consumer.c:122
 #: extensions/flicker_utils/flickr-service.c:240
