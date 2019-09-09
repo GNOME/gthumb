@@ -1,3 +1,18 @@
+version 3.8.1
+-------------
+
+ Bugs fixed:
+
+  * Selections: fixed possible crash after reordering the files.
+
+ New or updated application translations:
+
+  * Basque (Alexander Gabilondo)
+  * catalan (Jordi Mas)
+  * Croatian (gogo)
+  * Dutch (Paul Matthijsse)
+  * Turkish (Sabri Ünal)
+
 version 3.8.0
 -------------
 
