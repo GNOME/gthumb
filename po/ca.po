@@ -903,12 +903,12 @@ msgstr ""
 #: extensions/edit_metadata/gth-edit-general-page.c:557
 #: gthumb/gth-main-default-tests.c:366
 msgid "Date photo was taken"
-msgstr "La data en què la foto va ser presa"
+msgstr "Data en què la foto va ser presa"
 
 #: extensions/catalogs/dlg-organize-files.c:145
 #: gthumb/gth-main-default-tests.c:358
 msgid "File modified date"
-msgstr "La data en què el fitxer va ser modificat"
+msgstr "Data en què el fitxer va ser modificat"
 
 #: extensions/catalogs/dlg-organize-files.c:152 extensions/comments/main.c:182
 msgid "Tag"
@@ -1023,11 +1023,11 @@ msgstr "Data de _modificació del fitxer"
 
 #: extensions/change_date/data/ui/change-date.ui:235
 msgid "File c_reation date"
-msgstr "La data en què el fitxer va ser c_reat"
+msgstr "Data en què el fitxer va ser c_reat"
 
 #: extensions/change_date/data/ui/change-date.ui:253
 msgid "Date p_hoto was taken"
-msgstr "La data en què la f_oto va ser presa"
+msgstr "Data en què la f_oto va ser presa"
 
 #: extensions/change_date/data/ui/change-date.ui:291
 msgid "A_djust by"
@@ -2463,7 +2463,7 @@ msgstr "Selector de color"
 
 #: extensions/file_tools/gth-file-tool-color-picker.c:249
 msgid "Pick a color from the image"
-msgstr "Seleccioneu un color la imatge"
+msgstr "Seleccioneu un color de la imatge"
 
 #: extensions/file_tools/gth-file-tool-crop.c:439
 #: extensions/file_tools/gth-file-tool-resize.c:587
@@ -2742,7 +2742,7 @@ msgstr "S'està aguditzant la imatge"
 
 #: extensions/file_tools/gth-file-tool-sharpen.c:435
 msgid "Enhance Focus"
-msgstr "_Millora l'enfocament"
+msgstr "Millora l'enfocament"
 
 #: extensions/file_tools/gth-file-tool-undo.c:77
 msgid "Undo"
@@ -4798,7 +4798,7 @@ msgstr "No s'ha pogut canviar el nom"
 
 #: gthumb/gth-browser.c:3470
 msgid "Modified"
-msgstr "La modificació"
+msgstr "Modificada"
 
 #: gthumb/gth-browser.c:4546
 msgid "Go to the previous visited location"
