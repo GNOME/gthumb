@@ -5777,12 +5777,14 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 		case GDK_KEY_Page_Up:
 		case GDK_KEY_KP_Page_Up:
 		case GDK_KEY_BackSpace:
+		case GDK_KEY_k:
 			gth_browser_show_prev_image (browser, FALSE, FALSE);
 			return TRUE;
 
 		case GDK_KEY_Page_Down:
 		case GDK_KEY_KP_Page_Down:
 		case GDK_KEY_space:
+		case GDK_KEY_j:
 			gth_browser_show_next_image (browser, FALSE, FALSE);
 			return TRUE;
 
