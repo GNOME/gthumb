@@ -808,6 +808,12 @@ edit_template_button_clicked_cb (GtkWidget  *widget,
 	gtk_window_present (GTK_WINDOW (dialog));
 }
 
+static void
+return_pressed_callback (GtkDialog *dialog,
+			 gpointer   user_data)
+{
+	ok_button_clicked (user_data);
+}
 
 void
 dlg_rename_series (GthBrowser *browser,
@@ -983,6 +989,10 @@ dlg_rename_series (GthBrowser *browser,
 	g_signal_connect (GET_WIDGET ("template_entry"),
 			  "changed",
 			  G_CALLBACK (update_preview_cb),
+			  data);
+	g_signal_connect (GET_WIDGET("template_entry"),
+			  "activate",
+			  G_CALLBACK (return_pressed_callback),
 			  data);
 	g_signal_connect (GET_WIDGET ("start_at_spinbutton"),
 			  "value_changed",
