@@ -128,12 +128,13 @@ scripts_changed_cb (GthScriptFile *script_file,
 
 
 static void
-tools_menu_button_toggled_cb (GtkToggleButton *togglebutton,
-			      gpointer         user_data)
+tools_menu_button_button_press_event_cb (GtkToggleButton *togglebutton,
+					 GdkEvent        *event,
+					 gpointer         user_data)
 {
 	BrowserData *data = user_data;
 
-	if (! gtk_toggle_button_get_active (togglebutton))
+	if (gtk_toggle_button_get_active (togglebutton))
 		return;
 
 	if (! data->menu_initialized) {
@@ -178,7 +179,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	/* browser tools */
 
 	button = _gtk_menu_button_new_for_header_bar ("tools-symbolic");
-	g_signal_connect (button, "toggled", G_CALLBACK (tools_menu_button_toggled_cb), data);
+	g_signal_connect (button, "button-press-event", G_CALLBACK (tools_menu_button_button_press_event_cb), data);
 	gtk_widget_set_tooltip_text (button, _("Tools"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
 	gtk_widget_set_halign (GTK_WIDGET (gtk_menu_button_get_popup (GTK_MENU_BUTTON (button))), GTK_ALIGN_CENTER);
@@ -188,7 +189,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	/* viewer edit */
 
 	button = _gtk_menu_button_new_for_header_bar ("tools-symbolic");
-	g_signal_connect (button, "toggled", G_CALLBACK (tools_menu_button_toggled_cb), data);
+	g_signal_connect (button, "button-press-event", G_CALLBACK (tools_menu_button_button_press_event_cb), data);
 	gtk_widget_set_tooltip_text (button, _("Tools"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
 	gtk_widget_set_halign (GTK_WIDGET (gtk_menu_button_get_popup (GTK_MENU_BUTTON (button))), GTK_ALIGN_CENTER);
