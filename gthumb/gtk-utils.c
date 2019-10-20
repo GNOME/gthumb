@@ -938,6 +938,7 @@ _gtk_menu_button_new_for_header_bar (const char *icon_name)
 	GtkWidget *button;
 
 	button = gtk_menu_button_new ();
+	gtk_menu_button_set_use_popover (GTK_MENU_BUTTON (button), FALSE);
 	if (icon_name != NULL) {
 		GtkWidget *image;
 
