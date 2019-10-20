@@ -4509,9 +4509,9 @@ gth_browser_init (GthBrowser *browser)
 
 		builder = _gtk_builder_new_from_resource ("gears-menu.ui");
 		menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
-		browser->priv->menu_button = _gtk_menu_button_new_for_header_bar (NULL);
-		gtk_menu_button_set_direction (GTK_MENU_BUTTON (browser->priv->menu_button), GTK_ARROW_NONE);
+		browser->priv->menu_button = _gtk_menu_button_new_for_header_bar ("open-menu-symbolic");
 		gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (browser->priv->menu_button), menu);
+		gtk_widget_set_halign (GTK_WIDGET (gtk_menu_button_get_popup (GTK_MENU_BUTTON (browser->priv->menu_button))), GTK_ALIGN_END);
 		gtk_widget_show_all (browser->priv->menu_button);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->menu_button);
 

@@ -173,6 +173,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	g_signal_connect (button, "toggled", G_CALLBACK (tools_menu_button_toggled_cb), data);
 	gtk_widget_set_tooltip_text (button, _("Tools"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
+	gtk_widget_set_halign (GTK_WIDGET (gtk_menu_button_get_popup (GTK_MENU_BUTTON (button))), GTK_ALIGN_CENTER);
 	gtk_widget_show (button);
 	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS)), button, FALSE, FALSE, 0);
 
@@ -182,6 +183,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	g_signal_connect (button, "toggled", G_CALLBACK (tools_menu_button_toggled_cb), data);
 	gtk_widget_set_tooltip_text (button, _("Tools"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
+	gtk_widget_set_halign (GTK_WIDGET (gtk_menu_button_get_popup (GTK_MENU_BUTTON (button))), GTK_ALIGN_CENTER);
 	gtk_widget_show (button);
 	gtk_box_pack_end (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT)), button, FALSE, FALSE, 0);
 

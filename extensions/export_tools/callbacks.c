@@ -45,6 +45,7 @@ export_tools__gth_browser_construct_cb (GthBrowser *browser)
 	button = _gtk_menu_button_new_for_header_bar ("export-symbolic");
 	gtk_widget_set_tooltip_text (button, _("Export"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
+	gtk_widget_set_halign (GTK_WIDGET (gtk_menu_button_get_popup (GTK_MENU_BUTTON (button))), GTK_ALIGN_CENTER);
 	gtk_widget_show (button);
 	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS)), button, FALSE, FALSE, 0);
 }
