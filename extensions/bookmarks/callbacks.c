@@ -104,6 +104,7 @@ update_system_bookmark_list_from_content (GthBrowser *browser,
 		char      **line;
 		char       *uri;
 		GFile      *file;
+		char       *first_space;
 		char       *name;
 		GMenuItem  *item;
 
@@ -115,7 +116,8 @@ update_system_bookmark_list_from_content (GthBrowser *browser,
 		}
 
 		file = g_file_new_for_uri (uri);
-		name = g_strdup (strchr (lines[i], ' '));
+		first_space = strchr (lines[i], ' ');
+		name = (first_space != NULL) ? g_strdup (first_space + 1) : NULL;
 		if (name == NULL)
 			name = _g_file_get_display_name (file);
 		if (name == NULL)
