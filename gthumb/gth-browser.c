@@ -4556,7 +4556,7 @@ gth_browser_init (GthBrowser *browser)
 		button = _gtk_menu_button_new_for_header_bar ("document-open-recent-symbolic");
 		gtk_widget_set_tooltip_text (button, _("History"));
 
-		browser->priv->history_menu = G_MENU (gtk_builder_get_object (builder, "visited-locations"));
+		browser->priv->history_menu = g_object_ref (G_MENU (gtk_builder_get_object (builder, "visited-locations")));
 		gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), G_MENU_MODEL (gtk_builder_get_object (builder, "menu")));
 		gtk_widget_show (button);
 		gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_NAVIGATION)), button, FALSE, FALSE, 0);
