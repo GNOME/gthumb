@@ -4,6 +4,8 @@ source_files = files(
   'gth-search.c',
   'gth-search-editor.c',
   'gth-search-editor-dialog.c',
+  'gth-search-source.c',
+  'gth-search-source-selector.c',
   'gth-search-task.c',
   'main.c'
 )

@@ -280,8 +280,7 @@ add_catalog_for_date (GthOrganizeTask *self,
 			catalog_file = gth_catalog_get_file_for_date (date_time, ".search");
 
 			catalog = (GthCatalog *) gth_search_new ();
-			gth_search_set_folder (GTH_SEARCH (catalog), self->priv->folder);
-			gth_search_set_recursive (GTH_SEARCH (catalog), self->priv->recursive);
+			gth_search_set_source (GTH_SEARCH (catalog), self->priv->folder, self->priv->recursive);
 
 			date_test = gth_main_get_registered_object (GTH_TYPE_TEST, (self->priv->group_policy == GTH_GROUP_POLICY_MODIFIED_DATE) ? "file::mtime" : "Embedded::Photo::DateTimeOriginal");
 			gth_test_simple_set_data_as_date (GTH_TEST_SIMPLE (date_test), date_time->date);
@@ -378,8 +377,7 @@ add_catalog_for_tag (GthOrganizeTask *self,
 			catalog_file = gth_catalog_get_file_for_tag (tag, ".search");
 
 			catalog = (GthCatalog *) gth_search_new ();
-			gth_search_set_folder (GTH_SEARCH (catalog), self->priv->folder);
-			gth_search_set_recursive (GTH_SEARCH (catalog), self->priv->recursive);
+			gth_search_set_source (GTH_SEARCH (catalog), self->priv->folder, self->priv->recursive);
 
 			tag_test = gth_main_get_registered_object (GTH_TYPE_TEST, (self->priv->group_policy == GTH_GROUP_POLICY_TAG) ? "comment::category" : "general::tags");
 			gth_test_category_set (GTH_TEST_CATEGORY (tag_test), GTH_TEST_OP_CONTAINS, FALSE, tag);

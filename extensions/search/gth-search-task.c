@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include <extensions/catalogs/gth-catalog.h>
+#include "gth-search-source.h"
 #include "gth-search-task.h"
 
 
@@ -39,6 +40,7 @@ struct _GthSearchTaskPrivate {
 	GtkWidget     *dialog;
 	GthFileSource *file_source;
 	gsize          n_files;
+	GList         *current_location;
 };
 
 
@@ -124,33 +126,12 @@ save_search_result_copy_done_cb (void     **buffer,
 
 
 static void
-done_func (GObject  *object,
-	   GError   *error,
-	   gpointer  user_data)
+_gth_search_task_save_search_result (GthSearchTask *task)
 {
-	GthSearchTask *task = user_data;
 	DomDocument   *doc;
 	char          *data;
 	gsize          size;
 	GFile         *search_result_real_file;
-
-	gth_info_bar_set_secondary_text (GTH_INFO_BAR (task->priv->dialog), NULL);
-
-	task->priv->error = NULL;
-	if (error != NULL) {
-		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			task->priv->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
-			g_error_free (error);
-
-			/* reset the cancellable because it's re-used below to
-			 * save the partial result. */
-			g_cancellable_reset (gth_task_get_cancellable (GTH_TASK (task)));
-		}
-		else
-			task->priv->error = error;
-	}
-
-	/* save the search result */
 
 	doc = dom_document_new ();
 	dom_element_append_child (DOM_ELEMENT (doc), dom_domizable_create_element (DOM_DOMIZABLE (task->priv->search), doc));
@@ -168,6 +149,40 @@ done_func (GObject  *object,
 
 	g_object_unref (search_result_real_file);
 	g_object_unref (doc);
+}
+
+
+static void
+_gth_search_task_search_current_location (GthSearchTask *task);
+
+
+static void
+done_func (GObject  *object,
+	   GError   *error,
+	   gpointer  user_data)
+{
+	GthSearchTask *task = user_data;
+
+	gth_info_bar_set_secondary_text (GTH_INFO_BAR (task->priv->dialog), NULL);
+
+	task->priv->error = NULL;
+	if (error != NULL) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			task->priv->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
+			g_error_free (error);
+
+			/* reset the cancellable because it's re-used below to
+			 * save the partial result. */
+			g_cancellable_reset (gth_task_get_cancellable (GTH_TASK (task)));
+		}
+		else
+			task->priv->error = error;
+		_gth_search_task_save_search_result (task);
+		return;
+	}
+
+	task->priv->current_location = g_list_next (task->priv->current_location);
+	_gth_search_task_search_current_location (task);
 }
 
 
@@ -257,16 +272,55 @@ start_dir_func (GFile      *directory,
 
 
 static void
+_gth_search_task_search_current_location (GthSearchTask *task)
+{
+	GthSearchSource *search_location;
+	GSettings       *settings;
+	GString         *attributes;
+	const char      *test_attributes;
+
+	if (task->priv->current_location == NULL) {
+		_gth_search_task_save_search_result (task);
+		return;
+	}
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	task->priv->show_hidden_files = g_settings_get_boolean (settings, PREF_BROWSER_SHOW_HIDDEN_FILES);
+
+	search_location = GTH_SEARCH_SOURCE (task->priv->current_location->data);
+	task->priv->file_source = gth_main_get_file_source (gth_search_source_get_folder (search_location));
+	gth_file_source_set_cancellable (task->priv->file_source, gth_task_get_cancellable (GTH_TASK (task)));
+
+	attributes = g_string_new (g_settings_get_boolean (settings, PREF_BROWSER_FAST_FILE_TYPE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
+	test_attributes = gth_test_get_attributes (GTH_TEST (task->priv->test));
+	if (test_attributes[0] != '\0') {
+		g_string_append (attributes, ",");
+		g_string_append (attributes, test_attributes);
+	}
+
+	task->priv->io_operation = TRUE;
+	gth_file_source_for_each_child (task->priv->file_source,
+					gth_search_source_get_folder (search_location),
+					gth_search_source_is_recursive (search_location),
+					attributes->str,
+					start_dir_func,
+					for_each_file_func,
+					done_func,
+					task);
+
+	g_string_free (attributes, TRUE);
+	g_object_unref (settings);
+}
+
+
+static void
 browser_location_ready_cb (GthBrowser    *browser,
 			   GFile         *folder,
 			   gboolean       error,
 			   GthSearchTask *task)
 {
-	GtkWidget          *button;
+	GtkWidget   *button;
 	InfoBarData *dialog_data;
-	GSettings          *settings;
-	GString            *attributes;
-	const char         *test_attributes;
 
 	g_signal_handler_disconnect (task->priv->browser, task->priv->location_ready_id);
 
@@ -324,32 +378,8 @@ browser_location_ready_cb (GthBrowser    *browser,
 		g_object_unref (general_filter);
 	}
 
-	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
-
-	task->priv->show_hidden_files = g_settings_get_boolean (settings, PREF_BROWSER_SHOW_HIDDEN_FILES);
-	task->priv->io_operation = TRUE;
-
-	task->priv->file_source = gth_main_get_file_source (gth_search_get_folder (task->priv->search));
-	gth_file_source_set_cancellable (task->priv->file_source, gth_task_get_cancellable (GTH_TASK (task)));
-
-	attributes = g_string_new (g_settings_get_boolean (settings, PREF_BROWSER_FAST_FILE_TYPE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
-	test_attributes = gth_test_get_attributes (GTH_TEST (task->priv->test));
-	if (test_attributes[0] != '\0') {
-		g_string_append (attributes, ",");
-		g_string_append (attributes, test_attributes);
-	}
-
-	gth_file_source_for_each_child (task->priv->file_source,
-					gth_search_get_folder (task->priv->search),
-					gth_search_is_recursive (task->priv->search),
-					attributes->str,
-					start_dir_func,
-					for_each_file_func,
-					done_func,
-					task);
-
-	g_object_unref (settings);
-	g_string_free (attributes, TRUE);
+	task->priv->current_location = gth_search_get_sources (task->priv->search);
+	_gth_search_task_search_current_location (task);
 }
 
 
@@ -462,6 +492,7 @@ gth_search_task_init (GthSearchTask *task)
 	task->priv->dialog = NULL;
 	task->priv->file_source = NULL;
 	task->priv->n_files = 0;
+	task->priv->current_location = NULL;
 }
 
 

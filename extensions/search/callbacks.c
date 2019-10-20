@@ -177,8 +177,7 @@ search__dlg_catalog_properties_save (GtkBuilder  *builder,
 	search = gth_search_editor_get_search (GTH_SEARCH_EDITOR (g_object_get_data (G_OBJECT(builder), "search_editor")), NULL);
 	if (search != NULL) {
 		g_file_info_set_attribute_boolean (file_data->info, "gthumb::search-modified", ! gth_search_equal (GTH_SEARCH (catalog), search));
-		gth_search_set_folder (GTH_SEARCH (catalog), gth_search_get_folder (search));
-		gth_search_set_recursive (GTH_SEARCH (catalog), gth_search_is_recursive (search));
+		gth_search_set_sources (GTH_SEARCH (catalog), gth_search_get_sources (search));
 		gth_search_set_test (GTH_SEARCH (catalog), gth_search_get_test (search));
 	}
 }
@@ -250,8 +249,9 @@ search__gth_organize_task_create_catalog (GthGroupPolicyData *data)
 			GthTest *test_chain;
 
 			data->catalog = (GthCatalog *) gth_search_new ();
-			gth_search_set_folder (GTH_SEARCH (data->catalog), gth_organize_task_get_folder (data->task));
-			gth_search_set_recursive (GTH_SEARCH (data->catalog), gth_organize_task_get_recursive (data->task));
+			gth_search_set_source (GTH_SEARCH (data->catalog),
+					       gth_organize_task_get_folder (data->task),
+					       gth_organize_task_get_recursive (data->task));
 
 			date_test = gth_main_get_registered_object (GTH_TYPE_TEST, (policy == GTH_GROUP_POLICY_MODIFIED_DATE) ? "file::mtime" : "Embedded::Photo::DateTimeOriginal");
 			gth_test_simple_set_data_as_date (GTH_TEST_SIMPLE (date_test), data->date_time->date);
@@ -302,8 +302,9 @@ search__gth_organize_task_create_catalog (GthGroupPolicyData *data)
 			GthTest *test_chain;
 
 			data->catalog = (GthCatalog *) gth_search_new ();
-			gth_search_set_folder (GTH_SEARCH (data->catalog), gth_organize_task_get_folder (data->task));
-			gth_search_set_recursive (GTH_SEARCH (data->catalog), gth_organize_task_get_recursive (data->task));
+			gth_search_set_source (GTH_SEARCH (data->catalog),
+					       gth_organize_task_get_folder (data->task),
+					       gth_organize_task_get_recursive (data->task));
 
 			tag_test = gth_main_get_registered_object (GTH_TYPE_TEST, (policy == GTH_GROUP_POLICY_TAG) ? "comment::category" : "general::tags");
 			gth_test_category_set (GTH_TEST_CATEGORY (tag_test), GTH_TEST_OP_CONTAINS, FALSE, data->tag);

@@ -23,6 +23,7 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "gth-search.h"
+#include "gth-search-source.h"
 
 
 #define SEARCH_FORMAT "1.0"
@@ -33,8 +34,7 @@ static void gth_search_gth_duplicable_interface_init (GthDuplicableInterface *if
 
 
 struct _GthSearchPrivate {
-	GFile        *folder;
-	gboolean      recursive;
+	GList        *sources;
 	GthTestChain *test;
 };
 
@@ -75,16 +75,25 @@ gth_search_read_from_doc (GthCatalog *base,
 	self = GTH_SEARCH (base);
 	GTH_CATALOG_CLASS (gth_search_parent_class)->read_from_doc (GTH_CATALOG (self), root);
 
+	_g_object_list_unref (self->priv->sources);
+	self->priv->sources = NULL;
+
 	gth_search_set_test (self, NULL);
+
 	for (node = root->first_child; node; node = node->next_sibling) {
 		if (g_strcmp0 (node->tag_name, "folder") == 0) {
-			GFile *folder;
+			GthSearchSource *source;
+			GFile           *folder;
+
+			source = gth_search_source_new ();
 
 			folder = g_file_new_for_uri (dom_element_get_attribute (node, "uri"));
-			gth_search_set_folder (self, folder);
+			gth_search_source_set_folder (source, folder);
 			g_object_unref (folder);
 
-			gth_search_set_recursive (self, (g_strcmp0 (dom_element_get_attribute (node, "recursive"), "true") == 0));
+			gth_search_source_set_recursive (source, (g_strcmp0 (dom_element_get_attribute (node, "recursive"), "true") == 0));
+
+			self->priv->sources = g_list_prepend (self->priv->sources, source);
 		}
 		else if (g_strcmp0 (node->tag_name, "tests") == 0) {
 			GthTest *test;
@@ -93,7 +102,21 @@ gth_search_read_from_doc (GthCatalog *base,
 			dom_domizable_load_from_element (DOM_DOMIZABLE (test), node);
 			gth_search_set_test (self, GTH_TEST_CHAIN (test));
 		}
+		else if (g_strcmp0 (node->tag_name, "sources") == 0) {
+			DomElement *source_node;
+
+			for (source_node = node->first_child; source_node; source_node = source_node->next_sibling) {
+				if (g_strcmp0 (source_node->tag_name, "source") == 0) {
+					GthSearchSource *source;
+
+					source = gth_search_source_new ();
+					dom_domizable_load_from_element (DOM_DOMIZABLE (source), source_node);
+					self->priv->sources = g_list_prepend (self->priv->sources, source);
+				}
+			}
+		}
 	}
+	self->priv->sources = g_list_reverse (self->priv->sources);
 }
 
 
@@ -102,15 +125,15 @@ _gth_search_write_to_doc (GthSearch   *self,
 			  DomDocument *doc,
 			  DomElement  *root)
 {
-	char *uri;
+	DomElement *sources;
+	GList      *scan;
 
-	uri = g_file_get_uri (self->priv->folder);
-	dom_element_append_child (root,
-				  dom_document_create_element (doc, "folder",
-							       "uri", uri,
-							       "recursive", (self->priv->recursive ? "true" : "false"),
-							       NULL));
-	g_free (uri);
+	sources = dom_document_create_element (doc, "sources", NULL);
+	for (scan = self->priv->sources; scan; scan = scan->next) {
+		GthSearchSource *source = scan->data;
+		dom_element_append_child (sources, dom_domizable_create_element (DOM_DOMIZABLE (source), doc));
+	}
+	dom_element_append_child (root, sources);
 
 	dom_element_append_child (root, dom_domizable_create_element (DOM_DOMIZABLE (self->priv->test), doc));
 }
@@ -162,8 +185,7 @@ gth_search_real_duplicate (GthDuplicable *duplicable)
 
 	new_search = gth_search_new ();
 
-	gth_search_set_folder (new_search, gth_search_get_folder (search));
-	gth_search_set_recursive (new_search, gth_search_is_recursive (search));
+	gth_search_set_sources (new_search, gth_search_get_sources (search));
 
 	if (search->priv->test != NULL)
 		new_search->priv->test = (GthTestChain*) gth_duplicable_duplicate (GTH_DUPLICABLE (search->priv->test));
@@ -188,8 +210,7 @@ gth_search_finalize (GObject *object)
 
 	search = GTH_SEARCH (object);
 
-	if (search->priv->folder != NULL)
-		g_object_unref (search->priv->folder);
+	_g_object_list_unref (search->priv->sources);
 	if (search->priv->test != NULL)
 		g_object_unref (search->priv->test);
 
@@ -234,8 +255,7 @@ static void
 gth_search_init (GthSearch *search)
 {
 	search->priv = gth_search_get_instance_private (search);
-	search->priv->folder = NULL;
-	search->priv->recursive = FALSE;
+	search->priv->sources = NULL;
 	search->priv->test = NULL;
 }
 
@@ -276,38 +296,36 @@ gth_search_new_from_data (void    *buffer,
 
 
 void
-gth_search_set_folder (GthSearch *search,
-		       GFile     *folder)
+gth_search_set_sources (GthSearch *search,
+			GList     *sources /* GthSearchSource list */)
 {
-	if (search->priv->folder != NULL) {
-		g_object_unref (search->priv->folder);
-		search->priv->folder = NULL;
-	}
-
-	if (folder != NULL)
-		search->priv->folder = g_object_ref (folder);
-}
-
-
-GFile *
-gth_search_get_folder (GthSearch *search)
-{
-	return search->priv->folder;
+	_g_object_list_unref (search->priv->sources);
+	search->priv->sources = _g_object_list_ref (sources);
 }
 
 
 void
-gth_search_set_recursive (GthSearch *search,
-			  gboolean   recursive)
+gth_search_set_source (GthSearch *search,
+		       GFile     *folder,
+		       gboolean   recursive)
 {
-	search->priv->recursive = recursive;
+	GthSearchSource *source;
+
+	_g_object_list_unref (search->priv->sources);
+	search->priv->sources = NULL;
+
+	source = gth_search_source_new ();
+	gth_search_source_set_folder (source, folder);
+	gth_search_source_set_recursive (source, recursive);
+
+	search->priv->sources = g_list_prepend (search->priv->sources, source);
 }
 
 
-gboolean
-gth_search_is_recursive (GthSearch *search)
+GList *
+gth_search_get_sources (GthSearch *search)
 {
-	return search->priv->recursive;
+	return search->priv->sources;
 }
 
 

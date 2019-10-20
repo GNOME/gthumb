@@ -51,15 +51,15 @@ struct _GthSearchClass
 
 GType             gth_search_get_type         (void) G_GNUC_CONST;
 GthSearch *       gth_search_new              (void);
-GthSearch *       gth_search_new_from_data    (void         *buffer, 
+GthSearch *       gth_search_new_from_data    (void         *buffer,
 		   			       gsize         count,
 		   			       GError      **error);
-void              gth_search_set_folder       (GthSearch    *search,
-					       GFile        *folder);
-GFile *           gth_search_get_folder       (GthSearch    *search);
-void              gth_search_set_recursive    (GthSearch    *search,
+void              gth_search_set_sources      (GthSearch    *search,
+					       GList        *sources /* GthSearchSource list */);
+void              gth_search_set_source       (GthSearch    *search,
+					       GFile        *folder,
 					       gboolean      recursive);
-gboolean          gth_search_is_recursive     (GthSearch    *search);
+GList *           gth_search_get_sources      (GthSearch    *search);
 void              gth_search_set_test         (GthSearch    *search,
 					       GthTestChain *test);
 GthTestChain *    gth_search_get_test         (GthSearch    *search);

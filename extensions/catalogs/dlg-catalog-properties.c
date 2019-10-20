@@ -200,7 +200,7 @@ dlg_catalog_properties (GthBrowser  *browser,
 	data->dialog = g_object_new (GTK_TYPE_DIALOG,
 				     "title", _("Properties"),
 				     "transient-for", GTK_WINDOW (browser),
-				     "modal", TRUE,
+				     "modal", FALSE,
 				     "destroy-with-parent", FALSE,
 				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
 				     NULL);

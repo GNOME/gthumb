@@ -73,8 +73,7 @@ gth_browser_activate_find (GSimpleAction *action,
 	GtkWidget  *dialog;
 
 	search = gth_search_new ();
-	gth_search_set_folder (search, gth_browser_get_location (browser));
-	gth_search_set_recursive (search, TRUE);
+	gth_search_set_source (search, gth_browser_get_location (browser), TRUE);
 
 	dialog = gth_search_editor_dialog_new (_("Find"), search, GTK_WINDOW (browser));
 	gtk_dialog_add_button (GTK_DIALOG (dialog), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
@@ -86,7 +85,7 @@ gth_browser_activate_find (GSimpleAction *action,
 			  G_CALLBACK (search_editor_dialog__response_cb),
 			  browser);
 
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 	gtk_window_present (GTK_WINDOW (dialog));
 	gth_search_editor_dialog_focus_first_rule (GTH_SEARCH_EDITOR_DIALOG (dialog));
 
