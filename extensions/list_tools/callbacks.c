@@ -88,20 +88,28 @@ update_scripts_menu (BrowserData *data)
 
 	script_list = gth_script_file_get_scripts (gth_script_file_get ());
 	for (scan = script_list; scan; scan = scan->next) {
-		GthScript *script = scan->data;
-		char      *detailed_action;
+		GthScript       *script = scan->data;
+		guint            keyval;
+		GdkModifierType  modifiers;
+		char            *accelerator_name;
+		char            *detailed_action;
 
 		if (! gth_script_is_visible (script))
 			continue;
 
 		detailed_action = g_strdup_printf ("win.exec-script('%s')", gth_script_get_id (script));
+
+		gth_script_get_accelerator (script, &keyval, &modifiers);
+		accelerator_name = gtk_accelerator_name (keyval, modifiers);
+
 		gth_menu_manager_append_entry (menu_manager,
 					       data->menu_merge_id,
 					       gth_script_get_display_name (script),
 					       detailed_action,
-					       NULL,
+					       accelerator_name,
 					       NULL);
 
+		g_free (accelerator_name);
 		g_free (detailed_action);
 	}
 
