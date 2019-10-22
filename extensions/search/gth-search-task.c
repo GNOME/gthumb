@@ -200,9 +200,20 @@ for_each_file_func (GFile     *file,
 	file_data = gth_file_data_new (file, info);
 
 	if (gth_test_match (GTH_TEST (task->priv->test), file_data)) {
+		GList *file_list;
+
 		gth_catalog_insert_file (GTH_CATALOG (task->priv->search), file_data->file, -1);
+
 		task->priv->n_files++;
 		update_secondary_text (task);
+
+		file_list = g_list_prepend (NULL, file_data->file);
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    task->priv->search_catalog,
+					    file_list,
+					    GTH_MONITOR_EVENT_CREATED);
+
+		g_list_free (file_list);
 	}
 
 	g_object_unref (file_data);
