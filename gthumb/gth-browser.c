@@ -1614,56 +1614,6 @@ _gth_browser_load_ready_cb (GthFileSource *file_source,
 }
 
 
-static GFile *
-get_nearest_entry_point (GFile *file)
-{
-	GList *list;
-	GList *scan;
-	GList *entries;
-	char  *nearest_uri;
-	char  *uri;
-	int    file_uri_len;
-	int    min_diff;
-	GFile *nearest;
-
-	entries = NULL;
-	list = gth_main_get_all_entry_points ();
-	for (scan = list; scan; scan = scan->next) {
-		GthFileData *entry_point = scan->data;
-
-		if (g_file_equal (file, entry_point->file) || _g_file_has_prefix (file, entry_point->file))
-			entries = g_list_prepend (entries, g_file_get_uri (entry_point->file));
-	}
-
-	nearest_uri = NULL;
-	uri = g_file_get_uri (file);
-	file_uri_len = strlen (uri);
-	min_diff = 0;
-	for (scan = entries; scan; scan = scan->next) {
-		char *entry_uri = scan->data;
-		int   entry_len;
-		int   diff;
-
-		entry_len = strlen (entry_uri);
-		diff = abs (entry_len - file_uri_len);
-		if ((scan == entries) || (diff < min_diff)) {
-			min_diff = diff;
-			nearest_uri = entry_uri;
-		}
-	}
-	g_free (uri);
-
-	nearest = NULL;
-	if (nearest_uri != NULL)
-		nearest = g_file_new_for_uri (nearest_uri);
-
-	_g_string_list_free (entries);
-	_g_object_list_unref (list);
-
-	return nearest;
-}
-
-
 static void
 mount_volume_ready_cb (GObject      *source_object,
 		       GAsyncResult *result,
@@ -1741,7 +1691,7 @@ _gth_browser_load (GthBrowser *browser,
 		break;
 	}
 
-	entry_point = get_nearest_entry_point (location);
+	entry_point = gth_main_get_nearest_entry_point (location);
 	load_data = load_data_new (browser,
 				   location,
 				   file_to_select,
