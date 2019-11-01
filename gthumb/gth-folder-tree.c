@@ -1636,6 +1636,9 @@ gth_folder_tree_loading_children (GthFolderTree *folder_tree,
 	else
 		return;
 
+	if (_gth_folder_tree_iter_has_no_child (folder_tree, p_parent_iter))
+		return;
+
 	_gth_folder_tree_add_loading_item (folder_tree, p_parent_iter, FALSE);
 
 	/* remove anything but the loading item */
