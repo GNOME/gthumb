@@ -65,7 +65,7 @@ struct _GthFolderTreeClass {
 };
 
 GType         gth_folder_tree_get_type           (void);
-GtkWidget *   gth_folder_tree_new                (const char           *uri);
+GtkWidget *   gth_folder_tree_new                (const char           *root);
 void          gth_folder_tree_set_list           (GthFolderTree        *folder_tree,
 						  GFile                *root,
 						  GList                *files,
