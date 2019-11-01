@@ -236,5 +236,5 @@ gth_search_source_selector_can_remove (GthSearchSourceSelector *self,
 void
 gth_search_source_selector_focus (GthSearchSourceSelector *self)
 {
-	gtk_widget_focus (self->priv->location_chooser);
+	gtk_widget_grab_focus (self->priv->location_chooser);
 }
