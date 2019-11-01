@@ -1,3 +1,9 @@
+option('warn-deprecated',
+  type : 'boolean',
+  value : true,
+  description : 'Enable deprecated declaration warnings in debug mode'
+)
+
 option('run-in-place',
   type : 'boolean',
   value : false,

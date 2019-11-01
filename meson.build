@@ -303,6 +303,7 @@ config_inc = include_directories('.')
 
 c_args = []
 if get_option('buildtype').contains('debug')
+  warn_deprecated = get_option('warn-deprecated')
   test_args = [
     '-Wall',
     '-Wcast-align',
@@ -317,8 +318,11 @@ if get_option('buildtype').contains('debug')
     '-Wformat-security'
   ]
 else
-  c_args += [ '-Wno-deprecated-declarations' ]
+  warn_deprecated = false
   test_args = [ '-Wall' ]
+endif
+if not(warn_deprecated)
+  test_args += [ '-Wno-deprecated-declarations' ]
 endif
 c_args += c_comp.get_supported_arguments(test_args)
 
@@ -340,6 +344,7 @@ summary = [
   '               api: @0@'.format(api_version),
   '            prefix: @0@'.format(prefix),
   '      run in place: @0@'.format(get_option('run-in-place')),
+  '   warn deprecated: @0@'.format(warn_deprecated),
   '             exiv2: @0@'.format(use_exiv2),
   '           clutter: @0@'.format(use_clutter),
   '         gstreamer: @0@'.format(use_gstreamer),
