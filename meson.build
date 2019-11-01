@@ -1,7 +1,7 @@
 project('gthumb', ['c', 'cpp'],
   license : 'GPL2+',
   version : '3.8.2',
-  meson_version : '>=0.42.1'
+  meson_version : '>=0.43'
 )
 
 glib_version = '>=2.38.0'
@@ -320,12 +320,7 @@ else
   c_args += [ '-Wno-deprecated-declarations' ]
   test_args = [ '-Wall' ]
 endif
-#c_args += c_comp.get_supported_arguments(test_args)
-foreach arg : test_args
-  if c_comp.has_argument(arg)
-    c_args += arg
-  endif
-endforeach
+c_args += c_comp.get_supported_arguments(test_args)
 
 # Subdirectories
 
