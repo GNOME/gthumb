@@ -1894,7 +1894,6 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 	GtkTreeIter  iter;
 	GthFileData *file_data;
 	RenameData  *data;
-	GtkWidget   *toplevel;
 	GtkWidget   *dialog;
 	const char  *edit_name;
 
@@ -1905,11 +1904,7 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 	data->folder_tree = g_object_ref (folder_tree);
 	data->file = g_object_ref (file);
 
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (folder_tree));
-	if (! gtk_widget_is_toplevel (toplevel))
-		toplevel = NULL;
-
-	dialog = gth_request_dialog_new (GTK_WINDOW (toplevel),
+	dialog = gth_request_dialog_new (_gtk_widget_get_toplevel_if_window (GTK_WIDGET (folder_tree)),
 					 GTK_DIALOG_MODAL,
 					 _("Rename"),
 					 _("Enter the new name:"),

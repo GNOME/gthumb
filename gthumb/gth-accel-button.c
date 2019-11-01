@@ -224,7 +224,7 @@ button_clicked_cb (GtkButton *button,
 	dialog = g_object_new (GTK_TYPE_DIALOG,
 			       "use-header-bar", _gtk_settings_get_dialogs_use_header (),
 			       "modal", TRUE,
-			       "transient-for", gtk_widget_get_toplevel (GTK_WIDGET (button)),
+			       "transient-for", _gtk_widget_get_toplevel_if_window (GTK_WIDGET (button)),
 			       "resizable", FALSE,
 			       "title", _("Shortcut"),
 			       NULL);

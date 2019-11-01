@@ -227,14 +227,14 @@ _gth_search_editor_add_source (GthSearchEditor *self,
 			       int              pos)
 {
 	GthSearchSource *source;
-	GtkWidget       *window;
+	GtkWindow       *window;
 	GtkWidget       *source_selector;
 
 	source = NULL;
-	window = gtk_widget_get_toplevel (GTK_WIDGET (self));
-	if (GTK_IS_WINDOW (window))
-		window = (GtkWidget *) gtk_window_get_transient_for (GTK_WINDOW (window));
-	if (GTK_IS_WINDOW (window) && GTH_IS_BROWSER (window)) {
+	window = _gtk_widget_get_toplevel_if_window (GTK_WIDGET (self));
+	if (window != NULL)
+		window = gtk_window_get_transient_for (window);
+	if ((window != NULL) && GTH_IS_BROWSER (window)) {
 		source = gth_search_source_new ();
 		gth_search_source_set_folder (source, gth_browser_get_location (GTH_BROWSER (window)));
 		gth_search_source_set_recursive (source, TRUE);

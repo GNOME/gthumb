@@ -166,6 +166,7 @@ GdkCursor *     _gdk_cursor_new_for_widget                 (GtkWidget           
 							    GdkCursorType        cursor_type);
 void		_gtk_widget_reparent			   (GtkWidget		*widget,
 							    GtkWidget		*new_parent);
+GtkWindow *     _gtk_widget_get_toplevel_if_window         (GtkWidget           *widget);
 
 G_END_DECLS
 

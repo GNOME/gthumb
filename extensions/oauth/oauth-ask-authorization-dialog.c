@@ -146,19 +146,19 @@ static void
 webkit_view_ready_to_show_cb (WebKitWebView *web_view,
 			      gpointer       user_data)
 {
-	GtkWidget              *window;
+	GtkWindow              *window;
 	WebKitWindowProperties *prop;
 	GdkRectangle            geometry;
 
-	window = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
-	if (! gtk_widget_is_toplevel (window))
+	window = _gtk_widget_get_toplevel_if_window (GTK_WIDGET (web_view));
+	if (window == NULL)
 		return;
 
 	prop = webkit_web_view_get_window_properties (web_view);
 	webkit_window_properties_get_geometry (prop, &geometry);
 
-	gtk_window_set_default_size (GTK_WINDOW (window), geometry.width, geometry.height);
-	gtk_widget_show_all (window);
+	gtk_window_set_default_size (window, geometry.width, geometry.height);
+	gtk_widget_show_all (GTK_WIDGET (window));
 }
 
 

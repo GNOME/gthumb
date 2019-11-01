@@ -523,17 +523,17 @@ static void
 tags_entry_list_collapsed_cb (GthTagsEntry *widget,
 			      gpointer      user_data)
 {
-	GtkWidget *toplevel;
+	GtkWindow *toplevel;
 	int        width;
 
 	/* collapse the dialog height */
 
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (widget));
-	if (! gtk_widget_is_toplevel (toplevel))
+	toplevel = _gtk_widget_get_toplevel_if_window (GTK_WIDGET (widget));
+	if (toplevel == NULL)
 		return;
 
-	gtk_window_get_size (GTK_WINDOW (toplevel), &width, NULL);
-	gtk_window_resize (GTK_WINDOW (toplevel), width, 1);
+	gtk_window_get_size (toplevel, &width, NULL);
+	gtk_window_resize (toplevel, width, 1);
 }
 
 

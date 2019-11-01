@@ -183,7 +183,7 @@ add_file_button_clicked_cb (GtkButton *button,
 	GtkFileFilter           *filter;
 
 	dialog = gtk_file_chooser_dialog_new (_("Choose the files to play"),
-					      GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (self))),
+					      _gtk_widget_get_toplevel_if_window (GTK_WIDGET (self)),
 					      GTK_FILE_CHOOSER_ACTION_OPEN,
 					      _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
 					      _GTK_LABEL_OK, GTK_RESPONSE_OK,

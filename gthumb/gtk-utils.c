@@ -251,13 +251,13 @@ _gtk_info_dialog_run (GtkWindow        *parent,
 void
 _gtk_dialog_add_to_window_group (GtkDialog *dialog)
 {
-	GtkWidget *toplevel;
+	GtkWindow *toplevel;
 
 	g_return_if_fail (dialog != NULL);
 
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (dialog));
-	if (gtk_widget_is_toplevel (toplevel) && gtk_window_has_group (GTK_WINDOW (toplevel)))
-		gtk_window_group_add_window (gtk_window_get_group (GTK_WINDOW (toplevel)), GTK_WINDOW (dialog));
+	toplevel = _gtk_widget_get_toplevel_if_window (GTK_WIDGET (dialog));
+	if ((toplevel != NULL) && gtk_window_has_group (toplevel))
+		gtk_window_group_add_window (gtk_window_get_group (toplevel), GTK_WINDOW (dialog));
 }
 
 
@@ -1226,14 +1226,11 @@ _gtk_widget_get_monitor_geometry (GtkWidget    *widget,
 				  GdkRectangle *geometry)
 {
 	gboolean   result = FALSE;
-	GtkWidget *window;
+	GtkWindow *window;
 
-	window = gtk_widget_get_toplevel (widget);
-	if (GTK_IS_WINDOW (window)) {
-		if (_gtk_window_get_monitor_info (GTK_WINDOW (window), geometry, NULL, NULL)) {
-			result = TRUE;
-		}
-	}
+	window = _gtk_widget_get_toplevel_if_window (widget);
+	if ((window != NULL) && (_gtk_window_get_monitor_info (window, geometry, NULL, NULL)))
+		result = TRUE;
 
 	return result;
 }
@@ -1307,3 +1304,15 @@ _gtk_widget_reparent (GtkWidget *widget,
 	g_object_unref (widget);
 }
 
+
+GtkWindow *
+_gtk_widget_get_toplevel_if_window (GtkWidget *widget)
+{
+	GtkWidget *window;
+
+	window = gtk_widget_get_toplevel (widget);
+	if (! GTK_IS_WINDOW (window))
+		return NULL;
+
+	return GTK_WINDOW (window);
+}

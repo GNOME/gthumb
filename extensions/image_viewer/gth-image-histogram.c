@@ -54,8 +54,8 @@ gth_image_histogram_get_current_image (GthImageHistogram *self)
 	GthBrowser    *browser;
 	GthViewerPage *viewer_page;
 
-	browser = (GthBrowser *) gtk_widget_get_toplevel (GTK_WIDGET (self));
-	if (! gtk_widget_is_toplevel (GTK_WIDGET (browser)))
+	browser = (GthBrowser *) _gtk_widget_get_toplevel_if_window (GTK_WIDGET (self));
+	if (browser == NULL)
 		return NULL;
 
 	viewer_page = gth_browser_get_viewer_page (browser);

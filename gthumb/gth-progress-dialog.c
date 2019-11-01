@@ -215,18 +215,18 @@ task_completed_cb (GthTask  *task,
 		   gpointer  user_data)
 {
 	GthTaskProgress *self = user_data;
-	GtkWidget       *toplevel;
+	GtkWindow       *toplevel;
 
 	if (self->pulse_event != 0) {
 		g_source_remove (self->pulse_event);
 		self->pulse_event = 0;
 	}
 
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (self));
+	toplevel = _gtk_widget_get_toplevel_if_window (GTK_WIDGET (self));
 
 	gtk_widget_destroy (GTK_WIDGET (self));
 
-	if (gtk_widget_is_toplevel (toplevel) && GTH_IS_PROGRESS_DIALOG (toplevel))
+	if ((toplevel != NULL) && GTH_IS_PROGRESS_DIALOG (toplevel))
 		gth_progress_dialog_child_removed (GTH_PROGRESS_DIALOG (toplevel));
 }
 

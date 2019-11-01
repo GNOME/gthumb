@@ -182,7 +182,7 @@ file_source_rename_ready_cb (GObject  *object,
 	GthSourceTree *source_tree = user_data;
 
 	if (error != NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (source_tree))), _("Could not change name"), error);
+		_gtk_error_dialog_from_gerror_show (_gtk_widget_get_toplevel_if_window (GTK_WIDGET (source_tree)), _("Could not change name"), error);
 }
 
 
