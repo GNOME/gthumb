@@ -1299,6 +1299,7 @@ gth_folder_tree_init (GthFolderTree *folder_tree)
 
 	add_columns (folder_tree, GTK_TREE_VIEW (folder_tree));
 
+	gtk_tree_view_set_activate_on_single_click (GTK_TREE_VIEW (folder_tree), TRUE);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (folder_tree), FALSE);
 	gtk_tree_view_set_enable_search (GTK_TREE_VIEW (folder_tree), TRUE);
 	gtk_tree_view_set_search_column (GTK_TREE_VIEW (folder_tree), COLUMN_NAME);

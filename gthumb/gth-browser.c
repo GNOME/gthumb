@@ -2884,15 +2884,6 @@ folder_tree_list_children_cb (GthFolderTree *folder_tree,
 
 
 static void
-folder_tree_load_cb (GthFolderTree *folder_tree,
-		     GFile         *file,
-		     GthBrowser    *browser)
-{
-	_gth_browser_load (browser, file, NULL, NULL, 0, GTH_ACTION_VIEW, FALSE);
-}
-
-
-static void
 folder_tree_folder_popup_cb (GthFolderTree *folder_tree,
 			     GthFileData   *file_data,
 			     guint          time,
@@ -4735,10 +4726,6 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (browser->priv->folder_tree,
 			  "list_children",
 			  G_CALLBACK (folder_tree_list_children_cb),
-			  browser);
-	g_signal_connect (browser->priv->folder_tree,
-			  "load",
-			  G_CALLBACK (folder_tree_load_cb),
 			  browser);
 	g_signal_connect (browser->priv->folder_tree,
 			  "folder_popup",
