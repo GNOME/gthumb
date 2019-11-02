@@ -67,7 +67,6 @@ enum {
 
 enum {
 	PROP_0,
-	PROP_ROOT,
 	PROP_ROOT_URI
 };
 
@@ -137,21 +136,19 @@ gth_folder_tree_set_property (GObject      *object,
 	self = GTH_FOLDER_TREE (object);
 
 	switch (property_id) {
-	case PROP_ROOT:
-		_g_object_unref (self->priv->root);
-		self->priv->root = _g_object_ref (g_value_get_object (value));
-		if (self->priv->root == NULL)
-			self->priv->root = g_file_new_for_uri (DEFAULT_URI);
-		break;
-
 	case PROP_ROOT_URI:
-		_g_object_unref (self->priv->root);
-		self->priv->root = NULL;
 		uri = g_value_get_string (value);
-		if (uri != NULL)
-			self->priv->root = g_file_new_for_uri (uri);
-		if (self->priv->root == NULL)
-			self->priv->root = g_file_new_for_uri (DEFAULT_URI);
+		if (uri != NULL) {
+			GFile *new_root;
+
+			new_root = g_file_new_for_uri (uri);
+			if (new_root != NULL) {
+				_g_object_unref (self->priv->root);
+				self->priv->root = _g_object_ref (new_root);
+			}
+
+			_g_object_unref (new_root);
+		}
 		break;
 
 	default:
@@ -172,10 +169,6 @@ gth_folder_tree_get_property (GObject    *object,
 	self = GTH_FOLDER_TREE (object);
 
 	switch (property_id) {
-	case PROP_ROOT:
-		g_value_set_object (value, self->priv->root);
-		break;
-
 	case PROP_ROOT_URI:
 		uri = g_file_get_uri (self->priv->root);
 		g_value_set_string (value, uri);
@@ -236,19 +229,12 @@ gth_folder_tree_class_init (GthFolderTreeClass *class)
 	/* properties */
 
 	g_object_class_install_property (object_class,
-					 PROP_ROOT,
-					 g_param_spec_object ("root",
-							      "Root",
-							      "The root of the folder tree",
-							      G_TYPE_FILE,
-							      G_PARAM_READWRITE));
-	g_object_class_install_property (object_class,
 					 PROP_ROOT_URI,
 					 g_param_spec_string ("root-uri",
 							      "Root uri",
 							      "The root of the folder tree as an uri",
 							      NULL,
-							      G_PARAM_READWRITE));
+							      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
 	/* signals */
 
