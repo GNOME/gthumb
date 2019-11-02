@@ -45,6 +45,7 @@ struct _GthVfsTreePrivate {
 	gulong    monitor_folder_changed_id;
 	gulong    monitor_file_renamed_id;
 	gboolean  show_hidden;
+	gboolean  tree_root_is_vfs_root;
 };
 
 
@@ -55,21 +56,6 @@ G_DEFINE_TYPE_WITH_CODE (GthVfsTree,
 			 gth_vfs_tree,
 			 GTH_TYPE_FOLDER_TREE,
 			 G_ADD_PRIVATE (GthVfsTree))
-
-
-static void
-_gth_vfs_tree_update_entry_points (GthVfsTree *self)
-{
-	GList *entry_points;
-	GFile *root;
-
-	entry_points = gth_main_get_all_entry_points ();
-	root = g_file_new_for_uri ("gthumb-vfs:///");
-	gth_folder_tree_set_children (GTH_FOLDER_TREE (self), root, entry_points);
-
-	g_object_unref (root);
-	_g_object_list_unref (entry_points);
-}
 
 
 /* -- load_data-- */
@@ -117,7 +103,10 @@ load_data_new (GthVfsTree *vfs_tree,
 	load_data->vfs_tree = g_object_ref (vfs_tree);
 	load_data->action = action;
 	load_data->requested_folder = gth_file_data_new (location, NULL);
-	load_data->entry_point = gth_main_get_nearest_entry_point (location);
+	if (vfs_tree->priv->tree_root_is_vfs_root)
+		load_data->entry_point = gth_main_get_nearest_entry_point (location);
+	else
+		load_data->entry_point = _g_object_ref (gth_folder_tree_get_root (GTH_FOLDER_TREE (vfs_tree)));
 	load_data->file_source = gth_main_get_file_source (load_data->requested_folder->file);
 	load_data->cancellable = g_cancellable_new ();
 	load_data->list = NULL;
@@ -193,6 +182,8 @@ load_data_ready_cb (GthFileSource *file_source,
 	LoadData    *load_data = user_data;
 	GthVfsTree  *self = load_data->vfs_tree;
 	GFile       *loaded_folder;
+	gboolean     loaded_root;
+	gboolean     loaded_requested;
 	GtkTreePath *path;
 	GList       *visible_files;
 
@@ -203,8 +194,11 @@ load_data_ready_cb (GthFileSource *file_source,
 	}
 
 	loaded_folder = (GFile *) load_data->current->data;
+	loaded_root = gth_folder_tree_is_root (GTH_FOLDER_TREE (self), loaded_folder);
+	loaded_requested = g_file_equal (loaded_folder, load_data->requested_folder->file);
+
 	path = gth_folder_tree_get_path (GTH_FOLDER_TREE (self), loaded_folder);
-	if (path == NULL) {
+	if ((path == NULL) && ! loaded_root) {
 		load_data_free (load_data);
 		return;
 	}
@@ -213,19 +207,23 @@ load_data_ready_cb (GthFileSource *file_source,
 	gth_folder_tree_set_children (GTH_FOLDER_TREE (self),
 				      loaded_folder,
 				      visible_files);
-	gth_folder_tree_expand_row (GTH_FOLDER_TREE (self), path, FALSE);
 
-	if (! g_file_equal (loaded_folder, load_data->requested_folder->file)) {
+	if (path != NULL)
+		gth_folder_tree_expand_row (GTH_FOLDER_TREE (self), path, FALSE);
+
+	if (! loaded_requested) {
 		load_data_load_next_folder (load_data);
 	}
 	else {
-		gth_folder_tree_select_path (GTH_FOLDER_TREE (self), path);
-		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (self),
-					      path,
-					      NULL,
-					      g_file_equal (load_data->entry_point, load_data->requested_folder->file),
-					      0,
-					      0);
+		if (path != NULL) {
+			gth_folder_tree_select_path (GTH_FOLDER_TREE (self), path);
+			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (self),
+						      path,
+						      NULL,
+						      self->priv->tree_root_is_vfs_root && g_file_equal (load_data->entry_point, load_data->requested_folder->file),
+						      0,
+						      0);
+		}
 
 		if (load_data->action == LOAD_ACTION_LOAD) {
 			_g_object_unref (self->priv->folder);
@@ -238,7 +236,8 @@ load_data_ready_cb (GthFileSource *file_source,
 	}
 
 	_g_object_list_unref (visible_files);
-	gtk_tree_path_free (path);
+	if (path != NULL)
+		gtk_tree_path_free (path);
 }
 
 
@@ -250,6 +249,8 @@ load_data_load_next_folder (LoadData *load_data)
 
 	do {
 		GtkTreePath *path;
+		gboolean     is_root;
+		gboolean     is_loaded;
 
 		if (load_data->current == NULL)
 			load_data->current = load_data->list;
@@ -260,18 +261,28 @@ load_data_load_next_folder (LoadData *load_data)
 		if (g_file_equal (folder_to_load, load_data->requested_folder->file))
 			break;
 
+		is_root = gth_folder_tree_is_root (GTH_FOLDER_TREE (folder_tree), folder_to_load);
 		path = gth_folder_tree_get_path (folder_tree, folder_to_load);
-		if (path == NULL)
+		if ((path == NULL) && ! is_root)
 			break;
 
-		if (! gth_folder_tree_is_loaded (folder_tree, path)) {
+		is_loaded = is_root || gth_folder_tree_is_loaded (folder_tree, path);
+		if (! is_loaded) {
 			gtk_tree_path_free (path);
 			break;
 		}
 
-		gth_folder_tree_expand_row (folder_tree, path, FALSE);
+		if (! is_root) {
+			if (gth_folder_tree_has_no_child (folder_tree, path)) {
+				folder_to_load = NULL;
+				gtk_tree_path_free (path);
+				break;
+			}
 
-		gtk_tree_path_free (path);
+			gth_folder_tree_expand_row (folder_tree, path, FALSE);
+
+			gtk_tree_path_free (path);
+		}
 	}
 	while (TRUE);
 
@@ -293,6 +304,32 @@ static void
 _gth_vfs_tree_load_folder (GthVfsTree *self,
 			   LoadAction  action,
 			   GFile      *folder);
+
+
+static void
+_gth_vfs_tree_load_root (GthVfsTree *self)
+{
+
+	GFile *vfs_root;
+	GFile *tree_root;
+
+	vfs_root = g_file_new_for_uri ("gthumb-vfs:///");
+	tree_root = gth_folder_tree_get_root (GTH_FOLDER_TREE (self));
+	self->priv->tree_root_is_vfs_root = _g_file_cmp_uris (vfs_root, tree_root) == 0;
+
+	if (self->priv->tree_root_is_vfs_root) {
+		GList *entry_points;
+
+		entry_points = gth_main_get_all_entry_points ();
+		gth_folder_tree_set_children (GTH_FOLDER_TREE (self), tree_root, entry_points);
+
+		_g_object_list_unref (entry_points);
+	}
+	else
+		_gth_vfs_tree_load_folder (self, LOAD_ACTION_LIST_CHILDREN, tree_root);
+
+	g_object_unref (vfs_root);
+}
 
 
 static void
@@ -319,7 +356,7 @@ mount_volume_ready_cb (GObject      *source_object,
 	/* update the entry points list */
 
 	gth_monitor_entry_points_changed (gth_main_get_default_monitor());
-	_gth_vfs_tree_update_entry_points (load_data->vfs_tree);
+	_gth_vfs_tree_load_root (load_data->vfs_tree);
 
 	/* try to load again */
 
@@ -502,7 +539,7 @@ monitor_folder_changed_cb (GthMonitor      *monitor,
 	GtkTreePath *path;
 
 	path = gth_folder_tree_get_path (GTH_FOLDER_TREE (self), parent);
-	if (g_file_equal (parent, gth_folder_tree_get_root (GTH_FOLDER_TREE (self)))
+	if (gth_folder_tree_is_root (GTH_FOLDER_TREE (self), parent)
 	    || ((path != NULL) && gtk_tree_view_row_expanded (GTK_TREE_VIEW (self), path)))
 	{
 		MonitorEventData *monitor_data;
@@ -562,6 +599,14 @@ monitor_file_renamed_cb (GthMonitor *monitor,
 
 
 static void
+vfs_tree_show_cb (GtkWidget *widget,
+		  gpointer   user_data)
+{
+	_gth_vfs_tree_load_root (GTH_VFS_TREE (user_data));
+}
+
+
+static void
 gth_vfs_tree_init (GthVfsTree *self)
 {
 	self->priv = gth_vfs_tree_get_instance_private (self);
@@ -575,6 +620,10 @@ gth_vfs_tree_init (GthVfsTree *self)
 			  "open",
 			  G_CALLBACK (vfs_tree_open_cb),
 			  self);
+	g_signal_connect (self,
+			  "show",
+			  G_CALLBACK (vfs_tree_show_cb),
+			  self);
 
 	self->priv->monitor_folder_changed_id =
 		g_signal_connect (gth_main_get_default_monitor (),
@@ -586,8 +635,6 @@ gth_vfs_tree_init (GthVfsTree *self)
 				  "file-renamed",
 				  G_CALLBACK (monitor_file_renamed_cb),
 				  self);
-
-	_gth_vfs_tree_update_entry_points (self);
 }
 
 

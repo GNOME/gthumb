@@ -93,6 +93,8 @@ GtkTreePath * gth_folder_tree_get_path           (GthFolderTree        *folder_t
 						  GFile                *file);
 gboolean      gth_folder_tree_is_loaded          (GthFolderTree        *folder_tree,
 						  GtkTreePath          *path);
+gboolean      gth_folder_tree_has_no_child       (GthFolderTree        *folder_tree,
+						  GtkTreePath          *path);
 void          gth_folder_tree_reset_loaded       (GthFolderTree        *folder_tree);
 void          gth_folder_tree_expand_row         (GthFolderTree        *folder_tree,
 						  GtkTreePath          *path,
@@ -101,6 +103,8 @@ void          gth_folder_tree_collapse_all       (GthFolderTree        *folder_t
 void          gth_folder_tree_select_path        (GthFolderTree        *folder_tree,
 						  GtkTreePath          *path);
 GFile *       gth_folder_tree_get_root           (GthFolderTree        *folder_tree);
+gboolean      gth_folder_tree_is_root            (GthFolderTree        *folder_tree,
+						  GFile                *folder);
 GthFileData * gth_folder_tree_get_file           (GthFolderTree        *folder_tree,
 						  GtkTreePath          *path);
 GthFileData * gth_folder_tree_get_selected       (GthFolderTree        *folder_tree);

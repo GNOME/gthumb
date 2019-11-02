@@ -2058,6 +2058,24 @@ gth_folder_tree_is_loaded (GthFolderTree *folder_tree,
 }
 
 
+gboolean
+gth_folder_tree_has_no_child (GthFolderTree *folder_tree,
+			      GtkTreePath   *path)
+{
+	GtkTreeIter iter;
+	gboolean    no_child;
+
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter, path))
+		return FALSE;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter,
+			    COLUMN_NO_CHILD, &no_child,
+			    -1);
+
+	return no_child;
+}
+
+
 static void
 _gth_folder_tree_reset_loaded (GthFolderTree *folder_tree,
 			       GtkTreeIter   *root)
@@ -2154,6 +2172,14 @@ GFile *
 gth_folder_tree_get_root (GthFolderTree *folder_tree)
 {
 	return folder_tree->priv->root;
+}
+
+
+gboolean
+gth_folder_tree_is_root (GthFolderTree *folder_tree,
+			 GFile         *folder)
+{
+	return _g_file_equal (folder_tree->priv->root, folder);
 }
 
 
