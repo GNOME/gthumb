@@ -1580,8 +1580,8 @@ _gth_folder_tree_remove_child_type (GthFolderTree *folder_tree,
 
 void
 gth_folder_tree_set_children (GthFolderTree *folder_tree,
-			       GFile         *parent,
-			       GList         *files)
+			      GFile         *parent,
+			      GList         *files)
 {
 	GtkTreeIter   parent_iter;
 	GtkTreeIter  *p_parent_iter;
@@ -1687,6 +1687,7 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 		gtk_tree_store_set (folder_tree->priv->tree_store, p_parent_iter,
 				    COLUMN_LOADED, TRUE,
 				    -1);
+
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (folder_tree->priv->tree_store), COLUMN_NAME, GTK_SORT_ASCENDING);
 	folder_tree->priv->recalc_entry_points = TRUE;
 
