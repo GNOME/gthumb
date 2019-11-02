@@ -90,7 +90,7 @@ typedef struct {
 	GthFileData   *new_catalog;
 	GthFileData   *new_library;
 	gulong         file_selection_changed_event;
-	guint          update_selectection_event;
+	guint          update_selection_event;
 } DialogData;
 
 
@@ -104,9 +104,9 @@ destroy_cb (GtkWidget  *widget,
 					     data->file_selection_changed_event);
 		data->file_selection_changed_event = 0;
 	}
-	if (data->update_selectection_event != 0) {
-		g_source_remove (data->update_selectection_event);
-		data->update_selectection_event = 0;
+	if (data->update_selection_event != 0) {
+		g_source_remove (data->update_selection_event);
+		data->update_selection_event = 0;
 	}
 	add_data_unref (data->add_data);
 	_g_object_unref (data->catalog_source);
@@ -629,9 +629,9 @@ update_sensitivity_cb (gpointer user_data)
 {
 	DialogData *data = user_data;
 
-	if (data->update_selectection_event != 0) {
-		g_source_remove (data->update_selectection_event);
-		data->update_selectection_event = 0;
+	if (data->update_selection_event != 0) {
+		g_source_remove (data->update_selection_event);
+		data->update_selection_event = 0;
 	}
 
 	update_sensitivity (data);
@@ -644,9 +644,9 @@ static void
 file_selection_changed_cb (GthFileSelection *self,
 			   DialogData       *data)
 {
-	if (data->update_selectection_event != 0)
-		g_source_remove (data->update_selectection_event);
-	data->update_selectection_event = g_timeout_add (UPDATE_SELECTION_DELAY, update_sensitivity_cb, data);
+	if (data->update_selection_event != 0)
+		g_source_remove (data->update_selection_event);
+	data->update_selection_event = g_timeout_add (UPDATE_SELECTION_DELAY, update_sensitivity_cb, data);
 }
 
 
