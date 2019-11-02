@@ -265,15 +265,6 @@ add_close_button_clicked_cb (GtkWidget  *widget,
 
 
 static void
-source_tree_open_cb (GthFolderTree *folder_tree,
-		     GFile         *file,
-                     gpointer       user_data)
-{
-	add_button_clicked_cb (NULL, (DialogData *)user_data);
-}
-
-
-static void
 update_sensitivity (DialogData *data)
 {
 	GFile    *selected_catalog;
@@ -292,8 +283,16 @@ update_sensitivity (DialogData *data)
 
 
 static void
+source_tree_changed_cb (GthVfsTree *folder_tree,
+			gpointer    user_data)
+{
+	update_sensitivity ((DialogData *) user_data);
+}
+
+
+static void
 source_tree_selection_changed_cb (GtkTreeSelection *treeselection,
-                                  gpointer          user_data)
+				  gpointer          user_data)
 {
 	update_sensitivity ((DialogData *) user_data);
 }
@@ -446,7 +445,7 @@ new_catalog_dialog_response_cb (GtkWidget *dialog,
 
 static void
 new_catalog_button_clicked_cb (GtkWidget  *widget,
-		       	       DialogData *data)
+			       DialogData *data)
 {
 	GtkWidget *dialog;
 
@@ -654,7 +653,6 @@ void
 dlg_add_to_catalog (GthBrowser *browser)
 {
 	DialogData       *data;
-	GFile            *base;
 	GtkTreeSelection *selection;
 
 	if (gth_browser_get_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME)) {
@@ -674,10 +672,7 @@ dlg_add_to_catalog (GthBrowser *browser)
 	data->add_data->parent_window = data->add_data->dialog = data->dialog;
 	add_data_ref (data->add_data);
 
-	base = g_file_new_for_uri ("catalog:///");
-	data->source_tree = gth_source_tree_new (base);
-	g_object_unref (base);
-
+	data->source_tree = gth_vfs_tree_new ("catalog:///");
 	gtk_widget_show (data->source_tree);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("catalog_list_scrolled_window")), data->source_tree);
 
@@ -695,8 +690,8 @@ dlg_add_to_catalog (GthBrowser *browser)
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
 	g_signal_connect (G_OBJECT (data->source_tree),
-			  "open",
-			  G_CALLBACK (source_tree_open_cb),
+			  "changed",
+			  G_CALLBACK (source_tree_changed_cb),
 			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("add_button")),
 			  "clicked",
