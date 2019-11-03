@@ -180,6 +180,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	g_settings_set_string (data->settings, PREF_CONTACT_SHEET_TEMPLATE, template);
 
 	mime_type = NULL;
+	file_extension = NULL;
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("filetype_combobox")), &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("filetype_liststore")),
 				    &iter,
@@ -206,6 +207,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	columns = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("cols_spinbutton")));
 	g_settings_set_int (data->settings, PREF_CONTACT_SHEET_COLUMNS, columns);
 
+	sort_type = NULL;
 	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("sort_combobox")), &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("sort_liststore")),
 				    &iter,

@@ -107,11 +107,11 @@ completion_job_new_for_uri (DialogData *data,
 	job->data = dialog_data_ref (data);
 	job->uri = g_strdup (uri);
 	job->source = gth_main_get_file_source_for_uri (job->uri);
+	job->folder = NULL;
 	if (job->source == NULL) {
 		completion_job_unref (job);
 		job = NULL;
 	}
-	job->folder = NULL;
 
 	return job;
 }
