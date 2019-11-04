@@ -831,8 +831,7 @@ base_rename (GthFileSource *file_source,
 
 
 static gboolean
-base_can_cut (GthFileSource *file_source,
-	      GFile         *file)
+base_can_cut (GthFileSource *file_source)
 {
 	return FALSE;
 }
@@ -1335,10 +1334,9 @@ gth_file_source_copy (GthFileSource    *file_source,
 
 
 gboolean
-gth_file_source_can_cut (GthFileSource *file_source,
-			 GFile         *file)
+gth_file_source_can_cut (GthFileSource *file_source)
 {
-	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->can_cut (file_source, file);
+	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->can_cut (file_source);
 }
 
 

@@ -1151,14 +1151,6 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 
 
 static gboolean
-gth_file_source_catalogs_can_cut (GthFileSource *file_source,
-				  GFile         *file)
-{
-	return g_file_has_uri_scheme (file, "catalog");
-}
-
-
-static gboolean
 gth_file_source_catalogs_is_reorderable (GthFileSource *file_source)
 {
 	return TRUE;
@@ -1485,7 +1477,6 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->rename = gth_file_source_catalogs_rename;
 	file_source_class->for_each_child = gth_file_source_catalogs_for_each_child;
 	file_source_class->copy = gth_file_source_catalogs_copy;
-	file_source_class->can_cut = gth_file_source_catalogs_can_cut;
 	file_source_class->is_reorderable  = gth_file_source_catalogs_is_reorderable;
 	file_source_class->reorder = gth_file_source_catalogs_reorder;
 	file_source_class->remove = gth_file_source_catalogs_remove;

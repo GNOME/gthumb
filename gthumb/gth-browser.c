@@ -2840,9 +2840,7 @@ folder_tree_drag_data_get_cb (GtkWidget        *widget,
 		return;
 
 	if (gdk_drag_context_get_actions (drag_context) & GDK_ACTION_MOVE) {
-		GdkDragAction action =
-			gth_file_source_can_cut (file_source, file_data->file) ?
-			GDK_ACTION_MOVE : GDK_ACTION_COPY;
+		GdkDragAction action = gth_file_source_can_cut (file_source) ? GDK_ACTION_MOVE : GDK_ACTION_COPY;
 		gdk_drag_status (drag_context, action, time);
 	}
 

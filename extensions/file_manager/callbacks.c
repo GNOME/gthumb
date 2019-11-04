@@ -261,7 +261,7 @@ gth_file_list_drag_data_received (GtkWidget        *file_view,
 
 			file_source = gth_browser_get_location_source (browser);
 			move = gdk_drag_context_get_selected_action (context) == GDK_ACTION_MOVE;
-			if (move && ! gth_file_source_can_cut (file_source, (GFile *) selected_files->data)) {
+			if (move && ! gth_file_source_can_cut (file_source)) {
 				GtkWidget *dialog;
 				int        response;
 
@@ -1089,7 +1089,6 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	BrowserData   *data;
 	GthFileSource *file_source;
 	int            n_selected;
-	GthFileData   *location_data;
 	gboolean       sensitive;
 	GthFileData   *folder;
 
@@ -1099,8 +1098,7 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	file_source = gth_browser_get_location_source (browser);
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
-	location_data = gth_browser_get_location_data (browser);
-	sensitive = (n_selected > 0) && (file_source != NULL) && (location_data != NULL) && gth_file_source_can_cut (file_source, location_data->file);
+	sensitive = (n_selected > 0) && (file_source != NULL) && gth_file_source_can_cut (file_source);
 	gth_window_enable_action (GTH_WINDOW (browser), "edit-cut", sensitive);
 
 	sensitive = (n_selected > 0) && (file_source != NULL);
