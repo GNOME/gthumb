@@ -32,6 +32,9 @@
     <key name="histogram-scale" enum="org.gnome.gthumb.GthHistogramScale">
       <default>'linear'</default>
     </key>
+    <key name="transparency-style" enum="org.gnome.gthumb.GthTransparencyStyle">
+      <default>'checkered'</default>
+    </key>
   </schema>
 
 </schemalist>

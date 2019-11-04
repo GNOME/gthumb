@@ -927,6 +927,21 @@ pref_reset_scrollbars_changed (GSettings *settings,
 
 
 static void
+pref_transparency_style_changed (GSettings *settings,
+				 char      *key,
+				 gpointer   user_data)
+{
+	GthImageViewerPage *self = user_data;
+
+	if (! self->priv->active || (self->priv->viewer == NULL))
+		return;
+
+	gth_image_viewer_set_transparency_style (GTH_IMAGE_VIEWER (self->priv->viewer),
+						 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE));
+}
+
+
+static void
 paint_comment_over_image_func (GthImageViewer *image_viewer,
 			       cairo_t        *cr,
 			       gpointer        user_data)
@@ -1234,6 +1249,11 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 			  "changed::" PREF_IMAGE_VIEWER_RESET_SCROLLBARS,
 			  G_CALLBACK (pref_reset_scrollbars_changed),
 			  self);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE,
+			  G_CALLBACK (pref_transparency_style_changed),
+			  self);
+
 }
 
 
@@ -2178,7 +2198,8 @@ gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage *self)
 					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
 					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
-
+	gth_image_viewer_set_transparency_style (GTH_IMAGE_VIEWER (self->priv->viewer),
+						 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE));
 	_gth_image_viewer_page_enable_drag_source (self, TRUE);
 }
 
