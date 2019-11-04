@@ -24,6 +24,7 @@
 #include <gthumb.h>
 #include "actions.h"
 #include "gth-image-viewer-page.h"
+#include "preferences.h"
 
 
 void
@@ -167,25 +168,29 @@ gth_browser_activate_transparency_style (GSimpleAction	*action,
 					 GVariant	*parameter,
 					 gpointer	 user_data)
 {
-	GthBrowser     *browser = user_data;
-	const char     *state;
-	GthImageViewer *image_viewer;
+	const char           *state;
+	GthTransparencyStyle  style;
+	GSettings            *settings;
 
 	state = g_variant_get_string (parameter, NULL);
-	g_simple_action_set_state (action, g_variant_new_string (state));
-
 	if (state == NULL)
 		return;
 
-	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser))));
-	if (strcmp (state, "checkered") == 0)
-		gth_image_viewer_set_transparency_style (image_viewer, GTH_TRANSPARENCY_STYLE_CHECKERED);
-	else if (strcmp (state, "white") == 0)
-		gth_image_viewer_set_transparency_style (image_viewer, GTH_TRANSPARENCY_STYLE_WHITE);
+	g_simple_action_set_state (action, g_variant_new_string (state));
+
+	if (strcmp (state, "white") == 0)
+		style = GTH_TRANSPARENCY_STYLE_WHITE;
 	else if (strcmp (state, "gray") == 0)
-		gth_image_viewer_set_transparency_style (image_viewer, GTH_TRANSPARENCY_STYLE_GRAY);
+		style = GTH_TRANSPARENCY_STYLE_GRAY;
 	else if (strcmp (state, "black") == 0)
-		gth_image_viewer_set_transparency_style (image_viewer, GTH_TRANSPARENCY_STYLE_BLACK);
+		style = GTH_TRANSPARENCY_STYLE_BLACK;
+	else
+		style = GTH_TRANSPARENCY_STYLE_CHECKERED;
+
+	settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
+	g_settings_set_enum (settings, PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE, style);
+
+	g_object_unref (settings);
 }
 
 
