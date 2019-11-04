@@ -67,6 +67,16 @@ zoom_quality_radiobutton_toggled_cb (GtkToggleButton *button,
 }
 
 
+static void
+transparency_style_changed_cb (GtkComboBox *combo_box,
+			       BrowserData *data)
+{
+	g_settings_set_enum (data->settings,
+			     PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE,
+			     gtk_combo_box_get_active (combo_box));
+}
+
+
 void
 image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 					    GthBrowser *browser,
@@ -97,6 +107,9 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("zoom_quality_high_radiobutton")), TRUE);
 
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("transparency_style_combobox")),
+				  g_settings_get_enum (data->settings, PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE));
+
 	g_signal_connect (GET_WIDGET ("change_zoom_combobox"),
 			  "changed",
 			  G_CALLBACK (zoom_change_changed_cb),
@@ -112,6 +125,10 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	g_signal_connect (GET_WIDGET ("toggle_reset_scrollbars"),
 			  "toggled",
 			  G_CALLBACK (reset_scrollbars_toggled_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("transparency_style_combobox"),
+			  "changed",
+			  G_CALLBACK (transparency_style_changed_cb),
 			  data);
 
 	label = gtk_label_new (_("Viewer"));
