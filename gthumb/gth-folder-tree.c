@@ -1231,7 +1231,7 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 
 
 static gboolean
-_gth_folder_tree_iter_has_no_child (GthFolderTree *folder_tree,
+_gth_folder_tree_iter_get_no_child (GthFolderTree *folder_tree,
 				    GtkTreeIter   *iter)
 {
 	gboolean no_child;
@@ -1597,7 +1597,7 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 	else
 		return;
 
-	if (_gth_folder_tree_iter_has_no_child (folder_tree, p_parent_iter))
+	if (_gth_folder_tree_iter_get_no_child (folder_tree, p_parent_iter))
 		return;
 
 	tree_model = GTK_TREE_MODEL (folder_tree->priv->tree_store);
@@ -1705,7 +1705,7 @@ gth_folder_tree_loading_children (GthFolderTree *folder_tree,
 	else
 		return;
 
-	if (_gth_folder_tree_iter_has_no_child (folder_tree, p_parent_iter))
+	if (_gth_folder_tree_iter_get_no_child (folder_tree, p_parent_iter))
 		return;
 
 	_gth_folder_tree_add_loading_item (folder_tree, p_parent_iter, FALSE);
@@ -1866,7 +1866,7 @@ gth_folder_tree_delete_children (GthFolderTree *folder_tree,
 	else
 		return;
 
-	if (_gth_folder_tree_iter_has_no_child (folder_tree, p_parent_iter))
+	if (_gth_folder_tree_iter_get_no_child (folder_tree, p_parent_iter))
 		return;
 
 	/* add the empty item first to not allow the folder to collapse. */
