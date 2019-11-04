@@ -30,13 +30,14 @@
 
 #define UPDATE_QUALITY_DELAY 200
 #define UPDATE_VISIBILITY_DELAY 100
-#define N_HEADER_BAR_BUTTONS 6
+#define N_HEADER_BAR_BUTTONS 7
 #define HIDE_OVERVIEW_TIMEOUT 2 /* in seconds */
 #define OVERLAY_MARGIN 10
 #define ZOOM_BUTTON 2
 #define APPLY_ICC_PROFILE_BUTTON 3
 #define TOGGLE_ANIMATION_BUTTON 4
 #define STEP_ANIMATION_BUTTON 5
+#define TRANSPARENCY_STYLE_BUTTON 6
 #undef ALWAYS_LOAD_ORIGINAL_SIZE
 #define N_FORWARD_PRELOADERS 2
 #define N_BACKWARD_PRELOADERS 2
@@ -61,6 +62,7 @@ static const GActionEntry actions[] = {
 	{ "toggle-animation", toggle_action_activated, NULL, "true", gth_browser_activate_toggle_animation },
 	{ "step-animation", gth_browser_activate_step_animation },
 	{ "image-zoom", gth_browser_activate_image_zoom, "s", "''", NULL },
+	{ "transparency-style", gth_browser_activate_transparency_style, "s", "''", NULL },
 };
 
 
@@ -931,13 +933,35 @@ pref_transparency_style_changed (GSettings *settings,
 				 char      *key,
 				 gpointer   user_data)
 {
-	GthImageViewerPage *self = user_data;
+	GthImageViewerPage   *self = user_data;
+	GthTransparencyStyle  style;
+	GAction              *action;
+	const char           *state;
 
 	if (! self->priv->active || (self->priv->viewer == NULL))
 		return;
 
-	gth_image_viewer_set_transparency_style (GTH_IMAGE_VIEWER (self->priv->viewer),
-						 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE));
+	style = g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE);
+	state = "";
+	switch (style) {
+	case GTH_TRANSPARENCY_STYLE_CHECKERED:
+		state = "checkered";
+		break;
+	case GTH_TRANSPARENCY_STYLE_WHITE:
+		state = "white";
+		break;
+	case GTH_TRANSPARENCY_STYLE_GRAY:
+		state = "gray";
+		break;
+	case GTH_TRANSPARENCY_STYLE_BLACK:
+		state = "black";
+		break;
+	}
+	action = g_action_map_lookup_action (G_ACTION_MAP (self->priv->browser), "transparency-style");
+	if (action != NULL)
+		g_simple_action_set_state (G_SIMPLE_ACTION (action), g_variant_new_string (state));
+
+	gth_image_viewer_set_transparency_style (GTH_IMAGE_VIEWER (self->priv->viewer), style);
 }
 
 
@@ -1160,6 +1184,12 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 							   _("Next frame"),
 							   "win.step-animation",
 							   NULL);
+	self->priv->buttons[TRANSPARENCY_STYLE_BUTTON] =
+			gth_browser_add_header_bar_menu_button (browser,
+								GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_COMMANDS,
+								"transparency-symbolic",
+								_("Transparency"),
+								_gtk_builder_get_widget (self->priv->builder, "transparency_popover"));
 
 	gth_window_add_accelerators (GTH_WINDOW (browser), accelerators, G_N_ELEMENTS (accelerators));
 
@@ -1550,6 +1580,7 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
 	GthImageViewerPage *self;
 	GthImage           *image;
+	gboolean            enable_action;
 	gboolean            is_animation;
 
 	self = (GthImageViewerPage*) base;
@@ -1558,8 +1589,13 @@ gth_image_viewer_page_real_update_sensitivity (GthViewerPage *base)
 	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "image-redo", gth_image_history_can_redo (self->priv->history));
 
 	image = gth_image_viewer_get_image (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gtk_widget_set_visible (self->priv->buttons[APPLY_ICC_PROFILE_BUTTON], (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
-	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "apply-icc-profile", (image != NULL) && (gth_image_get_icc_profile (image) != NULL));
+	enable_action = (image != NULL) && (gth_image_get_icc_profile (image) != NULL);
+	gtk_widget_set_visible (self->priv->buttons[APPLY_ICC_PROFILE_BUTTON], enable_action);
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "apply-icc-profile", enable_action);
+
+	enable_action = (self->priv->file_data != NULL) && _g_mime_type_has_transparency (gth_file_data_get_mime_type (self->priv->file_data));
+	gtk_widget_set_visible (self->priv->buttons[TRANSPARENCY_STYLE_BUTTON], enable_action);
+	gth_window_enable_action (GTH_WINDOW (self->priv->browser), "transparency-style", enable_action);
 
 	is_animation = gth_image_viewer_is_animation (GTH_IMAGE_VIEWER (self->priv->viewer));
 	gtk_widget_set_visible (self->priv->buttons[TOGGLE_ANIMATION_BUTTON], is_animation);
@@ -2198,8 +2234,7 @@ gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage *self)
 					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
 					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
-	gth_image_viewer_set_transparency_style (GTH_IMAGE_VIEWER (self->priv->viewer),
-						 g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE));
+	pref_transparency_style_changed (self->priv->settings, NULL, self);
 	_gth_image_viewer_page_enable_drag_source (self, TRUE);
 }
 

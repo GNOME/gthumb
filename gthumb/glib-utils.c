@@ -3156,6 +3156,17 @@ _g_mime_type_is_audio (const char *mime_type)
 }
 
 
+gboolean
+_g_mime_type_has_transparency (const char *mime_type)
+{
+	g_return_val_if_fail (mime_type != NULL, FALSE);
+
+	return (strcmp (mime_type, "image/png") == 0)
+		|| (strcmp (mime_type, "image/gif") == 0)
+		|| (strcmp (mime_type, "image/svg+xml") == 0);
+}
+
+
 char *
 _g_settings_get_uri (GSettings  *settings,
 		     const char *key)

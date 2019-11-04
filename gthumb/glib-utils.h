@@ -343,6 +343,7 @@ gboolean        _g_mime_type_is_image            (const char *mime_type);
 gboolean        _g_mime_type_is_raw              (const char *mime_type);
 gboolean        _g_mime_type_is_video            (const char *mime_type);
 gboolean        _g_mime_type_is_audio            (const char *mime_type);
+gboolean        _g_mime_type_has_transparency    (const char *mime_type);
 
 /* GSettings utils */
 

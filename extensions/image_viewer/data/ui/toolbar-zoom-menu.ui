@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <object class ="GtkPopoverMenu" id="transparency_popover">
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="border_width">9</property>
+        <property name="orientation">vertical</property>
+        <property name="width_request">200</property>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="text" translatable="yes">Checkered</property>
+            <property name="action-name">win.transparency-style</property>
+            <property name="action-target">'checkered'</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="text" translatable="yes">White</property>
+            <property name="action-name">win.transparency-style</property>
+            <property name="action-target">'white'</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="text" translatable="yes">Gray</property>
+            <property name="action-name">win.transparency-style</property>
+            <property name="action-target">'gray'</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="text" translatable="yes">Black</property>
+            <property name="action-name">win.transparency-style</property>
+            <property name="action-target">'black'</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class ="GtkPopoverMenu" id="zoom_popover">
     <child>
       <object class="GtkBox">

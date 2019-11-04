@@ -39,5 +39,6 @@ DEF_ACTION_CALLBACK (gth_browser_activate_apply_icc_profile)
 DEF_ACTION_CALLBACK (gth_browser_activate_image_zoom)
 DEF_ACTION_CALLBACK (gth_browser_activate_toggle_animation)
 DEF_ACTION_CALLBACK (gth_browser_activate_step_animation)
+DEF_ACTION_CALLBACK (gth_browser_activate_transparency_style)
 
 #endif /* ACTIONS_H */
