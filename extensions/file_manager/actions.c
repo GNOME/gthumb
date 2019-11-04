@@ -370,14 +370,15 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 		       GtkSelectionData *selection_data,
 		       gpointer          user_data)
 {
-	PasteData   *paste_data = user_data;
-	GthBrowser  *browser = paste_data->browser;
-	const char  *raw_data;
-	char       **clipboard_data;
-	int          i;
-	GtkTreePath *path;
-	int          position;
-	GthTask     *task;
+	PasteData      *paste_data = user_data;
+	GthBrowser     *browser = paste_data->browser;
+	const char     *raw_data;
+	char          **clipboard_data;
+	int             i;
+	GdkDragAction   actions;
+	GtkTreePath    *path;
+	int             position;
+	GthTask        *task;
 
 	raw_data = (const char *) gtk_selection_data_get_data (selection_data);
 	if (raw_data == NULL) {
@@ -400,7 +401,19 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 	paste_data->files = g_list_reverse (paste_data->files);
 	paste_data->file_source = gth_main_get_file_source (paste_data->destination->file);
 
-	if (paste_data->cut && ! gth_file_source_can_cut (paste_data->file_source, paste_data->files->data)) {
+	actions = gth_file_source_get_drop_actions (paste_data->file_source,
+						    paste_data->destination->file,
+						    G_FILE (paste_data->files->data));
+	if (actions == 0) {
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
+				       "%s",
+				       _("Could not perform the operation"));
+		g_strfreev (clipboard_data);
+		paste_data_free (paste_data);
+		return;
+	}
+
+	if (paste_data->cut && ((actions & GDK_ACTION_MOVE) == 0)) {
 		GtkWidget *dialog;
 		int        response;
 
@@ -416,6 +429,7 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 		gtk_widget_destroy (dialog);
 
 		if (response == GTK_RESPONSE_CANCEL) {
+			g_strfreev (clipboard_data);
 			paste_data_free (paste_data);
 			return;
 		}
@@ -442,6 +456,7 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
+	g_strfreev (clipboard_data);
 	paste_data_free (paste_data);
 }
 
