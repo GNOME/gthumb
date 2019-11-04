@@ -1445,6 +1445,64 @@ gth_file_source_catalogs_deleted_from_disk (GthFileSource *file_source,
 }
 
 
+static GdkDragAction
+gth_file_source_catalogs_get_drop_actions (GthFileSource *file_source,
+					   GFile         *destination,
+					   GFile         *file)
+{
+	GdkDragAction  actions = 0;
+	char          *dest_uri;
+	char          *dest_scheme;
+	const char    *dest_ext;
+	gboolean       dest_is_catalog;
+	char          *file_uri;
+	char          *file_scheme;
+	const char    *file_ext;
+	gboolean       file_is_catalog;
+
+	dest_uri = g_file_get_uri (destination);
+	dest_scheme = _g_uri_get_scheme (dest_uri);
+	dest_ext = _g_uri_get_file_extension (dest_uri);
+	dest_is_catalog = (g_strcmp0 (dest_ext, ".catalog") == 0) || (g_strcmp0 (dest_ext, ".search") == 0);
+
+	file_uri = g_file_get_uri (file);
+	file_scheme = _g_uri_get_scheme (file_uri);
+	file_ext = _g_uri_get_file_extension (file_uri);
+	file_is_catalog = (g_strcmp0 (file_ext, ".catalog") == 0) || (g_strcmp0 (file_ext, ".search") == 0);
+
+	if ((g_strcmp0 (dest_scheme, "catalog://") == 0)
+		&& dest_is_catalog
+		&& (g_strcmp0 (file_scheme, "file://") == 0))
+	{
+		/* Copy files into a catalog. */
+		actions = GDK_ACTION_COPY;
+	}
+
+	else if ((g_strcmp0 (file_scheme, "catalog://") == 0)
+		&& file_is_catalog
+		&& (g_strcmp0 (dest_scheme, "catalog://") == 0)
+		&& ! dest_is_catalog)
+	{
+		/* Move a catalog into a library. */
+		actions = GDK_ACTION_MOVE;
+	}
+
+	else if ((g_strcmp0 (file_scheme, "catalog://") == 0)
+		&& ! file_is_catalog
+		&& (g_strcmp0 (dest_scheme, "catalog://") == 0)
+		&& ! dest_is_catalog)
+	{
+		/* Move a library into another library. */
+		actions = GDK_ACTION_MOVE;
+	}
+
+	g_free (file_uri);
+	g_free (dest_uri);
+
+	return actions;
+}
+
+
 static void
 gth_file_source_catalogs_finalize (GObject *object)
 {
@@ -1481,6 +1539,7 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->reorder = gth_file_source_catalogs_reorder;
 	file_source_class->remove = gth_file_source_catalogs_remove;
 	file_source_class->deleted_from_disk = gth_file_source_catalogs_deleted_from_disk;
+	file_source_class->get_drop_actions = gth_file_source_catalogs_get_drop_actions;
 }
 
 

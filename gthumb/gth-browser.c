@@ -2661,7 +2661,6 @@ folder_tree_drag_motion_cb (GtkWidget      *file_view,
 	GthBrowser              *browser = user_data;
 	GtkTreePath             *path;
 	GtkTreeViewDropPosition  pos;
-	GdkDragAction            action;
 
 	if (gdk_drag_context_get_suggested_action (context) == GDK_ACTION_ASK) {
 		gdk_drag_status (context, GDK_ACTION_ASK, time);
@@ -2694,8 +2693,6 @@ folder_tree_drag_motion_cb (GtkWidget      *file_view,
 
 	gtk_tree_view_set_drag_dest_row (GTK_TREE_VIEW (file_view), path, pos);
 
-	action = GDK_ACTION_MOVE;
-
 	if ((browser->priv->folder_tree_last_dest_row == NULL) || gtk_tree_path_compare (path, browser->priv->folder_tree_last_dest_row) != 0) {
 		gtk_tree_path_free (browser->priv->folder_tree_last_dest_row);
 		browser->priv->folder_tree_last_dest_row = gtk_tree_path_copy (path);
@@ -2705,52 +2702,7 @@ folder_tree_drag_motion_cb (GtkWidget      *file_view,
 		browser->priv->folder_tree_open_folder_id = g_timeout_add (AUTO_OPEN_FOLDER_DELAY, folder_tree_open_folder_cb, browser);
 	}
 
-	/* use COPY if dropping a file in a catalog */
-
-	if (action == GDK_ACTION_MOVE) {
-		GthFileData *destination;
-
-		destination = gth_folder_tree_get_file (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
-		if (destination != NULL) {
-			GthFileSource *file_source = gth_main_get_file_source (destination->file);
-
-			_g_object_unref (destination);
-			if (file_source != NULL) {
-				if (gth_file_source_is_reorderable (file_source))
-					action = GDK_ACTION_COPY;
-			}
-			else
-				action = 0;
-
-			_g_object_unref (file_source);
-		}
-		else
-			action = 0;
-	}
-
-	/* use COPY when dragging a file from a catalog to a directory */
-
-	if (action == GDK_ACTION_MOVE) {
-		gboolean  source_is_reorderable;
-		GList    *targets;
-		GList    *scan;
-
-		source_is_reorderable = FALSE;
-		targets = gdk_drag_context_list_targets (context);
-		for (scan = targets; scan; scan = scan->next) {
-			GdkAtom target = scan->data;
-
-			if (target == gdk_atom_intern_static_string ("gthumb/reorderable-list")) {
-				source_is_reorderable = TRUE;
-				break;
-			}
-		}
-
-		if (source_is_reorderable)
-			action = GDK_ACTION_COPY;
-	}
-
-	gdk_drag_status (context, action, time);
+	gdk_drag_status (context, GDK_ACTION_MOVE, time);
 	gtk_tree_path_free (path);
 
 	return TRUE;

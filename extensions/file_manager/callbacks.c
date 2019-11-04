@@ -945,86 +945,101 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 						   GList         *file_list,
 						   GdkDragAction  action)
 {
-	GthFileSource *file_source;
+	int            n_files;
+	GthFileSource *destination_source;
+	GFile         *first_file;
+	GthFileSource *file_list_source;
+	gboolean       move_files;
 	GtkWidget     *dialog;
 	GthTask       *task;
+	char          *message;
 	int            response;
 
 	if (destination == NULL)
 		return;
 
-	file_source = gth_main_get_file_source (destination->file);
-	if (file_source == NULL)
+	n_files = g_list_length (file_list);
+	if (n_files == 0)
 		return;
+
+	if ((action != GDK_ACTION_MOVE) && (action != GDK_ACTION_COPY))
+		return;
+
+	destination_source = gth_main_get_file_source (destination->file);
+	if (destination_source == NULL)
+		return;
+
+	first_file = G_FILE (file_list->data);
+	file_list_source = gth_main_get_file_source (first_file);
+	if (file_list_source == NULL)
+		return;
+
+	if (action == GDK_ACTION_MOVE)
+		action |= GDK_ACTION_COPY;
+
+	action = action & gth_file_source_get_drop_actions (destination_source, destination->file, first_file);
+	if (action == 0) {
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
+				       "%s",
+				       _("Could not perform the operation"));
+		return;
+	}
+
+	move_files = (action & GDK_ACTION_MOVE) != 0;
 
 	/* ask confirmation */
 
 	response = GTK_RESPONSE_OK;
-	if ((action == GDK_ACTION_MOVE) || (action == GDK_ACTION_COPY)) {
-		int   n_files;
-		char *message;
+	if (n_files == 1) {
+		GFileInfo  *info;
+		char       *filename;
 
-		n_files = g_list_length (file_list);
-		g_return_if_fail (n_files >= 1);
+		info = gth_file_source_get_file_info (file_list_source, first_file, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME);
+		if (info != NULL)
+			filename = g_strdup (g_file_info_get_display_name (info));
+		else
+			filename = _g_file_get_display_name (first_file);
 
-		if (n_files == 1) {
-			char *filename = _g_file_get_display_name ((GFile *) file_list->data);
-			if (action == GDK_ACTION_MOVE)
-				message = g_strdup_printf (_("Do you want to move “%s” to “%s”?"), filename, g_file_info_get_display_name (destination->info));
-			else
-				message = g_strdup_printf (_("Do you want to copy “%s” to “%s”?"), filename, g_file_info_get_display_name (destination->info));
-			g_free (filename);
-		}
-		else {
-			if (action == GDK_ACTION_MOVE)
-				message = g_strdup_printf (_("Do you want to move the dragged files to “%s”?"), g_file_info_get_display_name (destination->info));
-			else
-				message = g_strdup_printf (_("Do you want to copy the dragged files to “%s”?"), g_file_info_get_display_name (destination->info));
-		}
-		dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
-						  GTK_DIALOG_MODAL,
-						  _GTK_ICON_NAME_DIALOG_QUESTION,
-						  message,
-						  NULL,
-						  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-						  ((action == GDK_ACTION_MOVE) ? _("Move") : _("_Copy")), GTK_RESPONSE_OK,
-						  NULL);
-		response = gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
+		if (move_files)
+			message = g_strdup_printf (_("Do you want to move “%s” to “%s”?"), filename, g_file_info_get_display_name (destination->info));
+		else
+			message = g_strdup_printf (_("Do you want to copy “%s” to “%s”?"), filename, g_file_info_get_display_name (destination->info));
 
-		g_free (message);
+		g_free (filename);
+		_g_object_unref (info);
 	}
+	else {
+		if (move_files)
+			message = g_strdup_printf (_("Do you want to move the dragged files to “%s”?"), g_file_info_get_display_name (destination->info));
+		else
+			message = g_strdup_printf (_("Do you want to copy the dragged files to “%s”?"), g_file_info_get_display_name (destination->info));
+	}
+	dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
+					  GTK_DIALOG_MODAL,
+					  _GTK_ICON_NAME_DIALOG_QUESTION,
+					  message,
+					  NULL,
+					  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
+					  (move_files ? _("Move") : _("_Copy")), GTK_RESPONSE_OK,
+					  NULL);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+	g_free (message);
 
 	if (response != GTK_RESPONSE_OK)
 		return;
 
-	if ((action == GDK_ACTION_MOVE) && ! gth_file_source_can_cut (file_source, (GFile *) file_list->data)) {
-		dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
-						  GTK_DIALOG_MODAL,
-						  _GTK_ICON_NAME_DIALOG_QUESTION,
-						  _("Could not move the files"),
-						  _("Files cannot be moved to the current location, as alternative you can choose to copy them."),
-						  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-						  _GTK_LABEL_COPY, GTK_RESPONSE_OK,
-						  NULL);
-		response = gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
+	/* exec task */
 
-		if (response == GTK_RESPONSE_CANCEL)
-			return;
-
-		action = GDK_ACTION_COPY;
-	}
-
-	task = gth_copy_task_new (file_source,
+	task = gth_copy_task_new (destination_source,
 				  destination,
-				  (action == GDK_ACTION_MOVE),
+				  move_files,
 				  file_list,
 				  -1);
 	gth_browser_exec_task (browser, task, GTH_TASK_FLAGS_DEFAULT);
 
 	g_object_unref (task);
-	g_object_unref (file_source);
+	g_object_unref (destination_source);
 }
 
 

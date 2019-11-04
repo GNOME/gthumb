@@ -900,6 +900,15 @@ base_shows_extra_widget (GthFileSource *file_source)
 }
 
 
+static GdkDragAction
+base_get_drop_actions (GthFileSource *file_source,
+		       GFile         *destination,
+		       GFile         *file)
+{
+	return 0; /* no action supported by default. */
+}
+
+
 static void
 gth_file_source_finalize (GObject *object)
 {
@@ -938,6 +947,7 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->deleted_from_disk = base_deleted_from_disk;
 	class->get_free_space = base_get_free_space;
 	class->shows_extra_widget = base_shows_extra_widget;
+	class->get_drop_actions = base_get_drop_actions;
 }
 
 
@@ -1435,4 +1445,13 @@ gboolean
 gth_file_source_shows_extra_widget (GthFileSource *file_source)
 {
 	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->shows_extra_widget (file_source);
+}
+
+
+GdkDragAction
+gth_file_source_get_drop_actions (GthFileSource *file_source,
+				  GFile         *destination,
+				  GFile         *file)
+{
+	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->get_drop_actions (file_source, destination, file);
 }

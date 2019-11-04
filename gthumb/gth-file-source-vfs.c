@@ -883,6 +883,24 @@ gth_file_source_vfs_remove (GthFileSource *file_source,
 }
 
 
+static GdkDragAction
+gth_file_source_vfs_get_drop_actions (GthFileSource *file_source,
+				      GFile         *destination,
+				      GFile         *file)
+{
+	char *dest_scheme;
+	char *file_scheme;
+
+	dest_scheme = g_file_get_uri_scheme(destination);
+	file_scheme = g_file_get_uri_scheme(file);
+
+	if ((g_strcmp0 (dest_scheme, "file") == 0) && (g_strcmp0 (file_scheme, "file") == 0))
+		return GDK_ACTION_COPY | GDK_ACTION_MOVE;
+	else
+		return 0;
+}
+
+
 static void
 gth_file_source_vfs_finalize (GObject *object)
 {
@@ -926,6 +944,7 @@ gth_file_source_vfs_class_init (GthFileSourceVfsClass *class)
 	file_source_class->monitor_entry_points = gth_file_source_vfs_monitor_entry_points;
 	file_source_class->monitor_directory = gth_file_source_vfs_monitor_directory;
 	file_source_class->remove = gth_file_source_vfs_remove;
+	file_source_class->get_drop_actions = gth_file_source_vfs_get_drop_actions;
 }
 
 
