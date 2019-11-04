@@ -2759,7 +2759,10 @@ folder_tree_drag_data_received (GtkWidget        *tree_view,
 	uris = gtk_selection_data_get_uris (selection_data);
 	file_list = _g_file_list_new_from_uriv (uris);
 	if (file_list != NULL)
-		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received", browser, destination, file_list,
+		gth_hook_invoke ("gth-browser-folder-tree-drag-data-received",
+				 browser,
+				 destination,
+				 file_list,
 				 gdk_drag_context_get_selected_action (context));
 
 	gtk_drag_finish (context, TRUE, FALSE, time);
