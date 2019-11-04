@@ -40,7 +40,7 @@
 #define MINIMUM_DELAY   10    /* When an animation frame has a 0 milli seconds
 			       * delay use this delay instead. */
 #define STEP_INCREMENT  20.0  /* Scroll increment. */
-#define BLACK_VALUE 0.2
+#define GRAY_VALUE 0.2
 #define CHECKED_PATTERN_SIZE 20
 
 
@@ -113,7 +113,7 @@ struct _GthImageViewerPrivate {
 	gboolean                skip_zoom_change;
 	gboolean                update_image_after_zoom;
 	gboolean                reset_scrollbars;
-
+	GthTransparencyStyle    transparency_style;
 	GList                  *painters;
 };
 
@@ -1576,6 +1576,7 @@ gth_image_viewer_init (GthImageViewer *self)
 	self->priv->cursor_void = NULL;
 
 	self->priv->reset_scrollbars = TRUE;
+	self->priv->transparency_style = GTH_TRANSPARENCY_STYLE_CHECKERED;
 
 	gth_image_viewer_set_tool (self, NULL);
 
@@ -2284,6 +2285,26 @@ gth_image_viewer_get_tool (GthImageViewer *self)
 
 
 void
+gth_image_viewer_set_transparency_style (GthImageViewer       *self,
+					 GthTransparencyStyle  style)
+{
+	g_return_if_fail (GTH_IS_IMAGE_VIEWER (self));
+
+	self->priv->transparency_style = style;
+	gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
+
+GthTransparencyStyle
+gth_image_viewer_get_transparency_style (GthImageViewer *self)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE_VIEWER (self), 0);
+
+	return self->priv->transparency_style;
+}
+
+
+void
 gth_image_viewer_scroll_to (GthImageViewer *self,
 			    int             x_offset,
 			    int             y_offset)
@@ -2645,7 +2666,7 @@ gth_image_viewer_paint_background (GthImageViewer *self,
 
 	cairo_save (cr);
 	gtk_widget_get_allocation (GTK_WIDGET (self), &allocation);
-	cairo_set_source_rgb (cr, BLACK_VALUE, BLACK_VALUE, BLACK_VALUE);
+	cairo_set_source_rgb (cr, GRAY_VALUE, GRAY_VALUE, GRAY_VALUE);
 	cairo_rectangle (cr,
 			 0,
 			 0,
@@ -2685,7 +2706,21 @@ gth_image_viewer_paint_frame (GthImageViewer *self,
 
 	/* background */
 
-	cairo_set_source (cr, self->priv->background_pattern);
+	switch (self->priv->transparency_style) {
+	case GTH_TRANSPARENCY_STYLE_CHECKERED:
+		cairo_set_source (cr, self->priv->background_pattern);
+		break;
+	case GTH_TRANSPARENCY_STYLE_WHITE:
+		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+		break;
+	case GTH_TRANSPARENCY_STYLE_GRAY:
+		cairo_set_source_rgb (cr, GRAY_VALUE, GRAY_VALUE, GRAY_VALUE);
+		break;
+	case GTH_TRANSPARENCY_STYLE_BLACK:
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		break;
+	}
+
 	cairo_rectangle (cr,
 			 self->image_area.x,
 			 self->image_area.y,

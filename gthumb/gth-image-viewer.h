@@ -77,6 +77,14 @@ typedef enum {
 } GthZoomChange;
 
 
+typedef enum {
+	GTH_TRANSPARENCY_STYLE_CHECKERED,
+	GTH_TRANSPARENCY_STYLE_WHITE,
+	GTH_TRANSPARENCY_STYLE_GRAY,
+	GTH_TRANSPARENCY_STYLE_BLACK
+} GthTransparencyStyle;
+
+
 struct _GthImageViewer
 {
 	GtkWidget __parent;
@@ -224,6 +232,10 @@ void           gth_image_viewer_set_tool                 (GthImageViewer        
 							  GthImageViewerTool    *tool);
 GthImageViewerTool *
 	       gth_image_viewer_get_tool                 (GthImageViewer        *viewer);
+void           gth_image_viewer_set_transparency_style   (GthImageViewer        *viewer,
+							  GthTransparencyStyle   style);
+GthTransparencyStyle
+	       gth_image_viewer_get_transparency_style   (GthImageViewer        *viewer);
 
 /* Scrolling. */
 
