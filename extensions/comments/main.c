@@ -48,7 +48,7 @@ GthMetadataInfo comments_metadata_info[] = {
 };
 
 
-static gint64
+static int
 get_comment_for_test (GthTest        *test,
 		      GthFileData    *file,
 		      gconstpointer  *data,
@@ -59,7 +59,7 @@ get_comment_for_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 get_place_for_test (GthTest        *test,
 		    GthFileData    *file,
 		    gconstpointer  *data,

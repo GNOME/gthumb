@@ -30,7 +30,7 @@
 #include "gth-time.h"
 
 
-static gint64
+static int
 is_file_test (GthTest        *test,
 	      GthFileData    *file_data,
 	      gconstpointer  *data,
@@ -40,7 +40,7 @@ is_file_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 is_image_test (GthTest        *test,
 	       GthFileData    *file_data,
 	       gconstpointer  *data,
@@ -55,7 +55,7 @@ is_image_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 is_jpeg_test (GthTest        *test,
 	      GthFileData    *file_data,
 	      gconstpointer  *data,
@@ -70,7 +70,7 @@ is_jpeg_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 is_raw_test (GthTest        *test,
 	     GthFileData    *file_data,
 	     gconstpointer  *data,
@@ -85,7 +85,7 @@ is_raw_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 is_video_test (GthTest        *test,
 	       GthFileData    *file_data,
 	       gconstpointer  *data,
@@ -100,7 +100,7 @@ is_video_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 is_audio_test (GthTest        *test,
 	       GthFileData    *file_data,
 	       gconstpointer  *data,
@@ -115,7 +115,7 @@ is_audio_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 is_media_test (GthTest        *test,
 	       GthFileData    *file_data,
 	       gconstpointer  *data,
@@ -134,7 +134,7 @@ is_media_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 is_text_test (GthTest        *test,
 	      GthFileData    *file_data,
 	      gconstpointer  *data,
@@ -151,7 +151,7 @@ is_text_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 get_filename_for_test (GthTest        *test,
 		       GthFileData    *file_data,
 		       gconstpointer  *data,
@@ -162,17 +162,19 @@ get_filename_for_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 get_filesize_for_test (GthTest        *test,
 		       GthFileData    *file_data,
 		       gconstpointer  *data,
 		       GDestroyNotify *data_destroy_func)
 {
-	return g_file_info_get_size (file_data->info);
+	guint64 *size = (guint64 *) data;
+	*size = g_file_info_get_size (file_data->info);
+	return 0;
 }
 
 
-static gint64
+static int
 get_modified_date_for_test (GthTest        *test,
 			    GthFileData    *file_data,
 			    gconstpointer  *data,
@@ -195,7 +197,7 @@ get_modified_date_for_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 get_original_date_for_test (GthTest        *test,
 			    GthFileData    *file_data,
 			    gconstpointer  *data,
@@ -219,7 +221,7 @@ get_original_date_for_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 get_embedded_title_for_test (GthTest        *test,
 			     GthFileData    *file,
 			     gconstpointer  *data,
@@ -237,7 +239,7 @@ get_embedded_title_for_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 get_embedded_description_for_test (GthTest        *test,
 				   GthFileData    *file,
 				   gconstpointer  *data,
@@ -255,7 +257,7 @@ get_embedded_description_for_test (GthTest        *test,
 }
 
 
-static gint64
+static int
 get_embedded_rating_for_test (GthTest        *test,
 			      GthFileData    *file,
 			      gconstpointer  *data,

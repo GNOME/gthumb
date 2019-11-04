@@ -86,6 +86,7 @@ enum {
 	PROP_DATA_TYPE,
 	PROP_DATA_AS_STRING,
 	PROP_DATA_AS_INT,
+	PROP_DATA_AS_SIZE,
 	PROP_DATA_AS_DOUBLE,
 	PROP_DATA_AS_DATE,
 	PROP_GET_DATA,
@@ -99,10 +100,11 @@ enum {
 struct _GthTestSimplePrivate {
 	GthTestDataType  data_type;
 	union {
-		char   *s;
-		gint64  i;
-		GDate  *date;
-		gdouble f;
+		char    *s;
+		int      i;
+		guint64  size;
+		GDate   *date;
+		gdouble  f;
 	} data;
 	GthTestGetData   get_data;
 	GthTestOp        op;
@@ -406,11 +408,11 @@ create_control_for_size (GthTestSimple *test)
 	for (i = 0; i < G_N_ELEMENTS (size_data); i++) {
 		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (test->priv->size_combo_box),
 						_(size_data[i].name));
-		if (! size_set && ((i == G_N_ELEMENTS (size_data) - 1) || (test->priv->data.i < size_data[i + 1].size))) {
+		if (! size_set && ((i == G_N_ELEMENTS (size_data) - 1) || (test->priv->data.size < size_data[i + 1].size))) {
 			char *value;
 
 			size_idx = i;
-			value = g_strdup_printf ("%.2f", (double) test->priv->data.i / size_data[i].size);
+			value = g_strdup_printf ("%.2f", (double) test->priv->data.size / size_data[i].size);
 			gtk_entry_set_text (GTK_ENTRY (test->priv->text_entry), value);
 			g_free (value);
 			size_set = TRUE;
@@ -703,6 +705,33 @@ test_integer (GthTestSimple *test,
 
 
 static gboolean
+test_size (GthTestSimple *test,
+	   guint64        value)
+{
+	gboolean result = FALSE;
+
+	switch (test->priv->op) {
+	case GTH_TEST_OP_EQUAL:
+		result = (value == test->priv->data.size);
+		break;
+
+	case GTH_TEST_OP_LOWER:
+		result = (value < test->priv->data.size);
+		break;
+
+	case GTH_TEST_OP_GREATER:
+		result = (value > test->priv->data.size);
+		break;
+
+	default:
+		break;
+	}
+
+	return result;
+}
+
+
+static gboolean
 test_double (GthTestSimple *test,
              gdouble        value)
 {
@@ -781,6 +810,18 @@ _gth_test_simple_get_int (GthTestSimple *test,
 }
 
 
+static guint64
+_gth_test_simple_get_size (GthTestSimple *test,
+			   GthFileData   *file)
+{
+	guint64 value;
+
+	test->priv->get_data (GTH_TEST (test), file, (gpointer)&value, NULL);
+
+	return value;
+}
+
+
 static gdouble
 _gth_test_simple_get_double (GthTestSimple *test,
 			     GthFileData   *file)
@@ -810,8 +851,11 @@ gth_test_simple_real_match (GthTest   *test,
 		break;
 
 	case GTH_TEST_DATA_TYPE_INT:
-	case GTH_TEST_DATA_TYPE_SIZE:
 		result = test_integer (test_simple, _gth_test_simple_get_int (test_simple, file));
+		break;
+
+	case GTH_TEST_DATA_TYPE_SIZE:
+		result = test_size (test_simple, _gth_test_simple_get_size (test_simple, file));
 		break;
 
 	case GTH_TEST_DATA_TYPE_DOUBLE:
@@ -833,7 +877,7 @@ gth_test_simple_real_match (GthTest   *test,
 		break;
 	}
 
-        if (test_simple->priv->negative)
+	if (test_simple->priv->negative)
 		result = ! result;
 
 	return result ? GTH_MATCH_YES : GTH_MATCH_NO;
@@ -864,12 +908,22 @@ gth_test_simple_real_create_element (DomDomizable *base,
 		break;
 
 	case GTH_TEST_DATA_TYPE_INT:
+		dom_element_set_attribute (element, "op", _g_enum_type_get_value (GTH_TYPE_TEST_OP, self->priv->op)->value_nick);
+		if (self->priv->op != GTH_TEST_OP_NONE) {
+			if (self->priv->negative)
+				dom_element_set_attribute (element, "negative", self->priv->negative ? "true" : "false");
+			value = g_strdup_printf ("%d", self->priv->data.i);
+			dom_element_set_attribute (element, "value", value);
+			g_free (value);
+		}
+		break;
+
 	case GTH_TEST_DATA_TYPE_SIZE:
 		dom_element_set_attribute (element, "op", _g_enum_type_get_value (GTH_TYPE_TEST_OP, self->priv->op)->value_nick);
 		if (self->priv->op != GTH_TEST_OP_NONE) {
 			if (self->priv->negative)
 				dom_element_set_attribute (element, "negative", self->priv->negative ? "true" : "false");
-			value = g_strdup_printf ("%" G_GINT64_FORMAT, self->priv->data.i);
+			value = g_strdup_printf ("%" G_GUINT64_FORMAT, self->priv->data.size);
 			dom_element_set_attribute (element, "value", value);
 			g_free (value);
 		}
@@ -1025,7 +1079,7 @@ update_from_control_for_size (GthTestSimple  *self,
 	size = value * size_data[gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->size_combo_box))].size;
 	gth_test_simple_set_data_as_size (self, size);
 
-	if ((self->priv->data.i == 0) && (self->priv->op == GTH_TEST_OP_LOWER)) {
+	if ((self->priv->data.size == 0) && (self->priv->op == GTH_TEST_OP_LOWER)) {
 		if (error != NULL)
 			*error = g_error_new (GTH_TEST_ERROR, 0, _("The test definition is incomplete"));
 		return FALSE;
@@ -1176,7 +1230,7 @@ gth_test_simple_real_duplicate (GthDuplicable *duplicable)
 		break;
 
 	case GTH_TEST_DATA_TYPE_SIZE:
-		gth_test_simple_set_data_as_size (new_test, test->priv->data.i);
+		gth_test_simple_set_data_as_size (new_test, test->priv->data.size);
 		break;
 
 	case GTH_TEST_DATA_TYPE_STRING:
@@ -1221,6 +1275,11 @@ gth_test_simple_set_property (GObject      *object,
 	case PROP_DATA_AS_INT:
 		_gth_test_simple_free_data (test);
 		test->priv->data.i = g_value_get_int (value);
+		break;
+
+	case PROP_DATA_AS_SIZE:
+		_gth_test_simple_free_data (test);
+		test->priv->data.size = g_value_get_uint64 (value);
 		break;
 
 	case PROP_DATA_AS_DOUBLE:
@@ -1280,6 +1339,10 @@ gth_test_simple_get_property (GObject    *object,
 
 	case PROP_DATA_AS_INT:
 		g_value_set_int (value, test->priv->data.i);
+		break;
+
+	case PROP_DATA_AS_SIZE:
+		g_value_set_uint64 (value, test->priv->data.size);
 		break;
 
 	case PROP_DATA_AS_DOUBLE:
@@ -1360,6 +1423,15 @@ gth_test_simple_class_init (GthTestSimpleClass *class)
                                                            G_MAXINT,
                                                            0,
                                                            G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_DATA_AS_SIZE,
+					 g_param_spec_uint64 ("data-as-size",
+                                                              "Data as size",
+							      "The data value as an unsigned long integer",
+							      0,
+							      G_MAXUINT64,
+							      0,
+							      G_PARAM_READWRITE));
 	g_object_class_install_property (object_class,
 					 PROP_DATA_AS_DOUBLE,
 					 g_param_spec_double ("data-as-double",
@@ -1493,7 +1565,7 @@ gth_test_simple_set_data_as_size (GthTestSimple *test,
 {
 	_gth_test_simple_free_data (test);
 	test->priv->data_type = GTH_TEST_DATA_TYPE_SIZE;
-	test->priv->data.i = i;
+	test->priv->data.size = i;
 }
 
 
