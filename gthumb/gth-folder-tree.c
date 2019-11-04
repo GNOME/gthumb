@@ -1169,13 +1169,12 @@ _gth_folder_tree_add_loading_item (GthFolderTree *folder_tree,
 
 static void
 _gth_folder_tree_add_empty_item (GthFolderTree *folder_tree,
-				 GtkTreeIter   *parent,
-				 gboolean       forced)
+				 GtkTreeIter   *parent)
 {
 	char        *sort_key;
 	GtkTreeIter  iter;
 
-	if (! forced && _gth_folder_tree_child_type_present (folder_tree, parent, ENTRY_TYPE_EMPTY))
+	if (_gth_folder_tree_child_type_present (folder_tree, parent, ENTRY_TYPE_EMPTY))
 		return;
 
 	sort_key = g_utf8_collate_key_for_filename (EMPTY_URI, -1);
@@ -1585,7 +1584,6 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 {
 	GtkTreeIter   parent_iter;
 	GtkTreeIter  *p_parent_iter;
-	gboolean      is_empty;
 	GHashTable   *file_hash;
 	GList        *scan;
 	GList        *old_files;
@@ -1605,8 +1603,8 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 	tree_model = GTK_TREE_MODEL (folder_tree->priv->tree_store);
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (tree_model), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, 0);
 
-	is_empty = TRUE;
-	_gth_folder_tree_add_empty_item (folder_tree, p_parent_iter, FALSE);
+	/* add the empty item first to not allow the folder to collapse. */
+	_gth_folder_tree_add_empty_item (folder_tree, p_parent_iter);
 
 	/* delete the children not present in the new file list, update the
 	 * already existing files */
@@ -1639,8 +1637,7 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 
 				if (g_hash_table_lookup (file_hash, file_data->file)) {
 					/* file_data is already present in the list, just update it */
-					if (_gth_folder_tree_set_file_data (folder_tree, &iter, file_data))
-						is_empty = FALSE;
+					_gth_folder_tree_set_file_data (folder_tree, &iter, file_data);
 					valid = gtk_tree_model_iter_next (tree_model, &iter);
 				}
 				else {
@@ -1669,10 +1666,8 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 	for (scan = files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 
-		if (! g_hash_table_lookup (file_hash, file_data->file)) {
-			if (_gth_folder_tree_add_file (folder_tree, p_parent_iter, file_data))
-				is_empty = FALSE;
-		}
+		if (! g_hash_table_lookup (file_hash, file_data->file))
+			_gth_folder_tree_add_file (folder_tree, p_parent_iter, file_data);
 	}
 
 	_g_object_list_unref (old_files);
@@ -1680,8 +1675,7 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 
 	/**/
 
-	if (! is_empty)
-		_gth_folder_tree_remove_child_type (folder_tree, p_parent_iter, ENTRY_TYPE_EMPTY);
+	_gth_folder_tree_remove_child_type (folder_tree, p_parent_iter, ENTRY_TYPE_EMPTY);
 
 	if (p_parent_iter != NULL)
 		gtk_tree_store_set (folder_tree->priv->tree_store, p_parent_iter,
@@ -1773,7 +1767,6 @@ gth_folder_tree_add_children (GthFolderTree *folder_tree,
 {
 	GtkTreeIter  parent_iter;
 	GtkTreeIter *p_parent_iter;
-	gboolean     is_empty;
 	GList       *scan;
 
 	if (g_file_equal (parent, folder_tree->priv->root))
@@ -1783,18 +1776,13 @@ gth_folder_tree_add_children (GthFolderTree *folder_tree,
 	else
 		return;
 
-	is_empty = TRUE;
 	for (scan = files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 
 		if (_gth_folder_tree_file_is_in_children (folder_tree, p_parent_iter, file_data->file))
 			continue;
-		if (_gth_folder_tree_add_file (folder_tree, p_parent_iter, file_data))
-			is_empty = FALSE;
+		_gth_folder_tree_add_file (folder_tree, p_parent_iter, file_data);
 	}
-
-	if (! is_empty)
-		_gth_folder_tree_remove_child_type (folder_tree, p_parent_iter, ENTRY_TYPE_EMPTY);
 
 	folder_tree->priv->recalc_entry_points = TRUE;
 }
@@ -1882,7 +1870,7 @@ gth_folder_tree_delete_children (GthFolderTree *folder_tree,
 		return;
 
 	/* add the empty item first to not allow the folder to collapse. */
-	_gth_folder_tree_add_empty_item (folder_tree, p_parent_iter, TRUE);
+	_gth_folder_tree_add_empty_item (folder_tree, p_parent_iter);
 
 	for (scan = files; scan; scan = scan->next) {
 		GFile       *file = scan->data;
@@ -1892,8 +1880,7 @@ gth_folder_tree_delete_children (GthFolderTree *folder_tree,
 			gtk_tree_store_remove (folder_tree->priv->tree_store, &iter);
 	}
 
-	if (gtk_tree_model_iter_n_children (GTK_TREE_MODEL (folder_tree->priv->tree_store), p_parent_iter) > 1)
-		_gth_folder_tree_remove_child_type (folder_tree, p_parent_iter, ENTRY_TYPE_EMPTY);
+	_gth_folder_tree_remove_child_type (folder_tree, p_parent_iter, ENTRY_TYPE_EMPTY);
 
 	folder_tree->priv->recalc_entry_points = TRUE;
 }
