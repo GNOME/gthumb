@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.14"/>
   <object class="GtkBox" id="overwrite_dialog_box">
@@ -30,7 +30,7 @@
       <object class="GtkBox" id="hbox46">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="spacing">12</property>
+        <property name="spacing">24</property>
         <child>
           <object class="GtkBox" id="vbox57">
             <property name="visible">True</property>
@@ -124,7 +124,8 @@
                       <object class="GtkLabel" id="old_image_filename_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="wrap">True</property>
+                        <property name="ellipsize">end</property>
+                        <property name="single_line_mode">True</property>
                         <property name="xalign">0</property>
                       </object>
                     </child>
@@ -292,7 +293,8 @@
                       <object class="GtkLabel" id="new_image_filename_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="wrap">True</property>
+                        <property name="ellipsize">end</property>
+                        <property name="single_line_mode">True</property>
                         <property name="xalign">0</property>
                       </object>
                     </child>
