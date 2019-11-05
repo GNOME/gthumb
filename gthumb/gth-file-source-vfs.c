@@ -736,14 +736,16 @@ delete_permanently_response_cb (GtkDialog *dialog,
 
 typedef struct {
 	GtkWindow *window;
-	GList     *files;
+	GList     *file_data_list;
+	GList     *file_list;
 } TrashData;
 
 
 static void
 trash_data_free (TrashData *tdata)
 {
-	_g_object_list_unref (tdata->files);
+	_g_object_list_unref (tdata->file_data_list);
+	_g_object_list_unref (tdata->file_list);
 	g_free (tdata);
 }
 
@@ -756,7 +758,7 @@ trash_failed_delete_permanently_response_cb (GtkDialog *dialog,
 	TrashData *tdata = user_data;
 
 	if (response_id == GTK_RESPONSE_YES)
-		delete_file_permanently (tdata->window, tdata->files);
+		delete_file_permanently (tdata->window, tdata->file_data_list);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	trash_data_free (tdata);
@@ -771,7 +773,7 @@ trash_task_completed_cb (GthTask  *task,
 	TrashData *tdata = user_data;
 
 	if (error == NULL) {
-		gth_monitor_files_deleted (gth_main_get_default_monitor (), tdata->files);
+		gth_monitor_files_deleted (gth_main_get_default_monitor (), tdata->file_list);
 		trash_data_free (tdata);
 	}
 	else if (g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_CANCELLED)) {
@@ -806,23 +808,19 @@ gth_file_mananger_trash_files (GtkWindow *window,
 			       GList     *file_list /* GthFileData list */)
 {
 	TrashData *tdata;
-	GList     *files;
 	GthTask   *task;
 
 	tdata = g_new0 (TrashData, 1);
 	tdata->window = window;
-	tdata->files = gth_file_data_list_dup (file_list);
-
-	files = gth_file_data_list_to_file_list (file_list);
-	task = gth_trash_task_new (files);
+	tdata->file_data_list = gth_file_data_list_dup (file_list);
+	tdata->file_list = gth_file_data_list_to_file_list (file_list);
+	task = gth_trash_task_new (tdata->file_list);
 	g_signal_connect (task,
 			  "completed",
 			  G_CALLBACK (trash_task_completed_cb),
 			  tdata);
 
 	gth_browser_exec_task (GTH_BROWSER (window), task, GTH_TASK_FLAGS_IGNORE_ERROR);
-
-	_g_object_list_unref (files);
 }
 
 
