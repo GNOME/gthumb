@@ -34,8 +34,8 @@ static const GActionEntry actions[] = {
 };
 
 
-static const GthAccelerator accelerators[] = {
-	{ "win.print", "<control>P" }
+static const GthShortcut shortcuts[] = {
+	{ "print", N_("Print"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "<control>P" },
 };
 
 
@@ -60,9 +60,9 @@ ip__gth_browser_construct_cb (GthBrowser *browser)
 				       "win.print",
 				       "<control>P",
 				       NULL);
-	gth_window_add_accelerators (GTH_WINDOW (browser),
-				     accelerators,
-				     G_N_ELEMENTS (accelerators));
+	gth_window_add_shortcuts (GTH_WINDOW (browser),
+				  shortcuts,
+				  G_N_ELEMENTS (shortcuts));
 }
 
 
