@@ -25,6 +25,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "gtk-utils.h"
+#include "typedefs.h"
 
 
 static const GActionEntry gth_browser_actions[] = {
@@ -45,6 +46,8 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "revert-to-saved", gth_browser_activate_revert_to_saved },
 	{ "save", gth_browser_activate_save },
 	{ "save-as", gth_browser_activate_save_as },
+	{ "toggle-edit-file", gth_browser_activate_toggle_edit_file },
+	{ "toggle-file-properties", gth_browser_activate_toggle_file_properties },
 	{ "viewer-edit-file", toggle_action_activated, NULL, "false", gth_browser_activate_viewer_edit_file },
 	{ "viewer-properties", toggle_action_activated, NULL, "false", gth_browser_activate_viewer_properties },
 	{ "unfullscreen", gth_browser_activate_unfullscreen },
@@ -57,6 +60,8 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "show-sidebar", toggle_action_activated, NULL, "false", gth_browser_activate_show_sidebar },
 	{ "show-thumbnail-list", toggle_action_activated, NULL, "false", gth_browser_activate_show_thumbnail_list },
 
+	{ "show-first-image", gth_browser_activate_show_first_image },
+	{ "show-last-image", gth_browser_activate_show_last_image },
 	{ "show-previous-image", gth_browser_activate_show_previous_image },
 	{ "show-next-image", gth_browser_activate_show_next_image },
 
@@ -66,18 +71,34 @@ static const GActionEntry gth_browser_actions[] = {
 
 static const GthAccelerator gth_browser_accelerators[] = {
 	{ "browser-mode", "Escape" },
-	{ "browser-properties", "<Control>i" },
 	{ "close", "<Control>w" },
-	{ "open-location", "<Control>o" },
-	{ "fullscreen", "F11" },
-	{ "revert-to-saved", "F4" },
-	{ "show-sidebar", "F9" },
-	{ "show-thumbnail-list", "F8" },
-	{ "go-back", "<Alt>Left" },
-	{ "go-forward", "<Alt>Right" },
-	{ "go-up", "<Alt>Up" },
-	{ "go-home", "<Alt>Home" },
-	{ "reload", "<Control>r" }
+};
+
+
+static const GthShortcut gth_browser_shortcuts[] = {
+	{ "close", N_("Close Window"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "" },
+	{ "open-location", N_("Open Location"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "O" },
+	{ "fullscreen", N_("Fullscreen"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "F" },
+	{ "revert-to-saved", N_("Revert Image to Saved"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "F4" },
+	{ "show-sidebar", N_("Sidebar"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F9" },
+	{ "show-statusbar", N_("Statusbar"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F7" },
+	{ "show-thumbnail-list", N_("Thumbnails List"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F8" },
+
+	{ "go-back", N_("Load Previuos Location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "<Alt>Left" },
+	{ "go-forward", N_("Load Next Location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "<Alt>Right" },
+	{ "go-up", N_("Load Parent Folder"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "<Alt>Up" },
+	{ "go-home", N_("Load Home"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "<Alt>Home" },
+	{ "reload", N_("Reload Location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "R" },
+	{ "show-hidden-files", N_("Show/Hide Hidden Files"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "H" },
+	{ "sort-by", N_("Change Sorting Order"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "S" },
+
+	{ "show-previous-image", N_("Show Previous Image"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "BackSpace" },
+	{ "show-next-image", N_("Show Next Image"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "space" },
+	{ "show-first-image", N_("Show First Image"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "Home" },
+	{ "show-last-image", N_("Show Last Image"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "End" },
+
+	{ "toggle-edit-file", N_("Edit Image"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "E" },
+	{ "toggle-file-properties", N_("File Properties"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "I" },
 };
 
 

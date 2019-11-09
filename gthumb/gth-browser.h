@@ -248,6 +248,8 @@ void             gth_browser_update_statusbar_file_info
 						    (GthBrowser       *browser);
 void             gth_browser_show_file_properties   (GthBrowser       *browser);
 void             gth_browser_show_viewer_tools      (GthBrowser       *browser);
+void             gth_browser_toggle_file_properties (GthBrowser       *browser);
+void             gth_browser_toggle_viewer_tools    (GthBrowser       *browser);
 void             gth_browser_hide_sidebar           (GthBrowser       *browser);
 void             gth_browser_load_location          (GthBrowser       *browser,
 						     GFile            *location);

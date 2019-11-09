@@ -378,6 +378,26 @@ gth_browser_activate_save_as (GSimpleAction *action,
 
 
 void
+gth_browser_activate_toggle_edit_file (GSimpleAction *action,
+					GVariant      *state,
+					gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+	gth_browser_toggle_viewer_tools (browser);
+}
+
+
+void
+gth_browser_activate_toggle_file_properties (GSimpleAction *action,
+					     GVariant      *state,
+					     gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+	gth_browser_toggle_file_properties (browser);
+}
+
+
+void
 gth_browser_activate_viewer_edit_file (GSimpleAction *action,
 				       GVariant      *state,
 				       gpointer       user_data)
@@ -502,6 +522,26 @@ gth_browser_activate_show_thumbnail_list (GSimpleAction *action,
 	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 	g_settings_set_boolean (settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE, g_variant_get_boolean (state));
 	g_object_unref (settings);
+}
+
+
+void
+gth_browser_activate_show_first_image (GSimpleAction *action,
+				       GVariant      *state,
+				       gpointer       user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	gth_browser_show_first_image (browser, FALSE, FALSE);
+}
+
+
+void
+gth_browser_activate_show_last_image (GSimpleAction *action,
+				      GVariant      *state,
+				      gpointer       user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	gth_browser_show_last_image (browser, FALSE, FALSE);
 }
 
 

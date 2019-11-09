@@ -4112,11 +4112,13 @@ browser_key_press_cb (GthBrowser  *browser,
 		if (! _gth_browser_file_tool_is_active (browser))
 			return gth_browser_viewer_key_press_cb (browser, event);
 		break;
+
 	case GTH_BROWSER_PAGE_BROWSER:
 		focus_widget = gtk_window_get_focus (GTK_WINDOW (browser));
 		if (! GTK_IS_ENTRY (focus_widget) && ! GTK_IS_TREE_VIEW (focus_widget))
 			return gth_browser_file_list_key_press_cb (browser, event);
 		break;
+
 	default:
 		break;
 	}
@@ -4264,6 +4266,10 @@ gth_browser_init (GthBrowser *browser)
 	gth_window_add_accelerators (GTH_WINDOW (browser),
 				     gth_browser_accelerators,
 				     G_N_ELEMENTS (gth_browser_accelerators));
+
+	gth_window_add_shortcuts (GTH_WINDOW (browser),
+				  gth_browser_shortcuts,
+				  G_N_ELEMENTS (gth_browser_shortcuts));
 
 	/* -- image page -- */
 
@@ -6310,6 +6316,53 @@ gth_browser_show_viewer_tools (GthBrowser *browser)
 	gtk_widget_show (browser->priv->viewer_sidebar_container);
 	gtk_widget_show (browser->priv->file_properties);
 	gth_sidebar_show_tools (GTH_SIDEBAR (browser->priv->file_properties));
+}
+
+
+void
+gth_browser_toggle_file_properties (GthBrowser  *browser)
+{
+	g_return_if_fail (GTH_IS_BROWSER (browser));
+
+	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
+	case GTH_BROWSER_PAGE_BROWSER:
+		if (gth_window_get_action_state (GTH_WINDOW (browser), "browser-properties"))
+			gth_browser_hide_sidebar (browser);
+		else
+			gth_browser_show_file_properties (browser);
+		break;
+
+	case GTH_BROWSER_PAGE_VIEWER:
+		gth_browser_toggle_properties_on_screen (browser);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+void
+gth_browser_toggle_viewer_tools (GthBrowser  *browser)
+{
+	g_return_if_fail (GTH_IS_BROWSER (browser));
+
+	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
+	case GTH_BROWSER_PAGE_BROWSER:
+		if (browser->priv->viewer_page != NULL)
+			gth_browser_show_viewer_tools (GTH_BROWSER (browser));
+		break;
+
+	case GTH_BROWSER_PAGE_VIEWER:
+		if (browser->priv->viewer_sidebar != GTH_SIDEBAR_STATE_TOOLS)
+			gth_browser_show_viewer_tools (browser);
+		else
+			gth_browser_hide_sidebar (browser);
+		break;
+
+	default:
+		break;
+	}
 }
 
 
