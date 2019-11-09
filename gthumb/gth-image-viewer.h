@@ -222,8 +222,6 @@ GthFit         gth_image_viewer_get_fit_mode             (GthImageViewer        
 void           gth_image_viewer_set_zoom_enabled         (GthImageViewer        *viewer,
 							  gboolean               value);
 gboolean       gth_image_viewer_get_zoom_enabled         (GthImageViewer        *viewer);
-void           gth_image_viewer_enable_zoom_with_keys    (GthImageViewer        *viewer,
-							  gboolean               value);
 
 /* misc. */
 
@@ -236,6 +234,8 @@ void           gth_image_viewer_set_transparency_style   (GthImageViewer        
 							  GthTransparencyStyle   style);
 GthTransparencyStyle
 	       gth_image_viewer_get_transparency_style   (GthImageViewer        *viewer);
+void           gth_image_viewer_enable_key_bindings      (GthImageViewer        *viewer,
+							  gboolean               value);
 
 /* Scrolling. */
 
