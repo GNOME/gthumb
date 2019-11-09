@@ -24,6 +24,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include "gth-accel-button.h"
+#include "gth-accel-dialog.h"
 #include "gtk-utils.h"
 
 
@@ -182,13 +183,20 @@ accel_dialog_response_cb (GtkDialog *dialog,
 	                  gint       response_id,
 	                  gpointer   user_data)
 {
-	GthAccelButton *accel_button = user_data;
+	GthAccelButton  *accel_button = user_data;
+	guint            keycode;
+	GdkModifierType  modifiers;
 
 	switch (response_id) {
+	case GTK_RESPONSE_OK:
+		if (gth_accel_dialog_get_accel (GTH_ACCEL_DIALOG (dialog), &keycode, &modifiers))
+			gth_accel_button_set_accelerator (accel_button, keycode, modifiers);
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		break;
 	case GTK_RESPONSE_CANCEL:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
-	case _RESPONSE_RESET:
+	case GTH_ACCEL_BUTTON_RESPONSE_DELETE:
 		gth_accel_button_set_accelerator (accel_button, 0, 0);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
@@ -196,68 +204,22 @@ accel_dialog_response_cb (GtkDialog *dialog,
 }
 
 
-static gboolean
-accel_dialog_keypress_cb (GtkWidget    *widget,
-			  GdkEventKey  *event,
-	                  gpointer      user_data)
-{
-	GthAccelButton  *accel_button = user_data;
-	GdkModifierType  modifiers;
-
-	if (event->keyval == GDK_KEY_Escape)
-		return FALSE;
-
-	modifiers = event->state & gtk_accelerator_get_default_mod_mask ();
-	if (gth_accel_button_set_accelerator (accel_button, event->keyval, modifiers))
-		gtk_widget_destroy (widget);
-
-	return TRUE;
-}
-
-
 static void
 button_clicked_cb (GtkButton *button,
 		   gpointer   user_data)
 {
-	GtkWidget *dialog, *box, *label, *secondary_label, *content_area;
+	GthAccelButton *accel_button = GTH_ACCEL_BUTTON (button);
+	GtkWidget      *dialog;
 
-	dialog = g_object_new (GTK_TYPE_DIALOG,
-			       "use-header-bar", _gtk_settings_get_dialogs_use_header (),
-			       "modal", TRUE,
-			       "transient-for", _gtk_widget_get_toplevel_if_window (GTK_WIDGET (button)),
-			       "resizable", FALSE,
-			       "title", _("Shortcut"),
-			       NULL);
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-				! gth_accel_button_get_valid (GTH_ACCEL_BUTTON (button)) ? NULL : _GTK_LABEL_DELETE,
-				_RESPONSE_RESET,
-				NULL);
-
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-
-	label = gtk_label_new (_("Press a combination of keys to use as shortcut."));
-	secondary_label = gtk_label_new (_("Press Esc to cancel"));
-	gtk_style_context_add_class (gtk_widget_get_style_context (secondary_label), "dim-label");
-	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 50);
-	gtk_widget_set_margin_top (box, 50);
-	gtk_widget_set_margin_bottom (box, 50);
-	gtk_widget_set_margin_start (box, 50);
-	gtk_widget_set_margin_end (box, 50);
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (box), secondary_label, TRUE, TRUE, 0);
-
+	dialog = gth_accel_dialog_new (_("Shortcut"),
+				       _gtk_widget_get_toplevel_if_window (GTK_WIDGET (button)),
+				       accel_button->priv->keyval,
+				       accel_button->priv->modifiers);
 	g_signal_connect (dialog,
 			  "response",
 			  G_CALLBACK (accel_dialog_response_cb),
 			  button);
-	g_signal_connect (dialog,
-			  "key-press-event",
-			  G_CALLBACK (accel_dialog_keypress_cb),
-			  button);
-
-	gtk_container_add (GTK_CONTAINER (content_area), box);
-	gtk_widget_show_all (dialog);
+	gtk_widget_show (dialog);
 }
 
 
