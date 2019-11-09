@@ -38,6 +38,7 @@ header_files = [
 enum_files = gnome.mkenums_simple('file-tools-enum-types', sources: header_files)
 
 source_files = files(
+  'actions.c',
   'cairo-blur.c',
   'cairo-effects.c',
   'cairo-rotate.c',

@@ -26,6 +26,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
+#include "actions.h"
 #include "callbacks.h"
 #include "gth-file-tool-adjust-contrast.h"
 #include "gth-file-tool-crop.h"
@@ -36,60 +37,37 @@
 #include "gth-file-tool-rotate-right.h"
 
 
-gpointer
-file_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
-						GdkEventKey *event)
+static const GActionEntry actions[] = {
+	{ "file-tool-adjust-contrast", gth_browser_activate_file_tool, "s", "'adjust-contrast'" },
+	{ "file-tool-flip", gth_browser_activate_file_tool, "s", "'flip'" },
+	{ "file-tool-mirror", gth_browser_activate_file_tool, "s", "'mirror'" },
+	{ "file-tool-rotate-right", gth_browser_activate_file_tool, "s", "'rotate-right'" },
+	{ "file-tool-rotate-left", gth_browser_activate_file_tool, "s", "'rotate-left'" },
+	{ "file-tool-crop", gth_browser_activate_file_tool, "s", "'crop'" },
+	{ "file-tool-resize", gth_browser_activate_file_tool, "s", "'resize'" },
+};
+
+
+static const GthShortcut shortcuts[] = {
+	{ "file-tool-adjust-contrast", N_("Adjust Contrast"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "A" },
+	{ "file-tool-flip", N_("Flip"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "L" },
+	{ "file-tool-mirror", N_("Mirror"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "M" },
+	{ "file-tool-rotate-right", N_("Rotate Right"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "R" },
+	{ "file-tool-rotate-left", N_("Rotate Left"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "<shift>R" },
+	{ "file-tool-crop", N_("Crop"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "<shift>C" },
+	{ "file-tool-resize", N_("Resize"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "<shift>S" },
+};
+
+
+void
+file_tools__gth_browser_construct_cb (GthBrowser *browser)
 {
-	gpointer       result = NULL;
-	GtkWidget     *sidebar;
-	GtkWidget     *toolbox;
-	GthFileTool   *tool = NULL;
-	guint          modifiers;
-	GthViewerPage *page;
+	g_action_map_add_action_entries (G_ACTION_MAP (browser),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 browser);
 
-	sidebar = gth_browser_get_viewer_sidebar (browser);
-	toolbox = gth_sidebar_get_toolbox (GTH_SIDEBAR (sidebar));
-	if (gth_toolbox_tool_is_active (GTH_TOOLBOX (toolbox)))
-		return NULL;
-
-	modifiers = gtk_accelerator_get_default_mod_mask ();
-	if (((event->state & modifiers) != 0) && ((event->state & modifiers) != GDK_SHIFT_MASK))
-		return NULL;
-
-	page = gth_browser_get_viewer_page (browser);
-	if (! GTH_IS_IMAGE_VIEWER_PAGE (page))
-		return NULL;
-
-	switch (event->keyval) {
-	case GDK_KEY_a:
-		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ADJUST_CONTRAST);
-		break;
-	case GDK_KEY_l:
-		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_FLIP);
-		break;
-	case GDK_KEY_m:
-		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_MIRROR);
-		break;
-	case GDK_KEY_r:
-		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ROTATE_RIGHT);
-		break;
-	case GDK_KEY_R:
-		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_ROTATE_LEFT);
-		break;
-	case GDK_KEY_C:
-		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_CROP);
-		break;
-	case GDK_KEY_S:
-		tool = (GthFileTool *) gth_toolbox_get_tool (GTH_TOOLBOX (toolbox), GTH_TYPE_FILE_TOOL_RESIZE);
-		break;
-	}
-
-	if (tool != NULL) {
-		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
-			gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
-		gth_file_tool_activate (tool);
-		result = GINT_TO_POINTER (1);
-	}
-
-	return result;
+	gth_window_add_shortcuts (GTH_WINDOW (browser),
+				  shortcuts,
+				  G_N_ELEMENTS (shortcuts));
 }

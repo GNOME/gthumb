@@ -74,7 +74,7 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_RESIZE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CROP);
 
-	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (file_tools__gth_browser_file_list_key_press_cb), NULL);
+	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (file_tools__gth_browser_construct_cb), NULL);
 
 	/**
 	 * Add a filter to the filter list shown in the Effects tool

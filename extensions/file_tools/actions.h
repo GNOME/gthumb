@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2019 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,11 +19,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CALLBACKS_H
-#define CALLBACKS_H
+#ifndef ACTIONS_H
+#define ACTIONS_H
 
 #include <gthumb.h>
 
-void file_tools__gth_browser_construct_cb (GthBrowser *browser);
+DEF_ACTION_CALLBACK (gth_browser_activate_file_tool)
 
-#endif /* CALLBACKS_H */
+#endif /* ACTIONS_H */
