@@ -42,6 +42,12 @@ static const GActionEntry actions[] = {
 };
 
 
+static const GthShortcut shortcuts[] = {
+	{ "rotate-right", N_("Rotate Right"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "bracketright" },
+	{ "rotate-left", N_("Rotate Left"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "bracketleft" },
+};
+
+
 static const GthMenuEntry tools1_action_entries[] = {
 	{ N_("Rotate Left"), "win.rotate-left", "bracketleft", "object-rotate-left-symbolic" },
 	{ N_("Rotate Right"), "win.rotate-right", "bracketright", "object-rotate-right-symbolic" },
@@ -84,6 +90,11 @@ ir__gth_browser_construct_cb (GthBrowser *browser)
 					 actions,
 					 G_N_ELEMENTS (actions),
 					 browser);
+
+	gth_window_add_shortcuts (GTH_WINDOW (browser),
+				  shortcuts,
+				  G_N_ELEMENTS (shortcuts));
+
 	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_TOOLS),
 					 tools1_action_entries,
 					 G_N_ELEMENTS (tools1_action_entries));
@@ -105,31 +116,6 @@ ir__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	gth_window_enable_action (GTH_WINDOW (browser), "rotate-left", sensitive);
 	gth_window_enable_action (GTH_WINDOW (browser), "apply-orientation", sensitive);
 	gth_window_enable_action (GTH_WINDOW (browser), "reset-orientation", sensitive);
-}
-
-
-gpointer
-ir__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
-					GdkEventKey *event)
-{
-	gpointer result = NULL;
-
-	switch (event->keyval) {
-	case GDK_KEY_bracketright:
-		gth_browser_activate_rotate_right (NULL, NULL, browser);
-		result = GINT_TO_POINTER (1);
-		break;
-
-	case GDK_KEY_bracketleft:
-		gth_browser_activate_rotate_left (NULL, NULL, browser);
-		result = GINT_TO_POINTER (1);
-		break;
-
-	default:
-		break;
-	}
-
-	return result;
 }
 
 
