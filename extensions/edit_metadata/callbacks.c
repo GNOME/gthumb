@@ -41,6 +41,12 @@ static const GActionEntry actions[] = {
 };
 
 
+static const GthShortcut shortcuts[] = {
+	{ "edit-metadata", N_("Edit comment"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "C" },
+	{ "edit-tags", N_("Edit tags"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "T" },
+};
+
+
 static const GthMenuEntry tools_actions[] = {
 	{ N_("Delete Metadata"), "win.delete-metadata" }
 };
@@ -61,6 +67,9 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 					 actions,
 					 G_N_ELEMENTS (actions),
 					 browser);
+	gth_window_add_shortcuts (GTH_WINDOW (browser),
+				  shortcuts,
+				  G_N_ELEMENTS (shortcuts));
 
 	if (gth_main_extension_is_active ("list_tools"))
 		gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_MORE_TOOLS),
@@ -100,31 +109,4 @@ edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "edit-metadata"), "enabled", sensitive, NULL);
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "edit-tags"), "enabled", sensitive, NULL);
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "delete-metadata"), "enabled", sensitive, NULL);
-}
-
-
-gpointer
-edit_metadata__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
-						   GdkEventKey *event)
-{
-	gpointer result = NULL;
-	guint    modifiers;
-
-	modifiers = gtk_accelerator_get_default_mod_mask ();
-	if ((event->state & modifiers) != 0)
-		return NULL;
-
-	switch (gdk_keyval_to_lower (event->keyval)) {
-	case GDK_KEY_c:
-		gth_browser_activate_edit_metadata (NULL, NULL, browser);
-		result = GINT_TO_POINTER (1);
-		break;
-
-	case GDK_KEY_t:
-		gth_browser_activate_edit_tags (NULL, NULL, browser);
-		result = GINT_TO_POINTER (1);
-		break;
-	}
-
-	return result;
 }
