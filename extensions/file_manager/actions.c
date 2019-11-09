@@ -543,6 +543,70 @@ gth_browser_activate_delete (GSimpleAction *action,
 }
 
 
+static void
+remove_from_source (GthBrowser *browser,
+		    gboolean    permanently)
+{
+	GthFileSource *source;
+	GthFileData   *location;
+	GList         *items;
+	GList         *file_data_list;
+
+	if (permanently) {
+		/* Use the VFS file source to delete the files from the
+		 * disk. */
+
+		source = gth_main_get_file_source_for_uri ("file:///");
+		location = NULL;
+	}
+	else {
+		/* Removes the files from the current location,
+		 * for example: when viewing a catalog removes
+		 * the files from the catalog; when viewing a
+		 * folder removes the files from the folder. */
+
+		source = _g_object_ref (gth_browser_get_location_source (browser));
+		location = gth_browser_get_location_data (browser);
+	}
+
+	if (source == NULL)
+		return;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	if (items == NULL)
+		return;
+
+	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	gth_file_source_remove (source,
+				location,
+				file_data_list,
+				permanently,
+				GTK_WINDOW (browser));
+
+	_g_object_list_unref (file_data_list);
+	_gtk_tree_path_list_free (items);
+	_g_object_unref (source);
+}
+
+
+void
+gth_browser_activate_remove_from_source (GSimpleAction *action,
+					 GVariant      *parameter,
+					 gpointer       user_data)
+{
+	remove_from_source (GTH_BROWSER (user_data), FALSE);
+}
+
+
+void
+gth_browser_activate_remove_from_source_permanently (GSimpleAction *action,
+						     GVariant      *parameter,
+						     gpointer       user_data)
+{
+	remove_from_source (GTH_BROWSER (user_data), TRUE);
+}
+
+
 void
 gth_browser_activate_rename (GSimpleAction *action,
 			     GVariant      *parameter,
@@ -992,4 +1056,28 @@ gth_browser_activate_folder_context_move_to (GSimpleAction *action,
 					     gpointer       user_data)
 {
 	copy_folder_to_folder (GTH_BROWSER (user_data), TRUE);
+}
+
+
+void
+gth_browser_activate_open_with_gimp (GSimpleAction *action,
+				     GVariant      *parameter,
+				     gpointer       user_data)
+{
+	GthBrowser *browser = user_data;
+	GList      *items;
+	GList      *file_data_list;
+	GList      *file_list;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	if (items == NULL)
+		return;
+
+	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	file_list = gth_file_data_list_to_file_list (file_data_list);
+	_g_launch_command (GTK_WIDGET (browser), "gimp %U", "Gimp", file_list);
+
+	_g_object_list_unref (file_list);
+	_g_object_list_unref (file_data_list);
+	_gtk_tree_path_list_free (items);
 }

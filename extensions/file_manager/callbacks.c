@@ -46,6 +46,8 @@ static const GActionEntry actions[] = {
 	{ "edit-paste", gth_browser_activate_edit_paste },
 	{ "trash", gth_browser_activate_trash },
 	{ "delete", gth_browser_activate_delete },
+	{ "remove-from-source", gth_browser_activate_remove_from_source },
+	{ "remove-from-source-permanently", gth_browser_activate_remove_from_source_permanently },
 	{ "rename", gth_browser_activate_rename },
 	{ "file-list-rename", gth_browser_activate_file_list_rename },
 	{ "duplicate", gth_browser_activate_duplicate },
@@ -62,6 +64,7 @@ static const GActionEntry actions[] = {
 	{ "folder-context-move-to", gth_browser_activate_folder_context_move_to },
 	{ "folder-context-trash", gth_browser_activate_folder_context_trash },
 	{ "folder-context-delete", gth_browser_activate_folder_context_delete },
+	{ "open-with-gimp", gth_browser_activate_open_with_gimp },
 	{ "open-with-application", gth_browser_activate_open_with_application, "i" }
 };
 
@@ -117,11 +120,17 @@ static const GthMenuEntry vfs_entries[] = {
 
 
 static const GthAccelerator accelerators[] = {
-	{ "win.rename", "F2" },
 	{ "win.edit-cut", "<Control>x" },
 	{ "win.edit-copy", "<Control>c" },
 	{ "win.edit-paste", "<Control>v" },
-	{ "win.duplicate", "<Control>d" },
+};
+
+static const GthShortcut shortcuts[] = {
+	{ "rename", N_("Rename File"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "F2" },
+	{ "duplicate", N_("Duplicate File"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "D" },
+	{ "remove-from-source", N_("Delete File"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "Delete" },
+	{ "remove-from-source-permanently", N_("Delete File Permanently"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "<shift>Delete" },
+	{ "open-with-gimp", N_("Open With Gimp"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "G" },
 };
 
 
@@ -709,6 +718,9 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	gth_window_add_accelerators (GTH_WINDOW (browser),
 				     accelerators,
 				     G_N_ELEMENTS (accelerators));
+	gth_window_add_shortcuts (GTH_WINDOW (browser),
+				  shortcuts,
+				  G_N_ELEMENTS (shortcuts));
 
 	gth_browser_add_header_bar_button (browser,
 					   GTH_BROWSER_HEADER_SECTION_BROWSER_LOCATIONS,
@@ -1169,81 +1181,4 @@ fm__gth_browser_unrealize_cb (GthBrowser *browser)
 	g_signal_handlers_disconnect_by_func (clipboard,
 	                                      G_CALLBACK (clipboard_owner_change_cb),
 	                                      browser);
-}
-
-
-gpointer
-fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
-					GdkEventKey *event)
-{
-	gpointer  result = NULL;
-	guint     modifiers;
-	GList    *items;
-	GList    *file_data_list;
-	GList    *file_list;
-
-	modifiers = gtk_accelerator_get_default_mod_mask ();
-
-	switch (event->keyval) {
-	case GDK_KEY_g:
-		if ((event->state & modifiers) == 0) {
-			items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-			file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-			file_list = gth_file_data_list_to_file_list (file_data_list);
-			_g_launch_command (GTK_WIDGET (browser), "gimp %U", "Gimp", file_list);
-
-			_g_object_list_unref (file_list);
-			_g_object_list_unref (file_data_list);
-			_gtk_tree_path_list_free (items);
-			result = GINT_TO_POINTER (1);
-		}
-		break;
-
-	case GDK_KEY_Delete:
-		if (((event->state & modifiers) == 0)
-		    || ((event->state & modifiers) == GDK_SHIFT_MASK)
-		    || ((event->state & modifiers) == GDK_CONTROL_MASK))
-		{
-			GthFileSource *source;
-			GthFileData   *location;
-
-			if ((event->state & modifiers) == 0) {
-				/* Removes the files from the current location,
-				 * for example: when viewing a catalog removes
-				 * the files from the catalog; when viewing a
-				 * folder removes the files from the folder. */
-				source = _g_object_ref (gth_browser_get_location_source (browser));
-				location = gth_browser_get_location_data (browser);
-			}
-			else {
-				/* When a key modifier is active, use the VFS
-				 * file source to delete the files from the
-				 * disk. */
-				source = gth_main_get_file_source_for_uri ("file:///");
-				location = NULL;
-			}
-
-			if (source == NULL)
-				return result;
-
-			items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-			if (items == NULL)
-				return result;
-
-			file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-			gth_file_source_remove (source,
-						location,
-						file_data_list,
-						(event->state & modifiers) == GDK_SHIFT_MASK,
-						GTK_WINDOW (browser));
-			result = GINT_TO_POINTER (1);
-
-			_g_object_list_unref (file_data_list);
-			_gtk_tree_path_list_free (items);
-			_g_object_unref (source);
-		}
-		break;
-	}
-
-	return result;
 }

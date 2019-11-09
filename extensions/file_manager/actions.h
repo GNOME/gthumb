@@ -31,6 +31,8 @@ DEF_ACTION_CALLBACK (gth_browser_activate_edit_paste)
 DEF_ACTION_CALLBACK (gth_browser_activate_duplicate)
 DEF_ACTION_CALLBACK (gth_browser_activate_trash)
 DEF_ACTION_CALLBACK (gth_browser_activate_delete)
+DEF_ACTION_CALLBACK (gth_browser_activate_remove_from_source)
+DEF_ACTION_CALLBACK (gth_browser_activate_remove_from_source_permanently)
 DEF_ACTION_CALLBACK (gth_browser_activate_rename)
 DEF_ACTION_CALLBACK (gth_browser_activate_file_list_rename)
 DEF_ACTION_CALLBACK (gth_browser_activate_copy_to_folder)
@@ -47,6 +49,7 @@ DEF_ACTION_CALLBACK (gth_browser_activate_folder_context_delete)
 DEF_ACTION_CALLBACK (gth_browser_activate_folder_context_copy_to)
 DEF_ACTION_CALLBACK (gth_browser_activate_folder_context_move_to)
 
+DEF_ACTION_CALLBACK (gth_browser_activate_open_with_gimp)
 DEF_ACTION_CALLBACK (gth_browser_activate_open_with_application)
 
 #endif /* ACTIONS_H */

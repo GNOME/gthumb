@@ -40,7 +40,5 @@ void      fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *brow
 void      fm__gth_browser_folder_tree_selection_changed_cb  (GthBrowser    *browser);
 void      fm__gth_browser_realize_cb                        (GthBrowser    *browser);
 void      fm__gth_browser_unrealize_cb                      (GthBrowser    *browser);
-gpointer  fm__gth_browser_file_list_key_press_cb            (GthBrowser    *browser,
-						             GdkEventKey   *event);
 
 #endif /* CALLBACKS_H */
