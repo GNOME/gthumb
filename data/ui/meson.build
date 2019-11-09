@@ -7,6 +7,7 @@ ui_files = files(
   'overwrite-dialog.ui',
   'personalize-filters.ui',
   'preferences.ui',
+  'shortcuts-preferences.ui',
   'sort-order.ui'
 )
 install_data(ui_files, install_dir : ui_install_dir)

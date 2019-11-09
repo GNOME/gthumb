@@ -161,6 +161,7 @@ source_files = files(
   'dlg-preferences-browser.c',
   'dlg-preferences-extensions.c',
   'dlg-preferences-general.c',
+  'dlg-preferences-shortcuts.c',
   'dlg-sort-order.c',
   'dom.c',
   'gimp-op.c',

@@ -25,6 +25,7 @@
 #include "dlg-preferences-browser.h"
 #include "dlg-preferences-extensions.h"
 #include "dlg-preferences-general.h"
+#include "dlg-preferences-shortcuts.h"
 #include "gth-file-comment.h"
 #include "gth-file-details.h"
 #include "gth-file-properties.h"
@@ -72,6 +73,7 @@ gth_main_register_default_types (void)
 	gth_hook_add_callback ("dlg-preferences-apply", 1, G_CALLBACK (general__dlg_preferences_apply), NULL);
 	gth_hook_add_callback ("dlg-preferences-construct", 2, G_CALLBACK (browser__dlg_preferences_construct_cb), NULL);
 	gth_hook_add_callback ("dlg-preferences-apply", 2, G_CALLBACK (browser__dlg_preferences_apply), NULL);
+	gth_hook_add_callback ("dlg-preferences-construct", 50, G_CALLBACK (shortcuts__dlg_preferences_construct_cb), NULL);
 	gth_hook_add_callback ("dlg-preferences-construct", 9999, G_CALLBACK (extensions__dlg_preferences_construct_cb), NULL);
 	gth_hook_add_callback ("dlg-preferences-apply", 9999 /* Must be the last callback */, G_CALLBACK (extensions__dlg_preferences_apply), NULL);
 }
