@@ -35,14 +35,35 @@
 
 
 static const GActionEntry actions[] = {
-	{ "add-to-selection-1", gth_browser_activate_add_to_selection_1 },
-	{ "add-to-selection-2", gth_browser_activate_add_to_selection_2 },
-	{ "add-to-selection-3", gth_browser_activate_add_to_selection_3 },
-	{ "go-to-selection-1", gth_browser_activate_go_to_selection_1 },
-	{ "go-to-selection-2", gth_browser_activate_go_to_selection_2 },
-	{ "go-to-selection-3", gth_browser_activate_go_to_selection_3 },
+	{ "add-to-selection-1", gth_browser_activate_add_to_selection, "i", "1" },
+	{ "add-to-selection-2", gth_browser_activate_add_to_selection, "i", "2" },
+	{ "add-to-selection-3", gth_browser_activate_add_to_selection, "i", "3" },
+
+	{ "go-to-selection-1", gth_browser_activate_go_to_selection, "i", "1" },
+	{ "go-to-selection-2", gth_browser_activate_go_to_selection, "i", "2" },
+	{ "go-to-selection-3", gth_browser_activate_go_to_selection, "i", "3" },
+
+	{ "remove-to-selection-1", gth_browser_activate_remove_from_selection, "i", "1" },
+	{ "remove-to-selection-2", gth_browser_activate_remove_from_selection, "i", "2" },
+	{ "remove-to-selection-3", gth_browser_activate_remove_from_selection, "i", "3" },
+
 	{ "go-to-container-from-selection", gth_browser_activate_go_to_file_container },
 	{ "remove-from-selection", gth_browser_activate_remove_from_current_selection }
+};
+
+
+static const GthShortcut shortcuts[] = {
+	{ "add-to-selection-1", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<alt>1" },
+	{ "add-to-selection-2", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<alt>2" },
+	{ "add-to-selection-3", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<alt>3" },
+
+	{ "remove-from-selection-1", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<shift><alt>1" },
+	{ "remove-from-selection-2", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<shift><alt>2" },
+	{ "remove-from-selection-3", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<shift><alt>3" },
+
+	{ "go-to-selection-1", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<control>1" },
+	{ "go-to-selection-2", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<control>2" },
+	{ "go-to-selection-3", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<control>3" },
 };
 
 
@@ -86,7 +107,7 @@ selection_clicked_cb (GtkWidget *button,
 
 	g_return_if_fail (n_selection >= 0 && n_selection <= N_SELECTIONS - 1);
 
-	gth_browser_activate_show_selection (data->browser, n_selection + 1);
+	gth_browser_show_selection (data->browser, n_selection + 1);
 }
 
 
@@ -179,6 +200,9 @@ selections__gth_browser_construct_cb (GthBrowser *browser)
 					 actions,
 					 G_N_ELEMENTS (actions),
 					 browser);
+	gth_window_add_shortcuts (GTH_WINDOW (browser),
+				  shortcuts,
+				  G_N_ELEMENTS (shortcuts));
 
 	filter_bar = gth_browser_get_filterbar (browser);
 	filter_bar_extra_area = gth_filterbar_get_extra_area (GTH_FILTERBAR (filter_bar));
@@ -256,9 +280,9 @@ selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		case GDK_KEY_3:
 			/* Alt+Shift+n => remove from selection n */
 			if ((event->state & modifiers) == (GDK_SHIFT_MASK|GDK_MOD1_MASK))
-				gth_browser_activate_remove_from_selection (browser, keyval - GDK_KEY_1 + 1);
+				gth_browser_remove_from_selection (browser, keyval - GDK_KEY_1 + 1);
 			else /* Alt+n => add to selection n */
-				gth_browser_activate_add_to_selection (browser, keyval - GDK_KEY_1 + 1);
+				gth_browser_add_to_selection (browser, keyval - GDK_KEY_1 + 1);
 			result = GINT_TO_POINTER (1);
 			break;
 		}
@@ -273,7 +297,7 @@ selections__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 		case GDK_KEY_2:
 		case GDK_KEY_3:
 			/* Control+n => go to selection n */
-			gth_browser_activate_show_selection (browser, keyval - GDK_KEY_1 + 1);
+			gth_browser_show_selection (browser, keyval - GDK_KEY_1 + 1);
 			result = GINT_TO_POINTER (1);
 			break;
 		}

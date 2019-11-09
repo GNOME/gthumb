@@ -24,20 +24,17 @@
 
 #include <gthumb.h>
 
-void gth_browser_activate_show_selection        (GthBrowser *browser,
-						 int         n_selection);
-void gth_browser_activate_add_to_selection      (GthBrowser *browser,
-						 int         n_selection);
-void gth_browser_activate_remove_from_selection (GthBrowser *browser,
-						 int         n_selection);
+void gth_browser_show_selection        (GthBrowser *browser,
+					int         n_selection);
+void gth_browser_add_to_selection      (GthBrowser *browser,
+					int         n_selection);
+void gth_browser_remove_from_selection (GthBrowser *browser,
+					int         n_selection);
 
-DEF_ACTION_CALLBACK (gth_browser_activate_go_to_selection_1)
-DEF_ACTION_CALLBACK (gth_browser_activate_go_to_selection_2)
-DEF_ACTION_CALLBACK (gth_browser_activate_go_to_selection_3)
-DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection_1)
-DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection_2)
-DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection_3)
-DEF_ACTION_CALLBACK (gth_browser_activate_go_to_file_container)
+DEF_ACTION_CALLBACK (gth_browser_activate_go_to_selection)
+DEF_ACTION_CALLBACK (gth_browser_activate_add_to_selection)
+DEF_ACTION_CALLBACK (gth_browser_activate_remove_from_selection)
 DEF_ACTION_CALLBACK (gth_browser_activate_remove_from_current_selection)
+DEF_ACTION_CALLBACK (gth_browser_activate_go_to_file_container)
 
 #endif /* ACTIONS_H */

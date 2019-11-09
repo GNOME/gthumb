@@ -27,8 +27,8 @@
 
 
 void
-gth_browser_activate_show_selection (GthBrowser *browser,
-				     int         n_selection)
+gth_browser_show_selection (GthBrowser *browser,
+			    int         n_selection)
 {
 	char  *uri;
 	GFile *location;
@@ -51,35 +51,18 @@ gth_browser_activate_show_selection (GthBrowser *browser,
 
 
 void
-gth_browser_activate_go_to_selection_1 (GSimpleAction	*action,
-					GVariant	*parameter,
-					gpointer	 user_data)
+gth_browser_activate_go_to_selection (GSimpleAction	 *action,
+				      GVariant		 *parameter,
+				      gpointer		  user_data)
 {
-	gth_browser_activate_show_selection (GTH_BROWSER (user_data), 1);
+	gth_browser_show_selection (GTH_BROWSER (user_data),
+				    g_variant_get_int32 (parameter));
 }
 
 
 void
-gth_browser_activate_go_to_selection_2 (GSimpleAction	*action,
-					GVariant 	*parameter,
-					gpointer 	 user_data)
-{
-	gth_browser_activate_show_selection (GTH_BROWSER (user_data), 2);
-}
-
-
-void
-gth_browser_activate_go_to_selection_3 (GSimpleAction	 *action,
-				        GVariant	 *parameter,
-				        gpointer 	  user_data)
-{
-	gth_browser_activate_show_selection (GTH_BROWSER (user_data), 3);
-}
-
-
-void
-gth_browser_activate_add_to_selection (GthBrowser *browser,
-				       int         n_selection)
+gth_browser_add_to_selection(GthBrowser *browser,
+			     int         n_selection)
 {
 	char  *uri;
 	GFile *folder;
@@ -103,28 +86,12 @@ gth_browser_activate_add_to_selection (GthBrowser *browser,
 
 
 void
-gth_browser_activate_add_to_selection_1 (GSimpleAction	 *action,
-					 GVariant	 *parameter,
-					 gpointer	  user_data)
+gth_browser_activate_add_to_selection (GSimpleAction	 *action,
+				       GVariant		 *parameter,
+				       gpointer		  user_data)
 {
-	gth_browser_activate_add_to_selection (GTH_BROWSER (user_data), 1);
-}
-
-void
-gth_browser_activate_add_to_selection_2 (GSimpleAction	 *action,
-					 GVariant	 *parameter,
-					 gpointer	  user_data)
-{
-	gth_browser_activate_add_to_selection (GTH_BROWSER (user_data), 2);
-}
-
-
-void
-gth_browser_activate_add_to_selection_3 (GSimpleAction	 *action,
-					 GVariant	 *parameter,
-					 gpointer	  user_data)
-{
-	gth_browser_activate_add_to_selection (GTH_BROWSER (user_data), 3);
+	gth_browser_add_to_selection (GTH_BROWSER (user_data),
+				      g_variant_get_int32 (parameter));
 }
 
 
@@ -156,8 +123,8 @@ gth_browser_activate_go_to_file_container (GSimpleAction *action,
 
 
 void
-gth_browser_activate_remove_from_selection (GthBrowser *browser,
-					    int         n_selection)
+gth_browser_remove_from_selection (GthBrowser *browser,
+				   int         n_selection)
 {
 	char  *uri;
 	GFile *folder;
@@ -181,6 +148,16 @@ gth_browser_activate_remove_from_selection (GthBrowser *browser,
 
 
 void
+gth_browser_activate_remove_from_selection (GSimpleAction	 *action,
+					    GVariant		 *parameter,
+					    gpointer		  user_data)
+{
+	gth_browser_remove_from_selection (GTH_BROWSER (user_data),
+					   g_variant_get_int32 (parameter));
+}
+
+
+void
 gth_browser_activate_remove_from_current_selection (GSimpleAction *action,
 						    GVariant	  *parameter,
 						    gpointer	   user_data)
@@ -190,5 +167,5 @@ gth_browser_activate_remove_from_current_selection (GSimpleAction *action,
 
 	n_selection = _g_file_get_n_selection (gth_browser_get_location (browser));
 	if (n_selection >= 0)
-		gth_browser_activate_remove_from_selection (browser, n_selection);
+		gth_browser_remove_from_selection (browser, n_selection);
 }
