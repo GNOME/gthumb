@@ -50,10 +50,14 @@ static const GActionEntry actions[] = {
 	{ "image-zoom-in", gth_browser_activate_image_zoom_in },
 	{ "image-zoom-out", gth_browser_activate_image_zoom_out },
 	{ "image-zoom-100", gth_browser_activate_image_zoom_100 },
+	{ "image-zoom-200", gth_browser_activate_image_zoom_200 },
+	{ "image-zoom-300", gth_browser_activate_image_zoom_300 },
 	{ "image-zoom-fit", gth_browser_activate_image_zoom_fit },
 	{ "image-zoom-fit-if-larger", gth_browser_activate_image_zoom_fit_if_larger },
 	{ "image-zoom-fit-width", gth_browser_activate_image_zoom_fit_width },
+	{ "image-zoom-fit-width-if-larger", gth_browser_activate_image_zoom_fit_width_if_larger },
 	{ "image-zoom-fit-height", gth_browser_activate_image_zoom_fit_height },
+	{ "image-zoom-fit-height-if-larger", gth_browser_activate_image_zoom_fit_height_if_larger },
 	{ "image-undo", gth_browser_activate_image_undo },
 	{ "image-redo", gth_browser_activate_image_redo },
 	{ "copy-image", gth_browser_activate_copy_image },
@@ -63,15 +67,6 @@ static const GActionEntry actions[] = {
 	{ "step-animation", gth_browser_activate_step_animation },
 	{ "image-zoom", gth_browser_activate_image_zoom, "s", "''", NULL },
 	{ "transparency-style", gth_browser_activate_transparency_style, "s", "''", NULL },
-};
-
-
-static const GthAccelerator accelerators[] = {
-	{ "image-zoom-in", "<control>plus" },
-	{ "image-zoom-out", "<control>minus" },
-	{ "image-zoom-100", "<control>0" },
-	{ "image-undo", "<control>z" },
-	{ "image-redo", "<shift><control>z" },
 };
 
 
@@ -1191,8 +1186,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 								_("Transparency"),
 								_gtk_builder_get_widget (self->priv->builder, "transparency_popover"));
 
-	gth_window_add_accelerators (GTH_WINDOW (browser), accelerators, G_N_ELEMENTS (accelerators));
-
 	self->priv->preloader = gth_browser_get_image_preloader (browser);
 
 	self->priv->viewer = gth_image_viewer_new ();
@@ -2234,6 +2227,7 @@ gth_image_viewer_page_reset_viewer_tool	(GthImageViewerPage *self)
 					  g_settings_get_enum (self->priv->settings, PREF_IMAGE_VIEWER_ZOOM_CHANGE));
 	gth_image_viewer_set_reset_scrollbars (GTH_IMAGE_VIEWER (self->priv->viewer),
 					       g_settings_get_boolean (self->priv->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS));
+	gth_image_viewer_enable_key_bindings (GTH_IMAGE_VIEWER (self->priv->viewer), FALSE);
 	pref_transparency_style_changed (self->priv->settings, NULL, self);
 	_gth_image_viewer_page_enable_drag_source (self, TRUE);
 }

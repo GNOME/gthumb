@@ -1,5 +1,6 @@
 source_files = files(
   'actions.c',
+  'callbacks.c',
   'gth-image-histogram.c',
   'gth-image-viewer-page.c',
   'gth-image-viewer-page-tool.c',

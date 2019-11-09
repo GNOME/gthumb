@@ -27,15 +27,31 @@
 #include "preferences.h"
 
 
+
+static GthImageViewerPage *
+get_image_viewer_page (GthBrowser *browser)
+{
+	GthViewerPage *viewer_page = gth_browser_get_viewer_page (browser);
+
+	if ((viewer_page != NULL) && GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		return GTH_IMAGE_VIEWER_PAGE (viewer_page);
+	else
+		return NULL;
+}
+
+
 void
 gth_browser_activate_image_zoom_in (GSimpleAction	*action,
 				    GVariant		*parameter,
 				    gpointer		 user_data)
 {
 	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
 
-	gth_image_viewer_zoom_in (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)));
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_zoom_in (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)));
 }
 
 
@@ -45,9 +61,12 @@ gth_browser_activate_image_zoom_out (GSimpleAction	*action,
 				     gpointer		 user_data)
 {
 	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
 
-	gth_image_viewer_zoom_out (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)));
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_zoom_out (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)));
 }
 
 
@@ -57,9 +76,42 @@ gth_browser_activate_image_zoom_100 (GSimpleAction	*action,
 				     gpointer		 user_data)
 {
 	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
 
-	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), 1.0);
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)), 1.0);
+}
+
+
+void
+gth_browser_activate_image_zoom_200 (GSimpleAction	*action,
+				     GVariant		*parameter,
+				     gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)), 2.0);
+}
+
+
+void
+gth_browser_activate_image_zoom_300 (GSimpleAction	*action,
+				     GVariant		*parameter,
+				     gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_set_zoom (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)), 3.0);
 }
 
 
@@ -69,9 +121,12 @@ gth_browser_activate_image_zoom_fit (GSimpleAction	*action,
 				     gpointer		 user_data)
 {
 	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
 
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), GTH_FIT_SIZE);
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)), GTH_FIT_SIZE);
 }
 
 
@@ -81,9 +136,12 @@ gth_browser_activate_image_zoom_fit_if_larger (GSimpleAction	*action,
 					       gpointer		 user_data)
 {
 	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
 
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), GTH_FIT_SIZE_IF_LARGER);
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)), GTH_FIT_SIZE_IF_LARGER);
 }
 
 
@@ -93,9 +151,27 @@ gth_browser_activate_image_zoom_fit_width (GSimpleAction	*action,
 					   gpointer		 user_data)
 {
 	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
 
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), GTH_FIT_WIDTH);
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)), GTH_FIT_WIDTH);
+}
+
+
+void
+gth_browser_activate_image_zoom_fit_width_if_larger (GSimpleAction	*action,
+						     GVariant		*parameter,
+						     gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)), GTH_FIT_WIDTH_IF_LARGER);
 }
 
 
@@ -105,9 +181,27 @@ gth_browser_activate_image_zoom_fit_height (GSimpleAction	*action,
 					    gpointer		 user_data)
 {
 	GthBrowser	   *browser = user_data;
-	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
 
-	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (self)), GTH_FIT_HEIGHT);
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)), GTH_FIT_HEIGHT);
+}
+
+
+void
+gth_browser_activate_image_zoom_fit_height_if_larger (GSimpleAction	*action,
+						      GVariant		*parameter,
+						      gpointer		 user_data)
+{
+	GthBrowser	   *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page)), GTH_FIT_HEIGHT_IF_LARGER);
 }
 
 
@@ -116,8 +210,13 @@ gth_browser_activate_image_undo (GSimpleAction	*action,
 				 GVariant	*parameter,
 				 gpointer	 user_data)
 {
-	GthBrowser *browser = user_data;
-	gth_image_viewer_page_undo (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser)));
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_page_undo (viewer_page);
 }
 
 
@@ -126,8 +225,13 @@ gth_browser_activate_image_redo (GSimpleAction	*action,
 				 GVariant	*parameter,
 				 gpointer	 user_data)
 {
-	GthBrowser *browser = user_data;
-	gth_image_viewer_page_redo (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser)));
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_page_redo (viewer_page);
 }
 
 
@@ -136,8 +240,13 @@ gth_browser_activate_copy_image (GSimpleAction	*action,
 				 GVariant	*parameter,
 				 gpointer	 user_data)
 {
-	GthBrowser *browser = user_data;
-	gth_image_viewer_page_copy_image (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser)));
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_page_copy_image (viewer_page);
 }
 
 
@@ -146,8 +255,13 @@ gth_browser_activate_paste_image (GSimpleAction	*action,
 				  GVariant	*parameter,
 				  gpointer	 user_data)
 {
-	GthBrowser *browser = user_data;
-	gth_image_viewer_page_paste_image (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser)));
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+
+	if (viewer_page == NULL)
+		return;
+
+	gth_image_viewer_page_paste_image (viewer_page);
 }
 
 
@@ -156,10 +270,14 @@ gth_browser_activate_apply_icc_profile  (GSimpleAction	*action,
 					 GVariant	*state,
 					 gpointer	 user_data)
 {
-	GthBrowser *browser = user_data;
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+
+	if (viewer_page == NULL)
+		return;
 
 	g_simple_action_set_state (action, state);
-	gth_image_viewer_page_apply_icc_profile (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser)), g_variant_get_boolean (state));
+	gth_image_viewer_page_apply_icc_profile (viewer_page, g_variant_get_boolean (state));
 }
 
 
@@ -168,9 +286,14 @@ gth_browser_activate_transparency_style (GSimpleAction	*action,
 					 GVariant	*parameter,
 					 gpointer	 user_data)
 {
+	GthBrowser           *browser = user_data;
+	GthImageViewerPage   *viewer_page = get_image_viewer_page (browser);
 	const char           *state;
 	GthTransparencyStyle  style;
 	GSettings            *settings;
+
+	if (viewer_page == NULL)
+		return;
 
 	state = g_variant_get_string (parameter, NULL);
 	if (state == NULL)
@@ -199,9 +322,13 @@ gth_browser_activate_image_zoom  (GSimpleAction	*action,
 				  GVariant	*parameter,
 				  gpointer	 user_data)
 {
-	GthBrowser     *browser = user_data;
-	const char     *state;
-	GthImageViewer *image_viewer;
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	const char         *state;
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
 
 	state = g_variant_get_string (parameter, NULL);
 	g_simple_action_set_state (action, g_variant_new_string (state));
@@ -209,7 +336,7 @@ gth_browser_activate_image_zoom  (GSimpleAction	*action,
 	if (state == NULL)
 		return;
 
-	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (gth_browser_get_viewer_page (browser))));
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
 	if (strcmp (state, "automatic") == 0)
 		gth_image_viewer_set_fit_mode (image_viewer, GTH_FIT_SIZE_IF_LARGER);
 	else if (strcmp (state, "fit") == 0)
@@ -234,20 +361,22 @@ gth_browser_activate_toggle_animation (GSimpleAction	*action,
 				       GVariant		*state,
 				       gpointer	 	 user_data)
 {
-	GthBrowser     *browser = user_data;
-	GthViewerPage  *viewer_page;
-	GthImageViewer *image_viewer;
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
 
 	g_simple_action_set_state (action, state);
 
-	viewer_page = gth_browser_get_viewer_page (browser);
-	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
 
 	if (gth_image_viewer_is_playing_animation (image_viewer))
 		gth_image_viewer_stop_animation (image_viewer);
 	else
 		gth_image_viewer_start_animation (image_viewer);
-	gth_viewer_page_update_sensitivity (viewer_page);
+	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (viewer_page));
 }
 
 
@@ -256,11 +385,13 @@ gth_browser_activate_step_animation (GSimpleAction	*action,
 				     GVariant		*state,
 				     gpointer	 	 user_data)
 {
-	GthBrowser     *browser = user_data;
-	GthViewerPage  *viewer_page;
-	GthImageViewer *image_viewer;
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
 
-	viewer_page = gth_browser_get_viewer_page (browser);
-	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page)));
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
 	gth_image_viewer_step_animation (image_viewer);
 }
