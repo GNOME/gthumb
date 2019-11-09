@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include "glib-utils.h"
 #include "gth-window.h"
 #include "gth-window-title.h"
 #include "gtk-utils.h"
@@ -54,6 +55,8 @@ struct _GthWindowPrivate {
 	GthWindowSize   *window_size;
 	GtkWindowGroup  *window_group;
 	GtkAccelGroup   *accel_group;
+	GHashTable      *shortcuts;
+	GPtrArray       *shortcuts_v;
 };
 
 
@@ -249,6 +252,8 @@ gth_window_finalize (GObject *object)
 	g_free (window->priv->window_size);
 	g_object_unref (window->priv->window_group);
 	g_object_unref (window->priv->accel_group);
+	g_hash_table_unref (window->priv->shortcuts);
+	g_ptr_array_free (window->priv->shortcuts_v, TRUE);
 
 	G_OBJECT_CLASS (gth_window_parent_class)->finalize (object);
 }
@@ -398,6 +403,9 @@ gth_window_init (GthWindow *window)
 
 	window->priv->accel_group = gtk_accel_group_new ();
 	gtk_window_add_accel_group (GTK_WINDOW (window), window->priv->accel_group);
+
+	window->priv->shortcuts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	window->priv->shortcuts_v = g_ptr_array_new_with_free_func ((GDestroyNotify) gth_shortcut_free);
 
 	gtk_window_set_application (GTK_WINDOW (window), Main_Application);
 }
@@ -692,6 +700,17 @@ gth_window_get_accel_group (GthWindow *window)
 }
 
 
+static void
+_gth_window_add_shortcut (GthWindow   *window,
+			  GthShortcut *shorcut)
+{
+	g_hash_table_insert (window->priv->shortcuts,
+			     g_strdup (shorcut->action_name),
+			     GINT_TO_POINTER (1));
+	g_ptr_array_add (window->priv->shortcuts_v, shorcut);
+}
+
+
 void
 gth_window_add_accelerators (GthWindow			*window,
 			     const GthAccelerator	*accelerators,
@@ -703,12 +722,20 @@ gth_window_add_accelerators (GthWindow			*window,
 	accel_group = gth_window_get_accel_group (window);
 	for (i = 0; i < n_accelerators; i++) {
 		const GthAccelerator *acc = accelerators + i;
+		GthShortcut          *shortcut;
 
 		_gtk_window_add_accelerator_for_action (GTK_WINDOW (window),
 							accel_group,
 							acc->action_name,
 							acc->accelerator,
 							NULL);
+
+		shortcut = gth_shortcut_new ();
+		shortcut->action_name = g_strdup (acc->action_name);
+		shortcut->context = GTH_SHORTCUT_CONTEXT_INTERNAL;
+		shortcut->category = GTH_SHORTCUT_CATEGORY_HIDDEN;
+		gth_shortcut_set_name (shortcut, acc->accelerator);
+		_gth_window_add_shortcut (window, shortcut);
 	}
 }
 
@@ -764,4 +791,62 @@ gth_window_change_action_state (GthWindow  *window,
 	if (old_state != NULL)
 		g_variant_unref (old_state);
 	g_variant_unref (new_state);
+}
+
+
+void
+gth_window_add_shortcuts (GthWindow         *window,
+			  const GthShortcut *shortcuts,
+			  int                n_shortcuts)
+{
+	int i;
+
+	for (i = 0; i < n_shortcuts; i++) {
+		const GthShortcut *shortcut = shortcuts + i;
+		GthShortcut       *new_shortcut;
+
+		new_shortcut = gth_shortcut_dup (shortcut);
+		gth_shortcut_set_name (new_shortcut, shortcut->default_accelerator);
+
+		_gth_window_add_shortcut (window, new_shortcut);
+	}
+}
+
+
+GPtrArray *
+gth_window_get_shortcuts (GthWindow *window)
+{
+	g_return_val_if_fail (GTH_IS_WINDOW (window), NULL);
+
+	return window->priv->shortcuts_v;
+}
+
+
+gboolean
+gth_window_activate_shortcut (GthWindow       *window,
+			      int              context,
+			      guint            keycode,
+			      GdkModifierType  modifiers)
+{
+	gboolean     activated = FALSE;
+	GthShortcut *shortcut;
+
+	shortcut = gth_shortcut_array_find (window->priv->shortcuts_v, context, keycode, modifiers);
+	if (shortcut != NULL) {
+		GAction *action;
+
+		action = g_action_map_lookup_action (G_ACTION_MAP (window), shortcut->action_name);
+		if (action != NULL) {
+			GVariant *variant;
+
+			variant = g_action_get_state (action);
+			g_action_activate (action, variant);
+			activated = TRUE;
+
+			if (variant != NULL)
+				g_variant_unref (variant);
+		}
+	}
+
+	return activated;
 }

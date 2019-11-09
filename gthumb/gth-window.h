@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 #include "gtk-utils.h"
+#include "gth-shortcut.h"
 
 G_BEGIN_DECLS
 
@@ -120,6 +121,14 @@ gboolean	gth_window_get_action_state	(GthWindow		*window,
 void		gth_window_change_action_state	(GthWindow		*window,
 						 const char		*action_name,
 						 gboolean		 value);
+void		gth_window_add_shortcuts	(GthWindow		*window,
+						 const GthShortcut	*shortcuts,
+						 int			 n_shortcuts);
+GPtrArray *	gth_window_get_shortcuts	(GthWindow		*window);
+gboolean	gth_window_activate_shortcut	(GthWindow		*window,
+						 int			 context,
+						 guint			 keycode,
+						 GdkModifierType	 modifiers);
 
 G_END_DECLS
 

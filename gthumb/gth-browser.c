@@ -3716,41 +3716,19 @@ static gboolean
 gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 			            GdkEventKey *event)
 {
-	gboolean    result = FALSE;
-	guint       modifiers;
+	guint    modifiers;
+	gboolean activated;
 
 	modifiers = gtk_accelerator_get_default_mod_mask ();
+	activated = gth_window_activate_shortcut (GTH_WINDOW (browser),
+						  GTH_SHORTCUT_CONTEXT_BROWSER,
+						  event->keyval,
+						  (event->state & modifiers));
 
-	if ((event->state & modifiers) == 0) {
-		switch (event->keyval) {
-		case GDK_KEY_f:
-			gth_browser_fullscreen (browser);
-			result = TRUE;
-			break;
+	if (! activated)
+		activated = gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
 
-		case GDK_KEY_e:
-			if (browser->priv->viewer_page != NULL)
-				gth_browser_show_viewer_tools (GTH_BROWSER (browser));
-			result = TRUE;
-			break;
-
-		case GDK_KEY_i:
-			if (gth_window_get_action_state (GTH_WINDOW (browser), "browser-properties"))
-				gth_browser_hide_sidebar (browser);
-			else
-				gth_browser_show_file_properties (browser);
-			result = TRUE;
-			break;
-
-		default:
-			break;
-		}
-        }
-
-	if (! result)
-		result = gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
-
-	return result;
+	return activated;
 }
 
 
@@ -5657,56 +5635,21 @@ gboolean
 gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 				 GdkEventKey *event)
 {
-	guint modifiers;
+	guint    modifiers;
+	gboolean activated;
 
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	modifiers = gtk_accelerator_get_default_mod_mask ();
-	if ((event->state & modifiers) == 0) {
-		switch (event->keyval) {
-		case GDK_KEY_Page_Up:
-		case GDK_KEY_KP_Page_Up:
-		case GDK_KEY_BackSpace:
-			gth_browser_show_prev_image (browser, FALSE, FALSE);
-			return TRUE;
+	activated = gth_window_activate_shortcut (GTH_WINDOW (browser),
+						  GTH_SHORTCUT_CONTEXT_VIEWER,
+						  event->keyval,
+						  (event->state & modifiers));
 
-		case GDK_KEY_Page_Down:
-		case GDK_KEY_KP_Page_Down:
-		case GDK_KEY_space:
-			gth_browser_show_next_image (browser, FALSE, FALSE);
-			return TRUE;
+	if (! activated && gtk_widget_get_realized (browser->priv->file_list))
+		activated = gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
 
-		case GDK_KEY_Home:
-		case GDK_KEY_KP_Home:
-			gth_browser_show_first_image (browser, FALSE, FALSE);
-			return TRUE;
-
-		case GDK_KEY_End:
-		case GDK_KEY_KP_End:
-			gth_browser_show_last_image (browser, FALSE, FALSE);
-			return TRUE;
-
-		case GDK_KEY_e:
-			if (browser->priv->viewer_sidebar != GTH_SIDEBAR_STATE_TOOLS)
-				gth_browser_show_viewer_tools (browser);
-			else
-				gth_browser_hide_sidebar (browser);
-			return TRUE;
-
-		case GDK_KEY_i:
-			gth_browser_toggle_properties_on_screen (browser);
-			return TRUE;
-
-		case GDK_KEY_f:
-			gth_browser_fullscreen (browser);
-			return TRUE;
-		}
-	}
-
-	if (gtk_widget_get_realized (browser->priv->file_list))
-		return gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
-	else
-		return FALSE;
+	return activated;
 }
 
 
