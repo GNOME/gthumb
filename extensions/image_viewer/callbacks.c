@@ -34,15 +34,15 @@ static const GthShortcut shortcuts[] = {
 	{ "image-zoom-200", N_("Zoom 200%"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "2" },
 	{ "image-zoom-300", N_("Zoom 300%"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "3" },
 
-	{ "image-zoom-fit", N_("Zoom To Fit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<shift>X" },
-	{ "image-zoom-fit-if-larger", N_("Zoom To Fit If Larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "X" },
-	{ "image-zoom-fit-width", N_("Zoom To Fit Width"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<shift>W" },
-	{ "image-zoom-fit-width-if-larger", N_("Zoom To Fit Width If Larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "W" },
-	{ "image-zoom-fit-height", N_("Zoom To Fit Height"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<shift>H" },
-	{ "image-zoom-fit-height-if-larger", N_("Zoom To Fit Height If Larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "H" },
+	{ "image-zoom-fit", N_("Zoom To Fit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Shift>x" },
+	{ "image-zoom-fit-if-larger", N_("Zoom To Fit If Larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "x" },
+	{ "image-zoom-fit-width", N_("Zoom To Fit Width"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Shift>w" },
+	{ "image-zoom-fit-width-if-larger", N_("Zoom To Fit Width If Larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "w" },
+	{ "image-zoom-fit-height", N_("Zoom To Fit Height"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Shift>h" },
+	{ "image-zoom-fit-height-if-larger", N_("Zoom To Fit Height If Larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "h" },
 
-	{ "image-undo", N_("Undo Edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<control>Z" },
-	{ "image-redo", N_("Redo Edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<shift><control>Z" },
+	{ "image-undo", N_("Undo Edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Primary>z" },
+	{ "image-redo", N_("Redo Edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Primary><Shift>z" },
 };
 
 

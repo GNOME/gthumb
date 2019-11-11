@@ -127,10 +127,10 @@ static const GthAccelerator accelerators[] = {
 
 static const GthShortcut shortcuts[] = {
 	{ "rename", N_("Rename File"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "F2" },
-	{ "duplicate", N_("Duplicate File"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "D" },
+	{ "duplicate", N_("Duplicate File"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "d" },
 	{ "remove-from-source", N_("Delete File"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "Delete" },
-	{ "remove-from-source-permanently", N_("Delete File Permanently"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "<shift>Delete" },
-	{ "open-with-gimp", N_("Open With Gimp"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "G" },
+	{ "remove-from-source-permanently", N_("Delete File Permanently"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "<Shift>Delete" },
+	{ "open-with-gimp", N_("Open With Gimp"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "g" },
 };
 
 
