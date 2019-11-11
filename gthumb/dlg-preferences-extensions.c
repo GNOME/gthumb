@@ -606,8 +606,6 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	for (scan = descriptions; scan; scan = scan->next) {
 		GthExtensionDescription *description = scan->data;
-		if (scan != descriptions)
-			_gtk_list_box_add_separator (GTK_LIST_BOX (data->extensions_list));
 		gtk_container_add (GTK_CONTAINER (data->extensions_list), create_extensions_row (description, data));
 	}
 
