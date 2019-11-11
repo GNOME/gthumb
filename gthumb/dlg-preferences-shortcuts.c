@@ -88,12 +88,37 @@ row_data_free (RowData *row_data)
 
 
 static void
+row_data_update_accel_label (RowData *row_data)
+{
+	gboolean modified;
+
+	modified = g_strcmp0 (row_data->shortcut->default_accelerator, row_data->shortcut->accelerator) != 0;
+	if (modified) {
+		char *esc_text;
+		char *markup_text;
+
+		esc_text = g_markup_escape_text (row_data->shortcut->label, -1);
+		markup_text = g_strdup_printf ("<b>%s</b>", esc_text);
+		gtk_label_set_markup (GTK_LABEL (row_data->accel_label), markup_text);
+		gtk_style_context_add_class (gtk_widget_get_style_context (row_data->accel_label), GTK_STYLE_CLASS_DIM_LABEL);
+
+		g_free (markup_text);
+		g_free (esc_text);
+	}
+	else {
+		gtk_label_set_text (GTK_LABEL (row_data->accel_label), row_data->shortcut->label);
+		gtk_style_context_remove_class (gtk_widget_get_style_context (row_data->accel_label), GTK_STYLE_CLASS_DIM_LABEL);
+	}
+}
+
+
+static void
 row_data_update_shortcut (RowData         *row_data,
 			  guint            keycode,
 			  GdkModifierType  modifiers)
 {
 	gth_shortcut_set_key (row_data->shortcut, keycode, modifiers);
-	gtk_label_set_text (GTK_LABEL (row_data->accel_label), row_data->shortcut->label);
+	row_data_update_accel_label (row_data);
 
 	gth_main_shortcuts_changed (gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser)));
 }
@@ -172,11 +197,12 @@ _new_shortcut_row (GthShortcut *shortcut,
 	gtk_size_group_add_widget (GTK_SIZE_GROUP (gtk_builder_get_object (data->builder, "column1_size_group")), label);
 	gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
 
-	row_data->accel_label = label = gtk_label_new ((shortcut->label != NULL) ? shortcut->label : "");
+	row_data->accel_label = label = gtk_label_new ("");
 	gtk_label_set_xalign (GTK_LABEL (label), 0.0);
 	gtk_widget_set_margin_end (label, 12);
 	gtk_size_group_add_widget (GTK_SIZE_GROUP (gtk_builder_get_object (data->builder, "column2_size_group")), label);
 	gtk_box_pack_start (GTK_BOX (box), label, FALSE, FALSE, 0);
+	row_data_update_accel_label (row_data);
 
 	gtk_widget_show_all (row);
 
