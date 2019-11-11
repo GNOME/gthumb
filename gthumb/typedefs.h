@@ -131,7 +131,7 @@ typedef enum /*< skip >*/ {
 } GthColorSpace;
 
 
-typedef enum {
+typedef enum /*< skip >*/ {
 	GTH_SHORTCUT_CONTEXT_BROWSER = 1 << 1,
 	GTH_SHORTCUT_CONTEXT_VIEWER = 1 << 2,
 	GTH_SHORTCUT_CONTEXT_SLIDESHOW = 1 << 3,
