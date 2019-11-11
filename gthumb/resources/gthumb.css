@@ -168,3 +168,9 @@ GthToolbox .header-bar,
 .void-view {
 	opacity: 0.12;
 }
+
+/* -- revert shortcut button -- */
+
+.revert-shortcut-button {
+	padding: 0;
+}

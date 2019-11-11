@@ -38,6 +38,7 @@
   </object>
   <object class="GtkSizeGroup" id="column1_size_group"/>
   <object class="GtkSizeGroup" id="column2_size_group"/>
+  <object class="GtkSizeGroup" id="column3_size_group"/>
   <object class="GtkBox" id="preferences_page">
     <property name="visible">True</property>
     <property name="can_focus">False</property>

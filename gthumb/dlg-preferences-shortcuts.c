@@ -60,6 +60,7 @@ typedef struct {
 	BrowserData *browser_data;
 	GthShortcut *shortcut;
 	GtkWidget   *accel_label;
+	GtkWidget   *revert_button;
 } RowData;
 
 
@@ -100,14 +101,14 @@ row_data_update_accel_label (RowData *row_data)
 		esc_text = g_markup_escape_text (row_data->shortcut->label, -1);
 		markup_text = g_strdup_printf ("<b>%s</b>", esc_text);
 		gtk_label_set_markup (GTK_LABEL (row_data->accel_label), markup_text);
-		gtk_style_context_add_class (gtk_widget_get_style_context (row_data->accel_label), GTK_STYLE_CLASS_DIM_LABEL);
+		gtk_widget_show (row_data->revert_button);
 
 		g_free (markup_text);
 		g_free (esc_text);
 	}
 	else {
 		gtk_label_set_text (GTK_LABEL (row_data->accel_label), row_data->shortcut->label);
-		gtk_style_context_remove_class (gtk_widget_get_style_context (row_data->accel_label), GTK_STYLE_CLASS_DIM_LABEL);
+		gtk_widget_hide (row_data->revert_button);
 	}
 }
 
@@ -174,6 +175,19 @@ shortcuts_list_row_activated_cb (GtkListBox    *box,
 }
 
 
+static void
+revert_button_clicked_cb (GtkButton *button,
+			  gpointer   user_data)
+{
+	RowData         *row_data = user_data;
+	guint            keycode;
+	GdkModifierType  modifiers;
+
+	gtk_accelerator_parse (row_data->shortcut->default_accelerator, &keycode, &modifiers);
+	row_data_update_shortcut (row_data, keycode, modifiers);
+}
+
+
 static GtkWidget *
 _new_shortcut_row (GthShortcut *shortcut,
 		   BrowserData *data)
@@ -182,6 +196,8 @@ _new_shortcut_row (GthShortcut *shortcut,
 	RowData   *row_data;
 	GtkWidget *box;
 	GtkWidget *label;
+	GtkWidget *button_box;
+	GtkWidget *button;
 
 	row = gtk_list_box_row_new ();
 	row_data = row_data_new (data, shortcut);
@@ -200,11 +216,30 @@ _new_shortcut_row (GthShortcut *shortcut,
 	row_data->accel_label = label = gtk_label_new ("");
 	gtk_label_set_xalign (GTK_LABEL (label), 0.0);
 	gtk_widget_set_margin_end (label, 12);
+	gtk_style_context_add_class (gtk_widget_get_style_context (label), GTK_STYLE_CLASS_DIM_LABEL);
 	gtk_size_group_add_widget (GTK_SIZE_GROUP (gtk_builder_get_object (data->builder, "column2_size_group")), label);
 	gtk_box_pack_start (GTK_BOX (box), label, FALSE, FALSE, 0);
-	row_data_update_accel_label (row_data);
+
+	button_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_widget_set_margin_start (button_box, 12);
+	gtk_widget_set_margin_end (button_box, 12);
+	gtk_size_group_add_widget (GTK_SIZE_GROUP (gtk_builder_get_object (data->builder, "column3_size_group")), button_box);
+	gtk_box_pack_start (GTK_BOX (box), button_box, FALSE, FALSE, 0);
+
+	row_data->revert_button = button = gtk_button_new_from_icon_name ("edit-clear-symbolic", GTK_ICON_SIZE_MENU);
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	gtk_widget_set_tooltip_text (button, _("Revert"));
+	gtk_style_context_add_class (gtk_widget_get_style_context (button), "circular");
+	gtk_style_context_add_class (gtk_widget_get_style_context (button), "revert-shortcut-button");
+	gtk_box_pack_start (GTK_BOX (button_box), button, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (row);
+	row_data_update_accel_label (row_data);
+
+	g_signal_connect (row_data->revert_button,
+			  "clicked",
+			  G_CALLBACK (revert_button_clicked_cb),
+			  row_data);
 
 	return row;
 }
