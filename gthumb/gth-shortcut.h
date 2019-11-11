@@ -57,6 +57,11 @@ GthShortcut * gth_shortcut_array_find           (GPtrArray         *shortcuts_v,
 						 GdkModifierType    modifiers);
 gboolean      gth_shortcut_valid                (guint              keycode,
 						 GdkModifierType    modifiers);
+gboolean      gth_shortcuts_write_to_file       (GPtrArray         *shortcuts_v,
+						 GError           **error);
+gboolean      gth_shortcuts_load_from_file      (GPtrArray         *shortcuts_v,
+						 GHashTable        *shortcuts,
+						 GError           **error);
 
 G_END_DECLS
 

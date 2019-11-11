@@ -142,6 +142,7 @@ struct _GthBrowserPrivate {
 	gulong             emblems_changed_id;
 	gulong             entry_points_changed_id;
 	gulong             order_changed_id;
+	gulong             shortcuts_changed_id;
 	GthFileData       *location;
 	GthFileData       *current_file;
 	GthFileSource     *location_source;
@@ -2082,6 +2083,8 @@ _gth_browser_real_close (GthBrowser *browser)
 				     browser->priv->entry_points_changed_id);
 	g_signal_handler_disconnect (gth_main_get_default_monitor (),
 				     browser->priv->order_changed_id);
+	g_signal_handler_disconnect (gth_main_get_default_monitor (),
+				     browser->priv->shortcuts_changed_id);
 
 	/* remove timeouts */
 
@@ -3505,6 +3508,14 @@ order_changed_cb (GthMonitor *monitor,
 
 
 static void
+shortcuts_changed_cb (GthMonitor *monitor,
+		      GthBrowser *browser)
+{
+	gth_window_load_shortcuts (GTH_WINDOW (browser));
+}
+
+
+static void
 pref_general_filter_changed (GSettings  *settings,
 			     const char *key,
 			     gpointer    user_data)
@@ -4807,6 +4818,11 @@ gth_browser_init (GthBrowser *browser)
 				  "order-changed",
 				  G_CALLBACK (order_changed_cb),
 				  browser);
+	browser->priv->shortcuts_changed_id =
+		g_signal_connect (gth_main_get_default_monitor (),
+				  "shortcuts-changed",
+				  G_CALLBACK (shortcuts_changed_cb),
+				  browser);
 
 	/* init browser data */
 
@@ -4900,6 +4916,7 @@ gth_browser_init (GthBrowser *browser)
 
 	gtk_widget_realize (browser->priv->file_list);
 	gth_hook_invoke ("gth-browser-construct", browser);
+	gth_window_load_shortcuts (GTH_WINDOW (browser));
 
 	performance (DEBUG_INFO, "window initialized");
 

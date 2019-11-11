@@ -88,6 +88,18 @@ row_data_free (RowData *row_data)
 
 
 static void
+row_data_update_shortcut (RowData         *row_data,
+			  guint            keycode,
+			  GdkModifierType  modifiers)
+{
+	gth_shortcut_set_key (row_data->shortcut, keycode, modifiers);
+	gtk_label_set_text (GTK_LABEL (row_data->accel_label), row_data->shortcut->label);
+
+	gth_main_shortcuts_changed (gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser)));
+}
+
+
+static void
 accel_dialog_response_cb (GtkDialog *dialog,
 			  gint       response_id,
 			  gpointer   user_data)
@@ -98,10 +110,8 @@ accel_dialog_response_cb (GtkDialog *dialog,
 
 	switch (response_id) {
 	case GTK_RESPONSE_OK:
-		if (gth_accel_dialog_get_accel (GTH_ACCEL_DIALOG (dialog), &keycode, &modifiers)) {
-			gth_shortcut_set_key (row_data->shortcut, keycode, modifiers);
-			gtk_label_set_text (GTK_LABEL (row_data->accel_label), row_data->shortcut->label);
-		}
+		if (gth_accel_dialog_get_accel (GTH_ACCEL_DIALOG (dialog), &keycode, &modifiers))
+			row_data_update_shortcut (row_data, keycode, modifiers);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 
@@ -110,8 +120,7 @@ accel_dialog_response_cb (GtkDialog *dialog,
 		break;
 
 	case GTH_ACCEL_BUTTON_RESPONSE_DELETE:
-		gth_shortcut_set_key (row_data->shortcut, 0, 0);
-		gtk_label_set_text (GTK_LABEL (row_data->accel_label), row_data->shortcut->label);
+		row_data_update_shortcut (row_data, 0, 0);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 	}

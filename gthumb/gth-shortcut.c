@@ -20,7 +20,11 @@
  */
 
 #include <config.h>
+#include <glib/gi18n.h>
+#include "dom.h"
+#include "gio-utils.h"
 #include "gth-shortcut.h"
+#include "gth-user-dir.h"
 
 
 GthShortcut *
@@ -145,4 +149,102 @@ gth_shortcut_valid (guint           keycode,
 	}
 
 	return FALSE;
+}
+
+
+gboolean
+gth_shortcuts_write_to_file (GPtrArray  *shortcuts_v,
+			     GError    **error)
+{
+	DomDocument *doc;
+	DomElement  *shortcuts;
+	int          i;
+	char        *buffer;
+	gsize        size;
+	GFile       *file;
+	gboolean     result;
+
+	doc = dom_document_new ();
+	shortcuts = dom_document_create_element (doc, "shortcuts", NULL);
+	for (i = 0; i < shortcuts_v->len; i++) {
+		GthShortcut *shortcut = g_ptr_array_index (shortcuts_v, i);
+
+		if (shortcut->context == GTH_SHORTCUT_CONTEXT_INTERNAL)
+			continue;
+
+		dom_element_append_child (shortcuts,
+			dom_document_create_element (doc, "shortcut",
+						     "action", shortcut->action_name,
+						     "accelerator", shortcut->accelerator,
+						     NULL));
+	}
+	dom_element_append_child (DOM_ELEMENT (doc), shortcuts);
+
+	buffer = dom_document_dump (doc, &size);
+	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, SHORTCUTS_FILE, NULL);
+	result = _g_file_write (file, FALSE, G_FILE_CREATE_NONE, buffer, size, NULL, error);
+
+	g_object_unref (file);
+	g_free (buffer);
+	g_object_unref (doc);
+
+	return result;
+}
+
+
+gboolean
+gth_shortcuts_load_from_file (GPtrArray  *shortcuts_v,
+			      GHashTable *shortcuts,
+			      GError    **error)
+{
+	gboolean  success = FALSE;
+	GFile    *file;
+	void     *buffer;
+	gsize     size;
+
+	file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, SHORTCUTS_FILE, NULL);
+	if (_g_file_load_in_buffer (file, &buffer, &size, NULL, error)) {
+		DomDocument *doc;
+
+		doc = dom_document_new ();
+		if (dom_document_load (doc, buffer, size, error)) {
+			DomElement *node;
+
+			for (node = DOM_ELEMENT (doc)->first_child; node; node = node->next_sibling) {
+				if (g_strcmp0 (node->tag_name, "shortcuts") == 0) {
+					DomElement *shortcut_node;
+
+					for (shortcut_node = node->first_child; shortcut_node; shortcut_node = shortcut_node->next_sibling) {
+						if (g_strcmp0 (shortcut_node->tag_name, "shortcut") == 0) {
+							const char  *action_name;
+							const char  *accelerator;
+							GthShortcut *shortcut;
+
+							action_name = dom_element_get_attribute (shortcut_node, "action");
+							accelerator = dom_element_get_attribute (shortcut_node, "accelerator");
+
+							if (action_name == NULL)
+								continue;
+
+							shortcut = g_hash_table_lookup (shortcuts, action_name);
+							if (shortcut != NULL)
+								gth_shortcut_set_accelerator (shortcut, accelerator);
+						}
+					}
+
+					success = TRUE;
+				}
+			}
+		}
+
+		if (! success && (error != NULL))
+			*error = g_error_new_literal (DOM_ERROR, DOM_ERROR_INVALID_FORMAT, _("Invalid file format"));
+
+		g_object_unref (doc);
+		g_free (buffer);
+	}
+
+	g_object_unref (file);
+
+	return success;
 }

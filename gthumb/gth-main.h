@@ -112,6 +112,7 @@ void                   gth_main_register_type                 (const char       
 GArray *               gth_main_get_type_set                  (const char           *set_name);
 GBookmarkFile *        gth_main_get_default_bookmarks         (void);
 void                   gth_main_bookmarks_changed             (void);
+void                   gth_main_shortcuts_changed             (GPtrArray *shortcuts_v);
 GthFilterFile *        gth_main_get_default_filter_file       (void);
 GList *                gth_main_get_all_filters               (void);
 void                   gth_main_filters_changed               (void);

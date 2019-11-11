@@ -31,6 +31,7 @@ G_BEGIN_DECLS
 #define FILTERS_FILE   "filters.xml"
 #define TAGS_FILE      "tags.xml"
 #define FILE_CACHE     "cache"
+#define SHORTCUTS_FILE "shortcuts.xml"
 
 
 typedef enum {

@@ -33,6 +33,7 @@
 enum {
 	ICON_THEME_CHANGED,
 	BOOKMARKS_CHANGED,
+	SHORTCUTS_CHANGED,
 	FILTERS_CHANGED,
 	TAGS_CHANGED,
 	FOLDER_CONTENT_CHANGED,
@@ -102,6 +103,15 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthMonitorClass, bookmarks_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
+	monitor_signals[SHORTCUTS_CHANGED] =
+		g_signal_new ("shortcuts-changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthMonitorClass, shortcuts_changed),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
@@ -249,6 +259,17 @@ gth_monitor_bookmarks_changed (GthMonitor *self)
 
 	g_signal_emit (G_OBJECT (self),
 		       monitor_signals[BOOKMARKS_CHANGED],
+		       0);
+}
+
+
+void
+gth_monitor_shortcuts_changed (GthMonitor *self)
+{
+	g_return_if_fail (GTH_IS_MONITOR (self));
+
+	g_signal_emit (G_OBJECT (self),
+		       monitor_signals[SHORTCUTS_CHANGED],
 		       0);
 }
 

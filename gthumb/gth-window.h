@@ -129,6 +129,7 @@ gboolean	gth_window_activate_shortcut	(GthWindow		*window,
 						 int			 context,
 						 guint			 keycode,
 						 GdkModifierType	 modifiers);
+void		gth_window_load_shortcuts	(GthWindow		*window);
 
 G_END_DECLS
 

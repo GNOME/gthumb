@@ -32,6 +32,7 @@
 #include "gth-metadata-provider.h"
 #include "gth-user-dir.h"
 #include "gth-preferences.h"
+#include "gth-shortcut.h"
 #include "gtk-utils.h"
 #include "pixbuf-io.h"
 #include "typedefs.h"
@@ -1149,6 +1150,14 @@ gth_main_bookmarks_changed (void)
 	g_object_unref (file);
 
 	gth_monitor_bookmarks_changed (gth_main_get_default_monitor ());
+}
+
+
+void
+gth_main_shortcuts_changed (GPtrArray *shortcuts_v)
+{
+	if (gth_shortcuts_write_to_file (shortcuts_v, NULL))
+		gth_monitor_shortcuts_changed (gth_main_get_default_monitor ());
 }
 
 

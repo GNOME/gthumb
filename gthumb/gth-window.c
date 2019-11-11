@@ -706,7 +706,7 @@ _gth_window_add_shortcut (GthWindow   *window,
 {
 	g_hash_table_insert (window->priv->shortcuts,
 			     g_strdup (shorcut->action_name),
-			     GINT_TO_POINTER (1));
+			     shorcut);
 	g_ptr_array_add (window->priv->shortcuts_v, shorcut);
 }
 
@@ -849,4 +849,15 @@ gth_window_activate_shortcut (GthWindow       *window,
 	}
 
 	return activated;
+}
+
+
+void
+gth_window_load_shortcuts (GthWindow *window)
+{
+	g_return_if_fail (GTH_IS_WINDOW (window));
+
+	gth_shortcuts_load_from_file (window->priv->shortcuts_v,
+				      window->priv->shortcuts,
+				      NULL);
 }

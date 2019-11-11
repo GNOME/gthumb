@@ -61,6 +61,7 @@ struct _GthMonitorClass
 
 	void   (*icon_theme_changed)      (GthMonitor      *monitor);
 	void   (*bookmarks_changed)       (GthMonitor      *monitor);
+	void   (*shortcuts_changed)       (GthMonitor      *monitor);
 	void   (*filters_changed)         (GthMonitor      *monitor);
 	void   (*tags_changed)            (GthMonitor      *monitor);
 	void   (*folder_changed)          (GthMonitor      *monitor,
@@ -89,6 +90,7 @@ void          gth_monitor_resume                     (GthMonitor      *monitor,
 						      GFile           *file);
 void          gth_monitor_icon_theme_changed         (GthMonitor      *monitor);
 void          gth_monitor_bookmarks_changed          (GthMonitor      *monitor);
+void          gth_monitor_shortcuts_changed          (GthMonitor      *monitor);
 void          gth_monitor_filters_changed            (GthMonitor      *monitor);
 void          gth_monitor_tags_changed               (GthMonitor      *monitor);
 void          gth_monitor_folder_changed             (GthMonitor      *monitor,
