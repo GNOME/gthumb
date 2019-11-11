@@ -49,7 +49,7 @@ void          gth_shortcut_free			(GthShortcut       *shortcut);
 void          gth_shortcut_set_key		(GthShortcut       *shortcut,
 						 guint              keyval,
 						 GdkModifierType    modifiers);
-void          gth_shortcut_set_name		(GthShortcut       *shortcut,
+void          gth_shortcut_set_accelerator	(GthShortcut       *shortcut,
 						 const char        *name);
 GthShortcut * gth_shortcut_array_find           (GPtrArray         *shortcuts_v,
 						 int                context,

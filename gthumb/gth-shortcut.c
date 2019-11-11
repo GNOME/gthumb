@@ -54,7 +54,7 @@ gth_shortcut_dup (const GthShortcut *shortcut)
 	new_shortcut->context = shortcut->context;
 	new_shortcut->category = shortcut->category;
 	new_shortcut->default_accelerator = g_strdup (shortcut->default_accelerator);
-	gth_shortcut_set_name (new_shortcut, shortcut->accelerator);
+	gth_shortcut_set_accelerator (new_shortcut, shortcut->accelerator);
 
 	return new_shortcut;
 }
@@ -73,8 +73,8 @@ gth_shortcut_free (GthShortcut *shortcut)
 
 
 void
-gth_shortcut_set_name (GthShortcut *shortcut,
-		       const char  *accelerator)
+gth_shortcut_set_accelerator (GthShortcut *shortcut,
+			      const char  *accelerator)
 {
 	guint           keyval;
 	GdkModifierType modifiers;
