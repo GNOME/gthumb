@@ -153,36 +153,60 @@ row_data_update_shortcut (RowData         *row_data,
 					    modifiers);
 
 	if (shortcut != NULL) {
-		char      *label;
-		char      *msg;
-		GtkWidget *dialog;
-		gboolean   reassign;
+		if (g_strcmp0 (shortcut->action_name, row_data->shortcut->action_name) != 0) {
+			char      *label;
+			char      *msg;
+			GtkWidget *dialog;
+			gboolean   reassign;
 
-		label = gtk_accelerator_get_label (keycode, modifiers);
-		msg = g_strdup_printf (_("The %s shortcut is already assigned to the action «%s».  Do you want to reassign it to «%s» instead?"),
-				       label,
-				       shortcut->description,
-				       row_data->shortcut->description);
+			label = gtk_accelerator_get_label (keycode, modifiers);
+			msg = g_strdup_printf (_("The key combination «%s» is already assigned to the action «%s».  Do you want to reassign it to «%s» instead?"),
+					       label,
+					       shortcut->description,
+					       row_data->shortcut->description);
 
-		dialog = _gtk_yesno_dialog_new (parent,
-						GTK_DIALOG_MODAL,
-						msg,
-						_GTK_LABEL_CANCEL,
-						_("Reassign"));
+			dialog = _gtk_yesno_dialog_new (parent,
+							GTK_DIALOG_MODAL,
+							msg,
+							_GTK_LABEL_CANCEL,
+							_("Reassign"));
 
-		reassign = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
-		gtk_widget_destroy (GTK_WIDGET (dialog));
+			reassign = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+			gtk_widget_destroy (GTK_WIDGET (dialog));
 
-		if (reassign) {
-			gth_shortcut_set_key (shortcut, 0, 0);
-			row_data_update_accel_label (find_row_by_shortcut (row_data->browser_data, shortcut));
+			if (reassign) {
+				gth_shortcut_set_key (shortcut, 0, 0);
+				row_data_update_accel_label (find_row_by_shortcut (row_data->browser_data, shortcut));
+			}
+
+			g_free (msg);
+			g_free (label);
+
+			if (! reassign)
+				return FALSE;
 		}
+		else {
+			char      *label;
+			char      *msg;
+			GtkWidget *dialog;
 
-		g_free (msg);
-		g_free (label);
+			label = gtk_accelerator_get_label (keycode, modifiers);
+			msg = g_strdup_printf (_("The key combination «%s» is already assigned to this action."), label);
+			dialog = _gtk_message_dialog_new (parent,
+							  GTK_DIALOG_MODAL,
+							  _GTK_ICON_NAME_DIALOG_INFO,
+							  msg,
+							  NULL,
+							  _GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,
+							  NULL);
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (GTK_WIDGET (dialog));
 
-		if (! reassign)
+			g_free (msg);
+			g_free (label);
+
 			return FALSE;
+		}
 	}
 
 	gth_shortcut_set_key (row_data->shortcut, keycode, modifiers);
