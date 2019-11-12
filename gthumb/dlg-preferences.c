@@ -114,9 +114,6 @@ dlg_preferences (GthBrowser *browser)
 		if (name == NULL)
 			continue;
 
-		if (scan != children)
-			_gtk_list_box_add_separator (GTK_LIST_BOX (list_box));
-
 		row = gtk_list_box_row_new ();
 		g_object_set_data (G_OBJECT (row), "gth.page_num", GINT_TO_POINTER (page_num));
 		gtk_widget_show (row);
