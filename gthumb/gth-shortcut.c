@@ -114,6 +114,9 @@ gth_shortcut_array_find (GPtrArray       *shortcuts_v,
 {
 	int i;
 
+	if (keycode == 0)
+		return NULL;
+
 	for (i = 0; i < shortcuts_v->len; i++) {
 		GthShortcut *shortcut = g_ptr_array_index (shortcuts_v, i);
 

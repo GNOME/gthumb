@@ -45,12 +45,15 @@ enum {
 typedef struct {
 	GthBrowser *browser;
 	GtkBuilder *builder;
+	GtkWidget  *preferences_dialog;
+	GPtrArray  *rows;
 } BrowserData;
 
 
 static void
 browser_data_free (BrowserData *data)
 {
+	g_ptr_array_free (data->rows, FALSE);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -75,6 +78,8 @@ row_data_new (BrowserData *data,
 	row_data->shortcut = shortcut;
 	row_data->accel_label = NULL;
 
+	g_ptr_array_add (row_data->browser_data->rows, row_data);
+
 	return row_data;
 }
 
@@ -92,6 +97,9 @@ static void
 row_data_update_accel_label (RowData *row_data)
 {
 	gboolean modified;
+
+	if (row_data == NULL)
+		return;
 
 	modified = g_strcmp0 (row_data->shortcut->default_accelerator, row_data->shortcut->accelerator) != 0;
 	if (modified) {
@@ -113,15 +121,76 @@ row_data_update_accel_label (RowData *row_data)
 }
 
 
-static void
+static RowData *
+find_row_by_shortcut (BrowserData *browser_data,
+		      GthShortcut *shortcut)
+{
+	int i;
+
+	for (i = 0; i < browser_data->rows->len; i++) {
+		RowData *row_data = g_ptr_array_index (browser_data->rows, i);
+		if (g_strcmp0 (row_data->shortcut->action_name, shortcut->action_name) == 0)
+			return row_data;
+	}
+
+	return NULL;
+}
+
+
+static gboolean
 row_data_update_shortcut (RowData         *row_data,
 			  guint            keycode,
-			  GdkModifierType  modifiers)
+			  GdkModifierType  modifiers,
+			  GtkWindow       *parent)
 {
+	GPtrArray   *shortcuts_v;
+	GthShortcut *shortcut;
+
+	shortcuts_v = gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser));
+	shortcut = gth_shortcut_array_find (shortcuts_v,
+					    row_data->shortcut->context,
+					    keycode,
+					    modifiers);
+
+	if (shortcut != NULL) {
+		char      *label;
+		char      *msg;
+		GtkWidget *dialog;
+		gboolean   reassign;
+
+		label = gtk_accelerator_get_label (keycode, modifiers);
+		msg = g_strdup_printf (_("The %s shortcut is already assigned to the action «%s».  Do you want to reassign it to «%s» instead?"),
+				       label,
+				       shortcut->description,
+				       row_data->shortcut->description);
+
+		dialog = _gtk_yesno_dialog_new (parent,
+						GTK_DIALOG_MODAL,
+						msg,
+						_GTK_LABEL_CANCEL,
+						_("Reassign"));
+
+		reassign = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+
+		if (reassign) {
+			gth_shortcut_set_key (shortcut, 0, 0);
+			row_data_update_accel_label (find_row_by_shortcut (row_data->browser_data, shortcut));
+		}
+
+		g_free (msg);
+		g_free (label);
+
+		if (! reassign)
+			return FALSE;
+	}
+
 	gth_shortcut_set_key (row_data->shortcut, keycode, modifiers);
 	row_data_update_accel_label (row_data);
 
 	gth_main_shortcuts_changed (gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser)));
+
+	return TRUE;
 }
 
 
@@ -137,8 +206,8 @@ accel_dialog_response_cb (GtkDialog *dialog,
 	switch (response_id) {
 	case GTK_RESPONSE_OK:
 		if (gth_accel_dialog_get_accel (GTH_ACCEL_DIALOG (dialog), &keycode, &modifiers))
-			row_data_update_shortcut (row_data, keycode, modifiers);
-		gtk_widget_destroy (GTK_WIDGET (dialog));
+			if (row_data_update_shortcut (row_data, keycode, modifiers, GTK_WINDOW (dialog)))
+				gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 
 	case GTK_RESPONSE_CANCEL:
@@ -146,7 +215,7 @@ accel_dialog_response_cb (GtkDialog *dialog,
 		break;
 
 	case GTH_ACCEL_BUTTON_RESPONSE_DELETE:
-		row_data_update_shortcut (row_data, 0, 0);
+		row_data_update_shortcut (row_data, 0, 0, GTK_WINDOW (dialog));
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 	}
@@ -184,7 +253,7 @@ revert_button_clicked_cb (GtkButton *button,
 	GdkModifierType  modifiers;
 
 	gtk_accelerator_parse (row_data->shortcut->default_accelerator, &keycode, &modifiers);
-	row_data_update_shortcut (row_data, keycode, modifiers);
+	row_data_update_shortcut (row_data, keycode, modifiers, GTK_WINDOW (row_data->browser_data->preferences_dialog));
 }
 
 
@@ -343,6 +412,8 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	data = g_new0 (BrowserData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("shortcuts-preferences.ui", NULL);
+	data->preferences_dialog = dialog;
+	data->rows = g_ptr_array_new ();
 
 	g_object_set_data_full (G_OBJECT (dialog), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 
