@@ -288,7 +288,7 @@ find_device_by_kind_cb (GObject      *source_object,
 			   cd_device_connected_cb,
 			   task);
 
-	g_ptr_array_free (devices, TRUE);
+	g_ptr_array_unref (devices);
 }
 
 

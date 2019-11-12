@@ -82,7 +82,7 @@ gth_comment_finalize (GObject *obj)
 
 	gth_comment_free_data (self);
 	gth_comment_clear_categories (self);
-	g_ptr_array_free (self->priv->categories, TRUE);
+	g_ptr_array_unref (self->priv->categories);
 	g_date_free (self->priv->date);
 	gth_time_free (self->priv->time_of_day);
 
@@ -425,7 +425,7 @@ void
 gth_comment_clear_categories (GthComment *self)
 {
 	g_ptr_array_foreach (self->priv->categories, (GFunc) g_free, NULL);
-	g_ptr_array_free (self->priv->categories, TRUE);
+	g_ptr_array_unref (self->priv->categories);
 	self->priv->categories = g_ptr_array_new ();
 }
 

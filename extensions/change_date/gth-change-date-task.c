@@ -320,7 +320,7 @@ info_ready_cb (GList    *files,
 	else
 		update_modification_time (self);
 
-	g_ptr_array_free (attribute_v, TRUE);
+	g_ptr_array_unref (attribute_v);
 	gth_datetime_free (date_time);
 }
 

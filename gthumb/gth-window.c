@@ -253,7 +253,7 @@ gth_window_finalize (GObject *object)
 	g_object_unref (window->priv->window_group);
 	g_object_unref (window->priv->accel_group);
 	g_hash_table_unref (window->priv->shortcuts);
-	g_ptr_array_free (window->priv->shortcuts_v, TRUE);
+	g_ptr_array_unref (window->priv->shortcuts_v);
 
 	G_OBJECT_CLASS (gth_window_parent_class)->finalize (object);
 }

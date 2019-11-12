@@ -134,8 +134,8 @@ gth_main_finalize (GObject *object)
 	_g_object_list_unref (gth_main->priv->file_sources);
 
 	g_hash_table_unref (gth_main->priv->metadata_info_hash);
-	g_ptr_array_free (gth_main->priv->metadata_category, TRUE);
-	g_ptr_array_free (gth_main->priv->metadata_info, TRUE);
+	g_ptr_array_unref (gth_main->priv->metadata_category);
+	g_ptr_array_unref (gth_main->priv->metadata_info);
 	g_list_foreach (gth_main->priv->metadata_provider, (GFunc) g_object_unref, NULL);
 	g_list_free (gth_main->priv->metadata_provider);
 
@@ -985,7 +985,7 @@ gth_main_get_type_set (const char *set_name)
 static void
 g_ptr_array_destroy (gpointer array)
 {
-	g_ptr_array_free ((GPtrArray *) array, TRUE);
+	g_ptr_array_unref ((GPtrArray *) array);
 }
 
 

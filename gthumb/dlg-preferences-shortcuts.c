@@ -53,7 +53,7 @@ typedef struct {
 static void
 browser_data_free (BrowserData *data)
 {
-	g_ptr_array_free (data->rows, FALSE);
+	g_ptr_array_unref (data->rows);
 	g_object_unref (data->builder);
 	g_free (data);
 }
