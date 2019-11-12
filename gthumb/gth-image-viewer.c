@@ -30,6 +30,7 @@
 #include "gth-image-dragger.h"
 #include "gth-image-viewer.h"
 #include "gth-marshal.h"
+#include "gth-preferences.h"
 #include "gtk-utils.h"
 #include "glib-utils.h"
 #include "pixbuf-utils.h"
@@ -115,6 +116,10 @@ struct _GthImageViewerPrivate {
 	gboolean                reset_scrollbars;
 
 	GList                  *painters;
+
+	/* settings */
+
+	GSettings              *browser_settings;
 };
 
 
@@ -712,7 +717,7 @@ gth_image_viewer_size_allocate (GtkWidget     *widget,
 	if (self->priv->fit != GTH_FIT_NONE)
 		set_zoom_centered (self, zoom_level, TRUE);
 
-	/* Keep the scrollbars offset in a valid range */
+	/* Keep the scbars offset in a valid range */
 
 	current_image = gth_image_viewer_get_current_image (self);
 	if (current_image != NULL) {
@@ -1008,7 +1013,18 @@ gth_image_viewer_scroll_event (GtkWidget      *widget,
 		gtk_adjustment_set_value (self->hadj, new_value);
 		retval = TRUE;
 		break;
-
+	case GDK_SCROLL_UP:
+	case GDK_SCROLL_DOWN:
+		if (!g_settings_get_boolean(self->priv->browser_settings, PREF_SCROLLWHEEL_CYCLE)) {
+			if (event->direction == GDK_SCROLL_UP)
+				new_value = gtk_adjustment_get_value (self->vadj) - gtk_adjustment_get_page_increment (self->vadj) / 2;
+			else
+				new_value = gtk_adjustment_get_value (self->vadj) + gtk_adjustment_get_page_increment (self->vadj) / 2;
+			new_value = CLAMP (new_value, gtk_adjustment_get_lower (self->vadj), gtk_adjustment_get_upper (self->vadj) - gtk_adjustment_get_page_size (self->vadj));
+			gtk_adjustment_set_value (self->vadj, new_value);
+			retval = TRUE;
+		}
+		break;
 	default:
 		break;
 	}
@@ -1576,6 +1592,7 @@ gth_image_viewer_init (GthImageViewer *self)
 	self->priv->cursor_void = NULL;
 
 	self->priv->reset_scrollbars = TRUE;
+	self->priv->browser_settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 
 	gth_image_viewer_set_tool (self, NULL);
 
