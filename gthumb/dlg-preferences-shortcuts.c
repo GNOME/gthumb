@@ -395,6 +395,39 @@ sort_shortcuts_by_category (gconstpointer a,
 }
 
 
+static void
+restore_all_button_clicked_cb (GtkButton *button,
+			       gpointer   user_data)
+{
+	BrowserData *data = user_data;
+	GtkWidget   *dialog;
+	gboolean     reassign;
+
+	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (data->preferences_dialog),
+					GTK_DIALOG_MODAL,
+					_("Do you want to revert all the changes and restore the default shortcuts?"),
+					_GTK_LABEL_CANCEL,
+					_("Restore"));
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES, GTK_STYLE_CLASS_DESTRUCTIVE_ACTION);
+
+	reassign = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	if (reassign) {
+		int i;
+
+		for (i = 0; i < data->rows->len; i++) {
+			RowData *row_data = g_ptr_array_index (data->rows, i);
+
+			gth_shortcut_set_accelerator (row_data->shortcut, row_data->shortcut->default_accelerator);
+			row_data_update_accel_label (row_data);
+		}
+
+		gth_main_shortcuts_changed (gth_window_get_shortcuts (GTH_WINDOW (data->browser)));
+	}
+}
+
+
 void
 shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 					 GthBrowser *browser,
@@ -443,6 +476,10 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	g_signal_connect (shortcuts_list,
 			  "row-activated",
 			  G_CALLBACK (shortcuts_list_row_activated_cb),
+			  data);
+	g_signal_connect (_gtk_builder_get_widget (data->builder, "restore_all_button"),
+			  "clicked",
+			  G_CALLBACK (restore_all_button_clicked_cb),
 			  data);
 
 	/* add the page to the preferences dialog */
