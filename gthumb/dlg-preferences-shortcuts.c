@@ -109,15 +109,15 @@ row_data_update_accel_label (RowData *row_data)
 		esc_text = g_markup_escape_text (row_data->shortcut->label, -1);
 		markup_text = g_strdup_printf ("<b>%s</b>", esc_text);
 		gtk_label_set_markup (GTK_LABEL (row_data->accel_label), markup_text);
-		gtk_widget_show (row_data->revert_button);
 
 		g_free (markup_text);
 		g_free (esc_text);
 	}
-	else {
+	else
 		gtk_label_set_text (GTK_LABEL (row_data->accel_label), row_data->shortcut->label);
-		gtk_widget_hide (row_data->revert_button);
-	}
+
+	gtk_widget_set_sensitive (row_data->revert_button, modified);
+	gtk_widget_set_child_visible (row_data->revert_button, modified);
 }
 
 
