@@ -106,6 +106,8 @@ struct _GthMainPrivate {
 	GPtrArray           *metadata_info;
 	GHashTable          *metadata_info_hash;
 	gboolean             metadata_info_sorted;
+	GPtrArray           *shortcut_category_v;
+	GHashTable          *shortcut_category_h;
 	GHashTable          *sort_types;
 	GHashTable          *image_loaders;
 	GHashTable          *types;
@@ -138,6 +140,9 @@ gth_main_finalize (GObject *object)
 	g_ptr_array_unref (gth_main->priv->metadata_info);
 	g_list_foreach (gth_main->priv->metadata_provider, (GFunc) g_object_unref, NULL);
 	g_list_free (gth_main->priv->metadata_provider);
+
+	g_ptr_array_unref (gth_main->priv->shortcut_category_v);
+	g_hash_table_unref (gth_main->priv->shortcut_category_h);
 
 	if (gth_main->priv->sort_types != NULL)
 		g_hash_table_unref (gth_main->priv->sort_types);
@@ -183,6 +188,8 @@ gth_main_init (GthMain *main)
 	main->priv->metadata_info = g_ptr_array_new ();
 	main->priv->metadata_info_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	main->priv->metadata_info_sorted = FALSE;
+	main->priv->shortcut_category_v = g_ptr_array_new ();
+	main->priv->shortcut_category_h = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	main->priv->sort_types = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	main->priv->image_loaders = g_hash_table_new_full (g_str_hash,
 						           (GEqualFunc) g_content_type_equals,
@@ -632,6 +639,30 @@ gth_main_get_all_metadata_info (void)
 	g_mutex_unlock (&metadata_info_mutex);
 
 	return list;
+}
+
+
+GthShortcutCategory *
+gth_main_get_shortcut_category (const char *id)
+{
+	return g_hash_table_lookup (Main->priv->shortcut_category_h, id);
+}
+
+
+void
+gth_main_register_shortcut_category (GthShortcutCategory *shortcut_category)
+{
+	int i;
+
+	g_mutex_lock (&register_mutex);
+
+	for (i = 0; shortcut_category[i].id != NULL; i++) {
+		if (gth_main_get_shortcut_category (shortcut_category[i].id) == NULL) {
+			g_ptr_array_add (Main->priv->shortcut_category_v, &shortcut_category[i]);
+			g_hash_table_insert (Main->priv->shortcut_category_h, shortcut_category[i].id, &shortcut_category[i]);
+		}
+	}
+	g_mutex_unlock (&register_mutex);
 }
 
 

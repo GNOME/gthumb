@@ -125,6 +125,8 @@ void		gth_window_add_shortcuts	(GthWindow		*window,
 						 const GthShortcut	*shortcuts,
 						 int			 n_shortcuts);
 GPtrArray *	gth_window_get_shortcuts	(GthWindow		*window);
+GPtrArray *	gth_window_get_shortcuts_by_category
+						(GthWindow		*window);
 gboolean	gth_window_activate_shortcut	(GthWindow		*window,
 						 int			 context,
 						 guint			 keycode,

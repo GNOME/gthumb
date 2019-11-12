@@ -143,16 +143,6 @@ typedef enum /*< skip >*/ {
 } GthShortcutContext;
 
 
-typedef enum {
-	GTH_SHORTCUT_CATEGORY_UI,
-	GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION,
-	GTH_SHORTCUT_CATEGORY_FILE_EDIT,
-	GTH_SHORTCUT_CATEGORY_IMAGE_VIEW,
-	GTH_SHORTCUT_CATEGORY_IMAGE_EDIT,
-	GTH_SHORTCUT_CATEGORY_SLIDESHOW
-} GthShortcutCategory;
-
-
 typedef void (*DataFunc)         (gpointer    user_data);
 typedef void (*ReadyFunc)        (GError     *error,
 			 	  gpointer    user_data);

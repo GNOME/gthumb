@@ -339,15 +339,16 @@ _new_shortcut_row (GthShortcut *shortcut,
 
 
 static GtkWidget *
-_new_shortcut_category_row (GthShortcutCategory category,
-			    int                 n_category)
+_new_shortcut_category_row (const char *category_id,
+			    int         n_category)
 {
-	GtkWidget  *row;
-	GtkWidget  *box;
-	const char *text;
-	char       *esc_text;
-	char       *markup_text;
-	GtkWidget  *label;
+	GtkWidget           *row;
+	GtkWidget           *box;
+	GthShortcutCategory *category;
+	const char          *text;
+	char                *esc_text;
+	char                *markup_text;
+	GtkWidget           *label;
 
 	row = gtk_list_box_row_new ();
 	gtk_list_box_row_set_activatable (GTK_LIST_BOX_ROW (row), FALSE);
@@ -358,28 +359,8 @@ _new_shortcut_category_row (GthShortcutCategory category,
 		gtk_widget_set_margin_top (box, 15);
 	gtk_container_add (GTK_CONTAINER (row), box);
 
-	text = _("Others");
-	switch (category) {
-	case GTH_SHORTCUT_CATEGORY_UI:
-		text = _("Show/Hide");
-		break;
-	case GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION:
-		text = _("File Navigation");
-		break;
-	case GTH_SHORTCUT_CATEGORY_FILE_EDIT:
-		text = _("File Edit");
-		break;
-	case GTH_SHORTCUT_CATEGORY_IMAGE_VIEW:
-		text = _("Viewer");
-		break;
-	case GTH_SHORTCUT_CATEGORY_IMAGE_EDIT:
-		text = _("Image Edit");
-		break;
-	case GTH_SHORTCUT_CATEGORY_SLIDESHOW:
-		text = _("Slideshow");
-		break;
-	}
-
+	category = gth_main_get_shortcut_category (category_id);
+	text = (category != NULL) ? category->display_name : _("Other");
 	esc_text = g_markup_escape_text (text, -1);
 	markup_text = g_strdup_printf ("<b>%s</b>", esc_text);
 
@@ -400,22 +381,6 @@ _new_shortcut_category_row (GthShortcutCategory category,
 	g_free (esc_text);
 
 	return row;
-}
-
-
-static int
-sort_shortcuts_by_category (gconstpointer a,
-			    gconstpointer b)
-{
-	const GthShortcut *sa = * (GthShortcut **) a;
-	const GthShortcut *sb = * (GthShortcut **) b;
-
-	if (sa->category < sb->category)
-		return -1;
-	if (sa->category > sb->category)
-		return 1;
-
-	return g_strcmp0 (sa->description, sb->description);
 }
 
 
@@ -459,8 +424,8 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 {
 	BrowserData *data;
 	GtkWidget   *shortcuts_list;
-	GPtrArray   *accel_v;
-	int          last_category;
+	GPtrArray   *shortcuts_v;
+	const char  *last_category;
 	int          n_category;
 	int          i;
 	GtkWidget   *label;
@@ -475,17 +440,16 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	g_object_set_data_full (G_OBJECT (dialog), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 
 	shortcuts_list = _gtk_builder_get_widget (data->builder, "shortcuts_list");
-	accel_v = gth_window_get_shortcuts (GTH_WINDOW (browser));
-	g_ptr_array_sort (accel_v, sort_shortcuts_by_category);
-	last_category = -1;
+	shortcuts_v = gth_window_get_shortcuts_by_category (GTH_WINDOW (browser));
+	last_category = NULL;
 	n_category = 0;
-	for (i = 0; i < accel_v->len; i++) {
-		GthShortcut *shortcut = g_ptr_array_index (accel_v, i);
+	for (i = 0; i < shortcuts_v->len; i++) {
+		GthShortcut *shortcut = g_ptr_array_index (shortcuts_v, i);
 
-		if (shortcut->category == GTH_SHORTCUT_CATEGORY_HIDDEN)
+		if (g_strcmp0 (shortcut->category, GTH_SHORTCUT_CATEGORY_HIDDEN) == 0)
 			continue;
 
-		if (shortcut->category != last_category) {
+		if (g_strcmp0 (shortcut->category,last_category) != 0) {
 			last_category = shortcut->category;
 			n_category++;
 			gtk_list_box_insert (GTK_LIST_BOX (shortcuts_list),

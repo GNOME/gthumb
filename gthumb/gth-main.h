@@ -35,6 +35,7 @@
 #include "gth-image-saver.h"
 #include "gth-metadata-provider.h"
 #include "gth-monitor.h"
+#include "gth-shortcut.h"
 #include "gth-tags-file.h"
 #include "gth-test.h"
 #include "pixbuf-io.h"
@@ -85,6 +86,8 @@ GthMetadataProvider *  gth_main_get_metadata_writer           (const char       
 GthMetadataCategory *  gth_main_get_metadata_category         (const char           *id);
 GthMetadataInfo *      gth_main_get_metadata_info             (const char           *id);
 GList *                gth_main_get_all_metadata_info         (void);
+void                   gth_main_register_shortcut_category    (GthShortcutCategory  *shortcut_category);
+GthShortcutCategory *  gth_main_get_shortcut_category         (const char           *id);
 void                   gth_main_register_sort_type            (GthFileDataSort      *sort_type);
 GthFileDataSort *      gth_main_get_sort_type                 (const char           *name);
 GList *                gth_main_get_all_sort_types            (void);

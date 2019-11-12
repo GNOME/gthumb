@@ -33,6 +33,17 @@
 #include "pixbuf-io.h"
 
 
+GthShortcutCategory shortcut_categories[] = {
+	{ GTH_SHORTCUT_CATEGORY_HIDDEN, NULL },
+	{ GTH_SHORTCUT_CATEGORY_UI, N_("Show/Hide") },
+	{ GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, N_("File Navigation") },
+	{ GTH_SHORTCUT_CATEGORY_FILE_EDIT, N_("File Edit") },
+	{ GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, N_("Viewer") },
+	{ GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, N_("Image Edit") },
+	{ GTH_SHORTCUT_CATEGORY_SLIDESHOW, N_("Slideshow") },
+};
+
+
 static void
 gth_main_register_default_file_loader (void)
 {
@@ -69,6 +80,7 @@ gth_main_register_default_types (void)
 	gth_main_register_type ("file-properties", GTH_TYPE_FILE_COMMENT);
 	gth_main_register_type ("file-properties", GTH_TYPE_FILE_DETAILS);
 	gth_main_register_default_file_loader ();
+	gth_main_register_shortcut_category (shortcut_categories);
 	gth_hook_add_callback ("dlg-preferences-construct", 1, G_CALLBACK (general__dlg_preferences_construct_cb), NULL);
 	gth_hook_add_callback ("dlg-preferences-apply", 1, G_CALLBACK (general__dlg_preferences_apply), NULL);
 	gth_hook_add_callback ("dlg-preferences-construct", 2, G_CALLBACK (browser__dlg_preferences_construct_cb), NULL);

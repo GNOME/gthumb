@@ -22,6 +22,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "glib-utils.h"
+#include "gth-main.h"
 #include "gth-window.h"
 #include "gth-window-title.h"
 #include "gtk-utils.h"
@@ -818,6 +819,27 @@ gth_window_get_shortcuts (GthWindow *window)
 {
 	g_return_val_if_fail (GTH_IS_WINDOW (window), NULL);
 
+	return window->priv->shortcuts_v;
+}
+
+
+static int
+sort_shortcuts_by_category (gconstpointer a,
+			    gconstpointer b)
+{
+	const GthShortcut *sa = * (GthShortcut **) a;
+	const GthShortcut *sb = * (GthShortcut **) b;
+
+	return g_strcmp0 (sa->category, sb->category);
+}
+
+
+GPtrArray *
+gth_window_get_shortcuts_by_category (GthWindow *window)
+{
+	g_return_val_if_fail (GTH_IS_WINDOW (window), NULL);
+
+	g_ptr_array_sort (window->priv->shortcuts_v, sort_shortcuts_by_category);
 	return window->priv->shortcuts_v;
 }
 

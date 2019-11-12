@@ -36,7 +36,7 @@ gth_shortcut_new (void)
 	shortcut->action_name = NULL;
 	shortcut->description = NULL;
 	shortcut->context = 0;
-	shortcut->category = 0;
+	shortcut->category = NULL;
 	shortcut->default_accelerator = NULL;
 	shortcut->accelerator = NULL;
 	shortcut->label = NULL;

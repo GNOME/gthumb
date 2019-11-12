@@ -27,14 +27,27 @@
 G_BEGIN_DECLS
 
 #define GTH_SHORTCUT_CONTEXT_INTERNAL -1
-#define GTH_SHORTCUT_CATEGORY_HIDDEN -1
+
+#define GTH_SHORTCUT_CATEGORY_HIDDEN "hidden"
+#define GTH_SHORTCUT_CATEGORY_UI "ui"
+#define GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION "file-navigation"
+#define GTH_SHORTCUT_CATEGORY_FILE_EDIT "file-edit"
+#define GTH_SHORTCUT_CATEGORY_IMAGE_VIEW "image-view"
+#define GTH_SHORTCUT_CATEGORY_IMAGE_EDIT "image-edit"
+#define GTH_SHORTCUT_CATEGORY_SLIDESHOW "slideshow"
+
+
+typedef struct {
+	char *id;
+	char *display_name;
+} GthShortcutCategory;
 
 
 typedef struct {
 	char            *action_name;
 	char            *description;
 	int              context;
-	int              category;
+	char            *category;
 	char            *default_accelerator;
 	char            *accelerator;
 	char            *label;
