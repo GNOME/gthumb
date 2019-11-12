@@ -429,9 +429,9 @@ restore_all_button_clicked_cb (GtkButton *button,
 
 	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (data->preferences_dialog),
 					GTK_DIALOG_MODAL,
-					_("Do you want to revert all the changes and restore the default shortcuts?"),
+					_("Do you want to revert all the changes and use the default shortcuts?"),
 					_GTK_LABEL_CANCEL,
-					_("Restore"));
+					_("Revert"));
 	_gtk_dialog_add_class_to_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES, GTK_STYLE_CLASS_DESTRUCTIVE_ACTION);
 
 	reassign = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
