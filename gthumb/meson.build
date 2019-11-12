@@ -249,6 +249,7 @@ source_files = files(
   'gth-save-image-task.c',
   'gth-screensaver.c',
   'gth-shortcut.c',
+  'gth-shortcuts-window.c',
   'gth-sidebar.c',
   'gth-sidebar-section.c',
   'gth-statusbar.c',

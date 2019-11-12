@@ -33,6 +33,7 @@
 #include "gth-folder-tree.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
+#include "gth-shortcuts-window.h"
 #include "gth-sidebar.h"
 #include "gtk-utils.h"
 #include "gth-viewer-page.h"
@@ -102,7 +103,7 @@ gth_application_activate_show_shortcuts (GSimpleAction *action,
         GtkWidget    *browser;
 
         browser = _gth_application_get_current_window (application);
-        show_help_dialog (GTK_WINDOW (browser), "gthumb-shortcuts");
+        gth_shortcuts_window_new (GTH_WINDOW (browser));
 }
 
 
