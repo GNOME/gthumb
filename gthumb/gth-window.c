@@ -857,6 +857,9 @@ gth_window_activate_shortcut (GthWindow       *window,
 	if (shortcut != NULL) {
 		GAction *action;
 
+		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_INTERNAL) != 0)
+			return FALSE;
+
 		action = g_action_map_lookup_action (G_ACTION_MAP (window), shortcut->action_name);
 		if (action != NULL) {
 			GVariant *variant;
