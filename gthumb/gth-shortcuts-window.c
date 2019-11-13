@@ -84,12 +84,18 @@ gth_shortcuts_window_new (GthWindow *app_window)
 
 			if (g_strcmp0 (shortcut_info->category, last_category) != 0) {
 				GthShortcutCategory *category_info;
+				char                *title;
 
 				last_category = shortcut_info->category;
+
 				category_info = gth_main_get_shortcut_category (shortcut_info->category);
+				if ((category_info != NULL) && (category_info->display_name != NULL))
+					title = _(category_info->display_name);
+				else
+					title = _("Other");
 
 				group = g_object_new (GTK_TYPE_SHORTCUTS_GROUP,
-						      "title", ((category_info != NULL) && (category_info->display_name != NULL)) ? _(category_info->display_name) : _("Other"),
+						      "title", title,
 						      NULL);
 				gtk_widget_show (group);
 				gtk_container_add (GTK_CONTAINER (section), group);
