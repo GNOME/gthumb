@@ -43,7 +43,7 @@ struct _GthMetadataProviderSelections
 
 struct _GthMetadataProviderSelectionsClass
 {
-	GthMetadataProviderClass __parent_class;	
+	GthMetadataProviderClass __parent_class;
 };
 
 GType gth_metadata_provider_selections_get_type (void) G_GNUC_CONST;
