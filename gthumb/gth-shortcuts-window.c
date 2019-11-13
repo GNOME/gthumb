@@ -73,8 +73,7 @@ gth_shortcuts_window_new (GthWindow *app_window)
 			GthShortcut *shortcut_info = g_ptr_array_index (shortcuts_v, i);
 			GtkWidget   *shortcut;
 
-			/* FIXME: document internal shortcuts as well */
-			if (shortcut_info->context == GTH_SHORTCUT_CONTEXT_INTERNAL)
+			if (g_strcmp0 (shortcut_info->category, GTH_SHORTCUT_CATEGORY_HIDDEN) == 0)
 				continue;
 
 			if ((shortcut_info->context & context->id) == 0)
