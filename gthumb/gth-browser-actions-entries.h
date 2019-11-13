@@ -60,6 +60,10 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "show-sidebar", toggle_action_activated, NULL, "false", gth_browser_activate_show_sidebar },
 	{ "show-thumbnail-list", toggle_action_activated, NULL, "false", gth_browser_activate_show_thumbnail_list },
 
+	{ "toggle-statusbar", gth_browser_activate_toggle_statusbar },
+	{ "toggle-sidebar", gth_browser_activate_toggle_sidebar },
+	{ "toggle-thumbnail-list", gth_browser_activate_toggle_thumbnail_list },
+
 	{ "show-first-image", gth_browser_activate_show_first_image },
 	{ "show-last-image", gth_browser_activate_show_last_image },
 	{ "show-previous-image", gth_browser_activate_show_previous_image },
@@ -83,6 +87,9 @@ static const GthShortcut gth_browser_shortcuts[] = {
 	{ "open-location", N_("Open location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "o" },
 	{ "fullscreen", N_("Fullscreen"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "f" },
 	{ "revert-to-saved", N_("Revert image to saved"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "F4" },
+	{ "toggle-sidebar", N_("Sidebar"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_UI, "F9" },
+	{ "toggle-statusbar", N_("Statusbar"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F7" },
+	{ "toggle-thumbnail-list", N_("Thumbnails list"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F8" },
 
 	{ "go-back", N_("Load previuos location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Left" },
 	{ "go-forward", N_("Load next location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Right" },

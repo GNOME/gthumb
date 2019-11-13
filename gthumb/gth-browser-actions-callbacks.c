@@ -497,6 +497,19 @@ gth_browser_activate_show_statusbar (GSimpleAction *action,
 
 
 void
+gth_browser_activate_toggle_statusbar (GSimpleAction *action,
+				       GVariant      *state,
+				       gpointer       user_data)
+{
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_STATUSBAR_VISIBLE, ! g_settings_get_boolean (settings, PREF_BROWSER_STATUSBAR_VISIBLE));
+	g_object_unref (settings);
+}
+
+
+void
 gth_browser_activate_show_sidebar (GSimpleAction *action,
 				   GVariant      *state,
 				   gpointer       user_data)
@@ -512,6 +525,19 @@ gth_browser_activate_show_sidebar (GSimpleAction *action,
 
 
 void
+gth_browser_activate_toggle_sidebar (GSimpleAction *action,
+				     GVariant      *state,
+				     gpointer       user_data)
+{
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_SIDEBAR_VISIBLE, ! g_settings_get_boolean (settings, PREF_BROWSER_SIDEBAR_VISIBLE));
+	g_object_unref (settings);
+}
+
+
+void
 gth_browser_activate_show_thumbnail_list (GSimpleAction *action,
 					  GVariant      *state,
 					  gpointer       user_data)
@@ -522,6 +548,19 @@ gth_browser_activate_show_thumbnail_list (GSimpleAction *action,
 
 	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 	g_settings_set_boolean (settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE, g_variant_get_boolean (state));
+	g_object_unref (settings);
+}
+
+
+void
+gth_browser_activate_toggle_thumbnail_list (GSimpleAction *action,
+					    GVariant      *state,
+					    gpointer       user_data)
+{
+	GSettings *settings;
+
+	settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	g_settings_set_boolean (settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE, ! g_settings_get_boolean (settings, PREF_BROWSER_THUMBNAIL_LIST_VISIBLE));
 	g_object_unref (settings);
 }
 
