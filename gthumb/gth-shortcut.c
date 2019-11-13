@@ -172,7 +172,10 @@ gth_shortcuts_write_to_file (GPtrArray  *shortcuts_v,
 	for (i = 0; i < shortcuts_v->len; i++) {
 		GthShortcut *shortcut = g_ptr_array_index (shortcuts_v, i);
 
-		if (shortcut->context == GTH_SHORTCUT_CONTEXT_INTERNAL)
+		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_INTERNAL) != 0)
+			continue;
+
+		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_FIXED) != 0)
 			continue;
 
 		dom_element_append_child (shortcuts,

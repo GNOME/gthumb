@@ -132,11 +132,24 @@ typedef enum /*< skip >*/ {
 
 
 typedef enum /*< skip >*/ {
-	GTH_SHORTCUT_CONTEXT_BROWSER = 1 << 1,
-	GTH_SHORTCUT_CONTEXT_VIEWER = 1 << 2,
-	GTH_SHORTCUT_CONTEXT_SLIDESHOW = 1 << 3,
+	/* Shortcut handled by Gtk, not customizable, specified for
+	 * documentation. */
+	GTH_SHORTCUT_CONTEXT_INTERNAL = 1 << 1,
 
-	/* aggregated values */
+	/* Shortcut handled in gth_window_activate_shortcut, not customizable,
+	 * specified for documentation. */
+	GTH_SHORTCUT_CONTEXT_FIXED = 1 << 2,
+
+	/* Shortcut available when the window is in browser mode. */
+	GTH_SHORTCUT_CONTEXT_BROWSER = 1 << 3,
+
+	/* Shortcut available when the window is in viewer mode. */
+	GTH_SHORTCUT_CONTEXT_VIEWER = 1 << 4,
+
+	/* Shortcut available in slideshows. */
+	GTH_SHORTCUT_CONTEXT_SLIDESHOW = 1 << 5,
+
+	/* Aggregated values: */
 
 	GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER = (GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_VIEWER),
 	GTH_SHORTCUT_CONTEXT_ANY = (GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_VIEWER | GTH_SHORTCUT_CONTEXT_SLIDESHOW),

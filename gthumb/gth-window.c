@@ -733,7 +733,7 @@ gth_window_add_accelerators (GthWindow			*window,
 
 		shortcut = gth_shortcut_new ();
 		shortcut->action_name = g_strdup (acc->action_name);
-		shortcut->context = GTH_SHORTCUT_CONTEXT_INTERNAL;
+		shortcut->context = GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_ANY;
 		shortcut->category = GTH_SHORTCUT_CATEGORY_HIDDEN;
 		gth_shortcut_set_accelerator (shortcut, acc->accelerator);
 		_gth_window_add_shortcut (window, shortcut);

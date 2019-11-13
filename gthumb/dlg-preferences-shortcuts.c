@@ -449,6 +449,12 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 		if (g_strcmp0 (shortcut->category, GTH_SHORTCUT_CATEGORY_HIDDEN) == 0)
 			continue;
 
+		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_INTERNAL) != 0)
+			continue;
+
+		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_FIXED) != 0)
+			continue;
+
 		if (g_strcmp0 (shortcut->category,last_category) != 0) {
 			last_category = shortcut->category;
 			n_category++;
