@@ -54,12 +54,12 @@ static const GthMenuEntry fixed_menu_entries[] = {
 
 
 static const GthMenuEntry vfs_open_actions_entries[] = {
-	{ N_("Open Folder"), "win.go-to-container-from-catalog", "<Alt>end" },
+	{ N_("Open Folder"), "win.go-to-container-from-catalog" },
 };
 
 
 static const GthMenuEntry vfs_other_actions_entries[] = {
-	{ N_("Remove from Catalog"), "win.remove-from-catalog", "Delete" },
+	{ N_("Remove from Catalog"), "win.remove-from-catalog" },
 };
 
 

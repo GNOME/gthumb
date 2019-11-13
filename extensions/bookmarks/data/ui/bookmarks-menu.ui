@@ -10,7 +10,6 @@
       <item>
         <attribute name="label" translatable="yes">_Edit Bookmarks…</attribute>
         <attribute name="action">win.bookmarks-edit</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>b]]></attribute>
       </item>
     </section>
     <submenu id="system-bookmarks">

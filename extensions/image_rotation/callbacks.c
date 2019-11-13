@@ -49,14 +49,14 @@ static const GthShortcut shortcuts[] = {
 
 
 static const GthMenuEntry tools1_action_entries[] = {
-	{ N_("Rotate Left"), "win.rotate-left", "bracketleft", "object-rotate-left-symbolic" },
-	{ N_("Rotate Right"), "win.rotate-right", "bracketright", "object-rotate-right-symbolic" },
+	{ N_("Rotate Left"), "win.rotate-left", NULL, "object-rotate-left-symbolic" },
+	{ N_("Rotate Right"), "win.rotate-right", NULL, "object-rotate-right-symbolic" },
 };
 
 
 static const GthMenuEntry tools2_action_entries[] = {
-	{ N_("Rotate Physically"), "win.apply-orientation", NULL },
-	{ N_("Reset the EXIF Orientation"), "win.reset-orientation", NULL }
+	{ N_("Rotate Physically"), "win.apply-orientation" },
+	{ N_("Reset the EXIF Orientation"), "win.reset-orientation" }
 };
 
 

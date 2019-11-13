@@ -52,13 +52,13 @@ ip__gth_browser_construct_cb (GthBrowser *browser)
 				       GTH_MENU_MANAGER_NEW_MERGE_ID,
 				       _("Print"),
 				       "win.print",
-				       "<control>P",
+				       NULL,
 				       NULL);
 	gth_menu_manager_append_entry (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FILE_LIST_OPEN_ACTIONS),
 				       GTH_MENU_MANAGER_NEW_MERGE_ID,
 				       _("Print"),
 				       "win.print",
-				       "<control>P",
+				       NULL,
 				       NULL);
 	gth_window_add_shortcuts (GTH_WINDOW (browser),
 				  shortcuts,

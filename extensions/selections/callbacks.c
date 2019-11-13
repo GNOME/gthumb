@@ -71,12 +71,12 @@ static const GthShortcut shortcuts[] = {
 
 
 static const GthMenuEntry file_list_popup_open_entries[] = {
-	{ N_("Open Folder"), "win.go-to-container-from-selection", "<Alt>end" },
+	{ N_("Open Folder"), "win.go-to-container-from-selection" },
 };
 
 
 static const GthMenuEntry file_list_popup_delete_entries[] = {
-	{ N_("Remove from Selection"), "win.remove-from-selection", "Delete" },
+	{ N_("Remove from Selection"), "win.remove-from-selection" },
 };
 
 

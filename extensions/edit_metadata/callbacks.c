@@ -53,8 +53,8 @@ static const GthMenuEntry tools_actions[] = {
 
 
 static const GthMenuEntry file_list_actions[] = {
-	{ N_("Comment"), "win.edit-metadata", "C" },
-	{ N_("Tags"), "win.edit-tags", "T" }
+	{ N_("Comment"), "win.edit-metadata" },
+	{ N_("Tags"), "win.edit-tags" }
 };
 
 

@@ -6,7 +6,6 @@
       <item>
         <attribute name="label" translatable="yes">Fullscreen</attribute>
         <attribute name="action">win.fullscreen</attribute>
-        <attribute name="accel">F11</attribute>
       </item>
     </section>
     <section id="open-actions">

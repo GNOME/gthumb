@@ -6,19 +6,16 @@
       <item>
         <attribute name="label" translatable="yes">New Window</attribute>
         <attribute name="action">app.new-window</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>n]]></attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Open Location…</attribute>
         <attribute name="action">win.open-location</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>l]]></attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label" translatable="yes">Save</attribute>
         <attribute name="action">win.save</attribute>
-        <attribute name="accel"><![CDATA[<Ctrl>s]]></attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Save As…</attribute>
@@ -27,7 +24,6 @@
       <item>
         <attribute name="label" translatable="yes">Revert</attribute>
         <attribute name="action">win.revert-to-saved</attribute>
-        <attribute name="accel">F4</attribute>
       </item>
     </section>
     <section id="view-actions">

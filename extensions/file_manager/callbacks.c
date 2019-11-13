@@ -70,16 +70,16 @@ static const GActionEntry actions[] = {
 
 
 static const GthMenuEntry fixed_menu_entries_edit[] = {
-	{ N_("Cut"), "win.edit-cut", "<Control>x" },
-	{ N_("Copy"), "win.edit-copy", "<Control>c" },
-	{ N_("Paste"), "win.edit-paste", "<Control>v" },
+	{ N_("Cut"), "win.edit-cut" },
+	{ N_("Copy"), "win.edit-copy" },
+	{ N_("Paste"), "win.edit-paste" },
 };
 
 
 static const GthMenuEntry fixed_menu_entries_file[] = {
 	{ N_("Copy to…"), "win.copy-to-folder" },
 	{ N_("Move to…"), "win.move-to-folder" },
-	{ N_("Rename"), "win.file-list-rename", "F2" },
+	{ N_("Rename"), "win.file-list-rename" },
 };
 
 
@@ -115,7 +115,7 @@ static const GthMenuEntry folder_context_folder_entries[] = {
 
 
 static const GthMenuEntry vfs_entries[] = {
-	{ N_("Duplicate"), "win.duplicate", "<Control>d" }
+	{ N_("Duplicate"), "win.duplicate" }
 };
 
 
