@@ -26,6 +26,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
+#include <extensions/image_viewer/shortcuts.h>
 #include "actions.h"
 #include "callbacks.h"
 #include "gth-file-tool-adjust-contrast.h"
@@ -49,13 +50,13 @@ static const GActionEntry actions[] = {
 
 
 static const GthShortcut shortcuts[] = {
-	{ "file-tool-adjust-contrast", N_("Adjust Contrast"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "a" },
-	{ "file-tool-flip", N_("Flip"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "l" },
-	{ "file-tool-mirror", N_("Mirror"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "m" },
-	{ "file-tool-rotate-right", N_("Rotate Right"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "r" },
-	{ "file-tool-rotate-left", N_("Rotate Left"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "<Shift>r" },
-	{ "file-tool-crop", N_("Crop"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "<Shift>c" },
-	{ "file-tool-resize", N_("Resize"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "<Shift>s" },
+	{ "file-tool-adjust-contrast", N_("Adjust contrast"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "a" },
+	{ "file-tool-flip", N_("Flip"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "l" },
+	{ "file-tool-mirror", N_("Mirror"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "m" },
+	{ "file-tool-rotate-right", N_("Rotate right"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "r" },
+	{ "file-tool-rotate-left", N_("Rotate left"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "<Shift>r" },
+	{ "file-tool-crop", N_("Crop"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "<Shift>c" },
+	{ "file-tool-resize", N_("Resize"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "<Shift>s" },
 };
 
 

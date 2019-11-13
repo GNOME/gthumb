@@ -35,7 +35,7 @@ static const GActionEntry actions[] = {
 
 
 static const GthShortcut shortcuts[] = {
-	{ "print", N_("Print"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, "<Primary>p" },
+	{ "print", N_("Print"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "<Primary>p" },
 };
 
 

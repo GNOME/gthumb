@@ -26,6 +26,12 @@
 #include "callbacks.h"
 #include "gth-file-source-selections.h"
 #include "gth-metadata-provider-selections.h"
+#include "shortcuts.h"
+
+
+static GthShortcutCategory shortcut_categories[] = {
+	{ GTH_SHORTCUT_CATEGORY_SELECTIONS, N_("Selections"), 17 },
+};
 
 
 G_MODULE_EXPORT void
@@ -33,6 +39,7 @@ gthumb_extension_activate (void)
 {
 	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_SELECTIONS);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_SELECTIONS);
+	gth_main_register_shortcut_category (shortcut_categories, G_N_ELEMENTS (shortcut_categories));
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (selections__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (selections__gth_browser_update_sensitivity_cb), NULL);
 	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (selections__gth_browser_file_list_key_press_cb), NULL);

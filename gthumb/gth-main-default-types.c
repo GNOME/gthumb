@@ -33,14 +33,14 @@
 #include "pixbuf-io.h"
 
 
-GthShortcutCategory shortcut_categories[] = {
+static GthShortcutCategory shortcut_categories[] = {
 	{ GTH_SHORTCUT_CATEGORY_HIDDEN, NULL },
-	{ GTH_SHORTCUT_CATEGORY_UI, N_("Show/Hide") },
-	{ GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, N_("File Navigation") },
-	{ GTH_SHORTCUT_CATEGORY_FILE_EDIT, N_("File Edit") },
-	{ GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, N_("Viewer") },
-	{ GTH_SHORTCUT_CATEGORY_IMAGE_EDIT, N_("Image Edit") },
-	{ GTH_SHORTCUT_CATEGORY_SLIDESHOW, N_("Slideshow") },
+	{ GTH_SHORTCUT_CATEGORY_GENERAL, N_("General"), 30 },
+	{ GTH_SHORTCUT_CATEGORY_UI, N_("Show/Hide"), 31 },
+	{ GTH_SHORTCUT_CATEGORY_NAVIGATION, N_("Navigation"), 15 },
+	{ GTH_SHORTCUT_CATEGORY_FILE_MANAGER, N_("File Manager"), 10 },
+	{ GTH_SHORTCUT_CATEGORY_VIEWER, N_("Viewer"), 20 },
+	{ GTH_SHORTCUT_CATEGORY_SLIDESHOW, N_("Slideshow"), 21 }
 };
 
 

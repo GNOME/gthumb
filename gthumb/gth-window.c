@@ -827,10 +827,27 @@ static int
 sort_shortcuts_by_category (gconstpointer a,
 			    gconstpointer b)
 {
-	const GthShortcut *sa = * (GthShortcut **) a;
-	const GthShortcut *sb = * (GthShortcut **) b;
+	const GthShortcut   *sa = * (GthShortcut **) a;
+	const GthShortcut   *sb = * (GthShortcut **) b;
+	int                  result;
+	GthShortcutCategory *cat_a;
+	GthShortcutCategory *cat_b;
 
-	return g_strcmp0 (sa->category, sb->category);
+	result = 0;
+	cat_a = gth_main_get_shortcut_category (sa->category);
+	cat_b = gth_main_get_shortcut_category (sb->category);
+	if ((cat_a != NULL) && (cat_b != NULL)) {
+		if (cat_a->sort_order < cat_b->sort_order)
+			result = -1;
+		else if (cat_a->sort_order > cat_b->sort_order)
+			result = 1;
+	}
+	if (result == 0)
+		result = g_strcmp0 (sa->category, sb->category);
+	if (result == 0)
+		result = g_strcmp0 (sa->description, sb->description);
+
+	return result;
 }
 
 

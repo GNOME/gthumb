@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2013 The Free Software Foundation, Inc.
+ *  Copyright (C) 2009 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,13 +19,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef IMAGE_VIEWER_H
-#define IMAGE_VIEWER_H
+#ifndef SHORTCUTS_H
+#define SHORTCUTS_H
 
-#include "gth-image-viewer-page.h"
-#include "gth-image-viewer-page-tool.h"
-#include "gth-image-viewer-task.h"
-#include "preferences.h"
-#include "shortcuts.h"
+#define GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER "image-viewer"
+#define GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR "image-editor"
 
-#endif /* IMAGE_VIEWER_H */
+#endif /* SHORTCUTS_H */

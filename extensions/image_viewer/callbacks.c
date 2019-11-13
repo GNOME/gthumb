@@ -25,24 +25,25 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include "callbacks.h"
+#include "shortcuts.h"
 
 
 static const GthShortcut shortcuts[] = {
-	{ "image-zoom-in", N_("Zoom In"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "plus" },
-	{ "image-zoom-out", N_("Zoom Out"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "minus" },
-	{ "image-zoom-100", N_("Zoom 100%"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "1" },
-	{ "image-zoom-200", N_("Zoom 200%"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "2" },
-	{ "image-zoom-300", N_("Zoom 300%"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "3" },
+	{ "image-zoom-in", N_("Zoom in"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "plus" },
+	{ "image-zoom-out", N_("Zoom out"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "minus" },
+	{ "image-zoom-100", N_("Zoom 100%"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "1" },
+	{ "image-zoom-200", N_("Zoom 200%"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "2" },
+	{ "image-zoom-300", N_("Zoom 300%"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "3" },
 
-	{ "image-zoom-fit", N_("Zoom To Fit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Shift>x" },
-	{ "image-zoom-fit-if-larger", N_("Zoom To Fit If Larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "x" },
-	{ "image-zoom-fit-width", N_("Zoom To Fit Width"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Shift>w" },
-	{ "image-zoom-fit-width-if-larger", N_("Zoom To Fit Width If Larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "w" },
-	{ "image-zoom-fit-height", N_("Zoom To Fit Height"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Shift>h" },
-	{ "image-zoom-fit-height-if-larger", N_("Zoom To Fit Height If Larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "h" },
+	{ "image-zoom-fit", N_("Zoom to fit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "<Shift>x" },
+	{ "image-zoom-fit-if-larger", N_("Zoom to fit if larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "x" },
+	{ "image-zoom-fit-width", N_("Zoom to fit width"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "<Shift>w" },
+	{ "image-zoom-fit-width-if-larger", N_("Zoom to fit width if larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "w" },
+	{ "image-zoom-fit-height", N_("Zoom to fit height"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "<Shift>h" },
+	{ "image-zoom-fit-height-if-larger", N_("Zoom to fit height if larger"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, "h" },
 
-	{ "image-undo", N_("Undo Edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Primary>z" },
-	{ "image-redo", N_("Redo Edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "<Primary><Shift>z" },
+	{ "image-undo", N_("Undo edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "<Primary>z" },
+	{ "image-redo", N_("Redo edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "<Primary><Shift>z" },
 };
 
 

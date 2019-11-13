@@ -120,14 +120,14 @@ static const GthMenuEntry vfs_entries[] = {
 
 
 static const GthShortcut shortcuts[] = {
-	{ "rename", N_("Rename File"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "F2" },
-	{ "duplicate", N_("Duplicate File"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "d" },
-	{ "remove-from-source", N_("Delete File"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "Delete" },
-	{ "remove-from-source-permanently", N_("Delete File Permanently"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "<Shift>Delete" },
-	{ "open-with-gimp", N_("Open With Gimp"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "g" },
 	{ "edit-cut", N_("Cut"), GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "<Primary>x" },
 	{ "edit-copy", N_("Copy"), GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "<Primary>c" },
 	{ "edit-paste", N_("Paste"), GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "<Primary>v" },
+	{ "rename", N_("Rename"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "F2" },
+	{ "duplicate", N_("Duplicate"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "d" },
+	{ "remove-from-source", N_("Delete"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "Delete" },
+	{ "remove-from-source-permanently", N_("Delete permanently"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "<Shift>Delete" },
+	{ "open-with-gimp", N_("Open with Gimp"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "g" },
 };
 
 

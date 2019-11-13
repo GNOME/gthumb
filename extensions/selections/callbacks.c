@@ -28,6 +28,7 @@
 #include "callbacks.h"
 #include "gth-file-source-selections.h"
 #include "gth-selections-manager.h"
+#include "shortcuts.h"
 
 
 #define BROWSER_DATA_KEY "selections-browser-data"
@@ -53,17 +54,19 @@ static const GActionEntry actions[] = {
 
 
 static const GthShortcut shortcuts[] = {
-	{ "add-to-selection-1", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Alt>1" },
-	{ "add-to-selection-2", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Alt>2" },
-	{ "add-to-selection-3", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Alt>3" },
+	{ "add-to-selection-1", N_("Add to selection 1"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Alt>1" },
+	{ "add-to-selection-2", N_("Add to selection 2"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Alt>2" },
+	{ "add-to-selection-3", N_("Add to selection 3"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Alt>3" },
 
-	{ "remove-from-selection-1", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Shift><Alt>1" },
-	{ "remove-from-selection-2", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Shift><Alt>2" },
-	{ "remove-from-selection-3", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Shift><Alt>3" },
+	{ "remove-from-selection-1", N_("Remove from selection 1"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Shift><Alt>1" },
+	{ "remove-from-selection-2", N_("Remove from selection 2"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Shift><Alt>2" },
+	{ "remove-from-selection-3", N_("Remove from selection 3"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Shift><Alt>3" },
 
-	{ "go-to-selection-1", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Primary>1" },
-	{ "go-to-selection-2", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Primary>2" },
-	{ "go-to-selection-3", "", GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_HIDDEN, "<Primary>3" },
+	{ "go-to-selection-1", N_("Show selection 1"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Primary>1" },
+	{ "go-to-selection-2", N_("Show selection 2"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Primary>2" },
+	{ "go-to-selection-3", N_("Show selection 3"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Primary>3" },
+
+	{ "go-to-container-from-selection", N_("Open the file folder"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Alt>End" },
 };
 
 

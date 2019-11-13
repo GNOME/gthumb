@@ -43,8 +43,8 @@ static const GActionEntry actions[] = {
 
 
 static const GthShortcut shortcuts[] = {
-	{ "rotate-right", N_("Rotate Right"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "bracketright" },
-	{ "rotate-left", N_("Rotate Left"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "bracketleft" },
+	{ "rotate-right", N_("Rotate right"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "bracketright" },
+	{ "rotate-left", N_("Rotate left"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "bracketleft" },
 };
 
 

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2005-2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2005-2019 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -71,34 +71,34 @@ static const GActionEntry gth_browser_actions[] = {
 
 static const GthAccelerator gth_browser_accelerators[] = {
 	{ "browser-mode", "Escape" },
-	{ "close", "<Control>w" },
 };
 
 
 static const GthShortcut gth_browser_shortcuts[] = {
-	{ "close", N_("Close Window"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "" },
-	{ "open-location", N_("Open Location"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "o" },
-	{ "fullscreen", N_("Fullscreen"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "f" },
-	{ "revert-to-saved", N_("Revert Image to Saved"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_EDIT, "F4" },
-	{ "show-sidebar", N_("Sidebar"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F9" },
-	{ "show-statusbar", N_("Statusbar"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F7" },
-	{ "show-thumbnail-list", N_("Thumbnails List"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F8" },
+	{ "browser-mode", N_("Show browser"), GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "Escape" },
+	{ "close", N_("Close window"), GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>w" },
+	{ "quit", N_("Quit"), GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>q" },
+	{ "new-window", N_("New Window"), GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>n" },
 
-	{ "go-back", N_("Load Previuos Location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "<Alt>Left" },
-	{ "go-forward", N_("Load Next Location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "<Alt>Right" },
-	{ "go-up", N_("Load Parent Folder"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "<Alt>Up" },
-	{ "go-home", N_("Load Home"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "<Alt>Home" },
-	{ "reload", N_("Reload Location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "r" },
-	{ "show-hidden-files", N_("Show/Hide Hidden Files"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "h" },
-	{ "sort-by", N_("Change Sorting Order"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_NAVIGATION, "s" },
+	{ "open-location", N_("Open location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "o" },
+	{ "fullscreen", N_("Fullscreen"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "f" },
+	{ "revert-to-saved", N_("Revert image to saved"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "F4" },
 
-	{ "show-previous-image", N_("Show Previous Image"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "BackSpace" },
-	{ "show-next-image", N_("Show Next Image"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "space" },
-	{ "show-first-image", N_("Show First Image"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "Home" },
-	{ "show-last-image", N_("Show Last Image"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_VIEW, "End" },
+	{ "go-back", N_("Load previuos location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Left" },
+	{ "go-forward", N_("Load next location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Right" },
+	{ "go-up", N_("Load parent folder"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Up" },
+	{ "go-home", N_("Load home"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Home" },
+	{ "reload", N_("Reload location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "r" },
+	{ "show-hidden-files", N_("Show/Hide hidden files"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "h" },
+	{ "sort-by", N_("Change sorting order"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "s" },
 
-	{ "toggle-edit-file", N_("Edit Image"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "e" },
-	{ "toggle-file-properties", N_("File Properties"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "i" },
+	{ "show-previous-image", N_("Show previous file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "BackSpace" },
+	{ "show-next-image", N_("Show next file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "space" },
+	{ "show-first-image", N_("Show first file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "Home" },
+	{ "show-last-image", N_("Show last file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "End" },
+
+	{ "toggle-edit-file", N_("Image tools"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "e" },
+	{ "toggle-file-properties", N_("File properties"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "i" },
 };
 
 
