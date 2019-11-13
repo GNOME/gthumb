@@ -25,12 +25,12 @@
 #include <gtk/gtk.h>
 #include "glib-utils.h"
 
-DEF_ACTION_CALLBACK (gth_application_activate_new_window)
-DEF_ACTION_CALLBACK (gth_application_activate_preferences)
-DEF_ACTION_CALLBACK (gth_application_activate_show_shortcuts)
-DEF_ACTION_CALLBACK (gth_application_activate_show_help)
-DEF_ACTION_CALLBACK (gth_application_activate_about)
-DEF_ACTION_CALLBACK (gth_application_activate_quit)
+DEF_ACTION_CALLBACK (gth_browser_activate_new_window)
+DEF_ACTION_CALLBACK (gth_browser_activate_preferences)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_shortcuts)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_help)
+DEF_ACTION_CALLBACK (gth_browser_activate_about)
+DEF_ACTION_CALLBACK (gth_browser_activate_quit)
 DEF_ACTION_CALLBACK (gth_browser_activate_browser_mode)
 DEF_ACTION_CALLBACK (gth_browser_activate_browser_edit_file)
 DEF_ACTION_CALLBACK (gth_browser_activate_browser_properties)

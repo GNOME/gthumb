@@ -29,6 +29,13 @@
 
 
 static const GActionEntry gth_browser_actions[] = {
+	{ "new-window", gth_browser_activate_new_window },
+	{ "preferences", gth_browser_activate_preferences },
+	{ "shortcuts", gth_browser_activate_show_shortcuts },
+	{ "help", gth_browser_activate_show_help },
+	{ "about", gth_browser_activate_about },
+	{ "quit", gth_browser_activate_quit },
+
 	{ "browser-mode", gth_browser_activate_browser_mode },
 	{ "browser-edit-file", gth_browser_activate_browser_edit_file },
 	{ "browser-properties", toggle_action_activated, NULL, "false", gth_browser_activate_browser_properties },
@@ -79,10 +86,12 @@ static const GthAccelerator gth_browser_accelerators[] = {
 
 
 static const GthShortcut gth_browser_shortcuts[] = {
+	{ "new-window", N_("New Window"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>n" },
+	{ "help", N_("Help"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_GENERAL, "F1" },
+	{ "quit", N_("Quit"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>q" },
+
 	{ "browser-mode", N_("Show browser"), GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "Escape" },
-	{ "close", N_("Close window"), GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>w" },
-	{ "quit", N_("Quit"), GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>q" },
-	{ "new-window", N_("New Window"), GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>n" },
+	{ "close", N_("Close window"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>w" },
 
 	{ "open-location", N_("Open location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "o" },
 	{ "fullscreen", N_("Fullscreen"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "f" },
@@ -106,14 +115,6 @@ static const GthShortcut gth_browser_shortcuts[] = {
 
 	{ "toggle-edit-file", N_("Image tools"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "e" },
 	{ "toggle-file-properties", N_("File properties"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "i" },
-};
-
-
-static const GthMenuEntry gears_app_action_entries[] = {
-	{ N_("_Preferences"), "app.preferences" },
-	{ N_("Keyboard Shortcuts"), "app.shortcuts" },
-	{ N_("_Help"), "app.help" },
-	{ N_("_About gThumb"), "app.about" }
 };
 
 

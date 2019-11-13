@@ -40,80 +40,52 @@
 #include "main.h"
 
 
-static GtkWidget *
-_gth_application_get_current_window (GApplication *application)
+void
+gth_browser_activate_new_window (GSimpleAction *action,
+				 GVariant      *parameter,
+				 gpointer       user_data)
 {
-        GList *windows;
+	GtkWidget *browser = user_data;
+	GtkWidget *window;
 
-        windows = gtk_application_get_windows (GTK_APPLICATION (application));
-        if (windows == NULL)
-        	return NULL;
-
-        return GTK_WIDGET (windows->data);
+	window = gth_browser_new (gth_browser_get_location (GTH_BROWSER (browser)), NULL);
+	gtk_window_present (GTK_WINDOW (window));
 }
 
 
 void
-gth_application_activate_new_window (GSimpleAction *action,
-				     GVariant      *parameter,
-				     gpointer       user_data)
+gth_browser_activate_preferences (GSimpleAction *action,
+				  GVariant      *parameter,
+				  gpointer       user_data)
 {
-        GApplication *application = user_data;
-        GtkWidget    *browser;
-        GtkWidget    *window;
-
-        browser = _gth_application_get_current_window (application);
-        window = gth_browser_new (gth_browser_get_location (GTH_BROWSER (browser)), NULL);
-        gtk_window_present (GTK_WINDOW (window));
+	dlg_preferences (GTH_BROWSER (user_data));
 }
 
 
 void
-gth_application_activate_preferences (GSimpleAction *action,
-				      GVariant      *parameter,
-				      gpointer       user_data)
-{
-        GApplication *application = user_data;
-        GtkWidget    *browser;
-
-        browser = _gth_application_get_current_window (application);
-        dlg_preferences (GTH_BROWSER (browser));
-}
-
-
-void
-gth_application_activate_show_help (GSimpleAction *action,
-				    GVariant      *parameter,
-				    gpointer       user_data)
-{
-        GApplication *application = user_data;
-        GtkWidget    *browser;
-
-        browser = _gth_application_get_current_window (application);
-        show_help_dialog (GTK_WINDOW (browser), NULL);
-}
-
-
-void
-gth_application_activate_show_shortcuts (GSimpleAction *action,
-					 GVariant      *parameter,
-					 gpointer       user_data)
-{
-        GApplication *application = user_data;
-        GtkWidget    *browser;
-
-        browser = _gth_application_get_current_window (application);
-        gth_shortcuts_window_new (GTH_WINDOW (browser));
-}
-
-
-void
-gth_application_activate_about (GSimpleAction *action,
+gth_browser_activate_show_help (GSimpleAction *action,
 				GVariant      *parameter,
 				gpointer       user_data)
 {
-        GApplication *application = user_data;
-	GthWindow    *window;
+	show_help_dialog (GTK_WINDOW (user_data), NULL);
+}
+
+
+void
+gth_browser_activate_show_shortcuts (GSimpleAction *action,
+				     GVariant      *parameter,
+				     gpointer       user_data)
+{
+	gth_shortcuts_window_new (GTH_WINDOW (user_data));
+}
+
+
+void
+gth_browser_activate_about (GSimpleAction *action,
+			    GVariant      *parameter,
+			    gpointer       user_data)
+{
+	GthBrowser   *browser = user_data;
 	const char   *authors[] = {
 #include "AUTHORS.tab"
 		NULL
@@ -138,19 +110,18 @@ gth_application_activate_about (GSimpleAction *action,
 	};
 	GdkPixbuf *logo;
 
-	window = (GthWindow *) _gth_application_get_current_window (application);
 	license_text = g_strconcat (_(license[0]), "\n\n",
 				    _(license[1]), "\n\n",
 				    _(license[2]),
 				    NULL);
 
-	logo = gtk_icon_theme_load_icon (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (window))),
+	logo = gtk_icon_theme_load_icon (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (browser))),
 					 "gthumb",
 					 128,
 					 GTK_ICON_LOOKUP_NO_SVG,
 					 NULL);
 
-	gtk_show_about_dialog (GTK_WINDOW (window),
+	gtk_show_about_dialog (GTK_WINDOW (browser),
 			       "version", PACKAGE_VERSION,
 			       "copyright", "Copyright \xc2\xa9 2001-2013 Free Software Foundation, Inc.",
 			       "comments", _("An image viewer and browser for GNOME."),
@@ -169,16 +140,11 @@ gth_application_activate_about (GSimpleAction *action,
 
 
 void
-gth_application_activate_quit (GSimpleAction *action,
-			       GVariant      *parameter,
-			       gpointer       user_data)
+gth_browser_activate_quit (GSimpleAction *action,
+			   GVariant      *parameter,
+			   gpointer       user_data)
 {
-        GApplication *application = user_data;
-        GList        *windows;
-
-        windows = gtk_application_get_windows (GTK_APPLICATION (application));
-        if (windows != NULL)
-        	gth_quit (FALSE);
+	gth_quit (FALSE);
 }
 
 

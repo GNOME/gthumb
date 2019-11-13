@@ -5,7 +5,7 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">New Window</attribute>
-        <attribute name="action">app.new-window</attribute>
+        <attribute name="action">win.new-window</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Open Location…</attribute>
@@ -41,6 +41,22 @@
     <section id="other-actions">
     </section>
     <section id="app-actions">
+      <item>
+        <attribute name="label" translatable="yes">_Preferences</attribute>
+        <attribute name="action">win.preferences</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Keyboard Shortcuts</attribute>
+        <attribute name="action">win.shortcuts</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_Help</attribute>
+        <attribute name="action">win.help</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_About gThumb</attribute>
+        <attribute name="action">win.about</attribute>
+      </item>
     </section>
   </menu>
 </interface>

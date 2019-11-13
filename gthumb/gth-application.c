@@ -134,32 +134,6 @@ gth_application_init (GthApplication *app)
 }
 
 
-static const GActionEntry app_menu_entries[] = {
-	{ "new-window", gth_application_activate_new_window },
-	{ "preferences", gth_application_activate_preferences },
-	{ "shortcuts", gth_application_activate_show_shortcuts },
-	{ "help", gth_application_activate_show_help },
-	{ "about", gth_application_activate_about },
-	{ "quit", gth_application_activate_quit }
-};
-
-
-static void
-_gth_application_initialize_app_actions (GApplication *application)
-{
-	const char * const new_window_accel[] = { "<Primary>n", NULL };
-	const char * const quit_accel[] = { "<Primary>q", NULL };
-
-	g_action_map_add_action_entries (G_ACTION_MAP (application),
-					 app_menu_entries,
-					 G_N_ELEMENTS (app_menu_entries),
-					 application);
-
-	gtk_application_set_accels_for_action (GTK_APPLICATION (application), "app.new-window", new_window_accel);
-	gtk_application_set_accels_for_action (GTK_APPLICATION (application), "app.quit", quit_accel);
-}
-
-
 static void
 migrate_data (void)
 {
@@ -174,7 +148,6 @@ gth_application_startup (GApplication *application)
 
 	g_object_set (gtk_settings_get_default (), "gtk-application-prefer-dark-theme", TRUE, NULL);
 
-	_gth_application_initialize_app_actions (application);
 	gth_pref_initialize ();
 	migrate_data ();
 	gth_main_initialize ();

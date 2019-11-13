@@ -4420,10 +4420,6 @@ gth_browser_init (GthBrowser *browser)
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_APPLY]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS]);
 
-		gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_APP_ACTIONS),
-						 gears_app_action_entries,
-						 G_N_ELEMENTS (gears_app_action_entries));
-
 		/* browser navigation */
 
 		gth_browser_add_header_bar_button (browser,
