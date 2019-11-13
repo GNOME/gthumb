@@ -86,7 +86,8 @@ GthMetadataProvider *  gth_main_get_metadata_writer           (const char       
 GthMetadataCategory *  gth_main_get_metadata_category         (const char           *id);
 GthMetadataInfo *      gth_main_get_metadata_info             (const char           *id);
 GList *                gth_main_get_all_metadata_info         (void);
-void                   gth_main_register_shortcut_category    (GthShortcutCategory  *shortcut_category);
+void                   gth_main_register_shortcut_category    (GthShortcutCategory  *shortcut_category,
+							       int                   n_categories);
 GthShortcutCategory *  gth_main_get_shortcut_category         (const char           *id);
 void                   gth_main_register_sort_type            (GthFileDataSort      *sort_type);
 GthFileDataSort *      gth_main_get_sort_type                 (const char           *name);

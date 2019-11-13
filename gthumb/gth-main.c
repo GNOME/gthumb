@@ -650,13 +650,13 @@ gth_main_get_shortcut_category (const char *id)
 
 
 void
-gth_main_register_shortcut_category (GthShortcutCategory *shortcut_category)
+gth_main_register_shortcut_category (GthShortcutCategory *shortcut_category,
+				     int                  n_categories)
 {
 	int i;
 
 	g_mutex_lock (&register_mutex);
-
-	for (i = 0; shortcut_category[i].id != NULL; i++) {
+	for (i = 0; i < n_categories; i++) {
 		if (gth_main_get_shortcut_category (shortcut_category[i].id) == NULL) {
 			g_ptr_array_add (Main->priv->shortcut_category_v, &shortcut_category[i]);
 			g_hash_table_insert (Main->priv->shortcut_category_h, shortcut_category[i].id, &shortcut_category[i]);

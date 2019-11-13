@@ -80,7 +80,7 @@ gth_main_register_default_types (void)
 	gth_main_register_type ("file-properties", GTH_TYPE_FILE_COMMENT);
 	gth_main_register_type ("file-properties", GTH_TYPE_FILE_DETAILS);
 	gth_main_register_default_file_loader ();
-	gth_main_register_shortcut_category (shortcut_categories);
+	gth_main_register_shortcut_category (shortcut_categories, G_N_ELEMENTS (shortcut_categories));
 	gth_hook_add_callback ("dlg-preferences-construct", 1, G_CALLBACK (general__dlg_preferences_construct_cb), NULL);
 	gth_hook_add_callback ("dlg-preferences-apply", 1, G_CALLBACK (general__dlg_preferences_apply), NULL);
 	gth_hook_add_callback ("dlg-preferences-construct", 2, G_CALLBACK (browser__dlg_preferences_construct_cb), NULL);
