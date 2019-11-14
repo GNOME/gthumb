@@ -32,6 +32,7 @@
 
 
 #define BROWSER_DATA_KEY "list-tools-browser-data"
+#define SCRIPTS_GROUP "scripts"
 
 
 static const GActionEntry actions[] = {
@@ -43,7 +44,6 @@ static const GActionEntry actions[] = {
 typedef struct {
 	GthBrowser *browser;
 	gulong      scripts_changed_id;
-	gboolean    menu_initialized;
 	guint       menu_merge_id;
 } BrowserData;
 
@@ -76,6 +76,7 @@ list_tools__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 
 static void
 update_scripts_menu (BrowserData *data)
+update_scripts (BrowserData *data)
 {
 	GthMenuManager	*menu_manager;
 	GList		*script_list;
@@ -86,31 +87,33 @@ update_scripts_menu (BrowserData *data)
 		gth_menu_manager_remove_entries (menu_manager, data->menu_merge_id);
 	data->menu_merge_id = gth_menu_manager_new_merge_id (menu_manager);
 
+	gth_window_remove_shortcuts (GTH_WINDOW (data->browser), SCRIPTS_GROUP);
+
 	script_list = gth_script_file_get_scripts (gth_script_file_get ());
 	for (scan = script_list; scan; scan = scan->next) {
-		GthScript       *script = scan->data;
-		guint            keyval;
-		GdkModifierType  modifiers;
-		char            *accelerator_name;
-		char            *detailed_action;
+		GthScript   *script = scan->data;
+		GthShortcut *shortcut;
 
-		if (! gth_script_is_visible (script))
-			continue;
+		shortcut = gth_script_get_shortcut (script);
+		gth_window_add_removable_shortcut (GTH_WINDOW (data->browser),
+						   SCRIPTS_GROUP,
+						   shortcut);
 
-		detailed_action = g_strdup_printf ("win.exec-script('%s')", gth_script_get_id (script));
+		if (gth_script_is_visible (script)) {
+			char *detailed_action;
 
-		gth_script_get_accelerator (script, &keyval, &modifiers);
-		accelerator_name = gtk_accelerator_name (keyval, modifiers);
+			detailed_action = g_strdup_printf ("win.exec-script('%s')", gth_script_get_id (script));
+			gth_menu_manager_append_entry (menu_manager,
+						       data->menu_merge_id,
+						       gth_script_get_display_name (script),
+						       detailed_action,
+						       shortcut->label,
+						       NULL);
 
-		gth_menu_manager_append_entry (menu_manager,
-					       data->menu_merge_id,
-					       gth_script_get_display_name (script),
-					       detailed_action,
-					       accelerator_name,
-					       NULL);
+			g_free (detailed_action);
+		}
 
-		g_free (accelerator_name);
-		g_free (detailed_action);
+		gth_shortcut_free (shortcut);
 	}
 
 	list_tools__gth_browser_update_sensitivity_cb (data->browser);
@@ -121,33 +124,9 @@ update_scripts_menu (BrowserData *data)
 
 static void
 scripts_changed_cb (GthScriptFile *script_file,
-		     BrowserData   *data)
+		    BrowserData   *data)
 {
-	update_scripts_menu (data);
-}
-
-
-static void
-tools_menu_button_button_press_event_cb (GtkToggleButton *togglebutton,
-					 GdkEvent        *event,
-					 gpointer         user_data)
-{
-	BrowserData *data = user_data;
-
-	if (gtk_toggle_button_get_active (togglebutton))
-		return;
-
-	if (! data->menu_initialized) {
-		data->menu_initialized = TRUE;
-		update_scripts_menu (data);
-
-		data->scripts_changed_id = g_signal_connect (gth_script_file_get (),
-							     "changed",
-							     G_CALLBACK (scripts_changed_cb),
-							     data);
-	}
-
-	list_tools__gth_browser_update_sensitivity_cb (data->browser);
+	update_scripts (data);
 }
 
 
@@ -179,7 +158,6 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	/* browser tools */
 
 	button = _gtk_menu_button_new_for_header_bar ("tools-symbolic");
-	g_signal_connect (button, "button-press-event", G_CALLBACK (tools_menu_button_button_press_event_cb), data);
 	gtk_widget_set_tooltip_text (button, _("Tools"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
 	gtk_widget_set_halign (GTK_WIDGET (gtk_menu_button_get_popup (GTK_MENU_BUTTON (button))), GTK_ALIGN_CENTER);
@@ -189,7 +167,6 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	/* viewer edit */
 
 	button = _gtk_menu_button_new_for_header_bar ("tools-symbolic");
-	g_signal_connect (button, "button-press-event", G_CALLBACK (tools_menu_button_button_press_event_cb), data);
 	gtk_widget_set_tooltip_text (button, _("Tools"));
 	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
 	gtk_widget_set_halign (GTK_WIDGET (gtk_menu_button_get_popup (GTK_MENU_BUTTON (button))), GTK_ALIGN_CENTER);
@@ -197,37 +174,16 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	gtk_box_pack_end (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT)), button, FALSE, FALSE, 0);
 
 	g_object_unref (builder);
+
+	update_scripts (data);
+	data->scripts_changed_id = g_signal_connect (gth_script_file_get (),
+						     "changed",
+						     G_CALLBACK (scripts_changed_cb),
+						     data);
 }
 
 
-gpointer
-list_tools__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
-						GdkEventKey *event)
 {
-	gpointer         result = NULL;
-	guint            event_key;
-	GdkModifierType  event_modifiers;
-	GList           *script_list;
-	GList           *scan;
 
-	event_key = gdk_keyval_to_lower (event->keyval);
-	event_modifiers = event->state & gtk_accelerator_get_default_mod_mask ();
 
-	script_list = gth_script_file_get_scripts (gth_script_file_get ());
-	for (scan = script_list; scan; scan = scan->next) {
-		GthScript       *script = scan->data;
-		guint            keyval;
-		GdkModifierType  modifiers;
-
-		gth_script_get_accelerator (script, &keyval, &modifiers);
-		if ((keyval == event_key) && (modifiers == event_modifiers)) {
-			gth_browser_exec_script (browser, script);
-			result = GINT_TO_POINTER (1);
-			break;
-		}
-	}
-
-	_g_object_list_unref (script_list);
-
-	return result;
 }

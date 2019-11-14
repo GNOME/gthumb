@@ -23,6 +23,7 @@
 #include <glib/gi18n.h>
 #include "dom.h"
 #include "gio-utils.h"
+#include "glib-utils.h"
 #include "gth-shortcut.h"
 #include "gth-user-dir.h"
 
@@ -34,6 +35,7 @@ gth_shortcut_new (void)
 
 	shortcut = g_new (GthShortcut, 1);
 	shortcut->action_name = NULL;
+	shortcut->action_parameter = NULL;
 	shortcut->description = NULL;
 	shortcut->context = 0;
 	shortcut->category = NULL;
@@ -54,6 +56,10 @@ gth_shortcut_dup (const GthShortcut *shortcut)
 
 	new_shortcut = gth_shortcut_new ();
 	new_shortcut->action_name = g_strdup (shortcut->action_name);
+	if (shortcut->action_parameter != NULL)
+		new_shortcut->action_parameter = g_variant_ref_sink (shortcut->action_parameter);
+	else
+		new_shortcut->action_parameter = NULL;
 	new_shortcut->description = g_strdup (shortcut->description);
 	new_shortcut->context = shortcut->context;
 	new_shortcut->category = shortcut->category;
@@ -68,6 +74,8 @@ void
 gth_shortcut_free (GthShortcut *shortcut)
 {
 	g_free (shortcut->action_name);
+	if (shortcut->action_parameter != NULL)
+		g_variant_unref (shortcut->action_parameter);
 	g_free (shortcut->description);
 	g_free (shortcut->default_accelerator);
 	g_free (shortcut->accelerator);

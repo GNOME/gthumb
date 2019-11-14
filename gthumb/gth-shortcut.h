@@ -52,6 +52,7 @@ typedef struct {
 	char            *label;
 	guint            keyval;
 	GdkModifierType  modifiers;
+	GVariant        *action_parameter;
 } GthShortcut;
 
 

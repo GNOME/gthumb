@@ -132,6 +132,12 @@ gboolean	gth_window_activate_shortcut	(GthWindow		*window,
 						 guint			 keycode,
 						 GdkModifierType	 modifiers);
 void		gth_window_load_shortcuts	(GthWindow		*window);
+void		gth_window_add_removable_shortcut
+						(GthWindow		*window,
+						 const char		*group_name,
+						 GthShortcut		*shortcut);
+void		gth_window_remove_shortcuts	(GthWindow		*window,
+						 const char		*group_name);
 
 G_END_DECLS
 

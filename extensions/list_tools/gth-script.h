@@ -68,6 +68,7 @@ char *            gth_script_get_command_line          (GthScript       *script,
 void              gth_script_get_accelerator           (GthScript       *script,
 			    	    	    	        guint           *keyval,
 							GdkModifierType *modifiers);
+GthShortcut *     gth_script_get_shortcut              (GthScript       *script);
 
 G_END_DECLS
 

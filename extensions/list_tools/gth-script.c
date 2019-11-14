@@ -1034,3 +1034,21 @@ gth_script_get_accelerator (GthScript       *self,
 	if (keyval) *keyval = self->priv->accelerator.keyval;
 	if (modifiers) *modifiers = self->priv->accelerator.modifiers;
 }
+
+
+GthShortcut *
+gth_script_get_shortcut (GthScript *self)
+{
+	GthShortcut *shortcut;
+
+	shortcut = gth_shortcut_new ();
+	shortcut->action_name = g_strdup ("exec-script");
+	shortcut->action_parameter = g_variant_ref_sink (g_variant_new_string (gth_script_get_id (self)));
+	shortcut->description = g_strdup (self->priv->display_name);
+	shortcut->context = GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER;
+	shortcut->category = GTH_SHORTCUT_CATEGORY_FILE_MANAGER;
+	gth_shortcut_set_key (shortcut, self->priv->accelerator.keyval, self->priv->accelerator.modifiers);
+	shortcut->default_accelerator = g_strdup (shortcut->accelerator);
+
+	return shortcut;
+}
