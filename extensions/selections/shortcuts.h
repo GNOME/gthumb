@@ -19,9 +19,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHORTCUTS_H
-#define SHORTCUTS_H
+#ifndef SELECTIONS_SHORTCUTS_H
+#define SELECTIONS_SHORTCUTS_H
 
 #define GTH_SHORTCUT_CATEGORY_SELECTIONS "selections"
 
-#endif /* SHORTCUTS_H */
+#endif /* SELECTIONS_SHORTCUTS_H */

@@ -19,10 +19,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SHORTCUTS_H
-#define SHORTCUTS_H
+#ifndef IMAGE_VIEWER_SHORTCUTS_H
+#define IMAGE_VIEWER_SHORTCUTS_H
 
 #define GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER "image-viewer"
 #define GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR "image-editor"
 
-#endif /* SHORTCUTS_H */
+#endif /* IMAGE_VIEWER_SHORTCUTS_H */
