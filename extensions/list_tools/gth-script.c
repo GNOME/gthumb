@@ -23,6 +23,7 @@
 #include <gthumb.h>
 #include <gdk/gdkkeysyms.h>
 #include "gth-script.h"
+#include "shortcuts.h"
 
 
 static void gth_script_dom_domizable_interface_init (DomDomizableInterface *iface);
@@ -1046,7 +1047,7 @@ gth_script_get_shortcut (GthScript *self)
 	shortcut->action_parameter = g_variant_ref_sink (g_variant_new_string (gth_script_get_id (self)));
 	shortcut->description = g_strdup (self->priv->display_name);
 	shortcut->context = GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER;
-	shortcut->category = GTH_SHORTCUT_CATEGORY_FILE_MANAGER;
+	shortcut->category = GTH_SHORTCUT_CATEGORY_LIST_TOOLS;
 	gth_shortcut_set_key (shortcut, self->priv->accelerator.keyval, self->priv->accelerator.modifiers);
 	shortcut->default_accelerator = g_strdup (shortcut->accelerator);
 

@@ -24,11 +24,18 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "callbacks.h"
+#include "shortcuts.h"
+
+
+static GthShortcutCategory shortcut_categories[] = {
+	{ GTH_SHORTCUT_CATEGORY_LIST_TOOLS, N_("Tools"), 12 },
+};
 
 
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+	gth_main_register_shortcut_category (shortcut_categories, G_N_ELEMENTS (shortcut_categories));
 	gth_hook_add_callback ("gth-browser-construct", 5, G_CALLBACK (list_tools__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-selection-changed", 10, G_CALLBACK (list_tools__gth_browser_selection_changed_cb), NULL);
 }

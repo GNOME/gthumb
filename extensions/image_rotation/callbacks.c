@@ -27,6 +27,7 @@
 #include <gthumb.h>
 #include <extensions/image_viewer/image-viewer.h>
 #include <extensions/list_tools/list-tools.h>
+#include <extensions/list_tools/shortcuts.h>
 #include "actions.h"
 #include "callbacks.h"
 
@@ -43,8 +44,8 @@ static const GActionEntry actions[] = {
 
 
 static const GthShortcut shortcuts[] = {
-	{ "rotate-right", N_("Rotate right"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "bracketright" },
-	{ "rotate-left", N_("Rotate left"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "bracketleft" },
+	{ "rotate-right", N_("Rotate right"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_LIST_TOOLS, "bracketright" },
+	{ "rotate-left", N_("Rotate left"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_LIST_TOOLS, "bracketleft" },
 };
 
 
