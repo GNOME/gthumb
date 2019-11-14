@@ -58,24 +58,6 @@ browser_data_free (BrowserData *data)
 
 
 static void
-list_tools__gth_browser_update_sensitivity_cb (GthBrowser *browser)
-{
-	BrowserData *data;
-	int          n_selected;
-	gboolean     sensitive;
-
-	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	g_return_if_fail (data != NULL);
-
-	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	sensitive = (n_selected > 0);
-
-	gth_window_enable_action (GTH_WINDOW (browser), "exec-script", sensitive);
-}
-
-
-static void
-update_scripts_menu (BrowserData *data)
 update_scripts (BrowserData *data)
 {
 	GthMenuManager	*menu_manager;
@@ -115,8 +97,6 @@ update_scripts (BrowserData *data)
 
 		gth_shortcut_free (shortcut);
 	}
-
-	list_tools__gth_browser_update_sensitivity_cb (data->browser);
 
 	_g_object_list_unref (script_list);
 }
@@ -183,7 +163,14 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 }
 
 
+void
+list_tools__gth_browser_file_list_selection_changed (GthBrowser *browser,
+						     int         n_selected)
 {
+	BrowserData *data;
 
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
 
+	gth_window_enable_action (GTH_WINDOW (browser), "exec-script", n_selected > 0);
 }

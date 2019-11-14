@@ -90,6 +90,14 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-update-sensitivity", 1);
 
 	/**
+	 *  Called when the file list selection changes
+	 *
+	 *  @browser (GthBrowser*): the relative window.
+	 *  @n_selected (int): number of selected files.
+	 */
+	gth_hook_register ("gth-browser-file-list-selection-changed", 2);
+
+	/**
 	 *  Called when the current page changes.
 	 *
 	 * @browser (GthBrowser*): the relative window.

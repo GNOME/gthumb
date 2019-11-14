@@ -3634,10 +3634,12 @@ update_selection_cb (gpointer user_data)
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
 
+	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	gth_hook_invoke ("gth-browser-file-list-selection-changed", browser, n_selected);
+
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_BROWSER)
 		return FALSE;
 
-	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	if (n_selected == 1) {
 		GList       *items;
 		GList       *file_list;
