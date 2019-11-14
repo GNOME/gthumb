@@ -25,7 +25,8 @@
 #include <gthumb.h>
 
 void      selections__gth_browser_construct_cb           (GthBrowser   *browser);
-void      selections__gth_browser_update_sensitivity_cb  (GthBrowser   *browser);
+void      selections__gth_browser_selection_changed_cb   (GthBrowser   *browser,
+							  int           n_selected);
 gpointer  selections__gth_browser_file_list_key_press_cb (GthBrowser   *browser,
 							  GdkEventKey  *event);
 void      selections__gth_browser_load_location_after_cb (GthBrowser   *browser,

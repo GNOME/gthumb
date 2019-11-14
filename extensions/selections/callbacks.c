@@ -220,10 +220,10 @@ selections__gth_browser_construct_cb (GthBrowser *browser)
 
 
 void
-selections__gth_browser_update_sensitivity_cb (GthBrowser *browser)
+selections__gth_browser_selection_changed_cb (GthBrowser *browser,
+					      int         n_selected)
 {
 	BrowserData *data;
-	int          n_selected;
 
 	if (! GTH_IS_FILE_SOURCE_SELECTIONS (gth_browser_get_location_source (browser)))
 		return;
@@ -231,7 +231,6 @@ selections__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	g_return_if_fail (data != NULL);
 
-	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	gth_window_enable_action (GTH_WINDOW (browser), "go-to-container-from-selection", n_selected == 1);
 }
 

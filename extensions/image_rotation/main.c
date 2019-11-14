@@ -38,7 +38,7 @@ gthumb_extension_activate (void)
 	gth_hook_register ("jpegtran-after", 1);
 
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (ir__gth_browser_construct_cb), NULL);
-	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (ir__gth_browser_update_sensitivity_cb), NULL);
+	gth_hook_add_callback ("gth-browser-selection-changed", 10, G_CALLBACK (ir__gth_browser_selection_changed_cb), NULL);
 	gth_hook_add_callback ("gth-browser-activate-viewer-page", 10, G_CALLBACK (ir__gth_browser_activate_viewer_page_cb), NULL);
 	gth_hook_add_callback ("gth-browser-deactivate-viewer-page", 10, G_CALLBACK (ir__gth_browser_deactivate_viewer_page_cb), NULL);
 }

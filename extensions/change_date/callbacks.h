@@ -25,6 +25,7 @@
 #include <gthumb.h>
 
 void      cd__gth_browser_construct_cb           (GthBrowser  *browser);
-void      cd__gth_browser_update_sensitivity_cb  (GthBrowser  *browser);
+void      cd__gth_browser_selection_changed_cb   (GthBrowser  *browser,
+						  int          n_selected);
 
 #endif /* CALLBACKS_H */

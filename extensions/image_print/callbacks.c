@@ -67,10 +67,8 @@ ip__gth_browser_construct_cb (GthBrowser *browser)
 
 
 void
-ip__gth_browser_update_sensitivity_cb (GthBrowser *browser)
+ip__gth_browser_selection_changed_cb (GthBrowser *browser,
+				      int         n_selected)
 {
-	int n_selected;
-
-	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "print"), "enabled", n_selected > 0, NULL);
 }

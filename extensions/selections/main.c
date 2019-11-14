@@ -41,7 +41,7 @@ gthumb_extension_activate (void)
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_SELECTIONS);
 	gth_main_register_shortcut_category (shortcut_categories, G_N_ELEMENTS (shortcut_categories));
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (selections__gth_browser_construct_cb), NULL);
-	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (selections__gth_browser_update_sensitivity_cb), NULL);
+	gth_hook_add_callback ("gth-browser-selection-changed", 10, G_CALLBACK (selections__gth_browser_selection_changed_cb), NULL);
 	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (selections__gth_browser_file_list_key_press_cb), NULL);
 	gth_hook_add_callback ("gth-browser-load-location-after", 10, G_CALLBACK (selections__gth_browser_load_location_after_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-extra-widget", 20, G_CALLBACK (selections__gth_browser_update_extra_widget_cb), NULL);

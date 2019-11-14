@@ -25,7 +25,8 @@
 #include <gthumb.h>
 
 void      ir__gth_browser_construct_cb              (GthBrowser  *browser);
-void      ir__gth_browser_update_sensitivity_cb     (GthBrowser  *browser);
+void      ir__gth_browser_selection_changed_cb      (GthBrowser  *browser,
+						     int          n_selected);
 void	  ir__gth_browser_activate_viewer_page_cb   (GthBrowser  *browser);
 void	  ir__gth_browser_deactivate_viewer_page_cb (GthBrowser  *browser);
 

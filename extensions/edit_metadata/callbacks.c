@@ -98,14 +98,12 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 
 
 void
-edit_metadata__gth_browser_update_sensitivity_cb (GthBrowser *browser)
+edit_metadata__gth_browser_selection_changed_cb (GthBrowser *browser,
+						 int         n_selected)
 {
-	int      n_selected;
 	gboolean sensitive;
 
-	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	sensitive = (n_selected > 0);
-
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "edit-metadata"), "enabled", sensitive, NULL);
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "edit-tags"), "enabled", sensitive, NULL);
 	g_object_set (g_action_map_lookup_action (G_ACTION_MAP (browser), "delete-metadata"), "enabled", sensitive, NULL);

@@ -55,12 +55,8 @@ cf__gth_browser_construct_cb (GthBrowser *browser)
 
 
 void
-cf__gth_browser_update_sensitivity_cb (GthBrowser *browser)
+cf__gth_browser_selection_changed_cb (GthBrowser *browser,
+				      int         n_selected)
 {
-	int      n_selected;
-	gboolean sensitive;
-
-	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	sensitive = n_selected > 0;
-	gth_window_enable_action (GTH_WINDOW (browser), "convert-format", sensitive);
+	gth_window_enable_action (GTH_WINDOW (browser), "convert-format", n_selected > 0);
 }
