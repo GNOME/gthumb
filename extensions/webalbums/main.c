@@ -30,7 +30,6 @@ G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
 	gth_hook_add_callback ("gth-browser-construct", 70, G_CALLBACK (wa__gth_browser_construct_cb), NULL);
-	/*gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (wa__gth_browser_update_sensitivity_cb), NULL);*/
 }
 
 

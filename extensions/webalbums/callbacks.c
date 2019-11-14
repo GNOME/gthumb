@@ -50,13 +50,3 @@ wa__gth_browser_construct_cb (GthBrowser *browser)
 				       NULL,
 				       NULL);
 }
-
-
-void
-wa__gth_browser_update_sensitivity_cb (GthBrowser *browser)
-{
-	int n_selected;
-
-	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	gth_window_enable_action (GTH_WINDOW (browser), "export-web-album", n_selected > 0);
-}
