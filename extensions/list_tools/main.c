@@ -30,7 +30,7 @@ G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
 	gth_hook_add_callback ("gth-browser-construct", 5, G_CALLBACK (list_tools__gth_browser_construct_cb), NULL);
-	gth_hook_add_callback ("gth-browser-file-list-selection-changed", 5, G_CALLBACK (list_tools__gth_browser_file_list_selection_changed), NULL);
+	gth_hook_add_callback ("gth-browser-selection-changed", 10, G_CALLBACK (list_tools__gth_browser_selection_changed_cb), NULL);
 }
 
 

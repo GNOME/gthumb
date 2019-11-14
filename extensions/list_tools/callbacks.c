@@ -164,8 +164,8 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 
 
 void
-list_tools__gth_browser_file_list_selection_changed (GthBrowser *browser,
-						     int         n_selected)
+list_tools__gth_browser_selection_changed_cb (GthBrowser *browser,
+					      int         n_selected)
 {
 	BrowserData *data;
 

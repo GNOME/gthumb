@@ -3635,7 +3635,7 @@ update_selection_cb (gpointer user_data)
 	_gth_browser_update_statusbar_list_info (browser);
 
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	gth_hook_invoke ("gth-browser-file-list-selection-changed", browser, n_selected);
+	gth_hook_invoke ("gth-browser-selection-changed", browser, n_selected);
 
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_BROWSER)
 		return FALSE;
