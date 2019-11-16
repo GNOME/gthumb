@@ -82,12 +82,23 @@ update_scripts (BrowserData *data)
 						   shortcut);
 
 		if (gth_script_is_visible (script)) {
+			const char *script_action;
+			char       *detailed_action;
+
+			script_action = gth_script_get_detailed_action (script);
+			if (! g_str_has_prefix (script_action, "win."))
+				detailed_action = g_strdup_printf ("win.%s", script_action);
+			else
+				detailed_action = g_strdup (script_action);
+
 			gth_menu_manager_append_entry (menu_manager,
 						       data->menu_merge_id,
 						       gth_script_get_display_name (script),
-						       shortcut->detailed_action,
+						       detailed_action,
 						       "",
 						       NULL);
+
+			g_free (detailed_action);
 		}
 
 		gth_shortcut_free (shortcut);
