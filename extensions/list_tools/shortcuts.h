@@ -23,5 +23,6 @@
 #define LIST_TOOLS_SHORTCUTS_H
 
 #define GTH_SHORTCUT_CATEGORY_LIST_TOOLS "list-tools"
+#define SCRIPTS_GROUP "scripts"
 
 #endif /* LIST_TOOLS_SHORTCUTS_H */

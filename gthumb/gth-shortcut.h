@@ -53,10 +53,12 @@ typedef struct {
 	guint            keyval;
 	GdkModifierType  modifiers;
 	GVariant        *action_parameter;
+	char            *detailed_action;
 } GthShortcut;
 
 
-GthShortcut * gth_shortcut_new			(void);
+GthShortcut * gth_shortcut_new			(const char        *action_name,
+						 GVariant          *param);
 GthShortcut * gth_shortcut_dup			(const GthShortcut *shortcut);
 void          gth_shortcut_free			(GthShortcut       *shortcut);
 void          gth_shortcut_set_key		(GthShortcut       *shortcut,
@@ -64,10 +66,16 @@ void          gth_shortcut_set_key		(GthShortcut       *shortcut,
 						 GdkModifierType    modifiers);
 void          gth_shortcut_set_accelerator	(GthShortcut       *shortcut,
 						 const char        *name);
+gboolean      gth_shortcut_customizable         (GthShortcut       *shortcut);
 GthShortcut * gth_shortcut_array_find           (GPtrArray         *shortcuts_v,
 						 int                context,
 						 guint              keycode,
 						 GdkModifierType    modifiers);
+GthShortcut * gth_shortcut_array_find_by_accel  (GPtrArray         *shortcuts_v,
+						 int                context,
+						 const char        *accelerator);
+GthShortcut * gth_shortcut_array_find_by_action (GPtrArray         *shortcuts_v,
+						 const char        *detailed_action);
 gboolean      gth_shortcut_valid                (guint              keycode,
 						 GdkModifierType    modifiers);
 gboolean      gth_shortcuts_write_to_file       (GPtrArray         *shortcuts_v,

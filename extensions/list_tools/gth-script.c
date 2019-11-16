@@ -43,12 +43,6 @@ enum {
 };
 
 
-typedef struct {
-	guint            keyval;
-	GdkModifierType  modifiers;
-	char            *name;
-} _Accel;
-
 struct _GthScriptPrivate {
 	char            *id;
 	char            *display_name;
@@ -57,7 +51,8 @@ struct _GthScriptPrivate {
 	gboolean         shell_script;
 	gboolean         for_each_file;
 	gboolean         wait_command;
-	_Accel           accelerator;
+	char            *accelerator;
+	char            *detailed_action;
 };
 
 
@@ -89,7 +84,6 @@ gth_script_real_create_element (DomDomizable *base,
 					       "shell-script", (self->priv->shell_script ? "true" : "false"),
 					       "for-each-file", (self->priv->for_each_file ? "true" : "false"),
 					       "wait-command", (self->priv->wait_command ? "true" : "false"),
-					       "accelerator", self->priv->accelerator.name,
 					       NULL);
 	if (! self->priv->visible)
 		dom_element_set_attribute (element, "display", "none");
@@ -115,7 +109,7 @@ gth_script_real_load_from_element (DomDomizable *base,
 		      "shell-script", (g_strcmp0 (dom_element_get_attribute (element, "shell-script"), "true") == 0),
 		      "for-each-file", (g_strcmp0 (dom_element_get_attribute (element, "for-each-file"), "true") == 0),
 		      "wait-command", (g_strcmp0 (dom_element_get_attribute (element, "wait-command"), "true") == 0),
-		      "accelerator", dom_element_get_attribute (element, "accelerator"),
+		      "accelerator", "",
 		      NULL);
 }
 
@@ -135,7 +129,7 @@ gth_script_real_duplicate (GthDuplicable *duplicable)
 		      "shell-script", script->priv->shell_script,
 		      "for-each-file", script->priv->for_each_file,
 		      "wait-command", script->priv->wait_command,
-		      "accelerator", script->priv->accelerator.name,
+		      "accelerator", script->priv->accelerator,
 		      NULL);
 
 	return (GObject *) new_script;
@@ -151,9 +145,25 @@ gth_script_finalize (GObject *base)
 	g_free (self->priv->id);
 	g_free (self->priv->display_name);
 	g_free (self->priv->command);
-	g_free (self->priv->accelerator.name);
+	g_free (self->priv->accelerator);
+	g_free (self->priv->detailed_action);
 
 	G_OBJECT_CLASS (gth_script_parent_class)->finalize (base);
+}
+
+
+static char *
+detailed_action_from_id (char *id)
+{
+	GVariant *param;
+	char     *detailed_action;
+
+	param = g_variant_new_string (id);
+	detailed_action = g_action_print_detailed_name ("exec-script", param);
+
+	g_variant_unref (param);
+
+	return detailed_action;
 }
 
 
@@ -173,6 +183,8 @@ gth_script_set_property (GObject      *object,
 		self->priv->id = g_value_dup_string (value);
 		if (self->priv->id == NULL)
 			self->priv->id = g_strdup ("");
+		g_free (self->priv->detailed_action);
+		self->priv->detailed_action = detailed_action_from_id (self->priv->id);
 		break;
 	case PROP_DISPLAY_NAME:
 		g_free (self->priv->display_name);
@@ -199,10 +211,8 @@ gth_script_set_property (GObject      *object,
 		self->priv->wait_command = g_value_get_boolean (value);
 		break;
 	case PROP_ACCELERATOR:
-		self->priv->accelerator.name = g_value_dup_string (value);
-		gtk_accelerator_parse (self->priv->accelerator.name,
-				       &self->priv->accelerator.keyval,
-				       &self->priv->accelerator.modifiers);
+		g_free (self->priv->accelerator);
+		self->priv->accelerator = g_value_dup_string (value);
 		break;
 	default:
 		break;
@@ -243,7 +253,7 @@ gth_script_get_property (GObject    *object,
 		g_value_set_boolean (value, self->priv->wait_command);
 		break;
 	case PROP_ACCELERATOR:
-		g_value_set_string (value, self->priv->accelerator.name);
+		g_value_set_string (value, self->priv->accelerator);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -345,9 +355,12 @@ gth_script_init (GthScript *self)
 	self->priv->id = NULL;
 	self->priv->display_name = NULL;
 	self->priv->command = NULL;
-	self->priv->accelerator.name = NULL;
-	self->priv->accelerator.keyval = 0;
-	self->priv->accelerator.modifiers = 0;
+	self->priv->visible = FALSE;
+	self->priv->shell_script = FALSE;
+	self->priv->for_each_file = FALSE;
+	self->priv->wait_command = FALSE;
+	self->priv->accelerator = NULL;
+	self->priv->detailed_action = NULL;
 }
 
 
@@ -383,6 +396,13 @@ const char *
 gth_script_get_command (GthScript *script)
 {
 	return script->priv->command;
+}
+
+
+const char *
+gth_script_get_detailed_action (GthScript *self)
+{
+	return self->priv->detailed_action;
 }
 
 
@@ -1026,30 +1046,25 @@ gth_script_get_command_line (GthScript  *script,
 }
 
 
-void
-gth_script_get_accelerator (GthScript       *self,
-			    guint           *keyval,
-			    GdkModifierType *modifiers)
+const char *
+gth_script_get_accelerator (GthScript *self)
 {
-	g_return_if_fail (GTH_IS_SCRIPT (self));
-	if (keyval) *keyval = self->priv->accelerator.keyval;
-	if (modifiers) *modifiers = self->priv->accelerator.modifiers;
+	g_return_val_if_fail (GTH_IS_SCRIPT (self), NULL);
+	return self->priv->accelerator;
 }
 
 
 GthShortcut *
-gth_script_get_shortcut (GthScript *self)
+gth_script_create_shortcut (GthScript *self)
 {
 	GthShortcut *shortcut;
 
-	shortcut = gth_shortcut_new ();
-	shortcut->action_name = g_strdup ("exec-script");
-	shortcut->action_parameter = g_variant_ref_sink (g_variant_new_string (gth_script_get_id (self)));
+	shortcut = gth_shortcut_new ("exec-script", g_variant_new_string (gth_script_get_id (self)));
 	shortcut->description = g_strdup (self->priv->display_name);
 	shortcut->context = GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER;
 	shortcut->category = GTH_SHORTCUT_CATEGORY_LIST_TOOLS;
-	gth_shortcut_set_key (shortcut, self->priv->accelerator.keyval, self->priv->accelerator.modifiers);
-	shortcut->default_accelerator = g_strdup (shortcut->accelerator);
+	gth_shortcut_set_accelerator (shortcut, self->priv->accelerator);
+	shortcut->default_accelerator = g_strdup ("");
 
 	return shortcut;
 }

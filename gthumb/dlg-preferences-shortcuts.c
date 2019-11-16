@@ -129,7 +129,7 @@ find_row_by_shortcut (BrowserData *browser_data,
 
 	for (i = 0; i < browser_data->rows->len; i++) {
 		RowData *row_data = g_ptr_array_index (browser_data->rows, i);
-		if (g_strcmp0 (row_data->shortcut->action_name, shortcut->action_name) == 0)
+		if (g_strcmp0 (row_data->shortcut->detailed_action, shortcut->detailed_action) == 0)
 			return row_data;
 	}
 
@@ -143,78 +143,36 @@ row_data_update_shortcut (RowData         *row_data,
 			  GdkModifierType  modifiers,
 			  GtkWindow       *parent)
 {
-	GPtrArray   *shortcuts_v;
-	GthShortcut *shortcut;
+	gboolean change;
 
-	shortcuts_v = gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser));
-	shortcut = gth_shortcut_array_find (shortcuts_v,
-					    row_data->shortcut->context,
-					    keycode,
-					    modifiers);
+	change = gth_window_can_change_shortcut (GTH_WINDOW (row_data->browser_data->browser),
+						 row_data->shortcut->detailed_action,
+						 row_data->shortcut->context,
+						 keycode,
+						 modifiers,
+						 parent);
 
-	if (shortcut != NULL) {
-		if (g_strcmp0 (shortcut->action_name, row_data->shortcut->action_name) != 0) {
-			char      *label;
-			char      *msg;
-			GtkWidget *dialog;
-			gboolean   reassign;
+	if (change) {
+		GPtrArray   *shortcuts_v;
+		GthShortcut *shortcut;
 
-			label = gtk_accelerator_get_label (keycode, modifiers);
-			msg = g_strdup_printf (_("The key combination «%s» is already assigned to the action «%s».  Do you want to reassign it to «%s» instead?"),
-					       label,
-					       shortcut->description,
-					       row_data->shortcut->description);
-
-			dialog = _gtk_yesno_dialog_new (parent,
-							GTK_DIALOG_MODAL,
-							msg,
-							_GTK_LABEL_CANCEL,
-							_("Reassign"));
-
-			reassign = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
-			gtk_widget_destroy (GTK_WIDGET (dialog));
-
-			if (reassign) {
-				gth_shortcut_set_key (shortcut, 0, 0);
-				row_data_update_accel_label (find_row_by_shortcut (row_data->browser_data, shortcut));
-			}
-
-			g_free (msg);
-			g_free (label);
-
-			if (! reassign)
-				return FALSE;
+		shortcuts_v = gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser));
+		shortcut = gth_shortcut_array_find (shortcuts_v,
+						    row_data->shortcut->context,
+						    keycode,
+						    modifiers);
+		if (shortcut != NULL) {
+			gth_shortcut_set_key (shortcut, 0, 0);
+			row_data_update_accel_label (find_row_by_shortcut (row_data->browser_data, shortcut));
 		}
-		else {
-			char      *label;
-			char      *msg;
-			GtkWidget *dialog;
 
-			label = gtk_accelerator_get_label (keycode, modifiers);
-			msg = g_strdup_printf (_("The key combination «%s» is already assigned to this action."), label);
-			dialog = _gtk_message_dialog_new (parent,
-							  GTK_DIALOG_MODAL,
-							  _GTK_ICON_NAME_DIALOG_INFO,
-							  msg,
-							  NULL,
-							  _GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,
-							  NULL);
-			gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (GTK_WIDGET (dialog));
+		gth_shortcut_set_key (row_data->shortcut, keycode, modifiers);
+		row_data_update_accel_label (row_data);
 
-			g_free (msg);
-			g_free (label);
-
-			return FALSE;
-		}
+		gth_main_shortcuts_changed (gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser)));
 	}
 
-	gth_shortcut_set_key (row_data->shortcut, keycode, modifiers);
-	row_data_update_accel_label (row_data);
-
-	gth_main_shortcuts_changed (gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser)));
-
-	return TRUE;
+	return change;
 }
 
 

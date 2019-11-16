@@ -29,10 +29,10 @@
 #include "gth-script-file.h"
 #include "gth-script-task.h"
 #include "list-tools.h"
+#include "shortcuts.h"
 
 
 #define BROWSER_DATA_KEY "list-tools-browser-data"
-#define SCRIPTS_GROUP "scripts"
 
 
 static const GActionEntry actions[] = {
@@ -76,23 +76,18 @@ update_scripts (BrowserData *data)
 		GthScript   *script = scan->data;
 		GthShortcut *shortcut;
 
-		shortcut = gth_script_get_shortcut (script);
+		shortcut = gth_script_create_shortcut (script);
 		gth_window_add_removable_shortcut (GTH_WINDOW (data->browser),
 						   SCRIPTS_GROUP,
 						   shortcut);
 
 		if (gth_script_is_visible (script)) {
-			char *detailed_action;
-
-			detailed_action = g_strdup_printf ("win.exec-script('%s')", gth_script_get_id (script));
 			gth_menu_manager_append_entry (menu_manager,
 						       data->menu_merge_id,
 						       gth_script_get_display_name (script),
-						       detailed_action,
-						       shortcut->label,
+						       shortcut->detailed_action,
+						       "",
 						       NULL);
-
-			g_free (detailed_action);
 		}
 
 		gth_shortcut_free (shortcut);

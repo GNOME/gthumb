@@ -37,14 +37,16 @@ enum {
 };
 
 struct _GthScriptEditorDialogPrivate {
-	GtkBuilder *builder;
-	GtkWidget  *accel_button;
-	char       *script_id;
-	gboolean    script_visible;
-	gboolean    wait_command;
-	gboolean    shell_script;
-	gboolean    for_each_file;
-	gboolean    help_visible;
+	GthWindow   *shortcut_window;
+	GtkBuilder  *builder;
+	GtkWidget   *accel_button;
+	char        *script_id;
+	gboolean     script_visible;
+	gboolean     wait_command;
+	gboolean     shell_script;
+	gboolean     for_each_file;
+	gboolean     help_visible;
+	GthShortcut *shortcut;
 };
 
 
@@ -90,6 +92,8 @@ gth_script_editor_dialog_init (GthScriptEditorDialog *dialog)
 	dialog->priv->shell_script = FALSE;
 	dialog->priv->for_each_file = FALSE;
 	dialog->priv->help_visible = FALSE;
+	dialog->priv->shortcut = NULL;
+	dialog->priv->shortcut_window = NULL;
 }
 
 
@@ -117,6 +121,26 @@ command_entry_icon_press_cb (GtkEntry             *entry,
 }
 
 
+static gboolean
+accel_button_change_value_cb (GthAccelButton  *button,
+			      guint            keycode,
+			      GdkModifierType  modifiers,
+			      gpointer         user_data)
+{
+	GthScriptEditorDialog *self = user_data;
+	gboolean               change;
+
+	change = gth_window_can_change_shortcut (self->priv->shortcut_window,
+						 self->priv->shortcut != NULL ? self->priv->shortcut->detailed_action : NULL,
+						 GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER,
+						 keycode,
+						 modifiers,
+						 GTK_WINDOW (self));
+
+	return change ? GDK_EVENT_PROPAGATE : GDK_EVENT_STOP;
+}
+
+
 static void
 gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 				    const char            *title,
@@ -138,6 +162,11 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), _gtk_builder_get_widget (self->priv->builder, "script_editor"), TRUE, TRUE, 0);
 
 	self->priv->accel_button = gth_accel_button_new ();
+	g_signal_connect (self->priv->accel_button,
+			  "change-value",
+			  G_CALLBACK (accel_button_change_value_cb),
+			  self);
+
 	gtk_widget_show (self->priv->accel_button);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("accel_box")), self->priv->accel_button, FALSE, FALSE, 0);
 
@@ -154,6 +183,7 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 
 GtkWidget *
 gth_script_editor_dialog_new (const char *title,
+			      GthWindow  *shortcut_window,
 			      GtkWindow  *parent)
 {
 	GthScriptEditorDialog *self;
@@ -161,6 +191,7 @@ gth_script_editor_dialog_new (const char *title,
 	self = g_object_new (GTH_TYPE_SCRIPT_EDITOR_DIALOG,
 			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
 			     NULL);
+	self->priv->shortcut_window = shortcut_window;
 	gth_script_editor_dialog_construct (self, title, parent);
 
 	return (GtkWidget *) self;
@@ -186,14 +217,11 @@ gth_script_editor_dialog_set_script (GthScriptEditorDialog *self,
 	g_free (self->priv->script_id);
 	self->priv->script_id = NULL;
 	self->priv->script_visible = TRUE;
+	self->priv->shortcut = NULL;
 
 	_gth_script_editor_dialog_set_new_script (self);
 
 	if (script != NULL) {
-		guint            keyval;
-		GdkModifierType  modifiers;
-
-
 		self->priv->script_id = g_strdup (gth_script_get_id (script));
 		self->priv->script_visible = gth_script_is_visible (script);
 
@@ -203,8 +231,12 @@ gth_script_editor_dialog_set_script (GthScriptEditorDialog *self,
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("for_each_file_checkbutton")), gth_script_for_each_file (script));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("wait_command_checkbutton")), gth_script_wait_command (script));
 
-		gth_script_get_accelerator (script, &keyval, &modifiers);
-		gth_accel_button_set_accelerator (GTH_ACCEL_BUTTON (self->priv->accel_button), keyval, modifiers);
+		self->priv->shortcut = gth_window_get_shortcut (self->priv->shortcut_window, gth_script_get_detailed_action (script));
+		if (self->priv->shortcut != NULL) {
+			gth_accel_button_set_accelerator (GTH_ACCEL_BUTTON (self->priv->accel_button),
+							  self->priv->shortcut->keyval,
+							  self->priv->shortcut->modifiers);
+		}
 	}
 
 	update_sensitivity (self);

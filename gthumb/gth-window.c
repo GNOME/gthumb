@@ -709,10 +709,10 @@ static void
 _gth_window_add_shortcut (GthWindow   *window,
 			  GthShortcut *shorcut)
 {
-	g_hash_table_insert (window->priv->shortcuts,
-			     g_strdup (shorcut->action_name),
-			     shorcut);
 	g_ptr_array_add (window->priv->shortcuts_v, shorcut);
+	g_hash_table_insert (window->priv->shortcuts,
+			     g_strdup (shorcut->detailed_action),
+			     shorcut);
 }
 
 
@@ -720,7 +720,7 @@ static void
 _gth_window_remove_shortcut (GthWindow   *window,
 			     GthShortcut *shorcut)
 {
-	g_hash_table_remove (window->priv->shortcuts, shorcut->action_name);
+	g_hash_table_remove (window->priv->shortcuts, shorcut->detailed_action);
 	g_ptr_array_remove (window->priv->shortcuts_v, shorcut);
 }
 
@@ -744,8 +744,7 @@ gth_window_add_accelerators (GthWindow			*window,
 							acc->accelerator,
 							NULL);
 
-		shortcut = gth_shortcut_new ();
-		shortcut->action_name = g_strdup (acc->action_name);
+		shortcut = gth_shortcut_new (acc->action_name, NULL);
 		shortcut->context = GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_ANY;
 		shortcut->category = GTH_SHORTCUT_CATEGORY_HIDDEN;
 		gth_shortcut_set_accelerator (shortcut, acc->accelerator);
@@ -836,6 +835,16 @@ gth_window_get_shortcuts (GthWindow *window)
 }
 
 
+GthShortcut *
+gth_window_get_shortcut (GthWindow  *window,
+			 const char *detailed_action)
+{
+	g_return_val_if_fail (GTH_IS_WINDOW (window), NULL);
+
+	return g_hash_table_lookup (window->priv->shortcuts, detailed_action);
+}
+
+
 static int
 sort_shortcuts_by_category (gconstpointer a,
 			    gconstpointer b)
@@ -918,10 +927,15 @@ gth_window_add_removable_shortcut (GthWindow   *window,
 				   GthShortcut *shortcut)
 {
 	GPtrArray   *shortcuts_v;
+	GthShortcut *old_shortcut;
 	GthShortcut *new_shortcut;
 
 	g_return_if_fail (GTH_IS_WINDOW (window));
 	g_return_if_fail (group_name != NULL);
+	g_return_if_fail (shortcut != NULL);
+	g_return_if_fail (shortcut->detailed_action != NULL);
+
+	/* create the group if it doesn't exist. */
 
 	shortcuts_v = g_hash_table_lookup (window->priv->shortcut_groups, group_name);
 	if (shortcuts_v == NULL) {
@@ -931,10 +945,18 @@ gth_window_add_removable_shortcut (GthWindow   *window,
 				     shortcuts_v);
 	}
 
-	new_shortcut = gth_shortcut_dup (shortcut);
-	gth_shortcut_set_accelerator (new_shortcut, shortcut->default_accelerator);
-	_gth_window_add_shortcut (window, new_shortcut);
+	/* remove the old shortcut */
 
+	old_shortcut = g_hash_table_lookup (window->priv->shortcuts, shortcut->detailed_action);
+	if (old_shortcut != NULL) {
+		g_ptr_array_remove (shortcuts_v, old_shortcut);
+		_gth_window_remove_shortcut (window, old_shortcut);
+	}
+
+	/* add the new shortcut */
+
+	new_shortcut = gth_shortcut_dup (shortcut);
+	_gth_window_add_shortcut (window, new_shortcut);
 	g_ptr_array_add (shortcuts_v, new_shortcut);
 }
 
@@ -959,4 +981,83 @@ gth_window_remove_shortcuts (GthWindow  *window,
 	}
 
 	g_hash_table_remove (window->priv->shortcut_groups, group_name);
+}
+
+
+gboolean
+gth_window_can_change_shortcut (GthWindow         *window,
+				const char        *detailed_action,
+				int                context,
+				guint              keycode,
+				GdkModifierType    modifiers,
+				GtkWindow         *parent)
+{
+	GthShortcut *shortcut;
+
+	if (window == NULL)
+		return TRUE;
+
+	shortcut = gth_shortcut_array_find (gth_window_get_shortcuts (window ),
+					    GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER,
+					    keycode,
+					    modifiers);
+
+	if (shortcut == NULL)
+		return TRUE;
+
+	if (g_strcmp0 (shortcut->detailed_action, detailed_action) == 0)
+		return FALSE;
+
+	if (gth_shortcut_customizable (shortcut)) {
+		char      *label;
+		char      *msg;
+		GtkWidget *dialog;
+		gboolean   reassign;
+
+		label = gtk_accelerator_get_label (keycode, modifiers);
+		msg = g_strdup_printf (_("The key combination «%s» is already assigned to the action «%s».  Do you want to reassign it to this action instead?"),
+				       label,
+				       shortcut->description);
+
+		dialog = _gtk_yesno_dialog_new (parent,
+						GTK_DIALOG_MODAL,
+						msg,
+						_GTK_LABEL_CANCEL,
+						_("Reassign"));
+
+		reassign = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+
+		g_free (msg);
+		g_free (label);
+
+		if (! reassign)
+			return FALSE;
+	}
+	else {
+		char      *label;
+		char      *msg;
+		GtkWidget *dialog;
+
+		label = gtk_accelerator_get_label (keycode, modifiers);
+		msg = g_strdup_printf (_("The key combination «%s» is already assigned to the action «%s»."),
+				       label,
+				       shortcut->description);
+		dialog = _gtk_message_dialog_new (parent,
+						  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+						  _GTK_ICON_NAME_DIALOG_ERROR,
+						  NULL,
+						  msg,
+						  _GTK_LABEL_OK, GTK_RESPONSE_OK,
+						  NULL);
+		gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+
+		g_free (msg);
+		g_free (label);
+
+		return FALSE;
+	}
+
+	return TRUE;
 }

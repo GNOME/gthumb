@@ -49,6 +49,7 @@ struct _GthScriptEditorDialogClass {
 
 GType       gth_script_editor_dialog_get_type   (void);
 GtkWidget * gth_script_editor_dialog_new        (const char             *title,
+						 GthWindow              *shortcut_window,
 						 GtkWindow              *parent);
 void        gth_script_editor_dialog_set_script (GthScriptEditorDialog  *self,
 						 GthScript              *script);

@@ -29,13 +29,17 @@
 
 
 GthShortcut *
-gth_shortcut_new (void)
+gth_shortcut_new (const char *action_name,
+		  GVariant   *param)
 {
 	GthShortcut *shortcut;
 
+	g_return_val_if_fail (action_name != NULL, NULL);
+
 	shortcut = g_new (GthShortcut, 1);
-	shortcut->action_name = NULL;
-	shortcut->action_parameter = NULL;
+	shortcut->action_name = g_strdup (action_name);
+	shortcut->action_parameter = (param != NULL) ? g_variant_ref_sink (param) : NULL;
+	shortcut->detailed_action = g_action_print_detailed_name (shortcut->action_name, shortcut->action_parameter);
 	shortcut->description = NULL;
 	shortcut->context = 0;
 	shortcut->category = NULL;
@@ -54,12 +58,7 @@ gth_shortcut_dup (const GthShortcut *shortcut)
 {
 	GthShortcut *new_shortcut;
 
-	new_shortcut = gth_shortcut_new ();
-	new_shortcut->action_name = g_strdup (shortcut->action_name);
-	if (shortcut->action_parameter != NULL)
-		new_shortcut->action_parameter = g_variant_ref_sink (shortcut->action_parameter);
-	else
-		new_shortcut->action_parameter = NULL;
+	new_shortcut = gth_shortcut_new (shortcut->action_name, shortcut->action_parameter);
 	new_shortcut->description = g_strdup (shortcut->description);
 	new_shortcut->context = shortcut->context;
 	new_shortcut->category = shortcut->category;
@@ -76,6 +75,7 @@ gth_shortcut_free (GthShortcut *shortcut)
 	g_free (shortcut->action_name);
 	if (shortcut->action_parameter != NULL)
 		g_variant_unref (shortcut->action_parameter);
+	g_free (shortcut->detailed_action);
 	g_free (shortcut->description);
 	g_free (shortcut->default_accelerator);
 	g_free (shortcut->accelerator);
@@ -114,6 +114,14 @@ gth_shortcut_set_key (GthShortcut       *shortcut,
 }
 
 
+gboolean
+gth_shortcut_customizable (GthShortcut *shortcut)
+{
+	return ((shortcut->context & GTH_SHORTCUT_CONTEXT_FIXED) == 0)
+		&& ((shortcut->context & GTH_SHORTCUT_CONTEXT_INTERNAL) == 0);
+}
+
+
 GthShortcut *
 gth_shortcut_array_find (GPtrArray       *shortcuts_v,
 			 int              context,
@@ -134,6 +142,50 @@ gth_shortcut_array_find (GPtrArray       *shortcuts_v,
 		{
 			return shortcut;
 		}
+	}
+
+	return NULL;
+}
+
+
+GthShortcut *
+gth_shortcut_array_find_by_accel (GPtrArray  *shortcuts_v,
+				  int         context,
+				  const char *accelerator)
+{
+	int i;
+
+	if (accelerator == NULL)
+		return NULL;
+
+	for (i = 0; i < shortcuts_v->len; i++) {
+		GthShortcut *shortcut = g_ptr_array_index (shortcuts_v, i);
+
+		if (((shortcut->context & context) == context)
+			&& (g_strcmp0 (shortcut->accelerator, accelerator) == 0))
+		{
+			return shortcut;
+		}
+	}
+
+	return NULL;
+}
+
+
+GthShortcut *
+gth_shortcut_array_find_by_action (GPtrArray  *shortcuts_v,
+				   const char *detailed_action)
+{
+	int i;
+
+	if (detailed_action == NULL)
+		return NULL;
+
+	for (i = 0; i < shortcuts_v->len; i++) {
+		GthShortcut *shortcut = g_ptr_array_index (shortcuts_v, i);
+
+		if (g_strcmp0 (shortcut->detailed_action, detailed_action) == 0)
+			return shortcut;
 	}
 
 	return NULL;
@@ -188,7 +240,7 @@ gth_shortcuts_write_to_file (GPtrArray  *shortcuts_v,
 
 		dom_element_append_child (shortcuts,
 			dom_document_create_element (doc, "shortcut",
-						     "action", shortcut->action_name,
+						     "action", shortcut->detailed_action,
 						     "accelerator", shortcut->accelerator,
 						     NULL));
 	}
@@ -230,17 +282,17 @@ gth_shortcuts_load_from_file (GPtrArray  *shortcuts_v,
 
 					for (shortcut_node = node->first_child; shortcut_node; shortcut_node = shortcut_node->next_sibling) {
 						if (g_strcmp0 (shortcut_node->tag_name, "shortcut") == 0) {
-							const char  *action_name;
+							const char  *detailed_action;
 							const char  *accelerator;
 							GthShortcut *shortcut;
 
-							action_name = dom_element_get_attribute (shortcut_node, "action");
+							detailed_action = dom_element_get_attribute (shortcut_node, "action");
 							accelerator = dom_element_get_attribute (shortcut_node, "accelerator");
 
-							if (action_name == NULL)
+							if (detailed_action == NULL)
 								continue;
 
-							shortcut = g_hash_table_lookup (shortcuts, action_name);
+							shortcut = g_hash_table_lookup (shortcuts, detailed_action);
 							if (shortcut != NULL)
 								gth_shortcut_set_accelerator (shortcut, accelerator);
 						}

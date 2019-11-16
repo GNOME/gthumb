@@ -55,6 +55,7 @@ GthScript *       gth_script_new                       (void);
 const char *      gth_script_get_id                    (GthScript       *script);
 const char *      gth_script_get_display_name          (GthScript       *script);
 const char *      gth_script_get_command               (GthScript       *script);
+const char *      gth_script_get_detailed_action       (GthScript       *script);
 gboolean          gth_script_is_visible                (GthScript       *script);
 gboolean          gth_script_is_shell_script           (GthScript       *script);
 gboolean          gth_script_for_each_file             (GthScript       *script);
@@ -65,10 +66,8 @@ char *            gth_script_get_command_line          (GthScript       *script,
 						        GList           *file_list /* GthFileData */,
 							gboolean         can_skip,
 						        GError         **error);
-void              gth_script_get_accelerator           (GthScript       *script,
-			    	    	    	        guint           *keyval,
-							GdkModifierType *modifiers);
-GthShortcut *     gth_script_get_shortcut              (GthScript       *script);
+const char *      gth_script_get_accelerator           (GthScript       *script);
+GthShortcut *     gth_script_create_shortcut           (GthScript       *script);
 
 G_END_DECLS
 

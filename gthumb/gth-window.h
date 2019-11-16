@@ -125,6 +125,8 @@ void		gth_window_add_shortcuts	(GthWindow		*window,
 						 const GthShortcut	*shortcuts,
 						 int			 n_shortcuts);
 GPtrArray *	gth_window_get_shortcuts	(GthWindow		*window);
+GthShortcut *   gth_window_get_shortcut		(GthWindow		*window,
+						 const char             *detailed_action);
 GPtrArray *	gth_window_get_shortcuts_by_category
 						(GthWindow		*window);
 gboolean	gth_window_activate_shortcut	(GthWindow		*window,
@@ -138,6 +140,12 @@ void		gth_window_add_removable_shortcut
 						 GthShortcut		*shortcut);
 void		gth_window_remove_shortcuts	(GthWindow		*window,
 						 const char		*group_name);
+gboolean	gth_window_can_change_shortcut	(GthWindow		*window,
+						 const char		*detailed_action,
+						 int			 context,
+						 guint			 keycode,
+						 GdkModifierType	 modifiers,
+						 GtkWindow		*parent);
 
 G_END_DECLS
 
