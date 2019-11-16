@@ -47,7 +47,10 @@ struct _GthAccelButtonClass {
 
 	/*< signals >*/
 
-	void (*changed) (GthAccelButton *accel_button);
+	gboolean (*change_value)	(GthAccelButton  *accel_button,
+					 guint            keycode,
+					 GdkModifierType  modifiers);
+	void	 (*changed)		(GthAccelButton  *accel_button);
 };
 
 GType         gth_accel_button_get_type            (void) G_GNUC_CONST;

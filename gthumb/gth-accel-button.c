@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include "gth-accel-button.h"
 #include "gth-accel-dialog.h"
+#include "gth-marshal.h"
 #include "gtk-utils.h"
 
 
@@ -37,6 +38,7 @@ enum {
 
 /* Signals */
 enum {
+	CHANGE_VALUE,
 	CHANGED,
 	LAST_SIGNAL
 };
@@ -117,6 +119,18 @@ gth_accel_button_get_property (GObject    *object,
 }
 
 
+static gboolean
+gth_accel_button_real_change_value (GthAccelButton  *accel_button,
+				    guint            keycode,
+				    GdkModifierType  modifiers)
+{
+	if (gth_accel_button_set_accelerator (accel_button, keycode, modifiers))
+		return GDK_EVENT_PROPAGATE;
+	else
+		return GDK_EVENT_STOP;
+}
+
+
 static void
 gth_accel_button_class_init (GthAccelButtonClass *klass)
 {
@@ -126,6 +140,8 @@ gth_accel_button_class_init (GthAccelButtonClass *klass)
 	object_class->set_property = gth_accel_button_set_property;
 	object_class->get_property = gth_accel_button_get_property;
 	object_class->finalize = gth_accel_button_finalize;
+
+	klass->change_value = gth_accel_button_real_change_value;
 
 	/* properties */
 
@@ -149,6 +165,17 @@ gth_accel_button_class_init (GthAccelButtonClass *klass)
 
 	/* signals */
 
+	gth_accel_button_signals[CHANGE_VALUE] =
+		g_signal_new ("change-value",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthAccelButtonClass, change_value),
+			      g_signal_accumulator_true_handled, NULL,
+			      gth_marshal_BOOLEAN__UINT_ENUM,
+			      G_TYPE_BOOLEAN,
+			      2,
+			      G_TYPE_UINT,
+			      GDK_TYPE_MODIFIER_TYPE);
 	gth_accel_button_signals[CHANGED] =
                 g_signal_new ("changed",
                               G_TYPE_FROM_CLASS (klass),
@@ -175,7 +202,22 @@ _update_label (GthAccelButton *self)
 }
 
 
-#define _RESPONSE_RESET 10
+static gboolean
+change_value (GthAccelButton  *accel_button,
+	      guint            keycode,
+	      GdkModifierType  modifiers)
+{
+	gboolean result = GDK_EVENT_PROPAGATE;
+
+	g_signal_emit (accel_button,
+		       gth_accel_button_signals[CHANGE_VALUE],
+		       0,
+		       keycode,
+		       modifiers,
+		       &result);
+
+	return result == GDK_EVENT_PROPAGATE;
+}
 
 
 static void
@@ -190,14 +232,14 @@ accel_dialog_response_cb (GtkDialog *dialog,
 	switch (response_id) {
 	case GTK_RESPONSE_OK:
 		if (gth_accel_dialog_get_accel (GTH_ACCEL_DIALOG (dialog), &keycode, &modifiers))
-			gth_accel_button_set_accelerator (accel_button, keycode, modifiers);
-		gtk_widget_destroy (GTK_WIDGET (dialog));
+			if (change_value (accel_button, keycode, modifiers))
+				gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 	case GTK_RESPONSE_CANCEL:
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 	case GTH_ACCEL_BUTTON_RESPONSE_DELETE:
-		gth_accel_button_set_accelerator (accel_button, 0, 0);
+		change_value (accel_button, 0, 0);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
 	}
@@ -259,6 +301,7 @@ gth_accel_button_set_accelerator (GthAccelButton  *self,
 	self->priv->modifiers = modifiers;
 
 	_update_label (self);
+	g_signal_emit (self, gth_accel_button_signals[CHANGED], 0);
 
 	return self->priv->valid;
 }
