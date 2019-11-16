@@ -192,3 +192,16 @@ gth_browser_activate_video_screenshot (GSimpleAction	*action,
 					screenshot_ready_cb,
 					save_data);
 }
+
+
+void
+gth_browser_activate_toggle_play (GSimpleAction	*action,
+				  GVariant	*parameter,
+				  gpointer	 user_data)
+{
+	GthBrowser		*browser = GTH_BROWSER (user_data);
+	GthMediaViewerPage	*page;
+
+	page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
+	gth_media_viewer_page_toggle_play (page);
+}

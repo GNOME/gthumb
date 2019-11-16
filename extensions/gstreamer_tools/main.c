@@ -23,9 +23,16 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "callbacks.h"
 #include "dlg-media-viewer-preferences.h"
 #include "gth-metadata-provider-gstreamer.h"
 #include "gth-media-viewer-page.h"
+#include "shortcuts.h"
+
+
+static GthShortcutCategory shortcut_categories[] = {
+	{ GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, N_("Audio/Video Player"), 21 },
+};
 
 
 GthMetadataCategory gstreamer_metadata_category[] = {
@@ -59,9 +66,11 @@ G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
 	gth_main_register_object (GTH_TYPE_VIEWER_PAGE, NULL, GTH_TYPE_MEDIA_VIEWER_PAGE, NULL);
+	gth_main_register_shortcut_category (shortcut_categories, G_N_ELEMENTS (shortcut_categories));
 	gth_main_register_metadata_category (gstreamer_metadata_category);
 	gth_main_register_metadata_info_v (gstreamer_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_GSTREAMER);
+	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (media_viewer__gth_browser_construct_cb), NULL);
 }
 
 

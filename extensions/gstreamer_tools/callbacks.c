@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2019 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,12 +19,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
 
+#include <config.h>
+#include <glib/gi18n.h>
+#include <glib-object.h>
 #include <gthumb.h>
+#include "callbacks.h"
+#include "shortcuts.h"
 
-DEF_ACTION_CALLBACK (gth_browser_activate_video_screenshot)
-DEF_ACTION_CALLBACK (gth_browser_activate_toggle_play)
 
-#endif /* ACTIONS_H */
+static const GthShortcut shortcuts[] = {
+	{ "video-screenshot", N_("Screenshot"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Alt>s" },
+	{ "toggle-play", N_("Play/Pause"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "p" },
+};
+
+
+void
+media_viewer__gth_browser_construct_cb (GthBrowser *browser)
+{
+	g_return_if_fail (GTH_IS_BROWSER (browser));
+
+	gth_window_add_shortcuts (GTH_WINDOW (browser),
+				  shortcuts,
+				  G_N_ELEMENTS (shortcuts));
+}

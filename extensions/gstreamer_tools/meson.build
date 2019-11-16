@@ -1,5 +1,6 @@
 source_files = files(
   'actions.c',
+  'callbacks.c',
   'dlg-media-viewer-preferences.c',
   'gth-media-viewer-page.c',
   'gth-metadata-provider-gstreamer.c',

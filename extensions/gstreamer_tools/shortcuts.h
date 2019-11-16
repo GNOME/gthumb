@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2019 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,12 +19,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef IMAGE_VIEWER_SHORTCUTS_H
+#define IMAGE_VIEWER_SHORTCUTS_H
 
-#include <gthumb.h>
+#define GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER "media-viewer"
 
-DEF_ACTION_CALLBACK (gth_browser_activate_video_screenshot)
-DEF_ACTION_CALLBACK (gth_browser_activate_toggle_play)
-
-#endif /* ACTIONS_H */
+#endif /* IMAGE_VIEWER_SHORTCUTS_H */

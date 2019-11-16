@@ -55,6 +55,7 @@ void           gth_media_viewer_page_get_video_fps  (GthMediaViewerPage *self,
 						     int                *video_fps_n,
 						     int                *video_fps_d);
 GthFileData * gth_media_viewer_page_get_file_data   (GthMediaViewerPage *self);
+void           gth_media_viewer_page_toggle_play    (GthMediaViewerPage *self);
 
 G_END_DECLS
 

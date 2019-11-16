@@ -84,7 +84,8 @@ static double default_rates[] = { 0.03, 0.06, 0.12, 0.25, 0.33, 0.50, 0.66, 1.0,
 
 
 static const GActionEntry actions[] = {
-	{ "video-screenshot", gth_browser_activate_video_screenshot }
+	{ "video-screenshot", gth_browser_activate_video_screenshot },
+	{ "toggle-play", gth_browser_activate_toggle_play }
 };
 
 
@@ -415,39 +416,7 @@ static void
 play_button_clicked_cb (GtkButton *button,
 			gpointer   user_data)
 {
-	GthMediaViewerPage *self = user_data;
-
-	if (self->priv->playbin == NULL)
-		return;
-	if (! self->priv->playing) {
-		if (! self->priv->paused) {
-			gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
-			gst_element_seek (self->priv->playbin,
-					  self->priv->rate,
-					  GST_FORMAT_TIME,
-					  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
-					  GST_SEEK_TYPE_SET,
-					  0.0,
-					  GST_SEEK_TYPE_NONE,
-					  0.0);
-		}
-		else {
-			gint64 current_value;
-
-			current_value = (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment"))) / 100.0 * self->priv->duration);
-			gst_element_seek (self->priv->playbin,
-					  self->priv->rate,
-					  GST_FORMAT_TIME,
-					  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
-					  GST_SEEK_TYPE_SET,
-					  current_value,
-					  GST_SEEK_TYPE_NONE,
-					  0.0);
-		}
-		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
-	}
-	else
-		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
+	gth_media_viewer_page_toggle_play (GTH_MEDIA_VIEWER_PAGE (user_data));
 }
 
 
@@ -1417,4 +1386,42 @@ GthFileData *
 gth_media_viewer_page_get_file_data (GthMediaViewerPage *self)
 {
 	return self->priv->file_data;
+}
+
+
+void
+gth_media_viewer_page_toggle_play (GthMediaViewerPage *self)
+{
+	if (self->priv->playbin == NULL)
+		return;
+
+	if (! self->priv->playing) {
+		if (! self->priv->paused) {
+			gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
+			gst_element_seek (self->priv->playbin,
+					  self->priv->rate,
+					  GST_FORMAT_TIME,
+					  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+					  GST_SEEK_TYPE_SET,
+					  0.0,
+					  GST_SEEK_TYPE_NONE,
+					  0.0);
+		}
+		else {
+			gint64 current_value;
+
+			current_value = (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment"))) / 100.0 * self->priv->duration);
+			gst_element_seek (self->priv->playbin,
+					  self->priv->rate,
+					  GST_FORMAT_TIME,
+					  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
+					  GST_SEEK_TYPE_SET,
+					  current_value,
+					  GST_SEEK_TYPE_NONE,
+					  0.0);
+		}
+		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+	}
+	else
+		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
 }
