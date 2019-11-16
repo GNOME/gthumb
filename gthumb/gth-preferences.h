@@ -80,6 +80,7 @@ G_BEGIN_DECLS
 #define PREF_BROWSER_REUSE_ACTIVE_WINDOW      "reuse-active-window"
 #define PREF_FULLSCREEN_THUMBNAILS_VISIBLE    "fullscreen-thumbnails-visible"
 #define PREF_FULLSCREEN_SIDEBAR		      "fullscreen-sidebar"
+#define PREF_VIEWER_SCROLL_ACTION             "scroll-action"
 
 /* keys: add to catalog */
 

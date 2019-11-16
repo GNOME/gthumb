@@ -183,6 +183,7 @@ struct _GthBrowserPrivate {
 	guint              folder_tree_open_folder_id;
 	GtkWidget         *apply_editor_changes_button;
 	gboolean           ask_to_save_modified_images;
+	GthScrollAction    scroll_action;
 
 	/* settings */
 
@@ -4086,6 +4087,16 @@ pref_msg_save_modified_image_changed (GSettings  *settings,
 }
 
 
+static void
+pref_scroll_action_changed (GSettings  *settings,
+			    const char *key,
+			    gpointer    user_data)
+{
+	GthBrowser *browser = user_data;
+	browser->priv->scroll_action = g_settings_get_enum (settings, key);
+}
+
+
 static gboolean
 _gth_browser_realize (GtkWidget *browser,
 		      gpointer  *data)
@@ -4904,6 +4915,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->viewer_sidebar = g_settings_get_enum (browser->priv->browser_settings, PREF_BROWSER_VIEWER_SIDEBAR);
 	browser->priv->fast_file_type = g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_FAST_FILE_TYPE);
 	browser->priv->ask_to_save_modified_images = g_settings_get_boolean (browser->priv->messages_settings, PREF_MSG_SAVE_MODIFIED_IMAGE);
+	browser->priv->scroll_action = g_settings_get_enum (browser->priv->browser_settings, PREF_VIEWER_SCROLL_ACTION);
 
 	/* load the history only for the first window */
 	{
@@ -4971,6 +4983,10 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (browser->priv->messages_settings,
 			  "changed::" PREF_MSG_SAVE_MODIFIED_IMAGE,
 			  G_CALLBACK (pref_msg_save_modified_image_changed),
+			  browser);
+	g_signal_connect (browser->priv->browser_settings,
+			  "changed::" PREF_VIEWER_SCROLL_ACTION,
+			  G_CALLBACK (pref_scroll_action_changed),
 			  browser);
 
 	browser->priv->constructed = TRUE;
@@ -5612,6 +5628,8 @@ gboolean
 gth_browser_viewer_scroll_event_cb (GthBrowser     *browser,
 				    GdkEventScroll *event)
 {
+	gboolean handled;
+
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	if (! _gth_browser_can_change_image (browser))
@@ -5626,12 +5644,25 @@ gth_browser_viewer_scroll_event_cb (GthBrowser     *browser,
 	if ((event->direction != GDK_SCROLL_UP) && (event->direction != GDK_SCROLL_DOWN))
 		return FALSE;
 
-	if (event->direction == GDK_SCROLL_UP)
-		gth_browser_show_prev_image (browser, FALSE, FALSE);
-	else
-		gth_browser_show_next_image (browser, FALSE, FALSE);
+	handled = FALSE;
+	switch (browser->priv->scroll_action) {
+	case GTH_SCROLL_ACTION_CHANGE_FILE:
+		if (event->direction == GDK_SCROLL_UP)
+			gth_browser_show_prev_image (browser, FALSE, FALSE);
+		else
+			gth_browser_show_next_image (browser, FALSE, FALSE);
+		handled = TRUE;
+		break;
 
-	return TRUE;
+	case GTH_SCROLL_ACTION_ZOOM:
+		handled = gth_viewer_page_zoom_from_scroll (browser->priv->viewer_page, event);
+		break;
+
+	default:
+		break;
+	}
+
+	return handled;
 }
 
 

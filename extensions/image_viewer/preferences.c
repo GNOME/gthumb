@@ -31,6 +31,7 @@
 typedef struct {
 	GtkBuilder *builder;
 	GSettings  *settings;
+	GSettings  *browser_settings;
 } BrowserData;
 
 
@@ -39,6 +40,7 @@ browser_data_free (BrowserData *data)
 {
 	g_object_unref (data->builder);
 	g_object_unref (data->settings);
+	g_object_unref (data->browser_settings);
 	g_free (data);
 }
 
@@ -58,6 +60,15 @@ reset_scrollbars_toggled_cb (GtkToggleButton *button,
 	g_settings_set_boolean (data->settings, PREF_IMAGE_VIEWER_RESET_SCROLLBARS, gtk_toggle_button_get_active (button));
 }
 
+
+static void
+scroll_event_toggled_cb (GtkToggleButton *button,
+			 BrowserData     *data)
+{
+	g_settings_set_enum (data->browser_settings,
+			     PREF_VIEWER_SCROLL_ACTION,
+			     (GTK_WIDGET (button) == GET_WIDGET ("scroll_event_change_image_radiobutton")) ? GTH_SCROLL_ACTION_CHANGE_FILE : GTH_SCROLL_ACTION_ZOOM);
+}
 
 static void
 zoom_quality_radiobutton_toggled_cb (GtkToggleButton *button,
@@ -90,6 +101,7 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	data = g_new0 (BrowserData, 1);
 	data->builder = _gtk_builder_new_from_file ("image-viewer-preferences.ui", "image_viewer");
 	data->settings = g_settings_new (GTHUMB_IMAGE_VIEWER_SCHEMA);
+	data->browser_settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 
 	notebook = _gtk_builder_get_widget (dialog_builder, "notebook");
 
@@ -107,12 +119,25 @@ image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("zoom_quality_high_radiobutton")), TRUE);
 
+	if (g_settings_get_enum (data->browser_settings, PREF_VIEWER_SCROLL_ACTION) == GTH_SCROLL_ACTION_CHANGE_FILE)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("scroll_event_change_image_radiobutton")), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("scroll_event_zoom_radiobutton")), TRUE);
+
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("transparency_style_combobox")),
 				  g_settings_get_enum (data->settings, PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE));
 
 	g_signal_connect (GET_WIDGET ("change_zoom_combobox"),
 			  "changed",
 			  G_CALLBACK (zoom_change_changed_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("scroll_event_change_image_radiobutton"),
+			  "toggled",
+			  G_CALLBACK (scroll_event_toggled_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("scroll_event_zoom_radiobutton"),
+			  "toggled",
+			  G_CALLBACK (scroll_event_toggled_cb),
 			  data);
 	g_signal_connect (GET_WIDGET ("zoom_quality_low_radiobutton"),
 			  "toggled",

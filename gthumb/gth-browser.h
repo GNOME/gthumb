@@ -111,6 +111,12 @@ typedef enum {
 	GTH_ACTION_TREE_OPEN
 } GthAction;
 
+typedef enum {
+	GTH_SCROLL_ACTION_NONE,
+	GTH_SCROLL_ACTION_CHANGE_FILE,
+	GTH_SCROLL_ACTION_ZOOM
+} GthScrollAction;
+
 struct _GthBrowser
 {
 	GthWindow __parent;

@@ -972,27 +972,8 @@ gth_image_viewer_scroll_event (GtkWidget      *widget,
 	/* Control + Scroll-Up / Control + Scroll-Down ==> Zoom In / Zoom Out */
 
 	if (event->state & GDK_CONTROL_MASK) {
-		if  (self->priv->zoom_enabled) {
-			double new_zoom_level;
-
-			switch (event->direction) {
-			case GDK_SCROLL_UP:
-			case GDK_SCROLL_DOWN:
-				if (event->direction == GDK_SCROLL_UP)
-					new_zoom_level = get_next_zoom (self->priv->zoom_level);
-				else
-					new_zoom_level = get_prev_zoom (self->priv->zoom_level);
-				set_zoom_centered_at (self, new_zoom_level, FALSE, (int) event->x, (int) event->y);
-				gtk_widget_queue_resize (GTK_WIDGET (self));
-				retval = TRUE;
-				break;
-
-			default:
-				break;
-			}
-		}
-
-		return retval;
+		if (self->priv->zoom_enabled && gth_image_viewer_zoom_from_scroll (self, event))
+			return TRUE;
 	}
 
 	/* Scroll Left / Scroll Right ==> Scroll the image horizontally */
@@ -2203,6 +2184,34 @@ gth_image_viewer_zoom_out (GthImageViewer *self)
 {
 	if (! self->priv->is_void)
 		gth_image_viewer_set_zoom (self, get_prev_zoom (self->priv->zoom_level));
+}
+
+
+gboolean
+gth_image_viewer_zoom_from_scroll (GthImageViewer *self,
+				   GdkEventScroll *event)
+{
+	gboolean handled;
+	double   new_zoom_level;
+
+	handled = FALSE;
+	switch (event->direction) {
+	case GDK_SCROLL_UP:
+	case GDK_SCROLL_DOWN:
+		if (event->direction == GDK_SCROLL_UP)
+			new_zoom_level = get_next_zoom (self->priv->zoom_level);
+		else
+			new_zoom_level = get_prev_zoom (self->priv->zoom_level);
+		set_zoom_centered_at (self, new_zoom_level, FALSE, (int) event->x, (int) event->y);
+		gtk_widget_queue_resize (GTK_WIDGET (self));
+		handled = TRUE;
+		break;
+
+	default:
+		break;
+	}
+
+	return handled;
 }
 
 

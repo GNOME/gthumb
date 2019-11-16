@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 #include "gth-file-data.h"
+#include "typedefs.h"
 
 G_BEGIN_DECLS
 
@@ -75,6 +76,8 @@ struct _GthViewerPageInterface {
 					  GthFileData   *file_data);
 	void      (*show_properties)     (GthViewerPage *self,
 					  gboolean       show);
+	gboolean  (*zoom_from_scroll)    (GthViewerPage *self,
+					  GdkEventScroll *event);
 
 	/*< signals >*/
 
@@ -112,6 +115,8 @@ void         gth_viewer_page_update_info         (GthViewerPage  *self,
 		  	  	  	  	  GthFileData    *file_data);
 void         gth_viewer_page_show_properties     (GthViewerPage  *self,
 						  gboolean        show);
+gboolean     gth_viewer_page_zoom_from_scroll    (GthViewerPage  *self,
+						  GdkEventScroll *event);
 void         gth_viewer_page_file_loaded         (GthViewerPage  *self,
 						  GthFileData    *file_data,
 						  GFileInfo      *updated_metadata,

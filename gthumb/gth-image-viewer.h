@@ -216,6 +216,8 @@ void           gth_image_viewer_set_zoom_change          (GthImageViewer        
 GthZoomChange  gth_image_viewer_get_zoom_change          (GthImageViewer        *viewer);
 void           gth_image_viewer_zoom_in                  (GthImageViewer        *viewer);
 void           gth_image_viewer_zoom_out                 (GthImageViewer        *viewer);
+gboolean       gth_image_viewer_zoom_from_scroll         (GthImageViewer        *viewer,
+							  GdkEventScroll        *event);
 void           gth_image_viewer_set_fit_mode             (GthImageViewer        *viewer,
 							  GthFit                 fit_mode);
 GthFit         gth_image_viewer_get_fit_mode             (GthImageViewer        *viewer);

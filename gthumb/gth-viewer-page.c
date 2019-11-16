@@ -191,6 +191,17 @@ gth_viewer_page_show_properties (GthViewerPage *self,
 }
 
 
+gboolean
+gth_viewer_page_zoom_from_scroll (GthViewerPage  *self,
+				  GdkEventScroll *event)
+{
+	if (GTH_VIEWER_PAGE_GET_INTERFACE (self)->zoom_from_scroll != NULL)
+		return GTH_VIEWER_PAGE_GET_INTERFACE (self)->zoom_from_scroll (self, event);
+	else
+		return FALSE;
+}
+
+
 void
 gth_viewer_page_file_loaded (GthViewerPage *self,
 			     GthFileData   *file_data,

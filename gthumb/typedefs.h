@@ -132,6 +132,12 @@ typedef enum /*< skip >*/ {
 
 
 typedef enum /*< skip >*/ {
+	GTH_ZOOM_IN,
+	GTH_ZOOM_OUT
+} GthZoomType;
+
+
+typedef enum /*< skip >*/ {
 	/* Shortcut handled by Gtk, not customizable, specified for
 	 * documentation. */
 	GTH_SHORTCUT_CONTEXT_INTERNAL = 1 << 1,

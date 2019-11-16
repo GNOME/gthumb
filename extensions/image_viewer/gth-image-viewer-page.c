@@ -1938,6 +1938,15 @@ gth_image_viewer_page_real_update_info (GthViewerPage *base,
 }
 
 
+static gboolean
+gth_image_viewer_page_real_zoom_from_scroll (GthViewerPage  *base,
+					     GdkEventScroll *event)
+{
+	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (base);
+	return gth_image_viewer_zoom_from_scroll (GTH_IMAGE_VIEWER (self->priv->viewer), event);
+}
+
+
 static void
 gth_image_viewer_page_real_show_properties (GthViewerPage *base,
 					    gboolean       show)
@@ -2014,6 +2023,7 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->save_as = gth_image_viewer_page_real_save_as;
 	iface->revert = gth_image_viewer_page_real_revert;
 	iface->update_info = gth_image_viewer_page_real_update_info;
+	iface->zoom_from_scroll = gth_image_viewer_page_real_zoom_from_scroll;
 	iface->show_properties = gth_image_viewer_page_real_show_properties;
 }
 
