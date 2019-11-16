@@ -35,6 +35,11 @@ static const GActionEntry actions[] = {
 };
 
 
+static const GthShortcut shortcuts[] = {
+	{ "slideshow", N_("Presentation"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "F5" },
+};
+
+
 void
 ss__gth_browser_construct_cb (GthBrowser *browser)
 {
@@ -45,12 +50,16 @@ ss__gth_browser_construct_cb (GthBrowser *browser)
 					 G_N_ELEMENTS (actions),
 					 browser);
 
+	gth_window_add_shortcuts (GTH_WINDOW (browser),
+				  shortcuts,
+				  G_N_ELEMENTS (shortcuts));
+
 	gth_browser_add_header_bar_button (browser,
 					   GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW,
 					   "view-presentation-symbolic",
 					   _("Presentation"),
 					   "win.slideshow",
-					   "F5");
+					   NULL);
 }
 
 
