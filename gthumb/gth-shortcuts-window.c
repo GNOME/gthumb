@@ -102,7 +102,7 @@ gth_shortcuts_window_new (GthWindow *app_window)
 			}
 
 			shortcut = g_object_new (GTK_TYPE_SHORTCUTS_SHORTCUT,
-						 "title", shortcut_info->description,
+						 "title", _(shortcut_info->description),
 						 "accelerator", shortcut_info->accelerator,
 						 NULL);
 			gtk_widget_show (shortcut);
