@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include "gth-browser.h"
 #include "gth-main.h"
 #include "gth-shortcuts-window.h"
 #include "typedefs.h"
@@ -108,6 +109,16 @@ gth_shortcuts_window_new (GthWindow *app_window)
 			gtk_widget_show (shortcut);
 			gtk_container_add (GTK_CONTAINER (group), shortcut);
 		}
+	}
+
+	switch (gth_window_get_current_page (app_window)) {
+	case GTH_BROWSER_PAGE_BROWSER:
+		g_object_set (window, "section-name", "browser", NULL);
+		break;
+
+	case GTH_BROWSER_PAGE_VIEWER:
+		g_object_set (window, "section-name", "viewer", NULL);
+		break;
 	}
 
 	gtk_widget_show (window);
