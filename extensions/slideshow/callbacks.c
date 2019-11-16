@@ -354,7 +354,7 @@ ss__dlg_catalog_properties (GtkBuilder  *builder,
 	gtk_widget_hide (gth_slideshow_preferences_get_widget (GTH_SLIDESHOW_PREFERENCES (slideshow_preferences), "transition_box"));
 #endif /* ! HAVE_CLUTTER */
 
-	label = gtk_label_new (_("Slideshow"));
+	label = gtk_label_new (_("Presentation"));
 	gtk_widget_show (label);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (_gtk_builder_get_widget (builder, "properties_notebook")), slideshow_preferences, label);

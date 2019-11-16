@@ -57,7 +57,7 @@ static const GOptionEntry options[] = {
 	  0 },
 
 	{ "slideshow", 's', 0, G_OPTION_ARG_NONE, &StartSlideshow,
-	  N_("Automatically start a slideshow"),
+	  N_("Automatically start a presentation"),
 	  0 },
 
 	{ "import-photos", 'i', 0, G_OPTION_ARG_NONE, &ImportPhotos,

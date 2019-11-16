@@ -38,7 +38,7 @@ typedef struct {
 static ContextInfo contexts[] = {
 	{ GTH_SHORTCUT_CONTEXT_BROWSER, "browser", N_("Browser") },
 	{ GTH_SHORTCUT_CONTEXT_VIEWER, "viewer", N_("Viewer") },
-	//{ GTH_SHORTCUT_CONTEXT_SLIDESHOW, "slideshow", N_("Slideshow") }
+	//{ GTH_SHORTCUT_CONTEXT_SLIDESHOW, "slideshow", N_("Presentation") }
 };
 
 

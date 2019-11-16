@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="delay_adjustment">
@@ -42,9 +42,9 @@
                   <object class="GtkLabel" id="label3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
                     <property name="label" translatable="yes">_Personalize</property>
                     <property name="use_underline">True</property>
+                    <property name="xalign">0</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -61,8 +61,8 @@
               <object class="GtkLabel" id="slideshow_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Presentation</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">Slideshow</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -243,8 +243,8 @@
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="xalign">0</property>
             <property name="label" translatable="yes">Playlist</property>
+            <property name="xalign">0</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>

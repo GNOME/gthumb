@@ -281,7 +281,7 @@ view_next_image_automatically (GthSlideshow *self)
 	if (self->priv->automatic && ! self->priv->paused)
 		gth_screensaver_inhibit (self->priv->screensaver,
 					 GTK_WINDOW (self),
-					 _("Playing slideshow"));
+					 _("Playing a presentation"));
 	else
 		gth_screensaver_uninhibit (self->priv->screensaver);
 

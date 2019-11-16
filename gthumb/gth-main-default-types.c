@@ -40,7 +40,7 @@ static GthShortcutCategory shortcut_categories[] = {
 	{ GTH_SHORTCUT_CATEGORY_NAVIGATION, N_("Navigation"), 15 },
 	{ GTH_SHORTCUT_CATEGORY_FILE_MANAGER, N_("File Manager"), 10 },
 	{ GTH_SHORTCUT_CATEGORY_VIEWER, N_("Viewer"), 20 },
-	{ GTH_SHORTCUT_CATEGORY_SLIDESHOW, N_("Slideshow"), 21 }
+	{ GTH_SHORTCUT_CATEGORY_SLIDESHOW, N_("Presentation"), 21 }
 };
 
 

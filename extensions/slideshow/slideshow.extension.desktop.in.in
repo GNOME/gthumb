@@ -1,6 +1,6 @@
 [Extension]
-Name=Slideshow
-Comment=View images as a slideshow.
+Name=Presentation
+Comment=Play a presentation of images.
 Authors=gthumb development team
 Copyright=Copyright © 2008-2013 The Free Software Foundation, Inc.
 Version=@GTHUMB_VERSION@

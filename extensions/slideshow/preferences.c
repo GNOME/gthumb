@@ -139,7 +139,7 @@ ss__dlg_preferences_construct_cb (GtkWidget  *dialog,
 			  G_CALLBACK (change_delay_spinbutton_value_changed_cb),
 			  data);
 
-	label = gtk_label_new (_("Slideshow"));
+	label = gtk_label_new (_("Presentation"));
 	gtk_widget_show (label);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), data->preferences_page, label);
