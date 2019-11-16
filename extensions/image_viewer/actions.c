@@ -395,3 +395,152 @@ gth_browser_activate_step_animation (GSimpleAction	*action,
 	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
 	gth_image_viewer_step_animation (image_viewer);
 }
+
+
+void
+gth_browser_activate_scroll_step_left (GSimpleAction	*action,
+				       GVariant		*state,
+				       gpointer	 	 user_data)
+{
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
+	gth_image_viewer_scroll_step_x (image_viewer, FALSE);
+}
+
+
+void
+gth_browser_activate_scroll_step_right (GSimpleAction	*action,
+				        GVariant		*state,
+				        gpointer	 	 user_data)
+{
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
+	gth_image_viewer_scroll_step_x (image_viewer, TRUE);
+}
+
+
+void
+gth_browser_activate_scroll_step_up (GSimpleAction	*action,
+				     GVariant		*state,
+				     gpointer	 	 user_data)
+{
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
+	gth_image_viewer_scroll_step_y (image_viewer, FALSE);
+}
+
+void
+gth_browser_activate_scroll_step_down (GSimpleAction	*action,
+				       GVariant		*state,
+				       gpointer	 	 user_data)
+{
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
+	gth_image_viewer_scroll_step_y (image_viewer, TRUE);
+}
+
+void
+gth_browser_activate_scroll_page_left (GSimpleAction	*action,
+				       GVariant		*state,
+				       gpointer	 	 user_data)
+{
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
+	gth_image_viewer_scroll_page_x (image_viewer, FALSE);
+}
+
+void
+gth_browser_activate_scroll_page_right (GSimpleAction	*action,
+				        GVariant		*state,
+				        gpointer	 	 user_data)
+{
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
+	gth_image_viewer_scroll_page_x (image_viewer, TRUE);
+}
+
+void
+gth_browser_activate_scroll_page_up (GSimpleAction	*action,
+				     GVariant		*state,
+				     gpointer	 	 user_data)
+{
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
+	gth_image_viewer_scroll_page_y (image_viewer, FALSE);
+}
+
+void
+gth_browser_activate_scroll_page_down (GSimpleAction	*action,
+				       GVariant		*state,
+				       gpointer	 	 user_data)
+{
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
+	gth_image_viewer_scroll_page_y (image_viewer, TRUE);
+}
+
+
+void
+gth_browser_activate_scroll_to_center (GSimpleAction	*action,
+				       GVariant		*state,
+				       gpointer	 	 user_data)
+{
+	GthBrowser         *browser = user_data;
+	GthImageViewerPage *viewer_page = get_image_viewer_page (browser);
+	GthImageViewer     *image_viewer;
+
+	if (viewer_page == NULL)
+		return;
+
+	image_viewer = GTH_IMAGE_VIEWER (gth_image_viewer_page_get_image_viewer (viewer_page));
+	gth_image_viewer_scroll_to_center (image_viewer);
+}
+

@@ -44,6 +44,18 @@ static const GthShortcut shortcuts[] = {
 
 	{ "image-undo", N_("Undo edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "<Primary>z" },
 	{ "image-redo", N_("Redo edit"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, "<Primary><Shift>z" },
+
+	{ "scroll-step-left", N_("Scroll left"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "Left" },
+	{ "scroll-step-right", N_("Scroll right"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "Right" },
+	{ "scroll-step-up", N_("Scroll up"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "Up" },
+	{ "scroll-step-down", N_("Scroll down"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "Down" },
+
+	{ "scroll-page-left", N_("Scroll left fast"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "<Shift>Left" },
+	{ "scroll-page-right", N_("Scroll right fast"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "<Shift>Right" },
+	{ "scroll-page-up", N_("Scroll up fast"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "<Shift>Up" },
+	{ "scroll-page-down", N_("Scroll down fast"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "<Shift>Down" },
+
+	{ "scroll-to-center", N_("Scroll to center"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, "<Primary>Down" },
 };
 
 

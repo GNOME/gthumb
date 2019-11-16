@@ -33,7 +33,8 @@
 
 static GthShortcutCategory shortcut_categories[] = {
 	{ GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER, N_("Image Viewer"), 21 },
-	{ GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, N_("Image Editor"), 22 }
+	{ GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE, N_("Scroll Image"), 22 },
+	{ GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR, N_("Image Editor"), 23 },
 };
 
 

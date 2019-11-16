@@ -67,6 +67,15 @@ static const GActionEntry actions[] = {
 	{ "step-animation", gth_browser_activate_step_animation },
 	{ "image-zoom", gth_browser_activate_image_zoom, "s", "''", NULL },
 	{ "transparency-style", gth_browser_activate_transparency_style, "s", "''", NULL },
+	{ "scroll-step-left", gth_browser_activate_scroll_step_left },
+	{ "scroll-step-right", gth_browser_activate_scroll_step_right },
+	{ "scroll-step-up", gth_browser_activate_scroll_step_up },
+	{ "scroll-step-down", gth_browser_activate_scroll_step_down },
+	{ "scroll-page-left", gth_browser_activate_scroll_page_left },
+	{ "scroll-page-right", gth_browser_activate_scroll_page_right },
+	{ "scroll-page-up", gth_browser_activate_scroll_page_up },
+	{ "scroll-page-down", gth_browser_activate_scroll_page_down },
+	{ "scroll-to-center", gth_browser_activate_scroll_to_center },
 };
 
 
