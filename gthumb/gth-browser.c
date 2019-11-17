@@ -3730,14 +3730,12 @@ static gboolean
 gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 			            GdkEventKey *event)
 {
-	guint    modifiers;
 	gboolean activated;
 
-	modifiers = gtk_accelerator_get_default_mod_mask ();
 	activated = gth_window_activate_shortcut (GTH_WINDOW (browser),
 						  GTH_SHORTCUT_CONTEXT_BROWSER,
 						  event->keyval,
-						  (event->state & modifiers));
+						  event->state);
 
 	if (! activated)
 		activated = gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
@@ -5687,16 +5685,14 @@ gboolean
 gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 				 GdkEventKey *event)
 {
-	guint    modifiers;
 	gboolean activated;
 
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	modifiers = gtk_accelerator_get_default_mod_mask ();
 	activated = gth_window_activate_shortcut (GTH_WINDOW (browser),
 						  GTH_SHORTCUT_CONTEXT_VIEWER,
 						  event->keyval,
-						  (event->state & modifiers));
+						  event->state);
 
 	if (! activated && gtk_widget_get_realized (browser->priv->file_list))
 		activated = gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;

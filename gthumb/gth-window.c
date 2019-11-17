@@ -892,6 +892,7 @@ gth_window_activate_shortcut (GthWindow       *window,
 	gboolean     activated = FALSE;
 	GthShortcut *shortcut;
 
+	modifiers = modifiers & gtk_accelerator_get_default_mod_mask ();
 	shortcut = gth_shortcut_array_find (window->priv->shortcuts_v, context, keycode, modifiers);
 	if (shortcut != NULL) {
 		GAction *action;
