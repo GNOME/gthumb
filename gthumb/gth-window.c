@@ -865,8 +865,6 @@ sort_shortcuts_by_category (gconstpointer a,
 			result = 1;
 	}
 	if (result == 0)
-		result = g_strcmp0 (sa->category, sb->category);
-	if (result == 0)
 		result = g_strcmp0 (sa->description, sb->description);
 
 	return result;
