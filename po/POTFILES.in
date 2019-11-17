@@ -36,6 +36,7 @@ data/ui/location.ui
 data/ui/overwrite-dialog.ui
 data/ui/personalize-filters.ui
 data/ui/preferences.ui
+data/ui/shortcuts-preferences.ui
 data/ui/sort-order.ui
 extensions/23hq/23hq.extension.desktop.in.in
 extensions/23hq/actions.c
@@ -256,6 +257,8 @@ extensions/file_manager/gth-reorder-task.c
 extensions/file_manager/gth-reorder-task.h
 extensions/file_manager/main.c
 extensions/file_manager/preferences.h
+extensions/file_tools/actions.c
+extensions/file_tools/actions.h
 extensions/file_tools/cairo-blur.c
 extensions/file_tools/cairo-blur.h
 extensions/file_tools/cairo-effects.c
@@ -381,6 +384,8 @@ extensions/flicker_utils/main.c
 extensions/flicker_utils/preferences.h
 extensions/gstreamer_tools/actions.c
 extensions/gstreamer_tools/actions.h
+extensions/gstreamer_tools/callbacks.c
+extensions/gstreamer_tools/callbacks.h
 extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui
 extensions/gstreamer_tools/data/ui/mediabar.ui
 extensions/gstreamer_tools/dlg-media-viewer-preferences.c
@@ -392,6 +397,7 @@ extensions/gstreamer_tools/gth-metadata-provider-gstreamer.c
 extensions/gstreamer_tools/gth-metadata-provider-gstreamer.h
 extensions/gstreamer_tools/main.c
 extensions/gstreamer_tools/preferences.h
+extensions/gstreamer_tools/shortcuts.h
 extensions/gstreamer_utils/gstreamer-utils.c
 extensions/gstreamer_utils/gstreamer-utils.h
 extensions/gstreamer_utils/gstreamer_utils.extension.desktop.in.in
@@ -426,6 +432,8 @@ extensions/image_rotation/rotation-utils.c
 extensions/image_rotation/rotation-utils.h
 extensions/image_viewer/actions.c
 extensions/image_viewer/actions.h
+extensions/image_viewer/callbacks.c
+extensions/image_viewer/callbacks.h
 extensions/image_viewer/data/ui/image-viewer-preferences.ui
 extensions/image_viewer/data/ui/toolbar-zoom-menu.ui
 extensions/image_viewer/gth-image-histogram.c
@@ -443,6 +451,7 @@ extensions/image_viewer/image_viewer.extension.desktop.in.in
 extensions/image_viewer/main.c
 extensions/image_viewer/preferences.c
 extensions/image_viewer/preferences.h
+extensions/image_viewer/shortcuts.h
 extensions/importer/data/ui/import-preferences.ui
 extensions/importer/gth-import-destination-button.c
 extensions/importer/gth-import-destination-button.h
@@ -493,6 +502,7 @@ extensions/list_tools/gth-script.h
 extensions/list_tools/list-tools.h
 extensions/list_tools/list_tools.extension.desktop.in.in
 extensions/list_tools/main.c
+extensions/list_tools/shortcuts.h
 extensions/map_view/gth-map-view.c
 extensions/map_view/gth-map-view.h
 extensions/map_view/main.c
@@ -599,6 +609,10 @@ extensions/search/gth-search-editor-dialog.c
 extensions/search/gth-search-editor-dialog.h
 extensions/search/gth-search-editor.c
 extensions/search/gth-search-editor.h
+extensions/search/gth-search-source-selector.c
+extensions/search/gth-search-source-selector.h
+extensions/search/gth-search-source.c
+extensions/search/gth-search-source.h
 extensions/search/gth-search-task.c
 extensions/search/gth-search-task.h
 extensions/search/gth-search.c
@@ -617,6 +631,7 @@ extensions/selections/gth-selections-manager.c
 extensions/selections/gth-selections-manager.h
 extensions/selections/main.c
 extensions/selections/selections.extension.desktop.in.in
+extensions/selections/shortcuts.h
 extensions/slideshow/actions.c
 extensions/slideshow/actions.h
 extensions/slideshow/callbacks.c
@@ -631,6 +646,7 @@ extensions/slideshow/gth-transition.h
 extensions/slideshow/main.c
 extensions/slideshow/preferences.c
 extensions/slideshow/preferences.h
+extensions/slideshow/shortcuts.h
 extensions/slideshow/slideshow.extension.desktop.in.in
 extensions/webalbums/actions.c
 extensions/webalbums/actions.h
@@ -663,6 +679,8 @@ gthumb/dlg-preferences-extensions.c
 gthumb/dlg-preferences-extensions.h
 gthumb/dlg-preferences-general.c
 gthumb/dlg-preferences-general.h
+gthumb/dlg-preferences-shortcuts.c
+gthumb/dlg-preferences-shortcuts.h
 gthumb/dlg-preferences.c
 gthumb/dlg-preferences.h
 gthumb/dlg-sort-order.c
@@ -683,6 +701,8 @@ gthumb/gsignature.c
 gthumb/gsignature.h
 gthumb/gth-accel-button.c
 gthumb/gth-accel-button.h
+gthumb/gth-accel-dialog.c
+gthumb/gth-accel-dialog.h
 gthumb/gth-application.c
 gthumb/gth-application.h
 gthumb/gth-async-task.c
@@ -794,6 +814,8 @@ gthumb/gth-load-file-data-task.c
 gthumb/gth-load-file-data-task.h
 gthumb/gth-location-bar.c
 gthumb/gth-location-bar.h
+gthumb/gth-location-chooser-dialog.c
+gthumb/gth-location-chooser-dialog.h
 gthumb/gth-location-chooser.c
 gthumb/gth-location-chooser.h
 gthumb/gth-main-default-hooks.c
@@ -833,12 +855,14 @@ gthumb/gth-save-image-task.c
 gthumb/gth-save-image-task.h
 gthumb/gth-screensaver.c
 gthumb/gth-screensaver.h
+gthumb/gth-shortcut.c
+gthumb/gth-shortcut.h
+gthumb/gth-shortcuts-window.c
+gthumb/gth-shortcuts-window.h
 gthumb/gth-sidebar-section.c
 gthumb/gth-sidebar-section.h
 gthumb/gth-sidebar.c
 gthumb/gth-sidebar.h
-gthumb/gth-source-tree.c
-gthumb/gth-source-tree.h
 gthumb/gth-statusbar.c
 gthumb/gth-statusbar.h
 gthumb/gth-string-list.c
@@ -875,6 +899,8 @@ gthumb/gth-uri-list.c
 gthumb/gth-uri-list.h
 gthumb/gth-user-dir.c
 gthumb/gth-user-dir.h
+gthumb/gth-vfs-tree.c
+gthumb/gth-vfs-tree.h
 gthumb/gth-viewer-page.c
 gthumb/gth-viewer-page.h
 gthumb/gth-window-title.c
@@ -895,7 +921,6 @@ gthumb/pixbuf-io.c
 gthumb/pixbuf-io.h
 gthumb/pixbuf-utils.c
 gthumb/pixbuf-utils.h
-gthumb/resources/app-menu.ui
 gthumb/resources/file-list-menu.ui
 gthumb/resources/file-menu.ui
 gthumb/resources/folder-menu.ui
