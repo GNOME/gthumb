@@ -34,7 +34,7 @@
 
 
 static GthShortcutCategory shortcut_categories[] = {
-	{ GTH_SHORTCUT_CATEGORY_HIDDEN, NULL },
+	{ GTH_SHORTCUT_CATEGORY_HIDDEN, NULL, 0 },
 	{ GTH_SHORTCUT_CATEGORY_GENERAL, N_("General"), 30 },
 	{ GTH_SHORTCUT_CATEGORY_UI, N_("Show/Hide"), 31 },
 	{ GTH_SHORTCUT_CATEGORY_NAVIGATION, N_("Navigation"), 15 },

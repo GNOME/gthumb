@@ -31,7 +31,7 @@
 
 
 static GthShortcutCategory shortcut_categories[] = {
-	{ GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, N_("Audio/Video Player"), 21 },
+	{ GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, N_("Audio/Video Player"), 24 },
 };
 
 
