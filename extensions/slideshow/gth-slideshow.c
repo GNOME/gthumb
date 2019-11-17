@@ -32,6 +32,7 @@
 #endif /* HAVE_GSTREAMER */
 #include "gth-slideshow.h"
 #include "gth-transition.h"
+#include "actions.h"
 
 #define HIDE_CURSOR_DELAY 1
 #define HIDE_PAUSED_SIGN_DELAY 1
@@ -90,33 +91,16 @@ struct _GthSlideshowPrivate {
 
 G_DEFINE_TYPE_WITH_CODE (GthSlideshow,
 			 gth_slideshow,
-			 GTK_TYPE_WINDOW,
+			 GTH_TYPE_WINDOW,
 			 G_ADD_PRIVATE (GthSlideshow))
 
 
-static void
-_gth_slideshow_close_cb (gpointer user_data)
-{
-	GthSlideshow *self = user_data;
-	gboolean      close_browser;
-	GthBrowser   *browser;
-
-	browser = self->priv->browser;
-	close_browser = ! gtk_widget_get_visible (GTK_WIDGET (browser));
-	self->priv->projector->show_cursor (self);
-	self->priv->projector->finalize (self);
-	gtk_widget_destroy (GTK_WIDGET (self));
-
-	if (close_browser)
-		gth_window_close (GTH_WINDOW (browser));
-}
-
-
-static void
-_gth_slideshow_close (GthSlideshow *self)
-{
-	call_when_idle (_gth_slideshow_close_cb, self);
-}
+static const GActionEntry actions[] = {
+	{ "slideshow-close", gth_slideshow_activate_close },
+	{ "slideshow-toggle-pause", gth_slideshow_activate_toggle_pause },
+	{ "slideshow-next-image", gth_slideshow_activate_next_image },
+	{ "slideshow-previous-image", gth_slideshow_activate_previous_image },
+};
 
 
 static int
@@ -139,9 +123,6 @@ _gth_slideshow_reset_current (GthSlideshow *self)
 	else
 		self->priv->current = g_list_last (self->priv->file_list);
 }
-
-
-static void _gth_slideshow_load_next_image (GthSlideshow *self);
 
 
 static void
@@ -167,7 +148,7 @@ preloader_load_ready_cb (GObject	*source_object,
 					       &error))
 	{
 		g_clear_error (&error);
-		_gth_slideshow_load_next_image (self);
+		gth_slideshow_load_next_image (self);
 		return;
 	}
 
@@ -175,7 +156,7 @@ preloader_load_ready_cb (GObject	*source_object,
 	self->priv->current_pixbuf = gth_image_get_pixbuf (image);
 
 	if (self->priv->current_pixbuf == NULL) {
-		_gth_slideshow_load_next_image (self);
+		gth_slideshow_load_next_image (self);
 		return;
 	}
 
@@ -203,7 +184,7 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 
 	if (self->priv->current == NULL) {
 		if (! self->priv->one_loaded || ! self->priv->wrap_around) {
-			_gth_slideshow_close (self);
+			gth_slideshow_close (self);
 			return;
 		}
 		_gth_slideshow_reset_current (self);
@@ -232,34 +213,6 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 }
 
 
-static void
-_gth_slideshow_load_next_image (GthSlideshow *self)
-{
-	self->priv->projector->load_next_image (self);
-	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
-
-	if (self->priv->paused)
-		return;
-
-	self->priv->current = self->priv->current->next;
-	_gth_slideshow_load_current_image (self);
-}
-
-
-static void
-_gth_slideshow_load_prev_image (GthSlideshow *self)
-{
-	self->priv->projector->load_prev_image (self);
-	self->priv->direction = GTH_SLIDESHOW_DIRECTION_BACKWARD;
-
-	if (self->priv->paused)
-		return;
-
-	self->priv->current = self->priv->current->prev;
-	_gth_slideshow_load_current_image (self);
-}
-
-
 static gboolean
 next_image_cb (gpointer user_data)
 {
@@ -269,7 +222,7 @@ next_image_cb (gpointer user_data)
 		g_source_remove (self->priv->next_event);
 		self->priv->next_event = 0;
 	}
-	_gth_slideshow_load_next_image (self);
+	gth_slideshow_load_next_image (self);
 
 	return FALSE;
 }
@@ -352,27 +305,6 @@ hide_cursor_cb (gpointer data)
 }
 
 
-static void
-_gth_slideshow_toggle_pause (GthSlideshow *self)
-{
-	self->priv->paused = ! self->priv->paused;
-	if (self->priv->paused) {
-		self->priv->projector->paused (self);
-#if HAVE_GSTREAMER
-		if (self->priv->playbin != NULL)
-			gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
-#endif
-	}
-	else { /* resume */
-		_gth_slideshow_load_next_image (self);
-#if HAVE_GSTREAMER
-		if (self->priv->playbin != NULL)
-			gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
-#endif
-	}
-}
-
-
 #if HAVE_GSTREAMER
 
 
@@ -451,41 +383,10 @@ _gth_slideshow_key_press_cb (GthSlideshow *self,
 			     GdkEventKey  *event,
 			     gpointer      user_data)
 {
-	gboolean handled = TRUE;
-
-	switch (event->keyval) {
-	case GDK_KEY_F5:
-	case GDK_KEY_Escape:
-	case GDK_KEY_q:
-		_gth_slideshow_close (self);
-		break;
-
-	case GDK_KEY_p:
-		_gth_slideshow_toggle_pause (self);
-		break;
-
-	case GDK_KEY_space:
-	case GDK_KEY_Down:
-	case GDK_KEY_Right:
-	case GDK_KEY_Page_Down:
-		if (self->priv->paused)
-			_gth_slideshow_toggle_pause (self);
-		else
-			_gth_slideshow_load_next_image (self);
-		break;
-
-	case GDK_KEY_BackSpace:
-	case GDK_KEY_Up:
-	case GDK_KEY_Left:
-	case GDK_KEY_Page_Up:
-		_gth_slideshow_load_prev_image (self);
-		break;
-
-	default:
-		handled = FALSE;
-	}
-
-	return handled;
+	return gth_window_activate_shortcut (GTH_WINDOW (self),
+					     GTH_SHORTCUT_CONTEXT_SLIDESHOW,
+					     event->keyval,
+					     event->state);
 }
 
 
@@ -536,6 +437,14 @@ _gth_slideshow_construct (GthSlideshow *self,
 								     NULL);
 
 	self->priv->projector->construct (self);
+
+	g_action_map_add_action_entries (G_ACTION_MAP (self),
+					 actions,
+					 G_N_ELEMENTS (actions),
+					 self);
+	gth_window_copy_shortcuts (GTH_WINDOW (self),
+				   GTH_WINDOW (self->priv->browser),
+				   GTH_SHORTCUT_CONTEXT_SLIDESHOW);
 
 	g_signal_connect (self, "show", G_CALLBACK (gth_slideshow_show_cb), self);
 
@@ -610,6 +519,98 @@ gth_slideshow_set_random_order (GthSlideshow *self,
 				gboolean      random)
 {
 	self->priv->random_order = random;
+}
+
+
+void
+gth_slideshow_toggle_pause (GthSlideshow *self)
+{
+	g_return_if_fail (GTH_IS_SLIDESHOW (self));
+
+	self->priv->paused = ! self->priv->paused;
+	if (self->priv->paused) {
+		self->priv->projector->paused (self);
+#if HAVE_GSTREAMER
+		if (self->priv->playbin != NULL)
+			gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
+#endif
+	}
+	else { /* resume */
+		gth_slideshow_load_next_image (self);
+#if HAVE_GSTREAMER
+		if (self->priv->playbin != NULL)
+			gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+#endif
+	}
+}
+
+
+void
+gth_slideshow_load_next_image (GthSlideshow *self)
+{
+	g_return_if_fail (GTH_IS_SLIDESHOW (self));
+
+	self->priv->projector->load_next_image (self);
+	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
+
+	if (self->priv->paused)
+		return;
+
+	self->priv->current = self->priv->current->next;
+	_gth_slideshow_load_current_image (self);
+}
+
+
+void
+gth_slideshow_load_prev_image (GthSlideshow *self)
+{
+	g_return_if_fail (GTH_IS_SLIDESHOW (self));
+
+	self->priv->projector->load_prev_image (self);
+	self->priv->direction = GTH_SLIDESHOW_DIRECTION_BACKWARD;
+
+	if (self->priv->paused)
+		return;
+
+	self->priv->current = self->priv->current->prev;
+	_gth_slideshow_load_current_image (self);
+}
+
+
+void
+gth_slideshow_next_image_or_resume (GthSlideshow *self)
+{
+	g_return_if_fail (GTH_IS_SLIDESHOW (self));
+
+	if (self->priv->paused)
+		gth_slideshow_toggle_pause (self);
+	else
+		gth_slideshow_load_next_image (self);
+}
+
+
+static void
+_gth_slideshow_close_cb (gpointer user_data)
+{
+	GthSlideshow *self = user_data;
+	gboolean      close_browser;
+	GthBrowser   *browser;
+
+	browser = self->priv->browser;
+	close_browser = ! gtk_widget_get_visible (GTK_WIDGET (browser));
+	self->priv->projector->show_cursor (self);
+	self->priv->projector->finalize (self);
+	gtk_widget_destroy (GTK_WIDGET (self));
+
+	if (close_browser)
+		gth_window_close (GTH_WINDOW (browser));
+}
+
+
+void
+gth_slideshow_close (GthSlideshow *self)
+{
+	call_when_idle (_gth_slideshow_close_cb, self);
 }
 
 
@@ -689,10 +690,10 @@ viewer_event_cb (GtkWidget    *widget,
 	else if (event->type == GDK_BUTTON_PRESS) {
 		switch (((GdkEventButton *) event)->button) {
 		case 1:
-			_gth_slideshow_load_next_image (self);
+			gth_slideshow_load_next_image (self);
 			break;
 		case 3:
-			_gth_slideshow_load_prev_image (self);
+			gth_slideshow_load_prev_image (self);
 			break;
 		default:
 			break;
@@ -757,7 +758,7 @@ default_projector_construct (GthSlideshow *self)
 	gth_image_viewer_set_zoom_change (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_ZOOM_CHANGE_FIT_SIZE);
 	gth_image_viewer_set_zoom_quality (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_ZOOM_QUALITY_LOW);
 	gth_image_viewer_add_painter (GTH_IMAGE_VIEWER (self->priv->viewer), default_projector_pause_painter, self);
-	gth_image_viewer_set_transparency_style (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_TRANSPARENCY_STYLE_BLACK);
+	gth_image_viewer_set_transparency_style (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_TRANSPARENCY_STYLE_CHECKERED);
 
 	g_signal_connect (self->priv->viewer, "button-press-event", G_CALLBACK (viewer_event_cb), self);
 	g_signal_connect (self->priv->viewer, "motion-notify-event", G_CALLBACK (viewer_event_cb), self);
@@ -1065,10 +1066,10 @@ stage_input_cb (ClutterStage *stage,
 
 		switch (clutter_event_get_button (event)) {
 		case 1:
-			_gth_slideshow_load_next_image (self);
+			gth_slideshow_load_next_image (self);
 			break;
 		case 3:
-			_gth_slideshow_load_prev_image (self);
+			gth_slideshow_load_prev_image (self);
 			break;
 		default:
 			break;

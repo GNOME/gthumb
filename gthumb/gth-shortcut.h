@@ -32,7 +32,6 @@ G_BEGIN_DECLS
 #define GTH_SHORTCUT_CATEGORY_NAVIGATION "file-navigation"
 #define GTH_SHORTCUT_CATEGORY_FILE_MANAGER "file-manager"
 #define GTH_SHORTCUT_CATEGORY_VIEWER "file-viewer"
-#define GTH_SHORTCUT_CATEGORY_SLIDESHOW "slideshow"
 
 
 typedef struct {

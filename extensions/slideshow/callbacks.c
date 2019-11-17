@@ -28,6 +28,7 @@
 #include "callbacks.h"
 #include "gth-slideshow-preferences.h"
 #include "preferences.h"
+#include "shortcuts.h"
 
 
 static const GActionEntry actions[] = {
@@ -36,7 +37,11 @@ static const GActionEntry actions[] = {
 
 
 static const GthShortcut shortcuts[] = {
-	{ "slideshow", N_("Presentation"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_FILE_MANAGER, "F5" },
+	{ "slideshow", N_("Start presentation"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "F5" },
+	{ "slideshow-close", N_("Terminate presentation"), GTH_SHORTCUT_CONTEXT_SLIDESHOW, GTH_SHORTCUT_CATEGORY_SLIDESHOW, "Escape" },
+	{ "slideshow-toggle-pause", N_("Pause/Resume presentation"), GTH_SHORTCUT_CONTEXT_SLIDESHOW, GTH_SHORTCUT_CATEGORY_SLIDESHOW, "p" },
+	{ "slideshow-next-image", N_("Show next file"), GTH_SHORTCUT_CONTEXT_SLIDESHOW, GTH_SHORTCUT_CATEGORY_SLIDESHOW, "space" },
+	{ "slideshow-previous-image", N_("Show previous file"), GTH_SHORTCUT_CONTEXT_SLIDESHOW, GTH_SHORTCUT_CATEGORY_SLIDESHOW, "b" },
 };
 
 

@@ -146,6 +146,9 @@ gboolean	gth_window_can_change_shortcut	(GthWindow		*window,
 						 guint			 keycode,
 						 GdkModifierType	 modifiers,
 						 GtkWindow		*parent);
+void		gth_window_copy_shortcuts	(GthWindow		*to_window,
+						 GthWindow		*from_window,
+						 int			 context);
 
 G_END_DECLS
 

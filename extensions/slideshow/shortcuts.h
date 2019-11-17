@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2019 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,15 +19,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef SLIDESHOW_SHORTCUTS_H
+#define SLIDESHOW_SHORTCUTS_H
 
-#include <gthumb.h>
+#define GTH_SHORTCUT_CATEGORY_SLIDESHOW "slideshow"
 
-DEF_ACTION_CALLBACK (gth_browser_activate_slideshow)
-DEF_ACTION_CALLBACK (gth_slideshow_activate_close)
-DEF_ACTION_CALLBACK (gth_slideshow_activate_toggle_pause)
-DEF_ACTION_CALLBACK (gth_slideshow_activate_next_image)
-DEF_ACTION_CALLBACK (gth_slideshow_activate_previous_image)
-
-#endif /* ACTIONS_H */
+#endif /* SLIDESHOW_SHORTCUTS_H */

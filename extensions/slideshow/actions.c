@@ -148,3 +148,40 @@ gth_browser_activate_slideshow (GSimpleAction *action,
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
 }
+
+
+void
+gth_slideshow_activate_close (GSimpleAction *action,
+			      GVariant      *parameter,
+			      gpointer       user_data)
+{
+	gth_slideshow_close (GTH_SLIDESHOW (user_data));
+}
+
+
+void
+gth_slideshow_activate_toggle_pause (GSimpleAction *action,
+				     GVariant      *parameter,
+				     gpointer       user_data)
+{
+	gth_slideshow_toggle_pause (GTH_SLIDESHOW (user_data));
+}
+
+
+void
+gth_slideshow_activate_next_image (GSimpleAction *action,
+				   GVariant      *parameter,
+				   gpointer       user_data)
+{
+	gth_slideshow_load_next_image (GTH_SLIDESHOW (user_data));
+}
+
+
+void
+gth_slideshow_activate_previous_image (GSimpleAction *action,
+				       GVariant      *parameter,
+				       gpointer       user_data)
+{
+	gth_slideshow_load_prev_image (GTH_SLIDESHOW (user_data));
+}
+

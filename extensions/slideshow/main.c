@@ -26,6 +26,7 @@
 #include "callbacks.h"
 #include "gth-transition.h"
 #include "preferences.h"
+#include "shortcuts.h"
 
 
 #ifdef HAVE_CLUTTER
@@ -281,6 +282,11 @@ cube_from_bottom_transition (GthSlideshow *self,
 #endif /* HAVE_CLUTTER */
 
 
+static GthShortcutCategory shortcut_categories[] = {
+	{ GTH_SHORTCUT_CATEGORY_SLIDESHOW, N_("Presentation"), 40 },
+};
+
+
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
@@ -341,6 +347,7 @@ gthumb_extension_activate (void)
 				  NULL);
 #endif /* HAVE_CLUTTER */
 
+	gth_main_register_shortcut_category (shortcut_categories, G_N_ELEMENTS (shortcut_categories));
 	gth_hook_add_callback ("slideshow", 10, G_CALLBACK (ss__slideshow_cb), NULL);
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (ss__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (ss__gth_browser_update_sensitivity_cb), NULL);

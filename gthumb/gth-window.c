@@ -745,7 +745,7 @@ gth_window_add_accelerators (GthWindow			*window,
 							NULL);
 
 		shortcut = gth_shortcut_new (acc->action_name, NULL);
-		shortcut->context = GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_ANY;
+		shortcut->context = GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER;
 		shortcut->category = GTH_SHORTCUT_CATEGORY_HIDDEN;
 		gth_shortcut_set_accelerator (shortcut, acc->accelerator);
 		_gth_window_add_shortcut (window, shortcut);
@@ -1061,4 +1061,24 @@ gth_window_can_change_shortcut (GthWindow         *window,
 	}
 
 	return TRUE;
+}
+
+
+void
+gth_window_copy_shortcuts (GthWindow *to_window,
+			   GthWindow *from_window,
+			   int        context)
+{
+	int i;
+
+	for (i = 0; i < from_window->priv->shortcuts_v->len; i++) {
+		const GthShortcut *shortcut = g_ptr_array_index (from_window->priv->shortcuts_v, i);
+		GthShortcut       *new_shortcut;
+
+		if ((shortcut->context & context) == 0)
+			continue;
+
+		new_shortcut = gth_shortcut_dup (shortcut);
+		_gth_window_add_shortcut (to_window, new_shortcut);
+	}
 }

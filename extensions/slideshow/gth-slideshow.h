@@ -43,7 +43,7 @@ typedef struct _GthSlideshowPrivate  GthSlideshowPrivate;
 
 struct _GthSlideshow
 {
-	GtkWindow __parent;
+	GthWindow __parent;
 #ifdef HAVE_CLUTTER
 	ClutterActor        *stage;
 	ClutterActor        *current_image;
@@ -57,7 +57,7 @@ struct _GthSlideshow
 
 struct _GthSlideshowClass
 {
-	GtkWindowClass __parent_class;
+	GthWindowClass __parent_class;
 };
 
 typedef struct {
@@ -93,6 +93,12 @@ void             gth_slideshow_set_playlist     (GthSlideshow   *self,
 						 char          **files);
 void             gth_slideshow_set_random_order (GthSlideshow   *self,
 						 gboolean        random);
+void             gth_slideshow_toggle_pause     (GthSlideshow   *self);
+void             gth_slideshow_load_next_image  (GthSlideshow   *self);
+void             gth_slideshow_load_prev_image  (GthSlideshow   *self);
+void             gth_slideshow_next_image_or_resume
+						(GthSlideshow   *self);
+void             gth_slideshow_close            (GthSlideshow   *self);
 
 G_END_DECLS
 
