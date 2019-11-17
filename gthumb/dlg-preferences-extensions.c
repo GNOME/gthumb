@@ -58,9 +58,9 @@ typedef struct {
 
 
 static ExtensionCategory extension_category[] = {
-	{ EXTENSION_CATEGORY_ALL, N_("All"), "folder" },
-	{ EXTENSION_CATEGORY_ENABLED, N_("Enabled"), "folder" },
-	{ EXTENSION_CATEGORY_DISABLED, N_("Disabled"), "folder" },
+	{ EXTENSION_CATEGORY_ALL, NC_("Extensions", "All"), "folder" },
+	{ EXTENSION_CATEGORY_ENABLED, NC_("Extensions", "Enabled"), "folder" },
+	{ EXTENSION_CATEGORY_DISABLED, NC_("Extensions", "Disabled"), "folder" },
 	{ EXTENSION_CATEGORY_SEPARATOR, NULL, NULL },
 	{ "Browser", N_("Browser"), "folder" },
 	{ "Viewer", N_("Viewers"), "folder" },

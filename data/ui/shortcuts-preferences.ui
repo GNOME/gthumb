@@ -4,53 +4,54 @@
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkListStore" id="category_liststore">
     <columns>
-      <!-- column-name category -->
-      <column type="gint"/>
+      <!-- column-name id -->
+      <column type="gchararray"/>
       <!-- column-name name -->
       <column type="gchararray"/>
     </columns>
-    <data>
-      <row>
-        <col id="0">1</col>
-        <col id="1" translatable="yes">User Interface</col>
-      </row>
-      <row>
-        <col id="0">5</col>
-        <col id="1" translatable="yes">File Navigation</col>
-      </row>
-      <row>
-        <col id="0">2</col>
-        <col id="1" translatable="yes">File Edit</col>
-      </row>
-      <row>
-        <col id="0">5</col>
-        <col id="1" translatable="yes">Image View</col>
-      </row>
-      <row>
-        <col id="0">3</col>
-        <col id="1" translatable="yes">Image Edit</col>
-      </row>
-      <row>
-        <col id="0">6</col>
-        <col id="1" translatable="yes">Slideshow</col>
-      </row>
-    </data>
   </object>
-  <object class="GtkSizeGroup" id="column1_size_group"/>
-  <object class="GtkSizeGroup" id="column2_size_group"/>
-  <object class="GtkSizeGroup" id="column3_size_group"/>
   <object class="GtkBox" id="preferences_page">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
     <property name="spacing">6</property>
     <child>
-      <object class="GtkLabel">
+      <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Keyboard Shortcuts:</property>
-        <property name="mnemonic_widget">shortcuts_list</property>
-        <property name="xalign">0</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Shortcuts:</property>
+            <property name="mnemonic_widget">shortcuts_list</property>
+            <property name="xalign">0</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkComboBox" id="category_combobox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="model">category_liststore</property>
+            <child>
+              <object class="GtkCellRendererText"/>
+              <attributes>
+                <attribute name="text">1</attribute>
+              </attributes>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -108,16 +109,7 @@
       </packing>
     </child>
   </object>
-  <object class="GtkListStore" id="shortcuts_liststore">
-    <columns>
-      <!-- column-name action_name -->
-      <column type="gchararray"/>
-      <!-- column-name description -->
-      <column type="gchararray"/>
-      <!-- column-name shortcut -->
-      <column type="gchararray"/>
-      <!-- column-name category -->
-      <column type="gboolean"/>
-    </columns>
-  </object>
+  <object class="GtkSizeGroup" id="column1_size_group"/>
+  <object class="GtkSizeGroup" id="column2_size_group"/>
+  <object class="GtkSizeGroup" id="column3_size_group"/>
 </interface>

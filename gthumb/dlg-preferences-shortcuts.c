@@ -33,6 +33,8 @@
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
 #define BROWSER_DATA_KEY "shortcuts-preference-data"
+#define GTH_SHORTCUT_CATEGORY_ALL "all"
+#define GTH_SHORTCUT_CATEGORY_MODIFIED "modified"
 
 
 enum {
@@ -47,12 +49,14 @@ typedef struct {
 	GtkBuilder *builder;
 	GtkWidget  *preferences_dialog;
 	GPtrArray  *rows;
+	char       *show_category;
 } BrowserData;
 
 
 static void
 browser_data_free (BrowserData *data)
 {
+	g_free (data->show_category);
 	g_ptr_array_unref (data->rows);
 	g_object_unref (data->builder);
 	g_free (data);
@@ -64,6 +68,7 @@ typedef struct {
 	GthShortcut *shortcut;
 	GtkWidget   *accel_label;
 	GtkWidget   *revert_button;
+	gboolean     modified;
 } RowData;
 
 
@@ -96,13 +101,11 @@ row_data_free (RowData *row_data)
 static void
 row_data_update_accel_label (RowData *row_data)
 {
-	gboolean modified;
-
 	if (row_data == NULL)
 		return;
 
-	modified = g_strcmp0 (row_data->shortcut->default_accelerator, row_data->shortcut->accelerator) != 0;
-	if (modified) {
+	row_data->modified = g_strcmp0 (row_data->shortcut->default_accelerator, row_data->shortcut->accelerator) != 0;
+	if (row_data->modified) {
 		char *esc_text;
 		char *markup_text;
 
@@ -116,8 +119,8 @@ row_data_update_accel_label (RowData *row_data)
 	else
 		gtk_label_set_text (GTK_LABEL (row_data->accel_label), row_data->shortcut->label);
 
-	gtk_widget_set_sensitive (row_data->revert_button, modified);
-	gtk_widget_set_child_visible (row_data->revert_button, modified);
+	gtk_widget_set_sensitive (row_data->revert_button, row_data->modified);
+	gtk_widget_set_child_visible (row_data->revert_button, row_data->modified);
 }
 
 
@@ -134,6 +137,14 @@ find_row_by_shortcut (BrowserData *browser_data,
 	}
 
 	return NULL;
+}
+
+
+static void
+update_filter_if_required (BrowserData *data)
+{
+	if (g_strcmp0 (data->show_category, GTH_SHORTCUT_CATEGORY_MODIFIED) == 0)
+		gtk_list_box_invalidate_filter (GTK_LIST_BOX (_gtk_builder_get_widget (data->builder, "shortcuts_list")));
 }
 
 
@@ -168,6 +179,7 @@ row_data_update_shortcut (RowData         *row_data,
 
 		gth_shortcut_set_key (row_data->shortcut, keycode, modifiers);
 		row_data_update_accel_label (row_data);
+		update_filter_if_required (row_data->browser_data);
 
 		gth_main_shortcuts_changed (gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser)));
 	}
@@ -258,7 +270,7 @@ _new_shortcut_row (GthShortcut *shortcut,
 	gtk_container_set_border_width (GTK_CONTAINER (box), 5);
 	gtk_container_add (GTK_CONTAINER (row), box);
 
-	label = gtk_label_new (shortcut->description);
+	label = gtk_label_new (_(shortcut->description));
 	gtk_label_set_xalign (GTK_LABEL (label), 0.0);
 	gtk_widget_set_margin_end (label, 12);
 	gtk_size_group_add_widget (GTK_SIZE_GROUP (gtk_builder_get_object (data->builder, "column1_size_group")), label);
@@ -318,7 +330,7 @@ _new_shortcut_category_row (const char *category_id,
 	gtk_container_add (GTK_CONTAINER (row), box);
 
 	category = gth_main_get_shortcut_category (category_id);
-	text = (category != NULL) ? category->display_name : _("Other");
+	text = (category != NULL) ? _(category->display_name) : _("Other");
 	esc_text = g_markup_escape_text (text, -1);
 	markup_text = g_strdup_printf ("<b>%s</b>", esc_text);
 
@@ -375,6 +387,68 @@ restore_all_button_clicked_cb (GtkButton *button,
 }
 
 
+static int
+cmp_category (gconstpointer a,
+	      gconstpointer b)
+{
+	GthShortcutCategory *cat_a = * (GthShortcutCategory **) a;
+	GthShortcutCategory *cat_b = * (GthShortcutCategory **) b;
+
+	if (cat_a->sort_order == cat_b->sort_order)
+		return 0;
+	else if (cat_a->sort_order > cat_b->sort_order)
+		return 1;
+	else
+		return -1;
+}
+
+
+static void
+category_combo_box_changed_cb (GtkComboBox *combo_box,
+			       gpointer     user_data)
+{
+	BrowserData *data = user_data;
+	GtkTreeIter  iter;
+
+	if (gtk_combo_box_get_active_iter (combo_box, &iter)) {
+		char *category_id;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (gtk_builder_get_object (data->builder, "category_liststore")),
+				    &iter,
+				    0, &category_id,
+				    -1);
+
+		g_free (data->show_category);
+		data->show_category = g_strdup (category_id);
+
+		gtk_list_box_invalidate_filter (GTK_LIST_BOX (_gtk_builder_get_widget (data->builder, "shortcuts_list")));
+
+		g_free (category_id);
+	}
+}
+
+
+static gboolean
+shortcut_filter_func (GtkListBoxRow *row,
+		      gpointer       user_data)
+{
+	BrowserData *data = user_data;
+	RowData     *row_data;
+
+	if (g_strcmp0 (data->show_category, GTH_SHORTCUT_CATEGORY_ALL) == 0)
+		return TRUE;
+
+	row_data = g_object_get_data (G_OBJECT (row), "shortcut-row-data");
+	if ((row_data == NULL) || (row_data->shortcut == NULL))
+		return FALSE;
+
+	if (g_strcmp0 (data->show_category, GTH_SHORTCUT_CATEGORY_MODIFIED) == 0)
+		return row_data->modified;
+
+	return g_strcmp0 (data->show_category, row_data->shortcut->category) == 0;
+}
+
+
 void
 shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 					 GthBrowser *browser,
@@ -394,8 +468,11 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	data->builder = _gtk_builder_new_from_file ("shortcuts-preferences.ui", NULL);
 	data->preferences_dialog = dialog;
 	data->rows = g_ptr_array_new ();
+	data->show_category = g_strdup (GTH_SHORTCUT_CATEGORY_ALL);
 
 	g_object_set_data_full (G_OBJECT (dialog), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
+
+	/* shortcut list */
 
 	shortcuts_list = _gtk_builder_get_widget (data->builder, "shortcuts_list");
 	shortcuts_v = gth_window_get_shortcuts_by_category (GTH_WINDOW (browser));
@@ -424,6 +501,10 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				     _new_shortcut_row (shortcut, data),
 				     -1);
 	}
+	gtk_list_box_set_filter_func (GTK_LIST_BOX (shortcuts_list),
+				      shortcut_filter_func,
+				      data,
+				      NULL);
 
 	g_signal_connect (shortcuts_list,
 			  "row-activated",
@@ -433,6 +514,54 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 			  "clicked",
 			  G_CALLBACK (restore_all_button_clicked_cb),
 			  data);
+
+	/* shortcut categories */
+
+	{
+		GPtrArray    *category_v;
+		GtkListStore *list_store;
+		GtkTreeIter   iter;
+		int           i;
+
+		category_v = g_ptr_array_copy (gth_main_get_shortcut_categories (), NULL, NULL);
+		g_ptr_array_set_free_func (category_v, NULL);
+		g_ptr_array_sort (category_v, cmp_category);
+
+		list_store = (GtkListStore *) gtk_builder_get_object (data->builder, "category_liststore");
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+				    0, GTH_SHORTCUT_CATEGORY_ALL,
+				    1, C_("Shortcuts", "All"),
+				    -1);
+
+		gtk_list_store_append (list_store, &iter);
+		gtk_list_store_set (list_store, &iter,
+				    0, GTH_SHORTCUT_CATEGORY_MODIFIED,
+				    1, C_("Shortcuts", "Modified"),
+				    -1);
+
+		for (i = 0; i < category_v->len; i++) {
+			GthShortcutCategory *category = g_ptr_array_index (category_v, i);
+
+			if (g_strcmp0 (category->id, GTH_SHORTCUT_CATEGORY_HIDDEN) == 0)
+				continue;
+
+			gtk_list_store_append (list_store, &iter);
+			gtk_list_store_set (list_store, &iter,
+					    0, category->id,
+					    1, _(category->display_name),
+					    -1);
+		}
+
+		gtk_combo_box_set_active (GTK_COMBO_BOX (_gtk_builder_get_widget (data->builder, "category_combobox")), 0);
+		g_signal_connect (_gtk_builder_get_widget (data->builder, "category_combobox"),
+				  "changed",
+				  G_CALLBACK (category_combo_box_changed_cb),
+				  data);
+
+		g_ptr_array_unref (category_v);
+	}
 
 	/* add the page to the preferences dialog */
 

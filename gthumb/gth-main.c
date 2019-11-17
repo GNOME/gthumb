@@ -649,6 +649,13 @@ gth_main_get_shortcut_category (const char *id)
 }
 
 
+GPtrArray *
+gth_main_get_shortcut_categories (void)
+{
+	return Main->priv->shortcut_category_v;
+}
+
+
 void
 gth_main_register_shortcut_category (GthShortcutCategory *shortcut_category,
 				     int                  n_categories)

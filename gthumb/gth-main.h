@@ -89,6 +89,7 @@ GList *                gth_main_get_all_metadata_info         (void);
 void                   gth_main_register_shortcut_category    (GthShortcutCategory  *shortcut_category,
 							       int                   n_categories);
 GthShortcutCategory *  gth_main_get_shortcut_category         (const char           *id);
+GPtrArray *            gth_main_get_shortcut_categories       (void);
 void                   gth_main_register_sort_type            (GthFileDataSort      *sort_type);
 GthFileDataSort *      gth_main_get_sort_type                 (const char           *name);
 GList *                gth_main_get_all_sort_types            (void);
