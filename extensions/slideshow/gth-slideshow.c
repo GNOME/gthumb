@@ -65,7 +65,7 @@ struct _GthSlideshowPrivate {
 	ClutterActor          *paused_actor;
 	guint32                last_button_event_time;
 #endif
-	GdkPixbuf             *current_pixbuf;
+	GthImage              *current_image;
 	GtkWidget             *viewer;
 	guint                  next_event;
 	guint                  delay;
@@ -152,16 +152,16 @@ preloader_load_ready_cb (GObject	*source_object,
 		return;
 	}
 
-	_g_object_unref (self->priv->current_pixbuf);
-	self->priv->current_pixbuf = gth_image_get_pixbuf (image);
+	_g_object_unref (self->priv->current_image);
+	self->priv->current_image = _g_object_ref (image);
 
-	if (self->priv->current_pixbuf == NULL) {
+	if (self->priv->current_image == NULL) {
 		gth_slideshow_load_next_image (self);
 		return;
 	}
 
 	self->priv->one_loaded = TRUE;
-	self->priv->projector->image_ready (self, self->priv->current_pixbuf);
+	self->priv->projector->image_ready (self, self->priv->current_image);
 
 	_g_object_unref (requested);
 	_g_object_unref (image);
@@ -257,7 +257,7 @@ gth_slideshow_finalize (GObject *object)
 		g_source_remove (self->priv->hide_cursor_event);
 
 	_g_object_unref (self->priv->pause_pixbuf);
-	_g_object_unref (self->priv->current_pixbuf);
+	_g_object_unref (self->priv->current_image);
 	_g_object_list_unref (self->priv->file_list);
 	_g_object_unref (self->priv->browser);
 	_g_object_unref (self->priv->preloader);
@@ -408,7 +408,7 @@ gth_slideshow_init (GthSlideshow *self)
 	self->priv->animating = FALSE;
 	self->priv->direction = GTH_SLIDESHOW_DIRECTION_FORWARD;
 	self->priv->random_order = FALSE;
-	self->priv->current_pixbuf = NULL;
+	self->priv->current_image = NULL;
 	self->priv->screensaver = gth_screensaver_new (NULL);
 	self->priv->preloader = gth_image_preloader_new ();
 }
@@ -633,9 +633,9 @@ default_projector_load_prev_image (GthSlideshow *self)
 
 static void
 default_projector_image_ready (GthSlideshow *self,
-			       GdkPixbuf    *pixbuf)
+			       GthImage     *image)
 {
-	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf, -1, -1);
+	gth_image_viewer_set_image (GTH_IMAGE_VIEWER (self->priv->viewer), image, -1, -1);
 	view_next_image_automatically (self);
 }
 
@@ -931,8 +931,9 @@ _gth_slideshow_get_transition (GthSlideshow *self)
 
 static void
 clutter_projector_image_ready (GthSlideshow *self,
-			       GdkPixbuf    *pixbuf)
+			       GthImage     *image_data)
 {
+	GdkPixbuf    *pixbuf;
 	GdkPixbuf    *image;
 	ClutterActor *texture;
 	int           pixbuf_w, pixbuf_h;
@@ -943,6 +944,7 @@ clutter_projector_image_ready (GthSlideshow *self,
 	if ((stage_w == 0) || (stage_h == 0))
 		return;
 
+	pixbuf = gth_image_get_pixbuf (image_data);
 	image = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (pixbuf),
 				FALSE,
 				gdk_pixbuf_get_bits_per_sample (pixbuf),
@@ -991,6 +993,7 @@ clutter_projector_image_ready (GthSlideshow *self,
 		clutter_timeline_advance (self->priv->timeline, GTH_TRANSITION_DURATION);
 
 	g_object_unref (image);
+	g_object_unref (pixbuf);
 }
 
 
@@ -1082,6 +1085,7 @@ static void
 adapt_image_size_to_stage_size (GthSlideshow *self)
 {
 	gfloat          stage_w, stage_h;
+	GdkPixbuf      *pixbuf;
 	GdkPixbuf      *image;
 	int             pixbuf_w, pixbuf_h;
 	int             pixbuf_x, pixbuf_y;
@@ -1094,23 +1098,24 @@ adapt_image_size_to_stage_size (GthSlideshow *self)
 	if ((stage_w == 0) || (stage_h == 0))
 		return;
 
-	if (self->priv->current_pixbuf == NULL)
+	if (self->priv->current_image == NULL)
 		return;
 
-	image = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (self->priv->current_pixbuf),
+	pixbuf = gth_image_get_pixbuf (self->priv->current_image);
+	image = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (pixbuf),
 				FALSE,
-				gdk_pixbuf_get_bits_per_sample (self->priv->current_pixbuf),
+				gdk_pixbuf_get_bits_per_sample (pixbuf),
 				stage_w,
 				stage_h);
 	gdk_pixbuf_fill (image, 0x000000ff);
 
-	pixbuf_w = gdk_pixbuf_get_width (self->priv->current_pixbuf);
-	pixbuf_h = gdk_pixbuf_get_height (self->priv->current_pixbuf);
+	pixbuf_w = gdk_pixbuf_get_width (pixbuf);
+	pixbuf_h = gdk_pixbuf_get_height (pixbuf);
 	scale_keeping_ratio (&pixbuf_w, &pixbuf_h, (int) stage_w, (int) stage_h, TRUE);
 	pixbuf_x = (stage_w - pixbuf_w) / 2;
 	pixbuf_y = (stage_h - pixbuf_h) / 2;
 
-	gdk_pixbuf_composite (self->priv->current_pixbuf,
+	gdk_pixbuf_composite (pixbuf,
 			      image,
 			      pixbuf_x,
 			      pixbuf_y,
@@ -1118,8 +1123,8 @@ adapt_image_size_to_stage_size (GthSlideshow *self)
 			      pixbuf_h,
 			      pixbuf_x,
 			      pixbuf_y,
-			      (double) pixbuf_w / gdk_pixbuf_get_width (self->priv->current_pixbuf),
-			      (double) pixbuf_h / gdk_pixbuf_get_height (self->priv->current_pixbuf),
+			      (double) pixbuf_w / gdk_pixbuf_get_width (pixbuf),
+			      (double) pixbuf_h / gdk_pixbuf_get_height (pixbuf),
 			      GDK_INTERP_BILINEAR,
 			      255);
 
@@ -1136,6 +1141,7 @@ adapt_image_size_to_stage_size (GthSlideshow *self)
 	_gth_slideshow_reset_textures_position (self);
 
 	g_object_unref (image);
+	g_object_unref (pixbuf);
 }
 
 

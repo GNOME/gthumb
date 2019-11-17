@@ -67,7 +67,7 @@ typedef struct {
 	void (* hide_cursor)     (GthSlideshow *self);
 	void (* finalize)        (GthSlideshow *self);
 	void (* image_ready)     (GthSlideshow *self,
-			          GdkPixbuf    *pixbuf);
+			          GthImage     *image);
 	void (* load_prev_image) (GthSlideshow *self);
 	void (* load_next_image) (GthSlideshow *self);
 } GthProjector;
