@@ -173,7 +173,7 @@ gth_slideshow_activate_next_image (GSimpleAction *action,
 				   GVariant      *parameter,
 				   gpointer       user_data)
 {
-	gth_slideshow_load_next_image (GTH_SLIDESHOW (user_data));
+	gth_slideshow_next_image_or_resume (GTH_SLIDESHOW (user_data));
 }
 
 
