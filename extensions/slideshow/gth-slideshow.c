@@ -446,6 +446,49 @@ gth_slideshow_show_cb (GtkWidget    *widget,
 }
 
 
+static gboolean
+_gth_slideshow_key_press_cb (GthSlideshow *self,
+			     GdkEventKey  *event,
+			     gpointer      user_data)
+{
+	gboolean handled = TRUE;
+
+	switch (event->keyval) {
+	case GDK_KEY_F5:
+	case GDK_KEY_Escape:
+	case GDK_KEY_q:
+		_gth_slideshow_close (self);
+		break;
+
+	case GDK_KEY_p:
+		_gth_slideshow_toggle_pause (self);
+		break;
+
+	case GDK_KEY_space:
+	case GDK_KEY_Down:
+	case GDK_KEY_Right:
+	case GDK_KEY_Page_Down:
+		if (self->priv->paused)
+			_gth_slideshow_toggle_pause (self);
+		else
+			_gth_slideshow_load_next_image (self);
+		break;
+
+	case GDK_KEY_BackSpace:
+	case GDK_KEY_Up:
+	case GDK_KEY_Left:
+	case GDK_KEY_Page_Up:
+		_gth_slideshow_load_prev_image (self);
+		break;
+
+	default:
+		handled = FALSE;
+	}
+
+	return handled;
+}
+
+
 static void
 gth_slideshow_init (GthSlideshow *self)
 {
@@ -495,6 +538,11 @@ _gth_slideshow_construct (GthSlideshow *self,
 	self->priv->projector->construct (self);
 
 	g_signal_connect (self, "show", G_CALLBACK (gth_slideshow_show_cb), self);
+
+	g_signal_connect (self,
+			  "key-press-event",
+			  G_CALLBACK (_gth_slideshow_key_press_cb),
+			  NULL);
 }
 
 
@@ -647,41 +695,6 @@ viewer_event_cb (GtkWidget    *widget,
 			_gth_slideshow_load_prev_image (self);
 			break;
 		default:
-			break;
-		}
-	}
-	else if (event->type == GDK_KEY_PRESS) {
-		switch (((GdkEventKey *) event)->keyval) {
-		case GDK_KEY_F5:
-			_gth_slideshow_close (self);
-			break;
-		}
-	}
-	else if (event->type == GDK_KEY_RELEASE) {
-		switch (((GdkEventKey *) event)->keyval) {
-		case GDK_KEY_Escape:
-		case GDK_KEY_q:
-			_gth_slideshow_close (self);
-			break;
-		case GDK_KEY_p:
-			_gth_slideshow_toggle_pause (self);
-			break;
-
-		case GDK_KEY_space:
-		case GDK_KEY_Down:
-		case GDK_KEY_Right:
-		case GDK_KEY_Page_Down:
-			if (self->priv->paused)
-				_gth_slideshow_toggle_pause (self);
-			else
-				_gth_slideshow_load_next_image (self);
-			break;
-
-		case GDK_KEY_BackSpace:
-		case GDK_KEY_Up:
-		case GDK_KEY_Left:
-		case GDK_KEY_Page_Up:
-			_gth_slideshow_load_prev_image (self);
 			break;
 		}
 	}
@@ -1058,41 +1071,6 @@ stage_input_cb (ClutterStage *stage,
 			_gth_slideshow_load_prev_image (self);
 			break;
 		default:
-			break;
-		}
-	}
-	else if (event->type == CLUTTER_KEY_PRESS) {
-		switch (clutter_event_get_key_symbol (event)) {
-		case CLUTTER_KEY_F5:
-			_gth_slideshow_close (self);
-			break;
-		}
-	}
-	else if (event->type == CLUTTER_KEY_RELEASE) {
-		switch (clutter_event_get_key_symbol (event)) {
-		case CLUTTER_KEY_Escape:
-		case CLUTTER_KEY_q:
-			_gth_slideshow_close (self);
-			break;
-		case CLUTTER_KEY_p:
-			_gth_slideshow_toggle_pause (self);
-			break;
-
-		case CLUTTER_KEY_space:
-		case CLUTTER_KEY_Down:
-		case CLUTTER_KEY_Right:
-		case CLUTTER_KEY_Page_Down:
-			if (self->priv->paused)
-				_gth_slideshow_toggle_pause (self);
-			else
-				_gth_slideshow_load_next_image (self);
-			break;
-
-		case CLUTTER_KEY_BackSpace:
-		case CLUTTER_KEY_Up:
-		case CLUTTER_KEY_Left:
-		case CLUTTER_KEY_Page_Up:
-			_gth_slideshow_load_prev_image (self);
 			break;
 		}
 	}
