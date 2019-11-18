@@ -1,3 +1,35 @@
+version 3.8.2
+-------------
+
+ User visible changes:
+
+  * Use menus instead of popovers for menu buttons on the header bar,
+    to show icons and accelerators.
+  * Header bar: align menus to the right for menu buttons on the right side.
+  * Tools menu: show the accelerators.
+  * Search: show the matching files during the search operation.
+  * Rename dialog: activate on enter. (Ivan Ershov)
+
+ Bugs fixed:
+
+  * Fixed filesize test for big files.
+  * Overwrite dialog: do not show an error after cancelling the operation.
+  * Fixed crash when moving files to the trash.
+  * Install missing UI files. (Dan Horák)
+  * Added image/webp support in .desktop file. (Baltix Mantas) (!55)
+  * Fix callback signature for value-changed signal when setting zoom
+    (Dan Horák) (!54)
+  * Help: corrected wiki link. (Wylel) (!2)
+
+ New or updated application translations:
+
+  * Catalan (Jordi Mas)
+  * Italiano (Gianvito Cavasoli)
+
+ New or updated manual translations:
+
+  * Spanish - Spain (Daniel Mustieles)
+
 version 3.8.1
 -------------
 
