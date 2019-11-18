@@ -54,7 +54,8 @@ struct _GthVfsTreeClass {
 };
 
 GType        gth_vfs_tree_get_type		(void);
-GtkWidget *  gth_vfs_tree_new			(const char *root);
+GtkWidget *  gth_vfs_tree_new			(const char *root,
+						 const char *folder);
 void         gth_vfs_tree_set_folder		(GthVfsTree *vfs_tree,
 						 GFile      *folder);
 GFile *      gth_vfs_tree_get_folder		(GthVfsTree *vfs_tree);

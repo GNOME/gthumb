@@ -181,7 +181,7 @@ _gth_location_chooser_dialog_construct (GthLocationChooserDialog *self)
 	gtk_widget_set_size_request (scrolled_window, MIN_WIDTH, MIN_HEIGHT);
 	gtk_widget_show (scrolled_window);
 
-	self->priv->folder_tree = gth_vfs_tree_new (NULL);
+	self->priv->folder_tree = gth_vfs_tree_new (NULL, NULL);
 	g_signal_connect (self->priv->folder_tree,
 			  "changed",
 			  G_CALLBACK (folder_tree_changed_cb),
