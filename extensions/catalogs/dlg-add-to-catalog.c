@@ -24,6 +24,7 @@
 #include "dlg-add-to-catalog.h"
 #include "gth-catalog.h"
 #include "gth-file-source-catalogs.h"
+#include "preferences.h"
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
@@ -91,6 +92,7 @@ typedef struct {
 	GthFileData   *new_library;
 	gulong         file_selection_changed_event;
 	guint          update_selection_event;
+	GSettings     *settings;
 } DialogData;
 
 
@@ -112,6 +114,7 @@ destroy_cb (GtkWidget  *widget,
 	_g_object_unref (data->catalog_source);
 	_g_object_unref (data->new_catalog);
 	_g_object_unref (data->new_library);
+	_g_object_unref (data->settings);
 	g_object_unref (data->builder);
 	g_free (data);
 }
@@ -223,6 +226,7 @@ static void
 add_selection_to_catalog (DialogData *data,
 			  gboolean    close_after_adding)
 {
+	char  *last_catalog;
 	GList *items;
 	GList *file_list;
 
@@ -230,6 +234,10 @@ add_selection_to_catalog (DialogData *data,
 	data->add_data->catalog_file = get_selected_catalog (data);
 	if (data->add_data->catalog_file == NULL)
 		return;
+
+	last_catalog = g_file_get_uri (data->add_data->catalog_file);
+	g_settings_set_string (data->settings, PREF_CATALOGS_LAST_CATALOG, last_catalog);
+	g_free (last_catalog);
 
 	_g_object_list_unref (data->add_data->files);
 	data->add_data->files = NULL;
@@ -654,6 +662,7 @@ dlg_add_to_catalog (GthBrowser *browser)
 {
 	DialogData       *data;
 	GtkTreeSelection *selection;
+	char             *last_catalog;
 
 	if (gth_browser_get_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME)) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME)));
@@ -664,6 +673,7 @@ dlg_add_to_catalog (GthBrowser *browser)
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("add-to-catalog.ui", "catalogs");
 	data->dialog = _gtk_builder_get_widget (data->builder, "add_to_catalog_dialog");
+	data->settings = g_settings_new (GTHUMB_CATALOGS_SCHEMA);
 
 	gth_browser_set_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME, data->dialog);
 
@@ -672,12 +682,15 @@ dlg_add_to_catalog (GthBrowser *browser)
 	data->add_data->parent_window = data->add_data->dialog = data->dialog;
 	add_data_ref (data->add_data);
 
-	data->source_tree = gth_vfs_tree_new ("catalog:///");
+	last_catalog = g_settings_get_string (data->settings, PREF_CATALOGS_LAST_CATALOG);
+	data->source_tree = gth_vfs_tree_new ("catalog:///", last_catalog);
 	gtk_widget_show (data->source_tree);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("catalog_list_scrolled_window")), data->source_tree);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("catalogs_label")), data->source_tree);
 	update_sensitivity (data);
+
+	g_free (last_catalog);
 
 	/* Set the signals handlers. */
 

@@ -2,6 +2,7 @@ schemas_dir = join_paths(datadir, 'glib-2.0', 'schemas')
 
 gschema_files = files(
   'org.gnome.gthumb.gschema.xml',
+  'org.gnome.gthumb.catalogs.gschema.xml',
   'org.gnome.gthumb.change-date.gschema.xml',
   'org.gnome.gthumb.comments.gschema.xml',
   'org.gnome.gthumb.contact-sheet.gschema.xml',
