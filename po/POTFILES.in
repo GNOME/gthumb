@@ -4,6 +4,7 @@
 # update the content run the following command:
 # ./make-potfiles-in.py > POTFILES.in
 data/appdata/org.gnome.gThumb.appdata.xml.in
+data/gschemas/org.gnome.gthumb.catalogs.gschema.xml
 data/gschemas/org.gnome.gthumb.change-date.gschema.xml
 data/gschemas/org.gnome.gthumb.comments.gschema.xml
 data/gschemas/org.gnome.gthumb.contact-sheet.gschema.xml
@@ -118,6 +119,7 @@ extensions/catalogs/gth-file-source-catalogs.h
 extensions/catalogs/gth-organize-task.c
 extensions/catalogs/gth-organize-task.h
 extensions/catalogs/main.c
+extensions/catalogs/preferences.h
 extensions/change_date/actions.c
 extensions/change_date/actions.h
 extensions/change_date/callbacks.c
