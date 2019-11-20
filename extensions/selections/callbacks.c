@@ -65,8 +65,6 @@ static const GthShortcut shortcuts[] = {
 	{ "go-to-selection-1", N_("Show selection 1"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Primary>1" },
 	{ "go-to-selection-2", N_("Show selection 2"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Primary>2" },
 	{ "go-to-selection-3", N_("Show selection 3"), GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Primary>3" },
-
-	{ "go-to-container-from-selection", N_("Open the file folder"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_SELECTIONS, "<Alt>End" },
 };
 
 
