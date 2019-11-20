@@ -1,6 +1,6 @@
 project('gthumb', ['c', 'cpp'],
   license : 'GPL2+',
-  version : '3.8.2',
+  version : '3.9.0',
   meson_version : '>=0.43'
 )
 
