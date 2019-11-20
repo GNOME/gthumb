@@ -3774,6 +3774,7 @@ _gth_browser_construct_step2 (gpointer user_data)
 	_gth_browser_monitor_entry_points (browser);
 
 	gth_hook_invoke ("gth-browser-construct-idle-callback", browser);
+	gth_hook_invoke ("gth-browser-selection-changed", browser, 0);
 
 	if (data->file_to_select != NULL)
 		gth_browser_go_to (browser, data->location, data->file_to_select);
