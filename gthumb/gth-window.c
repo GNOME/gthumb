@@ -997,7 +997,7 @@ gth_window_can_change_shortcut (GthWindow         *window,
 		return TRUE;
 
 	shortcut = gth_shortcut_array_find (gth_window_get_shortcuts (window ),
-					    GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER,
+					    context,
 					    keycode,
 					    modifiers);
 
