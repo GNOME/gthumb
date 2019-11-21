@@ -3481,31 +3481,25 @@ static void
 _gth_grid_view_set_hadjustment (GthGridView   *self,
 				GtkAdjustment *adjustment)
 {
-	if (adjustment != NULL)
+	if (adjustment != NULL) {
 		g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
+		g_object_ref_sink (adjustment);
+	}
 	else
 		adjustment = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-	if ((self->priv->hadjustment != NULL) && (self->priv->hadjustment != adjustment)) {
+	if (self->priv->hadjustment != NULL) {
 		g_signal_handlers_disconnect_by_data (self->priv->hadjustment, self);
 		g_object_unref (self->priv->hadjustment);
-		self->priv->hadjustment = NULL;
 	}
 
-	if (self->priv->hadjustment != adjustment) {
-		self->priv->hadjustment = adjustment;
-		g_object_ref (self->priv->hadjustment);
-		g_object_ref_sink (self->priv->hadjustment);
+	self->priv->hadjustment = adjustment;
+	_gth_grid_view_configure_hadjustment (self);
 
-		_gth_grid_view_configure_hadjustment (self);
-
-		g_signal_connect (self->priv->hadjustment,
-				  "value-changed",
-				  G_CALLBACK (adjustment_value_changed),
-				  self);
-	}
-	else
-		_gth_grid_view_configure_hadjustment (self);
+	g_signal_connect (self->priv->hadjustment,
+			  "value-changed",
+			  G_CALLBACK (adjustment_value_changed),
+			  self);
 }
 
 
@@ -3513,31 +3507,25 @@ static void
 _gth_grid_view_set_vadjustment (GthGridView   *self,
 				GtkAdjustment *adjustment)
 {
-	if (adjustment != NULL)
+	if (adjustment != NULL) {
 		g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
+		g_object_ref_sink (adjustment);
+	}
 	else
 		adjustment = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-	if ((self->priv->vadjustment != NULL) && (self->priv->vadjustment != adjustment)) {
+	if (self->priv->vadjustment != NULL) {
 		g_signal_handlers_disconnect_by_data (self->priv->vadjustment, self);
 		g_object_unref (self->priv->vadjustment);
-		self->priv->vadjustment = NULL;
 	}
 
-	if (self->priv->vadjustment != adjustment) {
-		self->priv->vadjustment = adjustment;
-		g_object_ref (self->priv->vadjustment);
-		g_object_ref_sink (self->priv->vadjustment);
+	self->priv->vadjustment = adjustment;
+	_gth_grid_view_configure_vadjustment (self);
 
-		_gth_grid_view_configure_vadjustment (self);
-
-		g_signal_connect (self->priv->vadjustment,
-				  "value-changed",
-				  G_CALLBACK (adjustment_value_changed),
-				  self);
-	}
-	else
-		_gth_grid_view_configure_vadjustment (self);
+	g_signal_connect (self->priv->vadjustment,
+			  "value-changed",
+			  G_CALLBACK (adjustment_value_changed),
+			  self);
 }
 
 
