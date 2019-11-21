@@ -1342,49 +1342,52 @@ gth_main_get_default_color_manager (void)
 void
 gth_main_activate_extensions (void)
 {
-	const char *mandatory_extensions[] = {	"file_viewer", /* keep the file viewer before any other viewer (see comment in gth-browser:file_metadata_ready_cb). */
+	const char *mandatory_extensions[] = {
+		"file_viewer", /* keep the file viewer before any other viewer (see comment in gth-browser:file_metadata_ready_cb). */
 #ifdef HAVE_LIBJPEG
-						"jpeg_utils",  /* mandatory if jpeg support is activated at compile time */
+		"jpeg_utils",  /* mandatory if jpeg support is activated at compile time */
 #endif
-						"cairo_io",
-						"image_viewer",
-						"file_tools",
-						NULL };
-	const char *default_extensions[] = {	"23hq",
-						"bookmarks",
-						"burn_disc",
-						"catalogs",
-						"change_date",
-						"comments",
-						"contact_sheet",
-						"convert_format",
-						"desktop_background",
-						"edit_metadata",
-						"exiv2_tools",
-						"facebook",
-						"file_manager",
-						"find_duplicates",
-						"flicker",
-						"gstreamer_tools",
-						"gstreamer_utils",
-						"image_print",
-						"image_rotation",
-						"importer",
-						"jpeg_utils",
-						"list_tools",
-						"oauth",
-						"photo_importer",
-						"photobucket",
-						"picasaweb",
-						"raw_files",
-						"red_eye_removal",
-						"rename_series",
-						"resize_images",
-						"search",
-						"selections",
-						"slideshow",
-						"webalbums",
-						NULL };
+		"cairo_io",
+		"image_viewer",
+		"file_tools",
+		NULL
+	};
+	const char *default_extensions[] = {
+		"23hq",
+		"bookmarks",
+		"burn_disc",
+		"catalogs",
+		"change_date",
+		"comments",
+		"contact_sheet",
+		"convert_format",
+		"desktop_background",
+		"edit_metadata",
+		"exiv2_tools",
+		"facebook",
+		"file_manager",
+		"find_duplicates",
+		"flicker",
+		"gstreamer_tools",
+		"gstreamer_utils",
+		"image_print",
+		"image_rotation",
+		"importer",
+		"jpeg_utils",
+		"list_tools",
+		"oauth",
+		"photo_importer",
+		"picasaweb",
+		"raw_files",
+		"red_eye_removal",
+		"rename_series",
+		"resize_images",
+		"search",
+		"selections",
+		"slideshow",
+		"webalbums",
+		NULL
+	};
 	GSettings            *settings;
 	char                **user_actived_extensions;
 	char                **actived_extensions;
