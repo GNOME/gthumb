@@ -1,11 +1,9 @@
-This is the distribution of gThumb, an image viewer and browser utility
-for the GNOME environment.
+# gThumb
 
-Information about gthumb can be found at https://wiki.gnome.org/Apps/Gthumb.
+An image viewer and browser utility for the GNOME environment.
+More information can be found at https://wiki.gnome.org/Apps/Gthumb.
 
-
-What is gThumb
-==============
+## Features
 
  * gThumb is an image browser
 
@@ -54,57 +52,7 @@ What is gThumb
    + JPEG lossless transformations.
    + Find duplicated images.
 
-
-Licensing
-=========
-
-  This program is released under the terms of the GNU General Public
-  License (GNU GPL), either version 2 of the License, or (at your option) any 
-  later version.
-
-  You can find a copy of the license in the file COPYING.
-
-
-Compiling
-=========
-
-  In order to build this program you need a working GNOME environment
-  version 2 or greater, with the development tools installed properly.
-  The following is the detailed list of libraries you need:
-
-	* glib			version >= 2.36.0
-	* gtk			version >= 3.16
-	* gthread
-	* gmodule
-	* gio-unix
-
-  While not mandatory, these libraries greatly increase gThumb's
-  basic usefulness:
-
-	* exiv2			version >= 0.21
-	  (embedded metadata support)
-
-	* gstreamer		version >= 1.0.0
-	  (video support)
-
-	* libjpeg
-	* libtiff
-	  (jpeg and tiff writing support)
-
-
-  These libraries are optional:
-
-	* clutter		version >= 1.12.0
-	* clutter-gtk		version >= 1.0.0
-          (These libraries provide enhanced slideshow effects.)
-
-	* libraw
-          (This adds some support for RAW photos)
-
-
-
-Extensions
-==========
+## Extensions
 
   gThumb has a plug-in system for extensions. Some standard features
   are implemented as extensions and are supplied with the standard
@@ -112,9 +60,45 @@ Extensions
 
   See https://wiki.gnome.org/Apps/Gthumb/extensions for details.
 
+## Licensing
 
-Download
-========
+  This program is released under the terms of the GNU General Public
+  License (GNU GPL), either version 2 of the License, or (at your option) any
+  later version.
+
+  You can find a copy of the license in the file COPYING.
+
+## Compiling
+
+  In order to build this program you need GNOME 3, with the development tools installed properly.
+  The following is the detailed list of libraries you need:
+
+  * glib >= 2.38.0
+  * gtk  >= 3.16
+  * libpng
+  * zlib
+  * libjpeg
+  * gsettings-desktop-schemas
+
+  While not mandatory, the following libraries greatly increase gThumb's basic usefulness:
+
+  * exiv2: embedded metadata support;
+  * gstreamer, gstreamer-plugins-base, gstreamer-video: audio/video support;
+  * libtiff: tiff writing support.
+
+  Other optional libraries:
+
+  * libraw: some support for RAW photos;
+  * librsvg: display SVG images;
+  * libwebp: display and save WebP images;
+  * lcms2, colord: color profile support;
+  * champlain, champlain-gtk: view the place a photo was taken on a map;
+  * clutter, clutter-gtk: enhanced slideshow effects;
+  * libsoup, json-glib, webkit2gtk, libsecret: upload images to and download images from some web services such as facebook, flickr;
+  * brasero: write images and comments to CDs;
+  * bison, flex: web albums.
+
+## Download
 
   * Tar archives can be found here:
 
@@ -129,5 +113,5 @@ Download
         ninja -C build
         sudo ninja -C build install
 
-    More development information is available at
-    https://wiki.gnome.org/Apps/Gthumb/development
+   More development information is available at
+   https://wiki.gnome.org/Apps/Gthumb/development
