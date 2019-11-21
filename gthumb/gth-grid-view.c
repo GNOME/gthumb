@@ -58,6 +58,7 @@
 
 static void gth_grid_view_gth_file_selection_interface_init (GthFileSelectionInterface *iface);
 static void gth_grid_view_gth_file_view_interface_init (GthFileViewInterface *iface);
+static void gth_grid_view_gtk_scrollable_interface_init (GtkScrollableInterface *iface);
 
 
 enum {
@@ -219,7 +220,8 @@ G_DEFINE_TYPE_WITH_CODE (GthGridView,
 						gth_grid_view_gth_file_selection_interface_init)
 			 G_IMPLEMENT_INTERFACE (GTH_TYPE_FILE_VIEW,
 						gth_grid_view_gth_file_view_interface_init)
-			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
+			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE,
+					 	gth_grid_view_gtk_scrollable_interface_init))
 
 
 /* -- gth_grid_view_item -- */
@@ -2631,6 +2633,17 @@ gth_grid_view_get_drag_dest_pos (GthFileView *file_view,
 }
 
 
+/* -- GtkScrollable interface -- */
+
+
+static gboolean
+gth_grid_view_get_border (GtkScrollable *scrollable,
+			  GtkBorder     *border)
+{
+	return FALSE;
+}
+
+
 /* GtkWidget methods */
 
 
@@ -3641,7 +3654,7 @@ gth_grid_view_get_property (GObject    *object,
 		g_value_set_object (value, self->priv->hadjustment);
 		break;
 	case PROP_HSCROLL_POLICY:
-		/* FIXME */
+		g_value_set_enum (value, GTK_SCROLL_NATURAL);
 		break;
 	case PROP_MODEL:
 		g_value_set_object (value, self->priv->model);
@@ -3656,7 +3669,7 @@ gth_grid_view_get_property (GObject    *object,
 		g_value_set_object (value, self->priv->vadjustment);
 		break;
 	case PROP_VSCROLL_POLICY:
-		/* FIXME */
+		g_value_set_enum (value, GTK_SCROLL_NATURAL);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -3872,6 +3885,13 @@ gth_grid_view_gth_file_view_interface_init (GthFileViewInterface *iface)
 	iface->unset_drag_dest = gth_grid_view_unset_drag_dest;
 	iface->set_drag_dest_pos = gth_grid_view_set_drag_dest_pos;
 	iface->get_drag_dest_pos = gth_grid_view_get_drag_dest_pos;
+}
+
+
+static void
+gth_grid_view_gtk_scrollable_interface_init (GtkScrollableInterface *iface)
+{
+	iface->get_border = gth_grid_view_get_border;
 }
 
 
