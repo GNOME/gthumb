@@ -3,6 +3,8 @@
 An image viewer and browser utility for the GNOME environment.
 More information can be found at https://wiki.gnome.org/Apps/Gthumb.
 
+![Image](https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-viewer.png)
+
 ## Features
 
  * Image browser
