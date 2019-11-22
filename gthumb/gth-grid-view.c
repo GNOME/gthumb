@@ -3829,16 +3829,6 @@ gth_grid_view_class_init (GthGridViewClass *grid_view_class)
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Space, GDK_CONTROL_MASK,
 				      "toggle-cursor-item", 0);
 
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_a, GDK_CONTROL_MASK,
-				      "select-all", 0);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_slash, GDK_CONTROL_MASK,
-				      "select-all", 0);
-
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_A, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
-				      "unselect-all", 0);
-	gtk_binding_entry_add_signal (binding_set, GDK_KEY_backslash, GDK_CONTROL_MASK,
-				      "unselect-all", 0);
-
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Return, 0,
 				      "activate-cursor-item", 0);
 	gtk_binding_entry_add_signal (binding_set, GDK_KEY_ISO_Enter, 0,
