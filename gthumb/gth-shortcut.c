@@ -219,10 +219,18 @@ gth_shortcut_valid (guint           keycode,
 	case GDK_KEY_Tab:
 		return FALSE;
 
+	/* These shortcuts are valid for us but gtk_accelerator_valid
+	 * considers them not valid, hence the are added here
+	 * explicitly. */
+
 	case GDK_KEY_Left:
 	case GDK_KEY_Right:
 	case GDK_KEY_Up:
 	case GDK_KEY_Down:
+	case GDK_KEY_KP_Left:
+	case GDK_KEY_KP_Right:
+	case GDK_KEY_KP_Up:
+	case GDK_KEY_KP_Down:
 		return TRUE;
 
 	default:
