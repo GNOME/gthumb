@@ -707,21 +707,21 @@ gth_window_get_accel_group (GthWindow *window)
 
 static void
 _gth_window_add_shortcut (GthWindow   *window,
-			  GthShortcut *shorcut)
+			  GthShortcut *shortcut)
 {
-	g_ptr_array_add (window->priv->shortcuts_v, shorcut);
+	g_ptr_array_add (window->priv->shortcuts_v, shortcut);
 	g_hash_table_insert (window->priv->shortcuts,
-			     g_strdup (shorcut->detailed_action),
-			     shorcut);
+			     g_strdup (shortcut->detailed_action),
+			     shortcut);
 }
 
 
 static void
 _gth_window_remove_shortcut (GthWindow   *window,
-			     GthShortcut *shorcut)
+			     GthShortcut *shortcut)
 {
-	g_hash_table_remove (window->priv->shortcuts, shorcut->detailed_action);
-	g_ptr_array_remove (window->priv->shortcuts_v, shorcut);
+	g_hash_table_remove (window->priv->shortcuts, shortcut->detailed_action);
+	g_ptr_array_remove (window->priv->shortcuts_v, shortcut);
 }
 
 
