@@ -30,7 +30,7 @@
 
 static const GthShortcut shortcuts[] = {
 	{ "video-screenshot", N_("Screenshot"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Alt>s" },
-	{ "toggle-play", N_("Play/Pause"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "p" },
+	{ "toggle-play", N_("Play/Pause"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "space" },
 };
 
 

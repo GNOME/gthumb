@@ -93,7 +93,7 @@ static const GthShortcut gth_browser_shortcuts[] = {
 	{ "help", N_("Help"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_GENERAL, "F1" },
 	{ "quit", N_("Quit"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>q" },
 
-	{ "browser-mode", N_("Show browser"), GTH_SHORTCUT_CONTEXT_INTERNAL | GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "Escape" },
+	{ "browser-mode", N_("Show browser"), GTH_SHORTCUT_CONTEXT_VIEWER | GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_GENERAL, "Escape" },
 	{ "close", N_("Close window"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>w" },
 
 	{ "open-location", N_("Open location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Primary>o" },
@@ -111,8 +111,8 @@ static const GthShortcut gth_browser_shortcuts[] = {
 	{ "show-hidden-files", N_("Show/Hide hidden files"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "h" },
 	{ "sort-by", N_("Change sorting order"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "s" },
 
-	{ "show-previous-image", N_("Show previous file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "BackSpace" },
-	{ "show-next-image", N_("Show next file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "space" },
+	{ "show-previous-image", N_("Show previous file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "Page_Up" },
+	{ "show-next-image", N_("Show next file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "Page_Down" },
 	{ "show-first-image", N_("Show first file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "Home" },
 	{ "show-last-image", N_("Show last file"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_VIEWER, "End" },
 
