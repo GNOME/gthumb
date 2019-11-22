@@ -133,10 +133,14 @@ gth_shortcut_array_find (GPtrArray       *shortcuts_v,
 	if (keycode == 0)
 		return NULL;
 
+	/* Remove flags not related to the window mode. */
+	context = context & GTH_SHORTCUT_CONTEXT_ANY;
+	keycode = gdk_keyval_to_lower (keycode);
+
 	for (i = 0; i < shortcuts_v->len; i++) {
 		GthShortcut *shortcut = g_ptr_array_index (shortcuts_v, i);
 
-		if (((shortcut->context & context) == context)
+		if (((shortcut->context & context) != 0)
 			&& (shortcut->keyval == keycode)
 			&& (shortcut->modifiers == modifiers))
 		{
@@ -158,10 +162,13 @@ gth_shortcut_array_find_by_accel (GPtrArray  *shortcuts_v,
 	if (accelerator == NULL)
 		return NULL;
 
+	/* Remove flags not related to the window mode. */
+	context = context & GTH_SHORTCUT_CONTEXT_ANY;
+
 	for (i = 0; i < shortcuts_v->len; i++) {
 		GthShortcut *shortcut = g_ptr_array_index (shortcuts_v, i);
 
-		if (((shortcut->context & context) == context)
+		if (((shortcut->context & context) != 0)
 			&& (g_strcmp0 (shortcut->accelerator, accelerator) == 0))
 		{
 			return shortcut;
