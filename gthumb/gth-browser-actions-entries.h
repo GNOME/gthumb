@@ -118,6 +118,9 @@ static const GthShortcut gth_browser_shortcuts[] = {
 
 	{ "toggle-edit-file", N_("Image tools"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "e" },
 	{ "toggle-file-properties", N_("File properties"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "i" },
+
+	{ "file-list-select-all", N_("Select all"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Primary>a" },
+	{ "file-list-unselect-all", N_("Select none"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Primary><Shift>a" },
 };
 
 
