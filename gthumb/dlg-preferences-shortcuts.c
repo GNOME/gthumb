@@ -455,6 +455,7 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 					 GtkBuilder *dialog_builder)
 {
 	BrowserData *data;
+	GHashTable  *visible_categories;
 	GtkWidget   *shortcuts_list;
 	GPtrArray   *shortcuts_v;
 	const char  *last_category;
@@ -474,6 +475,7 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	/* shortcut list */
 
+	visible_categories = g_hash_table_new (g_str_hash, g_str_equal);
 	shortcuts_list = _gtk_builder_get_widget (data->builder, "shortcuts_list");
 	shortcuts_v = gth_window_get_shortcuts_by_category (GTH_WINDOW (browser));
 	last_category = NULL;
@@ -487,12 +489,16 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_INTERNAL) != 0)
 			continue;
 
+		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_DOC) != 0)
+			continue;
+
 		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_FIXED) != 0)
 			continue;
 
 		if (g_strcmp0 (shortcut->category,last_category) != 0) {
 			last_category = shortcut->category;
 			n_category++;
+			g_hash_table_add (visible_categories, shortcut->category);
 			gtk_list_box_insert (GTK_LIST_BOX (shortcuts_list),
 					     _new_shortcut_category_row (shortcut->category, n_category),
 					     -1);
@@ -544,7 +550,7 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 		for (i = 0; i < category_v->len; i++) {
 			GthShortcutCategory *category = g_ptr_array_index (category_v, i);
 
-			if (g_strcmp0 (category->id, GTH_SHORTCUT_CATEGORY_HIDDEN) == 0)
+			if (! g_hash_table_contains (visible_categories, category->id))
 				continue;
 
 			gtk_list_store_append (list_store, &iter);
@@ -562,6 +568,8 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 		g_ptr_array_unref (category_v);
 	}
+
+	g_hash_table_unref (visible_categories);
 
 	/* add the page to the preferences dialog */
 
