@@ -1042,9 +1042,14 @@ gth_window_can_change_shortcut (GthWindow         *window,
 		GtkWidget *dialog;
 
 		label = gtk_accelerator_get_label (keycode, modifiers);
-		msg = g_strdup_printf (_("The key combination «%s» is already assigned to the action «%s»."),
-				       label,
-				       shortcut->description);
+		if (shortcut->description != NULL)
+			msg = g_strdup_printf (_("The key combination «%s» is already assigned to the action «%s» and cannot be changed."),
+					       label,
+					       shortcut->description);
+		else
+			msg = g_strdup_printf (_("The key combination «%s» is already assigned and cannot be changed."),
+					       label);
+
 		dialog = _gtk_message_dialog_new (parent,
 						  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 						  _GTK_ICON_NAME_DIALOG_ERROR,
