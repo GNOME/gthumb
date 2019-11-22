@@ -28,7 +28,7 @@
 
 
 static GthShortcutCategory shortcut_categories[] = {
-	{ GTH_SHORTCUT_CATEGORY_LIST_TOOLS, N_("Tools"), 12 },
+	{ GTH_SHORTCUT_CATEGORY_LIST_TOOLS, N_("Tools"), 15 },
 };
 
 

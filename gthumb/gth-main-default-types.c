@@ -35,9 +35,9 @@
 
 static GthShortcutCategory shortcut_categories[] = {
 	{ GTH_SHORTCUT_CATEGORY_HIDDEN, NULL, 0 },
-	{ GTH_SHORTCUT_CATEGORY_GENERAL, N_("General"), 30 },
-	{ GTH_SHORTCUT_CATEGORY_UI, N_("Show/Hide"), 31 },
-	{ GTH_SHORTCUT_CATEGORY_NAVIGATION, N_("Navigation"), 15 },
+	{ GTH_SHORTCUT_CATEGORY_GENERAL, N_("General"), 31 },
+	{ GTH_SHORTCUT_CATEGORY_UI, N_("Show/Hide"), 30 },
+	{ GTH_SHORTCUT_CATEGORY_NAVIGATION, N_("Navigation"), 12 },
 	{ GTH_SHORTCUT_CATEGORY_FILE_MANAGER, N_("File Manager"), 10 },
 	{ GTH_SHORTCUT_CATEGORY_VIEWER, N_("Viewer"), 20 },
 };
