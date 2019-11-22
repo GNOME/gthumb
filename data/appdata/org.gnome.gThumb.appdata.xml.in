@@ -43,10 +43,10 @@
   <url type="homepage">https://wiki.gnome.org/Apps/Gthumb</url>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://git.gnome.org/browse/gthumb/plain/data/appdata/ss-browser.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-browser.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://git.gnome.org/browse/gthumb/plain/data/appdata/ss-viewer.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-viewer.png</image>
     </screenshot>
   </screenshots>
 
