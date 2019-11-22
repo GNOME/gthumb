@@ -5,7 +5,7 @@ More information can be found at https://wiki.gnome.org/Apps/Gthumb.
 
 ## Features
 
- * gThumb is an image browser
+ * Image browser
 
    + Browse your hard disk showing you thumbnails of image files.
    + Thumbnails are saved in the same database used by Nautilus so you
@@ -14,7 +14,7 @@ More information can be found at https://wiki.gnome.org/Apps/Gthumb.
    + Copy, move, delete images and folders.
    + Bookmarks of folders and catalogs.
 
- * gThumb is an image viewer
+ * Image viewer
 
    + View single images (including GIF animations).  Supported image
      types are: BMP, JPEG, GIF, PNG, TIFF, TGA, ICO, XPM.
@@ -23,7 +23,7 @@ More information can be found at https://wiki.gnome.org/Apps/Gthumb.
    + View in fullscreen mode.
    + View images rotated, flipped, mirrored.
 
- * gThumb is an image organizer
+ * Image organizer
 
    + Add comments to images.
    + Organize images in catalogs, catalogs in libraries.
@@ -32,7 +32,7 @@ More information can be found at https://wiki.gnome.org/Apps/Gthumb.
      Search criteria remain attached to the catalog so you can update it
      when you want.
 
- * gThumb is an image editor
+ * Image editor
 
    + Change image hue, saturation, lightness, contrast and adjust colors.
    + Scale and rotate images.
@@ -40,7 +40,7 @@ More information can be found at https://wiki.gnome.org/Apps/Gthumb.
    + Crop images.
    + Red-eye removal tool.
 
- * gThumb is an advanced tool
+ * Advanced tools
 
    + Import images from a digital camera.
    + Slide Shows.
@@ -63,18 +63,16 @@ More information can be found at https://wiki.gnome.org/Apps/Gthumb.
 ## Licensing
 
   This program is released under the terms of the GNU General Public
-  License (GNU GPL), either version 2 of the License, or (at your option) any
-  later version.
+  License (GNU GPL), either version 2, or (at your option) any later version.
 
   You can find a copy of the license in the file COPYING.
 
-## Compiling
+## Dependencies
 
-  In order to build this program you need GNOME 3, with the development tools installed properly.
-  The following is the detailed list of libraries you need:
+  Mandatory libraries:
 
   * glib >= 2.38.0
-  * gtk  >= 3.16
+  * gtk >= 3.16
   * libpng
   * zlib
   * libjpeg
@@ -82,36 +80,39 @@ More information can be found at https://wiki.gnome.org/Apps/Gthumb.
 
   While not mandatory, the following libraries greatly increase gThumb's basic usefulness:
 
-  * exiv2: embedded metadata support;
-  * gstreamer, gstreamer-plugins-base, gstreamer-video: audio/video support;
-  * libtiff: tiff writing support.
+  * exiv2 - embedded metadata support
+  * gstreamer, gstreamer-plugins-base, gstreamer-video - audio/video support
+  * libtiff - tiff writing support
 
   Other optional libraries:
 
-  * libraw: some support for RAW photos;
-  * librsvg: display SVG images;
-  * libwebp: display and save WebP images;
-  * lcms2, colord: color profile support;
-  * champlain, champlain-gtk: view the place a photo was taken on a map;
-  * clutter, clutter-gtk: enhanced slideshow effects;
-  * libsoup, json-glib, webkit2gtk, libsecret: upload images to and download images from some web services such as facebook, flickr;
-  * brasero: write images and comments to CDs;
-  * bison, flex: web albums.
+  * libraw - some support for RAW photos
+  * librsvg - display SVG images
+  * libwebp - display and save WebP images
+  * lcms2, colord - color profile support
+  * champlain, champlain-gtk - view the place a photo was taken on a map
+  * clutter, clutter-gtk - enhanced slideshow effects
+  * libsoup, json-glib, webkit2gtk, libsecret - upload images to and
+    download images from some web services such as Facebook, Flickr
+  * brasero - write images and comments to CDs
+  * bison, flex - web albums
 
 ## Download
 
-  * Tar archives can be found here:
+  Tar archives:
 
     http://ftp.gnome.org/pub/GNOME/sources/gthumb
 
-  * You can download and compile the latest development version using the
-    following commands:
+  Git repository:
 
-        git clone https://gitlab.gnome.org/GNOME/gthumb.git
-        cd gthumb
-        meson build
-        ninja -C build
-        sudo ninja -C build install
+    git clone https://gitlab.gnome.org/GNOME/gthumb.git
+
+## Installation
+
+    cd gthumb
+    meson build
+    ninja -C build
+    sudo ninja -C build install
 
    More development information is available at
-   https://wiki.gnome.org/Apps/Gthumb/development
+   https://wiki.gnome.org/Apps/Gthumb/development.
