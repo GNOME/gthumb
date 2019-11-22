@@ -77,6 +77,9 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "show-next-image", gth_browser_activate_show_next_image },
 
 	{ "apply-editor-changes", gth_browser_activate_apply_editor_changes },
+
+	{ "file-list-select-all", gth_browser_activate_select_all },
+	{ "file-list-unselect-all", gth_browser_activate_unselect_all },
 };
 
 

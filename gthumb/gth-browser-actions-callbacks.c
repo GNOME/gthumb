@@ -579,3 +579,29 @@ gth_browser_activate_apply_editor_changes (GSimpleAction *action,
 	GthBrowser *browser = GTH_BROWSER (user_data);
 	gth_browser_apply_editor_changes (browser);
 }
+
+
+void
+gth_browser_activate_select_all (GSimpleAction *action,
+				 GVariant      *state,
+				 gpointer       user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	GtkWidget  *file_view;
+
+	file_view = gth_browser_get_file_list_view (browser);
+	gth_file_selection_select_all (GTH_FILE_SELECTION (file_view));
+}
+
+
+void
+gth_browser_activate_unselect_all (GSimpleAction *action,
+				   GVariant      *state,
+				   gpointer       user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	GtkWidget  *file_view;
+
+	file_view = gth_browser_get_file_list_view (browser);
+	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_view));
+}
