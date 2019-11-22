@@ -39,13 +39,13 @@
 
 
 static const GActionEntry actions[] = {
-	{ "file-tool-adjust-contrast", gth_browser_activate_file_tool, "s", "'adjust-contrast'" },
-	{ "file-tool-flip", gth_browser_activate_file_tool, "s", "'flip'" },
-	{ "file-tool-mirror", gth_browser_activate_file_tool, "s", "'mirror'" },
-	{ "file-tool-rotate-right", gth_browser_activate_file_tool, "s", "'rotate-right'" },
-	{ "file-tool-rotate-left", gth_browser_activate_file_tool, "s", "'rotate-left'" },
-	{ "file-tool-crop", gth_browser_activate_file_tool, "s", "'crop'" },
-	{ "file-tool-resize", gth_browser_activate_file_tool, "s", "'resize'" },
+	{ "file-tool-adjust-contrast", gth_browser_activate_tool_adjust_contrast },
+	{ "file-tool-flip", gth_browser_activate_tool_flip },
+	{ "file-tool-mirror", gth_browser_activate_tool_mirror },
+	{ "file-tool-rotate-right", gth_browser_activate_tool_rotate_right },
+	{ "file-tool-rotate-left", gth_browser_activate_tool_rotate_left },
+	{ "file-tool-crop", gth_browser_activate_tool_crop },
+	{ "file-tool-resize", gth_browser_activate_tool_resize },
 };
 
 

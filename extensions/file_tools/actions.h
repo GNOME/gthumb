@@ -24,6 +24,12 @@
 
 #include <gthumb.h>
 
-DEF_ACTION_CALLBACK (gth_browser_activate_file_tool)
+DEF_ACTION_CALLBACK (gth_browser_activate_tool_adjust_contrast)
+DEF_ACTION_CALLBACK (gth_browser_activate_tool_flip)
+DEF_ACTION_CALLBACK (gth_browser_activate_tool_mirror)
+DEF_ACTION_CALLBACK (gth_browser_activate_tool_rotate_right)
+DEF_ACTION_CALLBACK (gth_browser_activate_tool_rotate_left)
+DEF_ACTION_CALLBACK (gth_browser_activate_tool_crop)
+DEF_ACTION_CALLBACK (gth_browser_activate_tool_resize)
 
 #endif /* ACTIONS_H */
