@@ -80,7 +80,7 @@ gth_shortcuts_window_new (GthWindow *app_window)
 			if ((shortcut_info->context & context->id) == 0)
 				continue;
 
-			if (shortcut_info->keyval == 0)
+			if ((shortcut_info->keyval == 0) && ((shortcut_info->context & GTH_SHORTCUT_CONTEXT_DOC) == 0))
 				continue;
 
 			if (g_strcmp0 (shortcut_info->category, last_category) != 0) {

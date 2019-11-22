@@ -93,9 +93,19 @@ gth_shortcut_set_accelerator (GthShortcut *shortcut,
 
 	keyval = 0;
 	modifiers = 0;
-	if (accelerator != NULL)
-		gtk_accelerator_parse (accelerator, &keyval, &modifiers);
-	gth_shortcut_set_key (shortcut, keyval, modifiers);
+
+	if ((shortcut->context & GTH_SHORTCUT_CONTEXT_DOC) == 0) {
+		if (accelerator != NULL)
+			gtk_accelerator_parse (accelerator, &keyval, &modifiers);
+		gth_shortcut_set_key (shortcut, keyval, modifiers);
+	}
+	else {
+		shortcut->keyval = keyval;
+		shortcut->modifiers = modifiers;
+		shortcut->accelerator = g_strdup (accelerator);
+		shortcut->label = g_strdup (accelerator);
+	}
+
 }
 
 
@@ -118,7 +128,8 @@ gboolean
 gth_shortcut_customizable (GthShortcut *shortcut)
 {
 	return ((shortcut->context & GTH_SHORTCUT_CONTEXT_FIXED) == 0)
-		&& ((shortcut->context & GTH_SHORTCUT_CONTEXT_INTERNAL) == 0);
+		&& ((shortcut->context & GTH_SHORTCUT_CONTEXT_INTERNAL) == 0)
+		&& ((shortcut->context & GTH_SHORTCUT_CONTEXT_DOC) == 0);
 }
 
 
@@ -243,6 +254,9 @@ gth_shortcuts_write_to_file (GPtrArray  *shortcuts_v,
 			continue;
 
 		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_FIXED) != 0)
+			continue;
+
+		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_DOC) != 0)
 			continue;
 
 		dom_element_append_child (shortcuts,

@@ -155,6 +155,9 @@ typedef enum /*< skip >*/ {
 	/* Shortcut available in slideshows. */
 	GTH_SHORTCUT_CONTEXT_SLIDESHOW = 1 << 5,
 
+	/* Entry used for documentation only. */
+	GTH_SHORTCUT_CONTEXT_DOC = 1 << 6,
+
 	/* Aggregated values: */
 
 	GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER = (GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_VIEWER),

@@ -898,6 +898,9 @@ gth_window_activate_shortcut (GthWindow       *window,
 		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_INTERNAL) != 0)
 			return FALSE;
 
+		if ((shortcut->context & GTH_SHORTCUT_CONTEXT_DOC) != 0)
+			return FALSE;
+
 		action = g_action_map_lookup_action (G_ACTION_MAP (window), shortcut->action_name);
 		if (action != NULL) {
 			g_action_activate (action, shortcut->action_parameter);
