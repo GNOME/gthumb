@@ -1910,13 +1910,22 @@ static void
 gth_image_viewer_page_real_revert (GthViewerPage *base)
 {
 	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (base);
-	GthImageData       *idata;
+	GthImageData       *last_saved;
 
-	idata = gth_image_history_revert (self->priv->history);
-	if (idata != NULL) {
-		_gth_image_viewer_page_set_image (self, idata->image, idata->requested_size, idata->unsaved);
-		gth_image_data_unref (idata);
-	}
+	last_saved = gth_image_history_revert (self->priv->history);
+	if (last_saved == NULL)
+		return;
+
+	gth_image_history_add_image (self->priv->history,
+				     last_saved->image,
+				     last_saved->requested_size,
+				     last_saved->unsaved);
+	_gth_image_viewer_page_set_image (self,
+					  last_saved->image,
+					  last_saved->requested_size,
+					  last_saved->unsaved);
+
+	gth_image_data_unref (last_saved);
 }
 
 
