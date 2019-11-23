@@ -334,7 +334,8 @@ test('dom',
   executable('test-dom',
     sources : [ 'test-dom.c', 'dom.c'],
     dependencies : common_deps,
-    include_directories : config_inc
+    include_directories : config_inc,
+    c_args : c_args,
   )
 )
 
@@ -342,7 +343,8 @@ test('glib-utils',
   executable('test-glib-utils',
     sources : [ 'test-glib-utils.c', 'glib-utils.c' ],
     dependencies : common_deps,
-    include_directories : config_inc
+    include_directories : config_inc,
+    c_args : c_args,
   )
 )
 
@@ -350,14 +352,16 @@ test('gsignature',
   executable('test-gsignature',
     sources : [ 'test-gsignature.c', 'gsignature.c'],
     dependencies : common_deps,
-    include_directories : config_inc
+    include_directories : config_inc,
+    c_args : c_args,
   )
 )
 
 test('oauth',
   executable('test-oauth',
     sources : [ 'test-oauth.c', 'gsignature.c'],
-    dependencies : common_deps   ,
-    include_directories : config_inc
+    dependencies : common_deps,
+    include_directories : config_inc,
+    c_args : c_args,
   )
 )
