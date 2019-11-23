@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.19.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <object class="GtkBox" id="browser_page">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
-    <property name="spacing">12</property>
+    <property name="spacing">20</property>
     <child>
       <object class="GtkBox" id="box2">
         <property name="visible">True</property>
@@ -31,19 +31,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkAlignment" id="alignment4">
+          <object class="GtkScrolledWindow" id="caption_scrolledwindow">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="left_padding">12</property>
+            <property name="can_focus">True</property>
+            <property name="margin_left">12</property>
+            <property name="shadow_type">in</property>
             <child>
-              <object class="GtkScrolledWindow" id="caption_scrolledwindow">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="shadow_type">in</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -96,7 +90,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
-                <property name="xalign">0</property>
                 <property name="active">True</property>
                 <property name="draw_indicator">True</property>
               </object>
@@ -113,7 +106,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
-                <property name="xalign">0</property>
                 <property name="active">True</property>
                 <property name="draw_indicator">True</property>
                 <property name="group">single_click_radiobutton</property>
@@ -131,7 +123,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_underline">True</property>
-                <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
               </object>
               <packing>
@@ -178,68 +169,24 @@
           </packing>
         </child>
         <child>
-          <object class="GtkAlignment" id="alignment5">
+          <object class="GtkBox" id="box1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="left_padding">12</property>
+            <property name="margin_left">12</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
             <child>
-              <object class="GtkBox" id="box1">
+              <object class="GtkBox" id="box7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkBox" id="box7">
+                  <object class="GtkLabel" id="label9">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">6</property>
-                    <child>
-                      <object class="GtkLabel" id="label9">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Thumbnail _size:</property>
-                        <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">thumbnail_size_combobox</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="thumbnail_size_box">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkComboBoxText" id="thumbnail_size_combobox">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <items>
-                              <item translatable="yes">48</item>
-                              <item translatable="yes">64</item>
-                              <item translatable="yes">85</item>
-                              <item translatable="yes">95</item>
-                              <item translatable="yes">112</item>
-                              <item translatable="yes">128</item>
-                              <item translatable="yes">164</item>
-                              <item translatable="yes">200</item>
-                              <item translatable="yes">256</item>
-                            </items>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
+                    <property name="label" translatable="yes">Thumbnail _size:</property>
+                    <property name="use_underline">True</property>
+                    <property name="mnemonic_widget">thumbnail_size_combobox</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -248,15 +195,31 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="slow_mime_type_checkbutton">
-                    <property name="label" translatable="yes">D_etermine image type from content (slower)</property>
-                    <property name="use_action_appearance">False</property>
+                  <object class="GtkBox" id="thumbnail_size_box">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="xalign">0</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkComboBoxText" id="thumbnail_size_combobox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <items>
+                          <item translatable="yes">48</item>
+                          <item translatable="yes">64</item>
+                          <item translatable="yes">85</item>
+                          <item translatable="yes">95</item>
+                          <item translatable="yes">112</item>
+                          <item translatable="yes">128</item>
+                          <item translatable="yes">164</item>
+                          <item translatable="yes">200</item>
+                          <item translatable="yes">256</item>
+                        </items>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -265,6 +228,26 @@
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="slow_mime_type_checkbutton">
+                <property name="label" translatable="yes">D_etermine image type from content (slower)</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>

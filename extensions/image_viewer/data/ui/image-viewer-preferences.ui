@@ -6,7 +6,7 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
-    <property name="spacing">12</property>
+    <property name="spacing">20</property>
     <child>
       <object class="GtkBox" id="box3">
         <property name="visible">True</property>
@@ -31,39 +31,28 @@
           </packing>
         </child>
         <child>
-          <object class="GtkAlignment" id="alignment1">
+          <object class="GtkBox" id="box1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="left_padding">12</property>
+            <property name="margin_left">12</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
             <child>
-              <object class="GtkBox" id="box1">
+              <object class="GtkBox" id="box2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">6</property>
                 <child>
-                  <object class="GtkBox" id="box2">
+                  <object class="GtkComboBoxText" id="change_zoom_combobox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkComboBoxText" id="change_zoom_combobox">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <items>
-                          <item translatable="yes">Set to actual size</item>
-                          <item translatable="yes">Keep previous zoom</item>
-                          <item translatable="yes">Fit to window</item>
-                          <item translatable="yes">Fit to window if larger</item>
-                          <item translatable="yes">Fit to width</item>
-                          <item translatable="yes">Fit to width if larger</item>
-                        </items>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
+                    <items>
+                      <item translatable="yes">Set to actual size</item>
+                      <item translatable="yes">Keep previous zoom</item>
+                      <item translatable="yes">Fit to window</item>
+                      <item translatable="yes">Fit to window if larger</item>
+                      <item translatable="yes">Fit to width</item>
+                      <item translatable="yes">Fit to width if larger</item>
+                    </items>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -71,22 +60,27 @@
                     <property name="position">0</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkCheckButton" id="toggle_reset_scrollbars">
-                    <property name="label" translatable="yes">Reset scrollbar positions</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="halign">start</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="toggle_reset_scrollbars">
+                <property name="label" translatable="yes">Reset scrollbar positions</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="halign">start</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -204,52 +198,46 @@
           </packing>
         </child>
         <child>
-          <object class="GtkAlignment" id="alignment2">
+          <object class="GtkBox" id="box6">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="left_padding">12</property>
+            <property name="margin_left">12</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
             <child>
-              <object class="GtkBox" id="box6">
+              <object class="GtkRadioButton" id="zoom_quality_high_radiobutton">
+                <property name="label" translatable="yes" context="zoom quality">_High</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">6</property>
-                <child>
-                  <object class="GtkRadioButton" id="zoom_quality_high_radiobutton">
-                    <property name="label" translatable="yes" context="zoom quality">_High</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="halign">start</property>
-                    <property name="use_underline">True</property>
-                    <property name="active">True</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkRadioButton" id="zoom_quality_low_radiobutton">
-                    <property name="label" translatable="yes" context="zoom quality">_Low</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="halign">start</property>
-                    <property name="use_underline">True</property>
-                    <property name="active">True</property>
-                    <property name="draw_indicator">True</property>
-                    <property name="group">zoom_quality_high_radiobutton</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="halign">start</property>
+                <property name="use_underline">True</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="zoom_quality_low_radiobutton">
+                <property name="label" translatable="yes" context="zoom quality">_Low</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="halign">start</property>
+                <property name="use_underline">True</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">zoom_quality_high_radiobutton</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -289,37 +277,26 @@
           </packing>
         </child>
         <child>
-          <object class="GtkAlignment" id="alignment3">
+          <object class="GtkBox" id="box7">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="left_padding">12</property>
+            <property name="margin_left">12</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
             <child>
-              <object class="GtkBox" id="box7">
+              <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">6</property>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkComboBoxText" id="transparency_style_combobox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkComboBoxText" id="transparency_style_combobox">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <items>
-                          <item translatable="yes">Checkered</item>
-                          <item translatable="yes">White</item>
-                          <item translatable="yes">Gray</item>
-                          <item translatable="yes">Black</item>
-                        </items>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
+                    <items>
+                      <item translatable="yes">Checkered</item>
+                      <item translatable="yes">White</item>
+                      <item translatable="yes">Gray</item>
+                      <item translatable="yes">Black</item>
+                    </items>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -328,6 +305,11 @@
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
             </child>
           </object>
           <packing>
