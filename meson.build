@@ -29,6 +29,7 @@ gnome = import('gnome')
 i18n = import('i18n')
 gettext_package = meson.project_name()
 c_comp = meson.get_compiler('c')
+cpp_comp = meson.get_compiler('cpp')
 prefix = get_option('prefix')
 datadir = join_paths(prefix, get_option('datadir'))
 pkgdatadir = join_paths(datadir, meson.project_name())
@@ -299,12 +300,13 @@ endif
 config_file = configure_file(output : 'config.h', configuration : config_data)
 config_inc = include_directories('.')
 
-# C args
+# C/C++ args
 
 c_args = []
+cpp_args = []
 if get_option('buildtype').contains('debug')
   warn_deprecated = get_option('warn-deprecated')
-  test_args = [
+  test_c_args = [
     '-Wall',
     '-Wcast-align',
     '-Wtype-limits',
@@ -317,14 +319,27 @@ if get_option('buildtype').contains('debug')
     '-Wno-sign-compare',
     '-Wformat-security'
   ]
+  test_cpp_args = [
+    '-Wall',
+    '-Wcast-align',
+    '-Wtype-limits',
+    '-Wclobbered',
+    '-Wempty-body',
+    '-Wignored-qualifiers',
+    '-Wpointer-arith',
+    '-Wno-sign-compare',
+    '-Wformat-security'
+  ]
 else
   warn_deprecated = false
-  test_args = [ '-Wall' ]
+  test_c_args = [ '-Wall' ]
 endif
 if not(warn_deprecated)
-  test_args += [ '-Wno-deprecated-declarations' ]
+  test_c_args += [ '-Wno-deprecated-declarations' ]
+  test_cpp_args += [ '-Wno-deprecated-declarations' ]
 endif
-c_args += c_comp.get_supported_arguments(test_args)
+c_args += c_comp.get_supported_arguments(test_c_args)
+cpp_args += cpp_comp.get_supported_arguments(test_cpp_args)
 
 # Subdirectories
 
