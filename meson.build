@@ -333,6 +333,7 @@ if get_option('buildtype').contains('debug')
 else
   warn_deprecated = false
   test_c_args = [ '-Wall' ]
+  test_cpp_args = [ '-Wall' ]
 endif
 if not(warn_deprecated)
   test_c_args += [ '-Wno-deprecated-declarations' ]
