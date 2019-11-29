@@ -39,6 +39,7 @@
 #include "gth-file-list.h"
 #include "gth-file-view.h"
 #include "gth-file-selection.h"
+#include "gth-file-source-vfs.h"
 #include "gth-file-tool.h"
 #include "gth-filter.h"
 #include "gth-filterbar.h"
@@ -6939,31 +6940,55 @@ _g_menu_item_new_for_file (GFile      *file,
 			   const char *custom_label)
 {
 	GMenuItem     *item;
+	gboolean       updated;
 	GthFileSource *file_source;
-	GFileInfo     *info;
 
 	item = g_menu_item_new (NULL, NULL);
+
+	updated = FALSE;
 	file_source = gth_main_get_file_source (file);
-	info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
-	if (info != NULL) {
-		g_menu_item_set_label (item, (custom_label != NULL) ? custom_label : g_file_info_get_display_name (info));
-		g_menu_item_set_icon (item, g_file_info_get_symbolic_icon (info));
+	if (! GTH_IS_FILE_SOURCE_VFS (file_source)) {
+		GFileInfo *info;
+
+		info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
+		if (info != NULL) {
+			g_menu_item_set_label (item, (custom_label != NULL) ? custom_label : g_file_info_get_display_name (info));
+			g_menu_item_set_icon (item, g_file_info_get_symbolic_icon (info));
+			updated = TRUE;
+		}
+
+		_g_object_unref (info);
 	}
-	else {
-		char  *label;
+
+	if (! updated) {
+		char  *name;
+		char  *uri;
 		GIcon *icon;
 
-		label = _g_file_get_display_name (file);
-		icon = _g_file_get_symbolic_icon (file);
-		g_menu_item_set_label (item, (custom_label != NULL) ? custom_label : label);
+		name = _g_file_get_display_name_no_io (file);
+		uri = g_file_get_uri (file);
+		icon = g_themed_icon_new (g_str_has_prefix (uri, "file://") ? "folder-symbolic" : "folder-remote-symbolic");
+		g_menu_item_set_label (item, (custom_label != NULL) ? custom_label : name);
 		g_menu_item_set_icon (item, icon);
 
-		g_object_unref (icon);
-		g_free (label);
+		g_free (uri);
+		g_free (name);
 	}
 
-	_g_object_unref (info);
 	_g_object_unref (file_source);
+
+	return item;
+}
+
+
+GMenuItem *
+_g_menu_item_new_for_file_data (GthFileData *file_data)
+{
+	GMenuItem *item;
+
+	item = g_menu_item_new (NULL, NULL);
+	g_menu_item_set_label (item, g_file_info_get_display_name (file_data->info));
+	g_menu_item_set_icon (item, g_file_info_get_symbolic_icon (file_data->info));
 
 	return item;
 }

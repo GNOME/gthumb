@@ -151,12 +151,6 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 			continue;
 		}
 
-		info = g_file_query_info (file, GFILE_BASIC_ATTRIBUTES ",access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
-		if (info == NULL) {
-			g_object_unref (file);
-			continue;
-		}
-
 		icon = g_mount_get_symbolic_icon (mount);
 		name = g_mount_get_name (mount);
 
@@ -174,8 +168,15 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 			g_free (drive_name);
 		}
 
+		info = g_file_info_new ();
+		g_file_info_set_file_type (info, G_FILE_TYPE_DIRECTORY);
+		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ, TRUE);
+		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE, FALSE);
+		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE, FALSE);
+		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_TRASH, FALSE);
 		g_file_info_set_symbolic_icon (info, icon);
 		g_file_info_set_display_name (info, name);
+		g_file_info_set_name (info, name);
 
 		list = g_list_append (list, gth_file_data_new (file, info));
 		g_object_unref (info);

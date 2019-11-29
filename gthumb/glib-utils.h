@@ -280,6 +280,7 @@ GFile *         _g_file_new_for_display_name     (const char *base_uri,
 					          const char *extension);
 gboolean        _g_file_equal                    (GFile      *file1,
 						  GFile      *file2);
+char *          _g_file_get_display_name_no_io   (GFile      *file);
 char *          _g_file_get_display_name         (GFile      *file);
 GFileType 	_g_file_get_standard_type        (GFile      *file);
 GFile *         _g_file_get_destination          (GFile      *source,

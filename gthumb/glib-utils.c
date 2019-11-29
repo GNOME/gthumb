@@ -2127,6 +2127,27 @@ _g_file_equal (GFile *file1,
 
 
 char *
+_g_file_get_display_name_no_io (GFile *file)
+{
+	char       *name;
+	char       *uri;
+	const char *basename;
+
+	name = NULL;
+	uri = g_file_get_uri (file);
+	basename = _g_uri_get_basename (uri);
+	if (basename != NULL)
+		name = g_uri_unescape_string (basename, NULL);
+	else
+		name = g_strdup ("/");
+
+	g_free (uri);
+
+	return name;
+}
+
+
+char *
 _g_file_get_display_name (GFile *file)
 {
 	char      *name = NULL;

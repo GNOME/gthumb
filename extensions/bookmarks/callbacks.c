@@ -118,10 +118,6 @@ update_system_bookmark_list_from_content (GthBrowser *browser,
 		file = g_file_new_for_uri (uri);
 		first_space = strchr (lines[i], ' ');
 		name = (first_space != NULL) ? g_strdup (first_space + 1) : NULL;
-		if (name == NULL)
-			name = _g_file_get_display_name (file);
-		if (name == NULL)
-			name = g_file_get_parse_name (file);
 		item = _g_menu_item_new_for_file (file, name);
 		g_menu_item_set_action_and_target (item, "win.go-to-location", "s", uri);
 		g_menu_append_item (data->system_bookmarks_menu, item);
@@ -282,7 +278,7 @@ _gth_browser_update_entry_point_list (GthBrowser *browser)
 		GMenuItem   *item;
 		char        *uri;
 
-		item = _g_menu_item_new_for_file (file_data->file, NULL);
+		item = _g_menu_item_new_for_file_data (file_data);
 		uri = g_file_get_uri (file_data->file);
 		g_menu_item_set_action_and_target (item, "win.go-to-location", "s", uri);
 		g_menu_append_item (data->entry_points_menu, item);
