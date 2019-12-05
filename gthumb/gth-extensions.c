@@ -470,7 +470,7 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 	}
 
 	basename = g_file_get_basename (file);
-	desc->id = _g_uri_remove_extension (basename);
+	desc->id = _g_path_remove_extension (basename);
 	desc->name = g_key_file_get_locale_string (key_file, "Extension", "Name", NULL, NULL);
 	desc->description = g_key_file_get_locale_string (key_file, "Extension", "Comment", NULL, NULL);
 	if (desc->description == NULL)

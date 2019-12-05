@@ -160,12 +160,12 @@ gth_image_viewer_finalize (GObject *object)
 		g_object_unref (self->priv->cursor_void);
 
 	if (self->hadj != NULL) {
-		g_signal_handlers_disconnect_by_data (G_OBJECT (self->hadj), self);
+		_g_signal_handlers_disconnect_by_data (G_OBJECT (self->hadj), self);
 		g_object_unref (self->hadj);
 	}
 
 	if (self->vadj != NULL) {
-		g_signal_handlers_disconnect_by_data (G_OBJECT (self->vadj), self);
+		_g_signal_handlers_disconnect_by_data (G_OBJECT (self->vadj), self);
 		g_object_unref (self->vadj);
 	}
 
@@ -1101,7 +1101,7 @@ _gth_image_viewer_set_hadjustment (GthImageViewer *self,
 		hadj = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
 	if ((self->hadj != NULL) && (self->hadj != hadj)) {
-		g_signal_handlers_disconnect_by_data (G_OBJECT (self->hadj), self);
+		_g_signal_handlers_disconnect_by_data (G_OBJECT (self->hadj), self);
 		g_object_unref (self->hadj);
 		self->hadj = NULL;
 	}
@@ -1131,7 +1131,7 @@ _gth_image_viewer_set_vadjustment (GthImageViewer *self,
 		vadj = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
 	if ((self->vadj != NULL) && (self->vadj != vadj)) {
-		g_signal_handlers_disconnect_by_data (G_OBJECT (self->vadj), self);
+		_g_signal_handlers_disconnect_by_data (G_OBJECT (self->vadj), self);
 		g_object_unref (self->vadj);
 		self->vadj = NULL;
 	}
@@ -2330,12 +2330,12 @@ gth_image_viewer_scroll_to (GthImageViewer *self,
 
 	/* update the adjustments value */
 
-	g_signal_handlers_block_by_data (G_OBJECT (self->hadj), self);
-	g_signal_handlers_block_by_data (G_OBJECT (self->vadj), self);
+	_g_signal_handlers_block_by_data (G_OBJECT (self->hadj), self);
+	_g_signal_handlers_block_by_data (G_OBJECT (self->vadj), self);
 	gtk_adjustment_set_value (self->hadj, self->visible_area.x);
 	gtk_adjustment_set_value (self->vadj, self->visible_area.y);
-	g_signal_handlers_unblock_by_data (G_OBJECT (self->hadj), self);
-	g_signal_handlers_unblock_by_data (G_OBJECT (self->vadj), self);
+	_g_signal_handlers_unblock_by_data (G_OBJECT (self->hadj), self);
+	_g_signal_handlers_unblock_by_data (G_OBJECT (self->vadj), self);
 }
 
 

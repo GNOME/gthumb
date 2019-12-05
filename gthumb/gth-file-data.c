@@ -193,9 +193,9 @@ gth_file_data_set_mime_type (GthFileData *self,
 			     const char  *mime_type)
 {
 	if (mime_type != NULL) {
-		g_file_info_set_content_type (self->info, get_static_string (mime_type));
-		g_file_info_set_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, get_static_string (mime_type));
-		g_file_info_set_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE, get_static_string (mime_type));
+		g_file_info_set_content_type (self->info, _g_str_get_static (mime_type));
+		g_file_info_set_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, _g_str_get_static (mime_type));
+		g_file_info_set_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE, _g_str_get_static (mime_type));
 	}
 }
 
@@ -228,7 +228,7 @@ gth_file_data_get_mime_type (GthFileData *self)
 		g_free (filename);
 	}
 
-	return get_static_string (content_type);
+	return _g_str_get_static (content_type);
 }
 
 
@@ -262,7 +262,7 @@ gth_file_data_get_mime_type_from_content (GthFileData  *self,
 		g_object_unref (istream);
 	}
 
-	return get_static_string (content_type);
+	return _g_str_get_static (content_type);
 }
 
 
@@ -362,7 +362,7 @@ void
 gth_file_data_update_mime_type (GthFileData *fd,
 				gboolean     fast)
 {
-	gth_file_data_set_mime_type (fd, _g_file_get_mime_type (fd->file, fast || ! g_file_is_native (fd->file)));
+	gth_file_data_set_mime_type (fd, _g_file_query_mime_type (fd->file, fast || ! g_file_is_native (fd->file)));
 }
 
 

@@ -234,7 +234,7 @@ void
 picasa_web_photo_set_etag (PicasaWebPhoto *self,
 			   const char    *value)
 {
-	_g_strset (&self->etag, value);
+	_g_str_set (&self->etag, value);
 }
 
 
@@ -242,7 +242,7 @@ void
 picasa_web_photo_set_id (PicasaWebPhoto *self,
 			const char    *value)
 {
-	_g_strset (&self->id, value);
+	_g_str_set (&self->id, value);
 }
 
 
@@ -250,7 +250,7 @@ void
 picasa_web_photo_set_album_id (PicasaWebPhoto *self,
 			       const char    *value)
 {
-	_g_strset (&self->album_id, value);
+	_g_str_set (&self->album_id, value);
 }
 
 
@@ -258,7 +258,7 @@ void
 picasa_web_photo_set_title (PicasaWebPhoto *self,
 			    const char     *value)
 {
-	_g_strset (&self->title, value);
+	_g_str_set (&self->title, value);
 }
 
 
@@ -266,7 +266,7 @@ void
 picasa_web_photo_set_summary (PicasaWebPhoto *self,
 			      const char     *value)
 {
-	_g_strset (&self->summary, value);
+	_g_str_set (&self->summary, value);
 }
 
 
@@ -274,7 +274,7 @@ void
 picasa_web_photo_set_uri (PicasaWebPhoto *self,
 			  const char     *value)
 {
-	_g_strset (&self->uri, value);
+	_g_str_set (&self->uri, value);
 }
 
 
@@ -282,7 +282,7 @@ void
 picasa_web_photo_set_mime_type (PicasaWebPhoto *self,
 				const char     *value)
 {
-	_g_strset (&self->mime_type, value);
+	_g_str_set (&self->mime_type, value);
 }
 
 
@@ -309,7 +309,7 @@ void
 picasa_web_photo_set_credit (PicasaWebPhoto *self,
 			     const char     *value)
 {
-	_g_strset (&self->credit, value);
+	_g_str_set (&self->credit, value);
 }
 
 
@@ -317,7 +317,7 @@ void
 picasa_web_photo_set_description (PicasaWebPhoto *self,
 				  const char     *value)
 {
-	_g_strset (&self->description, value);
+	_g_str_set (&self->description, value);
 }
 
 
@@ -325,7 +325,7 @@ void
 picasa_web_photo_set_keywords (PicasaWebPhoto *self,
 			       const char     *value)
 {
-	_g_strset (&self->keywords, value);
+	_g_str_set (&self->keywords, value);
 }
 
 
@@ -333,7 +333,7 @@ void
 picasa_web_photo_set_thumbnail_72 (PicasaWebPhoto *self,
 				   const char     *value)
 {
-	_g_strset (&self->thumbnail_72, value);
+	_g_str_set (&self->thumbnail_72, value);
 }
 
 
@@ -341,7 +341,7 @@ void
 picasa_web_photo_set_thumbnail_144 (PicasaWebPhoto *self,
 				    const char     *value)
 {
-	_g_strset (&self->thumbnail_144, value);
+	_g_str_set (&self->thumbnail_144, value);
 }
 
 
@@ -349,7 +349,7 @@ void
 picasa_web_photo_set_thumbnail_288 (PicasaWebPhoto *self,
 				    const char     *value)
 {
-	_g_strset (&self->thumbnail_288, value);
+	_g_str_set (&self->thumbnail_288, value);
 }
 
 

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001-2008 Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2019 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include <glib/gprintf.h>
 #include <gio/gio.h>
 #include "glib-utils.h"
+#include "uri-utils.h"
 
 #define MAX_PATTERNS 128
 #define BUFFER_SIZE_FOR_SNIFFING 32
@@ -330,8 +331,8 @@ performance (const char *file,
 
 /* taken from the glib function g_date_strftime */
 char *
-struct_tm_strftime (struct tm   *tm,
-		    const char  *format)
+_g_struct_tm_strftime (struct tm   *tm,
+		       const char  *format)
 {
 	gsize   locale_format_len = 0;
 	char   *locale_format;
@@ -587,7 +588,8 @@ _g_time_val_strftime (GTimeVal   *time_,
 
 	secs = time_->tv_sec;
 	tm = localtime (&secs);
-	return struct_tm_strftime (tm, format);
+
+	return _g_struct_tm_strftime (tm, format);
 }
 
 
@@ -628,494 +630,56 @@ _g_bookmark_file_set_uris (GBookmarkFile *bookmark,
 }
 
 
-/* String utils */
+/* GList utils */
 
 
-void
-_g_strset (char       **s,
-	   const char  *value)
+GList *
+_g_list_prepend_link (GList *list,
+		      GList *link)
 {
-	if (*s == value)
-		return;
+	link->next = list;
+	if (list != NULL) list->prev = link;
+	return link;
+}
 
-	if (*s != NULL) {
-		g_free (*s);
-		*s = NULL;
+
+GList *
+_g_list_insert_list_before (GList *list1,
+			    GList *sibling,
+			    GList *list2)
+{
+  if (!list2)
+    {
+      return list1;
+    }
+  else if (!list1)
+    {
+      return list2;
+    }
+  else if (sibling)
+    {
+      GList *list2_last = g_list_last (list2);
+      if (sibling->prev)
+	{
+	  sibling->prev->next = list2;
+	  list2->prev = sibling->prev;
+	  sibling->prev = list2_last;
+	  list2_last->next = sibling;
+	  return list1;
 	}
-
-	if (value != NULL)
-		*s = g_strdup (value);
-}
-
-
-char *
-_g_strdup_with_max_size (const char *s,
-			 int         max_size)
-{
-	char *result;
-	int   l = strlen (s);
-
-	if (l > max_size) {
-		char *first_half;
-		char *second_half;
-		int   offset;
-		int   half_max_size = max_size / 2 + 1;
-
-		first_half = g_strndup (s, half_max_size);
-		offset = half_max_size + l - max_size;
-		second_half = g_strndup (s + offset, half_max_size);
-
-		result = g_strconcat (first_half, "…", second_half, NULL);
-
-		g_free (first_half);
-		g_free (second_half);
-	} else
-		result = g_strdup (s);
-
-	return result;
-}
-
-
-/**
- * example 1 : "xxx##yy#" --> [0] = xxx
- *                            [1] = ##
- *                            [2] = yy
- *                            [3] = #
- *                            [4] = NULL
- *
- * example 2 : ""         --> [0] = NULL
- **/
-char **
-_g_get_template_from_text (const char *utf8_template)
-{
-	const char  *chunk_start = utf8_template;
-	char       **str_vect;
-	GList       *str_list = NULL, *scan;
-	int          n = 0;
-
-	if (utf8_template == NULL)
-		return NULL;
-
-	while (*chunk_start != 0) {
-		gunichar    ch;
-		gboolean    reading_sharps;
-		char       *chunk;
-		const char *chunk_end;
-		int         chunk_len = 0;
-
-		reading_sharps = (g_utf8_get_char (chunk_start) == '#');
-		chunk_end = chunk_start;
-
-		ch = g_utf8_get_char (chunk_end);
-		while (reading_sharps
-		       && (*chunk_end != 0)
-		       && (ch == '#')) {
-			chunk_end = g_utf8_next_char (chunk_end);
-			ch = g_utf8_get_char (chunk_end);
-			chunk_len++;
-		}
-
-		ch = g_utf8_get_char (chunk_end);
-		while (! reading_sharps
-		       && (*chunk_end != 0)
-		       && (*chunk_end != '#')) {
-			chunk_end = g_utf8_next_char (chunk_end);
-			ch = g_utf8_get_char (chunk_end);
-			chunk_len++;
-		}
-
-		chunk = _g_utf8_strndup (chunk_start, chunk_len);
-		str_list = g_list_prepend (str_list, chunk);
-		n++;
-
-		chunk_start = chunk_end;
+      else
+	{
+	  sibling->prev = list2_last;
+	  list2_last->next = sibling;
+	  return list2;
 	}
-
-	str_vect = g_new (char*, n + 1);
-
-	str_vect[n--] = NULL;
-	for (scan = str_list; scan; scan = scan->next)
-		str_vect[n--] = scan->data;
-
-	g_list_free (str_list);
-
-	return str_vect;
+    }
+  else
+    {
+      return g_list_concat (list1, list2);
+    }
 }
 
-
-char *
-_g_get_name_from_template (char **utf8_template,
-			   int    n)
-{
-	GString *s;
-	int      i;
-	char    *result;
-
-	s = g_string_new (NULL);
-
-	for (i = 0; utf8_template[i] != NULL; i++) {
-		const char *chunk = utf8_template[i];
-		gunichar    ch = g_utf8_get_char (chunk);
-
-		if (ch != '#')
-			g_string_append (s, chunk);
-		else {
-			char *s_n;
-			int   s_n_len;
-			int   sharps_len = g_utf8_strlen (chunk, -1);
-
-			s_n = g_strdup_printf ("%d", n);
-			s_n_len = strlen (s_n);
-
-			while (s_n_len < sharps_len) {
-				g_string_append_c (s, '0');
-				sharps_len--;
-			}
-
-			g_string_append (s, s_n);
-			g_free (s_n);
-		}
-	}
-
-	result = s->str;
-	g_string_free (s, FALSE);
-
-	return result;
-}
-
-
-char *
-_g_replace (const char *str,
-	    const char *from_str,
-	    const char *to_str)
-{
-	char    **tokens;
-	int       i;
-	GString  *gstr;
-
-	if (str == NULL)
-		return NULL;
-
-	if (from_str == NULL)
-		return g_strdup (str);
-
-	if (strcmp (str, from_str) == 0)
-		return g_strdup (to_str);
-
-	tokens = g_strsplit (str, from_str, -1);
-
-	gstr = g_string_new (NULL);
-	for (i = 0; tokens[i] != NULL; i++) {
-		g_string_append (gstr, tokens[i]);
-		if ((to_str != NULL) && (tokens[i+1] != NULL))
-			g_string_append (gstr, to_str);
-	}
-
-	g_strfreev (tokens);
-
-	return g_string_free (gstr, FALSE);
-}
-
-
-char *
-_g_replace_pattern (const char *utf8_text,
-		    gunichar    pattern,
-		    const char *value)
-{
-	const char *s;
-	GString    *r;
-	char       *r_str;
-
-	if (utf8_text == NULL)
-		return NULL;
-
-	if (g_utf8_strchr (utf8_text, -1, '%') == NULL)
-		return g_strdup (utf8_text);
-
-	r = g_string_new (NULL);
-	for (s = utf8_text; *s != 0; s = g_utf8_next_char (s)) {
-		gunichar ch = g_utf8_get_char (s);
-
-		if (ch == '%') {
-			s = g_utf8_next_char (s);
-
-			if (*s == 0) {
-				g_string_append_unichar (r, ch);
-				break;
-			}
-
-			ch = g_utf8_get_char (s);
-			if (ch == pattern) {
-				if (value)
-					g_string_append (r, value);
-			}
-			else {
-				g_string_append (r, "%");
-				g_string_append_unichar (r, ch);
-			}
-
-		} else
-			g_string_append_unichar (r, ch);
-	}
-
-	r_str = r->str;
-	g_string_free (r, FALSE);
-
-	return r_str;
-}
-
-
-int
-_g_utf8_first_ascii_space (const char *str)
-{
-	const char *pos;
-
-	pos = str;
-	while (pos != NULL) {
-		gunichar c = g_utf8_get_char (pos);
-		if (c == 0)
-			break;
-		if (g_ascii_isspace (c))
-			return g_utf8_pointer_to_offset (str, pos);
-		pos = g_utf8_next_char (pos);
-	}
-
-	return -1;
-}
-
-
-gboolean
-_g_utf8_has_prefix (const char  *string,
-		    const char  *prefix)
-{
-	char     *substring;
-	gboolean  result;
-
-	if (string == NULL)
-		return FALSE;
-	if (prefix == NULL)
-		return TRUE;
-
-	substring = g_utf8_substring (string, 0, g_utf8_strlen (prefix, -1));
-	if (substring == NULL)
-		return FALSE;
-
-	result = g_utf8_collate (substring, prefix) == 0;
-	g_free (substring);
-
-	return result;
-}
-
-
-char *
-_g_utf8_remove_prefix (const char *string,
-		       int         prefix_length)
-{
-	int str_length;
-
-	str_length = g_utf8_strlen (string, -1);
-	if (str_length <= prefix_length)
-		return NULL;
-
-	return g_utf8_substring (string, prefix_length, str_length);
-}
-
-
-char *
-_g_utf8_replace (const char  *string,
-		 const char  *pattern,
-		 const char  *replacement)
-{
-	GRegex *regex;
-	char   *result;
-
-	if (string == NULL)
-		return NULL;
-
-	regex = g_regex_new (pattern, 0, 0, NULL);
-	if (regex == NULL)
-		return NULL;
-
-	result = g_regex_replace_literal (regex, string, -1, 0, replacement, 0, NULL);
-
-	g_regex_unref (regex);
-
-	return result;
-}
-
-
-char *
-_g_utf8_strndup (const char *str,
-		 gsize       n)
-{
-	const char *s = str;
-	char       *result;
-
-	while (n && *s) {
-		s = g_utf8_next_char (s);
-		n--;
-	}
-
-	result = g_strndup (str, s - str);
-
-	return result;
-}
-
-
-const char *
-_g_utf8_strstr (const char *haystack,
-		const char *needle)
-{
-	const char *s;
-	glong       i;
-	glong       haystack_len = g_utf8_strlen (haystack, -1);
-	glong       needle_len = g_utf8_strlen (needle, -1);
-	int         needle_size = strlen (needle);
-
-	s = haystack;
-	for (i = 0; i <= haystack_len - needle_len; i++) {
-		if (strncmp (s, needle, needle_size) == 0)
-			return s;
-		s = g_utf8_next_char(s);
-	}
-
-	return NULL;
-}
-
-
-char **
-_g_utf8_strsplit (const char *string,
-		  const char *delimiter,
-		  int         max_tokens)
-{
-	GSList      *string_list = NULL, *slist;
-	char       **str_array;
-	const char  *s;
-	guint        n = 0;
-	const char  *remainder;
-
-	g_return_val_if_fail (string != NULL, NULL);
-	g_return_val_if_fail (delimiter != NULL, NULL);
-	g_return_val_if_fail (delimiter[0] != '\0', NULL);
-
-	if (max_tokens < 1)
-		max_tokens = G_MAXINT;
-
-	remainder = string;
-	s = _g_utf8_strstr (remainder, delimiter);
-	if (s != NULL) {
-		gsize delimiter_size = strlen (delimiter);
-
-		while (--max_tokens && (s != NULL)) {
-			gsize  size = s - remainder;
-			char  *new_string;
-
-			new_string = g_new (char, size + 1);
-			strncpy (new_string, remainder, size);
-			new_string[size] = 0;
-
-			string_list = g_slist_prepend (string_list, new_string);
-			n++;
-			remainder = s + delimiter_size;
-			s = _g_utf8_strstr (remainder, delimiter);
-		}
-	}
-	if (*string) {
-		n++;
-		string_list = g_slist_prepend (string_list, g_strdup (remainder));
-	}
-
-	str_array = g_new (char*, n + 1);
-
-	str_array[n--] = NULL;
-	for (slist = string_list; slist; slist = slist->next)
-		str_array[n--] = slist->data;
-
-	g_slist_free (string_list);
-
-	return str_array;
-}
-
-
-char *
-_g_utf8_strstrip (const char *str)
-{
-	if (str == NULL)
-		return NULL;
-	return g_strstrip (g_strdup (str));
-}
-
-
-gboolean
-_g_utf8_all_spaces (const char *utf8_string)
-{
-	gunichar c;
-
-	if (utf8_string == NULL)
-		return TRUE;
-
-	c = g_utf8_get_char (utf8_string);
-	while (c != 0) {
-		if (! g_unichar_isspace (c))
-			return FALSE;
-		utf8_string = g_utf8_next_char (utf8_string);
-		c = g_utf8_get_char (utf8_string);
-	}
-
-	return TRUE;
-}
-
-
-char *
-_g_utf8_remove_extension (const char *str)
-{
-	char *p;
-	char *ext;
-	char *dest;
-
-	if ((str == NULL) || ! g_utf8_validate (str, -1, NULL))
-		return NULL;
-
-	p = (char *) str;
-	ext = g_utf8_strrchr (p, -1, g_utf8_get_char ("."));
-	dest = g_strdup (p);
-	g_utf8_strncpy (dest, p, g_utf8_strlen (p, -1) - g_utf8_strlen (ext, -1));
-
-	return dest;
-}
-
-
-char *
-_g_utf8_try_from_any (const char *str)
-{
-	char *utf8_str;
-
-	if (str == NULL)
-		return NULL;
-
-	if (! g_utf8_validate (str, -1, NULL))
-		utf8_str = g_locale_to_utf8 (str, -1, NULL, NULL, NULL);
-	else
-		utf8_str = g_strdup (str);
-
-	return utf8_str;
-}
-
-
-char *
-_g_utf8_from_any (const char *str)
-{
-	char *utf8_str;
-
-	if (str == NULL)
-		return NULL;
-
-	utf8_str = _g_utf8_try_from_any (str);
-	if (utf8_str == NULL)
-		utf8_str = g_strdup (_("(invalid value)"));
-
-	return utf8_str;
-}
 
 
 static int
@@ -1215,453 +779,7 @@ _g_list_reorder (GList  *all_files,
 }
 
 
-GList *
-_g_list_insert_list_before (GList *list1,
-			    GList *sibling,
-			    GList *list2)
-{
-  if (!list2)
-    {
-      return list1;
-    }
-  else if (!list1)
-    {
-      return list2;
-    }
-  else if (sibling)
-    {
-      GList *list2_last = g_list_last (list2);
-      if (sibling->prev)
-	{
-	  sibling->prev->next = list2;
-	  list2->prev = sibling->prev;
-	  sibling->prev = list2_last;
-	  list2_last->next = sibling;
-	  return list1;
-	}
-      else
-	{
-	  sibling->prev = list2_last;
-	  list2_last->next = sibling;
-	  return list2;
-	}
-    }
-  else
-    {
-      return g_list_concat (list1, list2);
-    }
-}
-
-
-GHashTable *static_strings = NULL;
-static GMutex static_strings_mutex;
-
-
-const char *
-get_static_string (const char *s)
-{
-	const char *result;
-
-	if (s == NULL)
-		return NULL;
-
-	g_mutex_lock (&static_strings_mutex);
-
-	if (static_strings == NULL)
-		static_strings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-
-	if (! g_hash_table_lookup_extended (static_strings, s, (gpointer) &result, NULL)) {
-		result = g_strdup (s);
-		g_hash_table_insert (static_strings,
-				     (gpointer) result,
-				     GINT_TO_POINTER (1));
-	}
-
-	g_mutex_unlock (&static_strings_mutex);
-
-	return result;
-}
-
-
-char *
-_g_rand_string (int len)
-{
-	static char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	static int   letters_only = 52;
-	static int   whole_alphabet = 62;
-	char        *s;
-	GRand       *rand_gen;
-	int          i;
-
-	s = g_malloc (sizeof (char) * (len + 1));
-	rand_gen = g_rand_new ();
-	for (i = 0; i < len; i++)
-		s[i] = alphabet[g_rand_int_range (rand_gen, 0, (i == 0) ? letters_only : whole_alphabet)];
-	g_rand_free (rand_gen);
-	s[len] = 0;
-
-	return s;
-}
-
-
-int
-_g_strv_find (char       **v,
-	      const char  *s)
-{
-	int i;
-
-	for (i = 0; v[i] != NULL; i++) {
-		if (strcmp (v[i], s) == 0)
-			return i;
-	}
-
-	return -1;
-}
-
-
-gboolean
-_g_strv_contains (char       **v,
-		  const char  *s)
-{
-	return (_g_strv_find (v, s) >= 0);
-}
-
-
-char **
-_g_strv_prepend (char       **str_array,
-                 const char  *str)
-{
-	char **result;
-	int    i;
-	int    j;
-
-	result = g_new (char *, g_strv_length (str_array) + 1);
-	i = 0;
-	result[i++] = g_strdup (str);
-	for (j = 0; str_array[j] != NULL; j++)
-		result[i++] = g_strdup (str_array[j]);
-	result[i] = NULL;
-
-	return result;
-}
-
-
-char **
-_g_strv_concat (char **strv1,
-		char **strv2)
-{
-	char **result;
-	int    i, j;
-
-	result = g_new (char *, g_strv_length (strv1) + g_strv_length (strv2) + 1);
-	i = 0;
-	for (j = 0; strv1[j] != NULL; j++)
-		result[i++] = g_strdup (strv1[j]);
-	for (j = 0; strv2[j] != NULL; j++)
-		result[i++] = g_strdup (strv2[j]);
-	result[i] = NULL;
-
-	return result;
-}
-
-
-gboolean
-_g_strv_remove (char       **str_array,
-                const char  *str)
-{
-	int i;
-	int j;
-
-	if (str == NULL)
-		return FALSE;
-
-	for (i = 0; str_array[i] != NULL; i++)
-		if (strcmp (str_array[i], str) == 0)
-			break;
-
-	if (str_array[i] == NULL)
-		return FALSE;
-
-	for (j = i; str_array[j] != NULL; j++)
-		str_array[j] = str_array[j + 1];
-
-	return TRUE;
-}
-
-
-char *
-_g_str_remove_suffix (const char *s,
-		      const char *suffix)
-{
-	int s_len;
-	int suffix_len;
-
-	if (s == NULL)
-		return NULL;
-	if (suffix == NULL)
-		return g_strdup (s);
-
-	s_len = strlen (s);
-	suffix_len = strlen (suffix);
-
-	if (suffix_len >= s_len)
-		return g_strdup ("");
-	else
-		return g_strndup (s, s_len - suffix_len);
-}
-
-
-/* based on glib/glib/gmarkup.c (Copyright 2000, 2003 Red Hat, Inc.)
- * This version does not escape ' and ''. Needed  because IE does not recognize
- * &apos; and &quot; */
-void
-_g_string_append_for_html (GString    *str,
-		 	   const char *text,
-		 	   gssize      length)
-{
-	const gchar *p;
-	const gchar *end;
-	gunichar     ch;
-	int          state = 0;
-
-	p = text;
-	end = text + length;
-
-	while (p != end) {
-		const char *next;
-
-		next = g_utf8_next_char (p);
-		ch = g_utf8_get_char (p);
-
-		switch (state) {
-		case 1: /* escaped */
-			if ((ch > 127) || ! g_ascii_isprint ((char) ch))
-				g_string_append_printf (str, "\\&#%d;", ch);
-			else
-				g_string_append_unichar (str, ch);
-			state = 0;
-			break;
-
-		default: /* not escaped */
-			switch (*p) {
-			case '\\':
-				state = 1; /* next character is escaped */
-				break;
-
-			case '&':
-				g_string_append (str, "&amp;");
-				break;
-
-			case '<':
-				g_string_append (str, "&lt;");
-				break;
-
-			case '>':
-				g_string_append (str, "&gt;");
-				break;
-
-			case '\n':
-				g_string_append (str, "<br />");
-				break;
-
-			default:
-				if ((ch > 127) ||  ! g_ascii_isprint ((char)ch))
-					g_string_append_printf (str, "&#%d;", ch);
-				else
-					g_string_append_unichar (str, ch);
-				state = 0;
-				break;
-			}
-			break;
-		}
-
-		p = next;
-	}
-}
-
-
-char *
-_g_escape_for_html (const char *text,
-		    gssize      length)
-{
-        GString *str;
-
-        g_return_val_if_fail (text != NULL, NULL);
-
-        if (length < 0)
-                length = strlen (text);
-
-        /* prealloc at least as long as original text */
-        str = g_string_sized_new (length);
-        _g_string_append_for_html (str, text, length);
-
-        return g_string_free (str, FALSE);
-}
-
-
-/* Array utils*/
-
-
-char *
-_g_string_array_join (GPtrArray  *array,
-		      const char *separator)
-{
-	GString *s;
-	int      i;
-
-	s = g_string_new ("");
-	for (i = 0; i < array->len; i++) {
-		if ((i > 0) && (separator != NULL))
-			g_string_append (s, separator);
-		g_string_append (s, g_ptr_array_index (array, i));
-	}
-
-	return g_string_free (s, FALSE);
-}
-
-
-/* Regexp utils */
-
-static char **
-get_patterns_from_pattern (const char *pattern_string)
-{
-	char **patterns;
-	int    i;
-
-	if (pattern_string == NULL)
-		return NULL;
-
-	patterns = _g_utf8_strsplit (pattern_string, ";", MAX_PATTERNS);
-	for (i = 0; patterns[i] != NULL; i++) {
-		char *p1, *p2;
-
-		p1 = _g_utf8_strstrip (patterns[i]);
-		p2 = _g_replace (p1, ".", "\\.");
-		patterns[i] = _g_replace (p2, "*", ".*");
-
-		g_free (p2);
-		g_free (p1);
-	}
-
-	return patterns;
-}
-
-
-GRegex **
-get_regexps_from_pattern (const char         *pattern_string,
-			  GRegexCompileFlags  compile_options)
-{
-	char   **patterns;
-	GRegex **regexps;
-	int      i;
-
-	patterns = get_patterns_from_pattern (pattern_string);
-	if (patterns == NULL)
-		return NULL;
-
-	regexps = g_new0 (GRegex*, g_strv_length (patterns) + 1);
-	for (i = 0; patterns[i] != NULL; i++)
-		regexps[i] = g_regex_new (patterns[i],
-					  G_REGEX_OPTIMIZE | compile_options,
-					  G_REGEX_MATCH_NOTEMPTY,
-					  NULL);
-	g_strfreev (patterns);
-
-	return regexps;
-}
-
-
-gboolean
-string_matches_regexps (GRegex           **regexps,
-			const char        *string,
-			GRegexMatchFlags   match_options)
-{
-	gboolean matched;
-	int      i;
-
-	if ((regexps == NULL) || (regexps[0] == NULL))
-		return TRUE;
-
-	if (string == NULL)
-		return FALSE;
-
-	matched = FALSE;
-	for (i = 0; regexps[i] != NULL; i++)
-		if (g_regex_match (regexps[i], string, match_options, NULL)) {
-			matched = TRUE;
-			break;
-	}
-
-	return matched;
-}
-
-
-void
-free_regexps (GRegex **regexps)
-{
-	int i;
-
-	if (regexps == NULL)
-		return;
-
-	for (i = 0; regexps[i] != NULL; i++)
-		g_regex_unref (regexps[i]);
-	g_free (regexps);
-}
-
-
-/* URI utils  */
-
-
-const char *
-get_home_uri (void)
-{
-	static char *home_uri = NULL;
-
-	if (home_uri == NULL) {
-		const char *path;
-		char       *uri;
-
-		path = g_get_home_dir ();
-		uri = g_uri_escape_string (path, G_URI_RESERVED_CHARS_ALLOWED_IN_PATH, TRUE);
-
-		home_uri = g_strconcat ("file://", uri, NULL);
-
-		g_free (uri);
-	}
-
-	return home_uri;
-}
-
-
-int
-uricmp (const char *uri1,
-	const char *uri2)
-{
-	if (uri1 == NULL) {
-		if (uri2 == NULL)
-			return 0;
-		else
-			return -1;
-	}
-
-	if (uri2 == NULL) {
-		if (uri1 == NULL)
-			return 0;
-		else
-			return 1;
-	}
-
-	return g_strcmp0 (uri1, uri2);
-}
-
-
-gboolean
-same_uri (const char *uri1,
-	  const char *uri2)
-{
-	return uricmp (uri1, uri2) == 0;
-}
+/* GStringList */
 
 
 void
@@ -1697,7 +815,7 @@ _g_string_list_to_strv (GList *string_list)
 
 	strv = g_new0 (char *, g_list_length (string_list) + 1);
 	for (scan = string_list, i = 0; scan; scan = scan->next)
-		strv[i++] = g_strdup ((char *)scan->data);
+		strv[i++] = g_strdup ((char *) scan->data);
 	strv[i++] = NULL;
 
 	return strv;
@@ -1713,98 +831,150 @@ G_DEFINE_BOXED_TYPE (GStringList,
 		     (GBoxedFreeFunc) _g_string_list_free)
 
 
-GList *
-get_file_list_from_url_list (char *url_list)
+/* Array utils*/
+
+
+char *
+_g_string_array_join (GPtrArray  *array,
+		      const char *separator)
 {
-	GList *list = NULL;
+	GString *s;
+	int      i;
+
+	s = g_string_new ("");
+	for (i = 0; i < array->len; i++) {
+		if ((i > 0) && (separator != NULL))
+			g_string_append (s, separator);
+		g_string_append (s, g_ptr_array_index (array, i));
+	}
+
+	return g_string_free (s, FALSE);
+}
+
+
+/* Regexp utils */
+
+
+/* A pattern is a simpler version of a regexp, where
+ * dots are literal and asterisks mean any sequence of characters. */
+static char *
+_pattern_to_regexp (const char *pattern)
+{
+	char *tmp;
+	char *regexp;
+
+	tmp = _g_utf8_strip (pattern);
+	regexp = _g_utf8_translate (tmp,
+			".", "\\.",
+			"*", ".*",
+			NULL);
+
+	g_free (tmp);
+
+	return regexp;
+}
+
+
+static char **
+_split_patterns (const char *pattern,
+		 int        *p_size)
+{
+	char **strv;
 	int    i;
-	char  *url_start, *url_end;
+	int    size;
 
-	url_start = url_list;
-	while (url_start[0] != '\0') {
-		char *url;
+	if (pattern == NULL)
+		return NULL;
 
-		if (strncmp (url_start, "file:", 5) == 0) {
-			url_start += 5;
-			if ((url_start[0] == '/')
-			    && (url_start[1] == '/')) url_start += 2;
-		}
+	strv = _g_utf8_split (pattern, ";", MAX_PATTERNS);
+	size = 0;
+	for (i = 0; strv[i] != NULL; i++) {
+		char *tmp;
 
-		i = 0;
-		while ((url_start[i] != '\0')
-		       && (url_start[i] != '\r')
-		       && (url_start[i] != '\n')) i++;
-		url_end = url_start + i;
+		tmp = strv[i];
+		strv[i] = _pattern_to_regexp (strv[i]);
+		size++;
 
-		url = g_strndup (url_start, url_end - url_start);
-		list = g_list_prepend (list, url);
-
-		url_start = url_end;
-		i = 0;
-		while ((url_start[i] != '\0')
-		       && ((url_start[i] == '\r')
-			   || (url_start[i] == '\n'))) i++;
-		url_start += i;
+		g_free (tmp);
 	}
 
-	return g_list_reverse (list);
+	if (p_size != NULL) *p_size = size;
+
+	return strv;
 }
 
 
-const char *
-_g_uri_get_basename (const char *uri)
+GRegex **
+_g_regex_v_from_pattern (const char         *pattern,
+			 GRegexCompileFlags  compile_options)
 {
-	register char   *base;
-	register gssize  last_char;
+	char   **patternv;
+	int      size;
+	GRegex **regexps;
+	int      i;
 
-	if (uri == NULL)
+	patternv = _split_patterns (pattern, &size);
+	if (patternv == NULL)
 		return NULL;
 
-	if (uri[0] == '\0')
-		return "";
+	regexps = g_new0 (GRegex*, size + 1);
+	for (i = 0; patternv[i] != NULL; i++) {
+		regexps[i] = g_regex_new (patternv[i],
+					  G_REGEX_OPTIMIZE | compile_options,
+					  G_REGEX_MATCH_NOTEMPTY,
+					  NULL);
+	}
+	g_strfreev (patternv);
 
-	last_char = strlen (uri) - 1;
-
-	if (uri[last_char] == G_DIR_SEPARATOR)
-		return "";
-
-	base = g_utf8_strrchr (uri, -1, G_DIR_SEPARATOR);
-	if (! base)
-		return uri;
-
-	return base + 1;
+	return regexps;
 }
 
 
-const char *
-_g_uri_get_file_extension (const char *uri)
+gboolean
+_g_regex_v_match (GRegex           **regexps,
+		  const char        *str,
+		  GRegexMatchFlags   match_options)
 {
-	char *p;
+	gboolean matched;
+	int      i;
 
-	if (uri == NULL)
-		return NULL;
+	if ((regexps == NULL) || (regexps[0] == NULL))
+		return TRUE;
 
-	p = strrchr (uri, '.');
-	if (p == NULL)
-		return NULL;
+	if (str == NULL)
+		return FALSE;
 
-	if (p != uri) {
-		char *p2;
-
-		p2 = p - 1;
-		while ((*p2 != '.') && (p2 != uri))
-			p2--;
-		if (strncmp (p2, ".tar.", 5) == 0)
-			p = p2;
+	matched = FALSE;
+	for (i = 0; regexps[i] != NULL; i++)
+		if (g_regex_match (regexps[i], str, match_options, NULL)) {
+			matched = TRUE;
+			break;
 	}
 
-	return p;
+	return matched;
 }
+
+
+void
+_g_regex_v_free (GRegex **regexps)
+{
+	int i;
+
+	if (regexps == NULL)
+		return;
+
+	for (i = 0; regexps[i] != NULL; i++)
+		g_regex_unref (regexps[i]);
+	g_free (regexps);
+}
+
+
+/* URI utils  */
 
 
 static gboolean
-uri_is_filetype (const char *uri,
-		 GFileType   file_type)
+_g_uri_query_is_filetype (const char *uri,
+			  GFileType   file_type)
 {
 	gboolean   result = FALSE;
 	GFile     *file;
@@ -1835,259 +1005,27 @@ uri_is_filetype (const char *uri,
 
 
 gboolean
-_g_uri_is_file (const char *uri)
+_g_uri_query_is_file (const char *uri)
 {
-	return uri_is_filetype (uri, G_FILE_TYPE_REGULAR);
+	return _g_uri_query_is_filetype (uri, G_FILE_TYPE_REGULAR);
 }
 
 
 gboolean
-_g_uri_is_dir (const char *uri)
+_g_uri_query_is_dir (const char *uri)
 {
-	return uri_is_filetype (uri, G_FILE_TYPE_DIRECTORY);
-}
-
-
-gboolean
-_g_uri_parent_of_uri (const char *dirname,
-		      const char *filename)
-{
-	int dirname_l, filename_l, separator_position;
-
-	if ((dirname == NULL) || (filename == NULL))
-		return FALSE;
-
-	dirname_l = strlen (dirname);
-	filename_l = strlen (filename);
-
-	if ((dirname_l == filename_l + 1)
-	    && (dirname[dirname_l - 1] == '/'))
-		return FALSE;
-
-	if ((filename_l == dirname_l + 1)
-	    && (filename[filename_l - 1] == '/'))
-		return FALSE;
-
-	if (dirname[dirname_l - 1] == '/')
-		separator_position = dirname_l - 1;
-	else
-		separator_position = dirname_l;
-
-	return ((filename_l > dirname_l)
-		&& (strncmp (dirname, filename, dirname_l) == 0)
-		&& (filename[separator_position] == '/'));
-}
-
-
-char *
-_g_uri_get_parent (const char *uri)
-{
-	int         p;
-	const char *ptr = uri;
-	char       *new_uri;
-
-	if (uri == NULL)
-		return NULL;
-
-	p = strlen (uri) - 1;
-	if (p < 0)
-		return NULL;
-
-	while ((p > 0) && (ptr[p] != '/'))
-		p--;
-	if ((p == 0) && (ptr[p] == '/'))
-		p++;
-	new_uri = g_strndup (uri, (guint)p);
-
-	return new_uri;
-}
-
-
-char *
-_g_uri_remove_extension (const char *uri)
-{
-	const char *ext;
-
-	if (uri == NULL)
-		return NULL;
-
-	ext = _g_uri_get_file_extension (uri);
-	if (ext == NULL)
-		return g_strdup (uri);
-	else
-		return g_strndup (uri, strlen (uri) - strlen (ext));
-}
-
-
-char *
-_g_build_uri (const char *base, ...)
-{
-	va_list     args;
-	const char *child;
-	GString    *uri;
-
-	uri = g_string_new (base);
-
-	va_start (args, base);
-	while ((child = va_arg (args, const char *)) != NULL) {
-		if (! g_str_has_suffix (uri->str, "/") && ! g_str_has_prefix (child, "/"))
-			g_string_append (uri, "/");
-		g_string_append (uri, child);
-	}
-	va_end (args);
-
-	return g_string_free (uri, FALSE);
-}
-
-
-char *
-_g_uri_get_scheme (const char *uri)
-{
-	const char *idx;
-
-	idx = strstr (uri, "://");
-	if (idx == NULL)
-		return NULL;
-	else
-		return g_strndup (uri, (idx - uri) + 3);
-}
-
-
-const char *
-_g_uri_remove_host (const char *uri)
-{
-	const char *idx, *sep;
-
-	if (uri == NULL)
-		return NULL;
-
-	idx = strstr (uri, "://");
-	if (idx == NULL)
-		return uri;
-
-	idx += 3;
-	if (*idx == '\0')
-		return "/";
-
-	sep = strstr (idx, "/");
-	if (sep == NULL)
-		return idx;
-
-	return sep;
-}
-
-
-char *
-_g_uri_get_host (const char *uri)
-{
-	const char *idx;
-
-	idx = strstr (uri, "://");
-	if (idx == NULL)
-		return g_strdup ("file://");
-
-	idx = strstr (idx + 3, "/");
-	if (idx == NULL) {
-		char *scheme;
-
-		scheme = _g_uri_get_scheme (uri);
-		if (scheme == NULL)
-			scheme = g_strdup ("file://");
-		return scheme;
-	}
-
-	return g_strndup (uri, (idx - uri));
-}
-
-
-/* example 1 : uri      = file:///xxx/yyy/zzz/foo
- *             base     = file:///xxx/www
- *             return   : ../yyy/zzz/foo
- *
- * example 2 : uri      = file:///xxx/yyy/foo
- *             base     = file:///xxx
- *             return   : yyy/foo
- *
- * example 3 : uri      = smb:///xxx/yyy/foo
- *             base     = file://hhh/xxx
- *             return   : smb:///xxx/yyy/foo
- *
- * example 4 : uri      = file://hhh/xxx
- *             base     = file://hhh/xxx
- *             return   : ./
- */
-char *
-_g_uri_get_relative_path (const char *uri,
-			  const char *base)
-{
-	char      *uri_host;
-	char      *base_host;
-	gboolean   same_host;
-	char      *source_dir;
-	char     **source_dir_v;
-	char     **base_v;
-	GString   *relative_path;
-	int        i, j;
-
-	if ((uri == NULL) || (base == NULL))
-		return NULL;
-
-	if (strcmp (uri, base) == 0)
-		return g_strdup ("./");
-
-	uri_host = _g_uri_get_host (uri);
-	base_host = _g_uri_get_host (base);
-	same_host = g_str_equal (uri_host, base_host);
-
-	g_free (base_host);
-	g_free (uri_host);
-
-	if (! same_host)
-		return g_strdup (uri);
-
-	source_dir = _g_uri_get_parent (_g_uri_remove_host (uri));
-	source_dir_v = g_strsplit (source_dir, "/", 0);
-	base_v = g_strsplit (_g_uri_remove_host (base), "/", 0);
-
-	relative_path = g_string_new (NULL);
-
-	i = 0;
-	while ((source_dir_v[i] != NULL)
-	       && (base_v[i] != NULL)
-	       && (strcmp (source_dir_v[i], base_v[i]) == 0))
-	{
-		i++;
-	}
-
-	j = i;
-
-	while (base_v[i++] != NULL)
-		g_string_append (relative_path, "../");
-
-	while (source_dir_v[j] != NULL) {
-		g_string_append (relative_path, source_dir_v[j]);
-		g_string_append_c (relative_path, '/');
-		j++;
-	}
-
-	g_string_append (relative_path, _g_uri_get_basename (uri));
-
-	g_strfreev (base_v);
-	g_strfreev (source_dir_v);
-	g_free (source_dir);
-
-	return g_string_free (relative_path, FALSE);
+	return _g_uri_query_is_filetype (uri, G_FILE_TYPE_DIRECTORY);
 }
 
 
 char *
 _g_filename_clear_for_file (const char *display_name)
 {
-	return _g_utf8_replace (display_name, "/", "_");
+	return _g_utf8_replace_str (display_name, "/", "_");
 }
 
 
-/* GIO utils */
+/* GFile utils */
 
 
 GFile *
@@ -2102,7 +1040,7 @@ _g_file_new_for_display_name (const char *base_uri,
 
 	base = g_file_new_for_uri (base_uri);
 	name = g_strdup_printf ("%s%s", display_name, extension);
-	name_escaped = _g_utf8_replace (name, "/", ".");
+	name_escaped = _g_utf8_replace_str (name, "/", ".");
 	catalog_file = g_file_get_child_for_display_name (base, name_escaped, NULL);
 
 	g_free (name_escaped);
@@ -2127,19 +1065,26 @@ _g_file_equal (GFile *file1,
 
 
 char *
-_g_file_get_display_name_no_io (GFile *file)
+_g_file_get_display_name (GFile *file)
 {
-	char       *name;
-	char       *uri;
-	const char *basename;
+	char     *name = NULL;
+	char     *uri;
+	UriParts  parts;
 
-	name = NULL;
 	uri = g_file_get_uri (file);
-	basename = _g_uri_get_basename (uri);
-	if (basename != NULL)
-		name = g_uri_unescape_string (basename, NULL);
+	if (_g_uri_split (uri, &parts)) {
+		name = g_strdup (_g_path_get_basename (parts.path));
+		if (name == NULL) {
+			if (parts.host != NULL)
+				name = g_strdup (parts.host);
+			else
+				name = g_strdup ("/");
+		}
+
+		_g_uri_parts_clear (&parts);
+	}
 	else
-		name = g_strdup ("/");
+		name = g_strdup (_("(invalid value)"));
 
 	g_free (uri);
 
@@ -2147,30 +1092,8 @@ _g_file_get_display_name_no_io (GFile *file)
 }
 
 
-char *
-_g_file_get_display_name (GFile *file)
-{
-	char      *name = NULL;
-	GFileInfo *file_info;
-
-	file_info = g_file_query_info (file,
-				       G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
-				       G_FILE_QUERY_INFO_NONE,
-				       NULL,
-				       NULL);
-	if (file_info != NULL) {
-		name = g_strdup (g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME));
-		g_object_unref (file_info);
-	}
-	else
-		name = g_file_get_parse_name (file);
-
-	return name;
-}
-
-
 GFileType
-_g_file_get_standard_type (GFile *file)
+_g_file_query_standard_type (GFile *file)
 {
 	GFileType  result;
 	GFileInfo *info;
@@ -2194,16 +1117,18 @@ _g_file_get_standard_type (GFile *file)
 
 GFile *
 _g_file_get_destination (GFile *source,
-		         GFile *source_base,
-		         GFile *destination_folder)
+			 GFile *source_base,
+			 GFile *destination_folder)
 {
 	char       *source_uri;
+	char       *basename;
 	const char *source_suffix;
 	char       *destination_folder_uri;
 	char       *destination_uri;
 	GFile      *destination;
 
 	source_uri = g_file_get_uri (source);
+	basename = _g_uri_get_basename (source_uri);
 	if (source_base != NULL) {
 		char *source_base_uri;
 
@@ -2213,7 +1138,7 @@ _g_file_get_destination (GFile *source,
 		g_free (source_base_uri);
 	}
 	else
-		source_suffix = _g_uri_get_basename (source_uri);
+		source_suffix = basename;
 
 	destination_folder_uri = g_file_get_uri (destination_folder);
 	destination_uri = g_strconcat (destination_folder_uri, "/", source_suffix, NULL);
@@ -2221,6 +1146,7 @@ _g_file_get_destination (GFile *source,
 
 	g_free (destination_uri);
 	g_free (destination_folder_uri);
+	g_free (basename);
 	g_free (source_uri);
 
 	return destination;
@@ -2236,6 +1162,7 @@ _g_file_get_duplicated (GFile *file)
 	GRegex     *regex;
 	GMatchInfo *match_info;
 	GFile      *duplicated;
+	char       *ext;
 
 	new_uri = g_string_new ("");
 	uri = g_file_get_uri (file);
@@ -2262,9 +1189,11 @@ _g_file_get_duplicated (GFile *file)
 		g_string_append (new_uri, "%20(2)");
 	}
 
-	g_string_append (new_uri, _g_uri_get_file_extension (uri));
+	ext = _g_uri_get_extension (uri);
+	g_string_append (new_uri, ext);
 	duplicated = g_file_new_for_uri (new_uri->str);
 
+	g_free (ext);
 	g_match_info_free (match_info);
 	g_regex_unref (regex);
 	g_free (uri_noext);
@@ -2299,51 +1228,6 @@ _g_file_get_child (GFile *file,
 }
 
 
-GIcon *
-_g_file_get_icon (GFile *file)
-{
-	GIcon     *icon = NULL;
-	GFileInfo *file_info;
-
-	file_info = g_file_query_info (file,
-				       G_FILE_ATTRIBUTE_STANDARD_ICON,
-				       G_FILE_QUERY_INFO_NONE,
-				       NULL,
-				       NULL);
-	if (file_info != NULL) {
-		icon = (GIcon*) g_object_ref (g_file_info_get_attribute_object (file_info, G_FILE_ATTRIBUTE_STANDARD_ICON));
-		g_object_unref (file_info);
-	}
-
-	if (icon == NULL)
-		icon = g_themed_icon_new ("file");
-
-	return icon;
-}
-
-GIcon *
-_g_file_get_symbolic_icon (GFile *file)
-{
-	GIcon     *icon = NULL;
-	GFileInfo *file_info;
-
-	file_info = g_file_query_info (file,
-				       G_FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON,
-				       G_FILE_QUERY_INFO_NONE,
-				       NULL,
-				       NULL);
-	if (file_info != NULL) {
-		icon = (GIcon*) g_object_ref (g_file_info_get_attribute_object (file_info, G_FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON));
-		g_object_unref (file_info);
-	}
-
-	if (icon == NULL)
-		icon = g_themed_icon_new ("text-x-generic-symbolic");
-
-	return icon;
-}
-
-
 GList *
 _g_file_list_dup (GList *l)
 {
@@ -2361,16 +1245,6 @@ _g_file_list_free (GList *l)
 	for (scan = l; scan; scan = scan->next)
 		g_object_unref (scan->data);
 	g_list_free (l);
-}
-
-
-GList *
-_g_file_list_new_from_uri_list (GList *uris)
-{
-	GList *r = NULL, *scan;
-	for (scan = uris; scan; scan = scan->next)
-		r = g_list_prepend (r, g_file_new_for_uri ((char*)scan->data));
-	return g_list_reverse (r);
 }
 
 
@@ -2403,9 +1277,9 @@ _g_file_list_find_file (GList *l,
 }
 
 
-const char*
-_g_file_get_mime_type (GFile    *file,
-		       gboolean  fast_file_type)
+const char *
+_g_file_query_mime_type (GFile    *file,
+			 gboolean  fast_file_type)
 {
 	GFileInfo  *info;
 	GError     *err = NULL;
@@ -2425,51 +1299,11 @@ _g_file_get_mime_type (GFile    *file,
 		g_clear_error (&err);
 	}
 	else {
-		result = get_static_string (g_content_type_get_mime_type (g_file_info_get_content_type (info)));
+		result = _g_str_get_static (g_content_type_get_mime_type (g_file_info_get_content_type (info)));
 		g_object_unref (info);
 	}
 
 	return result;
-}
-
-
-void
-_g_file_get_modification_time (GFile    *file,
-			       GTimeVal *result)
-{
-	GFileInfo *info;
-	GError    *err = NULL;
-
-	result->tv_sec = 0;
-	result->tv_usec = 0;
-
-	info = g_file_query_info (file,
-				  G_FILE_ATTRIBUTE_TIME_MODIFIED "," G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC,
-				  0,
-				  NULL,
-				  &err);
-	if (info != NULL) {
-		g_file_info_get_modification_time (info, result);
-		g_object_unref (info);
-	}
-	else {
-		char *uri;
-
-		uri = g_file_get_uri (file);
-		g_warning ("could not get modification time for %s: %s", uri, err->message);
-		g_free (uri);
-		g_clear_error (&err);
-	}
-}
-
-
-time_t
-_g_file_get_mtime (GFile *file)
-{
-	GTimeVal timeval;
-
-	_g_file_get_modification_time (file, &timeval);
-	return (time_t) timeval.tv_sec;
 }
 
 
@@ -2493,179 +1327,37 @@ _g_file_cmp_uris (GFile *a,
 
 
 gboolean
-_g_file_equal_uris (GFile *a,
-		    GFile *b)
+_g_file_has_scheme (GFile      *file,
+		    const char *scheme)
 {
-	return _g_file_cmp_uris (a, b) == 0;
-}
-
-
-int
-_g_file_cmp_modification_time (GFile *file_a,
-			       GFile *file_b)
-{
-	GTimeVal timeval_a;
-	GTimeVal timeval_b;
-
-	_g_file_get_modification_time (file_a, &timeval_a);
-	_g_file_get_modification_time (file_b, &timeval_b);
-
-	return _g_time_val_cmp (&timeval_a, &timeval_b);
-}
-
-
-goffset
-_g_file_get_size (GFile *file)
-{
-	GFileInfo *info;
-	GError    *err = NULL;
-	goffset    size = 0;
-
-	info = g_file_query_info (file, G_FILE_ATTRIBUTE_FILESYSTEM_SIZE, 0, NULL, &err);
-	if (info != NULL) {
-		size = g_file_info_get_size (info);
-		g_object_unref (info);
-	}
-	else {
-		char *uri;
-
-		uri = g_file_get_uri (file);
-		g_warning ("could not get size for %s: %s", uri, err->message);
-		g_free (uri);
-		g_clear_error (&err);
-	}
-
-	return size;
-}
-
-
-#define MAX_SYMLINKS 32
-
-
-static GFile *
-resolve_symlinks (GFile   *file,
-		  GError **error,
-		  int      level)
-{
-	GFile *resolved;
-	char  *path;
-	char **names;
-	int    i;
-
-	if (level > MAX_SYMLINKS) {
-		char *uri;
-
-		uri = g_file_get_uri (file);
-		*error = g_error_new (G_IO_ERROR, G_IO_ERROR_TOO_MANY_LINKS, "Too many symbolic links for file: %s.", uri);
-		g_free (uri);
-
-		return NULL;
-	}
-
-	path = g_file_get_path (file);
-	if (path == NULL)
-		return g_file_dup (file);
-
-	resolved = g_file_new_for_path (G_DIR_SEPARATOR_S);
-
-	names = g_strsplit (path, G_DIR_SEPARATOR_S, -1);
-	for (i = 0; names[i] != NULL; i++) {
-		GFile     *child;
-		GFileInfo *info;
-		GFile     *new_resolved;
-
-		if (strcmp (names[i], "") == 0)
-			continue;
-
-		child = g_file_get_child (resolved, names[i]);
-		info = g_file_query_info (child, G_FILE_ATTRIBUTE_STANDARD_IS_SYMLINK "," G_FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET, 0, NULL, error);
-		if (info == NULL) {
-			g_object_unref (child);
-			g_object_unref (resolved);
-			resolved = NULL;
-			break;
-		}
-
-		/* if names[i] isn't a symbolic link add it to the resolved path and continue */
-
-		if (! g_file_info_get_is_symlink (info)) {
-			g_object_unref (info);
-			g_object_unref (resolved);
-			resolved = child;
-			continue;
-		}
-
-		g_object_unref (child);
-
-		/* names[i] is a symbolic link */
-
-		new_resolved = g_file_resolve_relative_path (resolved, g_file_info_get_symlink_target (info));
-
-		g_object_unref (resolved);
-		g_object_unref (info);
-
-		resolved = resolve_symlinks (new_resolved, error, level + 1);
-
-		g_object_unref (new_resolved);
-	}
-
-	g_strfreev (names);
-	g_free (path);
-
-	return resolved;
-}
-
-
-GFile *
-_g_file_resolve_all_symlinks (GFile   *file,
-			      GError **error)
-{
-	return resolve_symlinks (file, error, 0);
-}
-
-
-gboolean
-_g_file_has_prefix (GFile *file,
-		    GFile *prefix)
-{
-	char     *file_uri;
-	char     *prefix_uri;
+	char     *file_scheme;
 	gboolean  result;
 
-	file_uri = g_file_get_uri (file);
-	prefix_uri = g_file_get_uri (prefix);
-	if (! g_str_has_suffix (prefix_uri, "/")) {
-		char *tmp;
+	file_scheme = g_file_get_uri_scheme (file);
+	result = _g_str_equal (file_scheme, scheme);
 
-		tmp = g_strconcat (prefix_uri, "/", NULL);
-		g_free (prefix_uri);
-		prefix_uri = tmp;
-	}
-	result = g_str_has_prefix (file_uri, prefix_uri);
-
-	g_free (prefix_uri);
-	g_free (file_uri);
+	g_free (file_scheme);
 
 	return result;
 }
 
 
-GFile *
-_g_file_append_prefix (GFile      *file,
-		       const char *prefix)
+gboolean
+_g_file_is_parent (GFile *dir,
+		   GFile *file)
 {
-	char  *uri;
-	char  *new_uri;
-	GFile *new_file;
+	char     *dir_uri;
+	char     *file_uri;
+	gboolean  result;
 
-	uri = g_file_get_uri (file);
-	new_uri = g_strconcat (prefix, uri, NULL);
-	new_file = g_file_new_for_uri (new_uri);
+	dir_uri = g_file_get_uri (dir);
+	file_uri = g_file_get_uri (file);
+	result = _g_uri_is_parent (dir_uri, file_uri);
 
-	g_free (new_uri);
-	g_free (uri);
+	g_free (file_uri);
+	g_free (dir_uri);
 
-	return new_file;
+	return result;
 }
 
 
@@ -2673,21 +1365,25 @@ GFile *
 _g_file_append_path (GFile      *file,
 		     const char *path)
 {
-	char  *uri;
-	char  *escaped;
-	char  *new_uri;
-	GFile *new_file;
+	char     *uri;
+	UriParts  parts;
+	char     *new_path;
+	char     *new_uri;
+	GFile    *new_file;
 
 	if (path == NULL)
 		return g_file_dup (file);
 
 	uri = g_file_get_uri (file);
-	escaped = g_uri_escape_string (path, G_URI_RESERVED_CHARS_ALLOWED_IN_PATH, FALSE);
-	new_uri = _g_build_uri (uri, escaped, NULL);
+	_g_uri_split (uri, &parts);
+	new_path = _g_path_join (parts.path, path, NULL);
+	_g_str_set (&parts.path, new_path);
+	new_uri = _g_uri_join (&parts);
 	new_file = g_file_new_for_uri (new_uri);
 
 	g_free (new_uri);
-	g_free (escaped);
+	_g_uri_parts_clear (&parts);
+	g_free (new_path);
 	g_free (uri);
 
 	return new_file;
@@ -3010,12 +1706,10 @@ _g_content_type_guess_from_name (const char *filename)
 		return NULL;
 
 #if WEBP_IS_UNKNOWN_TO_GLIB
-	const char *ext;
-
-	ext = _g_uri_get_file_extension (filename);
-	if (g_strcmp0 (ext, ".webp") == 0)
+	if (_g_str_equal (_g_path_get_extension (filename), ".webp"))
 		return "image/webp";
 #endif
+
 	return g_content_type_guess (filename, NULL, 0, NULL);
 }
 
@@ -3144,15 +1838,17 @@ gboolean
 _g_mime_type_is_image (const char *mime_type)
 {
 	g_return_val_if_fail (mime_type != NULL, FALSE);
-	return (g_content_type_is_a (mime_type, "image/*"));
+
+	return g_content_type_is_a (mime_type, "image/*");
 }
 
 
 gboolean
 _g_mime_type_is_raw (const char *mime_type)
 {
-        g_return_val_if_fail (mime_type != NULL, FALSE);
-        return (g_content_type_is_a (mime_type, "image/x-dcraw"));
+	g_return_val_if_fail (mime_type != NULL, FALSE);
+
+	return g_content_type_is_a (mime_type, "image/x-dcraw");
 }
 
 
@@ -3201,7 +1897,7 @@ _g_settings_get_uri (GSettings  *settings,
 		return NULL;
 	}
 
-	uri = _g_replace (value, "file://~", get_home_uri ());
+	uri = _g_utf8_replace_str (value, "file://~", _g_uri_get_home ());
 
 	g_free (value);
 
@@ -3227,11 +1923,11 @@ _g_settings_get_uri_or_special_dir (GSettings      *settings,
 		if (dir != NULL)
 			uri = g_filename_to_uri (dir, NULL, NULL);
 		if (uri == NULL)
-			uri = g_strdup (get_home_uri ());
+			uri = g_strdup (_g_uri_get_home ());
 	}
 	else {
 		char *tmp = uri;
-		uri = _g_replace (tmp, "file://~", get_home_uri ());
+		uri = _g_utf8_replace_str (tmp, "file://~", _g_uri_get_home ());
 		g_free (tmp);
 	}
 
@@ -3337,16 +2033,6 @@ _g_format_duration_for_display (gint64 msecs)
          * "%d" if your locale uses localized digits.
          */
         return g_strdup_printf (C_("short time format", "%d∶%02d"), min, sec);
-}
-
-
-GList *
-_g_list_prepend_link (GList *list,
-		      GList *link)
-{
-	link->next = list;
-	if (list != NULL) list->prev = link;
-	return link;
 }
 
 

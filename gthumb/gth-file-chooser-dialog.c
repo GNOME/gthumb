@@ -219,10 +219,10 @@ static Format *
 get_format_from_extension (GthFileChooserDialog *self,
 			   const char           *filename)
 {
-	const char *ext;
-	GList      *scan;
+	char  *ext;
+	GList *scan;
 
-	ext = _g_uri_get_file_extension (filename);
+	ext = _g_uri_get_extension (filename);
 	if (ext == NULL)
 		return NULL;
 
@@ -234,9 +234,13 @@ get_format_from_extension (GthFileChooserDialog *self,
 		int     i;
 
 		for (i = 0; format->extensions[i] != NULL; i++)
-			if (g_ascii_strcasecmp (ext, format->extensions[i]) == 0)
+			if (g_ascii_strcasecmp (ext, format->extensions[i]) == 0) {
+				g_free (ext);
 				return format;
+			}
 	}
+
+	g_free (ext);
 
 	return NULL;
 }

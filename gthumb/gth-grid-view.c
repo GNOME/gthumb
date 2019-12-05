@@ -430,13 +430,13 @@ gth_grid_view_finalize (GObject *object)
 	g_list_free (self->priv->selection);
 
 	if (self->priv->hadjustment != NULL) {
-		g_signal_handlers_disconnect_by_data (self->priv->hadjustment, self);
+		_g_signal_handlers_disconnect_by_data (self->priv->hadjustment, self);
 		g_object_unref (self->priv->hadjustment);
 		self->priv->hadjustment = NULL;
 	}
 
 	if (self->priv->vadjustment != NULL) {
-		g_signal_handlers_disconnect_by_data (self->priv->vadjustment, self);
+		_g_signal_handlers_disconnect_by_data (self->priv->vadjustment, self);
 		g_object_unref (self->priv->vadjustment);
 		self->priv->vadjustment = NULL;
 	}
@@ -2357,7 +2357,7 @@ gth_grid_view_set_model (GthFileView  *file_view,
 	if (model != NULL)
 		g_object_ref (model);
 	if (self->priv->model != NULL) {
-		g_signal_handlers_disconnect_by_data (self->priv->model, self);
+		_g_signal_handlers_disconnect_by_data (self->priv->model, self);
 		g_object_unref (self->priv->model);
 	}
 	self->priv->model = model;
@@ -3502,7 +3502,7 @@ _gth_grid_view_set_hadjustment (GthGridView   *self,
 		adjustment = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
 	if (self->priv->hadjustment != NULL) {
-		g_signal_handlers_disconnect_by_data (self->priv->hadjustment, self);
+		_g_signal_handlers_disconnect_by_data (self->priv->hadjustment, self);
 		g_object_unref (self->priv->hadjustment);
 	}
 
@@ -3528,7 +3528,7 @@ _gth_grid_view_set_vadjustment (GthGridView   *self,
 		adjustment = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
 	if (self->priv->vadjustment != NULL) {
-		g_signal_handlers_disconnect_by_data (self->priv->vadjustment, self);
+		_g_signal_handlers_disconnect_by_data (self->priv->vadjustment, self);
 		g_object_unref (self->priv->vadjustment);
 	}
 

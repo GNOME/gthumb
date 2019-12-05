@@ -98,13 +98,13 @@ gth_metadata_set_property (GObject      *object,
 	self = GTH_METADATA (object);
 	switch (property_id) {
 	case GTH_METADATA_ID:
-		_g_strset (&self->priv->id, g_value_get_string (value));
+		_g_str_set (&self->priv->id, g_value_get_string (value));
 		break;
 	case GTH_METADATA_DESCRIPTION:
-		_g_strset (&self->priv->description, g_value_get_string (value));
+		_g_str_set (&self->priv->description, g_value_get_string (value));
 		break;
 	case GTH_METADATA_RAW:
-		_g_strset (&self->priv->raw, g_value_get_string (value));
+		_g_str_set (&self->priv->raw, g_value_get_string (value));
 		break;
 	case GTH_METADATA_STRING_LIST:
 		_g_object_unref (self->priv->list);
@@ -112,10 +112,10 @@ gth_metadata_set_property (GObject      *object,
 		self->priv->data_type = (self->priv->list != NULL) ? GTH_METADATA_TYPE_STRING_LIST : GTH_METADATA_TYPE_STRING;
 		break;
 	case GTH_METADATA_FORMATTED:
-		_g_strset (&self->priv->formatted, g_value_get_string (value));
+		_g_str_set (&self->priv->formatted, g_value_get_string (value));
 		break;
 	case GTH_METADATA_VALUE_TYPE:
-		_g_strset (&self->priv->value_type, g_value_get_string (value));
+		_g_str_set (&self->priv->value_type, g_value_get_string (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);

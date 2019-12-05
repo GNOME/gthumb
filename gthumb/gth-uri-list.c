@@ -196,7 +196,7 @@ _gth_uri_list_set_iter (GthUriList  *uri_list,
 	GFile         *file;
 	GthFileSource *file_source;
 	GFileInfo     *info;
-	const char    *display_name;
+	char          *display_name;
 	GIcon         *icon;
 
 	file = g_file_new_for_uri (uri);
@@ -204,12 +204,12 @@ _gth_uri_list_set_iter (GthUriList  *uri_list,
 	info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
 
 	if (info != NULL) {
-		display_name = (name != NULL) ? name : g_file_info_get_display_name (info);
+		display_name = g_strdup ((name != NULL) ? name : g_file_info_get_display_name (info));
 		icon = _g_object_ref (g_file_info_get_symbolic_icon (info));
 	}
 	else {
-		display_name = (name != NULL) ? name : _g_file_get_display_name (file);
-		icon = _g_file_get_symbolic_icon (file);
+		display_name = (name != NULL) ? g_strdup (name) : _g_file_get_display_name (file);
+		icon = g_themed_icon_new ("text-x-generic-symbolic");
 	}
 
 	gtk_list_store_set (uri_list->priv->list_store, iter,
@@ -219,6 +219,7 @@ _gth_uri_list_set_iter (GthUriList  *uri_list,
 			    -1);
 
 	_g_object_unref (icon);
+	g_free (display_name);
 	g_object_unref (file_source);
 	g_object_unref (file);
 
@@ -288,8 +289,8 @@ gth_uri_list_set_bookmarks (GthUriList    *uri_list,
 		}
 		else {
 			if (display_name == NULL)
-				display_name = g_strdup (_g_file_get_display_name (file));
-			icon = _g_file_get_symbolic_icon (file);
+				display_name = _g_file_get_display_name (file);
+			icon = g_themed_icon_new ("text-x-generic-symbolic");
 		}
 
 		gtk_list_store_append (uri_list->priv->list_store, &iter);
@@ -299,6 +300,7 @@ gth_uri_list_set_bookmarks (GthUriList    *uri_list,
 				    URI_LIST_COLUMN_URI, uri,
 				    -1);
 
+		g_free (display_name);
 		_g_object_unref (icon);
 		g_object_unref (file_source);
 		g_object_unref (file);

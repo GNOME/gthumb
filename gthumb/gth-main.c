@@ -335,7 +335,7 @@ gth_main_get_nearest_entry_point (GFile *file)
 	for (scan = list; scan; scan = scan->next) {
 		GthFileData *entry_point = scan->data;
 
-		if (g_file_equal (file, entry_point->file) || _g_file_has_prefix (file, entry_point->file))
+		if (_g_file_is_parent (entry_point->file, file))
 			entries = g_list_prepend (entries, g_file_get_uri (entry_point->file));
 	}
 

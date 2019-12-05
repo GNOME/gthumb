@@ -96,19 +96,22 @@ save_button_clicked_cb (GtkButton  *button,
 		GFile *parent;
 		char  *uri;
 		char  *clean_name;
+		char  *ext;
 		char  *display_name;
 		GFile *new_file;
 
 		parent = g_file_get_parent (data->original_file);
 		uri = g_file_get_uri (data->original_file);
 		clean_name = _g_filename_clear_for_file (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))));
-		display_name = g_strconcat (clean_name, _g_uri_get_file_extension (uri), NULL);
+		ext = _g_uri_get_extension (uri);
+		display_name = g_strconcat (clean_name, ext, NULL);
 		new_file = g_file_get_child_for_display_name (parent, display_name, NULL);
 		if ((new_file != NULL) && ! g_file_equal (new_file, data->original_file))
 			gth_file_data_set_file (data->file_data, new_file);
 
 		_g_object_unref (new_file);
 		g_free (display_name);
+		g_free (ext);
 		g_free (clean_name);
 		g_free (uri);
 		g_object_unref (parent);
@@ -164,7 +167,7 @@ catalog_ready_cb (GObject  *object,
 		char *utf8_name;
 
 		basename = g_file_get_basename (data->file_data->file);
-		name = _g_uri_remove_extension (basename);
+		name = _g_path_remove_extension (basename);
 		utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), utf8_name);
 

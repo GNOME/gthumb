@@ -70,19 +70,19 @@ facebook_album_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_ID:
-		_g_strset (&self->id, g_value_get_string (value));
+		_g_str_set (&self->id, g_value_get_string (value));
 		break;
 	case PROP_NAME:
-		_g_strset (&self->name, g_value_get_string (value));
+		_g_str_set (&self->name, g_value_get_string (value));
 		break;
 	case PROP_DESCRIPTION:
-		_g_strset (&self->description, g_value_get_string (value));
+		_g_str_set (&self->description, g_value_get_string (value));
 		break;
 	case PROP_LINK:
-		_g_strset (&self->link, g_value_get_string (value));
+		_g_str_set (&self->link, g_value_get_string (value));
 		break;
 	case PROP_PRIVACY:
-		_g_strset (&self->privacy, g_value_get_string (value));
+		_g_str_set (&self->privacy, g_value_get_string (value));
 		break;
 	case PROP_COUNT:
 		self->count = g_value_get_int (value);

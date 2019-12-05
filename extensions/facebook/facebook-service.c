@@ -111,7 +111,7 @@ static void
 _facebook_service_set_access_token (FacebookService *self,
 				    const char      *token)
 {
-	_g_strset (&self->priv->token, token);
+	_g_str_set (&self->priv->token, token);
 }
 
 
@@ -753,6 +753,7 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	GthFileData     *file_data;
 	SoupMultipart   *multipart;
 	char            *uri;
+	char            *basename;
 	SoupBuffer      *body;
 	SoupMessage     *msg;
 
@@ -858,14 +859,16 @@ upload_photo_file_buffer_ready_cb (void     **buffer,
 	}
 
 	uri = g_file_get_uri (file_data->file);
+	basename = _g_uri_get_basename (uri);
 	body = soup_buffer_new (SOUP_MEMORY_TEMPORARY, *buffer, count);
 	soup_multipart_append_form_file (multipart,
 					 "source",
-					 _g_uri_get_basename (uri),
+					 basename,
 					 gth_file_data_get_mime_type (file_data),
 					 body);
 
 	soup_buffer_free (body);
+	g_free (basename);
 	g_free (uri);
 
 	/* send the file */

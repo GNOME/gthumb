@@ -1230,7 +1230,7 @@ header_entry_changed_cb (GtkEditable *editable,
 {
 	GthImagePrintJob *self = user_data;
 
-	_g_strset (&self->priv->header_template, gtk_entry_get_text (GTK_ENTRY (editable)));
+	_g_str_set (&self->priv->header_template, gtk_entry_get_text (GTK_ENTRY (editable)));
 	if (g_strcmp0 (self->priv->header_template, "") == 0) {
 		g_free (self->priv->header_template);
 		self->priv->header_template = NULL;
@@ -1246,7 +1246,7 @@ footer_entry_changed_cb (GtkEditable *editable,
 {
 	GthImagePrintJob *self = user_data;
 
-	_g_strset (&self->priv->footer_template, gtk_entry_get_text (GTK_ENTRY (editable)));
+	_g_str_set (&self->priv->footer_template, gtk_entry_get_text (GTK_ENTRY (editable)));
 	if (g_strcmp0 (self->priv->footer_template, "") == 0) {
 		g_free (self->priv->footer_template);
 		self->priv->footer_template = NULL;
@@ -1788,7 +1788,7 @@ _gth_image_print_job_set_output_uri (GthImagePrintJob *self,
 	char       *uri;
 
 	if (self->priv->n_images == 1)
-		basename = _g_uri_remove_extension (g_file_info_get_name (self->priv->images[0]->file_data->info));
+		basename = _g_path_remove_extension (g_file_info_get_name (self->priv->images[0]->file_data->info));
 	else
 		basename = g_strdup (g_file_info_get_edit_name (gth_browser_get_location_data (self->priv->browser)->info));
 	default_dir = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);

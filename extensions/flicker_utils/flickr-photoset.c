@@ -161,7 +161,7 @@ void
 flickr_photoset_set_id (FlickrPhotoset *self,
 			const char     *value)
 {
-	_g_strset (&self->id, value);
+	_g_str_set (&self->id, value);
 }
 
 
@@ -169,7 +169,7 @@ void
 flickr_photoset_set_title (FlickrPhotoset *self,
 			   const char     *value)
 {
-	_g_strset (&self->title, value);
+	_g_str_set (&self->title, value);
 }
 
 
@@ -177,7 +177,7 @@ void
 flickr_photoset_set_description (FlickrPhotoset *self,
 			         const char     *value)
 {
-	_g_strset (&self->description, value);
+	_g_str_set (&self->description, value);
 }
 
 
@@ -196,7 +196,7 @@ void
 flickr_photoset_set_primary (FlickrPhotoset *self,
 			     const char     *value)
 {
-	_g_strset (&self->primary, value);
+	_g_str_set (&self->primary, value);
 }
 
 
@@ -204,7 +204,7 @@ void
 flickr_photoset_set_secret (FlickrPhotoset *self,
 			    const char     *value)
 {
-	_g_strset (&self->secret, value);
+	_g_str_set (&self->secret, value);
 }
 
 
@@ -212,7 +212,7 @@ void
 flickr_photoset_set_server (FlickrPhotoset *self,
 			    const char     *value)
 {
-	_g_strset (&self->server, value);
+	_g_str_set (&self->server, value);
 }
 
 
@@ -220,7 +220,7 @@ void
 flickr_photoset_set_farm (FlickrPhotoset *self,
 			  const char     *value)
 {
-	_g_strset (&self->farm, value);
+	_g_str_set (&self->farm, value);
 }
 
 
@@ -228,5 +228,5 @@ void
 flickr_photoset_set_url (FlickrPhotoset *self,
 			 const char     *value)
 {
-	_g_strset (&self->url, value);
+	_g_str_set (&self->url, value);
 }

@@ -68,7 +68,7 @@ gth_metadata_provider_file_read (GthMetadataProvider *self,
 	g_file_info_set_attribute_string (file_data->info, "gth::file::full-name", value);
 	g_free (value);
 
-	value_s = get_static_string (g_file_info_get_content_type (file_data->info));
+	value_s = _g_str_get_static (g_file_info_get_content_type (file_data->info));
 	if (value_s != NULL)
 		g_file_info_set_attribute_string (file_data->info, "gth::file::content-type", value_s);
 

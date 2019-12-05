@@ -82,21 +82,21 @@ oauth_account_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_ID:
-		_g_strset (&self->id, g_value_get_string (value));
+		_g_str_set (&self->id, g_value_get_string (value));
 		break;
 	case PROP_USERNAME:
-		_g_strset (&self->username, g_value_get_string (value));
+		_g_str_set (&self->username, g_value_get_string (value));
 		if (self->name == NULL)
-			_g_strset (&self->name, g_value_get_string (value));
+			_g_str_set (&self->name, g_value_get_string (value));
 		break;
 	case PROP_NAME:
-		_g_strset (&self->name, g_value_get_string (value));
+		_g_str_set (&self->name, g_value_get_string (value));
 		break;
 	case PROP_TOKEN:
-		_g_strset (&self->token, g_value_get_string (value));
+		_g_str_set (&self->token, g_value_get_string (value));
 		break;
 	case PROP_TOKEN_SECRET:
-		_g_strset (&self->token_secret, g_value_get_string (value));
+		_g_str_set (&self->token_secret, g_value_get_string (value));
 		break;
 	case PROP_IS_DEFAULT:
 		self->is_default = g_value_get_boolean (value);
@@ -286,7 +286,7 @@ void
 oauth_account_set_username (OAuthAccount *self,
 			    const char    *value)
 {
-	_g_strset (&self->username, value);
+	_g_str_set (&self->username, value);
 }
 
 
@@ -294,7 +294,7 @@ void
 oauth_account_set_token (OAuthAccount *self,
 			 const char    *value)
 {
-	_g_strset (&self->token, value);
+	_g_str_set (&self->token, value);
 }
 
 
@@ -302,7 +302,7 @@ void
 oauth_account_set_token_secret (OAuthAccount *self,
 				const char   *value)
 {
-	_g_strset (&self->token_secret, value);
+	_g_str_set (&self->token_secret, value);
 }
 
 

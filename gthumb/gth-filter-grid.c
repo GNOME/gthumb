@@ -257,9 +257,9 @@ button_toggled_cb (GtkWidget *toggle_button,
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button))) {
 		if (self->priv->active_button != toggle_button) {
 			if (self->priv->active_button != NULL) {
-				g_signal_handlers_block_by_data (self->priv->active_button, self);
+				_g_signal_handlers_block_by_data (self->priv->active_button, self);
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->active_button), FALSE);
-				g_signal_handlers_unblock_by_data (self->priv->active_button, self);
+				_g_signal_handlers_unblock_by_data (self->priv->active_button, self);
 			}
 			self->priv->active_button = toggle_button;
 		}
@@ -464,7 +464,7 @@ image_preview_completed_cb (GthTask    *task,
 	current_task = (PreviewTask *) data->current_task->data;
 	g_return_if_fail (task == current_task->image_task);
 
-	g_signal_handlers_disconnect_by_data (task, data);
+	_g_signal_handlers_disconnect_by_data (task, data);
 
 	if ((error != NULL) || (data->self == NULL)) {
 		generate_preview_data_free (data);

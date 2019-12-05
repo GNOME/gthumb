@@ -974,19 +974,16 @@ gboolean
 gth_file_source_supports_scheme (GthFileSource *file_source,
 				 const char    *uri)
 {
-	gboolean  result = FALSE;
-	GList    *scan;
+	GList *scan;
 
 	for (scan = file_source->priv->schemes; scan; scan = scan->next) {
 		const char *scheme = scan->data;
 
-		if (strncmp (uri, scheme, strlen (scheme)) == 0) {
-			result = TRUE;
-			break;
-		}
+		if (g_str_has_prefix (uri, scheme))
+			return TRUE;
 	}
 
-	return result;
+	return FALSE;
 }
 
 

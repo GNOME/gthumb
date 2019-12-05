@@ -467,7 +467,7 @@ update_quality_cb (gpointer user_data)
 		self->priv->update_quality_id = 0;
 	}
 
-	file_changed = ! _g_file_equal_uris (data->file_data->file, self->priv->file_data->file);
+	file_changed = ! _g_file_equal (data->file_data->file, self->priv->file_data->file);
 	update_quality_data_free (data);
 
 	if (file_changed)
@@ -685,10 +685,10 @@ update_zoom_info (GthImageViewerPage *self)
 
 	GtkWidget *scale = _gtk_builder_get_widget (self->priv->builder, "zoom_level_scale");
 
-	g_signal_handlers_block_by_data (scale, self);
+	_g_signal_handlers_block_by_data (scale, self);
 	x = (zoom - MIN_ZOOM_LEVEL) / (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) * 100.0;
 	gtk_range_set_value (GTK_RANGE (scale), CLAMP (x, 0, 100));
-	g_signal_handlers_unblock_by_data (scale, self);
+	_g_signal_handlers_unblock_by_data (scale, self);
 }
 
 

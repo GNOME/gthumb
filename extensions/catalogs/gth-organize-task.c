@@ -571,7 +571,7 @@ gth_organize_task_exec (GthTask *base)
 		break;
 	}
 
-	g_directory_foreach_child (self->priv->folder,
+	_g_directory_foreach_child (self->priv->folder,
 				   self->priv->recursive,
 				   TRUE,
 				   attributes,
@@ -738,12 +738,12 @@ organization_treeview_selection_changed_cb (GtkTreeSelection *treeselection,
 		gtk_widget_show (GET_WIDGET ("preview_box"));
 
 		file_list = gth_catalog_get_file_list (catalog);
-		_g_query_info_async (file_list,
-				     GTH_LIST_DEFAULT,
-				     GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
-				     NULL,
-				     file_list_info_ready_cb,
-				     self);
+		_g_file_list_query_info_async (file_list,
+					       GTH_LIST_DEFAULT,
+					       GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
+					       NULL,
+					       file_list_info_ready_cb,
+					       self);
 	}
 
 	g_free (key);

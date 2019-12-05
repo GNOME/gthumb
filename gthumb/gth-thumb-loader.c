@@ -513,7 +513,7 @@ is_a_cache_file (const char *uri)
 
 	cache_dir_1 = g_build_filename (g_get_home_dir (), ".thumbnails", NULL);
 	cache_dir_2 = g_build_filename (g_get_user_cache_dir (), "thumbnails", NULL);
-	result = _g_uri_parent_of_uri (cache_dir_1, filename) || _g_uri_parent_of_uri (cache_dir_2, filename);
+	result = _g_path_is_parent (cache_dir_1, filename) || _g_path_is_parent (cache_dir_2, filename);
 
 	g_free (cache_dir_1);
 	g_free (cache_dir_2);

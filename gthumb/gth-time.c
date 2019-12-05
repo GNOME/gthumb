@@ -348,7 +348,7 @@ gth_datetime_strftime (GthDateTime *dt,
 	struct  tm tm;
 
 	if (gth_datetime_to_struct_tm (dt, &tm))
-		return struct_tm_strftime (&tm, format);
+		return _g_struct_tm_strftime (&tm, format);
 	else
 		return g_strdup ("");
 }

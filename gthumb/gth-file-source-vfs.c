@@ -125,7 +125,7 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 
 	list = NULL;
 
-	list = gth_file_source_vfs_add_uri (list, file_source, get_home_uri ());
+	list = gth_file_source_vfs_add_uri (list, file_source, _g_uri_get_home ());
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_PICTURES);
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_VIDEOS);
 	list = gth_file_source_vfs_add_special_dir (list, file_source, G_USER_DIRECTORY_DOWNLOAD);
@@ -231,7 +231,7 @@ gth_file_source_vfs_get_file_info (GthFileSource *file_source,
 
 		g_object_unref (icon);
 	}
-	else if (g_strcmp0 (uri, get_home_uri ()) == 0)
+	else if (g_strcmp0 (uri, _g_uri_get_home ()) == 0)
 		g_file_info_set_display_name (file_info, _("Home Folder"));
 
 	g_free (uri);
@@ -337,7 +337,7 @@ gth_file_source_vfs_for_each_child (GthFileSource        *file_source,
 	file_source_vfs->priv->check_hidden_files = _g_file_attributes_matches_any (attributes, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN);
 
 	gio_folder = gth_file_source_to_gio_file (file_source, parent);
-	g_directory_foreach_child (gio_folder,
+	_g_directory_foreach_child (gio_folder,
 				   recursive,
 				   TRUE,
 				   attributes,
@@ -392,19 +392,19 @@ gth_file_source_vfs_copy (GthFileSource    *file_source,
 	cod->ready_callback = ready_callback;
 	cod->user_data = data;
 
-	_g_copy_files_async (file_list,
-			     destination->file,
-			     move,
-			     GTH_FILE_COPY_ALL_METADATA | GTH_FILE_COPY_RENAME_SAME_FILE,
-			     GTH_OVERWRITE_RESPONSE_UNSPECIFIED,
-			     G_PRIORITY_DEFAULT,
-			     gth_file_source_get_cancellable (file_source),
-			     progress_callback,
-			     data,
-			     dialog_callback,
-			     data,
-			     copy_done_cb,
-			     cod);
+	_g_file_list_copy_async (file_list,
+				 destination->file,
+				 move,
+				 GTH_FILE_COPY_ALL_METADATA | GTH_FILE_COPY_RENAME_SAME_FILE,
+				 GTH_OVERWRITE_RESPONSE_UNSPECIFIED,
+				 G_PRIORITY_DEFAULT,
+				 gth_file_source_get_cancellable (file_source),
+				 progress_callback,
+				 data,
+				 dialog_callback,
+				 data,
+				 copy_done_cb,
+				 cod);
 }
 
 
@@ -889,16 +889,15 @@ gth_file_source_vfs_get_drop_actions (GthFileSource *file_source,
 				      GFile         *destination,
 				      GFile         *file)
 {
-	char *dest_scheme;
-	char *file_scheme;
+	GdkDragAction actions = 0;
 
-	dest_scheme = g_file_get_uri_scheme(destination);
-	file_scheme = g_file_get_uri_scheme(file);
+	if (_g_file_has_scheme (destination, "file")
+		&& _g_file_has_scheme (file, "file"))
+	{
+		actions = GDK_ACTION_COPY | GDK_ACTION_MOVE;
+	}
 
-	if ((g_strcmp0 (dest_scheme, "file") == 0) && (g_strcmp0 (file_scheme, "file") == 0))
-		return GDK_ACTION_COPY | GDK_ACTION_MOVE;
-	else
-		return 0;
+	return actions;
 }
 
 

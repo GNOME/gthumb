@@ -212,7 +212,7 @@ get_new_wallpaper_file_async (GCancellable        *cancellable,
 	task = g_task_new (NULL, cancellable, callback, user_data);
 	g_task_set_task_data (task, nw_data, (GDestroyNotify) new_wallpaper_data_free);
 
-	g_directory_foreach_child (nw_data->folder,
+	_g_directory_foreach_child (nw_data->folder,
 				   FALSE,
 				   FALSE,
 				   GFILE_NAME_TYPE_ATTRIBUTES,

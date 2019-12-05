@@ -622,7 +622,7 @@ get_display_name (GFile       *file,
 			char *name;
 			char *utf8_name;
 
-			name = _g_uri_remove_extension (basename);
+			name = _g_path_remove_extension (basename);
 			utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
 			g_string_append (display_name, utf8_name);
 
@@ -673,7 +673,7 @@ get_edit_name (GFile       *file,
 			char *name;
 			char *utf8_name;
 
-			name = _g_uri_remove_extension (basename);
+			name = _g_path_remove_extension (basename);
 			utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
 			g_string_append (display_name, utf8_name);
 

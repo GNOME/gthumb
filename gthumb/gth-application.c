@@ -315,7 +315,7 @@ gth_application_command_line (GApplication            *application,
 		GFileType  file_type;
 
 		location = g_file_new_for_commandline_arg (arg);
-		file_type = _g_file_get_standard_type (location);
+		file_type = _g_file_query_standard_type (location);
 		if (file_type == G_FILE_TYPE_REGULAR)
 			files = g_list_prepend (files, location);
 		else

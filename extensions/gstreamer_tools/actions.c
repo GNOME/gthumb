@@ -96,7 +96,7 @@ get_screenshot_file (SaveData  *save_data,
 	uri = _g_settings_get_uri_or_special_dir (save_data->settings, PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION, G_USER_DIRECTORY_PICTURES);
 	folder = g_file_new_for_uri (uri);
 	file_data = gth_media_viewer_page_get_file_data (save_data->page);
-	prefix = _g_utf8_remove_extension (g_file_info_get_display_name (file_data->info));
+	prefix = _g_path_remove_extension (g_file_info_get_display_name (file_data->info));
 	if (prefix == NULL)
 		prefix = g_strdup (C_("Filename", "Screenshot"));
 

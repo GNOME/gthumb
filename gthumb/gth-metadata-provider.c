@@ -183,14 +183,15 @@ _g_query_metadata_async_thread (GTask        *task,
 						      G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE,
 						      qmd->attributes_v))
 		{
-			char       *uri;
-			const char *ext;
+			char *uri;
+			char *ext;
 
 			uri = g_file_get_uri (file_data->file);
-			ext = _g_uri_get_file_extension (uri);
+			ext = _g_uri_get_extension (uri);
 			if (g_strcmp0 (ext, ".webp") == 0)
 				gth_file_data_set_mime_type (file_data, "image/webp");
 
+			g_free (ext);
 			g_free (uri);
 		}
 #endif
@@ -435,10 +436,10 @@ _g_query_all_metadata_async (GList             *files, /* GFile * list */
 	qam->ready_func = ready_func;
 	qam->user_data = user_data;
 
-	_g_query_info_async (files,
-			     flags,
-			     qam->attributes,
-			     qam->cancellable,
-			     qam_info_ready_cb,
-			     qam);
+	_g_file_list_query_info_async (files,
+				       flags,
+				       qam->attributes,
+				       qam->cancellable,
+				       qam_info_ready_cb,
+				       qam);
 }

@@ -36,7 +36,7 @@ gth_browser_show_selection (GthBrowser *browser,
 	uri = g_strdup_printf ("selection:///%d", n_selection);
 	location = g_file_new_for_uri (uri);
 
-	if (_g_file_equal_uris (location, gth_browser_get_location (browser))) {
+	if (_g_file_equal (location, gth_browser_get_location (browser))) {
 		if (! gth_browser_restore_state (browser))
 			gth_browser_load_location (browser, location);
 	}

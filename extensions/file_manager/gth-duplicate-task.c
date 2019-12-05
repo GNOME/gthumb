@@ -122,19 +122,19 @@ duplicate_current_file (GthDuplicateTask *self)
 		g_object_unref (tmp);
 	}
 
-	_g_copy_file_async (file_data,
-			    self->priv->destination,
-			    FALSE,
-			    GTH_FILE_COPY_ALL_METADATA,
-			    GTH_OVERWRITE_RESPONSE_ALWAYS_NO,
-			    G_PRIORITY_DEFAULT,
-			    gth_task_get_cancellable (GTH_TASK (self)),
-			    copy_progress_cb,
-			    self,
-			    copy_dialog_cb,
-			    self,
-			    copy_ready_cb,
-			    self);
+	_gth_file_data_copy_async (file_data,
+				   self->priv->destination,
+				   FALSE,
+				   GTH_FILE_COPY_ALL_METADATA,
+				   GTH_OVERWRITE_RESPONSE_ALWAYS_NO,
+				   G_PRIORITY_DEFAULT,
+				   gth_task_get_cancellable (GTH_TASK (self)),
+				   copy_progress_cb,
+				   self,
+				   copy_dialog_cb,
+				   self,
+				   copy_ready_cb,
+				   self);
 }
 
 

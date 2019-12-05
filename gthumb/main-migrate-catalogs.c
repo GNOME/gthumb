@@ -434,7 +434,7 @@ migration_for_each_file (GFile     *file,
 	catalogs_path = g_file_get_path (catalogs_dir);
 	relative_path = g_file_get_relative_path (data->collections_dir, file);
 	tmp_path = g_strconcat (catalogs_path, G_DIR_SEPARATOR_S, relative_path, NULL);
-	full_path_no_ext = _g_uri_remove_extension (tmp_path);
+	full_path_no_ext = _g_path_remove_extension (tmp_path);
 	full_path = g_strconcat (full_path_no_ext, extension, NULL);
 	catalog_file = g_file_new_for_path (full_path);
 	catalog_dir = g_file_get_parent (catalog_file);
@@ -500,7 +500,7 @@ migrate_catalogs_from_2_10 (void)
 	home_dir = g_file_new_for_path (g_get_home_dir ());
 	data->collections_dir = _g_file_get_child (home_dir, ".gnome2", "gthumb", "collections", NULL);
 
-	g_directory_foreach_child (data->collections_dir,
+	_g_directory_foreach_child (data->collections_dir,
 				   TRUE,
 				   TRUE,
 				   "standard::name,standard::type",

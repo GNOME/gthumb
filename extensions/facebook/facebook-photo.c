@@ -74,7 +74,7 @@ facebook_image_copy (FacebookImage *source)
 	FacebookImage *dest;
 
 	dest = facebook_image_new ();
-	_g_strset (&dest->source, source->source);
+	_g_str_set (&dest->source, source->source);
 	dest->width = source->width;
 	dest->height = source->height;
 
@@ -131,13 +131,13 @@ facebook_photo_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_ID:
-		_g_strset (&self->id, g_value_get_string (value));
+		_g_str_set (&self->id, g_value_get_string (value));
 		break;
 	case PROP_PICTURE:
-		_g_strset (&self->picture, g_value_get_string (value));
+		_g_str_set (&self->picture, g_value_get_string (value));
 		break;
 	case PROP_SOURCE:
-		_g_strset (&self->source, g_value_get_string (value));
+		_g_str_set (&self->source, g_value_get_string (value));
 		break;
 	case PROP_WIDTH:
 		self->width = g_value_get_int (value);
@@ -146,7 +146,7 @@ facebook_photo_set_property (GObject      *object,
 		self->height = g_value_get_int (value);
 		break;
 	case PROP_LINK:
-		_g_strset (&self->link, g_value_get_string (value));
+		_g_str_set (&self->link, g_value_get_string (value));
 		break;
 	case PROP_CREATED_TIME:
 		gth_datetime_free (self->created_time);
@@ -353,7 +353,7 @@ facebook_photo_deserialize_property (JsonSerializable *serializable,
 				FacebookImage *image;
 
 				image = facebook_image_new ();
-				_g_strset (&image->source, json_object_get_string_member (image_obj, "source"));
+				_g_str_set (&image->source, json_object_get_string_member (image_obj, "source"));
 				image->width = json_object_get_int_member (image_obj, "width");
 				image->height = json_object_get_int_member (image_obj, "height");
 

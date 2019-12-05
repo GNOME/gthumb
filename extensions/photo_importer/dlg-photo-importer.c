@@ -620,7 +620,7 @@ dlg_photo_importer (GthBrowser            *browser,
 			if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
 				data->source = _g_object_ref (gth_browser_get_location (browser));
 			if (data->source == NULL)
-				data->source = g_file_new_for_uri (get_home_uri ());
+				data->source = g_file_new_for_uri (_g_uri_get_home ());
 		}
 
 		gtk_window_set_title (GTK_WINDOW (data->dialog), _("Import from Folder"));

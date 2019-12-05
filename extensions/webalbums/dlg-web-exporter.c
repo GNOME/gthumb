@@ -479,7 +479,7 @@ dlg_web_exporter (GthBrowser *browser,
 
 		destination = _g_settings_get_uri (data->settings, PREF_WEBALBUMS_DESTINATION);
 		if (destination == NULL)
-			destination = g_strdup (get_home_uri ());
+			destination = g_strdup (_g_uri_get_home ());
 		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")), destination);
 
 		g_free (destination);

@@ -231,6 +231,47 @@ get_page_height (GthContactSheetCreator *self,
 }
 
 
+static char *
+_g_get_name_from_template (char **utf8_template,
+			   int    n)
+{
+	GString *s;
+	int      i;
+	char    *result;
+
+	s = g_string_new (NULL);
+
+	for (i = 0; utf8_template[i] != NULL; i++) {
+		const char *chunk = utf8_template[i];
+		gunichar    ch = g_utf8_get_char (chunk);
+
+		if (ch != '#')
+			g_string_append (s, chunk);
+		else {
+			char *s_n;
+			int   s_n_len;
+			int   sharps_len = g_utf8_strlen (chunk, -1);
+
+			s_n = g_strdup_printf ("%d", n);
+			s_n_len = strlen (s_n);
+
+			while (s_n_len < sharps_len) {
+				g_string_append_c (s, '0');
+				sharps_len--;
+			}
+
+			g_string_append (s, s_n);
+			g_free (s_n);
+		}
+	}
+
+	result = s->str;
+	g_string_free (s, FALSE);
+
+	return result;
+}
+
+
 static void
 begin_page (GthContactSheetCreator *self,
 	    int                     page_n)
@@ -559,7 +600,6 @@ paint_frame (GthContactSheetCreator *self,
 	if (self->priv->imagemap_stream != NULL) {
 		char   *file;
 		char   *destination;
-		char   *relative_uri;
 		char   *relative_path;
 		char   *alt_attribute;
 		char   *line;
@@ -567,9 +607,8 @@ paint_frame (GthContactSheetCreator *self,
 
 		file = g_file_get_uri (file_data->file);
 		destination = g_file_get_uri (self->priv->destination);
-		relative_uri = _g_uri_get_relative_path (file, destination);
-		relative_path = g_uri_unescape_string (relative_uri, "");
-		alt_attribute = _g_escape_for_html (relative_path, -1);
+		relative_path = _g_uri_get_relative_path (file, destination);
+		alt_attribute = _g_utf8_escape_xml (relative_path);
 
 		line = g_strdup_printf ("      <area shape=\"rect\" coords=\"%d,%d,%d,%d\" href=\"%s\" alt=\"%s\" />\n",
 					frame_rect->x,
@@ -586,7 +625,6 @@ paint_frame (GthContactSheetCreator *self,
 		g_free (line);
 		g_free (alt_attribute);
 		g_free (relative_path);
-		g_free (relative_uri);
 		g_free (destination);
 		g_free (file);
 	}
@@ -1127,7 +1165,7 @@ void
 gth_contact_sheet_creator_set_header (GthContactSheetCreator *self,
 				      const char             *value)
 {
-	_g_strset (&self->priv->header, value);
+	_g_str_set (&self->priv->header, value);
 }
 
 
@@ -1135,7 +1173,7 @@ void
 gth_contact_sheet_creator_set_footer (GthContactSheetCreator *self,
 				      const char             *value)
 {
-	_g_strset (&self->priv->footer, value);
+	_g_str_set (&self->priv->footer, value);
 }
 
 
@@ -1152,10 +1190,10 @@ void
 gth_contact_sheet_creator_set_filename_template (GthContactSheetCreator *self,
 						 const char             *filename_template)
 {
-	_g_strset (&self->priv->template, filename_template);
+	_g_str_set (&self->priv->template, filename_template);
 	if (self->priv->template_v != NULL)
 		g_strfreev (self->priv->template_v);
-	self->priv->template_v = _g_get_template_from_text (self->priv->template);
+	self->priv->template_v = _g_utf8_split_template (self->priv->template);
 }
 
 
@@ -1164,8 +1202,8 @@ gth_contact_sheet_creator_set_mime_type (GthContactSheetCreator *self,
 					 const char             *mime_type,
 					 const char             *file_extension)
 {
-	_g_strset (&self->priv->mime_type, mime_type);
-	_g_strset (&self->priv->file_extension, file_extension);
+	_g_str_set (&self->priv->mime_type, mime_type);
+	_g_str_set (&self->priv->file_extension, file_extension);
 }
 
 
@@ -1249,6 +1287,6 @@ void
 gth_contact_sheet_creator_set_thumbnail_caption (GthContactSheetCreator *self,
 						 const char             *caption)
 {
-	_g_strset (&self->priv->thumbnail_caption, caption);
+	_g_str_set (&self->priv->thumbnail_caption, caption);
 	self->priv->thumbnail_caption_v = g_strsplit (self->priv->thumbnail_caption, ",", -1);
 }

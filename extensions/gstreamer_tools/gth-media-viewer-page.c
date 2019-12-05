@@ -1037,8 +1037,8 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 	if (self->priv->playbin != NULL) {
 		save_volume (self);
 
-	        g_signal_handlers_disconnect_by_data (self->priv->playbin, self);
-	        g_signal_handlers_disconnect_by_data (self->priv->video_area, self);
+	        _g_signal_handlers_disconnect_by_data (self->priv->playbin, self);
+	        _g_signal_handlers_disconnect_by_data (self->priv->video_area, self);
 
 		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
 		wait_playbin_state_change_to_complete (self);

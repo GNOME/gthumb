@@ -292,7 +292,7 @@ update_view_from_data (GthTimeSelector *self)
 		char      *text;
 
 		g_date_to_struct_tm (self->priv->date_time->date, &tm);
-		text = struct_tm_strftime (&tm, "%x");
+		text = _g_struct_tm_strftime (&tm, "%x");
 		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), text);
 
 		if (gth_datetime_valid (self->priv->date_time)) {

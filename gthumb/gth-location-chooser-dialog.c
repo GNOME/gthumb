@@ -118,7 +118,7 @@ location_entry_changed_cb (GthLocationChooser *entry,
 	GFile                    *folder;
 
 	folder = gth_location_chooser_get_current (entry);
-	if (_g_file_equal_uris (folder, gth_folder_tree_get_root (GTH_FOLDER_TREE (self->priv->folder_tree)))) {
+	if (_g_file_equal (folder, gth_folder_tree_get_root (GTH_FOLDER_TREE (self->priv->folder_tree)))) {
 		gtk_tree_view_collapse_all (GTK_TREE_VIEW (self->priv->folder_tree));
 		_set_folder (self, NULL);
 	}

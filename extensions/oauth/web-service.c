@@ -122,13 +122,13 @@ web_service_set_property (GObject      *object,
 
 	switch (property_id) {
 	case PROP_SERVICE_NAME:
-		_g_strset (&self->priv->service_name, g_value_get_string (value));
+		_g_str_set (&self->priv->service_name, g_value_get_string (value));
 		break;
 	case PROP_SERVICE_ADDRESS:
-		_g_strset (&self->priv->service_address, g_value_get_string (value));
+		_g_str_set (&self->priv->service_address, g_value_get_string (value));
 		break;
 	case PROP_SERVICE_PROTOCOL:
-		_g_strset (&self->priv->service_protocol, g_value_get_string (value));
+		_g_str_set (&self->priv->service_protocol, g_value_get_string (value));
 		break;
 	case PROP_ACCOUNT_TYPE:
 		self->priv->account_type = g_value_get_gtype (value);

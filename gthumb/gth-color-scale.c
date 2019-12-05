@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include "cairo-utils.h"
+#include "glib-utils.h"
 #include "gth-color-scale.h"
 #include "gth-enum-types.h"
 
@@ -484,7 +485,7 @@ notify_adjustment_cb (GObject    *gobject,
 	GtkAdjustment *adj;
 
 	if (self->priv->adj != NULL) {
-		g_signal_handlers_disconnect_by_data (self->priv->adj, self);
+		_g_signal_handlers_disconnect_by_data (self->priv->adj, self);
 		g_object_unref (self->priv->adj);
 		self->priv->adj = NULL;
 	}

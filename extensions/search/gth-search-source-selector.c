@@ -205,7 +205,7 @@ gth_search_source_selector_set_source (GthSearchSourceSelector *self,
 	}
 
 	if (folder == NULL)
-		folder = g_file_new_for_uri (get_home_uri ());
+		folder = g_file_new_for_uri (_g_uri_get_home ());
 
 	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (self->priv->location_chooser), folder);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->recursive_checkbutton), recursive);

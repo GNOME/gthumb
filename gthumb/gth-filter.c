@@ -490,7 +490,7 @@ gth_filter_new (void)
 	GthFilter *filter;
 	char      *id;
 
-	id = _g_rand_string (ID_LENGTH);
+	id = _g_str_random (ID_LENGTH);
 	filter = (GthFilter *) g_object_new (GTH_TYPE_FILTER, "id", id, NULL);
 	g_free (id);
 
@@ -507,7 +507,7 @@ gth_filter_set_limit (GthFilter    *filter,
 {
 	filter->priv->limit_type = type;
 	filter->priv->limit = value;
-	filter->priv->sort_name = get_static_string (sort_name);
+	filter->priv->sort_name = _g_str_get_static (sort_name);
 	filter->priv->sort_direction = sort_direction;
 }
 

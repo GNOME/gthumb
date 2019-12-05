@@ -122,13 +122,17 @@ add_file_to_track (GthBurnTask *task,
 			if ((strcmp (subfolder, "") != 0) && g_hash_table_lookup (task->priv->parents, subfolder) == NULL) {
 				GtkTreePath *subfolder_parent_tpath;
 				GtkTreePath *subfolder_tpath;
+				char        *basename;
 
 				if (subfolder_parent != NULL)
 					subfolder_parent_tpath = g_hash_table_lookup (task->priv->parents, subfolder_parent);
 				else
 					subfolder_parent_tpath = NULL;
-				subfolder_tpath = brasero_track_data_cfg_add_empty_directory (task->priv->track, _g_uri_get_basename (subfolder), subfolder_parent_tpath);
+				basename = _g_uri_get_basename (subfolder);
+				subfolder_tpath = brasero_track_data_cfg_add_empty_directory (task->priv->track, basename, subfolder_parent_tpath);
 				g_hash_table_insert (task->priv->parents, g_strdup (subfolder), subfolder_tpath);
+
+				g_free (basename);
 			}
 
 			g_free (subfolder_parent);
@@ -325,7 +329,7 @@ start_dir_func (GFile      *directory,
 	g_free (task->priv->current_directory);
 
 	parent = g_file_get_parent (directory);
-	escaped = _g_replace (g_file_info_get_display_name (info), "/", "-");
+	escaped = _g_utf8_replace_str (g_file_info_get_display_name (info), "/", "-");
 	destination = g_file_get_child_for_display_name (parent, escaped, NULL);
 	uri = g_file_get_uri (destination);
 	task->priv->current_directory = g_uri_unescape_string (uri, NULL);

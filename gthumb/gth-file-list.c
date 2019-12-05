@@ -878,7 +878,7 @@ gfl_add_files (GthFileList *file_list,
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
-	cache_base_uri = g_strconcat (get_home_uri (), "/.thumbnails", NULL);
+	cache_base_uri = g_strconcat (_g_uri_get_home (), "/.thumbnails", NULL);
 	for (scan = files; scan; scan = scan->next) {
 		GthFileData     *file_data = scan->data;
 		char            *uri;
@@ -897,7 +897,7 @@ gfl_add_files (GthFileList *file_list,
 		thumb_data = thumb_data_new ();
 		/* files in the .thumbnails directory are already thumbnails,
 		 * set them as created. */
-		thumb_data->thumb_created = _g_uri_parent_of_uri (cache_base_uri, uri);
+		thumb_data->thumb_created = _g_uri_is_parent (cache_base_uri, uri);
 
 		g_hash_table_insert (file_list->priv->thumb_data,
 				     g_object_ref (file_data->file),

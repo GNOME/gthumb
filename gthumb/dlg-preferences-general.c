@@ -162,7 +162,7 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 	startup_location = _g_settings_get_uri (data->browser_settings, PREF_BROWSER_STARTUP_LOCATION);
 	if (startup_location == NULL)
-		startup_location = g_strdup (get_home_uri ());
+		startup_location = g_strdup (_g_uri_get_home ());
 	file_source = gth_main_get_file_source_for_uri (startup_location);
 	if (GTH_IS_FILE_SOURCE_VFS (file_source)) {
 		GFile *location;

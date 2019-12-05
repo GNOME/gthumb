@@ -370,7 +370,7 @@ gth_script_new (void)
 	GthScript *script;
 	char      *id;
 
-	id = _g_rand_string (ID_LENGTH);
+	id = _g_str_random (ID_LENGTH);
 	script = (GthScript *) g_object_new (GTH_TYPE_SCRIPT, "id", id, NULL);
 	g_free (id);
 
@@ -578,7 +578,7 @@ get_basename_wo_ext_func (GthFileData *file_data)
 	char *basename_wo_ext;
 
 	basename = g_file_get_basename (file_data->file);
-	basename_wo_ext = _g_uri_remove_extension (basename);
+	basename_wo_ext = _g_path_remove_extension (basename);
 
 	g_free (basename);
 
@@ -593,7 +593,7 @@ get_ext_func (GthFileData *file_data)
 	char *ext;
 
 	path = g_file_get_path (file_data->file);
-	ext = g_strdup (_g_uri_get_file_extension (path));
+	ext = g_strdup (_g_path_get_extension (path));
 
 	g_free (path);
 
@@ -682,7 +682,7 @@ create_attribute_list (GList    *file_list,
 		if (value != NULL) {
 			char *tmp_value;
 
-			tmp_value = _g_utf8_replace (value, "[\r\n]", " ");
+			tmp_value = _g_utf8_replace_pattern (value, "[\r\n]", " ");
 			g_free (value);
 			value = tmp_value;
 		}
@@ -890,7 +890,7 @@ _split_command_for_quotation (char *string)
 	int          n;
 
 	remainder = string;
-	s = _g_utf8_strstr (remainder, delimiter);
+	s = _g_utf8_find_str (remainder, delimiter);
 	if (s != NULL) {
 		gsize delimiter_size = strlen (delimiter);
 
@@ -915,7 +915,7 @@ _split_command_for_quotation (char *string)
 				string_list = g_slist_prepend (string_list, new_string);
 
 				remainder = s + 1 /* strlen("}") */;
-				s = _g_utf8_strstr (remainder, delimiter);
+				s = _g_utf8_find_str (remainder, delimiter);
 			}
 		}
 	}
@@ -981,10 +981,10 @@ gth_script_get_command_line (GthScript  *script,
 
 					if (n_param == 1) {
 						g_free (asked_value->prompt);
-						asked_value->prompt = _g_utf8_strstrip (value);
+						asked_value->prompt = _g_utf8_strip (value);
 					}
 					else if (n_param == 2)
-						asked_value->default_value = _g_utf8_strstrip (value);
+						asked_value->default_value = _g_utf8_strip (value);
 					else
 						g_assert_not_reached ();
 

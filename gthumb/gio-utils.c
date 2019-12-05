@@ -34,99 +34,7 @@
 #define N_FILES_PER_REQUEST 128
 
 
-/* -- filter -- */
-
-
-typedef enum {
-	FILTER_DEFAULT = 0,
-	FILTER_NODOTFILES = 1 << 1,
-	FILTER_IGNORECASE = 1 << 2,
-	FILTER_NOBACKUPFILES = 1 << 3
-} FilterOptions;
-
-
-typedef struct {
-	char           *pattern;
-	FilterOptions   options;
-	GRegex        **regexps;
-} Filter;
-
-
-static Filter *
-filter_new (const char    *pattern,
-	    FilterOptions  options)
-{
-	Filter             *filter;
-	GRegexCompileFlags  flags;
-
-	filter = g_new0 (Filter, 1);
-
-	if ((pattern != NULL) && (strcmp (pattern, "*") != 0))
-		filter->pattern = g_strdup (pattern);
-
-	filter->options = options;
-	if (filter->options & FILTER_IGNORECASE)
-		flags = G_REGEX_CASELESS;
-	else
-		flags = 0;
-	filter->regexps = get_regexps_from_pattern (pattern, flags);
-
-	return filter;
-}
-
-
-static void
-filter_destroy (Filter *filter)
-{
-	if (filter == NULL)
-		return;
-
-	g_free (filter->pattern);
-	if (filter->regexps != NULL)
-		free_regexps (filter->regexps);
-	g_free (filter);
-}
-
-
-static gboolean
-filter_matches (Filter     *filter,
-		const char *name)
-{
-	const char *file_name;
-	char       *utf8_name;
-	gboolean    matched;
-
-	g_return_val_if_fail (name != NULL, FALSE);
-
-	file_name = _g_uri_get_basename (name);
-
-	if ((filter->options & FILTER_NODOTFILES)
-	    && ((file_name[0] == '.') || (strstr (file_name, "/.") != NULL)))
-		return FALSE;
-
-	if ((filter->options & FILTER_NOBACKUPFILES)
-	    && (file_name[strlen (file_name) - 1] == '~'))
-		return FALSE;
-
-	if (filter->pattern == NULL)
-		return TRUE;
-
-	utf8_name = g_filename_to_utf8 (file_name, -1, NULL, NULL, NULL);
-	matched = string_matches_regexps (filter->regexps, utf8_name, 0);
-	g_free (utf8_name);
-
-	return matched;
-}
-
-
-static gboolean
-filter_empty (Filter *filter)
-{
-	return ((filter->pattern == NULL) || (strcmp (filter->pattern, "*") == 0));
-}
-
-
-/* -- g_directory_foreach_child -- */
+/* -- _g_directory_foreach_child -- */
 
 
 typedef struct {
@@ -520,7 +428,7 @@ directory_info_ready_cb (GObject      *source_object,
 
 
 /**
- * g_directory_foreach_child:
+ * _g_directory_foreach_child:
  * @directory: The directory to visit.
  * @recursive: Whether to traverse the @directory recursively.
  * @follow_links: Whether to dereference the symbolic links.
@@ -544,7 +452,7 @@ directory_info_ready_cb (GObject      *source_object,
  * Each callback uses the same @user_data additional parameter.
  */
 void
-g_directory_foreach_child (GFile                *directory,
+_g_directory_foreach_child (GFile                *directory,
 			   gboolean              recursive,
 			   gboolean              follow_links,
 			   const char           *attributes,
@@ -584,291 +492,7 @@ g_directory_foreach_child (GFile                *directory,
 				 fec);
 }
 
-
-/* -- get_file_list_data -- */
-
-
-typedef struct {
-	GList             *files;
-	GList             *dirs;
-	GFile             *directory;
-	char              *base_dir;
-	GCancellable      *cancellable;
-	ListReadyCallback  done_func;
-	gpointer           done_data;
-	GList             *to_visit;
-	GList             *current_dir;
-	Filter            *include_filter;
-	Filter            *exclude_filter;
-	Filter            *exclude_folders_filter;
-	guint              visit_timeout;
-} GetFileListData;
-
-
-static void
-get_file_list_data_free (GetFileListData *gfl)
-{
-	if (gfl == NULL)
-		return;
-
-	filter_destroy (gfl->include_filter);
-	filter_destroy (gfl->exclude_filter);
-	filter_destroy (gfl->exclude_folders_filter);
-	_g_string_list_free (gfl->files);
-	_g_string_list_free (gfl->dirs);
-	_g_string_list_free (gfl->to_visit);
-	g_object_unref (gfl->directory);
-	g_free (gfl->base_dir);
-	g_free (gfl);
-}
-
-
-/* -- g_directory_list_async -- */
-
-
-static GList*
-get_relative_file_list (GList      *rel_list,
-			GList      *file_list,
-			const char *base_dir)
-{
-	GList *scan;
-	int    base_len;
-
-	if (base_dir == NULL)
-		return NULL;
-
-	base_len = 0;
-	if (strcmp (base_dir, "/") != 0)
-		base_len = strlen (base_dir);
-
-	for (scan = file_list; scan; scan = scan->next) {
-		char *uri = scan->data;
-		if (_g_uri_parent_of_uri (base_dir, uri)) {
-			char *rel_uri = g_strdup (uri + base_len + 1);
-			rel_list = g_list_prepend (rel_list, rel_uri);
-		}
-	}
-
-	return rel_list;
-}
-
-
-static GList*
-get_dir_list_from_file_list (GHashTable *h_dirs,
-			     const char *base_dir,
-			     GList      *files,
-			     gboolean    is_dir_list)
-{
-	GList *scan;
-	GList *dir_list = NULL;
-	int    base_dir_len;
-
-	if (base_dir == NULL)
-		base_dir = "";
-	base_dir_len = strlen (base_dir);
-
-	for (scan = files; scan; scan = scan->next) {
-		char *filename = scan->data;
-		char *dir_name;
-
-		if (strlen (filename) <= base_dir_len)
-			continue;
-
-		if (is_dir_list)
-			dir_name = g_strdup (filename + base_dir_len + 1);
-		else
-			dir_name = _g_uri_get_parent (filename + base_dir_len + 1);
-
-		while ((dir_name != NULL) && (dir_name[0] != '\0') && (strcmp (dir_name, "/") != 0)) {
-			char *tmp;
-			char *dir;
-
-			/* avoid to insert duplicated folders */
-
-			dir = g_strconcat (base_dir, "/", dir_name, NULL);
-			if (g_hash_table_lookup (h_dirs, dir) == NULL) {
-				g_hash_table_insert (h_dirs, dir, GINT_TO_POINTER (1));
-				dir_list = g_list_prepend (dir_list, dir);
-			}
-			else
-				g_free (dir);
-
-			tmp = dir_name;
-			dir_name = _g_uri_get_parent (tmp);
-			g_free (tmp);
-		}
-
-		g_free (dir_name);
-	}
-
-	return dir_list;
-}
-
-
-static void
-get_file_list_done (GError   *error,
-		    gpointer  user_data)
-{
-	GetFileListData *gfl = user_data;
-	GHashTable      *h_dirs;
-	GList           *scan;
-
-	gfl->files = g_list_reverse (gfl->files);
-	gfl->dirs = g_list_reverse (gfl->dirs);
-
-	if (! filter_empty (gfl->include_filter) || (gfl->exclude_filter->pattern != NULL)) {
-		_g_string_list_free (gfl->dirs);
-		gfl->dirs = NULL;
-	}
-
-	h_dirs = g_hash_table_new (g_str_hash, g_str_equal);
-
-	/* Always include the base directory, this way empty base
- 	 * directories are added to the archive as well.  */
-
-	if (gfl->base_dir != NULL) {
-		char *dir;
-
-		dir = g_strdup (gfl->base_dir);
-		gfl->dirs = g_list_prepend (gfl->dirs, dir);
-		g_hash_table_insert (h_dirs, dir, GINT_TO_POINTER (1));
-	}
-
-	/* Add all the parent directories in gfl->files/gfl->dirs to the
-	 * gfl->dirs list, the hash table is used to avoid duplicated
-	 * entries. */
-
-	for (scan = gfl->dirs; scan; scan = scan->next)
-		g_hash_table_insert (h_dirs, (char*)scan->data, GINT_TO_POINTER (1));
-
-	gfl->dirs = g_list_concat (gfl->dirs, get_dir_list_from_file_list (h_dirs, gfl->base_dir, gfl->files, FALSE));
-
-	if (filter_empty (gfl->include_filter))
-		gfl->dirs = g_list_concat (gfl->dirs, get_dir_list_from_file_list (h_dirs, gfl->base_dir, gfl->dirs, TRUE));
-
-	/**/
-
-	if (error == NULL) {
-		GList *rel_files, *rel_dirs;
-
-		if (gfl->base_dir != NULL) {
-			rel_files = get_relative_file_list (NULL, gfl->files, gfl->base_dir);
-			rel_dirs = get_relative_file_list (NULL, gfl->dirs, gfl->base_dir);
-		}
-		else {
-			rel_files = gfl->files;
-			rel_dirs = gfl->dirs;
-			gfl->files = NULL;
-			gfl->dirs = NULL;
-		}
-
-		/* rel_files/rel_dirs must be deallocated in done_func */
-		gfl->done_func (rel_files, rel_dirs, NULL, gfl->done_data);
-	}
-	else
-		gfl->done_func (NULL, NULL, error, gfl->done_data);
-
-	g_hash_table_destroy (h_dirs);
-	get_file_list_data_free (gfl);
-}
-
-
-static void
-get_file_list_for_each_file (GFile     *file,
-			     GFileInfo *info,
-			     gpointer   user_data)
-{
-	GetFileListData *gfl = user_data;
-	char            *uri;
-
-	uri = g_file_get_uri (file);
-
-	switch (g_file_info_get_file_type (info)) {
-	case G_FILE_TYPE_REGULAR:
-		if (filter_matches (gfl->include_filter, uri))
-			if ((gfl->exclude_filter->pattern == NULL) || ! filter_matches (gfl->exclude_filter, uri))
-				gfl->files = g_list_prepend (gfl->files, g_strdup (uri));
-		break;
-	default:
-		break;
-	}
-
-	g_free (uri);
-}
-
-
-static DirOp
-get_file_list_start_dir (GFile       *directory,
-			 GFileInfo   *info,
-			 GError     **error,
-			 gpointer     user_data)
-{
-	DirOp            dir_op = DIR_OP_CONTINUE;
-	GetFileListData *gfl = user_data;
-	char            *uri;
-
-	uri = g_file_get_uri (directory);
-	if ((gfl->exclude_folders_filter->pattern == NULL) || ! filter_matches (gfl->exclude_folders_filter, uri)) {
-		gfl->dirs = g_list_prepend (gfl->dirs, g_strdup (uri));
-		dir_op = DIR_OP_CONTINUE;
-	}
-	else
-		dir_op = DIR_OP_SKIP;
-
-	g_free (uri);
-
-	return dir_op;
-}
-
-
-void
-g_directory_list_async (GFile             *directory,
-			const char        *base_dir,
-			gboolean           recursive,
-			gboolean           follow_links,
-			gboolean           no_backup_files,
-			gboolean           no_dot_files,
-			const char        *include_files,
-			const char        *exclude_files,
-			const char        *exclude_folders,
-			gboolean           ignorecase,
-			GCancellable      *cancellable,
-			ListReadyCallback  done_func,
-			gpointer           done_data)
-{
-	GetFileListData *gfl;
-	FilterOptions    filter_options;
-
-	gfl = g_new0 (GetFileListData, 1);
-	gfl->directory = g_file_dup (directory);
-	gfl->base_dir = g_strdup (base_dir);
-	gfl->done_func = done_func;
-	gfl->done_data = done_data;
-
-	filter_options = FILTER_DEFAULT;
-	if (no_backup_files)
-		filter_options |= FILTER_NOBACKUPFILES;
-	if (no_dot_files)
-		filter_options |= FILTER_NODOTFILES;
-	if (ignorecase)
-		filter_options |= FILTER_IGNORECASE;
-	gfl->include_filter = filter_new (include_files, filter_options);
-	gfl->exclude_filter = filter_new (exclude_files, ignorecase ? FILTER_IGNORECASE : FILTER_DEFAULT);
-	gfl->exclude_folders_filter = filter_new (exclude_folders, ignorecase ? FILTER_IGNORECASE : FILTER_DEFAULT);
-
-	g_directory_foreach_child (directory,
-				   recursive,
-				   follow_links,
-				   "standard::name,standard::type",
-				   cancellable,
-				   get_file_list_start_dir,
-				   get_file_list_for_each_file,
-				   get_file_list_done,
-				   gfl);
-}
-
-
-/* -- _g_query_info_async -- */
+/* -- _g_file_list_query_info_async -- */
 
 
 typedef struct {
@@ -975,7 +599,7 @@ query_data_info_ready_cb (GObject      *source_object,
 	}
 
 	if ((query_data->flags & GTH_LIST_RECURSIVE) && (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)) {
-		g_directory_foreach_child ((GFile *) query_data->current->data,
+		_g_directory_foreach_child ((GFile *) query_data->current->data,
 					   TRUE,
 					   (query_data->flags & GTH_LIST_NO_FOLLOW_LINKS) == 0,
 					   query_data->attributes,
@@ -1021,12 +645,12 @@ query_info__query_current (QueryInfoData *query_data)
 
 
 void
-_g_query_info_async (GList             *file_list,
-		     GthListFlags       flags,
-		     const char        *attributes,
-		     GCancellable      *cancellable,
-		     InfoReadyCallback  ready_callback,
-		     gpointer           user_data)
+_g_file_list_query_info_async (GList             *file_list,
+			       GthListFlags       flags,
+			       const char        *attributes,
+			       GCancellable      *cancellable,
+			       InfoReadyCallback  ready_callback,
+			       gpointer           user_data)
 {
 	QueryInfoData *query_data;
 
@@ -1044,49 +668,6 @@ _g_query_info_async (GList             *file_list,
 	query_data->current = query_data->file_list;
 	query_info__query_current (query_data);
 }
-
-
-/* -- _g_dummy_file_op_async  -- */
-
-
-typedef struct {
-	ReadyFunc callback;
-	gpointer  user_data;
-	gulong    dummy_event;
-} DummyFileCopy;
-
-
-static gboolean
-_g_dummy_file_op_completed (gpointer data)
-{
-	DummyFileCopy *dfd = data;
-
-	if (dfd->dummy_event != 0) {
-		g_source_remove (dfd->dummy_event);
-		dfd->dummy_event = 0;
-	}
-
-	if (dfd->callback)
-		dfd->callback (NULL, dfd->user_data);
-
-	g_free (dfd);
-
-	return FALSE;
-}
-
-
-void
-_g_dummy_file_op_async (ReadyFunc callback,
-			gpointer  user_data)
-{
-	DummyFileCopy *dfd;
-
-	dfd = g_new0 (DummyFileCopy, 1);
-	dfd->callback = callback;
-	dfd->user_data = user_data;
-	dfd->dummy_event = g_idle_add (_g_dummy_file_op_completed, dfd);
-}
-
 
 
 /* -- _g_copy_file_async -- */
@@ -1576,19 +1157,19 @@ _g_copy_file_async_private (GthFileData           *source,
 
 
 void
-_g_copy_file_async (GthFileData           *source,
-		    GFile                 *destination,
-		    gboolean               move,
-		    GthFileCopyFlags       flags,
-		    GthOverwriteResponse   default_response,
-		    int                    io_priority,
-		    GCancellable          *cancellable,
-		    ProgressCallback       progress_callback,
-		    gpointer               progress_callback_data,
-		    DialogCallback         dialog_callback,
-		    gpointer               dialog_callback_data,
-		    CopyReadyCallback      ready_callback,
-		    gpointer               user_data)
+_gth_file_data_copy_async (GthFileData           *source,
+			   GFile                 *destination,
+			   gboolean               move,
+			   GthFileCopyFlags       flags,
+			   GthOverwriteResponse   default_response,
+			   int                    io_priority,
+			   GCancellable          *cancellable,
+			   ProgressCallback       progress_callback,
+			   gpointer               progress_callback_data,
+			   DialogCallback         dialog_callback,
+			   gpointer               dialog_callback_data,
+			   CopyReadyCallback      ready_callback,
+			   gpointer               user_data)
 {
 	_g_copy_file_async_private (source,
 				    destination,
@@ -1609,7 +1190,7 @@ _g_copy_file_async (GthFileData           *source,
 }
 
 
-/* -- _g_copy_files_async -- */
+/* -- _g_file_list_copy_async -- */
 
 
 typedef struct {
@@ -1843,19 +1424,19 @@ copy_files__sources_info_ready_cb (GList    *files,
 
 
 void
-_g_copy_files_async (GList                *sources, /* GFile list */
-		     GFile                *destination,
-		     gboolean              move,
-		     GthFileCopyFlags      flags,
-		     GthOverwriteResponse  default_response,
-		     int                   io_priority,
-		     GCancellable         *cancellable,
-		     ProgressCallback      progress_callback,
-		     gpointer              progress_callback_data,
-		     DialogCallback        dialog_callback,
-		     gpointer              dialog_callback_data,
-		     ReadyFunc             done_callback,
-		     gpointer              user_data)
+_g_file_list_copy_async (GList                *sources, /* GFile list */
+			 GFile                *destination,
+			 gboolean              move,
+			 GthFileCopyFlags      flags,
+			 GthOverwriteResponse  default_response,
+			 int                   io_priority,
+			 GCancellable         *cancellable,
+			 ProgressCallback      progress_callback,
+			 gpointer              progress_callback_data,
+			 DialogCallback        dialog_callback,
+			 gpointer              dialog_callback_data,
+			 ReadyFunc             done_callback,
+			 gpointer              user_data)
 {
 	CopyData *copy_data;
 	GList    *scan;
@@ -1890,17 +1471,17 @@ _g_copy_files_async (GList                *sources, /* GFile list */
 
 	/* for each directory in 'sources' this query will add all of its content
 	 * to the file list. */
-	_g_query_info_async (sources,
-			     GTH_LIST_RECURSIVE,
-			     "standard::name,standard::display-name,standard::type,standard::size",
-			     copy_data->cancellable,
-			     copy_files__sources_info_ready_cb,
-			     copy_data);
+	_g_file_list_query_info_async (sources,
+				       GTH_LIST_RECURSIVE,
+				       "standard::name,standard::display-name,standard::type,standard::size",
+				       copy_data->cancellable,
+				       copy_files__sources_info_ready_cb,
+				       copy_data);
 }
 
 
 gboolean
-_g_move_file (GFile                 *source,
+_g_file_move (GFile                 *source,
               GFile                 *destination,
               GFileCopyFlags         flags,
               GCancellable          *cancellable,
@@ -1953,9 +1534,9 @@ _g_move_file (GFile                 *source,
 
 
 gboolean
-_g_delete_files (GList     *file_list,
-		 gboolean   include_metadata,
-		 GError   **error)
+_g_file_list_delete (GList     *file_list,
+		     gboolean   include_metadata,
+		     GError   **error)
 {
 	GList *scan;
 
@@ -2073,12 +1654,12 @@ delete_files__info_ready_cb (GList    *files,
 
 
 void
-_g_delete_files_async (GList        *file_list,
-		       gboolean      recursive,
-		       gboolean      include_metadata,
-		       GCancellable *cancellable,
-		       ReadyFunc     callback,
-		       gpointer      user_data)
+_g_file_list_delete_async (GList        *file_list,
+			   gboolean      recursive,
+			   gboolean      include_metadata,
+			   GCancellable *cancellable,
+			   ReadyFunc     callback,
+			   gpointer      user_data)
 {
 	DeleteData   *delete_data;
 	GthListFlags  flags;
@@ -2094,12 +1675,12 @@ _g_delete_files_async (GList        *file_list,
 	if (recursive)
 		flags |= GTH_LIST_RECURSIVE;
 
-	_g_query_info_async (file_list,
-			     flags,
-			     GFILE_NAME_TYPE_ATTRIBUTES,
-			     delete_data->cancellable,
-			     delete_files__info_ready_cb,
-			     delete_data);
+	_g_file_list_query_info_async (file_list,
+				       flags,
+				       GFILE_NAME_TYPE_ATTRIBUTES,
+				       delete_data->cancellable,
+				       delete_files__info_ready_cb,
+				       delete_data);
 }
 
 
@@ -2165,10 +1746,10 @@ trash_files__delete_current (TrashData *tdata)
 
 
 void
-_g_trash_files_async (GList        *file_list, /* GFile list */
-		      GCancellable *cancellable,
-		      ReadyFunc     callback,
-		      gpointer      user_data)
+_g_file_list_trash_async (GList        *file_list, /* GFile list */
+			  GCancellable *cancellable,
+			  ReadyFunc     callback,
+			  gpointer      user_data)
 {
 	TrashData *tdata;
 
@@ -2576,76 +2157,22 @@ _g_file_create_unique (GFile       *parent,
 
 
 GFile *
-_g_directory_create_unique (GFile       *parent,
-			    const char  *display_name,
-			    const char  *suffix,
-			    GError     **error)
-{
-	GFile    *file = NULL;
-	gboolean  created = FALSE;
-	GError   *local_error = NULL;
-	int       n;
-
-	file = g_file_get_child_for_display_name (parent, display_name, &local_error);
-	if (file == NULL) {
-		g_propagate_error (error, local_error);
-		return NULL;
-	}
-
-	n = 0;
-	do {
-		char *new_display_name;
-
-		if (file != NULL)
-			g_object_unref (file);
-
-		n++;
-		if (n == 1)
-			new_display_name = g_strdup_printf ("%s%s", display_name, suffix);
-		else
-			new_display_name = g_strdup_printf ("%s %d%s", display_name, n, suffix);
-
-		file = g_file_get_child_for_display_name (parent, new_display_name, &local_error);
-		if (local_error == NULL)
-			created = g_file_make_directory (file, NULL, &local_error);
-
-		if (! created && g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_EXISTS))
-			g_clear_error (&local_error);
-
-		g_free (new_display_name);
-	}
-	while (! created && (local_error == NULL));
-
-	if (local_error != NULL) {
-		g_object_unref (file);
-		file = NULL;
-	}
-
-	if (local_error != NULL)
-		g_propagate_error (error, local_error);
-
-	return file;
-}
-
-
-#define MAX_ATTEMPS 10
-
-
-GFile *
 _g_directory_create_tmp (void)
 {
-	GFile *tmp_dir;
-	GFile *dir = NULL;
-	int    n;
+	const int  max_attemps = 10;
+	const int  name_len = 12;
+	GFile     *tmp_dir;
+	GFile     *dir = NULL;
+	int        n;
 
 	tmp_dir = g_file_new_for_path (g_get_tmp_dir ());
 	if (tmp_dir == NULL)
 		return NULL;
 
-	for (n = 0; n < MAX_ATTEMPS; n++) {
+	for (n = 0; n < max_attemps; n++) {
 		char  *name;
 
-		name = _g_rand_string (12);
+		name = _g_str_random (name_len);
 		dir = g_file_get_child (tmp_dir, name);
 		g_free (name);
 
@@ -2689,26 +2216,6 @@ _g_file_write (GFile             *file,
 
 
 gboolean
-_g_directory_make (GFile    *file,
-		   guint32   unix_mode,
-		   GError  **error)
-{
-	if (! g_file_make_directory (file, NULL, error)) {
-		if ((*error)->code != G_IO_ERROR_EXISTS)
-			return FALSE;
-		g_clear_error (error);
-	}
-
-	return g_file_set_attribute_uint32 (file,
-					    G_FILE_ATTRIBUTE_UNIX_MODE,
-					    unix_mode,
-					    G_FILE_QUERY_INFO_NONE,
-					    NULL,
-					    error);
-}
-
-
-gboolean
 _g_file_set_modification_time (GFile         *file,
 			       GTimeVal      *timeval,
 			       GCancellable  *cancellable,
@@ -2718,10 +2225,10 @@ _g_file_set_modification_time (GFile         *file,
 	gboolean   result;
 
 	info = g_file_info_new ();
-        g_file_info_set_modification_time (info, timeval);
-        result = g_file_set_attributes_from_info (file, info, G_FILE_QUERY_INFO_NONE, cancellable, error);
+	g_file_info_set_modification_time (info, timeval);
+	result = g_file_set_attributes_from_info (file, info, G_FILE_QUERY_INFO_NONE, cancellable, error);
 
-        g_object_unref (info);
+	g_object_unref (info);
 
-        return result;
+	return result;
 }

@@ -308,7 +308,7 @@ set_current_destination_file (GthImageListTask *self)
 		char          *no_ext;
 		GthImageSaver *saver;
 
-		no_ext = _g_uri_remove_extension (g_file_info_get_display_name (self->priv->destination_file_data->info));
+		no_ext = _g_path_remove_extension (g_file_info_get_display_name (self->priv->destination_file_data->info));
 		saver = gth_main_get_image_saver (self->priv->mime_type);
 		g_return_if_fail (saver != NULL);
 

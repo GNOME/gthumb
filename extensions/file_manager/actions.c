@@ -748,7 +748,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 	start_uri = g_settings_get_string (settings, PREF_FILE_MANAGER_COPY_LAST_FOLDER);
 	if ((start_uri == NULL) || (strcmp (start_uri, "") == 0)) {
 		g_free (start_uri);
-		start_uri = g_strdup (get_home_uri ());
+		start_uri = g_strdup (_g_uri_get_home ());
 	}
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (dialog), start_uri);
 	g_free(start_uri);

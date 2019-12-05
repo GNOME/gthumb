@@ -71,7 +71,7 @@ gth_pref_initialize (void)
 			g_object_unref (file);
 		}
 		if (startup_location == NULL)
-			startup_location = g_strdup (get_home_uri ());
+			startup_location = g_strdup (_g_uri_get_home ());
 		gth_pref_set_startup_location (startup_location);
 
 		g_free (startup_location);
@@ -122,7 +122,7 @@ gth_pref_get_startup_location (void)
 	if (Preferences->startup_location != NULL)
 		return Preferences->startup_location;
 	else
-		return get_home_uri ();
+		return _g_uri_get_home ();
 }
 
 

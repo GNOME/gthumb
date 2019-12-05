@@ -178,7 +178,7 @@ _gth_rename_task_try_rename (GthRenameTask   *self,
 	if (self->priv->default_response == GTH_OVERWRITE_RESPONSE_ALWAYS_YES)
 		copy_flags = G_FILE_COPY_OVERWRITE;
 
-	if (! _g_move_file (source,
+	if (! _g_file_move (source,
 			    destination,
 			    G_FILE_COPY_ALL_METADATA | copy_flags,
 			    gth_task_get_cancellable (GTH_TASK (self)),

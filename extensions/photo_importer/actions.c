@@ -81,7 +81,7 @@ gth_browser_activate_import_folder (GSimpleAction	*action,
 	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
 		folder = _g_object_ref (gth_browser_get_location (browser));
 	if (folder == NULL)
-		folder = g_file_new_for_uri (get_home_uri ());
+		folder = g_file_new_for_uri (_g_uri_get_home ());
 	gtk_file_chooser_set_file (GTK_FILE_CHOOSER (chooser), folder, NULL);
 
 	g_signal_connect (chooser,

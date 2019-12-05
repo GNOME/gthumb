@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <string.h>
+#include <locale.h>
 #include "glib-utils.h"
 
 
@@ -29,11 +30,11 @@ test_g_rand_string (void)
 {
 	char *id;
 
-	id = _g_rand_string (8);
+	id = _g_str_random (8);
 	g_assert_cmpint (strlen (id), == , 8);
 	g_free (id);
 
-	id = _g_rand_string (16);
+	id = _g_str_random (16);
 	g_assert_cmpint (strlen (id), == , 16);
 	g_free (id);
 }
@@ -72,18 +73,75 @@ test_regexp (void)
 static void
 test_g_utf8_has_prefix (void)
 {
+	g_assert_false (_g_utf8_has_prefix (NULL, NULL));
+	g_assert_false (_g_utf8_has_prefix (NULL, ""));
+	g_assert_false (_g_utf8_has_prefix ("", NULL));
+	g_assert_true (_g_utf8_has_prefix ("", ""));
+	g_assert_true (_g_utf8_has_prefix ("日", ""));
+	g_assert_false (_g_utf8_has_prefix ("", "日"));
+	g_assert_true (_g_utf8_has_prefix ("日本語", "日"));
+	g_assert_false (_g_utf8_has_prefix ("日", "日本"));
+	g_assert_false (_g_utf8_has_prefix ("日", "日本語"));
 	g_assert_true (_g_utf8_has_prefix ("lang=正體字/繁體字 中华人民共和国", "lang="));
 }
 
 
 static void
-test_g_utf8_first_space (void)
+test_g_utf8_after_ascii_space (void)
 {
-	g_assert_cmpint (_g_utf8_first_ascii_space (NULL), ==, -1);
-	g_assert_cmpint (_g_utf8_first_ascii_space (""), ==, -1);
-	g_assert_cmpint (_g_utf8_first_ascii_space ("lang=FR langue d’oïl"), ==, 7);
-	g_assert_cmpint (_g_utf8_first_ascii_space ("正體字"), ==, -1);
-	g_assert_cmpint (_g_utf8_first_ascii_space ("lang=正體字/繁體字 中华人民共和国"), ==, 12);
+	g_assert_cmpstr (_g_utf8_after_ascii_space (NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_after_ascii_space (""), ==, NULL);
+	g_assert_cmpstr (_g_utf8_after_ascii_space ("正體字 "), ==, "");
+	g_assert_cmpstr (_g_utf8_after_ascii_space ("lang=FR langue d’oïl"), ==, "langue d’oïl");
+	g_assert_cmpstr (_g_utf8_after_ascii_space ("正體字"), ==, NULL);
+	g_assert_cmpstr (_g_utf8_after_ascii_space ("lang=正體字/繁體字 中华人民共和国"), ==, "中华人民共和国");
+}
+
+
+static void
+test_g_utf8_all_spaces_space (void)
+{
+	g_assert_true (_g_utf8_all_spaces (NULL));
+	g_assert_true (_g_utf8_all_spaces (""));
+	g_assert_true (_g_utf8_all_spaces (" "));
+	g_assert_false (_g_utf8_all_spaces ("."));
+	g_assert_false (_g_utf8_all_spaces ("正"));
+}
+
+
+static void
+test_g_utf8_escape_xml_space (void)
+{
+	g_assert_cmpstr (_g_utf8_escape_xml (NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_escape_xml (""), ==, "");
+	g_assert_cmpstr (_g_utf8_escape_xml ("ascii"), ==, "ascii");
+	g_assert_cmpstr (_g_utf8_escape_xml ("正"), ==, "&#27491;");
+	g_assert_cmpstr (_g_utf8_escape_xml ("體"), ==, "&#39636;");
+	g_assert_cmpstr (_g_utf8_escape_xml ("字"), ==, "&#23383;");
+	g_assert_cmpstr (_g_utf8_escape_xml ("正體字"), ==, "&#27491;&#39636;&#23383;");
+	g_assert_cmpstr (_g_utf8_escape_xml ("正\\<體"), ==, "&#27491;\\&lt;&#39636;");
+	g_assert_cmpstr (_g_utf8_escape_xml ("正>體"), ==, "&#27491;&gt;&#39636;");
+	g_assert_cmpstr (_g_utf8_escape_xml ("正'體"), ==, "&#27491;&apos;&#39636;");
+	g_assert_cmpstr (_g_utf8_escape_xml ("正\"體"), ==, "&#27491;&quot;&#39636;");
+	g_assert_cmpstr (_g_utf8_escape_xml ("正&體"), ==, "&#27491;&amp;&#39636;");
+	g_assert_cmpstr (_g_utf8_text_escape_xml ("\n"), ==, "<br>");
+	g_assert_cmpstr (_g_utf8_text_escape_xml ("正\n體"), ==, "&#27491;<br>&#39636;");
+}
+
+
+static void
+test_g_utf8_find_str (void)
+{
+	g_assert_cmpstr (_g_utf8_find_str ("正體字", "正"), ==, "正體字");
+	g_assert_cmpstr (_g_utf8_find_str ("正體字", "體"), ==, "體字");
+	g_assert_cmpstr (_g_utf8_find_str ("正體字", "字"), ==, "字");
+	g_assert_cmpstr (_g_utf8_find_str ("正體", "字"), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_str ("正體", NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_str (NULL, NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_str (NULL, "字"), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_str ("正體", ""), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_str ("", ""), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_str ("", "字"), ==, NULL);
 }
 
 
@@ -93,14 +151,9 @@ test_remove_lang_from_utf8_string (const char *value,
 {
 	char *result = NULL;
 
-	if (_g_utf8_has_prefix (value, "lang=")) {
-		int pos = _g_utf8_first_ascii_space (value);
-		if (pos > 0)
-			result = _g_utf8_remove_prefix (value, pos + 1);
-	}
-
-	g_assert_true (result != NULL);
-	g_assert_true (g_utf8_collate (result, expected) == 0);
+	if (_g_utf8_has_prefix (value, "lang="))
+		result = g_strdup (_g_utf8_after_ascii_space (value));
+	g_assert_cmpstr (result, ==, expected);
 
 	g_free (result);
 }
@@ -115,17 +168,788 @@ test_remove_lang_from_utf8_string_all (void)
 }
 
 
+static void
+test_g_path_get_parent_all (void)
+{
+	g_assert_cmpstr (_g_path_get_parent (NULL), ==, NULL);
+	g_assert_cmpstr (_g_path_get_parent (""), ==, NULL);
+	g_assert_cmpstr (_g_path_get_parent ("/"), ==, "/");
+	g_assert_cmpstr (_g_path_get_parent ("/日"), ==, "/");
+	g_assert_cmpstr (_g_path_get_parent ("/日/"), ==, "/日");
+	g_assert_cmpstr (_g_path_get_parent ("/日/本"), ==, "/日");
+	g_assert_cmpstr (_g_path_get_parent ("/日/本/"), ==, "/日/本");
+	g_assert_cmpstr (_g_path_get_parent ("/日/本/語.txt"), ==, "/日/本");
+	g_assert_cmpstr (_g_path_get_parent ("日"), ==, NULL);
+	g_assert_cmpstr (_g_path_get_parent ("日/"), ==, "日");
+	g_assert_cmpstr (_g_path_get_parent ("日/本"), ==, "日");
+	g_assert_cmpstr (_g_path_get_parent ("日/本/"), ==, "日/本");
+	g_assert_cmpstr (_g_path_get_parent ("日/本/語.txt"), ==, "日/本");
+}
+
+
+static void
+test_g_path_get_basename_all (void)
+{
+	g_assert_cmpstr (_g_path_get_basename (NULL), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename (""), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename ("/"), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename ("//"), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename ("///"), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename ("////"), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename ("//a//"), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename ("/日"), ==, "日");
+	g_assert_cmpstr (_g_path_get_basename ("/日/"), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename ("/日/本"), ==, "本");
+	g_assert_cmpstr (_g_path_get_basename ("/日/本/語.txt"), ==, "語.txt");
+	g_assert_cmpstr (_g_path_get_basename ("日"), ==, "日");
+	g_assert_cmpstr (_g_path_get_basename ("日/"), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename ("日/本"), ==, "本");
+	g_assert_cmpstr (_g_path_get_basename ("日/本/"), ==, NULL);
+	g_assert_cmpstr (_g_path_get_basename ("日/本/語.txt"), ==, "語.txt");
+}
+
+
+static void
+test_g_uri_append_path_all (void)
+{
+	g_assert_cmpstr (_g_uri_append_path (NULL, NULL), ==, NULL);
+	g_assert_cmpstr (_g_uri_append_path (NULL, ""), ==, NULL);
+	g_assert_cmpstr (_g_uri_append_path (NULL, "/"), ==, NULL);
+	g_assert_cmpstr (_g_uri_append_path (NULL, "/日"), ==, NULL);
+
+	g_assert_cmpstr (_g_uri_append_path ("", NULL), ==, NULL);
+	g_assert_cmpstr (_g_uri_append_path ("", ""), ==, NULL);
+	g_assert_cmpstr (_g_uri_append_path ("", "/"), ==, NULL);
+	g_assert_cmpstr (_g_uri_append_path ("", "/日"), ==, NULL);
+
+	g_assert_cmpstr (_g_uri_append_path ("file:", NULL), ==, "file:///");
+	g_assert_cmpstr (_g_uri_append_path ("file:", ""), ==, "file:///");
+	g_assert_cmpstr (_g_uri_append_path ("file:", "/"), ==, "file:///");
+	g_assert_cmpstr (_g_uri_append_path ("file://", "/"), ==, "file:///");
+	g_assert_cmpstr (_g_uri_append_path ("file:///", "/"), ==, "file:///");
+
+	g_assert_cmpstr (_g_uri_append_path ("file:", "日"), ==, "file:///日");
+	g_assert_cmpstr (_g_uri_append_path ("file://", "日"), ==, "file:///日");
+	g_assert_cmpstr (_g_uri_append_path ("file:///", "日"), ==, "file:///日");
+	g_assert_cmpstr (_g_uri_append_path ("file:///", "日/本/語"), ==, "file:///日/本/語");
+	g_assert_cmpstr (_g_uri_append_path ("catalog:///", "Tags"), ==, "catalog:///Tags");
+
+	g_assert_cmpstr (_g_uri_append_path ("file:", "/日"), ==, "file:///日");
+	g_assert_cmpstr (_g_uri_append_path ("file://", "/日"), ==, "file:///日");
+	g_assert_cmpstr (_g_uri_append_path ("file:///", "/日"), ==, "file:///日");
+	g_assert_cmpstr (_g_uri_append_path ("file:///", "/日/本/語"), ==, "file:///日/本/語");
+}
+
+
+static void
+test_g_uri_from_path_all (void)
+{
+	g_assert_cmpstr (_g_uri_from_path ("/"), ==, "file:///");
+	g_assert_cmpstr (_g_uri_from_path ("/日"), ==, "file:///日");
+	g_assert_cmpstr (_g_uri_from_path ("/日/"), ==, "file:///日/");
+	g_assert_cmpstr (_g_uri_from_path ("/日/本/語"), ==, "file:///日/本/語");
+	g_assert_cmpstr (_g_uri_from_path ("/日 本"), ==, "file:///日%20本");
+}
+
+
+static void
+test_g_uri_get_basename_all (void)
+{
+	g_assert_cmpstr (_g_uri_get_basename ("file:///home/paolo/"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename ("file:///home/paolo/file.txt"), ==, "file.txt");
+	g_assert_cmpstr (_g_uri_get_basename ("file:///file.txt"), ==, "file.txt");
+	g_assert_cmpstr (_g_uri_get_basename ("file://file.txt"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename ("file:file.txt"), ==, "file.txt");
+	g_assert_cmpstr (_g_uri_get_basename ("file.txt"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename ("/file.txt"), ==, "file.txt");
+
+	g_assert_cmpstr (_g_uri_get_basename (NULL), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename (""), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename ("file:"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename ("file:/"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename ("file://"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename ("file:///"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename ("file:///%E6%97%A5"), ==, "日");
+	g_assert_cmpstr (_g_uri_get_basename ("file:///%E6%97%A5/"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_basename ("file:///%E6%97%A5/%E6%9C%AC/%E8%AA%9E"), ==, "語");
+}
+
+
+static void
+test_g_uri_get_parent_all (void)
+{
+	g_assert_cmpstr (_g_uri_get_parent ("file"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_parent ("file:"), ==, "file:///");
+	g_assert_cmpstr (_g_uri_get_parent ("file://"), ==, "file:///");
+	g_assert_cmpstr (_g_uri_get_parent ("file:///"), ==, "file:///");
+	g_assert_cmpstr (_g_uri_get_parent ("file:///日"), ==, "file:///");
+	g_assert_cmpstr (_g_uri_get_parent ("file:///日/本"), ==, "file:///日");
+	g_assert_cmpstr (_g_uri_get_parent ("file:///日/本/語.txt"), ==, "file:///日/本");
+	g_assert_cmpstr (_g_uri_get_parent ("file:///%E6%97%A5/%E6%9C%AC/%E8%AA%9E"), ==, "file:///日/本");
+	g_assert_cmpstr (_g_uri_get_parent ("file://日/本/語.txt"), ==, "file://日/本");
+	g_assert_cmpstr (_g_uri_get_parent ("file://諸星@日:123/本/語.txt"), ==, "file://諸星@日:123/本");
+	g_assert_cmpstr (_g_uri_get_parent ("file://諸星@日:123/本"), ==, "file://諸星@日:123/");
+	g_assert_cmpstr (_g_uri_get_parent ("file://諸星@日:123/"), ==, "file://諸星@日:123/");
+}
+
+
+static void
+test_g_file_get_display_name (const char *uri,
+			      const char *expected)
+{
+	GFile *file;
+	char  *name;
+
+	file = g_file_new_for_uri (uri);
+	name = _g_file_get_display_name (file);
+	g_assert_cmpstr (name, ==, expected);
+
+	g_free (name);
+	g_object_unref (file);
+}
+
+
+static void
+test_g_file_get_display_name_all (void)
+{
+	test_g_file_get_display_name ("sftp:///", "/");
+	test_g_file_get_display_name ("sftp://日本語", "日本語");
+	test_g_file_get_display_name ("sftp://日本語/", "日本語");
+	test_g_file_get_display_name ("sftp://日本語/諸星.txt", "諸星.txt");
+	test_g_file_get_display_name ("file:///日/本/諸星.txt", "諸星.txt");
+	test_g_file_get_display_name ("file:///日本語/諸星", "諸星");
+	test_g_file_get_display_name ("file:///", "/");
+}
+
+
+static void
+test_g_utf8_n_equal_all (void)
+{
+	g_assert_true (_g_utf8_n_equal (NULL, NULL, 0));
+	g_assert_true (_g_utf8_n_equal ("", "", 0));
+	g_assert_true (_g_utf8_n_equal ("日本語", "日", 1));
+	g_assert_true (_g_utf8_n_equal ("日", "日本語", 1));
+	g_assert_true (_g_utf8_n_equal (".tar.日", ".tar.", 5));
+	g_assert_false (_g_utf8_n_equal ("日本", "日本語", 3));
+	g_assert_false (_g_utf8_n_equal ("日", "日本語", 3));
+	g_assert_false (_g_utf8_n_equal ("", "日本語", 3));
+	g_assert_false (_g_utf8_n_equal ("日", "日本語", 2));
+	g_assert_false (_g_utf8_n_equal ("日", "日本", 2));
+	g_assert_false (_g_utf8_n_equal ("日", "日", 2));
+	g_assert_true (_g_utf8_n_equal ("日", "日", 1));
+	g_assert_true (_g_utf8_n_equal ("本", "日", 0));
+	g_assert_false (_g_utf8_n_equal ("本", "日", 1));
+	g_assert_true (_g_utf8_n_equal ("日本", "日", 1));
+}
+
+
+static void
+test_g_utf8_last_char_all (void)
+{
+	g_assert_cmpstr (_g_utf8_last_char (NULL, NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_last_char ("", NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_last_char ("日", NULL), ==, "日");
+	g_assert_cmpstr (_g_utf8_last_char ("日本", NULL), ==, "本");
+	g_assert_cmpstr (_g_utf8_last_char ("日本語", NULL), ==, "語");
+}
+
+
+static void
+test_g_utf8_replace_str_all (void)
+{
+	g_assert_cmpstr (_g_utf8_replace_str (NULL, NULL, NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_replace_str (NULL, "の", "-"), ==, NULL);
+	g_assert_cmpstr (_g_utf8_replace_str ("正の體の字", NULL, NULL), ==, "正の體の字");
+	g_assert_cmpstr (_g_utf8_replace_str ("正の體の字", "の", NULL), ==, "正體字");
+	g_assert_cmpstr (_g_utf8_replace_str ("正の體の字", "の", ""), ==, "正體字");
+	g_assert_cmpstr (_g_utf8_replace_str ("正の體の字", "", NULL), ==, "正の體の字");
+	g_assert_cmpstr (_g_utf8_replace_str ("正の體の字", "", ""), ==, "正の體の字");
+	g_assert_cmpstr (_g_utf8_replace_str ("正の體の字", "", "-"), ==, "正の體の字");
+	g_assert_cmpstr (_g_utf8_replace_str ("正の體の字", "の", "-"), ==, "正-體-字");
+	g_assert_cmpstr (_g_utf8_replace_str ("正の體の字", "-", "の"), ==, "正の體の字");
+}
+
+
+static void
+_g_assert_strv_equal (char **strv, ...)
+{
+	va_list     args;
+	int         i;
+	const char *str;
+
+	va_start (args, strv);
+	i = 0;
+	while ((str = va_arg (args, const char *)) != NULL) {
+		g_assert_cmpstr (strv[i], ==, str);
+		i++;
+	}
+	va_end (args);
+
+	g_assert_cmpstr (strv[i], ==, NULL);
+}
+
+
+static void
+test_g_utf8_split_all (void)
+{
+	char **strv;
+
+	strv = _g_utf8_split (NULL, NULL, -1);
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正", NULL, -1);
+	_g_assert_strv_equal (strv, "正", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split (NULL, "の", -1);
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正", "の", -1);
+	_g_assert_strv_equal (strv, "正", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split (NULL, "", -1);
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("", "", -1);
+	_g_assert_strv_equal (strv, "", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("", "の", -1);
+	_g_assert_strv_equal (strv, "", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の", "の", -1);
+	_g_assert_strv_equal (strv, "正", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體", "の", -1);
+	_g_assert_strv_equal (strv, "正", "體", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體の", "の", -1);
+	_g_assert_strv_equal (strv, "正", "體", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體の字", "の", -1);
+	_g_assert_strv_equal (strv, "正", "體", "字", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正體字", "", -1);
+	_g_assert_strv_equal (strv, "正", "體", "字", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split (NULL, NULL, 0);
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("", "", 0);
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正", NULL, 0);
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split (NULL, NULL, 1);
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("", "", 1);
+	_g_assert_strv_equal (strv, "", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正", NULL, 1);
+	_g_assert_strv_equal (strv, "正", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正", "", 1);
+	_g_assert_strv_equal (strv, "正", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正", "正", 1);
+	_g_assert_strv_equal (strv, "正", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正", "の", 1);
+	_g_assert_strv_equal (strv, "正", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の", "の", 1);
+	_g_assert_strv_equal (strv, "正の", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體", "の", 1);
+	_g_assert_strv_equal (strv, "正の體", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體の", "の", 1);
+	_g_assert_strv_equal (strv, "正の體の", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正", "の", 2);
+	_g_assert_strv_equal (strv, "正", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體", "の", 2);
+	_g_assert_strv_equal (strv, "正", "體", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體の", "の", 2);
+	_g_assert_strv_equal (strv, "正", "體の", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體の字", "の", 2);
+	_g_assert_strv_equal (strv, "正", "體の字", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體の字", "の", 3);
+	_g_assert_strv_equal (strv, "正", "體", "字", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split ("正の體の字", "の", 4);
+	_g_assert_strv_equal (strv, "正", "體", "字", NULL);
+	g_strfreev (strv);
+}
+
+
+static void
+test_g_utf8_split_template_all (void)
+{
+	char **strv;
+
+	strv = _g_utf8_split_template ("");
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("xxx##yy#");
+	_g_assert_strv_equal (strv, "xxx", "##", "yy", "#", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("日");
+	_g_assert_strv_equal (strv, "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("日本");
+	_g_assert_strv_equal (strv, "日本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("#");
+	_g_assert_strv_equal (strv, "#", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("##");
+	_g_assert_strv_equal (strv, "##", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("#日");
+	_g_assert_strv_equal (strv, "#", "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("日#");
+	_g_assert_strv_equal (strv, "日", "#", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("日#本");
+	_g_assert_strv_equal (strv, "日", "#", "本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("日#本#");
+	_g_assert_strv_equal (strv, "日", "#", "本", "#", NULL);
+	g_strfreev (strv);
+
+	strv = _g_utf8_split_template ("日#本#語");
+	_g_assert_strv_equal (strv, "日", "#", "本", "#", "語", NULL);
+	g_strfreev (strv);
+}
+
+
+static void
+test_g_utf8_rstrip_all (void)
+{
+	g_assert_cmpstr (_g_utf8_rstrip (NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_rstrip (""), ==, "");
+	g_assert_cmpstr (_g_utf8_rstrip (" "), ==, "");
+	g_assert_cmpstr (_g_utf8_rstrip ("  "), ==, "");
+	g_assert_cmpstr (_g_utf8_rstrip ("日"), ==, "日");
+	g_assert_cmpstr (_g_utf8_rstrip (" 日"), ==, " 日");
+	g_assert_cmpstr (_g_utf8_rstrip ("日 "), ==, "日");
+	g_assert_cmpstr (_g_utf8_rstrip ("日  "), ==, "日");
+	g_assert_cmpstr (_g_utf8_rstrip (" 日 "), ==, " 日");
+	g_assert_cmpstr (_g_utf8_rstrip (" 日  "), ==, " 日");
+	g_assert_cmpstr (_g_utf8_rstrip ("日 本"), ==, "日 本");
+	g_assert_cmpstr (_g_utf8_rstrip (" 日 本"), ==, " 日 本");
+	g_assert_cmpstr (_g_utf8_rstrip ("  日 本"), ==, "  日 本");
+	g_assert_cmpstr (_g_utf8_rstrip ("日 本 "), ==, "日 本");
+	g_assert_cmpstr (_g_utf8_rstrip ("日 本  "), ==, "日 本");
+	g_assert_cmpstr (_g_utf8_rstrip ("日  本"), ==, "日  本");
+	g_assert_cmpstr (_g_utf8_rstrip ("日  本 "), ==, "日  本");
+	g_assert_cmpstr (_g_utf8_rstrip ("日  本  "), ==, "日  本");
+}
+
+
+static void
+test_g_utf8_strip_all (void)
+{
+	g_assert_cmpstr (_g_utf8_strip (NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_strip (""), ==, "");
+	g_assert_cmpstr (_g_utf8_strip (" "), ==, "");
+	g_assert_cmpstr (_g_utf8_strip ("  "), ==, "");
+	g_assert_cmpstr (_g_utf8_strip ("日"), ==, "日");
+	g_assert_cmpstr (_g_utf8_strip (" 日"), ==, "日");
+	g_assert_cmpstr (_g_utf8_strip ("日 "), ==, "日");
+	g_assert_cmpstr (_g_utf8_strip (" 日 "), ==, "日");
+	g_assert_cmpstr (_g_utf8_strip ("日 本"), ==, "日 本");
+	g_assert_cmpstr (_g_utf8_strip (" 日 本"), ==, "日 本");
+	g_assert_cmpstr (_g_utf8_strip ("日 本 "), ==, "日 本");
+}
+
+
+static void
+test_g_utf8_translate_all (void)
+{
+	g_assert_cmpstr (_g_utf8_translate (NULL, NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_translate (NULL, "*", ".*", NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_translate ("*", "*", "", NULL), ==, "");
+	g_assert_cmpstr (_g_utf8_translate ("**", "*", "", NULL), ==, "");
+	g_assert_cmpstr (_g_utf8_translate ("日", "*", "", NULL), ==, "日");
+	g_assert_cmpstr (_g_utf8_translate ("*日*", NULL), ==, "*日*");
+	g_assert_cmpstr (_g_utf8_translate ("*日*", "*", ".*", NULL), ==, ".*日.*");
+	g_assert_cmpstr (_g_utf8_translate ("*日*", "*", "", NULL), ==, "日");
+	g_assert_cmpstr (_g_utf8_translate ("*日*本.語", ".", "\\.", "*", ".*", NULL), ==, ".*日.*本\\.語");
+}
+
+
+static void
+test_g_path_get_extension_all (void)
+{
+	g_assert_cmpstr (_g_path_get_extension ("日本.tar"), ==, ".tar");
+	g_assert_cmpstr (_g_path_get_extension ("日本.tar.xz"), ==, ".tar.xz");
+	g_assert_cmpstr (_g_path_get_extension ("日本.xz"), ==, ".xz");
+	g_assert_null (_g_path_get_extension ("日本"));
+}
+
+
+static void
+test_g_path_remove_extension_all (void)
+{
+	g_assert_cmpstr (_g_path_remove_extension ("日本.tar"), ==, "日本");
+	g_assert_cmpstr (_g_path_remove_extension ("日本.tar.xz"), ==, "日本");
+	g_assert_cmpstr (_g_path_remove_extension ("日本"), ==, "日本");
+}
+
+
+static void
+test_g_path_is_parent_all (void)
+{
+	g_assert_true (_g_path_is_parent ("/日", "/日"));
+	g_assert_true (_g_path_is_parent ("/日", "/日/"));
+	g_assert_true (_g_path_is_parent ("/日/", "/日"));
+
+	g_assert_true (_g_path_is_parent ("/", "/日/本"));
+	g_assert_true (_g_path_is_parent ("/日", "/日/本"));
+	g_assert_true (_g_path_is_parent ("/日/", "/日/本"));
+
+	g_assert_false (_g_path_is_parent ("/日/本", "/日"));
+	g_assert_false (_g_path_is_parent ("/日/本", "/日/"));
+	g_assert_false (_g_path_is_parent ("/日/本/語", "/日/本"));
+	g_assert_false (_g_path_is_parent ("/日/本/語", "/日/本/"));
+
+	g_assert_false (_g_path_is_parent ("/日/", "/日本"));
+	g_assert_false (_g_path_is_parent ("/日", "/日本"));
+
+	g_assert_false (_g_path_is_parent ("/本", "/日本"));
+	g_assert_false (_g_path_is_parent ("/本", "/日"));
+	g_assert_false (_g_path_is_parent ("/本/", "/日"));
+	g_assert_false (_g_path_is_parent ("/本", "/日/"));
+	g_assert_false (_g_path_is_parent ("/本/", "/日/"));
+}
+
+
+static void
+test_g_path_join_components (const char *expected, ...)
+{
+	va_list      args;
+	const char  *str;
+	GList       *str_list;
+	char       **strv;
+	char        *result;
+
+	str_list = NULL;
+	va_start (args, expected);
+	while ((str = va_arg (args, const char *)) != NULL)
+		str_list = g_list_prepend (str_list, g_strdup (str));
+	va_end (args);
+	str_list = g_list_reverse (str_list);
+
+	strv = _g_string_list_to_strv (str_list);
+	result = _g_path_join_components (strv);
+	g_assert_cmpstr (result, ==, expected);
+
+	g_free (result);
+	g_strfreev (strv);
+	_g_string_list_free (str_list);
+}
+
+
+static void
+test_g_path_join_components_all (void)
+{
+	test_g_path_join_components ("", NULL);
+	test_g_path_join_components ("", "", NULL);
+	test_g_path_join_components ("/", "", "", NULL);
+	test_g_path_join_components ("/", "", "/", NULL);
+
+	test_g_path_join_components ("/", "/", NULL);
+	test_g_path_join_components ("/", "/", "", NULL);
+	test_g_path_join_components ("/", "/", "/", NULL);
+
+	test_g_path_join_components ("本", "本", NULL);
+	test_g_path_join_components ("/本", "/本", NULL);
+	test_g_path_join_components ("本/", "本/", NULL);
+	test_g_path_join_components ("/本/", "/本/", NULL);
+
+	test_g_path_join_components ("本/", "本", "", NULL);
+	test_g_path_join_components ("/本/", "/本", "", NULL);
+	test_g_path_join_components ("本/", "本/", "", NULL);
+	test_g_path_join_components ("/本/", "/本/", "", NULL);
+
+	test_g_path_join_components ("本/", "本", "/", NULL);
+	test_g_path_join_components ("/本/", "/本", "/", NULL);
+	test_g_path_join_components ("本/", "本/", "/", NULL);
+	test_g_path_join_components ("/本/", "/本/", "/", NULL);
+
+	test_g_path_join_components ("/本/", "/本", "", NULL);
+	test_g_path_join_components ("/本/", "/本", "", "", NULL);
+	test_g_path_join_components ("/本/", "/本", "/", NULL);
+	test_g_path_join_components ("/本/", "/本", "/", "/", NULL);
+
+	test_g_path_join_components ("/本", "/", "本", NULL);
+	test_g_path_join_components ("/本", "/", "/本", NULL);
+	test_g_path_join_components ("/本/", "/", "/本/", NULL);
+	test_g_path_join_components ("/本", "/", "/", "本", NULL);
+	test_g_path_join_components ("/本", "/", "/", "/本", NULL);
+	test_g_path_join_components ("/本/", "/", "/", "/本/", NULL);
+}
+
+
+static void
+test_g_path_split_components_all (void)
+{
+	char **strv;
+
+	strv = _g_path_split_components (NULL, NULL);
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("", NULL);
+	_g_assert_strv_equal (strv, "", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("/", NULL);
+	_g_assert_strv_equal (strv, "/", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("//", NULL);
+	_g_assert_strv_equal (strv, "/", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("///", NULL);
+	_g_assert_strv_equal (strv, "/", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("/本", NULL);
+	_g_assert_strv_equal (strv, "本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("//本", NULL);
+	_g_assert_strv_equal (strv, "本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("/本/", NULL);
+	_g_assert_strv_equal (strv, "本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("/本//", NULL);
+	_g_assert_strv_equal (strv, "本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("//本//", NULL);
+	_g_assert_strv_equal (strv, "本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("/本/日", NULL);
+	_g_assert_strv_equal (strv, "本", "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("/本/日/", NULL);
+	_g_assert_strv_equal (strv, "本", "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("//本/日/", NULL);
+	_g_assert_strv_equal (strv, "本", "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("/本//日/", NULL);
+	_g_assert_strv_equal (strv, "本", "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("/本/日//", NULL);
+	_g_assert_strv_equal (strv, "本", "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("本", NULL);
+	_g_assert_strv_equal (strv, "本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("本日", NULL);
+	_g_assert_strv_equal (strv, "本日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("本/日", NULL);
+	_g_assert_strv_equal (strv, "本", "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("本//日", NULL);
+	_g_assert_strv_equal (strv, "本", "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("本//日/", NULL);
+	_g_assert_strv_equal (strv, "本", "日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_path_split_components ("本//日//", NULL);
+	_g_assert_strv_equal (strv, "本", "日", NULL);
+	g_strfreev (strv);
+}
+
+
+static void
+test_g_path_get_relative_all (void)
+{
+	g_assert_cmpstr (_g_path_get_relative ("/日/本/語", "/日/諸星"), ==, "../本/語");
+	g_assert_cmpstr (_g_path_get_relative ("/日/本/語", "/日"), ==, "本/語");
+	g_assert_cmpstr (_g_path_get_relative ("/日/本/語", "/日/"), ==, "本/語");
+	g_assert_cmpstr (_g_path_get_relative ("/日/本", "/日/本"), ==, "./");
+	g_assert_cmpstr (_g_path_get_relative ("/日", "/日"), ==, "./");
+	g_assert_cmpstr (_g_path_get_relative ("/", "/"), ==, "./");
+	g_assert_cmpstr (_g_path_get_relative ("/日/本語", "/日/本"), ==, "../本語");
+	g_assert_cmpstr (_g_path_get_relative ("/日/本", "/日/本語"), ==, "../本");
+}
+
+
+static void
+test_g_uri_get_relative_all (void)
+{
+	g_assert_cmpstr (_g_uri_get_relative_path ("file:///日/本/語", "file:///日/諸星"), ==, "../本/語");
+	g_assert_cmpstr (_g_uri_get_relative_path ("file:///日/本/語", "file:///日"), ==, "本/語");
+	g_assert_cmpstr (_g_uri_get_relative_path ("smb:///日/本/語", "file:///日/諸星"), ==, "smb:///日/本/語");
+	g_assert_cmpstr (_g_uri_get_relative_path ("file:///日/本", "file:///日/本"), ==, "./");
+}
+
+
+static void
+test_g_uri_get_scheme_all (void)
+{
+	g_assert_cmpstr (_g_uri_get_scheme (NULL), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_scheme (""), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_scheme ("/"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_scheme ("file:"), ==, "file");
+	g_assert_cmpstr (_g_uri_get_scheme ("file://"), ==, "file");
+	g_assert_cmpstr (_g_uri_get_scheme ("file:///"), ==, "file");
+	g_assert_cmpstr (_g_uri_get_scheme ("file:///日/本/語"), ==, "file");
+	g_assert_cmpstr (_g_uri_get_scheme ("sftp+file:///日/本/語"), ==, "sftp+file");
+}
+
+
+static void
+test_g_uri_get_path_all (void)
+{
+	g_assert_cmpstr (_g_uri_get_path (NULL), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_path (""), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_path ("file:"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_path ("file:/"), ==, "/");
+	g_assert_cmpstr (_g_uri_get_path ("file://"), ==, NULL);
+	g_assert_cmpstr (_g_uri_get_path ("file:///"), ==, "/");
+	g_assert_cmpstr (_g_uri_get_path ("file:///%E6%97%A5"), ==, "/日");
+	g_assert_cmpstr (_g_uri_get_path ("file:///%E6%97%A5/"), ==, "/日/");
+	g_assert_cmpstr (_g_uri_get_path ("file:///%E6%97%A5/%E6%9C%AC/%E8%AA%9E"), ==, "/日/本/語");
+}
+
+
+static void
+test_g_uri_is_parent_all (void)
+{
+	g_assert_false (_g_uri_is_parent (NULL, NULL));
+	g_assert_false (_g_uri_is_parent ("", ""));
+	g_assert_false (_g_uri_is_parent ("file:", "file:"));
+	g_assert_true (_g_uri_is_parent ("file:/日", "file:/日/本"));
+	g_assert_true (_g_uri_is_parent ("file:///日", "file:///日/本"));
+	g_assert_true (_g_uri_is_parent ("file:///日/本", "file:///日/本"));
+	g_assert_true (_g_uri_is_parent ("file:///日/本/", "file:///日/本"));
+	g_assert_true (_g_uri_is_parent ("file:///日/本", "file:///日/本/"));
+	g_assert_true (_g_uri_is_parent ("file:///日/本/", "file:///日/本/"));
+	g_assert_false (_g_uri_is_parent ("file:/日", "smb:/日/本"));
+}
+
+
+static void
+test_g_uri_remove_extension_all (void)
+{
+	g_assert_cmpstr (_g_uri_remove_extension ("file:///日本"), ==, "file:///日本");
+	g_assert_cmpstr (_g_uri_remove_extension ("file:///日本.tar"), ==, "file:///日本");
+	g_assert_cmpstr (_g_uri_remove_extension ("file:///日本.tar.xz"), ==, "file:///日本");
+	g_assert_cmpstr (_g_uri_remove_extension ("file://諸:星@日:123/日本.tar.xz"), ==, "file://諸:星@日:123/日本");
+}
+
+
 int
 main (int   argc,
       char *argv[])
 {
+	setlocale (LC_ALL, "");
 	g_test_init (&argc, &argv, NULL);
 
-	g_test_add_func ("/glib-utils/_g_rand_string/1", test_g_rand_string);
+	g_test_add_func ("/glib-utils/_g_utf8_after_ascii_space", test_g_utf8_after_ascii_space);
+	g_test_add_func ("/glib-utils/_g_utf8_all_spaces", test_g_utf8_all_spaces_space);
+	g_test_add_func ("/glib-utils/_g_utf8_escape_xml", test_g_utf8_escape_xml_space);
+	g_test_add_func ("/glib-utils/_g_utf8_find_str", test_g_utf8_find_str);
+	g_test_add_func ("/glib-utils/_g_utf8_has_prefix", test_g_utf8_has_prefix);
+	g_test_add_func ("/glib-utils/_g_utf8_last_char", test_g_utf8_last_char_all);
+	g_test_add_func ("/glib-utils/_g_utf8_n_equal", test_g_utf8_n_equal_all);
+	g_test_add_func ("/glib-utils/_g_utf8_replace_str", test_g_utf8_replace_str_all);
+	g_test_add_func ("/glib-utils/_g_utf8_rstrip", test_g_utf8_rstrip_all);
+	g_test_add_func ("/glib-utils/_g_utf8_split", test_g_utf8_split_all);
+	g_test_add_func ("/glib-utils/_g_utf8_split_template", test_g_utf8_split_template_all);
+	g_test_add_func ("/glib-utils/_g_utf8_strip", test_g_utf8_strip_all);
+	g_test_add_func ("/glib-utils/_g_utf8_translate", test_g_utf8_translate_all);
+
+	g_test_add_func ("/glib-utils/_g_path_get_basename", test_g_path_get_basename_all);
+	g_test_add_func ("/glib-utils/_g_path_get_extension", test_g_path_get_extension_all);
+	g_test_add_func ("/glib-utils/_g_path_get_parent", test_g_path_get_parent_all);
+	g_test_add_func ("/glib-utils/_g_path_get_relative", test_g_path_get_relative_all);
+	g_test_add_func ("/glib-utils/_g_path_is_parent", test_g_path_is_parent_all);
+	g_test_add_func ("/glib-utils/_g_path_join_components", test_g_path_join_components_all);
+	g_test_add_func ("/glib-utils/_g_path_remove_extension", test_g_path_remove_extension_all);
+	g_test_add_func ("/glib-utils/_g_path_split_components", test_g_path_split_components_all);
+
+	g_test_add_func ("/glib-utils/_g_uri_append_path", test_g_uri_append_path_all);
+	g_test_add_func ("/glib-utils/_g_uri_from_path", test_g_uri_from_path_all);
+	g_test_add_func ("/glib-utils/_g_uri_get_basename", test_g_uri_get_basename_all);
+	g_test_add_func ("/glib-utils/_g_uri_get_parent", test_g_uri_get_parent_all);
+	g_test_add_func ("/glib-utils/_g_uri_get_relative_path", test_g_uri_get_relative_all);
+	g_test_add_func ("/glib-utils/_g_uri_get_scheme", test_g_uri_get_scheme_all);
+	g_test_add_func ("/glib-utils/_g_uri_get_path", test_g_uri_get_path_all);
+	g_test_add_func ("/glib-utils/_g_uri_is_parent", test_g_uri_is_parent_all);
+	g_test_add_func ("/glib-utils/_g_uri_remove_extension", test_g_uri_remove_extension_all);
+
+	g_test_add_func ("/glib-utils/_g_file_get_display_name", test_g_file_get_display_name_all);
+	g_test_add_func ("/glib-utils/_g_rand_string", test_g_rand_string);
 	g_test_add_func ("/glib-utils/regex", test_regexp);
-	g_test_add_func ("/glib-utils/_g_utf8_has_prefix/1", test_g_utf8_has_prefix);
-	g_test_add_func ("/glib-utils/_g_utf8_first_space/1", test_g_utf8_first_space);
-	g_test_add_func ("/glib-utils/remove_lang_from_utf8_string/1", test_remove_lang_from_utf8_string_all);
+	g_test_add_func ("/glib-utils/remove_lang_from_utf8_string", test_remove_lang_from_utf8_string_all);
 
 	return g_test_run ();
 }

@@ -216,14 +216,14 @@ const char *stupid_comment_filter[] = {
 inline static char *
 exiv2_key_from_attribute (const char *attribute)
 {
-	return _g_replace (attribute, "::", ".");
+	return _g_utf8_replace_str (attribute, "::", ".");
 }
 
 
 inline static char *
 exiv2_key_to_attribute (const char *key)
 {
-	return _g_replace (key, ".", "::");
+	return _g_utf8_replace_str (key, ".", "::");
 }
 
 
@@ -274,11 +274,11 @@ create_metadata (const char *key,
 			formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
 	}
 	else if (_g_utf8_has_prefix (formatted_value_utf8, "lang=")) {
-		int   pos;
-		char *formatted_clean;
+		const char *after_space;
+		char       *formatted_clean;
 
-		pos = _g_utf8_first_ascii_space (formatted_value_utf8);
-		formatted_clean = _g_utf8_remove_prefix (formatted_value_utf8, pos + 1);
+		after_space = _g_utf8_after_ascii_space (formatted_value_utf8);
+		formatted_clean = g_strdup (after_space);
 		g_free (formatted_value_utf8);
 		formatted_value_utf8 = formatted_clean;
 	}

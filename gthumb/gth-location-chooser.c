@@ -226,7 +226,7 @@ get_iter_from_current_file_entries (GthLocationChooser *self,
 				    -1);
 		if (item_type == ITEM_TYPE_SEPARATOR)
 			break;
-		if (same_uri (uri, list_uri)) {
+		if (_g_str_equal (uri, list_uri)) {
 			found = TRUE;
 			g_free (list_uri);
 			break;

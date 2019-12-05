@@ -164,7 +164,7 @@ get_attribute_value (GthFileData *file_data,
 		if (value != NULL) {
 			char *tmp_value;
 
-			tmp_value = _g_utf8_replace (value, "[\r\n]", " ");
+			tmp_value = _g_utf8_replace_pattern (value, "[\r\n]", " ");
 			g_free (value);
 			value = tmp_value;
 		}
@@ -205,7 +205,7 @@ template_eval_cb (const GMatchInfo *info,
 		char *uri;
 
 		uri = g_file_get_uri (template_data->file_data->file);
-		r = g_strdup (_g_uri_get_file_extension (uri));
+		r = _g_uri_get_extension (uri);
 
 		g_free (uri);
 	}
@@ -213,7 +213,7 @@ template_eval_cb (const GMatchInfo *info,
 		char *basename;
 
 		basename = g_file_get_basename (template_data->file_data->file);
-		r = _g_uri_remove_extension (basename);
+		r = _g_path_remove_extension (basename);
 
 		g_free (basename);
 	}

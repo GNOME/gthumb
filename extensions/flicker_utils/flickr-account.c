@@ -116,7 +116,7 @@ void
 flickr_account_set_accountname (FlickrAccount *self,
 				const char    *value)
 {
-	_g_strset (&self->accountname, value);
+	_g_str_set (&self->accountname, value);
 }
 
 

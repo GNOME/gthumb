@@ -701,7 +701,7 @@ write_markup_escape_line (GFileOutputStream  *ostream,
 	if (line_is_void (line))
 		return;
 
-	e_line = _g_escape_for_html (line, -1);
+	e_line = _g_utf8_text_escape_xml (line);
 	_write_line (ostream, e_line, error);
 
 	g_free (e_line);
@@ -718,7 +718,7 @@ write_markup_escape_locale_line (GFileOutputStream  *ostream,
 	if ((line == NULL) || (*line == 0))
 		return;
 
-	e_line = _g_escape_for_html (line, -1);
+	e_line = _g_utf8_text_escape_xml (line);
 	_write_locale_line (ostream, e_line, error);
 
 	g_free (e_line);
@@ -764,37 +764,21 @@ get_image_attribute (GthWebExporter    *self,
 
 
 static char *
-gfile_get_relative_uri (GFile *file,
-		        GFile *relative_to)
+gfile_get_relative_path (GFile *file,
+			 GFile *base)
 {
-	char *escaped;
-	char *relative_uri;
+	char *uri;
+	char *base_uri;
 	char *result;
 
-	escaped = g_file_get_uri (file);
-	relative_uri = g_file_get_uri (relative_to);
-	result = _g_uri_get_relative_path (escaped, relative_uri);
+	uri = g_file_get_uri (file);
+	base_uri = g_file_get_uri (base);
+	result = _g_uri_get_relative_path (uri, base_uri);
 
-	g_free (relative_uri);
-	g_free (escaped);
+	g_free (base_uri);
+	g_free (uri);
 
 	return result;
-}
-
-
-static char *
-gfile_get_relative_path (GFile *file,
-		         GFile *relative_to)
-{
-	char *escaped;
-	char *unescaped;
-
-	escaped = gfile_get_relative_uri (file, relative_to);
-	unescaped = g_uri_unescape_string (escaped, NULL);
-
-	g_free (escaped);
-
-	return unescaped;
 }
 
 
@@ -1178,7 +1162,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			if (src == NULL)
 				break;
 			file = get_theme_file (self, self->priv->target_dir, src);
-			line = gfile_get_relative_uri (file, relative_to);
+			line = gfile_get_relative_path (file, relative_to);
 			write_markup_escape_line (ostream, line, error);
 			g_object_unref (file);
 			break;
@@ -1208,8 +1192,8 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				break;
 			}
 
-			image_src = gfile_get_relative_uri (file, relative_to);
-			src_attr = _g_escape_for_html (image_src, -1);
+			image_src = gfile_get_relative_path (file, relative_to);
+			src_attr = _g_utf8_escape_xml (image_src);
 
 			class = gth_tag_get_attribute_string (self, tag, "class");
 			if (class)
@@ -1233,7 +1217,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				char *unescaped_path;
 
 				unescaped_path = g_uri_unescape_string (image_src, NULL);
-				alt_attr = _g_escape_for_html (unescaped_path, -1);
+				alt_attr = _g_utf8_escape_xml (unescaped_path);
 				g_free (unescaped_path);
 			}
 
@@ -1264,7 +1248,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 			idx = get_image_idx (tag, self);
 			idata = g_list_nth (self->priv->file_list, idx)->data;
 			file = get_html_image_file (self, idata, self->priv->target_dir);
-			line = gfile_get_relative_uri (file, relative_to);
+			line = gfile_get_relative_path (file, relative_to);
 			write_markup_escape_line (ostream, line, error);
 			g_object_unref (file);
 			break;
@@ -1326,7 +1310,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				line = unescaped_path;
 			}
 			else {
-				line = g_strdup (_g_uri_get_basename (unescaped_path));
+				line = _g_uri_get_basename (unescaped_path);
 				g_free (unescaped_path);
 			}
 
@@ -1398,7 +1382,7 @@ gth_parsed_doc_print (GthWebExporter      *self,
 				idx = get_page_idx (tag, self);
 
 			file = get_html_index_file (self, idx, self->priv->target_dir);
-			line = gfile_get_relative_uri (file, relative_to);
+			line = gfile_get_relative_path (file, relative_to);
 			write_markup_escape_line (ostream, line, error);
 
 			g_object_unref (file);
@@ -1868,12 +1852,12 @@ cleanup_and_terminate (GthWebExporter *self,
 		GList *file_list;
 
 		file_list = g_list_append (NULL, self->priv->tmp_dir);
-		_g_delete_files_async (file_list,
-				       TRUE,
-				       TRUE,
-				       NULL,
-				       delete_temp_dir_ready_cb,
-				       self);
+		_g_file_list_delete_async (file_list,
+					   TRUE,
+					   TRUE,
+					   NULL,
+					   delete_temp_dir_ready_cb,
+					   self);
 
 		g_list_free (file_list);
 	}
@@ -1951,19 +1935,19 @@ save_other_files_ready_cb (GError   *error,
 	g_object_unref (enumerator);
 
 	if (error == NULL)
-		_g_copy_files_async (files,
-				     self->priv->target_dir,
-				     FALSE,
-				     GTH_FILE_COPY_DEFAULT,
-				     GTH_OVERWRITE_RESPONSE_UNSPECIFIED,
-				     G_PRIORITY_DEFAULT,
-				     gth_task_get_cancellable (GTH_TASK (self)),
-				     save_files_progress_cb,
-				     self,
-				     save_files_dialog_cb,
-				     self,
-				     copy_to_destination_ready_cb,
-				     self);
+		_g_file_list_copy_async (files,
+					 self->priv->target_dir,
+					 FALSE,
+					 GTH_FILE_COPY_DEFAULT,
+					 GTH_OVERWRITE_RESPONSE_UNSPECIFIED,
+					 G_PRIORITY_DEFAULT,
+					 gth_task_get_cancellable (GTH_TASK (self)),
+					 save_files_progress_cb,
+					 self,
+					 save_files_dialog_cb,
+					 self,
+					 copy_to_destination_ready_cb,
+					 self);
 	else
 		cleanup_and_terminate (self, error);
 
@@ -2026,19 +2010,19 @@ save_other_files (GthWebExporter *self)
 		GFile *theme_dir;
 
 		theme_dir = get_theme_file (self, self->priv->tmp_dir, NULL);
-		_g_copy_files_async (files,
-				     theme_dir,
-				     FALSE,
-				     GTH_FILE_COPY_DEFAULT,
-				     GTH_OVERWRITE_RESPONSE_UNSPECIFIED,
-				     G_PRIORITY_DEFAULT,
-				     gth_task_get_cancellable (GTH_TASK (self)),
-				     save_files_progress_cb,
-				     self,
-				     save_files_dialog_cb,
-				     self,
-				     save_other_files_ready_cb,
-				     self);
+		_g_file_list_copy_async (files,
+					 theme_dir,
+					 FALSE,
+					 GTH_FILE_COPY_DEFAULT,
+					 GTH_OVERWRITE_RESPONSE_UNSPECIFIED,
+					 G_PRIORITY_DEFAULT,
+					 gth_task_get_cancellable (GTH_TASK (self)),
+					 save_files_progress_cb,
+					 self,
+					 save_files_dialog_cb,
+					 self,
+					 save_other_files_ready_cb,
+					 self);
 
 		g_object_unref (theme_dir);
 	}
@@ -2430,7 +2414,7 @@ save_resized_image (gpointer data)
 
 		/* change the file extension to jpeg */
 
-		filename_no_ext = _g_uri_remove_extension (image_data->dest_filename);
+		filename_no_ext = _g_path_remove_extension (image_data->dest_filename);
 		g_free (image_data->dest_filename);
 		image_data->dest_filename = g_strconcat(filename_no_ext, ".jpeg", NULL);
 		g_free (filename_no_ext);

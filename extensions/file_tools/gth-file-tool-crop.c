@@ -149,10 +149,10 @@ set_spin_range_value (GthFileToolCrop *self,
 		      int              max,
 		      int              x)
 {
-	g_signal_handlers_block_by_data (G_OBJECT (spin), self);
+	_g_signal_handlers_block_by_data (G_OBJECT (spin), self);
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), min, max);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), x);
-	g_signal_handlers_unblock_by_data (G_OBJECT (spin), self);
+	_g_signal_handlers_unblock_by_data (G_OBJECT (spin), self);
 }
 
 
@@ -190,9 +190,9 @@ set_spin_value (GthFileToolCrop *self,
 		GtkWidget       *spin,
 		int              x)
 {
-	g_signal_handlers_block_by_data (G_OBJECT (spin), self);
+	_g_signal_handlers_block_by_data (G_OBJECT (spin), self);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), x);
-	g_signal_handlers_unblock_by_data (G_OBJECT (spin), self);
+	_g_signal_handlers_unblock_by_data (G_OBJECT (spin), self);
 }
 
 

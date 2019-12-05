@@ -196,8 +196,8 @@ _picasa_web_service_get_refresh_token_ready_cb (SoupSession *session,
 		JsonObject *obj;
 
 		obj = json_node_get_object (node);
-		_g_strset (&self->priv->access_token, json_object_get_string_member (obj, "access_token"));
-		_g_strset (&self->priv->refresh_token, json_object_get_string_member (obj, "refresh_token"));
+		_g_str_set (&self->priv->access_token, json_object_get_string_member (obj, "access_token"));
+		_g_str_set (&self->priv->refresh_token, json_object_get_string_member (obj, "refresh_token"));
 
 		g_task_return_boolean (task, TRUE);
 	}
@@ -336,8 +336,8 @@ picasa_web_service_ask_authorization (WebService *base)
 	PicasaWebService *self = PICASA_WEB_SERVICE (base);
 	GtkWidget        *dialog;
 
-	_g_strset (&self->priv->refresh_token, NULL);
-	_g_strset (&self->priv->access_token, NULL);
+	_g_str_set (&self->priv->refresh_token, NULL);
+	_g_str_set (&self->priv->access_token, NULL);
 
 	dialog = oauth_ask_authorization_dialog_new (picasa_web_service_get_authorization_url (self));
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 680, 580);
@@ -378,7 +378,7 @@ _picasa_web_service_get_access_token_ready_cb (SoupSession *session,
 				      "token", json_object_get_string_member (obj, "access_token"),
 				      NULL);
 		else
-			_g_strset (&self->priv->access_token, json_object_get_string_member (obj, "access_token"));
+			_g_str_set (&self->priv->access_token, json_object_get_string_member (obj, "access_token"));
 
 		g_task_return_boolean (task, TRUE);
 	}
@@ -397,7 +397,7 @@ _picasa_web_service_get_access_token (PicasaWebService    *self,
 	GHashTable  *data_set;
 	SoupMessage *msg;
 
-	_g_strset (&self->priv->access_token, NULL);
+	_g_str_set (&self->priv->access_token, NULL);
 
 	data_set = g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (data_set, "refresh_token", (gpointer) refresh_token);
@@ -491,7 +491,7 @@ picasa_web_service_get_user_info_ready_cb (SoupSession *session,
 
 				account = web_service_get_current_account (WEB_SERVICE (self));
 				if (account != NULL)
-					_g_strset (&account->token, NULL);
+					_g_str_set (&account->token, NULL);
 
 				picasa_web_service_get_user_info (WEB_SERVICE (self),
 								  data->cancellable,
@@ -559,8 +559,8 @@ picasa_web_service_get_user_info (WebService          *base,
 
 	account = web_service_get_current_account (WEB_SERVICE (self));
 	if (account != NULL) {
-		_g_strset (&self->priv->refresh_token, account->token_secret);
-		_g_strset (&self->priv->access_token, account->token);
+		_g_str_set (&self->priv->refresh_token, account->token_secret);
+		_g_str_set (&self->priv->access_token, account->token);
 	}
 
 	data = g_new0 (AccessTokenData, 1);

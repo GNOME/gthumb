@@ -435,6 +435,7 @@ gth_file_source_catalogs_rename (GthFileSource *file_source,
 	if (catalog != NULL) {
 		char  *uri;
 		char  *clean_name;
+		char  *ext;
 		char  *name;
 		GFile *gio_new_file;
 		char  *data;
@@ -443,7 +444,8 @@ gth_file_source_catalogs_rename (GthFileSource *file_source,
 
 		uri = g_file_get_uri (file);
 		clean_name = _g_filename_clear_for_file (edit_name);
-		name = g_strconcat (clean_name, _g_uri_get_file_extension (uri), NULL);
+		ext = _g_uri_get_extension (uri);
+		name = g_strconcat (clean_name, ext, NULL);
 		new_file = g_file_get_child_for_display_name (parent, name, &error);
 		gth_catalog_set_file (catalog, new_file);
 		gth_catalog_set_name (catalog, edit_name);
@@ -477,6 +479,7 @@ gth_file_source_catalogs_rename (GthFileSource *file_source,
 		g_free (data);
 		g_object_unref (gio_new_file);
 		g_free (clean_name);
+		g_free (ext);
 		g_free (name);
 		g_free (uri);
 	}
@@ -682,7 +685,7 @@ for_each_child__visit_file (ForEachChildData *data,
 					data);
 	}
 	else
-		g_directory_foreach_child (gio_file,
+		_g_directory_foreach_child (gio_file,
 					   FALSE,
 					   TRUE,
 					   GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
@@ -944,13 +947,13 @@ copy_catalog_ready_cb (GError   *error,
 	first_file = ccd->file_list->data;
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
-		char       *uri;
-		const char *extension;
-		char       *msg;
-		GtkWidget  *d;
+		char      *uri;
+		char      *extension;
+		char      *msg;
+		GtkWidget *d;
 
 		uri = g_file_get_uri (first_file);
-		extension = _g_uri_get_file_extension (uri);
+		extension = _g_uri_get_extension (uri);
 		if ((g_strcmp0 (extension, ".catalog") == 0) || (g_strcmp0 (extension, ".search") == 0))
 			msg = g_strdup_printf (_("The catalog “%s” already exists, do you want to overwrite it?"), g_file_info_get_display_name (ccd->destination->info));
 		else
@@ -972,6 +975,7 @@ copy_catalog_ready_cb (GError   *error,
 		gtk_widget_show (d);
 
 		g_free (msg);
+		g_free (extension);
 		g_free (uri);
 
 		return;
@@ -1020,19 +1024,19 @@ _gth_file_source_catalogs_copy_catalog (CopyCatalogData      *ccd,
 	gio_list = gth_file_source_to_gio_file_list (ccd->file_source, ccd->file_list);
 	gio_destination = gth_file_source_to_gio_file (ccd->file_source, ccd->destination->file);
 
-	_g_copy_files_async (gio_list,
-			     gio_destination,
-			     ccd->move,
-			     GTH_FILE_COPY_DEFAULT,
-			     default_response,
-			     G_PRIORITY_DEFAULT,
-			     gth_file_source_get_cancellable (ccd->file_source),
-			     ccd->progress_callback,
-			     ccd->user_data,
-			     ccd->dialog_callback,
-			     ccd->user_data,
-			     copy_catalog_ready_cb,
-			     ccd);
+	_g_file_list_copy_async (gio_list,
+				 gio_destination,
+				 ccd->move,
+				 GTH_FILE_COPY_DEFAULT,
+				 default_response,
+				 G_PRIORITY_DEFAULT,
+				 gth_file_source_get_cancellable (ccd->file_source),
+				 ccd->progress_callback,
+				 ccd->user_data,
+				 ccd->dialog_callback,
+				 ccd->user_data,
+				 copy_catalog_ready_cb,
+				 ccd);
 
 	g_object_unref (gio_destination);
 	_g_object_list_unref (gio_list);
@@ -1140,12 +1144,12 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 			g_free (message);
 		}
 
-		_g_query_info_async (cod->file_list,
-				     GTH_LIST_DEFAULT,
-				     GFILE_NAME_TYPE_ATTRIBUTES,
-				     gth_file_source_get_cancellable (file_source),
-				     copy__file_list_info_ready_cb,
-				     cod);
+		_g_file_list_query_info_async (cod->file_list,
+					       GTH_LIST_DEFAULT,
+					       GFILE_NAME_TYPE_ATTRIBUTES,
+					       gth_file_source_get_cancellable (file_source),
+					       copy__file_list_info_ready_cb,
+					       cod);
 	}
 }
 
@@ -1453,50 +1457,54 @@ gth_file_source_catalogs_get_drop_actions (GthFileSource *file_source,
 	GdkDragAction  actions = 0;
 	char          *dest_uri;
 	char          *dest_scheme;
-	const char    *dest_ext;
+	char          *dest_ext;
 	gboolean       dest_is_catalog;
 	char          *file_uri;
 	char          *file_scheme;
-	const char    *file_ext;
+	char          *file_ext;
 	gboolean       file_is_catalog;
 
 	dest_uri = g_file_get_uri (destination);
 	dest_scheme = _g_uri_get_scheme (dest_uri);
-	dest_ext = _g_uri_get_file_extension (dest_uri);
-	dest_is_catalog = (g_strcmp0 (dest_ext, ".catalog") == 0) || (g_strcmp0 (dest_ext, ".search") == 0);
+	dest_ext = _g_uri_get_extension (dest_uri);
+	dest_is_catalog = _g_str_equal (dest_ext, ".catalog") || _g_str_equal (dest_ext, ".search");
 
 	file_uri = g_file_get_uri (file);
 	file_scheme = _g_uri_get_scheme (file_uri);
-	file_ext = _g_uri_get_file_extension (file_uri);
-	file_is_catalog = (g_strcmp0 (file_ext, ".catalog") == 0) || (g_strcmp0 (file_ext, ".search") == 0);
+	file_ext = _g_uri_get_extension (file_uri);
+	file_is_catalog = _g_str_equal (file_ext, ".catalog") || _g_str_equal (file_ext, ".search");
 
-	if ((g_strcmp0 (dest_scheme, "catalog://") == 0)
+	if (_g_str_equal (dest_scheme, "catalog")
 		&& dest_is_catalog
-		&& (g_strcmp0 (file_scheme, "file://") == 0))
+		&& _g_str_equal (file_scheme, "file"))
 	{
 		/* Copy files into a catalog. */
 		actions = GDK_ACTION_COPY;
 	}
 
-	else if ((g_strcmp0 (file_scheme, "catalog://") == 0)
+	else if (_g_str_equal (file_scheme, "catalog")
 		&& file_is_catalog
-		&& (g_strcmp0 (dest_scheme, "catalog://") == 0)
+		&& _g_str_equal (dest_scheme, "catalog")
 		&& ! dest_is_catalog)
 	{
 		/* Move a catalog into a library. */
 		actions = GDK_ACTION_MOVE;
 	}
 
-	else if ((g_strcmp0 (file_scheme, "catalog://") == 0)
+	else if (_g_str_equal (file_scheme, "catalog")
 		&& ! file_is_catalog
-		&& (g_strcmp0 (dest_scheme, "catalog://") == 0)
+		&& _g_str_equal (dest_scheme, "catalog")
 		&& ! dest_is_catalog)
 	{
 		/* Move a library into another library. */
 		actions = GDK_ACTION_MOVE;
 	}
 
+	g_free (file_ext);
+	g_free (file_scheme);
 	g_free (file_uri);
+	g_free (dest_ext);
+	g_free (dest_scheme);
 	g_free (dest_uri);
 
 	return actions;

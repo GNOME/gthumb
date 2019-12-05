@@ -455,9 +455,9 @@ gth_browser_update_extra_widget (GthBrowser *browser)
 	_gtk_container_remove_children (GTK_CONTAINER (gth_location_bar_get_action_area (GTH_LOCATION_BAR (browser->priv->location_bar))), NULL, NULL);
 
 	location_chooser = gth_location_bar_get_chooser (GTH_LOCATION_BAR (browser->priv->location_bar));
-	g_signal_handlers_block_by_data (location_chooser, browser);
+	_g_signal_handlers_block_by_data (location_chooser, browser);
 	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (location_chooser), browser->priv->location->file);
-	g_signal_handlers_unblock_by_data (location_chooser, browser);
+	_g_signal_handlers_unblock_by_data (location_chooser, browser);
 
 	gth_hook_invoke ("gth-browser-update-extra-widget", browser);
 }
@@ -2067,9 +2067,9 @@ _gth_browser_real_close (GthBrowser *browser)
 
 	/* disconnect from the settings */
 
-	g_signal_handlers_disconnect_by_data (browser->priv->browser_settings, browser);
-	g_signal_handlers_disconnect_by_data (browser->priv->messages_settings, browser);
-	g_signal_handlers_disconnect_by_data (browser->priv->desktop_interface_settings, browser);
+	_g_signal_handlers_disconnect_by_data (browser->priv->browser_settings, browser);
+	_g_signal_handlers_disconnect_by_data (browser->priv->messages_settings, browser);
+	_g_signal_handlers_disconnect_by_data (browser->priv->desktop_interface_settings, browser);
 
 	/* disconnect from the monitor */
 
@@ -3209,13 +3209,13 @@ folder_changed_cb (GthMonitor      *monitor,
 
 			if (update_file_list) {
 				if (current_file_deleted)
-					g_signal_handlers_block_by_data (gth_browser_get_file_list_view (browser), browser);
+					_g_signal_handlers_block_by_data (gth_browser_get_file_list_view (browser), browser);
 				gth_file_list_delete_files (GTH_FILE_LIST (browser->priv->file_list), list);
 				gth_file_list_delete_files (GTH_FILE_LIST (browser->priv->thumbnail_list), list);
 				if (event == GTH_MONITOR_EVENT_DELETED)
 					gth_file_source_deleted_from_disk (browser->priv->location_source, browser->priv->location, list);
 				if (current_file_deleted)
-					g_signal_handlers_unblock_by_data (gth_browser_get_file_list_view (browser), browser);
+					_g_signal_handlers_unblock_by_data (gth_browser_get_file_list_view (browser), browser);
 			}
 
 			if (current_file_deleted && ! gth_browser_get_file_modified (browser)) {
@@ -5154,7 +5154,7 @@ gth_browser_go_home (GthBrowser *browser)
 	if (g_settings_get_boolean (browser->priv->browser_settings, PREF_BROWSER_USE_STARTUP_LOCATION))
 		location = g_file_new_for_uri (gth_pref_get_startup_location ());
 	else
-		location = g_file_new_for_uri (get_home_uri ());
+		location = g_file_new_for_uri (_g_uri_get_home ());
 
 	gth_browser_go_to (browser, location, NULL);
 
@@ -6495,7 +6495,7 @@ load_file_attributes_ready_cb (GObject  *object,
 	else if (browser->priv->location == NULL) {
 		GFile *home;
 
-		home = g_file_new_for_uri (get_home_uri ());
+		home = g_file_new_for_uri (_g_uri_get_home ());
 		gth_browser_load_location (browser, home);
 
 		g_object_unref (home);
@@ -6965,7 +6965,7 @@ _g_menu_item_new_for_file (GFile      *file,
 		char  *uri;
 		GIcon *icon;
 
-		name = _g_file_get_display_name_no_io (file);
+		name = _g_file_get_display_name (file);
 		uri = g_file_get_uri (file);
 		icon = g_themed_icon_new (g_str_has_prefix (uri, "file://") ? "folder-symbolic" : "folder-remote-symbolic");
 		g_menu_item_set_label (item, (custom_label != NULL) ? custom_label : name);

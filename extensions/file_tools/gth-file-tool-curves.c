@@ -452,9 +452,9 @@ _gth_file_tool_curves_set_view_original (GthFileToolCurves *self,
 {
 	self->priv->view_original = view_original;
 
-	g_signal_handlers_block_by_data (self->priv->preview_button, self);
+	_g_signal_handlers_block_by_data (self->priv->preview_button, self);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->preview_button), ! self->priv->view_original);
-	g_signal_handlers_unblock_by_data (self->priv->preview_button, self);
+	_g_signal_handlers_unblock_by_data (self->priv->preview_button, self);
 
 	gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (self->priv->preview_channel_button), self->priv->view_original);
 	gtk_widget_set_sensitive (self->priv->preview_channel_button, ! self->priv->view_original);

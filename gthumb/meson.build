@@ -110,7 +110,9 @@ public_header_files = [
   'pixbuf-cache.h',
   'pixbuf-io.h',
   'pixbuf-utils.h',
+  'str-utils.h',
   'typedefs.h',
+  'uri-utils.h',
   'zlib-utils.h'
 ]
 
@@ -281,6 +283,8 @@ source_files = files(
   'pixbuf-cache.c',
   'pixbuf-io.c',
   'pixbuf-utils.c',
+  'str-utils.c',
+  'uri-utils.c',
   'zlib-utils.c'
 )
 
@@ -341,7 +345,7 @@ test('dom',
 
 test('glib-utils',
   executable('test-glib-utils',
-    sources : [ 'test-glib-utils.c', 'glib-utils.c' ],
+    sources : [ 'test-glib-utils.c', 'glib-utils.c', 'str-utils.c', 'uri-utils.c' ],
     dependencies : common_deps,
     include_directories : config_inc,
     c_args : c_args,

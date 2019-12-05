@@ -307,7 +307,7 @@ ask_authorization_dialog_load_request_cb (OAuthAskAuthorizationDialog *dialog,
 		uri_data = uri + strlen (OAUTH_CALLBACK "?");
 
 		data = soup_form_decode (uri_data);
-		_g_strset (&self->priv->token, g_hash_table_lookup (data, "oauth_token"));
+		_g_str_set (&self->priv->token, g_hash_table_lookup (data, "oauth_token"));
 
 		if (self->priv->token != NULL) {
 			gtk_widget_hide (GTK_WIDGET (dialog));
@@ -518,7 +518,7 @@ void
 oauth_service_set_token (OAuthService *self,
 			 const char   *token)
 {
-	_g_strset (&self->priv->token, token);
+	_g_str_set (&self->priv->token, token);
 }
 
 
@@ -533,7 +533,7 @@ void
 oauth_service_set_token_secret (OAuthService *self,
 				const char   *token_secret)
 {
-	_g_strset (&self->priv->token_secret, token_secret);
+	_g_str_set (&self->priv->token_secret, token_secret);
 }
 
 
