@@ -200,7 +200,8 @@ exec_object_ready_func (gpointer user_data)
 	ObjectReadyData *data = user_data;
 
 	g_source_remove (data->id);
-	data->ready_func (G_OBJECT (data->object), data->error, data->user_data);
+	data->ready_func (data->object, data->error, data->user_data);
+	_g_object_unref (data->object);
 	g_free (data);
 
 	return FALSE;
@@ -217,7 +218,7 @@ object_ready_with_error (gpointer       object,
 
 	data = g_new0 (ObjectReadyData, 1);
 
-	data->object = object;
+	data->object = _g_object_ref (object);
 	data->ready_func = ready_func;
 	data->user_data = user_data;
 	data->error = error;
