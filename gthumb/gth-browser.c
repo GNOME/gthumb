@@ -990,6 +990,10 @@ load_data_new (GthBrowser *browser,
 	load_data->automatic = automatic;
 	load_data->cancellable = g_cancellable_new ();
 
+	browser->priv->load_data_queue = g_list_prepend (browser->priv->load_data_queue, load_data);
+	if (gth_action_changes_folder (load_data->action))
+		browser->priv->last_folder_to_open = load_data;
+
 	if (entry_point == NULL)
 		return load_data;
 
@@ -1009,10 +1013,6 @@ load_data_new (GthBrowser *browser,
 	}
 	g_object_unref (file);
 	load_data->current = NULL;
-
-	browser->priv->load_data_queue = g_list_prepend (browser->priv->load_data_queue, load_data);
-	if (gth_action_changes_folder (load_data->action))
-		browser->priv->last_folder_to_open = load_data;
 
 	return load_data;
 }
@@ -1120,6 +1120,14 @@ _gth_browser_remove_activity (GthBrowser *browser)
 }
 
 
+static gboolean
+load_data_is_still_relevant (LoadData *load_data)
+{
+	return ! gth_action_changes_folder (load_data->action)
+		    || (load_data == load_data->browser->priv->last_folder_to_open);
+}
+
+
 static void
 load_data_done (LoadData *load_data,
 		GError   *error)
@@ -1148,12 +1156,16 @@ load_data_done (LoadData *load_data,
 		       load_data->requested_folder->file,
 		       TRUE);
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	if (! load_data_is_still_relevant (load_data)
+		|| g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	{
 		g_error_free (error);
 		return;
 	}
 
-	if (load_data->automatic) {
+	if (gth_action_changes_folder (load_data->action)
+		&& load_data->automatic)
+	{
 		GFile *parent;
 
 		parent = g_file_get_parent (load_data->requested_folder->file);
@@ -1171,7 +1183,8 @@ load_data_done (LoadData *load_data,
 	}
 
 	gth_browser_update_sensitivity (browser);
-	title = file_format (_("Could not load the position “%s”"), load_data->requested_folder->file);
+	title = file_format (_("Could not load the position “%s”"),
+			     load_data->requested_folder->file);
 	_gth_browser_show_error (browser, title, error);
 
 	g_free (title);
@@ -1188,6 +1201,15 @@ load_data_error (LoadData *load_data,
 				      NULL);
 
 	load_data_done (load_data, error);
+	load_data_free (load_data);
+}
+
+
+static void
+load_data_cancelled (LoadData *load_data)
+{
+	load_data_done (load_data, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
+	load_data_free (load_data);
 }
 
 
@@ -1346,7 +1368,6 @@ requested_folder_attributes_ready_cb (GObject  *file_source,
 
 	if (error != NULL) {
 		load_data_error (load_data, error);
-		load_data_free (load_data);
 		return;
 	}
 
@@ -1457,11 +1478,8 @@ load_data_continue (LoadData *load_data,
 	GtkTreePath *path;
 	gboolean     changed_current_location;
 
-	if (gth_action_changes_folder (load_data->action)
-	    && (load_data != browser->priv->last_folder_to_open))
-	{
-		load_data_done (load_data, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
-		load_data_free (load_data);
+	if (! load_data_is_still_relevant (load_data)) {
+		load_data_cancelled (load_data);
 		return;
 	}
 
@@ -1635,7 +1653,6 @@ metadata_ready_cb (GObject      *source_object,
 	files = _g_query_metadata_finish (result, &error);
 	if (error != NULL) {
 		load_data_error (load_data, error);
-		load_data_free (load_data);
 		return;
 	}
 
@@ -1650,7 +1667,6 @@ load_data_ready (LoadData *load_data,
 {
 	if (error != NULL) {
 		load_data_error (load_data, error);
-		load_data_free (load_data);
 	}
 	else if (gth_action_changes_folder (load_data->action)
 		 && _g_file_equal ((GFile *) load_data->current->data, load_data->requested_folder->file))
@@ -1684,25 +1700,27 @@ mount_volume_ready_cb (GObject      *source_object,
 	LoadData *load_data = user_data;
 	GError   *error = NULL;
 
-	_gth_browser_remove_activity (load_data->browser);
-
-	if (! g_file_mount_enclosing_volume_finish (G_FILE (source_object), result, &error)) {
-		char *title;
-
-		title = file_format (_("Could not load the position “%s”"), load_data->requested_folder->file);
-		_gth_browser_show_error (load_data->browser, title, error);
-		g_clear_error (&error);
-
-		g_free (title);
+	if (! g_file_mount_enclosing_volume_finish (G_FILE (source_object),
+						    result,
+						    &error))
+	{
+		load_data_done (load_data, error);
 		load_data_free (load_data);
 		return;
 	}
 
+	gth_monitor_entry_points_changed (gth_main_get_default_monitor ());
+	_gth_browser_update_entry_point_list (load_data->browser);
+
 	/* try to load again */
 
-	gth_monitor_entry_points_changed (gth_main_get_default_monitor());
+	if (! load_data_is_still_relevant (load_data)) {
+		load_data_cancelled (load_data);
+		return;
+	}
 
-	_gth_browser_update_entry_point_list (load_data->browser);
+	_gth_browser_remove_activity (load_data->browser);
+
 	_gth_browser_load (load_data->browser,
 			   load_data->requested_folder->file,
 			   load_data->file_to_select,
@@ -1738,6 +1756,11 @@ _gth_browser_load (GthBrowser *browser,
 	if (! automatic)
 		_gth_browser_hide_infobar (browser);
 
+	if (gth_action_changes_folder (action) && (browser->priv->last_folder_to_open != NULL)) {
+		LoadData *last_load_data = (LoadData *) browser->priv->last_folder_to_open;
+		g_cancellable_cancel (last_load_data->cancellable);
+	}
+
 	entry_point = gth_main_get_nearest_entry_point (location);
 	load_data = load_data_new (browser,
 				   location,
@@ -1756,7 +1779,12 @@ _gth_browser_load (GthBrowser *browser,
 		/* try to mount the enclosing volume */
 
 		mount_op = gtk_mount_operation_new (GTK_WINDOW (browser));
-		g_file_mount_enclosing_volume (location, 0, mount_op, NULL, mount_volume_ready_cb, load_data);
+		g_file_mount_enclosing_volume (location,
+					       0,
+					       mount_op,
+					       load_data->cancellable,
+					       mount_volume_ready_cb,
+					       load_data);
 
 		g_object_unref (mount_op);
 
