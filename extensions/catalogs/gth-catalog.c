@@ -40,7 +40,6 @@ struct _GthCatalogPrivate {
 	gboolean        active;
 	char           *order;
 	gboolean        order_inverse;
-	GCancellable   *cancellable;
 };
 
 
@@ -251,10 +250,8 @@ gth_catalog_init (GthCatalog *catalog)
 	catalog->priv->file_hash = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, NULL, NULL);
 	catalog->priv->name = NULL;
 	catalog->priv->date_time = gth_datetime_new ();
-	catalog->priv->active = FALSE;
 	catalog->priv->order = NULL;
 	catalog->priv->order_inverse = FALSE;
-	catalog->priv->cancellable = NULL;
 }
 
 
@@ -262,6 +259,34 @@ GthCatalog *
 gth_catalog_new (void)
 {
 	return (GthCatalog *) g_object_new (GTH_TYPE_CATALOG, NULL);
+}
+
+
+GthCatalog *
+gth_catalog_new_from_data (const void  *buffer,
+			   gsize        count,
+			   GError     **error)
+{
+	char       *text_buffer;
+	GthCatalog *catalog = NULL;
+
+	if (buffer == NULL)
+		return NULL;
+
+	text_buffer = (char *) buffer;
+	if (strncmp (text_buffer, "<?xml ", 6) == 0) {
+		catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", (gpointer) buffer);
+		if (catalog != NULL)
+			read_catalog_data_from_xml (catalog, text_buffer, count, error);
+		else
+			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
+	}
+	else {
+		catalog = gth_catalog_new ();
+		read_catalog_data_old_format (catalog, text_buffer, count);
+	}
+
+	return catalog;
 }
 
 
@@ -348,25 +373,6 @@ gth_catalog_get_order (GthCatalog *catalog,
 {
 	*inverse = catalog->priv->order_inverse;
 	return catalog->priv->order;
-}
-
-
-void
-gth_catalog_load_from_data (GthCatalog  *catalog,
-			    const void  *buffer,
-			    gsize        count,
-			    GError     **error)
-{
-	char *text_buffer;
-
-	if (buffer == NULL)
-		return;
-
-	text_buffer = (char *) buffer;
-	if (strncmp (text_buffer, "<?xml ", 6) == 0)
-		read_catalog_data_from_xml (catalog, text_buffer, count, error);
-	else
-		read_catalog_data_old_format (catalog, text_buffer, count);
 }
 
 
@@ -463,144 +469,6 @@ gth_catalog_remove_file (GthCatalog *catalog,
 	_g_object_list_unref (scan);
 
 	return i;
-}
-
-
-/* -- gth_catalog_list_async --  */
-
-
-typedef struct {
-	GthCatalog           *catalog;
-	const char           *attributes;
-	CatalogReadyCallback  list_ready_func;
-	gpointer              user_data;
-	GList                *current_file;
-	GList                *files;
-} ListData;
-
-
-static void
-gth_catalog_list_done (ListData *list_data,
-		       GError   *error)
-{
-	GthCatalog *catalog = list_data->catalog;
-
-	catalog->priv->active = FALSE;
-	if (list_data->list_ready_func != NULL) {
-		list_data->files = g_list_reverse (list_data->files);
-		list_data->list_ready_func (catalog, list_data->files, error, list_data->user_data);
-	}
-
-	_g_object_list_unref (list_data->files);
-	g_free (list_data);
-}
-
-
-static void
-catalog_file_info_ready_cb (GObject      *source_object,
-			    GAsyncResult *result,
-			    gpointer      user_data)
-{
-	ListData   *list_data = user_data;
-	GthCatalog *catalog = list_data->catalog;
-	GFile      *file;
-	GFileInfo  *info;
-
-	file = (GFile*) source_object;
-	info = g_file_query_info_finish (file, result, NULL);
-	if (info != NULL) {
-		list_data->files = g_list_prepend (list_data->files, gth_file_data_new (file, info));
-		g_object_unref (info);
-	}
-
-	list_data->current_file = list_data->current_file->next;
-	if (list_data->current_file == NULL) {
-		gth_catalog_list_done (list_data, NULL);
-		return;
-	}
-
-	g_file_query_info_async ((GFile *) list_data->current_file->data,
-				 list_data->attributes,
-				 0,
-				 G_PRIORITY_DEFAULT,
-				 catalog->priv->cancellable,
-				 catalog_file_info_ready_cb,
-				 list_data);
-}
-
-
-static void
-list__catalog_buffer_ready_cb (void     **buffer,
-			       gsize      count,
-			       GError    *error,
-			       gpointer   user_data)
-{
-	ListData   *list_data = user_data;
-	GthCatalog *catalog = list_data->catalog;
-
-	if ((error == NULL) && (*buffer != NULL)) {
-		gth_catalog_load_from_data (catalog, *buffer,  count, &error);
-		if (error != NULL) {
-			gth_catalog_list_done (list_data, error);
-			return;
-		}
-
-		list_data->current_file = catalog->priv->file_list;
-		if (list_data->current_file == NULL) {
-			gth_catalog_list_done (list_data, NULL);
-			return;
-		}
-
-		g_file_query_info_async ((GFile *) list_data->current_file->data,
-					 list_data->attributes,
-					 0,
-					 G_PRIORITY_DEFAULT,
-					 catalog->priv->cancellable,
-					 catalog_file_info_ready_cb,
-					 list_data);
-	}
-	else
-		gth_catalog_list_done (list_data, error);
-}
-
-
-void
-gth_catalog_list_async (GthCatalog           *catalog,
-			const char           *attributes,
-			GCancellable         *cancellable,
-			CatalogReadyCallback  ready_func,
-			gpointer              user_data)
-{
-	ListData *list_data;
-
-	g_return_if_fail (catalog->priv->file != NULL);
-
-	if (catalog->priv->active) {
-		/* FIXME: object_ready_with_error (catalog, ready_func, user_data, g_error_new (G_IO_ERROR, G_IO_ERROR_PENDING, "Action pending"));*/
-		return;
-	}
-
-	catalog->priv->active = TRUE;
-	catalog->priv->cancellable = cancellable;
-
-	list_data = g_new0 (ListData, 1);
-	list_data->catalog = catalog;
-	list_data->attributes = attributes;
-	list_data->list_ready_func = ready_func;
-	list_data->user_data = user_data;
-
-	_g_file_load_async (catalog->priv->file,
-			    G_PRIORITY_DEFAULT,
-			    catalog->priv->cancellable,
-			    list__catalog_buffer_ready_cb,
-			    list_data);
-}
-
-
-void
-gth_catalog_cancel (GthCatalog *catalog)
-{
-	g_cancellable_cancel (catalog->priv->cancellable);
 }
 
 
@@ -804,43 +672,41 @@ gth_catalog_get_base (void)
 GFile *
 gth_catalog_file_to_gio_file (GFile *file)
 {
-	GFile *gio_file = NULL;
-	char  *child_uri;
+	GFile      *gio_file = NULL;
+	char       *uri;
+	UriParts    file_parts;
 
-	child_uri = g_file_get_uri (file);
-	if (strncmp (child_uri, "catalog:///", 11) == 0) {
-		const char *query;
+	if (! g_file_has_uri_scheme (file, "catalog"))
+		return g_file_dup (file);
 
-		query = strchr (child_uri, '?');
-		if (query != NULL) {
-			char *uri;
+	uri = g_file_get_uri (file);
+	if (! _g_uri_split (uri, &file_parts))
+		return NULL;
 
-			uri = g_uri_unescape_string (query, "");
-			gio_file = g_file_new_for_uri (uri);
+	if (file_parts.query != NULL) {
+		char *new_uri;
 
-			g_free (uri);
-		}
-		else {
-			GFile      *base;
-			char       *base_uri;
-			const char *part;
-			char       *full_uri;
+		new_uri = g_uri_unescape_string (file_parts.query, NULL);
+		gio_file = g_file_new_for_uri (new_uri);
 
-			base = gth_catalog_get_base ();
-			base_uri = g_file_get_uri (base);
-			part = child_uri + 11;
-			full_uri = g_strconcat (base_uri, part ? "/" : NULL, part, NULL);
-			gio_file = g_file_new_for_uri (full_uri);
-
-			g_free (full_uri);
-			g_free (base_uri);
-			g_object_unref (base);
-		}
+		g_free (new_uri);
 	}
-	else
-		gio_file = g_file_dup (file);
+	else {
+		GFile *base;
+		char  *base_uri;
+		char  *new_uri;
 
-	g_free (child_uri);
+		base = gth_catalog_get_base ();
+		base_uri = g_file_get_uri (base);
+		new_uri = _g_uri_append_path (base_uri, file_parts.path);
+		gio_file = g_file_new_for_uri (new_uri);
+
+		g_free (new_uri);
+		g_free (base_uri);
+		g_object_unref (base);
+	}
+
+	g_free (uri);
 
 	return gio_file;
 }
@@ -898,17 +764,16 @@ GFile *
 gth_catalog_file_from_relative_path (const char *name,
 				     const char *file_extension)
 {
-
-	char  *partial_uri;
+	char  *path;
 	char  *uri;
 	GFile *file;
 
-	partial_uri = g_uri_escape_string ((name[0] == '/' ? name + 1 : name), G_URI_RESERVED_CHARS_ALLOWED_IN_PATH, FALSE);
-	uri = g_strconcat ("catalog:///", partial_uri, file_extension, NULL);
+	path = g_strconcat (name, file_extension, NULL);
+	uri = _g_uri_append_path ("catalog:///", path);
 	file = g_file_new_for_uri (uri);
 
 	g_free (uri);
-	g_free (partial_uri);
+	g_free (path);
 
 	return file;
 }
@@ -1056,14 +921,12 @@ load__catalog_buffer_ready_cb (void     **buffer,
 			       gpointer   user_data)
 {
 	LoadData   *load_data = user_data;
-	GthCatalog *catalog = NULL;
+	GthCatalog *catalog;
 
-	if (error == NULL) {
-		catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", *buffer);
-		if (catalog != NULL)
-			gth_catalog_load_from_data (catalog, *buffer, count, &error);
-	}
-
+	if (error == NULL)
+		catalog = gth_catalog_new_from_data (*buffer, count, &error);
+	else
+		catalog = NULL;
 	load_data->ready_func (G_OBJECT (catalog), error, load_data->user_data);
 
 	g_free (load_data);
@@ -1144,9 +1007,7 @@ gth_catalog_load_from_file (GFile *file)
 	if (! _g_file_load_in_buffer (gio_file, &buffer, &buffer_size, NULL, NULL))
 		return NULL;
 
-	catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", buffer);
-	if (catalog != NULL)
-		gth_catalog_load_from_data (catalog, buffer, buffer_size, NULL);
+	catalog = gth_catalog_new_from_data (buffer, buffer_size, NULL);
 
 	g_free (buffer);
 	g_object_unref (gio_file);
@@ -1213,3 +1074,123 @@ gth_catalog_save (GthCatalog *catalog)
 	_g_object_unref (gio_parent);
 	g_object_unref (gio_file);
 }
+
+
+/* -- gth_catalog_list_async --  */
+
+
+typedef struct {
+	GthCatalog           *catalog;
+	const char           *attributes;
+	CatalogReadyCallback  list_ready_func;
+	gpointer              user_data;
+	GList                *current_file;
+	GList                *files;
+	GCancellable         *cancellable;
+} ListData;
+
+
+static void
+gth_catalog_list_done (ListData *list_data,
+		       GError   *error)
+{
+	if (list_data->list_ready_func != NULL) {
+		list_data->files = g_list_reverse (list_data->files);
+		list_data->list_ready_func (list_data->catalog, list_data->files, error, list_data->user_data);
+	}
+
+	_g_object_list_unref (list_data->files);
+	_g_object_unref (list_data->cancellable);
+	_g_object_unref (list_data->catalog);
+	g_free (list_data);
+}
+
+
+static void
+catalog_file_info_ready_cb (GObject      *source_object,
+			    GAsyncResult *result,
+			    gpointer      user_data)
+{
+	ListData   *list_data = user_data;
+	GFile      *file;
+	GFileInfo  *info;
+
+	file = (GFile*) source_object;
+	info = g_file_query_info_finish (file, result, NULL);
+	if (info != NULL) {
+		list_data->files = g_list_prepend (list_data->files, gth_file_data_new (file, info));
+		g_object_unref (info);
+	}
+
+	list_data->current_file = list_data->current_file->next;
+	if (list_data->current_file == NULL) {
+		gth_catalog_list_done (list_data, NULL);
+		return;
+	}
+
+	g_file_query_info_async ((GFile *) list_data->current_file->data,
+				 list_data->attributes,
+				 0,
+				 G_PRIORITY_DEFAULT,
+				 list_data->cancellable,
+				 catalog_file_info_ready_cb,
+				 list_data);
+}
+
+
+static void
+list__catalog_buffer_ready_cb (void     **buffer,
+			       gsize      count,
+			       GError    *error,
+			       gpointer   user_data)
+{
+	ListData *list_data = user_data;
+
+	if ((error == NULL) && (*buffer != NULL)) {
+		list_data->catalog = gth_catalog_new_from_data (*buffer,  count, &error);
+		if (list_data->catalog == NULL) {
+			gth_catalog_list_done (list_data, error);
+			return;
+		}
+
+		list_data->current_file = list_data->catalog->priv->file_list;
+		if (list_data->current_file == NULL) {
+			gth_catalog_list_done (list_data, NULL);
+			return;
+		}
+
+		g_file_query_info_async ((GFile *) list_data->current_file->data,
+					 list_data->attributes,
+					 0,
+					 G_PRIORITY_DEFAULT,
+					 list_data->cancellable,
+					 catalog_file_info_ready_cb,
+					 list_data);
+	}
+	else
+		gth_catalog_list_done (list_data, error);
+}
+
+
+void
+gth_catalog_list_async (GFile                *file,
+			const char           *attributes,
+			GCancellable         *cancellable,
+			CatalogReadyCallback  ready_func,
+			gpointer              user_data)
+{
+	ListData *list_data;
+
+	list_data = g_new0 (ListData, 1);
+	list_data->attributes = attributes;
+	list_data->list_ready_func = ready_func;
+	list_data->user_data = user_data;
+	list_data->cancellable = _g_object_ref (cancellable);
+
+	_g_file_load_async (file,
+			    G_PRIORITY_DEFAULT,
+			    list_data->cancellable,
+			    list__catalog_buffer_ready_cb,
+			    list_data);
+}
+

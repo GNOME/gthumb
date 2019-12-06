@@ -185,23 +185,23 @@ gth_file_source_catalogs_get_file_data (GthFileSource *file_source,
 
 
 typedef struct {
-	GthFileSourceCatalogs *catalogs;
+	GthFileSourceCatalogs *file_souce;
 	GthFileData           *file_data;
 	char                  *attributes;
 	ReadyCallback          ready_callback;
 	gpointer               user_data;
-	GthCatalog            *catalog;
+	GFile                 *gio_file;
 } MetadataOpData;
 
 
 static void
 metadata_op_free (MetadataOpData *metadata_op)
 {
-	gth_file_source_set_active (GTH_FILE_SOURCE (metadata_op->catalogs), FALSE);
+	gth_file_source_set_active (GTH_FILE_SOURCE (metadata_op->file_souce), FALSE);
 	g_object_unref (metadata_op->file_data);
 	g_free (metadata_op->attributes);
-	g_object_unref (metadata_op->catalog);
-	g_object_unref (metadata_op->catalogs);
+	g_object_unref (metadata_op->gio_file);
+	g_object_unref (metadata_op->file_souce);
 	g_free (metadata_op);
 }
 
@@ -213,7 +213,7 @@ write_metadata_write_buffer_ready_cb (void     **buffer,
 				      gpointer   user_data)
 {
 	MetadataOpData        *metadata_op = user_data;
-	GthFileSourceCatalogs *catalogs = metadata_op->catalogs;
+	GthFileSourceCatalogs *catalogs = metadata_op->file_souce;
 
 	metadata_op->ready_callback (G_OBJECT (catalogs), error, metadata_op->user_data);
 	metadata_op_free (metadata_op);
@@ -226,45 +226,51 @@ write_metadata_load_buffer_ready_cb (void     **buffer,
 				     GError    *error,
 				     gpointer   user_data)
 {
-	MetadataOpData        *metadata_op = user_data;
-	GthFileSourceCatalogs *catalogs = metadata_op->catalogs;
-	GFile                 *gio_file;
-	void                  *catalog_buffer;
-	gsize                  catalog_size;
+	MetadataOpData *metadata_op = user_data;
+	GthCatalog     *catalog;
+	void           *catalog_buffer;
+	gsize           catalog_size;
 
 	if (error != NULL) {
-		metadata_op->ready_callback (G_OBJECT (catalogs), error, metadata_op->user_data);
+		metadata_op->ready_callback (G_OBJECT (metadata_op->file_souce), error, metadata_op->user_data);
 		metadata_op_free (metadata_op);
 		return;
 	}
 
-	gth_catalog_load_from_data (metadata_op->catalog, *buffer, count, &error);
+	catalog = gth_catalog_new_from_data (*buffer, count, &error);
+	if (catalog == NULL) {
+		metadata_op->ready_callback (G_OBJECT (metadata_op->file_souce), error, metadata_op->user_data);
+		metadata_op_free (metadata_op);
+		return;
+	}
+
+	gth_catalog_set_file (catalog, metadata_op->gio_file);
 
 	if (error != NULL) {
-		metadata_op->ready_callback (G_OBJECT (catalogs), error, metadata_op->user_data);
+		metadata_op->ready_callback (G_OBJECT (metadata_op->file_souce), error, metadata_op->user_data);
+		g_object_unref (catalog);
 		metadata_op_free (metadata_op);
 		return;
 	}
 
 	if (_g_file_attributes_matches_any (metadata_op->attributes, "sort::*"))
-		gth_catalog_set_order (metadata_op->catalog,
+		gth_catalog_set_order (catalog,
 				       g_file_info_get_attribute_string (metadata_op->file_data->info, "sort::type"),
 				       g_file_info_get_attribute_boolean (metadata_op->file_data->info, "sort::inverse"));
 
-	gth_hook_invoke ("gth-catalog-read-metadata", metadata_op->catalog, metadata_op->file_data);
+	gth_hook_invoke ("gth-catalog-read-metadata", catalog, metadata_op->file_data);
 
-	catalog_buffer = gth_catalog_to_data (metadata_op->catalog, &catalog_size);
-	gio_file = gth_catalog_file_to_gio_file (metadata_op->file_data->file);
-	_g_file_write_async (gio_file,
+	catalog_buffer = gth_catalog_to_data (catalog, &catalog_size);
+	_g_file_write_async (metadata_op->gio_file,
 			     catalog_buffer,
 			     catalog_size,
 			     TRUE,
 			     G_PRIORITY_DEFAULT,
-			     gth_file_source_get_cancellable (GTH_FILE_SOURCE (metadata_op->catalogs)),
+			     gth_file_source_get_cancellable (GTH_FILE_SOURCE (metadata_op->file_souce)),
 			     write_metadata_write_buffer_ready_cb,
 			     metadata_op);
 
-	g_object_unref (gio_file);
+	g_object_unref (catalog);
 }
 
 
@@ -278,7 +284,6 @@ gth_file_source_catalogs_write_metadata (GthFileSource *file_source,
 	GthFileSourceCatalogs *catalogs = (GthFileSourceCatalogs *) file_source;
 	char                  *uri;
 	MetadataOpData        *metadata_op;
-	GFile                 *gio_file;
 
 	uri = g_file_get_uri (file_data->file);
 	if (! g_str_has_suffix (uri, ".gqv")
@@ -291,7 +296,7 @@ gth_file_source_catalogs_write_metadata (GthFileSource *file_source,
 	}
 
 	metadata_op = g_new0 (MetadataOpData, 1);
-	metadata_op->catalogs = g_object_ref (catalogs);
+	metadata_op->file_souce = g_object_ref (catalogs);
 	metadata_op->file_data = g_object_ref (file_data);
 	metadata_op->attributes = g_strdup (attributes);
 	metadata_op->ready_callback = callback;
@@ -300,16 +305,13 @@ gth_file_source_catalogs_write_metadata (GthFileSource *file_source,
 	gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), TRUE);
 	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
 
-	metadata_op->catalog = gth_catalog_new ();
-	gio_file = gth_file_source_to_gio_file (file_source, file_data->file);
-	gth_catalog_set_file (metadata_op->catalog, gio_file);
-	_g_file_load_async (gio_file,
+	metadata_op->gio_file = gth_file_source_to_gio_file (file_source, file_data->file);
+	_g_file_load_async (metadata_op->gio_file,
 			    G_PRIORITY_DEFAULT,
 			    gth_file_source_get_cancellable (file_source),
 			    write_metadata_load_buffer_ready_cb,
 			    metadata_op);
 
-	g_object_unref (gio_file);
 	g_free (uri);
 }
 
@@ -531,7 +533,6 @@ typedef struct {
 	ForEachChildCallback   for_each_file_func;
 	ReadyCallback          ready_func;
 	gpointer               user_data;
-	GthCatalog            *catalog;
 	GList                 *to_visit;
 } ForEachChildData;
 
@@ -540,7 +541,6 @@ static void
 for_each_child_data_free (ForEachChildData *data)
 {
 	_g_object_list_unref (data->to_visit);
-	g_object_ref (data->catalog);
 	g_free (data->attributes);
 	g_object_ref (data->file_source);
 }
@@ -677,8 +677,7 @@ for_each_child__visit_file (ForEachChildData *data,
 	    || g_str_has_suffix (uri, ".catalog")
 	    || g_str_has_suffix (uri, ".search"))
 	{
-		gth_catalog_set_file (data->catalog, gio_file);
-		gth_catalog_list_async (data->catalog,
+		gth_catalog_list_async (gio_file,
 					data->attributes,
 					gth_file_source_get_cancellable (data->file_source),
 					for_each_child__catalog_list_ready_cb,
@@ -746,7 +745,6 @@ gth_file_source_catalogs_for_each_child (GthFileSource        *file_source,
 	data->for_each_file_func = for_each_file_func;
 	data->ready_func = ready_func;
 	data->user_data = user_data;
-	data->catalog = gth_catalog_new ();
 
 	gio_parent = gth_file_source_to_gio_file (file_source, parent);
 	g_file_query_info_async (gio_parent,
@@ -1366,15 +1364,8 @@ catalog_buffer_ready_cb (void     **buffer,
 		return;
 	}
 
-	data->catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", *buffer);
+	data->catalog = gth_catalog_new_from_data (*buffer, count, &error);
 	if (data->catalog == NULL) {
-		error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
-		remove_from_catalog_end (error, data);
-		return;
-	}
-
-	gth_catalog_load_from_data (data->catalog, *buffer, count, &error);
-	if (error != NULL) {
 		remove_from_catalog_end (error, data);
 		return;
 	}
