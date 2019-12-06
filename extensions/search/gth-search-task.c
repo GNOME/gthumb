@@ -65,10 +65,10 @@ gth_search_task_finalize (GObject *object)
 
 	task = GTH_SEARCH_TASK (object);
 
-	g_object_unref (task->priv->file_source);
-	g_object_unref (task->priv->search);
-	g_object_unref (task->priv->test);
-	g_object_unref (task->priv->search_catalog);
+	_g_object_unref (task->priv->file_source);
+	_g_object_unref (task->priv->search);
+	_g_object_unref (task->priv->test);
+	_g_object_unref (task->priv->search_catalog);
 	if (task->priv->browser != NULL)
 		g_object_weak_unref (G_OBJECT (task->priv->browser), browser_unref_cb, task);
 
@@ -322,10 +322,14 @@ browser_location_ready_cb (GthBrowser    *browser,
 	GtkWidget   *button;
 	InfoBarData *dialog_data;
 
+	if (! _g_file_equal (folder, task->priv->search_catalog))
+		return;
+
 	g_signal_handler_disconnect (task->priv->browser, task->priv->location_ready_id);
 
 	if (error) {
-		gtk_widget_hide (task->priv->dialog);
+		if (task->priv->dialog != NULL)
+			gtk_widget_hide (task->priv->dialog);
 		gth_task_completed (GTH_TASK (task), NULL);
 		return;
 	}
