@@ -131,10 +131,8 @@ gth_main_register_default_hooks (void)
 	 *
 	 * @browser (GthBrowser*): the window
 	 * @folder (GthFileData*): the loaded folder data
-	 * @error (GError*): the error or NULL if the folder was loaded
-	 * correctly.
 	 **/
-	gth_hook_register ("gth-browser-load-location-after", 3);
+	gth_hook_register ("gth-browser-load-location-after", 2);
 
 	/**
 	 * Called before displaying the file list popup menu.

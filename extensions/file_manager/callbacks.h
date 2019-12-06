@@ -28,8 +28,7 @@ void      fm__gth_browser_construct_cb                      (GthBrowser    *brow
 void      fm__gth_browser_update_sensitivity_cb             (GthBrowser    *browser);
 void      fm__gth_browser_set_current_page_cb               (GthBrowser    *browser);
 void      fm__gth_browser_load_location_after_cb            (GthBrowser    *browser,
-							     GthFileData   *location_data,
-							     const GError  *error);
+							     GthFileData   *location_data);
 void      fm__gth_browser_folder_tree_popup_before_cb       (GthBrowser    *browser,
 		     	     	     	     	     	     GthFileSource *file_source,
 		     	     	     	     	     	     GthFileData   *folder);

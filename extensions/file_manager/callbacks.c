@@ -815,8 +815,7 @@ fm__gth_browser_set_current_page_cb (GthBrowser *browser)
 
 void
 fm__gth_browser_load_location_after_cb (GthBrowser   *browser,
-					GthFileData  *location_data,
-					const GError *error)
+					GthFileData  *location_data)
 {
 	BrowserData    *data;
 	GtkWidget      *file_list;
@@ -825,9 +824,6 @@ fm__gth_browser_load_location_after_cb (GthBrowser   *browser,
 	GtkTargetEntry *source_targets;
 	int             n_source_targets;
 	GdkDragAction   source_actions;
-
-	if ((location_data == NULL) || (error != NULL))
-		return;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	file_manager_update_ui (data, browser);

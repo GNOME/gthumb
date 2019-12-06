@@ -35,8 +35,7 @@ void catalogs__gth_browser_folder_tree_popup_before_cb    (GthBrowser    *browse
 GFile *      catalogs__command_line_files_cb              (GList         *files);
 GthCatalog * catalogs__gth_catalog_load_from_data_cb      (const void    *buffer);
 void         catalogs__gth_browser_load_location_after_cb (GthBrowser    *browser,
-							   GthFileData   *location,
-					                   const GError  *error);
+							   GthFileData   *location);
 void         catalogs__gth_browser_update_extra_widget_cb (GthBrowser    *browser);
 void         catalogs__gth_browser_file_renamed_cb        (GthBrowser    *browser,
 							   GFile         *file,
