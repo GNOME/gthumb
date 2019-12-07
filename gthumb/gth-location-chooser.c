@@ -25,6 +25,7 @@
 #include <glib.h>
 #include <glib/gprintf.h>
 #include <gtk/gtk.h>
+#include "gio-utils.h"
 #include "glib-utils.h"
 #include "gth-file-source.h"
 #include "gth-location-chooser.h"
@@ -511,9 +512,10 @@ update_location_list (gpointer user_data)
 			GFile     *file = scan->data;
 			GFileInfo *info;
 
-			info = gth_file_source_get_file_info (self->priv->file_source, file, GFILE_DISPLAY_ATTRIBUTES);
+			info = _g_file_get_info_for_display (file);
 			if (info == NULL)
 				continue;
+
 			add_file_source_entries (self,
 						 file,
 						 g_file_info_get_display_name (info),
