@@ -2037,6 +2037,34 @@ _g_format_duration_for_display (gint64 msecs)
 }
 
 
+char *
+_g_format_str_for_file (const char *format,
+			GFile      *file)
+{
+	char     *uri;
+	UriParts  parts;
+	char     *name;
+	char     *str;
+
+	uri = g_file_get_uri (file);
+	if (! _g_uri_split (uri, &parts) || (parts.path == NULL) || (parts.scheme == NULL))
+		name = g_strdup (_("(invalid value)"));
+	else if (_g_str_equal (parts.scheme, "file"))
+		name = g_strdup (parts.path);
+	else if (parts.host != NULL)
+		name = g_strdup_printf ("%s://%s%s%s", parts.scheme, parts.host, ((parts.path[0] != '/') ? "/" : ""), parts.path);
+	else
+		name = g_strdup_printf ("%s://%s", parts.scheme, parts.path);
+	str = g_strdup_printf (format, name);
+
+	g_free (name);
+	_g_uri_parts_clear (&parts);
+	g_free (uri);
+
+	return str;
+}
+
+
 void
 _g_error_free (GError *error)
 {

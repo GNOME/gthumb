@@ -316,6 +316,8 @@ GSettings *	_g_settings_new_if_schema_installed
 /* Other */
 
 char *		_g_format_duration_for_display	(gint64		  msecs);
+char *		_g_format_str_for_file		(const char	 *format,
+						 GFile		 *file);
 void		_g_error_free			(GError		 *error);
 
 DEF_ACTION_CALLBACK (toggle_action_activated)

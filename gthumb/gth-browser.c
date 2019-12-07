@@ -1046,34 +1046,6 @@ _gth_browser_load (GthBrowser *browser,
 		   gboolean    automatic);
 
 
-static char *
-file_format (const char *format,
-	     GFile      *file)
-{
-	char     *uri;
-	UriParts  parts;
-	char     *name;
-	char     *str;
-
-	uri = g_file_get_uri (file);
-	if (! _g_uri_split (uri, &parts) || (parts.path == NULL) || (parts.scheme == NULL))
-		name = g_strdup (_("(invalid value)"));
-	else if (_g_str_equal (parts.scheme, "file"))
-		name = g_strdup (parts.path);
-	else if (parts.host != NULL)
-		name = g_strdup_printf ("%s://%s%s%s", parts.scheme, parts.host, ((parts.path[0] != '/') ? "/" : ""), parts.path);
-	else
-		name = g_strdup_printf ("%s://%s", parts.scheme, parts.path);
-	str = g_strdup_printf (format, name);
-
-	g_free (name);
-	_g_uri_parts_clear (&parts);
-	g_free (uri);
-
-	return str;
-}
-
-
 static void
 _gth_browser_show_error (GthBrowser *browser,
 			 const char *title,
@@ -1195,8 +1167,8 @@ load_data_done (LoadData *load_data,
 	}
 
 	gth_browser_update_sensitivity (browser);
-	title = file_format (_("Could not load the position “%s”"),
-			     load_data->requested_folder->file);
+	title = _g_format_str_for_file (_("Could not load the position “%s”"),
+					load_data->requested_folder->file);
 	_gth_browser_show_error (browser, title, error);
 
 	g_free (title);
@@ -1791,12 +1763,12 @@ _gth_browser_load (GthBrowser *browser,
 		/* try to mount the enclosing volume */
 
 		mount_op = gtk_mount_operation_new (GTK_WINDOW (browser));
-		g_file_mount_enclosing_volume (location,
-					       0,
-					       mount_op,
-					       load_data->cancellable,
-					       mount_volume_ready_cb,
-					       load_data);
+		_g_file_mount_enclosing_volume (location,
+						0,
+						mount_op,
+						load_data->cancellable,
+						mount_volume_ready_cb,
+						load_data);
 
 		g_object_unref (mount_op);
 
@@ -6544,7 +6516,7 @@ load_file_attributes_ready_cb (GObject  *object,
 			char   *title;
 			GError *error;
 
-			title = file_format (_("Could not load the position “%s”"), data->location_data->file);
+			title = _g_format_str_for_file (_("Could not load the position “%s”"), data->location_data->file);
 			error = g_error_new (GTH_ERROR, 0, _("File type not supported"));
 			_gth_browser_show_error (browser, title, error);
 			g_clear_error (&error);
@@ -6563,7 +6535,7 @@ load_file_attributes_ready_cb (GObject  *object,
 	else {
 		char *title;
 
-		title = file_format (_("Could not load the position “%s”"), data->location_data->file);
+		title = _g_format_str_for_file (_("Could not load the position “%s”"), data->location_data->file);
 		_gth_browser_show_error (browser, title, error);
 
 		g_free (title);
@@ -6587,7 +6559,7 @@ gth_browser_load_location (GthBrowser *browser,
 		char   *title;
 		GError *error;
 
-		title = file_format (_("Could not load the position “%s”"), data->location_data->file);
+		title = _g_format_str_for_file (_("Could not load the position “%s”"), data->location_data->file);
 		error = g_error_new (GTH_ERROR, 0, _("No suitable module found"));
 		_gth_browser_show_error (browser, title, error);
 		g_clear_error (&error);
