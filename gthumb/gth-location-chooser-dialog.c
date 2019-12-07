@@ -150,6 +150,7 @@ _gth_location_chooser_dialog_construct (GthLocationChooserDialog *self)
 
 	self->priv->entry = g_object_new (GTH_TYPE_LOCATION_CHOOSER,
 					  "show-entry-points", FALSE,
+					  "show-other", FALSE,
 					  "show-root", TRUE,
 					  NULL);
 	self->priv->entry_changed_id =

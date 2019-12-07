@@ -154,7 +154,8 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 		data->starup_location_chooser = g_object_new (
 				GTH_TYPE_LOCATION_CHOOSER,
-				"show-entry-points", TRUE,
+				"show-entry-points", FALSE,
+				"show-other", TRUE,
 				"relief", GTK_RELIEF_NORMAL,
 				NULL);
 		gtk_widget_show (data->starup_location_chooser);

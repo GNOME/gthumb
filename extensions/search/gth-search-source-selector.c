@@ -115,6 +115,7 @@ gth_search_source_selector_construct (GthSearchSourceSelector *self)
 
 	self->priv->location_chooser = g_object_new (GTH_TYPE_LOCATION_CHOOSER,
 						     "show-entry-points", TRUE,
+						     "show-other", TRUE,
 						     "relief", GTK_RELIEF_NORMAL,
 						     NULL);
 	gtk_widget_show (self->priv->location_chooser);

@@ -113,6 +113,7 @@ dlg_find_duplicates (GthBrowser *browser)
 
 	data->location_chooser = g_object_new (GTH_TYPE_LOCATION_CHOOSER,
 					       "show-entry-points", TRUE,
+					       "show-other", TRUE,
 					       "relief", GTK_RELIEF_NORMAL,
 					       NULL);
 	gtk_widget_show (data->location_chooser);

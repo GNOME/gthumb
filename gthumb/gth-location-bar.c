@@ -68,6 +68,7 @@ gth_location_bar_init (GthLocationBar *self)
 	gtk_widget_show (box);
 	self->priv->location_chooser = g_object_new (GTH_TYPE_LOCATION_CHOOSER,
 						     "show-entry-points", FALSE,
+						     "show-other", FALSE,
 						     "relief", GTK_RELIEF_NONE,
 						     NULL);
 	gtk_widget_show (self->priv->location_chooser);

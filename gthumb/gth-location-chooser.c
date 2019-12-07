@@ -38,13 +38,13 @@
 #define MIN_WIDTH 200
 
 
-enum {
+typedef enum {
 	ITEM_TYPE_NONE,
 	ITEM_TYPE_SEPARATOR,
 	ITEM_TYPE_LOCATION,
 	ITEM_TYPE_ENTRY_POINT,
 	ITEM_TYPE_CHOOSE_LOCATION
-};
+} ItemType;
 
 enum {
 	ICON_COLUMN,
@@ -58,6 +58,7 @@ enum {
 enum {
 	PROP_0,
 	PROP_SHOW_ENTRY_POINTS,
+	PROP_SHOW_OTHER,
 	PROP_SHOW_ROOT,
 	PROP_RELIEF
 };
@@ -78,6 +79,7 @@ struct _GthLocationChooserPrivate {
 	guint           update_location_list_id;
 	gboolean        show_entry_points;
 	gboolean        show_root;
+	gboolean        show_other;
 	GtkReliefStyle  relief;
 	gboolean        reload;
 };
@@ -109,6 +111,9 @@ gth_location_chooser_set_property (GObject      *object,
 	case PROP_SHOW_ROOT:
 		self->priv->show_root = g_value_get_boolean (value);
 		break;
+	case PROP_SHOW_OTHER:
+		self->priv->show_other = g_value_get_boolean (value);
+		break;
 	case PROP_RELIEF:
 		gth_location_chooser_set_relief (self, g_value_get_enum (value));
 		break;
@@ -134,6 +139,9 @@ gth_location_chooser_get_property (GObject    *object,
 		break;
 	case PROP_SHOW_ROOT:
 		g_value_set_boolean (value, self->priv->show_root);
+		break;
+	case PROP_SHOW_OTHER:
+		g_value_set_boolean (value, self->priv->show_other);
 		break;
 	case PROP_RELIEF:
 		g_value_set_enum (value, self->priv->relief);
@@ -362,42 +370,100 @@ clear_items_from_separator (GthLocationChooser *self,
 
 
 static void
-clear_entry_point_list (GthLocationChooser *self)
+delete_section_by_type (GthLocationChooser *self,
+			ItemType            type_to_delete)
 {
-	clear_items_from_separator (self, 1, TRUE);
+	GtkTreeIter iter;
+	gboolean    valid;
+	gboolean    prev_matched;
+
+	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->model), &iter))
+		return;
+
+	prev_matched = FALSE;
+	do {
+		int item_type = ITEM_TYPE_NONE;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->model),
+				    &iter,
+				    TYPE_COLUMN, &item_type,
+				    -1);
+
+		if (item_type == type_to_delete) {
+			valid = gtk_tree_store_remove (self->priv->model, &iter);
+			prev_matched = TRUE;
+		}
+		else {
+			if (prev_matched && (item_type == ITEM_TYPE_SEPARATOR))
+				valid = gtk_tree_store_remove (self->priv->model, &iter);
+			else
+				valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->model), &iter);
+			prev_matched = FALSE;
+		}
+	}
+	while (valid);
+}
+
+
+static gboolean
+get_section_end_by_type (GthLocationChooser *self,
+			 ItemType            item_to_search,
+			 int                *p_pos)
+{
+	GtkTreeIter iter;
+	int         pos;
+	gboolean    valid;
+	gboolean    prev_matched;
+
+	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->model), &iter))
+		return FALSE;
+
+	pos = 0;
+	valid = FALSE;
+	prev_matched = FALSE;
+	do {
+		int item_type = ITEM_TYPE_NONE;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->model),
+				    &iter,
+				    TYPE_COLUMN, &item_type,
+				    -1);
+
+		if (item_type == item_to_search) {
+			*p_pos = pos;
+			valid = TRUE;
+			prev_matched = TRUE;
+		}
+		else {
+			if ((item_type == ITEM_TYPE_SEPARATOR) && prev_matched)
+				*p_pos = pos;
+			prev_matched = FALSE;
+		}
+
+		pos++;
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->model), &iter));
+
+	return valid;
 }
 
 
 static void
 update_entry_point_list (GthLocationChooser *self)
 {
-	int    first_position;
 	int    position;
 	GList *entry_points;
 	GList *scan;
 
 	self->priv->update_entry_list_id = 0;
 
-	clear_entry_point_list (self);
+	delete_section_by_type (self, ITEM_TYPE_ENTRY_POINT);
 
-	if (! get_nth_separator_pos (self, 1, &first_position)) {
-		GtkTreeIter  iter;
-		GtkTreePath *path;
+	if (get_section_end_by_type (self, ITEM_TYPE_LOCATION, &position))
+		position = position + 1;
+	else
+		position = 0;
 
-		gtk_tree_store_append (self->priv->model, &iter, NULL);
-		gtk_tree_store_set (self->priv->model, &iter,
-				    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
-				    -1);
-
-		path = gtk_tree_model_get_path (GTK_TREE_MODEL (self->priv->model), &iter);
-		if (path == NULL)
-			return;
-		first_position = gtk_tree_path_get_indices(path)[0];
-
-		gtk_tree_path_free (path);
-	}
-
-	position = first_position + 1;
 	entry_points = gth_main_get_all_entry_points ();
 	for (scan = entry_points; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
@@ -411,19 +477,12 @@ update_entry_point_list (GthLocationChooser *self)
 					 ITEM_TYPE_ENTRY_POINT);
 	}
 
-	if (! get_nth_separator_pos (self, 2, &first_position)) {
+	if (self->priv->show_other) {
 		GtkTreeIter iter;
 
-		gtk_tree_store_append (self->priv->model, &iter, NULL);
+		gtk_tree_store_insert (self->priv->model, &iter, NULL, position);
 		gtk_tree_store_set (self->priv->model, &iter,
 				    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
-				    -1);
-
-		gtk_tree_store_append (self->priv->model, &iter, NULL);
-		gtk_tree_store_set (self->priv->model, &iter,
-				    TYPE_COLUMN, ITEM_TYPE_CHOOSE_LOCATION,
-				    NAME_COLUMN, _("Other…"),
-				    ELLIPSIZE_COLUMN, FALSE,
 				    -1);
 	}
 
@@ -459,31 +518,6 @@ entry_points_changed_cb (GthMonitor         *monitor,
 }
 
 
-static gboolean
-delete_current_file_entries (GthLocationChooser *self)
-{
-	gboolean    found = FALSE;
-	GtkTreeIter iter;
-
-	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->model), &iter))
-		return FALSE;
-
-	do {
-		int item_type = ITEM_TYPE_NONE;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->model),
-				    &iter,
-				    TYPE_COLUMN, &item_type,
-				    -1);
-		if (item_type == ITEM_TYPE_SEPARATOR)
-			break;
-	}
-	while (gtk_tree_store_remove (self->priv->model, &iter));
-
-	return found;
-}
-
-
 static void
 update_location_list (gpointer user_data)
 {
@@ -505,7 +539,7 @@ update_location_list (gpointer user_data)
 		GList *scan;
 		int    position = 0;
 
-		delete_current_file_entries (self);
+		delete_section_by_type (self, ITEM_TYPE_LOCATION);
 
 		list = gth_file_source_get_current_list (self->priv->file_source, self->priv->location);
 		for (scan = list; scan; scan = scan->next) {
@@ -531,10 +565,7 @@ update_location_list (gpointer user_data)
 			GIcon *icon;
 
 			icon = g_themed_icon_new ("computer-symbolic");
-			gtk_tree_store_insert (self->priv->model,
-					       &iter,
-					       NULL,
-					       position++);
+			gtk_tree_store_insert (self->priv->model, &iter, NULL, position++);
 			gtk_tree_store_set (self->priv->model, &iter,
 					    TYPE_COLUMN, ITEM_TYPE_LOCATION,
 					    ICON_COLUMN, icon,
@@ -543,6 +574,15 @@ update_location_list (gpointer user_data)
 					    -1);
 
 			_g_object_unref (icon);
+		}
+
+		if (self->priv->show_other || self->priv->show_entry_points) {
+			GtkTreeIter iter;
+
+			gtk_tree_store_insert (self->priv->model, &iter, NULL, position);
+			gtk_tree_store_set (self->priv->model, &iter,
+					    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
+					    -1);
 		}
 
 		_g_object_list_unref (list);
@@ -567,6 +607,17 @@ gth_location_chooser_realize (GtkWidget *widget)
 	GthLocationChooser *self = GTH_LOCATION_CHOOSER (widget);
 
 	GTK_WIDGET_CLASS (gth_location_chooser_parent_class)->realize (widget);
+
+	if (self->priv->show_other) {
+		GtkTreeIter iter;
+
+		gtk_tree_store_append (self->priv->model, &iter, NULL);
+		gtk_tree_store_set (self->priv->model, &iter,
+				    TYPE_COLUMN, ITEM_TYPE_CHOOSE_LOCATION,
+				    NAME_COLUMN, _("Other…"),
+				    ELLIPSIZE_COLUMN, FALSE,
+				    -1);
+	}
 	entry_points_changed_cb (NULL, self);
 	current_location_changed (self);
 }
@@ -600,6 +651,13 @@ gth_location_chooser_class_init (GthLocationChooserClass *klass)
 					 g_param_spec_boolean ("show-root",
 							       "Show the VFS root",
 							       "Whether to show the VFS root in the list",
+							       FALSE,
+							       G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_SHOW_OTHER,
+					 g_param_spec_boolean ("show-other",
+							       "Show the Other... entry",
+							       "Whether to show a special entry to choose a location from a dialog",
 							       FALSE,
 							       G_PARAM_READWRITE));
 	g_object_class_install_property (object_class,
@@ -637,6 +695,7 @@ gth_location_chooser_init (GthLocationChooser *self)
 	self->priv->entry_points_changed_id = 0;
 	self->priv->show_entry_points = TRUE;
 	self->priv->show_root = FALSE;
+	self->priv->show_other = TRUE;
 	self->priv->relief = GTK_RELIEF_NORMAL;
 	self->priv->reload = FALSE;
 
@@ -740,7 +799,7 @@ gth_location_chooser_set_show_entry_points (GthLocationChooser *self,
 			g_source_remove (self->priv->entry_points_changed_id);
 			self->priv->entry_points_changed_id = 0;
 		}
-		clear_items_from_separator (self, 1, FALSE);
+		clear_items_from_separator (self, 1, TRUE);
 	}
 
 	g_object_notify (G_OBJECT (self), "show-entry-points");
