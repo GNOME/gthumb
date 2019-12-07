@@ -167,7 +167,6 @@ void		_g_file_list_trash_async	(GList			 *file_list, /* GFile list */
 						 GCancellable		 *cancellable,
 						 ReadyFunc		  callback,
 						 gpointer		  user_data);
-GFileInfo *	_g_file_get_info_for_display	(GFile			 *file);
 
 /* Misc utils */
 
