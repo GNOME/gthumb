@@ -101,16 +101,19 @@ load_data_new (GthVfsTree *vfs_tree,
 	       GFile      *location)
 {
 	LoadData *load_data;
+	GFile    *root;
 	GFile    *file;
+
+	root = gth_folder_tree_get_root (GTH_FOLDER_TREE (vfs_tree));
 
 	load_data = g_new0 (LoadData, 1);
 	load_data->vfs_tree = g_object_ref (vfs_tree);
 	load_data->action = action;
 	load_data->requested_folder = gth_file_data_new (location, NULL);
-	if (vfs_tree->priv->tree_root_is_vfs_root)
+	if (vfs_tree->priv->tree_root_is_vfs_root && ! g_file_equal (location, root))
 		load_data->entry_point = gth_main_get_nearest_entry_point (location);
 	else
-		load_data->entry_point = _g_object_ref (gth_folder_tree_get_root (GTH_FOLDER_TREE (vfs_tree)));
+		load_data->entry_point = _g_object_ref (root);
 	load_data->file_source = gth_main_get_file_source (load_data->requested_folder->file);
 	load_data->cancellable = g_cancellable_new ();
 	load_data->list = NULL;
