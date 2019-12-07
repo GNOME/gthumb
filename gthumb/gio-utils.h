@@ -118,6 +118,7 @@ gboolean	_g_file_set_modification_time	(GFile			 *file,
 						 GTimeVal		 *timeval,
 						 GCancellable		 *cancellable,
 						 GError			**error);
+GFileInfo *	_g_file_get_info_for_display	(GFile			 *file);
 
 /* Directory utils */
 
@@ -166,6 +167,7 @@ void		_g_file_list_trash_async	(GList			 *file_list, /* GFile list */
 						 GCancellable		 *cancellable,
 						 ReadyFunc		  callback,
 						 gpointer		  user_data);
+GFileInfo *	_g_file_get_info_for_display	(GFile			 *file);
 
 /* Misc utils */
 
@@ -187,6 +189,9 @@ gboolean	_g_input_stream_read_all	(GInputStream		 *istream,
 						 gsize			 *size,
 						 GCancellable		 *cancellable,
 						 GError			**error);
+GMenuItem *	_g_menu_item_new_for_file	(GFile			 *file,
+						 const char		 *custom_label);
+GMenuItem *	_g_menu_item_new_for_file_data	(GthFileData		 *file_data);
 
 G_END_DECLS
 

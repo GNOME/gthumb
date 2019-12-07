@@ -289,10 +289,6 @@ void             gth_browser_keep_mouse_visible     (GthBrowser	      *browser,
 
 /* utilities */
 
-GMenuItem *	_g_menu_item_new_for_file	    (GFile            *file,
-						     const char       *custom_label);
-GMenuItem *	_g_menu_item_new_for_file_data	    (GthFileData      *file_data);
-
 G_END_DECLS
 
 #endif /* GTH_BROWSER_H */

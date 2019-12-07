@@ -24,7 +24,10 @@
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 #include "gth-file-data.h"
+#include "gth-file-source.h"
+#include "gth-file-source-vfs.h"
 #include "gth-hook.h"
+#include "gth-main.h"
 #include "gth-metadata-provider.h"
 #include "gth-overwrite-dialog.h"
 #include "glib-utils.h"
@@ -2231,4 +2234,71 @@ _g_file_set_modification_time (GFile         *file,
 	g_object_unref (info);
 
 	return result;
+}
+
+
+GFileInfo *
+_g_file_get_info_for_display (GFile *file)
+{
+	GFileInfo     *file_info;
+	GthFileSource *file_source;
+
+	file_info = NULL;
+	file_source = gth_main_get_file_source (file);
+	if ((file_source != NULL) && ! GTH_IS_FILE_SOURCE_VFS (file_source))
+		file_info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
+
+	if (file_info == NULL) {
+		char  *name;
+		char  *uri;
+		GIcon *icon;
+
+		file_info = g_file_info_new ();
+
+		name = _g_file_get_display_name (file);
+		g_file_info_set_display_name (file_info, name);
+
+		uri = g_file_get_uri (file);
+		icon = g_themed_icon_new (g_str_has_prefix (uri, "file://") ? "folder-symbolic" : "folder-remote-symbolic");
+		g_file_info_set_symbolic_icon (file_info, icon);
+
+		g_object_unref (icon);
+		g_free (uri);
+		g_free (name);
+	}
+
+	return file_info;
+}
+
+
+GMenuItem *
+_g_menu_item_new_for_file (GFile      *file,
+			   const char *custom_label)
+{
+	GMenuItem *item;
+	GFileInfo *info;
+
+	item = g_menu_item_new (NULL, NULL);
+	info = _g_file_get_info_for_display (file);
+	if (info != NULL) {
+		g_menu_item_set_label (item, (custom_label != NULL) ? custom_label : g_file_info_get_display_name (info));
+		g_menu_item_set_icon (item, g_file_info_get_symbolic_icon (info));
+
+		g_object_unref (info);
+	}
+
+	return item;
+}
+
+
+GMenuItem *
+_g_menu_item_new_for_file_data (GthFileData *file_data)
+{
+	GMenuItem *item;
+
+	item = g_menu_item_new (NULL, NULL);
+	g_menu_item_set_label (item, g_file_info_get_display_name (file_data->info));
+	g_menu_item_set_icon (item, g_file_info_get_symbolic_icon (file_data->info));
+
+	return item;
 }
