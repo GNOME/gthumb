@@ -92,6 +92,9 @@ load_data_vfs_tree_destroy_cb (GtkWidget *widget,
 
 	gth_file_source_cancel (load_data->file_source);
 	g_cancellable_cancel (load_data->cancellable);
+
+	g_signal_handler_disconnect (load_data->vfs_tree, load_data->destroy_id);
+	load_data->destroy_id = 0;
 }
 
 
@@ -153,7 +156,8 @@ load_data_new (GthVfsTree *vfs_tree,
 static void
 load_data_free (LoadData *data)
 {
-	g_signal_handler_disconnect (data->vfs_tree, data->destroy_id);
+	if (data->destroy_id != 0)
+		g_signal_handler_disconnect (data->vfs_tree, data->destroy_id);
 	_g_object_unref (data->last_loaded);
 	_g_object_list_unref (data->list);
 	g_object_unref (data->cancellable);
@@ -501,6 +505,8 @@ monitor_data_vfs_tree_destroy_cb (GtkWidget *widget,
 	MonitorEventData *monitor_data = user_data;
 
 	gth_file_source_cancel (monitor_data->file_source);
+	g_signal_handler_disconnect (monitor_data->vfs_tree, monitor_data->destroy_id);
+	monitor_data->destroy_id = 0;
 }
 
 
@@ -541,7 +547,8 @@ monitor_event_data_unref (MonitorEventData *monitor_data)
 	if (monitor_data->ref > 0)
 		return;
 
-	g_signal_handler_disconnect (monitor_data->vfs_tree, monitor_data->destroy_id);
+	if (monitor_data->destroy_id != 0)
+		g_signal_handler_disconnect (monitor_data->vfs_tree, monitor_data->destroy_id);
 	_g_object_unref (monitor_data->vfs_tree);
 	_g_object_unref (monitor_data->parent);
 	_g_object_unref (monitor_data->file_source);
