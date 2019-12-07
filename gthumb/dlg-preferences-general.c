@@ -25,6 +25,7 @@
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-file-source-vfs.h"
+#include "gth-location-chooser.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
 #include "gtk-utils.h"
@@ -42,6 +43,7 @@ typedef struct {
 	GSettings  *browser_settings;
 	GSettings  *messages_settings;
 	GtkWidget  *dialog;
+	GtkWidget  *starup_location_chooser;
 } BrowserData;
 
 
@@ -61,7 +63,7 @@ static void
 use_startup_toggled_cb (GtkWidget   *widget,
 			BrowserData *data)
 {
-	gtk_widget_set_sensitive (GET_WIDGET ("startup_dir_filechooserbutton"), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
+	gtk_widget_set_sensitive (data->starup_location_chooser, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
 	gtk_widget_set_sensitive (GET_WIDGET ("set_to_current_button"), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
 }
 
@@ -70,21 +72,8 @@ static void
 set_to_current_cb (GtkWidget   *widget,
 		   BrowserData *data)
 {
-	GthFileSource *file_source;
-
-	file_source = gth_main_get_file_source (gth_browser_get_location (data->browser));
-	if (GTH_IS_FILE_SOURCE_VFS (file_source)) {
-		GFile *gio_file;
-		char  *uri;
-
-		gio_file = gth_file_source_to_gio_file (file_source, gth_browser_get_location (data->browser));
-		uri = g_file_get_uri (gio_file);
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("startup_dir_filechooserbutton")), uri);
-
-		g_free (uri);
-		g_object_unref (gio_file);
-	}
-	g_object_unref (file_source);
+	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (data->starup_location_chooser),
+			gth_browser_get_location (data->browser));
 }
 
 
@@ -133,9 +122,7 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 				       GthBrowser *browser,
 				       GtkBuilder *dialog_builder)
 {
-	BrowserData   *data;
-	char          *startup_location;
-	GthFileSource *file_source;
+	BrowserData *data;
 
 	data = g_new0 (BrowserData, 1);
 	data->browser = g_object_ref (browser);
@@ -156,30 +143,36 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("go_to_last_location_radiobutton")), TRUE);
 
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_startup_location_radiobutton")))) {
-		gtk_widget_set_sensitive (GET_WIDGET ("startup_dir_filechooserbutton"), FALSE);
+		gtk_widget_set_sensitive (data->starup_location_chooser, FALSE);
 		gtk_widget_set_sensitive (GET_WIDGET ("set_to_current_button"), FALSE);
 	}
 
-	startup_location = _g_settings_get_uri (data->browser_settings, PREF_BROWSER_STARTUP_LOCATION);
-	if (startup_location == NULL)
-		startup_location = g_strdup (_g_uri_get_home ());
-	file_source = gth_main_get_file_source_for_uri (startup_location);
-	if (GTH_IS_FILE_SOURCE_VFS (file_source)) {
+	/* starup location */
+	{
+		char  *uri;
 		GFile *location;
-		GFile *folder;
-		char  *folder_uri;
 
-		location = g_file_new_for_uri (startup_location);
-		folder = gth_file_source_to_gio_file (file_source, location);
-		folder_uri = g_file_get_uri (folder);
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("startup_dir_filechooserbutton")), folder_uri);
+		data->starup_location_chooser = g_object_new (
+				GTH_TYPE_LOCATION_CHOOSER,
+				"show-entry-points", TRUE,
+				"relief", GTK_RELIEF_NORMAL,
+				NULL);
+		gtk_widget_show (data->starup_location_chooser);
+		gtk_box_pack_start (GTK_BOX (GET_WIDGET ("startup_location_chooser_box")),
+				data->starup_location_chooser,
+				TRUE,
+				TRUE,
+				0);
 
-		g_free (folder_uri);
-		g_object_unref (folder);
+		uri = _g_settings_get_uri (data->browser_settings, PREF_BROWSER_STARTUP_LOCATION);
+		if (uri == NULL)
+			uri = g_strdup (_g_uri_get_home ());
+		location = g_file_new_for_uri (uri);
+		gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (data->starup_location_chooser), location);
+
 		g_object_unref (location);
+		g_free (uri);
 	}
-	g_object_unref (file_source);
-	g_free (startup_location);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reuse_active_window_checkbutton")),
 				      g_settings_get_boolean (data->browser_settings, PREF_BROWSER_REUSE_ACTIVE_WINDOW));
@@ -245,12 +238,17 @@ general__dlg_preferences_apply (GtkWidget  *dialog,
 	g_settings_set_boolean (data->general_settings, PREF_GENERAL_STORE_METADATA_IN_FILES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("embed_metadata_checkbutton"))));
 
 	if (g_settings_get_boolean (data->browser_settings, PREF_BROWSER_USE_STARTUP_LOCATION)) {
-		char *location;
+		GFile *location;
 
-		location = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (GET_WIDGET ("startup_dir_filechooserbutton")));
-		_g_settings_set_uri (data->browser_settings, PREF_BROWSER_STARTUP_LOCATION, location);
-		gth_pref_set_startup_location (location);
-		g_free (location);
+		location = gth_location_chooser_get_current (GTH_LOCATION_CHOOSER (data->starup_location_chooser));
+		if (location != NULL) {
+			char  *uri;
+
+			uri = g_file_get_uri (location);
+			_g_settings_set_uri (data->browser_settings, PREF_BROWSER_STARTUP_LOCATION, uri);
+			gth_pref_set_startup_location (uri);
+			g_free (uri);
+		}
 	}
 
 }
