@@ -1050,15 +1050,27 @@ static char *
 file_format (const char *format,
 	     GFile      *file)
 {
-	char *name;
-	char *s;
+	char     *uri;
+	UriParts  parts;
+	char     *name;
+	char     *str;
 
-	name = g_file_get_parse_name (file);
-	s = g_strdup_printf (format, name);
+	uri = g_file_get_uri (file);
+	if (! _g_uri_split (uri, &parts) || (parts.path == NULL) || (parts.scheme == NULL))
+		name = g_strdup (_("(invalid value)"));
+	else if (_g_str_equal (parts.scheme, "file"))
+		name = g_strdup (parts.path);
+	else if (parts.host != NULL)
+		name = g_strdup_printf ("%s://%s%s%s", parts.scheme, parts.host, ((parts.path[0] != '/') ? "/" : ""), parts.path);
+	else
+		name = g_strdup_printf ("%s://%s", parts.scheme, parts.path);
+	str = g_strdup_printf (format, name);
 
 	g_free (name);
+	_g_uri_parts_clear (&parts);
+	g_free (uri);
 
-	return s;
+	return str;
 }
 
 
@@ -6532,7 +6544,7 @@ load_file_attributes_ready_cb (GObject  *object,
 			char   *title;
 			GError *error;
 
-			title =  file_format (_("Could not load the position “%s”"), data->location_data->file);
+			title = file_format (_("Could not load the position “%s”"), data->location_data->file);
 			error = g_error_new (GTH_ERROR, 0, _("File type not supported"));
 			_gth_browser_show_error (browser, title, error);
 			g_clear_error (&error);
@@ -6551,7 +6563,7 @@ load_file_attributes_ready_cb (GObject  *object,
 	else {
 		char *title;
 
-		title =  file_format (_("Could not load the position “%s”"), data->location_data->file);
+		title = file_format (_("Could not load the position “%s”"), data->location_data->file);
 		_gth_browser_show_error (browser, title, error);
 
 		g_free (title);
@@ -6575,7 +6587,7 @@ gth_browser_load_location (GthBrowser *browser,
 		char   *title;
 		GError *error;
 
-		title =  file_format (_("Could not load the position “%s”"), data->location_data->file);
+		title = file_format (_("Could not load the position “%s”"), data->location_data->file);
 		error = g_error_new (GTH_ERROR, 0, _("No suitable module found"));
 		_gth_browser_show_error (browser, title, error);
 		g_clear_error (&error);
