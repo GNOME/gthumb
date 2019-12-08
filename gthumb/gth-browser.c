@@ -1763,12 +1763,12 @@ _gth_browser_load (GthBrowser *browser,
 		/* try to mount the enclosing volume */
 
 		mount_op = gtk_mount_operation_new (GTK_WINDOW (browser));
-		_g_file_mount_enclosing_volume (location,
-						0,
-						mount_op,
-						load_data->cancellable,
-						mount_volume_ready_cb,
-						load_data);
+		g_file_mount_enclosing_volume (location,
+					       0,
+					       mount_op,
+					       load_data->cancellable,
+					       mount_volume_ready_cb,
+					       load_data);
 
 		g_object_unref (mount_op);
 
