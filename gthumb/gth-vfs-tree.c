@@ -382,24 +382,15 @@ mount_volume_ready_cb (GObject      *source_object,
 
 	if (! g_file_mount_enclosing_volume_finish (G_FILE (source_object), result, &error)) {
 		GthVfsTree *self = load_data->vfs_tree;
+		char       *title;
 
-		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			char *title;
+		title = _g_format_str_for_file (_("Could not load the position “%s”"),
+						load_data->requested_folder->file);
+		_gtk_error_dialog_from_gerror_show (_gtk_widget_get_toplevel_if_window (GTK_WIDGET (self)),
+						    title,
+						    error);
 
-			title = _g_format_str_for_file (_("Could not load the position “%s”"),
-							load_data->requested_folder->file);
-			_gtk_error_dialog_from_gerror_show (_gtk_widget_get_toplevel_if_window (GTK_WIDGET (self)),
-							    title,
-							    error);
-
-			g_free (title);
-		}
-
-		if ((load_data->action == LOAD_ACTION_LOAD) && (self->priv->folder == NULL)) {
-			GFile *root = gth_folder_tree_get_root (GTH_FOLDER_TREE (self));
-			_gth_vfs_tree_load_folder (self, LOAD_ACTION_LIST_CHILDREN, root);
-		}
-
+		g_free (title);
 		load_data_free (load_data);
 		return;
 	}
@@ -428,20 +419,26 @@ _gth_vfs_tree_load_folder (GthVfsTree *self,
 	load_data = load_data_new (self, action, folder);
 
 	if (load_data->entry_point == NULL) {
-		GMountOperation *mount_op;
+		if (self->priv->folder != NULL) {
+			GMountOperation *mount_op;
 
-		/* try to mount the enclosing volume */
+			/* try to mount the enclosing volume */
 
-		mount_op = gtk_mount_operation_new (_gtk_widget_get_toplevel_if_window (GTK_WIDGET (self)));
-		g_file_mount_enclosing_volume (folder,
-					       0,
-					       mount_op,
-					       load_data->cancellable,
-					       mount_volume_ready_cb,
-					       load_data);
+			mount_op = gtk_mount_operation_new (_gtk_widget_get_toplevel_if_window (GTK_WIDGET (self)));
+			g_file_mount_enclosing_volume (folder,
+						       0,
+						       mount_op,
+						       load_data->cancellable,
+						       mount_volume_ready_cb,
+						       load_data);
 
-		g_object_unref (mount_op);
-
+			g_object_unref (mount_op);
+		}
+		else {
+			GFile *root = gth_folder_tree_get_root (GTH_FOLDER_TREE (self));
+			if (! _g_file_equal (load_data->requested_folder->file, root))
+				_gth_vfs_tree_load_folder (self, LOAD_ACTION_LIST_CHILDREN, root);
+		}
 		return;
 	}
 
