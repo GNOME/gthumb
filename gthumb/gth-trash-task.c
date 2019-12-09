@@ -58,6 +58,20 @@ trash_ready_cb (GError   *error,
 
 
 static void
+trash_progress_cb (GObject    *object,
+		   const char *description,
+		   const char *details,
+		   gboolean    pulse,
+		   double      fraction,
+		   gpointer    user_data)
+{
+	GthTrashTask *self = user_data;
+
+	gth_task_progress (GTH_TASK (self), description, details, pulse, fraction);
+}
+
+
+static void
 gth_trash_task_exec (GthTask *task)
 {
 	GthTrashTask *self;
@@ -68,6 +82,7 @@ gth_trash_task_exec (GthTask *task)
 
 	_g_file_list_trash_async (self->priv->file_list,
 				  gth_task_get_cancellable (task),
+				  trash_progress_cb,
 				  trash_ready_cb,
 				  self);
 }

@@ -1575,12 +1575,15 @@ _g_file_list_delete (GList     *file_list,
 
 
 typedef struct {
-	GList        *file_list;
-	GList        *current;
-	gboolean      include_metadata;
-	GCancellable *cancellable;
-	ReadyFunc     callback;
-	gpointer      user_data;
+	GList             *file_list;
+	GList             *current;
+	gboolean           include_metadata;
+	GCancellable      *cancellable;
+	ProgressCallback   progress_callback;
+	ReadyFunc          callback;
+	gpointer           user_data;
+	glong              n_files;
+	glong              n_deleted;
 } DeleteData;
 
 
@@ -1611,6 +1614,7 @@ delete_files__delete_current_cb (GObject      *source_object,
 		return;
 	}
 
+	delete_data->n_deleted++;
 	delete_data->current = delete_data->current->next;
 	delete_files__delete_current (delete_data);
 }
@@ -1626,6 +1630,14 @@ delete_files__delete_current (DeleteData *delete_data)
 		delete_data_free (delete_data);
 		return;
 	}
+
+	if (delete_data->progress_callback != NULL)
+		delete_data->progress_callback (NULL,
+				_("Deleting files"),
+				NULL,
+				FALSE,
+				(double) (delete_data->n_deleted + 1) / (delete_data->n_files + 1),
+				delete_data->user_data);
 
 	file_data = delete_data->current->data;
 	g_file_delete_async (file_data->file,
@@ -1652,17 +1664,20 @@ delete_files__info_ready_cb (GList    *files,
 	delete_data->file_list = _g_object_list_ref (files);
 	delete_data->file_list = g_list_reverse (delete_data->file_list);
 	delete_data->current = delete_data->file_list;
+	delete_data->n_files = g_list_length (delete_data->file_list);
+	delete_data->n_deleted = 0;
 	delete_files__delete_current (delete_data);
 }
 
 
 void
-_g_file_list_delete_async (GList        *file_list,
-			   gboolean      recursive,
-			   gboolean      include_metadata,
-			   GCancellable *cancellable,
-			   ReadyFunc     callback,
-			   gpointer      user_data)
+_g_file_list_delete_async (GList		 *file_list,
+			   gboolean		  recursive,
+			   gboolean		  include_metadata,
+			   GCancellable		 *cancellable,
+			   ProgressCallback	  progress_callback,
+			   ReadyFunc		  callback,
+			   gpointer		  user_data)
 {
 	DeleteData   *delete_data;
 	GthListFlags  flags;
@@ -1671,12 +1686,21 @@ _g_file_list_delete_async (GList        *file_list,
 	delete_data->file_list = NULL;
 	delete_data->include_metadata = include_metadata;
 	delete_data->cancellable = _g_object_ref (cancellable);
+	delete_data->progress_callback = progress_callback;
 	delete_data->callback = callback;
 	delete_data->user_data = user_data;
 
 	flags = GTH_LIST_NO_FOLLOW_LINKS;
 	if (recursive)
 		flags |= GTH_LIST_RECURSIVE;
+
+	if (delete_data->progress_callback != NULL)
+		delete_data->progress_callback (NULL,
+				_("Getting file information"),
+				NULL,
+				TRUE,
+				0.0,
+				delete_data->user_data);
 
 	_g_file_list_query_info_async (file_list,
 				       flags,
@@ -1691,11 +1715,14 @@ _g_file_list_delete_async (GList        *file_list,
 
 
 typedef struct {
-	GList        *file_list;
-	GList        *current;
-	GCancellable *cancellable;
-	ReadyFunc     callback;
-	gpointer      user_data;
+	GList            *file_list;
+	GList            *current;
+	GCancellable     *cancellable;
+	ProgressCallback  progress_callback;
+	ReadyFunc         callback;
+	gpointer          user_data;
+	glong             n_files;
+	glong             n_deleted;
 } TrashData;
 
 
@@ -1740,6 +1767,14 @@ trash_files__delete_current (TrashData *tdata)
 		return;
 	}
 
+	if (tdata->progress_callback != NULL)
+		tdata->progress_callback (NULL,
+				_("Deleting files"),
+				NULL,
+				FALSE,
+				(double) (tdata->n_deleted + 1) / (tdata->n_files + 1),
+				tdata->user_data);
+
 	g_file_trash_async ((GFile *) tdata->current->data,
 			    G_PRIORITY_DEFAULT,
 			    tdata->cancellable,
@@ -1749,19 +1784,22 @@ trash_files__delete_current (TrashData *tdata)
 
 
 void
-_g_file_list_trash_async (GList        *file_list, /* GFile list */
-			  GCancellable *cancellable,
-			  ReadyFunc     callback,
-			  gpointer      user_data)
+_g_file_list_trash_async (GList			 *file_list, /* GFile list */
+			  GCancellable		 *cancellable,
+			  ProgressCallback	  progress_callback,
+			  ReadyFunc		  callback,
+			  gpointer		  user_data)
 {
 	TrashData *tdata;
 
 	tdata = g_new0 (TrashData, 1);
 	tdata->file_list = _g_object_list_ref (file_list);
 	tdata->cancellable = _g_object_ref (cancellable);
+	tdata->progress_callback = progress_callback;
 	tdata->callback = callback;
 	tdata->user_data = user_data;
-
+	tdata->n_files = g_list_length (tdata->file_list);
+	tdata->n_deleted = 0;
 	tdata->current = tdata->file_list;
 	trash_files__delete_current (tdata);
 }

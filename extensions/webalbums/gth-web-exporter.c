@@ -1856,6 +1856,7 @@ cleanup_and_terminate (GthWebExporter *self,
 					   TRUE,
 					   TRUE,
 					   NULL,
+					   NULL,
 					   delete_temp_dir_ready_cb,
 					   self);
 

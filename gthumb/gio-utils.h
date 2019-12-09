@@ -161,10 +161,12 @@ void		_g_file_list_delete_async	(GList			 *file_list, /* GFile list */
 						 gboolean		  recursive,
 						 gboolean		  include_metadata,
 						 GCancellable		 *cancellable,
+						 ProgressCallback	  progress_callback,
 						 ReadyFunc		  callback,
 						 gpointer		  user_data);
 void		_g_file_list_trash_async	(GList			 *file_list, /* GFile list */
 						 GCancellable		 *cancellable,
+						 ProgressCallback	  progress_callback,
 						 ReadyFunc		  callback,
 						 gpointer		  user_data);
 

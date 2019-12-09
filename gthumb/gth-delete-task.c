@@ -58,6 +58,20 @@ delete_ready_cb (GError   *error,
 
 
 static void
+delete_progress_cb (GObject    *object,
+		    const char *description,
+		    const char *details,
+		    gboolean    pulse,
+		    double      fraction,
+		    gpointer    user_data)
+{
+	GthDeleteTask *self = user_data;
+
+	gth_task_progress (GTH_TASK (self), description, details, pulse, fraction);
+}
+
+
+static void
 gth_delete_task_exec (GthTask *task)
 {
 	GthDeleteTask *self;
@@ -70,6 +84,7 @@ gth_delete_task_exec (GthTask *task)
 				   TRUE,
 				   TRUE,
 				   gth_task_get_cancellable (task),
+				   delete_progress_cb,
 				   delete_ready_cb,
 				   self);
 }
