@@ -78,8 +78,6 @@ gth_delete_task_exec (GthTask *task)
 
 	self = GTH_DELETE_TASK (task);
 
-	gth_task_progress (task, _("Deleting files"), NULL, TRUE, 0.0);
-
 	_g_file_list_delete_async (self->priv->file_list,
 				   TRUE,
 				   TRUE,

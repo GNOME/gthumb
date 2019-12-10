@@ -41,7 +41,8 @@ typedef enum {
 	GTH_LIST_RECURSIVE		= 1 << 0,
 	GTH_LIST_NO_FOLLOW_LINKS	= 1 << 1,
 	GTH_LIST_NO_BACKUP_FILES	= 1 << 2,
-	GTH_LIST_NO_HIDDEN_FILES	= 1 << 3
+	GTH_LIST_NO_HIDDEN_FILES	= 1 << 3,
+	GTH_LIST_INCLUDE_SIDECARS	= 1 << 4
 } GthListFlags;
 
 typedef enum { /*< skip >*/

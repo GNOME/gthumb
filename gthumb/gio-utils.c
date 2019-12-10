@@ -507,12 +507,15 @@ typedef struct {
 	gpointer           user_data;
 	GList             *current;
 	GList             *files;
+	GList             *sidecars;
+	GList             *current_sidecar;
 } QueryInfoData;
 
 
 static void
 query_data_free (QueryInfoData *query_data)
 {
+	_g_object_list_unref (query_data->sidecars);
 	_g_object_list_unref (query_data->file_list);
 	_g_object_list_unref (query_data->files);
 	_g_object_unref (query_data->cancellable);
@@ -529,6 +532,83 @@ query_info__query_next (QueryInfoData *query_data)
 {
 	query_data->current = query_data->current->next;
 	query_info__query_current (query_data);
+}
+
+
+static void
+query_info__query_current_sidecar (QueryInfoData *query_data);
+
+
+static void
+query_info__query_next_sidecar (QueryInfoData *query_data)
+{
+	query_data->current_sidecar = query_data->current_sidecar->next;
+	query_info__query_current_sidecar (query_data);
+}
+
+
+static void
+query_data_sidecar_info_ready_cb (GObject      *source_object,
+				  GAsyncResult *result,
+				  gpointer      user_data)
+{
+	QueryInfoData *query_data = user_data;
+	GFileInfo     *info;
+	GFile         *file;
+
+	info = g_file_query_info_finish ((GFile *) source_object, result, NULL);
+	if (info == NULL) {
+		query_info__query_next_sidecar (query_data);
+		return;
+	}
+
+	file = G_FILE (query_data->current_sidecar->data);
+	query_data->files = g_list_prepend (query_data->files, gth_file_data_new (file, info));
+
+	query_info__query_next_sidecar (query_data);
+}
+
+
+static void
+query_info__query_current_sidecar (QueryInfoData *query_data)
+{
+	GFileQueryInfoFlags flags;
+
+	if (query_data->current_sidecar == NULL) {
+		query_info__query_next (query_data);
+		return;
+	}
+
+	flags = G_FILE_QUERY_INFO_NONE;
+	if (query_data->flags & GTH_LIST_NO_FOLLOW_LINKS)
+		flags |= G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS;
+
+	g_file_query_info_async (G_FILE (query_data->current_sidecar->data),
+				 query_data->attributes,
+				 flags,
+				 G_PRIORITY_DEFAULT,
+				 query_data->cancellable,
+				 query_data_sidecar_info_ready_cb,
+				 query_data);
+}
+
+
+static void
+query_info__query_sidecars (QueryInfoData *query_data,
+			    GFile         *file)
+{
+	GList *sidecars = NULL;
+
+	gth_hook_invoke ("add-sidecars", file, &sidecars);
+	if (sidecars == NULL) {
+		query_info__query_next (query_data);
+		return;
+	}
+
+	_g_object_list_unref (query_data->sidecars);
+	query_data->sidecars = sidecars;
+	query_data->current_sidecar = query_data->sidecars;
+	query_info__query_current_sidecar (query_data);
 }
 
 
@@ -601,7 +681,9 @@ query_data_info_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	if ((query_data->flags & GTH_LIST_RECURSIVE) && (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)) {
+	if ((query_data->flags & GTH_LIST_RECURSIVE)
+		&& (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY))
+	{
 		_g_directory_foreach_child ((GFile *) query_data->current->data,
 					   TRUE,
 					   (query_data->flags & GTH_LIST_NO_FOLLOW_LINKS) == 0,
@@ -613,8 +695,17 @@ query_data_info_ready_cb (GObject      *source_object,
 					   query_data);
 	}
 	else {
-		query_data->files = g_list_prepend (query_data->files, gth_file_data_new ((GFile *) query_data->current->data, info));
-		query_info__query_next (query_data);
+		GFile *file = G_FILE (query_data->current->data);
+
+		query_data->files = g_list_prepend (query_data->files, gth_file_data_new (file, info));
+
+		if ((query_data->flags & GTH_LIST_INCLUDE_SIDECARS)
+			&& (g_file_info_get_file_type (info) == G_FILE_TYPE_REGULAR))
+		{
+			query_info__query_sidecars (query_data, file);
+		}
+		else
+			query_info__query_next (query_data);
 	}
 
 	g_object_unref (info);
@@ -667,6 +758,7 @@ _g_file_list_query_info_async (GList             *file_list,
 	query_data->cancellable = _g_object_ref (cancellable);
 	query_data->callback = ready_callback;
 	query_data->user_data = user_data;
+	query_data->sidecars = NULL;
 
 	query_data->current = query_data->file_list;
 	query_info__query_current (query_data);
@@ -1693,6 +1785,8 @@ _g_file_list_delete_async (GList		 *file_list,
 	flags = GTH_LIST_NO_FOLLOW_LINKS;
 	if (recursive)
 		flags |= GTH_LIST_RECURSIVE;
+	if (include_metadata)
+		flags |= GTH_LIST_INCLUDE_SIDECARS;
 
 	if (delete_data->progress_callback != NULL)
 		delete_data->progress_callback (NULL,
@@ -1753,6 +1847,7 @@ trash_files__delete_current_cb (GObject      *source_object,
 		return;
 	}
 
+	tdata->n_deleted++;
 	tdata->current = tdata->current->next;
 	trash_files__delete_current (tdata);
 }
@@ -1761,6 +1856,8 @@ trash_files__delete_current_cb (GObject      *source_object,
 static void
 trash_files__delete_current (TrashData *tdata)
 {
+	GthFileData *file_data;
+
 	if (tdata->current == NULL) {
 		tdata->callback (NULL, tdata->user_data);
 		trash_data_free (tdata);
@@ -1769,17 +1866,39 @@ trash_files__delete_current (TrashData *tdata)
 
 	if (tdata->progress_callback != NULL)
 		tdata->progress_callback (NULL,
-				_("Deleting files"),
+				_("Moving files to trash"),
 				NULL,
 				FALSE,
 				(double) (tdata->n_deleted + 1) / (tdata->n_files + 1),
 				tdata->user_data);
 
-	g_file_trash_async ((GFile *) tdata->current->data,
+	file_data = GTH_FILE_DATA (tdata->current->data);
+	g_file_trash_async (file_data->file,
 			    G_PRIORITY_DEFAULT,
 			    tdata->cancellable,
 			    trash_files__delete_current_cb,
 			    tdata);
+}
+
+
+static void
+trash_files__info_ready_cb (GList    *files,
+			    GError   *error,
+			    gpointer  user_data)
+{
+	TrashData *tdata = user_data;
+
+	if (error != NULL) {
+		tdata->callback (error, tdata->user_data);
+		trash_data_free (tdata);
+		return;
+	}
+
+	tdata->file_list = _g_object_list_ref (files);
+	tdata->n_files = g_list_length (tdata->file_list);
+	tdata->n_deleted = 0;
+	tdata->current = tdata->file_list;
+	trash_files__delete_current (tdata);
 }
 
 
@@ -1793,15 +1912,26 @@ _g_file_list_trash_async (GList			 *file_list, /* GFile list */
 	TrashData *tdata;
 
 	tdata = g_new0 (TrashData, 1);
-	tdata->file_list = _g_object_list_ref (file_list);
+	tdata->file_list = NULL;
 	tdata->cancellable = _g_object_ref (cancellable);
 	tdata->progress_callback = progress_callback;
 	tdata->callback = callback;
 	tdata->user_data = user_data;
-	tdata->n_files = g_list_length (tdata->file_list);
-	tdata->n_deleted = 0;
-	tdata->current = tdata->file_list;
-	trash_files__delete_current (tdata);
+
+	if (tdata->progress_callback != NULL)
+		tdata->progress_callback (NULL,
+				_("Getting file information"),
+				NULL,
+				TRUE,
+				0.0,
+				tdata->user_data);
+
+	_g_file_list_query_info_async (file_list,
+				       GTH_LIST_INCLUDE_SIDECARS,
+				       GFILE_NAME_TYPE_ATTRIBUTES,
+				       tdata->cancellable,
+				       trash_files__info_ready_cb,
+				       tdata);
 }
 
 
