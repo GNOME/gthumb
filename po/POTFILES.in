@@ -928,10 +928,14 @@ gthumb/resources/file-menu.ui
 gthumb/resources/folder-menu.ui
 gthumb/resources/gears-menu.ui
 gthumb/resources/history-menu.ui
+gthumb/str-utils.c
+gthumb/str-utils.h
 gthumb/test-dom.c
 gthumb/test-glib-utils.c
 gthumb/test-gsignature.c
 gthumb/test-oauth.c
 gthumb/typedefs.h
+gthumb/uri-utils.c
+gthumb/uri-utils.h
 gthumb/zlib-utils.c
 gthumb/zlib-utils.h
