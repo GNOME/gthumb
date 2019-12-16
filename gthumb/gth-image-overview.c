@@ -261,11 +261,8 @@ _gth_image_overview_scale_after (GthAsyncTask *task,
 		if (overview->priv->viewer != NULL) {
 			_gth_image_overview_update_zoom_info (overview);
 			_cairo_clear_surface (&overview->priv->preview);
-			if (scale_data->scaled != NULL) {
-				if (overview->priv->preview != NULL)
-					cairo_surface_destroy (overview->priv->preview);
+			if (scale_data->scaled != NULL)
 				overview->priv->preview = cairo_surface_reference (scale_data->scaled);
-			}
 			gtk_widget_queue_resize (GTK_WIDGET (overview));
 		}
 

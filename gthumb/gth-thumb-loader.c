@@ -428,7 +428,8 @@ _cairo_image_surface_scale_for_thumbnail (cairo_surface_t *image,
 	cairo_surface_t *scaled;
 
 	scaled = _cairo_image_surface_scale (image, new_width, new_height, SCALE_FILTER_GOOD, NULL);
-	_cairo_image_surface_copy_metadata (image, scaled);
+	if (scaled != NULL)
+		_cairo_image_surface_copy_metadata (image, scaled);
 
 	return scaled;
 }
