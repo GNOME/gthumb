@@ -933,6 +933,7 @@ gthumb/str-utils.h
 gthumb/test-dom.c
 gthumb/test-glib-utils.c
 gthumb/test-gsignature.c
+gthumb/test-gtk-utils.c
 gthumb/test-oauth.c
 gthumb/typedefs.h
 gthumb/uri-utils.c
