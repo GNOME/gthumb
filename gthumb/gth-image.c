@@ -446,6 +446,8 @@ void
 gth_image_set_icc_profile (GthImage   *image,
 			   GthICCProfile *profile)
 {
+	g_return_if_fail (image != NULL);
+
 	_g_object_ref (profile);
 	_gth_image_free_icc_profile (image);
 	image->priv->icc_data = profile;

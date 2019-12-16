@@ -105,6 +105,8 @@ void
 _cairo_metadata_set_has_alpha (cairo_surface_metadata_t	*metadata,
 			       gboolean                  has_alpha)
 {
+	g_return_if_fail (metadata != NULL);
+
 	metadata->valid_data |= _CAIRO_METADATA_FLAG_HAS_ALPHA;
 	metadata->has_alpha = has_alpha ? TRUE : FALSE;
 }
@@ -115,6 +117,8 @@ _cairo_metadata_set_original_size (cairo_surface_metadata_t *metadata,
 				   int                       width,
 				   int                       height)
 {
+	g_return_if_fail (metadata != NULL);
+
 	metadata->valid_data |= _CAIRO_METADATA_FLAG_ORIGINAL_SIZE;
 	metadata->original_width = width;
 	metadata->original_height = height;
@@ -126,6 +130,8 @@ _cairo_metadata_set_thumbnail_size (cairo_surface_metadata_t *metadata,
 				    int                       width,
 				    int                       height)
 {
+	g_return_if_fail (metadata != NULL);
+
 	metadata->valid_data |= _CAIRO_METADATA_FLAG_THUMBNAIL_SIZE;
 	metadata->thumbnail.image_width = width;
 	metadata->thumbnail.image_height = height;
@@ -148,6 +154,8 @@ _cairo_clear_surface (cairo_surface_t  **surface)
 unsigned char *
 _cairo_image_surface_flush_and_get_data (cairo_surface_t *surface)
 {
+	g_return_val_if_fail (surface != NULL, NULL);
+
 	cairo_surface_flush (surface);
 	return cairo_image_surface_get_data (surface);
 }
@@ -156,6 +164,8 @@ _cairo_image_surface_flush_and_get_data (cairo_surface_t *surface)
 static void
 _cairo_surface_metadata_init (cairo_surface_metadata_t *metadata)
 {
+	g_return_if_fail (metadata != NULL);
+
 	metadata->valid_data = _CAIRO_METADATA_FLAG_NONE;
 	metadata->has_alpha = FALSE;
 	metadata->original_width = 0;
@@ -169,6 +179,8 @@ cairo_surface_metadata_t *
 _cairo_image_surface_get_metadata (cairo_surface_t *surface)
 {
 	cairo_surface_metadata_t *metadata;
+
+	g_return_val_if_fail (surface != NULL, NULL);
 
 	metadata = cairo_surface_get_user_data (surface, &surface_metadata_key);
 	if (metadata == NULL) {
@@ -188,6 +200,9 @@ _cairo_image_surface_copy_metadata (cairo_surface_t *src,
 	cairo_surface_metadata_t *src_metadata;
 	cairo_surface_metadata_t *dest_metadata;
 
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (dest != NULL);
+
 	src_metadata = _cairo_image_surface_get_metadata (src);
 	dest_metadata = _cairo_image_surface_get_metadata (dest);
 
@@ -205,6 +220,8 @@ void
 _cairo_image_surface_clear_metadata (cairo_surface_t *surface)
 {
 	cairo_surface_metadata_t *metadata;
+
+	g_return_if_fail (surface != NULL);
 
 	metadata = _cairo_image_surface_get_metadata (surface);
 	_cairo_surface_metadata_init (metadata);
