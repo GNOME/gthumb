@@ -352,6 +352,15 @@ test('glib-utils',
   )
 )
 
+test('gtk-utils',
+  executable('test-gtk-utils',
+    sources : [ 'test-gtk-utils.c', 'gtk-utils.c', 'color-utils.c' ],
+    dependencies : common_deps,
+    include_directories : config_inc,
+    c_args : c_args,
+  )
+)
+
 test('gsignature',
   executable('test-gsignature',
     sources : [ 'test-gsignature.c', 'gsignature.c'],
