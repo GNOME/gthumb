@@ -155,6 +155,8 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	JpegInfoFlags		       info_flags;
 	gboolean                       load_scaled;
 	GthTransform                   orientation;
+	int                            output_width;
+	int                            output_height;
 	int                            destination_width;
 	int                            destination_height;
 	int                            line_start;
@@ -171,6 +173,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	unsigned char                 *surface_row;
 	JSAMPARRAY                     buffer;
 	int                            buffer_stride;
+	int                            scanned_lines;
 	JDIMENSION                     n_lines;
 	JSAMPARRAY                     buffer_row;
 	int                            l;
@@ -263,9 +266,11 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 	jpeg_start_decompress (&srcinfo);
 
+	output_width = MIN (srcinfo.output_width, CAIRO_MAX_IMAGE_SIZE);
+	output_height = MIN (srcinfo.output_height, CAIRO_MAX_IMAGE_SIZE);
 	_cairo_image_surface_transform_get_steps (CAIRO_FORMAT_ARGB32,
-						  MIN (srcinfo.output_width, CAIRO_MAX_IMAGE_SIZE),
-						  MIN (srcinfo.output_height, CAIRO_MAX_IMAGE_SIZE),
+						  output_width,
+						  output_height,
 						  orientation,
 						  &destination_width,
 						  &destination_height,
@@ -294,6 +299,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	_cairo_metadata_set_has_alpha (metadata, FALSE);
 	surface_data = _cairo_image_surface_flush_and_get_data (surface);
 	surface_row = surface_data + line_start;
+	scanned_lines = 0;
 
 	switch (srcinfo.out_color_space) {
 	case JCS_CMYK:
@@ -304,11 +310,13 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 			CMYK_table_init ();
 			cmyk_tab = CMYK_Tab;
 
-			while (srcinfo.output_scanline < srcinfo.output_height) {
+			while (srcinfo.output_scanline < output_height) {
 				if (g_cancellable_is_cancelled (cancellable))
 					goto stop_loading;
 
 				n_lines = jpeg_read_scanlines (&srcinfo, buffer, srcinfo.rec_outbuf_height);
+				if (scanned_lines + n_lines > output_height)
+					n_lines = output_height - scanned_lines;
 
 				buffer_row = buffer;
 				for (l = 0; l < n_lines; l++) {
@@ -318,7 +326,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 					if (g_cancellable_is_cancelled (cancellable))
 						goto stop_loading;
 
-					for (x = 0; x < srcinfo.output_width; x++) {
+					for (x = 0; x < output_width; x++) {
 						if (srcinfo.saw_Adobe_marker) {
 							c = p_buffer[0];
 							m = p_buffer[1];
@@ -345,6 +353,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 					surface_row += line_step;
 					buffer_row += buffer_stride;
+					scanned_lines += 1;
 				}
 			}
 		}
@@ -352,11 +361,13 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 	case JCS_GRAYSCALE:
 		{
-			while (srcinfo.output_scanline < srcinfo.output_height) {
+			while (srcinfo.output_scanline < output_height) {
 				if (g_cancellable_is_cancelled (cancellable))
 					goto stop_loading;
 
 				n_lines = jpeg_read_scanlines (&srcinfo, buffer, srcinfo.rec_outbuf_height);
+				if (scanned_lines + n_lines > output_height)
+					n_lines = output_height - scanned_lines;
 
 				buffer_row = buffer;
 				for (l = 0; l < n_lines; l++) {
@@ -366,7 +377,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 					if (g_cancellable_is_cancelled (cancellable))
 						goto stop_loading;
 
-					for (x = 0; x < srcinfo.output_width; x++) {
+					for (x = 0; x < output_width; x++) {
 						r = g = b = p_buffer[0];
 						pixel = CAIRO_RGBA_TO_UINT32 (r, g, b, 0xff);
 						memcpy (p_surface, &pixel, sizeof (guint32));
@@ -377,6 +388,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 					surface_row += line_step;
 					buffer_row += buffer_stride;
+					scanned_lines += 1;
 				}
 			}
 		}
@@ -384,11 +396,13 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 	case JCS_RGB:
 		{
-			while (srcinfo.output_scanline < srcinfo.output_height) {
+			while (srcinfo.output_scanline < output_height) {
 				if (g_cancellable_is_cancelled (cancellable))
 					goto stop_loading;
 
 				n_lines = jpeg_read_scanlines (&srcinfo, buffer, srcinfo.rec_outbuf_height);
+				if (scanned_lines + n_lines > output_height)
+					n_lines = output_height - scanned_lines;
 
 				buffer_row = buffer;
 				for (l = 0; l < n_lines; l++) {
@@ -398,7 +412,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 					if (g_cancellable_is_cancelled (cancellable))
 						goto stop_loading;
 
-					for (x = 0; x < srcinfo.output_width; x++) {
+					for (x = 0; x < output_width; x++) {
 						r = p_buffer[0];
 						g = p_buffer[1];
 						b = p_buffer[2];
@@ -411,6 +425,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 					surface_row += line_step;
 					buffer_row += buffer_stride;
+					scanned_lines += 1;
 				}
 			}
 		}
@@ -431,11 +446,13 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 			g_cr_tab = YCbCr_G_Cr_Tab;
 			b_cb_tab = YCbCr_B_Cb_Tab;
 
-			while (srcinfo.output_scanline < srcinfo.output_height) {
+			while (srcinfo.output_scanline < output_height) {
 				if (g_cancellable_is_cancelled (cancellable))
 					goto stop_loading;
 
 				n_lines = jpeg_read_scanlines (&srcinfo, buffer, srcinfo.rec_outbuf_height);
+				if (scanned_lines + n_lines > output_height)
+					n_lines = output_height - scanned_lines;
 
 				buffer_row = buffer;
 				for (l = 0; l < n_lines; l++) {
@@ -445,7 +462,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 					if (g_cancellable_is_cancelled (cancellable))
 						goto stop_loading;
 
-					for (x = 0; x < srcinfo.output_width; x++) {
+					for (x = 0; x < output_width; x++) {
 						Y = p_buffer[0];
 						Cb = p_buffer[1];
 						Cr = p_buffer[2];
@@ -462,6 +479,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 					surface_row += line_step;
 					buffer_row += buffer_stride;
+					scanned_lines += 1;
 				}
 			}
 		}
@@ -486,11 +504,13 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 			CMYK_table_init ();
 			cmyk_tab = CMYK_Tab;
 
-			while (srcinfo.output_scanline < srcinfo.output_height) {
+			while (srcinfo.output_scanline < output_height) {
 				if (g_cancellable_is_cancelled (cancellable))
 					goto stop_loading;
 
 				n_lines = jpeg_read_scanlines (&srcinfo, buffer, srcinfo.rec_outbuf_height);
+				if (scanned_lines + n_lines > output_height)
+					n_lines = output_height - scanned_lines;
 
 				buffer_row = buffer;
 				for (l = 0; l < n_lines; l++) {
@@ -500,7 +520,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 					if (g_cancellable_is_cancelled (cancellable))
 						goto stop_loading;
 
-					for (x = 0; x < srcinfo.output_width; x++) {
+					for (x = 0; x < output_width; x++) {
 						Y = p_buffer[0];
 						Cb = p_buffer[1];
 						Cr = p_buffer[2];
@@ -524,6 +544,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 					surface_row += line_step;
 					buffer_row += buffer_stride;
+					scanned_lines += 1;
 				}
 			}
 		}
