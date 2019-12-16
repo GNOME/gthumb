@@ -22,12 +22,26 @@
 #include <config.h>
 #include <string.h>
 #include "color-utils.h"
-#include "gth-image-utils.h"
 #include "gtk-utils.h"
 
 
 #define REQUEST_ENTRY_WIDTH_IN_CHARS 40
 #define GTHUMB_RESOURCE_BASE_PATH "/org/gnome/gThumb/resources/"
+
+
+SizeValue
+ImageSizeValues[IMAGE_SIZE_N] = {
+	{ 320, 200 },
+	{ 320, 320 },
+	{ 640, 480 },
+	{ 640, 640 },
+	{ 800, 600 },
+	{ 800, 800 },
+	{ 1024, 768 },
+	{ 1024, 1024 },
+	{ 1280, 960 },
+	{ 1280, 1280 }
+};
 
 
 GtkWidget*

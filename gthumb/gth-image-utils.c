@@ -30,20 +30,6 @@
 #include "gth-main.h"
 
 
-SizeValue
-ImageSizeValues[IMAGE_SIZE_N] = {
-		{ 320, 200 },
-		{ 320, 320 },
-		{ 640, 480 },
-		{ 640, 640 },
-		{ 800, 600 },
-		{ 800, 800 },
-		{ 1024, 768 },
-		{ 1024, 1024 },
-		{ 1280, 960 },
-		{ 1280, 1280 } };
-
-
 gboolean
 scale_keeping_ratio_min (int      *width,
 			 int      *height,

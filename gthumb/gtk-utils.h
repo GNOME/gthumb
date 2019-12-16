@@ -51,6 +51,31 @@ typedef struct {
 	const char *accelerator;
 } GthAccelerator;
 
+
+typedef enum /*< skip >*/ {
+	IMAGE_SIZE_320x200,
+	IMAGE_SIZE_320x320,
+	IMAGE_SIZE_640x480,
+	IMAGE_SIZE_640x640,
+	IMAGE_SIZE_800x600,
+	IMAGE_SIZE_800x800,
+	IMAGE_SIZE_1024x768,
+	IMAGE_SIZE_1024x1024,
+	IMAGE_SIZE_1280x960,
+	IMAGE_SIZE_1280x1280,
+	IMAGE_SIZE_N
+} ImageSize;
+
+
+typedef struct {
+	int width;
+	int height;
+} SizeValue;
+
+
+extern SizeValue ImageSizeValues[IMAGE_SIZE_N];
+
+
 GtkWidget *     _gtk_message_dialog_new                    (GtkWindow        *parent,
 							    GtkDialogFlags    flags,
 							    const char       *icon_name,
