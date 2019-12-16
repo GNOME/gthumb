@@ -209,9 +209,6 @@ gth_image_set_cairo_surface (GthImage        *image,
 			     cairo_surface_t *value)
 {
 	_gth_image_free_data (image);
-	if (value == NULL)
-		return;
-
 	image->priv->format = GTH_IMAGE_FORMAT_CAIRO_SURFACE;
 	image->priv->data.surface = cairo_surface_reference (value);
 }
@@ -261,17 +258,21 @@ gth_image_get_original_size (GthImage *image,
 	switch (image->priv->format) {
 	case GTH_IMAGE_FORMAT_CAIRO_SURFACE:
 		surface = gth_image_get_cairo_surface (image);
-		if (! _cairo_image_surface_get_original_size (surface, &local_width, &local_height)) {
-			local_width = cairo_image_surface_get_width (surface);
-			local_height = cairo_image_surface_get_height (surface);
+		if (surface != NULL) {
+			if (! _cairo_image_surface_get_original_size (surface, &local_width, &local_height)) {
+				local_width = cairo_image_surface_get_width (surface);
+				local_height = cairo_image_surface_get_height (surface);
+			}
+			value_set = TRUE;
 		}
-		value_set = TRUE;
 		break;
 
 	case GTH_IMAGE_FORMAT_GDK_PIXBUF:
-		local_width = gdk_pixbuf_get_width (image->priv->data.pixbuf);
-		local_height = gdk_pixbuf_get_height (image->priv->data.pixbuf);
-		value_set = TRUE;
+		if (image->priv->data.pixbuf != NULL) {
+			local_width = gdk_pixbuf_get_width (image->priv->data.pixbuf);
+			local_height = gdk_pixbuf_get_height (image->priv->data.pixbuf);
+			value_set = TRUE;
+		}
 		break;
 
 	case GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION:
@@ -346,11 +347,8 @@ gth_image_set_pixbuf (GthImage  *image,
 		      GdkPixbuf *value)
 {
 	_gth_image_free_data (image);
-	if (value == NULL)
-		return;
-
 	image->priv->format = GTH_IMAGE_FORMAT_GDK_PIXBUF;
-	image->priv->data.pixbuf = g_object_ref (value);
+	image->priv->data.pixbuf = _g_object_ref (value);
 }
 
 
@@ -394,11 +392,8 @@ gth_image_set_pixbuf_animation (GthImage           *image,
 				GdkPixbufAnimation *value)
 {
 	_gth_image_free_data (image);
-	if (value == NULL)
-		return;
-
 	image->priv->format = GTH_IMAGE_FORMAT_GDK_PIXBUF_ANIMATION;
-	image->priv->data.pixbuf_animation = g_object_ref (value);
+	image->priv->data.pixbuf_animation = _g_object_ref (value);
 }
 
 
