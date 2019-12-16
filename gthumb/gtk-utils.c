@@ -633,6 +633,42 @@ _gtk_tree_path_list_free (GList *list)
 }
 
 
+GtkTreePath *
+_gtk_tree_path_get_previous_or_parent (GtkTreePath *path)
+{
+	int         *indices;
+	int          depth;
+	int          last;
+	gboolean     return_parent;
+	int         *new_indices;
+	int          new_depth;
+	int          i;
+	GtkTreePath *new_path;
+
+	indices = gtk_tree_path_get_indices_with_depth (path, &depth);
+	if (indices == NULL)
+		return NULL;
+
+	last = depth - 1;
+	return_parent = indices[last] == 0;
+	new_depth = return_parent ? depth - 1 : depth;
+	if (new_depth == 0)
+		return NULL;
+
+	new_indices = g_new (int, new_depth);
+	for (i = 0; i < new_depth; i++)
+		new_indices[i] = indices[i];
+	if (! return_parent) /* return previous element */
+		new_indices[last] = indices[last] - 1;
+
+	new_path = gtk_tree_path_new_from_indicesv (new_indices, new_depth);
+
+	g_free (new_indices);
+
+	return new_path;
+}
+
+
 int
 _gtk_paned_get_position2 (GtkPaned *paned)
 {

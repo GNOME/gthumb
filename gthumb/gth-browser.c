@@ -3090,6 +3090,14 @@ file_attributes_ready_cb (GthFileSource *file_source,
 }
 
 
+static gboolean
+_g_file_list_only_contains (GList *l,
+			    GFile *file)
+{
+	return (l->next == NULL) && _g_file_equal (file, G_FILE (l->data));
+}
+
+
 static GList *
 _g_file_list_find_file_or_ancestor (GList *l,
 				    GFile *file)
@@ -3141,12 +3149,43 @@ folder_changed_cb (GthMonitor      *monitor,
 	if (browser->priv->location == NULL)
 		return;
 
-	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL))
-		_gth_browser_load (browser, parent, NULL, NULL, 0, GTH_ACTION_GO_TO, TRUE);
+	if ((event == GTH_MONITOR_EVENT_DELETED)
+		&& _g_file_list_only_contains (list, browser->priv->location->file))
+	{
+		/* current location deleted -> load the previous location in
+		 * the folder tree. */
 
-	if ((event == GTH_MONITOR_EVENT_CHANGED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL)) {
+		GtkTreePath *location_path;
+
+		location_path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), browser->priv->location->file);
+		if (location_path != NULL) {
+			GtkTreePath *prev_path;
+
+			prev_path = _gtk_tree_path_get_previous_or_parent (location_path);
+			if (prev_path != NULL) {
+				GthFileData *prev_file;
+
+				prev_file = gth_folder_tree_get_file (GTH_FOLDER_TREE (browser->priv->folder_tree), prev_path);
+				if (prev_file != NULL) {
+					_gth_browser_load (browser, prev_file->file, NULL, NULL, 0, GTH_ACTION_GO_TO, TRUE);
+					_g_object_unref (prev_file);
+				}
+
+				gtk_tree_path_free (prev_path);
+			}
+
+			gtk_tree_path_free (location_path);
+		}
+	}
+	else if ((event == GTH_MONITOR_EVENT_DELETED)
+		&& (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL))
+	{
+		_gth_browser_load (browser, parent, NULL, NULL, 0, GTH_ACTION_GO_TO, TRUE);
+	}
+	else if ((event == GTH_MONITOR_EVENT_CHANGED)
+		&& (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL))
+	{
 		_gth_browser_load (browser, browser->priv->location->file, NULL, NULL, 0, GTH_ACTION_GO_TO, TRUE);
-		return;
 	}
 
 #if 0

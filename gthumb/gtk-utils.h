@@ -146,6 +146,7 @@ void            _gtk_widget_set_margin                     (GtkWidget        *wi
 							    int               bottom,
 							    int               left);
 void            _gtk_tree_path_list_free                   (GList            *list);
+GtkTreePath *   _gtk_tree_path_get_previous_or_parent      (GtkTreePath      *path);
 int             _gtk_paned_get_position2                   (GtkPaned         *paned);
 void            _g_launch_command                          (GtkWidget        *parent,
 					    	    	    const char       *command,
