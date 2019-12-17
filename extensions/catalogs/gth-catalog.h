@@ -73,6 +73,7 @@ typedef void (*CatalogReadyCallback) (GthCatalog *catalog,
 
 GType         gth_catalog_get_type        (void) G_GNUC_CONST;
 GthCatalog *  gth_catalog_new             (void);
+GthCatalog *  gth_catalog_new_for_file    (GFile                *file);
 GthCatalog *  gth_catalog_new_from_data   (const void           *buffer,
 					   gsize                 count,
 					   GError              **error);

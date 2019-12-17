@@ -263,6 +263,24 @@ gth_catalog_new (void)
 
 
 GthCatalog *
+gth_catalog_new_for_file (GFile *file)
+{
+	char       *uri;
+	GthCatalog *catalog;
+
+	if (file == NULL)
+		return NULL;
+
+	uri = g_file_get_uri (file);
+	catalog = gth_hook_invoke_get ("gth-catalog-new-for-uri", uri);
+
+	g_free (uri);
+
+	return catalog;
+}
+
+
+GthCatalog *
 gth_catalog_new_from_data (const void  *buffer,
 			   gsize        count,
 			   GError     **error)
@@ -271,10 +289,10 @@ gth_catalog_new_from_data (const void  *buffer,
 	GthCatalog *catalog = NULL;
 
 	text_buffer = (char *) buffer;
-	if ((text_buffer == NULL)
-		|| (*text_buffer == 0)
-		|| (strncmp (text_buffer, "<?xml ", 6) == 0))
-	{
+	if ((text_buffer == NULL) || (*text_buffer == 0))
+		return NULL;
+
+	if (strncmp (text_buffer, "<?xml ", 6) == 0) {
 		catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", (gpointer) buffer);
 		if (catalog != NULL)
 			read_catalog_data_from_xml (catalog, text_buffer, count, error);

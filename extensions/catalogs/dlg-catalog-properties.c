@@ -150,7 +150,7 @@ catalog_ready_cb (GObject  *object,
 {
 	DialogData *data = user_data;
 
-	if (error != NULL) {
+	if ((error != NULL) || (object == NULL)) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW(data->browser), _("Could not load the catalog"), error);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -238,5 +238,8 @@ dlg_catalog_properties (GthBrowser  *browser,
 	/* run dialog. */
 
 	gtk_widget_grab_focus (GET_WIDGET ("name_entry"));
-	gth_catalog_load_from_file_async (file_data->file, NULL, catalog_ready_cb, data);
+	gth_catalog_load_from_file_async (file_data->file,
+					  NULL,
+					  catalog_ready_cb,
+					  data);
 }

@@ -248,6 +248,16 @@ catalogs__gth_catalog_load_from_data_cb (const void *buffer)
 }
 
 
+GthCatalog *
+catalogs__gth_catalog_new_for_uri_cb (const char *uri)
+{
+	if (g_str_has_suffix (uri, ".catalog") || g_str_has_suffix (uri, ".gqv"))
+		return gth_catalog_new ();
+	else
+		return NULL;
+}
+
+
 void
 catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 						   GthFileSource *file_source,
@@ -462,6 +472,8 @@ process_rename_data_list (gpointer user_data)
 		GError     *error = NULL;
 
 		catalog = gth_catalog_load_from_file (rename_data->location);
+		if (catalog == NULL)
+			continue;
 
 		for (scan_files = rename_data->files, scan_new_files = rename_data->new_files;
 		     scan_files && scan_new_files;

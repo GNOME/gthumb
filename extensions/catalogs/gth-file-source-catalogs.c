@@ -820,7 +820,7 @@ catalog_ready_cb (GObject  *catalog,
 	gsize       size;
 	GFile      *gio_file;
 
-	if (error != NULL) {
+	if ((error != NULL) || (catalog == NULL)) {
 		cod->ready_callback (G_OBJECT (cod->file_source), error, cod->user_data);
 		copy_op_data_free (cod);
 		return;
@@ -1235,7 +1235,7 @@ reorder_catalog_ready_cb (GObject  *object,
 	gsize        size;
 	GFile       *gio_file;
 
-	if (error != NULL) {
+	if ((error != NULL) || (object == NULL)) {
 		reorder_data->callback (G_OBJECT (reorder_data->file_source), error, reorder_data->data);
 		reorder_data_free (reorder_data);
 		return;

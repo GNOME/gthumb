@@ -30,6 +30,7 @@ void         search__gth_browser_construct_cb            (GthBrowser         *br
 void         search__gth_browser_update_sensitivity_cb   (GthBrowser         *browser);
 void         search__gth_browser_update_extra_widget_cb  (GthBrowser         *browser);
 GthCatalog * search__gth_catalog_load_from_data_cb       (const void         *buffer);
+GthCatalog * search__gth_catalog_new_for_uri_cb          (const char         *uri);
 void         search__dlg_catalog_properties              (GtkBuilder         *builder,
 							  GthFileData        *file_data,
 							  GthCatalog         *catalog);

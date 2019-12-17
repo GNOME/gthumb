@@ -40,6 +40,15 @@ gthumb_extension_activate (void)
 	gth_hook_register ("gth-catalog-load-from-data", 1);
 
 	/**
+	 * Called to create the right catalog class for the given uri.
+	 *
+	 * @uri (const char *): the file uri.
+	 * @return (GthCatalog *): return a pointer to the object that can
+	 * handle the catalog uri, or NULL if the data type doesn't match.
+	 **/
+	gth_hook_register ("gth-catalog-new-for-uri", 1);
+
+	/**
 	 * Called to update the catalog data from a given file data.
 	 *
 	 * @catalog (GthCatalog *): the catalog to update
@@ -109,6 +118,7 @@ gthumb_extension_activate (void)
 
 	gth_hook_add_callback ("command-line-files", 10, G_CALLBACK (catalogs__command_line_files_cb), NULL);
 	gth_hook_add_callback ("gth-catalog-load-from-data", 10, G_CALLBACK (catalogs__gth_catalog_load_from_data_cb), NULL);
+	gth_hook_add_callback ("gth-catalog-new-for-uri", 10, G_CALLBACK (catalogs__gth_catalog_new_for_uri_cb), NULL);
 
 	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_CATALOGS);
 	gth_hook_add_callback ("initialize", 10, G_CALLBACK (catalogs__initialize_cb), NULL);

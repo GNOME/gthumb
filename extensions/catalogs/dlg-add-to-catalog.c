@@ -184,14 +184,11 @@ catalog_ready_cb (GObject  *catalog,
 	gsize    length;
 	GFile   *gio_file;
 
-	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (add_data->parent_window), _("Could not add the files to the catalog"), error);
-		add_data_unref (add_data);
-		return;
-	}
-
 	_g_object_unref (add_data->catalog);
-	add_data->catalog = (GthCatalog *) catalog;
+	if (catalog != NULL)
+		add_data->catalog = (GthCatalog *) catalog;
+	else
+		add_data->catalog = gth_catalog_new_for_file (add_data->catalog_file);
 
 	for (scan = add_data->files; scan; scan = scan->next)
 		gth_catalog_insert_file (add_data->catalog, (GFile *) scan->data, -1);
