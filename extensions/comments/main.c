@@ -23,7 +23,9 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#ifdef HAVE_EXIV2
 #include <extensions/exiv2_tools/exiv2-utils.h>
+#endif
 #include "callbacks.h"
 #include "dlg-comments-preferences.h"
 #include "gth-comment.h"
@@ -98,9 +100,9 @@ comments__read_metadata_ready_cb (GList      *file_list,
 		 * Give priority to the .comment metadata which, if present,
 		 * is the most up-to-date. */
 
-		gboolean can_read_embedded_attributes;
-
-		can_read_embedded_attributes = gth_main_extension_is_active ("exiv2_tools");
+#ifdef HAVE_EXIV2
+		gboolean can_read_embedded_attributes = gth_main_extension_is_active ("exiv2_tools");
+#endif
 
 		for (scan = file_list; scan; scan = scan->next) {
 			GthFileData *file_data = scan->data;
@@ -111,10 +113,12 @@ comments__read_metadata_ready_cb (GList      *file_list,
 			 * case update the .comment metadata with the
 			 * embedded metadata. */
 			if (g_file_info_get_attribute_boolean (file_data->info, "comment::no-comment-file")) {
+#ifdef HAVE_EXIV2
 				if (can_read_embedded_attributes) {
 					exiv2_update_general_attributes (file_data->info);
 					gth_comment_update_from_general_attributes (file_data);
 				}
+#endif
 			}
 			else
 				gth_comment_update_general_attributes ((GthFileData *) scan->data);
