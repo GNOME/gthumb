@@ -241,7 +241,7 @@ if get_option('run-in-place')
   config_data.set('RUN_IN_PLACE', 1)
 endif
 if use_exiv2
-  config_data.set('HAVE_EXIV2_020', 1)
+  config_data.set('HAVE_EXIV2', 1)
 endif
 if use_clutter
   config_data.set('HAVE_CLUTTER', 1)
