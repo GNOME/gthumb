@@ -1374,9 +1374,7 @@ gboolean
 exiv2_supports_writes (const char *mime_type)
 {
 	return (g_content_type_equals (mime_type, "image/jpeg")
-#if HAVE_EXIV2_020
 		|| g_content_type_equals (mime_type, "image/tiff")
-#endif
 		|| g_content_type_equals (mime_type, "image/png"));
 }
 
