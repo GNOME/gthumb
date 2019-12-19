@@ -144,9 +144,9 @@ gth_application_activate_about (GSimpleAction *action,
 				    NULL);
 
 	logo = gtk_icon_theme_load_icon (gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (window))),
-					 "gthumb",
+					 "org.gnome.gThumb",
 					 128,
-					 GTK_ICON_LOOKUP_NO_SVG,
+					 0,
 					 NULL);
 
 	gtk_show_about_dialog (GTK_WINDOW (window),
