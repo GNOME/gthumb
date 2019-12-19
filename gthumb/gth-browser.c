@@ -4358,7 +4358,7 @@ gth_browser_init (GthBrowser *browser)
 		sidebar_width = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_BROWSER_SIDEBAR_WIDTH) + 10;
 		thumb_size = g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE);
 		thumb_spacing = 40;
-		default_columns_of_thumbnails = 5;
+		default_columns_of_thumbnails = 6;
 
 		for (n_cols = default_columns_of_thumbnails; n_cols >= 1; n_cols--) {
 			window_width = sidebar_width + (thumb_spacing + 20) + (n_cols * (thumb_size + thumb_spacing));
