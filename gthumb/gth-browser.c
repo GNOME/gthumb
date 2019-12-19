@@ -4314,6 +4314,7 @@ gth_browser_init (GthBrowser *browser)
 		int default_columns_of_thumbnails;
 		int n_cols;
 
+		gtk_widget_realize (GTK_WIDGET (browser));
 		_gtk_widget_get_screen_size (GTK_WIDGET (browser), &max_width, &max_height);
 		max_width = max_width * 5 / 6;
 		max_height = max_height * 3 / 4;
