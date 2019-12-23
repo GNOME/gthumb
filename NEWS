@@ -1,3 +1,14 @@
+version 3.8.3
+-------------
+
+ Bugs fixed:
+
+  * App icons: name the app icons with the application id (!77)
+  * Jpeg loader: crash when the original size is too big for a cairo 
+    surface.
+  * Fixed run-time errors if exiv2 is not used.
+  * Fixed window size the first time gThumb is executed.
+
 version 3.8.2
 -------------
 
