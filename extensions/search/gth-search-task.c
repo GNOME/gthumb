@@ -163,8 +163,6 @@ done_func (GObject  *object,
 {
 	GthSearchTask *task = user_data;
 
-	gth_info_bar_set_secondary_text (GTH_INFO_BAR (task->priv->dialog), NULL);
-
 	task->priv->error = NULL;
 	if (error != NULL) {
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -280,6 +278,7 @@ _gth_search_task_search_current_location (GthSearchTask *task)
 	const char      *test_attributes;
 
 	if (task->priv->current_location == NULL) {
+		gth_info_bar_set_secondary_text (GTH_INFO_BAR (task->priv->dialog), NULL);
 		_gth_search_task_save_search_result (task);
 		return;
 	}
