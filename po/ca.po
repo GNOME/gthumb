@@ -159,7 +159,7 @@ msgstr "Imatge;Visualitzador;"
 #: extensions/contact_sheet/gth-contact-sheet-theme.c:34
 #: extensions/image_print/data/ui/print-layout.ui:519
 msgid "Caption"
-msgstr "L'anotació"
+msgstr "Anotació"
 
 #: data/ui/browser-preferences.ui:72
 msgid "Behavior"
@@ -175,7 +175,7 @@ msgstr "_Doble clic per a obrir fitxers"
 
 #: data/ui/browser-preferences.ui:129
 msgid "_Open files in fullscreen mode"
-msgstr "_Obre a pantalla completa"
+msgstr "_Obre els fitxers a pantalla completa"
 
 #: data/ui/browser-preferences.ui:167 data/ui/preferences.ui:364
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
@@ -1023,7 +1023,7 @@ msgstr "Data de _modificació del fitxer"
 
 #: extensions/change_date/data/ui/change-date.ui:235
 msgid "File c_reation date"
-msgstr "Data en què el fitxer va ser c_reat"
+msgstr "Data de _creació del fitxer"
 
 #: extensions/change_date/data/ui/change-date.ui:253
 msgid "Date p_hoto was taken"
@@ -1598,7 +1598,7 @@ msgstr "Data de l'última modificació"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:559
 msgid "File creation date"
-msgstr "La data en què el fitxer va ser creat"
+msgstr "Data de creació del fitxer"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:560
 msgid "Do not modify"
@@ -2915,7 +2915,7 @@ msgstr "_Privacitat:"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:329
 msgid "_Safety:"
-msgstr "_Protecció:"
+msgstr "_Seguretat:"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:405
 msgid "Hi_de from public searches"
@@ -3967,7 +3967,7 @@ msgstr "O_rdena per:"
 #. Translators: this is the text case (upper or lower case).
 #: extensions/rename_series/data/ui/rename-series.ui:54
 msgid "Cas_e:"
-msgstr "Ca_s:"
+msgstr "_Capitalització:"
 
 #: extensions/rename_series/data/ui/rename-series.ui:83
 msgid "Help"
@@ -4081,7 +4081,7 @@ msgstr "Nom nou"
 
 #: extensions/rename_series/dlg-rename-series.c:960
 msgid "Keep original case"
-msgstr "Mantén el cas original"
+msgstr "Mantén la capitalització original"
 
 #: extensions/rename_series/dlg-rename-series.c:961
 msgid "Convert to lower-case"
