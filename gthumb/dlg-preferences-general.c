@@ -142,11 +142,6 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("go_to_last_location_radiobutton")), TRUE);
 
-	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_startup_location_radiobutton")))) {
-		gtk_widget_set_sensitive (data->starup_location_chooser, FALSE);
-		gtk_widget_set_sensitive (GET_WIDGET ("set_to_current_button"), FALSE);
-	}
-
 	/* starup location */
 	{
 		char  *uri;
@@ -173,6 +168,11 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 
 		g_object_unref (location);
 		g_free (uri);
+	}
+
+	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_startup_location_radiobutton")))) {
+		gtk_widget_set_sensitive (data->starup_location_chooser, FALSE);
+		gtk_widget_set_sensitive (GET_WIDGET ("set_to_current_button"), FALSE);
 	}
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reuse_active_window_checkbutton")),
