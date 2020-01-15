@@ -106,7 +106,7 @@ static const GthShortcut gth_browser_shortcuts[] = {
 	{ "toggle-statusbar", N_("Statusbar"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F7" },
 	{ "toggle-thumbnail-list", N_("Thumbnails list"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_UI, "F8" },
 
-	{ "go-back", N_("Load previuos location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Left" },
+	{ "go-back", N_("Load previous location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Left" },
 	{ "go-forward", N_("Load next location"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Right" },
 	{ "go-up", N_("Load parent folder"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Up" },
 	{ "go-home", N_("Load home"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Alt>Home" },
