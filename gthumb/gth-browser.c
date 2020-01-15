@@ -3867,6 +3867,9 @@ pref_browser_properties_on_the_right_changed (GSettings  *settings,
 	if (old_parent == new_parent)
 		return;
 
+	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_BROWSER)
+		return;
+
 	gtk_widget_unrealize (browser->priv->file_properties);
 	_gtk_widget_reparent (browser->priv->file_properties, new_parent);
 	/* restore the child properties that gtk_widget_reparent doesn't preserve. */
