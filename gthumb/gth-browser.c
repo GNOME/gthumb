@@ -7005,3 +7005,10 @@ gth_browser_keep_mouse_visible (GthBrowser *browser,
 {
 	browser->priv->keep_mouse_visible = value;
 }
+
+
+void
+gth_browser_show_menu (GthBrowser *browser)
+{
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (browser->priv->menu_button), TRUE);
+}

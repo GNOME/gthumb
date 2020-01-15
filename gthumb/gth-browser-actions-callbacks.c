@@ -605,3 +605,12 @@ gth_browser_activate_unselect_all (GSimpleAction *action,
 	file_view = gth_browser_get_file_list_view (browser);
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_view));
 }
+
+
+void
+gth_browser_activate_show_menu (GSimpleAction *action,
+				GVariant      *state,
+				gpointer       user_data)
+{
+	gth_browser_show_menu (GTH_BROWSER (user_data));
+}

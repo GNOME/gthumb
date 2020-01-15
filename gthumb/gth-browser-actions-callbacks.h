@@ -69,5 +69,6 @@ DEF_ACTION_CALLBACK (gth_browser_activate_show_next_image)
 DEF_ACTION_CALLBACK (gth_browser_activate_apply_editor_changes)
 DEF_ACTION_CALLBACK (gth_browser_activate_select_all)
 DEF_ACTION_CALLBACK (gth_browser_activate_unselect_all)
+DEF_ACTION_CALLBACK (gth_browser_activate_show_menu)
 
 #endif /* GTH_BROWSER_ACTIONS_CALLBACK_H */

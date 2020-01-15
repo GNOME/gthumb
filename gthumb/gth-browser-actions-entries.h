@@ -35,6 +35,7 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "help", gth_browser_activate_show_help },
 	{ "about", gth_browser_activate_about },
 	{ "quit", gth_browser_activate_quit },
+	{ "show-menu", gth_browser_activate_show_menu },
 
 	{ "browser-mode", gth_browser_activate_browser_mode },
 	{ "browser-edit-file", gth_browser_activate_browser_edit_file },
@@ -93,6 +94,7 @@ static const GthShortcut gth_browser_shortcuts[] = {
 	{ "help", N_("Help"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_GENERAL, "F1" },
 	{ "shortcuts", N_("Keyboard Shortcuts"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>F1" },
 	{ "quit", N_("Quit"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>q" },
+	{ "show-menu", NULL, GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER | GTH_SHORTCUT_CONTEXT_FIXED, GTH_SHORTCUT_CATEGORY_GENERAL, "F10" },
 
 	{ "browser-mode", N_("Show browser"), GTH_SHORTCUT_CONTEXT_VIEWER | GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_GENERAL, "Escape" },
 	{ "close", N_("Close window"), GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER, GTH_SHORTCUT_CATEGORY_GENERAL, "<Primary>w" },
