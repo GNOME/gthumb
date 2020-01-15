@@ -43,7 +43,7 @@ typedef struct {
 	GSettings  *browser_settings;
 	GSettings  *messages_settings;
 	GtkWidget  *dialog;
-	GtkWidget  *starup_location_chooser;
+	GtkWidget  *startup_location_chooser;
 } BrowserData;
 
 
@@ -63,7 +63,7 @@ static void
 use_startup_toggled_cb (GtkWidget   *widget,
 			BrowserData *data)
 {
-	gtk_widget_set_sensitive (data->starup_location_chooser, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
+	gtk_widget_set_sensitive (data->startup_location_chooser, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
 	gtk_widget_set_sensitive (GET_WIDGET ("set_to_current_button"), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
 }
 
@@ -72,7 +72,7 @@ static void
 set_to_current_cb (GtkWidget   *widget,
 		   BrowserData *data)
 {
-	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (data->starup_location_chooser),
+	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (data->startup_location_chooser),
 			gth_browser_get_location (data->browser));
 }
 
@@ -147,15 +147,15 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 		char  *uri;
 		GFile *location;
 
-		data->starup_location_chooser = g_object_new (
+		data->startup_location_chooser = g_object_new (
 				GTH_TYPE_LOCATION_CHOOSER,
 				"show-entry-points", FALSE,
 				"show-other", TRUE,
 				"relief", GTK_RELIEF_NORMAL,
 				NULL);
-		gtk_widget_show (data->starup_location_chooser);
+		gtk_widget_show (data->startup_location_chooser);
 		gtk_box_pack_start (GTK_BOX (GET_WIDGET ("startup_location_chooser_box")),
-				data->starup_location_chooser,
+				data->startup_location_chooser,
 				TRUE,
 				TRUE,
 				0);
@@ -164,14 +164,14 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 		if (uri == NULL)
 			uri = g_strdup (_g_uri_get_home ());
 		location = g_file_new_for_uri (uri);
-		gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (data->starup_location_chooser), location);
+		gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (data->startup_location_chooser), location);
 
 		g_object_unref (location);
 		g_free (uri);
 	}
 
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("use_startup_location_radiobutton")))) {
-		gtk_widget_set_sensitive (data->starup_location_chooser, FALSE);
+		gtk_widget_set_sensitive (data->startup_location_chooser, FALSE);
 		gtk_widget_set_sensitive (GET_WIDGET ("set_to_current_button"), FALSE);
 	}
 
@@ -241,7 +241,7 @@ general__dlg_preferences_apply (GtkWidget  *dialog,
 	if (g_settings_get_boolean (data->browser_settings, PREF_BROWSER_USE_STARTUP_LOCATION)) {
 		GFile *location;
 
-		location = gth_location_chooser_get_current (GTH_LOCATION_CHOOSER (data->starup_location_chooser));
+		location = gth_location_chooser_get_current (GTH_LOCATION_CHOOSER (data->startup_location_chooser));
 		if (location != NULL) {
 			char  *uri;
 
