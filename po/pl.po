@@ -1,17 +1,17 @@
 # Polish translation for gthumb.
-# Copyright © 2003-2019 the gthumb authors.
+# Copyright © 2003-2020 the gthumb authors.
 # This file is distributed under the same license as the gthumb package.
 # Artur Flinta <aflinta@at.kernel.pl>, 2003-2004.
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2007.
-# Piotr Drąg <piotrdrag@gmail.com>, 2011-2019.
-# Aviary.pl <community-poland@mozilla.org>, 2007-2019.
+# Piotr Drąg <piotrdrag@gmail.com>, 2011-2020.
+# Aviary.pl <community-poland@mozilla.org>, 2007-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2019-12-23 19:04+0000\n"
-"PO-Revision-Date: 2019-12-28 18:58+0100\n"
+"POT-Creation-Date: 2020-01-15 08:53+0000\n"
+"PO-Revision-Date: 2020-01-19 13:15+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -742,8 +742,8 @@ msgid "Rename"
 msgstr "Zmień nazwę"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:204 gthumb/gth-browser.c:4545
-#: gthumb/gth-browser.c:4647 gthumb/gth-file-properties.c:245
+#: extensions/catalogs/dlg-catalog-properties.c:204 gthumb/gth-browser.c:4548
+#: gthumb/gth-browser.c:4650 gthumb/gth-file-properties.c:245
 msgid "Properties"
 msgstr "Właściwości"
 
@@ -1973,7 +1973,7 @@ msgstr "Nazwa katalogu:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5555 gthumb/gth-browser.c:5591
+#: gthumb/gth-browser.c:5558 gthumb/gth-browser.c:5594
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Nie można wykonać działania"
@@ -4167,7 +4167,7 @@ msgid "Cas_e:"
 msgstr "Wi_elkość liter:"
 
 #: extensions/rename_series/data/ui/rename-series.ui:83
-#: gthumb/gth-browser-actions-entries.h:93
+#: gthumb/gth-browser-actions-entries.h:94
 msgid "Help"
 msgstr "Pomoc"
 
@@ -4468,11 +4468,11 @@ msgstr "Zakończ prezentację"
 msgid "Pause/Resume presentation"
 msgstr "Wstrzymaj/wznów prezentację"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:115
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:118
 msgid "Show next file"
 msgstr "Wyświetl następny plik"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:114
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:117
 msgid "Show previous file"
 msgstr "Wyświetl poprzedni plik"
 
@@ -4732,8 +4732,8 @@ msgid "Create static web albums."
 msgstr "Tworzenie statycznych albumów WWW."
 
 #: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6559 gthumb/gth-browser.c:6578
-#: gthumb/gth-browser.c:6602 gthumb/gth-vfs-tree.c:387
+#: gthumb/gth-browser.c:6562 gthumb/gth-browser.c:6581
+#: gthumb/gth-browser.c:6605 gthumb/gth-vfs-tree.c:387
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Nie można wczytać położenia „%s”"
@@ -4999,100 +4999,104 @@ msgid "translator-credits"
 msgstr ""
 "Artur Flinta <aflinta@at.kernel.pl>, 2003-2004\n"
 "Tomasz Dominikowski <dominikowski@gmail.com>, 2007\n"
-"Piotr Drąg <piotrdrag@gmail.com>, 2011-2019\n"
-"Aviary.pl <community-poland@mozilla.org>, 2007-2019"
+"Piotr Drąg <piotrdrag@gmail.com>, 2011-2020\n"
+"Aviary.pl <community-poland@mozilla.org>, 2007-2020"
 
-#: gthumb/gth-browser-actions-entries.h:92 gthumb/resources/gears-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
 msgid "New Window"
 msgstr "Nowe okno"
 
-#: gthumb/gth-browser-actions-entries.h:94
+#: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
+msgid "Keyboard Shortcuts"
+msgstr "Skróty klawiszowe"
+
+#: gthumb/gth-browser-actions-entries.h:96
 msgid "Quit"
 msgstr "Zakończ"
 
-#: gthumb/gth-browser-actions-entries.h:96
+#: gthumb/gth-browser-actions-entries.h:99
 msgid "Show browser"
 msgstr "Wyświetl przeglądarkę"
 
-#: gthumb/gth-browser-actions-entries.h:97
+#: gthumb/gth-browser-actions-entries.h:100
 msgid "Close window"
 msgstr "Zamknij okno"
 
-#: gthumb/gth-browser-actions-entries.h:99
+#: gthumb/gth-browser-actions-entries.h:102
 msgid "Open location"
 msgstr "Otwórz położenie"
 
-#: gthumb/gth-browser-actions-entries.h:100 gthumb/gth-browser.c:4560
-#: gthumb/gth-browser.c:4578 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4563
+#: gthumb/gth-browser.c:4581 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Pełny ekran"
 
-#: gthumb/gth-browser-actions-entries.h:101
+#: gthumb/gth-browser-actions-entries.h:104
 msgid "Revert image to saved"
 msgstr "Przywróć obraz do zapisanego"
 
-#: gthumb/gth-browser-actions-entries.h:102
+#: gthumb/gth-browser-actions-entries.h:105
 msgid "Sidebar"
 msgstr "Panel boczny"
 
-#: gthumb/gth-browser-actions-entries.h:103
+#: gthumb/gth-browser-actions-entries.h:106
 msgid "Statusbar"
 msgstr "Pasek stanu"
 
-#: gthumb/gth-browser-actions-entries.h:104
+#: gthumb/gth-browser-actions-entries.h:107
 msgid "Thumbnails list"
 msgstr "Lista miniatur"
 
-#: gthumb/gth-browser-actions-entries.h:106
-msgid "Load previuos location"
+#: gthumb/gth-browser-actions-entries.h:109
+msgid "Load previous location"
 msgstr "Wczytaj poprzednie położenie"
 
-#: gthumb/gth-browser-actions-entries.h:107
+#: gthumb/gth-browser-actions-entries.h:110
 msgid "Load next location"
 msgstr "Wczytaj następne położenie"
 
-#: gthumb/gth-browser-actions-entries.h:108
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Load parent folder"
 msgstr "Wczytaj katalog nadrzędny"
 
-#: gthumb/gth-browser-actions-entries.h:109
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Load home"
 msgstr "Wczytaj katalog domowy"
 
-#: gthumb/gth-browser-actions-entries.h:110
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Reload location"
 msgstr "Ponownie wczytaj położenie"
 
-#: gthumb/gth-browser-actions-entries.h:111
+#: gthumb/gth-browser-actions-entries.h:114
 msgid "Show/Hide hidden files"
 msgstr "Wyświetl/ukryj ukryte pliki"
 
-#: gthumb/gth-browser-actions-entries.h:112
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Change sorting order"
 msgstr "Zmień kolejność porządkowania"
 
-#: gthumb/gth-browser-actions-entries.h:116
+#: gthumb/gth-browser-actions-entries.h:119
 msgid "Show first file"
 msgstr "Wyświetl pierwszy plik"
 
-#: gthumb/gth-browser-actions-entries.h:117
+#: gthumb/gth-browser-actions-entries.h:120
 msgid "Show last file"
 msgstr "Wyświetl ostatni plik"
 
-#: gthumb/gth-browser-actions-entries.h:119
+#: gthumb/gth-browser-actions-entries.h:122
 msgid "Image tools"
 msgstr "Narzędzia obrazów"
 
-#: gthumb/gth-browser-actions-entries.h:120
+#: gthumb/gth-browser-actions-entries.h:123
 msgid "File properties"
 msgstr "Właściwości pliku"
 
-#: gthumb/gth-browser-actions-entries.h:122
+#: gthumb/gth-browser-actions-entries.h:125
 msgid "Select all"
 msgstr "Zaznacz wszystko"
 
-#: gthumb/gth-browser-actions-entries.h:123
+#: gthumb/gth-browser-actions-entries.h:126
 msgid "Select none"
 msgstr "Odznacz wszystko"
 
@@ -5132,7 +5136,7 @@ msgstr ""
 msgid "Do _Not Save"
 msgstr "_Nie zapisuj"
 
-#: gthumb/gth-browser.c:2399 gthumb/gth-browser.c:4586
+#: gthumb/gth-browser.c:2399 gthumb/gth-browser.c:4589
 msgid "Accept"
 msgstr "Zaakceptuj"
 
@@ -5144,32 +5148,32 @@ msgstr "Nie można zmienić nazwy"
 msgid "Modified"
 msgstr "Zmodyfikowano"
 
-#: gthumb/gth-browser.c:4508
+#: gthumb/gth-browser.c:4511
 msgid "Go to the previous visited location"
 msgstr "Przechodzi do poprzednio odwiedzonego położenia"
 
-#: gthumb/gth-browser.c:4514
+#: gthumb/gth-browser.c:4517
 msgid "Go to the next visited location"
 msgstr "Przechodzi do kolejnej odwiedzonego położenia"
 
-#: gthumb/gth-browser.c:4522
+#: gthumb/gth-browser.c:4525
 msgid "History"
 msgstr "Historia"
 
-#: gthumb/gth-browser.c:4536
+#: gthumb/gth-browser.c:4539
 msgid "View the folders"
 msgstr "Wyświetla katalogi"
 
-#: gthumb/gth-browser.c:4551
+#: gthumb/gth-browser.c:4554
 msgid "Edit file"
 msgstr "Modyfikuje plik"
 
-#: gthumb/gth-browser.c:6560
+#: gthumb/gth-browser.c:6563
 #, c-format
 msgid "File type not supported"
 msgstr "Nieobsługiwany typ pliku"
 
-#: gthumb/gth-browser.c:6603
+#: gthumb/gth-browser.c:6606
 #, c-format
 msgid "No suitable module found"
 msgstr "Nie odnaleziono odpowiedniego modułu"
@@ -5719,10 +5723,6 @@ msgstr "Otwórz położenie…"
 #: gthumb/resources/gears-menu.ui:31
 msgid "Sort By…"
 msgstr "Porządkowanie według…"
-
-#: gthumb/resources/gears-menu.ui:49
-msgid "Keyboard Shortcuts"
-msgstr "Skróty klawiszowe"
 
 #: gthumb/resources/gears-menu.ui:57
 msgid "_About gThumb"
