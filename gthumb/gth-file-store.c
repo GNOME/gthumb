@@ -703,22 +703,6 @@ compare_row_func (gconstpointer a,
 }
 
 
-static void
-_gth_file_store_sort (GthFileStore *file_store,
-		      gconstpointer pbase,
-		      gint          total_elems)
-{
-	if (file_store->priv->cmp_func == NULL)
-		return;
-
-	g_qsort_with_data (pbase,
-			   total_elems,
-			   (gsize) sizeof (GthFileRow *),
-			   compare_row_func,
-			   file_store);
-}
-
-
 static int
 compare_by_pos (gconstpointer a,
 		gconstpointer b,
@@ -733,6 +717,19 @@ compare_by_pos (gconstpointer a,
 		return 1;
 	else
 		return -1;
+}
+
+
+static void
+_gth_file_store_sort (GthFileStore *file_store,
+		      gconstpointer pbase,
+		      gint          total_elems)
+{
+	g_qsort_with_data (pbase,
+			   total_elems,
+			   (gsize) sizeof (GthFileRow *),
+			   (file_store->priv->cmp_func != NULL) ? compare_row_func : compare_by_pos,
+			   file_store);
 }
 
 
