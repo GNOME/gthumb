@@ -150,7 +150,7 @@ catalog_ready_cb (GObject  *object,
 {
 	DialogData *data = user_data;
 
-	if ((error != NULL) || (object == NULL)) {
+	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW(data->browser), _("Could not load the catalog"), error);
 		gtk_widget_destroy (data->dialog);
 		return;

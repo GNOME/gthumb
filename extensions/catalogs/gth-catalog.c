@@ -927,8 +927,9 @@ gth_catalog_update_standard_attributes (GFile     *file,
 
 
 typedef struct {
-	ReadyCallback ready_func;
-	gpointer      user_data;
+	GFile         *file;
+	ReadyCallback  ready_func;
+	gpointer       user_data;
 } LoadData;
 
 
@@ -941,12 +942,16 @@ load__catalog_buffer_ready_cb (void     **buffer,
 	LoadData   *load_data = user_data;
 	GthCatalog *catalog;
 
-	if (error == NULL)
+	if (error == NULL) {
 		catalog = gth_catalog_new_from_data (*buffer, count, &error);
+		if (catalog == NULL)
+			catalog = gth_catalog_new_for_file (load_data->file);
+	}
 	else
 		catalog = NULL;
 	load_data->ready_func (G_OBJECT (catalog), error, load_data->user_data);
 
+	g_object_unref (load_data->file);
 	g_free (load_data);
 }
 
@@ -961,6 +966,7 @@ gth_catalog_load_from_file_async (GFile         *file,
 	GFile    *gio_file;
 
 	load_data = g_new0 (LoadData, 1);
+	load_data->file = g_object_ref (file);
 	load_data->ready_func = ready_func;
 	load_data->user_data = user_data;
 

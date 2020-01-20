@@ -349,10 +349,8 @@ read_metadata_catalog_ready_cb (GObject  *object,
 	if (error != NULL)
 		g_clear_error (&error);
 
-	if (object != NULL) {
-		gth_catalog_update_metadata (GTH_CATALOG (object), read_metadata->file_data);
-		g_object_unref (object);
-	}
+	gth_catalog_update_metadata (GTH_CATALOG (object), read_metadata->file_data);
+	g_object_unref (object);
 
 	read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);
 	read_metadata_free (read_metadata);
@@ -820,7 +818,7 @@ catalog_ready_cb (GObject  *catalog,
 	gsize       size;
 	GFile      *gio_file;
 
-	if ((error != NULL) || (catalog == NULL)) {
+	if (error != NULL) {
 		cod->ready_callback (G_OBJECT (cod->file_source), error, cod->user_data);
 		copy_op_data_free (cod);
 		return;
@@ -1235,7 +1233,7 @@ reorder_catalog_ready_cb (GObject  *object,
 	gsize        size;
 	GFile       *gio_file;
 
-	if ((error != NULL) || (object == NULL)) {
+	if (error != NULL) {
 		reorder_data->callback (G_OBJECT (reorder_data->file_source), error, reorder_data->data);
 		reorder_data_free (reorder_data);
 		return;
