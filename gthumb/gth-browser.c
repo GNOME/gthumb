@@ -5250,6 +5250,8 @@ gth_browser_set_dialog (GthBrowser *browser,
 			const char *dialog_name,
 			GtkWidget  *dialog)
 {
+	if (dialog != NULL)
+		gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
 	g_hash_table_insert (browser->priv->named_dialogs, (gpointer) dialog_name, dialog);
 }
 
