@@ -345,12 +345,15 @@ read_metadata_catalog_ready_cb (GObject  *object,
 {
 	ReadMetadataOpData *read_metadata = user_data;
 
-	/* ignore errors */
-	if (error != NULL)
+	if (error != NULL) {
+		/* ignore errors */
 		g_clear_error (&error);
-
-	gth_catalog_update_metadata (GTH_CATALOG (object), read_metadata->file_data);
-	g_object_unref (object);
+	}
+	else {
+		g_assert (object != NULL);
+		gth_catalog_update_metadata (GTH_CATALOG (object), read_metadata->file_data);
+		g_object_unref (object);
+	}
 
 	read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);
 	read_metadata_free (read_metadata);
