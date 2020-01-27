@@ -827,6 +827,7 @@ catalog_ready_cb (GObject  *catalog,
 		return;
 	}
 
+	g_assert (catalog != NULL);
 	cod->catalog = (GthCatalog *) catalog;
 
 	if (cod->destination_position >= 0)
@@ -1242,6 +1243,7 @@ reorder_catalog_ready_cb (GObject  *object,
 		return;
 	}
 
+	g_assert (object != NULL);
 	catalog = (GthCatalog *) object;
 	reorder_data->new_order = reorder_catalog_list (catalog,
 							reorder_data->visible_files,

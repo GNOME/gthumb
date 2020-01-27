@@ -156,6 +156,7 @@ catalog_ready_cb (GObject  *object,
 		return;
 	}
 
+	g_assert (object != NULL);
 	data->catalog = GTH_CATALOG (g_object_ref (object));
 
 	if (gth_catalog_get_name (data->catalog) != NULL) {
