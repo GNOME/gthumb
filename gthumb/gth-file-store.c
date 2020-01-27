@@ -1121,13 +1121,21 @@ _gth_file_store_reorder (GthFileStore *file_store)
 }
 
 
+static void
+_gth_file_store_set_sort_func (GthFileStore        *file_store,
+			       GthFileDataCompFunc  cmp_func,
+			       gboolean             inverse_sort)
+{
+	file_store->priv->cmp_func = cmp_func;
+	file_store->priv->inverse_sort = inverse_sort;
+}
+
 void
 gth_file_store_set_sort_func (GthFileStore        *file_store,
 			      GthFileDataCompFunc  cmp_func,
 			      gboolean             inverse_sort)
 {
-	file_store->priv->cmp_func = cmp_func;
-	file_store->priv->inverse_sort = inverse_sort;
+	_gth_file_store_set_sort_func (file_store, cmp_func, inverse_sort);
 	_gth_file_store_reorder (file_store);
 }
 
@@ -1653,6 +1661,8 @@ gth_file_store_reorder (GthFileStore *file_store,
 			int          *new_order)
 {
 	int i;
+
+	_gth_file_store_set_sort_func (file_store, NULL, FALSE);
 
 	for (i = 0; i < file_store->priv->num_rows; i++)
 		file_store->priv->rows[new_order[i]]->pos = i;
