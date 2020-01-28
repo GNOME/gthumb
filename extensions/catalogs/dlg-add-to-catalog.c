@@ -161,10 +161,10 @@ catalog_save_done_cb (void     **buffer,
 				    add_data->files,
 				    GTH_MONITOR_EVENT_CREATED);
 
-	if (add_data->view_destination)
-		gth_browser_go_to (add_data->browser, add_data->catalog_file, NULL);
-
 	if (add_data->close_after_adding) {
+		if (add_data->view_destination)
+			gth_browser_go_to (add_data->browser, add_data->catalog_file, NULL);
+
 		if (add_data->dialog != NULL)
 			gtk_widget_destroy (add_data->dialog);
 	}
@@ -257,15 +257,7 @@ static void
 add_button_clicked_cb (GtkWidget  *widget,
 		       DialogData *data)
 {
-	add_selection_to_catalog (data, FALSE);
-}
-
-
-static void
-add_close_button_clicked_cb (GtkWidget  *widget,
-			     DialogData *data)
-{
-	add_selection_to_catalog (data, TRUE);
+	add_selection_to_catalog (data, ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_open_checkbutton"))));
 }
 
 
@@ -279,9 +271,9 @@ update_sensitivity (DialogData *data)
 	selected_catalog = get_selected_catalog (data);
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (data->browser)));
 	can_add = (items != NULL) && (selected_catalog != NULL);
-	gtk_widget_set_sensitive (GET_WIDGET ("add_close_button"), can_add);
-	gtk_widget_set_sensitive (GET_WIDGET ("add_button"), can_add);
-
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, can_add);
+	gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (GET_WIDGET ("view_destination_checkbutton")), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_open_checkbutton"))));
+	gtk_widget_set_sensitive (GET_WIDGET ("view_destination_checkbutton"), ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_open_checkbutton"))));
 	_gtk_tree_path_list_free (items);
 	_g_object_unref (selected_catalog);
 }
@@ -456,7 +448,7 @@ new_catalog_button_clicked_cb (GtkWidget  *widget,
 
 	dialog = gth_request_dialog_new (GTK_WINDOW (data->dialog),
 					 GTK_DIALOG_MODAL,
-					 _("New catalog"),
+					 _("New Catalog"),
 					 _("Enter the catalog name:"),
 					 _GTK_LABEL_CANCEL,
 					 _("C_reate"));
@@ -615,7 +607,7 @@ new_library_button_clicked_cb (GtkWidget  *widget,
 
 	dialog = gth_request_dialog_new (GTK_WINDOW (data->dialog),
 					 GTK_DIALOG_MODAL,
-					 _("New library"),
+					 _("New Library"),
 					 _("Enter the library name:"),
 					 _GTK_LABEL_CANCEL,
 					 _("C_reate"));
@@ -654,6 +646,14 @@ file_selection_changed_cb (GthFileSelection *self,
 }
 
 
+static void
+keep_open_button_toggled_cb (GtkToggleButton *button,
+			     DialogData      *data)
+{
+	update_sensitivity (data);
+}
+
+
 void
 dlg_add_to_catalog (GthBrowser *browser)
 {
@@ -669,8 +669,21 @@ dlg_add_to_catalog (GthBrowser *browser)
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->builder = _gtk_builder_new_from_file ("add-to-catalog.ui", "catalogs");
-	data->dialog = _gtk_builder_get_widget (data->builder, "add_to_catalog_dialog");
 	data->settings = g_settings_new (GTHUMB_CATALOGS_SCHEMA);
+
+	data->dialog = g_object_new (GTK_TYPE_DIALOG,
+				     "title", _("Add to Catalog"),
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
+	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			   GET_WIDGET ("dialog_content"));
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+				_GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,
+				_("_Add"), GTK_RESPONSE_OK,
+				NULL);
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	gth_browser_set_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME, data->dialog);
 
@@ -695,7 +708,7 @@ dlg_add_to_catalog (GthBrowser *browser)
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (GET_WIDGET ("cancel_button")),
+	g_signal_connect_swapped (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_CANCEL),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
@@ -703,13 +716,9 @@ dlg_add_to_catalog (GthBrowser *browser)
 			  "changed",
 			  G_CALLBACK (source_tree_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("add_button")),
+	g_signal_connect (gtk_dialog_get_widget_for_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK),
 			  "clicked",
 			  G_CALLBACK (add_button_clicked_cb),
-			  data);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("add_close_button")),
-			  "clicked",
-			  G_CALLBACK (add_close_button_clicked_cb),
 			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("new_catalog_button")),
 			  "clicked",
@@ -719,7 +728,10 @@ dlg_add_to_catalog (GthBrowser *browser)
 			  "clicked",
 			  G_CALLBACK (new_library_button_clicked_cb),
 			  data);
-
+	g_signal_connect (G_OBJECT (GET_WIDGET ("keep_open_checkbutton")),
+			  "toggled",
+			  G_CALLBACK (keep_open_button_toggled_cb),
+			  data);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->source_tree));
 	g_signal_connect (selection,
 			  "changed",
