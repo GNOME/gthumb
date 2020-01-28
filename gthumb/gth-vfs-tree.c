@@ -81,6 +81,7 @@ typedef struct {
 	GList         *current;
 	guint          destroy_id;
 	GFile         *last_loaded;
+	gboolean       scroll_to_cell;
 } LoadData;
 
 
@@ -199,12 +200,13 @@ select_last_loaded (GthVfsTree *self,
 	path = gth_folder_tree_get_path (GTH_FOLDER_TREE (self), load_data->last_loaded);
 	if (path != NULL) {
 		gth_folder_tree_select_path (GTH_FOLDER_TREE (self), path);
-		gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (self),
-					      path,
-					      NULL,
-					      self->priv->tree_root_is_vfs_root && g_file_equal (load_data->entry_point, load_data->last_loaded),
-					      0,
-					      0);
+		if (load_data->scroll_to_cell)
+			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (self),
+						      path,
+						      NULL,
+						      TRUE,
+						      0.5,
+						      0);
 		gtk_tree_path_free (path);
 	}
 	else {
@@ -369,7 +371,8 @@ load_data_load_next_folder (LoadData *load_data)
 static void
 _gth_vfs_tree_load_folder (GthVfsTree *self,
 			   LoadAction  action,
-			   GFile      *folder);
+			   GFile      *folder,
+			   gboolean    scroll_to_cell);
 
 
 static void
@@ -403,7 +406,8 @@ mount_volume_ready_cb (GObject      *source_object,
 
 	_gth_vfs_tree_load_folder (load_data->vfs_tree,
 				   load_data->action,
-				   load_data->requested_folder->file);
+				   load_data->requested_folder->file,
+				   load_data->scroll_to_cell);
 
 	load_data_free (load_data);
 }
@@ -412,11 +416,13 @@ mount_volume_ready_cb (GObject      *source_object,
 static void
 _gth_vfs_tree_load_folder (GthVfsTree *self,
 			   LoadAction  action,
-			   GFile      *folder)
+			   GFile      *folder,
+			   gboolean    scroll_to_cell)
 {
 	LoadData *load_data;
 
 	load_data = load_data_new (self, action, folder);
+	load_data->scroll_to_cell = scroll_to_cell;
 
 	if (load_data->entry_point == NULL) {
 		if (self->priv->folder != NULL) {
@@ -437,7 +443,7 @@ _gth_vfs_tree_load_folder (GthVfsTree *self,
 		else {
 			GFile *root = gth_folder_tree_get_root (GTH_FOLDER_TREE (self));
 			if (! _g_file_equal (load_data->requested_folder->file, root))
-				_gth_vfs_tree_load_folder (self, LOAD_ACTION_LIST_CHILDREN, root);
+				_gth_vfs_tree_load_folder (self, LOAD_ACTION_LIST_CHILDREN, root, scroll_to_cell);
 		}
 		return;
 	}
@@ -458,7 +464,7 @@ vfs_tree_list_children_cb (GthFolderTree *folder_tree,
 	if (path == NULL)
 		return;
 
-	_gth_vfs_tree_load_folder (self, LOAD_ACTION_LIST_CHILDREN, file);
+	_gth_vfs_tree_load_folder (self, LOAD_ACTION_LIST_CHILDREN, file, FALSE);
 
 	gtk_tree_path_free (path);
 }
@@ -476,7 +482,7 @@ vfs_tree_open_cb (GthFolderTree *folder_tree,
 	if (path == NULL)
 		return;
 
-	_gth_vfs_tree_load_folder (self, LOAD_ACTION_LOAD, file);
+	_gth_vfs_tree_load_folder (self, LOAD_ACTION_LOAD, file, FALSE);
 
 	gtk_tree_path_free (path);
 }
@@ -662,12 +668,12 @@ vfs_tree_realize_cb (GtkWidget *widget,
 		GFile *folder;
 
 		folder = g_file_new_for_uri (self->priv->folder_uri);
-		_gth_vfs_tree_load_folder (self, LOAD_ACTION_LOAD, folder);
+		_gth_vfs_tree_load_folder (self, LOAD_ACTION_LOAD, folder, TRUE);
 
 		g_object_unref (folder);
 	}
 	else
-		_gth_vfs_tree_load_folder (self, LOAD_ACTION_LIST_CHILDREN, root);
+		_gth_vfs_tree_load_folder (self, LOAD_ACTION_LIST_CHILDREN, root, TRUE);
 }
 
 
@@ -837,7 +843,7 @@ gth_vfs_tree_set_folder (GthVfsTree *self,
 		self->priv->folder_uri = g_file_get_uri (folder);
 	}
 	else
-		_gth_vfs_tree_load_folder (self, LOAD_ACTION_LOAD, folder);
+		_gth_vfs_tree_load_folder (self, LOAD_ACTION_LOAD, folder, TRUE);
 }
 
 
