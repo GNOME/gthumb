@@ -154,7 +154,7 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 	GList      *scan;
 	GthTask    *task;
 
-	if ((response != GTK_RESPONSE_OK) && (response != GTK_RESPONSE_APPLY)) {
+	if (response != GTK_RESPONSE_OK) {
 		cancel_file_list_loading (data);
 		close_dialog (data);
 		return;
@@ -163,7 +163,7 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 	if (data->file_list == NULL)
 		return;
 
-	data->close_dialog = (response == GTK_RESPONSE_OK);
+	data->close_dialog = ! gth_edit_metadata_dialog_get_keep_open (GTH_EDIT_METADATA_DIALOG (data->dialog));
 
 	/* get the parents list */
 
@@ -310,10 +310,20 @@ dlg_edit_metadata (GthBrowser *browser,
 	data = g_new0 (DialogData, 1);
 	data->ref = 1;
 	data->browser = browser;
-	data->dialog = g_object_new (dialog_type, 0);
+	data->dialog = g_object_new (dialog_type,
+				     "transient-for", GTK_WINDOW (browser),
+				     "modal", FALSE,
+				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+				     NULL);
 	data->dialog_name = g_strdup (dialog_name);
 	data->never_shown = TRUE;
 
+	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
+				_GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,
+				_GTK_LABEL_SAVE, GTK_RESPONSE_OK,
+				NULL);
+
+	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 	gth_browser_set_dialog (browser, data->dialog_name, data->dialog);
 
 	g_signal_connect (G_OBJECT (data->dialog),

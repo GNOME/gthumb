@@ -47,3 +47,10 @@ gth_edit_metadata_dialog_update_info (GthEditMetadataDialog *self,
 {
 	GTH_EDIT_METADATA_DIALOG_GET_INTERFACE (self)->update_info (self, file_list);
 }
+
+
+gboolean
+gth_edit_metadata_dialog_get_keep_open (GthEditMetadataDialog *self)
+{
+	return GTH_EDIT_METADATA_DIALOG_GET_INTERFACE (self)->get_keep_open (self);
+}

@@ -28,6 +28,7 @@
 struct _GthEditCommentDialogPrivate {
 	GtkWidget *notebook;
 	GtkWidget *save_changed_checkbutton;
+	GtkWidget *keep_open_check_button;
 };
 
 
@@ -112,11 +113,20 @@ gth_edit_comment_dialog_update_info (GthEditMetadataDialog *base,
 }
 
 
+static gboolean
+gth_edit_comment_dialog_get_keep_open (GthEditMetadataDialog *base)
+{
+	GthEditCommentDialog *self = GTH_EDIT_COMMENT_DIALOG (base);
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->keep_open_check_button));
+}
+
+
 static void
 gth_edit_comment_dialog_gth_edit_metadata_dialog_interface_init (GthEditMetadataDialogInterface *iface)
 {
 	iface->set_file_list = gth_edit_comment_dialog_set_file_list;
 	iface->update_info = gth_edit_comment_dialog_update_info;
+	iface->get_keep_open = gth_edit_comment_dialog_get_keep_open;
 }
 
 
@@ -140,10 +150,6 @@ gth_edit_comment_dialog_init (GthEditCommentDialog *self)
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
-	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL);
-	gtk_dialog_add_button (GTK_DIALOG (self), _GTK_LABEL_SAVE, GTK_RESPONSE_APPLY);
-	gtk_dialog_add_button (GTK_DIALOG (self), _("Sa_ve and Close"), GTK_RESPONSE_OK);
-
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 5);
 	gtk_widget_show (vbox);
@@ -156,6 +162,10 @@ gth_edit_comment_dialog_init (GthEditCommentDialog *self)
 	self->priv->save_changed_checkbutton = gtk_check_button_new_with_mnemonic (_("Save only cha_nged fields"));
 	gtk_widget_show (self->priv->save_changed_checkbutton);
 	gtk_box_pack_start (GTK_BOX (vbox), self->priv->save_changed_checkbutton, FALSE, FALSE, 0);
+
+	self->priv->keep_open_check_button = gtk_check_button_new_with_mnemonic (_("_Keep the dialog open"));
+	gtk_widget_show (self->priv->keep_open_check_button);
+	gtk_box_pack_start (GTK_BOX (vbox), self->priv->keep_open_check_button, FALSE, FALSE, 0);
 
 	pages = gth_main_get_type_set ("edit-comment-dialog-page");
 	if (pages == NULL)
