@@ -5685,7 +5685,7 @@ msgstr "gThumb について(_A)"
 
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
-msgstr "履歴の削除(_D)"
+msgstr "履歴を削除(_D)"
 
 #~ msgid "File is not a valid .desktop file"
 #~ msgstr "妥当な .desktop ファイルではありません"
