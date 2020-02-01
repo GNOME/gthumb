@@ -2370,6 +2370,7 @@ _gth_browser_update_header_bar_content (GthBrowser *browser)
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS, section_visible);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW, section_visible);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS, section_visible);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_METADATA_TOOLS, section_visible);
 
 	active_tool = _gth_browser_file_tool_is_active (browser);
 	section_visible = (page == GTH_BROWSER_PAGE_VIEWER) && ! active_tool;
@@ -2377,6 +2378,7 @@ _gth_browser_update_header_bar_content (GthBrowser *browser)
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_COMMANDS, section_visible);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_VIEW, section_visible);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT, section_visible);
+	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT_METADATA, section_visible);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_SIDEBAR, section_visible);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_COMMANDS, section_visible);
 	_gth_browser_update_header_section_visibility (browser, GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW, section_visible);
@@ -4423,10 +4425,10 @@ gth_browser_init (GthBrowser *browser)
 	for (i = 0; i < GTH_BROWSER_N_HEADER_SECTIONS; i++) {
 		gboolean separated_buttons;
 
-		separated_buttons = ((i == GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS)
+		separated_buttons = (/*(i == GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS)*/
 				     /*|| (i == GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_COMMANDS)*/
 				     /*|| (i == GTH_BROWSER_HEADER_SECTION_VIEWER_SIDEBAR)*/
-				     || (i == GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW)
+				     (i == GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW)
 				     /*|| (i == GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT)*/
 				     || (i == GTH_BROWSER_HEADER_SECTION_EDITOR_COMMANDS));
 
@@ -4450,7 +4452,8 @@ gth_browser_init (GthBrowser *browser)
 		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_COMMANDS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
-		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
+		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_SIDEBAR], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_start (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
 		gtk_widget_set_margin_end (browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW], GTH_BROWSER_HEADER_BAR_BIG_MARGIN);
@@ -4495,9 +4498,11 @@ gth_browser_init (GthBrowser *browser)
 		g_object_unref (builder);
 
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_METADATA_TOOLS]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_BROWSER_VIEW]);
 
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT]);
+		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT_METADATA]);
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_VIEWER_SIDEBAR]);
 
 		gtk_header_bar_pack_end (GTK_HEADER_BAR (header_bar), browser->priv->header_sections[GTH_BROWSER_HEADER_SECTION_EDITOR_APPLY]);

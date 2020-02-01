@@ -83,13 +83,26 @@ edit_metadata__gth_browser_construct_cb (GthBrowser *browser)
 					 G_N_ELEMENTS (file_list_actions));
 
 	gth_browser_add_header_bar_button (browser,
-					   GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
+					   GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT_METADATA,
 					   "comment-symbolic",
 					   _("Comment"),
 					   "win.edit-metadata",
 					   NULL);
 	gth_browser_add_header_bar_button (browser,
-					   GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT,
+					   GTH_BROWSER_HEADER_SECTION_VIEWER_EDIT_METADATA,
+					   "tag-symbolic",
+					   _("Tags"),
+					   "win.edit-tags",
+					   NULL);
+
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_BROWSER_METADATA_TOOLS,
+					   "comment-symbolic",
+					   _("Comment"),
+					   "win.edit-metadata",
+					   NULL);
+	gth_browser_add_header_bar_button (browser,
+					   GTH_BROWSER_HEADER_SECTION_BROWSER_METADATA_TOOLS,
 					   "tag-symbolic",
 					   _("Tags"),
 					   "win.edit-tags",
