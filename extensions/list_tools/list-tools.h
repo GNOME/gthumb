@@ -25,5 +25,6 @@
 #define GTH_BROWSER_MENU_MANAGER_TOOLS "tools.tools1"
 #define GTH_BROWSER_MENU_MANAGER_MORE_TOOLS "tools.tools2"
 #define GTH_BROWSER_MENU_MANAGER_TOOLS3 "tools.tools3"
+#define GTH_BROWSER_MENU_MANAGER_TOOLS4 "tools.tools4"
 
 #endif /* LIST_TOOLS_H */

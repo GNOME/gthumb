@@ -139,6 +139,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_TOOLS, G_MENU (gtk_builder_get_object (builder, "tools1")));
 	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_MORE_TOOLS, G_MENU (gtk_builder_get_object (builder, "tools2")));
 	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_TOOLS3, G_MENU (gtk_builder_get_object (builder, "tools3")));
+	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_TOOLS4, G_MENU (gtk_builder_get_object (builder, "tools4")));
 	menu = G_MENU_MODEL (gtk_builder_get_object (builder, "tools-menu"));
 
 	/* browser tools */

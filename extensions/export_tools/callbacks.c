@@ -32,20 +32,16 @@ void
 export_tools__gth_browser_construct_cb (GthBrowser *browser)
 {
 	GtkBuilder *builder;
-	GMenuModel *menu;
-	GtkWidget  *button;
+	GMenuModel *export_menu;
+	GMenu      *other_actions;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
 	builder = gtk_builder_new_from_resource ("/org/gnome/gThumb/export_tools/data/ui/export-menu.ui");
 	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_WEB_EXPORTERS, G_MENU (gtk_builder_get_object (builder, "web-exporters")));
 	gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_OTHER_EXPORTERS, G_MENU (gtk_builder_get_object (builder, "other-exporters")));
-	menu = G_MENU_MODEL (gtk_builder_get_object (builder, "export-menu"));
+	export_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "export-menu"));
 
-	button = _gtk_menu_button_new_for_header_bar ("export-symbolic");
-	gtk_widget_set_tooltip_text (button, _("Export"));
-	gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (button), menu);
-	gtk_widget_set_halign (GTK_WIDGET (gtk_menu_button_get_popup (GTK_MENU_BUTTON (button))), GTK_ALIGN_CENTER);
-	gtk_widget_show (button);
-	gtk_box_pack_start (GTK_BOX (gth_browser_get_headerbar_section (browser, GTH_BROWSER_HEADER_SECTION_BROWSER_TOOLS)), button, FALSE, FALSE, 0);
+	other_actions = gth_menu_manager_get_menu (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_GEARS_OTHER_ACTIONS));
+	g_menu_append_submenu (other_actions, _("_Export To"), export_menu);
 }

@@ -9,4 +9,4 @@ Category=Exporter
 [Loader]
 Type=module
 API=@GTHUMB_API_VERSION@
-Requires=export_tools
+Requires=list_tools

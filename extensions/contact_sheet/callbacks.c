@@ -24,7 +24,7 @@
 #include <glib/gi18n.h>
 #include <glib-object.h>
 #include <gthumb.h>
-#include <extensions/export_tools/export-tools.h>
+#include <extensions/list_tools/list-tools.h>
 #include "actions.h"
 #include "callbacks.h"
 
@@ -49,7 +49,7 @@ cs__gth_browser_construct_cb (GthBrowser *browser)
 					 actions,
 					 G_N_ELEMENTS (actions),
 					 browser);
-	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_OTHER_EXPORTERS),
+	gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_TOOLS4),
 					 action_entries,
 					 G_N_ELEMENTS (action_entries));
 }
