@@ -590,6 +590,7 @@ gth_file_tool_adjust_contrast_destroy_options (GthFileTool *base)
 	_cairo_clear_surface (&self->priv->destination);
 	self->priv->method = GTH_FILTER_GRID_NO_FILTER;
 	self->priv->last_applied_method = GTH_FILTER_GRID_NO_FILTER;
+	self->priv->view_original = TRUE;
 }
 
 
@@ -653,7 +654,7 @@ gth_file_tool_adjust_contrast_init (GthFileToolAdjustContrast *self)
 	self->priv->builder = NULL;
 	self->priv->method = GTH_FILTER_GRID_NO_FILTER;
 	self->priv->last_applied_method = GTH_FILTER_GRID_NO_FILTER;
-	self->priv->view_original = FALSE;
+	self->priv->view_original = TRUE;
 
 	gth_file_tool_construct (GTH_FILE_TOOL (self),
 				 "image-adjust-contrast-symbolic",
