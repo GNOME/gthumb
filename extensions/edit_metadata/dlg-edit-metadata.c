@@ -271,6 +271,8 @@ update_file_list (gpointer user_data)
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (data->browser)), items);
 	loader_data->files = gth_file_data_list_to_file_list (file_data_list);
 
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, loader_data->files != NULL);
+
 	data->loader = gth_load_file_data_task_new (loader_data->files, "*");
 	g_signal_connect (data->loader,
 			  "completed",

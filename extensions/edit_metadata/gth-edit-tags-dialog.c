@@ -33,6 +33,7 @@ struct _GthEditTagsDialogPrivate {
 	GtkBuilder *builder;
 	GtkWidget  *tags_entry;
 	GtkWidget  *keep_open_check_button;
+	GtkWidget  *info;
 };
 
 
@@ -64,28 +65,12 @@ gth_edit_tags_dialog_set_file_list (GthEditMetadataDialog *base,
 				    GList                 *file_list)
 {
 	GthEditTagsDialog *self = GTH_EDIT_TAGS_DIALOG (base);
-	int                n_files;
-	char              *title;
 	GHashTable        *common_tags;
 	GHashTable        *no_common_tags;
 	GList             *common_tags_list;
 	GList             *no_common_tags_list;
 
-	n_files = g_list_length (file_list);
-
-	/* update the title */
-
-	if (n_files == 1) {
-		GthFileData *file_data = file_list->data;
-
-		/* Translators: the %s symbol in the string is a file name */
-		title = g_strdup_printf (_("%s Tags"), g_file_info_get_display_name (file_data->info));
-	}
-	else
-		title = g_strdup_printf (g_dngettext (NULL, "%d file", "%d files", n_files), n_files);
-	gtk_window_set_title (GTK_WINDOW (self), title);
-
-	g_free (title);
+	gth_file_selection_info_set_file_list (GTH_FILE_SELECTION_INFO (self->priv->info), file_list);
 
 	/* update the tag entry */
 
@@ -197,7 +182,7 @@ gth_edit_tags_dialog_init (GthEditTagsDialog *self)
 	self->priv = gth_edit_tags_dialog_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("tag-chooser.ui", "edit_metadata");
 
-	gtk_window_set_title (GTK_WINDOW (self), _("Assign Tags"));
+	gtk_window_set_title (GTK_WINDOW (self), _("Tags"));
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
 	gtk_window_set_default_size (GTK_WINDOW (self), -1, 500);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
@@ -209,9 +194,10 @@ gth_edit_tags_dialog_init (GthEditTagsDialog *self)
 	gtk_widget_show (self->priv->tags_entry);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tag_entry_box")), self->priv->tags_entry, TRUE, TRUE, 0);
 
-	gtk_container_set_border_width (GTK_CONTAINER (GET_WIDGET ("content")), 5);
-
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	self->priv->info = gth_file_selection_info_new ();
+	gtk_widget_show (self->priv->info);
+	gtk_box_pack_end (GTK_BOX (box), self->priv->info, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (box), GET_WIDGET ("content"), TRUE, TRUE, 0);
 	self->priv->keep_open_check_button = gtk_check_button_new_with_mnemonic (_("_Keep the dialog open"));
 	gtk_widget_show (self->priv->keep_open_check_button);

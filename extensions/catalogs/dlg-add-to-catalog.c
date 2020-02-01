@@ -86,6 +86,7 @@ typedef struct {
 	GtkBuilder    *builder;
 	GtkWidget     *dialog;
 	GtkWidget     *source_tree;
+	GtkWidget     *info;
 	AddData       *add_data;
 	GthFileSource *catalog_source;
 	GthFileData   *new_catalog;
@@ -266,6 +267,7 @@ update_sensitivity (DialogData *data)
 {
 	GFile    *selected_catalog;
 	GList    *items;
+	GList    *file_data_list;
 	gboolean  can_add;
 
 	selected_catalog = get_selected_catalog (data);
@@ -274,6 +276,11 @@ update_sensitivity (DialogData *data)
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, can_add);
 	gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (GET_WIDGET ("view_destination_checkbutton")), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_open_checkbutton"))));
 	gtk_widget_set_sensitive (GET_WIDGET ("view_destination_checkbutton"), ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_open_checkbutton"))));
+
+	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (data->browser)), items);
+	gth_file_selection_info_set_file_list (GTH_FILE_SELECTION_INFO (data->info), file_data_list);
+
+	_g_object_list_unref (file_data_list);
 	_gtk_tree_path_list_free (items);
 	_g_object_unref (selected_catalog);
 }
@@ -679,6 +686,11 @@ dlg_add_to_catalog (GthBrowser *browser)
 				     NULL);
 	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
 			   GET_WIDGET ("dialog_content"));
+
+	data->info = gth_file_selection_info_new ();
+	gtk_widget_show (data->info);
+	gtk_box_pack_end (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))), data->info, FALSE, FALSE, 0);
+
 	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
 				_GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,
 				_("_Add"), GTK_RESPONSE_OK,

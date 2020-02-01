@@ -5,7 +5,6 @@
   <object class="GtkBox" id="dialog_content">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="border_width">5</property>
     <property name="orientation">vertical</property>
     <property name="spacing">6</property>
     <child>
@@ -100,8 +99,8 @@
       </packing>
     </child>
     <child>
-      <object class="GtkCheckButton" id="keep_open_checkbutton">
-        <property name="label" translatable="yes">_Keep the dialog open</property>
+      <object class="GtkCheckButton" id="view_destination_checkbutton">
+        <property name="label" translatable="yes">_View the destination</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
@@ -116,8 +115,8 @@
       </packing>
     </child>
     <child>
-      <object class="GtkCheckButton" id="view_destination_checkbutton">
-        <property name="label" translatable="yes">_View the destination</property>
+      <object class="GtkCheckButton" id="keep_open_checkbutton">
+        <property name="label" translatable="yes">_Keep the dialog open</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
