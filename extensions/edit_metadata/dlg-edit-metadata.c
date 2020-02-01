@@ -26,7 +26,7 @@
 #include "gth-edit-metadata-dialog.h"
 
 
-#define UPDATE_SELECTION_DELAY 300
+#define UPDATE_SELECTION_DELAY 50
 
 
 typedef struct {

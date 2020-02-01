@@ -29,7 +29,7 @@
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (data->builder, (name))
 #define ADD_TO_CATALOG_DIALOG_NAME "add-to-catalog"
-#define UPDATE_SELECTION_DELAY 100
+#define UPDATE_SELECTION_DELAY 50
 
 
 typedef struct {
@@ -686,6 +686,7 @@ dlg_add_to_catalog (GthBrowser *browser)
 				     NULL);
 	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
 			   GET_WIDGET ("dialog_content"));
+	gtk_container_set_border_width (GTK_CONTAINER (data->dialog), 5);
 
 	data->info = gth_file_selection_info_new ();
 	gtk_widget_show (data->info);
