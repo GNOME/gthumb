@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-01-15 08:53+0000\n"
-"PO-Revision-Date: 2020-01-19 13:15+0100\n"
+"POT-Creation-Date: 2020-01-29 07:45+0000\n"
+"PO-Revision-Date: 2020-02-02 12:37+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -649,8 +649,8 @@ msgid "Saving"
 msgstr "Zapisywanie"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:374
-#: extensions/catalogs/dlg-add-to-catalog.c:539
+#: extensions/catalogs/dlg-add-to-catalog.c:366
+#: extensions/catalogs/dlg-add-to-catalog.c:531
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
 #: extensions/list_tools/gth-script-editor-dialog.c:273
@@ -660,8 +660,8 @@ msgid "No name specified"
 msgstr "Nie podano nazwy"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:381
-#: extensions/catalogs/dlg-add-to-catalog.c:546
+#: extensions/catalogs/dlg-add-to-catalog.c:373
+#: extensions/catalogs/dlg-add-to-catalog.c:538
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
 #: gthumb/gth-folder-tree.c:1931
@@ -670,37 +670,35 @@ msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Nieprawidłowa nazwa. Następujące znaki nie są dozwolone: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:438
-#: extensions/catalogs/dlg-add-to-catalog.c:595
-#: extensions/catalogs/gth-file-source-catalogs.c:515
+#: extensions/catalogs/dlg-add-to-catalog.c:430
+#: extensions/catalogs/dlg-add-to-catalog.c:587
+#: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
 msgstr "Nazwa jest już użyta"
 
 #: extensions/catalogs/actions.c:177
-#: extensions/catalogs/dlg-add-to-catalog.c:459
 msgid "New catalog"
 msgstr "Nowy katalog"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:460
+#: extensions/catalogs/dlg-add-to-catalog.c:452
 msgid "Enter the catalog name:"
 msgstr "Nazwa katalogu:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:462
-#: extensions/catalogs/dlg-add-to-catalog.c:621
+#: extensions/catalogs/dlg-add-to-catalog.c:454
+#: extensions/catalogs/dlg-add-to-catalog.c:613
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "Ut_wórz"
 
 #: extensions/catalogs/actions.c:291
-#: extensions/catalogs/dlg-add-to-catalog.c:618
 msgid "New library"
 msgstr "Nowa kolekcja"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:619
+#: extensions/catalogs/dlg-add-to-catalog.c:611
 msgid "Enter the library name:"
 msgstr "Nazwa kolekcji:"
 
@@ -742,7 +740,7 @@ msgid "Rename"
 msgstr "Zmień nazwę"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:204 gthumb/gth-browser.c:4548
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4548
 #: gthumb/gth-browser.c:4650 gthumb/gth-file-properties.c:245
 msgid "Properties"
 msgstr "Właściwości"
@@ -778,36 +776,27 @@ msgstr "Tworzenie kolekcji plików."
 msgid "file-catalog-symbolic"
 msgstr "file-catalog-symbolic"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:10
-msgid "Add to Catalog"
-msgstr "Dodanie do katalogu"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:28 gthumb/gth-browser.c:2399
-#: gthumb/gtk-utils.h:37
-msgid "_Close"
-msgstr "Za_mknij"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:42
-msgid "_Add"
-msgstr "_Dodaj"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:56
-msgid "A_dd and Close"
-msgstr "D_odaj i zamknij"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:98
+#: extensions/catalogs/data/ui/add-to-catalog.ui:20
 msgid "C_atalogs:"
 msgstr "K_atalogi:"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:138
-msgid "_New Catalog"
-msgstr "_Nowy katalog"
+#: extensions/catalogs/data/ui/add-to-catalog.ui:35
+#: extensions/catalogs/dlg-add-to-catalog.c:610
+msgid "New Library"
+msgstr "Nowa kolekcja"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:152
-msgid "New _Library"
-msgstr "Nowa _kolekcja"
+#: extensions/catalogs/data/ui/add-to-catalog.ui:58
+#: extensions/catalogs/dlg-add-to-catalog.c:451
+msgid "New Catalog"
+msgstr "Nowy katalog"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:195
+#: extensions/catalogs/data/ui/add-to-catalog.ui:104
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:166
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:216
+msgid "_Keep the dialog open"
+msgstr "_Bez zamykania okna"
+
+#: extensions/catalogs/data/ui/add-to-catalog.ui:120
 #: extensions/file_manager/actions.c:766
 #: extensions/webalbums/gth-web-exporter.c:1827
 msgid "_View the destination"
@@ -886,10 +875,18 @@ msgstr "Pojedyncze"
 msgid "Could not add the files to the catalog"
 msgstr "Nie można dodać plików do katalogu"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:317
+#: extensions/catalogs/dlg-add-to-catalog.c:309
 #: extensions/search/gth-search-task.c:402
 msgid "Could not create the catalog"
 msgstr "Nie można utworzyć katalogu"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:675
+msgid "Add to Catalog"
+msgstr "Dodanie do katalogu"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:684
+msgid "_Add"
+msgstr "_Dodaj"
 
 #: extensions/catalogs/dlg-catalog-properties.c:80
 msgid "Could not save the catalog"
@@ -939,45 +936,45 @@ msgstr "Etykieta (osadzona)"
 msgid "Invalid file format"
 msgstr "Nieprawidłowy format pliku"
 
-#: extensions/catalogs/gth-catalog.c:1007 extensions/comments/main.c:47
+#: extensions/catalogs/gth-catalog.c:1013 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
 #: gthumb/gth-main-default-metadata.c:64
 msgid "Tags"
 msgstr "Etykiety"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:956
+#: extensions/catalogs/gth-file-source-catalogs.c:958
 #, c-format
 msgid "The catalog “%s” already exists, do you want to overwrite it?"
 msgstr "Katalog „%s” już istnieje. Zastąpić go?"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:958
+#: extensions/catalogs/gth-file-source-catalogs.c:960
 #, c-format
 msgid "The library “%s” already exists, do you want to overwrite it?"
 msgstr "Kolekcja „%s” już istnieje. Zastąpić ją?"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:966
+#: extensions/catalogs/gth-file-source-catalogs.c:968
 msgid "Over_write"
 msgstr "_Zastąp"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1085
+#: extensions/catalogs/gth-file-source-catalogs.c:1087
 msgid "Cannot move the files"
 msgstr "Nie można przenieść plików"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1087
+#: extensions/catalogs/gth-file-source-catalogs.c:1089
 msgid "Cannot copy the files"
 msgstr "Nie można skopiować plików"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1092
+#: extensions/catalogs/gth-file-source-catalogs.c:1094
 msgid "Invalid destination."
 msgstr "Nieprawidłowe miejsce docelowe."
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1139
+#: extensions/catalogs/gth-file-source-catalogs.c:1141
 #, c-format
 msgid "Copying files to “%s”"
 msgstr "Kopiowanie plików do „%s”"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1318
+#: extensions/catalogs/gth-file-source-catalogs.c:1321
 msgid "Could not remove the files from the catalog"
 msgstr "Nie można usunąć plików z katalogu"
 
@@ -1570,13 +1567,13 @@ msgid "Allow to edit files metadata."
 msgstr "Umożliwienie modyfikowania metadanych plików."
 
 #. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:64
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:65
 #, c-format
 msgid "%s Metadata"
 msgstr "Metadane pliku „%s”"
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:67
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:84
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:68
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:85
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
 #, c-format
 msgid "%d file"
@@ -1585,12 +1582,7 @@ msgstr[0] "%d plik"
 msgstr[1] "%d pliki"
 msgstr[2] "%d plików"
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:145
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:196
-msgid "Sa_ve and Close"
-msgstr "_Zapisz i zamknij"
-
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:156
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:162
 msgid "Save only cha_nged fields"
 msgstr "Zapisywanie tylko zmie_nionych pól"
 
@@ -1620,12 +1612,12 @@ msgid "Do not modify"
 msgstr "Bez modyfikacji"
 
 #. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:81
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:82
 #, c-format
 msgid "%s Tags"
 msgstr "Etykiety pliku „%s”"
 
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:188
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:200
 msgid "Assign Tags"
 msgstr "Przydzielenie etykiet"
 
@@ -1973,7 +1965,7 @@ msgstr "Nazwa katalogu:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5558 gthumb/gth-browser.c:5594
+#: gthumb/gth-browser.c:5560 gthumb/gth-browser.c:5596
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Nie można wykonać działania"
@@ -4732,8 +4724,8 @@ msgid "Create static web albums."
 msgstr "Tworzenie statycznych albumów WWW."
 
 #: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6562 gthumb/gth-browser.c:6581
-#: gthumb/gth-browser.c:6605 gthumb/gth-vfs-tree.c:387
+#: gthumb/gth-browser.c:6564 gthumb/gth-browser.c:6583
+#: gthumb/gth-browser.c:6607 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Nie można wczytać położenia „%s”"
@@ -5140,6 +5132,10 @@ msgstr "_Nie zapisuj"
 msgid "Accept"
 msgstr "Zaakceptuj"
 
+#: gthumb/gth-browser.c:2399 gthumb/gtk-utils.h:37
+msgid "_Close"
+msgstr "Za_mknij"
+
 #: gthumb/gth-browser.c:2937
 msgid "Could not change name"
 msgstr "Nie można zmienić nazwy"
@@ -5168,12 +5164,12 @@ msgstr "Wyświetla katalogi"
 msgid "Edit file"
 msgstr "Modyfikuje plik"
 
-#: gthumb/gth-browser.c:6563
+#: gthumb/gth-browser.c:6565
 #, c-format
 msgid "File type not supported"
 msgstr "Nieobsługiwany typ pliku"
 
-#: gthumb/gth-browser.c:6606
+#: gthumb/gth-browser.c:6608
 #, c-format
 msgid "No suitable module found"
 msgstr "Nie odnaleziono odpowiedniego modułu"
