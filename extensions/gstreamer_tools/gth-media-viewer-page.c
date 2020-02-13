@@ -56,6 +56,8 @@ struct _GthMediaViewerPagePrivate {
 	gint64          duration;
 	int             video_fps_n;
 	int             video_fps_d;
+	int             video_width;
+	int             video_height;
 	gboolean        has_video;
 	gboolean        has_audio;
 	gulong          update_progress_id;
@@ -167,6 +169,52 @@ video_area_unrealize_cb (GtkWidget *widget,
 
 	g_object_unref (self->priv->caption_layout);
 	self->priv->caption_layout = NULL;
+}
+
+
+static void
+update_zoom_info (GthMediaViewerPage *self)
+{
+	GtkAllocation  allocation;
+	double         view_width;
+	double         view_height;
+	int            zoom;
+	char          *text;
+
+	if (! self->priv->has_video) {
+		gth_statusbar_set_secondary_text (GTH_STATUSBAR (gth_browser_get_statusbar (self->priv->browser)), "");
+		return;
+	}
+
+	gtk_widget_get_allocation (self->priv->video_area, &allocation);
+
+	view_width = allocation.width;
+	view_height = (((double) self->priv->video_height / self->priv->video_width) * view_width);
+	if (view_height > allocation.height) {
+		view_height = allocation.height;
+		view_width = (((double) self->priv->video_width / self->priv->video_height) * view_height);
+	}
+
+	if (self->priv->video_width > 0)
+		zoom = (int) round ((double) view_width / self->priv->video_width * 100);
+	else if (self->priv->video_height > 0)
+		zoom = (int) round ((double) view_height / self->priv->video_height * 100);
+	else
+		zoom = 100;
+	text = g_strdup_printf ("  %d%%  ", zoom);
+	gth_statusbar_set_secondary_text (GTH_STATUSBAR (gth_browser_get_statusbar (self->priv->browser)), text);
+
+	g_free (text);
+}
+
+
+static void
+video_area_size_allocate_cb (GtkWidget    *widget,
+			     GdkRectangle *allocation,
+			     gpointer      user_data)
+{
+	GthMediaViewerPage *self = user_data;
+	update_zoom_info (self);
 }
 
 
@@ -662,6 +710,8 @@ update_stream_info (GthMediaViewerPage *self)
 					g_file_info_set_attribute_int32 (self->priv->updated_info, "frame::width", video_width);
 					g_file_info_set_attribute_int32 (self->priv->updated_info, "frame::height", video_height);
 					self->priv->has_video = TRUE;
+					self->priv->video_width = video_width;
+					self->priv->video_height = video_height;
 				}
 
 				gst_caps_unref (caps);
@@ -825,6 +875,10 @@ create_playbin (GthMediaViewerPage *self)
 	g_signal_connect (G_OBJECT (self->priv->video_area),
 			  "unrealize",
 			  G_CALLBACK (video_area_unrealize_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->video_area),
+			  "size-allocate",
+			  G_CALLBACK (video_area_size_allocate_cb),
 			  self);
 
 	gtk_stack_add_named (GTK_STACK (self->priv->area_box), self->priv->video_area, "video-area");
