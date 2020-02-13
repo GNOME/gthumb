@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-01-15 08:53+0000\n"
-"PO-Revision-Date: 2020-01-17 23:18+0100\n"
+"POT-Creation-Date: 2020-02-13 14:52+0000\n"
+"PO-Revision-Date: 2020-02-13 22:47+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -649,8 +649,8 @@ msgid "Saving"
 msgstr "Sparar"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:374
-#: extensions/catalogs/dlg-add-to-catalog.c:539
+#: extensions/catalogs/dlg-add-to-catalog.c:366
+#: extensions/catalogs/dlg-add-to-catalog.c:531
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
 #: extensions/list_tools/gth-script-editor-dialog.c:273
@@ -660,8 +660,8 @@ msgid "No name specified"
 msgstr "Inget namn angivet"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:381
-#: extensions/catalogs/dlg-add-to-catalog.c:546
+#: extensions/catalogs/dlg-add-to-catalog.c:373
+#: extensions/catalogs/dlg-add-to-catalog.c:538
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
 #: gthumb/gth-folder-tree.c:1931
@@ -670,37 +670,35 @@ msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Ogiltigt namn. Följande tecken tillåts ej: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:438
-#: extensions/catalogs/dlg-add-to-catalog.c:595
-#: extensions/catalogs/gth-file-source-catalogs.c:515
+#: extensions/catalogs/dlg-add-to-catalog.c:430
+#: extensions/catalogs/dlg-add-to-catalog.c:587
+#: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
 msgstr "Namnet används redan"
 
 #: extensions/catalogs/actions.c:177
-#: extensions/catalogs/dlg-add-to-catalog.c:459
 msgid "New catalog"
 msgstr "Nytt album"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:460
+#: extensions/catalogs/dlg-add-to-catalog.c:452
 msgid "Enter the catalog name:"
 msgstr "Ange albumnamnet:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:462
-#: extensions/catalogs/dlg-add-to-catalog.c:621
+#: extensions/catalogs/dlg-add-to-catalog.c:454
+#: extensions/catalogs/dlg-add-to-catalog.c:613
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "S_kapa"
 
 #: extensions/catalogs/actions.c:291
-#: extensions/catalogs/dlg-add-to-catalog.c:618
 msgid "New library"
 msgstr "Nytt bibliotek"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:619
+#: extensions/catalogs/dlg-add-to-catalog.c:611
 msgid "Enter the library name:"
 msgstr "Ange biblioteksnamnet:"
 
@@ -742,7 +740,7 @@ msgid "Rename"
 msgstr "Byt namn"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:204 gthumb/gth-browser.c:4548
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4548
 #: gthumb/gth-browser.c:4650 gthumb/gth-file-properties.c:245
 msgid "Properties"
 msgstr "Egenskaper"
@@ -778,36 +776,27 @@ msgstr "Skapa filsamlingar."
 msgid "file-catalog-symbolic"
 msgstr "file-catalog-symbolic"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:10
-msgid "Add to Catalog"
-msgstr "Lägg till i album"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:28 gthumb/gth-browser.c:2399
-#: gthumb/gtk-utils.h:37
-msgid "_Close"
-msgstr "_Stäng"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:42
-msgid "_Add"
-msgstr "_Lägg till"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:56
-msgid "A_dd and Close"
-msgstr "Lägg _till och stäng"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:98
+#: extensions/catalogs/data/ui/add-to-catalog.ui:20
 msgid "C_atalogs:"
 msgstr "_Album:"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:138
-msgid "_New Catalog"
-msgstr "_Nytt album"
+#: extensions/catalogs/data/ui/add-to-catalog.ui:35
+#: extensions/catalogs/dlg-add-to-catalog.c:610
+msgid "New Library"
+msgstr "Nytt bibliotek"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:152
-msgid "New _Library"
-msgstr "Nytt _bibliotek"
+#: extensions/catalogs/data/ui/add-to-catalog.ui:58
+#: extensions/catalogs/dlg-add-to-catalog.c:451
+msgid "New Catalog"
+msgstr "Nytt album"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:195
+#: extensions/catalogs/data/ui/add-to-catalog.ui:104
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:166
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:216
+msgid "_Keep the dialog open"
+msgstr "_Håll dialogrutan öppen"
+
+#: extensions/catalogs/data/ui/add-to-catalog.ui:120
 #: extensions/file_manager/actions.c:766
 #: extensions/webalbums/gth-web-exporter.c:1827
 msgid "_View the destination"
@@ -886,10 +875,18 @@ msgstr "Enskilda"
 msgid "Could not add the files to the catalog"
 msgstr "Kunde inte lägga till filerna till albumet"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:317
+#: extensions/catalogs/dlg-add-to-catalog.c:309
 #: extensions/search/gth-search-task.c:402
 msgid "Could not create the catalog"
 msgstr "Kunde inte skapa albumet"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:675
+msgid "Add to Catalog"
+msgstr "Lägg till i album"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:684
+msgid "_Add"
+msgstr "_Lägg till"
 
 #: extensions/catalogs/dlg-catalog-properties.c:80
 msgid "Could not save the catalog"
@@ -938,45 +935,45 @@ msgstr "Tagg (inbäddad)"
 msgid "Invalid file format"
 msgstr "Ogiltigt filformat"
 
-#: extensions/catalogs/gth-catalog.c:1007 extensions/comments/main.c:47
+#: extensions/catalogs/gth-catalog.c:1013 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
 #: gthumb/gth-main-default-metadata.c:64
 msgid "Tags"
 msgstr "Taggar"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:956
+#: extensions/catalogs/gth-file-source-catalogs.c:958
 #, c-format
 msgid "The catalog “%s” already exists, do you want to overwrite it?"
 msgstr "Albumet ”%s” finns redan. Vill du skriva över det?"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:958
+#: extensions/catalogs/gth-file-source-catalogs.c:960
 #, c-format
 msgid "The library “%s” already exists, do you want to overwrite it?"
 msgstr "Biblioteket ”%s” finns redan. Vill du skriva över det?"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:966
+#: extensions/catalogs/gth-file-source-catalogs.c:968
 msgid "Over_write"
 msgstr "Skriv öv_er"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1085
+#: extensions/catalogs/gth-file-source-catalogs.c:1087
 msgid "Cannot move the files"
 msgstr "Kan inte flytta filerna"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1087
+#: extensions/catalogs/gth-file-source-catalogs.c:1089
 msgid "Cannot copy the files"
 msgstr "Kan inte kopiera filerna"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1092
+#: extensions/catalogs/gth-file-source-catalogs.c:1094
 msgid "Invalid destination."
 msgstr "Ogiltigt mål."
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1139
+#: extensions/catalogs/gth-file-source-catalogs.c:1141
 #, c-format
 msgid "Copying files to “%s”"
 msgstr "Kopierar filer till ”%s”"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1318
+#: extensions/catalogs/gth-file-source-catalogs.c:1321
 msgid "Could not remove the files from the catalog"
 msgstr "Kunde inte ta bort filerna från albumet"
 
@@ -1571,13 +1568,13 @@ msgid "Allow to edit files metadata."
 msgstr "Tillåt att redigera metadata för filer."
 
 #. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:64
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:65
 #, c-format
 msgid "%s Metadata"
 msgstr "%s-metadata"
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:67
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:84
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:68
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:85
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
 #, c-format
 msgid "%d file"
@@ -1585,12 +1582,7 @@ msgid_plural "%d files"
 msgstr[0] "%d fil"
 msgstr[1] "%d filer"
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:145
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:196
-msgid "Sa_ve and Close"
-msgstr "S_para och stäng"
-
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:156
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:162
 msgid "Save only cha_nged fields"
 msgstr "Spara endast än_drade fält"
 
@@ -1620,12 +1612,12 @@ msgid "Do not modify"
 msgstr "Ändra inte"
 
 #. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:81
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:82
 #, c-format
 msgid "%s Tags"
 msgstr "Taggar för %s"
 
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:188
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:200
 msgid "Assign Tags"
 msgstr "Tilldela taggar"
 
@@ -1972,7 +1964,7 @@ msgstr "Ange mappnamnet:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5558 gthumb/gth-browser.c:5594
+#: gthumb/gth-browser.c:5560 gthumb/gth-browser.c:5596
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Kunde inte genomföra åtgärden"
@@ -4734,8 +4726,8 @@ msgid "Create static web albums."
 msgstr "Skapa statiska webbalbum."
 
 #: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6562 gthumb/gth-browser.c:6581
-#: gthumb/gth-browser.c:6605 gthumb/gth-vfs-tree.c:387
+#: gthumb/gth-browser.c:6564 gthumb/gth-browser.c:6583
+#: gthumb/gth-browser.c:6607 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Kunde inte läsa in positionen ”%s”"
@@ -5144,6 +5136,10 @@ msgstr "Spara _inte"
 msgid "Accept"
 msgstr "Acceptera"
 
+#: gthumb/gth-browser.c:2399 gthumb/gtk-utils.h:37
+msgid "_Close"
+msgstr "_Stäng"
+
 #: gthumb/gth-browser.c:2937
 msgid "Could not change name"
 msgstr "Kunde inte ändra namnet"
@@ -5172,12 +5168,12 @@ msgstr "Visa mapparna"
 msgid "Edit file"
 msgstr "Redigera fil"
 
-#: gthumb/gth-browser.c:6563
+#: gthumb/gth-browser.c:6565
 #, c-format
 msgid "File type not supported"
 msgstr "Filtypen stöds inte"
 
-#: gthumb/gth-browser.c:6606
+#: gthumb/gth-browser.c:6608
 #, c-format
 msgid "No suitable module found"
 msgstr "Ingen lämplig modul hittades"
@@ -5736,6 +5732,12 @@ msgstr "_Om gThumb"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Ta bort historik"
+
+#~ msgid "A_dd and Close"
+#~ msgstr "Lägg _till och stäng"
+
+#~ msgid "Sa_ve and Close"
+#~ msgstr "S_para och stäng"
 
 #~ msgid "gthumb"
 #~ msgstr "gthumb"
