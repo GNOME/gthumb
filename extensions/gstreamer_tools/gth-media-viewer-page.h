@@ -54,8 +54,11 @@ gboolean       gth_media_viewer_page_is_playing     (GthMediaViewerPage *self);
 void           gth_media_viewer_page_get_video_fps  (GthMediaViewerPage *self,
 						     int                *video_fps_n,
 						     int                *video_fps_d);
-GthFileData * gth_media_viewer_page_get_file_data   (GthMediaViewerPage *self);
+GthFileData *  gth_media_viewer_page_get_file_data  (GthMediaViewerPage *self);
 void           gth_media_viewer_page_toggle_play    (GthMediaViewerPage *self);
+void           gth_media_viewer_page_set_fit_if_larger
+						    (GthMediaViewerPage *self,
+						     gboolean            fit_if_larger);
 
 G_END_DECLS
 

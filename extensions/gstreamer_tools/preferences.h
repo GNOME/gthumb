@@ -31,5 +31,6 @@
 #define  PREF_GSTREAMER_TOOLS_SCREESHOT_LOCATION "screenshot-location"
 #define  PREF_GSTREAMER_TOOLS_VOLUME             "volume"
 #define  PREF_GSTREAMER_USE_HARDWARE_ACCEL       "use-hardware-acceleration"
+#define  PREF_GSTREAMER_ZOOM_TO_FIT              "zoom-to-fit"
 
 #endif /* PREFERENCES_H */

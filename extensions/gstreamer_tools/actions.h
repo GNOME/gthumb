@@ -26,5 +26,6 @@
 
 DEF_ACTION_CALLBACK (gth_browser_activate_video_screenshot)
 DEF_ACTION_CALLBACK (gth_browser_activate_toggle_play)
+DEF_ACTION_CALLBACK (gth_browser_activate_video_zoom_fit)
 
 #endif /* ACTIONS_H */

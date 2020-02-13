@@ -205,3 +205,16 @@ gth_browser_activate_toggle_play (GSimpleAction	*action,
 	page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));
 	gth_media_viewer_page_toggle_play (page);
 }
+
+
+void
+gth_browser_activate_video_zoom_fit (GSimpleAction	*action,
+				     GVariant		*state,
+				     gpointer		 user_data)
+{
+	GthBrowser	   *browser = GTH_BROWSER (user_data);
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+
+	g_simple_action_set_state (action, state);
+	gth_media_viewer_page_set_fit_if_larger (page, g_variant_get_boolean (state));
+}
