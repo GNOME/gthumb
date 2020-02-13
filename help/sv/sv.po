@@ -1,21 +1,21 @@
 # Swedish messages for gThumb help 
-# Copyright © 2006-2017 Free Software Foundation, Inc.
+# Copyright © 2006-2020 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009
 # Josef Andersson <josef.andersson@fripost.org>, 2015.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
-"POT-Creation-Date: 2017-08-01 09:27+0000\n"
-"PO-Revision-Date: 2017-08-02 01:34+0200\n"
+"POT-Creation-Date: 2019-11-28 14:51+0000\n"
+"PO-Revision-Date: 2020-02-13 15:48+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -304,12 +304,12 @@ msgid "Exif::Photo::Sharpness"
 msgstr "Exif::Photo::Sharpness"
 
 #. (itstool) path: page/title
-#: C/strftime.page:6
+#: C/strftime.page:8
 msgid "Date/Time Format Codes"
 msgstr "Datum/tid-formatkoder"
 
 #. (itstool) path: page/p
-#: C/strftime.page:8
+#: C/strftime.page:10
 msgid ""
 "This is a summary of standard date/time codes that may be used in format "
 "strings:"
@@ -318,87 +318,47 @@ msgstr ""
 "formatsträngar:"
 
 #. (itstool) path: table/title
-#: C/strftime.page:12
+#: C/strftime.page:14
 msgid "Valid format codes for custom subfolders"
 msgstr "Giltiga format för anpassade undermappar"
 
 #. (itstool) path: td/p
-#: C/strftime.page:15
-msgid "%a"
-msgstr "%a"
-
-#. (itstool) path: td/p
-#: C/strftime.page:18
+#: C/strftime.page:20
 msgid "The abbreviated weekday name according to the current locale."
 msgstr "Förkortade veckodagsnamnet enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
-#: C/strftime.page:24
-msgid "%A"
-msgstr "%A"
-
-#. (itstool) path: td/p
-#: C/strftime.page:27
+#: C/strftime.page:29
 msgid "The full weekday name according to the current locale."
 msgstr "Fullständiga veckodagsnamnet enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
-#: C/strftime.page:33
-msgid "%b"
-msgstr "%b"
-
-#. (itstool) path: td/p
-#: C/strftime.page:36
+#: C/strftime.page:38
 msgid "The abbreviated month name according to the current locale."
 msgstr "Förkortade månadsnamnet enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
-#: C/strftime.page:42
-msgid "%B"
-msgstr "%B"
-
-#. (itstool) path: td/p
-#: C/strftime.page:45
+#: C/strftime.page:47
 msgid "The full month name according to the current locale."
 msgstr "Fullständiga månadsnamnet enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
-#: C/strftime.page:50
-msgid "%c"
-msgstr "%c"
-
-#. (itstool) path: td/p
-#: C/strftime.page:53
+#: C/strftime.page:55
 msgid "The preferred date and time representation for the current locale."
 msgstr "Föredragna datum och tidsrepresentationen enligt den aktuella lokalen."
 
 #. (itstool) path: td/p
-#: C/strftime.page:59
-msgid "%C"
-msgstr "%C"
-
-#. (itstool) path: td/p
-#: C/strftime.page:62
+#: C/strftime.page:64
 msgid "The century number (year/100) as a 2-digit integer."
 msgstr "Århundradesiffran (år/100) som ett tvåsiffrigt heltal."
 
 #. (itstool) path: td/p
-#: C/strftime.page:67
-msgid "%d"
-msgstr "%d"
-
-#. (itstool) path: td/p
-#: C/strftime.page:70
+#: C/strftime.page:72
 msgid "The day of the month as a decimal number (range 01 to 31)."
 msgstr "Dag i månaden som ett decimalnummer (01 till 31)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:76
-msgid "%D"
-msgstr "%D"
-
-#. (itstool) path: td/p
-#: C/strftime.page:79
+#: C/strftime.page:81
 msgid ""
 "Equivalent to %m/%d/%y. (Yecch -- for Americans only. Americans should note "
 "that in other countries %d/%m/%y is rather common. This means that in "
@@ -409,12 +369,7 @@ msgstr ""
 "sammanhang är detta format tvetydigt och bör inte användas.)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:87
-msgid "%e"
-msgstr "%e"
-
-#. (itstool) path: td/p
-#: C/strftime.page:90
+#: C/strftime.page:92
 msgid ""
 "Like %d, the day of the month as a decimal number, but a leading zero is "
 "replaced by a space."
@@ -423,32 +378,17 @@ msgstr ""
 "med blanksteg."
 
 #. (itstool) path: td/p
-#: C/strftime.page:96
-msgid "%E"
-msgstr "%E"
-
-#. (itstool) path: td/p
-#: C/strftime.page:99 C/strftime.page:208
+#: C/strftime.page:101 C/strftime.page:210
 msgid "Modifier: use alternative format, see below."
 msgstr "Modifierare: använd alternativt format, se nedan."
 
 #. (itstool) path: td/p
-#: C/strftime.page:104
-msgid "%F"
-msgstr "%F"
-
-#. (itstool) path: td/p
-#: C/strftime.page:107
+#: C/strftime.page:109
 msgid "Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)"
 msgstr "Likvärdigt med %Y-%m-%d (datumformatet ISO 8601). (C99)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:113
-msgid "%G"
-msgstr "%G"
-
-#. (itstool) path: td/p
-#: C/strftime.page:116
+#: C/strftime.page:118
 msgid ""
 "The ISO 8601 year with century as a decimal number. The 4-digit year "
 "corresponding to the ISO week number (see %V). This has the same format and "
@@ -461,62 +401,32 @@ msgstr ""
 "istället."
 
 #. (itstool) path: td/p
-#: C/strftime.page:125
-msgid "%g"
-msgstr "%g"
-
-#. (itstool) path: td/p
-#: C/strftime.page:128
+#: C/strftime.page:130
 msgid "Like %G, but without century, i.e., with a 2-digit year (00-99)."
 msgstr "Som %G men utan sekel, d.v.s. med ett tvåsiffrigt år (00-99)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:134
-msgid "%h"
-msgstr "%h"
-
-#. (itstool) path: td/p
-#: C/strftime.page:137
+#: C/strftime.page:139
 msgid "Equivalent to %b."
 msgstr "Likvärdigt med %b."
 
 #. (itstool) path: td/p
-#: C/strftime.page:142
-msgid "%H"
-msgstr "%H"
-
-#. (itstool) path: td/p
-#: C/strftime.page:145
+#: C/strftime.page:147
 msgid "The hour as a decimal number using a 24-hour clock (range 00 to 23)."
 msgstr "Timmen som ett decimaltal i 24-timmarsklocka (00 till 23)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:151
-msgid "%I"
-msgstr "%I"
-
-#. (itstool) path: td/p
-#: C/strftime.page:154
+#: C/strftime.page:156
 msgid "The hour as a decimal number using a 12-hour clock (range 01 to 12)."
 msgstr "Timmen som ett decimaltal med 12-timmarsklocka (01-12)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:160
-msgid "%j"
-msgstr "%j"
-
-#. (itstool) path: td/p
-#: C/strftime.page:163
+#: C/strftime.page:165
 msgid "The day of the year as a decimal number (range 001 to 366)."
 msgstr "Dagen på året som ett decimaltal (001 till 366)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:169
-msgid "%k"
-msgstr "%k"
-
-#. (itstool) path: td/p
-#: C/strftime.page:172
+#: C/strftime.page:174
 msgid ""
 "The hour (24-hour clock) as a decimal number (range 0 to 23); single digits "
 "are preceded by a blank. (See also %H.)"
@@ -525,12 +435,7 @@ msgstr ""
 "startar med blanksteg. (Se också %H.)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:179
-msgid "%l"
-msgstr "%l"
-
-#. (itstool) path: td/p
-#: C/strftime.page:182
+#: C/strftime.page:184
 msgid ""
 "The hour (12-hour clock) as a decimal number (range 1 to 12); single digits "
 "are preceded by a blank. (See also %I.)"
@@ -539,37 +444,17 @@ msgstr ""
 "startar med blanksteg. (Se också %I.)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:189
-msgid "%m"
-msgstr "%m"
-
-#. (itstool) path: td/p
-#: C/strftime.page:192
+#: C/strftime.page:194
 msgid "The month as a decimal number (range 01 to 12)."
 msgstr "Månaden som ett decimaltal (01 till 12)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:197
-msgid "%M"
-msgstr "%M"
-
-#. (itstool) path: td/p
-#: C/strftime.page:200
+#: C/strftime.page:202
 msgid "The minute as a decimal number (range 00 to 59)."
 msgstr "Minuten som ett decimaltal (00 till 59)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:205
-msgid "%O"
-msgstr "%O"
-
-#. (itstool) path: td/p
-#: C/strftime.page:213
-msgid "%p"
-msgstr "%p"
-
-#. (itstool) path: td/p
-#: C/strftime.page:216
+#: C/strftime.page:218
 msgid ""
 "Either 'AM' or 'PM' according to the given time value, or the corresponding "
 "strings for the current locale. Noon is treated as 'pm' and midnight as 'am'."
@@ -579,12 +464,7 @@ msgstr ""
 "som ”am”."
 
 #. (itstool) path: td/p
-#: C/strftime.page:223
-msgid "%P"
-msgstr "%P"
-
-#. (itstool) path: td/p
-#: C/strftime.page:226
+#: C/strftime.page:228
 msgid ""
 "Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the "
 "current locale."
@@ -593,12 +473,7 @@ msgstr ""
 "lokalen."
 
 #. (itstool) path: td/p
-#: C/strftime.page:232
-msgid "%r"
-msgstr "%r"
-
-#. (itstool) path: td/p
-#: C/strftime.page:235
+#: C/strftime.page:237
 msgid ""
 "The time in a.m. or p.m. notation. In the POSIX locale this is equivalent to "
 "'%I:%M:%S %p'."
@@ -607,12 +482,7 @@ msgstr ""
 "%S %p”."
 
 #. (itstool) path: td/p
-#: C/strftime.page:241
-msgid "%R"
-msgstr "%R"
-
-#. (itstool) path: td/p
-#: C/strftime.page:244
+#: C/strftime.page:246
 msgid ""
 "The time in 24-hour notation (%H:%M). For a version including the seconds, "
 "see %T below."
@@ -620,23 +490,13 @@ msgstr ""
 "Tid i 24-timmars notation (%H:%M). För en version med sekunder, se %T nedan."
 
 #. (itstool) path: td/p
-#: C/strftime.page:250
-msgid "%s"
-msgstr "%s"
-
-#. (itstool) path: td/p
-#: C/strftime.page:253
+#: C/strftime.page:255
 msgid ""
 "The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC."
 msgstr "Antal sekunder sedan Epoch, d.v.s. sedan 1970-01-01 00:00:00 UTC."
 
 #. (itstool) path: td/p
-#: C/strftime.page:259
-msgid "%S"
-msgstr "%S"
-
-#. (itstool) path: td/p
-#: C/strftime.page:262
+#: C/strftime.page:264
 msgid ""
 "The second as a decimal number (range 00 to 60). (The range is up to 60 to "
 "allow for occasional leap seconds.)"
@@ -645,22 +505,12 @@ msgstr ""
 "tillåta skottsekunder.)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:269
-msgid "%T"
-msgstr "%T"
-
-#. (itstool) path: td/p
-#: C/strftime.page:272
+#: C/strftime.page:274
 msgid "The time in 24-hour notation (%H:%M:%S)."
 msgstr "Tiden i 24-timmarsnotation (%H:%M:%S)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:277
-msgid "%u"
-msgstr "%u"
-
-#. (itstool) path: td/p
-#: C/strftime.page:280
+#: C/strftime.page:282
 msgid ""
 "The day of the week as a decimal number, range 1 to 7, Monday being 1. See "
 "also %w."
@@ -669,12 +519,7 @@ msgstr ""
 "%w."
 
 #. (itstool) path: td/p
-#: C/strftime.page:286
-msgid "%U"
-msgstr "%U"
-
-#. (itstool) path: td/p
-#: C/strftime.page:289
+#: C/strftime.page:291
 msgid ""
 "The week number of the current year as a decimal number, range 00 to 53, "
 "starting with the first Sunday as the first day of week 01. See also %V and "
@@ -684,12 +529,7 @@ msgstr ""
 "startar med första söndagen som första dagen vecka 01. Se också %V och %W."
 
 #. (itstool) path: td/p
-#: C/strftime.page:296
-msgid "%V"
-msgstr "%V"
-
-#. (itstool) path: td/p
-#: C/strftime.page:299
+#: C/strftime.page:301
 msgid ""
 "The ISO 8601:1988 week number of the current year as a decimal number, range "
 "01 to 53, where week 1 is the first week that has at least 4 days in the "
@@ -701,24 +541,14 @@ msgstr ""
 "år, och med måndag som den första veckodagen. Se också %U och %W."
 
 #. (itstool) path: td/p
-#: C/strftime.page:308
-msgid "%w"
-msgstr "%w"
-
-#. (itstool) path: td/p
-#: C/strftime.page:311
+#: C/strftime.page:313
 msgid ""
 "The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u."
 msgstr ""
 "Veckodagen som ett decimaltal, intervall 0 till 6, söndag är 0. Se också %u."
 
 #. (itstool) path: td/p
-#: C/strftime.page:317
-msgid "%W"
-msgstr "%W"
-
-#. (itstool) path: td/p
-#: C/strftime.page:320
+#: C/strftime.page:322
 msgid ""
 "The week number of the current year as a decimal number, range 00 to 53, "
 "starting with the first Monday as the first day of week 01."
@@ -727,54 +557,29 @@ msgstr ""
 "början den första måndagen som den första dagen vecka 01."
 
 #. (itstool) path: td/p
-#: C/strftime.page:327
-msgid "%x"
-msgstr "%x"
-
-#. (itstool) path: td/p
-#: C/strftime.page:330
+#: C/strftime.page:332
 msgid ""
 "The preferred date representation for the current locale without the time."
 msgstr "Föredragen datumrepresentation för den aktuella lokalen utan tiden."
 
 #. (itstool) path: td/p
-#: C/strftime.page:336
-msgid "%X"
-msgstr "%X"
-
-#. (itstool) path: td/p
-#: C/strftime.page:339
+#: C/strftime.page:341
 msgid ""
 "The preferred time representation for the current locale without the date."
 msgstr "Föredragen tidsrepresentation för den aktuella lokalen utan datumet."
 
 #. (itstool) path: td/p
-#: C/strftime.page:345
-msgid "%y"
-msgstr "%y"
-
-#. (itstool) path: td/p
-#: C/strftime.page:348
+#: C/strftime.page:350
 msgid "The year as a decimal number without a century (range 00 to 99)."
 msgstr "Året som ett decimalnummer utan sekel (intervall 00 till 99)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:354
-msgid "%Y"
-msgstr "%Y"
-
-#. (itstool) path: td/p
-#: C/strftime.page:357
+#: C/strftime.page:359
 msgid "The year as a decimal number including the century."
 msgstr "Året som ett decimalnummer inklusive seklet."
 
 #. (itstool) path: td/p
-#: C/strftime.page:362
-msgid "%z"
-msgstr "%z"
-
-#. (itstool) path: td/p
-#: C/strftime.page:365
+#: C/strftime.page:367
 msgid ""
 "The time-zone as hour offset from GMT. Required to emit RFC 822-conformant "
 "dates (using \"%a, %d %b %Y %H:%M:%S %z\")."
@@ -783,17 +588,12 @@ msgstr ""
 "anpassade datum (använder \"%a, %d %b %Y %H:%M:%S %z\")."
 
 #. (itstool) path: td/p
-#: C/strftime.page:372
-msgid "%Z"
-msgstr "%Z"
-
-#. (itstool) path: td/p
-#: C/strftime.page:375
+#: C/strftime.page:377
 msgid "The time zone or name or abbreviation."
 msgstr "Tidszon, namn eller förkortning."
 
 #. (itstool) path: page/p
-#: C/strftime.page:380
+#: C/strftime.page:382
 msgid ""
 "Some conversion specifications can be modified by preceding the conversion "
 "specifier character by the E or O modifier to indicate that an alternative "
@@ -1891,12 +1691,12 @@ msgstr ""
 #: C/extensions.page:20
 msgid ""
 "If you would like to write your own extension, please visit <link href="
-"\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</"
+"\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</"
 "link> for development information. An example extension is provided in the "
 "source code, which you can base your own extension on."
 msgstr ""
 "Om du vill skriva dina egna tillägg, besök <link href=\"https://wiki.gnome."
-"org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</link> för "
+"org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</link> för "
 "utvecklingsinformation. Ett exempeltillägg ges i källkoden vilket du kan "
 "basera egna tillägg på."
 
@@ -2314,7 +2114,6 @@ msgstr "Byt namn på bilden."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:119
-#| msgid "<key>Esc</key>"
 msgid "<key>c</key>"
 msgstr "<key>c</key>"
 
@@ -2325,7 +2124,6 @@ msgstr "Lägg till kommentarer eller metadata till de markerade bilderna."
 
 #. (itstool) path: td/p
 #: C/shortcuts.page:129
-#| msgid "<key>#</key>"
 msgid "<key>t</key>"
 msgstr "<key>t</key>"
 
@@ -3289,6 +3087,126 @@ msgstr ""
 "Som ett speciellt undantag ger dig upphovsrättsinnehavarna dig rätten att "
 "kopiera, ändra och distribuera exempelkoden i detta dokument på det sätt du "
 "väljer, utan restriktioner."
+
+#~ msgid "%a"
+#~ msgstr "%a"
+
+#~ msgid "%A"
+#~ msgstr "%A"
+
+#~ msgid "%b"
+#~ msgstr "%b"
+
+#~ msgid "%B"
+#~ msgstr "%B"
+
+#~ msgid "%c"
+#~ msgstr "%c"
+
+#~ msgid "%C"
+#~ msgstr "%C"
+
+#~ msgid "%d"
+#~ msgstr "%d"
+
+#~ msgid "%D"
+#~ msgstr "%D"
+
+#~ msgid "%e"
+#~ msgstr "%e"
+
+#~ msgid "%E"
+#~ msgstr "%E"
+
+#~ msgid "%F"
+#~ msgstr "%F"
+
+#~ msgid "%G"
+#~ msgstr "%G"
+
+#~ msgid "%g"
+#~ msgstr "%g"
+
+#~ msgid "%h"
+#~ msgstr "%h"
+
+#~ msgid "%H"
+#~ msgstr "%H"
+
+#~ msgid "%I"
+#~ msgstr "%I"
+
+#~ msgid "%j"
+#~ msgstr "%j"
+
+#~ msgid "%k"
+#~ msgstr "%k"
+
+#~ msgid "%l"
+#~ msgstr "%l"
+
+#~ msgid "%m"
+#~ msgstr "%m"
+
+#~ msgid "%M"
+#~ msgstr "%M"
+
+#~ msgid "%O"
+#~ msgstr "%O"
+
+#~ msgid "%p"
+#~ msgstr "%p"
+
+#~ msgid "%P"
+#~ msgstr "%P"
+
+#~ msgid "%r"
+#~ msgstr "%r"
+
+#~ msgid "%R"
+#~ msgstr "%R"
+
+#~ msgid "%s"
+#~ msgstr "%s"
+
+#~ msgid "%S"
+#~ msgstr "%S"
+
+#~ msgid "%T"
+#~ msgstr "%T"
+
+#~ msgid "%u"
+#~ msgstr "%u"
+
+#~ msgid "%U"
+#~ msgstr "%U"
+
+#~ msgid "%V"
+#~ msgstr "%V"
+
+#~ msgid "%w"
+#~ msgstr "%w"
+
+#~ msgid "%W"
+#~ msgstr "%W"
+
+#~ msgid "%x"
+#~ msgstr "%x"
+
+#~ msgid "%X"
+#~ msgstr "%X"
+
+#~ msgid "%y"
+#~ msgstr "%y"
+
+#~ msgid "%Y"
+#~ msgstr "%Y"
+
+#~ msgid "%z"
+#~ msgstr "%z"
+
+#~ msgid "%Z"
+#~ msgstr "%Z"
 
 #~ msgid "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
 #~ msgstr "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
