@@ -1285,6 +1285,7 @@ gth_image_viewer_page_real_deactivate (GthViewerPage *base)
 	}
 
 	_g_object_unref (self->priv->builder);
+	self->priv->builder = NULL;
 	_g_object_unref (self->priv->preloader);
 	self->priv->preloader = NULL;
 	self->priv->active = FALSE;
