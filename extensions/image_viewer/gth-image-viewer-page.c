@@ -1266,26 +1266,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 
 	gth_browser_set_viewer_widget (browser, self->priv->image_navigator);
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
-
-	/* settings notifications */
-
-	g_signal_connect (self->priv->settings,
-			  "changed::" PREF_IMAGE_VIEWER_ZOOM_QUALITY,
-			  G_CALLBACK (pref_zoom_quality_changed),
-			  self);
-	g_signal_connect (self->priv->settings,
-			  "changed::" PREF_IMAGE_VIEWER_ZOOM_CHANGE,
-			  G_CALLBACK (pref_zoom_change_changed),
-			  self);
-	g_signal_connect (self->priv->settings,
-			  "changed::" PREF_IMAGE_VIEWER_RESET_SCROLLBARS,
-			  G_CALLBACK (pref_reset_scrollbars_changed),
-			  self);
-	g_signal_connect (self->priv->settings,
-			  "changed::" PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE,
-			  G_CALLBACK (pref_transparency_style_changed),
-			  self);
-
 }
 
 
@@ -2070,6 +2050,25 @@ gth_image_viewer_page_init (GthImageViewerPage *self)
 		self->priv->prev_file_data[i] = NULL;
 
 	self->priv->drag_data_get_event = 0;
+
+	/* settings notifications */
+
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_ZOOM_QUALITY,
+			  G_CALLBACK (pref_zoom_quality_changed),
+			  self);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_ZOOM_CHANGE,
+			  G_CALLBACK (pref_zoom_change_changed),
+			  self);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_RESET_SCROLLBARS,
+			  G_CALLBACK (pref_reset_scrollbars_changed),
+			  self);
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_IMAGE_VIEWER_TRANSPARENCY_STYLE,
+			  G_CALLBACK (pref_transparency_style_changed),
+			  self);
 }
 
 
