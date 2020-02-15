@@ -31,6 +31,7 @@ data/org.gnome.gThumb.Import.desktop.in.in
 data/org.gnome.gThumb.desktop.in.in
 data/ui/browser-preferences.ui
 data/ui/extensions-preferences.ui
+data/ui/file-selection-info.ui
 data/ui/filter-editor.ui
 data/ui/histogram-info.ui
 data/ui/location.ui
@@ -744,6 +745,8 @@ gthumb/gth-file-list.c
 gthumb/gth-file-list.h
 gthumb/gth-file-properties.c
 gthumb/gth-file-properties.h
+gthumb/gth-file-selection-info.c
+gthumb/gth-file-selection-info.h
 gthumb/gth-file-selection.c
 gthumb/gth-file-selection.h
 gthumb/gth-file-source-vfs.c
