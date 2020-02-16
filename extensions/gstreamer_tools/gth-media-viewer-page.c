@@ -723,6 +723,7 @@ update_stream_info (GthMediaViewerPage *self)
 	}
 
 	gtk_stack_set_visible_child_name (GTK_STACK (self->priv->area_box), self->priv->has_video ? "video-area" : "audio-area");
+	update_zoom_info (self);
 }
 
 
