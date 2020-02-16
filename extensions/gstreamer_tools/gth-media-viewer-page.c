@@ -680,6 +680,9 @@ update_stream_info (GthMediaViewerPage *self)
 		      "video-sink", &video_sink,
 		      NULL);
 
+	self->priv->has_audio = FALSE;
+	self->priv->has_video = FALSE;
+
 	if (audio_sink != NULL) {
 		audio_pad = gst_element_get_static_pad (GST_ELEMENT (audio_sink), "sink");
 		if (audio_pad != NULL) {
