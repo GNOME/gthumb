@@ -150,7 +150,6 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 		gtk_window_set_title (GTK_WINDOW (self), title);
 	if (parent != NULL)
 		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
-	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (self),
 			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
@@ -190,6 +189,7 @@ gth_script_editor_dialog_new (const char *title,
 
 	self = g_object_new (GTH_TYPE_SCRIPT_EDITOR_DIALOG,
 			     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
+			     "resizable", TRUE,
 			     NULL);
 	self->priv->shortcut_window = shortcut_window;
 	gth_script_editor_dialog_construct (self, title, parent);
