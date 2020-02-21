@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
 "POT-Creation-Date: 2020-02-16 18:14+0000\n"
-"PO-Revision-Date: 2020-01-31 22:00+0900\n"
+"PO-Revision-Date: 2020-02-22 01:20+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -1718,10 +1718,8 @@ msgid "date photo was taken"
 msgstr "撮影日"
 
 #: extensions/export_tools/callbacks.c:46
-#, fuzzy
-#| msgid "E_xport To"
 msgid "_Export To"
-msgstr "エクスポート(_X)"
+msgstr "エクスポート(_E)"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:34
 msgid "720 × 720"
