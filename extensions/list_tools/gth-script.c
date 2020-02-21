@@ -708,6 +708,21 @@ create_attribute_list (GList    *file_list,
 }
 
 
+static char *
+get_timestamp (void)
+{
+	GDateTime *now;
+	char      *str;
+
+	now = g_date_time_new_now_local ();
+	str = g_date_time_format (now, "%Y-%m-%d %H.%M.%S");
+
+	g_date_time_unref (now);
+
+	return str;
+}
+
+
 static gboolean
 command_line_eval_cb (const GMatchInfo *info,
 		      GString          *res,
@@ -730,6 +745,8 @@ command_line_eval_cb (const GMatchInfo *info,
 		r = create_file_list (replace_data->file_list, get_ext_func, replace_data->quote_values);
 	else if (strcmp (match, "%P") == 0)
 		r = create_file_list (replace_data->file_list, get_parent_func, replace_data->quote_values);
+	else if (strcmp (match, "%T") == 0)
+		r = get_timestamp ();
 	else if (strncmp (match, "%attr", 5) == 0) {
 		r = create_attribute_list (replace_data->file_list, match, replace_data->quote_values);
 		if (r == NULL)
@@ -1010,7 +1027,7 @@ gth_script_get_command_line (GthScript  *script,
 
 	/* replace the parameters in the command line */
 
-	re = g_regex_new ("%U|%F|%B|%N|%E|%P|%ask({[^}]+}({[^}]+})?)?|%attr{[^}]+}", 0, 0, NULL);
+	re = g_regex_new ("%U|%F|%B|%N|%E|%P|%T|%ask({[^}]+}({[^}]+})?)?|%attr{[^}]+}", 0, 0, NULL);
 
 	replace_data->quote_values = FALSE;
 	replace_data->last_asked_value = replace_data->asked_values;
