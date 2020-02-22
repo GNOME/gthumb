@@ -96,6 +96,20 @@ watch_script_cb (GPid     pid,
 
 
 static void
+child_setup (gpointer user_data)
+{
+	/* detach from the tty */
+
+	setsid ();
+
+	/* create a process group to kill all the child processes when
+	 * canceling the operation. */
+
+	setpgid (0, 0);
+}
+
+
+static void
 _gth_script_task_exec (GthScriptTask *self)
 {
 	char      *command_line;
@@ -155,7 +169,7 @@ _gth_script_task_exec (GthScriptTask *self)
 						   argv,
 						   NULL,
 						   G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH,
-						   NULL,
+						   child_setup,
 						   NULL,
 						   &self->priv->pid,
 						   &error))
@@ -251,7 +265,7 @@ gth_script_task_cancelled (GthTask *task)
 	self = GTH_SCRIPT_TASK (task);
 
 	if (self->priv->pid != 0)
-		kill (self->priv->pid, SIGTERM);
+		killpg (self->priv->pid, SIGTERM);
 }
 
 
