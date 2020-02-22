@@ -181,8 +181,17 @@ _gth_script_task_exec (GthScriptTask *self)
 				}
 			}
 			else {
-				if (g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error))
+				if (g_spawn_async (NULL,
+						   argv,
+						   NULL,
+						   G_SPAWN_SEARCH_PATH,
+						   NULL,
+						   NULL,
+						   NULL,
+						   &error))
+				{
 					retval = TRUE;
+				}
 			}
 		}
 
