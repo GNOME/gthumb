@@ -39,8 +39,13 @@ gth_browser_activate_folder_context_open_in_terminal (GSimpleAction *action,
 	char        *command;
 
 	file_data = gth_browser_get_folder_popup_file_data (browser);
-	if (file_data == NULL)
-		return;
+	if (file_data == NULL) {
+		if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
+			file_data = g_object_ref (gth_browser_get_location_data (browser));
+
+		if (file_data == NULL)
+			return;
+	}
 	file_list = g_list_prepend (NULL, file_data->file);
 
 	settings = g_settings_new (GTHUMB_TERMINAL_SCHEMA);
