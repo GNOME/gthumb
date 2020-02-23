@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-01-29 07:45+0000\n"
-"PO-Revision-Date: 2020-02-02 12:37+0100\n"
+"POT-Creation-Date: 2020-02-16 18:14+0000\n"
+"PO-Revision-Date: 2020-02-23 12:22+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -227,6 +227,16 @@ msgstr "_Rozszerzenia:"
 #: data/ui/extensions-preferences.ui:116
 msgid "More extensions…"
 msgstr "Więcej rozszerzeń…"
+
+#: data/ui/file-selection-info.ui:33
+#: extensions/webalbums/data/albumthemes/text.h:32
+msgid "Previous"
+msgstr "Poprzedni"
+
+#: data/ui/file-selection-info.ui:71
+#: extensions/webalbums/data/albumthemes/text.h:30
+msgid "Next"
+msgstr "Następny"
 
 #: data/ui/filter-editor.ui:20
 msgid "Filter _Name:"
@@ -643,14 +653,14 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:556
 #: extensions/contact_sheet/data/ui/image-wall.ui:269
-#: extensions/image_viewer/gth-image-viewer-page.c:1721
+#: extensions/image_viewer/gth-image-viewer-page.c:1702
 #: extensions/webalbums/data/ui/web-album-exporter.ui:484
 msgid "Saving"
 msgstr "Zapisywanie"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:366
-#: extensions/catalogs/dlg-add-to-catalog.c:531
+#: extensions/catalogs/dlg-add-to-catalog.c:373
+#: extensions/catalogs/dlg-add-to-catalog.c:538
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
 #: extensions/list_tools/gth-script-editor-dialog.c:273
@@ -660,8 +670,8 @@ msgid "No name specified"
 msgstr "Nie podano nazwy"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:373
-#: extensions/catalogs/dlg-add-to-catalog.c:538
+#: extensions/catalogs/dlg-add-to-catalog.c:380
+#: extensions/catalogs/dlg-add-to-catalog.c:545
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
 #: gthumb/gth-folder-tree.c:1931
@@ -670,8 +680,8 @@ msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Nieprawidłowa nazwa. Następujące znaki nie są dozwolone: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:430
-#: extensions/catalogs/dlg-add-to-catalog.c:587
+#: extensions/catalogs/dlg-add-to-catalog.c:437
+#: extensions/catalogs/dlg-add-to-catalog.c:594
 #: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
@@ -682,13 +692,13 @@ msgid "New catalog"
 msgstr "Nowy katalog"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:452
+#: extensions/catalogs/dlg-add-to-catalog.c:459
 msgid "Enter the catalog name:"
 msgstr "Nazwa katalogu:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:454
-#: extensions/catalogs/dlg-add-to-catalog.c:613
+#: extensions/catalogs/dlg-add-to-catalog.c:461
+#: extensions/catalogs/dlg-add-to-catalog.c:620
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "Ut_wórz"
@@ -698,7 +708,7 @@ msgid "New library"
 msgstr "Nowa kolekcja"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:611
+#: extensions/catalogs/dlg-add-to-catalog.c:618
 msgid "Enter the library name:"
 msgstr "Nazwa kolekcji:"
 
@@ -740,8 +750,8 @@ msgid "Rename"
 msgstr "Zmień nazwę"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4548
-#: gthumb/gth-browser.c:4650 gthumb/gth-file-properties.c:245
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4553
+#: gthumb/gth-browser.c:4655 gthumb/gth-file-properties.c:245
 msgid "Properties"
 msgstr "Właściwości"
 
@@ -776,31 +786,31 @@ msgstr "Tworzenie kolekcji plików."
 msgid "file-catalog-symbolic"
 msgstr "file-catalog-symbolic"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:20
+#: extensions/catalogs/data/ui/add-to-catalog.ui:19
 msgid "C_atalogs:"
 msgstr "K_atalogi:"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:35
-#: extensions/catalogs/dlg-add-to-catalog.c:610
+#: extensions/catalogs/data/ui/add-to-catalog.ui:34
+#: extensions/catalogs/dlg-add-to-catalog.c:617
 msgid "New Library"
 msgstr "Nowa kolekcja"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:58
-#: extensions/catalogs/dlg-add-to-catalog.c:451
+#: extensions/catalogs/data/ui/add-to-catalog.ui:57
+#: extensions/catalogs/dlg-add-to-catalog.c:458
 msgid "New Catalog"
 msgstr "Nowy katalog"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:104
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:166
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:216
-msgid "_Keep the dialog open"
-msgstr "_Bez zamykania okna"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:120
+#: extensions/catalogs/data/ui/add-to-catalog.ui:103
 #: extensions/file_manager/actions.c:766
 #: extensions/webalbums/gth-web-exporter.c:1827
 msgid "_View the destination"
 msgstr "_Wyświetl miejsce docelowe"
+
+#: extensions/catalogs/data/ui/add-to-catalog.ui:119
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:159
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:202
+msgid "_Keep the dialog open"
+msgstr "_Bez zamykania okna"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
@@ -871,20 +881,20 @@ msgstr "Umieszczanie pojedynczych plików w katalogu:"
 msgid "Singles"
 msgstr "Pojedyncze"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:154
+#: extensions/catalogs/dlg-add-to-catalog.c:155
 msgid "Could not add the files to the catalog"
 msgstr "Nie można dodać plików do katalogu"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:309
+#: extensions/catalogs/dlg-add-to-catalog.c:316
 #: extensions/search/gth-search-task.c:402
 msgid "Could not create the catalog"
 msgstr "Nie można utworzyć katalogu"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:675
+#: extensions/catalogs/dlg-add-to-catalog.c:682
 msgid "Add to Catalog"
 msgstr "Dodanie do katalogu"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:684
+#: extensions/catalogs/dlg-add-to-catalog.c:697
 msgid "_Add"
 msgstr "_Dodaj"
 
@@ -939,6 +949,8 @@ msgstr "Nieprawidłowy format pliku"
 #: extensions/catalogs/gth-catalog.c:1013 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
+#: extensions/edit_metadata/callbacks.c:107
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:185
 #: gthumb/gth-main-default-metadata.c:64
 msgid "Tags"
 msgstr "Etykiety"
@@ -1082,7 +1094,10 @@ msgid "Preferences"
 msgstr "Preferencje"
 
 #: extensions/comments/main.c:37 extensions/edit_metadata/callbacks.c:56
-#: extensions/edit_metadata/callbacks.c:88 gthumb/gth-file-comment.c:136
+#: extensions/edit_metadata/callbacks.c:88
+#: extensions/edit_metadata/callbacks.c:101
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:137
+#: gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Komentarz"
 
@@ -1566,23 +1581,7 @@ msgstr "Modyfikowanie metadanych"
 msgid "Allow to edit files metadata."
 msgstr "Umożliwienie modyfikowania metadanych plików."
 
-#. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:65
-#, c-format
-msgid "%s Metadata"
-msgstr "Metadane pliku „%s”"
-
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:68
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:85
-#: extensions/flicker_utils/dlg-import-from-flickr.c:320
-#, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "%d plik"
-msgstr[1] "%d pliki"
-msgstr[2] "%d plików"
-
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:162
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:155
 msgid "Save only cha_nged fields"
 msgstr "Zapisywanie tylko zmie_nionych pól"
 
@@ -1610,16 +1609,6 @@ msgstr "Data utworzenia pliku"
 #: extensions/edit_metadata/gth-edit-general-page.c:560
 msgid "Do not modify"
 msgstr "Bez modyfikacji"
-
-#. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:82
-#, c-format
-msgid "%s Tags"
-msgstr "Etykiety pliku „%s”"
-
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:200
-msgid "Assign Tags"
-msgstr "Przydzielenie etykiet"
 
 #: extensions/edit_metadata/gth-tag-task.c:122
 #: extensions/edit_metadata/gth-tag-task.c:139
@@ -1749,8 +1738,8 @@ msgid "date photo was taken"
 msgstr "data wykonania zdjęcia"
 
 #: extensions/export_tools/callbacks.c:46
-msgid "Export"
-msgstr "Wyeksportuj"
+msgid "_Export To"
+msgstr "Wy_eksportuj do"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:34
 msgid "720 × 720"
@@ -1965,7 +1954,7 @@ msgstr "Nazwa katalogu:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5560 gthumb/gth-browser.c:5596
+#: gthumb/gth-browser.c:5565 gthumb/gth-browser.c:5601
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Nie można wykonać działania"
@@ -2445,17 +2434,17 @@ msgstr "Ustawienia"
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:393
 #: extensions/file_tools/gth-file-tool-crop.c:632
 #: extensions/file_tools/gth-file-tool-curves.c:287
-#: extensions/file_tools/gth-file-tool-effects.c:400
-#: extensions/file_tools/gth-file-tool-effects.c:444
-#: extensions/file_tools/gth-file-tool-effects.c:492
-#: extensions/file_tools/gth-file-tool-effects.c:541
-#: extensions/file_tools/gth-file-tool-effects.c:589
-#: extensions/file_tools/gth-file-tool-effects.c:637
-#: extensions/file_tools/gth-file-tool-effects.c:685
-#: extensions/file_tools/gth-file-tool-effects.c:732
-#: extensions/file_tools/gth-file-tool-effects.c:781
-#: extensions/file_tools/gth-file-tool-effects.c:903
-#: extensions/file_tools/gth-file-tool-effects.c:938
+#: extensions/file_tools/gth-file-tool-effects.c:401
+#: extensions/file_tools/gth-file-tool-effects.c:445
+#: extensions/file_tools/gth-file-tool-effects.c:493
+#: extensions/file_tools/gth-file-tool-effects.c:542
+#: extensions/file_tools/gth-file-tool-effects.c:590
+#: extensions/file_tools/gth-file-tool-effects.c:638
+#: extensions/file_tools/gth-file-tool-effects.c:686
+#: extensions/file_tools/gth-file-tool-effects.c:733
+#: extensions/file_tools/gth-file-tool-effects.c:782
+#: extensions/file_tools/gth-file-tool-effects.c:904
+#: extensions/file_tools/gth-file-tool-effects.c:939
 #: extensions/file_tools/gth-file-tool-flip.c:63
 #: extensions/file_tools/gth-file-tool-grayscale.c:230
 #: extensions/file_tools/gth-file-tool-lomo.c:182
@@ -2502,11 +2491,11 @@ msgstr "Jednolite"
 msgid "Equalize the histogram using the linear function"
 msgstr "Wyrównuje histogram za pomocą funkcji liniowej"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:660
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:661
 msgid "Adjust Contrast"
 msgstr "Dostosowanie kontrastu"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:662
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:663
 msgid "Automatic contrast adjustment"
 msgstr "Automatyczne dostosowanie kontrastu"
 
@@ -2618,7 +2607,7 @@ msgstr "Nazwa ustawienia:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1650
+#: extensions/image_viewer/gth-image-viewer-page.c:1631
 #: gthumb/gth-browser.c:1863
 msgid "Could not save the file"
 msgstr "Nie można zapisać pliku"
@@ -2635,62 +2624,62 @@ msgstr "Krzywe kolorów"
 msgid "Adjust color curves"
 msgstr "Dostosowanie krzywych kolorów"
 
-#: extensions/file_tools/gth-file-tool-effects.c:358
+#: extensions/file_tools/gth-file-tool-effects.c:359
 msgid "Special Effects"
 msgstr "Efekty specjalne"
 
 #. Translators: this is the name of a filter that produces warmer colors
-#: extensions/file_tools/gth-file-tool-effects.c:402
+#: extensions/file_tools/gth-file-tool-effects.c:403
 msgid "Warmer"
 msgstr "Cieplejsze"
 
 #. Translators: this is the name of a filter that produces cooler colors
-#: extensions/file_tools/gth-file-tool-effects.c:446
+#: extensions/file_tools/gth-file-tool-effects.c:447
 msgid "Cooler"
 msgstr "Chłodniejsze"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:494
+#: extensions/file_tools/gth-file-tool-effects.c:495
 msgid "Soil"
 msgstr "Gleba"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:543
+#: extensions/file_tools/gth-file-tool-effects.c:544
 msgid "Desert"
 msgstr "Pustynia"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:591
+#: extensions/file_tools/gth-file-tool-effects.c:592
 msgid "Arctic"
 msgstr "Arktyka"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:639
+#: extensions/file_tools/gth-file-tool-effects.c:640
 msgid "Mangos"
 msgstr "Mango"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:687
+#: extensions/file_tools/gth-file-tool-effects.c:688
 msgid "Fresh Blue"
 msgstr "Świeży błękit"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:734
+#: extensions/file_tools/gth-file-tool-effects.c:735
 msgid "Cherry"
 msgstr "Wiśnia"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:783
+#: extensions/file_tools/gth-file-tool-effects.c:784
 msgid "Vintage"
 msgstr "Vintage"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:905
+#: extensions/file_tools/gth-file-tool-effects.c:906
 msgid "Blurred Edges"
 msgstr "Rozmyte brzegi"
 
 #. Translators: this is the name of an image filter that produces darker edges
-#: extensions/file_tools/gth-file-tool-effects.c:940
+#: extensions/file_tools/gth-file-tool-effects.c:941
 msgid "Vignette"
 msgstr "Winieta"
 
@@ -2710,7 +2699,7 @@ msgstr "_Nasycenie"
 msgid "_Average"
 msgstr "Śre_dnia"
 
-#: extensions/file_tools/gth-file-tool-grayscale.c:497
+#: extensions/file_tools/gth-file-tool-grayscale.c:498
 msgid "Grayscale"
 msgstr "Skala szarości"
 
@@ -2963,6 +2952,15 @@ msgstr "_Ukrycie z publicznych wyszukiwań"
 msgid "_Open in the Browser"
 msgstr "_Otwórz w przeglądarce"
 
+#: extensions/flicker_utils/dlg-import-from-flickr.c:320
+#: gthumb/gth-file-selection-info.c:140
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d plik"
+msgstr[1] "%d pliki"
+msgstr[2] "%d plików"
+
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:279
 msgid "Could not get the photo list"
@@ -3063,7 +3061,7 @@ msgid "_Screenshots location:"
 msgstr "_Położenie zrzutów ekranu:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:30
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:569
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:621
 #: extensions/image_viewer/gth-image-viewer-page.c:1181
 msgid "Play"
 msgstr "Odtwórz"
@@ -3100,17 +3098,23 @@ msgstr "Odtwarzanie plików dźwiękowych i wideo."
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:542
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:594
 msgid "Playing video"
 msgstr "Odtwarzanie nagrania wideo"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:555
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:607
 msgid "Pause"
 msgstr "Wstrzymaj"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:883
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:930
 msgid "Take a screenshot"
 msgstr "Wykonaj zrzut ekranu"
+
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:937
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
+msgid "Fit to window"
+msgstr "Dopasowanie do okna"
 
 #: extensions/gstreamer_tools/main.c:34
 msgid "Audio/Video Player"
@@ -3177,7 +3181,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
-#: extensions/image_viewer/gth-image-viewer-page.c:1883
+#: extensions/image_viewer/gth-image-viewer-page.c:1864
 #: extensions/image_viewer/gth-metadata-provider-image.c:253
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
 #: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:944
@@ -3472,11 +3476,6 @@ msgstr "Ustawianie na rzeczywisty rozmiar"
 msgid "Keep previous zoom"
 msgstr "Zachowanie poprzedniego powiększenia"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
-#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
-msgid "Fit to window"
-msgstr "Dopasowanie do okna"
-
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
 #: extensions/image_viewer/gth-image-viewer-page.c:1145
 msgid "Fit to window if larger"
@@ -3595,7 +3594,7 @@ msgstr "Następna klatka"
 msgid "Transparency"
 msgstr "Przezroczystość"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1822
+#: extensions/image_viewer/gth-image-viewer-page.c:1803
 msgid "Save Image"
 msgstr "Zapis obrazu"
 
@@ -3724,7 +3723,7 @@ msgstr ""
 "Za mało wolnego miejsca w „%s”.\n"
 "Wymagane: %s, dostępne: %s."
 
-#: extensions/list_tools/callbacks.c:147 extensions/list_tools/callbacks.c:156
+#: extensions/list_tools/callbacks.c:148 extensions/list_tools/callbacks.c:157
 #: extensions/list_tools/main.c:31
 msgid "Tools"
 msgstr "Narzędzia"
@@ -3817,7 +3816,7 @@ msgstr "Cytowanie tekstu "
 msgid "_Command:"
 msgstr "Pole_cenie:"
 
-#: extensions/list_tools/data/ui/tools-menu.ui:13 gthumb/gth-filterbar.c:314
+#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:314
 msgid "Personalize…"
 msgstr "Dostosuj…"
 
@@ -4591,14 +4590,6 @@ msgstr "%d. obraz z %d"
 msgid "Index"
 msgstr "Indeks"
 
-#: extensions/webalbums/data/albumthemes/text.h:30
-msgid "Next"
-msgstr "Następny"
-
-#: extensions/webalbums/data/albumthemes/text.h:32
-msgid "Previous"
-msgstr "Poprzedni"
-
 #: extensions/webalbums/data/albumthemes/text.h:33
 #, c-format
 msgid "View page %d"
@@ -4724,8 +4715,8 @@ msgid "Create static web albums."
 msgstr "Tworzenie statycznych albumów WWW."
 
 #: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6564 gthumb/gth-browser.c:6583
-#: gthumb/gth-browser.c:6607 gthumb/gth-vfs-tree.c:390
+#: gthumb/gth-browser.c:6569 gthumb/gth-browser.c:6588
+#: gthumb/gth-browser.c:6612 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Nie można wczytać położenia „%s”"
@@ -5018,8 +5009,8 @@ msgstr "Zamknij okno"
 msgid "Open location"
 msgstr "Otwórz położenie"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4563
-#: gthumb/gth-browser.c:4581 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4568
+#: gthumb/gth-browser.c:4586 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Pełny ekran"
@@ -5128,48 +5119,48 @@ msgstr ""
 msgid "Do _Not Save"
 msgstr "_Nie zapisuj"
 
-#: gthumb/gth-browser.c:2399 gthumb/gth-browser.c:4589
+#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4594
 msgid "Accept"
 msgstr "Zaakceptuj"
 
-#: gthumb/gth-browser.c:2399 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2401 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "Za_mknij"
 
-#: gthumb/gth-browser.c:2937
+#: gthumb/gth-browser.c:2939
 msgid "Could not change name"
 msgstr "Nie można zmienić nazwy"
 
-#: gthumb/gth-browser.c:3434
+#: gthumb/gth-browser.c:3436
 msgid "Modified"
 msgstr "Zmodyfikowano"
 
-#: gthumb/gth-browser.c:4511
+#: gthumb/gth-browser.c:4516
 msgid "Go to the previous visited location"
 msgstr "Przechodzi do poprzednio odwiedzonego położenia"
 
-#: gthumb/gth-browser.c:4517
+#: gthumb/gth-browser.c:4522
 msgid "Go to the next visited location"
 msgstr "Przechodzi do kolejnej odwiedzonego położenia"
 
-#: gthumb/gth-browser.c:4525
+#: gthumb/gth-browser.c:4530
 msgid "History"
 msgstr "Historia"
 
-#: gthumb/gth-browser.c:4539
+#: gthumb/gth-browser.c:4544
 msgid "View the folders"
 msgstr "Wyświetla katalogi"
 
-#: gthumb/gth-browser.c:4554
+#: gthumb/gth-browser.c:4559
 msgid "Edit file"
 msgstr "Modyfikuje plik"
 
-#: gthumb/gth-browser.c:6565
+#: gthumb/gth-browser.c:6570
 #, c-format
 msgid "File type not supported"
 msgstr "Nieobsługiwany typ pliku"
 
-#: gthumb/gth-browser.c:6608
+#: gthumb/gth-browser.c:6613
 #, c-format
 msgid "No suitable module found"
 msgstr "Nie odnaleziono odpowiedniego modułu"
