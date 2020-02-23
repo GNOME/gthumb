@@ -697,16 +697,17 @@ _gtk_paned_get_position2 (GtkPaned *paned)
 
 
 void
-_g_launch_command (GtkWidget  *parent,
-		   const char *command,
-		   const char *name,
-		   GList      *files)
+_g_launch_command (GtkWidget           *parent,
+		   const char          *command,
+		   const char          *name,
+		   GAppInfoCreateFlags  flags,
+		   GList               *files)
 {
 	GError              *error = NULL;
 	GAppInfo            *app_info;
 	GdkAppLaunchContext *launch_context;
 
-	app_info = g_app_info_create_from_commandline (command, name, G_APP_INFO_CREATE_SUPPORTS_URIS, &error);
+	app_info = g_app_info_create_from_commandline (command, name, flags, &error);
 	if (app_info == NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (parent), _("Could not launch the application"), error);
 		g_clear_error (&error);

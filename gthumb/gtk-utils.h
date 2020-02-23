@@ -151,6 +151,8 @@ int             _gtk_paned_get_position2                   (GtkPaned         *pa
 void            _g_launch_command                          (GtkWidget        *parent,
 					    	    	    const char       *command,
 					    	    	    const char       *name,
+							    GAppInfoCreateFlags
+							                      flags,
 					    	    	    GList            *files);
 void            _gtk_window_resize_to_fit_screen_height    (GtkWidget        *window,
 					    	    	    int               default_width);

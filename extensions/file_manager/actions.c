@@ -1075,7 +1075,7 @@ gth_browser_activate_open_with_gimp (GSimpleAction *action,
 
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 	file_list = gth_file_data_list_to_file_list (file_data_list);
-	_g_launch_command (GTK_WIDGET (browser), "gimp %U", "Gimp", file_list);
+	_g_launch_command (GTK_WIDGET (browser), "gimp %U", "Gimp", G_APP_INFO_CREATE_SUPPORTS_URIS, file_list);
 
 	_g_object_list_unref (file_list);
 	_g_object_list_unref (file_data_list);
