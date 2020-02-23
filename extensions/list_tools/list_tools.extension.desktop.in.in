@@ -1,8 +1,8 @@
 [Extension]
 Name=File list tools
 Comment=Scripting and batch manipulation of files.
-Authors=gthumb development team
-Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
+Authors=gThumb Development Team
+Copyright=Copyright © 2009-2020 The Free Software Foundation, Inc.
 Version=@GTHUMB_VERSION@
 Icon=applications-engineering
 Category=List-Tool

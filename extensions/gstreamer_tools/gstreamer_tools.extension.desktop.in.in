@@ -1,8 +1,8 @@
 [Extension]
 Name=Audio/Video support
 Comment=Play audio and video files.
-Authors=gthumb development team
-Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
+Authors=gThumb Development Team
+Copyright=Copyright © 2009-2020 The Free Software Foundation, Inc.
 Version=@GTHUMB_VERSION@
 Icon=video-x-generic
 Category=Viewer

@@ -1,8 +1,8 @@
 [Extension]
 Name=23
 Comment=Upload images to 23hq.com
-Authors=gthumb development team
-Copyright=Copyright © 2011-2013 The Free Software Foundation, Inc.
+Authors=gThumb Development Team
+Copyright=Copyright © 2011-2020 The Free Software Foundation, Inc.
 Version=@GTHUMB_VERSION@
 Category=Exporter
 

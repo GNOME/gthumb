@@ -1,8 +1,8 @@
 [Extension]
 Name=Image print
 Comment=Allow to print images choosing the page layout.
-Authors=gthumb development team
-Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
+Authors=gThumb Development Team
+Copyright=Copyright © 2009-2020 The Free Software Foundation, Inc.
 Version=@GTHUMB_VERSION@
 Icon=document-print
 Category=List-Tool

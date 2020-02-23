@@ -1,8 +1,8 @@
 [Extension]
 Name=Terminal
 Comment=Open a folder in a terminal
-Authors=gthumb development team
-Copyright=Copyright © 2009-2013 The Free Software Foundation, Inc.
+Authors=gThumb Development Team
+Copyright=Copyright © 2020 The Free Software Foundation, Inc.
 Version=@GTHUMB_VERSION@
 Icon=utilities-terminal
 Category=Browser

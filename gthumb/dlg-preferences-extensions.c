@@ -488,7 +488,7 @@ create_extensions_row (GthExtensionDescription	*description,
 				  row_data);
 		gtk_box_pack_start (GTK_BOX (row_box), button, FALSE, FALSE, 0);
 	}
-	if ((extension != NULL) && (g_strcmp0 (description->authors[0], _("gthumb development team")) != 0)) {
+	if ((extension != NULL) && (g_strcmp0 (description->authors[0], _("gThumb Development Team")) != 0)) {
 		button = gtk_button_new_from_icon_name ("dialog-information-symbolic", GTK_ICON_SIZE_BUTTON);
 		gtk_widget_set_valign (button, GTK_ALIGN_CENTER);
 		g_signal_connect (button,
