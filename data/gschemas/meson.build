@@ -23,6 +23,7 @@ gschema_files = files(
   'org.gnome.gthumb.resize-images.gschema.xml',
   'org.gnome.gthumb.rotate.gschema.xml',
   'org.gnome.gthumb.slideshow.gschema.xml',
+  'org.gnome.gthumb.terminal.gschema.xml',
   'org.gnome.gthumb.webalbums.gschema.xml'
 )
 

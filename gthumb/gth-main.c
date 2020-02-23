@@ -1385,6 +1385,7 @@ gth_main_activate_extensions (void)
 		"search",
 		"selections",
 		"slideshow",
+		"terminal",
 		"webalbums",
 		NULL
 	};
