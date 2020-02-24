@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2019-06-10 15:51+0000\n"
-"PO-Revision-Date: 2019-06-18 09:23+0200\n"
+"POT-Creation-Date: 2019-06-22 20:22+0000\n"
+"PO-Revision-Date: 2019-06-28 12:21+0200\n"
 "Last-Translator: Paul Matthijsse <paul.matthijsse@wanadoo.fr>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -295,7 +295,7 @@ msgstr "Geselecteerd:"
 
 #: data/ui/location.ui:23
 msgid "_Location:"
-msgstr "_Locatie:"
+msgstr "_Locatie"
 
 #: data/ui/overwrite-dialog.ui:15
 msgid "Overwrite the old file with the new one?"
@@ -825,7 +825,7 @@ msgstr "_Naam:"
 #: extensions/catalogs/data/ui/catalog-properties.ui:82
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:31
 msgid "_Date:"
-msgstr "_Datum:"
+msgstr "_Datum"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:143
 #: extensions/catalogs/data/ui/organize-files-task.ui:199
@@ -1536,24 +1536,24 @@ msgstr "Metagegevens verwijderen"
 #: extensions/facebook/data/ui/facebook-album-properties.ui:135
 #: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:127
 msgid "D_escription:"
-msgstr "_Bestemming:"
+msgstr "_Beschrijving"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:81
 msgid "_Place:"
-msgstr "_Plaats:"
+msgstr "_Plaats"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:120
 #: extensions/edit_metadata/data/ui/tag-chooser.ui:16
 msgid "T_ags:"
-msgstr "L_abels:"
+msgstr "L_abels"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:207
 msgid "_Rating:"
-msgstr "_Waardering:"
+msgstr "_Waardering"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:239
 msgid "_Title:"
-msgstr "_Titel:"
+msgstr "_Titel"
 
 #: extensions/edit_metadata/dlg-edit-metadata.c:121
 msgid "Could not save the file metadata"
