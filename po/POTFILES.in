@@ -26,6 +26,7 @@ data/gschemas/org.gnome.gthumb.resize-images.gschema.xml
 data/gschemas/org.gnome.gthumb.resize.gschema.xml
 data/gschemas/org.gnome.gthumb.rotate.gschema.xml
 data/gschemas/org.gnome.gthumb.slideshow.gschema.xml
+data/gschemas/org.gnome.gthumb.terminal.gschema.xml
 data/gschemas/org.gnome.gthumb.webalbums.gschema.xml
 data/org.gnome.gThumb.Import.desktop.in.in
 data/org.gnome.gThumb.desktop.in.in
@@ -651,6 +652,16 @@ extensions/slideshow/preferences.c
 extensions/slideshow/preferences.h
 extensions/slideshow/shortcuts.h
 extensions/slideshow/slideshow.extension.desktop.in.in
+extensions/terminal/actions.c
+extensions/terminal/actions.h
+extensions/terminal/callbacks.c
+extensions/terminal/callbacks.h
+extensions/terminal/data/ui/terminal-preferences.ui
+extensions/terminal/dlg-terminal-preferences.c
+extensions/terminal/dlg-terminal-preferences.h
+extensions/terminal/main.c
+extensions/terminal/preferences.h
+extensions/terminal/terminal.extension.desktop.in.in
 extensions/webalbums/actions.c
 extensions/webalbums/actions.h
 extensions/webalbums/albumtheme-private.c
