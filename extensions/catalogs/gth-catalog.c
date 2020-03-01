@@ -883,13 +883,18 @@ gth_catalog_update_standard_attributes (GFile     *file,
 			gio_file = gth_catalog_file_to_gio_file (file);
 			istream = g_file_read (gio_file, NULL, NULL);
 			if (istream != NULL) {
-				gssize n;
+				gsize bytes_read;
 
-				n = g_input_stream_read (G_INPUT_STREAM (istream), buffer, buffer_size - 1, NULL, NULL);
-				if (n > 0) {
+				if (g_input_stream_read_all (G_INPUT_STREAM (istream),
+							     buffer,
+							     buffer_size - 1,
+							     &bytes_read,
+							     NULL,
+							     NULL))
+				{
 					char *exif_date;
 
-					buffer[n] = '\0';
+					buffer[bytes_read] = '\0';
 					name = get_tag_value (buffer, "<name>", "</name>");
 					exif_date = get_tag_value (buffer, "<date>", "</date>");
 					if (exif_date != NULL)

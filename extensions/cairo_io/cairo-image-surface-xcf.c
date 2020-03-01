@@ -132,12 +132,22 @@ _g_data_input_stream_read_c_string (GDataInputStream  *stream,
 				    GError           **error)
 {
 	char *string;
+	gsize bytes_read;
 
 	g_return_val_if_fail (size > 0, NULL);
 
 	string = g_new (char, size + 1);
-	g_input_stream_read (G_INPUT_STREAM (stream), string, size, cancellable, error);
-	string[size] = 0;
+	if (g_input_stream_read_all (G_INPUT_STREAM (stream),
+				     string,
+				     size,
+				     &bytes_read,
+				     cancellable,
+				     error))
+	{
+		string[bytes_read] = 0;
+	}
+	else
+		string[0] = 0;
 
 	return string;
 }
@@ -727,9 +737,15 @@ read_pixels_from_hierarchy (GDataInputStream  *data_stream,
 			if (tile_data_size <= 0)
 				continue;
 
-			data_read = g_input_stream_read (G_INPUT_STREAM (data_stream), tile_data, tile_data_size, cancellable, error);
-			if (*error != NULL)
+			if (! g_input_stream_read_all (G_INPUT_STREAM (data_stream),
+						       tile_data,
+						       tile_data_size,
+						       &data_read,
+						       cancellable,
+						       error))
+			{
 				goto rle_error;
+			}
 
 			/* decompress the channel streams */
 

@@ -445,11 +445,12 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 			app1_segment_size = (h << 8) + l - 2;
 
 			app1_segment = g_new (guchar, app1_segment_size);
-			if (g_input_stream_read (stream,
-						 app1_segment,
-						 app1_segment_size,
-						 cancellable,
-						 error) > 0)
+			if (g_input_stream_read_all (stream,
+						     app1_segment,
+						     app1_segment_size,
+						     NULL,
+						     cancellable,
+						     error))
 			{
 				_jpeg_exif_tags_from_app1_segment (app1_segment, app1_segment_size, flags, data);
 			}
@@ -471,7 +472,13 @@ _jpeg_info_get_from_stream (GInputStream	 *stream,
 			app2_segment_size = (h << 8) + l - 2;
 
 			app2_segment = g_new (guchar, app2_segment_size);
-			if (g_input_stream_read (stream, app2_segment, app2_segment_size, cancellable, error) > 0) {
+			if (g_input_stream_read_all (stream,
+						     app2_segment,
+						     app2_segment_size,
+						     NULL,
+						     cancellable,
+						     error))
+			{
 				ICCProfileChunk *chunk;
 
 				chunk = _jpeg_get_icc_profile_chunk_from_app2_segment (app2_segment, app2_segment_size);

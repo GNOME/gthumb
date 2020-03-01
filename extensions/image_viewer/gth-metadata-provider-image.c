@@ -74,16 +74,21 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 	if (stream != NULL) {
 		int     buffer_size;
 		guchar *buffer;
-		gssize  size;
+		gsize   size;
 
 		buffer_size = BUFFER_SIZE;
 		buffer = g_new (guchar, buffer_size);
-		size = g_input_stream_read (G_INPUT_STREAM (stream),
-					    buffer,
-					    buffer_size,
-					    cancellable,
-					    NULL);
-		if (size >= 0) {
+		if (! g_input_stream_read_all (G_INPUT_STREAM (stream),
+					       buffer,
+					       buffer_size,
+					       &size,
+					       cancellable,
+					       NULL))
+		{
+			size = 0;
+		}
+
+		if (size > 0) {
 			if ((size >= 24)
 
 			    /* PNG signature */

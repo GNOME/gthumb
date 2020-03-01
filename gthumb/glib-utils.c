@@ -1798,17 +1798,19 @@ _g_content_type_get_from_stream (GInputStream  *istream,
 				 GError       **error)
 {
 	guchar      buffer[BUFFER_SIZE_FOR_SNIFFING];
-	gssize      n = 0;
+	gsize       n = 0;
 	gboolean    result_uncertain = FALSE;
 	const char *content_type;
 
-	n = g_input_stream_read (istream,
-				 buffer,
-				 BUFFER_SIZE_FOR_SNIFFING,
-				 cancellable,
-				 error);
-	if (n < 0)
+	if (! g_input_stream_read_all (istream,
+				       buffer,
+				       BUFFER_SIZE_FOR_SNIFFING,
+				       &n,
+				       cancellable,
+				       error))
+	{
 		return NULL;
+	}
 
 	content_type = get_mime_type_from_magic_numbers (buffer, n);
 	if (content_type == NULL)

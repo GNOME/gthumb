@@ -43,7 +43,7 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 	GthImage                  *image;
 	WebPDecoderConfig          config;
 	guchar                    *buffer;
-	gssize                     bytes_read;
+	gsize                      bytes_read;
 	int                        width, height;
 	cairo_surface_t           *surface;
 	cairo_surface_metadata_t  *metadata;
@@ -55,11 +55,16 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 		return image;
 
 	buffer = g_new (guchar, BUFFER_SIZE);
-	bytes_read = g_input_stream_read (istream,
-					  buffer,
-					  BUFFER_SIZE,
-					  cancellable,
-					  error);
+	if (! g_input_stream_read_all (istream,
+				       buffer,
+				       BUFFER_SIZE,
+				       &bytes_read,
+				       cancellable,
+				       error))
+	{
+		g_free (buffer);
+		return image;
+	}
 
 	if (WebPGetFeatures (buffer, bytes_read, &config.input) != VP8_STATUS_OK) {
 		g_free (buffer);
