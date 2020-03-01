@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-02-16 18:14+0000\n"
+"POT-Creation-Date: 2020-03-01 11:35+0000\n"
 "PO-Revision-Date: 2020-02-22 01:20+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -1069,6 +1069,7 @@ msgstr "埋め込まれているメタデータと同期する(_S)"
 #: extensions/gstreamer_tools/dlg-media-viewer-preferences.c:75
 #: extensions/importer/gth-import-preferences-dialog.c:417
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
+#: extensions/terminal/dlg-terminal-preferences.c:83
 #: gthumb/dlg-preferences-extensions.c:483
 msgid "Preferences"
 msgstr "設定"
@@ -3154,7 +3155,7 @@ msgstr "モノラル"
 #: extensions/image_viewer/gth-image-viewer-page.c:1864
 #: extensions/image_viewer/gth-metadata-provider-image.c:253
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:944
+#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:945
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3779,7 +3780,13 @@ msgstr "%quote{ 文字列 }"
 msgid "Quote the text "
 msgstr "文字列を引用する"
 
-#: extensions/list_tools/data/ui/script-editor.ui:534
+#: extensions/list_tools/data/ui/script-editor.ui:522
+#, fuzzy
+#| msgid "The current date"
+msgid "The current date and time"
+msgstr "今日の日付"
+
+#: extensions/list_tools/data/ui/script-editor.ui:568
 msgid "_Command:"
 msgstr "コマンド(_C):"
 
@@ -3835,14 +3842,14 @@ msgstr "コマンドがステータス %d を返して異常終了しました"
 msgid "Enter a value:"
 msgstr "値を入力してください:"
 
-#: extensions/list_tools/gth-script.c:736
+#: extensions/list_tools/gth-script.c:753
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "コマンドがおかしいです"
 
-#: extensions/list_tools/gth-script.c:791
+#: extensions/list_tools/gth-script.c:808
 msgid "_Skip"
 msgstr "何もしない(_S)"
 
@@ -4536,6 +4543,25 @@ msgstr "画像のプレゼンテーションを再生します"
 msgid "x-office-presentation"
 msgstr "x-office-presentation"
 
+#: extensions/terminal/actions.c:53
+#: extensions/terminal/terminal.extension.desktop.in.in:3
+msgid "Terminal"
+msgstr ""
+
+#: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
+#, fuzzy
+#| msgid "Open in New Window"
+msgid "Open in Terminal"
+msgstr "新しいウィンドウで開く"
+
+#: extensions/terminal/terminal.extension.desktop.in.in:4
+msgid "Open a folder in a terminal"
+msgstr ""
+
+#: extensions/terminal/terminal.extension.desktop.in.in:8
+msgid "utilities-terminal"
+msgstr ""
+
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
 msgstr "ウェブアルバム(_W)…"
@@ -4767,7 +4793,9 @@ msgid "Could not deactivate the extension"
 msgstr "拡張機能を無効にできませんでした"
 
 #: gthumb/dlg-preferences-extensions.c:491
-msgid "gthumb development team"
+#, fuzzy
+#| msgid "gthumb development team"
+msgid "gThumb Development Team"
 msgstr "gThumb 開発チーム"
 
 #. add the page to the preferences dialog
@@ -5605,23 +5633,23 @@ msgstr "«%s» はすでに割り当てられていて変更できません。"
 msgid "Could not display help"
 msgstr "ヘルプを表示することができませんでした"
 
-#: gthumb/gtk-utils.c:711 gthumb/gtk-utils.c:718
+#: gthumb/gtk-utils.c:712 gthumb/gtk-utils.c:719
 msgid "Could not launch the application"
 msgstr "アプリケーションを起動できませんでした"
 
-#: gthumb/gtk-utils.c:821
+#: gthumb/gtk-utils.c:822
 msgid "_Copy Here"
 msgstr "ここへコピー(_C)"
 
-#: gthumb/gtk-utils.c:826
+#: gthumb/gtk-utils.c:827
 msgid "_Move Here"
 msgstr "ここへ移動(_M)"
 
-#: gthumb/gtk-utils.c:831
+#: gthumb/gtk-utils.c:832
 msgid "_Link Here"
 msgstr "リンクを作成(_L)"
 
-#: gthumb/gtk-utils.c:840
+#: gthumb/gtk-utils.c:841
 msgid "Cancel"
 msgstr "キャンセル"
 
