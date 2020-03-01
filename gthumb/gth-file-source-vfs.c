@@ -194,14 +194,7 @@ static GFile *
 gth_file_source_vfs_to_gio_file (GthFileSource *file_source,
 				 GFile         *file)
 {
-	char  *uri;
-	GFile *gio_file;
-
-	uri = g_file_get_uri (file);
-	gio_file = g_file_new_for_uri (g_str_has_prefix (uri, "vfs+") ? uri + 4 : uri);
-	g_free (uri);
-
-	return gio_file;
+	return g_file_dup (file);
 }
 
 
@@ -210,18 +203,16 @@ gth_file_source_vfs_get_file_info (GthFileSource *file_source,
 				   GFile         *file,
 				   const char    *attributes)
 {
-	GFile     *gio_file;
 	GFileInfo *file_info;
 	char      *uri;
 
-	gio_file = gth_file_source_to_gio_file (file_source, file);
-	file_info = g_file_query_info (gio_file,
+	file_info = g_file_query_info (file,
 				       attributes,
 				       G_FILE_QUERY_INFO_NONE,
 				       NULL,
 				       NULL);
 
-	uri = g_file_get_uri (gio_file);
+	uri = g_file_get_uri (file);
 	if (g_strcmp0 (uri, "file:///") == 0) {
 		GIcon *icon;
 
@@ -235,7 +226,6 @@ gth_file_source_vfs_get_file_info (GthFileSource *file_source,
 		g_file_info_set_display_name (file_info, _("Home Folder"));
 
 	g_free (uri);
-	g_object_unref (gio_file);
 
 	return file_info;
 }
@@ -322,7 +312,6 @@ gth_file_source_vfs_for_each_child (GthFileSource        *file_source,
 				    gpointer              user_data)
 {
 	GthFileSourceVfs *file_source_vfs = (GthFileSourceVfs *) file_source;
-	GFile            *gio_folder;
 
 	gth_file_source_set_active (file_source, TRUE);
 	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
@@ -336,8 +325,7 @@ gth_file_source_vfs_for_each_child (GthFileSource        *file_source,
 	file_source_vfs->priv->user_data = user_data;
 	file_source_vfs->priv->check_hidden_files = _g_file_attributes_matches_any (attributes, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN);
 
-	gio_folder = gth_file_source_to_gio_file (file_source, parent);
-	_g_directory_foreach_child (gio_folder,
+	_g_directory_foreach_child (parent,
 				   recursive,
 				   TRUE,
 				   attributes,
@@ -346,8 +334,6 @@ gth_file_source_vfs_for_each_child (GthFileSource        *file_source,
 				   fec__for_each_file_func,
 				   fec__done_func,
 				   file_source);
-
-	g_object_unref (gio_folder);
 }
 
 
