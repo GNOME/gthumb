@@ -84,16 +84,16 @@ cairo_png_read_data_func (png_structp png_ptr,
 			  png_size_t  size)
 {
 	CairoPngData *cairo_png_data;
-	gssize        n;
 	GError       *error = NULL;
 
 	cairo_png_data = png_get_io_ptr (png_ptr);
-	n = g_input_stream_read (cairo_png_data->stream,
-				 buffer,
-				 size,
-				 cairo_png_data->cancellable,
-				 &error);
-	if (n < 0) {
+	if(! g_input_stream_read_all (cairo_png_data->stream,
+				      buffer,
+				      size,
+				      NULL,
+				      cairo_png_data->cancellable,
+				      &error))
+	{
 		png_error (png_ptr, error->message);
 		g_error_free (error);
 	}
