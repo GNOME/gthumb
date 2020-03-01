@@ -39,7 +39,8 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "standard::display-name", N_("Name"), "file", 1, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "gth::file::display-size", N_("Size"), "file", 2, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "standard::size", N_("Bytes"), "file", 3, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "gth::file::display-mtime", NC_("the file mtime", "Modified Date & Time"), "file", 4, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
+	/* Translators: the file modified time. */
+	{ "gth::file::display-mtime", N_("Modified Date & Time"), "file", 4, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "standard::fast-content-type", N_("Type"), "file", 5, NULL, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "gth::file::is-modified", NULL, "file", 6, NULL, GTH_METADATA_ALLOW_NOWHERE },
 	{ "gth::file::full-name", N_("Location"), "file", 7, NULL, GTH_METADATA_ALLOW_IN_PRINT | GTH_METADATA_ALLOW_IN_FILE_LIST | GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
