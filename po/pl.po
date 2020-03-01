@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-02-16 18:14+0000\n"
-"PO-Revision-Date: 2020-02-23 12:22+0100\n"
+"POT-Creation-Date: 2020-03-01 11:35+0000\n"
+"PO-Revision-Date: 2020-03-01 15:11+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -1089,6 +1089,7 @@ msgstr "_Synchronizowanie z osadzonymi metadanymi"
 #: extensions/gstreamer_tools/dlg-media-viewer-preferences.c:75
 #: extensions/importer/gth-import-preferences-dialog.c:417
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
+#: extensions/terminal/dlg-terminal-preferences.c:83
 #: gthumb/dlg-preferences-extensions.c:483
 msgid "Preferences"
 msgstr "Preferencje"
@@ -3184,7 +3185,7 @@ msgstr "Mono"
 #: extensions/image_viewer/gth-image-viewer-page.c:1864
 #: extensions/image_viewer/gth-metadata-provider-image.c:253
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:944
+#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:945
 #, c-format
 msgid "%d × %d"
 msgstr "%d×%d"
@@ -3812,7 +3813,11 @@ msgstr "%quote{ tekst }"
 msgid "Quote the text "
 msgstr "Cytowanie tekstu "
 
-#: extensions/list_tools/data/ui/script-editor.ui:534
+#: extensions/list_tools/data/ui/script-editor.ui:522
+msgid "The current date and time"
+msgstr "Bieżąca data i czas"
+
+#: extensions/list_tools/data/ui/script-editor.ui:568
 msgid "_Command:"
 msgstr "Pole_cenie:"
 
@@ -3868,14 +3873,14 @@ msgstr "Polecenie nieprawidłowo zakończyło działanie ze stanem %d"
 msgid "Enter a value:"
 msgstr "Wartość:"
 
-#: extensions/list_tools/gth-script.c:736
+#: extensions/list_tools/gth-script.c:753
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "Błędnie sformatowane polecenie"
 
-#: extensions/list_tools/gth-script.c:791
+#: extensions/list_tools/gth-script.c:808
 msgid "_Skip"
 msgstr "_Pomiń"
 
@@ -4569,6 +4574,23 @@ msgstr "Odtwarzanie prezentacji obrazów."
 msgid "x-office-presentation"
 msgstr "x-office-presentation"
 
+#: extensions/terminal/actions.c:53
+#: extensions/terminal/terminal.extension.desktop.in.in:3
+msgid "Terminal"
+msgstr "Terminal"
+
+#: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
+msgid "Open in Terminal"
+msgstr "Otwórz w terminalu"
+
+#: extensions/terminal/terminal.extension.desktop.in.in:4
+msgid "Open a folder in a terminal"
+msgstr "Otwieranie katalogu w terminalu"
+
+#: extensions/terminal/terminal.extension.desktop.in.in:8
+msgid "utilities-terminal"
+msgstr "utilities-terminal"
+
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
 msgstr "Album _WWW…"
@@ -4800,7 +4822,7 @@ msgid "Could not deactivate the extension"
 msgstr "Nie można dezaktywować rozszerzenia"
 
 #: gthumb/dlg-preferences-extensions.c:491
-msgid "gthumb development team"
+msgid "gThumb Development Team"
 msgstr "Zespół programistów gThumb"
 
 #. add the page to the preferences dialog
@@ -5647,23 +5669,23 @@ msgstr ""
 msgid "Could not display help"
 msgstr "Nie można wyświetlić pomocy"
 
-#: gthumb/gtk-utils.c:711 gthumb/gtk-utils.c:718
+#: gthumb/gtk-utils.c:712 gthumb/gtk-utils.c:719
 msgid "Could not launch the application"
 msgstr "Nie można uruchomić programu"
 
-#: gthumb/gtk-utils.c:821
+#: gthumb/gtk-utils.c:822
 msgid "_Copy Here"
 msgstr "S_kopiuj tutaj"
 
-#: gthumb/gtk-utils.c:826
+#: gthumb/gtk-utils.c:827
 msgid "_Move Here"
 msgstr "_Przenieś tutaj"
 
-#: gthumb/gtk-utils.c:831
+#: gthumb/gtk-utils.c:832
 msgid "_Link Here"
 msgstr "_Dowiąż tutaj"
 
-#: gthumb/gtk-utils.c:840
+#: gthumb/gtk-utils.c:841
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -5719,11 +5741,11 @@ msgstr "_O programie"
 msgid "_Delete History"
 msgstr "_Usuń historię"
 
-msgid "gThumb Photo Import Tool"
-msgstr "Narzędzie do importu zdjęć gThumb"
+#~ msgid "gThumb Photo Import Tool"
+#~ msgstr "Narzędzie do importu zdjęć gThumb"
 
-msgid "Example"
-msgstr "Przykład"
+#~ msgid "Example"
+#~ msgstr "Przykład"
 
-msgid "Extension example."
-msgstr "Przykład rozszerzenia."
+#~ msgid "Extension example."
+#~ msgstr "Przykład rozszerzenia."
