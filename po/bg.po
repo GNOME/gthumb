@@ -913,7 +913,7 @@ msgstr "<b>Запазване</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:21
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-msgstr "<small><i><b>Бележка: # (брояч)</i>.</small>"
+msgstr "<small><i><b>Бележка:</b> # (брояч)</i>.</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
