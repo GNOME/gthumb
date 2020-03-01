@@ -27,6 +27,7 @@
 #include <gobject/gvaluecollector.h>
 #include "glib-utils.h"
 #include "gth-duplicable.h"
+#include "gth-file-source-vfs.h"
 #include "gth-filter.h"
 #include "gth-main.h"
 #include "gth-metadata-provider.h"
@@ -254,13 +255,8 @@ gth_main_get_file_source_for_uri (const char *uri)
 		}
 	}
 
-	if ((file_source == NULL) && ! g_str_has_prefix (uri, "vfs+")) {
-		char *vfs_uri;
-
-		vfs_uri = g_strconcat ("vfs+", uri, NULL);
-		file_source = gth_main_get_file_source_for_uri (vfs_uri);
-		g_free (vfs_uri);
-	}
+	if (file_source == NULL)
+		file_source = g_object_new (GTH_TYPE_FILE_SOURCE_VFS, NULL);
 
 	return file_source;
 }
