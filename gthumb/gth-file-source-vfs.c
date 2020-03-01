@@ -875,13 +875,27 @@ gth_file_source_vfs_get_drop_actions (GthFileSource *file_source,
 				      GFile         *destination,
 				      GFile         *file)
 {
-	GdkDragAction actions = 0;
+	GdkDragAction  actions = 0;
+	char          *dest_uri;
+	char          *file_uri;
+	char          *dest_scheme;
+	char          *file_scheme;
 
-	if (_g_file_has_scheme (destination, "file")
-		&& _g_file_has_scheme (file, "file"))
+	dest_uri = g_file_get_uri (destination);
+	dest_scheme = gth_main_get_source_scheme (dest_uri);
+	file_uri = g_file_get_uri (file);
+	file_scheme = gth_main_get_source_scheme (file_uri);
+
+	if (_g_str_equal (dest_scheme, "file")
+		&& _g_str_equal (file_scheme, "file"))
 	{
 		actions = GDK_ACTION_COPY | GDK_ACTION_MOVE;
 	}
+
+	g_free (file_scheme);
+	g_free (file_uri);
+	g_free (dest_scheme);
+	g_free (dest_uri);
 
 	return actions;
 }
@@ -954,5 +968,5 @@ gth_file_source_vfs_init (GthFileSourceVfs *file_source)
 	file_source->priv->mount_monitor = NULL;
 	file_source->priv->check_hidden_files = FALSE;
 
-	gth_file_source_add_scheme (GTH_FILE_SOURCE (file_source), "vfs+");
+	gth_file_source_add_scheme (GTH_FILE_SOURCE (file_source), "file");
 }

@@ -68,6 +68,7 @@ void                   gth_main_release                       (void);
 void                   gth_main_register_file_source          (GType                 file_source_type);
 GthFileSource *        gth_main_get_file_source_for_uri       (const char           *uri);
 GthFileSource *        gth_main_get_file_source               (GFile                *file);
+char *                 gth_main_get_source_scheme             (const char           *uri);
 GList *                gth_main_get_all_file_sources          (void);
 GList *                gth_main_get_all_entry_points          (void);
 GFile *                gth_main_get_nearest_entry_point       (GFile                *file);

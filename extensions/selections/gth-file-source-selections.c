@@ -289,14 +289,22 @@ gth_file_source_selections_get_drop_actions (GthFileSource *file_source,
 					     GFile         *destination,
 					     GFile         *file)
 {
-	GdkDragAction actions = 0;
+	GdkDragAction  actions = 0;
+	char          *file_uri;
+	char          *file_scheme;
+
+	file_uri = g_file_get_uri (file);
+	file_scheme = gth_main_get_source_scheme (file_uri);
 
 	if (_g_file_has_scheme (destination, "selection")
-		&& _g_file_has_scheme (file, "file"))
+		&& _g_str_equal (file_scheme, "file"))
 	{
 		/* Copy files into a selection. */
 		actions = GDK_ACTION_COPY;
 	}
+
+	g_free (file_scheme);
+	g_free (file_uri);
 
 	return actions;
 }

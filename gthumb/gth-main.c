@@ -278,6 +278,23 @@ gth_main_get_file_source (GFile *file)
 	return file_source;
 }
 
+
+char *
+gth_main_get_source_scheme (const char *uri)
+{
+	GList *scan;
+
+	for (scan = Main->priv->file_sources; scan; scan = scan->next) {
+		GthFileSource *registered_file_source = scan->data;
+
+		if (gth_file_source_supports_scheme (registered_file_source, uri))
+			return _g_uri_get_scheme (uri);
+	}
+
+	return g_strdup ("file");
+}
+
+
 GList *
 gth_main_get_all_file_sources (void)
 {

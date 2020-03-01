@@ -1459,12 +1459,12 @@ gth_file_source_catalogs_get_drop_actions (GthFileSource *file_source,
 	gboolean       file_is_catalog;
 
 	dest_uri = g_file_get_uri (destination);
-	dest_scheme = _g_uri_get_scheme (dest_uri);
+	dest_scheme = gth_main_get_source_scheme (dest_uri);
 	dest_ext = _g_uri_get_extension (dest_uri);
 	dest_is_catalog = _g_str_equal (dest_ext, ".catalog") || _g_str_equal (dest_ext, ".search");
 
 	file_uri = g_file_get_uri (file);
-	file_scheme = _g_uri_get_scheme (file_uri);
+	file_scheme = gth_main_get_source_scheme (file_uri);
 	file_ext = _g_uri_get_extension (file_uri);
 	file_is_catalog = _g_str_equal (file_ext, ".catalog") || _g_str_equal (file_ext, ".search");
 
