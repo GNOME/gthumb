@@ -635,7 +635,7 @@ extensions__dlg_preferences_construct_cb (GtkWidget  *dialog,
 			cardinality = g_strdup_printf (CARDINALITY_FORMAT, get_category_cardinality (data, extension_category[i].id));
 			gtk_list_store_set (GTK_LIST_STORE (GET_WIDGET ("category_liststore")),
 					    &iter,
-					    CATEGORY_NAME_COLUMN, _(extension_category[i].name),
+					    CATEGORY_NAME_COLUMN, g_dpgettext2 (NULL, "Extensions", extension_category[i].name),
 					    CATEGORY_ID_COLUMN, extension_category[i].id,
 					    /* CATEGORY_ICON_COLUMN, extension_category[i].icon, */
 					    CATEGORY_SEPARATOR_COLUMN, FALSE,
