@@ -1,3 +1,52 @@
+version 3.9.1
+-------------
+
+ New features and user visible changes:
+
+  * Added ability to customize the keyboard shortcuts.
+  * Added a shortcuts window to show the available shortcuts.
+  * Added option to change the mouse wheel action.
+  * Image viewer: added ability to define the transparency style.
+  * Video viewer: allow to view the video at the original size; show the zoom
+    factor in the statusbar.
+  * Edit comment/tags dialogs: use the header bar; allow to change the current
+    image from the dialog.
+  * Add to catalog: use the header bar; allow to change the current image from
+    the dialog.
+  * Search: added ability to search in multiple folders.
+  * Scripts: added %T to insert a timestamp in the command.
+  * Folder tree:
+    * better drag&drop support: allow to move a catalog into a library, and a
+      library into another library, show an error if the drop operation is not
+      possible;
+    * added an 'Open in Terminal' command in the context menu.
+  * Overwrite dialog: show video previews as well, fixed dialog size.
+  * Preferences: allow to specify a catalog or any other location as startup
+    location.
+  * Trash/Delete files: show progress for long operations.
+  * File properties: added the file size in bytes.
+  * Toolbar: show edit comment/tags in browser mode as well.
+  * Export tools: removed from the toolbar.  Some tools moved to the tools
+    menu, others as a submenu in the gears menu.
+  * Fixed window size when started the first time.
+  * Updated app icon to follow the new GNOME style.
+  * Rewritten README in markdown, updated screenshots.
+  * Appdata: added release and OARS tags for flathub compatibility. (Tobias Mueller)
+
+ Bugs fixed:
+
+  * gThumb hangs when some mount point is unavailable. (!75)
+  * Jpeg loader: crash when the original size is too big for a cairo surface.
+  * PNG loader: correctly load images with transparency.
+  * Fixed run-time errors if exiv2 is not used.
+  * Catalog: preserve the list order after saving the properties.
+  * Scripts: fixed task cancellation when using a shell script.
+
+ Source code:
+
+  * Utility functions refactoring.
+  * Added tests for the utility functions.
+
 version 3.8.2
 -------------
 
