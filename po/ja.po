@@ -1,17 +1,17 @@
 # gthumb ja.po.
-# Copyright (C) 2001-2012, 2020 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013, 2020 Free Software Foundation, Inc.
 # Takeshi AIHANA <takeshi.aihana@gmail.com>, 2001-2007, 2009-2011.
-# Jiro Matsuzawa <jmatsuzawa@gnome.org>, 2012.
+# Jiro Matsuzawa <jmatsuzawa@gnome.org>, 2012-2013.
 # Ritsuko Sato <satoritsu@gmail.com>, 2012.
 # OKANO Takayoshi <kano@na.rim.or.jp>, 2012.
-# sicklylife <translation@sicklylife.jp>, 2019-2020.
+# sicklylife <translation@sicklylife.jp>, 2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
 "POT-Creation-Date: 2020-03-01 11:35+0000\n"
-"PO-Revision-Date: 2020-02-22 01:20+0900\n"
+"PO-Revision-Date: 2020-03-01 22:30+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -698,7 +698,7 @@ msgstr "カタログを削除できませんでした"
 #: extensions/catalogs/actions.c:366
 #, c-format
 msgid "Are you sure you want to remove “%s”?"
-msgstr "“%s”を削除してもよろしいですか?"
+msgstr "本当に“%s”を削除しますか?"
 
 #: extensions/catalogs/callbacks.c:52
 msgid "Add to Catalog…"
@@ -1504,7 +1504,7 @@ msgstr "desktop"
 msgid ""
 "Are you sure you want to permanently delete the metadata of the selected "
 "files?"
-msgstr "選択したファイルのメタデータを完全に削除してもよろしいですか?"
+msgstr "本当に選択したファイルのメタデータを完全に削除しますか?"
 
 #: extensions/edit_metadata/actions.c:82
 msgid "If you delete the metadata, it will be permanently lost."
@@ -3781,10 +3781,8 @@ msgid "Quote the text "
 msgstr "文字列を引用する"
 
 #: extensions/list_tools/data/ui/script-editor.ui:522
-#, fuzzy
-#| msgid "The current date"
 msgid "The current date and time"
-msgstr "今日の日付"
+msgstr "現在の日付と時刻"
 
 #: extensions/list_tools/data/ui/script-editor.ui:568
 msgid "_Command:"
@@ -3822,7 +3820,7 @@ msgstr "コマンドを編集"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:505
 msgid "Are you sure you want to delete the selected command?"
-msgstr "選択したコマンドを削除してもよろしいですか?"
+msgstr "本当に選択したコマンドを削除しますか?"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:605
 msgid "Commands"
@@ -4546,21 +4544,19 @@ msgstr "x-office-presentation"
 #: extensions/terminal/actions.c:53
 #: extensions/terminal/terminal.extension.desktop.in.in:3
 msgid "Terminal"
-msgstr ""
+msgstr "端末"
 
 #: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
-#, fuzzy
-#| msgid "Open in New Window"
 msgid "Open in Terminal"
-msgstr "新しいウィンドウで開く"
+msgstr "端末で開く"
 
 #: extensions/terminal/terminal.extension.desktop.in.in:4
 msgid "Open a folder in a terminal"
-msgstr ""
+msgstr "フォルダーを端末で開きます"
 
 #: extensions/terminal/terminal.extension.desktop.in.in:8
 msgid "utilities-terminal"
-msgstr ""
+msgstr "utilities-terminal"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -4793,8 +4789,6 @@ msgid "Could not deactivate the extension"
 msgstr "拡張機能を無効にできませんでした"
 
 #: gthumb/dlg-preferences-extensions.c:491
-#, fuzzy
-#| msgid "gthumb development team"
 msgid "gThumb Development Team"
 msgstr "gThumb 開発チーム"
 
@@ -5191,14 +5185,14 @@ msgstr "ファイルをゴミ箱へ移動できませんでした"
 #: gthumb/gth-file-source-vfs.c:843
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
-msgstr "“%s”を完全に削除してもよろしいですか?"
+msgstr "本当に“%s”を完全に削除しますか?"
 
 #: gthumb/gth-file-source-vfs.c:846
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
 "Are you sure you want to permanently delete the %'d selected files?"
-msgstr[0] "選択した %'d 個のファイルを完全に削除してもよろしいですか?"
+msgstr[0] "本当に選択した %'d 個のファイルを完全に削除しますか?"
 
 #: gthumb/gth-file-source-vfs.c:856
 msgid "If you delete a file, it will be permanently lost."
@@ -5705,36 +5699,8 @@ msgstr "gThumb について(_A)"
 msgid "_Delete History"
 msgstr "履歴を削除(_D)"
 
-#~ msgid "%s Metadata"
-#~ msgstr "%s のメタデータ"
-
-#~ msgid "%s Tags"
-#~ msgstr "%s タグ"
-
-#~ msgid "Assign Tags"
-#~ msgstr "タグを割当て"
-
-#~ msgid "Export"
-#~ msgstr "エクスポート"
-
-#~ msgid "File is not a valid .desktop file"
-#~ msgstr "妥当な .desktop ファイルではありません"
-
-#~ msgid "Unrecognized desktop file Version '%s'"
-#~ msgstr "バージョン '%s' の .desktop ファイルはサポートしていません"
-
-#~ msgid "Application does not accept documents on command line"
-#~ msgstr "コマンドラインからドキュメントにはアクセスできません"
-
 #~ msgid "Unrecognized launch option: %d"
 #~ msgstr "不明な起動オプションです: %d"
-
-#~ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-#~ msgstr ""
-#~ "ドキュメントの URI を 'Type=Link' のデスクトップの要素には渡せません"
-
-#~ msgid "Not a launchable item"
-#~ msgstr "起動可能なアイテムではありません"
 
 #~ msgid "Disable connection to session manager"
 #~ msgstr "セッションマネージャーに接続しない"
@@ -5742,17 +5708,8 @@ msgstr "履歴を削除(_D)"
 #~ msgid "Specify file containing saved configuration"
 #~ msgstr "設定を保存したファイルを指定する"
 
-#~ msgid "FILE"
-#~ msgstr "FILE"
-
 #~ msgid "Specify session management ID"
 #~ msgstr "セッション管理の ID を指定する"
-
-#~ msgid "ID"
-#~ msgstr "ID"
-
-#~ msgid "Session management options:"
-#~ msgstr "セッション管理のオプション:"
 
 #~ msgid "gThumb Photo Import Tool"
 #~ msgstr "gThumb フォトインポートツール"
@@ -5760,97 +5717,17 @@ msgstr "履歴を削除(_D)"
 #~ msgid "Whether to resize the window to fit the size of the image"
 #~ msgstr "画像のサイズに合わせてウィンドウの大きさを変更するかどうかです。"
 
-#~ msgid "Possible values are: white, black, checked, none."
-#~ msgstr "設定可能な値: white、black、checked、none"
-
-#~ msgid "Whether to always use a black background."
-#~ msgstr "常に背景を黒色にするかどうかを設定します。"
-
-#~ msgid "Some extensions are configurable."
-#~ msgstr "いくつかの拡張機能は設定変更が可能です。"
-
-#~ msgid "_Toolbar style:"
-#~ msgstr "ツールバーのスタイル(_T):"
-
 #~ msgid "Text below icons"
 #~ msgstr "アイコンの下にラベル"
 
 #~ msgid "Text beside icons"
 #~ msgstr "アイコンの横にラベル"
 
-#~ msgid "Icons only"
-#~ msgstr "アイコンのみ"
-
 #~ msgid "Text only"
 #~ msgstr "ラベルのみ"
 
-#~ msgid "Choose startup folder"
-#~ msgstr "起動時に開くフォルダーの選択"
-
-#~ msgid "_23..."
-#~ msgstr "23(_2)..."
-
-#~ msgid "Upload photos to 23"
-#~ msgstr "写真を 23 へアップロードします"
-
-#~ msgid "_Bookmarks"
-#~ msgstr "ブックマーク(_B)"
-
-#~ msgid "Add current location to bookmarks"
-#~ msgstr "この場所をブックマークとして追加します"
-
-#~ msgid "Edit bookmarks"
-#~ msgstr "ブックマークを編集します"
-
-#~ msgid "Write files to an optical disc"
-#~ msgstr "ファイルを光学ディスクに書き込みます"
-
-#~ msgid "_Add to Catalog"
-#~ msgstr "カタログに追加する(_A)"
-
 #~ msgid "Go to the folder that contains the selected file"
 #~ msgstr "選択したファイルを格納するフォルダーへジャンプします"
-
-#~ msgid "Other..."
-#~ msgstr "その他..."
-
-#~ msgid "Choose another catalog"
-#~ msgstr "別のカタログを選択します"
-
-#~ msgid "_Add to Catalog..."
-#~ msgstr "カタログへ追加(_A)..."
-
-#~ msgid "Add selected images to a catalog"
-#~ msgstr "選択した画像をカタログに追加します"
-
-#~ msgid "Remove selected images from the catalog"
-#~ msgstr "選択したファイルをカタログから削除します"
-
-#~ msgid "Rena_me"
-#~ msgstr "名前の変更(_M)"
-
-#~ msgid "Organizing files"
-#~ msgstr "ファイルの整理中"
-
-#~ msgid "tag"
-#~ msgstr "tag"
-
-#~ msgid "Change _Date..."
-#~ msgstr "日付の変更(_D)..."
-
-#~ msgid "Change images last modified date"
-#~ msgstr "最後に修正した日付を変更します"
-
-#~ msgid "Exif DateTimeOriginal tag"
-#~ msgstr "EXIF の DateTimeOriginal タグの日時"
-
-#~ msgid ""
-#~ "Import the metadata stored inside files into the gThumb comment system"
-#~ msgstr ""
-#~ "ファイル埋め込みのメタデータを gThumb のコメントシステムにインポートします"
-
-#~ msgid "Date"
-#~ msgstr "日付"
 
 #~ msgid "Contact _Sheet..."
 #~ msgstr "コンタクトシート(_S)..."
@@ -5860,131 +5737,6 @@ msgstr "履歴を削除(_D)"
 
 #~ msgid "Image _Wall..."
 #~ msgstr "イメージウォール(_W)..."
-
-#~ msgid "Create an image-wall"
-#~ msgstr "イメージウォールを生成します"
-
-#~ msgid "Convert Format..."
-#~ msgstr "フォーマットの変換..."
-
-#~ msgid "T_ags"
-#~ msgstr "タグ(_A)"
-
-#~ msgid "Edit the comment and other information of the selected files"
-#~ msgstr "選択したファイルのコメントやその他の情報を編集します"
-
-#~ msgid "Set the tags of the selected files"
-#~ msgstr "選択したファイルにタグを追加します"
-
-#~ msgid "Delete the comment and the embedded metadata of the selected files"
-#~ msgstr "選択したファイルのコメントや埋め込まれているメタデータを削除します"
-
-#~ msgid "Sa_ve and Close"
-#~ msgstr "保存して閉じる(_V)"
-
-#~ msgid "Example"
-#~ msgstr "サンプル"
-
-#~ msgid "Extension example."
-#~ msgstr "拡張機能のサンプルです。"
-
-#~ msgid "Share"
-#~ msgstr "共有する"
-
-#~ msgid "Face_book..."
-#~ msgstr "Facebook(_B)..."
-
-#~ msgid "Upload photos to Facebook"
-#~ msgstr "写真を Facebook へアップロードします"
-
-#~ msgid "_Resize to:"
-#~ msgstr "サイズを変更する(_R):"
-
-#~ msgid "Choose _Account..."
-#~ msgstr "アカウントの選択(_A)..."
-
-#~ msgid ""
-#~ "The folder is not empty, do you want to delete the folder and its content "
-#~ "permanently?"
-#~ msgstr ""
-#~ "そのフォルダーは空ではありませんが、そのフォルダーとその中身を完全に消去し"
-#~ "ますか?"
-
-#~ msgid "Could not delete the folder"
-#~ msgstr "フォルダーを削除できませんでした"
-
-#~ msgid ""
-#~ "The folder cannot be moved to the Trash. Do you want to delete it "
-#~ "permanently?"
-#~ msgstr ""
-#~ "そのフォルダーをゴミ箱へ移動できませんが、代わりにそれらを完全に消去します"
-#~ "か?"
-
-#~ msgid "Could not move the folder to the Trash"
-#~ msgstr "フォルダーをゴミ箱へ移動できませんでした"
-
-#~ msgid "Create a new empty folder inside this folder"
-#~ msgstr "このフォルダーの中に新しい空のフォルダーを作成します"
-
-#~ msgid "D_uplicate"
-#~ msgstr "複製(_U)"
-
-#~ msgid "Duplicate the selected files"
-#~ msgstr "選択したファイルの複製を作成します"
-
-#~ msgid "Move the selected files to the Trash"
-#~ msgstr "選択したファイルをゴミ箱へ移動します"
-
-#~ msgid "Delete the selected files"
-#~ msgstr "選択したファイルを削除します"
-
-#~ msgid "Rename the selected files"
-#~ msgstr "選択したファイルの名前を変更します"
-
-#~ msgid "Copy to..."
-#~ msgstr "コピーする..."
-
-#~ msgid "Copy the selected folder to another folder"
-#~ msgstr "選択したフォルダーを別のフォルダーへコピーします"
-
-#~ msgid "Move to..."
-#~ msgstr "移動する..."
-
-#~ msgid "Move the selected folder to another folder"
-#~ msgstr "選択したフォルダーを別のフォルダーへ移動します"
-
-#~ msgid "Copy the selected files to another folder"
-#~ msgstr "選択したファイルを別のフォルダーへコピーします"
-
-#~ msgid "Move the selected files to another folder"
-#~ msgstr "選択したファイルを別のフォルダーへ移動します"
-
-#~ msgid "_Reset"
-#~ msgstr "元に戻す(_R)"
-
-#~ msgid "×"
-#~ msgstr "×"
-
-#~ msgid "C_rop"
-#~ msgstr "切り抜く(_R)"
-
-#~ msgid "Basic tools to modify images."
-#~ msgstr "画像を変更するための基本ツールを提供します"
-
-#~ msgid "Adjust Colors..."
-#~ msgstr "色の調整...."
-
-#~ msgid "5:4"
-#~ msgstr "5:4"
-
-#~ msgid "7:5"
-#~ msgstr "7:5"
-
-#~ msgid "16:10"
-#~ msgstr "16:10"
-
-#~ msgid "Crop..."
-#~ msgstr "切り抜き..."
 
 #~ msgid "Desaturate"
 #~ msgstr "脱色"
@@ -5998,95 +5750,14 @@ msgstr "履歴を削除(_D)"
 #~ msgid "Automatic white balance correction"
 #~ msgstr "自動的にホワイトバランスを補正します"
 
-#~ msgid "Equalizing image histogram"
-#~ msgstr "画像のヒストグラムの均一化中"
-
 #~ msgid "Equalize image histogram"
 #~ msgstr "画像のヒストグラムを均一にします"
-
-#~ msgid "Resize..."
-#~ msgstr "サイズの変更..."
-
-#~ msgid "Rotate..."
-#~ msgstr "回転する..."
-
-#~ msgid "Freely rotate the image"
-#~ msgstr "画像を自在に回転します"
 
 #~ msgid "Enhance Focus..."
 #~ msgstr "焦点を合わせる..."
 
-#~ msgid "Find _Duplicates..."
-#~ msgstr "重複した画像の検索(_D)..."
-
-#~ msgid "Find duplicated files in the current location"
-#~ msgstr "現在のフォルダーで重複しているファイルを検索します"
-
-#~ msgid "Search for Duplicates"
-#~ msgstr "重複したファイルの検索"
-
-#~ msgid "_Flickr..."
-#~ msgstr "Flickr(_F)..."
-
-#~ msgid "Download photos from Flickr"
-#~ msgstr "写真を Flickr からダウンロードします"
-
-#~ msgid "Upload photos to Flickr"
-#~ msgstr "写真を Flickr へアップロードします"
-
-#~ msgid "--:--"
-#~ msgstr "--:--"
-
-#~ msgid "Toggle volume"
-#~ msgstr "ミュートを ON/OFF します"
-
-#~ msgid "Change volume level"
-#~ msgstr "音量のレベルを変更します"
-
-#~ msgid "Print the selected images"
-#~ msgstr "選択した画像を印刷します"
-
-#~ msgid "Rotate the selected images 90° to the right"
-#~ msgstr "選択した画像を時計回りに90°回転します"
-
-#~ msgid "Rotate the selected images 90° to the left"
-#~ msgstr "選択した画像を反時計回りに90°回転します"
-
-#~ msgid "Rotate the selected images according to the embedded orientation"
-#~ msgstr "選択した画像を埋め込まれた EXIF の向き情報に従って回転します"
-
-#~ msgid "Reset the embedded orientation without rotating the images"
-#~ msgstr "画像を回転させずに埋め込まれた EXIF の向き情報をリセットします"
-
-#~ msgid "Low"
-#~ msgstr "低品質"
-
-#~ msgid "Copy the image to the clipboard"
-#~ msgstr "画像をコピーしてクリップボードに格納します"
-
-#~ msgid "Paste the image from the clipboard"
-#~ msgstr "クリップボードから画像を貼り付けます"
-
-#~ msgid "In"
-#~ msgstr "拡大"
-
-#~ msgid "1:1"
-#~ msgstr "1:1"
-
-#~ msgid "Actual size"
-#~ msgstr "実サイズで表示します"
-
-#~ msgid "Fit"
-#~ msgstr "フィット"
-
 #~ msgid "Zoom to fit window"
 #~ msgstr "ウィンドウに合わせてズームします"
-
-#~ msgid "Image viewer"
-#~ msgstr "画像ビューアー"
-
-#~ msgid "Basic image viewing."
-#~ msgstr "画像の基本的なビューアー機能です"
 
 #~ msgid "Personalize..."
 #~ msgstr "指定する..."
@@ -6094,395 +5765,15 @@ msgstr "履歴を削除(_D)"
 #~ msgid "Batch tools for multiple files"
 #~ msgstr "指定したツールを使って複数のファイルを一括処理します"
 
-#~ msgid "none"
-#~ msgstr "なし"
-
-#~ msgid "key %d on the numeric keypad"
-#~ msgstr "テンキーの %d キー"
-
 #~ msgid ""
 #~ "The geographical position information is not available for this image."
 #~ msgstr "この画像では地理的な位置情報は利用できません"
 
-#~ msgid "Photobucket..."
-#~ msgstr "Photobucket..."
-
-#~ msgid "Upload photos to Photobucket"
-#~ msgstr "写真を Photobucket へアップロードします"
-
 #~ msgid "Tiny ( 100 x 75 )"
 #~ msgstr "極小 ( 100 x 75 )"
-
-#~ msgid "Small ( 160 x 120 )"
-#~ msgstr "小さい ( 160 x 120 )"
-
-#~ msgid "Medium ( 320 x 240 )"
-#~ msgstr "中ぐらい ( 320 x 240 )"
-
-#~ msgid "Large ( 640 x 480 )"
-#~ msgstr "大きい ( 640 x 480 )"
-
-#~ msgid "15ʺ screen ( 800 x 600 )"
-#~ msgstr "15ʺ の画面 ( 800 x 600 )"
-
-#~ msgid "17ʺ screen ( 1024 x 768 )"
-#~ msgstr "17ʺ の画面 ( 1024 x 768 )"
-
-#~ msgid "1 megabyte file size"
-#~ msgstr "1 Mバイトのファイル"
 
 #~ msgid "_Scramble filenames"
 #~ msgstr "ランダムなファイル名にする(_S)"
 
-#~ msgid "_Container:"
-#~ msgstr "コンテナー(_C):"
-
-#~ msgid "Tiny ( 100 × 75 )"
-#~ msgstr "極小 ( 100 × 75 )"
-
-#~ msgid "Small ( 160 × 120 )"
-#~ msgstr "小さい ( 160 × 120 )"
-
-#~ msgid "Medium ( 320 × 240 )"
-#~ msgstr "中ぐらい ( 320 × 240 )"
-
-#~ msgid "Large ( 640 × 480 )"
-#~ msgstr "大きい ( 640 × 480 )"
-
-#~ msgid "15ʺ screen ( 800 × 600 )"
-#~ msgstr "15ʺ の画面 ( 800 × 600 )"
-
-#~ msgid "17ʺ screen ( 1024 × 768 )"
-#~ msgstr "17ʺ の画面 ( 1024 × 768 )"
-
-#~ msgid "2 megabyte file size"
-#~ msgstr "2 Mバイトのファイル"
-
-#~ msgid "PhotoBucket"
-#~ msgstr "PhotoBucket"
-
-#~ msgid "Upload images to PhotoBucket"
-#~ msgstr "画像を PhotoBucket へアップロードします"
-
-#~ msgid "Import photos and other files from a removable device"
-#~ msgstr "リムーバブルデバイスから写真などをダウンロードします"
-
-#~ msgid "Import photos and other files from a folder"
-#~ msgstr "フォルダーから写真やその他のファイルをインポートします"
-
-#~ msgid "Getting folder listing..."
-#~ msgstr "フォルダーの一覧を取得しています..."
-
-#~ msgid "_Picasa Web Album..."
-#~ msgstr "Picasa ウェブアルバム(_P)..."
-
-#~ msgid "Download photos from Picasa Web Album"
-#~ msgstr "写真を Picasa ウェブアルバムからダウンロードします"
-
-#~ msgid "Upload photos to Picasa Web Album"
-#~ msgstr "写真を Picasa ウェブアルバムへアップロードします"
-
-#~ msgid "_E-Mail:"
-#~ msgstr "E-メール(_E):"
-
-#~ msgid ""
-#~ "Type the characters you see in the picture below. Letters are not case-"
-#~ "sensitive."
-#~ msgstr ""
-#~ "下の画像に表示されている文字を入力して下さい (大/小文字は区別しません)。"
-
-#~ msgid "_Password:"
-#~ msgstr "パスワード(_P):"
-
-#~ msgid "Account"
-#~ msgstr "アカウント"
-
-#~ msgid "Could not load the file"
-#~ msgstr "ファイルを読み込めませんでした"
-
-#~ msgid "Save images"
-#~ msgstr "画像の保存"
-
-#~ msgid "Save images in common file formats such as JPEG, PNG and TIFF"
-#~ msgstr "JPEG や PNG や TIFF のような共通ファイルで画像を保存します"
-
 #~ msgid "Red Eye Removal..."
 #~ msgstr "赤目の軽減..."
-
-#~ msgid "Resize Images..."
-#~ msgstr "画像の寸法を変更する..."
-
-#~ msgid "Resize the selected images"
-#~ msgstr "選択した画像の寸法を変更します"
-
-#~ msgid "Selection 1"
-#~ msgstr "セレクション 1"
-
-#~ msgid "Selection 2"
-#~ msgstr "セレクション 2"
-
-#~ msgid "Selection 3"
-#~ msgstr "セレクション 3"
-
-#~ msgid "_Slideshow"
-#~ msgstr "スライドショー(_S)"
-
-#~ msgid "View as a slideshow"
-#~ msgstr "スライドショーで表示します"
-
-#~ msgid "Slideshow"
-#~ msgstr "スライドショー"
-
-#~ msgid "Playing slideshow"
-#~ msgstr "スライドショーを実行する"
-
-#~ msgid "View images as a slideshow."
-#~ msgstr "画像をスライドショーで表示します"
-
-#~ msgid "_Web Album..."
-#~ msgstr "ウェブアルバム(_W)..."
-
-#~ msgid "Create a static web album"
-#~ msgstr "ローカルのウェブアルバムを作成します"
-
-#~ msgid "File _Format: %s"
-#~ msgstr "ファイルの形式(_F): %s"
-
-#~ msgid "By Extension"
-#~ msgstr "拡張子に合わせる"
-
-#~ msgid "File Format"
-#~ msgstr "ファイルの形式"
-
-#~ msgid "Extension(s)"
-#~ msgstr "拡張子"
-
-#~ msgid ""
-#~ "The program was not able to find out the file format you want to use for `"
-#~ "%s'. Please make sure to use a known extension for that file or manually "
-#~ "choose a file format from the list below."
-#~ msgstr ""
-#~ "'%s' で拡張子として使用しているファイル形式を見つけることができませんでし"
-#~ "た。そのファイルに対して既知の拡張子を使っていることを確認するか、または下"
-#~ "の一覧からファイルの形式を選択して下さい。"
-
-#~ msgid "File format not recognized"
-#~ msgstr "不明なファイル形式です"
-
-#~ msgid "_File"
-#~ msgstr "ファイル(_F)"
-
-#~ msgid "_Edit"
-#~ msgstr "編集(_E)"
-
-#~ msgid "_Go"
-#~ msgstr "ジャンプ(_G)"
-
-#~ msgid "Open another window"
-#~ msgstr "別のウィンドウを開きます"
-
-#~ msgid "Edit various preferences"
-#~ msgstr "gThumb の設定を変更します"
-
-#~ msgid "_Sort By..."
-#~ msgstr "並べ替え(_S)..."
-
-#~ msgid "_Filter..."
-#~ msgstr "フィルター(_F)..."
-
-#~ msgid "Stop loading the current location"
-#~ msgstr "この場所の読み込みを停止します"
-
-#~ msgid "Switch to fullscreen"
-#~ msgstr "フルスクリーン表示に切り替えます"
-
-#~ msgid "Go up one level"
-#~ msgstr "一つ上の場所に上がります"
-
-#~ msgid "_Location..."
-#~ msgstr "場所(_L)..."
-
-#~ msgid "Specify a location to open"
-#~ msgstr "場所を指定して開く"
-
-#~ msgid "Delete the list of visited locations"
-#~ msgstr "最近訪れた場所の一覧を削除します"
-
-#~ msgid "Show information about gthumb"
-#~ msgstr "gThumb の情報を表示します"
-
-#~ msgid "Contents"
-#~ msgstr "目次"
-
-#~ msgid "Display the gthumb Manual"
-#~ msgstr "gThumb のマニュアルを表示します"
-
-#~ msgid "_Toolbar"
-#~ msgstr "ツールバー(_T)"
-
-#~ msgid "View or hide the toolbar of this window"
-#~ msgstr "このウィンドウのツールバーの表示を ON/OFF します"
-
-#~ msgid "View or hide the statusbar of this window"
-#~ msgstr "このウィンドウのステータスバーの表示を ON/OFF します"
-
-#~ msgid "_Filterbar"
-#~ msgstr "フィルターバー(_F)"
-
-#~ msgid "View or hide the filterbar of this window"
-#~ msgstr "このウィンドウのフィルターバーの表示を ON/OFF します"
-
-#~ msgid "View or hide the sidebar of this window"
-#~ msgstr "このウィンドウのサイドバーの表示を ON/OFF します"
-
-#~ msgid "_Thumbnail Pane"
-#~ msgstr "サムネイルの一覧(_T)"
-
-#~ msgid "View or hide the thumbnail pane in viewer mode"
-#~ msgstr "サムネイルの一覧表示を ON/OFF します"
-
-#~ msgid "_Thumbnails"
-#~ msgstr "サムネイル(_T)"
-
-#~ msgid "View thumbnails"
-#~ msgstr "サムネイルで表示します"
-
-#~ msgid "Edit"
-#~ msgstr "編集する"
-
-#~ msgid "_Fit Window to Image"
-#~ msgstr "画像に合わせる(_F)"
-
-#~ msgid "Resize the window to the size of the image"
-#~ msgstr "画像のサイズに合わせてウィンドウの大きさを変更します"
-
-#~ msgid "Open %s"
-#~ msgstr "%s を開きます"
-
-#~ msgid "View the list of visited locations"
-#~ msgstr "最近訪れた場所の一覧を表示します"
-
-#~ msgid "View the list of upper locations"
-#~ msgstr "上にある場所の一覧を表示します"
-
-#~ msgid "File System"
-#~ msgstr "ファイルシステム"
-
-#~ msgid "Are you sure you want to move to trash the %'d selected file?"
-#~ msgid_plural ""
-#~ "Are you sure you want to move to trash the %'d selected files?"
-#~ msgstr[0] "本当に選択した%'d個のファイルをゴミ箱へ移動しますか?"
-
-#~ msgid "Hide the filterbar"
-#~ msgstr "フィルターバーを隠します"
-
-#~ msgid "Full Name"
-#~ msgstr "絶対パス名"
-
-#~ msgid "Close _All Windows"
-#~ msgstr "すべてのウィンドウを閉じる(_A)"
-
-#~ msgid "Choose another tag"
-#~ msgstr "別のタグを選択します"
-
-#~ msgid "New tag"
-#~ msgstr "新しいタグ"
-
-#~ msgid "Possible values are: list, thumbnails."
-#~ msgstr "設定可能な値: list、thumbnails"
-
-#~ msgid "Possible values are: high, low."
-#~ msgstr "設定可能な値: high、low"
-
-#~ msgid ""
-#~ "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
-#~ "fit_width_if_larger."
-#~ msgstr ""
-#~ "設定可能な値: actual_size、fit、keep_prev、fit_if_larger、"
-#~ "fit_width_if_larger"
-
-#~ msgid "Possible values are: light, midtone, dark."
-#~ msgstr "設定可能な値: light、midtone、dark"
-
-#~ msgid "Possible values are: small, medium, large."
-#~ msgstr "設定可能な値: small、medium、large"
-
-#~ msgid ""
-#~ "Possible values are: system, text_below, text_beside, text_only, "
-#~ "icons_only."
-#~ msgstr ""
-#~ "設定可能な値: system、text_below、text_beside、text_only、icons_only"
-
-#~ msgid "Follow Nautilus behaviour"
-#~ msgstr "Nautilus の設定に従う"
-
-#~ msgid "Activate items with a single click"
-#~ msgstr "シングル・クリックで有効にする"
-
-#~ msgid "Activate items with a double click"
-#~ msgstr "ダブル・クリックで有効にする"
-
-#~ msgid "Set image to actual size"
-#~ msgstr "オリジナルのサイズにする"
-
-#~ msgid "Possible values: pixels, percentage"
-#~ msgstr "設定可能な値: pixels、percentage"
-
-#~ msgid "     "
-#~ msgstr "     "
-
-#~ msgid "%p"
-#~ msgstr "%p"
-
-#~ msgid "%n"
-#~ msgstr "%n"
-
-#~ msgid "###"
-#~ msgstr "###"
-
-#~ msgid "#"
-#~ msgstr "#"
-
-#~ msgid "&#xD7;"
-#~ msgstr "&#xD7;"
-
-#~ msgctxt "time"
-#~ msgid "/"
-#~ msgstr "/"
-
-#~ msgid ""
-#~ "Possible values are: actual-size, keep-prev, fit-size, fit-size-if-"
-#~ "larger, fit-width, fit-width-if-larger."
-#~ msgstr ""
-#~ "設定可能な値: actual-size、keep-prev、fit-size、fit-size-if-larger、fit-"
-#~ "width、fit-width-if-larger"
-
-#~ msgid "Possible values are: none, file_date, current_date"
-#~ msgstr "設定可能な値: none、file_date、current_date"
-
-#~ msgid "Possible values are: yyyymmdd, yyyymm, yyyy"
-#~ msgstr "設定可能な値: yyyymmdd、yyyymm、yyyy"
-
-#~ msgid "%U"
-#~ msgstr "%U"
-
-#~ msgid "%F"
-#~ msgstr "%F"
-
-#~ msgid "%B"
-#~ msgstr "%B"
-
-#~ msgid "Possible values are: none, deflate, jpeg."
-#~ msgstr "指定可能な値: none、deflate、jpeg"
-
-#~ msgid "Possible values: 0 (none), 1 (lower), 2 (upper)"
-#~ msgstr "指定可能な値: 0 (なし)、1 (下部)、2 (上部)"
-
-#~ msgid "%i"
-#~ msgstr "%i"
-
-#~ msgid "%I"
-#~ msgstr "%I"
-
-#~ msgid "%C"
-#~ msgstr "%C"
