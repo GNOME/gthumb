@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-02-16 18:14+0000\n"
-"PO-Revision-Date: 2020-02-17 11:55+0100\n"
+"POT-Creation-Date: 2020-03-01 20:18+0000\n"
+"PO-Revision-Date: 2020-03-03 16:25+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -626,12 +626,12 @@ msgid "_Lossless"
 msgstr "_Sin pérdidas"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:145
+#: extensions/image_viewer/gth-metadata-provider-image.c:150
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:111
+#: extensions/image_viewer/gth-metadata-provider-image.c:116
 msgid "PNG"
 msgstr "PNG"
 
@@ -649,7 +649,7 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:174
+#: extensions/image_viewer/gth-metadata-provider-image.c:179
 msgid "WebP"
 msgstr "WebP"
 
@@ -761,7 +761,7 @@ msgstr "Propiedades"
 #: extensions/catalogs/callbacks.c:185
 #: extensions/catalogs/catalogs.extension.desktop.in.in:3
 #: extensions/catalogs/gth-catalog.c:504 extensions/catalogs/gth-catalog.c:555
-#: extensions/catalogs/gth-catalog.c:911 extensions/catalogs/gth-catalog.c:912
+#: extensions/catalogs/gth-catalog.c:916 extensions/catalogs/gth-catalog.c:917
 msgid "Catalogs"
 msgstr "Catálogos"
 
@@ -949,12 +949,12 @@ msgstr "Etiqueta (empotrada)"
 msgid "Invalid file format"
 msgstr "Formato de archivo no válido"
 
-#: extensions/catalogs/gth-catalog.c:1013 extensions/comments/main.c:47
+#: extensions/catalogs/gth-catalog.c:1018 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
 #: extensions/edit_metadata/callbacks.c:107
 #: extensions/edit_metadata/gth-edit-tags-dialog.c:185
-#: gthumb/gth-main-default-metadata.c:64
+#: gthumb/gth-main-default-metadata.c:65
 msgid "Tags"
 msgstr "Etiquetas"
 
@@ -1092,6 +1092,7 @@ msgstr "_Sincronizar con los metadatos empotrados"
 #: extensions/gstreamer_tools/dlg-media-viewer-preferences.c:75
 #: extensions/importer/gth-import-preferences-dialog.c:417
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
+#: extensions/terminal/dlg-terminal-preferences.c:83
 #: gthumb/dlg-preferences-extensions.c:483
 msgid "Preferences"
 msgstr "Preferencias"
@@ -1104,7 +1105,7 @@ msgstr "Preferencias"
 msgid "Comment"
 msgstr "Comentario"
 
-#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:61
+#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Título"
 
@@ -1118,12 +1119,12 @@ msgstr "Título"
 #: extensions/rename_series/data/ui/rename-series.ui:249
 #: extensions/webalbums/data/ui/web-album-exporter.ui:194
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
-#: gthumb/gth-main-default-metadata.c:63
+#: gthumb/gth-main-default-metadata.c:64
 msgid "Description"
 msgstr "Descripción"
 
 #: extensions/comments/main.c:45 extensions/comments/main.c:178
-#: gthumb/gth-main-default-metadata.c:62
+#: gthumb/gth-main-default-metadata.c:63
 msgid "Place"
 msgstr "Lugar"
 
@@ -1131,7 +1132,7 @@ msgstr "Lugar"
 msgid "Comment Date & Time"
 msgstr "Fecha y hora del comentario"
 
-#: extensions/comments/main.c:48 gthumb/gth-main-default-metadata.c:65
+#: extensions/comments/main.c:48 gthumb/gth-main-default-metadata.c:66
 #: gthumb/gth-main-default-tests.c:391
 msgid "Rating"
 msgstr "Puntuación"
@@ -1680,7 +1681,7 @@ msgid "State/Province:"
 msgstr "Estado/Provincia:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1088
-#: gthumb/glib-utils.c:2051 gthumb/str-utils.c:677
+#: gthumb/glib-utils.c:2053 gthumb/str-utils.c:677
 msgid "(invalid value)"
 msgstr "(valor no válido)"
 
@@ -1745,7 +1746,6 @@ msgid "date photo was taken"
 msgstr "fecha en la que se tomó la foto"
 
 #: extensions/export_tools/callbacks.c:46
-#| msgid "E_xport To"
 msgid "_Export To"
 msgstr "E_xportar a"
 
@@ -2064,7 +2064,7 @@ msgstr "Eliminar permanentemente"
 msgid "Open with Gimp"
 msgstr "Abrir con Gimp"
 
-#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:235
+#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:226
 msgid "Home Folder"
 msgstr "Carpeta personal"
 
@@ -2282,7 +2282,7 @@ msgid "%"
 msgstr "%"
 
 #: extensions/file_tools/data/ui/resize-options.ui:137
-#: gthumb/gth-main-default-metadata.c:47
+#: gthumb/gth-main-default-metadata.c:48
 msgid "Dimensions"
 msgstr "Dimensiones"
 
@@ -3187,9 +3187,9 @@ msgstr "Mono"
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
 #: extensions/image_viewer/gth-image-viewer-page.c:1864
-#: extensions/image_viewer/gth-metadata-provider-image.c:253
+#: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:944
+#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:945
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3701,7 +3701,7 @@ msgstr "No se importó ningún archivo"
 msgid "The selected files are already present in the destination."
 msgstr "Los archivos seleccionados ya existen en el destino."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:683
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
 msgid "Could not delete the files"
 msgstr "No se pudieron eliminar los archivos"
 
@@ -3816,7 +3816,12 @@ msgstr "%quote{ texto }"
 msgid "Quote the text "
 msgstr "Entrecomillar el texto "
 
-#: extensions/list_tools/data/ui/script-editor.ui:534
+#: extensions/list_tools/data/ui/script-editor.ui:522
+#| msgid "The current date"
+msgid "The current date and time"
+msgstr "La fecha y hora actuales"
+
+#: extensions/list_tools/data/ui/script-editor.ui:568
 msgid "_Command:"
 msgstr "Coman_do:"
 
@@ -3873,14 +3878,14 @@ msgstr "El comando finalizó anormalmente con estado %d"
 msgid "Enter a value:"
 msgstr "Introducir un valor:"
 
-#: extensions/list_tools/gth-script.c:736
+#: extensions/list_tools/gth-script.c:753
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "Comando mal formado"
 
-#: extensions/list_tools/gth-script.c:791
+#: extensions/list_tools/gth-script.c:808
 msgid "_Skip"
 msgstr "_Omitir"
 
@@ -4318,7 +4323,7 @@ msgid "_Preserve original aspect ratios"
 msgstr "Man_tener la proporción de aspecto original"
 
 #: extensions/resize_images/data/ui/resize-images.ui:324
-#: gthumb/gth-main-default-metadata.c:46 gthumb/gth-toolbox.c:148
+#: gthumb/gth-main-default-metadata.c:47 gthumb/gth-toolbox.c:148
 msgid "Format"
 msgstr "Formato"
 
@@ -4574,6 +4579,25 @@ msgstr "Reproducir una presentación de imágenes."
 msgid "x-office-presentation"
 msgstr "x-office-presentation"
 
+#: extensions/terminal/actions.c:53
+#: extensions/terminal/terminal.extension.desktop.in.in:3
+msgid "Terminal"
+msgstr "Terminal"
+
+#: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
+#| msgid "Open in New Window"
+msgid "Open in Terminal"
+msgstr "Abrir en una terminal"
+
+#: extensions/terminal/terminal.extension.desktop.in.in:4
+#| msgid "Open the selected folder in a new window"
+msgid "Open a folder in a terminal"
+msgstr "Abrir una carpeta en una terminal"
+
+#: extensions/terminal/terminal.extension.desktop.in.in:8
+msgid "utilities-terminal"
+msgstr "utilities-terminal"
+
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
 msgstr "Álbum _web…"
@@ -4805,8 +4829,9 @@ msgid "Could not deactivate the extension"
 msgstr "No se pudo desactivar la extensión"
 
 #: gthumb/dlg-preferences-extensions.c:491
-msgid "gthumb development team"
-msgstr "equipo de desarrollo de gthumb"
+#| msgid "gthumb development team"
+msgid "gThumb Development Team"
+msgstr "equipo de desarrollo de gThumb"
 
 #. add the page to the preferences dialog
 #: gthumb/dlg-preferences-extensions.c:664
@@ -4895,7 +4920,7 @@ msgstr "Moviendo archivos a la papelera"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2027
+#: gthumb/glib-utils.c:2029
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4907,7 +4932,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2036
+#: gthumb/glib-utils.c:2038
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5187,11 +5212,11 @@ msgstr "Todos los archivos soportados"
 msgid "_Show Format Options"
 msgstr "Mo_strar las opciones de formato"
 
-#: gthumb/gth-file-source-vfs.c:228
+#: gthumb/gth-file-source-vfs.c:219
 msgid "Computer"
 msgstr "Equipo"
 
-#: gthumb/gth-file-source-vfs.c:787
+#: gthumb/gth-file-source-vfs.c:773
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -5199,16 +5224,16 @@ msgstr ""
 "No se pueden mover los archivos a la papelera. ¿Quiere eliminarlos "
 "permanentemente?"
 
-#: gthumb/gth-file-source-vfs.c:798
+#: gthumb/gth-file-source-vfs.c:784
 msgid "Could not move the files to the Trash"
 msgstr "No se pudieron mover los archivos a la papelera"
 
-#: gthumb/gth-file-source-vfs.c:843
+#: gthumb/gth-file-source-vfs.c:829
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "¿Seguro que quiere eliminar permanentemente «%s»?"
 
-#: gthumb/gth-file-source-vfs.c:846
+#: gthumb/gth-file-source-vfs.c:832
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5220,7 +5245,7 @@ msgstr[1] ""
 "¿Está seguro de que quiere eliminar permanentemente los %'d archivos "
 "seleccionados?"
 
-#: gthumb/gth-file-source-vfs.c:856
+#: gthumb/gth-file-source-vfs.c:842
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Si elimina un archivo, se perderá definitivamente."
 
@@ -5300,7 +5325,7 @@ msgstr "Leyendo la información del archivo"
 msgid "Hidden Files"
 msgstr "Archivos ocultos"
 
-#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:45
+#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:46
 msgid "Location"
 msgstr "Ubicación"
 
@@ -5320,64 +5345,66 @@ msgstr "Tamaño"
 msgid "Bytes"
 msgstr "Bytes"
 
-#: gthumb/gth-main-default-metadata.c:42
-msgctxt "the file mtime"
+#. Translators: the file modified time.
+#: gthumb/gth-main-default-metadata.c:43
+#| msgctxt "the file mtime"
+#| msgid "Modified Date & Time"
 msgid "Modified Date & Time"
 msgstr "Fecha y hora de modificación"
 
-#: gthumb/gth-main-default-metadata.c:43
+#: gthumb/gth-main-default-metadata.c:44
 msgid "Type"
 msgstr "Tipo"
 
-#: gthumb/gth-main-default-metadata.c:48
+#: gthumb/gth-main-default-metadata.c:49
 msgid "Duration"
 msgstr "Duración"
 
-#: gthumb/gth-main-default-metadata.c:50
+#: gthumb/gth-main-default-metadata.c:51
 msgid "Exposure Settings"
 msgstr "Tiempo de exposición"
 
-#: gthumb/gth-main-default-metadata.c:51
+#: gthumb/gth-main-default-metadata.c:52
 msgid "Aperture"
 msgstr "Apertura"
 
-#: gthumb/gth-main-default-metadata.c:52
+#: gthumb/gth-main-default-metadata.c:53
 msgid "ISO Speed"
 msgstr "Velocidad ISO"
 
-#: gthumb/gth-main-default-metadata.c:53
+#: gthumb/gth-main-default-metadata.c:54
 msgid "Exposure Time"
 msgstr "Tiempo de exposición"
 
-#: gthumb/gth-main-default-metadata.c:54
+#: gthumb/gth-main-default-metadata.c:55
 msgid "Shutter Speed"
 msgstr "Velocidad del diafragma"
 
-#: gthumb/gth-main-default-metadata.c:55
+#: gthumb/gth-main-default-metadata.c:56
 msgid "Focal Length"
 msgstr "Distancia focal"
 
-#: gthumb/gth-main-default-metadata.c:56
+#: gthumb/gth-main-default-metadata.c:57
 msgid "Flash"
 msgstr "Flash"
 
-#: gthumb/gth-main-default-metadata.c:57
+#: gthumb/gth-main-default-metadata.c:58
 msgid "Camera Model"
 msgstr "Modelo de cámara"
 
-#: gthumb/gth-main-default-metadata.c:58
+#: gthumb/gth-main-default-metadata.c:59
 msgid "Color Profile"
 msgstr "Perfil de color"
 
-#: gthumb/gth-main-default-metadata.c:60
+#: gthumb/gth-main-default-metadata.c:61
 msgid "General Date & Time"
 msgstr "Fecha y hora generales"
 
-#: gthumb/gth-main-default-metadata.c:67
+#: gthumb/gth-main-default-metadata.c:68
 msgid "Author"
 msgstr "Autor"
 
-#: gthumb/gth-main-default-metadata.c:68
+#: gthumb/gth-main-default-metadata.c:69
 msgid "Copyright"
 msgstr "Copyright"
 
@@ -5656,23 +5683,23 @@ msgstr "La combinación de teclas «%s» ya está asignada y no se puede cambiar
 msgid "Could not display help"
 msgstr "No se pudo mostrar la ayuda"
 
-#: gthumb/gtk-utils.c:711 gthumb/gtk-utils.c:718
+#: gthumb/gtk-utils.c:712 gthumb/gtk-utils.c:719
 msgid "Could not launch the application"
 msgstr "No se pudo lanzar la aplicación"
 
-#: gthumb/gtk-utils.c:821
+#: gthumb/gtk-utils.c:822
 msgid "_Copy Here"
 msgstr "_Copiar aquí"
 
-#: gthumb/gtk-utils.c:826
+#: gthumb/gtk-utils.c:827
 msgid "_Move Here"
 msgstr "_Mover aquí"
 
-#: gthumb/gtk-utils.c:831
+#: gthumb/gtk-utils.c:832
 msgid "_Link Here"
 msgstr "En_lazar aquí"
 
-#: gthumb/gtk-utils.c:840
+#: gthumb/gtk-utils.c:841
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -7907,9 +7934,6 @@ msgstr "_Borrar histórico"
 
 #~ msgid "Move current catalog to another location"
 #~ msgstr "Mover el catálogo actual a otro lugar"
-
-#~ msgid "Open the selected folder in a new window"
-#~ msgstr "Abrir la carpeta seleccionada en una ventana nueva"
 
 #~ msgid "Open the selected folder with the Nautilus file manager"
 #~ msgstr ""
