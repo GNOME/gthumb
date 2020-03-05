@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-03-01 11:35+0000\n"
-"PO-Revision-Date: 2020-03-01 15:11+0100\n"
+"POT-Creation-Date: 2020-03-01 20:18+0000\n"
+"PO-Revision-Date: 2020-03-05 12:33+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -623,12 +623,12 @@ msgid "_Lossless"
 msgstr "_Bezstratna"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:145
+#: extensions/image_viewer/gth-metadata-provider-image.c:150
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:111
+#: extensions/image_viewer/gth-metadata-provider-image.c:116
 msgid "PNG"
 msgstr "PNG"
 
@@ -646,7 +646,7 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:174
+#: extensions/image_viewer/gth-metadata-provider-image.c:179
 msgid "WebP"
 msgstr "WebP"
 
@@ -758,7 +758,7 @@ msgstr "Właściwości"
 #: extensions/catalogs/callbacks.c:185
 #: extensions/catalogs/catalogs.extension.desktop.in.in:3
 #: extensions/catalogs/gth-catalog.c:504 extensions/catalogs/gth-catalog.c:555
-#: extensions/catalogs/gth-catalog.c:911 extensions/catalogs/gth-catalog.c:912
+#: extensions/catalogs/gth-catalog.c:916 extensions/catalogs/gth-catalog.c:917
 msgid "Catalogs"
 msgstr "Katalogi"
 
@@ -946,12 +946,12 @@ msgstr "Etykieta (osadzona)"
 msgid "Invalid file format"
 msgstr "Nieprawidłowy format pliku"
 
-#: extensions/catalogs/gth-catalog.c:1013 extensions/comments/main.c:47
+#: extensions/catalogs/gth-catalog.c:1018 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
 #: extensions/edit_metadata/callbacks.c:107
 #: extensions/edit_metadata/gth-edit-tags-dialog.c:185
-#: gthumb/gth-main-default-metadata.c:64
+#: gthumb/gth-main-default-metadata.c:65
 msgid "Tags"
 msgstr "Etykiety"
 
@@ -1102,7 +1102,7 @@ msgstr "Preferencje"
 msgid "Comment"
 msgstr "Komentarz"
 
-#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:61
+#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Tytuł"
 
@@ -1116,12 +1116,12 @@ msgstr "Tytuł"
 #: extensions/rename_series/data/ui/rename-series.ui:249
 #: extensions/webalbums/data/ui/web-album-exporter.ui:194
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
-#: gthumb/gth-main-default-metadata.c:63
+#: gthumb/gth-main-default-metadata.c:64
 msgid "Description"
 msgstr "Opis"
 
 #: extensions/comments/main.c:45 extensions/comments/main.c:178
-#: gthumb/gth-main-default-metadata.c:62
+#: gthumb/gth-main-default-metadata.c:63
 msgid "Place"
 msgstr "Miejsce"
 
@@ -1129,7 +1129,7 @@ msgstr "Miejsce"
 msgid "Comment Date & Time"
 msgstr "Data i czas komentarza"
 
-#: extensions/comments/main.c:48 gthumb/gth-main-default-metadata.c:65
+#: extensions/comments/main.c:48 gthumb/gth-main-default-metadata.c:66
 #: gthumb/gth-main-default-tests.c:391
 msgid "Rating"
 msgstr "Ocena"
@@ -1674,7 +1674,7 @@ msgid "State/Province:"
 msgstr "Stan/województwo:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1088
-#: gthumb/glib-utils.c:2051 gthumb/str-utils.c:677
+#: gthumb/glib-utils.c:2053 gthumb/str-utils.c:677
 msgid "(invalid value)"
 msgstr "(nieprawidłowa wartość)"
 
@@ -2057,7 +2057,7 @@ msgstr "Usuń trwale"
 msgid "Open with Gimp"
 msgstr "Otwórz w programie GIMP"
 
-#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:235
+#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:226
 msgid "Home Folder"
 msgstr "Katalog domowy"
 
@@ -2275,7 +2275,7 @@ msgid "%"
 msgstr "%"
 
 #: extensions/file_tools/data/ui/resize-options.ui:137
-#: gthumb/gth-main-default-metadata.c:47
+#: gthumb/gth-main-default-metadata.c:48
 msgid "Dimensions"
 msgstr "Wymiary"
 
@@ -3183,7 +3183,7 @@ msgstr "Mono"
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
 #: extensions/image_viewer/gth-image-viewer-page.c:1864
-#: extensions/image_viewer/gth-metadata-provider-image.c:253
+#: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
 #: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:945
 #, c-format
@@ -3698,7 +3698,7 @@ msgstr "Nie zaimportowano plików"
 msgid "The selected files are already present in the destination."
 msgstr "Zaznaczone pliki już znajdują się w miejscu docelowym."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:683
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
 msgid "Could not delete the files"
 msgstr "Nie można usunąć plików"
 
@@ -4318,7 +4318,7 @@ msgid "_Preserve original aspect ratios"
 msgstr "_Zachowanie pierwotnych proporcji obrazów"
 
 #: extensions/resize_images/data/ui/resize-images.ui:324
-#: gthumb/gth-main-default-metadata.c:46 gthumb/gth-toolbox.c:148
+#: gthumb/gth-main-default-metadata.c:47 gthumb/gth-toolbox.c:148
 msgid "Format"
 msgstr "Format"
 
@@ -4912,7 +4912,7 @@ msgstr "Przenoszenie plików do kosza"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2027
+#: gthumb/glib-utils.c:2029
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4924,7 +4924,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2036
+#: gthumb/glib-utils.c:2038
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5205,26 +5205,26 @@ msgstr "Wszystkie obsługiwane pliki"
 msgid "_Show Format Options"
 msgstr "_Opcje formatu"
 
-#: gthumb/gth-file-source-vfs.c:228
+#: gthumb/gth-file-source-vfs.c:219
 msgid "Computer"
 msgstr "Komputer"
 
-#: gthumb/gth-file-source-vfs.c:787
+#: gthumb/gth-file-source-vfs.c:773
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Nie można przenieść plików do kosza. Usunąć je trwale?"
 
-#: gthumb/gth-file-source-vfs.c:798
+#: gthumb/gth-file-source-vfs.c:784
 msgid "Could not move the files to the Trash"
 msgstr "Nie można przenieść plików do kosza"
 
-#: gthumb/gth-file-source-vfs.c:843
+#: gthumb/gth-file-source-vfs.c:829
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Na pewno trwale usunąć „%s”?"
 
-#: gthumb/gth-file-source-vfs.c:846
+#: gthumb/gth-file-source-vfs.c:832
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5233,7 +5233,7 @@ msgstr[0] "Na pewno trwale usunąć %'d zaznaczony plik?"
 msgstr[1] "Na pewno trwale usunąć %'d zaznaczone pliki?"
 msgstr[2] "Na pewno trwale usunąć %'d zaznaczonych plików?"
 
-#: gthumb/gth-file-source-vfs.c:856
+#: gthumb/gth-file-source-vfs.c:842
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Usunięcie pliku spowoduje jego trwałe utracenie."
 
@@ -5312,7 +5312,7 @@ msgstr "Odczytywanie informacji o pliku"
 msgid "Hidden Files"
 msgstr "Ukryte pliki"
 
-#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:45
+#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:46
 msgid "Location"
 msgstr "Położenie"
 
@@ -5332,64 +5332,64 @@ msgstr "Rozmiar"
 msgid "Bytes"
 msgstr "B"
 
-#: gthumb/gth-main-default-metadata.c:42
-msgctxt "the file mtime"
+#. Translators: the file modified time.
+#: gthumb/gth-main-default-metadata.c:43
 msgid "Modified Date & Time"
 msgstr "Data i czas modyfikacji"
 
-#: gthumb/gth-main-default-metadata.c:43
+#: gthumb/gth-main-default-metadata.c:44
 msgid "Type"
 msgstr "Typ"
 
-#: gthumb/gth-main-default-metadata.c:48
+#: gthumb/gth-main-default-metadata.c:49
 msgid "Duration"
 msgstr "Czas trwania"
 
-#: gthumb/gth-main-default-metadata.c:50
+#: gthumb/gth-main-default-metadata.c:51
 msgid "Exposure Settings"
 msgstr "Ustawienia ekspozycji"
 
-#: gthumb/gth-main-default-metadata.c:51
+#: gthumb/gth-main-default-metadata.c:52
 msgid "Aperture"
 msgstr "Przesłona"
 
-#: gthumb/gth-main-default-metadata.c:52
+#: gthumb/gth-main-default-metadata.c:53
 msgid "ISO Speed"
 msgstr "Prędkość ISO"
 
-#: gthumb/gth-main-default-metadata.c:53
+#: gthumb/gth-main-default-metadata.c:54
 msgid "Exposure Time"
 msgstr "Czas ekspozycji"
 
-#: gthumb/gth-main-default-metadata.c:54
+#: gthumb/gth-main-default-metadata.c:55
 msgid "Shutter Speed"
 msgstr "Czas naświetlania"
 
-#: gthumb/gth-main-default-metadata.c:55
+#: gthumb/gth-main-default-metadata.c:56
 msgid "Focal Length"
 msgstr "Ogniskowa"
 
-#: gthumb/gth-main-default-metadata.c:56
+#: gthumb/gth-main-default-metadata.c:57
 msgid "Flash"
 msgstr "Lampa błyskowa"
 
-#: gthumb/gth-main-default-metadata.c:57
+#: gthumb/gth-main-default-metadata.c:58
 msgid "Camera Model"
 msgstr "Model aparatu"
 
-#: gthumb/gth-main-default-metadata.c:58
+#: gthumb/gth-main-default-metadata.c:59
 msgid "Color Profile"
 msgstr "Profil kolorów"
 
-#: gthumb/gth-main-default-metadata.c:60
+#: gthumb/gth-main-default-metadata.c:61
 msgid "General Date & Time"
 msgstr "Ogólna data i czas"
 
-#: gthumb/gth-main-default-metadata.c:67
+#: gthumb/gth-main-default-metadata.c:68
 msgid "Author"
 msgstr "Autor"
 
-#: gthumb/gth-main-default-metadata.c:68
+#: gthumb/gth-main-default-metadata.c:69
 msgid "Copyright"
 msgstr "Prawa autorskie"
 
