@@ -667,6 +667,7 @@ dlg_add_to_catalog (GthBrowser *browser)
 	DialogData       *data;
 	GtkTreeSelection *selection;
 	char             *last_catalog;
+	GtkWidget        *sep;
 
 	if (gth_browser_get_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME)) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME)));
@@ -693,6 +694,14 @@ dlg_add_to_catalog (GthBrowser *browser)
 			    FALSE,
 			    FALSE,
 			    0);
+
+	sep = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_widget_show (sep);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			    sep,
+			    FALSE,
+			    FALSE,
+			    5);
 
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
 			    GET_WIDGET ("dialog_content"),

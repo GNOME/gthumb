@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkBox" id="content">
@@ -7,19 +7,6 @@
     <property name="can_focus">False</property>
     <property name="hexpand">True</property>
     <property name="orientation">vertical</property>
-    <child>
-      <object class="GtkSeparator">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_top">6</property>
-        <property name="margin_bottom">6</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -87,7 +74,7 @@
       <packing>
         <property name="expand">False</property>
         <property name="fill">True</property>
-        <property name="position">1</property>
+        <property name="position">0</property>
       </packing>
     </child>
   </object>
