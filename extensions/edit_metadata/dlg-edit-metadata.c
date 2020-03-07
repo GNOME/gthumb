@@ -137,6 +137,8 @@ saver_completed_cb (GthTask  *task,
 
 	if (data->close_dialog)
 		close_dialog (data);
+	else
+		gth_browser_show_next_image (data->browser, FALSE, FALSE);
 
 	dialog_data_unref (data);
 	_g_object_unref (task);
