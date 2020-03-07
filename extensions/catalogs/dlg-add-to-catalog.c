@@ -684,13 +684,21 @@ dlg_add_to_catalog (GthBrowser *browser)
 				     "modal", FALSE,
 				     "use-header-bar", _gtk_settings_get_dialogs_use_header (),
 				     NULL);
-	gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
-			   GET_WIDGET ("dialog_content"));
 	gtk_container_set_border_width (GTK_CONTAINER (data->dialog), 5);
 
 	data->info = gth_file_selection_info_new ();
 	gtk_widget_show (data->info);
-	gtk_box_pack_end (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))), data->info, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			    data->info,
+			    FALSE,
+			    FALSE,
+			    0);
+
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
+			    GET_WIDGET ("dialog_content"),
+			    FALSE,
+			    FALSE,
+			    0);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
 				_GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,

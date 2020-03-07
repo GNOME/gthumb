@@ -146,7 +146,7 @@ gth_edit_comment_dialog_init (GthEditCommentDialog *self)
 
 	self->priv->info = gth_file_selection_info_new ();
 	gtk_widget_show (self->priv->info);
-	gtk_box_pack_end (GTK_BOX (vbox), self->priv->info, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), self->priv->info, FALSE, FALSE, 0);
 
 	self->priv->notebook = gtk_notebook_new ();
 	gtk_widget_show (self->priv->notebook);

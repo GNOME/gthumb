@@ -197,7 +197,7 @@ gth_edit_tags_dialog_init (GthEditTagsDialog *self)
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	self->priv->info = gth_file_selection_info_new ();
 	gtk_widget_show (self->priv->info);
-	gtk_box_pack_end (GTK_BOX (box), self->priv->info, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box), self->priv->info, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (box), GET_WIDGET ("content"), TRUE, TRUE, 0);
 	self->priv->keep_open_check_button = gtk_check_button_new_with_mnemonic (_("_Keep the dialog open"));
 	gtk_widget_show (self->priv->keep_open_check_button);
