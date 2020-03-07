@@ -64,7 +64,9 @@ struct _GthFilePropertiesPrivate {
 	GtkWidget     *tree_view;
 	GtkListStore  *tree_model;
 	GtkWidget     *popup_menu;
+	GtkWidget     *copy_menu_item;
 	GtkWidget     *edit_favorites_menu_item;
+	GtkWidget     *context_menu_sep;
 	gboolean       show_details;
 	GthFileData   *last_file_data;
 	GHashTable    *favorites;
@@ -302,6 +304,20 @@ update_favorites (GthFileProperties *self)
 
 
 static void
+update_context_menu_separator_visibility (GthFileProperties *self)
+{
+	int n_visible;
+
+	n_visible = 0;
+	if (gtk_widget_get_visible (self->priv->copy_menu_item))
+		n_visible++;
+	if (gtk_widget_get_visible (self->priv->edit_favorites_menu_item))
+		n_visible++;
+	gtk_widget_set_visible (self->priv->context_menu_sep, n_visible > 1);
+}
+
+
+static void
 gth_file_properties_set_property (GObject      *object,
 				  guint         property_id,
 				  const GValue *value,
@@ -315,8 +331,10 @@ gth_file_properties_set_property (GObject      *object,
 	case PROP_SHOW_DETAILS:
 		self->priv->show_details = g_value_get_boolean (value);
 		update_favorites (self);
-		if (self->priv->edit_favorites_menu_item != NULL)
+		if (self->priv->edit_favorites_menu_item != NULL) {
 			gtk_widget_set_visible (self->priv->edit_favorites_menu_item, ! self->priv->show_details);
+			update_context_menu_separator_visibility (self);
+		}
 		break;
 	default:
 		break;
@@ -407,20 +425,25 @@ tree_view_button_press_event_cb (GtkWidget      *widget,
 
 	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3)) {
 		GtkTreePath *path;
+		gboolean     path_selected;
 
-		if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (self->priv->tree_view),
-						     event->x,
-						     event->y,
-						     &path,
-						     NULL,
-						     NULL,
-						     NULL))
-			return FALSE;
+		path_selected = gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (self->priv->tree_view),
+			event->x,
+			event->y,
+			&path,
+			NULL,
+			NULL,
+			NULL);
 
-		gtk_tree_selection_select_path (GTK_TREE_SELECTION (gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->tree_view))), path);
+		gtk_widget_set_visible (self->priv->copy_menu_item, path_selected);
+		update_context_menu_separator_visibility (self);
+
+		if (path != NULL) {
+			gtk_tree_selection_select_path (GTK_TREE_SELECTION (gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->tree_view))), path);
+			gtk_tree_path_free (path);
+		}
+
 		gtk_menu_popup_at_pointer (GTK_MENU (self->priv->popup_menu), (GdkEvent *) event);
-
-		gtk_tree_path_free (path);
 
 		return TRUE;
 	}
@@ -434,7 +457,12 @@ tree_view_popup_menu_cb (GtkWidget *widget,
 			 gpointer   user_data)
 {
 	GthFileProperties *self = user_data;
+
+	gtk_widget_set_visible (self->priv->copy_menu_item, TRUE);
+	update_context_menu_separator_visibility (self);
+
 	gtk_menu_popup_at_pointer (GTK_MENU (self->priv->popup_menu), NULL);
+
 	return TRUE;
 }
 
@@ -505,13 +533,17 @@ gth_file_properties_init (GthFileProperties *self)
 
 	self->priv->popup_menu = gtk_menu_new ();
 
-	menu_item = gtk_menu_item_new_with_label (_GTK_LABEL_COPY);
+	self->priv->copy_menu_item = menu_item = gtk_menu_item_new_with_label (_GTK_LABEL_COPY);
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->popup_menu), menu_item);
 	g_signal_connect (menu_item,
 			  "activate",
 			  G_CALLBACK (copy_menu_item_activate_cb),
 			  self);
+
+	self->priv->context_menu_sep = menu_item = gtk_separator_menu_item_new ();
+	gtk_widget_show (menu_item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->popup_menu), menu_item);
 
 	self->priv->edit_favorites_menu_item = menu_item = gtk_menu_item_new_with_label (_("Preferences"));
 	gtk_widget_set_visible (menu_item, ! self->priv->show_details);
@@ -520,6 +552,8 @@ gth_file_properties_init (GthFileProperties *self)
 			  "activate",
 			  G_CALLBACK (edit_favorites_menu_item_activate_cb),
 			  self);
+
+	update_context_menu_separator_visibility (self);
 
 	g_signal_connect (self->priv->tree_view,
 			  "button-press-event",
