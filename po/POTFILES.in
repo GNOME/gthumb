@@ -32,6 +32,7 @@ data/org.gnome.gThumb.Import.desktop.in.in
 data/org.gnome.gThumb.desktop.in.in
 data/ui/browser-preferences.ui
 data/ui/extensions-preferences.ui
+data/ui/favorite-properties.ui
 data/ui/file-selection-info.ui
 data/ui/filter-editor.ui
 data/ui/histogram-info.ui
@@ -683,6 +684,8 @@ gthumb/cairo-utils.c
 gthumb/cairo-utils.h
 gthumb/color-utils.c
 gthumb/color-utils.h
+gthumb/dlg-favorite-properties.c
+gthumb/dlg-favorite-properties.h
 gthumb/dlg-location.c
 gthumb/dlg-location.h
 gthumb/dlg-personalize-filters.c
