@@ -81,6 +81,7 @@ G_BEGIN_DECLS
 #define PREF_FULLSCREEN_THUMBNAILS_VISIBLE    "fullscreen-thumbnails-visible"
 #define PREF_FULLSCREEN_SIDEBAR		      "fullscreen-sidebar"
 #define PREF_VIEWER_SCROLL_ACTION             "scroll-action"
+#define PREF_BROWSER_FAVORITE_PROPERTIES      "favorite-properties"
 
 /* keys: add to catalog */
 

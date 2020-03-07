@@ -141,6 +141,9 @@
     <key name="scroll-action" enum="org.gnome.gthumb.GthScrollAction">
       <default>'change-file'</default>
     </key>
+    <key name="favorite-properties" type="s">
+      <default>'default'</default>
+    </key>
   </schema>
 
   <schema id="org.gnome.gthumb.dialogs" path="/org/gnome/gthumb/dialogs/">

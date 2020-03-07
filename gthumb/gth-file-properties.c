@@ -21,9 +21,11 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include "dlg-favorite-properties.h"
 #include "glib-utils.h"
 #include "gth-file-properties.h"
 #include "gth-main.h"
+#include "gth-preferences.h"
 #include "gth-property-view.h"
 #include "gth-string-list.h"
 #include "gth-time.h"
@@ -57,12 +59,16 @@ enum {
 
 
 struct _GthFilePropertiesPrivate {
+	GSettings     *settings;
 	GtkWidget     *main_container;
 	GtkWidget     *tree_view;
 	GtkListStore  *tree_model;
 	GtkWidget     *popup_menu;
+	GtkWidget     *edit_favorites_menu_item;
 	gboolean       show_details;
 	GthFileData   *last_file_data;
+	GHashTable    *favorites;
+	gboolean       default_favorites;
 };
 
 
@@ -162,29 +168,34 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 		if ((info->flags & GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW) != GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW)
 			continue;
 
+		if (info->id == NULL)
+			continue;
+
 		value = gth_file_data_get_attribute_as_string (file_data, info->id);
 		if ((value == NULL) || (*value == '\0')) {
 			g_free (value);
 			continue;
 		}
 
-		if (info->id != NULL) {
-			if (g_str_has_prefix (info->id, "Exif")) {
-				if (! self->priv->show_details)
-					continue;
-			}
-			else if (g_str_has_prefix (info->id, "Iptc")) {
-				if (! self->priv->show_details)
-					continue;
-			}
-			else if (g_str_has_prefix (info->id, "Xmp")) {
-				if (! self->priv->show_details)
-					continue;
-			}
-			else
-				if (self->priv->show_details)
-					continue;
+		if (! self->priv->show_details && ! self->priv->default_favorites) {
+			if (! g_hash_table_contains (self->priv->favorites, info->id))
+				continue;
 		}
+		else if (g_str_has_prefix (info->id, "Exif")) {
+			if (! self->priv->show_details)
+				continue;
+		}
+		else if (g_str_has_prefix (info->id, "Iptc")) {
+			if (! self->priv->show_details)
+				continue;
+		}
+		else if (g_str_has_prefix (info->id, "Xmp")) {
+			if (! self->priv->show_details)
+				continue;
+		}
+		else
+			if (self->priv->show_details)
+				continue;
 
 		if (value != NULL) {
 			char *utf8_value;
@@ -263,8 +274,30 @@ gth_file_properties_finalize (GObject *base)
 	if (self->priv->popup_menu != NULL)
 		gtk_widget_destroy (self->priv->popup_menu);
 	_g_object_unref (self->priv->last_file_data);
+	_g_object_unref (self->priv->settings);
+	if (self->priv->favorites != NULL)
+		g_hash_table_unref (self->priv->favorites);
 
 	G_OBJECT_CLASS (gth_file_properties_parent_class)->finalize (base);
+}
+
+
+static void
+update_favorites (GthFileProperties *self)
+{
+	char *favorites;
+
+	if (self->priv->show_details)
+		return;
+
+	favorites = g_settings_get_string (self->priv->settings, PREF_BROWSER_FAVORITE_PROPERTIES);
+
+	if (self->priv->favorites != NULL)
+		g_hash_table_unref (self->priv->favorites);
+	self->priv->favorites = _g_str_split_as_hash_table (favorites);
+	self->priv->default_favorites = _g_str_equal (favorites, "default");
+
+	g_free (favorites);
 }
 
 
@@ -281,6 +314,9 @@ gth_file_properties_set_property (GObject      *object,
 	switch (property_id) {
 	case PROP_SHOW_DETAILS:
 		self->priv->show_details = g_value_get_boolean (value);
+		update_favorites (self);
+		if (self->priv->edit_favorites_menu_item != NULL)
+			gtk_widget_set_visible (self->priv->edit_favorites_menu_item, ! self->priv->show_details);
 		break;
 	default:
 		break;
@@ -353,6 +389,15 @@ copy_menu_item_activate_cb (GtkMenuItem *menuitem,
 }
 
 
+static void
+edit_favorites_menu_item_activate_cb (GtkMenuItem *menuitem,
+				      gpointer     user_data)
+{
+	GthFileProperties *self = user_data;
+	dlg_favorite_properties (GTH_BROWSER (_gtk_widget_get_toplevel_if_window (GTK_WIDGET (self))));
+}
+
+
 static gboolean
 tree_view_button_press_event_cb (GtkWidget      *widget,
 				 GdkEventButton *event,
@@ -395,6 +440,18 @@ tree_view_popup_menu_cb (GtkWidget *widget,
 
 
 static void
+pref_favorite_properties_changed (GSettings  *settings,
+				  const char *key,
+				  gpointer    user_data)
+{
+	GthFileProperties *self = user_data;
+
+	update_favorites (self);
+	gth_property_view_set_file (GTH_PROPERTY_VIEW (self), self->priv->last_file_data);
+}
+
+
+static void
 gth_file_properties_init (GthFileProperties *self)
 {
 	GtkWidget         *scrolled_win;
@@ -405,6 +462,15 @@ gth_file_properties_init (GthFileProperties *self)
 	self->priv = gth_file_properties_get_instance_private (self);
 	self->priv->show_details = FALSE;
 	self->priv->last_file_data = NULL;
+	self->priv->settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
+	self->priv->favorites = NULL;
+
+	update_favorites (self);
+
+	g_signal_connect (self->priv->settings,
+			  "changed::" PREF_BROWSER_FAVORITE_PROPERTIES,
+			  G_CALLBACK (pref_favorite_properties_changed),
+			  self);
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
 	gtk_box_set_spacing (GTK_BOX (self), 6);
@@ -438,14 +504,23 @@ gth_file_properties_init (GthFileProperties *self)
 	/* popup menu */
 
 	self->priv->popup_menu = gtk_menu_new ();
+
 	menu_item = gtk_menu_item_new_with_label (_GTK_LABEL_COPY);
 	gtk_widget_show (menu_item);
-	gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->popup_menu),
-			       menu_item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->popup_menu), menu_item);
 	g_signal_connect (menu_item,
 			  "activate",
 			  G_CALLBACK (copy_menu_item_activate_cb),
 			  self);
+
+	self->priv->edit_favorites_menu_item = menu_item = gtk_menu_item_new_with_label (_("Preferences"));
+	gtk_widget_set_visible (menu_item, ! self->priv->show_details);
+	gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->popup_menu), menu_item);
+	g_signal_connect (menu_item,
+			  "activate",
+			  G_CALLBACK (edit_favorites_menu_item_activate_cb),
+			  self);
+
 	g_signal_connect (self->priv->tree_view,
 			  "button-press-event",
 			  G_CALLBACK (tree_view_button_press_event_cb),

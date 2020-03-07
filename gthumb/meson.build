@@ -158,6 +158,7 @@ source_files = files(
   'cairo-scale.c',
   'cairo-utils.c',
   'color-utils.c',
+  'dlg-favorite-properties.c',
   'dlg-location.c',
   'dlg-personalize-filters.c',
   'dlg-preferences.c',
