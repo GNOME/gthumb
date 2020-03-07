@@ -25,6 +25,8 @@ version 3.9.1
     location.
   * Trash/Delete files: show progress for long operations.
   * File properties: added the file size in bytes.
+  * File properties: added a context menu command to customize the visibile
+    properties.
   * Toolbar: show edit comment/tags in browser mode as well.
   * Export tools: removed from the toolbar.  Some tools moved to the tools
     menu, others as a submenu in the gears menu.
