@@ -42,6 +42,12 @@ enum {
 };
 
 
+/* Properties */
+enum {
+	PROP_0,
+	PROP_REORDERABLE
+};
+
 /* Signals */
 enum {
 	CHANGED,
@@ -51,6 +57,7 @@ enum {
 
 struct _GthMetadataChooserPrivate {
 	GthMetadataFlags allowed_flags;
+	gboolean         reorderable;
 	gulong           row_inserted_event;
 	gulong           row_deleted_event;
 	guint            changed_id;
@@ -66,9 +73,67 @@ G_DEFINE_TYPE_WITH_CODE (GthMetadataChooser,
 			 G_ADD_PRIVATE (GthMetadataChooser))
 
 
+
+static void
+ggth_metadata_chooser_set_property (GObject      *object,
+				    guint         property_id,
+				    const GValue *value,
+				    GParamSpec   *pspec)
+{
+	GthMetadataChooser *self;
+
+	self = GTH_METADATA_CHOOSER (object);
+
+	switch (property_id) {
+	case PROP_REORDERABLE:
+		self->priv->reorderable = g_value_get_boolean (value);
+		break;
+	default:
+		break;
+	}
+}
+
+
+static void
+gth_metadata_chooser_get_property (GObject    *object,
+				   guint       property_id,
+				   GValue     *value,
+				   GParamSpec *pspec)
+{
+	GthMetadataChooser *self;
+
+	self = GTH_METADATA_CHOOSER (object);
+
+	switch (property_id) {
+	case PROP_REORDERABLE:
+		g_value_set_boolean (value, self->priv->reorderable);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
 static void
 gth_metadata_chooser_class_init (GthMetadataChooserClass *klass)
 {
+	GObjectClass *object_class;
+
+	object_class = (GObjectClass*) klass;
+	object_class->set_property = ggth_metadata_chooser_set_property;
+	object_class->get_property = gth_metadata_chooser_get_property;
+
+	/* properties */
+
+	g_object_class_install_property (object_class,
+					 PROP_REORDERABLE,
+					 g_param_spec_boolean ("reorderable",
+							       "Reorderable",
+							       "Whether the user can reorder the list",
+							       FALSE,
+							       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
 	/* signals */
 
 	gth_metadata_chooser_signals[CHANGED] =
@@ -107,10 +172,23 @@ item_data_free (ItemData *item_data)
 
 static int
 item_data_compare_func (gconstpointer a,
-			gconstpointer b)
+			gconstpointer b,
+			gpointer      user_data)
 {
-	ItemData *item_a = (ItemData *) a;
-	ItemData *item_b = (ItemData *) b;
+	GthMetadataChooser *self = user_data;
+	ItemData           *item_a = (ItemData *) a;
+	ItemData           *item_b = (ItemData *) b;
+
+	if (! self->priv->reorderable) {
+		if (item_a->sort_order < item_b->sort_order)
+			return -1;
+		else if (item_a->sort_order > item_b->sort_order)
+			return 1;
+		else
+			return g_strcmp0 (item_a->id, item_b->id);
+	}
+
+	/* self->priv->reorderable == TRUE */
 
 	if (item_a->separator) {
 		if (item_b->used)
@@ -186,7 +264,7 @@ gth_metadata_chooser_reorder_list (GthMetadataChooser *self)
 	}
 	while (gtk_tree_model_iter_next (model, &iter));
 
-	list = g_list_sort (list, item_data_compare_func);
+	list = g_list_sort_with_data (list, item_data_compare_func, self);
 	new_order = g_new (int, g_list_length (list));
 	for (pos = 0, scan = list; scan; pos++, scan = scan->next) {
 		ItemData *item_data = scan->data;
@@ -315,7 +393,7 @@ gth_metadata_chooser_init (GthMetadataChooser *self)
 				    G_TYPE_BOOLEAN);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (self), GTK_TREE_MODEL (store));
 	g_object_unref (store);
-	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (self), TRUE);
+	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (self), self->priv->reorderable);
         gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (self), FALSE);
         gtk_tree_view_set_row_separator_func (GTK_TREE_VIEW (self),
        					      row_separator_func,
@@ -361,11 +439,12 @@ gth_metadata_chooser_init (GthMetadataChooser *self)
 
 
 GtkWidget *
-gth_metadata_chooser_new (GthMetadataFlags allowed_flags)
+gth_metadata_chooser_new (GthMetadataFlags allowed_flags,
+			  gboolean         reorderable)
 {
 	GthMetadataChooser *self;
 
-	self = g_object_new (GTH_TYPE_METADATA_CHOOSER, NULL);
+	self = g_object_new (GTH_TYPE_METADATA_CHOOSER, "reorderable", reorderable, NULL);
 	self->priv->allowed_flags = allowed_flags;
 	gth_metadata_chooser_set_selection (self, "");
 
@@ -393,51 +472,57 @@ gth_metadata_chooser_set_selection (GthMetadataChooser *self,
 
 	attributes_v = gth_main_get_metadata_attributes ("*");
 	ids_v = g_strsplit (ids, ",", -1);
-	for (i = 0; ids_v[i] != NULL; i++) {
-		int                  idx;
-		GthMetadataInfo     *info;
-		const char          *name;
-		GthMetadataCategory *category;
 
-		idx = _g_strv_find (attributes_v, ids_v[i]);
-		if (idx < 0)
-			continue;
+	if (self->priv->reorderable) {
+		for (i = 0; ids_v[i] != NULL; i++) {
+			int                  idx;
+			GthMetadataInfo     *info;
+			const char          *name;
+			GthMetadataCategory *category;
 
-		info = gth_main_get_metadata_info (attributes_v[idx]);
-		if ((info == NULL) || ((info->flags & self->priv->allowed_flags) == 0))
-			continue;
+			idx = _g_strv_find (attributes_v, ids_v[i]);
+			if (idx < 0)
+				continue;
 
-		name = info->display_name;
-		if (name == NULL)
-			name = info->id;
+			info = gth_main_get_metadata_info (attributes_v[idx]);
+			if ((info == NULL) || ((info->flags & self->priv->allowed_flags) == 0))
+				continue;
 
-		category = gth_main_get_metadata_category (info->category);
+			if (info->display_name != NULL)
+				name = _(info->display_name);
+			else
+				name = info->id;
+
+			category = gth_main_get_metadata_category (info->category);
+
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter,
+					WEIGHT_COLUMN, PANGO_WEIGHT_NORMAL,
+					NAME_COLUMN, name,
+					ID_COLUMN, info->id,
+					SORT_ORDER_COLUMN, (category->sort_order * CATEGORY_SIZE) + info->sort_order,
+					USED_COLUMN, TRUE,
+					SEPARATOR_COLUMN, FALSE,
+					IS_METADATA_COLUMN, TRUE,
+					-1);
+		}
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
-				    WEIGHT_COLUMN, PANGO_WEIGHT_NORMAL,
-				    NAME_COLUMN, _(name),
-				    ID_COLUMN, info->id,
-				    SORT_ORDER_COLUMN, (category->sort_order * CATEGORY_SIZE) + info->sort_order,
-				    USED_COLUMN, TRUE,
-				    SEPARATOR_COLUMN, FALSE,
-				    IS_METADATA_COLUMN, TRUE,
-				    -1);
+				SEPARATOR_COLUMN, TRUE,
+				-1);
 	}
-
-	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter,
-			    SEPARATOR_COLUMN, TRUE,
-			    -1);
 
 	category_root = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, NULL);
 	for (i = 0; attributes_v[i] != NULL; i++) {
+		gboolean             used;
 		GtkTreeIter          iter;
 		GthMetadataInfo     *info;
 		const char          *name;
 		GthMetadataCategory *category;
 
-		if (_g_strv_find (ids_v, attributes_v[i]) >= 0)
+		used = _g_strv_find (ids_v, attributes_v[i]) >= 0;
+		if (self->priv->reorderable && used)
 			continue;
 
 		info = gth_main_get_metadata_info (attributes_v[i]);
@@ -471,7 +556,7 @@ gth_metadata_chooser_set_selection (GthMetadataChooser *self,
 				    NAME_COLUMN, _(name),
 				    ID_COLUMN, info->id,
 				    SORT_ORDER_COLUMN, (category->sort_order * CATEGORY_SIZE) + info->sort_order,
-				    USED_COLUMN, FALSE,
+				    USED_COLUMN, used,
 				    SEPARATOR_COLUMN, FALSE,
 				    IS_METADATA_COLUMN, TRUE,
 				    -1);

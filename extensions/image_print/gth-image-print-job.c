@@ -1420,7 +1420,7 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 	GthImagePrintJob *self = user_data;
 
 	self->priv->builder = _gtk_builder_new_from_file ("print-layout.ui", "image_print");
-	self->priv->caption_chooser = gth_metadata_chooser_new (GTH_METADATA_ALLOW_IN_PRINT);
+	self->priv->caption_chooser = gth_metadata_chooser_new (GTH_METADATA_ALLOW_IN_PRINT, TRUE);
 	gtk_widget_show (self->priv->caption_chooser);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("caption_scrolledwindow")), self->priv->caption_chooser);
 

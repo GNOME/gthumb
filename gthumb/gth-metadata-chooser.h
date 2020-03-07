@@ -23,6 +23,7 @@
 #define GTH_METADATA_CHOOSER_H
 
 #include <gtk/gtk.h>
+#include "gth-metadata.h"
 
 G_BEGIN_DECLS
 
@@ -51,7 +52,8 @@ struct _GthMetadataChooserClass {
 };
 
 GType        gth_metadata_chooser_get_type      (void);
-GtkWidget *  gth_metadata_chooser_new           (GthMetadataFlags    allowed_flags);
+GtkWidget *  gth_metadata_chooser_new           (GthMetadataFlags    allowed_flags,
+						 gboolean            reorderable);
 void         gth_metadata_chooser_set_selection (GthMetadataChooser *self,
 						 char               *ids);
 char *       gth_metadata_chooser_get_selection (GthMetadataChooser *self);
