@@ -42,6 +42,8 @@ char *		_g_str_random		(int		  len);
 char *		_g_str_remove_suffix	(const char	 *str,
 					 const char	 *suffix);
 const char *	_g_str_get_static	(const char	 *str);
+GHashTable *	_g_str_split_as_hash_table
+					(const char	 *str);
 
 /* StrV utils */
 

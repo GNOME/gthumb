@@ -167,6 +167,29 @@ _g_str_get_static (const char *str)
 }
 
 
+GHashTable *
+_g_str_split_as_hash_table (const char *str)
+{
+	GHashTable *htable;
+
+	htable = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	if (str != NULL) {
+		char **strv;
+		int    i;
+
+		strv = g_strsplit (str, ",", -1);
+		for (i = 0; strv[i] != NULL; i++)
+			if (strv[i] != 0)
+				g_hash_table_add (htable, g_strdup (strv[i]));
+
+		g_strfreev (strv);
+	}
+
+	return htable;
+}
+
+
 /* StrV utils */
 
 
