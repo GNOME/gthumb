@@ -87,6 +87,7 @@ ggth_metadata_chooser_set_property (GObject      *object,
 	switch (property_id) {
 	case PROP_REORDERABLE:
 		self->priv->reorderable = g_value_get_boolean (value);
+		gtk_tree_view_set_reorderable (GTK_TREE_VIEW (self), self->priv->reorderable);
 		break;
 	default:
 		break;
