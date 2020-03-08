@@ -213,6 +213,9 @@ GType		g_string_list_get_type		(void);
 
 char *		_g_string_array_join		(GPtrArray	 *array,
 						 const char	 *separator);
+GPtrArray *	_g_ptr_array_dup		(GPtrArray	 *array,
+						 GCopyFunc	  copy_func,
+						 GDestroyNotify   free_func);
 
 /* Regexp utils */
 

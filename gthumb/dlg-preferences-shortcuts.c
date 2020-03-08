@@ -529,8 +529,7 @@ shortcuts__dlg_preferences_construct_cb (GtkWidget  *dialog,
 		GtkTreeIter   iter;
 		int           i;
 
-		category_v = g_ptr_array_copy (gth_main_get_shortcut_categories (), NULL, NULL);
-		g_ptr_array_set_free_func (category_v, NULL);
+		category_v = _g_ptr_array_dup (gth_main_get_shortcut_categories (), NULL, NULL);
 		g_ptr_array_sort (category_v, cmp_category);
 
 		list_store = (GtkListStore *) gtk_builder_get_object (data->builder, "category_liststore");

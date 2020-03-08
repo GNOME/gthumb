@@ -372,9 +372,9 @@ script_editor_dialog__response_cb (GtkDialog *dialog,
 
 	/* update the shortcuts */
 
-	shortcuts_v = g_ptr_array_copy (gth_window_get_shortcuts (GTH_WINDOW (data->browser)),
+	shortcuts_v = _g_ptr_array_dup (gth_window_get_shortcuts (GTH_WINDOW (data->browser)),
 					(GCopyFunc) gth_shortcut_dup,
-					NULL);
+					(GDestroyNotify) gth_shortcut_free);
 
 	/* If another shortcut has the same accelerator, reset the accelerator
 	 * for that shortcut. */
@@ -522,9 +522,9 @@ delete_script_cb (GtkButton  *button,
 
 	/* update the shortcuts */
 
-	shortcuts_v = g_ptr_array_copy (gth_window_get_shortcuts (GTH_WINDOW (data->browser)),
+	shortcuts_v = _g_ptr_array_dup (gth_window_get_shortcuts (GTH_WINDOW (data->browser)),
 					(GCopyFunc) gth_shortcut_dup,
-					NULL);
+					(GDestroyNotify) gth_shortcut_free);
 
 	shortcut = gth_shortcut_array_find_by_action (shortcuts_v, gth_script_get_detailed_action (script));
 	if (shortcut != NULL)

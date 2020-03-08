@@ -853,6 +853,32 @@ _g_string_array_join (GPtrArray  *array,
 }
 
 
+GPtrArray *
+_g_ptr_array_dup (GPtrArray	 *array,
+		  GCopyFunc	  copy_func,
+		  GDestroyNotify  free_func)
+{
+	GPtrArray *new_array;
+	int        i;
+
+	g_return_val_if_fail (array != NULL, NULL);
+
+	new_array = g_ptr_array_sized_new (array->len);
+	g_ptr_array_set_free_func (new_array, free_func);
+
+	if (copy_func != NULL)
+		for (i = 0; i < array->len; i++)
+			new_array->pdata[i] = copy_func (array->pdata[i], NULL);
+	else
+		for (i = 0; i < array->len; i++)
+			new_array->pdata[i] = array->pdata[i];
+
+	new_array->len = array->len;
+
+	return new_array;
+}
+
+
 /* Regexp utils */
 
 
