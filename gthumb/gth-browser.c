@@ -1076,7 +1076,7 @@ _gth_browser_update_activity (GthBrowser *browser,
 		if (browser->priv->activity_ref == 1) {
 			GdkCursor  *cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (browser)), "progress");
 			gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (browser)), cursor);
-			gdk_cursor_unref (cursor);
+			g_object_unref (cursor);
 		}
 	}
 	else {
@@ -1084,7 +1084,7 @@ _gth_browser_update_activity (GthBrowser *browser,
 		if (browser->priv->activity_ref == 0) {
 			GdkCursor *cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (browser)), "default");
 			gdk_window_set_cursor (gtk_widget_get_window (GTK_WIDGET (browser)), cursor);
-			gdk_cursor_unref (cursor);
+			g_object_unref (cursor);
 		}
 	}
 }
