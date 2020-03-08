@@ -4,7 +4,7 @@ project('gthumb', ['c', 'cpp'],
   meson_version : '>=0.43'
 )
 
-glib_version = '>=2.38.0'
+glib_version = '>=2.54.0'
 gtk_version = '>=3.16'
 exiv2_version = '>=0.21'
 clutter_version = '>=1.12.0'
