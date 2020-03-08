@@ -33,6 +33,8 @@ typedef struct {
 	int         ref;
 	GthBrowser *browser;
 	GtkWidget  *dialog;
+	GtkWidget  *keep_open_checkbutton;
+	GtkWidget  *info;
 	char       *dialog_name;
 	GList      *file_list; /* GthFileData list */
 	GList      *parents;
@@ -165,7 +167,7 @@ edit_metadata_dialog__response_cb (GtkDialog *dialog,
 	if (data->file_list == NULL)
 		return;
 
-	data->close_dialog = ! gth_edit_metadata_dialog_get_keep_open (GTH_EDIT_METADATA_DIALOG (data->dialog));
+	data->close_dialog = ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->keep_open_checkbutton));
 
 	/* get the parents list */
 
@@ -239,6 +241,7 @@ loader_completed_cb (GthTask  *task,
 	_g_object_list_unref (data->file_list);
 	data->file_list = _g_object_list_ref (gth_load_file_data_task_get_result (GTH_LOAD_FILE_DATA_TASK (task)));
 
+	gth_file_selection_info_set_file_list (GTH_FILE_SELECTION_INFO (data->info), data->file_list);
 	gth_edit_metadata_dialog_set_file_list (GTH_EDIT_METADATA_DIALOG (data->dialog), data->file_list);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (data->browser));
@@ -299,6 +302,15 @@ file_selection_changed_cb (GthFileSelection *self,
 }
 
 
+static void
+keep_open_button_toggled_cb (GtkToggleButton *button,
+			     DialogData      *data)
+{
+	gth_file_selection_info_set_visible (GTH_FILE_SELECTION_INFO (data->info),
+					     gtk_toggle_button_get_active (button));
+}
+
+
 void
 dlg_edit_metadata (GthBrowser *browser,
 		   GType       dialog_type,
@@ -322,10 +334,19 @@ dlg_edit_metadata (GthBrowser *browser,
 	data->dialog_name = g_strdup (dialog_name);
 	data->never_shown = TRUE;
 
+	data->info = gth_file_selection_info_new ();
+	gtk_widget_show (data->info);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))), data->info, FALSE, FALSE, 0);
+
 	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
 				_GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,
 				_GTK_LABEL_SAVE, GTK_RESPONSE_OK,
 				NULL);
+
+	data->keep_open_checkbutton = _gtk_toggle_image_button_new_for_header_bar ("lock-symbolic");
+	gtk_widget_set_tooltip_text (data->keep_open_checkbutton, _("Keep the dialog open"));
+	gtk_widget_show (data->keep_open_checkbutton);
+	_gtk_dialog_add_action_widget (GTK_DIALOG (data->dialog), data->keep_open_checkbutton);
 
 	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 	gth_browser_set_dialog (browser, data->dialog_name, data->dialog);
@@ -337,6 +358,10 @@ dlg_edit_metadata (GthBrowser *browser,
 	g_signal_connect (data->dialog,
 			  "response",
 			  G_CALLBACK (edit_metadata_dialog__response_cb),
+			  data);
+	g_signal_connect (data->keep_open_checkbutton,
+			  "toggled",
+			  G_CALLBACK (keep_open_button_toggled_cb),
 			  data);
 	data->file_selection_changed_event =
 			g_signal_connect (gth_browser_get_file_list_view (data->browser),

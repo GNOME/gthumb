@@ -144,3 +144,11 @@ gth_file_selection_info_set_file_list (GthFileSelectionInfo	*self,
 
 	g_free (title);
 }
+
+
+void
+gth_file_selection_info_set_visible (GthFileSelectionInfo *self,
+				     gboolean              visible)
+{
+	gtk_revealer_set_reveal_child (GTK_REVEALER (GET_WIDGET ("content")), visible);
+}

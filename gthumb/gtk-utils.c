@@ -284,6 +284,24 @@ _gtk_dialog_add_class_to_response (GtkDialog    *dialog,
 }
 
 
+void
+_gtk_dialog_add_action_widget (GtkDialog *dialog,
+			       GtkWidget *button)
+{
+	if (gtk_dialog_get_header_bar (dialog)) {
+		GtkWidget *headerbar = gtk_dialog_get_header_bar (dialog);
+
+		gtk_container_add (GTK_CONTAINER (headerbar), button);
+		gtk_container_child_set (GTK_CONTAINER (headerbar),
+					 button,
+					 "pack-type", GTK_PACK_END,
+					 NULL);
+	}
+	else
+		gtk_container_add (GTK_CONTAINER (gtk_dialog_get_action_area (dialog)), button);
+}
+
+
 GdkPixbuf *
 _g_icon_get_pixbuf (GIcon        *icon,
 		    int           icon_size,

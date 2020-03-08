@@ -51,6 +51,8 @@ GType		gth_file_selection_info_get_type	(void);
 GtkWidget *	gth_file_selection_info_new		(void);
 void		gth_file_selection_info_set_file_list	(GthFileSelectionInfo	*self,
 							 GList			*file_list);
+void		gth_file_selection_info_set_visible	(GthFileSelectionInfo	*self,
+							 gboolean		 visible);
 
 G_END_DECLS
 

@@ -41,7 +41,6 @@ struct _GthEditMetadataDialogInterface {
 						 GList                 *file_list /* GthFileData list */);
 	void		(*update_info)		(GthEditMetadataDialog *dialog,
 						 GList                 *file_list /* GthFileData list */);
-	gboolean	(*get_keep_open)	(GthEditMetadataDialog *dialog);
 };
 
 /* GthEditMetadataDialog */
@@ -51,7 +50,6 @@ void           gth_edit_metadata_dialog_set_file_list  (GthEditMetadataDialog *d
 						        GList                 *file_list /* GthFileData list */);
 void           gth_edit_metadata_dialog_update_info    (GthEditMetadataDialog *dialog,
 						        GList                 *file_list /* GthFileData list */);
-gboolean       gth_edit_metadata_dialog_get_keep_open  (GthEditMetadataDialog *dialog);
 
 G_END_DECLS
 

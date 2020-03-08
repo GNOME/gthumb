@@ -85,6 +85,7 @@ typedef struct {
 	GthBrowser    *browser;
 	GtkBuilder    *builder;
 	GtkWidget     *dialog;
+	GtkWidget     *keep_open_checkbutton;
 	GtkWidget     *source_tree;
 	GtkWidget     *info;
 	AddData       *add_data;
@@ -260,7 +261,7 @@ static void
 add_button_clicked_cb (GtkWidget  *widget,
 		       DialogData *data)
 {
-	add_selection_to_catalog (data, ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_open_checkbutton"))));
+	add_selection_to_catalog (data, ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->keep_open_checkbutton)));
 }
 
 
@@ -276,8 +277,8 @@ update_sensitivity (DialogData *data)
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (data->browser)));
 	can_add = (items != NULL) && (selected_catalog != NULL);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, can_add);
-	gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (GET_WIDGET ("view_destination_checkbutton")), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_open_checkbutton"))));
-	gtk_widget_set_sensitive (GET_WIDGET ("view_destination_checkbutton"), ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("keep_open_checkbutton"))));
+	gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (GET_WIDGET ("view_destination_checkbutton")), gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->keep_open_checkbutton)));
+	gtk_widget_set_sensitive (GET_WIDGET ("view_destination_checkbutton"), ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->keep_open_checkbutton)));
 
 	file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (data->browser)), items);
 	gth_file_selection_info_set_file_list (GTH_FILE_SELECTION_INFO (data->info), file_data_list);
@@ -659,6 +660,8 @@ static void
 keep_open_button_toggled_cb (GtkToggleButton *button,
 			     DialogData      *data)
 {
+	gth_file_selection_info_set_visible (GTH_FILE_SELECTION_INFO (data->info),
+					     gtk_toggle_button_get_active (button));
 	update_sensitivity (data);
 }
 
@@ -669,7 +672,6 @@ dlg_add_to_catalog (GthBrowser *browser)
 	DialogData       *data;
 	GtkTreeSelection *selection;
 	char             *last_catalog;
-	GtkWidget        *sep;
 
 	if (gth_browser_get_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME)) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME)));
@@ -697,24 +699,22 @@ dlg_add_to_catalog (GthBrowser *browser)
 			    FALSE,
 			    0);
 
-	sep = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_widget_show (sep);
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
-			    sep,
-			    FALSE,
-			    FALSE,
-			    5);
-
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (data->dialog))),
 			    GET_WIDGET ("dialog_content"),
-			    FALSE,
-			    FALSE,
+			    TRUE,
+			    TRUE,
 			    0);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (data->dialog),
 				_GTK_LABEL_CLOSE, GTK_RESPONSE_CANCEL,
 				_("_Add"), GTK_RESPONSE_OK,
 				NULL);
+
+	data->keep_open_checkbutton = _gtk_toggle_image_button_new_for_header_bar ("lock-symbolic");
+	gtk_widget_set_tooltip_text (data->keep_open_checkbutton, _("Keep the dialog open"));
+	gtk_widget_show (data->keep_open_checkbutton);
+	_gtk_dialog_add_action_widget (GTK_DIALOG (data->dialog), data->keep_open_checkbutton);
+
 	_gtk_dialog_add_class_to_response (GTK_DIALOG (data->dialog), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
 	gth_browser_set_dialog (browser, ADD_TO_CATALOG_DIALOG_NAME, data->dialog);
@@ -760,7 +760,7 @@ dlg_add_to_catalog (GthBrowser *browser)
 			  "clicked",
 			  G_CALLBACK (new_library_button_clicked_cb),
 			  data);
-	g_signal_connect (G_OBJECT (GET_WIDGET ("keep_open_checkbutton")),
+	g_signal_connect (data->keep_open_checkbutton,
 			  "toggled",
 			  G_CALLBACK (keep_open_button_toggled_cb),
 			  data);

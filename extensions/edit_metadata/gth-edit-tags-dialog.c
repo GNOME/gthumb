@@ -32,8 +32,6 @@
 struct _GthEditTagsDialogPrivate {
 	GtkBuilder *builder;
 	GtkWidget  *tags_entry;
-	GtkWidget  *keep_open_check_button;
-	GtkWidget  *info;
 };
 
 
@@ -69,8 +67,6 @@ gth_edit_tags_dialog_set_file_list (GthEditMetadataDialog *base,
 	GHashTable        *no_common_tags;
 	GList             *common_tags_list;
 	GList             *no_common_tags_list;
-
-	gth_file_selection_info_set_file_list (GTH_FILE_SELECTION_INFO (self->priv->info), file_list);
 
 	/* update the tag entry */
 
@@ -147,20 +143,11 @@ gth_edit_tags_dialog_update_info (GthEditMetadataDialog *base,
 }
 
 
-static gboolean
-gth_edit_tags_dialog_get_keep_open (GthEditMetadataDialog *base)
-{
-	GthEditTagsDialog *self = GTH_EDIT_TAGS_DIALOG (base);
-	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->priv->keep_open_check_button));
-}
-
-
 static void
 gth_edit_tags_dialog_gth_edit_metadata_dialog_interface_init (GthEditMetadataDialogInterface *iface)
 {
 	iface->set_file_list = gth_edit_tags_dialog_set_file_list;
 	iface->update_info = gth_edit_tags_dialog_update_info;
-	iface->get_keep_open = gth_edit_tags_dialog_get_keep_open;
 }
 
 
@@ -177,9 +164,6 @@ gth_edit_tags_dialog_class_init (GthEditTagsDialogClass *klass)
 static void
 gth_edit_tags_dialog_init (GthEditTagsDialog *self)
 {
-	GtkWidget *box;
-	GtkWidget *sep;
-
 	self->priv = gth_edit_tags_dialog_get_instance_private (self);
 	self->priv->builder = _gtk_builder_new_from_file ("tag-chooser.ui", "edit_metadata");
 
@@ -195,22 +179,5 @@ gth_edit_tags_dialog_init (GthEditTagsDialog *self)
 	gtk_widget_show (self->priv->tags_entry);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tag_entry_box")), self->priv->tags_entry, TRUE, TRUE, 0);
 
-	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-
-	self->priv->info = gth_file_selection_info_new ();
-	gtk_widget_show (self->priv->info);
-	gtk_box_pack_start (GTK_BOX (box), self->priv->info, FALSE, FALSE, 0);
-
-	sep = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_widget_show (sep);
-	gtk_box_pack_start (GTK_BOX (box), sep, FALSE, FALSE, 0);
-
-	gtk_box_pack_start (GTK_BOX (box), GET_WIDGET ("content"), TRUE, TRUE, 0);
-
-	self->priv->keep_open_check_button = gtk_check_button_new_with_mnemonic (_("_Keep the dialog open"));
-	gtk_widget_show (self->priv->keep_open_check_button);
-	gtk_box_pack_start (GTK_BOX (box), self->priv->keep_open_check_button, FALSE, FALSE, 0);
-
-	gtk_widget_show (box);
-	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), box, TRUE, TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), GET_WIDGET ("content"), TRUE, TRUE, 0);
 }
