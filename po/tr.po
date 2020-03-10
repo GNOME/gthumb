@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-02-17 13:44+0000\n"
-"PO-Revision-Date: 2020-02-19 16:27+0300\n"
+"POT-Creation-Date: 2020-03-08 11:24+0000\n"
+"PO-Revision-Date: 2020-03-10 09:25+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -50,8 +50,8 @@ msgid ""
 "is also possible to view various metadata types embedded inside an image "
 "such as EXIF, IPTC and XMP."
 msgstr ""
-"Resim görüntüleyici olarak gThumb, BMP, JPEG, GIF (animasyon içerir), "
-"PNG, TIFF, TGA ve RAW resimleri gibi ortak resim dosyası formatlarının "
+"Resim görüntüleyici olarak gThumb, BMP, JPEG, GIF (animasyon içerir), PNG, "
+"TIFF, TGA ve RAW resimleri gibi ortak resim dosyası formatlarının "
 "görüntülenmesine izin verir. Ayrıca resim içerisine gömülü, EXIF, IPTC ve "
 "XMP gibi çeşitli meta türlerini görüntülemesi de mümkündür."
 
@@ -233,12 +233,12 @@ msgstr "_Uzantılar:"
 msgid "More extensions…"
 msgstr "Daha fazla uzantı…"
 
-#: data/ui/file-selection-info.ui:33
+#: data/ui/file-selection-info.ui:23
 #: extensions/webalbums/data/albumthemes/text.h:32
 msgid "Previous"
 msgstr "Önceki"
 
-#: data/ui/file-selection-info.ui:71
+#: data/ui/file-selection-info.ui:61
 #: extensions/webalbums/data/albumthemes/text.h:30
 msgid "Next"
 msgstr "Sonraki"
@@ -514,11 +514,11 @@ msgstr "Disk Adı"
 
 #: extensions/burn_disc/data/ui/burn-source-selector.ui:31
 msgid "Current _folder"
-msgstr "Mevcut _klasör"
+msgstr "Geçerli _klasör"
 
 #: extensions/burn_disc/data/ui/burn-source-selector.ui:47
 msgid "Current folder and its s_ub-folders"
-msgstr "Mevcut klasör ve onun a_lt-klasörleri"
+msgstr "Geçerli klasör ve onun a_lt-klasörleri"
 
 #: extensions/burn_disc/data/ui/burn-source-selector.ui:64
 msgid "_Selected files"
@@ -628,12 +628,12 @@ msgid "_Lossless"
 msgstr "_Kayıpsız"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:145
+#: extensions/image_viewer/gth-metadata-provider-image.c:150
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:111
+#: extensions/image_viewer/gth-metadata-provider-image.c:116
 msgid "PNG"
 msgstr "PNG"
 
@@ -651,7 +651,7 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:174
+#: extensions/image_viewer/gth-metadata-provider-image.c:179
 msgid "WebP"
 msgstr "WebP"
 
@@ -664,8 +664,8 @@ msgid "Saving"
 msgstr "Kaydediliyor"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:373
-#: extensions/catalogs/dlg-add-to-catalog.c:538
+#: extensions/catalogs/dlg-add-to-catalog.c:376
+#: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
 #: extensions/list_tools/gth-script-editor-dialog.c:273
@@ -675,8 +675,8 @@ msgid "No name specified"
 msgstr "Ad belirtilmemiş"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:380
-#: extensions/catalogs/dlg-add-to-catalog.c:545
+#: extensions/catalogs/dlg-add-to-catalog.c:383
+#: extensions/catalogs/dlg-add-to-catalog.c:548
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
 #: gthumb/gth-folder-tree.c:1931
@@ -685,8 +685,8 @@ msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Geçersiz ad. Aşağıdaki karakterlere izin verilmez: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:437
-#: extensions/catalogs/dlg-add-to-catalog.c:594
+#: extensions/catalogs/dlg-add-to-catalog.c:440
+#: extensions/catalogs/dlg-add-to-catalog.c:597
 #: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
@@ -697,13 +697,13 @@ msgid "New catalog"
 msgstr "Yeni katalog"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:459
+#: extensions/catalogs/dlg-add-to-catalog.c:462
 msgid "Enter the catalog name:"
 msgstr "Katalog adı girin:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:461
-#: extensions/catalogs/dlg-add-to-catalog.c:620
+#: extensions/catalogs/dlg-add-to-catalog.c:464
+#: extensions/catalogs/dlg-add-to-catalog.c:623
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "Oluştu_r"
@@ -713,7 +713,7 @@ msgid "New library"
 msgstr "Yeni kütüphane"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:618
+#: extensions/catalogs/dlg-add-to-catalog.c:621
 msgid "Enter the library name:"
 msgstr "Kütüphane adı girin:"
 
@@ -756,14 +756,14 @@ msgstr "Yeniden adlandır"
 
 #: extensions/catalogs/callbacks.c:78
 #: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4553
-#: gthumb/gth-browser.c:4655 gthumb/gth-file-properties.c:245
+#: gthumb/gth-browser.c:4655 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Özellikler"
 
 #: extensions/catalogs/callbacks.c:185
 #: extensions/catalogs/catalogs.extension.desktop.in.in:3
 #: extensions/catalogs/gth-catalog.c:504 extensions/catalogs/gth-catalog.c:555
-#: extensions/catalogs/gth-catalog.c:911 extensions/catalogs/gth-catalog.c:912
+#: extensions/catalogs/gth-catalog.c:916 extensions/catalogs/gth-catalog.c:917
 msgid "Catalogs"
 msgstr "Kataloglar"
 
@@ -796,12 +796,12 @@ msgid "C_atalogs:"
 msgstr "K_ataloglar:"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:34
-#: extensions/catalogs/dlg-add-to-catalog.c:617
+#: extensions/catalogs/dlg-add-to-catalog.c:620
 msgid "New Library"
 msgstr "Yeni Kütüphane"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:57
-#: extensions/catalogs/dlg-add-to-catalog.c:458
+#: extensions/catalogs/dlg-add-to-catalog.c:461
 msgid "New Catalog"
 msgstr "Yeni Katalog"
 
@@ -810,12 +810,6 @@ msgstr "Yeni Katalog"
 #: extensions/webalbums/gth-web-exporter.c:1827
 msgid "_View the destination"
 msgstr "Hedefi _görüntüle"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:119
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:159
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:202
-msgid "_Keep the dialog open"
-msgstr "İletişim penceresini açı_k tut"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
@@ -886,22 +880,27 @@ msgstr "Tek dosyaları kataloga yerleştir:"
 msgid "Singles"
 msgstr "Tek"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:155
+#: extensions/catalogs/dlg-add-to-catalog.c:156
 msgid "Could not add the files to the catalog"
 msgstr "Dosyalar kataloga eklenemedi"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:316
+#: extensions/catalogs/dlg-add-to-catalog.c:319
 #: extensions/search/gth-search-task.c:402
 msgid "Could not create the catalog"
 msgstr "Katalog oluşturulamadı"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:682
+#: extensions/catalogs/dlg-add-to-catalog.c:687
 msgid "Add to Catalog"
 msgstr "Kataloga Ekle"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:697
+#: extensions/catalogs/dlg-add-to-catalog.c:710
 msgid "_Add"
 msgstr "_Ekle"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:714
+#: extensions/edit_metadata/dlg-edit-metadata.c:347
+msgid "Keep the dialog open"
+msgstr "İletişim penceresini açık tut"
 
 #: extensions/catalogs/dlg-catalog-properties.c:80
 msgid "Could not save the catalog"
@@ -951,12 +950,12 @@ msgstr "Etiket (gömülü)"
 msgid "Invalid file format"
 msgstr "Geçersiz dosya biçimi"
 
-#: extensions/catalogs/gth-catalog.c:1013 extensions/comments/main.c:47
+#: extensions/catalogs/gth-catalog.c:1018 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
 #: extensions/edit_metadata/callbacks.c:107
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:185
-#: gthumb/gth-main-default-metadata.c:64
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:170
+#: gthumb/gth-main-default-metadata.c:65
 msgid "Tags"
 msgstr "Etiketler"
 
@@ -1094,19 +1093,21 @@ msgstr "Gömülü üstveriler ile _eşitle"
 #: extensions/gstreamer_tools/dlg-media-viewer-preferences.c:75
 #: extensions/importer/gth-import-preferences-dialog.c:417
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
-#: gthumb/dlg-preferences-extensions.c:483
+#: extensions/terminal/dlg-terminal-preferences.c:83
+#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
+#: gthumb/gth-file-properties.c:548
 msgid "Preferences"
 msgstr "Tercihler"
 
 #: extensions/comments/main.c:37 extensions/edit_metadata/callbacks.c:56
 #: extensions/edit_metadata/callbacks.c:88
 #: extensions/edit_metadata/callbacks.c:101
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:137
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:124
 #: gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Yorum"
 
-#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:61
+#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Başlık"
 
@@ -1120,12 +1121,12 @@ msgstr "Başlık"
 #: extensions/rename_series/data/ui/rename-series.ui:249
 #: extensions/webalbums/data/ui/web-album-exporter.ui:194
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
-#: gthumb/gth-main-default-metadata.c:63
+#: gthumb/gth-main-default-metadata.c:64
 msgid "Description"
 msgstr "Açıklama"
 
 #: extensions/comments/main.c:45 extensions/comments/main.c:178
-#: gthumb/gth-main-default-metadata.c:62
+#: gthumb/gth-main-default-metadata.c:63
 msgid "Place"
 msgstr "Yer"
 
@@ -1133,7 +1134,7 @@ msgstr "Yer"
 msgid "Comment Date & Time"
 msgstr "Yorum Tarihi ve Zamanı"
 
-#: extensions/comments/main.c:48 gthumb/gth-main-default-metadata.c:65
+#: extensions/comments/main.c:48 gthumb/gth-main-default-metadata.c:66
 #: gthumb/gth-main-default-tests.c:391
 msgid "Rating"
 msgstr "Değerlendirme"
@@ -1155,8 +1156,7 @@ msgstr "Bağlantı Sayfası"
 #: extensions/contact_sheet/contact_sheet.extension.desktop.in.in:4
 msgid "Create an index image displaying the thumbnails of the selected files."
 msgstr ""
-"Seçilen dosyaların küçük resimlerinin görüntüleneceği resim dizini "
-"oluştur."
+"Seçilen dosyaların küçük resimlerinin görüntüleneceği resim dizini oluştur."
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:12
 #: extensions/file_tools/gth-file-tool-crop.c:439
@@ -1177,7 +1177,7 @@ msgstr "Basit gölge"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:21
 msgid "Shadow only"
-msgstr "Sadece gölge"
+msgstr "Yalnızca gölge"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:24
 msgid "Slide"
@@ -1573,11 +1573,11 @@ msgstr "_Değerlendirme:"
 msgid "_Title:"
 msgstr "_Başlık:"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:121
+#: extensions/edit_metadata/dlg-edit-metadata.c:123
 msgid "Could not save the file metadata"
 msgstr "Dosya üstverisi kaydedilemedi"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:230
+#: extensions/edit_metadata/dlg-edit-metadata.c:234
 #: gthumb/gth-overwrite-dialog.c:184
 msgid "Cannot read file information"
 msgstr "Dosya bilgisi okunamıyor"
@@ -1590,9 +1590,9 @@ msgstr "Üstveriyi düzenle"
 msgid "Allow to edit files metadata."
 msgstr "Dosya üstverilerini düzenlemeye izin ver."
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:155
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:138
 msgid "Save only cha_nged fields"
-msgstr "Sadece değişen ala_nları kaydet"
+msgstr "Yalnızca değişen ala_nları kaydet"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:554
 msgid "No date"
@@ -1682,7 +1682,7 @@ msgid "State/Province:"
 msgstr "Eyalet/Bölge:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1088
-#: gthumb/glib-utils.c:2051 gthumb/str-utils.c:677
+#: gthumb/glib-utils.c:2053 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(geçersiz değer)"
 
@@ -1977,7 +1977,7 @@ msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
 msgstr ""
-"Dosyalar mevcut konuma taşınamadı, alternatif olarak onları kopyalamayı "
+"Dosyalar geçerli konuma taşınamadı, alternatif olarak onları kopyalamayı "
 "seçebilirsiniz."
 
 #: extensions/file_manager/actions.c:426 extensions/file_manager/actions.c:743
@@ -2065,7 +2065,7 @@ msgstr "Kalıcı olarak sil"
 msgid "Open with Gimp"
 msgstr "GIMP ile aç"
 
-#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:235
+#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:226
 msgid "Home Folder"
 msgstr "Ev Klasörü"
 
@@ -2283,7 +2283,7 @@ msgid "%"
 msgstr "%"
 
 #: extensions/file_tools/data/ui/resize-options.ui:137
-#: gthumb/gth-main-default-metadata.c:47
+#: gthumb/gth-main-default-metadata.c:48
 msgid "Dimensions"
 msgstr "Boyutlar"
 
@@ -3184,9 +3184,9 @@ msgstr "Tek Kanallı"
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
 #: extensions/image_viewer/gth-image-viewer-page.c:1864
-#: extensions/image_viewer/gth-metadata-provider-image.c:253
+#: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:944
+#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3290,7 +3290,7 @@ msgstr "Resimler"
 #: gthumb/gth-image-loader.c:251 gthumb/gth-image-loader.c:375
 #: gthumb/gth-image-utils.c:117 gthumb/gth-image-utils.c:123
 msgid "No suitable loader available for this file type"
-msgstr "Bu dosya türü için uygun yükleyici mevcut değil"
+msgstr "Bu dosya türü için uygun yükleyici yok"
 
 #. translators: %s is a filename
 #: extensions/image_print/gth-load-image-info-task.c:168
@@ -3696,7 +3696,7 @@ msgstr "İçeri aktarılan dosya yok"
 msgid "The selected files are already present in the destination."
 msgstr "Seçilen dosyalar zaten hedefte var."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:683
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
 msgid "Could not delete the files"
 msgstr "Dosyalar silinemedi"
 
@@ -3720,7 +3720,7 @@ msgid ""
 "%s of space is required but only %s is available."
 msgstr ""
 "“%s” konumunda yeterli boş alan yok.\n"
-"%s alan gerekli fakat sadece %s kullanılabilir alan var."
+"%s alan gerekli ancak yalnızca %s kullanılabilir alan var."
 
 #: extensions/list_tools/callbacks.c:148 extensions/list_tools/callbacks.c:157
 #: extensions/list_tools/main.c:31
@@ -3811,7 +3811,11 @@ msgstr "%quote{ metin }"
 msgid "Quote the text "
 msgstr "Metni alıntıla "
 
-#: extensions/list_tools/data/ui/script-editor.ui:534
+#: extensions/list_tools/data/ui/script-editor.ui:522
+msgid "The current date and time"
+msgstr "Geçerli tarih ve saat"
+
+#: extensions/list_tools/data/ui/script-editor.ui:568
 msgid "_Command:"
 msgstr "_Komut:"
 
@@ -3867,14 +3871,14 @@ msgstr "Komut %d durumu ile anormal olarak çıktı"
 msgid "Enter a value:"
 msgstr "Değer girin:"
 
-#: extensions/list_tools/gth-script.c:736
+#: extensions/list_tools/gth-script.c:753
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "Hatalı biçimlendirilmiş komut"
 
-#: extensions/list_tools/gth-script.c:791
+#: extensions/list_tools/gth-script.c:808
 msgid "_Skip"
 msgstr "_Atla"
 
@@ -4312,7 +4316,7 @@ msgid "_Preserve original aspect ratios"
 msgstr "Özgün en-boy oranlarını _koru"
 
 #: extensions/resize_images/data/ui/resize-images.ui:324
-#: gthumb/gth-main-default-metadata.c:46 gthumb/gth-toolbox.c:148
+#: gthumb/gth-main-default-metadata.c:47 gthumb/gth-toolbox.c:148
 msgid "Format"
 msgstr "Biçim"
 
@@ -4567,6 +4571,23 @@ msgstr "Resimlerin sunumunu oynat."
 msgid "x-office-presentation"
 msgstr "x-office-presentation"
 
+#: extensions/terminal/actions.c:53
+#: extensions/terminal/terminal.extension.desktop.in.in:3
+msgid "Terminal"
+msgstr "Uçbirim"
+
+#: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
+msgid "Open in Terminal"
+msgstr "Uçbirimde aç"
+
+#: extensions/terminal/terminal.extension.desktop.in.in:4
+msgid "Open a folder in a terminal"
+msgstr "Uçbirimde klasör aç"
+
+#: extensions/terminal/terminal.extension.desktop.in.in:8
+msgid "utilities-terminal"
+msgstr "utilities-terminal"
+
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
 msgstr "_Web Albümü…"
@@ -4798,8 +4819,8 @@ msgid "Could not deactivate the extension"
 msgstr "Uzantılar devre dışı bırakılamadı"
 
 #: gthumb/dlg-preferences-extensions.c:491
-msgid "gthumb development team"
-msgstr "gthumb geliştirme takımı"
+msgid "gThumb Development Team"
+msgstr "gthumb Geliştirme Takımı"
 
 #. add the page to the preferences dialog
 #: gthumb/dlg-preferences-extensions.c:664
@@ -4892,7 +4913,7 @@ msgstr "Dosyalar çöpe taşınıyor"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2027
+#: gthumb/glib-utils.c:2029
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4904,7 +4925,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2036
+#: gthumb/glib-utils.c:2038
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5183,26 +5204,26 @@ msgstr "Tüm Desteklenen Dosyalar"
 msgid "_Show Format Options"
 msgstr "Biçim Seçeneklerini _Göster"
 
-#: gthumb/gth-file-source-vfs.c:228
+#: gthumb/gth-file-source-vfs.c:219
 msgid "Computer"
 msgstr "Bilgisayar"
 
-#: gthumb/gth-file-source-vfs.c:787
+#: gthumb/gth-file-source-vfs.c:773
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Dosyalar Çöpe taşınamadı. Onları kalıcı olarak silmek istiyor musunuz?"
 
-#: gthumb/gth-file-source-vfs.c:798
+#: gthumb/gth-file-source-vfs.c:784
 msgid "Could not move the files to the Trash"
 msgstr "Dosyalar Çöpe taşınamadı"
 
-#: gthumb/gth-file-source-vfs.c:843
+#: gthumb/gth-file-source-vfs.c:829
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "“%s” dosyasını kalıcı olarak silmek istediğinizden emin misiniz?"
 
-#: gthumb/gth-file-source-vfs.c:846
+#: gthumb/gth-file-source-vfs.c:832
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5210,7 +5231,7 @@ msgid_plural ""
 msgstr[0] ""
 "Seçilen %'d dosyasını kalıcı olarak silmek istediğinizden emin misiniz?"
 
-#: gthumb/gth-file-source-vfs.c:856
+#: gthumb/gth-file-source-vfs.c:842
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Eğer dosyayı silerseniz, kalıcı olarak kaybolacak."
 
@@ -5274,7 +5295,7 @@ msgstr "Dosya yeniden adlandırılamadı"
 
 #: gthumb/gth-image-saver.c:39
 msgid "No options available for this file type"
-msgstr "Bu dosya türü için mevcut seçenek yok"
+msgstr "Bu dosya türü için kullanılabilir seçenek yok"
 
 #: gthumb/gth-image-saver.c:185
 #, c-format
@@ -5289,7 +5310,7 @@ msgstr "Dosya bilgisi okunuyor"
 msgid "Hidden Files"
 msgstr "Gizli Dosyalar"
 
-#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:45
+#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:46
 msgid "Location"
 msgstr "Konum"
 
@@ -5309,64 +5330,64 @@ msgstr "Boyut"
 msgid "Bytes"
 msgstr "Bayt"
 
-#: gthumb/gth-main-default-metadata.c:42
-msgctxt "the file mtime"
+#. Translators: the file modified time.
+#: gthumb/gth-main-default-metadata.c:43
 msgid "Modified Date & Time"
 msgstr "Değiştirme Tarihi ve Zamanı"
 
-#: gthumb/gth-main-default-metadata.c:43
+#: gthumb/gth-main-default-metadata.c:44
 msgid "Type"
 msgstr "Tür"
 
-#: gthumb/gth-main-default-metadata.c:48
+#: gthumb/gth-main-default-metadata.c:49
 msgid "Duration"
 msgstr "Süre"
 
-#: gthumb/gth-main-default-metadata.c:50
+#: gthumb/gth-main-default-metadata.c:51
 msgid "Exposure Settings"
 msgstr "Pozlama Ayarları"
 
-#: gthumb/gth-main-default-metadata.c:51
+#: gthumb/gth-main-default-metadata.c:52
 msgid "Aperture"
 msgstr "Diyafram açıklığı"
 
-#: gthumb/gth-main-default-metadata.c:52
+#: gthumb/gth-main-default-metadata.c:53
 msgid "ISO Speed"
 msgstr "ISO Hızı"
 
-#: gthumb/gth-main-default-metadata.c:53
+#: gthumb/gth-main-default-metadata.c:54
 msgid "Exposure Time"
 msgstr "Pozlama Süresi"
 
-#: gthumb/gth-main-default-metadata.c:54
+#: gthumb/gth-main-default-metadata.c:55
 msgid "Shutter Speed"
 msgstr "Objektif Hızı"
 
-#: gthumb/gth-main-default-metadata.c:55
+#: gthumb/gth-main-default-metadata.c:56
 msgid "Focal Length"
 msgstr "Odak Uzaklığı"
 
-#: gthumb/gth-main-default-metadata.c:56
+#: gthumb/gth-main-default-metadata.c:57
 msgid "Flash"
 msgstr "Işık"
 
-#: gthumb/gth-main-default-metadata.c:57
+#: gthumb/gth-main-default-metadata.c:58
 msgid "Camera Model"
 msgstr "Kamera Modeli"
 
-#: gthumb/gth-main-default-metadata.c:58
+#: gthumb/gth-main-default-metadata.c:59
 msgid "Color Profile"
 msgstr "Renk Profili"
 
-#: gthumb/gth-main-default-metadata.c:60
+#: gthumb/gth-main-default-metadata.c:61
 msgid "General Date & Time"
 msgstr "Genel Tarih ve Zaman"
 
-#: gthumb/gth-main-default-metadata.c:67
+#: gthumb/gth-main-default-metadata.c:68
 msgid "Author"
 msgstr "Yazar"
 
-#: gthumb/gth-main-default-metadata.c:68
+#: gthumb/gth-main-default-metadata.c:69
 msgid "Copyright"
 msgstr "Telif Hakkı"
 
@@ -5555,7 +5576,7 @@ msgstr "-dır"
 
 #: gthumb/gth-test-category.c:47
 msgid "is only"
-msgstr "sadece"
+msgstr "yalnızca"
 
 #: gthumb/gth-test-category.c:48 gthumb/gth-test-simple.c:51
 #: gthumb/gth-test-simple.c:68
@@ -5639,27 +5660,27 @@ msgstr "«%s» tuş birleşimi zaten «%s» eylemine atanmış ve değiştirilem
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "«%s» tuş birleşimi zaten atanmış ve değiştirilemez."
 
-#: gthumb/gtk-utils.c:352
+#: gthumb/gtk-utils.c:370
 msgid "Could not display help"
 msgstr "Yardım gösterilemedi"
 
-#: gthumb/gtk-utils.c:711 gthumb/gtk-utils.c:718
+#: gthumb/gtk-utils.c:730 gthumb/gtk-utils.c:737
 msgid "Could not launch the application"
 msgstr "Uygulama başlatılamadı"
 
-#: gthumb/gtk-utils.c:821
+#: gthumb/gtk-utils.c:840
 msgid "_Copy Here"
 msgstr "Buraya _Kopyala"
 
-#: gthumb/gtk-utils.c:826
+#: gthumb/gtk-utils.c:845
 msgid "_Move Here"
 msgstr "Buraya _Taşı"
 
-#: gthumb/gtk-utils.c:831
+#: gthumb/gtk-utils.c:850
 msgid "_Link Here"
 msgstr "Buraya _Bağla"
 
-#: gthumb/gtk-utils.c:840
+#: gthumb/gtk-utils.c:859
 msgid "Cancel"
 msgstr "İptal et"
 
@@ -7063,9 +7084,6 @@ msgstr "Geçmişi _Sil"
 
 #~ msgid "Move current catalog to another location"
 #~ msgstr "Geçerli katalogu başka yere taşı"
-
-#~ msgid "Open the selected folder in a new window"
-#~ msgstr "Seçilmiş klasörü yeni pencerede aç"
 
 #~ msgid "Open with the _File Manager"
 #~ msgstr "_Dosya Yöneticisiyle aç"
