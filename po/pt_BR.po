@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-03-01 20:18+0000\n"
-"PO-Revision-Date: 2020-03-04 22:13-0300\n"
+"POT-Creation-Date: 2020-03-08 11:24+0000\n"
+"PO-Revision-Date: 2020-03-10 02:59-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -232,12 +232,12 @@ msgstr "_Extensões:"
 msgid "More extensions…"
 msgstr "Mais extensões…"
 
-#: data/ui/file-selection-info.ui:33
+#: data/ui/file-selection-info.ui:23
 #: extensions/webalbums/data/albumthemes/text.h:32
 msgid "Previous"
 msgstr "Anterior"
 
-#: data/ui/file-selection-info.ui:71
+#: data/ui/file-selection-info.ui:61
 #: extensions/webalbums/data/albumthemes/text.h:30
 msgid "Next"
 msgstr "Próxima"
@@ -665,8 +665,8 @@ msgid "Saving"
 msgstr "Salvar"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:373
-#: extensions/catalogs/dlg-add-to-catalog.c:538
+#: extensions/catalogs/dlg-add-to-catalog.c:376
+#: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
 #: extensions/list_tools/gth-script-editor-dialog.c:273
@@ -676,8 +676,8 @@ msgid "No name specified"
 msgstr "Nenhum nome especificado"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:380
-#: extensions/catalogs/dlg-add-to-catalog.c:545
+#: extensions/catalogs/dlg-add-to-catalog.c:383
+#: extensions/catalogs/dlg-add-to-catalog.c:548
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
 #: gthumb/gth-folder-tree.c:1931
@@ -686,8 +686,8 @@ msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Nome inválido. Os caracteres a seguir não são permitidos: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:437
-#: extensions/catalogs/dlg-add-to-catalog.c:594
+#: extensions/catalogs/dlg-add-to-catalog.c:440
+#: extensions/catalogs/dlg-add-to-catalog.c:597
 #: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
@@ -698,13 +698,13 @@ msgid "New catalog"
 msgstr "Novo catálogo"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:459
+#: extensions/catalogs/dlg-add-to-catalog.c:462
 msgid "Enter the catalog name:"
 msgstr "Digite o nome do catálogo:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:461
-#: extensions/catalogs/dlg-add-to-catalog.c:620
+#: extensions/catalogs/dlg-add-to-catalog.c:464
+#: extensions/catalogs/dlg-add-to-catalog.c:623
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "C_riar"
@@ -714,7 +714,7 @@ msgid "New library"
 msgstr "Nova biblioteca"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:618
+#: extensions/catalogs/dlg-add-to-catalog.c:621
 msgid "Enter the library name:"
 msgstr "Digite o nome da biblioteca:"
 
@@ -757,7 +757,7 @@ msgstr "Renomeia"
 
 #: extensions/catalogs/callbacks.c:78
 #: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4553
-#: gthumb/gth-browser.c:4655 gthumb/gth-file-properties.c:245
+#: gthumb/gth-browser.c:4655 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Propriedades"
 
@@ -798,12 +798,12 @@ msgid "C_atalogs:"
 msgstr "C_atálogos:"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:34
-#: extensions/catalogs/dlg-add-to-catalog.c:617
+#: extensions/catalogs/dlg-add-to-catalog.c:620
 msgid "New Library"
 msgstr "Nova biblioteca"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:57
-#: extensions/catalogs/dlg-add-to-catalog.c:458
+#: extensions/catalogs/dlg-add-to-catalog.c:461
 msgid "New Catalog"
 msgstr "Novo catálogo"
 
@@ -812,12 +812,6 @@ msgstr "Novo catálogo"
 #: extensions/webalbums/gth-web-exporter.c:1827
 msgid "_View the destination"
 msgstr "_Ver o destino"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:119
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:159
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:202
-msgid "_Keep the dialog open"
-msgstr "_Manter o diálogo aberto"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
@@ -888,22 +882,28 @@ msgstr "Colocar arquivos singulares no catálogo:"
 msgid "Singles"
 msgstr "Singulares"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:155
+#: extensions/catalogs/dlg-add-to-catalog.c:156
 msgid "Could not add the files to the catalog"
 msgstr "Não foi possível adicionar os arquivos ao catálogo"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:316
+#: extensions/catalogs/dlg-add-to-catalog.c:319
 #: extensions/search/gth-search-task.c:402
 msgid "Could not create the catalog"
 msgstr "Não foi possível criar o catálogo"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:682
+#: extensions/catalogs/dlg-add-to-catalog.c:687
 msgid "Add to Catalog"
 msgstr "Adicionar ao catálogo"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:697
+#: extensions/catalogs/dlg-add-to-catalog.c:710
 msgid "_Add"
 msgstr "_Adicionar"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:714
+#: extensions/edit_metadata/dlg-edit-metadata.c:347
+#| msgid "_Keep the dialog open"
+msgid "Keep the dialog open"
+msgstr "Manter o diálogo aberto"
 
 #: extensions/catalogs/dlg-catalog-properties.c:80
 msgid "Could not save the catalog"
@@ -956,7 +956,7 @@ msgstr "Formato de arquivo inválido"
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
 #: extensions/edit_metadata/callbacks.c:107
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:185
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:170
 #: gthumb/gth-main-default-metadata.c:65
 msgid "Tags"
 msgstr "Etiquetas"
@@ -1098,14 +1098,15 @@ msgstr "_Sincronizar com os metadados embutidos"
 #: extensions/importer/gth-import-preferences-dialog.c:417
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: extensions/terminal/dlg-terminal-preferences.c:83
-#: gthumb/dlg-preferences-extensions.c:483
+#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
+#: gthumb/gth-file-properties.c:548
 msgid "Preferences"
 msgstr "Preferências"
 
 #: extensions/comments/main.c:37 extensions/edit_metadata/callbacks.c:56
 #: extensions/edit_metadata/callbacks.c:88
 #: extensions/edit_metadata/callbacks.c:101
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:137
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:124
 #: gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Comentário"
@@ -1581,11 +1582,11 @@ msgstr "Classi_ficação:"
 msgid "_Title:"
 msgstr "_Título:"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:121
+#: extensions/edit_metadata/dlg-edit-metadata.c:123
 msgid "Could not save the file metadata"
 msgstr "Não foi possível salvar os metadados do arquivo"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:230
+#: extensions/edit_metadata/dlg-edit-metadata.c:234
 #: gthumb/gth-overwrite-dialog.c:184
 msgid "Cannot read file information"
 msgstr "Não foi possível ler informações"
@@ -1599,7 +1600,7 @@ msgstr "Editar metadados"
 msgid "Allow to edit files metadata."
 msgstr "Permite editar metadados de arquivos."
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:155
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:138
 msgid "Save only cha_nged fields"
 msgstr "Salvar some_nte campos alterados"
 
@@ -1691,7 +1692,7 @@ msgid "State/Province:"
 msgstr "Estado/Província:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1088
-#: gthumb/glib-utils.c:2053 gthumb/str-utils.c:677
+#: gthumb/glib-utils.c:2053 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(valor inválido)"
 
@@ -3202,7 +3203,7 @@ msgstr "Mono"
 #: extensions/image_viewer/gth-image-viewer-page.c:1864
 #: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:945
+#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3832,7 +3833,6 @@ msgid "Quote the text "
 msgstr "Cita o texto "
 
 #: extensions/list_tools/data/ui/script-editor.ui:522
-#| msgid "The current date"
 msgid "The current date and time"
 msgstr "A data e o horário atual"
 
@@ -4602,12 +4602,10 @@ msgid "Terminal"
 msgstr "Terminal"
 
 #: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
-#| msgid "Open in New Window"
 msgid "Open in Terminal"
 msgstr "Abre no terminal"
 
 #: extensions/terminal/terminal.extension.desktop.in.in:4
-#| msgid "Open the selected folder in a new window"
 msgid "Open a folder in a terminal"
 msgstr "Abre uma pasta em um terminal"
 
@@ -4855,7 +4853,6 @@ msgid "Could not deactivate the extension"
 msgstr "Não foi possível desativar a extensão"
 
 #: gthumb/dlg-preferences-extensions.c:491
-#| msgid "gthumb development team"
 msgid "gThumb Development Team"
 msgstr "Equipe de Desenvolvimento do gThumb"
 
@@ -5375,8 +5372,6 @@ msgstr "Bytes"
 
 #. Translators: the file modified time.
 #: gthumb/gth-main-default-metadata.c:43
-#| msgctxt "the file mtime"
-#| msgid "Modified Date & Time"
 msgid "Modified Date & Time"
 msgstr "Data & hora de modificação"
 
@@ -5707,27 +5702,27 @@ msgstr ""
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "A combinação de teclas “%s” já está atribuída e não pode ser alterada."
 
-#: gthumb/gtk-utils.c:352
+#: gthumb/gtk-utils.c:370
 msgid "Could not display help"
 msgstr "Não foi possível exibir a ajuda"
 
-#: gthumb/gtk-utils.c:712 gthumb/gtk-utils.c:719
+#: gthumb/gtk-utils.c:730 gthumb/gtk-utils.c:737
 msgid "Could not launch the application"
 msgstr "Não foi possível iniciar o aplicativo"
 
-#: gthumb/gtk-utils.c:822
+#: gthumb/gtk-utils.c:840
 msgid "_Copy Here"
 msgstr "C_opiar aqui"
 
-#: gthumb/gtk-utils.c:827
+#: gthumb/gtk-utils.c:845
 msgid "_Move Here"
 msgstr "_Mover aqui"
 
-#: gthumb/gtk-utils.c:832
+#: gthumb/gtk-utils.c:850
 msgid "_Link Here"
 msgstr "Criar _link aqui"
 
-#: gthumb/gtk-utils.c:841
+#: gthumb/gtk-utils.c:859
 msgid "Cancel"
 msgstr "Cancelar"
 
