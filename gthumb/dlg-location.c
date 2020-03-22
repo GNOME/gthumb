@@ -49,6 +49,7 @@ typedef struct {
 	GthFileSource *source;
 	DialogData    *data;
 	gboolean       keep_scheme;
+	gboolean       expanded_tilde;
 } CompletionJob;
 
 
@@ -162,14 +163,52 @@ cancel_button_clicked_cb (GtkWidget  *widget,
 
 
 static char *
+_g_file_get_path_with_tilde (GFile *file)
+{
+	char       *path;
+	const char *home;
+
+	path = g_file_get_path (file);
+
+	home = g_get_home_dir ();
+	if ((home != NULL) && g_str_has_prefix (path, home)) {
+		char *tmp = _g_path_join ("~", path + strlen (home), NULL);
+		g_free (path);
+		path = tmp;
+	}
+
+	return path;
+}
+
+
+static char *
+_expand_tilde (const char *path,
+	       gboolean   *expanded)
+{
+	if (_g_str_equal (path, "~")) {
+		if (expanded != NULL) *expanded = TRUE;
+		return g_strdup (g_get_home_dir ());
+	}
+	else if (g_str_has_prefix (path, "~/")) {
+		if (expanded != NULL) *expanded = TRUE;
+		return _g_path_join (g_get_home_dir (), path + 2, NULL);
+	}
+
+	if (expanded != NULL) *expanded = FALSE;
+	return g_strdup (path);
+}
+
+
+static char *
 get_location_uri (DialogData  *data,
 		  gboolean    *has_scheme,
+		  gboolean    *expanded_tilde,
 		  GError     **error)
 {
 	char *uri;
 	char *scheme;
 
-	uri = g_strdup (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("location_entry"))));
+	uri = _expand_tilde (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("location_entry"))), expanded_tilde);
 	scheme = _g_uri_get_scheme (uri);
 	if (scheme == NULL) {
 		char *tmp = uri;
@@ -193,7 +232,7 @@ ok_button_clicked_cb (GtkWidget  *widget,
 	GError *error = NULL;
 	GFile  *location;
 
-	uri = get_location_uri (data, NULL, &error);
+	uri = get_location_uri (data, NULL, NULL, &error);
 	if (uri == NULL) {
 		char *title;
 
@@ -281,6 +320,8 @@ completion_job_list_ready_cb (GthFileSource *file_source,
 			child = g_file_get_child (job->folder, g_file_info_get_name (file_data->info));
 			if (job->keep_scheme)
 				uri = g_file_get_uri (child);
+			else if (job->expanded_tilde)
+				uri = _g_file_get_path_with_tilde (child);
 			else
 				uri = g_file_get_path (child);
 
@@ -308,10 +349,10 @@ static void
 update_completion_list (DialogData *data)
 {
 	gboolean  has_scheme;
+	gboolean  expanded_tilde;
 	char     *uri;
 
-
-	uri = get_location_uri (data, &has_scheme, NULL);
+	uri = get_location_uri (data, &has_scheme, &expanded_tilde, NULL);
 	if (uri == NULL) {
 		_g_object_unref (data->last_folder);
 		data->last_folder = NULL;
@@ -328,6 +369,7 @@ update_completion_list (DialogData *data)
 	data->job = completion_job_new_for_uri (data, uri);
 	if (data->job != NULL) {
 		data->job->keep_scheme = has_scheme;
+		data->job->expanded_tilde = expanded_tilde;
 		data->job->folder = g_file_new_for_uri (uri);
 		if (! g_str_has_suffix (uri, "/")) {
 			GFile *parent;
