@@ -343,7 +343,7 @@ dlg_edit_metadata (GthBrowser *browser,
 				_GTK_LABEL_SAVE, GTK_RESPONSE_OK,
 				NULL);
 
-	data->keep_open_checkbutton = _gtk_toggle_image_button_new_for_header_bar ("lock-symbolic");
+	data->keep_open_checkbutton = _gtk_toggle_image_button_new_for_header_bar ("pinned-symbolic");
 	gtk_widget_set_tooltip_text (data->keep_open_checkbutton, _("Keep the dialog open"));
 	gtk_widget_show (data->keep_open_checkbutton);
 	_gtk_dialog_add_action_widget (GTK_DIALOG (data->dialog), data->keep_open_checkbutton);
