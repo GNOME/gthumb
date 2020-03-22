@@ -891,7 +891,7 @@ _g_path_join_components (char **comp_v)
 
 
 char *
-_g_path_join (char *first, ...)
+_g_path_join (const char *first, ...)
 {
 	va_list      args;
 	const char  *arg;

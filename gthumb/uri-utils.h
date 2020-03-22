@@ -73,7 +73,7 @@ char *		_g_uri_append_path		(const char	 *uri,
 char **		_g_path_split_components	(const char	 *path,
 						 int		 *size);
 char *		_g_path_join_components		(char		**comp_v);
-char *		_g_path_join			(char		 *first,
+char *		_g_path_join			(const char	 *first,
 						 ...) G_GNUC_NULL_TERMINATED;
 const char *	_g_path_get_basename		(const char	 *path);
 char *		_g_path_get_parent		(const char	 *path);
