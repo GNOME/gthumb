@@ -10,8 +10,8 @@
 # Filip Vervloesem <filip.vervloesem@member.fsf.org>, 2007, 2008.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2013.
 # Pjotr <pjotrvertaalt@gmail.com>, 2013.
-# PaulMatthijsse <paul.matthijsse@wanadoo.fr>, 2018-2019.
-# Nathan Follens <nthn@unseen.is>, 2019.
+# PaulMatthijsse <paul.matthijsse@wanadoo.fr>, 2018-2020.
+# Nathan Follens <nthn@unseen.is>, 2019-2020.
 #
 #
 # 'Viewer' is geen mooi woord, we zoeken best een andere vertaling. Soms past 'weergave', maar lang niet altijd. - Nathan, 2019
@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2019-06-22 20:22+0000\n"
-"PO-Revision-Date: 2019-06-28 12:21+0200\n"
+"POT-Creation-Date: 2020-03-13 09:19+0000\n"
+"PO-Revision-Date: 2020-03-15 14:46+0100\n"
 "Last-Translator: Paul Matthijsse <paul.matthijsse@wanadoo.fr>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -87,10 +87,10 @@ msgid ""
 "several others."
 msgstr ""
 "Als afbeeldingenverkenner toont gThumb miniaturen van de afbeeldingen op uw "
-"computer en biedt de algemene functies van een bestandsbeheerder zoals "
+"computer en biedt het de algemene functies van een bestandsbeheerder zoals "
 "kopiëren, verplaatsen of verwijderen van bestanden en mappen. Daarnaast zijn "
 "er specifieke gereedschappen aanwezig zoals verliesloze JPEG-compressie, "
-"formaatconversie, een diashow, instellen afbeelding als "
+"formaatconversie, diavoorstellingen, afbeelding instellen als "
 "bureaubladachtergrond, en meer."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:35
@@ -151,11 +151,11 @@ msgstr "De foto’s op de geheugenkaart van uw camera importeren"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:396 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:423 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
-#: data/org.gnome.gThumb.desktop.in.in:4
+#: data/org.gnome.gThumb.desktop.in.in:4 extensions/image_viewer/main.c:35
 msgid "Image Viewer"
 msgstr "Afbeeldingenviewer"
 
@@ -172,69 +172,70 @@ msgstr "Image;Viewer;"
 msgid "Caption"
 msgstr "Bijschrift"
 
-#: data/ui/browser-preferences.ui:72
+#: data/ui/browser-preferences.ui:66
 msgid "Behavior"
 msgstr "Gedrag"
 
-#: data/ui/browser-preferences.ui:94
+#: data/ui/browser-preferences.ui:88
 msgid "_Single click to open files"
 msgstr "Open be_standen met een enkele muisklik"
 
-#: data/ui/browser-preferences.ui:111
+#: data/ui/browser-preferences.ui:104
 msgid "_Double click to open files"
 msgstr "Open be_standen met een dubbele muisklik"
 
-#: data/ui/browser-preferences.ui:129
+#: data/ui/browser-preferences.ui:121
 msgid "_Open files in fullscreen mode"
 msgstr "_Open bestanden in volledig scherm"
 
-#: data/ui/browser-preferences.ui:167 data/ui/preferences.ui:364
+#: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
-#: extensions/gstreamer_tools/main.c:34
+#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:333
+#: gthumb/gth-shortcuts-window.c:96
 msgid "Other"
 msgstr "Overige"
 
-#: data/ui/browser-preferences.ui:200
+#: data/ui/browser-preferences.ui:187
 msgid "Thumbnail _size:"
 msgstr "_Grootte van de miniaturen:"
 
-#: data/ui/browser-preferences.ui:219
+#: data/ui/browser-preferences.ui:206
 msgid "48"
 msgstr "48"
 
-#: data/ui/browser-preferences.ui:220
+#: data/ui/browser-preferences.ui:207
 msgid "64"
 msgstr "64"
 
-#: data/ui/browser-preferences.ui:221
+#: data/ui/browser-preferences.ui:208
 msgid "85"
 msgstr "85"
 
-#: data/ui/browser-preferences.ui:222
+#: data/ui/browser-preferences.ui:209
 msgid "95"
 msgstr "95"
 
-#: data/ui/browser-preferences.ui:223
+#: data/ui/browser-preferences.ui:210
 msgid "112"
 msgstr "112"
 
-#: data/ui/browser-preferences.ui:224
+#: data/ui/browser-preferences.ui:211
 msgid "128"
 msgstr "128"
 
-#: data/ui/browser-preferences.ui:225
+#: data/ui/browser-preferences.ui:212
 msgid "164"
 msgstr "164"
 
-#: data/ui/browser-preferences.ui:226
+#: data/ui/browser-preferences.ui:213
 msgid "200"
 msgstr "200"
 
-#: data/ui/browser-preferences.ui:227
+#: data/ui/browser-preferences.ui:214
 msgid "256"
 msgstr "256"
 
-#: data/ui/browser-preferences.ui:252
+#: data/ui/browser-preferences.ui:239
 msgid "D_etermine image type from content (slower)"
 msgstr "Type afb_eelding vaststellen volgens inhoud (trager)"
 
@@ -246,20 +247,34 @@ msgstr "Uitbr_eidingen:"
 msgid "More extensions…"
 msgstr "Meer uitbreidingen…"
 
+#: data/ui/file-selection-info.ui:23
+#: extensions/webalbums/data/albumthemes/text.h:32
+msgid "Previous"
+msgstr "Vorige"
+
+#: data/ui/file-selection-info.ui:61
+#: extensions/webalbums/data/albumthemes/text.h:30
+msgid "Next"
+msgstr "Volgende"
+
 #: data/ui/filter-editor.ui:20
 msgid "Filter _Name:"
 msgstr "Filter_naam:"
 
-#: data/ui/filter-editor.ui:61 extensions/search/data/ui/search-editor.ui:76
+#: data/ui/filter-editor.ui:61 extensions/search/data/ui/search-editor.ui:21
 msgid "_Match:"
 msgstr "Overeenkomend _met:"
 
+#: data/ui/filter-editor.ui:106 extensions/search/data/ui/search-editor.ui:95
+msgid "Rules:"
+msgstr "Regels:"
+
 #. limit label
-#: data/ui/filter-editor.ui:153 gthumb/gth-filter.c:270 gthumb/gth-filter.c:338
+#: data/ui/filter-editor.ui:164 gthumb/gth-filter.c:270 gthumb/gth-filter.c:338
 msgid "_Limit to"
 msgstr "_Beperken tot"
 
-#: data/ui/filter-editor.ui:229
+#: data/ui/filter-editor.ui:241
 msgid "selected by"
 msgstr "geselecteerd door"
 
@@ -295,7 +310,7 @@ msgstr "Geselecteerd:"
 
 #: data/ui/location.ui:23
 msgid "_Location:"
-msgstr "_Locatie"
+msgstr "_Locatie:"
 
 #: data/ui/overwrite-dialog.ui:15
 msgid "Overwrite the old file with the new one?"
@@ -305,40 +320,40 @@ msgstr "Het oude bestand overschrijven met het nieuwe?"
 msgid "Old File:"
 msgstr "Oud bestand:"
 
-#: data/ui/overwrite-dialog.ui:144 data/ui/overwrite-dialog.ui:312
+#: data/ui/overwrite-dialog.ui:145 data/ui/overwrite-dialog.ui:314
 msgid "Filename:"
 msgstr "Bestandsnaam:"
 
-#: data/ui/overwrite-dialog.ui:159 data/ui/overwrite-dialog.ui:327
+#: data/ui/overwrite-dialog.ui:160 data/ui/overwrite-dialog.ui:329
 #: extensions/image_print/data/ui/print-layout.ui:705
 msgid "Size:"
 msgstr "Grootte:"
 
-#: data/ui/overwrite-dialog.ui:176 data/ui/overwrite-dialog.ui:344
+#: data/ui/overwrite-dialog.ui:177 data/ui/overwrite-dialog.ui:346
 msgid "Modified:"
 msgstr "Gewijzigd:"
 
-#: data/ui/overwrite-dialog.ui:241
+#: data/ui/overwrite-dialog.ui:242
 msgid "New File:"
 msgstr "Nieuw bestand:"
 
-#: data/ui/overwrite-dialog.ui:399
+#: data/ui/overwrite-dialog.ui:401
 msgid "Over_write the old file"
 msgstr "Het oude bestand over_schrijven"
 
-#: data/ui/overwrite-dialog.ui:416
+#: data/ui/overwrite-dialog.ui:418
 msgid "Do not overwrite _the old file"
 msgstr "He_t oude bestand niet overschrijven"
 
-#: data/ui/overwrite-dialog.ui:433
+#: data/ui/overwrite-dialog.ui:435
 msgid "Overwrite _all files"
 msgstr "_Alle bestanden overschrijven"
 
-#: data/ui/overwrite-dialog.ui:450
+#: data/ui/overwrite-dialog.ui:452
 msgid "_Do not overwrite any file"
 msgstr "_Geen enkel bestand overschrijven"
 
-#: data/ui/overwrite-dialog.ui:472
+#: data/ui/overwrite-dialog.ui:474
 msgid "_Save the new file as:"
 msgstr "Nieuw bestand op_slaan als:"
 
@@ -354,79 +369,84 @@ msgstr "An_dere filters:"
 # pm
 #: data/ui/preferences.ui:12
 msgid "below the folder list"
-msgstr "Onder de mappenlijst"
+msgstr "onder de mappenlijst"
 
 #: data/ui/preferences.ui:15
 msgid "on the right"
-msgstr "Rechts"
+msgstr "rechts"
 
 #: data/ui/preferences.ui:22
 msgid "gThumb Preferences"
 msgstr "gThumb-voorkeuren"
 
-#: data/ui/preferences.ui:100
+#: data/ui/preferences.ui:101
 msgid "Appearance"
 msgstr "Uiterlijk"
 
-#: data/ui/preferences.ui:128
+#: data/ui/preferences.ui:125
 msgid "T_humbnails in viewer:"
 msgstr "Miniat_uren in de afbeeldingenviewer:"
 
-#: data/ui/preferences.ui:141
+#: data/ui/preferences.ui:139
 msgid "on the bottom"
-msgstr "Onderaan"
+msgstr "beneden"
 
-#: data/ui/preferences.ui:142
+#: data/ui/preferences.ui:140
 msgid "on the side"
-msgstr "Aan de zijkant"
+msgstr "aan de zijkant"
 
-#: data/ui/preferences.ui:155
+#: data/ui/preferences.ui:152
 msgid "File _properties in browser:"
 msgstr "Bestandseigenscha_ppen in verkenner:"
 
-#: data/ui/preferences.ui:208
+#: data/ui/preferences.ui:203
 msgid "On startup:"
 msgstr "Bij opstarten:"
 
-#: data/ui/preferences.ui:234
+#: data/ui/preferences.ui:226
 msgid "Go to last _visited location"
 msgstr "Ga naar laatst be_zochte locatie"
 
-#: data/ui/preferences.ui:257
+#: data/ui/preferences.ui:247
 msgid "Go to this _folder:"
 msgstr "Ga naar _deze map:"
 
-#: data/ui/preferences.ui:278
-msgid "Choose startup folder"
-msgstr "Beginmap kiezen"
-
-#: data/ui/preferences.ui:299
+#: data/ui/preferences.ui:277
 msgid "Set to C_urrent"
 msgstr "Instellen op h_uidige"
 
-#: data/ui/preferences.ui:322
+#: data/ui/preferences.ui:299
 msgid "_Reuse the active window to open files"
-msgstr "Het a_ctieve venster opnieuw gebruiken om bestanden te openen"
+msgstr "Het actieve venste_r opnieuw gebruiken om bestanden te openen"
 
-#: data/ui/preferences.ui:389
+#: data/ui/preferences.ui:358
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "Vraag be_vestiging voor verwijderen van bestanden of catalogi"
 
-#: data/ui/preferences.ui:406
+#: data/ui/preferences.ui:373
 msgid "Ask whether to save _modified files"
 msgstr "Vraag of ge_wijzigde bestanden opgeslagen moeten worden"
 
-#: data/ui/preferences.ui:423
+#: data/ui/preferences.ui:388
 msgid "_Store metadata inside files if possible"
-msgstr "_Metagegevens in bestanden opslaan, indien mogelijk"
+msgstr "Metagegeven_s in bestanden opslaan, indien mogelijk"
 
-#: data/ui/preferences.ui:460
+#: data/ui/preferences.ui:421
 #: extensions/catalogs/data/ui/catalog-properties.ui:39
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:576
 #: extensions/edit_metadata/gth-edit-general-page.c:482
 #: extensions/webalbums/data/ui/web-album-exporter.ui:571
+#: gthumb/gth-main-default-types.c:38
 msgid "General"
 msgstr "Algemeen"
+
+#: data/ui/shortcuts-preferences.ui:27
+msgid "Shortcuts:"
+msgstr "Sneltoetsen:"
+
+#: data/ui/shortcuts-preferences.ui:92
+msgid "_Restore All…"
+msgstr "Alles terugzetten…"
 
 #: data/ui/sort-order.ui:30
 msgid "_Inverse order"
@@ -441,7 +461,7 @@ msgid "Upload images to 23hq.com"
 msgstr "Geselecteerde afbeeldingen naar 23hq.com sturen"
 
 #: extensions/bookmarks/bookmarks.extension.desktop.in.in:3
-#: extensions/bookmarks/callbacks.c:325
+#: extensions/bookmarks/callbacks.c:323
 #: extensions/bookmarks/dlg-bookmarks.c:350
 msgid "Bookmarks"
 msgstr "Bladwijzers"
@@ -452,19 +472,19 @@ msgstr "Voeg ondersteuning toe voor bladwijzers."
 
 #: extensions/bookmarks/data/ui/bookmarks-menu.ui:7
 msgid "_Add Bookmark"
-msgstr "_Bladwijzer toevoegen"
+msgstr "Bl_adwijzer toevoegen"
 
 #: extensions/bookmarks/data/ui/bookmarks-menu.ui:11
 msgid "_Edit Bookmarks…"
 msgstr "Bladwijzers b_ewerken…"
 
-#: extensions/bookmarks/data/ui/bookmarks-menu.ui:17
+#: extensions/bookmarks/data/ui/bookmarks-menu.ui:16
 msgid "_System Bookmarks"
-msgstr "S_ysteembladwijzers"
+msgstr "_Systeembladwijzers"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:20
 msgid "_Bookmarks:"
-msgstr "Blad_wijzers:"
+msgstr "_Bladwijzers:"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:63
 msgid "Go to this location"
@@ -472,6 +492,7 @@ msgstr "Ga naar deze locatie"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:76
 #: extensions/catalogs/callbacks.c:72
+#: extensions/search/gth-search-source-selector.c:140
 msgid "Remove"
 msgstr "Verwijderen"
 
@@ -513,25 +534,25 @@ msgstr "Huidige _map"
 
 #: extensions/burn_disc/data/ui/burn-source-selector.ui:47
 msgid "Current folder and its s_ub-folders"
-msgstr "Huidige map en zijn su_bmappen"
+msgstr "Huidige map en zijn s_ubmappen"
 
 #: extensions/burn_disc/data/ui/burn-source-selector.ui:64
 msgid "_Selected files"
-msgstr "_Geselecteerde bestanden"
+msgstr "Ge_selecteerde bestanden"
 
 #: extensions/burn_disc/data/ui/burn-source-selector.ui:86
 msgid "Source"
 msgstr "Bron"
 
-#: extensions/burn_disc/gth-burn-task.c:235
-#: extensions/burn_disc/gth-burn-task.c:256
-#: extensions/burn_disc/gth-burn-task.c:392
+#: extensions/burn_disc/gth-burn-task.c:239
+#: extensions/burn_disc/gth-burn-task.c:260
+#: extensions/burn_disc/gth-burn-task.c:396
 msgid "Write to Disc"
 msgstr "Naar schijf schrijven"
 
-#: extensions/burn_disc/gth-burn-task.c:401
+#: extensions/burn_disc/gth-burn-task.c:405
 #: extensions/oauth/oauth-account-chooser-dialog.c:150
-#: gthumb/dlg-preferences-extensions.c:717
+#: gthumb/dlg-preferences-extensions.c:715
 msgid "_Continue"
 msgstr "_Doorgaan"
 
@@ -540,7 +561,7 @@ msgstr "_Doorgaan"
 msgid "Error interpreting JPEG image file: %s"
 msgstr "Fout bij het interpreteren van een JPEG-afbeeldingsbestand: %s"
 
-#: extensions/cairo_io/cairo-image-surface-jpeg.c:537
+#: extensions/cairo_io/cairo-image-surface-jpeg.c:558
 #, c-format
 msgid "Unknown JPEG color space (%d)"
 msgstr "Onbekende JPEG-kleurenruimte (%d)"
@@ -593,7 +614,7 @@ msgstr "No_rmaal (comprimeren)"
 
 #: extensions/cairo_io/data/ui/tiff-options.ui:137
 msgid "_Loss compression (JPEG)"
-msgstr "_Compressie met kwaliteitsverlies (JPEG)"
+msgstr "Compressie met kwa_liteitsverlies (JPEG)"
 
 #: extensions/cairo_io/data/ui/tiff-options.ui:179
 msgid "Resolution"
@@ -620,15 +641,15 @@ msgstr "_Methode:"
 
 #: extensions/cairo_io/data/ui/webp-options.ui:62
 msgid "_Lossless"
-msgstr "_Zonder verlies"
+msgstr "Zonder ver_lies"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:145
+#: extensions/image_viewer/gth-metadata-provider-image.c:150
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:111
+#: extensions/image_viewer/gth-metadata-provider-image.c:116
 msgid "PNG"
 msgstr "PNG"
 
@@ -646,71 +667,69 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:174
+#: extensions/image_viewer/gth-metadata-provider-image.c:179
 msgid "WebP"
 msgstr "WebP"
 
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:556
 #: extensions/contact_sheet/data/ui/image-wall.ui:269
-#: extensions/image_viewer/gth-image-viewer-page.c:1664
+#: extensions/image_viewer/gth-image-viewer-page.c:1702
 #: extensions/webalbums/data/ui/web-album-exporter.ui:484
 msgid "Saving"
 msgstr "Opslaan"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:370
-#: extensions/catalogs/dlg-add-to-catalog.c:535
+#: extensions/catalogs/dlg-add-to-catalog.c:376
+#: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
-#: extensions/list_tools/gth-script-editor-dialog.c:241
-#: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1858
+#: extensions/list_tools/gth-script-editor-dialog.c:273
+#: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1924
 #, c-format
 msgid "No name specified"
 msgstr "Geen naam opgegeven"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:377
-#: extensions/catalogs/dlg-add-to-catalog.c:542
+#: extensions/catalogs/dlg-add-to-catalog.c:383
+#: extensions/catalogs/dlg-add-to-catalog.c:548
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
-#: gthumb/gth-folder-tree.c:1865
+#: gthumb/gth-folder-tree.c:1931
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Ongeldige naam. De volgende tekens zijn niet geoorloofd: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:434
-#: extensions/catalogs/dlg-add-to-catalog.c:591
-#: extensions/catalogs/gth-file-source-catalogs.c:510
+#: extensions/catalogs/dlg-add-to-catalog.c:440
+#: extensions/catalogs/dlg-add-to-catalog.c:597
+#: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
 msgstr "Naam reeds in gebruik"
 
 #: extensions/catalogs/actions.c:177
-#: extensions/catalogs/dlg-add-to-catalog.c:455
 msgid "New catalog"
 msgstr "Nieuwe catalogus"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:456
+#: extensions/catalogs/dlg-add-to-catalog.c:462
 msgid "Enter the catalog name:"
 msgstr "Voer de catalogusnaam in:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:458
-#: extensions/catalogs/dlg-add-to-catalog.c:617
+#: extensions/catalogs/dlg-add-to-catalog.c:464
+#: extensions/catalogs/dlg-add-to-catalog.c:623
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "_Maken"
 
 #: extensions/catalogs/actions.c:291
-#: extensions/catalogs/dlg-add-to-catalog.c:614
 msgid "New library"
 msgstr "Nieuwe bibliotheek"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:615
+#: extensions/catalogs/dlg-add-to-catalog.c:621
 msgid "Enter the library name:"
 msgstr "Voer de naam van de bibliotheek in:"
 
@@ -727,7 +746,7 @@ msgstr "Weet u zeker dat u ‘%s’ wilt verwijderen?"
 msgid "Add to Catalog…"
 msgstr "Aan catalogus toevoegen…"
 
-#: extensions/catalogs/callbacks.c:57 extensions/selections/callbacks.c:50
+#: extensions/catalogs/callbacks.c:57 extensions/selections/callbacks.c:78
 msgid "Open Folder"
 msgstr "Map openen"
 
@@ -743,40 +762,40 @@ msgstr "Nieuwe catalogus maken"
 msgid "Create Library"
 msgstr "Nieuwe bibliotheek maken"
 
-#: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:79
-#: extensions/file_manager/callbacks.c:106
-#: extensions/rename_series/dlg-rename-series.c:844
-#: gthumb/gth-folder-tree.c:1910
+#: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:82
+#: extensions/file_manager/callbacks.c:109
+#: extensions/file_manager/callbacks.c:126
+#: extensions/rename_series/dlg-rename-series.c:850
+#: gthumb/gth-folder-tree.c:1971
 msgid "Rename"
 msgstr "Hernoemen"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:201 gthumb/gth-browser.c:4580
-#: gthumb/gth-browser.c:4682 gthumb/gth-file-properties.c:245
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4553
+#: gthumb/gth-browser.c:4655 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Eigenschappen"
 
 #: extensions/catalogs/callbacks.c:185
 #: extensions/catalogs/catalogs.extension.desktop.in.in:3
-#: extensions/catalogs/gth-catalog.c:618 extensions/catalogs/gth-catalog.c:669
-#: extensions/catalogs/gth-catalog.c:1028
-#: extensions/catalogs/gth-catalog.c:1029
+#: extensions/catalogs/gth-catalog.c:504 extensions/catalogs/gth-catalog.c:555
+#: extensions/catalogs/gth-catalog.c:916 extensions/catalogs/gth-catalog.c:917
 msgid "Catalogs"
 msgstr "Catalogi"
 
-#: extensions/catalogs/callbacks.c:225 extensions/catalogs/callbacks.c:228
+#: extensions/catalogs/callbacks.c:223 extensions/catalogs/callbacks.c:226
 msgid "Command Line"
 msgstr "Opdrachtregel"
 
-#: extensions/catalogs/callbacks.c:375
+#: extensions/catalogs/callbacks.c:379
 msgid "Catalog Properties"
 msgstr "Eigenschappen van catalogus"
 
-#: extensions/catalogs/callbacks.c:391
+#: extensions/catalogs/callbacks.c:395
 msgid "Organize"
 msgstr "Organiseren"
 
-#: extensions/catalogs/callbacks.c:392
+#: extensions/catalogs/callbacks.c:396
 msgid "Automatically organize files by date"
 msgstr "Bestanden automatisch ordenen op datum"
 
@@ -788,31 +807,25 @@ msgstr "Bestandscollecties aanmaken."
 msgid "file-catalog-symbolic"
 msgstr "file-catalog-symbolic"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:10
-msgid "Add to Catalog"
-msgstr "Aan catalogus toevoegen"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:56
-msgid "A_dd and Close"
-msgstr "T_oevoegen en sluiten"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:97
+#: extensions/catalogs/data/ui/add-to-catalog.ui:19
 msgid "C_atalogs:"
 msgstr "C_atalogi:"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:135
-msgid "_New Catalog"
-msgstr "_Nieuwe catalogus"
+#: extensions/catalogs/data/ui/add-to-catalog.ui:34
+#: extensions/catalogs/dlg-add-to-catalog.c:620
+msgid "New Library"
+msgstr "Nieuwe bibliotheek"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:150
-msgid "New _Library"
-msgstr "Nieuwe bib_liotheek"
+#: extensions/catalogs/data/ui/add-to-catalog.ui:57
+#: extensions/catalogs/dlg-add-to-catalog.c:461
+msgid "New Catalog"
+msgstr "Nieuwe catalogus"
 
-#: extensions/catalogs/data/ui/add-to-catalog.ui:194
-#: extensions/file_manager/actions.c:687
-#: extensions/webalbums/gth-web-exporter.c:1843
+#: extensions/catalogs/data/ui/add-to-catalog.ui:103
+#: extensions/file_manager/actions.c:766
+#: extensions/webalbums/gth-web-exporter.c:1827
 msgid "_View the destination"
-msgstr "Open de _bestemmingsmap"
+msgstr "Bekijk de _bestemming"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
@@ -825,7 +838,7 @@ msgstr "_Naam:"
 #: extensions/catalogs/data/ui/catalog-properties.ui:82
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:31
 msgid "_Date:"
-msgstr "_Datum"
+msgstr "_Datum:"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:143
 #: extensions/catalogs/data/ui/organize-files-task.ui:199
@@ -867,7 +880,7 @@ msgstr "Bestanden _groeperen op:"
 
 #: extensions/catalogs/data/ui/organize-files.ui:139
 #: extensions/find_duplicates/data/ui/find-duplicates.ui:64
-#: extensions/search/data/ui/search-editor.ui:46
+#: extensions/search/gth-search-source-selector.c:123
 msgid "_Include sub-folders"
 msgstr "Sub_mappen ook tonen"
 
@@ -883,26 +896,38 @@ msgstr "Enkele bestanden in de catalogus plaatsen:"
 msgid "Singles"
 msgstr "Enkele bestanden"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:151
-#: extensions/catalogs/dlg-add-to-catalog.c:185
+#: extensions/catalogs/dlg-add-to-catalog.c:156
 msgid "Could not add the files to the catalog"
 msgstr "Kon de bestanden niet aan de catalogus toevoegen"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:313
-#: extensions/search/gth-search-task.c:358
+#: extensions/catalogs/dlg-add-to-catalog.c:319
+#: extensions/search/gth-search-task.c:402
 msgid "Could not create the catalog"
 msgstr "Kon de catalogus niet maken"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:687
+msgid "Add to Catalog"
+msgstr "Aan catalogus toevoegen"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:710
+msgid "_Add"
+msgstr "_Toevoegen"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:714
+#: extensions/edit_metadata/dlg-edit-metadata.c:347
+msgid "Keep the dialog open"
+msgstr "Houd dialoogvenster open"
 
 #: extensions/catalogs/dlg-catalog-properties.c:80
 msgid "Could not save the catalog"
 msgstr "Kon de catalogus niet opslaan"
 
-#: extensions/catalogs/dlg-catalog-properties.c:151
+#: extensions/catalogs/dlg-catalog-properties.c:154
 msgid "Could not load the catalog"
 msgstr "Kon de catalogus niet laden"
 
 #: extensions/catalogs/dlg-organize-files.c:106
-#: extensions/catalogs/gth-organize-task.c:814
+#: extensions/catalogs/gth-organize-task.c:812
 msgid "Organize Files"
 msgstr "Bestanden ordenen"
 
@@ -914,75 +939,77 @@ msgstr ""
 
 #: extensions/catalogs/dlg-organize-files.c:138
 #: extensions/edit_metadata/gth-edit-general-page.c:557
-#: gthumb/gth-main-default-tests.c:365
+#: gthumb/gth-main-default-tests.c:367
 msgid "Date photo was taken"
 msgstr "Datum waarop de foto genomen werd"
 
 # datum kan hier weggelaten worden
 #: extensions/catalogs/dlg-organize-files.c:145
-#: gthumb/gth-main-default-tests.c:357
+#: gthumb/gth-main-default-tests.c:359
 msgid "File modified date"
-msgstr "Datum wijziging bestand"
+msgstr "Datum bestandswijziging"
 
-#: extensions/catalogs/dlg-organize-files.c:152 extensions/comments/main.c:182
+#: extensions/catalogs/dlg-organize-files.c:152 extensions/comments/main.c:186
 msgid "Tag"
 msgstr "Label"
 
 #: extensions/catalogs/dlg-organize-files.c:159
-#: gthumb/gth-main-default-tests.c:398
+#: gthumb/gth-main-default-tests.c:400
 msgid "Tag (embedded)"
 msgstr "Label (ingebed)"
 
-#: extensions/catalogs/gth-catalog.c:1126 extensions/comments/main.c:45
-#: extensions/edit_metadata/callbacks.c:51
-#: extensions/edit_metadata/callbacks.c:85
-#: gthumb/gth-main-default-metadata.c:63
+#: extensions/catalogs/gth-catalog.c:300
+#: extensions/exiv2_tools/exiv2-utils.cpp:876
+#: extensions/exiv2_tools/exiv2-utils.cpp:885
+#: extensions/exiv2_tools/exiv2-utils.cpp:915
+#: extensions/exiv2_tools/exiv2-utils.cpp:1448
+#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:336
+msgid "Invalid file format"
+msgstr "Ongeldig bestandsformaat"
+
+#: extensions/catalogs/gth-catalog.c:1018 extensions/comments/main.c:47
+#: extensions/edit_metadata/callbacks.c:57
+#: extensions/edit_metadata/callbacks.c:94
+#: extensions/edit_metadata/callbacks.c:107
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:170
+#: gthumb/gth-main-default-metadata.c:65
 msgid "Tags"
 msgstr "Labels"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:955
+#: extensions/catalogs/gth-file-source-catalogs.c:958
 #, c-format
 msgid "The catalog “%s” already exists, do you want to overwrite it?"
 msgstr "De catalogus ‘%s’ bestaat al, wilt u deze overschrijven?"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:957
+#: extensions/catalogs/gth-file-source-catalogs.c:960
 #, c-format
 msgid "The library “%s” already exists, do you want to overwrite it?"
 msgstr "De bibliotheek ‘%s’ bestaat al, wilt u deze overschrijven?"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:965
+#: extensions/catalogs/gth-file-source-catalogs.c:968
 msgid "Over_write"
 msgstr "_Overschrijven"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1083
+#: extensions/catalogs/gth-file-source-catalogs.c:1087
 msgid "Cannot move the files"
 msgstr "Kan de bestanden niet verplaatsen"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1085
+#: extensions/catalogs/gth-file-source-catalogs.c:1089
 msgid "Cannot copy the files"
 msgstr "Kan de bestanden niet kopiëren"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1090
+#: extensions/catalogs/gth-file-source-catalogs.c:1094
 msgid "Invalid destination."
 msgstr "Ongeldige bestemming."
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1137
+#: extensions/catalogs/gth-file-source-catalogs.c:1141
 #, c-format
 msgid "Copying files to “%s”"
 msgstr "Bestanden kopiëren naar ‘%s’"
 
-#: extensions/catalogs/gth-file-source-catalogs.c:1324
+#: extensions/catalogs/gth-file-source-catalogs.c:1321
 msgid "Could not remove the files from the catalog"
 msgstr "Kon de bestanden niet uit de catalogus verwijderen"
-
-#: extensions/catalogs/gth-file-source-catalogs.c:1375
-#: extensions/exiv2_tools/exiv2-utils.cpp:876
-#: extensions/exiv2_tools/exiv2-utils.cpp:885
-#: extensions/exiv2_tools/exiv2-utils.cpp:915
-#: extensions/exiv2_tools/exiv2-utils.cpp:1450
-#: extensions/search/gth-search.c:265
-msgid "Invalid file format"
-msgstr "Ongeldig bestandsformaat"
 
 #: extensions/catalogs/gth-organize-task.c:209
 #, c-format
@@ -1026,7 +1053,7 @@ msgstr "Datum co_mmentaar"
 
 #: extensions/change_date/data/ui/change-date.ui:140
 msgid "Change to:"
-msgstr "Wijzigen in:"
+msgstr "Verander naar:"
 
 #: extensions/change_date/data/ui/change-date.ui:171
 msgid "The _following date:"
@@ -1035,7 +1062,7 @@ msgstr "De _volgende datum:"
 # datum kan hier weggelaten worden
 #: extensions/change_date/data/ui/change-date.ui:217
 msgid "File _modified date"
-msgstr "Datum bestand _gewijzigd"
+msgstr "Datu_m bestandswijziging"
 
 #: extensions/change_date/data/ui/change-date.ui:235
 msgid "File c_reation date"
@@ -1047,7 +1074,7 @@ msgstr "Datum waarop de _foto genomen werd"
 
 #: extensions/change_date/data/ui/change-date.ui:291
 msgid "A_djust by"
-msgstr "_Aanpassen op"
+msgstr "_Aanpassen met"
 
 # meervoud is hier ook uur< (bv 5 uur)
 #: extensions/change_date/data/ui/change-date.ui:386
@@ -1064,7 +1091,7 @@ msgstr "seconden"
 
 #: extensions/change_date/dlg-change-date.c:177
 msgid "Change Date"
-msgstr "Datum wijzigen"
+msgstr "Verander datum"
 
 #: extensions/comments/callbacks.c:39
 msgid "Import Embedded Metadata"
@@ -1086,20 +1113,25 @@ msgstr "Met de ingebedde metadata _synchroniseren"
 #: extensions/gstreamer_tools/dlg-media-viewer-preferences.c:75
 #: extensions/importer/gth-import-preferences-dialog.c:417
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
-#: gthumb/dlg-preferences-extensions.c:483
+#: extensions/terminal/dlg-terminal-preferences.c:83
+#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
+#: gthumb/gth-file-properties.c:548
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: extensions/comments/main.c:35 extensions/edit_metadata/callbacks.c:50
-#: extensions/edit_metadata/callbacks.c:79 gthumb/gth-file-comment.c:136
+#: extensions/comments/main.c:37 extensions/edit_metadata/callbacks.c:56
+#: extensions/edit_metadata/callbacks.c:88
+#: extensions/edit_metadata/callbacks.c:101
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:124
+#: gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Opmerking"
 
-#: extensions/comments/main.c:41 gthumb/gth-main-default-metadata.c:60
+#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Titel"
 
-#: extensions/comments/main.c:42 extensions/comments/main.c:166
+#: extensions/comments/main.c:44 extensions/comments/main.c:170
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:184
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:502
 #: extensions/contact_sheet/data/ui/image-wall.ui:232
@@ -1109,21 +1141,21 @@ msgstr "Titel"
 #: extensions/rename_series/data/ui/rename-series.ui:249
 #: extensions/webalbums/data/ui/web-album-exporter.ui:194
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
-#: gthumb/gth-main-default-metadata.c:62
+#: gthumb/gth-main-default-metadata.c:64
 msgid "Description"
 msgstr "Beschrijving"
 
-#: extensions/comments/main.c:43 extensions/comments/main.c:174
-#: gthumb/gth-main-default-metadata.c:61
+#: extensions/comments/main.c:45 extensions/comments/main.c:178
+#: gthumb/gth-main-default-metadata.c:63
 msgid "Place"
 msgstr "Plaats"
 
-#: extensions/comments/main.c:44
+#: extensions/comments/main.c:46
 msgid "Comment Date & Time"
 msgstr "Commentaar Datum & Tijd"
 
-#: extensions/comments/main.c:46 gthumb/gth-main-default-metadata.c:64
-#: gthumb/gth-main-default-tests.c:389
+#: extensions/comments/main.c:48 gthumb/gth-main-default-metadata.c:66
+#: gthumb/gth-main-default-tests.c:391
 msgid "Rating"
 msgstr "Waardering"
 
@@ -1137,7 +1169,7 @@ msgstr "Fotomuur…"
 
 #: extensions/contact_sheet/contact_sheet.extension.desktop.in.in:3
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:308
-#: extensions/contact_sheet/dlg-contact-sheet.c:708
+#: extensions/contact_sheet/dlg-contact-sheet.c:710
 msgid "Contact Sheet"
 msgstr "Contactblad"
 
@@ -1149,9 +1181,9 @@ msgstr ""
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:12
 #: extensions/file_tools/gth-file-tool-crop.c:439
 #: extensions/file_tools/gth-file-tool-crop.c:469
-#: extensions/file_tools/gth-file-tool-resize.c:587
+#: extensions/file_tools/gth-file-tool-resize.c:589
 #: extensions/file_tools/gth-file-tool-rotate.c:396
-#: extensions/slideshow/main.c:291 gthumb/gth-accel-button.c:173
+#: extensions/slideshow/main.c:297 gthumb/gth-accel-button.c:201
 msgid "None"
 msgstr "Geen"
 
@@ -1189,7 +1221,7 @@ msgstr "_Effen kleur"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:140
 msgid "_Gradient"
-msgstr "_Gradiënt"
+msgstr "_Kleurverloop"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:281
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:297
@@ -1223,7 +1255,7 @@ msgstr "Tekst"
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:548
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:290
 #: extensions/image_print/data/ui/print-layout.ui:88
-#: extensions/image_print/data/ui/print-preferences.ui:60
+#: extensions/image_print/data/ui/print-preferences.ui:55
 #: extensions/webalbums/data/ui/web-album-exporter.ui:302
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1167
 msgid "_Header:"
@@ -1238,7 +1270,7 @@ msgstr "Een lettertype kiezen"
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:604
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:261
 #: extensions/image_print/data/ui/print-layout.ui:102
-#: extensions/image_print/data/ui/print-preferences.ui:74
+#: extensions/image_print/data/ui/print-preferences.ui:69
 #: extensions/webalbums/data/ui/web-album-exporter.ui:271
 #: extensions/webalbums/data/ui/web-album-exporter.ui:916
 msgid "_Footer:"
@@ -1246,7 +1278,7 @@ msgstr "_Voettekst:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:663
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:1038
-#: extensions/image_print/data/ui/print-preferences.ui:48
+#: extensions/image_print/data/ui/print-preferences.ui:43
 msgid "Caption:"
 msgstr "Bijschrift:"
 
@@ -1272,7 +1304,7 @@ msgstr "Het totaal aantal pagina’s"
 #: extensions/webalbums/data/ui/web-album-exporter.ui:179
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1024
 msgid "Special code"
-msgstr "Bijzondere code"
+msgstr "Speciale code"
 
 #. translate only the text in the curly brackets
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:201
@@ -1312,7 +1344,7 @@ msgstr "Bestemmingsmap kiezen"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:382
 #: extensions/contact_sheet/data/ui/image-wall.ui:112
 msgid "File_name:"
-msgstr "B_estandsnaam:"
+msgstr "Bestands_naam:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:469
 #: extensions/contact_sheet/data/ui/image-wall.ui:199
@@ -1401,13 +1433,13 @@ msgstr "_Vierkant"
 msgid "Thumbnails"
 msgstr "Miniaturen"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:489
-#: extensions/contact_sheet/dlg-contact-sheet.c:500
-#: extensions/contact_sheet/dlg-contact-sheet.c:514
+#: extensions/contact_sheet/dlg-contact-sheet.c:491
+#: extensions/contact_sheet/dlg-contact-sheet.c:502
+#: extensions/contact_sheet/dlg-contact-sheet.c:516
 msgid "Could not save the theme"
 msgstr "Kon het thema niet opslaan"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:659
+#: extensions/contact_sheet/dlg-contact-sheet.c:661
 msgid "Could not delete the theme"
 msgstr "Kon het thema niet verwijderen"
 
@@ -1415,11 +1447,11 @@ msgstr "Kon het thema niet verwijderen"
 msgid "Image Wall"
 msgstr "Fotomuur"
 
-#: extensions/contact_sheet/gth-contact-sheet-creator.c:250
+#: extensions/contact_sheet/gth-contact-sheet-creator.c:291
 msgid "Creating images"
 msgstr "Afbeeldingen aanmaken"
 
-#: extensions/contact_sheet/gth-contact-sheet-creator.c:898
+#: extensions/contact_sheet/gth-contact-sheet-creator.c:936
 msgid "Generating thumbnails"
 msgstr "Bezig met genereren van miniaturen"
 
@@ -1467,7 +1499,7 @@ msgstr "Bestemming"
 #: extensions/convert_format/data/ui/convert-format.ui:138
 #: extensions/resize_images/data/ui/resize-images.ui:283
 msgid "_Use the original image folder"
-msgstr "De oorspronkelijke afbeeldingenmap _gebruiken"
+msgstr "De oorspronkelijke afbeeldingenmap gebr_uiken"
 
 #: extensions/convert_format/dlg-convert-format.c:87
 msgid "Converting images"
@@ -1484,7 +1516,7 @@ msgid "Could not show the desktop background properties"
 msgstr "Kon de eigenschappen van de bureaubladachtergrond niet tonen"
 
 #: extensions/desktop_background/actions.c:329
-#: gthumb/gth-browser-actions-entries.h:85 gthumb/resources/app-menu.ui:14
+#: gthumb/resources/gears-menu.ui:45
 msgid "_Preferences"
 msgstr "_Voorkeuren"
 
@@ -1529,6 +1561,14 @@ msgid "If you delete the metadata, it will be permanently lost."
 msgstr "Als u de metagegevens verwijdert, dan bent u ze definitief kwijt."
 
 #: extensions/edit_metadata/callbacks.c:45
+msgid "Edit comment"
+msgstr "Bewerk commentaar"
+
+#: extensions/edit_metadata/callbacks.c:46
+msgid "Edit tags"
+msgstr "Bewerk labels"
+
+#: extensions/edit_metadata/callbacks.c:51
 msgid "Delete Metadata"
 msgstr "Metagegevens verwijderen"
 
@@ -1536,31 +1576,31 @@ msgstr "Metagegevens verwijderen"
 #: extensions/facebook/data/ui/facebook-album-properties.ui:135
 #: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:127
 msgid "D_escription:"
-msgstr "_Beschrijving"
+msgstr "B_eschrijving:"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:81
 msgid "_Place:"
-msgstr "_Plaats"
+msgstr "_Plaats:"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:120
 #: extensions/edit_metadata/data/ui/tag-chooser.ui:16
 msgid "T_ags:"
-msgstr "L_abels"
+msgstr "L_abels:"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:207
 msgid "_Rating:"
-msgstr "_Waardering"
+msgstr "Waa_rdering:"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:239
 msgid "_Title:"
-msgstr "_Titel"
+msgstr "_Titel:"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:121
+#: extensions/edit_metadata/dlg-edit-metadata.c:123
 msgid "Could not save the file metadata"
 msgstr "Kon de metagegevens van het bestand niet opslaan"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:230
-#: gthumb/gth-overwrite-dialog.c:139
+#: extensions/edit_metadata/dlg-edit-metadata.c:234
+#: gthumb/gth-overwrite-dialog.c:184
 msgid "Cannot read file information"
 msgstr "Kan bestandsinformatie niet lezen"
 
@@ -1572,27 +1612,7 @@ msgstr "Metagegevens bewerken"
 msgid "Allow to edit files metadata."
 msgstr "Bewerken van metagegevens bestanden toestaan."
 
-#. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:64
-#, c-format
-msgid "%s Metadata"
-msgstr "%s metagegevens"
-
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:67
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:84
-#: extensions/flicker_utils/dlg-import-from-flickr.c:320
-#, c-format
-msgid "%d file"
-msgid_plural "%d files"
-msgstr[0] "%d bestand"
-msgstr[1] "%d bestanden"
-
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:145
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:196
-msgid "Sa_ve and Close"
-msgstr "_Opslaan en sluiten"
-
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:156
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:138
 msgid "Save only cha_nged fields"
 msgstr "Alleen ge_wijzigde velden opslaan"
 
@@ -1621,16 +1641,6 @@ msgstr "Datum aanmaak bestand"
 #: extensions/edit_metadata/gth-edit-general-page.c:560
 msgid "Do not modify"
 msgstr "Niet wijzigen"
-
-#. Translators: the %s symbol in the string is a file name
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:81
-#, c-format
-msgid "%s Tags"
-msgstr "%s Labels"
-
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:188
-msgid "Assign Tags"
-msgstr "Labels toewijzen"
 
 #: extensions/edit_metadata/gth-tag-task.c:122
 #: extensions/edit_metadata/gth-tag-task.c:139
@@ -1694,7 +1704,8 @@ msgstr "_Taal:"
 msgid "State/Province:"
 msgstr "Deelstaat/provincie:"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1115
+#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
+#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(ongeldige waarde)"
 
@@ -1759,8 +1770,8 @@ msgid "date photo was taken"
 msgstr "datum waarop de foto genomen werd"
 
 #: extensions/export_tools/callbacks.c:46
-msgid "Export"
-msgstr "Exporteren"
+msgid "_Export To"
+msgstr "_Exporteren naar"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:34
 msgid "720 × 720"
@@ -1901,7 +1912,7 @@ msgstr "Kon de bestanden niet exporteren"
 #: extensions/flicker_utils/dlg-export-to-flickr.c:601
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:502
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:832
+#: gthumb/gth-browser.c:872
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1942,13 +1953,13 @@ msgstr "Kon ‘%s’ niet uploaden: %s"
 msgid "Uploading “%s”"
 msgstr "Bezig met uploaden van ‘%s’"
 
-#: extensions/facebook/facebook-service.c:949
+#: extensions/facebook/facebook-service.c:954
 #: extensions/flicker_utils/flickr-service.c:1450
 #: extensions/picasaweb/picasa-web-service.c:1062
 msgid "Uploading the files to the server"
 msgstr "Bestanden uploaden naar de server"
 
-#: extensions/facebook/facebook-service.c:1043
+#: extensions/facebook/facebook-service.c:1048
 #: extensions/flicker_utils/flickr-service.c:1611
 #: extensions/picasaweb/picasa-web-service.c:1174
 msgid "Getting the photo list"
@@ -1971,14 +1982,21 @@ msgid "Enter the folder name:"
 msgstr "Geef mapnaam op:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:271
-#: extensions/file_manager/callbacks.c:1005
+#: extensions/file_manager/callbacks.c:551
+#: extensions/file_manager/callbacks.c:986
+#: extensions/find_duplicates/gth-find-duplicates.c:788
+#: gthumb/gth-browser.c:5565 gthumb/gth-browser.c:5601
+#: gthumb/gth-progress-dialog.c:429
+msgid "Could not perform the operation"
+msgstr "Kon de bewerking niet uitvoeren"
+
+#: extensions/file_manager/actions.c:423
+#: extensions/file_manager/callbacks.c:277
 msgid "Could not move the files"
 msgstr "Kon de bestanden niet verplaatsen"
 
-#: extensions/file_manager/actions.c:411
-#: extensions/file_manager/callbacks.c:272
-#: extensions/file_manager/callbacks.c:1006
+#: extensions/file_manager/actions.c:424
+#: extensions/file_manager/callbacks.c:278
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1986,114 +2004,120 @@ msgstr ""
 "Bestanden kunnen niet worden verplaatst naar de huidige locatie, maar "
 "kopiëren kan wel."
 
-#: extensions/file_manager/actions.c:413 extensions/file_manager/actions.c:664
-#: extensions/file_manager/callbacks.c:71
-#: extensions/file_manager/callbacks.c:100
+#: extensions/file_manager/actions.c:426 extensions/file_manager/actions.c:743
+#: extensions/file_manager/callbacks.c:74
+#: extensions/file_manager/callbacks.c:103
+#: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
 #: gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Kopiëren"
 
-#: extensions/file_manager/actions.c:660
+#: extensions/file_manager/actions.c:739
 msgid "Move To"
 msgstr "Verplaatsen naar"
 
-#: extensions/file_manager/actions.c:660
+#: extensions/file_manager/actions.c:739
 msgid "Copy To"
 msgstr "Kopiëren naar"
 
-#: extensions/file_manager/actions.c:664
-#: extensions/file_manager/callbacks.c:990
+#: extensions/file_manager/actions.c:743
+#: extensions/file_manager/callbacks.c:1025
 msgid "Move"
 msgstr "Verplaatsen"
 
-#: extensions/file_manager/actions.c:791
+#: extensions/file_manager/actions.c:870
 msgid "Could not open the location"
 msgstr "Kon de locatie niet openen"
 
-#: extensions/file_manager/callbacks.c:70
-#: extensions/file_manager/callbacks.c:99
+#: extensions/file_manager/callbacks.c:73
+#: extensions/file_manager/callbacks.c:102
+#: extensions/file_manager/callbacks.c:123
 msgid "Cut"
 msgstr "Knippen"
 
-#: extensions/file_manager/callbacks.c:72
+#: extensions/file_manager/callbacks.c:75
+#: extensions/file_manager/callbacks.c:125
 msgid "Paste"
 msgstr "Plakken"
 
-#: extensions/file_manager/callbacks.c:77
-#: extensions/file_manager/callbacks.c:107
+#: extensions/file_manager/callbacks.c:80
+#: extensions/file_manager/callbacks.c:110
 msgid "Copy to…"
 msgstr "Kopiëren naar…"
 
-#: extensions/file_manager/callbacks.c:78
-#: extensions/file_manager/callbacks.c:108
+#: extensions/file_manager/callbacks.c:81
+#: extensions/file_manager/callbacks.c:111
 msgid "Move to…"
 msgstr "Verplaatsen naar…"
 
-#: extensions/file_manager/callbacks.c:84
-#: extensions/file_manager/callbacks.c:109
+#: extensions/file_manager/callbacks.c:87
+#: extensions/file_manager/callbacks.c:112
 msgid "Move to Trash"
 msgstr "Naar prullenbak verplaatsen"
 
-#: extensions/file_manager/callbacks.c:85
-#: extensions/file_manager/callbacks.c:110
+#: extensions/file_manager/callbacks.c:88
+#: extensions/file_manager/callbacks.c:113
+#: extensions/file_manager/callbacks.c:128
 msgid "Delete"
 msgstr "Verwijderen"
 
-#: extensions/file_manager/callbacks.c:89
+#: extensions/file_manager/callbacks.c:92
 msgid "Open with the File Manager"
 msgstr "Openen met bestandsbeheer"
 
-#: extensions/file_manager/callbacks.c:94
+#: extensions/file_manager/callbacks.c:97
 msgid "Create Folder"
 msgstr "Map maken"
 
-#: extensions/file_manager/callbacks.c:101
+#: extensions/file_manager/callbacks.c:104
 msgid "Paste Into Folder"
 msgstr "In map plakken"
 
-#: extensions/file_manager/callbacks.c:115
+#: extensions/file_manager/callbacks.c:118
+#: extensions/file_manager/callbacks.c:127
 msgid "Duplicate"
 msgstr "Dupliceren"
 
-#: extensions/file_manager/callbacks.c:545
-#: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5580 gthumb/gth-browser.c:5616
-#: gthumb/gth-progress-dialog.c:429
-msgid "Could not perform the operation"
-msgstr "Kon de bewerking niet uitvoeren"
+#: extensions/file_manager/callbacks.c:129
+msgid "Delete permanently"
+msgstr "Permanent verwijderen"
 
-#: extensions/file_manager/callbacks.c:716 gthumb/gth-file-source-vfs.c:234
+#: extensions/file_manager/callbacks.c:130
+msgid "Open with Gimp"
+msgstr "Openen met Gimp"
+
+#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:226
 msgid "Home Folder"
 msgstr "Persoonlijke map"
 
-#: extensions/file_manager/callbacks.c:723
-#: extensions/file_manager/callbacks.c:726
+#: extensions/file_manager/callbacks.c:729
+#: extensions/file_manager/callbacks.c:732
 msgid "Open _With"
 msgstr "_Openen met"
 
-#: extensions/file_manager/callbacks.c:973
+#: extensions/file_manager/callbacks.c:1006
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Wilt u ‘%s’ verplaatsen naar ‘%s’?"
 
-#: extensions/file_manager/callbacks.c:975
+#: extensions/file_manager/callbacks.c:1008
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
-msgstr "Wilt u “%s“ kopiëren naar “%s“?"
+msgstr "Wilt u ‘%s’ kopiëren naar ‘%s’?"
 
-#: extensions/file_manager/callbacks.c:980
+#: extensions/file_manager/callbacks.c:1015
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
-msgstr "Wilt u de geselecteerde bestanden naar “%s“ verplaatsen?"
+msgstr "Wilt u de geselecteerde bestanden naar ‘%s’ verplaatsen?"
 
-#: extensions/file_manager/callbacks.c:982
+#: extensions/file_manager/callbacks.c:1017
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
-msgstr "Wilt u de geselecteerde bestanden naar “%s“ kopiëren?"
+msgstr "Wilt u de geselecteerde bestanden naar ‘%s’ kopiëren?"
 
-#: extensions/file_manager/callbacks.c:990
+#: extensions/file_manager/callbacks.c:1025
 msgid "_Copy"
 msgstr "_Kopiëren"
 
@@ -2109,6 +2133,41 @@ msgstr "Bewerkingen van bestandsbeheer."
 msgid "system-file-manager"
 msgstr "system-file-manager"
 
+#: extensions/file_tools/callbacks.c:53
+msgid "Adjust contrast"
+msgstr "Contrast aanpassen"
+
+# was eerst _Tuimelen
+#: extensions/file_tools/callbacks.c:54
+#: extensions/file_tools/gth-file-tool-flip.c:90
+msgid "Flip"
+msgstr "Spiegelen"
+
+#: extensions/file_tools/callbacks.c:55
+#: extensions/file_tools/gth-file-tool-mirror.c:90
+msgid "Mirror"
+msgstr "Spiegelen"
+
+#: extensions/file_tools/callbacks.c:56
+#: extensions/image_rotation/callbacks.c:47
+msgid "Rotate right"
+msgstr "Rechtsom draaien"
+
+#: extensions/file_tools/callbacks.c:57
+#: extensions/image_rotation/callbacks.c:48
+msgid "Rotate left"
+msgstr "Linksom draaien"
+
+#: extensions/file_tools/callbacks.c:58
+#: extensions/file_tools/gth-file-tool-crop.c:687
+msgid "Crop"
+msgstr "Bijsnijden"
+
+#: extensions/file_tools/callbacks.c:59
+#: extensions/file_tools/gth-file-tool-resize.c:840
+msgid "Resize"
+msgstr "Grootte wijzigen"
+
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:56
 #: extensions/file_tools/data/ui/curves-options.ui:35
 #: extensions/file_tools/data/ui/sharpen-options.ui:45
@@ -2117,33 +2176,33 @@ msgstr "_Voorbeeld"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:94
 msgid "B_rightness:"
-msgstr "_Helderheid"
+msgstr "Helde_rheid:"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:113
 msgid "Con_trast:"
-msgstr "Con_trast"
+msgstr "Con_trast:"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:132
 msgid "_Saturation:"
-msgstr "_Verzadiging"
+msgstr "_Verzadiging:"
 
 # Die zeven dubbele punten hier, nergens voor nodig
 # pm
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:213
 msgid "G_amma:"
-msgstr "_Gamma"
+msgstr "G_amma:"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:230
 msgid "Cyan-_Red:"
-msgstr "Cyaan/_rood"
+msgstr "Cyaan/_rood:"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:249
 msgid "_Magenta-Green:"
-msgstr "_Magenta/groen"
+msgstr "_Magenta/groen:"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:268
 msgid "_Yellow-Blue:"
-msgstr "_Geel/blauw"
+msgstr "_Geel/blauw:"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:294
 msgid "Color Levels"
@@ -2173,9 +2232,9 @@ msgstr "Kleur"
 #: extensions/file_tools/data/ui/resize-options.ui:9
 #: extensions/file_tools/data/ui/rotate-options.ui:9
 #: extensions/file_tools/gth-file-tool-crop.c:661
-#: extensions/file_tools/gth-file-tool-resize.c:757
+#: extensions/file_tools/gth-file-tool-resize.c:759
 #: extensions/file_tools/gth-file-tool-rotate.c:617
-#: gthumb/gth-file-chooser-dialog.c:258
+#: gthumb/gth-file-chooser-dialog.c:262
 msgid "Options"
 msgstr "Opties"
 
@@ -2212,7 +2271,7 @@ msgstr "Centreren"
 
 #: extensions/file_tools/data/ui/crop-options.ui:418
 #: extensions/file_tools/data/ui/resize-options.ui:375
-#: gthumb/gth-main-default-tests.c:404
+#: gthumb/gth-main-default-tests.c:406
 msgid "Aspect ratio"
 msgstr "Beeldverhouding"
 
@@ -2252,7 +2311,7 @@ msgid "%"
 msgstr "%"
 
 #: extensions/file_tools/data/ui/resize-options.ui:137
-#: gthumb/gth-main-default-metadata.c:46
+#: gthumb/gth-main-default-metadata.c:48
 msgid "Dimensions"
 msgstr "Afmetingen"
 
@@ -2412,17 +2471,17 @@ msgstr "Voorinstellingen"
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:393
 #: extensions/file_tools/gth-file-tool-crop.c:632
 #: extensions/file_tools/gth-file-tool-curves.c:287
-#: extensions/file_tools/gth-file-tool-effects.c:400
-#: extensions/file_tools/gth-file-tool-effects.c:444
-#: extensions/file_tools/gth-file-tool-effects.c:492
-#: extensions/file_tools/gth-file-tool-effects.c:541
-#: extensions/file_tools/gth-file-tool-effects.c:589
-#: extensions/file_tools/gth-file-tool-effects.c:637
-#: extensions/file_tools/gth-file-tool-effects.c:685
-#: extensions/file_tools/gth-file-tool-effects.c:732
-#: extensions/file_tools/gth-file-tool-effects.c:781
-#: extensions/file_tools/gth-file-tool-effects.c:903
-#: extensions/file_tools/gth-file-tool-effects.c:938
+#: extensions/file_tools/gth-file-tool-effects.c:401
+#: extensions/file_tools/gth-file-tool-effects.c:445
+#: extensions/file_tools/gth-file-tool-effects.c:493
+#: extensions/file_tools/gth-file-tool-effects.c:542
+#: extensions/file_tools/gth-file-tool-effects.c:590
+#: extensions/file_tools/gth-file-tool-effects.c:638
+#: extensions/file_tools/gth-file-tool-effects.c:686
+#: extensions/file_tools/gth-file-tool-effects.c:733
+#: extensions/file_tools/gth-file-tool-effects.c:782
+#: extensions/file_tools/gth-file-tool-effects.c:904
+#: extensions/file_tools/gth-file-tool-effects.c:939
 #: extensions/file_tools/gth-file-tool-flip.c:63
 #: extensions/file_tools/gth-file-tool-grayscale.c:230
 #: extensions/file_tools/gth-file-tool-lomo.c:182
@@ -2470,11 +2529,11 @@ msgstr "Uniform"
 msgid "Equalize the histogram using the linear function"
 msgstr "Histogram egaliseren met behulp van de lineaire functie"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:660
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:661
 msgid "Adjust Contrast"
 msgstr "Contrast aanpassen"
 
-#: extensions/file_tools/gth-file-tool-adjust-contrast.c:662
+#: extensions/file_tools/gth-file-tool-adjust-contrast.c:663
 msgid "Automatic contrast adjustment"
 msgstr "Automatische aanpassing van contrast"
 
@@ -2487,74 +2546,74 @@ msgid "Pick a color from the image"
 msgstr "Kies een kleur uit de afbeelding"
 
 #: extensions/file_tools/gth-file-tool-crop.c:439
-#: extensions/file_tools/gth-file-tool-resize.c:587
+#: extensions/file_tools/gth-file-tool-resize.c:589
 #: gthumb/gth-test-aspect-ratio.c:47
 msgid "Square"
 msgstr "Vierkant"
 
 #: extensions/file_tools/gth-file-tool-crop.c:440
-#: extensions/file_tools/gth-file-tool-resize.c:588
+#: extensions/file_tools/gth-file-tool-resize.c:590
 #, c-format
 msgid "%d × %d (Image)"
 msgstr "%d x %d (Afbeelding)"
 
 #: extensions/file_tools/gth-file-tool-crop.c:443
-#: extensions/file_tools/gth-file-tool-resize.c:592
+#: extensions/file_tools/gth-file-tool-resize.c:594
 #, c-format
 msgid "%d × %d (Screen)"
 msgstr "%d x %d (Scherm)"
 
 #: extensions/file_tools/gth-file-tool-crop.c:447
-#: extensions/file_tools/gth-file-tool-resize.c:597
+#: extensions/file_tools/gth-file-tool-resize.c:599
 #: gthumb/gth-test-aspect-ratio.c:48
 msgid "5∶4"
 msgstr "5:4"
 
 #: extensions/file_tools/gth-file-tool-crop.c:448
-#: extensions/file_tools/gth-file-tool-resize.c:598
+#: extensions/file_tools/gth-file-tool-resize.c:600
 #: gthumb/gth-test-aspect-ratio.c:49
 msgid "4∶3 (DVD, Book)"
 msgstr "4:3 (dvd, boek)"
 
 #: extensions/file_tools/gth-file-tool-crop.c:449
-#: extensions/file_tools/gth-file-tool-resize.c:599
+#: extensions/file_tools/gth-file-tool-resize.c:601
 #: gthumb/gth-test-aspect-ratio.c:50
 msgid "7∶5"
 msgstr "7∶5"
 
 #: extensions/file_tools/gth-file-tool-crop.c:450
-#: extensions/file_tools/gth-file-tool-resize.c:600
+#: extensions/file_tools/gth-file-tool-resize.c:602
 #: gthumb/gth-test-aspect-ratio.c:51
 msgid "3∶2 (Postcard)"
 msgstr "3:2 (ansichtkaart)"
 
 #: extensions/file_tools/gth-file-tool-crop.c:451
-#: extensions/file_tools/gth-file-tool-resize.c:601
+#: extensions/file_tools/gth-file-tool-resize.c:603
 #: gthumb/gth-test-aspect-ratio.c:52
 msgid "16∶10"
 msgstr "16∶10"
 
 #: extensions/file_tools/gth-file-tool-crop.c:452
-#: extensions/file_tools/gth-file-tool-resize.c:602
+#: extensions/file_tools/gth-file-tool-resize.c:604
 #: gthumb/gth-test-aspect-ratio.c:53
 msgid "16∶9 (DVD)"
 msgstr "16:9 (dvd)"
 
 #: extensions/file_tools/gth-file-tool-crop.c:453
-#: extensions/file_tools/gth-file-tool-resize.c:603
+#: extensions/file_tools/gth-file-tool-resize.c:605
 #: gthumb/gth-test-aspect-ratio.c:54
 msgid "1.85∶1"
 msgstr "1,85:1"
 
 #: extensions/file_tools/gth-file-tool-crop.c:454
-#: extensions/file_tools/gth-file-tool-resize.c:604
+#: extensions/file_tools/gth-file-tool-resize.c:606
 #: gthumb/gth-test-aspect-ratio.c:55
 msgid "2.39∶1"
 msgstr "2,39:1"
 
 #. Translators: this is an option for the format -> Format: Custom
 #: extensions/file_tools/gth-file-tool-crop.c:455
-#: extensions/file_tools/gth-file-tool-resize.c:605
+#: extensions/file_tools/gth-file-tool-resize.c:607
 #: extensions/image_print/data/ui/print-layout.ui:17
 #: extensions/rename_series/gth-template-selector.c:248
 #: gthumb/gth-test-aspect-ratio.c:193
@@ -2576,10 +2635,6 @@ msgstr "Gulden snede"
 msgid "Center Lines"
 msgstr "Centrumlijnen"
 
-#: extensions/file_tools/gth-file-tool-crop.c:687
-msgid "Crop"
-msgstr "Bijsnijden"
-
 #: extensions/file_tools/gth-file-tool-curves.c:410
 msgid "Add to Presets"
 msgstr "Toevoegen aan voorinstellingen"
@@ -2590,8 +2645,8 @@ msgstr "Geef de naam van de voorinstelling op:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1593
-#: gthumb/gth-browser.c:1887
+#: extensions/image_viewer/gth-image-viewer-page.c:1631
+#: gthumb/gth-browser.c:1863
 msgid "Could not save the file"
 msgstr "Kon het bestand niet opslaan"
 
@@ -2607,69 +2662,64 @@ msgstr "Kleurcurven"
 msgid "Adjust color curves"
 msgstr "Kleurcurven aanpassen"
 
-#: extensions/file_tools/gth-file-tool-effects.c:358
+#: extensions/file_tools/gth-file-tool-effects.c:359
 msgid "Special Effects"
 msgstr "Speciale effecten"
 
 #. Translators: this is the name of a filter that produces warmer colors
-#: extensions/file_tools/gth-file-tool-effects.c:402
+#: extensions/file_tools/gth-file-tool-effects.c:403
 msgid "Warmer"
 msgstr "Warmer"
 
 #. Translators: this is the name of a filter that produces cooler colors
-#: extensions/file_tools/gth-file-tool-effects.c:446
+#: extensions/file_tools/gth-file-tool-effects.c:447
 msgid "Cooler"
 msgstr "Koeler"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:494
+#: extensions/file_tools/gth-file-tool-effects.c:495
 msgid "Soil"
 msgstr "Bezoedeld"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:543
+#: extensions/file_tools/gth-file-tool-effects.c:544
 msgid "Desert"
 msgstr "Woestijn"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:591
+#: extensions/file_tools/gth-file-tool-effects.c:592
 msgid "Arctic"
 msgstr "Arctisch"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:639
+#: extensions/file_tools/gth-file-tool-effects.c:640
 msgid "Mangos"
 msgstr "Mango’s"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:687
+#: extensions/file_tools/gth-file-tool-effects.c:688
 msgid "Fresh Blue"
 msgstr "Fris blauw"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:734
+#: extensions/file_tools/gth-file-tool-effects.c:735
 msgid "Cherry"
 msgstr "Kersen"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:783
+#: extensions/file_tools/gth-file-tool-effects.c:784
 msgid "Vintage"
 msgstr "Vintage"
 
 #. Translators: this is the name of an image filter
-#: extensions/file_tools/gth-file-tool-effects.c:905
+#: extensions/file_tools/gth-file-tool-effects.c:906
 msgid "Blurred Edges"
 msgstr "Vage randen"
 
 #. Translators: this is the name of an image filter that produces darker edges
-#: extensions/file_tools/gth-file-tool-effects.c:940
+#: extensions/file_tools/gth-file-tool-effects.c:941
 msgid "Vignette"
 msgstr "Vignettering"
-
-# was eerst _Tuimelen
-#: extensions/file_tools/gth-file-tool-flip.c:90
-msgid "Flip"
-msgstr "Spiegelen"
 
 #: extensions/file_tools/gth-file-tool-flip.c:91
 msgid "Flip the image vertically"
@@ -2687,17 +2737,13 @@ msgstr "_Verzadiging"
 msgid "_Average"
 msgstr "Ge_middeld"
 
-#: extensions/file_tools/gth-file-tool-grayscale.c:497
+#: extensions/file_tools/gth-file-tool-grayscale.c:498
 msgid "Grayscale"
 msgstr "Grijstinten"
 
 #: extensions/file_tools/gth-file-tool-lomo.c:183
 msgid "Lomo"
 msgstr "Lomo"
-
-#: extensions/file_tools/gth-file-tool-mirror.c:90
-msgid "Mirror"
-msgstr "Spiegelen"
 
 #: extensions/file_tools/gth-file-tool-mirror.c:91
 msgid "Mirror the image horizontally"
@@ -2712,19 +2758,15 @@ msgid "Redo"
 msgstr "Opnieuw uitvoeren"
 
 #. resize the original image
-#: extensions/file_tools/gth-file-tool-resize.c:183
-#: extensions/resize_images/dlg-resize-images.c:172
+#: extensions/file_tools/gth-file-tool-resize.c:185
+#: extensions/resize_images/dlg-resize-images.c:169
 #: gthumb/gth-filter-grid.c:573
 msgid "Resizing images"
 msgstr "Grootte afbeeldingen wijzigen"
 
-#: extensions/file_tools/gth-file-tool-resize.c:838
-msgid "Resize"
-msgstr "Grootte wijzigen"
-
 #: extensions/file_tools/gth-file-tool-rotate-left.c:90
-#: extensions/image_rotation/callbacks.c:46
-#: extensions/image_rotation/callbacks.c:177
+#: extensions/image_rotation/callbacks.c:53
+#: extensions/image_rotation/callbacks.c:163
 msgid "Rotate Left"
 msgstr "Linksom draaien"
 
@@ -2733,8 +2775,8 @@ msgid "Rotate the image by 90 degrees counterclockwise"
 msgstr "Afbeelding 90 graden tegen de klok in draaien"
 
 #: extensions/file_tools/gth-file-tool-rotate-right.c:90
-#: extensions/image_rotation/callbacks.c:47
-#: extensions/image_rotation/callbacks.c:185
+#: extensions/image_rotation/callbacks.c:54
+#: extensions/image_rotation/callbacks.c:171
 msgid "Rotate Right"
 msgstr "Rechtsom draaien"
 
@@ -2747,12 +2789,12 @@ msgid "Rotate"
 msgstr "Draaien"
 
 #: extensions/file_tools/gth-file-tool-save-as.c:70
-#: gthumb/resources/gears-menu.ui:24
+#: gthumb/resources/gears-menu.ui:21
 msgid "Save As…"
 msgstr "Opslaan als…"
 
 #: extensions/file_tools/gth-file-tool-save.c:66
-#: gthumb/resources/gears-menu.ui:19
+#: gthumb/resources/gears-menu.ui:17
 msgid "Save"
 msgstr "Opslaan"
 
@@ -2809,7 +2851,7 @@ msgstr "Geen duplicaten gevonden."
 
 #: extensions/find_duplicates/data/ui/find-duplicates.ui:32
 #: extensions/rename_series/data/ui/rename-series.ui:27
-#: extensions/search/data/ui/search-editor.ui:20
+#: extensions/search/data/ui/search-editor.ui:73
 msgid "Start _at:"
 msgstr "_Beginnen bij:"
 
@@ -2824,7 +2866,7 @@ msgid "Find Duplicates"
 msgstr "Duplicaten zoeken"
 
 #: extensions/find_duplicates/dlg-find-duplicates.c:106
-#: extensions/search/actions.c:81
+#: extensions/search/actions.c:80
 msgid "_Find"
 msgstr "_Zoeken"
 
@@ -2943,9 +2985,17 @@ msgid "Hi_de from public searches"
 msgstr "Ver_bergen voor openbare zoekopdrachten"
 
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
-#: extensions/webalbums/gth-web-exporter.c:1842
+#: extensions/webalbums/gth-web-exporter.c:1826
 msgid "_Open in the Browser"
 msgstr "In de _verkenner openen"
+
+#: extensions/flicker_utils/dlg-import-from-flickr.c:320
+#: gthumb/gth-file-selection-info.c:140
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d bestand"
+msgstr[1] "%d bestanden"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:279
@@ -3031,6 +3081,14 @@ msgstr "Schermafdruk"
 msgid "Could not take a screenshot"
 msgstr "Kon geen schermafdruk maken"
 
+#: extensions/gstreamer_tools/callbacks.c:32
+msgid "Screenshot"
+msgstr "Schermafdruk"
+
+#: extensions/gstreamer_tools/callbacks.c:33
+msgid "Play/Pause"
+msgstr "Afspelen/pauzeren"
+
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
 msgstr "Hardwareversnelling gebruiken"
@@ -3040,8 +3098,8 @@ msgid "_Screenshots location:"
 msgstr "Locatie _schermafdrukken:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:30
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:600
-#: extensions/image_viewer/gth-image-viewer-page.c:1139
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:621
+#: extensions/image_viewer/gth-image-viewer-page.c:1181
 msgid "Play"
 msgstr "Afspelen"
 
@@ -3067,7 +3125,7 @@ msgstr "--∶--"
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
-msgstr "Audio/video-ondersteuning"
+msgstr "Audio-/video-ondersteuning"
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:4
 msgid "Play audio and video files."
@@ -3077,66 +3135,76 @@ msgstr "Audio- en videobestanden afspelen."
 msgid "video-x-generic"
 msgstr "https://gitlab.gnome.org/GNOME/frogr"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:573
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:594
 msgid "Playing video"
 msgstr "Video afspelen"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:586
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:607
 msgid "Pause"
 msgstr "Pauzeren"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:914
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:930
 msgid "Take a screenshot"
 msgstr "Een schermafdruk maken"
 
-#: extensions/gstreamer_tools/main.c:32 gthumb/gth-main-default-tests.c:312
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:937
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
+msgid "Fit to window"
+msgstr "Aanpassen aan venster"
+
+#: extensions/gstreamer_tools/main.c:34
+msgid "Audio/Video Player"
+msgstr "Audio-/videospeler"
+
+#: extensions/gstreamer_tools/main.c:39 gthumb/gth-main-default-tests.c:314
 msgid "Video"
 msgstr "Video"
 
-#: extensions/gstreamer_tools/main.c:33 gthumb/gth-main-default-tests.c:319
+#: extensions/gstreamer_tools/main.c:40 gthumb/gth-main-default-tests.c:321
 msgid "Audio"
 msgstr "Audio"
 
-#: extensions/gstreamer_tools/main.c:40
+#: extensions/gstreamer_tools/main.c:47
 msgid "Artist"
 msgstr "Artiest"
 
-#: extensions/gstreamer_tools/main.c:41
+#: extensions/gstreamer_tools/main.c:48
 #: extensions/webalbums/data/ui/web-album-exporter.ui:320
 msgid "Album"
 msgstr "Album"
 
-#: extensions/gstreamer_tools/main.c:42
+#: extensions/gstreamer_tools/main.c:49
 msgid "Bitrate"
 msgstr "Bitrate"
 
-#: extensions/gstreamer_tools/main.c:43
+#: extensions/gstreamer_tools/main.c:50
 msgid "Encoder"
 msgstr "Encoder"
 
-#: extensions/gstreamer_tools/main.c:45 extensions/gstreamer_tools/main.c:50
+#: extensions/gstreamer_tools/main.c:52 extensions/gstreamer_tools/main.c:57
 msgid "Codec"
 msgstr "Codec"
 
-#: extensions/gstreamer_tools/main.c:46
+#: extensions/gstreamer_tools/main.c:53
 msgid "Framerate"
 msgstr "Framesnelheid"
 
-#: extensions/gstreamer_tools/main.c:47
+#: extensions/gstreamer_tools/main.c:54
 #: extensions/image_print/data/ui/print-layout.ui:723
 msgid "Width"
 msgstr "Breedte"
 
-#: extensions/gstreamer_tools/main.c:48
+#: extensions/gstreamer_tools/main.c:55
 #: extensions/image_print/data/ui/print-layout.ui:739
 msgid "Height"
 msgstr "Hoogte"
 
-#: extensions/gstreamer_tools/main.c:51
+#: extensions/gstreamer_tools/main.c:58
 msgid "Channels"
 msgstr "Kanalen"
 
-#: extensions/gstreamer_tools/main.c:52
+#: extensions/gstreamer_tools/main.c:59
 msgid "Sample rate"
 msgstr "Samplesnelheid"
 
@@ -3150,10 +3218,10 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
-#: extensions/image_viewer/gth-image-viewer-page.c:1826
-#: extensions/image_viewer/gth-metadata-provider-image.c:253
+#: extensions/image_viewer/gth-image-viewer-page.c:1864
+#: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2449 gthumb/gtk-utils.c:894
+#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3162,7 +3230,8 @@ msgstr "%d × %d"
 msgid "Could not print the selected files"
 msgstr "Kon de geselecteerde bestanden niet afdrukken"
 
-#: extensions/image_print/callbacks.c:53 extensions/image_print/callbacks.c:59
+#: extensions/image_print/callbacks.c:38 extensions/image_print/callbacks.c:53
+#: extensions/image_print/callbacks.c:59
 #: extensions/image_print/preferences.c:79
 msgid "Print"
 msgstr "Afdrukken"
@@ -3220,19 +3289,19 @@ msgstr "millimeters"
 msgid "inches"
 msgstr "inch"
 
-#: extensions/image_print/data/ui/print-preferences.ui:15
+#: extensions/image_print/data/ui/print-preferences.ui:14
 msgid "Fonts"
 msgstr "Lettertypen"
 
-#: extensions/image_print/data/ui/print-preferences.ui:92
+#: extensions/image_print/data/ui/print-preferences.ui:87
 msgid "Select Caption Font"
 msgstr "Lettertype voor bijschrift kiezen"
 
-#: extensions/image_print/data/ui/print-preferences.ui:110
+#: extensions/image_print/data/ui/print-preferences.ui:104
 msgid "Select Header Font"
 msgstr "Lettertype voor koptekst kiezen"
 
-#: extensions/image_print/data/ui/print-preferences.ui:128
+#: extensions/image_print/data/ui/print-preferences.ui:121
 msgid "Select Footer Font"
 msgstr "Lettertype voor voettekst kiezen"
 
@@ -3254,7 +3323,7 @@ msgstr "Afbeeldingen"
 
 #: extensions/image_print/gth-image-print-job.c:1848
 #: gthumb/gth-image-loader.c:251 gthumb/gth-image-loader.c:375
-#: gthumb/gth-image-utils.c:131 gthumb/gth-image-utils.c:137
+#: gthumb/gth-image-utils.c:117 gthumb/gth-image-utils.c:123
 msgid "No suitable loader available for this file type"
 msgstr "Geen geschikte lader beschikbaar voor dit bestandstype"
 
@@ -3265,13 +3334,13 @@ msgid "Loading “%s”"
 msgstr "Bezig met laden van ‘%s’"
 
 #: extensions/image_print/gth-load-image-info-task.c:170
-#: extensions/webalbums/gth-web-exporter.c:2723
+#: extensions/webalbums/gth-web-exporter.c:2714
 msgid "Loading images"
 msgstr "Afbeeldingen laden"
 
 #: extensions/image_print/image_print.extension.desktop.in.in:3
 msgid "Image print"
-msgstr "Afbeeldingen afdrukken "
+msgstr "Afbeeldingen afdrukken"
 
 #: extensions/image_print/image_print.extension.desktop.in.in:4
 msgid "Allow to print images choosing the page layout."
@@ -3281,18 +3350,18 @@ msgstr "Toestaan om afbeeldingen af te drukken met keuze van paginaopmaak."
 msgid "document-print"
 msgstr "document-print"
 
-#: extensions/image_rotation/callbacks.c:52
+#: extensions/image_rotation/callbacks.c:59
 msgid "Rotate Physically"
 msgstr "Fysiek draaien"
 
-#: extensions/image_rotation/callbacks.c:53
+#: extensions/image_rotation/callbacks.c:60
 msgid "Reset the EXIF Orientation"
 msgstr "Exif-oriëntatie terugzetten"
 
 #: extensions/image_rotation/gth-reset-orientation-task.c:114
 #: extensions/image_rotation/gth-transform-task.c:146
-#: extensions/webalbums/gth-web-exporter.c:2341
-#: extensions/webalbums/gth-web-exporter.c:2426
+#: extensions/webalbums/gth-web-exporter.c:2326
+#: extensions/webalbums/gth-web-exporter.c:2411
 msgid "Saving images"
 msgstr "Afbeeldingen opslaan"
 
@@ -3341,77 +3410,198 @@ msgstr "_Bijsnijden"
 msgid "_Accept distortion"
 msgstr "_Vervorming aanvaarden"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:21
+#: extensions/image_viewer/callbacks.c:32
+msgid "Zoom in"
+msgstr "Zoom in"
+
+#: extensions/image_viewer/callbacks.c:33
+msgid "Zoom out"
+msgstr "Zoom uit"
+
+#: extensions/image_viewer/callbacks.c:34
+msgid "Zoom 100%"
+msgstr "Zoom 100%"
+
+#: extensions/image_viewer/callbacks.c:35
+msgid "Zoom 200%"
+msgstr "Zoom 200%"
+
+#: extensions/image_viewer/callbacks.c:36
+msgid "Zoom 300%"
+msgstr "Zoom 300%"
+
+#: extensions/image_viewer/callbacks.c:38
+msgid "Zoom to fit"
+msgstr "Zoom tot venstergrootte"
+
+#: extensions/image_viewer/callbacks.c:39
+msgid "Zoom to fit if larger"
+msgstr "Zoom tot venster indien groter"
+
+#: extensions/image_viewer/callbacks.c:40
+msgid "Zoom to fit width"
+msgstr "Zoom tot vensterbreedte"
+
+#: extensions/image_viewer/callbacks.c:41
+msgid "Zoom to fit width if larger"
+msgstr "Zoom tot breedte indien groter"
+
+#: extensions/image_viewer/callbacks.c:42
+msgid "Zoom to fit height"
+msgstr "Zoom tot hoogte"
+
+#: extensions/image_viewer/callbacks.c:43
+msgid "Zoom to fit height if larger"
+msgstr "Zoom tot hoogte, indien groter"
+
+#: extensions/image_viewer/callbacks.c:45
+msgid "Undo edit"
+msgstr "Bewerking ongedaan maken"
+
+#: extensions/image_viewer/callbacks.c:46
+msgid "Redo edit"
+msgstr "Bewerking opnieuw uitvoeren"
+
+#: extensions/image_viewer/callbacks.c:48
+msgid "Scroll left"
+msgstr "Naar links schuiven"
+
+#: extensions/image_viewer/callbacks.c:49
+msgid "Scroll right"
+msgstr "Naar rechts schuiven"
+
+#: extensions/image_viewer/callbacks.c:50
+msgid "Scroll up"
+msgstr "Omhoog schuiven"
+
+#: extensions/image_viewer/callbacks.c:51
+msgid "Scroll down"
+msgstr "Omlaag schuiven"
+
+#: extensions/image_viewer/callbacks.c:53
+msgid "Scroll left fast"
+msgstr "Snel naar links schuiven"
+
+#: extensions/image_viewer/callbacks.c:54
+msgid "Scroll right fast"
+msgstr "Snel naar rechts schuiven"
+
+#: extensions/image_viewer/callbacks.c:55
+msgid "Scroll up fast"
+msgstr "Snel omhoog schuiven"
+
+#: extensions/image_viewer/callbacks.c:56
+msgid "Scroll down fast"
+msgstr "Snel naar beneden schuiven"
+
+#: extensions/image_viewer/callbacks.c:58
+msgid "Scroll to center"
+msgstr "Naar centrum schuiven"
+
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:20
 msgid "After loading an image:"
 msgstr "Na laden van een afbeelding:"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:53
-#: extensions/image_viewer/gth-image-viewer-page.c:1096
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
+#: extensions/image_viewer/gth-image-viewer-page.c:1138
 msgid "Set to actual size"
 msgstr "Op werkelijke grootte instellen"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:54
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:50
 msgid "Keep previous zoom"
 msgstr "Vorige zoomfactor behouden"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:55
-#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:29
-msgid "Fit to window"
-msgstr "Aanpassen aan venster"
-
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:56
-#: extensions/image_viewer/gth-image-viewer-page.c:1103
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
+#: extensions/image_viewer/gth-image-viewer-page.c:1145
 msgid "Fit to window if larger"
 msgstr "Aanpassen aan venster indien groter"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:57
-#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:38
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:53
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:80
 msgid "Fit to width"
 msgstr "Aan breedte aanpassen"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:58
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:54
 msgid "Fit to width if larger"
 msgstr "Aan breedte aanpassen, indien groter"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:76
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:72
 msgid "Reset scrollbar positions"
 msgstr "Zet schuifbalkposities terug op standaard"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:117
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:109
+msgid "Mouse wheel action:"
+msgstr "Muiswielactie:"
+
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:131
+msgctxt "zoom quality"
+msgid "Change image"
+msgstr "Verander afbeelding"
+
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:148
+msgctxt "zoom quality"
+msgid "Zoom image"
+msgstr "Afbeelding inzoomen"
+
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:187
 msgid "Zoom quality:"
 msgstr "Zoomkwaliteit:"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:141
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:209
 msgctxt "zoom quality"
 msgid "_High"
 msgstr "_Hoog"
 
-#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:158
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:226
 msgctxt "zoom quality"
 msgid "_Low"
 msgstr "_Laag"
 
-#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:20
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
+msgid "Transparency:"
+msgstr "Doorzichtigheid:"
+
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:295
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:15
+msgid "Checkered"
+msgstr "Schaakbordpatroon"
+
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:296
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:24
+msgid "White"
+msgstr "Wit"
+
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
+msgid "Gray"
+msgstr "Grijs"
+
+#: extensions/image_viewer/data/ui/image-viewer-preferences.ui:298
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:42
+msgid "Black"
+msgstr "Zwart"
+
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:62
 msgid "Automatic"
 msgstr "Automatisch"
 
-#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:47
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:89
 msgid "Fit to height"
 msgstr "Aan hoogte aanpassen"
 
-#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:64
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:106
 msgid "50%"
 msgstr "50%"
 
-#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:73
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:115
 msgid "100%"
 msgstr "100%"
 
-#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:82
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:124
 msgid "200%"
 msgstr "200%"
 
-#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:91
+#: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:133
 msgid "300%"
 msgstr "300%"
 
@@ -3419,31 +3609,44 @@ msgstr "300%"
 msgid "Histogram"
 msgstr "Histogram"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:77
+#: extensions/image_viewer/gth-image-viewer-page.c:83
 msgid "Copy Image"
 msgstr "Afbeelding kopiëren"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:78
+#: extensions/image_viewer/gth-image-viewer-page.c:84
 msgid "Paste Image"
 msgstr "Afbeelding plakken"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1131
+#: extensions/image_viewer/gth-image-viewer-page.c:1173
 msgid "Apply the embedded color profile"
 msgstr "Het ingebedde kleurprofiel toepassen"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1146
+#: extensions/image_viewer/gth-image-viewer-page.c:1188
 msgid "Next frame"
 msgstr "Volgend frame"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1765
+#: extensions/image_viewer/gth-image-viewer-page.c:1195
+msgid "Transparency"
+msgstr "Transparantie"
+
+#: extensions/image_viewer/gth-image-viewer-page.c:1803
 msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2442
+#: extensions/image_viewer/gth-image-viewer-page.c:2519
 msgid "Loading the original image"
 msgstr "Oorspronkelijke afbeelding laden"
 
-#: extensions/image_viewer/preferences.c:117
+#: extensions/image_viewer/main.c:36
+msgid "Scroll Image"
+msgstr "Afbeelding schuiven"
+
+#: extensions/image_viewer/main.c:37
+msgid "Image Editor"
+msgstr "Beeldbewerker"
+
+#: extensions/image_viewer/preferences.c:158 gthumb/gth-main-default-types.c:42
+#: gthumb/gth-shortcuts-window.c:40
 msgid "Viewer"
 msgstr "Weergave"
 
@@ -3516,38 +3719,38 @@ msgstr "jaar"
 msgid "custom format"
 msgstr "aangepast formaat"
 
-#: extensions/importer/gth-import-task.c:429
-#: extensions/importer/gth-import-task.c:464
-#: extensions/importer/gth-import-task.c:674
+#: extensions/importer/gth-import-task.c:431
+#: extensions/importer/gth-import-task.c:466
+#: extensions/importer/gth-import-task.c:678
 msgid "Importing files"
 msgstr "Bestanden importeren"
 
-#: extensions/importer/gth-import-task.c:623
+#: extensions/importer/gth-import-task.c:627
 msgid "No file imported"
 msgstr "Geen bestand geïmporteerd"
 
-#: extensions/importer/gth-import-task.c:624
+#: extensions/importer/gth-import-task.c:628
 msgid "The selected files are already present in the destination."
 msgstr "De gekozen bestanden bevinden zich reeds in de bestemming."
 
-#: extensions/importer/gth-import-task.c:647 gthumb/gth-file-source-vfs.c:683
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
 msgid "Could not delete the files"
 msgstr "Kon de bestanden niet verwijderen"
 
-#: extensions/importer/gth-import-task.c:648
+#: extensions/importer/gth-import-task.c:652
 msgid "Delete operation not supported."
 msgstr "Verwijderbewerking niet ondersteund."
 
-#: extensions/importer/gth-import-task.c:735
+#: extensions/importer/gth-import-task.c:739
 msgid "Last imported"
 msgstr "Laatst geïmporteerd"
 
-#: extensions/importer/gth-import-task.c:839
+#: extensions/importer/gth-import-task.c:843
 msgid "No file specified."
 msgstr "Geen bestand opgegeven."
 
 #. Translators: For example: Not enough free space in “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is available.
-#: extensions/importer/gth-import-task.c:876
+#: extensions/importer/gth-import-task.c:880
 #, c-format
 msgid ""
 "Not enough free space in “%s”.\n"
@@ -3556,7 +3759,8 @@ msgstr ""
 "Niet voldoende vrije ruimte in ‘%s’.\n"
 "Er is %s ruimte vereist maar slechts %s is beschikbaar."
 
-#: extensions/list_tools/callbacks.c:174 extensions/list_tools/callbacks.c:183
+#: extensions/list_tools/callbacks.c:148 extensions/list_tools/callbacks.c:157
+#: extensions/list_tools/main.c:31
 msgid "Tools"
 msgstr "Gereedschappen"
 
@@ -3644,49 +3848,53 @@ msgstr "%quote{ tekst }"
 msgid "Quote the text "
 msgstr "De tekst citeren "
 
-#: extensions/list_tools/data/ui/script-editor.ui:534
+#: extensions/list_tools/data/ui/script-editor.ui:522
+msgid "The current date and time"
+msgstr "De huidige datum en tijd"
+
+#: extensions/list_tools/data/ui/script-editor.ui:568
 msgid "_Command:"
 msgstr "_Opdracht:"
 
-#: extensions/list_tools/data/ui/tools-menu.ui:13 gthumb/gth-filterbar.c:314
+#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:314
 msgid "Personalize…"
-msgstr "Personaliseren…"
+msgstr "Aanpassen…"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:252
+#: extensions/list_tools/dlg-personalize-scripts.c:250
 msgid "Script"
 msgstr "Script"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:266
-#: gthumb/gth-accel-button.c:229
+#: extensions/list_tools/dlg-personalize-scripts.c:264
+#: gthumb/dlg-preferences-shortcuts.c:229 gthumb/gth-accel-button.c:256
 msgid "Shortcut"
 msgstr "Sneltoets"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:280
+#: extensions/list_tools/dlg-personalize-scripts.c:278
 #: gthumb/dlg-personalize-filters.c:252
 msgid "Show"
 msgstr "Tonen"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:350
+#: extensions/list_tools/dlg-personalize-scripts.c:368
 msgid "Could not save the script"
 msgstr "Kon het script niet opslaan"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:401
+#: extensions/list_tools/dlg-personalize-scripts.c:448
 msgid "New Command"
 msgstr "Nieuwe opdracht"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:428
+#: extensions/list_tools/dlg-personalize-scripts.c:475
 msgid "Edit Command"
 msgstr "Opdracht bewerken"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:456
+#: extensions/list_tools/dlg-personalize-scripts.c:505
 msgid "Are you sure you want to delete the selected command?"
 msgstr "Weet u zeker dat u de gekozen opdracht wilt verwijderen?"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:544
+#: extensions/list_tools/dlg-personalize-scripts.c:605
 msgid "Commands"
 msgstr "Opdrachten"
 
-#: extensions/list_tools/gth-script-editor-dialog.c:247
+#: extensions/list_tools/gth-script-editor-dialog.c:279
 #, c-format
 msgid "No command specified"
 msgstr "Geen opdracht opgegeven"
@@ -3696,18 +3904,18 @@ msgstr "Geen opdracht opgegeven"
 msgid "Command exited abnormally with status %d"
 msgstr "Opdracht brak abnormaal af met status %d"
 
-#: extensions/list_tools/gth-script.c:481
+#: extensions/list_tools/gth-script.c:502
 msgid "Enter a value:"
 msgstr "Geef een waarde op:"
 
-#: extensions/list_tools/gth-script.c:715
+#: extensions/list_tools/gth-script.c:753
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "Verkeerde opdracht"
 
-#: extensions/list_tools/gth-script.c:770
+#: extensions/list_tools/gth-script.c:808
 msgid "_Skip"
 msgstr "_Overslaan"
 
@@ -3757,7 +3965,7 @@ msgid "A_ccounts:"
 msgstr "A_ccounts:"
 
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-folder-tree.c:1080
+#: gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "Laden…"
 
@@ -3858,11 +4066,11 @@ msgstr "Kon de map niet laden"
 
 #: extensions/photo_importer/dlg-photo-importer.c:356
 #: extensions/photo_importer/dlg-photo-importer.c:396 gthumb/gth-file-list.c:42
-#: gthumb/gth-folder-tree.c:1107
+#: gthumb/gth-folder-tree.c:1186
 msgid "(Empty)"
 msgstr "(Leeg)"
 
-#: extensions/photo_importer/dlg-photo-importer.c:361 gthumb/gth-browser.c:1798
+#: extensions/photo_importer/dlg-photo-importer.c:361
 msgid "Getting the folder content…"
 msgstr "Bestandenlijst ophalen…"
 
@@ -3992,6 +4200,7 @@ msgid "Cas_e:"
 msgstr "Hoofdl_ettergebruik:"
 
 #: extensions/rename_series/data/ui/rename-series.ui:83
+#: gthumb/gth-browser-actions-entries.h:94
 msgid "Help"
 msgstr "Help"
 
@@ -4088,28 +4297,28 @@ msgstr "Kon de sjabloon niet opslaan"
 msgid "Edit Template"
 msgstr "Sjabloon bewerken"
 
-#: extensions/rename_series/dlg-rename-series.c:854
-#: gthumb/gth-folder-tree.c:1913
+#: extensions/rename_series/dlg-rename-series.c:860
+#: gthumb/gth-folder-tree.c:1974
 msgid "_Rename"
 msgstr "_Hernoemen"
 
-#: extensions/rename_series/dlg-rename-series.c:871
+#: extensions/rename_series/dlg-rename-series.c:877
 msgid "Old Name"
 msgstr "Oude naam"
 
-#: extensions/rename_series/dlg-rename-series.c:882
+#: extensions/rename_series/dlg-rename-series.c:888
 msgid "New Name"
 msgstr "Nieuwe naam"
 
-#: extensions/rename_series/dlg-rename-series.c:960
+#: extensions/rename_series/dlg-rename-series.c:966
 msgid "Keep original case"
 msgstr "Oorspronkelijk gebruik van hoofd- en kleine letters behouden"
 
-#: extensions/rename_series/dlg-rename-series.c:961
+#: extensions/rename_series/dlg-rename-series.c:967
 msgid "Convert to lower-case"
 msgstr "Omzetten naar kleine letters"
 
-#: extensions/rename_series/dlg-rename-series.c:962
+#: extensions/rename_series/dlg-rename-series.c:968
 msgid "Convert to upper-case"
 msgstr "Omzetten naar hoofdletters"
 
@@ -4146,15 +4355,15 @@ msgid "_Preserve original aspect ratios"
 msgstr "_Oorspronkelijke beeldverhoudingen behouden"
 
 #: extensions/resize_images/data/ui/resize-images.ui:324
-#: gthumb/gth-main-default-metadata.c:45 gthumb/gth-toolbox.c:148
+#: gthumb/gth-main-default-metadata.c:47 gthumb/gth-toolbox.c:148
 msgid "Format"
 msgstr "Formaat"
 
-#: extensions/resize_images/dlg-resize-images.c:344
+#: extensions/resize_images/dlg-resize-images.c:341
 msgid "Resize Images"
 msgstr "Afbeeldingsgrootte wijzigen"
 
-#: extensions/resize_images/dlg-resize-images.c:430
+#: extensions/resize_images/dlg-resize-images.c:427
 msgid "Keep the original format"
 msgstr "Oorspronkelijk formaat behouden"
 
@@ -4166,8 +4375,8 @@ msgstr "Grootte van afbeeldingen wijzigen"
 msgid "Resize series of images."
 msgstr "Grootte van meerdere afbeeldingen wijzigen."
 
-#: extensions/search/actions.c:50 extensions/search/actions.c:123
-#: extensions/search/actions.c:129
+#: extensions/search/actions.c:50 extensions/search/actions.c:122
+#: extensions/search/actions.c:128
 msgid "Could not perform the search"
 msgstr "Kon zoekopdracht niet uitvoeren"
 
@@ -4175,48 +4384,48 @@ msgstr "Kon zoekopdracht niet uitvoeren"
 msgid "Search Result"
 msgstr "Zoekresultaat"
 
-#: extensions/search/actions.c:79
+#: extensions/search/actions.c:78
 msgid "Find"
 msgstr "Zoeken"
 
-#: extensions/search/callbacks.c:69
+#: extensions/search/callbacks.c:44 extensions/search/callbacks.c:79
 msgid "Find files"
 msgstr "Bestanden zoeken"
 
-#: extensions/search/callbacks.c:103
+#: extensions/search/callbacks.c:113
 msgid "Search again"
 msgstr "Opnieuw zoeken"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:146
+#: extensions/search/callbacks.c:169
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Zoeken"
 
-#: extensions/search/data/ui/search-editor.ui:112
-msgid "Rules:"
-msgstr "Regels:"
-
-#: extensions/search/gth-search-editor.c:114
+#: extensions/search/gth-search-editor.c:117
 #: gthumb/gth-filter-editor-dialog.c:167
 msgid "all the following rules"
 msgstr "alle volgende regels"
 
-#: extensions/search/gth-search-editor.c:115
+#: extensions/search/gth-search-editor.c:118
 #: gthumb/gth-filter-editor-dialog.c:168
 msgid "any of the following rules"
 msgstr "een van de volgende regels"
 
-#: extensions/search/gth-search-task.c:181
+#: extensions/search/gth-search-source-selector.c:130
+msgid "Add another location"
+msgstr "Voeg andere locatie toe"
+
+#: extensions/search/gth-search-task.c:194
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Bestanden gevonden tot nu toe: %s"
 
-#: extensions/search/gth-search-task.c:272
+#: extensions/search/gth-search-task.c:340
 msgid "Searching…"
 msgstr "Zoeken…"
 
-#: extensions/search/gth-search-task.c:279
+#: extensions/search/gth-search-task.c:347
 msgid "Cancel the operation"
 msgstr "Bewerking annuleren"
 
@@ -4228,16 +4437,32 @@ msgstr "Hulpmiddel voor zoeken van bestanden."
 msgid "edit-find"
 msgstr "https://gitlab.gnome.org/GNOME/frogr"
 
-#: extensions/selections/callbacks.c:55
-msgid "Remove from Selection"
-msgstr "Uit selectie verwijderen"
+#. Not real actions, used in the shorcut window for documentation.
+#: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
+#: extensions/selections/callbacks.c:59 extensions/selections/callbacks.c:71
+msgid "Add to selection"
+msgstr "Toevoegen aan selectie"
 
-#: extensions/selections/callbacks.c:100
+#: extensions/selections/callbacks.c:61 extensions/selections/callbacks.c:62
+#: extensions/selections/callbacks.c:63 extensions/selections/callbacks.c:72
+msgid "Remove from selection"
+msgstr "Verwijderen uit selectie"
+
+#: extensions/selections/callbacks.c:65 extensions/selections/callbacks.c:66
+#: extensions/selections/callbacks.c:67 extensions/selections/callbacks.c:73
+msgid "Show selection"
+msgstr "Selectie tonen"
+
+#: extensions/selections/callbacks.c:83
+msgid "Remove from Selection"
+msgstr "Verwijderen uit selectie"
+
+#: extensions/selections/callbacks.c:128
 #, c-format
 msgid "Show selection %d"
-msgstr "Toon selectie %d"
+msgstr "Selectie %d tonen"
 
-#: extensions/selections/callbacks.c:339
+#: extensions/selections/callbacks.c:365
 #, c-format
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
@@ -4251,6 +4476,7 @@ msgid "Selection %d"
 msgstr "Selectie %d"
 
 #: extensions/selections/gth-selections-manager.c:231
+#: extensions/selections/main.c:33
 #: extensions/selections/selections.extension.desktop.in.in:3
 msgid "Selections"
 msgstr "Selecties"
@@ -4263,54 +4489,71 @@ msgstr "Geavanceerde bestandsselectie."
 msgid "emblem-flag-gray"
 msgstr "https://gitlab.gnome.org/GNOME/frogr"
 
-#: extensions/slideshow/callbacks.c:51
-msgid "Presentation"
-msgstr "Diavoorstelling"
+#: extensions/slideshow/callbacks.c:40
+msgid "Start presentation"
+msgstr "Voorstelling starten"
 
-#: extensions/slideshow/callbacks.c:348
+#: extensions/slideshow/callbacks.c:41
+msgid "Terminate presentation"
+msgstr "Voorstelling beëindigen"
+
+#: extensions/slideshow/callbacks.c:42
+msgid "Pause/Resume presentation"
+msgstr "Voorstelling pauzeren/hervatten"
+
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:118
+msgid "Show next file"
+msgstr "Volgende afbeelding"
+
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:117
+msgid "Show previous file"
+msgstr "Vorige afbeelding"
+
+#: extensions/slideshow/callbacks.c:65 extensions/slideshow/callbacks.c:362
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:65
-#: extensions/slideshow/preferences.c:162
+#: extensions/slideshow/main.c:286 extensions/slideshow/preferences.c:142
 #: extensions/slideshow/slideshow.extension.desktop.in.in:3
-msgid "Slideshow"
+#: gthumb/gth-shortcuts-window.c:41
+msgid "Presentation"
 msgstr "Diavoorstelling"
 
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:46
 msgid "_Personalize"
-msgstr "_Personaliseren"
+msgstr "Aan_passen"
 
-#: extensions/slideshow/data/ui/slideshow-preferences.ui:102
+#: extensions/slideshow/data/ui/slideshow-preferences.ui:100
 msgid "_Transition effect:"
-msgstr "_Overgangseffect:"
+msgstr "Overgangseffec_t:"
 
 # Change automatically? Ja natuurlijk met een diashow!
 # pm
 #. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
-#: extensions/slideshow/data/ui/slideshow-preferences.ui:128
+#: extensions/slideshow/data/ui/slideshow-preferences.ui:126
 msgid "_Change automatically, every"
 msgstr "_Laad volgende afbeelding na"
 
-#: extensions/slideshow/data/ui/slideshow-preferences.ui:166
+#: extensions/slideshow/data/ui/slideshow-preferences.ui:162
 msgctxt "Every x seconds"
 msgid "seconds"
 msgstr "seconden"
 
-#: extensions/slideshow/data/ui/slideshow-preferences.ui:190
+#: extensions/slideshow/data/ui/slideshow-preferences.ui:186
 msgid "_Restart when finished"
 msgstr "Op_nieuw starten na einde"
 
-#: extensions/slideshow/data/ui/slideshow-preferences.ui:207
+#: extensions/slideshow/data/ui/slideshow-preferences.ui:201
 msgid "R_andom order"
 msgstr "_Willekeurige volgorde"
 
-#: extensions/slideshow/data/ui/slideshow-preferences.ui:247
+#: extensions/slideshow/data/ui/slideshow-preferences.ui:237
 msgid "Playlist"
 msgstr "Afspeellijst"
 
-#: extensions/slideshow/data/ui/slideshow-preferences.ui:326
+#: extensions/slideshow/data/ui/slideshow-preferences.ui:314
 msgid "Add files to the playlist"
 msgstr "Bestanden toevoegen aan de afspeellijst"
 
-#: extensions/slideshow/data/ui/slideshow-preferences.ui:347
+#: extensions/slideshow/data/ui/slideshow-preferences.ui:334
 msgid "Remove the selected files"
 msgstr "De geselecteerde bestanden verwijderen"
 
@@ -4326,49 +4569,66 @@ msgstr "Audiobestanden"
 msgid "Random"
 msgstr "Willekeurig"
 
-#: extensions/slideshow/gth-slideshow.c:284
-msgid "Playing slideshow"
-msgstr "Diavoorstelling afspelen"
+#: extensions/slideshow/gth-slideshow.c:237
+msgid "Playing a presentation"
+msgstr "Diavoorstelling"
 
-#: extensions/slideshow/main.c:297
+#: extensions/slideshow/main.c:303
 msgid "Push from right"
 msgstr "Duwen van rechts"
 
-#: extensions/slideshow/main.c:303
+#: extensions/slideshow/main.c:309
 msgid "Push from bottom"
 msgstr "Duwen vanuit onderkant"
 
-#: extensions/slideshow/main.c:309
+#: extensions/slideshow/main.c:315
 msgid "Slide from right"
 msgstr "Schuiven van rechts"
 
-#: extensions/slideshow/main.c:315
+#: extensions/slideshow/main.c:321
 msgid "Slide from bottom"
 msgstr "Schuiven vanuit onderkant"
 
-#: extensions/slideshow/main.c:321
+#: extensions/slideshow/main.c:327
 msgid "Fade in"
 msgstr "Omgekeerde vervaging"
 
-#: extensions/slideshow/main.c:327
+#: extensions/slideshow/main.c:333
 msgid "Flip page"
 msgstr "Pagina omkeren"
 
-#: extensions/slideshow/main.c:333
+#: extensions/slideshow/main.c:339
 msgid "Cube from right"
 msgstr "Kubus van rechts"
 
-#: extensions/slideshow/main.c:339
+#: extensions/slideshow/main.c:345
 msgid "Cube from bottom"
 msgstr "Kubus van onderkant"
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:4
-msgid "View images as a slideshow."
-msgstr "Afbeeldingen weergeven als diavoorstelling."
+msgid "Play a presentation of images."
+msgstr "Vertoon een reeks afbeeldingen."
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:8
 msgid "x-office-presentation"
 msgstr "x-office-presentation"
+
+#: extensions/terminal/actions.c:53
+#: extensions/terminal/terminal.extension.desktop.in.in:3
+msgid "Terminal"
+msgstr "Terminal"
+
+#: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
+msgid "Open in Terminal"
+msgstr "Openen in terminal"
+
+#: extensions/terminal/terminal.extension.desktop.in.in:4
+msgid "Open a folder in a terminal"
+msgstr "Open een map in een terminal"
+
+#: extensions/terminal/terminal.extension.desktop.in.in:8
+msgid "utilities-terminal"
+msgstr "hulpmiddelenterminal"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -4390,14 +4650,6 @@ msgstr "Afbeelding %d van %d"
 #: extensions/webalbums/data/albumthemes/text.h:29
 msgid "Index"
 msgstr "Index"
-
-#: extensions/webalbums/data/albumthemes/text.h:30
-msgid "Next"
-msgstr "Volgende"
-
-#: extensions/webalbums/data/albumthemes/text.h:32
-msgid "Previous"
-msgstr "Vorige"
 
 #: extensions/webalbums/data/albumthemes/text.h:33
 #, c-format
@@ -4482,36 +4734,36 @@ msgstr "Afbeeldingsattributen"
 msgid "Web Album"
 msgstr "Webalbum"
 
-#: extensions/webalbums/gth-web-exporter.c:1803
+#: extensions/webalbums/gth-web-exporter.c:1787
 msgid "Could not show the destination"
 msgstr "Kon de bestemming niet tonen"
 
-#: extensions/webalbums/gth-web-exporter.c:1839
+#: extensions/webalbums/gth-web-exporter.c:1823
 msgid "The album has been created successfully."
 msgstr "Het album is met succes gemaakt."
 
-#: extensions/webalbums/gth-web-exporter.c:2107
-#: extensions/webalbums/gth-web-exporter.c:2135
+#: extensions/webalbums/gth-web-exporter.c:2092
+#: extensions/webalbums/gth-web-exporter.c:2120
 msgid "Saving thumbnails"
 msgstr "Miniaturen opslaan"
 
-#: extensions/webalbums/gth-web-exporter.c:2163
+#: extensions/webalbums/gth-web-exporter.c:2148
 msgid "Saving HTML pages: Images"
 msgstr "HTML-pagina’s opslaan: afbeeldingen"
 
-#: extensions/webalbums/gth-web-exporter.c:2221
+#: extensions/webalbums/gth-web-exporter.c:2206
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML-pagina’s opslaan: indexpagina’s"
 
-#: extensions/webalbums/gth-web-exporter.c:2506
+#: extensions/webalbums/gth-web-exporter.c:2491
 msgid "Copying original images"
 msgstr "Oorspronkelijke afbeeldingen kopiëren"
 
-#: extensions/webalbums/gth-web-exporter.c:2967
+#: extensions/webalbums/gth-web-exporter.c:2958
 msgid "Could not find the style folder"
 msgstr "Kon de stijl van de map niet vinden"
 
-#: extensions/webalbums/gth-web-exporter.c:3005
+#: extensions/webalbums/gth-web-exporter.c:2996
 msgid "Could not create a temporary folder"
 msgstr "Kon geen tijdelijke map maken"
 
@@ -4523,12 +4775,12 @@ msgstr "Webalbums"
 msgid "Create static web albums."
 msgstr "Statische webalbums maken."
 
-#: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1109
-#: gthumb/gth-browser.c:1678 gthumb/gth-browser.c:6557
-#: gthumb/gth-browser.c:6576 gthumb/gth-browser.c:6600
+#: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
+#: gthumb/gth-browser.c:6569 gthumb/gth-browser.c:6588
+#: gthumb/gth-browser.c:6612 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
-msgstr "Kon locatie ‘%s’ niet laden"
+msgstr "Kon positie ‘%s’ niet laden"
 
 #: gthumb/dlg-location.c:408 gthumb/dlg-location.c:418
 msgid "Open"
@@ -4556,18 +4808,22 @@ msgstr "Filters"
 
 #. add the page to the preferences dialog
 #: gthumb/dlg-preferences-browser.c:188 gthumb/dlg-preferences-extensions.c:65
+#: gthumb/gth-shortcuts-window.c:39
 msgid "Browser"
 msgstr "Verkenner"
 
-#: gthumb/dlg-preferences-extensions.c:61 gthumb/gth-filterbar.c:280
+#: gthumb/dlg-preferences-extensions.c:61
+msgctxt "Extensions"
 msgid "All"
 msgstr "Alle"
 
 #: gthumb/dlg-preferences-extensions.c:62
+msgctxt "Extensions"
 msgid "Enabled"
 msgstr "Ingeschakeld"
 
 #: gthumb/dlg-preferences-extensions.c:63
+msgctxt "Extensions"
 msgid "Disabled"
 msgstr "Uitgeschakeld"
 
@@ -4609,57 +4865,91 @@ msgid "Could not deactivate the extension"
 msgstr "Kon de extensie niet deactiveren"
 
 #: gthumb/dlg-preferences-extensions.c:491
-msgid "gthumb development team"
+msgid "gThumb Development Team"
 msgstr "gThumb-ontwikkelteam"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-extensions.c:666
+#: gthumb/dlg-preferences-extensions.c:664
 msgid "Extensions"
 msgstr "Extensies"
 
-#: gthumb/dlg-preferences-extensions.c:715
+#: gthumb/dlg-preferences-extensions.c:713
 msgid "Restart required"
 msgstr "Herstart vereist"
 
-#: gthumb/dlg-preferences-extensions.c:716
+#: gthumb/dlg-preferences-extensions.c:714
 msgid "You need to restart gthumb for these changes to take effect"
 msgstr "Om deze wijzigingen door te voeren dient u gThumb opnieuw te starten"
 
-#: gthumb/dlg-preferences-extensions.c:718
+#: gthumb/dlg-preferences-extensions.c:716
 msgid "_Restart"
 msgstr "_Herstarten"
+
+#: gthumb/dlg-preferences-shortcuts.c:294
+#: gthumb/dlg-preferences-shortcuts.c:369 gthumb/resources/gears-menu.ui:25
+msgid "Revert"
+msgstr "Terugdraaien"
+
+#: gthumb/dlg-preferences-shortcuts.c:367
+msgid "Do you want to revert all the changes and use the default shortcuts?"
+msgstr ""
+"Alle veranderingen ongedaan maken en terugkeren naar de standaard "
+"sneltoetsen?"
+
+#: gthumb/dlg-preferences-shortcuts.c:540
+msgctxt "Shortcuts"
+msgid "All"
+msgstr "Alle"
+
+#: gthumb/dlg-preferences-shortcuts.c:546
+msgctxt "Shortcuts"
+msgid "Modified"
+msgstr "Gewijzigd"
+
+#. add the page to the preferences dialog
+#: gthumb/dlg-preferences-shortcuts.c:575
+msgid "Shortcuts"
+msgstr "Sneltoetsen"
 
 #: gthumb/dlg-sort-order.c:113
 msgid "Sort By"
 msgstr "Sorteren op"
 
 #. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
-#: gthumb/gio-utils.c:1383
+#: gthumb/gio-utils.c:1059
 #, c-format
 msgid "%s of %s"
 msgstr "%s van %s"
 
-#: gthumb/gio-utils.c:1472
+#: gthumb/gio-utils.c:1148
 #, c-format
 msgid "Moving “%s” to “%s”"
 msgstr "Verplaatsen van ‘%s’ naar ‘%s’"
 
-#: gthumb/gio-utils.c:1474
+#: gthumb/gio-utils.c:1150
 #, c-format
 msgid "Copying “%s” to “%s”"
 msgstr "Kopiëren van ‘%s’ naar ‘%s’"
 
-#: gthumb/gio-utils.c:1885
+#: gthumb/gio-utils.c:1561
 msgid "Moving files"
 msgstr "Bestanden verplaatsen"
 
-#: gthumb/gio-utils.c:1885
+#: gthumb/gio-utils.c:1561
 msgid "Copying files"
 msgstr "Bestanden kopiëren"
 
-#: gthumb/gio-utils.c:1886
+#: gthumb/gio-utils.c:1562 gthumb/gio-utils.c:1793 gthumb/gio-utils.c:1923
 msgid "Getting file information"
 msgstr "Bestandsinformatie ophalen"
+
+#: gthumb/gio-utils.c:1728
+msgid "Deleting files"
+msgstr "Bestanden aan het verwijderen"
+
+#: gthumb/gio-utils.c:1869
+msgid "Moving files to trash"
+msgstr "Bestanden naar prullenbak verplaatsen"
 
 #. hour:minutes:seconds
 #. Translators: This is a time format, like "9∶05∶02" for 9
@@ -4667,7 +4957,7 @@ msgstr "Bestandsinformatie ophalen"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:3298
+#: gthumb/glib-utils.c:2055
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4679,17 +4969,17 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:3307
+#: gthumb/glib-utils.c:2064
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
 msgstr "%d:%02dU"
 
-#: gthumb/gth-accel-button.c:239
+#: gthumb/gth-accel-dialog.c:121
 msgid "Press a combination of keys to use as shortcut."
 msgstr "Druk toetscombinatie om als sneltoets te gebruiken."
 
-#: gthumb/gth-accel-button.c:240
+#: gthumb/gth-accel-dialog.c:122
 msgid "Press Esc to cancel"
 msgstr "Druk op Esc om te annuleren"
 
@@ -4702,7 +4992,7 @@ msgid "Start in fullscreen mode"
 msgstr "Starten in volledig-scherm-modus"
 
 #: gthumb/gth-application.c:60
-msgid "Automatically start a slideshow"
+msgid "Automatically start a presentation"
 msgstr "Automatisch een diavoorstelling starten"
 
 #: gthumb/gth-application.c:64
@@ -4713,11 +5003,11 @@ msgstr "Automatisch foto’s van de digitale camera importeren"
 msgid "Show version"
 msgstr "Versie tonen"
 
-#: gthumb/gth-application.c:198
+#: gthumb/gth-application.c:171
 msgid "— Image browser and viewer"
 msgstr "— Afbeeldingenverkenner en -viewer"
 
-#: gthumb/gth-browser-actions-callbacks.c:127
+#: gthumb/gth-browser-actions-callbacks.c:100
 msgid ""
 "gThumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
@@ -4729,7 +5019,7 @@ msgstr ""
 "Free Software Foundation. Gebruik versie 2 van de License of (naar keuze) "
 "elke nieuwere versie."
 
-#: gthumb/gth-browser-actions-callbacks.c:131
+#: gthumb/gth-browser-actions-callbacks.c:104
 msgid ""
 "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
@@ -4741,7 +5031,7 @@ msgstr ""
 "verkoopbaarheid of geschiktheid voor een bepaald doel. Zie de GNU General "
 "Public License voor meer bijzonderheden."
 
-#: gthumb/gth-browser-actions-callbacks.c:135
+#: gthumb/gth-browser-actions-callbacks.c:108
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
@@ -4749,11 +5039,11 @@ msgstr ""
 "U zou samen met gThumb een exemplaar van de GNU General Public License "
 "moeten hebben ontvangen. Indien niet, kijk op http://www.gnu.org/licenses/."
 
-#: gthumb/gth-browser-actions-callbacks.c:155
+#: gthumb/gth-browser-actions-callbacks.c:127
 msgid "An image viewer and browser for GNOME."
 msgstr "Afbeeldingenviewer en -beheer voor GNOME."
 
-#: gthumb/gth-browser-actions-callbacks.c:158
+#: gthumb/gth-browser-actions-callbacks.c:130
 msgid "translator-credits"
 msgstr ""
 "Tino Meinen\n"
@@ -4777,108 +5067,184 @@ msgstr ""
 "  cumulus007 https://launchpad.net/~cumulus-007\n"
 "  Pjotr12345 https://launchpad.net/~computertip"
 
-#: gthumb/gth-browser-actions-entries.h:86 gthumb/resources/app-menu.ui:20
+#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
+msgid "New Window"
+msgstr "Nieuw venster"
+
+#: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
 msgid "Keyboard Shortcuts"
 msgstr "Sneltoetsen"
 
-#: gthumb/gth-browser-actions-entries.h:87 gthumb/gtk-utils.h:40
-#: gthumb/resources/app-menu.ui:24
-msgid "_Help"
-msgstr "_Help"
+#: gthumb/gth-browser-actions-entries.h:96
+msgid "Quit"
+msgstr "Afsluiten"
 
-#: gthumb/gth-browser-actions-entries.h:88
-msgid "_About gThumb"
-msgstr "_Over gThumb"
+#: gthumb/gth-browser-actions-entries.h:99
+msgid "Show browser"
+msgstr "Verkenner tonen"
 
-#: gthumb/gth-browser.c:381
+#: gthumb/gth-browser-actions-entries.h:100
+msgid "Close window"
+msgstr "Venster sluiten"
+
+#: gthumb/gth-browser-actions-entries.h:102
+msgid "Open location"
+msgstr "Locatie openen"
+
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4568
+#: gthumb/gth-browser.c:4586 gthumb/resources/file-list-menu.ui:7
+#: gthumb/resources/file-menu.ui:7
+msgid "Fullscreen"
+msgstr "Volledig scherm"
+
+#: gthumb/gth-browser-actions-entries.h:104
+msgid "Revert image to saved"
+msgstr "Afbeelding terugzetten naar opgeslagen bestand"
+
+#: gthumb/gth-browser-actions-entries.h:105
+msgid "Sidebar"
+msgstr "Zijbalk"
+
+#: gthumb/gth-browser-actions-entries.h:106
+msgid "Statusbar"
+msgstr "Statusbalk"
+
+#: gthumb/gth-browser-actions-entries.h:107
+msgid "Thumbnails list"
+msgstr "Miniaturenlijst"
+
+#: gthumb/gth-browser-actions-entries.h:109
+msgid "Load previous location"
+msgstr "Vorige locatie laden"
+
+#: gthumb/gth-browser-actions-entries.h:110
+msgid "Load next location"
+msgstr "Volgende locatie laden"
+
+#: gthumb/gth-browser-actions-entries.h:111
+msgid "Load parent folder"
+msgstr "Bovenliggende map laden"
+
+#: gthumb/gth-browser-actions-entries.h:112
+msgid "Load home"
+msgstr "Persoonlijke map laden"
+
+#: gthumb/gth-browser-actions-entries.h:113
+msgid "Reload location"
+msgstr "Locatie herladen"
+
+#: gthumb/gth-browser-actions-entries.h:114
+msgid "Show/Hide hidden files"
+msgstr "Verborgen bestanden tonen/verbergen"
+
+#: gthumb/gth-browser-actions-entries.h:115
+msgid "Change sorting order"
+msgstr "Verander sorteervolgorde"
+
+#: gthumb/gth-browser-actions-entries.h:119
+msgid "Show first file"
+msgstr "Toon eerste bestand"
+
+#: gthumb/gth-browser-actions-entries.h:120
+msgid "Show last file"
+msgstr "Toon laatste bestand"
+
+#: gthumb/gth-browser-actions-entries.h:122
+msgid "Image tools"
+msgstr "Gereedschappen voor afbeeldingen"
+
+#: gthumb/gth-browser-actions-entries.h:123
+msgid "File properties"
+msgstr "Bestandseigenschappen"
+
+#: gthumb/gth-browser-actions-entries.h:125
+msgid "Select all"
+msgstr "Alles selecteren"
+
+#: gthumb/gth-browser-actions-entries.h:126
+msgid "Select none"
+msgstr "Niets selecteren"
+
+#: gthumb/gth-browser.c:408
 msgid "[modified]"
 msgstr "[gewijzigd]"
 
-#: gthumb/gth-browser.c:833
+#: gthumb/gth-browser.c:873
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d bestand geselecteerd (%s)"
 msgstr[1] "%d bestanden geselecteerd (%s)"
 
-#: gthumb/gth-browser.c:868
+#: gthumb/gth-browser.c:908
 #, c-format
 msgid "%s of free space"
 msgstr "%s vrije ruimte"
 
-#: gthumb/gth-browser.c:1782 gthumb/gth-browser.c:1809
+#: gthumb/gth-browser.c:1786 gthumb/gth-browser.c:1802
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Geen geschikte module gevonden voor %s"
 
-#: gthumb/gth-browser.c:1931
+#: gthumb/gth-browser.c:1907
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Wijzigingen in bestand ‘%s’ opslaan?"
 
-#: gthumb/gth-browser.c:1936
+#: gthumb/gth-browser.c:1912
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr ""
 "Als u het bestand niet opslaat, gaan alle wijzigingen definitief verloren."
 
-#: gthumb/gth-browser.c:1937
+#: gthumb/gth-browser.c:1913
 msgid "Do _Not Save"
 msgstr "_Niet opslaan"
 
-#: gthumb/gth-browser.c:2421 gthumb/gth-browser.c:4621
+#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4594
 msgid "Accept"
 msgstr "Accepteren"
 
-#: gthumb/gth-browser.c:2421 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2401 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Sluiten"
 
-#: gthumb/gth-browser.c:3015 gthumb/gth-source-tree.c:185
+#: gthumb/gth-browser.c:2939
 msgid "Could not change name"
 msgstr "Kon naam niet wijzigen"
 
-#: gthumb/gth-browser.c:3470
+#: gthumb/gth-browser.c:3436
 msgid "Modified"
 msgstr "Gewijzigd"
 
-#: gthumb/gth-browser.c:4543
+#: gthumb/gth-browser.c:4516
 msgid "Go to the previous visited location"
 msgstr "Naar vorige bezochte locatie gaan"
 
-#: gthumb/gth-browser.c:4549
+#: gthumb/gth-browser.c:4522
 msgid "Go to the next visited location"
 msgstr "Naar volgende bezochte locatie gaan"
 
-#: gthumb/gth-browser.c:4557
+#: gthumb/gth-browser.c:4530
 msgid "History"
 msgstr "Geschiedenis"
 
-#: gthumb/gth-browser.c:4571
+#: gthumb/gth-browser.c:4544
 msgid "View the folders"
 msgstr "De mappen weergeven"
 
-#: gthumb/gth-browser.c:4586
+#: gthumb/gth-browser.c:4559
 msgid "Edit file"
 msgstr "Bewerken"
 
-#: gthumb/gth-browser.c:4595 gthumb/gth-browser.c:4613
-#: gthumb/resources/file-list-menu.ui:7 gthumb/resources/file-menu.ui:7
-msgid "Fullscreen"
-msgstr "Volledig scherm"
-
-#: gthumb/gth-browser.c:6558
+#: gthumb/gth-browser.c:6570
 #, c-format
 msgid "File type not supported"
 msgstr "Type bestand niet ondersteund"
 
-#: gthumb/gth-browser.c:6601
+#: gthumb/gth-browser.c:6613
 #, c-format
 msgid "No suitable module found"
 msgstr "Geen geschikte module gevonden"
-
-#: gthumb/gth-delete-task.c:67
-msgid "Deleting files"
-msgstr "Bestanden aan het verwijderen"
 
 #: gthumb/gth-extensions.c:206
 #, c-format
@@ -4898,11 +5264,11 @@ msgstr "Alle ondersteunde bestanden"
 msgid "_Show Format Options"
 msgstr "Toon formaatoptie_s"
 
-#: gthumb/gth-file-source-vfs.c:227
+#: gthumb/gth-file-source-vfs.c:219
 msgid "Computer"
 msgstr "Computer"
 
-#: gthumb/gth-file-source-vfs.c:785
+#: gthumb/gth-file-source-vfs.c:773
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -4910,16 +5276,16 @@ msgstr ""
 "De afbeeldingen kunnen niet in de prullenbak worden geworpen. Wilt u deze "
 "definitief verwijderen?"
 
-#: gthumb/gth-file-source-vfs.c:796
+#: gthumb/gth-file-source-vfs.c:784
 msgid "Could not move the files to the Trash"
 msgstr "Kon de bestanden niet verplaatsen naar de prullenbak"
 
-#: gthumb/gth-file-source-vfs.c:845
+#: gthumb/gth-file-source-vfs.c:829
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Weet u zeker dat u ‘%s’ voorgoed wilt verwijderen?"
 
-#: gthumb/gth-file-source-vfs.c:848
+#: gthumb/gth-file-source-vfs.c:832
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -4929,7 +5295,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Weet u zeker dat u de %'d gekozen bestanden definitief wilt verwijderen?"
 
-#: gthumb/gth-file-source-vfs.c:858
+#: gthumb/gth-file-source-vfs.c:842
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Als u een bestand verwijdert bent u het definitief kwijt."
 
@@ -4966,11 +5332,15 @@ msgstr "aflopend"
 msgid "No limit specified"
 msgstr "Geen limiet opgegeven"
 
-#: gthumb/gth-folder-tree.c:1391
+#: gthumb/gth-filterbar.c:280
+msgid "All"
+msgstr "Alle"
+
+#: gthumb/gth-folder-tree.c:1465
 msgid "(Open Parent)"
 msgstr "(Open bovenliggende map)"
 
-#: gthumb/gth-folder-tree.c:1911
+#: gthumb/gth-folder-tree.c:1972
 msgid "Enter the new name:"
 msgstr "Voer nieuwe naam in:"
 
@@ -5000,73 +5370,90 @@ msgstr "Kon geen geschikte module vinden om de afbeelding op te slaan als ‘%s�
 msgid "Reading file information"
 msgstr "Bestandsinformatie aan het lezen"
 
-#: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:349
-msgid "Size"
-msgstr "Grootte"
+#: gthumb/gth-location-chooser-dialog.c:194 gthumb/resources/gears-menu.ui:35
+msgid "Hidden Files"
+msgstr "Verborgen bestanden"
 
-#: gthumb/gth-main-default-metadata.c:41
-msgctxt "the file mtime"
-msgid "Modified Date & Time"
-msgstr "Datum en tijd laatst gewijzigd"
-
-#: gthumb/gth-main-default-metadata.c:42
-msgid "Type"
-msgstr "Soort"
-
-#: gthumb/gth-main-default-metadata.c:44
+#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:46
 msgid "Location"
 msgstr "Locatie"
 
-#: gthumb/gth-main-default-metadata.c:47
+#: gthumb/gth-location-chooser.c:572
+msgid "Locations"
+msgstr "Locaties"
+
+#: gthumb/gth-location-chooser.c:617
+msgid "Other…"
+msgstr "Overige…"
+
+#: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:351
+msgid "Size"
+msgstr "Grootte"
+
+# Meervoud van byte is byte zonder s
+#: gthumb/gth-main-default-metadata.c:41
+msgid "Bytes"
+msgstr "Byte"
+
+#. Translators: the file modified time.
+#: gthumb/gth-main-default-metadata.c:43
+msgid "Modified Date & Time"
+msgstr "Datum en tijd laatst gewijzigd"
+
+#: gthumb/gth-main-default-metadata.c:44
+msgid "Type"
+msgstr "Soort"
+
+#: gthumb/gth-main-default-metadata.c:49
 msgid "Duration"
 msgstr "Duur"
 
-#: gthumb/gth-main-default-metadata.c:49
+#: gthumb/gth-main-default-metadata.c:51
 msgid "Exposure Settings"
 msgstr "Belichtingsinstellingen"
 
 # Aperture is letterlijk opening, dus er wordt ws. diafragma bedoeld
-#: gthumb/gth-main-default-metadata.c:50
+#: gthumb/gth-main-default-metadata.c:52
 msgid "Aperture"
 msgstr "Diafragma"
 
-#: gthumb/gth-main-default-metadata.c:51
+#: gthumb/gth-main-default-metadata.c:53
 msgid "ISO Speed"
 msgstr "ISO"
 
-#: gthumb/gth-main-default-metadata.c:52
+#: gthumb/gth-main-default-metadata.c:54
 msgid "Exposure Time"
 msgstr "Belichtingstijd"
 
-#: gthumb/gth-main-default-metadata.c:53
+#: gthumb/gth-main-default-metadata.c:55
 msgid "Shutter Speed"
 msgstr "Sluitertijd"
 
-#: gthumb/gth-main-default-metadata.c:54
+#: gthumb/gth-main-default-metadata.c:56
 msgid "Focal Length"
 msgstr "Brandpuntsafstand"
 
-#: gthumb/gth-main-default-metadata.c:55
+#: gthumb/gth-main-default-metadata.c:57
 msgid "Flash"
 msgstr "Flitser"
 
-#: gthumb/gth-main-default-metadata.c:56
+#: gthumb/gth-main-default-metadata.c:58
 msgid "Camera Model"
 msgstr "Cameramodel"
 
-#: gthumb/gth-main-default-metadata.c:57
+#: gthumb/gth-main-default-metadata.c:59
 msgid "Color Profile"
 msgstr "Kleurprofiel"
 
-#: gthumb/gth-main-default-metadata.c:59
+#: gthumb/gth-main-default-metadata.c:61
 msgid "General Date & Time"
 msgstr "Opnamedatum en tijd"
 
-#: gthumb/gth-main-default-metadata.c:66
+#: gthumb/gth-main-default-metadata.c:68
 msgid "Author"
 msgstr "Auteur"
 
-#: gthumb/gth-main-default-metadata.c:67
+#: gthumb/gth-main-default-metadata.c:69
 msgid "Copyright"
 msgstr "Auteursrecht"
 
@@ -5098,43 +5485,55 @@ msgstr "afmetingen"
 msgid "aspect ratio"
 msgstr "beeldverhouding"
 
-#: gthumb/gth-main-default-tests.c:284
+#: gthumb/gth-main-default-tests.c:286
 msgid "All Files"
 msgstr "Alle bestanden"
 
-#: gthumb/gth-main-default-tests.c:291
+#: gthumb/gth-main-default-tests.c:293
 msgid "All Images"
 msgstr "Alle afbeeldingen"
 
-#: gthumb/gth-main-default-tests.c:298
+#: gthumb/gth-main-default-tests.c:300
 msgid "JPEG Images"
 msgstr "JPEG-afbeeldingen"
 
-#: gthumb/gth-main-default-tests.c:305
+#: gthumb/gth-main-default-tests.c:307
 msgid "Raw Photos"
 msgstr "RAW-foto’s"
 
-#: gthumb/gth-main-default-tests.c:326
+#: gthumb/gth-main-default-tests.c:328
 msgid "Media"
 msgstr "Media"
 
-#: gthumb/gth-main-default-tests.c:333
+#: gthumb/gth-main-default-tests.c:335
 msgid "Text Files"
 msgstr "Tekstbestanden"
 
-#: gthumb/gth-main-default-tests.c:341
+#: gthumb/gth-main-default-tests.c:343
 msgid "Filename"
 msgstr "Bestandsnaam"
 
-#: gthumb/gth-main-default-tests.c:373
+#: gthumb/gth-main-default-tests.c:375
 msgid "Title (embedded)"
 msgstr "Titel (ingebed)"
 
-#: gthumb/gth-main-default-tests.c:381
+#: gthumb/gth-main-default-tests.c:383
 msgid "Description (embedded)"
 msgstr "Beschrijving (ingebed)"
 
-#: gthumb/gth-overwrite-dialog.c:246
+#: gthumb/gth-main-default-types.c:39
+msgid "Show/Hide"
+msgstr "Tonen/verbergen"
+
+#: gthumb/gth-main-default-types.c:40
+msgid "Navigation"
+msgstr "Navigatie"
+
+#: gthumb/gth-main-default-types.c:41
+msgid "File Manager"
+msgstr "Bestandsbeheerder"
+
+#: gthumb/gth-overwrite-dialog.c:326
 msgid "Overwrite"
 msgstr "Overschrijven"
 
@@ -5155,7 +5554,7 @@ msgstr "Opslaan van ‘%s’"
 #: gthumb/gth-tags-entry.c:507
 #, c-format
 msgid "Create tag “%s”"
-msgstr "Label ‘%s’ maken"
+msgstr "Creëer label ‘%s’"
 
 #: gthumb/gth-tags-entry.c:1090
 msgid "Show all the tags"
@@ -5230,8 +5629,8 @@ msgid "is lower than or equal to"
 msgstr "is kleiner dan of gelijk aan"
 
 #: gthumb/gth-test-aspect-ratio.c:369 gthumb/gth-test-category.c:421
-#: gthumb/gth-test-simple.c:1030 gthumb/gth-test-simple.c:1051
-#: gthumb/gth-test-simple.c:1077
+#: gthumb/gth-test-simple.c:1084 gthumb/gth-test-simple.c:1105
+#: gthumb/gth-test-simple.c:1131
 #, c-format
 msgid "The test definition is incomplete"
 msgstr "De testdefinitie is onvolledig"
@@ -5302,37 +5701,64 @@ msgstr "Kleuren"
 msgid "Rotation"
 msgstr "Draaien en spiegelen"
 
-#: gthumb/gth-trash-task.c:67
-msgid "Moving files to trash"
-msgstr "Bestanden naar prullenbak verplaatsen"
+#: gthumb/gth-window.c:1020
+#, c-format
+msgid ""
+"The key combination «%s» is already assigned to the action «%s».  Do you "
+"want to reassign it to this action instead?"
+msgstr ""
+"De toetscombinatie «%s» is al toegekend aan de actie «%s». Wilt u deze in "
+"plaats daarvan toewijzen aan deze actie?"
 
-#: gthumb/gtk-utils.c:338
+#: gthumb/gth-window.c:1028
+msgid "Reassign"
+msgstr "Opnieuw toewijzen"
+
+#: gthumb/gth-window.c:1046
+#, c-format
+msgid ""
+"The key combination «%s» is already assigned to the action «%s» and cannot "
+"be changed."
+msgstr ""
+"De toetscombinatie «%s» is al toegekend aan de actie «%s» en kan niet worden "
+"veranderd."
+
+#: gthumb/gth-window.c:1050
+#, c-format
+msgid "The key combination «%s» is already assigned and cannot be changed."
+msgstr "De toetscombinatie «%s» is al toegekend en kan niet worden veranderd."
+
+#: gthumb/gtk-utils.c:370
 msgid "Could not display help"
 msgstr "Kon geen hulppagina tonen"
 
-#: gthumb/gtk-utils.c:661 gthumb/gtk-utils.c:668
+#: gthumb/gtk-utils.c:730 gthumb/gtk-utils.c:737
 msgid "Could not launch the application"
 msgstr "Kon de toepassing niet starten"
 
-#: gthumb/gtk-utils.c:771
+#: gthumb/gtk-utils.c:840
 msgid "_Copy Here"
 msgstr "Hier _kopiëren"
 
-#: gthumb/gtk-utils.c:776
+#: gthumb/gtk-utils.c:845
 msgid "_Move Here"
 msgstr "Hierheen _verplaatsen"
 
-#: gthumb/gtk-utils.c:781
+#: gthumb/gtk-utils.c:850
 msgid "_Link Here"
 msgstr "Hier ko_ppelen"
 
-#: gthumb/gtk-utils.c:790
+#: gthumb/gtk-utils.c:859
 msgid "Cancel"
 msgstr "Annuleren"
 
 #: gthumb/gtk-utils.h:36
 msgid "_Cancel"
 msgstr "_Annuleren"
+
+#: gthumb/gtk-utils.h:40 gthumb/resources/gears-menu.ui:53
+msgid "_Help"
+msgstr "_Help"
 
 #: gthumb/gtk-utils.h:41
 msgid "_New"
@@ -5359,45 +5785,61 @@ msgstr "Uit_voeren"
 msgid "_Upload"
 msgstr "_Opsturen"
 
-#: gthumb/resources/app-menu.ui:7
-msgid "New _Window"
-msgstr "Nieuw _venster"
-
-#: gthumb/resources/app-menu.ui:29
-msgid "_About"
-msgstr "_Over"
-
-#: gthumb/resources/app-menu.ui:33
-msgid "_Quit"
-msgstr "_Afsluiten"
-
 #: gthumb/resources/folder-menu.ui:7
 msgid "Open in New Window"
 msgstr "In nieuw venster openen"
 
-#: gthumb/resources/gears-menu.ui:7
-msgid "New Window"
-msgstr "Nieuw venster"
-
-#: gthumb/resources/gears-menu.ui:12
+#: gthumb/resources/gears-menu.ui:11
 msgid "Open Location…"
 msgstr "Open locatie…"
 
-#: gthumb/resources/gears-menu.ui:28
-msgid "Revert"
-msgstr "Terugdraaien"
-
-#: gthumb/resources/gears-menu.ui:35
+#: gthumb/resources/gears-menu.ui:31
 msgid "Sort By…"
 msgstr "Sorteren op…"
 
-#: gthumb/resources/gears-menu.ui:39
-msgid "Hidden Files"
-msgstr "Verborgen bestanden"
+#: gthumb/resources/gears-menu.ui:57
+msgid "_About gThumb"
+msgstr "_Over gThumb"
 
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Geschiedenis wissen"
+
+#~ msgid "Choose startup folder"
+#~ msgstr "Beginmap kiezen"
+
+#~ msgid "A_dd and Close"
+#~ msgstr "T_oevoegen en sluiten"
+
+#~ msgid "%s Metadata"
+#~ msgstr "%s metagegevens"
+
+#~ msgid "Sa_ve and Close"
+#~ msgstr "_Opslaan en sluiten"
+
+#~ msgid "%s Tags"
+#~ msgstr "%s Labels"
+
+#~ msgid "Assign Tags"
+#~ msgstr "Labels toewijzen"
+
+#~ msgid "Export"
+#~ msgstr "Exporteren"
+
+#~ msgid "Slideshow"
+#~ msgstr "Diavoorstelling"
+
+#~ msgid "Playing slideshow"
+#~ msgstr "Diavoorstelling afspelen"
+
+#~ msgid "View images as a slideshow."
+#~ msgstr "Afbeeldingen weergeven als diavoorstelling."
+
+#~ msgid "New _Window"
+#~ msgstr "Nieuw _venster"
+
+#~ msgid "_About"
+#~ msgstr "_Over"
 
 #~ msgid "gthumb"
 #~ msgstr "gThumbhttps://gitlab.gnome.org/GNOME/frogr"
@@ -5661,9 +6103,6 @@ msgstr "_Geschiedenis wissen"
 #~ msgid "Method"
 #~ msgstr "Methode"
 
-#~ msgid "Image tools"
-#~ msgstr "Gereedschappen voor afbeeldingen"
-
 #~ msgid "Basic tools to modify images."
 #~ msgstr "Basisgereedschap om afbeeldingen aan te passen."
 
@@ -5730,9 +6169,6 @@ msgstr "_Geschiedenis wissen"
 #~ msgid "Change volume level"
 #~ msgstr "Volumeniveau wijzigen"
 
-#~ msgid "Screenshot"
-#~ msgstr "Schermafdruk"
-
 #~ msgid "Print the selected images"
 #~ msgstr "Geselecteerde afbeeldingen afdrukken"
 
@@ -5751,20 +6187,8 @@ msgstr "_Geschiedenis wissen"
 #~ "De ingebedde oriëntatie terugzetten op de standaard zonder de "
 #~ "afbeeldingen te draaien"
 
-#~ msgid "Transparency _type:"
-#~ msgstr "_Soort doorzichtigheid:"
-
 #~ msgid "Low"
 #~ msgstr "Laag"
-
-#~ msgid "White"
-#~ msgstr "Wit"
-
-#~ msgid "Black"
-#~ msgstr "Zwart"
-
-#~ msgid "Checked"
-#~ msgstr "Aangevinkt"
 
 #~ msgid "Copy the image to the clipboard"
 #~ msgstr "De afbeelding naar het klembord kopiëren"
@@ -5774,12 +6198,6 @@ msgstr "_Geschiedenis wissen"
 
 #~ msgid "In"
 #~ msgstr "In"
-
-#~ msgid "Zoom in"
-#~ msgstr "Zoom in"
-
-#~ msgid "Zoom out"
-#~ msgstr "Zoom uit"
 
 #~ msgid "1:1"
 #~ msgstr "1:1"
@@ -5792,9 +6210,6 @@ msgstr "_Geschiedenis wissen"
 
 #~ msgid "Zoom to fit window"
 #~ msgstr "Zoom tot venstergrootte"
-
-#~ msgid "Zoom to fit width"
-#~ msgstr "Zoom tot vensterbreedte"
 
 #~ msgid "Image viewer"
 #~ msgstr "Afbeeldingenviewer"
@@ -5938,9 +6353,6 @@ msgstr "_Geschiedenis wissen"
 #~ msgid "_Go"
 #~ msgstr "_Ga naar"
 
-#~ msgid "E_xport To"
-#~ msgstr "E_xporteren naar"
-
 #~ msgid "Open another window"
 #~ msgstr "Nog een venster openen"
 
@@ -5955,15 +6367,6 @@ msgstr "_Geschiedenis wissen"
 
 #~ msgid "Stop loading the current location"
 #~ msgstr "Laden huidige locatie afbreken"
-
-#~ msgid "Reload the current location"
-#~ msgstr "De huidige locatie herladen"
-
-#~ msgid "View previous image"
-#~ msgstr "Vorige afbeelding weergeven"
-
-#~ msgid "View next image"
-#~ msgstr "Volgende afbeelding weergeven"
 
 #~ msgid "Switch to fullscreen"
 #~ msgstr "Overschakelen naar volledig-scherm-modus"
@@ -5998,9 +6401,6 @@ msgstr "_Geschiedenis wissen"
 #~ msgid "View or hide the toolbar of this window"
 #~ msgstr "De werkbalk van dit venster tonen of verbergen"
 
-#~ msgid "_Statusbar"
-#~ msgstr "_Statusbalk"
-
 #~ msgid "View or hide the statusbar of this window"
 #~ msgstr "De statusbalk van dit venster tonen of verbergen"
 
@@ -6009,9 +6409,6 @@ msgstr "_Geschiedenis wissen"
 
 #~ msgid "View or hide the filterbar of this window"
 #~ msgstr "De filterbalk van dit venster tonen of verbergen"
-
-#~ msgid "_Sidebar"
-#~ msgstr "_Zijbalk"
 
 #~ msgid "View or hide the sidebar of this window"
 #~ msgstr "De zijbalk van dit venster tonen of verbergen"
@@ -6027,12 +6424,6 @@ msgstr "_Geschiedenis wissen"
 
 #~ msgid "View thumbnails"
 #~ msgstr "Miniaturen weergeven"
-
-#~ msgid "Show hidden files and folders"
-#~ msgstr "Verborgen bestanden en mappen tonen"
-
-#~ msgid "View file properties"
-#~ msgstr "Bestandseigenschappen weergeven"
 
 #~ msgid "_Fit Window to Image"
 #~ msgstr "_Venster aanpassen aan afbeelding"
@@ -6068,15 +6459,8 @@ msgstr "_Geschiedenis wissen"
 #~ msgid "Full Name"
 #~ msgstr "Volledige naam"
 
-#~ msgid "Close this window"
-#~ msgstr "Dit venster sluiten"
-
 #~ msgid "Close _All Windows"
 #~ msgstr "Alle vensters sluiten"
-
-# Meervoud van byte is byte zonder s
-#~ msgid "Bytes"
-#~ msgstr "Byte"
 
 #~ msgid "Camera model"
 #~ msgstr "Cameramodel"
@@ -6180,9 +6564,6 @@ msgstr "_Geschiedenis wissen"
 
 #~ msgid "Show / hide the cropping selection area"
 #~ msgstr "Het selectiegebied voor bijsnijden tonen of verbergen"
-
-#~ msgid "Zoom at 100% scale"
-#~ msgstr "100% zoomen"
 
 #~ msgid "Zoom in. The mousewheel can also be used to zoom in."
 #~ msgstr "Inzoomen. U kunt ook het muiswiel gebruiken om in te zoomen."
@@ -6782,9 +7163,6 @@ msgstr "_Geschiedenis wissen"
 #~ msgid "a folder with that name is already present."
 #~ msgstr "er is al een map met die naam."
 
-#~ msgid "Show/_Hide"
-#~ msgstr "_Tonen/verbergen"
-
 #~ msgid "Write selection to CD"
 #~ msgstr "De selectie op cd branden"
 
@@ -6991,20 +7369,12 @@ msgstr "_Geschiedenis wissen"
 #~ msgstr "1280 x 1280"
 
 #, fuzzy
-#~ msgid "Zoom to fit"
-#~ msgstr "Zoom tot vensterbreedte"
-
-#, fuzzy
 #~ msgid "Brightness - Contrast"
 #~ msgstr "_Helderheid"
 
 #, fuzzy
 #~ msgid "Hue - Saturation"
 #~ msgstr "_Verzadiging"
-
-#, fuzzy
-#~ msgid "Scale Image"
-#~ msgstr "Afbeelding opslaan"
 
 #, fuzzy
 #~ msgid "Width:"
@@ -7398,10 +7768,6 @@ msgstr "_Geschiedenis wissen"
 #~ msgstr "Kon de catalogus niet verwijderen"
 
 #, fuzzy
-#~ msgid "No image"
-#~ msgstr "Afbeelding kopiëren"
-
-#, fuzzy
 #~ msgid "Ro_tate Images"
 #~ msgstr "Afbeelding plakken"
 
@@ -7603,10 +7969,6 @@ msgstr "_Geschiedenis wissen"
 #~ msgstr "Uit catalogus _verwijderen"
 
 #, fuzzy
-#~ msgid "Open the selected folder in a new window"
-#~ msgstr "Kopieer de geselecteerde map naar een andere map"
-
-#, fuzzy
 #~ msgid "Open the selected folder with the Nautilus file manager"
 #~ msgstr "Kopieer de geselecteerde map naar een andere map"
 
@@ -7629,10 +7991,6 @@ msgstr "_Geschiedenis wissen"
 #, fuzzy
 #~ msgid "Move the current folder to the Trash"
 #~ msgstr "Verplaats de geselecteerde bestanden naar de prullenbak"
-
-#, fuzzy
-#~ msgid "Copy current folder"
-#~ msgstr "Huidige map"
 
 #, fuzzy
 #~ msgid "Assign categories to the current folder"
@@ -7781,10 +8139,6 @@ msgstr "_Geschiedenis wissen"
 #, fuzzy
 #~ msgid "_Open With..."
 #~ msgstr "_Openen met"
-
-#, fuzzy
-#~ msgid "Revert to saved image"
-#~ msgstr "Grootte van geselecteerde afbeeldingen veranderen"
 
 #, fuzzy
 #~ msgid "Print..."
