@@ -2755,7 +2755,7 @@ msgstr "Введіть назву набору:"
 #: extensions/image_viewer/gth-image-viewer-page.c:1631
 #: gthumb/gth-browser.c:1863
 msgid "Could not save the file"
-msgstr "Не вдалося зьберегти файл"
+msgstr "Не вдалося зберегти файл"
 
 #: extensions/file_tools/gth-file-tool-curves.c:833
 msgid "Add to presets"
