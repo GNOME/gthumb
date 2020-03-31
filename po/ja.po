@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-03-30 09:19+0000\n"
-"PO-Revision-Date: 2020-03-02 23:00+0900\n"
+"POT-Creation-Date: 2020-03-08 11:24+0000\n"
+"PO-Revision-Date: 2020-03-22 17:05+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -873,10 +873,8 @@ msgstr "追加(_A)"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:714
 #: extensions/edit_metadata/dlg-edit-metadata.c:347
-#, fuzzy
-#| msgid "_Keep the dialog open"
 msgid "Keep the dialog open"
-msgstr "ダイアログを開いたままにする(_K)"
+msgstr "ダイアログを開いたままにする"
 
 #: extensions/catalogs/dlg-catalog-properties.c:80
 msgid "Could not save the catalog"
@@ -1655,8 +1653,8 @@ msgstr "言語(_L):"
 msgid "State/Province:"
 msgstr "州/県:"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
+#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1088
+#: gthumb/glib-utils.c:2053 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(不正な値)"
 
@@ -4705,14 +4703,14 @@ msgstr "ウェブアルバム"
 msgid "Create static web albums."
 msgstr "ローカルのウェブアルバムを作成します"
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
+#: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
 #: gthumb/gth-browser.c:6569 gthumb/gth-browser.c:6588
 #: gthumb/gth-browser.c:6612 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "“%s”を読み込めませんでした"
 
-#: gthumb/dlg-location.c:450 gthumb/dlg-location.c:460
+#: gthumb/dlg-location.c:408 gthumb/dlg-location.c:418
 msgid "Open"
 msgstr "開く"
 
@@ -4820,18 +4818,18 @@ msgstr "戻す"
 msgid "Do you want to revert all the changes and use the default shortcuts?"
 msgstr "すべての変更を元に戻してデフォルトのショートカットを使用しますか?"
 
-#: gthumb/dlg-preferences-shortcuts.c:540
+#: gthumb/dlg-preferences-shortcuts.c:541
 msgctxt "Shortcuts"
 msgid "All"
 msgstr "すべて"
 
-#: gthumb/dlg-preferences-shortcuts.c:546
+#: gthumb/dlg-preferences-shortcuts.c:547
 msgctxt "Shortcuts"
 msgid "Modified"
 msgstr "更新日時"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-shortcuts.c:575
+#: gthumb/dlg-preferences-shortcuts.c:576
 msgid "Shortcuts"
 msgstr "ショートカット"
 
@@ -4881,7 +4879,7 @@ msgstr "ファイルをゴミ箱へ移動中"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2055
+#: gthumb/glib-utils.c:2029
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4893,7 +4891,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2064
+#: gthumb/glib-utils.c:2038
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
