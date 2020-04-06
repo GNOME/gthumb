@@ -6,16 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb gthumb-3-6\n"
-"POT-Creation-Date: 2018-06-17 06:52+0000\n"
-"PO-Revision-Date: 2018-06-26 11:37+0200\n"
-"Last-Translator: Paul Matthijsse <paul.matthijsse@wanadoo.fr>\n"
+"POT-Creation-Date: 2020-03-22 07:38+0000\n"
+"PO-Revision-Date: 2020-04-06 21:27+0200\n"
+"Last-Translator: Justin van Steijn <jvs@fsfe.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -74,6 +74,7 @@ msgid ""
 "editing tools, open an image and then click the <gui>Edit File</gui> toolbar "
 "button (the palette icon), or press <keyseq><key>e</key></keyseq>."
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> "
 "gThumb bevat diverse gereedschappen om foto's te verbeteren. U kunt "
 "bewerkingen ongedaan maken of weer opnieuw uitvoeren, tot de foto bewaard "
 "wordt. Om deze gereedschappen te gebruiken dient u eerst een foto te openen "
@@ -662,7 +663,7 @@ msgid ""
 "program is installed on your system."
 msgstr ""
 "gThumb biedt ook beperkte ondersteuning van RAW-formaten, zeker indien het "
-"programma 'dcraw' op uw systeem is geïnstalleerd."
+"programma `dcraw` op uw systeem is geïnstalleerd."
 
 #. (itstool) path: page/p
 #: C/introduction.page:21
@@ -705,6 +706,7 @@ msgstr ""
 
 # gthumb in het webadres moet Gthumb zijn, ontwikkelaars verwittigd.
 # pm
+# Is nu weer veranderd naar URL in kleine letters. - Justin 06-04-2020
 #. (itstool) path: page/p
 #: C/introduction.page:34
 msgid ""
@@ -714,7 +716,7 @@ msgid ""
 msgstr ""
 "Meer informatie over deze uitbreidingen en over <app>gThumb</app> in het "
 "algemeen is te vinden op deze link: <link href=\"https://wiki.gnome.org/Apps/"
-"Gthumb\">https://wiki.gnome.org/Apps/gThumb</link>."
+"Gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
 
 #. (itstool) path: page/title
 #: C/browser.page:6
@@ -1146,10 +1148,11 @@ msgid ""
 "<guiseq><gui>View</gui><gui>Thumbnail Pane</gui></guiseq> command, or by "
 "pressing <key>F8</key>."
 msgstr ""
-"Wanneer een foto is geopend in de <app>gThumb</app> Verkenner, kan het "
+"Wanneer een foto is geopend in de <app>gThumb</app>-verkenner, kan het "
 "miniaturenvenster met voorbeelden van alle andere foto’s in de map naar wens "
-"al dan niet getoond worden. Heen en weer schakelen kan door op <key>F8</key> "
-"te drukken."
+"al dan niet getoond worden. Heen en weer schakelen kan met behulp van de "
+"opdracht <guiseq><gui>Beeld</gui><gui>Miniatuurpaneel</gui></guiseq>, of "
+"door op <key>F8</key> te drukken."
 
 # Infobubble knop Bewerken ontbreekt.
 # pm
@@ -1223,8 +1226,7 @@ msgid "Symbol"
 msgstr "Symbool"
 
 #. (itstool) path: td/p
-#: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:84
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:538
+#: C/rename-series.page:27
 msgid "Description"
 msgstr "Beschrijving"
 
@@ -1373,9 +1375,7 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/rename-series.page:133
 msgid "To rename the images click on <gui>Rename</gui>."
-msgstr ""
-"Om de afbeeldingen te hernoemen kiest u <gui>Hernoemen</gui> onder de "
-"rechter muistoets, of u klikt op <key>F2</key>."
+msgstr "Om de afbeeldingen te hernoemen kiest u <gui>Hernoemen</gui>."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:135
@@ -1438,9 +1438,9 @@ msgid ""
 "the Folders</gui> toolbar button), or navigate away from the current image, "
 "you will be prompted to save or discard your changes."
 msgstr ""
-"Als u de bewerkmodus verlaat (door op de <key>Esc</key> toets te drukken of "
-"door naar een andere foto te navigeren), wordt u gevraagd of u de "
-"bewerkingen wilt bewaren of weggooien."
+"Als u de bewerkmodus verlaat (door op de <key>Esc</key>-toets te drukken of "
+"door de knop <gui>De mappen weergeven</gui> te gebruiken), wordt u gevraagd "
+"of u de bewerkingen wilt bewaren of weggooien."
 
 #. (itstool) path: page/title
 #: C/edit-colors.page:6
@@ -1747,7 +1747,7 @@ msgstr ""
 #: C/extensions.page:20
 msgid ""
 "If you would like to write your own extension, please visit <link href="
-"\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</"
+"\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</"
 "link> for development information. An example extension is provided in the "
 "source code, which you can base your own extension on."
 msgstr ""
@@ -1808,7 +1808,8 @@ msgid ""
 "provided for this purpose."
 msgstr ""
 "Door op de <key>Esc</key> toets te klikken wordt de Weergavemodus weer "
-"verlaten en keert u in de Verkenner terug."
+"verlaten en keert u in de Verkenner terug. Een knop op de werkbalk (<gui>De "
+"mappen weergeven</gui>) doet hetzelfde."
 
 # Gaat deze link goed?
 # pm
@@ -2078,550 +2079,6 @@ msgid "When you are ready to print, press the <gui>Print</gui> button."
 msgstr "Als u klaar bent klikt u op de knp <gui>Afdrukken</gui>."
 
 #. (itstool) path: page/title
-#: C/shortcuts.page:7
-msgid "Keyboard Shortcuts"
-msgstr "Sneltoetsen"
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:10
-msgid "Viewing and hiding parts of the user interface"
-msgstr "Tonen en verbergen van delen van de gebruikersinterface"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:14 C/shortcuts.page:81 C/shortcuts.page:270
-#: C/shortcuts.page:535
-msgid "Keyboard Shortcut"
-msgstr "Sneltoets"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:22
-msgid "<key>F9</key>"
-msgstr "<key>F9</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:27
-msgid ""
-"Show/Hide the sidebar in the browser mode. The sidebar contains the folder "
-"tree and the file properties summary (if enabled)."
-msgstr ""
-"Toon/verberg de zijbalk in de Verkennermodus. De zijbalk bevat de "
-"boomweergave en de bestandseigenschappen (indien geactiveerd)."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:33
-msgid "<key>i</key>"
-msgstr "<key>i</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:38
-msgid "Show the file properties summary."
-msgstr "Toont een samenvatting van de bestandseigenschappen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:43
-msgid "<key>F8</key>"
-msgstr "<key>F8</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:48
-msgid "Shows/hides the thumbnail pane in the viewer mode."
-msgstr "Toont/verbergt het miniaturenvenster onder het Weergavevenster."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:53
-msgid "<key>F11</key> or <key>f</key>"
-msgstr "<key>F11</key> of <key>f</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:58
-msgid "Toggles the fullscreen mode."
-msgstr "Al dan niet volledig scherm."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:63
-msgid "<key>Esc</key>"
-msgstr "<key>Esc</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:68
-msgid "Closes the viewer or fullscreen mode."
-msgstr "Sluit het weergavevenster of beëindigt volledig scherm."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:77
-msgid "Editing shortcuts for the browser and viewer"
-msgstr "Sneltoetsen voor bestandsbewerking voor Verkenner en Weergavemodus"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:89
-msgid "<key>e</key>"
-msgstr "<key>e</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:94
-msgid "Edit the image. Opens the viewer and shows the editing tools."
-msgstr ""
-"Bewerk de foto. Opent het weergavevenster en toont de "
-"bewerkingsgereedschappen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:99
-msgid "<key>g</key>"
-msgstr "<key>g</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:104
-msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
-msgstr "Opent de foto in het GNU Image Manipulation Program (GIMP)."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:109
-msgid "<key>F2</key>"
-msgstr "<key>F2</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:114
-msgid "Rename the image."
-msgstr "Hernoem de foto."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:119
-msgid "<key>c</key>"
-msgstr "<key>c</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:124
-msgid "Add comments or metadata to the selected images."
-msgstr "Voeg commentaar of metadata toe aan de geselecteerde foto’s."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:129
-msgid "<key>t</key>"
-msgstr "<key>t</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:134
-msgid "Add tags to the selected images."
-msgstr "Voeg labels toe aan de geselecteerde foto’s."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:139
-msgid "<key>]</key>"
-msgstr "<key>]</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:144
-msgid "Rotate right, losslessly if possible. The file is saved automatically."
-msgstr ""
-"Draai naar rechts, zonder verlies indien mogelijk. De foto wordt automatisch "
-"bewaard."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:149
-msgid "<key>[</key>"
-msgstr "<key>[</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:154
-msgid "Rotate left, losslessly if possible. The file is saved automatically."
-msgstr ""
-"Draai naar links, zonder verlies indien mogelijk. De foto wordt automatisch "
-"bewaard."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:159
-msgid "<key>Delete</key>"
-msgstr "<key>Del</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:164
-msgid "Move the selected files to the Trash."
-msgstr "Verplaats de geselecteerde bestanden naar de Prullenbak."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:169
-msgid "<keyseq><key>Shift</key><key>Delete</key></keyseq>"
-msgstr "<keyseq><key>Shift</key>+<key>Del</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:174
-msgid "Delete the selected files permanently."
-msgstr "Verwijder de geselecteerde bestanden voorgoed."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:182
-msgid "Editing shortcuts for the viewer mode only"
-msgstr "Sneltoetsen voor bewerkingen, alleen voor het Weergavevenster"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:186
-msgid "Keyboard Shortcut (Case Sensitive)"
-msgstr "Sneltoets (hoofdlettergevoelig)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:194
-msgid "<key>a</key>"
-msgstr "<key>a</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:199
-msgid "Adjust contrast."
-msgstr "Contrast aanpassen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:204
-msgid "<key>l</key>"
-msgstr "<key>l</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:209
-msgid "Flip image."
-msgstr "Spiegel afbeelding verticaal."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:214
-msgid "<key>m</key>"
-msgstr "<key>m</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:219
-msgid "Mirror image."
-msgstr "Spiegel afbeelding horizontaal."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:224
-msgid "<key>r</key>"
-msgstr "<key>r</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:229
-msgid "Rotate right."
-msgstr "Rechtsom draaien."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:234
-msgid "<key>R</key>"
-msgstr "<key>R</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:239
-msgid "Rotate left."
-msgstr "Linksom draaien."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:244
-msgid "<key>C</key>"
-msgstr "<key>C</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:249
-msgid "Crop image."
-msgstr "Afbeelding bijsnijden."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:254
-msgid "<key>S</key>"
-msgstr "<key>S</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:259
-msgid "Resize image."
-msgstr "Grootte afbeelding wijzigen."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:266
-msgid "Viewer shortcuts"
-msgstr "Sneltoetsen voor het Weergavevenster"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:278
-msgid "<key>Space</key> or <key>Page Down</key>"
-msgstr "<key>Spatie</key> of <key>Page Down</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:283
-msgid "View the next image."
-msgstr "Toon volgende afbeelding."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:288
-msgid "<key>Backspace</key> or <key>Page Up</key>"
-msgstr "<key>Backspace</key> of <key>Page Up</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:293
-msgid "View the previous image."
-msgstr "Toon vorige afbeelding."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:298 C/shortcuts.page:446
-msgid "<key>Home</key>"
-msgstr "<key>Home</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:303
-msgid "View the first image."
-msgstr "Toon eerste afbeelding."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:308 C/shortcuts.page:456
-msgid "<key>End</key>"
-msgstr "<key>End</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:313
-msgid "View the last image."
-msgstr "Toon laatste afbeelding."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:318
-msgid "<key>+</key> or <key>=</key>"
-msgstr "<key>+</key> or <key>=</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:323
-msgid "Zoom in."
-msgstr "Inzoomen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:328
-msgid "<key>-</key>"
-msgstr "<key>-</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:333
-msgid "Zoom out."
-msgstr "Uitzoomen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:338
-msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
-msgstr "<key>1</key> of <key>z</key> of <key>/ (numeriek toetsenbord)</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:344
-msgid "Actual size."
-msgstr "Actuele grootte."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:349
-msgid "<key>x</key> or <key>* (numeric keypad)</key>"
-msgstr "<key>x</key> of <key>* (numeriek toetsenbord)</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:354
-msgid "Zoom to fit (scales down only, does not magnify)"
-msgstr "Maak afbeelding passend (alleen kleiner, niet groter)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:359
-msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:367
-msgid "Zoom to fit (scale down or magnify, as required)"
-msgstr "Maak afbeelding passend (kleiner of groter, naar gelang)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:372
-msgid "<key>w</key>"
-msgstr "<key>w</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:376
-msgid "Zoom to fit width (scales down only, does not magnify)"
-msgstr "Maak passend tot breedte (alleen kleiner, niet groter)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:381
-msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:389
-msgid "Zoom to fit width (scale down or magnify, as required)"
-msgstr "Maak passend tot breedte (kleiner of groter, naar gelang)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:394
-msgid "<key>h</key>"
-msgstr "<key>h</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:398
-msgid "Zoom to fit height (scales down only, does not magnify)"
-msgstr "Maak passend tot hoogte (alleen kleiner, niet groter)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:403
-msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:411
-msgid "Zoom to fit height (scale down or magnify, as required)"
-msgstr "Maak passend tot hoogte (kleiner of groter, naar gelang)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:416
-msgid "<key>Arrows</key>"
-msgstr "<key>Arrows</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:421
-msgid "Scroll the image."
-msgstr "Verschuif de afbeelding."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:426
-msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:434
-msgid "Scroll the image faster."
-msgstr "Verschuif de afbeelding sneller."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:441
-msgid "Browser Navigation"
-msgstr "Sneltoetsen voor de Verkenner"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:451
-msgid "Go to the first file in the browser view."
-msgstr "Ga naar het eerste bestand in de Verkenner."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:461
-msgid "Go to the last file in the browser view."
-msgstr "Ga naar het laatste bestand in de Verkenner."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:466
-msgid "<key>Down Arrow</key> or <key>Page Down</key>"
-msgstr "<key>Pijl omlaag</key> of <key>Page Down</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:471
-msgid "Scroll downwards through the thumbnails."
-msgstr "Blader van boven naar onder door de miniaturen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:476
-msgid "<key>Up Arrow</key> or <key>Page Up</key>"
-msgstr "<key>Pijl omhoog</key> of <key>Page Up</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:481
-msgid "Scroll upwards through the thumbnails."
-msgstr "Blader van onder naar boven door de miniaturen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:486
-msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:491
-msgid "Go back to the previously viewed folder."
-msgstr "Ga na de hiervoor bezochte map."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:496
-msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:501
-msgid "Go forward (after going back to a folder)."
-msgstr "Ga naar de volgende map (na naar een vorige gegaan te zijn)."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:506
-msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
-msgstr "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:514
-msgid "Go up one level."
-msgstr "Ga één niveau omhoog."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:519
-msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:524
-msgid "Open a location typing the path."
-msgstr "Open een locatie door het pad op te geven."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:531
-msgid "Slideshow controls"
-msgstr "Sneltoetsen diavoorstelling"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:543
-msgid "<key>F5</key>"
-msgstr "<key>F5</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:548
-msgid "Start a slideshow."
-msgstr "Start diavoorstelling."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:553
-msgid "<key>p</key>"
-msgstr "<key>p</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:558
-msgid "Pause/Unpause the slideshow."
-msgstr "Pauzeer/herstart de diavoorstelling."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:563
-msgid "<key>Esc</key> or <key>q</key>"
-msgstr "<key>Esc</key> of <key>q</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:568
-msgid "Close the slideshow."
-msgstr "Stop diavoorstelling."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:573
-msgid ""
-"<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
-"<key>Page Down</key>"
-msgstr ""
-"<key>Spatiebalk</key> of <key>Pijl omlaag</key> of <key>Pijl rechts</key> of "
-"<key>Page Down</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:578
-msgid "Load the next image."
-msgstr "Laad volgende afbeelding."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:583
-msgid ""
-"<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
-"<key>Page Up</key>"
-msgstr ""
-"<key>Backspace</key> of <key>Pijl omhoog</key> of <key>Pijl links</key> of "
-"<key>Page Up</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:588
-msgid "Load the previous image."
-msgstr "Laad vorige afbeelding."
-
-#. (itstool) path: page/title
 #: C/sharing-disc.page:6
 msgid "Creating a CD/DVD/ISO"
 msgstr "Een CD/DVD/ISO maken"
@@ -2634,8 +2091,8 @@ msgid ""
 "gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr ""
 "Om een aantal bestanden naar een optische schijf te schrijven (cd of dvd) of "
-"om een ISO schijf-image te maken, kiest u <guiseq><gui>Exporteren</gui><gui>Optische "
-"schijf</gui></guiseq> in de menubalk."
+"om een ISO schijf-image te maken, kiest u <guiseq><gui>Bestand</gui> "
+"<gui>Exporteren naar</gui><gui>Optische schijf</gui></guiseq> in de menubalk."
 
 #. (itstool) path: page/p
 #: C/sharing-disc.page:13
@@ -3169,3 +2626,338 @@ msgstr ""
 "toestemming om de voorbeeldcode die in dit document is opgenomen te "
 "kopiëren, te modifiëren en te distribueren onder uw eigen voorwaarden, "
 "zonder beperking."
+
+#~ msgid "Keyboard Shortcuts"
+#~ msgstr "Sneltoetsen"
+
+#~ msgid "Viewing and hiding parts of the user interface"
+#~ msgstr "Tonen en verbergen van delen van de gebruikersinterface"
+
+#~ msgid "Keyboard Shortcut"
+#~ msgstr "Sneltoets"
+
+#~ msgid "<key>F9</key>"
+#~ msgstr "<key>F9</key>"
+
+#~ msgid ""
+#~ "Show/Hide the sidebar in the browser mode. The sidebar contains the "
+#~ "folder tree and the file properties summary (if enabled)."
+#~ msgstr ""
+#~ "Toon/verberg de zijbalk in de Verkennermodus. De zijbalk bevat de "
+#~ "boomweergave en de bestandseigenschappen (indien geactiveerd)."
+
+#~ msgid "<key>i</key>"
+#~ msgstr "<key>i</key>"
+
+#~ msgid "Show the file properties summary."
+#~ msgstr "Toont een samenvatting van de bestandseigenschappen."
+
+#~ msgid "<key>F8</key>"
+#~ msgstr "<key>F8</key>"
+
+#~ msgid "Shows/hides the thumbnail pane in the viewer mode."
+#~ msgstr "Toont/verbergt het miniaturenvenster onder het Weergavevenster."
+
+#~ msgid "<key>F11</key> or <key>f</key>"
+#~ msgstr "<key>F11</key> of <key>f</key>"
+
+#~ msgid "Toggles the fullscreen mode."
+#~ msgstr "Al dan niet volledig scherm."
+
+#~ msgid "<key>Esc</key>"
+#~ msgstr "<key>Esc</key>"
+
+#~ msgid "Closes the viewer or fullscreen mode."
+#~ msgstr "Sluit het weergavevenster of beëindigt volledig scherm."
+
+#~ msgid "Editing shortcuts for the browser and viewer"
+#~ msgstr "Sneltoetsen voor bestandsbewerking voor Verkenner en Weergavemodus"
+
+#~ msgid "<key>e</key>"
+#~ msgstr "<key>e</key>"
+
+#~ msgid "Edit the image. Opens the viewer and shows the editing tools."
+#~ msgstr ""
+#~ "Bewerk de foto. Opent het weergavevenster en toont de "
+#~ "bewerkingsgereedschappen."
+
+#~ msgid "<key>g</key>"
+#~ msgstr "<key>g</key>"
+
+#~ msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
+#~ msgstr "Opent de foto in het GNU Image Manipulation Program (GIMP)."
+
+#~ msgid "<key>F2</key>"
+#~ msgstr "<key>F2</key>"
+
+#~ msgid "Rename the image."
+#~ msgstr "Hernoem de foto."
+
+#~ msgid "<key>c</key>"
+#~ msgstr "<key>c</key>"
+
+#~ msgid "Add comments or metadata to the selected images."
+#~ msgstr "Voeg commentaar of metadata toe aan de geselecteerde foto’s."
+
+#~ msgid "<key>t</key>"
+#~ msgstr "<key>t</key>"
+
+#~ msgid "Add tags to the selected images."
+#~ msgstr "Voeg labels toe aan de geselecteerde foto’s."
+
+#~ msgid "<key>]</key>"
+#~ msgstr "<key>]</key>"
+
+#~ msgid ""
+#~ "Rotate right, losslessly if possible. The file is saved automatically."
+#~ msgstr ""
+#~ "Draai naar rechts, zonder verlies indien mogelijk. De foto wordt "
+#~ "automatisch bewaard."
+
+#~ msgid "<key>[</key>"
+#~ msgstr "<key>[</key>"
+
+#~ msgid ""
+#~ "Rotate left, losslessly if possible. The file is saved automatically."
+#~ msgstr ""
+#~ "Draai naar links, zonder verlies indien mogelijk. De foto wordt "
+#~ "automatisch bewaard."
+
+#~ msgid "<key>Delete</key>"
+#~ msgstr "<key>Del</key>"
+
+#~ msgid "Move the selected files to the Trash."
+#~ msgstr "Verplaats de geselecteerde bestanden naar de Prullenbak."
+
+#~ msgid "<keyseq><key>Shift</key><key>Delete</key></keyseq>"
+#~ msgstr "<keyseq><key>Shift</key>+<key>Del</key></keyseq>"
+
+#~ msgid "Delete the selected files permanently."
+#~ msgstr "Verwijder de geselecteerde bestanden voorgoed."
+
+#~ msgid "Editing shortcuts for the viewer mode only"
+#~ msgstr "Sneltoetsen voor bewerkingen, alleen voor het Weergavevenster"
+
+#~ msgid "Keyboard Shortcut (Case Sensitive)"
+#~ msgstr "Sneltoets (hoofdlettergevoelig)"
+
+#~ msgid "<key>a</key>"
+#~ msgstr "<key>a</key>"
+
+#~ msgid "Adjust contrast."
+#~ msgstr "Contrast aanpassen."
+
+#~ msgid "<key>l</key>"
+#~ msgstr "<key>l</key>"
+
+#~ msgid "Flip image."
+#~ msgstr "Spiegel afbeelding verticaal."
+
+#~ msgid "<key>m</key>"
+#~ msgstr "<key>m</key>"
+
+#~ msgid "Mirror image."
+#~ msgstr "Spiegel afbeelding horizontaal."
+
+#~ msgid "<key>r</key>"
+#~ msgstr "<key>r</key>"
+
+#~ msgid "Rotate right."
+#~ msgstr "Rechtsom draaien."
+
+#~ msgid "<key>R</key>"
+#~ msgstr "<key>R</key>"
+
+#~ msgid "Rotate left."
+#~ msgstr "Linksom draaien."
+
+#~ msgid "<key>C</key>"
+#~ msgstr "<key>C</key>"
+
+#~ msgid "Crop image."
+#~ msgstr "Afbeelding bijsnijden."
+
+#~ msgid "<key>S</key>"
+#~ msgstr "<key>S</key>"
+
+#~ msgid "Resize image."
+#~ msgstr "Grootte afbeelding wijzigen."
+
+#~ msgid "Viewer shortcuts"
+#~ msgstr "Sneltoetsen voor het Weergavevenster"
+
+#~ msgid "<key>Space</key> or <key>Page Down</key>"
+#~ msgstr "<key>Spatie</key> of <key>Page Down</key>"
+
+#~ msgid "View the next image."
+#~ msgstr "Toon volgende afbeelding."
+
+#~ msgid "<key>Backspace</key> or <key>Page Up</key>"
+#~ msgstr "<key>Backspace</key> of <key>Page Up</key>"
+
+#~ msgid "View the previous image."
+#~ msgstr "Toon vorige afbeelding."
+
+#~ msgid "<key>Home</key>"
+#~ msgstr "<key>Home</key>"
+
+#~ msgid "View the first image."
+#~ msgstr "Toon eerste afbeelding."
+
+#~ msgid "<key>End</key>"
+#~ msgstr "<key>End</key>"
+
+#~ msgid "View the last image."
+#~ msgstr "Toon laatste afbeelding."
+
+#~ msgid "<key>+</key> or <key>=</key>"
+#~ msgstr "<key>+</key> or <key>=</key>"
+
+#~ msgid "Zoom in."
+#~ msgstr "Inzoomen."
+
+#~ msgid "<key>-</key>"
+#~ msgstr "<key>-</key>"
+
+#~ msgid "Zoom out."
+#~ msgstr "Uitzoomen."
+
+#~ msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
+#~ msgstr "<key>1</key> of <key>z</key> of <key>/ (numeriek toetsenbord)</key>"
+
+#~ msgid "Actual size."
+#~ msgstr "Actuele grootte."
+
+#~ msgid "<key>x</key> or <key>* (numeric keypad)</key>"
+#~ msgstr "<key>x</key> of <key>* (numeriek toetsenbord)</key>"
+
+#~ msgid "Zoom to fit (scales down only, does not magnify)"
+#~ msgstr "Maak afbeelding passend (alleen kleiner, niet groter)"
+
+#~ msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
+
+#~ msgid "Zoom to fit (scale down or magnify, as required)"
+#~ msgstr "Maak afbeelding passend (kleiner of groter, naar gelang)"
+
+#~ msgid "<key>w</key>"
+#~ msgstr "<key>w</key>"
+
+#~ msgid "Zoom to fit width (scales down only, does not magnify)"
+#~ msgstr "Maak passend tot breedte (alleen kleiner, niet groter)"
+
+#~ msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
+
+#~ msgid "Zoom to fit width (scale down or magnify, as required)"
+#~ msgstr "Maak passend tot breedte (kleiner of groter, naar gelang)"
+
+#~ msgid "<key>h</key>"
+#~ msgstr "<key>h</key>"
+
+#~ msgid "Zoom to fit height (scales down only, does not magnify)"
+#~ msgstr "Maak passend tot hoogte (alleen kleiner, niet groter)"
+
+#~ msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
+
+#~ msgid "Zoom to fit height (scale down or magnify, as required)"
+#~ msgstr "Maak passend tot hoogte (kleiner of groter, naar gelang)"
+
+#~ msgid "<key>Arrows</key>"
+#~ msgstr "<key>Arrows</key>"
+
+#~ msgid "Scroll the image."
+#~ msgstr "Verschuif de afbeelding."
+
+#~ msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
+
+#~ msgid "Scroll the image faster."
+#~ msgstr "Verschuif de afbeelding sneller."
+
+#~ msgid "Browser Navigation"
+#~ msgstr "Sneltoetsen voor de Verkenner"
+
+#~ msgid "Go to the first file in the browser view."
+#~ msgstr "Ga naar het eerste bestand in de Verkenner."
+
+#~ msgid "Go to the last file in the browser view."
+#~ msgstr "Ga naar het laatste bestand in de Verkenner."
+
+#~ msgid "<key>Down Arrow</key> or <key>Page Down</key>"
+#~ msgstr "<key>Pijl omlaag</key> of <key>Page Down</key>"
+
+#~ msgid "Scroll downwards through the thumbnails."
+#~ msgstr "Blader van boven naar onder door de miniaturen."
+
+#~ msgid "<key>Up Arrow</key> or <key>Page Up</key>"
+#~ msgstr "<key>Pijl omhoog</key> of <key>Page Up</key>"
+
+#~ msgid "Scroll upwards through the thumbnails."
+#~ msgstr "Blader van onder naar boven door de miniaturen."
+
+#~ msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
+#~ msgstr "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
+
+#~ msgid "Go back to the previously viewed folder."
+#~ msgstr "Ga na de hiervoor bezochte map."
+
+#~ msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
+#~ msgstr "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
+
+#~ msgid "Go forward (after going back to a folder)."
+#~ msgstr "Ga naar de volgende map (na naar een vorige gegaan te zijn)."
+
+#~ msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
+#~ msgstr "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
+
+#~ msgid "Go up one level."
+#~ msgstr "Ga één niveau omhoog."
+
+#~ msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+#~ msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
+
+#~ msgid "Open a location typing the path."
+#~ msgstr "Open een locatie door het pad op te geven."
+
+#~ msgid "Slideshow controls"
+#~ msgstr "Sneltoetsen diavoorstelling"
+
+#~ msgid "<key>F5</key>"
+#~ msgstr "<key>F5</key>"
+
+#~ msgid "Start a slideshow."
+#~ msgstr "Start diavoorstelling."
+
+#~ msgid "<key>p</key>"
+#~ msgstr "<key>p</key>"
+
+#~ msgid "Pause/Unpause the slideshow."
+#~ msgstr "Pauzeer/herstart de diavoorstelling."
+
+#~ msgid "<key>Esc</key> or <key>q</key>"
+#~ msgstr "<key>Esc</key> of <key>q</key>"
+
+#~ msgid "Close the slideshow."
+#~ msgstr "Stop diavoorstelling."
+
+#~ msgid ""
+#~ "<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
+#~ "<key>Page Down</key>"
+#~ msgstr ""
+#~ "<key>Spatiebalk</key> of <key>Pijl omlaag</key> of <key>Pijl rechts</key> "
+#~ "of <key>Page Down</key>"
+
+#~ msgid "Load the next image."
+#~ msgstr "Laad volgende afbeelding."
+
+#~ msgid ""
+#~ "<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
+#~ "<key>Page Up</key>"
+#~ msgstr ""
+#~ "<key>Backspace</key> of <key>Pijl omhoog</key> of <key>Pijl links</key> "
+#~ "of <key>Page Up</key>"
+
+#~ msgid "Load the previous image."
+#~ msgstr "Laad vorige afbeelding."
