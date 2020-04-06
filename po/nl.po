@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-03-13 09:19+0000\n"
-"PO-Revision-Date: 2020-03-15 14:46+0100\n"
-"Last-Translator: Paul Matthijsse <paul.matthijsse@wanadoo.fr>\n"
+"POT-Creation-Date: 2020-03-30 09:19+0000\n"
+"PO-Revision-Date: 2020-04-06 18:18+0200\n"
+"Last-Translator: Justin van Steijn <jvs@fsfe.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Launchpad-Export-Date: 2013-05-09 13:16+0000\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3\n"
 
 # afbeeldingenviewer, kan dit mooier/anders?
 # pm
@@ -3133,7 +3133,7 @@ msgstr "Audio- en videobestanden afspelen."
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:8
 msgid "video-x-generic"
-msgstr "https://gitlab.gnome.org/GNOME/frogr"
+msgstr "video-x-generic"
 
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:594
 msgid "Playing video"
@@ -3929,7 +3929,7 @@ msgstr "Scriptuitvoering en manipulatie van meerdere bestanden tegelijk."
 
 #: extensions/list_tools/list_tools.extension.desktop.in.in:8
 msgid "applications-engineering"
-msgstr "https://gitlab.gnome.org/GNOME/frogr"
+msgstr "applications-engineering"
 
 #: extensions/map_view/gth-map-view.c:128
 msgctxt "Cardinal point"
@@ -4096,7 +4096,7 @@ msgstr "Foto’s importeren vanuit verwijderbare apparaten."
 
 #: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
 msgid "camera-photo"
-msgstr "https://gitlab.gnome.org/GNOME/frogr"
+msgstr "camera-photo"
 
 #: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
 msgid "_Picasa Web Album…"
@@ -4435,7 +4435,7 @@ msgstr "Hulpmiddel voor zoeken van bestanden."
 
 #: extensions/search/search.extension.desktop.in.in:8
 msgid "edit-find"
-msgstr "https://gitlab.gnome.org/GNOME/frogr"
+msgstr "edit-find"
 
 #. Not real actions, used in the shorcut window for documentation.
 #: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
@@ -4487,7 +4487,7 @@ msgstr "Geavanceerde bestandsselectie."
 
 #: extensions/selections/selections.extension.desktop.in.in:8
 msgid "emblem-flag-gray"
-msgstr "https://gitlab.gnome.org/GNOME/frogr"
+msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:40
 msgid "Start presentation"
@@ -4775,14 +4775,14 @@ msgstr "Webalbums"
 msgid "Create static web albums."
 msgstr "Statische webalbums maken."
 
-#: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
 #: gthumb/gth-browser.c:6569 gthumb/gth-browser.c:6588
 #: gthumb/gth-browser.c:6612 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Kon positie ‘%s’ niet laden"
 
-#: gthumb/dlg-location.c:408 gthumb/dlg-location.c:418
+#: gthumb/dlg-location.c:450 gthumb/dlg-location.c:460
 msgid "Open"
 msgstr "Openen"
 
