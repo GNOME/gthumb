@@ -1,3 +1,33 @@
+version 3.10.0
+--------------
+
+ New features and user visible changes:
+
+  * Edit metadata dialogs: moved the lock button on the header bar; show the
+    navigation bar only when the lock button is active.
+  * Open location dialog: allow to use tilde as a home folder shortcut.
+
+ Bugs fixed:
+
+  * Install missing .ui file
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Rafael Fontenelle)
+  * Dutch (Justin van Steijn)
+  * Indonesian (Andika Triwidada)
+  * Italiano (Gianvito Cavasoli)
+  * Japanese (sicklylife)
+  * Polish (Piotr Drąg)
+  * Spanish - Spain (Daniel Mustieles)
+  * Swedish (Anders Jonsson)
+  * Turkish (Emin Tufan Çetin)
+  * Ukrainian (Yuri Chornoivan)
+
+ New or updated manual translations:
+
+  * Dutch (Justin van Steijn)
+
 version 3.9.1
 -------------
 
