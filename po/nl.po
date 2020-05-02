@@ -5842,7 +5842,7 @@ msgstr "_Geschiedenis wissen"
 #~ msgstr "_Over"
 
 #~ msgid "gthumb"
-#~ msgstr "gThumbhttps://gitlab.gnome.org/GNOME/frogr"
+#~ msgstr "gThumb"
 
 #~ msgid "gThumb Photo Import Tool"
 #~ msgstr "gThumb foto-importeerhulpmiddel"
