@@ -183,7 +183,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	unsigned char                 *p_buffer;
 	int                            x;
 	gboolean                       read_all_scanlines = FALSE;
-	gboolean                       finished = FALSE;
+	volatile gboolean                       finished = FALSE;
 
 	image = gth_image_new ();
 	surface = NULL;
@@ -564,58 +564,61 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 	stop_loading:
 
-	if (surface != NULL) {
-		cairo_surface_mark_dirty (surface);
-
-		if (! g_cancellable_is_cancelled (cancellable)) {
-			int original_width;
-			int original_height;
-
-			/* Set the original dimensions */
-
-			if ((orientation == GTH_TRANSFORM_ROTATE_90)
-			     ||	(orientation == GTH_TRANSFORM_ROTATE_270)
-			     ||	(orientation == GTH_TRANSFORM_TRANSPOSE)
-			     ||	(orientation == GTH_TRANSFORM_TRANSVERSE))
-			{
-				original_width = srcinfo.image_height;
-				original_height = srcinfo.image_width;
-			}
-			else {
-				original_width = srcinfo.image_width;
-				original_height = srcinfo.image_height;
-			}
-
-			_cairo_metadata_set_original_size (metadata, original_width, original_height);
-
-			if (original_width_p != NULL)
-				*original_width_p = original_width;
-			if (original_height_p != NULL)
-				*original_height_p = original_height;
-			if (loaded_original_p != NULL)
-				*loaded_original_p = ! load_scaled;
-
-			/*_cairo_image_surface_set_attribute_int (surface, "Image::Rotation", rotation); FIXME*/
-			/* FIXME _cairo_image_surface_set_attribute (surface, "Jpeg::ColorSpace", jpeg_color_space_name (srcinfo.jpeg_color_space)); */
-
-			gth_image_set_cairo_surface (image, surface);
-		}
-		else
-			g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
-
-		cairo_surface_destroy (surface);
-		surface = NULL; /* ignore other jpeg errors */
-	}
-
 	if (! finished) {
 		finished = TRUE;
+
+		if (surface != NULL) {
+			cairo_surface_mark_dirty (surface);
+
+			if (! g_cancellable_is_cancelled (cancellable)) {
+				int original_width;
+				int original_height;
+
+				/* Set the original dimensions */
+
+				if ((orientation == GTH_TRANSFORM_ROTATE_90)
+					 ||	(orientation == GTH_TRANSFORM_ROTATE_270)
+					 ||	(orientation == GTH_TRANSFORM_TRANSPOSE)
+					 ||	(orientation == GTH_TRANSFORM_TRANSVERSE))
+				{
+					original_width = srcinfo.image_height;
+					original_height = srcinfo.image_width;
+				}
+				else {
+					original_width = srcinfo.image_width;
+					original_height = srcinfo.image_height;
+				}
+
+				_cairo_metadata_set_original_size (metadata, original_width, original_height);
+
+				if (original_width_p != NULL)
+					*original_width_p = original_width;
+				if (original_height_p != NULL)
+					*original_height_p = original_height;
+				if (loaded_original_p != NULL)
+					*loaded_original_p = ! load_scaled;
+
+				/*_cairo_image_surface_set_attribute_int (surface, "Image::Rotation", rotation); FIXME*/
+				/* FIXME _cairo_image_surface_set_attribute (surface, "Jpeg::ColorSpace", jpeg_color_space_name (srcinfo.jpeg_color_space)); */
+
+				gth_image_set_cairo_surface (image, surface);
+			}
+			else
+				g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+
+			cairo_surface_destroy (surface);
+			surface = NULL; /* ignore other jpeg errors */
+			
+		}
+
 		if (read_all_scanlines)
 			jpeg_finish_decompress (&srcinfo);
 		else
 			jpeg_abort_decompress (&srcinfo);
 		jpeg_destroy_decompress (&srcinfo);
-		g_free (in_buffer);
 	}
+
+	g_free (in_buffer);
 
 	return image;
 }
