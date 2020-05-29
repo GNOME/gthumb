@@ -826,6 +826,7 @@ playbin_notify_volume_cb (GObject    *playbin,
 static void
 create_playbin (GthMediaViewerPage *self)
 {
+	GstElement *scaletempo;
 	GstElement *video_sink;
 	GstBus     *bus;
 
@@ -833,6 +834,10 @@ create_playbin (GthMediaViewerPage *self)
 		return;
 
 	self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
+
+	scaletempo = gst_element_factory_make ("scaletempo", "");
+	if (scaletempo != NULL)
+		g_object_set (self->priv->playbin, "audio-filter", scaletempo, NULL);
 
 	if (g_settings_get_boolean (self->priv->settings, PREF_GSTREAMER_USE_HARDWARE_ACCEL)) {
 		GstElement *video_bin;
