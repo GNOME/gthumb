@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the gthumb package.
 # Abdul Hamid.A.N <hameed@linuxmail.org>, 2004.
 # Andika Triwidada <andika@gmail.com>, 2010-2014, 2016, 2017, 2020.
-#
+# Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-03-08 13:32+0000\n"
-"PO-Revision-Date: 2020-03-09 13:18+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"POT-Creation-Date: 2020-03-30 09:19+0000\n"
+"PO-Revision-Date: 2020-05-30 18:30+0700\n"
+"Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural= n!=1;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -447,7 +447,7 @@ msgstr "Tambahkan dukungan penanda taut."
 
 #: extensions/bookmarks/data/ui/bookmarks-menu.ui:7
 msgid "_Add Bookmark"
-msgstr "T_ambahkan TandaBatas"
+msgstr "T_ambah Markah"
 
 #: extensions/bookmarks/data/ui/bookmarks-menu.ui:11
 msgid "_Edit Bookmarks…"
@@ -481,7 +481,7 @@ msgstr "_Lokasi"
 
 #: extensions/bookmarks/dlg-bookmarks.c:192
 msgid "Could not remove the bookmark"
-msgstr "Tak dapat menghapus penanda taut"
+msgstr "Tak dapat menghapus markah"
 
 #: extensions/burn_disc/burn_disc.extension.desktop.in.in:3
 msgid "Burn CD/DVD"
@@ -4729,14 +4729,14 @@ msgstr "Album Web"
 msgid "Create static web albums."
 msgstr "Buat album web statik."
 
-#: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
 #: gthumb/gth-browser.c:6569 gthumb/gth-browser.c:6588
 #: gthumb/gth-browser.c:6612 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Tidak dapat memuat posisi \"%s\""
 
-#: gthumb/dlg-location.c:408 gthumb/dlg-location.c:418
+#: gthumb/dlg-location.c:450 gthumb/dlg-location.c:460
 msgid "Open"
 msgstr "Buka"
 
@@ -4998,7 +4998,7 @@ msgid "translator-credits"
 msgstr ""
 "Abdul Hamid.A.N <hameed@linuxmail.org>, 2004.\n"
 "Andika Triwidada <andika@gmail.com>, 2010-2014, 2016, 2017.\n"
-"Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017, 2018, 2019."
+"Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2020."
 
 #: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
 msgid "New Window"
