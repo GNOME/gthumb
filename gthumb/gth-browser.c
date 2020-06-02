@@ -4565,7 +4565,7 @@ gth_browser_init (GthBrowser *browser)
 		gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_VIEWER_OTHER_VIEW,
 						   "view-fullscreen-symbolic",
-						   _("Fullscreen"),
+						   _("Fu_llscreen"),
 						   "win.fullscreen",
 						   NULL);
 
@@ -4583,7 +4583,7 @@ gth_browser_init (GthBrowser *browser)
 		gth_browser_add_header_bar_button (browser,
 						   GTH_BROWSER_HEADER_SECTION_EDITOR_VIEW,
 						   "view-fullscreen-symbolic",
-						   _("Fullscreen"),
+						   _("Fu_llscreen"),
 						   "win.fullscreen",
 						   NULL);
 

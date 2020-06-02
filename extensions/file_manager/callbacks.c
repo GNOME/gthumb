@@ -70,52 +70,52 @@ static const GActionEntry actions[] = {
 
 
 static const GthMenuEntry fixed_menu_entries_edit[] = {
-	{ N_("Cut"), "win.edit-cut" },
-	{ N_("Copy"), "win.edit-copy" },
-	{ N_("Paste"), "win.edit-paste" },
+	{ N_("Cu_t"), "win.edit-cut" },
+	{ N_("_Copy"), "win.edit-copy" },
+	{ N_("_Paste"), "win.edit-paste" },
 };
 
 
 static const GthMenuEntry fixed_menu_entries_file[] = {
-	{ N_("Copy to…"), "win.copy-to-folder" },
-	{ N_("Move to…"), "win.move-to-folder" },
-	{ N_("Rename"), "win.file-list-rename" },
+	{ N_("C_opy to…"), "win.copy-to-folder" },
+	{ N_("Mo_ve to…"), "win.move-to-folder" },
+	{ N_("R_ename"), "win.file-list-rename" },
 };
 
 
 static const GthMenuEntry fixed_menu_entries_delete[] = {
-	{ N_("Move to Trash"), "win.trash" },
-	{ N_("Delete"), "win.delete" },
+	{ N_("Move to Tras_h"), "win.trash" },
+	{ N_("_Delete"), "win.delete" },
 };
 
 static const GthMenuEntry folder_context_open_entries[] = {
-	{ N_("Open with the File Manager"), "win.folder-context-open-with-fm" }
+	{ N_("Open with the File _Manager"), "win.folder-context-open-with-fm" }
 };
 
 
 static const GthMenuEntry folder_context_create_entries[] = {
-	{ N_("Create Folder"), "win.folder-context-create" }
+	{ N_("Create Fo_lder"), "win.folder-context-create" }
 };
 
 
 static const GthMenuEntry folder_context_edit_entries[] = {
-	{ N_("Cut"), "win.folder-context-cut" },
-	{ N_("Copy"), "win.folder-context-copy" },
-	{ N_("Paste Into Folder"), "win.folder-context-paste-into-folder" }
+	{ N_("Cu_t"), "win.folder-context-cut" },
+	{ N_("_Copy"), "win.folder-context-copy" },
+	{ N_("_Paste Into Folder"), "win.folder-context-paste-into-folder" }
 };
 
 
 static const GthMenuEntry folder_context_folder_entries[] = {
-	{ N_("Rename"), "win.folder-context-rename" },
-	{ N_("Copy to…"), "win.folder-context-copy-to" },
-	{ N_("Move to…"), "win.folder-context-move-to" },
-	{ N_("Move to Trash"), "win.folder-context-trash" },
-	{ N_("Delete"), "win.folder-context-delete" }
+	{ N_("R_ename"), "win.folder-context-rename" },
+	{ N_("C_opy to…"), "win.folder-context-copy-to" },
+	{ N_("Mo_ve to…"), "win.folder-context-move-to" },
+	{ N_("Move to Tras_h"), "win.folder-context-trash" },
+	{ N_("_Delete"), "win.folder-context-delete" }
 };
 
 
 static const GthMenuEntry vfs_entries[] = {
-	{ N_("Duplicate"), "win.duplicate" }
+	{ N_("D_uplicate"), "win.duplicate" }
 };
 
 
@@ -1022,7 +1022,7 @@ fm__gth_browser_folder_tree_drag_data_received_cb (GthBrowser    *browser,
 					  message,
 					  NULL,
 					  _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-					  (move_files ? _("Move") : _("_Copy")), GTK_RESPONSE_OK,
+					  (move_files ? _("Mo_ve") : _("C_opy")), GTK_RESPONSE_OK,
 					  NULL);
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
