@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "POT-Creation-Date: 2020-05-30 11:32+0000\n"
-"PO-Revision-Date: 2020-06-16 17:32+0300\n"
+"PO-Revision-Date: 2020-06-17 20:24+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -315,46 +315,48 @@ msgid ""
 "This is a summary of standard date/time codes that may be used in format "
 "strings:"
 msgstr ""
+"Нижче наведено резюме щодо стандартних кодів дати і часу, якими можна"
+" скористатися у рядках форматування:"
 
 #. (itstool) path: table/title
 #: C/strftime.page:14
 msgid "Valid format codes for custom subfolders"
-msgstr ""
+msgstr "Коректні коди форматування для нетипових підтек"
 
 #. (itstool) path: td/p
 #: C/strftime.page:20
 msgid "The abbreviated weekday name according to the current locale."
-msgstr ""
+msgstr "Скорочення дня тижня відповідно до поточної локалі."
 
 #. (itstool) path: td/p
 #: C/strftime.page:29
 msgid "The full weekday name according to the current locale."
-msgstr ""
+msgstr "Повна назва дня тижня відповідно до поточної локалі."
 
 #. (itstool) path: td/p
 #: C/strftime.page:38
 msgid "The abbreviated month name according to the current locale."
-msgstr ""
+msgstr "Скорочення назви місяця відповідно до поточної локалі."
 
 #. (itstool) path: td/p
 #: C/strftime.page:47
 msgid "The full month name according to the current locale."
-msgstr ""
+msgstr "Повна назва місяця відповідно до поточної локалі."
 
 #. (itstool) path: td/p
 #: C/strftime.page:55
 msgid "The preferred date and time representation for the current locale."
-msgstr ""
+msgstr "Бажане представлення дати і часу для поточної локалі."
 
 #. (itstool) path: td/p
 #: C/strftime.page:64
 msgid "The century number (year/100) as a 2-digit integer."
-msgstr ""
+msgstr "Номер сторіччя (рік/100) у двоцифровому форматі."
 
 #. (itstool) path: td/p
 #: C/strftime.page:72
 msgid "The day of the month as a decimal number (range 01 to 31)."
-msgstr ""
+msgstr "День місяця у форматі десяткового числа (від 01 до 31)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:81
@@ -363,6 +365,10 @@ msgid ""
 "that in other countries %d/%m/%y is rather common. This means that in "
 "international context this format is ambiguous and should not be used.)"
 msgstr ""
+"Еквівалент %m/%d/%y. (так — лише для американської англійської. Американцям"
+" слід зауважити, що в інших країнах поширеним є формат запису %d/%m/%y. Це"
+" означає, що у міжнародному контексті цей формат не є однозначним — ним не"
+" слід користуватися.)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:92
@@ -370,16 +376,18 @@ msgid ""
 "Like %d, the day of the month as a decimal number, but a leading zero is "
 "replaced by a space."
 msgstr ""
+"Подібний до %d, день місяця у десятковому форматі, але початковий нуль"
+" замінюється пробілом."
 
 #. (itstool) path: td/p
 #: C/strftime.page:101 C/strftime.page:210
 msgid "Modifier: use alternative format, see below."
-msgstr ""
+msgstr "Модифікатор: використовувати альтернативний формат, див. нижче."
 
 #. (itstool) path: td/p
 #: C/strftime.page:109
 msgid "Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)"
-msgstr ""
+msgstr "Еквівалент %Y-%m-%d (формат дати ISO 8601). (C99)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:118
@@ -389,11 +397,15 @@ msgid ""
 "value as %y, except that if the ISO week number belongs to the previous or "
 "next year, that year is used instead."
 msgstr ""
+"Рік у форматі ISO 8601 із сторіччям у форматі десяткового числа."
+" Чотирицифровий рік, що відповідає номеру тижня ISO (див. %V). Має той самий"
+" формат та значення, що і %y, за винятком випадків, коли номер тижня ISO"
+" належить попередньому або наступному року; тоді використовується цей рік."
 
 #. (itstool) path: td/p
 #: C/strftime.page:130
 msgid "Like %G, but without century, i.e., with a 2-digit year (00-99)."
-msgstr ""
+msgstr "Подібний до %G, але без сторіччя, тобто із двоцифровим роком (00-99)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:139
@@ -404,16 +416,20 @@ msgstr "Еквівалент %b."
 #: C/strftime.page:147
 msgid "The hour as a decimal number using a 24-hour clock (range 00 to 23)."
 msgstr ""
+"Години у форматі десяткового числа з використанням 24-годинного запису"
+" (діапазон від 00 до 23)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:156
 msgid "The hour as a decimal number using a 12-hour clock (range 01 to 12)."
 msgstr ""
+"Години у форматі десяткового числа з використанням 12-годинного запису"
+" (діапазон від 01 до 12)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:165
 msgid "The day of the year as a decimal number (range 001 to 366)."
-msgstr ""
+msgstr "День року у форматі десяткового числа (від 001 до 366)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:174
@@ -421,6 +437,8 @@ msgid ""
 "The hour (24-hour clock) as a decimal number (range 0 to 23); single digits "
 "are preceded by a blank. (See also %H.)"
 msgstr ""
+"Години (у 24-годинному форматі) як десяткове число (у діапазоні від 0 до 23);"
+" одноцифрові значення доповнюються пробілами. (див. також %H.)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:184
@@ -428,16 +446,18 @@ msgid ""
 "The hour (12-hour clock) as a decimal number (range 1 to 12); single digits "
 "are preceded by a blank. (See also %I.)"
 msgstr ""
+"Години (у 12-годинному форматі) як десяткове число (у діапазоні від 1 до 12);"
+" одноцифрові значення доповнюються пробілами. (див. також %H.)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:194
 msgid "The month as a decimal number (range 01 to 12)."
-msgstr ""
+msgstr "Місяць у десятковому форматі (діапазон від 01 до 12)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:202
 msgid "The minute as a decimal number (range 00 to 59)."
-msgstr ""
+msgstr "Хвилини у форматі десяткового числа (діапазон від 00 до 59)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:218
@@ -445,6 +465,8 @@ msgid ""
 "Either 'AM' or 'PM' according to the given time value, or the corresponding "
 "strings for the current locale. Noon is treated as 'pm' and midnight as 'am'."
 msgstr ""
+"«AM» або «PM» відповідно до вказаного значення часу або відповідні рядки для"
+" поточної локалі. Південь вважається «pm», а північ — «am»."
 
 #. (itstool) path: td/p
 #: C/strftime.page:228
@@ -452,6 +474,8 @@ msgid ""
 "Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the "
 "current locale."
 msgstr ""
+"Подібне до %p, але літерами нижнього регістру: «am» або «pm», або відповідний"
+" рядок для поточної локалі."
 
 #. (itstool) path: td/p
 #: C/strftime.page:237
@@ -459,6 +483,7 @@ msgid ""
 "The time in a.m. or p.m. notation. In the POSIX locale this is equivalent to "
 "'%I:%M:%S %p'."
 msgstr ""
+"Час у позначеннях з a.m. або p.m.. У локалі POSIX це еквівалент «%I:%M:%S %p»."
 
 #. (itstool) path: td/p
 #: C/strftime.page:246
@@ -466,12 +491,14 @@ msgid ""
 "The time in 24-hour notation (%H:%M). For a version including the seconds, "
 "see %T below."
 msgstr ""
+"Час у 24-годинній формі запису (%H:%M). Якщо потрібна версія із секундами,"
+" див. %T нижче."
 
 #. (itstool) path: td/p
 #: C/strftime.page:255
 msgid ""
 "The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC."
-msgstr ""
+msgstr "Кількість секунд від початку епохи, тобто від 1970-01-01 00:00:00 UTC."
 
 #. (itstool) path: td/p
 #: C/strftime.page:264
@@ -479,6 +506,9 @@ msgid ""
 "The second as a decimal number (range 00 to 60). (The range is up to 60 to "
 "allow for occasional leap seconds.)"
 msgstr ""
+"Секунди у форматі десяткового числа (діапазон від 00 до 60). (Діапазон до 60,"
+" щоб уможливити додавання секунд, яке іноді виконується для вирівнювання"
+" часу.)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:274
@@ -491,6 +521,8 @@ msgid ""
 "The day of the week as a decimal number, range 1 to 7, Monday being 1. See "
 "also %w."
 msgstr ""
+"День тижня у форматі десяткового числа у діапазоні від 1 до 7, понеділок — 1."
+" Див. також %w."
 
 #. (itstool) path: td/p
 #: C/strftime.page:291
@@ -499,6 +531,8 @@ msgid ""
 "starting with the first Sunday as the first day of week 01. See also %V and "
 "%W."
 msgstr ""
+"Номер тижня поточного року у форматі десяткового числа у діапазоні від 00 до"
+" 53, починаючи з першої неділі як першого дня тижня 01. Див. також %V і %W."
 
 #. (itstool) path: td/p
 #: C/strftime.page:301
@@ -508,12 +542,18 @@ msgid ""
 "current year, and with Monday as the first day of the week. See also %U and "
 "%W."
 msgstr ""
+"Номер тижня поточного року за стандартом ISO 8601:1988 у форматі десяткового"
+" числа у діапазоні від 01 до 53, де тиждень 1 є першим тижнем, у якому"
+" принаймні 4 поточного року, а першим днем цього тижня є понеділок. Див."
+" також %U і %W."
 
 #. (itstool) path: td/p
 #: C/strftime.page:313
 msgid ""
 "The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u."
 msgstr ""
+"День тижня у форматі десяткового числа, у діапазоні від 0 до 6, неділя — 0."
+" Див. також %u."
 
 #. (itstool) path: td/p
 #: C/strftime.page:322
@@ -521,28 +561,31 @@ msgid ""
 "The week number of the current year as a decimal number, range 00 to 53, "
 "starting with the first Monday as the first day of week 01."
 msgstr ""
+"Номер тижня поточного року у форматі десяткового числа у діапазоні від 00 до"
+" 53, починаючи з першого понеділка як першого дня тижня 01."
 
 #. (itstool) path: td/p
 #: C/strftime.page:332
 msgid ""
 "The preferred date representation for the current locale without the time."
-msgstr ""
+msgstr "Бажане представлення дати для поточної локалі без часу."
 
 #. (itstool) path: td/p
 #: C/strftime.page:341
 msgid ""
 "The preferred time representation for the current locale without the date."
-msgstr ""
+msgstr "Бажане представлення часу для поточної локалі без дати."
 
 #. (itstool) path: td/p
 #: C/strftime.page:350
 msgid "The year as a decimal number without a century (range 00 to 99)."
 msgstr ""
+"Рік у форматі десяткового числа без сторіччя (у діапазоні від 00 до 99)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:359
 msgid "The year as a decimal number including the century."
-msgstr ""
+msgstr "Рік у форматі десяткового числа разом із сторіччям."
 
 #. (itstool) path: td/p
 #: C/strftime.page:367
@@ -550,6 +593,9 @@ msgid ""
 "The time-zone as hour offset from GMT. Required to emit RFC 822-conformant "
 "dates (using \"%a, %d %b %Y %H:%M:%S %z\")."
 msgstr ""
+"Часовий пояс у форматі зсуву за годинами від часу за Гринвічем. Потрібен для"
+" створення сумісних із RFC 822 записів дат (з використанням «%a, %d %b %Y %H:"
+"%M:%S %z»)."
 
 #. (itstool) path: td/p
 #: C/strftime.page:377
@@ -569,6 +615,16 @@ msgid ""
 "numeric symbols (say, roman numerals), and that of the E modifier is to use "
 "a locale-dependent alternative representation."
 msgstr ""
+"Деякі специфікації перетворення можна змінити дописуванням до"
+" символу-специфікатора перетворення модифікатора E або O для позначення"
+" використання альтернативного формату. Якщо альтернативного формату або"
+" специфікації для поточної локалі не існує, поведінка буде такою самою, якою"
+" була б, якби було використано немодифіковану специфікацію перетворення. У"
+" «Єдиній специфікації Unix» згадано %Ec, %EC, %Ex, %EX, %Ey, %EY, %Od, %Oe, "
+"%OH, %OI, %Om, %OM, %OS, %Ou, %OU, "
+"%OV, %Ow, %OW, %Oy, де використання модифікатора O спричиняє використання"
+" альтернативних числових символів (наприклад, римських чисел), а використання"
+" модифікатора E — до залежного від локалі альтернативного представлення."
 
 #. (itstool) path: page/title
 #: C/introduction.page:6
@@ -582,6 +638,11 @@ msgid ""
 "environment. It lets you browse your hard disk, showing you thumbnails of "
 "image files and view single images of many different formats."
 msgstr ""
+"<app>gThumb</app> — програма для перегляду зображень та навігації каталогом"
+" зображень, яку написано для середовища GNOME. За її допомогою ви можете"
+" здійснювати навігацію дисками системи — програма показуватиме вам мініатюри"
+" файлів зображень та надаватиме змогу переглядати окремі зображення у"
+" багатьох різних форматах."
 
 #. (itstool) path: page/p
 #: C/introduction.page:13
@@ -591,6 +652,10 @@ msgid ""
 "image types if the supporting libraries are installed, including TGA, ICO, "
 "BMP, XPM, and others."
 msgstr ""
+"У <app>gThumb</app> передбачено підтримку більшості типових форматів"
+" графічних даних, зокрема JPEG, GIF, TIF та PNG. Крім того, <app>gThumb</app>"
+" може показувати інші менш поширені типи зображень, якщо встановлено"
+" відповідні бібліотеки. Серед цих форматів TGA, ICO, BMP, XPM та інші."
 
 #. (itstool) path: page/p
 #: C/introduction.page:18
@@ -598,6 +663,8 @@ msgid ""
 "Some support for RAW image types is included, especially if the dcraw "
 "program is installed on your system."
 msgstr ""
+"У програмі передбачено часткову підтримку зображень цифрових негативів (RAW)."
+" Підтримку можна розширити встановленням до системи програми dcraw."
 
 #. (itstool) path: page/p
 #: C/introduction.page:21
@@ -606,6 +673,11 @@ msgid ""
 "features such as adding comments to images, organizing images into catalogs, "
 "printing images, slideshows, setting your desktop background, and more."
 msgstr ""
+"<app>gThumb</app> надає вам змогу не лише переглядати зображення, а і"
+" виконувати багато інших дій, зокрема додавати до зображень коментарі,"
+" упорядковувати зображення за каталогами, друкувати зображення, створювати"
+" покази слайдів, використовувати зображення як фонове зображення стільниці"
+" тощо."
 
 #. (itstool) path: page/p
 #: C/introduction.page:26
@@ -613,6 +685,9 @@ msgid ""
 "<app>gThumb</app> includes a tool to import photos from attached cameras and "
 "memory card readers."
 msgstr ""
+"До складу <app>gThumb</app> включено інструмент для імпортування фотографій"
+" зі з'єднаних із комп'ютером фотоапаратів, мобільних телефонів та зчитувачів"
+" карток пам'яті."
 
 #. (itstool) path: page/p
 #: C/introduction.page:29
@@ -620,6 +695,8 @@ msgid ""
 "<app>gThumb</app> can read EXIF, XMP, and IPTC metadata that is commonly "
 "embedded in files."
 msgstr ""
+"<app>gThumb</app> може читати метадані у форматах EXIF, XMP і IPTC, які"
+" типово вбудовуються до файлів."
 
 #. (itstool) path: page/p
 #: C/introduction.page:32
@@ -627,6 +704,9 @@ msgid ""
 "<app>gThumb</app> provides a systems of extensions (or plug-ins), to allow "
 "users to extend the functionality of <app>gThumb</app>."
 msgstr ""
+"У <app>gThumb</app> передбачено систему розширень (або додатків), за"
+" допомогою яких користувачі можуть розширювати функціональні можливості <app"
+">gThumb</app>."
 
 #. (itstool) path: page/p
 #: C/introduction.page:34
@@ -635,6 +715,9 @@ msgid ""
 "generally, is available at <link href=\"https://wiki.gnome.org/Apps/gthumb"
 "\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgstr ""
+"Докладніші відомості щодо цих розширень та щодо <app>gThumb</app> загалом"
+" можна знайти на сторінці <link href=\"https://wiki.gnome.org/Apps/gthumb"
+"\">https://wiki.gnome.org/Apps/gthumb</link>."
 
 #. (itstool) path: page/title
 #: C/browser.page:6
@@ -644,7 +727,7 @@ msgstr "Навігація файлами"
 #. (itstool) path: page/p
 #: C/browser.page:8
 msgid "When you start <app>gThumb</app> the following window is displayed:"
-msgstr ""
+msgstr "Після запуску <app>gThumb</app> має з'явитися таке вікно:"
 
 #. (itstool) path: figure/title
 #: C/browser.page:11
@@ -679,6 +762,8 @@ msgid ""
 "The menus on the menubar contain all of the commands that you can use in "
 "<app>gThumb</app>"
 msgstr ""
+"Меню на панелі меню містять усі команди, якими можна скористатися у <app"
+">gThumb</app>"
 
 #. (itstool) path: item/title
 #: C/browser.page:25
@@ -692,6 +777,9 @@ msgid ""
 "menubar. In particular, the Tools button contains functions for batch "
 "processing multiple images."
 msgstr ""
+"Панель інструментів містить частину команд, до яких ви маєте доступ з "
+"головного меню. Зокрема, кнопка «Сервіс» відкриває список функціональних"
+" можливостей для пакетної обробки серій зображень."
 
 #. (itstool) path: item/title
 #: C/browser.page:31
@@ -701,7 +789,7 @@ msgstr "Панель адреси"
 #. (itstool) path: item/p
 #: C/browser.page:32
 msgid "The locationbar contains the current folder or catalog name."
-msgstr ""
+msgstr "На панелі адреси буде показано назву поточної теки або каталогу."
 
 #. (itstool) path: item/title
 #: C/browser.page:36
@@ -716,6 +804,10 @@ msgid ""
 "or clicking the expander arrow, will also list folder's subfolders in the "
 "tree."
 msgstr ""
+"За допомогою панелі ієрархії тек ви зможете подорожувати файловою системою. У"
+" відповідь на одинарне клацання на теці програма завантажить усі зображення з"
+" теки на панель навігації. Подвійне клацання на пункті теки або клацання на"
+" стрілці розгортання відкриє список підтек теки на панелі ієрархії тек."
 
 #. (itstool) path: item/title
 #: C/browser.page:44
@@ -730,6 +822,11 @@ msgid ""
 "clicking an image will open it in the viewer mode. Double-clicking with the "
 "middle mouse button will load the image in fullscreen viewer mode."
 msgstr ""
+"На панелі навігації буде показано зображення у поточній теці або каталозі."
+" Одинарним клацанням на зображенні можна увімкнути інформаційну бічну панель"
+" зображення. Подвійне клацання на зображенні відкриває його у режимі"
+" перегляду. Подвійним клацанням середньою кнопкою миші можна завантажити"
+" зображення у режимі повноекранного перегляду."
 
 #. (itstool) path: item/title
 #: C/browser.page:52
@@ -742,6 +839,8 @@ msgid ""
 "The Organize button, just above the browser view, allows you to group images "
 "into catalogs."
 msgstr ""
+"За допомогою кнопки «Впорядкування», яку розташовано одразу над панеллю"
+" навігації, ви зможете групувати зображення у каталоги."
 
 #. (itstool) path: item/title
 #: C/browser.page:57
@@ -784,6 +883,9 @@ msgid ""
 "tree) will display detailed information (such as EXIF or XMP tags) about the "
 "selected image."
 msgstr ""
+"Якщо позначено одне зображення, на інформаційній бічній панелі (під ієрархією"
+" тек) буде показано докладні дані (зокрема вміст міток EXIF або XMP) щодо"
+" позначеного зображення."
 
 #. (itstool) path: item/title
 #: C/browser.page:79
@@ -798,6 +900,10 @@ msgid ""
 "limited to files of a certain size, date, or name pattern, or other "
 "characteristics."
 msgstr ""
+"Одразу під панеллю навігації розташовано панель фільтрування зображень. Нею"
+" можна скористатися для фільтрування списку показаних зображень. Наприклад,"
+" список зображень на панелі навігації можна обмежити файлами певного розміру,"
+" дати або взірця назв чи інших характеристик."
 
 #. (itstool) path: page/title
 #: C/batch-rotate.page:6
@@ -813,11 +919,19 @@ msgid ""
 "<guiseq><gui>Tools</gui><gui>Rotate Left</gui></guiseq>. The images will be "
 "rotated."
 msgstr ""
+"Щоб обернути одне або декілька зображень, позначте ці зображення на панелі"
+" навігації. Далі, натисніть кнопку <gui>Сервіс</gui> на головній панелі"
+" інструментів і виберіть або пункт "
+"<guiseq><gui>Сервіс</gui><gui>Обернути праворуч</gui></guiseq>, або пункт <"
+"guiseq><gui>Сервіс</gui><gui>Обернути ліворуч</gui></guiseq>. У відповідь"
+" зображення буде повернуто відповідним чином."
 
 #. (itstool) path: page/p
 #: C/batch-rotate.page:14
 msgid "Lossless rotation is used for jpeg images, when possible."
 msgstr ""
+"Для зображень jpeg використовується обертання без втрати якості, якщо це"
+" можливо."
 
 #. (itstool) path: page/title
 #: C/batch-convert-format.page:6
@@ -832,6 +946,10 @@ msgid ""
 "toolbar, and select <guiseq><gui>Tools</gui><gui>Convert Format</gui></"
 "guiseq>."
 msgstr ""
+"Щоб перетворити одне або декілька зображень у інший формат, позначте ці"
+" зображення на панелі навігації. Далі, натисніть кнопку <gui>Сервіс</gui> на"
+" головній панелі інструментів і виберіть пункт <guiseq><gui>Сервіс</gui><gui"
+">Перетворити формат</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/batch-convert-format.page:12
@@ -839,6 +957,8 @@ msgid ""
 "Select the desired output format and destination folder. Click <gui>Execute</"
 "gui> to complete the process."
 msgstr ""
+"Виберіть бажаний формат результату та теку призначення. Натисніть кнопку <gui"
+">Виконати</gui>, щоб завершити процедуру."
 
 #. (itstool) path: page/title
 #: C/batch-resize.page:6
@@ -853,6 +973,11 @@ msgid ""
 "button on the main toolbar, and select <guiseq><gui>Tools</gui><gui>Resize "
 "Images</gui></guiseq>."
 msgstr ""
+"Щоб змінити розміри одного або декількох зображення до однакових або з певним"
+" коефіцієнтом відносно початкового розміру, позначте ці зображення на панелі"
+" навігації. Далі, натисніть кнопку <gui>Сервіс</gui> на головній панелі"
+" інструментів і виберіть пункт <guiseq><gui>Сервіс</gui><gui>Змінити розмір"
+" зображень</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/batch-resize.page:12
@@ -861,6 +986,9 @@ msgid ""
 "scaling, and the destination folder. Click <gui>Execute</gui> to complete "
 "the process."
 msgstr ""
+"Потім виберіть бажані максимальні розміри результатів або бажаний коефіцієнт"
+" масштабування та теку призначення. Натисніть кнопку <gui>Виконати</gui>, щоб"
+" завершити процедуру."
 
 #. (itstool) path: page/title
 #: C/batch-change-date.page:6
@@ -875,6 +1003,11 @@ msgid ""
 "view. Then click the <gui>Tools</gui> button on the main toolbar, and select "
 "<guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>."
 msgstr ""
+"Щоб змінити записи часу внесення змін до файла, дати у коментарях або мітки"
+" Exif DateTimeOriginal декількох файлів, позначте ці файли на панелі"
+" навігації. Потім натисніть кнопку <gui>Сервіс</gui> на головній панелі"
+" інструментів і виберіть пункт <guiseq><gui>Сервіс</gui><gui>Змінити дату<"
+"/gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/batch-change-date.page:13
@@ -882,6 +1015,8 @@ msgid ""
 "Select the desired date options, and click <gui>Execute</gui> to complete "
 "the process."
 msgstr ""
+"Виберіть бажані параметри дати і натисніть кнопку <gui>Виконати</gui>, щоб"
+" завершити процедуру."
 
 #. (itstool) path: page/title
 #: C/batch-scripts.page:6
@@ -895,6 +1030,10 @@ msgid ""
 "execute on your files), click the <gui>Tools</gui> button on the main "
 "toolbar, and select <guiseq><gui>Tools</gui><gui>Personalize</gui></guiseq>."
 msgstr ""
+"Щоб визначити скрипт (послідовність команд, які <app>gThumb</app> має"
+" виконати над вашими файлами), натисніть кнопку <gui>Сервіс</gui> на головній"
+" панелі інструментів і виберіть пункт <guiseq><gui>Сервіс</gui><gui"
+">Персоналізувати</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/batch-scripts.page:12
@@ -913,6 +1052,9 @@ msgid ""
 "the selected folder. Generic icons for other files (audio files, for "
 "instance) may also be shown."
 msgstr ""
+"У вікні навігатора зазвичай буде показано мініатюри зображень та відео у"
+" позначеній теці. Також може бути показати загальні піктограми для файлів"
+" інших типів (наприклад, файлів звукових даних)."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:12
@@ -922,6 +1064,11 @@ msgid ""
 "show all media files (images, movies, audio), but this can be made more or "
 "less restrictive."
 msgstr ""
+"Ви можете вказати програмі, файли яких типів має бути показано на панелі"
+" навігації, за допомогою діалогового вікна <guiseq><gui>Перегляд</gui><gui"
+">Фільтр</gui> </guiseq>. Типово буде показано усі файли мультимедійних даних"
+" (зображення, відео, звук), але обмеження можна зробити жорсткішими чи"
+" м'якшими."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:18
@@ -942,6 +1089,14 @@ msgid ""
 "that the aspect ratio of the thumbnail is similar to that of the main image, "
 "and ignore thumbnails that do not appear to match the main image."
 msgstr ""
+"Якщо кешованої мініатюри знайдено не буде, а у файлі зображення міститиметься"
+" вбудована мініатюра (такі мініатюри зазвичай містяться у файлах jpeg, які"
+" створено цифровими камерами), "
+"<app>gThumb</app> спробує скористатися цією мініатюрою. <app>gThumb</app>"
+" визначить, чи є співвідношення сторін зображення рівним співвідношенню"
+" довжин сторін мініатюри, і не використовуватиме мініатюри, співвідношення"
+" довжин сторін яких є відмінним від співвідношення довжин сторін початкового"
+" зображення."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:29
@@ -949,6 +1104,9 @@ msgid ""
 "If that doesn't work, <app>gThumb</app> will attempt to load the entire file "
 "and generate a scaled-down thumbnail."
 msgstr ""
+"Якщо жоден із описаних вище варіантів не реалізується, <app>gThumb</app>"
+" спробує завантажити увесь файл зображення і створити на його основі зменшену"
+" мініатюру."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:32
@@ -958,6 +1116,11 @@ msgid ""
 "<app>mplayer</app> or <app>totem</app> or other movie viewers to generate "
 "movie thumbnails."
 msgstr ""
+"Нарешті, <app>gThumb</app> використає будь-які визначені у системі скрипти"
+" для створення мініатюр для мультимедійних даних певного типу. Наприклад, у"
+" деяких системах може бути використано <app>mplayer</app>, <app>totem</app>"
+" або інші програми для перегляду відео для створення мініатюр для файлів"
+" відео."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:37
@@ -971,6 +1134,15 @@ msgid ""
 "applications (like <app>F-Spot</app>) may automatically increase these "
 "settings greatly."
 msgstr ""
+"<app>gThumb</app> зберігатиме мініатюри до загальносистемного кешу, щоб ними"
+" могли скористатися інші програми. Типово, у системах з GNOME усі дані, вік"
+" яких перевищує 180 днів, вилучаються з кешу мініатюр. Також вилучаються"
+" дані, якщо розмір кешу перевищує 512 МБ. Технічно грамотні користувачі"
+" можуть змінити значення відповідних параметрів за допомогою <app"
+">dconf-editor</app>. Зокрема, слід звернути увагу на ключі"
+" org.gnome.desktop.thumbnail_cache.maximum_age та"
+" org.gnome.desktop.thumbnail_cache.maximum_size. Певні програми (зокрема <app"
+">F-Spot</app>) можуть автоматично значно збільшувати значення цих параметрів."
 
 #. (itstool) path: page/title
 #: C/thumbnail-pane.page:6
@@ -986,6 +1158,10 @@ msgid ""
 "<guiseq><gui>View</gui><gui>Thumbnail Pane</gui></guiseq> command, or by "
 "pressing <key>F8</key>."
 msgstr ""
+"При відкритті зображення у <app>gThumb</app> користувач може увімкнути або"
+" вимкнути панель мініатюр, на якій буде показано інші зображення у теці як"
+" мініатюри. Зробити це можна за допомогою пункту меню <guiseq><gui>Перегляд<"
+"/gui><gui>Панель мініатюр</gui></guiseq> або натискання клавіші <key>F8</key>."
 
 #. (itstool) path: page/p
 #: C/thumbnail-pane.page:14
@@ -995,6 +1171,12 @@ msgid ""
 "gui><gui>Preferences</gui><gui>General</gui><gui>Thumbnails in Viewer</gui></"
 "guiseq>."
 msgstr ""
+"Панель мініатюр може бути розташовано уздовж нижньої частини основного"
+" зображення або збоку від нього. Розташування панелі можна визначити за"
+" допомогою пункту <guiseq><gui>Зміни</"
+"gui><gui>Параметри</gui><gui>Загальне</gui><gui>Мініатюри на панелі"
+" перегляду</gui></"
+"guiseq>."
 
 #. (itstool) path: figure/title
 #: C/thumbnail-pane.page:19
@@ -1027,6 +1209,10 @@ msgid ""
 "browser and choose <guiseq><gui>Edit</gui><gui>Rename</gui></guiseq>, or "
 "press <key>F2</key>."
 msgstr ""
+"Щоб перейменувати одне або декілька зображень на основі шаблону назви,"
+" позначте відповідні файли на панелі навігації і виберіть пункт меню <guiseq"
+"><gui>Зміни</gui><gui>Перейменувати</gui></guiseq> або натисніть клавішу <key"
+">F2</key>."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:15
@@ -1036,6 +1222,10 @@ msgid ""
 "differ each other (this is essential if you are renaming more than one "
 "image, and optional if you are renaming a single image):"
 msgstr ""
+"Шаблон назви — простий взірець, яким можна скористатися для перейменовування"
+" усіх позначених зображень. Ви можете скористатися спеціальними символами для"
+" встановлення різниці між назвами (це суттєво, якщо ви перейменовуєте"
+" декілька зображень, і несуттєво, якщо ви перейменовуєте одне зображення):"
 
 #. (itstool) path: td/p
 #: C/rename-series.page:24
@@ -1061,6 +1251,11 @@ msgid ""
 "number of digits, for example ### will produce the sequence: 001, 002, 003, "
 "etc.."
 msgstr ""
+"Цей символ буде замінено значенням лічильника, який збільшуватиметься на 1"
+" при переході до наступного зображення. Якщо ви вкажете цей символ у"
+" послідовності, ви отримаєте початкові нулі, якщо значення лічильника є"
+" меншим за кількість цифр, наприклад, ### дасть таку послідовність: 001, 002,"
+" 003 тощо."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:47
@@ -1101,6 +1296,11 @@ msgid ""
 "(for example, IMG_123_456.JPG) only the first number will be used (\"123\" "
 "in this example)."
 msgstr ""
+"Цей символ буде замінено числовою частиною початкової назви зображення."
+" Наприклад, якщо початкова назва файла була «IMG_9876.JPG», програма видобуде"
+" частину «9876». Якщо у назві файла декілька груп цифр (наприклад,"
+" «IMG_123_456.JPG»), буде використано лише перше число («123» у нашому"
+" прикладі)."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:84
@@ -1150,6 +1350,8 @@ msgid ""
 "A summary of these special codes may be viewed by clicking on the Help icon "
 "inside the template field."
 msgstr ""
+"Резюме щодо цих спеціальних кодів можна переглянути після натискання"
+" піктограми «Довідка» у полі шаблона."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:130
@@ -1188,6 +1390,10 @@ msgid ""
 "access the editing tools, open an image and then click the <gui>Edit File</"
 "gui> toolbar button (the palette icon)."
 msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> "
+"Щоб отримати доступ до засобів редагування, відкрийте зображення і натисніть"
+" кнопку <gui>Редагувати файл</"
+"gui> на панелі інструментів (піктограма із палітрою)."
 
 #. (itstool) path: page/p
 #: C/edit-save-undo-redo.page:12
@@ -1234,6 +1440,8 @@ msgid ""
 "This tool provides automatic white balance correction. No user adjustments "
 "are required."
 msgstr ""
+"За допомогою цього інструмента можна автоматично виправляти баланс білого"
+" кольору. Потреби у коригуванні з боку користувача немає."
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:22
