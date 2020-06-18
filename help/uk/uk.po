@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "POT-Creation-Date: 2020-05-30 11:32+0000\n"
-"PO-Revision-Date: 2020-06-17 20:24+0300\n"
+"PO-Revision-Date: 2020-06-18 13:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -1315,6 +1315,10 @@ msgid ""
 "formatting code in curly braces. For example, \"%M{%Y-%m-%d, %T}\" would be "
 "replaced with a date and time like \"2010-04-01, 15:02:01\"."
 msgstr ""
+"Цей символ буде замінено на дату внесення змін до файла. Форматування запису"
+" дати (і, якщо потрібно, часу) можна вказати за допомогою додавання"
+" стандартного коду форматування у фігурних дужках. Наприклад, «%M{%Y-%m-%d, "
+"%T}» буде замінено на дату і час ось так: «2010-04-01, 15:02:01»\"."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:98
@@ -1330,6 +1334,11 @@ msgid ""
 "a standard formatting code in curly braces. For example, \"%D{%Y-%m-%d, "
 "%T}\" would be replaced with a date and time like \"2010-04-01, 15:02:01\"."
 msgstr ""
+"Цей символ буде замінено датою, коли було знято фотографію (зазвичай,"
+" визначається за часовими позначками EXIF, які вбудовано до фотографії)."
+" Форматування запису дати (і, можливо, часу) можна вказати за допомогою"
+" додавання стандартного коду форматування у фігурних дужках. Наприклад, «%D{"
+"%Y-%m-%d, %T}» буде замінено на дату і час, наприклад «2010-04-01, 15:02:01»."
 
 #. (itstool) path: td/p
 #: C/rename-series.page:114
@@ -1343,6 +1352,8 @@ msgid ""
 "identifier. For example, \"%A{ general::dimensions }\" would be replaced "
 "with a size like \"320 x 240\"."
 msgstr ""
+"Цей символ буде замінено даними, які було вказано ідентифікатором. Наприклад,"
+" «%A{ general::dimensions }» буде замінено розміром, наприклад «320 x 240»."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:127
@@ -1376,6 +1387,10 @@ msgid ""
 "not overwrite the image; always overwrite; never overwrite; specify a new "
 "name."
 msgstr ""
+"Якщо перейменування зображення може призвести до перезапису вже наявного"
+" файла зображення, програма спитає вас, чи слід його виконати. Доступно п'ять"
+" варіантів дій: перезаписати зображення; не перезаписувати зображення; завжди"
+" перезаписувати; ніколи не перезаписувати; вказати нову назву."
 
 #. (itstool) path: page/title
 #: C/edit-save-undo-redo.page:6
@@ -1402,6 +1417,9 @@ msgid ""
 "and <gui>Redo</gui> buttons are provided, and may be used up until the file "
 "is saved."
 msgstr ""
+"До зображення може бути внесено декілька змін до його збереження. Передбачено"
+" кнопки <gui>Вернути</gui> і <gui>Повторити</gui>, якими можна скористатися"
+" до того, як файл буде збережено."
 
 #. (itstool) path: page/p
 #: C/edit-save-undo-redo.page:16
@@ -1410,6 +1428,9 @@ msgid ""
 "modified image to a new location instead, leaving the original image "
 "unchanged, use <gui>Save As</gui>."
 msgstr ""
+"Змінене зображення може бути збережено натисканням кнопки <gui>Зберегти</gui"
+">. Щоб зберегти змінене зображення до іншого файла або каталогу, без внесення"
+" змін до початкового зображення, скористайтеся кнопкою <gui>Зберегти як</gui>."
 
 #. (itstool) path: page/p
 #: C/edit-save-undo-redo.page:20
@@ -1418,6 +1439,10 @@ msgid ""
 "the Folders</gui> toolbar button), or navigate away from the current image, "
 "you will be prompted to save or discard your changes."
 msgstr ""
+"Якщо ви вийдете з режиму редагування (натисканням клавіші <key>Esc</key> або"
+" кнопки <gui>Переглянути теки</gui> на панелі інструментів) або перейдете з"
+" поточного зображення до іншого, програма спитає вас про подальші дії —"
+" зберегти чи відкинути внесені вами зміни."
 
 #. (itstool) path: page/title
 #: C/edit-colors.page:6
@@ -1455,6 +1480,9 @@ msgid ""
 "brightness, contrast, saturation, and the cyan/red, magenta/green, and "
 "yellow/blue color balances may be made."
 msgstr ""
+"За допомогою цього інструмента можна коригувати колір вручну. Можна вносити"
+" коригування гамми, яскравості, контрастності, насиченості та балансу"
+" блакитного/червоного, малинового/зеленого і жовтого/синього кольорів."
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:29
@@ -1467,6 +1495,8 @@ msgid ""
 "This tool provides automatic histogram equalization. No user adjustments are "
 "required."
 msgstr ""
+"За допомогою цього інструмента можна автоматично виправляти вирівнювання"
+" гістограми. Потреби у коригуванні з боку користувача немає."
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:34
@@ -1479,6 +1509,8 @@ msgid ""
 "This tool converts the image colors into shades of grey. (This does not "
 "change this image storage format.)"
 msgstr ""
+"Цей інструмент перетворює кольори зображення у відтінки сірого. (Це не змінює"
+" формат зберігання зображення.)"
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:39
@@ -1559,6 +1591,12 @@ msgid ""
 "encoded and saved. However, <app>gThumb</app> does provide lossless rotation "
 "tools. See <link xref=\"gthumb-batch-rotate\"/>."
 msgstr ""
+"Обертання у режимі редагування працює із зображенням у пам'яті. Це не"
+" безпосередні дії з файлом. Для зображень jpeg це означає, що виконуються дії"
+" без втрати якості, — якість зображення дещо погіршиться під час повторного"
+" кодування та зберігання. Втім, у <app>gThumb</app> передбачено засоби для"
+" обертання зображення без втрати якості. Див. <link"
+" xref=\"gthumb-batch-rotate\"/>."
 
 #. (itstool) path: page/title
 #: C/edit-resize-crop.page:6
@@ -1582,6 +1620,10 @@ msgid ""
 "physical size, or to a certain percentage of the original size. The aspect "
 "ratio may be locked to a specific value, or freely adjusted."
 msgstr ""
+"За допомогою цього інструмента ви можете змінити розміри зображення."
+" Зображення може бути масштабовано до певного фізичного розміру або до"
+" певного відсотку від початкового розміру. Співвідношення розмірів зображення"
+" можна зафіксувати або вказати довільним чином."
 
 #. (itstool) path: item/title
 #: C/edit-resize-crop.page:22
@@ -1596,6 +1638,11 @@ msgid ""
 "may be freely adjusted. A rule-of-thirds grid or golden-sections grid may be "
 "superimposed over the image for composition guidance."
 msgstr ""
+"За допомогою цього інструмента можна обрізати зображення. Натисніть ліву"
+" кнопку миші і перетягніть вказівник, щоб позначити бажану область"
+" зображення. Область можна зафіксувати до вказаного співвідношення розмірів"
+" або скоригувати довільним чином. На зображення може бути накладено сітку"
+" правила третин або «золотого» перерізу для створення гармонійної композиції."
 
 #. (itstool) path: page/p
 #: C/edit-resize-crop.page:31
@@ -1603,6 +1650,9 @@ msgid ""
 "<app>gThumb</app> also offers a batch-mode tool for resizing multiple images "
 "simultaneously. See <link xref=\"gthumb-batch-resize\"/>."
 msgstr ""
+"Крім того, у <app>gThumb</app> передбачено режим пакетної обробки для"
+" одночасної зміни розмірів декількох зображень. Див. <link"
+" xref=\"gthumb-batch-resize\"/>."
 
 #. (itstool) path: page/title
 #: C/edit-redeye.page:6
@@ -1618,6 +1668,12 @@ msgid ""
 "a more natural-looking gray region. If the results do not look correct, "
 "press <key>Escape</key> and click on the <gui>Undo</gui> item."
 msgstr ""
+"У <app>gThumb</app> передбачено інструмент <gui>Видалення ефекту червоних"
+" очей</gui>. Щоб вилучити «червоні» очі, розташуйте вказівник миші на області"
+" «червоних» очей і клацніть лівою кнопкою миші. <app>gThumb</app> спробує"
+" вилучити червону область і замінити її сірою областю, яка виглядає"
+" природніше. Якщо результати виявляться некоректними, натисніть клавішу <key"
+">Escape</key> і виберіть пункт <gui>Вернути</gui>."
 
 #. (itstool) path: page/p
 #: C/edit-redeye.page:18
@@ -1629,6 +1685,14 @@ msgid ""
 "clever, love matrix algebra and open source software, please <link href="
 "\"https://wiki.gnome.org/Apps/gthumb/development\">submit a patch!</link>"
 msgstr ""
+"Цей інструмент працює найкращим чином там, де є висока контрастність між"
+" «червоними» очима та навколишньою областю обличчя. Результати можуть бути"
+" незадовільними для «помаранчевих» очей, які іноді можна спостерігати на"
+" дитячих фотографіях, або якщо шкіра обличчя має червоний відтінок. Роботу"
+" цього інструмента може бути удосконалено — якщо ви тямите на цьому,"
+" полюбляєте матричну алгебру та програмне забезпечення із відкритим кодом,"
+" будь ласка <link href=\"https://wiki.gnome.org/Apps/gthumb/development\""
+">надсилайте латки!</link>"
 
 #. (itstool) path: page/title
 #: C/extensions.page:6
@@ -1642,6 +1706,10 @@ msgid ""
 "features are implemented as extensions and are supplied with the standard "
 "distribution. Users may write (and share) additional extensions."
 msgstr ""
+"У <app>gThumb</app> передбачено систему додатків для розширення можливостей."
+" Деякі стандартні можливості реалізовано як розширення, які є частиною"
+" стандартного пакунка з програмою. Користувачі можуть писати (і поширювати)"
+" власні розширення."
 
 #. (itstool) path: page/p
 #: C/extensions.page:12
@@ -1650,6 +1718,11 @@ msgid ""
 "gui><gui>Extensions</gui></guiseq>. Some extensions will have "
 "<gui>Preferences</gui> that can be modified from this dialog."
 msgstr ""
+"Увімкнути або вимкнути розширення можна за допомогою пункту <guiseq><gui"
+">Зміни</"
+"gui><gui>Розширення</gui></guiseq>, який відкриває відповідне діалогове"
+" вікно. Для деяких розширень передбачено пункт <gui>Параметри</gui>, доступ"
+" до якого можна отримати за допомогою цього діалогового вікна."
 
 #. (itstool) path: page/p
 #: C/extensions.page:16
@@ -1658,6 +1731,9 @@ msgid ""
 "enabled. If you seem to be missing a feature, check to see which extensions "
 "are actually enabled."
 msgstr ""
+"Цей підручник написано у припущенні, що стандартні розширення увімкнено. Якщо"
+" ви не бачите певної описаної тут можливості у інтерфейсі програми,"
+" перевірте, які саме розширення увімкнено у вашому екземплярі програми."
 
 #. (itstool) path: page/p
 #: C/extensions.page:20
@@ -1667,6 +1743,12 @@ msgid ""
 "link> for development information. An example extension is provided in the "
 "source code, which you can base your own extension on."
 msgstr ""
+"Якщо ви хочете написати власне розширення, будь ласка, відвідайте сторінку <"
+"link href="
+"\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</"
+"link>, де наведено дані для розробників. Приклад розширення можна знайти у"
+" початковому коді програми. Ви можете скористатися ним для написання власного"
+" розширення."
 
 #. (itstool) path: page/title
 #: C/gimp.page:6
@@ -1680,6 +1762,10 @@ msgid ""
 "you can open them in the <app>GNU Image Manipulation Program (GIMP)</app> by "
 "pressing <key>g</key>."
 msgstr ""
+"Якщо на панелі навігації позначено якісь файли або на панелі перегляду"
+" відкрито якийсь файл, ви можете відкрити ці файли у <app>GNU Image"
+" Manipulation Program (GIMP)</app> за допомогою натискання клавіші <key>G<"
+"/key>."
 
 #. (itstool) path: page/p
 #: C/gimp.page:10
@@ -1702,6 +1788,10 @@ msgid ""
 "<link xref=\"gthumb-browser-view\"/>). Double-clicking an image (or pressing "
 "<key>Return</key>) in the browser will open it in the viewer mode."
 msgstr ""
+"На панелі навігації буде показано зображення у поточній теці або у поточному"
+" каталозі (див. <link xref=\"gthumb-browser-view\"/>). Подвійним клацанням на"
+" пункті (або натисканням клавіші <key>Enter</key>) можна відкрити зображення"
+" у режимі перегляду."
 
 #. (itstool) path: page/p
 #: C/viewer.page:13
@@ -1710,6 +1800,9 @@ msgid ""
 "the browser mode. A toolbar button (<gui>View the folders</gui>) is also "
 "provided for this purpose."
 msgstr ""
+"Натисканням клавіші <key>Escape</key> можна вийти з режиму перегляду і"
+" повернутися до режиму навігації. Також з цією ж метою можна скористатися"
+" кнопкою панелі інструментів (<gui>Перегляд тек</gui>)."
 
 #. (itstool) path: page/p
 #: C/viewer.page:17
@@ -1735,6 +1828,12 @@ msgid ""
 "can go also click on thumbnails in the thumbnail pane to open a different "
 "image."
 msgstr ""
+"У режимі перегляду ви можете перейти до наступного зображення натисканням"
+" кнопки <gui>Наступне</gui> або клавіш <key>Пробіл</key> та <key>Page Down<"
+"/key>. Повернутися до попереднього зображення можна натисканням кнопки <gui"
+">Попереднє</gui> або клавіші <key>Backspace</key> чи <key>Page Up</key>. Ви"
+" також можете просто клацнути на мініатюрі зображення на панелі мініатюр, щоб"
+" відкрити саме це зображення."
 
 #. (itstool) path: page/title
 #: C/fullscreen.page:8
@@ -1748,6 +1847,9 @@ msgid ""
 "current image in fullscreen mode. (In the browser mode, you can also double-"
 "click with the middle mouse button.)"
 msgstr ""
+"Натискання клавіші <key>F</key> у режимі навігації або перегляду призведе до"
+" показу поточного зображення у повноекранному режимі. (У режимі навігації ви"
+" також можете двічі клацнути середньою кнопкою миші.)"
 
 #. (itstool) path: page/p
 #: C/fullscreen.page:14
@@ -1755,6 +1857,9 @@ msgid ""
 "Moving the mouse will activate a popup control panel briefly. This can be "
 "used to navigate to the next or previous image, or change zoom levels."
 msgstr ""
+"Пересування вказівника миші активуватиме на певний час контекстну панель"
+" керування. Нею можна скористатися для переходу до наступного або"
+" попереднього зображення або зміни масштабу."
 
 #. (itstool) path: page/p
 #: C/fullscreen.page:18
@@ -1800,6 +1905,10 @@ msgid ""
 "the basis of their name, the file size, the file modification date, or the "
 "date the photo was taken."
 msgstr ""
+"Скористайтеся пунктом меню <guiseq><gui>Перегляд</gui><gui>Критерій"
+" впорядкування</gui></guiseq> для вибору бажаного способу упорядковування"
+" файлів на панелі навігації. Файли можна упорядкувати за назвою, розміром"
+" файла, датою внесення змін або датою створення зображення."
 
 #. (itstool) path: page/title
 #: C/filtering.page:7
@@ -1814,6 +1923,11 @@ msgid ""
 "show all media files (images, movies, audio), but this can be made more or "
 "less restrictive."
 msgstr ""
+"Ви можете вказати програмі, файли яких типів має бути показано на панелі"
+" навігації, за допомогою діалогового вікна <guiseq><gui>Перегляд</gui><gui"
+">Фільтр</gui> </guiseq>. Типово буде показано усі файли мультимедійних даних"
+" (зображення, відео, звук), але обмеження можна зробити жорсткішими чи"
+" м'якшими."
 
 #. (itstool) path: figure/title
 #: C/filtering.page:15
@@ -1840,6 +1954,9 @@ msgid ""
 "The figure above shows how to configure <app>gThumb</app> to display media "
 "files only, by setting the <gui>General Filter</gui>."
 msgstr ""
+"На наведеному вище знімку показано, як налаштувати <app>gThumb</app> на показ"
+" лише мультимедійних файлів встановленням відповідного <gui>Загального"
+" фільтра</gui>."
 
 #. (itstool) path: page/p
 #: C/filtering.page:23
@@ -1848,6 +1965,9 @@ msgid ""
 "by-filename ability is added to the filter bar at the bottom of the browser "
 "view:"
 msgstr ""
+"Крім того, позначенням пункту <gui>Назва файла</gui> у <gui>Інших фільтрах<"
+"/gui> можна додати можливість фільтрування за назвою файла у нижній частині"
+" панелі навігації:"
 
 #. (itstool) path: figure/title
 #: C/filtering.page:28
@@ -1874,6 +1994,9 @@ msgid ""
 "In the above figure, the filename filter has been configured to show only "
 "files with \"gen\" in the filename. The matching is case-insensitive."
 msgstr ""
+"На наведеному вище знімку фільтр назв файлів було налаштовано так, щоб"
+" програма показували лише файли із рядком «gen» у назві. Регістр символів при"
+" встановленні відповідності до уваги не береться."
 
 #. (itstool) path: page/title
 #: C/printing.page:7
@@ -1887,6 +2010,11 @@ msgid ""
 "gui><gui>Print</gui></guiseq> or <keyseq><key>Ctrl</key><key>p</key></"
 "keyseq>."
 msgstr ""
+"Щоб надрукувати поточне зображення у режимі перегляду, скористайтеся пунктом"
+" меню <guiseq><gui>Файл</"
+"gui><gui>Друкувати</gui></guiseq> або комбінацією клавіш <keyseq><key>Ctrl<"
+"/key><key>P</key></"
+"keyseq>."
 
 #. (itstool) path: page/p
 #: C/printing.page:13
@@ -1895,6 +2023,10 @@ msgid ""
 "and then use <guiseq><gui>File</gui><gui>Print</gui></guiseq> or "
 "<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 msgstr ""
+"Щоб надрукувати одне або декілька зображень у режимі навігації, позначте"
+" відповідні зображення і скористайтеся пунктом меню <guiseq><gui>Файл</gui><"
+"gui>Друкувати</gui></guiseq> або комбінацією клавіш <keyseq><key>Ctrl</key><"
+"key>P</key></keyseq>."
 
 #. (itstool) path: page/p
 #: C/printing.page:18
@@ -1902,12 +2034,16 @@ msgid ""
 "The printer to use can be selected from the <gui>General</gui> tab of the "
 "print dialog."
 msgstr ""
+"Принтер, який буде використано, можна вибрати за допомогою вкладки <gui"
+">Загальне</gui> діалогового вікна друку."
 
 #. (itstool) path: page/p
 #: C/printing.page:21
 msgid ""
 "The type of paper to use can be selected from the <gui>Page Setup</gui> tab."
 msgstr ""
+"Тип паперу, який буде використано для друку, можна вибрати за допомогою"
+" вкладки <gui>Параметри сторінки</gui>."
 
 #. (itstool) path: page/p
 #: C/printing.page:24
@@ -1920,6 +2056,14 @@ msgid ""
 "shutter speed, and others). Each image can be repositioned inside its print "
 "area using the controls on this tab."
 msgstr ""
+"За допомогою вкладки <gui>Компонування</gui> можна налаштувати деякі"
+" додаткові параметри, які є специфічними для <app>gThumb</app>. Ви можете"
+" встановити кількість зображень, які буде надруковано на кожній зі сторінок і"
+" попередньо переглянути результати друку. Також можна додати підписи під"
+" зображеннями із використанням вказаного вами шрифту. Підписи можна вибрати"
+" зі списку атрибутів файлів (зокрема назви файла, дати створення зображення,"
+" швидкості затвору камери та інших). За допомогою цієї вкладки можна змінити"
+" розташування кожного із зображень у області його друку."
 
 #. (itstool) path: page/p
 #: C/printing.page:34
@@ -1938,6 +2082,10 @@ msgid ""
 "ISO disk image file, use the <guiseq><gui>File</gui> <gui>Export To</"
 "gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr ""
+"Щоб записати набір зображень на оптичний диск (компакт-диск або DVD) або"
+" створити файл образу такого диска у форматі ISO, скористайтеся пунктом меню"
+" <guiseq><gui>Файл</gui> <gui>Експортувати до</"
+"gui><gui>Оптичний диск</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/sharing-disc.page:13
@@ -1946,6 +2094,9 @@ msgid ""
 "entire current folder, or the entire current folder and its subfolders. "
 "Click <gui>OK</gui> when you have made the appropriate selection."
 msgstr ""
+"Програма запропонує вам записати на диск поточні позначені файли, усі файли з"
+" поточної теки або усі файли з поточної теки і її підтек. Виберіть бажаний"
+" варіант і натисніть кнопку <gui>Гаразд</gui>."
 
 #. (itstool) path: page/p
 #: C/sharing-disc.page:19
@@ -1955,6 +2106,11 @@ msgid ""
 "The optical disk writing process will then commence, or the ISO file will be "
 "written, completing the process."
 msgstr ""
+"За допомогою наступної сторінки ви зможете вибрати диск призначення або файл"
+" ISO для зберігання даних. Коли будете готові завершити процес, натисніть"
+" кнопку <gui>Створити образ</gui>. Далі, розпочнеться процедура запису на"
+" оптичний диск або буде записано файл ISO, що завершить потрібну вам"
+" процедуру."
 
 #. (itstool) path: page/title
 #: C/sharing-social.page:6
@@ -1968,6 +2124,9 @@ msgid ""
 "various \"social media\" web sites. By default, uploaders for Facebook, "
 "Flickr, Picasa, and Photobucket are enabled."
 msgstr ""
+"До складу пакунка gThumb включено декілька розширень для вивантаження"
+" фотографій до різноманітних сайтів соціальних медіа. Типово, увімкнено"
+" засоби вивантаження до Facebook, Flickr, Picasa та Photobucket."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:13
