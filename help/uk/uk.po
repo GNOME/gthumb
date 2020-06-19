@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "POT-Creation-Date: 2020-05-30 11:32+0000\n"
-"PO-Revision-Date: 2020-06-18 13:23+0300\n"
+"PO-Revision-Date: 2020-06-19 09:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -2135,6 +2135,9 @@ msgid ""
 "click the <gui>Share</gui> button in the toolbar. Select the appropriate web "
 "site from the menu that appears."
 msgstr ""
+"Щоб вивантажити набір фотографій, позначте фотографії на панелі навігації і"
+" натисніть кнопку <gui>Поділитися</gui> на панелі інструментів. Виберіть"
+" відповідний сайт з меню, яке буде показано."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:17
@@ -2146,6 +2149,13 @@ msgid ""
 "completed the required authentication steps in the browser, return to gThumb "
 "and continue the upload."
 msgstr ""
+"Програма може запитати у вас додаткові відомості щодо сайта призначення,"
+" зокрема назву альбому. Також може надійти запит щодо вашого імені"
+" користувача та пароля до сайта. У gThumb може виникнути потреба у відкритті"
+" програми для перегляду інтернету, у вікні якої ви зможете завершити потрібні"
+" кроки із розпізнавання на сайті. Щойно розпізнавання за допомогою програми"
+" для перегляду інтернету буде завершено, ви зможете повернутися до gThumb і"
+" продовжити вивантаження даних."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:26
@@ -2154,6 +2164,10 @@ msgid ""
 "check that the appropriate exporter extensions are enabled in "
 "<guiseq><gui>Edit</gui><gui>Extensions</gui></guiseq>."
 msgstr ""
+"Якщо ви не бачите очікуваних пунктів сайтів для вивантаження даних у меню <"
+"gui>Поділитися</gui>, перевірте, чи увімкнено відповідні розширення для"
+" експортування у списку <guiseq><gui>Зміни</gui><gui>Розширення</gui></guiseq"
+">."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:31
@@ -2162,6 +2176,10 @@ msgid ""
 "gThumb. See the <guiseq><gui>File</gui><gui>Import From</gui></guiseq> menu "
 "for the available download options."
 msgstr ""
+"Для деяких сайтів у gThumb передбачено також підтримку отримання фотографій з"
+" сайта до сховища gThumb. Із доступними варіантами отримання зображень можна"
+" ознайомитися за допомогою меню <guiseq><gui>Файл</gui><gui>Імпорт</gui><"
+"/guiseq>."
 
 #. (itstool) path: page/title
 #: C/wallpaper.page:6
@@ -2177,6 +2195,13 @@ msgid ""
 "Preferences dialog will appear. You can use this dialog to make adjustments "
 "to the background settings (positioning, stretching, tiling, et cetera.)."
 msgstr ""
+"Щоб зробити зображення фоновим зображенням стільниці, клацніть правою кнопкою"
+" миші на пункті зображення і виберіть у контекстному меню пункт <guiseq><gui"
+">Встановити зображення як тло робочого столу</gui></guiseq>. Буде змінено"
+" фонове зображення стільниці і відкрито діалогове вікно параметрів вигляду"
+" GNOME. Ви зможете скористатися цим діалоговим вікном для коригування"
+" параметрів фонового зображення (розташування, розтягування, використання"
+" мозаїки з зображення тощо)."
 
 #. (itstool) path: page/title
 #: C/bookmarks.page:6
@@ -2191,6 +2216,12 @@ msgid ""
 "key><key>D</key></keyseq> or use the command <guiseq><gui>Bookmarks</"
 "gui><gui>Add Bookmark</gui></guiseq>."
 msgstr ""
+"Теки, якими ви часто користуєтеся, можна додати до списку закладок для"
+" пришвидшення доступу. Щоб додати поточну теку до списку закладок, натисніть"
+" комбінацію клавіш <keyseq><key>Ctrl</"
+"key><key>D</key></keyseq> або скористайтеся пунктом меню <guiseq><gui"
+">Закладки</"
+"gui><gui>Додати закладку</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/bookmarks.page:13
@@ -2198,6 +2229,8 @@ msgid ""
 "To remove or rearrange bookmarks in a different order use the "
 "<guiseq><gui>Bookmarks</gui><gui>Edit Bookmarks</gui></guiseq> command."
 msgstr ""
+"Щоб вилучити або переупорядкувати закладки, скористайтеся пунктом меню <"
+"guiseq><gui>Закладки</gui><gui>Редагувати закладки</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/bookmarks.page:16
@@ -2206,6 +2239,10 @@ msgid ""
 "access to the system bookmarks that have been defined in <app>Nautilus</app> "
 "or the file-chooser dialog used in most Gnome applications."
 msgstr ""
+"За допомогою пункту меню <guiseq><gui>Закладки</gui><gui>Системні закладки<"
+"/gui></guiseq> можна отримати доступ до загальносистемних закладок, які"
+" визначено у <app>Nautilus</app> або діалоговому вікні вибору файлів, яке"
+" використовується у більшості програм GNOME."
 
 #. (itstool) path: page/title
 #: C/import.page:8
@@ -2221,6 +2258,11 @@ msgid ""
 "registered as the default handler for x-content/image-dcf and x-content/"
 "image-picturecd mime types.)"
 msgstr ""
+"У більшості систем <app>gThumb</app> автоматично відкриватиме діалогове вікно"
+" імпортування, коли із комп'ютером буде з'єднано цифрову фотокамеру або"
+" пристрій зчитування карток із карткою пам'яті, на якій зберігаються"
+" фотографії. (Причиною цього є те, що програма реєструє себе як типовий"
+" обробник типів MIME x-content/image-dcf та x-content/image-picturecd.)"
 
 #. (itstool) path: page/p
 #: C/import.page:16
@@ -2228,6 +2270,9 @@ msgid ""
 "To manually launch the import dialog, use <guiseq><gui>File</gui><gui>Import "
 "From</gui><gui>Removable Device</gui></guiseq>."
 msgstr ""
+"Щоб відкрити діалогове вікно імпортування вручну, скористайтеся пунктом меню"
+" <guiseq><gui>Файл</gui><gui>Імпорт</gui><gui>Портативний пристрій</gui><"
+"/guiseq>."
 
 #. (itstool) path: figure/title
 #: C/import.page:20
@@ -2255,6 +2300,13 @@ msgid ""
 "or click and drag the mouse over the desired photos.) If no photos are "
 "explicitly selected, all will be imported."
 msgstr ""
+"У діалоговому вікні імпортування буде показано мініатюри фотографій, які"
+" зберігаються на вибраному пристрої. Користувач може вибрати одну або"
+" декілька фотографій за допомогою звичайних методик вибору з використанням"
+" клавіатури або миші (наприклад, Ctrl+клацання для додавання фотографії до"
+" позначених або клацання із перетягуванням вказівника миші для обведення"
+" набору потрібних фотографій.) Якщо явним чином не буде вказано жодної"
+" фотографії, буде імпортовано усі фотографії."
 
 #. (itstool) path: page/p
 #: C/import.page:30
@@ -2263,6 +2315,9 @@ msgid ""
 "<gui>Tags</gui> control below the thumbnail window. Click the drop-down "
 "control to see the predefined tags."
 msgstr ""
+"Із імпортованими фотографіями можна пов'язати мітки за допомогою пункту <gui"
+">Теги</gui> під панеллю мініатюр. Клацніть на спадному списку, щоб"
+" переглянути список попередньо визначених міток."
 
 #. (itstool) path: page/p
 #: C/import.page:34
@@ -2274,6 +2329,12 @@ msgid ""
 "<gui>Event</gui> field, you can configure generation of automatic subfolders "
 "like \"/photos/2010-07-31, Wedding-Jennifer\"."
 msgstr ""
+"Якщо потрібно, з фотографіями можна пов'язати назву події. Цією назвою події"
+" можна скористатися для створення автоматичних назв підтек (з можливим"
+" включенням дати), як це описано нижче. Наприклад, якщо базовою текою є"
+" «/Фотографії», і ви введете «Весілля-Ірина» у полі <gui>Подія</gui>, ви"
+" зможете налаштувати створення автоматичних підтек, наприклад"
+" «/Фотографії/2010-07-31, Весілля-Ірина»."
 
 #. (itstool) path: figure/title
 #: C/import.page:42
@@ -2304,6 +2365,13 @@ msgid ""
 "<gui>Destination</gui> folder). To generate automatic subfolders, select "
 "<gui>Automatic subfolder</gui>."
 msgstr ""
+"Як ми вже згадували вище, підтеки для імпортованих фотографій може бути"
+" створено автоматично на основі назв подій та дат. Увімкнути або вимкнути цю"
+" можливість можна клацанням на назві теки призначення у діалоговому вікні"
+" імпортування. У відповідь буде відкрито друге діалогове вікно, у якому можна"
+" вибрати базову теку для імпортування (теку <gui>Призначення</gui>). Щоб"
+" назви підтек було створено автоматично, позначте пункт <gui>Автоматичні"
+" підтеки</gui>."
 
 #. (itstool) path: page/p
 #: C/import.page:52
@@ -2318,6 +2386,15 @@ msgid ""
 "subfolders under them, or all subfolders can be at the same level in the "
 "filesystem, with the year and name both the folder name."
 msgstr ""
+"Ви можете вибрати для основи назв підтек або <gui>Дату файла</gui>, або <gui"
+">Поточну дату</gui>. (<gui>Дату файла</gui> буде визначено на основі даних"
+" щодо дати створення файла, які вбудовано до метаданих файла.) Можна"
+" скористатися усім спектром доступних форматів дат (наприклад, <gui"
+">рік-місяць</gui>). Пункт <gui>як одну підтеку</gui> керує тим, «глибоку» чи"
+" «мілку» ієрархію тек буде створено (наприклад, якщо вибрано <gui>рік-місяць<"
+"/gui>, може бути створено підтеки за роками із підтеками за місяцями у них,"
+" або створено підтеки одного рівня у файловій системі, у назвах яких будуть і"
+" номер року, і назва місяця)."
 
 #. (itstool) path: page/p
 #: C/import.page:61
@@ -2328,6 +2405,12 @@ msgid ""
 "\" is a special code that will embed the <gui>Event</gui> name defined in "
 "the main import dialog."
 msgstr ""
+"Використання попередньо визначених форматів дат не є обов'язковим. Якщо ви"
+" виберете <gui>інший формат</gui>, ви зможете скористатися стандартними"
+" кодами дат. Натисніть піктограму довідки, яку розташовано праворуч від поля"
+" іншого формату, щоб ознайомитися зі списком кодів форматування. Код «%E» є"
+" особливим — за його допомогою можна вбудувати назву <gui>Події</gui>, яку"
+" визначено у головному вікні імпортування."
 
 #. (itstool) path: page/p
 #: C/import.page:67
@@ -2343,6 +2426,10 @@ msgid ""
 "the main import dialog will show the automatic portion of the folder in red. "
 "(For date-based formats, dummy data may be shown in the red portion.)"
 msgstr ""
+"Якщо ви користуєтеся автоматичним іменуванням підтек, у полі <gui"
+">Призначення</gui> головного вікна імпортування автоматично сформовану"
+" частину назви теки буде показано червоним кольором (для заснованих на даті"
+" форматів у червоній частині може бути показано фіктивну дату.)"
 
 #. (itstool) path: figure/title
 #: C/import.page:74
@@ -2376,6 +2463,11 @@ msgid ""
 "or by clicking <guiseq><gui>View</gui><gui>Slideshow</gui></guiseq>. If no "
 "images are selected, all images in the folder will be included."
 msgstr ""
+"Показ слайдів із поточних позначених зображень можна розпочати з панелі"
+" навігації натисканням клавіші <key>F5</key>, клацанням на кнопці показу"
+" слайдів на панелі інструментів або за допомогою пункту меню <guiseq><gui"
+">Перегляд</gui><gui>Показ слайдів</gui></guiseq>. Якщо не позначено жодного"
+" зображення, до показу слайдів буде включено усі зображення з поточної теки."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:15
@@ -2384,6 +2476,10 @@ msgid ""
 "the <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Slideshow</gui></"
 "guiseq> dialog."
 msgstr ""
+"Налаштувати ефекти переходу та час, протягом якого буде показано кожне"
+" зображення, можна за допомогою діалогового вікна, яке відкривається пунктом"
+" меню <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Показ слайдів</gui><"
+"/guiseq>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:19
@@ -2392,6 +2488,10 @@ msgid ""
 "transition effects are enabled. If you experience such difficulties, set the "
 "<gui>Transition effect</gui> preference to <gui>None</gui>."
 msgstr ""
+"Використання ефектів переходу на деяких графічних картках із деякими"
+" драйверами може призводити до проблем (аварійного завершення роботи). Якщо у"
+" вас виникають негаразди, встановіть для параметра <gui>Ефект переходу</gui>"
+" значення <gui>Немає</gui>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:23
@@ -2399,6 +2499,8 @@ msgid ""
 "You can advance manually to the next image by pressing <key>Down Arrow</"
 "key>, <key>Right Arrow</key>, <key>Page Down</key> or <key>Space</key>."
 msgstr ""
+"Ви можете перейти до наступного зображення вручну натисканням клавіш <key>↓</"
+"key>, <key>→</key>, <key>Page Down</key> або <key>Пробіл</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:27
@@ -2406,6 +2508,9 @@ msgid ""
 "You can go back to the previous image by pressing <key>Up Arrow</key>, "
 "<key>Left Arrow</key> or <key>Page Up</key>."
 msgstr ""
+"Ви можете перейти до попереднього зображення натисканням клавіш <key>↑</key>,"
+" <key>←</key>, або <key>Page Up<"
+"/key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:30
@@ -2447,6 +2552,15 @@ msgid ""
 "gui><gui>Paste</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>V</key></"
 "keyseq>, to complete the file transfer."
 msgstr ""
+"Щоб скопіювати файл на панелі навігації, скористайтеся пунктом меню <guiseq><"
+"gui>Зміни</gui><gui>Копіювати</gui></guiseq> або натисніть комбінацію клавіш"
+" <keyseq><key>Ctrl</key><key>C</key></keyseq>. Щоб пересунути файл,"
+" скористайтеся пунктом меню <guiseq><gui>Зміни</gui><gui>Вирізати</gui><"
+"/guiseq> або натисніть комбінацію клавіш <keyseq><key>Ctrl</key><key>X</key><"
+"/keyseq>. Далі, перейдіть до теки призначення за допомогою панелі ієрархії"
+" тек. Скористайтеся пунктом меню <guiseq><gui>Зміни</gui><gui>Вставити</gui><"
+"/guiseq> або натисніть комбінацію клавіш <keyseq><key>Ctrl</key><key>V</key><"
+"/keyseq>, щоб завершити перенесення файла."
 
 #. (itstool) path: item/title
 #: C/file-copy-move.page:26
@@ -2460,6 +2574,10 @@ msgid ""
 "left-mouse click) to the destination folder visible in the folder tree. To "
 "move a file, hold down the <key>Shift</key> key while dragging."
 msgstr ""
+"Щоб скопіювати файл до іншої теки, просто перетягніть позначку файла"
+" (утримуючи натиснутою ліву кнопку миші) до пункту теки призначення у"
+" ієрархії тек. Щоб пересунути файл, утримуйте під час перетягування"
+" натиснутою клавішу <key>Shift</key>."
 
 #. (itstool) path: item/p
 #: C/file-copy-move.page:31
@@ -2468,6 +2586,9 @@ msgid ""
 "<app>gThumb</app> will ask you if you wish to copy the files, move the "
 "files, or cancel the operation."
 msgstr ""
+"Ви також можете скористатися середньою кнопкою миші для перетягування файлів."
+" У цьому випадку <app>gThumb</app> спитає вас, хочете ви скопіювати файли,"
+" пересунути файли чи скасувати дію."
 
 #. (itstool) path: item/title
 #: C/file-copy-move.page:37
@@ -2484,6 +2605,14 @@ msgid ""
 "<guiseq><gui>View the destination</gui></guiseq> option if you want to go to "
 "the destination folder after the file transfer is complete."
 msgstr ""
+"Позначте файли, які слід перенести, клацніть правою кнопкою миші на"
+" будь-якому із позначених записів і виберіть у контекстному меню пункт <"
+"guiseq><gui>Скопіювати до...</gui></guiseq> або <guiseq><gui>Пересунути"
+" до...</gui></guiseq>. У відповідь буде відкрито діалогове вікно вибору теки,"
+" за допомогою якого ви зможете вибрати теку призначення. У нижній частині"
+" цього діалогового вікна ви зможете позначити пункт <guiseq><gui>Переглянути"
+" теку призначення</gui></guiseq>, якщо хочете перейти до теки призначення"
+" після завершення перенесення даних."
 
 #. (itstool) path: p/link
 #: C/legal.xml:4
