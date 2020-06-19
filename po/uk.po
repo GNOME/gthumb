@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-03-30 09:19+0000\n"
-"PO-Revision-Date: 2020-03-31 09:37+0300\n"
+"POT-Creation-Date: 2020-05-30 11:31+0000\n"
+"PO-Revision-Date: 2020-06-19 09:18+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -807,7 +807,7 @@ msgstr "Новий каталог"
 #: extensions/file_manager/actions.c:766
 #: extensions/webalbums/gth-web-exporter.c:1827
 msgid "_View the destination"
-msgstr "_Виберіть теку призначення"
+msgstr "_Переглянути теку призначення"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
