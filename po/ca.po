@@ -313,7 +313,7 @@ msgstr "Fitxer nou:"
 
 #: data/ui/overwrite-dialog.ui:399
 msgid "Over_write the old file"
-msgstr "Sobreescriu el fitxer antic"
+msgstr "_Sobreescriu el fitxer antic"
 
 #: data/ui/overwrite-dialog.ui:416
 msgid "Do not overwrite _the old file"
@@ -321,7 +321,7 @@ msgstr "No sobreescriguis els fi_txers antics"
 
 #: data/ui/overwrite-dialog.ui:433
 msgid "Overwrite _all files"
-msgstr "Sobreescriu tots els fitxers"
+msgstr "S_obreescriu tots els fitxers"
 
 #: data/ui/overwrite-dialog.ui:450
 msgid "_Do not overwrite any file"
@@ -337,7 +337,7 @@ msgstr "Filtre _general:"
 
 #: data/ui/personalize-filters.ui:60
 msgid "_Other filters:"
-msgstr "Altres filtres:"
+msgstr "_Altres filtres:"
 
 #: data/ui/preferences.ui:12
 msgid "below the folder list"
@@ -377,7 +377,7 @@ msgstr "A l'inici:"
 
 #: data/ui/preferences.ui:234
 msgid "Go to last _visited location"
-msgstr "Vés a l'última ubicació visitada"
+msgstr "_Vés a l'última ubicació visitada"
 
 #: data/ui/preferences.ui:257
 msgid "Go to this _folder:"
@@ -405,7 +405,7 @@ msgstr "Demana'm si s'han de desar els fitxers _modificats"
 
 #: data/ui/preferences.ui:423
 msgid "_Store metadata inside files if possible"
-msgstr "Desa les metadades dins dels fitxers si és possible"
+msgstr "_Desa les metadades dins dels fitxers si és possible"
 
 #: data/ui/preferences.ui:460
 #: extensions/catalogs/data/ui/catalog-properties.ui:39
@@ -468,7 +468,7 @@ msgstr "_Nom"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:168
 msgid "_Location"
-msgstr "_Ubicació "
+msgstr "_Ubicació"
 
 #: extensions/bookmarks/dlg-bookmarks.c:192
 msgid "Could not remove the bookmark"
@@ -1654,7 +1654,7 @@ msgstr "_Urgència:"
 
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:244
 msgid "_Object Name:"
-msgstr "Nom de l'objecte:"
+msgstr "_Nom de l'objecte:"
 
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:293
 msgid "Byline _Title:"
@@ -1795,7 +1795,7 @@ msgstr "Redimensiona les imatges si són més grans que aquesta mida"
 #: extensions/picasaweb/data/ui/export-to-picasaweb.ui:325
 #: extensions/webalbums/data/ui/web-album-exporter.ui:422
 msgid "_Resize if larger than:"
-msgstr "_Redimensiona _si són més grans que:"
+msgstr "_Redimensiona si són més grans que:"
 
 #: extensions/facebook/data/ui/facebook-album-properties.ui:14
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
@@ -2924,7 +2924,7 @@ msgstr "Oculta _de cerques públiques"
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
 #: extensions/webalbums/gth-web-exporter.c:1842
 msgid "_Open in the Browser"
-msgstr "Obre-ho al navegador"
+msgstr "_Obre-ho al navegador"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:279
@@ -3364,7 +3364,7 @@ msgstr "Qualitat de l'ampliació:"
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:141
 msgctxt "zoom quality"
 msgid "_High"
-msgstr "Alta"
+msgstr "_Alta"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:158
 msgctxt "zoom quality"
@@ -3545,11 +3545,11 @@ msgstr "_Ordres:"
 
 #: extensions/list_tools/data/ui/script-editor.ui:47
 msgid "_Wait for the command to finish"
-msgstr "A l'espera que finalitzi l'ordre"
+msgstr "_A l'espera que finalitzi l'ordre"
 
 #: extensions/list_tools/data/ui/script-editor.ui:65
 msgid "E_xecute command once for every file"
-msgstr "Executa l'ordre un cop per cadascun dels fitxers"
+msgstr "E_xecuta l'ordre un cop per cadascun dels fitxers"
 
 #: extensions/list_tools/data/ui/script-editor.ui:82
 msgid "_Terminal command (shell script)"
@@ -3799,7 +3799,7 @@ msgstr "Després de la importació des d'un dispositiu:"
 
 #: extensions/photo_importer/data/ui/photo-importer-options.ui:42
 msgid "_Rotate the images physically"
-msgstr "Gira físicament les imatges"
+msgstr "_Gira físicament les imatges"
 
 #: extensions/photo_importer/data/ui/photo-importer-options.ui:59
 #: extensions/photo_importer/data/ui/photo-importer.ui:273
@@ -3814,7 +3814,7 @@ msgstr "M_ostra:"
 
 #: extensions/photo_importer/data/ui/photo-importer.ui:185
 msgid "_Event:"
-msgstr "Esdeveniment:"
+msgstr "_Esdeveniment:"
 
 #: extensions/photo_importer/data/ui/photo-importer.ui:245
 msgid "_Tags:"
@@ -4276,7 +4276,7 @@ msgstr "_Reinicia quan acabi"
 
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:207
 msgid "R_andom order"
-msgstr "Ordre aleatori"
+msgstr "_Ordre aleatori"
 
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:247
 msgid "Playlist"
