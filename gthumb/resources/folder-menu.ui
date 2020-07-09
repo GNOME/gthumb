@@ -4,7 +4,7 @@
   <menu id="menu">
     <section id="open-actions">
       <item>
-        <attribute name="label" translatable="yes">Open in New Window</attribute>
+        <attribute name="label" translatable="yes">Open in New _Window</attribute>
         <attribute name="action">win.open-folder-in-new-window</attribute>
       </item>
     </section>

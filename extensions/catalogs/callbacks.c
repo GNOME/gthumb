@@ -49,7 +49,7 @@ static const GActionEntry actions[] = {
 
 
 static const GthMenuEntry fixed_menu_entries[] = {
-	{ N_("Add to Catalog…"), "win.add-to-catalog" },
+	{ N_("_Add to Catalog…"), "win.add-to-catalog" },
 };
 
 

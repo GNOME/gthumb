@@ -4,7 +4,7 @@
   <menu id="menu">
     <section id="screen-actions">
       <item>
-        <attribute name="label" translatable="yes">Fullscreen</attribute>
+        <attribute name="label" translatable="yes">Fu_llscreen</attribute>
         <attribute name="action">win.fullscreen</attribute>
       </item>
     </section>

@@ -740,7 +740,7 @@ copy_to_folder_dialog (GthBrowser *browser,
 					      GTK_WINDOW (browser),
 					      GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 					      _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
-					      (move ? _("Move") : _("Copy")), GTK_RESPONSE_ACCEPT,
+					      (move ? _("Mo_ve") : _("C_opy")), GTK_RESPONSE_ACCEPT,
 					      NULL);
 
 	_gtk_dialog_add_class_to_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT, GTK_STYLE_CLASS_SUGGESTED_ACTION);
