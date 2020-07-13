@@ -150,10 +150,13 @@ static void
 test_selector_add_test_cb (GthTestSelector *selector,
 			   GthSearchEditor *self)
 {
-	int pos;
+	int        pos;
+	GtkWidget *new_selector;
 
 	pos = _gtk_container_get_pos (GTK_CONTAINER (GET_WIDGET ("tests_box")), (GtkWidget*) selector);
-	_gth_search_editor_add_test (self, pos == -1 ? -1 : pos + 1);
+	new_selector = _gth_search_editor_add_test (self, pos == -1 ? -1 : pos + 1);
+	gth_test_selector_focus (GTH_TEST_SELECTOR (new_selector));
+
 	update_sensitivity (self);
 }
 
