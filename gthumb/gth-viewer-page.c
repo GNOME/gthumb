@@ -210,3 +210,13 @@ gth_viewer_page_file_loaded (GthViewerPage *self,
 {
 	g_signal_emit (self, gth_viewer_page_signals[FILE_LOADED], 0, file_data, updated_metadata, success);
 }
+
+
+const char *
+gth_viewer_page_get_shortcut_context (GthViewerPage  *self)
+{
+	if (GTH_VIEWER_PAGE_GET_INTERFACE (self)->shortcut_context != NULL)
+		return GTH_VIEWER_PAGE_GET_INTERFACE (self)->shortcut_context (self);
+	else
+		return NULL;
+}

@@ -808,9 +808,10 @@ gth_window_change_action_state (GthWindow  *window,
 
 
 void
-gth_window_add_shortcuts (GthWindow         *window,
-			  const GthShortcut *shortcuts,
-			  int                n_shortcuts)
+gth_window_add_viewer_shortcuts (GthWindow         *window,
+				 const char        *viewer_context,
+				 const GthShortcut *shortcuts,
+				 int                n_shortcuts)
 {
 	int i;
 
@@ -820,9 +821,19 @@ gth_window_add_shortcuts (GthWindow         *window,
 
 		new_shortcut = gth_shortcut_dup (shortcut);
 		gth_shortcut_set_accelerator (new_shortcut, shortcut->default_accelerator);
+		gth_shortcut_set_viewer_context (new_shortcut, viewer_context);
 
 		_gth_window_add_shortcut (window, new_shortcut);
 	}
+}
+
+
+void
+gth_window_add_shortcuts (GthWindow         *window,
+			  const GthShortcut *shortcuts,
+			  int                n_shortcuts)
+{
+	gth_window_add_viewer_shortcuts (window, NULL, shortcuts, n_shortcuts);
 }
 
 
@@ -884,6 +895,7 @@ gth_window_get_shortcuts_by_category (GthWindow *window)
 gboolean
 gth_window_activate_shortcut (GthWindow       *window,
 			      int              context,
+			      const char      *viewer_context,
 			      guint            keycode,
 			      GdkModifierType  modifiers)
 {
@@ -891,7 +903,7 @@ gth_window_activate_shortcut (GthWindow       *window,
 	GthShortcut *shortcut;
 
 	modifiers = modifiers & gtk_accelerator_get_default_mod_mask ();
-	shortcut = gth_shortcut_array_find (window->priv->shortcuts_v, context, keycode, modifiers);
+	shortcut = gth_shortcut_array_find (window->priv->shortcuts_v, context, viewer_context, keycode, modifiers);
 	if (shortcut != NULL) {
 		GAction *action;
 
@@ -990,6 +1002,7 @@ gboolean
 gth_window_can_change_shortcut (GthWindow         *window,
 				const char        *detailed_action,
 				int                context,
+				const char        *viewer_context,
 				guint              keycode,
 				GdkModifierType    modifiers,
 				GtkWindow         *parent)
@@ -1001,6 +1014,7 @@ gth_window_can_change_shortcut (GthWindow         *window,
 
 	shortcut = gth_shortcut_array_find (gth_window_get_shortcuts (window ),
 					    context,
+					    viewer_context,
 					    keycode,
 					    modifiers);
 

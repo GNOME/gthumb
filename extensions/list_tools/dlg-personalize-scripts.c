@@ -381,6 +381,7 @@ script_editor_dialog__response_cb (GtkDialog *dialog,
 
 	shortcut = gth_shortcut_array_find_by_accel (shortcuts_v,
 						     GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER,
+						     GTH_SHORTCUT_VIEWER_CONTEXT_ANY,
 						     gth_script_get_accelerator (script));
 	if (shortcut != NULL) {
 		if (g_strcmp0 (shortcut->detailed_action, gth_script_get_detailed_action (script)) != 0) {

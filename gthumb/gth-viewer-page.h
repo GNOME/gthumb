@@ -79,6 +79,8 @@ struct _GthViewerPageInterface {
 	gboolean  (*zoom_from_scroll)    (GthViewerPage *self,
 					  GdkEventScroll *event);
 
+	const char * (*shortcut_context) (GthViewerPage *self);
+
 	/*< signals >*/
 
 	void      (*file_loaded)         (GthViewerPage *self,
@@ -121,6 +123,8 @@ void         gth_viewer_page_file_loaded         (GthViewerPage  *self,
 						  GthFileData    *file_data,
 						  GFileInfo      *updated_metadata,
 						  gboolean        success);
+const char * gth_viewer_page_get_shortcut_context
+						 (GthViewerPage  *self);
 
 G_END_DECLS
 

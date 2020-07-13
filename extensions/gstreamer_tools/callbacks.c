@@ -39,7 +39,8 @@ media_viewer__gth_browser_construct_cb (GthBrowser *browser)
 {
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
-	gth_window_add_shortcuts (GTH_WINDOW (browser),
-				  shortcuts,
-				  G_N_ELEMENTS (shortcuts));
+	gth_window_add_viewer_shortcuts (GTH_WINDOW (browser),
+					 GTH_SHORTCUT_VIEWER_CONTEXT_MEDIA,
+					 shortcuts,
+					 G_N_ELEMENTS (shortcuts));
 }

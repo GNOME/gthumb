@@ -121,16 +121,21 @@ gboolean	gth_window_get_action_state	(GthWindow		*window,
 void		gth_window_change_action_state	(GthWindow		*window,
 						 const char		*action_name,
 						 gboolean		 value);
+void		gth_window_add_viewer_shortcuts (GthWindow              *window,
+						 const char             *viewer_context,
+						 const GthShortcut      *shortcuts,
+						 int                     n_shortcuts);
 void		gth_window_add_shortcuts	(GthWindow		*window,
 						 const GthShortcut	*shortcuts,
 						 int			 n_shortcuts);
 GPtrArray *	gth_window_get_shortcuts	(GthWindow		*window);
-GthShortcut *   gth_window_get_shortcut		(GthWindow		*window,
+GthShortcut *   gth_window_get_shortcut	(GthWindow		*window,
 						 const char             *detailed_action);
 GPtrArray *	gth_window_get_shortcuts_by_category
 						(GthWindow		*window);
 gboolean	gth_window_activate_shortcut	(GthWindow		*window,
 						 int			 context,
+						 const char             *viewer_context,
 						 guint			 keycode,
 						 GdkModifierType	 modifiers);
 void		gth_window_load_shortcuts	(GthWindow		*window);
@@ -143,6 +148,7 @@ void		gth_window_remove_shortcuts	(GthWindow		*window,
 gboolean	gth_window_can_change_shortcut	(GthWindow		*window,
 						 const char		*detailed_action,
 						 int			 context,
+						 const char		*viewer_context,
 						 guint			 keycode,
 						 GdkModifierType	 modifiers,
 						 GtkWindow		*parent);

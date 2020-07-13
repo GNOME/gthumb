@@ -28,6 +28,7 @@
 #include "actions.h"
 #include "gth-media-viewer-page.h"
 #include "preferences.h"
+#include "shortcuts.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -1327,6 +1328,13 @@ gth_media_viewer_page_real_update_info (GthViewerPage *base,
 }
 
 
+static const char *
+gth_media_viewer_page_shortcut_context (GthViewerPage *base)
+{
+	return GTH_SHORTCUT_VIEWER_CONTEXT_MEDIA;
+}
+
+
 static void
 gth_media_viewer_page_finalize (GObject *obj)
 {
@@ -1382,6 +1390,7 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->save_as = gth_media_viewer_page_real_save_as;
 	iface->revert = gth_media_viewer_page_real_revert;
 	iface->update_info = gth_media_viewer_page_real_update_info;
+	iface->shortcut_context = gth_media_viewer_page_shortcut_context;
 }
 
 

@@ -385,6 +385,7 @@ _gth_slideshow_key_press_cb (GthSlideshow *self,
 {
 	return gth_window_activate_shortcut (GTH_WINDOW (self),
 					     GTH_SHORTCUT_CONTEXT_SLIDESHOW,
+					     NULL,
 					     event->keyval,
 					     event->state);
 }

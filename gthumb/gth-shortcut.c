@@ -48,6 +48,7 @@ gth_shortcut_new (const char *action_name,
 	shortcut->label = NULL;
 	shortcut->keyval = 0;
 	shortcut->modifiers = 0;
+	shortcut->viewer_context = NULL;
 
 	return shortcut;
 }
@@ -63,6 +64,7 @@ gth_shortcut_dup (const GthShortcut *shortcut)
 	new_shortcut->context = shortcut->context;
 	new_shortcut->category = shortcut->category;
 	new_shortcut->default_accelerator = g_strdup (shortcut->default_accelerator);
+	new_shortcut->viewer_context = shortcut->viewer_context;
 	gth_shortcut_set_accelerator (new_shortcut, shortcut->accelerator);
 
 	return new_shortcut;
@@ -105,7 +107,14 @@ gth_shortcut_set_accelerator (GthShortcut *shortcut,
 		shortcut->accelerator = g_strdup (accelerator);
 		shortcut->label = g_strdup (accelerator);
 	}
+}
 
+
+void
+gth_shortcut_set_viewer_context (GthShortcut *shortcut,
+				 const char  *viewer_context)
+{
+	shortcut->viewer_context = viewer_context;
 }
 
 
@@ -133,9 +142,27 @@ gth_shortcut_customizable (GthShortcut *shortcut)
 }
 
 
+static gboolean
+_gth_shortcut_for_different_viewer (GthShortcut *shortcut,
+				    int          context,
+				    const char  *viewer_context)
+{
+	/* Two shortcuts can be equal if they both belong to the viewer context
+	 * but have different categories.
+	 * For example the image viewer shortcuts do not collide with the video
+	 * viewer shortcuts. */
+	return ((context & GTH_SHORTCUT_CONTEXT_VIEWER) != 0)
+			&& ((shortcut->context & GTH_SHORTCUT_CONTEXT_VIEWER) != 0)
+			&& (viewer_context != NULL)
+			&& (shortcut->viewer_context != NULL)
+			&& ! _g_str_equal (shortcut->viewer_context, viewer_context);
+}
+
+
 GthShortcut *
 gth_shortcut_array_find (GPtrArray       *shortcuts_v,
 			 int              context,
+			 const char      *viewer_context,
 			 guint            keycode,
 			 GdkModifierType  modifiers)
 {
@@ -155,7 +182,8 @@ gth_shortcut_array_find (GPtrArray       *shortcuts_v,
 			&& (shortcut->keyval == keycode)
 			&& (shortcut->modifiers == modifiers))
 		{
-			return shortcut;
+			if (! _gth_shortcut_for_different_viewer (shortcut, context, viewer_context))
+				return shortcut;
 		}
 	}
 
@@ -166,6 +194,7 @@ gth_shortcut_array_find (GPtrArray       *shortcuts_v,
 GthShortcut *
 gth_shortcut_array_find_by_accel (GPtrArray  *shortcuts_v,
 				  int         context,
+				  const char *viewer_context,
 				  const char *accelerator)
 {
 	int i;
@@ -182,7 +211,8 @@ gth_shortcut_array_find_by_accel (GPtrArray  *shortcuts_v,
 		if (((shortcut->context & context) != 0)
 			&& (g_strcmp0 (shortcut->accelerator, accelerator) == 0))
 		{
-			return shortcut;
+			if (! _gth_shortcut_for_different_viewer (shortcut, context, viewer_context))
+				return shortcut;
 		}
 	}
 

@@ -32,6 +32,7 @@ G_BEGIN_DECLS
 #define GTH_SHORTCUT_CATEGORY_NAVIGATION "file-navigation"
 #define GTH_SHORTCUT_CATEGORY_FILE_MANAGER "file-manager"
 #define GTH_SHORTCUT_CATEGORY_VIEWER "file-viewer"
+#define GTH_SHORTCUT_VIEWER_CONTEXT_ANY NULL
 
 
 typedef struct {
@@ -53,6 +54,7 @@ typedef struct {
 	GdkModifierType  modifiers;
 	GVariant        *action_parameter;
 	char            *detailed_action;
+	const char      *viewer_context;
 } GthShortcut;
 
 
@@ -65,13 +67,17 @@ void          gth_shortcut_set_key		(GthShortcut       *shortcut,
 						 GdkModifierType    modifiers);
 void          gth_shortcut_set_accelerator	(GthShortcut       *shortcut,
 						 const char        *name);
+void          gth_shortcut_set_viewer_context   (GthShortcut       *shortcut,
+						 const char        *viewer_context);
 gboolean      gth_shortcut_customizable         (GthShortcut       *shortcut);
 GthShortcut * gth_shortcut_array_find           (GPtrArray         *shortcuts_v,
 						 int                context,
+						 const char        *viewer_context,
 						 guint              keycode,
 						 GdkModifierType    modifiers);
 GthShortcut * gth_shortcut_array_find_by_accel  (GPtrArray         *shortcuts_v,
 						 int                context,
+						 const char        *viewer_context,
 						 const char        *accelerator);
 GthShortcut * gth_shortcut_array_find_by_action (GPtrArray         *shortcuts_v,
 						 const char        *detailed_action);

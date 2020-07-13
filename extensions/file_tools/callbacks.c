@@ -68,7 +68,8 @@ file_tools__gth_browser_construct_cb (GthBrowser *browser)
 					 G_N_ELEMENTS (actions),
 					 browser);
 
-	gth_window_add_shortcuts (GTH_WINDOW (browser),
-				  shortcuts,
-				  G_N_ELEMENTS (shortcuts));
+	gth_window_add_viewer_shortcuts (GTH_WINDOW (browser),
+					 GTH_SHORTCUT_VIEWER_CONTEXT_IMAGE,
+					 shortcuts,
+					 G_N_ELEMENTS (shortcuts));
 }

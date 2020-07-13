@@ -159,6 +159,7 @@ row_data_update_shortcut (RowData         *row_data,
 	change = gth_window_can_change_shortcut (GTH_WINDOW (row_data->browser_data->browser),
 						 row_data->shortcut->detailed_action,
 						 row_data->shortcut->context,
+						 row_data->shortcut->viewer_context,
 						 keycode,
 						 modifiers,
 						 parent);
@@ -170,6 +171,7 @@ row_data_update_shortcut (RowData         *row_data,
 		shortcuts_v = gth_window_get_shortcuts (GTH_WINDOW (row_data->browser_data->browser));
 		shortcut = gth_shortcut_array_find (shortcuts_v,
 						    row_data->shortcut->context,
+						    row_data->shortcut->viewer_context,
 						    keycode,
 						    modifiers);
 		if (shortcut != NULL) {

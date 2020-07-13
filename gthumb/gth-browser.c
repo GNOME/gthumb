@@ -3802,6 +3802,7 @@ gth_browser_file_list_key_press_cb (GthBrowser  *browser,
 
 	activated = gth_window_activate_shortcut (GTH_WINDOW (browser),
 						  GTH_SHORTCUT_CONTEXT_BROWSER,
+						  NULL,
 						  event->keyval,
 						  event->state);
 
@@ -5778,6 +5779,7 @@ gth_browser_viewer_key_press_cb (GthBrowser  *browser,
 
 	activated = gth_window_activate_shortcut (GTH_WINDOW (browser),
 						  GTH_SHORTCUT_CONTEXT_VIEWER,
+						  gth_viewer_page_get_shortcut_context (browser->priv->viewer_page),
 						  event->keyval,
 						  event->state);
 

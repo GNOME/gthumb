@@ -25,5 +25,6 @@
 #define GTH_SHORTCUT_CATEGORY_IMAGE_VIEWER "image-viewer"
 #define GTH_SHORTCUT_CATEGORY_SCROLL_IMAGE "scroll-image"
 #define GTH_SHORTCUT_CATEGORY_IMAGE_EDITOR "image-editor"
+#define GTH_SHORTCUT_VIEWER_CONTEXT_IMAGE  "image-viewer"
 
 #endif /* IMAGE_VIEWER_SHORTCUTS_H */

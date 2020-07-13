@@ -26,6 +26,7 @@
 #include "actions.h"
 #include "gth-image-viewer-page.h"
 #include "preferences.h"
+#include "shortcuts.h"
 
 
 #define UPDATE_QUALITY_DELAY 200
@@ -1953,6 +1954,13 @@ gth_image_viewer_page_real_show_properties (GthViewerPage *base,
 }
 
 
+static const char *
+gth_image_viewer_page_shortcut_context (GthViewerPage *base)
+{
+	return GTH_SHORTCUT_VIEWER_CONTEXT_IMAGE;
+}
+
+
 static void
 gth_image_viewer_page_finalize (GObject *obj)
 {
@@ -2015,6 +2023,7 @@ gth_viewer_page_interface_init (GthViewerPageInterface *iface)
 	iface->update_info = gth_image_viewer_page_real_update_info;
 	iface->zoom_from_scroll = gth_image_viewer_page_real_zoom_from_scroll;
 	iface->show_properties = gth_image_viewer_page_real_show_properties;
+	iface->shortcut_context = gth_image_viewer_page_shortcut_context;
 }
 
 

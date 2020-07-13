@@ -133,6 +133,7 @@ accel_button_change_value_cb (GthAccelButton  *button,
 	change = gth_window_can_change_shortcut (self->priv->shortcut_window,
 						 self->priv->shortcut != NULL ? self->priv->shortcut->detailed_action : NULL,
 						 GTH_SHORTCUT_CONTEXT_BROWSER_VIEWER,
+						 GTH_SHORTCUT_VIEWER_CONTEXT_ANY,
 						 keycode,
 						 modifiers,
 						 GTK_WINDOW (self));
