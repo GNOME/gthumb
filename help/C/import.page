@@ -56,7 +56,7 @@ id="gthumb-importing">
   <gui>as single subfolder</gui> checkbox controls whether a "deep" or "shallow"
   hierarchy of files is made (for example, with <gui>year-month</gui>, you can have
   year subfolders with month subfolders under them, or all subfolders can be at the
-  same level in the filesystem, with the year and name both the folder name.</p>
+  same level in the filesystem, with the year and name both the folder name.)</p>
 
   <p>It is not necessary to use the predefined date formats. If you select
   <gui>custom format</gui>, standard date codes can be used. Click on the 
