@@ -3958,6 +3958,9 @@ _gth_browser_set_statusbar_visibility (GthBrowser *browser,
 	g_return_if_fail (browser != NULL);
 
 	gth_window_change_action_state (GTH_WINDOW (browser), "show-statusbar", visible);
+	if (browser->priv->fullscreen)
+		return;
+
 	if (visible)
 		gtk_widget_show (browser->priv->statusbar);
 	else
