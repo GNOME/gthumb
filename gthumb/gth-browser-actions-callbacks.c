@@ -161,6 +161,8 @@ gth_browser_activate_browser_mode (GSimpleAction *action,
 	viewer_sidebar = gth_browser_get_viewer_sidebar (browser);
 	if (gth_sidebar_tool_is_active (GTH_SIDEBAR (viewer_sidebar)))
 		gth_sidebar_deactivate_tool (GTH_SIDEBAR (viewer_sidebar));
+	else if (gth_browser_get_is_fullscreen (browser))
+		gth_browser_unfullscreen (browser);
 	else
 		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
 }
