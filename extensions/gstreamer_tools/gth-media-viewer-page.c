@@ -92,6 +92,18 @@ static double default_rates[] = { 0.03, 0.06, 0.12, 0.25, 0.33, 0.50, 0.66, 1.0,
 static const GActionEntry actions[] = {
 	{ "video-screenshot", gth_browser_activate_video_screenshot },
 	{ "toggle-play", gth_browser_activate_toggle_play },
+	{ "toggle-mute", gth_browser_activate_toggle_mute },
+	{ "play-faster", gth_browser_activate_play_faster },
+	{ "play-slower", gth_browser_activate_play_slower },
+	{ "next-frame", gth_browser_activate_next_video_frame },
+	{ "skip-forward-smaller", gth_browser_activate_skip_forward_smaller },
+	{ "skip-forward-small", gth_browser_activate_skip_forward_small },
+	{ "skip-forward-big", gth_browser_activate_skip_forward_big },
+	{ "skip-forward-bigger", gth_browser_activate_skip_forward_bigger },
+	{ "skip-back-smaller", gth_browser_activate_skip_back_smaller },
+	{ "skip-back-small", gth_browser_activate_skip_back_small },
+	{ "skip-back-big", gth_browser_activate_skip_back_big },
+	{ "skip-back-bigger", gth_browser_activate_skip_back_bigger },
 	{ "video-zoom-fit", toggle_action_activated, NULL, "true", gth_browser_activate_video_zoom_fit },
 };
 
@@ -341,13 +353,13 @@ volume_value_changed_cb (GtkAdjustment *adjustment,
 		return;
 
 	/* cubic in [0,1], linear in [1,2] */
-	v = gtk_adjustment_get_value (adjustment);
+	v = gtk_adjustment_get_value (adjustment) / 100.0;
 	if (v <= 1.0)
 		v = (v * v * v);
 
-	g_object_set (self->priv->playbin,
-		      "volume", v,
-		      NULL);
+	g_object_set (self->priv->playbin, "volume", v, NULL);
+	if (v > 0)
+		g_object_set (self->priv->playbin, "mute", FALSE, NULL);
 }
 
 
@@ -358,15 +370,13 @@ static void position_value_changed_cb (GtkAdjustment *adjustment,
 static void
 update_current_position_bar (GthMediaViewerPage *self)
 {
-	GstFormat format;
-        gint64    current_value = 0;
+	gint64 current_value = 0;
 
-        format = GST_FORMAT_TIME;
-        if (gst_element_query_position (self->priv->playbin, format, &current_value)) {
-        	char *s;
+	if (gst_element_query_position (self->priv->playbin, GST_FORMAT_TIME, &current_value)) {
+		char *s;
 
 		if (self->priv->duration <= 0) {
-			gst_element_query_duration (self->priv->playbin, format, &self->priv->duration);
+			gst_element_query_duration (self->priv->playbin, GST_FORMAT_TIME, &self->priv->duration);
 			s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (self->priv->duration));
 			gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_duration")), s);
 
@@ -386,9 +396,8 @@ update_current_position_bar (GthMediaViewerPage *self)
 
 		s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (current_value));
 		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_position")), s);
-
 		g_free (s);
-        }
+	}
 }
 
 
@@ -473,41 +482,11 @@ play_button_clicked_cb (GtkButton *button,
 }
 
 
-static int
-get_nearest_rate (double rate)
-{
-	int    min_idx = -1;
-	double min_delta = 0;
-	int    i;
-
-	for (i = 0; i < G_N_ELEMENTS (default_rates); i++) {
-		double delta;
-
-		delta = fabs (default_rates[i] - rate);
-		if ((i == 0) || (delta < min_delta)) {
-			min_delta = delta;
-			min_idx = i;
-		}
-	}
-
-	return min_idx;
-}
-
-
 static void
 play_slower_button_clicked_cb (GtkButton *button,
 			       gpointer   user_data)
 {
-	GthMediaViewerPage *self = user_data;
-	int                 i;
-
-	i = get_nearest_rate (self->priv->rate);
-	if (i > 0)
-		self->priv->rate = default_rates[i - 1];
-	else
-		self->priv->rate = default_rates[0];
-
-	update_player_rate (self);
+	gth_media_viewer_page_play_slower (GTH_MEDIA_VIEWER_PAGE (user_data));
 }
 
 
@@ -515,16 +494,7 @@ static void
 play_faster_button_clicked_cb (GtkButton *button,
 			       gpointer   user_data)
 {
-	GthMediaViewerPage *self = user_data;
-	int                 i;
-
-	i = get_nearest_rate (self->priv->rate);
-	if (i < G_N_ELEMENTS (default_rates) - 1)
-		self->priv->rate = default_rates[i + 1];
-	else
-		self->priv->rate = default_rates[G_N_ELEMENTS (default_rates) - 1];
-
-	update_player_rate (self);
+	gth_media_viewer_page_play_faster (GTH_MEDIA_VIEWER_PAGE (user_data));
 }
 
 
@@ -537,10 +507,35 @@ loop_button_clicked_cb (GtkButton *button,
 }
 
 
+static void
+position_button_toggled_cb (GtkButton *button,
+			    gpointer   user_data)
+{
+	GthMediaViewerPage *self = user_data;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("position_button")))) {
+		gtk_popover_popup (GTK_POPOVER (GET_WIDGET ("position_popover")));
+		gth_browser_keep_mouse_visible (self->priv->browser, TRUE);
+	}
+}
+
+
+static void
+position_popover_closed_cb (GtkPopover *popover,
+			    gpointer    user_data)
+{
+	GthMediaViewerPage *self = user_data;
+
+	gth_browser_keep_mouse_visible (self->priv->browser, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("position_button")), FALSE);
+}
+
+
 static gboolean
 update_volume_from_playbin (GthMediaViewerPage *self)
 {
-	double volume, v;
+	double   volume, v;
+	gboolean mute;
 
 	if (self->priv->update_volume_id != 0) {
 		g_source_remove (self->priv->update_volume_id);
@@ -550,7 +545,9 @@ update_volume_from_playbin (GthMediaViewerPage *self)
 	if ((self->priv->builder == NULL) || (self->priv->playbin == NULL))
 		return FALSE;
 
-	g_object_get (self->priv->playbin, "volume", &volume, NULL);
+	g_object_get (self->priv->playbin, "volume", &volume, "mute", &mute, NULL);
+	if (mute)
+		volume = 0;
 
 	/* cubic in [0,1], linear in [1,2] */
 	if (volume <= 1.0)
@@ -559,7 +556,7 @@ update_volume_from_playbin (GthMediaViewerPage *self)
 		v = volume;
 
 	g_signal_handlers_block_by_func (GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("volume_adjustment")), v);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("volume_adjustment")), v * 100.0);
 	g_signal_handlers_unblock_by_func (GET_WIDGET ("volume_adjustment"), volume_value_changed_cb, self);
 
 	return FALSE;
@@ -739,6 +736,11 @@ bus_message_cb (GstBus     *bus,
 		return;
 
 	switch (GST_MESSAGE_TYPE (message)) {
+	case GST_MESSAGE_ASYNC_DONE: {
+		update_current_position_bar (self);
+		break;
+	}
+
 	case GST_MESSAGE_STATE_CHANGED: {
 		GstState old_state;
 		GstState new_state;
@@ -820,7 +822,7 @@ playbin_notify_volume_cb (GObject    *playbin,
 	GthMediaViewerPage *self = user_data;
 
 	if (self->priv->update_volume_id == 0)
-		self->priv->update_volume_id = g_idle_add ((GSourceFunc) update_volume_from_playbin, user_data);
+		self->priv->update_volume_id = g_idle_add ((GSourceFunc) update_volume_from_playbin, self);
 }
 
 
@@ -896,6 +898,7 @@ create_playbin (GthMediaViewerPage *self)
 
 	g_object_set (self->priv->playbin,
 		      "volume", (double) g_settings_get_int (self->priv->settings, PREF_GSTREAMER_TOOLS_VOLUME) / 100.0,
+		      "mute", g_settings_get_boolean (self->priv->settings, PREF_GSTREAMER_TOOLS_MUTE),
 		      "force-aspect-ratio", TRUE,
 		      NULL);
 
@@ -906,10 +909,77 @@ create_playbin (GthMediaViewerPage *self)
 			  "notify::volume",
 			  G_CALLBACK (playbin_notify_volume_cb),
 			  self);
+	g_signal_connect (self->priv->playbin,
+			  "notify::mute",
+			  G_CALLBACK (playbin_notify_volume_cb),
+			  self);
 	g_signal_connect (bus,
 			  "message",
 			  G_CALLBACK (bus_message_cb),
 			  self);
+}
+
+
+static void
+skip_back_bigger_button_clicked_cb (GtkButton *button,
+				    gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), -60 * 5);
+}
+
+
+static void
+skip_back_big_button_clicked_cb (GtkButton *button,
+				 gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), -60);
+}
+
+
+static void
+skip_back_small_button_clicked_cb (GtkButton *button,
+				   gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), -10);
+}
+
+
+static void
+skip_back_smaller_button_clicked_cb (GtkButton *button,
+				     gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), -5);
+}
+
+
+static void
+skip_forward_smaller_button_clicked_cb (GtkButton *button,
+					gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), 5);
+}
+
+static void
+skip_forward_small_button_clicked_cb (GtkButton *button,
+				      gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), 10);
+}
+
+
+static void
+skip_forward_big_button_clicked_cb (GtkButton *button,
+				    gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), 60);
+}
+
+
+static void
+skip_forward_bigger_button_clicked_cb (GtkButton *button,
+				       gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), 60 * 5);
 }
 
 
@@ -1004,6 +1074,46 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 			  "clicked",
 			  G_CALLBACK (loop_button_clicked_cb),
 			  self);
+	g_signal_connect (GET_WIDGET ("position_button"),
+			  "toggled",
+			  G_CALLBACK (position_button_toggled_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("position_popover"),
+			  "closed",
+			  G_CALLBACK (position_popover_closed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_back_bigger_button"),
+			  "clicked",
+			  G_CALLBACK (skip_back_bigger_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_back_big_button"),
+			  "clicked",
+			  G_CALLBACK (skip_back_big_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_back_small_button"),
+			  "clicked",
+			  G_CALLBACK (skip_back_small_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_back_smaller_button"),
+			  "clicked",
+			  G_CALLBACK (skip_back_smaller_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_forward_smaller_button"),
+			  "clicked",
+			  G_CALLBACK (skip_forward_smaller_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_forward_small_button"),
+			  "clicked",
+			  G_CALLBACK (skip_forward_small_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_forward_big_button"),
+			  "clicked",
+			  G_CALLBACK (skip_forward_big_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_forward_bigger_button"),
+			  "clicked",
+			  G_CALLBACK (skip_forward_bigger_button_clicked_cb),
+			  self);
 
 	self->priv->mediabar_revealer = gtk_revealer_new ();
 	gtk_revealer_set_transition_type (GTK_REVEALER (self->priv->mediabar_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_UP);
@@ -1085,10 +1195,12 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
         }
 
 	if (self->priv->playbin != NULL) {
-		double volume;
+		double   volume;
+		gboolean mute;
 
-		g_object_get (self->priv->playbin, "volume", &volume, NULL);
+		g_object_get (self->priv->playbin, "volume", &volume, "mute", &mute, NULL);
 		g_settings_set_int (self->priv->settings, PREF_GSTREAMER_TOOLS_VOLUME, (int) (volume * 100.0));
+		g_settings_set_boolean (self->priv->settings, PREF_GSTREAMER_TOOLS_MUTE, mute);
 
 		g_settings_set_boolean (self->priv->settings, PREF_GSTREAMER_ZOOM_TO_FIT, self->priv->fit_if_larger);
 
@@ -1475,6 +1587,13 @@ gth_media_viewer_page_get_file_data (GthMediaViewerPage *self)
 }
 
 
+static gint64
+_gth_media_viewer_page_get_current_time (GthMediaViewerPage *self)
+{
+	return (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment"))) / 100.0 * self->priv->duration);
+}
+
+
 void
 gth_media_viewer_page_toggle_play (GthMediaViewerPage *self)
 {
@@ -1494,15 +1613,12 @@ gth_media_viewer_page_toggle_play (GthMediaViewerPage *self)
 					  0.0);
 		}
 		else {
-			gint64 current_value;
-
-			current_value = (gint64) (gtk_adjustment_get_value (GTK_ADJUSTMENT (GET_WIDGET ("position_adjustment"))) / 100.0 * self->priv->duration);
 			gst_element_seek (self->priv->playbin,
 					  self->priv->rate,
 					  GST_FORMAT_TIME,
 					  GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE,
 					  GST_SEEK_TYPE_SET,
-					  current_value,
+					  _gth_media_viewer_page_get_current_time (self),
 					  GST_SEEK_TYPE_NONE,
 					  0.0);
 		}
@@ -1527,4 +1643,114 @@ gth_media_viewer_page_set_fit_if_larger (GthMediaViewerPage *self,
 
 		gth_window_change_action_state (GTH_WINDOW (self->priv->browser), "video-zoom-fit", self->priv->fit_if_larger);
 	}
+}
+
+
+void
+gth_media_viewer_page_skip (GthMediaViewerPage *self,
+			    int                 seconds)
+{
+	GstSeekFlags seek_flags;
+	GstSeekType  start_type;
+	gint64       start;
+
+	if (self->priv->playbin == NULL)
+		return;
+
+	seek_flags = GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE;
+	start_type = GST_SEEK_TYPE_SET;
+	start = _gth_media_viewer_page_get_current_time (self) + (seconds * GST_SECOND);
+	if (start < 0)
+		start = 0;
+	if (start >= self->priv->duration) {
+		seek_flags |= GST_SEEK_FLAG_KEY_UNIT | GST_SEEK_FLAG_SNAP_BEFORE | GST_SEEK_FLAG_TRICKMODE;
+		start_type = GST_SEEK_TYPE_END;
+		start = 0;
+	}
+
+	gst_element_seek (self->priv->playbin,
+			  self->priv->rate,
+			  GST_FORMAT_TIME,
+			  seek_flags,
+			  start_type,
+			  start,
+			  GST_SEEK_TYPE_NONE,
+			  0.0);
+}
+
+
+void
+gth_media_viewer_page_next_frame (GthMediaViewerPage *self)
+{
+	if (self->priv->playbin == NULL)
+		return;
+
+	if (! self->priv->has_video)
+		return;
+
+	gst_element_send_event (self->priv->playbin, gst_event_new_step (GST_FORMAT_BUFFERS, 1, ABS (self->priv->rate), TRUE, FALSE));
+}
+
+
+void
+gth_media_viewer_page_toggle_mute (GthMediaViewerPage *self)
+{
+	gboolean mute;
+
+	if (self->priv->playbin == NULL)
+		return;
+
+	g_object_get (self->priv->playbin, "mute", &mute, NULL);
+	g_object_set (self->priv->playbin, "mute", ! mute, NULL);
+}
+
+
+static int
+get_nearest_rate (double rate)
+{
+	int    min_idx = -1;
+	double min_delta = 0;
+	int    i;
+
+	for (i = 0; i < G_N_ELEMENTS (default_rates); i++) {
+		double delta;
+
+		delta = fabs (default_rates[i] - rate);
+		if ((i == 0) || (delta < min_delta)) {
+			min_delta = delta;
+			min_idx = i;
+		}
+	}
+
+	return min_idx;
+}
+
+
+void
+gth_media_viewer_page_play_faster (GthMediaViewerPage *self)
+{
+	int i;
+
+	i = get_nearest_rate (self->priv->rate);
+	if (i < G_N_ELEMENTS (default_rates) - 1)
+		self->priv->rate = default_rates[i + 1];
+	else
+		self->priv->rate = default_rates[G_N_ELEMENTS (default_rates) - 1];
+
+	update_player_rate (self);
+}
+
+
+void
+gth_media_viewer_page_play_slower (GthMediaViewerPage *self)
+{
+	int i;
+
+	i = get_nearest_rate (self->priv->rate);
+	if (i > 0)
+		self->priv->rate = default_rates[i - 1];
+	else
+		self->priv->rate = default_rates[0];
+
+	update_player_rate (self);
 }

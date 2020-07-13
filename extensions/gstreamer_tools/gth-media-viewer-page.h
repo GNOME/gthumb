@@ -59,6 +59,12 @@ void           gth_media_viewer_page_toggle_play    (GthMediaViewerPage *self);
 void           gth_media_viewer_page_set_fit_if_larger
 						    (GthMediaViewerPage *self,
 						     gboolean            fit_if_larger);
+void           gth_media_viewer_page_skip	    (GthMediaViewerPage *self,
+						     int                 seconds);
+void           gth_media_viewer_page_next_frame	    (GthMediaViewerPage *self);
+void           gth_media_viewer_page_toggle_mute    (GthMediaViewerPage *self);
+void           gth_media_viewer_page_play_faster    (GthMediaViewerPage *self);
+void           gth_media_viewer_page_play_slower    (GthMediaViewerPage *self);
 
 G_END_DECLS
 

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.36.0 -->
 <interface>
-  <requires lib="gtk+" version="3.0"/>
+  <requires lib="gtk+" version="3.16"/>
   <object class="GtkAdjustment" id="position_adjustment">
     <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="volume_adjustment">
-    <property name="upper">1.5</property>
-    <property name="value">1</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">0.10000000000000001</property>
+    <property name="upper">100</property>
+    <property name="value">100</property>
+    <property name="page_increment">5</property>
   </object>
   <object class="GtkBox" id="mediabar">
     <property name="visible">True</property>
@@ -159,45 +158,53 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="box1">
+          <object class="GtkToggleButton" id="position_button">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">2</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="relief">none</property>
             <child>
-              <object class="GtkLabel" id="label_position">
+              <object class="GtkBox" id="position_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label">--:--</property>
+                <property name="spacing">2</property>
+                <child>
+                  <object class="GtkLabel" id="label_position">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label">--:--</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label">/</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label_duration">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label">--∶--</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label">/</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label_duration">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">--∶--</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
             </child>
           </object>
           <packing>
@@ -265,5 +272,138 @@ audio-volume-medium-symbolic</property>
       <class name="mediabar"/>
       <class name="osd"/>
     </style>
+  </object>
+  <object class="GtkPopover" id="position_popover">
+    <property name="can_focus">False</property>
+    <property name="relative_to">position_button</property>
+    <child>
+      <object class="GtkGrid">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkSeparator">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+            <property name="width">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_back_smaller_button">
+            <property name="label" translatable="yes" comments="minus 5 seconds">-5s</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go back 5 seconds</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_back_small_button">
+            <property name="label" translatable="yes" comments="minus 10 seconds">-10s</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go back 10 seconds</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_back_big_button">
+            <property name="label" translatable="yes" comments="minus 1 minute">-1m</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go back 1 minute</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">2</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_back_bigger_button">
+            <property name="label" translatable="yes" comments="minus 5 minutes">-5m</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go back 5 minutes</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">3</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_forward_smaller_button">
+            <property name="label" translatable="yes" comments="plus 5 seconds">+5s</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go forward 5 seconds</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_forward_small_button">
+            <property name="label" translatable="yes" comments="plus 10 seconds">+10s</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go forward 10 seconds</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_forward_big_button">
+            <property name="label" translatable="yes" comments="plus 1 minute">+1m</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go forward 1 minute</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">2</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_forward_bigger_button">
+            <property name="label" translatable="yes" comments="plus 5 minutes">+5m</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go forward 5 minutes</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">3</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>

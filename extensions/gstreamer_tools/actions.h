@@ -26,6 +26,18 @@
 
 DEF_ACTION_CALLBACK (gth_browser_activate_video_screenshot)
 DEF_ACTION_CALLBACK (gth_browser_activate_toggle_play)
+DEF_ACTION_CALLBACK (gth_browser_activate_toggle_mute)
+DEF_ACTION_CALLBACK (gth_browser_activate_play_faster)
+DEF_ACTION_CALLBACK (gth_browser_activate_play_slower)
 DEF_ACTION_CALLBACK (gth_browser_activate_video_zoom_fit)
+DEF_ACTION_CALLBACK (gth_browser_activate_next_video_frame)
+DEF_ACTION_CALLBACK (gth_browser_activate_skip_forward_smaller)
+DEF_ACTION_CALLBACK (gth_browser_activate_skip_forward_small)
+DEF_ACTION_CALLBACK (gth_browser_activate_skip_forward_big)
+DEF_ACTION_CALLBACK (gth_browser_activate_skip_forward_bigger)
+DEF_ACTION_CALLBACK (gth_browser_activate_skip_back_smaller)
+DEF_ACTION_CALLBACK (gth_browser_activate_skip_back_small)
+DEF_ACTION_CALLBACK (gth_browser_activate_skip_back_big)
+DEF_ACTION_CALLBACK (gth_browser_activate_skip_back_bigger)
 
 #endif /* ACTIONS_H */

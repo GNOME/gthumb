@@ -31,6 +31,19 @@
 static const GthShortcut shortcuts[] = {
 	{ "video-screenshot", N_("Screenshot"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Alt>s" },
 	{ "toggle-play", N_("Play/Pause"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "space" },
+	{ "toggle-mute", N_("Mute"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "m" },
+	{ "play-faster", N_("Play faster"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "plus" },
+	{ "play-slower", N_("Play slower"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "minus" },
+	{ "next-frame", N_("Next frame"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "period" },
+	{ "skip-forward-smaller", N_("Go forward 5 seconds"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Shift>Right" },
+	{ "skip-forward-small", N_("Go forward 10 seconds"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Alt>Right" },
+	{ "skip-forward-big", N_("Go forward 1 minute"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Primary>Right" },
+	{ "skip-forward-bigger", N_("Go forward 5 minutes"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Primary><Alt>Right" },
+	{ "skip-back-smaller", N_("Go back 5 seconds"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Shift>Left" },
+	{ "skip-back-small", N_("Go back 10 seconds"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Alt>Left" },
+	{ "skip-back-big", N_("Go back 1 minute"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Primary>Left" },
+	{ "skip-back-bigger", N_("Go back 5 minutes"), GTH_SHORTCUT_CONTEXT_VIEWER, GTH_SHORTCUT_CATEGORY_MEDIA_VIEWER, "<Primary><Alt>Left" },
+
 };
 
 
