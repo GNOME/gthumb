@@ -18,3 +18,8 @@ X-GNOME-Bugzilla-Product=gthumb
 X-GNOME-Bugzilla-Component=general
 X-GNOME-DocPath=gthumb/gthumb.xml
 X-GNOME-Bugzilla-Version=@VERSION@
+Actions=new-window
+
+[Desktop Action new-window]
+Name=New Window
+Exec=gthumb --new-window
