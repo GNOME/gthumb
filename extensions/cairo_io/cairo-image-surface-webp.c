@@ -114,16 +114,20 @@ _cairo_image_surface_create_from_webp (GInputStream  *istream,
 		return image;
 	}
 
-	do {
+	while (TRUE) {
 		VP8StatusCode status = WebPIAppend (idec, buffer, bytes_read);
 		if ((status != VP8_STATUS_OK) && (status != VP8_STATUS_SUSPENDED))
 			break;
+
+		gssize signed_bytes_read = g_input_stream_read (istream,
+							       buffer,
+							       BUFFER_SIZE,
+							       cancellable,
+							       error);
+		if (signed_bytes_read <= 0)
+			break;
+		bytes_read = signed_bytes_read;
 	}
-	while ((bytes_read = g_input_stream_read (istream,
-						  buffer,
-						  BUFFER_SIZE,
-						  cancellable,
-						  error)) > 0);
 
 	cairo_surface_mark_dirty (surface);
 	if (cairo_surface_status (surface) == CAIRO_STATUS_SUCCESS)
