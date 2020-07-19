@@ -110,46 +110,17 @@ child_setup (gpointer user_data)
 
 
 static void
-_gth_script_task_exec (GthScriptTask *self)
+get_command_line_ready_cb (GObject      *source,
+			   GAsyncResult *result,
+			   gpointer      user_data)
 {
-	char      *command_line;
-	GError    *error = NULL;
-	gboolean   retval = FALSE;
+	GthScriptTask *self = user_data;
+	char          *command_line;
+	GError        *error = NULL;
+	gboolean       retval = FALSE;
 
-	if (gth_script_for_each_file (self->priv->script)) {
-		GthFileData *file_data = self->priv->current->data;
-		GList       *list;
-
-		gth_task_progress (GTH_TASK (self),
-				   gth_script_get_display_name (self->priv->script),
-				   g_file_info_get_display_name (file_data->info),
-				   FALSE,
-				   (double) self->priv->n_current / (self->priv->n_files + 1));
-
-		list = g_list_prepend (NULL, file_data);
-		command_line = gth_script_get_command_line (self->priv->script,
-							    self->priv->parent,
-							    list,
-							    (self->priv->file_list->next != NULL),
-							    &error);
-
-		g_list_free (list);
-	}
-	else {
-		gth_task_progress (GTH_TASK (self),
-				   gth_script_get_display_name (self->priv->script),
-				   NULL,
-				   TRUE,
-				   0.0);
-
-		command_line = gth_script_get_command_line (self->priv->script,
-							    self->priv->parent,
-							    self->priv->file_list,
-							    FALSE,
-							    &error);
-	}
-
-	if (error == NULL) {
+	command_line = gth_script_get_command_line_finish (GTH_SCRIPT (source), result, &error);
+	if (command_line != NULL) {
 		char **argv;
 		int    argc;
 
@@ -219,6 +190,58 @@ _gth_script_task_exec (GthScriptTask *self)
 	}
 
 	gth_task_completed (GTH_TASK (self), NULL);
+}
+
+
+static void
+get_command_line_dialog_cb (GtkWidget *dialog,
+			    gpointer   user_data)
+{
+	gth_task_dialog (GTH_TASK (user_data), (dialog != NULL), dialog);
+}
+
+
+static void
+_gth_script_task_exec (GthScriptTask *self)
+{
+	if (gth_script_for_each_file (self->priv->script)) {
+		GthFileData *file_data = self->priv->current->data;
+		GList       *list;
+
+		gth_task_progress (GTH_TASK (self),
+				   gth_script_get_display_name (self->priv->script),
+				   g_file_info_get_display_name (file_data->info),
+				   FALSE,
+				   (double) self->priv->n_current / (self->priv->n_files + 1));
+
+		list = g_list_prepend (NULL, file_data);
+		gth_script_get_command_line_async (self->priv->script,
+						   self->priv->parent,
+						   list,
+						   (self->priv->file_list->next != NULL),
+						   gth_task_get_cancellable (GTH_TASK (self)),
+						   get_command_line_dialog_cb,
+						   get_command_line_ready_cb,
+						   self);
+
+		g_list_free (list);
+	}
+	else {
+		gth_task_progress (GTH_TASK (self),
+				   gth_script_get_display_name (self->priv->script),
+				   NULL,
+				   TRUE,
+				   0.0);
+
+		gth_script_get_command_line_async (self->priv->script,
+						   self->priv->parent,
+						   self->priv->file_list,
+						   FALSE,
+						   gth_task_get_cancellable (GTH_TASK (self)),
+						   get_command_line_dialog_cb,
+						   get_command_line_ready_cb,
+						   self);
+	}
 }
 
 

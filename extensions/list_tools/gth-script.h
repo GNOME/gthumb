@@ -61,11 +61,17 @@ gboolean          gth_script_is_shell_script           (GthScript       *script)
 gboolean          gth_script_for_each_file             (GthScript       *script);
 gboolean          gth_script_wait_command              (GthScript       *script);
 char *            gth_script_get_requested_attributes  (GthScript       *script);
-char *            gth_script_get_command_line          (GthScript       *script,
-						        GtkWindow       *parent,
-						        GList           *file_list /* GthFileData */,
+void              gth_script_get_command_line_async    (GthScript       *script,
+							GtkWindow       *parent,
+							GList           *file_list /* GthFileData */,
 							gboolean         can_skip,
-						        GError         **error);
+							GCancellable    *cancellable,
+							GtkCallback      dialog_callback,
+							GAsyncReadyCallback callback,
+							gpointer         user_data);
+char *            gth_script_get_command_line_finish   (GthScript       *script,
+							GAsyncResult    *result,
+							GError         **error);
 const char *      gth_script_get_accelerator           (GthScript       *script);
 GthShortcut *     gth_script_create_shortcut           (GthScript       *script);
 
