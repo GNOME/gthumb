@@ -1108,6 +1108,7 @@ gfl_set_files (GthFileList *file_list,
 	gth_thumb_loader_set_max_file_size (file_list->priv->thumb_loader, g_settings_get_int (file_list->priv->settings, PREF_BROWSER_THUMBNAIL_LIMIT));
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
 
+	gth_file_view_set_vscroll (GTH_FILE_VIEW (file_list->priv->view), 0);
 	gth_file_store_clear ((GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)));
 	g_hash_table_remove_all (file_list->priv->thumb_data);
 	gfl_add_files (file_list, files, -1);
