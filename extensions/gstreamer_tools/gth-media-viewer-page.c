@@ -977,6 +977,36 @@ skip_forward_bigger_button_clicked_cb (GtkButton *button,
 
 
 static void
+copy_position_to_clipboard_button_clicked_cb (GtkButton *button,
+					      gpointer   user_data)
+{
+	GthMediaViewerPage *self = user_data;
+	gint64              current_time = 0;
+	char               *text;
+
+	if (! gst_element_query_position (self->priv->playbin, GST_FORMAT_TIME, &current_time))
+		return;
+
+	{
+		int sec, min, hour, _time;
+
+		_time = (int) GST_TIME_AS_SECONDS (current_time);
+		sec = _time % 60;
+		_time = _time - sec;
+		min = (_time % (60*60)) / 60;
+		_time = _time - (min * 60);
+		hour = _time / (60*60);
+
+		text = g_strdup_printf ("%d:%02d:%02d", hour, min, sec);
+	}
+
+	gtk_clipboard_set_text (gtk_clipboard_get_for_display (gtk_widget_get_display (GTK_WIDGET (button)), GDK_SELECTION_CLIPBOARD), text, -1);
+
+	g_free (text);
+}
+
+
+static void
 gth_media_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
@@ -1106,6 +1136,10 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (GET_WIDGET ("skip_forward_bigger_button"),
 			  "clicked",
 			  G_CALLBACK (skip_forward_bigger_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("copy_position_to_clipboard_button"),
+			  "clicked",
+			  G_CALLBACK (copy_position_to_clipboard_button_clicked_cb),
 			  self);
 
 	self->priv->mediabar_revealer = gtk_revealer_new ();
