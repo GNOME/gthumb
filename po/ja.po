@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-03-08 11:24+0000\n"
+"POT-Creation-Date: 2020-07-19 12:33+0000\n"
 "PO-Revision-Date: 2020-03-22 17:05+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -126,6 +126,11 @@ msgstr "画像ビューアー"
 msgid "Image;Viewer;"
 msgstr "画像;イメージ;ビューアー;"
 
+#: data/org.gnome.gThumb.desktop.in.in:25
+#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
+msgid "New Window"
+msgstr "新しいウィンドウ"
+
 #: data/ui/browser-preferences.ui:20
 #: extensions/contact_sheet/gth-contact-sheet-theme.c:34
 #: extensions/image_print/data/ui/print-layout.ui:519
@@ -150,7 +155,7 @@ msgstr "全画面モードでファイルを開く(_O)"
 
 #: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
-#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:333
+#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:335
 #: gthumb/gth-shortcuts-window.c:96
 msgid "Other"
 msgstr "その他"
@@ -199,7 +204,7 @@ msgstr "256"
 msgid "D_etermine image type from content (slower)"
 msgstr "画像の内容から種類を判断する (低速)(_E)"
 
-#: data/ui/extensions-preferences.ui:40
+#: data/ui/extensions-preferences.ui:39
 msgid "_Extensions:"
 msgstr "拡張機能(_E):"
 
@@ -243,27 +248,27 @@ msgid "Mean:"
 msgstr "平均:"
 
 #. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsized at the end.
-#: data/ui/histogram-info.ui:44
+#: data/ui/histogram-info.ui:42
 msgid "Std dev:"
 msgstr "標準偏差:"
 
-#: data/ui/histogram-info.ui:64
+#: data/ui/histogram-info.ui:60
 msgid "Median:"
 msgstr "中央値:"
 
 #. After the colon there is the total number of pixels
-#: data/ui/histogram-info.ui:151
+#: data/ui/histogram-info.ui:148
 msgid "Pixels:"
 msgstr "ピクセル数:"
 
 #. After the colon there is a percentile.
-#: data/ui/histogram-info.ui:167
+#: data/ui/histogram-info.ui:163
 msgctxt "Pixels"
 msgid "Max:"
 msgstr "最大値:"
 
 #. After the colon there is the percentile of selected pixels.
-#: data/ui/histogram-info.ui:185
+#: data/ui/histogram-info.ui:180
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "選択値:"
@@ -402,7 +407,7 @@ msgstr "全般"
 msgid "Shortcuts:"
 msgstr "ショートカット:"
 
-#: data/ui/shortcuts-preferences.ui:92
+#: data/ui/shortcuts-preferences.ui:93
 msgid "_Restore All…"
 msgstr "すべて復元(_R)…"
 
@@ -632,7 +637,7 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:556
 #: extensions/contact_sheet/data/ui/image-wall.ui:269
-#: extensions/image_viewer/gth-image-viewer-page.c:1702
+#: extensions/image_viewer/gth-image-viewer-page.c:1703
 #: extensions/webalbums/data/ui/web-album-exporter.ui:484
 msgid "Saving"
 msgstr "保存先"
@@ -642,7 +647,7 @@ msgstr "保存先"
 #: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
-#: extensions/list_tools/gth-script-editor-dialog.c:273
+#: extensions/list_tools/gth-script-editor-dialog.c:274
 #: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1924
 #, c-format
 msgid "No name specified"
@@ -729,8 +734,8 @@ msgid "Rename"
 msgstr "名前を変更"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4553
-#: gthumb/gth-browser.c:4655 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4557
+#: gthumb/gth-browser.c:4659 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "プロパティ"
 
@@ -920,7 +925,7 @@ msgstr "(埋め込まれた) タグ"
 #: extensions/exiv2_tools/exiv2-utils.cpp:885
 #: extensions/exiv2_tools/exiv2-utils.cpp:915
 #: extensions/exiv2_tools/exiv2-utils.cpp:1448
-#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:336
+#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "不正なファイル形式です"
 
@@ -986,12 +991,12 @@ msgid "Change the files date"
 msgstr "ファイルの日付を変更します"
 
 #: extensions/change_date/data/ui/change-date.ui:12
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:236
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:243
 msgid "+"
 msgstr "+"
 
 #: extensions/change_date/data/ui/change-date.ui:15
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:244
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:251
 msgid "-"
 msgstr "-"
 
@@ -1653,8 +1658,8 @@ msgstr "言語(_L):"
 msgid "State/Province:"
 msgstr "州/県:"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1088
-#: gthumb/glib-utils.c:2053 gthumb/str-utils.c:700
+#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
+#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(不正な値)"
 
@@ -1933,7 +1938,7 @@ msgstr "フォルダー名を入力してください: "
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5565 gthumb/gth-browser.c:5601
+#: gthumb/gth-browser.c:5569 gthumb/gth-browser.c:5605
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "処理を実行できませんでした"
@@ -1956,7 +1961,7 @@ msgstr "この場所にファイルを移動できませんが、コピーは可
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
-#: gthumb/gtk-utils.h:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:417 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "コピー"
 
@@ -2585,7 +2590,7 @@ msgstr "プリセット名を入力してください:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1631
+#: extensions/image_viewer/gth-image-viewer-page.c:1632
 #: gthumb/gth-browser.c:1863
 msgid "Could not save the file"
 msgstr "ファイルを保存できませんでした"
@@ -3023,6 +3028,73 @@ msgstr "スクリーンショット"
 msgid "Play/Pause"
 msgstr "再生/一時停止"
 
+#: extensions/gstreamer_tools/callbacks.c:34
+msgid "Mute"
+msgstr ""
+
+#: extensions/gstreamer_tools/callbacks.c:35
+#, fuzzy
+#| msgid "Play/Pause"
+msgid "Play faster"
+msgstr "再生/一時停止"
+
+#: extensions/gstreamer_tools/callbacks.c:36
+msgid "Play slower"
+msgstr ""
+
+#: extensions/gstreamer_tools/callbacks.c:37
+#: extensions/image_viewer/gth-image-viewer-page.c:1189
+msgid "Next frame"
+msgstr "次のフレームに移動します"
+
+#: extensions/gstreamer_tools/callbacks.c:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:356
+msgid "Go forward 5 seconds"
+msgstr ""
+
+#: extensions/gstreamer_tools/callbacks.c:39
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:370
+msgid "Go forward 10 seconds"
+msgstr ""
+
+#: extensions/gstreamer_tools/callbacks.c:40
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:384
+msgid "Go forward 1 minute"
+msgstr ""
+
+#: extensions/gstreamer_tools/callbacks.c:41
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:398
+msgid "Go forward 5 minutes"
+msgstr ""
+
+#: extensions/gstreamer_tools/callbacks.c:42
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:300
+#, fuzzy
+#| msgid "Go back to the index"
+msgid "Go back 5 seconds"
+msgstr "目次に戻ります"
+
+#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:314
+#, fuzzy
+#| msgid "Go back to the index"
+msgid "Go back 10 seconds"
+msgstr "目次に戻ります"
+
+#: extensions/gstreamer_tools/callbacks.c:44
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:328
+#, fuzzy
+#| msgid "Go back to the index"
+msgid "Go back 1 minute"
+msgstr "目次に戻ります"
+
+#: extensions/gstreamer_tools/callbacks.c:45
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:342
+#, fuzzy
+#| msgid "Go back to the index"
+msgid "Go back 5 minutes"
+msgstr "目次に戻ります"
+
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
 msgstr "ハードウェアアクセラレーションを使用する"
@@ -3031,31 +3103,67 @@ msgstr "ハードウェアアクセラレーションを使用する"
 msgid "_Screenshots location:"
 msgstr "スクリーンショットの場所(_S):"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:30
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:621
-#: extensions/image_viewer/gth-image-viewer-page.c:1181
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:29
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:620
+#: extensions/image_viewer/gth-image-viewer-page.c:1182
 msgid "Play"
 msgstr "再生します"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:51
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:50
 msgid "Slower"
 msgstr "遅くします"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:73
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:72
 msgid "Faster"
 msgstr "早くします"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:95
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:94
 msgid "Restart when finished"
 msgstr "遷移をループさせます"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:131
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:130
 msgid "Time:"
 msgstr "時間:"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:194
-msgid "--∶--"
-msgstr "--:--"
+#. minus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:296
+msgid "-5s"
+msgstr ""
+
+#. minus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:310
+msgid "-10s"
+msgstr ""
+
+#. minus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:324
+msgid "-1m"
+msgstr ""
+
+#. minus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:338
+msgid "-5m"
+msgstr ""
+
+#. plus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:352
+msgid "+5s"
+msgstr ""
+
+#. plus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:366
+msgid "+10s"
+msgstr ""
+
+#. plus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:380
+msgid "+1m"
+msgstr ""
+
+#. plus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:394
+msgid "+5m"
+msgstr ""
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
@@ -3069,19 +3177,19 @@ msgstr "オーディオや動画ファイルを再生します"
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:594
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:593
 msgid "Playing video"
 msgstr "動画を再生します"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:607
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:606
 msgid "Pause"
 msgstr "一時停止します"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:930
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1029
 msgid "Take a screenshot"
 msgstr "スクリーンショットを撮ります"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:937
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1036
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
@@ -3152,7 +3260,7 @@ msgstr "モノラル"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
-#: extensions/image_viewer/gth-image-viewer-page.c:1864
+#: extensions/image_viewer/gth-image-viewer-page.c:1865
 #: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
 #: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
@@ -3436,7 +3544,7 @@ msgid "After loading an image:"
 msgstr "画像を読み込んだ後:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
-#: extensions/image_viewer/gth-image-viewer-page.c:1138
+#: extensions/image_viewer/gth-image-viewer-page.c:1139
 msgid "Set to actual size"
 msgstr "オリジナルのサイズにする"
 
@@ -3445,7 +3553,7 @@ msgid "Keep previous zoom"
 msgstr "前と同じ拡大率にする"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
-#: extensions/image_viewer/gth-image-viewer-page.c:1145
+#: extensions/image_viewer/gth-image-viewer-page.c:1146
 msgid "Fit to window if larger"
 msgstr "ウィンドウサイズよりも大きい場合はウィンドウに合わせる"
 
@@ -3542,31 +3650,27 @@ msgstr "300%"
 msgid "Histogram"
 msgstr "ヒストグラム"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:83
+#: extensions/image_viewer/gth-image-viewer-page.c:84
 msgid "Copy Image"
 msgstr "画像をコピー"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:84
+#: extensions/image_viewer/gth-image-viewer-page.c:85
 msgid "Paste Image"
 msgstr "画像を貼り付け"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1173
+#: extensions/image_viewer/gth-image-viewer-page.c:1174
 msgid "Apply the embedded color profile"
 msgstr "埋め込みのカラープロファイルを適用します"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1188
-msgid "Next frame"
-msgstr "次のフレームに移動します"
-
-#: extensions/image_viewer/gth-image-viewer-page.c:1195
+#: extensions/image_viewer/gth-image-viewer-page.c:1196
 msgid "Transparency"
 msgstr "透明性"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1803
+#: extensions/image_viewer/gth-image-viewer-page.c:1804
 msgid "Save Image"
 msgstr "画像を保存"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2519
+#: extensions/image_viewer/gth-image-viewer-page.c:2528
 msgid "Loading the original image"
 msgstr "オリジナルの画像を読み込み中"
 
@@ -3797,7 +3901,7 @@ msgid "Script"
 msgstr "スクリプト"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:264
-#: gthumb/dlg-preferences-shortcuts.c:229 gthumb/gth-accel-button.c:256
+#: gthumb/dlg-preferences-shortcuts.c:231 gthumb/gth-accel-button.c:256
 msgid "Shortcut"
 msgstr "ショートカット"
 
@@ -3810,23 +3914,23 @@ msgstr "表示"
 msgid "Could not save the script"
 msgstr "スクリプトを保存できませんでした"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:448
+#: extensions/list_tools/dlg-personalize-scripts.c:449
 msgid "New Command"
 msgstr "新しいコマンド"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:475
+#: extensions/list_tools/dlg-personalize-scripts.c:476
 msgid "Edit Command"
 msgstr "コマンドを編集"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:505
+#: extensions/list_tools/dlg-personalize-scripts.c:506
 msgid "Are you sure you want to delete the selected command?"
 msgstr "本当に選択したコマンドを削除しますか?"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:605
+#: extensions/list_tools/dlg-personalize-scripts.c:606
 msgid "Commands"
 msgstr "コマンドの一覧"
 
-#: extensions/list_tools/gth-script-editor-dialog.c:279
+#: extensions/list_tools/gth-script-editor-dialog.c:280
 #, c-format
 msgid "No command specified"
 msgstr "コマンドを指定していません"
@@ -3836,18 +3940,18 @@ msgstr "コマンドを指定していません"
 msgid "Command exited abnormally with status %d"
 msgstr "コマンドがステータス %d を返して異常終了しました"
 
-#: extensions/list_tools/gth-script.c:502
+#: extensions/list_tools/gth-script.c:506
 msgid "Enter a value:"
 msgstr "値を入力してください:"
 
-#: extensions/list_tools/gth-script.c:753
+#: extensions/list_tools/gth-script.c:760
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "コマンドがおかしいです"
 
-#: extensions/list_tools/gth-script.c:808
+#: extensions/list_tools/gth-script.c:1069
 msgid "_Skip"
 msgstr "何もしない(_S)"
 
@@ -4431,11 +4535,11 @@ msgstr "プレゼンテーションを終了"
 msgid "Pause/Resume presentation"
 msgstr "プレゼンテーションを中断/再開"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:118
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:120
 msgid "Show next file"
 msgstr "次のファイルを表示"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:117
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:119
 msgid "Show previous file"
 msgstr "前のファイルを表示"
 
@@ -4703,14 +4807,14 @@ msgstr "ウェブアルバム"
 msgid "Create static web albums."
 msgstr "ローカルのウェブアルバムを作成します"
 
-#: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6569 gthumb/gth-browser.c:6588
-#: gthumb/gth-browser.c:6612 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
+#: gthumb/gth-browser.c:6574 gthumb/gth-browser.c:6593
+#: gthumb/gth-browser.c:6617 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "“%s”を読み込めませんでした"
 
-#: gthumb/dlg-location.c:408 gthumb/dlg-location.c:418
+#: gthumb/dlg-location.c:450 gthumb/dlg-location.c:460
 msgid "Open"
 msgstr "開く"
 
@@ -4809,27 +4913,27 @@ msgstr "変更内容を適用するには gThumb を再起動する必要があ�
 msgid "_Restart"
 msgstr "再起動(_R)"
 
-#: gthumb/dlg-preferences-shortcuts.c:294
-#: gthumb/dlg-preferences-shortcuts.c:369 gthumb/resources/gears-menu.ui:25
+#: gthumb/dlg-preferences-shortcuts.c:296
+#: gthumb/dlg-preferences-shortcuts.c:371 gthumb/resources/gears-menu.ui:25
 msgid "Revert"
 msgstr "戻す"
 
-#: gthumb/dlg-preferences-shortcuts.c:367
+#: gthumb/dlg-preferences-shortcuts.c:369
 msgid "Do you want to revert all the changes and use the default shortcuts?"
 msgstr "すべての変更を元に戻してデフォルトのショートカットを使用しますか?"
 
-#: gthumb/dlg-preferences-shortcuts.c:541
+#: gthumb/dlg-preferences-shortcuts.c:542
 msgctxt "Shortcuts"
 msgid "All"
 msgstr "すべて"
 
-#: gthumb/dlg-preferences-shortcuts.c:547
+#: gthumb/dlg-preferences-shortcuts.c:548
 msgctxt "Shortcuts"
 msgid "Modified"
 msgstr "更新日時"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-shortcuts.c:576
+#: gthumb/dlg-preferences-shortcuts.c:577
 msgid "Shortcuts"
 msgstr "ショートカット"
 
@@ -4879,7 +4983,7 @@ msgstr "ファイルをゴミ箱へ移動中"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2029
+#: gthumb/glib-utils.c:2055
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4891,7 +4995,7 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2038
+#: gthumb/glib-utils.c:2064
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -4973,10 +5077,6 @@ msgstr ""
 "Ritsuko Sato <satoritsu@gmail.com>\n"
 "sicklylife <translation@sicklylife.jp>"
 
-#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
-msgid "New Window"
-msgstr "新しいウィンドウ"
-
 #: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
 msgid "Keyboard Shortcuts"
 msgstr "キーボードショートカット"
@@ -4997,8 +5097,8 @@ msgstr "ウィンドウを閉じる"
 msgid "Open location"
 msgstr "場所を開く"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4568
-#: gthumb/gth-browser.c:4586 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4572
+#: gthumb/gth-browser.c:4590 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "フルスクリーン"
@@ -5008,66 +5108,78 @@ msgid "Revert image to saved"
 msgstr "画像を保存されている状態に戻す"
 
 #: gthumb/gth-browser-actions-entries.h:105
+#, fuzzy
+#| msgid "Save Image"
+msgid "Save image"
+msgstr "画像を保存"
+
+#: gthumb/gth-browser-actions-entries.h:106
+#, fuzzy
+#| msgid "Save Image"
+msgid "Save image as"
+msgstr "画像を保存"
+
+#: gthumb/gth-browser-actions-entries.h:107
 msgid "Sidebar"
 msgstr "サイドバー"
 
-#: gthumb/gth-browser-actions-entries.h:106
+#: gthumb/gth-browser-actions-entries.h:108
 msgid "Statusbar"
 msgstr "ステータスバー"
 
-#: gthumb/gth-browser-actions-entries.h:107
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Thumbnails list"
 msgstr "サムネイル一覧"
 
-#: gthumb/gth-browser-actions-entries.h:109
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Load previous location"
 msgstr "前の場所を読み込む"
 
-#: gthumb/gth-browser-actions-entries.h:110
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Load next location"
 msgstr "次の場所を読み込む"
 
-#: gthumb/gth-browser-actions-entries.h:111
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Load parent folder"
 msgstr "親フォルダーを読み込む"
 
-#: gthumb/gth-browser-actions-entries.h:112
+#: gthumb/gth-browser-actions-entries.h:114
 msgid "Load home"
 msgstr "ホームを読み込む"
 
-#: gthumb/gth-browser-actions-entries.h:113
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Reload location"
 msgstr "場所を再読み込み"
 
-#: gthumb/gth-browser-actions-entries.h:114
+#: gthumb/gth-browser-actions-entries.h:116
 msgid "Show/Hide hidden files"
 msgstr "隠しファイルを表示/非表示"
 
-#: gthumb/gth-browser-actions-entries.h:115
+#: gthumb/gth-browser-actions-entries.h:117
 msgid "Change sorting order"
 msgstr "並べ替えを変更"
 
-#: gthumb/gth-browser-actions-entries.h:119
+#: gthumb/gth-browser-actions-entries.h:121
 msgid "Show first file"
 msgstr "最初のファイルを表示"
 
-#: gthumb/gth-browser-actions-entries.h:120
+#: gthumb/gth-browser-actions-entries.h:122
 msgid "Show last file"
 msgstr "最後のファイルを表示"
 
-#: gthumb/gth-browser-actions-entries.h:122
+#: gthumb/gth-browser-actions-entries.h:124
 msgid "Image tools"
 msgstr "画像を修正"
 
-#: gthumb/gth-browser-actions-entries.h:123
+#: gthumb/gth-browser-actions-entries.h:125
 msgid "File properties"
 msgstr "ファイルのプロパティ"
 
-#: gthumb/gth-browser-actions-entries.h:125
+#: gthumb/gth-browser-actions-entries.h:127
 msgid "Select all"
 msgstr "すべて選択"
 
-#: gthumb/gth-browser-actions-entries.h:126
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Select none"
 msgstr "選択を解除"
 
@@ -5104,7 +5216,7 @@ msgstr "保存しないと、そのファイルに対する変更は完全に失
 msgid "Do _Not Save"
 msgstr "保存しない(_N)"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4594
+#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4598
 msgid "Accept"
 msgstr "承認"
 
@@ -5120,32 +5232,32 @@ msgstr "名前を変更できませんでした"
 msgid "Modified"
 msgstr "更新日時"
 
-#: gthumb/gth-browser.c:4516
+#: gthumb/gth-browser.c:4520
 msgid "Go to the previous visited location"
 msgstr "前に表示した場所へジャンプします"
 
-#: gthumb/gth-browser.c:4522
+#: gthumb/gth-browser.c:4526
 msgid "Go to the next visited location"
 msgstr "次に表示した場所へジャンプします"
 
-#: gthumb/gth-browser.c:4530
+#: gthumb/gth-browser.c:4534
 msgid "History"
 msgstr "履歴"
 
-#: gthumb/gth-browser.c:4544
+#: gthumb/gth-browser.c:4548
 msgid "View the folders"
 msgstr "フォルダーを表示します"
 
-#: gthumb/gth-browser.c:4559
+#: gthumb/gth-browser.c:4563
 msgid "Edit file"
 msgstr "ファイルを編集します"
 
-#: gthumb/gth-browser.c:6570
+#: gthumb/gth-browser.c:6575
 #, c-format
 msgid "File type not supported"
 msgstr "サポートしていない種類のファイルです"
 
-#: gthumb/gth-browser.c:6613
+#: gthumb/gth-browser.c:6618
 #, c-format
 msgid "No suitable module found"
 msgstr "適切なモジュールが見つかりませんでした"
@@ -5598,7 +5710,7 @@ msgstr "色"
 msgid "Rotation"
 msgstr "回転"
 
-#: gthumb/gth-window.c:1020
+#: gthumb/gth-window.c:1034
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5607,18 +5719,18 @@ msgstr ""
 "«%s» はすでに別のアクション «%s» に割り当てられています。このアクションに割り"
 "当てますか?"
 
-#: gthumb/gth-window.c:1028
+#: gthumb/gth-window.c:1042
 msgid "Reassign"
 msgstr "再割当て"
 
-#: gthumb/gth-window.c:1046
+#: gthumb/gth-window.c:1060
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
 "be changed."
 msgstr "«%s» はすでに別のアクション «%s» に割り当てられていて変更できません。"
 
-#: gthumb/gth-window.c:1050
+#: gthumb/gth-window.c:1064
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "«%s» はすでに割り当てられていて変更できません。"
@@ -5698,6 +5810,9 @@ msgstr "gThumb について(_A)"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "履歴を削除(_D)"
+
+#~ msgid "--∶--"
+#~ msgstr "--:--"
 
 #~ msgid "Unrecognized launch option: %d"
 #~ msgstr "不明な起動オプションです: %d"
