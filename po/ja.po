@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-07-19 12:33+0000\n"
-"PO-Revision-Date: 2020-03-22 17:05+0900\n"
+"POT-Creation-Date: 2020-07-24 08:39+0000\n"
+"PO-Revision-Date: 2020-07-24 17:35+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -34,6 +34,8 @@ msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
+"gThumb は GNOME 3 デスクトップでの使用に違和感のないようデザインされた、画像"
+"ビューアー/エディター/ブラウザー/オーガナイザーです。"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:15
 msgid ""
@@ -124,7 +126,7 @@ msgstr "画像ビューアー"
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gThumb.desktop.in.in:8
 msgid "Image;Viewer;"
-msgstr "画像;イメージ;ビューアー;"
+msgstr "Image;Viewer;画像;イメージ;ビューアー;"
 
 #: data/org.gnome.gThumb.desktop.in.in:25
 #: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
@@ -3030,70 +3032,60 @@ msgstr "再生/一時停止"
 
 #: extensions/gstreamer_tools/callbacks.c:34
 msgid "Mute"
-msgstr ""
+msgstr "ミュート"
 
 #: extensions/gstreamer_tools/callbacks.c:35
-#, fuzzy
-#| msgid "Play/Pause"
 msgid "Play faster"
-msgstr "再生/一時停止"
+msgstr "早見再生"
 
 #: extensions/gstreamer_tools/callbacks.c:36
 msgid "Play slower"
-msgstr ""
+msgstr "ゆっくり再生"
 
 #: extensions/gstreamer_tools/callbacks.c:37
 #: extensions/image_viewer/gth-image-viewer-page.c:1189
 msgid "Next frame"
-msgstr "次のフレームに移動します"
+msgstr "次のフレームに移動"
 
 #: extensions/gstreamer_tools/callbacks.c:38
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:356
 msgid "Go forward 5 seconds"
-msgstr ""
+msgstr "5 秒進む"
 
 #: extensions/gstreamer_tools/callbacks.c:39
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:370
 msgid "Go forward 10 seconds"
-msgstr ""
+msgstr "10 秒進む"
 
 #: extensions/gstreamer_tools/callbacks.c:40
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:384
 msgid "Go forward 1 minute"
-msgstr ""
+msgstr "1 分進む"
 
 #: extensions/gstreamer_tools/callbacks.c:41
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:398
 msgid "Go forward 5 minutes"
-msgstr ""
+msgstr "5 分進む"
 
 #: extensions/gstreamer_tools/callbacks.c:42
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:300
-#, fuzzy
-#| msgid "Go back to the index"
 msgid "Go back 5 seconds"
-msgstr "目次に戻ります"
+msgstr "5 秒戻る"
 
 #: extensions/gstreamer_tools/callbacks.c:43
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:314
-#, fuzzy
-#| msgid "Go back to the index"
 msgid "Go back 10 seconds"
-msgstr "目次に戻ります"
+msgstr "10 秒戻る"
 
 #: extensions/gstreamer_tools/callbacks.c:44
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:328
-#, fuzzy
-#| msgid "Go back to the index"
 msgid "Go back 1 minute"
-msgstr "目次に戻ります"
+msgstr "1 分戻る"
 
 #: extensions/gstreamer_tools/callbacks.c:45
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:342
-#, fuzzy
-#| msgid "Go back to the index"
 msgid "Go back 5 minutes"
-msgstr "目次に戻ります"
+msgstr "5 分戻る"
 
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
@@ -3128,42 +3120,42 @@ msgstr "時間:"
 #. minus 5 seconds
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:296
 msgid "-5s"
-msgstr ""
+msgstr "-5秒"
 
 #. minus 10 seconds
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:310
 msgid "-10s"
-msgstr ""
+msgstr "-10秒"
 
 #. minus 1 minute
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:324
 msgid "-1m"
-msgstr ""
+msgstr "-1分"
 
 #. minus 5 minutes
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:338
 msgid "-5m"
-msgstr ""
+msgstr "-5分"
 
 #. plus 5 seconds
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:352
 msgid "+5s"
-msgstr ""
+msgstr "+5秒"
 
 #. plus 10 seconds
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:366
 msgid "+10s"
-msgstr ""
+msgstr "+10秒"
 
 #. plus 1 minute
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:380
 msgid "+1m"
-msgstr ""
+msgstr "+1分"
 
 #. plus 5 minutes
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:394
 msgid "+5m"
-msgstr ""
+msgstr "+5分"
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
@@ -5108,16 +5100,12 @@ msgid "Revert image to saved"
 msgstr "画像を保存されている状態に戻す"
 
 #: gthumb/gth-browser-actions-entries.h:105
-#, fuzzy
-#| msgid "Save Image"
 msgid "Save image"
 msgstr "画像を保存"
 
 #: gthumb/gth-browser-actions-entries.h:106
-#, fuzzy
-#| msgid "Save Image"
 msgid "Save image as"
-msgstr "画像を保存"
+msgstr "名前を付けて画像を保存"
 
 #: gthumb/gth-browser-actions-entries.h:107
 msgid "Sidebar"
