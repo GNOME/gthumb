@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-07-24 08:39+0000\n"
-"PO-Revision-Date: 2020-07-24 17:35+0900\n"
+"POT-Creation-Date: 2020-07-24 08:43+0000\n"
+"PO-Revision-Date: 2020-07-26 14:05+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -34,8 +34,8 @@ msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
-"gThumb は GNOME 3 デスクトップでの使用に違和感のないようデザインされた、画像"
-"ビューアー/エディター/ブラウザー/オーガナイザーです。"
+"gThumb は GNOME 3 デスクトップで使用するときに違和感のないようデザインされた"
+"、画像ビューアー/エディター/ブラウザー/オーガナイザーです。"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:15
 msgid ""
@@ -44,6 +44,9 @@ msgid ""
 "is also possible to view various metadata types embedded inside an image "
 "such as EXIF, IPTC and XMP."
 msgstr ""
+"画像ビューアーとしては、BMP、JPEG、GIF (GIF アニメを含む)、PNG、TIFF、TGA、"
+"RAW といった一般的な画像ファイル形式に対応しています。また、EXIF、IPTC、XMP"
+" などの画像に埋め込まれたメタデータを表示することもできます。"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:22
 msgid ""
@@ -51,6 +54,8 @@ msgid ""
 "change the saturation, lightness, contrast as well as other color "
 "transformations."
 msgstr ""
+"画像エディターとしては、画像の縮小拡大、回転、トリミングに加え、彩度、明度"
+"、コントラスト、その他の色の変換機能を備えています。"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:27
 msgid ""
@@ -61,6 +66,10 @@ msgid ""
 "format conversion; slideshow; setting an image as desktop background and "
 "several others."
 msgstr ""
+"画像ブラウザーとしては、ディスクに保存された画像のサムネイルの表示や、ファ"
+"イルやフォルダーのコピー/移動/削除といった一般的なファイル操作を行うことが"
+"できます。さらに、JPEG ロスレス変換、画像サイズ変更、フォーマット変換、ス"
+"ライドショーといった機能や、画像を壁紙に設定する機能なども備えています。"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:35
 msgid ""
@@ -68,6 +77,9 @@ msgid ""
 "images; organize images in catalogs and catalogs in libraries; search for "
 "images and save the result as a catalog."
 msgstr ""
+"画像オーガナイザーとしては、画像にコメントやその他のメタデータを追加したり"
+"、ライブラリ内のカタログやカタログ内の画像を整理したり、画像の検索結果をカ"
+"タログとして保存したりすることができます。"
 
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
@@ -390,7 +402,7 @@ msgstr "ファイルまたはカタログを削除する前に確認する(_K)"
 
 #: data/ui/preferences.ui:373
 msgid "Ask whether to save _modified files"
-msgstr "変更したファイルを保存するか確認する(_M)"
+msgstr "更新したファイルを保存するか確認する(_M)"
 
 #: data/ui/preferences.ui:388
 msgid "_Store metadata inside files if possible"
@@ -1596,7 +1608,7 @@ msgstr "ファイルの作成日"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:560
 msgid "Do not modify"
-msgstr "変更しない"
+msgstr "更新しない"
 
 #: extensions/edit_metadata/gth-tag-task.c:122
 #: extensions/edit_metadata/gth-tag-task.c:139
@@ -4912,7 +4924,7 @@ msgstr "戻す"
 
 #: gthumb/dlg-preferences-shortcuts.c:369
 msgid "Do you want to revert all the changes and use the default shortcuts?"
-msgstr "すべての変更を元に戻してデフォルトのショートカットを使用しますか?"
+msgstr "すべての変更内容を元に戻してデフォルトのショートカットを使用しますか?"
 
 #: gthumb/dlg-preferences-shortcuts.c:542
 msgctxt "Shortcuts"
@@ -5173,7 +5185,7 @@ msgstr "選択を解除"
 
 #: gthumb/gth-browser.c:408
 msgid "[modified]"
-msgstr "[変更済]"
+msgstr "[更新済]"
 
 #: gthumb/gth-browser.c:873
 #, c-format
@@ -5194,11 +5206,11 @@ msgstr "%s に適したモジュールが見つかりませんでした"
 #: gthumb/gth-browser.c:1907
 #, c-format
 msgid "Save changes to file “%s”?"
-msgstr "“%s”の変更を保存しますか?"
+msgstr "“%s”の変更内容を保存しますか?"
 
 #: gthumb/gth-browser.c:1912
 msgid "If you don’t save, changes to the file will be permanently lost."
-msgstr "保存しないと、そのファイルに対する変更は完全に失われます。"
+msgstr "保存しないと、そのファイルに対する変更内容は完全に失われます。"
 
 #: gthumb/gth-browser.c:1913
 msgid "Do _Not Save"
@@ -5396,7 +5408,7 @@ msgstr "バイト"
 #. Translators: the file modified time.
 #: gthumb/gth-main-default-metadata.c:43
 msgid "Modified Date & Time"
-msgstr "変更日時"
+msgstr "更新日時"
 
 #: gthumb/gth-main-default-metadata.c:44
 msgid "Type"
@@ -5444,7 +5456,7 @@ msgstr "カラープロファイル"
 
 #: gthumb/gth-main-default-metadata.c:61
 msgid "General Date & Time"
-msgstr ""
+msgstr "撮影日時"
 
 #: gthumb/gth-main-default-metadata.c:68
 msgid "Author"
