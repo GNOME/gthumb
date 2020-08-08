@@ -183,7 +183,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	unsigned char                 *p_buffer;
 	int                            x;
 	gboolean                       read_all_scanlines = FALSE;
-	volatile gboolean                       finished = FALSE;
+	volatile gboolean              finished = FALSE;
 
 	image = gth_image_new ();
 	surface = NULL;
@@ -608,7 +608,6 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 
 			cairo_surface_destroy (surface);
 			surface = NULL; /* ignore other jpeg errors */
-			
 		}
 
 		if (read_all_scanlines)
