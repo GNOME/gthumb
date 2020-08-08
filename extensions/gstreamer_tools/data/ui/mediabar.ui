@@ -288,7 +288,7 @@ audio-volume-medium-symbolic</property>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">1</property>
-            <property name="width">4</property>
+            <property name="width">5</property>
           </packing>
         </child>
         <child>
@@ -301,7 +301,7 @@ audio-volume-medium-symbolic</property>
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="left_attach">0</property>
+            <property name="left_attach">1</property>
             <property name="top_attach">0</property>
           </packing>
         </child>
@@ -315,7 +315,7 @@ audio-volume-medium-symbolic</property>
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="left_attach">1</property>
+            <property name="left_attach">2</property>
             <property name="top_attach">0</property>
           </packing>
         </child>
@@ -329,7 +329,7 @@ audio-volume-medium-symbolic</property>
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="left_attach">2</property>
+            <property name="left_attach">3</property>
             <property name="top_attach">0</property>
           </packing>
         </child>
@@ -343,7 +343,7 @@ audio-volume-medium-symbolic</property>
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="left_attach">3</property>
+            <property name="left_attach">4</property>
             <property name="top_attach">0</property>
           </packing>
         </child>
@@ -357,7 +357,7 @@ audio-volume-medium-symbolic</property>
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="left_attach">0</property>
+            <property name="left_attach">1</property>
             <property name="top_attach">2</property>
           </packing>
         </child>
@@ -371,7 +371,7 @@ audio-volume-medium-symbolic</property>
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="left_attach">1</property>
+            <property name="left_attach">2</property>
             <property name="top_attach">2</property>
           </packing>
         </child>
@@ -385,7 +385,7 @@ audio-volume-medium-symbolic</property>
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="left_attach">2</property>
+            <property name="left_attach">3</property>
             <property name="top_attach">2</property>
           </packing>
         </child>
@@ -399,7 +399,7 @@ audio-volume-medium-symbolic</property>
             <property name="relief">none</property>
           </object>
           <packing>
-            <property name="left_attach">3</property>
+            <property name="left_attach">4</property>
             <property name="top_attach">2</property>
           </packing>
         </child>
@@ -432,9 +432,37 @@ audio-volume-medium-symbolic</property>
             </child>
           </object>
           <packing>
-            <property name="left_attach">4</property>
+            <property name="left_attach">5</property>
             <property name="top_attach">0</property>
             <property name="height">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_back_smallest_button">
+            <property name="label" translatable="yes" comments="minus 1 second">-1s</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go back 1 second</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="skip_forward_smallest_button">
+            <property name="label" translatable="yes" comments="plus 1 second">+1s</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Go forward 1 second</property>
+            <property name="relief">none</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
           </packing>
         </child>
       </object>

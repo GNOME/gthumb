@@ -272,6 +272,18 @@ gth_browser_activate_next_video_frame (GSimpleAction	*action,
 
 
 void
+gth_browser_activate_skip_forward_smallest (GSimpleAction	*action,
+					    GVariant		*state,
+					    gpointer		 user_data)
+{
+	GthBrowser	   *browser = GTH_BROWSER (user_data);
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+
+	gth_media_viewer_page_skip (page, 1);
+}
+
+
+void
 gth_browser_activate_skip_forward_smaller (GSimpleAction	*action,
 					   GVariant		*state,
 					   gpointer		 user_data)
@@ -316,6 +328,18 @@ gth_browser_activate_skip_forward_bigger (GSimpleAction	*action,
 	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
 
 	gth_media_viewer_page_skip (page, 60 * 5);
+}
+
+
+void
+gth_browser_activate_skip_back_smallest (GSimpleAction	*action,
+					 GVariant		*state,
+					 gpointer		 user_data)
+{
+	GthBrowser	   *browser = GTH_BROWSER (user_data);
+	GthMediaViewerPage *page = GTH_MEDIA_VIEWER_PAGE (gth_browser_get_viewer_page (browser));;
+
+	gth_media_viewer_page_skip (page, -1);
 }
 
 

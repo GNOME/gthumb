@@ -97,10 +97,12 @@ static const GActionEntry actions[] = {
 	{ "play-faster", gth_browser_activate_play_faster },
 	{ "play-slower", gth_browser_activate_play_slower },
 	{ "next-frame", gth_browser_activate_next_video_frame },
+	{ "skip-forward-smallest", gth_browser_activate_skip_forward_smallest },
 	{ "skip-forward-smaller", gth_browser_activate_skip_forward_smaller },
 	{ "skip-forward-small", gth_browser_activate_skip_forward_small },
 	{ "skip-forward-big", gth_browser_activate_skip_forward_big },
 	{ "skip-forward-bigger", gth_browser_activate_skip_forward_bigger },
+	{ "skip-back-smallest", gth_browser_activate_skip_back_smallest },
 	{ "skip-back-smaller", gth_browser_activate_skip_back_smaller },
 	{ "skip-back-small", gth_browser_activate_skip_back_small },
 	{ "skip-back-big", gth_browser_activate_skip_back_big },
@@ -946,11 +948,28 @@ skip_back_smaller_button_clicked_cb (GtkButton *button,
 
 
 static void
+skip_back_smallest_button_clicked_cb (GtkButton *button,
+				      gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), -1);
+}
+
+
+static void
+skip_forward_smallest_button_clicked_cb (GtkButton *button,
+					 gpointer   user_data)
+{
+	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), 1);
+}
+
+
+static void
 skip_forward_smaller_button_clicked_cb (GtkButton *button,
 					gpointer   user_data)
 {
 	gth_media_viewer_page_skip (GTH_MEDIA_VIEWER_PAGE (user_data), 5);
 }
+
 
 static void
 skip_forward_small_button_clicked_cb (GtkButton *button,
@@ -1120,6 +1139,14 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (GET_WIDGET ("skip_back_smaller_button"),
 			  "clicked",
 			  G_CALLBACK (skip_back_smaller_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_back_smallest_button"),
+			  "clicked",
+			  G_CALLBACK (skip_back_smallest_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("skip_forward_smallest_button"),
+			  "clicked",
+			  G_CALLBACK (skip_forward_smallest_button_clicked_cb),
 			  self);
 	g_signal_connect (GET_WIDGET ("skip_forward_smaller_button"),
 			  "clicked",
