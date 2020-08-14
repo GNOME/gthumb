@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
 "POT-Creation-Date: 2020-08-09 08:35+0000\n"
-"PO-Revision-Date: 2020-07-26 14:05+0900\n"
+"PO-Revision-Date: 2020-08-15 02:10+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -3061,10 +3061,8 @@ msgstr "次のフレームに移動"
 
 #: extensions/gstreamer_tools/callbacks.c:38
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:460
-#, fuzzy
-#| msgid "Go forward 10 seconds"
 msgid "Go forward 1 second"
-msgstr "10 秒進む"
+msgstr "1 秒進む"
 
 #: extensions/gstreamer_tools/callbacks.c:39
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:356
@@ -3088,10 +3086,8 @@ msgstr "5 分進む"
 
 #: extensions/gstreamer_tools/callbacks.c:43
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:446
-#, fuzzy
-#| msgid "Go back 10 seconds"
 msgid "Go back 1 second"
-msgstr "10 秒戻る"
+msgstr "1 秒戻る"
 
 #: extensions/gstreamer_tools/callbacks.c:44
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:300
@@ -3185,17 +3181,13 @@ msgstr "+5分"
 
 #. minus 1 second
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:442
-#, fuzzy
-#| msgid "-10s"
 msgid "-1s"
-msgstr "-10秒"
+msgstr "-1秒"
 
 #. plus 1 second
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:456
-#, fuzzy
-#| msgid "+10s"
 msgid "+1s"
-msgstr "+10秒"
+msgstr "+1秒"
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
