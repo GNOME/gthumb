@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-07-24 08:43+0000\n"
+"POT-Creation-Date: 2020-08-09 08:35+0000\n"
 "PO-Revision-Date: 2020-07-26 14:05+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -34,8 +34,8 @@ msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
-"gThumb は GNOME 3 デスクトップで使用するときに違和感のないようデザインされた"
-"、画像ビューアー/エディター/ブラウザー/オーガナイザーです。"
+"gThumb は GNOME 3 デスクトップで使用するときに違和感のないようデザインされ"
+"た、画像ビューアー/エディター/ブラウザー/オーガナイザーです。"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:15
 msgid ""
@@ -45,8 +45,8 @@ msgid ""
 "such as EXIF, IPTC and XMP."
 msgstr ""
 "画像ビューアーとしては、BMP、JPEG、GIF (GIF アニメを含む)、PNG、TIFF、TGA、"
-"RAW といった一般的な画像ファイル形式に対応しています。また、EXIF、IPTC、XMP"
-" などの画像に埋め込まれたメタデータを表示することもできます。"
+"RAW といった一般的な画像ファイル形式に対応しています。また、EXIF、IPTC、XMP "
+"などの画像に埋め込まれたメタデータを表示することもできます。"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:22
 msgid ""
@@ -54,8 +54,8 @@ msgid ""
 "change the saturation, lightness, contrast as well as other color "
 "transformations."
 msgstr ""
-"画像エディターとしては、画像の縮小拡大、回転、トリミングに加え、彩度、明度"
-"、コントラスト、その他の色の変換機能を備えています。"
+"画像エディターとしては、画像の縮小拡大、回転、トリミングに加え、彩度、明度、"
+"コントラスト、その他の色の変換機能を備えています。"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:27
 msgid ""
@@ -66,10 +66,10 @@ msgid ""
 "format conversion; slideshow; setting an image as desktop background and "
 "several others."
 msgstr ""
-"画像ブラウザーとしては、ディスクに保存された画像のサムネイルの表示や、ファ"
-"イルやフォルダーのコピー/移動/削除といった一般的なファイル操作を行うことが"
-"できます。さらに、JPEG ロスレス変換、画像サイズ変更、フォーマット変換、ス"
-"ライドショーといった機能や、画像を壁紙に設定する機能なども備えています。"
+"画像ブラウザーとしては、ディスクに保存された画像のサムネイルの表示や、ファイ"
+"ルやフォルダーのコピー/移動/削除といった一般的なファイル操作を行うことができ"
+"ます。さらに、JPEG ロスレス変換、画像サイズ変更、フォーマット変換、スライド"
+"ショーといった機能や、画像を壁紙に設定する機能なども備えています。"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:35
 msgid ""
@@ -77,9 +77,9 @@ msgid ""
 "images; organize images in catalogs and catalogs in libraries; search for "
 "images and save the result as a catalog."
 msgstr ""
-"画像オーガナイザーとしては、画像にコメントやその他のメタデータを追加したり"
-"、ライブラリ内のカタログやカタログ内の画像を整理したり、画像の検索結果をカ"
-"タログとして保存したりすることができます。"
+"画像オーガナイザーとしては、画像にコメントやその他のメタデータを追加したり、"
+"ライブラリ内のカタログやカタログ内の画像を整理したり、画像の検索結果をカタロ"
+"グとして保存したりすることができます。"
 
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
@@ -3060,41 +3060,55 @@ msgid "Next frame"
 msgstr "次のフレームに移動"
 
 #: extensions/gstreamer_tools/callbacks.c:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:460
+#, fuzzy
+#| msgid "Go forward 10 seconds"
+msgid "Go forward 1 second"
+msgstr "10 秒進む"
+
+#: extensions/gstreamer_tools/callbacks.c:39
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:356
 msgid "Go forward 5 seconds"
 msgstr "5 秒進む"
 
-#: extensions/gstreamer_tools/callbacks.c:39
+#: extensions/gstreamer_tools/callbacks.c:40
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:370
 msgid "Go forward 10 seconds"
 msgstr "10 秒進む"
 
-#: extensions/gstreamer_tools/callbacks.c:40
+#: extensions/gstreamer_tools/callbacks.c:41
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:384
 msgid "Go forward 1 minute"
 msgstr "1 分進む"
 
-#: extensions/gstreamer_tools/callbacks.c:41
+#: extensions/gstreamer_tools/callbacks.c:42
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:398
 msgid "Go forward 5 minutes"
 msgstr "5 分進む"
 
-#: extensions/gstreamer_tools/callbacks.c:42
+#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:446
+#, fuzzy
+#| msgid "Go back 10 seconds"
+msgid "Go back 1 second"
+msgstr "10 秒戻る"
+
+#: extensions/gstreamer_tools/callbacks.c:44
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:300
 msgid "Go back 5 seconds"
 msgstr "5 秒戻る"
 
-#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/callbacks.c:45
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:314
 msgid "Go back 10 seconds"
 msgstr "10 秒戻る"
 
-#: extensions/gstreamer_tools/callbacks.c:44
+#: extensions/gstreamer_tools/callbacks.c:46
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:328
 msgid "Go back 1 minute"
 msgstr "1 分戻る"
 
-#: extensions/gstreamer_tools/callbacks.c:45
+#: extensions/gstreamer_tools/callbacks.c:47
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:342
 msgid "Go back 5 minutes"
 msgstr "5 分戻る"
@@ -3108,7 +3122,7 @@ msgid "_Screenshots location:"
 msgstr "スクリーンショットの場所(_S):"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:29
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:620
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:622
 #: extensions/image_viewer/gth-image-viewer-page.c:1182
 msgid "Play"
 msgstr "再生します"
@@ -3169,6 +3183,20 @@ msgstr "+1分"
 msgid "+5m"
 msgstr "+5分"
 
+#. minus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:442
+#, fuzzy
+#| msgid "-10s"
+msgid "-1s"
+msgstr "-10秒"
+
+#. plus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:456
+#, fuzzy
+#| msgid "+10s"
+msgid "+1s"
+msgstr "+10秒"
+
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
 msgstr "オーディオ/動画のサポート"
@@ -3181,19 +3209,19 @@ msgstr "オーディオや動画ファイルを再生します"
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:593
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "動画を再生します"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:606
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:608
 msgid "Pause"
 msgstr "一時停止します"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1029
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1048
 msgid "Take a screenshot"
 msgstr "スクリーンショットを撮ります"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1036
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1055
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
