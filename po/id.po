@@ -8,16 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-07-19 12:33+0000\n"
-"PO-Revision-Date: 2020-07-31 20:12+0700\n"
-"Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
+"POT-Creation-Date: 2020-08-09 08:35+0000\n"
+"PO-Revision-Date: 2020-08-16 18:49+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: GNOME Indonesian Translation Team <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural= n!=1;\n"
-"X-Generator: Poedit 2.4\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -3072,41 +3072,51 @@ msgid "Next frame"
 msgstr "Bingkai selanjutnya"
 
 #: extensions/gstreamer_tools/callbacks.c:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:460
+msgid "Go forward 1 second"
+msgstr "Maju 1 detik"
+
+#: extensions/gstreamer_tools/callbacks.c:39
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:356
 msgid "Go forward 5 seconds"
 msgstr "Maju 5 detik"
 
-#: extensions/gstreamer_tools/callbacks.c:39
+#: extensions/gstreamer_tools/callbacks.c:40
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:370
 msgid "Go forward 10 seconds"
 msgstr "Maju 10 detik"
 
-#: extensions/gstreamer_tools/callbacks.c:40
+#: extensions/gstreamer_tools/callbacks.c:41
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:384
 msgid "Go forward 1 minute"
 msgstr "Maju 1 menit"
 
-#: extensions/gstreamer_tools/callbacks.c:41
+#: extensions/gstreamer_tools/callbacks.c:42
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:398
 msgid "Go forward 5 minutes"
 msgstr "Maju 5 menit"
 
-#: extensions/gstreamer_tools/callbacks.c:42
+#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:446
+msgid "Go back 1 second"
+msgstr "Mundur 1 detik"
+
+#: extensions/gstreamer_tools/callbacks.c:44
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:300
 msgid "Go back 5 seconds"
 msgstr "Mundur 5 detik"
 
-#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/callbacks.c:45
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:314
 msgid "Go back 10 seconds"
 msgstr "Mundur 10 detik"
 
-#: extensions/gstreamer_tools/callbacks.c:44
+#: extensions/gstreamer_tools/callbacks.c:46
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:328
 msgid "Go back 1 minute"
 msgstr "Mundur 1 menit"
 
-#: extensions/gstreamer_tools/callbacks.c:45
+#: extensions/gstreamer_tools/callbacks.c:47
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:342
 msgid "Go back 5 minutes"
 msgstr "Mundur 5 menit"
@@ -3120,7 +3130,7 @@ msgid "_Screenshots location:"
 msgstr "Loka_si cuplikan layar:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:29
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:620
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:622
 #: extensions/image_viewer/gth-image-viewer-page.c:1182
 msgid "Play"
 msgstr "Mainkan"
@@ -3181,6 +3191,16 @@ msgstr "+1m"
 msgid "+5m"
 msgstr "+5m"
 
+#. minus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:442
+msgid "-1s"
+msgstr "-1s"
+
+#. plus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:456
+msgid "+1s"
+msgstr "+1s"
+
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
 msgstr "Dukungan audio/video"
@@ -3193,19 +3213,19 @@ msgstr "Putar berkas audio dan video."
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:593
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "Memutar video"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:606
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:608
 msgid "Pause"
 msgstr "Jeda"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1029
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1048
 msgid "Take a screenshot"
 msgstr "Ambil cuplikan layar"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1036
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1055
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
@@ -5091,7 +5111,7 @@ msgstr "Sebuah penampil dan browser gambar untuk GNOME."
 msgid "translator-credits"
 msgstr ""
 "Abdul Hamid.A.N <hameed@linuxmail.org>, 2004.\n"
-"Andika Triwidada <andika@gmail.com>, 2010-2014, 2016, 2017.\n"
+"Andika Triwidada <andika@gmail.com>, 2010-2014, 2016, 2017, 2020.\n"
 "Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017-2020."
 
 #: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
@@ -5830,16 +5850,3 @@ msgstr "Tent_ang gThumb"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "Hap_us History"
-
-#~ msgid "--∶--"
-#~ msgstr "--∶--"
-
-#~ msgid "_Keep the dialog open"
-#~ msgstr "Pertahan_kan dialog terbuka"
-
-#~ msgid "gthumb development team"
-#~ msgstr "tim pengembang gthumb"
-
-#~ msgctxt "the file mtime"
-#~ msgid "Modified Date & Time"
-#~ msgstr "Tanggal & Waktu Saat Diubah"
