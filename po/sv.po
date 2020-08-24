@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-07-19 12:33+0000\n"
-"PO-Revision-Date: 2020-07-30 14:52+0200\n"
+"POT-Creation-Date: 2020-08-09 08:35+0000\n"
+"PO-Revision-Date: 2020-08-24 16:27+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -3078,41 +3078,51 @@ msgid "Next frame"
 msgstr "Nästa bildruta"
 
 #: extensions/gstreamer_tools/callbacks.c:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:460
+msgid "Go forward 1 second"
+msgstr "Gå framåt 1 sekund"
+
+#: extensions/gstreamer_tools/callbacks.c:39
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:356
 msgid "Go forward 5 seconds"
 msgstr "Gå framåt 5 sekunder"
 
-#: extensions/gstreamer_tools/callbacks.c:39
+#: extensions/gstreamer_tools/callbacks.c:40
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:370
 msgid "Go forward 10 seconds"
 msgstr "Gå framåt 10 sekunder"
 
-#: extensions/gstreamer_tools/callbacks.c:40
+#: extensions/gstreamer_tools/callbacks.c:41
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:384
 msgid "Go forward 1 minute"
 msgstr "Gå framåt 1 minut"
 
-#: extensions/gstreamer_tools/callbacks.c:41
+#: extensions/gstreamer_tools/callbacks.c:42
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:398
 msgid "Go forward 5 minutes"
 msgstr "Gå framåt 5 minuter"
 
-#: extensions/gstreamer_tools/callbacks.c:42
+#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:446
+msgid "Go back 1 second"
+msgstr "Gå tillbaka 1 sekund"
+
+#: extensions/gstreamer_tools/callbacks.c:44
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:300
 msgid "Go back 5 seconds"
 msgstr "Gå tillbaka 5 sekunder"
 
-#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/callbacks.c:45
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:314
 msgid "Go back 10 seconds"
 msgstr "Gå tillbaka 10 sekunder"
 
-#: extensions/gstreamer_tools/callbacks.c:44
+#: extensions/gstreamer_tools/callbacks.c:46
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:328
 msgid "Go back 1 minute"
 msgstr "Gå tillbaka 1 minut"
 
-#: extensions/gstreamer_tools/callbacks.c:45
+#: extensions/gstreamer_tools/callbacks.c:47
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:342
 msgid "Go back 5 minutes"
 msgstr "Gå tillbaka 5 minuter"
@@ -3126,7 +3136,7 @@ msgid "_Screenshots location:"
 msgstr "Plats för _skärmbilder:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:29
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:620
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:622
 #: extensions/image_viewer/gth-image-viewer-page.c:1182
 msgid "Play"
 msgstr "Spela upp"
@@ -3187,6 +3197,18 @@ msgstr "+1m"
 msgid "+5m"
 msgstr "+5m"
 
+#. minus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:442
+#| msgid "-10s"
+msgid "-1s"
+msgstr "-1s"
+
+#. plus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:456
+#| msgid "+10s"
+msgid "+1s"
+msgstr "+1s"
+
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
 msgstr "Stöd för ljud/video"
@@ -3199,19 +3221,19 @@ msgstr "Spela upp ljud- och videofiler."
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:593
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "Spela upp video"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:606
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:608
 msgid "Pause"
 msgstr "Paus"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1029
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1048
 msgid "Take a screenshot"
 msgstr "Ta en skärmbild"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1036
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1055
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
