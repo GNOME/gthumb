@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-25 00:47+0000\n"
+"POT-Creation-Date: 2020-08-08 19:32+0000\n"
 "PO-Revision-Date: 2019-10-28 16:40+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
@@ -45,7 +45,7 @@ msgstr "Ayuda de gThumb"
 #. (itstool) path: section/title
 #: C/index.page:23
 msgid "Welcome"
-msgstr "Bienvenido"
+msgstr "Bienvenido/a"
 
 #. (itstool) path: section/title
 #: C/index.page:27
@@ -1599,8 +1599,8 @@ msgstr ""
 "memoria. No son operaciones directas sobre el archivo. Para imágenes jpeg, "
 "esto significa que no son operaciones sin pérdidas; la imagen se degradará "
 "levemente cuando se recodifica y se guarda. Sin embargo, <app>gThumb</app> "
-"proporciona herramientas de rotación sin pérdidas. Consulte la sección <link xref="
-"\"gthumb-batch-rotate\"/>."
+"proporciona herramientas de rotación sin pérdidas. Consulte la sección <link "
+"xref=\"gthumb-batch-rotate\"/>."
 
 #. (itstool) path: page/title
 #: C/edit-resize-crop.page:6
