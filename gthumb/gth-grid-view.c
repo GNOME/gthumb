@@ -176,7 +176,6 @@ struct _GthGridViewPrivate {
 	GtkSelectionMode       selection_mode;
 	cairo_rectangle_int_t  selection_area;
 	int                    last_selected_pos;
-	GthGridViewItem       *last_selected_item;
 	guint                  multi_selecting_with_keyboard : 1; /* Whether a multi selection with the keyboard has started. */
 	guint                  selection_changed : 1;
 	int                    sel_start_x;         /* The point where the mouse selection started. */
@@ -1995,7 +1994,6 @@ gth_grid_view_select (GthFileSelection *selection,
 
 		_gth_grid_view_set_item_selected_and_emit_signal (self, TRUE, pos);
 		self->priv->last_selected_pos = pos;
-		self->priv->last_selected_item = g_list_nth (self->priv->items, pos)->data;
 		break;
 
 	default:
@@ -2655,10 +2653,8 @@ _gth_grid_view_select_range (GthGridView     *self,
 	int    a, b;
 	GList *scan;
 
-	if (self->priv->last_selected_pos == -1) {
+	if (self->priv->last_selected_pos == -1)
 		self->priv->last_selected_pos = pos;
-		self->priv->last_selected_item = item;
-	}
 
 	if (pos < self->priv->last_selected_pos) {
 		a = pos;
@@ -2702,7 +2698,6 @@ _gth_grid_view_select_single (GthGridView     *self,
 		_gth_grid_view_unselect_all (self, NULL);
 		_gth_grid_view_set_item_selected_and_emit_signal (self, TRUE, pos);
 		self->priv->last_selected_pos = pos;
-		self->priv->last_selected_item = item;
 
 		if (self->priv->activate_on_single_click && ((event->state & GDK_MOD1_MASK) == 0))
 			self->priv->activate_pending = TRUE;
@@ -2736,7 +2731,6 @@ _gth_grid_view_select_multiple (GthGridView     *self,
 	else if (additive) {
 		_gth_grid_view_set_item_selected_and_emit_signal (self, ! (item->state & GTK_STATE_FLAG_SELECTED), pos);
 		self->priv->last_selected_pos = pos;
-		self->priv->last_selected_item = item;
 	}
 
 	gth_file_view_set_cursor (GTH_FILE_VIEW (self), pos);
@@ -3055,7 +3049,6 @@ gth_grid_view_button_release (GtkWidget      *widget,
 		_gth_grid_view_unselect_all (self, NULL);
 		_gth_grid_view_set_item_selected_and_emit_signal (self, TRUE, self->priv->select_pending_pos);
 		self->priv->last_selected_pos = self->priv->select_pending_pos;
-		self->priv->last_selected_item = self->priv->select_pending_item;
 		if (self->priv->activate_on_single_click && ((event->state & GDK_MOD1_MASK) == 0))
 			self->priv->activate_pending = TRUE;
 	}
@@ -3426,7 +3419,6 @@ gth_grid_view_select_cursor_item (GthGridView *self)
 	_gth_grid_view_unselect_all (self, item);
 	_gth_grid_view_select_item (self, self->priv->focused_item);
 	self->priv->last_selected_pos = self->priv->select_pending_pos;
-	self->priv->last_selected_item = self->priv->select_pending_item;
 	_gth_grid_view_emit_selection_changed (self);
 
 	return TRUE;
@@ -3948,7 +3940,6 @@ gth_grid_view_init (GthGridView *self)
 	gth_grid_view_set_selection_mode (GTH_FILE_SELECTION (self), GTK_SELECTION_MULTIPLE);
 	/* self->priv->selection_area = 0; */
 	self->priv->last_selected_pos = -1;
-	self->priv->last_selected_item = NULL;
 	self->priv->multi_selecting_with_keyboard = FALSE;
 	self->priv->selection_changed = FALSE;
 	self->priv->sel_start_x = 0;
