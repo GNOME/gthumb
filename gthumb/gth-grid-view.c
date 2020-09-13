@@ -2187,6 +2187,13 @@ model_row_deleted_cb (GtkTreeModel *tree_model,
 	else if (pos == self->priv->focused_item)
 		self->priv->focused_item = -1;
 
+	/* update the last selected position */
+
+	if (pos < self->priv->last_selected_pos)
+		self->priv->last_selected_pos--;
+	else if (pos == self->priv->last_selected_pos)
+		self->priv->last_selected_pos = -1;
+
 	/* relayout from the minimum changed position */
 
 	_gth_grid_view_queue_relayout_from_position (self, pos);
@@ -2237,6 +2244,11 @@ model_row_inserted_cb (GtkTreeModel *tree_model,
 
 	if (pos <= self->priv->focused_item)
 		self->priv->focused_item++;
+
+	/* update the last selected position */
+
+	if (pos <= self->priv->last_selected_pos)
+		self->priv->last_selected_pos++;
 
 	/* relayout from the minimum changed position */
 
@@ -2666,7 +2678,7 @@ _gth_grid_view_select_range (GthGridView     *self,
 	}
 
 	for (scan = g_list_nth (self->priv->items, a);
-	     a <= b;
+	     (a <= b) && (scan != NULL);
 	     a++, scan = scan->next)
 	{
 		GthGridViewItem *item = scan->data;
