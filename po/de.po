@@ -15,16 +15,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-07-19 12:25+0000\n"
-"PO-Revision-Date: 2020-09-13 14:25+0200\n"
+"POT-Creation-Date: 2020-09-13 14:13+0000\n"
+"PO-Revision-Date: 2020-09-13 23:05+0200\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German - Germany <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2;plural=(n>1);\n"
-"X-Generator: Gtranslator 3.36.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -157,6 +157,11 @@ msgstr "Bildbetrachter"
 msgid "Image;Viewer;"
 msgstr "Bild;Bildbetrachter;"
 
+#: data/org.gnome.gThumb.desktop.in.in:25
+#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
+msgid "New Window"
+msgstr "Neues Fenster"
+
 #: data/ui/browser-preferences.ui:20
 #: extensions/contact_sheet/gth-contact-sheet-theme.c:34
 #: extensions/image_print/data/ui/print-layout.ui:519
@@ -181,7 +186,7 @@ msgstr "Dateien im V_ollbildmodus öffnen"
 
 #: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
-#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:333
+#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:335
 #: gthumb/gth-shortcuts-window.c:96
 msgid "Other"
 msgstr "Andere"
@@ -430,7 +435,6 @@ msgid "General"
 msgstr "Allgemein"
 
 #: data/ui/shortcuts-preferences.ui:27
-#| msgid "Sh_ortcut:"
 msgid "Shortcuts:"
 msgstr "Tastenkürzel:"
 
@@ -665,7 +669,7 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:556
 #: extensions/contact_sheet/data/ui/image-wall.ui:269
-#: extensions/image_viewer/gth-image-viewer-page.c:1702
+#: extensions/image_viewer/gth-image-viewer-page.c:1703
 #: extensions/webalbums/data/ui/web-album-exporter.ui:484
 msgid "Saving"
 msgstr "Speichern"
@@ -675,7 +679,7 @@ msgstr "Speichern"
 #: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
-#: extensions/list_tools/gth-script-editor-dialog.c:273
+#: extensions/list_tools/gth-script-editor-dialog.c:274
 #: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1924
 #, c-format
 msgid "No name specified"
@@ -762,8 +766,8 @@ msgid "Rename"
 msgstr "Umbenennen"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4556
-#: gthumb/gth-browser.c:4658 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4557
+#: gthumb/gth-browser.c:4659 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Eigenschaften"
 
@@ -804,13 +808,11 @@ msgstr "K_ataloge:"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:34
 #: extensions/catalogs/dlg-add-to-catalog.c:620
-#| msgid "New _Library"
 msgid "New Library"
 msgstr "Neue Bibliothek"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:57
 #: extensions/catalogs/dlg-add-to-catalog.c:461
-#| msgid "_New Catalog"
 msgid "New Catalog"
 msgstr "Neuer Katalog"
 
@@ -908,7 +910,6 @@ msgstr "_Hinzufügen"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:714
 #: extensions/edit_metadata/dlg-edit-metadata.c:347
-#| msgid "Keep the original format"
 msgid "Keep the dialog open"
 msgstr "Den Dialog offen halten"
 
@@ -956,7 +957,7 @@ msgstr "Schlagwort (eingebettet)"
 #: extensions/exiv2_tools/exiv2-utils.cpp:885
 #: extensions/exiv2_tools/exiv2-utils.cpp:915
 #: extensions/exiv2_tools/exiv2-utils.cpp:1448
-#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:336
+#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "Ungültiges Dateiformat"
 
@@ -1022,12 +1023,12 @@ msgid "Change the files date"
 msgstr "Das Datum der gewählten Dateien ändern"
 
 #: extensions/change_date/data/ui/change-date.ui:12
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:236
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:243
 msgid "+"
 msgstr "+"
 
 #: extensions/change_date/data/ui/change-date.ui:15
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:244
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:251
 msgid "-"
 msgstr "-"
 
@@ -1552,12 +1553,10 @@ msgstr ""
 "Wenn Sie die Metadaten löschen, gehen diese für Sie dauerhaft verloren."
 
 #: extensions/edit_metadata/callbacks.c:45
-#| msgid "Edit Command"
 msgid "Edit comment"
 msgstr "Kommentar bearbeiten"
 
 #: extensions/edit_metadata/callbacks.c:46
-#| msgid "Edit template"
 msgid "Edit tags"
 msgstr "Schlagwörter bearbeiten"
 
@@ -1763,7 +1762,6 @@ msgid "date photo was taken"
 msgstr "Zeitpunkt der Aufnahme"
 
 #: extensions/export_tools/callbacks.c:46
-#| msgid "Export"
 msgid "_Export To"
 msgstr "_Exportieren als"
 
@@ -1979,7 +1977,7 @@ msgstr "Geben Sie einen Namen für den Ordner ein:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5568 gthumb/gth-browser.c:5604
+#: gthumb/gth-browser.c:5569 gthumb/gth-browser.c:5605
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Die Aktion konnte nicht ausgeführt werden"
@@ -2004,7 +2002,7 @@ msgstr ""
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
-#: gthumb/gtk-utils.h:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:417 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -2075,12 +2073,10 @@ msgid "Duplicate"
 msgstr "Duplikat"
 
 #: extensions/file_manager/callbacks.c:129
-#| msgid "Delete Metadata"
 msgid "Delete permanently"
 msgstr "Dauerhaft löschen"
 
 #: extensions/file_manager/callbacks.c:130
-#| msgid "Open _With"
 msgid "Open with Gimp"
 msgstr "Mit Gimp öffnen"
 
@@ -2130,7 +2126,6 @@ msgid "system-file-manager"
 msgstr "system-file-manager"
 
 #: extensions/file_tools/callbacks.c:53
-#| msgid "Adjust Contrast"
 msgid "Adjust contrast"
 msgstr "Kontrast anpassen"
 
@@ -2146,13 +2141,11 @@ msgstr "Horizontal spiegeln"
 
 #: extensions/file_tools/callbacks.c:56
 #: extensions/image_rotation/callbacks.c:47
-#| msgid "Rotate Right"
 msgid "Rotate right"
 msgstr "Rechts herum drehen"
 
 #: extensions/file_tools/callbacks.c:57
 #: extensions/image_rotation/callbacks.c:48
-#| msgid "Rotate Left"
 msgid "Rotate left"
 msgstr "Links herum drehen"
 
@@ -2640,7 +2633,7 @@ msgstr "Geben Sie den Namen der Voreinstellung ein:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1631
+#: extensions/image_viewer/gth-image-viewer-page.c:1632
 #: gthumb/gth-browser.c:1863
 msgid "Could not save the file"
 msgstr "Die Datei konnte nicht gespeichert werden"
@@ -3079,15 +3072,79 @@ msgid "Could not take a screenshot"
 msgstr "Bildschirmfoto konnte nicht aufgenommen werden"
 
 #: extensions/gstreamer_tools/callbacks.c:32
-#| msgctxt "Filename"
-#| msgid "Screenshot"
 msgid "Screenshot"
 msgstr "Bildschirmfoto"
 
 #: extensions/gstreamer_tools/callbacks.c:33
-#| msgid "Pause"
 msgid "Play/Pause"
 msgstr "Abspielen/Pausieren"
+
+#: extensions/gstreamer_tools/callbacks.c:34
+msgid "Mute"
+msgstr "Stumm"
+
+#: extensions/gstreamer_tools/callbacks.c:35
+msgid "Play faster"
+msgstr "Schneller abspielen"
+
+#: extensions/gstreamer_tools/callbacks.c:36
+msgid "Play slower"
+msgstr "Langsamer abspielen"
+
+#: extensions/gstreamer_tools/callbacks.c:37
+#: extensions/image_viewer/gth-image-viewer-page.c:1189
+msgid "Next frame"
+msgstr "Nächster Rahmen"
+
+#: extensions/gstreamer_tools/callbacks.c:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:460
+msgid "Go forward 1 second"
+msgstr "Eine Sekunde vorwärts gehen"
+
+#: extensions/gstreamer_tools/callbacks.c:39
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:356
+msgid "Go forward 5 seconds"
+msgstr "5 Sekunden vorwärts gehen"
+
+#: extensions/gstreamer_tools/callbacks.c:40
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:370
+msgid "Go forward 10 seconds"
+msgstr "10 Sekunden vorwärts gehen"
+
+#: extensions/gstreamer_tools/callbacks.c:41
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:384
+msgid "Go forward 1 minute"
+msgstr "1 Minute vorwärts gehen"
+
+#: extensions/gstreamer_tools/callbacks.c:42
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:398
+msgid "Go forward 5 minutes"
+msgstr "5 Minuten vorwärts gehen"
+
+#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:446
+msgid "Go back 1 second"
+msgstr "Eine Sekunde zurück gehen"
+
+#: extensions/gstreamer_tools/callbacks.c:44
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:300
+msgid "Go back 5 seconds"
+msgstr "5 Sekunden zurück gehen"
+
+#: extensions/gstreamer_tools/callbacks.c:45
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:314
+msgid "Go back 10 seconds"
+msgstr "10 Sekunden zurück gehen"
+
+#: extensions/gstreamer_tools/callbacks.c:46
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:328
+msgid "Go back 1 minute"
+msgstr "5 Sekunden zurück gehen"
+
+#: extensions/gstreamer_tools/callbacks.c:47
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:342
+msgid "Go back 5 minutes"
+msgstr "5 Minuten zurück gehen"
 
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
@@ -3097,31 +3154,77 @@ msgstr "Hardwarebeschleunigung verwenden"
 msgid "_Screenshots location:"
 msgstr "Ort für _Bildschirmfotos:"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:30
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:621
-#: extensions/image_viewer/gth-image-viewer-page.c:1181
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:29
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:622
+#: extensions/image_viewer/gth-image-viewer-page.c:1182
 msgid "Play"
 msgstr "Wiedergabe"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:51
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:50
 msgid "Slower"
 msgstr "Langsamer"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:73
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:72
 msgid "Faster"
 msgstr "Schneller"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:95
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:94
 msgid "Restart when finished"
 msgstr "Nach Ende der Vorführung neu beginnen"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:131
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:130
 msgid "Time:"
 msgstr "Zeit:"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:194
-msgid "--∶--"
-msgstr "--∶--"
+#. minus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:296
+msgid "-5s"
+msgstr "-5s"
+
+#. minus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:310
+msgid "-10s"
+msgstr "-10s"
+
+#. minus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:324
+msgid "-1m"
+msgstr "-1m"
+
+#. minus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:338
+msgid "-5m"
+msgstr "-5m"
+
+#. plus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:352
+msgid "+5s"
+msgstr "+5s"
+
+#. plus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:366
+msgid "+10s"
+msgstr "+10s"
+
+#. plus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:380
+msgid "+1m"
+msgstr "+1m"
+
+#. plus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:394
+msgid "+5m"
+msgstr "+5m"
+
+#. minus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:442
+msgid "-1s"
+msgstr "-1s"
+
+#. plus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:456
+msgid "+1s"
+msgstr "+1s"
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
@@ -3135,26 +3238,25 @@ msgstr "Video- und Audiodateien wiedergeben."
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:594
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "Video wird abgespielt"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:607
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:608
 msgid "Pause"
 msgstr "Pause"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:930
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1048
 msgid "Take a screenshot"
 msgstr "Ein Bildschirmfoto aufnehmen"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:937
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1055
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
 msgstr "In Fenster einpassen"
 
 #: extensions/gstreamer_tools/main.c:34
-#| msgid "Audio/Video support"
 msgid "Audio/Video Player"
 msgstr "Audio/Video-Wiedergabe"
 
@@ -3219,7 +3321,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
-#: extensions/image_viewer/gth-image-viewer-page.c:1864
+#: extensions/image_viewer/gth-image-viewer-page.c:1865
 #: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
 #: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
@@ -3414,27 +3516,22 @@ msgid "_Accept distortion"
 msgstr "Verzerrung _akzeptieren"
 
 #: extensions/image_viewer/callbacks.c:32
-#| msgid "Zoom quality:"
 msgid "Zoom in"
 msgstr "Vergrößern"
 
 #: extensions/image_viewer/callbacks.c:33
-#| msgid "Zoom quality:"
 msgid "Zoom out"
 msgstr "Verkleinern"
 
 #: extensions/image_viewer/callbacks.c:34
-#| msgid "100%"
 msgid "Zoom 100%"
 msgstr "100% Vergrößerung"
 
 #: extensions/image_viewer/callbacks.c:35
-#| msgid "200%"
 msgid "Zoom 200%"
 msgstr "200% Vergrößerung"
 
 #: extensions/image_viewer/callbacks.c:36
-#| msgid "300%"
 msgid "Zoom 300%"
 msgstr "300% Vergrößerung"
 
@@ -3443,37 +3540,30 @@ msgid "Zoom to fit"
 msgstr "Einpassen"
 
 #: extensions/image_viewer/callbacks.c:39
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit if larger"
 msgstr "Einpassen, falls größer"
 
 #: extensions/image_viewer/callbacks.c:40
-#| msgid "Fit to width"
 msgid "Zoom to fit width"
 msgstr "Breite einpassen"
 
 #: extensions/image_viewer/callbacks.c:41
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit width if larger"
 msgstr "In Fensterbreite einpassen, falls größer"
 
 #: extensions/image_viewer/callbacks.c:42
-#| msgid "Fit to height"
 msgid "Zoom to fit height"
 msgstr "Höhe einpassen"
 
 #: extensions/image_viewer/callbacks.c:43
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit height if larger"
 msgstr "In Fensterbreite einpassen, falls größer"
 
 #: extensions/image_viewer/callbacks.c:45
-#| msgid "Undo"
 msgid "Undo edit"
 msgstr "Bearbeitung zurücknehmen"
 
 #: extensions/image_viewer/callbacks.c:46
-#| msgid "Redo"
 msgid "Redo edit"
 msgstr "Bearbeitung wiederholen"
 
@@ -3482,7 +3572,6 @@ msgid "Scroll left"
 msgstr "Nach links gleiten"
 
 #: extensions/image_viewer/callbacks.c:49
-#| msgid "Slide from right"
 msgid "Scroll right"
 msgstr "Nach rechts gleiten"
 
@@ -3519,7 +3608,7 @@ msgid "After loading an image:"
 msgstr "Nach dem Laden eines Bildes:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
-#: extensions/image_viewer/gth-image-viewer-page.c:1138
+#: extensions/image_viewer/gth-image-viewer-page.c:1139
 msgid "Set to actual size"
 msgstr "Auf Originalgröße setzen"
 
@@ -3528,7 +3617,7 @@ msgid "Keep previous zoom"
 msgstr "Vorherigen Vergrößerungsfaktor behalten"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
-#: extensions/image_viewer/gth-image-viewer-page.c:1145
+#: extensions/image_viewer/gth-image-viewer-page.c:1146
 msgid "Fit to window if larger"
 msgstr "In Fenster einpassen, falls größer"
 
@@ -3550,13 +3639,11 @@ msgid "Mouse wheel action:"
 msgstr "Mausrad-Aktion:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:131
-#| msgid "Change date"
 msgctxt "zoom quality"
 msgid "Change image"
 msgstr "Bild ändern"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:148
-#| msgid "Copy Image"
 msgctxt "zoom quality"
 msgid "Zoom image"
 msgstr "Bild vergrößern"
@@ -3576,16 +3663,13 @@ msgid "_Low"
 msgstr "_Gering"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
-#| msgid "_Transparent"
 msgid "Transparency:"
 msgstr "Transparenz:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:295
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:15
-#, fuzzy
-#| msgid "Centered"
 msgid "Checkered"
-msgstr "Zentriert"
+msgstr "Schachbrettmuster"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:296
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:24
@@ -3594,7 +3678,6 @@ msgstr "Weiß"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
-#| msgid "Grayscale"
 msgid "Gray"
 msgstr "Grau"
 
@@ -3631,42 +3714,35 @@ msgstr "300%"
 msgid "Histogram"
 msgstr "Histogramm"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:83
+#: extensions/image_viewer/gth-image-viewer-page.c:84
 msgid "Copy Image"
 msgstr "Bild kopieren"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:84
+#: extensions/image_viewer/gth-image-viewer-page.c:85
 msgid "Paste Image"
 msgstr "Bild einfügen"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1173
+#: extensions/image_viewer/gth-image-viewer-page.c:1174
 msgid "Apply the embedded color profile"
 msgstr "Das eingebettetes Farbprofil anwenden"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1188
-msgid "Next frame"
-msgstr "Nächster Rahmen"
-
-#: extensions/image_viewer/gth-image-viewer-page.c:1195
-#| msgid "_Transparent"
+#: extensions/image_viewer/gth-image-viewer-page.c:1196
 msgid "Transparency"
 msgstr "Transparenz"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1803
+#: extensions/image_viewer/gth-image-viewer-page.c:1804
 msgid "Save Image"
 msgstr "Bild speichern"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2519
+#: extensions/image_viewer/gth-image-viewer-page.c:2528
 msgid "Loading the original image"
 msgstr "Originalbild wird geladen"
 
 #: extensions/image_viewer/main.c:36
-#| msgid "All Images"
 msgid "Scroll Image"
 msgstr "Bild gleiten lassen"
 
 #: extensions/image_viewer/main.c:37
-#| msgid "Image print"
 msgid "Image Editor"
 msgstr "Bildbearbeitung"
 
@@ -3874,7 +3950,6 @@ msgid "Quote the text "
 msgstr "Text zitieren "
 
 #: extensions/list_tools/data/ui/script-editor.ui:522
-#| msgid "The current date"
 msgid "The current date and time"
 msgstr "Das aktuelle Datum und Uhrzeit"
 
@@ -3891,7 +3966,7 @@ msgid "Script"
 msgstr "Skript"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:264
-#: gthumb/dlg-preferences-shortcuts.c:229 gthumb/gth-accel-button.c:256
+#: gthumb/dlg-preferences-shortcuts.c:231 gthumb/gth-accel-button.c:256
 msgid "Shortcut"
 msgstr "Tastenkürzel"
 
@@ -3904,23 +3979,23 @@ msgstr "Zeigen"
 msgid "Could not save the script"
 msgstr "Das Skript konnte nicht gespeichert werden"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:448
+#: extensions/list_tools/dlg-personalize-scripts.c:449
 msgid "New Command"
 msgstr "Neuer Befehl"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:475
+#: extensions/list_tools/dlg-personalize-scripts.c:476
 msgid "Edit Command"
 msgstr "Befehl bearbeiten"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:505
+#: extensions/list_tools/dlg-personalize-scripts.c:506
 msgid "Are you sure you want to delete the selected command?"
 msgstr "Soll der ausgewählte Befehl gelöscht werden?"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:605
+#: extensions/list_tools/dlg-personalize-scripts.c:606
 msgid "Commands"
 msgstr "Befehle"
 
-#: extensions/list_tools/gth-script-editor-dialog.c:279
+#: extensions/list_tools/gth-script-editor-dialog.c:280
 #, c-format
 msgid "No command specified"
 msgstr "Kein Befehl angegeben"
@@ -3930,18 +4005,18 @@ msgstr "Kein Befehl angegeben"
 msgid "Command exited abnormally with status %d"
 msgstr "Befehl wurde mit Status %d beendet"
 
-#: extensions/list_tools/gth-script.c:502
+#: extensions/list_tools/gth-script.c:506
 msgid "Enter a value:"
 msgstr "Geben Sie einen Wert ein:"
 
-#: extensions/list_tools/gth-script.c:753
+#: extensions/list_tools/gth-script.c:760
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "Ungültiger Befehl"
 
-#: extensions/list_tools/gth-script.c:808
+#: extensions/list_tools/gth-script.c:1069
 msgid "_Skip"
 msgstr "_Übergehen"
 
@@ -4438,7 +4513,6 @@ msgid "any of the following rules"
 msgstr "eine der folgenden Regeln"
 
 #: extensions/search/gth-search-source-selector.c:130
-#| msgid "Could not open the location"
 msgid "Add another location"
 msgstr "Einen weiteren Ort hinzufügen"
 
@@ -4466,19 +4540,16 @@ msgstr "edit-find"
 #. Not real actions, used in the shorcut window for documentation.
 #: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
 #: extensions/selections/callbacks.c:59 extensions/selections/callbacks.c:71
-#| msgid "Advanced file selection."
 msgid "Add to selection"
 msgstr "Der Auswahl hinzufügen"
 
 #: extensions/selections/callbacks.c:61 extensions/selections/callbacks.c:62
 #: extensions/selections/callbacks.c:63 extensions/selections/callbacks.c:72
-#| msgid "Remove from Selection"
 msgid "Remove from selection"
 msgstr "Aus Auswahl entfernen"
 
 #: extensions/selections/callbacks.c:65 extensions/selections/callbacks.c:66
 #: extensions/selections/callbacks.c:67 extensions/selections/callbacks.c:73
-#| msgid "Show selection %d"
 msgid "Show selection"
 msgstr "Auswahl anzeigen"
 
@@ -4519,26 +4590,22 @@ msgid "emblem-flag-gray"
 msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:40
-#| msgid "Presentation"
 msgid "Start presentation"
 msgstr "Präsentation starten"
 
 #: extensions/slideshow/callbacks.c:41
-#| msgid "x-office-presentation"
 msgid "Terminate presentation"
 msgstr "Präsentation beenden"
 
 #: extensions/slideshow/callbacks.c:42
-#| msgid "Presentation"
 msgid "Pause/Resume presentation"
 msgstr "Präsentation pausieren/fortsetzen"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:118
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:120
 msgid "Show next file"
 msgstr "Nächste Datei zeigen"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:117
-#| msgid "View the previous image"
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:119
 msgid "Show previous file"
 msgstr "Vorherige Datei zeigen"
 
@@ -4601,7 +4668,6 @@ msgid "Random"
 msgstr "Zufällig"
 
 #: extensions/slideshow/gth-slideshow.c:237
-#| msgid "Presentation"
 msgid "Playing a presentation"
 msgstr "Eine Präsentation abspielen"
 
@@ -4651,7 +4717,6 @@ msgid "Terminal"
 msgstr "Terminal"
 
 #: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
-#| msgid "Open in New Window"
 msgid "Open in Terminal"
 msgstr "Im Terminal öffnen"
 
@@ -4809,8 +4874,8 @@ msgid "Create static web albums."
 msgstr "Statische Web-Alben anlegen."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6572 gthumb/gth-browser.c:6591
-#: gthumb/gth-browser.c:6615 gthumb/gth-vfs-tree.c:390
+#: gthumb/gth-browser.c:6574 gthumb/gth-browser.c:6593
+#: gthumb/gth-browser.c:6617 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Die Position »%s« konnte nicht geladen werden"
@@ -4846,19 +4911,16 @@ msgid "Browser"
 msgstr "Browser"
 
 #: gthumb/dlg-preferences-extensions.c:61
-#| msgid "All"
 msgctxt "Extensions"
 msgid "All"
 msgstr "Alle"
 
 #: gthumb/dlg-preferences-extensions.c:62
-#| msgid "Enabled"
 msgctxt "Extensions"
 msgid "Enabled"
 msgstr "Aktiviert"
 
 #: gthumb/dlg-preferences-extensions.c:63
-#| msgid "Disabled"
 msgctxt "Extensions"
 msgid "Disabled"
 msgstr "Deaktiviert"
@@ -4897,7 +4959,6 @@ msgid "Could not deactivate the extension"
 msgstr "Die Erweiterung konnte nicht deaktiviert werden"
 
 #: gthumb/dlg-preferences-extensions.c:491
-#| msgid "gthumb development team"
 msgid "gThumb Development Team"
 msgstr "gThumb-Entwicklerteam"
 
@@ -4919,32 +4980,29 @@ msgstr ""
 msgid "_Restart"
 msgstr "_Neu starten"
 
-#: gthumb/dlg-preferences-shortcuts.c:294
-#: gthumb/dlg-preferences-shortcuts.c:369 gthumb/resources/gears-menu.ui:25
+#: gthumb/dlg-preferences-shortcuts.c:296
+#: gthumb/dlg-preferences-shortcuts.c:371 gthumb/resources/gears-menu.ui:25
 msgid "Revert"
 msgstr "Zurücknehmen"
 
-#: gthumb/dlg-preferences-shortcuts.c:367
+#: gthumb/dlg-preferences-shortcuts.c:369
 msgid "Do you want to revert all the changes and use the default shortcuts?"
 msgstr ""
 "Möchten Sie alle Änderungen zurücknehmen und die voreingestellten "
 "Tastenkürzel verwenden?"
 
-#: gthumb/dlg-preferences-shortcuts.c:540
-#| msgid "All"
+#: gthumb/dlg-preferences-shortcuts.c:542
 msgctxt "Shortcuts"
 msgid "All"
 msgstr "Alle"
 
-#: gthumb/dlg-preferences-shortcuts.c:546
-#| msgid "Modified"
+#: gthumb/dlg-preferences-shortcuts.c:548
 msgctxt "Shortcuts"
 msgid "Modified"
 msgstr "Geändert"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-shortcuts.c:575
-#| msgid "Shortcut"
+#: gthumb/dlg-preferences-shortcuts.c:577
 msgid "Shortcuts"
 msgstr "Tastenkürzel"
 
@@ -5030,7 +5088,6 @@ msgid "Start in fullscreen mode"
 msgstr "Im Vollbildmodus starten"
 
 #: gthumb/gth-application.c:60
-#| msgid "Automatically start a slideshow"
 msgid "Automatically start a presentation"
 msgstr "Automatisch eine Präsentation beginnen"
 
@@ -5097,37 +5154,28 @@ msgstr ""
 "Wolfgang Stöggl <c72578@yahoo.de>\n"
 "Bernd Homuth <dev@hmt.im>"
 
-#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
-msgid "New Window"
-msgstr "Neues Fenster"
-
 #: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
 msgid "Keyboard Shortcuts"
 msgstr "Tastenkombinationen"
 
 #: gthumb/gth-browser-actions-entries.h:96
-#| msgid "_Quit"
 msgid "Quit"
 msgstr "Beenden"
 
 #: gthumb/gth-browser-actions-entries.h:99
-#, fuzzy
-#| msgid "Browser"
 msgid "Show browser"
-msgstr "Browser"
+msgstr "Browser anzeigen"
 
 #: gthumb/gth-browser-actions-entries.h:100
-#| msgid "Fit to window"
 msgid "Close window"
 msgstr "Fenster schließen"
 
 #: gthumb/gth-browser-actions-entries.h:102
-#| msgid "Open Location…"
 msgid "Open location"
 msgstr "Ort öffnen"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4571
-#: gthumb/gth-browser.c:4589 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4572
+#: gthumb/gth-browser.c:4590 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Vollbild"
@@ -5137,78 +5185,74 @@ msgid "Revert image to saved"
 msgstr ""
 
 #: gthumb/gth-browser-actions-entries.h:105
+msgid "Save image"
+msgstr "Bild speichern"
+
+#: gthumb/gth-browser-actions-entries.h:106
+msgid "Save image as"
+msgstr "Bild speichern unter"
+
+#: gthumb/gth-browser-actions-entries.h:107
 msgid "Sidebar"
 msgstr "Seitenleiste"
 
-#: gthumb/gth-browser-actions-entries.h:106
+#: gthumb/gth-browser-actions-entries.h:108
 msgid "Statusbar"
 msgstr "Statusleiste"
 
-#: gthumb/gth-browser-actions-entries.h:107
-#| msgid "Thumbnails"
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Thumbnails list"
 msgstr "Liste der Vorschaubilder"
 
-#: gthumb/gth-browser-actions-entries.h:109
-#| msgid "Go to the previous visited location"
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Load previous location"
 msgstr "Vorherigen Ort laden"
 
-#: gthumb/gth-browser-actions-entries.h:110
-#| msgid "Could not open the location"
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Load next location"
 msgstr "Nächsten Ort laden"
 
-#: gthumb/gth-browser-actions-entries.h:111
-#| msgid "The parent folder path"
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Load parent folder"
 msgstr "Übergeordneten Ordner laden"
 
-#: gthumb/gth-browser-actions-entries.h:112
-#| msgid "Loading images"
+#: gthumb/gth-browser-actions-entries.h:114
 msgid "Load home"
 msgstr "Persönlichen Ordner laden"
 
-#: gthumb/gth-browser-actions-entries.h:113
-#| msgid "Resolution"
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Reload location"
 msgstr "Ort neu laden"
 
-#: gthumb/gth-browser-actions-entries.h:114
-#| msgid "Hidden Files"
+#: gthumb/gth-browser-actions-entries.h:116
 msgid "Show/Hide hidden files"
 msgstr "Verborgene Dateien anzeigen/verbergen"
 
-#: gthumb/gth-browser-actions-entries.h:115
-#| msgid "no sorting"
+#: gthumb/gth-browser-actions-entries.h:117
 msgid "Change sorting order"
 msgstr "Sortierreihenfolge ändern"
 
-#: gthumb/gth-browser-actions-entries.h:119
+#: gthumb/gth-browser-actions-entries.h:121
 msgid "Show first file"
 msgstr "Erste Datei zeigen"
 
-#: gthumb/gth-browser-actions-entries.h:120
+#: gthumb/gth-browser-actions-entries.h:122
 msgid "Show last file"
 msgstr "Letzte Datei zeigen"
 
-#: gthumb/gth-browser-actions-entries.h:122
-#| msgid "Images"
+#: gthumb/gth-browser-actions-entries.h:124
 msgid "Image tools"
 msgstr "Bildwerkzeuge"
 
-#: gthumb/gth-browser-actions-entries.h:123
-#| msgid "Properties"
+#: gthumb/gth-browser-actions-entries.h:125
 msgid "File properties"
 msgstr "Dateieigenschaften"
 
-#: gthumb/gth-browser-actions-entries.h:125
-#| msgid "Select All"
+#: gthumb/gth-browser-actions-entries.h:127
 msgid "Select all"
 msgstr "Alle auswählen"
 
-#: gthumb/gth-browser-actions-entries.h:126
-#| msgid "Select None"
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Select none"
 msgstr "Keine auswählen"
 
@@ -5248,7 +5292,7 @@ msgstr ""
 msgid "Do _Not Save"
 msgstr "_Nicht speichern"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4597
+#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4598
 msgid "Accept"
 msgstr "Annehmen"
 
@@ -5264,32 +5308,32 @@ msgstr "Name konnte nicht geändert werden"
 msgid "Modified"
 msgstr "Geändert"
 
-#: gthumb/gth-browser.c:4519
+#: gthumb/gth-browser.c:4520
 msgid "Go to the previous visited location"
 msgstr "Zum zuvor besuchten Ort wechseln"
 
-#: gthumb/gth-browser.c:4525
+#: gthumb/gth-browser.c:4526
 msgid "Go to the next visited location"
 msgstr "Zum nächsten besuchten Ort wechseln"
 
-#: gthumb/gth-browser.c:4533
+#: gthumb/gth-browser.c:4534
 msgid "History"
 msgstr "Chronik"
 
-#: gthumb/gth-browser.c:4547
+#: gthumb/gth-browser.c:4548
 msgid "View the folders"
 msgstr "Die Ordner anzeigen"
 
-#: gthumb/gth-browser.c:4562
+#: gthumb/gth-browser.c:4563
 msgid "Edit file"
 msgstr "Datei bearbeiten"
 
-#: gthumb/gth-browser.c:6573
+#: gthumb/gth-browser.c:6575
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: gthumb/gth-browser.c:6616
+#: gthumb/gth-browser.c:6618
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
@@ -5427,12 +5471,10 @@ msgid "Location"
 msgstr "Ort"
 
 #: gthumb/gth-location-chooser.c:572
-#| msgid "Location"
 msgid "Locations"
 msgstr "Orte"
 
 #: gthumb/gth-location-chooser.c:617
-#| msgid "Other"
 msgid "Other…"
 msgstr "Weitere …"
 
@@ -5446,9 +5488,6 @@ msgstr "Byte"
 
 #. Translators: the file modified time.
 #: gthumb/gth-main-default-metadata.c:43
-#, fuzzy
-#| msgctxt "the file mtime"
-#| msgid "Modified Date & Time"
 msgid "Modified Date & Time"
 msgstr "Datum und Zeit der Änderung"
 
@@ -5574,17 +5613,14 @@ msgid "Description (embedded)"
 msgstr "Beschreibung (eingebettet)"
 
 #: gthumb/gth-main-default-types.c:39
-#| msgid "Show"
 msgid "Show/Hide"
 msgstr "Anzeigen/verbergen"
 
 #: gthumb/gth-main-default-types.c:40
-#| msgid "Organization:"
 msgid "Navigation"
 msgstr "Navigation"
 
 #: gthumb/gth-main-default-types.c:41
-#| msgid "File manager"
 msgid "File Manager"
 msgstr "Dateiverwaltung"
 
@@ -5756,7 +5792,7 @@ msgstr "Farben"
 msgid "Rotation"
 msgstr "Drehung"
 
-#: gthumb/gth-window.c:1020
+#: gthumb/gth-window.c:1034
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5765,11 +5801,11 @@ msgstr ""
 "Die Tastenkombination »%s« ist bereits der Aktion »%s« zugewiesen. Möchten "
 "Sie sie stattdessen dieser Aktion neu zuweisen?"
 
-#: gthumb/gth-window.c:1028
+#: gthumb/gth-window.c:1042
 msgid "Reassign"
 msgstr "Neu zuweisen"
 
-#: gthumb/gth-window.c:1046
+#: gthumb/gth-window.c:1060
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5778,7 +5814,7 @@ msgstr ""
 "Die Tastenkombination »%s« ist bereits der Aktion »%s« zugewiesen und darf "
 "nicht geändert werden."
 
-#: gthumb/gth-window.c:1050
+#: gthumb/gth-window.c:1064
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr ""
@@ -5861,6 +5897,9 @@ msgstr "_Info zu gThumb"
 msgid "_Delete History"
 msgstr "Chronik _vergessen"
 
+#~ msgid "--∶--"
+#~ msgstr "--∶--"
+
 #~ msgid "gthumb"
 #~ msgstr "gthumb"
 
@@ -5884,9 +5923,6 @@ msgstr "Chronik _vergessen"
 
 #~ msgid "Slideshow"
 #~ msgstr "Diaschau"
-
-#~ msgid "Playing slideshow"
-#~ msgstr "Diaschau wird abgespielt"
 
 #~ msgid "View images as a slideshow."
 #~ msgstr "Bilder als Diaschau betrachten."
