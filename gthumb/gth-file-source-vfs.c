@@ -455,12 +455,13 @@ process_event_queue (gpointer data)
 
 	monitor = gth_main_get_default_monitor ();
 	for (event_type = 0; event_type < GTH_MONITOR_N_EVENTS; event_type++) {
+		GFile *list_parent = NULL;
+		GList *list = NULL;
 		GList *scan;
 
 		for (scan = monitor_queue[event_type]; scan; scan = scan->next) {
 			GFile *file = scan->data;
 			GFile *parent;
-			GList *list;
 
 #ifdef DEBUG_MONITOR
 			switch (event_type) {
@@ -477,16 +478,38 @@ process_event_queue (gpointer data)
 			g_print (" ==> %s\n", g_file_get_uri (file));
 #endif
 
-			parent = g_file_get_parent (file);
-			list = g_list_prepend (NULL, g_object_ref (file));
-			gth_monitor_folder_changed (monitor,
-						    parent,
-						    list,
-						    event_type);
+			/* Compress the events: emits a single event if the
+			 * parent is the same. */
 
-			_g_object_list_unref (list);
+			parent = g_file_get_parent (file);
+			if (_g_file_equal (parent, list_parent)) {
+				list = g_list_prepend (list, g_object_ref (file));
+			}
+			else {
+				if (list != NULL) {
+					gth_monitor_folder_changed (monitor,
+								    list_parent,
+								    list,
+								    event_type);
+
+					_g_object_list_unref (list);
+					_g_object_unref (list_parent);
+				}
+				list = g_list_prepend (NULL, g_object_ref (file));
+				list_parent = g_object_ref (parent);
+			}
 			g_object_unref (parent);
 		}
+
+		if (list != NULL) {
+			gth_monitor_folder_changed (monitor,
+						    list_parent,
+						    list,
+						    event_type);
+			_g_object_list_unref (list);
+			_g_object_unref (list_parent);
+		}
+
 		_g_object_list_unref (monitor_queue[event_type]);
 		monitor_queue[event_type] = NULL;
 	}
