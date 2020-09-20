@@ -1,3 +1,45 @@
+version 3.11.1
+--------------
+
+ New features and user visible changes:
+
+  * Added configurable shortcuts for Save and Save As. (Joerg Fellmann)
+  * Media player: adjust the pitch if not played at normal speed.
+  * Media viewer: added keyboard shortcuts.
+  * Media viewer: added actions to skip forward/backward.
+  * Media viewer: fixed hardware accelerated playback.
+  * Desktop file: added a 'New Window' action.
+  * File list: always allow to use Control-A to select all files.
+
+ Bugs fixed:
+
+  * WebP loader: fixed an infinite loop when the operation is cancelled. (Jürg Billeter)
+  * Jpeg loader: fixed crash in case of some malformed jpegs. (Joerg Fellmann)
+  * Fixed crash when selecting other images after deleting. (#126)
+  * Fixed long UI freeze after cutting/pasting many files.
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Henrique Machado Campos)
+  * Catalan (Jordi Mas)
+  * Chinese/Traditional (Cheng-Chia Tseng)
+  * Finnish (Jiri Grönroos)
+  * French (Charles Monzat)
+  * German - Germany (Christian Kirbach)
+  * Indonesian (Andika Triwidada)
+  * Italian (Gianvito Cavasoli)
+  * Japanese (sicklylife)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Spanish - Spain (Daniel Mustieles)
+  * Swedish (Anders Jonsson)
+  * Ukrainian (Yuri Chornoivan)
+
+ New or updated manual translations:
+
+  * Spanish - Spain (Daniel Mustieles)
+  * Ukrainian (Yuri Chornoivan)
+
 version 3.10.0
 --------------
 
