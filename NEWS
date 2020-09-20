@@ -1,3 +1,33 @@
+version 3.10.1
+--------------
+
+ User visible changes:
+
+  * Exit fullscreen when pressing Esc in fullscreen mode.
+  * Search editor: focus the newly added filter selector.
+  * File list: reset vertical scroll position after changing directory.
+  * Preferences dialog: increase width for extensions and shortcuts lists.
+
+ Bugs fixed:
+
+  * WebP loader: fixed an infinite loop when the operation is cancelled. (Jürg Billeter)
+  * Jpeg loader: fixed crash in case of some malformed jpegs. (Joerg Fellmann)
+  * Fixed crash when selecting other images after deleting. (#126)
+  * Fixed long UI freeze after cutting/pasting many files.
+
+ New or updated application translations:
+
+  * Catalan (Jordi Mas)
+  * Chinese/Traditional (Cheng-Chia Tseng)
+  * German - Germany (Christian Kirbach)
+  * Indonesian (Kukuh Syafaat)
+  * Ukrainian (Yuri Chornoivan)
+
+ New or updated manual translations:
+
+  * Spanish - Spain (Daniel Mustieles)
+  * Ukrainian (Yuri Chornoivan)
+
 version 3.10.0
 --------------
 
