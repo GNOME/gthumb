@@ -10,15 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-03-01 11:35+0000\n"
-"PO-Revision-Date: 2020-03-01 15:30+0100\n"
+"POT-Creation-Date: 2020-08-08 19:22+0000\n"
+"PO-Revision-Date: 2020-09-23 16:44+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.04.3\n"
+"X-Generator: Lokalize 19.12.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
@@ -146,6 +146,11 @@ msgstr "Képmegjelenítő"
 msgid "Image;Viewer;"
 msgstr "Kép;Megjelenítő;"
 
+#: data/org.gnome.gThumb.desktop.in.in:25
+#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
+msgid "New Window"
+msgstr "Új ablak"
+
 #: data/ui/browser-preferences.ui:20
 #: extensions/contact_sheet/gth-contact-sheet-theme.c:34
 #: extensions/image_print/data/ui/print-layout.ui:519
@@ -170,7 +175,7 @@ msgstr "Fájlok megnyitása _teljes képernyős módban"
 
 #: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
-#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:333
+#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:335
 #: gthumb/gth-shortcuts-window.c:96
 msgid "Other"
 msgstr "Egyéb"
@@ -219,7 +224,7 @@ msgstr "256"
 msgid "D_etermine image type from content (slower)"
 msgstr "Kép_típus meghatározása a tartalom alapján (lassabb)"
 
-#: data/ui/extensions-preferences.ui:40
+#: data/ui/extensions-preferences.ui:39
 msgid "_Extensions:"
 msgstr "_Kiterjesztések:"
 
@@ -227,12 +232,12 @@ msgstr "_Kiterjesztések:"
 msgid "More extensions…"
 msgstr "Több kiterjesztés…"
 
-#: data/ui/file-selection-info.ui:33
+#: data/ui/file-selection-info.ui:23
 #: extensions/webalbums/data/albumthemes/text.h:32
 msgid "Previous"
 msgstr "Előző"
 
-#: data/ui/file-selection-info.ui:71
+#: data/ui/file-selection-info.ui:61
 #: extensions/webalbums/data/albumthemes/text.h:30
 msgid "Next"
 msgstr "Következő"
@@ -263,27 +268,27 @@ msgid "Mean:"
 msgstr "Középérték:"
 
 #. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsized at the end.
-#: data/ui/histogram-info.ui:44
+#: data/ui/histogram-info.ui:42
 msgid "Std dev:"
 msgstr "Szórás:"
 
-#: data/ui/histogram-info.ui:64
+#: data/ui/histogram-info.ui:60
 msgid "Median:"
 msgstr "Medián:"
 
 #. After the colon there is the total number of pixels
-#: data/ui/histogram-info.ui:151
+#: data/ui/histogram-info.ui:148
 msgid "Pixels:"
 msgstr "Képpontok:"
 
 #. After the colon there is a percentile.
-#: data/ui/histogram-info.ui:167
+#: data/ui/histogram-info.ui:163
 msgctxt "Pixels"
 msgid "Max:"
 msgstr "Max:"
 
 #. After the colon there is the percentile of selected pixels.
-#: data/ui/histogram-info.ui:185
+#: data/ui/histogram-info.ui:180
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "Kijelölve:"
@@ -419,11 +424,10 @@ msgid "General"
 msgstr "Általános"
 
 #: data/ui/shortcuts-preferences.ui:27
-#| msgid "Sh_ortcut:"
 msgid "Shortcuts:"
 msgstr "Gyorsbillentyűk:"
 
-#: data/ui/shortcuts-preferences.ui:92
+#: data/ui/shortcuts-preferences.ui:93
 msgid "_Restore All…"
 msgstr "Összes _helyreállítása…"
 
@@ -623,12 +627,12 @@ msgid "_Lossless"
 msgstr "_Veszteségmentes"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:145
+#: extensions/image_viewer/gth-metadata-provider-image.c:150
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:111
+#: extensions/image_viewer/gth-metadata-provider-image.c:116
 msgid "PNG"
 msgstr "PNG"
 
@@ -646,32 +650,32 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:174
+#: extensions/image_viewer/gth-metadata-provider-image.c:179
 msgid "WebP"
 msgstr "WebP"
 
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:556
 #: extensions/contact_sheet/data/ui/image-wall.ui:269
-#: extensions/image_viewer/gth-image-viewer-page.c:1702
+#: extensions/image_viewer/gth-image-viewer-page.c:1703
 #: extensions/webalbums/data/ui/web-album-exporter.ui:484
 msgid "Saving"
 msgstr "Mentés"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
-#: extensions/catalogs/dlg-add-to-catalog.c:373
-#: extensions/catalogs/dlg-add-to-catalog.c:538
+#: extensions/catalogs/dlg-add-to-catalog.c:376
+#: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
-#: extensions/list_tools/gth-script-editor-dialog.c:273
+#: extensions/list_tools/gth-script-editor-dialog.c:274
 #: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1924
 #, c-format
 msgid "No name specified"
 msgstr "Nincs név megadva"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
-#: extensions/catalogs/dlg-add-to-catalog.c:380
-#: extensions/catalogs/dlg-add-to-catalog.c:545
+#: extensions/catalogs/dlg-add-to-catalog.c:383
+#: extensions/catalogs/dlg-add-to-catalog.c:548
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
 #: gthumb/gth-folder-tree.c:1931
@@ -680,8 +684,8 @@ msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Érvénytelen név. A következő karakterek nem engedélyezettek: %s"
 
 #: extensions/catalogs/actions.c:152 extensions/catalogs/actions.c:266
-#: extensions/catalogs/dlg-add-to-catalog.c:437
-#: extensions/catalogs/dlg-add-to-catalog.c:594
+#: extensions/catalogs/dlg-add-to-catalog.c:440
+#: extensions/catalogs/dlg-add-to-catalog.c:597
 #: extensions/catalogs/gth-file-source-catalogs.c:516
 #: extensions/file_manager/actions.c:109
 msgid "Name already used"
@@ -692,13 +696,13 @@ msgid "New catalog"
 msgstr "Új katalógus"
 
 #: extensions/catalogs/actions.c:178
-#: extensions/catalogs/dlg-add-to-catalog.c:459
+#: extensions/catalogs/dlg-add-to-catalog.c:462
 msgid "Enter the catalog name:"
 msgstr "Adja meg a katalógus nevét:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
-#: extensions/catalogs/dlg-add-to-catalog.c:461
-#: extensions/catalogs/dlg-add-to-catalog.c:620
+#: extensions/catalogs/dlg-add-to-catalog.c:464
+#: extensions/catalogs/dlg-add-to-catalog.c:623
 #: extensions/file_manager/actions.c:140
 msgid "C_reate"
 msgstr "_Létrehozás"
@@ -708,7 +712,7 @@ msgid "New library"
 msgstr "Új gyűjtemény"
 
 #: extensions/catalogs/actions.c:292
-#: extensions/catalogs/dlg-add-to-catalog.c:618
+#: extensions/catalogs/dlg-add-to-catalog.c:621
 msgid "Enter the library name:"
 msgstr "Adja meg a gyűjtemény nevét:"
 
@@ -750,15 +754,15 @@ msgid "Rename"
 msgstr "Átnevezés"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4553
-#: gthumb/gth-browser.c:4655 gthumb/gth-file-properties.c:245
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4557
+#: gthumb/gth-browser.c:4659 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Tulajdonságok"
 
 #: extensions/catalogs/callbacks.c:185
 #: extensions/catalogs/catalogs.extension.desktop.in.in:3
 #: extensions/catalogs/gth-catalog.c:504 extensions/catalogs/gth-catalog.c:555
-#: extensions/catalogs/gth-catalog.c:911 extensions/catalogs/gth-catalog.c:912
+#: extensions/catalogs/gth-catalog.c:916 extensions/catalogs/gth-catalog.c:917
 msgid "Catalogs"
 msgstr "Katalógusok"
 
@@ -791,14 +795,12 @@ msgid "C_atalogs:"
 msgstr "_Katalógusok:"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:34
-#: extensions/catalogs/dlg-add-to-catalog.c:617
-#| msgid "New _Library"
+#: extensions/catalogs/dlg-add-to-catalog.c:620
 msgid "New Library"
 msgstr "Új gyűjtemény"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:57
-#: extensions/catalogs/dlg-add-to-catalog.c:458
-#| msgid "_New Catalog"
+#: extensions/catalogs/dlg-add-to-catalog.c:461
 msgid "New Catalog"
 msgstr "Új katalógus"
 
@@ -807,13 +809,6 @@ msgstr "Új katalógus"
 #: extensions/webalbums/gth-web-exporter.c:1827
 msgid "_View the destination"
 msgstr "A cél _megjelenítése"
-
-#: extensions/catalogs/data/ui/add-to-catalog.ui:119
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:159
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:202
-#| msgid "Keep the original format"
-msgid "_Keep the dialog open"
-msgstr "A párbeszédablak _nyitva tartása"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
@@ -884,22 +879,28 @@ msgstr "Egyetlen fájl elhelyezése a katalógusban:"
 msgid "Singles"
 msgstr "Egyetlen"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:155
+#: extensions/catalogs/dlg-add-to-catalog.c:156
 msgid "Could not add the files to the catalog"
 msgstr "Nem sikerült a fájlokat hozzáadni a katalógushoz"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:316
+#: extensions/catalogs/dlg-add-to-catalog.c:319
 #: extensions/search/gth-search-task.c:402
 msgid "Could not create the catalog"
 msgstr "Nem sikerült létrehozni a katalógust"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:682
+#: extensions/catalogs/dlg-add-to-catalog.c:687
 msgid "Add to Catalog"
 msgstr "Hozzáadás katalógushoz"
 
-#: extensions/catalogs/dlg-add-to-catalog.c:697
+#: extensions/catalogs/dlg-add-to-catalog.c:710
 msgid "_Add"
 msgstr "_Hozzáadás"
+
+#: extensions/catalogs/dlg-add-to-catalog.c:714
+#: extensions/edit_metadata/dlg-edit-metadata.c:347
+#| msgid "_Keep the dialog open"
+msgid "Keep the dialog open"
+msgstr "A párbeszédablak nyitva tartása"
 
 #: extensions/catalogs/dlg-catalog-properties.c:80
 msgid "Could not save the catalog"
@@ -945,16 +946,16 @@ msgstr "Címke (beágyazott)"
 #: extensions/exiv2_tools/exiv2-utils.cpp:885
 #: extensions/exiv2_tools/exiv2-utils.cpp:915
 #: extensions/exiv2_tools/exiv2-utils.cpp:1448
-#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:336
+#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "Érvénytelen fájlformátum"
 
-#: extensions/catalogs/gth-catalog.c:1013 extensions/comments/main.c:47
+#: extensions/catalogs/gth-catalog.c:1018 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
 #: extensions/edit_metadata/callbacks.c:107
-#: extensions/edit_metadata/gth-edit-tags-dialog.c:185
-#: gthumb/gth-main-default-metadata.c:64
+#: extensions/edit_metadata/gth-edit-tags-dialog.c:170
+#: gthumb/gth-main-default-metadata.c:65
 msgid "Tags"
 msgstr "Címkék"
 
@@ -1011,12 +1012,12 @@ msgid "Change the files date"
 msgstr "A fájlok dátumának megváltoztatása"
 
 #: extensions/change_date/data/ui/change-date.ui:12
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:236
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:243
 msgid "+"
 msgstr "+"
 
 #: extensions/change_date/data/ui/change-date.ui:15
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:244
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:251
 msgid "-"
 msgstr "-"
 
@@ -1093,19 +1094,20 @@ msgstr "_Szinkronizálás a beágyazott metaadatokkal"
 #: extensions/importer/gth-import-preferences-dialog.c:417
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: extensions/terminal/dlg-terminal-preferences.c:83
-#: gthumb/dlg-preferences-extensions.c:483
+#: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
+#: gthumb/gth-file-properties.c:548
 msgid "Preferences"
 msgstr "Beállítások"
 
 #: extensions/comments/main.c:37 extensions/edit_metadata/callbacks.c:56
 #: extensions/edit_metadata/callbacks.c:88
 #: extensions/edit_metadata/callbacks.c:101
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:137
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:124
 #: gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Megjegyzés"
 
-#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:61
+#: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Cím"
 
@@ -1119,12 +1121,12 @@ msgstr "Cím"
 #: extensions/rename_series/data/ui/rename-series.ui:249
 #: extensions/webalbums/data/ui/web-album-exporter.ui:194
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
-#: gthumb/gth-main-default-metadata.c:63
+#: gthumb/gth-main-default-metadata.c:64
 msgid "Description"
 msgstr "Leírás"
 
 #: extensions/comments/main.c:45 extensions/comments/main.c:178
-#: gthumb/gth-main-default-metadata.c:62
+#: gthumb/gth-main-default-metadata.c:63
 msgid "Place"
 msgstr "Hely"
 
@@ -1132,7 +1134,7 @@ msgstr "Hely"
 msgid "Comment Date & Time"
 msgstr "Megjegyzés dátuma és ideje"
 
-#: extensions/comments/main.c:48 gthumb/gth-main-default-metadata.c:65
+#: extensions/comments/main.c:48 gthumb/gth-main-default-metadata.c:66
 #: gthumb/gth-main-default-tests.c:391
 msgid "Rating"
 msgstr "Értékelés"
@@ -1535,12 +1537,10 @@ msgid "If you delete the metadata, it will be permanently lost."
 msgstr "Ha törli a metaadatokat, azok véglegesen elvesznek."
 
 #: extensions/edit_metadata/callbacks.c:45
-#| msgid "Edit Command"
 msgid "Edit comment"
 msgstr "Megjegyzés szerkesztése"
 
 #: extensions/edit_metadata/callbacks.c:46
-#| msgid "Edit template"
 msgid "Edit tags"
 msgstr "Címkék szerkesztése"
 
@@ -1571,11 +1571,11 @@ msgstr "É_rtékelés:"
 msgid "_Title:"
 msgstr "Cí_m:"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:121
+#: extensions/edit_metadata/dlg-edit-metadata.c:123
 msgid "Could not save the file metadata"
 msgstr "Nem sikerült elmenteni a fájl metaadatait"
 
-#: extensions/edit_metadata/dlg-edit-metadata.c:230
+#: extensions/edit_metadata/dlg-edit-metadata.c:234
 #: gthumb/gth-overwrite-dialog.c:184
 msgid "Cannot read file information"
 msgstr "Nem olvashatók a fájl információia"
@@ -1588,7 +1588,7 @@ msgstr "Metaadatok szerkesztése"
 msgid "Allow to edit files metadata."
 msgstr "Fájlok metaadatainak szerkesztésének engedélyezése."
 
-#: extensions/edit_metadata/gth-edit-comment-dialog.c:155
+#: extensions/edit_metadata/gth-edit-comment-dialog.c:138
 msgid "Save only cha_nged fields"
 msgstr "Csak a _változtatott mezők mentése"
 
@@ -1679,8 +1679,8 @@ msgstr "_Nyelv:"
 msgid "State/Province:"
 msgstr "Állam/megye:"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1088
-#: gthumb/glib-utils.c:2051 gthumb/str-utils.c:677
+#: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
+#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(érvénytelen érték)"
 
@@ -1745,7 +1745,6 @@ msgid "date photo was taken"
 msgstr "fényképkészítés dátuma"
 
 #: extensions/export_tools/callbacks.c:46
-#| msgid "Export"
 msgid "_Export To"
 msgstr "_Exportálás ide"
 
@@ -1961,7 +1960,7 @@ msgstr "Adja meg a mappa nevét:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5565 gthumb/gth-browser.c:5601
+#: gthumb/gth-browser.c:5569 gthumb/gth-browser.c:5605
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Nem sikerült végrehajtani a műveletet"
@@ -1986,7 +1985,7 @@ msgstr ""
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
-#: gthumb/gtk-utils.h:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:417 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Másolás"
 
@@ -2057,16 +2056,14 @@ msgid "Duplicate"
 msgstr "Megkettőzés"
 
 #: extensions/file_manager/callbacks.c:129
-#| msgid "Delete Metadata"
 msgid "Delete permanently"
 msgstr "Végleges törlés"
 
 #: extensions/file_manager/callbacks.c:130
-#| msgid "Open _With"
 msgid "Open with Gimp"
 msgstr "Megnyitás a Gimp képszerkesztővel"
 
-#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:235
+#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:226
 msgid "Home Folder"
 msgstr "Saját mappa"
 
@@ -2112,7 +2109,6 @@ msgid "system-file-manager"
 msgstr "system-file-manager"
 
 #: extensions/file_tools/callbacks.c:53
-#| msgid "Adjust Contrast"
 msgid "Adjust contrast"
 msgstr "Kontraszt beállítása"
 
@@ -2128,13 +2124,11 @@ msgstr "Tükrözés"
 
 #: extensions/file_tools/callbacks.c:56
 #: extensions/image_rotation/callbacks.c:47
-#| msgid "Rotate Right"
 msgid "Rotate right"
 msgstr "Forgatás jobbra"
 
 #: extensions/file_tools/callbacks.c:57
 #: extensions/image_rotation/callbacks.c:48
-#| msgid "Rotate Left"
 msgid "Rotate left"
 msgstr "Forgatás balra"
 
@@ -2287,7 +2281,7 @@ msgid "%"
 msgstr "%"
 
 #: extensions/file_tools/data/ui/resize-options.ui:137
-#: gthumb/gth-main-default-metadata.c:47
+#: gthumb/gth-main-default-metadata.c:48
 msgid "Dimensions"
 msgstr "Méretek"
 
@@ -2620,7 +2614,7 @@ msgstr "Adja meg az alapbeállítás nevet:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1631
+#: extensions/image_viewer/gth-image-viewer-page.c:1632
 #: gthumb/gth-browser.c:1863
 msgid "Could not save the file"
 msgstr "Nem sikerült elmenteni a fájlt"
@@ -3056,15 +3050,85 @@ msgid "Could not take a screenshot"
 msgstr "Nem sikerült képernyőképet készíteni"
 
 #: extensions/gstreamer_tools/callbacks.c:32
-#| msgctxt "Filename"
-#| msgid "Screenshot"
 msgid "Screenshot"
 msgstr "Képernyőkép"
 
 #: extensions/gstreamer_tools/callbacks.c:33
-#| msgid "Pause"
 msgid "Play/Pause"
 msgstr "Lejátszás vagy szüneteltetés"
+
+#: extensions/gstreamer_tools/callbacks.c:34
+msgid "Mute"
+msgstr "Némítás"
+
+#: extensions/gstreamer_tools/callbacks.c:35
+#| msgid "Play/Pause"
+msgid "Play faster"
+msgstr "Lejátszás gyorsabban"
+
+#: extensions/gstreamer_tools/callbacks.c:36
+msgid "Play slower"
+msgstr "Lejátszás lassabban"
+
+#: extensions/gstreamer_tools/callbacks.c:37
+#: extensions/image_viewer/gth-image-viewer-page.c:1189
+msgid "Next frame"
+msgstr "Következő képkocka"
+
+#: extensions/gstreamer_tools/callbacks.c:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:460
+msgid "Go forward 1 second"
+msgstr "Ugrás előre 1 másodperccel"
+
+#: extensions/gstreamer_tools/callbacks.c:39
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:356
+msgid "Go forward 5 seconds"
+msgstr "Ugrás előre 5 másodperccel"
+
+#: extensions/gstreamer_tools/callbacks.c:40
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:370
+msgid "Go forward 10 seconds"
+msgstr "Ugrás előre 10 másodperccel"
+
+#: extensions/gstreamer_tools/callbacks.c:41
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:384
+msgid "Go forward 1 minute"
+msgstr "Ugrás előre 1 perccel"
+
+#: extensions/gstreamer_tools/callbacks.c:42
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:398
+msgid "Go forward 5 minutes"
+msgstr "Ugrás előre 5 perccel"
+
+#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:446
+#| msgid "Go back to the index"
+msgid "Go back 1 second"
+msgstr "Ugrás vissza 1 másodperccel"
+
+#: extensions/gstreamer_tools/callbacks.c:44
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:300
+#| msgid "Go back to the index"
+msgid "Go back 5 seconds"
+msgstr "Ugrás vissza 5 másodperccel"
+
+#: extensions/gstreamer_tools/callbacks.c:45
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:314
+#| msgid "Go back to the index"
+msgid "Go back 10 seconds"
+msgstr "Ugrás vissza 10 másodperccel"
+
+#: extensions/gstreamer_tools/callbacks.c:46
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:328
+#| msgid "Go back to the index"
+msgid "Go back 1 minute"
+msgstr "Ugrás vissza 1 perccel"
+
+#: extensions/gstreamer_tools/callbacks.c:47
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:342
+#| msgid "Go back to the index"
+msgid "Go back 5 minutes"
+msgstr "Ugrás vissza 5 perccel"
 
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
@@ -3074,31 +3138,77 @@ msgstr "Hardveres gyorsítás használata"
 msgid "_Screenshots location:"
 msgstr "_Képernyőképek helye:"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:30
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:621
-#: extensions/image_viewer/gth-image-viewer-page.c:1181
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:29
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:622
+#: extensions/image_viewer/gth-image-viewer-page.c:1182
 msgid "Play"
 msgstr "Lejátszás"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:51
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:50
 msgid "Slower"
 msgstr "Lassabb"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:73
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:72
 msgid "Faster"
 msgstr "Gyorsabb"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:95
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:94
 msgid "Restart when finished"
 msgstr "Újraindítás, miután befejeződött"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:131
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:130
 msgid "Time:"
 msgstr "Idő:"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:194
-msgid "--∶--"
-msgstr "--∶--"
+#. minus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:296
+msgid "-5s"
+msgstr "-5 mp"
+
+#. minus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:310
+msgid "-10s"
+msgstr "-10 mp"
+
+#. minus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:324
+msgid "-1m"
+msgstr "-1 p"
+
+#. minus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:338
+msgid "-5m"
+msgstr "-5 p"
+
+#. plus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:352
+msgid "+5s"
+msgstr "+5 mp"
+
+#. plus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:366
+msgid "+10s"
+msgstr "+10 mp"
+
+#. plus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:380
+msgid "+1m"
+msgstr "+1 p"
+
+#. plus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:394
+msgid "+5m"
+msgstr "+5 p"
+
+#. minus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:442
+msgid "-1s"
+msgstr "-1 mp"
+
+#. plus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:456
+msgid "+1s"
+msgstr "+1 mp"
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
@@ -3112,26 +3222,25 @@ msgstr "Hang- és videofájlok lejátszása."
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:594
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "Videó lejátszása"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:607
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:608
 msgid "Pause"
 msgstr "Szünet"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:930
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1048
 msgid "Take a screenshot"
 msgstr "Képernyőkép készítése"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:937
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1055
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
 msgstr "Kép igazítása az ablakmérethez"
 
 #: extensions/gstreamer_tools/main.c:34
-#| msgid "Audio/Video support"
 msgid "Audio/Video Player"
 msgstr "Hang- vagy videolejátszó"
 
@@ -3196,10 +3305,10 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
-#: extensions/image_viewer/gth-image-viewer-page.c:1864
-#: extensions/image_viewer/gth-metadata-provider-image.c:253
+#: extensions/image_viewer/gth-image-viewer-page.c:1865
+#: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:945
+#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3389,27 +3498,22 @@ msgid "_Accept distortion"
 msgstr "_Torzítás elfogadása"
 
 #: extensions/image_viewer/callbacks.c:32
-#| msgid "Zoom quality:"
 msgid "Zoom in"
 msgstr "Nagyítás"
 
 #: extensions/image_viewer/callbacks.c:33
-#| msgid "Zoom quality:"
 msgid "Zoom out"
 msgstr "Kicsinyítés"
 
 #: extensions/image_viewer/callbacks.c:34
-#| msgid "100%"
 msgid "Zoom 100%"
 msgstr "Nagyítás 100%-ra"
 
 #: extensions/image_viewer/callbacks.c:35
-#| msgid "200%"
 msgid "Zoom 200%"
 msgstr "Nagyítás 200%-ra"
 
 #: extensions/image_viewer/callbacks.c:36
-#| msgid "300%"
 msgid "Zoom 300%"
 msgstr "Nagyítás 300%-ra"
 
@@ -3418,37 +3522,30 @@ msgid "Zoom to fit"
 msgstr "Ablakméretű nagyítás"
 
 #: extensions/image_viewer/callbacks.c:39
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit if larger"
 msgstr "Ablakméretű nagyítás, ha nagyobb"
 
 #: extensions/image_viewer/callbacks.c:40
-#| msgid "Fit to width"
 msgid "Zoom to fit width"
 msgstr "Nagyítás az ablak szélességéhez"
 
 #: extensions/image_viewer/callbacks.c:41
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit width if larger"
 msgstr "Nagyítás az ablak szélességéhez, ha nagyobb"
 
 #: extensions/image_viewer/callbacks.c:42
-#| msgid "Fit to height"
 msgid "Zoom to fit height"
 msgstr "Nagyítás az ablak magasságához"
 
 #: extensions/image_viewer/callbacks.c:43
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit height if larger"
 msgstr "Nagyítás az ablak magasságához, ha nagyobb"
 
 #: extensions/image_viewer/callbacks.c:45
-#| msgid "Undo"
 msgid "Undo edit"
 msgstr "Szerkesztés visszavonása"
 
 #: extensions/image_viewer/callbacks.c:46
-#| msgid "Redo"
 msgid "Redo edit"
 msgstr "Szerkesztés ismétlése"
 
@@ -3457,7 +3554,6 @@ msgid "Scroll left"
 msgstr "Görgetés balra"
 
 #: extensions/image_viewer/callbacks.c:49
-#| msgid "Slide from right"
 msgid "Scroll right"
 msgstr "Görgetés jobbra"
 
@@ -3494,7 +3590,7 @@ msgid "After loading an image:"
 msgstr "A kép betöltése után:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
-#: extensions/image_viewer/gth-image-viewer-page.c:1138
+#: extensions/image_viewer/gth-image-viewer-page.c:1139
 msgid "Set to actual size"
 msgstr "Beállítás a tényleges mérethez"
 
@@ -3503,7 +3599,7 @@ msgid "Keep previous zoom"
 msgstr "Előző nagyítás megtartása"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
-#: extensions/image_viewer/gth-image-viewer-page.c:1145
+#: extensions/image_viewer/gth-image-viewer-page.c:1146
 msgid "Fit to window if larger"
 msgstr "Kép igazítása az ablakmérethez, ha nagyobb"
 
@@ -3525,13 +3621,11 @@ msgid "Mouse wheel action:"
 msgstr "Egérgörgő művelete:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:131
-#| msgid "Change date"
 msgctxt "zoom quality"
 msgid "Change image"
 msgstr "Kép megváltoztatása"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:148
-#| msgid "Copy Image"
 msgctxt "zoom quality"
 msgid "Zoom image"
 msgstr "Kép nagyítása"
@@ -3551,13 +3645,11 @@ msgid "_Low"
 msgstr "_Alacsony"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
-#| msgid "_Transparent"
 msgid "Transparency:"
 msgstr "Átlátszóság:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:295
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:15
-#| msgid "Centered"
 msgid "Checkered"
 msgstr "Kockás"
 
@@ -3568,7 +3660,6 @@ msgstr "Fehér"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
-#| msgid "Grayscale"
 msgid "Gray"
 msgstr "Szürke"
 
@@ -3605,42 +3696,35 @@ msgstr "300%"
 msgid "Histogram"
 msgstr "Hisztogram"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:83
+#: extensions/image_viewer/gth-image-viewer-page.c:84
 msgid "Copy Image"
 msgstr "Kép másolása"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:84
+#: extensions/image_viewer/gth-image-viewer-page.c:85
 msgid "Paste Image"
 msgstr "Kép beillesztése"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1173
+#: extensions/image_viewer/gth-image-viewer-page.c:1174
 msgid "Apply the embedded color profile"
 msgstr "A beágyazott színprofil alkalmazása"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1188
-msgid "Next frame"
-msgstr "Következő képkocka"
-
-#: extensions/image_viewer/gth-image-viewer-page.c:1195
-#| msgid "_Transparent"
+#: extensions/image_viewer/gth-image-viewer-page.c:1196
 msgid "Transparency"
 msgstr "Átlátszóság"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1803
+#: extensions/image_viewer/gth-image-viewer-page.c:1804
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2519
+#: extensions/image_viewer/gth-image-viewer-page.c:2528
 msgid "Loading the original image"
 msgstr "Az eredeti kép betöltése"
 
 #: extensions/image_viewer/main.c:36
-#| msgid "All Images"
 msgid "Scroll Image"
 msgstr "Kép görgetése"
 
 #: extensions/image_viewer/main.c:37
-#| msgid "Image print"
 msgid "Image Editor"
 msgstr "Képszerkesztő"
 
@@ -3731,7 +3815,7 @@ msgstr "Nem került fájl importálásra"
 msgid "The selected files are already present in the destination."
 msgstr "A kiválasztott fájlok már szerepelnek a célban."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:683
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
 msgid "Could not delete the files"
 msgstr "Nem sikerült törölni a fájlokat"
 
@@ -3847,7 +3931,6 @@ msgid "Quote the text "
 msgstr "Idézőjelezze a szöveget"
 
 #: extensions/list_tools/data/ui/script-editor.ui:522
-#| msgid "The current date"
 msgid "The current date and time"
 msgstr "A jelenlegi dátum és idő"
 
@@ -3864,7 +3947,7 @@ msgid "Script"
 msgstr "Parancsfájl"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:264
-#: gthumb/dlg-preferences-shortcuts.c:229 gthumb/gth-accel-button.c:256
+#: gthumb/dlg-preferences-shortcuts.c:231 gthumb/gth-accel-button.c:256
 msgid "Shortcut"
 msgstr "Gyorsbillentyű"
 
@@ -3877,23 +3960,23 @@ msgstr "Megjelenítés"
 msgid "Could not save the script"
 msgstr "Nem sikerült elmenteni a parancsfájlt"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:448
+#: extensions/list_tools/dlg-personalize-scripts.c:449
 msgid "New Command"
 msgstr "Új parancs"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:475
+#: extensions/list_tools/dlg-personalize-scripts.c:476
 msgid "Edit Command"
 msgstr "Parancs szerkesztése"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:505
+#: extensions/list_tools/dlg-personalize-scripts.c:506
 msgid "Are you sure you want to delete the selected command?"
 msgstr "Biztosan törölni szeretné a kijelölt parancsot?"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:605
+#: extensions/list_tools/dlg-personalize-scripts.c:606
 msgid "Commands"
 msgstr "Parancsok"
 
-#: extensions/list_tools/gth-script-editor-dialog.c:279
+#: extensions/list_tools/gth-script-editor-dialog.c:280
 #, c-format
 msgid "No command specified"
 msgstr "Nincs parancs megadva"
@@ -3903,18 +3986,18 @@ msgstr "Nincs parancs megadva"
 msgid "Command exited abnormally with status %d"
 msgstr "A parancs abnormálisan lépett ki %d állapottal"
 
-#: extensions/list_tools/gth-script.c:502
+#: extensions/list_tools/gth-script.c:506
 msgid "Enter a value:"
 msgstr "Írjon be egy értéket:"
 
-#: extensions/list_tools/gth-script.c:753
+#: extensions/list_tools/gth-script.c:760
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "Hibás formátumú parancs"
 
-#: extensions/list_tools/gth-script.c:808
+#: extensions/list_tools/gth-script.c:1069
 msgid "_Skip"
 msgstr "_Kihagyás"
 
@@ -4353,7 +4436,7 @@ msgid "_Preserve original aspect ratios"
 msgstr "_Eredeti méretarány megtartása"
 
 #: extensions/resize_images/data/ui/resize-images.ui:324
-#: gthumb/gth-main-default-metadata.c:46 gthumb/gth-toolbox.c:148
+#: gthumb/gth-main-default-metadata.c:47 gthumb/gth-toolbox.c:148
 msgid "Format"
 msgstr "Formátum"
 
@@ -4411,7 +4494,6 @@ msgid "any of the following rules"
 msgstr "bármelyik az alábbi szabályok közül"
 
 #: extensions/search/gth-search-source-selector.c:130
-#| msgid "Could not open the location"
 msgid "Add another location"
 msgstr "Másik hely hozzáadása"
 
@@ -4439,19 +4521,16 @@ msgstr "edit-find"
 #. Not real actions, used in the shorcut window for documentation.
 #: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
 #: extensions/selections/callbacks.c:59 extensions/selections/callbacks.c:71
-#| msgid "Advanced file selection."
 msgid "Add to selection"
 msgstr "Hozzáadás a kijelöléshez"
 
 #: extensions/selections/callbacks.c:61 extensions/selections/callbacks.c:62
 #: extensions/selections/callbacks.c:63 extensions/selections/callbacks.c:72
-#| msgid "Remove from Selection"
 msgid "Remove from selection"
 msgstr "Eltávolítás a kijelölésből"
 
 #: extensions/selections/callbacks.c:65 extensions/selections/callbacks.c:66
 #: extensions/selections/callbacks.c:67 extensions/selections/callbacks.c:73
-#| msgid "Show selection %d"
 msgid "Show selection"
 msgstr "Kijelölés megjelenítése"
 
@@ -4492,26 +4571,22 @@ msgid "emblem-flag-gray"
 msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:40
-#| msgid "Presentation"
 msgid "Start presentation"
 msgstr "Bemutató indítása"
 
 #: extensions/slideshow/callbacks.c:41
-#| msgid "x-office-presentation"
 msgid "Terminate presentation"
 msgstr "Bemutató befejezése"
 
 #: extensions/slideshow/callbacks.c:42
-#| msgid "Presentation"
 msgid "Pause/Resume presentation"
 msgstr "Bemutató szüneteltetése vagy folytatása"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:118
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:120
 msgid "Show next file"
 msgstr "Következő fájl megjelenítése"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:117
-#| msgid "View the previous image"
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:119
 msgid "Show previous file"
 msgstr "Előző fájl megjelenítése"
 
@@ -4574,7 +4649,6 @@ msgid "Random"
 msgstr "Véletlenszerű"
 
 #: extensions/slideshow/gth-slideshow.c:237
-#| msgid "Presentation"
 msgid "Playing a presentation"
 msgstr "Bemutató lejátszása"
 
@@ -4624,7 +4698,6 @@ msgid "Terminal"
 msgstr "Terminál"
 
 #: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
-#| msgid "Open in New Window"
 msgid "Open in Terminal"
 msgstr "Megnyitás terminálban"
 
@@ -4781,14 +4854,14 @@ msgstr "Webalbumok"
 msgid "Create static web albums."
 msgstr "Statikus webalbumok létrehozása."
 
-#: gthumb/dlg-location.c:200 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6569 gthumb/gth-browser.c:6588
-#: gthumb/gth-browser.c:6612 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
+#: gthumb/gth-browser.c:6574 gthumb/gth-browser.c:6593
+#: gthumb/gth-browser.c:6617 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Nem sikerült betölteni a(z) „%s” pozíciót"
 
-#: gthumb/dlg-location.c:408 gthumb/dlg-location.c:418
+#: gthumb/dlg-location.c:450 gthumb/dlg-location.c:460
 msgid "Open"
 msgstr "Megnyitás"
 
@@ -4819,19 +4892,16 @@ msgid "Browser"
 msgstr "Böngésző"
 
 #: gthumb/dlg-preferences-extensions.c:61
-#| msgid "All"
 msgctxt "Extensions"
 msgid "All"
 msgstr "Összes"
 
 #: gthumb/dlg-preferences-extensions.c:62
-#| msgid "Enabled"
 msgctxt "Extensions"
 msgid "Enabled"
 msgstr "Engedélyezve"
 
 #: gthumb/dlg-preferences-extensions.c:63
-#| msgid "Disabled"
 msgctxt "Extensions"
 msgid "Disabled"
 msgstr "Letiltva"
@@ -4870,7 +4940,6 @@ msgid "Could not deactivate the extension"
 msgstr "Nem sikerült kikapcsolni a kiterjesztést"
 
 #: gthumb/dlg-preferences-extensions.c:491
-#| msgid "gthumb development team"
 msgid "gThumb Development Team"
 msgstr "A gthumb fejlesztőcsapata"
 
@@ -4891,32 +4960,29 @@ msgstr "A változások életbe lépéséhez a gthumb újraindítása szükséges
 msgid "_Restart"
 msgstr "Új_raindítás"
 
-#: gthumb/dlg-preferences-shortcuts.c:294
-#: gthumb/dlg-preferences-shortcuts.c:369 gthumb/resources/gears-menu.ui:25
+#: gthumb/dlg-preferences-shortcuts.c:296
+#: gthumb/dlg-preferences-shortcuts.c:371 gthumb/resources/gears-menu.ui:25
 msgid "Revert"
 msgstr "Visszaállítás"
 
-#: gthumb/dlg-preferences-shortcuts.c:367
+#: gthumb/dlg-preferences-shortcuts.c:369
 msgid "Do you want to revert all the changes and use the default shortcuts?"
 msgstr ""
-"Vissza szeretné állítani az összes változtatást és az alapértelmezett"
-" gyorsbillentyűket használni?"
+"Vissza szeretné állítani az összes változtatást és az alapértelmezett "
+"gyorsbillentyűket használni?"
 
-#: gthumb/dlg-preferences-shortcuts.c:541
-#| msgid "All"
+#: gthumb/dlg-preferences-shortcuts.c:542
 msgctxt "Shortcuts"
 msgid "All"
 msgstr "Összes"
 
-#: gthumb/dlg-preferences-shortcuts.c:547
-#| msgid "Modified"
+#: gthumb/dlg-preferences-shortcuts.c:548
 msgctxt "Shortcuts"
 msgid "Modified"
 msgstr "Módosítva"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-shortcuts.c:576
-#| msgid "Shortcut"
+#: gthumb/dlg-preferences-shortcuts.c:577
 msgid "Shortcuts"
 msgstr "Gyorsbillentyűk"
 
@@ -4966,7 +5032,7 @@ msgstr "Fájlok áthelyezése a Kukába"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2027
+#: gthumb/glib-utils.c:2055
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4978,7 +5044,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2036
+#: gthumb/glib-utils.c:2064
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5001,7 +5067,6 @@ msgid "Start in fullscreen mode"
 msgstr "Indítás teljes képernyős módban"
 
 #: gthumb/gth-application.c:60
-#| msgid "Automatically start a slideshow"
 msgid "Automatically start a presentation"
 msgstr "Bemutató automatikus indítása"
 
@@ -5058,38 +5123,30 @@ msgstr ""
 "Dvornik László <dvornik at gnome dot hu>\n"
 "Kelemen Gábor <kelemeng at gnome dot hu>\n"
 "Tímár András <timar at gnome dot hu>\n"
-"Úr Balázs <urbalazs at gmail dot com>"
-
-#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
-msgid "New Window"
-msgstr "Új ablak"
+"Úr Balázs <ur.balazs at fsf dot hu>"
 
 #: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
 msgid "Keyboard Shortcuts"
 msgstr "Gyorsbillentyűk"
 
 #: gthumb/gth-browser-actions-entries.h:96
-#| msgid "_Quit"
 msgid "Quit"
 msgstr "Kilépés"
 
 #: gthumb/gth-browser-actions-entries.h:99
-#| msgid "Browser"
 msgid "Show browser"
 msgstr "Böngésző megjelenítése"
 
 #: gthumb/gth-browser-actions-entries.h:100
-#| msgid "Fit to window"
 msgid "Close window"
 msgstr "Ablak bezárása"
 
 #: gthumb/gth-browser-actions-entries.h:102
-#| msgid "Open Location…"
 msgid "Open location"
 msgstr "Hely megnyitása"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4568
-#: gthumb/gth-browser.c:4586 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4572
+#: gthumb/gth-browser.c:4590 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Teljes képernyő"
@@ -5099,78 +5156,76 @@ msgid "Revert image to saved"
 msgstr "Kép visszaállítása a mentettre"
 
 #: gthumb/gth-browser-actions-entries.h:105
+#| msgid "Save Image"
+msgid "Save image"
+msgstr "Kép mentése"
+
+#: gthumb/gth-browser-actions-entries.h:106
+#| msgid "Save Image"
+msgid "Save image as"
+msgstr "Kép mentése másként"
+
+#: gthumb/gth-browser-actions-entries.h:107
 msgid "Sidebar"
 msgstr "Oldalsáv"
 
-#: gthumb/gth-browser-actions-entries.h:106
+#: gthumb/gth-browser-actions-entries.h:108
 msgid "Statusbar"
 msgstr "Állapotsáv"
 
-#: gthumb/gth-browser-actions-entries.h:107
-#| msgid "Thumbnails"
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Thumbnails list"
 msgstr "Bélyegképek lista"
 
-#: gthumb/gth-browser-actions-entries.h:109
-#| msgid "Go to the previous visited location"
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Load previous location"
 msgstr "Előző hely betöltése"
 
-#: gthumb/gth-browser-actions-entries.h:110
-#| msgid "Could not open the location"
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Load next location"
 msgstr "Következő hely betöltése"
 
-#: gthumb/gth-browser-actions-entries.h:111
-#| msgid "The parent folder path"
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Load parent folder"
 msgstr "Szülőmappa betöltése"
 
-#: gthumb/gth-browser-actions-entries.h:112
-#| msgid "Loading images"
+#: gthumb/gth-browser-actions-entries.h:114
 msgid "Load home"
 msgstr "Saját mappa betöltése"
 
-#: gthumb/gth-browser-actions-entries.h:113
-#| msgid "Resolution"
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Reload location"
 msgstr "Hely újratöltése"
 
-#: gthumb/gth-browser-actions-entries.h:114
-#| msgid "Hidden Files"
+#: gthumb/gth-browser-actions-entries.h:116
 msgid "Show/Hide hidden files"
 msgstr "Rejtett fájlok megjelenítése vagy elrejtése"
 
-#: gthumb/gth-browser-actions-entries.h:115
-#| msgid "no sorting"
+#: gthumb/gth-browser-actions-entries.h:117
 msgid "Change sorting order"
 msgstr "Rendezési sorrend megváltoztatása"
 
-#: gthumb/gth-browser-actions-entries.h:119
+#: gthumb/gth-browser-actions-entries.h:121
 msgid "Show first file"
 msgstr "Első fájl megjelenítése"
 
-#: gthumb/gth-browser-actions-entries.h:120
+#: gthumb/gth-browser-actions-entries.h:122
 msgid "Show last file"
 msgstr "Utolsó fájl megjelenítése"
 
-#: gthumb/gth-browser-actions-entries.h:122
-#| msgid "Images"
+#: gthumb/gth-browser-actions-entries.h:124
 msgid "Image tools"
 msgstr "Képeszközök"
 
-#: gthumb/gth-browser-actions-entries.h:123
-#| msgid "Properties"
+#: gthumb/gth-browser-actions-entries.h:125
 msgid "File properties"
 msgstr "Fájltulajdonságok"
 
-#: gthumb/gth-browser-actions-entries.h:125
-#| msgid "Select All"
+#: gthumb/gth-browser-actions-entries.h:127
 msgid "Select all"
 msgstr "Összes kijelölése"
 
-#: gthumb/gth-browser-actions-entries.h:126
-#| msgid "Select None"
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Select none"
 msgstr "Kijelölés megszüntetése"
 
@@ -5208,7 +5263,7 @@ msgstr "Ha nem menti, a fájl módosításai azonnal elvesznek."
 msgid "Do _Not Save"
 msgstr "_Ne mentse"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4594
+#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4598
 msgid "Accept"
 msgstr "Elfogadás"
 
@@ -5224,32 +5279,32 @@ msgstr "Nem sikerült megváltoztatni a nevet"
 msgid "Modified"
 msgstr "Módosítva"
 
-#: gthumb/gth-browser.c:4516
+#: gthumb/gth-browser.c:4520
 msgid "Go to the previous visited location"
 msgstr "Ugrás az előző meglátogatott helyre"
 
-#: gthumb/gth-browser.c:4522
+#: gthumb/gth-browser.c:4526
 msgid "Go to the next visited location"
 msgstr "Ugrás a következő meglátogatott helyre"
 
-#: gthumb/gth-browser.c:4530
+#: gthumb/gth-browser.c:4534
 msgid "History"
 msgstr "Előzmények"
 
-#: gthumb/gth-browser.c:4544
+#: gthumb/gth-browser.c:4548
 msgid "View the folders"
 msgstr "A mappák megtekintése"
 
-#: gthumb/gth-browser.c:4559
+#: gthumb/gth-browser.c:4563
 msgid "Edit file"
 msgstr "Fájl szerkesztése"
 
-#: gthumb/gth-browser.c:6570
+#: gthumb/gth-browser.c:6575
 #, c-format
 msgid "File type not supported"
 msgstr "A fájltípus nem támogatott"
 
-#: gthumb/gth-browser.c:6613
+#: gthumb/gth-browser.c:6618
 #, c-format
 msgid "No suitable module found"
 msgstr "Nem található megfelelő modul"
@@ -5272,27 +5327,27 @@ msgstr "Minden támogatott fájl"
 msgid "_Show Format Options"
 msgstr "Formátumbeállítások _megjelenítése"
 
-#: gthumb/gth-file-source-vfs.c:228
+#: gthumb/gth-file-source-vfs.c:219
 msgid "Computer"
 msgstr "Számítógép"
 
-#: gthumb/gth-file-source-vfs.c:787
+#: gthumb/gth-file-source-vfs.c:773
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
 "A fájlokat nem sikerült áthelyezni a Kukába. Szeretné véglegesen törölni azt?"
 
-#: gthumb/gth-file-source-vfs.c:798
+#: gthumb/gth-file-source-vfs.c:784
 msgid "Could not move the files to the Trash"
 msgstr "Nem sikerült áthelyezni a fájlokat a Kukába"
 
-#: gthumb/gth-file-source-vfs.c:843
+#: gthumb/gth-file-source-vfs.c:829
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Biztosan véglegesen törölni akarja a következőt: „%s”?"
 
-#: gthumb/gth-file-source-vfs.c:846
+#: gthumb/gth-file-source-vfs.c:832
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5300,7 +5355,7 @@ msgid_plural ""
 msgstr[0] "Biztos benne, hogy véglegesen törli a kiválasztott %d fájlt?"
 msgstr[1] "Biztos benne, hogy véglegesen törli a kiválasztott %d fájlt?"
 
-#: gthumb/gth-file-source-vfs.c:856
+#: gthumb/gth-file-source-vfs.c:842
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Ha törli a fájlt, az véglegesen elvész."
 
@@ -5379,17 +5434,15 @@ msgstr "Fájlinformációk olvasása"
 msgid "Hidden Files"
 msgstr "Rejtett fájlok"
 
-#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:45
+#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:46
 msgid "Location"
 msgstr "Hely"
 
 #: gthumb/gth-location-chooser.c:572
-#| msgid "Location"
 msgid "Locations"
 msgstr "Helyek"
 
 #: gthumb/gth-location-chooser.c:617
-#| msgid "Other"
 msgid "Other…"
 msgstr "Egyéb…"
 
@@ -5401,64 +5454,66 @@ msgstr "Méret"
 msgid "Bytes"
 msgstr "Bájt"
 
-#: gthumb/gth-main-default-metadata.c:42
-msgctxt "the file mtime"
+#. Translators: the file modified time.
+#: gthumb/gth-main-default-metadata.c:43
+#| msgctxt "the file mtime"
+#| msgid "Modified Date & Time"
 msgid "Modified Date & Time"
 msgstr "Módosított dátum és idő"
 
-#: gthumb/gth-main-default-metadata.c:43
+#: gthumb/gth-main-default-metadata.c:44
 msgid "Type"
 msgstr "Típus"
 
-#: gthumb/gth-main-default-metadata.c:48
+#: gthumb/gth-main-default-metadata.c:49
 msgid "Duration"
 msgstr "Időtartam"
 
-#: gthumb/gth-main-default-metadata.c:50
+#: gthumb/gth-main-default-metadata.c:51
 msgid "Exposure Settings"
 msgstr "Expozíció beállítások"
 
-#: gthumb/gth-main-default-metadata.c:51
+#: gthumb/gth-main-default-metadata.c:52
 msgid "Aperture"
 msgstr "Apertúra"
 
-#: gthumb/gth-main-default-metadata.c:52
+#: gthumb/gth-main-default-metadata.c:53
 msgid "ISO Speed"
 msgstr "ISO sebesség"
 
-#: gthumb/gth-main-default-metadata.c:53
+#: gthumb/gth-main-default-metadata.c:54
 msgid "Exposure Time"
 msgstr "Expozíciós idő"
 
-#: gthumb/gth-main-default-metadata.c:54
+#: gthumb/gth-main-default-metadata.c:55
 msgid "Shutter Speed"
 msgstr "Zársebesség"
 
-#: gthumb/gth-main-default-metadata.c:55
+#: gthumb/gth-main-default-metadata.c:56
 msgid "Focal Length"
 msgstr "Fókusztávolság"
 
-#: gthumb/gth-main-default-metadata.c:56
+#: gthumb/gth-main-default-metadata.c:57
 msgid "Flash"
 msgstr "Vaku"
 
-#: gthumb/gth-main-default-metadata.c:57
+#: gthumb/gth-main-default-metadata.c:58
 msgid "Camera Model"
 msgstr "Fényképezőgép-típus"
 
-#: gthumb/gth-main-default-metadata.c:58
+#: gthumb/gth-main-default-metadata.c:59
 msgid "Color Profile"
 msgstr "Színprofil"
 
-#: gthumb/gth-main-default-metadata.c:60
+#: gthumb/gth-main-default-metadata.c:61
 msgid "General Date & Time"
 msgstr "Általános dátum és idő"
 
-#: gthumb/gth-main-default-metadata.c:67
+#: gthumb/gth-main-default-metadata.c:68
 msgid "Author"
 msgstr "Szerző"
 
-#: gthumb/gth-main-default-metadata.c:68
+#: gthumb/gth-main-default-metadata.c:69
 msgid "Copyright"
 msgstr "Szerzői jog"
 
@@ -5527,17 +5582,14 @@ msgid "Description (embedded)"
 msgstr "Leírás (beágyazott)"
 
 #: gthumb/gth-main-default-types.c:39
-#| msgid "Show"
 msgid "Show/Hide"
 msgstr "Megjelenítés vagy elrejtés"
 
 #: gthumb/gth-main-default-types.c:40
-#| msgid "Organization:"
 msgid "Navigation"
 msgstr "Navigáció"
 
 #: gthumb/gth-main-default-types.c:41
-#| msgid "File manager"
 msgid "File Manager"
 msgstr "Fájlkezelő"
 
@@ -5709,56 +5761,56 @@ msgstr "Színek"
 msgid "Rotation"
 msgstr "Forgatás"
 
-#: gthumb/gth-window.c:1020
+#: gthumb/gth-window.c:1034
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
 "want to reassign it to this action instead?"
 msgstr ""
-"A(z) „%s” billentyűkombináció már hozzá van rendelve ehhez a művelethez: „"
-"%s”. Szeretné inkább ehhez a művelethez újra hozzárendelni?"
+"A(z) „%s” billentyűkombináció már hozzá van rendelve ehhez a művelethez: "
+"„%s”. Szeretné inkább ehhez a művelethez újra hozzárendelni?"
 
-#: gthumb/gth-window.c:1028
+#: gthumb/gth-window.c:1042
 msgid "Reassign"
 msgstr "Újra hozzárendelés"
 
-#: gthumb/gth-window.c:1046
+#: gthumb/gth-window.c:1060
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
 "be changed."
 msgstr ""
-"A(z) „%s” billentyűkombináció már hozzá van rendelve a(z) „%s” művelethez, és"
-" nem változtatható meg."
+"A(z) „%s” billentyűkombináció már hozzá van rendelve a(z) „%s” művelethez, "
+"és nem változtatható meg."
 
-#: gthumb/gth-window.c:1050
+#: gthumb/gth-window.c:1064
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr ""
-"A(z) „%s” billentyűkombináció már hozzá van rendelve, és nem változtatható"
-" meg."
+"A(z) „%s” billentyűkombináció már hozzá van rendelve, és nem változtatható "
+"meg."
 
-#: gthumb/gtk-utils.c:352
+#: gthumb/gtk-utils.c:370
 msgid "Could not display help"
 msgstr "Nem sikerült megjeleníteni a súgót"
 
-#: gthumb/gtk-utils.c:712 gthumb/gtk-utils.c:719
+#: gthumb/gtk-utils.c:730 gthumb/gtk-utils.c:737
 msgid "Could not launch the application"
 msgstr "Nem sikerült elindítani az alkalmazást"
 
-#: gthumb/gtk-utils.c:822
+#: gthumb/gtk-utils.c:840
 msgid "_Copy Here"
 msgstr "_Másolás ide"
 
-#: gthumb/gtk-utils.c:827
+#: gthumb/gtk-utils.c:845
 msgid "_Move Here"
 msgstr "Á_thelyezés ide"
 
-#: gthumb/gtk-utils.c:832
+#: gthumb/gtk-utils.c:850
 msgid "_Link Here"
 msgstr "_Linkelés ide"
 
-#: gthumb/gtk-utils.c:841
+#: gthumb/gtk-utils.c:859
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -5813,3 +5865,6 @@ msgstr "A gThumb _névjegye"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "Előzmények _törlése"
+
+#~ msgid "--∶--"
+#~ msgstr "--∶--"
