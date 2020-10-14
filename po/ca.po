@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-06-23 04:19+0000\n"
+"POT-Creation-Date: 2020-08-08 19:22+0000\n"
 "PO-Revision-Date: 2019-03-17 08:36+0100\n"
 "Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
 "Language-Team: catalan <tradgnome@softcatala.net>\n"
@@ -35,14 +35,14 @@ msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
-"gThumb és un visualitzador, editor, navegador i organitzador d'imatges. Està "
-"dissenyat perquè tingui una bona integració amb l'escriptori GNOME 3."
+"gThumb és un visualitzador, editor, navegador i organitzador d'imatges. Està"
+" dissenyat perquè tingui una bona integració amb l'escriptori GNOME 3."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:15
 msgid ""
 "As an image viewer gThumb allows to view common image file formats such as "
-"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
-"is also possible to view various metadata types embedded inside an image "
+"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It"
+" is also possible to view various metadata types embedded inside an image "
 "such as EXIF, IPTC and XMP."
 msgstr ""
 "Com a visualitzador d'imatges, gThumb permet la visualització dels formats "
@@ -57,8 +57,8 @@ msgid ""
 "change the saturation, lightness, contrast as well as other color "
 "transformations."
 msgstr ""
-"Com a editor d'imatges, gThumb permet escalar, girar i retallar les imatges; "
-"canviar la saturació, la lluminositat, el contrast, així com altres "
+"Com a editor d'imatges, gThumb permet escalar, girar i retallar les imatges;"
+" canviar la saturació, la lluminositat, el contrast, així com altres "
 "transformacions de color."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:27
@@ -74,8 +74,8 @@ msgstr ""
 "desades al vostre disc, permet realitzar les operacions més comunes d'un "
 "gestor de fitxers tals com copiar, moure i suprimir fitxers i carpetes. A "
 "més hi ha una sèrie d'eines específiques d'imatges, com ara les "
-"transformacions sense pèrdua JPEG; redimensió d'imatge; conversió de format; "
-"presentació de diapositives; establiment d'una imatge com a fons "
+"transformacions sense pèrdua JPEG; redimensió d'imatge; conversió de format;"
+" presentació de diapositives; establiment d'una imatge com a fons "
 "d'escriptori i algunes altres més."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:35
@@ -103,8 +103,8 @@ msgstr "Obre els fitxers a la finestra activa"
 #: data/gschemas/org.gnome.gthumb.image-viewer.gschema.xml:30
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr ""
-"Si es restableix la posició de les barres de desplaçament després de canviar "
-"la imatge"
+"Si es restableix la posició de les barres de desplaçament després de canviar"
+" la imatge"
 
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:32
 msgid "Possible values are: jpeg, jpg."
@@ -116,8 +116,8 @@ msgstr "Els valors possibles són: tiff i tif."
 
 #: data/gschemas/org.gnome.gthumb.rename-series.gschema.xml:30
 msgid ""
-"Possible values include: general::unsorted, file::name, file::size, file::"
-"mtime, exif::photo::datetimeoriginal"
+"Possible values include: general::unsorted, file::name, file::size, "
+"file::mtime, exif::photo::datetimeoriginal"
 msgstr ""
 "Els valors possibles inclouen: general::unsorted, file::name, file::size, "
 "file::mtime, exif::photo::datetimeoriginal"
@@ -144,10 +144,16 @@ msgstr "gThumb"
 msgid "Image Viewer"
 msgstr "Visualitzador d'imatges"
 
-#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#. Translators: Search terms to find this application. Do NOT translate or
+#. localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.gThumb.desktop.in.in:8
 msgid "Image;Viewer;"
 msgstr "Imatge;Visualitzador;"
+
+#: data/org.gnome.gThumb.desktop.in.in:25
+#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
+msgid "New Window"
+msgstr "Finestra nova"
 
 #: data/ui/browser-preferences.ui:20
 #: extensions/contact_sheet/gth-contact-sheet-theme.c:34
@@ -173,7 +179,7 @@ msgstr "_Obre els fitxers a pantalla completa"
 
 #: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
-#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:333
+#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:335
 #: gthumb/gth-shortcuts-window.c:96
 msgid "Other"
 msgstr "Altres"
@@ -222,7 +228,7 @@ msgstr "256"
 msgid "D_etermine image type from content (slower)"
 msgstr "D_etermina el tipus d'imatge en funció dels continguts (més lent)"
 
-#: data/ui/extensions-preferences.ui:40
+#: data/ui/extensions-preferences.ui:39
 msgid "_Extensions:"
 msgstr "_Extensions:"
 
@@ -253,7 +259,8 @@ msgid "Rules:"
 msgstr "Regles:"
 
 #. limit label
-#: data/ui/filter-editor.ui:164 gthumb/gth-filter.c:270 gthumb/gth-filter.c:338
+#: data/ui/filter-editor.ui:164 gthumb/gth-filter.c:270
+#: gthumb/gth-filter.c:338
 msgid "_Limit to"
 msgstr "_Limita a"
 
@@ -265,28 +272,29 @@ msgstr "que se seleccionen amb"
 msgid "Mean:"
 msgstr "Mitjana:"
 
-#. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsized at the end.
-#: data/ui/histogram-info.ui:44
+#. Short for "Standard deviation".  Try to keep it under the 12 characters in
+#. the translation or it will be ellipsized at the end.
+#: data/ui/histogram-info.ui:42
 msgid "Std dev:"
 msgstr "Desv.:"
 
-#: data/ui/histogram-info.ui:64
+#: data/ui/histogram-info.ui:60
 msgid "Median:"
 msgstr "Mediana:"
 
 #. After the colon there is the total number of pixels
-#: data/ui/histogram-info.ui:151
+#: data/ui/histogram-info.ui:148
 msgid "Pixels:"
 msgstr "Píxels:"
 
 #. After the colon there is a percentile.
-#: data/ui/histogram-info.ui:167
+#: data/ui/histogram-info.ui:163
 msgctxt "Pixels"
 msgid "Max:"
 msgstr "Màx.:"
 
 #. After the colon there is the percentile of selected pixels.
-#: data/ui/histogram-info.ui:185
+#: data/ui/histogram-info.ui:180
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "Seleccionat:"
@@ -425,9 +433,9 @@ msgstr "General"
 msgid "Shortcuts:"
 msgstr "Dreceres:"
 
-#: data/ui/shortcuts-preferences.ui:92
+#: data/ui/shortcuts-preferences.ui:93
 msgid "_Restore All…"
-msgstr ""
+msgstr "_Restaura-ho tot…"
 
 #: data/ui/sort-order.ui:30
 msgid "_Inverse order"
@@ -656,7 +664,7 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:556
 #: extensions/contact_sheet/data/ui/image-wall.ui:269
-#: extensions/image_viewer/gth-image-viewer-page.c:1702
+#: extensions/image_viewer/gth-image-viewer-page.c:1703
 #: extensions/webalbums/data/ui/web-album-exporter.ui:484
 msgid "Saving"
 msgstr "Desament"
@@ -666,7 +674,7 @@ msgstr "Desament"
 #: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
-#: extensions/list_tools/gth-script-editor-dialog.c:273
+#: extensions/list_tools/gth-script-editor-dialog.c:274
 #: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1924
 #, c-format
 msgid "No name specified"
@@ -753,8 +761,8 @@ msgid "Rename"
 msgstr "Canvia el nom"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4553
-#: gthumb/gth-browser.c:4655 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4557
+#: gthumb/gth-browser.c:4659 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Propietats"
 
@@ -943,7 +951,7 @@ msgstr "Etiqueta (incrustada)"
 #: extensions/exiv2_tools/exiv2-utils.cpp:885
 #: extensions/exiv2_tools/exiv2-utils.cpp:915
 #: extensions/exiv2_tools/exiv2-utils.cpp:1448
-#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:336
+#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "Format de fitxer no vàlid"
 
@@ -1009,12 +1017,12 @@ msgid "Change the files date"
 msgstr "Canvieu la data dels fitxers"
 
 #: extensions/change_date/data/ui/change-date.ui:12
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:236
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:243
 msgid "+"
 msgstr "+"
 
 #: extensions/change_date/data/ui/change-date.ui:15
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:244
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:251
 msgid "-"
 msgstr "-"
 
@@ -1961,7 +1969,7 @@ msgstr "Introduïu el nom de la carpeta:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5565 gthumb/gth-browser.c:5601
+#: gthumb/gth-browser.c:5569 gthumb/gth-browser.c:5605
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "No s'ha pogut realitzar l'operació"
@@ -1974,8 +1982,8 @@ msgstr "No s'han pogut moure els fitxers"
 #: extensions/file_manager/actions.c:424
 #: extensions/file_manager/callbacks.c:278
 msgid ""
-"Files cannot be moved to the current location, as alternative you can choose "
-"to copy them."
+"Files cannot be moved to the current location, as alternative you can choose"
+" to copy them."
 msgstr ""
 "Els fitxers no es pot moure a la ubicació actual, com a alternativa podeu "
 "triar per copiar-los."
@@ -1986,7 +1994,7 @@ msgstr ""
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
-#: gthumb/gtk-utils.h:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:417 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Copia"
 
@@ -2395,31 +2403,38 @@ msgstr "Quantitat:"
 msgid "%d → %d"
 msgstr "%d → %d"
 
-#: extensions/file_tools/gth-curve-editor.c:894 gthumb/gth-histogram-view.c:838
+#: extensions/file_tools/gth-curve-editor.c:894
+#: gthumb/gth-histogram-view.c:838
 msgid "Linear scale"
 msgstr "Escalat lineal"
 
-#: extensions/file_tools/gth-curve-editor.c:906 gthumb/gth-histogram-view.c:850
+#: extensions/file_tools/gth-curve-editor.c:906
+#: gthumb/gth-histogram-view.c:850
 msgid "Logarithmic scale"
 msgstr "Escalat logarítmic"
 
-#: extensions/file_tools/gth-curve-editor.c:926 gthumb/gth-histogram-view.c:870
+#: extensions/file_tools/gth-curve-editor.c:926
+#: gthumb/gth-histogram-view.c:870
 msgid "Channel:"
 msgstr "Canal:"
 
-#: extensions/file_tools/gth-curve-editor.c:948 gthumb/gth-histogram-view.c:891
+#: extensions/file_tools/gth-curve-editor.c:948
+#: gthumb/gth-histogram-view.c:891
 msgid "Value"
 msgstr "Valor"
 
-#: extensions/file_tools/gth-curve-editor.c:953 gthumb/gth-histogram-view.c:896
+#: extensions/file_tools/gth-curve-editor.c:953
+#: gthumb/gth-histogram-view.c:896
 msgid "Red"
 msgstr "Vermell"
 
-#: extensions/file_tools/gth-curve-editor.c:958 gthumb/gth-histogram-view.c:901
+#: extensions/file_tools/gth-curve-editor.c:958
+#: gthumb/gth-histogram-view.c:901
 msgid "Green"
 msgstr "Verd"
 
-#: extensions/file_tools/gth-curve-editor.c:963 gthumb/gth-histogram-view.c:906
+#: extensions/file_tools/gth-curve-editor.c:963
+#: gthumb/gth-histogram-view.c:906
 msgid "Blue"
 msgstr "Blau"
 
@@ -2619,7 +2634,7 @@ msgstr "Introduïu el nom de la predefinició:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1631
+#: extensions/image_viewer/gth-image-viewer-page.c:1632
 #: gthumb/gth-browser.c:1863
 msgid "Could not save the file"
 msgstr "No s'ha pogut desar el fitxer"
@@ -3033,9 +3048,9 @@ msgid ""
 "photos to %s. When you’re finished, return to this window to complete the "
 "authorization."
 msgstr ""
-"Feu clic a «Autoritza» per a obrir el vostre navegador i autoritzar a gthumb "
-"perquè pugi les fotos a %s. Quan ho hàgiu fet, torneu a aquesta finestra per "
-"completar l'autorització."
+"Feu clic a «Autoritza» per a obrir el vostre navegador i autoritzar a gthumb"
+" perquè pugi les fotos a %s. Quan ho hàgiu fet, torneu a aquesta finestra "
+"per completar l'autorització."
 
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
@@ -3061,6 +3076,73 @@ msgstr "Captura de pantalla"
 msgid "Play/Pause"
 msgstr "Reprodueix / Fes una pausa"
 
+#: extensions/gstreamer_tools/callbacks.c:34
+msgid "Mute"
+msgstr "Silencia"
+
+#: extensions/gstreamer_tools/callbacks.c:35
+msgid "Play faster"
+msgstr "Reprodueix més ràpid"
+
+#: extensions/gstreamer_tools/callbacks.c:36
+msgid "Play slower"
+msgstr "Reprodueix més lent"
+
+#: extensions/gstreamer_tools/callbacks.c:37
+#: extensions/image_viewer/gth-image-viewer-page.c:1189
+msgid "Next frame"
+msgstr "Fotograma següent"
+
+#: extensions/gstreamer_tools/callbacks.c:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:460
+msgid "Go forward 1 second"
+msgstr "Avança 1 segon"
+
+#: extensions/gstreamer_tools/callbacks.c:39
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:356
+msgid "Go forward 5 seconds"
+msgstr "Avança 5 segons"
+
+#: extensions/gstreamer_tools/callbacks.c:40
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:370
+msgid "Go forward 10 seconds"
+msgstr "Avança 10 segons"
+
+#: extensions/gstreamer_tools/callbacks.c:41
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:384
+msgid "Go forward 1 minute"
+msgstr "Avança 1 minut"
+
+#: extensions/gstreamer_tools/callbacks.c:42
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:398
+msgid "Go forward 5 minutes"
+msgstr "Avança 5 minuts"
+
+#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:446
+msgid "Go back 1 second"
+msgstr "Retrocedeix 1 segon"
+
+#: extensions/gstreamer_tools/callbacks.c:44
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:300
+msgid "Go back 5 seconds"
+msgstr "Retrocedeix 5 segons"
+
+#: extensions/gstreamer_tools/callbacks.c:45
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:314
+msgid "Go back 10 seconds"
+msgstr "Retrocedeix 10 segons"
+
+#: extensions/gstreamer_tools/callbacks.c:46
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:328
+msgid "Go back 1 minute"
+msgstr "Retrocedeix 1 minut"
+
+#: extensions/gstreamer_tools/callbacks.c:47
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:342
+msgid "Go back 5 minutes"
+msgstr "Retrocedeix 5 minuts"
+
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
 msgstr "Usa l'acceleració per maquinari"
@@ -3069,31 +3151,77 @@ msgstr "Usa l'acceleració per maquinari"
 msgid "_Screenshots location:"
 msgstr "U_bicació de la captura de pantalla:"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:30
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:621
-#: extensions/image_viewer/gth-image-viewer-page.c:1181
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:29
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:622
+#: extensions/image_viewer/gth-image-viewer-page.c:1182
 msgid "Play"
 msgstr "Reprodueix"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:51
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:50
 msgid "Slower"
 msgstr "Més lent"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:73
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:72
 msgid "Faster"
 msgstr "Més ràpid"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:95
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:94
 msgid "Restart when finished"
 msgstr "Reinicia quan acabi"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:131
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:130
 msgid "Time:"
 msgstr "Hora:"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:194
-msgid "--∶--"
-msgstr "--∶--"
+#. minus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:296
+msgid "-5s"
+msgstr "-5s"
+
+#. minus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:310
+msgid "-10s"
+msgstr "-10s"
+
+#. minus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:324
+msgid "-1m"
+msgstr "-1m"
+
+#. minus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:338
+msgid "-5m"
+msgstr "-5m"
+
+#. plus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:352
+msgid "+5s"
+msgstr "+5s"
+
+#. plus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:366
+msgid "+10s"
+msgstr "+10s"
+
+#. plus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:380
+msgid "+1m"
+msgstr "+1m"
+
+#. plus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:394
+msgid "+5m"
+msgstr "+5m"
+
+#. minus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:442
+msgid "-1s"
+msgstr "-1s"
+
+#. plus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:456
+msgid "+1s"
+msgstr "+1s"
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
@@ -3107,19 +3235,19 @@ msgstr "Reproduïu els fitxers d'àudio i de vídeo."
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:594
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "Reproduint vídeo"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:607
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:608
 msgid "Pause"
 msgstr "Fes una pausa"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:930
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1048
 msgid "Take a screenshot"
 msgstr "Fes una captura de pantalla"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:937
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1055
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
@@ -3190,7 +3318,7 @@ msgstr "Mono"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
-#: extensions/image_viewer/gth-image-viewer-page.c:1864
+#: extensions/image_viewer/gth-image-viewer-page.c:1865
 #: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
 #: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
@@ -3317,7 +3445,8 @@ msgstr "Impressió de la imatge"
 
 #: extensions/image_print/image_print.extension.desktop.in.in:4
 msgid "Allow to print images choosing the page layout."
-msgstr "Permet imprimir imatges amb la selecció de la disposició de la pàgina."
+msgstr ""
+"Permet imprimir imatges amb la selecció de la disposició de la pàgina."
 
 #: extensions/image_print/image_print.extension.desktop.in.in:8
 msgid "document-print"
@@ -3353,28 +3482,17 @@ msgstr "No s'ha pogut transformar la imatge: %s"
 
 #: extensions/image_rotation/rotation-utils.c:110
 msgid ""
-"This transformation may introduce small image distortions along one or more "
-"edges, because the image dimensions are not multiples of 8.\n"
+"This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
 "\n"
-"The distortion is reversible, however. If the resulting image is "
-"unacceptable, simply apply the reverse transformation to return to the "
-"original image.\n"
+"The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
-"transformation is not strictly lossless anymore."
+"You can also choose to discard (or trim) any untransformable edge pixels. For practical use, this mode gives the best looking results, but the transformation is not strictly lossless anymore."
 msgstr ""
-"Pot ser que aquesta transformació distorsioni lleugerament una o més vores, "
-"perquè les dimensions de la imatge no són múltiples de 8.\n"
+"Pot ser que aquesta transformació distorsioni lleugerament una o més vores, perquè les dimensions de la imatge no són múltiples de 8.\n"
 "\n"
-"Tanmateix, aquesta distorsió és reversible. Si la imatge resultant és "
-"inacceptable, només cal que apliqueu la transformació inversa per tornar a "
-"obtenir la imatge original.\n"
+"Tanmateix, aquesta distorsió és reversible. Si la imatge resultant és inacceptable, només cal que apliqueu la transformació inversa per tornar a obtenir la imatge original.\n"
 "\n"
-"També podeu triar de descartar (o retallar) tots els píxels de vora que no "
-"siguin transformables. Per a un ús pràctic, aquest mode és el que dóna més "
-"bon resultat; però, aleshores, la transformació ja no es farà estrictament "
-"sense pèrdua de qualitat."
+"També podeu triar de descartar (o retallar) tots els píxels de vora que no siguin transformables. Per a un ús pràctic, aquest mode és el que dóna més bon resultat; però, aleshores, la transformació ja no es farà estrictament sense pèrdua de qualitat."
 
 #: extensions/image_rotation/rotation-utils.c:116
 msgid "_Trim"
@@ -3385,125 +3503,102 @@ msgid "_Accept distortion"
 msgstr "_Accepta la distorsió"
 
 #: extensions/image_viewer/callbacks.c:32
-#, fuzzy
-#| msgid "Zoom quality:"
 msgid "Zoom in"
-msgstr "Qualitat de l'ampliació:"
+msgstr "Apropa"
 
 #: extensions/image_viewer/callbacks.c:33
-#, fuzzy
-#| msgid "Zoom quality:"
 msgid "Zoom out"
-msgstr "Qualitat de l'ampliació:"
+msgstr "Qualitat de l'ampliació"
 
 #: extensions/image_viewer/callbacks.c:34
-#, fuzzy
-#| msgid "100%"
 msgid "Zoom 100%"
-msgstr "100%"
+msgstr "Escala 100%"
 
 #: extensions/image_viewer/callbacks.c:35
-#, fuzzy
-#| msgid "200%"
 msgid "Zoom 200%"
-msgstr "200%"
+msgstr "Escala 200%"
 
 #: extensions/image_viewer/callbacks.c:36
-#, fuzzy
-#| msgid "300%"
 msgid "Zoom 300%"
-msgstr "300%"
+msgstr "Escala 300%"
 
 #: extensions/image_viewer/callbacks.c:38
 msgid "Zoom to fit"
-msgstr ""
+msgstr "Escala per a encabir"
 
 #: extensions/image_viewer/callbacks.c:39
 #, fuzzy
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit if larger"
-msgstr "Si és més gran, ajusta a l'amplada de pàgina"
+msgstr "Ajustar a si és més gran"
 
 #: extensions/image_viewer/callbacks.c:40
-#, fuzzy
-#| msgid "Fit to width"
 msgid "Zoom to fit width"
 msgstr "Ajusta a l'amplada"
 
 #: extensions/image_viewer/callbacks.c:41
 #, fuzzy
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit width if larger"
-msgstr "Si és més gran, ajusta a l'amplada de pàgina"
+msgstr "Ajustar a l'amplada si és més gran"
 
 #: extensions/image_viewer/callbacks.c:42
-#, fuzzy
-#| msgid "Fit to height"
 msgid "Zoom to fit height"
 msgstr "Ajusta a l'alçada"
 
 #: extensions/image_viewer/callbacks.c:43
 #, fuzzy
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit height if larger"
-msgstr "Si és més gran, ajusta a l'amplada de pàgina"
+msgstr "Ajustar a l'alçada si és més gran"
 
 #: extensions/image_viewer/callbacks.c:45
-#, fuzzy
-#| msgid "Undo"
 msgid "Undo edit"
-msgstr "Desfés"
+msgstr "Desfés l'edició"
 
 #: extensions/image_viewer/callbacks.c:46
-#, fuzzy
-#| msgid "Redo"
 msgid "Redo edit"
-msgstr "Refés"
+msgstr "Refés l'edició"
 
 #: extensions/image_viewer/callbacks.c:48
 msgid "Scroll left"
-msgstr ""
+msgstr "Desplaça a l'esquerra"
 
 #: extensions/image_viewer/callbacks.c:49
-#, fuzzy
-#| msgid "Slide from right"
 msgid "Scroll right"
-msgstr "Llisca des de la part dreta"
+msgstr "Desplaça a la dreta"
 
 #: extensions/image_viewer/callbacks.c:50
 msgid "Scroll up"
-msgstr ""
+msgstr "Desplaça amunt"
 
 #: extensions/image_viewer/callbacks.c:51
 msgid "Scroll down"
-msgstr ""
+msgstr "Desplaça avall"
 
 #: extensions/image_viewer/callbacks.c:53
 msgid "Scroll left fast"
-msgstr ""
+msgstr "Desplaçament a l'esquerra ràpid"
 
 #: extensions/image_viewer/callbacks.c:54
 msgid "Scroll right fast"
-msgstr ""
+msgstr "Desplaçament cap a la dreta ràpid"
 
 #: extensions/image_viewer/callbacks.c:55
 msgid "Scroll up fast"
-msgstr ""
+msgstr "Desplaçament amunt ràpid"
 
 #: extensions/image_viewer/callbacks.c:56
 msgid "Scroll down fast"
-msgstr ""
+msgstr "Desplaçament avall ràpid"
 
 #: extensions/image_viewer/callbacks.c:58
 msgid "Scroll to center"
-msgstr ""
+msgstr "Desplaça al centre"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:20
 msgid "After loading an image:"
 msgstr "Després de carregar una imatge:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
-#: extensions/image_viewer/gth-image-viewer-page.c:1138
+#: extensions/image_viewer/gth-image-viewer-page.c:1139
 msgid "Set to actual size"
 msgstr "Estableix-ho a la mida real"
 
@@ -3512,7 +3607,7 @@ msgid "Keep previous zoom"
 msgstr "Conserva l'ampliació anterior"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
-#: extensions/image_viewer/gth-image-viewer-page.c:1145
+#: extensions/image_viewer/gth-image-viewer-page.c:1146
 msgid "Fit to window if larger"
 msgstr "Si és més gran, ajusta a la finestra"
 
@@ -3531,7 +3626,7 @@ msgstr "Restableix la posició de les barres de desplaçament"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:109
 msgid "Mouse wheel action:"
-msgstr ""
+msgstr "Acció de la roda del ratolí:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:131
 msgctxt "zoom quality"
@@ -3539,11 +3634,9 @@ msgid "Change image"
 msgstr "Canvia la imatge"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:148
-#, fuzzy
-#| msgid "Copy Image"
 msgctxt "zoom quality"
 msgid "Zoom image"
-msgstr "Copia la imatge"
+msgstr "Amplia la imatge"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:187
 msgid "Zoom quality:"
@@ -3565,15 +3658,13 @@ msgstr "Transparència:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:295
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:15
-#, fuzzy
-#| msgid "Centered"
 msgid "Checkered"
-msgstr "Centrat"
+msgstr "Comprovat"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:296
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:24
 msgid "White"
-msgstr ""
+msgstr "Blanc"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
@@ -3613,46 +3704,40 @@ msgstr "300%"
 msgid "Histogram"
 msgstr "Histograma"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:83
+#: extensions/image_viewer/gth-image-viewer-page.c:84
 msgid "Copy Image"
 msgstr "Copia la imatge"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:84
+#: extensions/image_viewer/gth-image-viewer-page.c:85
 msgid "Paste Image"
 msgstr "Enganxa la imatge"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1173
+#: extensions/image_viewer/gth-image-viewer-page.c:1174
 msgid "Apply the embedded color profile"
 msgstr "Aplica el perfil de color incrustat"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1188
-msgid "Next frame"
-msgstr "Fotograma següent"
-
-#: extensions/image_viewer/gth-image-viewer-page.c:1195
+#: extensions/image_viewer/gth-image-viewer-page.c:1196
 msgid "Transparency"
 msgstr "Transparència"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1803
+#: extensions/image_viewer/gth-image-viewer-page.c:1804
 msgid "Save Image"
 msgstr "Desa la imatge"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2519
+#: extensions/image_viewer/gth-image-viewer-page.c:2528
 msgid "Loading the original image"
 msgstr "S'està carregant la imatge original"
 
 #: extensions/image_viewer/main.c:36
-#, fuzzy
-#| msgid "All Images"
 msgid "Scroll Image"
-msgstr "Totes les imatges"
+msgstr "Desplaça la imatge"
 
 #: extensions/image_viewer/main.c:37
 msgid "Image Editor"
 msgstr "Editor d'imatge"
 
-#: extensions/image_viewer/preferences.c:158 gthumb/gth-main-default-types.c:42
-#: gthumb/gth-shortcuts-window.c:40
+#: extensions/image_viewer/preferences.c:158
+#: gthumb/gth-main-default-types.c:42 gthumb/gth-shortcuts-window.c:40
 msgid "Viewer"
 msgstr "Visualitzador"
 
@@ -3706,7 +3791,8 @@ msgstr "exemple: %s"
 msgid "File date"
 msgstr "Dates de fitxers"
 
-#. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
+#. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")),
+#. self->priv->subfolder_type_list);
 #. subfolder format
 #: extensions/importer/gth-import-preferences-dialog.c:334
 msgid "year-month-day"
@@ -3754,7 +3840,9 @@ msgstr "Última importació"
 msgid "No file specified."
 msgstr "Cap fitxer especificat."
 
-#. Translators: For example: Not enough free space in “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is available.
+#. Translators: For example: Not enough free space in
+#. “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is
+#. available.
 #: extensions/importer/gth-import-task.c:880
 #, c-format
 msgid ""
@@ -3855,9 +3943,8 @@ msgstr "Cita el text"
 
 #: extensions/list_tools/data/ui/script-editor.ui:522
 #, fuzzy
-#| msgid "The current date"
 msgid "The current date and time"
-msgstr "La data actual"
+msgstr "La data i hora actuals"
 
 #: extensions/list_tools/data/ui/script-editor.ui:568
 msgid "_Command:"
@@ -3872,7 +3959,7 @@ msgid "Script"
 msgstr "Script"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:264
-#: gthumb/dlg-preferences-shortcuts.c:229 gthumb/gth-accel-button.c:256
+#: gthumb/dlg-preferences-shortcuts.c:231 gthumb/gth-accel-button.c:256
 msgid "Shortcut"
 msgstr "Drecera"
 
@@ -3885,23 +3972,23 @@ msgstr "Mostra"
 msgid "Could not save the script"
 msgstr "No s'ha pogut desar l'script"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:448
+#: extensions/list_tools/dlg-personalize-scripts.c:449
 msgid "New Command"
 msgstr "Ordre nova"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:475
+#: extensions/list_tools/dlg-personalize-scripts.c:476
 msgid "Edit Command"
 msgstr "Edita l'ordre"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:505
+#: extensions/list_tools/dlg-personalize-scripts.c:506
 msgid "Are you sure you want to delete the selected command?"
 msgstr "Esteu segur que voleu suprimir l'ordre seleccionada?"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:605
+#: extensions/list_tools/dlg-personalize-scripts.c:606
 msgid "Commands"
 msgstr "Ordres"
 
-#: extensions/list_tools/gth-script-editor-dialog.c:279
+#: extensions/list_tools/gth-script-editor-dialog.c:280
 #, c-format
 msgid "No command specified"
 msgstr "Cap ordre especificada"
@@ -3911,18 +3998,18 @@ msgstr "Cap ordre especificada"
 msgid "Command exited abnormally with status %d"
 msgstr "L'ordre va sortir amb l'estat no normal %d"
 
-#: extensions/list_tools/gth-script.c:502
+#: extensions/list_tools/gth-script.c:506
 msgid "Enter a value:"
 msgstr "Introduïu un valor:"
 
-#: extensions/list_tools/gth-script.c:753
+#: extensions/list_tools/gth-script.c:760
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "ordre amb format incorrecte"
 
-#: extensions/list_tools/gth-script.c:808
+#: extensions/list_tools/gth-script.c:1069
 msgid "_Skip"
 msgstr "I_gnora"
 
@@ -4072,8 +4159,8 @@ msgid "Could not load the folder"
 msgstr "No s'ha pogut carregar la carpeta"
 
 #: extensions/photo_importer/dlg-photo-importer.c:356
-#: extensions/photo_importer/dlg-photo-importer.c:396 gthumb/gth-file-list.c:42
-#: gthumb/gth-folder-tree.c:1186
+#: extensions/photo_importer/dlg-photo-importer.c:396
+#: gthumb/gth-file-list.c:42 gthumb/gth-folder-tree.c:1186
 msgid "(Empty)"
 msgstr "(Buit)"
 
@@ -4419,10 +4506,8 @@ msgid "any of the following rules"
 msgstr "qualsevol de les següents regles"
 
 #: extensions/search/gth-search-source-selector.c:130
-#, fuzzy
-#| msgid "Could not open the location"
 msgid "Add another location"
-msgstr "No s'ha pogut obrir la ubicació"
+msgstr "Afegeix una altra ubicació"
 
 #: extensions/search/gth-search-task.c:194
 #, c-format
@@ -4506,16 +4591,16 @@ msgid "Terminate presentation"
 msgstr "Finalitza la presentació"
 
 #: extensions/slideshow/callbacks.c:42
-#, fuzzy
-#| msgid "Presentation"
 msgid "Pause/Resume presentation"
-msgstr "Presentació"
+msgstr "Pausa/Reprèn la presentació"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:118
+#: extensions/slideshow/callbacks.c:43
+#: gthumb/gth-browser-actions-entries.h:120
 msgid "Show next file"
 msgstr "Mostra el fitxer següent"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:117
+#: extensions/slideshow/callbacks.c:44
+#: gthumb/gth-browser-actions-entries.h:119
 msgid "Show previous file"
 msgstr "Mostra el fitxer anterior"
 
@@ -4535,7 +4620,8 @@ msgstr "_Personalitza"
 msgid "_Transition effect:"
 msgstr "Efecte de _transició:"
 
-#. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
+#. This is the first part of the phrase "change automatically, every x
+#. seconds", where x is an input control that let the user choose a value.
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:126
 msgid "_Change automatically, every"
 msgstr "_Canvia automàticament, cada"
@@ -4579,9 +4665,8 @@ msgstr "Aleatori"
 
 #: extensions/slideshow/gth-slideshow.c:237
 #, fuzzy
-#| msgid "Presentation"
 msgid "Playing a presentation"
-msgstr "Presentació"
+msgstr "S'està reproduint una presentació"
 
 #: extensions/slideshow/main.c:303
 msgid "Push from right"
@@ -4616,8 +4701,9 @@ msgid "Cube from bottom"
 msgstr "Cub des de la part inferior"
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:4
+#, fuzzy
 msgid "Play a presentation of images."
-msgstr ""
+msgstr "Reprodueix una presentació d'imatges."
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:8
 msgid "x-office-presentation"
@@ -4626,21 +4712,20 @@ msgstr "x-office-presentation"
 #: extensions/terminal/actions.c:53
 #: extensions/terminal/terminal.extension.desktop.in.in:3
 msgid "Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
-#, fuzzy
-#| msgid "Open in New Window"
 msgid "Open in Terminal"
-msgstr "Obre en una nova finestra"
+msgstr "Obre en un Terminal"
 
 #: extensions/terminal/terminal.extension.desktop.in.in:4
+#, fuzzy
 msgid "Open a folder in a terminal"
-msgstr ""
+msgstr "Obre una carpeta en un terminal"
 
 #: extensions/terminal/terminal.extension.desktop.in.in:8
 msgid "utilities-terminal"
-msgstr ""
+msgstr "utilities-terminal"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -4788,8 +4873,8 @@ msgid "Create static web albums."
 msgstr "Creeu àlbums web estàtics."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6569 gthumb/gth-browser.c:6588
-#: gthumb/gth-browser.c:6612 gthumb/gth-vfs-tree.c:390
+#: gthumb/gth-browser.c:6574 gthumb/gth-browser.c:6593
+#: gthumb/gth-browser.c:6617 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "No s'ha pogut carregar la posició «%s»"
@@ -4893,27 +4978,29 @@ msgstr "Heu de reiniciar gthumb perquè aquests canvis tinguin efecte"
 msgid "_Restart"
 msgstr "_Reinicia"
 
-#: gthumb/dlg-preferences-shortcuts.c:294
-#: gthumb/dlg-preferences-shortcuts.c:369 gthumb/resources/gears-menu.ui:25
+#: gthumb/dlg-preferences-shortcuts.c:296
+#: gthumb/dlg-preferences-shortcuts.c:371 gthumb/resources/gears-menu.ui:25
 msgid "Revert"
 msgstr "Reverteix"
 
-#: gthumb/dlg-preferences-shortcuts.c:367
+#: gthumb/dlg-preferences-shortcuts.c:369
+#, fuzzy
 msgid "Do you want to revert all the changes and use the default shortcuts?"
 msgstr ""
+"Voleu revertir tots els canvis i utilitzar les dreceres predeterminades?"
 
-#: gthumb/dlg-preferences-shortcuts.c:540
+#: gthumb/dlg-preferences-shortcuts.c:542
 msgctxt "Shortcuts"
 msgid "All"
 msgstr "Tots"
 
-#: gthumb/dlg-preferences-shortcuts.c:546
+#: gthumb/dlg-preferences-shortcuts.c:548
 msgctxt "Shortcuts"
 msgid "Modified"
 msgstr "Modificada"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-shortcuts.c:575
+#: gthumb/dlg-preferences-shortcuts.c:577
 msgid "Shortcuts"
 msgstr "Drecera"
 
@@ -4921,7 +5008,8 @@ msgstr "Drecera"
 msgid "Sort By"
 msgstr "Ordena per"
 
-#. For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB
+#. For translators: This is a progress size indicator, for example: 230.4 MB
+#. of 512.8 MB
 #: gthumb/gio-utils.c:1059
 #, c-format
 msgid "%s of %s"
@@ -4962,7 +5050,6 @@ msgstr "S'estan movent els fitxers a la paperera"
 #. * hours, 5 minutes, and 2 seconds. You may change "∶" to
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
-#.
 #: gthumb/glib-utils.c:2055
 #, c-format
 msgctxt "long time format"
@@ -4974,7 +5061,6 @@ msgstr "%d:%02d:%02d"
 #. * minutes and 2 seconds. You may change "∶" to the
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
-#.
 #: gthumb/glib-utils.c:2064
 #, c-format
 msgctxt "short time format"
@@ -5021,8 +5107,8 @@ msgid ""
 "version."
 msgstr ""
 "gThumb és programari lliure; el podeu redistribuir i/o modificar sota els "
-"termes de la llicència de documentació lliure GNU, tal com està publicat per "
-"la Free Software Foundation; ja sigui a la versió 2 de la llicència, o (a "
+"termes de la llicència de documentació lliure GNU, tal com està publicat per"
+" la Free Software Foundation; ja sigui a la versió 2 de la llicència, o (a "
 "elecció vostra) a qualsevol versió posterior."
 
 #: gthumb/gth-browser-actions-callbacks.c:104
@@ -5032,19 +5118,19 @@ msgid ""
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
-"gThumb es distribueix amb l'esperança que sigui útil, però SENSE CAP MENA DE "
-"GARANTIA; ni tan sols la garantia implícita de COMERCIALITZACIÓ o ADEQUACIÓ "
-"PER A CAP PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General de la GNU "
-"per a més detalls."
+"gThumb es distribueix amb l'esperança que sigui útil, però SENSE CAP MENA DE"
+" GARANTIA; ni tan sols la garantia implícita de COMERCIALITZACIÓ o ADEQUACIÓ"
+" PER A CAP PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General de la GNU"
+" per a més detalls."
 
 #: gthumb/gth-browser-actions-callbacks.c:108
 msgid ""
-"You should have received a copy of the GNU General Public License along with "
-"gThumb.  If not, see http://www.gnu.org/licenses/."
+"You should have received a copy of the GNU General Public License along with"
+" gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
 "Hauríeu d'haver rebut una còpia de la Llicència Pública General GNU "
-"juntament amb aquest programa; en cas contrari, consulteu http://www.gnu.org/"
-"licenses/."
+"juntament amb aquest programa; en cas contrari, consulteu "
+"http://www.gnu.org/licenses/."
 
 #: gthumb/gth-browser-actions-callbacks.c:127
 msgid "An image viewer and browser for GNOME."
@@ -5059,10 +5145,6 @@ msgstr ""
 "Sílvia Miranda <silvia.gnome@gmail.com>\n"
 "Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Jordi Mas i Hernàndez <jmas@softcatala.org>"
-
-#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
-msgid "New Window"
-msgstr "Finestra nova"
 
 #: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
 msgid "Keyboard Shortcuts"
@@ -5084,91 +5166,86 @@ msgstr "Tanca la finestra"
 msgid "Open location"
 msgstr "Obre la ubicació"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4568
-#: gthumb/gth-browser.c:4586 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4572
+#: gthumb/gth-browser.c:4590 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
 #: gthumb/gth-browser-actions-entries.h:104
+#, fuzzy
 msgid "Revert image to saved"
-msgstr ""
+msgstr "Reverteix la imatge a desar"
 
 #: gthumb/gth-browser-actions-entries.h:105
-msgid "Sidebar"
-msgstr ""
+msgid "Save image"
+msgstr "Desa la imatge"
 
 #: gthumb/gth-browser-actions-entries.h:106
-msgid "Statusbar"
-msgstr ""
+msgid "Save image as"
+msgstr "Anomena i desa la imatge"
 
 #: gthumb/gth-browser-actions-entries.h:107
+msgid "Sidebar"
+msgstr "Barra lateral"
+
+#: gthumb/gth-browser-actions-entries.h:108
+msgid "Statusbar"
+msgstr "Barra d'estat"
+
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Thumbnails list"
 msgstr "Llista de miniatures"
 
-#: gthumb/gth-browser-actions-entries.h:109
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Load previous location"
 msgstr "Carrega la ubicació anterior"
 
-#: gthumb/gth-browser-actions-entries.h:110
-#, fuzzy
-#| msgid "Could not open the location"
-msgid "Load next location"
-msgstr "No s'ha pogut obrir la ubicació"
-
-#: gthumb/gth-browser-actions-entries.h:111
-#, fuzzy
-#| msgid "The parent folder path"
-msgid "Load parent folder"
-msgstr "El camí a la carpeta pare"
-
 #: gthumb/gth-browser-actions-entries.h:112
-#, fuzzy
-#| msgid "Loading images"
-msgid "Load home"
-msgstr "S'estan carregant les imatges"
+msgid "Load next location"
+msgstr "Carrega la propera ubicació"
 
 #: gthumb/gth-browser-actions-entries.h:113
-#, fuzzy
-#| msgid "Resolution"
-msgid "Reload location"
-msgstr "Resolució"
+msgid "Load parent folder"
+msgstr "Carrega la carpeta pare"
 
 #: gthumb/gth-browser-actions-entries.h:114
-#, fuzzy
-#| msgid "Hidden Files"
-msgid "Show/Hide hidden files"
-msgstr "Fitxers ocults"
+msgid "Load home"
+msgstr "Carrega a casa"
 
 #: gthumb/gth-browser-actions-entries.h:115
-#, fuzzy
-#| msgid "no sorting"
+msgid "Reload location"
+msgstr "Recarrega la ubicació"
+
+#: gthumb/gth-browser-actions-entries.h:116
+msgid "Show/Hide hidden files"
+msgstr "Mostra/oculta els fitxers ocults"
+
+#: gthumb/gth-browser-actions-entries.h:117
 msgid "Change sorting order"
-msgstr "cap ordre en concret"
+msgstr "Canvia l'ordre d'ordenació"
 
-#: gthumb/gth-browser-actions-entries.h:119
+#: gthumb/gth-browser-actions-entries.h:121
 msgid "Show first file"
-msgstr ""
-
-#: gthumb/gth-browser-actions-entries.h:120
-msgid "Show last file"
-msgstr ""
+msgstr "Mostra el primer fitxer"
 
 #: gthumb/gth-browser-actions-entries.h:122
-#, fuzzy
-#| msgid "Images"
-msgid "Image tools"
-msgstr "Les imatges"
+msgid "Show last file"
+msgstr "Mostra l'últim fitxer"
 
-#: gthumb/gth-browser-actions-entries.h:123
+#: gthumb/gth-browser-actions-entries.h:124
+msgid "Image tools"
+msgstr "Eines d'imatge"
+
+#: gthumb/gth-browser-actions-entries.h:125
 msgid "File properties"
 msgstr "Propietats del fitxer"
 
-#: gthumb/gth-browser-actions-entries.h:125
+#: gthumb/gth-browser-actions-entries.h:127
 msgid "Select all"
 msgstr "Selecciona-ho tot"
 
-#: gthumb/gth-browser-actions-entries.h:126
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Select none"
 msgstr "No en seleccionis cap"
 
@@ -5207,7 +5284,7 @@ msgstr "Si no deseu, els canvis al fitxer es perdran permanentment."
 msgid "Do _Not Save"
 msgstr "_No ho desis"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4594
+#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4598
 msgid "Accept"
 msgstr "Accepta"
 
@@ -5223,32 +5300,32 @@ msgstr "No s'ha pogut canviar el nom"
 msgid "Modified"
 msgstr "Modificada"
 
-#: gthumb/gth-browser.c:4516
+#: gthumb/gth-browser.c:4520
 msgid "Go to the previous visited location"
 msgstr "Vés a l'anterior ubicació visitada"
 
-#: gthumb/gth-browser.c:4522
+#: gthumb/gth-browser.c:4526
 msgid "Go to the next visited location"
 msgstr "Vés a la següent ubicació visitada"
 
-#: gthumb/gth-browser.c:4530
+#: gthumb/gth-browser.c:4534
 msgid "History"
 msgstr "Històric"
 
-#: gthumb/gth-browser.c:4544
+#: gthumb/gth-browser.c:4548
 msgid "View the folders"
 msgstr "Visualitza les carpetes"
 
-#: gthumb/gth-browser.c:4559
+#: gthumb/gth-browser.c:4563
 msgid "Edit file"
 msgstr "Edita el fitxer"
 
-#: gthumb/gth-browser.c:6570
+#: gthumb/gth-browser.c:6575
 #, c-format
 msgid "File type not supported"
 msgstr "El tipus de fitxer no és compatible"
 
-#: gthumb/gth-browser.c:6613
+#: gthumb/gth-browser.c:6618
 #, c-format
 msgid "No suitable module found"
 msgstr "No s'ha trobat el mòdul adequat"
@@ -5528,10 +5605,8 @@ msgid "Description (embedded)"
 msgstr "Descripció (incrustada)"
 
 #: gthumb/gth-main-default-types.c:39
-#, fuzzy
-#| msgid "Show"
 msgid "Show/Hide"
-msgstr "Mostra"
+msgstr "Mostra/Amaga"
 
 #: gthumb/gth-main-default-types.c:40
 msgid "Navigation"
@@ -5709,28 +5784,32 @@ msgstr "Colors"
 msgid "Rotation"
 msgstr "Rotació"
 
-#: gthumb/gth-window.c:1020
-#, c-format
+#: gthumb/gth-window.c:1034
+#, c-format, fuzzy
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
 "want to reassign it to this action instead?"
 msgstr ""
+"La combinació de tecles «%s» ja està assignada a l'acció «%s». Voleu "
+"reassignar-la a aquesta acció?"
 
-#: gthumb/gth-window.c:1028
+#: gthumb/gth-window.c:1042
 msgid "Reassign"
-msgstr ""
+msgstr "Reassigna"
 
-#: gthumb/gth-window.c:1046
-#, c-format
+#: gthumb/gth-window.c:1060
+#, c-format, fuzzy
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
 "be changed."
 msgstr ""
+"La combinació de tecles «%s» ja està assignada a l'acció «%s» i no es pot "
+"canviar."
 
-#: gthumb/gth-window.c:1050
-#, c-format
+#: gthumb/gth-window.c:1064
+#, c-format, fuzzy
 msgid "The key combination «%s» is already assigned and cannot be changed."
-msgstr ""
+msgstr "La combinació de tecles «%s» ja està assignada i no es pot canviar."
 
 #: gthumb/gtk-utils.c:370
 msgid "Could not display help"
@@ -5808,6 +5887,9 @@ msgstr "_Quant al gThumb"
 msgid "_Delete History"
 msgstr "_Suprimeix l'historial"
 
+#~ msgid "--∶--"
+#~ msgstr "--∶--"
+
 #~ msgid "gthumb"
 #~ msgstr "gthumb"
 
@@ -5832,9 +5914,6 @@ msgstr "_Suprimeix l'historial"
 #~ msgid "Slideshow"
 #~ msgstr "Projecció de diapositives"
 
-#~ msgid "Playing slideshow"
-#~ msgstr "S'està reproduint la presentació de diapositives"
-
 #~ msgid "View images as a slideshow."
 #~ msgstr "Visualitzeu les imatges com una presentació de diapositives."
 
@@ -5856,8 +5935,7 @@ msgstr "_Suprimeix l'historial"
 #~ msgid "Import from Facebook"
 #~ msgstr "Importa des de Facebook"
 
-#~ msgid ""
-#~ "The geographical position information is not available for this image."
+#~ msgid "The geographical position information is not available for this image."
 #~ msgstr ""
 #~ "La informació de la posició geogràfica no està disponible per a aquesta "
 #~ "imatge."
