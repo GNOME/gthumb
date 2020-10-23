@@ -2335,7 +2335,7 @@ msgstr "Mida original"
 
 #: extensions/file_tools/data/ui/rotate-options.ui:185
 msgid "Bounding box"
-msgstr "Capsa contenidora"
+msgstr "Caixa contenidora"
 
 #: extensions/file_tools/data/ui/rotate-options.ui:188
 msgid "Crop borders"
