@@ -1,13 +1,13 @@
 # Czech translation for gthumb.
 # Copyright (C) 2012 gthumb's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
-# Marek Černocký <marek@manet.cz>, 2013, 2015, 2016, 2017.
+# Marek Černocký <marek@manet.cz>, 2013, 2015, 2016, 2017, 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2017-08-01 09:27+0000\n"
-"PO-Revision-Date: 2017-08-31 03:20+0200\n"
+"Project-Id-Version: gthumb gthumb-3.10\n"
+"POT-Creation-Date: 2020-07-19 12:25+0000\n"
+"PO-Revision-Date: 2020-10-28 10:13+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -302,12 +302,12 @@ msgid "Exif::Photo::Sharpness"
 msgstr "Exif::Photo::Sharpness"
 
 #. (itstool) path: page/title
-#: C/strftime.page:6
+#: C/strftime.page:8
 msgid "Date/Time Format Codes"
 msgstr "Formátovací kódy data/času"
 
 #. (itstool) path: page/p
-#: C/strftime.page:8
+#: C/strftime.page:10
 msgid ""
 "This is a summary of standard date/time codes that may be used in format "
 "strings:"
@@ -316,89 +316,49 @@ msgstr ""
 "formátovacích řetězcích:"
 
 #. (itstool) path: table/title
-#: C/strftime.page:12
+#: C/strftime.page:14
 msgid "Valid format codes for custom subfolders"
 msgstr "Platné formátovací kódy pro vlastní podsložky"
 
 #. (itstool) path: td/p
-#: C/strftime.page:15
-msgid "%a"
-msgstr "%a"
-
-#. (itstool) path: td/p
-#: C/strftime.page:18
+#: C/strftime.page:20
 msgid "The abbreviated weekday name according to the current locale."
 msgstr "Zkratka dne v týdnu podle aktuálního národního prostředí."
 
 #. (itstool) path: td/p
-#: C/strftime.page:24
-msgid "%A"
-msgstr "%A"
-
-#. (itstool) path: td/p
-#: C/strftime.page:27
+#: C/strftime.page:29
 msgid "The full weekday name according to the current locale."
 msgstr "Celý název dne v týdnu podle aktuálního národního prostředí."
 
 #. (itstool) path: td/p
-#: C/strftime.page:33
-msgid "%b"
-msgstr "%b"
-
-#. (itstool) path: td/p
-#: C/strftime.page:36
+#: C/strftime.page:38
 msgid "The abbreviated month name according to the current locale."
 msgstr "Zkratka měsíce podle aktuálního národního prostředí."
 
 #. (itstool) path: td/p
-#: C/strftime.page:42
-msgid "%B"
-msgstr "%B"
-
-#. (itstool) path: td/p
-#: C/strftime.page:45
+#: C/strftime.page:47
 msgid "The full month name according to the current locale."
 msgstr "Celý název měsíce podle aktuálního národního prostředí."
 
 #. (itstool) path: td/p
-#: C/strftime.page:50
-msgid "%c"
-msgstr "%c"
-
-#. (itstool) path: td/p
-#: C/strftime.page:53
+#: C/strftime.page:55
 msgid "The preferred date and time representation for the current locale."
 msgstr ""
 "Reprezentace data a času, která je upřednostňována v aktuálním národním "
 "prostředí."
 
 #. (itstool) path: td/p
-#: C/strftime.page:59
-msgid "%C"
-msgstr "%C"
-
-#. (itstool) path: td/p
-#: C/strftime.page:62
+#: C/strftime.page:64
 msgid "The century number (year/100) as a 2-digit integer."
 msgstr "Století (rok/100) jako dvoumístné celé číslo."
 
 #. (itstool) path: td/p
-#: C/strftime.page:67
-msgid "%d"
-msgstr "%d"
-
-#. (itstool) path: td/p
-#: C/strftime.page:70
+#: C/strftime.page:72
 msgid "The day of the month as a decimal number (range 01 to 31)."
 msgstr "Den v měsíci jako desítkové číslo (v rozsahu 01 až 31)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:76
-msgid "%D"
-msgstr "%D"
-
-#. (itstool) path: td/p
-#: C/strftime.page:79
+#: C/strftime.page:81
 msgid ""
 "Equivalent to %m/%d/%y. (Yecch -- for Americans only. Americans should note "
 "that in other countries %d/%m/%y is rather common. This means that in "
@@ -410,12 +370,7 @@ msgstr ""
 "používán.)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:87
-msgid "%e"
-msgstr "%e"
-
-#. (itstool) path: td/p
-#: C/strftime.page:90
+#: C/strftime.page:92
 msgid ""
 "Like %d, the day of the month as a decimal number, but a leading zero is "
 "replaced by a space."
@@ -424,32 +379,17 @@ msgstr ""
 "je nahrazena mezerou."
 
 #. (itstool) path: td/p
-#: C/strftime.page:96
-msgid "%E"
-msgstr "%E"
-
-#. (itstool) path: td/p
-#: C/strftime.page:99 C/strftime.page:208
+#: C/strftime.page:101 C/strftime.page:210
 msgid "Modifier: use alternative format, see below."
 msgstr "Modifikátor: použít alternativní formát, viz níže."
 
 #. (itstool) path: td/p
-#: C/strftime.page:104
-msgid "%F"
-msgstr "%F"
-
-#. (itstool) path: td/p
-#: C/strftime.page:107
+#: C/strftime.page:109
 msgid "Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)"
 msgstr "Odpovídá %Y-%m-%d (formát data podle ISO 8601). (C99)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:113
-msgid "%G"
-msgstr "%G"
-
-#. (itstool) path: td/p
-#: C/strftime.page:116
+#: C/strftime.page:118
 msgid ""
 "The ISO 8601 year with century as a decimal number. The 4-digit year "
 "corresponding to the ISO week number (see %V). This has the same format and "
@@ -462,62 +402,32 @@ msgstr ""
 "předchozímu nebo následujícímu roku, použije se místo toho onen rok."
 
 #. (itstool) path: td/p
-#: C/strftime.page:125
-msgid "%g"
-msgstr "%g"
-
-#. (itstool) path: td/p
-#: C/strftime.page:128
+#: C/strftime.page:130
 msgid "Like %G, but without century, i.e., with a 2-digit year (00-99)."
 msgstr "Podobně jako %G, ale bez století, t.j. dvoučíselný rok (00 – 99)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:134
-msgid "%h"
-msgstr "%h"
-
-#. (itstool) path: td/p
-#: C/strftime.page:137
+#: C/strftime.page:139
 msgid "Equivalent to %b."
 msgstr "Odpovídá %b."
 
 #. (itstool) path: td/p
-#: C/strftime.page:142
-msgid "%H"
-msgstr "%H"
-
-#. (itstool) path: td/p
-#: C/strftime.page:145
+#: C/strftime.page:147
 msgid "The hour as a decimal number using a 24-hour clock (range 00 to 23)."
 msgstr "Hodina jako desítkové číslo v 24hodinovém cyklu (rozsah 00 až 23)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:151
-msgid "%I"
-msgstr "%I"
-
-#. (itstool) path: td/p
-#: C/strftime.page:154
+#: C/strftime.page:156
 msgid "The hour as a decimal number using a 12-hour clock (range 01 to 12)."
 msgstr "Hodina jako desítkové číslo v 12hodinovém cyklu (rozsah 01 až 12)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:160
-msgid "%j"
-msgstr "%j"
-
-#. (itstool) path: td/p
-#: C/strftime.page:163
+#: C/strftime.page:165
 msgid "The day of the year as a decimal number (range 001 to 366)."
 msgstr "Den roku jako desítkové číslo (rozsah 001 až 366)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:169
-msgid "%k"
-msgstr "%k"
-
-#. (itstool) path: td/p
-#: C/strftime.page:172
+#: C/strftime.page:174
 msgid ""
 "The hour (24-hour clock) as a decimal number (range 0 to 23); single digits "
 "are preceded by a blank. (See also %H.)"
@@ -526,12 +436,7 @@ msgstr ""
 "jednou čislicí mají předřaznu mezeru. (viz také %H)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:179
-msgid "%l"
-msgstr "%l"
-
-#. (itstool) path: td/p
-#: C/strftime.page:182
+#: C/strftime.page:184
 msgid ""
 "The hour (12-hour clock) as a decimal number (range 1 to 12); single digits "
 "are preceded by a blank. (See also %I.)"
@@ -540,37 +445,17 @@ msgstr ""
 "jednou čislicí mají předřaznu mezeru. (viz také %I)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:189
-msgid "%m"
-msgstr "%m"
-
-#. (itstool) path: td/p
-#: C/strftime.page:192
+#: C/strftime.page:194
 msgid "The month as a decimal number (range 01 to 12)."
 msgstr "Měsíc jako desítkové číslo (v rozsau 01 až 12)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:197
-msgid "%M"
-msgstr "%M"
-
-#. (itstool) path: td/p
-#: C/strftime.page:200
+#: C/strftime.page:202
 msgid "The minute as a decimal number (range 00 to 59)."
 msgstr "Minuty jako desítkové číslo (rozsah 00 až 59)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:205
-msgid "%O"
-msgstr "%O"
-
-#. (itstool) path: td/p
-#: C/strftime.page:213
-msgid "%p"
-msgstr "%p"
-
-#. (itstool) path: td/p
-#: C/strftime.page:216
+#: C/strftime.page:218
 msgid ""
 "Either 'AM' or 'PM' according to the given time value, or the corresponding "
 "strings for the current locale. Noon is treated as 'pm' and midnight as 'am'."
@@ -579,12 +464,7 @@ msgstr ""
 "národního prostředí. Poledne je označováno jako „PM“ a půlnoc jako „am“."
 
 #. (itstool) path: td/p
-#: C/strftime.page:223
-msgid "%P"
-msgstr "%P"
-
-#. (itstool) path: td/p
-#: C/strftime.page:226
+#: C/strftime.page:228
 msgid ""
 "Like %p but in lowercase: 'am' or 'pm' or a corresponding string for the "
 "current locale."
@@ -593,12 +473,7 @@ msgstr ""
 "podle aktuálního národního prostředí."
 
 #. (itstool) path: td/p
-#: C/strftime.page:232
-msgid "%r"
-msgstr "%r"
-
-#. (itstool) path: td/p
-#: C/strftime.page:235
+#: C/strftime.page:237
 msgid ""
 "The time in a.m. or p.m. notation. In the POSIX locale this is equivalent to "
 "'%I:%M:%S %p'."
@@ -607,12 +482,7 @@ msgstr ""
 "odpovídá „%I:%M:%S %p“."
 
 #. (itstool) path: td/p
-#: C/strftime.page:241
-msgid "%R"
-msgstr "%R"
-
-#. (itstool) path: td/p
-#: C/strftime.page:244
+#: C/strftime.page:246
 msgid ""
 "The time in 24-hour notation (%H:%M). For a version including the seconds, "
 "see %T below."
@@ -621,23 +491,13 @@ msgstr ""
 "podívejte se na %T."
 
 #. (itstool) path: td/p
-#: C/strftime.page:250
-msgid "%s"
-msgstr "%s"
-
-#. (itstool) path: td/p
-#: C/strftime.page:253
+#: C/strftime.page:255
 msgid ""
 "The number of seconds since the Epoch, i.e., since 1970-01-01 00:00:00 UTC."
 msgstr "Počet sekund od začátku Epochy, t.j. od 1970-01-01 00:00:00 UTC"
 
 #. (itstool) path: td/p
-#: C/strftime.page:259
-msgid "%S"
-msgstr "%S"
-
-#. (itstool) path: td/p
-#: C/strftime.page:262
+#: C/strftime.page:264
 msgid ""
 "The second as a decimal number (range 00 to 60). (The range is up to 60 to "
 "allow for occasional leap seconds.)"
@@ -646,22 +506,12 @@ msgstr ""
 "přestupným sekundám)"
 
 #. (itstool) path: td/p
-#: C/strftime.page:269
-msgid "%T"
-msgstr "%T"
-
-#. (itstool) path: td/p
-#: C/strftime.page:272
+#: C/strftime.page:274
 msgid "The time in 24-hour notation (%H:%M:%S)."
 msgstr "Čas v 24hodinové notaci (%H:%M:%S)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:277
-msgid "%u"
-msgstr "%u"
-
-#. (itstool) path: td/p
-#: C/strftime.page:280
+#: C/strftime.page:282
 msgid ""
 "The day of the week as a decimal number, range 1 to 7, Monday being 1. See "
 "also %w."
@@ -670,12 +520,7 @@ msgstr ""
 "%w."
 
 #. (itstool) path: td/p
-#: C/strftime.page:286
-msgid "%U"
-msgstr "%U"
-
-#. (itstool) path: td/p
-#: C/strftime.page:289
+#: C/strftime.page:291
 msgid ""
 "The week number of the current year as a decimal number, range 00 to 53, "
 "starting with the first Sunday as the first day of week 01. See also %V and "
@@ -685,12 +530,7 @@ msgstr ""
 "Začíná se první nedělí jako prvním dnem týdne 01. Viz také %V a %W."
 
 #. (itstool) path: td/p
-#: C/strftime.page:296
-msgid "%V"
-msgstr "%V"
-
-#. (itstool) path: td/p
-#: C/strftime.page:299
+#: C/strftime.page:301
 msgid ""
 "The ISO 8601:1988 week number of the current year as a decimal number, range "
 "01 to 53, where week 1 is the first week that has at least 4 days in the "
@@ -702,24 +542,14 @@ msgstr ""
 "aktuálním roce, a s pondělím, jako prvním dnem v týdnu. Viz také %U a %W."
 
 #. (itstool) path: td/p
-#: C/strftime.page:308
-msgid "%w"
-msgstr "%w"
-
-#. (itstool) path: td/p
-#: C/strftime.page:311
+#: C/strftime.page:313
 msgid ""
 "The day of the week as a decimal, range 0 to 6, Sunday being 0. See also %u."
 msgstr ""
 "Den v týdnu jako desítkové číslo, rozsah od 0 do 6, neděle je 0. Viz také %u."
 
 #. (itstool) path: td/p
-#: C/strftime.page:317
-msgid "%W"
-msgstr "%W"
-
-#. (itstool) path: td/p
-#: C/strftime.page:320
+#: C/strftime.page:322
 msgid ""
 "The week number of the current year as a decimal number, range 00 to 53, "
 "starting with the first Monday as the first day of week 01."
@@ -728,12 +558,7 @@ msgstr ""
 "se prvním pondělím jako prvním dnem týdne 01."
 
 #. (itstool) path: td/p
-#: C/strftime.page:327
-msgid "%x"
-msgstr "%x"
-
-#. (itstool) path: td/p
-#: C/strftime.page:330
+#: C/strftime.page:332
 msgid ""
 "The preferred date representation for the current locale without the time."
 msgstr ""
@@ -741,12 +566,7 @@ msgstr ""
 "národním prostředí."
 
 #. (itstool) path: td/p
-#: C/strftime.page:336
-msgid "%X"
-msgstr "%X"
-
-#. (itstool) path: td/p
-#: C/strftime.page:339
+#: C/strftime.page:341
 msgid ""
 "The preferred time representation for the current locale without the date."
 msgstr ""
@@ -754,32 +574,17 @@ msgstr ""
 "prostředí."
 
 #. (itstool) path: td/p
-#: C/strftime.page:345
-msgid "%y"
-msgstr "%y"
-
-#. (itstool) path: td/p
-#: C/strftime.page:348
+#: C/strftime.page:350
 msgid "The year as a decimal number without a century (range 00 to 99)."
 msgstr "Rok jako desítkové číslo bez století (rozsah 00 až 99)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:354
-msgid "%Y"
-msgstr "%Y"
-
-#. (itstool) path: td/p
-#: C/strftime.page:357
+#: C/strftime.page:359
 msgid "The year as a decimal number including the century."
 msgstr "Rok jako desítkové číslo, včetně století."
 
 #. (itstool) path: td/p
-#: C/strftime.page:362
-msgid "%z"
-msgstr "%z"
-
-#. (itstool) path: td/p
-#: C/strftime.page:365
+#: C/strftime.page:367
 msgid ""
 "The time-zone as hour offset from GMT. Required to emit RFC 822-conformant "
 "dates (using \"%a, %d %b %Y %H:%M:%S %z\")."
@@ -789,17 +594,12 @@ msgstr ""
 "„%a, %d %b %Y %H:%M:%S %z“)."
 
 #. (itstool) path: td/p
-#: C/strftime.page:372
-msgid "%Z"
-msgstr "%Z"
-
-#. (itstool) path: td/p
-#: C/strftime.page:375
+#: C/strftime.page:377
 msgid "The time zone or name or abbreviation."
 msgstr "Časová zóna nebo její název nebo její zkratka."
 
 #. (itstool) path: page/p
-#: C/strftime.page:380
+#: C/strftime.page:382
 msgid ""
 "Some conversion specifications can be modified by preceding the conversion "
 "specifier character by the E or O modifier to indicate that an alternative "
@@ -1407,8 +1207,7 @@ msgid "Symbol"
 msgstr "Symbol"
 
 #. (itstool) path: td/p
-#: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:84
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:538
+#: C/rename-series.page:27
 msgid "Description"
 msgstr "Popis"
 
@@ -1898,13 +1697,13 @@ msgstr ""
 #: C/extensions.page:20
 msgid ""
 "If you would like to write your own extension, please visit <link href="
-"\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</"
+"\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</"
 "link> for development information. An example extension is provided in the "
 "source code, which you can base your own extension on."
 msgstr ""
 "Jestliže si přejete napsat své vlastní rozšíření, navštivte prosím <link "
-"href=\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/"
-"gthumb</link>, kde najdete informace pro vývojáře. Jako součást zdrojového "
+"href=\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/"
+"Gthumb</link>, kde najdete informace pro vývojáře. Jako součást zdrojového "
 "kódu je poskytován příklad rozšíření, ze kterého může to vaše vycházet."
 
 #. (itstool) path: page/title
@@ -2215,551 +2014,6 @@ msgid "When you are ready to print, press the <gui>Print</gui> button."
 msgstr "Až jste připraveni k tisku, zmáčkněte tlačítko <gui>Tisk</gui>."
 
 #. (itstool) path: page/title
-#: C/shortcuts.page:7
-msgid "Keyboard Shortcuts"
-msgstr "Klávesové zkratky"
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:10
-msgid "Viewing and hiding parts of the user interface"
-msgstr "Zobrazování a skrývání částí uživatelského rozhraní"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:14 C/shortcuts.page:81 C/shortcuts.page:270
-#: C/shortcuts.page:535
-msgid "Keyboard Shortcut"
-msgstr "Klávesová zkratka"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:22
-msgid "<key>F9</key>"
-msgstr "<key>F9</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:27
-msgid ""
-"Show/Hide the sidebar in the browser mode. The sidebar contains the folder "
-"tree and the file properties summary (if enabled)."
-msgstr ""
-"Zobrazit/skrýt postranní panel v režimu procházení. Postranní panel obsahuje "
-"strom složek a přehled vlastností souboru (pokud je zapnut)."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:33
-msgid "<key>i</key>"
-msgstr "<key>i</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:38
-msgid "Show the file properties summary."
-msgstr "Zobrazit přehled vlastností souboru."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:43
-msgid "<key>F8</key>"
-msgstr "<key>F8</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:48
-msgid "Shows/hides the thumbnail pane in the viewer mode."
-msgstr "Zobrazit/skrýt panel s miniaturami v režimu zobrazování."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:53
-msgid "<key>F11</key> or <key>f</key>"
-msgstr "<key>F11</key> nebo <key>f</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:58
-msgid "Toggles the fullscreen mode."
-msgstr "Přepnout režim celé obrazovky."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:63
-msgid "<key>Esc</key>"
-msgstr "<key>Esc</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:68
-msgid "Closes the viewer or fullscreen mode."
-msgstr "Zavřít režim zobrazování nebo režim celé obrazovky."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:77
-msgid "Editing shortcuts for the browser and viewer"
-msgstr "Klávesové zkratky úprav pro režim procházení a zobrazování"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:89
-msgid "<key>e</key>"
-msgstr "<key>e</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:94
-msgid "Edit the image. Opens the viewer and shows the editing tools."
-msgstr "Upravit obrázek. Otevře režim zobrazování a zobrazí editační nástroje."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:99
-msgid "<key>g</key>"
-msgstr "<key>g</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:104
-msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
-msgstr "Otevřít obrázek v programu GIMP (GNU Image Manipulation Program)."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:109
-msgid "<key>F2</key>"
-msgstr "<key>F2</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:114
-msgid "Rename the image."
-msgstr "Přejmenovat obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:119
-msgid "<key>c</key>"
-msgstr "<key>c</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:124
-msgid "Add comments or metadata to the selected images."
-msgstr "Přidat do vybraného obrázku poznámku nebo metadata."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:129
-msgid "<key>t</key>"
-msgstr "<key>t</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:134
-msgid "Add tags to the selected images."
-msgstr "Přidat do vybraného obrázku štítek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:139
-msgid "<key>]</key>"
-msgstr "<key>]</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:144
-msgid "Rotate right, losslessly if possible. The file is saved automatically."
-msgstr ""
-"Otočit obrázek doprava, pokud možno bezestrátově. Soubor je automaticky "
-"uložen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:149
-msgid "<key>[</key>"
-msgstr "<key>[</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:154
-msgid "Rotate left, losslessly if possible. The file is saved automatically."
-msgstr ""
-"Otočit obrázek doleva, pokud možno bezestrátově. Soubor je automaticky "
-"uložen."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:159
-msgid "<key>Delete</key>"
-msgstr "<key>Delete</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:164
-msgid "Move the selected files to the Trash."
-msgstr "Přesunout vybrané soubory do koše."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:169
-msgid "<keyseq><key>Shift</key><key>Delete</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Delete</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:174
-msgid "Delete the selected files permanently."
-msgstr "Trvale odstranit vybrané soubory."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:182
-msgid "Editing shortcuts for the viewer mode only"
-msgstr "Klávesové zkratky úprav platné jen v režimu zobrazování"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:186
-msgid "Keyboard Shortcut (Case Sensitive)"
-msgstr "Klávesová zkratka (rozlišuje se velikost písmen)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:194
-msgid "<key>a</key>"
-msgstr "<key>a</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:199
-msgid "Adjust contrast."
-msgstr "Upravit kontrast."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:204
-msgid "<key>l</key>"
-msgstr "<key>l</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:209
-msgid "Flip image."
-msgstr "Překlopit obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:214
-msgid "<key>m</key>"
-msgstr "<key>m</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:219
-msgid "Mirror image."
-msgstr "Zrcadlit obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:224
-msgid "<key>r</key>"
-msgstr "<key>r</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:229
-msgid "Rotate right."
-msgstr "Otočit doprava."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:234
-msgid "<key>R</key>"
-msgstr "<key>R</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:239
-msgid "Rotate left."
-msgstr "Otočit doleva."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:244
-msgid "<key>C</key>"
-msgstr "<key>C</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:249
-msgid "Crop image."
-msgstr "Oříznout obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:254
-msgid "<key>S</key>"
-msgstr "<key>S</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:259
-msgid "Resize image."
-msgstr "Změnit velikost obrázku."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:266
-msgid "Viewer shortcuts"
-msgstr "Klávesové zkratky režimu zobrazování"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:278
-msgid "<key>Space</key> or <key>Page Down</key>"
-msgstr "<key>mezerník</key> nebo <key>Page Down</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:283
-msgid "View the next image."
-msgstr "Zobrazit následující obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:288
-msgid "<key>Backspace</key> or <key>Page Up</key>"
-msgstr "<key>Backspace</key> nebo <key>Page Up</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:293
-msgid "View the previous image."
-msgstr "Zobrazit předchozí obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:298 C/shortcuts.page:446
-msgid "<key>Home</key>"
-msgstr "<key>Home</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:303
-msgid "View the first image."
-msgstr "Zobrazit první obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:308 C/shortcuts.page:456
-msgid "<key>End</key>"
-msgstr "<key>End</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:313
-msgid "View the last image."
-msgstr "Zobrazit poslední obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:318
-msgid "<key>+</key> or <key>=</key>"
-msgstr "<key>+</key> nebo <key>=</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:323
-msgid "Zoom in."
-msgstr "Přiblížit."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:328
-msgid "<key>-</key>"
-msgstr "<key>-</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:333
-msgid "Zoom out."
-msgstr "Oddálit."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:338
-msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
-msgstr ""
-"<key>1</key> nebo <key>z</key> nebo <key>/ (na numerické klávesnici)</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:344
-msgid "Actual size."
-msgstr "Skutečná velikost."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:349
-msgid "<key>x</key> or <key>* (numeric keypad)</key>"
-msgstr "<key>x</key> nebo <key>* (na numerické klávesnici)</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:354
-msgid "Zoom to fit (scales down only, does not magnify)"
-msgstr "Přizpůsobit přiblížení (pouze směrem dolů, nepoužívat lupu)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:359
-msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:367
-msgid "Zoom to fit (scale down or magnify, as required)"
-msgstr "Přizpůsobit přiblížení (směrem dolů nebo použít lupu, dle potřeby)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:372
-msgid "<key>w</key>"
-msgstr "<key>w</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:376
-msgid "Zoom to fit width (scales down only, does not magnify)"
-msgstr "Přizpůsobit přiblížení šířce (pouze směrem dolů, nepoužívat lupu)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:381
-msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
-msgstr "<keyseq><key>Shift</key> <key>w</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:389
-msgid "Zoom to fit width (scale down or magnify, as required)"
-msgstr ""
-"Přizpůsobit přiblížení šířce (směrem dolů nebo použít lupu, dle potřeby)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:394
-msgid "<key>h</key>"
-msgstr "<key>h</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:398
-msgid "Zoom to fit height (scales down only, does not magnify)"
-msgstr "Přizpůsobit přiblížení výšce (pouze směrem dolů, nepoužívat lupu)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:403
-msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
-msgstr "<keyseq><key>Shift</key> <key>h</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:411
-msgid "Zoom to fit height (scale down or magnify, as required)"
-msgstr ""
-"Přizpůsobit přiblížení výšce (směrem dolů nebo použít lupu, dle potřeby)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:416
-msgid "<key>Arrows</key>"
-msgstr "<key>šipky</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:421
-msgid "Scroll the image."
-msgstr "Posunout obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:426
-msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>šipky</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:434
-msgid "Scroll the image faster."
-msgstr "Rychleji posunout obrázek."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:441
-msgid "Browser Navigation"
-msgstr "Pohyb v režimu procházení"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:451
-msgid "Go to the first file in the browser view."
-msgstr "Přejít na první soubor v režimu procházení."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:461
-msgid "Go to the last file in the browser view."
-msgstr "Přejít na poslední soubor v režimu procházení."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:466
-msgid "<key>Down Arrow</key> or <key>Page Down</key>"
-msgstr "<key>↓</key> nebo <key>Page Down</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:471
-msgid "Scroll downwards through the thumbnails."
-msgstr "Posunout se v miniaturách dolů."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:476
-msgid "<key>Up Arrow</key> or <key>Page Up</key>"
-msgstr "<key>↑</key> nebo <key>Page Up</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:481
-msgid "Scroll upwards through the thumbnails."
-msgstr "Posunout se v miniaturách nahoru."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:486
-msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>←</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:491
-msgid "Go back to the previously viewed folder."
-msgstr "Vrátit se zpět do předchozí zobrazené složky."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:496
-msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>→</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:501
-msgid "Go forward (after going back to a folder)."
-msgstr "Přejít vpřed (po té, co jste ve složkách přešli zpět)."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:506
-msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
-msgstr "<keyseq> <key>Alt</key> <key>↑</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:514
-msgid "Go up one level."
-msgstr "Přejít o úroveň výš."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:519
-msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:524
-msgid "Open a location typing the path."
-msgstr "Otevřít umístěním napsaním cesty."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:531
-msgid "Slideshow controls"
-msgstr "Ovládání promítání"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:543
-msgid "<key>F5</key>"
-msgstr "<key>F5</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:548
-msgid "Start a slideshow."
-msgstr "Začít promítání."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:553
-msgid "<key>p</key>"
-msgstr "<key>p</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:558
-msgid "Pause/Unpause the slideshow."
-msgstr "Pozastavit/pokračovat v promítání."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:563
-msgid "<key>Esc</key> or <key>q</key>"
-msgstr "<key>Esc</key> nebo <key>q</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:568
-msgid "Close the slideshow."
-msgstr "Zavřít promítání."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:573
-msgid ""
-"<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
-"<key>Page Down</key>"
-msgstr ""
-"<key>mezerník</key> nebo <key>↓</key> nebo <key>→</key> nebo <key>Page Down</"
-"key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:578
-msgid "Load the next image."
-msgstr "Načíst následující obrázek."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:583
-msgid ""
-"<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
-"<key>Page Up</key>"
-msgstr ""
-"<key>Backspace</key> nebo <key>↑</key> nebo <key>←</key> nebo <key>Page Up</"
-"key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:588
-msgid "Load the previous image."
-msgstr "Načíst předchozí obrázek"
-
-#. (itstool) path: page/title
 #: C/sharing-disc.page:6
 msgid "Creating a CD/DVD/ISO"
 msgstr "Vytváření CD/DVD/ISO"
@@ -3067,10 +2321,10 @@ msgstr ""
 "bylo vloženo do metadat souboru ve chvíli, kdy byl snímek pořízen.) K "
 "dispozici je řada standardních formátů data (např. <gui>rok-měsíc</gui>). "
 "Zaškrtávací políčko <gui>jako jednotlivé podsložky</gui> řídí, zda se "
-"vytvoří „hluboká“ nebo „mělká“ hierarchie složek (například pro <gui>rok-"
+"vytvoří „hluboká“ nebo „mělká“ hierarchie složek (Například pro <gui>rok-"
 "měsíc</gui> můžete mít roky jako podsložky s měsíci jako jejich podsložkami "
 "a nebo mohou být všechny podsložky na stejné úrovni s rokem i měsícem v "
-"jejich názvu naráz."
+"jejich názvu naráz.)"
 
 #. (itstool) path: page/p
 #: C/import.page:61
@@ -3300,18 +2554,3 @@ msgstr ""
 "Jako zvláštní výjimka se vám držitelem autorských práv uděluje svolení "
 "kopírovat, upravovat a šířit ukázkový kód obsažený v tomto dokumentu za "
 "podmínek, které si zvolíte, bez dalších omezení."
-
-#~ msgid "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
-#~ msgstr "<keyseq><key>Ctrl</key><key>t</key></keyseq>"
-
-#~ msgid "Shows/hides the thumbnails in the browser mode."
-#~ msgstr "Zobrazit/skrýt miniatury v režimu procházení."
-
-#~ msgid "<key>c</key> or <keyseq><key>Ctrl</key><key>m</key></keyseq>"
-#~ msgstr "<key>c</key> nebo <keyseq><key>Ctrl</key><key>m</key></keyseq>"
-
-#~ msgid "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
-#~ msgstr "<keyseq> <key>Ctrl</key> <key>D</key> </keyseq>"
-
-#~ msgid "Add the current location to the bookmarks."
-#~ msgstr "Přidat aktuální umístění do záložek."
