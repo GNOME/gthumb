@@ -13,18 +13,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb master\n"
+"Project-Id-Version: gthumb 3.10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-07-19 12:25+0000\n"
-"PO-Revision-Date: 2020-09-13 14:25+0200\n"
+"POT-Creation-Date: 2020-10-28 09:25+0000\n"
+"PO-Revision-Date: 2020-10-29 22:25+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German - Germany <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2;plural=(n>1);\n"
-"X-Generator: Gtranslator 3.36.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -430,7 +430,6 @@ msgid "General"
 msgstr "Allgemein"
 
 #: data/ui/shortcuts-preferences.ui:27
-#| msgid "Sh_ortcut:"
 msgid "Shortcuts:"
 msgstr "Tastenkürzel:"
 
@@ -804,13 +803,11 @@ msgstr "K_ataloge:"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:34
 #: extensions/catalogs/dlg-add-to-catalog.c:620
-#| msgid "New _Library"
 msgid "New Library"
 msgstr "Neue Bibliothek"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:57
 #: extensions/catalogs/dlg-add-to-catalog.c:461
-#| msgid "_New Catalog"
 msgid "New Catalog"
 msgstr "Neuer Katalog"
 
@@ -908,7 +905,6 @@ msgstr "_Hinzufügen"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:714
 #: extensions/edit_metadata/dlg-edit-metadata.c:347
-#| msgid "Keep the original format"
 msgid "Keep the dialog open"
 msgstr "Den Dialog offen halten"
 
@@ -1552,12 +1548,10 @@ msgstr ""
 "Wenn Sie die Metadaten löschen, gehen diese für Sie dauerhaft verloren."
 
 #: extensions/edit_metadata/callbacks.c:45
-#| msgid "Edit Command"
 msgid "Edit comment"
 msgstr "Kommentar bearbeiten"
 
 #: extensions/edit_metadata/callbacks.c:46
-#| msgid "Edit template"
 msgid "Edit tags"
 msgstr "Schlagwörter bearbeiten"
 
@@ -1763,7 +1757,6 @@ msgid "date photo was taken"
 msgstr "Zeitpunkt der Aufnahme"
 
 #: extensions/export_tools/callbacks.c:46
-#| msgid "Export"
 msgid "_Export To"
 msgstr "_Exportieren als"
 
@@ -2075,12 +2068,10 @@ msgid "Duplicate"
 msgstr "Duplikat"
 
 #: extensions/file_manager/callbacks.c:129
-#| msgid "Delete Metadata"
 msgid "Delete permanently"
 msgstr "Dauerhaft löschen"
 
 #: extensions/file_manager/callbacks.c:130
-#| msgid "Open _With"
 msgid "Open with Gimp"
 msgstr "Mit Gimp öffnen"
 
@@ -2130,7 +2121,6 @@ msgid "system-file-manager"
 msgstr "system-file-manager"
 
 #: extensions/file_tools/callbacks.c:53
-#| msgid "Adjust Contrast"
 msgid "Adjust contrast"
 msgstr "Kontrast anpassen"
 
@@ -2146,13 +2136,11 @@ msgstr "Horizontal spiegeln"
 
 #: extensions/file_tools/callbacks.c:56
 #: extensions/image_rotation/callbacks.c:47
-#| msgid "Rotate Right"
 msgid "Rotate right"
 msgstr "Rechts herum drehen"
 
 #: extensions/file_tools/callbacks.c:57
 #: extensions/image_rotation/callbacks.c:48
-#| msgid "Rotate Left"
 msgid "Rotate left"
 msgstr "Links herum drehen"
 
@@ -3079,13 +3067,10 @@ msgid "Could not take a screenshot"
 msgstr "Bildschirmfoto konnte nicht aufgenommen werden"
 
 #: extensions/gstreamer_tools/callbacks.c:32
-#| msgctxt "Filename"
-#| msgid "Screenshot"
 msgid "Screenshot"
 msgstr "Bildschirmfoto"
 
 #: extensions/gstreamer_tools/callbacks.c:33
-#| msgid "Pause"
 msgid "Play/Pause"
 msgstr "Abspielen/Pausieren"
 
@@ -3154,7 +3139,6 @@ msgid "Fit to window"
 msgstr "In Fenster einpassen"
 
 #: extensions/gstreamer_tools/main.c:34
-#| msgid "Audio/Video support"
 msgid "Audio/Video Player"
 msgstr "Audio/Video-Wiedergabe"
 
@@ -3414,27 +3398,22 @@ msgid "_Accept distortion"
 msgstr "Verzerrung _akzeptieren"
 
 #: extensions/image_viewer/callbacks.c:32
-#| msgid "Zoom quality:"
 msgid "Zoom in"
 msgstr "Vergrößern"
 
 #: extensions/image_viewer/callbacks.c:33
-#| msgid "Zoom quality:"
 msgid "Zoom out"
 msgstr "Verkleinern"
 
 #: extensions/image_viewer/callbacks.c:34
-#| msgid "100%"
 msgid "Zoom 100%"
 msgstr "100% Vergrößerung"
 
 #: extensions/image_viewer/callbacks.c:35
-#| msgid "200%"
 msgid "Zoom 200%"
 msgstr "200% Vergrößerung"
 
 #: extensions/image_viewer/callbacks.c:36
-#| msgid "300%"
 msgid "Zoom 300%"
 msgstr "300% Vergrößerung"
 
@@ -3443,37 +3422,30 @@ msgid "Zoom to fit"
 msgstr "Einpassen"
 
 #: extensions/image_viewer/callbacks.c:39
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit if larger"
 msgstr "Einpassen, falls größer"
 
 #: extensions/image_viewer/callbacks.c:40
-#| msgid "Fit to width"
 msgid "Zoom to fit width"
 msgstr "Breite einpassen"
 
 #: extensions/image_viewer/callbacks.c:41
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit width if larger"
 msgstr "In Fensterbreite einpassen, falls größer"
 
 #: extensions/image_viewer/callbacks.c:42
-#| msgid "Fit to height"
 msgid "Zoom to fit height"
 msgstr "Höhe einpassen"
 
 #: extensions/image_viewer/callbacks.c:43
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit height if larger"
 msgstr "In Fensterbreite einpassen, falls größer"
 
 #: extensions/image_viewer/callbacks.c:45
-#| msgid "Undo"
 msgid "Undo edit"
 msgstr "Bearbeitung zurücknehmen"
 
 #: extensions/image_viewer/callbacks.c:46
-#| msgid "Redo"
 msgid "Redo edit"
 msgstr "Bearbeitung wiederholen"
 
@@ -3482,7 +3454,6 @@ msgid "Scroll left"
 msgstr "Nach links gleiten"
 
 #: extensions/image_viewer/callbacks.c:49
-#| msgid "Slide from right"
 msgid "Scroll right"
 msgstr "Nach rechts gleiten"
 
@@ -3550,13 +3521,11 @@ msgid "Mouse wheel action:"
 msgstr "Mausrad-Aktion:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:131
-#| msgid "Change date"
 msgctxt "zoom quality"
 msgid "Change image"
 msgstr "Bild ändern"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:148
-#| msgid "Copy Image"
 msgctxt "zoom quality"
 msgid "Zoom image"
 msgstr "Bild vergrößern"
@@ -3576,16 +3545,13 @@ msgid "_Low"
 msgstr "_Gering"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
-#| msgid "_Transparent"
 msgid "Transparency:"
 msgstr "Transparenz:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:295
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:15
-#, fuzzy
-#| msgid "Centered"
 msgid "Checkered"
-msgstr "Zentriert"
+msgstr "Schachbrettmuster"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:296
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:24
@@ -3594,7 +3560,6 @@ msgstr "Weiß"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
-#| msgid "Grayscale"
 msgid "Gray"
 msgstr "Grau"
 
@@ -3648,7 +3613,6 @@ msgid "Next frame"
 msgstr "Nächster Rahmen"
 
 #: extensions/image_viewer/gth-image-viewer-page.c:1195
-#| msgid "_Transparent"
 msgid "Transparency"
 msgstr "Transparenz"
 
@@ -3661,12 +3625,10 @@ msgid "Loading the original image"
 msgstr "Originalbild wird geladen"
 
 #: extensions/image_viewer/main.c:36
-#| msgid "All Images"
 msgid "Scroll Image"
 msgstr "Bild gleiten lassen"
 
 #: extensions/image_viewer/main.c:37
-#| msgid "Image print"
 msgid "Image Editor"
 msgstr "Bildbearbeitung"
 
@@ -3757,7 +3719,7 @@ msgstr "Keine Datei importiert"
 msgid "The selected files are already present in the destination."
 msgstr "Die gewählten Dateien sind im Ziel bereits vorhanden."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:692
 msgid "Could not delete the files"
 msgstr "Die Dateien konnte nicht gelöscht werden"
 
@@ -3874,7 +3836,6 @@ msgid "Quote the text "
 msgstr "Text zitieren "
 
 #: extensions/list_tools/data/ui/script-editor.ui:522
-#| msgid "The current date"
 msgid "The current date and time"
 msgstr "Das aktuelle Datum und Uhrzeit"
 
@@ -4438,7 +4399,6 @@ msgid "any of the following rules"
 msgstr "eine der folgenden Regeln"
 
 #: extensions/search/gth-search-source-selector.c:130
-#| msgid "Could not open the location"
 msgid "Add another location"
 msgstr "Einen weiteren Ort hinzufügen"
 
@@ -4466,19 +4426,16 @@ msgstr "edit-find"
 #. Not real actions, used in the shorcut window for documentation.
 #: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
 #: extensions/selections/callbacks.c:59 extensions/selections/callbacks.c:71
-#| msgid "Advanced file selection."
 msgid "Add to selection"
 msgstr "Der Auswahl hinzufügen"
 
 #: extensions/selections/callbacks.c:61 extensions/selections/callbacks.c:62
 #: extensions/selections/callbacks.c:63 extensions/selections/callbacks.c:72
-#| msgid "Remove from Selection"
 msgid "Remove from selection"
 msgstr "Aus Auswahl entfernen"
 
 #: extensions/selections/callbacks.c:65 extensions/selections/callbacks.c:66
 #: extensions/selections/callbacks.c:67 extensions/selections/callbacks.c:73
-#| msgid "Show selection %d"
 msgid "Show selection"
 msgstr "Auswahl anzeigen"
 
@@ -4519,17 +4476,14 @@ msgid "emblem-flag-gray"
 msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:40
-#| msgid "Presentation"
 msgid "Start presentation"
 msgstr "Präsentation starten"
 
 #: extensions/slideshow/callbacks.c:41
-#| msgid "x-office-presentation"
 msgid "Terminate presentation"
 msgstr "Präsentation beenden"
 
 #: extensions/slideshow/callbacks.c:42
-#| msgid "Presentation"
 msgid "Pause/Resume presentation"
 msgstr "Präsentation pausieren/fortsetzen"
 
@@ -4538,7 +4492,6 @@ msgid "Show next file"
 msgstr "Nächste Datei zeigen"
 
 #: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:117
-#| msgid "View the previous image"
 msgid "Show previous file"
 msgstr "Vorherige Datei zeigen"
 
@@ -4601,7 +4554,6 @@ msgid "Random"
 msgstr "Zufällig"
 
 #: extensions/slideshow/gth-slideshow.c:237
-#| msgid "Presentation"
 msgid "Playing a presentation"
 msgstr "Eine Präsentation abspielen"
 
@@ -4651,7 +4603,6 @@ msgid "Terminal"
 msgstr "Terminal"
 
 #: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
-#| msgid "Open in New Window"
 msgid "Open in Terminal"
 msgstr "Im Terminal öffnen"
 
@@ -4659,9 +4610,10 @@ msgstr "Im Terminal öffnen"
 msgid "Open a folder in a terminal"
 msgstr "Einen Ordner im Terminal öffnen"
 
+# ergibt keinen SInn, hat noch nichtmal einen Übersetzer-Kommentar
 #: extensions/terminal/terminal.extension.desktop.in.in:8
 msgid "utilities-terminal"
-msgstr ""
+msgstr "utilities-terminal"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -4846,19 +4798,16 @@ msgid "Browser"
 msgstr "Browser"
 
 #: gthumb/dlg-preferences-extensions.c:61
-#| msgid "All"
 msgctxt "Extensions"
 msgid "All"
 msgstr "Alle"
 
 #: gthumb/dlg-preferences-extensions.c:62
-#| msgid "Enabled"
 msgctxt "Extensions"
 msgid "Enabled"
 msgstr "Aktiviert"
 
 #: gthumb/dlg-preferences-extensions.c:63
-#| msgid "Disabled"
 msgctxt "Extensions"
 msgid "Disabled"
 msgstr "Deaktiviert"
@@ -4897,7 +4846,6 @@ msgid "Could not deactivate the extension"
 msgstr "Die Erweiterung konnte nicht deaktiviert werden"
 
 #: gthumb/dlg-preferences-extensions.c:491
-#| msgid "gthumb development team"
 msgid "gThumb Development Team"
 msgstr "gThumb-Entwicklerteam"
 
@@ -4931,20 +4879,17 @@ msgstr ""
 "Tastenkürzel verwenden?"
 
 #: gthumb/dlg-preferences-shortcuts.c:540
-#| msgid "All"
 msgctxt "Shortcuts"
 msgid "All"
 msgstr "Alle"
 
 #: gthumb/dlg-preferences-shortcuts.c:546
-#| msgid "Modified"
 msgctxt "Shortcuts"
 msgid "Modified"
 msgstr "Geändert"
 
 #. add the page to the preferences dialog
 #: gthumb/dlg-preferences-shortcuts.c:575
-#| msgid "Shortcut"
 msgid "Shortcuts"
 msgstr "Tastenkürzel"
 
@@ -5030,7 +4975,6 @@ msgid "Start in fullscreen mode"
 msgstr "Im Vollbildmodus starten"
 
 #: gthumb/gth-application.c:60
-#| msgid "Automatically start a slideshow"
 msgid "Automatically start a presentation"
 msgstr "Automatisch eine Präsentation beginnen"
 
@@ -5106,23 +5050,18 @@ msgid "Keyboard Shortcuts"
 msgstr "Tastenkombinationen"
 
 #: gthumb/gth-browser-actions-entries.h:96
-#| msgid "_Quit"
 msgid "Quit"
 msgstr "Beenden"
 
 #: gthumb/gth-browser-actions-entries.h:99
-#, fuzzy
-#| msgid "Browser"
 msgid "Show browser"
-msgstr "Browser"
+msgstr "Browser anzeigen"
 
 #: gthumb/gth-browser-actions-entries.h:100
-#| msgid "Fit to window"
 msgid "Close window"
 msgstr "Fenster schließen"
 
 #: gthumb/gth-browser-actions-entries.h:102
-#| msgid "Open Location…"
 msgid "Open location"
 msgstr "Ort öffnen"
 
@@ -5133,8 +5072,9 @@ msgid "Fullscreen"
 msgstr "Vollbild"
 
 #: gthumb/gth-browser-actions-entries.h:104
+#, fuzzy
 msgid "Revert image to saved"
-msgstr ""
+msgstr "Bild zurücksetzen auf das gespeicherte"
 
 #: gthumb/gth-browser-actions-entries.h:105
 msgid "Sidebar"
@@ -5145,42 +5085,34 @@ msgid "Statusbar"
 msgstr "Statusleiste"
 
 #: gthumb/gth-browser-actions-entries.h:107
-#| msgid "Thumbnails"
 msgid "Thumbnails list"
 msgstr "Liste der Vorschaubilder"
 
 #: gthumb/gth-browser-actions-entries.h:109
-#| msgid "Go to the previous visited location"
 msgid "Load previous location"
 msgstr "Vorherigen Ort laden"
 
 #: gthumb/gth-browser-actions-entries.h:110
-#| msgid "Could not open the location"
 msgid "Load next location"
 msgstr "Nächsten Ort laden"
 
 #: gthumb/gth-browser-actions-entries.h:111
-#| msgid "The parent folder path"
 msgid "Load parent folder"
 msgstr "Übergeordneten Ordner laden"
 
 #: gthumb/gth-browser-actions-entries.h:112
-#| msgid "Loading images"
 msgid "Load home"
 msgstr "Persönlichen Ordner laden"
 
 #: gthumb/gth-browser-actions-entries.h:113
-#| msgid "Resolution"
 msgid "Reload location"
 msgstr "Ort neu laden"
 
 #: gthumb/gth-browser-actions-entries.h:114
-#| msgid "Hidden Files"
 msgid "Show/Hide hidden files"
 msgstr "Verborgene Dateien anzeigen/verbergen"
 
 #: gthumb/gth-browser-actions-entries.h:115
-#| msgid "no sorting"
 msgid "Change sorting order"
 msgstr "Sortierreihenfolge ändern"
 
@@ -5193,22 +5125,18 @@ msgid "Show last file"
 msgstr "Letzte Datei zeigen"
 
 #: gthumb/gth-browser-actions-entries.h:122
-#| msgid "Images"
 msgid "Image tools"
 msgstr "Bildwerkzeuge"
 
 #: gthumb/gth-browser-actions-entries.h:123
-#| msgid "Properties"
 msgid "File properties"
 msgstr "Dateieigenschaften"
 
 #: gthumb/gth-browser-actions-entries.h:125
-#| msgid "Select All"
 msgid "Select all"
 msgstr "Alle auswählen"
 
 #: gthumb/gth-browser-actions-entries.h:126
-#| msgid "Select None"
 msgid "Select none"
 msgstr "Keine auswählen"
 
@@ -5316,7 +5244,7 @@ msgstr "Formatoptionen _anzeigen"
 msgid "Computer"
 msgstr "Rechner"
 
-#: gthumb/gth-file-source-vfs.c:773
+#: gthumb/gth-file-source-vfs.c:796
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -5324,16 +5252,16 @@ msgstr ""
 "Die Dateien können nicht in den Papierkorb verschoben werden. Sollen die "
 "Dateien dauerhaft gelöscht werden?"
 
-#: gthumb/gth-file-source-vfs.c:784
+#: gthumb/gth-file-source-vfs.c:807
 msgid "Could not move the files to the Trash"
 msgstr "Die Dateien konnten nicht in den Papierkorb verschoben werden"
 
-#: gthumb/gth-file-source-vfs.c:829
+#: gthumb/gth-file-source-vfs.c:852
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Soll »%s« wirklich unwiderruflich gelöscht werden?"
 
-#: gthumb/gth-file-source-vfs.c:832
+#: gthumb/gth-file-source-vfs.c:855
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5341,7 +5269,7 @@ msgid_plural ""
 msgstr[0] "Soll %'d ausgewählte Datei unwiderruflich gelöscht werden?"
 msgstr[1] "Sollen %'d ausgewählte Dateien unwiderruflich gelöscht werden?"
 
-#: gthumb/gth-file-source-vfs.c:842
+#: gthumb/gth-file-source-vfs.c:865
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Wenn Sie eine Datei löschen, geht diese für Sie dauerhaft verloren."
 
@@ -5427,12 +5355,10 @@ msgid "Location"
 msgstr "Ort"
 
 #: gthumb/gth-location-chooser.c:572
-#| msgid "Location"
 msgid "Locations"
 msgstr "Orte"
 
 #: gthumb/gth-location-chooser.c:617
-#| msgid "Other"
 msgid "Other…"
 msgstr "Weitere …"
 
@@ -5446,9 +5372,6 @@ msgstr "Byte"
 
 #. Translators: the file modified time.
 #: gthumb/gth-main-default-metadata.c:43
-#, fuzzy
-#| msgctxt "the file mtime"
-#| msgid "Modified Date & Time"
 msgid "Modified Date & Time"
 msgstr "Datum und Zeit der Änderung"
 
@@ -5574,17 +5497,14 @@ msgid "Description (embedded)"
 msgstr "Beschreibung (eingebettet)"
 
 #: gthumb/gth-main-default-types.c:39
-#| msgid "Show"
 msgid "Show/Hide"
 msgstr "Anzeigen/verbergen"
 
 #: gthumb/gth-main-default-types.c:40
-#| msgid "Organization:"
 msgid "Navigation"
 msgstr "Navigation"
 
 #: gthumb/gth-main-default-types.c:41
-#| msgid "File manager"
 msgid "File Manager"
 msgstr "Dateiverwaltung"
 
