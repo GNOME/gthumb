@@ -2070,7 +2070,7 @@ msgstr "Suprimeix permanentment"
 
 #: extensions/file_manager/callbacks.c:130
 msgid "Open with Gimp"
-msgstr "_Obre amb el Gimp"
+msgstr "Obre amb el Gimp"
 
 #: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:226
 msgid "Home Folder"
@@ -3527,27 +3527,24 @@ msgid "Zoom to fit"
 msgstr "Escala per a encabir"
 
 #: extensions/image_viewer/callbacks.c:39
-#, fuzzy
 msgid "Zoom to fit if larger"
-msgstr "Ajustar a si és més gran"
+msgstr "Escala per a encabir a si és més gran"
 
 #: extensions/image_viewer/callbacks.c:40
 msgid "Zoom to fit width"
-msgstr "Ajusta a l'amplada"
+msgstr "Escala a l'amplada"
 
 #: extensions/image_viewer/callbacks.c:41
-#, fuzzy
 msgid "Zoom to fit width if larger"
-msgstr "Ajustar a l'amplada si és més gran"
+msgstr "Escala a l'amplada si és més gran"
 
 #: extensions/image_viewer/callbacks.c:42
 msgid "Zoom to fit height"
 msgstr "Ajusta a l'alçada"
 
 #: extensions/image_viewer/callbacks.c:43
-#, fuzzy
 msgid "Zoom to fit height if larger"
-msgstr "Ajustar a l'alçada si és més gran"
+msgstr "Ajusta a l'alçada si és més gran"
 
 #: extensions/image_viewer/callbacks.c:45
 msgid "Undo edit"
@@ -3942,7 +3939,6 @@ msgid "Quote the text "
 msgstr "Cita el text"
 
 #: extensions/list_tools/data/ui/script-editor.ui:522
-#, fuzzy
 msgid "The current date and time"
 msgstr "La data i hora actuals"
 
@@ -4664,7 +4660,6 @@ msgid "Random"
 msgstr "Aleatori"
 
 #: extensions/slideshow/gth-slideshow.c:237
-#, fuzzy
 msgid "Playing a presentation"
 msgstr "S'està reproduint una presentació"
 
@@ -4701,7 +4696,6 @@ msgid "Cube from bottom"
 msgstr "Cub des de la part inferior"
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:4
-#, fuzzy
 msgid "Play a presentation of images."
 msgstr "Reprodueix una presentació d'imatges."
 
@@ -4719,7 +4713,6 @@ msgid "Open in Terminal"
 msgstr "Obre en un Terminal"
 
 #: extensions/terminal/terminal.extension.desktop.in.in:4
-#, fuzzy
 msgid "Open a folder in a terminal"
 msgstr "Obre una carpeta en un terminal"
 
@@ -4984,7 +4977,6 @@ msgid "Revert"
 msgstr "Reverteix"
 
 #: gthumb/dlg-preferences-shortcuts.c:369
-#, fuzzy
 msgid "Do you want to revert all the changes and use the default shortcuts?"
 msgstr ""
 "Voleu revertir tots els canvis i utilitzar les dreceres predeterminades?"
@@ -5173,9 +5165,8 @@ msgid "Fullscreen"
 msgstr "Pantalla completa"
 
 #: gthumb/gth-browser-actions-entries.h:104
-#, fuzzy
 msgid "Revert image to saved"
-msgstr "Reverteix la imatge a desar"
+msgstr "Reverteix la imatge a la desada"
 
 #: gthumb/gth-browser-actions-entries.h:105
 msgid "Save image"
@@ -5785,7 +5776,7 @@ msgid "Rotation"
 msgstr "Rotació"
 
 #: gthumb/gth-window.c:1034
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
 "want to reassign it to this action instead?"
@@ -5798,7 +5789,7 @@ msgid "Reassign"
 msgstr "Reassigna"
 
 #: gthumb/gth-window.c:1060
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
 "be changed."
@@ -5807,7 +5798,7 @@ msgstr ""
 "canviar."
 
 #: gthumb/gth-window.c:1064
-#, c-format, fuzzy
+#, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "La combinació de tecles «%s» ja està assignada i no es pot canviar."
 
