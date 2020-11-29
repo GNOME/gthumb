@@ -134,6 +134,7 @@ struct _GthBrowserPrivate {
 	GtkWidget         *progress_dialog;
 
 	GHashTable        *named_dialogs;
+	GtkGesture        *gesture;
 
 	/* Browser data */
 
@@ -2589,6 +2590,7 @@ gth_browser_finalize (GObject *object)
 	_g_object_list_unref (browser->priv->history);
 	gth_icon_cache_free (browser->priv->menu_icon_cache);
 	g_hash_table_unref (browser->priv->named_dialogs);
+	g_object_unref (browser->priv->gesture);
 	g_free (browser->priv->list_attributes);
 	_g_object_unref (browser->priv->folder_popup_file_data);
 	_g_object_unref (browser->priv->history_menu);
@@ -4199,6 +4201,47 @@ _gth_browser_register_fixed_viewer_control (GthBrowser *browser,
 }
 
 
+static void
+browser_gesture_pressed_cb (GtkGestureMultiPress *gesture,
+			    int                   n_press,
+			    double                x,
+			    double                y,
+			    gpointer              user_data)
+{
+	GthBrowser *browser = user_data;
+	guint       button;
+
+	button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
+	switch (button) {
+	case 8: /* Back button */
+		switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
+		case GTH_BROWSER_PAGE_VIEWER:
+			gth_window_activate_action (GTH_WINDOW (browser), "browser-mode", NULL);
+			break;
+		case GTH_BROWSER_PAGE_BROWSER:
+			gth_browser_go_back (browser, 1);
+			break;
+		default:
+			break;
+		}
+		break;
+
+	case 9: /* Forward button */
+		switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
+		case GTH_BROWSER_PAGE_BROWSER:
+			gth_browser_go_forward (browser, 1);
+			break;
+		default:
+			break;
+		}
+		break;
+
+	default:
+		break;
+	}
+}
+
+
 static gboolean
 browser_key_press_cb (GthBrowser  *browser,
 		      GdkEventKey *event)
@@ -4355,6 +4398,14 @@ gth_browser_init (GthBrowser *browser)
 	g_signal_connect (browser,
 			  "key-press-event",
 			  G_CALLBACK (browser_key_press_cb),
+			  browser);
+
+	browser->priv->gesture = gtk_gesture_multi_press_new (GTK_WIDGET (browser));
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (browser->priv->gesture), 0);
+	gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (browser->priv->gesture), GTK_PHASE_CAPTURE);
+	g_signal_connect (browser->priv->gesture,
+			  "pressed",
+			  G_CALLBACK (browser_gesture_pressed_cb),
 			  browser);
 
 	/* ui actions */

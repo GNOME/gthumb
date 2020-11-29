@@ -121,6 +121,9 @@ gboolean	gth_window_get_action_state	(GthWindow		*window,
 void		gth_window_change_action_state	(GthWindow		*window,
 						 const char		*action_name,
 						 gboolean		 value);
+void		gth_window_activate_action	(GthWindow		*window,
+						 const char		*action_name,
+						 GVariant		*parameter);
 void		gth_window_add_viewer_shortcuts (GthWindow              *window,
 						 const char             *viewer_context,
 						 const GthShortcut      *shortcuts,

@@ -808,6 +808,20 @@ gth_window_change_action_state (GthWindow  *window,
 
 
 void
+gth_window_activate_action (GthWindow	*window,
+			    const char	*action_name,
+			    GVariant    *parameter)
+{
+	GAction *action;
+
+	action = g_action_map_lookup_action (G_ACTION_MAP (window), action_name);
+	g_return_if_fail (action != NULL);
+
+	g_action_activate (action, parameter);
+}
+
+
+void
 gth_window_add_viewer_shortcuts (GthWindow         *window,
 				 const char        *viewer_context,
 				 const GthShortcut *shortcuts,
