@@ -237,7 +237,7 @@ _cairo_surface_write_as_jpeg (cairo_surface_t  *image,
 	struct jpeg_compress_struct cinfo;
 	struct error_handler_data jerr;
 	guchar            *buf = NULL;
-	guchar            *pixels = NULL;
+	guchar            *pixels;
 	volatile int       quality = 85; /* default; must be between 0 and 100 */
 	volatile int       smoothing = 0;
 	volatile gboolean  optimize = FALSE;

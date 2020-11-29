@@ -182,7 +182,7 @@ _cairo_image_surface_create_from_jpeg (GInputStream  *istream,
 	guint32                        pixel;
 	unsigned char                 *p_buffer;
 	int                            x;
-	gboolean                       read_all_scanlines = FALSE;
+	volatile gboolean              read_all_scanlines = FALSE;
 	volatile gboolean              finished = FALSE;
 
 	image = gth_image_new ();

@@ -165,7 +165,7 @@ _cairo_surface_write_as_png (cairo_surface_t  *image,
 			     char            **values,
 			     GError          **error)
 {
-	int            compression_level;
+	volatile int   compression_level;
 	int            width, height;
 	gboolean       alpha;
 	guchar        *pixels, *ptr, *buf;
