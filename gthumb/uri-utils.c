@@ -77,7 +77,7 @@ _g_uri_parse (const char *uri,
 	UriState    state;
 	const char *p;
 	gunichar    c;
-	const char *part_begin;
+	const char *part_begin = NULL;
 
 	if (uri == NULL)
 		return FALSE;
@@ -499,8 +499,8 @@ _g_uri_get_part (const char  *uri,
 		 UriPart      part)
 {
 	UriInfo     info;
-	const char *begin;
-	gsize       size;
+	const char *begin = NULL;
+	gsize       size = 0;
 
 	if (! _g_uri_parse (uri, &info))
 		return NULL;

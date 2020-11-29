@@ -1242,7 +1242,7 @@ _gtk_window_get_monitor_info (GtkWindow	    *window,
 	if ((number != NULL) || (name != NULL)) {
 		GdkDisplay *display;
 		int         monitor_num;
-		const char *monitor_name;
+		const char *monitor_name = NULL;
 		int         i;
 
 		display = gdk_monitor_get_display (monitor);

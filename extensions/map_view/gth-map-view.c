@@ -143,8 +143,8 @@ gth_map_view_get_coordinates (GthMapView  *self,
 			      double      *out_longitude)
 {
 	int         coordinates_available;
-	double      latitude;
-	double      longitude;
+	double      latitude = 0.0;
+	double      longitude = 0.0;
 
 	coordinates_available = 0;
 

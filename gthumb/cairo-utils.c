@@ -1446,6 +1446,11 @@ _cairo_create_dnd_icon (cairo_surface_t *image,
 		frame_rect.width = thumbnail_rect.width;
 		frame_rect.height = icon_size;
 		break;
+
+	default:
+		icon_rect.width = 0;
+		icon_rect.height = 0;
+		break;
 	}
 
 	if (multi_dnd) {
