@@ -279,6 +279,8 @@ gth_application_command_line (GApplication            *application,
 			location = g_file_new_for_commandline_arg (remaining_args[0]);
 		import_photos_from_location (location);
 
+		ImportPhotos = FALSE;
+
 		return 0;
 	}
 
