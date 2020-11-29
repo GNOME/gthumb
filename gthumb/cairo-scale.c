@@ -29,9 +29,6 @@
 #include "glib-utils.h"
 
 
-#define EPSILON ((ScaleReal) 1.0e-16)
-
-
 typedef double ScaleReal;
 typedef ScaleReal (*weight_func_t) (ScaleReal distance);
 
@@ -352,21 +349,12 @@ resize_filter_destroy (resize_filter_t *resize_filter)
 }
 
 
-static inline ScaleReal
-reciprocal (ScaleReal x)
-{
-	ScaleReal sign = x < 0.0 ? -1.0 : 1.0;
-	return (sign * x) >= EPSILON ? 1.0 / x : sign * (1.0 / EPSILON);
-}
-
-
 static void
 horizontal_scale_transpose (cairo_surface_t *image,
 			    cairo_surface_t *scaled,
 			    ScaleReal        scale_factor,
 			    resize_filter_t *resize_filter)
 {
-	ScaleReal  scale;
 	ScaleReal  support;
 	int        y;
 	int        image_width;
@@ -381,12 +369,9 @@ horizontal_scale_transpose (cairo_surface_t *image,
 	if (resize_filter->cancelled)
 		return;
 
-	scale = MAX ((ScaleReal) 1.0 / scale_factor + EPSILON, 1.0);
-	support = scale * resize_filter_get_support (resize_filter);
-	if (support < 0.5) {
+	support = (1.0 / scale_factor) * resize_filter_get_support (resize_filter);
+	if (support < 0.5)
 		support = 0.5;
-		scale = 1.0;
-	}
 
 	image_width = cairo_image_surface_get_width (image);
 	scaled_width = cairo_image_surface_get_width (scaled);
@@ -397,7 +382,6 @@ horizontal_scale_transpose (cairo_surface_t *image,
 	dest_rowstride = cairo_image_surface_get_stride (scaled);
 	weights = g_new (ScaleReal, 2.0 * support + 3.0);
 
-	scale = reciprocal (scale);
 	for (y = 0; y < scaled_height; y++) {
 	        guchar    *p_src_row;
 	        guchar    *p_dest_pixel;
@@ -424,13 +408,15 @@ horizontal_scale_transpose (cairo_surface_t *image,
 			gth_async_task_set_data (resize_filter->task, NULL, NULL, &progress);
 		}
 
-		bisect = ((ScaleReal) y + 0.5) / scale_factor + EPSILON;
-		start = MAX (bisect - support + 0.5, 0);
-		stop = MIN (bisect + support + 0.5, (ScaleReal) image_width);
+		bisect = ((ScaleReal) y + 0.5) / scale_factor;
+		start = bisect - support + 0.5;
+		start = MAX (start, 0);
+		stop = bisect + support + 0.5;
+		stop = MIN (stop, image_width);
 
 		density = 0.0;
 		for (n = 0; n < stop - start; n++) {
-			weights[n] = resize_filter_get_weight (resize_filter, scale * ((ScaleReal) (start + n) - bisect + 0.5));
+			weights[n] = resize_filter_get_weight (resize_filter, scale_factor * ((ScaleReal) (start + n) - bisect + 0.5));
 			density += weights[n];
 		}
 
@@ -440,7 +426,7 @@ horizontal_scale_transpose (cairo_surface_t *image,
 		*/
 
 		if ((density != 0.0) && (density != 1.0)) {
-			density = reciprocal (density);
+			density = 1.0 / density;
 			for (i = 0; i < n; i++)
 				weights[i] *= density;
 		}
