@@ -36,11 +36,7 @@ typedef ScaleReal (*weight_func_t) (ScaleReal distance);
 #ifdef HAVE_VECTOR_OPERATIONS
 
 
-typedef ScaleReal v4r __attribute__ ((vector_size(sizeof(ScaleReal)*4)));
-typedef union {
-	v4r       v;
-	ScaleReal r[4];
-} r4vector;
+typedef ScaleReal v4r __attribute__ ((vector_size(sizeof(ScaleReal) * 4)));
 
 
 #endif /* HAVE_VECTOR_OPERATIONS */
@@ -394,7 +390,7 @@ horizontal_scale_transpose (cairo_surface_t *image,
 		int        i;
 		int        temp;
 #ifdef HAVE_VECTOR_OPERATIONS
-		r4vector   v_pixel, v_rgba;
+		v4r        v_pixel, v_rgba;
 #endif /* HAVE_VECTOR_OPERATIONS */
 
 		if (resize_filter->task != NULL) {
@@ -440,19 +436,18 @@ horizontal_scale_transpose (cairo_surface_t *image,
 
 #ifdef HAVE_VECTOR_OPERATIONS
 
-			v_rgba.v = (v4r) { 0.0, 0.0, 0.0, 0.0 };
+			v_rgba = (v4r) { 0.0, 0.0, 0.0, 0.0 };
 			for (i = 0; i < n; i++) {
-				v_pixel.v = (v4r) { p_src_pixel[0], p_src_pixel[1], p_src_pixel[2], p_src_pixel[3] };
-				v_rgba.v = v_rgba.v + (v_pixel.v * weights[i]);
-
+				v_pixel = (v4r) { p_src_pixel[0], p_src_pixel[1], p_src_pixel[2], p_src_pixel[3] };
+				v_rgba = v_rgba + (v_pixel * weights[i]);
 				p_src_pixel += 4;
 			}
-			v_rgba.v = v_rgba.v + 0.5;
+			v_rgba = v_rgba + 0.5;
 
-			p_dest_pixel[0] = CLAMP_PIXEL (v_rgba.r[0]);
-			p_dest_pixel[1] = CLAMP_PIXEL (v_rgba.r[1]);
-			p_dest_pixel[2] = CLAMP_PIXEL (v_rgba.r[2]);
-			p_dest_pixel[3] = CLAMP_PIXEL (v_rgba.r[3]);
+			p_dest_pixel[0] = CLAMP_PIXEL (v_rgba[0]);
+			p_dest_pixel[1] = CLAMP_PIXEL (v_rgba[1]);
+			p_dest_pixel[2] = CLAMP_PIXEL (v_rgba[2]);
+			p_dest_pixel[3] = CLAMP_PIXEL (v_rgba[3]);
 
 #else /* ! HAVE_VECTOR_OPERATIONS */
 
