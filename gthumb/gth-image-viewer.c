@@ -300,8 +300,8 @@ static void _set_surface (GthImageViewer  *self,
 static void
 set_zoom (GthImageViewer *self,
 	  gdouble         zoom_level,
-	  int             center_x,
-	  int             center_y)
+	  int             pointer_x,
+	  int             pointer_y)
 {
 	g_return_if_fail (self != NULL);
 
@@ -328,26 +328,40 @@ set_zoom (GthImageViewer *self,
 		}
 	}
 
-	/* try to keep the center of the view visible. */
+	/* Try to keep the same pixel under the pointer after the zoom. */
 
 	{
 		cairo_surface_t *image;
 
 		image = gth_image_viewer_get_current_image (self);
 		if (image != NULL) {
+			int    frame_border;
 			double quality_zoom;
 			double old_zoom_level;
 			int    x, y;
-			int    frame_border;
+			double x0, y0;
+			double dx, dy;
 			int    new_center_x, new_center_y;
 
+			frame_border = _gth_image_viewer_get_frame_border (self);
 			quality_zoom = (double) self->priv->original_width / cairo_image_surface_get_width (image);
 			old_zoom_level = self->priv->zoom_level * quality_zoom;
-			x = (center_x + self->visible_area.x - self->image_area.x) / old_zoom_level;
-			y = (center_y + self->visible_area.y - self->image_area.y) / old_zoom_level;
-			frame_border = _gth_image_viewer_get_frame_border (self);
-			new_center_x = x * zoom_level * quality_zoom + frame_border + 1;
-			new_center_y = y * zoom_level * quality_zoom + frame_border + 1;
+
+			/* Pixel under the pointer. */
+			x = (pointer_x + self->visible_area.x - self->image_area.x) / old_zoom_level;
+			y = (pointer_y + self->visible_area.y - self->image_area.y) / old_zoom_level;
+
+			/* Pixel at the center of the visibile area. */
+			x0 = ((self->visible_area.width / 2) + self->visible_area.x - self->image_area.x) / old_zoom_level;
+			y0 = ((self->visible_area.height / 2) + self->visible_area.y - self->image_area.y) / old_zoom_level;
+
+			/* Delta to keep the (x, y) pixel under the pointer.  */
+			dx = ((x - x0) * zoom_level) - ((x - x0) * old_zoom_level);
+			dy = ((y - y0) * zoom_level) - ((y - y0) * old_zoom_level);
+
+			/* Center on (x0, y0) and add (dx, dy) */
+			new_center_x = round ((x0 * zoom_level * quality_zoom) + frame_border + dx);
+			new_center_y = round ((y0 * zoom_level * quality_zoom) + frame_border + dy);
 
 			self->visible_area.x = new_center_x - (self->visible_area.width / 2);
 			self->visible_area.y = new_center_y - (self->visible_area.height / 2);
