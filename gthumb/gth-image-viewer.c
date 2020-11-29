@@ -183,39 +183,24 @@ gth_image_viewer_finalize (GObject *object)
 }
 
 
-static double zooms[] = {                  0.05, 0.07, 0.10,
-			 0.15, 0.20, 0.30, 0.50, 0.75, 1.0,
-			 1.5 , 2.0 , 3.0 , 5.0 , 7.5,  10.0,
-			 15.0, 20.0, 30.0, 50.0, 75.0, 100.0};
-
-static const int nzooms = sizeof (zooms) / sizeof (gdouble);
+#define MIN_ZOOM 0.05
+#define MAX_ZOOM 100.0
+#define ZOOM_STEP 0.1
 
 
 static double
 get_next_zoom (gdouble zoom)
 {
-	int i;
-
-	i = 0;
-	while ((i < nzooms) && (zooms[i] <= zoom))
-		i++;
-	i = CLAMP (i, 0, nzooms - 1);
-
-	return zooms[i];
+	zoom = zoom + (zoom * ZOOM_STEP);
+	return CLAMP (zoom, MIN_ZOOM, MAX_ZOOM);
 }
 
 
 static double
 get_prev_zoom (double zoom)
 {
-	int i;
-
-	i = nzooms - 1;
-	while ((i >= 0) && (zooms[i] >= zoom))
-		i--;
-	i = CLAMP (i, 0, nzooms - 1);
-
-	return zooms[i];
+	zoom = zoom - (zoom * ZOOM_STEP);
+	return CLAMP (zoom, MIN_ZOOM, MAX_ZOOM);
 }
 
 
