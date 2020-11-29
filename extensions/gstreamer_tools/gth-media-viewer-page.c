@@ -1025,6 +1025,73 @@ copy_position_to_clipboard_button_clicked_cb (GtkButton *button,
 }
 
 
+#define SCALE_INTERNAL_PADDING 17
+
+
+static void
+update_time_popup_position (GthMediaViewerPage *self,
+			    double              x)
+{
+	GdkRectangle   rect;
+	GtkAllocation  alloc;
+	double         p;
+	char          *s;
+
+	rect.x = x;
+	rect.y = 0;
+	rect.width = 1;
+	rect.height = 1;
+
+	gtk_widget_get_allocated_size (GET_WIDGET ("position_scale"), &alloc, NULL);
+	alloc.x = SCALE_INTERNAL_PADDING;
+	alloc.width -= SCALE_INTERNAL_PADDING;
+
+	if (rect.x < alloc.x)
+		rect.x = alloc.x;
+	if (rect.x > alloc.width)
+		rect.x = alloc.width;
+
+	gtk_popover_set_pointing_to (GTK_POPOVER (GET_WIDGET ("time_popover")), &rect);
+	p = (double) (rect.x - alloc.x) / (double) (alloc.width - alloc.x);
+	s = _g_format_duration_for_display (p * GST_TIME_AS_MSECONDS (self->priv->duration));
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("time_popover_label")), s);
+
+	g_free (s);
+}
+
+
+static void
+position_scale_enter_notify_event_cb (GtkWidget        *widget,
+				      GdkEventCrossing *event,
+				      gpointer          user_data)
+{
+	GthMediaViewerPage *self = user_data;
+
+	update_time_popup_position (self, event->x);
+	gtk_popover_popup (GTK_POPOVER (GET_WIDGET ("time_popover")));
+}
+
+
+static void
+position_scale_leave_notify_event_cb (GtkWidget *widget,
+				      GdkEvent  *event,
+				      gpointer   user_data)
+{
+	GthMediaViewerPage *self = user_data;
+	gtk_popover_popdown (GTK_POPOVER (GET_WIDGET ("time_popover")));
+}
+
+
+static void
+position_scale_motion_notify_event_cb (GtkWidget      *widget,
+				       GdkEventMotion *event,
+				       gpointer        user_data)
+{
+	GthMediaViewerPage *self = user_data;
+	update_time_popup_position (self, event->x);
+}
+
+
 static void
 gth_media_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
@@ -1167,6 +1234,18 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (GET_WIDGET ("copy_position_to_clipboard_button"),
 			  "clicked",
 			  G_CALLBACK (copy_position_to_clipboard_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("position_scale"),
+			  "enter-notify-event",
+			  G_CALLBACK (position_scale_enter_notify_event_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("position_scale"),
+			  "leave-notify-event",
+			  G_CALLBACK (position_scale_leave_notify_event_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("position_scale"),
+			  "motion-notify-event",
+			  G_CALLBACK (position_scale_motion_notify_event_cb),
 			  self);
 
 	self->priv->mediabar_revealer = gtk_revealer_new ();
