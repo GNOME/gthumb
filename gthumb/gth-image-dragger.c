@@ -588,8 +588,8 @@ _gth_image_dragger_update_scaled_image (GthImageDragger *self)
 
 	zoom_from_original = gth_image_viewer_get_zoom (self->priv->viewer);
 	gth_image_viewer_get_original_size (self->priv->viewer, &original_width, &original_height);
-	new_width = zoom_from_original * original_width * screen_scale_factor;
-	new_height = zoom_from_original * original_height * screen_scale_factor;
+	new_width = zoom_from_original * original_width * screen_scale_factor + 0.5;
+	new_height = zoom_from_original * original_height * screen_scale_factor + 0.5;
 	image_width = cairo_image_surface_get_width (image);
 	image_height = cairo_image_surface_get_height (image);
 	zoom_from_image = (double) new_width / image_width;
