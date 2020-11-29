@@ -60,6 +60,14 @@ browser_data_free (BrowserData *data)
 
 
 static void
+statusbar_toggled_cb (GtkWidget   *widget,
+		      BrowserData *data)
+{
+	g_settings_set_boolean (data->browser_settings, PREF_BROWSER_STATUSBAR_VISIBLE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("statusbar_checkbutton"))));
+}
+
+
+static void
 use_startup_toggled_cb (GtkWidget   *widget,
 			BrowserData *data)
 {
@@ -142,6 +150,9 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("go_to_last_location_radiobutton")), TRUE);
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("statusbar_checkbutton")),
+				      g_settings_get_boolean (data->browser_settings, PREF_BROWSER_STATUSBAR_VISIBLE));
+
 	/* starup location */
 	{
 		char  *uri;
@@ -196,6 +207,10 @@ general__dlg_preferences_construct_cb (GtkWidget  *dialog,
 	g_signal_connect (GET_WIDGET ("file_properties_position_combobox"),
 			  "changed",
 			  G_CALLBACK (file_properties_position_combobox_changed_cb),
+			  data);
+	g_signal_connect (G_OBJECT (GET_WIDGET ("statusbar_checkbutton")),
+			  "toggled",
+			  G_CALLBACK (statusbar_toggled_cb),
 			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("use_startup_location_radiobutton")),
 			  "toggled",
