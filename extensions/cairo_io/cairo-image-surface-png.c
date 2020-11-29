@@ -21,6 +21,9 @@
 
 #include <config.h>
 #include <png.h>
+#if HAVE_LCMS2
+#include <lcms2.h>
+#endif
 #include <gthumb.h>
 #include "cairo-image-surface-png.h"
 
@@ -268,8 +271,41 @@ _cairo_image_surface_create_from_png (GInputStream  *istream,
 				metadata->thumbnail.image_height = atoi (text_ptr[i].text);
 		}
 	}
-
 	g_free (row_pointers);
+
+#if HAVE_LCMS2
+	{
+		GthICCProfile *profile = NULL;
+		int            intent;
+		png_charp      name;
+		int            compression_type;
+		png_bytep      icc_data;
+		png_uint_32    icc_data_size;
+
+		if (png_get_sRGB (cairo_png_data->png_ptr,
+				  cairo_png_data->png_info_ptr,
+				  &intent) == PNG_INFO_sRGB)
+		{
+			profile = gth_icc_profile_new_srgb ();
+		}
+		else if (png_get_iCCP (cairo_png_data->png_ptr,
+				       cairo_png_data->png_info_ptr,
+				       &name,
+				       &compression_type,
+				       &icc_data,
+				       &icc_data_size) == PNG_INFO_iCCP)
+		{
+			if ((icc_data_size > 0) && (icc_data != NULL))
+				profile = gth_icc_profile_new (GTH_ICC_PROFILE_ID_UNKNOWN, cmsOpenProfileFromMem (icc_data, icc_data_size));
+		}
+
+		if (profile != NULL) {
+			gth_image_set_icc_profile (image, profile);
+			g_object_unref (profile);
+		}
+	}
+#endif
+
 	_cairo_png_data_destroy (cairo_png_data);
 
 	return image;
