@@ -50,7 +50,6 @@
 #define DEFAULT_THUMBNAIL_BORDER   3
 #define SCROLL_DELAY               30
 #define LAYOUT_DELAY               20
-#define MAX_DELTA_FOR_SCROLLING    1024.0
 #define RUBBERBAND_BORDER          2
 #define STEP_INCREMENT             0.10
 #define PAGE_INCREMENT             0.33
@@ -3162,10 +3161,6 @@ gth_grid_view_motion_notify (GtkWidget      *widget,
 	}
 	else if (self->priv->selecting) {
 		double y_delta;
-
-		y_delta = event->y - gtk_adjustment_get_value (self->priv->vadjustment);
-		if (fabs (y_delta) > MAX_DELTA_FOR_SCROLLING)
-			event->y = gtk_adjustment_get_upper (self->priv->vadjustment);
 
 		_gth_grid_view_update_mouse_selection (self, event->x, event->y);
 
