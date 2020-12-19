@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-08-09 08:35+0000\n"
-"PO-Revision-Date: 2020-08-15 02:10+0900\n"
+"POT-Creation-Date: 2020-11-29 17:28+0000\n"
+"PO-Revision-Date: 2020-12-19 15:10+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -375,6 +375,10 @@ msgstr "横側"
 #: data/ui/preferences.ui:152
 msgid "File _properties in browser:"
 msgstr "ブラウザーでのプロパティ表示位置(_P):"
+
+#: data/ui/preferences.ui:179
+msgid "_Statusbar"
+msgstr "ステータスバー(_S)"
 
 #: data/ui/preferences.ui:203
 msgid "On startup:"
