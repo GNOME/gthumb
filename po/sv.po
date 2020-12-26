@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-08-09 08:35+0000\n"
-"PO-Revision-Date: 2020-08-24 16:27+0200\n"
+"POT-Creation-Date: 2020-11-29 18:19+0000\n"
+"PO-Revision-Date: 2020-12-01 16:58+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -134,7 +134,7 @@ msgstr "Importera foton från din digitalkamera"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:423 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:424 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -174,7 +174,7 @@ msgstr "_Dubbelklicka för att öppna filer"
 msgid "_Open files in fullscreen mode"
 msgstr "_Öppna filer i helskärmsläge"
 
-#: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
+#: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:355
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
 #: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:335
 #: gthumb/gth-shortcuts-window.c:96
@@ -363,59 +363,63 @@ msgstr "till höger"
 msgid "gThumb Preferences"
 msgstr "gThumb-inställningar"
 
-#: data/ui/preferences.ui:101
+#: data/ui/preferences.ui:98
 msgid "Appearance"
 msgstr "Utseende"
 
-#: data/ui/preferences.ui:125
+#: data/ui/preferences.ui:123
 msgid "T_humbnails in viewer:"
 msgstr "M_iniatyrbilder i visaren:"
 
-#: data/ui/preferences.ui:139
+#: data/ui/preferences.ui:137
 msgid "on the bottom"
 msgstr "nederst"
 
-#: data/ui/preferences.ui:140
+#: data/ui/preferences.ui:138
 msgid "on the side"
 msgstr "på sidan"
 
-#: data/ui/preferences.ui:152
+#: data/ui/preferences.ui:150
 msgid "File _properties in browser:"
 msgstr "Fil_egenskaper i bläddraren:"
 
-#: data/ui/preferences.ui:203
+#: data/ui/preferences.ui:179
+msgid "_Statusbar"
+msgstr "_Statusrad"
+
+#: data/ui/preferences.ui:222
 msgid "On startup:"
 msgstr "Vid uppstart:"
 
-#: data/ui/preferences.ui:226
+#: data/ui/preferences.ui:245
 msgid "Go to last _visited location"
 msgstr "Gå till senaste _besökta plats"
 
-#: data/ui/preferences.ui:247
+#: data/ui/preferences.ui:266
 msgid "Go to this _folder:"
 msgstr "Gå till denna _mapp:"
 
-#: data/ui/preferences.ui:277
+#: data/ui/preferences.ui:296
 msgid "Set to C_urrent"
 msgstr "Ställ in till a_ktuell"
 
-#: data/ui/preferences.ui:299
+#: data/ui/preferences.ui:318
 msgid "_Reuse the active window to open files"
 msgstr "_Återanvänd det aktiva fönstret till att öppna filer"
 
-#: data/ui/preferences.ui:358
+#: data/ui/preferences.ui:377
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "Be_kräfta innan filer eller album tas bort"
 
-#: data/ui/preferences.ui:373
+#: data/ui/preferences.ui:392
 msgid "Ask whether to save _modified files"
 msgstr "Fråga huruvida _ändrade filer ska sparas"
 
-#: data/ui/preferences.ui:388
+#: data/ui/preferences.ui:407
 msgid "_Store metadata inside files if possible"
 msgstr "_Lagra metadata inuti filer om möjligt"
 
-#: data/ui/preferences.ui:421
+#: data/ui/preferences.ui:440
 #: extensions/catalogs/data/ui/catalog-properties.ui:39
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:576
 #: extensions/edit_metadata/gth-edit-general-page.c:482
@@ -755,8 +759,8 @@ msgid "Rename"
 msgstr "Byt namn"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4557
-#: gthumb/gth-browser.c:4659 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4608
+#: gthumb/gth-browser.c:4710 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Egenskaper"
 
@@ -1887,7 +1891,7 @@ msgstr "Kunde inte exportera filerna"
 #: extensions/flicker_utils/dlg-export-to-flickr.c:601
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:502
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:872
+#: gthumb/gth-browser.c:873
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1960,7 +1964,7 @@ msgstr "Ange mappnamnet:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5569 gthumb/gth-browser.c:5605
+#: gthumb/gth-browser.c:5620 gthumb/gth-browser.c:5656
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Kunde inte genomföra åtgärden"
@@ -1985,7 +1989,7 @@ msgstr ""
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:417 gthumb/gtk-utils.h:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:418 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -2617,7 +2621,7 @@ msgstr "Ange förvalsnamnet:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1863
+#: gthumb/gth-browser.c:1864
 msgid "Could not save the file"
 msgstr "Kunde inte spara filen"
 
@@ -3078,52 +3082,52 @@ msgid "Next frame"
 msgstr "Nästa bildruta"
 
 #: extensions/gstreamer_tools/callbacks.c:38
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:460
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:461
 msgid "Go forward 1 second"
 msgstr "Gå framåt 1 sekund"
 
 #: extensions/gstreamer_tools/callbacks.c:39
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:356
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:357
 msgid "Go forward 5 seconds"
 msgstr "Gå framåt 5 sekunder"
 
 #: extensions/gstreamer_tools/callbacks.c:40
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:370
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:371
 msgid "Go forward 10 seconds"
 msgstr "Gå framåt 10 sekunder"
 
 #: extensions/gstreamer_tools/callbacks.c:41
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:384
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:385
 msgid "Go forward 1 minute"
 msgstr "Gå framåt 1 minut"
 
 #: extensions/gstreamer_tools/callbacks.c:42
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:398
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:399
 msgid "Go forward 5 minutes"
 msgstr "Gå framåt 5 minuter"
 
 #: extensions/gstreamer_tools/callbacks.c:43
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:446
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:447
 msgid "Go back 1 second"
 msgstr "Gå tillbaka 1 sekund"
 
 #: extensions/gstreamer_tools/callbacks.c:44
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:300
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:301
 msgid "Go back 5 seconds"
 msgstr "Gå tillbaka 5 sekunder"
 
 #: extensions/gstreamer_tools/callbacks.c:45
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:314
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:315
 msgid "Go back 10 seconds"
 msgstr "Gå tillbaka 10 sekunder"
 
 #: extensions/gstreamer_tools/callbacks.c:46
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:328
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:329
 msgid "Go back 1 minute"
 msgstr "Gå tillbaka 1 minut"
 
 #: extensions/gstreamer_tools/callbacks.c:47
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:342
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:343
 msgid "Go back 5 minutes"
 msgstr "Gå tillbaka 5 minuter"
 
@@ -3158,54 +3162,52 @@ msgid "Time:"
 msgstr "Tid:"
 
 #. minus 5 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:296
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:297
 msgid "-5s"
 msgstr "-5s"
 
 #. minus 10 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:310
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:311
 msgid "-10s"
 msgstr "-10s"
 
 #. minus 1 minute
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:324
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:325
 msgid "-1m"
 msgstr "-1m"
 
 #. minus 5 minutes
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:338
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:339
 msgid "-5m"
 msgstr "-5m"
 
 #. plus 5 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:352
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:353
 msgid "+5s"
 msgstr "+5s"
 
 #. plus 10 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:366
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:367
 msgid "+10s"
 msgstr "+10s"
 
 #. plus 1 minute
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:380
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:381
 msgid "+1m"
 msgstr "+1m"
 
 #. plus 5 minutes
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:394
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:395
 msgid "+5m"
 msgstr "+5m"
 
 #. minus 1 second
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:442
-#| msgid "-10s"
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:443
 msgid "-1s"
 msgstr "-1s"
 
 #. plus 1 second
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:456
-#| msgid "+10s"
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:457
 msgid "+1s"
 msgstr "+1s"
 
@@ -3229,11 +3231,11 @@ msgstr "Spela upp video"
 msgid "Pause"
 msgstr "Paus"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1048
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1115
 msgid "Take a screenshot"
 msgstr "Ta en skärmbild"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1055
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1122
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
@@ -3816,7 +3818,7 @@ msgstr "Ingen fil importerades"
 msgid "The selected files are already present in the destination."
 msgstr "De markerade filerna finns redan i destinationen."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:692
 msgid "Could not delete the files"
 msgstr "Kunde inte ta bort filerna"
 
@@ -4854,9 +4856,9 @@ msgstr "Webbalbum"
 msgid "Create static web albums."
 msgstr "Skapa statiska webbalbum."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6574 gthumb/gth-browser.c:6593
-#: gthumb/gth-browser.c:6617 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1171
+#: gthumb/gth-browser.c:6625 gthumb/gth-browser.c:6644
+#: gthumb/gth-browser.c:6668 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Kunde inte läsa in positionen ”%s”"
@@ -5147,8 +5149,8 @@ msgstr "Stäng fönster"
 msgid "Open location"
 msgstr "Öppna plats"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4572
-#: gthumb/gth-browser.c:4590 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4623
+#: gthumb/gth-browser.c:4641 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Helskärm"
@@ -5230,83 +5232,83 @@ msgstr "Markera alla"
 msgid "Select none"
 msgstr "Markera ingen"
 
-#: gthumb/gth-browser.c:408
+#: gthumb/gth-browser.c:409
 msgid "[modified]"
 msgstr "[ändrad]"
 
-#: gthumb/gth-browser.c:873
+#: gthumb/gth-browser.c:874
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d fil markerad (%s)"
 msgstr[1] "%d filer markerade (%s)"
 
-#: gthumb/gth-browser.c:908
+#: gthumb/gth-browser.c:909
 #, c-format
 msgid "%s of free space"
 msgstr "%s ledigt utrymme"
 
-#: gthumb/gth-browser.c:1786 gthumb/gth-browser.c:1802
+#: gthumb/gth-browser.c:1787 gthumb/gth-browser.c:1803
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Ingen lämplig modul hittades för %s"
 
-#: gthumb/gth-browser.c:1907
+#: gthumb/gth-browser.c:1908
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Spara ändringar i filen ”%s”?"
 
-#: gthumb/gth-browser.c:1912
+#: gthumb/gth-browser.c:1913
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr ""
 "Om du inte sparar kommer ändringarna i filen att gå förlorade för alltid."
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1914
 msgid "Do _Not Save"
 msgstr "Spara _inte"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4598
+#: gthumb/gth-browser.c:2402 gthumb/gth-browser.c:4649
 msgid "Accept"
 msgstr "Acceptera"
 
-#: gthumb/gth-browser.c:2401 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2402 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Stäng"
 
-#: gthumb/gth-browser.c:2939
+#: gthumb/gth-browser.c:2941
 msgid "Could not change name"
 msgstr "Kunde inte ändra namnet"
 
-#: gthumb/gth-browser.c:3436
+#: gthumb/gth-browser.c:3438
 msgid "Modified"
 msgstr "Ändrad"
 
-#: gthumb/gth-browser.c:4520
+#: gthumb/gth-browser.c:4571
 msgid "Go to the previous visited location"
 msgstr "Gå till föregående besökta plats"
 
-#: gthumb/gth-browser.c:4526
+#: gthumb/gth-browser.c:4577
 msgid "Go to the next visited location"
 msgstr "Gå till nästa besökta plats"
 
-#: gthumb/gth-browser.c:4534
+#: gthumb/gth-browser.c:4585
 msgid "History"
 msgstr "Historik"
 
-#: gthumb/gth-browser.c:4548
+#: gthumb/gth-browser.c:4599
 msgid "View the folders"
 msgstr "Visa mapparna"
 
-#: gthumb/gth-browser.c:4563
+#: gthumb/gth-browser.c:4614
 msgid "Edit file"
 msgstr "Redigera fil"
 
-#: gthumb/gth-browser.c:6575
+#: gthumb/gth-browser.c:6626
 #, c-format
 msgid "File type not supported"
 msgstr "Filtypen stöds inte"
 
-#: gthumb/gth-browser.c:6618
+#: gthumb/gth-browser.c:6669
 #, c-format
 msgid "No suitable module found"
 msgstr "Ingen lämplig modul hittades"
@@ -5333,23 +5335,23 @@ msgstr "_Visa formatalternativ"
 msgid "Computer"
 msgstr "Dator"
 
-#: gthumb/gth-file-source-vfs.c:773
+#: gthumb/gth-file-source-vfs.c:796
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
 "Filerna kan inte flyttas till papperskorgen. Vill du ta bort dem permanent?"
 
-#: gthumb/gth-file-source-vfs.c:784
+#: gthumb/gth-file-source-vfs.c:807
 msgid "Could not move the files to the Trash"
 msgstr "Kunde inte flytta filerna till papperskorgen"
 
-#: gthumb/gth-file-source-vfs.c:829
+#: gthumb/gth-file-source-vfs.c:852
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Är du säker på att du vill permanent ta bort ”%s”?"
 
-#: gthumb/gth-file-source-vfs.c:832
+#: gthumb/gth-file-source-vfs.c:855
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5359,7 +5361,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Är du säker på att du vill ta bort de %'d markerade filerna permanent?"
 
-#: gthumb/gth-file-source-vfs.c:842
+#: gthumb/gth-file-source-vfs.c:865
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Om du tar bort en fil så kommer den förloras för alltid."
 
@@ -5763,7 +5765,7 @@ msgstr "Färger"
 msgid "Rotation"
 msgstr "Rotation"
 
-#: gthumb/gth-window.c:1034
+#: gthumb/gth-window.c:1048
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5772,11 +5774,11 @@ msgstr ""
 "Tangentkombinationen ”%s” är redan tilldelad åtgärden ”%s”. Vill du överföra "
 "den till denna åtgärd istället?"
 
-#: gthumb/gth-window.c:1042
+#: gthumb/gth-window.c:1056
 msgid "Reassign"
 msgstr "Överför"
 
-#: gthumb/gth-window.c:1060
+#: gthumb/gth-window.c:1074
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5785,7 +5787,7 @@ msgstr ""
 "Tangentkombinationen ”%s” är redan tilldelad åtgärden ”%s” och kan inte "
 "ändras."
 
-#: gthumb/gth-window.c:1064
+#: gthumb/gth-window.c:1078
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "Tangentkombinationen ”%s” är redan tilldelad och kan inte ändras."
