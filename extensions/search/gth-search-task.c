@@ -110,11 +110,6 @@ save_search_result_copy_done_cb (void     **buffer,
 	task->priv->io_operation = FALSE;
 
 	gth_browser_update_extra_widget (task->priv->browser);
-	gth_monitor_folder_changed (gth_main_get_default_monitor (),
-				    task->priv->search_catalog,
-				    gth_catalog_get_file_list (GTH_CATALOG (task->priv->search)),
-				    GTH_MONITOR_EVENT_CREATED);
-
 	gtk_widget_hide (task->priv->dialog);
 	gth_task_completed (GTH_TASK (task), task->priv->error);
 }
@@ -241,7 +236,6 @@ file_is_visible (GthSearchTask *task,
 		return TRUE;
 	else
 		return ! g_file_info_get_is_hidden (info);
-
 }
 
 
