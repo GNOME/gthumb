@@ -809,6 +809,15 @@ edit_template_button_clicked_cb (GtkWidget  *widget,
 }
 
 static void
+revert_template_button_clicked_cb (GtkWidget  *widget,
+				   DialogData *data)
+{
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")),
+			    g_settings_get_string (data->settings, PREF_RENAME_SERIES_TEMPLATE));
+}
+
+
+static void
 return_pressed_callback (GtkDialog *dialog,
 			 gpointer   user_data)
 {
@@ -1013,6 +1022,10 @@ dlg_rename_series (GthBrowser *browser,
         g_signal_connect (GET_WIDGET ("edit_template_button"),
                           "clicked",
                           G_CALLBACK (edit_template_button_clicked_cb),
+                          data);
+        g_signal_connect (GET_WIDGET ("revert_template_button"),
+                          "clicked",
+                          G_CALLBACK (revert_template_button_clicked_cb),
                           data);
 
 	/* Run dialog. */
