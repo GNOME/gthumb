@@ -146,13 +146,12 @@ test_g_utf8_find_str (void)
 
 
 static void
-test_remove_lang_from_utf8_string (const char *value,
-				   const char *expected)
+test_remove_properties_from_utf8_string (const char *value,
+					 const char *expected)
 {
 	char *result = NULL;
 
-	if (_g_utf8_has_prefix (value, "lang="))
-		result = g_strdup (_g_utf8_after_ascii_space (value));
+	result = _g_utf8_remove_string_properties (value);
 	g_assert_cmpstr (result, ==, expected);
 
 	g_free (result);
@@ -160,11 +159,20 @@ test_remove_lang_from_utf8_string (const char *value,
 
 
 static void
-test_remove_lang_from_utf8_string_all (void)
+test_g_utf8_remove_string_properties (void)
 {
-	test_remove_lang_from_utf8_string ("lang=EN hello", "hello");
-	test_remove_lang_from_utf8_string ("lang=FR langue d’oïl", "langue d’oïl");
-	test_remove_lang_from_utf8_string ("lang=正體字/繁體字 中华人民共和国", "中华人民共和国");
+	test_remove_properties_from_utf8_string (NULL, NULL);
+	test_remove_properties_from_utf8_string ("", "");
+	test_remove_properties_from_utf8_string ("正體字", "正體字");
+	test_remove_properties_from_utf8_string ("langue d’oïl", "langue d’oïl");
+	test_remove_properties_from_utf8_string ("lang=FR langue d’oïl", "langue d’oïl");
+	test_remove_properties_from_utf8_string ("lang=正體字/繁體字 中华人民共和国", "中华人民共和国");
+	test_remove_properties_from_utf8_string ("charset=UTF-8 langue d’oïl", "langue d’oïl");
+	test_remove_properties_from_utf8_string ("lang=FR charset=UTF-8 langue d’oïl", "langue d’oïl");
+	test_remove_properties_from_utf8_string ("charset=UTF-8 lang=FR langue d’oïl", "langue d’oïl");
+	test_remove_properties_from_utf8_string ("lang=FR charset=UTF-8 field=value langue d’oïl", "field=value langue d’oïl");
+	test_remove_properties_from_utf8_string ("lang=FR field=value charset=UTF-8 langue d’oïl", "field=value charset=UTF-8 langue d’oïl");
+	test_remove_properties_from_utf8_string ("field=value lang=FR charset=UTF-8 langue d’oïl", "field=value lang=FR charset=UTF-8 langue d’oïl");
 }
 
 
@@ -926,6 +934,7 @@ main (int   argc,
 	g_test_add_func ("/glib-utils/_g_utf8_split_template", test_g_utf8_split_template_all);
 	g_test_add_func ("/glib-utils/_g_utf8_strip", test_g_utf8_strip_all);
 	g_test_add_func ("/glib-utils/_g_utf8_translate", test_g_utf8_translate_all);
+	g_test_add_func ("/glib-utils/_g_utf8_remove_string_properties", test_g_utf8_remove_string_properties);
 
 	g_test_add_func ("/glib-utils/_g_path_get_basename", test_g_path_get_basename_all);
 	g_test_add_func ("/glib-utils/_g_path_get_extension", test_g_path_get_extension_all);
@@ -949,7 +958,6 @@ main (int   argc,
 	g_test_add_func ("/glib-utils/_g_file_get_display_name", test_g_file_get_display_name_all);
 	g_test_add_func ("/glib-utils/_g_rand_string", test_g_rand_string);
 	g_test_add_func ("/glib-utils/regex", test_regexp);
-	g_test_add_func ("/glib-utils/remove_lang_from_utf8_string", test_remove_lang_from_utf8_string_all);
 
 	return g_test_run ();
 }

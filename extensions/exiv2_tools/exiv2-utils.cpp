@@ -273,14 +273,10 @@ create_metadata (const char *key,
 		else
 			formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
 	}
-	else if (_g_utf8_has_prefix (formatted_value_utf8, "lang=")) {
-		const char *after_space;
-		char       *formatted_clean;
-
-		after_space = _g_utf8_after_ascii_space (formatted_value_utf8);
-		formatted_clean = g_strdup (after_space);
+	else {
+		char *tmp = _g_utf8_remove_string_properties (formatted_value_utf8);
 		g_free (formatted_value_utf8);
-		formatted_value_utf8 = formatted_clean;
+		formatted_value_utf8 = tmp;
 	}
 
 	if (formatted_value_utf8 == NULL)
