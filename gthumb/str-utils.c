@@ -995,3 +995,23 @@ _g_utf8_text_escape_xml	(const char *str)
 {
 	return _g_utf8_escape_xml_flags (str, XML_ESCAPE_TEXT);
 }
+
+
+char *
+_g_utf8_remove_string_properties (const char *str)
+{
+	const char *known_properties[] = { "lang=", "charset=" };
+	const char *after_properties = str;
+	int         i;
+
+	for (i = 0; i < G_N_ELEMENTS (known_properties); /* void */) {
+		if (_g_utf8_has_prefix (after_properties, known_properties[i])) {
+			after_properties = _g_utf8_after_ascii_space (after_properties);
+			i = 0;
+		}
+		else
+			i++;
+	}
+
+	return (after_properties != NULL) ? g_strdup (after_properties) : NULL;
+}

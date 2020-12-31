@@ -96,6 +96,8 @@ char *		_g_utf8_translate	(const char	 *str,
 					 ...) G_GNUC_NULL_TERMINATED;
 char *		_g_utf8_escape_xml	(const char	 *str);
 char *		_g_utf8_text_escape_xml	(const char	 *str);
+char *		_g_utf8_remove_string_properties
+					(const char	 *str);
 
 G_END_DECLS
 
