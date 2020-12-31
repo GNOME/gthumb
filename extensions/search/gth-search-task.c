@@ -212,10 +212,10 @@ for_each_file_func (GFile     *file,
 
 	file_data = gth_file_data_new (file, info);
 
-	if (gth_test_match (GTH_TEST (task->priv->test), file_data)) {
+	if (gth_test_match (GTH_TEST (task->priv->test), file_data)
+	    && gth_catalog_insert_file (GTH_CATALOG (task->priv->search), file_data->file, -1))
+	{
 		GList *file_list;
-
-		gth_catalog_insert_file (GTH_CATALOG (task->priv->search), file_data->file, -1);
 
 		task->priv->n_files++;
 		update_secondary_text (task);
