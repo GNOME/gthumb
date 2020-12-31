@@ -160,6 +160,7 @@ struct _GthBrowserPrivate {
 	gboolean           fast_file_type;
 	gboolean           closing;
 	GthTask           *task;
+	GthTask           *next_task;
 	gulong             task_completed;
 	gulong             task_progress;
 	GList             *background_tasks;
@@ -4267,6 +4268,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->task = NULL;
 	browser->priv->task_completed = 0;
 	browser->priv->task_progress = 0;
+	browser->priv->next_task = NULL;
 	browser->priv->background_tasks = NULL;
 	browser->priv->close_with_task = FALSE;
 	browser->priv->load_data_queue = NULL;
@@ -5590,10 +5592,17 @@ task_data_new (GthBrowser   *browser,
 
 
 static void
+_gth_browser_exec_foreground_task (GthBrowser   *browser,
+				   GthTask      *task);
+
+
+static void
 foreground_task_completed_cb (GthTask    *task,
 			      GError     *error,
 			      GthBrowser *browser)
 {
+	g_return_if_fail (task == browser->priv->task);
+
 	_gth_browser_remove_activity (browser);
 
 	g_signal_handler_disconnect (browser->priv->task, browser->priv->task_completed);
@@ -5605,6 +5614,11 @@ foreground_task_completed_cb (GthTask    *task,
 
 	g_object_unref (browser->priv->task);
 	browser->priv->task = NULL;
+
+	if (browser->priv->next_task != NULL) {
+		_gth_browser_exec_foreground_task (browser, browser->priv->next_task);
+		_g_clear_object (&browser->priv->next_task);
+	}
 }
 
 
@@ -5617,6 +5631,27 @@ foreground_task_progress_cb (GthTask    *task,
 			     GthBrowser *browser)
 {
 	/* void */
+}
+
+
+static void
+_gth_browser_exec_foreground_task (GthBrowser   *browser,
+				   GthTask      *task)
+{
+	g_return_if_fail (browser->priv->task == NULL);
+
+	browser->priv->task = g_object_ref (task);
+	browser->priv->task_completed = g_signal_connect (task,
+							  "completed",
+							  G_CALLBACK (foreground_task_completed_cb),
+							  browser);
+	browser->priv->task_progress = g_signal_connect (task,
+							 "progress",
+							 G_CALLBACK (foreground_task_progress_cb),
+							 browser);
+	_gth_browser_add_activity (browser);
+	gth_browser_update_sensitivity (browser);
+	gth_task_exec (browser->priv->task, NULL);
 }
 
 
@@ -5647,21 +5682,14 @@ gth_browser_exec_task (GthBrowser   *browser,
 
 	/* foreground task */
 
-	if (browser->priv->task != NULL)
+	if (browser->priv->task != NULL) {
+		_g_object_unref (browser->priv->next_task);
+		browser->priv->next_task = g_object_ref (task);
 		gth_task_cancel (task);
+		return;
+	}
 
-	browser->priv->task = g_object_ref (task);
-	browser->priv->task_completed = g_signal_connect (task,
-							  "completed",
-							  G_CALLBACK (foreground_task_completed_cb),
-							  browser);
-	browser->priv->task_progress = g_signal_connect (task,
-							 "progress",
-							 G_CALLBACK (foreground_task_progress_cb),
-							 browser);
-	_gth_browser_add_activity (browser);
-	gth_browser_update_sensitivity (browser);
-	gth_task_exec (browser->priv->task, NULL);
+	_gth_browser_exec_foreground_task (browser, task);
 }
 
 
@@ -6717,8 +6745,11 @@ _gth_browser_cancel (GthBrowser *browser,
 			gth_task_cancel (data->task);
 	}
 
-	if ((browser->priv->task != NULL) && gth_task_is_running (browser->priv->task))
+	if ((browser->priv->task != NULL) && gth_task_is_running (browser->priv->task)) {
+		if (browser->priv->next_task != NULL)
+			_g_clear_object (&browser->priv->next_task);
 		gth_task_cancel (browser->priv->task);
+	}
 
 	cancel_data->check_id = g_timeout_add (CHECK_CANCELLABLE_INTERVAL,
 					       check_cancellable_cb,
