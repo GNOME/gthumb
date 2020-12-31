@@ -41,6 +41,7 @@ struct _GthSearchTaskPrivate {
 	GthFileSource *file_source;
 	gsize          n_files;
 	GList         *current_location;
+	gulong         info_bar_response_id;
 };
 
 
@@ -76,32 +77,25 @@ gth_search_task_finalize (GObject *object)
 }
 
 
-typedef struct {
-	GthBrowser    *browser;
-	GthSearchTask *task;
-	gulong         response_id;
-} InfoBarData;
-
-
 static void
 info_bar_response_cb (GtkInfoBar *info_bar,
 		      int         response_id,
 		      gpointer    user_data)
 {
-	InfoBarData *data = user_data;
+	GthSearchTask *task = user_data;
 
 	switch (response_id) {
 	case GTK_RESPONSE_CANCEL:
-		gtk_widget_hide (data->task->priv->dialog);
-		gth_task_cancel (GTH_TASK (data->task));
+		if (task->priv->info_bar_response_id != 0) {
+			g_signal_handler_disconnect (task->priv->dialog, task->priv->info_bar_response_id);
+			task->priv->info_bar_response_id = 0;
+		}
+		gth_task_cancel (GTH_TASK (task));
 		break;
 
 	default:
 		break;
 	}
-
-	g_signal_handler_disconnect (info_bar, data->response_id);
-	g_free (data);
 }
 
 
@@ -120,6 +114,7 @@ save_search_result_copy_done_cb (void     **buffer,
 				    task->priv->search_catalog,
 				    gth_catalog_get_file_list (GTH_CATALOG (task->priv->search)),
 				    GTH_MONITOR_EVENT_CREATED);
+
 	gtk_widget_hide (task->priv->dialog);
 	gth_task_completed (GTH_TASK (task), task->priv->error);
 }
@@ -132,6 +127,11 @@ _gth_search_task_save_search_result (GthSearchTask *task)
 	char          *data;
 	gsize          size;
 	GFile         *search_result_real_file;
+
+	if (task->priv->info_bar_response_id != 0) {
+		g_signal_handler_disconnect (task->priv->dialog, task->priv->info_bar_response_id);
+		task->priv->info_bar_response_id = 0;
+	}
 
 	doc = dom_document_new ();
 	dom_element_append_child (DOM_ELEMENT (doc), dom_domizable_create_element (DOM_DOMIZABLE (task->priv->search), doc));
@@ -318,8 +318,7 @@ browser_location_ready_cb (GthBrowser    *browser,
 			   gboolean       error,
 			   GthSearchTask *task)
 {
-	GtkWidget   *button;
-	InfoBarData *dialog_data;
+	GtkWidget *button;
 
 	if (! _g_file_equal (folder, task->priv->search_catalog))
 		return;
@@ -350,13 +349,10 @@ browser_location_ready_cb (GthBrowser    *browser,
 					button,
 					GTK_RESPONSE_CANCEL);
 
-	dialog_data = g_new0 (InfoBarData, 1);
-	dialog_data->browser = task->priv->browser;
-	dialog_data->task = task;
-	dialog_data->response_id = g_signal_connect (task->priv->dialog,
-						     "response",
-						     G_CALLBACK (info_bar_response_cb),
-						     dialog_data);
+	task->priv->info_bar_response_id = g_signal_connect (task->priv->dialog,
+							     "response",
+							     G_CALLBACK (info_bar_response_cb),
+							     task);
 
 	/**/
 
@@ -456,11 +452,14 @@ gth_search_task_exec (GthTask *base)
 
 
 static void
-gth_search_task_cancelled (GthTask *task)
+gth_search_task_cancelled (GthTask *base)
 {
-	if (! GTH_SEARCH_TASK (task)->priv->io_operation) {
-		gtk_widget_hide (GTH_SEARCH_TASK (task)->priv->dialog);
-		gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));
+	GthSearchTask *task = (GthSearchTask *) base;
+
+	if (! task->priv->io_operation) {
+		if (task->priv->dialog != NULL)
+			gtk_widget_hide (task->priv->dialog);
+		gth_task_completed (GTH_TASK (task), g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));
 	}
 }
 
@@ -496,6 +495,7 @@ gth_search_task_init (GthSearchTask *task)
 	task->priv->file_source = NULL;
 	task->priv->n_files = 0;
 	task->priv->current_location = NULL;
+	task->priv->info_bar_response_id = 0;
 }
 
 
