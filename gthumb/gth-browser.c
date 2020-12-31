@@ -3097,7 +3097,7 @@ static gboolean
 _g_file_list_only_contains (GList *l,
 			    GFile *file)
 {
-	return (l->next == NULL) && _g_file_equal (file, G_FILE (l->data));
+	return (l != NULL) && (l->next == NULL) && _g_file_equal (file, G_FILE (l->data));
 }
 
 
@@ -3218,7 +3218,13 @@ folder_changed_cb (GthMonitor      *monitor,
 		}
 	}
 
-	if (update_folder_tree || update_file_list) {
+	if ((event == GTH_MONITOR_EVENT_CREATED)
+		&& _g_file_list_only_contains (list, browser->priv->location->file))
+	{
+		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), NULL);
+		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->thumbnail_list), NULL);
+	}
+	else if (update_folder_tree || update_file_list) {
 		MonitorEventData *monitor_data;
 		gboolean          current_file_deleted = FALSE;
 		GthFileData      *new_file = NULL;
