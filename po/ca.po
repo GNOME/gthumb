@@ -35,14 +35,14 @@ msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
-"gThumb és un visualitzador, editor, navegador i organitzador d'imatges. Està"
-" dissenyat perquè tingui una bona integració amb l'escriptori GNOME 3."
+"gThumb és un visualitzador, editor, navegador i organitzador d'imatges. Està "
+"dissenyat perquè tingui una bona integració amb l'escriptori GNOME 3."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:15
 msgid ""
 "As an image viewer gThumb allows to view common image file formats such as "
-"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It"
-" is also possible to view various metadata types embedded inside an image "
+"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
+"is also possible to view various metadata types embedded inside an image "
 "such as EXIF, IPTC and XMP."
 msgstr ""
 "Com a visualitzador d'imatges, gThumb permet la visualització dels formats "
@@ -57,8 +57,8 @@ msgid ""
 "change the saturation, lightness, contrast as well as other color "
 "transformations."
 msgstr ""
-"Com a editor d'imatges, gThumb permet escalar, girar i retallar les imatges;"
-" canviar la saturació, la lluminositat, el contrast, així com altres "
+"Com a editor d'imatges, gThumb permet escalar, girar i retallar les imatges; "
+"canviar la saturació, la lluminositat, el contrast, així com altres "
 "transformacions de color."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:27
@@ -74,8 +74,8 @@ msgstr ""
 "desades al vostre disc, permet realitzar les operacions més comunes d'un "
 "gestor de fitxers tals com copiar, moure i suprimir fitxers i carpetes. A "
 "més hi ha una sèrie d'eines específiques d'imatges, com ara les "
-"transformacions sense pèrdua JPEG; redimensió d'imatge; conversió de format;"
-" presentació de diapositives; establiment d'una imatge com a fons "
+"transformacions sense pèrdua JPEG; redimensió d'imatge; conversió de format; "
+"presentació de diapositives; establiment d'una imatge com a fons "
 "d'escriptori i algunes altres més."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:35
@@ -103,8 +103,8 @@ msgstr "Obre els fitxers a la finestra activa"
 #: data/gschemas/org.gnome.gthumb.image-viewer.gschema.xml:30
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr ""
-"Si es restableix la posició de les barres de desplaçament després de canviar"
-" la imatge"
+"Si es restableix la posició de les barres de desplaçament després de canviar "
+"la imatge"
 
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:32
 msgid "Possible values are: jpeg, jpg."
@@ -116,8 +116,8 @@ msgstr "Els valors possibles són: tiff i tif."
 
 #: data/gschemas/org.gnome.gthumb.rename-series.gschema.xml:30
 msgid ""
-"Possible values include: general::unsorted, file::name, file::size, "
-"file::mtime, exif::photo::datetimeoriginal"
+"Possible values include: general::unsorted, file::name, file::size, file::"
+"mtime, exif::photo::datetimeoriginal"
 msgstr ""
 "Els valors possibles inclouen: general::unsorted, file::name, file::size, "
 "file::mtime, exif::photo::datetimeoriginal"
@@ -259,8 +259,7 @@ msgid "Rules:"
 msgstr "Regles:"
 
 #. limit label
-#: data/ui/filter-editor.ui:164 gthumb/gth-filter.c:270
-#: gthumb/gth-filter.c:338
+#: data/ui/filter-editor.ui:164 gthumb/gth-filter.c:270 gthumb/gth-filter.c:338
 msgid "_Limit to"
 msgstr "_Limita a"
 
@@ -394,11 +393,11 @@ msgstr "A l'inici:"
 
 #: data/ui/preferences.ui:226
 msgid "Go to last _visited location"
-msgstr "_Vés a l'última ubicació visitada"
+msgstr "_Ves a l'última ubicació visitada"
 
 #: data/ui/preferences.ui:247
 msgid "Go to this _folder:"
-msgstr "Vés a aquesta _carpeta:"
+msgstr "Ves a aquesta _carpeta:"
 
 #: data/ui/preferences.ui:277
 msgid "Set to C_urrent"
@@ -406,7 +405,7 @@ msgstr "Estableix-ho a l'act_ual"
 
 #: data/ui/preferences.ui:299
 msgid "_Reuse the active window to open files"
-msgstr "_Reutilitza la finestra activa per obrir els fitxers"
+msgstr "_Reutilitza la finestra activa per a obrir els fitxers"
 
 #: data/ui/preferences.ui:358
 msgid "As_k confirmation before deleting files or catalogs"
@@ -477,7 +476,7 @@ msgstr "_Adreces d'interès:"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:63
 msgid "Go to this location"
-msgstr "Vés a aquesta ubicació"
+msgstr "Ves a aquesta ubicació"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:76
 #: extensions/catalogs/callbacks.c:72
@@ -1982,11 +1981,11 @@ msgstr "No s'han pogut moure els fitxers"
 #: extensions/file_manager/actions.c:424
 #: extensions/file_manager/callbacks.c:278
 msgid ""
-"Files cannot be moved to the current location, as alternative you can choose"
-" to copy them."
+"Files cannot be moved to the current location, as alternative you can choose "
+"to copy them."
 msgstr ""
 "Els fitxers no es pot moure a la ubicació actual, com a alternativa podeu "
-"triar per copiar-los."
+"triar per a copiar-los."
 
 #: extensions/file_manager/actions.c:426 extensions/file_manager/actions.c:743
 #: extensions/file_manager/callbacks.c:74
@@ -2371,7 +2370,7 @@ msgid ""
 "to set the alignment."
 msgstr ""
 "Dibuixa una línia sobre la imatge \n"
-"per establir l'alienació."
+"per a establir l'alienació."
 
 #: extensions/file_tools/data/ui/rotate-options.ui:563
 msgid "Parallel"
@@ -2403,38 +2402,31 @@ msgstr "Quantitat:"
 msgid "%d → %d"
 msgstr "%d → %d"
 
-#: extensions/file_tools/gth-curve-editor.c:894
-#: gthumb/gth-histogram-view.c:838
+#: extensions/file_tools/gth-curve-editor.c:894 gthumb/gth-histogram-view.c:838
 msgid "Linear scale"
 msgstr "Escalat lineal"
 
-#: extensions/file_tools/gth-curve-editor.c:906
-#: gthumb/gth-histogram-view.c:850
+#: extensions/file_tools/gth-curve-editor.c:906 gthumb/gth-histogram-view.c:850
 msgid "Logarithmic scale"
 msgstr "Escalat logarítmic"
 
-#: extensions/file_tools/gth-curve-editor.c:926
-#: gthumb/gth-histogram-view.c:870
+#: extensions/file_tools/gth-curve-editor.c:926 gthumb/gth-histogram-view.c:870
 msgid "Channel:"
 msgstr "Canal:"
 
-#: extensions/file_tools/gth-curve-editor.c:948
-#: gthumb/gth-histogram-view.c:891
+#: extensions/file_tools/gth-curve-editor.c:948 gthumb/gth-histogram-view.c:891
 msgid "Value"
 msgstr "Valor"
 
-#: extensions/file_tools/gth-curve-editor.c:953
-#: gthumb/gth-histogram-view.c:896
+#: extensions/file_tools/gth-curve-editor.c:953 gthumb/gth-histogram-view.c:896
 msgid "Red"
 msgstr "Vermell"
 
-#: extensions/file_tools/gth-curve-editor.c:958
-#: gthumb/gth-histogram-view.c:901
+#: extensions/file_tools/gth-curve-editor.c:958 gthumb/gth-histogram-view.c:901
 msgid "Green"
 msgstr "Verd"
 
-#: extensions/file_tools/gth-curve-editor.c:963
-#: gthumb/gth-histogram-view.c:906
+#: extensions/file_tools/gth-curve-editor.c:963 gthumb/gth-histogram-view.c:906
 msgid "Blue"
 msgstr "Blau"
 
@@ -3048,9 +3040,9 @@ msgid ""
 "photos to %s. When you’re finished, return to this window to complete the "
 "authorization."
 msgstr ""
-"Feu clic a «Autoritza» per a obrir el vostre navegador i autoritzar a gthumb"
-" perquè pugi les fotos a %s. Quan ho hàgiu fet, torneu a aquesta finestra "
-"per completar l'autorització."
+"Feu clic a «Autoritza» per a obrir el vostre navegador i autoritzar a gthumb "
+"perquè pugi les fotos a %s. Quan ho hàgiu fet, torneu a aquesta finestra per "
+"a completar l'autorització."
 
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
@@ -3445,8 +3437,7 @@ msgstr "Impressió de la imatge"
 
 #: extensions/image_print/image_print.extension.desktop.in.in:4
 msgid "Allow to print images choosing the page layout."
-msgstr ""
-"Permet imprimir imatges amb la selecció de la disposició de la pàgina."
+msgstr "Permet imprimir imatges amb la selecció de la disposició de la pàgina."
 
 #: extensions/image_print/image_print.extension.desktop.in.in:8
 msgid "document-print"
@@ -3482,17 +3473,28 @@ msgstr "No s'ha pogut transformar la imatge: %s"
 
 #: extensions/image_rotation/rotation-utils.c:110
 msgid ""
-"This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
+"This transformation may introduce small image distortions along one or more "
+"edges, because the image dimensions are not multiples of 8.\n"
 "\n"
-"The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image.\n"
+"The distortion is reversible, however. If the resulting image is "
+"unacceptable, simply apply the reverse transformation to return to the "
+"original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. For practical use, this mode gives the best looking results, but the transformation is not strictly lossless anymore."
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
+"transformation is not strictly lossless anymore."
 msgstr ""
-"Pot ser que aquesta transformació distorsioni lleugerament una o més vores, perquè les dimensions de la imatge no són múltiples de 8.\n"
+"Pot ser que aquesta transformació distorsioni lleugerament una o més vores, "
+"perquè les dimensions de la imatge no són múltiples de 8.\n"
 "\n"
-"Tanmateix, aquesta distorsió és reversible. Si la imatge resultant és inacceptable, només cal que apliqueu la transformació inversa per tornar a obtenir la imatge original.\n"
+"Tanmateix, aquesta distorsió és reversible. Si la imatge resultant és "
+"inacceptable, només cal que apliqueu la transformació inversa per a tornar a "
+"obtenir la imatge original.\n"
 "\n"
-"També podeu triar de descartar (o retallar) tots els píxels de vora que no siguin transformables. Per a un ús pràctic, aquest mode és el que dóna més bon resultat; però, aleshores, la transformació ja no es farà estrictament sense pèrdua de qualitat."
+"També podeu triar de descartar (o retallar) tots els píxels de vora que no "
+"siguin transformables. Per a un ús pràctic, aquest mode és el que dóna més "
+"bon resultat; però, aleshores, la transformació ja no es farà estrictament "
+"sense pèrdua de qualitat."
 
 #: extensions/image_rotation/rotation-utils.c:116
 msgid "_Trim"
@@ -3733,8 +3735,8 @@ msgstr "Desplaça la imatge"
 msgid "Image Editor"
 msgstr "Editor d'imatge"
 
-#: extensions/image_viewer/preferences.c:158
-#: gthumb/gth-main-default-types.c:42 gthumb/gth-shortcuts-window.c:40
+#: extensions/image_viewer/preferences.c:158 gthumb/gth-main-default-types.c:42
+#: gthumb/gth-shortcuts-window.c:40
 msgid "Viewer"
 msgstr "Visualitzador"
 
@@ -4155,8 +4157,8 @@ msgid "Could not load the folder"
 msgstr "No s'ha pogut carregar la carpeta"
 
 #: extensions/photo_importer/dlg-photo-importer.c:356
-#: extensions/photo_importer/dlg-photo-importer.c:396
-#: gthumb/gth-file-list.c:42 gthumb/gth-folder-tree.c:1186
+#: extensions/photo_importer/dlg-photo-importer.c:396 gthumb/gth-file-list.c:42
+#: gthumb/gth-folder-tree.c:1186
 msgid "(Empty)"
 msgstr "(Buit)"
 
@@ -4261,7 +4263,7 @@ msgstr "Eliminació d'ulls vermells"
 
 #: extensions/red_eye_removal/red_eye_removal.extension.desktop.in.in:4
 msgid "Tool to remove the red-eye effect from a photo."
-msgstr "L'eina per suprimir l'efecte dels ulls vermells d'una foto."
+msgstr "L'eina per a suprimir l'efecte dels ulls vermells d'una foto."
 
 #: extensions/rename_series/data/ui/code-selector.ui:105
 msgid "digits"
@@ -4556,7 +4558,7 @@ msgstr "Mostra la selecció %d"
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
 msgstr ""
-"Utilitzeu Alt-%d per afegir fitxers a aquesta selecció, Ctrl-%d per "
+"Utilitzeu Alt-%d per a afegir fitxers a aquesta selecció, Ctrl-%d per a "
 "visualitzar aquesta selecció."
 
 #: extensions/selections/gth-selections-manager.c:228
@@ -4590,13 +4592,11 @@ msgstr "Finalitza la presentació"
 msgid "Pause/Resume presentation"
 msgstr "Pausa/Reprèn la presentació"
 
-#: extensions/slideshow/callbacks.c:43
-#: gthumb/gth-browser-actions-entries.h:120
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:120
 msgid "Show next file"
 msgstr "Mostra el fitxer següent"
 
-#: extensions/slideshow/callbacks.c:44
-#: gthumb/gth-browser-actions-entries.h:119
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:119
 msgid "Show previous file"
 msgstr "Mostra el fitxer anterior"
 
@@ -4726,7 +4726,7 @@ msgstr "Àlbum _web..."
 
 #: extensions/webalbums/data/albumthemes/text.h:26
 msgid "Click to view the image"
-msgstr "Feu clic per veure la imatge"
+msgstr "Feu clic per a veure la imatge"
 
 #: extensions/webalbums/data/albumthemes/text.h:27
 msgid "Go back to the index"
@@ -5065,7 +5065,7 @@ msgstr "Premeu una combinació de tecles per a usar com a drecera."
 
 #: gthumb/gth-accel-dialog.c:122
 msgid "Press Esc to cancel"
-msgstr "Premeu ESC per cancel·lar"
+msgstr "Premeu ESC per a cancel·lar"
 
 #: gthumb/gth-application.c:52
 msgid "Open a new window"
@@ -5099,8 +5099,8 @@ msgid ""
 "version."
 msgstr ""
 "gThumb és programari lliure; el podeu redistribuir i/o modificar sota els "
-"termes de la llicència de documentació lliure GNU, tal com està publicat per"
-" la Free Software Foundation; ja sigui a la versió 2 de la llicència, o (a "
+"termes de la llicència de documentació lliure GNU, tal com està publicat per "
+"la Free Software Foundation; ja sigui a la versió 2 de la llicència, o (a "
 "elecció vostra) a qualsevol versió posterior."
 
 #: gthumb/gth-browser-actions-callbacks.c:104
@@ -5110,19 +5110,19 @@ msgid ""
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
-"gThumb es distribueix amb l'esperança que sigui útil, però SENSE CAP MENA DE"
-" GARANTIA; ni tan sols la garantia implícita de COMERCIALITZACIÓ o ADEQUACIÓ"
-" PER A CAP PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General de la GNU"
-" per a més detalls."
+"gThumb es distribueix amb l'esperança que sigui útil, però SENSE CAP MENA DE "
+"GARANTIA; ni tan sols la garantia implícita de COMERCIALITZACIÓ o ADEQUACIÓ "
+"PER A CAP PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General de la GNU "
+"per a més detalls."
 
 #: gthumb/gth-browser-actions-callbacks.c:108
 msgid ""
-"You should have received a copy of the GNU General Public License along with"
-" gThumb.  If not, see http://www.gnu.org/licenses/."
+"You should have received a copy of the GNU General Public License along with "
+"gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
 "Hauríeu d'haver rebut una còpia de la Llicència Pública General GNU "
-"juntament amb aquest programa; en cas contrari, consulteu "
-"http://www.gnu.org/licenses/."
+"juntament amb aquest programa; en cas contrari, consulteu http://www.gnu.org/"
+"licenses/."
 
 #: gthumb/gth-browser-actions-callbacks.c:127
 msgid "An image viewer and browser for GNOME."
@@ -5293,11 +5293,11 @@ msgstr "Modificada"
 
 #: gthumb/gth-browser.c:4520
 msgid "Go to the previous visited location"
-msgstr "Vés a l'anterior ubicació visitada"
+msgstr "Ves a l'anterior ubicació visitada"
 
 #: gthumb/gth-browser.c:4526
 msgid "Go to the next visited location"
-msgstr "Vés a la següent ubicació visitada"
+msgstr "Ves a la següent ubicació visitada"
 
 #: gthumb/gth-browser.c:4534
 msgid "History"
@@ -5440,7 +5440,7 @@ msgstr "No hi ha opcions disponibles per a aquest tipus de fitxer"
 #: gthumb/gth-image-saver.c:185
 #, c-format
 msgid "Could not find a suitable module to save the image as “%s”"
-msgstr "No s'ha pogut trobar el mòdul adequat per desar la imatge com «%s»"
+msgstr "No s'ha pogut trobar el mòdul adequat per a desar la imatge com «%s»"
 
 #: gthumb/gth-load-file-data-task.c:111
 msgid "Reading file information"
@@ -5877,134 +5877,3 @@ msgstr "_Quant al gThumb"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Suprimeix l'historial"
-
-#~ msgid "--∶--"
-#~ msgstr "--∶--"
-
-#~ msgid "gthumb"
-#~ msgstr "gthumb"
-
-#~ msgid "Choose startup folder"
-#~ msgstr "Seleccioneu la carpeta que es mostrarà a l'inici"
-
-#~ msgid "A_dd and Close"
-#~ msgstr "A_fegeix i tanca"
-
-#~ msgid "%s Metadata"
-#~ msgstr "Metadades de %s"
-
-#~ msgid "Sa_ve and Close"
-#~ msgstr "De_sa i tanca"
-
-#~ msgid "%s Tags"
-#~ msgstr "Etiquetes de %s"
-
-#~ msgid "Assign Tags"
-#~ msgstr "Assigna etiquetes"
-
-#~ msgid "Slideshow"
-#~ msgstr "Projecció de diapositives"
-
-#~ msgid "View images as a slideshow."
-#~ msgstr "Visualitzeu les imatges com una presentació de diapositives."
-
-#~ msgid "New _Window"
-#~ msgstr "_Finestra nova"
-
-#~ msgid "_About"
-#~ msgstr "_Quant a"
-
-#~ msgid "gThumb Photo Import Tool"
-#~ msgstr "Eina d'importació de fotos de gThumb"
-
-#~ msgid "Example"
-#~ msgstr "Exemple"
-
-#~ msgid "Extension example."
-#~ msgstr "Exemple d'extensió."
-
-#~ msgid "Import from Facebook"
-#~ msgstr "Importa des de Facebook"
-
-#~ msgid "The geographical position information is not available for this image."
-#~ msgstr ""
-#~ "La informació de la posició geogràfica no està disponible per a aquesta "
-#~ "imatge."
-
-#~ msgid "Tiny ( 100 × 75 )"
-#~ msgstr "Ínfima ( 100 × 75 )"
-
-#~ msgid "Small ( 160 × 120 )"
-#~ msgstr "Petita ( 160 × 120 )"
-
-#~ msgid "Medium ( 320 × 240 )"
-#~ msgstr "Mitjana ( 320 × 240 )"
-
-#~ msgid "Large ( 640 × 480 )"
-#~ msgstr "Gran ( 640 × 480 )"
-
-#~ msgid "15ʺ screen ( 800 × 600 )"
-#~ msgstr "pantalla de 15ʺ ( 800 × 600 )"
-
-#~ msgid "17ʺ screen ( 1024 × 768 )"
-#~ msgstr "pantalla de 17ʺ ( 1024 × 768 )"
-
-#~ msgid "1 megabyte file size"
-#~ msgstr "mida del fitxer d'1 megabyte"
-
-#~ msgid "_Scramble filenames"
-#~ msgstr "Noms de fitxer regirats"
-
-#~ msgid "_Container:"
-#~ msgstr "_Contenidor:"
-
-#~ msgid "2 megabyte file size"
-#~ msgstr "mida del fitxer de 2 megabytes"
-
-#~ msgid "Export to Photobucket"
-#~ msgstr "Exporta al PhotoBucket"
-
-#~ msgid "PhotoBucket"
-#~ msgstr "PhotoBucket"
-
-#~ msgid "Upload images to PhotoBucket"
-#~ msgstr "Pugeu les imatges a PhotoBucket"
-
-#~ msgid "Details"
-#~ msgstr "Detalls"
-
-#~ msgid "5:4"
-#~ msgstr "5:4"
-
-#~ msgid "7:5"
-#~ msgstr "7:5"
-
-#~ msgid "16:10"
-#~ msgstr "16:10"
-
-#~ msgid "--:--"
-#~ msgstr "--:--"
-
-#~ msgid "none"
-#~ msgstr "cap"
-
-#~ msgid "key %d on the numeric keypad"
-#~ msgstr "la tecla %d al teclat numèric"
-
-#~ msgid "Tiny ( 100 x 75 )"
-#~ msgstr "Ínfima ( 100 x 75 )"
-
-#~ msgid "Small ( 160 x 120 )"
-#~ msgstr "Petita ( 160 x 120 )"
-
-#~ msgid "Medium ( 320 x 240 )"
-#~ msgstr "Mitjana ( 320 x 240 )"
-
-#~ msgid "Large ( 640 x 480 )"
-#~ msgstr "Gran ( 640 x 480 )"
-
-#~ msgid "15ʺ screen ( 800 x 600 )"
-#~ msgstr "pantalla de 15ʺ ( 800 x 600 )"
-
-#~ msgid "17ʺ screen ( 1024 x 768 )"
-#~ msgstr "pantalla de 17ʺ ( 1024 x 768 )"
