@@ -1,3 +1,48 @@
+version 3.11.2
+--------------
+
+ New features and user visible changes:
+
+  * Image viewer: use a proportional zoom increment. (#104)
+  * Image viewer: keep the same pixel under the pointer after zooming. (#129)
+  * Read color profiles from png files as well.
+  * Media viewer: use accurate seeking when clicking on the progress bar.
+  * Media viewer: show the pointed time when hovering over the progress bar.
+  * Browser: added support for back and forward mouse buttons. (#120)
+  * Preferences: added option to show/hide the statusbar.
+  * Rename files: added a button to revert to the last used template.
+
+Bugs fixed:
+
+  * Image viewer: fixed bright line visual artifacts. (#118)
+  * gThumb opens import tool if the import tool is already opened. (#133)
+  * Fixed jump to bottom when selecting thumbnails with mouse. (#147)
+  * exiv2: remove the charset= prefix from strings. (#137)
+  * Search: do not count duplicated files.
+  * Search: stop searching if the user changes location.
+  * Search: stop the previous search before starting the new one.
+
+ New or updated application translations:
+
+  * Brazilian Portuguese (Enrico Nicoletto)
+  * catalan (Jordi Mas)
+  * Hungarian (Balázs Úr)
+  * Indonesian (Andika Triwidada)
+  * Japanese (sicklylife)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Slovenian (Matej Urbančič)
+  * Swedish (Anders Jonsson)
+  * Turkish (Emin Tufan Çetin)
+  * Ukrainian (Yuri Chornoivan)
+  * čeština (Marek Černocký)
+
+ New or updated manual translations:
+
+  * Indonesian (Andika Triwidada)
+  * Swedish (Anders Jonsson)
+  * čeština (Marek Černocký)
+
 version 3.11.1
 --------------
 
