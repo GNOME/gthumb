@@ -1909,7 +1909,8 @@ _g_mime_type_has_transparency (const char *mime_type)
 
 	return (strcmp (mime_type, "image/png") == 0)
 		|| (strcmp (mime_type, "image/gif") == 0)
-		|| (strcmp (mime_type, "image/svg+xml") == 0);
+		|| (strcmp (mime_type, "image/svg+xml") == 0)
+		|| (strcmp (mime_type, "image/webp") == 0);
 }
 
 
