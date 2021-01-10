@@ -3492,7 +3492,7 @@ msgstr ""
 "obtenir la imatge original.\n"
 "\n"
 "També podeu triar de descartar (o retallar) tots els píxels de vora que no "
-"siguin transformables. Per a un ús pràctic, aquest mode és el que dóna més "
+"siguin transformables. Per a un ús pràctic, aquest mode és el que dona més "
 "bon resultat; però, aleshores, la transformació ja no es farà estrictament "
 "sense pèrdua de qualitat."
 
@@ -5489,7 +5489,7 @@ msgstr "Paràmetres de l'exposició"
 
 #: gthumb/gth-main-default-metadata.c:52
 msgid "Aperture"
-msgstr "Apertura"
+msgstr "Obertura"
 
 #: gthumb/gth-main-default-metadata.c:53
 msgid "ISO Speed"
