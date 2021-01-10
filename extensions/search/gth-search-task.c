@@ -510,3 +510,11 @@ gth_search_task_new (GthBrowser *browser,
 
 	return (GthTask*) task;
 }
+
+
+GFile *
+gth_search_task_get_catalog (GthSearchTask *task)
+{
+	g_return_val_if_fail (GTH_IS_SEARCH_TASK (task), NULL);
+	return task->priv->search_catalog;
+}

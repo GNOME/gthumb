@@ -218,6 +218,7 @@ void             gth_browser_reload                 (GthBrowser       *browser);
 void             gth_browser_exec_task              (GthBrowser       *browser,
 						     GthTask          *task,
 						     GthTaskFlags      flags);
+GthTask *        gth_browser_get_foreground_task    (GthBrowser       *browser);
 void             gth_browser_set_close_with_task    (GthBrowser       *browser,
 						     gboolean          value);
 gboolean         gth_browser_get_close_with_task    (GthBrowser       *browser);

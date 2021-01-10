@@ -33,6 +33,7 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("gth-catalog-new-for-uri", 10, G_CALLBACK (search__gth_catalog_new_for_uri_cb), NULL);
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (search__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-extra-widget", 20, G_CALLBACK (search__gth_browser_update_extra_widget_cb), NULL);
+	gth_hook_add_callback ("gth-browser-load-location-before", 10, G_CALLBACK (search__gth_browser_load_location_before_cb), NULL);
 	gth_hook_add_callback ("dlg-catalog-properties", 10, G_CALLBACK (search__dlg_catalog_properties), NULL);
 	gth_hook_add_callback ("dlg-catalog-properties-save", 10, G_CALLBACK (search__dlg_catalog_properties_save), NULL);
 	gth_hook_add_callback ("dlg-catalog-properties-saved", 10, G_CALLBACK (search__dlg_catalog_properties_saved), NULL);

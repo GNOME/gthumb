@@ -5156,7 +5156,10 @@ gth_browser_new (GFile *location,
 GFile *
 gth_browser_get_location (GthBrowser *browser)
 {
-	return browser->priv->location->file;
+	if (browser->priv->location != NULL)
+		return browser->priv->location->file;
+	else
+		return NULL;
 }
 
 
@@ -5748,6 +5751,13 @@ gth_browser_exec_task (GthBrowser   *browser,
 	}
 
 	_gth_browser_exec_foreground_task (browser, task);
+}
+
+
+GthTask *
+gth_browser_get_foreground_task (GthBrowser *browser)
+{
+	return browser->priv->task;
 }
 
 
