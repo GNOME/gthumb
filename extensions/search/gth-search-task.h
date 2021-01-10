@@ -48,9 +48,10 @@ struct _GthSearchTaskClass
 	GthTaskClass __parent_class;
 };
 
-GType       gth_search_task_get_type   (void) G_GNUC_CONST;
-GthTask *   gth_search_task_new        (GthBrowser *browser,
-		                        GthSearch  *search,
-		                        GFile      *search_catalog);
+GType       gth_search_task_get_type     (void) G_GNUC_CONST;
+GthTask *   gth_search_task_new          (GthBrowser     *browser,
+					  GthSearch      *search,
+					  GFile          *search_catalog);
+GFile *     gth_search_task_get_catalog  (GthSearchTask  *task);
 
 #endif /* GTH_SEARCH_TASK_H */

@@ -125,6 +125,34 @@ search__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 }
 
 
+void
+search__gth_browser_load_location_before_cb (GthBrowser *browser,
+					     GFile      *next_location)
+{
+	GFile   *current_location;
+	GthTask *task;
+	GFile   *catalog;
+
+	/* Stop the search task if the user changes location. */
+
+	current_location = gth_browser_get_location (browser);
+	if (current_location == NULL)
+		return;
+
+	if (_g_file_equal (current_location, next_location))
+		return;
+
+	task = gth_browser_get_foreground_task (browser);
+	if ((task == NULL) || ! GTH_IS_SEARCH_TASK (task))
+		return;
+
+	catalog = gth_search_task_get_catalog (GTH_SEARCH_TASK (task));
+
+	if (_g_file_equal (current_location, catalog))
+		gth_task_cancel (task);
+}
+
+
 GthCatalog *
 search__gth_catalog_load_from_data_cb (const void *buffer)
 {
