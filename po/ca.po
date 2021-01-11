@@ -3031,7 +3031,7 @@ msgstr "_Autoritza..."
 #: extensions/flicker_utils/flickr-service.c:566
 #, c-format
 msgid "gThumb requires your authorization to upload the photos to %s"
-msgstr "gThumb requereix la vostra autorització per pujar les fotos a %s"
+msgstr "gThumb requereix la vostra autorització per a pujar les fotos a %s"
 
 #: extensions/flicker_utils/flickr-service.c:567
 #, c-format
