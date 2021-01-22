@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-07-19 12:25+0000\n"
-"PO-Revision-Date: 2021-01-15 15:53+0200\n"
+"POT-Creation-Date: 2021-01-15 15:00+0000\n"
+"PO-Revision-Date: 2021-01-22 07:53+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -132,7 +132,7 @@ msgstr "Увези слике из картице фотоапарата"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:423 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:425 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "Гномов сличко"
 
@@ -144,6 +144,11 @@ msgstr "Прегледник слика"
 #: data/org.gnome.gThumb.desktop.in.in:8
 msgid "Image;Viewer;"
 msgstr "слика;прегледник;"
+
+#: data/org.gnome.gThumb.desktop.in.in:25
+#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
+msgid "New Window"
+msgstr "Нови прозор"
 
 #: data/ui/browser-preferences.ui:20
 #: extensions/contact_sheet/gth-contact-sheet-theme.c:34
@@ -167,9 +172,9 @@ msgstr "_Два притиска отварају датотеке"
 msgid "_Open files in fullscreen mode"
 msgstr "_Отвори датотеке преко целог екрана"
 
-#: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
+#: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:355
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
-#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:333
+#: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:335
 #: gthumb/gth-shortcuts-window.c:96
 msgid "Other"
 msgstr "Друго"
@@ -356,59 +361,64 @@ msgstr "с’ десна"
 msgid "gThumb Preferences"
 msgstr "Поставке Гномовог сличка"
 
-#: data/ui/preferences.ui:101
+#: data/ui/preferences.ui:98
 msgid "Appearance"
 msgstr "Изглед"
 
-#: data/ui/preferences.ui:125
+#: data/ui/preferences.ui:123
 msgid "T_humbnails in viewer:"
 msgstr "Умањен_и приказ у прегледнику:"
 
-#: data/ui/preferences.ui:139
+#: data/ui/preferences.ui:137
 msgid "on the bottom"
 msgstr "на дну"
 
-#: data/ui/preferences.ui:140
+#: data/ui/preferences.ui:138
 msgid "on the side"
 msgstr "бочно"
 
-#: data/ui/preferences.ui:152
+#: data/ui/preferences.ui:150
 msgid "File _properties in browser:"
 msgstr "Особине датотеке у _прегледнику:"
 
-#: data/ui/preferences.ui:203
+#: data/ui/preferences.ui:179
+#| msgid "Statusbar"
+msgid "_Statusbar"
+msgstr "Трака _стања"
+
+#: data/ui/preferences.ui:222
 msgid "On startup:"
 msgstr "На покретању:"
 
-#: data/ui/preferences.ui:226
+#: data/ui/preferences.ui:245
 msgid "Go to last _visited location"
 msgstr "Иди на _задње посећено место"
 
-#: data/ui/preferences.ui:247
+#: data/ui/preferences.ui:266
 msgid "Go to this _folder:"
 msgstr "Иди у ову _фасциклу:"
 
-#: data/ui/preferences.ui:277
+#: data/ui/preferences.ui:296
 msgid "Set to C_urrent"
 msgstr "Постави на трен_утно"
 
-#: data/ui/preferences.ui:299
+#: data/ui/preferences.ui:318
 msgid "_Reuse the active window to open files"
 msgstr "_Поново користи радни прозор за отварање датотека"
 
-#: data/ui/preferences.ui:358
+#: data/ui/preferences.ui:377
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "Зат_ражи потврду пре брисања датотека или збирки"
 
-#: data/ui/preferences.ui:373
+#: data/ui/preferences.ui:392
 msgid "Ask whether to save _modified files"
 msgstr "Да питам да ли да сачувам _измењене датотеке"
 
-#: data/ui/preferences.ui:388
+#: data/ui/preferences.ui:407
 msgid "_Store metadata inside files if possible"
 msgstr "_Чувај метаподатке у датотекама уколико је могуће"
 
-#: data/ui/preferences.ui:421
+#: data/ui/preferences.ui:440
 #: extensions/catalogs/data/ui/catalog-properties.ui:39
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:576
 #: extensions/edit_metadata/gth-edit-general-page.c:482
@@ -418,7 +428,6 @@ msgid "General"
 msgstr "Опште"
 
 #: data/ui/shortcuts-preferences.ui:27
-#| msgid "Sh_ortcut:"
 msgid "Shortcuts:"
 msgstr "Пречице:"
 
@@ -652,7 +661,7 @@ msgstr "WebP"
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:556
 #: extensions/contact_sheet/data/ui/image-wall.ui:269
-#: extensions/image_viewer/gth-image-viewer-page.c:1702
+#: extensions/image_viewer/gth-image-viewer-page.c:1703
 #: extensions/webalbums/data/ui/web-album-exporter.ui:484
 msgid "Saving"
 msgstr "Снимање"
@@ -662,7 +671,7 @@ msgstr "Снимање"
 #: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
-#: extensions/list_tools/gth-script-editor-dialog.c:273
+#: extensions/list_tools/gth-script-editor-dialog.c:274
 #: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1924
 #, c-format
 msgid "No name specified"
@@ -743,14 +752,14 @@ msgstr "Направи библиотеку"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:82
 #: extensions/file_manager/callbacks.c:109
 #: extensions/file_manager/callbacks.c:126
-#: extensions/rename_series/dlg-rename-series.c:850
+#: extensions/rename_series/dlg-rename-series.c:859
 #: gthumb/gth-folder-tree.c:1971
 msgid "Rename"
 msgstr "Промени име"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4556
-#: gthumb/gth-browser.c:4658 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4616
+#: gthumb/gth-browser.c:4718 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Особине"
 
@@ -791,13 +800,11 @@ msgstr "З_бирке:"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:34
 #: extensions/catalogs/dlg-add-to-catalog.c:620
-#| msgid "New _Library"
 msgid "New Library"
 msgstr "Нова библиотека"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:57
 #: extensions/catalogs/dlg-add-to-catalog.c:461
-#| msgid "_New Catalog"
 msgid "New Catalog"
 msgstr "Нова збирка"
 
@@ -881,7 +888,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Не могу да додам датотеке у збирку"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:402
+#: extensions/search/gth-search-task.c:392
 msgid "Could not create the catalog"
 msgstr "Нисам успео да направим збирку"
 
@@ -895,7 +902,6 @@ msgstr "_Додај"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:714
 #: extensions/edit_metadata/dlg-edit-metadata.c:347
-#| msgid "Keep the original format"
 msgid "Keep the dialog open"
 msgstr "Остави прозорче отворено"
 
@@ -938,11 +944,11 @@ msgid "Tag (embedded)"
 msgstr "Ознака (угњежђена)"
 
 #: extensions/catalogs/gth-catalog.c:300
-#: extensions/exiv2_tools/exiv2-utils.cpp:876
-#: extensions/exiv2_tools/exiv2-utils.cpp:885
-#: extensions/exiv2_tools/exiv2-utils.cpp:915
-#: extensions/exiv2_tools/exiv2-utils.cpp:1448
-#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:336
+#: extensions/exiv2_tools/exiv2-utils.cpp:872
+#: extensions/exiv2_tools/exiv2-utils.cpp:881
+#: extensions/exiv2_tools/exiv2-utils.cpp:911
+#: extensions/exiv2_tools/exiv2-utils.cpp:1444
+#: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "Неисправан облик датотеке"
 
@@ -1008,12 +1014,12 @@ msgid "Change the files date"
 msgstr "Промени датум датотека"
 
 #: extensions/change_date/data/ui/change-date.ui:12
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:236
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:243
 msgid "+"
 msgstr "+"
 
 #: extensions/change_date/data/ui/change-date.ui:15
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:244
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:251
 msgid "-"
 msgstr "-"
 
@@ -1114,7 +1120,7 @@ msgstr "Наслов"
 #: extensions/image_print/data/ui/print-layout.ui:239
 #: extensions/importer/data/ui/import-preferences.ui:287
 #: extensions/list_tools/data/ui/script-editor.ui:319
-#: extensions/rename_series/data/ui/rename-series.ui:249
+#: extensions/rename_series/data/ui/rename-series.ui:272
 #: extensions/webalbums/data/ui/web-album-exporter.ui:194
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
 #: gthumb/gth-main-default-metadata.c:64
@@ -1276,7 +1282,7 @@ msgstr "Укупан број страница"
 #: extensions/image_print/data/ui/print-layout.ui:224
 #: extensions/importer/data/ui/import-preferences.ui:275
 #: extensions/list_tools/data/ui/script-editor.ui:304
-#: extensions/rename_series/data/ui/rename-series.ui:128
+#: extensions/rename_series/data/ui/rename-series.ui:151
 #: extensions/webalbums/data/ui/web-album-exporter.ui:179
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1024
 msgid "Special code"
@@ -1285,7 +1291,7 @@ msgstr "Посебна шифра"
 #. translate only the text in the curly brackets
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:201
 #: extensions/image_print/data/ui/print-layout.ui:256
-#: extensions/rename_series/data/ui/rename-series.ui:219
+#: extensions/rename_series/data/ui/rename-series.ui:242
 #: extensions/webalbums/data/ui/web-album-exporter.ui:211
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1056
 msgid "%D{ format }"
@@ -1324,7 +1330,7 @@ msgstr "И_ме датотеке:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:469
 #: extensions/contact_sheet/data/ui/image-wall.ui:199
-#: extensions/rename_series/data/ui/rename-series.ui:265
+#: extensions/rename_series/data/ui/rename-series.ui:288
 msgid "New enumerator digit"
 msgstr "Нова потписујућа цифра"
 
@@ -1534,12 +1540,10 @@ msgid "If you delete the metadata, it will be permanently lost."
 msgstr "Ако обришете метаподатке, биће трајно изгубљени."
 
 #: extensions/edit_metadata/callbacks.c:45
-#| msgid "Edit Command"
 msgid "Edit comment"
 msgstr "Уреди напомену"
 
 #: extensions/edit_metadata/callbacks.c:46
-#| msgid "Edit template"
 msgid "Edit tags"
 msgstr "Уреди ознаке"
 
@@ -1683,7 +1687,7 @@ msgstr "Држава/област:"
 msgid "(invalid value)"
 msgstr "(неисправна вредност)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:713
+#: extensions/exiv2_tools/exiv2-utils.cpp:709
 msgid "Exposure"
 msgstr "Излагање"
 
@@ -1744,7 +1748,6 @@ msgid "date photo was taken"
 msgstr "Датум снимања фотографије"
 
 #: extensions/export_tools/callbacks.c:46
-#| msgid "Export"
 msgid "_Export To"
 msgstr "Извези _у"
 
@@ -1887,7 +1890,7 @@ msgstr "Нисам успео да извезем датотеке"
 #: extensions/flicker_utils/dlg-export-to-flickr.c:601
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:502
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:872
+#: gthumb/gth-browser.c:874
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1962,7 +1965,7 @@ msgstr "Унесите име фасцикле:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5568 gthumb/gth-browser.c:5604
+#: gthumb/gth-browser.c:5631 gthumb/gth-browser.c:5674
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Нисам успео да изведем радњу"
@@ -1987,7 +1990,7 @@ msgstr ""
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
-#: gthumb/gtk-utils.h:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:418 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Умножи"
 
@@ -2058,12 +2061,10 @@ msgid "Duplicate"
 msgstr "Удвостручи"
 
 #: extensions/file_manager/callbacks.c:129
-#| msgid "Delete Metadata"
 msgid "Delete permanently"
 msgstr "Трајно обриши"
 
 #: extensions/file_manager/callbacks.c:130
-#| msgid "Open _With"
 msgid "Open with Gimp"
 msgstr "Отвори Гимпом"
 
@@ -2109,12 +2110,10 @@ msgid "File manager operations."
 msgstr "Радње управника датотека."
 
 #: extensions/file_manager/file_manager.extension.desktop.in.in:8
-#| msgid "File manager"
 msgid "system-file-manager"
 msgstr "system-file-manager"
 
 #: extensions/file_tools/callbacks.c:53
-#| msgid "Adjust Contrast"
 msgid "Adjust contrast"
 msgstr "Подеси контраст"
 
@@ -2130,13 +2129,11 @@ msgstr "Одраз"
 
 #: extensions/file_tools/callbacks.c:56
 #: extensions/image_rotation/callbacks.c:47
-#| msgid "Rotate Right"
 msgid "Rotate right"
 msgstr "Окрени на десно"
 
 #: extensions/file_tools/callbacks.c:57
 #: extensions/image_rotation/callbacks.c:48
-#| msgid "Rotate Left"
 msgid "Rotate left"
 msgstr "Окрени на лево"
 
@@ -2623,8 +2620,8 @@ msgstr "Унесите назив претподешавања:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
-#: extensions/image_viewer/gth-image-viewer-page.c:1631
-#: gthumb/gth-browser.c:1863
+#: extensions/image_viewer/gth-image-viewer-page.c:1632
+#: gthumb/gth-browser.c:1865
 msgid "Could not save the file"
 msgstr "Нисам успео да сачувам датотеку"
 
@@ -2827,7 +2824,7 @@ msgid "No duplicates found."
 msgstr "Нисам пронашао двојнике."
 
 #: extensions/find_duplicates/data/ui/find-duplicates.ui:32
-#: extensions/rename_series/data/ui/rename-series.ui:27
+#: extensions/rename_series/data/ui/rename-series.ui:28
 #: extensions/search/data/ui/search-editor.ui:73
 msgid "Start _at:"
 msgstr "Почни _са:"
@@ -3063,15 +3060,86 @@ msgid "Could not take a screenshot"
 msgstr "Нисам успео да сликам екран"
 
 #: extensions/gstreamer_tools/callbacks.c:32
-#| msgctxt "Filename"
-#| msgid "Screenshot"
 msgid "Screenshot"
 msgstr "Снимак екрана"
 
 #: extensions/gstreamer_tools/callbacks.c:33
-#| msgid "Pause"
 msgid "Play/Pause"
 msgstr "Пусти/Застани"
+
+#: extensions/gstreamer_tools/callbacks.c:34
+msgid "Mute"
+msgstr "Утишај"
+
+#: extensions/gstreamer_tools/callbacks.c:35
+#| msgid "Play/Pause"
+msgid "Play faster"
+msgstr "Пуштај брже"
+
+#: extensions/gstreamer_tools/callbacks.c:36
+#| msgid "Playing slideshow"
+msgid "Play slower"
+msgstr "Пуштај спорије"
+
+#: extensions/gstreamer_tools/callbacks.c:37
+#: extensions/image_viewer/gth-image-viewer-page.c:1189
+msgid "Next frame"
+msgstr "Следећи кадар"
+
+#: extensions/gstreamer_tools/callbacks.c:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:461
+msgid "Go forward 1 second"
+msgstr "Идите напред 1 секунду"
+
+#: extensions/gstreamer_tools/callbacks.c:39
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:357
+msgid "Go forward 5 seconds"
+msgstr "Идите напред 5 секунде"
+
+#: extensions/gstreamer_tools/callbacks.c:40
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:371
+msgid "Go forward 10 seconds"
+msgstr "Идите напред 10 секунди"
+
+#: extensions/gstreamer_tools/callbacks.c:41
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:385
+msgid "Go forward 1 minute"
+msgstr "Идите напред 1 минут"
+
+#: extensions/gstreamer_tools/callbacks.c:42
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:399
+msgid "Go forward 5 minutes"
+msgstr "Идите напред 5 минута"
+
+#: extensions/gstreamer_tools/callbacks.c:43
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:447
+#| msgid "Go back to the index"
+msgid "Go back 1 second"
+msgstr "Идите назад 1 секунду"
+
+#: extensions/gstreamer_tools/callbacks.c:44
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:301
+#| msgid "Go back to the index"
+msgid "Go back 5 seconds"
+msgstr "Идите назад 5 секунде"
+
+#: extensions/gstreamer_tools/callbacks.c:45
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:315
+#| msgid "Go back to the index"
+msgid "Go back 10 seconds"
+msgstr "Идите назад 10 секунди"
+
+#: extensions/gstreamer_tools/callbacks.c:46
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:329
+#| msgid "Go back to the index"
+msgid "Go back 1 minute"
+msgstr "Идите назад 1 минут"
+
+#: extensions/gstreamer_tools/callbacks.c:47
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:343
+#| msgid "Go back to the index"
+msgid "Go back 5 minutes"
+msgstr "Идите назад 5 минута"
 
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
@@ -3081,31 +3149,77 @@ msgstr "Користи хардверско убрзање"
 msgid "_Screenshots location:"
 msgstr "Место _снимака екрана:"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:30
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:621
-#: extensions/image_viewer/gth-image-viewer-page.c:1181
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:29
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:622
+#: extensions/image_viewer/gth-image-viewer-page.c:1182
 msgid "Play"
 msgstr "Изведи"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:51
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:50
 msgid "Slower"
 msgstr "Спорије"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:73
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:72
 msgid "Faster"
 msgstr "Брже"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:95
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:94
 msgid "Restart when finished"
 msgstr "Поново покрени када се заврши"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:131
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:130
 msgid "Time:"
 msgstr "Време:"
 
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:194
-msgid "--∶--"
-msgstr "--∶--"
+#. minus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:297
+msgid "-5s"
+msgstr "-5s"
+
+#. minus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:311
+msgid "-10s"
+msgstr "-10s"
+
+#. minus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:325
+msgid "-1m"
+msgstr "-1m"
+
+#. minus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:339
+msgid "-5m"
+msgstr "-5m"
+
+#. plus 5 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:353
+msgid "+5s"
+msgstr "+5s"
+
+#. plus 10 seconds
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:367
+msgid "+10s"
+msgstr "+10s"
+
+#. plus 1 minute
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:381
+msgid "+1m"
+msgstr "+1m"
+
+#. plus 5 minutes
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:395
+msgid "+5m"
+msgstr "+5m"
+
+#. minus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:443
+msgid "-1s"
+msgstr "-1s"
+
+#. plus 1 second
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:457
+msgid "+1s"
+msgstr "+1s"
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:3
 msgid "Audio/Video support"
@@ -3119,26 +3233,25 @@ msgstr "Изведи звучне и видео датотеке."
 msgid "video-x-generic"
 msgstr "video-x-generic"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:594
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "Извођење видеа"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:607
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:608
 msgid "Pause"
 msgstr "Застој"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:930
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1115
 msgid "Take a screenshot"
 msgstr "Направи снимак екрана"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:937
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1122
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
 msgstr "Поравнај по прозору"
 
 #: extensions/gstreamer_tools/main.c:34
-#| msgid "Audio/Video support"
 msgid "Audio/Video Player"
 msgstr "Програм за пуштање звука/снимака"
 
@@ -3203,7 +3316,7 @@ msgstr "Моно"
 
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
-#: extensions/image_viewer/gth-image-viewer-page.c:1864
+#: extensions/image_viewer/gth-image-viewer-page.c:1865
 #: extensions/image_viewer/gth-metadata-provider-image.c:258
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
 #: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
@@ -3332,7 +3445,6 @@ msgid "Allow to print images choosing the page layout."
 msgstr "Дозволи штампање слика користећи распоред стране."
 
 #: extensions/image_print/image_print.extension.desktop.in.in:8
-#| msgid "Could not print"
 msgid "document-print"
 msgstr "document-print"
 
@@ -3396,27 +3508,22 @@ msgid "_Accept distortion"
 msgstr "_Прихвати изобличења"
 
 #: extensions/image_viewer/callbacks.c:32
-#| msgid "Zoom quality:"
 msgid "Zoom in"
 msgstr "Увећај"
 
 #: extensions/image_viewer/callbacks.c:33
-#| msgid "Zoom quality:"
 msgid "Zoom out"
 msgstr "Умањи"
 
 #: extensions/image_viewer/callbacks.c:34
-#| msgid "100%"
 msgid "Zoom 100%"
 msgstr "Увећање 100%"
 
 #: extensions/image_viewer/callbacks.c:35
-#| msgid "200%"
 msgid "Zoom 200%"
 msgstr "Увећање 200%"
 
 #: extensions/image_viewer/callbacks.c:36
-#| msgid "300%"
 msgid "Zoom 300%"
 msgstr "Увећање 200%"
 
@@ -3425,37 +3532,30 @@ msgid "Zoom to fit"
 msgstr "Увећај да стане"
 
 #: extensions/image_viewer/callbacks.c:39
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit if larger"
 msgstr "Увећај да стане ако је већа"
 
 #: extensions/image_viewer/callbacks.c:40
-#| msgid "Fit to width"
 msgid "Zoom to fit width"
 msgstr "Увећај да стане ширина"
 
 #: extensions/image_viewer/callbacks.c:41
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit width if larger"
 msgstr "Увећај да стане ширина ако је већа"
 
 #: extensions/image_viewer/callbacks.c:42
-#| msgid "Fit to height"
 msgid "Zoom to fit height"
 msgstr "Увећај да стане висина"
 
 #: extensions/image_viewer/callbacks.c:43
-#| msgid "Fit to width if larger"
 msgid "Zoom to fit height if larger"
 msgstr "Увећај да стане висина ако је већа"
 
 #: extensions/image_viewer/callbacks.c:45
-#| msgid "Undo"
 msgid "Undo edit"
 msgstr "Опозови уређивање"
 
 #: extensions/image_viewer/callbacks.c:46
-#| msgid "Redo"
 msgid "Redo edit"
 msgstr "Понови уређивање"
 
@@ -3464,7 +3564,6 @@ msgid "Scroll left"
 msgstr "Премакни улево"
 
 #: extensions/image_viewer/callbacks.c:49
-#| msgid "Slide from right"
 msgid "Scroll right"
 msgstr "Премакни удесно"
 
@@ -3501,7 +3600,7 @@ msgid "After loading an image:"
 msgstr "После учитавања слике:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
-#: extensions/image_viewer/gth-image-viewer-page.c:1138
+#: extensions/image_viewer/gth-image-viewer-page.c:1139
 msgid "Set to actual size"
 msgstr "Постави на праву величину"
 
@@ -3510,7 +3609,7 @@ msgid "Keep previous zoom"
 msgstr "Задржи претходно увећање"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:52
-#: extensions/image_viewer/gth-image-viewer-page.c:1145
+#: extensions/image_viewer/gth-image-viewer-page.c:1146
 msgid "Fit to window if larger"
 msgstr "Поравнај по прозору ако је већа"
 
@@ -3532,13 +3631,11 @@ msgid "Mouse wheel action:"
 msgstr "Радња точкића миша:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:131
-#| msgid "Change date"
 msgctxt "zoom quality"
 msgid "Change image"
 msgstr "Промени слику"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:148
-#| msgid "Copy Image"
 msgctxt "zoom quality"
 msgid "Zoom image"
 msgstr "Увеличај слику"
@@ -3558,13 +3655,11 @@ msgid "_Low"
 msgstr "_Низак"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:266
-#| msgid "_Transparent"
 msgid "Transparency:"
 msgstr "Провидност:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:295
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:15
-#| msgid "Centered"
 msgid "Checkered"
 msgstr "Укоцкано"
 
@@ -3575,7 +3670,6 @@ msgstr "Бела"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:297
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:33
-#| msgid "Grayscale"
 msgid "Gray"
 msgstr "Сива"
 
@@ -3612,42 +3706,35 @@ msgstr "300%"
 msgid "Histogram"
 msgstr "Хистограм"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:83
+#: extensions/image_viewer/gth-image-viewer-page.c:84
 msgid "Copy Image"
 msgstr "Умножи слику"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:84
+#: extensions/image_viewer/gth-image-viewer-page.c:85
 msgid "Paste Image"
 msgstr "Налепи слику"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1173
+#: extensions/image_viewer/gth-image-viewer-page.c:1174
 msgid "Apply the embedded color profile"
 msgstr "Примени уграђени профил боје"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1188
-msgid "Next frame"
-msgstr "Следећи кадар"
-
-#: extensions/image_viewer/gth-image-viewer-page.c:1195
-#| msgid "_Transparent"
+#: extensions/image_viewer/gth-image-viewer-page.c:1196
 msgid "Transparency"
 msgstr "Провидност"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:1803
+#: extensions/image_viewer/gth-image-viewer-page.c:1804
 msgid "Save Image"
 msgstr "Сачувај слику"
 
-#: extensions/image_viewer/gth-image-viewer-page.c:2519
+#: extensions/image_viewer/gth-image-viewer-page.c:2528
 msgid "Loading the original image"
 msgstr "Учитавам изворну слику"
 
 #: extensions/image_viewer/main.c:36
-#| msgid "All Images"
 msgid "Scroll Image"
 msgstr "Премакни слику"
 
 #: extensions/image_viewer/main.c:37
-#| msgid "Image print"
 msgid "Image Editor"
 msgstr "Уређивач слика"
 
@@ -3738,7 +3825,7 @@ msgstr "Нема увежених датотека"
 msgid "The selected files are already present in the destination."
 msgstr "Означене датотеке су већ присутне на одредишту."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:692
 msgid "Could not delete the files"
 msgstr "Нисам успео обрисати слике"
 
@@ -3822,7 +3909,7 @@ msgid "%attr{ attribute name }"
 msgstr "%attr{ назив својства }"
 
 #: extensions/list_tools/data/ui/script-editor.ui:386
-#: extensions/rename_series/data/ui/rename-series.ui:356
+#: extensions/rename_series/data/ui/rename-series.ui:379
 msgid "A file attribute"
 msgstr "Својство датотеке"
 
@@ -3854,7 +3941,6 @@ msgid "Quote the text "
 msgstr "Наведи текст "
 
 #: extensions/list_tools/data/ui/script-editor.ui:522
-#| msgid "The current date"
 msgid "The current date and time"
 msgstr "Текући датум и време"
 
@@ -3871,7 +3957,7 @@ msgid "Script"
 msgstr "Скрипта"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:264
-#: gthumb/dlg-preferences-shortcuts.c:229 gthumb/gth-accel-button.c:256
+#: gthumb/dlg-preferences-shortcuts.c:231 gthumb/gth-accel-button.c:256
 msgid "Shortcut"
 msgstr "Пречица"
 
@@ -3884,23 +3970,23 @@ msgstr "Прикажи"
 msgid "Could not save the script"
 msgstr "Нисам успео сачувати скрипту"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:448
+#: extensions/list_tools/dlg-personalize-scripts.c:449
 msgid "New Command"
 msgstr "Нова наредба"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:475
+#: extensions/list_tools/dlg-personalize-scripts.c:476
 msgid "Edit Command"
 msgstr "Измени наредбу"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:505
+#: extensions/list_tools/dlg-personalize-scripts.c:506
 msgid "Are you sure you want to delete the selected command?"
 msgstr "Да ли сте сигурни да желите брисати означену наредбу?"
 
-#: extensions/list_tools/dlg-personalize-scripts.c:605
+#: extensions/list_tools/dlg-personalize-scripts.c:606
 msgid "Commands"
 msgstr "Наредбе"
 
-#: extensions/list_tools/gth-script-editor-dialog.c:279
+#: extensions/list_tools/gth-script-editor-dialog.c:280
 #, c-format
 msgid "No command specified"
 msgstr "Није одређена наредба"
@@ -3910,18 +3996,18 @@ msgstr "Није одређена наредба"
 msgid "Command exited abnormally with status %d"
 msgstr "Наредба је изишла неправилно са стањем %d"
 
-#: extensions/list_tools/gth-script.c:502
+#: extensions/list_tools/gth-script.c:506
 msgid "Enter a value:"
 msgstr "Унесите вредност:"
 
-#: extensions/list_tools/gth-script.c:753
+#: extensions/list_tools/gth-script.c:760
 #: extensions/webalbums/gth-web-exporter.c:561
 #: extensions/webalbums/gth-web-exporter.c:573
 #: extensions/webalbums/gth-web-exporter.c:581
 msgid "Malformed command"
 msgstr "Лоше обликована наредба"
 
-#: extensions/list_tools/gth-script.c:808
+#: extensions/list_tools/gth-script.c:1069
 msgid "_Skip"
 msgstr "_Прескочи"
 
@@ -4194,69 +4280,74 @@ msgstr "уклони"
 msgid "add"
 msgstr "додај"
 
-#: extensions/rename_series/data/ui/rename-series.ui:41
+#: extensions/rename_series/data/ui/rename-series.ui:42
 msgid "_Sort by:"
 msgstr "_Поређај по:"
 
 #. Translators: this is the text case (upper or lower case).
-#: extensions/rename_series/data/ui/rename-series.ui:54
+#: extensions/rename_series/data/ui/rename-series.ui:55
 msgid "Cas_e:"
 msgstr "_Величина слова:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:83
+#: extensions/rename_series/data/ui/rename-series.ui:84
 #: gthumb/gth-browser-actions-entries.h:94
 msgid "Help"
 msgstr "Помоћ"
 
-#: extensions/rename_series/data/ui/rename-series.ui:97
+#: extensions/rename_series/data/ui/rename-series.ui:98
 msgid "Edit template"
 msgstr "Уредите предлошке"
 
+#: extensions/rename_series/data/ui/rename-series.ui:119
+#| msgid "leave the oldest duplicates"
+msgid "Revert to the last used template"
+msgstr "Врати на последњи коришћени шаблон"
+
 #. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:204
+#: extensions/rename_series/data/ui/rename-series.ui:227
 msgid "%M{ format }"
 msgstr "%M{ запис }"
 
 #. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:234
+#: extensions/rename_series/data/ui/rename-series.ui:257
 #, c-format
 msgid "%A{ identifier }"
 msgstr "%A{ одредник }"
 
-#: extensions/rename_series/data/ui/rename-series.ui:280
+#: extensions/rename_series/data/ui/rename-series.ui:303
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1106
 msgid "The original filename"
 msgstr "Задржи изворна имена датотека"
 
-#: extensions/rename_series/data/ui/rename-series.ui:295
+#: extensions/rename_series/data/ui/rename-series.ui:318
 msgid "The original extension"
 msgstr "Изворни наставак"
 
-#: extensions/rename_series/data/ui/rename-series.ui:310
+#: extensions/rename_series/data/ui/rename-series.ui:333
 msgid "The original enumerator"
 msgstr "Изворни бројач"
 
-#: extensions/rename_series/data/ui/rename-series.ui:325
+#: extensions/rename_series/data/ui/rename-series.ui:348
 msgid "The modification date"
 msgstr "Датум измене"
 
-#: extensions/rename_series/data/ui/rename-series.ui:341
+#: extensions/rename_series/data/ui/rename-series.ui:364
 msgid "The digitalization date"
 msgstr "Датум дигитализације"
 
-#: extensions/rename_series/data/ui/rename-series.ui:389
+#: extensions/rename_series/data/ui/rename-series.ui:436
 msgid "1"
 msgstr "1"
 
-#: extensions/rename_series/data/ui/rename-series.ui:426
+#: extensions/rename_series/data/ui/rename-series.ui:473
 msgid "Re_verse Order"
 msgstr "О_брнути редослед"
 
-#: extensions/rename_series/data/ui/rename-series.ui:473
+#: extensions/rename_series/data/ui/rename-series.ui:520
 msgid "_Template:"
 msgstr "_Предложак:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:514
+#: extensions/rename_series/data/ui/rename-series.ui:573
 msgid "_Preview:"
 msgstr "_Преглед:"
 
@@ -4301,28 +4392,28 @@ msgstr "Не могу да сачувам шаблон"
 msgid "Edit Template"
 msgstr "Уреди шаблон"
 
-#: extensions/rename_series/dlg-rename-series.c:860
+#: extensions/rename_series/dlg-rename-series.c:869
 #: gthumb/gth-folder-tree.c:1974
 msgid "_Rename"
 msgstr "_Преименуј"
 
-#: extensions/rename_series/dlg-rename-series.c:877
+#: extensions/rename_series/dlg-rename-series.c:886
 msgid "Old Name"
 msgstr "Старо име"
 
-#: extensions/rename_series/dlg-rename-series.c:888
+#: extensions/rename_series/dlg-rename-series.c:897
 msgid "New Name"
 msgstr "Ново име"
 
-#: extensions/rename_series/dlg-rename-series.c:966
+#: extensions/rename_series/dlg-rename-series.c:975
 msgid "Keep original case"
 msgstr "Задржи изворну величину слова"
 
-#: extensions/rename_series/dlg-rename-series.c:967
+#: extensions/rename_series/dlg-rename-series.c:976
 msgid "Convert to lower-case"
 msgstr "Претвори у мала слова"
 
-#: extensions/rename_series/dlg-rename-series.c:968
+#: extensions/rename_series/dlg-rename-series.c:977
 msgid "Convert to upper-case"
 msgstr "Претвори у велика слова"
 
@@ -4401,7 +4492,7 @@ msgid "Search again"
 msgstr "Претражи опет"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:169
+#: extensions/search/callbacks.c:197
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Претражи"
@@ -4417,20 +4508,19 @@ msgid "any of the following rules"
 msgstr "било које следеће правило"
 
 #: extensions/search/gth-search-source-selector.c:130
-#| msgid "Could not open the location"
 msgid "Add another location"
 msgstr "Додај још једно место"
 
-#: extensions/search/gth-search-task.c:194
+#: extensions/search/gth-search-task.c:189
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Пронађених датотека до сада: %s"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:333
 msgid "Searching…"
 msgstr "Тражим…"
 
-#: extensions/search/gth-search-task.c:347
+#: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
 msgstr "Обустави радњу"
 
@@ -4445,19 +4535,16 @@ msgstr "edit-find"
 #. Not real actions, used in the shorcut window for documentation.
 #: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
 #: extensions/selections/callbacks.c:59 extensions/selections/callbacks.c:71
-#| msgid "Advanced file selection."
 msgid "Add to selection"
 msgstr "Додај у избор"
 
 #: extensions/selections/callbacks.c:61 extensions/selections/callbacks.c:62
 #: extensions/selections/callbacks.c:63 extensions/selections/callbacks.c:72
-#| msgid "Remove from Selection"
 msgid "Remove from selection"
 msgstr "Уклони из избора"
 
 #: extensions/selections/callbacks.c:65 extensions/selections/callbacks.c:66
 #: extensions/selections/callbacks.c:67 extensions/selections/callbacks.c:73
-#| msgid "Show selection %d"
 msgid "Show selection"
 msgstr "Прикажи избор"
 
@@ -4498,26 +4585,22 @@ msgid "emblem-flag-gray"
 msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:40
-#| msgid "Presentation"
 msgid "Start presentation"
 msgstr "Покрени презентацију"
 
 #: extensions/slideshow/callbacks.c:41
-#| msgid "Presentation"
 msgid "Terminate presentation"
 msgstr "Окончај презентацију"
 
 #: extensions/slideshow/callbacks.c:42
-#| msgid "Presentation"
 msgid "Pause/Resume presentation"
 msgstr "Застани/Настави презентацију"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:118
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:120
 msgid "Show next file"
 msgstr "Прикажи следећу датотеку"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:117
-#| msgid "View the previous image"
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:119
 msgid "Show previous file"
 msgstr "Прикажи претходну датотеку"
 
@@ -4580,7 +4663,6 @@ msgid "Random"
 msgstr "Насумично"
 
 #: extensions/slideshow/gth-slideshow.c:237
-#| msgid "Presentation"
 msgid "Playing a presentation"
 msgstr "Пуштам презентацију"
 
@@ -4621,7 +4703,6 @@ msgid "Play a presentation of images."
 msgstr "Пустите презентацију слика."
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:8
-#| msgid "Presentation"
 msgid "x-office-presentation"
 msgstr "x-office-presentation"
 
@@ -4631,7 +4712,6 @@ msgid "Terminal"
 msgstr "Терминал"
 
 #: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
-#| msgid "Open in New Window"
 msgid "Open in Terminal"
 msgstr "Отвори у Терминалу"
 
@@ -4788,9 +4868,9 @@ msgstr "Веб албуми"
 msgid "Create static web albums."
 msgstr "Направи неизменљиве веб албуме."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6572 gthumb/gth-browser.c:6591
-#: gthumb/gth-browser.c:6615 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1172
+#: gthumb/gth-browser.c:6669 gthumb/gth-browser.c:6688
+#: gthumb/gth-browser.c:6712 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Нисам успео да учитам положај „%s“"
@@ -4826,19 +4906,16 @@ msgid "Browser"
 msgstr "Прегледник"
 
 #: gthumb/dlg-preferences-extensions.c:61
-#| msgid "All"
 msgctxt "Extensions"
 msgid "All"
 msgstr "Све"
 
 #: gthumb/dlg-preferences-extensions.c:62
-#| msgid "Enabled"
 msgctxt "Extensions"
 msgid "Enabled"
 msgstr "Укључена"
 
 #: gthumb/dlg-preferences-extensions.c:63
-#| msgid "Disabled"
 msgctxt "Extensions"
 msgid "Disabled"
 msgstr "Искључена"
@@ -4877,7 +4954,6 @@ msgid "Could not deactivate the extension"
 msgstr "Нисам успео да искључим проширење"
 
 #: gthumb/dlg-preferences-extensions.c:491
-#| msgid "gthumb development team"
 msgid "gThumb Development Team"
 msgstr "Развојна дружина Гномовог сличка"
 
@@ -4899,30 +4975,27 @@ msgstr ""
 msgid "_Restart"
 msgstr "_Поново покрени"
 
-#: gthumb/dlg-preferences-shortcuts.c:294
-#: gthumb/dlg-preferences-shortcuts.c:369 gthumb/resources/gears-menu.ui:25
+#: gthumb/dlg-preferences-shortcuts.c:296
+#: gthumb/dlg-preferences-shortcuts.c:371 gthumb/resources/gears-menu.ui:25
 msgid "Revert"
 msgstr "Поврати"
 
-#: gthumb/dlg-preferences-shortcuts.c:367
+#: gthumb/dlg-preferences-shortcuts.c:369
 msgid "Do you want to revert all the changes and use the default shortcuts?"
 msgstr "Да ли желите да вратите све измене и да користите основне пречице?"
 
-#: gthumb/dlg-preferences-shortcuts.c:540
-#| msgid "All"
+#: gthumb/dlg-preferences-shortcuts.c:542
 msgctxt "Shortcuts"
 msgid "All"
 msgstr "Све"
 
-#: gthumb/dlg-preferences-shortcuts.c:546
-#| msgid "Modified"
+#: gthumb/dlg-preferences-shortcuts.c:548
 msgctxt "Shortcuts"
 msgid "Modified"
 msgstr "Измењене"
 
 #. add the page to the preferences dialog
-#: gthumb/dlg-preferences-shortcuts.c:575
-#| msgid "Shortcut"
+#: gthumb/dlg-preferences-shortcuts.c:577
 msgid "Shortcuts"
 msgstr "Пречице"
 
@@ -4992,7 +5065,7 @@ msgstr "%d∶%02d"
 
 #: gthumb/gth-accel-dialog.c:121
 msgid "Press a combination of keys to use as shortcut."
-msgstr "Притисните комбинацију тастера да користите као пречицу,"
+msgstr "Притисните комбинацију тастера да користите као пречицу."
 
 #: gthumb/gth-accel-dialog.c:122
 msgid "Press Esc to cancel"
@@ -5007,7 +5080,6 @@ msgid "Start in fullscreen mode"
 msgstr "Почни у целом екрану"
 
 #: gthumb/gth-application.c:60
-#| msgid "Automatically start a slideshow"
 msgid "Automatically start a presentation"
 msgstr "Сам започни презентацију"
 
@@ -5068,36 +5140,28 @@ msgstr ""
 "\n"
 "http://prevod.org — превод на српски језик."
 
-#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
-msgid "New Window"
-msgstr "Нови прозор"
-
 #: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
 msgid "Keyboard Shortcuts"
 msgstr "Пречице тастатуре"
 
 #: gthumb/gth-browser-actions-entries.h:96
-#| msgid "_Quit"
 msgid "Quit"
 msgstr "Изађи"
 
 #: gthumb/gth-browser-actions-entries.h:99
-#| msgid "Browser"
 msgid "Show browser"
 msgstr "Прикажи разгледач"
 
 #: gthumb/gth-browser-actions-entries.h:100
-#| msgid "Fit to window"
 msgid "Close window"
 msgstr "Затвори прозор"
 
 #: gthumb/gth-browser-actions-entries.h:102
-#| msgid "Open Location…"
 msgid "Open location"
 msgstr "Отвори место"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4571
-#: gthumb/gth-browser.c:4589 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4631
+#: gthumb/gth-browser.c:4649 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Преко целог екана"
@@ -5107,86 +5171,84 @@ msgid "Revert image to saved"
 msgstr "Врати слику на сачувану"
 
 #: gthumb/gth-browser-actions-entries.h:105
+#| msgid "Save Image"
+msgid "Save image"
+msgstr "Сачувај слику"
+
+#: gthumb/gth-browser-actions-entries.h:106
+#| msgid "Save Image"
+msgid "Save image as"
+msgstr "Сачувај слику као"
+
+#: gthumb/gth-browser-actions-entries.h:107
 msgid "Sidebar"
 msgstr "Бочна површ"
 
-#: gthumb/gth-browser-actions-entries.h:106
+#: gthumb/gth-browser-actions-entries.h:108
 msgid "Statusbar"
 msgstr "Трака стања"
 
-#: gthumb/gth-browser-actions-entries.h:107
-#| msgid "Thumbnails"
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Thumbnails list"
 msgstr "Списак минијатура"
 
-#: gthumb/gth-browser-actions-entries.h:109
-#| msgid "Go to the previous visited location"
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Load previous location"
 msgstr "Учитај преходно место"
 
-#: gthumb/gth-browser-actions-entries.h:110
-#| msgid "Could not open the location"
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Load next location"
 msgstr "Учитај следеће место"
 
-#: gthumb/gth-browser-actions-entries.h:111
-#| msgid "The parent folder path"
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Load parent folder"
 msgstr "Учитај родитељску фасциклу"
 
-#: gthumb/gth-browser-actions-entries.h:112
-#| msgid "Loading images"
+#: gthumb/gth-browser-actions-entries.h:114
 msgid "Load home"
 msgstr "Учитај почетну"
 
-#: gthumb/gth-browser-actions-entries.h:113
-#| msgid "Resolution"
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Reload location"
 msgstr "Поново учитај место"
 
-#: gthumb/gth-browser-actions-entries.h:114
-#| msgid "Hidden Files"
+#: gthumb/gth-browser-actions-entries.h:116
 msgid "Show/Hide hidden files"
 msgstr "Прикажи/сакриј скривене датотеке"
 
-#: gthumb/gth-browser-actions-entries.h:115
-#| msgid "no sorting"
+#: gthumb/gth-browser-actions-entries.h:117
 msgid "Change sorting order"
 msgstr "Промени поредак ређања"
 
-#: gthumb/gth-browser-actions-entries.h:119
+#: gthumb/gth-browser-actions-entries.h:121
 msgid "Show first file"
 msgstr "Прикажи прву датотеку"
 
-#: gthumb/gth-browser-actions-entries.h:120
+#: gthumb/gth-browser-actions-entries.h:122
 msgid "Show last file"
 msgstr "Прикажи последњу датотеку"
 
-#: gthumb/gth-browser-actions-entries.h:122
-#| msgid "Images"
+#: gthumb/gth-browser-actions-entries.h:124
 msgid "Image tools"
 msgstr "Алати за слике"
 
-#: gthumb/gth-browser-actions-entries.h:123
-#| msgid "Properties"
+#: gthumb/gth-browser-actions-entries.h:125
 msgid "File properties"
 msgstr "Особине датотеке"
 
-#: gthumb/gth-browser-actions-entries.h:125
-#| msgid "Select All"
+#: gthumb/gth-browser-actions-entries.h:127
 msgid "Select all"
 msgstr "Изабери све"
 
-#: gthumb/gth-browser-actions-entries.h:126
-#| msgid "Select None"
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Select none"
 msgstr "Поништи избор"
 
-#: gthumb/gth-browser.c:408
+#: gthumb/gth-browser.c:410
 msgid "[modified]"
 msgstr "[измењено]"
 
-#: gthumb/gth-browser.c:873
+#: gthumb/gth-browser.c:875
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -5195,71 +5257,71 @@ msgstr[1] "%d означене датотеке (%s)"
 msgstr[2] "%d означених датотека (%s)"
 msgstr[3] "%d означена датотека (%s)"
 
-#: gthumb/gth-browser.c:908
+#: gthumb/gth-browser.c:910
 #, c-format
 msgid "%s of free space"
 msgstr "%s слободног простора"
 
-#: gthumb/gth-browser.c:1786 gthumb/gth-browser.c:1802
+#: gthumb/gth-browser.c:1788 gthumb/gth-browser.c:1804
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Није пронађена одговарајућа јединица за %s"
 
-#: gthumb/gth-browser.c:1907
+#: gthumb/gth-browser.c:1909
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Да сачувам измене у датотеци „%s“?"
 
-#: gthumb/gth-browser.c:1912
+#: gthumb/gth-browser.c:1914
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Ако не сачувате, измене у датотеци биће заувек изгубљене."
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1915
 msgid "Do _Not Save"
 msgstr "Не _чувај"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4597
+#: gthumb/gth-browser.c:2403 gthumb/gth-browser.c:4657
 msgid "Accept"
 msgstr "Прихвати"
 
-#: gthumb/gth-browser.c:2401 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2403 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Затвори"
 
-#: gthumb/gth-browser.c:2939
+#: gthumb/gth-browser.c:2942
 msgid "Could not change name"
 msgstr "Не могу изменити назив"
 
-#: gthumb/gth-browser.c:3436
+#: gthumb/gth-browser.c:3445
 msgid "Modified"
 msgstr "Измењено"
 
-#: gthumb/gth-browser.c:4519
+#: gthumb/gth-browser.c:4579
 msgid "Go to the previous visited location"
 msgstr "Иди на претходно посећено место"
 
-#: gthumb/gth-browser.c:4525
+#: gthumb/gth-browser.c:4585
 msgid "Go to the next visited location"
 msgstr "Иди на следеће посећено место"
 
-#: gthumb/gth-browser.c:4533
+#: gthumb/gth-browser.c:4593
 msgid "History"
 msgstr "Историјат"
 
-#: gthumb/gth-browser.c:4547
+#: gthumb/gth-browser.c:4607
 msgid "View the folders"
 msgstr "Погледај фасцикле"
 
-#: gthumb/gth-browser.c:4562
+#: gthumb/gth-browser.c:4622
 msgid "Edit file"
 msgstr "Уреди датотеку"
 
-#: gthumb/gth-browser.c:6573
+#: gthumb/gth-browser.c:6670
 #, c-format
 msgid "File type not supported"
 msgstr "Врста датотеке није подржана"
 
-#: gthumb/gth-browser.c:6616
+#: gthumb/gth-browser.c:6713
 #, c-format
 msgid "No suitable module found"
 msgstr "Није пронађен одговарајућа јединица"
@@ -5286,22 +5348,22 @@ msgstr "_Прикажи опције формата"
 msgid "Computer"
 msgstr "Рачунар"
 
-#: gthumb/gth-file-source-vfs.c:773
+#: gthumb/gth-file-source-vfs.c:796
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Датотеке не могу бити пребачене у Ђубре. Желите ли их трајно обрисати?"
 
-#: gthumb/gth-file-source-vfs.c:784
+#: gthumb/gth-file-source-vfs.c:807
 msgid "Could not move the files to the Trash"
 msgstr "Не могу преместити датотеке у смеће"
 
-#: gthumb/gth-file-source-vfs.c:829
+#: gthumb/gth-file-source-vfs.c:852
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Да ли сигурно желите трајно да обришете „%s“?"
 
-#: gthumb/gth-file-source-vfs.c:832
+#: gthumb/gth-file-source-vfs.c:855
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5311,7 +5373,7 @@ msgstr[1] "Да ли сигурно желите да трајно обрише�
 msgstr[2] "Да ли сигурно желите да трајно обришете %'d изабраних датотека?"
 msgstr[3] "Да ли сигурно желите да трајно обришете %'d изабрану датотеку?"
 
-#: gthumb/gth-file-source-vfs.c:842
+#: gthumb/gth-file-source-vfs.c:865
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Ако обришете датотеку, биће трајно изгубљена."
 
@@ -5395,12 +5457,10 @@ msgid "Location"
 msgstr "Место"
 
 #: gthumb/gth-location-chooser.c:572
-#| msgid "Location"
 msgid "Locations"
 msgstr "Места"
 
 #: gthumb/gth-location-chooser.c:617
-#| msgid "Other"
 msgid "Other…"
 msgstr "Друго…"
 
@@ -5414,8 +5474,6 @@ msgstr "Бајтова"
 
 #. Translators: the file modified time.
 #: gthumb/gth-main-default-metadata.c:43
-#| msgctxt "the file mtime"
-#| msgid "Modified Date & Time"
 msgid "Modified Date & Time"
 msgstr "Датум и време измене"
 
@@ -5540,17 +5598,14 @@ msgid "Description (embedded)"
 msgstr "Опис (угњежђен)"
 
 #: gthumb/gth-main-default-types.c:39
-#| msgid "Show"
 msgid "Show/Hide"
 msgstr "Покажи/сакриј"
 
 #: gthumb/gth-main-default-types.c:40
-#| msgid "Organization:"
 msgid "Navigation"
 msgstr "Навигација"
 
 #: gthumb/gth-main-default-types.c:41
-#| msgid "File manager"
 msgid "File Manager"
 msgstr "Управник датотека"
 
@@ -5722,7 +5777,7 @@ msgstr "Боје"
 msgid "Rotation"
 msgstr "Окренутост"
 
-#: gthumb/gth-window.c:1020
+#: gthumb/gth-window.c:1048
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5731,11 +5786,11 @@ msgstr ""
 "Комбинација тастера „%s“ је већ додељена радњи „%s“.  Да ли ипак желите да "
 "је поново доделите овој радњи?"
 
-#: gthumb/gth-window.c:1028
+#: gthumb/gth-window.c:1056
 msgid "Reassign"
 msgstr "Додели поново"
 
-#: gthumb/gth-window.c:1046
+#: gthumb/gth-window.c:1074
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5743,7 +5798,7 @@ msgid ""
 msgstr ""
 "Комбинација тастера „%s“ је већ додељена радњи „%s“ и не може бити измењена."
 
-#: gthumb/gth-window.c:1050
+#: gthumb/gth-window.c:1078
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "Комбинација тастера „%s“ је већ додељена и не може бити измењена."
@@ -5817,13 +5872,15 @@ msgid "Sort By…"
 msgstr "Поређај према…"
 
 #: gthumb/resources/gears-menu.ui:57
-#| msgid "gThumb"
 msgid "_About gThumb"
 msgstr "О _Гномовом сличку"
 
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Обриши историјат"
+
+#~ msgid "--∶--"
+#~ msgstr "--∶--"
 
 #~ msgid "gThumb Photo Import Tool"
 #~ msgstr "Алатка за увоз слика Гномов сличко"
@@ -5858,9 +5915,6 @@ msgstr "_Обриши историјат"
 
 #~ msgid "Slideshow"
 #~ msgstr "Покретни приказ"
-
-#~ msgid "Playing slideshow"
-#~ msgstr "Извођење покретног приказа"
 
 #~ msgid "View images as a slideshow."
 #~ msgstr "Погледај слике у покретном приказу."
