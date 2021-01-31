@@ -1,3 +1,32 @@
+version 3.10.2
+--------------
+
+ Bugs fixed:
+
+  * Continuously reloads image when it is only image in folder (!153)
+  * exiv2: remove the charset= prefix from strings (!137)
+  * Fixed jump to bottom when selecting thumbnails with mouse (!147)
+  * gThumb opens import tool if the import tool is already opened (!133)
+  * Image viewer: fixed bright line visual artifacts (!118)
+  * Search: 
+    - fixed possible crash after cancelling a search;
+    - do not count duplicated files;
+    - stop the previous search before starting the new one;
+    - stop searching if the user changes location.
+
+ New or updated application translations:
+
+  * German - Germany (Christian Kirbach)
+  * Hungarian (Balázs Úr)
+  * Romanian (Adi Roiban)
+  * čeština (Marek Černocký)
+  * српски (Мирослав Николић)
+
+ New or updated manual translations:
+
+  * Indonesian (Andika Triwidada)
+  * čeština (Marek Černocký)
+
 version 3.10.1
 --------------
 
