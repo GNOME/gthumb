@@ -45,8 +45,6 @@ if with_webservices
   subdir('flicker_utils')
   subdir('23hq')
   subdir('flicker')
-
-  subdir('picasaweb')
 endif
 if with_webalbums
   subdir('webalbums')
