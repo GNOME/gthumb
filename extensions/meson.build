@@ -39,7 +39,6 @@ endif
 subdir('contact_sheet')
 if with_webservices
   subdir('oauth')
-  subdir('facebook')
 
   # flickr exporters
   subdir('flicker_utils')
