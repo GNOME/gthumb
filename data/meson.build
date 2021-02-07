@@ -26,8 +26,8 @@ pkg = import('pkgconfig')
 gthumb_pc = pkg.generate(
   name : 'gThumb',
   description : 'gThumb extensions',
-  filebase : 'gthumb-@0@'.format(api_version),
-  subdirs : 'gthumb-@0@'.format(api_version),
+  filebase : meson.project_name(),
+  subdirs : meson.project_name(),
   requires : [ 'gtk+-3.0' ],
   version: meson.project_version(),
   variables : [
