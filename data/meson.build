@@ -31,9 +31,9 @@ gthumb_pc = pkg.generate(
   requires : [ 'gtk+-3.0' ],
   version: meson.project_version(),
   variables : [
-    'extensionsdir=${libdir}/gthumb/extensions',
-    'datarootdir=${prefix}/share',
-    'datadir=${datarootdir}'
+    '='.join(['extensionsdir', extensions_install_dir]),
+    '='.join(['uidir', ui_install_dir]),
+    '='.join(['apiversion', api_version])
   ]
 )
 
