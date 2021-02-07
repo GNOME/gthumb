@@ -107,7 +107,6 @@ public_header_files = [
   'gth-window.h',
   'gtk-utils.h',
   'gvaluehash.h',
-  'main.h',
   'pixbuf-cache.h',
   'pixbuf-io.h',
   'pixbuf-utils.h',
