@@ -4,21 +4,20 @@
 #
 # Maxim Dubovoy <max@mylinux.com.ua>, 2003.
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2007.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-12-31 11:22+0000\n"
-"PO-Revision-Date: 2020-12-31 17:58+0200\n"
+"POT-Creation-Date: 2021-02-13 15:04+0000\n"
+"PO-Revision-Date: 2021-02-13 20:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.11.70\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
@@ -137,7 +136,7 @@ msgstr "Імпорт фотознімків з цифрового фотоапа
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:424 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:425 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -762,8 +761,8 @@ msgid "Rename"
 msgstr "Перейменувати"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4608
-#: gthumb/gth-browser.c:4710 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4616
+#: gthumb/gth-browser.c:4718 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Властивості"
 
@@ -820,9 +819,7 @@ msgstr "_Переглянути теку призначення"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
-#: extensions/facebook/data/ui/facebook-album-properties.ui:45
 #: extensions/list_tools/data/ui/script-editor.ui:23
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:37
 msgid "_Name:"
 msgstr "_Назва:"
 
@@ -892,7 +889,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Не вдалося додати файли до каталогу"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:402
+#: extensions/search/gth-search-task.c:392
 msgid "Could not create the catalog"
 msgstr "Не вдалося створити каталог"
 
@@ -1310,10 +1307,8 @@ msgstr "Поточна дата"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:354
 #: extensions/contact_sheet/data/ui/image-wall.ui:85
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/facebook/data/ui/import-from-facebook.ui:211
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:209
 #: extensions/webalbums/data/ui/web-album-exporter.ui:361
 msgid "_Destination:"
 msgstr "_Призначення:"
@@ -1554,8 +1549,6 @@ msgid "Delete Metadata"
 msgstr "Вилучити метадані"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:17
-#: extensions/facebook/data/ui/facebook-album-properties.ui:135
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:127
 msgid "D_escription:"
 msgstr "_Опис:"
 
@@ -1635,6 +1628,16 @@ msgstr "Записуємо файли"
 msgid "Reading files"
 msgstr "Читаємо файли"
 
+#: extensions/example/src/example.extension.desktop.in.in:3
+#| msgid "example: %s"
+msgid "example"
+msgstr "приклад"
+
+#: extensions/example/src/example.extension.desktop.in.in:4
+#| msgid "example: %s"
+msgid "What example does"
+msgstr "Для чого призначено приклад"
+
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
 msgstr "_Авторські права:"
@@ -1685,7 +1688,7 @@ msgid "State/Province:"
 msgstr "Регіон:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2080 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(некоректне значення)"
 
@@ -1753,208 +1756,6 @@ msgstr "дата створення знімка"
 msgid "_Export To"
 msgstr "_Експортувати до"
 
-#: extensions/facebook/data/ui/export-to-facebook.ui:34
-msgid "720 × 720"
-msgstr "720 × 720"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:38
-msgid "1024 × 1024"
-msgstr "1024 × 1024"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:42
-msgid "1280 × 1280"
-msgstr "1280 × 1280"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:46
-msgid "1600 × 1600"
-msgstr "1600 × 1600"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:50
-msgid "2048 × 2048"
-msgstr "2048 × 2048"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:145
-#: extensions/facebook/data/ui/import-from-facebook.ui:88
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:88
-msgid "Edit accounts"
-msgstr "Редагувати облікові записи"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:180
-msgid "A_lbum:"
-msgstr "_Альбом:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:212
-msgid "Add a new album"
-msgstr "Додати новий альбом"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:242
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "_Обліковий рахунок:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:274
-#: extensions/facebook/data/ui/export-to-facebook.ui:275
-msgid "Resize the images if larger than this size"
-msgstr "Змінити розмір зображень, якщо він більший за цей"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:276
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:325
-#: extensions/webalbums/data/ui/web-album-exporter.ui:422
-msgid "_Resize if larger than:"
-msgstr "З_мінити розмір, якщо більше за:"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:14
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Публічні фотографії"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:18
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Приватні фотографії, видимі друзям"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:22
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:15
-msgid "Private"
-msgstr "Особисте"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:73
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:65
-msgid "_Visibility:"
-msgstr "_Видимість"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:122
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:98
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:122
-msgid "A_ccount:"
-msgstr "_Обліковий рахунок:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:136
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:135
-msgid "_Album:"
-msgstr "_Альбом:"
-
-#: extensions/facebook/dlg-export-to-facebook.c:124
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:120
-msgid "Files successfully uploaded to the server."
-msgstr "Файли успішно відвантажено на сервер."
-
-#: extensions/facebook/dlg-export-to-facebook.c:151
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:148
-msgid "Could not upload the files"
-msgstr "Не вдалося записати файли"
-
-#: extensions/facebook/dlg-export-to-facebook.c:297
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:227
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "Не вдалося з'єднатися з сервером"
-
-#: extensions/facebook/dlg-export-to-facebook.c:368
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "Не вдалося створити альбом"
-
-#: extensions/facebook/dlg-export-to-facebook.c:436
-msgid "New Album"
-msgstr "Новий альбом"
-
-#: extensions/facebook/dlg-export-to-facebook.c:475
-msgid "Export to Facebook"
-msgstr "Експортувати до Facebook"
-
-#: extensions/facebook/dlg-export-to-facebook.c:541
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1740
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:494
-msgid "No valid file selected."
-msgstr "Не вибрано коректного файла."
-
-#: extensions/facebook/dlg-export-to-facebook.c:542
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:495
-msgid "Could not export the files"
-msgstr "Не вдалося експортувати файли"
-
-#: extensions/facebook/dlg-export-to-facebook.c:550
-#: extensions/find_duplicates/gth-find-duplicates.c:278
-#: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:502
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:873
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d файл (%s)"
-msgstr[1] "%d файли (%s)"
-msgstr[2] "%d файлів (%s)"
-msgstr[3] "%d файлів (%s)"
-
-#: extensions/facebook/dlg-export-to-facebook.c:571
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "Експортувати в %s"
-
-#: extensions/facebook/facebook-service.c:496
-#: extensions/flicker_utils/flickr-service.c:849
-#: extensions/picasaweb/picasa-web-service.c:738
-msgid "Getting the album list"
-msgstr "Отримання покажчика альбому"
-
-#: extensions/facebook/facebook-service.c:613
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "Створити новий альбом"
-
-#: extensions/facebook/facebook-service.c:671
-#: extensions/flicker_utils/flickr-service.c:1144
-#: extensions/picasaweb/picasa-web-service.c:783
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "Не вдалося вивантажити «%s»: %s"
-
-#. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:734
-#: extensions/flicker_utils/flickr-service.c:1253
-#: extensions/picasaweb/picasa-web-service.c:838
-#, c-format
-msgid "Uploading “%s”"
-msgstr "Вивантажуємо «%s»"
-
-#: extensions/facebook/facebook-service.c:954
-#: extensions/flicker_utils/flickr-service.c:1450
-#: extensions/picasaweb/picasa-web-service.c:1062
-msgid "Uploading the files to the server"
-msgstr "Запис файлів на сервер"
-
-#: extensions/facebook/facebook-service.c:1048
-#: extensions/flicker_utils/flickr-service.c:1611
-#: extensions/picasaweb/picasa-web-service.c:1174
-msgid "Getting the photo list"
-msgstr "Отримання списку фотографій"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:3
-msgid "Facebook"
-msgstr "Facebook"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:4
-msgid "Upload images to Facebook"
-msgstr "Вивантаження зображень на Facebook"
-
 #: extensions/file_manager/actions.c:137
 msgid "New folder"
 msgstr "Нова тека"
@@ -1967,7 +1768,7 @@ msgstr "Введіть назву теки:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5620 gthumb/gth-browser.c:5656
+#: gthumb/gth-browser.c:5631 gthumb/gth-browser.c:5674
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Не вдалося виконати операцію"
@@ -2622,7 +2423,7 @@ msgstr "Введіть назву набору:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1864
+#: gthumb/gth-browser.c:1865
 msgid "Could not save the file"
 msgstr "Не вдалося зберегти файл"
 
@@ -2869,6 +2670,17 @@ msgstr "усі файли"
 msgid "no file"
 msgstr "немає файла"
 
+#: extensions/find_duplicates/gth-find-duplicates.c:278
+#: extensions/find_duplicates/gth-find-duplicates.c:477
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:874
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d файл (%s)"
+msgstr[1] "%d файли (%s)"
+msgstr[2] "%d файлів (%s)"
+msgstr[3] "%d файлів (%s)"
+
 #: extensions/find_duplicates/gth-find-duplicates.c:519
 #: extensions/find_duplicates/gth-find-duplicates.c:650
 #, c-format
@@ -2917,9 +2729,17 @@ msgstr "Flicker"
 msgid "Upload images to Flickr"
 msgstr "Запис зображень до Flickr"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
+msgid "Public photos"
+msgstr "Публічні фотографії"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
 msgid "Private photos, visible to family and friends"
 msgstr "Приватні фотографії, видимі сім'ї та друзям"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
+msgid "Private photos, visible to friends"
+msgstr "Приватні фотографії, видимі друзям"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
 msgid "Private photos, visible to family"
@@ -2941,8 +2761,16 @@ msgstr "Помірний зміст"
 msgid "Restricted content"
 msgstr "Обмежений зміст"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
+msgid "_Account:"
+msgstr "_Обліковий рахунок:"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
+msgid "Edit accounts"
+msgstr "Редагувати облікові записи"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:175
 msgid "Free space:"
 msgstr "Вільний простір:"
 
@@ -2963,10 +2791,54 @@ msgstr "_Безпека:"
 msgid "Hi_de from public searches"
 msgstr "С_ховати від публічного пошуку"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
+#: extensions/webalbums/data/ui/web-album-exporter.ui:422
+msgid "_Resize if larger than:"
+msgstr "З_мінити розмір, якщо більше за:"
+
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
+#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
+msgid "A_ccount:"
+msgstr "_Обліковий рахунок:"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:136
+#: extensions/flicker_utils/dlg-export-to-flickr.c:410
+#: extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: extensions/oauth/web-service.c:377
+msgid "Could not connect to the server"
+msgstr "Не вдалося з'єднатися з сервером"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:161
+msgid "Files successfully uploaded to the server."
+msgstr "Файли успішно відвантажено на сервер."
+
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
 #: extensions/webalbums/gth-web-exporter.c:1826
 msgid "_Open in the Browser"
 msgstr "_Відкрити у веб-оглядачі"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:188
+#: extensions/flicker_utils/dlg-export-to-flickr.c:223
+msgid "Could not create the album"
+msgstr "Не вдалося створити альбом"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:246
+msgid "Could not upload the files"
+msgstr "Не вдалося записати файли"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:592
+#: extensions/image_print/gth-image-print-job.c:1740
+msgid "No valid file selected."
+msgstr "Не вибрано коректного файла."
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:593
+msgid "Could not export the files"
+msgstr "Не вдалося експортувати файли"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:624
+#, c-format
+msgid "Export to %s"
+msgstr "Експортувати в %s"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
 #: gthumb/gth-file-selection-info.c:140
@@ -2979,20 +2851,16 @@ msgstr[2] "%d файлів"
 msgstr[3] "один файл"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:279
 msgid "Could not get the photo list"
 msgstr "Не вдалося отримати список фотографій"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:382
 #: extensions/flicker_utils/dlg-import-from-flickr.c:561
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:598
 msgid "No album selected"
 msgstr "Альбом не знайдено"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:521
 #: extensions/photo_importer/dlg-photo-importer.c:584
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:556
 msgid "_Import"
 msgstr "_Імпортувати"
 
@@ -3046,6 +2914,35 @@ msgstr ""
 "Натисніть «Уповноважити» для відкриття браузера та уповноваження gthumb для "
 "вивантаження фотографій на %s. По закінченню, поверніться до цього вікна для "
 "завершення уповноваження."
+
+#: extensions/flicker_utils/flickr-service.c:849
+msgid "Getting the album list"
+msgstr "Отримання покажчика альбому"
+
+#: extensions/flicker_utils/flickr-service.c:943
+#: extensions/flicker_utils/flickr-service.c:1058
+#: extensions/flicker_utils/flickr-service.c:1097
+msgid "Creating the new album"
+msgstr "Створити новий альбом"
+
+#: extensions/flicker_utils/flickr-service.c:1144
+#, c-format
+msgid "Could not upload “%s”: %s"
+msgstr "Не вдалося вивантажити «%s»: %s"
+
+#. Translators: %s is a filename
+#: extensions/flicker_utils/flickr-service.c:1253
+#, c-format
+msgid "Uploading “%s”"
+msgstr "Вивантажуємо «%s»"
+
+#: extensions/flicker_utils/flickr-service.c:1450
+msgid "Uploading the files to the server"
+msgstr "Запис файлів на сервер"
+
+#: extensions/flicker_utils/flickr-service.c:1611
+msgid "Getting the photo list"
+msgstr "Отримання списку фотографій"
 
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
@@ -4141,7 +4038,6 @@ msgid "_Tags:"
 msgstr "_Теги:"
 
 #: extensions/photo_importer/dlg-photo-importer.c:227
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:149
 msgid "Could not import the files"
 msgstr "Не вдалося імпортувати файли"
 
@@ -4188,52 +4084,6 @@ msgstr "Імпорт фотознімків зі змінний пристрої
 #: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
 msgid "camera-photo"
 msgstr "camera-photo"
-
-#: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
-msgid "_Picasa Web Album…"
-msgstr "Ве_бальбом Picasa…"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:233
-msgid "_Albums:"
-msgstr "_Альбоми:"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:267
-#: gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Назва"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:275
-msgid "Used"
-msgstr "Використано"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:286
-msgid "Remaining photos"
-msgstr "Лишилося фотографій"
-
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:12
-msgid "Public"
-msgstr "Публічне"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:344
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:468
-msgid "Could not get the album list"
-msgstr "Не вдалося отримати список альбому"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:431
-msgid "Export to Picasa Web Albums"
-msgstr "Експорт до веб-альбому Picasa"
-
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:547
-msgid "Import from Picasa Web Album"
-msgstr "Імпорт з веб-альбому Picasa"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:3
-msgid "Picasa Web Albums"
-msgstr "Веб-альбом Picasa"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:4
-msgid "Upload images to Picasa Web Albums"
-msgstr "Запис зображень до веб-альбому Picasa"
 
 #: extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
@@ -4298,7 +4148,6 @@ msgid "Edit template"
 msgstr "Редагувати шаблон"
 
 #: extensions/rename_series/data/ui/rename-series.ui:119
-#| msgid "leave the oldest duplicates"
 msgid "Revert to the last used template"
 msgstr "Повернутися до останнього використано шаблона"
 
@@ -4491,7 +4340,7 @@ msgid "Search again"
 msgstr "Шукати знову"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:169
+#: extensions/search/callbacks.c:197
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Знайти"
@@ -4510,16 +4359,16 @@ msgstr "будь-який з наступних критеріїв"
 msgid "Add another location"
 msgstr "Додати ще якесь місце"
 
-#: extensions/search/gth-search-task.c:194
+#: extensions/search/gth-search-task.c:189
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Знайдених файлів: %s"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:333
 msgid "Searching…"
 msgstr "Пошук…"
 
-#: extensions/search/gth-search-task.c:347
+#: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
 msgstr "Скасувати дію"
 
@@ -4867,9 +4716,9 @@ msgstr "Вебальбоми"
 msgid "Create static web albums."
 msgstr "Створення статичних вебальбомів."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1171
-#: gthumb/gth-browser.c:6625 gthumb/gth-browser.c:6644
-#: gthumb/gth-browser.c:6668 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1172
+#: gthumb/gth-browser.c:6669 gthumb/gth-browser.c:6688
+#: gthumb/gth-browser.c:6712 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Не вдалося завантажити позицію «%s»"
@@ -5044,7 +4893,7 @@ msgstr "Пересуваємо файли до смітника"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2055
+#: gthumb/glib-utils.c:2056
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -5056,7 +4905,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2064
+#: gthumb/glib-utils.c:2065
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5158,8 +5007,8 @@ msgstr "Закрити вікно"
 msgid "Open location"
 msgstr "Відкрити адресу"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4623
-#: gthumb/gth-browser.c:4641 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4631
+#: gthumb/gth-browser.c:4649 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "На увесь екран"
@@ -5240,11 +5089,11 @@ msgstr "Вибрати все"
 msgid "Select none"
 msgstr "Нічого не вибирати"
 
-#: gthumb/gth-browser.c:409
+#: gthumb/gth-browser.c:410
 msgid "[modified]"
 msgstr "[змінено]"
 
-#: gthumb/gth-browser.c:874
+#: gthumb/gth-browser.c:875
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -5253,71 +5102,71 @@ msgstr[1] "%d файли (%s)"
 msgstr[2] "%d файлів (%s)"
 msgstr[3] "%d файлів (%s)"
 
-#: gthumb/gth-browser.c:909
+#: gthumb/gth-browser.c:910
 #, c-format
 msgid "%s of free space"
 msgstr "%s вільного місця"
 
-#: gthumb/gth-browser.c:1787 gthumb/gth-browser.c:1803
+#: gthumb/gth-browser.c:1788 gthumb/gth-browser.c:1804
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Не знайдено відповідного модуля для %s"
 
-#: gthumb/gth-browser.c:1908
+#: gthumb/gth-browser.c:1909
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Зберегти зміни до файла «%s»?"
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1914
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Якщо ви не збережете зміни, зміни до файла будуть остаточно втрачено"
 
-#: gthumb/gth-browser.c:1914
+#: gthumb/gth-browser.c:1915
 msgid "Do _Not Save"
 msgstr "_Не зберігати"
 
-#: gthumb/gth-browser.c:2402 gthumb/gth-browser.c:4649
+#: gthumb/gth-browser.c:2403 gthumb/gth-browser.c:4657
 msgid "Accept"
 msgstr "Прийняти"
 
-#: gthumb/gth-browser.c:2402 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2403 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "З_акрити"
 
-#: gthumb/gth-browser.c:2941
+#: gthumb/gth-browser.c:2942
 msgid "Could not change name"
 msgstr "Не вдалося змінити назву"
 
-#: gthumb/gth-browser.c:3438
+#: gthumb/gth-browser.c:3445
 msgid "Modified"
 msgstr "Дата зміни"
 
-#: gthumb/gth-browser.c:4571
+#: gthumb/gth-browser.c:4579
 msgid "Go to the previous visited location"
 msgstr "Перейти до попереднього відвіданого місця"
 
-#: gthumb/gth-browser.c:4577
+#: gthumb/gth-browser.c:4585
 msgid "Go to the next visited location"
 msgstr "Перейти до наступного відвіданого місця"
 
-#: gthumb/gth-browser.c:4585
+#: gthumb/gth-browser.c:4593
 msgid "History"
 msgstr "Журнал"
 
-#: gthumb/gth-browser.c:4599
+#: gthumb/gth-browser.c:4607
 msgid "View the folders"
 msgstr "Перегляд тек"
 
-#: gthumb/gth-browser.c:4614
+#: gthumb/gth-browser.c:4622
 msgid "Edit file"
 msgstr "Редагувати файл"
 
-#: gthumb/gth-browser.c:6626
+#: gthumb/gth-browser.c:6670
 #, c-format
 msgid "File type not supported"
 msgstr "Тип файлів не підтримується"
 
-#: gthumb/gth-browser.c:6669
+#: gthumb/gth-browser.c:6713
 #, c-format
 msgid "No suitable module found"
 msgstr "Не було знайдено придатного модуля"
@@ -5362,8 +5211,7 @@ msgstr "Остаточно вилучити «%s»?"
 #: gthumb/gth-file-source-vfs.c:855
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
-msgid_plural ""
-"Are you sure you want to permanently delete the %'d selected files?"
+msgid_plural "Are you sure you want to permanently delete the %'d selected files?"
 msgstr[0] "Ви дійсно хочете остаточно вилучити %'d файл ?"
 msgstr[1] "Ви дійсно хочете остаточно вилучити %'d файли ?"
 msgstr[2] "Ви дійсно хочете остаточно вилучити %'d файлів?"
@@ -5460,6 +5308,10 @@ msgstr "Місця"
 #: gthumb/gth-location-chooser.c:617
 msgid "Other…"
 msgstr "Інше…"
+
+#: gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Назва"
 
 #: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:351
 msgid "Size"
@@ -5875,3 +5727,78 @@ msgstr "_Про gThumb"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "Ви_лучити журнал"
+
+#~ msgid "720 × 720"
+#~ msgstr "720 × 720"
+
+#~ msgid "1024 × 1024"
+#~ msgstr "1024 × 1024"
+
+#~ msgid "1280 × 1280"
+#~ msgstr "1280 × 1280"
+
+#~ msgid "1600 × 1600"
+#~ msgstr "1600 × 1600"
+
+#~ msgid "2048 × 2048"
+#~ msgstr "2048 × 2048"
+
+#~ msgid "A_lbum:"
+#~ msgstr "_Альбом:"
+
+#~ msgid "Add a new album"
+#~ msgstr "Додати новий альбом"
+
+#~ msgid "Resize the images if larger than this size"
+#~ msgstr "Змінити розмір зображень, якщо він більший за цей"
+
+#~ msgid "Private"
+#~ msgstr "Особисте"
+
+#~ msgid "_Visibility:"
+#~ msgstr "_Видимість"
+
+#~ msgid "_Album:"
+#~ msgstr "_Альбом:"
+
+#~ msgid "New Album"
+#~ msgstr "Новий альбом"
+
+#~ msgid "Export to Facebook"
+#~ msgstr "Експортувати до Facebook"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Upload images to Facebook"
+#~ msgstr "Вивантаження зображень на Facebook"
+
+#~ msgid "_Picasa Web Album…"
+#~ msgstr "Ве_бальбом Picasa…"
+
+#~ msgid "_Albums:"
+#~ msgstr "_Альбоми:"
+
+#~ msgid "Used"
+#~ msgstr "Використано"
+
+#~ msgid "Remaining photos"
+#~ msgstr "Лишилося фотографій"
+
+#~ msgid "Public"
+#~ msgstr "Публічне"
+
+#~ msgid "Could not get the album list"
+#~ msgstr "Не вдалося отримати список альбому"
+
+#~ msgid "Export to Picasa Web Albums"
+#~ msgstr "Експорт до веб-альбому Picasa"
+
+#~ msgid "Import from Picasa Web Album"
+#~ msgstr "Імпорт з веб-альбому Picasa"
+
+#~ msgid "Picasa Web Albums"
+#~ msgstr "Веб-альбом Picasa"
+
+#~ msgid "Upload images to Picasa Web Albums"
+#~ msgstr "Запис зображень до веб-альбому Picasa"
