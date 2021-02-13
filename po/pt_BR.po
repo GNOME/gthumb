@@ -7,18 +7,18 @@
 # Raphael Higino <phhigino@gmail.com>, 2004-2006.
 # Igor Pires Soares <igor@projetofedora.org>, 2007,2008.
 # Leonardo Ferreira Fontenelle <leonardof@gnome.org>, 2009.
-# Enrico Nicoletto <liverig@gmail.com>, 2013, 2020.
 # Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2014.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2013-2020.
 # Henrique Machado Campos <henriquecamposrj@gmail.com>, 2020.
 # Henrique Roberto Gattermann Mittelstaedt <henrique.roberto97@gmail.com>, 2020.
+# Enrico Nicoletto <liverig@gmail.com>, 2013, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-12-31 11:22+0000\n"
-"PO-Revision-Date: 2020-12-31 18:01-0300\n"
+"POT-Creation-Date: 2021-02-13 15:04+0000\n"
+"PO-Revision-Date: 2021-02-13 15:21-0300\n"
 "Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -140,7 +140,7 @@ msgstr "Importe fotos do cartão da sua câmera"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:424 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:425 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -767,8 +767,8 @@ msgid "Rename"
 msgstr "Renomeia"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4608
-#: gthumb/gth-browser.c:4710 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4616
+#: gthumb/gth-browser.c:4718 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Propriedades"
 
@@ -826,9 +826,7 @@ msgstr "_Ver o destino"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
-#: extensions/facebook/data/ui/facebook-album-properties.ui:45
 #: extensions/list_tools/data/ui/script-editor.ui:23
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:37
 msgid "_Name:"
 msgstr "_Nome:"
 
@@ -898,7 +896,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Não foi possível adicionar os arquivos ao catálogo"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:402
+#: extensions/search/gth-search-task.c:392
 msgid "Could not create the catalog"
 msgstr "Não foi possível criar o catálogo"
 
@@ -1022,7 +1020,7 @@ msgstr "Alterar data"
 # Descrição de extensão - ponto final acrescentado propositalmente.
 #: extensions/change_date/change_date.extension.desktop.in.in:4
 msgid "Change the files date"
-msgstr "Altera a data dos arquivos."
+msgstr "Altera a data dos arquivos"
 
 #: extensions/change_date/data/ui/change-date.ui:12
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:243
@@ -1320,10 +1318,8 @@ msgstr "A data atual"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:354
 #: extensions/contact_sheet/data/ui/image-wall.ui:85
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/facebook/data/ui/import-from-facebook.ui:211
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:209
 #: extensions/webalbums/data/ui/web-album-exporter.ui:361
 msgid "_Destination:"
 msgstr "_Destino:"
@@ -1481,7 +1477,7 @@ msgstr "Converter formato"
 # Descrição de extensão - ponto final acrescentado propositalmente.
 #: extensions/convert_format/convert_format.extension.desktop.in.in:4
 msgid "Save images in a different format"
-msgstr "Salva imagens em um formato diferente."
+msgstr "Salva imagens em um formato diferente"
 
 #: extensions/convert_format/data/ui/convert-format.ui:40
 msgid "New format"
@@ -1539,7 +1535,7 @@ msgstr "Plano de fundo da área de trabalho"
 # Descrição de extensão - ponto final acrescentado propositalmente.
 #: extensions/desktop_background/desktop_background.extension.desktop.in.in:4
 msgid "Set the image as desktop background"
-msgstr "Define a imagem como plano de fundo da área de trabalho."
+msgstr "Define a imagem como plano de fundo da área de trabalho"
 
 #: extensions/desktop_background/desktop_background.extension.desktop.in.in:8
 msgid "desktop"
@@ -1570,8 +1566,6 @@ msgid "Delete Metadata"
 msgstr "Excluir metadados"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:17
-#: extensions/facebook/data/ui/facebook-album-properties.ui:135
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:127
 msgid "D_escription:"
 msgstr "D_escrição:"
 
@@ -1652,6 +1646,14 @@ msgstr "Escrevendo arquivos"
 msgid "Reading files"
 msgstr "Lendo arquivos"
 
+#: extensions/example/src/example.extension.desktop.in.in:3
+msgid "example"
+msgstr "exemplo"
+
+#: extensions/example/src/example.extension.desktop.in.in:4
+msgid "What example does"
+msgstr "O propósito do exemplo"
+
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
 msgstr "C_opyright:"
@@ -1702,7 +1704,7 @@ msgid "State/Province:"
 msgstr "Estado/Província:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2080 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(valor inválido)"
 
@@ -1771,206 +1773,6 @@ msgstr "data na qual a foto foi tirada"
 msgid "_Export To"
 msgstr "_Exportar para"
 
-#: extensions/facebook/data/ui/export-to-facebook.ui:34
-msgid "720 × 720"
-msgstr "720 × 720"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:38
-msgid "1024 × 1024"
-msgstr "1024 × 1024"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:42
-msgid "1280 × 1280"
-msgstr "1280 × 1280"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:46
-msgid "1600 × 1600"
-msgstr "1600 × 1600"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:50
-msgid "2048 × 2048"
-msgstr "2048 × 2048"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:145
-#: extensions/facebook/data/ui/import-from-facebook.ui:88
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:88
-msgid "Edit accounts"
-msgstr "Edita contas"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:180
-msgid "A_lbum:"
-msgstr "Á_lbum:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:212
-msgid "Add a new album"
-msgstr "Adiciona um novo álbum"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:242
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "Cont_a:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:274
-#: extensions/facebook/data/ui/export-to-facebook.ui:275
-msgid "Resize the images if larger than this size"
-msgstr "Redimensiona as imagens se for maior que este tamanho"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:276
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:325
-#: extensions/webalbums/data/ui/web-album-exporter.ui:422
-msgid "_Resize if larger than:"
-msgstr "_Redimensionar se for maior que:"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:14
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Fotos públicas"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:18
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Fotos privadas, visível para amigos"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:22
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:15
-msgid "Private"
-msgstr "Privado"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:73
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:65
-msgid "_Visibility:"
-msgstr "_Visibilidade:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:122
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:98
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:122
-msgid "A_ccount:"
-msgstr "_Conta:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:136
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:135
-msgid "_Album:"
-msgstr "Á_lbum:"
-
-#: extensions/facebook/dlg-export-to-facebook.c:124
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:120
-msgid "Files successfully uploaded to the server."
-msgstr "Arquivos enviados com sucesso para o servidor."
-
-#: extensions/facebook/dlg-export-to-facebook.c:151
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:148
-msgid "Could not upload the files"
-msgstr "Não foi possível enviar os arquivos"
-
-#: extensions/facebook/dlg-export-to-facebook.c:297
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:227
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "Não foi possível conectar ao servidor"
-
-#: extensions/facebook/dlg-export-to-facebook.c:368
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "Não foi possível criar o álbum"
-
-#: extensions/facebook/dlg-export-to-facebook.c:436
-msgid "New Album"
-msgstr "Novo álbum"
-
-#: extensions/facebook/dlg-export-to-facebook.c:475
-msgid "Export to Facebook"
-msgstr "Exportar para o Facebook"
-
-#: extensions/facebook/dlg-export-to-facebook.c:541
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1740
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:494
-msgid "No valid file selected."
-msgstr "Nenhum arquivo válido selecionado."
-
-#: extensions/facebook/dlg-export-to-facebook.c:542
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:495
-msgid "Could not export the files"
-msgstr "Não foi possível exportar os arquivos"
-
-#: extensions/facebook/dlg-export-to-facebook.c:550
-#: extensions/find_duplicates/gth-find-duplicates.c:278
-#: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:502
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:873
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d arquivo (%s)"
-msgstr[1] "%d arquivos (%s)"
-
-#: extensions/facebook/dlg-export-to-facebook.c:571
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "Exportar para %s"
-
-#: extensions/facebook/facebook-service.c:496
-#: extensions/flicker_utils/flickr-service.c:849
-#: extensions/picasaweb/picasa-web-service.c:738
-msgid "Getting the album list"
-msgstr "Obtendo a lista de álbuns"
-
-#: extensions/facebook/facebook-service.c:613
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "Criando o novo álbum"
-
-#: extensions/facebook/facebook-service.c:671
-#: extensions/flicker_utils/flickr-service.c:1144
-#: extensions/picasaweb/picasa-web-service.c:783
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "Não foi possível enviar “%s”: %s"
-
-#. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:734
-#: extensions/flicker_utils/flickr-service.c:1253
-#: extensions/picasaweb/picasa-web-service.c:838
-#, c-format
-msgid "Uploading “%s”"
-msgstr "Enviando “%s”"
-
-#: extensions/facebook/facebook-service.c:954
-#: extensions/flicker_utils/flickr-service.c:1450
-#: extensions/picasaweb/picasa-web-service.c:1062
-msgid "Uploading the files to the server"
-msgstr "Enviando os arquivos para o servidor"
-
-#: extensions/facebook/facebook-service.c:1048
-#: extensions/flicker_utils/flickr-service.c:1611
-#: extensions/picasaweb/picasa-web-service.c:1174
-msgid "Getting the photo list"
-msgstr "Obtendo a lista de fotos"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:3
-msgid "Facebook"
-msgstr "Facebook"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:4
-msgid "Upload images to Facebook"
-msgstr "Envia imagens para o Facebook"
-
 #: extensions/file_manager/actions.c:137
 msgid "New folder"
 msgstr "Nova pasta"
@@ -1983,7 +1785,7 @@ msgstr "Digite o nome da pasta:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5620 gthumb/gth-browser.c:5656
+#: gthumb/gth-browser.c:5631 gthumb/gth-browser.c:5674
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Não foi possível executar a operação"
@@ -2638,7 +2440,7 @@ msgstr "Digite o nome da predefinição:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1864
+#: gthumb/gth-browser.c:1865
 msgid "Could not save the file"
 msgstr "Não foi possível salvar o arquivo"
 
@@ -2885,6 +2687,15 @@ msgstr "todos arquivos"
 msgid "no file"
 msgstr "nenhum arquivo"
 
+#: extensions/find_duplicates/gth-find-duplicates.c:278
+#: extensions/find_duplicates/gth-find-duplicates.c:477
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:874
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d arquivo (%s)"
+msgstr[1] "%d arquivos (%s)"
+
 #: extensions/find_duplicates/gth-find-duplicates.c:519
 #: extensions/find_duplicates/gth-find-duplicates.c:650
 #, c-format
@@ -2928,11 +2739,19 @@ msgstr "Flicker"
 # Descrição de extensão - ponto final acrescentado propositalmente.
 #: extensions/flicker/flicker.extension.desktop.in.in:4
 msgid "Upload images to Flickr"
-msgstr "Envia imagens para o Flickr."
+msgstr "Envia imagens para o Flickr"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
+msgid "Public photos"
+msgstr "Fotos públicas"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
 msgid "Private photos, visible to family and friends"
 msgstr "Fotos privadas, visível para família e amigos"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
+msgid "Private photos, visible to friends"
+msgstr "Fotos privadas, visível para amigos"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
 msgid "Private photos, visible to family"
@@ -2954,8 +2773,16 @@ msgstr "Conteúdo moderado"
 msgid "Restricted content"
 msgstr "Conteúdo restrito"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
+msgid "_Account:"
+msgstr "Cont_a:"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
+msgid "Edit accounts"
+msgstr "Edita contas"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:175
 msgid "Free space:"
 msgstr "Espaço livre:"
 
@@ -2976,10 +2803,54 @@ msgstr "_Segurança:"
 msgid "Hi_de from public searches"
 msgstr "Escon_der das pesquisas públicas"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
+#: extensions/webalbums/data/ui/web-album-exporter.ui:422
+msgid "_Resize if larger than:"
+msgstr "_Redimensionar se for maior que:"
+
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
+#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
+msgid "A_ccount:"
+msgstr "_Conta:"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:136
+#: extensions/flicker_utils/dlg-export-to-flickr.c:410
+#: extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: extensions/oauth/web-service.c:377
+msgid "Could not connect to the server"
+msgstr "Não foi possível conectar ao servidor"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:161
+msgid "Files successfully uploaded to the server."
+msgstr "Arquivos enviados com sucesso para o servidor."
+
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
 #: extensions/webalbums/gth-web-exporter.c:1826
 msgid "_Open in the Browser"
 msgstr "Abrir atalho n_o navegador"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:188
+#: extensions/flicker_utils/dlg-export-to-flickr.c:223
+msgid "Could not create the album"
+msgstr "Não foi possível criar o álbum"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:246
+msgid "Could not upload the files"
+msgstr "Não foi possível enviar os arquivos"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:592
+#: extensions/image_print/gth-image-print-job.c:1740
+msgid "No valid file selected."
+msgstr "Nenhum arquivo válido selecionado."
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:593
+msgid "Could not export the files"
+msgstr "Não foi possível exportar os arquivos"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:624
+#, c-format
+msgid "Export to %s"
+msgstr "Exportar para %s"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
 #: gthumb/gth-file-selection-info.c:140
@@ -2990,20 +2861,16 @@ msgstr[0] "%d arquivo"
 msgstr[1] "%d arquivos"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:279
 msgid "Could not get the photo list"
 msgstr "Não foi possível obter a lista de fotos"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:382
 #: extensions/flicker_utils/dlg-import-from-flickr.c:561
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:598
 msgid "No album selected"
 msgstr "Nenhum álbum selecionado"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:521
 #: extensions/photo_importer/dlg-photo-importer.c:584
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:556
 msgid "_Import"
 msgstr "_Importar"
 
@@ -3056,6 +2923,35 @@ msgstr ""
 "Clique em “Autorizar” para abrir seu navegador de internet e autorize que o "
 "gThumb envie fotos para o %s. Quando você tiver terminado, retorne a esta "
 "janela para concluir a autorização."
+
+#: extensions/flicker_utils/flickr-service.c:849
+msgid "Getting the album list"
+msgstr "Obtendo a lista de álbuns"
+
+#: extensions/flicker_utils/flickr-service.c:943
+#: extensions/flicker_utils/flickr-service.c:1058
+#: extensions/flicker_utils/flickr-service.c:1097
+msgid "Creating the new album"
+msgstr "Criando o novo álbum"
+
+#: extensions/flicker_utils/flickr-service.c:1144
+#, c-format
+msgid "Could not upload “%s”: %s"
+msgstr "Não foi possível enviar “%s”: %s"
+
+#. Translators: %s is a filename
+#: extensions/flicker_utils/flickr-service.c:1253
+#, c-format
+msgid "Uploading “%s”"
+msgstr "Enviando “%s”"
+
+#: extensions/flicker_utils/flickr-service.c:1450
+msgid "Uploading the files to the server"
+msgstr "Enviando os arquivos para o servidor"
+
+#: extensions/flicker_utils/flickr-service.c:1611
+msgid "Getting the photo list"
+msgstr "Obtendo a lista de fotos"
 
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
@@ -4062,7 +3958,7 @@ msgstr "Mapa"
 # Descrição de extensão - ponto final acrescentado propositalmente.
 #: extensions/map_view/map_view.extension.desktop.in.in:4
 msgid "View the photo position on the map"
-msgstr "Veja a posição da foto no mapa."
+msgstr "Veja a posição da foto no mapa"
 
 #: extensions/oauth/data/ui/oauth-account-manager.ui:23
 msgid "A_ccounts:"
@@ -4154,7 +4050,6 @@ msgid "_Tags:"
 msgstr "Etique_tas:"
 
 #: extensions/photo_importer/dlg-photo-importer.c:227
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:149
 msgid "Could not import the files"
 msgstr "Não foi possível importar os arquivos"
 
@@ -4201,53 +4096,6 @@ msgstr "Importa fotos de dispositivos removíveis."
 #: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
 msgid "camera-photo"
 msgstr "camera-photo"
-
-#: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
-msgid "_Picasa Web Album…"
-msgstr "Álbum da web do _Picasa…"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:233
-msgid "_Albums:"
-msgstr "Ál_buns:"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:267
-#: gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Nome"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:275
-msgid "Used"
-msgstr "Usado"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:286
-msgid "Remaining photos"
-msgstr "Fotos restantes"
-
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:12
-msgid "Public"
-msgstr "Público"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:344
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:468
-msgid "Could not get the album list"
-msgstr "Não foi possível obter a lista de álbuns"
-
-# Álbuns em miúsculo por ser parte do nome do "Picasa Web" (vide site)
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:431
-msgid "Export to Picasa Web Albums"
-msgstr "Exporta para o Álbuns da web do Picasa"
-
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:547
-msgid "Import from Picasa Web Album"
-msgstr "Importar do Álbuns da web do Picasa"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:3
-msgid "Picasa Web Albums"
-msgstr "Álbuns da web do Picasa"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:4
-msgid "Upload images to Picasa Web Albums"
-msgstr "Enviar imagens para o Álbuns da web do Picasa"
 
 #: extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
@@ -4505,7 +4353,7 @@ msgid "Search again"
 msgstr "Pesquisar novamente"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:169
+#: extensions/search/callbacks.c:197
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Pesquisar"
@@ -4524,16 +4372,16 @@ msgstr "qualquer uma das regras a seguir"
 msgid "Add another location"
 msgstr "Adiciona outra localização"
 
-#: extensions/search/gth-search-task.c:194
+#: extensions/search/gth-search-task.c:189
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Arquivos encontrados até agora: %s"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:333
 msgid "Searching…"
 msgstr "Pesquisando…"
 
-#: extensions/search/gth-search-task.c:347
+#: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
 msgstr "Cancelar a operação"
 
@@ -4881,9 +4729,9 @@ msgstr "Álbuns web"
 msgid "Create static web albums."
 msgstr "Cria álbuns web estáticos."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1171
-#: gthumb/gth-browser.c:6625 gthumb/gth-browser.c:6644
-#: gthumb/gth-browser.c:6668 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1172
+#: gthumb/gth-browser.c:6669 gthumb/gth-browser.c:6688
+#: gthumb/gth-browser.c:6712 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Não foi possível carregar a posição: “%s”"
@@ -5067,7 +4915,7 @@ msgstr "Movendo arquivos para a lixeira"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2055
+#: gthumb/glib-utils.c:2056
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -5079,7 +4927,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2064
+#: gthumb/glib-utils.c:2065
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5184,8 +5032,8 @@ msgstr "Fecha a janela"
 msgid "Open location"
 msgstr "Abre a localização"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4623
-#: gthumb/gth-browser.c:4641 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4631
+#: gthumb/gth-browser.c:4649 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Tela cheia"
@@ -5266,82 +5114,82 @@ msgstr "Seleciona tudo"
 msgid "Select none"
 msgstr "Seleciona nenhum"
 
-#: gthumb/gth-browser.c:409
+#: gthumb/gth-browser.c:410
 msgid "[modified]"
 msgstr "[modificado]"
 
-#: gthumb/gth-browser.c:874
+#: gthumb/gth-browser.c:875
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d arquivo selecionado (%s)"
 msgstr[1] "%d arquivos selecionados (%s)"
 
-#: gthumb/gth-browser.c:909
+#: gthumb/gth-browser.c:910
 #, c-format
 msgid "%s of free space"
 msgstr "%s de espaço livre"
 
-#: gthumb/gth-browser.c:1787 gthumb/gth-browser.c:1803
+#: gthumb/gth-browser.c:1788 gthumb/gth-browser.c:1804
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Não foi encontrado um módulo adequado para %s"
 
-#: gthumb/gth-browser.c:1908
+#: gthumb/gth-browser.c:1909
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Salvar alterações do arquivo “%s”?"
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1914
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Se você não salvar, as alterações serão permanentemente perdidas."
 
-#: gthumb/gth-browser.c:1914
+#: gthumb/gth-browser.c:1915
 msgid "Do _Not Save"
 msgstr "_Não salvar"
 
-#: gthumb/gth-browser.c:2402 gthumb/gth-browser.c:4649
+#: gthumb/gth-browser.c:2403 gthumb/gth-browser.c:4657
 msgid "Accept"
 msgstr "Aceitar"
 
-#: gthumb/gth-browser.c:2402 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2403 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Fechar"
 
-#: gthumb/gth-browser.c:2941
+#: gthumb/gth-browser.c:2942
 msgid "Could not change name"
 msgstr "Não foi possível alterar o nome"
 
-#: gthumb/gth-browser.c:3438
+#: gthumb/gth-browser.c:3445
 msgid "Modified"
 msgstr "Modificado"
 
-#: gthumb/gth-browser.c:4571
+#: gthumb/gth-browser.c:4579
 msgid "Go to the previous visited location"
 msgstr "Vai para o local visitado anteriormente"
 
-#: gthumb/gth-browser.c:4577
+#: gthumb/gth-browser.c:4585
 msgid "Go to the next visited location"
 msgstr "Vai para o próximo local visitado"
 
-#: gthumb/gth-browser.c:4585
+#: gthumb/gth-browser.c:4593
 msgid "History"
 msgstr "Histórico"
 
-#: gthumb/gth-browser.c:4599
+#: gthumb/gth-browser.c:4607
 msgid "View the folders"
 msgstr "Veja as pastas"
 
-#: gthumb/gth-browser.c:4614
+#: gthumb/gth-browser.c:4622
 msgid "Edit file"
 msgstr "Edita o arquivo"
 
-#: gthumb/gth-browser.c:6626
+#: gthumb/gth-browser.c:6670
 #, c-format
 msgid "File type not supported"
 msgstr "Não há suporte ao tipo de arquivo"
 
-#: gthumb/gth-browser.c:6669
+#: gthumb/gth-browser.c:6713
 #, c-format
 msgid "No suitable module found"
 msgstr "Não foi encontrado um módulo adequado"
@@ -5488,6 +5336,10 @@ msgstr "Locais"
 #: gthumb/gth-location-chooser.c:617
 msgid "Other…"
 msgstr "Outros…"
+
+#: gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Nome"
 
 #: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:351
 msgid "Size"
@@ -5905,6 +5757,82 @@ msgstr "_Sobre gThumb"
 msgid "_Delete History"
 msgstr "_Excluir histórico"
 
+#~ msgid "720 × 720"
+#~ msgstr "720 × 720"
+
+#~ msgid "1024 × 1024"
+#~ msgstr "1024 × 1024"
+
+#~ msgid "1280 × 1280"
+#~ msgstr "1280 × 1280"
+
+#~ msgid "1600 × 1600"
+#~ msgstr "1600 × 1600"
+
+#~ msgid "2048 × 2048"
+#~ msgstr "2048 × 2048"
+
+#~ msgid "A_lbum:"
+#~ msgstr "Á_lbum:"
+
+#~ msgid "Add a new album"
+#~ msgstr "Adiciona um novo álbum"
+
+#~ msgid "Resize the images if larger than this size"
+#~ msgstr "Redimensiona as imagens se for maior que este tamanho"
+
+#~ msgid "Private"
+#~ msgstr "Privado"
+
+#~ msgid "_Visibility:"
+#~ msgstr "_Visibilidade:"
+
+#~ msgid "_Album:"
+#~ msgstr "Á_lbum:"
+
+#~ msgid "New Album"
+#~ msgstr "Novo álbum"
+
+#~ msgid "Export to Facebook"
+#~ msgstr "Exportar para o Facebook"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Upload images to Facebook"
+#~ msgstr "Envia imagens para o Facebook"
+
+#~ msgid "_Picasa Web Album…"
+#~ msgstr "Álbum da web do _Picasa…"
+
+#~ msgid "_Albums:"
+#~ msgstr "Ál_buns:"
+
+#~ msgid "Used"
+#~ msgstr "Usado"
+
+#~ msgid "Remaining photos"
+#~ msgstr "Fotos restantes"
+
+#~ msgid "Public"
+#~ msgstr "Público"
+
+#~ msgid "Could not get the album list"
+#~ msgstr "Não foi possível obter a lista de álbuns"
+
+# Álbuns em miúsculo por ser parte do nome do "Picasa Web" (vide site)
+#~ msgid "Export to Picasa Web Albums"
+#~ msgstr "Exporta para o Álbuns da web do Picasa"
+
+#~ msgid "Import from Picasa Web Album"
+#~ msgstr "Importar do Álbuns da web do Picasa"
+
+#~ msgid "Picasa Web Albums"
+#~ msgstr "Álbuns da web do Picasa"
+
+#~ msgid "Upload images to Picasa Web Albums"
+#~ msgstr "Enviar imagens para o Álbuns da web do Picasa"
+
 #~ msgid "--∶--"
 #~ msgstr "--∶--"
 
@@ -5955,9 +5883,6 @@ msgstr "_Excluir histórico"
 
 #~ msgid "gThumb Photo Import Tool"
 #~ msgstr "Ferramenta de importação de imagens do gThumb"
-
-#~ msgid "Example"
-#~ msgstr "Exemplo"
 
 #~ msgid "Extension example."
 #~ msgstr "Extensão exemplo."
