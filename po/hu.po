@@ -1,17 +1,17 @@
 # Hungarian translation for gthumb.
-# Copyright (C) 2003, 2004, 2005, 2007, 2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2007, 2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
 # Andras Timar <timar at gnome dot hu>, 2003, 2004.
 # Laszlo Dvornik <dvornik at gnome dot hu>, 2004.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2005, 2007, 2009, 2011, 2012.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-08-08 19:22+0000\n"
-"PO-Revision-Date: 2020-09-23 16:44+0200\n"
+"POT-Creation-Date: 2021-02-13 15:04+0000\n"
+"PO-Revision-Date: 2021-02-15 01:25+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -133,7 +133,7 @@ msgstr "Fényképek importálása a fényképezőgép kártyájáról"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:423 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:425 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -173,7 +173,7 @@ msgstr "Fájlok megnyitása _dupla kattintással"
 msgid "_Open files in fullscreen mode"
 msgstr "Fájlok megnyitása _teljes képernyős módban"
 
-#: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
+#: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:355
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
 #: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:335
 #: gthumb/gth-shortcuts-window.c:96
@@ -362,59 +362,64 @@ msgstr "a jobb oldalon"
 msgid "gThumb Preferences"
 msgstr "A gThumb beállításai"
 
-#: data/ui/preferences.ui:101
+#: data/ui/preferences.ui:98
 msgid "Appearance"
 msgstr "Megjelenés"
 
-#: data/ui/preferences.ui:125
+#: data/ui/preferences.ui:123
 msgid "T_humbnails in viewer:"
 msgstr "_Bélyegképek a megjelenítőben:"
 
-#: data/ui/preferences.ui:139
+#: data/ui/preferences.ui:137
 msgid "on the bottom"
 msgstr "alul"
 
-#: data/ui/preferences.ui:140
+#: data/ui/preferences.ui:138
 msgid "on the side"
 msgstr "oldalt"
 
-#: data/ui/preferences.ui:152
+#: data/ui/preferences.ui:150
 msgid "File _properties in browser:"
 msgstr "Fájlt_ulajdonságok a böngészőben:"
 
-#: data/ui/preferences.ui:203
+#: data/ui/preferences.ui:179
+#| msgid "Statusbar"
+msgid "_Statusbar"
+msgstr "Állapot_sáv"
+
+#: data/ui/preferences.ui:222
 msgid "On startup:"
 msgstr "Induláskor:"
 
-#: data/ui/preferences.ui:226
+#: data/ui/preferences.ui:245
 msgid "Go to last _visited location"
 msgstr "_Ugrás az utoljára meglátogatott helyre"
 
-#: data/ui/preferences.ui:247
+#: data/ui/preferences.ui:266
 msgid "Go to this _folder:"
 msgstr "U_grás a következő mappába:"
 
-#: data/ui/preferences.ui:277
+#: data/ui/preferences.ui:296
 msgid "Set to C_urrent"
 msgstr "_Beállítás a jelenlegire"
 
-#: data/ui/preferences.ui:299
+#: data/ui/preferences.ui:318
 msgid "_Reuse the active window to open files"
 msgstr "Az aktív ablak újra_hasznosítása fájlok megnyitásához"
 
-#: data/ui/preferences.ui:358
+#: data/ui/preferences.ui:377
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "_Megerősítés kérése fájlok vagy katalógusok törlésekor"
 
-#: data/ui/preferences.ui:373
+#: data/ui/preferences.ui:392
 msgid "Ask whether to save _modified files"
 msgstr "_Rákérdezés, hogy mentse-e a módosított fájlokat"
 
-#: data/ui/preferences.ui:388
+#: data/ui/preferences.ui:407
 msgid "_Store metadata inside files if possible"
 msgstr "Metaadatok _tárolása a fájlokon belül, ha lehetséges"
 
-#: data/ui/preferences.ui:421
+#: data/ui/preferences.ui:440
 #: extensions/catalogs/data/ui/catalog-properties.ui:39
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:576
 #: extensions/edit_metadata/gth-edit-general-page.c:482
@@ -748,14 +753,14 @@ msgstr "Gyűjtemény létrehozása"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:82
 #: extensions/file_manager/callbacks.c:109
 #: extensions/file_manager/callbacks.c:126
-#: extensions/rename_series/dlg-rename-series.c:850
+#: extensions/rename_series/dlg-rename-series.c:859
 #: gthumb/gth-folder-tree.c:1971
 msgid "Rename"
 msgstr "Átnevezés"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4557
-#: gthumb/gth-browser.c:4659 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4616
+#: gthumb/gth-browser.c:4718 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -812,9 +817,7 @@ msgstr "A cél _megjelenítése"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
-#: extensions/facebook/data/ui/facebook-album-properties.ui:45
 #: extensions/list_tools/data/ui/script-editor.ui:23
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:37
 msgid "_Name:"
 msgstr "_Név:"
 
@@ -884,7 +887,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Nem sikerült a fájlokat hozzáadni a katalógushoz"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:402
+#: extensions/search/gth-search-task.c:392
 msgid "Could not create the catalog"
 msgstr "Nem sikerült létrehozni a katalógust"
 
@@ -898,7 +901,6 @@ msgstr "_Hozzáadás"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:714
 #: extensions/edit_metadata/dlg-edit-metadata.c:347
-#| msgid "_Keep the dialog open"
 msgid "Keep the dialog open"
 msgstr "A párbeszédablak nyitva tartása"
 
@@ -942,10 +944,10 @@ msgid "Tag (embedded)"
 msgstr "Címke (beágyazott)"
 
 #: extensions/catalogs/gth-catalog.c:300
-#: extensions/exiv2_tools/exiv2-utils.cpp:876
-#: extensions/exiv2_tools/exiv2-utils.cpp:885
-#: extensions/exiv2_tools/exiv2-utils.cpp:915
-#: extensions/exiv2_tools/exiv2-utils.cpp:1448
+#: extensions/exiv2_tools/exiv2-utils.cpp:872
+#: extensions/exiv2_tools/exiv2-utils.cpp:881
+#: extensions/exiv2_tools/exiv2-utils.cpp:911
+#: extensions/exiv2_tools/exiv2-utils.cpp:1444
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "Érvénytelen fájlformátum"
@@ -1118,7 +1120,7 @@ msgstr "Cím"
 #: extensions/image_print/data/ui/print-layout.ui:239
 #: extensions/importer/data/ui/import-preferences.ui:287
 #: extensions/list_tools/data/ui/script-editor.ui:319
-#: extensions/rename_series/data/ui/rename-series.ui:249
+#: extensions/rename_series/data/ui/rename-series.ui:272
 #: extensions/webalbums/data/ui/web-album-exporter.ui:194
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
 #: gthumb/gth-main-default-metadata.c:64
@@ -1280,7 +1282,7 @@ msgstr "Az oldalak teljes száma"
 #: extensions/image_print/data/ui/print-layout.ui:224
 #: extensions/importer/data/ui/import-preferences.ui:275
 #: extensions/list_tools/data/ui/script-editor.ui:304
-#: extensions/rename_series/data/ui/rename-series.ui:128
+#: extensions/rename_series/data/ui/rename-series.ui:151
 #: extensions/webalbums/data/ui/web-album-exporter.ui:179
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1024
 msgid "Special code"
@@ -1289,7 +1291,7 @@ msgstr "Speciális kód"
 #. translate only the text in the curly brackets
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:201
 #: extensions/image_print/data/ui/print-layout.ui:256
-#: extensions/rename_series/data/ui/rename-series.ui:219
+#: extensions/rename_series/data/ui/rename-series.ui:242
 #: extensions/webalbums/data/ui/web-album-exporter.ui:211
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1056
 msgid "%D{ format }"
@@ -1305,10 +1307,8 @@ msgstr "A mai dátum"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:354
 #: extensions/contact_sheet/data/ui/image-wall.ui:85
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/facebook/data/ui/import-from-facebook.ui:211
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:209
 #: extensions/webalbums/data/ui/web-album-exporter.ui:361
 msgid "_Destination:"
 msgstr "_Cél:"
@@ -1328,7 +1328,7 @@ msgstr "Fájl_név:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:469
 #: extensions/contact_sheet/data/ui/image-wall.ui:199
-#: extensions/rename_series/data/ui/rename-series.ui:265
+#: extensions/rename_series/data/ui/rename-series.ui:288
 msgid "New enumerator digit"
 msgstr "Új számláló számjegy"
 
@@ -1549,8 +1549,6 @@ msgid "Delete Metadata"
 msgstr "Metaadatok törlése"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:17
-#: extensions/facebook/data/ui/facebook-album-properties.ui:135
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:127
 msgid "D_escription:"
 msgstr "_Leírás:"
 
@@ -1630,6 +1628,16 @@ msgstr "Fájlok írása"
 msgid "Reading files"
 msgstr "Fájlok olvasása"
 
+#: extensions/example/src/example.extension.desktop.in.in:3
+#| msgid "example: %s"
+msgid "example"
+msgstr "példa"
+
+#: extensions/example/src/example.extension.desktop.in.in:4
+#| msgid "example: %s"
+msgid "What example does"
+msgstr "Mit csinál a példa"
+
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
 msgstr "_Szerzői jog:"
@@ -1680,11 +1688,11 @@ msgid "State/Province:"
 msgstr "Állam/megye:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2080 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(érvénytelen érték)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:713
+#: extensions/exiv2_tools/exiv2-utils.cpp:709
 msgid "Exposure"
 msgstr "Expozíció"
 
@@ -1748,206 +1756,6 @@ msgstr "fényképkészítés dátuma"
 msgid "_Export To"
 msgstr "_Exportálás ide"
 
-#: extensions/facebook/data/ui/export-to-facebook.ui:34
-msgid "720 × 720"
-msgstr "720 × 720"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:38
-msgid "1024 × 1024"
-msgstr "1024 × 1024"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:42
-msgid "1280 × 1280"
-msgstr "1280 × 1280"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:46
-msgid "1600 × 1600"
-msgstr "1600 × 1600"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:50
-msgid "2048 × 2048"
-msgstr "2048 × 2048"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:145
-#: extensions/facebook/data/ui/import-from-facebook.ui:88
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:88
-msgid "Edit accounts"
-msgstr "Fiókok szerkesztése"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:180
-msgid "A_lbum:"
-msgstr "A_lbum:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:212
-msgid "Add a new album"
-msgstr "Új album hozzáadása"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:242
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "F_iók:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:274
-#: extensions/facebook/data/ui/export-to-facebook.ui:275
-msgid "Resize the images if larger than this size"
-msgstr "Képek átméretezése, ha nagyobbak ennél a méretnél"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:276
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:325
-#: extensions/webalbums/data/ui/web-album-exporter.ui:422
-msgid "_Resize if larger than:"
-msgstr "Át_méretezés, ha nagyobb mint:"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:14
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Nyilvános fényképek"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:18
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Privát fényképek, a barátok számára láthatók"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:22
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:15
-msgid "Private"
-msgstr "Privát"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:73
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:65
-msgid "_Visibility:"
-msgstr "_Láthatóság:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:122
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:98
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:122
-msgid "A_ccount:"
-msgstr "F_iók:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:136
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:135
-msgid "_Album:"
-msgstr "_Album:"
-
-#: extensions/facebook/dlg-export-to-facebook.c:124
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:120
-msgid "Files successfully uploaded to the server."
-msgstr "A fájlok sikeresen feltöltve a kiszolgálóra."
-
-#: extensions/facebook/dlg-export-to-facebook.c:151
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:148
-msgid "Could not upload the files"
-msgstr "Nem sikerült feltölteni a fájlokat"
-
-#: extensions/facebook/dlg-export-to-facebook.c:297
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:227
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "Nem sikerült csatlakozni a kiszolgálóhoz"
-
-#: extensions/facebook/dlg-export-to-facebook.c:368
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "Nem sikerült létrehozni az albumot"
-
-#: extensions/facebook/dlg-export-to-facebook.c:436
-msgid "New Album"
-msgstr "Új album"
-
-#: extensions/facebook/dlg-export-to-facebook.c:475
-msgid "Export to Facebook"
-msgstr "Exportálás a Facebookra"
-
-#: extensions/facebook/dlg-export-to-facebook.c:541
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1740
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:494
-msgid "No valid file selected."
-msgstr "Nincs érvényes fájl kiválasztva."
-
-#: extensions/facebook/dlg-export-to-facebook.c:542
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:495
-msgid "Could not export the files"
-msgstr "Nem sikerült exportálni a fájlokat"
-
-#: extensions/facebook/dlg-export-to-facebook.c:550
-#: extensions/find_duplicates/gth-find-duplicates.c:278
-#: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:502
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:872
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d fájl (%s)"
-msgstr[1] "%d fájl (%s)"
-
-#: extensions/facebook/dlg-export-to-facebook.c:571
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "Exportálás ide: %s"
-
-#: extensions/facebook/facebook-service.c:496
-#: extensions/flicker_utils/flickr-service.c:849
-#: extensions/picasaweb/picasa-web-service.c:738
-msgid "Getting the album list"
-msgstr "Albumok listájának lekérése"
-
-#: extensions/facebook/facebook-service.c:613
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "Új album létrehozása"
-
-#: extensions/facebook/facebook-service.c:671
-#: extensions/flicker_utils/flickr-service.c:1144
-#: extensions/picasaweb/picasa-web-service.c:783
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "Nem sikerült feltölteni a(z) „%s” fájlt: %s"
-
-#. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:734
-#: extensions/flicker_utils/flickr-service.c:1253
-#: extensions/picasaweb/picasa-web-service.c:838
-#, c-format
-msgid "Uploading “%s”"
-msgstr "„%s” feltöltése"
-
-#: extensions/facebook/facebook-service.c:954
-#: extensions/flicker_utils/flickr-service.c:1450
-#: extensions/picasaweb/picasa-web-service.c:1062
-msgid "Uploading the files to the server"
-msgstr "Fájlok feltöltése a kiszolgálóra"
-
-#: extensions/facebook/facebook-service.c:1048
-#: extensions/flicker_utils/flickr-service.c:1611
-#: extensions/picasaweb/picasa-web-service.c:1174
-msgid "Getting the photo list"
-msgstr "Fényképek listájának lekérése"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:3
-msgid "Facebook"
-msgstr "Facebook"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:4
-msgid "Upload images to Facebook"
-msgstr "Képek feltöltése a Facebookra"
-
 #: extensions/file_manager/actions.c:137
 msgid "New folder"
 msgstr "Új mappa"
@@ -1960,7 +1768,7 @@ msgstr "Adja meg a mappa nevét:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5569 gthumb/gth-browser.c:5605
+#: gthumb/gth-browser.c:5631 gthumb/gth-browser.c:5674
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Nem sikerült végrehajtani a műveletet"
@@ -1985,7 +1793,7 @@ msgstr ""
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:417 gthumb/gtk-utils.h:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:418 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Másolás"
 
@@ -2615,7 +2423,7 @@ msgstr "Adja meg az alapbeállítás nevet:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1863
+#: gthumb/gth-browser.c:1865
 msgid "Could not save the file"
 msgstr "Nem sikerült elmenteni a fájlt"
 
@@ -2818,7 +2626,7 @@ msgid "No duplicates found."
 msgstr "Nem találhatók azonosak."
 
 #: extensions/find_duplicates/data/ui/find-duplicates.ui:32
-#: extensions/rename_series/data/ui/rename-series.ui:27
+#: extensions/rename_series/data/ui/rename-series.ui:28
 #: extensions/search/data/ui/search-editor.ui:73
 msgid "Start _at:"
 msgstr "Kezdés _itt:"
@@ -2861,6 +2669,15 @@ msgstr "minden fájl"
 #: extensions/find_duplicates/gth-find-duplicates.c:69
 msgid "no file"
 msgstr "nincs fájl"
+
+#: extensions/find_duplicates/gth-find-duplicates.c:278
+#: extensions/find_duplicates/gth-find-duplicates.c:477
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:874
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d fájl (%s)"
+msgstr[1] "%d fájl (%s)"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:519
 #: extensions/find_duplicates/gth-find-duplicates.c:650
@@ -2906,9 +2723,17 @@ msgstr "Flicker"
 msgid "Upload images to Flickr"
 msgstr "Képek feltöltése a Flickrre"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
+msgid "Public photos"
+msgstr "Nyilvános fényképek"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
 msgid "Private photos, visible to family and friends"
 msgstr "Privát fényképek, a család és a barátok számára láthatók"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
+msgid "Private photos, visible to friends"
+msgstr "Privát fényképek, a barátok számára láthatók"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
 msgid "Private photos, visible to family"
@@ -2930,8 +2755,16 @@ msgstr "Tartalom moderálása"
 msgid "Restricted content"
 msgstr "Korlátozott tartalom"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
+msgid "_Account:"
+msgstr "F_iók:"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
+msgid "Edit accounts"
+msgstr "Fiókok szerkesztése"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:175
 msgid "Free space:"
 msgstr "Szabad hely:"
 
@@ -2952,10 +2785,54 @@ msgstr "_Biztonság:"
 msgid "Hi_de from public searches"
 msgstr "_Elrejtés a nyilvános keresés elől"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
+#: extensions/webalbums/data/ui/web-album-exporter.ui:422
+msgid "_Resize if larger than:"
+msgstr "Át_méretezés, ha nagyobb mint:"
+
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
+#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
+msgid "A_ccount:"
+msgstr "F_iók:"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:136
+#: extensions/flicker_utils/dlg-export-to-flickr.c:410
+#: extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: extensions/oauth/web-service.c:377
+msgid "Could not connect to the server"
+msgstr "Nem sikerült csatlakozni a kiszolgálóhoz"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:161
+msgid "Files successfully uploaded to the server."
+msgstr "A fájlok sikeresen feltöltve a kiszolgálóra."
+
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
 #: extensions/webalbums/gth-web-exporter.c:1826
 msgid "_Open in the Browser"
 msgstr "_Megnyitás a böngészőben"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:188
+#: extensions/flicker_utils/dlg-export-to-flickr.c:223
+msgid "Could not create the album"
+msgstr "Nem sikerült létrehozni az albumot"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:246
+msgid "Could not upload the files"
+msgstr "Nem sikerült feltölteni a fájlokat"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:592
+#: extensions/image_print/gth-image-print-job.c:1740
+msgid "No valid file selected."
+msgstr "Nincs érvényes fájl kiválasztva."
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:593
+msgid "Could not export the files"
+msgstr "Nem sikerült exportálni a fájlokat"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:624
+#, c-format
+msgid "Export to %s"
+msgstr "Exportálás ide: %s"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
 #: gthumb/gth-file-selection-info.c:140
@@ -2966,20 +2843,16 @@ msgstr[0] "%d fájl"
 msgstr[1] "%d fájl"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:279
 msgid "Could not get the photo list"
 msgstr "Nem sikerült lekérni a fényképlistát"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:382
 #: extensions/flicker_utils/dlg-import-from-flickr.c:561
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:598
 msgid "No album selected"
 msgstr "Nincs album kiválasztva"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:521
 #: extensions/photo_importer/dlg-photo-importer.c:584
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:556
 msgid "_Import"
 msgstr "_Importálás"
 
@@ -3033,6 +2906,35 @@ msgstr ""
 "engedélyezze a gThumb programnak a fényképfeltöltést a(z) %s fiókba. Ha "
 "végzett, térjen vissza ehhez az ablakhoz az engedélyezés befejezéséhez."
 
+#: extensions/flicker_utils/flickr-service.c:849
+msgid "Getting the album list"
+msgstr "Albumok listájának lekérése"
+
+#: extensions/flicker_utils/flickr-service.c:943
+#: extensions/flicker_utils/flickr-service.c:1058
+#: extensions/flicker_utils/flickr-service.c:1097
+msgid "Creating the new album"
+msgstr "Új album létrehozása"
+
+#: extensions/flicker_utils/flickr-service.c:1144
+#, c-format
+msgid "Could not upload “%s”: %s"
+msgstr "Nem sikerült feltölteni a(z) „%s” fájlt: %s"
+
+#. Translators: %s is a filename
+#: extensions/flicker_utils/flickr-service.c:1253
+#, c-format
+msgid "Uploading “%s”"
+msgstr "„%s” feltöltése"
+
+#: extensions/flicker_utils/flickr-service.c:1450
+msgid "Uploading the files to the server"
+msgstr "Fájlok feltöltése a kiszolgálóra"
+
+#: extensions/flicker_utils/flickr-service.c:1611
+msgid "Getting the photo list"
+msgstr "Fényképek listájának lekérése"
+
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
 #, c-format
@@ -3062,7 +2964,6 @@ msgid "Mute"
 msgstr "Némítás"
 
 #: extensions/gstreamer_tools/callbacks.c:35
-#| msgid "Play/Pause"
 msgid "Play faster"
 msgstr "Lejátszás gyorsabban"
 
@@ -3076,57 +2977,52 @@ msgid "Next frame"
 msgstr "Következő képkocka"
 
 #: extensions/gstreamer_tools/callbacks.c:38
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:460
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:461
 msgid "Go forward 1 second"
 msgstr "Ugrás előre 1 másodperccel"
 
 #: extensions/gstreamer_tools/callbacks.c:39
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:356
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:357
 msgid "Go forward 5 seconds"
 msgstr "Ugrás előre 5 másodperccel"
 
 #: extensions/gstreamer_tools/callbacks.c:40
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:370
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:371
 msgid "Go forward 10 seconds"
 msgstr "Ugrás előre 10 másodperccel"
 
 #: extensions/gstreamer_tools/callbacks.c:41
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:384
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:385
 msgid "Go forward 1 minute"
 msgstr "Ugrás előre 1 perccel"
 
 #: extensions/gstreamer_tools/callbacks.c:42
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:398
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:399
 msgid "Go forward 5 minutes"
 msgstr "Ugrás előre 5 perccel"
 
 #: extensions/gstreamer_tools/callbacks.c:43
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:446
-#| msgid "Go back to the index"
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:447
 msgid "Go back 1 second"
 msgstr "Ugrás vissza 1 másodperccel"
 
 #: extensions/gstreamer_tools/callbacks.c:44
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:300
-#| msgid "Go back to the index"
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:301
 msgid "Go back 5 seconds"
 msgstr "Ugrás vissza 5 másodperccel"
 
 #: extensions/gstreamer_tools/callbacks.c:45
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:314
-#| msgid "Go back to the index"
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:315
 msgid "Go back 10 seconds"
 msgstr "Ugrás vissza 10 másodperccel"
 
 #: extensions/gstreamer_tools/callbacks.c:46
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:328
-#| msgid "Go back to the index"
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:329
 msgid "Go back 1 minute"
 msgstr "Ugrás vissza 1 perccel"
 
 #: extensions/gstreamer_tools/callbacks.c:47
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:342
-#| msgid "Go back to the index"
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:343
 msgid "Go back 5 minutes"
 msgstr "Ugrás vissza 5 perccel"
 
@@ -3161,52 +3057,52 @@ msgid "Time:"
 msgstr "Idő:"
 
 #. minus 5 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:296
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:297
 msgid "-5s"
 msgstr "-5 mp"
 
 #. minus 10 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:310
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:311
 msgid "-10s"
 msgstr "-10 mp"
 
 #. minus 1 minute
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:324
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:325
 msgid "-1m"
 msgstr "-1 p"
 
 #. minus 5 minutes
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:338
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:339
 msgid "-5m"
 msgstr "-5 p"
 
 #. plus 5 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:352
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:353
 msgid "+5s"
 msgstr "+5 mp"
 
 #. plus 10 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:366
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:367
 msgid "+10s"
 msgstr "+10 mp"
 
 #. plus 1 minute
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:380
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:381
 msgid "+1m"
 msgstr "+1 p"
 
 #. plus 5 minutes
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:394
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:395
 msgid "+5m"
 msgstr "+5 p"
 
 #. minus 1 second
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:442
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:443
 msgid "-1s"
 msgstr "-1 mp"
 
 #. plus 1 second
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:456
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:457
 msgid "+1s"
 msgstr "+1 mp"
 
@@ -3230,11 +3126,11 @@ msgstr "Videó lejátszása"
 msgid "Pause"
 msgstr "Szünet"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1048
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1115
 msgid "Take a screenshot"
 msgstr "Képernyőkép készítése"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1055
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1122
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
@@ -3815,7 +3711,7 @@ msgstr "Nem került fájl importálásra"
 msgid "The selected files are already present in the destination."
 msgstr "A kiválasztott fájlok már szerepelnek a célban."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:692
 msgid "Could not delete the files"
 msgstr "Nem sikerült törölni a fájlokat"
 
@@ -3899,7 +3795,7 @@ msgid "%attr{ attribute name }"
 msgstr "%attr{ attribútum neve }"
 
 #: extensions/list_tools/data/ui/script-editor.ui:386
-#: extensions/rename_series/data/ui/rename-series.ui:356
+#: extensions/rename_series/data/ui/rename-series.ui:379
 msgid "A file attribute"
 msgstr "Egy fájl attribútum"
 
@@ -4132,7 +4028,6 @@ msgid "_Tags:"
 msgstr "_Címkék:"
 
 #: extensions/photo_importer/dlg-photo-importer.c:227
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:149
 msgid "Could not import the files"
 msgstr "Nem sikerült importálni a fájlokat"
 
@@ -4180,52 +4075,6 @@ msgstr "Fényképek importálása eltávolítható eszközökről."
 msgid "camera-photo"
 msgstr "camera-photo"
 
-#: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
-msgid "_Picasa Web Album…"
-msgstr "_Picasa Webalbum…"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:233
-msgid "_Albums:"
-msgstr "_Albumok:"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:267
-#: gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Név"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:275
-msgid "Used"
-msgstr "Használt"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:286
-msgid "Remaining photos"
-msgstr "Hátralévő fényképek"
-
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:12
-msgid "Public"
-msgstr "Publikus"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:344
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:468
-msgid "Could not get the album list"
-msgstr "Nem sikerült lekérni az albumlistát"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:431
-msgid "Export to Picasa Web Albums"
-msgstr "Exportálás Picasa Webalbumba"
-
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:547
-msgid "Import from Picasa Web Album"
-msgstr "Importálás Picasa Webalbumból"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:3
-msgid "Picasa Web Albums"
-msgstr "Picasa Webalbumok"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:4
-msgid "Upload images to Picasa Web Albums"
-msgstr "Fényképek feltöltése a Picasa Webalbumokba"
-
 #: extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
 msgstr "RAW formátum"
@@ -4271,69 +4120,74 @@ msgstr "eltávolítás"
 msgid "add"
 msgstr "hozzáadás"
 
-#: extensions/rename_series/data/ui/rename-series.ui:41
+#: extensions/rename_series/data/ui/rename-series.ui:42
 msgid "_Sort by:"
 msgstr "_Rendezés:"
 
 #. Translators: this is the text case (upper or lower case).
-#: extensions/rename_series/data/ui/rename-series.ui:54
+#: extensions/rename_series/data/ui/rename-series.ui:55
 msgid "Cas_e:"
 msgstr "B_etűfajta:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:83
+#: extensions/rename_series/data/ui/rename-series.ui:84
 #: gthumb/gth-browser-actions-entries.h:94
 msgid "Help"
 msgstr "Súgó"
 
-#: extensions/rename_series/data/ui/rename-series.ui:97
+#: extensions/rename_series/data/ui/rename-series.ui:98
 msgid "Edit template"
 msgstr "Sablon szerkesztése"
 
+#: extensions/rename_series/data/ui/rename-series.ui:119
+#| msgid "leave the oldest duplicates"
+msgid "Revert to the last used template"
+msgstr "Visszaállítás a legutóbb használt sablonra"
+
 #. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:204
+#: extensions/rename_series/data/ui/rename-series.ui:227
 msgid "%M{ format }"
 msgstr "%M{ formátum }"
 
 #. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:234
+#: extensions/rename_series/data/ui/rename-series.ui:257
 #, c-format
 msgid "%A{ identifier }"
 msgstr "%A{ azonosító }"
 
-#: extensions/rename_series/data/ui/rename-series.ui:280
+#: extensions/rename_series/data/ui/rename-series.ui:303
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1106
 msgid "The original filename"
 msgstr "Az eredeti fájlnév"
 
-#: extensions/rename_series/data/ui/rename-series.ui:295
+#: extensions/rename_series/data/ui/rename-series.ui:318
 msgid "The original extension"
 msgstr "Az eredeti kiterjesztés"
 
-#: extensions/rename_series/data/ui/rename-series.ui:310
+#: extensions/rename_series/data/ui/rename-series.ui:333
 msgid "The original enumerator"
 msgstr "Az eredeti számláló"
 
-#: extensions/rename_series/data/ui/rename-series.ui:325
+#: extensions/rename_series/data/ui/rename-series.ui:348
 msgid "The modification date"
 msgstr "A módosítás dátuma"
 
-#: extensions/rename_series/data/ui/rename-series.ui:341
+#: extensions/rename_series/data/ui/rename-series.ui:364
 msgid "The digitalization date"
 msgstr "A digitalizálás dátuma"
 
-#: extensions/rename_series/data/ui/rename-series.ui:389
+#: extensions/rename_series/data/ui/rename-series.ui:436
 msgid "1"
 msgstr "1"
 
-#: extensions/rename_series/data/ui/rename-series.ui:426
+#: extensions/rename_series/data/ui/rename-series.ui:473
 msgid "Re_verse Order"
 msgstr "Fo_rdított sorrend"
 
-#: extensions/rename_series/data/ui/rename-series.ui:473
+#: extensions/rename_series/data/ui/rename-series.ui:520
 msgid "_Template:"
 msgstr "_Sablon:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:514
+#: extensions/rename_series/data/ui/rename-series.ui:573
 msgid "_Preview:"
 msgstr "_Előnézet:"
 
@@ -4378,28 +4232,28 @@ msgstr "Nem sikerült elmenteni a sablont"
 msgid "Edit Template"
 msgstr "Sablon szerkesztése"
 
-#: extensions/rename_series/dlg-rename-series.c:860
+#: extensions/rename_series/dlg-rename-series.c:869
 #: gthumb/gth-folder-tree.c:1974
 msgid "_Rename"
 msgstr "Át_nevezés"
 
-#: extensions/rename_series/dlg-rename-series.c:877
+#: extensions/rename_series/dlg-rename-series.c:886
 msgid "Old Name"
 msgstr "Régi név"
 
-#: extensions/rename_series/dlg-rename-series.c:888
+#: extensions/rename_series/dlg-rename-series.c:897
 msgid "New Name"
 msgstr "Új név"
 
-#: extensions/rename_series/dlg-rename-series.c:966
+#: extensions/rename_series/dlg-rename-series.c:975
 msgid "Keep original case"
 msgstr "Eredeti betűfajta megtartása"
 
-#: extensions/rename_series/dlg-rename-series.c:967
+#: extensions/rename_series/dlg-rename-series.c:976
 msgid "Convert to lower-case"
 msgstr "Átalakítás kisbetűsre"
 
-#: extensions/rename_series/dlg-rename-series.c:968
+#: extensions/rename_series/dlg-rename-series.c:977
 msgid "Convert to upper-case"
 msgstr "Átalakítás nagybetűsre"
 
@@ -4478,7 +4332,7 @@ msgid "Search again"
 msgstr "Keresés újra"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:169
+#: extensions/search/callbacks.c:197
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Keresés"
@@ -4497,16 +4351,16 @@ msgstr "bármelyik az alábbi szabályok közül"
 msgid "Add another location"
 msgstr "Másik hely hozzáadása"
 
-#: extensions/search/gth-search-task.c:194
+#: extensions/search/gth-search-task.c:189
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Mostanáig megtalált fájlok: %s"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:333
 msgid "Searching…"
 msgstr "Keresés…"
 
-#: extensions/search/gth-search-task.c:347
+#: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
 msgstr "A művelet megszakítása"
 
@@ -4854,9 +4708,9 @@ msgstr "Webalbumok"
 msgid "Create static web albums."
 msgstr "Statikus webalbumok létrehozása."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6574 gthumb/gth-browser.c:6593
-#: gthumb/gth-browser.c:6617 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1172
+#: gthumb/gth-browser.c:6669 gthumb/gth-browser.c:6688
+#: gthumb/gth-browser.c:6712 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Nem sikerült betölteni a(z) „%s” pozíciót"
@@ -5032,7 +4886,7 @@ msgstr "Fájlok áthelyezése a Kukába"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2055
+#: gthumb/glib-utils.c:2056
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -5044,7 +4898,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2064
+#: gthumb/glib-utils.c:2065
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5145,8 +4999,8 @@ msgstr "Ablak bezárása"
 msgid "Open location"
 msgstr "Hely megnyitása"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4572
-#: gthumb/gth-browser.c:4590 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4631
+#: gthumb/gth-browser.c:4649 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Teljes képernyő"
@@ -5156,12 +5010,10 @@ msgid "Revert image to saved"
 msgstr "Kép visszaállítása a mentettre"
 
 #: gthumb/gth-browser-actions-entries.h:105
-#| msgid "Save Image"
 msgid "Save image"
 msgstr "Kép mentése"
 
 #: gthumb/gth-browser-actions-entries.h:106
-#| msgid "Save Image"
 msgid "Save image as"
 msgstr "Kép mentése másként"
 
@@ -5229,82 +5081,82 @@ msgstr "Összes kijelölése"
 msgid "Select none"
 msgstr "Kijelölés megszüntetése"
 
-#: gthumb/gth-browser.c:408
+#: gthumb/gth-browser.c:410
 msgid "[modified]"
 msgstr "[módosítva]"
 
-#: gthumb/gth-browser.c:873
+#: gthumb/gth-browser.c:875
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d fájl kijelölve (%s)"
 msgstr[1] "%d fájl kijelölve (%s)"
 
-#: gthumb/gth-browser.c:908
+#: gthumb/gth-browser.c:910
 #, c-format
 msgid "%s of free space"
 msgstr "%s szabad hely"
 
-#: gthumb/gth-browser.c:1786 gthumb/gth-browser.c:1802
+#: gthumb/gth-browser.c:1788 gthumb/gth-browser.c:1804
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nem található megfelelő modul ehhez: %s"
 
-#: gthumb/gth-browser.c:1907
+#: gthumb/gth-browser.c:1909
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Menti a módosításokat a(z) „%s” fájlba?"
 
-#: gthumb/gth-browser.c:1912
+#: gthumb/gth-browser.c:1914
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Ha nem menti, a fájl módosításai azonnal elvesznek."
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1915
 msgid "Do _Not Save"
 msgstr "_Ne mentse"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4598
+#: gthumb/gth-browser.c:2403 gthumb/gth-browser.c:4657
 msgid "Accept"
 msgstr "Elfogadás"
 
-#: gthumb/gth-browser.c:2401 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2403 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Bezárás"
 
-#: gthumb/gth-browser.c:2939
+#: gthumb/gth-browser.c:2942
 msgid "Could not change name"
 msgstr "Nem sikerült megváltoztatni a nevet"
 
-#: gthumb/gth-browser.c:3436
+#: gthumb/gth-browser.c:3445
 msgid "Modified"
 msgstr "Módosítva"
 
-#: gthumb/gth-browser.c:4520
+#: gthumb/gth-browser.c:4579
 msgid "Go to the previous visited location"
 msgstr "Ugrás az előző meglátogatott helyre"
 
-#: gthumb/gth-browser.c:4526
+#: gthumb/gth-browser.c:4585
 msgid "Go to the next visited location"
 msgstr "Ugrás a következő meglátogatott helyre"
 
-#: gthumb/gth-browser.c:4534
+#: gthumb/gth-browser.c:4593
 msgid "History"
 msgstr "Előzmények"
 
-#: gthumb/gth-browser.c:4548
+#: gthumb/gth-browser.c:4607
 msgid "View the folders"
 msgstr "A mappák megtekintése"
 
-#: gthumb/gth-browser.c:4563
+#: gthumb/gth-browser.c:4622
 msgid "Edit file"
 msgstr "Fájl szerkesztése"
 
-#: gthumb/gth-browser.c:6575
+#: gthumb/gth-browser.c:6670
 #, c-format
 msgid "File type not supported"
 msgstr "A fájltípus nem támogatott"
 
-#: gthumb/gth-browser.c:6618
+#: gthumb/gth-browser.c:6713
 #, c-format
 msgid "No suitable module found"
 msgstr "Nem található megfelelő modul"
@@ -5331,23 +5183,23 @@ msgstr "Formátumbeállítások _megjelenítése"
 msgid "Computer"
 msgstr "Számítógép"
 
-#: gthumb/gth-file-source-vfs.c:773
+#: gthumb/gth-file-source-vfs.c:796
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
 "A fájlokat nem sikerült áthelyezni a Kukába. Szeretné véglegesen törölni azt?"
 
-#: gthumb/gth-file-source-vfs.c:784
+#: gthumb/gth-file-source-vfs.c:807
 msgid "Could not move the files to the Trash"
 msgstr "Nem sikerült áthelyezni a fájlokat a Kukába"
 
-#: gthumb/gth-file-source-vfs.c:829
+#: gthumb/gth-file-source-vfs.c:852
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Biztosan véglegesen törölni akarja a következőt: „%s”?"
 
-#: gthumb/gth-file-source-vfs.c:832
+#: gthumb/gth-file-source-vfs.c:855
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5355,7 +5207,7 @@ msgid_plural ""
 msgstr[0] "Biztos benne, hogy véglegesen törli a kiválasztott %d fájlt?"
 msgstr[1] "Biztos benne, hogy véglegesen törli a kiválasztott %d fájlt?"
 
-#: gthumb/gth-file-source-vfs.c:842
+#: gthumb/gth-file-source-vfs.c:865
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Ha törli a fájlt, az véglegesen elvész."
 
@@ -5446,6 +5298,10 @@ msgstr "Helyek"
 msgid "Other…"
 msgstr "Egyéb…"
 
+#: gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Név"
+
 #: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:351
 msgid "Size"
 msgstr "Méret"
@@ -5456,8 +5312,6 @@ msgstr "Bájt"
 
 #. Translators: the file modified time.
 #: gthumb/gth-main-default-metadata.c:43
-#| msgctxt "the file mtime"
-#| msgid "Modified Date & Time"
 msgid "Modified Date & Time"
 msgstr "Módosított dátum és idő"
 
@@ -5761,7 +5615,7 @@ msgstr "Színek"
 msgid "Rotation"
 msgstr "Forgatás"
 
-#: gthumb/gth-window.c:1034
+#: gthumb/gth-window.c:1048
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5770,11 +5624,11 @@ msgstr ""
 "A(z) „%s” billentyűkombináció már hozzá van rendelve ehhez a művelethez: "
 "„%s”. Szeretné inkább ehhez a művelethez újra hozzárendelni?"
 
-#: gthumb/gth-window.c:1042
+#: gthumb/gth-window.c:1056
 msgid "Reassign"
 msgstr "Újra hozzárendelés"
 
-#: gthumb/gth-window.c:1060
+#: gthumb/gth-window.c:1074
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5783,7 +5637,7 @@ msgstr ""
 "A(z) „%s” billentyűkombináció már hozzá van rendelve a(z) „%s” művelethez, "
 "és nem változtatható meg."
 
-#: gthumb/gth-window.c:1064
+#: gthumb/gth-window.c:1078
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr ""
@@ -5865,6 +5719,81 @@ msgstr "A gThumb _névjegye"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "Előzmények _törlése"
+
+#~ msgid "720 × 720"
+#~ msgstr "720 × 720"
+
+#~ msgid "1024 × 1024"
+#~ msgstr "1024 × 1024"
+
+#~ msgid "1280 × 1280"
+#~ msgstr "1280 × 1280"
+
+#~ msgid "1600 × 1600"
+#~ msgstr "1600 × 1600"
+
+#~ msgid "2048 × 2048"
+#~ msgstr "2048 × 2048"
+
+#~ msgid "A_lbum:"
+#~ msgstr "A_lbum:"
+
+#~ msgid "Add a new album"
+#~ msgstr "Új album hozzáadása"
+
+#~ msgid "Resize the images if larger than this size"
+#~ msgstr "Képek átméretezése, ha nagyobbak ennél a méretnél"
+
+#~ msgid "Private"
+#~ msgstr "Privát"
+
+#~ msgid "_Visibility:"
+#~ msgstr "_Láthatóság:"
+
+#~ msgid "_Album:"
+#~ msgstr "_Album:"
+
+#~ msgid "New Album"
+#~ msgstr "Új album"
+
+#~ msgid "Export to Facebook"
+#~ msgstr "Exportálás a Facebookra"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Upload images to Facebook"
+#~ msgstr "Képek feltöltése a Facebookra"
+
+#~ msgid "_Picasa Web Album…"
+#~ msgstr "_Picasa Webalbum…"
+
+#~ msgid "_Albums:"
+#~ msgstr "_Albumok:"
+
+#~ msgid "Used"
+#~ msgstr "Használt"
+
+#~ msgid "Remaining photos"
+#~ msgstr "Hátralévő fényképek"
+
+#~ msgid "Public"
+#~ msgstr "Publikus"
+
+#~ msgid "Could not get the album list"
+#~ msgstr "Nem sikerült lekérni az albumlistát"
+
+#~ msgid "Export to Picasa Web Albums"
+#~ msgstr "Exportálás Picasa Webalbumba"
+
+#~ msgid "Import from Picasa Web Album"
+#~ msgstr "Importálás Picasa Webalbumból"
+
+#~ msgid "Picasa Web Albums"
+#~ msgstr "Picasa Webalbumok"
+
+#~ msgid "Upload images to Picasa Web Albums"
+#~ msgstr "Fényképek feltöltése a Picasa Webalbumokba"
 
 #~ msgid "--∶--"
 #~ msgstr "--∶--"
