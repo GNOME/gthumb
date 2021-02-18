@@ -8,14 +8,14 @@
 # Rıdvan Can <ridvan@gamebox.net>, 2015.
 # Serdar Sağlam <teknomobil@yandex.com>, 2019.
 # Sabri Ünal <libreajans@gmail.com>, 2019-2020.
-# Emin Tufan Çetin <etcetin@gmail.com>, 2020.
+# Emin Tufan Çetin <etcetin@gmail.com>, 2020, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-11-29 17:28+0000\n"
-"PO-Revision-Date: 2020-12-07 17:36+0300\n"
+"POT-Creation-Date: 2021-02-13 15:04+0000\n"
+"PO-Revision-Date: 2021-02-18 04:08+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -139,7 +139,7 @@ msgstr "Kamera kartınızdaki fotoğrafları içeri aktar"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:424 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:425 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -758,14 +758,14 @@ msgstr "Kütüphane Oluştur"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:82
 #: extensions/file_manager/callbacks.c:109
 #: extensions/file_manager/callbacks.c:126
-#: extensions/rename_series/dlg-rename-series.c:850
+#: extensions/rename_series/dlg-rename-series.c:859
 #: gthumb/gth-folder-tree.c:1971
 msgid "Rename"
 msgstr "Yeniden Adlandır"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4608
-#: gthumb/gth-browser.c:4710 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4616
+#: gthumb/gth-browser.c:4718 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Özellikler"
 
@@ -822,9 +822,7 @@ msgstr "Hedefi _görüntüle"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
-#: extensions/facebook/data/ui/facebook-album-properties.ui:45
 #: extensions/list_tools/data/ui/script-editor.ui:23
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:37
 msgid "_Name:"
 msgstr "_Ad:"
 
@@ -894,7 +892,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Dosyalar kataloga eklenemedi"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:402
+#: extensions/search/gth-search-task.c:392
 msgid "Could not create the catalog"
 msgstr "Katalog oluşturulamadı"
 
@@ -951,10 +949,10 @@ msgid "Tag (embedded)"
 msgstr "Etiket (gömülü)"
 
 #: extensions/catalogs/gth-catalog.c:300
-#: extensions/exiv2_tools/exiv2-utils.cpp:876
-#: extensions/exiv2_tools/exiv2-utils.cpp:885
-#: extensions/exiv2_tools/exiv2-utils.cpp:915
-#: extensions/exiv2_tools/exiv2-utils.cpp:1448
+#: extensions/exiv2_tools/exiv2-utils.cpp:872
+#: extensions/exiv2_tools/exiv2-utils.cpp:881
+#: extensions/exiv2_tools/exiv2-utils.cpp:911
+#: extensions/exiv2_tools/exiv2-utils.cpp:1444
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "Geçersiz dosya biçimi"
@@ -1127,7 +1125,7 @@ msgstr "Başlık"
 #: extensions/image_print/data/ui/print-layout.ui:239
 #: extensions/importer/data/ui/import-preferences.ui:287
 #: extensions/list_tools/data/ui/script-editor.ui:319
-#: extensions/rename_series/data/ui/rename-series.ui:249
+#: extensions/rename_series/data/ui/rename-series.ui:272
 #: extensions/webalbums/data/ui/web-album-exporter.ui:194
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
 #: gthumb/gth-main-default-metadata.c:64
@@ -1289,7 +1287,7 @@ msgstr "Toplam sayfa sayısı"
 #: extensions/image_print/data/ui/print-layout.ui:224
 #: extensions/importer/data/ui/import-preferences.ui:275
 #: extensions/list_tools/data/ui/script-editor.ui:304
-#: extensions/rename_series/data/ui/rename-series.ui:128
+#: extensions/rename_series/data/ui/rename-series.ui:151
 #: extensions/webalbums/data/ui/web-album-exporter.ui:179
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1024
 msgid "Special code"
@@ -1298,7 +1296,7 @@ msgstr "Özel kod"
 #. translate only the text in the curly brackets
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:201
 #: extensions/image_print/data/ui/print-layout.ui:256
-#: extensions/rename_series/data/ui/rename-series.ui:219
+#: extensions/rename_series/data/ui/rename-series.ui:242
 #: extensions/webalbums/data/ui/web-album-exporter.ui:211
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1056
 msgid "%D{ format }"
@@ -1314,10 +1312,8 @@ msgstr "Geçerli tarih"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:354
 #: extensions/contact_sheet/data/ui/image-wall.ui:85
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/facebook/data/ui/import-from-facebook.ui:211
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:209
 #: extensions/webalbums/data/ui/web-album-exporter.ui:361
 msgid "_Destination:"
 msgstr "He_def:"
@@ -1337,7 +1333,7 @@ msgstr "Dosya _adı:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:469
 #: extensions/contact_sheet/data/ui/image-wall.ui:199
-#: extensions/rename_series/data/ui/rename-series.ui:265
+#: extensions/rename_series/data/ui/rename-series.ui:288
 msgid "New enumerator digit"
 msgstr "Yeni numaralayıcı basamağı"
 
@@ -1560,8 +1556,6 @@ msgid "Delete Metadata"
 msgstr "Üst Veriyi Sil"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:17
-#: extensions/facebook/data/ui/facebook-album-properties.ui:135
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:127
 msgid "D_escription:"
 msgstr "A_çıklama:"
 
@@ -1641,6 +1635,14 @@ msgstr "Dosyalar yazılıyor"
 msgid "Reading files"
 msgstr "Dosyalar okunuyor"
 
+#: extensions/example/src/example.extension.desktop.in.in:3
+msgid "example"
+msgstr "örnek"
+
+#: extensions/example/src/example.extension.desktop.in.in:4
+msgid "What example does"
+msgstr "Örnek ne yapar"
+
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
 msgstr "T_elif hakkı:"
@@ -1691,11 +1693,11 @@ msgid "State/Province:"
 msgstr "Eyalet/Bölge:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2080 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(geçersiz değer)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:713
+#: extensions/exiv2_tools/exiv2-utils.cpp:709
 msgid "Exposure"
 msgstr "Pozlama"
 
@@ -1759,205 +1761,6 @@ msgstr "fotoğrafın çekildi tarih"
 msgid "_Export To"
 msgstr "_Şuraya Dışa Aktar"
 
-#: extensions/facebook/data/ui/export-to-facebook.ui:34
-msgid "720 × 720"
-msgstr "720 × 720"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:38
-msgid "1024 × 1024"
-msgstr "1024 × 1024"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:42
-msgid "1280 × 1280"
-msgstr "1280 × 1280"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:46
-msgid "1600 × 1600"
-msgstr "1600 × 1600"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:50
-msgid "2048 × 2048"
-msgstr "2048 × 2048"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:145
-#: extensions/facebook/data/ui/import-from-facebook.ui:88
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:88
-msgid "Edit accounts"
-msgstr "Hesapları düzenle"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:180
-msgid "A_lbum:"
-msgstr "A_lbüm:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:212
-msgid "Add a new album"
-msgstr "Yeni albüm ekle"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:242
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "_Hesap:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:274
-#: extensions/facebook/data/ui/export-to-facebook.ui:275
-msgid "Resize the images if larger than this size"
-msgstr "Eğer bu boyuttan daha büyükse resmi yeniden boyutlandır"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:276
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:325
-#: extensions/webalbums/data/ui/web-album-exporter.ui:422
-msgid "_Resize if larger than:"
-msgstr "Eğer daha büyükse _yeniden boyutlandır:"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:14
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Herkese açık fotoğraflar"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:18
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Özel fotoğraflar, arkadaşlara görünür"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:22
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:15
-msgid "Private"
-msgstr "Özel"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:73
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:65
-msgid "_Visibility:"
-msgstr "_Görünürlük:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:122
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:98
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:122
-msgid "A_ccount:"
-msgstr "H_esap:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:136
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:135
-msgid "_Album:"
-msgstr "_Albüm:"
-
-#: extensions/facebook/dlg-export-to-facebook.c:124
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:120
-msgid "Files successfully uploaded to the server."
-msgstr "Dosyalar sunucuya başarılı biçimde yüklendi."
-
-#: extensions/facebook/dlg-export-to-facebook.c:151
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:148
-msgid "Could not upload the files"
-msgstr "Dosyalar yüklenemedi"
-
-#: extensions/facebook/dlg-export-to-facebook.c:297
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:227
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "Sunucuya bağlanılamadı"
-
-#: extensions/facebook/dlg-export-to-facebook.c:368
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "Albüm oluşturulamadı"
-
-#: extensions/facebook/dlg-export-to-facebook.c:436
-msgid "New Album"
-msgstr "Yeni Albüm"
-
-#: extensions/facebook/dlg-export-to-facebook.c:475
-msgid "Export to Facebook"
-msgstr "Facebook’a Aktar"
-
-#: extensions/facebook/dlg-export-to-facebook.c:541
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1740
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:494
-msgid "No valid file selected."
-msgstr "Geçerli dosya seçilemedi."
-
-#: extensions/facebook/dlg-export-to-facebook.c:542
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:495
-msgid "Could not export the files"
-msgstr "Dosyalar dışa aktarılamadı"
-
-#: extensions/facebook/dlg-export-to-facebook.c:550
-#: extensions/find_duplicates/gth-find-duplicates.c:278
-#: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:502
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:873
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d dosya (%s)"
-
-#: extensions/facebook/dlg-export-to-facebook.c:571
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "%s konumuna dışa aktar"
-
-#: extensions/facebook/facebook-service.c:496
-#: extensions/flicker_utils/flickr-service.c:849
-#: extensions/picasaweb/picasa-web-service.c:738
-msgid "Getting the album list"
-msgstr "Albüm listesi alınıyor"
-
-#: extensions/facebook/facebook-service.c:613
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "Yeni albüm oluşturuluyor"
-
-#: extensions/facebook/facebook-service.c:671
-#: extensions/flicker_utils/flickr-service.c:1144
-#: extensions/picasaweb/picasa-web-service.c:783
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "“%s” yüklenemedi: %s"
-
-#. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:734
-#: extensions/flicker_utils/flickr-service.c:1253
-#: extensions/picasaweb/picasa-web-service.c:838
-#, c-format
-msgid "Uploading “%s”"
-msgstr "“%s” yükleniyor"
-
-#: extensions/facebook/facebook-service.c:954
-#: extensions/flicker_utils/flickr-service.c:1450
-#: extensions/picasaweb/picasa-web-service.c:1062
-msgid "Uploading the files to the server"
-msgstr "Dosyalar sunucuya yükleniyor"
-
-#: extensions/facebook/facebook-service.c:1048
-#: extensions/flicker_utils/flickr-service.c:1611
-#: extensions/picasaweb/picasa-web-service.c:1174
-msgid "Getting the photo list"
-msgstr "Fotoğraf listesi alınıyor"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:3
-msgid "Facebook"
-msgstr "Facebook"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:4
-msgid "Upload images to Facebook"
-msgstr "Resimleri Facebook’a yükle"
-
 #: extensions/file_manager/actions.c:137
 msgid "New folder"
 msgstr "Yeni klasör"
@@ -1970,7 +1773,7 @@ msgstr "Klasör adı gir:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5620 gthumb/gth-browser.c:5656
+#: gthumb/gth-browser.c:5631 gthumb/gth-browser.c:5674
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "İşlem gerçekleştirilemedi"
@@ -2626,7 +2429,7 @@ msgstr "Önayar adını girin:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1864
+#: gthumb/gth-browser.c:1865
 msgid "Could not save the file"
 msgstr "Dosya kaydedilemedi"
 
@@ -2829,7 +2632,7 @@ msgid "No duplicates found."
 msgstr "Kopya bulunamadı."
 
 #: extensions/find_duplicates/data/ui/find-duplicates.ui:32
-#: extensions/rename_series/data/ui/rename-series.ui:27
+#: extensions/rename_series/data/ui/rename-series.ui:28
 #: extensions/search/data/ui/search-editor.ui:73
 msgid "Start _at:"
 msgstr "Başlan_gıç:"
@@ -2873,6 +2676,14 @@ msgstr "tüm dosyalar"
 msgid "no file"
 msgstr "dosya yok"
 
+#: extensions/find_duplicates/gth-find-duplicates.c:278
+#: extensions/find_duplicates/gth-find-duplicates.c:477
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:874
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d dosya (%s)"
+
 #: extensions/find_duplicates/gth-find-duplicates.c:519
 #: extensions/find_duplicates/gth-find-duplicates.c:650
 #, c-format
@@ -2915,9 +2726,17 @@ msgstr "Flicker"
 msgid "Upload images to Flickr"
 msgstr "Flickr uygulamasına resim yükle"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
+msgid "Public photos"
+msgstr "Herkese açık fotoğraflar"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
 msgid "Private photos, visible to family and friends"
 msgstr "Aile ve arkadaşlara görünür özel fotoğraflar"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
+msgid "Private photos, visible to friends"
+msgstr "Özel fotoğraflar, arkadaşlara görünür"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
 msgid "Private photos, visible to family"
@@ -2939,8 +2758,16 @@ msgstr "Ölçülü içerik"
 msgid "Restricted content"
 msgstr "Kısıtlı içerik"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
+msgid "_Account:"
+msgstr "_Hesap:"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
+msgid "Edit accounts"
+msgstr "Hesapları düzenle"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:175
 msgid "Free space:"
 msgstr "Boş alan:"
 
@@ -2961,10 +2788,54 @@ msgstr "_Güvenli:"
 msgid "Hi_de from public searches"
 msgstr "Açık aramalardan gi_zle"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
+#: extensions/webalbums/data/ui/web-album-exporter.ui:422
+msgid "_Resize if larger than:"
+msgstr "Eğer daha büyükse _yeniden boyutlandır:"
+
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
+#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
+msgid "A_ccount:"
+msgstr "H_esap:"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:136
+#: extensions/flicker_utils/dlg-export-to-flickr.c:410
+#: extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: extensions/oauth/web-service.c:377
+msgid "Could not connect to the server"
+msgstr "Sunucuya bağlanılamadı"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:161
+msgid "Files successfully uploaded to the server."
+msgstr "Dosyalar sunucuya başarılı biçimde yüklendi."
+
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
 #: extensions/webalbums/gth-web-exporter.c:1826
 msgid "_Open in the Browser"
 msgstr "Tarayıcıda _Aç"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:188
+#: extensions/flicker_utils/dlg-export-to-flickr.c:223
+msgid "Could not create the album"
+msgstr "Albüm oluşturulamadı"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:246
+msgid "Could not upload the files"
+msgstr "Dosyalar yüklenemedi"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:592
+#: extensions/image_print/gth-image-print-job.c:1740
+msgid "No valid file selected."
+msgstr "Geçerli dosya seçilemedi."
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:593
+msgid "Could not export the files"
+msgstr "Dosyalar dışa aktarılamadı"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:624
+#, c-format
+msgid "Export to %s"
+msgstr "%s konumuna dışa aktar"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
 #: gthumb/gth-file-selection-info.c:140
@@ -2974,20 +2845,16 @@ msgid_plural "%d files"
 msgstr[0] "%d dosya"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:279
 msgid "Could not get the photo list"
 msgstr "Fotoğraf listesi alınamadı"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:382
 #: extensions/flicker_utils/dlg-import-from-flickr.c:561
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:598
 msgid "No album selected"
 msgstr "Albüm seçilemedi"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:521
 #: extensions/photo_importer/dlg-photo-importer.c:584
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:556
 msgid "_Import"
 msgstr "_Al"
 
@@ -3038,6 +2905,35 @@ msgstr ""
 "Web tarayıcınızı açmak ve %s servisine fotoğraf yükleyecek gthumb’ı "
 "yetkilendirmek için “Yetkilendir” seçeneğini tıklayın. Bitirdiğinizde "
 "yetkilendirme işlemini tamamlamak için bu pencereye dönün."
+
+#: extensions/flicker_utils/flickr-service.c:849
+msgid "Getting the album list"
+msgstr "Albüm listesi alınıyor"
+
+#: extensions/flicker_utils/flickr-service.c:943
+#: extensions/flicker_utils/flickr-service.c:1058
+#: extensions/flicker_utils/flickr-service.c:1097
+msgid "Creating the new album"
+msgstr "Yeni albüm oluşturuluyor"
+
+#: extensions/flicker_utils/flickr-service.c:1144
+#, c-format
+msgid "Could not upload “%s”: %s"
+msgstr "“%s” yüklenemedi: %s"
+
+#. Translators: %s is a filename
+#: extensions/flicker_utils/flickr-service.c:1253
+#, c-format
+msgid "Uploading “%s”"
+msgstr "“%s” yükleniyor"
+
+#: extensions/flicker_utils/flickr-service.c:1450
+msgid "Uploading the files to the server"
+msgstr "Dosyalar sunucuya yükleniyor"
+
+#: extensions/flicker_utils/flickr-service.c:1611
+msgid "Getting the photo list"
+msgstr "Fotoğraf listesi alınıyor"
 
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
@@ -3898,7 +3794,7 @@ msgid "%attr{ attribute name }"
 msgstr "%attr{ öznitelik adı }"
 
 #: extensions/list_tools/data/ui/script-editor.ui:386
-#: extensions/rename_series/data/ui/rename-series.ui:356
+#: extensions/rename_series/data/ui/rename-series.ui:379
 msgid "A file attribute"
 msgstr "Dosya özniteliği"
 
@@ -4131,7 +4027,6 @@ msgid "_Tags:"
 msgstr "_Etiketler:"
 
 #: extensions/photo_importer/dlg-photo-importer.c:227
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:149
 msgid "Could not import the files"
 msgstr "Dosyalar içeri aktarılamadı"
 
@@ -4179,52 +4074,6 @@ msgstr "Fotoğrafları kaldırılabilir aygıttan içeri aktar."
 msgid "camera-photo"
 msgstr "camera-photo"
 
-#: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
-msgid "_Picasa Web Album…"
-msgstr "_Picasa Web Albümü…"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:233
-msgid "_Albums:"
-msgstr "_Albümler:"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:267
-#: gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Ad"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:275
-msgid "Used"
-msgstr "Kullanılan"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:286
-msgid "Remaining photos"
-msgstr "Kalan fotoğraflar"
-
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:12
-msgid "Public"
-msgstr "Herkese Açık"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:344
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:468
-msgid "Could not get the album list"
-msgstr "Albüm listesi alınamadı"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:431
-msgid "Export to Picasa Web Albums"
-msgstr "Picasa Web Albümlerine Dışarı Aktar"
-
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:547
-msgid "Import from Picasa Web Album"
-msgstr "Picasa Web Albümünden İçeri Aktar"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:3
-msgid "Picasa Web Albums"
-msgstr "Picasa Web Albümleri"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:4
-msgid "Upload images to Picasa Web Albums"
-msgstr "Picasa Web Albümlerine resimleri yükle"
-
 #: extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
 msgstr "RAW Biçimi"
@@ -4269,69 +4118,73 @@ msgstr "kaldır"
 msgid "add"
 msgstr "ekle"
 
-#: extensions/rename_series/data/ui/rename-series.ui:41
+#: extensions/rename_series/data/ui/rename-series.ui:42
 msgid "_Sort by:"
 msgstr "_Şuna Göre Sırala:"
 
 #. Translators: this is the text case (upper or lower case).
-#: extensions/rename_series/data/ui/rename-series.ui:54
+#: extensions/rename_series/data/ui/rename-series.ui:55
 msgid "Cas_e:"
 msgstr "Duru_m:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:83
+#: extensions/rename_series/data/ui/rename-series.ui:84
 #: gthumb/gth-browser-actions-entries.h:94
 msgid "Help"
 msgstr "Yardım"
 
-#: extensions/rename_series/data/ui/rename-series.ui:97
+#: extensions/rename_series/data/ui/rename-series.ui:98
 msgid "Edit template"
 msgstr "Şablonu düzenle"
 
+#: extensions/rename_series/data/ui/rename-series.ui:119
+msgid "Revert to the last used template"
+msgstr "Son kullanılan şablona geri dön"
+
 #. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:204
+#: extensions/rename_series/data/ui/rename-series.ui:227
 msgid "%M{ format }"
 msgstr "%M{ biçim }"
 
 #. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:234
+#: extensions/rename_series/data/ui/rename-series.ui:257
 #, c-format
 msgid "%A{ identifier }"
 msgstr "%A{ tanımlayıcı }"
 
-#: extensions/rename_series/data/ui/rename-series.ui:280
+#: extensions/rename_series/data/ui/rename-series.ui:303
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1106
 msgid "The original filename"
 msgstr "Özgün dosya adı"
 
-#: extensions/rename_series/data/ui/rename-series.ui:295
+#: extensions/rename_series/data/ui/rename-series.ui:318
 msgid "The original extension"
 msgstr "Özgün uzantı"
 
-#: extensions/rename_series/data/ui/rename-series.ui:310
+#: extensions/rename_series/data/ui/rename-series.ui:333
 msgid "The original enumerator"
 msgstr "Özgün numaralandırıcı"
 
-#: extensions/rename_series/data/ui/rename-series.ui:325
+#: extensions/rename_series/data/ui/rename-series.ui:348
 msgid "The modification date"
 msgstr "Değiştirilme tarihi"
 
-#: extensions/rename_series/data/ui/rename-series.ui:341
+#: extensions/rename_series/data/ui/rename-series.ui:364
 msgid "The digitalization date"
 msgstr "Sayısallaştırılma tarihi"
 
-#: extensions/rename_series/data/ui/rename-series.ui:389
+#: extensions/rename_series/data/ui/rename-series.ui:436
 msgid "1"
 msgstr "1"
 
-#: extensions/rename_series/data/ui/rename-series.ui:426
+#: extensions/rename_series/data/ui/rename-series.ui:473
 msgid "Re_verse Order"
 msgstr "_Ters Düzen"
 
-#: extensions/rename_series/data/ui/rename-series.ui:473
+#: extensions/rename_series/data/ui/rename-series.ui:520
 msgid "_Template:"
 msgstr "Şa_blon:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:514
+#: extensions/rename_series/data/ui/rename-series.ui:573
 msgid "_Preview:"
 msgstr "_Önizleme:"
 
@@ -4376,28 +4229,28 @@ msgstr "Şablon kaydedilemedi"
 msgid "Edit Template"
 msgstr "Şablonu Düzenle"
 
-#: extensions/rename_series/dlg-rename-series.c:860
+#: extensions/rename_series/dlg-rename-series.c:869
 #: gthumb/gth-folder-tree.c:1974
 msgid "_Rename"
 msgstr "Yeniden Adlandı_r"
 
-#: extensions/rename_series/dlg-rename-series.c:877
+#: extensions/rename_series/dlg-rename-series.c:886
 msgid "Old Name"
 msgstr "Eski Ad"
 
-#: extensions/rename_series/dlg-rename-series.c:888
+#: extensions/rename_series/dlg-rename-series.c:897
 msgid "New Name"
 msgstr "Yeni Ad"
 
-#: extensions/rename_series/dlg-rename-series.c:966
+#: extensions/rename_series/dlg-rename-series.c:975
 msgid "Keep original case"
 msgstr "Özgün yazı tipini koru"
 
-#: extensions/rename_series/dlg-rename-series.c:967
+#: extensions/rename_series/dlg-rename-series.c:976
 msgid "Convert to lower-case"
 msgstr "Küçük harfe dönüştür"
 
-#: extensions/rename_series/dlg-rename-series.c:968
+#: extensions/rename_series/dlg-rename-series.c:977
 msgid "Convert to upper-case"
 msgstr "Büyük harfe dönüştür"
 
@@ -4476,7 +4329,7 @@ msgid "Search again"
 msgstr "Yeniden ara"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:169
+#: extensions/search/callbacks.c:197
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Ara"
@@ -4495,16 +4348,16 @@ msgstr "aşağıdaki kurallardan herhangi biri"
 msgid "Add another location"
 msgstr "Başka konum ekle"
 
-#: extensions/search/gth-search-task.c:194
+#: extensions/search/gth-search-task.c:189
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Şu ana kadar bulunan dosyalar: %s"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:333
 msgid "Searching…"
 msgstr "Aranıyor…"
 
-#: extensions/search/gth-search-task.c:347
+#: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
 msgstr "İşlemi iptal et"
 
@@ -4851,9 +4704,9 @@ msgstr "Web Albümleri"
 msgid "Create static web albums."
 msgstr "Değişmeyen web albümleri oluştur."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1171
-#: gthumb/gth-browser.c:6625 gthumb/gth-browser.c:6644
-#: gthumb/gth-browser.c:6668 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1172
+#: gthumb/gth-browser.c:6669 gthumb/gth-browser.c:6688
+#: gthumb/gth-browser.c:6712 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "“%s” konumuna yüklenemedi"
@@ -5031,7 +4884,7 @@ msgstr "Dosyalar çöpe taşınıyor"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2055
+#: gthumb/glib-utils.c:2056
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -5043,7 +4896,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2064
+#: gthumb/glib-utils.c:2065
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5147,8 +5000,8 @@ msgstr "Pencereyi kapat"
 msgid "Open location"
 msgstr "Konum aç"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4623
-#: gthumb/gth-browser.c:4641 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4631
+#: gthumb/gth-browser.c:4649 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Tam Ekran"
@@ -5229,82 +5082,82 @@ msgstr "Tümünü seç"
 msgid "Select none"
 msgstr "Hiçbirini seçme"
 
-#: gthumb/gth-browser.c:409
+#: gthumb/gth-browser.c:410
 msgid "[modified]"
 msgstr "[değiştirildi]"
 
-#: gthumb/gth-browser.c:874
+#: gthumb/gth-browser.c:875
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d seçilen dosya (%s)"
 
-#: gthumb/gth-browser.c:909
+#: gthumb/gth-browser.c:910
 #, c-format
 msgid "%s of free space"
 msgstr "%s boş alan"
 
-#: gthumb/gth-browser.c:1787 gthumb/gth-browser.c:1803
+#: gthumb/gth-browser.c:1788 gthumb/gth-browser.c:1804
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "%s için uygun modül bulunamadı"
 
-#: gthumb/gth-browser.c:1908
+#: gthumb/gth-browser.c:1909
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Değişiklikler “%s” dosyasına kaydedilsin mi?"
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1914
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr ""
 "Eğer kaydetmezseniz, dosyadaki değişiklikler kalıcı olarak yitirilecektir."
 
-#: gthumb/gth-browser.c:1914
+#: gthumb/gth-browser.c:1915
 msgid "Do _Not Save"
 msgstr "Kaydet_mez"
 
-#: gthumb/gth-browser.c:2402 gthumb/gth-browser.c:4649
+#: gthumb/gth-browser.c:2403 gthumb/gth-browser.c:4657
 msgid "Accept"
 msgstr "Kabul Et"
 
-#: gthumb/gth-browser.c:2402 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2403 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Kapat"
 
-#: gthumb/gth-browser.c:2941
+#: gthumb/gth-browser.c:2942
 msgid "Could not change name"
 msgstr "Ad değiştirilemedi"
 
-#: gthumb/gth-browser.c:3438
+#: gthumb/gth-browser.c:3445
 msgid "Modified"
 msgstr "Değiştirildi"
 
-#: gthumb/gth-browser.c:4571
+#: gthumb/gth-browser.c:4579
 msgid "Go to the previous visited location"
 msgstr "Ziyaret edilmiş önceki yere git"
 
-#: gthumb/gth-browser.c:4577
+#: gthumb/gth-browser.c:4585
 msgid "Go to the next visited location"
 msgstr "Ziyaret edilmiş sonraki yere git"
 
-#: gthumb/gth-browser.c:4585
+#: gthumb/gth-browser.c:4593
 msgid "History"
 msgstr "Geçmiş"
 
-#: gthumb/gth-browser.c:4599
+#: gthumb/gth-browser.c:4607
 msgid "View the folders"
 msgstr "Klasörleri göster"
 
-#: gthumb/gth-browser.c:4614
+#: gthumb/gth-browser.c:4622
 msgid "Edit file"
 msgstr "Dosya Düzenle"
 
-#: gthumb/gth-browser.c:6626
+#: gthumb/gth-browser.c:6670
 #, c-format
 msgid "File type not supported"
 msgstr "Dosya türü desteklenmiyor"
 
-#: gthumb/gth-browser.c:6669
+#: gthumb/gth-browser.c:6713
 #, c-format
 msgid "No suitable module found"
 msgstr "Uygun modül bulunamadı"
@@ -5444,6 +5297,10 @@ msgstr "Konumlar"
 #: gthumb/gth-location-chooser.c:617
 msgid "Other…"
 msgstr "Diğer…"
+
+#: gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Ad"
 
 #: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:351
 msgid "Size"
@@ -5859,6 +5716,81 @@ msgstr "gThumb H_akkında"
 msgid "_Delete History"
 msgstr "Geçmişi _Sil"
 
+#~ msgid "720 × 720"
+#~ msgstr "720 × 720"
+
+#~ msgid "1024 × 1024"
+#~ msgstr "1024 × 1024"
+
+#~ msgid "1280 × 1280"
+#~ msgstr "1280 × 1280"
+
+#~ msgid "1600 × 1600"
+#~ msgstr "1600 × 1600"
+
+#~ msgid "2048 × 2048"
+#~ msgstr "2048 × 2048"
+
+#~ msgid "A_lbum:"
+#~ msgstr "A_lbüm:"
+
+#~ msgid "Add a new album"
+#~ msgstr "Yeni albüm ekle"
+
+#~ msgid "Resize the images if larger than this size"
+#~ msgstr "Eğer bu boyuttan daha büyükse resmi yeniden boyutlandır"
+
+#~ msgid "Private"
+#~ msgstr "Özel"
+
+#~ msgid "_Visibility:"
+#~ msgstr "_Görünürlük:"
+
+#~ msgid "_Album:"
+#~ msgstr "_Albüm:"
+
+#~ msgid "New Album"
+#~ msgstr "Yeni Albüm"
+
+#~ msgid "Export to Facebook"
+#~ msgstr "Facebook’a Aktar"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Upload images to Facebook"
+#~ msgstr "Resimleri Facebook’a yükle"
+
+#~ msgid "_Picasa Web Album…"
+#~ msgstr "_Picasa Web Albümü…"
+
+#~ msgid "_Albums:"
+#~ msgstr "_Albümler:"
+
+#~ msgid "Used"
+#~ msgstr "Kullanılan"
+
+#~ msgid "Remaining photos"
+#~ msgstr "Kalan fotoğraflar"
+
+#~ msgid "Public"
+#~ msgstr "Herkese Açık"
+
+#~ msgid "Could not get the album list"
+#~ msgstr "Albüm listesi alınamadı"
+
+#~ msgid "Export to Picasa Web Albums"
+#~ msgstr "Picasa Web Albümlerine Dışarı Aktar"
+
+#~ msgid "Import from Picasa Web Album"
+#~ msgstr "Picasa Web Albümünden İçeri Aktar"
+
+#~ msgid "Picasa Web Albums"
+#~ msgstr "Picasa Web Albümleri"
+
+#~ msgid "Upload images to Picasa Web Albums"
+#~ msgstr "Picasa Web Albümlerine resimleri yükle"
+
 #~ msgid "--∶--"
 #~ msgstr "--∶--"
 
@@ -5900,9 +5832,6 @@ msgstr "Geçmişi _Sil"
 
 #~ msgid "Organizing files"
 #~ msgstr "Dosya düzenleme"
-
-#~ msgid "Example"
-#~ msgstr "Örnek"
 
 #~ msgid "Extension example."
 #~ msgstr "Örnek uzantı."
