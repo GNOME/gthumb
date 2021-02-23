@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-01-15 15:00+0000\n"
-"PO-Revision-Date: 2021-01-22 07:53+0200\n"
+"POT-Creation-Date: 2021-02-13 15:04+0000\n"
+"PO-Revision-Date: 2021-02-23 06:32+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -382,7 +382,6 @@ msgid "File _properties in browser:"
 msgstr "Особине датотеке у _прегледнику:"
 
 #: data/ui/preferences.ui:179
-#| msgid "Statusbar"
 msgid "_Statusbar"
 msgstr "Трака _стања"
 
@@ -816,9 +815,7 @@ msgstr "_Погледај одредиште"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
-#: extensions/facebook/data/ui/facebook-album-properties.ui:45
 #: extensions/list_tools/data/ui/script-editor.ui:23
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:37
 msgid "_Name:"
 msgstr "_Назив:"
 
@@ -1307,10 +1304,8 @@ msgstr "Текући датум"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:354
 #: extensions/contact_sheet/data/ui/image-wall.ui:85
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/facebook/data/ui/import-from-facebook.ui:211
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:209
 #: extensions/webalbums/data/ui/web-album-exporter.ui:361
 msgid "_Destination:"
 msgstr "О_дредиште:"
@@ -1552,8 +1547,6 @@ msgid "Delete Metadata"
 msgstr "Бриши метаподатке"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:17
-#: extensions/facebook/data/ui/facebook-album-properties.ui:135
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:127
 msgid "D_escription:"
 msgstr "Опи_с:"
 
@@ -1633,6 +1626,16 @@ msgstr "Уписујем датотеке"
 msgid "Reading files"
 msgstr "Учитавам датотеке"
 
+#: extensions/example/src/example.extension.desktop.in.in:3
+#| msgid "Example"
+msgid "example"
+msgstr "пример"
+
+#: extensions/example/src/example.extension.desktop.in.in:4
+#| msgid "example: %s"
+msgid "What example does"
+msgstr "Шта ради пример"
+
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
 msgstr "Ауторска _права:"
@@ -1683,7 +1686,7 @@ msgid "State/Province:"
 msgstr "Држава/област:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2080 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(неисправна вредност)"
 
@@ -1750,208 +1753,6 @@ msgstr "Датум снимања фотографије"
 #: extensions/export_tools/callbacks.c:46
 msgid "_Export To"
 msgstr "Извези _у"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:34
-msgid "720 × 720"
-msgstr "720 × 720"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:38
-msgid "1024 × 1024"
-msgstr "1024 × 1024"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:42
-msgid "1280 × 1280"
-msgstr "1280 × 1280"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:46
-msgid "1600 × 1600"
-msgstr "1600 × 1600"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:50
-msgid "2048 × 2048"
-msgstr "2048 × 2048"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:145
-#: extensions/facebook/data/ui/import-from-facebook.ui:88
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:88
-msgid "Edit accounts"
-msgstr "Уреди налоге"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:180
-msgid "A_lbum:"
-msgstr "А_лбум:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:212
-msgid "Add a new album"
-msgstr "Додајте нови албум"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:242
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "_Налог:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:274
-#: extensions/facebook/data/ui/export-to-facebook.ui:275
-msgid "Resize the images if larger than this size"
-msgstr "Промени величину слике ако је већа од ове величине"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:276
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:325
-#: extensions/webalbums/data/ui/web-album-exporter.ui:422
-msgid "_Resize if larger than:"
-msgstr "Промени _величину ако је веће од:"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:14
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Јавне фотографије"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:18
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Личне фотографије, видљиве пријатељима"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:22
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:15
-msgid "Private"
-msgstr "Личне"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:73
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:65
-msgid "_Visibility:"
-msgstr "_Видљивост:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:122
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:98
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:122
-msgid "A_ccount:"
-msgstr "Н_алог:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:136
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:135
-msgid "_Album:"
-msgstr "_Албум:"
-
-#: extensions/facebook/dlg-export-to-facebook.c:124
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:120
-msgid "Files successfully uploaded to the server."
-msgstr "Датотека је успешно отпремљена на сервер."
-
-#: extensions/facebook/dlg-export-to-facebook.c:151
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:148
-msgid "Could not upload the files"
-msgstr "Нисам успео да отпремим датотеке"
-
-#: extensions/facebook/dlg-export-to-facebook.c:297
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:227
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "Нисам успео да се повежем на сервер"
-
-#: extensions/facebook/dlg-export-to-facebook.c:368
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "Нисам успео да направим албум"
-
-#: extensions/facebook/dlg-export-to-facebook.c:436
-msgid "New Album"
-msgstr "Нови албум"
-
-#: extensions/facebook/dlg-export-to-facebook.c:475
-msgid "Export to Facebook"
-msgstr "Извези на Фејсбук"
-
-#: extensions/facebook/dlg-export-to-facebook.c:541
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1740
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:494
-msgid "No valid file selected."
-msgstr "Није означена исправна датотека."
-
-#: extensions/facebook/dlg-export-to-facebook.c:542
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:495
-msgid "Could not export the files"
-msgstr "Нисам успео да извезем датотеке"
-
-#: extensions/facebook/dlg-export-to-facebook.c:550
-#: extensions/find_duplicates/gth-find-duplicates.c:278
-#: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:502
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:874
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d датотека (%s)"
-msgstr[1] "%d датотеке (%s)"
-msgstr[2] "%d датотека (%s)"
-msgstr[3] "%d датотека (%s)"
-
-#: extensions/facebook/dlg-export-to-facebook.c:571
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "Извези у %s"
-
-#: extensions/facebook/facebook-service.c:496
-#: extensions/flicker_utils/flickr-service.c:849
-#: extensions/picasaweb/picasa-web-service.c:738
-msgid "Getting the album list"
-msgstr "Добављам списак албума"
-
-#: extensions/facebook/facebook-service.c:613
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "Правим нов албум"
-
-#: extensions/facebook/facebook-service.c:671
-#: extensions/flicker_utils/flickr-service.c:1144
-#: extensions/picasaweb/picasa-web-service.c:783
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "Не могу да отпремим „%s“: %s"
-
-#. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:734
-#: extensions/flicker_utils/flickr-service.c:1253
-#: extensions/picasaweb/picasa-web-service.c:838
-#, c-format
-msgid "Uploading “%s”"
-msgstr "Отпремам „%s“"
-
-#: extensions/facebook/facebook-service.c:954
-#: extensions/flicker_utils/flickr-service.c:1450
-#: extensions/picasaweb/picasa-web-service.c:1062
-msgid "Uploading the files to the server"
-msgstr "Отпремам датотеке на севрер"
-
-#: extensions/facebook/facebook-service.c:1048
-#: extensions/flicker_utils/flickr-service.c:1611
-#: extensions/picasaweb/picasa-web-service.c:1174
-msgid "Getting the photo list"
-msgstr "Добављам списак слика"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:3
-msgid "Facebook"
-msgstr "Фејсбук"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:4
-msgid "Upload images to Facebook"
-msgstr "Отпреми слике на Фејсбук"
 
 #: extensions/file_manager/actions.c:137
 msgid "New folder"
@@ -2868,6 +2669,17 @@ msgstr "све датотеке"
 msgid "no file"
 msgstr "нема датотека"
 
+#: extensions/find_duplicates/gth-find-duplicates.c:278
+#: extensions/find_duplicates/gth-find-duplicates.c:477
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:874
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d датотека (%s)"
+msgstr[1] "%d датотеке (%s)"
+msgstr[2] "%d датотека (%s)"
+msgstr[3] "%d датотека (%s)"
+
 #: extensions/find_duplicates/gth-find-duplicates.c:519
 #: extensions/find_duplicates/gth-find-duplicates.c:650
 #, c-format
@@ -2916,9 +2728,17 @@ msgstr "Трептање"
 msgid "Upload images to Flickr"
 msgstr "Отпреми фотографије на Фликр"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
+msgid "Public photos"
+msgstr "Јавне фотографије"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
 msgid "Private photos, visible to family and friends"
 msgstr "Личне фотографије, видљиве породици и пријатељима"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
+msgid "Private photos, visible to friends"
+msgstr "Личне фотографије, видљиве пријатељима"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
 msgid "Private photos, visible to family"
@@ -2940,8 +2760,16 @@ msgstr "Умерени садржај"
 msgid "Restricted content"
 msgstr "Ограничени садржај"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
+msgid "_Account:"
+msgstr "_Налог:"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
+msgid "Edit accounts"
+msgstr "Уреди налоге"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:175
 msgid "Free space:"
 msgstr "Слободног места:"
 
@@ -2962,10 +2790,54 @@ msgstr "_Безбедност:"
 msgid "Hi_de from public searches"
 msgstr "Сакриј од _јавне претраге"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
+#: extensions/webalbums/data/ui/web-album-exporter.ui:422
+msgid "_Resize if larger than:"
+msgstr "Промени _величину ако је веће од:"
+
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
+#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
+msgid "A_ccount:"
+msgstr "Н_алог:"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:136
+#: extensions/flicker_utils/dlg-export-to-flickr.c:410
+#: extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: extensions/oauth/web-service.c:377
+msgid "Could not connect to the server"
+msgstr "Нисам успео да се повежем на сервер"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:161
+msgid "Files successfully uploaded to the server."
+msgstr "Датотека је успешно отпремљена на сервер."
+
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
 #: extensions/webalbums/gth-web-exporter.c:1826
 msgid "_Open in the Browser"
 msgstr "_Отвори у прегледнику"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:188
+#: extensions/flicker_utils/dlg-export-to-flickr.c:223
+msgid "Could not create the album"
+msgstr "Нисам успео да направим албум"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:246
+msgid "Could not upload the files"
+msgstr "Нисам успео да отпремим датотеке"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:592
+#: extensions/image_print/gth-image-print-job.c:1740
+msgid "No valid file selected."
+msgstr "Није означена исправна датотека."
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:593
+msgid "Could not export the files"
+msgstr "Нисам успео да извезем датотеке"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:624
+#, c-format
+msgid "Export to %s"
+msgstr "Извези у %s"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
 #: gthumb/gth-file-selection-info.c:140
@@ -2978,20 +2850,16 @@ msgstr[2] "%d датотека"
 msgstr[3] "%d датотека"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:279
 msgid "Could not get the photo list"
 msgstr "Нисам успео да добавим списак слика"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:382
 #: extensions/flicker_utils/dlg-import-from-flickr.c:561
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:598
 msgid "No album selected"
 msgstr "Није одређен албум"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:521
 #: extensions/photo_importer/dlg-photo-importer.c:584
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:556
 msgid "_Import"
 msgstr "Ув_ези"
 
@@ -3043,6 +2911,35 @@ msgstr ""
 "сличка за отпремање слика на %s. Кад будете завршили, вратите се на овај "
 "прозор да довршите овлашћења."
 
+#: extensions/flicker_utils/flickr-service.c:849
+msgid "Getting the album list"
+msgstr "Добављам списак албума"
+
+#: extensions/flicker_utils/flickr-service.c:943
+#: extensions/flicker_utils/flickr-service.c:1058
+#: extensions/flicker_utils/flickr-service.c:1097
+msgid "Creating the new album"
+msgstr "Правим нов албум"
+
+#: extensions/flicker_utils/flickr-service.c:1144
+#, c-format
+msgid "Could not upload “%s”: %s"
+msgstr "Не могу да отпремим „%s“: %s"
+
+#. Translators: %s is a filename
+#: extensions/flicker_utils/flickr-service.c:1253
+#, c-format
+msgid "Uploading “%s”"
+msgstr "Отпремам „%s“"
+
+#: extensions/flicker_utils/flickr-service.c:1450
+msgid "Uploading the files to the server"
+msgstr "Отпремам датотеке на севрер"
+
+#: extensions/flicker_utils/flickr-service.c:1611
+msgid "Getting the photo list"
+msgstr "Добављам списак слика"
+
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
 #, c-format
@@ -3072,12 +2969,10 @@ msgid "Mute"
 msgstr "Утишај"
 
 #: extensions/gstreamer_tools/callbacks.c:35
-#| msgid "Play/Pause"
 msgid "Play faster"
 msgstr "Пуштај брже"
 
 #: extensions/gstreamer_tools/callbacks.c:36
-#| msgid "Playing slideshow"
 msgid "Play slower"
 msgstr "Пуштај спорије"
 
@@ -3113,31 +3008,26 @@ msgstr "Идите напред 5 минута"
 
 #: extensions/gstreamer_tools/callbacks.c:43
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:447
-#| msgid "Go back to the index"
 msgid "Go back 1 second"
 msgstr "Идите назад 1 секунду"
 
 #: extensions/gstreamer_tools/callbacks.c:44
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:301
-#| msgid "Go back to the index"
 msgid "Go back 5 seconds"
 msgstr "Идите назад 5 секунде"
 
 #: extensions/gstreamer_tools/callbacks.c:45
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:315
-#| msgid "Go back to the index"
 msgid "Go back 10 seconds"
 msgstr "Идите назад 10 секунди"
 
 #: extensions/gstreamer_tools/callbacks.c:46
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:329
-#| msgid "Go back to the index"
 msgid "Go back 1 minute"
 msgstr "Идите назад 1 минут"
 
 #: extensions/gstreamer_tools/callbacks.c:47
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:343
-#| msgid "Go back to the index"
 msgid "Go back 5 minutes"
 msgstr "Идите назад 5 минута"
 
@@ -4142,7 +4032,6 @@ msgid "_Tags:"
 msgstr "_Ознаке:"
 
 #: extensions/photo_importer/dlg-photo-importer.c:227
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:149
 msgid "Could not import the files"
 msgstr "Не могу да увезем датотеке"
 
@@ -4189,52 +4078,6 @@ msgstr "Увези слике са уклоњивих уређаја."
 #: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
 msgid "camera-photo"
 msgstr "camera-photo"
-
-#: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
-msgid "_Picasa Web Album…"
-msgstr "Веб албум _Пикаса…"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:233
-msgid "_Albums:"
-msgstr "_Албуми:"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:267
-#: gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Име"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:275
-msgid "Used"
-msgstr "Коришћено"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:286
-msgid "Remaining photos"
-msgstr "Преостале фотографије"
-
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:12
-msgid "Public"
-msgstr "Јавно"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:344
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:468
-msgid "Could not get the album list"
-msgstr "Не могу да добавим списак албума"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:431
-msgid "Export to Picasa Web Albums"
-msgstr "Извози у Пикаса веб албуме"
-
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:547
-msgid "Import from Picasa Web Album"
-msgstr "Увези из веб албума Пикасе"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:3
-msgid "Picasa Web Albums"
-msgstr "Веб албум Пикаса"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:4
-msgid "Upload images to Picasa Web Albums"
-msgstr "Отпреми слике на веб албуме Пикасе"
 
 #: extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
@@ -4299,7 +4142,6 @@ msgid "Edit template"
 msgstr "Уредите предлошке"
 
 #: extensions/rename_series/data/ui/rename-series.ui:119
-#| msgid "leave the oldest duplicates"
 msgid "Revert to the last used template"
 msgstr "Врати на последњи коришћени шаблон"
 
@@ -5045,7 +4887,7 @@ msgstr "Премештам датотеке у смеће"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2055
+#: gthumb/glib-utils.c:2056
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -5057,7 +4899,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2064
+#: gthumb/glib-utils.c:2065
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5171,12 +5013,10 @@ msgid "Revert image to saved"
 msgstr "Врати слику на сачувану"
 
 #: gthumb/gth-browser-actions-entries.h:105
-#| msgid "Save Image"
 msgid "Save image"
 msgstr "Сачувај слику"
 
 #: gthumb/gth-browser-actions-entries.h:106
-#| msgid "Save Image"
 msgid "Save image as"
 msgstr "Сачувај слику као"
 
@@ -5463,6 +5303,10 @@ msgstr "Места"
 #: gthumb/gth-location-chooser.c:617
 msgid "Other…"
 msgstr "Друго…"
+
+#: gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Име"
 
 #: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:351
 msgid "Size"
@@ -5879,6 +5723,81 @@ msgstr "О _Гномовом сличку"
 msgid "_Delete History"
 msgstr "_Обриши историјат"
 
+#~ msgid "720 × 720"
+#~ msgstr "720 × 720"
+
+#~ msgid "1024 × 1024"
+#~ msgstr "1024 × 1024"
+
+#~ msgid "1280 × 1280"
+#~ msgstr "1280 × 1280"
+
+#~ msgid "1600 × 1600"
+#~ msgstr "1600 × 1600"
+
+#~ msgid "2048 × 2048"
+#~ msgstr "2048 × 2048"
+
+#~ msgid "A_lbum:"
+#~ msgstr "А_лбум:"
+
+#~ msgid "Add a new album"
+#~ msgstr "Додајте нови албум"
+
+#~ msgid "Resize the images if larger than this size"
+#~ msgstr "Промени величину слике ако је већа од ове величине"
+
+#~ msgid "Private"
+#~ msgstr "Личне"
+
+#~ msgid "_Visibility:"
+#~ msgstr "_Видљивост:"
+
+#~ msgid "_Album:"
+#~ msgstr "_Албум:"
+
+#~ msgid "New Album"
+#~ msgstr "Нови албум"
+
+#~ msgid "Export to Facebook"
+#~ msgstr "Извези на Фејсбук"
+
+#~ msgid "Facebook"
+#~ msgstr "Фејсбук"
+
+#~ msgid "Upload images to Facebook"
+#~ msgstr "Отпреми слике на Фејсбук"
+
+#~ msgid "_Picasa Web Album…"
+#~ msgstr "Веб албум _Пикаса…"
+
+#~ msgid "_Albums:"
+#~ msgstr "_Албуми:"
+
+#~ msgid "Used"
+#~ msgstr "Коришћено"
+
+#~ msgid "Remaining photos"
+#~ msgstr "Преостале фотографије"
+
+#~ msgid "Public"
+#~ msgstr "Јавно"
+
+#~ msgid "Could not get the album list"
+#~ msgstr "Не могу да добавим списак албума"
+
+#~ msgid "Export to Picasa Web Albums"
+#~ msgstr "Извози у Пикаса веб албуме"
+
+#~ msgid "Import from Picasa Web Album"
+#~ msgstr "Увези из веб албума Пикасе"
+
+#~ msgid "Picasa Web Albums"
+#~ msgstr "Веб албум Пикаса"
+
+#~ msgid "Upload images to Picasa Web Albums"
+#~ msgstr "Отпреми слике на веб албуме Пикасе"
+
 #~ msgid "--∶--"
 #~ msgstr "--∶--"
 
@@ -5902,9 +5821,6 @@ msgstr "_Обриши историјат"
 
 #~ msgid "Assign Tags"
 #~ msgstr "Додели ознаке"
-
-#~ msgid "Example"
-#~ msgstr "Пример"
 
 #~ msgid "Extension example."
 #~ msgstr "Пример наставка."
