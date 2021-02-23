@@ -91,6 +91,7 @@ More information can be found at <https://wiki.gnome.org/Apps/Gthumb>.
   * libraw - some support for RAW photos
   * librsvg - display SVG images
   * libwebp - display and save WebP images
+  * libjxl - display JPEG XL images
   * lcms2, colord - color profile support
   * champlain, champlain-gtk - view the place a photo was taken on a map
   * clutter, clutter-gtk - enhanced slideshow effects
