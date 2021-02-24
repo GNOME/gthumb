@@ -5,19 +5,20 @@
 # Hendrik Richter <hendrikr@gnome.org>, 2005-2006.
 # Maren Reinecke <ma-reinecke@web.de>, 2008.
 # Jochen Skulj <jochen@jochenskulj.de>, 2008.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2010-2013, 2015, 2017, 2019.
 # Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2010.
 # Wolfgang Stöggl <c72578@yahoo.de>, 2011-2012, 2016.
 # Bernd Homuth <dev@hmt.im>, 2015-2016.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2010-2013, 2015, 2017, 2019.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2008-2020.
+# Philipp Kiemle <philipp.kiemle@gmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 3.10\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-10-28 09:25+0000\n"
-"PO-Revision-Date: 2020-10-29 22:25+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2021-02-08 18:18+0000\n"
+"PO-Revision-Date: 2021-02-23 21:27+0100\n"
+"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German - Germany <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +145,7 @@ msgstr "Bilder von einer Digitalkamera importieren"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:423 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:424 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -761,8 +762,8 @@ msgid "Rename"
 msgstr "Umbenennen"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4556
-#: gthumb/gth-browser.c:4658 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4564
+#: gthumb/gth-browser.c:4666 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Eigenschaften"
 
@@ -891,7 +892,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Dateien konnten nicht zum Katalog hinzugefügt werden"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:402
+#: extensions/search/gth-search-task.c:392
 msgid "Could not create the catalog"
 msgstr "Der Katalog konnte nicht angelegt werden"
 
@@ -948,10 +949,10 @@ msgid "Tag (embedded)"
 msgstr "Schlagwort (eingebettet)"
 
 #: extensions/catalogs/gth-catalog.c:300
-#: extensions/exiv2_tools/exiv2-utils.cpp:876
-#: extensions/exiv2_tools/exiv2-utils.cpp:885
-#: extensions/exiv2_tools/exiv2-utils.cpp:915
-#: extensions/exiv2_tools/exiv2-utils.cpp:1448
+#: extensions/exiv2_tools/exiv2-utils.cpp:872
+#: extensions/exiv2_tools/exiv2-utils.cpp:881
+#: extensions/exiv2_tools/exiv2-utils.cpp:911
+#: extensions/exiv2_tools/exiv2-utils.cpp:1444
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:336
 msgid "Invalid file format"
 msgstr "Ungültiges Dateiformat"
@@ -1695,7 +1696,7 @@ msgstr "Staat/Bundesland:"
 msgid "(invalid value)"
 msgstr "(Ungültiger Wert)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:713
+#: extensions/exiv2_tools/exiv2-utils.cpp:709
 msgid "Exposure"
 msgstr "Belichtung"
 
@@ -1899,7 +1900,7 @@ msgstr "Die Dateien konnten nicht exportiert werden"
 #: extensions/flicker_utils/dlg-export-to-flickr.c:601
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:502
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:872
+#: gthumb/gth-browser.c:873
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1972,7 +1973,7 @@ msgstr "Geben Sie einen Namen für den Ordner ein:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5568 gthumb/gth-browser.c:5604
+#: gthumb/gth-browser.c:5579 gthumb/gth-browser.c:5622
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Die Aktion konnte nicht ausgeführt werden"
@@ -2629,7 +2630,7 @@ msgstr "Geben Sie den Namen der Voreinstellung ein:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1631
-#: gthumb/gth-browser.c:1863
+#: gthumb/gth-browser.c:1864
 msgid "Could not save the file"
 msgstr "Die Datei konnte nicht gespeichert werden"
 
@@ -3019,7 +3020,7 @@ msgid ""
 "Return to this window when you have finished the authorization process on %s"
 msgstr ""
 "Kehren Sie zu diesem Fenster zurück, sobald der Legitimierungsvorgang auf %s "
-"abgeschlossen ist."
+"abgeschlossen ist"
 
 #: extensions/flicker_utils/flickr-service.c:492
 msgid "Once you’re done, click the “Continue” button below."
@@ -3054,7 +3055,7 @@ msgstr ""
 #: extensions/gstreamer_tools/actions.c:75
 #, c-format
 msgid "Image saved as %s"
-msgstr "Bild gespeichert unter »%s« "
+msgstr "Bild gespeichert unter »%s«"
 
 #: extensions/gstreamer_tools/actions.c:101
 msgctxt "Filename"
@@ -4383,7 +4384,7 @@ msgid "Search again"
 msgstr "Neue Suche"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:169
+#: extensions/search/callbacks.c:197
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Suchen"
@@ -4402,16 +4403,16 @@ msgstr "eine der folgenden Regeln"
 msgid "Add another location"
 msgstr "Einen weiteren Ort hinzufügen"
 
-#: extensions/search/gth-search-task.c:194
+#: extensions/search/gth-search-task.c:189
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Bis jetzt gefundene Dateien: %s"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:333
 msgid "Searching…"
 msgstr "Suche läuft …"
 
-#: extensions/search/gth-search-task.c:347
+#: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
 msgstr "Den Vorgang abbrechen"
 
@@ -4591,7 +4592,7 @@ msgstr "Würfel von unten"
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:4
 msgid "Play a presentation of images."
-msgstr "Eine Präsentation mit Bildern abspielen"
+msgstr "Eine Präsentation mit Bildern abspielen."
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:8
 msgid "x-office-presentation"
@@ -4760,9 +4761,9 @@ msgstr "Web-Alben"
 msgid "Create static web albums."
 msgstr "Statische Web-Alben anlegen."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6572 gthumb/gth-browser.c:6591
-#: gthumb/gth-browser.c:6615 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1171
+#: gthumb/gth-browser.c:6616 gthumb/gth-browser.c:6635
+#: gthumb/gth-browser.c:6659 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Die Position »%s« konnte nicht geladen werden"
@@ -5039,7 +5040,8 @@ msgstr ""
 "Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
 "Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>\n"
 "Wolfgang Stöggl <c72578@yahoo.de>\n"
-"Bernd Homuth <dev@hmt.im>"
+"Bernd Homuth <dev@hmt.im>\n"
+"Philipp Kiemle <philipp.kiemle@gmail.com>"
 
 #: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
 msgid "New Window"
@@ -5065,16 +5067,15 @@ msgstr "Fenster schließen"
 msgid "Open location"
 msgstr "Ort öffnen"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4571
-#: gthumb/gth-browser.c:4589 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4579
+#: gthumb/gth-browser.c:4597 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Vollbild"
 
 #: gthumb/gth-browser-actions-entries.h:104
-#, fuzzy
 msgid "Revert image to saved"
-msgstr "Bild zurücksetzen auf das gespeicherte"
+msgstr "Bild auf die gespeicherte Version zurücksetzen"
 
 #: gthumb/gth-browser-actions-entries.h:105
 msgid "Sidebar"
@@ -5140,84 +5141,84 @@ msgstr "Alle auswählen"
 msgid "Select none"
 msgstr "Keine auswählen"
 
-#: gthumb/gth-browser.c:408
+#: gthumb/gth-browser.c:409
 msgid "[modified]"
 msgstr "[geändert]"
 
-#: gthumb/gth-browser.c:873
+#: gthumb/gth-browser.c:874
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d Datei ausgewählt (%s)"
 msgstr[1] "%d Dateien ausgewählt (%s)"
 
-#: gthumb/gth-browser.c:908
+#: gthumb/gth-browser.c:909
 #, c-format
 msgid "%s of free space"
 msgstr "%s freier Speicherplatz"
 
-#: gthumb/gth-browser.c:1786 gthumb/gth-browser.c:1802
+#: gthumb/gth-browser.c:1787 gthumb/gth-browser.c:1803
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Kein passendes Modul für %s gefunden"
 
-#: gthumb/gth-browser.c:1907
+#: gthumb/gth-browser.c:1908
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Die Änderungen an Datei »%s« speichern?"
 
-#: gthumb/gth-browser.c:1912
+#: gthumb/gth-browser.c:1913
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr ""
 "Wenn Sie nicht speichern, gehen die Änderungen an dieser Datei permanent "
 "verloren."
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1914
 msgid "Do _Not Save"
 msgstr "_Nicht speichern"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4597
+#: gthumb/gth-browser.c:2402 gthumb/gth-browser.c:4605
 msgid "Accept"
 msgstr "Annehmen"
 
-#: gthumb/gth-browser.c:2401 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2402 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Schließen"
 
-#: gthumb/gth-browser.c:2939
+#: gthumb/gth-browser.c:2940
 msgid "Could not change name"
 msgstr "Name konnte nicht geändert werden"
 
-#: gthumb/gth-browser.c:3436
+#: gthumb/gth-browser.c:3443
 msgid "Modified"
 msgstr "Geändert"
 
-#: gthumb/gth-browser.c:4519
+#: gthumb/gth-browser.c:4527
 msgid "Go to the previous visited location"
 msgstr "Zum zuvor besuchten Ort wechseln"
 
-#: gthumb/gth-browser.c:4525
+#: gthumb/gth-browser.c:4533
 msgid "Go to the next visited location"
 msgstr "Zum nächsten besuchten Ort wechseln"
 
-#: gthumb/gth-browser.c:4533
+#: gthumb/gth-browser.c:4541
 msgid "History"
 msgstr "Chronik"
 
-#: gthumb/gth-browser.c:4547
+#: gthumb/gth-browser.c:4555
 msgid "View the folders"
 msgstr "Die Ordner anzeigen"
 
-#: gthumb/gth-browser.c:4562
+#: gthumb/gth-browser.c:4570
 msgid "Edit file"
 msgstr "Datei bearbeiten"
 
-#: gthumb/gth-browser.c:6573
+#: gthumb/gth-browser.c:6617
 #, c-format
 msgid "File type not supported"
 msgstr "Der Dateityp wird nicht unterstützt"
 
-#: gthumb/gth-browser.c:6616
+#: gthumb/gth-browser.c:6660
 #, c-format
 msgid "No suitable module found"
 msgstr "Kein passendes Modul gefunden"
