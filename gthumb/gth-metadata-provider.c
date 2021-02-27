@@ -178,7 +178,7 @@ _g_query_metadata_async_thread (GTask        *task,
 			break;
 		}
 
-#if WEBP_IS_UNKNOWN_TO_GLIB
+#if WEBP_IS_UNKNOWN_TO_GLIB || JXL_IS_UNKNOWN_TO_GLIB
 		if (_g_file_attributes_matches_any_v (G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE ","
 						      G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE,
 						      qmd->attributes_v))
@@ -188,8 +188,14 @@ _g_query_metadata_async_thread (GTask        *task,
 
 			uri = g_file_get_uri (file_data->file);
 			ext = _g_uri_get_extension (uri);
+#if WEBP_IS_UNKNOWN_TO_GLIB
 			if (g_strcmp0 (ext, ".webp") == 0)
 				gth_file_data_set_mime_type (file_data, "image/webp");
+#endif
+#if JXL_IS_UNKNOWN_TO_GLIB
+			if (g_strcmp0 (ext, ".jxl") == 0)
+				gth_file_data_set_mime_type (file_data, "image/jxl");
+#endif
 
 			g_free (ext);
 			g_free (uri);

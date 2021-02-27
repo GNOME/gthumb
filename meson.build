@@ -289,10 +289,11 @@ if use_libtiff
 endif
 if use_libwebp
   config_data.set('HAVE_LIBWEBP', 1)
-  config_data.set('WEBP_IS_UNKNOWN_TO_GLIB', 1) # Define to 1 if webp images area not recognized by the glib functions
+  config_data.set('WEBP_IS_UNKNOWN_TO_GLIB', 1) # Define to 1 if webp images are not recognized by the glib functions
 endif
 if use_libjxl
   config_data.set('HAVE_LIBJXL', 1)
+  config_data.set('JXL_IS_UNKNOWN_TO_GLIB', 1) # Define to 1 if jxl images are not recognized by the glib functions
 endif
 if use_libraw
   config_data.set('HAVE_LIBRAW', 1)

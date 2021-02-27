@@ -1737,6 +1737,11 @@ _g_content_type_guess_from_name (const char *filename)
 		return "image/webp";
 #endif
 
+#if JXL_IS_UNKNOWN_TO_GLIB
+	if (_g_str_equal (_g_path_get_extension (filename), ".jxl"))
+		return "image/jxl";
+#endif
+
 	return g_content_type_guess (filename, NULL, 0, NULL);
 }
 
