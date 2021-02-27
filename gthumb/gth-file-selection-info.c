@@ -21,6 +21,9 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include "glib-utils.h"
+#include "gth-browser.h"
+#include "gth-file-data.h"
 #include "gth-file-selection-info.h"
 
 
