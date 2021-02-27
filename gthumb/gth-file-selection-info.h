@@ -23,7 +23,6 @@
 #define GTH_FILE_SELECTION_INFO_H
 
 #include <gtk/gtk.h>
-#include <gthumb.h>
 
 G_BEGIN_DECLS
 
