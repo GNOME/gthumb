@@ -70,6 +70,8 @@ extensions/burn_disc/gth-burn-task.h
 extensions/burn_disc/main.c
 extensions/cairo_io/cairo-image-surface-jpeg.c
 extensions/cairo_io/cairo-image-surface-jpeg.h
+extensions/cairo_io/cairo-image-surface-jxl.c
+extensions/cairo_io/cairo-image-surface-jxl.h
 extensions/cairo_io/cairo-image-surface-png.c
 extensions/cairo_io/cairo-image-surface-png.h
 extensions/cairo_io/cairo-image-surface-svg.c
