@@ -27,6 +27,7 @@
 #include "cairo-image-surface-svg.h"
 #include "cairo-image-surface-tiff.h"
 #include "cairo-image-surface-webp.h"
+#include "cairo-image-surface-jxl.h"
 #include "cairo-image-surface-xcf.h"
 #include "gth-image-saver-jpeg.h"
 #include "gth-image-saver-png.h"
@@ -76,6 +77,13 @@ gthumb_extension_activate (void)
 					     "image/webp",
 					     NULL);
 	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_WEBP);
+#endif
+
+#ifdef HAVE_LIBJXL
+	gth_main_register_image_loader_func (_cairo_image_surface_create_from_jxl,
+					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
+					     "image/jxl",
+					     NULL);
 #endif
 
 	gth_main_register_image_loader_func (_cairo_image_surface_create_from_xcf,

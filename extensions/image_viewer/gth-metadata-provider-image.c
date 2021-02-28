@@ -30,6 +30,9 @@
 #if HAVE_LIBWEBP
 #include <webp/decode.h>
 #endif /* HAVE_LIBWEBP */
+#if HAVE_LIBJXL
+#include <jxl/decode.h>
+#endif /* HAVE_LIBJXL */
 #include "gth-metadata-provider-image.h"
 
 
@@ -184,6 +187,44 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 				}
 			}
 #endif /* HAVE_LIBWEBP */
+
+#if HAVE_LIBJXL
+			else if (size >= 12) {
+				JxlSignature sig = JxlSignatureCheck(buffer, size);
+				if (sig > JXL_SIG_INVALID) {
+					JxlDecoder *dec = JxlDecoderCreate(NULL);
+					if (dec != NULL) {
+						if (JxlDecoderSubscribeEvents(dec, JXL_DEC_BASIC_INFO) == JXL_DEC_SUCCESS) {
+							if (JxlDecoderSetInput(dec, buffer, size) == JXL_DEC_SUCCESS) {
+								JxlDecoderStatus status = JXL_DEC_NEED_MORE_INPUT;
+								while (status != JXL_DEC_SUCCESS) {
+									status = JxlDecoderProcessInput(dec);
+									if (status == JXL_DEC_ERROR)
+										break;
+									if (status == JXL_DEC_NEED_MORE_INPUT)
+										break;
+									if (status == JXL_DEC_BASIC_INFO) {
+										JxlBasicInfo info;
+										if (JxlDecoderGetBasicInfo(dec, &info) == JXL_DEC_SUCCESS) {
+											width = info.xsize;
+											height = info.ysize;
+											if (sig == JXL_SIG_CONTAINER)
+												description = _("JPEG XL container");
+											else
+												description = _("JPEG XL");
+											mime_type = "image/jxl";
+											format_recognized = TRUE;
+										}
+										break;
+									}
+								}
+							}
+						}
+						JxlDecoderDestroy(dec);
+					}
+				}
+			}
+#endif /* HAVE_LIBJXL */
 
 			else if ((size >= 26)
 				 && (strncmp ((char *) buffer, "gimp xcf ", 9) == 0))

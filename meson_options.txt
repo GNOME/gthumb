@@ -58,6 +58,12 @@ option('libwebp',
   description : 'Use libwebp to load WebP images'
 )
 
+option('libjxl',
+  type : 'boolean',
+  value : true,
+  description : 'Use libjxl to load JPEG XL images'
+)
+
 option('libraw',
   type : 'boolean',
   value : true,

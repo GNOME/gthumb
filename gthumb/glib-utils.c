@@ -1737,6 +1737,11 @@ _g_content_type_guess_from_name (const char *filename)
 		return "image/webp";
 #endif
 
+#if JXL_IS_UNKNOWN_TO_GLIB
+	if (_g_str_equal (_g_path_get_extension (filename), ".jxl"))
+		return "image/jxl";
+#endif
+
 	return g_content_type_guess (filename, NULL, 0, NULL);
 }
 
@@ -1796,7 +1801,9 @@ get_mime_type_from_magic_numbers (guchar *buffer,
 		{ 0,  4, "II\x2a\x00",				"image/tiff" },
 		{ 0,  4, "GIF8",				"image/gif" },
 		{ 0,  3, "\xff\xd8\xff",			"image/jpeg" },
-		{ 8,  7, "WEBPVP8",				"image/webp" }
+		{ 8,  7, "WEBPVP8",				"image/webp" },
+		{ 0,  2, "\xff\x0a",				"image/jxl" },
+		{ 0, 12, "\x00\x00\x00\x0cJXL\x20\x0d\x0a\x87\x0a", "image/jxl" }
 	};
 
 	int  i;
@@ -1910,7 +1917,8 @@ _g_mime_type_has_transparency (const char *mime_type)
 	return (strcmp (mime_type, "image/png") == 0)
 		|| (strcmp (mime_type, "image/gif") == 0)
 		|| (strcmp (mime_type, "image/svg+xml") == 0)
-		|| (strcmp (mime_type, "image/webp") == 0);
+		|| (strcmp (mime_type, "image/webp") == 0)
+		|| (strcmp (mime_type, "image/jxl") == 0);
 }
 
 

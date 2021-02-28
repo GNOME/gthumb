@@ -22,6 +22,10 @@ if use_libtiff
   source_files += files('cairo-image-surface-tiff.c')
 endif
 
+if use_libjxl
+  source_files += files('cairo-image-surface-jxl.c')
+endif
+
 enum_files = gnome.mkenums_simple('cairo-io-enum-types', sources: [ 'preferences.h' ])
 
 shared_module('cairo_io',
@@ -31,7 +35,8 @@ shared_module('cairo_io',
     jpeg_deps,
     use_libtiff ? tiff_deps : [],
     use_librsvg ? librsvg_dep : [],
-    use_libwebp ? libwebp_dep : []
+    use_libwebp ? libwebp_dep : [],
+    use_libjxl ? libjxl_deps : []
   ],
   include_directories : [ config_inc, gthumb_inc ],
   c_args : c_args,
