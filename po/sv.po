@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-02-13 15:04+0000\n"
-"PO-Revision-Date: 2021-02-14 00:50+0100\n"
+"POT-Creation-Date: 2021-02-28 10:03+0000\n"
+"PO-Revision-Date: 2021-02-28 14:07+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -632,12 +632,12 @@ msgid "_Lossless"
 msgstr "_Förlustfri"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:150
+#: extensions/image_viewer/gth-metadata-provider-image.c:153
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:116
+#: extensions/image_viewer/gth-metadata-provider-image.c:119
 msgid "PNG"
 msgstr "PNG"
 
@@ -655,7 +655,7 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:179
+#: extensions/image_viewer/gth-metadata-provider-image.c:182
 msgid "WebP"
 msgstr "WebP"
 
@@ -1686,7 +1686,7 @@ msgid "State/Province:"
 msgstr "Stat/Område:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2080 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2088 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(ogiltigt värde)"
 
@@ -2836,7 +2836,7 @@ msgid "Export to %s"
 msgstr "Exportera till %s"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
-#: gthumb/gth-file-selection-info.c:140
+#: gthumb/gth-file-selection-info.c:143
 #, c-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -3203,7 +3203,7 @@ msgstr "Mono"
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
-#: extensions/image_viewer/gth-metadata-provider-image.c:258
+#: extensions/image_viewer/gth-metadata-provider-image.c:299
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
 #: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
 #, c-format
@@ -3618,6 +3618,15 @@ msgstr "Spara bild"
 #: extensions/image_viewer/gth-image-viewer-page.c:2528
 msgid "Loading the original image"
 msgstr "Läser in den ursprungliga bilden"
+
+#: extensions/image_viewer/gth-metadata-provider-image.c:212
+msgid "JPEG XL container"
+msgstr "JPEG XL-behållare"
+
+#: extensions/image_viewer/gth-metadata-provider-image.c:214
+#| msgid "JPEG"
+msgid "JPEG XL"
+msgstr "JPEG XL"
 
 #: extensions/image_viewer/main.c:36
 msgid "Scroll Image"
@@ -4885,7 +4894,7 @@ msgstr "Flyttar filer till papperskorgen"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2056
+#: gthumb/glib-utils.c:2064
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4897,7 +4906,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2065
+#: gthumb/glib-utils.c:2073
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
