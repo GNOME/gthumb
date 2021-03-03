@@ -1,26 +1,26 @@
 # Hungarian translation for gthumb help.
-# Copyright (C) 2015, 2016, 2019 Free Software Foundation, Inc.
+# Copyright (C) 2015, 2016, 2019, 2021 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
-# Balázs Úr <urbalazs at gmail dot com>, 2015, 2016, 2019.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2015, 2016, 2019, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
-"POT-Creation-Date: 2018-06-10 17:30+0000\n"
-"PO-Revision-Date: 2019-01-28 23:20+0100\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"POT-Creation-Date: 2020-07-19 12:25+0000\n"
+"PO-Revision-Date: 2021-03-03 01:57+0100\n"
+"Last-Translator: Balázs Úr <ur.balazs@fsf.hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 19.12.3\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Úr Balázs <urbalazs at gmail dot hu>, 2015."
+msgstr "Úr Balázs <ur.balazs at fsf dot hu>, 2015, 2016, 2019, 2021."
 
 #. (itstool) path: credit/name
 #: C/index.page:7
@@ -1225,8 +1225,7 @@ msgid "Symbol"
 msgstr "Szimbólum"
 
 #. (itstool) path: td/p
-#: C/rename-series.page:27 C/shortcuts.page:17 C/shortcuts.page:84
-#: C/shortcuts.page:189 C/shortcuts.page:273 C/shortcuts.page:538
+#: C/rename-series.page:27
 msgid "Description"
 msgstr "Leírás"
 
@@ -1721,14 +1720,19 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/extensions.page:20
+#| msgid ""
+#| "If you would like to write your own extension, please visit <link href="
+#| "\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/"
+#| "gthumb</link> for development information. An example extension is "
+#| "provided in the source code, which you can base your own extension on."
 msgid ""
 "If you would like to write your own extension, please visit <link href="
-"\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</"
+"\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</"
 "link> for development information. An example extension is provided in the "
 "source code, which you can base your own extension on."
 msgstr ""
 "Ha saját kiterjesztést szeretne írni, akkor látogassa meg a <link href="
-"\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</"
+"\"https://wiki.gnome.org/Apps/Gthumb\">https://wiki.gnome.org/Apps/Gthumb</"
 "link> oldalt a fejlesztői információkért. Egy példakiterjesztés biztosítva "
 "van a forráskódban, amely a saját kiterjesztése alapjául szolgálhat."
 
@@ -2047,558 +2051,6 @@ msgid "When you are ready to print, press the <gui>Print</gui> button."
 msgstr ""
 "Amikor készen áll a nyomtatásra, akkor nyomja meg a <gui>Nyomtatás</gui> "
 "gombot."
-
-#. (itstool) path: page/title
-#: C/shortcuts.page:7
-msgid "Keyboard Shortcuts"
-msgstr "Gyorsbillentyűk"
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:10
-msgid "Viewing and hiding parts of the user interface"
-msgstr "A felhasználói felület egyes részeinek megtekintése vagy elrejtése"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:14 C/shortcuts.page:81 C/shortcuts.page:270
-#: C/shortcuts.page:535
-msgid "Keyboard Shortcut"
-msgstr "Gyorsbillentyű"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:22
-msgid "<key>F9</key>"
-msgstr "<key>F9</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:27
-msgid ""
-"Show/Hide the sidebar in the browser mode. The sidebar contains the folder "
-"tree and the file properties summary (if enabled)."
-msgstr ""
-"Az oldalsáv megjelenítése vagy elrejtése a böngészőmódban. Az oldalsáv "
-"tartalmazza a mappafát és a fájltulajdonságok összegzését (ha engedélyezve "
-"van)."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:33
-msgid "<key>i</key>"
-msgstr "<key>i</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:38
-msgid "Show the file properties summary."
-msgstr "A fájltulajdonságok összegzésének megjelenítése."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:43
-msgid "<key>F8</key>"
-msgstr "<key>F8</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:48
-msgid "Shows/hides the thumbnail pane in the viewer mode."
-msgstr "Megjeleníti vagy elrejti a bélyegkép ablaktáblát a megjelenítő módban."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:53
-msgid "<key>F11</key> or <key>f</key>"
-msgstr "<key>F11</key> vagy <key>f</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:58
-msgid "Toggles the fullscreen mode."
-msgstr "Be- vagy kikapcsolja a teljes képernyős módot."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:63
-msgid "<key>Esc</key>"
-msgstr "<key>Esc</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:68
-msgid "Closes the viewer or fullscreen mode."
-msgstr "Bezárja a megjelenítőt vagy a teljes képernyős módot."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:77
-msgid "Editing shortcuts for the browser and viewer"
-msgstr "Szerkesztés gyorsbillentyűk a böngészőnél és a megjelenítőnél"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:89
-msgid "<key>e</key>"
-msgstr "<key>e</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:94
-msgid "Edit the image. Opens the viewer and shows the editing tools."
-msgstr ""
-"A kép szerkesztése. Megnyitja a megjelenítőt, és megjeleníti a "
-"szerkesztőeszközöket."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:99
-msgid "<key>g</key>"
-msgstr "<key>g</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:104
-msgid "Open the image with the GNU Image Manipulation Program (GIMP)."
-msgstr ""
-"A kép megnyitása a GNU Image Manipulation Program (GIMP) használatával."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:109
-msgid "<key>F2</key>"
-msgstr "<key>F2</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:114
-msgid "Rename the image."
-msgstr "A kép átnevezése."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:119
-msgid "<key>c</key>"
-msgstr "<key>c</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:124
-msgid "Add comments or metadata to the selected images."
-msgstr "Megjegyzések vagy metaadatok hozzáadása a kijelölt képekhez."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:129
-msgid "<key>t</key>"
-msgstr "<key>t</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:134
-msgid "Add tags to the selected images."
-msgstr "Címkék hozzáadása a kijelölt képekhez."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:139
-msgid "<key>]</key>"
-msgstr "<key>]</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:144
-msgid "Rotate right, losslessly if possible. The file is saved automatically."
-msgstr ""
-"Forgatás jobbra veszteségmentesen, ha lehetséges. A fájl automatikusan "
-"mentésre kerül."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:149
-msgid "<key>[</key>"
-msgstr "<key>[</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:154
-msgid "Rotate left, losslessly if possible. The file is saved automatically."
-msgstr ""
-"Forgatás balra veszteségmentesen, ha lehetséges. A fájl automatikusan "
-"mentésre kerül."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:159
-msgid "<key>Delete</key>"
-msgstr "<key>Delete</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:164
-msgid "Move the selected files to the Trash."
-msgstr "A kijelölt fájlok áthelyezése a Kukába."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:169
-msgid "<keyseq><key>Shift</key><key>Delete</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Delete</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:174
-msgid "Delete the selected files permanently."
-msgstr "A kijelölt fájlok végleges törlése."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:182
-msgid "Editing shortcuts for the viewer mode only"
-msgstr "Szerkesztés gyorsbillentyűk csak a megjelenítő módnál"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:186
-msgid "Keyboard Shortcut (Case Sensitive)"
-msgstr "Gyorsbillentyű (Kis- és nagybetűérzékeny)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:194
-msgid "<key>a</key>"
-msgstr "<key>a</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:199
-msgid "Adjust contrast."
-msgstr "Kontraszt módosítása."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:204
-msgid "<key>l</key>"
-msgstr "<key>l</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:209
-msgid "Flip image."
-msgstr "Kép megfordítása."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:214
-msgid "<key>m</key>"
-msgstr "<key>m</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:219
-msgid "Mirror image."
-msgstr "Kép tükrözése."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:224
-msgid "<key>r</key>"
-msgstr "<key>r</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:229
-msgid "Rotate right."
-msgstr "Forgatás jobbra."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:234
-msgid "<key>R</key>"
-msgstr "<key>R</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:239
-msgid "Rotate left."
-msgstr "Forgatás balra."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:244
-msgid "<key>C</key>"
-msgstr "<key>C</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:249
-msgid "Crop image."
-msgstr "Kép levágása."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:254
-msgid "<key>S</key>"
-msgstr "<key>S</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:259
-msgid "Resize image."
-msgstr "Kép átméretezése."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:266
-msgid "Viewer shortcuts"
-msgstr "Megjelenítő gyorsbillentyűk"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:278
-msgid "<key>Space</key> or <key>Page Down</key>"
-msgstr "<key>Szóköz</key> vagy <key>Page Down</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:283
-msgid "View the next image."
-msgstr "A következő kép megtekintése."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:288
-msgid "<key>Backspace</key> or <key>Page Up</key>"
-msgstr "<key>Backspace</key> vagy <key>Page Up</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:293
-msgid "View the previous image."
-msgstr "Az előző kép megtekintése."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:298 C/shortcuts.page:446
-msgid "<key>Home</key>"
-msgstr "<key>Home</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:303
-msgid "View the first image."
-msgstr "Az első kép megtekintése."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:308 C/shortcuts.page:456
-msgid "<key>End</key>"
-msgstr "<key>End</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:313
-msgid "View the last image."
-msgstr "Az utolsó kép megtekintése."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:318
-msgid "<key>+</key> or <key>=</key>"
-msgstr "<key>+</key> vagy <key>=</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:323
-msgid "Zoom in."
-msgstr "Nagyítás."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:328
-msgid "<key>-</key>"
-msgstr "<key>-</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:333
-msgid "Zoom out."
-msgstr "Kicsinyítés."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:338
-msgid "<key>1</key> or <key>z</key> or <key>/ (numeric keypad)</key>"
-msgstr ""
-"<key>1</key> vagy <key>z</key> vagy <key>/ (numerikus billentyűzet)</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:344
-msgid "Actual size."
-msgstr "Tényleges méret."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:349
-msgid "<key>x</key> or <key>* (numeric keypad)</key>"
-msgstr "<key>x</key> vagy <key>* (numerikus billentyűzet)</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:354
-msgid "Zoom to fit (scales down only, does not magnify)"
-msgstr "Nagyítás az igazításhoz (csak lefelé méretez, nem nagyít)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:359
-msgid "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>x</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:367
-msgid "Zoom to fit (scale down or magnify, as required)"
-msgstr ""
-"Nagyítás az igazításhoz (lefelé méretezés vagy nagyítás, ahogy szükséges)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:372
-msgid "<key>w</key>"
-msgstr "<key>w</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:376
-msgid "Zoom to fit width (scales down only, does not magnify)"
-msgstr "Nagyítás a szélesség igazításához (csak lefelé méretez, nem nagyít)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:381
-msgid "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>w</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:389
-msgid "Zoom to fit width (scale down or magnify, as required)"
-msgstr ""
-"Nagyítás a szélesség igazításához (lefelé méretezés vagy nagyítás, ahogy "
-"szükséges)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:394
-msgid "<key>h</key>"
-msgstr "<key>h</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:398
-msgid "Zoom to fit height (scales down only, does not magnify)"
-msgstr "Nagyítás a magasság igazításához (csak lefelé méretez, nem nagyít)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:403
-msgid "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>h</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:411
-msgid "Zoom to fit height (scale down or magnify, as required)"
-msgstr ""
-"Nagyítás a magasság igazításához (lefelé méretezés vagy nagyítás, ahogy "
-"szükséges)"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:416
-msgid "<key>Arrows</key>"
-msgstr "<key>Nyilak</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:421
-msgid "Scroll the image."
-msgstr "A kép görgetése."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:426
-msgid "<keyseq> <key>Shift</key> <key>Arrows</key> </keyseq>"
-msgstr "<keyseq> <key>Shift</key> <key>Nyilak</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:434
-msgid "Scroll the image faster."
-msgstr "A kép görgetése gyorsabban."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:441
-msgid "Browser Navigation"
-msgstr "Böngészőnavigáció"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:451
-msgid "Go to the first file in the browser view."
-msgstr "Ugrás az első fájlra a böngészőnézetben."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:461
-msgid "Go to the last file in the browser view."
-msgstr "Ugrás az utolsó fájlra a böngészőnézetben."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:466
-msgid "<key>Down Arrow</key> or <key>Page Down</key>"
-msgstr "<key>Lefelé nyíl</key> vagy <key>Page Down</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:471
-msgid "Scroll downwards through the thumbnails."
-msgstr "Görgetés lefelé a bélyegképek között."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:476
-msgid "<key>Up Arrow</key> or <key>Page Up</key>"
-msgstr "<key>Felfelé nyíl</key> vagy <key>Page Up</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:481
-msgid "Scroll upwards through the thumbnails."
-msgstr "Görgetés felfelé a bélyegképek között."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:486
-msgid "<keyseq><key>Alt</key><key>Left Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>Balra nyíl</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:491
-msgid "Go back to the previously viewed folder."
-msgstr "Vissza az előzőleg megtekintett mappához."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:496
-msgid "<keyseq><key>Alt</key><key>Right Arrow</key></keyseq>"
-msgstr "<keyseq><key>Alt</key><key>Jobbra nyíl</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:501
-msgid "Go forward (after going back to a folder)."
-msgstr "Ugrás előre (miután visszament egy mappára)."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:506
-msgid "<keyseq> <key>Alt</key> <key>Up Arrow</key> </keyseq>"
-msgstr "<keyseq> <key>Alt</key> <key>Fel nyíl</key> </keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:514
-msgid "Go up one level."
-msgstr "Ugrás egy szinttel feljebb."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:519
-msgid "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>o</key></keyseq>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:524
-msgid "Open a location typing the path."
-msgstr "Az útvonalhoz beírt hely megnyitása."
-
-#. (itstool) path: section/title
-#: C/shortcuts.page:531
-msgid "Slideshow controls"
-msgstr "Diavetítés vezérlők"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:543
-msgid "<key>F5</key>"
-msgstr "<key>F5</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:548
-msgid "Start a slideshow."
-msgstr "Egy diavetítés indítása."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:553
-msgid "<key>p</key>"
-msgstr "<key>p</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:558
-msgid "Pause/Unpause the slideshow."
-msgstr "A diavetítés szüneteltetése vagy folytatása."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:563
-msgid "<key>Esc</key> or <key>q</key>"
-msgstr "<key>Esc</key> vagy <key>q</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:568
-msgid "Close the slideshow."
-msgstr "A diavetítés bezárása."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:573
-msgid ""
-"<key>Space</key> or <key>Down Arrow</key> or <key>Right Arrow</key> or "
-"<key>Page Down</key>"
-msgstr ""
-"<key>Szóköz</key> vagy <key>Lefelé nyíl</key> vagy <key>Jobbra nyíl</key> "
-"vagy <key>Page Down</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:578
-msgid "Load the next image."
-msgstr "A következő kép betöltése."
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:583
-msgid ""
-"<key>Backspace</key> or <key>Up Arrow</key> or <key>Left Arrow</key> or "
-"<key>Page Up</key>"
-msgstr ""
-"<key>Backspace</key> vagy <key>Felfelé nyíl</key> vagy <key>Balra nyíl</key> "
-"vagy <key>Page Up</key>"
-
-#. (itstool) path: td/p
-#: C/shortcuts.page:588
-msgid "Load the previous image."
-msgstr "Az előző kép betöltése."
 
 #. (itstool) path: page/title
 #: C/sharing-disc.page:6
@@ -3161,4 +2613,3 @@ msgstr ""
 "Speciális kivételként a szerzői jog tulajdonosai az Ön által választott "
 "tetszőleges feltételek mellett, korlátozás nélkül engedélyezik a "
 "dokumentumban található példakódok másolását, módosítását és terjesztését."
-
