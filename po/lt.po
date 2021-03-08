@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lt\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-12-31 11:22+0000\n"
-"PO-Revision-Date: 2021-01-05 12:38+0200\n"
+"POT-Creation-Date: 2021-03-03 01:03+0000\n"
+"PO-Revision-Date: 2021-03-08 22:35+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -133,7 +133,7 @@ msgstr "Importuoti fotografijas iš skaitmeninio fotoaparato"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:424 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:425 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -383,7 +383,6 @@ msgid "File _properties in browser:"
 msgstr "Failo _savybės naršyklėje:"
 
 #: data/ui/preferences.ui:179
-#| msgid "Statusbar"
 msgid "_Statusbar"
 msgstr "_Būsenos juosta"
 
@@ -632,12 +631,12 @@ msgid "_Lossless"
 msgstr "_Be praradimų"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:150
+#: extensions/image_viewer/gth-metadata-provider-image.c:153
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:116
+#: extensions/image_viewer/gth-metadata-provider-image.c:119
 msgid "PNG"
 msgstr "PNG"
 
@@ -655,7 +654,7 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:179
+#: extensions/image_viewer/gth-metadata-provider-image.c:182
 msgid "WebP"
 msgstr "WebP"
 
@@ -759,8 +758,8 @@ msgid "Rename"
 msgstr "Pervadinti"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4608
-#: gthumb/gth-browser.c:4710 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4616
+#: gthumb/gth-browser.c:4718 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Savybės"
 
@@ -817,9 +816,7 @@ msgstr "Žiū_rėti paskirties aplanką"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
-#: extensions/facebook/data/ui/facebook-album-properties.ui:45
 #: extensions/list_tools/data/ui/script-editor.ui:23
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:37
 msgid "_Name:"
 msgstr "_Pavadinimas:"
 
@@ -889,7 +886,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Nepavyko įdėti failų į katalogą"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:402
+#: extensions/search/gth-search-task.c:392
 msgid "Could not create the catalog"
 msgstr "Nepavyko sukurti katalogo"
 
@@ -1306,10 +1303,8 @@ msgstr "Dabartinė data"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:354
 #: extensions/contact_sheet/data/ui/image-wall.ui:85
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/facebook/data/ui/import-from-facebook.ui:211
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:209
 #: extensions/webalbums/data/ui/web-album-exporter.ui:361
 msgid "_Destination:"
 msgstr "Paskirties _vieta:"
@@ -1550,8 +1545,6 @@ msgid "Delete Metadata"
 msgstr "Ištrinti metaduomenis"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:17
-#: extensions/facebook/data/ui/facebook-album-properties.ui:135
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:127
 msgid "D_escription:"
 msgstr "_Aprašymas:"
 
@@ -1631,6 +1624,16 @@ msgstr "Įrašomi failai"
 msgid "Reading files"
 msgstr "Skaitomi failai"
 
+#: extensions/example/src/example.extension.desktop.in.in:3
+#| msgid "Example"
+msgid "example"
+msgstr "pavyzdys"
+
+#: extensions/example/src/example.extension.desktop.in.in:4
+#| msgid "example: %s"
+msgid "What example does"
+msgstr "Ką daro pavyzdys"
+
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
 msgstr "_Autoriaus teisės:"
@@ -1681,7 +1684,7 @@ msgid "State/Province:"
 msgstr "Valstija/provincija:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2088 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(netinkama vertė)"
 
@@ -1749,207 +1752,6 @@ msgstr "fotografavimo data"
 msgid "_Export To"
 msgstr "_Eksportuoti"
 
-#: extensions/facebook/data/ui/export-to-facebook.ui:34
-msgid "720 × 720"
-msgstr "720 × 720"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:38
-msgid "1024 × 1024"
-msgstr "1024 × 1024"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:42
-msgid "1280 × 1280"
-msgstr "1280 × 1280"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:46
-msgid "1600 × 1600"
-msgstr "1600 × 1600"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:50
-msgid "2048 × 2048"
-msgstr "2048 × 2048"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:145
-#: extensions/facebook/data/ui/import-from-facebook.ui:88
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:88
-msgid "Edit accounts"
-msgstr "Keisti paskyras"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:180
-msgid "A_lbum:"
-msgstr "A_lbumas:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:212
-msgid "Add a new album"
-msgstr "Pridėti naują albumą"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:242
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "_Paskyra:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:274
-#: extensions/facebook/data/ui/export-to-facebook.ui:275
-msgid "Resize the images if larger than this size"
-msgstr "Keisti dydį, jei didesnis nei"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:276
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:325
-#: extensions/webalbums/data/ui/web-album-exporter.ui:422
-msgid "_Resize if larger than:"
-msgstr "Keisti d_ydį, jei didesnis nei:"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:14
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Viešos fotografijos"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:18
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Privačios fotografijos, matomos draugams"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:22
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:15
-msgid "Private"
-msgstr "Privatus"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:73
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:65
-msgid "_Visibility:"
-msgstr "_Matomumas:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:122
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:98
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:122
-msgid "A_ccount:"
-msgstr "P_askyra:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:136
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:135
-msgid "_Album:"
-msgstr "_Albumas:"
-
-#: extensions/facebook/dlg-export-to-facebook.c:124
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:120
-msgid "Files successfully uploaded to the server."
-msgstr "Failai sėkmingai nusiųsti serveriui."
-
-#: extensions/facebook/dlg-export-to-facebook.c:151
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:148
-msgid "Could not upload the files"
-msgstr "Nepavyko nusiųsti failų"
-
-#: extensions/facebook/dlg-export-to-facebook.c:297
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:227
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "Nepavyko prisijungti prie serverio"
-
-#: extensions/facebook/dlg-export-to-facebook.c:368
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "Nepavyko sukurti albumo"
-
-#: extensions/facebook/dlg-export-to-facebook.c:436
-msgid "New Album"
-msgstr "Naujas albumas"
-
-#: extensions/facebook/dlg-export-to-facebook.c:475
-msgid "Export to Facebook"
-msgstr "Eksportuoti į Facebook"
-
-#: extensions/facebook/dlg-export-to-facebook.c:541
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1740
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:494
-msgid "No valid file selected."
-msgstr "Nepasirinkta tinkamų failų."
-
-#: extensions/facebook/dlg-export-to-facebook.c:542
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:495
-msgid "Could not export the files"
-msgstr "Nepavyko eksportuoti failų"
-
-#: extensions/facebook/dlg-export-to-facebook.c:550
-#: extensions/find_duplicates/gth-find-duplicates.c:278
-#: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:502
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:873
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d failas (%s)"
-msgstr[1] "%d failai (%s)"
-msgstr[2] "%d failų (%s)"
-
-#: extensions/facebook/dlg-export-to-facebook.c:571
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "Eksportuoti į %s"
-
-#: extensions/facebook/facebook-service.c:496
-#: extensions/flicker_utils/flickr-service.c:849
-#: extensions/picasaweb/picasa-web-service.c:738
-msgid "Getting the album list"
-msgstr "Gaunamas albumų sąrašas"
-
-#: extensions/facebook/facebook-service.c:613
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "Kuriamas naujas albumas"
-
-#: extensions/facebook/facebook-service.c:671
-#: extensions/flicker_utils/flickr-service.c:1144
-#: extensions/picasaweb/picasa-web-service.c:783
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "Nepavyko įkelti „%s“: %s"
-
-#. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:734
-#: extensions/flicker_utils/flickr-service.c:1253
-#: extensions/picasaweb/picasa-web-service.c:838
-#, c-format
-msgid "Uploading “%s”"
-msgstr "Įkeliama „%s“"
-
-#: extensions/facebook/facebook-service.c:954
-#: extensions/flicker_utils/flickr-service.c:1450
-#: extensions/picasaweb/picasa-web-service.c:1062
-msgid "Uploading the files to the server"
-msgstr "Failai siunčiami serveriui"
-
-#: extensions/facebook/facebook-service.c:1048
-#: extensions/flicker_utils/flickr-service.c:1611
-#: extensions/picasaweb/picasa-web-service.c:1174
-msgid "Getting the photo list"
-msgstr "Gaunamas fotografijų sąrašas"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:3
-msgid "Facebook"
-msgstr "Facebook"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:4
-msgid "Upload images to Facebook"
-msgstr "Įkelti paveikslėlius į Facebook"
-
 #: extensions/file_manager/actions.c:137
 msgid "New folder"
 msgstr "Naujas aplankas"
@@ -1962,7 +1764,7 @@ msgstr "Įveskite aplanko pavadinimą:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5620 gthumb/gth-browser.c:5656
+#: gthumb/gth-browser.c:5631 gthumb/gth-browser.c:5674
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Nepavyko įvykdyti operacijos"
@@ -2616,7 +2418,7 @@ msgstr "Įveskite pradinio pavadinimą:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1864
+#: gthumb/gth-browser.c:1865
 msgid "Could not save the file"
 msgstr "Nepavyko įrašyti failo"
 
@@ -2863,6 +2665,16 @@ msgstr "visi failai"
 msgid "no file"
 msgstr "nėra failų"
 
+#: extensions/find_duplicates/gth-find-duplicates.c:278
+#: extensions/find_duplicates/gth-find-duplicates.c:477
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:874
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d failas (%s)"
+msgstr[1] "%d failai (%s)"
+msgstr[2] "%d failų (%s)"
+
 #: extensions/find_duplicates/gth-find-duplicates.c:519
 #: extensions/find_duplicates/gth-find-duplicates.c:650
 #, c-format
@@ -2909,9 +2721,17 @@ msgstr "Flickr"
 msgid "Upload images to Flickr"
 msgstr "Išsiųsti pasirinktus paveikslėlius į Flickr"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
+msgid "Public photos"
+msgstr "Viešos fotografijos"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
 msgid "Private photos, visible to family and friends"
 msgstr "Privačios fotografijos, matomos šeimai ir draugams"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
+msgid "Private photos, visible to friends"
+msgstr "Privačios fotografijos, matomos draugams"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
 msgid "Private photos, visible to family"
@@ -2933,8 +2753,16 @@ msgstr "Nuosaikus turinys"
 msgid "Restricted content"
 msgstr "Ribojamas turinys"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
+msgid "_Account:"
+msgstr "_Paskyra:"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
+msgid "Edit accounts"
+msgstr "Keisti paskyras"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:175
 msgid "Free space:"
 msgstr "Laisva vieta:"
 
@@ -2955,13 +2783,57 @@ msgstr "_Saugumas:"
 msgid "Hi_de from public searches"
 msgstr "_Slėpti nuo viešosios paieškos"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
+#: extensions/webalbums/data/ui/web-album-exporter.ui:422
+msgid "_Resize if larger than:"
+msgstr "Keisti d_ydį, jei didesnis nei:"
+
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
+#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
+msgid "A_ccount:"
+msgstr "P_askyra:"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:136
+#: extensions/flicker_utils/dlg-export-to-flickr.c:410
+#: extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: extensions/oauth/web-service.c:377
+msgid "Could not connect to the server"
+msgstr "Nepavyko prisijungti prie serverio"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:161
+msgid "Files successfully uploaded to the server."
+msgstr "Failai sėkmingai nusiųsti serveriui."
+
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
 #: extensions/webalbums/gth-web-exporter.c:1826
 msgid "_Open in the Browser"
 msgstr "_Atverti naršyklėje"
 
+#: extensions/flicker_utils/dlg-export-to-flickr.c:188
+#: extensions/flicker_utils/dlg-export-to-flickr.c:223
+msgid "Could not create the album"
+msgstr "Nepavyko sukurti albumo"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:246
+msgid "Could not upload the files"
+msgstr "Nepavyko nusiųsti failų"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:592
+#: extensions/image_print/gth-image-print-job.c:1740
+msgid "No valid file selected."
+msgstr "Nepasirinkta tinkamų failų."
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:593
+msgid "Could not export the files"
+msgstr "Nepavyko eksportuoti failų"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:624
+#, c-format
+msgid "Export to %s"
+msgstr "Eksportuoti į %s"
+
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
-#: gthumb/gth-file-selection-info.c:140
+#: gthumb/gth-file-selection-info.c:143
 #, c-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -2970,20 +2842,16 @@ msgstr[1] "%d failai"
 msgstr[2] "%d failų"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:279
 msgid "Could not get the photo list"
 msgstr "Nepavyko gauti fotografijų sąrašo"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:382
 #: extensions/flicker_utils/dlg-import-from-flickr.c:561
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:598
 msgid "No album selected"
 msgstr "Nepasirinkta jokių albumų"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:521
 #: extensions/photo_importer/dlg-photo-importer.c:584
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:556
 msgid "_Import"
 msgstr "_Importuoti"
 
@@ -3034,6 +2902,35 @@ msgstr ""
 "Spustelėkite „Autorizuoti“, kad atvertumėte žiniatinklio naršyklę ir "
 "nustatytumėte tapatybę norėdami įkelti fotografijas į %s. Kai baigsite, "
 "grįžkite į šį langą tapatybės nustatymo procedūrai baigti."
+
+#: extensions/flicker_utils/flickr-service.c:849
+msgid "Getting the album list"
+msgstr "Gaunamas albumų sąrašas"
+
+#: extensions/flicker_utils/flickr-service.c:943
+#: extensions/flicker_utils/flickr-service.c:1058
+#: extensions/flicker_utils/flickr-service.c:1097
+msgid "Creating the new album"
+msgstr "Kuriamas naujas albumas"
+
+#: extensions/flicker_utils/flickr-service.c:1144
+#, c-format
+msgid "Could not upload “%s”: %s"
+msgstr "Nepavyko įkelti „%s“: %s"
+
+#. Translators: %s is a filename
+#: extensions/flicker_utils/flickr-service.c:1253
+#, c-format
+msgid "Uploading “%s”"
+msgstr "Įkeliama „%s“"
+
+#: extensions/flicker_utils/flickr-service.c:1450
+msgid "Uploading the files to the server"
+msgstr "Failai siunčiami serveriui"
+
+#: extensions/flicker_utils/flickr-service.c:1611
+msgid "Getting the photo list"
+msgstr "Gaunamas fotografijų sąrašas"
 
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
@@ -3302,7 +3199,7 @@ msgstr "Mono"
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
-#: extensions/image_viewer/gth-metadata-provider-image.c:258
+#: extensions/image_viewer/gth-metadata-provider-image.c:299
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
 #: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
 #, c-format
@@ -3716,6 +3613,15 @@ msgstr "Įrašyti paveikslėlį"
 msgid "Loading the original image"
 msgstr "Įkeliamas originalus paveikslėlis"
 
+#: extensions/image_viewer/gth-metadata-provider-image.c:212
+msgid "JPEG XL container"
+msgstr "JPEG XL konteineris"
+
+#: extensions/image_viewer/gth-metadata-provider-image.c:214
+#| msgid "JPEG"
+msgid "JPEG XL"
+msgstr "JPEG XL"
+
 #: extensions/image_viewer/main.c:36
 msgid "Scroll Image"
 msgstr "Slinkti paveikslėlį"
@@ -4128,7 +4034,6 @@ msgid "_Tags:"
 msgstr "_Žymos:"
 
 #: extensions/photo_importer/dlg-photo-importer.c:227
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:149
 msgid "Could not import the files"
 msgstr "Nepavyko importuoti failų"
 
@@ -4175,52 +4080,6 @@ msgstr "Importuoti fotografijas iš išimamų laikmenų."
 #: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
 msgid "camera-photo"
 msgstr "camera-photo"
-
-#: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
-msgid "_Picasa Web Album…"
-msgstr "_Picasa internetinis albumas…"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:233
-msgid "_Albums:"
-msgstr "_Albumai:"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:267
-#: gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Pavadinimas"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:275
-msgid "Used"
-msgstr "Naudojama"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:286
-msgid "Remaining photos"
-msgstr "Likusios nuotraukos"
-
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:12
-msgid "Public"
-msgstr "Vieša"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:344
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:468
-msgid "Could not get the album list"
-msgstr "Nepavyko gauti albumų sąrašo"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:431
-msgid "Export to Picasa Web Albums"
-msgstr "Eksportuoti į Picasa žiniatinklio albumus"
-
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:547
-msgid "Import from Picasa Web Album"
-msgstr "Importuoti iš Picasa žiniatinklio albumo"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:3
-msgid "Picasa Web Albums"
-msgstr "Picasa internetiniai albumai"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:4
-msgid "Upload images to Picasa Web Albums"
-msgstr "Nusiųsti paveikslėlius į Picasa internetinius albumus"
 
 #: extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
@@ -4285,7 +4144,6 @@ msgid "Edit template"
 msgstr "Keisti šabloną"
 
 #: extensions/rename_series/data/ui/rename-series.ui:119
-#| msgid "leave the oldest duplicates"
 msgid "Revert to the last used template"
 msgstr "Atstatyti paskutinį naudotą šabloną"
 
@@ -4478,7 +4336,7 @@ msgid "Search again"
 msgstr "Ieškoti dar kartą"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:169
+#: extensions/search/callbacks.c:197
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Ieškoti"
@@ -4497,16 +4355,16 @@ msgstr "bet kuri iš šių taisyklių"
 msgid "Add another location"
 msgstr "Pridėti kitą vietą"
 
-#: extensions/search/gth-search-task.c:194
+#: extensions/search/gth-search-task.c:189
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Iki šiol rasti failai: %s"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:333
 msgid "Searching…"
 msgstr "Ieškoma…"
 
-#: extensions/search/gth-search-task.c:347
+#: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
 msgstr "Atšaukti veiksmą"
 
@@ -4853,9 +4711,9 @@ msgstr "Žiniatinklio albumai"
 msgid "Create static web albums."
 msgstr "Kurti statinius žiniatinklio albumus."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1171
-#: gthumb/gth-browser.c:6625 gthumb/gth-browser.c:6644
-#: gthumb/gth-browser.c:6668 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1172
+#: gthumb/gth-browser.c:6669 gthumb/gth-browser.c:6688
+#: gthumb/gth-browser.c:6712 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Nepavyko įkelti pozicijos „%s“"
@@ -5030,7 +4888,7 @@ msgstr "Perkeliami failai į šiukšlinę"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2055
+#: gthumb/glib-utils.c:2064
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -5042,7 +4900,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2064
+#: gthumb/glib-utils.c:2073
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5141,8 +4999,8 @@ msgstr "Užverti langą"
 msgid "Open location"
 msgstr "Atverti vietą"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4623
-#: gthumb/gth-browser.c:4641 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4631
+#: gthumb/gth-browser.c:4649 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Visame ekrane"
@@ -5223,11 +5081,11 @@ msgstr "Pasirinkti visus"
 msgid "Select none"
 msgstr "Nepasirinkti nieko"
 
-#: gthumb/gth-browser.c:409
+#: gthumb/gth-browser.c:410
 msgid "[modified]"
 msgstr "[pakeistas]"
 
-#: gthumb/gth-browser.c:874
+#: gthumb/gth-browser.c:875
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -5235,71 +5093,71 @@ msgstr[0] "Pasirinktas %d failas (%s)"
 msgstr[1] "Pasirinkti %d failai (%s)"
 msgstr[2] "Pasirinkta %d failų (%s)"
 
-#: gthumb/gth-browser.c:909
+#: gthumb/gth-browser.c:910
 #, c-format
 msgid "%s of free space"
 msgstr "Laisva vietos %s"
 
-#: gthumb/gth-browser.c:1787 gthumb/gth-browser.c:1803
+#: gthumb/gth-browser.c:1788 gthumb/gth-browser.c:1804
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nerastas tinkamas modulis %s"
 
-#: gthumb/gth-browser.c:1908
+#: gthumb/gth-browser.c:1909
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Įrašyti pakeitimus į failą „%s“?"
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1914
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Jei neįrašysite, pakeitimai bus negrįžtamai prarasti."
 
-#: gthumb/gth-browser.c:1914
+#: gthumb/gth-browser.c:1915
 msgid "Do _Not Save"
 msgstr "_Neįrašyti"
 
-#: gthumb/gth-browser.c:2402 gthumb/gth-browser.c:4649
+#: gthumb/gth-browser.c:2403 gthumb/gth-browser.c:4657
 msgid "Accept"
 msgstr "Priimti"
 
-#: gthumb/gth-browser.c:2402 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2403 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Užverti"
 
-#: gthumb/gth-browser.c:2941
+#: gthumb/gth-browser.c:2942
 msgid "Could not change name"
 msgstr "Nepavyko pakeisti pavadinimo"
 
-#: gthumb/gth-browser.c:3438
+#: gthumb/gth-browser.c:3445
 msgid "Modified"
 msgstr "Pakeistas"
 
-#: gthumb/gth-browser.c:4571
+#: gthumb/gth-browser.c:4579
 msgid "Go to the previous visited location"
 msgstr "Eiti į ankstesnę aplankytą vietą"
 
-#: gthumb/gth-browser.c:4577
+#: gthumb/gth-browser.c:4585
 msgid "Go to the next visited location"
 msgstr "Eiti į kitą aplankytą vietą"
 
-#: gthumb/gth-browser.c:4585
+#: gthumb/gth-browser.c:4593
 msgid "History"
 msgstr "Histograma"
 
-#: gthumb/gth-browser.c:4599
+#: gthumb/gth-browser.c:4607
 msgid "View the folders"
 msgstr "Žiūrėti aplankus"
 
-#: gthumb/gth-browser.c:4614
+#: gthumb/gth-browser.c:4622
 msgid "Edit file"
 msgstr "Taisyti failą"
 
-#: gthumb/gth-browser.c:6626
+#: gthumb/gth-browser.c:6670
 #, c-format
 msgid "File type not supported"
 msgstr "Failo tipas nepalaikomas"
 
-#: gthumb/gth-browser.c:6669
+#: gthumb/gth-browser.c:6713
 #, c-format
 msgid "No suitable module found"
 msgstr "Nerastas tinkamas modulis"
@@ -5442,6 +5300,10 @@ msgstr "Vietos"
 #: gthumb/gth-location-chooser.c:617
 msgid "Other…"
 msgstr "Kita…"
+
+#: gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Pavadinimas"
 
 #: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:351
 msgid "Size"
@@ -5858,6 +5720,81 @@ msgstr "_Apie gThumb"
 msgid "_Delete History"
 msgstr "_Ištrinti retrospektyvą"
 
+#~ msgid "720 × 720"
+#~ msgstr "720 × 720"
+
+#~ msgid "1024 × 1024"
+#~ msgstr "1024 × 1024"
+
+#~ msgid "1280 × 1280"
+#~ msgstr "1280 × 1280"
+
+#~ msgid "1600 × 1600"
+#~ msgstr "1600 × 1600"
+
+#~ msgid "2048 × 2048"
+#~ msgstr "2048 × 2048"
+
+#~ msgid "A_lbum:"
+#~ msgstr "A_lbumas:"
+
+#~ msgid "Add a new album"
+#~ msgstr "Pridėti naują albumą"
+
+#~ msgid "Resize the images if larger than this size"
+#~ msgstr "Keisti dydį, jei didesnis nei"
+
+#~ msgid "Private"
+#~ msgstr "Privatus"
+
+#~ msgid "_Visibility:"
+#~ msgstr "_Matomumas:"
+
+#~ msgid "_Album:"
+#~ msgstr "_Albumas:"
+
+#~ msgid "New Album"
+#~ msgstr "Naujas albumas"
+
+#~ msgid "Export to Facebook"
+#~ msgstr "Eksportuoti į Facebook"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Upload images to Facebook"
+#~ msgstr "Įkelti paveikslėlius į Facebook"
+
+#~ msgid "_Picasa Web Album…"
+#~ msgstr "_Picasa internetinis albumas…"
+
+#~ msgid "_Albums:"
+#~ msgstr "_Albumai:"
+
+#~ msgid "Used"
+#~ msgstr "Naudojama"
+
+#~ msgid "Remaining photos"
+#~ msgstr "Likusios nuotraukos"
+
+#~ msgid "Public"
+#~ msgstr "Vieša"
+
+#~ msgid "Could not get the album list"
+#~ msgstr "Nepavyko gauti albumų sąrašo"
+
+#~ msgid "Export to Picasa Web Albums"
+#~ msgstr "Eksportuoti į Picasa žiniatinklio albumus"
+
+#~ msgid "Import from Picasa Web Album"
+#~ msgstr "Importuoti iš Picasa žiniatinklio albumo"
+
+#~ msgid "Picasa Web Albums"
+#~ msgstr "Picasa internetiniai albumai"
+
+#~ msgid "Upload images to Picasa Web Albums"
+#~ msgstr "Nusiųsti paveikslėlius į Picasa internetinius albumus"
+
 #~ msgid "gthumb"
 #~ msgstr "gthumb"
 
@@ -5903,9 +5840,6 @@ msgstr "_Ištrinti retrospektyvą"
 
 #~ msgid "gThumb Photo Import Tool"
 #~ msgstr "gThumb fotografijų importavimo įrankis"
-
-#~ msgid "Example"
-#~ msgstr "Pavyzdys"
 
 #~ msgid "Extension example."
 #~ msgstr "Plėtinio pavyzdys."
