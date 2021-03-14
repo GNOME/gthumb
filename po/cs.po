@@ -3064,7 +3064,7 @@ msgstr "Přehrát / pozastavit"
 
 #: extensions/gstreamer_tools/callbacks.c:34
 msgid "Mute"
-msgstr "Ztišit"
+msgstr "Vypnout zvuk"
 
 #: extensions/gstreamer_tools/callbacks.c:35
 msgid "Play faster"
