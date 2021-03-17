@@ -4,13 +4,13 @@
 # Aleix Badia i Bosch <abadia@ica.es>, 2003, 2004, 2006.
 # Maria Soler Climent <maria.soler@eupm.upc.edu>, 2006.
 # Sílvia Miranda <silvia.gnome@gmail.com>, 2007.
-# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2016, 2020
+# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2016, 2020-2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-08-08 19:22+0000\n"
+"POT-Creation-Date: 2021-03-14 11:05+0000\n"
 "PO-Revision-Date: 2019-03-17 08:36+0100\n"
 "Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
 "Language-Team: catalan <tradgnome@softcatala.net>\n"
@@ -35,14 +35,14 @@ msgid ""
 "gThumb is an image viewer, editor, browser and organizer. It is designed to "
 "be well integrated with the GNOME 3 desktop."
 msgstr ""
-"gThumb és un visualitzador, editor, navegador i organitzador d'imatges. Està "
-"dissenyat perquè tingui una bona integració amb l'escriptori GNOME 3."
+"gThumb és un visualitzador, editor, navegador i organitzador d'imatges. Està"
+" dissenyat perquè tingui una bona integració amb l'escriptori GNOME 3."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:15
 msgid ""
 "As an image viewer gThumb allows to view common image file formats such as "
-"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It "
-"is also possible to view various metadata types embedded inside an image "
+"BMP, JPEG, GIF (including the animations), PNG, TIFF, TGA and RAW images. It"
+" is also possible to view various metadata types embedded inside an image "
 "such as EXIF, IPTC and XMP."
 msgstr ""
 "Com a visualitzador d'imatges, gThumb permet la visualització dels formats "
@@ -57,8 +57,8 @@ msgid ""
 "change the saturation, lightness, contrast as well as other color "
 "transformations."
 msgstr ""
-"Com a editor d'imatges, gThumb permet escalar, girar i retallar les imatges; "
-"canviar la saturació, la lluminositat, el contrast, així com altres "
+"Com a editor d'imatges, gThumb permet escalar, girar i retallar les imatges;"
+" canviar la saturació, la lluminositat, el contrast, així com altres "
 "transformacions de color."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:27
@@ -74,8 +74,8 @@ msgstr ""
 "desades al vostre disc, permet realitzar les operacions més comunes d'un "
 "gestor de fitxers tals com copiar, moure i suprimir fitxers i carpetes. A "
 "més hi ha una sèrie d'eines específiques d'imatges, com ara les "
-"transformacions sense pèrdua JPEG; redimensió d'imatge; conversió de format; "
-"presentació de diapositives; establiment d'una imatge com a fons "
+"transformacions sense pèrdua JPEG; redimensió d'imatge; conversió de format;"
+" presentació de diapositives; establiment d'una imatge com a fons "
 "d'escriptori i algunes altres més."
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:35
@@ -103,8 +103,8 @@ msgstr "Obre els fitxers a la finestra activa"
 #: data/gschemas/org.gnome.gthumb.image-viewer.gschema.xml:30
 msgid "Whether to reset the scrollbars position after changing image"
 msgstr ""
-"Si es restableix la posició de les barres de desplaçament després de canviar "
-"la imatge"
+"Si es restableix la posició de les barres de desplaçament després de canviar"
+" la imatge"
 
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:32
 msgid "Possible values are: jpeg, jpg."
@@ -116,8 +116,8 @@ msgstr "Els valors possibles són: tiff i tif."
 
 #: data/gschemas/org.gnome.gthumb.rename-series.gschema.xml:30
 msgid ""
-"Possible values include: general::unsorted, file::name, file::size, file::"
-"mtime, exif::photo::datetimeoriginal"
+"Possible values include: general::unsorted, file::name, file::size, "
+"file::mtime, exif::photo::datetimeoriginal"
 msgstr ""
 "Els valors possibles inclouen: general::unsorted, file::name, file::size, "
 "file::mtime, exif::photo::datetimeoriginal"
@@ -136,7 +136,7 @@ msgstr "Importa les fotos de la targeta de la vostra càmera"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:423 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:425 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -177,7 +177,7 @@ msgstr "_Doble clic per a obrir fitxers"
 msgid "_Open files in fullscreen mode"
 msgstr "_Obre els fitxers a pantalla completa"
 
-#: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
+#: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:355
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
 #: extensions/gstreamer_tools/main.c:41 gthumb/dlg-preferences-shortcuts.c:335
 #: gthumb/gth-shortcuts-window.c:96
@@ -259,7 +259,8 @@ msgid "Rules:"
 msgstr "Regles:"
 
 #. limit label
-#: data/ui/filter-editor.ui:164 gthumb/gth-filter.c:270 gthumb/gth-filter.c:338
+#: data/ui/filter-editor.ui:164 gthumb/gth-filter.c:270
+#: gthumb/gth-filter.c:338
 msgid "_Limit to"
 msgstr "_Limita a"
 
@@ -367,59 +368,63 @@ msgstr "a la part dreta"
 msgid "gThumb Preferences"
 msgstr "Preferències del gThumb"
 
-#: data/ui/preferences.ui:101
+#: data/ui/preferences.ui:98
 msgid "Appearance"
 msgstr "Aparença"
 
-#: data/ui/preferences.ui:125
+#: data/ui/preferences.ui:123
 msgid "T_humbnails in viewer:"
 msgstr "Minia_tures al visualitzador:"
 
-#: data/ui/preferences.ui:139
+#: data/ui/preferences.ui:137
 msgid "on the bottom"
 msgstr "a la part inferior"
 
-#: data/ui/preferences.ui:140
+#: data/ui/preferences.ui:138
 msgid "on the side"
 msgstr "a la vora"
 
-#: data/ui/preferences.ui:152
+#: data/ui/preferences.ui:150
 msgid "File _properties in browser:"
 msgstr "_Propietats del fitxer al navegador:"
 
-#: data/ui/preferences.ui:203
+#: data/ui/preferences.ui:179
+msgid "_Statusbar"
+msgstr "_Barra d'estat"
+
+#: data/ui/preferences.ui:222
 msgid "On startup:"
 msgstr "A l'inici:"
 
-#: data/ui/preferences.ui:226
+#: data/ui/preferences.ui:245
 msgid "Go to last _visited location"
 msgstr "_Ves a l'última ubicació visitada"
 
-#: data/ui/preferences.ui:247
+#: data/ui/preferences.ui:266
 msgid "Go to this _folder:"
 msgstr "Ves a aquesta _carpeta:"
 
-#: data/ui/preferences.ui:277
+#: data/ui/preferences.ui:296
 msgid "Set to C_urrent"
 msgstr "Estableix-ho a l'act_ual"
 
-#: data/ui/preferences.ui:299
+#: data/ui/preferences.ui:318
 msgid "_Reuse the active window to open files"
 msgstr "_Reutilitza la finestra activa per a obrir els fitxers"
 
-#: data/ui/preferences.ui:358
+#: data/ui/preferences.ui:377
 msgid "As_k confirmation before deleting files or catalogs"
 msgstr "De_mana'm la confirmació abans de suprimir fitxers o catàlegs"
 
-#: data/ui/preferences.ui:373
+#: data/ui/preferences.ui:392
 msgid "Ask whether to save _modified files"
 msgstr "Demana'm si s'han de desar els fitxers _modificats"
 
-#: data/ui/preferences.ui:388
+#: data/ui/preferences.ui:407
 msgid "_Store metadata inside files if possible"
 msgstr "_Desa les metadades dins dels fitxers si és possible"
 
-#: data/ui/preferences.ui:421
+#: data/ui/preferences.ui:440
 #: extensions/catalogs/data/ui/catalog-properties.ui:39
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:576
 #: extensions/edit_metadata/gth-edit-general-page.c:482
@@ -632,12 +637,12 @@ msgid "_Lossless"
 msgstr "Sense _pèrdua"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:150
+#: extensions/image_viewer/gth-metadata-provider-image.c:153
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:116
+#: extensions/image_viewer/gth-metadata-provider-image.c:119
 msgid "PNG"
 msgstr "PNG"
 
@@ -655,7 +660,7 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:179
+#: extensions/image_viewer/gth-metadata-provider-image.c:182
 msgid "WebP"
 msgstr "WebP"
 
@@ -754,14 +759,14 @@ msgstr "Crea la biblioteca"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:82
 #: extensions/file_manager/callbacks.c:109
 #: extensions/file_manager/callbacks.c:126
-#: extensions/rename_series/dlg-rename-series.c:850
+#: extensions/rename_series/dlg-rename-series.c:859
 #: gthumb/gth-folder-tree.c:1971
 msgid "Rename"
 msgstr "Canvia el nom"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4557
-#: gthumb/gth-browser.c:4659 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4616
+#: gthumb/gth-browser.c:4718 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Propietats"
 
@@ -818,9 +823,7 @@ msgstr "_Visualitza la destinació"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:68
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:53
-#: extensions/facebook/data/ui/facebook-album-properties.ui:45
 #: extensions/list_tools/data/ui/script-editor.ui:23
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:37
 msgid "_Name:"
 msgstr "_Nom:"
 
@@ -890,7 +893,7 @@ msgid "Could not add the files to the catalog"
 msgstr "No s'han pogut afegir els fitxers el catàleg"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:402
+#: extensions/search/gth-search-task.c:392
 msgid "Could not create the catalog"
 msgstr "No s'ha pogut crear el catàleg"
 
@@ -946,10 +949,10 @@ msgid "Tag (embedded)"
 msgstr "Etiqueta (incrustada)"
 
 #: extensions/catalogs/gth-catalog.c:300
-#: extensions/exiv2_tools/exiv2-utils.cpp:876
-#: extensions/exiv2_tools/exiv2-utils.cpp:885
-#: extensions/exiv2_tools/exiv2-utils.cpp:915
-#: extensions/exiv2_tools/exiv2-utils.cpp:1448
+#: extensions/exiv2_tools/exiv2-utils.cpp:872
+#: extensions/exiv2_tools/exiv2-utils.cpp:881
+#: extensions/exiv2_tools/exiv2-utils.cpp:911
+#: extensions/exiv2_tools/exiv2-utils.cpp:1444
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "Format de fitxer no vàlid"
@@ -1123,7 +1126,7 @@ msgstr "Títol"
 #: extensions/image_print/data/ui/print-layout.ui:239
 #: extensions/importer/data/ui/import-preferences.ui:287
 #: extensions/list_tools/data/ui/script-editor.ui:319
-#: extensions/rename_series/data/ui/rename-series.ui:249
+#: extensions/rename_series/data/ui/rename-series.ui:272
 #: extensions/webalbums/data/ui/web-album-exporter.ui:194
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1039
 #: gthumb/gth-main-default-metadata.c:64
@@ -1286,7 +1289,7 @@ msgstr "El nombre total de pàgines"
 #: extensions/image_print/data/ui/print-layout.ui:224
 #: extensions/importer/data/ui/import-preferences.ui:275
 #: extensions/list_tools/data/ui/script-editor.ui:304
-#: extensions/rename_series/data/ui/rename-series.ui:128
+#: extensions/rename_series/data/ui/rename-series.ui:151
 #: extensions/webalbums/data/ui/web-album-exporter.ui:179
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1024
 msgid "Special code"
@@ -1295,7 +1298,7 @@ msgstr "Codi especial"
 #. translate only the text in the curly brackets
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:201
 #: extensions/image_print/data/ui/print-layout.ui:256
-#: extensions/rename_series/data/ui/rename-series.ui:219
+#: extensions/rename_series/data/ui/rename-series.ui:242
 #: extensions/webalbums/data/ui/web-album-exporter.ui:211
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1056
 msgid "%D{ format }"
@@ -1311,10 +1314,8 @@ msgstr "La data actual"
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:354
 #: extensions/contact_sheet/data/ui/image-wall.ui:85
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
-#: extensions/facebook/data/ui/import-from-facebook.ui:211
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:209
 #: extensions/webalbums/data/ui/web-album-exporter.ui:361
 msgid "_Destination:"
 msgstr "_Destinació:"
@@ -1334,7 +1335,7 @@ msgstr "_Nom de fitxer:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:469
 #: extensions/contact_sheet/data/ui/image-wall.ui:199
-#: extensions/rename_series/data/ui/rename-series.ui:265
+#: extensions/rename_series/data/ui/rename-series.ui:288
 msgid "New enumerator digit"
 msgstr "Dígit numerador nou"
 
@@ -1557,8 +1558,6 @@ msgid "Delete Metadata"
 msgstr "Elimina les metadades"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:17
-#: extensions/facebook/data/ui/facebook-album-properties.ui:135
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:127
 msgid "D_escription:"
 msgstr "D_escripció:"
 
@@ -1638,6 +1637,14 @@ msgstr "S'estan escrivint els fitxers"
 msgid "Reading files"
 msgstr "S'estan llegint els fitxers"
 
+#: extensions/example/src/example.extension.desktop.in.in:3
+msgid "example"
+msgstr "exemple"
+
+#: extensions/example/src/example.extension.desktop.in.in:4
+msgid "What example does"
+msgstr "Què fa l'exemple"
+
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
 msgstr "Drets d'aut_or:"
@@ -1688,11 +1695,11 @@ msgid "State/Province:"
 msgstr "Estat o província:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2079 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2088 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(valor no vàlid)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:713
+#: extensions/exiv2_tools/exiv2-utils.cpp:709
 msgid "Exposure"
 msgstr "Exposició"
 
@@ -1756,206 +1763,6 @@ msgstr "la data en què la foto va ser presa"
 msgid "_Export To"
 msgstr "_Exporta a"
 
-#: extensions/facebook/data/ui/export-to-facebook.ui:34
-msgid "720 × 720"
-msgstr "720 x 720"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:38
-msgid "1024 × 1024"
-msgstr "1024 x 1024"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:42
-msgid "1280 × 1280"
-msgstr "1280 x 1280"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:46
-msgid "1600 × 1600"
-msgstr "1600 x 1600"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:50
-msgid "2048 × 2048"
-msgstr "2048 x 2048"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:145
-#: extensions/facebook/data/ui/import-from-facebook.ui:88
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:88
-msgid "Edit accounts"
-msgstr "Edita els comptes"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:180
-msgid "A_lbum:"
-msgstr "À_lbum:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:212
-msgid "Add a new album"
-msgstr "Afegeix un àlbum nou"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:242
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
-msgid "_Account:"
-msgstr "_Compte:"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:274
-#: extensions/facebook/data/ui/export-to-facebook.ui:275
-msgid "Resize the images if larger than this size"
-msgstr "Redimensiona les imatges si són més grans que aquesta mida"
-
-#: extensions/facebook/data/ui/export-to-facebook.ui:276
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:325
-#: extensions/webalbums/data/ui/web-album-exporter.ui:422
-msgid "_Resize if larger than:"
-msgstr "_Redimensiona si són més grans que:"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:14
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
-msgid "Public photos"
-msgstr "Fotografies públiques"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:18
-#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
-msgid "Private photos, visible to friends"
-msgstr "Fotografies privades, visibles per a les amistats"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:22
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:15
-msgid "Private"
-msgstr "Privat"
-
-#: extensions/facebook/data/ui/facebook-album-properties.ui:73
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:65
-msgid "_Visibility:"
-msgstr "_Visibilitat:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:122
-#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
-#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:98
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:122
-msgid "A_ccount:"
-msgstr "_Compte:"
-
-#: extensions/facebook/data/ui/import-from-facebook.ui:136
-#: extensions/picasaweb/data/ui/import-from-picasaweb.ui:135
-msgid "_Album:"
-msgstr "À_lbum:"
-
-#: extensions/facebook/dlg-export-to-facebook.c:124
-#: extensions/flicker_utils/dlg-export-to-flickr.c:161
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:120
-msgid "Files successfully uploaded to the server."
-msgstr "S'han pujat correctament els fitxers al servidor."
-
-#: extensions/facebook/dlg-export-to-facebook.c:151
-#: extensions/flicker_utils/dlg-export-to-flickr.c:246
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:148
-msgid "Could not upload the files"
-msgstr "No s'han pogut pujar els fitxers"
-
-#: extensions/facebook/dlg-export-to-facebook.c:297
-#: extensions/flicker_utils/dlg-export-to-flickr.c:136
-#: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:227
-#: extensions/oauth/web-service.c:377
-msgid "Could not connect to the server"
-msgstr "No s'ha pogut connectar al servidor"
-
-#: extensions/facebook/dlg-export-to-facebook.c:368
-#: extensions/flicker_utils/dlg-export-to-flickr.c:188
-#: extensions/flicker_utils/dlg-export-to-flickr.c:223
-msgid "Could not create the album"
-msgstr "No s'ha pogut crear l'àlbum"
-
-#: extensions/facebook/dlg-export-to-facebook.c:436
-msgid "New Album"
-msgstr "Àlbum nou"
-
-#: extensions/facebook/dlg-export-to-facebook.c:475
-msgid "Export to Facebook"
-msgstr "Exporta al Facebook"
-
-#: extensions/facebook/dlg-export-to-facebook.c:541
-#: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1740
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:494
-msgid "No valid file selected."
-msgstr "No s'ha seleccionat cap fitxer vàlid."
-
-#: extensions/facebook/dlg-export-to-facebook.c:542
-#: extensions/flicker_utils/dlg-export-to-flickr.c:593
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:495
-msgid "Could not export the files"
-msgstr "No s'han pogut exportar els fitxers"
-
-#: extensions/facebook/dlg-export-to-facebook.c:550
-#: extensions/find_duplicates/gth-find-duplicates.c:278
-#: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:502
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:872
-#, c-format
-msgid "%d file (%s)"
-msgid_plural "%d files (%s)"
-msgstr[0] "%d fitxer (%s)"
-msgstr[1] "%d fitxers (%s)"
-
-#: extensions/facebook/dlg-export-to-facebook.c:571
-#: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, c-format
-msgid "Export to %s"
-msgstr "Exporta a %s"
-
-#: extensions/facebook/facebook-service.c:496
-#: extensions/flicker_utils/flickr-service.c:849
-#: extensions/picasaweb/picasa-web-service.c:738
-msgid "Getting the album list"
-msgstr "S'està obtenint la llista dels àlbums"
-
-#: extensions/facebook/facebook-service.c:613
-#: extensions/flicker_utils/flickr-service.c:943
-#: extensions/flicker_utils/flickr-service.c:1058
-#: extensions/flicker_utils/flickr-service.c:1097
-msgid "Creating the new album"
-msgstr "S'està creant l'àlbum nou"
-
-#: extensions/facebook/facebook-service.c:671
-#: extensions/flicker_utils/flickr-service.c:1144
-#: extensions/picasaweb/picasa-web-service.c:783
-#, c-format
-msgid "Could not upload “%s”: %s"
-msgstr "No s'ha pogut pujar «%s»: %s"
-
-#. Translators: %s is a filename
-#: extensions/facebook/facebook-service.c:734
-#: extensions/flicker_utils/flickr-service.c:1253
-#: extensions/picasaweb/picasa-web-service.c:838
-#, c-format
-msgid "Uploading “%s”"
-msgstr "S'està pujant «%s»"
-
-#: extensions/facebook/facebook-service.c:954
-#: extensions/flicker_utils/flickr-service.c:1450
-#: extensions/picasaweb/picasa-web-service.c:1062
-msgid "Uploading the files to the server"
-msgstr "S'estan pujant els fitxers al servidor"
-
-#: extensions/facebook/facebook-service.c:1048
-#: extensions/flicker_utils/flickr-service.c:1611
-#: extensions/picasaweb/picasa-web-service.c:1174
-msgid "Getting the photo list"
-msgstr "S'està obtenint la llista de les fotos"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:3
-msgid "Facebook"
-msgstr "Facebook"
-
-#: extensions/facebook/facebook.extension.desktop.in.in:4
-msgid "Upload images to Facebook"
-msgstr "Pugeu les imatges a Facebook"
-
 #: extensions/file_manager/actions.c:137
 msgid "New folder"
 msgstr "Carpeta nova"
@@ -1968,7 +1775,7 @@ msgstr "Introduïu el nom de la carpeta:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5569 gthumb/gth-browser.c:5605
+#: gthumb/gth-browser.c:5631 gthumb/gth-browser.c:5674
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "No s'ha pogut realitzar l'operació"
@@ -1981,8 +1788,8 @@ msgstr "No s'han pogut moure els fitxers"
 #: extensions/file_manager/actions.c:424
 #: extensions/file_manager/callbacks.c:278
 msgid ""
-"Files cannot be moved to the current location, as alternative you can choose "
-"to copy them."
+"Files cannot be moved to the current location, as alternative you can choose"
+" to copy them."
 msgstr ""
 "Els fitxers no es pot moure a la ubicació actual, com a alternativa podeu "
 "triar per a copiar-los."
@@ -1993,7 +1800,7 @@ msgstr ""
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:417 gthumb/gtk-utils.h:38
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:418 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Copia"
 
@@ -2402,31 +2209,38 @@ msgstr "Quantitat:"
 msgid "%d → %d"
 msgstr "%d → %d"
 
-#: extensions/file_tools/gth-curve-editor.c:894 gthumb/gth-histogram-view.c:838
+#: extensions/file_tools/gth-curve-editor.c:894
+#: gthumb/gth-histogram-view.c:838
 msgid "Linear scale"
 msgstr "Escalat lineal"
 
-#: extensions/file_tools/gth-curve-editor.c:906 gthumb/gth-histogram-view.c:850
+#: extensions/file_tools/gth-curve-editor.c:906
+#: gthumb/gth-histogram-view.c:850
 msgid "Logarithmic scale"
 msgstr "Escalat logarítmic"
 
-#: extensions/file_tools/gth-curve-editor.c:926 gthumb/gth-histogram-view.c:870
+#: extensions/file_tools/gth-curve-editor.c:926
+#: gthumb/gth-histogram-view.c:870
 msgid "Channel:"
 msgstr "Canal:"
 
-#: extensions/file_tools/gth-curve-editor.c:948 gthumb/gth-histogram-view.c:891
+#: extensions/file_tools/gth-curve-editor.c:948
+#: gthumb/gth-histogram-view.c:891
 msgid "Value"
 msgstr "Valor"
 
-#: extensions/file_tools/gth-curve-editor.c:953 gthumb/gth-histogram-view.c:896
+#: extensions/file_tools/gth-curve-editor.c:953
+#: gthumb/gth-histogram-view.c:896
 msgid "Red"
 msgstr "Vermell"
 
-#: extensions/file_tools/gth-curve-editor.c:958 gthumb/gth-histogram-view.c:901
+#: extensions/file_tools/gth-curve-editor.c:958
+#: gthumb/gth-histogram-view.c:901
 msgid "Green"
 msgstr "Verd"
 
-#: extensions/file_tools/gth-curve-editor.c:963 gthumb/gth-histogram-view.c:906
+#: extensions/file_tools/gth-curve-editor.c:963
+#: gthumb/gth-histogram-view.c:906
 msgid "Blue"
 msgstr "Blau"
 
@@ -2627,7 +2441,7 @@ msgstr "Introduïu el nom de la predefinició:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1863
+#: gthumb/gth-browser.c:1865
 msgid "Could not save the file"
 msgstr "No s'ha pogut desar el fitxer"
 
@@ -2830,7 +2644,7 @@ msgid "No duplicates found."
 msgstr "No s'ha trobat cap duplicat."
 
 #: extensions/find_duplicates/data/ui/find-duplicates.ui:32
-#: extensions/rename_series/data/ui/rename-series.ui:27
+#: extensions/rename_series/data/ui/rename-series.ui:28
 #: extensions/search/data/ui/search-editor.ui:73
 msgid "Start _at:"
 msgstr "Comença _a:"
@@ -2873,6 +2687,16 @@ msgstr "tots els fitxers"
 #: extensions/find_duplicates/gth-find-duplicates.c:69
 msgid "no file"
 msgstr "cap fitxer"
+
+#: extensions/find_duplicates/gth-find-duplicates.c:278
+#: extensions/find_duplicates/gth-find-duplicates.c:477
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601
+#: gthumb/gth-browser.c:874
+#, c-format
+msgid "%d file (%s)"
+msgid_plural "%d files (%s)"
+msgstr[0] "%d fitxer (%s)"
+msgstr[1] "%d fitxers (%s)"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:519
 #: extensions/find_duplicates/gth-find-duplicates.c:650
@@ -2918,9 +2742,17 @@ msgstr "Flicker"
 msgid "Upload images to Flickr"
 msgstr "Pugeu les imatges a Flickr"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:35
+msgid "Public photos"
+msgstr "Fotografies públiques"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:39
 msgid "Private photos, visible to family and friends"
 msgstr "Fotos privades, visibles a la família i les amistats"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:43
+msgid "Private photos, visible to friends"
+msgstr "Fotografies privades, visibles per a les amistats"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:47
 msgid "Private photos, visible to family"
@@ -2942,8 +2774,16 @@ msgstr "Contingut moderat"
 msgid "Restricted content"
 msgstr "Contingut restringit"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:150
+msgid "_Account:"
+msgstr "_Compte:"
+
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:198
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:86
+msgid "Edit accounts"
+msgstr "Edita els comptes"
+
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:229
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:175
 msgid "Free space:"
 msgstr "Espai lliure:"
 
@@ -2964,13 +2804,57 @@ msgstr "_Seguretat:"
 msgid "Hi_de from public searches"
 msgstr "Oculta _de cerques públiques"
 
+#: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
+#: extensions/webalbums/data/ui/web-album-exporter.ui:422
+msgid "_Resize if larger than:"
+msgstr "_Redimensiona si són més grans que:"
+
+#: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
+#: extensions/oauth/data/ui/oauth-account-chooser.ui:33
+msgid "A_ccount:"
+msgstr "_Compte:"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:136
+#: extensions/flicker_utils/dlg-export-to-flickr.c:410
+#: extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: extensions/oauth/web-service.c:377
+msgid "Could not connect to the server"
+msgstr "No s'ha pogut connectar al servidor"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:161
+msgid "Files successfully uploaded to the server."
+msgstr "S'han pujat correctament els fitxers al servidor."
+
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
 #: extensions/webalbums/gth-web-exporter.c:1826
 msgid "_Open in the Browser"
 msgstr "_Obre-ho al navegador"
 
+#: extensions/flicker_utils/dlg-export-to-flickr.c:188
+#: extensions/flicker_utils/dlg-export-to-flickr.c:223
+msgid "Could not create the album"
+msgstr "No s'ha pogut crear l'àlbum"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:246
+msgid "Could not upload the files"
+msgstr "No s'han pogut pujar els fitxers"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:592
+#: extensions/image_print/gth-image-print-job.c:1740
+msgid "No valid file selected."
+msgstr "No s'ha seleccionat cap fitxer vàlid."
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:593
+msgid "Could not export the files"
+msgstr "No s'han pogut exportar els fitxers"
+
+#: extensions/flicker_utils/dlg-export-to-flickr.c:624
+#, c-format
+msgid "Export to %s"
+msgstr "Exporta a %s"
+
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
-#: gthumb/gth-file-selection-info.c:140
+#: gthumb/gth-file-selection-info.c:143
 #, c-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -2978,20 +2862,16 @@ msgstr[0] "%d fitxer"
 msgstr[1] "%d fitxers"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:345
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:279
 msgid "Could not get the photo list"
 msgstr "No s'ha pogut obtenir la llista de les imatges"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:382
 #: extensions/flicker_utils/dlg-import-from-flickr.c:561
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:313
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:598
 msgid "No album selected"
 msgstr "No s'ha seleccionat cap àlbum"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:521
 #: extensions/photo_importer/dlg-photo-importer.c:584
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:556
 msgid "_Import"
 msgstr "_Importa"
 
@@ -3040,9 +2920,38 @@ msgid ""
 "photos to %s. When you’re finished, return to this window to complete the "
 "authorization."
 msgstr ""
-"Feu clic a «Autoritza» per a obrir el vostre navegador i autoritzar a gthumb "
-"perquè pugi les fotos a %s. Quan ho hàgiu fet, torneu a aquesta finestra per "
-"a completar l'autorització."
+"Feu clic a «Autoritza» per a obrir el vostre navegador i autoritzar a gthumb"
+" perquè pugi les fotos a %s. Quan ho hàgiu fet, torneu a aquesta finestra "
+"per a completar l'autorització."
+
+#: extensions/flicker_utils/flickr-service.c:849
+msgid "Getting the album list"
+msgstr "S'està obtenint la llista dels àlbums"
+
+#: extensions/flicker_utils/flickr-service.c:943
+#: extensions/flicker_utils/flickr-service.c:1058
+#: extensions/flicker_utils/flickr-service.c:1097
+msgid "Creating the new album"
+msgstr "S'està creant l'àlbum nou"
+
+#: extensions/flicker_utils/flickr-service.c:1144
+#, c-format
+msgid "Could not upload “%s”: %s"
+msgstr "No s'ha pogut pujar «%s»: %s"
+
+#. Translators: %s is a filename
+#: extensions/flicker_utils/flickr-service.c:1253
+#, c-format
+msgid "Uploading “%s”"
+msgstr "S'està pujant «%s»"
+
+#: extensions/flicker_utils/flickr-service.c:1450
+msgid "Uploading the files to the server"
+msgstr "S'estan pujant els fitxers al servidor"
+
+#: extensions/flicker_utils/flickr-service.c:1611
+msgid "Getting the photo list"
+msgstr "S'està obtenint la llista de les fotos"
 
 #. Translators: %s is a filename
 #: extensions/gstreamer_tools/actions.c:75
@@ -3086,52 +2995,52 @@ msgid "Next frame"
 msgstr "Fotograma següent"
 
 #: extensions/gstreamer_tools/callbacks.c:38
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:460
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:461
 msgid "Go forward 1 second"
 msgstr "Avança 1 segon"
 
 #: extensions/gstreamer_tools/callbacks.c:39
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:356
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:357
 msgid "Go forward 5 seconds"
 msgstr "Avança 5 segons"
 
 #: extensions/gstreamer_tools/callbacks.c:40
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:370
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:371
 msgid "Go forward 10 seconds"
 msgstr "Avança 10 segons"
 
 #: extensions/gstreamer_tools/callbacks.c:41
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:384
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:385
 msgid "Go forward 1 minute"
 msgstr "Avança 1 minut"
 
 #: extensions/gstreamer_tools/callbacks.c:42
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:398
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:399
 msgid "Go forward 5 minutes"
 msgstr "Avança 5 minuts"
 
 #: extensions/gstreamer_tools/callbacks.c:43
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:446
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:447
 msgid "Go back 1 second"
 msgstr "Retrocedeix 1 segon"
 
 #: extensions/gstreamer_tools/callbacks.c:44
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:300
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:301
 msgid "Go back 5 seconds"
 msgstr "Retrocedeix 5 segons"
 
 #: extensions/gstreamer_tools/callbacks.c:45
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:314
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:315
 msgid "Go back 10 seconds"
 msgstr "Retrocedeix 10 segons"
 
 #: extensions/gstreamer_tools/callbacks.c:46
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:328
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:329
 msgid "Go back 1 minute"
 msgstr "Retrocedeix 1 minut"
 
 #: extensions/gstreamer_tools/callbacks.c:47
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:342
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:343
 msgid "Go back 5 minutes"
 msgstr "Retrocedeix 5 minuts"
 
@@ -3166,52 +3075,52 @@ msgid "Time:"
 msgstr "Hora:"
 
 #. minus 5 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:296
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:297
 msgid "-5s"
 msgstr "-5s"
 
 #. minus 10 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:310
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:311
 msgid "-10s"
 msgstr "-10s"
 
 #. minus 1 minute
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:324
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:325
 msgid "-1m"
 msgstr "-1m"
 
 #. minus 5 minutes
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:338
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:339
 msgid "-5m"
 msgstr "-5m"
 
 #. plus 5 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:352
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:353
 msgid "+5s"
 msgstr "+5s"
 
 #. plus 10 seconds
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:366
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:367
 msgid "+10s"
 msgstr "+10s"
 
 #. plus 1 minute
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:380
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:381
 msgid "+1m"
 msgstr "+1m"
 
 #. plus 5 minutes
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:394
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:395
 msgid "+5m"
 msgstr "+5m"
 
 #. minus 1 second
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:442
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:443
 msgid "-1s"
 msgstr "-1s"
 
 #. plus 1 second
-#: extensions/gstreamer_tools/data/ui/mediabar.ui:456
+#: extensions/gstreamer_tools/data/ui/mediabar.ui:457
 msgid "+1s"
 msgstr "+1s"
 
@@ -3235,11 +3144,11 @@ msgstr "Reproduint vídeo"
 msgid "Pause"
 msgstr "Fes una pausa"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1048
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1115
 msgid "Take a screenshot"
 msgstr "Fes una captura de pantalla"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1055
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1122
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
@@ -3311,7 +3220,7 @@ msgstr "Mono"
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
-#: extensions/image_viewer/gth-metadata-provider-image.c:258
+#: extensions/image_viewer/gth-metadata-provider-image.c:299
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
 #: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
 #, c-format
@@ -3437,7 +3346,8 @@ msgstr "Impressió de la imatge"
 
 #: extensions/image_print/image_print.extension.desktop.in.in:4
 msgid "Allow to print images choosing the page layout."
-msgstr "Permet imprimir imatges amb la selecció de la disposició de la pàgina."
+msgstr ""
+"Permet imprimir imatges amb la selecció de la disposició de la pàgina."
 
 #: extensions/image_print/image_print.extension.desktop.in.in:8
 msgid "document-print"
@@ -3473,28 +3383,17 @@ msgstr "No s'ha pogut transformar la imatge: %s"
 
 #: extensions/image_rotation/rotation-utils.c:110
 msgid ""
-"This transformation may introduce small image distortions along one or more "
-"edges, because the image dimensions are not multiples of 8.\n"
+"This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
 "\n"
-"The distortion is reversible, however. If the resulting image is "
-"unacceptable, simply apply the reverse transformation to return to the "
-"original image.\n"
+"The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
-"transformation is not strictly lossless anymore."
+"You can also choose to discard (or trim) any untransformable edge pixels. For practical use, this mode gives the best looking results, but the transformation is not strictly lossless anymore."
 msgstr ""
-"Pot ser que aquesta transformació distorsioni lleugerament una o més vores, "
-"perquè les dimensions de la imatge no són múltiples de 8.\n"
+"Pot ser que aquesta transformació distorsioni lleugerament una o més vores, perquè les dimensions de la imatge no són múltiples de 8.\n"
 "\n"
-"Tanmateix, aquesta distorsió és reversible. Si la imatge resultant és "
-"inacceptable, només cal que apliqueu la transformació inversa per a tornar a "
-"obtenir la imatge original.\n"
+"Tanmateix, aquesta distorsió és reversible. Si la imatge resultant és inacceptable, només cal que apliqueu la transformació inversa per a tornar a obtenir la imatge original.\n"
 "\n"
-"També podeu triar de descartar (o retallar) tots els píxels de vora que no "
-"siguin transformables. Per a un ús pràctic, aquest mode és el que dona més "
-"bon resultat; però, aleshores, la transformació ja no es farà estrictament "
-"sense pèrdua de qualitat."
+"També podeu triar de descartar (o retallar) tots els píxels de vora que no siguin transformables. Per a un ús pràctic, aquest mode és el que dona més bon resultat; però, aleshores, la transformació ja no es farà estrictament sense pèrdua de qualitat."
 
 #: extensions/image_rotation/rotation-utils.c:116
 msgid "_Trim"
@@ -3727,6 +3626,14 @@ msgstr "Desa la imatge"
 msgid "Loading the original image"
 msgstr "S'està carregant la imatge original"
 
+#: extensions/image_viewer/gth-metadata-provider-image.c:212
+msgid "JPEG XL container"
+msgstr "Contenidor JPEG XL"
+
+#: extensions/image_viewer/gth-metadata-provider-image.c:214
+msgid "JPEG XL"
+msgstr "JPEG XL"
+
 #: extensions/image_viewer/main.c:36
 msgid "Scroll Image"
 msgstr "Desplaça la imatge"
@@ -3735,8 +3642,8 @@ msgstr "Desplaça la imatge"
 msgid "Image Editor"
 msgstr "Editor d'imatge"
 
-#: extensions/image_viewer/preferences.c:158 gthumb/gth-main-default-types.c:42
-#: gthumb/gth-shortcuts-window.c:40
+#: extensions/image_viewer/preferences.c:158
+#: gthumb/gth-main-default-types.c:42 gthumb/gth-shortcuts-window.c:40
 msgid "Viewer"
 msgstr "Visualitzador"
 
@@ -3823,7 +3730,7 @@ msgstr "Cap fitxer importat"
 msgid "The selected files are already present in the destination."
 msgstr "Els fitxers seleccionats ja estan presents a la destinació."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:692
 msgid "Could not delete the files"
 msgstr "No s'han pogut eliminar els fitxers"
 
@@ -3909,7 +3816,7 @@ msgid "%attr{ attribute name }"
 msgstr "%attr{ nom de l'atribut }"
 
 #: extensions/list_tools/data/ui/script-editor.ui:386
-#: extensions/rename_series/data/ui/rename-series.ui:356
+#: extensions/rename_series/data/ui/rename-series.ui:379
 msgid "A file attribute"
 msgstr "Un atribut de fitxer"
 
@@ -4142,7 +4049,6 @@ msgid "_Tags:"
 msgstr "E_tiquetes:"
 
 #: extensions/photo_importer/dlg-photo-importer.c:227
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:149
 msgid "Could not import the files"
 msgstr "No s'han pogut importar els fitxers"
 
@@ -4157,8 +4063,8 @@ msgid "Could not load the folder"
 msgstr "No s'ha pogut carregar la carpeta"
 
 #: extensions/photo_importer/dlg-photo-importer.c:356
-#: extensions/photo_importer/dlg-photo-importer.c:396 gthumb/gth-file-list.c:42
-#: gthumb/gth-folder-tree.c:1186
+#: extensions/photo_importer/dlg-photo-importer.c:396
+#: gthumb/gth-file-list.c:42 gthumb/gth-folder-tree.c:1186
 msgid "(Empty)"
 msgstr "(Buit)"
 
@@ -4189,52 +4095,6 @@ msgstr "Importeu les fotos dels dispositius extraïbles."
 #: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
 msgid "camera-photo"
 msgstr "camera-photo"
-
-#: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
-msgid "_Picasa Web Album…"
-msgstr "Àlbum web de _Picasa..."
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:233
-msgid "_Albums:"
-msgstr "_Àlbums:"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:267
-#: gthumb/gth-main-default-metadata.c:39
-msgid "Name"
-msgstr "Nom"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:275
-msgid "Used"
-msgstr "Utilitzades"
-
-#: extensions/picasaweb/data/ui/export-to-picasaweb.ui:286
-msgid "Remaining photos"
-msgstr "Fotografies restants"
-
-#: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:12
-msgid "Public"
-msgstr "Públic"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:344
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:468
-msgid "Could not get the album list"
-msgstr "No s'ha pogut obtenir la llista dels àlbums"
-
-#: extensions/picasaweb/dlg-export-to-picasaweb.c:431
-msgid "Export to Picasa Web Albums"
-msgstr "Exporta als àlbums web de Picasa"
-
-#: extensions/picasaweb/dlg-import-from-picasaweb.c:547
-msgid "Import from Picasa Web Album"
-msgstr "Importa de l'àlbum web de Picasa"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:3
-msgid "Picasa Web Albums"
-msgstr "Àlbums web de Picasa"
-
-#: extensions/picasaweb/picasaweb.extension.desktop.in.in:4
-msgid "Upload images to Picasa Web Albums"
-msgstr "Pugeu les imatges als àlbums web de Picasa"
 
 #: extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
@@ -4281,69 +4141,73 @@ msgstr "suprimeix"
 msgid "add"
 msgstr "afegeix"
 
-#: extensions/rename_series/data/ui/rename-series.ui:41
+#: extensions/rename_series/data/ui/rename-series.ui:42
 msgid "_Sort by:"
 msgstr "O_rdena per:"
 
 #. Translators: this is the text case (upper or lower case).
-#: extensions/rename_series/data/ui/rename-series.ui:54
+#: extensions/rename_series/data/ui/rename-series.ui:55
 msgid "Cas_e:"
 msgstr "_Capitalització:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:83
+#: extensions/rename_series/data/ui/rename-series.ui:84
 #: gthumb/gth-browser-actions-entries.h:94
 msgid "Help"
 msgstr "Ajuda"
 
-#: extensions/rename_series/data/ui/rename-series.ui:97
+#: extensions/rename_series/data/ui/rename-series.ui:98
 msgid "Edit template"
 msgstr "Edita la plantilla"
 
+#: extensions/rename_series/data/ui/rename-series.ui:119
+msgid "Revert to the last used template"
+msgstr "Reverteix a l'última plantilla usada"
+
 #. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:204
+#: extensions/rename_series/data/ui/rename-series.ui:227
 msgid "%M{ format }"
 msgstr "%M{ format }"
 
 #. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:234
+#: extensions/rename_series/data/ui/rename-series.ui:257
 #, c-format
 msgid "%A{ identifier }"
 msgstr "%A{ identificador }"
 
-#: extensions/rename_series/data/ui/rename-series.ui:280
+#: extensions/rename_series/data/ui/rename-series.ui:303
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1106
 msgid "The original filename"
 msgstr "El nom de fitxer original"
 
-#: extensions/rename_series/data/ui/rename-series.ui:295
+#: extensions/rename_series/data/ui/rename-series.ui:318
 msgid "The original extension"
 msgstr "L'extensió original"
 
-#: extensions/rename_series/data/ui/rename-series.ui:310
+#: extensions/rename_series/data/ui/rename-series.ui:333
 msgid "The original enumerator"
 msgstr "El numerador original"
 
-#: extensions/rename_series/data/ui/rename-series.ui:325
+#: extensions/rename_series/data/ui/rename-series.ui:348
 msgid "The modification date"
 msgstr "La data de modificació"
 
-#: extensions/rename_series/data/ui/rename-series.ui:341
+#: extensions/rename_series/data/ui/rename-series.ui:364
 msgid "The digitalization date"
 msgstr "La data de digitalització"
 
-#: extensions/rename_series/data/ui/rename-series.ui:389
+#: extensions/rename_series/data/ui/rename-series.ui:436
 msgid "1"
 msgstr "1"
 
-#: extensions/rename_series/data/ui/rename-series.ui:426
+#: extensions/rename_series/data/ui/rename-series.ui:473
 msgid "Re_verse Order"
 msgstr "In_verteix l'ordre"
 
-#: extensions/rename_series/data/ui/rename-series.ui:473
+#: extensions/rename_series/data/ui/rename-series.ui:520
 msgid "_Template:"
 msgstr "Plan_tilla:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:514
+#: extensions/rename_series/data/ui/rename-series.ui:573
 msgid "_Preview:"
 msgstr "_Previsualitza:"
 
@@ -4388,28 +4252,28 @@ msgstr "No s'ha pogut desar la plantilla"
 msgid "Edit Template"
 msgstr "Edita la plantilla"
 
-#: extensions/rename_series/dlg-rename-series.c:860
+#: extensions/rename_series/dlg-rename-series.c:869
 #: gthumb/gth-folder-tree.c:1974
 msgid "_Rename"
 msgstr "Canvia el _nom"
 
-#: extensions/rename_series/dlg-rename-series.c:877
+#: extensions/rename_series/dlg-rename-series.c:886
 msgid "Old Name"
 msgstr "Nom antic"
 
-#: extensions/rename_series/dlg-rename-series.c:888
+#: extensions/rename_series/dlg-rename-series.c:897
 msgid "New Name"
 msgstr "Nom nou"
 
-#: extensions/rename_series/dlg-rename-series.c:966
+#: extensions/rename_series/dlg-rename-series.c:975
 msgid "Keep original case"
 msgstr "Mantén la capitalització original"
 
-#: extensions/rename_series/dlg-rename-series.c:967
+#: extensions/rename_series/dlg-rename-series.c:976
 msgid "Convert to lower-case"
 msgstr "Converteix a minúscules"
 
-#: extensions/rename_series/dlg-rename-series.c:968
+#: extensions/rename_series/dlg-rename-series.c:977
 msgid "Convert to upper-case"
 msgstr "Converteix a majúscules"
 
@@ -4488,7 +4352,7 @@ msgid "Search again"
 msgstr "Cerca de nou"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:169
+#: extensions/search/callbacks.c:197
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Cerca"
@@ -4507,16 +4371,16 @@ msgstr "qualsevol de les següents regles"
 msgid "Add another location"
 msgstr "Afegeix una altra ubicació"
 
-#: extensions/search/gth-search-task.c:194
+#: extensions/search/gth-search-task.c:189
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Fitxers trobats de moment: %s"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:333
 msgid "Searching…"
 msgstr "S'està cercant..."
 
-#: extensions/search/gth-search-task.c:347
+#: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
 msgstr "Cancel·la l'operació"
 
@@ -4592,11 +4456,13 @@ msgstr "Finalitza la presentació"
 msgid "Pause/Resume presentation"
 msgstr "Pausa/Reprèn la presentació"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:120
+#: extensions/slideshow/callbacks.c:43
+#: gthumb/gth-browser-actions-entries.h:120
 msgid "Show next file"
 msgstr "Mostra el fitxer següent"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:119
+#: extensions/slideshow/callbacks.c:44
+#: gthumb/gth-browser-actions-entries.h:119
 msgid "Show previous file"
 msgstr "Mostra el fitxer anterior"
 
@@ -4865,9 +4731,9 @@ msgstr "Àlbums web"
 msgid "Create static web albums."
 msgstr "Creeu àlbums web estàtics."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6574 gthumb/gth-browser.c:6593
-#: gthumb/gth-browser.c:6617 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1172
+#: gthumb/gth-browser.c:6669 gthumb/gth-browser.c:6688
+#: gthumb/gth-browser.c:6712 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "No s'ha pogut carregar la posició «%s»"
@@ -5042,7 +4908,7 @@ msgstr "S'estan movent els fitxers a la paperera"
 #. * hours, 5 minutes, and 2 seconds. You may change "∶" to
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
-#: gthumb/glib-utils.c:2055
+#: gthumb/glib-utils.c:2064
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -5053,7 +4919,7 @@ msgstr "%d:%02d:%02d"
 #. * minutes and 2 seconds. You may change "∶" to the
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
-#: gthumb/glib-utils.c:2064
+#: gthumb/glib-utils.c:2073
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -5099,8 +4965,8 @@ msgid ""
 "version."
 msgstr ""
 "gThumb és programari lliure; el podeu redistribuir i/o modificar sota els "
-"termes de la llicència de documentació lliure GNU, tal com està publicat per "
-"la Free Software Foundation; ja sigui a la versió 2 de la llicència, o (a "
+"termes de la llicència de documentació lliure GNU, tal com està publicat per"
+" la Free Software Foundation; ja sigui a la versió 2 de la llicència, o (a "
 "elecció vostra) a qualsevol versió posterior."
 
 #: gthumb/gth-browser-actions-callbacks.c:104
@@ -5110,19 +4976,19 @@ msgid ""
 "FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more "
 "details."
 msgstr ""
-"gThumb es distribueix amb l'esperança que sigui útil, però SENSE CAP MENA DE "
-"GARANTIA; ni tan sols la garantia implícita de COMERCIALITZACIÓ o ADEQUACIÓ "
-"PER A CAP PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General de la GNU "
-"per a més detalls."
+"gThumb es distribueix amb l'esperança que sigui útil, però SENSE CAP MENA DE"
+" GARANTIA; ni tan sols la garantia implícita de COMERCIALITZACIÓ o ADEQUACIÓ"
+" PER A CAP PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General de la GNU"
+" per a més detalls."
 
 #: gthumb/gth-browser-actions-callbacks.c:108
 msgid ""
-"You should have received a copy of the GNU General Public License along with "
-"gThumb.  If not, see http://www.gnu.org/licenses/."
+"You should have received a copy of the GNU General Public License along with"
+" gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
 "Hauríeu d'haver rebut una còpia de la Llicència Pública General GNU "
-"juntament amb aquest programa; en cas contrari, consulteu http://www.gnu.org/"
-"licenses/."
+"juntament amb aquest programa; en cas contrari, consulteu "
+"http://www.gnu.org/licenses/."
 
 #: gthumb/gth-browser-actions-callbacks.c:127
 msgid "An image viewer and browser for GNOME."
@@ -5158,8 +5024,8 @@ msgstr "Tanca la finestra"
 msgid "Open location"
 msgstr "Obre la ubicació"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4572
-#: gthumb/gth-browser.c:4590 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4631
+#: gthumb/gth-browser.c:4649 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Pantalla completa"
@@ -5240,83 +5106,83 @@ msgstr "Selecciona-ho tot"
 msgid "Select none"
 msgstr "No en seleccionis cap"
 
-#: gthumb/gth-browser.c:408
+#: gthumb/gth-browser.c:410
 msgid "[modified]"
 msgstr "[modificat]"
 
-#: gthumb/gth-browser.c:873
+#: gthumb/gth-browser.c:875
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d fitxer seleccionat (%s)"
 msgstr[1] "%d fitxers seleccionats (%s)"
 
-#: gthumb/gth-browser.c:908
+#: gthumb/gth-browser.c:910
 #, c-format
 msgid "%s of free space"
 msgstr "%s d'espai lliure"
 
-#: gthumb/gth-browser.c:1786 gthumb/gth-browser.c:1802
+#: gthumb/gth-browser.c:1788 gthumb/gth-browser.c:1804
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No s'ha trobat cap mòdul adequat per %s"
 
 # ,c-format
-#: gthumb/gth-browser.c:1907
+#: gthumb/gth-browser.c:1909
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Voleu desar els canvis al fitxer «%s»?"
 
-#: gthumb/gth-browser.c:1912
+#: gthumb/gth-browser.c:1914
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Si no deseu, els canvis al fitxer es perdran permanentment."
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1915
 msgid "Do _Not Save"
 msgstr "_No ho desis"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4598
+#: gthumb/gth-browser.c:2403 gthumb/gth-browser.c:4657
 msgid "Accept"
 msgstr "Accepta"
 
-#: gthumb/gth-browser.c:2401 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2403 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Tanca"
 
-#: gthumb/gth-browser.c:2939
+#: gthumb/gth-browser.c:2942
 msgid "Could not change name"
 msgstr "No s'ha pogut canviar el nom"
 
-#: gthumb/gth-browser.c:3436
+#: gthumb/gth-browser.c:3445
 msgid "Modified"
 msgstr "Modificada"
 
-#: gthumb/gth-browser.c:4520
+#: gthumb/gth-browser.c:4579
 msgid "Go to the previous visited location"
 msgstr "Ves a l'anterior ubicació visitada"
 
-#: gthumb/gth-browser.c:4526
+#: gthumb/gth-browser.c:4585
 msgid "Go to the next visited location"
 msgstr "Ves a la següent ubicació visitada"
 
-#: gthumb/gth-browser.c:4534
+#: gthumb/gth-browser.c:4593
 msgid "History"
 msgstr "Històric"
 
-#: gthumb/gth-browser.c:4548
+#: gthumb/gth-browser.c:4607
 msgid "View the folders"
 msgstr "Visualitza les carpetes"
 
-#: gthumb/gth-browser.c:4563
+#: gthumb/gth-browser.c:4622
 msgid "Edit file"
 msgstr "Edita el fitxer"
 
-#: gthumb/gth-browser.c:6575
+#: gthumb/gth-browser.c:6670
 #, c-format
 msgid "File type not supported"
 msgstr "El tipus de fitxer no és compatible"
 
-#: gthumb/gth-browser.c:6618
+#: gthumb/gth-browser.c:6713
 #, c-format
 msgid "No suitable module found"
 msgstr "No s'ha trobat el mòdul adequat"
@@ -5343,7 +5209,7 @@ msgstr "_Mostra les opcions de format"
 msgid "Computer"
 msgstr "Ordinador"
 
-#: gthumb/gth-file-source-vfs.c:773
+#: gthumb/gth-file-source-vfs.c:796
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -5351,16 +5217,16 @@ msgstr ""
 "Els fitxers no es poden moure a la paperera. Voleu eliminar-los de forma "
 "permanent?"
 
-#: gthumb/gth-file-source-vfs.c:784
+#: gthumb/gth-file-source-vfs.c:807
 msgid "Could not move the files to the Trash"
 msgstr "No s'han pogut moure els fitxers a la paperera"
 
-#: gthumb/gth-file-source-vfs.c:829
+#: gthumb/gth-file-source-vfs.c:852
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Segur que voleu suprimir permanentment «%s»?"
 
-#: gthumb/gth-file-source-vfs.c:832
+#: gthumb/gth-file-source-vfs.c:855
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5371,7 +5237,7 @@ msgstr[1] ""
 "Esteu segur que voleu suprimir de forma permanent els %'d fitxers "
 "seleccionats?"
 
-#: gthumb/gth-file-source-vfs.c:842
+#: gthumb/gth-file-source-vfs.c:865
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Si suprimiu un fitxer, es perdrà permanentment."
 
@@ -5461,6 +5327,10 @@ msgstr "Ubicacions"
 #: gthumb/gth-location-chooser.c:617
 msgid "Other…"
 msgstr "Altres…"
+
+#: gthumb/gth-main-default-metadata.c:39
+msgid "Name"
+msgstr "Nom"
 
 #: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:351
 msgid "Size"
@@ -5775,7 +5645,7 @@ msgstr "Colors"
 msgid "Rotation"
 msgstr "Rotació"
 
-#: gthumb/gth-window.c:1034
+#: gthumb/gth-window.c:1048
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5784,11 +5654,11 @@ msgstr ""
 "La combinació de tecles «%s» ja està assignada a l'acció «%s». Voleu "
 "reassignar-la a aquesta acció?"
 
-#: gthumb/gth-window.c:1042
+#: gthumb/gth-window.c:1056
 msgid "Reassign"
 msgstr "Reassigna"
 
-#: gthumb/gth-window.c:1060
+#: gthumb/gth-window.c:1074
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5797,7 +5667,7 @@ msgstr ""
 "La combinació de tecles «%s» ja està assignada a l'acció «%s» i no es pot "
 "canviar."
 
-#: gthumb/gth-window.c:1064
+#: gthumb/gth-window.c:1078
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "La combinació de tecles «%s» ja està assignada i no es pot canviar."
