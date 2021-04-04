@@ -4988,6 +4988,7 @@ gth_browser_init (GthBrowser *browser)
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_OPEN_ACTIONS, G_MENU (gtk_builder_get_object (builder, "open-actions")));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_EDIT_ACTIONS, G_MENU (gtk_builder_get_object (builder, "edit-actions")));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_FILE_ACTIONS, G_MENU (gtk_builder_get_object (builder, "file-actions")));
+		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_DELETE_ACTIONS, G_MENU (gtk_builder_get_object (builder, "delete-actions")));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_FOLDER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "folder-actions")));
 		gth_browser_add_menu_manager_for_menu (browser, GTH_BROWSER_MENU_MANAGER_FILE_OTHER_ACTIONS, G_MENU (gtk_builder_get_object (builder, "other-actions")));
 

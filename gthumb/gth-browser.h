@@ -43,6 +43,7 @@ G_BEGIN_DECLS
 #define GTH_BROWSER_MENU_MANAGER_FILE_OPEN_ACTIONS		"file.open-actions"
 #define GTH_BROWSER_MENU_MANAGER_FILE_EDIT_ACTIONS		"file.edit-actions"
 #define GTH_BROWSER_MENU_MANAGER_FILE_FILE_ACTIONS		"file.file-actions"
+#define GTH_BROWSER_MENU_MANAGER_FILE_DELETE_ACTIONS		"file.delete-actions"
 #define GTH_BROWSER_MENU_MANAGER_FILE_FOLDER_ACTIONS		"file.folder-actions"
 #define GTH_BROWSER_MENU_MANAGER_FILE_OTHER_ACTIONS		"file.other-actions"
 #define GTH_BROWSER_MENU_MANAGER_FILE_LIST			"file-list"
