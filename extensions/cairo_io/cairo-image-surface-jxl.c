@@ -29,8 +29,12 @@
 #include <gthumb.h>
 #include "cairo-image-surface-jxl.h"
 
-void convert_pixels(int width, int height, guchar* buffer) {
-	int x, y;
+static void
+convert_pixels (int     width,
+		int     height,
+		guchar *buffer)
+{
+	int     x, y;
 	guchar *p = buffer, r, g, b, a;
 
 	for (y = 0; y < height; y++)
