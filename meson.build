@@ -315,7 +315,7 @@ config_inc = include_directories('.')
 
 # C/C++ args
 
-c_args = []
+c_args = [ '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_54' ]
 cpp_args = []
 if get_option('buildtype').contains('debug')
   warn_deprecated = get_option('warn-deprecated')
