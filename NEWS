@@ -1,3 +1,20 @@
+version 3.10.3
+--------------
+
+ Bugs fixed:
+
+  * Fixed possible build error
+
+ New or updated application translations:
+
+  * Basque (Asier Sarasua Garmendia)
+  * German - Germany (Philipp Kiemle)
+  * Romanian (Adi Roiban)
+
+ New or updated manual translations:
+
+  * Hungarian (Balázs Úr)
+
 version 3.10.2
 --------------
 
