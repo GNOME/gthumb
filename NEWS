@@ -1,3 +1,43 @@
+version 3.11.3
+--------------
+
+ New features and user visible changes:
+
+  * Add JPEG XL (*.jxl) read support. (Ian Tester)
+  * File manager: added file actions to the viewer context menu. (!102)
+  * Extensions: removed facebook and picasaweb uploaders.
+
+ Bugs fixed:
+
+  * Fixed possible build error.
+  * Continuously reloads image when it is only image in folder (!153)
+  * Webp can have transparency as well.
+
+ New or updated application translations:
+
+  * Basque (Asier Sarasua Garmendia)
+  * Brazilian Portuguese (Enrico Nicoletto)
+  * catalan (Jordi Mas)
+  * Dutch (Nathan Follens)
+  * Finnish (Jiri Grönroos)
+  * Hungarian (Balázs Úr)
+  * Indonesian (Kukuh Syafaat)
+  * Lietuvių (Aurimas Černius)
+  * Polish (Piotr Drąg)
+  * Romanian (Adi Roiban)
+  * Spanish - Spain (Daniel Mustieles)
+  * Swedish (Anders Jonsson)
+  * Turkish (Muhammet Kara)
+  * Ukrainian (Yuri Chornoivan)
+  * čeština (Marek Černocký)
+  * српски (Мирослав Николић)
+  * עברית (Yaron Shahrabani)
+
+ New or updated manual translations:
+
+  * Dutch (Paul Matthijsse)
+  * Hungarian (Balázs Úr)
+
 version 3.11.2
 --------------
 
