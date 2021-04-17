@@ -333,7 +333,7 @@ add_themes_from_dir (DialogData *data,
 			continue;
 		}
 
-		if (g_strcmp0 (_g_uri_get_extension (g_file_info_get_name (file_info)), ".cst") != 0) {
+		if (g_strcmp0 (_g_path_get_extension (g_file_info_get_name (file_info)), ".cst") != 0) {
 			g_object_unref (file_info);
 			continue;
 		}
