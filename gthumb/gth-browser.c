@@ -117,6 +117,7 @@ struct _GthBrowserPrivate {
 	GtkWidget         *header_sections[GTH_BROWSER_N_HEADER_SECTIONS];
 	GtkWidget         *browser_status_commands;
 	GtkWidget         *viewer_status_commands;
+	GtkWidget         *show_progress_dialog_button;
 	GtkWidget         *menu_button;
 	GHashTable	  *menu_managers;
 
@@ -4708,6 +4709,16 @@ gth_browser_init (GthBrowser *browser)
 	{
 		GtkWidget *button;
 
+		/* statusbar commands available in all modes */
+
+		browser->priv->show_progress_dialog_button = button = gtk_button_new ();
+		gtk_container_add (GTK_CONTAINER (button), gtk_image_new_from_icon_name ("system-run-symbolic", GTK_ICON_SIZE_MENU));
+		gtk_widget_set_tooltip_text (button, _("Operations"));
+		gtk_widget_show_all (button);
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (button), "win.show-progress-dialog");
+		gtk_box_pack_start (GTK_BOX (gth_statubar_get_action_area (GTH_STATUSBAR (browser->priv->statusbar))), button, FALSE, FALSE, 0);
+		gtk_widget_hide (button);
+
 		/* statusbar commands in browser mode */
 
 		browser->priv->browser_status_commands = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -5627,6 +5638,8 @@ background_task_completed_cb (GthTask  *task,
 	g_signal_handler_disconnect (task, task_data->completed_event);
 	task_data_free (task_data);
 
+	gtk_widget_set_visible (browser->priv->show_progress_dialog_button, (browser->priv->viewer_tasks != NULL) || (browser->priv->background_tasks != NULL));
+
 	if (error == NULL)
 		return;
 
@@ -5746,6 +5759,7 @@ gth_browser_exec_task (GthBrowser   *browser,
 			g_object_add_weak_pointer (G_OBJECT (browser->priv->progress_dialog), (gpointer*) &(browser->priv->progress_dialog));
 		}
 		gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (browser->priv->progress_dialog), task, flags);
+		gtk_widget_show (browser->priv->show_progress_dialog_button);
 
 		return;
 	}
@@ -7133,4 +7147,12 @@ void
 gth_browser_show_menu (GthBrowser *browser)
 {
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (browser->priv->menu_button), TRUE);
+}
+
+
+void
+gth_browser_show_progress_dialog (GthBrowser *browser)
+{
+	if ((browser->priv->background_tasks != NULL) && (browser->priv->progress_dialog != NULL))
+		gtk_window_present (GTK_WINDOW (browser->priv->progress_dialog));
 }

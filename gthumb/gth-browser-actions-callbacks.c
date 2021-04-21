@@ -426,6 +426,15 @@ gth_browser_activate_open_folder_in_new_window (GSimpleAction *action,
 
 
 void
+gth_browser_activate_show_progress_dialog (GSimpleAction *action,
+					   GVariant      *parameter,
+					   gpointer       user_data)
+{
+	gth_browser_show_progress_dialog (GTH_BROWSER (user_data));
+}
+
+
+void
 gth_browser_activate_show_hidden_files (GSimpleAction *action,
 					GVariant      *state,
 					gpointer       user_data)

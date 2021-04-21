@@ -291,6 +291,7 @@ GtkWidget *      gth_browser_get_fullscreen_headerbar
 void             gth_browser_keep_mouse_visible     (GthBrowser	      *browser,
 						     gboolean          value);
 void             gth_browser_show_menu              (GthBrowser	      *browser);
+void             gth_browser_show_progress_dialog   (GthBrowser        *browser);
 
 /* utilities */
 

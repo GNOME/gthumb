@@ -60,6 +60,7 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "viewer-properties", toggle_action_activated, NULL, "false", gth_browser_activate_viewer_properties },
 	{ "unfullscreen", gth_browser_activate_unfullscreen },
 	{ "open-folder-in-new-window", gth_browser_activate_open_folder_in_new_window },
+	{ "show-progress-dialog", gth_browser_activate_show_progress_dialog },
 
 	{ "show-hidden-files", toggle_action_activated, NULL, "false", gth_browser_activate_show_hidden_files },
 	{ "sort-by", gth_browser_activate_sort_by },
