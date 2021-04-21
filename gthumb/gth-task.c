@@ -29,7 +29,8 @@
 /* Properties */
 enum {
 	PROP_0,
-	PROP_DESCRIPTION
+	PROP_DESCRIPTION,
+	PROP_FOR_VIEWER
 };
 
 
@@ -46,6 +47,8 @@ struct _GthTaskPrivate {
 	gboolean      running;
 	GCancellable *cancellable;
 	gulong        cancellable_cancelled;
+	gboolean      for_viewer; /* Whether this task is needed by the current viewer.
+				   * It is cancelled if the viewer is closed. */
 };
 
 
@@ -113,6 +116,8 @@ gth_task_set_property (GObject      *object,
 		g_free (self->priv->description);
 		self->priv->description = g_strdup (g_value_get_string (value));
 		break;
+	case PROP_FOR_VIEWER:
+		self->priv->for_viewer = g_value_get_boolean (value);
 	default:
 		break;
 	}
@@ -132,6 +137,9 @@ gth_task_get_property (GObject    *object,
 	switch (property_id) {
 	case PROP_DESCRIPTION:
 		g_value_set_string (value, self->priv->description);
+		break;
+	case PROP_FOR_VIEWER:
+		g_value_set_boolean (value, self->priv->for_viewer);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -160,6 +168,14 @@ gth_task_class_init (GthTaskClass *class)
 					 g_param_spec_string ("description",
 							      "Description",
 							      "The task description to be displayed in the progress dialog",
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class,
+					 PROP_FOR_VIEWER,
+					 g_param_spec_string ("for-viewer",
+							      "For Viewer",
+							      "Whether this task is needed by the current viewer. It is cancelled if the viewer is closed.",
 							      NULL,
 							      G_PARAM_READWRITE));
 
@@ -315,4 +331,19 @@ gth_task_progress (GthTask    *task,
 		   double      fraction)
 {
 	g_signal_emit (task, gth_task_signals[PROGRESS], 0, description, details, pulse, fraction);
+}
+
+
+void
+gth_task_set_for_viewer (GthTask  *task,
+			 gboolean  for_viewer)
+{
+	g_object_set (G_OBJECT (task), "for-viewer", for_viewer, NULL);
+}
+
+
+gboolean
+gth_task_get_for_viewer (GthTask *task)
+{
+	return task->priv->for_viewer;
 }

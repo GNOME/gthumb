@@ -102,6 +102,9 @@ void            gth_task_progress        (GthTask      *task,
 					  const char   *details,
 					  gboolean      pulse,
 					  double        fraction);
+void		gth_task_set_for_viewer  (GthTask      *task,
+					  gboolean      for_viewer);
+gboolean	gth_task_get_for_viewer  (GthTask      *task);
 
 G_END_DECLS
 

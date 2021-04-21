@@ -67,6 +67,7 @@ gth_image_task_init (GthImageTask *self)
 	self->priv = gth_image_task_get_instance_private (self);
 	self->priv->source = NULL;
 	self->priv->destination = NULL;
+	gth_task_set_for_viewer (GTH_TASK (self), TRUE);
 }
 
 

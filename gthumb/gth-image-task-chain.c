@@ -183,6 +183,7 @@ gth_image_task_chain_init (GthImageTaskChain *self)
 	self->priv->task_completed = 0;
 	self->priv->task_dialog = 0;
 	self->priv->task_progress = 0;
+	gth_task_set_for_viewer (GTH_TASK (self), TRUE);
 }
 
 

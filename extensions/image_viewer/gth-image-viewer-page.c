@@ -2547,6 +2547,7 @@ static void
 gth_original_image_task_init (GthOriginalImageTask *self)
 {
 	self->viewer_page = NULL;
+	gth_task_set_for_viewer (GTH_TASK (self), TRUE);
 }
 
 

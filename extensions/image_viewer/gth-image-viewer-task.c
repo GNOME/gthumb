@@ -138,6 +138,7 @@ gth_image_viewer_task_init (GthImageViewerTask *self)
 	self->priv->original_image_task = NULL;
 	self->priv->load_original = TRUE;
 	self->priv->loading_image = FALSE;
+	gth_task_set_for_viewer (GTH_TASK (self), TRUE);
 }
 
 

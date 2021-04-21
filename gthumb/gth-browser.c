@@ -165,6 +165,7 @@ struct _GthBrowserPrivate {
 	gulong             task_completed;
 	gulong             task_progress;
 	GList             *background_tasks;
+	GList             *viewer_tasks;
 	gboolean           close_with_task;
 	GList             *load_data_queue;
 	gpointer           last_folder_to_open;
@@ -4320,6 +4321,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->task_progress = 0;
 	browser->priv->next_task = NULL;
 	browser->priv->background_tasks = NULL;
+	browser->priv->viewer_tasks = NULL;
 	browser->priv->close_with_task = FALSE;
 	browser->priv->load_data_queue = NULL;
 	browser->priv->last_folder_to_open = NULL;
@@ -5618,7 +5620,10 @@ background_task_completed_cb (GthTask  *task,
 
 	_gth_browser_remove_activity (browser);
 
-	browser->priv->background_tasks = g_list_remove (browser->priv->background_tasks, task_data);
+	if (gth_task_get_for_viewer (task_data->task))
+		browser->priv->viewer_tasks = g_list_remove (browser->priv->viewer_tasks, task_data);
+	else
+		browser->priv->background_tasks = g_list_remove (browser->priv->background_tasks, task_data);
 	g_signal_handler_disconnect (task, task_data->completed_event);
 	task_data_free (task_data);
 
@@ -5731,7 +5736,10 @@ gth_browser_exec_task (GthBrowser   *browser,
 		_gth_browser_add_activity (browser);
 
 		task_data = task_data_new (browser, task, flags);
-		browser->priv->background_tasks = g_list_prepend (browser->priv->background_tasks, task_data);
+		if (gth_task_get_for_viewer (task))
+			browser->priv->viewer_tasks = g_list_prepend (browser->priv->viewer_tasks, task_data);
+		else
+			browser->priv->background_tasks = g_list_prepend (browser->priv->background_tasks, task_data);
 
 		if (browser->priv->progress_dialog == NULL) {
 			browser->priv->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (browser));
@@ -6757,7 +6765,7 @@ check_cancellable_cb (gpointer user_data)
 	if ((browser->priv->load_data_queue == NULL)
 	    && (browser->priv->load_file_data_queue == NULL)
 	    && (browser->priv->task == NULL)
-	    && (browser->priv->background_tasks == NULL))
+	    && (browser->priv->viewer_tasks == NULL))
 	{
 		g_source_remove (cancel_data->check_id);
 		cancel_data->check_id = 0;
@@ -6809,7 +6817,7 @@ _gth_browser_cancel (GthBrowser *browser,
 		g_cancellable_cancel (data->cancellable);
 	}
 
-	for (scan = browser->priv->background_tasks; scan; scan = scan->next) {
+	for (scan = browser->priv->viewer_tasks; scan; scan = scan->next) {
 		TaskData *data = scan->data;
 		if (gth_task_is_running (data->task))
 			gth_task_cancel (data->task);
