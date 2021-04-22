@@ -118,7 +118,9 @@ gth_task_set_property (GObject      *object,
 		break;
 	case PROP_FOR_VIEWER:
 		self->priv->for_viewer = g_value_get_boolean (value);
+		break;
 	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
 	}
 }
@@ -173,11 +175,11 @@ gth_task_class_init (GthTaskClass *class)
 
 	g_object_class_install_property (object_class,
 					 PROP_FOR_VIEWER,
-					 g_param_spec_string ("for-viewer",
-							      "For Viewer",
-							      "Whether this task is needed by the current viewer. It is cancelled if the viewer is closed.",
-							      NULL,
-							      G_PARAM_READWRITE));
+					 g_param_spec_boolean ("for-viewer",
+							       "For Viewer",
+							       "Whether this task is needed by the current viewer. It is cancelled if the viewer is closed.",
+							       FALSE,
+							       G_PARAM_READWRITE));
 
 	/* signals */
 
@@ -228,6 +230,7 @@ gth_task_init (GthTask *self)
 	self->priv->cancellable = NULL;
 	self->priv->cancellable_cancelled = 0;
 	self->priv->description = NULL;
+	self->priv->for_viewer = FALSE;
 }
 
 
