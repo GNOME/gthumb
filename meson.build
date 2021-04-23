@@ -19,6 +19,7 @@ librsvg_version = '>=2.34.0'
 libwebp_version = '>=0.2.0'
 libjxl_version = '>=0.3.0'
 libjxl_threads_version = '>=0.3.0'
+libheif_version = '>= 1.11'
 libjson_glib_version = '>=0.15.0'
 webkit2_version = '>=1.10.0'
 lcms2_version = '>=2.6'
@@ -169,6 +170,13 @@ else
   use_libjxl = false
 endif
 
+if get_option('libheif')
+  libheif_dep = dependency('libheif', version : libheif_version, required : false)
+  use_libheif = libheif_dep.found()
+else
+  use_libheif = false
+endif
+
 if get_option('libraw')
   libraw_dep = dependency('libraw', version : libraw_version, required : false)
   use_libraw = libraw_dep.found()
@@ -295,6 +303,9 @@ if use_libjxl
   config_data.set('HAVE_LIBJXL', 1)
   config_data.set('JXL_IS_UNKNOWN_TO_GLIB', 1) # Define to 1 if jxl images are not recognized by the glib functions
 endif
+if use_libheif
+  config_data.set('HAVE_LIBHEIF', 1)
+endif
 if use_libraw
   config_data.set('HAVE_LIBRAW', 1)
 endif
@@ -387,6 +398,7 @@ summary = [
   '               jxl: @0@'.format(use_libjxl),
   '               raw: @0@'.format(use_libraw),
   '               svg: @0@'.format(use_librsvg),
+  '         heif/avif: @0@'.format(use_libheif),
   '      web services: @0@'.format(with_webservices),
   '         libsecret: @0@'.format(use_libsecret),
   '        libbrasero: @0@'.format(use_libbrasero),

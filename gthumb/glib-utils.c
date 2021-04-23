@@ -1918,7 +1918,10 @@ _g_mime_type_has_transparency (const char *mime_type)
 		|| (strcmp (mime_type, "image/gif") == 0)
 		|| (strcmp (mime_type, "image/svg+xml") == 0)
 		|| (strcmp (mime_type, "image/webp") == 0)
-		|| (strcmp (mime_type, "image/jxl") == 0);
+		|| (strcmp (mime_type, "image/jxl") == 0)
+		|| (strcmp (mime_type, "image/avif") == 0)
+		|| (strcmp (mime_type, "image/heif") == 0)
+		|| (strcmp (mime_type, "image/heic") == 0);
 }
 
 

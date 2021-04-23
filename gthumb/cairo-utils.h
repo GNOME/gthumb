@@ -210,6 +210,11 @@ cairo_surface_t *  _cairo_image_surface_copy_subsurface     (cairo_surface_t    
 				      	      	      	     int                    src_y,
 				      	      	      	     int                    width,
 				      	      	      	     int                    height);
+cairo_surface_t *  _cairo_image_surface_create_from_rgba    (const guchar          *pixels,
+							     int                    width,
+							     int                    height,
+							     int                    row_stride,
+							     gboolean               has_alpha);
 cairo_surface_t *  _cairo_image_surface_create_from_pixbuf  (GdkPixbuf             *pixbuf);
 cairo_surface_t *  _cairo_image_surface_create_compatible   (cairo_surface_t       *surface);
 void               _cairo_image_surface_transform_get_steps (cairo_format_t         format,

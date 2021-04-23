@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gthumb.h>
+#include "cairo-image-surface-avif.h"
 #include "cairo-image-surface-jpeg.h"
 #include "cairo-image-surface-png.h"
 #include "cairo-image-surface-svg.h"
@@ -83,6 +84,15 @@ gthumb_extension_activate (void)
 	gth_main_register_image_loader_func (_cairo_image_surface_create_from_jxl,
 					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
 					     "image/jxl",
+					     NULL);
+#endif
+
+#ifdef HAVE_LIBHEIF
+	gth_main_register_image_loader_func (_cairo_image_surface_create_from_avif,
+					     GTH_IMAGE_FORMAT_CAIRO_SURFACE,
+					     "image/avif",
+					     "image/heic",
+					     "image/heif",
 					     NULL);
 #endif
 

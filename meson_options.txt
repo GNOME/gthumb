@@ -64,6 +64,12 @@ option('libjxl',
   description : 'Use libjxl to load JPEG XL images'
 )
 
+option('libheif',
+  type : 'boolean',
+  value : true,
+  description : 'Use libheif to load HEIF and AVIF images'
+)
+
 option('libraw',
   type : 'boolean',
   value : true,

@@ -390,45 +390,37 @@ _cairo_image_surface_copy_subsurface (cairo_surface_t *source,
 
 
 cairo_surface_t *
-_cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
+_cairo_image_surface_create_from_rgba (const guchar *pixels,
+				       int           width,
+				       int           height,
+				       int           p_stride,
+				       gboolean      has_alpha)
 {
 	cairo_surface_t          *surface;
+	int                       s_stride;
+	unsigned char            *s_pixels;
 	cairo_surface_metadata_t *metadata;
-	int                      width;
-	int                      height;
-	int                      p_stride;
-	int                      p_n_channels;
-	guchar                  *p_pixels;
-	int                      s_stride;
-	unsigned char           *s_pixels;
-	int                      h, w;
-	guint32                  pixel;
-	guchar                   r, g, b, a;
+	int                       h, w;
+	guint32                   pixel;
+	guchar                    r, g, b, a;
 
-	if (pixbuf == NULL)
+	if (pixels == NULL)
 		return NULL;
 
-	g_object_get (G_OBJECT (pixbuf),
-		      "width", &width,
-		      "height", &height,
-		      "rowstride", &p_stride,
-		      "n-channels", &p_n_channels,
-		      "pixels", &p_pixels,
-		      NULL );
 	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, height);
 	s_stride = cairo_image_surface_get_stride (surface);
 	s_pixels = _cairo_image_surface_flush_and_get_data (surface);
 
 	metadata = _cairo_image_surface_get_metadata (surface);
-	_cairo_metadata_set_has_alpha (metadata, (p_n_channels == 4));
+	_cairo_metadata_set_has_alpha (metadata, has_alpha);
 
-	if (p_n_channels == 4) {
-		guchar *s_iter;
-		guchar *p_iter;
+	if (has_alpha) {
+		guchar       *s_iter;
+		const guchar *p_iter;
 
 		for (h = 0; h < height; h++) {
 			s_iter = s_pixels;
-			p_iter = p_pixels;
+			p_iter = pixels;
 
 			for (w = 0; w < width; w++) {
 				a = p_iter[3];
@@ -447,37 +439,61 @@ _cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
 				memcpy (s_iter, &pixel, sizeof (guint32));
 
 				s_iter += 4;
-				p_iter += p_n_channels;
+				p_iter += 4;
 			}
 
 			s_pixels += s_stride;
-			p_pixels += p_stride;
+			pixels += p_stride;
 		}
 	}
 	else {
-		guchar *s_iter;
-		guchar *p_iter;
+		guchar       *s_iter;
+		const guchar *p_iter;
 
 		for (h = 0; h < height; h++) {
 			s_iter = s_pixels;
-			p_iter = p_pixels;
+			p_iter = pixels;
 
 			for (w = 0; w < width; w++) {
 				pixel = CAIRO_RGBA_TO_UINT32 (p_iter[0], p_iter[1], p_iter[2], 0xff);
 				memcpy (s_iter, &pixel, sizeof (guint32));
 
 				s_iter += 4;
-				p_iter += p_n_channels;
+				p_iter += 3;
 			}
 
 			s_pixels += s_stride;
-			p_pixels += p_stride;
+			pixels += p_stride;
 		}
 	}
 
 	cairo_surface_mark_dirty (surface);
 
 	return surface;
+}
+
+
+cairo_surface_t *
+_cairo_image_surface_create_from_pixbuf (GdkPixbuf *pixbuf)
+{
+	guchar *pixels;
+	int     width;
+	int     height;
+	int     row_stride;
+	int     n_channels;
+
+	if (pixbuf == NULL)
+		return NULL;
+
+	g_object_get (G_OBJECT (pixbuf),
+		      "pixels", &pixels,
+		      "width", &width,
+		      "height", &height,
+		      "rowstride", &row_stride,
+		      "n-channels", &n_channels,
+		      NULL );
+
+	return _cairo_image_surface_create_from_rgba (pixels, width, height, row_stride, n_channels == 4);
 }
 
 
