@@ -351,6 +351,7 @@ horizontal_scale_transpose (cairo_surface_t *image,
 			    ScaleReal        scale_factor,
 			    resize_filter_t *resize_filter)
 {
+	ScaleReal  scale;
 	ScaleReal  support;
 	int        y;
 	int        image_width;
@@ -365,9 +366,12 @@ horizontal_scale_transpose (cairo_surface_t *image,
 	if (resize_filter->cancelled)
 		return;
 
-	support = (1.0 / scale_factor) * resize_filter_get_support (resize_filter);
-	if (support < 0.5)
+	scale = MAX ((ScaleReal) 1.0 / scale_factor, 1.0);
+	support = scale * resize_filter_get_support (resize_filter);
+	if (support < 0.5) {
 		support = 0.5;
+		scale = 1.0;
+	}
 
 	image_width = cairo_image_surface_get_width (image);
 	scaled_width = cairo_image_surface_get_width (scaled);
@@ -378,6 +382,7 @@ horizontal_scale_transpose (cairo_surface_t *image,
 	dest_rowstride = cairo_image_surface_get_stride (scaled);
 	weights = g_new (ScaleReal, 2.0 * support + 3.0);
 
+	scale = 1.0 / scale;
 	for (y = 0; y < scaled_height; y++) {
 	        guchar    *p_src_row;
 	        guchar    *p_dest_pixel;
@@ -412,7 +417,7 @@ horizontal_scale_transpose (cairo_surface_t *image,
 
 		density = 0.0;
 		for (n = 0; n < stop - start; n++) {
-			weights[n] = resize_filter_get_weight (resize_filter, scale_factor * ((ScaleReal) (start + n) - bisect + 0.5));
+			weights[n] = resize_filter_get_weight (resize_filter, scale * ((ScaleReal) (start + n) - bisect + 0.5));
 			density += weights[n];
 		}
 
