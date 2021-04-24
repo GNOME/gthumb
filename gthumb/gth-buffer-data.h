@@ -32,7 +32,7 @@ GthBufferData * gth_buffer_data_new   (void);
 void            gth_buffer_data_free  (GthBufferData  *buffer_data,
 				       gboolean        free_segment);
 gboolean        gth_buffer_data_write (GthBufferData  *buffer_data,
-				       void           *buffer,
+				       const void     *buffer,
 				       gsize           len,
 				       GError        **error);
 gboolean        gth_buffer_data_putc  (GthBufferData  *buffer_data,

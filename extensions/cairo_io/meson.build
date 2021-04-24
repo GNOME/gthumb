@@ -27,7 +27,7 @@ if use_libjxl
 endif
 
 if use_libheif
-  source_files += files('cairo-image-surface-avif.c')
+  source_files += files('cairo-image-surface-avif.c', 'gth-image-saver-avif.c')
 endif
 
 enum_files = gnome.mkenums_simple('cairo-io-enum-types', sources: [ 'preferences.h' ])

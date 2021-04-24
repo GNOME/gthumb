@@ -95,7 +95,7 @@ gth_buffer_data_alloc_new_space (GthBufferData  *buffer_data,
 
 gboolean
 gth_buffer_data_write (GthBufferData  *buffer_data,
-		       void           *buffer,
+		       const void     *buffer,
 		       gsize           len,
 		       GError        **error)
 {

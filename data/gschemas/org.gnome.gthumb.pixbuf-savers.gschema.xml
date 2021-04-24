@@ -19,11 +19,21 @@
 <schemalist>
 
   <schema id="org.gnome.gthumb.pixbuf-savers" path="/org/gnome/gthumb/pixbuf-savers/">
+    <child name="avif" schema="org.gnome.gthumb.pixbuf-savers.avif" />
     <child name="jpeg" schema="org.gnome.gthumb.pixbuf-savers.jpeg" />
     <child name="png" schema="org.gnome.gthumb.pixbuf-savers.png" />
     <child name="tga" schema="org.gnome.gthumb.pixbuf-savers.tga" />
     <child name="tiff" schema="org.gnome.gthumb.pixbuf-savers.tiff" />
     <child name="webp" schema="org.gnome.gthumb.pixbuf-savers.webp" />
+  </schema>
+
+  <schema id="org.gnome.gthumb.pixbuf-savers.avif" path="/org/gnome/gthumb/pixbuf-savers/avif/" gettext-domain="gthumb">
+    <key name="lossless" type="b">
+      <default>false</default>
+    </key>
+    <key name="quality" type="i">
+      <default>50</default>
+    </key>
   </schema>
 
   <schema id="org.gnome.gthumb.pixbuf-savers.jpeg" path="/org/gnome/gthumb/pixbuf-savers/jpeg/" gettext-domain="gthumb">

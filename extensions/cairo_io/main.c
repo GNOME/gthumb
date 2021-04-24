@@ -30,6 +30,7 @@
 #include "cairo-image-surface-webp.h"
 #include "cairo-image-surface-jxl.h"
 #include "cairo-image-surface-xcf.h"
+#include "gth-image-saver-avif.h"
 #include "gth-image-saver-jpeg.h"
 #include "gth-image-saver-png.h"
 #include "gth-image-saver-tga.h"
@@ -94,6 +95,7 @@ gthumb_extension_activate (void)
 					     "image/heic",
 					     "image/heif",
 					     NULL);
+	gth_main_register_type ("image-saver", GTH_TYPE_IMAGE_SAVER_AVIF);
 #endif
 
 	gth_main_register_image_loader_func (_cairo_image_surface_create_from_xcf,

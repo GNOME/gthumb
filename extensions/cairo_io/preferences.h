@@ -35,11 +35,17 @@ typedef enum {
 /* schemas */
 
 #define GTHUMB_IMAGE_SAVERS               GTHUMB_SCHEMA ".pixbuf-savers"
+#define GTHUMB_IMAGE_SAVERS_AVIF_SCHEMA   GTHUMB_IMAGE_SAVERS ".avif"
 #define GTHUMB_IMAGE_SAVERS_JPEG_SCHEMA   GTHUMB_IMAGE_SAVERS ".jpeg"
 #define GTHUMB_IMAGE_SAVERS_PNG_SCHEMA    GTHUMB_IMAGE_SAVERS ".png"
 #define GTHUMB_IMAGE_SAVERS_TGA_SCHEMA    GTHUMB_IMAGE_SAVERS ".tga"
 #define GTHUMB_IMAGE_SAVERS_TIFF_SCHEMA   GTHUMB_IMAGE_SAVERS ".tiff"
 #define GTHUMB_IMAGE_SAVERS_WEBP_SCHEMA   GTHUMB_IMAGE_SAVERS ".webp"
+
+/* keys: avif */
+
+#define  PREF_AVIF_LOSSLESS               "lossless"
+#define  PREF_AVIF_QUALITY                "quality"
 
 /* keys: jpeg */
 

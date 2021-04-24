@@ -1,4 +1,5 @@
 ui_files = files(
+  'avif-options.ui',
   'jpeg-options.ui',
   'png-options.ui',
   'save-options-preferences.ui',
