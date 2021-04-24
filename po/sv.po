@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-02-28 10:03+0000\n"
-"PO-Revision-Date: 2021-02-28 14:07+0100\n"
+"POT-Creation-Date: 2021-04-24 16:04+0000\n"
+"PO-Revision-Date: 2021-04-24 21:41+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -104,11 +104,11 @@ msgstr ""
 "Huruvida rullningslistens positioner ska återställas efter att bild har "
 "ändrats"
 
-#: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:32
+#: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:42
 msgid "Possible values are: jpeg, jpg."
 msgstr "Möjliga värden är: jpeg, jpg."
 
-#: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:63
+#: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:73
 msgid "Possible values are: tiff, tif."
 msgstr "Möjliga värden är: tiff, tif."
 
@@ -134,7 +134,7 @@ msgstr "Importera foton från din digitalkamera"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:425 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:427 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -148,7 +148,7 @@ msgid "Image;Viewer;"
 msgstr "Bild;Visare;"
 
 #: data/org.gnome.gThumb.desktop.in.in:25
-#: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:94 gthumb/resources/gears-menu.ui:7
 msgid "New Window"
 msgstr "Nytt fönster"
 
@@ -554,15 +554,21 @@ msgstr "Misslyckade med att tolka JPEG-bildfilen: %s"
 msgid "Unknown JPEG color space (%d)"
 msgstr "Okänd JPEG-färgrymd (%d)"
 
-#: extensions/cairo_io/data/ui/jpeg-options.ui:25
-#: extensions/cairo_io/data/ui/tiff-options.ui:32
-msgid "_Default extension:"
-msgstr "_Standardfiländelse:"
-
+#: extensions/cairo_io/data/ui/avif-options.ui:34
 #: extensions/cairo_io/data/ui/jpeg-options.ui:71
 #: extensions/cairo_io/data/ui/webp-options.ui:33
 msgid "_Quality:"
 msgstr "_Kvalitet:"
+
+#: extensions/cairo_io/data/ui/avif-options.ui:46
+#: extensions/cairo_io/data/ui/webp-options.ui:62
+msgid "_Lossless"
+msgstr "_Förlustfri"
+
+#: extensions/cairo_io/data/ui/jpeg-options.ui:25
+#: extensions/cairo_io/data/ui/tiff-options.ui:32
+msgid "_Default extension:"
+msgstr "_Standardfiländelse:"
 
 #: extensions/cairo_io/data/ui/jpeg-options.ui:87
 msgid "_Smoothing:"
@@ -627,9 +633,9 @@ msgstr "punkter/tum"
 msgid "_Method:"
 msgstr "_Metod:"
 
-#: extensions/cairo_io/data/ui/webp-options.ui:62
-msgid "_Lossless"
-msgstr "_Förlustfri"
+#: extensions/cairo_io/gth-image-saver-avif.c:365
+msgid "AVIF"
+msgstr "AVIF"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
 #: extensions/image_viewer/gth-metadata-provider-image.c:153
@@ -759,8 +765,8 @@ msgid "Rename"
 msgstr "Byt namn"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4616
-#: gthumb/gth-browser.c:4718 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4619
+#: gthumb/gth-browser.c:4731 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Egenskaper"
 
@@ -1686,7 +1692,7 @@ msgid "State/Province:"
 msgstr "Stat/Område:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2088 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2091 gthumb/str-utils.c:700
 msgid "(invalid value)"
 msgstr "(ogiltigt värde)"
 
@@ -1764,9 +1770,9 @@ msgstr "Ange mappnamnet:"
 
 #: extensions/file_manager/actions.c:410
 #: extensions/file_manager/callbacks.c:551
-#: extensions/file_manager/callbacks.c:986
+#: extensions/file_manager/callbacks.c:989
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5631 gthumb/gth-browser.c:5674
+#: gthumb/gth-browser.c:5650 gthumb/gth-browser.c:5693
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Kunde inte genomföra åtgärden"
@@ -1804,7 +1810,7 @@ msgid "Copy To"
 msgstr "Kopiera till"
 
 #: extensions/file_manager/actions.c:743
-#: extensions/file_manager/callbacks.c:1025
+#: extensions/file_manager/callbacks.c:1028
 msgid "Move"
 msgstr "Flytta"
 
@@ -1870,36 +1876,36 @@ msgstr "Ta bort permanent"
 msgid "Open with Gimp"
 msgstr "Öppna med GIMP"
 
-#: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:226
+#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:226
 msgid "Home Folder"
 msgstr "Hemmapp"
 
-#: extensions/file_manager/callbacks.c:729
 #: extensions/file_manager/callbacks.c:732
+#: extensions/file_manager/callbacks.c:735
 msgid "Open _With"
 msgstr "Öppna _med"
 
-#: extensions/file_manager/callbacks.c:1006
+#: extensions/file_manager/callbacks.c:1009
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Vill du flytta ”%s” till ”%s”?"
 
-#: extensions/file_manager/callbacks.c:1008
+#: extensions/file_manager/callbacks.c:1011
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Vill du kopiera ”%s” till ”%s”?"
 
-#: extensions/file_manager/callbacks.c:1015
+#: extensions/file_manager/callbacks.c:1018
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Vill du flytta de dragna filerna till ”%s”?"
 
-#: extensions/file_manager/callbacks.c:1017
+#: extensions/file_manager/callbacks.c:1020
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Vill du kopiera de dragna filerna till ”%s”?"
 
-#: extensions/file_manager/callbacks.c:1025
+#: extensions/file_manager/callbacks.c:1028
 msgid "_Copy"
 msgstr "_Kopiera"
 
@@ -2013,7 +2019,7 @@ msgstr "Färg"
 #: extensions/file_tools/gth-file-tool-crop.c:661
 #: extensions/file_tools/gth-file-tool-resize.c:759
 #: extensions/file_tools/gth-file-tool-rotate.c:617
-#: gthumb/gth-file-chooser-dialog.c:262
+#: gthumb/gth-file-chooser-dialog.c:258
 msgid "Options"
 msgstr "Alternativ"
 
@@ -2423,7 +2429,7 @@ msgstr "Ange förvalsnamnet:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1865
+#: gthumb/gth-browser.c:1867
 msgid "Could not save the file"
 msgstr "Kunde inte spara filen"
 
@@ -2673,7 +2679,7 @@ msgstr "ingen fil"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:278
 #: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:874
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:876
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -3624,7 +3630,6 @@ msgid "JPEG XL container"
 msgstr "JPEG XL-behållare"
 
 #: extensions/image_viewer/gth-metadata-provider-image.c:214
-#| msgid "JPEG"
 msgid "JPEG XL"
 msgstr "JPEG XL"
 
@@ -4141,7 +4146,7 @@ msgid "Cas_e:"
 msgstr "Skiftläg_e:"
 
 #: extensions/rename_series/data/ui/rename-series.ui:84
-#: gthumb/gth-browser-actions-entries.h:94
+#: gthumb/gth-browser-actions-entries.h:95
 msgid "Help"
 msgstr "Hjälp"
 
@@ -4446,11 +4451,11 @@ msgstr "Avsluta presentation"
 msgid "Pause/Resume presentation"
 msgstr "Pausa/Återuppta presentation"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:120
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:121
 msgid "Show next file"
 msgstr "Visa nästa fil"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:119
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:120
 msgid "Show previous file"
 msgstr "Visa föregående fil"
 
@@ -4718,9 +4723,9 @@ msgstr "Webbalbum"
 msgid "Create static web albums."
 msgstr "Skapa statiska webbalbum."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1172
-#: gthumb/gth-browser.c:6669 gthumb/gth-browser.c:6688
-#: gthumb/gth-browser.c:6712 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1174
+#: gthumb/gth-browser.c:6692 gthumb/gth-browser.c:6711
+#: gthumb/gth-browser.c:6735 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Kunde inte läsa in positionen ”%s”"
@@ -4894,7 +4899,7 @@ msgstr "Flyttar filer till papperskorgen"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2064
+#: gthumb/glib-utils.c:2067
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4906,7 +4911,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2073
+#: gthumb/glib-utils.c:2076
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -4991,186 +4996,191 @@ msgstr ""
 "Skicka synpunkter på översättningen till\n"
 "<tp-sv@listor.tp-sv.se>."
 
-#: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
+#: gthumb/gth-browser-actions-entries.h:96 gthumb/resources/gears-menu.ui:49
 msgid "Keyboard Shortcuts"
 msgstr "Tangentbordsgenvägar"
 
-#: gthumb/gth-browser-actions-entries.h:96
+#: gthumb/gth-browser-actions-entries.h:97
 msgid "Quit"
 msgstr "Avsluta"
 
-#: gthumb/gth-browser-actions-entries.h:99
+#: gthumb/gth-browser-actions-entries.h:100
 msgid "Show browser"
 msgstr "Visa bläddrare"
 
-#: gthumb/gth-browser-actions-entries.h:100
+#: gthumb/gth-browser-actions-entries.h:101
 msgid "Close window"
 msgstr "Stäng fönster"
 
-#: gthumb/gth-browser-actions-entries.h:102
+#: gthumb/gth-browser-actions-entries.h:103
 msgid "Open location"
 msgstr "Öppna plats"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4631
-#: gthumb/gth-browser.c:4649 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:104 gthumb/gth-browser.c:4634
+#: gthumb/gth-browser.c:4652 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Helskärm"
 
-#: gthumb/gth-browser-actions-entries.h:104
+#: gthumb/gth-browser-actions-entries.h:105
 msgid "Revert image to saved"
 msgstr "Återställ bild till sparad"
 
-#: gthumb/gth-browser-actions-entries.h:105
+#: gthumb/gth-browser-actions-entries.h:106
 msgid "Save image"
 msgstr "Spara bild"
 
-#: gthumb/gth-browser-actions-entries.h:106
+#: gthumb/gth-browser-actions-entries.h:107
 msgid "Save image as"
 msgstr "Spara bild som"
 
-#: gthumb/gth-browser-actions-entries.h:107
+#: gthumb/gth-browser-actions-entries.h:108
 msgid "Sidebar"
 msgstr "Sidopanel"
 
-#: gthumb/gth-browser-actions-entries.h:108
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Statusbar"
 msgstr "Statusrad"
 
-#: gthumb/gth-browser-actions-entries.h:109
+#: gthumb/gth-browser-actions-entries.h:110
 msgid "Thumbnails list"
 msgstr "Miniatyrbildslista"
 
-#: gthumb/gth-browser-actions-entries.h:111
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Load previous location"
 msgstr "Läs in föregående plats"
 
-#: gthumb/gth-browser-actions-entries.h:112
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Load next location"
 msgstr "Läs in nästa plats"
 
-#: gthumb/gth-browser-actions-entries.h:113
+#: gthumb/gth-browser-actions-entries.h:114
 msgid "Load parent folder"
 msgstr "Läs in överordnad mapp"
 
-#: gthumb/gth-browser-actions-entries.h:114
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Load home"
 msgstr "Läs in hem"
 
-#: gthumb/gth-browser-actions-entries.h:115
+#: gthumb/gth-browser-actions-entries.h:116
 msgid "Reload location"
 msgstr "Uppdatera plats"
 
-#: gthumb/gth-browser-actions-entries.h:116
+#: gthumb/gth-browser-actions-entries.h:117
 msgid "Show/Hide hidden files"
 msgstr "Visa/dölj dolda filer"
 
-#: gthumb/gth-browser-actions-entries.h:117
+#: gthumb/gth-browser-actions-entries.h:118
 msgid "Change sorting order"
 msgstr "Ändra sorteringsordning"
 
-#: gthumb/gth-browser-actions-entries.h:121
+#: gthumb/gth-browser-actions-entries.h:122
 msgid "Show first file"
 msgstr "Visa första filen"
 
-#: gthumb/gth-browser-actions-entries.h:122
+#: gthumb/gth-browser-actions-entries.h:123
 msgid "Show last file"
 msgstr "Visa sista filen"
 
-#: gthumb/gth-browser-actions-entries.h:124
+#: gthumb/gth-browser-actions-entries.h:125
 msgid "Image tools"
 msgstr "Bildverktyg"
 
-#: gthumb/gth-browser-actions-entries.h:125
+#: gthumb/gth-browser-actions-entries.h:126
 msgid "File properties"
 msgstr "Filegenskaper"
 
 # file-list-select-all
-#: gthumb/gth-browser-actions-entries.h:127
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Select all"
 msgstr "Markera alla"
 
-#: gthumb/gth-browser-actions-entries.h:128
+#: gthumb/gth-browser-actions-entries.h:129
 msgid "Select none"
 msgstr "Markera ingen"
 
-#: gthumb/gth-browser.c:410
+#: gthumb/gth-browser.c:412
 msgid "[modified]"
 msgstr "[ändrad]"
 
-#: gthumb/gth-browser.c:875
+#: gthumb/gth-browser.c:877
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "%d fil markerad (%s)"
 msgstr[1] "%d filer markerade (%s)"
 
-#: gthumb/gth-browser.c:910
+#: gthumb/gth-browser.c:912
 #, c-format
 msgid "%s of free space"
 msgstr "%s ledigt utrymme"
 
-#: gthumb/gth-browser.c:1788 gthumb/gth-browser.c:1804
+#: gthumb/gth-browser.c:1790 gthumb/gth-browser.c:1806
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Ingen lämplig modul hittades för %s"
 
-#: gthumb/gth-browser.c:1909
+#: gthumb/gth-browser.c:1911
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Spara ändringar i filen ”%s”?"
 
-#: gthumb/gth-browser.c:1914
+#: gthumb/gth-browser.c:1916
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr ""
 "Om du inte sparar kommer ändringarna i filen att gå förlorade för alltid."
 
-#: gthumb/gth-browser.c:1915
+#: gthumb/gth-browser.c:1917
 msgid "Do _Not Save"
 msgstr "Spara _inte"
 
-#: gthumb/gth-browser.c:2403 gthumb/gth-browser.c:4657
+#: gthumb/gth-browser.c:2405 gthumb/gth-browser.c:4660
 msgid "Accept"
 msgstr "Acceptera"
 
-#: gthumb/gth-browser.c:2403 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2405 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Stäng"
 
-#: gthumb/gth-browser.c:2942
+#: gthumb/gth-browser.c:2944
 msgid "Could not change name"
 msgstr "Kunde inte ändra namnet"
 
-#: gthumb/gth-browser.c:3445
+#: gthumb/gth-browser.c:3447
 msgid "Modified"
 msgstr "Ändrad"
 
-#: gthumb/gth-browser.c:4579
+#: gthumb/gth-browser.c:4582
 msgid "Go to the previous visited location"
 msgstr "Gå till föregående besökta plats"
 
-#: gthumb/gth-browser.c:4585
+#: gthumb/gth-browser.c:4588
 msgid "Go to the next visited location"
 msgstr "Gå till nästa besökta plats"
 
-#: gthumb/gth-browser.c:4593
+#: gthumb/gth-browser.c:4596
 msgid "History"
 msgstr "Historik"
 
-#: gthumb/gth-browser.c:4607
+#: gthumb/gth-browser.c:4610
 msgid "View the folders"
 msgstr "Visa mapparna"
 
-#: gthumb/gth-browser.c:4622
+#: gthumb/gth-browser.c:4625
 msgid "Edit file"
 msgstr "Redigera fil"
 
-#: gthumb/gth-browser.c:6670
+#: gthumb/gth-browser.c:4716 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-progress-dialog.c:455
+msgid "Operations"
+msgstr "Åtgärder"
+
+#: gthumb/gth-browser.c:6693
 #, c-format
 msgid "File type not supported"
 msgstr "Filtypen stöds inte"
 
-#: gthumb/gth-browser.c:6713
+#: gthumb/gth-browser.c:6736
 #, c-format
 msgid "No suitable module found"
 msgstr "Ingen lämplig modul hittades"
@@ -5466,10 +5476,6 @@ msgstr "Filhanterare"
 #: gthumb/gth-overwrite-dialog.c:326
 msgid "Overwrite"
 msgstr "Skriv över"
-
-#: gthumb/gth-progress-dialog.c:310 gthumb/gth-progress-dialog.c:455
-msgid "Operations"
-msgstr "Åtgärder"
 
 #: gthumb/gth-save-file-data-task.c:105
 msgid "Saving file information"
