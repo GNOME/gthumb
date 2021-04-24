@@ -68,6 +68,8 @@ extensions/burn_disc/data/ui/burn-source-selector.ui
 extensions/burn_disc/gth-burn-task.c
 extensions/burn_disc/gth-burn-task.h
 extensions/burn_disc/main.c
+extensions/cairo_io/cairo-image-surface-avif.c
+extensions/cairo_io/cairo-image-surface-avif.h
 extensions/cairo_io/cairo-image-surface-jpeg.c
 extensions/cairo_io/cairo-image-surface-jpeg.h
 extensions/cairo_io/cairo-image-surface-jxl.c
@@ -83,12 +85,15 @@ extensions/cairo_io/cairo-image-surface-webp.h
 extensions/cairo_io/cairo-image-surface-xcf.c
 extensions/cairo_io/cairo-image-surface-xcf.h
 extensions/cairo_io/cairo_io.extension.desktop.in.in
+extensions/cairo_io/data/ui/avif-options.ui
 extensions/cairo_io/data/ui/jpeg-options.ui
 extensions/cairo_io/data/ui/png-options.ui
 extensions/cairo_io/data/ui/save-options-preferences.ui
 extensions/cairo_io/data/ui/tga-options.ui
 extensions/cairo_io/data/ui/tiff-options.ui
 extensions/cairo_io/data/ui/webp-options.ui
+extensions/cairo_io/gth-image-saver-avif.c
+extensions/cairo_io/gth-image-saver-avif.h
 extensions/cairo_io/gth-image-saver-jpeg.c
 extensions/cairo_io/gth-image-saver-jpeg.h
 extensions/cairo_io/gth-image-saver-png.c
