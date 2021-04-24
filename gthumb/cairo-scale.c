@@ -358,10 +358,10 @@ horizontal_scale_transpose (cairo_surface_t *image,
 	int        scaled_width;
 	int        scaled_height;
 	guchar    *p_src;
-        guchar    *p_dest;
-        int        src_rowstride;
-        int        dest_rowstride;
-        ScaleReal *weights;
+	guchar    *p_dest;
+	int        src_rowstride;
+	int        dest_rowstride;
+	ScaleReal *weights;
 
 	if (resize_filter->cancelled)
 		return;
@@ -384,8 +384,8 @@ horizontal_scale_transpose (cairo_surface_t *image,
 
 	scale = 1.0 / scale;
 	for (y = 0; y < scaled_height; y++) {
-	        guchar    *p_src_row;
-	        guchar    *p_dest_pixel;
+		guchar    *p_src_row;
+		guchar    *p_dest_pixel;
 		ScaleReal  bisect;
 		int        start;
 		int        stop;
