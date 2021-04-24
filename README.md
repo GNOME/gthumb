@@ -19,7 +19,7 @@ More information can be found at <https://wiki.gnome.org/Apps/Gthumb>.
  * Image viewer
 
    + View single images (including GIF animations).  Supported image
-     types are: BMP, JPEG, GIF, PNG, TIFF, TGA, ICO, XPM.
+     types are: BMP, JPEG, GIF, PNG, TIFF, TGA, ICO, XPM, JXL, AVIF.
    + Optional support for RAW and HDR (high dynamic range) images.
    + View EXIF data attached to JPEG images.
    + View in fullscreen mode.
@@ -92,6 +92,7 @@ More information can be found at <https://wiki.gnome.org/Apps/Gthumb>.
   * librsvg - display SVG images
   * libwebp - display and save WebP images
   * libjxl - display JPEG XL images
+  * libheif - display and save AVIF images
   * lcms2, colord - color profile support
   * champlain, champlain-gtk - view the place a photo was taken on a map
   * clutter, clutter-gtk - enhanced slideshow effects
