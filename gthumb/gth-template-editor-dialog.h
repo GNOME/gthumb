@@ -49,11 +49,11 @@ struct _GthTemplateEditorDialogClass {
 
 GType       gth_template_editor_dialog_get_type     (void);
 GtkWidget * gth_template_editor_dialog_new          (GthTemplateCode          *allowed_codes,
-		 	 	 	 	     int                       n_codes,
-		 	 	 	 	     const char               *title,
+						     int                       n_codes,
+						     const char               *title,
 						     GtkWindow                *parent);
 void        gth_template_editor_dialog_set_template (GthTemplateEditorDialog  *self,
-						     const char               *template);
+						     const char               *value);
 char *      gth_template_editor_dialog_get_template (GthTemplateEditorDialog  *self,
 						     GError                  **error);
 

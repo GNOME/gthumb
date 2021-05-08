@@ -22,7 +22,7 @@
 #include <config.h>
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <gthumb.h>
+#include "gtk-utils.h"
 #include "gth-template-editor-dialog.h"
 #include "gth-template-selector.h"
 
@@ -146,7 +146,7 @@ gth_template_editor_dialog_construct (GthTemplateEditorDialog *self,
 				      GthTemplateCode         *allowed_codes,
 				      int                      n_codes,
 				      const char              *title,
-			              GtkWindow               *parent)
+				      GtkWindow               *parent)
 {
 	GtkWidget *child;
 	GString   *regexp;
@@ -157,10 +157,10 @@ gth_template_editor_dialog_construct (GthTemplateEditorDialog *self,
 	self->priv->n_codes = n_codes;
 
 	if (title != NULL)
-    		gtk_window_set_title (GTK_WINDOW (self), title);
-  	if (parent != NULL)
-    		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
-    	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
+		gtk_window_set_title (GTK_WINDOW (self), title);
+	if (parent != NULL)
+		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
+	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
@@ -169,10 +169,10 @@ gth_template_editor_dialog_construct (GthTemplateEditorDialog *self,
 
 	_gtk_dialog_add_class_to_response (GTK_DIALOG (self), GTK_RESPONSE_OK, GTK_STYLE_CLASS_SUGGESTED_ACTION);
 
-    	self->priv->content = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-    	gtk_container_set_border_width (GTK_CONTAINER (self->priv->content), 5);
-    	gtk_widget_show (self->priv->content);
-  	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), self->priv->content, TRUE, TRUE, 0);
+	self->priv->content = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (self->priv->content), 5);
+	gtk_widget_show (self->priv->content);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), self->priv->content, TRUE, TRUE, 0);
 
 	child = _gth_template_editor_create_selector (self);
 	gtk_box_pack_start (GTK_BOX (self->priv->content), child, FALSE, FALSE, 0);
@@ -232,9 +232,9 @@ gth_template_editor_dialog_construct (GthTemplateEditorDialog *self,
 
 GtkWidget *
 gth_template_editor_dialog_new (GthTemplateCode *allowed_codes,
-	 	     	     	int              n_codes,
-	 	     	     	const char      *title,
-			        GtkWindow       *parent)
+				int              n_codes,
+				const char      *title,
+				GtkWindow       *parent)
 {
 	GthTemplateEditorDialog *self;
 
@@ -276,7 +276,7 @@ gth_template_editor_dialog_set_template (GthTemplateEditorDialog *self,
 
 char *
 gth_template_editor_dialog_get_template (GthTemplateEditorDialog  *self,
-				         GError                  **error)
+					 GError                  **error)
 {
 	GString *template;
 	GList   *children;

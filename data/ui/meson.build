@@ -1,5 +1,6 @@
 ui_files = files(
   'browser-preferences.ui',
+  'code-selector.ui',
   'extensions-preferences.ui',
   'favorite-properties.ui',
   'file-selection-info.ui',

@@ -3,8 +3,6 @@ source_files = files(
   'callbacks.c',
   'dlg-rename-series.c',
   'gth-rename-task.c',
-  'gth-template-editor-dialog.c',
-  'gth-template-selector.c',
   'main.c'
 )
 

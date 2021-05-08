@@ -21,8 +21,10 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include <gthumb.h>
 #include "gth-template-selector.h"
+#include "glib-utils.h"
+#include "gtk-utils.h"
+#include "gth-main.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -92,7 +94,7 @@ gth_template_selector_class_init (GthTemplateSelectorClass *klass)
 	gth_template_selector_signals[ADD_TEMPLATE] =
 		g_signal_new ("add-template",
 			      G_TYPE_FROM_CLASS (klass),
- 			      G_SIGNAL_RUN_LAST,
+			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthTemplateSelectorClass, add_template),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
@@ -101,7 +103,7 @@ gth_template_selector_class_init (GthTemplateSelectorClass *klass)
 	gth_template_selector_signals[REMOVE_TEMPLATE] =
 		g_signal_new ("remove-template",
 			      G_TYPE_FROM_CLASS (klass),
- 			      G_SIGNAL_RUN_LAST,
+			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthTemplateSelectorClass, remove_template),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
@@ -203,7 +205,7 @@ gth_template_selector_construct (GthTemplateSelector *self,
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 0);
 
-	self->priv->builder = _gtk_builder_new_from_file("code-selector.ui", "rename_series");
+	self->priv->builder = _gtk_builder_new_from_file("code-selector.ui", NULL);
 	gtk_container_add (GTK_CONTAINER (self), GET_WIDGET ("code_selector"));
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("enumerator_digits_spinbutton")), 1.0);
@@ -331,7 +333,7 @@ gth_template_selector_construct (GthTemplateSelector *self,
 
 GtkWidget *
 gth_template_selector_new (GthTemplateCode *allowed_codes,
-		           int              n_codes)
+			   int              n_codes)
 {
 	GthTemplateSelector *self;
 
