@@ -790,7 +790,7 @@ edit_template_button_clicked_cb (GtkWidget  *widget,
 {
 	GtkWidget *dialog;
 
-	dialog = gth_template_editor_dialog_new (Rename_Special_Codes, 8, _("Edit Template"), GTK_WINDOW (data->dialog));
+	dialog = gth_template_editor_dialog_new (Rename_Special_Codes, G_N_ELEMENTS (Rename_Special_Codes), _("Edit Template"), GTK_WINDOW (data->dialog));
 	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
 						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry"))));
 	g_signal_connect (dialog,
