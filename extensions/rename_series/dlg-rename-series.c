@@ -81,7 +81,6 @@ typedef struct {
 	GtkWidget     *change_case_combobox;
 	GtkListStore  *list_store;
 	GtkListStore  *sort_model;
-	gboolean       help_visible;
 	char          *required_attributes;
 	guint          update_id;
 	gboolean       template_changed;
@@ -726,13 +725,7 @@ template_entry_icon_release_cb (GtkEntry             *entry,
 				gpointer              user_data)
 {
 	DialogData *data = user_data;
-
-	data->help_visible = ! data->help_visible;
-
-	if (data->help_visible)
-		gtk_widget_show (GET_WIDGET("template_help_table"));
-	else
-		gtk_widget_hide (GET_WIDGET("template_help_table"));
+	gtk_popover_popup (GTK_POPOVER (GET_WIDGET("template_help_popover")));
 }
 
 
