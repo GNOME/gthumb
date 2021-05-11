@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
 "POT-Creation-Date: 2021-04-17 10:38+0000\n"
-"PO-Revision-Date: 2021-05-10 14:47+0200\n"
+"PO-Revision-Date: 2021-05-11 14:04+0200\n"
 "Last-Translator: Adi Roiban <adi@roiban.ro>\n"
 "Language-Team: Gnome Romanian Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -94,10 +94,8 @@ msgstr ""
 "imaginile."
 
 #: data/gschemas/org.gnome.gthumb.gschema.xml:133
-#, fuzzy
-#| msgid "Open in New Window"
 msgid "Open files in the active window"
-msgstr "Deschide în fereastră noua"
+msgstr "Deschide fișierele în fereastra activă"
 
 #: data/gschemas/org.gnome.gthumb.image-viewer.gschema.xml:30
 msgid "Whether to reset the scrollbars position after changing image"
@@ -105,16 +103,12 @@ msgstr ""
 "Dacă să se restabilească barele de derulare după ce se schimbă imaginea"
 
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:32
-#, fuzzy
-#| msgid "Possible values are: png, jpeg."
 msgid "Possible values are: jpeg, jpg."
-msgstr "Posibile valori sunt: png, jpeg."
+msgstr "Valorile posibile sunt: jpeg, jpg."
 
 #: data/gschemas/org.gnome.gthumb.pixbuf-savers.gschema.xml:63
-#, fuzzy
-#| msgid "Possible values are: mm, in."
 msgid "Possible values are: tiff, tif."
-msgstr "Posibile valori sunt: mm, in."
+msgstr "Valorile posibile sunt: tiff, tif."
 
 #: data/gschemas/org.gnome.gthumb.rename-series.gschema.xml:30
 msgid ""
@@ -129,10 +123,8 @@ msgid "Import with gThumb"
 msgstr "Importă cu gThumb"
 
 #: data/org.gnome.gThumb.Import.desktop.in.in:4
-#, fuzzy
-#| msgid "Import Photos"
 msgid "Photo Import Tool"
-msgstr "Importă fotografii"
+msgstr "Unealtă de importat fotografii"
 
 #: data/org.gnome.gThumb.Import.desktop.in.in:6
 msgid "Import the photos on your camera card"
@@ -172,10 +164,8 @@ msgid "_Double click to open files"
 msgstr "Clic _dublu pentru a deschide fișiere"
 
 #: data/ui/browser-preferences.ui:121
-#, fuzzy
-#| msgid "Start in fullscreen mode"
 msgid "_Open files in fullscreen mode"
-msgstr "Începe pe tot ecranul"
+msgstr "Deschide fișierele în modul pe tot ecranul"
 
 #: data/ui/browser-preferences.ui:158 data/ui/preferences.ui:336
 #: extensions/exiv2_tools/gth-edit-iptc-page.c:199
@@ -229,15 +219,12 @@ msgid "D_etermine image type from content (slower)"
 msgstr "D_etermină tipul imaginii după conținut (mai încet)"
 
 #: data/ui/extensions-preferences.ui:39
-#, fuzzy
 msgid "_Extensions:"
-msgstr "Dimensiuni"
+msgstr "_Extensii:"
 
 #: data/ui/extensions-preferences.ui:116
-#, fuzzy
-#| msgid "Determine by extension"
 msgid "More extensions…"
-msgstr "Determină după extensie"
+msgstr "Mai multe extensii…"
 
 #: data/ui/file-selection-info.ui:23
 #: extensions/webalbums/data/albumthemes/text.h:32
@@ -250,10 +237,8 @@ msgid "Next"
 msgstr "Înainte"
 
 #: data/ui/filter-editor.ui:20
-#, fuzzy
-#| msgid "File _name:"
 msgid "Filter _Name:"
-msgstr "_Nume fișier:"
+msgstr "_Nume filtru:"
 
 #: data/ui/filter-editor.ui:61 extensions/search/data/ui/search-editor.ui:21
 msgid "_Match:"
@@ -269,10 +254,8 @@ msgid "_Limit to"
 msgstr "_Limitează la"
 
 #: data/ui/filter-editor.ui:241
-#, fuzzy
-#| msgid "1 selected (%s)"
 msgid "selected by"
-msgstr "1 selectată (%s)"
+msgstr "selectat de"
 
 #: data/ui/histogram-info.ui:26
 msgid "Mean:"
@@ -289,10 +272,8 @@ msgstr "Medie:"
 
 #. After the colon there is the total number of pixels
 #: data/ui/histogram-info.ui:148
-#, fuzzy
-#| msgid "Pi_xels"
 msgid "Pixels:"
-msgstr "Pi_xeli"
+msgstr "Pixeli:"
 
 #. After the colon there is a percentile.
 #: data/ui/histogram-info.ui:163
@@ -307,28 +288,20 @@ msgid "Selected:"
 msgstr "Selectat:"
 
 #: data/ui/location.ui:23
-#, fuzzy
-#| msgid "Location"
 msgid "_Location:"
-msgstr "Locație"
+msgstr "_Locație:"
 
 #: data/ui/overwrite-dialog.ui:15
-#, fuzzy
-#| msgid "<b>Overwrite the old image with the new one?</b>"
 msgid "Overwrite the old file with the new one?"
-msgstr "<b>Dorești să suprascrii imaginea nouă peste ceva veche?</b>"
+msgstr "Suprascrieți vechiul fișier cu cel nou?"
 
 #: data/ui/overwrite-dialog.ui:73
-#, fuzzy
-#| msgid "Old Image:"
 msgid "Old File:"
-msgstr "Imaginea veche:"
+msgstr "Fișier vechi:"
 
 #: data/ui/overwrite-dialog.ui:145 data/ui/overwrite-dialog.ui:314
-#, fuzzy
-#| msgid "Filename"
 msgid "Filename:"
-msgstr "Nume fișier"
+msgstr "Nume fișier:"
 
 #: data/ui/overwrite-dialog.ui:160 data/ui/overwrite-dialog.ui:329
 #: extensions/image_print/data/ui/print-layout.ui:705
@@ -336,42 +309,32 @@ msgid "Size:"
 msgstr "Dimensiune:"
 
 #: data/ui/overwrite-dialog.ui:177 data/ui/overwrite-dialog.ui:346
-#, fuzzy
-#| msgid "Modified"
 msgid "Modified:"
-msgstr "Modificată"
+msgstr "Modificată:"
 
 #: data/ui/overwrite-dialog.ui:242
-#, fuzzy
-#| msgid "New Folder"
 msgid "New File:"
-msgstr "Dosar nou"
+msgstr "Fișier nou:"
 
 #: data/ui/overwrite-dialog.ui:401
-#, fuzzy
-#| msgid "Over_write the old image"
 msgid "Over_write the old file"
-msgstr "Suprascrie imaginea _veche"
+msgstr "Suprascrie fișierul _vechi"
 
 #: data/ui/overwrite-dialog.ui:418
 msgid "Do not overwrite _the old file"
 msgstr "Nu suprascrie vechiul _fișier"
 
 #: data/ui/overwrite-dialog.ui:435
-#, fuzzy
-#| msgid "Overwrite _all images"
 msgid "Overwrite _all files"
-msgstr "Suprascrie to_ate imaginile"
+msgstr "Suprascrie to_ate fișierele"
 
 #: data/ui/overwrite-dialog.ui:452
 msgid "_Do not overwrite any file"
 msgstr "_Nu suprascrie niciun fișier"
 
 #: data/ui/overwrite-dialog.ui:474
-#, fuzzy
-#| msgid "_Save the new image as:"
 msgid "_Save the new file as:"
-msgstr "_Salvează imaginea nouă ca:"
+msgstr "_Salvează fișierul nou ca:"
 
 #: data/ui/personalize-filters.ui:20
 msgid "_General filter:"
@@ -406,26 +369,20 @@ msgid "on the bottom"
 msgstr "în partea de jos"
 
 #: data/ui/preferences.ui:140
-#, fuzzy
-#| msgid "Redo the search"
 msgid "on the side"
-msgstr "Repetă căutarea"
+msgstr "lateral"
 
 #: data/ui/preferences.ui:152
 msgid "File _properties in browser:"
 msgstr "_Proprietăți fișier în navigator:"
 
 #: data/ui/preferences.ui:203
-#, fuzzy
-#| msgid "<b>On startup:</b>"
 msgid "On startup:"
-msgstr "<b>La pornire:</b>"
+msgstr "La pornire:"
 
 #: data/ui/preferences.ui:226
-#, fuzzy
-#| msgid "Go to the next visited location"
 msgid "Go to last _visited location"
-msgstr "Mergi la imaginea urmator vizitată"
+msgstr "Navighează la ultima locație _vizitată"
 
 #: data/ui/preferences.ui:247
 msgid "Go to this _folder:"
@@ -436,10 +393,8 @@ msgid "Set to C_urrent"
 msgstr "Setează la cu_rent"
 
 #: data/ui/preferences.ui:299
-#, fuzzy
-#| msgid "Reuse this window to view other images"
 msgid "_Reuse the active window to open files"
-msgstr "Refolosește această fereastră pentru a vedea alte imagini"
+msgstr "Refolosește fereastra activă la deschiderea fișierelor"
 
 #: data/ui/preferences.ui:358
 msgid "As_k confirmation before deleting files or catalogs"
@@ -467,16 +422,12 @@ msgid "Shortcuts:"
 msgstr "Scurtături:"
 
 #: data/ui/shortcuts-preferences.ui:93
-#, fuzzy
-#| msgid "_Restore"
 msgid "_Restore All…"
-msgstr "_Refă"
+msgstr "_Restaurează tot…"
 
 #: data/ui/sort-order.ui:30
-#, fuzzy
-#| msgid "Re_verse order"
 msgid "_Inverse order"
-msgstr "In_versează ordinea"
+msgstr "_Inversează ordinea"
 
 #: extensions/23hq/23hq.extension.desktop.in.in:3
 msgid "23"
@@ -513,35 +464,26 @@ msgid "_Bookmarks:"
 msgstr "_Semne de carte:"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:63
-#, fuzzy
-#| msgid "Go to the next visited location"
 msgid "Go to this location"
-msgstr "Mergi la imaginea urmator vizitată"
+msgstr "Navighează la această locație"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:76
 #: extensions/catalogs/callbacks.c:72
 #: extensions/search/gth-search-source-selector.c:140
-#, fuzzy
 msgid "Remove"
-msgstr "Șt_erge originalul"
+msgstr "Elimină"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:125
-#, fuzzy
-#| msgid "Name"
 msgid "_Name"
-msgstr "Nume"
+msgstr "_Nume"
 
 #: extensions/bookmarks/data/ui/bookmarks.ui:168
-#, fuzzy
-#| msgid "Location"
 msgid "_Location"
-msgstr "Locație"
+msgstr "_Locație"
 
 #: extensions/bookmarks/dlg-bookmarks.c:192
-#, fuzzy
-#| msgid "Could not move the image:"
 msgid "Could not remove the bookmark"
-msgstr "Nu pot muta imaginea:"
+msgstr "Nu s-a putut elimina marcajul"
 
 #: extensions/burn_disc/burn_disc.extension.desktop.in.in:3
 msgid "Burn CD/DVD"
@@ -572,10 +514,8 @@ msgid "Current folder and its s_ub-folders"
 msgstr "Dosarul curent și s_ubdosarele lui"
 
 #: extensions/burn_disc/data/ui/burn-source-selector.ui:64
-#, fuzzy
-#| msgid "_Selected Images"
 msgid "_Selected files"
-msgstr "Imaginile _selectate"
+msgstr "Fișiere _selectate"
 
 #: extensions/burn_disc/data/ui/burn-source-selector.ui:86
 msgid "Source"
@@ -594,15 +534,14 @@ msgid "_Continue"
 msgstr "_Continuă"
 
 #: extensions/cairo_io/cairo-image-surface-jpeg.c:62
-#, fuzzy, c-format
-#| msgid "Converting image: %s"
+#, c-format
 msgid "Error interpreting JPEG image file: %s"
-msgstr "Convertind imaginea: %s"
+msgstr "Eroarea la interpretarea fișierului imagine JPEG: %s"
 
 #: extensions/cairo_io/cairo-image-surface-jpeg.c:558
 #, c-format
 msgid "Unknown JPEG color space (%d)"
-msgstr ""
+msgstr "Spațiu de culoare JPEG necunoscut (%d)"
 
 #: extensions/cairo_io/data/ui/jpeg-options.ui:25
 #: extensions/cairo_io/data/ui/tiff-options.ui:32
@@ -655,10 +594,8 @@ msgid "_Loss compression (JPEG)"
 msgstr "_Pierde compresie (JPEG)"
 
 #: extensions/cairo_io/data/ui/tiff-options.ui:179
-#, fuzzy
-#| msgid "<b>Resolution</b>"
 msgid "Resolution"
-msgstr "<b>Rezoluție</b>"
+msgstr "Rezoluție"
 
 #: extensions/cairo_io/data/ui/tiff-options.ui:203
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:173
@@ -685,17 +622,13 @@ msgstr "_Fără pierderi"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
 #: extensions/image_viewer/gth-metadata-provider-image.c:150
-#, fuzzy
-#| msgid "_JPEG"
 msgid "JPEG"
-msgstr "_JPEG"
+msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
 #: extensions/image_viewer/gth-metadata-provider-image.c:116
-#, fuzzy
-#| msgid "_PNG"
 msgid "PNG"
-msgstr "_PNG"
+msgstr "PNG"
 
 #: extensions/cairo_io/gth-image-saver-tga.c:260
 #: extensions/cairo_io/gth-image-saver-tiff.c:442 gthumb/gth-buffer-data.c:84
@@ -713,17 +646,15 @@ msgstr "TIFF"
 #: extensions/cairo_io/gth-image-saver-webp.c:383
 #: extensions/image_viewer/gth-metadata-provider-image.c:179
 msgid "WebP"
-msgstr ""
+msgstr "WebP"
 
 #: extensions/cairo_io/preferences.c:134
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:556
 #: extensions/contact_sheet/data/ui/image-wall.ui:269
 #: extensions/image_viewer/gth-image-viewer-page.c:1702
 #: extensions/webalbums/data/ui/web-album-exporter.ui:484
-#, fuzzy
-#| msgid "<b>Saving</b>"
 msgid "Saving"
-msgstr "<b>Salvare</b>"
+msgstr "Salvare"
 
 #: extensions/catalogs/actions.c:89 extensions/catalogs/actions.c:212
 #: extensions/catalogs/dlg-add-to-catalog.c:376
@@ -732,10 +663,9 @@ msgstr "<b>Salvare</b>"
 #: extensions/file_tools/gth-file-tool-curves.c:373
 #: extensions/list_tools/gth-script-editor-dialog.c:273
 #: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1924
-#, fuzzy, c-format
-#| msgid "New names _preview:"
+#, c-format
 msgid "No name specified"
-msgstr "_Previzualizare noi nume:"
+msgstr "Niciun nume specificat"
 
 #: extensions/catalogs/actions.c:96 extensions/catalogs/actions.c:219
 #: extensions/catalogs/dlg-add-to-catalog.c:383
@@ -756,17 +686,13 @@ msgid "Name already used"
 msgstr "Nume folosit deja"
 
 #: extensions/catalogs/actions.c:177
-#, fuzzy
-#| msgid "New Catalog"
 msgid "New catalog"
 msgstr "Catalog nou"
 
 #: extensions/catalogs/actions.c:178
 #: extensions/catalogs/dlg-add-to-catalog.c:462
-#, fuzzy
-#| msgid "Enter the catalog name: "
 msgid "Enter the catalog name:"
-msgstr "Introduce numele catalogului: "
+msgstr "Introduceți numele catalogului:"
 
 #: extensions/catalogs/actions.c:180 extensions/catalogs/actions.c:294
 #: extensions/catalogs/dlg-add-to-catalog.c:464
@@ -776,23 +702,17 @@ msgid "C_reate"
 msgstr "C_rează"
 
 #: extensions/catalogs/actions.c:291
-#, fuzzy
-#| msgid "New Library"
 msgid "New library"
-msgstr "Bibliotecă noua"
+msgstr "Bibliotecă nouă"
 
 #: extensions/catalogs/actions.c:292
 #: extensions/catalogs/dlg-add-to-catalog.c:621
-#, fuzzy
-#| msgid "Enter the library name: "
 msgid "Enter the library name:"
-msgstr "Introduce numele bibliotecii: "
+msgstr "Introduceți numele bibliotecii:"
 
 #: extensions/catalogs/actions.c:327
-#, fuzzy
-#| msgid "Could not rename the catalog \"%s\": %s"
 msgid "Could not remove the catalog"
-msgstr "Nu pot redenumi catalogul \"%s\": %s"
+msgstr "Nu s-a putut elimina catalogul"
 
 #: extensions/catalogs/actions.c:366
 #, c-format
@@ -804,16 +724,12 @@ msgid "Add to Catalog…"
 msgstr "Adaugă la catalog…"
 
 #: extensions/catalogs/callbacks.c:57 extensions/selections/callbacks.c:78
-#, fuzzy
-#| msgid "New Folder"
 msgid "Open Folder"
-msgstr "Dosar nou"
+msgstr "Deschide dosar"
 
 #: extensions/catalogs/callbacks.c:62
-#, fuzzy
-#| msgid "Remo_ve from Catalog"
 msgid "Remove from Catalog"
-msgstr "Ș_terge din catalog"
+msgstr "Elimină din catalog"
 
 #: extensions/catalogs/callbacks.c:67
 msgid "Create Catalog"
@@ -834,10 +750,8 @@ msgstr "Redenumește"
 #: extensions/catalogs/callbacks.c:78
 #: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4564
 #: gthumb/gth-browser.c:4666 gthumb/gth-file-properties.c:258
-#, fuzzy
-#| msgid "Proper_ties"
 msgid "Properties"
-msgstr "Proprie_tăți"
+msgstr "Proprietăți"
 
 #: extensions/catalogs/callbacks.c:185
 #: extensions/catalogs/catalogs.extension.desktop.in.in:3
@@ -895,10 +809,8 @@ msgstr "_Vezi destinația"
 #: extensions/facebook/data/ui/facebook-album-properties.ui:45
 #: extensions/list_tools/data/ui/script-editor.ui:23
 #: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:37
-#, fuzzy
-#| msgid "Name"
 msgid "_Name:"
-msgstr "Nume"
+msgstr "_Nume:"
 
 #: extensions/catalogs/data/ui/catalog-properties.ui:82
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:31
@@ -920,35 +832,28 @@ msgid "Organization:"
 msgstr "Organizație:"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:224
-#, fuzzy
-#| msgid "_File"
 msgid "Files"
-msgstr "_Fișier"
+msgstr "Fișiere"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:240
 msgid "Create"
 msgstr "Creează"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:281
-#, fuzzy
-#| msgid "_Select All"
 msgid "Select All"
-msgstr "_Selecteaza toate"
+msgstr "Selectează toate"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:295
-#, fuzzy
-#| msgid "Select a font"
 msgid "Select None"
-msgstr "Selectați un font"
+msgstr "Deselectează toate"
 
 #: extensions/catalogs/data/ui/organize-files-task.ui:330
 msgid "Catalog _Preview:"
 msgstr "_Previzualizare catalog:"
 
 #: extensions/catalogs/data/ui/organize-files.ui:93
-#, fuzzy
 msgid "_Group files by:"
-msgstr "Mergi la acest _dosar"
+msgstr "_Grupează fișierele după:"
 
 #: extensions/catalogs/data/ui/organize-files.ui:139
 #: extensions/find_duplicates/data/ui/find-duplicates.ui:64
@@ -966,7 +871,7 @@ msgstr "Pune fișiere izolate în catalogul:"
 
 #: extensions/catalogs/data/ui/organize-files.ui:202
 msgid "Singles"
-msgstr ""
+msgstr "Unice"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:156
 msgid "Could not add the files to the catalog"
@@ -991,10 +896,8 @@ msgid "Keep the dialog open"
 msgstr "Menține dialogul deschis"
 
 #: extensions/catalogs/dlg-catalog-properties.c:80
-#, fuzzy
-#| msgid "Could not rename the catalog \"%s\": %s"
 msgid "Could not save the catalog"
-msgstr "Nu pot redenumi catalogul \"%s\": %s"
+msgstr "Nu s-a putut salva catalogul"
 
 #: extensions/catalogs/dlg-catalog-properties.c:154
 msgid "Could not load the catalog"
@@ -1019,10 +922,8 @@ msgstr "Data când fotografia a fost făcută"
 
 #: extensions/catalogs/dlg-organize-files.c:145
 #: gthumb/gth-main-default-tests.c:359
-#, fuzzy
-#| msgid "Last modified date"
 msgid "File modified date"
-msgstr "Data ultimei modificări"
+msgstr "Data modificării fișierului"
 
 #: extensions/catalogs/dlg-organize-files.c:152 extensions/comments/main.c:186
 msgid "Tag"
@@ -1039,9 +940,8 @@ msgstr "Etichetă (înglobată)"
 #: extensions/exiv2_tools/exiv2-utils.cpp:911
 #: extensions/exiv2_tools/exiv2-utils.cpp:1444
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:336
-#, fuzzy
 msgid "Invalid file format"
-msgstr "(Nume invalid)"
+msgstr "Format de fișier nevalid"
 
 #: extensions/catalogs/gth-catalog.c:1018 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
@@ -1063,8 +963,6 @@ msgid "The library “%s” already exists, do you want to overwrite it?"
 msgstr "O bibliotecă cu numele „%s” există deja. Doriți să o suprascrieți?"
 
 #: extensions/catalogs/gth-file-source-catalogs.c:968
-#, fuzzy
-#| msgid "_Overwrite"
 msgid "Over_write"
 msgstr "_Suprascrie"
 
@@ -1077,10 +975,8 @@ msgid "Cannot copy the files"
 msgstr "Nu se pot copia fișierele"
 
 #: extensions/catalogs/gth-file-source-catalogs.c:1094
-#, fuzzy
-#| msgid "source contains destination"
 msgid "Invalid destination."
-msgstr "sursa conține destinația"
+msgstr "Destinație nevalidă."
 
 #: extensions/catalogs/gth-file-source-catalogs.c:1141
 #, c-format
@@ -1088,10 +984,8 @@ msgid "Copying files to “%s”"
 msgstr "Se copiază fișiere la „%s”"
 
 #: extensions/catalogs/gth-file-source-catalogs.c:1321
-#, fuzzy
-#| msgid "Remove selected images from the catalog"
 msgid "Could not remove the files from the catalog"
-msgstr "Șterge imaginile selectate din catalog"
+msgstr "Nu s-au putut elimina fișierele din catalog"
 
 #: extensions/catalogs/gth-organize-task.c:209
 #, c-format
@@ -1141,16 +1035,12 @@ msgid "The _following date:"
 msgstr "_Următoarea dată:"
 
 #: extensions/change_date/data/ui/change-date.ui:217
-#, fuzzy
-#| msgid "Last modified date"
 msgid "File _modified date"
-msgstr "Data ultimei modificări"
+msgstr "Data _modificării fișierului"
 
 #: extensions/change_date/data/ui/change-date.ui:235
-#, fuzzy
-#| msgid "Image c_reation date"
 msgid "File c_reation date"
-msgstr "Dată c_reare imagine"
+msgstr "Dată c_reării fișierului"
 
 #: extensions/change_date/data/ui/change-date.ui:253
 msgid "Date p_hoto was taken"
@@ -1199,10 +1089,8 @@ msgstr "_Sincronizează cu metadatele înglobate"
 #: extensions/terminal/dlg-terminal-preferences.c:83
 #: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
 #: gthumb/gth-file-properties.c:548
-#, fuzzy
-#| msgid "_Preferences..."
 msgid "Preferences"
-msgstr "_Preferințe..."
+msgstr "Preferințe"
 
 #: extensions/comments/main.c:37 extensions/edit_metadata/callbacks.c:56
 #: extensions/edit_metadata/callbacks.c:88
@@ -1214,7 +1102,7 @@ msgstr "Comentariu"
 
 #: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
 msgid "Title"
-msgstr ""
+msgstr "Titlu"
 
 #: extensions/comments/main.c:44 extensions/comments/main.c:170
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:184
@@ -1376,7 +1264,7 @@ msgstr "Numărul paginii curente"
 #: extensions/image_print/data/ui/print-layout.ui:206
 #: extensions/webalbums/data/ui/web-album-exporter.ui:161
 msgid "The total number of pages"
-msgstr ""
+msgstr "Numărul total de pagini"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:169
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:487
@@ -1427,8 +1315,6 @@ msgstr "Alege dosarul destinație"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:382
 #: extensions/contact_sheet/data/ui/image-wall.ui:112
-#, fuzzy
-#| msgid "File _name:"
 msgid "File_name:"
 msgstr "_Nume fișier:"
 
@@ -1451,10 +1337,8 @@ msgid "Edit the selected theme"
 msgstr "Editează tema selectată"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:681
-#, fuzzy
-#| msgid "Delete selected images from the camera"
 msgid "Delete the selected theme"
-msgstr "Șterge imaginile selectate de pe cameră"
+msgstr "Șterge tema selectată"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:712
 #: extensions/webalbums/data/ui/web-album-exporter.ui:551
@@ -1513,10 +1397,8 @@ msgid "_Size:"
 msgstr "Dimen_siune:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:999
-#, fuzzy
-#| msgid "Square"
 msgid "Sq_uared"
-msgstr "Pătrat"
+msgstr "_Pătrat"
 
 #: extensions/contact_sheet/data/ui/contact-sheet.ui:1078
 #: extensions/contact_sheet/data/ui/image-wall.ui:577
@@ -1526,10 +1408,8 @@ msgstr "Miniaturi"
 #: extensions/contact_sheet/dlg-contact-sheet.c:491
 #: extensions/contact_sheet/dlg-contact-sheet.c:502
 #: extensions/contact_sheet/dlg-contact-sheet.c:516
-#, fuzzy
-#| msgid "Could not move the items:"
 msgid "Could not save the theme"
-msgstr "Nu pot muta elementele:"
+msgstr "Nu s-a putut salva tema"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:661
 msgid "Could not delete the theme"
@@ -1544,10 +1424,8 @@ msgid "Creating images"
 msgstr "Crearea imaginilor"
 
 #: extensions/contact_sheet/gth-contact-sheet-creator.c:936
-#, fuzzy
-#| msgid "Saving thumbnails"
 msgid "Generating thumbnails"
-msgstr "Salvând pictogramele"
+msgstr "Se generează miniaturi"
 
 #: extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:194
 msgid "Theme Properties"
@@ -1558,10 +1436,8 @@ msgid "Copy _From"
 msgstr "Copiază _de la"
 
 #: extensions/contact_sheet/gth-contact-sheet-theme-dialog.c:313
-#, fuzzy
-#| msgid "New Name"
 msgid "New theme"
-msgstr "Nume nou"
+msgstr "Temă nouă"
 
 #: extensions/contact_sheet/gth-contact-sheet-theme.c:32
 msgid "Header"
@@ -1584,10 +1460,8 @@ msgid "Save images in a different format"
 msgstr "Salvează imaginile într-un format diferit"
 
 #: extensions/convert_format/data/ui/convert-format.ui:40
-#, fuzzy
-#| msgid "New Image:"
 msgid "New format"
-msgstr "Imagine nouă:"
+msgstr "Format nou"
 
 #: extensions/convert_format/data/ui/convert-format.ui:100
 #: extensions/resize_images/data/ui/resize-images.ui:245
@@ -1608,17 +1482,13 @@ msgid "Convert Format"
 msgstr "Convertește formatul"
 
 #: extensions/desktop_background/actions.c:288
-#, fuzzy
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Could not show the desktop background properties"
-msgstr "Setează imaginea ca fundal desktop (mozaic)"
+msgstr "Nu s-au putut arăta proprietățile fundalului pentru desktop"
 
 #: extensions/desktop_background/actions.c:329
 #: gthumb/resources/gears-menu.ui:45
-#, fuzzy
-#| msgid "_Preferences..."
 msgid "_Preferences"
-msgstr "_Preferințe..."
+msgstr "_Preferințe"
 
 #: extensions/desktop_background/actions.c:330
 msgid "_Undo"
@@ -1628,10 +1498,8 @@ msgstr "An_ulează"
 #: extensions/desktop_background/actions.c:416
 #: extensions/desktop_background/actions.c:435
 #: extensions/desktop_background/actions.c:462
-#, fuzzy
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Could not set the desktop background"
-msgstr "Setează imaginea ca fundal desktop (mozaic)"
+msgstr "Nu s-a putut stabili fundalul pentru desktop"
 
 #: extensions/desktop_background/callbacks.c:47
 #: extensions/desktop_background/callbacks.c:53
@@ -1643,10 +1511,8 @@ msgid "Desktop background"
 msgstr "Fundal desktop"
 
 #: extensions/desktop_background/desktop_background.extension.desktop.in.in:4
-#, fuzzy
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Set the image as desktop background"
-msgstr "Setează imaginea ca fundal desktop (mozaic)"
+msgstr "Stabilește imaginea ca fundal pentru desktop"
 
 #: extensions/desktop_background/desktop_background.extension.desktop.in.in:8
 msgid "desktop"
@@ -1690,20 +1556,16 @@ msgid "T_ags:"
 msgstr "Ethichet_e:"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:207
-#, fuzzy
-#| msgid "_Smoothing:"
 msgid "_Rating:"
-msgstr "_Netezire:"
+msgstr "Evalua_re:"
 
 #: extensions/edit_metadata/data/ui/edit-comment-page.ui:239
 msgid "_Title:"
-msgstr ""
+msgstr "_Titlu:"
 
 #: extensions/edit_metadata/dlg-edit-metadata.c:123
-#, fuzzy
-#| msgid "Could not move the image:"
 msgid "Could not save the file metadata"
-msgstr "Nu pot muta imaginea:"
+msgstr "Nu s-au putut salva metadatele fișierului"
 
 #: extensions/edit_metadata/dlg-edit-metadata.c:234
 #: gthumb/gth-overwrite-dialog.c:184
@@ -1740,10 +1602,8 @@ msgid "Last modified date"
 msgstr "Data ultimei modificări"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:559
-#, fuzzy
-#| msgid "Image creation date"
 msgid "File creation date"
-msgstr "Data creării"
+msgstr "Data creării fișierului"
 
 #: extensions/edit_metadata/gth-edit-general-page.c:560
 msgid "Do not modify"
@@ -1756,13 +1616,11 @@ msgstr "Asociază etichete fișierelor selectate"
 
 #: extensions/edit_metadata/gth-tag-task.c:122
 msgid "Writing files"
-msgstr ""
+msgstr "Se scriu fișiere"
 
 #: extensions/edit_metadata/gth-tag-task.c:139
-#, fuzzy
-#| msgid "Loading images"
 msgid "Reading files"
-msgstr "Incărcând imagini"
+msgstr "Se citesc fișiere"
 
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
@@ -1787,7 +1645,7 @@ msgstr "_Sursă:"
 
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:229
 msgid "_Urgency:"
-msgstr ""
+msgstr "_Urgență:"
 
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:244
 msgid "_Object Name:"
@@ -1819,10 +1677,8 @@ msgid "(invalid value)"
 msgstr "(valoare nevalidă)"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:709
-#, fuzzy
-#| msgid "Exposure time"
 msgid "Exposure"
-msgstr "Timpul de expunere"
+msgstr "Expunere"
 
 #: extensions/exiv2_tools/exiv2_tools.extension.desktop.in.in:3
 msgid "EXIF, IPTC, XMP support"
@@ -1833,44 +1689,36 @@ msgid "Read and write exif, iptc and xmp metadata."
 msgstr "Citește și scrie metadate exif, iptc și xmp."
 
 #: extensions/exiv2_tools/main.c:33
-#, fuzzy
 msgid "Exif General"
-msgstr "Generale"
+msgstr "Generale Exif"
 
 #: extensions/exiv2_tools/main.c:34
-#, fuzzy
 msgid "Exif Conditions"
-msgstr "Condiții fotografiere"
+msgstr "Condiții Exif"
 
 #: extensions/exiv2_tools/main.c:35
-#, fuzzy
 msgid "Exif Structure"
-msgstr "Structură imagine"
+msgstr "Structură Exif"
 
 #: extensions/exiv2_tools/main.c:36
-#, fuzzy
 msgid "Exif Thumbnail"
-msgstr "Minia_turi"
+msgstr "Miniatură Exif"
 
 #: extensions/exiv2_tools/main.c:37
 msgid "Exif GPS"
 msgstr "GPS Exif"
 
 #: extensions/exiv2_tools/main.c:38
-#, fuzzy
 msgid "Exif Maker Notes"
-msgstr "Note producator"
+msgstr "Note Exif ale producătorului"
 
 #: extensions/exiv2_tools/main.c:39
-#, fuzzy
 msgid "Exif Versions"
-msgstr "Dimensiuni"
+msgstr "Versiuni Exif"
 
 #: extensions/exiv2_tools/main.c:40
-#, fuzzy
-#| msgid "Other"
 msgid "Exif Other"
-msgstr "Altele"
+msgstr "Alte Exif"
 
 #: extensions/exiv2_tools/main.c:41
 msgid "IPTC"
@@ -1878,21 +1726,19 @@ msgstr "IPTC"
 
 #: extensions/exiv2_tools/main.c:42
 msgid "XMP Embedded"
-msgstr ""
+msgstr "XMP înglobat"
 
 #: extensions/exiv2_tools/main.c:43
 msgid "XMP Attached"
-msgstr ""
+msgstr "XMP atașat"
 
 #: extensions/exiv2_tools/main.c:272
 msgid "date photo was taken"
 msgstr "data când fotografia a fost făcută"
 
 #: extensions/export_tools/callbacks.c:46
-#, fuzzy
-#| msgid "Exposure mode"
 msgid "_Export To"
-msgstr "Mod de expunere"
+msgstr "_Exportă la"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:34
 msgid "720 × 720"
@@ -1937,10 +1783,8 @@ msgstr "Con_t:"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:274
 #: extensions/facebook/data/ui/export-to-facebook.ui:275
-#, fuzzy
-#| msgid "_Resize if larger than:"
 msgid "Resize the images if larger than this size"
-msgstr "_Redimensionează dacă mai mare ca:"
+msgstr "Redimensionează imaginile dacă sunt mai mari decât această dimensiune"
 
 #: extensions/facebook/data/ui/export-to-facebook.ui:276
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
@@ -1967,7 +1811,7 @@ msgstr "Private"
 #: extensions/facebook/data/ui/facebook-album-properties.ui:73
 #: extensions/picasaweb/data/ui/picasa-web-album-properties.ui:65
 msgid "_Visibility:"
-msgstr ""
+msgstr "_Vizibilitate:"
 
 #: extensions/facebook/data/ui/import-from-facebook.ui:122
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:120
@@ -1991,10 +1835,8 @@ msgstr "Fișierele au fost încărcate pe server cu succes."
 #: extensions/facebook/dlg-export-to-facebook.c:151
 #: extensions/flicker_utils/dlg-export-to-flickr.c:246
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:148
-#, fuzzy
-#| msgid "Could not move the items:"
 msgid "Could not upload the files"
-msgstr "Nu pot muta elementele:"
+msgstr "Nu s-au putut încărca fișierele"
 
 #: extensions/facebook/dlg-export-to-facebook.c:297
 #: extensions/flicker_utils/dlg-export-to-flickr.c:136
@@ -2011,10 +1853,8 @@ msgid "Could not create the album"
 msgstr "Nu s-a putut crea albumul"
 
 #: extensions/facebook/dlg-export-to-facebook.c:436
-#, fuzzy
-#| msgid "Web Album"
 msgid "New Album"
-msgstr "Album web"
+msgstr "Album nou"
 
 #: extensions/facebook/dlg-export-to-facebook.c:475
 msgid "Export to Facebook"
@@ -2049,10 +1889,9 @@ msgstr[2] "%d de fișiere (%s)"
 
 #: extensions/facebook/dlg-export-to-facebook.c:571
 #: extensions/flicker_utils/dlg-export-to-flickr.c:624
-#, fuzzy, c-format
-#| msgid "Import Photos"
+#, c-format
 msgid "Export to %s"
-msgstr "Importă fotografii"
+msgstr "Exportă la %s"
 
 #: extensions/facebook/facebook-service.c:496
 #: extensions/flicker_utils/flickr-service.c:849
@@ -2070,10 +1909,9 @@ msgstr "Crearea noului album"
 #: extensions/facebook/facebook-service.c:671
 #: extensions/flicker_utils/flickr-service.c:1144
 #: extensions/picasaweb/picasa-web-service.c:783
-#, fuzzy, c-format
-#| msgid "Could not copy the folder \"%s\": %s"
+#, c-format
 msgid "Could not upload “%s”: %s"
-msgstr "Nu pot copia dosarul \"%s\": %s"
+msgstr "Nu s-a putut încărca „%s”: %s"
 
 #. Translators: %s is a filename
 #: extensions/facebook/facebook-service.c:734
@@ -2081,13 +1919,13 @@ msgstr "Nu pot copia dosarul \"%s\": %s"
 #: extensions/picasaweb/picasa-web-service.c:838
 #, c-format
 msgid "Uploading “%s”"
-msgstr ""
+msgstr "Se încarcă „%s”"
 
 #: extensions/facebook/facebook-service.c:954
 #: extensions/flicker_utils/flickr-service.c:1450
 #: extensions/picasaweb/picasa-web-service.c:1062
 msgid "Uploading the files to the server"
-msgstr ""
+msgstr "Se încarcă fișierele pe server"
 
 #: extensions/facebook/facebook-service.c:1048
 #: extensions/flicker_utils/flickr-service.c:1611
@@ -2104,16 +1942,12 @@ msgid "Upload images to Facebook"
 msgstr "Încarcă imaginile pe Facebook"
 
 #: extensions/file_manager/actions.c:137
-#, fuzzy
-#| msgid "New Folder"
 msgid "New folder"
 msgstr "Dosar nou"
 
 #: extensions/file_manager/actions.c:138
-#, fuzzy
-#| msgid "Enter the folder name: "
 msgid "Enter the folder name:"
-msgstr "Introduce numele dosarului: "
+msgstr "Introduceți numele dosarului:"
 
 #: extensions/file_manager/actions.c:410
 #: extensions/file_manager/callbacks.c:551
@@ -2121,10 +1955,8 @@ msgstr "Introduce numele dosarului: "
 #: extensions/find_duplicates/gth-find-duplicates.c:788
 #: gthumb/gth-browser.c:5579 gthumb/gth-browser.c:5622
 #: gthumb/gth-progress-dialog.c:429
-#, fuzzy
-#| msgid "Could not import photos"
 msgid "Could not perform the operation"
-msgstr "Nu pot importa fotografiile"
+msgstr "Nu s-a putut efectua operațiunea"
 
 #: extensions/file_manager/actions.c:423
 #: extensions/file_manager/callbacks.c:277
@@ -2151,10 +1983,8 @@ msgid "Copy"
 msgstr "Copiază"
 
 #: extensions/file_manager/actions.c:739
-#, fuzzy
-#| msgid "_Move"
 msgid "Move To"
-msgstr "_Mută"
+msgstr "Mută la"
 
 #: extensions/file_manager/actions.c:739
 msgid "Copy To"
@@ -2162,10 +1992,8 @@ msgstr "Copiază la"
 
 #: extensions/file_manager/actions.c:743
 #: extensions/file_manager/callbacks.c:1025
-#, fuzzy
-#| msgid "_Move"
 msgid "Move"
-msgstr "_Mută"
+msgstr "Mută"
 
 #: extensions/file_manager/actions.c:870
 msgid "Could not open the location"
@@ -2194,10 +2022,8 @@ msgstr "Mută la…"
 
 #: extensions/file_manager/callbacks.c:87
 #: extensions/file_manager/callbacks.c:112
-#, fuzzy
-#| msgid "Move to _Trash"
 msgid "Move to Trash"
-msgstr "Mută în _coșul de gunoi"
+msgstr "Mută la gunoi"
 
 #: extensions/file_manager/callbacks.c:88
 #: extensions/file_manager/callbacks.c:113
@@ -2206,20 +2032,16 @@ msgid "Delete"
 msgstr "Șterge"
 
 #: extensions/file_manager/callbacks.c:92
-#, fuzzy
-#| msgid "Open with the _File Manager"
 msgid "Open with the File Manager"
-msgstr "Deschide cu Managerul de _Fișiere"
+msgstr "Deschide cu Managerul de fișiere"
 
 #: extensions/file_manager/callbacks.c:97
 msgid "Create Folder"
 msgstr "Creează un dosar"
 
 #: extensions/file_manager/callbacks.c:104
-#, fuzzy
-#| msgid "Current _Folder"
 msgid "Paste Into Folder"
-msgstr "_Director curent"
+msgstr "Lipește în dosar"
 
 #: extensions/file_manager/callbacks.c:118
 #: extensions/file_manager/callbacks.c:127
@@ -2231,10 +2053,8 @@ msgid "Delete permanently"
 msgstr "Șterge permanent"
 
 #: extensions/file_manager/callbacks.c:130
-#, fuzzy
-#| msgid "_Open With"
 msgid "Open with Gimp"
-msgstr "D_eschide cu"
+msgstr "Deschide cu Gimp"
 
 #: extensions/file_manager/callbacks.c:722 gthumb/gth-file-source-vfs.c:226
 msgid "Home Folder"
@@ -2242,10 +2062,8 @@ msgstr "Dosar personal"
 
 #: extensions/file_manager/callbacks.c:729
 #: extensions/file_manager/callbacks.c:732
-#, fuzzy
-#| msgid "_Open With"
 msgid "Open _With"
-msgstr "D_eschide cu"
+msgstr "_Deschide cu"
 
 #: extensions/file_manager/callbacks.c:1006
 #, c-format
@@ -2272,16 +2090,12 @@ msgid "_Copy"
 msgstr "_Copiază"
 
 #: extensions/file_manager/file_manager.extension.desktop.in.in:3
-#, fuzzy
-#| msgid "File _name"
 msgid "File manager"
-msgstr "_Nume fișier"
+msgstr "Manager de fișiere"
 
 #: extensions/file_manager/file_manager.extension.desktop.in.in:4
-#, fuzzy
-#| msgid "View image properties"
 msgid "File manager operations."
-msgstr "Vezi proprietăți imagine"
+msgstr "Operațiuni ale managerului de fișiere."
 
 #: extensions/file_manager/file_manager.extension.desktop.in.in:8
 msgid "system-file-manager"
@@ -2298,24 +2112,18 @@ msgstr "Inversează"
 
 #: extensions/file_tools/callbacks.c:55
 #: extensions/file_tools/gth-file-tool-mirror.c:90
-#, fuzzy
-#| msgid "_Mirror"
 msgid "Mirror"
-msgstr "_Oglindește"
+msgstr "Oglindește"
 
 #: extensions/file_tools/callbacks.c:56
 #: extensions/image_rotation/callbacks.c:47
-#, fuzzy
-#| msgid "Rotate Ri_ght"
 msgid "Rotate right"
-msgstr "Rotește _dreapta"
+msgstr "Rotește la dreapta"
 
 #: extensions/file_tools/callbacks.c:57
 #: extensions/image_rotation/callbacks.c:48
-#, fuzzy
-#| msgid "Rotate _Left"
 msgid "Rotate left"
-msgstr "Rotește _stânga"
+msgstr "Rotește la stânga"
 
 #: extensions/file_tools/callbacks.c:58
 #: extensions/file_tools/gth-file-tool-crop.c:687
@@ -2324,10 +2132,8 @@ msgstr "Decupare"
 
 #: extensions/file_tools/callbacks.c:59
 #: extensions/file_tools/gth-file-tool-resize.c:840
-#, fuzzy
-#| msgid "_Resize..."
 msgid "Resize"
-msgstr "_Redimensionează"
+msgstr "Redimensionează"
 
 #: extensions/file_tools/data/ui/adjust-colors-options.ui:56
 #: extensions/file_tools/data/ui/curves-options.ui:35
@@ -2370,9 +2176,8 @@ msgstr "Nivele de culoare"
 #: extensions/file_tools/data/ui/color-picker-options.ui:40
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:395
 #: extensions/red_eye_removal/data/ui/red-eye-removal-options.ui:36
-#, fuzzy
 msgid "Position"
-msgstr "<b>Direcție</b>"
+msgstr "Poziție"
 
 #: extensions/file_tools/data/ui/color-picker-options.ui:63
 #: extensions/red_eye_removal/data/ui/red-eye-removal-options.ui:60
@@ -2395,20 +2200,16 @@ msgstr "Culoare"
 #: extensions/file_tools/gth-file-tool-resize.c:759
 #: extensions/file_tools/gth-file-tool-rotate.c:617
 #: gthumb/gth-file-chooser-dialog.c:258
-#, fuzzy
-#| msgid "PNG Options"
 msgid "Options"
-msgstr "Opțiuni PNG"
+msgstr "Opțiuni"
 
 #: extensions/file_tools/data/ui/crop-options.ui:77
 msgid "_Grid:"
 msgstr "_Grilă:"
 
 #: extensions/file_tools/data/ui/crop-options.ui:141
-#, fuzzy
-#| msgid "_Select"
 msgid "Selection"
-msgstr "_Selectează"
+msgstr "Selecție"
 
 #: extensions/file_tools/data/ui/crop-options.ui:201
 #: extensions/file_tools/data/ui/resize-options.ui:170
@@ -2422,10 +2223,8 @@ msgid "Heigh_t:"
 msgstr "Înălți_me:"
 
 #: extensions/file_tools/data/ui/crop-options.ui:257
-#, fuzzy
-#| msgid "_Destination:"
 msgid "_Position:"
-msgstr "_Destinație:"
+msgstr "_Poziție:"
 
 #: extensions/file_tools/data/ui/crop-options.ui:350
 msgid "Maximize"
@@ -2457,10 +2256,8 @@ msgid "px"
 msgstr "px"
 
 #: extensions/file_tools/data/ui/curves-options.ui:53
-#, fuzzy
-#| msgid "Rename current catalog"
 msgid "Include current channel"
-msgstr "Redenumește catalogul curent"
+msgstr "Include canalul curent"
 
 #: extensions/file_tools/data/ui/resize-options.ui:51
 msgid "High _quality"
@@ -2485,28 +2282,20 @@ msgstr "Dimensiuni"
 #: extensions/file_tools/data/ui/resize-options.ui:296
 #: extensions/file_tools/data/ui/resize-options.ui:322
 #: extensions/file_tools/data/ui/resize-options.ui:323
-#, fuzzy
-#| msgid "Set the image as desktop background (tiled)"
 msgid "Set the image size to this value"
-msgstr "Setează imaginea ca fundal desktop (mozaic)"
+msgstr "Stabilește dimensiunea imaginii la această valoare"
 
 #: extensions/file_tools/data/ui/resize-options.ui:515
-#, fuzzy
-#| msgid "<b>Original dimensions</b>"
 msgid "Original dimensions:"
-msgstr "<b>Dimensiunile originale</b>"
+msgstr "Dimensiunile originale:"
 
 #: extensions/file_tools/data/ui/resize-options.ui:530
-#, fuzzy
-#| msgid "_Scale:"
 msgid "Scale factor:"
-msgstr "_Scalează:"
+msgstr "Factor de scalare:"
 
 #: extensions/file_tools/data/ui/resize-options.ui:581
-#, fuzzy
-#| msgid "<b>New dimensions</b>"
 msgid "New dimensions:"
-msgstr "<b>Dimensiuni noi</b>"
+msgstr "Dimensiuni noi:"
 
 #: extensions/file_tools/data/ui/rotate-options.ui:77
 msgid "Grid:"
@@ -2557,10 +2346,8 @@ msgid "Point 2:"
 msgstr "Punct 2:"
 
 #: extensions/file_tools/data/ui/rotate-options.ui:447
-#, fuzzy
-#| msgid "_Keep aspect ratio"
 msgid "Keep aspect ratio"
-msgstr "_Păstrează proporția aspectului"
+msgstr "Păstrează proporția aspectului"
 
 #: extensions/file_tools/data/ui/rotate-options.ui:528
 msgid ""
@@ -2584,7 +2371,7 @@ msgstr "Aliniere"
 
 #: extensions/file_tools/data/ui/sharpen-options.ui:83
 msgid "Threshold:"
-msgstr ""
+msgstr "Prag:"
 
 #: extensions/file_tools/data/ui/sharpen-options.ui:133
 msgid "Radius:"
@@ -2634,18 +2421,14 @@ msgstr "Albastru"
 #: extensions/file_tools/gth-file-tool-rotate.c:604
 #: extensions/file_tools/gth-file-tool-sharpen.c:364
 #: gthumb/gth-test-aspect-ratio.c:218
-#, fuzzy
-#| msgid "_Reset"
 msgid "Reset"
-msgstr "_Resetează"
+msgstr "Restabilește"
 
 #: extensions/file_tools/gth-curve-preset-editor-dialog.c:267
 #: extensions/file_tools/gth-file-tool-curves.c:686
 #: extensions/file_tools/gth-file-tool-curves.c:847
-#, fuzzy
-#| msgid "_Reset"
 msgid "Presets"
-msgstr "_Resetează"
+msgstr "Prestabiliri"
 
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:340
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:393
@@ -2689,13 +2472,11 @@ msgstr "Întinde"
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:538
 #, no-c-format
 msgid "Stretch the histogram after trimming 0.5% from both ends"
-msgstr ""
+msgstr "Întinde histograma după ce se decupează 0.5% din ambele capete"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:542
-#, fuzzy
-#| msgid "_Equalize"
 msgid "Equalize"
-msgstr "_Egalizează"
+msgstr "Egalizează"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:543
 msgid "Equalize the histogram using the square root function"
@@ -2705,7 +2486,7 @@ msgstr "Egalizează histograma folosind funcția rădăcină pătrată"
 #: extensions/file_tools/gth-file-tool-crop.c:473
 #: extensions/file_tools/gth-file-tool-rotate.c:400
 msgid "Uniform"
-msgstr ""
+msgstr "Uniform"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:548
 msgid "Equalize the histogram using the linear function"
@@ -2822,19 +2603,15 @@ msgid "Add to Presets"
 msgstr "Adaugă la preconfigurări"
 
 #: extensions/file_tools/gth-file-tool-curves.c:411
-#, fuzzy
-#| msgid "Enter the new name: "
 msgid "Enter the preset name:"
-msgstr "Introduceți noul nume: "
+msgstr "Introduceți numele prestabilirii:"
 
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1631
 #: gthumb/gth-browser.c:1864
-#, fuzzy
-#| msgid "Could not move the image:"
 msgid "Could not save the file"
-msgstr "Nu pot muta imaginea:"
+msgstr "Nu s-a putut salva fișierul"
 
 #: extensions/file_tools/gth-file-tool-curves.c:833
 msgid "Add to presets"
@@ -2855,7 +2632,7 @@ msgstr "Efecte speciale"
 #. Translators: this is the name of a filter that produces warmer colors
 #: extensions/file_tools/gth-file-tool-effects.c:403
 msgid "Warmer"
-msgstr ""
+msgstr "Warmer"
 
 #. Translators: this is the name of a filter that produces cooler colors
 #: extensions/file_tools/gth-file-tool-effects.c:447
@@ -2895,7 +2672,7 @@ msgstr "Cherry"
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:784
 msgid "Vintage"
-msgstr ""
+msgstr "Vintage"
 
 #. Translators: this is the name of an image filter
 #: extensions/file_tools/gth-file-tool-effects.c:906
@@ -2905,7 +2682,7 @@ msgstr "Margini difuze"
 #. Translators: this is the name of an image filter that produces darker edges
 #: extensions/file_tools/gth-file-tool-effects.c:941
 msgid "Vignette"
-msgstr ""
+msgstr "Vignette"
 
 #: extensions/file_tools/gth-file-tool-flip.c:91
 msgid "Flip the image vertically"
@@ -2916,8 +2693,6 @@ msgid "_Brightness"
 msgstr "_Luminozitate"
 
 #: extensions/file_tools/gth-file-tool-grayscale.c:378
-#, fuzzy
-#| msgid "_Saturation:"
 msgid "_Saturation"
 msgstr "_Saturație"
 
@@ -2934,16 +2709,12 @@ msgid "Lomo"
 msgstr "Lomo"
 
 #: extensions/file_tools/gth-file-tool-mirror.c:91
-#, fuzzy
-#| msgid "Mirror image horizontally (left-right)"
 msgid "Mirror the image horizontally"
-msgstr "Oglindește imaginea orizontal (stânga-dreapta)"
+msgstr "Oglindește imaginea orizontal"
 
 #: extensions/file_tools/gth-file-tool-negative.c:101
-#, fuzzy
-#| msgid "_Negative"
 msgid "Negative"
-msgstr "_Negativ"
+msgstr "Negativ"
 
 #: extensions/file_tools/gth-file-tool-redo.c:77
 msgid "Redo"
@@ -2953,80 +2724,58 @@ msgstr "Repetă"
 #: extensions/file_tools/gth-file-tool-resize.c:185
 #: extensions/resize_images/dlg-resize-images.c:169
 #: gthumb/gth-filter-grid.c:573
-#, fuzzy
-#| msgid "Resize image"
 msgid "Resizing images"
-msgstr "Redimensionează imagine"
+msgstr "Se redimensionează imaginile"
 
 #: extensions/file_tools/gth-file-tool-rotate-left.c:90
 #: extensions/image_rotation/callbacks.c:53
 #: extensions/image_rotation/callbacks.c:163
-#, fuzzy
-#| msgid "Rotate _Left"
 msgid "Rotate Left"
-msgstr "Rotește _stânga"
+msgstr "Rotește la stânga"
 
 #: extensions/file_tools/gth-file-tool-rotate-left.c:91
-#, fuzzy
-#| msgid "Rotate image 90 degrees counter-clockwise"
 msgid "Rotate the image by 90 degrees counterclockwise"
-msgstr "Rotește imaginea 90 de grade in sens contrar acelor de ceasornic."
+msgstr "Rotește imaginea 90 de grade în sens contrar acelor de ceasornic."
 
 #: extensions/file_tools/gth-file-tool-rotate-right.c:90
 #: extensions/image_rotation/callbacks.c:54
 #: extensions/image_rotation/callbacks.c:171
-#, fuzzy
-#| msgid "Rotate Ri_ght"
 msgid "Rotate Right"
-msgstr "Rotește _dreapta"
+msgstr "Rotește la dreapta"
 
 #: extensions/file_tools/gth-file-tool-rotate-right.c:91
-#, fuzzy
-#| msgid "Rotate image 90 degrees clockwise"
 msgid "Rotate the image by 90 degrees clockwise"
 msgstr "Rotește imaginea 90 de grade în sensul acelor de ceasornic"
 
 #: extensions/file_tools/gth-file-tool-rotate.c:682
-#, fuzzy
-#| msgid "Rotate _Left"
 msgid "Rotate"
-msgstr "Rotește _stânga"
+msgstr "Rotește"
 
 #: extensions/file_tools/gth-file-tool-save-as.c:70
 #: gthumb/resources/gears-menu.ui:21
-#, fuzzy
-#| msgid "Save _As..."
 msgid "Save As…"
-msgstr "Salvează C_a..."
+msgstr "Salvează ca…"
 
 #: extensions/file_tools/gth-file-tool-save.c:66
 #: gthumb/resources/gears-menu.ui:17
-#, fuzzy
-#| msgid "_Save"
 msgid "Save"
-msgstr "_Salvează"
+msgstr "Salvează"
 
 #: extensions/file_tools/gth-file-tool-sharpen.c:334
-#, fuzzy
-#| msgid "Saving images"
 msgid "Sharpening image"
-msgstr "Salvând imaginile"
+msgstr "Se ascute imaginea"
 
 #: extensions/file_tools/gth-file-tool-sharpen.c:435
-#, fuzzy
-#| msgid "_Enhance"
 msgid "Enhance Focus"
-msgstr "În_bunătățește"
+msgstr "Îmbunătățește focalizarea"
 
 #: extensions/file_tools/gth-file-tool-undo.c:77
 msgid "Undo"
 msgstr "Anulează"
 
 #: extensions/find_duplicates/callbacks.c:37
-#, fuzzy
-#| msgid "Found duplicates:"
 msgid "Find _Duplicates…"
-msgstr "Găsit duplicate:"
+msgstr "Găsește _dublete…"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-choose-folders.ui:26
 msgid "_Folders:"
@@ -3037,17 +2786,13 @@ msgid "Duplicates:"
 msgstr "Dublete:"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:291
-#, fuzzy
-#| msgid "_File"
 msgid "Files:"
-msgstr "_Fișier"
+msgstr "Fișier:"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:366
 #: gthumb/gth-main-default-metadata.c:32
-#, fuzzy
-#| msgid "_File"
 msgid "File"
-msgstr "_Fișier"
+msgstr "Fișier"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:381
 msgid "Last modified"
@@ -3063,10 +2808,8 @@ msgid "_Delete"
 msgstr "Ș_terge"
 
 #: extensions/find_duplicates/data/ui/find-duplicates-dialog.ui:544
-#, fuzzy
-#| msgid "No images found"
 msgid "No duplicates found."
-msgstr "Nici o imagine găsită"
+msgstr "Niciun dublet găsit."
 
 #: extensions/find_duplicates/data/ui/find-duplicates.ui:32
 #: extensions/rename_series/data/ui/rename-series.ui:27
@@ -3075,18 +2818,14 @@ msgid "Start _at:"
 msgstr "Incepe l_a:"
 
 #: extensions/find_duplicates/data/ui/find-duplicates.ui:94
-#, fuzzy
-#| msgid "_Filter"
 msgid "_Filter:"
-msgstr "_Filtru"
+msgstr "_Filtru:"
 
 #: extensions/find_duplicates/dlg-find-duplicates.c:98
 #: extensions/find_duplicates/find_duplicates.extension.desktop.in.in:3
 #: extensions/find_duplicates/gth-find-duplicates.c:1350
-#, fuzzy
-#| msgid "Found duplicates:"
 msgid "Find Duplicates"
-msgstr "Găsit duplicate:"
+msgstr "Găsește dublete"
 
 #: extensions/find_duplicates/dlg-find-duplicates.c:106
 #: extensions/search/actions.c:80
@@ -3094,22 +2833,16 @@ msgid "_Find"
 msgstr "_Căutare"
 
 #: extensions/find_duplicates/find_duplicates.extension.desktop.in.in:4
-#, fuzzy
-#| msgid "Found duplicates:"
 msgid "Find duplicated files."
-msgstr "Găsit duplicate:"
+msgstr "Găsește fișierele dublet."
 
 #: extensions/find_duplicates/gth-find-duplicates.c:65
-#, fuzzy
-#| msgid "_Save the new image as:"
 msgid "leave the newest duplicates"
-msgstr "_Salvează imaginea nouă ca:"
+msgstr "păstrează cele mai noi dublete"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:66
-#, fuzzy
-#| msgid "Search for Duplicates"
 msgid "leave the oldest duplicates"
-msgstr "Caută duplicate"
+msgstr "păstrează cele mai vechi dublete"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:67
 msgid "by folder…"
@@ -3120,10 +2853,8 @@ msgid "all files"
 msgstr "toate fișierele"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:69
-#, fuzzy
-#| msgid "Inde_x file:"
 msgid "no file"
-msgstr "Fișier inde_x:"
+msgstr "niciun fișier"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:519
 #: extensions/find_duplicates/gth-find-duplicates.c:650
@@ -3135,16 +2866,12 @@ msgstr[1] "%d dublete"
 msgstr[2] "%d de dublete"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:557
-#, fuzzy
-#| msgid "Search for Duplicates"
 msgid "Search completed"
-msgstr "Caută duplicate"
+msgstr "Căutare completă"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:741
-#, fuzzy
-#| msgid "Search for Duplicates"
 msgid "Searching for duplicates"
-msgstr "Caută duplicate"
+msgstr "Se caută dublete"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:744
 #: gthumb/gth-load-file-data-task.c:109 gthumb/gth-save-file-data-task.c:103
@@ -3156,20 +2883,16 @@ msgstr[1] "%d fișiere rămase"
 msgstr[2] "%d de fișiere rămase"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:890
-#, fuzzy
-#| msgid "Getting folder listing..."
 msgid "Getting the file list"
-msgstr "Obținând listare dosar..."
+msgstr "Se obține lista de fișiere"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:1067
 msgid "Duplicates"
 msgstr "Duplicate"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:1373
-#, fuzzy
-#| msgid "_Select"
 msgid "Select"
-msgstr "_Selectează"
+msgstr "Selectează"
 
 #: extensions/flicker/flicker.extension.desktop.in.in:3
 msgid "Flicker"
@@ -3192,10 +2915,8 @@ msgid "Private photos"
 msgstr "Fotografii private"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:73
-#, fuzzy
-#| msgid "Image comment"
 msgid "Safe content"
-msgstr "Comentariu imagine"
+msgstr "Conținut sigur"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:77
 msgid "Moderate content"
@@ -3229,10 +2950,8 @@ msgstr "Ascun_de de căutări publice"
 
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
 #: extensions/webalbums/gth-web-exporter.c:1826
-#, fuzzy
-#| msgid "Open in New Window"
 msgid "_Open in the Browser"
-msgstr "Deschide în fereastră noua"
+msgstr "Deschide în navigat_or"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
 #: gthumb/gth-file-selection-info.c:143
@@ -3252,10 +2971,8 @@ msgstr "Nu s-a putut obține lista de fotografii"
 #: extensions/flicker_utils/dlg-import-from-flickr.c:561
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:313
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:598
-#, fuzzy
-#| msgid "No camera detected"
 msgid "No album selected"
-msgstr "Nicio cameră detectată"
+msgstr "Niciun album selectat"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:521
 #: extensions/photo_importer/dlg-photo-importer.c:584
@@ -3275,7 +2992,7 @@ msgstr "Importă de la %s"
 #: extensions/flicker_utils/flickr-service.c:919
 #: extensions/oauth/oauth-service.c:154
 msgid "Unknown error"
-msgstr ""
+msgstr "Eroare necunoscută"
 
 #: extensions/flicker_utils/flickr-service.c:491
 #, c-format
@@ -3325,16 +3042,12 @@ msgstr "Captură de ecran"
 
 #: extensions/gstreamer_tools/actions.c:137
 #: extensions/gstreamer_tools/actions.c:148
-#, fuzzy
-#| msgid "Could not import photos"
 msgid "Could not take a screenshot"
-msgstr "Nu pot importa fotografiile"
+msgstr "Nu s-a putut efectua o captură de ecran"
 
 #: extensions/gstreamer_tools/callbacks.c:32
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot"
-msgstr "Capturi de ecran"
+msgstr "Captură de ecran"
 
 #: extensions/gstreamer_tools/callbacks.c:33
 msgid "Play/Pause"
@@ -3342,13 +3055,11 @@ msgstr "Redă/Suspendă"
 
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:13
 msgid "Use hardware acceleration"
-msgstr ""
+msgstr "Utilizează accelerare hardware"
 
 #: extensions/gstreamer_tools/data/ui/media-viewer-preferences.ui:35
-#, fuzzy
-#| msgid "Screenshots"
 msgid "_Screenshots location:"
-msgstr "Capturi de ecran"
+msgstr "_Locația capturilor de ecran:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:30
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:621
@@ -3365,14 +3076,12 @@ msgid "Faster"
 msgstr "Mai rapid"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:95
-#, fuzzy
-#| msgid "Resta_rt when finished"
 msgid "Restart when finished"
-msgstr "Repo_rnește la sfârșit"
+msgstr "Repornește la final"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:131
 msgid "Time:"
-msgstr ""
+msgstr "Timp:"
 
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:194
 msgid "--∶--"
@@ -3388,7 +3097,7 @@ msgstr "Redă fișiere audio și video."
 
 #: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:8
 msgid "video-x-generic"
-msgstr ""
+msgstr "video-x-generic"
 
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:594
 msgid "Playing video"
@@ -3414,7 +3123,7 @@ msgstr "Player audio/video"
 
 #: extensions/gstreamer_tools/main.c:39 gthumb/gth-main-default-tests.c:314
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: extensions/gstreamer_tools/main.c:40 gthumb/gth-main-default-tests.c:321
 msgid "Audio"
@@ -3482,9 +3191,8 @@ msgid "%d × %d"
 msgstr "%d × %d"
 
 #: extensions/image_print/actions.c:69
-#, fuzzy
 msgid "Could not print the selected files"
-msgstr "Nu pot șterge dosarul \"%s\": %s"
+msgstr "Nu s-au putut tipări fișierele selectate"
 
 #: extensions/image_print/callbacks.c:38 extensions/image_print/callbacks.c:53
 #: extensions/image_print/callbacks.c:59
@@ -3514,41 +3222,32 @@ msgid "Image"
 msgstr "Imagine"
 
 #: extensions/image_print/data/ui/print-layout.ui:630
-#, fuzzy
 msgid "Position:"
-msgstr "<b>Direcție</b>"
+msgstr "Poziție:"
 
 #: extensions/image_print/data/ui/print-layout.ui:646
-#, fuzzy
-#| msgid "_Left:"
 msgid "Left"
-msgstr "S_tânga:"
+msgstr "Stânga"
 
 #: extensions/image_print/data/ui/print-layout.ui:662
 msgid "Top"
 msgstr "Sus"
 
 #: extensions/image_print/data/ui/print-layout.ui:811
-#, fuzzy
-#| msgid "Location"
 msgid "Rotation:"
-msgstr "Locație"
+msgstr "Rotire:"
 
 #: extensions/image_print/data/ui/print-layout.ui:870
 msgid "Unit:"
 msgstr "Unitate:"
 
 #: extensions/image_print/data/ui/print-layout.ui:924
-#, fuzzy
-#| msgid "_Preview"
 msgid "Preview"
-msgstr "_Previzualizare"
+msgstr "Previzualizează"
 
 #: extensions/image_print/data/ui/print-layout.ui:1125
-#, fuzzy
-#| msgid "Millimeters"
 msgid "millimeters"
-msgstr "Milimetri"
+msgstr "milimetri"
 
 #: extensions/image_print/data/ui/print-layout.ui:1128
 msgid "inches"
@@ -3559,22 +3258,16 @@ msgid "Fonts"
 msgstr "Fonturi"
 
 #: extensions/image_print/data/ui/print-preferences.ui:87
-#, fuzzy
-#| msgid "Select a font"
 msgid "Select Caption Font"
-msgstr "Selectați un font"
+msgstr "Selectează fontul indiciului"
 
 #: extensions/image_print/data/ui/print-preferences.ui:104
-#, fuzzy
-#| msgid "Select a font"
 msgid "Select Header Font"
-msgstr "Selectați un font"
+msgstr "Selectează fontul antetului"
 
 #: extensions/image_print/data/ui/print-preferences.ui:121
-#, fuzzy
-#| msgid "Select a font"
 msgid "Select Footer Font"
-msgstr "Selectați un font"
+msgstr "Selectează fontul subsolului"
 
 #: extensions/image_print/gth-image-print-job.c:915
 #: extensions/webalbums/data/albumthemes/text.h:31
@@ -3600,10 +3293,9 @@ msgstr "Niciun încărcător potrivit disponibil pentru acest tip de fișiere"
 
 #. translators: %s is a filename
 #: extensions/image_print/gth-load-image-info-task.c:168
-#, fuzzy, c-format
-#| msgid "Loading image: %s"
+#, c-format
 msgid "Loading “%s”"
-msgstr "Încărcând imaginea: %s"
+msgstr "Se încarcă „%s”"
 
 #: extensions/image_print/gth-load-image-info-task.c:170
 #: extensions/webalbums/gth-web-exporter.c:2714
@@ -3623,15 +3315,12 @@ msgid "document-print"
 msgstr "tipărește-document"
 
 #: extensions/image_rotation/callbacks.c:59
-#, fuzzy
 msgid "Rotate Physically"
-msgstr "Rotește imaginile fizic"
+msgstr "Rotește fizic"
 
 #: extensions/image_rotation/callbacks.c:60
-#, fuzzy
-#| msgid "Reset _Exif Orientation"
 msgid "Reset the EXIF Orientation"
-msgstr "Resetează orientarea _exif"
+msgstr "Restabilește orientarea EXIF"
 
 #: extensions/image_rotation/gth-reset-orientation-task.c:114
 #: extensions/image_rotation/gth-transform-task.c:146
@@ -3645,10 +3334,8 @@ msgid "Image rotation"
 msgstr "Rotație imagine"
 
 #: extensions/image_rotation/image_rotation.extension.desktop.in.in:4
-#, fuzzy
-#| msgid "Rotate images without loss of quality"
 msgid "Rotate images without data loss."
-msgstr "Rotește imaginile fără pierdere de calitate"
+msgstr "Rotește imaginile fără pierderi de date."
 
 #: extensions/image_rotation/rotation-utils.c:105
 #, c-format
@@ -3736,10 +3423,8 @@ msgid "Undo edit"
 msgstr "Anulează editarea"
 
 #: extensions/image_viewer/callbacks.c:46
-#, fuzzy
-#| msgid "Redo"
 msgid "Redo edit"
-msgstr "Repetă"
+msgstr "Refă editarea"
 
 #: extensions/image_viewer/callbacks.c:48
 msgid "Scroll left"
@@ -3783,10 +3468,8 @@ msgstr "După încărcarea unei imagini:"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:49
 #: extensions/image_viewer/gth-image-viewer-page.c:1138
-#, fuzzy
-#| msgid "Set image to actual size"
 msgid "Set to actual size"
-msgstr "Setează imaginea la dimensiunea reală"
+msgstr "Stabilește la dimensiunea actuală"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:50
 msgid "Keep previous zoom"
@@ -3807,10 +3490,8 @@ msgid "Fit to width if larger"
 msgstr "Potrivește cu lățimea dacă este mai mare"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:72
-#, fuzzy
-#| msgid "Reset scrollbar positions after loading an image"
 msgid "Reset scrollbar positions"
-msgstr "Resetează pozițiile scrollbar-ului dupa ce ai incărcat o imagine"
+msgstr "Restabilește pozițiile barei de derulare"
 
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:109
 msgid "Mouse wheel action:"
@@ -3897,10 +3578,8 @@ msgid "Copy Image"
 msgstr "Copiază imaginea"
 
 #: extensions/image_viewer/gth-image-viewer-page.c:84
-#, fuzzy
-#| msgid "Save Image"
 msgid "Paste Image"
-msgstr "Salvează imagine"
+msgstr "Lipește imagine"
 
 #: extensions/image_viewer/gth-image-viewer-page.c:1173
 msgid "Apply the embedded color profile"
@@ -3919,16 +3598,12 @@ msgid "Save Image"
 msgstr "Salvează imagine"
 
 #: extensions/image_viewer/gth-image-viewer-page.c:2519
-#, fuzzy
-#| msgid "Copying original images"
 msgid "Loading the original image"
-msgstr "Copiind imaginile originile"
+msgstr "Se încarcă imaginea originală"
 
 #: extensions/image_viewer/main.c:36
-#, fuzzy
-#| msgid "Scale Image"
 msgid "Scroll Image"
-msgstr "Scalează imaginea"
+msgstr "Derulează imaginea"
 
 #: extensions/image_viewer/main.c:37
 msgid "Image Editor"
@@ -3976,10 +3651,8 @@ msgid "The seconds"
 msgstr "Secundele"
 
 #: extensions/importer/gth-import-destination-button.c:115
-#, fuzzy
-#| msgid "_Destination:"
 msgid "Invalid Destination"
-msgstr "_Destinație:"
+msgstr "Destinație nevalidă"
 
 #: extensions/importer/gth-import-preferences-dialog.c:199
 #, c-format
@@ -3988,24 +3661,22 @@ msgstr "exemplu: %s"
 
 #. subfolder type
 #: extensions/importer/gth-import-preferences-dialog.c:324
-#, fuzzy
-#| msgid "File _name"
 msgid "File date"
-msgstr "_Nume fișier"
+msgstr "Data fișierului"
 
 #. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
 #. subfolder format
 #: extensions/importer/gth-import-preferences-dialog.c:334
 msgid "year-month-day"
-msgstr ""
+msgstr "an-lună-zi"
 
 #: extensions/importer/gth-import-preferences-dialog.c:335
 msgid "year-month"
-msgstr ""
+msgstr "an-lună"
 
 #: extensions/importer/gth-import-preferences-dialog.c:336
 msgid "year"
-msgstr ""
+msgstr "an"
 
 #: extensions/importer/gth-import-preferences-dialog.c:337
 msgid "custom format"
@@ -4023,23 +3694,19 @@ msgstr "Nu s-a importat niciun fișier"
 
 #: extensions/importer/gth-import-task.c:628
 msgid "The selected files are already present in the destination."
-msgstr ""
+msgstr "Fișierele selectate sunt deja prezente la destinație."
 
 #: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:692
 msgid "Could not delete the files"
 msgstr "Nu s-au putut șterge fișierele"
 
 #: extensions/importer/gth-import-task.c:652
-#, fuzzy
-#| msgid "Image type not supported: %s"
 msgid "Delete operation not supported."
-msgstr "Tip de imagine nesuportat: %s"
+msgstr "Operațiunea de ștergere nu este suportată."
 
 #: extensions/importer/gth-import-task.c:739
-#, fuzzy
-#| msgid "Last modified"
 msgid "Last imported"
-msgstr "Ultima dată modificată"
+msgstr "Ultima importată"
 
 #: extensions/importer/gth-import-task.c:843
 msgid "No file specified."
@@ -4066,7 +3733,7 @@ msgstr "Co_menzi:"
 
 #: extensions/list_tools/data/ui/script-editor.ui:47
 msgid "_Wait for the command to finish"
-msgstr ""
+msgstr "_Așteaptă până comanda se finalizează"
 
 #: extensions/list_tools/data/ui/script-editor.ui:65
 msgid "E_xecute command once for every file"
@@ -4157,9 +3824,8 @@ msgid "Personalize…"
 msgstr "Personalizează…"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:250
-#, fuzzy
 msgid "Script"
-msgstr "Sortare"
+msgstr "Script"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:264
 #: gthumb/dlg-preferences-shortcuts.c:229 gthumb/gth-accel-button.c:256
@@ -4172,16 +3838,12 @@ msgid "Show"
 msgstr "Arată"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:368
-#, fuzzy
-#| msgid "Could not move the items:"
 msgid "Could not save the script"
-msgstr "Nu pot muta elementele:"
+msgstr "Nu s-a putut salva scriptul"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:448
-#, fuzzy
-#| msgid "Command Line"
 msgid "New Command"
-msgstr "Linie de comandă"
+msgstr "Comandă nouă"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:475
 msgid "Edit Command"
@@ -4259,7 +3921,7 @@ msgstr "Hartă"
 
 #: extensions/map_view/map_view.extension.desktop.in.in:4
 msgid "View the photo position on the map"
-msgstr ""
+msgstr "Vizualizează poziția fotografiei pe hartă"
 
 #: extensions/oauth/data/ui/oauth-account-manager.ui:23
 msgid "A_ccounts:"
@@ -4271,10 +3933,8 @@ msgid "Loading…"
 msgstr "Se încarcă…"
 
 #: extensions/oauth/oauth-account-chooser-dialog.c:192
-#, fuzzy
-#| msgid "_View the destination"
 msgid "New authentication…"
-msgstr "_Vezi destinația"
+msgstr "Autentificare nouă…"
 
 #: extensions/oauth/oauth-ask-authorization-dialog.c:240
 msgid "Authorization Required"
@@ -4301,10 +3961,8 @@ msgid "Asking authorization"
 msgstr "Se cere autorizare"
 
 #: extensions/oauth/web-service.c:810
-#, fuzzy
-#| msgid "General Information"
 msgid "Getting account information"
-msgstr "Informații generale"
+msgstr "Se obțin informațiile contului"
 
 #: extensions/photo_importer/actions.c:71
 #: extensions/photo_importer/dlg-photo-importer.c:628
@@ -4332,16 +3990,13 @@ msgid "After importing from a device:"
 msgstr "După importarea de pe un dispozitiv:"
 
 #: extensions/photo_importer/data/ui/photo-importer-options.ui:42
-#, fuzzy
 msgid "_Rotate the images physically"
-msgstr "Rotește imaginile fizic"
+msgstr "_Rotește imaginile fizic"
 
 #: extensions/photo_importer/data/ui/photo-importer-options.ui:59
 #: extensions/photo_importer/data/ui/photo-importer.ui:273
-#, fuzzy
-#| msgid "_Delete imported images from the camera"
 msgid "_Delete the imported files from the source"
-msgstr "Șterge _de pe cameră imaginile importate"
+msgstr "Ș_terge fișierele importate din sursă"
 
 #. view label
 #: extensions/photo_importer/data/ui/photo-importer.ui:54
@@ -4350,10 +4005,8 @@ msgid "S_how:"
 msgstr "_Arată:"
 
 #: extensions/photo_importer/data/ui/photo-importer.ui:185
-#, fuzzy
-#| msgid "Co_mment:"
 msgid "_Event:"
-msgstr "Co_mentariu:"
+msgstr "_Eveniment:"
 
 #: extensions/photo_importer/data/ui/photo-importer.ui:245
 msgid "_Tags:"
@@ -4381,10 +4034,8 @@ msgid "(Empty)"
 msgstr "(Gol)"
 
 #: extensions/photo_importer/dlg-photo-importer.c:361
-#, fuzzy
-#| msgid "Getting folder listing..."
 msgid "Getting the folder content…"
-msgstr "Obținând listare dosar..."
+msgstr "Se obține conținutul dosarului..."
 
 #: extensions/photo_importer/dlg-photo-importer.c:407
 msgid "Empty"
@@ -4411,10 +4062,8 @@ msgid "camera-photo"
 msgstr "cameră-foto"
 
 #: extensions/picasaweb/callbacks.c:50 extensions/picasaweb/callbacks.c:56
-#, fuzzy
-#| msgid "Web Album"
 msgid "_Picasa Web Album…"
-msgstr "Album web"
+msgstr "Album web _Picasa…"
 
 #: extensions/picasaweb/data/ui/export-to-picasaweb.ui:233
 msgid "_Albums:"
@@ -4427,7 +4076,7 @@ msgstr "Nume"
 
 #: extensions/picasaweb/data/ui/export-to-picasaweb.ui:275
 msgid "Used"
-msgstr ""
+msgstr "Utilizat"
 
 #: extensions/picasaweb/data/ui/export-to-picasaweb.ui:286
 msgid "Remaining photos"
@@ -4451,14 +4100,12 @@ msgid "Import from Picasa Web Album"
 msgstr "Importă din album web Picasa"
 
 #: extensions/picasaweb/picasaweb.extension.desktop.in.in:3
-#, fuzzy
-#| msgid "Web Album"
 msgid "Picasa Web Albums"
-msgstr "Album web"
+msgstr "Albume web Picasa"
 
 #: extensions/picasaweb/picasaweb.extension.desktop.in.in:4
 msgid "Upload images to Picasa Web Albums"
-msgstr ""
+msgstr "Încarcă imagini la Albume web Picasa"
 
 #: extensions/raw_files/gth-metadata-provider-raw.c:90
 msgid "RAW Format"
@@ -4473,8 +4120,6 @@ msgid "Allow to load raw format images."
 msgstr "Permite încărcarea imaginilor în format brut."
 
 #: extensions/red_eye_removal/gth-file-tool-red-eye.c:471
-#, fuzzy
-#| msgid "Red-Eye Removal"
 msgid "Red Eye Removal"
 msgstr "Eliminare ochi roșii"
 
@@ -4483,14 +4128,12 @@ msgid "Remove the red eye effect caused by camera flashes"
 msgstr "Elimină efectul ochilor roșii cauzat de blițul camerei"
 
 #: extensions/red_eye_removal/red_eye_removal.extension.desktop.in.in:3
-#, fuzzy
-#| msgid "Red-Eye Removal"
 msgid "Red-eye removal"
 msgstr "Eliminare ochi roșii"
 
 #: extensions/red_eye_removal/red_eye_removal.extension.desktop.in.in:4
 msgid "Tool to remove the red-eye effect from a photo."
-msgstr ""
+msgstr "Unealtă pentru eliminarea efectului de ochi-roșii dintr-o fotografie."
 
 #: extensions/rename_series/data/ui/code-selector.ui:105
 msgid "digits"
@@ -4571,36 +4214,28 @@ msgid "_Template:"
 msgstr "Șa_blon:"
 
 #: extensions/rename_series/data/ui/rename-series.ui:514
-#, fuzzy
-#| msgid "_Preview"
 msgid "_Preview:"
-msgstr "_Previzualizare"
+msgstr "_Previzualizare:"
 
 #: extensions/rename_series/dlg-rename-series.c:58
 msgid "Enumerator"
 msgstr "Enumerator"
 
 #: extensions/rename_series/dlg-rename-series.c:59
-#, fuzzy
-#| msgid "_Keep original filenames"
 msgid "Original filename"
-msgstr "_Păstrează numele originale ale fișierelor"
+msgstr "Numele original"
 
 #: extensions/rename_series/dlg-rename-series.c:60
-#, fuzzy
-#| msgid "<b>Original dimensions</b>"
 msgid "Original extension"
-msgstr "<b>Dimensiunile originale</b>"
+msgstr "Extensia originală"
 
 #: extensions/rename_series/dlg-rename-series.c:61
 msgid "Original enumerator"
 msgstr "Enumerator original"
 
 #: extensions/rename_series/dlg-rename-series.c:62
-#, fuzzy
-#| msgid "by Modification _Time"
 msgid "Modification date"
-msgstr "după _timp modificare"
+msgstr "Data modificării"
 
 #: extensions/rename_series/dlg-rename-series.c:63
 msgid "Digitalization date"
@@ -4612,16 +4247,12 @@ msgstr "Atribut de fișier"
 
 #: extensions/rename_series/dlg-rename-series.c:558
 #: extensions/rename_series/dlg-rename-series.c:685
-#, fuzzy
-#| msgid "Could not rename the image:"
 msgid "Could not rename the files"
-msgstr "Nu pot redenumi imaginea:"
+msgstr "Nu s-au putut redenumi fișierele"
 
 #: extensions/rename_series/dlg-rename-series.c:782
-#, fuzzy
-#| msgid "Could not move the image:"
 msgid "Could not save the template"
-msgstr "Nu pot muta imaginea:"
+msgstr "Nu s-a putut salva șablonul"
 
 #: extensions/rename_series/dlg-rename-series.c:800
 msgid "Edit Template"
@@ -4641,10 +4272,8 @@ msgid "New Name"
 msgstr "Nume nou"
 
 #: extensions/rename_series/dlg-rename-series.c:966
-#, fuzzy
-#| msgid "_Keep original filenames"
 msgid "Keep original case"
-msgstr "_Păstrează numele originale ale fișierelor"
+msgstr "Păstrează ortografia originală"
 
 #: extensions/rename_series/dlg-rename-series.c:967
 msgid "Convert to lower-case"
@@ -4655,50 +4284,36 @@ msgid "Convert to upper-case"
 msgstr "Convertește în majuscule"
 
 #: extensions/rename_series/gth-rename-task.c:170
-#, fuzzy
-#| msgid "Rename"
 msgid "Renaming files"
-msgstr "Redenumește"
+msgstr "Se redenumesc fișiere"
 
 #: extensions/rename_series/rename_series.extension.desktop.in.in:3
-#, fuzzy
-#| msgid "Rename"
 msgid "Rename files"
-msgstr "Redenumește"
+msgstr "Redenumește fișiere"
 
 #: extensions/rename_series/rename_series.extension.desktop.in.in:4
-#, fuzzy
-#| msgid "Rename selected images"
 msgid "Rename series of files."
-msgstr "Redenumește imaginea selectată"
+msgstr "Redenumește serii de fișiere"
 
 #: extensions/resize_images/callbacks.c:38
-#, fuzzy
-#| msgid "Resize image"
 msgid "Resize Images…"
-msgstr "Redimensionează imagine"
+msgstr "Redimensionează imaginile…"
 
 #: extensions/resize_images/data/ui/resize-images.ui:29
-#, fuzzy
-#| msgid "pixels"
 msgid "pixel"
-msgstr "pixeli"
+msgstr "pixel"
 
 #: extensions/resize_images/data/ui/resize-images.ui:68
-#, fuzzy
-#| msgid "<b>New dimensions</b>"
 msgid "New dimensions"
-msgstr "<b>Dimensiuni noi</b>"
+msgstr "Dimensiuni noi"
 
 #: extensions/resize_images/data/ui/resize-images.ui:120
 msgid "_Height:"
 msgstr "Înă_lțime:"
 
 #: extensions/resize_images/data/ui/resize-images.ui:203
-#, fuzzy
-#| msgid "I_nvert aspect ratio"
 msgid "_Preserve original aspect ratios"
-msgstr "I_nversează proporțiile"
+msgstr "_Păstrează raportul de aspect original"
 
 #: extensions/resize_images/data/ui/resize-images.ui:324
 #: gthumb/gth-main-default-metadata.c:47 gthumb/gth-toolbox.c:148
@@ -4706,35 +4321,25 @@ msgid "Format"
 msgstr "Format"
 
 #: extensions/resize_images/dlg-resize-images.c:341
-#, fuzzy
-#| msgid "Resize image"
 msgid "Resize Images"
-msgstr "Redimensionează imagine"
+msgstr "Redimensionează imaginile"
 
 #: extensions/resize_images/dlg-resize-images.c:427
-#, fuzzy
-#| msgid "_Keep original filenames"
 msgid "Keep the original format"
-msgstr "_Păstrează numele originale ale fișierelor"
+msgstr "Păstrează formatul original"
 
 #: extensions/resize_images/resize_images.extension.desktop.in.in:3
-#, fuzzy
-#| msgid "Resize image"
 msgid "Resize images"
-msgstr "Redimensionează imagine"
+msgstr "Redimensionează imaginile"
 
 #: extensions/resize_images/resize_images.extension.desktop.in.in:4
-#, fuzzy
-#| msgid "Resize image"
 msgid "Resize series of images."
-msgstr "Redimensionează imagine"
+msgstr "Redimensionează serii de imagini."
 
 #: extensions/search/actions.c:50 extensions/search/actions.c:122
 #: extensions/search/actions.c:128
-#, fuzzy
-#| msgid "Could not rename the image:"
 msgid "Could not perform the search"
-msgstr "Nu pot redenumi imaginea:"
+msgstr "Nu s-a putut efectua căutarea"
 
 #: extensions/search/actions.c:55
 msgid "Search Result"
@@ -4745,16 +4350,12 @@ msgid "Find"
 msgstr "Caută"
 
 #: extensions/search/callbacks.c:44 extensions/search/callbacks.c:79
-#, fuzzy
-#| msgid "Inde_x file:"
 msgid "Find files"
-msgstr "Fișier inde_x:"
+msgstr "Găsește fișiere"
 
 #: extensions/search/callbacks.c:113
-#, fuzzy
-#| msgid "Searching in:"
 msgid "Search again"
-msgstr "Căutare în:"
+msgstr "Căutare din nou"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
 #: extensions/search/callbacks.c:197
@@ -4782,10 +4383,8 @@ msgid "Files found so far: %s"
 msgstr "Fișiere găsite până acum: %s"
 
 #: extensions/search/gth-search-task.c:333
-#, fuzzy
-#| msgid "Searching in:"
 msgid "Searching…"
-msgstr "Căutare în:"
+msgstr "Se caută…"
 
 #: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
@@ -4807,10 +4406,8 @@ msgstr "Adăugare la selecție"
 
 #: extensions/selections/callbacks.c:61 extensions/selections/callbacks.c:62
 #: extensions/selections/callbacks.c:63 extensions/selections/callbacks.c:72
-#, fuzzy
-#| msgid "Remo_ve from Catalog"
 msgid "Remove from selection"
-msgstr "Ș_terge din catalog"
+msgstr "Elimină din selecție"
 
 #: extensions/selections/callbacks.c:65 extensions/selections/callbacks.c:66
 #: extensions/selections/callbacks.c:67 extensions/selections/callbacks.c:73
@@ -4818,10 +4415,8 @@ msgid "Show selection"
 msgstr "Arată selecția"
 
 #: extensions/selections/callbacks.c:83
-#, fuzzy
-#| msgid "Remo_ve from Catalog"
 msgid "Remove from Selection"
-msgstr "Ș_terge din catalog"
+msgstr "Elimină din selecție"
 
 #: extensions/selections/callbacks.c:128
 #, c-format
@@ -4833,20 +4428,19 @@ msgstr "Arată selecția %d"
 msgid ""
 "Use Alt-%d to add files to this selection, Ctrl-%d to view this selection."
 msgstr ""
+"Utilizați Alt-%d pentru a adăuga fișierele la această selecție, Ctrl-%d "
+"pentru a vizualiza această selecție."
 
 #: extensions/selections/gth-selections-manager.c:228
-#, fuzzy, c-format
-#| msgid "<b>Selection</b>"
+#, c-format
 msgid "Selection %d"
-msgstr "<b>Selecție</b>"
+msgstr "Selecția %d"
 
 #: extensions/selections/gth-selections-manager.c:231
 #: extensions/selections/main.c:33
 #: extensions/selections/selections.extension.desktop.in.in:3
-#, fuzzy
-#| msgid "_Select"
 msgid "Selections"
-msgstr "_Selectează"
+msgstr "Selecții"
 
 #: extensions/selections/selections.extension.desktop.in.in:4
 msgid "Advanced file selection."
@@ -4881,20 +4475,16 @@ msgstr "Arată anteriorul fișier"
 #: extensions/slideshow/main.c:286 extensions/slideshow/preferences.c:142
 #: extensions/slideshow/slideshow.extension.desktop.in.in:3
 #: gthumb/gth-shortcuts-window.c:41
-#, fuzzy
-#| msgid "_Destination:"
 msgid "Presentation"
-msgstr "_Destinație:"
+msgstr "Prezentare"
 
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:46
-#, fuzzy
-#| msgid "<b>Personalize theme</b>"
 msgid "_Personalize"
-msgstr "<b>Personalizează temă</b>"
+msgstr "_Personalizează"
 
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:100
 msgid "_Transition effect:"
-msgstr ""
+msgstr "Efect de _tranziție:"
 
 #. This is the first part of the phrase "change automatically, every x seconds", where x is an input control that let the user choose a value.
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:126
@@ -4907,16 +4497,12 @@ msgid "seconds"
 msgstr "secunde"
 
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:186
-#, fuzzy
-#| msgid "Resta_rt when finished"
 msgid "_Restart when finished"
-msgstr "Repo_rnește la sfârșit"
+msgstr "_Repornește la final"
 
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:201
-#, fuzzy
-#| msgid "manual order"
 msgid "R_andom order"
-msgstr "ordine manuală"
+msgstr "Ordine _aleatoare"
 
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:237
 msgid "Playlist"
@@ -4927,10 +4513,8 @@ msgid "Add files to the playlist"
 msgstr "Adaugă fișiere în lista de redare"
 
 #: extensions/slideshow/data/ui/slideshow-preferences.ui:334
-#, fuzzy
-#| msgid "Open the selected folder"
 msgid "Remove the selected files"
-msgstr "Deschide dosarul selectat"
+msgstr "Elimină fișierele selectate"
 
 #: extensions/slideshow/gth-slideshow-preferences.c:185
 msgid "Choose the files to play"
@@ -4986,7 +4570,7 @@ msgstr "Redă o prezentare de imagini."
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:8
 msgid "x-office-presentation"
-msgstr ""
+msgstr "x-office-presentation"
 
 #: extensions/terminal/actions.c:53
 #: extensions/terminal/terminal.extension.desktop.in.in:3
@@ -4994,20 +4578,16 @@ msgid "Terminal"
 msgstr "Terminal"
 
 #: extensions/terminal/callbacks.c:40 extensions/terminal/callbacks.c:45
-#, fuzzy
-#| msgid "Open in New Window"
 msgid "Open in Terminal"
-msgstr "Deschide în fereastră noua"
+msgstr "Deschide în terminal"
 
 #: extensions/terminal/terminal.extension.desktop.in.in:4
-#, fuzzy
-#| msgid "Open the selected folder in a new window"
 msgid "Open a folder in a terminal"
-msgstr "Deschide dosarul selectat intr-o nouă fereastră"
+msgstr "Deschide dosarul într-un terminal"
 
 #: extensions/terminal/terminal.extension.desktop.in.in:8
 msgid "utilities-terminal"
-msgstr ""
+msgstr "utilitare-terminal"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -5073,10 +4653,8 @@ msgstr "_Adaptează la lățimea ferestrei "
 
 #: extensions/webalbums/data/ui/web-album-exporter.ui:794
 #: extensions/webalbums/data/ui/web-album-exporter.ui:869
-#, fuzzy
-#| msgid "Index Image Style"
 msgid "Index Page"
-msgstr "Stilul indexării imaginii"
+msgstr "Pagina Index"
 
 #: extensions/webalbums/data/ui/web-album-exporter.ui:844
 msgid "Thumbnail Caption"
@@ -5088,7 +4666,7 @@ msgstr "Numărul imaginii curente"
 
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1006
 msgid "The total number of images"
-msgstr ""
+msgstr "Numărul total de imagini"
 
 #: extensions/webalbums/data/ui/web-album-exporter.ui:1124
 msgid "The file comment"
@@ -5116,10 +4694,8 @@ msgid "Web Album"
 msgstr "Album web"
 
 #: extensions/webalbums/gth-web-exporter.c:1787
-#, fuzzy
-#| msgid "Choose the destination folder"
 msgid "Could not show the destination"
-msgstr "Alege dosarul destinație"
+msgstr "Nu s-a putut arăta destinația"
 
 #: extensions/webalbums/gth-web-exporter.c:1823
 msgid "The album has been created successfully."
@@ -5170,32 +4746,24 @@ msgid "Open"
 msgstr "Deschide"
 
 #: gthumb/dlg-personalize-filters.c:237
-#, fuzzy
-#| msgid "_Filter"
 msgid "Filter"
-msgstr "_Filtru"
+msgstr "Filtru"
 
 #: gthumb/dlg-personalize-filters.c:315
-#, fuzzy
-#| msgid "Could not move the items:"
 msgid "Could not save the filter"
-msgstr "Nu pot muta elementele:"
+msgstr "Nu s-a putut salva filtrul"
 
 #: gthumb/dlg-personalize-filters.c:358
-#, fuzzy
-#| msgid "New Folder"
 msgid "New Filter"
-msgstr "Dosar nou"
+msgstr "Filtru nou"
 
 #: gthumb/dlg-personalize-filters.c:387
 msgid "Edit Filter"
 msgstr "Editează filtru"
 
 #: gthumb/dlg-personalize-filters.c:519
-#, fuzzy
-#| msgid "_Filter"
 msgid "Filters"
-msgstr "_Filtru"
+msgstr "Filtre"
 
 #. add the page to the preferences dialog
 #: gthumb/dlg-preferences-browser.c:188 gthumb/dlg-preferences-extensions.c:65
@@ -5228,10 +4796,8 @@ msgid "Metadata"
 msgstr "Metadate"
 
 #: gthumb/dlg-preferences-extensions.c:68
-#, fuzzy
-#| msgid "File pa_th"
 msgid "File tools"
-msgstr "Cal_e fișier"
+msgstr "Unelte fișier"
 
 #: gthumb/dlg-preferences-extensions.c:69
 msgid "List tools"
@@ -5242,10 +4808,8 @@ msgid "Importers"
 msgstr "Importatori"
 
 #: gthumb/dlg-preferences-extensions.c:71
-#, fuzzy
-#| msgid "Exposure time"
 msgid "Exporters"
-msgstr "Timpul de expunere"
+msgstr "Exportori"
 
 #: gthumb/dlg-preferences-extensions.c:368
 msgid "Could not activate the extension"
@@ -5261,26 +4825,20 @@ msgstr "Echipa de dezvoltare gThumb"
 
 #. add the page to the preferences dialog
 #: gthumb/dlg-preferences-extensions.c:664
-#, fuzzy
-#| msgid "Dimensions"
 msgid "Extensions"
-msgstr "Dimensiuni"
+msgstr "Extensii"
 
 #: gthumb/dlg-preferences-extensions.c:713
-#, fuzzy
-#| msgid "Resta_rt when finished"
 msgid "Restart required"
-msgstr "Repo_rnește la sfârșit"
+msgstr "Este necesară o repornire"
 
 #: gthumb/dlg-preferences-extensions.c:714
 msgid "You need to restart gthumb for these changes to take effect"
-msgstr ""
+msgstr "Trebuie să reporniți gthumb pentru ca aceste modificări să aibă efect"
 
 #: gthumb/dlg-preferences-extensions.c:716
-#, fuzzy
-#| msgid "_Restore"
 msgid "_Restart"
-msgstr "_Refă"
+msgstr "_Repornește"
 
 #: gthumb/dlg-preferences-shortcuts.c:294
 #: gthumb/dlg-preferences-shortcuts.c:369 gthumb/resources/gears-menu.ui:25
@@ -5329,30 +4887,24 @@ msgid "Copying “%s” to “%s”"
 msgstr "Se copiază „%s” la „%s”"
 
 #: gthumb/gio-utils.c:1561
-#, fuzzy
-#| msgid "Moving file %ld of %ld"
 msgid "Moving files"
-msgstr "Mutând fișier %ld din %ld"
+msgstr "Se mută fișierele"
 
 #: gthumb/gio-utils.c:1561
 msgid "Copying files"
 msgstr "Se copiază fișierele"
 
 #: gthumb/gio-utils.c:1562 gthumb/gio-utils.c:1793 gthumb/gio-utils.c:1923
-#, fuzzy
-#| msgid "General Information"
 msgid "Getting file information"
-msgstr "Informații generale"
+msgstr "Se obțin informațiile fișierului"
 
 #: gthumb/gio-utils.c:1728
 msgid "Deleting files"
 msgstr "Ștergerea fișiereleor"
 
 #: gthumb/gio-utils.c:1869
-#, fuzzy
-#| msgid "Move to _Trash"
 msgid "Moving files to trash"
-msgstr "Mută în _coșul de gunoi"
+msgstr "Se mută fișierele la coșul de gunoi"
 
 #. hour:minutes:seconds
 #. Translators: This is a time format, like "9∶05∶02" for 9
@@ -5380,17 +4932,15 @@ msgstr "%d∶%02d"
 
 #: gthumb/gth-accel-dialog.c:121
 msgid "Press a combination of keys to use as shortcut."
-msgstr "Apăsați o combinație de tase pentru a o folosi ca scurtătură"
+msgstr "Apăsați o combinație de tase pentru a o folosi ca scurtătură."
 
 #: gthumb/gth-accel-dialog.c:122
 msgid "Press Esc to cancel"
 msgstr "Apăsați Esc pentru a anula"
 
 #: gthumb/gth-application.c:52
-#, fuzzy
-#| msgid "Open in New Window"
 msgid "Open a new window"
-msgstr "Deschide în fereastră noua"
+msgstr "Deschide o fereastră nouă"
 
 #: gthumb/gth-application.c:56
 msgid "Start in fullscreen mode"
@@ -5406,7 +4956,7 @@ msgstr "Importă automat fotografii din camere foto digitale"
 
 #: gthumb/gth-application.c:68
 msgid "Show version"
-msgstr "Arată versiunea:"
+msgstr "Arată versiunea"
 
 #: gthumb/gth-application.c:171
 msgid "— Image browser and viewer"
@@ -5441,6 +4991,8 @@ msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr ""
+"Ar trebui să fi primit o copie a licenței GNU GPL împreună cu gThumb.  Dacă "
+"nu, consultați http://www.gnu.org/licenses/."
 
 #: gthumb/gth-browser-actions-callbacks.c:127
 msgid "An image viewer and browser for GNOME."
@@ -5460,16 +5012,12 @@ msgstr ""
 "  Rus-Rebreanu Alin-Florin https://launchpad.net/~netblock"
 
 #: gthumb/gth-browser-actions-entries.h:93 gthumb/resources/gears-menu.ui:7
-#, fuzzy
-#| msgid "New _Window"
 msgid "New Window"
-msgstr "Fereastră _nouă"
+msgstr "Fereastră nouă"
 
 #: gthumb/gth-browser-actions-entries.h:95 gthumb/resources/gears-menu.ui:49
-#, fuzzy
-#| msgid "_Keyboard Shortcuts"
 msgid "Keyboard Shortcuts"
-msgstr "Combinații de _taste"
+msgstr "Combinații de taste"
 
 #: gthumb/gth-browser-actions-entries.h:96
 msgid "Quit"
@@ -5484,10 +5032,8 @@ msgid "Close window"
 msgstr "Închide fereastra"
 
 #: gthumb/gth-browser-actions-entries.h:102
-#, fuzzy
-#| msgid "Open Location"
 msgid "Open location"
-msgstr "Deschide locație"
+msgstr "Deschide locația"
 
 #: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4579
 #: gthumb/gth-browser.c:4597 gthumb/resources/file-list-menu.ui:7
@@ -5496,8 +5042,6 @@ msgid "Fullscreen"
 msgstr "Tot ecranul"
 
 #: gthumb/gth-browser-actions-entries.h:104
-#, fuzzy
-#| msgid "Revert to saved image"
 msgid "Revert image to saved"
 msgstr "Revino la imaginea salvată"
 
@@ -5514,34 +5058,24 @@ msgid "Thumbnails list"
 msgstr "Listă de miniaturi"
 
 #: gthumb/gth-browser-actions-entries.h:109
-#, fuzzy
-#| msgid "Go to the previous visited location"
 msgid "Load previous location"
-msgstr "Mergi la locația precedent vizitată"
+msgstr "Încarcă precedenta locație"
 
 #: gthumb/gth-browser-actions-entries.h:110
-#, fuzzy
-#| msgid "Reload the current location"
 msgid "Load next location"
-msgstr "Reîncarcă locația curentă"
+msgstr "Încarcă următoarea locație"
 
 #: gthumb/gth-browser-actions-entries.h:111
-#, fuzzy
-#| msgid "Copy current folder"
 msgid "Load parent folder"
-msgstr "Copiază dosarul curent"
+msgstr "Încarcă dosarul părinte"
 
 #: gthumb/gth-browser-actions-entries.h:112
-#, fuzzy
-#| msgid "Loading images"
 msgid "Load home"
-msgstr "Incărcând imagini"
+msgstr "Încarcă dosarul personal"
 
 #: gthumb/gth-browser-actions-entries.h:113
-#, fuzzy
-#| msgid "Reload the current location"
 msgid "Reload location"
-msgstr "Reîncarcă locația curentă"
+msgstr "Reîncarcă locația"
 
 #: gthumb/gth-browser-actions-entries.h:114
 msgid "Show/Hide hidden files"
@@ -5564,22 +5098,16 @@ msgid "Image tools"
 msgstr "Unelte pentru imagine"
 
 #: gthumb/gth-browser-actions-entries.h:123
-#, fuzzy
-#| msgid "View image properties"
 msgid "File properties"
-msgstr "Vezi proprietăți imagine"
+msgstr "Proprietăți fișier"
 
 #: gthumb/gth-browser-actions-entries.h:125
-#, fuzzy
-#| msgid "_Select All"
 msgid "Select all"
-msgstr "_Selecteaza toate"
+msgstr "Selectează toate"
 
 #: gthumb/gth-browser-actions-entries.h:126
-#, fuzzy
-#| msgid "Select a font"
 msgid "Select none"
-msgstr "Selectați un font"
+msgstr "Deselectează toate"
 
 #: gthumb/gth-browser.c:409
 msgid "[modified]"
@@ -5653,22 +5181,19 @@ msgid "Edit file"
 msgstr "Editează fișierul"
 
 #: gthumb/gth-browser.c:6617
-#, fuzzy, c-format
-#| msgid "Image type not supported: %s"
+#, c-format
 msgid "File type not supported"
-msgstr "Tip de imagine nesuportat: %s"
+msgstr "Tip de fișier nesuportat"
 
 #: gthumb/gth-browser.c:6660
-#, fuzzy, c-format
-#| msgid "No images found"
+#, c-format
 msgid "No suitable module found"
-msgstr "Nici o imagine găsită"
+msgstr "Niciun modul adecvat"
 
 #: gthumb/gth-extensions.c:206
-#, fuzzy, c-format
-#| msgid "Could not move the folder \"%s\": %s"
+#, c-format
 msgid "Could not open the module “%s”: %s"
-msgstr "Nu pot muta dosarul \"%s\": %s"
+msgstr "Nu s-a putut deschide modulul „%s”: %s"
 
 #: gthumb/gth-extensions.c:759
 #, c-format
@@ -5757,10 +5282,8 @@ msgid "(Open Parent)"
 msgstr "(Deschide părintele)"
 
 #: gthumb/gth-folder-tree.c:1972
-#, fuzzy
-#| msgid "Enter the new name: "
 msgid "Enter the new name:"
-msgstr "Introduceți noul nume: "
+msgstr "Introduceți noul nume:"
 
 #: gthumb/gth-histogram-view.c:911
 msgid "Alpha"
@@ -5772,10 +5295,8 @@ msgid "RGB"
 msgstr "RGB"
 
 #: gthumb/gth-image-list-task.c:144
-#, fuzzy
-#| msgid "Could not rename the image:"
 msgid "Could not rename the file"
-msgstr "Nu pot redenumi imaginea:"
+msgstr "Nu s-a putut redenumi fișierul"
 
 #: gthumb/gth-image-saver.c:39
 msgid "No options available for this file type"
@@ -5787,10 +5308,8 @@ msgid "Could not find a suitable module to save the image as “%s”"
 msgstr "Nu s-a putut găsi un modul potrivit pentru a salva imaginea ca „%s”"
 
 #: gthumb/gth-load-file-data-task.c:111
-#, fuzzy
-#| msgid "General Information"
 msgid "Reading file information"
-msgstr "Informații generale"
+msgstr "Se citesc informațiile fișierului"
 
 #: gthumb/gth-location-chooser-dialog.c:194 gthumb/resources/gears-menu.ui:35
 msgid "Hidden Files"
@@ -5801,16 +5320,12 @@ msgid "Location"
 msgstr "Locație"
 
 #: gthumb/gth-location-chooser.c:572
-#, fuzzy
-#| msgid "Location"
 msgid "Locations"
-msgstr "Locație"
+msgstr "Locații"
 
 #: gthumb/gth-location-chooser.c:617
-#, fuzzy
-#| msgid "Other"
 msgid "Other…"
-msgstr "Altele"
+msgstr "Altele…"
 
 #: gthumb/gth-main-default-metadata.c:40 gthumb/gth-main-default-tests.c:351
 msgid "Size"
@@ -5822,10 +5337,8 @@ msgstr "Octeți"
 
 #. Translators: the file modified time.
 #: gthumb/gth-main-default-metadata.c:43
-#, fuzzy
-#| msgid "by Modification _Time"
 msgid "Modified Date & Time"
-msgstr "după _timp modificare"
+msgstr "Data și ora modificării"
 
 #: gthumb/gth-main-default-metadata.c:44
 msgid "Type"
@@ -5836,10 +5349,8 @@ msgid "Duration"
 msgstr "Durată"
 
 #: gthumb/gth-main-default-metadata.c:51
-#, fuzzy
-#| msgid "Exposure time"
 msgid "Exposure Settings"
-msgstr "Timpul de expunere"
+msgstr "Configurări expunere"
 
 #: gthumb/gth-main-default-metadata.c:52
 msgid "Aperture"
@@ -5850,8 +5361,6 @@ msgid "ISO Speed"
 msgstr "Viteză ISO"
 
 #: gthumb/gth-main-default-metadata.c:54
-#, fuzzy
-#| msgid "Exposure time"
 msgid "Exposure Time"
 msgstr "Timpul de expunere"
 
@@ -5888,28 +5397,20 @@ msgid "Copyright"
 msgstr "Drepturi de autor"
 
 #: gthumb/gth-main-default-sort-types.c:166
-#, fuzzy
-#| msgid "File _name"
 msgid "file name"
-msgstr "_Nume fișier"
+msgstr "numele fișierului"
 
 #: gthumb/gth-main-default-sort-types.c:167
-#, fuzzy
-#| msgid "File pa_th"
 msgid "file path"
-msgstr "Cal_e fișier"
+msgstr "calea fișierului"
 
 #: gthumb/gth-main-default-sort-types.c:168
-#, fuzzy
-#| msgid "File si_ze"
 msgid "file size"
-msgstr "_Mărime fișier"
+msgstr "dimensiunea fișierului"
 
 #: gthumb/gth-main-default-sort-types.c:169
-#, fuzzy
-#| msgid "by file modified time"
 msgid "file modified date"
-msgstr "după data modificării fișierului"
+msgstr "data modificării fișierului"
 
 #: gthumb/gth-main-default-sort-types.c:170
 msgid "no sorting"
@@ -5932,16 +5433,12 @@ msgid "All Images"
 msgstr "Toate imaginile"
 
 #: gthumb/gth-main-default-tests.c:300
-#, fuzzy
-#| msgid "Images"
 msgid "JPEG Images"
-msgstr "Imagini"
+msgstr "Imagini JPEG"
 
 #: gthumb/gth-main-default-tests.c:307
-#, fuzzy
-#| msgid "Import Photos"
 msgid "Raw Photos"
-msgstr "Importă fotografii"
+msgstr "Fotografii raw"
 
 #: gthumb/gth-main-default-tests.c:328
 msgid "Media"
@@ -5957,7 +5454,7 @@ msgstr "Nume fișier"
 
 #: gthumb/gth-main-default-tests.c:375
 msgid "Title (embedded)"
-msgstr ""
+msgstr "Titlu (înglobat)"
 
 #: gthumb/gth-main-default-tests.c:383
 msgid "Description (embedded)"
@@ -5968,34 +5465,24 @@ msgid "Show/Hide"
 msgstr "Arată/Ascunde"
 
 #: gthumb/gth-main-default-types.c:40
-#, fuzzy
-#| msgid "Image Caption"
 msgid "Navigation"
-msgstr "Titlu imagine"
+msgstr "Navigare"
 
 #: gthumb/gth-main-default-types.c:41
-#, fuzzy
-#| msgid "File _name"
 msgid "File Manager"
-msgstr "_Nume fișier"
+msgstr "Manager de fișiere"
 
 #: gthumb/gth-overwrite-dialog.c:326
-#, fuzzy
-#| msgid "_Overwrite"
 msgid "Overwrite"
-msgstr "_Suprascrie"
+msgstr "Suprascrie"
 
 #: gthumb/gth-progress-dialog.c:310 gthumb/gth-progress-dialog.c:455
-#, fuzzy
-#| msgid "Open Location"
 msgid "Operations"
-msgstr "Deschide locație"
+msgstr "Operațiuni"
 
 #: gthumb/gth-save-file-data-task.c:105
-#, fuzzy
-#| msgid "General Information"
 msgid "Saving file information"
-msgstr "Informații generale"
+msgstr "Salvarea informațiilor despre fișier"
 
 #. Translators: %s is a filename
 #: gthumb/gth-save-image-task.c:161
@@ -6029,8 +5516,6 @@ msgid "Science"
 msgstr "Stiință"
 
 #: gthumb/gth-tags-file.c:239
-#, fuzzy
-#| msgid "Favourite"
 msgid "Favorite"
 msgstr "Preferat"
 
@@ -6075,23 +5560,19 @@ msgid "is equal to"
 msgstr "este egal cu"
 
 #: gthumb/gth-test-aspect-ratio.c:70 gthumb/gth-test-simple.c:60
-#, fuzzy
-#| msgid "is greater than"
 msgid "is greater than or equal to"
-msgstr "este mai mare ca"
+msgstr "este mai mare sau egal cu"
 
 #: gthumb/gth-test-aspect-ratio.c:71 gthumb/gth-test-simple.c:61
-#, fuzzy
-#| msgid "is lower than"
 msgid "is lower than or equal to"
-msgstr "este mai mic ca"
+msgstr "este mai mic sau egal cu"
 
 #: gthumb/gth-test-aspect-ratio.c:369 gthumb/gth-test-category.c:421
 #: gthumb/gth-test-simple.c:1084 gthumb/gth-test-simple.c:1105
 #: gthumb/gth-test-simple.c:1131
 #, c-format
 msgid "The test definition is incomplete"
-msgstr ""
+msgstr "Definiția testului este incompletă"
 
 #: gthumb/gth-test-category.c:46 gthumb/gth-test-simple.c:50
 #: gthumb/gth-test-simple.c:67
@@ -6099,10 +5580,8 @@ msgid "is"
 msgstr "este"
 
 #: gthumb/gth-test-category.c:47
-#, fuzzy
-#| msgid "Icons only"
 msgid "is only"
-msgstr "Doar iconițe"
+msgstr "este numai"
 
 #: gthumb/gth-test-category.c:48 gthumb/gth-test-simple.c:51
 #: gthumb/gth-test-simple.c:68
@@ -6110,20 +5589,16 @@ msgid "is not"
 msgstr "nu este"
 
 #: gthumb/gth-test-category.c:49 gthumb/gth-test-simple.c:53
-#, fuzzy
-#| msgid "Inches"
 msgid "matches"
-msgstr "Inchi"
+msgstr "potriviri"
 
 #: gthumb/gth-test-selector.c:259
 msgid "Add a new rule"
 msgstr "Adaugă o nouă regulă"
 
 #: gthumb/gth-test-selector.c:269
-#, fuzzy
-#| msgid "Rename this image"
 msgid "Remove this rule"
-msgstr "Redenumește aceasta imagine"
+msgstr "Elimină această regulă"
 
 #: gthumb/gth-test-simple.c:47
 msgid "contains"
@@ -6151,7 +5626,7 @@ msgstr "este după"
 
 #: gthumb/gth-time-selector.c:542
 msgid "Today"
-msgstr ""
+msgstr "Astăzi"
 
 #: gthumb/gth-time-selector.c:550
 msgid "Now"
@@ -6162,10 +5637,8 @@ msgid "Colors"
 msgstr "Culori"
 
 #: gthumb/gth-toolbox.c:147
-#, fuzzy
-#| msgid "Location"
 msgid "Rotation"
-msgstr "Locație"
+msgstr "Rotire"
 
 #: gthumb/gth-window.c:1020
 #, c-format
@@ -6173,6 +5646,8 @@ msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
 "want to reassign it to this action instead?"
 msgstr ""
+"Combinația de taste «%s» este deja atribuită pentru acțiunea «%s».  Doriți "
+"să o reatribuiți pentru această acțiune?"
 
 #: gthumb/gth-window.c:1028
 msgid "Reassign"
@@ -6184,11 +5659,14 @@ msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
 "be changed."
 msgstr ""
+"Combinația de taste «%s» este deja atribuită pentru acțiunea «%s» și nu "
+"poate fi modificată."
 
 #: gthumb/gth-window.c:1050
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr ""
+"Combinația de taste «%s» este deja atribuită și nu poate fi modificată."
 
 #: gthumb/gtk-utils.c:370
 msgid "Could not display help"
@@ -6203,10 +5681,8 @@ msgid "_Copy Here"
 msgstr "_Copiază aici"
 
 #: gthumb/gtk-utils.c:845
-#, fuzzy
-#| msgid "_Move"
 msgid "_Move Here"
-msgstr "_Mută"
+msgstr "_Mută aici"
 
 #: gthumb/gtk-utils.c:850
 msgid "_Link Here"
@@ -6233,19 +5709,16 @@ msgid "_Ok"
 msgstr "_OK"
 
 #: gthumb/gtk-utils.h:43
-#, fuzzy
 msgid "_Remove"
-msgstr "Șt_erge originalul"
+msgstr "_Elimină"
 
 #: gthumb/gtk-utils.h:44
 msgid "_Save"
 msgstr "_Salvează"
 
 #: gthumb/gtk-utils.h:45
-#, fuzzy
-#| msgid "Executive"
 msgid "E_xecute"
-msgstr "Executiv"
+msgstr "E_xecută"
 
 #: gthumb/gtk-utils.h:46
 msgid "_Upload"
@@ -6256,10 +5729,8 @@ msgid "Open in New Window"
 msgstr "Deschide în fereastră noua"
 
 #: gthumb/resources/gears-menu.ui:11
-#, fuzzy
-#| msgid "Open Location"
 msgid "Open Location…"
-msgstr "Deschide locație"
+msgstr "Deschide locația…"
 
 #: gthumb/resources/gears-menu.ui:31
 msgid "Sort By…"
