@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
 "POT-Creation-Date: 2021-04-24 16:04+0000\n"
-"PO-Revision-Date: 2021-04-25 10:51+0300\n"
+"PO-Revision-Date: 2021-05-12 08:57+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -247,7 +247,7 @@ msgstr "Наступне"
 
 #: data/ui/filter-editor.ui:20
 msgid "Filter _Name:"
-msgstr "Назва _файла:"
+msgstr "Назва _фільтра:"
 
 #: data/ui/filter-editor.ui:61 extensions/search/data/ui/search-editor.ui:21
 msgid "_Match:"
