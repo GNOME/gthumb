@@ -322,6 +322,9 @@ char *		_g_format_duration_for_display	(gint64		  msecs);
 char *		_g_format_str_for_file		(const char	 *format,
 						 GFile		 *file);
 void		_g_error_free			(GError		 *error);
+GString *	_g_string_append_markup_escaped (GString	 *string,
+						 const char	 *format,
+						 ...) G_GNUC_PRINTF (2, 3);
 
 DEF_ACTION_CALLBACK (toggle_action_activated)
 

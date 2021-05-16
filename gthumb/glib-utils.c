@@ -2113,6 +2113,26 @@ _g_error_free (GError *error)
 }
 
 
+GString *
+_g_string_append_markup_escaped (GString    *string,
+				 const char *format,
+				 ...)
+{
+	va_list  args;
+	char    *escaped;
+
+	va_start (args, format);
+	escaped = g_markup_vprintf_escaped (format, args);
+	va_end (args);
+
+	g_string_append (string, escaped);
+
+	g_free (escaped);
+
+	return string;
+}
+
+
 void
 toggle_action_activated (GSimpleAction *action,
 			 GVariant      *parameter,
