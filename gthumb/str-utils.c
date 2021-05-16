@@ -407,96 +407,6 @@ _g_utf8_split (const char *str,
 }
 
 
-/* -- _g_utf8_split_template -- */
-
-
-typedef enum {
-	SPLIT_TMPL_STATE_START,
-	SPLIT_TMPL_STATE_READING_SHARPS,
-	SPLIT_TMPL_STATE_READING_LITERAL
-} SplitTmplState;
-
-
-/**
- * example 1 : "xxx##yy#" --> [0] = xxx
- *                            [1] = ##
- *                            [2] = yy
- *                            [3] = #
- *                            [4] = NULL
- *
- * example 2 : ""         --> [0] = NULL
- **/
-char **
-_g_utf8_split_template (const char *tmpl)
-{
-	SplitTmplState   state;
-	GList           *chunk_list;
-	int              chunk_n;
-	const char      *p;
-	const char      *chunk_start;
-	const char      *chunk_end;
-	char           **chunk_v;
-
-	state = SPLIT_TMPL_STATE_START;
-	chunk_list = NULL;
-	chunk_n = 0;
-	p = tmpl;
-	while (p != NULL) {
-		gunichar ch = g_utf8_get_char (p);
-		gboolean save_chunk = FALSE;
-
-		switch (state) {
-		case SPLIT_TMPL_STATE_START:
-			chunk_start = chunk_end = p;
-			if (ch == '#')
-				state = SPLIT_TMPL_STATE_READING_SHARPS;
-			else
-				state = SPLIT_TMPL_STATE_READING_LITERAL;
-			break;
-
-		case SPLIT_TMPL_STATE_READING_SHARPS:
-			if (ch != '#') {
-				state = SPLIT_TMPL_STATE_READING_LITERAL;
-				save_chunk = TRUE;
-			}
-			else
-				chunk_end = p;
-			break;
-
-		case SPLIT_TMPL_STATE_READING_LITERAL:
-			if ((ch == '#') || (ch == 0)) {
-				state = SPLIT_TMPL_STATE_READING_SHARPS;
-				save_chunk = TRUE;
-			}
-			else
-				chunk_end = p;
-			break;
-		}
-
-		if (save_chunk) {
-			glong  chunk_size;
-			char  *chunk;
-
-			chunk_size = chunk_end - chunk_start + 1;
-			chunk = _g_utf8_strndup (chunk_start, chunk_size);
-			chunk_list = g_list_prepend (chunk_list, chunk);
-			chunk_n++;
-			chunk_start = chunk_end = p;
-		}
-
-		if (ch == 0)
-			break;
-
-		p = g_utf8_next_char (p);
-	}
-
-	chunk_v = _g_strv_take_from_str_list (chunk_list, chunk_n);
-	g_list_free (chunk_list);
-
-	return chunk_v;
-}
-
-
 char *
 _g_utf8_replace_str (const char *str,
 		     const char *old_str,
@@ -1014,4 +924,521 @@ _g_utf8_remove_string_properties (const char *str)
 	}
 
 	return (after_properties != NULL) ? g_strdup (after_properties) : NULL;
+}
+
+
+/* -- Template utils -- */
+
+
+#undef DEBUG_TOKENIZER
+
+
+typedef enum {
+	TOKENIZER_STATE_START,
+	TOKENIZER_STATE_ENUMERATOR,
+	TOKENIZER_STATE_CODE,
+	TOKENIZER_STATE_ARG,
+	TOKENIZER_STATE_TEXT
+} TokenizerState;
+
+
+#if DEBUG_TOKENIZER
+static char *TokenizerStateName[] = {
+	"TOKENIZER_STATE_START",
+	"TOKENIZER_STATE_ENUMERATOR",
+	"TOKENIZER_STATE_CODE",
+	"TOKENIZER_STATE_ARG",
+	"TOKENIZER_STATE_TEXT"
+};
+#endif
+
+
+static gboolean
+valid_char_after_code_prefix (gunichar ch)
+{
+	return (ch != '%') && (ch != '{') && ! g_unichar_isspace (ch) && (ch != 0);
+}
+
+
+char **
+_g_template_tokenize (const char    *template,
+		      TemplateFlags  flags)
+{
+	gboolean         split_enumerator;
+	TokenizerState   state;
+	GList           *token_list;
+	int              token_n;
+	const char      *p;
+	const char      *token_start;
+	glong            token_size;
+	int              n_open_brackets;
+	char           **token_v;
+
+#if DEBUG_TOKENIZER
+	g_print ("\n> _g_template_tokenize: '%s'\n", template);
+#endif
+
+	split_enumerator = (flags & TEMPLATE_FLAGS_NO_ENUMERATOR) == 0;
+
+	state = TOKENIZER_STATE_START;
+	token_list = NULL;
+	token_n = 0;
+	token_start = NULL;
+	token_size = 0;
+	n_open_brackets = 0;
+	p = template;
+	while (p != NULL) {
+		gboolean    add_to_token;
+		gboolean    save_token;
+		gunichar    ch;
+		const char *next_p;
+		gunichar    next_ch;
+		gboolean    code_prefix;
+		gboolean    enumerator_prefix;
+
+		add_to_token = FALSE;
+		save_token = FALSE;
+		ch = (p != NULL) ? g_utf8_get_char (p) : 0;
+		next_p = (p != NULL) ? g_utf8_next_char (p) : NULL;
+		next_ch = (next_p != NULL) ? g_utf8_get_char (next_p) : 0;
+		code_prefix = (ch == '%') && valid_char_after_code_prefix (next_ch);
+		enumerator_prefix = split_enumerator && (ch == '#');
+
+#if DEBUG_TOKENIZER
+		{
+			char str[7] = { 0, 0, 0, 0, 0, 0, 0 };
+			g_unichar_to_utf8 (ch, str);
+			g_print ("> ch: '%s'\n", str);
+		}
+#endif
+
+		switch (state) {
+		case TOKENIZER_STATE_START:
+			token_start = p;
+			token_size = 0;
+			add_to_token = TRUE;
+			if (enumerator_prefix)
+				state = TOKENIZER_STATE_ENUMERATOR;
+			else if (code_prefix)
+				state = TOKENIZER_STATE_CODE;
+			else
+				state = TOKENIZER_STATE_TEXT;
+			break;
+
+		case TOKENIZER_STATE_ENUMERATOR:
+			if (ch != '#') {
+				add_to_token = FALSE;
+				save_token = TRUE;
+				state = TOKENIZER_STATE_START;
+			}
+			else
+				add_to_token = TRUE;
+			break;
+
+		case TOKENIZER_STATE_CODE:
+			if (next_ch == '{') {
+				add_to_token = TRUE;
+				state = TOKENIZER_STATE_ARG;
+				n_open_brackets = 0;
+			}
+			else {
+				add_to_token = TRUE;
+				save_token = TRUE;
+				state = TOKENIZER_STATE_START;
+			}
+			break;
+
+		case TOKENIZER_STATE_ARG:
+			if (ch == '{')
+				n_open_brackets++;
+			else if (ch == '}')
+				n_open_brackets--;
+			if ((n_open_brackets == 0) && (ch == '}') && (next_ch != '{')) {
+				add_to_token = TRUE;
+				save_token = TRUE;
+				state = TOKENIZER_STATE_START;
+			}
+			else
+				add_to_token = TRUE;
+			break;
+
+		case TOKENIZER_STATE_TEXT:
+			if ((ch == 0) || enumerator_prefix || code_prefix) {
+				add_to_token = FALSE;
+				save_token = TRUE;
+				state = TOKENIZER_STATE_START;
+			}
+			else
+				add_to_token = TRUE;
+			break;
+		}
+
+#if DEBUG_TOKENIZER
+		g_print ("  new state: %s\n", TokenizerStateName[state]);
+		g_print ("  save_token: %d\n", save_token);
+		g_print ("  add_to_token: %d\n", add_to_token);
+		g_print ("  token_size: %ld\n", token_size);
+		g_print ("  n_open_brackets: %d\n", n_open_brackets);
+#endif
+
+		if (add_to_token) {
+			token_size++;
+			p = next_p;
+		}
+
+		if (save_token) {
+			token_list = g_list_prepend (token_list, _g_utf8_strndup (token_start, token_size));
+			token_n++;
+		}
+
+		if (ch == 0)
+			break;
+	}
+
+	token_v = _g_strv_take_from_str_list (token_list, token_n);
+	g_list_free (token_list);
+
+	return token_v;
+}
+
+
+gunichar
+_g_template_get_token_code (const char *token)
+{
+	gunichar ch;
+
+	if (token == NULL)
+		return 0;
+
+	ch = g_utf8_get_char (token);
+	if (ch != '%')
+		return 0;
+
+	token = g_utf8_next_char (token);
+	if (token == NULL)
+		return 0;
+
+	ch = g_utf8_get_char (token);
+
+	return valid_char_after_code_prefix (ch) ? ch : 0;
+}
+
+
+char **
+_g_template_get_token_args (const char *token)
+{
+	TokenizerState   state;
+	GList           *token_list;
+	int              token_n;
+	const char      *p;
+	const char      *token_start;
+	glong            token_size;
+	int              n_open_brackets;
+	char           **token_v;
+
+#if DEBUG_TOKENIZER
+	g_print ("\n> _g_template_get_token_args: '%s'\n", token);
+#endif
+
+	state = TOKENIZER_STATE_START;
+	token_list = NULL;
+	token_n = 0;
+	token_start = NULL;
+	token_size = 0;
+	n_open_brackets = 0;
+	p = token;
+	while (p != NULL) {
+		gboolean    save_token = FALSE;
+		gunichar    ch;
+		const char *next_p;
+		gunichar    next_ch;
+
+		ch = (p != NULL) ? g_utf8_get_char (p) : 0;
+		next_p = (p != NULL) ? g_utf8_next_char (p) : NULL;
+		next_ch = (next_p != NULL) ? g_utf8_get_char (next_p) : 0;
+
+#if DEBUG_TOKENIZER
+		{
+			char str[7] = { 0, 0, 0, 0, 0, 0, 0 };
+			g_unichar_to_utf8 (ch, str);
+			g_print ("> ch: '%s'\n", str);
+		}
+#endif
+
+		switch (state) {
+		case TOKENIZER_STATE_START:
+			if ((ch == '%') && valid_char_after_code_prefix (next_ch)) {
+				/* Skip the code. */
+				p = next_p;
+				next_p = (p != NULL) ? g_utf8_next_char (p) : NULL;
+				state = TOKENIZER_STATE_CODE;
+			}
+			else
+				ch = 0; /* Not a special code. */
+			break;
+
+		case TOKENIZER_STATE_CODE:
+			if (ch == '{') {
+				n_open_brackets = 1;
+				token_start = next_p;
+				token_size = 0;
+				state = TOKENIZER_STATE_ARG;
+			}
+			else
+				ch = 0; /* No arguments for this code. */
+			break;
+
+		case TOKENIZER_STATE_ARG:
+			if (ch == '}') {
+				n_open_brackets--;
+				if (n_open_brackets == 0) {
+					save_token = TRUE;
+					state = TOKENIZER_STATE_CODE;
+				}
+				else
+					token_size++;
+			}
+			else {
+				token_size++;
+				if (ch == '{')
+					n_open_brackets++;
+			}
+			break;
+
+		default:
+			g_assert_not_reached ();
+			break;
+		}
+
+#if DEBUG_TOKENIZER
+		g_print ("  new state: %s\n", TokenizerStateName[state]);
+		g_print ("  save_token: %d\n", save_token);
+		g_print ("  token_size: %ld\n", token_size);
+		g_print ("  n_open_brackets: %d\n", n_open_brackets);
+#endif
+
+		if (save_token) {
+			char *token;
+
+			token = _g_utf8_strndup (token_start, token_size);
+			token_list = g_list_prepend (token_list, _g_utf8_strip (token));
+			token_n++;
+
+			g_free (token);
+		}
+
+		if (ch == 0)
+			break;
+
+		p = next_p;
+	}
+
+	token_v = _g_strv_take_from_str_list (token_list, token_n);
+	g_list_free (token_list);
+
+	return token_v;
+}
+
+
+gboolean
+_g_template_token_is (const char *token,
+		      gunichar    code)
+{
+	return _g_template_get_token_code (token) == code;
+}
+
+
+/* -- _g_template_for_each_token -- */
+
+
+static void
+_for_each_token (const char          *tmpl,
+		 TemplateFlags        flags,
+		 gunichar             parent_node,
+		 TemplateForEachFunc  for_each,
+		 gpointer             user_data)
+{
+	char     **tokenv;
+	int        i;
+	gboolean   with_enumerator;
+	gboolean   stop;
+
+	if ((tmpl == NULL) || (for_each == NULL))
+		return;
+
+	with_enumerator = (flags & TEMPLATE_FLAGS_NO_ENUMERATOR) == 0;
+	stop = FALSE;
+	tokenv = _g_template_tokenize (tmpl, flags);
+	for (i = 0; ! stop && (tokenv[i] != NULL); i++) {
+		char     *token = tokenv[i];
+		gunichar  code;
+
+		code = _g_template_get_token_code (token);
+		if (code != 0) {
+			char **args;
+			int    j;
+
+			args = _g_template_get_token_args (token);
+			for (j = 0; args[j] != NULL; j++)
+				_for_each_token (args[j], flags, code, for_each, user_data);
+
+			stop = for_each (parent_node, code, args, user_data);
+
+			g_strfreev (args);
+		}
+		else if (with_enumerator && (token[0] == '#')) {
+			char *args[] = { token, NULL };
+			stop = for_each (parent_node, '#', args, user_data);
+		}
+		else {
+			char *args[] = { token, NULL };
+			stop = for_each (parent_node, code, args, user_data);
+		}
+	}
+
+	g_strfreev (tokenv);
+}
+
+
+void
+_g_template_for_each_token (const char          *tmpl,
+			    TemplateFlags        flags,
+			    TemplateForEachFunc  for_each,
+			    gpointer             user_data)
+{
+	_for_each_token (tmpl, flags, 0, for_each, user_data);
+}
+
+
+/* -- _g_template_eval -- */
+
+
+static gchar *
+_eval_template (const char       *tmpl,
+		TemplateFlags     flags,
+		gunichar          parent_code,
+		TemplateEvalFunc  eval,
+		gpointer          user_data)
+{
+	GString   *result;
+	char     **tokenv;
+	int        i;
+	gboolean   with_enumerator;
+	gboolean   stop;
+
+	if (tmpl == NULL)
+		return NULL;
+
+	result = g_string_new ("");
+	with_enumerator = (flags & TEMPLATE_FLAGS_NO_ENUMERATOR) == 0;
+	stop = FALSE;
+	tokenv = _g_template_tokenize (tmpl, flags);
+	for (i = 0; ! stop && (tokenv[i] != NULL); i++) {
+		char     *token = tokenv[i];
+		gunichar  code;
+
+		code = _g_template_get_token_code (token);
+		if (code != 0) {
+			char **args;
+			int    j;
+
+			if (eval == NULL)
+				continue;
+
+			args = _g_template_get_token_args (token);
+			for (j = 0; args[j] != NULL; j++)
+				args[j] = _eval_template (args[j], flags, code, eval, user_data);
+
+			stop = eval (flags, parent_code, code, args, result, user_data);
+
+			g_strfreev (args);
+		}
+		else if (with_enumerator && (token[0] == '#')) {
+			char *args[] = { token, NULL };
+
+			if (eval == NULL)
+				continue;
+
+			stop = eval (flags, parent_code, '#', args, result, user_data);
+		}
+		else { /* Literal string. */
+			if (flags & TEMPLATE_FLAGS_PREVIEW)
+				_g_string_append_markup_escaped (result, "%s", token);
+			else
+				g_string_append (result, token);
+		}
+	}
+
+	g_strfreev (tokenv);
+
+	return g_string_free (result, FALSE);
+}
+
+
+char *
+_g_template_eval (const char       *tmpl,
+		  TemplateFlags     flags,
+		  TemplateEvalFunc  eval,
+		  gpointer          user_data)
+{
+	return _eval_template (tmpl,
+			       flags,
+			       0,
+			       eval,
+			       user_data);
+}
+
+
+void
+_g_string_append_template_code (GString   *str,
+				gunichar   code,
+				char     **args)
+{
+	if (code == 0) {
+		/* Literal string, not a special code. */
+		if (args[0] != NULL)
+			g_string_append (str, args[0]);
+	}
+	else {
+		g_string_append_c (str, '%');
+		g_string_append_unichar (str, code);
+
+		if (args != NULL) {
+			int i;
+
+			for (i = 0; args[i] != NULL; i++)
+				g_string_append_printf (str, "{ %s }", args[i]);
+		}
+	}
+}
+
+
+char *
+_g_template_replace_enumerator (const char *token,
+				int         n)
+{
+	long  length;
+	char *format;
+	char *result;
+
+	length = 0;
+	while (token != NULL) {
+		gunichar ch = g_utf8_get_char (token);
+		if (ch == 0)
+			break;
+		if (ch != '#')
+			return NULL; /* Syntax error. */
+		length++;
+		token = g_utf8_next_char (token);
+	}
+
+	if (length == 0)
+		return NULL;
+
+	format = g_strdup_printf ("%%0" "%ld" "d", length);
+	result = g_strdup_printf (format, n);
+
+	g_free (format);
+
+	return result;
 }

@@ -67,7 +67,6 @@ const char *	_g_utf8_find_str	(const char	 *haystack,
 char **		_g_utf8_split		(const char	 *str,
 					 const char	 *separator,
 					 int		  max_tokens);
-char **		_g_utf8_split_template	(const char	 *tmpl);
 char *		_g_utf8_replace_str	(const char	 *str,
 					 const char	 *old_str,
 					 const char	 *new_str);
@@ -98,6 +97,49 @@ char *		_g_utf8_escape_xml	(const char	 *str);
 char *		_g_utf8_text_escape_xml	(const char	 *str);
 char *		_g_utf8_remove_string_properties
 					(const char	 *str);
+
+/* Template utils */
+
+typedef enum {
+	TEMPLATE_FLAGS_DEFAULT = 0,
+	TEMPLATE_FLAGS_NO_ENUMERATOR = (1 << 0),
+	TEMPLATE_FLAGS_PREVIEW = (1 << 1),
+	TEMPLATE_FLAGS_PARTIAL = (1 << 2),
+} TemplateFlags;
+
+typedef gboolean (*TemplateForEachFunc) (gunichar     parent_code,
+					 gunichar     code,
+					 char       **args,
+					 gpointer     user_data);
+typedef gboolean (*TemplateEvalFunc)	(gunichar     root_code,
+					 gunichar     parent_code,
+					 gunichar     code,
+					 char       **args,
+					 GString     *result,
+					 gpointer     user_data);
+typedef char *   (*TemplatePreviewFunc) (const char    *tmpl,
+					 TemplateFlags  flags,
+					 gpointer       user_data);
+
+char **	_g_template_tokenize		(const char           *tmpl,
+						 TemplateFlags         flags);
+gunichar	_g_template_get_token_code	(const char           *token);
+char **	_g_template_get_token_args	(const char           *token);
+gboolean	_g_template_token_is		(const char           *token,
+						 gunichar              code);
+void		_g_template_for_each_token	(const char           *tmpl,
+						 TemplateFlags         flags,
+						 TemplateForEachFunc   for_each,
+						 gpointer              user_data);
+char *		_g_template_eval		(const char           *tmpl,
+						 TemplateFlags         flags,
+						 TemplateEvalFunc      eval,
+						 gpointer              user_data);
+void		_g_string_append_template_code	(GString              *str,
+						 gunichar              code,
+						 char                **args);
+char *		_g_template_replace_enumerator	(const char           *token,
+						 int                   n);
 
 G_END_DECLS
 

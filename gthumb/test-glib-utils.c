@@ -525,53 +525,323 @@ test_g_utf8_split_all (void)
 
 
 static void
-test_g_utf8_split_template_all (void)
+test_g_template_tokenize_all (void)
 {
 	char **strv;
 
-	strv = _g_utf8_split_template ("");
+	strv = _g_template_tokenize ("", 0);
 	_g_assert_strv_equal (strv, NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("xxx##yy#");
+	strv = _g_template_tokenize ("xxx##yy#", 0);
 	_g_assert_strv_equal (strv, "xxx", "##", "yy", "#", NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("日");
+	strv = _g_template_tokenize ("日", 0);
 	_g_assert_strv_equal (strv, "日", NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("日本");
+	strv = _g_template_tokenize ("日本", 0);
 	_g_assert_strv_equal (strv, "日本", NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("#");
+	strv = _g_template_tokenize ("#", 0);
 	_g_assert_strv_equal (strv, "#", NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("##");
+	strv = _g_template_tokenize ("##", 0);
 	_g_assert_strv_equal (strv, "##", NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("#日");
+	strv = _g_template_tokenize ("#日", 0);
 	_g_assert_strv_equal (strv, "#", "日", NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("日#");
+	strv = _g_template_tokenize ("日#", 0);
 	_g_assert_strv_equal (strv, "日", "#", NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("日#本");
+	strv = _g_template_tokenize ("日#本", 0);
 	_g_assert_strv_equal (strv, "日", "#", "本", NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("日#本#");
+	strv = _g_template_tokenize ("日#本#", 0);
 	_g_assert_strv_equal (strv, "日", "#", "本", "#", NULL);
 	g_strfreev (strv);
 
-	strv = _g_utf8_split_template ("日#本#語");
+	strv = _g_template_tokenize ("日#本#語", 0);
 	_g_assert_strv_equal (strv, "日", "#", "本", "#", "語", NULL);
 	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日", 0);
+	_g_assert_strv_equal (strv, "%日", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日%本", 0);
+	_g_assert_strv_equal (strv, "%日", "%本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日-%本", 0);
+	_g_assert_strv_equal (strv, "%日", "-", "%本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日-%本-", 0);
+	_g_assert_strv_equal (strv, "%日", "-", "%本", "-", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("-%日-%本", 0);
+	_g_assert_strv_equal (strv, "-", "%日", "-", "%本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日{ 本語 }", 0);
+	_g_assert_strv_equal (strv, "%日{ 本語 }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日{ 本語 }日本語", 0);
+	_g_assert_strv_equal (strv, "%日{ 本語 }", "日本語", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日{ 本語 }%本", 0);
+	_g_assert_strv_equal (strv, "%日{ 本語 }", "%本", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日{ 本語 }%正{ 體字 }", 0);
+	_g_assert_strv_equal (strv, "%日{ 本語 }", "%正{ 體字 }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日{ 本語 }%正{ 體字 }{ 本語 }", 0);
+	_g_assert_strv_equal (strv, "%日{ 本語 }", "%正{ 體字 }{ 本語 }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日{ 本語 }-%正{ 體字 }{ 本語 }", 0);
+	_g_assert_strv_equal (strv, "%日{ 本語 }", "-", "%正{ 體字 }{ 本語 }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%日{ 本語 }-%日{ 本 }{ 語 }-", 0);
+	_g_assert_strv_equal (strv, "%日{ 本語 }", "-", "%日{ 本 }{ 語 }", "-", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%Q{ %A{ Prompt: } }", 0);
+	_g_assert_strv_equal (strv, "%Q{ %A{ Prompt: } }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%Q{ { %A } }", 0);
+	_g_assert_strv_equal (strv, "%Q{ { %A } }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%Q{ {} }", 0);
+	_g_assert_strv_equal (strv, "%Q{ {} }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%Q{ { }", 0);
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%Q{ %A{} }", 0);
+	_g_assert_strv_equal (strv, "%Q{ %A{} }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%Q{ %A{}{} }", 0);
+	_g_assert_strv_equal (strv, "%Q{ %A{}{} }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%Q{ %A{ Prompt: }{ 12 } }", 0);
+	_g_assert_strv_equal (strv, "%Q{ %A{ Prompt: }{ 12 } }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%a{ %x }%b{ %y }", 0);
+	_g_assert_strv_equal (strv, "%a{ %x }", "%b{ %y }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%a{ %x }%b{ %y }%c{ %z }", 0);
+	_g_assert_strv_equal (strv, "%a{ %x }", "%b{ %y }", "%c{ %z }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%a{%x}%b{%y}%c{%z}", 0);
+	_g_assert_strv_equal (strv, "%a{%x}", "%b{%y}", "%c{%z}", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_tokenize ("%a{%x} %b{%y} %c{%z}", 0);
+	_g_assert_strv_equal (strv, "%a{%x}", " ", "%b{%y}", " ", "%c{%z}", NULL);
+	g_strfreev (strv);
+}
+
+
+static void
+test_g_template_get_token_code_all (void)
+{
+	g_assert_true (_g_template_get_token_code (NULL) == 0);
+	g_assert_true (_g_template_get_token_code ("") == 0);
+	g_assert_true (_g_template_get_token_code ("a") == 0);
+	g_assert_true (_g_template_get_token_code ("日") == 0);
+	g_assert_true (_g_template_get_token_code ("%a") == 'a');
+	g_assert_true (_g_template_get_token_code ("% a") == 0);
+	g_assert_true (_g_template_get_token_code ("%日") == g_utf8_get_char ("日"));
+	g_assert_true (_g_template_get_token_code ("%日 %字") == g_utf8_get_char ("日"));
+	g_assert_true (_g_template_get_token_code ("% 日") == 0);
+	g_assert_true (_g_template_get_token_code (" %日") == 0);
+	g_assert_true (_g_template_get_token_code (" % 日") == 0);
+	g_assert_true (_g_template_get_token_code ("%{}") == 0);
+	g_assert_true (_g_template_get_token_code ("%{ text }") == 0);
+	g_assert_true (_g_template_get_token_code ("%{ %字 }") == 0);
+	g_assert_true (_g_template_get_token_code ("%日{}") == g_utf8_get_char ("日"));
+	g_assert_true (_g_template_get_token_code ("%日{%字}") == g_utf8_get_char ("日"));
+	g_assert_true (_g_template_get_token_code ("%日{ }") == g_utf8_get_char ("日"));
+	g_assert_true (_g_template_get_token_code ("%日{ %字 }") == g_utf8_get_char ("日"));
+}
+
+
+static void
+test_g_template_get_token_args_all (void)
+{
+	char **strv;
+
+	strv = _g_template_get_token_args ("");
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("%F");
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("{ xxx }{ yyy }");
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("%A%F{ xxx }{ yyy }");
+	_g_assert_strv_equal (strv, NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("%F{ xxx }{ yyy }");
+	_g_assert_strv_equal (strv, "xxx", "yyy", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("%日{ 本語 }");
+	_g_assert_strv_equal (strv, "本語", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("%日{ 本語 }{ 體字 }");
+	_g_assert_strv_equal (strv, "本語", "體字", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("%Q{ %A }");
+	_g_assert_strv_equal (strv, "%A", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("%Q{ %A{ Prompt: } }");
+	_g_assert_strv_equal (strv, "%A{ Prompt: }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("%Q{ %A{ Prompt: }{ 10 } }");
+	_g_assert_strv_equal (strv, "%A{ Prompt: }{ 10 }", NULL);
+	g_strfreev (strv);
+
+	strv = _g_template_get_token_args ("%Q{ %A{ Prompt: }{ 10 } %A{ Prompt2: }{ 20 } }");
+	_g_assert_strv_equal (strv, "%A{ Prompt: }{ 10 } %A{ Prompt2: }{ 20 }", NULL);
+	g_strfreev (strv);
+}
+
+
+static void
+test_g_template_token_is_all (void)
+{
+	g_assert_true (_g_template_token_is (NULL, 0));
+	g_assert_true (_g_template_token_is ("", 0));
+
+	g_assert_true (_g_template_token_is ("a", 0));
+	g_assert_true (! _g_template_token_is ("a", 'a'));
+	g_assert_true (! _g_template_token_is ("a", 'b'));
+
+	g_assert_true (! _g_template_token_is ("%a", 0));
+	g_assert_true (_g_template_token_is ("%a", 'a'));
+	g_assert_true (_g_template_token_is ("%abc", 'a'));
+	g_assert_true (_g_template_token_is ("%a{}", 'a'));
+	g_assert_true (_g_template_token_is ("%a{ xyz }", 'a'));
+
+	g_assert_true (_g_template_token_is ("%日", g_utf8_get_char ("日")));
+	g_assert_true (_g_template_token_is ("%日{}", g_utf8_get_char ("日")));
+	g_assert_true (_g_template_token_is ("%日{ 日本語 }", g_utf8_get_char ("日")));
+}
+
+
+static gboolean
+eval_template_cb (gunichar     root_code,
+		  gunichar     parent_code,
+		  gunichar     code,
+		  char       **args,
+		  GString     *result,
+		  gpointer     user_data)
+{
+	int i;
+
+	switch (code) {
+	case 'A':
+		g_string_append (result, "a");
+		break;
+	case 'B':
+		for (i = 0; args[i] != NULL; i++)
+			g_string_append (result, args[i]);
+		break;
+	case 'C':
+		break;
+	case '#':
+		g_string_append (result, _g_template_replace_enumerator (args[0], 1));
+		break;
+	default:
+		g_string_append_unichar (result, code);
+		break;
+	}
+	return FALSE;
+}
+
+
+static void
+test_g_template_eval_all (void)
+{
+	g_assert_cmpstr (_g_template_eval (NULL, 0, eval_template_cb, NULL), ==, NULL);
+	g_assert_cmpstr (_g_template_eval ("", 0, eval_template_cb, NULL), ==, "");
+	g_assert_cmpstr (_g_template_eval ("日本語", 0, eval_template_cb, NULL), ==, "日本語");
+	g_assert_cmpstr (_g_template_eval ("%A", 0, eval_template_cb, NULL), ==, "a");
+	g_assert_cmpstr (_g_template_eval ("%A{}", 0, eval_template_cb, NULL), ==, "a");
+	g_assert_cmpstr (_g_template_eval ("%A{ xyz }", 0, eval_template_cb, NULL), ==, "a");
+	g_assert_cmpstr (_g_template_eval ("%A{ %B }", 0, eval_template_cb, NULL), ==, "a");
+	g_assert_cmpstr (_g_template_eval ("%A{ %A }", 0, eval_template_cb, NULL), ==, "a");
+	g_assert_cmpstr (_g_template_eval ("%B{x}", 0, eval_template_cb, NULL), ==, "x");
+	g_assert_cmpstr (_g_template_eval ("%B{%B{x}}", 0, eval_template_cb, NULL), ==, "x");
+	g_assert_cmpstr (_g_template_eval ("%B{%B{x}y}z", 0, eval_template_cb, NULL), ==, "xyz");
+	g_assert_cmpstr (_g_template_eval ("%B{%B{x}%B{y}}", 0, eval_template_cb, NULL), ==, "xy");
+	g_assert_cmpstr (_g_template_eval ("%A%B%C", 0, eval_template_cb, NULL), ==, "a");
+	g_assert_cmpstr (_g_template_eval ("%A{}%B{ x }%C{ xyz }", 0, eval_template_cb, NULL), ==, "ax");
+	g_assert_cmpstr (_g_template_eval ("%A%B%C日本語", 0, eval_template_cb, NULL), ==, "a日本語");
+	g_assert_cmpstr (_g_template_eval ("日本語%A%B{日}%C", 0, eval_template_cb, NULL), ==, "日本語a日");
+
+	g_assert_cmpstr (_g_template_eval ("#", 0, eval_template_cb, NULL), ==, "1");
+	g_assert_cmpstr (_g_template_eval ("##", 0, eval_template_cb, NULL), ==, "01");
+	g_assert_cmpstr (_g_template_eval ("日##", 0, eval_template_cb, NULL), ==, "日01");
+	g_assert_cmpstr (_g_template_eval ("日#本##語###", 0, eval_template_cb, NULL), ==, "日1本01語001");
+	g_assert_cmpstr (_g_template_eval ("#日##本###語", 0, eval_template_cb, NULL), ==, "1日01本001語");
+	g_assert_cmpstr (_g_template_eval ("%A#%B#%C##", 0, eval_template_cb, NULL), ==, "a1101");
+	g_assert_cmpstr (_g_template_eval ("日本語%A%B{日}%C###", 0, eval_template_cb, NULL), ==, "日本語a日001");
+
+	g_assert_cmpstr (_g_template_eval ("#", TEMPLATE_FLAGS_NO_ENUMERATOR, eval_template_cb, NULL), ==, "#");
+	g_assert_cmpstr (_g_template_eval ("%A#%B{#}%C##", TEMPLATE_FLAGS_NO_ENUMERATOR, eval_template_cb, NULL), ==, "a####");
+}
+
+
+static void
+test_g_template_replace_enumerator_all (void)
+{
+	g_assert_cmpstr (_g_template_replace_enumerator (NULL, 1), ==, NULL);
+	g_assert_cmpstr (_g_template_replace_enumerator ("", 1), ==, NULL);
+	g_assert_cmpstr (_g_template_replace_enumerator ("X", 1), ==, NULL);
+	g_assert_cmpstr (_g_template_replace_enumerator ("日", 1), ==, NULL);
+	g_assert_cmpstr (_g_template_replace_enumerator ("日#", 1), ==, NULL);
+	g_assert_cmpstr (_g_template_replace_enumerator ("#日", 1), ==, NULL);
+	g_assert_cmpstr (_g_template_replace_enumerator ("#", 1), ==, "1");
+	g_assert_cmpstr (_g_template_replace_enumerator ("##", 1), ==, "01");
+	g_assert_cmpstr (_g_template_replace_enumerator ("###", 1), ==, "001");
+	g_assert_cmpstr (_g_template_replace_enumerator ("###", 10), ==, "010");
+	g_assert_cmpstr (_g_template_replace_enumerator ("###", 1000), ==, "1000");
 }
 
 
@@ -931,7 +1201,12 @@ main (int   argc,
 	g_test_add_func ("/glib-utils/_g_utf8_replace_str", test_g_utf8_replace_str_all);
 	g_test_add_func ("/glib-utils/_g_utf8_rstrip", test_g_utf8_rstrip_all);
 	g_test_add_func ("/glib-utils/_g_utf8_split", test_g_utf8_split_all);
-	g_test_add_func ("/glib-utils/_g_utf8_split_template", test_g_utf8_split_template_all);
+	g_test_add_func ("/glib-utils/_g_template_tokenize", test_g_template_tokenize_all);
+	g_test_add_func ("/glib-utils/_g_template_get_token_code", test_g_template_get_token_code_all);
+	g_test_add_func ("/glib-utils/_g_template_get_token_args", test_g_template_get_token_args_all);
+	g_test_add_func ("/glib-utils/_g_template_token_is", test_g_template_token_is_all);
+	g_test_add_func ("/glib-utils/_g_template_eval", test_g_template_eval_all);
+	g_test_add_func ("/glib-utils/_g_template_replace_enumerator", test_g_template_replace_enumerator_all);
 	g_test_add_func ("/glib-utils/_g_utf8_strip", test_g_utf8_strip_all);
 	g_test_add_func ("/glib-utils/_g_utf8_translate", test_g_utf8_translate_all);
 	g_test_add_func ("/glib-utils/_g_utf8_remove_string_properties", test_g_utf8_remove_string_properties);
