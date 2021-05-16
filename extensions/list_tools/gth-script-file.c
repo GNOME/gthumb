@@ -26,7 +26,9 @@
 #include "gth-script-file.h"
 
 
-#define SCRIPT_FORMAT "1.0"
+/* version 1.0: Original version
+   version 1.1: Changed command special codes to a single character. */
+#define SCRIPT_FORMAT "1.1"
 
 
 enum {
@@ -107,6 +109,51 @@ gth_script_file_get (void)
 }
 
 
+/* -- convert_command_attributes_1_0 -- */
+
+
+static gboolean
+convert_command_attributes_1_0_cb (const GMatchInfo *match_info,
+				   GString          *result,
+				   gpointer          user_data)
+{
+	char *match;
+
+	g_string_append_c (result, '%');
+	match = g_match_info_fetch (match_info, 0);
+	if (strcmp (match, "%ask") == 0)
+		g_string_append_c (result, GTH_SCRIPT_CODE_ASK_VALUE);
+	else if (strcmp (match, "%quote") == 0)
+		g_string_append_c (result, GTH_SCRIPT_CODE_QUOTE);
+	if (strcmp (match, "%attr") == 0)
+		g_string_append_c (result, GTH_SCRIPT_CODE_FILE_ATTRIBUTE);
+
+	return FALSE;
+}
+
+
+static char *
+convert_command_attributes_1_0 (const char *command)
+{
+	GRegex *re;
+	char   *new_command;
+
+	re = g_regex_new ("%ask|%quote|%attr", 0, 0, NULL);
+	new_command = g_regex_replace_eval (re,
+					    command,
+					    -1,
+					    0,
+					    0,
+					    convert_command_attributes_1_0_cb,
+					    NULL,
+					    NULL);
+
+	g_regex_unref (re);
+
+	return new_command;
+}
+
+
 static gboolean
 gth_script_file_load_from_data (GthScriptFile  *self,
                                 const char     *data,
@@ -125,6 +172,10 @@ gth_script_file_load_from_data (GthScriptFile  *self,
 
 		scripts_node = DOM_ELEMENT (doc)->first_child;
 		if ((scripts_node != NULL) && (g_strcmp0 (scripts_node->tag_name, "scripts") == 0)) {
+			gboolean convert_format_1_0;
+
+			convert_format_1_0 = _g_str_equal (dom_element_get_attribute (DOM_ELEMENT (scripts_node), "version"), "1.0");
+
 			for (child = scripts_node->first_child;
 			     child != NULL;
 			     child = child->next_sibling)
@@ -134,6 +185,14 @@ gth_script_file_load_from_data (GthScriptFile  *self,
 				if (strcmp (child->tag_name, "script") == 0) {
 					script = gth_script_new ();
 					dom_domizable_load_from_element (DOM_DOMIZABLE (script), child);
+					if (convert_format_1_0) {
+						char *new_command;
+
+						new_command = convert_command_attributes_1_0 (gth_script_get_command (script));
+						g_object_set (script, "command", new_command, NULL);
+
+						g_free (new_command);
+					}
 				}
 
 				if (script == NULL)
