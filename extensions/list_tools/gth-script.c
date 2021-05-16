@@ -169,13 +169,13 @@ detailed_action_from_id (char *id)
 
 static void
 gth_script_set_property (GObject      *object,
-		         guint         property_id,
-		         const GValue *value,
-		         GParamSpec   *pspec)
+			 guint         property_id,
+			 const GValue *value,
+			 GParamSpec   *pspec)
 {
 	GthScript *self;
 
-        self = GTH_SCRIPT (object);
+	self = GTH_SCRIPT (object);
 
 	switch (property_id) {
 	case PROP_ID:
@@ -222,13 +222,13 @@ gth_script_set_property (GObject      *object,
 
 static void
 gth_script_get_property (GObject    *object,
-		         guint       property_id,
-		         GValue     *value,
-		         GParamSpec *pspec)
+			 guint       property_id,
+			 GValue     *value,
+			 GParamSpec *pspec)
 {
 	GthScript *self;
 
-        self = GTH_SCRIPT (object);
+	self = GTH_SCRIPT (object);
 
 	switch (property_id) {
 	case PROP_ID:
@@ -277,24 +277,24 @@ gth_script_class_init (GthScriptClass *klass)
 	g_object_class_install_property (object_class,
 					 PROP_ID,
 					 g_param_spec_string ("id",
-                                                              "ID",
-                                                              "The object id",
-                                                              NULL,
-                                                              G_PARAM_READWRITE));
+							      "ID",
+							      "The object id",
+							      NULL,
+							      G_PARAM_READWRITE));
 	g_object_class_install_property (object_class,
 					 PROP_DISPLAY_NAME,
 					 g_param_spec_string ("display-name",
-                                                              "Display name",
-                                                              "The user visible name",
-                                                              NULL,
-                                                              G_PARAM_READWRITE));
+							      "Display name",
+							      "The user visible name",
+							      NULL,
+							      G_PARAM_READWRITE));
 	g_object_class_install_property (object_class,
 					 PROP_COMMAND,
 					 g_param_spec_string ("command",
-                                                              "Command",
-                                                              "The command to execute",
-                                                              NULL,
-                                                              G_PARAM_READWRITE));
+							      "Command",
+							      "The command to execute",
+							      NULL,
+							      G_PARAM_READWRITE));
 	g_object_class_install_property (object_class,
 					 PROP_VISIBLE,
 					 g_param_spec_boolean ("visible",

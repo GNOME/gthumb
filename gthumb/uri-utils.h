@@ -51,9 +51,9 @@ gboolean	_g_uri_split			(const char	 *uri,
 char *		_g_uri_join			(UriParts	 *parts);
 void		_g_uri_parts_init		(UriParts	 *parts);
 void		_g_uri_parts_clear		(UriParts	 *parts);
-char *		_g_uri_get_part			(const char	 *uri,
+char *		_g_uri_get_part		(const char	 *uri,
 						 UriPart	  part);
-char *		_g_uri_get_path			(const char	 *uri);
+char *		_g_uri_get_path		(const char	 *uri);
 char *		_g_uri_get_basename		(const char	 *uri);
 char *		_g_uri_get_extension		(const char	 *uri);
 char *		_g_uri_get_scheme		(const char	 *uri);
@@ -62,17 +62,17 @@ char *		_g_uri_get_relative_path	(const char	 *uri,
 gboolean	_g_uri_is_parent		(const char	 *uri,
 						 const char	 *file);
 char *		_g_uri_get_parent		(const char	 *uri);
-char *		_g_uri_remove_extension		(const char	 *uri);
+char *		_g_uri_remove_extension	(const char	 *uri);
 char *		_g_uri_from_path		(const char	 *path);
-const char *	_g_uri_get_home			(void);
+const char *	_g_uri_get_home		(void);
 char *		_g_uri_append_path		(const char	 *uri,
 						 const char	 *path);
 
 /* Path utils */
 
-char **		_g_path_split_components	(const char	 *path,
+char **	_g_path_split_components	(const char	 *path,
 						 int		 *size);
-char *		_g_path_join_components		(char		**comp_v);
+char *		_g_path_join_components	(char		**comp_v);
 char *		_g_path_join			(const char	 *first,
 						 ...) G_GNUC_NULL_TERMINATED;
 const char *	_g_path_get_basename		(const char	 *path);

@@ -181,7 +181,6 @@ typedef void (*DialogCallback)   (gboolean    opened,
 				  GtkWidget  *dialog,
 				  gpointer    user_data);
 
-
 G_END_DECLS
 
 #endif /* TYPEDEFS_H */
