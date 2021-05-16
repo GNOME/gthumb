@@ -174,3 +174,12 @@ GthToolbox .header-bar,
 .revert-shortcut-button {
 	padding: 0;
 }
+
+/* -- terminal-like label, used for the template preview -- */
+
+.terminal {
+	background-color: #000;
+	color: #fff;
+	padding: 20px;
+	font-family: monospace;
+}

@@ -27,17 +27,21 @@
 G_BEGIN_DECLS
 
 typedef enum {
+	GTH_TEMPLATE_CODE_TYPE_SPACE,
 	GTH_TEMPLATE_CODE_TYPE_TEXT,
 	GTH_TEMPLATE_CODE_TYPE_ENUMERATOR,
 	GTH_TEMPLATE_CODE_TYPE_SIMPLE,
 	GTH_TEMPLATE_CODE_TYPE_DATE,
-	GTH_TEMPLATE_CODE_TYPE_FILE_ATTRIBUTE
+	GTH_TEMPLATE_CODE_TYPE_FILE_ATTRIBUTE,
+	GTH_TEMPLATE_CODE_TYPE_ASK_VALUE,
+	GTH_TEMPLATE_CODE_TYPE_QUOTED
 } GthTemplateCodeType;
 
 typedef struct {
 	GthTemplateCodeType  type;
 	char                *description;
-	char                 code;
+	gunichar             code;
+	int                  n_args;
 } GthTemplateCode;
 
 #define GTH_TYPE_TEMPLATE_SELECTOR            (gth_template_selector_get_type ())
@@ -61,17 +65,23 @@ struct _GthTemplateSelectorClass {
 
 	void (*add_template)    (GthTemplateSelector *selector);
 	void (*remove_template) (GthTemplateSelector *selector);
+	void (*edit_template)   (GthTemplateSelector *selector,
+				 GtkEntry            *entry);
+	void (*changed)         (GthTemplateSelector *selector);
 };
 
-GType       gth_template_selector_get_type      (void);
-GtkWidget * gth_template_selector_new           (GthTemplateCode      *allowed_codes,
-						 int                   n_codes);
-void        gth_template_selector_set_value     (GthTemplateSelector  *selector,
-					         const char           *value);
-char *      gth_template_selector_get_value     (GthTemplateSelector  *selector,
-					         GError              **error);
-void        gth_template_selector_can_remove    (GthTemplateSelector  *selector,
-					         gboolean              value);
+GType			gth_template_selector_get_type		(void);
+GtkWidget *		gth_template_selector_new		(GthTemplateCode      *allowed_codes,
+								 int                   n_codes);
+void			gth_template_selector_set_value	(GthTemplateSelector  *selector,
+								 const char           *value);
+char *			gth_template_selector_get_value	(GthTemplateSelector  *selector);
+void			gth_template_selector_can_remove	(GthTemplateSelector  *selector,
+								 gboolean              value);
+void			gth_template_selector_set_quoted	(GthTemplateSelector  *selector,
+								 const char           *value);
+void			gth_template_selector_focus		(GthTemplateSelector  *selector);
+GthTemplateCode *	gth_template_selector_get_code		(GthTemplateSelector  *selector);
 
 G_END_DECLS
 

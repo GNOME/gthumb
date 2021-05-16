@@ -47,15 +47,18 @@ struct _GthTemplateEditorDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType       gth_template_editor_dialog_get_type     (void);
-GtkWidget * gth_template_editor_dialog_new          (GthTemplateCode          *allowed_codes,
-						     int                       n_codes,
-						     const char               *title,
-						     GtkWindow                *parent);
-void        gth_template_editor_dialog_set_template (GthTemplateEditorDialog  *self,
-						     const char               *value);
-char *      gth_template_editor_dialog_get_template (GthTemplateEditorDialog  *self,
-						     GError                  **error);
+GType       gth_template_editor_dialog_get_type	(void);
+GtkWidget * gth_template_editor_dialog_new		(GthTemplateCode          *allowed_codes,
+							 int                       n_codes,
+							 TemplateFlags             template_flags,
+							 const char               *title,
+							 GtkWindow                *parent);
+void        gth_template_editor_dialog_set_template	(GthTemplateEditorDialog  *self,
+							 const char               *value);
+char *      gth_template_editor_dialog_get_template	(GthTemplateEditorDialog  *self);
+void        gth_template_editor_dialog_set_preview_func (GthTemplateEditorDialog  *self,
+							 TemplatePreviewFunc       func,
+							 gpointer                  user_data);
 
 G_END_DECLS
 

@@ -29,7 +29,6 @@
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 
-
 enum {
 	TYPE_DATA_COLUMN,
 	TYPE_NAME_COLUMN,
@@ -52,6 +51,8 @@ enum {
 enum {
 	ADD_TEMPLATE,
 	REMOVE_TEMPLATE,
+	EDIT_TEMPLATE,
+	CHANGED,
 	LAST_SIGNAL
 };
 
@@ -60,6 +61,16 @@ struct _GthTemplateSelectorPrivate {
 	GtkBuilder *builder;
 };
 
+static char *TypeName[] = {
+	"space",
+	"text",
+	"enumerator",
+	"simple",
+	"date",
+	"file_attribute",
+	"ask_value",
+	"quoted"
+};
 
 G_DEFINE_TYPE_WITH_CODE (GthTemplateSelector,
 			 gth_template_selector,
@@ -67,7 +78,18 @@ G_DEFINE_TYPE_WITH_CODE (GthTemplateSelector,
 			 G_ADD_PRIVATE (GthTemplateSelector))
 
 
-static char * Date_Formats[] = { "%Y-%m-%d--%H.%M.%S", "%Y-%m-%d", "%x %X", "%x", NULL };
+static char * Date_Formats[] = {
+	"%Y-%m-%d--%H.%M.%S",
+	"%x %X",
+	"%Y%m%d%H%M%S",
+	"%Y-%m-%d",
+	"%x",
+	"%Y%m%d",
+	"%H.%M.%S",
+	"%X",
+	"%H%M%S",
+	NULL
+};
 static guint  gth_template_selector_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -109,6 +131,25 @@ gth_template_selector_class_init (GthTemplateSelectorClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
+	gth_template_selector_signals[EDIT_TEMPLATE] =
+		g_signal_new ("edit-template",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthTemplateSelectorClass, edit_template),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__OBJECT,
+			      G_TYPE_NONE,
+			      1,
+			      GTK_TYPE_ENTRY);
+	gth_template_selector_signals[CHANGED] =
+		g_signal_new ("changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthTemplateSelectorClass, changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
 }
 
 
@@ -139,21 +180,37 @@ remove_button_clicked_cb (GtkButton           *button,
 
 
 static void
+edit_quoted_text_button_clicked_cb (GtkButton           *button,
+				    GthTemplateSelector *self)
+{
+	GtkWidget *entry = GET_WIDGET ("quoted_entry");
+
+	gtk_widget_grab_focus (entry);
+	g_signal_emit (self, gth_template_selector_signals[EDIT_TEMPLATE], 0, entry);
+}
+
+
+static void
+_gth_template_selector_changed (GthTemplateSelector *self)
+{
+	g_signal_emit (self, gth_template_selector_signals[CHANGED], 0);
+}
+
+
+static void
 type_combobox_changed_cb (GtkComboBox         *combo_box,
 			  GthTemplateSelector *self)
 {
-	GtkTreeIter      iter;
 	GthTemplateCode *code;
 
-	if (! gtk_combo_box_get_active_iter (combo_box, &iter))
+	code = gth_template_selector_get_code (self);
+	if (code == NULL)
 		return;
 
-	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("type_liststore")),
-			    &iter,
-			    TYPE_DATA_COLUMN, &code,
-			    -1);
+	gtk_stack_set_visible_child_name (GTK_STACK (GET_WIDGET ("type_stack")), TypeName[code->type]);
 
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("type_notebook")), code->type);
+	gth_template_selector_focus (self);
+	_gth_template_selector_changed (self);
 }
 
 
@@ -173,6 +230,8 @@ date_format_combobox_changed_cb (GtkComboBox         *combo_box,
 		gtk_widget_show (GET_WIDGET ("date_format_combobox"));
 		gtk_widget_hide (GET_WIDGET ("custom_date_format_entry"));
 	}
+
+	_gth_template_selector_changed (self);
 }
 
 
@@ -184,8 +243,37 @@ custom_date_format_entry_icon_release_cb (GtkEntry            *entry,
 {
 	GthTemplateSelector *self = user_data;
 
-	if (icon_pos == GTK_ENTRY_ICON_SECONDARY)
+	if (icon_pos == GTK_ENTRY_ICON_SECONDARY) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), 0);
+		_gth_template_selector_changed (self);
+	}
+}
+
+
+static void
+editable_changed_cb (GtkEditable *editable,
+		     gpointer     user_data)
+{
+	_gth_template_selector_changed (GTH_TEMPLATE_SELECTOR (user_data));
+}
+
+
+static void
+attribute_combobox_changed_cb (GtkComboBox *combo_box,
+			       gpointer     user_data)
+{
+	_gth_template_selector_changed (GTH_TEMPLATE_SELECTOR (user_data));
+}
+
+
+static void
+edit_default_value_button_clicked_cb (GtkButton           *button,
+				      GthTemplateSelector *self)
+{
+	GtkWidget *entry = GET_WIDGET ("default_value_entry");
+
+	gtk_widget_grab_focus (entry);
+	g_signal_emit (self, gth_template_selector_signals[EDIT_TEMPLATE], 0, entry);
 }
 
 
@@ -223,7 +311,7 @@ gth_template_selector_construct (GthTemplateSelector *self,
 				    -1);
 	}
 
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("type_notebook")), GTH_TEMPLATE_CODE_TYPE_SIMPLE);
+	gtk_stack_set_visible_child_name (GTK_STACK (GET_WIDGET ("type_stack")), TypeName[GTH_TEMPLATE_CODE_TYPE_SIMPLE]);
 
 	/* date formats */
 
@@ -328,6 +416,42 @@ gth_template_selector_construct (GthTemplateSelector *self,
 			  "icon-release",
 			  G_CALLBACK (custom_date_format_entry_icon_release_cb),
 			  self);
+	g_signal_connect (GET_WIDGET ("custom_date_format_entry"),
+			  "changed",
+			  G_CALLBACK (editable_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("edit_quoted_text_button"),
+			  "clicked",
+			  G_CALLBACK (edit_quoted_text_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("quoted_entry"),
+			  "changed",
+			  G_CALLBACK (editable_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("text_entry"),
+			  "changed",
+			  G_CALLBACK (editable_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("enumerator_digits_spinbutton"),
+			  "changed",
+			  G_CALLBACK (editable_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("attribute_combobox"),
+			  "changed",
+			  G_CALLBACK (attribute_combobox_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("prompt_entry"),
+			  "changed",
+			  G_CALLBACK (editable_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("default_value_entry"),
+			  "changed",
+			  G_CALLBACK (editable_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("edit_default_value_button"),
+			  "clicked",
+			  G_CALLBACK (edit_default_value_button_clicked_cb),
+			  self);
 }
 
 
@@ -341,26 +465,6 @@ gth_template_selector_new (GthTemplateCode *allowed_codes,
 	gth_template_selector_construct (self, allowed_codes, n_codes);
 
 	return (GtkWidget *) self;
-}
-
-
-static char *
-get_format_from_value (const char *value)
-{
-	char    *format = NULL;
-	GRegex  *re;
-	char   **a;
-	int      i;
-
-	re = g_regex_new ("%.\\{([^}]+)\\}", 0, 0, NULL);
-	a = g_regex_split (re, value, 0);
-	for (i = 1; i < g_strv_length (a); i += 2)
-		format = g_strstrip (g_strdup (a[i]));
-
-	g_strfreev (a);
-	g_regex_unref (re);
-
-	return format;
 }
 
 
@@ -404,15 +508,14 @@ void
 gth_template_selector_set_value (GthTemplateSelector *self,
 				 const char          *value)
 {
-	GthTemplateCode *code = NULL;
-	GtkTreeModel    *tree_model;
-	GtkTreeIter      iter;
-	GtkTreeIter      text_iter;
-	gboolean         allows_text = FALSE;
-	int              i;
-	gboolean         predefined_format;
-	char            *format;
-	char            *attribute_id;
+	GthTemplateCode  *code = NULL;
+	GtkTreeModel     *tree_model;
+	GtkTreeIter       iter;
+	GtkTreeIter       text_iter, space_iter;
+	int               i;
+	gboolean          predefined_format;
+	char            **args;
+	char             *arg;
 
 	tree_model = (GtkTreeModel *) GET_WIDGET ("type_liststore");
 	if (gtk_tree_model_get_iter_first (tree_model, &iter)) {
@@ -424,38 +527,46 @@ gth_template_selector_set_value (GthTemplateSelector *self,
 					    TYPE_DATA_COLUMN, &iter_code,
 					    -1);
 
-			if (iter_code->type == GTH_TEMPLATE_CODE_TYPE_TEXT) {
-				allows_text = TRUE;
+			switch (iter_code->type) {
+			case GTH_TEMPLATE_CODE_TYPE_TEXT:
 				text_iter = iter;
-			}
+				break;
 
-			if ((value[0] == '%')
-			    && ((iter_code->type == GTH_TEMPLATE_CODE_TYPE_SIMPLE)
-				|| (iter_code->type == GTH_TEMPLATE_CODE_TYPE_DATE)
-				|| (iter_code->type == GTH_TEMPLATE_CODE_TYPE_FILE_ATTRIBUTE))
-			    && (value[1] == iter_code->code))
-			{
-				code = iter_code;
-			}
-			else if ((iter_code->type == GTH_TEMPLATE_CODE_TYPE_ENUMERATOR) && (value[0] == iter_code->code)) {
-				code = iter_code;
+			case GTH_TEMPLATE_CODE_TYPE_SPACE:
+				space_iter = iter;
+				break;
+
+			case GTH_TEMPLATE_CODE_TYPE_ENUMERATOR:
+				if (g_str_has_prefix (value, "#"))
+					code = iter_code;
+				break;
+
+			default:
+				if (_g_template_token_is (value, iter_code->code))
+					code = iter_code;
+				break;
 			}
 		}
 		while ((code == NULL) && gtk_tree_model_iter_next (tree_model, &iter));
 	}
 
-	if ((code == NULL) && ! allows_text)
-		return;
-
-	if ((code == NULL) && allows_text) {
-		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("type_combobox")), &text_iter);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("type_notebook")), GTH_TEMPLATE_CODE_TYPE_TEXT);
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("text_entry")), value);
+	if (code == NULL) {
+		if (_g_str_equal (value, " ")) {
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("type_combobox")), &space_iter);
+			gtk_stack_set_visible_child_name (GTK_STACK (GET_WIDGET ("type_stack")), TypeName[GTH_TEMPLATE_CODE_TYPE_SPACE]);
+		}
+		else {
+			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("type_combobox")), &text_iter);
+			gtk_stack_set_visible_child_name (GTK_STACK (GET_WIDGET ("type_stack")), TypeName[GTH_TEMPLATE_CODE_TYPE_TEXT]);
+			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("text_entry")), value);
+		}
 		return;
 	}
 
 	gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("type_combobox")), &iter);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (GET_WIDGET ("type_notebook")), code->type);
+	gtk_stack_set_visible_child_name (GTK_STACK (GET_WIDGET ("type_stack")), TypeName[code->type]);
+
+	args = _g_template_get_token_args (value);
 
 	switch (code->type) {
 	case GTH_TEMPLATE_CODE_TYPE_ENUMERATOR:
@@ -464,11 +575,11 @@ gth_template_selector_set_value (GthTemplateSelector *self,
 
 	case GTH_TEMPLATE_CODE_TYPE_DATE:
 		predefined_format = FALSE;
-		format = get_format_from_value (value);
-		if (format == NULL)
-			format = g_strdup (DEFAULT_STRFTIME_FORMAT);
+		arg = g_strdup (args[0]);
+		if (arg == NULL)
+			arg = g_strdup (DEFAULT_STRFTIME_FORMAT);
 		for (i = 0; Date_Formats[i] != NULL; i++) {
-			if (g_str_equal (format, Date_Formats[i])) {
+			if (g_str_equal (arg, Date_Formats[i])) {
 				gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), i);
 				predefined_format = TRUE;
 				break;
@@ -476,67 +587,78 @@ gth_template_selector_set_value (GthTemplateSelector *self,
 		}
 		if (! predefined_format) {
 			gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), G_N_ELEMENTS (Date_Formats) - 1);
-			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("custom_date_format_entry")), format);
+			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("custom_date_format_entry")), arg);
 		}
-		g_free (format);
+		g_free (arg);
 		break;
 
 	case GTH_TEMPLATE_CODE_TYPE_FILE_ATTRIBUTE:
-		attribute_id = get_format_from_value (value);
-		if (attribute_id != NULL) {
+		if (args[0] != NULL) {
 			GtkTreeModel *tree_model;
 			GtkTreeIter   iter;
 
 			tree_model = (GtkTreeModel *) GET_WIDGET ("attribute_treestore");
-			if (_gtk_tree_model_get_iter_from_attribute_id (tree_model, NULL, attribute_id, &iter))
+			if (_gtk_tree_model_get_iter_from_attribute_id (tree_model, NULL, args[0], &iter))
 				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("attribute_combobox")), &iter);
 		}
-		g_free (attribute_id);
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_ASK_VALUE:
+		if (args[0] != NULL)
+			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("prompt_entry")), args[0]);
+		if (args[1] != NULL)
+			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("default_value_entry")), args[1]);
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_QUOTED:
+		if (args[0] != NULL)
+			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("quoted_entry")), args[0]);
 		break;
 
 	default:
 		break;
 	}
+
+	g_strfreev (args);
 }
 
 
 char *
-gth_template_selector_get_value (GthTemplateSelector  *self,
-				 GError              **error)
+gth_template_selector_get_value (GthTemplateSelector  *self)
 {
+	GthTemplateCode *code;
 	GString         *value;
 	GtkTreeIter      iter;
-	GthTemplateCode *code;
 	int              i;
 
-	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("type_combobox")), &iter))
+	code = gth_template_selector_get_code (self);
+	if (code == NULL)
 		return NULL;
-
-	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("type_liststore")),
-			    &iter,
-			    TYPE_DATA_COLUMN, &code,
-			    -1);
 
 	value = g_string_new ("");
 
 	switch (code->type) {
+	case GTH_TEMPLATE_CODE_TYPE_SPACE:
+		g_string_append_c (value, ' ');
+		break;
+
 	case GTH_TEMPLATE_CODE_TYPE_TEXT:
 		g_string_append (value, gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("text_entry"))));
 		break;
 
 	case GTH_TEMPLATE_CODE_TYPE_ENUMERATOR:
 		for (i = 0; i < gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (GET_WIDGET ("enumerator_digits_spinbutton"))); i++)
-			g_string_append_c (value, code->code);
+			g_string_append_c (value, '#');
 		break;
 
 	case GTH_TEMPLATE_CODE_TYPE_SIMPLE:
-		g_string_append (value, "%");
-		g_string_append_c (value, code->code);
+		g_string_append_c (value, '%');
+		g_string_append_unichar (value, code->code);
 		break;
 
 	case GTH_TEMPLATE_CODE_TYPE_DATE:
-		g_string_append (value, "%");
-		g_string_append_c (value, code->code);
+		g_string_append_c (value, '%');
+		g_string_append_unichar (value, code->code);
 		if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), &iter)) {
 			char *format;
 
@@ -564,11 +686,26 @@ gth_template_selector_get_value (GthTemplateSelector  *self,
 					    ATTRIBUTE_ID_COLUMN, &attribute_id,
 					    -1);
 			if ((attribute_id != NULL) && (strcmp (attribute_id, "") != 0)) {
-				g_string_append_printf (value, "%%%c{ %s }", code->code, attribute_id);
+				g_string_append_c (value, '%');
+				g_string_append_unichar (value, code->code);
+				g_string_append_printf (value, "{ %s }", attribute_id);
 			}
 
 			g_free (attribute_id);
 		}
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_QUOTED:
+		g_string_append_c (value, '%');
+		g_string_append_unichar (value, code->code);
+		g_string_append_printf (value, "{ %s }", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("quoted_entry"))));
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_ASK_VALUE:
+		g_string_append_c (value, '%');
+		g_string_append_unichar (value, code->code);
+		g_string_append_printf (value, "{ %s }", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("prompt_entry"))));
+		g_string_append_printf (value, "{ %s }", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("default_value_entry"))));
 		break;
 	}
 
@@ -581,4 +718,80 @@ gth_template_selector_can_remove (GthTemplateSelector *self,
 				  gboolean             value)
 {
 	gtk_widget_set_sensitive (GET_WIDGET ("remove_button"), value);
+}
+
+
+void
+gth_template_selector_set_quoted (GthTemplateSelector *self,
+				  const char          *value)
+{
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("quoted_entry")), value);
+	_gth_template_selector_changed (self);
+}
+
+
+void
+gth_template_selector_focus (GthTemplateSelector *self)
+{
+	GthTemplateCode *code;
+	GtkWidget       *focused = NULL;
+
+	code = gth_template_selector_get_code (self);
+	if (code == NULL)
+		return;
+
+	focused = GET_WIDGET ("type_combobox");
+
+	switch (code->type) {
+	case GTH_TEMPLATE_CODE_TYPE_SPACE:
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_TEXT:
+		focused = GET_WIDGET ("text_entry");
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_ENUMERATOR:
+		focused = GET_WIDGET ("enumerator_digits_spinbutton");
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_SIMPLE:
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_DATE:
+		focused = GET_WIDGET ("date_format_combobox");
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_FILE_ATTRIBUTE:
+		focused = GET_WIDGET ("attribute_combobox");
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_QUOTED:
+		focused = GET_WIDGET ("quoted_entry");
+		break;
+
+	case GTH_TEMPLATE_CODE_TYPE_ASK_VALUE:
+		focused = GET_WIDGET ("prompt_entry");
+		break;
+	}
+
+	if (focused != NULL)
+		gtk_widget_grab_focus (focused);
+}
+
+
+GthTemplateCode *
+gth_template_selector_get_code (GthTemplateSelector *self)
+{
+	GtkTreeIter      iter;
+	GthTemplateCode *code = NULL;
+
+	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (GET_WIDGET ("type_combobox")), &iter))
+		return NULL;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (GET_WIDGET ("type_liststore")),
+			    &iter,
+			    TYPE_DATA_COLUMN, &code,
+			    -1);
+
+	return code;
 }

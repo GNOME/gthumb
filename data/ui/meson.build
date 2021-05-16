@@ -11,6 +11,7 @@ ui_files = files(
   'personalize-filters.ui',
   'preferences.ui',
   'shortcuts-preferences.ui',
-  'sort-order.ui'
+  'sort-order.ui',
+  'template-editor-dialog.ui'
 )
 install_data(ui_files, install_dir : ui_install_dir)
