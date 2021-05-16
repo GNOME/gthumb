@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkBox" id="dialog_content">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="border_width">15</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">15</property>
     <property name="orientation">vertical</property>
     <property name="spacing">2</property>
     <child>
       <object class="GtkBox" id="vbox4">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="border_width">6</property>
+        <property name="can-focus">False</property>
+        <property name="border-width">6</property>
         <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <object class="GtkBox" id="vbox6">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
               <object class="GtkLabel" id="scripts_label">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="halign">start</property>
                 <property name="label" translatable="yes">Co_mmands:</property>
               </object>
@@ -37,16 +37,16 @@
             <child>
               <object class="GtkBox" id="hbox3">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="can-focus">False</property>
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkScrolledWindow" id="scripts_scrolledwindow">
-                    <property name="width_request">500</property>
-                    <property name="height_request">300</property>
+                    <property name="width-request">500</property>
+                    <property name="height-request">500</property>
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can-focus">True</property>
                     <property name="vexpand">True</property>
-                    <property name="shadow_type">etched-in</property>
+                    <property name="shadow-type">etched-in</property>
                     <child>
                       <placeholder/>
                     </child>
@@ -60,17 +60,17 @@
                 <child>
                   <object class="GtkButtonBox" id="vbuttonbox3">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="can-focus">False</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
-                    <property name="layout_style">start</property>
+                    <property name="layout-style">start</property>
                     <child>
                       <object class="GtkButton" id="new_button">
                         <property name="label">gtk-new</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -82,9 +82,9 @@
                       <object class="GtkButton" id="edit_button">
                         <property name="label">gtk-edit</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -96,9 +96,9 @@
                       <object class="GtkButton" id="delete_button">
                         <property name="label">gtk-remove</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">True</property>
+                        <property name="use-stock">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

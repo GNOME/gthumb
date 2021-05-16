@@ -31,6 +31,20 @@
 #define NO_SHORTCUT 0
 
 
+static GthTemplateCode Command_Special_Codes[] = {
+	{ GTH_TEMPLATE_CODE_TYPE_QUOTED, N_("Quoted text"), GTH_SCRIPT_CODE_QUOTE, 1 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("File URI"), GTH_SCRIPT_CODE_URI, 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("File path"), GTH_SCRIPT_CODE_PATH, 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("File name"), GTH_SCRIPT_CODE_BASENAME, 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("File name, no extension"), GTH_SCRIPT_CODE_BASENAME_NO_EXTENSION, 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("File extension"), GTH_SCRIPT_CODE_EXTENSION, 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Folder path"), GTH_SCRIPT_CODE_PARENT_PATH, 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Timestamp"), GTH_SCRIPT_CODE_TIMESTAMP, 1 },
+	{ GTH_TEMPLATE_CODE_TYPE_ASK_VALUE, N_("Ask a value"), GTH_SCRIPT_CODE_ASK_VALUE, 2 },
+	{ GTH_TEMPLATE_CODE_TYPE_FILE_ATTRIBUTE, N_("File attribute"), GTH_SCRIPT_CODE_FILE_ATTRIBUTE, 1 },
+};
+
+
 enum {
 	SHORTCUT_NAME_COLUMN = 0,
 	SHORTCUT_SENSITIVE_COLUMN
@@ -45,7 +59,6 @@ struct _GthScriptEditorDialogPrivate {
 	gboolean     wait_command;
 	gboolean     shell_script;
 	gboolean     for_each_file;
-	gboolean     help_visible;
 	GthShortcut *shortcut;
 };
 
@@ -91,7 +104,6 @@ gth_script_editor_dialog_init (GthScriptEditorDialog *dialog)
 	dialog->priv->wait_command = FALSE;
 	dialog->priv->shell_script = FALSE;
 	dialog->priv->for_each_file = FALSE;
-	dialog->priv->help_visible = FALSE;
 	dialog->priv->shortcut = NULL;
 	dialog->priv->shortcut_window = NULL;
 }
@@ -105,19 +117,53 @@ update_sensitivity (GthScriptEditorDialog *self)
 
 
 static void
-command_entry_icon_press_cb (GtkEntry             *entry,
-                             GtkEntryIconPosition  icon_pos,
-                             GdkEvent             *event,
-                             gpointer              user_data)
+command_editor_dialog_response_cb (GtkDialog *dialog,
+				   int        response_id,
+				   gpointer   user_data)
 {
 	GthScriptEditorDialog *self = user_data;
+	char                  *value;
 
-	self->priv->help_visible = ! self->priv->help_visible;
+	switch (response_id) {
+	case GTK_RESPONSE_OK:
+		value = gth_template_editor_dialog_get_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog));
+		if (value != NULL) {
+			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("command_entry")), value);
+			gtk_widget_destroy (GTK_WIDGET (dialog));
 
-	if (self->priv->help_visible)
-		gtk_widget_show (GET_WIDGET("command_help_box"));
-	else
-		gtk_widget_hide (GET_WIDGET("command_help_box"));
+			g_free (value);
+		}
+		break;
+
+	default:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		break;
+	}
+}
+
+
+static void
+edit_command_button_clicked_cb (GtkButton *button,
+				gpointer   user_data)
+{
+	GthScriptEditorDialog *self = user_data;
+	GtkWidget             *dialog;
+
+	dialog = gth_template_editor_dialog_new (Command_Special_Codes,
+						 G_N_ELEMENTS (Command_Special_Codes),
+						 0,
+						 _("Edit Command"),
+						 GTK_WINDOW (self));
+	gth_template_editor_dialog_set_preview_func (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						     (TemplatePreviewFunc) gth_script_get_preview,
+						     NULL);
+	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("command_entry"))));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (command_editor_dialog_response_cb),
+			  self);
+	gtk_widget_show (dialog);
 }
 
 
@@ -149,8 +195,10 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 {
 	if (title != NULL)
 		gtk_window_set_title (GTK_WINDOW (self), title);
-	if (parent != NULL)
+	if (parent != NULL) {
 		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
+		_gtk_dialog_add_to_window_group (GTK_DIALOG (self));
+	}
 
 	gtk_dialog_add_buttons (GTK_DIALOG (self),
 			        _GTK_LABEL_CANCEL, GTK_RESPONSE_CANCEL,
@@ -170,9 +218,9 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
 	gtk_widget_show (self->priv->accel_button);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("accel_box")), self->priv->accel_button, FALSE, FALSE, 0);
 
-	g_signal_connect (GET_WIDGET ("command_entry"),
-			  "icon-press",
-			  G_CALLBACK (command_entry_icon_press_cb),
+	g_signal_connect (GET_WIDGET ("edit_command_button"),
+			  "clicked",
+			  G_CALLBACK (edit_command_button_clicked_cb),
 			  self);
 
 	/**/
