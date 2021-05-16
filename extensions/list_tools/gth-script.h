@@ -27,6 +27,17 @@
 
 G_BEGIN_DECLS
 
+#define GTH_SCRIPT_CODE_URI 'U'
+#define GTH_SCRIPT_CODE_PATH 'F'
+#define GTH_SCRIPT_CODE_BASENAME 'B'
+#define GTH_SCRIPT_CODE_BASENAME_NO_EXTENSION 'N'
+#define GTH_SCRIPT_CODE_EXTENSION 'E'
+#define GTH_SCRIPT_CODE_PARENT_PATH 'P'
+#define GTH_SCRIPT_CODE_TIMESTAMP 'T'
+#define GTH_SCRIPT_CODE_ASK_VALUE '?'
+#define GTH_SCRIPT_CODE_FILE_ATTRIBUTE 'A'
+#define GTH_SCRIPT_CODE_QUOTE 'Q'
+
 #define GTH_TYPE_SCRIPT         (gth_script_get_type ())
 #define GTH_SCRIPT(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GTH_TYPE_SCRIPT, GthScript))
 #define GTH_SCRIPT_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GTH_TYPE_SCRIPT, GthScriptClass))
@@ -74,6 +85,8 @@ char *            gth_script_get_command_line_finish   (GthScript       *script,
 							GError         **error);
 const char *      gth_script_get_accelerator           (GthScript       *script);
 GthShortcut *     gth_script_create_shortcut           (GthScript       *script);
+char *            gth_script_get_preview               (const char      *tmpl,
+							TemplateFlags    flags);
 
 G_END_DECLS
 
