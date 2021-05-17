@@ -177,6 +177,25 @@ test_g_utf8_remove_string_properties (void)
 
 
 static void
+test_g_utf8_find_expr (void)
+{
+	g_assert_cmpstr (_g_utf8_find_expr (NULL, NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_expr ("", NULL), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_expr (NULL, ""), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_expr ("", ""), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_expr ("日", ""), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_expr ("日", "日"), ==, "日");
+	g_assert_cmpstr (_g_utf8_find_expr ("日本語", "日"), ==, "日");
+	g_assert_cmpstr (_g_utf8_find_expr ("日本語", "語"), ==, "語");
+	g_assert_cmpstr (_g_utf8_find_expr ("日本語", "本本"), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_expr ("日本語", "[0-9]+"), ==, NULL);
+	g_assert_cmpstr (_g_utf8_find_expr ("日本1234語", "[0-9]+"), ==, "1234");
+	g_assert_cmpstr (_g_utf8_find_expr ("日1本9876語", "[0-9]+"), ==, "1");
+	g_assert_cmpstr (_g_utf8_find_expr ("日1234本9876語", "[0-9]+"), ==, "1234");
+}
+
+
+static void
 test_g_path_get_parent_all (void)
 {
 	g_assert_cmpstr (_g_path_get_parent (NULL), ==, NULL);
@@ -1210,6 +1229,7 @@ main (int   argc,
 	g_test_add_func ("/glib-utils/_g_utf8_strip", test_g_utf8_strip_all);
 	g_test_add_func ("/glib-utils/_g_utf8_translate", test_g_utf8_translate_all);
 	g_test_add_func ("/glib-utils/_g_utf8_remove_string_properties", test_g_utf8_remove_string_properties);
+	g_test_add_func ("/glib-utils/_g_utf8_find_expr", test_g_utf8_find_expr);
 
 	g_test_add_func ("/glib-utils/_g_path_get_basename", test_g_path_get_basename_all);
 	g_test_add_func ("/glib-utils/_g_path_get_extension", test_g_path_get_extension_all);

@@ -33,6 +33,7 @@ gboolean	_g_str_equal		(const char	 *str1,
 gboolean	_g_str_n_equal		(const char	 *str1,
 					 const char	 *str2,
 					 gsize		  size);
+gboolean	_g_str_empty		(const char	 *str);
 void		_g_str_set		(char		**str,
 					 const char	 *value);
 char **	_g_strv_take_from_str_list
@@ -64,6 +65,8 @@ char *		_g_utf8_strndup	(const char	 *str,
 					 gssize	  size);
 const char *	_g_utf8_find_str	(const char	 *haystack,
 					 const char	 *needle);
+char *		_g_utf8_find_expr	(const char	 *str,
+					 const char	 *pattern);
 char **	_g_utf8_split		(const char	 *str,
 					 const char	 *separator,
 					 int		  max_tokens);

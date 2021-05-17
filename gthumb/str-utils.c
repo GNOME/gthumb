@@ -22,6 +22,7 @@
 #include <config.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include "glib-utils.h"
 #include "str-utils.h"
 
 
@@ -43,6 +44,13 @@ _g_str_n_equal (const char *str1,
 	if ((str1 == NULL) || (str2 == NULL))
 		return FALSE;
 	return strncmp (str1, str2, size);
+}
+
+
+gboolean
+_g_str_empty (const char *str)
+{
+	return (str == NULL) || (str[0] == 0);
 }
 
 
@@ -326,6 +334,29 @@ _g_utf8_find_str (const char *haystack,
 	}
 
 	return NULL;
+}
+
+
+char *
+_g_utf8_find_expr (const char *str,
+		   const char *pattern)
+{
+	GRegex     *regex;
+	GMatchInfo *match_info;
+	char       *value = NULL;
+
+	if ((str == NULL) || _g_str_empty (pattern))
+		return NULL;
+
+	regex = g_regex_new (pattern, 0, 0, NULL);
+	g_regex_match (regex, str, 0, &match_info);
+	if (g_match_info_matches (match_info))
+		value = g_match_info_fetch (match_info, 0);
+
+	g_match_info_free (match_info);
+	g_regex_unref (regex);
+
+	return value;
 }
 
 
