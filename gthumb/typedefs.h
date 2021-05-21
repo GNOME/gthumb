@@ -116,6 +116,15 @@ typedef enum {
 } GthGridType;
 
 
+typedef enum {
+	GTH_THUMBNAIL_STATE_DEFAULT = 0,
+	GTH_THUMBNAIL_STATE_CREATED,
+	GTH_THUMBNAIL_STATE_LOADING,
+	GTH_THUMBNAIL_STATE_ERROR,
+	GTH_THUMBNAIL_STATE_LOADED
+} GthThumbnailState;
+
+
 typedef enum /*< skip >*/ {
         GTH_CHANNEL_RED   = 0,
         GTH_CHANNEL_GREEN = 1,

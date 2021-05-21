@@ -23,6 +23,7 @@
 #include <glib/gi18n.h>
 #include "cairo-utils.h"
 #include "glib-utils.h"
+#include "gth-enum-types.h"
 #include "gth-file-store.h"
 #include "gth-marshal.h"
 #include "gth-string-list.h"
@@ -45,23 +46,25 @@ static guint gth_file_store_signals[LAST_SIGNAL] = { 0 };
 
 
 typedef struct {
-	int              ref_count;
-	GthFileData     *file_data;
-	cairo_surface_t *thumbnail;
-	gboolean         is_icon : 1;
+	int                ref_count;
+	GthFileData       *file_data;
+	cairo_surface_t   *thumbnail;
+	gboolean           is_icon : 1;
+	GthThumbnailState  thumbnail_state;
 
 	/*< private >*/
 
-	guint        pos;
-	guint        abs_pos;
-	gboolean     visible : 1;
-	gboolean     changed : 1;
+	guint    pos;
+	guint    abs_pos;
+	gboolean visible : 1;
+	gboolean changed : 1;
 } GthFileRow;
 
 
 struct _GthFileStorePrivate {
 	GthFileRow         **all_rows;
 	GthFileRow         **rows;
+	GHashTable          *file_row;
 	guint                size;
 	guint                tot_rows;
 	guint                num_rows;
@@ -96,6 +99,14 @@ _gth_file_row_new (void)
 
 	row = g_new0 (GthFileRow, 1);
 	row->ref_count = 1;
+	row->file_data = NULL;
+	row->thumbnail = NULL;
+	row->is_icon = FALSE;
+	row->thumbnail_state = GTH_THUMBNAIL_STATE_DEFAULT;
+	row->pos = 0;
+	row->abs_pos = 0;
+	row->visible = FALSE;
+	row->changed = FALSE;
 
 	return row;
 }
@@ -191,6 +202,8 @@ _gth_file_store_free_rows (GthFileStore *file_store)
 	file_store->priv->rows = NULL;
 	file_store->priv->num_rows = 0;
 
+	g_hash_table_remove_all (file_store->priv->file_row);
+
 	file_store->priv->size = 0;
 
 	_gth_file_store_clear_queue (file_store);
@@ -272,6 +285,10 @@ gth_file_store_init (GthFileStore *file_store)
 	file_store->priv = gth_file_store_get_instance_private (file_store);
 	file_store->priv->all_rows = NULL;
 	file_store->priv->rows = NULL;
+	file_store->priv->file_row = g_hash_table_new_full (g_file_hash,
+							    (GEqualFunc) g_file_equal,
+							    (GDestroyNotify) g_object_unref,
+							    (GDestroyNotify) _gth_file_row_unref);
 	file_store->priv->size = 0;
 	file_store->priv->tot_rows = 0;
 	file_store->priv->num_rows = 0;
@@ -287,6 +304,7 @@ gth_file_store_init (GthFileStore *file_store)
 		column_type[GTH_FILE_STORE_FILE_DATA_COLUMN] = GTH_TYPE_FILE_DATA;
 		column_type[GTH_FILE_STORE_THUMBNAIL_COLUMN] = GTH_TYPE_CAIRO_SURFACE;
 		column_type[GTH_FILE_STORE_IS_ICON_COLUMN] = G_TYPE_BOOLEAN;
+		column_type[GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN] = GTH_TYPE_THUMBNAIL_STATE;
 		column_type[GTH_FILE_STORE_EMBLEMS_COLUMN] = GTH_TYPE_STRING_LIST;
 	}
 }
@@ -398,6 +416,10 @@ gth_file_store_get_value (GtkTreeModel *tree_model,
 	case GTH_FILE_STORE_IS_ICON_COLUMN:
 		g_value_init (value, G_TYPE_BOOLEAN);
 		g_value_set_boolean (value, row->is_icon);
+		break;
+	case GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN:
+		g_value_init (value, GTH_TYPE_THUMBNAIL_STATE);
+		g_value_set_enum (value, row->thumbnail_state);
 		break;
 	case GTH_FILE_STORE_EMBLEMS_COLUMN:
 		g_value_init (value, G_TYPE_STRING);
@@ -1022,6 +1044,14 @@ g_print ("\n");
 	file_store->priv->all_rows = all_rows;
 	file_store->priv->tot_rows = all_rows_n;
 
+	g_hash_table_remove_all (file_store->priv->file_row);
+	for (i = 0; i < file_store->priv->tot_rows; i++) {
+		GthFileRow *row = file_store->priv->all_rows[i];
+		g_hash_table_insert (file_store->priv->file_row,
+				     g_object_ref (row->file_data->file),
+				     _gth_file_row_ref (row));
+	}
+
 	g_qsort_with_data (old_rows,
 			   old_rows_n,
 			   (gsize) sizeof (GthFileRow *),
@@ -1195,26 +1225,18 @@ gth_file_store_find (GthFileStore *file_store,
 		     GFile        *file,
 		     GtkTreeIter  *iter)
 {
-	gboolean found = FALSE;
-	int      i;
+	GthFileRow *row;
 
-	for (i = 0; i < file_store->priv->tot_rows; i++) {
-		GthFileRow *row = file_store->priv->all_rows[i];
-
-		if (row == NULL)
-			continue;
-
-		if (g_file_equal (row->file_data->file, file)) {
-			if (iter != NULL) {
-				iter->stamp = file_store->priv->stamp;
-				iter->user_data = row;
-			}
-			found = TRUE;
-			break;
+	row = g_hash_table_lookup (file_store->priv->file_row, file);
+	if (row != NULL) {
+		if (iter != NULL) {
+			iter->stamp = file_store->priv->stamp;
+			iter->user_data = row;
 		}
+		return TRUE;
 	}
 
-	return found;
+	return FALSE;
 }
 
 
@@ -1223,26 +1245,18 @@ gth_file_store_find_visible (GthFileStore *file_store,
 			     GFile        *file,
 			     GtkTreeIter  *iter)
 {
-	gboolean found = FALSE;
-	int      i;
+	GthFileRow *row;
 
-	for (i = 0; i < file_store->priv->num_rows; i++) {
-		GthFileRow *row = file_store->priv->rows[i];
-
-		if (row == NULL)
-			continue;
-
-		if (g_file_equal (row->file_data->file, file)) {
-			if (iter != NULL) {
-				iter->stamp = file_store->priv->stamp;
-				iter->user_data = row;
-			}
-			found = TRUE;
-			break;
+	row = g_hash_table_lookup (file_store->priv->file_row, file);
+	if ((row != NULL) && row->visible) {
+		if (iter != NULL) {
+			iter->stamp = file_store->priv->stamp;
+			iter->user_data = row;
 		}
+		return TRUE;
 	}
 
-	return found;
+	return FALSE;
 }
 
 
@@ -1379,22 +1393,24 @@ gth_file_store_get_prev_visible (GthFileStore *file_store,
 
 
 void
-gth_file_store_add (GthFileStore    *file_store,
-		    GthFileData     *file,
-		    cairo_surface_t *thumbnail,
-		    gboolean         is_icon,
-		    int              position)
+gth_file_store_add (GthFileStore      *file_store,
+		    GthFileData       *file,
+		    cairo_surface_t   *thumbnail,
+		    gboolean           is_icon,
+		    GthThumbnailState  state,
+		    int                position)
 {
-	gth_file_store_queue_add (file_store, file, thumbnail, is_icon);
+	gth_file_store_queue_add (file_store, file, thumbnail, is_icon, state);
 	gth_file_store_exec_add (file_store, position);
 }
 
 
 void
-gth_file_store_queue_add (GthFileStore    *file_store,
-			  GthFileData     *file,
-			  cairo_surface_t *thumbnail,
-			  gboolean         is_icon)
+gth_file_store_queue_add (GthFileStore      *file_store,
+			  GthFileData       *file,
+			  cairo_surface_t   *thumbnail,
+			  gboolean           is_icon,
+			  GthThumbnailState  state)
 {
 	GthFileRow *row;
 
@@ -1404,6 +1420,7 @@ gth_file_store_queue_add (GthFileStore    *file_store,
 	_gth_file_row_set_file (row, file);
 	_gth_file_row_set_thumbnail (row, thumbnail);
 	row->is_icon = is_icon;
+	row->thumbnail_state = state;
 
 	file_store->priv->queue = g_list_prepend (file_store->priv->queue, row);
 }
@@ -1429,43 +1446,47 @@ gth_file_store_queue_set_valist (GthFileStore *file_store,
 
 	g_return_if_fail (VALID_ITER (iter, file_store));
 
-  	row = (GthFileRow*) iter->user_data;
+	row = (GthFileRow*) iter->user_data;
 
- 	column = va_arg (var_args, int);
-  	while (column != -1) {
-  		GthFileData     *file_data;
-  		cairo_surface_t *thumbnail;
-  		GthStringList   *string_list;
+	column = va_arg (var_args, int);
+	while (column != -1) {
+		GthFileData     *file_data;
+		cairo_surface_t *thumbnail;
+		GthStringList   *string_list;
 
-  		switch (column) {
-  		case GTH_FILE_STORE_FILE_DATA_COLUMN:
-  			file_data = va_arg (var_args, GthFileData *);
-  			g_return_if_fail (GTH_IS_FILE_DATA (file_data));
-  			_gth_file_row_set_file (row, file_data);
-  			row->changed = TRUE;
-  			file_store->priv->update_filter = TRUE;
-  			break;
-  		case GTH_FILE_STORE_THUMBNAIL_COLUMN:
-  			thumbnail = va_arg (var_args, cairo_surface_t *);
-  			_gth_file_row_set_thumbnail (row, thumbnail);
-  			row->changed = TRUE;
-  			break;
-  		case GTH_FILE_STORE_IS_ICON_COLUMN:
-  			row->is_icon = va_arg (var_args, gboolean);
-  			row->changed = TRUE;
-  			break;
-  		case GTH_FILE_STORE_EMBLEMS_COLUMN:
-  			string_list = va_arg (var_args, GthStringList *);
-  			g_file_info_set_attribute_object (row->file_data->info, GTH_FILE_ATTRIBUTE_EMBLEMS, G_OBJECT (string_list));
-  			row->changed = TRUE;
-  			break;
-  		default:
-  			g_warning ("%s: Invalid column number %d added to iter (remember to end your list of columns with a -1)", G_STRLOC, column);
-  			break;
-  		}
+		switch (column) {
+		case GTH_FILE_STORE_FILE_DATA_COLUMN:
+			file_data = va_arg (var_args, GthFileData *);
+			g_return_if_fail (GTH_IS_FILE_DATA (file_data));
+			_gth_file_row_set_file (row, file_data);
+			row->changed = TRUE;
+			file_store->priv->update_filter = TRUE;
+			break;
+		case GTH_FILE_STORE_THUMBNAIL_COLUMN:
+			thumbnail = va_arg (var_args, cairo_surface_t *);
+			_gth_file_row_set_thumbnail (row, thumbnail);
+			row->changed = TRUE;
+			break;
+		case GTH_FILE_STORE_IS_ICON_COLUMN:
+			row->is_icon = va_arg (var_args, gboolean);
+			row->changed = TRUE;
+			break;
+		case GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN:
+			row->thumbnail_state = va_arg (var_args, GthThumbnailState);
+			row->changed = TRUE;
+			break;
+		case GTH_FILE_STORE_EMBLEMS_COLUMN:
+			string_list = va_arg (var_args, GthStringList *);
+			g_file_info_set_attribute_object (row->file_data->info, GTH_FILE_ATTRIBUTE_EMBLEMS, G_OBJECT (string_list));
+			row->changed = TRUE;
+			break;
+		default:
+			g_warning ("%s: Invalid column number %d added to iter (remember to end your list of columns with a -1)", G_STRLOC, column);
+			break;
+		}
 
-  		column = va_arg (var_args, int);
-  	}
+		column = va_arg (var_args, int);
+	}
 }
 
 

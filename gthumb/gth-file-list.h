@@ -65,6 +65,9 @@ GType             gth_file_list_get_type          (void);
 GtkWidget *       gth_file_list_new               (GtkWidget            *file_view,
 						   GthFileListMode       list_type,
 						   gboolean              enable_drag_drop);
+void              gth_file_list_set_model         (GthFileList          *file_list,
+						   GthFileStore         *model);
+GthFileStore *    gth_file_list_get_model         (GthFileList          *file_list);
 void              gth_file_list_set_mode          (GthFileList          *file_list,
 						   GthFileListMode       list_type);
 GthFileListMode   gth_file_list_get_mode          (GthFileList          *file_list);

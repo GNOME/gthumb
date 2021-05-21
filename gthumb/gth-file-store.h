@@ -43,6 +43,7 @@ enum {
 	GTH_FILE_STORE_FILE_DATA_COLUMN,
 	GTH_FILE_STORE_THUMBNAIL_COLUMN,
 	GTH_FILE_STORE_IS_ICON_COLUMN,
+	GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN,
 	GTH_FILE_STORE_EMBLEMS_COLUMN,
 	GTH_FILE_STORE_N_COLUMNS
 };
@@ -99,14 +100,16 @@ gboolean        gth_file_store_get_next_visible  (GthFileStore         *file_sto
 gboolean        gth_file_store_get_prev_visible  (GthFileStore         *file_store,
 					          GtkTreeIter          *iter);
 void            gth_file_store_add               (GthFileStore         *file_store,
-					          GthFileData          *file,
-					          cairo_surface_t      *thumbnail,
-					          gboolean              is_icon,
+						  GthFileData          *file,
+						  cairo_surface_t      *thumbnail,
+						  gboolean              is_icon,
+						  GthThumbnailState     state,
 						  int                   position);
 void            gth_file_store_queue_add         (GthFileStore         *file_store,
-					          GthFileData          *file,
-					          cairo_surface_t      *thumbnail,
-					          gboolean              is_icon);
+						  GthFileData          *file,
+						  cairo_surface_t      *thumbnail,
+						  gboolean              is_icon,
+						  GthThumbnailState     state);
 void            gth_file_store_exec_add          (GthFileStore         *file_store,
 						  int                   position);
 void            gth_file_store_set               (GthFileStore         *file_store,
