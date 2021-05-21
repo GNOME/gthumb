@@ -56,13 +56,13 @@
       <default>false</default>
     </key>
     <key name="header" type="s">
-      <default>''</default>
+      <default>'%L'</default>
     </key>
     <key name="footer" type="s">
       <default>''</default>
     </key>
     <key name="image-page-header" type="s">
-      <default>''</default>
+      <default>'%F'</default>
     </key>
     <key name="image-page-footer" type="s">
       <default>''</default>

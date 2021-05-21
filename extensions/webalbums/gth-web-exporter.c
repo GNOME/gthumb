@@ -107,6 +107,7 @@ typedef struct {
 struct _GthWebExporterPrivate {
 	GthBrowser        *browser;
 	GList             *gfile_list;             /* GFile list */
+	GthFileData       *location;
 
 	/* options */
 
@@ -159,6 +160,7 @@ struct _GthWebExporterPrivate {
 	LoopInfo          *loop_info;
 	GError            *error;
 	gboolean           interrupted;
+	GDateTime         *timestamp;
 };
 
 
@@ -986,73 +988,74 @@ get_current_language (void)
 }
 
 
+/* -- get_header_footer_text -- */
+
+
 static gboolean
-header_footer_eval_cb (const GMatchInfo *match_info,
-		       GString          *result,
-		       gpointer          user_data)
+header_footer_eval_cb (TemplateFlags   flags,
+		       gunichar        parent_code,
+		       gunichar        code,
+		       char          **args,
+		       GString        *result,
+		       gpointer        user_data)
 {
 	GthWebExporter *self = user_data;
-	char           *r = NULL;
-	char           *match;
+	GList          *link;
+	char           *text = NULL;
 
-	match = g_match_info_fetch (match_info, 0);
-	if (strcmp (match, "%p") == 0) {
-		r = g_strdup_printf ("%d", self->priv->page + 1);
+	if (parent_code == 'D') {
+		/* strftime code, return the code itself. */
+		_g_string_append_template_code (result, code, args);
+		return FALSE;
 	}
-	else if (strcmp (match, "%P") == 0) {
-		r = g_strdup_printf ("%d", self->priv->n_pages);
-	}
-	else if (strcmp (match, "%i") == 0) {
-		r = g_strdup_printf ("%d", self->priv->image + 1);
-	}
-	else if (strcmp (match, "%I") == 0) {
-		r = g_strdup_printf ("%d", self->priv->n_images);
-	}
-	else if (strncmp (match, "%D", 2) == 0) {
-		GTimeVal   timeval;
-		GRegex    *re;
-		char     **a;
-		char      *format = NULL;
 
-		g_get_current_time (&timeval);
+	switch (code) {
+	case 'p':
+		g_string_append_printf (result, "%d", self->priv->page + 1);
+		break;
 
-		/* Get the date format */
+	case 'P':
+		g_string_append_printf (result, "%d", self->priv->n_pages);
+		break;
 
-		re = g_regex_new ("%[A-Z]\\{([^}]+)\\}", 0, 0, NULL);
-		a = g_regex_split (re, match, 0);
-		if (g_strv_length (a) >= 2)
-			format = g_strstrip (a[1]);
-		else
-			format = DEFAULT_DATE_FORMAT;
-		r = _g_time_val_strftime (&timeval, format);
+	case 'i':
+		g_string_append_printf (result, "%d", self->priv->image + 1);
+		break;
 
-		g_strfreev (a);
-		g_regex_unref (re);
-	}
-	else if (strcmp (match, "%F") == 0) {
-		GList *link;
+	case 'I':
+		g_string_append_printf (result, "%d", self->priv->n_images);
+		break;
 
+	case 'D':
+		text = g_date_time_format (self->priv->timestamp,
+					   (args[0] != NULL) ? args[0] : DEFAULT_STRFTIME_FORMAT);
+		break;
+
+	case 'F':
 		link = g_list_nth (self->priv->file_list, self->priv->image);
 		if (link != NULL) {
 			ImageData *idata = link->data;
-			r = g_strdup (g_file_info_get_display_name (idata->file_data->info));
+			text = g_strdup (g_file_info_get_display_name (idata->file_data->info));
 		}
-	}
-	else if (strcmp (match, "%C") == 0) {
-		GList *link;
+		break;
 
+	case 'C':
 		link = g_list_nth (self->priv->file_list, self->priv->image);
 		if (link != NULL) {
 			ImageData *idata = link->data;
-			r = gth_file_data_get_attribute_as_string (idata->file_data, "general::description");
+			text = gth_file_data_get_attribute_as_string (idata->file_data, "general::description");
 		}
+		break;
+
+	case 'L':
+		g_string_append (result, g_file_info_get_edit_name (self->priv->location->info));
+		break;
 	}
 
-	if (r != NULL)
-		g_string_append (result, r);
-
-	g_free (r);
-	g_free (match);
+	if (text != NULL) {
+		g_string_append (result, text);
+		g_free (text);
+	}
 
 	return FALSE;
 }
@@ -1062,20 +1065,10 @@ static char *
 get_header_footer_text (GthWebExporter *self,
 			const char     *utf8_text)
 {
-	GRegex *re;
-	char   *new_text;
-
-	if (utf8_text == NULL)
-		return NULL;
-
-	if (g_utf8_strchr (utf8_text,  -1, '%') == NULL)
-		return g_strdup (utf8_text);
-
-	re = g_regex_new ("%[pPiIDFC](\\{[^}]+\\})?", 0, 0, NULL);
-	new_text = g_regex_replace_eval (re, utf8_text, -1, 0, 0, header_footer_eval_cb, self, NULL);
-	g_regex_unref (re);
-
-	return new_text;
+	return _g_template_eval (utf8_text,
+				 0,
+				 header_footer_eval_cb,
+				 self);
 }
 
 
@@ -2949,6 +2942,10 @@ gth_web_exporter_exec (GthTask *task)
 		return;
 	}
 
+	if (self->priv->timestamp != NULL)
+		g_date_time_unref (self->priv->timestamp);
+	self->priv->timestamp = g_date_time_new_now_local ();
+
 	/*
 	 * check that the style directory is not NULL.  A NULL indicates that
 	 * the folder of the selected style has been deleted or renamed
@@ -3124,6 +3121,9 @@ gth_web_exporter_finalize (GObject *object)
 		g_list_free (self->priv->file_list);
 	}
 	_g_object_list_unref (self->priv->gfile_list);
+	if (self->priv->timestamp != NULL)
+		g_date_time_unref (self->priv->timestamp);
+	_g_object_unref (self->priv->location);
 
 	G_OBJECT_CLASS (gth_web_exporter_parent_class)->finalize (object);
 }
@@ -3185,6 +3185,8 @@ gth_web_exporter_init (GthWebExporter *self)
 	self->priv->interrupted = FALSE;
 	self->priv->iloader = gth_image_loader_new (NULL, NULL);
 	self->priv->error = NULL;
+	self->priv->timestamp = NULL;
+	self->priv->location = NULL;
 }
 
 
@@ -3198,6 +3200,7 @@ gth_web_exporter_new (GthBrowser *browser,
 
 	self = (GthWebExporter *) g_object_new (GTH_TYPE_WEB_EXPORTER, NULL);
 	self->priv->browser = browser;
+	self->priv->location = gth_file_data_dup (gth_browser_get_location_data (browser));
 	self->priv->gfile_list = _g_object_list_ref (file_list);
 
 	return (GthTask *) self;
