@@ -202,15 +202,17 @@ const char *_COPYRIGHT_TAG_NAMES[] = {
 	NULL
 };
 
-/* Some evil camera fill in the ImageDescription or UserComment fields
+/* Some cameras fill in the ImageDescription or UserComment fields
    with useless fluff. Try to filter these out, so they do not show up
-   as comments */
-const char *stupid_comment_filter[] = {
+   as comments. */
+const char *useless_comment_filter[] = {
 	"OLYMPUS DIGITAL CAMERA",
 	"SONY DSC",
 	"KONICA MINOLTA DIGITAL CAMERA",
 	"MINOLTA DIGITAL CAMERA",
-	NULL };
+	"binary comment",
+	NULL
+};
 
 
 inline static char *
@@ -559,7 +561,7 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 
 
 static void
-clear_studip_comments_from_tagset (GFileInfo  *info,
+clear_useless_comments_from_tagset (GFileInfo  *info,
 				   const char *tagset[])
 {
 	int i;
@@ -574,8 +576,8 @@ clear_studip_comments_from_tagset (GFileInfo  *info,
 			continue;
 
 		value = gth_metadata_get_formatted (GTH_METADATA (metadata));
-		for (j = 0; stupid_comment_filter[j] != NULL; j++) {
-			if (strstr (value, stupid_comment_filter[j]) == value) {
+		for (j = 0; useless_comment_filter[j] != NULL; j++) {
+			if (strstr (value, useless_comment_filter[j]) == value) {
 				g_file_info_remove_attribute (info, tagset[i]);
 				break;
 			}
@@ -624,8 +626,8 @@ static void
 set_attributes_from_tagsets (GFileInfo *info,
 			     gboolean   update_general_attributes)
 {
-	clear_studip_comments_from_tagset (info, _DESCRIPTION_TAG_NAMES);
-	clear_studip_comments_from_tagset (info, _TITLE_TAG_NAMES);
+	clear_useless_comments_from_tagset (info, _DESCRIPTION_TAG_NAMES);
+	clear_useless_comments_from_tagset (info, _TITLE_TAG_NAMES);
 
 	if (update_general_attributes)
 		exiv2_update_general_attributes (info);
@@ -1064,6 +1066,9 @@ gth_main_get_metadata_type (gpointer    metadata,
 }
 
 
+#if 0
+
+
 static void
 dump_exif_data (Exiv2::ExifData &exifData,
 		const char      *prefix)
@@ -1100,6 +1105,9 @@ dump_exif_data (Exiv2::ExifData &exifData,
 	    return;
 	}
 }
+
+
+#endif
 
 
 static Exiv2::DataBuf
