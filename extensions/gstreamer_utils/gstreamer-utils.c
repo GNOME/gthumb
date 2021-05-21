@@ -797,10 +797,11 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 		gst_memory_unref (memory);
 	}
 
-	if (data->pixbuf == NULL)
+	if (data->pixbuf == NULL) {
+		gst_sample_unref (sample);
 		g_warning ("Could not take screenshot: %s", "could not create pixbuf");
+	}
 
-	gst_sample_unref (sample);
 	screenshot_data_finalize (data);
 
 	return TRUE;
