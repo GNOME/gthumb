@@ -59,6 +59,12 @@ char *      gth_template_editor_dialog_get_template	(GthTemplateEditorDialog  *s
 void        gth_template_editor_dialog_set_preview_func (GthTemplateEditorDialog  *self,
 							 TemplatePreviewFunc       func,
 							 gpointer                  user_data);
+void        gth_template_editor_dialog_set_preview_cb   (GthTemplateEditorDialog  *self,
+							 TemplateEvalFunc          func,
+							 gpointer                  user_data);
+void        gth_template_editor_dialog_default_response (GtkDialog                *dialog,
+							 int                       response_id,
+							 gpointer                  user_data);
 
 G_END_DECLS
 

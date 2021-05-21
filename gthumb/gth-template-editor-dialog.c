@@ -42,6 +42,7 @@ struct _GthTemplateEditorDialogPrivate {
 	gulong               update_id;
 	TemplatePreviewFunc  preview_func;
 	gpointer             preview_data;
+	TemplateEvalFunc     preview_cb;
 	TemplateFlags        template_flags;
 };
 
@@ -88,6 +89,7 @@ gth_template_editor_dialog_init (GthTemplateEditorDialog *self)
 	self->priv->update_id = 0;
 	self->priv->preview_func = NULL;
 	self->priv->preview_data = NULL;
+	self->priv->preview_cb = NULL;
 	self->priv->template_flags = 0;
 }
 
@@ -221,7 +223,12 @@ _gth_template_editor_update_preview (GthTemplateEditorDialog *self)
 	char *preview;
 
 	template = gth_template_editor_dialog_get_template (self);
-	if (self->priv->preview_func != NULL)
+	if (self->priv->preview_cb != NULL)
+		preview = _g_template_eval (template,
+					    self->priv->template_flags | TEMPLATE_FLAGS_PREVIEW,
+					    self->priv->preview_cb,
+					    self->priv->preview_data);
+	else if (self->priv->preview_func != NULL)
 		preview = self->priv->preview_func (template,
 						    self->priv->template_flags,
 						    self->priv->preview_data);
@@ -554,4 +561,42 @@ gth_template_editor_dialog_set_preview_func (GthTemplateEditorDialog  *self,
 {
 	self->priv->preview_func = func;
 	self->priv->preview_data = user_data;
+	self->priv->preview_cb = NULL;
+}
+
+
+void
+gth_template_editor_dialog_set_preview_cb (GthTemplateEditorDialog  *self,
+					   TemplateEvalFunc          func,
+					   gpointer                  user_data)
+{
+	self->priv->preview_func = NULL;
+	self->priv->preview_cb = func;
+	self->priv->preview_data = user_data;
+}
+
+
+void
+gth_template_editor_dialog_default_response (GtkDialog *dialog,
+					     int        response_id,
+					     gpointer   user_data)
+{
+	GtkEntry *entry = GTK_ENTRY (user_data);
+	char     *value;
+
+	switch (response_id) {
+	case GTK_RESPONSE_OK:
+		value = gth_template_editor_dialog_get_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog));
+		if (value != NULL) {
+			gtk_entry_set_text (entry, value);
+			gtk_widget_destroy (GTK_WIDGET (dialog));
+
+			g_free (value);
+		}
+		break;
+
+	default:
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+		break;
+	}
 }
