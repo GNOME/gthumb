@@ -784,12 +784,12 @@ test_g_template_token_is_all (void)
 
 
 static gboolean
-eval_template_cb (gunichar     root_code,
-		  gunichar     parent_code,
-		  gunichar     code,
-		  char       **args,
-		  GString     *result,
-		  gpointer     user_data)
+eval_template_cb (TemplateFlags   flags,
+		  gunichar        parent_code,
+		  gunichar        code,
+		  char          **args,
+		  GString        *result,
+		  gpointer        user_data)
 {
 	int i;
 

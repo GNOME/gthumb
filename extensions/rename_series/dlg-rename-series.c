@@ -150,12 +150,12 @@ get_attribute_value (GthFileData *file_data,
 
 
 static gboolean
-template_eval_cb (gunichar     root_code,
-		  gunichar     parent_code,
-		  gunichar     code,
-		  char       **args,
-		  GString     *result,
-		  gpointer     user_data)
+template_eval_cb (TemplateFlags   flags,
+		  gunichar        parent_code,
+		  gunichar        code,
+		  char          **args,
+		  GString        *result,
+		  gpointer        user_data)
 {
 	TemplateData *template_data = user_data;
 	char         *text = NULL;

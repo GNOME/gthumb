@@ -112,19 +112,19 @@ typedef enum {
 	TEMPLATE_FLAGS_PARTIAL = (1 << 2),
 } TemplateFlags;
 
-typedef gboolean (*TemplateForEachFunc) (gunichar     parent_code,
-					 gunichar     code,
-					 char       **args,
-					 gpointer     user_data);
-typedef gboolean (*TemplateEvalFunc)	(gunichar     root_code,
-					 gunichar     parent_code,
-					 gunichar     code,
-					 char       **args,
-					 GString     *result,
-					 gpointer     user_data);
-typedef char *   (*TemplatePreviewFunc) (const char    *tmpl,
-					 TemplateFlags  flags,
-					 gpointer       user_data);
+typedef gboolean (*TemplateForEachFunc) (gunichar        parent_code,
+					 gunichar        code,
+					 char          **args,
+					 gpointer        user_data);
+typedef gboolean (*TemplateEvalFunc)	(TemplateFlags   flags,
+					 gunichar        parent_code,
+					 gunichar        code,
+					 char          **args,
+					 GString        *result,
+					 gpointer        user_data);
+typedef char *   (*TemplatePreviewFunc) (const char     *tmpl,
+					 TemplateFlags   flags,
+					 gpointer        user_data);
 
 char **	_g_template_tokenize		(const char           *tmpl,
 						 TemplateFlags         flags);
