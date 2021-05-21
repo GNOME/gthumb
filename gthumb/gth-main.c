@@ -38,10 +38,6 @@
 #include "pixbuf-io.h"
 #include "typedefs.h"
 
-#ifdef GDK_WINDOWING_X11
-#include <gdk/gdkx.h>
-#endif
-
 
 static GMutex register_mutex;
 
