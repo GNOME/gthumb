@@ -198,8 +198,10 @@ template_eval_cb (TemplateFlags   flags,
 		break;
 	}
 
-	if (text != NULL)
+	if (text != NULL) {
 		g_string_append (result, text);
+		g_free (text);
+	}
 
 	return FALSE;
 }
