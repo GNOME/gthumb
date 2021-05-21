@@ -833,6 +833,7 @@ static void
 create_playbin (GthMediaViewerPage *self)
 {
 	GstElement *scaletempo;
+	gboolean    sink_created;
 	GstBus     *bus;
 
 	if (self->priv->playbin != NULL)
@@ -844,18 +845,29 @@ create_playbin (GthMediaViewerPage *self)
 	if (scaletempo != NULL)
 		g_object_set (self->priv->playbin, "audio-filter", scaletempo, NULL);
 
+	sink_created = FALSE;
 	if (g_settings_get_boolean (self->priv->settings, PREF_GSTREAMER_USE_HARDWARE_ACCEL)) {
-		GstElement *glsinkbin;
 		GstElement *gtkglsink;
 
-		glsinkbin = gst_element_factory_make ("glsinkbin", "");
 		gtkglsink = gst_element_factory_make ("gtkglsink", "sink");
-		g_object_set (glsinkbin, "sink", gtkglsink, NULL);
-		g_object_set (self->priv->playbin, "video-sink", glsinkbin, NULL);
+		if (gtkglsink != NULL) {
+			GstElement *glsinkbin;
 
-		g_object_get (gtkglsink, "widget", &self->priv->video_area, NULL);
+			glsinkbin = gst_element_factory_make ("glsinkbin", "");
+			if (glsinkbin != NULL) {
+				g_object_set (glsinkbin,
+					      "enable-last-sample", TRUE,
+					      "sink", gtkglsink,
+					      NULL);
+				g_object_set (self->priv->playbin, "video-sink", glsinkbin, NULL);
+				g_object_get (gtkglsink, "widget", &self->priv->video_area, NULL);
+
+				sink_created = TRUE;
+			}
+		}
 	}
-	else {
+
+	if (! sink_created) {
 		GstElement *gtksink;
 
 		gtksink = gst_element_factory_make ("gtksink", "sink");
