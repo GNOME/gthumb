@@ -21,6 +21,9 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#ifdef GDK_WINDOWING_X11
+#include <X11/Xlib.h>
+#endif
 #include "gth-application.h"
 #include "gth-main.h"
 #include "gth-window.h"
@@ -48,6 +51,11 @@ main (int argc, char *argv[])
 	bindtextdomain (GETTEXT_PACKAGE, GTHUMB_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
+
+#if defined (HAVE_GSTREAMER) && defined (GDK_WINDOWING_X11)
+	/* https://discourse.gnome.org/t/how-to-correctly-init-gtk-app-with-gstreamer/5105/3 */
+	XInitThreads();
+#endif
 
 	/* run the main application */
 
