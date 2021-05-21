@@ -1317,9 +1317,6 @@ _gth_browser_set_sort_order (GthBrowser      *browser,
 	gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->file_list),
 				     sort_type->cmp_func,
 				     inverse);
-	gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->thumbnail_list),
-				     sort_type->cmp_func,
-				     inverse);
 
 	if (! browser->priv->constructed || (browser->priv->location == NULL))
 		return;
@@ -1559,8 +1556,6 @@ load_data_continue (LoadData *load_data,
 		filter = _gth_browser_get_file_filter (browser);
 		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
 		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), files);
-		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter);
-		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
 		g_object_unref (filter);
 
 		if (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER)
@@ -3000,7 +2995,6 @@ filterbar_changed_cb (GthFilterbar *filterbar,
 
 	filter = _gth_browser_get_file_filter (browser);
 	gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
-	gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter);
 	g_object_unref (filter);
 
 	_gth_browser_update_statusbar_list_info (browser);
@@ -3028,7 +3022,6 @@ _gth_browser_change_file_list_order (GthBrowser *browser,
 	g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", "general::unsorted");
 	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", FALSE);
 	gth_file_store_reorder (GTH_FILE_STORE (gth_file_view_get_model (GTH_FILE_VIEW (gth_browser_get_file_list_view (browser)))), new_order);
-	gth_file_store_reorder (GTH_FILE_STORE (gth_file_view_get_model (GTH_FILE_VIEW (gth_browser_get_thumbnail_list_view (browser)))), new_order);
 	_gth_browser_update_current_file_position (browser);
 	gth_browser_update_title (browser);
 }
@@ -3064,17 +3057,13 @@ file_attributes_ready_cb (GthFileSource *file_source,
 							     TRUE);
 			gth_file_list_add_files (GTH_FILE_LIST (browser->priv->file_list), files, monitor_data->position);
 			gth_file_list_update_files (GTH_FILE_LIST (browser->priv->file_list), files);
-			gth_file_list_add_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files, monitor_data->position);
-			gth_file_list_update_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
 		}
 	}
 	else if (monitor_data->event == GTH_MONITOR_EVENT_CHANGED) {
 		if (monitor_data->update_folder_tree)
 			gth_folder_tree_update_children (GTH_FOLDER_TREE (browser->priv->folder_tree), monitor_data->parent, visible_folders);
-		if (monitor_data->update_file_list) {
+		if (monitor_data->update_file_list)
 			gth_file_list_update_files (GTH_FILE_LIST (browser->priv->file_list), files);
-			gth_file_list_update_files (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
-		}
 	}
 
 	if (browser->priv->current_file != NULL) {
@@ -3226,7 +3215,6 @@ folder_changed_cb (GthMonitor      *monitor,
 		&& _g_file_list_only_contains (list, browser->priv->location->file))
 	{
 		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), NULL);
-		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->thumbnail_list), NULL);
 	}
 	else if (update_folder_tree || update_file_list) {
 		MonitorEventData *monitor_data;
@@ -3289,7 +3277,6 @@ folder_changed_cb (GthMonitor      *monitor,
 				if (current_file_deleted)
 					_g_signal_handlers_block_by_data (gth_browser_get_file_list_view (browser), browser);
 				gth_file_list_delete_files (GTH_FILE_LIST (browser->priv->file_list), list);
-				gth_file_list_delete_files (GTH_FILE_LIST (browser->priv->thumbnail_list), list);
 				if (event == GTH_MONITOR_EVENT_DELETED)
 					gth_file_source_deleted_from_disk (browser->priv->location_source, browser->priv->location, list);
 				if (current_file_deleted)
@@ -3364,7 +3351,6 @@ renamed_file_attributes_ready_cb (GthFileSource *file_source,
 
 	gth_folder_tree_update_child (GTH_FOLDER_TREE (browser->priv->folder_tree), rename_data->file, file_data);
 	gth_file_list_rename_file (GTH_FILE_LIST (browser->priv->file_list), rename_data->file, file_data);
-	gth_file_list_rename_file (GTH_FILE_LIST (browser->priv->thumbnail_list), rename_data->file, file_data);
 
 	if (g_file_equal (rename_data->file, browser->priv->location->file)) {
 		GthFileData *new_location;
@@ -3524,7 +3510,6 @@ emblems_attributes_ready_cb (GthFileSource *file_source,
 		GthBrowser *browser = data->browser;
 
 		gth_file_list_update_emblems (GTH_FILE_LIST (browser->priv->file_list), files);
-		gth_file_list_update_emblems (GTH_FILE_LIST (browser->priv->thumbnail_list), files);
 
 		if (browser->priv->current_file != NULL) {
 			GList *link;
@@ -3605,7 +3590,6 @@ pref_general_filter_changed (GSettings  *settings,
 
 	filter = _gth_browser_get_file_filter (browser);
 	gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
-	gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->thumbnail_list), filter);
 
 	g_object_unref (filter);
 }
@@ -4118,6 +4102,7 @@ pref_thumbnail_size_changed (GSettings  *settings,
 	GthBrowser *browser = user_data;
 
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list), g_settings_get_int (settings, key));
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), g_settings_get_int (settings, key));
 	gth_browser_reload (browser);
 }
 
@@ -4471,7 +4456,7 @@ gth_browser_init (GthBrowser *browser)
 	browser->priv->thumbnail_list = gth_file_list_new (gth_grid_view_new (), (browser->priv->viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL) ? GTH_FILE_LIST_MODE_H_SIDEBAR : GTH_FILE_LIST_MODE_V_SIDEBAR, TRUE);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->thumbnail_list), "none");
 	gth_grid_view_set_cell_spacing (GTH_GRID_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->thumbnail_list))), 0);
-	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), 95);
+	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->thumbnail_list), g_settings_get_int (browser->priv->browser_settings, PREF_BROWSER_THUMBNAIL_SIZE));
 
 	if (browser->priv->viewer_thumbnails_orientation == GTK_ORIENTATION_HORIZONTAL)
 		gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_thumbnails_pane), browser->priv->thumbnail_list, FALSE, FALSE);
@@ -4903,6 +4888,9 @@ gth_browser_init (GthBrowser *browser)
 
 	g_free (caption);
 	g_free (sort_type);
+
+	gth_file_list_set_model (GTH_FILE_LIST (browser->priv->thumbnail_list),
+				 gth_file_list_get_model (GTH_FILE_LIST (browser->priv->file_list)));
 
 	gtk_widget_show (browser->priv->file_list);
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->file_list, TRUE, TRUE, 0);
