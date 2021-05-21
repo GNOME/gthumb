@@ -33,6 +33,15 @@
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
 
 
+static GthTemplateCode Text_Special_Codes[] = {
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Current page number"), 'p', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Total number of pages"), 'P', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Current date"), 'D', 1 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Total number of files"), 'F', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Event description"), 'E', 0 },
+};
+
+
 struct _GthImagePrintJobPrivate {
 	GSettings          *settings;
 	GtkPrintOperationAction  action;
@@ -216,55 +225,65 @@ gth_image_print_job_set_font_options (GthImagePrintJob *self,
 
 
 static gboolean
-template_eval_cb (const GMatchInfo *match_info,
-		  GString          *result,
-		  gpointer          user_data)
+template_eval_cb (TemplateFlags   flags,
+		  gunichar        parent_code,
+		  gunichar        code,
+		  char          **args,
+		  GString        *result,
+		  gpointer        user_data)
 {
 	GthImagePrintJob *self = user_data;
-	char             *r = NULL;
-	char             *match;
+	gboolean          preview;
+	char             *text = NULL;
+	GDateTime        *timestamp;
 
-	match = g_match_info_fetch (match_info, 0);
-	if (strcmp (match, "%p") == 0) {
-		r = g_strdup_printf ("%d", self->priv->current_page + 1);
+	preview = flags & TEMPLATE_FLAGS_PREVIEW;
+
+	if (parent_code == 'D') {
+		/* strftime code, return the code itself. */
+		_g_string_append_template_code (result, code, args);
+		return FALSE;
 	}
-	else if (strcmp (match, "%P") == 0) {
-		r = g_strdup_printf ("%d", self->priv->n_pages);
-	}
-	else if (strcmp (match, "%F") == 0) {
-		r = g_strdup_printf ("%d", self->priv->n_images);
-	}
-	else if (strncmp (match, "%D", 2) == 0) {
-		GTimeVal   timeval;
-		GRegex    *re;
-		char     **a;
-		char      *format = NULL;
 
-		g_get_current_time (&timeval);
+	if (preview && (code != 0))
+		g_string_append (result, "<span foreground=\"#4696f8\">");
 
-		/* Get the date format */
+	switch (code) {
+	case 'p':
+		text = g_strdup_printf ("%d", self->priv->current_page + 1);
+		break;
 
-		re = g_regex_new ("%[A-Z]\\{([^}]+)\\}", 0, 0, NULL);
-		a = g_regex_split (re, match, 0);
-		if (g_strv_length (a) >= 2)
-			format = g_strstrip (a[1]);
-		r = _g_time_val_strftime (&timeval, format);
+	case 'P':
+		text = g_strdup_printf ("%d", self->priv->n_pages);
+		break;
 
-		g_strfreev (a);
-		g_regex_unref (re);
-	}
-	else if (strcmp (match, "%E") == 0) {
+	case 'F':
+		text = g_strdup_printf ("%d", self->priv->n_images);
+		break;
+
+	case 'D':
+		timestamp = g_date_time_new_now_local ();
+		text = g_date_time_format (timestamp,
+					   (args[0] != NULL) ? args[0] : DEFAULT_STRFTIME_FORMAT);
+		g_date_time_unref (timestamp);
+		break;
+
+	case 'E':
 		if (self->priv->event_name != NULL)
-			r = g_strdup (self->priv->event_name);
-		else
-			r = g_strdup ("");
+			g_string_append (result, self->priv->event_name);
+		break;
+
+	default:
+		break;
 	}
 
-	if (r != NULL)
-		g_string_append (result, r);
+	if (text != NULL) {
+		g_string_append (result, text);
+		g_free (text);
+	}
 
-	g_free (r);
-	g_free (match);
+	if (preview && (code != 0))
+		g_string_append (result, "</span>");
 
 	return FALSE;
 }
@@ -274,20 +293,10 @@ static char *
 get_text_from_template (GthImagePrintJob *self,
 			const char       *text)
 {
-	GRegex *re;
-	char   *new_text;
-
-	if (text == NULL)
-		return NULL;
-
-	if (g_utf8_strchr (text,  -1, '%') == NULL)
-		return g_strdup (text);
-
-	re = g_regex_new ("%[DEFPp](\\{[^}]+\\})?", 0, 0, NULL);
-	new_text = g_regex_replace_eval (re, text, -1, 0, 0, template_eval_cb, self, NULL);
-	g_regex_unref (re);
-
-	return new_text;
+	return _g_template_eval (text,
+				 0,
+				 template_eval_cb,
+				 self);
 }
 
 
@@ -296,23 +305,23 @@ update_header_and_footer_texts (GthImagePrintJob *self)
 {
 	g_free (self->priv->header);
 	self->priv->header = NULL;
-	if ((self->priv->header_template != NULL) && (g_strcmp0 (self->priv->header_template, "") != 0))
+	if (! _g_str_empty (self->priv->header_template))
 		self->priv->header = get_text_from_template (self, self->priv->header_template);
 
 	g_free (self->priv->footer);
 	self->priv->footer = NULL;
-	if ((self->priv->footer_template != NULL) && (g_strcmp0 (self->priv->footer_template, "") != 0))
+	if (! _g_str_empty (self->priv->footer_template))
 		self->priv->footer = get_text_from_template (self, self->priv->footer_template);
 }
 
 
 static void
 gth_image_print_job_update_layout_info (GthImagePrintJob   *self,
-				        gdouble             page_width,
-				        gdouble             page_height,
-				        GtkPageOrientation  orientation,
-				        PangoLayout        *pango_layout,
-				        gboolean            preview)
+					gdouble             page_width,
+					gdouble             page_height,
+					GtkPageOrientation  orientation,
+					PangoLayout        *pango_layout,
+					gboolean            preview)
 {
 	gboolean height_changed = FALSE;
 	int      height;
@@ -559,9 +568,9 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 
 static void
 gth_image_print_job_update_layout (GthImagePrintJob   *self,
-			  	   gdouble             page_width,
-			  	   gdouble             page_height,
-			  	   GtkPageOrientation  orientation)
+				   gdouble             page_width,
+				   gdouble             page_height,
+				   GtkPageOrientation  orientation)
 {
 	PangoLayout *pango_layout;
 
@@ -972,8 +981,8 @@ preview_draw_cb (GtkWidget *widget,
 
 	pango_layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->browser), NULL);
 	gth_image_print_job_paint (self,
-			           cr,
-			           pango_layout,
+				   cr,
+				   pango_layout,
 				   gtk_page_setup_get_left_margin (self->priv->page_setup, GTK_UNIT_MM),
 				   gtk_page_setup_get_top_margin (self->priv->page_setup, GTK_UNIT_MM),
 				   self->priv->current_page,
@@ -1257,19 +1266,52 @@ footer_entry_changed_cb (GtkEditable *editable,
 
 
 static void
-header_or_footer_icon_press_cb (GtkEntry            *entry,
-				GtkEntryIconPosition icon_pos,
-				GdkEvent            *event,
-				gpointer             user_data)
+edit_header_button_clicked_cb (GtkButton *button,
+			       gpointer   user_data)
 {
 	GthImagePrintJob *self = user_data;
-	GtkWidget        *help_table;
+	GtkWidget        *dialog;
 
-	help_table = GET_WIDGET ("page_footer_help_table");
-	if (gtk_widget_get_visible (help_table))
-		gtk_widget_hide (help_table);
-	else
-		gtk_widget_show (help_table);
+	dialog = gth_template_editor_dialog_new (Text_Special_Codes,
+						 G_N_ELEMENTS (Text_Special_Codes),
+						 0,
+						 _("Edit Template"),
+						 NULL);
+	gth_template_editor_dialog_set_preview_cb (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						   template_eval_cb,
+						   self);
+	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("header_entry"))));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (gth_template_editor_dialog_default_response),
+			  GET_WIDGET ("header_entry"));
+	gtk_widget_show (dialog);
+}
+
+
+static void
+edit_footer_button_clicked_cb (GtkButton *button,
+			       gpointer   user_data)
+{
+	GthImagePrintJob *self = user_data;
+	GtkWidget        *dialog;
+
+	dialog = gth_template_editor_dialog_new (Text_Special_Codes,
+						 G_N_ELEMENTS (Text_Special_Codes),
+						 0,
+						 _("Edit Template"),
+						 NULL);
+	gth_template_editor_dialog_set_preview_cb (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						   template_eval_cb,
+						   self);
+	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("footer_entry"))));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (gth_template_editor_dialog_default_response),
+			  GET_WIDGET ("footer_entry"));
+	gtk_widget_show (dialog);
 }
 
 
@@ -1415,7 +1457,7 @@ image_scale_format_value_cb (GtkScale *scale,
 
 static GObject *
 operation_create_custom_widget_cb (GtkPrintOperation *operation,
-			           gpointer           user_data)
+				   gpointer           user_data)
 {
 	GthImagePrintJob *self = user_data;
 
@@ -1436,7 +1478,7 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
 			  "draw",
 			  G_CALLBACK (preview_draw_cb),
-	                  self);
+			  self);
 	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
 			  "motion-notify-event",
 			  G_CALLBACK (preview_motion_notify_event_cb),
@@ -1451,12 +1493,12 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 			  self);
 	g_signal_connect (GET_WIDGET ("rows_spinbutton"),
 			  "value-changed",
-	                  G_CALLBACK (rows_spinbutton_changed_cb),
-	                  self);
+			  G_CALLBACK (rows_spinbutton_changed_cb),
+			  self);
 	g_signal_connect (GET_WIDGET ("columns_spinbutton"),
 			  "value-changed",
-	                  G_CALLBACK (columns_spinbutton_changed_cb),
-	                  self);
+			  G_CALLBACK (columns_spinbutton_changed_cb),
+			  self);
 	g_signal_connect (GET_WIDGET ("next_page_button"),
 			  "clicked",
 			  G_CALLBACK (next_page_button_clicked_cb),
@@ -1467,34 +1509,34 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 			  self);
 	g_signal_connect (self->priv->caption_chooser,
 			  "changed",
-	                  G_CALLBACK (caption_chooser_changed_cb),
-	                  self);
+			  G_CALLBACK (caption_chooser_changed_cb),
+			  self);
 	g_signal_connect (GET_WIDGET ("unit_combobox"),
 			  "changed",
-	                  G_CALLBACK (unit_combobox_changed_cb),
-	                  self);
+			  G_CALLBACK (unit_combobox_changed_cb),
+			  self);
 	g_signal_connect (GET_WIDGET ("header_entry"),
 			  "changed",
-	                  G_CALLBACK (header_entry_changed_cb),
-	                  self);
+			  G_CALLBACK (header_entry_changed_cb),
+			  self);
 	g_signal_connect (GET_WIDGET ("footer_entry"),
 			  "changed",
-	                  G_CALLBACK (footer_entry_changed_cb),
-	                  self);
-	g_signal_connect (GET_WIDGET ("header_entry"),
-			  "icon-press",
-	                  G_CALLBACK (header_or_footer_icon_press_cb),
-	                  self);
-	g_signal_connect (GET_WIDGET ("footer_entry"),
-			  "icon-press",
-	                  G_CALLBACK (header_or_footer_icon_press_cb),
-	                  self);
+			  G_CALLBACK (footer_entry_changed_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("edit_header_button"),
+			  "clicked",
+			  G_CALLBACK (edit_header_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("edit_footer_button"),
+			  "clicked",
+			  G_CALLBACK (edit_footer_button_clicked_cb),
+			  self);
 
 	self->priv->rotation_combobox_changed_event =
 			g_signal_connect (GET_WIDGET ("rotation_combobox"),
 					  "changed",
-			                  G_CALLBACK (rotation_combobox_changed_cb),
-			                  self);
+					  G_CALLBACK (rotation_combobox_changed_cb),
+					  self);
 	self->priv->scale_adjustment_value_changed_event =
 			g_signal_connect (GET_WIDGET ("scale_adjustment"),
 					  "value-changed",
