@@ -794,6 +794,7 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 								 sample);
 
 		gst_memory_unmap (memory, &info);
+		gst_memory_unref (memory);
 	}
 
 	if (data->pixbuf == NULL)
@@ -804,4 +805,3 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 
 	return TRUE;
 }
-
