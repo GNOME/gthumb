@@ -131,7 +131,7 @@ typedef struct {
 
 struct _GthGridViewPrivate {
 	GtkTreeModel          *model;
-	GList                 *items;
+	GPtrArray             *itemv;
 	int                    n_items;
 	GList                 *lines;
 	GList                 *selection;
@@ -397,9 +397,9 @@ _gth_grid_view_free_lines (GthGridView *self)
 static void
 _gth_grid_view_free_items (GthGridView *self)
 {
-	g_list_foreach (self->priv->items, (GFunc) gth_grid_view_item_unref, NULL);
-	g_list_free (self->priv->items);
-	self->priv->items = NULL;
+	g_ptr_array_unref (self->priv->itemv);
+	self->priv->itemv = NULL;
+	self->priv->n_items = 0;
 
 	g_list_free (self->priv->selection);
 	self->priv->selection = NULL;
@@ -838,18 +838,14 @@ _gth_grid_view_relayout_at (GthGridView *self,
 	int    items_per_line;
 	GList *items;
 	int    max_height;
-	GList *scan;
 	int    n;
 
 	new_lines = NULL;
 	items_per_line = gth_grid_view_get_items_per_line (self);
 	items = NULL;
 	max_height = 0;
-	for (scan = g_list_nth (self->priv->items, pos), n = pos;
-	     scan;
-	     scan = scan->next, n++)
-	{
-		GthGridViewItem *item = scan->data;
+	for (n = pos; n < self->priv->n_items;  n++) {
+		GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, n);
 
 		if ((n % items_per_line) == 0) {
 			if (items != NULL) {
@@ -1660,7 +1656,7 @@ _gth_grid_view_draw_drop_target (GthGridView *self,
 
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
 
-	item = g_list_nth (self->priv->items, self->priv->drop_item)->data;
+	item = g_ptr_array_index (self->priv->itemv, self->priv->drop_item);
 
 	x = 0;
 	if (self->priv->drop_pos == GTH_DROP_POSITION_LEFT)
@@ -1711,17 +1707,14 @@ gth_grid_view_draw (GtkWidget *widget,
 
 	first_visible = gth_grid_view_get_first_visible (GTH_FILE_VIEW (self));
 	if (first_visible >= 0) {
-		int    last_visible;
-		int    i;
-		GList *scan;
+		int last_visible;
+		int i;
 
 		last_visible = gth_grid_view_get_last_visible (GTH_FILE_VIEW (self));
 
-		for (i = first_visible, scan = g_list_nth (self->priv->items, first_visible);
-		     (i <= last_visible) && scan;
-		     i++, scan = scan->next)
-		{
-			_gth_grid_view_draw_item (self, GTH_GRID_VIEW_ITEM (scan->data), cr);
+		for (i = first_visible; i <= last_visible; i++) {
+			GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, i);
+			_gth_grid_view_draw_item (self, item, cr);
 		}
 
 		if (self->priv->selecting || self->priv->multi_selecting_with_keyboard)
@@ -1856,7 +1849,6 @@ static void
 _gth_grid_view_select_item (GthGridView *self,
 			    int          pos)
 {
-	GList           *link;
 	GthGridViewItem *item;
 
 	g_return_if_fail ((pos >= 0) && (pos < self->priv->n_items));
@@ -1864,10 +1856,7 @@ _gth_grid_view_select_item (GthGridView *self,
 	if (self->priv->selection_mode == GTK_SELECTION_NONE)
 		return;
 
-	link = g_list_nth (self->priv->items, pos);
-	g_return_if_fail (link != NULL);
-
-	item = link->data;
+	item = g_ptr_array_index (self->priv->itemv, pos);
 	if (item->state & GTK_STATE_FLAG_SELECTED)
 		return;
 
@@ -1883,7 +1872,6 @@ static void
 _gth_grid_view_unselect_item (GthGridView *self,
 		     	      int          pos)
 {
-	GList           *link;
 	GthGridViewItem *item;
 
 	g_return_if_fail ((pos >= 0) && (pos < self->priv->n_items));
@@ -1891,11 +1879,7 @@ _gth_grid_view_unselect_item (GthGridView *self,
 	if (self->priv->selection_mode == GTK_SELECTION_NONE)
 		return;
 
-	link = g_list_nth (self->priv->items, pos);
-	g_return_if_fail (link != NULL);
-
-	item = link->data;
-
+	item = g_ptr_array_index (self->priv->itemv, pos);
 	if (! (item->state & GTK_STATE_FLAG_SELECTED))
 		return;
 
@@ -1943,17 +1927,12 @@ static int
 _gth_grid_view_unselect_all (GthGridView *self,
 			     gpointer     keep_selected)
 {
-	GthGridViewPrivate *priv = self->priv;
-	int                 idx;
-	GList              *scan;
-	int                 i;
+	int idx;
+	int i;
 
 	idx = 0;
-	for (scan = priv->items, i = 0;
-	     scan != NULL;
-	     scan = scan->next, i++)
-	{
-		GthGridViewItem *item = scan->data;
+	for (i = 0; i < self->priv->n_items; i++) {
+		GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, i);
 
 		if (item == keep_selected)
 			idx = i;
@@ -1970,16 +1949,12 @@ gth_grid_view_select (GthFileSelection *selection,
 		      int               pos)
 {
 	GthGridView *self = GTH_GRID_VIEW (selection);
-	GList       *list;
 	int          i;
 
 	switch (self->priv->selection_mode) {
 	case GTK_SELECTION_SINGLE:
-		for (list = self->priv->items, i = 0;
-		     list != NULL;
-		     list = list->next, i++)
-		{
-			GthGridViewItem *item = list->data;
+		for (i = 0; i < self->priv->n_items; i++) {
+			GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, i);
 
 			if ((i != pos) && (item->state & GTK_STATE_FLAG_SELECTED))
 				_gth_grid_view_set_item_selected (self, FALSE, i);
@@ -2012,14 +1987,10 @@ gth_grid_view_unselect (GthFileSelection *selection,
 static void
 _gth_grid_view_select_all (GthGridView *self)
 {
-	GList *scan;
-	int    i;
+	int i;
 
-	for (scan = self->priv->items, i = 0;
-	     scan != NULL;
-	     scan = scan->next, i++)
-	{
-		GthGridViewItem *item = scan->data;
+	for (i = 0; i < self->priv->n_items; i++) {
+		GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, i);
 
 		if (! (item->state & GTK_STATE_FLAG_SELECTED))
 			_gth_grid_view_set_item_selected (self, TRUE, i);
@@ -2118,7 +2089,6 @@ model_row_changed_cb (GtkTreeModel *tree_model,
 {
 	GthGridView     *self = user_data;
 	int              pos;
-	GList           *link;
 	GthFileData     *file_data;
 	cairo_surface_t *thumbnail;
 	gboolean         is_icon;
@@ -2132,10 +2102,7 @@ model_row_changed_cb (GtkTreeModel *tree_model,
 			    -1);
 
 	pos = gtk_tree_path_get_indices (path)[0];
-	link = g_list_nth (self->priv->items, pos);
-	g_return_if_fail (link != NULL);
-
-	item = GTH_GRID_VIEW_ITEM (link->data);
+	item = g_ptr_array_index (self->priv->itemv, pos);
 	gth_grid_view_item_set_file_data (item, file_data);
 	gth_grid_view_item_set_thumbnail (item, thumbnail);
 	item->is_icon = is_icon;
@@ -2155,14 +2122,12 @@ model_row_deleted_cb (GtkTreeModel *tree_model,
 {
 	GthGridView *self = user_data;
 	int          pos;
-	GList       *link;
 	GList       *scan;
 	GList       *selected_link;
 
 	pos = gtk_tree_path_get_indices (path)[0];
-	link = g_list_nth (self->priv->items, pos);
-	self->priv->items = g_list_remove_link (self->priv->items, link);
-	self->priv->n_items--;
+	g_ptr_array_remove_index (self->priv->itemv, pos);
+	self->priv->n_items = (int) self->priv->itemv->len;
 
 	/* update the selection */
 
@@ -2196,9 +2161,6 @@ model_row_deleted_cb (GtkTreeModel *tree_model,
 	/* relayout from the minimum changed position */
 
 	_gth_grid_view_queue_relayout_from_position (self, pos);
-
-	gth_grid_view_item_unref (GTH_GRID_VIEW_ITEM (link->data));
-	g_list_free (link);
 }
 
 
@@ -2228,8 +2190,8 @@ model_row_inserted_cb (GtkTreeModel *tree_model,
 				       is_icon,
 				       self->priv->caption_attributes_v);
 	pos = gtk_tree_path_get_indices (path)[0];
-	self->priv->items = g_list_insert (self->priv->items, item, pos);
-	self->priv->n_items++;
+	g_ptr_array_insert (self->priv->itemv, pos, item);
+	self->priv->n_items = (int) self->priv->itemv->len;
 
 	/* update the selection */
 
@@ -2266,7 +2228,7 @@ model_rows_reordered_cb (GtkTreeModel *tree_model,
 			 gpointer      user_data)
 {
 	GthGridView *self = user_data;
-	GList       *items;
+	GPtrArray   *itemv;
 	int          i;
 	int          min_changed_pos;
 	gboolean     focused_updated = FALSE;
@@ -2275,10 +2237,10 @@ model_rows_reordered_cb (GtkTreeModel *tree_model,
 	/* change the order of the items list */
 
 	min_changed_pos = -1;
-	items = NULL;
+	itemv = g_ptr_array_new_full (self->priv->n_items, (GDestroyNotify) gth_grid_view_item_unref);
 	for (i = 0; i < self->priv->n_items; i++) {
-		GList *link;
-		int    old_pos;
+		int              old_pos;
+		GthGridViewItem *item;
 
 		old_pos = ((int *) new_order)[i];
 		if ((min_changed_pos == -1) && (old_pos != i))
@@ -2291,14 +2253,13 @@ model_rows_reordered_cb (GtkTreeModel *tree_model,
 			focused_updated = TRUE;
 		}
 
-		link = g_list_nth (self->priv->items, old_pos);
-		g_return_if_fail (link != NULL);
-		items = g_list_prepend (items, link->data);
+		item = g_ptr_array_index (self->priv->itemv, old_pos);
+		g_ptr_array_add (itemv, gth_grid_view_item_ref (item));
 	}
-	items = g_list_reverse (items);
 
-	g_list_free (self->priv->items);
-	self->priv->items = items;
+	g_ptr_array_unref (self->priv->itemv);
+	self->priv->itemv = itemv;
+	self->priv->n_items = (int) self->priv->itemv->len;
 
 	/* update the selection */
 
@@ -2330,7 +2291,6 @@ model_thumbnail_changed_cb (GtkTreeModel *tree_model,
 {
 	GthGridView     *self = user_data;
 	int              pos;
-	GList           *link;
 	cairo_surface_t *thumbnail;
 	gboolean         is_icon;
 	GthGridViewItem *item;
@@ -2342,10 +2302,7 @@ model_thumbnail_changed_cb (GtkTreeModel *tree_model,
 			    -1);
 
 	pos = gtk_tree_path_get_indices (path)[0];
-	link = g_list_nth (self->priv->items, pos);
-	g_return_if_fail (link != NULL);
-
-	item = GTH_GRID_VIEW_ITEM (link->data);
+	item = g_ptr_array_index (self->priv->itemv, pos);
 	gth_grid_view_item_set_thumbnail (item, thumbnail);
 	item->is_icon = is_icon;
 
@@ -2404,14 +2361,10 @@ _gth_grid_view_get_at_position (GthGridView      *self,
 			        int               y,
 			        GthGridViewItem **item_ref)
 {
-	GList *scan;
-	int    n;
+	int n;
 
-	for (scan = self->priv->items, n = 0;
-	     scan != NULL;
-	     scan = scan->next, n++)
-	{
-		GthGridViewItem *item = scan->data;
+	for (n = 0; n < self->priv->n_items; n++) {
+		GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, n);
 
 		if (_cairo_rectangle_contains_point (&item->thumbnail_area, x, y)
 		    || _cairo_rectangle_contains_point (&item->caption_area, x, y))
@@ -2443,29 +2396,20 @@ gth_grid_view_cursor_changed (GthFileView *file_view,
 			      int          pos)
 {
 	GthGridView     *self = GTH_GRID_VIEW (file_view);
-	GList           *link;
 	GthGridViewItem *new_item;
 
-	if (pos != self->priv->focused_item) {
+	if ((pos != self->priv->focused_item) && (self->priv->focused_item >= 0)) {
 		GthGridViewItem *old_item = NULL;
 
-		if (self->priv->focused_item >= 0) {
-			link = g_list_nth (self->priv->items, self->priv->focused_item);
-			if (link != NULL)
-				old_item = link->data;
-		}
+		old_item = g_ptr_array_index (self->priv->itemv, self->priv->focused_item);
 		if (old_item != NULL) {
 			old_item->state ^= GTK_STATE_FLAG_FOCUSED | GTK_STATE_FLAG_ACTIVE;
 			_gth_grid_view_queue_draw_item (self, old_item);
 		}
 	}
 
-	link = g_list_nth (self->priv->items, pos);
-	g_return_if_fail (link != NULL);
-
 	self->priv->focused_item = pos;
-
-	new_item = link->data;
+	new_item = g_ptr_array_index (self->priv->itemv, pos);
 	new_item->state |= GTK_STATE_FLAG_FOCUSED | GTK_STATE_FLAG_ACTIVE;
 	_gth_grid_view_queue_draw_item (self, new_item);
 
@@ -2603,7 +2547,7 @@ gth_grid_view_set_drag_dest_pos (GthFileView    *file_view,
 			drop_pos = GTH_DROP_POSITION_RIGHT;
 		}
 		else {
-			GthGridViewItem *item = g_list_nth (self->priv->items, drop_image)->data;
+			GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, drop_image);
 			if (x - item->area.x > self->priv->cell_size / 2)
 				drop_pos = GTH_DROP_POSITION_RIGHT;
 			else
@@ -2661,8 +2605,7 @@ _gth_grid_view_select_range (GthGridView     *self,
 			     GthGridViewItem *item,
 			     int              pos)
 {
-	int    a, b;
-	GList *scan;
+	int a, b;
 
 	if (self->priv->last_selected_pos == -1)
 		self->priv->last_selected_pos = pos;
@@ -2676,11 +2619,8 @@ _gth_grid_view_select_range (GthGridView     *self,
 		b = pos;
 	}
 
-	for (scan = g_list_nth (self->priv->items, a);
-	     (a <= b) && (scan != NULL);
-	     a++, scan = scan->next)
-	{
-		GthGridViewItem *item = scan->data;
+	for (/* void */; a <= b; a++) {
+		GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, a);
 
 		if (! (item->state & GTK_STATE_FLAG_SELECTED))
 			_gth_grid_view_set_item_selected (self, TRUE, a);
@@ -2751,10 +2691,10 @@ _gth_grid_view_select_multiple (GthGridView     *self,
 static void
 gth_grid_view_store_items_state (GthGridView *self)
 {
-	GList *scan;
+	int i;
 
-	for (scan = self->priv->items; scan; scan = scan->next) {
-		GthGridViewItem *item = scan->data;
+	for (i = 0; i < self->priv->n_items; i++) {
+		GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, i);
 		item->tmp_state = item->state;
 	}
 }
@@ -2898,7 +2838,6 @@ _gth_grid_view_update_mouse_selection (GthGridView *self,
 	gboolean               additive;
 	gboolean               invert;
 	int                    min_y, max_y;
-	GList                 *l, *begin, *end;
 	int                    i, begin_idx, end_idx;
 
 	old_selection_area = self->priv->selection_area;
@@ -2973,13 +2912,9 @@ _gth_grid_view_update_mouse_selection (GthGridView *self,
 	max_y = self->priv->selection_area.y + self->priv->selection_area.height;
 
 	begin_idx = get_first_visible_at_offset (self, min_y);
-	begin = g_list_nth (self->priv->items, begin_idx);
-
 	end_idx = get_last_visible_at_offset (self, max_y);
-	end = g_list_nth (self->priv->items, end_idx);
-
-	if (end != NULL)
-		end = end->next;
+	if ((begin_idx == -1) || (end_idx == -1))
+		return;
 
 	gdk_window_freeze_updates (self->priv->bin_window);
 
@@ -2988,8 +2923,8 @@ _gth_grid_view_update_mouse_selection (GthGridView *self,
 	x2 = x1 + self->priv->selection_area.width;
 	y2 = y1 + self->priv->selection_area.height;
 
-	for (l = begin, i = begin_idx; l != end; l = l->next, i++) {
-		GthGridViewItem *item = l->data;
+	for (i = begin_idx; i <= end_idx; i++) {
+		GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, i);
 		gboolean         selection_changed;
 
 		selection_changed = (item->state & GTK_STATE_FLAG_SELECTED) != (item->tmp_state & GTK_STATE_FLAG_SELECTED);
@@ -3226,26 +3161,19 @@ static void
 select_range_with_keyboard (GthGridView *self,
 			    int          next_focused_item)
 {
-	int    begin_idx;
-	int    end_idx;
-	GList *begin;
-	GList *end;
-	int    i;
-	GList *link;
+	int begin_idx;
+	int end_idx;
+	int i;
 
 	if (self->priv->focused_item == -1)
 		return;
 
 	begin_idx = MIN (MIN (self->priv->first_focused_item, self->priv->focused_item), next_focused_item);
 	end_idx = MAX (MAX (self->priv->first_focused_item, self->priv->focused_item), next_focused_item);
-	begin = g_list_nth (self->priv->items, begin_idx);
-	end = g_list_nth (self->priv->items, end_idx);
-	if (end != NULL)
-		end = end->next;
 
 	gdk_window_freeze_updates (self->priv->bin_window);
 
-	for (link = begin, i = begin_idx; link != end; link = link->next, i++) {
+	for (i = begin_idx; i <= end_idx; i++) {
 		if (next_focused_item > self->priv->first_focused_item) {
 			if ((i >= self->priv->first_focused_item) && (i <= next_focused_item))
 				_gth_grid_view_select_item (self, i);
@@ -3270,14 +3198,10 @@ static GList *
 _gth_grid_view_get_line_at_position (GthGridView *self,
 				     int          pos)
 {
-	GList           *link;
 	GthGridViewItem *item;
 	GList           *scan;
 
-	link = g_list_nth (self->priv->items, pos);
-	g_return_val_if_fail (link != NULL, NULL);
-
-	item = link->data;
+	item = g_ptr_array_index (self->priv->itemv, pos);
 	for (scan = self->priv->lines; scan; scan = scan->next) {
 		GthGridViewLine *line = scan->data;
 
@@ -3420,7 +3344,7 @@ gth_grid_view_select_cursor_item (GthGridView *self)
 	if (self->priv->focused_item == -1)
 		return FALSE;
 
-	item = g_list_nth (self->priv->items, self->priv->focused_item)->data;
+	item = g_ptr_array_index (self->priv->itemv, self->priv->focused_item);
 	g_return_val_if_fail (item != NULL, FALSE);
 
 	_gth_grid_view_unselect_all (self, item);
@@ -3435,16 +3359,12 @@ gth_grid_view_select_cursor_item (GthGridView *self)
 static gboolean
 gth_grid_view_toggle_cursor_item (GthGridView *self)
 {
-	GList           *link;
 	GthGridViewItem *item;
 
 	if (self->priv->focused_item == -1)
 		return FALSE;
 
-	link = g_list_nth (self->priv->items, self->priv->focused_item);
-	g_return_val_if_fail (link != NULL, FALSE);
-
-	item = link->data;
+	item = g_ptr_array_index (self->priv->itemv, self->priv->focused_item);
 	if (item->state & GTK_STATE_FLAG_SELECTED)
 		_gth_grid_view_unselect_item (self, self->priv->focused_item);
 	else
@@ -3558,7 +3478,7 @@ static void
 _gth_grid_view_set_caption (GthGridView *self,
 			    const char  *attributes)
 {
-	GList *scan;
+	int i;
 
 	g_free (self->priv->caption_attributes);
 	self->priv->caption_attributes = g_strdup (attributes);
@@ -3572,8 +3492,10 @@ _gth_grid_view_set_caption (GthGridView *self,
 
 	self->priv->no_caption = (self->priv->caption_attributes_v == NULL) || (self->priv->caption_attributes_v[0] == NULL) || (g_strcmp0 (self->priv->caption_attributes_v[0], "none") == 0);
 
-	for (scan = self->priv->items; scan; scan = scan->next)
-		gth_grid_view_item_update_caption (GTH_GRID_VIEW_ITEM (scan->data), self->priv->caption_attributes_v);
+	for (i = 0; i < self->priv->n_items; i++) {
+		GthGridViewItem *item = g_ptr_array_index (self->priv->itemv, i);
+		gth_grid_view_item_update_caption (item, self->priv->caption_attributes_v);
+	}
 	self->priv->update_caption_height = TRUE;
 
 	g_object_notify (G_OBJECT (self), "caption");
@@ -3908,7 +3830,7 @@ gth_grid_view_init (GthGridView *self)
 	self->priv = gth_grid_view_get_instance_private (self);
 
 	/* self->priv->model = NULL; */
-	self->priv->items = NULL;
+	self->priv->itemv = g_ptr_array_new_with_free_func ((GDestroyNotify) gth_grid_view_item_unref);
 	self->priv->n_items = 0;
 	self->priv->lines = NULL;
 	self->priv->selection = NULL;
