@@ -31,6 +31,18 @@
 #define STRING_IS_VOID(x) (((x) == NULL) || (*(x) == 0))
 #define PREVIEW_SIZE 112
 
+static GthTemplateCode Filename_Special_Codes[] = {
+	{ GTH_TEMPLATE_CODE_TYPE_ENUMERATOR, N_("Enumerator") },
+	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Current date"), 'D', 1 },
+};
+
+static GthTemplateCode Text_Special_Codes[] = {
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Current page number"), 'p', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Total number of pages"), 'n', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Current date"), 'D', 1 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Location"), 'L', 0 },
+};
+
 enum {
 	THEME_COLUMN_THEME,
 	THEME_COLUMN_DISPLAY_NAME,
@@ -53,13 +65,14 @@ enum {
 };
 
 typedef struct {
-	GthBrowser *browser;
-	GSettings  *settings;
-	GList      *file_list;
-	GtkBuilder *builder;
-	GtkWidget  *dialog;
-	GtkWidget  *thumbnail_caption_chooser;
-	gulong      theme_selection_changed_event;
+	GthBrowser  *browser;
+	GthFileData *location;
+	GSettings   *settings;
+	GList       *file_list;
+	GtkBuilder  *builder;
+	GtkWidget   *dialog;
+	GtkWidget   *thumbnail_caption_chooser;
+	gulong       theme_selection_changed_event;
 } DialogData;
 
 
@@ -87,6 +100,7 @@ destroy_cb (GtkWidget  *widget,
 	_g_object_list_unref (data->file_list);
 	g_object_unref (data->settings);
 	g_object_unref (data->builder);
+	_g_object_unref (data->location);
 	g_free (data);
 }
 
@@ -249,6 +263,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	gth_contact_sheet_creator_set_same_size (GTH_CONTACT_SHEET_CREATOR (task), same_size);
 	gth_contact_sheet_creator_set_thumb_size (GTH_CONTACT_SHEET_CREATOR (task), squared_thumbnail, thumbnail_size, thumbnail_size);
 	gth_contact_sheet_creator_set_thumbnail_caption (GTH_CONTACT_SHEET_CREATOR (task), thumbnail_caption);
+	gth_contact_sheet_creator_set_location_name (GTH_CONTACT_SHEET_CREATOR (task), g_file_info_get_edit_name (gth_browser_get_location_data (data->browser)->info));
 
 	gth_browser_exec_task (data->browser, task, GTH_TASK_FLAGS_DEFAULT);
 	close_dialog (data);
@@ -679,6 +694,133 @@ theme_iconview_selection_changed_cb (GtkIconView *iconview,
 }
 
 
+static gboolean
+text_preview_cb (TemplateFlags   flags,
+		 gunichar        parent_code,
+		 gunichar        code,
+		 char          **args,
+		 GString        *result,
+		 gpointer        user_data)
+{
+	DialogData *data = user_data;
+	GDateTime  *timestamp;
+	char       *text;
+
+	if (parent_code == 'D') {
+		/* strftime code, return the code itself. */
+		_g_string_append_template_code (result, code, args);
+		return FALSE;
+	}
+
+	if (code != 0)
+		g_string_append (result, "<span foreground=\"#4696f8\">");
+
+	switch (code) {
+	case 'p':
+		g_string_append (result, "1");
+		break;
+
+	case 'n':
+		g_string_append (result, "5");
+		break;
+
+	case 'D':
+		timestamp = g_date_time_new_now_local ();
+		text = g_date_time_format (timestamp,
+					   (args[0] != NULL) ? args[0] : DEFAULT_STRFTIME_FORMAT);
+		g_string_append (result, text);
+
+		g_free (text);
+		g_date_time_unref (timestamp);
+		break;
+
+	case 'L':
+		g_string_append (result, g_file_info_get_edit_name (data->location->info));
+		break;
+
+	default:
+		break;
+	}
+
+	if (code != 0)
+		g_string_append (result, "</span>");
+
+	return FALSE;
+}
+
+
+static void
+edit_header_button_clicked_cb (GtkButton *button,
+			       gpointer   user_data)
+{
+	DialogData *data = user_data;
+	GtkWidget  *dialog;
+
+	dialog = gth_template_editor_dialog_new (Text_Special_Codes,
+						 G_N_ELEMENTS (Text_Special_Codes),
+						 0,
+						 _("Edit Template"),
+						 GTK_WINDOW (data->dialog));
+	gth_template_editor_dialog_set_preview_cb (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						   text_preview_cb,
+						   data);
+	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("header_entry"))));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (gth_template_editor_dialog_default_response),
+			  GET_WIDGET ("header_entry"));
+	gtk_widget_show (dialog);
+}
+
+
+static void
+edit_footer_button_clicked_cb (GtkButton *button,
+			       gpointer   user_data)
+{
+	DialogData *data = user_data;
+	GtkWidget  *dialog;
+
+	dialog = gth_template_editor_dialog_new (Text_Special_Codes,
+						 G_N_ELEMENTS (Text_Special_Codes),
+						 0,
+						 _("Edit Template"),
+						 GTK_WINDOW (data->dialog));
+	gth_template_editor_dialog_set_preview_cb (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						   text_preview_cb,
+						   data);
+	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("footer_entry"))));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (gth_template_editor_dialog_default_response),
+			  GET_WIDGET ("footer_entry"));
+	gtk_widget_show (dialog);
+}
+
+
+static void
+edit_filename_button_clicked_cb (GtkButton *button,
+				 gpointer   user_data)
+{
+	DialogData *data = user_data;
+	GtkWidget  *dialog;
+
+	dialog = gth_template_editor_dialog_new (Filename_Special_Codes,
+						 G_N_ELEMENTS (Filename_Special_Codes),
+						 0,
+						 _("Edit Template"),
+						 GTK_WINDOW (data->dialog));
+	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry"))));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (gth_template_editor_dialog_default_response),
+			  GET_WIDGET ("template_entry"));
+	gtk_widget_show (dialog);
+}
+
+
 void
 dlg_contact_sheet (GthBrowser *browser,
 		   GList      *file_list)
@@ -690,7 +832,6 @@ dlg_contact_sheet (GthBrowser *browser,
 	GList      *sort_types;
 	GList      *scan;
 	char       *caption;
-	GFile      *location;
 	char       *s_value;
 	char       *default_mime_type;
 	GArray     *savers;
@@ -702,6 +843,7 @@ dlg_contact_sheet (GthBrowser *browser,
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
+	data->location = gth_file_data_dup (gth_browser_get_location_data (data->browser));
 	data->file_list = _g_object_list_ref (file_list);
 	data->builder = _gtk_builder_new_from_file ("contact-sheet.ui", "contact_sheet");
 	data->settings = g_settings_new (GTHUMB_CONTACT_SHEET_SCHEMA);
@@ -730,16 +872,16 @@ dlg_contact_sheet (GthBrowser *browser,
 
 	/* Set widgets data. */
 
-	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("header_entry")),
-			    g_file_info_get_edit_name (gth_browser_get_location_data (browser)->info));
+	s_value = g_settings_get_string (data->settings, PREF_CONTACT_SHEET_HEADER);
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("header_entry")), s_value);
+	g_free (s_value);
 
 	s_value = g_settings_get_string (data->settings, PREF_CONTACT_SHEET_FOOTER);
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("footer_entry")), s_value);
 	g_free (s_value);
 
-	location = gth_browser_get_location (data->browser);
-	if ((location != NULL) && g_file_has_uri_scheme (location, "file"))
-		s_value = g_file_get_uri (location);
+	if ((data->location != NULL) && g_file_has_uri_scheme (data->location->file, "file"))
+		s_value = g_file_get_uri (data->location->file);
 	else
 		s_value = _g_settings_get_uri (data->settings, PREF_CONTACT_SHEET_DESTINATION);
 	if (s_value == NULL)
@@ -879,6 +1021,18 @@ dlg_contact_sheet (GthBrowser *browser,
 					  "selection-changed",
 					  G_CALLBACK (theme_iconview_selection_changed_cb),
 					  data);
+	g_signal_connect (GET_WIDGET ("edit_header_button"),
+			  "clicked",
+			  G_CALLBACK (edit_header_button_clicked_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("edit_footer_button"),
+			  "clicked",
+			  G_CALLBACK (edit_footer_button_clicked_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("edit_filename_button"),
+			  "clicked",
+			  G_CALLBACK (edit_filename_button_clicked_cb),
+			  data);
 
 	/* Run dialog. */
 

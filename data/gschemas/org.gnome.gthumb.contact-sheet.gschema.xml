@@ -25,7 +25,7 @@
 
   <schema id="org.gnome.gthumb.contact-sheet.contact-sheet" path="/org/gnome/gthumb/contact-sheet/contact-sheet/" gettext-domain="gthumb">
     <key name="header" type="s">
-      <default>''</default>
+      <default>'%L'</default>
     </key>
     <key name="footer" type="s">
       <default>''</default>

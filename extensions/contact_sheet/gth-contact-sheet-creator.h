@@ -84,5 +84,7 @@ void       gth_contact_sheet_creator_set_thumb_size        (GthContactSheetCreat
 						            int                       height);
 void       gth_contact_sheet_creator_set_thumbnail_caption (GthContactSheetCreator   *self,
 						            const char               *caption);
+void       gth_contact_sheet_creator_set_location_name     (GthContactSheetCreator   *self,
+							    const char               *name);
 
 #endif /* GTH_CONTACT_SHEET_CREATOR_H */

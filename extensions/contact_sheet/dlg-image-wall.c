@@ -30,6 +30,12 @@
 #define STRING_IS_VOID(x) (((x) == NULL) || (*(x) == 0))
 
 
+static GthTemplateCode Filename_Special_Codes[] = {
+	{ GTH_TEMPLATE_CODE_TYPE_ENUMERATOR, N_("Enumerator") },
+	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Current date"), 'D', 1 },
+};
+
+
 enum {
 	SORT_TYPE_COLUMN_DATA,
 	SORT_TYPE_COLUMN_NAME
@@ -213,6 +219,27 @@ entry_help_icon_press_cb (GtkEntry             *entry,
 }
 
 
+static void
+edit_template_entry_button_clicked_cb (GtkWidget  *widget,
+				       DialogData *data)
+{
+	GtkWidget *dialog;
+
+	dialog = gth_template_editor_dialog_new (Filename_Special_Codes,
+						 G_N_ELEMENTS (Filename_Special_Codes),
+						 0,
+						 _("Edit Template"),
+						 GTK_WINDOW (data->dialog));
+	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry"))));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (gth_template_editor_dialog_default_response),
+			  GET_WIDGET ("template_entry"));
+	gtk_widget_show (dialog);
+}
+
+
 void
 dlg_image_wall (GthBrowser *browser,
 		GList      *file_list)
@@ -368,6 +395,10 @@ dlg_image_wall (GthBrowser *browser,
 				  "toggled",
 				  G_CALLBACK (update_sensitivity),
 				  data);
+	g_signal_connect (GET_WIDGET ("edit_template_entry_button"),
+			  "clicked",
+			  G_CALLBACK (edit_template_entry_button_clicked_cb),
+			  data);
 
 	/* Run dialog. */
 
