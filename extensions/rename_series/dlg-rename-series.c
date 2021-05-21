@@ -696,29 +696,6 @@ update_preview_cb (GtkWidget  *widget,
 
 
 static void
-template_editor_dialog_response_cb (GtkDialog *dialog,
-				    int        response_id,
-				    gpointer   user_data)
-{
-	DialogData *data = user_data;
-	char       *template;
-
-	if (response_id != GTK_RESPONSE_OK) {
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		return;
-	}
-
-	template = gth_template_editor_dialog_get_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog));
-	if (template != NULL) {
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), template);
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-
-		g_free (template);
-	}
-}
-
-
-static void
 edit_template_button_clicked_cb (GtkWidget  *widget,
 				 DialogData *data)
 {
@@ -733,8 +710,8 @@ edit_template_button_clicked_cb (GtkWidget  *widget,
 						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry"))));
 	g_signal_connect (dialog,
 			  "response",
-			  G_CALLBACK (template_editor_dialog_response_cb),
-			  data);
+			  G_CALLBACK (gth_template_editor_dialog_default_response),
+			  GET_WIDGET ("template_entry"));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
 }

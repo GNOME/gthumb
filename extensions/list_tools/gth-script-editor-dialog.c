@@ -117,32 +117,6 @@ update_sensitivity (GthScriptEditorDialog *self)
 
 
 static void
-command_editor_dialog_response_cb (GtkDialog *dialog,
-				   int        response_id,
-				   gpointer   user_data)
-{
-	GthScriptEditorDialog *self = user_data;
-	char                  *value;
-
-	switch (response_id) {
-	case GTK_RESPONSE_OK:
-		value = gth_template_editor_dialog_get_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog));
-		if (value != NULL) {
-			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("command_entry")), value);
-			gtk_widget_destroy (GTK_WIDGET (dialog));
-
-			g_free (value);
-		}
-		break;
-
-	default:
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		break;
-	}
-}
-
-
-static void
 edit_command_button_clicked_cb (GtkButton *button,
 				gpointer   user_data)
 {
@@ -161,8 +135,8 @@ edit_command_button_clicked_cb (GtkButton *button,
 						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("command_entry"))));
 	g_signal_connect (dialog,
 			  "response",
-			  G_CALLBACK (command_editor_dialog_response_cb),
-			  self);
+			  G_CALLBACK (gth_template_editor_dialog_default_response),
+			  GET_WIDGET ("command_entry"));
 	gtk_widget_show (dialog);
 }
 
