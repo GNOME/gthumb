@@ -72,40 +72,40 @@ void              gth_file_list_set_mode          (GthFileList          *file_li
 						   GthFileListMode       list_type);
 GthFileListMode   gth_file_list_get_mode          (GthFileList          *file_list);
 void              gth_file_list_cancel            (GthFileList          *file_list,
-					           DataFunc              done_func,
-					           gpointer              user_data);
+						   DataFunc              done_func,
+						   gpointer              user_data);
 GthThumbLoader *  gth_file_list_get_thumb_loader  (GthFileList          *file_list);
 void              gth_file_list_set_files         (GthFileList          *file_list,
-					           GList                *list);
+						   GList                *list);
 GList *           gth_file_list_get_files         (GthFileList          *file_list,
-					           GList                *tree_path_list);
+						   GList                *tree_path_list);
 void              gth_file_list_clear             (GthFileList          *file_list,
-					           const char           *message);
+						   const char           *message);
 void              gth_file_list_add_files         (GthFileList          *file_list,
-					           GList                *list /* GthFileData */,
-					           int                   position);
+						   GList                *list /* GthFileData */,
+						   int                   position);
 void              gth_file_list_delete_files      (GthFileList          *file_list,
-					           GList                *list /* GFile */);
+						   GList                *list /* GFile */);
 void              gth_file_list_update_files      (GthFileList          *file_list,
-					           GList                *list /* GthFileData */);
+						   GList                *list /* GthFileData */);
 void              gth_file_list_update_emblems    (GthFileList          *file_list,
-					           GList                *list /* GthFileData */);
+						   GList                *list /* GthFileData */);
 void              gth_file_list_rename_file       (GthFileList          *file_list,
-					           GFile                *file,
-					           GthFileData          *file_data);
+						   GFile                *file,
+						   GthFileData          *file_data);
 void              gth_file_list_set_filter        (GthFileList          *file_list,
-					           GthTest              *filter);
+						   GthTest              *filter);
 void              gth_file_list_set_sort_func     (GthFileList          *file_list,
-					           GthFileDataCompFunc   cmp_func,
-					           gboolean              inverse_sort);
+						   GthFileDataCompFunc   cmp_func,
+						   gboolean              inverse_sort);
 void              gth_file_list_enable_thumbs     (GthFileList          *file_list,
-					           gboolean              enable);
+						   gboolean              enable);
 void              gth_file_list_set_ignore_hidden (GthFileList          *file_list,
-					           gboolean              value);
+						   gboolean              value);
 void              gth_file_list_set_thumb_size    (GthFileList          *file_list,
-					           int                   size);
+						   int                   size);
 void              gth_file_list_set_caption       (GthFileList          *file_list,
-					           const char           *attribute);
+						   const char           *attribute);
 void              gth_file_list_make_file_visible (GthFileList          *file_list,
 						   GFile                *file);
 void              gth_file_list_restore_state     (GthFileList          *file_list,
@@ -115,21 +115,21 @@ GtkWidget *       gth_file_list_get_view          (GthFileList          *file_li
 GtkWidget *       gth_file_list_get_empty_view    (GthFileList          *file_list);
 GtkAdjustment *   gth_file_list_get_vadjustment   (GthFileList          *file_list);
 int               gth_file_list_first_file        (GthFileList          *file_list,
-					           gboolean              skip_broken,
-					           gboolean              only_selected);
+						   gboolean              skip_broken,
+						   gboolean              only_selected);
 int               gth_file_list_last_file         (GthFileList          *file_list,
-					           gboolean              skip_broken,
-					           gboolean              only_selected);
+						   gboolean              skip_broken,
+						   gboolean              only_selected);
 int               gth_file_list_next_file         (GthFileList          *file_list,
-					           int                   pos,
-					           gboolean              skip_broken,
-					           gboolean              only_selected,
-					           gboolean              wrap);
+						   int                   pos,
+						   gboolean              skip_broken,
+						   gboolean              only_selected,
+						   gboolean              wrap);
 int               gth_file_list_prev_file         (GthFileList          *file_list,
-					           int                   pos,
-					           gboolean              skip_broken,
-					           gboolean              only_selected,
-					           gboolean              wrap);
+						   int                   pos,
+						   gboolean              skip_broken,
+						   gboolean              only_selected,
+						   gboolean              wrap);
 
 void              gth_file_list_enable_drag_source (GthFileList         *file_list,
 						    GdkDragAction        actions);

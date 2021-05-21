@@ -831,8 +831,8 @@ _gth_grid_view_configure_vadjustment (GthGridView *self)
 
 static void
 _gth_grid_view_relayout_at (GthGridView *self,
-		    	    int          pos,
-		    	    int          y)
+			    int          pos,
+			    int          y)
 {
 	GList *new_lines;
 	int    items_per_line;
@@ -1242,7 +1242,6 @@ get_first_visible_at_offset (GthGridView *self,
 		n_line++;
 	}
 	pos = gth_grid_view_get_items_per_line (self) * (n_line - 1);
-
 	return CLAMP (pos, 0, self->priv->n_items - 1);
 }
 

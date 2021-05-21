@@ -1364,8 +1364,8 @@ queue_flash_updates (GthFileList *file_list)
 
 static void
 thumbnail_job_ready_cb (GObject      *source_object,
-		        GAsyncResult *result,
-		        gpointer      user_data)
+			GAsyncResult *result,
+			gpointer      user_data)
 {
 	ThumbnailJob    *job = user_data;
 	GthFileList     *file_list = job->file_list;
@@ -1804,7 +1804,7 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 
 #if 0
 	g_print ("%d in [%d, %d] => %d\n",
- 		 job->pos,
+		 job->pos,
 		 (file_list->priv->thumbnailer_state.first_visibile - N_VIEWAHEAD),
 		 (file_list->priv->thumbnailer_state.last_visible + N_VIEWAHEAD),
 		 job->update_in_view);

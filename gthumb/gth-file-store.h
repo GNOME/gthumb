@@ -60,45 +60,45 @@ struct _GthFileStoreClass
 
 	void (*visibility_changed) (GthFileStore *self);
 	void (*thumbnail_changed)  (GtkTreeModel *tree_model,
-		      	    	    GtkTreePath  *path,
-		      	    	    GtkTreeIter  *iter);
+				    GtkTreePath  *path,
+				    GtkTreeIter  *iter);
 };
 
 GType           gth_file_store_get_type          (void) G_GNUC_CONST;
 GthFileStore *  gth_file_store_new               (void);
 void            gth_file_store_set_filter        (GthFileStore         *file_store,
-					          GthTest              *filter);
+						  GthTest              *filter);
 void            gth_file_store_set_sort_func     (GthFileStore         *file_store,
-					          GthFileDataCompFunc   cmp_func,
-					          gboolean              inverse_sort);
+						  GthFileDataCompFunc   cmp_func,
+						  gboolean              inverse_sort);
 GList *         gth_file_store_get_all           (GthFileStore         *file_store);
 int             gth_file_store_n_files           (GthFileStore         *file_store);
 GList *         gth_file_store_get_visibles      (GthFileStore         *file_store);
 int             gth_file_store_n_visibles        (GthFileStore         *file_store);
 GthFileData *   gth_file_store_get_file          (GthFileStore         *file_store,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 gboolean        gth_file_store_find              (GthFileStore         *file_store,
 						  GFile                *file,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 gboolean        gth_file_store_find_visible      (GthFileStore         *file_store,
 						  GFile                *file,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 int             gth_file_store_get_pos           (GthFileStore         *file_store,
 						  GFile                *file);
 #define         gth_file_store_get_first(file_store, iter) gth_file_store_get_nth (file_store, 0, iter)
 gboolean        gth_file_store_get_nth           (GthFileStore         *file_store,
 						  int                   n,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 gboolean        gth_file_store_get_next          (GthFileStore         *file_store,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 #define         gth_file_store_get_first_visible(file_store, iter) gth_file_store_get_nth_visible(file_store, 0, iter)
 gboolean        gth_file_store_get_nth_visible   (GthFileStore         *file_store,
 						  int                   n,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 gboolean        gth_file_store_get_next_visible  (GthFileStore         *file_store,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 gboolean        gth_file_store_get_prev_visible  (GthFileStore         *file_store,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 void            gth_file_store_add               (GthFileStore         *file_store,
 						  GthFileData          *file,
 						  cairo_surface_t      *thumbnail,
@@ -113,16 +113,16 @@ void            gth_file_store_queue_add         (GthFileStore         *file_sto
 void            gth_file_store_exec_add          (GthFileStore         *file_store,
 						  int                   position);
 void            gth_file_store_set               (GthFileStore         *file_store,
-					          GtkTreeIter          *iter,
-					          ...);
+						  GtkTreeIter          *iter,
+						  ...);
 void            gth_file_store_queue_set         (GthFileStore         *file_store,
-					          GtkTreeIter          *iter,
-					          ...);
+						  GtkTreeIter          *iter,
+						  ...);
 void            gth_file_store_exec_set          (GthFileStore         *file_store);
 void            gth_file_store_remove            (GthFileStore         *file_store,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 void            gth_file_store_queue_remove      (GthFileStore         *file_store,
-					          GtkTreeIter          *iter);
+						  GtkTreeIter          *iter);
 void            gth_file_store_exec_remove       (GthFileStore         *file_store);
 void            gth_file_store_clear             (GthFileStore         *file_store);
 void            gth_file_store_reorder           (GthFileStore         *file_store,

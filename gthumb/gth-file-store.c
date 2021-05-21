@@ -443,7 +443,7 @@ gth_file_store_iter_next (GtkTreeModel  *tree_model,
 
 	g_return_val_if_fail (VALID_ITER (iter, file_store), FALSE);
 
-  	row = (GthFileRow*) iter->user_data;
+	row = (GthFileRow*) iter->user_data;
 	if ((row->pos + 1) >= file_store->priv->num_rows)
 		return FALSE;
 
@@ -524,7 +524,7 @@ gth_file_store_iter_n_children (GtkTreeModel *tree_model,
 
 	g_return_val_if_fail (VALID_ITER (iter, file_store), 0);
 
-  	return 0;
+	return 0;
 }
 
 
@@ -536,7 +536,7 @@ gth_file_store_iter_nth_child (GtkTreeModel *tree_model,
 {
 	GthFileStore *file_store;
 
-  	file_store = (GthFileStore *) tree_model;
+	file_store = (GthFileStore *) tree_model;
 
 	if (parent != NULL) {
 		g_return_val_if_fail (VALID_ITER (parent, file_store), FALSE);
@@ -1278,8 +1278,8 @@ gth_file_store_get_pos (GthFileStore *file_store,
 
 gboolean
 gth_file_store_get_nth (GthFileStore *file_store,
-		        int           n,
-		        GtkTreeIter  *iter)
+			int           n,
+			GtkTreeIter  *iter)
 {
 	GthFileRow *row;
 
@@ -1309,7 +1309,7 @@ gth_file_store_get_next (GthFileStore *file_store,
 
 	g_return_val_if_fail (VALID_ITER (iter, file_store), FALSE);
 
-  	row = (GthFileRow*) iter->user_data;
+	row = (GthFileRow*) iter->user_data;
 	if (row->abs_pos + 1 >= file_store->priv->tot_rows)
 		return FALSE;
 
@@ -1355,7 +1355,7 @@ gth_file_store_get_next_visible (GthFileStore *file_store,
 
 	g_return_val_if_fail (VALID_ITER (iter, file_store), FALSE);
 
-  	row = (GthFileRow*) iter->user_data;
+	row = (GthFileRow*) iter->user_data;
 	if (row->pos + 1 >= file_store->priv->num_rows)
 		return FALSE;
 
@@ -1379,7 +1379,7 @@ gth_file_store_get_prev_visible (GthFileStore *file_store,
 
 	g_return_val_if_fail (VALID_ITER (iter, file_store), FALSE);
 
-  	row = (GthFileRow*) iter->user_data;
+	row = (GthFileRow*) iter->user_data;
 	if (row->pos == 0)
 		return FALSE;
 
@@ -1438,8 +1438,8 @@ gth_file_store_exec_add (GthFileStore *file_store,
 
 static void
 gth_file_store_queue_set_valist (GthFileStore *file_store,
-			         GtkTreeIter  *iter,
-			         va_list       var_args)
+				 GtkTreeIter  *iter,
+				 va_list       var_args)
 {
 	GthFileRow  *row;
 	int          column;
@@ -1626,7 +1626,7 @@ gth_file_store_queue_remove (GthFileStore *file_store,
 
 	g_return_if_fail (VALID_ITER (iter, file_store));
 
-  	row = (GthFileRow*) iter->user_data;
+	row = (GthFileRow*) iter->user_data;
 
 	file_store->priv->queue = g_list_prepend (file_store->priv->queue, _gth_file_row_ref (file_store->priv->all_rows[row->abs_pos]));
 }
