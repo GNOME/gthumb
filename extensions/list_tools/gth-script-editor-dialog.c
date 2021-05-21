@@ -28,7 +28,6 @@
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
-#define NO_SHORTCUT 0
 
 
 static GthTemplateCode Command_Special_Codes[] = {
