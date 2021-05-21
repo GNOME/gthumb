@@ -725,7 +725,7 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 	/*g_print ("cap: %s\n", gst_caps_to_string (sample_caps));
 	g_print ("format: %s\n", format);*/
 
-	if ((g_strcmp0 (format, "RGB") != 0) && (g_strcmp0 (format, "RGBA") != 0)) {
+	if (! _g_str_equal (format, "RGB") && ! _g_str_equal (format, "RGBA")) {
 		GstCaps   *to_caps;
 		GstSample *to_sample;
 		GError    *error = NULL;
@@ -770,7 +770,7 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 	gst_structure_get_int (s, "height", &height);
 	format = gst_structure_get_string (s, "format");
 
-	if ((g_strcmp0 (format, "RGB") != 0) && (g_strcmp0 (format, "RGBA") != 0)) {
+	if (! _g_str_equal (format, "RGB") && ! _g_str_equal (format, "RGBA")) {
 		g_warning ("Could not take screenshot: %s", "wrong format");
 		screenshot_data_finalize (data);
 		return FALSE;
@@ -779,7 +779,7 @@ _gst_playbin_get_current_frame (GstElement          *playbin,
 	if ((width > 0) && (height > 0)) {
 		GstMemory  *memory;
 		GstMapInfo  info;
-		gboolean    with_alpha = (g_strcmp0 (format, "RGBA") == 0);
+		gboolean    with_alpha = _g_str_equal (format, "RGBA");
 
 		memory = gst_buffer_get_memory (gst_sample_get_buffer (sample), 0);
 		if (gst_memory_map (memory, &info, GST_MAP_READ))
