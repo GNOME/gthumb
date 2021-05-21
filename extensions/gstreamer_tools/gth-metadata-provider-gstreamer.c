@@ -44,10 +44,11 @@ gth_metadata_provider_gstreamer_can_read (GthMetadataProvider  *self,
 	return _g_file_attributes_matches_any_v ("general::title,"
 						 "general::format,"
 						 "general::dimensions,"
+						 "general::duration,"
 						 "frame::width,"
-			 	 	 	 "frame::height,"
+						 "frame::height,"
 						 "audio-video::*",
-					         attribute_v);
+						 attribute_v);
 }
 
 
