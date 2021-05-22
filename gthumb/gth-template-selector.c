@@ -334,8 +334,7 @@ gth_template_selector_construct (GthTemplateSelector *self,
 	gtk_list_store_append (list_store, &iter);
 	gtk_list_store_set (list_store, &iter,
 			    DATE_FORMAT_FORMAT_COLUMN, "",
-			    /* Translators: this is an option for the format -> Format: Custom */
-			    DATE_FORMAT_NAME_COLUMN, _("Custom"),
+			    DATE_FORMAT_NAME_COLUMN, _("Other…"),
 			    -1);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), 0);

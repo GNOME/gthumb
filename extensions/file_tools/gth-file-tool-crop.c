@@ -452,7 +452,7 @@ gth_file_tool_crop_get_options (GthFileTool *base)
 				     _("16∶9 (DVD)"),
 				     _("1.85∶1"),
 				     _("2.39∶1"),
-				     _("Custom"),
+				     _("Other…"),
 				     NULL);
 	gtk_widget_show (self->priv->ratio_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, TRUE, TRUE, 0);
