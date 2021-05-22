@@ -353,7 +353,7 @@ list_source_files (gpointer user_data)
 	data->files = NULL;
 
 	if (data->source == NULL) {
-		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("(Empty)"));
+		gth_file_list_clear (GTH_FILE_LIST (data->file_list), NULL);
 		update_sensitivity (data);
 		return;
 	}
@@ -393,7 +393,7 @@ device_chooser_changed_cb (GtkWidget  *widget,
 	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->device_chooser), &iter)) {
 		_g_clear_object (&data->source);
 		_g_clear_object (&data->last_source);
-		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("(Empty)"));
+		gth_file_list_clear (GTH_FILE_LIST (data->file_list), NULL);
 		return;
 	}
 
@@ -404,7 +404,7 @@ device_chooser_changed_cb (GtkWidget  *widget,
 	if (mount == NULL) {
 		_g_clear_object (&data->source);
 		_g_clear_object (&data->last_source);
-		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("Empty"));
+		gth_file_list_clear (GTH_FILE_LIST (data->file_list), NULL);
 		return;
 	}
 
