@@ -296,6 +296,7 @@ gth_empty_list_init (GthEmptyList *self)
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
 	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
 	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_FRAME);
+	gtk_style_context_add_class (style_context, "empty-view");
 }
 
 

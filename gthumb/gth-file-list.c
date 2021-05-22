@@ -39,7 +39,7 @@
 #define RESTART_LOADING_THUMBS_DELAY 1500
 #define N_VIEWAHEAD 50
 #define N_CREATEAHEAD 50000
-#define EMPTY (N_("(Empty)"))
+#define NO_FILE_MSG (N_("No file"))
 #define CHECK_JOBS_INTERVAL 50
 #define _FILE_VIEW "file-view"
 #define _EMPTY_VIEW "empty-view"
@@ -557,7 +557,7 @@ gth_file_list_construct (GthFileList     *file_list,
 
 	/* the message pane */
 
-	file_list->priv->message = gth_empty_list_new (_(EMPTY));
+	file_list->priv->message = gth_empty_list_new (_(NO_FILE_MSG));
 
 	/* the file view */
 
@@ -839,7 +839,7 @@ gth_file_list_clear (GthFileList *file_list,
 	GthFileListOp *op;
 
 	op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_CLEAR_FILES);
-	op->sval = g_strdup (message != NULL ? message : _(EMPTY));
+	op->sval = g_strdup (message != NULL ? message : _(NO_FILE_MSG));
 	_gth_file_list_queue_op (file_list, op);
 }
 
@@ -1067,7 +1067,7 @@ gth_file_list_set_files (GthFileList *file_list,
 	}
 	else {
 		op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_CLEAR_FILES);
-		op->sval = g_strdup (_(EMPTY));
+		op->sval = g_strdup (_(NO_FILE_MSG));
 		_gth_file_list_queue_op (file_list, op);
 	}
 }

@@ -21,6 +21,12 @@ GthEmptyList.frame:backdrop {
 	border-color: @unfocused_borders;
 }
 
+.empty-view {
+	font-weight: 300;
+	font-size: 24pt;
+	opacity: 0.5;
+}
+
 /* -- histogram -- */
 
 .histogram {
