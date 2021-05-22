@@ -190,7 +190,7 @@ gth_test_aspect_ratio_real_create_control (GthTest *base)
 			active_idx = current_idx;
 	}
 
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox), _("Custom"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (self->priv->ratio_combobox), _("Personalize…"));
 	current_idx++;
 	self->priv->custom_ratio_idx = current_idx;
 
