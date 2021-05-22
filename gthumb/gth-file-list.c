@@ -83,9 +83,9 @@ typedef struct {
 	GthFileList    *file_list;
 	GthThumbLoader *loader;
 	GCancellable   *cancellable;
+	GtkTreeIter     iter;
 	GthFileData    *file_data;
 	gboolean        update_in_view;
-	int             pos;
 	gboolean        started;
 } ThumbnailJob;
 
@@ -100,11 +100,12 @@ typedef enum {
 
 
 typedef struct {
-	ThumbnailerPhase  phase;
-	int               first_visibile;
-	int               last_visible;
-	int               current_pos;
-	GList            *current_item;
+	ThumbnailerPhase phase;
+	int              first_visible;
+	int              last_visible;
+	GtkTreeIter      current;
+	int              remaining;
+	int              completed;
 } ThumbnailerState;
 
 
@@ -130,8 +131,6 @@ struct _GthFileListPrivate {
 	GList            *jobs; /* list of ThumbnailJob */
 	gboolean          cancelling;
 	guint             update_event;
-	gboolean          visibility_changed;
-	GList            *visibles;
 	ThumbnailerState  thumbnailer_state;
 };
 
@@ -275,7 +274,6 @@ gth_file_list_finalize (GObject *object)
 
 	_gth_file_list_clear_queue (file_list);
 	_g_object_unref (file_list->priv->thumb_loader);
-	_g_object_list_unref (file_list->priv->visibles);
 	if (file_list->priv->icon_cache != NULL)
 		gth_icon_cache_free (file_list->priv->icon_cache);
 	g_object_unref (file_list->priv->settings);
@@ -385,8 +383,6 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->priv->jobs = NULL;
 	file_list->priv->cancelling = FALSE;
 	file_list->priv->update_event = 0;
-	file_list->priv->visibility_changed = FALSE;
-	file_list->priv->visibles = NULL;
 	file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
 }
 
@@ -647,10 +643,17 @@ _gth_file_list_update_pane (GthFileList *file_list)
 
 
 static void
+_after_visibility_change (GthFileList  *file_list)
+{
+	file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
+}
+
+
+static void
 file_store_visibility_changed_cb (GthFileStore *file_store,
 				  GthFileList  *file_list)
 {
-	file_list->priv->visibility_changed = TRUE;
+	_after_visibility_change (file_list);
 	_gth_file_list_update_pane (file_list);
 }
 
@@ -660,10 +663,9 @@ file_store_rows_reordered_cb (GtkTreeModel *tree_model,
 			      GtkTreePath  *path,
 			      GtkTreeIter  *iter,
 			      gpointer      new_order,
-			      gpointer      user_data)
+			      GthFileList  *file_list)
 {
-	GthFileList *file_list = user_data;
-	file_list->priv->visibility_changed = TRUE;
+	_after_visibility_change (file_list);
 }
 
 
@@ -1373,7 +1375,6 @@ thumbnail_job_ready_cb (GObject      *source_object,
 	cairo_surface_t *image = NULL;
 	GError          *error = NULL;
 	GthFileStore    *file_store;
-	GtkTreeIter      iter;
 
 	success = gth_thumb_loader_load_finish (GTH_THUMB_LOADER (source_object),
 						result,
@@ -1390,15 +1391,15 @@ thumbnail_job_ready_cb (GObject      *source_object,
 	}
 
 	file_store = gth_file_list_get_model (file_list);
-	if (gth_file_store_find (file_store, job->file_data->file, &iter)) {
+	if (gth_file_store_iter_is_valid (file_store, &job->iter)) {
 		if (! job->update_in_view && success)
 			gth_file_store_queue_set (file_store,
-						  &iter,
+						  &job->iter,
 						  GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_CREATED,
 						  -1);
 		else if (success)
 			gth_file_store_queue_set (file_store,
-						  &iter,
+						  &job->iter,
 						  GTH_FILE_STORE_THUMBNAIL_COLUMN, image,
 						  GTH_FILE_STORE_IS_ICON_COLUMN, FALSE,
 						  GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_LOADED,
@@ -1410,7 +1411,7 @@ thumbnail_job_ready_cb (GObject      *source_object,
 			icon = g_file_info_get_symbolic_icon (job->file_data->info);
 			icon_image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
 			gth_file_store_queue_set (file_store,
-						  &iter,
+						  &job->iter,
 						  GTH_FILE_STORE_THUMBNAIL_COLUMN, icon_image,
 						  GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
 						  GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_ERROR,
@@ -1455,23 +1456,20 @@ _gth_file_list_update_thumb (GthFileList  *file_list,
 			     ThumbnailJob *job)
 {
 	GthFileStore *file_store;
-	GtkTreeIter   iter;
 	GList        *list;
 	GList        *scan;
-
-	file_store = gth_file_list_get_model (file_list);
-	if (! gth_file_store_find (file_store, job->file_data->file, &iter))
-		return;
 
 	if (file_list->priv->update_event != 0) {
 		g_source_remove (file_list->priv->update_event);
 		file_list->priv->update_event = 0;
 	}
 
+	file_store = gth_file_list_get_model (file_list);
+
 	if (! job->update_in_view) {
 		if (gth_thumb_loader_has_valid_thumbnail (file_list->priv->thumb_loader, job->file_data)) {
 			gth_file_store_queue_set (file_store,
-						  &iter,
+						  &job->iter,
 						  GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_CREATED,
 						  -1);
 			thumbnail_job_free (job);
@@ -1479,7 +1477,7 @@ _gth_file_list_update_thumb (GthFileList  *file_list,
 		}
 		else if (gth_thumb_loader_has_failed_thumbnail (file_list->priv->thumb_loader, job->file_data)) {
 			gth_file_store_queue_set (file_store,
-						  &iter,
+						  &job->iter,
 						  GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_ERROR,
 						  -1);
 			thumbnail_job_free (job);
@@ -1509,7 +1507,7 @@ _gth_file_list_update_thumb (GthFileList  *file_list,
 		icon = g_themed_icon_new ("content-loading-symbolic");
 		icon_image = gth_icon_cache_get_surface (file_list->priv->icon_cache, icon);
 		gth_file_store_queue_set (file_store,
-					  &iter,
+					  &job->iter,
 					  GTH_FILE_STORE_THUMBNAIL_COLUMN, icon_image,
 					  GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
 					  GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, GTH_THUMBNAIL_STATE_LOADING,
@@ -1569,68 +1567,46 @@ can_create_file_thumbnail (GthFileData *file_data,
 }
 
 
-static GList *
-_gth_file_list_get_visibles (GthFileList *file_list)
-{
-	if (file_list->priv->visibility_changed) {
-		_g_object_list_unref (file_list->priv->visibles);
-		file_list->priv->visibles = gth_file_store_get_visibles ((GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view)));
-		file_list->priv->visibility_changed = FALSE;
-		file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_INITIALIZE;
-	}
-
-	return file_list->priv->visibles;
-}
-
-
 static gboolean
 _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
-				    int         *new_pos,
 				    GTimeVal    *current_time,
 				    gboolean    *young_file_found)
 {
-	gboolean      iterate_again = TRUE;
 	GthFileStore *file_store;
-	GtkTreeIter   iter;
-	GList        *list;
-	GList        *scan;
-	int           pos;
 	GthFileData  *file_data;
 
 	file_store = gth_file_list_get_model (file_list);
-	list = _gth_file_list_get_visibles (file_list);
 
 	switch (file_list->priv->thumbnailer_state.phase) {
 	case THUMBNAILER_PHASE_INITIALIZE:
-		file_list->priv->thumbnailer_state.first_visibile = gth_file_view_get_first_visible (GTH_FILE_VIEW (file_list->priv->view));
+		file_list->priv->thumbnailer_state.first_visible = gth_file_view_get_first_visible (GTH_FILE_VIEW (file_list->priv->view));
 		file_list->priv->thumbnailer_state.last_visible = gth_file_view_get_last_visible (GTH_FILE_VIEW (file_list->priv->view));
 
-		/* pass to the 'update visible files' phase. */
-		file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_UPDATE_VISIBLE;
-		file_list->priv->thumbnailer_state.current_pos = file_list->priv->thumbnailer_state.first_visibile;
-		file_list->priv->thumbnailer_state.current_item = g_list_nth (list, file_list->priv->thumbnailer_state.current_pos);
-		if (file_list->priv->thumbnailer_state.current_item == NULL) {
+		if ((file_list->priv->thumbnailer_state.first_visible < 0)
+		    || ! gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (file_store),
+							&file_list->priv->thumbnailer_state.current,
+							NULL,
+							file_list->priv->thumbnailer_state.first_visible))
+		{
 			file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_COMPLETED;
 			return FALSE;
 		}
+
+		/* pass to the 'update visible files' phase. */
+		file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_UPDATE_VISIBLE;
+		file_list->priv->thumbnailer_state.remaining = file_list->priv->thumbnailer_state.last_visible - file_list->priv->thumbnailer_state.first_visible + 1;
+		file_list->priv->thumbnailer_state.completed = 0;
 		break;
 
 	case THUMBNAILER_PHASE_UPDATE_VISIBLE:
 		/* Find a non-loaded thumbnail among the visible files. */
 
-		scan = file_list->priv->thumbnailer_state.current_item;
-		pos = file_list->priv->thumbnailer_state.current_pos;
-		while (scan && (pos <= file_list->priv->thumbnailer_state.last_visible)) {
+		while (file_list->priv->thumbnailer_state.remaining > 0) {
 			GthThumbnailState state;
 
-			file_data = scan->data;
-			if (! gth_file_store_find (file_store, file_data->file, &iter)) {
-				file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_COMPLETED;
-				return FALSE;
-			}
-
 			gtk_tree_model_get (GTK_TREE_MODEL (file_store),
-					    &iter,
+					    &file_list->priv->thumbnailer_state.current,
+					    GTH_FILE_STORE_FILE_DATA_COLUMN, &file_data,
 					    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, &state,
 					    -1);
 
@@ -1638,42 +1614,47 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 			    && can_create_file_thumbnail (file_data, current_time, young_file_found))
 			{
 				/* found a thumbnail to load */
-				file_list->priv->thumbnailer_state.current_item = scan;
-				file_list->priv->thumbnailer_state.current_pos = pos;
-				*new_pos = pos;
 				return FALSE;
 			}
 
-			pos++;
-			scan = scan->next;
+			g_object_unref (file_data);
+
+			if (! gtk_tree_model_iter_next (GTK_TREE_MODEL (file_store),
+							&file_list->priv->thumbnailer_state.current))
+			{
+				break;
+			}
+			file_list->priv->thumbnailer_state.remaining--;
+			file_list->priv->thumbnailer_state.completed++;
 		}
 
 		/* No thumbnail to load among the visible images, pass to the
 		 * next phase.  Start from the one after the last visible image. */
+		if (! gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (file_store),
+						     &file_list->priv->thumbnailer_state.current,
+						     NULL,
+						     file_list->priv->thumbnailer_state.last_visible + 1))
+		{
+			file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_COMPLETED;
+			return FALSE;
+		}
 		file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_UPDATE_DOWNWARD;
-		file_list->priv->thumbnailer_state.current_pos = file_list->priv->thumbnailer_state.last_visible + 1;
-		file_list->priv->thumbnailer_state.current_item = g_list_nth (list, file_list->priv->thumbnailer_state.current_pos);
+		file_list->priv->thumbnailer_state.remaining = N_CREATEAHEAD;
+		file_list->priv->thumbnailer_state.completed = 0;
 		break;
 
 	case THUMBNAILER_PHASE_UPDATE_DOWNWARD:
-		scan = file_list->priv->thumbnailer_state.current_item;
-		pos = file_list->priv->thumbnailer_state.current_pos;
-		while (scan && (pos <= file_list->priv->thumbnailer_state.last_visible + N_CREATEAHEAD)) {
+		while (file_list->priv->thumbnailer_state.remaining > 0) {
 			GthThumbnailState state;
 			gboolean          requested_action_performed;
 
-			file_data = scan->data;
-			if (! gth_file_store_find (file_store, file_data->file, &iter)) {
-				file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_COMPLETED;
-				return FALSE;
-			}
-
 			gtk_tree_model_get (GTK_TREE_MODEL (file_store),
-					    &iter,
+					    &file_list->priv->thumbnailer_state.current,
+					    GTH_FILE_STORE_FILE_DATA_COLUMN, &file_data,
 					    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, &state,
 					    -1);
 
-			if (pos <= file_list->priv->thumbnailer_state.last_visible + N_VIEWAHEAD)
+			if (file_list->priv->thumbnailer_state.completed < N_VIEWAHEAD)
 				/* requested action: load the thumbnail */
 				requested_action_performed = (state > GTH_THUMBNAIL_STATE_CREATED);
 			else
@@ -1684,42 +1665,48 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 			    && can_create_file_thumbnail (file_data, current_time, young_file_found))
 			{
 				/* found a thumbnail to load */
-				file_list->priv->thumbnailer_state.current_item = scan;
-				file_list->priv->thumbnailer_state.current_pos = pos;
-				*new_pos = pos;
 				return FALSE;
 			}
 
-			pos++;
-			scan = scan->next;
+			g_object_unref (file_data);
+
+			if (! gtk_tree_model_iter_next (GTK_TREE_MODEL (file_store),
+							&file_list->priv->thumbnailer_state.current))
+			{
+				break;
+			}
+			file_list->priv->thumbnailer_state.remaining--;
+			file_list->priv->thumbnailer_state.completed++;
 		}
 
 		/* No thumbnail to load, pass to the next phase. Start from the
 		 * one before the first visible upward to the first one. */
+		if ((file_list->priv->thumbnailer_state.first_visible == 0)
+		    || ! gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (file_store),
+							&file_list->priv->thumbnailer_state.current,
+							NULL,
+							file_list->priv->thumbnailer_state.first_visible - 1))
+		{
+			file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_COMPLETED;
+			return FALSE;
+		}
 		file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_UPDATE_UPWARD;
-		file_list->priv->thumbnailer_state.current_pos = file_list->priv->thumbnailer_state.first_visibile - 1;
-		file_list->priv->thumbnailer_state.current_item = g_list_nth (list, file_list->priv->thumbnailer_state.current_pos);
+		file_list->priv->thumbnailer_state.remaining = N_CREATEAHEAD;
+		file_list->priv->thumbnailer_state.completed = 0;
 		break;
 
 	case THUMBNAILER_PHASE_UPDATE_UPWARD:
-		scan = file_list->priv->thumbnailer_state.current_item;
-		pos = file_list->priv->thumbnailer_state.current_pos;
-		while (scan && (pos >= file_list->priv->thumbnailer_state.first_visibile - N_CREATEAHEAD)) {
+		while (file_list->priv->thumbnailer_state.remaining > 0) {
 			GthThumbnailState state;
 			gboolean          requested_action_performed;
 
-			file_data = scan->data;
-			if (! gth_file_store_find (file_store, file_data->file, &iter)) {
-				file_list->priv->thumbnailer_state.phase = THUMBNAILER_PHASE_COMPLETED;
-				return FALSE;
-			}
-
 			gtk_tree_model_get (GTK_TREE_MODEL (file_store),
-					    &iter,
+					    &file_list->priv->thumbnailer_state.current,
+					    GTH_FILE_STORE_FILE_DATA_COLUMN, &file_data,
 					    GTH_FILE_STORE_THUMBNAIL_STATE_COLUMN, &state,
 					    -1);
 
-			if (pos >= file_list->priv->thumbnailer_state.first_visibile - N_VIEWAHEAD)
+			if (file_list->priv->thumbnailer_state.completed < N_VIEWAHEAD)
 				/* requested action: load the thumbnail */
 				requested_action_performed = (state > GTH_THUMBNAIL_STATE_CREATED);
 			else
@@ -1730,14 +1717,18 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 			    && can_create_file_thumbnail (file_data, current_time, young_file_found))
 			{
 				/* found a thumbnail to load */
-				file_list->priv->thumbnailer_state.current_item = scan;
-				file_list->priv->thumbnailer_state.current_pos = pos;
-				*new_pos = pos;
 				return FALSE;
 			}
 
-			pos--;
-			scan = scan->prev;
+			g_object_unref (file_data);
+
+			if (! gtk_tree_model_iter_previous (GTK_TREE_MODEL (file_store),
+							    &file_list->priv->thumbnailer_state.current))
+			{
+				break;
+			}
+			file_list->priv->thumbnailer_state.remaining--;
+			file_list->priv->thumbnailer_state.completed++;
 		}
 
 		/* No thumbnail to load, terminate the process. */
@@ -1748,14 +1739,13 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 		return FALSE;
 	}
 
-	return iterate_again;
+	return TRUE;
 }
 
 
 static void
 _gth_file_list_update_next_thumb (GthFileList *file_list)
 {
-	int           new_pos;
 	GTimeVal      current_time;
 	gboolean      young_file_found;
 	ThumbnailJob *job;
@@ -1779,10 +1769,9 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 
 	/* find the new thumbnail to load */
 
-	new_pos = -1;
 	g_get_current_time (&current_time);
 	young_file_found = FALSE;
-	while (_gth_file_list_thumbnailer_iterate (file_list, &new_pos, &current_time, &young_file_found))
+	while (_gth_file_list_thumbnailer_iterate (file_list, &current_time, &young_file_found))
 		/* void */;
 
 	if (file_list->priv->thumbnailer_state.phase == THUMBNAILER_PHASE_COMPLETED) {
@@ -1792,20 +1781,21 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 		return;
 	}
 
-	g_assert (file_list->priv->thumbnailer_state.current_item != NULL);
-
 	job = g_new0 (ThumbnailJob, 1);
 	job->file_list = g_object_ref (file_list);
 	job->loader = g_object_ref (file_list->priv->thumb_loader);
 	job->cancellable = g_cancellable_new ();
-	job->file_data = g_object_ref (file_list->priv->thumbnailer_state.current_item->data);
-	job->pos = file_list->priv->thumbnailer_state.current_pos;
-	job->update_in_view = (job->pos >= (file_list->priv->thumbnailer_state.first_visibile - N_VIEWAHEAD)) && (job->pos <= (file_list->priv->thumbnailer_state.last_visible + N_VIEWAHEAD));
+	job->update_in_view = file_list->priv->thumbnailer_state.completed < N_VIEWAHEAD;
+	job->iter = file_list->priv->thumbnailer_state.current;
+	gtk_tree_model_get (GTK_TREE_MODEL (gth_file_list_get_model (file_list)),
+			    &file_list->priv->thumbnailer_state.current,
+			    GTH_FILE_STORE_FILE_DATA_COLUMN, &job->file_data,
+			    -1);
 
 #if 0
 	g_print ("%d in [%d, %d] => %d\n",
-		 job->pos,
-		 (file_list->priv->thumbnailer_state.first_visibile - N_VIEWAHEAD),
+		 file_list->priv->thumbnailer_state.completed,
+		 (file_list->priv->thumbnailer_state.first_visible - N_VIEWAHEAD),
 		 (file_list->priv->thumbnailer_state.last_visible + N_VIEWAHEAD),
 		 job->update_in_view);
 #endif
@@ -1888,21 +1878,17 @@ gth_file_list_first_file (GthFileList *file_list,
 			  gboolean     only_selected)
 {
 	GthFileStore *file_store;
-	GList        *files;
 	int           pos;
-	GList        *scan;
 	GtkTreeIter   iter;
 
 	file_store = gth_file_list_get_model (file_list);
-
-	files = _gth_file_list_get_visibles (file_list);
 	pos = 0;
-	for (scan = files; scan; scan = scan->next, pos++) {
-		GthFileData       *file_data = scan->data;
-		GthThumbnailState  state;
+	if (! gth_file_store_get_nth_visible (file_store, pos, &iter))
+		return -1;
 
-		if (! gth_file_store_find (file_store, file_data->file, &iter))
-			continue;
+	do {
+		GthThumbnailState state;
+		gboolean          _continue = FALSE;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (file_store),
 				    &iter,
@@ -1910,13 +1896,17 @@ gth_file_list_first_file (GthFileList *file_list,
 				    -1);
 
 		if (skip_broken && (state == GTH_THUMBNAIL_STATE_ERROR))
-			continue;
+			_continue = TRUE;
 
 		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_list->priv->view), pos))
-			continue;
+			_continue = TRUE;
 
-		return pos;
+		if (! _continue)
+			return pos;
+
+		pos++;
 	}
+	while (gth_file_store_get_next_visible (file_store, &iter));
 
 	return -1;
 }
@@ -1927,25 +1917,21 @@ gth_file_list_last_file (GthFileList *file_list,
 			 gboolean     skip_broken,
 			 gboolean     only_selected)
 {
-	GList        *files;
-	int           pos;
 	GthFileStore *file_store;
-	GList        *scan;
+	int           pos;
 	GtkTreeIter   iter;
 
-	files = _gth_file_list_get_visibles (file_list);
-	pos = g_list_length (files) - 1;
+	file_store = gth_file_list_get_model (file_list);
+	pos = gth_file_store_n_visibles (file_store) - 1;
 	if (pos < 0)
 		return -1;
 
-	file_store = gth_file_list_get_model (file_list);
+	if (! gth_file_store_get_nth_visible (file_store, pos, &iter))
+		return -1;
 
-	for (scan = g_list_nth (files, pos); scan; scan = scan->prev, pos--) {
-		GthFileData       *file_data = scan->data;
-		GthThumbnailState  state;
-
-		if (! gth_file_store_find (file_store, file_data->file, &iter))
-			continue;
+	do {
+		GthThumbnailState state;
+		gboolean          _continue = FALSE;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (file_store),
 				    &iter,
@@ -1953,13 +1939,17 @@ gth_file_list_last_file (GthFileList *file_list,
 				    -1);
 
 		if (skip_broken && (state == GTH_THUMBNAIL_STATE_ERROR))
-			continue;
+			_continue = TRUE;
 
 		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_list->priv->view), pos))
-			continue;
+			_continue = TRUE;
 
-		return pos;
+		if (! _continue)
+			return pos;
+
+		pos--;
 	}
+	while (gth_file_store_get_prev_visible (file_store, &iter));
 
 	return -1;
 }
@@ -1972,29 +1962,29 @@ gth_file_list_next_file (GthFileList *file_list,
 			 gboolean     only_selected,
 			 gboolean     wrap)
 {
-	GList        *files;
 	GthFileStore *file_store;
-	GList        *scan;
 	GtkTreeIter   iter;
-
-	files = _gth_file_list_get_visibles (file_list);
-
-	pos++;
-	if (pos >= 0)
-		scan = g_list_nth (files, pos);
-	else if (wrap)
-		scan = g_list_first (files);
-	else
-		scan = NULL;
+	gboolean      valid;
 
 	file_store = gth_file_list_get_model (file_list);
 
-	for (/* void */; scan; scan = scan->next, pos++) {
-		GthFileData       *file_data = scan->data;
-		GthThumbnailState  state;
+	pos++;
+	if (pos >= 0) {
+		valid = gth_file_store_get_nth_visible (file_store, pos, &iter);
+		if (! valid && wrap) {
+			pos = 0;
+			valid = gth_file_store_get_nth_visible (file_store, pos, &iter);
+		}
+	}
+	else
+		valid = FALSE;
 
-		if (! gth_file_store_find (file_store, file_data->file, &iter))
-			continue;
+	if (! valid)
+		return -1;
+
+	do {
+		GthThumbnailState  state;
+		gboolean           _continue = FALSE;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (file_store),
 				    &iter,
@@ -2002,15 +1992,19 @@ gth_file_list_next_file (GthFileList *file_list,
 				    -1);
 
 		if (skip_broken && (state == GTH_THUMBNAIL_STATE_ERROR))
-			continue;
+			_continue = TRUE;
 
 		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_list->priv->view), pos))
-			continue;
+			_continue = TRUE;
 
-		break;
+		if (! _continue)
+			return pos;
+
+		pos++;
 	}
+	while (gth_file_store_get_next_visible (file_store, &iter));
 
-	return (scan != NULL) ? pos : -1;
+	return -1;
 }
 
 
@@ -2021,31 +2015,31 @@ gth_file_list_prev_file (GthFileList *file_list,
 			 gboolean     only_selected,
 			 gboolean     wrap)
 {
-	GList        *files;
 	GthFileStore *file_store;
-	GList        *scan;
 	GtkTreeIter   iter;
-
-	files = _gth_file_list_get_visibles (file_list);
-
-	pos--;
-	if (pos >= 0)
-		scan = g_list_nth (files, pos);
-	else if (wrap) {
-		pos = g_list_length (files) - 1;
-		scan = g_list_nth (files, pos);
-	}
-	else
-		scan = NULL;
+	gboolean      valid;
 
 	file_store = gth_file_list_get_model (file_list);
 
-	for (/* void */; scan; scan = scan->prev, pos--) {
-		GthFileData       *file_data = scan->data;
-		GthThumbnailState  state;
+	pos--;
+	if (pos >= 0)
+		valid = gth_file_store_get_nth_visible (file_store, pos, &iter);
+	else if (wrap) {
+		pos = gth_file_store_n_visibles (file_store) - 1;
+		if (pos >= 0)
+			valid = gth_file_store_get_nth_visible (file_store, pos, &iter);
+		else
+			valid = FALSE;
+	}
+	else
+		valid = FALSE;
 
-		if (! gth_file_store_find (file_store, file_data->file, &iter))
-			continue;
+	if (! valid)
+		return -1;
+
+	do {
+		GthThumbnailState  state;
+		gboolean           _continue = FALSE;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (file_store),
 				    &iter,
@@ -2053,15 +2047,19 @@ gth_file_list_prev_file (GthFileList *file_list,
 				    -1);
 
 		if (skip_broken && (state == GTH_THUMBNAIL_STATE_ERROR))
-			continue;
+			_continue = TRUE;
 
 		if (only_selected && ! gth_file_selection_is_selected (GTH_FILE_SELECTION (file_list->priv->view), pos))
-			continue;
+			_continue = TRUE;
 
-		break;
+		if (! _continue)
+			return pos;
+
+		pos--;
 	}
+	while (gth_file_store_get_prev_visible (file_store, &iter));
 
-	return (scan != NULL) ? pos : -1;
+	return -1;
 }
 
 

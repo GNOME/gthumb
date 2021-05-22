@@ -95,6 +95,8 @@ gboolean        gth_file_store_get_next          (GthFileStore         *file_sto
 gboolean        gth_file_store_get_nth_visible   (GthFileStore         *file_store,
 						  int                   n,
 						  GtkTreeIter          *iter);
+gboolean        gth_file_store_get_last_visible  (GthFileStore         *file_store,
+						  GtkTreeIter          *iter);
 gboolean        gth_file_store_get_next_visible  (GthFileStore         *file_store,
 						  GtkTreeIter          *iter);
 gboolean        gth_file_store_get_prev_visible  (GthFileStore         *file_store,
@@ -127,6 +129,8 @@ void            gth_file_store_exec_remove       (GthFileStore         *file_sto
 void            gth_file_store_clear             (GthFileStore         *file_store);
 void            gth_file_store_reorder           (GthFileStore         *file_store,
 						  int                  *new_order);
+gboolean        gth_file_store_iter_is_valid     (GthFileStore         *file_store,
+						  GtkTreeIter          *iter);
 
 G_END_DECLS
 

@@ -1345,6 +1345,27 @@ gth_file_store_get_nth_visible (GthFileStore *file_store,
 
 
 gboolean
+gth_file_store_get_last_visible (GthFileStore *file_store,
+				 GtkTreeIter  *iter)
+{
+	GthFileRow *row;
+
+	if (file_store->priv->num_rows == 0)
+		return FALSE;
+
+	row = file_store->priv->rows[file_store->priv->num_rows - 1];
+	g_return_val_if_fail (row != NULL, FALSE);
+
+	if (iter != NULL) {
+		iter->stamp = file_store->priv->stamp;
+		iter->user_data = row;
+	}
+
+	return TRUE;
+}
+
+
+gboolean
 gth_file_store_get_next_visible (GthFileStore *file_store,
 				 GtkTreeIter  *iter)
 {
@@ -1695,4 +1716,12 @@ gth_file_store_reorder (GthFileStore *file_store,
 			   NULL);
 
 	gtk_tree_model_rows_reordered (GTK_TREE_MODEL (file_store), NULL, NULL, new_order);
+}
+
+
+gboolean
+gth_file_store_iter_is_valid (GthFileStore *file_store,
+			      GtkTreeIter   *iter)
+{
+	return (iter != NULL) && (iter->stamp == file_store->priv->stamp);
 }
