@@ -109,6 +109,8 @@ save_search_result_copy_done_cb (void     **buffer,
 
 	task->priv->io_operation = FALSE;
 
+	if (task->priv->n_files == 0)
+		gth_file_list_clear (GTH_FILE_LIST (gth_browser_get_file_list (task->priv->browser)), _("No file found"));
 	gth_browser_update_extra_widget (task->priv->browser);
 	gtk_widget_hide (task->priv->dialog);
 	gth_task_completed (GTH_TASK (task), task->priv->error);
@@ -327,6 +329,8 @@ browser_location_ready_cb (GthBrowser    *browser,
 	}
 
 	task->priv->n_files = 0;
+
+	gth_file_list_clear (GTH_FILE_LIST (gth_browser_get_file_list (browser)), _("Searching…"));
 
 	task->priv->dialog = gth_browser_get_list_info_bar (browser);
 	gth_info_bar_set_icon_name (GTH_INFO_BAR (task->priv->dialog), "edit-find-symbolic", GTK_ICON_SIZE_BUTTON);
