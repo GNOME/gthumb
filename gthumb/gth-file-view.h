@@ -130,22 +130,22 @@ void            gth_file_view_set_cursor         (GthFileView             *self,
 						  int                      pos);
 int             gth_file_view_get_cursor         (GthFileView             *self);
 void            gth_file_view_enable_drag_source (GthFileView             *self,
-				      		  GdkModifierType          start_button_mask,
-				      		  const GtkTargetEntry    *targets,
-				      		  int                      n_targets,
-				      		  GdkDragAction            actions);
+						  GdkModifierType          start_button_mask,
+						  const GtkTargetEntry    *targets,
+						  int                      n_targets,
+						  GdkDragAction            actions);
 void            gth_file_view_unset_drag_source  (GthFileView             *self);
 void            gth_file_view_enable_drag_dest   (GthFileView             *self,
-				      		  const GtkTargetEntry    *targets,
-				      		  int                      n_targets,
-				      		  GdkDragAction            actions);
+						  const GtkTargetEntry    *targets,
+						  int                      n_targets,
+						  GdkDragAction            actions);
 void            gth_file_view_unset_drag_dest    (GthFileView             *self);
 void            gth_file_view_set_drag_dest_pos  (GthFileView             *self,
-		 			          GdkDragContext          *context,
-			                          int                      x,
-			                          int                      y,
-			                          guint                    time,
-				                  int                     *pos);
+						  GdkDragContext          *context,
+						  int                      x,
+						  int                      y,
+						  guint                    time,
+						  int                     *pos);
 void            gth_file_view_get_drag_dest_pos  (GthFileView             *self,
 						  int                     *pos);
 
