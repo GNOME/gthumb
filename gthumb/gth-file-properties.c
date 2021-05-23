@@ -71,6 +71,7 @@ struct _GthFilePropertiesPrivate {
 	GthFileData   *last_file_data;
 	GHashTable    *favorites;
 	gboolean       default_favorites;
+	char          *last_selected;
 };
 
 
@@ -140,6 +141,7 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 		 		   GthFileData     *file_data)
 {
 	GthFileProperties *self;
+	GtkTreeIter        iter;
 	GHashTable        *category_hash;
 	GList             *metadata_info;
 	GList             *scan;
@@ -149,6 +151,18 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 	if (file_data != self->priv->last_file_data) {
 		_g_object_unref (self->priv->last_file_data);
 		self->priv->last_file_data = gth_file_data_dup (file_data);
+	}
+
+	/* Save the last selected id. */
+	{
+		char *selected_id;
+
+		selected_id = NULL;
+		if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->tree_view)), NULL, &iter))
+			gtk_tree_model_get (GTK_TREE_MODEL (self->priv->tree_model), &iter, ID_COLUMN, &selected_id, -1);
+
+		if (selected_id != NULL)
+			_g_str_set (&self->priv->last_selected, selected_id);
 	}
 
 	gtk_list_store_clear (self->priv->tree_model);
@@ -165,7 +179,6 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 		char                *value;
 		char                *tooltip;
 		GthMetadataCategory *category;
-		GtkTreeIter          iter;
 
 		if ((info->flags & GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW) != GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW)
 			continue;
@@ -240,6 +253,9 @@ gth_file_properties_real_set_file (GthPropertyView *base,
 				    POS_COLUMN, (category->sort_order * CATEGORY_SIZE) + info->sort_order,
 				    -1);
 
+		if ((self->priv->last_selected != NULL) && _g_str_equal (info->id, self->priv->last_selected))
+			gtk_tree_selection_select_iter (gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->tree_view)), &iter);
+
 		g_free (tooltip);
 		g_free (value);
 	}
@@ -279,6 +295,7 @@ gth_file_properties_finalize (GObject *base)
 	_g_object_unref (self->priv->settings);
 	if (self->priv->favorites != NULL)
 		g_hash_table_unref (self->priv->favorites);
+	g_free (self->priv->last_selected);
 
 	G_OBJECT_CLASS (gth_file_properties_parent_class)->finalize (base);
 }
@@ -447,6 +464,35 @@ tree_view_button_press_event_cb (GtkWidget      *widget,
 
 		return TRUE;
 	}
+	else if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1)) {
+		GtkTreePath *path;
+
+		gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (self->priv->tree_view),
+					       event->x,
+					       event->y,
+					       &path,
+					       NULL,
+					       NULL,
+					       NULL);
+
+		if (path != NULL) {
+			GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (self->priv->tree_view));
+
+			if ((event->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
+				if (gtk_tree_selection_path_is_selected (selection, path)) {
+					gtk_tree_selection_unselect_path (selection, path);
+					_g_str_set (&self->priv->last_selected, NULL);
+				}
+				else
+					gtk_tree_selection_select_path (selection, path);
+			}
+			else
+				gtk_tree_selection_select_path (selection, path);
+			gtk_tree_path_free (path);
+		}
+
+		return TRUE;
+	}
 
 	return FALSE;
 }
@@ -492,6 +538,7 @@ gth_file_properties_init (GthFileProperties *self)
 	self->priv->last_file_data = NULL;
 	self->priv->settings = g_settings_new (GTHUMB_BROWSER_SCHEMA);
 	self->priv->favorites = NULL;
+	self->priv->last_selected = NULL;
 
 	update_favorites (self);
 
