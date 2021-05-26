@@ -104,6 +104,13 @@ gth_image_loader_set_loader_func (GthImageLoader     *self,
 }
 
 
+GthImageLoaderFunc
+gth_image_loader_get_loader_func (GthImageLoader *self)
+{
+	return self->priv->loader_func;
+}
+
+
 void
 gth_image_loader_set_preferred_format (GthImageLoader *self,
 				       GthImageFormat  preferred_format)

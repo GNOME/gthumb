@@ -54,6 +54,7 @@ struct _GthThumbLoaderClass
 
 GType             gth_thumb_loader_get_type             (void);
 GthThumbLoader *  gth_thumb_loader_new                  (int                   requested_size);
+GthThumbLoader *  gth_thumb_loader_copy                 (GthThumbLoader       *self);
 void              gth_thumb_loader_set_loader_func      (GthThumbLoader       *self,
 							 GthImageLoaderFunc    loader_func);
 void              gth_thumb_loader_set_requested_size   (GthThumbLoader       *self,

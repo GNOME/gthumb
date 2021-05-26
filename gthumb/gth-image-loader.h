@@ -55,6 +55,7 @@ GthImageLoader *  gth_image_loader_new                    (GthImageLoaderFunc   
 void              gth_image_loader_set_loader_func        (GthImageLoader       *loader,
 							   GthImageLoaderFunc    loader_func,
 						           gpointer              loader_data);
+GthImageLoaderFunc gth_image_loader_get_loader_func       (GthImageLoader       *loader);
 void              gth_image_loader_set_preferred_format   (GthImageLoader       *loader,
 							   GthImageFormat        preferred_format);
 void              gth_image_loader_set_out_profile        (GthImageLoader       *loader,
