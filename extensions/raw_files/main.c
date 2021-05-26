@@ -226,7 +226,12 @@ _cairo_image_surface_create_from_raw (GInputStream  *istream,
 
 	raw_data->params.output_tiff = FALSE;
 	raw_data->params.use_camera_wb = TRUE;
+
+#if LIBRAW_COMPILE_CHECK_VERSION_NOTLESS(0, 21)
+	raw_data->rawparams.use_rawspeed = TRUE;
+#else
 	raw_data->params.use_rawspeed = TRUE;
+#endif
 	raw_data->params.highlight = FALSE;
 	raw_data->params.use_camera_matrix = TRUE;
 	raw_data->params.output_color = RAW_OUTPUT_COLOR_SRGB;
