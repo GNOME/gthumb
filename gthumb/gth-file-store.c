@@ -147,6 +147,7 @@ _gth_file_row_copy (GthFileRow *row)
 	_gth_file_row_set_file (row2, row->file_data);
 	_gth_file_row_set_thumbnail (row2, row->thumbnail);
 	row2->is_icon = row->is_icon;
+	row2->thumbnail_state = row->thumbnail_state;
 	row2->pos = row->pos;
 	row2->abs_pos = row->abs_pos;
 	row2->visible = row->visible;
