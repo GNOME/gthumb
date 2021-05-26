@@ -72,6 +72,7 @@ struct _GthFileStorePrivate {
 	gboolean             load_thumbs;
 	GthTest             *filter;
 	GList               *queue;
+	GHashTable          *file_queue;
 	GthFileDataCompFunc  cmp_func;
 	gboolean             inverse_sort : 1;
 	gboolean             update_filter : 1;
@@ -185,6 +186,7 @@ _gth_file_store_clear_queue (GthFileStore *file_store)
 	g_list_foreach (file_store->priv->queue, (GFunc) _gth_file_row_unref, NULL);
 	g_list_free (file_store->priv->queue);
 	file_store->priv->queue = NULL;
+	g_hash_table_remove_all (file_store->priv->file_queue);
 }
 
 
@@ -297,6 +299,10 @@ gth_file_store_init (GthFileStore *file_store)
 	file_store->priv->load_thumbs = FALSE;
 	file_store->priv->filter = gth_test_new ();
 	file_store->priv->queue = NULL;
+	file_store->priv->file_queue = g_hash_table_new_full (g_file_hash,
+							      (GEqualFunc) g_file_equal,
+							      (GDestroyNotify) g_object_unref,
+							      NULL);
 	file_store->priv->cmp_func = NULL;
 	file_store->priv->inverse_sort = FALSE;
 	file_store->priv->update_filter = FALSE;
@@ -1438,6 +1444,11 @@ gth_file_store_queue_add (GthFileStore      *file_store,
 
 	g_return_if_fail (file != NULL);
 
+	if (g_hash_table_contains (file_store->priv->file_queue, file->file))
+		return;
+	if (g_hash_table_lookup (file_store->priv->file_row, file->file) != NULL)
+		return;
+
 	row = _gth_file_row_new ();
 	_gth_file_row_set_file (row, file);
 	_gth_file_row_set_thumbnail (row, thumbnail);
@@ -1445,6 +1456,7 @@ gth_file_store_queue_add (GthFileStore      *file_store,
 	row->thumbnail_state = state;
 
 	file_store->priv->queue = g_list_prepend (file_store->priv->queue, row);
+	g_hash_table_add (file_store->priv->file_queue, g_object_ref (file->file));
 }
 
 
@@ -1650,7 +1662,13 @@ gth_file_store_queue_remove (GthFileStore *file_store,
 
 	row = (GthFileRow*) iter->user_data;
 
+	if (g_hash_table_contains (file_store->priv->file_queue, row->file_data->file))
+		return;
+	if (g_hash_table_lookup (file_store->priv->file_row, row->file_data->file) == NULL)
+		return;
+
 	file_store->priv->queue = g_list_prepend (file_store->priv->queue, _gth_file_row_ref (file_store->priv->all_rows[row->abs_pos]));
+	g_hash_table_add (file_store->priv->file_queue, g_object_ref (row->file_data->file));
 }
 
 

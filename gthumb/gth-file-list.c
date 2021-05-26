@@ -823,9 +823,6 @@ gfl_add_files (GthFileList *file_list,
 		if (g_file_info_get_file_type (file_data->info) != G_FILE_TYPE_REGULAR)
 			continue;
 
-		if (gth_file_store_find (file_store, file_data->file, NULL))
-			continue;
-
 		uri = g_file_get_uri (file_data->file);
 		/* files in the .thumbnails directory are already thumbnails,
 		 * set them as created. */
