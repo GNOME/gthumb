@@ -239,7 +239,8 @@ static void
 gth_thumb_loader_construct (GthThumbLoader *self,
 			    int             requested_size)
 {
-	gth_thumb_loader_set_requested_size (self, requested_size);
+	if (requested_size > 0)
+		gth_thumb_loader_set_requested_size (self, requested_size);
 	self->priv->tloader = gth_image_loader_new (generate_thumbnail, self);
 	self->priv->iloader = gth_image_loader_new (load_cached_thumbnail, NULL);
 }
@@ -262,9 +263,14 @@ gth_thumb_loader_copy (GthThumbLoader *self)
 {
 	GthThumbLoader *loader;
 
-	loader = gth_thumb_loader_new (self->priv->requested_size);
+	loader = gth_thumb_loader_new (-1);
+
+	loader->priv->requested_size = self->priv->requested_size;
+	loader->priv->cache_max_size = self->priv->cache_max_size;
+	loader->priv->thumb_size = self->priv->thumb_size;
+	loader->priv->thumb_factory = _g_object_ref (self->priv->thumb_factory);
+
 	gth_thumb_loader_set_loader_func (loader, gth_image_loader_get_loader_func (self->priv->tloader));
-	gth_thumb_loader_set_requested_size (loader, self->priv->requested_size);
 	gth_thumb_loader_set_use_cache (loader, self->priv->use_cache);
 	gth_thumb_loader_set_save_thumbnails (loader, self->priv->save_thumbnails);
 	gth_thumb_loader_set_max_file_size (loader, self->priv->max_file_size);
