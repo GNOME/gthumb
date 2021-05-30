@@ -28,5 +28,6 @@ void	terminal__gth_browser_construct_cb			(GthBrowser	*browser);
 void	terminal__gth_browser_folder_tree_popup_before_cb	(GthBrowser	*browser,
 								 GthFileSource	*file_source,
 								 GthFileData	*folder);
+void	terminal__gth_browser_update_sensitivity_cb		(GthBrowser	*browser);
 
 #endif /* CALLBACKS_H */

@@ -97,10 +97,31 @@ terminal__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 					gth_menu_manager_append_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_OPEN_ACTIONS),
 									 folder_context_open_entries,
 									 G_N_ELEMENTS (folder_context_open_entries));
+		terminal__gth_browser_update_sensitivity_cb (browser);
 	}
 	else {
 		if (data->folder_context_open_id != 0)
 			gth_menu_manager_remove_entries (gth_browser_get_menu_manager (browser, GTH_BROWSER_MENU_MANAGER_FOLDER_OPEN_ACTIONS), data->folder_context_open_id);
 		data->folder_context_open_id = 0;
 	}
+}
+
+
+void
+terminal__gth_browser_update_sensitivity_cb (GthBrowser *browser)
+{
+	BrowserData   *data;
+	GthFileData   *folder;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	folder = gth_browser_get_folder_popup_file_data (browser);
+	gth_window_enable_action (GTH_WINDOW (browser),
+				  "folder-context-open-in-terminal",
+				  ((folder != NULL)
+				   && _g_file_has_scheme (folder->file, "file")
+				   && (g_file_info_get_file_type (folder->info) == G_FILE_TYPE_DIRECTORY)));
+
+	_g_object_unref (folder);
 }

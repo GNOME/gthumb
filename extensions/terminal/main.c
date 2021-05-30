@@ -32,6 +32,7 @@ gthumb_extension_activate (void)
 {
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (terminal__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-folder-tree-popup-before", 10, G_CALLBACK (terminal__gth_browser_folder_tree_popup_before_cb), NULL);
+	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (terminal__gth_browser_update_sensitivity_cb), NULL);
 }
 
 
