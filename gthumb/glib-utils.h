@@ -67,6 +67,7 @@ G_BEGIN_DECLS
 #define GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE DEFINE_STANDARD_ATTRIBUTES(",standard::fast-content-type,standard::content-type")
 #define GIO_ATTRIBUTES "standard::*,etag::*,id::*,access::*,mountable::*,time::*,unix::*,dos::*,owner::*,thumbnail::*,filesystem::*,gvfs::*,xattr::*,xattr-sys::*,selinux::*"
 #define GTH_FILE_ATTRIBUTE_EMBLEMS "gth::file::emblems"
+#define GTH_FILE_ATTRIBUTE_VOLUME "gth::volume"
 
 #define GNOME_COPIED_FILES gdk_atom_intern_static_string ("x-special/gnome-copied-files")
 #define IROUND(x) ((int)floor(((double)x) + 0.5))

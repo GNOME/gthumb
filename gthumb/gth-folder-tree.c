@@ -1307,7 +1307,8 @@ _gth_folder_tree_add_file (GthFolderTree *folder_tree,
 {
 	GtkTreeIter iter;
 
-	if (g_file_info_get_file_type (fd->info) != G_FILE_TYPE_DIRECTORY)
+	if ((g_file_info_get_file_type (fd->info) != G_FILE_TYPE_DIRECTORY)
+	    && (g_file_info_get_file_type (fd->info) != G_FILE_TYPE_MOUNTABLE))
 		return FALSE;
 
 	/* add the folder */
@@ -1660,13 +1661,13 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 	file_hash = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, NULL);
 	for (scan = old_files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
-		g_hash_table_insert (file_hash, g_object_ref (file_data->file), GINT_TO_POINTER (1));
+		g_hash_table_add (file_hash, g_object_ref (file_data->file));
 	}
 
 	for (scan = files; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 
-		if (! g_hash_table_lookup (file_hash, file_data->file))
+		if (! g_hash_table_contains (file_hash, file_data->file))
 			_gth_folder_tree_add_file (folder_tree, p_parent_iter, file_data);
 	}
 

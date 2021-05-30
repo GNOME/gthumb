@@ -327,17 +327,16 @@ gth_main_get_all_entry_points (void)
 }
 
 
-GFile *
+GthFileData *
 gth_main_get_nearest_entry_point (GFile *file)
 {
 	GList *list;
 	GList *scan;
 	GList *entries;
-	char  *nearest_uri;
+	GthFileData *nearest;
 	char  *uri;
 	int    file_uri_len;
 	int    min_diff;
-	GFile *nearest;
 
 	entries = NULL;
 	list = gth_main_get_all_entry_points ();
@@ -345,32 +344,34 @@ gth_main_get_nearest_entry_point (GFile *file)
 		GthFileData *entry_point = scan->data;
 
 		if (_g_file_is_parent (entry_point->file, file))
-			entries = g_list_prepend (entries, g_file_get_uri (entry_point->file));
+			entries = g_list_prepend (entries, g_object_ref (entry_point));
 	}
 
-	nearest_uri = NULL;
+	nearest = NULL;
 	uri = g_file_get_uri (file);
 	file_uri_len = strlen (uri);
 	min_diff = 0;
 	for (scan = entries; scan; scan = scan->next) {
-		char *entry_uri = scan->data;
+		GthFileData *entry_point = scan->data;
+		char *entry_uri;
 		int   entry_len;
 		int   diff;
 
+		entry_uri = g_file_get_uri (entry_point->file);
 		entry_len = strlen (entry_uri);
 		diff = abs (entry_len - file_uri_len);
 		if ((scan == entries) || (diff < min_diff)) {
 			min_diff = diff;
-			nearest_uri = entry_uri;
+			nearest = entry_point;
 		}
+
+		g_free (entry_uri);
 	}
 	g_free (uri);
 
-	nearest = NULL;
-	if (nearest_uri != NULL)
-		nearest = g_file_new_for_uri (nearest_uri);
+	g_object_ref (nearest);
 
-	_g_string_list_free (entries);
+	_g_object_list_unref (entries);
 	_g_object_list_unref (list);
 
 	return nearest;

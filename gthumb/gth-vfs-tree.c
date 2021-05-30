@@ -114,8 +114,11 @@ load_data_new (GthVfsTree *vfs_tree,
 	load_data->vfs_tree = g_object_ref (vfs_tree);
 	load_data->action = action;
 	load_data->requested_folder = gth_file_data_new (location, NULL);
-	if (vfs_tree->priv->tree_root_is_vfs_root && ! g_file_equal (location, root))
-		load_data->entry_point = gth_main_get_nearest_entry_point (location);
+	if (vfs_tree->priv->tree_root_is_vfs_root && ! g_file_equal (location, root)) {
+		GthFileData *entry_point = gth_main_get_nearest_entry_point (location);
+		load_data->entry_point = _g_object_ref (entry_point->file);
+		g_object_unref (entry_point);
+	}
 	else
 		load_data->entry_point = _g_object_ref (root);
 	load_data->file_source = gth_main_get_file_source (load_data->requested_folder->file);

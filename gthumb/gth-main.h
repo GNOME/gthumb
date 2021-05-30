@@ -71,7 +71,7 @@ GthFileSource *        gth_main_get_file_source               (GFile            
 char *                 gth_main_get_source_scheme             (const char           *uri);
 GList *                gth_main_get_all_file_sources          (void);
 GList *                gth_main_get_all_entry_points          (void);
-GFile *                gth_main_get_nearest_entry_point       (GFile                *file);
+GthFileData *          gth_main_get_nearest_entry_point       (GFile                *file);
 char *                 gth_main_get_gio_uri                   (const char           *uri);
 GFile *                gth_main_get_gio_file                  (GFile                *file);
 void                   gth_main_register_metadata_category    (GthMetadataCategory  *metadata_category);

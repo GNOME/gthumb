@@ -1717,6 +1717,88 @@ mount_volume_ready_cb (GObject      *source_object,
 
 
 static void
+mount_mountable_ready_cb (GObject      *source_object,
+			  GAsyncResult *result,
+			  gpointer      user_data)
+{
+	LoadData *load_data = user_data;
+	GError   *error = NULL;
+
+	if (! g_file_start_mountable_finish (G_FILE (source_object),
+					     result,
+					     &error))
+	{
+		load_data_done (load_data, error);
+		load_data_free (load_data);
+		return;
+	}
+
+	gth_monitor_entry_points_changed (gth_main_get_default_monitor ());
+	_gth_browser_update_entry_point_list (load_data->browser);
+
+	/* try to load again */
+
+	if (! load_data_is_still_relevant (load_data)) {
+		load_data_cancelled (load_data);
+		return;
+	}
+
+	_gth_browser_remove_activity (load_data->browser);
+
+	_gth_browser_load (load_data->browser,
+			   load_data->requested_folder->file,
+			   load_data->file_to_select,
+			   NULL,
+			   0,
+			   load_data->action,
+			   load_data->automatic);
+
+	load_data_free (load_data);
+}
+
+
+static void
+volume_mount_ready_cb (GObject      *source_object,
+		       GAsyncResult *result,
+		       gpointer      user_data)
+{
+	LoadData *load_data = user_data;
+	GError   *error = NULL;
+
+	if (! g_volume_mount_finish (G_VOLUME (source_object),
+				     result,
+				     &error))
+	{
+		load_data_done (load_data, error);
+		load_data_free (load_data);
+		return;
+	}
+
+	gth_monitor_entry_points_changed (gth_main_get_default_monitor ());
+	_gth_browser_update_entry_point_list (load_data->browser);
+
+	/* try to load again */
+
+	if (! load_data_is_still_relevant (load_data)) {
+		load_data_cancelled (load_data);
+		return;
+	}
+
+	_gth_browser_remove_activity (load_data->browser);
+
+	_gth_browser_load (load_data->browser,
+			   load_data->requested_folder->file,
+			   load_data->file_to_select,
+			   NULL,
+			   0,
+			   load_data->action,
+			   load_data->automatic);
+
+	load_data_free (load_data);
+}
+
+
+static void
 _gth_browser_hide_infobar (GthBrowser *browser)
 {
 	if (gtk_widget_get_visible (browser->priv->infobar))
@@ -1733,8 +1815,8 @@ _gth_browser_load (GthBrowser *browser,
 		   GthAction   action,
 		   gboolean    automatic)
 {
-	LoadData *load_data;
-	GFile    *entry_point;
+	LoadData    *load_data;
+	GthFileData *entry_point;
 
 	if (! automatic)
 		_gth_browser_hide_infobar (browser);
@@ -1752,7 +1834,7 @@ _gth_browser_load (GthBrowser *browser,
 				   vscroll,
 				   action,
 				   automatic,
-				   entry_point);
+				   entry_point->file);
 
 	_gth_browser_add_activity (browser);
 
@@ -1768,6 +1850,31 @@ _gth_browser_load (GthBrowser *browser,
 					       load_data->cancellable,
 					       mount_volume_ready_cb,
 					       load_data);
+
+		g_object_unref (mount_op);
+
+		return;
+	}
+	else if (g_file_info_get_file_type (entry_point->info) == G_FILE_TYPE_MOUNTABLE) {
+		GMountOperation *mount_op;
+		GVolume         *volume;
+
+		mount_op = gtk_mount_operation_new (GTK_WINDOW (browser));
+		volume = (GVolume *) g_file_info_get_attribute_object (entry_point->info, GTH_FILE_ATTRIBUTE_VOLUME);
+		if (volume != NULL)
+			g_volume_mount (volume,
+					0,
+					mount_op,
+					load_data->cancellable,
+					volume_mount_ready_cb,
+					load_data);
+		else
+			g_file_mount_mountable (entry_point->file,
+						0,
+						mount_op,
+						load_data->cancellable,
+						mount_mountable_ready_cb,
+						load_data);
 
 		g_object_unref (mount_op);
 

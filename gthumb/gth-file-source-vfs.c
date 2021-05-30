@@ -59,6 +59,9 @@ struct _GthFileSourceVfsPrivate
 static guint mount_changed_event_id = 0;
 static guint mount_added_event_id = 0;
 static guint mount_removed_event_id = 0;
+static guint volume_changed_event_id = 0;
+static guint volume_added_event_id = 0;
+static guint volume_removed_event_id = 0;
 
 
 G_DEFINE_TYPE_WITH_CODE (GthFileSourceVfs,
@@ -121,6 +124,7 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 	GList          *list;
 	GVolumeMonitor *monitor;
 	GList          *mounts;
+	GList          *volumes;
 	GList          *scan;
 
 	list = NULL;
@@ -185,8 +189,70 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 		g_free (name);
 		_g_object_unref (icon);
 	}
-
 	_g_object_list_unref (mounts);
+
+	/* Not mounted mountable volumes. */
+
+	volumes = g_volume_monitor_get_volumes (monitor);
+	for (scan = volumes; scan; scan = scan->next) {
+		GVolume   *volume = scan->data;
+		GMount    *mount;
+		GFile     *file;
+		GIcon     *icon;
+		char      *name;
+		GFileInfo *info;
+
+		if (! g_volume_can_mount (volume))
+			continue;
+
+		mount = g_volume_get_mount (volume);
+		if (mount != NULL) {
+			/* Already mounted, ignore. */
+			g_object_unref (mount);
+			continue;
+		}
+
+		file = g_volume_get_activation_root (volume);
+		if (file == NULL) {
+			char *device;
+
+			device = g_volume_get_identifier (volume, G_VOLUME_IDENTIFIER_KIND_UNIX_DEVICE);
+			if (device == NULL)
+				continue;
+			file = g_file_new_for_path (device);
+
+			g_free (device);
+		}
+
+		if (gth_file_data_list_find_file (list, file) != NULL) {
+			/* Already mounted, ignore. */
+			g_object_unref (file);
+			continue;
+		}
+
+		icon = g_volume_get_symbolic_icon (volume);
+		name = g_volume_get_name (volume);
+
+		info = g_file_info_new ();
+		g_file_info_set_file_type (info, G_FILE_TYPE_MOUNTABLE);
+		g_file_info_set_attribute_object (info, GTH_FILE_ATTRIBUTE_VOLUME, G_OBJECT (volume));
+		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ, TRUE);
+		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE, FALSE);
+		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE, FALSE);
+		g_file_info_set_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_TRASH, FALSE);
+		g_file_info_set_symbolic_icon (info, icon);
+		g_file_info_set_display_name (info, name);
+		g_file_info_set_name (info, name);
+
+		list = g_list_append (list, gth_file_data_new (file, info));
+
+		g_object_unref (info);
+		g_object_unref (file);
+		g_free (name);
+		_g_object_unref (icon);
+	}
+	_g_object_list_unref (volumes);
+
 	g_object_unref (monitor);
 
 	return list;
@@ -406,7 +472,7 @@ gth_file_source_vfs_can_cut (GthFileSource *file_source)
 
 static void
 mount_monitor_mountpoints_changed_cb (GVolumeMonitor *volume_monitor,
-				      GMount         *mount,
+				      gpointer        mount_or_volume,
 				      gpointer        user_data)
 {
 	call_when_idle ((DataFunc) gth_monitor_entry_points_changed, gth_main_get_default_monitor ());
@@ -436,6 +502,21 @@ gth_file_source_vfs_monitor_entry_points (GthFileSource *file_source)
 							   "mount-removed",
 							   G_CALLBACK (mount_monitor_mountpoints_changed_cb),
 							   file_source_vfs);
+	if (volume_changed_event_id == 0)
+		volume_changed_event_id = g_signal_connect (file_source_vfs->priv->mount_monitor,
+							    "volume-changed",
+							    G_CALLBACK (mount_monitor_mountpoints_changed_cb),
+							    file_source_vfs);
+	if (volume_added_event_id == 0)
+		volume_added_event_id = g_signal_connect (file_source_vfs->priv->mount_monitor,
+							  "volume-added",
+							  G_CALLBACK (mount_monitor_mountpoints_changed_cb),
+							  file_source_vfs);
+	if (volume_removed_event_id == 0)
+		volume_removed_event_id = g_signal_connect (file_source_vfs->priv->mount_monitor,
+							    "volume-removed",
+							    G_CALLBACK (mount_monitor_mountpoints_changed_cb),
+							    file_source_vfs);
 }
 
 
