@@ -369,7 +369,7 @@ gth_main_get_nearest_entry_point (GFile *file)
 	}
 	g_free (uri);
 
-	g_object_ref (nearest);
+	_g_object_ref (nearest);
 
 	_g_object_list_unref (entries);
 	_g_object_list_unref (list);

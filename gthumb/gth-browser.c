@@ -1834,7 +1834,7 @@ _gth_browser_load (GthBrowser *browser,
 				   vscroll,
 				   action,
 				   automatic,
-				   entry_point->file);
+				   (entry_point != NULL) ? entry_point->file : NULL);
 
 	_gth_browser_add_activity (browser);
 
