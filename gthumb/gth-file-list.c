@@ -1526,6 +1526,7 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 			    && can_create_file_thumbnail (file_data, current_time, young_file_found))
 			{
 				/* found a thumbnail to load */
+				g_object_unref (file_data);
 				return FALSE;
 			}
 
@@ -1577,6 +1578,7 @@ _gth_file_list_thumbnailer_iterate (GthFileList *file_list,
 			    && can_create_file_thumbnail (file_data, current_time, young_file_found))
 			{
 				/* found a thumbnail to load */
+				g_object_unref (file_data);
 				return FALSE;
 			}
 

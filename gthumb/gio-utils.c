@@ -2435,6 +2435,8 @@ _g_file_get_info_for_display (GFile *file)
 		g_free (name);
 	}
 
+	_g_object_unref (file_source);
+
 	return file_info;
 }
 

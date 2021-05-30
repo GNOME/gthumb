@@ -179,8 +179,11 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 		g_file_info_set_name (info, name);
 
 		list = g_list_append (list, gth_file_data_new (file, info));
+
 		g_object_unref (info);
 		g_object_unref (file);
+		g_free (name);
+		_g_object_unref (icon);
 	}
 
 	_g_object_list_unref (mounts);

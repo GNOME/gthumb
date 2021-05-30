@@ -89,6 +89,7 @@ gth_thumb_loader_finalize (GObject *object)
 	self = GTH_THUMB_LOADER (object);
 	_g_object_unref (self->priv->iloader);
 	_g_object_unref (self->priv->tloader);
+	_g_object_unref (self->priv->thumb_factory);
 
 	G_OBJECT_CLASS (gth_thumb_loader_parent_class)->finalize (object);
 }
@@ -732,7 +733,7 @@ watch_thumbnailer_cb (GPid     pid,
 		}
 
 		g_task_return_error (load_data->task, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "script cancelled"));
-
+		load_data_unref (load_data);
 		return;
 	}
 
@@ -752,6 +753,8 @@ watch_thumbnailer_cb (GPid     pid,
 	}
 	else
 		failed_to_load_original_image (self, load_data);
+
+	load_data_unref (load_data);
 }
 
 
@@ -783,6 +786,7 @@ original_image_ready_cb (GObject      *source_object,
 
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			g_task_return_error (load_data->task, error);
+			load_data_unref (load_data);
 			return;
 		}
 

@@ -724,6 +724,7 @@ gth_catalog_file_to_gio_file (GFile *file)
 		g_object_unref (base);
 	}
 
+	_g_uri_parts_clear (&file_parts);
 	g_free (uri);
 
 	return gio_file;
