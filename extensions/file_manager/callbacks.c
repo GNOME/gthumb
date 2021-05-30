@@ -1138,6 +1138,9 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-cut", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
 	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-move-to", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
 	gth_window_enable_action (GTH_WINDOW (browser), "rename", ((folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE)) || (n_selected > 0));
+	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-copy", (folder != NULL) && (g_file_info_get_file_type (folder->info) != G_FILE_TYPE_MOUNTABLE));
+	gth_window_enable_action (GTH_WINDOW (browser), "folder-context-copy-to", (folder != NULL) && (g_file_info_get_file_type (folder->info) != G_FILE_TYPE_MOUNTABLE));
+
 	_g_object_unref (folder);
 
 	_gth_browser_update_paste_command_sensitivity (browser, NULL);
