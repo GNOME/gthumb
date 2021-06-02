@@ -236,6 +236,10 @@ _gth_template_editor_update_preview (GthTemplateEditorDialog *self)
 	else
 		preview = _get_preview_from_template (self, template, TRUE);
 
+	if (_g_str_empty (preview)) {
+		g_free (preview);
+		preview = g_strdup (" ");
+	}
 	gtk_label_set_markup (GTK_LABEL (self->priv->preview), preview);
 
 	g_free (preview);
