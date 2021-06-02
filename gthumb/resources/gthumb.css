@@ -124,7 +124,7 @@ GtkScrolledWindow.comment.undershoot {
 }
 
 .highlighted-text:backdrop {
-	color: #333333;
+	color: darker(currentColor);
 }
 
 /* -- extension list in the preferences dialog -- */
