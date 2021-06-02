@@ -22,12 +22,25 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "gth-template-selector.h"
+#include "gth-template-editor-dialog.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
 #include "gth-main.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
+
+
+static GthTemplateCode Date_Format_Special_Codes[] = {
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Year"), 'Y' },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Month"), 'm' },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Day of the month"), 'd' },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Hour"), 'H' },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Minute"), 'M' },
+	/* Translators: the time second, not the second place. */
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Second"), 'S' },
+};
+
 
 enum {
 	TYPE_DATA_COLUMN,
@@ -74,12 +87,6 @@ static char *TypeName[] = {
 	"quoted"
 };
 
-G_DEFINE_TYPE_WITH_CODE (GthTemplateSelector,
-			 gth_template_selector,
-			 GTK_TYPE_BOX,
-			 G_ADD_PRIVATE (GthTemplateSelector))
-
-
 static char *Default_Date_Formats[] = {
 	"%Y-%m-%d--%H.%M.%S",
 	"%x %X",
@@ -92,6 +99,14 @@ static char *Default_Date_Formats[] = {
 	"%H%M%S",
 	NULL
 };
+
+
+G_DEFINE_TYPE_WITH_CODE (GthTemplateSelector,
+			 gth_template_selector,
+			 GTK_TYPE_BOX,
+			 G_ADD_PRIVATE (GthTemplateSelector))
+
+
 static guint  gth_template_selector_signals[LAST_SIGNAL] = { 0 };
 
 
@@ -279,6 +294,81 @@ edit_default_value_button_clicked_cb (GtkButton           *button,
 }
 
 
+static gboolean
+date_template_eval_cb (TemplateFlags   flags,
+		       gunichar        parent_code,
+		       gunichar        code,
+		       char          **args,
+		       GString        *result,
+		       gpointer        user_data)
+{
+	gboolean   preview;
+	GDateTime *timestamp;
+	char      *format;
+	char      *text;
+
+	preview = flags & TEMPLATE_FLAGS_PREVIEW;
+
+	if (preview && (code != 0))
+		g_string_append (result, "<span foreground=\"#4696f8\">");
+
+	switch (code) {
+	case 'Y': /* Year */
+	case 'm': /* Month */
+	case 'd': /* Day of the month  */
+	case 'H': /* Hour */
+	case 'M': /* Minutes */
+	case 'S': /* Seconds */
+		timestamp = g_date_time_new_now_local ();
+		format = g_strdup_printf ("%%%c", code);
+		text = g_date_time_format (timestamp, format);
+		g_string_append (result, text);
+
+		g_free (text);
+		g_free (format);
+		g_date_time_unref (timestamp);
+		break;
+
+	default:
+		break;
+	}
+
+	if (preview && (code != 0))
+		g_string_append (result, "</span>");
+
+	return FALSE;
+}
+
+
+static void
+edit_custom_date_format_button_clicked_cb (GtkButton           *button,
+					   GthTemplateSelector *self)
+{
+	GtkWidget *toplevel;
+	GtkWidget *dialog;
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (self));
+	if (! GTK_IS_WINDOW (toplevel))
+		toplevel = NULL;
+
+	dialog = gth_template_editor_dialog_new (Date_Format_Special_Codes,
+						 G_N_ELEMENTS (Date_Format_Special_Codes),
+						 0,
+						 _("Edit Template"),
+						 GTK_WINDOW (toplevel));
+	gth_template_editor_dialog_set_preview_cb (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						   date_template_eval_cb,
+						   self);
+	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("custom_date_format_entry"))));
+	g_signal_connect (dialog,
+			  "response",
+			  G_CALLBACK (gth_template_editor_dialog_default_response),
+			  GET_WIDGET ("custom_date_format_entry"));
+	gtk_widget_show (dialog);
+}
+
+
 static void
 gth_template_selector_construct (GthTemplateSelector  *self,
 				 GthTemplateCode      *allowed_codes,
@@ -458,6 +548,10 @@ gth_template_selector_construct (GthTemplateSelector  *self,
 	g_signal_connect (GET_WIDGET ("edit_default_value_button"),
 			  "clicked",
 			  G_CALLBACK (edit_default_value_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("edit_custom_date_format_button"),
+			  "clicked",
+			  G_CALLBACK (edit_custom_date_format_button_clicked_cb),
 			  self);
 }
 
