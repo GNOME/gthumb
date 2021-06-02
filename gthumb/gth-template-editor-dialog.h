@@ -24,6 +24,7 @@
 
 #include <gtk/gtk.h>
 #include "gth-template-selector.h"
+#include "str-utils.h"
 
 G_BEGIN_DECLS
 
@@ -62,6 +63,8 @@ void        gth_template_editor_dialog_set_preview_func (GthTemplateEditorDialog
 void        gth_template_editor_dialog_set_preview_cb   (GthTemplateEditorDialog  *self,
 							 TemplateEvalFunc          func,
 							 gpointer                  user_data);
+void        gth_template_editor_dialog_set_date_formats (GthTemplateEditorDialog  *self,
+							 char                    **formats); /* NULL terminated. */
 void        gth_template_editor_dialog_default_response (GtkDialog                *dialog,
 							 int                       response_id,
 							 gpointer                  user_data);

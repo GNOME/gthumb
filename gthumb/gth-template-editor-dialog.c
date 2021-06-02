@@ -44,6 +44,7 @@ struct _GthTemplateEditorDialogPrivate {
 	gpointer             preview_data;
 	TemplateEvalFunc     preview_cb;
 	TemplateFlags        template_flags;
+	char               **date_formats;
 };
 
 
@@ -368,7 +369,7 @@ _gth_template_editor_create_selector (GthTemplateEditorDialog *self)
 {
 	GtkWidget *child;
 
-	child = gth_template_selector_new (self->priv->allowed_codes, self->priv->n_codes);
+	child = gth_template_selector_new (self->priv->allowed_codes, self->priv->n_codes, self->priv->date_formats);
 	gth_template_selector_set_value (GTH_TEMPLATE_SELECTOR (child), "");
 	gtk_widget_show (child);
 
@@ -573,6 +574,14 @@ gth_template_editor_dialog_set_preview_cb (GthTemplateEditorDialog  *self,
 	self->priv->preview_func = NULL;
 	self->priv->preview_cb = func;
 	self->priv->preview_data = user_data;
+}
+
+
+void
+gth_template_editor_dialog_set_date_formats (GthTemplateEditorDialog  *self,
+					     char                    **formats)
+{
+	self->priv->date_formats = formats;
 }
 
 

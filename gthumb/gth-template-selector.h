@@ -72,7 +72,8 @@ struct _GthTemplateSelectorClass {
 
 GType			gth_template_selector_get_type		(void);
 GtkWidget *		gth_template_selector_new		(GthTemplateCode      *allowed_codes,
-								 int                   n_codes);
+								 int                   n_codes,
+								 char                **date_formats);
 void			gth_template_selector_set_value	(GthTemplateSelector  *selector,
 								 const char           *value);
 char *			gth_template_selector_get_value	(GthTemplateSelector  *selector);

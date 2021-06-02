@@ -58,7 +58,9 @@ enum {
 
 
 struct _GthTemplateSelectorPrivate {
-	GtkBuilder *builder;
+	GtkBuilder   *builder;
+	GtkTreeModel *date_format_liststore;
+	int           n_date_formats;
 };
 
 static char *TypeName[] = {
@@ -78,7 +80,7 @@ G_DEFINE_TYPE_WITH_CODE (GthTemplateSelector,
 			 G_ADD_PRIVATE (GthTemplateSelector))
 
 
-static char * Date_Formats[] = {
+static char *Default_Date_Formats[] = {
 	"%Y-%m-%d--%H.%M.%S",
 	"%x %X",
 	"%Y%m%d%H%M%S",
@@ -220,15 +222,15 @@ date_format_combobox_changed_cb (GtkComboBox         *combo_box,
 {
 	gboolean custom_format;
 
-	custom_format = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox"))) == G_N_ELEMENTS (Date_Formats) - 1;
+	custom_format = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox"))) == self->priv->n_date_formats - 1;
 	if (custom_format) {
 		gtk_widget_hide (GET_WIDGET ("date_format_combobox"));
-		gtk_widget_show (GET_WIDGET ("custom_date_format_entry"));
+		gtk_widget_show (GET_WIDGET ("custom_date_format_box"));
 		gtk_widget_grab_focus (GET_WIDGET ("custom_date_format_entry"));
 	}
 	else {
 		gtk_widget_show (GET_WIDGET ("date_format_combobox"));
-		gtk_widget_hide (GET_WIDGET ("custom_date_format_entry"));
+		gtk_widget_hide (GET_WIDGET ("custom_date_format_box"));
 	}
 
 	_gth_template_selector_changed (self);
@@ -278,9 +280,10 @@ edit_default_value_button_clicked_cb (GtkButton           *button,
 
 
 static void
-gth_template_selector_construct (GthTemplateSelector *self,
-				 GthTemplateCode     *allowed_codes,
-				 int                  n_codes)
+gth_template_selector_construct (GthTemplateSelector  *self,
+				 GthTemplateCode      *allowed_codes,
+				 int                   n_codes,
+				 char                **date_formats)
 {
 	GtkListStore  *list_store;
 	GtkTreeIter    iter;
@@ -289,6 +292,9 @@ gth_template_selector_construct (GthTemplateSelector *self,
 	GHashTable    *category_root;
 	GtkTreeStore  *tree_store;
 	char         **attributes_v;
+
+	if (date_formats == NULL)
+		date_formats = Default_Date_Formats;
 
 	gtk_box_set_spacing (GTK_BOX (self), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 0);
@@ -315,16 +321,17 @@ gth_template_selector_construct (GthTemplateSelector *self,
 
 	/* date formats */
 
+	self->priv->date_format_liststore = (GtkTreeModel *) GET_WIDGET ("date_format_liststore");
 	g_get_current_time (&timeval);
-	list_store = (GtkListStore *) GET_WIDGET ("date_format_liststore");
-	for (i = 0; Date_Formats[i] != NULL; i++) {
+	list_store = (GtkListStore *) self->priv->date_format_liststore;
+	for (i = 0; date_formats[i] != NULL; i++) {
 		char *example;
 
-		example = _g_time_val_strftime (&timeval, Date_Formats[i]);
+		example = _g_time_val_strftime (&timeval, date_formats[i]);
 
 		gtk_list_store_append (list_store, &iter);
 		gtk_list_store_set (list_store, &iter,
-				    DATE_FORMAT_FORMAT_COLUMN, Date_Formats[i],
+				    DATE_FORMAT_FORMAT_COLUMN, date_formats[i],
 				    DATE_FORMAT_NAME_COLUMN, example,
 				    -1);
 
@@ -336,6 +343,7 @@ gth_template_selector_construct (GthTemplateSelector *self,
 			    DATE_FORMAT_FORMAT_COLUMN, "",
 			    DATE_FORMAT_NAME_COLUMN, _("Other…"),
 			    -1);
+	self->priv->n_date_formats = gtk_tree_model_iter_n_children (self->priv->date_format_liststore, NULL);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), 0);
 
@@ -455,13 +463,14 @@ gth_template_selector_construct (GthTemplateSelector *self,
 
 
 GtkWidget *
-gth_template_selector_new (GthTemplateCode *allowed_codes,
-			   int              n_codes)
+gth_template_selector_new (GthTemplateCode  *allowed_codes,
+			   int               n_codes,
+			   char            **date_formats)
 {
 	GthTemplateSelector *self;
 
 	self = g_object_new (GTH_TYPE_TEMPLATE_SELECTOR, NULL);
-	gth_template_selector_construct (self, allowed_codes, n_codes);
+	gth_template_selector_construct (self, allowed_codes, n_codes, date_formats);
 
 	return (GtkWidget *) self;
 }
@@ -511,7 +520,6 @@ gth_template_selector_set_value (GthTemplateSelector *self,
 	GtkTreeModel     *tree_model;
 	GtkTreeIter       iter;
 	GtkTreeIter       text_iter, space_iter;
-	int               i;
 	gboolean          predefined_format;
 	char            **args;
 	char             *arg;
@@ -577,15 +585,27 @@ gth_template_selector_set_value (GthTemplateSelector *self,
 		arg = g_strdup (args[0]);
 		if (arg == NULL)
 			arg = g_strdup (DEFAULT_STRFTIME_FORMAT);
-		for (i = 0; Date_Formats[i] != NULL; i++) {
-			if (g_str_equal (arg, Date_Formats[i])) {
-				gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), i);
-				predefined_format = TRUE;
-				break;
+
+		if (gtk_tree_model_get_iter_first (self->priv->date_format_liststore, &iter)) {
+			do {
+				char *format;
+
+				gtk_tree_model_get (self->priv->date_format_liststore,
+						    &iter,
+						    DATE_FORMAT_FORMAT_COLUMN, &format,
+						    -1);
+				if (g_str_equal (arg, format)) {
+					gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), &iter);
+					predefined_format = TRUE;
+				}
+
+				g_free (format);
 			}
+			while (! predefined_format && gtk_tree_model_iter_next (self->priv->date_format_liststore, &iter));
 		}
+
 		if (! predefined_format) {
-			gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), G_N_ELEMENTS (Date_Formats) - 1);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("date_format_combobox")), self->priv->n_date_formats - 1);
 			gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("custom_date_format_entry")), arg);
 		}
 		g_free (arg);
@@ -593,11 +613,7 @@ gth_template_selector_set_value (GthTemplateSelector *self,
 
 	case GTH_TEMPLATE_CODE_TYPE_FILE_ATTRIBUTE:
 		if (args[0] != NULL) {
-			GtkTreeModel *tree_model;
-			GtkTreeIter   iter;
-
-			tree_model = (GtkTreeModel *) GET_WIDGET ("attribute_treestore");
-			if (_gtk_tree_model_get_iter_from_attribute_id (tree_model, NULL, args[0], &iter))
+			if (_gtk_tree_model_get_iter_from_attribute_id (GTK_TREE_MODEL (GET_WIDGET ("attribute_treestore")), NULL, args[0], &iter))
 				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (GET_WIDGET ("attribute_combobox")), &iter);
 		}
 		break;
