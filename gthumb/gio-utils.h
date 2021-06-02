@@ -55,42 +55,42 @@ typedef enum { /*< skip >*/
 
 typedef DirOp	(*StartDirCallback)		(GFile			 *directory,
 						 GFileInfo		 *info,
-						 GError			**error,
+						 GError		**error,
 						 gpointer		  user_data);
-typedef void	(*ForEachChildCallback)		(GFile			 *file,
+typedef void	(*ForEachChildCallback)	(GFile			 *file,
 						 GFileInfo		 *info,
 						 gpointer		  user_data);
 typedef void	(*ListReadyCallback)		(GList			 *files,
 						 GList			 *dirs,
-						 GError			 *error,
+						 GError		 *error,
 						 gpointer		  user_data);
 typedef void	(*BufferReadyCallback)		(void			**buffer,
 						 gsize			  count,
-						 GError			 *error,
+						 GError		 *error,
 						 gpointer		  user_data);
 typedef void	(*InfoReadyCallback)		(GList			 *files,
-						 GError			 *error,
+						 GError		 *error,
 						 gpointer		  user_data);
 typedef void	(*CopyReadyCallback)		(GthOverwriteResponse	  default_response,
 						 GList			 *other_files,
-						 GError			 *error,
+						 GError		 *error,
 						 gpointer		  user_data);
 
 /* GFile utils */
 
 gboolean	_g_file_move			(GFile			 *source,
 						 GFile			 *destination,
-						 GFileCopyFlags		  flags,
+						 GFileCopyFlags	  flags,
 						 GCancellable		 *cancellable,
 						 GFileProgressCallback	  progress_callback,
 						 gpointer		  progress_callback_data,
-						 GError			**error);
+						 GError		**error);
 
 gboolean	_g_file_load_in_buffer		(GFile			 *file,
 						 void			**buffer,
 						 gsize			 *size,
 						 GCancellable		 *cancellable,
-						 GError			**error);
+						 GError		**error);
 void		_g_file_load_async		(GFile			 *file,
 						 int			  io_priority,
 						 GCancellable		 *cancellable,
@@ -102,7 +102,7 @@ gboolean	_g_file_write			(GFile			 *file,
 						 void			 *buffer,
 						 gsize			  count,
 						 GCancellable		 *cancellable,
-						 GError			**error);
+						 GError		**error);
 void		_g_file_write_async		(GFile			 *file,
 						 void			 *buffer,
 						 gsize			  count,
@@ -111,14 +111,14 @@ void		_g_file_write_async		(GFile			 *file,
 						 GCancellable		 *cancellable,
 						 BufferReadyCallback	  callback,
 						 gpointer		  user_data);
-GFile *		_g_file_create_unique		(GFile			 *parent,
+GFile *	_g_file_create_unique		(GFile			 *parent,
 						 const char		 *display_name,
 						 const char		 *suffix,
-						 GError			**error);
+						 GError		**error);
 gboolean	_g_file_set_modification_time	(GFile			 *file,
 						 GTimeVal		 *timeval,
 						 GCancellable		 *cancellable,
-						 GError			**error);
+						 GError		**error);
 GFileInfo *	_g_file_get_info_for_display	(GFile			 *file);
 
 /* Directory utils */
@@ -132,7 +132,7 @@ void		_g_directory_foreach_child	(GFile			 *directory,
 						 ForEachChildCallback	  for_each_file_func,
 						 ReadyFunc		  done_func,
 						 gpointer		  user_data);
-GFile *		_g_directory_create_tmp		(void);
+GFile *	_g_directory_create_tmp	(void);
 
 /* GFile list utils */
 
@@ -142,7 +142,7 @@ void		_g_file_list_query_info_async	(GList			 *file_list, /* GFile list */
 						 GCancellable		 *cancellable,
 						 InfoReadyCallback	  ready_callback,
 						 gpointer		  user_data);
-void		_g_file_list_copy_async		(GList			 *sources, /* GFile list */
+void		_g_file_list_copy_async	(GList			 *sources, /* GFile list */
 						 GFile			 *destination,
 						 gboolean		  move,
 						 GthFileCopyFlags	  flags,
@@ -151,13 +151,13 @@ void		_g_file_list_copy_async		(GList			 *sources, /* GFile list */
 						 GCancellable		 *cancellable,
 						 ProgressCallback	  progress_callback,
 						 gpointer		  progress_callback_data,
-						 DialogCallback		  dialog_callback,
+						 DialogCallback	  dialog_callback,
 						 gpointer		  dialog_callback_data,
 						 ReadyFunc		  callback,
 						 gpointer		  user_data);
 gboolean	_g_file_list_delete		(GList			 *file_list, /* GFile list */
 						 gboolean		  include_metadata,
-						 GError			**error);
+						 GError		**error);
 void		_g_file_list_delete_async	(GList			 *file_list, /* GFile list */
 						 gboolean		  recursive,
 						 gboolean		  include_metadata,
@@ -182,7 +182,7 @@ void		_gth_file_data_copy_async	(GthFileData		 *source,
 						 GCancellable		 *cancellable,
 						 ProgressCallback	  progress_callback,
 						 gpointer		  progress_callback_data,
-						 DialogCallback		  dialog_callback,
+						 DialogCallback	  dialog_callback,
 						 gpointer		  dialog_callback_data,
 						 CopyReadyCallback	  ready_callback,
 						 gpointer		  user_data);
@@ -190,7 +190,7 @@ gboolean	_g_input_stream_read_all	(GInputStream		 *istream,
 						 void			**buffer,
 						 gsize			 *size,
 						 GCancellable		 *cancellable,
-						 GError			**error);
+						 GError		**error);
 GMenuItem *	_g_menu_item_new_for_file	(GFile			 *file,
 						 const char		 *custom_label);
 GMenuItem *	_g_menu_item_new_for_file_data	(GthFileData		 *file_data);

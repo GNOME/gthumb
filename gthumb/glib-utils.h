@@ -113,12 +113,12 @@ G_BEGIN_DECLS
 /* GObject utils */
 
 gpointer	_g_object_ref			(gpointer	  object);
-void		_g_object_unref			(gpointer	  object);
-void		_g_clear_object			(gpointer	  object_p);
+void		_g_object_unref		(gpointer	  object);
+void		_g_clear_object		(gpointer	  object_p);
 
 /* GObjectList */
 
-GList *		_g_object_list_ref		(GList		 *list);
+GList *	_g_object_list_ref		(GList		 *list);
 void		_g_object_list_unref		(GList		 *list);
 GType		g_object_list_get_type		(void);
 
@@ -144,13 +144,13 @@ guint		idle_call_exec			(IdleCall	 *call,
 						 gboolean	  use_idle_cb);
 guint		call_when_idle			(DataFunc	  func,
 						 gpointer	  data);
-void		object_ready_with_error		(gpointer	  object,
+void		object_ready_with_error	(gpointer	  object,
 						 ReadyCallback	  ready_func,
 						 gpointer	  user_data,
-						 GError		 *error);
+						 GError	 *error);
 void		ready_with_error		(ReadyFunc	  ready_func,
 						 gpointer	  user_data,
-						 GError		 *error);
+						 GError	 *error);
 
 /* debug */
 
@@ -171,13 +171,13 @@ void		performance			(const char	 *file,
 
 char *		_g_struct_tm_strftime		(struct tm	 *tm,
 						 const char	 *format);
-int		_g_time_val_cmp			(GTimeVal	 *a,
+int		_g_time_val_cmp		(GTimeVal	 *a,
 	 					 GTimeVal	 *b);
 void		_g_time_val_reset		(GTimeVal	 *time_);
 gboolean	_g_time_val_from_exif_date	(const char	 *exif_date,
 						 GTimeVal	 *time_);
 char *		_g_time_val_to_exif_date	(GTimeVal	 *time_);
-char *		_g_time_val_to_xmp_date		(GTimeVal	 *time_);
+char *		_g_time_val_to_xmp_date	(GTimeVal	 *time_);
 char *		_g_time_val_strftime		(GTimeVal	 *time_,
 						 const char	 *format);
 
@@ -191,12 +191,12 @@ void		_g_bookmark_file_set_uris	(GBookmarkFile	 *bookmark,
 
 /* GList utils */
 
-GList *		_g_list_prepend_link		(GList		 *list,
+GList *	_g_list_prepend_link		(GList		 *list,
 						 GList		 *link);
-GList *		_g_list_insert_list_before	(GList		 *list1,
+GList *	_g_list_insert_list_before	(GList		 *list1,
 						 GList		 *sibling,
 						 GList		 *list2);
-void		_g_list_reorder			(GList		 *all_files,
+void		_g_list_reorder		(GList		 *all_files,
 						 GList		 *visible_files,
 						 GList		 *files_to_move,
 						 int		  dest_pos,
@@ -206,8 +206,8 @@ void		_g_list_reorder			(GList		 *all_files,
 /* GStringList */
 
 void		_g_string_list_free		(GList		 *string_list);
-GList *		_g_string_list_dup		(GList		 *string_list);
-char **		_g_string_list_to_strv		(GList		 *string_list);
+GList *	_g_string_list_dup		(GList		 *string_list);
+char **	_g_string_list_to_strv		(GList		 *string_list);
 GType		g_string_list_get_type		(void);
 
 /* Array utils */
@@ -220,14 +220,14 @@ GPtrArray *	_g_ptr_array_dup		(GPtrArray	 *array,
 
 /* Regexp utils */
 
-GRegex **	_g_regex_v_from_pattern		(const char	 *pattern_string,
+GRegex **	_g_regex_v_from_pattern	(const char	 *pattern_string,
 						 GRegexCompileFlags
-						 	 	  compile_options);
-gboolean	_g_regex_v_match		(GRegex		**regexps,
+								  compile_options);
+gboolean	_g_regex_v_match		(GRegex	**regexps,
 						 const char	 *string,
 						 GRegexMatchFlags
-						 	 	  match_options);
-void		_g_regex_v_free			(GRegex		**regexps);
+								  match_options);
+void		_g_regex_v_free		(GRegex	**regexps);
 
 
 /* URI utils */
@@ -238,25 +238,25 @@ char *		_g_filename_clear_for_file	(const char	 *display_name);
 
 /* GFile utils */
 
-GFile *		_g_file_new_for_display_name	(const char	 *base_uri,
+GFile *	_g_file_new_for_display_name	(const char	 *base_uri,
 						 const char	 *display_name,
 						 const char	 *extension);
 gboolean	_g_file_equal			(GFile		 *file1,
 						 GFile		 *file2);
 char *		_g_file_get_display_name	(GFile		 *file);
-GFileType 	_g_file_query_standard_type	(GFile		 *file);
-GFile *		_g_file_get_destination		(GFile		 *source,
+GFileType	_g_file_query_standard_type	(GFile		 *file);
+GFile *	_g_file_get_destination	(GFile		 *source,
 						 GFile		 *source_base,
 						 GFile		 *destination_folder);
-GFile *		_g_file_get_duplicated		(GFile		 *file);
-GFile *		_g_file_get_child		(GFile		 *file,
+GFile *	_g_file_get_duplicated		(GFile		 *file);
+GFile *	_g_file_get_child		(GFile		 *file,
 						 ...) G_GNUC_NULL_TERMINATED;
-GList *		_g_file_list_dup		(GList		 *l);
+GList *	_g_file_list_dup		(GList		 *l);
 void		_g_file_list_free		(GList		 *l);
-GList *		_g_file_list_new_from_uriv	(char		**uris);
-GList *		_g_file_list_find_file		(GList		 *l,
+GList *	_g_file_list_new_from_uriv	(char		**uris);
+GList *	_g_file_list_find_file		(GList		 *l,
 						 GFile		 *file);
-const char *	_g_file_query_mime_type		(GFile		 *file,
+const char *	_g_file_query_mime_type	(GFile		 *file,
 						 gboolean	  fast_file_type);
 int		_g_file_cmp_uris		(GFile		 *a,
 						 GFile		 *b);
@@ -264,7 +264,7 @@ gboolean	_g_file_has_scheme		(GFile		 *file,
 						 const char	 *scheme);
 gboolean	_g_file_is_parent		(GFile		 *dir,
 						 GFile		 *file);
-GFile *		_g_file_append_path		(GFile		 *file,
+GFile *	_g_file_append_path		(GFile		 *file,
 						 const char	 *path);
 gboolean	_g_file_attributes_matches_all	(const char	 *attributes,
 						 const char	 *mask);
@@ -277,7 +277,7 @@ void		_g_file_info_swap_attributes	(GFileInfo	 *info,
 						 const char	 *attr2);
 void		_g_file_info_set_secondary_sort_order
 						(GFileInfo	 *info,
-						 gint32		  sort_order);
+						 gint32	  sort_order);
 gint32		_g_file_info_get_secondary_sort_order
 						(GFileInfo	 *info);
 void		_g_file_info_update		(GFileInfo	 *dest_info,
@@ -285,13 +285,13 @@ void		_g_file_info_update		(GFileInfo	 *dest_info,
 
 /* MIME type utils */
 
-const char *	_g_content_type_guess_from_name	(const char	 *filename);
+const char *	_g_content_type_guess_from_name (const char	 *filename);
 gboolean	_g_content_type_is_a		(const char	 *type,
 						 const char	 *supertype);
-const char *	_g_content_type_get_from_stream	(GInputStream	 *istream,
+const char *	_g_content_type_get_from_stream (GInputStream	 *istream,
 						 GFile		 *file, /* optional */
 						 GCancellable	 *cancellable,
-						 GError		**error);
+						 GError	**error);
 gboolean	_g_mime_type_is_image		(const char	 *mime_type);
 gboolean	_g_mime_type_is_raw		(const char	 *mime_type);
 gboolean	_g_mime_type_is_video		(const char	 *mime_type);
@@ -305,24 +305,24 @@ char *		_g_settings_get_uri		(GSettings	 *settings,
 char *		_g_settings_get_uri_or_special_dir
 						(GSettings	 *settings,
 						 const char	 *key,
-						 GUserDirectory	  directory);
+						 GUserDirectory  directory);
 void		_g_settings_set_uri		(GSettings	 *settings,
 						 const char	 *key,
 						 const char	 *uri);
 void		_g_settings_set_string_list	(GSettings	 *settings,
 						 const char	 *key,
 						 GList		 *list);
-GList *		_g_settings_get_string_list	(GSettings	 *settings,
+GList *	_g_settings_get_string_list	(GSettings	 *settings,
 						 const char	 *key);
 GSettings *	_g_settings_new_if_schema_installed
 						(const char	 *schema_name);
 
 /* Other */
 
-char *		_g_format_duration_for_display	(gint64		  msecs);
+char *		_g_format_duration_for_display	(gint64	  msecs);
 char *		_g_format_str_for_file		(const char	 *format,
 						 GFile		 *file);
-void		_g_error_free			(GError		 *error);
+void		_g_error_free			(GError	 *error);
 GString *	_g_string_append_markup_escaped (GString	 *string,
 						 const char	 *format,
 						 ...) G_GNUC_PRINTF (2, 3);
