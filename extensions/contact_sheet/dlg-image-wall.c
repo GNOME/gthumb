@@ -198,28 +198,6 @@ update_sensitivity (DialogData *data)
 
 
 static void
-entry_help_icon_press_cb (GtkEntry             *entry,
-			  GtkEntryIconPosition  icon_pos,
-			  GdkEvent             *event,
-			  gpointer              user_data)
-{
-	DialogData *data = user_data;
-	GtkWidget  *help_box = NULL;
-
-	if (GTK_WIDGET (entry) == GET_WIDGET ("template_entry"))
-		help_box = GET_WIDGET ("template_help_table");
-
-	if (help_box == NULL)
-		return;
-
-	if (gtk_widget_get_visible (help_box))
-		gtk_widget_hide (help_box);
-	else
-		gtk_widget_show (help_box);
-}
-
-
-static void
 edit_template_entry_button_clicked_cb (GtkWidget  *widget,
 				       DialogData *data)
 {
@@ -387,10 +365,6 @@ dlg_image_wall (GthBrowser *browser,
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  data->dialog);
-	g_signal_connect (GET_WIDGET ("template_entry"),
-			  "icon-press",
-			  G_CALLBACK (entry_help_icon_press_cb),
-			  data);
 	g_signal_connect_swapped (GET_WIDGET ("single_index_checkbutton"),
 				  "toggled",
 				  G_CALLBACK (update_sensitivity),
