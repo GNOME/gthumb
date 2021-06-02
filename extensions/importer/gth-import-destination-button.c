@@ -84,31 +84,29 @@ preferences_dialog_destination_changed_cb (GthImportPreferencesDialog *dialog,
 					   GthImportDestinationButton *self)
 {
 	GFile *destination;
-	GFile *destination_example;
+	GFile *subfolder_example;
 
 	destination = gth_import_preferences_dialog_get_destination (dialog);
-	destination_example = gth_import_preferences_dialog_get_destination_example (dialog);
-	if ((destination != NULL) && (destination_example != NULL)) {
-		char *name;
+	subfolder_example = gth_import_preferences_dialog_get_subfolder_example (dialog);
+	if (destination != NULL) {
+		char *destination_name;
+		char *subfolder_name;
 
-		name = g_file_get_parse_name (destination);
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->destination_icon), "folder-symbolic", GTK_ICON_SIZE_MENU);
-		gtk_label_set_text (GTK_LABEL (self->priv->destination_label), name);
-		g_free (name);
 
-		name = g_file_get_relative_path (destination, destination_example);
-		if ((name != NULL) && (strcmp (name, "") != 0)) {
-			char *example_path;
+		destination_name = g_file_get_parse_name (destination);
+		gtk_label_set_text (GTK_LABEL (self->priv->destination_label), destination_name);
 
-			example_path = g_strconcat (G_DIR_SEPARATOR_S, name, NULL);
-			gtk_label_set_text (GTK_LABEL (self->priv->subfolder_label), example_path);
-
-			g_free (example_path);
+		subfolder_name = g_file_get_parse_name (subfolder_example);
+		if (! _g_str_empty (subfolder_name) && ! _g_str_equal (subfolder_name, "/")) {
+			const char *name = g_str_has_suffix (destination_name, "/") ? subfolder_name + 1 : subfolder_name;
+			gtk_label_set_text (GTK_LABEL (self->priv->subfolder_label), name);
 		}
 		else
 			gtk_label_set_text (GTK_LABEL (self->priv->subfolder_label), "");
 
-		g_free (name);
+		g_free (subfolder_name);
+		g_free (destination_name);
 	}
 	else {
 		gtk_image_set_from_icon_name (GTK_IMAGE (self->priv->destination_icon), "dialog-error", GTK_ICON_SIZE_MENU);
@@ -116,7 +114,7 @@ preferences_dialog_destination_changed_cb (GthImportPreferencesDialog *dialog,
 		gtk_label_set_text (GTK_LABEL (self->priv->subfolder_label), "");
 	}
 
-	_g_object_unref (destination_example);
+	_g_object_unref (subfolder_example);
 	_g_object_unref (destination);
 }
 

@@ -22,16 +22,7 @@
     <key name="destination" type="s">
       <default>''</default>
     </key>
-    <key name="subfolder-type" enum="org.gnome.gthumb.GthSubfolderType">
-      <default>'none'</default>
-    </key>
-    <key name="subfolder-format" enum="org.gnome.gthumb.GthSubfolderFormat">
-      <default>'yyyymmdd'</default>
-    </key>
-    <key name="subfolder-single" type="b">
-      <default>false</default>
-    </key>
-    <key name="subfolder-custom-format" type="s">
+    <key name="subfolder-template" type="s">
       <default>''</default>
     </key>
     <key name="warn-delete-unsupported" type="b">

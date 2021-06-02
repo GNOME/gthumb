@@ -33,10 +33,7 @@ G_BEGIN_DECLS
 /* keys: viewer */
 
 #define PREF_IMPORTER_DESTINATION              "destination"
-#define PREF_IMPORTER_SUBFOLDER_TYPE           "subfolder-type"
-#define PREF_IMPORTER_SUBFOLDER_FORMAT         "subfolder-format"
-#define PREF_IMPORTER_SUBFOLDER_SINGLE         "subfolder-single"
-#define PREF_IMPORTER_SUBFOLDER_CUSTOM_FORMAT  "subfolder-custom-format"
+#define PREF_IMPORTER_SUBFOLDER_TEMPLATE       "subfolder-template"
 #define PREF_IMPORTER_WARN_DELETE_UNSUPPORTED  "warn-delete-unsupported"
 
 G_END_DECLS

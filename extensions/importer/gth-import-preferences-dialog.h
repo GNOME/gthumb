@@ -58,7 +58,7 @@ void         gth_import_preferences_dialog_set_event (GthImportPreferencesDialog
 						      const char                 *event);
 GFile *      gth_import_preferences_dialog_get_destination
 						     (GthImportPreferencesDialog *self);
-GFile *      gth_import_preferences_dialog_get_destination_example
+GFile *      gth_import_preferences_dialog_get_subfolder_example
 						     (GthImportPreferencesDialog *self);
 
 G_END_DECLS
