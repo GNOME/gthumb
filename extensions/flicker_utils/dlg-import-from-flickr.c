@@ -135,28 +135,19 @@ import_dialog_response_cb (GtkDialog *dialog,
 
 			file_list = get_files_to_download (data);
 			if (file_list != NULL) {
-				GSettings           *settings;
-				GFile               *destination;
-				gboolean             single_subfolder;
-				GthSubfolderType     subfolder_type;
-				GthSubfolderFormat   subfolder_format;
-				char                *custom_format;
-				GthTask             *task;
+				GSettings *settings;
+				GFile     *destination;
+				char      *subfolder_template;
+				GthTask   *task;
 
 				settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
 				destination = gth_import_preferences_get_destination ();
-				subfolder_type = g_settings_get_enum (settings, PREF_IMPORTER_SUBFOLDER_TYPE);
-				subfolder_format = g_settings_get_enum (settings, PREF_IMPORTER_SUBFOLDER_FORMAT);
-				single_subfolder = g_settings_get_boolean (settings, PREF_IMPORTER_SUBFOLDER_SINGLE);
-				custom_format = g_settings_get_string (settings, PREF_IMPORTER_SUBFOLDER_CUSTOM_FORMAT);
+				subfolder_template = g_settings_get_string (settings, PREF_IMPORTER_SUBFOLDER_TEMPLATE);
 
 				task = gth_import_task_new (data->browser,
 							    file_list,
 							    destination,
-							    subfolder_type,
-							    subfolder_format,
-							    single_subfolder,
-							    custom_format,
+							    subfolder_template,
 							    (photoset->title != NULL ? photoset->title : ""),
 							    NULL,
 							    FALSE,
@@ -166,6 +157,7 @@ import_dialog_response_cb (GtkDialog *dialog,
 				gtk_widget_destroy (data->dialog);
 
 				g_object_unref (task);
+				g_free (subfolder_template);
 				_g_object_unref (destination);
 				g_object_unref (settings);
 			}

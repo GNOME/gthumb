@@ -102,20 +102,14 @@ destroy_dialog (gpointer user_data)
 	g_settings_set_boolean (data->settings, PREF_PHOTO_IMPORTER_DELETE_FROM_DEVICE, delete_imported);
 
 	if (data->import) {
-		GSettings          *importer_settings;
-		GFile              *destination;
-		gboolean            single_subfolder;
-		GthSubfolderType    subfolder_type;
-		GthSubfolderFormat  subfolder_format;
-		char               *custom_format;
-		GList              *file_list;
+		GSettings *importer_settings;
+		GFile     *destination;
+		char      *subfolder_template;
+		GList     *file_list;
 
 		importer_settings = g_settings_new (GTHUMB_IMPORTER_SCHEMA);
 		destination = gth_import_preferences_get_destination ();
-		single_subfolder = g_settings_get_boolean (importer_settings, PREF_IMPORTER_SUBFOLDER_SINGLE);
-		subfolder_type = g_settings_get_enum (importer_settings, PREF_IMPORTER_SUBFOLDER_TYPE);
-		subfolder_format = g_settings_get_enum (importer_settings, PREF_IMPORTER_SUBFOLDER_FORMAT);
-		custom_format = g_settings_get_string (importer_settings, PREF_IMPORTER_SUBFOLDER_CUSTOM_FORMAT);
+		subfolder_template = g_settings_get_string (importer_settings, PREF_IMPORTER_SUBFOLDER_TEMPLATE);
 
 		file_list = get_selected_file_list (data);
 		if (file_list != NULL) {
@@ -126,10 +120,7 @@ destroy_dialog (gpointer user_data)
 			task = gth_import_task_new (data->browser,
 						    file_list,
 						    destination,
-						    subfolder_type,
-						    subfolder_format,
-						    single_subfolder,
-						    custom_format,
+						    subfolder_template,
 						    gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("event_entry"))),
 						    tags,
 						    delete_imported,
@@ -142,7 +133,7 @@ destroy_dialog (gpointer user_data)
 		}
 
 		_g_object_list_unref (file_list);
-		g_free (custom_format);
+		g_free (subfolder_template);
 		_g_object_unref (destination);
 		g_object_unref (importer_settings);
 	}

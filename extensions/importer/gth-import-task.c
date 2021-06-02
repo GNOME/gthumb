@@ -38,10 +38,7 @@ struct _GthImportTaskPrivate {
 	GList               *files;
 	GFile               *destination;
 	GHashTable          *destinations;
-	GthSubfolderType     subfolder_type;
-	GthSubfolderFormat   subfolder_format;
-	gboolean             single_subfolder;
-	char                *custom_format;
+	char                *subfolder_template;;
 	char                *event_name;
 	char               **tags;
 	GTimeVal             import_start_time;
@@ -85,7 +82,7 @@ gth_import_task_finalize (GObject *object)
 	_g_object_list_unref (self->priv->files);
 	g_object_unref (self->priv->destination);
 	_g_object_unref (self->priv->destination_file);
-	g_free (self->priv->custom_format);
+	g_free (self->priv->subfolder_template);
 	g_free (self->priv->event_name);
 	if (self->priv->tags != NULL)
 		g_strfreev (self->priv->tags);
@@ -285,10 +282,7 @@ overwrite_dialog_response_cb (GtkDialog *dialog,
 			file_data = self->priv->current->data;
 			destination_folder = gth_import_utils_get_file_destination (file_data,
 										    self->priv->destination,
-										    self->priv->subfolder_type,
-										    self->priv->subfolder_format,
-										    self->priv->single_subfolder,
-										    self->priv->custom_format,
+										    self->priv->subfolder_template,
 										    self->priv->event_name,
 										    self->priv->import_start_time);
 			new_destination = g_file_get_child_for_display_name (destination_folder, gth_overwrite_dialog_get_filename (GTH_OVERWRITE_DIALOG (dialog)), NULL);
@@ -534,10 +528,7 @@ get_destination_file (GthImportTask *self,
 
 	destination = gth_import_utils_get_file_destination (file_data,
 							     self->priv->destination,
-							     self->priv->subfolder_type,
-							     self->priv->subfolder_format,
-							     self->priv->single_subfolder,
-							     self->priv->custom_format,
+							     self->priv->subfolder_template,
 							     self->priv->event_name,
 							     self->priv->import_start_time);
 	if (! g_file_make_directory_with_parents (destination, gth_task_get_cancellable (GTH_TASK (self)), &error)) {
@@ -636,7 +627,7 @@ import_current_file (GthImportTask *self)
 		else {
 			GSettings *settings;
 
-			if ((self->priv->subfolder_type != GTH_SUBFOLDER_TYPE_NONE) && (self->priv->imported_catalog != NULL))
+			if (! _g_str_empty (self->priv->subfolder_template) && (self->priv->imported_catalog != NULL))
 				gth_browser_go_to (self->priv->browser, self->priv->imported_catalog, NULL);
 			else
 				gth_browser_go_to (self->priv->browser, self->priv->destination, NULL);
@@ -671,7 +662,7 @@ import_current_file (GthImportTask *self)
 	self->priv->current_file_size = g_file_info_get_size (file_data->info);
 
 	adjust_image_orientation = self->priv->adjust_orientation && gth_main_extension_is_active ("image_rotation");
-	need_image_metadata = (self->priv->subfolder_type == GTH_SUBFOLDER_TYPE_FILE_DATE) || adjust_image_orientation;
+	need_image_metadata = (_g_utf8_find_str (self->priv->subfolder_template, "%D") != NULL) || adjust_image_orientation;
 
 	if (_g_mime_type_is_image (gth_file_data_get_mime_type (file_data)) && need_image_metadata) {
 		gth_task_progress (GTH_TASK (self),
@@ -792,10 +783,7 @@ GthTask *
 gth_import_task_new (GthBrowser         *browser,
 		     GList              *files,
 		     GFile              *destination,
-		     GthSubfolderType    subfolder_type,
-		     GthSubfolderFormat  subfolder_format,
-		     gboolean            single_subfolder,
-		     const char         *custom_format,
+		     const char         *subfolder_template,
 		     const char         *event_name,
 		     char              **tags,
 		     gboolean            delete_imported,
@@ -808,13 +796,7 @@ gth_import_task_new (GthBrowser         *browser,
 	self->priv->browser = g_object_ref (browser);
 	self->priv->files = _g_object_list_ref (files);
 	self->priv->destination = g_file_dup (destination);
-	self->priv->subfolder_type = subfolder_type;
-	self->priv->subfolder_format = subfolder_format;
-	self->priv->single_subfolder = single_subfolder;
-	if (custom_format != NULL)
-		self->priv->custom_format = g_strdup (custom_format);
-	else
-		self->priv->custom_format = NULL;
+	self->priv->subfolder_template = g_strdup (subfolder_template);
 	self->priv->event_name = g_strdup (event_name);
 	self->priv->tags = g_strdupv (tags);
 	self->priv->delete_imported = delete_imported;
