@@ -985,7 +985,7 @@ static char *TokenizerStateName[] = {
 
 
 static gboolean
-valid_char_after_code_prefix (gunichar ch)
+_g_template_valid_special_code (gunichar ch)
 {
 	return (ch != '%') && (ch != '{') && ! g_unichar_isspace (ch) && (ch != 0);
 }
@@ -1032,7 +1032,7 @@ _g_template_tokenize (const char    *template,
 		ch = (p != NULL) ? g_utf8_get_char (p) : 0;
 		next_p = (p != NULL) ? g_utf8_next_char (p) : NULL;
 		next_ch = (next_p != NULL) ? g_utf8_get_char (next_p) : 0;
-		code_prefix = (ch == '%') && valid_char_after_code_prefix (next_ch);
+		code_prefix = (ch == '%') && _g_template_valid_special_code (next_ch);
 		enumerator_prefix = split_enumerator && (ch == '#');
 
 #if DEBUG_TOKENIZER
@@ -1151,7 +1151,7 @@ _g_template_get_token_code (const char *token)
 
 	ch = g_utf8_get_char (token);
 
-	return valid_char_after_code_prefix (ch) ? ch : 0;
+	return _g_template_valid_special_code (ch) ? ch : 0;
 }
 
 
@@ -1198,7 +1198,7 @@ _g_template_get_token_args (const char *token)
 
 		switch (state) {
 		case TOKENIZER_STATE_START:
-			if ((ch == '%') && valid_char_after_code_prefix (next_ch)) {
+			if ((ch == '%') && _g_template_valid_special_code (next_ch)) {
 				/* Skip the code. */
 				p = next_p;
 				next_p = (p != NULL) ? g_utf8_next_char (p) : NULL;
