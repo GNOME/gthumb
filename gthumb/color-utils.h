@@ -52,4 +52,11 @@ void gimp_hsl_to_rgb	(guchar  hue,
 			 guchar *green,
 			 guchar *blue);
 
+void rgb_to_hsl	(guchar  red,
+			 guchar  green,
+			 guchar  blue,
+			 double *hue,
+			 double *sat,
+			 double *lum);
+
 #endif /* COLOR_UTILS_H */

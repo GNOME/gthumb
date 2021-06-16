@@ -50,6 +50,8 @@ _gth_file_tool_color_picker_show_color (GthFileToolColorPicker *self,
 	unsigned char   *p_source;
 	int              temp;
 	guchar           r, g, b, a;
+	double           h, s, l;
+	double           r100, g100, b100;
 	GdkRGBA          color;
 	char            *description;
 
@@ -69,23 +71,55 @@ _gth_file_tool_color_picker_show_color (GthFileToolColorPicker *self,
 	color.blue  = (double ) b / 255.0;
 	color.alpha = (double ) a / 255.0;
 
+	rgb_to_hsl (r, g, b, &h, &s, &l);
+	if (h < 0)
+		h = 255 + h;
+	h = round (h / 255.0 * 360.0);
+	s = round (s / 255.0 * 100.0);
+	l = round (l / 255.0 * 100.0);
+
+	r100 = round (color.red * 100.0);
+	g100 = round (color.green * 100.0);
+	b100 = round (color.blue * 100.0);
+
 	gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (GET_WIDGET ("color_chooser")), &color);
 
-	description = g_strdup_printf ("#%02x%02x%02x", r, g, b);
-	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("hex_color")), description);
-	g_free (description);
+	setlocale (LC_NUMERIC, "C"); // use always the dot as decimal separator
+	if (color.alpha == 1.0) {
+		description = g_strdup_printf ("#%02x%02x%02x", r, g, b);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("hex_color")), description);
+		g_free (description);
 
-	description = g_strdup_printf ("rgb(%u, %u, %u)", r, g, b);
-	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("rgb_color")), description);
-	g_free (description);
+		description = g_strdup_printf ("rgb(%u, %u, %u)", r, g, b);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("rgb_color")), description);
+		g_free (description);
 
-	if (color.alpha < 1.0) {
-		description = g_strdup_printf ("alpha: %0.2f", color.alpha);
-		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("alpha_color")), description);
+		description = g_strdup_printf ("rgb(%.0f%%, %.0f%%, %.0f%%)", r100, g100, b100);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("rgb_100_color")), description);
+		g_free (description);
+
+		description = g_strdup_printf ("hsl(%.0f, %.0f%%, %.0f%%)", h, s, l);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("hsl_color")), description);
 		g_free (description);
 	}
-	else
-		gtk_widget_hide (GET_WIDGET ("alpha_color"));
+	else {
+		description = g_strdup_printf ("#%02x%02x%02x%02x", r, g, b, a);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("hex_color")), description);
+		g_free (description);
+
+		description = g_strdup_printf ("rgba(%u, %u, %u, %.2f)", r, g, b, color.alpha);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("rgb_color")), description);
+		g_free (description);
+
+		description = g_strdup_printf ("rgba(%.0f%%, %.0f%%, %.0f%%, %.2f)", r100, g100, b100, color.alpha);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("rgb_100_color")), description);
+		g_free (description);
+
+		description = g_strdup_printf ("hsla(%.0f, %.0f%%, %.0f%%, %.2f)", h, s, l, color.alpha);
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("hsl_color")), description);
+		g_free (description);
+	}
+	setlocale (LC_NUMERIC, "");
 }
 
 

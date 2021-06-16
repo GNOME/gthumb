@@ -124,6 +124,42 @@ gimp_hsv_to_rgb (guchar  hue,
 
 
 void
+rgb_to_hsl (guchar  red,
+	    guchar  green,
+	    guchar  blue,
+	    double *hue,
+	    double *sat,
+	    double *lum)
+{
+	double min, max;
+
+	min = MIN3 (red, green, blue);
+	max = MAX3 (red, green, blue);
+
+	*lum = (max + min) / 2.0;
+
+	if (max == min) {
+		*hue = *sat = 0;
+		return;
+	}
+
+	if (*lum < 128)
+		*sat = 255.0 * (max - min) / (max + min);
+	else
+		*sat = 255.0 * (max - min) / (512.0 - max - min);
+
+	if (max == min)
+		*hue = 0;
+	else if (max == red)
+		*hue = 0.0 + 43.0 * (double) (green - blue) / (max - min);
+	else if (max == green)
+		*hue = 85.0 + 43.0 * (double) (blue - red) / (max - min);
+	else if (max == blue)
+		*hue = 171.0 + 43.0 * (double) (red - green) / (max - min);
+}
+
+
+void
 gimp_rgb_to_hsl (guchar  red,
 		 guchar  green,
 		 guchar  blue,
