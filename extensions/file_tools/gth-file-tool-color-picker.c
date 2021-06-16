@@ -205,6 +205,14 @@ gth_file_tool_color_picker_get_options (GthFileTool *base)
 			  "icon-press",
 			  G_CALLBACK (color_text_icon_press_cb),
 			  self);
+	g_signal_connect (GET_WIDGET ("rgb_100_color"),
+			  "icon-press",
+			  G_CALLBACK (color_text_icon_press_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("hsl_color"),
+			  "icon-press",
+			  G_CALLBACK (color_text_icon_press_cb),
+			  self);
 
 	return options;
 }
