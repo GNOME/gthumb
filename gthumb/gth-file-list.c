@@ -357,7 +357,7 @@ gth_file_list_class_init (GthFileListClass *class)
 static int
 _get_max_loaders (void)
 {
-	int n = (int) g_get_num_processors () - 1;
+	int n = (int) g_get_num_processors () - 2;
 	return CLAMP (n, 1, MAX_THUMBNAIL_LOADERS);
 }
 
