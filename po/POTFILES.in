@@ -31,6 +31,7 @@ data/gschemas/org.gnome.gthumb.webalbums.gschema.xml
 data/org.gnome.gThumb.Import.desktop.in.in
 data/org.gnome.gThumb.desktop.in.in
 data/ui/browser-preferences.ui
+data/ui/code-selector.ui
 data/ui/extensions-preferences.ui
 data/ui/favorite-properties.ui
 data/ui/file-selection-info.ui
@@ -42,6 +43,7 @@ data/ui/personalize-filters.ui
 data/ui/preferences.ui
 data/ui/shortcuts-preferences.ui
 data/ui/sort-order.ui
+data/ui/template-editor-dialog.ui
 extensions/23hq/23hq.extension.desktop.in.in
 extensions/23hq/actions.c
 extensions/23hq/actions.h
@@ -545,16 +547,11 @@ extensions/red_eye_removal/main.c
 extensions/red_eye_removal/red_eye_removal.extension.desktop.in.in
 extensions/rename_series/callbacks.c
 extensions/rename_series/callbacks.h
-extensions/rename_series/data/ui/code-selector.ui
 extensions/rename_series/data/ui/rename-series.ui
 extensions/rename_series/dlg-rename-series.c
 extensions/rename_series/dlg-rename-series.h
 extensions/rename_series/gth-rename-task.c
 extensions/rename_series/gth-rename-task.h
-extensions/rename_series/gth-template-editor-dialog.c
-extensions/rename_series/gth-template-editor-dialog.h
-extensions/rename_series/gth-template-selector.c
-extensions/rename_series/gth-template-selector.h
 extensions/rename_series/main.c
 extensions/rename_series/preferences.h
 extensions/rename_series/rename_series.extension.desktop.in.in
@@ -855,6 +852,10 @@ gthumb/gth-tags-file.c
 gthumb/gth-tags-file.h
 gthumb/gth-task.c
 gthumb/gth-task.h
+gthumb/gth-template-editor-dialog.c
+gthumb/gth-template-editor-dialog.h
+gthumb/gth-template-selector.c
+gthumb/gth-template-selector.h
 gthumb/gth-test-aspect-ratio.c
 gthumb/gth-test-aspect-ratio.h
 gthumb/gth-test-category.c
