@@ -8,25 +8,25 @@
 # Igor Pires Soares <igor@projetofedora.org>, 2007,2008.
 # Leonardo Ferreira Fontenelle <leonardof@gnome.org>, 2009.
 # Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2014.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2013-2020.
 # Henrique Machado Campos <henriquecamposrj@gmail.com>, 2020.
 # Henrique Roberto Gattermann Mittelstaedt <henrique.roberto97@gmail.com>, 2020.
 # Enrico Nicoletto <liverig@gmail.com>, 2013, 2020-2021.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2013-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-04-24 16:04+0000\n"
-"PO-Revision-Date: 2021-05-01 09:40-0300\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
+"POT-Creation-Date: 2021-06-19 18:11+0000\n"
+"PO-Revision-Date: 2021-06-28 08:40-0300\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.4.3\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"X-Generator: Gtranslator 40.0\n"
 "X-Project-Style: gnome\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
@@ -160,7 +160,7 @@ msgstr "Nova janela"
 
 #: data/ui/browser-preferences.ui:20
 #: extensions/contact_sheet/gth-contact-sheet-theme.c:34
-#: extensions/image_print/data/ui/print-layout.ui:519
+#: extensions/image_print/data/ui/print-layout.ui:654
 msgid "Caption"
 msgstr "Legenda"
 
@@ -230,6 +230,39 @@ msgstr "256"
 #: data/ui/browser-preferences.ui:239
 msgid "D_etermine image type from content (slower)"
 msgstr "D_eterminar tipo de imagem pelo conteúdo (lento)"
+
+#: data/ui/code-selector.ui:99
+#: extensions/rename_series/data/ui/rename-series.ui:73
+msgid "1"
+msgstr "1"
+
+#: data/ui/code-selector.ui:113
+msgid "digits"
+msgstr "dígitos"
+
+#: data/ui/code-selector.ui:252 extensions/comments/main.c:44
+#: extensions/comments/main.c:170
+#: extensions/image_print/data/ui/print-layout.ui:285
+#: gthumb/gth-main-default-metadata.c:64
+msgid "Description"
+msgstr "Descrição"
+
+#: data/ui/code-selector.ui:269
+#| msgid "Edit tags"
+msgid "Edit"
+msgstr "Editar"
+
+#: data/ui/code-selector.ui:270 data/ui/code-selector.ui:327
+msgid "Default value"
+msgstr "Valor padrão"
+
+#: data/ui/code-selector.ui:387
+msgid "remove"
+msgstr "remover"
+
+#: data/ui/code-selector.ui:407
+msgid "add"
+msgstr "adicionar"
 
 #: data/ui/extensions-preferences.ui:39
 msgid "_Extensions:"
@@ -318,7 +351,7 @@ msgid "Filename:"
 msgstr "Nome do arquivo:"
 
 #: data/ui/overwrite-dialog.ui:160 data/ui/overwrite-dialog.ui:329
-#: extensions/image_print/data/ui/print-layout.ui:705
+#: extensions/image_print/data/ui/print-layout.ui:840
 msgid "Size:"
 msgstr "Tamanho:"
 
@@ -428,9 +461,9 @@ msgstr "Arma_zenar metadados dentro de arquivos, se possível"
 
 #: data/ui/preferences.ui:440
 #: extensions/catalogs/data/ui/catalog-properties.ui:39
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:576
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:434
 #: extensions/edit_metadata/gth-edit-general-page.c:482
-#: extensions/webalbums/data/ui/web-album-exporter.ui:571
+#: extensions/webalbums/data/ui/web-album-exporter.ui:470
 #: gthumb/gth-main-default-types.c:38
 msgid "General"
 msgstr "Geral"
@@ -439,13 +472,19 @@ msgstr "Geral"
 msgid "Shortcuts:"
 msgstr "Atalhos:"
 
-#: data/ui/shortcuts-preferences.ui:93
+#: data/ui/shortcuts-preferences.ui:94
 msgid "_Restore All…"
 msgstr "_Restaurar todos…"
 
 #: data/ui/sort-order.ui:30
 msgid "_Inverse order"
 msgstr "Ordem _inversa"
+
+#: data/ui/template-editor-dialog.ui:21
+#: extensions/importer/data/ui/import-preferences.ui:164
+#| msgid "example"
+msgid "Example:"
+msgstr "Exemplo:"
 
 #: extensions/23hq/23hq.extension.desktop.in.in:3
 msgid "23"
@@ -674,10 +713,10 @@ msgid "WebP"
 msgstr "WebP"
 
 #: extensions/cairo_io/preferences.c:134
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:556
-#: extensions/contact_sheet/data/ui/image-wall.ui:269
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:414
+#: extensions/contact_sheet/data/ui/image-wall.ui:216
 #: extensions/image_viewer/gth-image-viewer-page.c:1703
-#: extensions/webalbums/data/ui/web-album-exporter.ui:484
+#: extensions/webalbums/data/ui/web-album-exporter.ui:391
 msgid "Saving"
 msgstr "Salvar"
 
@@ -686,8 +725,8 @@ msgstr "Salvar"
 #: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
-#: extensions/list_tools/gth-script-editor-dialog.c:274
-#: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1924
+#: extensions/list_tools/gth-script-editor-dialog.c:295
+#: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1925
 #, c-format
 msgid "No name specified"
 msgstr "Nenhum nome especificado"
@@ -697,7 +736,7 @@ msgstr "Nenhum nome especificado"
 #: extensions/catalogs/dlg-add-to-catalog.c:548
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
-#: gthumb/gth-folder-tree.c:1931
+#: gthumb/gth-folder-tree.c:1932
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Nome inválido. Os caracteres a seguir não são permitidos: %s"
@@ -767,21 +806,21 @@ msgstr "Criar biblioteca"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:82
 #: extensions/file_manager/callbacks.c:109
 #: extensions/file_manager/callbacks.c:126
-#: extensions/rename_series/dlg-rename-series.c:859
-#: gthumb/gth-folder-tree.c:1971
+#: extensions/rename_series/dlg-rename-series.c:771
+#: gthumb/gth-folder-tree.c:1972
 msgid "Rename"
 msgstr "Renomeia"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4619
-#: gthumb/gth-browser.c:4731 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4711
+#: gthumb/gth-browser.c:4823 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Propriedades"
 
 #: extensions/catalogs/callbacks.c:185
 #: extensions/catalogs/catalogs.extension.desktop.in.in:3
 #: extensions/catalogs/gth-catalog.c:504 extensions/catalogs/gth-catalog.c:555
-#: extensions/catalogs/gth-catalog.c:916 extensions/catalogs/gth-catalog.c:917
+#: extensions/catalogs/gth-catalog.c:917 extensions/catalogs/gth-catalog.c:918
 msgid "Catalogs"
 msgstr "Catálogos"
 
@@ -826,7 +865,7 @@ msgstr "Novo catálogo"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:103
 #: extensions/file_manager/actions.c:766
-#: extensions/webalbums/gth-web-exporter.c:1827
+#: extensions/webalbums/gth-web-exporter.c:1820
 msgid "_View the destination"
 msgstr "_Ver o destino"
 
@@ -902,7 +941,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Não foi possível adicionar os arquivos ao catálogo"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:392
+#: extensions/search/gth-search-task.c:396
 msgid "Could not create the catalog"
 msgstr "Não foi possível criar o catálogo"
 
@@ -958,15 +997,15 @@ msgid "Tag (embedded)"
 msgstr "Etiqueta (embutida)"
 
 #: extensions/catalogs/gth-catalog.c:300
-#: extensions/exiv2_tools/exiv2-utils.cpp:872
-#: extensions/exiv2_tools/exiv2-utils.cpp:881
-#: extensions/exiv2_tools/exiv2-utils.cpp:911
-#: extensions/exiv2_tools/exiv2-utils.cpp:1444
+#: extensions/exiv2_tools/exiv2-utils.cpp:874
+#: extensions/exiv2_tools/exiv2-utils.cpp:883
+#: extensions/exiv2_tools/exiv2-utils.cpp:913
+#: extensions/exiv2_tools/exiv2-utils.cpp:1452
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "Formato de arquivo inválido"
 
-#: extensions/catalogs/gth-catalog.c:1018 extensions/comments/main.c:47
+#: extensions/catalogs/gth-catalog.c:1019 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
 #: extensions/edit_metadata/callbacks.c:107
@@ -1109,11 +1148,11 @@ msgstr "_Sincronizar com os metadados embutidos"
 
 #: extensions/comments/dlg-comments-preferences.c:68
 #: extensions/gstreamer_tools/dlg-media-viewer-preferences.c:75
-#: extensions/importer/gth-import-preferences-dialog.c:417
+#: extensions/importer/gth-import-preferences-dialog.c:421
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: extensions/terminal/dlg-terminal-preferences.c:83
 #: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
-#: gthumb/gth-file-properties.c:548
+#: gthumb/gth-file-properties.c:595
 msgid "Preferences"
 msgstr "Preferências"
 
@@ -1121,27 +1160,14 @@ msgstr "Preferências"
 #: extensions/edit_metadata/callbacks.c:88
 #: extensions/edit_metadata/callbacks.c:101
 #: extensions/edit_metadata/gth-edit-comment-dialog.c:124
-#: gthumb/gth-file-comment.c:136
+#: extensions/webalbums/dlg-web-exporter.c:46
+#: extensions/webalbums/dlg-web-exporter.c:296 gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Comentário"
 
 #: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Título"
-
-#: extensions/comments/main.c:44 extensions/comments/main.c:170
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:184
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:502
-#: extensions/contact_sheet/data/ui/image-wall.ui:232
-#: extensions/image_print/data/ui/print-layout.ui:239
-#: extensions/importer/data/ui/import-preferences.ui:287
-#: extensions/list_tools/data/ui/script-editor.ui:319
-#: extensions/rename_series/data/ui/rename-series.ui:272
-#: extensions/webalbums/data/ui/web-album-exporter.ui:194
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1039
-#: gthumb/gth-main-default-metadata.c:64
-msgid "Description"
-msgstr "Descrição"
 
 #: extensions/comments/main.c:45 extensions/comments/main.c:178
 #: gthumb/gth-main-default-metadata.c:63
@@ -1166,8 +1192,8 @@ msgid "Image _Wall…"
 msgstr "_Parede de imagens…"
 
 #: extensions/contact_sheet/contact_sheet.extension.desktop.in.in:3
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:308
-#: extensions/contact_sheet/dlg-contact-sheet.c:710
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:218
+#: extensions/contact_sheet/dlg-contact-sheet.c:852
 msgid "Contact Sheet"
 msgstr "Folha de contato"
 
@@ -1247,16 +1273,16 @@ msgid "C_olor:"
 msgstr "C_or:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:519
-#: extensions/rename_series/dlg-rename-series.c:57
+#: gthumb/gth-template-editor-dialog.c:419
 msgid "Text"
 msgstr "Texto"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:548
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:290
-#: extensions/image_print/data/ui/print-layout.ui:88
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:106
+#: extensions/image_print/data/ui/print-layout.ui:166
 #: extensions/image_print/data/ui/print-preferences.ui:55
-#: extensions/webalbums/data/ui/web-album-exporter.ui:302
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1167
+#: extensions/webalbums/data/ui/web-album-exporter.ui:116
+#: extensions/webalbums/data/ui/web-album-exporter.ui:827
 msgid "_Header:"
 msgstr "Cabeçal_ho:"
 
@@ -1267,188 +1293,213 @@ msgid "Select a font"
 msgstr "Selecione uma fonte"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:604
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:261
-#: extensions/image_print/data/ui/print-layout.ui:102
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:91
+#: extensions/image_print/data/ui/print-layout.ui:179
 #: extensions/image_print/data/ui/print-preferences.ui:69
-#: extensions/webalbums/data/ui/web-album-exporter.ui:271
-#: extensions/webalbums/data/ui/web-album-exporter.ui:916
+#: extensions/webalbums/data/ui/web-album-exporter.ui:101
+#: extensions/webalbums/data/ui/web-album-exporter.ui:812
 msgid "_Footer:"
 msgstr "_Rodapé:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:663
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:1038
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:896
 #: extensions/image_print/data/ui/print-preferences.ui:43
 msgid "Caption:"
 msgstr "Legenda:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:133
-#: extensions/image_print/data/ui/print-layout.ui:188
-#: extensions/webalbums/data/ui/web-album-exporter.ui:143
-msgid "The current page number"
-msgstr "O número atual de páginas"
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:125
+#: extensions/image_print/data/ui/print-layout.ui:418
+#: extensions/image_print/data/ui/print-layout.ui:463
+#: extensions/webalbums/data/ui/web-album-exporter.ui:135
+#: extensions/webalbums/data/ui/web-album-exporter.ui:181
+#: extensions/webalbums/data/ui/web-album-exporter.ui:846
+#: extensions/webalbums/data/ui/web-album-exporter.ui:894
+#: gthumb/gth-browser-actions-entries.h:95
+msgid "Help"
+msgstr "Ajuda"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:151
-#: extensions/image_print/data/ui/print-layout.ui:206
-#: extensions/webalbums/data/ui/web-album-exporter.ui:161
-msgid "The total number of pages"
-msgstr "O número total de páginas"
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:138
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:186
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:329
+#: extensions/contact_sheet/data/ui/image-wall.ui:148
+#: extensions/rename_series/data/ui/rename-series.ui:205
+msgid "Edit template"
+msgstr "Edita modelo"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:169
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:487
-#: extensions/contact_sheet/data/ui/image-wall.ui:217
-#: extensions/image_print/data/ui/print-layout.ui:224
-#: extensions/importer/data/ui/import-preferences.ui:275
-#: extensions/list_tools/data/ui/script-editor.ui:304
-#: extensions/rename_series/data/ui/rename-series.ui:151
-#: extensions/webalbums/data/ui/web-album-exporter.ui:179
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1024
-msgid "Special code"
-msgstr "Código especial"
-
-#. translate only the text in the curly brackets
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:201
-#: extensions/image_print/data/ui/print-layout.ui:256
-#: extensions/rename_series/data/ui/rename-series.ui:242
-#: extensions/webalbums/data/ui/web-album-exporter.ui:211
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1056
-msgid "%D{ format }"
-msgstr "%D{ formato }"
-
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:217
-#: extensions/image_print/data/ui/print-layout.ui:272
-#: extensions/webalbums/data/ui/web-album-exporter.ui:227
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1072
-msgid "The current date"
-msgstr "A data atual"
-
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:354
-#: extensions/contact_sheet/data/ui/image-wall.ui:85
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:261
+#: extensions/contact_sheet/data/ui/image-wall.ui:82
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
-#: extensions/webalbums/data/ui/web-album-exporter.ui:361
+#: extensions/webalbums/data/ui/web-album-exporter.ui:268
 msgid "_Destination:"
 msgstr "_Destino:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:370
-#: extensions/contact_sheet/data/ui/image-wall.ui:100
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:277
+#: extensions/contact_sheet/data/ui/image-wall.ui:97
 #: extensions/convert_format/data/ui/convert-format.ui:128
 #: extensions/resize_images/data/ui/resize-images.ui:273
-#: extensions/webalbums/data/ui/web-album-exporter.ui:378
+#: extensions/webalbums/data/ui/web-album-exporter.ui:285
 msgid "Choose destination folder"
 msgstr "Escolher pasta de destino"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:382
-#: extensions/contact_sheet/data/ui/image-wall.ui:112
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:289
+#: extensions/contact_sheet/data/ui/image-wall.ui:109
 msgid "File_name:"
 msgstr "_Nome do arquivo:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:469
-#: extensions/contact_sheet/data/ui/image-wall.ui:199
-#: extensions/rename_series/data/ui/rename-series.ui:288
-msgid "New enumerator digit"
-msgstr "Novo dígito enumerador"
-
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:533
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:391
 msgid "Create _HTML image map"
 msgstr "Criar _mapa de imagens em HTML"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:639
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:497
 msgid "Create a new theme"
 msgstr "Criar um novo tema"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:660
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:518
 msgid "Edit the selected theme"
 msgstr "Editar o tema selecionado"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:681
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:539
 msgid "Delete the selected theme"
 msgstr "Exclui o tema selecionado"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:712
-#: extensions/webalbums/data/ui/web-album-exporter.ui:551
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:570
+#: extensions/webalbums/data/ui/web-album-exporter.ui:450
 msgid "Theme"
 msgstr "Tema"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:740
-#: extensions/contact_sheet/data/ui/image-wall.ui:310
-#: extensions/image_print/data/ui/print-layout.ui:463
-#: extensions/webalbums/data/ui/web-album-exporter.ui:673
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:598
+#: extensions/contact_sheet/data/ui/image-wall.ui:257
+#: extensions/image_print/data/ui/print-layout.ui:598
+#: extensions/webalbums/data/ui/web-album-exporter.ui:572
 msgid "Columns:"
 msgstr "Colunas:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:762
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:792
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:620
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:650
 msgid "0"
 msgstr "0"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:814
-#: extensions/contact_sheet/data/ui/image-wall.ui:380
-#: extensions/webalbums/data/ui/web-album-exporter.ui:776
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:672
+#: extensions/contact_sheet/data/ui/image-wall.ui:327
+#: extensions/webalbums/data/ui/web-album-exporter.ui:675
 msgid "Images per page:"
 msgstr "Imagens por página:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:826
-#: extensions/contact_sheet/data/ui/image-wall.ui:392
-#: extensions/webalbums/data/ui/web-album-exporter.ui:751
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:684
+#: extensions/contact_sheet/data/ui/image-wall.ui:339
+#: extensions/webalbums/data/ui/web-album-exporter.ui:650
 msgid "All images on a single page"
 msgstr "Todas as imagens em uma única página"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:842
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:700
 msgid "_All pages with the same size"
 msgstr "_Todas as páginas com o mesmo tamanho"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:875
-#: extensions/contact_sheet/data/ui/image-wall.ui:414
-#: extensions/image_print/data/ui/print-layout.ui:387
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:733
+#: extensions/contact_sheet/data/ui/image-wall.ui:361
+#: extensions/image_print/data/ui/print-layout.ui:522
 msgid "Layout"
 msgstr "Disposição"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:900
-#: extensions/contact_sheet/data/ui/image-wall.ui:458
-#: extensions/webalbums/data/ui/web-album-exporter.ui:608
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:758
+#: extensions/contact_sheet/data/ui/image-wall.ui:405
+#: extensions/webalbums/data/ui/web-album-exporter.ui:507
 msgid "S_ort:"
 msgstr "_Ordenar:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:935
-#: extensions/contact_sheet/data/ui/image-wall.ui:492
-#: extensions/webalbums/data/ui/web-album-exporter.ui:645
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:793
+#: extensions/contact_sheet/data/ui/image-wall.ui:439
+#: extensions/webalbums/data/ui/web-album-exporter.ui:544
 msgid "Re_verse order"
 msgstr "In_verter ordem"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:961
-#: extensions/contact_sheet/data/ui/image-wall.ui:518
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:819
+#: extensions/contact_sheet/data/ui/image-wall.ui:465
 msgid "_Size:"
 msgstr "Ta_manho:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:999
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:857
 msgid "Sq_uared"
 msgstr "_Quadrado"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:1078
-#: extensions/contact_sheet/data/ui/image-wall.ui:577
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:936
+#: extensions/contact_sheet/data/ui/image-wall.ui:524
 msgid "Thumbnails"
 msgstr "Miniaturas"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:491
-#: extensions/contact_sheet/dlg-contact-sheet.c:502
-#: extensions/contact_sheet/dlg-contact-sheet.c:516
+#: extensions/contact_sheet/dlg-contact-sheet.c:35
+#: extensions/contact_sheet/dlg-image-wall.c:34
+#: extensions/rename_series/dlg-rename-series.c:53
+msgid "Enumerator"
+msgstr "Enumerador"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:36
+#: extensions/contact_sheet/dlg-contact-sheet.c:42
+#: extensions/contact_sheet/dlg-image-wall.c:35
+#: extensions/edit_metadata/gth-edit-general-page.c:556
+#: extensions/image_print/gth-image-print-job.c:39
+#: extensions/importer/gth-import-preferences-dialog.c:46
+#: extensions/list_tools/gth-script-editor-dialog.c:41
+#: extensions/webalbums/dlg-web-exporter.c:38
+#: extensions/webalbums/dlg-web-exporter.c:47
+msgid "Current date"
+msgstr "Data atual"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:40
+#: extensions/image_print/gth-image-print-job.c:37
+#: extensions/webalbums/dlg-web-exporter.c:35
+#| msgid "The current page number"
+msgid "Current page number"
+msgstr "Número da página atual"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:41
+#: extensions/image_print/gth-image-print-job.c:38
+#: extensions/webalbums/dlg-web-exporter.c:36
+#| msgid "The total number of pages"
+msgid "Total number of pages"
+msgstr "Número total de páginas"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:43
+#: extensions/webalbums/dlg-web-exporter.c:37 gthumb/gth-location-chooser.c:274
+#: gthumb/gth-main-default-metadata.c:46
+msgid "Location"
+msgstr "Local"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:506
+#: extensions/contact_sheet/dlg-contact-sheet.c:517
+#: extensions/contact_sheet/dlg-contact-sheet.c:531
 msgid "Could not save the theme"
 msgstr "Não foi possível salvar o tema"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:661
+#: extensions/contact_sheet/dlg-contact-sheet.c:676
 msgid "Could not delete the theme"
 msgstr "Não foi possível excluir o tema"
 
-#: extensions/contact_sheet/dlg-image-wall.c:243
+#: extensions/contact_sheet/dlg-contact-sheet.c:762
+#: extensions/contact_sheet/dlg-contact-sheet.c:787
+#: extensions/contact_sheet/dlg-contact-sheet.c:812
+#: extensions/contact_sheet/dlg-image-wall.c:209
+#: extensions/image_print/gth-image-print-job.c:1278
+#: extensions/image_print/gth-image-print-job.c:1303
+#: extensions/importer/gth-import-preferences-dialog.c:325
+#: extensions/rename_series/dlg-rename-series.c:709
+#: extensions/webalbums/dlg-web-exporter.c:323
+#: extensions/webalbums/dlg-web-exporter.c:364
+#: gthumb/gth-template-selector.c:357
+msgid "Edit Template"
+msgstr "Editar modelo"
+
+#: extensions/contact_sheet/dlg-image-wall.c:248
 msgid "Image Wall"
 msgstr "Parede de imagens"
 
-#: extensions/contact_sheet/gth-contact-sheet-creator.c:291
+#: extensions/contact_sheet/gth-contact-sheet-creator.c:304
 msgid "Creating images"
 msgstr "Carregando imagens"
 
-#: extensions/contact_sheet/gth-contact-sheet-creator.c:936
+#: extensions/contact_sheet/gth-contact-sheet-creator.c:969
 msgid "Generating thumbnails"
 msgstr "Gerando miniaturas"
 
@@ -1622,11 +1673,6 @@ msgstr "Sem data"
 msgid "The following date"
 msgstr "A data a seguir"
 
-#: extensions/edit_metadata/gth-edit-general-page.c:556
-#: extensions/importer/gth-import-preferences-dialog.c:325
-msgid "Current date"
-msgstr "Data atual"
-
 #: extensions/edit_metadata/gth-edit-general-page.c:558
 msgid "Last modified date"
 msgstr "Data da última modificação"
@@ -1710,11 +1756,11 @@ msgid "State/Province:"
 msgstr "Estado/Província:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2091 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2091 gthumb/str-utils.c:641
 msgid "(invalid value)"
 msgstr "(valor inválido)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:709
+#: extensions/exiv2_tools/exiv2-utils.cpp:711
 msgid "Exposure"
 msgstr "Exposição"
 
@@ -1791,7 +1837,7 @@ msgstr "Digite o nome da pasta:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:989
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5650 gthumb/gth-browser.c:5693
+#: gthumb/gth-browser.c:5745 gthumb/gth-browser.c:5788
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Não foi possível executar a operação"
@@ -1816,6 +1862,10 @@ msgstr ""
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
+#: extensions/file_tools/data/ui/color-picker-options.ui:232
+#: extensions/file_tools/data/ui/color-picker-options.ui:233
+#: extensions/file_tools/data/ui/color-picker-options.ui:246
+#: extensions/file_tools/data/ui/color-picker-options.ui:247
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:418 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Copia"
@@ -1894,7 +1944,7 @@ msgstr "Exclui permanentemente"
 msgid "Open with Gimp"
 msgstr "Abre com Gimp"
 
-#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:226
+#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:295
 msgid "Home Folder"
 msgstr "Pasta pessoal"
 
@@ -2102,7 +2152,7 @@ msgid "High _quality"
 msgstr "_Alta qualidade"
 
 #: extensions/file_tools/data/ui/resize-options.ui:105
-#: extensions/image_print/data/ui/print-layout.ui:1122
+#: extensions/image_print/data/ui/print-layout.ui:126
 msgid "pixels"
 msgstr "pixeis"
 
@@ -2337,11 +2387,11 @@ msgstr "Ajustar contraste"
 msgid "Automatic contrast adjustment"
 msgstr "Ajuste automático de contraste"
 
-#: extensions/file_tools/gth-file-tool-color-picker.c:246
+#: extensions/file_tools/gth-file-tool-color-picker.c:288
 msgid "Color Picker"
 msgstr "Seletor de cor"
 
-#: extensions/file_tools/gth-file-tool-color-picker.c:249
+#: extensions/file_tools/gth-file-tool-color-picker.c:291
 msgid "Pick a color from the image"
 msgstr "Selecione uma cor a partir da imagem"
 
@@ -2411,14 +2461,11 @@ msgstr "1.85∶1"
 msgid "2.39∶1"
 msgstr "2.39∶1"
 
-#. Translators: this is an option for the format -> Format: Custom
 #: extensions/file_tools/gth-file-tool-crop.c:455
 #: extensions/file_tools/gth-file-tool-resize.c:607
-#: extensions/image_print/data/ui/print-layout.ui:17
-#: extensions/rename_series/gth-template-selector.c:248
-#: gthumb/gth-test-aspect-ratio.c:193
-msgid "Custom"
-msgstr "Personalizado"
+#: gthumb/gth-location-chooser.c:617 gthumb/gth-template-selector.c:434
+msgid "Other…"
+msgstr "Outros…"
 
 #: extensions/file_tools/gth-file-tool-crop.c:470
 #: extensions/file_tools/gth-file-tool-rotate.c:397
@@ -2446,7 +2493,7 @@ msgstr "Digite o nome da predefinição:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1867
+#: gthumb/gth-browser.c:1969
 msgid "Could not save the file"
 msgstr "Não foi possível salvar o arquivo"
 
@@ -2810,7 +2857,7 @@ msgid "Hi_de from public searches"
 msgstr "Escon_der das pesquisas públicas"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/webalbums/data/ui/web-album-exporter.ui:422
+#: extensions/webalbums/data/ui/web-album-exporter.ui:329
 msgid "_Resize if larger than:"
 msgstr "_Redimensionar se for maior que:"
 
@@ -2821,7 +2868,7 @@ msgstr "_Conta:"
 
 #: extensions/flicker_utils/dlg-export-to-flickr.c:136
 #: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: extensions/flicker_utils/dlg-import-from-flickr.c:219
 #: extensions/oauth/web-service.c:377
 msgid "Could not connect to the server"
 msgstr "Não foi possível conectar ao servidor"
@@ -2831,7 +2878,7 @@ msgid "Files successfully uploaded to the server."
 msgstr "Arquivos enviados com sucesso para o servidor."
 
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
-#: extensions/webalbums/gth-web-exporter.c:1826
+#: extensions/webalbums/gth-web-exporter.c:1819
 msgid "_Open in the Browser"
 msgstr "Abrir atalho n_o navegador"
 
@@ -2845,7 +2892,7 @@ msgid "Could not upload the files"
 msgstr "Não foi possível enviar os arquivos"
 
 #: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1740
+#: extensions/image_print/gth-image-print-job.c:1782
 msgid "No valid file selected."
 msgstr "Nenhum arquivo válido selecionado."
 
@@ -2858,7 +2905,7 @@ msgstr "Não foi possível exportar os arquivos"
 msgid "Export to %s"
 msgstr "Exportar para %s"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:320
+#: extensions/flicker_utils/dlg-import-from-flickr.c:312
 #: gthumb/gth-file-selection-info.c:143
 #, c-format
 msgid "%d file"
@@ -2866,21 +2913,21 @@ msgid_plural "%d files"
 msgstr[0] "%d arquivo"
 msgstr[1] "%d arquivos"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:345
+#: extensions/flicker_utils/dlg-import-from-flickr.c:337
 msgid "Could not get the photo list"
 msgstr "Não foi possível obter a lista de fotos"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:382
-#: extensions/flicker_utils/dlg-import-from-flickr.c:561
+#: extensions/flicker_utils/dlg-import-from-flickr.c:374
+#: extensions/flicker_utils/dlg-import-from-flickr.c:553
 msgid "No album selected"
 msgstr "Nenhum álbum selecionado"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:521
-#: extensions/photo_importer/dlg-photo-importer.c:584
+#: extensions/flicker_utils/dlg-import-from-flickr.c:513
+#: extensions/photo_importer/dlg-photo-importer.c:575
 msgid "_Import"
 msgstr "_Importar"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:579
+#: extensions/flicker_utils/dlg-import-from-flickr.c:571
 #, c-format
 msgid "Import from %s"
 msgstr "Importar do %s"
@@ -3150,11 +3197,11 @@ msgstr "Reproduzindo vídeo"
 msgid "Pause"
 msgstr "Pausar"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1115
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1127
 msgid "Take a screenshot"
 msgstr "Obtém uma captura de tela"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1122
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1134
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
@@ -3177,7 +3224,7 @@ msgid "Artist"
 msgstr "Artista"
 
 #: extensions/gstreamer_tools/main.c:48
-#: extensions/webalbums/data/ui/web-album-exporter.ui:320
+#: extensions/webalbums/data/ui/web-album-exporter.ui:227
 msgid "Album"
 msgstr "Álbum"
 
@@ -3198,12 +3245,12 @@ msgid "Framerate"
 msgstr "Taxa de quadros"
 
 #: extensions/gstreamer_tools/main.c:54
-#: extensions/image_print/data/ui/print-layout.ui:723
+#: extensions/image_print/data/ui/print-layout.ui:859
 msgid "Width"
 msgstr "Largura"
 
 #: extensions/gstreamer_tools/main.c:55
-#: extensions/image_print/data/ui/print-layout.ui:739
+#: extensions/image_print/data/ui/print-layout.ui:875
 msgid "Height"
 msgstr "Altura"
 
@@ -3228,7 +3275,7 @@ msgstr "Mono"
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
 #: extensions/image_viewer/gth-metadata-provider-image.c:299
 #: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
+#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:963
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3243,58 +3290,82 @@ msgstr "Não foi possível imprimir os arquivos selecionados"
 msgid "Print"
 msgstr "Imprime"
 
-#: extensions/image_print/data/ui/print-layout.ui:13
+#: extensions/image_print/data/ui/print-layout.ui:14
 msgid "Centered"
 msgstr "Centralizada"
 
-#: extensions/image_print/data/ui/print-layout.ui:322
-msgid "The total number of files"
-msgstr "O número total de arquivos"
+#: extensions/image_print/data/ui/print-layout.ui:18
+msgid "Custom"
+msgstr "Personalizado"
 
-#: extensions/image_print/data/ui/print-layout.ui:340
-#: extensions/importer/data/ui/import-preferences.ui:258
-msgid "The event description"
-msgstr "A descrição do evento"
-
-#: extensions/image_print/data/ui/print-layout.ui:478
-msgid "_Rows:"
-msgstr "_Linhas:"
-
-#: extensions/image_print/data/ui/print-layout.ui:588
-msgid "Image"
-msgstr "Imagem"
-
-#: extensions/image_print/data/ui/print-layout.ui:630
-msgid "Position:"
-msgstr "Posição:"
-
-#: extensions/image_print/data/ui/print-layout.ui:646
-msgid "Left"
-msgstr "Esquerda"
-
-#: extensions/image_print/data/ui/print-layout.ui:662
-msgid "Top"
-msgstr "Topo"
-
-#: extensions/image_print/data/ui/print-layout.ui:811
-msgid "Rotation:"
-msgstr "Rotação:"
-
-#: extensions/image_print/data/ui/print-layout.ui:870
-msgid "Unit:"
-msgstr "Unidade:"
-
-#: extensions/image_print/data/ui/print-layout.ui:924
-msgid "Preview"
-msgstr "Visualização"
-
-#: extensions/image_print/data/ui/print-layout.ui:1125
+#: extensions/image_print/data/ui/print-layout.ui:129
 msgid "millimeters"
 msgstr "milímetros"
 
-#: extensions/image_print/data/ui/print-layout.ui:1128
+#: extensions/image_print/data/ui/print-layout.ui:132
 msgid "inches"
 msgstr "polegadas"
+
+#: extensions/image_print/data/ui/print-layout.ui:234
+msgid "The current page number"
+msgstr "O número atual de páginas"
+
+#: extensions/image_print/data/ui/print-layout.ui:252
+msgid "The total number of pages"
+msgstr "O número total de páginas"
+
+#: extensions/image_print/data/ui/print-layout.ui:270
+msgid "Special code"
+msgstr "Código especial"
+
+#. translate only the text in the curly brackets
+#: extensions/image_print/data/ui/print-layout.ui:302
+msgid "%D{ format }"
+msgstr "%D{ formato }"
+
+#: extensions/image_print/data/ui/print-layout.ui:318
+msgid "The current date"
+msgstr "A data atual"
+
+#: extensions/image_print/data/ui/print-layout.ui:368
+msgid "The total number of files"
+msgstr "O número total de arquivos"
+
+#: extensions/image_print/data/ui/print-layout.ui:386
+msgid "The event description"
+msgstr "A descrição do evento"
+
+#: extensions/image_print/data/ui/print-layout.ui:613
+msgid "_Rows:"
+msgstr "_Linhas:"
+
+#: extensions/image_print/data/ui/print-layout.ui:723
+msgid "Image"
+msgstr "Imagem"
+
+#: extensions/image_print/data/ui/print-layout.ui:765
+msgid "Position:"
+msgstr "Posição:"
+
+#: extensions/image_print/data/ui/print-layout.ui:782
+msgid "Left"
+msgstr "Esquerda"
+
+#: extensions/image_print/data/ui/print-layout.ui:798
+msgid "Top"
+msgstr "Topo"
+
+#: extensions/image_print/data/ui/print-layout.ui:946
+msgid "Rotation:"
+msgstr "Rotação:"
+
+#: extensions/image_print/data/ui/print-layout.ui:1005
+msgid "Unit:"
+msgstr "Unidade:"
+
+#: extensions/image_print/data/ui/print-layout.ui:1059
+msgid "Preview"
+msgstr "Visualização"
 
 #: extensions/image_print/data/ui/print-preferences.ui:14
 msgid "Fonts"
@@ -3312,25 +3383,36 @@ msgstr "Selecionar fonte dos cabeçalhos"
 msgid "Select Footer Font"
 msgstr "Selecionar fontes dos rodapés"
 
-#: extensions/image_print/gth-image-print-job.c:915
+#: extensions/image_print/gth-image-print-job.c:40
+#| msgid "The total number of files"
+msgid "Total number of files"
+msgstr "Número total de arquivos"
+
+#: extensions/image_print/gth-image-print-job.c:41
+#: extensions/importer/gth-import-preferences-dialog.c:47
+#| msgid "The event description"
+msgid "Event description"
+msgstr "Descrição do evento"
+
+#: extensions/image_print/gth-image-print-job.c:924
 #: extensions/webalbums/data/albumthemes/text.h:31
 #, c-format
 msgid "Page %d of %d"
 msgstr "Página %d de %d"
 
-#: extensions/image_print/gth-image-print-job.c:1681
-#: extensions/image_print/gth-image-print-job.c:1846
-#: extensions/image_print/gth-image-print-job.c:1889
+#: extensions/image_print/gth-image-print-job.c:1723
+#: extensions/image_print/gth-image-print-job.c:1888
+#: extensions/image_print/gth-image-print-job.c:1931
 msgid "Could not print"
 msgstr "Não foi possível imprimir"
 
-#: extensions/image_print/gth-image-print-job.c:1747
+#: extensions/image_print/gth-image-print-job.c:1789
 msgid "Images"
 msgstr "Imagens"
 
 # carregador é o mais apropriado?
-#: extensions/image_print/gth-image-print-job.c:1848
-#: gthumb/gth-image-loader.c:251 gthumb/gth-image-loader.c:375
+#: extensions/image_print/gth-image-print-job.c:1890
+#: gthumb/gth-image-loader.c:258 gthumb/gth-image-loader.c:382
 #: gthumb/gth-image-utils.c:117 gthumb/gth-image-utils.c:123
 msgid "No suitable loader available for this file type"
 msgstr "Nenhum carregador adequado para esse tipo de arquivo"
@@ -3342,7 +3424,7 @@ msgid "Loading “%s”"
 msgstr "Carregando “%s”"
 
 #: extensions/image_print/gth-load-image-info-task.c:170
-#: extensions/webalbums/gth-web-exporter.c:2714
+#: extensions/webalbums/gth-web-exporter.c:2707
 msgid "Loading images"
 msgstr "Carregando imagens"
 
@@ -3368,8 +3450,8 @@ msgstr "Restaurar a orientação EXIF"
 
 #: extensions/image_rotation/gth-reset-orientation-task.c:114
 #: extensions/image_rotation/gth-transform-task.c:146
-#: extensions/webalbums/gth-web-exporter.c:2326
-#: extensions/webalbums/gth-web-exporter.c:2411
+#: extensions/webalbums/gth-web-exporter.c:2319
+#: extensions/webalbums/gth-web-exporter.c:2404
 msgid "Saving images"
 msgstr "Salvando imagens"
 
@@ -3663,107 +3745,60 @@ msgstr "Editor de imagem"
 msgid "Viewer"
 msgstr "Visualizador"
 
-#: extensions/importer/data/ui/import-preferences.ui:63
+#: extensions/importer/data/ui/import-preferences.ui:21
 msgid "_Destination"
 msgstr "_Destino"
 
-#: extensions/importer/data/ui/import-preferences.ui:95
+#: extensions/importer/data/ui/import-preferences.ui:59
 msgid "_Automatic subfolder"
 msgstr "Subpasta _automática"
 
-#: extensions/importer/data/ui/import-preferences.ui:160
-msgid "as _single subfolder"
-msgstr "como subpasta _singular"
+#: extensions/importer/data/ui/import-preferences.ui:89
+#: extensions/rename_series/data/ui/rename-series.ui:156
+msgid "_Template:"
+msgstr "Mo_delo:"
 
-#: extensions/importer/data/ui/import-preferences.ui:393
-msgid "The year"
-msgstr "O ano"
-
-#: extensions/importer/data/ui/import-preferences.ui:410
-msgid "The month"
-msgstr "O mês"
-
-#: extensions/importer/data/ui/import-preferences.ui:427
-msgid "The day of the month"
-msgstr "O dia do mês"
-
-#: extensions/importer/data/ui/import-preferences.ui:444
-msgid "The hour"
-msgstr "A hora"
-
-#: extensions/importer/data/ui/import-preferences.ui:461
-msgid "The minutes"
-msgstr "Os minutos"
-
-#: extensions/importer/data/ui/import-preferences.ui:478
-msgid "The seconds"
-msgstr "Os segundos"
-
-#: extensions/importer/gth-import-destination-button.c:115
+#: extensions/importer/gth-import-destination-button.c:113
 msgid "Invalid Destination"
 msgstr "Destino inválido"
 
-#: extensions/importer/gth-import-preferences-dialog.c:199
-#, c-format
-msgid "example: %s"
-msgstr "exemplo: %s"
-
-#. subfolder type
-#: extensions/importer/gth-import-preferences-dialog.c:324
+#: extensions/importer/gth-import-preferences-dialog.c:45
 msgid "File date"
 msgstr "Data do arquivo"
 
-#. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
-#. subfolder format
-#: extensions/importer/gth-import-preferences-dialog.c:334
-msgid "year-month-day"
-msgstr "ano-mês-dia"
-
-#: extensions/importer/gth-import-preferences-dialog.c:335
-msgid "year-month"
-msgstr "ano-mês"
-
-#: extensions/importer/gth-import-preferences-dialog.c:336
-msgid "year"
-msgstr "ano"
-
-#: extensions/importer/gth-import-preferences-dialog.c:337
-msgid "custom format"
-msgstr "formato personalizado"
-
-#: extensions/importer/gth-import-task.c:431
-#: extensions/importer/gth-import-task.c:466
-#: extensions/importer/gth-import-task.c:678
+#: extensions/importer/gth-import-task.c:425
+#: extensions/importer/gth-import-task.c:460
+#: extensions/importer/gth-import-task.c:669
 msgid "Importing files"
 msgstr "Importando arquivos"
 
-#: extensions/importer/gth-import-task.c:627
+#: extensions/importer/gth-import-task.c:618
 msgid "No file imported"
 msgstr "Nenhum arquivo importado"
 
-#: extensions/importer/gth-import-task.c:628
+#: extensions/importer/gth-import-task.c:619
 msgid "The selected files are already present in the destination."
 msgstr "Os arquivos selecionados já se encontram no destino."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:692
+#: extensions/importer/gth-import-task.c:642 gthumb/gth-file-source-vfs.c:776
 msgid "Could not delete the files"
 msgstr "Não foi possível excluir os arquivos"
 
-#: extensions/importer/gth-import-task.c:652
+#: extensions/importer/gth-import-task.c:643
 msgid "Delete operation not supported."
 msgstr "Não há suporte à operação de exclusão."
 
-#: extensions/importer/gth-import-task.c:739
+#: extensions/importer/gth-import-task.c:730
 msgid "Last imported"
 msgstr "Última importação"
 
-#: extensions/importer/gth-import-task.c:843
+#: extensions/importer/gth-import-task.c:825
 msgid "No file specified."
 msgstr "Nenhum arquivo especificado."
 
 # "300MB is available" is wrong, as it should be in plural.
 #. Translators: For example: Not enough free space in “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is available.
-#: extensions/importer/gth-import-task.c:880
+#: extensions/importer/gth-import-task.c:862
 #, c-format
 msgid ""
 "Not enough free space in “%s”.\n"
@@ -3797,79 +3832,17 @@ msgstr "Comando de _terminal (shell script)"
 msgid "Sh_ortcut:"
 msgstr "Atalh_o:"
 
-#: extensions/list_tools/data/ui/script-editor.ui:232
-msgid "The file uri"
-msgstr "A uri do arquivo"
-
-#: extensions/list_tools/data/ui/script-editor.ui:250
-msgid "The file path"
-msgstr "O caminho do arquivo"
-
-#: extensions/list_tools/data/ui/script-editor.ui:268
-msgid "The file basename"
-msgstr "O nome base do arquivo"
-
-#: extensions/list_tools/data/ui/script-editor.ui:286
-msgid "The parent folder path"
-msgstr "O caminho da pasta pai"
-
-#. Translate only 'message' and 'default_value'.
-#: extensions/list_tools/data/ui/script-editor.ui:336
-#, c-format
-msgid "%ask{ message }{ default value }"
-msgstr "%ask{ mensagem }{ valor padrão }"
-
-#: extensions/list_tools/data/ui/script-editor.ui:352
-msgid "Ask an input value"
-msgstr "Solicita um valor da entrada"
-
-#. Translate only 'attribute name'
-#: extensions/list_tools/data/ui/script-editor.ui:370
-#, c-format
-msgid "%attr{ attribute name }"
-msgstr "%attr{ nome do atributo }"
-
-#: extensions/list_tools/data/ui/script-editor.ui:386
-#: extensions/rename_series/data/ui/rename-series.ui:379
-msgid "A file attribute"
-msgstr "Um atributo do arquivo"
-
-#: extensions/list_tools/data/ui/script-editor.ui:404
-msgid "%N"
-msgstr "%N"
-
-#: extensions/list_tools/data/ui/script-editor.ui:420
-msgid "The file basename without extension"
-msgstr "O nome base do arquivo sem a extensão"
-
-#: extensions/list_tools/data/ui/script-editor.ui:438
-#, c-format
-msgid "%E"
-msgstr "%E"
-
-#: extensions/list_tools/data/ui/script-editor.ui:454
-msgid "The file extension"
-msgstr "A extensão do arquivo"
-
-#. Translate only 'text'.
-#: extensions/list_tools/data/ui/script-editor.ui:472
-#, c-format
-msgid "%quote{ text }"
-msgstr "%quote{ texto }"
-
-#: extensions/list_tools/data/ui/script-editor.ui:488
-msgid "Quote the text "
-msgstr "Cita o texto "
-
-#: extensions/list_tools/data/ui/script-editor.ui:522
-msgid "The current date and time"
-msgstr "A data e o horário atual"
-
-#: extensions/list_tools/data/ui/script-editor.ui:568
+#: extensions/list_tools/data/ui/script-editor.ui:137
 msgid "_Command:"
 msgstr "Co_mando:"
 
+#: extensions/list_tools/data/ui/script-editor.ui:172
+#| msgid "Edit Command"
+msgid "Edit command"
+msgstr "Edita o comando"
+
 #: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:314
+#: gthumb/gth-test-aspect-ratio.c:193
 msgid "Personalize…"
 msgstr "Personalizar…"
 
@@ -3896,6 +3869,7 @@ msgid "New Command"
 msgstr "Novo comando"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:476
+#: extensions/list_tools/gth-script-editor-dialog.c:128
 msgid "Edit Command"
 msgstr "Editar comando"
 
@@ -3907,7 +3881,52 @@ msgstr "Você tem certeza que quer excluir o comando selecionado?"
 msgid "Commands"
 msgstr "Comandos"
 
-#: extensions/list_tools/gth-script-editor-dialog.c:280
+#: extensions/list_tools/gth-script-editor-dialog.c:34
+#| msgid "Quote the text "
+msgid "Quoted text"
+msgstr "Texto entre aspas"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:35
+#| msgid "File"
+msgid "File URI"
+msgstr "URI do arquivo"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:36
+#| msgid "file path"
+msgid "File path"
+msgstr "Caminho do arquivo"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:37
+#| msgid "Filename"
+msgid "File name"
+msgstr "Nome do arquivo"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:38
+#| msgid "The file basename without extension"
+msgid "File name, no extension"
+msgstr "Nome do arquivo, sem extensão"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:39
+#| msgid "The file extension"
+msgid "File extension"
+msgstr "Extensão do arquivo"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:40
+#| msgid "file path"
+msgid "Folder path"
+msgstr "Caminho da pasta"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:42
+#| msgid "Ask an input value"
+msgid "Ask a value"
+msgstr "Solicitar um valor"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:43
+#: extensions/rename_series/dlg-rename-series.c:59
+msgid "File attribute"
+msgstr "Atributo do arquivo"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:301
 #, c-format
 msgid "No command specified"
 msgstr "Nenhum comando especificado"
@@ -3917,18 +3936,11 @@ msgstr "Nenhum comando especificado"
 msgid "Command exited abnormally with status %d"
 msgstr "Comando sai anormalmente com o status %d"
 
-#: extensions/list_tools/gth-script.c:506
+#: extensions/list_tools/gth-script.c:522
 msgid "Enter a value:"
 msgstr "Digite um valor:"
 
-#: extensions/list_tools/gth-script.c:760
-#: extensions/webalbums/gth-web-exporter.c:561
-#: extensions/webalbums/gth-web-exporter.c:573
-#: extensions/webalbums/gth-web-exporter.c:581
-msgid "Malformed command"
-msgstr "Comando mal formado"
-
-#: extensions/list_tools/gth-script.c:1069
+#: extensions/list_tools/gth-script.c:984
 msgid "_Skip"
 msgstr "_Pular"
 
@@ -3978,8 +3990,9 @@ msgstr "Veja a posição da foto no mapa"
 msgid "A_ccounts:"
 msgstr "_Contas:"
 
+#. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:575 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "Carregando…"
 
@@ -4016,7 +4029,7 @@ msgid "Getting account information"
 msgstr "Obtendo informações da conta"
 
 #: extensions/photo_importer/actions.c:71
-#: extensions/photo_importer/dlg-photo-importer.c:628
+#: extensions/photo_importer/dlg-photo-importer.c:619
 msgid "Choose a folder"
 msgstr "Escolha uma pasta"
 
@@ -4063,39 +4076,29 @@ msgstr "_Evento:"
 msgid "_Tags:"
 msgstr "Etique_tas:"
 
-#: extensions/photo_importer/dlg-photo-importer.c:227
+#: extensions/photo_importer/dlg-photo-importer.c:218
 msgid "Could not import the files"
 msgstr "Não foi possível importar os arquivos"
 
 #. translators: %d is the number of files, %s the total size
-#: extensions/photo_importer/dlg-photo-importer.c:291
+#: extensions/photo_importer/dlg-photo-importer.c:282
 #, c-format
 msgid "Files to import: %d (%s)"
 msgstr "Arquivos para importar: %d (%s)"
 
-#: extensions/photo_importer/dlg-photo-importer.c:331
+#: extensions/photo_importer/dlg-photo-importer.c:322
 msgid "Could not load the folder"
 msgstr "Não foi possível remover a pasta"
 
-#: extensions/photo_importer/dlg-photo-importer.c:356
-#: extensions/photo_importer/dlg-photo-importer.c:396 gthumb/gth-file-list.c:42
-#: gthumb/gth-folder-tree.c:1186
-msgid "(Empty)"
-msgstr "(Vazio)"
-
-#: extensions/photo_importer/dlg-photo-importer.c:361
+#: extensions/photo_importer/dlg-photo-importer.c:352
 msgid "Getting the folder content…"
 msgstr "Obtendo o conteúdo da pasta…"
 
-#: extensions/photo_importer/dlg-photo-importer.c:407
-msgid "Empty"
-msgstr "Vazio"
-
-#: extensions/photo_importer/dlg-photo-importer.c:594
+#: extensions/photo_importer/dlg-photo-importer.c:585
 msgid "Import from Removable Device"
 msgstr "Importar de dispositivo removível"
 
-#: extensions/photo_importer/dlg-photo-importer.c:626
+#: extensions/photo_importer/dlg-photo-importer.c:617
 msgid "Import from Folder"
 msgstr "Importar de pasta"
 
@@ -4139,22 +4142,6 @@ msgstr "Remoção de olho vermelho"
 msgid "Tool to remove the red-eye effect from a photo."
 msgstr "Ferramenta para remover o efeito de olho vermelho de uma foto."
 
-#: extensions/rename_series/data/ui/code-selector.ui:105
-msgid "digits"
-msgstr "dígitos"
-
-#: extensions/rename_series/data/ui/code-selector.ui:159
-msgid "format:"
-msgstr "formato:"
-
-#: extensions/rename_series/data/ui/code-selector.ui:256
-msgid "remove"
-msgstr "remover"
-
-#: extensions/rename_series/data/ui/code-selector.ui:276
-msgid "add"
-msgstr "adicionar"
-
 #: extensions/rename_series/data/ui/rename-series.ui:42
 msgid "_Sort by:"
 msgstr "_Ordenar por:"
@@ -4164,131 +4151,67 @@ msgstr "_Ordenar por:"
 msgid "Cas_e:"
 msgstr "_Maiúsculo/Minúsculo:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:84
-#: gthumb/gth-browser-actions-entries.h:95
-msgid "Help"
-msgstr "Ajuda"
-
-#: extensions/rename_series/data/ui/rename-series.ui:98
-msgid "Edit template"
-msgstr "Edita modelo"
-
-#: extensions/rename_series/data/ui/rename-series.ui:119
-msgid "Revert to the last used template"
-msgstr "Reverter para o último modelo usado"
-
-#. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:227
-msgid "%M{ format }"
-msgstr "%M{ formato }"
-
-#. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:257
-#, c-format
-msgid "%A{ identifier }"
-msgstr "%A{ identificador }"
-
-#: extensions/rename_series/data/ui/rename-series.ui:303
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1106
-msgid "The original filename"
-msgstr "O nome de arquivo original"
-
-#: extensions/rename_series/data/ui/rename-series.ui:318
-msgid "The original extension"
-msgstr "A extensão original"
-
-#: extensions/rename_series/data/ui/rename-series.ui:333
-msgid "The original enumerator"
-msgstr "O enumerador original"
-
-#: extensions/rename_series/data/ui/rename-series.ui:348
-msgid "The modification date"
-msgstr "A data de modificação"
-
-#: extensions/rename_series/data/ui/rename-series.ui:364
-msgid "The digitalization date"
-msgstr "A data de digitalização"
-
-#: extensions/rename_series/data/ui/rename-series.ui:436
-msgid "1"
-msgstr "1"
-
-#: extensions/rename_series/data/ui/rename-series.ui:473
+#: extensions/rename_series/data/ui/rename-series.ui:110
 msgid "Re_verse Order"
 msgstr "In_verter ordem"
 
-#: extensions/rename_series/data/ui/rename-series.ui:520
-msgid "_Template:"
-msgstr "Mo_delo:"
+#: extensions/rename_series/data/ui/rename-series.ui:226
+msgid "Revert to the last used template"
+msgstr "Reverter para o último modelo usado"
 
-#: extensions/rename_series/data/ui/rename-series.ui:573
+#: extensions/rename_series/data/ui/rename-series.ui:265
 msgid "_Preview:"
 msgstr "_Visualização:"
 
-#: extensions/rename_series/dlg-rename-series.c:58
-msgid "Enumerator"
-msgstr "Enumerador"
-
-#: extensions/rename_series/dlg-rename-series.c:59
+#: extensions/rename_series/dlg-rename-series.c:54
+#: extensions/webalbums/dlg-web-exporter.c:45
 msgid "Original filename"
 msgstr "Nome de arquivo original"
 
-#: extensions/rename_series/dlg-rename-series.c:60
+#: extensions/rename_series/dlg-rename-series.c:55
 msgid "Original extension"
 msgstr "Extensão original"
 
-#: extensions/rename_series/dlg-rename-series.c:61
+#: extensions/rename_series/dlg-rename-series.c:56
 msgid "Original enumerator"
 msgstr "Enumerador original"
 
-#: extensions/rename_series/dlg-rename-series.c:62
+#: extensions/rename_series/dlg-rename-series.c:57
 msgid "Modification date"
 msgstr "Data de modificação"
 
-#: extensions/rename_series/dlg-rename-series.c:63
+#: extensions/rename_series/dlg-rename-series.c:58
 msgid "Digitalization date"
 msgstr "Data de digitalização"
 
-#: extensions/rename_series/dlg-rename-series.c:64
-msgid "File attribute"
-msgstr "Atributo do arquivo"
-
-#: extensions/rename_series/dlg-rename-series.c:558
-#: extensions/rename_series/dlg-rename-series.c:685
+#: extensions/rename_series/dlg-rename-series.c:509
+#: extensions/rename_series/dlg-rename-series.c:636
 msgid "Could not rename the files"
 msgstr "Não foi possível renomear os arquivos"
 
-#: extensions/rename_series/dlg-rename-series.c:782
-msgid "Could not save the template"
-msgstr "Não foi possível salvar o modelo"
-
-#: extensions/rename_series/dlg-rename-series.c:800
-msgid "Edit Template"
-msgstr "Editar modelo"
-
-#: extensions/rename_series/dlg-rename-series.c:869
-#: gthumb/gth-folder-tree.c:1974
+#: extensions/rename_series/dlg-rename-series.c:781
+#: gthumb/gth-folder-tree.c:1975
 msgid "_Rename"
 msgstr "_Renomear"
 
-#: extensions/rename_series/dlg-rename-series.c:886
+#: extensions/rename_series/dlg-rename-series.c:798
 msgid "Old Name"
 msgstr "Nome antigo"
 
-#: extensions/rename_series/dlg-rename-series.c:897
+#: extensions/rename_series/dlg-rename-series.c:809
 msgid "New Name"
 msgstr "Novo nome"
 
 # Na interface gráfica está visível estar relacionado com maiúsculo/minúsculo.
-#: extensions/rename_series/dlg-rename-series.c:975
+#: extensions/rename_series/dlg-rename-series.c:887
 msgid "Keep original case"
 msgstr "Manter original"
 
-#: extensions/rename_series/dlg-rename-series.c:976
+#: extensions/rename_series/dlg-rename-series.c:888
 msgid "Convert to lower-case"
 msgstr "Converter letras para minúsculo"
 
-#: extensions/rename_series/dlg-rename-series.c:977
+#: extensions/rename_series/dlg-rename-series.c:889
 msgid "Convert to upper-case"
 msgstr "Converter letras para maiúsculo"
 
@@ -4386,16 +4309,22 @@ msgstr "qualquer uma das regras a seguir"
 msgid "Add another location"
 msgstr "Adiciona outra localização"
 
-#: extensions/search/gth-search-task.c:189
+#: extensions/search/gth-search-task.c:113
+#| msgid "No file imported"
+msgid "No file found"
+msgstr "Nenhum arquivo encontrado"
+
+#: extensions/search/gth-search-task.c:191
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Arquivos encontrados até agora: %s"
 
 #: extensions/search/gth-search-task.c:333
+#: extensions/search/gth-search-task.c:337
 msgid "Searching…"
 msgstr "Pesquisando…"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:344
 msgid "Cancel the operation"
 msgstr "Cancelar a operação"
 
@@ -4648,90 +4577,90 @@ msgstr "Todas as imagens em uma única imagem"
 msgid "Adapts to the window width"
 msgstr "Adapta a largura da janela"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:127
-msgid "%P"
-msgstr "%P"
-
-#: extensions/webalbums/data/ui/web-album-exporter.ui:395
+#: extensions/webalbums/data/ui/web-album-exporter.ui:302
 msgid "_Copy originals to destination"
 msgstr "_Copiar originais para o destino"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:706
+#: extensions/webalbums/data/ui/web-album-exporter.ui:605
 msgid "_Adapt to the window width "
 msgstr "_Adaptar à largura da janela "
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:794
-#: extensions/webalbums/data/ui/web-album-exporter.ui:869
+#: extensions/webalbums/data/ui/web-album-exporter.ui:693
+#: extensions/webalbums/data/ui/web-album-exporter.ui:768
 msgid "Index Page"
 msgstr "Página de índice"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:844
+#: extensions/webalbums/data/ui/web-album-exporter.ui:743
 msgid "Thumbnail Caption"
 msgstr "Legenda da miniatura"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:988
-msgid "The current image number"
-msgstr "O número atual de imagens"
-
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1006
-msgid "The total number of images"
-msgstr "O número total de imagens"
-
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1124
-msgid "The file comment"
-msgstr "O comentário do arquivo"
-
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1207
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1323
+#: extensions/webalbums/data/ui/web-album-exporter.ui:945
+#: extensions/webalbums/data/ui/web-album-exporter.ui:1061
 msgid "Image Page"
 msgstr "Página de imagens"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1241
+#: extensions/webalbums/data/ui/web-album-exporter.ui:979
 msgid "Show the description, if available"
 msgstr "Mostrar a descrição, se disponível"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1267
+#: extensions/webalbums/data/ui/web-album-exporter.ui:1005
 msgid "Show the following attributes:"
 msgstr "Mostrar os seguintes atributos:"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1301
+#: extensions/webalbums/data/ui/web-album-exporter.ui:1039
 msgid "Image Attributes"
 msgstr "Atributos das imagens"
 
-#: extensions/webalbums/dlg-web-exporter.c:379
+#: extensions/webalbums/dlg-web-exporter.c:43
+#| msgid "The current image number"
+msgid "Current image number"
+msgstr "Número da imagem atual"
+
+#: extensions/webalbums/dlg-web-exporter.c:44
+#| msgid "The total number of images"
+msgid "Total number of images"
+msgstr "Número total de imagens"
+
+#: extensions/webalbums/dlg-web-exporter.c:531
 msgid "Web Album"
 msgstr "Álbum web"
 
-#: extensions/webalbums/gth-web-exporter.c:1787
+#: extensions/webalbums/gth-web-exporter.c:563
+#: extensions/webalbums/gth-web-exporter.c:575
+#: extensions/webalbums/gth-web-exporter.c:583
+msgid "Malformed command"
+msgstr "Comando mal formado"
+
+#: extensions/webalbums/gth-web-exporter.c:1780
 msgid "Could not show the destination"
 msgstr "Não foi possível abrir o destino"
 
-#: extensions/webalbums/gth-web-exporter.c:1823
+#: extensions/webalbums/gth-web-exporter.c:1816
 msgid "The album has been created successfully."
 msgstr "O álbum foi criado com sucesso."
 
-#: extensions/webalbums/gth-web-exporter.c:2092
-#: extensions/webalbums/gth-web-exporter.c:2120
+#: extensions/webalbums/gth-web-exporter.c:2085
+#: extensions/webalbums/gth-web-exporter.c:2113
 msgid "Saving thumbnails"
 msgstr "Salvando miniaturas"
 
-#: extensions/webalbums/gth-web-exporter.c:2148
+#: extensions/webalbums/gth-web-exporter.c:2141
 msgid "Saving HTML pages: Images"
 msgstr "Salvando páginas HTML: imagens"
 
-#: extensions/webalbums/gth-web-exporter.c:2206
+#: extensions/webalbums/gth-web-exporter.c:2199
 msgid "Saving HTML pages: Indexes"
 msgstr "Salvando páginas HTML: índices"
 
-#: extensions/webalbums/gth-web-exporter.c:2491
+#: extensions/webalbums/gth-web-exporter.c:2484
 msgid "Copying original images"
 msgstr "Copiando imagens originais"
 
-#: extensions/webalbums/gth-web-exporter.c:2958
+#: extensions/webalbums/gth-web-exporter.c:2955
 msgid "Could not find the style folder"
 msgstr "Não foi possível localizar a pasta de estilos"
 
-#: extensions/webalbums/gth-web-exporter.c:2996
+#: extensions/webalbums/gth-web-exporter.c:2993
 msgid "Could not create a temporary folder"
 msgstr "Não foi possível criar uma pasta temporária"
 
@@ -4744,8 +4673,8 @@ msgid "Create static web albums."
 msgstr "Cria álbuns web estáticos."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1174
-#: gthumb/gth-browser.c:6692 gthumb/gth-browser.c:6711
-#: gthumb/gth-browser.c:6735 gthumb/gth-vfs-tree.c:390
+#: gthumb/gth-browser.c:6787 gthumb/gth-browser.c:6806
+#: gthumb/gth-browser.c:6830 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Não foi possível carregar a posição: “%s”"
@@ -5046,8 +4975,8 @@ msgstr "Fecha a janela"
 msgid "Open location"
 msgstr "Abre a localização"
 
-#: gthumb/gth-browser-actions-entries.h:104 gthumb/gth-browser.c:4634
-#: gthumb/gth-browser.c:4652 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:104 gthumb/gth-browser.c:4726
+#: gthumb/gth-browser.c:4744 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Tela cheia"
@@ -5144,71 +5073,71 @@ msgstr[1] "%d arquivos selecionados (%s)"
 msgid "%s of free space"
 msgstr "%s de espaço livre"
 
-#: gthumb/gth-browser.c:1790 gthumb/gth-browser.c:1806
+#: gthumb/gth-browser.c:1892 gthumb/gth-browser.c:1908
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Não foi encontrado um módulo adequado para %s"
 
-#: gthumb/gth-browser.c:1911
+#: gthumb/gth-browser.c:2013
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Salvar alterações do arquivo “%s”?"
 
-#: gthumb/gth-browser.c:1916
+#: gthumb/gth-browser.c:2018
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Se você não salvar, as alterações serão permanentemente perdidas."
 
-#: gthumb/gth-browser.c:1917
+#: gthumb/gth-browser.c:2019
 msgid "Do _Not Save"
 msgstr "_Não salvar"
 
-#: gthumb/gth-browser.c:2405 gthumb/gth-browser.c:4660
+#: gthumb/gth-browser.c:2507 gthumb/gth-browser.c:4752
 msgid "Accept"
 msgstr "Aceitar"
 
-#: gthumb/gth-browser.c:2405 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2507 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Fechar"
 
-#: gthumb/gth-browser.c:2944
+#: gthumb/gth-browser.c:3046
 msgid "Could not change name"
 msgstr "Não foi possível alterar o nome"
 
-#: gthumb/gth-browser.c:3447
+#: gthumb/gth-browser.c:3540
 msgid "Modified"
 msgstr "Modificado"
 
-#: gthumb/gth-browser.c:4582
+#: gthumb/gth-browser.c:4674
 msgid "Go to the previous visited location"
 msgstr "Vai para o local visitado anteriormente"
 
-#: gthumb/gth-browser.c:4588
+#: gthumb/gth-browser.c:4680
 msgid "Go to the next visited location"
 msgstr "Vai para o próximo local visitado"
 
-#: gthumb/gth-browser.c:4596
+#: gthumb/gth-browser.c:4688
 msgid "History"
 msgstr "Histórico"
 
-#: gthumb/gth-browser.c:4610
+#: gthumb/gth-browser.c:4702
 msgid "View the folders"
 msgstr "Veja as pastas"
 
-#: gthumb/gth-browser.c:4625
+#: gthumb/gth-browser.c:4717
 msgid "Edit file"
 msgstr "Edita o arquivo"
 
-#: gthumb/gth-browser.c:4716 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4808 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Operações"
 
-#: gthumb/gth-browser.c:6693
+#: gthumb/gth-browser.c:6788
 #, c-format
 msgid "File type not supported"
 msgstr "Não há suporte ao tipo de arquivo"
 
-#: gthumb/gth-browser.c:6736
+#: gthumb/gth-browser.c:6831
 #, c-format
 msgid "No suitable module found"
 msgstr "Não foi encontrado um módulo adequado"
@@ -5231,11 +5160,16 @@ msgstr "Todos os arquivos suportados"
 msgid "_Show Format Options"
 msgstr "_Mostrar opções de formato"
 
-#: gthumb/gth-file-source-vfs.c:219
+#: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1186
+#| msgid "no file"
+msgid "No file"
+msgstr "Nenhum arquivo"
+
+#: gthumb/gth-file-source-vfs.c:288
 msgid "Computer"
 msgstr "Computador"
 
-#: gthumb/gth-file-source-vfs.c:796
+#: gthumb/gth-file-source-vfs.c:880
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -5243,16 +5177,16 @@ msgstr ""
 "As imagens não podem ser movidas para a lixeira. Deseja excluí-las "
 "permanentemente?"
 
-#: gthumb/gth-file-source-vfs.c:807
+#: gthumb/gth-file-source-vfs.c:891
 msgid "Could not move the files to the Trash"
 msgstr "Não foi possível mover os arquivos para a lixeira"
 
-#: gthumb/gth-file-source-vfs.c:852
+#: gthumb/gth-file-source-vfs.c:936
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Você tem certeza de que quer excluir “%s” permanentemente?"
 
-#: gthumb/gth-file-source-vfs.c:855
+#: gthumb/gth-file-source-vfs.c:939
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5263,7 +5197,7 @@ msgstr[1] ""
 "Você tem certeza que quer excluir permanentemente %'d imagens selecionadas?"
 
 # Traduzi "permanently" para "para sempre" para não repetir "permanentemente", o que já era óbvio da string acima.
-#: gthumb/gth-file-source-vfs.c:865
+#: gthumb/gth-file-source-vfs.c:949
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Se você excluir um arquivo, ele será perdido para sempre."
 
@@ -5305,11 +5239,11 @@ msgstr "Nenhum limite especificado"
 msgid "All"
 msgstr "Todas"
 
-#: gthumb/gth-folder-tree.c:1465
+#: gthumb/gth-folder-tree.c:1466
 msgid "(Open Parent)"
 msgstr "(Abrir pai)"
 
-#: gthumb/gth-folder-tree.c:1972
+#: gthumb/gth-folder-tree.c:1973
 msgid "Enter the new name:"
 msgstr "Digite o novo nome:"
 
@@ -5344,17 +5278,9 @@ msgstr "Lendo informações do arquivo"
 msgid "Hidden Files"
 msgstr "Arquivos ocultos"
 
-#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:46
-msgid "Location"
-msgstr "Local"
-
 #: gthumb/gth-location-chooser.c:572
 msgid "Locations"
 msgstr "Locais"
-
-#: gthumb/gth-location-chooser.c:617
-msgid "Other…"
-msgstr "Outros…"
 
 #: gthumb/gth-main-default-metadata.c:39
 msgid "Name"
@@ -5576,6 +5502,39 @@ msgstr "Astronomia"
 msgid "Family"
 msgstr "Família"
 
+#. Translators: The space character not the Astronomy space.
+#: gthumb/gth-template-editor-dialog.c:424
+msgid "Space"
+msgstr "Espaço"
+
+#: gthumb/gth-template-selector.c:35
+msgid "Year"
+msgstr "Ano"
+
+#: gthumb/gth-template-selector.c:36
+msgid "Month"
+msgstr "Mês"
+
+#: gthumb/gth-template-selector.c:37
+#| msgid "The day of the month"
+msgid "Day of the month"
+msgstr "Dia do mês"
+
+#: gthumb/gth-template-selector.c:38
+msgid "Hour"
+msgstr "Hora"
+
+#: gthumb/gth-template-selector.c:39
+#| msgid "minutes"
+msgid "Minute"
+msgstr "Minuto"
+
+#. Translators: the time second, not the second place.
+#: gthumb/gth-template-selector.c:41
+#| msgid "seconds"
+msgid "Second"
+msgstr "Segundo"
+
 #: gthumb/gth-test-aspect-ratio.c:67 gthumb/gth-test-simple.c:57
 msgid "is lower than"
 msgstr "é menor que"
@@ -5771,3 +5730,111 @@ msgstr "_Sobre gThumb"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Excluir histórico"
+
+#~ msgid "New enumerator digit"
+#~ msgstr "Novo dígito enumerador"
+
+#~ msgid "as _single subfolder"
+#~ msgstr "como subpasta _singular"
+
+#~ msgid "The year"
+#~ msgstr "O ano"
+
+#~ msgid "The month"
+#~ msgstr "O mês"
+
+#~ msgid "The hour"
+#~ msgstr "A hora"
+
+#~ msgid "The minutes"
+#~ msgstr "Os minutos"
+
+#~ msgid "The seconds"
+#~ msgstr "Os segundos"
+
+#~ msgid "example: %s"
+#~ msgstr "exemplo: %s"
+
+#~ msgid "year-month-day"
+#~ msgstr "ano-mês-dia"
+
+#~ msgid "year-month"
+#~ msgstr "ano-mês"
+
+#~ msgid "year"
+#~ msgstr "ano"
+
+#~ msgid "custom format"
+#~ msgstr "formato personalizado"
+
+#~ msgid "The file uri"
+#~ msgstr "A uri do arquivo"
+
+#~ msgid "The file path"
+#~ msgstr "O caminho do arquivo"
+
+#~ msgid "The file basename"
+#~ msgstr "O nome base do arquivo"
+
+#~ msgid "The parent folder path"
+#~ msgstr "O caminho da pasta pai"
+
+#~ msgid "%ask{ message }{ default value }"
+#~ msgstr "%ask{ mensagem }{ valor padrão }"
+
+#~ msgid "%attr{ attribute name }"
+#~ msgstr "%attr{ nome do atributo }"
+
+#~ msgid "A file attribute"
+#~ msgstr "Um atributo do arquivo"
+
+#~ msgid "%N"
+#~ msgstr "%N"
+
+#~ msgid "%E"
+#~ msgstr "%E"
+
+#~ msgid "%quote{ text }"
+#~ msgstr "%quote{ texto }"
+
+#~ msgid "The current date and time"
+#~ msgstr "A data e o horário atual"
+
+#~ msgid "(Empty)"
+#~ msgstr "(Vazio)"
+
+#~ msgid "Empty"
+#~ msgstr "Vazio"
+
+#~ msgid "format:"
+#~ msgstr "formato:"
+
+#~ msgid "%M{ format }"
+#~ msgstr "%M{ formato }"
+
+#~ msgid "%A{ identifier }"
+#~ msgstr "%A{ identificador }"
+
+#~ msgid "The original filename"
+#~ msgstr "O nome de arquivo original"
+
+#~ msgid "The original extension"
+#~ msgstr "A extensão original"
+
+#~ msgid "The original enumerator"
+#~ msgstr "O enumerador original"
+
+#~ msgid "The modification date"
+#~ msgstr "A data de modificação"
+
+#~ msgid "The digitalization date"
+#~ msgstr "A data de digitalização"
+
+#~ msgid "Could not save the template"
+#~ msgstr "Não foi possível salvar o modelo"
+
+#~ msgid "%P"
+#~ msgstr "%P"
+
+#~ msgid "The file comment"
+#~ msgstr "O comentário do arquivo"
