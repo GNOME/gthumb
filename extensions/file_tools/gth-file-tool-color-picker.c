@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <math.h>
+#include <locale.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
 #include "gth-file-tool-color-picker.h"
