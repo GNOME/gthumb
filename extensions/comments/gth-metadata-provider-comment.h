@@ -35,15 +35,17 @@
 
 typedef struct _GthMetadataProviderComment         GthMetadataProviderComment;
 typedef struct _GthMetadataProviderCommentClass    GthMetadataProviderCommentClass;
+typedef struct _GthMetadataProviderCommentPrivate  GthMetadataProviderCommentPrivate;
 
 struct _GthMetadataProviderComment
 {
 	GthMetadataProvider __parent;
+	GthMetadataProviderCommentPrivate *priv;
 };
 
 struct _GthMetadataProviderCommentClass
 {
-	GthMetadataProviderClass __parent_class;	
+	GthMetadataProviderClass __parent_class;
 };
 
 GType gth_metadata_provider_comment_get_type (void) G_GNUC_CONST;
