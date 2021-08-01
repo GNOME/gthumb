@@ -54,6 +54,7 @@ gth_metadata_provider_exiv2_finalize (GObject *object)
 
 static gboolean
 gth_metadata_provider_exiv2_can_read (GthMetadataProvider  *self,
+				      GthFileData          *file_data,
 				      const char           *mime_type,
 				      char                **attribute_v)
 {

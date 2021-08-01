@@ -30,9 +30,11 @@ G_DEFINE_TYPE (GthMetadataProviderComment, gth_metadata_provider_comment, GTH_TY
 
 
 static gboolean
-gth_metadata_provider_comment_can_read (GthMetadataProvider  *self,
-				        const char           *mime_type,
-				        char                **attribute_v)
+gth_metadata_provider_comment_can_read (GthMetadataProvider  *base,
+					GthFileData          *file_data,
+					const char           *mime_type,
+					char                **attribute_v)
+
 {
 	return _g_file_attributes_matches_any_v ("comment::*,"
 						 "general::datetime,"

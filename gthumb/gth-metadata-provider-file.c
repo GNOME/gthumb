@@ -30,6 +30,7 @@ G_DEFINE_TYPE (GthMetadataProviderFile, gth_metadata_provider_file, GTH_TYPE_MET
 
 static gboolean
 gth_metadata_provider_file_can_read (GthMetadataProvider  *self,
+				     GthFileData          *file_data,
 				     const char           *mime_type,
 				     char                **attribute_v)
 {
@@ -38,7 +39,7 @@ gth_metadata_provider_file_can_read (GthMetadataProvider  *self,
 						 "gth::file::content-type,"
 						 "gth::file::is-modified,"
 						 "gth::file::full-name",
-					         attribute_v);
+						 attribute_v);
 }
 
 

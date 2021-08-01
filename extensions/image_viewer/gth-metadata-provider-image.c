@@ -44,16 +44,17 @@ G_DEFINE_TYPE (GthMetadataProviderImage, gth_metadata_provider_image, GTH_TYPE_M
 
 static gboolean
 gth_metadata_provider_image_can_read (GthMetadataProvider  *self,
+				      GthFileData          *file_data,
 				      const char           *mime_type,
 				      char                **attribute_v)
 {
 	return _g_file_attributes_matches_any_v ("general::format,"
-			                         "general::dimensions,"
+						 "general::dimensions,"
 						 "image::width,"
 						 "image::height,"
 						 "frame::width,"
 						 "frame::height",
-					         attribute_v);
+						 attribute_v);
 }
 
 

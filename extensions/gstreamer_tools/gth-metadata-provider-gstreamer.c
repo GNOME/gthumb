@@ -31,8 +31,9 @@ G_DEFINE_TYPE (GthMetadataProviderGstreamer, gth_metadata_provider_gstreamer, GT
 
 static gboolean
 gth_metadata_provider_gstreamer_can_read (GthMetadataProvider  *self,
-				          const char           *mime_type,
-				          char                **attribute_v)
+					  GthFileData          *file_data,
+					  const char           *mime_type,
+					  char                **attribute_v)
 {
 	if (! g_str_equal (mime_type, "*")
 	    && ! _g_content_type_is_a (mime_type, "audio/*")

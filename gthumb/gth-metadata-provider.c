@@ -34,6 +34,7 @@ G_DEFINE_TYPE (GthMetadataProvider, gth_metadata_provider, G_TYPE_OBJECT)
 
 static gboolean
 gth_metadata_provider_real_can_read (GthMetadataProvider  *self,
+				     GthFileData          *file_data,
 				     const char           *mime_type,
 				     char                **attribute_v)
 {
@@ -90,10 +91,11 @@ gth_metadata_provider_init (GthMetadataProvider *self)
 
 gboolean
 gth_metadata_provider_can_read (GthMetadataProvider  *self,
+				GthFileData          *file_data,
 				const char           *mime_type,
 				char                **attribute_v)
 {
-	return GTH_METADATA_PROVIDER_GET_CLASS (self)->can_read (self, mime_type, attribute_v);
+	return GTH_METADATA_PROVIDER_GET_CLASS (self)->can_read (self, file_data, mime_type, attribute_v);
 }
 
 
@@ -205,8 +207,13 @@ _g_query_metadata_async_thread (GTask        *task,
 		for (scan_providers = providers; scan_providers; scan_providers = scan_providers->next) {
 			GthMetadataProvider *metadata_provider = scan_providers->data;
 
-			if (gth_metadata_provider_can_read (metadata_provider, gth_file_data_get_mime_type (file_data), qmd->attributes_v))
+			if (gth_metadata_provider_can_read (metadata_provider,
+							    file_data,
+							    gth_file_data_get_mime_type (file_data),
+							    qmd->attributes_v))
+			{
 				gth_metadata_provider_read (metadata_provider, file_data, qmd->attributes, cancellable);
+			}
 		}
 	}
 

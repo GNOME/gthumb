@@ -566,7 +566,7 @@ gth_main_get_metadata_reader (const char *id,
 	for (scan = Main->priv->metadata_provider; scan; scan = scan->next) {
 		GthMetadataProvider *registered_metadata = scan->data;
 
-		if (gth_metadata_provider_can_read (registered_metadata, mime_type, (char **)attribute_v)) {
+		if (gth_metadata_provider_can_read (registered_metadata, NULL, mime_type, (char **)attribute_v)) {
 			metadata = g_object_new (G_OBJECT_TYPE (registered_metadata), NULL);
 			break;
 		}
@@ -1503,7 +1503,7 @@ attribute_list_reload_required (const char *old_attributes,
 
 				attr_v[0] = new_attributes_v[j];
 				attr_v[1] = NULL;
-				if (gth_metadata_provider_can_read (provider, "*", attr_v)) {
+				if (gth_metadata_provider_can_read (provider, NULL, "*", attr_v)) {
 					g_free (new_attributes_v[j]);
 					new_attributes_v[j] = NULL;
 				}

@@ -31,11 +31,12 @@ G_DEFINE_TYPE (GthMetadataProviderSelections, gth_metadata_provider_selections, 
 
 static gboolean
 gth_metadata_provider_selections_can_read (GthMetadataProvider  *self,
-				           const char           *mime_type,
-				           char                **attribute_v)
+					   GthFileData          *file_data,
+					   const char           *mime_type,
+					   char                **attribute_v)
 {
 	return _g_file_attributes_matches_any_v (GTH_FILE_ATTRIBUTE_EMBLEMS,
-					         attribute_v);
+						 attribute_v);
 }
 
 

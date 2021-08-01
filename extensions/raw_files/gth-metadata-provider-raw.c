@@ -31,16 +31,17 @@ G_DEFINE_TYPE (GthMetadataProviderRaw, gth_metadata_provider_raw, GTH_TYPE_METAD
 
 static gboolean
 gth_metadata_provider_raw_can_read (GthMetadataProvider  *self,
+				    GthFileData          *file_data,
 				    const char           *mime_type,
 				    char                **attribute_v)
 {
 	return _g_file_attributes_matches_any_v ("general::format,"
-			                         "general::dimensions,"
+						 "general::dimensions,"
 						 "image::width,"
 						 "image::height,"
 						 "frame::width,"
 						 "frame::height",
-					         attribute_v);
+						 attribute_v);
 }
 
 
