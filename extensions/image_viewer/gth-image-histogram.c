@@ -28,7 +28,7 @@
 #include "preferences.h"
 
 
-#define MIN_HISTOGRAM_HEIGHT 280
+#define MIN_HISTOGRAM_HEIGHT 350
 
 
 static void gth_image_histogram_gth_property_view_interface_init (GthPropertyViewInterface *iface);
