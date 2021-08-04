@@ -148,6 +148,8 @@ void		gth_window_add_removable_shortcut
 						 GthShortcut		*shortcut);
 void		gth_window_remove_shortcuts	(GthWindow		*window,
 						 const char		*group_name);
+GHashTable *	gth_window_get_accels_for_group (GthWindow		*window,
+						 const char		*group_name);
 gboolean	gth_window_can_change_shortcut	(GthWindow		*window,
 						 const char		*detailed_action,
 						 int			 context,

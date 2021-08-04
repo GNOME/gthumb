@@ -82,6 +82,8 @@ static const GActionEntry gth_browser_actions[] = {
 
 	{ "file-list-select-all", gth_browser_activate_select_all },
 	{ "file-list-unselect-all", gth_browser_activate_unselect_all },
+
+	{ "set-filter", gth_browser_activate_set_filter, "s" },
 };
 
 

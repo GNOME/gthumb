@@ -233,6 +233,8 @@ _gth_filterbar_set_test (GthFilterbar *filterbar,
 
 	if (iter != NULL)
 		local_iter = *iter;
+	else if (test == NULL)
+		gtk_tree_model_get_iter_first (GTK_TREE_MODEL (filterbar->priv->model), &local_iter);
 	else if (! find_test_by_id (filterbar,
 				    gth_test_get_id (test),
 				    NULL,

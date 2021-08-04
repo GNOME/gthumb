@@ -30,6 +30,7 @@
 #include "gth-browser-actions-callbacks.h"
 #include "gth-file-list.h"
 #include "gth-file-selection.h"
+#include "gth-filterbar.h"
 #include "gth-folder-tree.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
@@ -624,4 +625,19 @@ gth_browser_activate_show_menu (GSimpleAction *action,
 				gpointer       user_data)
 {
 	gth_browser_show_menu (GTH_BROWSER (user_data));
+}
+
+
+void
+gth_browser_activate_set_filter (GSimpleAction *action,
+				 GVariant	*parameter,
+				 gpointer	 user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	const char *test_id;
+	GtkWidget  *filterbar;
+
+	test_id = g_variant_get_string (parameter, NULL);
+	filterbar = gth_browser_get_filterbar (browser);
+	gth_filterbar_set_test_by_id (GTH_FILTERBAR (filterbar), test_id);
 }

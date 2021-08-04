@@ -4346,14 +4346,44 @@ browser_gesture_pressed_cb (GtkGestureMultiPress *gesture,
 }
 
 
+#define FILTERS_GROUP "filters"
+
+
 static void
 _gth_browser_update_filter_list (GthBrowser *browser)
 {
-	GList *filters;
+	GHashTable *accels;
+	GList      *filters;
+	GList      *scan;
+
+	accels = gth_window_get_accels_for_group (GTH_WINDOW (browser), FILTERS_GROUP);
+	gth_window_remove_shortcuts (GTH_WINDOW (browser), FILTERS_GROUP);
+
 	filters = gth_main_get_all_filters ();
+	for (scan = filters; scan; scan = scan->next) {
+		GthTest     *test = scan->data;
+		GthShortcut *shortcut;
+
+		if (! gth_test_is_visible (test))
+			continue;
+
+		shortcut = gth_shortcut_new ("set-filter", g_variant_new_string (gth_test_get_id (test)));
+		shortcut->description = g_strdup (gth_test_get_display_name (test));
+		shortcut->context = GTH_SHORTCUT_CONTEXT_BROWSER;
+		shortcut->category = GTH_SHORTCUT_CATEGORY_FILTERS;
+		gth_shortcut_set_accelerator (shortcut, g_hash_table_lookup (accels, shortcut->detailed_action));
+		shortcut->default_accelerator = g_strdup ("");
+
+		gth_window_add_removable_shortcut (GTH_WINDOW (browser),
+						   FILTERS_GROUP,
+						   shortcut);
+
+		gth_shortcut_free (shortcut);
+	}
 	gth_filterbar_set_filter_list (GTH_FILTERBAR (browser->priv->filterbar), filters);
 
 	_g_object_list_unref (filters);
+	g_hash_table_unref (accels);
 }
 
 

@@ -1012,6 +1012,32 @@ gth_window_remove_shortcuts (GthWindow  *window,
 }
 
 
+GHashTable *
+gth_window_get_accels_for_group (GthWindow  *window,
+				 const char *group_name)
+{
+	GHashTable *map;
+	GPtrArray  *shortcuts_v;
+	int         i;
+
+	g_return_val_if_fail (GTH_IS_WINDOW (window), NULL);
+	g_return_val_if_fail (group_name != NULL, NULL);
+
+	map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+	shortcuts_v = g_hash_table_lookup (window->priv->shortcut_groups, group_name);
+	if (shortcuts_v == NULL)
+		return map;
+
+	for (i = 0; i < shortcuts_v->len; i++) {
+		GthShortcut *shortcut = g_ptr_array_index (shortcuts_v, i);
+		g_hash_table_insert (map, g_strdup (shortcut->detailed_action), g_strdup (shortcut->accelerator));
+	}
+
+	return map;
+}
+
+
 gboolean
 gth_window_can_change_shortcut (GthWindow         *window,
 				const char        *detailed_action,

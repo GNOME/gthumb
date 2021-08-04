@@ -71,5 +71,6 @@ DEF_ACTION_CALLBACK (gth_browser_activate_apply_editor_changes)
 DEF_ACTION_CALLBACK (gth_browser_activate_select_all)
 DEF_ACTION_CALLBACK (gth_browser_activate_unselect_all)
 DEF_ACTION_CALLBACK (gth_browser_activate_show_menu)
+DEF_ACTION_CALLBACK (gth_browser_activate_set_filter)
 
 #endif /* GTH_BROWSER_ACTIONS_CALLBACK_H */
