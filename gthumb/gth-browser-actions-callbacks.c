@@ -641,3 +641,16 @@ gth_browser_activate_set_filter (GSimpleAction *action,
 	filterbar = gth_browser_get_filterbar (browser);
 	gth_filterbar_set_test_by_id (GTH_FILTERBAR (filterbar), test_id);
 }
+
+
+void
+gth_browser_activate_set_filter_all (GSimpleAction *action,
+				     GVariant      *parameter,
+				     gpointer        user_data)
+{
+	GthBrowser *browser = GTH_BROWSER (user_data);
+	GtkWidget  *filterbar;
+
+	filterbar = gth_browser_get_filterbar (browser);
+	gth_filterbar_set_show_all (GTH_FILTERBAR (filterbar));
+}

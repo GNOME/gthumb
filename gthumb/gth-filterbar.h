@@ -66,6 +66,7 @@ void		gth_filterbar_set_filter_list		(GthFilterbar *filterbar,
 							 GList        *filters /* GthTest list */);
 gboolean	gth_filterbar_set_test_by_id		(GthFilterbar *filterbar,
 							 const char   *id);
+void		gth_filterbar_set_show_all		 (GthFilterbar *filterbar);
 GtkWidget *	gth_filterbar_get_extra_area		(GthFilterbar *filterbar);
 
 G_END_DECLS

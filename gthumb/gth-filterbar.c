@@ -581,6 +581,16 @@ gth_filterbar_set_test_by_id (GthFilterbar *filterbar,
 }
 
 
+void
+gth_filterbar_set_show_all (GthFilterbar *filterbar)
+{
+	GtkTreeIter iter;
+
+	gtk_tree_model_get_iter_first (GTK_TREE_MODEL (filterbar->priv->model), &iter);
+	gtk_combo_box_set_active_iter (GTK_COMBO_BOX (filterbar->priv->test_combo_box), &iter);
+}
+
+
 GtkWidget *
 gth_filterbar_get_extra_area (GthFilterbar *filterbar)
 {

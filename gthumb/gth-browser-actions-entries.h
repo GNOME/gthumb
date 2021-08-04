@@ -84,6 +84,7 @@ static const GActionEntry gth_browser_actions[] = {
 	{ "file-list-unselect-all", gth_browser_activate_unselect_all },
 
 	{ "set-filter", gth_browser_activate_set_filter, "s" },
+	{ "set-filter-all", gth_browser_activate_set_filter_all },
 };
 
 
@@ -129,6 +130,8 @@ static const GthShortcut gth_browser_shortcuts[] = {
 
 	{ "file-list-select-all", N_("Select all"), GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Primary>a" },
 	{ "file-list-unselect-all", N_("Select none"), GTH_SHORTCUT_CONTEXT_BROWSER | GTH_SHORTCUT_CONTEXT_INTERNAL, GTH_SHORTCUT_CATEGORY_NAVIGATION, "<Primary><Shift>a" },
+
+	{ "set-filter-all", N_("All"), GTH_SHORTCUT_CONTEXT_BROWSER, GTH_SHORTCUT_CATEGORY_FILTERS },
 
 	/* file list keybindings (read only) */
 
