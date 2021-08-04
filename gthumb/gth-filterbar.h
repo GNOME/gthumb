@@ -55,14 +55,18 @@ struct _GthFilterbarClass
 	void (* close_button_clicked) (GthFilterbar *filterbar);
 };
 
-GType         gth_filterbar_get_type		(void) G_GNUC_CONST;
-GtkWidget *   gth_filterbar_new			(const char   *selected_filter);
-GthTest *     gth_filterbar_get_test		(GthFilterbar *filterbar);
-void          gth_filterbar_save_filter		(GthFilterbar *filterbar,
-						 const char   *filename);
-void          gth_filterbar_load_filter		(GthFilterbar *filterbar,
-						 const char   *filename);
-GtkWidget *   gth_filterbar_get_extra_area	(GthFilterbar *filterbar);
+GType		gth_filterbar_get_type			(void) G_GNUC_CONST;
+GtkWidget *	gth_filterbar_new			(void);
+GthTest *	gth_filterbar_get_test			(GthFilterbar *filterbar);
+void		gth_filterbar_save_filter		(GthFilterbar *filterbar,
+							 const char   *filename);
+gboolean	gth_filterbar_load_filter		(GthFilterbar *filterbar,
+							 const char   *filename);
+void		gth_filterbar_set_filter_list		(GthFilterbar *filterbar,
+							 GList        *filters /* GthTest list */);
+gboolean	gth_filterbar_set_test_by_id		(GthFilterbar *filterbar,
+							 const char   *id);
+GtkWidget *	gth_filterbar_get_extra_area		(GthFilterbar *filterbar);
 
 G_END_DECLS
 

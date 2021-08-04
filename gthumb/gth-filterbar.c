@@ -60,8 +60,6 @@ struct _GthFilterbarPrivate {
 	GtkWidget    *control_box;
 	GtkWidget    *control;
 	GtkWidget    *extra_area;
-	GtkTreeIter   current_iter;
-	gulong        filters_changed_id;
 	gulong        test_changed_id;
 };
 
@@ -82,7 +80,6 @@ gth_filterbar_finalize (GObject *object)
 
 	filterbar = GTH_FILTERBAR (object);
 
-	g_signal_handler_disconnect (gth_main_get_default_monitor (), filterbar->priv->filters_changed_id);
 	if (filterbar->priv->test != NULL) {
 		g_signal_handler_disconnect (filterbar->priv->test, filterbar->priv->test_changed_id);
 		g_object_unref (filterbar->priv->test);
@@ -140,7 +137,6 @@ gth_filterbar_init (GthFilterbar *filterbar)
 	filterbar->priv->control_box = NULL;
 	filterbar->priv->control = NULL;
 	filterbar->priv->extra_area = NULL;
-	filterbar->priv->filters_changed_id = 0;
 	filterbar->priv->test_changed_id = 0;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (filterbar), GTK_ORIENTATION_HORIZONTAL);
@@ -184,11 +180,73 @@ test_changed_cb (GthTest      *test,
 }
 
 
+static gboolean
+find_test_by_id (GthFilterbar  *filterbar,
+		 const char    *id,
+		 GthTest      **test,
+		 GtkTreeIter   *iter)
+{
+	g_return_val_if_fail (iter != NULL, FALSE);
+
+	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (filterbar->priv->model), iter))
+		return FALSE;
+
+	do {
+		int      item_type = ITEM_TYPE_NONE;
+		GthTest *local_test;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (filterbar->priv->model),
+				    iter,
+				    TYPE_COLUMN, &item_type,
+				    FILTER_COLUMN, &local_test,
+				    -1);
+
+		if ((item_type == ITEM_TYPE_FILTER) && (local_test != NULL) && (g_strcmp0 (gth_test_get_id (local_test), id) == 0)) {
+			if (test != NULL)
+				*test = local_test;
+			else
+				g_object_unref (local_test);
+			return TRUE;
+		}
+
+		_g_object_unref (local_test);
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (filterbar->priv->model), iter));
+
+	return FALSE;
+}
+
+
+static void
+test_combo_box_changed_cb (GtkComboBox  *scope_combo_box,
+			   GthFilterbar *filterbar);
+
+
 static void
 _gth_filterbar_set_test (GthFilterbar *filterbar,
-			  GthTest      *test)
+			 GthTest      *test,
+			 GtkTreeIter  *iter,
+			 gboolean      emit_signal)
 {
-	GthTest *old_test;
+	GtkTreeIter  local_iter;
+	GthTest     *old_test;
+
+	if (iter != NULL)
+		local_iter = *iter;
+	else if (! find_test_by_id (filterbar,
+				    gth_test_get_id (test),
+				    NULL,
+				    &local_iter))
+		return;
+
+	if (! emit_signal)
+		g_signal_handlers_block_by_func (filterbar->priv->test_combo_box, test_combo_box_changed_cb, filterbar);
+	gtk_combo_box_set_active_iter (GTK_COMBO_BOX (filterbar->priv->test_combo_box), &local_iter);
+	if (! emit_signal)
+		g_signal_handlers_unblock_by_func (filterbar->priv->test_combo_box, test_combo_box_changed_cb, filterbar);
+
+	if (test == filterbar->priv->test)
+		return;
 
 	old_test = filterbar->priv->test;
 	if (old_test != NULL) {
@@ -232,15 +290,14 @@ test_combo_box_changed_cb (GtkComboBox  *scope_combo_box,
 
 	switch (item_type) {
 	case ITEM_TYPE_FILTER:
-		_gth_filterbar_set_test (filterbar, test);
-		filterbar->priv->current_iter = iter;
+		_gth_filterbar_set_test (filterbar, test, &iter, TRUE);
 		break;
+
 	case ITEM_TYPE_PERSONALIZE:
 		g_signal_emit (filterbar, gth_filterbar_signals[PERSONALIZE], 0);
-		g_signal_handlers_block_by_func (filterbar->priv->test_combo_box, test_combo_box_changed_cb, filterbar);
-		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (filterbar->priv->test_combo_box), &filterbar->priv->current_iter);
-		g_signal_handlers_unblock_by_func (filterbar->priv->test_combo_box, test_combo_box_changed_cb, filterbar);
+		_gth_filterbar_set_test (filterbar, filterbar->priv->test, NULL, FALSE);
 		break;
+
 	default:
 		break;
 	}
@@ -264,87 +321,7 @@ test_combo_box_row_separator_func (GtkTreeModel *model,
 
 
 static void
-update_filter_list (GthFilterbar *filterbar,
-		    const char   *current_filter)
-{
-	gboolean     no_filter_selected = TRUE;
-	GList       *filters, *scan;
-	GtkTreeIter  iter;
-
-	gtk_list_store_clear (filterbar->priv->model);
-
-	gtk_list_store_append (filterbar->priv->model, &iter);
-	gtk_list_store_set (filterbar->priv->model, &iter,
-			    TYPE_COLUMN, ITEM_TYPE_FILTER,
-			    FILTER_COLUMN, NULL,
-			    NAME_COLUMN, _("All"),
-			    -1);
-
-	filters = gth_main_get_all_filters ();
-	for (scan = filters; scan; scan = scan->next) {
-		GthTest *test = scan->data;
-
-		if (! gth_test_is_visible (test))
-			continue;
-
-		gtk_list_store_append (filterbar->priv->model, &iter);
-		gtk_list_store_set (filterbar->priv->model, &iter,
-				    TYPE_COLUMN, ITEM_TYPE_FILTER,
-				    FILTER_COLUMN, test,
-				    NAME_COLUMN, gth_test_get_display_name (test),
-				    -1);
-
-		if (g_strcmp0 (current_filter, gth_test_get_id (test)) == 0) {
-			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (filterbar->priv->test_combo_box), &iter);
-			filterbar->priv->current_iter = iter;
-			_gth_filterbar_set_test (GTH_FILTERBAR (filterbar), test);
-			no_filter_selected = FALSE;
-		}
-	}
-	_g_object_list_unref (filters);
-
-	gtk_list_store_append (filterbar->priv->model, &iter);
-	gtk_list_store_set (filterbar->priv->model, &iter,
-			    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
-			    -1);
-
-	gtk_list_store_append (filterbar->priv->model, &iter);
-	gtk_list_store_set (filterbar->priv->model, &iter,
-			    TYPE_COLUMN, ITEM_TYPE_PERSONALIZE,
-			    NAME_COLUMN, _("Personalize…"),
-			    -1);
-
-	if (no_filter_selected) {
-		GtkTreeIter iter;
-
-		gtk_tree_model_get_iter_first (GTK_TREE_MODEL (filterbar->priv->model), &iter);
-		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (filterbar->priv->test_combo_box), &iter);
-		filterbar->priv->current_iter = iter;
-	}
-}
-
-
-static void
-filters_changed_cb (GthMonitor   *monitor,
-		    GthFilterbar *filterbar)
-{
-	GthTest *current_filter;
-
-	gtk_tree_model_get (GTK_TREE_MODEL (filterbar->priv->model),
-			    &filterbar->priv->current_iter,
-			    FILTER_COLUMN, &current_filter,
-			    -1);
-
-	update_filter_list (filterbar, current_filter != NULL ? gth_test_get_id (current_filter) : NULL);
-
-	if (current_filter != NULL)
-		g_object_unref (current_filter);
-}
-
-
-static void
-gth_filterbar_construct (GthFilterbar *filterbar,
-			  const char   *selected_filter)
+gth_filterbar_construct (GthFilterbar *filterbar)
 {
 	GtkCellRenderer *renderer;
 	GtkWidget       *label;
@@ -390,8 +367,6 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 
 	/**/
 
-	update_filter_list (filterbar, selected_filter);
-
 	g_signal_connect (G_OBJECT (filterbar->priv->test_combo_box),
 			  "changed",
 			  G_CALLBACK (test_combo_box_changed_cb),
@@ -417,12 +392,6 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 
 	/**/
 
-	filterbar->priv->filters_changed_id =
-		g_signal_connect (gth_main_get_default_monitor (),
-				  "filters-changed",
-				  G_CALLBACK (filters_changed_cb),
-				  filterbar);
-
 	gtk_box_pack_start (GTK_BOX (filterbar), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filterbar), filterbar->priv->test_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filterbar), filterbar->priv->control_box, FALSE, FALSE, 0);
@@ -431,12 +400,12 @@ gth_filterbar_construct (GthFilterbar *filterbar,
 
 
 GtkWidget*
-gth_filterbar_new (const char *selected_filter)
+gth_filterbar_new (void)
 {
 	GtkWidget *widget;
 
 	widget = GTK_WIDGET (g_object_new (GTH_TYPE_FILTERBAR, NULL));
-	gth_filterbar_construct (GTH_FILTERBAR (widget), selected_filter);
+	gth_filterbar_construct (GTH_FILTERBAR (widget));
 
 	return widget;
 }
@@ -481,40 +450,11 @@ gth_filterbar_save_filter (GthFilterbar *filterbar,
 }
 
 
-static gboolean
-find_test_by_id (GthFilterbar  *filterbar,
-		 const char    *id,
-		 GthTest      **test,
-		 GtkTreeIter   *iter)
-{
-	g_return_val_if_fail (test != NULL, FALSE);
-	g_return_val_if_fail (iter != NULL, FALSE);
-
-	if (! gtk_tree_model_get_iter_first(GTK_TREE_MODEL (filterbar->priv->model), iter))
-		return FALSE;
-
-	do {
-		int item_type = ITEM_TYPE_NONE;
-
-		gtk_tree_model_get (GTK_TREE_MODEL (filterbar->priv->model),
-				    iter,
-				    TYPE_COLUMN, &item_type,
-				    FILTER_COLUMN, test,
-				    -1);
-
-		if ((item_type == ITEM_TYPE_FILTER) && (*test != NULL) && (g_strcmp0 (gth_test_get_id (*test), id) == 0))
-			return TRUE;
-	}
-	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (filterbar->priv->model), iter));
-
-	return FALSE;
-}
-
-
-void
+gboolean
 gth_filterbar_load_filter (GthFilterbar *filterbar,
 			   const char   *filename)
 {
+	gboolean     loaded = FALSE;
 	GFile       *filter_file;
 	char        *buffer;
 	gsize        len;
@@ -523,12 +463,12 @@ gth_filterbar_load_filter (GthFilterbar *filterbar,
 	filter_file = gth_user_dir_get_file_for_write (GTH_DIR_CONFIG, GTHUMB_DIR, filename, NULL);
 	if (! _g_file_load_in_buffer (filter_file, (void **) &buffer, &len, NULL, NULL)) {
 		g_object_unref (filter_file);
-		return;
+		return loaded;
 	}
 
 	if (buffer == NULL) {
 		g_object_unref (filter_file);
-		return;
+		return loaded;
 	}
 
 	doc = dom_document_new ();
@@ -545,13 +485,10 @@ gth_filterbar_load_filter (GthFilterbar *filterbar,
 					     &iter))
 			{
 				dom_domizable_load_from_element (DOM_DOMIZABLE (test), node);
+				_gth_filterbar_set_test (GTH_FILTERBAR (filterbar), test, &iter, TRUE);
+				loaded = TRUE;
 
-				g_signal_handlers_block_by_func (filterbar->priv->test_combo_box, test_combo_box_changed_cb, filterbar);
-				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (filterbar->priv->test_combo_box), &iter);
-				g_signal_handlers_unblock_by_func (filterbar->priv->test_combo_box, test_combo_box_changed_cb, filterbar);
-
-				filterbar->priv->current_iter = iter;
-				_gth_filterbar_set_test (GTH_FILTERBAR (filterbar), test);
+				g_object_unref (test);
 			}
 		}
 	}
@@ -559,6 +496,86 @@ gth_filterbar_load_filter (GthFilterbar *filterbar,
 	g_object_unref (doc);
 	g_free (buffer);
 	g_object_unref (filter_file);
+
+	return loaded;
+}
+
+
+void
+gth_filterbar_set_filter_list (GthFilterbar *filterbar,
+			       GList        *filters /* GthTest list */)
+
+{
+	const char  *current_filter;
+	gboolean     no_filter_selected = TRUE;
+	GList       *scan;
+	GtkTreeIter  iter;
+
+	current_filter = NULL;
+	if (filterbar->priv->test != NULL)
+		current_filter = gth_test_get_id (filterbar->priv->test);
+
+	gtk_list_store_clear (filterbar->priv->model);
+
+	gtk_list_store_append (filterbar->priv->model, &iter);
+	gtk_list_store_set (filterbar->priv->model, &iter,
+			    TYPE_COLUMN, ITEM_TYPE_FILTER,
+			    FILTER_COLUMN, NULL,
+			    NAME_COLUMN, _("All"),
+			    -1);
+
+	for (scan = filters; scan; scan = scan->next) {
+		GthTest *test = scan->data;
+
+		if (! gth_test_is_visible (test))
+			continue;
+
+		gtk_list_store_append (filterbar->priv->model, &iter);
+		gtk_list_store_set (filterbar->priv->model, &iter,
+				    TYPE_COLUMN, ITEM_TYPE_FILTER,
+				    FILTER_COLUMN, test,
+				    NAME_COLUMN, gth_test_get_display_name (test),
+				    -1);
+
+		if (g_strcmp0 (current_filter, gth_test_get_id (test)) == 0) {
+			_gth_filterbar_set_test (GTH_FILTERBAR (filterbar), test, &iter, FALSE);
+			no_filter_selected = FALSE;
+		}
+	}
+
+	gtk_list_store_append (filterbar->priv->model, &iter);
+	gtk_list_store_set (filterbar->priv->model, &iter,
+			    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
+			    -1);
+
+	gtk_list_store_append (filterbar->priv->model, &iter);
+	gtk_list_store_set (filterbar->priv->model, &iter,
+			    TYPE_COLUMN, ITEM_TYPE_PERSONALIZE,
+			    NAME_COLUMN, _("Personalize…"),
+			    -1);
+
+	if (no_filter_selected) {
+		gtk_tree_model_get_iter_first (GTK_TREE_MODEL (filterbar->priv->model), &iter);
+		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (filterbar->priv->test_combo_box), &iter);
+	}
+}
+
+
+gboolean
+gth_filterbar_set_test_by_id (GthFilterbar *filterbar,
+			      const char   *id)
+{
+	GthTest     *test;
+	GtkTreeIter  iter;
+
+	if (! find_test_by_id (filterbar, id, &test, &iter))
+		return FALSE;
+
+	_gth_filterbar_set_test (GTH_FILTERBAR (filterbar), test, &iter, TRUE);
+
+	_g_object_unref (test);
+
+	return TRUE;
 }
 
 

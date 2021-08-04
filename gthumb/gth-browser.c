@@ -146,6 +146,7 @@ struct _GthBrowserPrivate {
 	gulong             entry_points_changed_id;
 	gulong             order_changed_id;
 	gulong             shortcuts_changed_id;
+	gulong             filters_changed_id;
 	GthFileData       *location;
 	GthFileData       *current_file;
 	GthFileSource     *location_source;
@@ -2216,6 +2217,8 @@ _gth_browser_real_close (GthBrowser *browser)
 				     browser->priv->order_changed_id);
 	g_signal_handler_disconnect (gth_main_get_default_monitor (),
 				     browser->priv->shortcuts_changed_id);
+	g_signal_handler_disconnect (gth_main_get_default_monitor (),
+				     browser->priv->filters_changed_id);
 
 	/* remove timeouts */
 
@@ -4343,6 +4346,25 @@ browser_gesture_pressed_cb (GtkGestureMultiPress *gesture,
 }
 
 
+static void
+_gth_browser_update_filter_list (GthBrowser *browser)
+{
+	GList *filters;
+	filters = gth_main_get_all_filters ();
+	gth_filterbar_set_filter_list (GTH_FILTERBAR (browser->priv->filterbar), filters);
+
+	_g_object_list_unref (filters);
+}
+
+
+static void
+filters_changed_cb (GthMonitor *monitor,
+		    GthBrowser *browser)
+{
+	_gth_browser_update_filter_list (browser);
+}
+
+
 static gboolean
 browser_key_press_cb (GthBrowser  *browser,
 		      GdkEventKey *event)
@@ -4376,7 +4398,6 @@ gth_browser_init (GthBrowser *browser)
 	char          **sidebar_sections;
 	GtkWidget      *vbox;
 	GtkWidget      *scrolled_window;
-	char           *general_filter;
 	char           *sort_type;
 	char           *caption;
 	int             i;
@@ -5025,11 +5046,10 @@ gth_browser_init (GthBrowser *browser)
 
 	/* the filter bar */
 
-	general_filter = g_settings_get_string (browser->priv->browser_settings, PREF_BROWSER_GENERAL_FILTER);
-	browser->priv->filterbar = gth_filterbar_new (general_filter);
+	browser->priv->filterbar = gth_filterbar_new ();
 	gtk_widget_show (browser->priv->filterbar);
+	_gth_browser_update_filter_list (browser);
 	gth_filterbar_load_filter (GTH_FILTERBAR (browser->priv->filterbar), "active_filter.xml");
-	g_free (general_filter);
 	gtk_box_pack_end (GTK_BOX (vbox), browser->priv->filterbar, FALSE, FALSE, 0);
 
 	g_signal_connect (browser->priv->filterbar,
@@ -5040,6 +5060,11 @@ gth_browser_init (GthBrowser *browser)
 			  "personalize",
 			  G_CALLBACK (filterbar_personalize_cb),
 			  browser);
+	browser->priv->filters_changed_id =
+		g_signal_connect (gth_main_get_default_monitor (),
+				  "filters-changed",
+				  G_CALLBACK (filters_changed_cb),
+				  browser);
 
 	/* monitor signals */
 
