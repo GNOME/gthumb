@@ -11,7 +11,7 @@
 msgid ""
 msgstr "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2020-07-19 12:25+0000\n"
+"POT-Creation-Date: 2021-03-14 11:04+0000\n"
 "PO-Revision-Date: 2021-03-14 11:08+0200\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
@@ -111,7 +111,7 @@ msgstr "Inportatu argazkiak kameraren txarteletik"
 
 #. manually set name and icon
 #: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:423 gthumb/gth-progress-dialog.c:413
+#: gthumb/gth-browser.c:424 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -727,8 +727,8 @@ msgid "Rename"
 msgstr "Aldatu izena"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4556
-#: gthumb/gth-browser.c:4658 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4564
+#: gthumb/gth-browser.c:4666 gthumb/gth-file-properties.c:258
 msgid "Properties"
 msgstr "Propietateak"
 
@@ -857,7 +857,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Ezin izan dira fitxategiak katalogoari gehitu"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:402
+#: extensions/search/gth-search-task.c:392
 msgid "Could not create the catalog"
 msgstr "Ezin izan da katalogoa sortu"
 
@@ -912,10 +912,10 @@ msgid "Tag (embedded)"
 msgstr "Etiketa (kapsulatuta)"
 
 #: extensions/catalogs/gth-catalog.c:300
-#: extensions/exiv2_tools/exiv2-utils.cpp:876
-#: extensions/exiv2_tools/exiv2-utils.cpp:885
-#: extensions/exiv2_tools/exiv2-utils.cpp:915
-#: extensions/exiv2_tools/exiv2-utils.cpp:1448
+#: extensions/exiv2_tools/exiv2-utils.cpp:872
+#: extensions/exiv2_tools/exiv2-utils.cpp:881
+#: extensions/exiv2_tools/exiv2-utils.cpp:911
+#: extensions/exiv2_tools/exiv2-utils.cpp:1444
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:336
 msgid "Invalid file format"
 msgstr "Fitxategiaren formatu baliogabea"
@@ -1653,7 +1653,7 @@ msgstr "Estatua/Probintzia:"
 msgid "(invalid value)"
 msgstr "(baliogabea)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:713
+#: extensions/exiv2_tools/exiv2-utils.cpp:709
 msgid "Exposure"
 msgstr "Esposizioa"
 
@@ -1856,7 +1856,7 @@ msgstr "Ezin izan dira fitxategiak esportatu"
 #: extensions/flicker_utils/dlg-export-to-flickr.c:601
 #: extensions/picasaweb/dlg-export-to-picasaweb.c:502
 #: extensions/picasaweb/dlg-import-from-picasaweb.c:254
-#: gthumb/gth-browser.c:872
+#: gthumb/gth-browser.c:873
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -1929,7 +1929,7 @@ msgstr "Idatzi karpetaren izena:"
 #: extensions/file_manager/callbacks.c:551
 #: extensions/file_manager/callbacks.c:986
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5568 gthumb/gth-browser.c:5604
+#: gthumb/gth-browser.c:5579 gthumb/gth-browser.c:5622
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Ezin izan da eragiketa burutu"
@@ -2581,7 +2581,7 @@ msgstr "Idatzi aurrezarritako izena:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1631
-#: gthumb/gth-browser.c:1863
+#: gthumb/gth-browser.c:1864
 msgid "Could not save the file"
 msgstr "Ezin izan da fitxategia gorde"
 
@@ -2924,7 +2924,7 @@ msgid "_Open in the Browser"
 msgstr "_Ireki arakatzailean"
 
 #: extensions/flicker_utils/dlg-import-from-flickr.c:320
-#: gthumb/gth-file-selection-info.c:140
+#: gthumb/gth-file-selection-info.c:143
 #, c-format
 msgid "%d file"
 msgid_plural "%d files"
@@ -3655,7 +3655,7 @@ msgstr "Ez da fitxategirik inportatu"
 msgid "The selected files are already present in the destination."
 msgstr "Hautatutako fitxategiak jadanik helburuan daude."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:669
+#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:692
 msgid "Could not delete the files"
 msgstr "Ezin izan dira fitxategiak ezabatu"
 
@@ -4317,7 +4317,7 @@ msgid "Search again"
 msgstr "Bilatu berriro"
 
 #. Translators: This is not a verb, it's a name as in "the search properties".
-#: extensions/search/callbacks.c:169
+#: extensions/search/callbacks.c:197
 #: extensions/search/search.extension.desktop.in.in:3
 msgid "Search"
 msgstr "Bilatu"
@@ -4336,16 +4336,16 @@ msgstr "honako arauetariko batzuk"
 msgid "Add another location"
 msgstr "Gehitu beste kokaleku bat"
 
-#: extensions/search/gth-search-task.c:194
+#: extensions/search/gth-search-task.c:189
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Oraingoz aurkitutako fitxategiak: %s"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:333
 msgid "Searching…"
 msgstr "Bilatzen…"
 
-#: extensions/search/gth-search-task.c:347
+#: extensions/search/gth-search-task.c:340
 msgid "Cancel the operation"
 msgstr "Utzi bertan behera eragiketa"
 
@@ -4523,7 +4523,7 @@ msgstr "Kuboa behetik"
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:4
 msgid "Play a presentation of images."
-msgstr "Errproduzitu irudien aurkezpen bat."
+msgstr "Erreproduzitu irudien aurkezpen bat."
 
 #: extensions/slideshow/slideshow.extension.desktop.in.in:8
 msgid "x-office-presentation"
@@ -4691,9 +4691,9 @@ msgstr "Webeko albumak"
 msgid "Create static web albums."
 msgstr "Sortu webeko album estatikoak."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1170
-#: gthumb/gth-browser.c:6572 gthumb/gth-browser.c:6591
-#: gthumb/gth-browser.c:6615 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1171
+#: gthumb/gth-browser.c:6616 gthumb/gth-browser.c:6635
+#: gthumb/gth-browser.c:6659 gthumb/gth-vfs-tree.c:390
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Ezin izan da posizio hau kargatu: “%s”"
@@ -4971,8 +4971,8 @@ msgstr "Itxi leihoa"
 msgid "Open location"
 msgstr "Ireki kokalekua"
 
-#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4571
-#: gthumb/gth-browser.c:4589 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:103 gthumb/gth-browser.c:4579
+#: gthumb/gth-browser.c:4597 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Pantaila osoa"
@@ -5045,82 +5045,82 @@ msgstr "Hautatu dena"
 msgid "Select none"
 msgstr "Ez hautatu ezer"
 
-#: gthumb/gth-browser.c:408
+#: gthumb/gth-browser.c:409
 msgid "[modified]"
 msgstr "[aldatua]"
 
-#: gthumb/gth-browser.c:873
+#: gthumb/gth-browser.c:874
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "fitxategi %d hautatu da (%s)"
 msgstr[1] "%d fitxategi hautatu dira (%s)"
 
-#: gthumb/gth-browser.c:908
+#: gthumb/gth-browser.c:909
 #, c-format
 msgid "%s of free space"
 msgstr "Leku librea: %s"
 
-#: gthumb/gth-browser.c:1786 gthumb/gth-browser.c:1802
+#: gthumb/gth-browser.c:1787 gthumb/gth-browser.c:1803
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Ez da %s(r)en modulu egokirik aurkitu"
 
-#: gthumb/gth-browser.c:1907
+#: gthumb/gth-browser.c:1908
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Gorde aldaketak “%s” fitxategian?"
 
-#: gthumb/gth-browser.c:1912
+#: gthumb/gth-browser.c:1913
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Ez baduzu gordetzen, fitxategiaren aldaketak betirako galduko dira."
 
-#: gthumb/gth-browser.c:1913
+#: gthumb/gth-browser.c:1914
 msgid "Do _Not Save"
 msgstr "_Ez gorde"
 
-#: gthumb/gth-browser.c:2401 gthumb/gth-browser.c:4597
+#: gthumb/gth-browser.c:2402 gthumb/gth-browser.c:4605
 msgid "Accept"
 msgstr "Onartu"
 
-#: gthumb/gth-browser.c:2401 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2402 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "It_xi"
 
-#: gthumb/gth-browser.c:2939
+#: gthumb/gth-browser.c:2940
 msgid "Could not change name"
 msgstr "Ezin izan da izena aldatu"
 
-#: gthumb/gth-browser.c:3436
+#: gthumb/gth-browser.c:3443
 msgid "Modified"
 msgstr "Aldatze-data"
 
-#: gthumb/gth-browser.c:4519
+#: gthumb/gth-browser.c:4527
 msgid "Go to the previous visited location"
 msgstr "Joan bisitatutako aurreko kokapenera"
 
-#: gthumb/gth-browser.c:4525
+#: gthumb/gth-browser.c:4533
 msgid "Go to the next visited location"
 msgstr "Joan bisitatutako hurrengo kokapenera"
 
-#: gthumb/gth-browser.c:4533
+#: gthumb/gth-browser.c:4541
 msgid "History"
 msgstr "Historia"
 
-#: gthumb/gth-browser.c:4547
+#: gthumb/gth-browser.c:4555
 msgid "View the folders"
 msgstr "Ikusi karpetak"
 
-#: gthumb/gth-browser.c:4562
+#: gthumb/gth-browser.c:4570
 msgid "Edit file"
 msgstr "Editatu fitxategia"
 
-#: gthumb/gth-browser.c:6573
+#: gthumb/gth-browser.c:6617
 #, c-format
 msgid "File type not supported"
 msgstr "Fitxategi mota ez dago onartuta"
 
-#: gthumb/gth-browser.c:6616
+#: gthumb/gth-browser.c:6660
 #, c-format
 msgid "No suitable module found"
 msgstr "Ez da modulu egokirik aurkitu"
@@ -5147,22 +5147,22 @@ msgstr "Erakutsi formatu aukerak"
 msgid "Computer"
 msgstr "Ordenagailua"
 
-#: gthumb/gth-file-source-vfs.c:773
+#: gthumb/gth-file-source-vfs.c:796
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Fitxategiak ezin dira zakarrontzira bota. Betirako ezabatu nahi dituzu?"
 
-#: gthumb/gth-file-source-vfs.c:784
+#: gthumb/gth-file-source-vfs.c:807
 msgid "Could not move the files to the Trash"
 msgstr "Ezin izan dira fitxategiak zakarrontzira bota"
 
-#: gthumb/gth-file-source-vfs.c:829
+#: gthumb/gth-file-source-vfs.c:852
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Ziur zaude “%s” behin betiko ezabatu nahi duzula?"
 
-#: gthumb/gth-file-source-vfs.c:832
+#: gthumb/gth-file-source-vfs.c:855
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5170,7 +5170,7 @@ msgid_plural ""
 msgstr[0] "Ziur zaude hautatutako fitxategi %'d betirako ezabatzea nahi duzula?"
 msgstr[1] "Ziur zaude hautatutako %'d fitxategi betirako ezabatzea nahi dituzula?"
 
-#: gthumb/gth-file-source-vfs.c:842
+#: gthumb/gth-file-source-vfs.c:865
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Fitxategi bat ezabatzen baduzu, betirako galduko da."
 
