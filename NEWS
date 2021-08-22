@@ -1,3 +1,19 @@
+version 3.10.4
+--------------
+
+ Bugs fixed:
+
+  * Install the gThumb import desktop file. (Bruce Schultz)
+  * Contact sheet: fixed themes list always empty.
+  * Thumbnailer: try with the system thumbnailer if the image is null
+    (!184)
+  * File chooser: correctly get the filename extension.
+
+ New or updated application translations:
+
+  * Basque (Asier Sarasua Garmendia)
+  * Romanian (Adi Roiban)
+
 version 3.10.3
 --------------
 
