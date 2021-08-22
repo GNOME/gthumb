@@ -740,6 +740,41 @@ watch_thumbnailer_cb (GPid     pid,
 
 
 static void
+load_with_system_thumbnailer (GthThumbLoader *self,
+			      LoadData       *load_data)
+{
+	char   *uri;
+	GError *error = NULL;
+
+	uri = g_file_get_uri (load_data->file_data->file);
+	if (gnome_desktop_thumbnail_factory_generate_from_script (self->priv->thumb_factory,
+								  uri,
+								  gth_file_data_get_mime_type (load_data->file_data),
+								  &load_data->thumbnailer_pid,
+								  &load_data->thumbnailer_tmpfile,
+								  &error))
+	{
+		load_data->thumbnailer_watch = g_child_watch_add (load_data->thumbnailer_pid,
+								  watch_thumbnailer_cb,
+								  load_data);
+		load_data->thumbnailer_timeout = g_timeout_add (MAX_THUMBNAILER_LIFETIME,
+								kill_thumbnailer_cb,
+								load_data);
+		load_data->cancellable_watch = g_timeout_add (CHECK_CANCELLABLE_DELAY,
+							      check_cancellable_cb,
+							      load_data);
+	}
+	else {
+		g_clear_error (&error);
+		failed_to_load_original_image (self, load_data);
+		load_data_unref (load_data);
+	}
+
+	g_free (uri);
+}
+
+
+static void
 original_image_ready_cb (GObject      *source_object,
 		         GAsyncResult *res,
 		         gpointer      user_data)
@@ -763,45 +798,23 @@ original_image_ready_cb (GObject      *source_object,
 		/* error loading the original image, try with the system
 		 * thumbnailer */
 
-		char *uri;
-
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			g_task_return_error (load_data->task, error);
 			return;
 		}
 
 		g_clear_error (&error);
-
-		uri = g_file_get_uri (load_data->file_data->file);
-		if (gnome_desktop_thumbnail_factory_generate_from_script (self->priv->thumb_factory,
-									  uri,
-									  gth_file_data_get_mime_type (load_data->file_data),
-									  &load_data->thumbnailer_pid,
-									  &load_data->thumbnailer_tmpfile,
-									  &error))
-		{
-			load_data->thumbnailer_watch = g_child_watch_add (load_data->thumbnailer_pid,
-									  watch_thumbnailer_cb,
-									  load_data);
-			load_data->thumbnailer_timeout = g_timeout_add (MAX_THUMBNAILER_LIFETIME,
-									kill_thumbnailer_cb,
-									load_data);
-			load_data->cancellable_watch = g_timeout_add (CHECK_CANCELLABLE_DELAY,
-								      check_cancellable_cb,
-								      load_data);
-		}
-		else {
-			g_clear_error (&error);
-			failed_to_load_original_image (self, load_data);
-			load_data_unref (load_data);
-		}
-
-		g_free (uri);
-
+		load_with_system_thumbnailer (self, load_data);
 		return;
 	}
 
 	surface = gth_image_get_cairo_surface (image);
+	if (surface == NULL) {
+		g_object_unref (image);
+		load_with_system_thumbnailer (self, load_data);
+		return;
+	}
+
 	original_image_loaded_correctly (self,
 					 load_data,
 					 surface,
