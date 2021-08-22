@@ -1,3 +1,49 @@
+version 3.11.4
+--------------
+
+ New features and user visible changes:
+
+  * Added ability to load AVIF/HEIF images using libheif.
+  * Added ability to save images as AVIF.
+  * Allow to set shortcuts to activate filters.
+  * Added a template editor to edit text values with special codes:
+    script commands, rename templates, print header and footer, etc.
+  * Faster navigation when a directory contains thousands of images.
+  * File list: start more thumbnailers in parallel.
+  * Allow to mount unmounted volumes.
+  * Color picker: added other formats: rgb in % and hsl.
+  * Allow to keep browsing while executing long-running external tools.
+  * Status bar: added button to show the progress dialog.
+  * File properties: do not reset the selection after showing another image.
+  * Histogram: show the properties in a single column to save horizontal space.
+
+ Bugs fixed:
+
+  * Install the gThumb import desktop file. (Bruce Schultz)
+  * Contact sheet: fixed themes list always empty.
+  * Thumbnailer: try with the system thumbnailer if the image is null
+    (!184)
+  * Include locale.h for LC_NUMERIC (!180)
+  * Raw: Make compatible with LibRaw 0.21 (Chris Mayo)
+  * Folder context menu: do not allow to move if cannot delete.
+  * Folder context menu: do not allow to copy not mounted volumes.
+  * Terminal: enable only for local folders.
+  * File chooser: correctly get the filename extension.
+
+ New or updated application translations:
+
+  * Basque (Asier Sarasua Garmendia)
+  * Brazilian Portuguese (Rafael Fontenelle)
+  * Chinese - China (Boyuan Yang)
+  * Danish (Ask Hjorth Larsen)
+  * Indonesian (Andika Triwidada)
+  * Polish (Piotr Drąg)
+  * Romanian (Adi Roiban)
+  * Spanish - Spain (Daniel Mustieles)
+  * Swedish (Anders Jonsson)
+  * Turkish (Emin Tufan Çetin)
+  * Ukrainian (Yuri Chornoivan)
+
 version 3.11.3
 --------------
 
