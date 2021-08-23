@@ -260,6 +260,14 @@ load_image_thread (GTask        *task,
 
 	_g_object_unref (istream);
 
+	if ((image != NULL) && gth_image_get_is_null (image)) {
+		_g_object_unref (image);
+		if (error == NULL)
+			error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, "Error");
+		g_task_return_error (task, error);
+		return;
+	}
+
 	if ((image != NULL)
 	    && ! g_cancellable_is_cancelled (cancellable)
 	    && (self->priv->out_profile != NULL)
