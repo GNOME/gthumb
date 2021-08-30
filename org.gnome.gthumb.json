@@ -1,0 +1,29 @@
+{
+  "app-id": "org.gnome.gthumb",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "3.34",
+  "sdk": "org.gnome.Sdk",
+  "command": "gthumb",
+  "finish-args": [
+    "--share=ipc",
+    "--socket=x11",
+    "--socket=wayland",
+    "--socket=fallback-x11",
+    "--socket=session-bus",
+    "--share=network",
+    "--filesystem=host"
+  ],
+  "modules": [
+    {
+      "name": "gthumb",
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/GNOME/gthumb.git",
+          "branch": "3.9.1"
+        }
+      ]
+    }
+  ]
+}
