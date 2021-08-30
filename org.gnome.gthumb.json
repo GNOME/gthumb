@@ -1,9 +1,12 @@
 {
   "app-id": "org.gnome.gthumb",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "3.34",
+  "runtime-version": "master",
   "sdk": "org.gnome.Sdk",
   "command": "gthumb",
+  "tags" : [
+    "nightly"
+  ],
   "finish-args": [
     "--share=ipc",
     "--socket=x11",
@@ -13,6 +16,17 @@
     "--share=network",
     "--filesystem=host"
   ],
+  "cleanup": [
+    "/include",
+    "/lib/pkgconfig",
+    "/share/pkgconfig",
+    "/share/aclocal",
+    "/man",
+    "/share/man",
+    "/share/gtk-doc",
+    "*.la",
+    "*.a"
+  ],
   "modules": [
     {
       "name": "gthumb",
@@ -20,8 +34,7 @@
       "sources": [
         {
           "type": "git",
-          "url": "https://github.com/GNOME/gthumb.git",
-          "branch": "3.9.1"
+          "url": "https://github.com/GNOME/gthumb.git"
         }
       ]
     }
