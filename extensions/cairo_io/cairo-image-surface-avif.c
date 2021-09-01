@@ -151,6 +151,7 @@ _cairo_image_surface_create_from_avif (GInputStream   *istream,
 		*p_original_height = original_height;
 
 	gth_image_set_cairo_surface (image, surface);
+	cairo_surface_destroy (surface);
 
 stop_loading:
 
