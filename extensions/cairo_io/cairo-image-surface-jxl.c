@@ -292,6 +292,7 @@ _cairo_image_surface_create_from_jxl(GInputStream  *istream,
 	cairo_surface_mark_dirty(surface);
 	if (cairo_surface_status(surface) == CAIRO_STATUS_SUCCESS)
 		gth_image_set_cairo_surface(image, surface);
+	cairo_surface_destroy (surface);
 
 	return image;
 }
