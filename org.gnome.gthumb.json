@@ -34,7 +34,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/GNOME/gthumb.git"
+                    "url": "https://gitlab.gnome.org/GNOME/gthumb.git"
                 }
             ]
         }
