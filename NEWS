@@ -1,3 +1,26 @@
+version 3.12.0
+--------------
+
+ Bugs fixed:
+
+  * Fix memory leak when loading webp, jxl, avif images. (Jürg Billeter)
+  * Check if image is null before using it. (!189)
+  * Added a Flatpak manifest. (AsciiWolf)
+
+ New or updated application translations:
+
+  * Catalan (Jordi Mas)
+  * Finnish (Jiri Grönroos)
+  * Hungarian (Balázs Úr)
+  * Indonesian (Andika Triwidada)
+  * Lietuvių (Aurimas Černius)
+  * Swedish (Anders Jonsson)
+  * čeština (Marek Černocký)
+
+ New or updated manual translations:
+
+  * Spanish - Spain (Daniel Mustieles)
+
 version 3.11.4
 --------------
 
