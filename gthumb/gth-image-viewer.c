@@ -1618,6 +1618,8 @@ _gth_image_viewer_set_original_size (GthImageViewer *self,
 	int              image_height;
 
 	image = gth_image_viewer_get_current_image (self);
+	if (image == NULL)
+		return;
 	image_width = cairo_image_surface_get_width (image);
 	image_height = cairo_image_surface_get_height (image);
 
