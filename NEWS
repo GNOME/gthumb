@@ -1,279 +1,244 @@
-version 3.12.0
---------------
+Version 3.12.0
+~~~~~~~~~~~~~~
+Released: 2021-09-19
 
- Bugs fixed:
+Bugfixes:
+ * Fix memory leak when loading webp, jxl, avif images. (Jürg Billeter)
+ * Check if image is null before using it. (!189)
+ * Added a Flatpak manifest. (AsciiWolf)
 
-  * Fix memory leak when loading webp, jxl, avif images. (Jürg Billeter)
-  * Check if image is null before using it. (!189)
-  * Added a Flatpak manifest. (AsciiWolf)
+Translations:
+ * Catalan (Jordi Mas)
+ * Finnish (Jiri Grönroos)
+ * Hungarian (Balázs Úr)
+ * Indonesian (Andika Triwidada)
+ * Lietuvių (Aurimas Černius)
+ * Spanish - Spain (Daniel Mustieles)
+ * Swedish (Anders Jonsson)
+ * čeština (Marek Černocký)
 
- New or updated application translations:
 
-  * Catalan (Jordi Mas)
-  * Finnish (Jiri Grönroos)
-  * Hungarian (Balázs Úr)
-  * Indonesian (Andika Triwidada)
-  * Lietuvių (Aurimas Černius)
-  * Swedish (Anders Jonsson)
-  * čeština (Marek Černocký)
+Version 3.11.4
+~~~~~~~~~~~~~~
+Released: 2021-08-22
 
- New or updated manual translations:
+Features:
+ * Added ability to load AVIF/HEIF images using libheif.
+ * Added ability to save images as AVIF.
+ * Allow to set shortcuts to activate filters.
+ * Added a template editor to edit text values with special codes:
+   script commands, rename templates, print header and footer, etc.
+ * Faster navigation when a directory contains thousands of images.
+ * File list: start more thumbnailers in parallel.
+ * Allow to mount unmounted volumes.
+ * Color picker: added other formats: rgb in % and hsl.
+ * Allow to keep browsing while executing long-running external tools.
+ * Status bar: added button to show the progress dialog.
+ * File properties: do not reset the selection after showing another image.
+ * Histogram: show the properties in a single column to save horizontal space.
 
-  * Spanish - Spain (Daniel Mustieles)
+Bugfixes:
+ * Install the gThumb import desktop file. (Bruce Schultz)
+ * Contact sheet: fixed themes list always empty.
+ * Thumbnailer: try with the system thumbnailer if the image is null
+   (!184)
+ * Include locale.h for LC_NUMERIC (!180)
+ * Raw: Make compatible with LibRaw 0.21 (Chris Mayo)
+ * Folder context menu: do not allow to move if cannot delete.
+ * Folder context menu: do not allow to copy not mounted volumes.
+ * Terminal: enable only for local folders.
+ * File chooser: correctly get the filename extension.
 
-version 3.11.4
---------------
+Translations:
+ * Basque (Asier Sarasua Garmendia)
+ * Brazilian Portuguese (Rafael Fontenelle)
+ * Chinese - China (Boyuan Yang)
+ * Danish (Ask Hjorth Larsen)
+ * Indonesian (Andika Triwidada)
+ * Polish (Piotr Drąg)
+ * Romanian (Adi Roiban)
+ * Spanish - Spain (Daniel Mustieles)
+ * Swedish (Anders Jonsson)
+ * Turkish (Emin Tufan Çetin)
+ * Ukrainian (Yuri Chornoivan)
 
- New features and user visible changes:
+Version 3.11.3
+~~~~~~~~~~~~~~
+Released: 2021-04-11
 
-  * Added ability to load AVIF/HEIF images using libheif.
-  * Added ability to save images as AVIF.
-  * Allow to set shortcuts to activate filters.
-  * Added a template editor to edit text values with special codes:
-    script commands, rename templates, print header and footer, etc.
-  * Faster navigation when a directory contains thousands of images.
-  * File list: start more thumbnailers in parallel.
-  * Allow to mount unmounted volumes.
-  * Color picker: added other formats: rgb in % and hsl.
-  * Allow to keep browsing while executing long-running external tools.
-  * Status bar: added button to show the progress dialog.
-  * File properties: do not reset the selection after showing another image.
-  * Histogram: show the properties in a single column to save horizontal space.
+Features:
+ * Add JPEG XL (*.jxl) read support. (Ian Tester)
+ * File manager: added file actions to the viewer context menu. (!102)
+ * Extensions: removed facebook and picasaweb uploaders.
 
- Bugs fixed:
+Bugfixes:
+ * Fixed possible build error.
+ * Continuously reloads image when it is only image in folder (!153)
+ * Webp can have transparency as well.
 
-  * Install the gThumb import desktop file. (Bruce Schultz)
-  * Contact sheet: fixed themes list always empty.
-  * Thumbnailer: try with the system thumbnailer if the image is null
-    (!184)
-  * Include locale.h for LC_NUMERIC (!180)
-  * Raw: Make compatible with LibRaw 0.21 (Chris Mayo)
-  * Folder context menu: do not allow to move if cannot delete.
-  * Folder context menu: do not allow to copy not mounted volumes.
-  * Terminal: enable only for local folders.
-  * File chooser: correctly get the filename extension.
+Translations:
+ * Basque (Asier Sarasua Garmendia)
+ * Brazilian Portuguese (Enrico Nicoletto)
+ * catalan (Jordi Mas)
+ * Dutch (Nathan Follens, Paul Matthijsse)
+ * Finnish (Jiri Grönroos)
+ * Hungarian (Balázs Úr)
+ * Indonesian (Kukuh Syafaat)
+ * Lietuvių (Aurimas Černius)
+ * Polish (Piotr Drąg)
+ * Romanian (Adi Roiban)
+ * Spanish - Spain (Daniel Mustieles)
+ * Swedish (Anders Jonsson)
+ * Turkish (Muhammet Kara)
+ * Ukrainian (Yuri Chornoivan)
+ * čeština (Marek Černocký)
+ * српски (Мирослав Николић)
+ * עברית (Yaron Shahrabani)
 
- New or updated application translations:
+Version 3.11.2
+~~~~~~~~~~~~~~
+Released: 2021-01-10
 
-  * Basque (Asier Sarasua Garmendia)
-  * Brazilian Portuguese (Rafael Fontenelle)
-  * Chinese - China (Boyuan Yang)
-  * Danish (Ask Hjorth Larsen)
-  * Indonesian (Andika Triwidada)
-  * Polish (Piotr Drąg)
-  * Romanian (Adi Roiban)
-  * Spanish - Spain (Daniel Mustieles)
-  * Swedish (Anders Jonsson)
-  * Turkish (Emin Tufan Çetin)
-  * Ukrainian (Yuri Chornoivan)
+Features:
+ * Image viewer: use a proportional zoom increment. (#104)
+ * Image viewer: keep the same pixel under the pointer after zooming. (#129)
+ * Read color profiles from png files as well.
+ * Media viewer: use accurate seeking when clicking on the progress bar.
+ * Media viewer: show the pointed time when hovering over the progress bar.
+ * Browser: added support for back and forward mouse buttons. (#120)
+ * Preferences: added option to show/hide the statusbar.
+ * Rename files: added a button to revert to the last used template.
 
-version 3.11.3
---------------
+Bugfixes:
+ * Image viewer: fixed bright line visual artifacts. (#118)
+ * gThumb opens import tool if the import tool is already opened. (#133)
+ * Fixed jump to bottom when selecting thumbnails with mouse. (#147)
+ * exiv2: remove the charset= prefix from strings. (#137)
+ * Search: do not count duplicated files.
+ * Search: stop searching if the user changes location.
+ * Search: stop the previous search before starting the new one.
 
- New features and user visible changes:
+Translations:
+ * Brazilian Portuguese (Enrico Nicoletto)
+ * catalan (Jordi Mas)
+ * Hungarian (Balázs Úr)
+ * Indonesian (Andika Triwidada)
+ * Japanese (sicklylife)
+ * Lietuvių (Aurimas Černius)
+ * Polish (Piotr Drąg)
+ * Slovenian (Matej Urbančič)
+ * Swedish (Anders Jonsson)
+ * Turkish (Emin Tufan Çetin)
+ * Ukrainian (Yuri Chornoivan)
+ * čeština (Marek Černocký)
 
-  * Add JPEG XL (*.jxl) read support. (Ian Tester)
-  * File manager: added file actions to the viewer context menu. (!102)
-  * Extensions: removed facebook and picasaweb uploaders.
+Version 3.11.1
+~~~~~~~~~~~~~~
+Released: 2020-09-20
 
- Bugs fixed:
+Features:
+ * Added configurable shortcuts for Save and Save As. (Joerg Fellmann)
+ * Media player: adjust the pitch if not played at normal speed.
+ * Media viewer: added keyboard shortcuts.
+ * Media viewer: added actions to skip forward/backward.
+ * Media viewer: fixed hardware accelerated playback.
+ * Desktop file: added a 'New Window' action.
+ * File list: always allow to use Control-A to select all files.
 
-  * Fixed possible build error.
-  * Continuously reloads image when it is only image in folder (!153)
-  * Webp can have transparency as well.
+Bugfixes:
+ * WebP loader: fixed an infinite loop when the operation is cancelled. (Jürg Billeter)
+ * Jpeg loader: fixed crash in case of some malformed jpegs. (Joerg Fellmann)
+ * Fixed crash when selecting other images after deleting. (#126)
+ * Fixed long UI freeze after cutting/pasting many files.
 
- New or updated application translations:
+Translations:
+ * Brazilian Portuguese (Henrique Machado Campos)
+ * Catalan (Jordi Mas)
+ * Chinese/Traditional (Cheng-Chia Tseng)
+ * Finnish (Jiri Grönroos)
+ * French (Charles Monzat)
+ * German - Germany (Christian Kirbach)
+ * Indonesian (Andika Triwidada)
+ * Italian (Gianvito Cavasoli)
+ * Japanese (sicklylife)
+ * Lietuvių (Aurimas Černius)
+ * Polish (Piotr Drąg)
+ * Spanish - Spain (Daniel Mustieles)
+ * Swedish (Anders Jonsson)
+ * Ukrainian (Yuri Chornoivan)
 
-  * Basque (Asier Sarasua Garmendia)
-  * Brazilian Portuguese (Enrico Nicoletto)
-  * catalan (Jordi Mas)
-  * Dutch (Nathan Follens)
-  * Finnish (Jiri Grönroos)
-  * Hungarian (Balázs Úr)
-  * Indonesian (Kukuh Syafaat)
-  * Lietuvių (Aurimas Černius)
-  * Polish (Piotr Drąg)
-  * Romanian (Adi Roiban)
-  * Spanish - Spain (Daniel Mustieles)
-  * Swedish (Anders Jonsson)
-  * Turkish (Muhammet Kara)
-  * Ukrainian (Yuri Chornoivan)
-  * čeština (Marek Černocký)
-  * српски (Мирослав Николић)
-  * עברית (Yaron Shahrabani)
+Version 3.10.0
+~~~~~~~~~~~~~~
+Released: 2020-04-19
 
- New or updated manual translations:
+Features:
+ * Edit metadata dialogs: moved the lock button on the header bar; show the
+   navigation bar only when the lock button is active.
+ * Open location dialog: allow to use tilde as a home folder shortcut.
 
-  * Dutch (Paul Matthijsse)
-  * Hungarian (Balázs Úr)
+Bugfixes:
+ * Install missing .ui file
 
-version 3.11.2
---------------
+Translations:
+ * Brazilian Portuguese (Rafael Fontenelle)
+ * Dutch (Justin van Steijn)
+ * Indonesian (Andika Triwidada)
+ * Italiano (Gianvito Cavasoli)
+ * Japanese (sicklylife)
+ * Polish (Piotr Drąg)
+ * Spanish - Spain (Daniel Mustieles)
+ * Swedish (Anders Jonsson)
+ * Turkish (Emin Tufan Çetin)
+ * Ukrainian (Yuri Chornoivan)
 
- New features and user visible changes:
+Version 3.9.1
+~~~~~~~~~~~~~
+Released: 2020-03-07
 
-  * Image viewer: use a proportional zoom increment. (#104)
-  * Image viewer: keep the same pixel under the pointer after zooming. (#129)
-  * Read color profiles from png files as well.
-  * Media viewer: use accurate seeking when clicking on the progress bar.
-  * Media viewer: show the pointed time when hovering over the progress bar.
-  * Browser: added support for back and forward mouse buttons. (#120)
-  * Preferences: added option to show/hide the statusbar.
-  * Rename files: added a button to revert to the last used template.
+Features:
+ * Added ability to customize the keyboard shortcuts.
+ * Added a shortcuts window to show the available shortcuts.
+ * Added option to change the mouse wheel action.
+ * Image viewer: added ability to define the transparency style.
+ * Video viewer: allow to view the video at the original size; show the zoom
+   factor in the statusbar.
+ * Edit comment/tags dialogs: use the header bar; allow to change the current
+   image from the dialog.
+ * Add to catalog: use the header bar; allow to change the current image from
+   the dialog.
+ * Search: added ability to search in multiple folders.
+ * Scripts: added %T to insert a timestamp in the command.
+ * Folder tree:
+   * better drag&drop support: allow to move a catalog into a library, and a
+     library into another library, show an error if the drop operation is not
+     possible;
+   * added an 'Open in Terminal' command in the context menu.
+ * Overwrite dialog: show video previews as well, fixed dialog size.
+ * Preferences: allow to specify a catalog or any other location as startup
+   location.
+ * Trash/Delete files: show progress for long operations.
+ * File properties: added the file size in bytes.
+ * File properties: added a context menu command to customize the visibile
+   properties.
+ * Toolbar: show edit comment/tags in browser mode as well.
+ * Export tools: removed from the toolbar.  Some tools moved to the tools
+   menu, others as a submenu in the gears menu.
+ * Fixed window size when started the first time.
+ * Updated app icon to follow the new GNOME style.
+ * Rewritten README in markdown, updated screenshots.
+ * Appdata: added release and OARS tags for flathub compatibility. (Tobias Mueller)
 
-Bugs fixed:
+Bugfixes:
+ * gThumb hangs when some mount point is unavailable. (!75)
+ * Jpeg loader: crash when the original size is too big for a cairo surface.
+ * PNG loader: correctly load images with transparency.
+ * Fixed run-time errors if exiv2 is not used.
+ * Catalog: preserve the list order after saving the properties.
+ * Scripts: fixed task cancellation when using a shell script.
 
-  * Image viewer: fixed bright line visual artifacts. (#118)
-  * gThumb opens import tool if the import tool is already opened. (#133)
-  * Fixed jump to bottom when selecting thumbnails with mouse. (#147)
-  * exiv2: remove the charset= prefix from strings. (#137)
-  * Search: do not count duplicated files.
-  * Search: stop searching if the user changes location.
-  * Search: stop the previous search before starting the new one.
-
- New or updated application translations:
-
-  * Brazilian Portuguese (Enrico Nicoletto)
-  * catalan (Jordi Mas)
-  * Hungarian (Balázs Úr)
-  * Indonesian (Andika Triwidada)
-  * Japanese (sicklylife)
-  * Lietuvių (Aurimas Černius)
-  * Polish (Piotr Drąg)
-  * Slovenian (Matej Urbančič)
-  * Swedish (Anders Jonsson)
-  * Turkish (Emin Tufan Çetin)
-  * Ukrainian (Yuri Chornoivan)
-  * čeština (Marek Černocký)
-
- New or updated manual translations:
-
-  * Indonesian (Andika Triwidada)
-  * Swedish (Anders Jonsson)
-  * čeština (Marek Černocký)
-
-version 3.11.1
---------------
-
- New features and user visible changes:
-
-  * Added configurable shortcuts for Save and Save As. (Joerg Fellmann)
-  * Media player: adjust the pitch if not played at normal speed.
-  * Media viewer: added keyboard shortcuts.
-  * Media viewer: added actions to skip forward/backward.
-  * Media viewer: fixed hardware accelerated playback.
-  * Desktop file: added a 'New Window' action.
-  * File list: always allow to use Control-A to select all files.
-
- Bugs fixed:
-
-  * WebP loader: fixed an infinite loop when the operation is cancelled. (Jürg Billeter)
-  * Jpeg loader: fixed crash in case of some malformed jpegs. (Joerg Fellmann)
-  * Fixed crash when selecting other images after deleting. (#126)
-  * Fixed long UI freeze after cutting/pasting many files.
-
- New or updated application translations:
-
-  * Brazilian Portuguese (Henrique Machado Campos)
-  * Catalan (Jordi Mas)
-  * Chinese/Traditional (Cheng-Chia Tseng)
-  * Finnish (Jiri Grönroos)
-  * French (Charles Monzat)
-  * German - Germany (Christian Kirbach)
-  * Indonesian (Andika Triwidada)
-  * Italian (Gianvito Cavasoli)
-  * Japanese (sicklylife)
-  * Lietuvių (Aurimas Černius)
-  * Polish (Piotr Drąg)
-  * Spanish - Spain (Daniel Mustieles)
-  * Swedish (Anders Jonsson)
-  * Ukrainian (Yuri Chornoivan)
-
- New or updated manual translations:
-
-  * Spanish - Spain (Daniel Mustieles)
-  * Ukrainian (Yuri Chornoivan)
-
-version 3.10.0
---------------
-
- New features and user visible changes:
-
-  * Edit metadata dialogs: moved the lock button on the header bar; show the
-    navigation bar only when the lock button is active.
-  * Open location dialog: allow to use tilde as a home folder shortcut.
-
- Bugs fixed:
-
-  * Install missing .ui file
-
- New or updated application translations:
-
-  * Brazilian Portuguese (Rafael Fontenelle)
-  * Dutch (Justin van Steijn)
-  * Indonesian (Andika Triwidada)
-  * Italiano (Gianvito Cavasoli)
-  * Japanese (sicklylife)
-  * Polish (Piotr Drąg)
-  * Spanish - Spain (Daniel Mustieles)
-  * Swedish (Anders Jonsson)
-  * Turkish (Emin Tufan Çetin)
-  * Ukrainian (Yuri Chornoivan)
-
- New or updated manual translations:
-
-  * Dutch (Justin van Steijn)
-
-version 3.9.1
--------------
-
- New features and user visible changes:
-
-  * Added ability to customize the keyboard shortcuts.
-  * Added a shortcuts window to show the available shortcuts.
-  * Added option to change the mouse wheel action.
-  * Image viewer: added ability to define the transparency style.
-  * Video viewer: allow to view the video at the original size; show the zoom
-    factor in the statusbar.
-  * Edit comment/tags dialogs: use the header bar; allow to change the current
-    image from the dialog.
-  * Add to catalog: use the header bar; allow to change the current image from
-    the dialog.
-  * Search: added ability to search in multiple folders.
-  * Scripts: added %T to insert a timestamp in the command.
-  * Folder tree:
-    * better drag&drop support: allow to move a catalog into a library, and a
-      library into another library, show an error if the drop operation is not
-      possible;
-    * added an 'Open in Terminal' command in the context menu.
-  * Overwrite dialog: show video previews as well, fixed dialog size.
-  * Preferences: allow to specify a catalog or any other location as startup
-    location.
-  * Trash/Delete files: show progress for long operations.
-  * File properties: added the file size in bytes.
-  * File properties: added a context menu command to customize the visibile
-    properties.
-  * Toolbar: show edit comment/tags in browser mode as well.
-  * Export tools: removed from the toolbar.  Some tools moved to the tools
-    menu, others as a submenu in the gears menu.
-  * Fixed window size when started the first time.
-  * Updated app icon to follow the new GNOME style.
-  * Rewritten README in markdown, updated screenshots.
-  * Appdata: added release and OARS tags for flathub compatibility. (Tobias Mueller)
-
- Bugs fixed:
-
-  * gThumb hangs when some mount point is unavailable. (!75)
-  * Jpeg loader: crash when the original size is too big for a cairo surface.
-  * PNG loader: correctly load images with transparency.
-  * Fixed run-time errors if exiv2 is not used.
-  * Catalog: preserve the list order after saving the properties.
-  * Scripts: fixed task cancellation when using a shell script.
-
- Source code:
-
-  * Utility functions refactoring.
-  * Added tests for the utility functions.
+Notes:
+ * Utility functions refactoring.
+ * Added tests for the utility functions.
 
 version 3.8.2
 -------------
