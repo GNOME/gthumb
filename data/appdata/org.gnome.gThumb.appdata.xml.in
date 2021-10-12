@@ -50,10 +50,6 @@
     </screenshot>
   </screenshots>
 
-  <releases>
-    <release version="3.8.2" date="2019-11-18"/>
-  </releases>
-
   <update_contact>paobac_at_src.gnome.org</update_contact>
   <kudos>
     <kudo>AppMenu</kudo>
