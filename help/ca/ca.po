@@ -76,7 +76,7 @@ msgid ""
 " button (the palette icon), or press <keyseq><key>e</key></keyseq>."
 msgstr ""
 "<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/> "
-"S'ofereixen nombroses eines d'edició per retocar fotos individuals. "
+"S'ofereixen nombroses eines d'edició per a retocar fotos individuals. "
 "S'ofereixen funcions de desfer i refer, fins que la foto està desada. Per a "
 "accedir a les eines d'edició, obre una imatge i fes clic al botó <gui>Edita"
 " el fitxer</gui> de la barra d'eines (la icona de paleta), o premeu "
@@ -353,7 +353,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/strftime.page:64
 msgid "The century number (year/100) as a 2-digit integer."
-msgstr "El nom del segle (any/100) com a enter de 2 dígits"
+msgstr "El nom del segle (any/100) com a enter de 2 dígits."
 
 #. (itstool) path: td/p
 #: C/strftime.page:72
@@ -402,7 +402,7 @@ msgstr ""
 "L'any ISO 8601 amb el segle com a nombre decimal. El dígit de 4 anys "
 "corresponent al número ISO de la setmana (mira %V). Això té el mateix format"
 " i valor que %y, amb l'excepció que si el número ISO de la setmana pertany a"
-" l'any anterior o següent, es fa servir aquest any. "
+" l'any anterior o següent, es fa servir aquest any."
 
 #. (itstool) path: td/p
 #: C/strftime.page:130
@@ -513,7 +513,7 @@ msgid ""
 "allow for occasional leap seconds.)"
 msgstr ""
 "El segon com a nombre decimal (interval 00 a 60). (El rang és de fins a 60 "
-"per permetre segons de traspàs ocasionals.)"
+"per a permetre segons de traspàs ocasionals.)"
 
 #. (itstool) path: td/p
 #: C/strftime.page:274
@@ -624,7 +624,7 @@ msgid ""
 " a locale-dependent alternative representation."
 msgstr ""
 "Algunes especificacions de conversió es poden modificar precedint el "
-"caràcter de l'especificador de conversió pel modificador E o O per indicar "
+"caràcter de l'especificador de conversió pel modificador E o O per a indicar "
 "que s'hauria d'utilitzar un format alternatiu. Si el format o "
 "l'especificació alternativa no existeix per a la configuració local actual, "
 "el comportament serà com si s'utilitzés l'especificació de conversió sense "
@@ -690,7 +690,7 @@ msgid ""
 "<app>gThumb</app> includes a tool to import photos from attached cameras and"
 " memory card readers."
 msgstr ""
-"<app>gThumb</app> inclou una eina per importar fotos des de càmeres i "
+"<app>gThumb</app> inclou una eina per a importar fotos des de càmeres i "
 "lectors de targetes de memòria adjunts."
 
 #. (itstool) path: page/p
@@ -718,7 +718,7 @@ msgid ""
 "generally, is available at <link "
 "href=\"https://wiki.gnome.org/Apps/gthumb\">https://wiki.gnome.org/Apps/gthumb</link>."
 msgstr ""
-"Hi ha més informació sobre aquestes extensions, i sobre <app>gThumb</app>en "
+"Hi ha més informació sobre aquestes extensions, i sobre <app>gThumb</app> en "
 "general, a <link href=\"https://wiki.gnome.org/Apps/gthumb\">https: "
 "//wiki.gnome.org/Apps/gthumb</link>."
 
@@ -904,14 +904,14 @@ msgid ""
 "characteristics."
 msgstr ""
 "Es proporciona una eina de filtratge d'imatges just a sota de la vista del "
-"navegador. Es pot utilitzar per filtrar les imatges mostrades. Per exemple, "
+"navegador. Es pot utilitzar per a filtrar les imatges mostrades. Per exemple, "
 "la visualització del navegador es pot limitar a fitxers de determinada mida,"
 " data o patró de nom o altres característiques."
 
 #. (itstool) path: page/title
 #: C/batch-rotate.page:6
 msgid "Rotating Images Losslessly"
-msgstr "Rotant imatges sense pèrdues"
+msgstr "Girar imatges sense pèrdues"
 
 #. (itstool) path: page/p
 #: C/batch-rotate.page:8
@@ -922,10 +922,10 @@ msgid ""
 "<guiseq><gui>Tools</gui><gui>Rotate Left</gui></guiseq>. The images will be "
 "rotated."
 msgstr ""
-"Per girar una o més imatges, selecciona-les a la visualització del "
+"Per a girar una o més imatges, selecciona-les a la visualització del "
 "navegador. A continuació, fes clic al botó <gui>Eines</gui> de la barra "
-"d'eines principal i selecciona <guiseq><gui>Eines</gui><gui>Girar a la "
-"dreta</gui></guiseq> o <guiseq><gui>Eines</gui><gui>Girar a "
+"d'eines principal i selecciona <guiseq><gui>Eines</gui><gui>Gira a la "
+"dreta</gui></guiseq> o <guiseq><gui>Eines</gui><gui>Gira a "
 "l'esquerra</gui></guiseq>. Les imatges es giraran."
 
 #. (itstool) path: page/p
@@ -958,8 +958,8 @@ msgid ""
 "Select the desired output format and destination folder. Click "
 "<gui>Execute</gui> to complete the process."
 msgstr ""
-"Selecciona el format de sortida i la carpeta de destinació desitjats. Fes "
-"clic a 1<gui>Executar</gui> per completar el procés."
+"Seleccioneu el format de sortida i la carpeta de destinació desitjades. Feu "
+"clic a <gui>Executa</gui> per a completar el procés."
 
 #. (itstool) path: page/title
 #: C/batch-resize.page:6
@@ -974,7 +974,7 @@ msgid ""
 "button on the main toolbar, and select <guiseq><gui>Tools</gui><gui>Resize "
 "Images</gui></guiseq>."
 msgstr ""
-"Per canviar la mida d'una o més imatges amb les mateixes dimensions o "
+"Per a canviar la mida d'una o més imatges amb les mateixes dimensions o "
 "factors d'escala, selecciona les imatges a la visualització del navegador. A"
 " continuació, fes clic al botó <gui>Eines</gui> a la barra d'eines principal"
 " i seleccions <guiseq><gui>Eines</gui><gui>Redimensiona les "
@@ -987,14 +987,14 @@ msgid ""
 " scaling, and the destination folder. Click <gui>Execute</gui> to complete "
 "the process."
 msgstr ""
-"A continuació, selecciona les dimensions de sortida màximes desitjades o "
-"l'escala percentual desitjada i la carpeta de destinació. Fes clic a "
-"1<gui>Executar</gui> per completar el procés."
+"A continuació, seleccioneu les dimensions de sortida màximes desitjades o "
+"l'escala percentual desitjada i la carpeta de destinació. Feu clic a "
+"<gui>Executa</gui> per a completar el procés."
 
 #. (itstool) path: page/title
 #: C/batch-change-date.page:6
 msgid "Changing Dates"
-msgstr "Canviant dates"
+msgstr "Canviar dates"
 
 #. (itstool) path: page/p
 #: C/batch-change-date.page:8
@@ -1004,11 +1004,11 @@ msgid ""
 "view. Then click the <gui>Tools</gui> button on the main toolbar, and select"
 " <guiseq><gui>Tools</gui><gui>Change Date</gui></guiseq>."
 msgstr ""
-"Per canviar les hores de modificació del fitxer, les dates dels comentaris o"
+"Per a canviar les hores de modificació del fitxer, les dates dels comentaris o"
 " les etiquetes Exif DateTimeOriginal de diversos fitxers, selecciona els "
 "fitxers a la visualització del navegador. A continuació, fes clic al botó "
 "<gui>Eines</gui> a la barra d'eines principal i selecciona "
-"<guiseq><gui>Eines</gui><gui>Canviar data</gui></guiseq>."
+"<guiseq><gui>Eines</gui><gui>Canvia data</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/batch-change-date.page:13
@@ -1016,7 +1016,7 @@ msgid ""
 "Select the desired date options, and click <gui>Execute</gui> to complete "
 "the process."
 msgstr ""
-"Selecciona les opcions de data desitjades i fes clic a <gui>Executar</gui> "
+"Selecciona les opcions de data desitjades i fes clic a <gui>Executa</gui> "
 "per a completar el procés."
 
 #. (itstool) path: page/title
@@ -1031,7 +1031,7 @@ msgid ""
 "execute on your files), click the <gui>Tools</gui> button on the main "
 "toolbar, and select <guiseq><gui>Tools</gui><gui>Personalize</gui></guiseq>."
 msgstr ""
-"Per definir un script (una seqüència de línia d'ordres que <app>gThumb</app>"
+"Per a definir un script (una seqüència de línia d'ordres que <app>gThumb</app>"
 " executarà als teus fitxers), fes clic al botó <gui>Eines</gui> de la barra "
 "d'eines principal i selecciona "
 "<guiseq><gui>Eines</gui><gui>Personalitzables</gui></guiseq>."
@@ -1112,9 +1112,9 @@ msgid ""
 "movie thumbnails."
 msgstr ""
 "Finalment, <app>gThumb</app> utilitzarà qualsevol script definit pel sistema"
-" per miniaturar tipus de suports concrets. Per exemple, alguns sistemes "
+" per a miniaturar tipus de suports concrets. Per exemple, alguns sistemes "
 "poden utilitzar <app>mplayer</app> o <app>totem</app> o altres lectors de "
-"pel·lícules per generar miniatures de pel·lícules."
+"pel·lícules per a generar miniatures de pel·lícules."
 
 #. (itstool) path: page/p
 #: C/thumbnails.page:37
@@ -1170,7 +1170,7 @@ msgstr ""
 "La subfinestra de miniatures es pot posicionar al llarg de la part inferior "
 "de la imatge principal, o al llarg del costat. Això està controlat per la "
 "configuració en "
-"<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>General</gui><gui>Miniatures"
+"<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>General</gui><gui>Miniatures"
 " al visor</gui></guiseq>."
 
 #. (itstool) path: figure/title
@@ -1217,7 +1217,7 @@ msgid ""
 "differ each other (this is essential if you are renaming more than one "
 "image, and optional if you are renaming a single image):"
 msgstr ""
-"La plantilla de nom és simplement un patró que s'utilitza per canviar el nom"
+"La plantilla de nom és simplement un patró que s'utilitza per a canviar el nom"
 " de totes les imatges seleccionades. Podeu fer servir alguns caràcters "
 "especials per fer que els noms nous siguin diferents (això és essencial si "
 "canvies el nom de més d'una imatge i és opcional si canvies el nom d'una "
@@ -1373,7 +1373,7 @@ msgstr ""
 #: C/rename-series.page:133
 msgid "To rename the images click on <gui>Rename</gui>."
 msgstr ""
-"Per canviar el nom de les imatges, fes clic a <gui>Canviar el nom</gui>."
+"Per a canviar el nom de les imatges, fes clic a <gui>Canvia el nom</gui>."
 
 #. (itstool) path: page/p
 #: C/rename-series.page:135
@@ -1391,7 +1391,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/edit-save-undo-redo.page:6
 msgid "File Save, Undo, Redo"
-msgstr "Desar arxiu, Desfér, Refér"
+msgstr "Desar fitxer, desfer, refer"
 
 #. (itstool) path: page/p
 #: C/edit-save-undo-redo.page:8 C/edit-colors.page:8 C/edit-rotate.page:8
@@ -1413,7 +1413,7 @@ msgid ""
 "is saved."
 msgstr ""
 "Es poden fer diversos canvis a una imatge abans de desar-la. Es proporcionen"
-" els botons <gui>Desfer</gui> i <gui>Refer</gui>  i es poden utilitzar fins "
+" els botons <gui>Desfer</gui> i <gui>Refer</gui> i es poden utilitzar fins "
 "que es desi el fitxer."
 
 #. (itstool) path: page/p
@@ -1423,9 +1423,9 @@ msgid ""
 "modified image to a new location instead, leaving the original image "
 "unchanged, use <gui>Save As</gui>."
 msgstr ""
-"Es pot desar una imatge modificada prement 1<gui>Desar</gui>. Per desar la "
+"Es pot desar una imatge modificada prement <gui>Desa</gui>. Per a desar la "
 "imatge modificada en una ubicació nova, deixant la imatge original sense "
-"canvis, utilitza <gui>Desar com</gui>."
+"canvis, utilitzeu <gui>Anomena i desa</gui>."
 
 #. (itstool) path: page/p
 #: C/edit-save-undo-redo.page:20
@@ -1434,9 +1434,9 @@ msgid ""
 "the Folders</gui> toolbar button), or navigate away from the current image, "
 "you will be prompted to save or discard your changes."
 msgstr ""
-"Si surts del mode d'edició (prement el botó de la barra d'eines "
-"<key>Esc</key> o el botó <gui>Veure les carpetes</gui> ) o si t'allunyes de "
-"la imatge actual, s'et demanarà que desis o descartis els canvis."
+"Si sortiu del mode d'edició (prement el botó de la barra d'eines "
+"<key>Esc</key> o el botó <gui>Veure les carpetes</gui>) o si us allunyeu de "
+"la imatge actual, se us demanarà que deseu o descarteu els canvis."
 
 #. (itstool) path: page/title
 #: C/edit-colors.page:6
@@ -1447,7 +1447,7 @@ msgstr "Ajustament de color"
 #: C/edit-colors.page:12
 msgid "Several tools are provided to manipulate the colors in images."
 msgstr ""
-"Es proporcionen diverses eines per manipular els colors de les imatges."
+"Es proporcionen diverses eines per a manipular els colors de les imatges."
 
 #. (itstool) path: item/title
 #: C/edit-colors.page:17
@@ -1528,7 +1528,7 @@ msgstr "Rotacions i voltes"
 #: C/edit-rotate.page:12
 msgid "Several tools are provided to manipulate the orientation of images."
 msgstr ""
-"Es proporcionen diverses eines per manipular l'orientació de les imatges."
+"Es proporcionen diverses eines per a manipular l'orientació de les imatges."
 
 #. (itstool) path: item/title
 #: C/edit-rotate.page:17
@@ -1557,7 +1557,7 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/edit-rotate.page:27
 msgid "<gui>Rotate Right</gui>"
-msgstr "<gui>Girar a la dreta</gui>"
+msgstr "<gui>Gira a la dreta</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-rotate.page:28
@@ -1567,7 +1567,7 @@ msgstr "Això fa girar la imatge en sentit horari."
 #. (itstool) path: item/title
 #: C/edit-rotate.page:31
 msgid "<gui>Rotate Left</gui>"
-msgstr "<gui>Girar a l'esquerra</gui>"
+msgstr "<gui>Gira a l'esquerra</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-rotate.page:32
@@ -1598,7 +1598,7 @@ msgstr "Redimensionament i retallant"
 #. (itstool) path: page/p
 #: C/edit-resize-crop.page:12
 msgid "Two tools are provided to resize and crop images."
-msgstr "Es proporcionen dues eines per redimensionar i retallar les imatges."
+msgstr "Es proporcionen dues eines per a redimensionar i retallar les imatges."
 
 #. (itstool) path: item/title
 #: C/edit-resize-crop.page:15
@@ -1630,7 +1630,7 @@ msgid ""
 " may be freely adjusted. A rule-of-thirds grid or golden-sections grid may "
 "be superimposed over the image for composition guidance."
 msgstr ""
-"Això et permet retallar la imatge. Fes clic i arrossegua el ratolí sobre "
+"Això et permet retallar la imatge. Fes clic i arrossegueu el ratolí sobre "
 "l'àrea desitjada de la imatge. L'àrea es pot bloquejar a una relació "
 "d'aspecte específica o es pot ajustar lliurement. Es pot superposar una "
 "quadrícula de regles de terços o una secció daurada sobre la imatge per "
@@ -1642,7 +1642,7 @@ msgid ""
 "<app>gThumb</app> also offers a batch-mode tool for resizing multiple images"
 " simultaneously. See <link xref=\"gthumb-batch-resize\"/>."
 msgstr ""
-"<app>gThumb</app> també ofereix una eina de mode per lots per canviar la "
+"<app>gThumb</app> també ofereix una eina de mode per lots per a canviar la "
 "mida de diverses imatges simultàniament. Vegeu <link xref=\"gthumb-batch-"
 "resize\"/>."
 
@@ -1661,11 +1661,11 @@ msgid ""
 "press <key>Escape</key> and click on the <gui>Undo</gui> item."
 msgstr ""
 "<app>gThumb</app> proporciona una eina per <gui>Elimina els ulls "
-"vermells</gui>. Per eliminar un ull vermell, col·loca el punter del ratolí "
-"sobre l'ull vermell i fes-hi clic. <app>gThumb</app> intentarà eliminar la "
-"regió vermella i substituir-la per una regió gris més natural. Si els "
-"resultats no semblen correctes, premeu <key>Escape</key> i fes clic a "
-"l'element <gui>Desfer</gui>."
+"vermells</gui>. Per a eliminar un ull vermell, col·loqueu el punter del ratolí "
+"sobre l'ull vermell i feu-hi clic. <app>gThumb</app> intentarà eliminar la "
+"regió vermella i substituir-la per una regió grisa més natural. Si els "
+"resultats no semblen correctes, premeu <key>Escape</key> i feu clic a "
+"l'element <gui>Desfés</gui>."
 
 #. (itstool) path: page/p
 #: C/edit-redeye.page:18
@@ -1689,7 +1689,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/extensions.page:6
 msgid "Extending gThumb"
-msgstr "Ampliant gThumb"
+msgstr "Ampliar el gThumb"
 
 #. (itstool) path: page/p
 #: C/extensions.page:8
@@ -1733,9 +1733,9 @@ msgid ""
 " for development information. An example extension is provided in the source"
 " code, which you can base your own extension on."
 msgstr ""
-"Si vols escriure la teva pròpia extensió, visita <link "
+"Si voleu escriure la vostra pròpia extensió, visiteu <link "
 "href=\"https://wiki.gnome.org/Apps/Gthumb\">https: "
-"//wiki.gnome.org/Apps/Gthumb</link> per obtenir informació sobre el "
+"//wiki.gnome.org/Apps/Gthumb</link> per a obtenir informació sobre el "
 "desenvolupament. Es proporciona un exemple d'extensió al codi font, en el "
 "qual podeu basar la vostra pròpia extensió."
 
@@ -1816,10 +1816,10 @@ msgid ""
 " a different image."
 msgstr ""
 "Al mode visor, podeu passar a la imatge següent fent clic al botó "
-"<gui>Següent</gui> o prement <key>Espai</key> o <key>Pagina avall</key>. "
+"<gui>Següent</gui> o prement <key>Espai</key> o <key>Av Pàg</key>. "
 "Podeu tornar a la imatge anterior fent clic al botó <gui>Anterior</gui> o "
-"prement <key>Retrocés</key> o <key>Pàgina amunt</key>. També podeu fer clic a"
-" les miniatures al tauler de miniatures per obrir una imatge diferent."
+"prement <key>Retrocés</key> o <key>Re Pàg</key>. També podeu fer clic a"
+" les miniatures al tauler de miniatures per a obrir una imatge diferent."
 
 #. (itstool) path: page/title
 #: C/fullscreen.page:8
@@ -1844,7 +1844,7 @@ msgid ""
 "used to navigate to the next or previous image, or change zoom levels."
 msgstr ""
 "Si mous el ratolí, s'activarà breument un tauler de control emergent. Es pot"
-" utilitzar per navegar a la imatge següent o anterior o canviar els nivells "
+" utilitzar per a navegar a la imatge següent o anterior o canviar els nivells "
 "de zoom."
 
 #. (itstool) path: page/p
@@ -1890,8 +1890,8 @@ msgid ""
 " the basis of their name, the file size, the file modification date, or the "
 "date the photo was taken."
 msgstr ""
-"Utilitza el menú <guiseq><gui>Visualitzar</gui><gui>Orden per</gui></guiseq>"
-" per seleccionar el mètode d'ordenació de fitxers desitjat per a la vista "
+"Utilitzeu el menú <guiseq><gui>Visualitza</gui><gui>Ordena per</gui></guiseq>"
+" per a seleccionar el mètode d'ordenació de fitxers desitjat per a la vista "
 "del navegador. Els fitxers es poden ordenar sobre la base del seu nom, la "
 "mida del fitxer, la data de modificació del fitxer o la data en què es va "
 "fer la foto."
@@ -1939,7 +1939,7 @@ msgid ""
 "The figure above shows how to configure <app>gThumb</app> to display media "
 "files only, by setting the <gui>General Filter</gui>."
 msgstr ""
-"La figura anterior mostra com configurar <app>gThumb</app> per mostrar només"
+"La figura anterior mostra com configurar <app>gThumb</app> per a mostrar només"
 " fitxers multimèdia, establint el <gui>Filtre general</gui>."
 
 #. (itstool) path: page/p
@@ -1994,7 +1994,7 @@ msgid ""
 "<guiseq><gui>File</gui><gui>Print</gui></guiseq> or "
 "<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 msgstr ""
-"Per imprimir la imatge actual en mode visor, utilitza "
+"Per a imprimir la imatge actual en mode visor, utilitzeu "
 "<guiseq><gui>File</gui><gui>Print</gui></guiseq>o "
 "<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 
@@ -2006,7 +2006,7 @@ msgid ""
 "<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 msgstr ""
 "Per a imprimir una o més imatges des del mode navegador, selecciona les "
-"imatges desitjades i, a continuació, utilitza "
+"imatges desitjades i, a continuació, utilitzeu "
 "<guiseq><gui>Fitxer</gui><gui>Imprimeix</gui></guiseq> o "
 "<keyseq><key>Ctrl</key><key>p</key></keyseq>."
 
@@ -2065,9 +2065,9 @@ msgid ""
 "ISO disk image file, use the <guiseq><gui>File</gui> <gui>Export "
 "To</gui><gui>Optical Disc</gui></guiseq> menu item."
 msgstr ""
-"Per a escriure una sèrie de fitxers a un disc òptic (CD o DVD) o per crear un "
-"fitxer d'imatge de disc ISO, utilitza l'element de menú "
-"<guiseq><gui>Fitxers</gui><gui>Exportar a</gui><gui> disc "
+"Per a escriure una sèrie de fitxers a un disc òptic (CD o DVD) o per a crear un "
+"fitxer d'imatge de disc ISO, utilitzeu l'element de menú "
+"<guiseq><gui>Fitxers</gui><gui>Exporta a</gui><gui> disc "
 "òptic</gui></guiseq>."
 
 #. (itstool) path: page/p
@@ -2090,7 +2090,7 @@ msgid ""
 " written, completing the process."
 msgstr ""
 "El següent quadre de diàleg seleccionarà el disc de destinació o el fitxer "
-"ISO que vols desar. Quan estiguis a punt per completar el procés, fes clic a"
+"ISO que vols desar. Quan estiguis a punt per a completar el procés, fes clic a"
 " <gui>Crear imatge</gui>. Aleshores s'iniciarà el procés d'escriptura de "
 "disc òptic o s'escriurà el fitxer ISO que completarà el procés."
 
@@ -2146,7 +2146,7 @@ msgid ""
 "<guiseq><gui>Edit</gui><gui>Extensions</gui></guiseq>."
 msgstr ""
 "Si no veus els llocs de càrrega esperats al menú <gui>Compartir</gui>, "
-"comprova que  estiguin habilitades les extensions d'exportació adequades a "
+"comprova que estiguin habilitades les extensions d'exportació adequades a "
 "<guiseq><gui>Editar</gui> les <gui>extensions</gui></guiseq>"
 
 #. (itstool) path: page/p
@@ -2174,7 +2174,7 @@ msgid ""
 "Preferences dialog will appear. You can use this dialog to make adjustments "
 "to the background settings (positioning, stretching, tiling, et cetera.)."
 msgstr ""
-"Per definir una imatge com a fons d'escriptori del sistema, fes clic amb el "
+"Per a definir una imatge com a fons d'escriptori del sistema, fes clic amb el "
 "botó dret a la imatge i selecciona <guiseq><gui>Establir com a fons "
 "d'escriptori</gui></guiseq> al menú emergent. El fons de l'escriptori "
 "canviarà i apareixerà el diàleg Preferències d'aparença de Gnome. Podeu "
@@ -2246,8 +2246,8 @@ msgid ""
 "To manually launch the import dialog, use <guiseq><gui>File</gui><gui>Import"
 " From</gui><gui>Removable Device</gui></guiseq>."
 msgstr ""
-"Per iniciar manualment el diàleg d'importació, utilitza "
-"<guiseq><gui>Importar</gui><gui>fitxers des del </gui><gui>dispositiu "
+"Per iniciar manualment el diàleg d'importació, utilitzeu "
+"<guiseq><gui>Fitxer</gui><gui>Importa des de</gui><gui>Dispositiu "
 "extraïble</gui></guiseq>."
 
 #. (itstool) path: figure/title
@@ -2305,7 +2305,7 @@ msgid ""
 "subfolders like \"/photos/2010-07-31, Wedding-Jennifer\"."
 msgstr ""
 "Un nom d'esdeveniment també es pot associar opcionalment a les fotos. Aquest"
-" nom d'esdeveniment es pot utilitzar per generar un nom de subcarpeta "
+" nom d'esdeveniment es pot utilitzar per a generar un nom de subcarpeta "
 "automàtica (possiblement incorporant una data) tal com es descriu a "
 "continuació. Per exemple, si la carpeta de destinació base és \"/photos\" i "
 "introdueixes \"casament-Joana\" al camp <gui>Esdeveniment</gui>, podeu "
@@ -2346,7 +2346,7 @@ msgstr ""
 "esdeveniments. Això està habilitat o desactivat fent clic al nom de carpeta "
 "de destinació en el diàleg d'importació. Això obre un segon diàleg, on es "
 "pot seleccionar la carpeta base per a les importacions (<gui>Carpeta "
-"destí</gui>). Per generar subcarpetes automàtiques, selecciona "
+"destí</gui>). Per a generar subcarpetes automàtiques, selecciona "
 "<gui>Subcarpeta automàtica</gui>."
 
 #. (itstool) path: page/p
@@ -2368,7 +2368,7 @@ msgstr ""
 "determinar quan es va fer la fotografia.) Hi ha una varietat de formats "
 "estàndard de data disponibles (<gui>anys-mes</gui> per exemple). La casella "
 "de selecció té <gui>com a única subcarpeta</gui> controla si es fa una "
-"jerarquia \"profund\" o \"superficial\" dels arxius (per exemple, amb <gui"
+"jerarquia \"profund\" o \"superficial\" dels fitxers (per exemple, amb <gui"
 ">anys-mes</gui>, es poden tenir subcarpetes d'any amb subcarpetes mensuals "
 "sota d'ells, o totes les subcarpetes poden estar al mateix nivell en el "
 "sistema de fitxers, amb l'any i nom del nom de carpeta)."
@@ -2384,7 +2384,7 @@ msgid ""
 msgstr ""
 "No cal utilitzar els formats de data predefinits. Si selecciones <gui>Format"
 " personalitzat</gui>, es poden utilitzar codis de data estàndard. Fes clic a"
-" la icona d'ajuda a la dreta del camp de format personalitzat per obtenir "
+" la icona d'ajuda a la dreta del camp de format personalitzat per a obtenir "
 "una llista de codis de format. \"%E\" és un codi especial que incrustarà el "
 "nom <gui>Esdeveniment</gui> definit al quadre de diàleg d'importació "
 "principal."
@@ -2393,7 +2393,7 @@ msgstr ""
 #: C/import.page:67
 msgid "See <link xref=\"gthumb-date-formats\"/> for more date format codes."
 msgstr ""
-"Mira<link xref=\"gthumb-date-formats\"/> 1 per obtenir més codis de format "
+"Vegeu <link xref=\"gthumb-date-formats\"/> per a obtenir més codis de format "
 "de data."
 
 #. (itstool) path: page/p
@@ -2480,7 +2480,7 @@ msgid ""
 "<key>Space</key>."
 msgstr ""
 "Podeu avançar manualment a la següent imatge prement <key>Fletxa avall</key>,"
-" <key>Fletxa dreta</key>, <key>Pàgina avall</key> o <key>Espai</key>."
+" <key>Fletxa dreta</key>, <key>Av Pàg</key> o <key>Espai</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:27
@@ -2489,7 +2489,7 @@ msgid ""
 "<key>Left Arrow</key> or <key>Page Up</key>."
 msgstr ""
 "Podeu tornar a la imatge anterior prement <key>Fletxa amunt</key>, "
-"<key>Fletxa esquerra</key> o <key>Pàgina amunt</key>."
+"<key>Fletxa esquerra</key> o <key>Re Pàg/key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:30
@@ -2502,7 +2502,7 @@ msgstr ""
 #: C/slideshow.page:32
 msgid "To exit the slideshow, press <key>Escape</key> or <key>F5</key>."
 msgstr ""
-"Per a sortir de la presentació de diapositives, premeu <key>Escape</key>o "
+"Per a sortir de la presentació de diapositives, premeu <key>Escape</key> o "
 "<key>F5</key>."
 
 #. (itstool) path: page/title
@@ -2534,12 +2534,12 @@ msgid ""
 msgstr ""
 "Per a copiar un fitxer a la visualització del navegador, utilitzeu "
 "<guiseq><gui>Edita</gui><gui>Copia</gui></guiseq>, o premeu "
-"<keyseq><key>Ctrl</key><key>C</key></keyseq>. Per moure un fitxer, utilitzeu "
+"<keyseq><key>Ctrl</key><key>C</key></keyseq>. Per a moure un fitxer, utilitzeu "
 "<guiseq><gui>Edita</gui><gui>Retalla</gui></guiseq>, o premeu "
 "<keyseq><key>Ctrl</key><key>X</key></keyseq>. A continuació, aneu a la "
 "carpeta de destinació mitjançant l'arbre de carpetes. Utilitzeu "
 "<guiseq><gui>Edita</gui><gui>Enganxa</gui></guiseq>, o premeu "
-"<keyseq><key>Ctrl</key><key>V</key></keyseq>, per completar la transferència"
+"<keyseq><key>Ctrl</key><key>V</key></keyseq>, per a completar la transferència"
 " de fitxers."
 
 #. (itstool) path: item/title
@@ -2556,7 +2556,7 @@ msgid ""
 msgstr ""
 "Per a copiar un fitxer a una altra carpeta, simplement arrossega el fitxer "
 "(amb un clic esquerre del ratolí) a la carpeta de destinació visible a "
-"l'arbre de carpetes. Per moure un fitxer, mantén premuda la tecla "
+"l'arbre de carpetes. Per a moure un fitxer, mantén premuda la tecla "
 "<key>Maj</key> mentre arrossegueu."
 
 #. (itstool) path: item/p
@@ -2566,7 +2566,7 @@ msgid ""
 "<app>gThumb</app> will ask you if you wish to copy the files, move the "
 "files, or cancel the operation."
 msgstr ""
-"També podeu utilitzar el botó central del ratolí per arrossegar fitxers. En "
+"També podeu utilitzar el botó central del ratolí per a arrossegar fitxers. En "
 "aquest cas, <app>gThumb</app> us preguntarà si voleu copiar els fitxers, "
 "moure'ls o cancel·lar l'operació."
 
@@ -2612,4 +2612,4 @@ msgid ""
 msgstr ""
 "Com a excepció especial, els titulars dels drets d'autor us donen permís per a"
 " copiar, modificar i distribuir l'exemple de codi contingut en aquest "
-"document segons els termes que vulgeu, sense restriccions."
+"document segons els termes que vulgueu, sense restriccions."
