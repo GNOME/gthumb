@@ -1,17 +1,17 @@
 # gthumb ja.po.
-# Copyright (C) 2001-2013, 2020 Free Software Foundation, Inc.
+# Copyright (C) 2001-2013, 2020-2021 Free Software Foundation, Inc.
 # Takeshi AIHANA <takeshi.aihana@gmail.com>, 2001-2007, 2009-2011.
 # Jiro Matsuzawa <jmatsuzawa@gnome.org>, 2012-2013.
 # Ritsuko Sato <satoritsu@gmail.com>, 2012.
 # OKANO Takayoshi <kano@na.rim.or.jp>, 2012.
-# sicklylife <translation@sicklylife.jp>, 2020.
+# sicklylife <translation@sicklylife.jp>, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
 "POT-Creation-Date: 2021-09-26 12:38+0000\n"
-"PO-Revision-Date: 2020-12-19 15:10+0900\n"
+"PO-Revision-Date: 2021-10-20 21:00+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
@@ -235,14 +235,12 @@ msgid "Description"
 msgstr "説明"
 
 #: data/ui/code-selector.ui:269
-#, fuzzy
-#| msgid "Edit tags"
 msgid "Edit"
-msgstr "タグを編集"
+msgstr "編集"
 
 #: data/ui/code-selector.ui:270 data/ui/code-selector.ui:327
 msgid "Default value"
-msgstr ""
+msgstr "デフォルト値"
 
 #: data/ui/code-selector.ui:387
 msgid "remove"
@@ -469,10 +467,8 @@ msgstr "逆順にする(_I)"
 
 #: data/ui/template-editor-dialog.ui:21
 #: extensions/importer/data/ui/import-preferences.ui:164
-#, fuzzy
-#| msgid "example: %s"
 msgid "Example:"
-msgstr "例: %s"
+msgstr "例:"
 
 #: extensions/23hq/23hq.extension.desktop.in.in:3
 msgid "23"
@@ -669,7 +665,7 @@ msgstr "メソッド(_M):"
 
 #: extensions/cairo_io/gth-image-saver-avif.c:365
 msgid "AVIF"
-msgstr ""
+msgstr "AVIF"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
 #: extensions/image_viewer/gth-metadata-provider-image.c:154
@@ -1434,16 +1430,12 @@ msgstr "今日"
 #: extensions/contact_sheet/dlg-contact-sheet.c:40
 #: extensions/image_print/gth-image-print-job.c:37
 #: extensions/webalbums/dlg-web-exporter.c:35
-#, fuzzy
-#| msgid "The current page number"
 msgid "Current page number"
 msgstr "現在のページ番号"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:41
 #: extensions/image_print/gth-image-print-job.c:38
 #: extensions/webalbums/dlg-web-exporter.c:36
-#, fuzzy
-#| msgid "The total number of pages"
 msgid "Total number of pages"
 msgstr "ページの総数"
 
@@ -1678,16 +1670,12 @@ msgid "Reading files"
 msgstr "ファイルを読み取り中"
 
 #: extensions/example/src/example.extension.desktop.in.in:3
-#, fuzzy
-#| msgid "example: %s"
 msgid "example"
-msgstr "例: %s"
+msgstr ""
 
 #: extensions/example/src/example.extension.desktop.in.in:4
-#, fuzzy
-#| msgid "example: %s"
 msgid "What example does"
-msgstr "例: %s"
+msgstr ""
 
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:30
 msgid "C_opyright:"
@@ -2613,7 +2601,7 @@ msgstr "画像を時計回りに 90° 回転します"
 
 #: extensions/file_tools/gth-file-tool-rotate.c:682
 msgid "Rotate"
-msgstr "回転する"
+msgstr "回転"
 
 #: extensions/file_tools/gth-file-tool-save-as.c:70
 #: gthumb/resources/gears-menu.ui:21
@@ -3357,15 +3345,11 @@ msgid "Select Footer Font"
 msgstr "フッターのフォント"
 
 #: extensions/image_print/gth-image-print-job.c:40
-#, fuzzy
-#| msgid "The total number of files"
 msgid "Total number of files"
 msgstr "ファイルの総数"
 
 #: extensions/image_print/gth-image-print-job.c:41
 #: extensions/importer/gth-import-preferences-dialog.c:47
-#, fuzzy
-#| msgid "The event description"
 msgid "Event description"
 msgstr "イベント名"
 
@@ -3698,13 +3682,11 @@ msgstr "オリジナルの画像を読み込み中"
 
 #: extensions/image_viewer/gth-metadata-provider-image.c:213
 msgid "JPEG XL container"
-msgstr ""
+msgstr "JPEG XL コンテナ"
 
 #: extensions/image_viewer/gth-metadata-provider-image.c:215
-#, fuzzy
-#| msgid "JPEG"
 msgid "JPEG XL"
-msgstr "JPEG"
+msgstr "JPEG XL"
 
 #: extensions/image_viewer/main.c:36
 msgid "Scroll Image"
@@ -3810,8 +3792,6 @@ msgid "_Command:"
 msgstr "コマンド(_C):"
 
 #: extensions/list_tools/data/ui/script-editor.ui:172
-#, fuzzy
-#| msgid "Edit Command"
 msgid "Edit command"
 msgstr "コマンドを編集"
 
@@ -3856,52 +3836,36 @@ msgid "Commands"
 msgstr "コマンドの一覧"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:34
-#, fuzzy
-#| msgid "Quote the text "
 msgid "Quoted text"
-msgstr "文字列を引用する"
+msgstr "引用文"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:35
-#, fuzzy
-#| msgid "File"
 msgid "File URI"
-msgstr "ファイル"
+msgstr "ファイルの URI"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:36
-#, fuzzy
-#| msgid "file path"
 msgid "File path"
-msgstr "パス名"
+msgstr "ファイルパス"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:37
-#, fuzzy
-#| msgid "Filename"
 msgid "File name"
 msgstr "ファイル名"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:38
-#, fuzzy
-#| msgid "The file basename without extension"
 msgid "File name, no extension"
-msgstr "パスと拡張子を除いたファイル名"
+msgstr "ファイル名 (拡張子なし)"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:39
-#, fuzzy
-#| msgid "The file extension"
 msgid "File extension"
 msgstr "ファイルの拡張子"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:40
-#, fuzzy
-#| msgid "file path"
 msgid "Folder path"
-msgstr "パス名"
+msgstr "フォルダーパス"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:42
-#, fuzzy
-#| msgid "Ask an input value"
 msgid "Ask a value"
-msgstr "値の入力を確認する"
+msgstr "値の確認"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:43
 #: extensions/rename_series/dlg-rename-series.c:59
@@ -4137,10 +4101,8 @@ msgid "Re_verse Order"
 msgstr "逆順にする(_V)"
 
 #: extensions/rename_series/data/ui/rename-series.ui:226
-#, fuzzy
-#| msgid "leave the oldest duplicates"
 msgid "Revert to the last used template"
-msgstr "古い複製を残す"
+msgstr "最後に使用したテンプレートに戻します"
 
 #: extensions/rename_series/data/ui/rename-series.ui:265
 msgid "_Preview:"
@@ -4292,10 +4254,8 @@ msgid "Add another location"
 msgstr "別の場所を追加します"
 
 #: extensions/search/gth-search-task.c:113
-#, fuzzy
-#| msgid "No file imported"
 msgid "No file found"
-msgstr "インポートしていません"
+msgstr "ファイルが見つかりませんでした"
 
 #: extensions/search/gth-search-task.c:191
 #, c-format
@@ -4595,14 +4555,10 @@ msgid "Image Attributes"
 msgstr "画像の属性値"
 
 #: extensions/webalbums/dlg-web-exporter.c:43
-#, fuzzy
-#| msgid "The current image number"
 msgid "Current image number"
 msgstr "現在の通し番号"
 
 #: extensions/webalbums/dlg-web-exporter.c:44
-#, fuzzy
-#| msgid "The total number of images"
 msgid "Total number of images"
 msgstr "画像の総数"
 
@@ -5136,10 +5092,8 @@ msgid "_Show Format Options"
 msgstr "フォーマットオプションを表示(_S)"
 
 #: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1186
-#, fuzzy
-#| msgid "no file"
 msgid "No file"
-msgstr "なし"
+msgstr "ファイルなし"
 
 #: gthumb/gth-file-source-vfs.c:288
 msgid "Computer"
@@ -5469,36 +5423,30 @@ msgstr "家族"
 #. Translators: The space character not the Astronomy space.
 #: gthumb/gth-template-editor-dialog.c:424
 msgid "Space"
-msgstr ""
+msgstr "スペース文字"
 
 #: gthumb/gth-template-selector.c:35
 msgid "Year"
-msgstr ""
+msgstr "年"
 
 #: gthumb/gth-template-selector.c:36
 msgid "Month"
-msgstr ""
+msgstr "月"
 
 #: gthumb/gth-template-selector.c:37
-#, fuzzy
-#| msgid "The day of the month"
 msgid "Day of the month"
 msgstr "月内の通算日"
 
 #: gthumb/gth-template-selector.c:38
 msgid "Hour"
-msgstr ""
+msgstr "時間"
 
 #: gthumb/gth-template-selector.c:39
-#, fuzzy
-#| msgid "minutes"
 msgid "Minute"
 msgstr "分"
 
 #. Translators: the time second, not the second place.
 #: gthumb/gth-template-selector.c:41
-#, fuzzy
-#| msgid "seconds"
 msgid "Second"
 msgstr "秒"
 
