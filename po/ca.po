@@ -4220,7 +4220,7 @@ msgstr "A_lçada:"
 
 #: extensions/resize_images/data/ui/resize-images.ui:203
 msgid "_Preserve original aspect ratios"
-msgstr "_Preserva la relació d'aspecte"
+msgstr "_Mantén la relació d'aspecte"
 
 #: extensions/resize_images/data/ui/resize-images.ui:324
 #: gthumb/gth-main-default-metadata.c:47 gthumb/gth-toolbox.c:148

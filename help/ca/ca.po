@@ -708,7 +708,7 @@ msgid ""
 "<app>gThumb</app> provides a systems of extensions (or plug-ins), to allow "
 "users to extend the functionality of <app>gThumb</app>."
 msgstr ""
-"<app>gThumb</app> proporciona un sistema d'extensions (o connectors) per "
+"<app>gThumb</app> proporciona un sistema d'extensions (o connectors) per a "
 "permetre als usuaris ampliar la funcionalitat de <app>gThumb</app>."
 
 #. (itstool) path: page/p
@@ -781,7 +781,7 @@ msgid ""
 "processing multiple images."
 msgstr ""
 "La barra d'eines conté un subconjunt d'ordres a les quals podeu accedir des "
-"de la barra de menú. En particular, el botó Eines conté funcions per "
+"de la barra de menú. En particular, el botó Eines conté funcions per a "
 "processar per lots diverses imatges."
 
 #. (itstool) path: item/title
@@ -1128,7 +1128,7 @@ msgid ""
 "applications (like <app>F-Spot</app>) may automatically increase these "
 "settings greatly."
 msgstr ""
-"<app>gThumb</app> desarà les miniatures en una memòria cau del sistema per "
+"<app>gThumb</app> desarà les miniatures en una memòria cau del sistema per a "
 "compartir-les amb altres aplicacions. Per defecte, els sistemes Gnome poden "
 "miniatures emmagatzemades a la memòria cau quan tenen més de 180 dies o quan"
 " la memòria cau de miniatures supera els 512 MB. Els usuaris amb "
@@ -1219,7 +1219,7 @@ msgid ""
 msgstr ""
 "La plantilla de nom és simplement un patró que s'utilitza per a canviar el nom"
 " de totes les imatges seleccionades. Podeu fer servir alguns caràcters "
-"especials per fer que els noms nous siguin diferents (això és essencial si "
+"especials per a fer que els noms nous siguin diferents (això és essencial si "
 "canvies el nom de més d'una imatge i és opcional si canvies el nom d'una "
 "sola imatge):"
 
@@ -1401,7 +1401,7 @@ msgid ""
 "access the editing tools, open an image and then click the <gui>Edit "
 "File</gui> toolbar button (the palette icon)."
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/>Per "
+"<media type=\"image\" mime=\"image/png\" src=\"figures/palette.png\"/>Per a "
 "accedir a les eines d'edició, obre una imatge i, a continuació, fes clic al "
 "botó de la barra d'eines <gui>Editar Fitxer</gui> (la icona de la paleta)."
 
@@ -1482,7 +1482,7 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/edit-colors.page:29
 msgid "<gui>Equalize</gui>"
-msgstr "<gui>Equalizar</gui>"
+msgstr "<gui>Equalitzar</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-colors.page:30
@@ -1496,7 +1496,7 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/edit-colors.page:34
 msgid "<gui>Desaturate</gui>"
-msgstr "<gui>Desaturar</gui>"
+msgstr "<gui>Dessaturar</gui>"
 
 #. (itstool) path: item/p
 #: C/edit-colors.page:35
@@ -1593,7 +1593,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/edit-resize-crop.page:6
 msgid "Resizing and Cropping"
-msgstr "Redimensionament i retallant"
+msgstr "Redimensionar i retallar"
 
 #. (itstool) path: page/p
 #: C/edit-resize-crop.page:12
@@ -1633,7 +1633,7 @@ msgstr ""
 "Això et permet retallar la imatge. Fes clic i arrossegueu el ratolí sobre "
 "l'àrea desitjada de la imatge. L'àrea es pot bloquejar a una relació "
 "d'aspecte específica o es pot ajustar lliurement. Es pot superposar una "
-"quadrícula de regles de terços o una secció daurada sobre la imatge per "
+"quadrícula de regles de terços o una secció daurada sobre la imatge per a "
 "orientar la composició."
 
 #. (itstool) path: page/p
@@ -1853,7 +1853,7 @@ msgid ""
 "You can also advance to the next image by pressing <key>PageDown</key> or "
 "<key>Space</key>."
 msgstr ""
-"També podeu passar a la següent imatge prement <key>Avançar pàgina</key> o "
+"També podeu passar a la següent imatge prement <key>Av Pàg</key> o "
 "<key>Espai</key>."
 
 #. (itstool) path: page/p
@@ -1862,7 +1862,7 @@ msgid ""
 "You can go back to the previous image by pressing <key>PageUp</key> or "
 "<key>Backspace</key>."
 msgstr ""
-"Podeu tornar a la imatge anterior prement <key>Re Pàg</key>o "
+"Podeu tornar a la imatge anterior prement <key>Re Pàg</key> o "
 "<key>Retrocés</key>."
 
 #. (itstool) path: page/p
@@ -2017,14 +2017,14 @@ msgid ""
 "print dialog."
 msgstr ""
 "La impressora que vols utilitzar es pot seleccionar a la pestanya "
-"<gui>General</gui>del quadre de diàleg d'impressió."
+"<gui>General</gui> del quadre de diàleg d'impressió."
 
 #. (itstool) path: page/p
 #: C/printing.page:21
 msgid ""
 "The type of paper to use can be selected from the <gui>Page Setup</gui> tab."
 msgstr ""
-"El tipus de paper que vols utilitzar es pot seleccionar a la pestanya "
+"El tipus de paper que voleu utilitzar es pot seleccionar a la pestanya "
 "<gui>Configuració de pàgina</gui>."
 
 #. (itstool) path: page/p
@@ -2056,7 +2056,7 @@ msgstr "Quan estigueu a punt per a imprimir, premeu el botó <gui>Imprimeix</gui
 #. (itstool) path: page/title
 #: C/sharing-disc.page:6
 msgid "Creating a CD/DVD/ISO"
-msgstr "Creant un CD/DVD/ISO"
+msgstr "Crear un CD/DVD/ISO"
 
 #. (itstool) path: page/p
 #: C/sharing-disc.page:7
@@ -2091,7 +2091,7 @@ msgid ""
 msgstr ""
 "El següent quadre de diàleg seleccionarà el disc de destinació o el fitxer "
 "ISO que vols desar. Quan estiguis a punt per a completar el procés, fes clic a"
-" <gui>Crear imatge</gui>. Aleshores s'iniciarà el procés d'escriptura de "
+" <gui>Crea imatge</gui>. Aleshores s'iniciarà el procés d'escriptura de "
 "disc òptic o s'escriurà el fitxer ISO que completarà el procés."
 
 #. (itstool) path: page/title
@@ -2106,7 +2106,7 @@ msgid ""
 "various \"social media\" web sites. By default, uploaders for Facebook, "
 "Flickr, Picasa, and Photobucket are enabled."
 msgstr ""
-"A gThumb se et proporcionen diverses extensions per penjar fotos a diversos "
+"A gThumb es proporcionen diverses extensions per penjar fotos a diversos "
 "llocs web de \"xarxes socials\". Per defecte, els carregadors de Facebook, "
 "Flickr, Picasa i Photobucket estan habilitats."
 
@@ -2145,9 +2145,9 @@ msgid ""
 "check that the appropriate exporter extensions are enabled in "
 "<guiseq><gui>Edit</gui><gui>Extensions</gui></guiseq>."
 msgstr ""
-"Si no veus els llocs de càrrega esperats al menú <gui>Compartir</gui>, "
+"Si no veus els llocs de càrrega esperats al menú <gui>Comparteix</gui>, "
 "comprova que estiguin habilitades les extensions d'exportació adequades a "
-"<guiseq><gui>Editar</gui> les <gui>extensions</gui></guiseq>"
+"<guiseq><gui>Edita</gui><gui>Extensions</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/sharing-social.page:31
@@ -2163,7 +2163,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/wallpaper.page:6
 msgid "Desktop Wallpaper"
-msgstr "Fons d'escriptori"
+msgstr "Fons de pantalla"
 
 #. (itstool) path: page/p
 #: C/wallpaper.page:7
@@ -2174,7 +2174,7 @@ msgid ""
 "Preferences dialog will appear. You can use this dialog to make adjustments "
 "to the background settings (positioning, stretching, tiling, et cetera.)."
 msgstr ""
-"Per a definir una imatge com a fons d'escriptori del sistema, fes clic amb el "
+"Per a definir una imatge com a fons de pantalla del sistema, fes clic amb el "
 "botó dret a la imatge i selecciona <guiseq><gui>Establir com a fons "
 "d'escriptori</gui></guiseq> al menú emergent. El fons de l'escriptori "
 "canviarà i apareixerà el diàleg Preferències d'aparença de Gnome. Podeu "
@@ -2246,7 +2246,7 @@ msgid ""
 "To manually launch the import dialog, use <guiseq><gui>File</gui><gui>Import"
 " From</gui><gui>Removable Device</gui></guiseq>."
 msgstr ""
-"Per iniciar manualment el diàleg d'importació, utilitzeu "
+"Per a iniciar manualment el diàleg d'importació, utilitzeu "
 "<guiseq><gui>Fitxer</gui><gui>Importa des de</gui><gui>Dispositiu "
 "extraïble</gui></guiseq>."
 
@@ -2292,7 +2292,7 @@ msgid ""
 msgstr ""
 "Les etiquetes es poden associar a les fotos importades mitjançant el control"
 " <gui>Etiquetes</gui> que hi ha a sota de la finestra de miniatures. Fes "
-"clic al control desplegable per veure les etiquetes predefinides."
+"clic al control desplegable per a veure les etiquetes predefinides."
 
 #. (itstool) path: page/p
 #: C/import.page:34
@@ -2363,8 +2363,8 @@ msgid ""
 " in the filesystem, with the year and name both the folder name.)"
 msgstr ""
 "Podeu seleccionar <gui>Data del fitxer</gui> o <gui>Data actual</gui> per a "
-"utilitzar com a base per anomenar les subcarpetes. (La <gui>Data del "
-"fitxer</gui> examina les dates incrustades a les metadades del fitxer per "
+"utilitzar com a base per a anomenar les subcarpetes. (La <gui>Data del "
+"fitxer</gui> examina les dates incrustades a les metadades del fitxer per a "
 "determinar quan es va fer la fotografia.) Hi ha una varietat de formats "
 "estàndard de data disponibles (<gui>anys-mes</gui> per exemple). La casella "
 "de selecció té <gui>com a única subcarpeta</gui> controla si es fa una "
