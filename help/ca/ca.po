@@ -2489,7 +2489,7 @@ msgid ""
 "<key>Left Arrow</key> or <key>Page Up</key>."
 msgstr ""
 "Podeu tornar a la imatge anterior prement <key>Fletxa amunt</key>, "
-"<key>Fletxa esquerra</key> o <key>Re Pàg/key>."
+"<key>Fletxa esquerra</key> o <key>Re Pàg</key>."
 
 #. (itstool) path: page/p
 #: C/slideshow.page:30
