@@ -54,7 +54,9 @@ gthumb_pc = pkg.generate(
 
 # Subdirectories
 
-subdir('appdata')
+if dependency('appstream', version : '>=0.14.6', required : false).found()
+  subdir('appdata')
+endif
 subdir('gschemas')
 subdir('icons')
 subdir('ui')
