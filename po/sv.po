@@ -1,18 +1,18 @@
 # Swedish messages for gThumb.
-# Copyright © 2001-2021 Free Software Foundation, Inc.
+# Copyright © 2001-2022 Free Software Foundation, Inc.
 # Christian Rose <menthos@menthos.com>, 2002, 2003, 2004.
 # Bo Rosén <bo.rosen@home.se>, 2001.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009, 2010, 2011, 2012.
 # Josef Andersson <josef.andersson@fripost.org>, 2016.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2018, 2019, 2020, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-08-30 17:58+0000\n"
-"PO-Revision-Date: 2021-09-04 00:37+0200\n"
+"POT-Creation-Date: 2021-09-26 12:38+0000\n"
+"PO-Revision-Date: 2022-02-07 19:43+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -2600,7 +2600,7 @@ msgstr "Rotera åt vänster"
 
 #: extensions/file_tools/gth-file-tool-rotate-left.c:91
 msgid "Rotate the image by 90 degrees counterclockwise"
-msgstr "Rotera bilden 90 grader motsols"
+msgstr "Rotera bilden 90 grader moturs"
 
 #: extensions/file_tools/gth-file-tool-rotate-right.c:90
 #: extensions/image_rotation/callbacks.c:54
@@ -2610,7 +2610,7 @@ msgstr "Rotera åt höger"
 
 #: extensions/file_tools/gth-file-tool-rotate-right.c:91
 msgid "Rotate the image by 90 degrees clockwise"
-msgstr "Rotera bilden 90 grader medsols"
+msgstr "Rotera bilden 90 grader medurs"
 
 #: extensions/file_tools/gth-file-tool-rotate.c:682
 msgid "Rotate"
