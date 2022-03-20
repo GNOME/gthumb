@@ -4,20 +4,21 @@
 #
 # Maxim Dubovoy <max@mylinux.com.ua>, 2003.
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2007.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-06-19 18:11+0000\n"
-"PO-Revision-Date: 2021-06-20 11:37+0300\n"
+"POT-Creation-Date: 2022-03-20 12:28+0000\n"
+"PO-Revision-Date: 2022-03-20 18:02+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 20.12.0\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
@@ -135,8 +136,8 @@ msgid "Import the photos on your camera card"
 msgstr "Імпорт фотознімків з цифрового фотоапарату"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:427 gthumb/gth-progress-dialog.c:413
+#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:105
+#: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -150,7 +151,7 @@ msgid "Image;Viewer;"
 msgstr "Image;Viewer;зображення;перегляд;переглядач;"
 
 #: data/org.gnome.gThumb.desktop.in.in:25
-#: gthumb/gth-browser-actions-entries.h:94 gthumb/resources/gears-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:97 gthumb/resources/gears-menu.ui:7
 msgid "New Window"
 msgstr "Нове вікно"
 
@@ -244,14 +245,12 @@ msgid "Description"
 msgstr "Опис:"
 
 #: data/ui/code-selector.ui:269
-#| msgid "Edit tags"
 msgid "Edit"
 msgstr "Змінити"
 
 #: data/ui/code-selector.ui:270 data/ui/code-selector.ui:327
 msgid "Default value"
-msgstr ""
-"Типове значення"
+msgstr "Типове значення"
 
 #: data/ui/code-selector.ui:387
 msgid "remove"
@@ -305,27 +304,27 @@ msgid "Mean:"
 msgstr "Середнє:"
 
 #. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsized at the end.
-#: data/ui/histogram-info.ui:42
+#: data/ui/histogram-info.ui:41
 msgid "Std dev:"
 msgstr "Станд. відхилення:"
 
-#: data/ui/histogram-info.ui:60
+#: data/ui/histogram-info.ui:58
 msgid "Median:"
 msgstr "Медіана:"
 
 #. After the colon there is the total number of pixels
-#: data/ui/histogram-info.ui:148
+#: data/ui/histogram-info.ui:127
 msgid "Pixels:"
 msgstr "Пікселів:"
 
 #. After the colon there is a percentile.
-#: data/ui/histogram-info.ui:163
+#: data/ui/histogram-info.ui:144
 msgctxt "Pixels"
 msgid "Max:"
 msgstr "Макс.:"
 
 #. After the colon there is the percentile of selected pixels.
-#: data/ui/histogram-info.ui:180
+#: data/ui/histogram-info.ui:161
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "Вибрано:"
@@ -478,7 +477,6 @@ msgstr "У _зворотному порядку"
 
 #: data/ui/template-editor-dialog.ui:21
 #: extensions/importer/data/ui/import-preferences.ui:164
-#| msgid "example"
 msgid "Example:"
 msgstr "Приклад:"
 
@@ -680,12 +678,12 @@ msgid "AVIF"
 msgstr "AVIF"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:153
+#: extensions/image_viewer/gth-metadata-provider-image.c:154
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:119
+#: extensions/image_viewer/gth-metadata-provider-image.c:120
 msgid "PNG"
 msgstr "PNG"
 
@@ -703,7 +701,7 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:182
+#: extensions/image_viewer/gth-metadata-provider-image.c:183
 msgid "WebP"
 msgstr "WebP"
 
@@ -807,8 +805,8 @@ msgid "Rename"
 msgstr "Перейменувати"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4711
-#: gthumb/gth-browser.c:4823 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4776
+#: gthumb/gth-browser.c:4888 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Властивості"
 
@@ -1304,7 +1302,7 @@ msgstr "Підпис:"
 #: extensions/webalbums/data/ui/web-album-exporter.ui:181
 #: extensions/webalbums/data/ui/web-album-exporter.ui:846
 #: extensions/webalbums/data/ui/web-album-exporter.ui:894
-#: gthumb/gth-browser-actions-entries.h:95
+#: gthumb/gth-browser-actions-entries.h:98
 msgid "Help"
 msgstr "Довідка"
 
@@ -1440,14 +1438,12 @@ msgstr "Поточна дата"
 #: extensions/contact_sheet/dlg-contact-sheet.c:40
 #: extensions/image_print/gth-image-print-job.c:37
 #: extensions/webalbums/dlg-web-exporter.c:35
-#| msgid "The current page number"
 msgid "Current page number"
 msgstr "Номер поточної сторінки"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:41
 #: extensions/image_print/gth-image-print-job.c:38
 #: extensions/webalbums/dlg-web-exporter.c:36
-#| msgid "The total number of pages"
 msgid "Total number of pages"
 msgstr "Загальна кількість сторінок"
 
@@ -1816,21 +1812,21 @@ msgid "Enter the folder name:"
 msgstr "Введіть назву теки:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:551
-#: extensions/file_manager/callbacks.c:989
+#: extensions/file_manager/callbacks.c:561
+#: extensions/file_manager/callbacks.c:991
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5745 gthumb/gth-browser.c:5788
+#: gthumb/gth-browser.c:5814 gthumb/gth-browser.c:5857
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Не вдалося виконати операцію"
 
 #: extensions/file_manager/actions.c:423
-#: extensions/file_manager/callbacks.c:277
+#: extensions/file_manager/callbacks.c:280
 msgid "Could not move the files"
 msgstr "Не вдалося перемістити файли"
 
 #: extensions/file_manager/actions.c:424
-#: extensions/file_manager/callbacks.c:278
+#: extensions/file_manager/callbacks.c:281
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1861,7 +1857,7 @@ msgid "Copy To"
 msgstr "Скопіювати до"
 
 #: extensions/file_manager/actions.c:743
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1030
 msgid "Move"
 msgstr "Пересунути"
 
@@ -1926,36 +1922,36 @@ msgstr "Вилучити остаточно"
 msgid "Open with Gimp"
 msgstr "Відкрити за допомогою Gimp"
 
-#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:295
+#: extensions/file_manager/callbacks.c:735 gthumb/gth-file-source-vfs.c:295
 msgid "Home Folder"
 msgstr "Домашня тека"
 
-#: extensions/file_manager/callbacks.c:732
-#: extensions/file_manager/callbacks.c:735
+#: extensions/file_manager/callbacks.c:742
+#: extensions/file_manager/callbacks.c:745
 msgid "Open _With"
 msgstr "_Відкрити у програмі"
 
-#: extensions/file_manager/callbacks.c:1009
+#: extensions/file_manager/callbacks.c:1011
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Хочете пересунути «%s» до «%s»?"
 
-#: extensions/file_manager/callbacks.c:1011
+#: extensions/file_manager/callbacks.c:1013
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Хочете скопіювати «%s» до «%s»?"
 
-#: extensions/file_manager/callbacks.c:1018
+#: extensions/file_manager/callbacks.c:1020
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Хочете пересунути перетягнуті файли до «%s»?"
 
-#: extensions/file_manager/callbacks.c:1020
+#: extensions/file_manager/callbacks.c:1022
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Хочете скопіювати перетягнуті файли до «%s»?"
 
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1030
 msgid "_Copy"
 msgstr "_Копіювати"
 
@@ -2369,11 +2365,11 @@ msgstr "Скоригувати контрастність"
 msgid "Automatic contrast adjustment"
 msgstr "Автоматичне коригування контрастності"
 
-#: extensions/file_tools/gth-file-tool-color-picker.c:288
+#: extensions/file_tools/gth-file-tool-color-picker.c:289
 msgid "Color Picker"
 msgstr "Піпетка"
 
-#: extensions/file_tools/gth-file-tool-color-picker.c:291
+#: extensions/file_tools/gth-file-tool-color-picker.c:292
 msgid "Pick a color from the image"
 msgstr "Вибрати колір з зображення"
 
@@ -2475,7 +2471,7 @@ msgstr "Введіть назву набору:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1969
+#: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "Не вдалося зберегти файл"
 
@@ -2724,7 +2720,7 @@ msgstr "немає файла"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:278
 #: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:876
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:877
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -3263,8 +3259,8 @@ msgstr "Моно"
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
-#: extensions/image_viewer/gth-metadata-provider-image.c:299
-#: extensions/raw_files/gth-metadata-provider-raw.c:96
+#: extensions/image_viewer/gth-metadata-provider-image.c:300
+#: extensions/raw_files/gth-metadata-provider-raw.c:97
 #: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:963
 #, c-format
 msgid "%d × %d"
@@ -3374,13 +3370,11 @@ msgid "Select Footer Font"
 msgstr "Виберіть шрифт нижнього колонтитула"
 
 #: extensions/image_print/gth-image-print-job.c:40
-#| msgid "The total number of files"
 msgid "Total number of files"
 msgstr "Загальна кількість файлів"
 
 #: extensions/image_print/gth-image-print-job.c:41
 #: extensions/importer/gth-import-preferences-dialog.c:47
-#| msgid "The event description"
 msgid "Event description"
 msgstr "Опис події"
 
@@ -3401,7 +3395,7 @@ msgid "Images"
 msgstr "Зображення"
 
 #: extensions/image_print/gth-image-print-job.c:1890
-#: gthumb/gth-image-loader.c:258 gthumb/gth-image-loader.c:382
+#: gthumb/gth-image-loader.c:258 gthumb/gth-image-loader.c:390
 #: gthumb/gth-image-utils.c:117 gthumb/gth-image-utils.c:123
 msgid "No suitable loader available for this file type"
 msgstr "Для цього типу немає доступного завантажувача"
@@ -3713,11 +3707,11 @@ msgstr "Зберегти зображення"
 msgid "Loading the original image"
 msgstr "Завантажуємо початкове зображення"
 
-#: extensions/image_viewer/gth-metadata-provider-image.c:212
+#: extensions/image_viewer/gth-metadata-provider-image.c:213
 msgid "JPEG XL container"
 msgstr "Контейнер JPEG XL"
 
-#: extensions/image_viewer/gth-metadata-provider-image.c:214
+#: extensions/image_viewer/gth-metadata-provider-image.c:215
 msgid "JPEG XL"
 msgstr "JPEG XL"
 
@@ -3825,11 +3819,10 @@ msgid "_Command:"
 msgstr "_Команда:"
 
 #: extensions/list_tools/data/ui/script-editor.ui:172
-#| msgid "Edit Command"
 msgid "Edit command"
 msgstr "Редагувати команду"
 
-#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:314
+#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:556
 #: gthumb/gth-test-aspect-ratio.c:193
 msgid "Personalize…"
 msgstr "Персоналізувати…"
@@ -3870,42 +3863,34 @@ msgid "Commands"
 msgstr "Команди"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:34
-#| msgid "Quote the text "
 msgid "Quoted text"
 msgstr "Цитований текст"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:35
-#| msgid "File"
 msgid "File URI"
 msgstr "Адреса файла"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:36
-#| msgid "file path"
 msgid "File path"
 msgstr "Шлях до файла"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:37
-#| msgid "Filename"
 msgid "File name"
 msgstr "Назва файла"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:38
-#| msgid "The file basename without extension"
 msgid "File name, no extension"
 msgstr "Назва файла без суфікса"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:39
-#| msgid "The file extension"
 msgid "File extension"
 msgstr "Суфікс назви файла"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:40
-#| msgid "file path"
 msgid "Folder path"
 msgstr "Шлях до теки"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:42
-#| msgid "Ask an input value"
 msgid "Ask a value"
 msgstr "Запитати значення"
 
@@ -3979,7 +3964,7 @@ msgstr "_Облікові записи:"
 
 #. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:575 gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:577 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "Завантаження…"
 
@@ -4051,7 +4036,7 @@ msgstr "В_идаляти імпортовані зображення з дже�
 
 #. view label
 #: extensions/photo_importer/data/ui/photo-importer.ui:54
-#: gthumb/gth-filterbar.c:414
+#: gthumb/gth-filterbar.c:391
 msgid "S_how:"
 msgstr "По_казувати:"
 
@@ -4101,7 +4086,7 @@ msgstr "Імпорт фотознімків зі змінний пристрої
 msgid "camera-photo"
 msgstr "camera-photo"
 
-#: extensions/raw_files/gth-metadata-provider-raw.c:90
+#: extensions/raw_files/gth-metadata-provider-raw.c:91
 msgid "RAW Format"
 msgstr "Цифровий негатив"
 
@@ -4296,7 +4281,6 @@ msgid "Add another location"
 msgstr "Додати ще якесь місце"
 
 #: extensions/search/gth-search-task.c:113
-#| msgid "No file imported"
 msgid "No file found"
 msgstr "Файл не знайдено"
 
@@ -4386,11 +4370,11 @@ msgstr "Перервати презентацію"
 msgid "Pause/Resume presentation"
 msgstr "Призупинити/поновити презентацію"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:121
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:124
 msgid "Show next file"
 msgstr "Показати наступний файл"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:120
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:123
 msgid "Show previous file"
 msgstr "Показати попередній файл"
 
@@ -4598,12 +4582,10 @@ msgid "Image Attributes"
 msgstr "Атрибути зображення"
 
 #: extensions/webalbums/dlg-web-exporter.c:43
-#| msgid "The current image number"
 msgid "Current image number"
 msgstr "Номер поточного зображення"
 
 #: extensions/webalbums/dlg-web-exporter.c:44
-#| msgid "The total number of images"
 msgid "Total number of images"
 msgstr "Загальна кількість зображень"
 
@@ -4658,9 +4640,9 @@ msgstr "Вебальбоми"
 msgid "Create static web albums."
 msgstr "Створення статичних вебальбомів."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1174
-#: gthumb/gth-browser.c:6787 gthumb/gth-browser.c:6806
-#: gthumb/gth-browser.c:6830 gthumb/gth-vfs-tree.c:393
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
+#: gthumb/gth-browser.c:6856 gthumb/gth-browser.c:6875
+#: gthumb/gth-browser.c:6899 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Не вдалося завантажити позицію «%s»"
@@ -4685,7 +4667,7 @@ msgstr "Новий фільтр"
 msgid "Edit Filter"
 msgstr "Редагувати фільтр"
 
-#: gthumb/dlg-personalize-filters.c:519
+#: gthumb/dlg-personalize-filters.c:519 gthumb/gth-main-default-types.c:43
 msgid "Filters"
 msgstr "Фільтри"
 
@@ -4882,11 +4864,15 @@ msgstr "Автоматично запускати перегляд слайді�
 msgid "Show version"
 msgstr "Показати версію"
 
-#: gthumb/gth-application.c:171
+#: gthumb/gth-application.c:71
+msgid "[FILE…] [DIRECTORY…]"
+msgstr "[ФАЙЛ…] [КАТАЛОГ…]"
+
+#: gthumb/gth-application.c:170
 msgid "— Image browser and viewer"
 msgstr "– навігація зображеннями та перегляд зображень"
 
-#: gthumb/gth-browser-actions-callbacks.c:100
+#: gthumb/gth-browser-actions-callbacks.c:101
 msgid ""
 "gThumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
@@ -4898,7 +4884,7 @@ msgstr ""
 "Free Software Foundation; або версії 2 ліцензії, або (на ваш розсуд) будь-"
 "якої більш пізньої версії."
 
-#: gthumb/gth-browser-actions-callbacks.c:104
+#: gthumb/gth-browser-actions-callbacks.c:105
 msgid ""
 "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
@@ -4910,7 +4896,7 @@ msgstr ""
 "ПЕВНІЙ МЕТІ. Для отримання додаткової інформації ознайомтесь з GNU General "
 "Public License."
 
-#: gthumb/gth-browser-actions-callbacks.c:108
+#: gthumb/gth-browser-actions-callbacks.c:109
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
@@ -4918,124 +4904,128 @@ msgstr ""
 "Ви мали отримати копію GNU General Public License разом з gThumb. Якщо цього "
 "не сталося, дивіться http://www.gnu.org/licenses/."
 
-#: gthumb/gth-browser-actions-callbacks.c:127
+#: gthumb/gth-browser-actions-callbacks.c:128
 msgid "An image viewer and browser for GNOME."
 msgstr "Переглядач зображень та фотоальбомів для GNOME."
 
-#: gthumb/gth-browser-actions-callbacks.c:130
+#: gthumb/gth-browser-actions-callbacks.c:131
 msgid "translator-credits"
 msgstr ""
 "Maxim Dubovoy <max@mylinux.com.ua>\n"
 "Maxim Dziumanenko <dziumanenko@gmail.com>\n"
 "Юрій Чорноіван <yurchor@ukr.net>"
 
-#: gthumb/gth-browser-actions-entries.h:96 gthumb/resources/gears-menu.ui:49
+#: gthumb/gth-browser-actions-entries.h:99 gthumb/resources/gears-menu.ui:49
 msgid "Keyboard Shortcuts"
 msgstr "Клавіатурні скорочення"
 
-#: gthumb/gth-browser-actions-entries.h:97
+#: gthumb/gth-browser-actions-entries.h:100
 msgid "Quit"
 msgstr "Вийти"
 
-#: gthumb/gth-browser-actions-entries.h:100
+#: gthumb/gth-browser-actions-entries.h:103
 msgid "Show browser"
 msgstr "Показати навігатор"
 
-#: gthumb/gth-browser-actions-entries.h:101
+#: gthumb/gth-browser-actions-entries.h:104
 msgid "Close window"
 msgstr "Закрити вікно"
 
-#: gthumb/gth-browser-actions-entries.h:103
+#: gthumb/gth-browser-actions-entries.h:106
 msgid "Open location"
 msgstr "Відкрити адресу"
 
-#: gthumb/gth-browser-actions-entries.h:104 gthumb/gth-browser.c:4726
-#: gthumb/gth-browser.c:4744 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4791
+#: gthumb/gth-browser.c:4809 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "На увесь екран"
 
-#: gthumb/gth-browser-actions-entries.h:105
+#: gthumb/gth-browser-actions-entries.h:108
 msgid "Revert image to saved"
 msgstr "Повернути стан зображення до збереженого"
 
-#: gthumb/gth-browser-actions-entries.h:106
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Save image"
 msgstr "Зберегти зображення"
 
-#: gthumb/gth-browser-actions-entries.h:107
+#: gthumb/gth-browser-actions-entries.h:110
 msgid "Save image as"
 msgstr "Збереження зображення із новою назвою"
 
-#: gthumb/gth-browser-actions-entries.h:108
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Sidebar"
 msgstr "Бічна панель"
 
-#: gthumb/gth-browser-actions-entries.h:109
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Statusbar"
 msgstr "Смужка стану"
 
-#: gthumb/gth-browser-actions-entries.h:110
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Thumbnails list"
 msgstr "Список мініатюр"
 
-#: gthumb/gth-browser-actions-entries.h:112
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Load previous location"
 msgstr "Завантажити попереднє місце"
 
-#: gthumb/gth-browser-actions-entries.h:113
+#: gthumb/gth-browser-actions-entries.h:116
 msgid "Load next location"
 msgstr "Завантажити наступне місце"
 
-#: gthumb/gth-browser-actions-entries.h:114
+#: gthumb/gth-browser-actions-entries.h:117
 msgid "Load parent folder"
 msgstr "Завантажити батьківську теку"
 
-#: gthumb/gth-browser-actions-entries.h:115
+#: gthumb/gth-browser-actions-entries.h:118
 msgid "Load home"
 msgstr "Завантажити домашню теку"
 
-#: gthumb/gth-browser-actions-entries.h:116
+#: gthumb/gth-browser-actions-entries.h:119
 msgid "Reload location"
 msgstr "Перезавантажити місце"
 
-#: gthumb/gth-browser-actions-entries.h:117
+#: gthumb/gth-browser-actions-entries.h:120
 msgid "Show/Hide hidden files"
 msgstr "Показувати/ховати приховані файли"
 
-#: gthumb/gth-browser-actions-entries.h:118
+#: gthumb/gth-browser-actions-entries.h:121
 msgid "Change sorting order"
 msgstr "Змінити упорядкування"
 
-#: gthumb/gth-browser-actions-entries.h:122
+#: gthumb/gth-browser-actions-entries.h:125
 msgid "Show first file"
 msgstr "Показати перший файл"
 
-#: gthumb/gth-browser-actions-entries.h:123
+#: gthumb/gth-browser-actions-entries.h:126
 msgid "Show last file"
 msgstr "Показати останній файл"
 
-#: gthumb/gth-browser-actions-entries.h:125
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Image tools"
 msgstr "Інструменти роботи із зображеннями"
 
-#: gthumb/gth-browser-actions-entries.h:126
+#: gthumb/gth-browser-actions-entries.h:129
 msgid "File properties"
 msgstr "Властивості файла"
 
-#: gthumb/gth-browser-actions-entries.h:128
+#: gthumb/gth-browser-actions-entries.h:131
 msgid "Select all"
 msgstr "Вибрати все"
 
-#: gthumb/gth-browser-actions-entries.h:129
+#: gthumb/gth-browser-actions-entries.h:132
 msgid "Select none"
 msgstr "Нічого не вибирати"
 
-#: gthumb/gth-browser.c:412
+#: gthumb/gth-browser-actions-entries.h:134 gthumb/gth-filterbar.c:526
+msgid "All"
+msgstr "Всі"
+
+#: gthumb/gth-browser.c:413
 msgid "[modified]"
 msgstr "[змінено]"
 
-#: gthumb/gth-browser.c:877
+#: gthumb/gth-browser.c:878
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
@@ -5044,76 +5034,76 @@ msgstr[1] "%d файли (%s)"
 msgstr[2] "%d файлів (%s)"
 msgstr[3] "%d файлів (%s)"
 
-#: gthumb/gth-browser.c:912
+#: gthumb/gth-browser.c:913
 #, c-format
 msgid "%s of free space"
 msgstr "%s вільного місця"
 
-#: gthumb/gth-browser.c:1892 gthumb/gth-browser.c:1908
+#: gthumb/gth-browser.c:1907 gthumb/gth-browser.c:1923
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Не знайдено відповідного модуля для %s"
 
-#: gthumb/gth-browser.c:2013
+#: gthumb/gth-browser.c:2028
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Зберегти зміни до файла «%s»?"
 
-#: gthumb/gth-browser.c:2018
+#: gthumb/gth-browser.c:2033
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Якщо ви не збережете зміни, зміни до файла будуть остаточно втрачено"
 
-#: gthumb/gth-browser.c:2019
+#: gthumb/gth-browser.c:2034
 msgid "Do _Not Save"
 msgstr "_Не зберігати"
 
-#: gthumb/gth-browser.c:2507 gthumb/gth-browser.c:4752
+#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4817
 msgid "Accept"
 msgstr "Прийняти"
 
-#: gthumb/gth-browser.c:2507 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2524 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "З_акрити"
 
-#: gthumb/gth-browser.c:3046
+#: gthumb/gth-browser.c:3063
 msgid "Could not change name"
 msgstr "Не вдалося змінити назву"
 
-#: gthumb/gth-browser.c:3540
+#: gthumb/gth-browser.c:3557
 msgid "Modified"
 msgstr "Дата зміни"
 
-#: gthumb/gth-browser.c:4674
+#: gthumb/gth-browser.c:4739
 msgid "Go to the previous visited location"
 msgstr "Перейти до попереднього відвіданого місця"
 
-#: gthumb/gth-browser.c:4680
+#: gthumb/gth-browser.c:4745
 msgid "Go to the next visited location"
 msgstr "Перейти до наступного відвіданого місця"
 
-#: gthumb/gth-browser.c:4688
+#: gthumb/gth-browser.c:4753
 msgid "History"
 msgstr "Журнал"
 
-#: gthumb/gth-browser.c:4702
+#: gthumb/gth-browser.c:4767
 msgid "View the folders"
 msgstr "Перегляд тек"
 
-#: gthumb/gth-browser.c:4717
+#: gthumb/gth-browser.c:4782
 msgid "Edit file"
 msgstr "Редагувати файл"
 
-#: gthumb/gth-browser.c:4808 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4873 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Дії"
 
-#: gthumb/gth-browser.c:6788
+#: gthumb/gth-browser.c:6857
 #, c-format
 msgid "File type not supported"
 msgstr "Тип файлів не підтримується"
 
-#: gthumb/gth-browser.c:6831
+#: gthumb/gth-browser.c:6900
 #, c-format
 msgid "No suitable module found"
 msgstr "Не було знайдено придатного модуля"
@@ -5137,7 +5127,6 @@ msgid "_Show Format Options"
 msgstr "_Показати параметри форматування"
 
 #: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1186
-#| msgid "no file"
 msgid "No file"
 msgstr "Немає файла"
 
@@ -5163,7 +5152,8 @@ msgstr "Остаточно вилучити «%s»?"
 #: gthumb/gth-file-source-vfs.c:939
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
-msgid_plural "Are you sure you want to permanently delete the %'d selected files?"
+msgid_plural ""
+"Are you sure you want to permanently delete the %'d selected files?"
 msgstr[0] "Ви дійсно хочете остаточно вилучити %'d файл ?"
 msgstr[1] "Ви дійсно хочете остаточно вилучити %'d файли ?"
 msgstr[2] "Ви дійсно хочете остаточно вилучити %'d файлів?"
@@ -5205,10 +5195,6 @@ msgstr "за спаданням"
 #, c-format
 msgid "No limit specified"
 msgstr "Не вказано межу"
-
-#: gthumb/gth-filterbar.c:280
-msgid "All"
-msgstr "Всі"
 
 #: gthumb/gth-folder-tree.c:1466
 msgid "(Open Parent)"
@@ -5476,37 +5462,30 @@ msgstr "Родина"
 #. Translators: The space character not the Astronomy space.
 #: gthumb/gth-template-editor-dialog.c:424
 msgid "Space"
-msgstr ""
-"Пробіл"
+msgstr "Пробіл"
 
 #: gthumb/gth-template-selector.c:35
 msgid "Year"
-msgstr ""
-"Рік"
+msgstr "Рік"
 
 #: gthumb/gth-template-selector.c:36
 msgid "Month"
-msgstr ""
-"Місяць"
+msgstr "Місяць"
 
 #: gthumb/gth-template-selector.c:37
-#| msgid "The day of the month"
 msgid "Day of the month"
 msgstr "День місяця"
 
 #: gthumb/gth-template-selector.c:38
 msgid "Hour"
-msgstr ""
-"Година"
+msgstr "Година"
 
 #: gthumb/gth-template-selector.c:39
-#| msgid "minutes"
 msgid "Minute"
 msgstr "Хвилина"
 
 #. Translators: the time second, not the second place.
 #: gthumb/gth-template-selector.c:41
-#| msgid "seconds"
 msgid "Second"
 msgstr "Секунда"
 
@@ -5603,7 +5582,7 @@ msgstr "Кольори"
 msgid "Rotation"
 msgstr "Обертання"
 
-#: gthumb/gth-window.c:1048
+#: gthumb/gth-window.c:1073
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5612,11 +5591,11 @@ msgstr ""
 "Комбінацію клавіш «%s» вже пов'язано із загальною дією «%s». Хочете "
 "пов'язати її із цією дією?"
 
-#: gthumb/gth-window.c:1056
+#: gthumb/gth-window.c:1081
 msgid "Reassign"
 msgstr "Перепризначити"
 
-#: gthumb/gth-window.c:1074
+#: gthumb/gth-window.c:1099
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5624,7 +5603,7 @@ msgid ""
 msgstr ""
 "Комбінацію клавіш «%s» вже пов'язано із дією «%s» — її не може бути змінено."
 
-#: gthumb/gth-window.c:1078
+#: gthumb/gth-window.c:1103
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "Комбінацію клавіш «%s» вже призначено — її не може бути змінено."
