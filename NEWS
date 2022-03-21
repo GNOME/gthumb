@@ -1,3 +1,36 @@
+Version 3.12.1
+~~~~~~~~~~~~~~
+Released: 2022-03-21
+
+Bugfixes:
+ * PNG loader ignores gAMA. (#194)
+ * Transparent webp images are rendered incorrectly. (#199)
+ * Crash when dropping files on an empty folder/catalog. (#220)
+ * Fixed location loading after mounting volume.
+ * JPEG image dimensions not displayed for files inside the trash. (#214)
+ * Infinite Loop when viewing more than 50 thumbnails. (Kendy Kutzner)
+ * X11 window title is not set. (Bruno Vasselle)
+ * Copy release notes on build from NEWS to metainfo file. (Federico Bruni)
+ * Fixed build if appstream >= 0.14.6 is not available.
+ * Fix incorrect usage of shared_module in extensions. (Jakub Jirutka)
+ * cli: mention that user can open files and/or directories. (#167)
+
+Translations:
+ * Basealt (Olesya Gerasimenko)
+ * Catalan (Jordi Mas)
+ * Croatian (gogo)
+ * Dutch (Nathan Follens)
+ * Hebrew (Yosef Or Boczko)
+ * Japanese (sicklylife)
+ * Swedish (Anders Jonsson)
+ * Turkish (Emin Tufan Çetin)
+ * српски (Мирослав Николић)
+
+Contributors:
+ Kendy Kutzner, Bruno Vasselle, Federico Bruni, Jakub Jirutka,
+ Olesya Gerasimenko, Jordi Mas, gogo, Nathan Follens, Yosef Or Boczko
+ sicklylife, Anders Jonsson, Emin Tufan Çetin, Мирослав Николић
+
 Version 3.12.0
 ~~~~~~~~~~~~~~
 Released: 2021-09-19

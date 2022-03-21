@@ -44,9 +44,11 @@
   <screenshots>
     <screenshot type="default">
       <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-browser.png</image>
+      <caption>Browser mode</caption>
     </screenshot>
     <screenshot>
       <image type="source">https://gitlab.gnome.org/GNOME/gthumb/raw/master/data/appdata/ss-viewer.png</image>
+      <caption>Viewer mode</caption>
     </screenshot>
   </screenshots>
 
@@ -60,9 +62,6 @@
   <project_group>GNOME</project_group>
   <translation type="gettext">gthumb</translation>
 
-  <provides>
-    <id>org.gnome.gThumb.desktop</id>
-  </provides>
   <content_rating type="oars-1.1">
     <content_attribute id="social-info">mild</content_attribute>
     <content_attribute id="social-audio">moderate</content_attribute>
