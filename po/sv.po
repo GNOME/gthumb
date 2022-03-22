@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2022-03-20 12:28+0000\n"
-"PO-Revision-Date: 2022-03-20 17:45+0100\n"
+"POT-Creation-Date: 2022-03-21 18:40+0000\n"
+"PO-Revision-Date: 2022-03-21 19:57+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -86,6 +86,14 @@ msgstr ""
 "Som en bildorganiserare låter gThumb dig lägga till kommentarer och annan "
 "metadata till bilder; ordna bilder i album och album i bibliotek; söka efter "
 "bilder och spara resultatet som ett album."
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+msgid "Browser mode"
+msgstr "Bläddrarläge"
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+msgid "Viewer mode"
+msgstr "Visningsläge"
 
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
