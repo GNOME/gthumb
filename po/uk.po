@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2022-03-20 12:28+0000\n"
-"PO-Revision-Date: 2022-03-20 18:02+0200\n"
+"POT-Creation-Date: 2022-03-21 18:40+0000\n"
+"PO-Revision-Date: 2022-03-22 16:30+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -88,6 +88,16 @@ msgstr ""
 "коментарі та інші метадані до зображень, упорядковувати зображення за "
 "каталогами та каталогами у бібліотеках, шукати зображення та зберігати "
 "результати пошуку як каталог."
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+#| msgid "Browser"
+msgid "Browser mode"
+msgstr "Режим навігації"
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+#| msgid "Viewer"
+msgid "Viewer mode"
+msgstr "Режим перегляду"
 
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
