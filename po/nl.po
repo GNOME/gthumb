@@ -11,7 +11,7 @@
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2013.
 # Pjotr <pjotrvertaalt@gmail.com>, 2013.
 # PaulMatthijsse <paul.matthijsse@wanadoo.fr>, 2018-2020.
-# Nathan Follens <nfollens@gnome.org>, 2019-2021.
+# Nathan Follens <nfollens@gnome.org>, 2019-2022.
 #
 #
 # 'Viewer' is geen mooi woord, we zoeken best een andere vertaling. Soms past 'weergave', maar lang niet altijd. - Nathan, 2019
@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-09-16 07:24+0000\n"
-"PO-Revision-Date: 2021-09-22 22:05+0200\n"
+"POT-Creation-Date: 2022-03-21 18:40+0000\n"
+"PO-Revision-Date: 2022-03-25 20:48+0100\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Launchpad-Export-Date: 2013-05-09 13:16+0000\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 
 # afbeeldingenviewer, kan dit mooier/anders?
 # pm
@@ -104,6 +104,14 @@ msgstr ""
 "in bibliotheken, alsmede afbeeldingen zoeken en de resultaten als een "
 "catalogus bewaren."
 
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+msgid "Browser mode"
+msgstr "Verkennermodus"
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+msgid "Viewer mode"
+msgstr "Weergavemodus"
+
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
@@ -150,7 +158,7 @@ msgid "Import the photos on your camera card"
 msgstr "De foto’s op de geheugenkaart van uw camera importeren"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
+#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:105
 #: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
@@ -693,7 +701,7 @@ msgstr "_Methode:"
 
 #: extensions/cairo_io/gth-image-saver-avif.c:365
 msgid "AVIF"
-msgstr ""
+msgstr "AVIF"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
 #: extensions/image_viewer/gth-metadata-provider-image.c:154
@@ -823,8 +831,8 @@ msgid "Rename"
 msgstr "Hernoemen"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4762
-#: gthumb/gth-browser.c:4874 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4776
+#: gthumb/gth-browser.c:4888 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Eigenschappen"
 
@@ -1841,21 +1849,21 @@ msgid "Enter the folder name:"
 msgstr "Geef mapnaam op:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:551
-#: extensions/file_manager/callbacks.c:989
+#: extensions/file_manager/callbacks.c:561
+#: extensions/file_manager/callbacks.c:991
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5800 gthumb/gth-browser.c:5843
+#: gthumb/gth-browser.c:5814 gthumb/gth-browser.c:5857
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Kon de bewerking niet uitvoeren"
 
 #: extensions/file_manager/actions.c:423
-#: extensions/file_manager/callbacks.c:277
+#: extensions/file_manager/callbacks.c:280
 msgid "Could not move the files"
 msgstr "Kon de bestanden niet verplaatsen"
 
 #: extensions/file_manager/actions.c:424
-#: extensions/file_manager/callbacks.c:278
+#: extensions/file_manager/callbacks.c:281
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1886,7 +1894,7 @@ msgid "Copy To"
 msgstr "Kopiëren naar"
 
 #: extensions/file_manager/actions.c:743
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1030
 msgid "Move"
 msgstr "Verplaatsen"
 
@@ -1951,36 +1959,36 @@ msgstr "Permanent verwijderen"
 msgid "Open with Gimp"
 msgstr "Openen met Gimp"
 
-#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:295
+#: extensions/file_manager/callbacks.c:735 gthumb/gth-file-source-vfs.c:295
 msgid "Home Folder"
 msgstr "Persoonlijke map"
 
-#: extensions/file_manager/callbacks.c:732
-#: extensions/file_manager/callbacks.c:735
+#: extensions/file_manager/callbacks.c:742
+#: extensions/file_manager/callbacks.c:745
 msgid "Open _With"
 msgstr "_Openen met"
 
-#: extensions/file_manager/callbacks.c:1009
+#: extensions/file_manager/callbacks.c:1011
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Wilt u ‘%s’ verplaatsen naar ‘%s’?"
 
-#: extensions/file_manager/callbacks.c:1011
+#: extensions/file_manager/callbacks.c:1013
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Wilt u ‘%s’ kopiëren naar ‘%s’?"
 
-#: extensions/file_manager/callbacks.c:1018
+#: extensions/file_manager/callbacks.c:1020
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Wilt u de geselecteerde bestanden naar ‘%s’ verplaatsen?"
 
-#: extensions/file_manager/callbacks.c:1020
+#: extensions/file_manager/callbacks.c:1022
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Wilt u de geselecteerde bestanden naar ‘%s’ kopiëren?"
 
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1030
 msgid "_Copy"
 msgstr "_Kopiëren"
 
@@ -2506,7 +2514,7 @@ msgstr "Geef de naam van de voorinstelling op:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1970
+#: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "Kon het bestand niet opslaan"
 
@@ -3917,10 +3925,8 @@ msgid "Folder path"
 msgstr "Mappad"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:42
-#, fuzzy
-#| msgid "Ask an input value"
 msgid "Ask a value"
-msgstr "Om een invoerwaarde vragen"
+msgstr "Om een waarde vragen"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:43
 #: extensions/rename_series/dlg-rename-series.c:59
@@ -3992,7 +3998,7 @@ msgstr "A_ccounts:"
 
 #. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:575 gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:577 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "Laden…"
 
@@ -4671,8 +4677,8 @@ msgid "Create static web albums."
 msgstr "Statische webalbums maken."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
-#: gthumb/gth-browser.c:6842 gthumb/gth-browser.c:6861
-#: gthumb/gth-browser.c:6885 gthumb/gth-vfs-tree.c:393
+#: gthumb/gth-browser.c:6856 gthumb/gth-browser.c:6875
+#: gthumb/gth-browser.c:6899 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Kon positie ‘%s’ niet laden"
@@ -4898,7 +4904,11 @@ msgstr "Automatisch foto’s van de digitale camera importeren"
 msgid "Show version"
 msgstr "Versie tonen"
 
-#: gthumb/gth-application.c:171
+#: gthumb/gth-application.c:71
+msgid "[FILE…] [DIRECTORY…]"
+msgstr "[BESTAND…] [MAP…]"
+
+#: gthumb/gth-application.c:170
 msgid "— Image browser and viewer"
 msgstr "— Afbeeldingenverkenner en -viewer"
 
@@ -4948,7 +4958,7 @@ msgstr ""
 "Pjotr\n"
 "Hannie Dumoleyn\n"
 "Paul Matthijsse\n"
-"Nathan Follens\n"
+"Nathan Follens <nfollens@gnome.org>\n"
 "\n"
 "Meer info over Gnome-NL http://nl.gnome.org/\n"
 "\n"
@@ -4982,8 +4992,8 @@ msgstr "Venster sluiten"
 msgid "Open location"
 msgstr "Locatie openen"
 
-#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4777
-#: gthumb/gth-browser.c:4795 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4791
+#: gthumb/gth-browser.c:4809 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Volledig scherm"
@@ -5084,72 +5094,72 @@ msgstr[1] "%d bestanden geselecteerd (%s)"
 msgid "%s of free space"
 msgstr "%s vrije ruimte"
 
-#: gthumb/gth-browser.c:1893 gthumb/gth-browser.c:1909
+#: gthumb/gth-browser.c:1907 gthumb/gth-browser.c:1923
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Geen geschikte module gevonden voor %s"
 
-#: gthumb/gth-browser.c:2014
+#: gthumb/gth-browser.c:2028
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Wijzigingen in bestand ‘%s’ opslaan?"
 
-#: gthumb/gth-browser.c:2019
+#: gthumb/gth-browser.c:2033
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr ""
 "Als u het bestand niet opslaat, gaan alle wijzigingen definitief verloren."
 
-#: gthumb/gth-browser.c:2020
+#: gthumb/gth-browser.c:2034
 msgid "Do _Not Save"
 msgstr "_Niet opslaan"
 
-#: gthumb/gth-browser.c:2510 gthumb/gth-browser.c:4803
+#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4817
 msgid "Accept"
 msgstr "Accepteren"
 
-#: gthumb/gth-browser.c:2510 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2524 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Sluiten"
 
-#: gthumb/gth-browser.c:3049
+#: gthumb/gth-browser.c:3063
 msgid "Could not change name"
 msgstr "Kon naam niet wijzigen"
 
-#: gthumb/gth-browser.c:3543
+#: gthumb/gth-browser.c:3557
 msgid "Modified"
 msgstr "Gewijzigd"
 
-#: gthumb/gth-browser.c:4725
+#: gthumb/gth-browser.c:4739
 msgid "Go to the previous visited location"
 msgstr "Naar vorige bezochte locatie gaan"
 
-#: gthumb/gth-browser.c:4731
+#: gthumb/gth-browser.c:4745
 msgid "Go to the next visited location"
 msgstr "Naar volgende bezochte locatie gaan"
 
-#: gthumb/gth-browser.c:4739
+#: gthumb/gth-browser.c:4753
 msgid "History"
 msgstr "Geschiedenis"
 
-#: gthumb/gth-browser.c:4753
+#: gthumb/gth-browser.c:4767
 msgid "View the folders"
 msgstr "De mappen weergeven"
 
-#: gthumb/gth-browser.c:4768
+#: gthumb/gth-browser.c:4782
 msgid "Edit file"
 msgstr "Bewerken"
 
-#: gthumb/gth-browser.c:4859 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4873 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Bewerkingen"
 
-#: gthumb/gth-browser.c:6843
+#: gthumb/gth-browser.c:6857
 #, c-format
 msgid "File type not supported"
 msgstr "Type bestand niet ondersteund"
 
-#: gthumb/gth-browser.c:6886
+#: gthumb/gth-browser.c:6900
 #, c-format
 msgid "No suitable module found"
 msgstr "Geen geschikte module gevonden"
@@ -5511,7 +5521,7 @@ msgstr "Familie"
 #. Translators: The space character not the Astronomy space.
 #: gthumb/gth-template-editor-dialog.c:424
 msgid "Space"
-msgstr ""
+msgstr "Spatie"
 
 #: gthumb/gth-template-selector.c:35
 msgid "Year"
@@ -5631,7 +5641,7 @@ msgstr "Kleuren"
 msgid "Rotation"
 msgstr "Draaien en spiegelen"
 
-#: gthumb/gth-window.c:1074
+#: gthumb/gth-window.c:1073
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5640,11 +5650,11 @@ msgstr ""
 "De toetscombinatie «%s» is al toegekend aan de actie «%s». Wilt u deze in "
 "plaats daarvan toewijzen aan deze actie?"
 
-#: gthumb/gth-window.c:1082
+#: gthumb/gth-window.c:1081
 msgid "Reassign"
 msgstr "Opnieuw toewijzen"
 
-#: gthumb/gth-window.c:1100
+#: gthumb/gth-window.c:1099
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5653,7 +5663,7 @@ msgstr ""
 "De toetscombinatie «%s» is al toegekend aan de actie «%s» en kan niet worden "
 "veranderd."
 
-#: gthumb/gth-window.c:1104
+#: gthumb/gth-window.c:1103
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "De toetscombinatie «%s» is al toegekend en kan niet worden veranderd."
@@ -5696,7 +5706,7 @@ msgstr "_Nieuw"
 
 #: gthumb/gtk-utils.h:42
 msgid "_Ok"
-msgstr "_Ok"
+msgstr "_Oké"
 
 #: gthumb/gtk-utils.h:43
 msgid "_Remove"
