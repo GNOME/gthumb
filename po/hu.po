@@ -1,17 +1,17 @@
 # Hungarian translation for gthumb.
-# Copyright (C) 2003, 2004, 2005, 2007, 2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2007, 2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
 # Andras Timar <timar at gnome dot hu>, 2003, 2004.
 # Laszlo Dvornik <dvornik at gnome dot hu>, 2004.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2005, 2007, 2009, 2011, 2012.
-# Balázs Úr <ur.balazs at fsf dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-08-30 17:58+0000\n"
-"PO-Revision-Date: 2021-09-14 01:47+0200\n"
+"POT-Creation-Date: 2022-03-21 18:40+0000\n"
+"PO-Revision-Date: 2022-03-29 01:02+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -87,6 +87,16 @@ msgstr ""
 "rendezését könyvtárakba; képek keresését és az eredmény mentést "
 "katalógusként."
 
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+#| msgid "Browser"
+msgid "Browser mode"
+msgstr "Böngésző mód"
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+#| msgid "Viewer"
+msgid "Viewer mode"
+msgstr "Megjelenítő mód"
+
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
@@ -132,7 +142,7 @@ msgid "Import the photos on your camera card"
 msgstr "Fényképek importálása a fényképezőgép kártyájáról"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
+#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:105
 #: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
@@ -241,7 +251,6 @@ msgid "Description"
 msgstr "Leírás"
 
 #: data/ui/code-selector.ui:269
-#| msgid "Edit tags"
 msgid "Edit"
 msgstr "Szerkesztés"
 
@@ -474,7 +483,6 @@ msgstr "_Fordított sorrend"
 
 #: data/ui/template-editor-dialog.ui:21
 #: extensions/importer/data/ui/import-preferences.ui:164
-#| msgid "example"
 msgid "Example:"
 msgstr "Példa:"
 
@@ -803,8 +811,8 @@ msgid "Rename"
 msgstr "Átnevezés"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4762
-#: gthumb/gth-browser.c:4874 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4776
+#: gthumb/gth-browser.c:4888 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Tulajdonságok"
 
@@ -1438,14 +1446,12 @@ msgstr "Mai dátum"
 #: extensions/contact_sheet/dlg-contact-sheet.c:40
 #: extensions/image_print/gth-image-print-job.c:37
 #: extensions/webalbums/dlg-web-exporter.c:35
-#| msgid "The current page number"
 msgid "Current page number"
 msgstr "Jelenlegi oldalszám"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:41
 #: extensions/image_print/gth-image-print-job.c:38
 #: extensions/webalbums/dlg-web-exporter.c:36
-#| msgid "The total number of pages"
 msgid "Total number of pages"
 msgstr "Oldalak teljes száma"
 
@@ -1814,21 +1820,21 @@ msgid "Enter the folder name:"
 msgstr "Adja meg a mappa nevét:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:551
-#: extensions/file_manager/callbacks.c:989
+#: extensions/file_manager/callbacks.c:561
+#: extensions/file_manager/callbacks.c:991
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5800 gthumb/gth-browser.c:5843
+#: gthumb/gth-browser.c:5814 gthumb/gth-browser.c:5857
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Nem sikerült végrehajtani a műveletet"
 
 #: extensions/file_manager/actions.c:423
-#: extensions/file_manager/callbacks.c:277
+#: extensions/file_manager/callbacks.c:280
 msgid "Could not move the files"
 msgstr "Nem sikerült áthelyezni a fájlokat"
 
 #: extensions/file_manager/actions.c:424
-#: extensions/file_manager/callbacks.c:278
+#: extensions/file_manager/callbacks.c:281
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1859,7 +1865,7 @@ msgid "Copy To"
 msgstr "Másolás ide"
 
 #: extensions/file_manager/actions.c:743
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1030
 msgid "Move"
 msgstr "Áthelyezés"
 
@@ -1924,36 +1930,36 @@ msgstr "Végleges törlés"
 msgid "Open with Gimp"
 msgstr "Megnyitás a Gimp képszerkesztővel"
 
-#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:295
+#: extensions/file_manager/callbacks.c:735 gthumb/gth-file-source-vfs.c:295
 msgid "Home Folder"
 msgstr "Saját mappa"
 
-#: extensions/file_manager/callbacks.c:732
-#: extensions/file_manager/callbacks.c:735
+#: extensions/file_manager/callbacks.c:742
+#: extensions/file_manager/callbacks.c:745
 msgid "Open _With"
 msgstr "Megnyitás _ezzel"
 
-#: extensions/file_manager/callbacks.c:1009
+#: extensions/file_manager/callbacks.c:1011
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Szeretné áthelyezni ezt: „%s” ide: „%s”?"
 
-#: extensions/file_manager/callbacks.c:1011
+#: extensions/file_manager/callbacks.c:1013
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Szeretné átmásolni ezt: „%s” ide: „%s”?"
 
-#: extensions/file_manager/callbacks.c:1018
+#: extensions/file_manager/callbacks.c:1020
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Szeretné áthelyezni a behúzott fájlokat ide: „%s”?"
 
-#: extensions/file_manager/callbacks.c:1020
+#: extensions/file_manager/callbacks.c:1022
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Szeretné átmásolni a behúzott fájlokat ide: „%s”?"
 
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1030
 msgid "_Copy"
 msgstr "_Másolás"
 
@@ -2473,7 +2479,7 @@ msgstr "Adja meg az alapbeállítás nevet:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1970
+#: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "Nem sikerült elmenteni a fájlt"
 
@@ -3363,13 +3369,11 @@ msgid "Select Footer Font"
 msgstr "Válassza ki a lábléc betűkészletét"
 
 #: extensions/image_print/gth-image-print-job.c:40
-#| msgid "The total number of files"
 msgid "Total number of files"
 msgstr "Fájlok teljes száma"
 
 #: extensions/image_print/gth-image-print-job.c:41
 #: extensions/importer/gth-import-preferences-dialog.c:47
-#| msgid "The event description"
 msgid "Event description"
 msgstr "Esemény leírása"
 
@@ -3813,7 +3817,6 @@ msgid "_Command:"
 msgstr "_Parancs:"
 
 #: extensions/list_tools/data/ui/script-editor.ui:172
-#| msgid "Edit Command"
 msgid "Edit command"
 msgstr "Parancs szerkesztése"
 
@@ -3858,42 +3861,34 @@ msgid "Commands"
 msgstr "Parancsok"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:34
-#| msgid "Quote the text "
 msgid "Quoted text"
 msgstr "Idézőjelezett a szöveget"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:35
-#| msgid "File"
 msgid "File URI"
 msgstr "Fájl URI-ja"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:36
-#| msgid "file path"
 msgid "File path"
 msgstr "Fájl útvonala"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:37
-#| msgid "Filename"
 msgid "File name"
 msgstr "Fájl neve"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:38
-#| msgid "The file basename without extension"
 msgid "File name, no extension"
 msgstr "Fájl neve kiterjesztés nélkül"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:39
-#| msgid "The file extension"
 msgid "File extension"
 msgstr "Fájl kiterjesztése"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:40
-#| msgid "file path"
 msgid "Folder path"
 msgstr "Mappa útvonala"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:42
-#| msgid "Ask an input value"
 msgid "Ask a value"
 msgstr "Érték bekérése"
 
@@ -3967,7 +3962,7 @@ msgstr "F_iókok:"
 
 #. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:575 gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:577 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "Betöltés…"
 
@@ -4285,7 +4280,6 @@ msgid "Add another location"
 msgstr "Másik hely hozzáadása"
 
 #: extensions/search/gth-search-task.c:113
-#| msgid "No file imported"
 msgid "No file found"
 msgstr "Nem található fájl"
 
@@ -4587,12 +4581,10 @@ msgid "Image Attributes"
 msgstr "Képattribútumok"
 
 #: extensions/webalbums/dlg-web-exporter.c:43
-#| msgid "The current image number"
 msgid "Current image number"
 msgstr "Jelenlegi képszám"
 
 #: extensions/webalbums/dlg-web-exporter.c:44
-#| msgid "The total number of images"
 msgid "Total number of images"
 msgstr "Képek teljes száma"
 
@@ -4648,8 +4640,8 @@ msgid "Create static web albums."
 msgstr "Statikus webalbumok létrehozása."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
-#: gthumb/gth-browser.c:6842 gthumb/gth-browser.c:6861
-#: gthumb/gth-browser.c:6885 gthumb/gth-vfs-tree.c:393
+#: gthumb/gth-browser.c:6856 gthumb/gth-browser.c:6875
+#: gthumb/gth-browser.c:6899 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Nem sikerült betölteni a(z) „%s” pozíciót"
@@ -4871,7 +4863,11 @@ msgstr "Fényképek automatikus importálása a digitális fényképezőgépből
 msgid "Show version"
 msgstr "Verzió megjelenítése"
 
-#: gthumb/gth-application.c:171
+#: gthumb/gth-application.c:71
+msgid "[FILE…] [DIRECTORY…]"
+msgstr "[FÁJL…] [KÖNYVTÁR…]"
+
+#: gthumb/gth-application.c:170
 msgid "— Image browser and viewer"
 msgstr "— Képböngésző és -megjelenítő"
 
@@ -4938,8 +4934,8 @@ msgstr "Ablak bezárása"
 msgid "Open location"
 msgstr "Hely megnyitása"
 
-#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4777
-#: gthumb/gth-browser.c:4795 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4791
+#: gthumb/gth-browser.c:4809 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Teljes képernyő"
@@ -5040,71 +5036,71 @@ msgstr[1] "%d fájl kijelölve (%s)"
 msgid "%s of free space"
 msgstr "%s szabad hely"
 
-#: gthumb/gth-browser.c:1893 gthumb/gth-browser.c:1909
+#: gthumb/gth-browser.c:1907 gthumb/gth-browser.c:1923
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Nem található megfelelő modul ehhez: %s"
 
-#: gthumb/gth-browser.c:2014
+#: gthumb/gth-browser.c:2028
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Menti a módosításokat a(z) „%s” fájlba?"
 
-#: gthumb/gth-browser.c:2019
+#: gthumb/gth-browser.c:2033
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Ha nem menti, a fájl módosításai azonnal elvesznek."
 
-#: gthumb/gth-browser.c:2020
+#: gthumb/gth-browser.c:2034
 msgid "Do _Not Save"
 msgstr "_Ne mentse"
 
-#: gthumb/gth-browser.c:2510 gthumb/gth-browser.c:4803
+#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4817
 msgid "Accept"
 msgstr "Elfogadás"
 
-#: gthumb/gth-browser.c:2510 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2524 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Bezárás"
 
-#: gthumb/gth-browser.c:3049
+#: gthumb/gth-browser.c:3063
 msgid "Could not change name"
 msgstr "Nem sikerült megváltoztatni a nevet"
 
-#: gthumb/gth-browser.c:3543
+#: gthumb/gth-browser.c:3557
 msgid "Modified"
 msgstr "Módosítva"
 
-#: gthumb/gth-browser.c:4725
+#: gthumb/gth-browser.c:4739
 msgid "Go to the previous visited location"
 msgstr "Ugrás az előző meglátogatott helyre"
 
-#: gthumb/gth-browser.c:4731
+#: gthumb/gth-browser.c:4745
 msgid "Go to the next visited location"
 msgstr "Ugrás a következő meglátogatott helyre"
 
-#: gthumb/gth-browser.c:4739
+#: gthumb/gth-browser.c:4753
 msgid "History"
 msgstr "Előzmények"
 
-#: gthumb/gth-browser.c:4753
+#: gthumb/gth-browser.c:4767
 msgid "View the folders"
 msgstr "A mappák megtekintése"
 
-#: gthumb/gth-browser.c:4768
+#: gthumb/gth-browser.c:4782
 msgid "Edit file"
 msgstr "Fájl szerkesztése"
 
-#: gthumb/gth-browser.c:4859 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4873 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Műveletek"
 
-#: gthumb/gth-browser.c:6843
+#: gthumb/gth-browser.c:6857
 #, c-format
 msgid "File type not supported"
 msgstr "A fájltípus nem támogatott"
 
-#: gthumb/gth-browser.c:6886
+#: gthumb/gth-browser.c:6900
 #, c-format
 msgid "No suitable module found"
 msgstr "Nem található megfelelő modul"
@@ -5128,7 +5124,6 @@ msgid "_Show Format Options"
 msgstr "Formátumbeállítások _megjelenítése"
 
 #: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1186
-#| msgid "no file"
 msgid "No file"
 msgstr "Nincs fájl"
 
@@ -5473,7 +5468,6 @@ msgid "Month"
 msgstr "Hónap"
 
 #: gthumb/gth-template-selector.c:37
-#| msgid "The day of the month"
 msgid "Day of the month"
 msgstr "A hónap napja"
 
@@ -5482,13 +5476,11 @@ msgid "Hour"
 msgstr "Óra"
 
 #: gthumb/gth-template-selector.c:39
-#| msgid "minutes"
 msgid "Minute"
 msgstr "Perc"
 
 #. Translators: the time second, not the second place.
 #: gthumb/gth-template-selector.c:41
-#| msgid "seconds"
 msgid "Second"
 msgstr "Másodperc"
 
@@ -5585,7 +5577,7 @@ msgstr "Színek"
 msgid "Rotation"
 msgstr "Forgatás"
 
-#: gthumb/gth-window.c:1074
+#: gthumb/gth-window.c:1073
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5594,11 +5586,11 @@ msgstr ""
 "A(z) „%s” billentyűkombináció már hozzá van rendelve ehhez a művelethez: "
 "„%s”. Szeretné inkább ehhez a művelethez újra hozzárendelni?"
 
-#: gthumb/gth-window.c:1082
+#: gthumb/gth-window.c:1081
 msgid "Reassign"
 msgstr "Újra hozzárendelés"
 
-#: gthumb/gth-window.c:1100
+#: gthumb/gth-window.c:1099
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5607,7 +5599,7 @@ msgstr ""
 "A(z) „%s” billentyűkombináció már hozzá van rendelve a(z) „%s” művelethez, "
 "és nem változtatható meg."
 
-#: gthumb/gth-window.c:1104
+#: gthumb/gth-window.c:1103
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr ""
