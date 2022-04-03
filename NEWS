@@ -1,3 +1,20 @@
+Version 3.12.2
+~~~~~~~~~~~~~~
+Released: 2022-04-03
+
+Features:
+ * Added support for larger thumbnail sizes: 512, 768 and 1024 pixels.
+
+Bugfixes:
+ * Fixed possible crash when changing directory during thumbnails creation.
+
+Translations:
+ * Dutch (Nathan Follens)
+ * Hungarian (Balázs Úr)
+ * Polish (Piotr Drąg)
+ * Swedish (Anders Jonsson)
+ * Ukrainian (Yuri Chornoivan)
+
 Version 3.12.1
 ~~~~~~~~~~~~~~
 Released: 2022-03-21
