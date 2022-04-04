@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2022-03-20 12:28+0000\n"
-"PO-Revision-Date: 2022-03-21 09:27+0100\n"
+"POT-Creation-Date: 2022-04-03 08:27+0000\n"
+"PO-Revision-Date: 2022-04-04 09:52+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -87,6 +87,14 @@ msgstr ""
 "Jako organizátor obrázků umožňuje gThumb přidávat k obrázkům komentáře a "
 "další metadata, uspořádávat obrázky do katalogů a katalogy do knihoven, "
 "hledat obrázky a ukládat výsledky jako katalog."
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+msgid "Browser mode"
+msgstr "Režim procházení"
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+msgid "Viewer mode"
+msgstr "Režim prohlížení"
 
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
@@ -186,43 +194,7 @@ msgstr "Ostatní"
 msgid "Thumbnail _size:"
 msgstr "Veliko_st náhledu:"
 
-#: data/ui/browser-preferences.ui:206
-msgid "48"
-msgstr "48"
-
-#: data/ui/browser-preferences.ui:207
-msgid "64"
-msgstr "64"
-
-#: data/ui/browser-preferences.ui:208
-msgid "85"
-msgstr "85"
-
-#: data/ui/browser-preferences.ui:209
-msgid "95"
-msgstr "95"
-
-#: data/ui/browser-preferences.ui:210
-msgid "112"
-msgstr "112"
-
-#: data/ui/browser-preferences.ui:211
-msgid "128"
-msgstr "128"
-
-#: data/ui/browser-preferences.ui:212
-msgid "164"
-msgstr "164"
-
-#: data/ui/browser-preferences.ui:213
-msgid "200"
-msgstr "200"
-
-#: data/ui/browser-preferences.ui:214
-msgid "256"
-msgstr "256"
-
-#: data/ui/browser-preferences.ui:239
+#: data/ui/browser-preferences.ui:242
 msgid "D_etermine image type from content (slower)"
 msgstr "_Určit typ obrázku podle jeho obsahu (pomalejší)"
 
@@ -5674,3 +5646,30 @@ msgstr "O _aplikaci gThumb"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "O_dstranit historii"
+
+#~ msgid "48"
+#~ msgstr "48"
+
+#~ msgid "64"
+#~ msgstr "64"
+
+#~ msgid "85"
+#~ msgstr "85"
+
+#~ msgid "95"
+#~ msgstr "95"
+
+#~ msgid "112"
+#~ msgstr "112"
+
+#~ msgid "128"
+#~ msgstr "128"
+
+#~ msgid "164"
+#~ msgstr "164"
+
+#~ msgid "200"
+#~ msgstr "200"
+
+#~ msgid "256"
+#~ msgstr "256"
