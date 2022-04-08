@@ -6,20 +6,19 @@
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2004, 2005, 2006, 2007, 2008, 2010.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2014.
 # Alexander Gabilondo, 2019.
-# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2021.
+# Asier Sarasua Garmendia <asiersarasua@ni.eus>, 2021, 2022.
 #
 msgid ""
 msgstr "Project-Id-Version: gthumb master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-04-24 16:04+0000\n"
-"PO-Revision-Date: 2021-05-12 11:08+0200\n"
+"POT-Creation-Date: 2022-04-03 08:27+0000\n"
+"PO-Revision-Date: 2022-04-08 11:08+0200\n"
 "Last-Translator: Asier Sarasua Garmendia <asiersarasua@ni.eus>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
@@ -69,6 +68,14 @@ msgid ""
 "images and save the result as a catalog."
 msgstr "Irudien antolatzaile bezala gThumb-ek irudiei iruzkinak eta bestelako metadatuak gehitzea baimentzen du. Irudiak katalogoetan, eta katalogoak liburutegietan antolatzen ditu. Irudiak bilatu eta emaitza katalogo gisa gordetzen du."
 
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+msgid "Browser mode"
+msgstr "Arakatzaile modua"
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+msgid "Viewer mode"
+msgstr "Ikustaile modua"
+
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
@@ -110,8 +117,8 @@ msgid "Import the photos on your camera card"
 msgstr "Inportatu argazkiak kameraren txarteletik"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
-#: gthumb/gth-browser.c:427 gthumb/gth-progress-dialog.c:413
+#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:105
+#: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -125,13 +132,13 @@ msgid "Image;Viewer;"
 msgstr "Irudia; Ikustailea;"
 
 #: data/org.gnome.gThumb.desktop.in.in:25
-#: gthumb/gth-browser-actions-entries.h:94 gthumb/resources/gears-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:97 gthumb/resources/gears-menu.ui:7
 msgid "New Window"
 msgstr "_Leiho berria"
 
 #: data/ui/browser-preferences.ui:20
 #: extensions/contact_sheet/gth-contact-sheet-theme.c:34
-#: extensions/image_print/data/ui/print-layout.ui:519
+#: extensions/image_print/data/ui/print-layout.ui:654
 msgid "Caption"
 msgstr "Epigrafea"
 
@@ -162,45 +169,41 @@ msgstr "Bestelakoa"
 msgid "Thumbnail _size:"
 msgstr "Koadro txikien _tamaina:"
 
-#: data/ui/browser-preferences.ui:206
-msgid "48"
-msgstr "48"
-
-#: data/ui/browser-preferences.ui:207
-msgid "64"
-msgstr "64"
-
-#: data/ui/browser-preferences.ui:208
-msgid "85"
-msgstr "85"
-
-#: data/ui/browser-preferences.ui:209
-msgid "95"
-msgstr "95"
-
-#: data/ui/browser-preferences.ui:210
-msgid "112"
-msgstr "112"
-
-#: data/ui/browser-preferences.ui:211
-msgid "128"
-msgstr "128"
-
-#: data/ui/browser-preferences.ui:212
-msgid "164"
-msgstr "164"
-
-#: data/ui/browser-preferences.ui:213
-msgid "200"
-msgstr "200"
-
-#: data/ui/browser-preferences.ui:214
-msgid "256"
-msgstr "256"
-
-#: data/ui/browser-preferences.ui:239
+#: data/ui/browser-preferences.ui:242
 msgid "D_etermine image type from content (slower)"
 msgstr "Z_ehaztu irudi mota edukiaren arabera (motelagoa)"
+
+#: data/ui/code-selector.ui:99
+#: extensions/rename_series/data/ui/rename-series.ui:73
+msgid "1"
+msgstr "1"
+
+#: data/ui/code-selector.ui:113
+msgid "digits"
+msgstr "digituak"
+
+#: data/ui/code-selector.ui:252 extensions/comments/main.c:44
+#: extensions/comments/main.c:170
+#: extensions/image_print/data/ui/print-layout.ui:285
+#: gthumb/gth-main-default-metadata.c:64
+msgid "Description"
+msgstr "Azalpena"
+
+#: data/ui/code-selector.ui:269
+msgid "Edit"
+msgstr "Editatu"
+
+#: data/ui/code-selector.ui:270 data/ui/code-selector.ui:327
+msgid "Default value"
+msgstr "Balio lehenetsia"
+
+#: data/ui/code-selector.ui:387
+msgid "remove"
+msgstr "kendu"
+
+#: data/ui/code-selector.ui:407
+msgid "add"
+msgstr "gehitu"
 
 #: data/ui/extensions-preferences.ui:39
 msgid "_Extensions:"
@@ -246,27 +249,27 @@ msgid "Mean:"
 msgstr "Batez bestekoa:"
 
 #. Short for "Standard deviation".  Try to keep it under the 12 characters in the translation or it will be ellipsized at the end.
-#: data/ui/histogram-info.ui:42
+#: data/ui/histogram-info.ui:41
 msgid "Std dev:"
 msgstr "DesbEstan:"
 
-#: data/ui/histogram-info.ui:60
+#: data/ui/histogram-info.ui:58
 msgid "Median:"
 msgstr "Mediana:"
 
 #. After the colon there is the total number of pixels
-#: data/ui/histogram-info.ui:148
+#: data/ui/histogram-info.ui:127
 msgid "Pixels:"
 msgstr "Pixelak:"
 
 #. After the colon there is a percentile.
-#: data/ui/histogram-info.ui:163
+#: data/ui/histogram-info.ui:144
 msgctxt "Pixels"
 msgid "Max:"
 msgstr "Gehien:"
 
 #. After the colon there is the percentile of selected pixels.
-#: data/ui/histogram-info.ui:180
+#: data/ui/histogram-info.ui:161
 msgctxt "Pixels"
 msgid "Selected:"
 msgstr "Hautatuta:"
@@ -288,7 +291,7 @@ msgid "Filename:"
 msgstr "Fitxategi-izena:"
 
 #: data/ui/overwrite-dialog.ui:160 data/ui/overwrite-dialog.ui:329
-#: extensions/image_print/data/ui/print-layout.ui:705
+#: extensions/image_print/data/ui/print-layout.ui:840
 msgid "Size:"
 msgstr "Tamaina:"
 
@@ -398,9 +401,9 @@ msgstr "_Gorde metadatuak fitxategien barruan ahal bada"
 
 #: data/ui/preferences.ui:440
 #: extensions/catalogs/data/ui/catalog-properties.ui:39
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:576
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:434
 #: extensions/edit_metadata/gth-edit-general-page.c:482
-#: extensions/webalbums/data/ui/web-album-exporter.ui:571
+#: extensions/webalbums/data/ui/web-album-exporter.ui:470
 #: gthumb/gth-main-default-types.c:38
 msgid "General"
 msgstr "Orokorra"
@@ -409,13 +412,18 @@ msgstr "Orokorra"
 msgid "Shortcuts:"
 msgstr "Lasterbideak:"
 
-#: data/ui/shortcuts-preferences.ui:93
+#: data/ui/shortcuts-preferences.ui:94
 msgid "_Restore All…"
 msgstr "_Leheneratu dena…"
 
 #: data/ui/sort-order.ui:30
 msgid "_Inverse order"
 msgstr "_Alderantzikatu ordena:"
+
+#: data/ui/template-editor-dialog.ui:21
+#: extensions/importer/data/ui/import-preferences.ui:164
+msgid "Example:"
+msgstr "Adibidea:"
 
 #: extensions/23hq/23hq.extension.desktop.in.in:3
 msgid "23"
@@ -615,12 +623,12 @@ msgid "AVIF"
 msgstr "AVIF"
 
 #: extensions/cairo_io/gth-image-saver-jpeg.c:517
-#: extensions/image_viewer/gth-metadata-provider-image.c:153
+#: extensions/image_viewer/gth-metadata-provider-image.c:154
 msgid "JPEG"
 msgstr "JPEG"
 
 #: extensions/cairo_io/gth-image-saver-png.c:354
-#: extensions/image_viewer/gth-metadata-provider-image.c:119
+#: extensions/image_viewer/gth-metadata-provider-image.c:120
 msgid "PNG"
 msgstr "PNG"
 
@@ -638,15 +646,15 @@ msgid "TIFF"
 msgstr "TIFF"
 
 #: extensions/cairo_io/gth-image-saver-webp.c:383
-#: extensions/image_viewer/gth-metadata-provider-image.c:182
+#: extensions/image_viewer/gth-metadata-provider-image.c:183
 msgid "WebP"
 msgstr "WebP"
 
 #: extensions/cairo_io/preferences.c:134
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:556
-#: extensions/contact_sheet/data/ui/image-wall.ui:269
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:414
+#: extensions/contact_sheet/data/ui/image-wall.ui:216
 #: extensions/image_viewer/gth-image-viewer-page.c:1703
-#: extensions/webalbums/data/ui/web-album-exporter.ui:484
+#: extensions/webalbums/data/ui/web-album-exporter.ui:391
 msgid "Saving"
 msgstr "Gordetzen"
 
@@ -655,8 +663,8 @@ msgstr "Gordetzen"
 #: extensions/catalogs/dlg-add-to-catalog.c:541
 #: extensions/file_manager/actions.c:71
 #: extensions/file_tools/gth-file-tool-curves.c:373
-#: extensions/list_tools/gth-script-editor-dialog.c:274
-#: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1924
+#: extensions/list_tools/gth-script-editor-dialog.c:295
+#: gthumb/gth-filter-editor-dialog.c:467 gthumb/gth-folder-tree.c:1925
 #, c-format
 msgid "No name specified"
 msgstr "Ez da izenik zehaztu"
@@ -666,7 +674,7 @@ msgstr "Ez da izenik zehaztu"
 #: extensions/catalogs/dlg-add-to-catalog.c:548
 #: extensions/file_manager/actions.c:78
 #: extensions/file_tools/gth-file-tool-curves.c:380
-#: gthumb/gth-folder-tree.c:1931
+#: gthumb/gth-folder-tree.c:1932
 #, c-format
 msgid "Invalid name. The following characters are not allowed: %s"
 msgstr "Izen baliogabea. Karaktere hauek ez daude onartuta: %s"
@@ -736,21 +744,21 @@ msgstr "Sortu liburutegia"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:82
 #: extensions/file_manager/callbacks.c:109
 #: extensions/file_manager/callbacks.c:126
-#: extensions/rename_series/dlg-rename-series.c:859
-#: gthumb/gth-folder-tree.c:1971
+#: extensions/rename_series/dlg-rename-series.c:771
+#: gthumb/gth-folder-tree.c:1972
 msgid "Rename"
 msgstr "Aldatu izena"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4619
-#: gthumb/gth-browser.c:4731 gthumb/gth-file-properties.c:258
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4776
+#: gthumb/gth-browser.c:4888 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Propietateak"
 
 #: extensions/catalogs/callbacks.c:185
 #: extensions/catalogs/catalogs.extension.desktop.in.in:3
 #: extensions/catalogs/gth-catalog.c:504 extensions/catalogs/gth-catalog.c:555
-#: extensions/catalogs/gth-catalog.c:916 extensions/catalogs/gth-catalog.c:917
+#: extensions/catalogs/gth-catalog.c:917 extensions/catalogs/gth-catalog.c:918
 msgid "Catalogs"
 msgstr "Katalogoak"
 
@@ -794,7 +802,7 @@ msgstr "Katalogo berria"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:103
 #: extensions/file_manager/actions.c:766
-#: extensions/webalbums/gth-web-exporter.c:1827
+#: extensions/webalbums/gth-web-exporter.c:1820
 msgid "_View the destination"
 msgstr "_Ikusi helburua"
 
@@ -870,7 +878,7 @@ msgid "Could not add the files to the catalog"
 msgstr "Ezin izan dira fitxategiak katalogoari gehitu"
 
 #: extensions/catalogs/dlg-add-to-catalog.c:319
-#: extensions/search/gth-search-task.c:392
+#: extensions/search/gth-search-task.c:396
 msgid "Could not create the catalog"
 msgstr "Ezin izan da katalogoa sortu"
 
@@ -925,15 +933,15 @@ msgid "Tag (embedded)"
 msgstr "Etiketa (kapsulatuta)"
 
 #: extensions/catalogs/gth-catalog.c:300
-#: extensions/exiv2_tools/exiv2-utils.cpp:872
-#: extensions/exiv2_tools/exiv2-utils.cpp:881
-#: extensions/exiv2_tools/exiv2-utils.cpp:911
-#: extensions/exiv2_tools/exiv2-utils.cpp:1444
+#: extensions/exiv2_tools/exiv2-utils.cpp:874
+#: extensions/exiv2_tools/exiv2-utils.cpp:883
+#: extensions/exiv2_tools/exiv2-utils.cpp:913
+#: extensions/exiv2_tools/exiv2-utils.cpp:1452
 #: extensions/search/gth-search.c:285 gthumb/gth-shortcut.c:366
 msgid "Invalid file format"
 msgstr "Fitxategiaren formatu baliogabea"
 
-#: extensions/catalogs/gth-catalog.c:1018 extensions/comments/main.c:47
+#: extensions/catalogs/gth-catalog.c:1019 extensions/comments/main.c:47
 #: extensions/edit_metadata/callbacks.c:57
 #: extensions/edit_metadata/callbacks.c:94
 #: extensions/edit_metadata/callbacks.c:107
@@ -1074,11 +1082,11 @@ msgstr "_Sinkronizatu kapsulatutako metadatuekin"
 
 #: extensions/comments/dlg-comments-preferences.c:68
 #: extensions/gstreamer_tools/dlg-media-viewer-preferences.c:75
-#: extensions/importer/gth-import-preferences-dialog.c:417
+#: extensions/importer/gth-import-preferences-dialog.c:421
 #: extensions/photo_importer/dlg-photo-importer-preferences.c:78
 #: extensions/terminal/dlg-terminal-preferences.c:83
 #: gthumb/dlg-favorite-properties.c:99 gthumb/dlg-preferences-extensions.c:483
-#: gthumb/gth-file-properties.c:548
+#: gthumb/gth-file-properties.c:595
 msgid "Preferences"
 msgstr "Hobespenak"
 
@@ -1086,27 +1094,14 @@ msgstr "Hobespenak"
 #: extensions/edit_metadata/callbacks.c:88
 #: extensions/edit_metadata/callbacks.c:101
 #: extensions/edit_metadata/gth-edit-comment-dialog.c:124
-#: gthumb/gth-file-comment.c:136
+#: extensions/webalbums/dlg-web-exporter.c:46
+#: extensions/webalbums/dlg-web-exporter.c:296 gthumb/gth-file-comment.c:136
 msgid "Comment"
 msgstr "Iruzkina"
 
 #: extensions/comments/main.c:43 gthumb/gth-main-default-metadata.c:62
 msgid "Title"
 msgstr "Titulua"
-
-#: extensions/comments/main.c:44 extensions/comments/main.c:170
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:184
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:502
-#: extensions/contact_sheet/data/ui/image-wall.ui:232
-#: extensions/image_print/data/ui/print-layout.ui:239
-#: extensions/importer/data/ui/import-preferences.ui:287
-#: extensions/list_tools/data/ui/script-editor.ui:319
-#: extensions/rename_series/data/ui/rename-series.ui:272
-#: extensions/webalbums/data/ui/web-album-exporter.ui:194
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1039
-#: gthumb/gth-main-default-metadata.c:64
-msgid "Description"
-msgstr "Azalpena"
 
 #: extensions/comments/main.c:45 extensions/comments/main.c:178
 #: gthumb/gth-main-default-metadata.c:63
@@ -1131,8 +1126,8 @@ msgid "Image _Wall…"
 msgstr "Irudien _horma…"
 
 #: extensions/contact_sheet/contact_sheet.extension.desktop.in.in:3
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:308
-#: extensions/contact_sheet/dlg-contact-sheet.c:710
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:218
+#: extensions/contact_sheet/dlg-contact-sheet.c:852
 msgid "Contact Sheet"
 msgstr "Kontaktuaren orria"
 
@@ -1210,16 +1205,16 @@ msgid "C_olor:"
 msgstr "_Kolorea:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:519
-#: extensions/rename_series/dlg-rename-series.c:57
+#: gthumb/gth-template-editor-dialog.c:419
 msgid "Text"
 msgstr "Testua"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:548
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:290
-#: extensions/image_print/data/ui/print-layout.ui:88
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:106
+#: extensions/image_print/data/ui/print-layout.ui:166
 #: extensions/image_print/data/ui/print-preferences.ui:55
-#: extensions/webalbums/data/ui/web-album-exporter.ui:302
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1167
+#: extensions/webalbums/data/ui/web-album-exporter.ui:116
+#: extensions/webalbums/data/ui/web-album-exporter.ui:827
 msgid "_Header:"
 msgstr "_Goiburua:"
 
@@ -1230,188 +1225,211 @@ msgid "Select a font"
 msgstr "Hautatu letra-tipoa"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:604
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:261
-#: extensions/image_print/data/ui/print-layout.ui:102
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:91
+#: extensions/image_print/data/ui/print-layout.ui:179
 #: extensions/image_print/data/ui/print-preferences.ui:69
-#: extensions/webalbums/data/ui/web-album-exporter.ui:271
-#: extensions/webalbums/data/ui/web-album-exporter.ui:916
+#: extensions/webalbums/data/ui/web-album-exporter.ui:101
+#: extensions/webalbums/data/ui/web-album-exporter.ui:812
 msgid "_Footer:"
 msgstr "_Orri-oina:"
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:663
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:1038
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:896
 #: extensions/image_print/data/ui/print-preferences.ui:43
 msgid "Caption:"
 msgstr "Epigrafea:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:133
-#: extensions/image_print/data/ui/print-layout.ui:188
-#: extensions/webalbums/data/ui/web-album-exporter.ui:143
-msgid "The current page number"
-msgstr "Uneko orriaren zenbakia"
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:125
+#: extensions/image_print/data/ui/print-layout.ui:418
+#: extensions/image_print/data/ui/print-layout.ui:463
+#: extensions/webalbums/data/ui/web-album-exporter.ui:135
+#: extensions/webalbums/data/ui/web-album-exporter.ui:181
+#: extensions/webalbums/data/ui/web-album-exporter.ui:846
+#: extensions/webalbums/data/ui/web-album-exporter.ui:894
+#: gthumb/gth-browser-actions-entries.h:98
+msgid "Help"
+msgstr "Laguntza"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:151
-#: extensions/image_print/data/ui/print-layout.ui:206
-#: extensions/webalbums/data/ui/web-album-exporter.ui:161
-msgid "The total number of pages"
-msgstr "Orrien guztirako zenbakia"
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:138
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:186
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:329
+#: extensions/contact_sheet/data/ui/image-wall.ui:148
+#: extensions/rename_series/data/ui/rename-series.ui:205
+msgid "Edit template"
+msgstr "Editatu txantiloia"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:169
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:487
-#: extensions/contact_sheet/data/ui/image-wall.ui:217
-#: extensions/image_print/data/ui/print-layout.ui:224
-#: extensions/importer/data/ui/import-preferences.ui:275
-#: extensions/list_tools/data/ui/script-editor.ui:304
-#: extensions/rename_series/data/ui/rename-series.ui:151
-#: extensions/webalbums/data/ui/web-album-exporter.ui:179
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1024
-msgid "Special code"
-msgstr "Kode berezia"
-
-#. translate only the text in the curly brackets
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:201
-#: extensions/image_print/data/ui/print-layout.ui:256
-#: extensions/rename_series/data/ui/rename-series.ui:242
-#: extensions/webalbums/data/ui/web-album-exporter.ui:211
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1056
-msgid "%D{ format }"
-msgstr "%D{ formatua }"
-
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:217
-#: extensions/image_print/data/ui/print-layout.ui:272
-#: extensions/webalbums/data/ui/web-album-exporter.ui:227
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1072
-msgid "The current date"
-msgstr "Uneko data"
-
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:354
-#: extensions/contact_sheet/data/ui/image-wall.ui:85
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:261
+#: extensions/contact_sheet/data/ui/image-wall.ui:82
 #: extensions/exiv2_tools/data/ui/edit-exiv2-page.ui:158
 #: extensions/flicker_utils/data/ui/import-from-flickr.ui:210
 #: extensions/photo_importer/data/ui/photo-importer.ui:216
-#: extensions/webalbums/data/ui/web-album-exporter.ui:361
+#: extensions/webalbums/data/ui/web-album-exporter.ui:268
 msgid "_Destination:"
 msgstr "_Helburua:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:370
-#: extensions/contact_sheet/data/ui/image-wall.ui:100
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:277
+#: extensions/contact_sheet/data/ui/image-wall.ui:97
 #: extensions/convert_format/data/ui/convert-format.ui:128
 #: extensions/resize_images/data/ui/resize-images.ui:273
-#: extensions/webalbums/data/ui/web-album-exporter.ui:378
+#: extensions/webalbums/data/ui/web-album-exporter.ui:285
 msgid "Choose destination folder"
 msgstr "Aukeratu helburuko karpeta"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:382
-#: extensions/contact_sheet/data/ui/image-wall.ui:112
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:289
+#: extensions/contact_sheet/data/ui/image-wall.ui:109
 msgid "File_name:"
 msgstr "_Fitxategi-izena:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:469
-#: extensions/contact_sheet/data/ui/image-wall.ui:199
-#: extensions/rename_series/data/ui/rename-series.ui:288
-msgid "New enumerator digit"
-msgstr "Enumeratzailearen digitu berria"
-
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:533
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:391
 msgid "Create _HTML image map"
 msgstr "Sortu _HTML irudi-mapa"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:639
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:497
 msgid "Create a new theme"
 msgstr "Sortu gai berria"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:660
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:518
 msgid "Edit the selected theme"
 msgstr "Editatu hautatutako gaia"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:681
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:539
 msgid "Delete the selected theme"
 msgstr "Ezabatu hautatutako gaia"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:712
-#: extensions/webalbums/data/ui/web-album-exporter.ui:551
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:570
+#: extensions/webalbums/data/ui/web-album-exporter.ui:450
 msgid "Theme"
 msgstr "Gaia"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:740
-#: extensions/contact_sheet/data/ui/image-wall.ui:310
-#: extensions/image_print/data/ui/print-layout.ui:463
-#: extensions/webalbums/data/ui/web-album-exporter.ui:673
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:598
+#: extensions/contact_sheet/data/ui/image-wall.ui:257
+#: extensions/image_print/data/ui/print-layout.ui:598
+#: extensions/webalbums/data/ui/web-album-exporter.ui:572
 msgid "Columns:"
 msgstr "Zutabeak:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:762
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:792
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:620
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:650
 msgid "0"
 msgstr "0"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:814
-#: extensions/contact_sheet/data/ui/image-wall.ui:380
-#: extensions/webalbums/data/ui/web-album-exporter.ui:776
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:672
+#: extensions/contact_sheet/data/ui/image-wall.ui:327
+#: extensions/webalbums/data/ui/web-album-exporter.ui:675
 msgid "Images per page:"
 msgstr "Irudiak orriko:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:826
-#: extensions/contact_sheet/data/ui/image-wall.ui:392
-#: extensions/webalbums/data/ui/web-album-exporter.ui:751
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:684
+#: extensions/contact_sheet/data/ui/image-wall.ui:339
+#: extensions/webalbums/data/ui/web-album-exporter.ui:650
 msgid "All images on a single page"
 msgstr "Irudi guztiak orri bakarrean"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:842
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:700
 msgid "_All pages with the same size"
 msgstr "Orri _guztiak tamaina berdinarekin"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:875
-#: extensions/contact_sheet/data/ui/image-wall.ui:414
-#: extensions/image_print/data/ui/print-layout.ui:387
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:733
+#: extensions/contact_sheet/data/ui/image-wall.ui:361
+#: extensions/image_print/data/ui/print-layout.ui:522
 msgid "Layout"
 msgstr "Diseinua"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:900
-#: extensions/contact_sheet/data/ui/image-wall.ui:458
-#: extensions/webalbums/data/ui/web-album-exporter.ui:608
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:758
+#: extensions/contact_sheet/data/ui/image-wall.ui:405
+#: extensions/webalbums/data/ui/web-album-exporter.ui:507
 msgid "S_ort:"
 msgstr "_Ordenatu:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:935
-#: extensions/contact_sheet/data/ui/image-wall.ui:492
-#: extensions/webalbums/data/ui/web-album-exporter.ui:645
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:793
+#: extensions/contact_sheet/data/ui/image-wall.ui:439
+#: extensions/webalbums/data/ui/web-album-exporter.ui:544
 msgid "Re_verse order"
 msgstr "_Alderantzikatu ordena"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:961
-#: extensions/contact_sheet/data/ui/image-wall.ui:518
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:819
+#: extensions/contact_sheet/data/ui/image-wall.ui:465
 msgid "_Size:"
 msgstr "_Tamaina:"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:999
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:857
 msgid "Sq_uared"
 msgstr "_Karratua"
 
-#: extensions/contact_sheet/data/ui/contact-sheet.ui:1078
-#: extensions/contact_sheet/data/ui/image-wall.ui:577
+#: extensions/contact_sheet/data/ui/contact-sheet.ui:936
+#: extensions/contact_sheet/data/ui/image-wall.ui:524
 msgid "Thumbnails"
 msgstr "Koadro txikiak"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:491
-#: extensions/contact_sheet/dlg-contact-sheet.c:502
-#: extensions/contact_sheet/dlg-contact-sheet.c:516
+#: extensions/contact_sheet/dlg-contact-sheet.c:35
+#: extensions/contact_sheet/dlg-image-wall.c:34
+#: extensions/rename_series/dlg-rename-series.c:53
+msgid "Enumerator"
+msgstr "Zenbakitzailea"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:36
+#: extensions/contact_sheet/dlg-contact-sheet.c:42
+#: extensions/contact_sheet/dlg-image-wall.c:35
+#: extensions/edit_metadata/gth-edit-general-page.c:556
+#: extensions/image_print/gth-image-print-job.c:39
+#: extensions/importer/gth-import-preferences-dialog.c:46
+#: extensions/list_tools/gth-script-editor-dialog.c:41
+#: extensions/webalbums/dlg-web-exporter.c:38
+#: extensions/webalbums/dlg-web-exporter.c:47
+msgid "Current date"
+msgstr "Uneko data"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:40
+#: extensions/image_print/gth-image-print-job.c:37
+#: extensions/webalbums/dlg-web-exporter.c:35
+msgid "Current page number"
+msgstr "Uneko orriaren zenbakia"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:41
+#: extensions/image_print/gth-image-print-job.c:38
+#: extensions/webalbums/dlg-web-exporter.c:36
+msgid "Total number of pages"
+msgstr "Guztirako orri kopurua"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:43
+#: extensions/webalbums/dlg-web-exporter.c:37 gthumb/gth-location-chooser.c:274
+#: gthumb/gth-main-default-metadata.c:46
+msgid "Location"
+msgstr "Kokalekua"
+
+#: extensions/contact_sheet/dlg-contact-sheet.c:506
+#: extensions/contact_sheet/dlg-contact-sheet.c:517
+#: extensions/contact_sheet/dlg-contact-sheet.c:531
 msgid "Could not save the theme"
 msgstr "Ezin izan da gaia gorde"
 
-#: extensions/contact_sheet/dlg-contact-sheet.c:661
+#: extensions/contact_sheet/dlg-contact-sheet.c:676
 msgid "Could not delete the theme"
 msgstr "Ezin izan da gaia ezabatu"
 
-#: extensions/contact_sheet/dlg-image-wall.c:243
+#: extensions/contact_sheet/dlg-contact-sheet.c:762
+#: extensions/contact_sheet/dlg-contact-sheet.c:787
+#: extensions/contact_sheet/dlg-contact-sheet.c:812
+#: extensions/contact_sheet/dlg-image-wall.c:209
+#: extensions/image_print/gth-image-print-job.c:1278
+#: extensions/image_print/gth-image-print-job.c:1303
+#: extensions/importer/gth-import-preferences-dialog.c:325
+#: extensions/rename_series/dlg-rename-series.c:709
+#: extensions/webalbums/dlg-web-exporter.c:323
+#: extensions/webalbums/dlg-web-exporter.c:364
+#: gthumb/gth-template-selector.c:357
+msgid "Edit Template"
+msgstr "Editatu txantiloia"
+
+#: extensions/contact_sheet/dlg-image-wall.c:248
 msgid "Image Wall"
 msgstr "Irudien horma"
 
-#: extensions/contact_sheet/gth-contact-sheet-creator.c:291
+#: extensions/contact_sheet/gth-contact-sheet-creator.c:304
 msgid "Creating images"
 msgstr "Irudiak sortzen"
 
-#: extensions/contact_sheet/gth-contact-sheet-creator.c:936
+#: extensions/contact_sheet/gth-contact-sheet-creator.c:969
 msgid "Generating thumbnails"
 msgstr "Koadro txikiak sortzen"
 
@@ -1578,11 +1596,6 @@ msgstr "Datarik gabe"
 msgid "The following date"
 msgstr "Data hau:"
 
-#: extensions/edit_metadata/gth-edit-general-page.c:556
-#: extensions/importer/gth-import-preferences-dialog.c:325
-msgid "Current date"
-msgstr "Uneko data"
-
 #: extensions/edit_metadata/gth-edit-general-page.c:558
 msgid "Last modified date"
 msgstr "Azken aldaketa-data"
@@ -1666,11 +1679,11 @@ msgid "State/Province:"
 msgstr "Estatua/Probintzia:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2091 gthumb/str-utils.c:700
+#: gthumb/glib-utils.c:2091 gthumb/str-utils.c:641
 msgid "(invalid value)"
 msgstr "(baliogabea)"
 
-#: extensions/exiv2_tools/exiv2-utils.cpp:709
+#: extensions/exiv2_tools/exiv2-utils.cpp:711
 msgid "Exposure"
 msgstr "Esposizioa"
 
@@ -1743,21 +1756,21 @@ msgid "Enter the folder name:"
 msgstr "Idatzi karpetaren izena:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:551
-#: extensions/file_manager/callbacks.c:989
+#: extensions/file_manager/callbacks.c:561
+#: extensions/file_manager/callbacks.c:991
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5650 gthumb/gth-browser.c:5693
+#: gthumb/gth-browser.c:5814 gthumb/gth-browser.c:5857
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Ezin izan da eragiketa burutu"
 
 #: extensions/file_manager/actions.c:423
-#: extensions/file_manager/callbacks.c:277
+#: extensions/file_manager/callbacks.c:280
 msgid "Could not move the files"
 msgstr "Ezin izan dira fitxategiak lekuz aldatu"
 
 #: extensions/file_manager/actions.c:424
-#: extensions/file_manager/callbacks.c:278
+#: extensions/file_manager/callbacks.c:281
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1769,6 +1782,10 @@ msgstr "Fitxategiak ezin dira uneko kokalekura aldatu. Beste aukera haiek kopiat
 #: extensions/file_manager/callbacks.c:124
 #: extensions/file_tools/data/ui/color-picker-options.ui:206
 #: extensions/file_tools/data/ui/color-picker-options.ui:219
+#: extensions/file_tools/data/ui/color-picker-options.ui:232
+#: extensions/file_tools/data/ui/color-picker-options.ui:233
+#: extensions/file_tools/data/ui/color-picker-options.ui:246
+#: extensions/file_tools/data/ui/color-picker-options.ui:247
 #: extensions/gstreamer_tools/data/ui/mediabar.ui:418 gthumb/gtk-utils.h:38
 msgid "Copy"
 msgstr "Kopiatu"
@@ -1782,7 +1799,7 @@ msgid "Copy To"
 msgstr "Kopiatu hemen"
 
 #: extensions/file_manager/actions.c:743
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1030
 msgid "Move"
 msgstr "Aldatu lekuz"
 
@@ -1847,36 +1864,36 @@ msgstr "Ezabatu betiko"
 msgid "Open with Gimp"
 msgstr "Ireki GIMP aplikazioarekin"
 
-#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:226
+#: extensions/file_manager/callbacks.c:735 gthumb/gth-file-source-vfs.c:295
 msgid "Home Folder"
 msgstr "Karpeta nagusia"
 
-#: extensions/file_manager/callbacks.c:732
-#: extensions/file_manager/callbacks.c:735
+#: extensions/file_manager/callbacks.c:742
+#: extensions/file_manager/callbacks.c:745
 msgid "Open _With"
 msgstr "Ireki _honekin"
 
-#: extensions/file_manager/callbacks.c:1009
+#: extensions/file_manager/callbacks.c:1011
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Mugitu nahi duzu “%s” “%s”(e)ra?"
 
-#: extensions/file_manager/callbacks.c:1011
+#: extensions/file_manager/callbacks.c:1013
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Kopiatu nahi duzu “%s” “%s”(e)ra?"
 
-#: extensions/file_manager/callbacks.c:1018
+#: extensions/file_manager/callbacks.c:1020
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Nahi duzu mugitu arrastatutako fitxategiak “%s” kokalekura?"
 
-#: extensions/file_manager/callbacks.c:1020
+#: extensions/file_manager/callbacks.c:1022
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Nahi duzu kopiatu arrastatutako fitxategiak “%s” kokalekura?"
 
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1030
 msgid "_Copy"
 msgstr "_Kopiatu"
 
@@ -2055,7 +2072,7 @@ msgid "High _quality"
 msgstr "_Kalitate handia"
 
 #: extensions/file_tools/data/ui/resize-options.ui:105
-#: extensions/image_print/data/ui/print-layout.ui:1122
+#: extensions/image_print/data/ui/print-layout.ui:126
 msgid "pixels"
 msgstr "pixel"
 
@@ -2289,11 +2306,11 @@ msgstr "Doitu kontrastea"
 msgid "Automatic contrast adjustment"
 msgstr "Kontrastearen doiketa automatikoa"
 
-#: extensions/file_tools/gth-file-tool-color-picker.c:246
+#: extensions/file_tools/gth-file-tool-color-picker.c:289
 msgid "Color Picker"
 msgstr "Kolore-hautatzailea"
 
-#: extensions/file_tools/gth-file-tool-color-picker.c:249
+#: extensions/file_tools/gth-file-tool-color-picker.c:292
 msgid "Pick a color from the image"
 msgstr "Hautatu kolore bat iruditik"
 
@@ -2363,14 +2380,11 @@ msgstr "1.85:1"
 msgid "2.39∶1"
 msgstr "2.39:1"
 
-#. Translators: this is an option for the format -> Format: Custom
 #: extensions/file_tools/gth-file-tool-crop.c:455
 #: extensions/file_tools/gth-file-tool-resize.c:607
-#: extensions/image_print/data/ui/print-layout.ui:17
-#: extensions/rename_series/gth-template-selector.c:248
-#: gthumb/gth-test-aspect-ratio.c:193
-msgid "Custom"
-msgstr "Pertsonalizatua"
+#: gthumb/gth-location-chooser.c:617 gthumb/gth-template-selector.c:434
+msgid "Other…"
+msgstr "Bestelakoa…"
 
 #: extensions/file_tools/gth-file-tool-crop.c:470
 #: extensions/file_tools/gth-file-tool-rotate.c:397
@@ -2398,7 +2412,7 @@ msgstr "Idatzi aurrezarritako izena:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1867
+#: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "Ezin izan da fitxategia gorde"
 
@@ -2647,7 +2661,7 @@ msgstr "fitxategirik ez"
 
 #: extensions/find_duplicates/gth-find-duplicates.c:278
 #: extensions/find_duplicates/gth-find-duplicates.c:477
-#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:876
+#: extensions/flicker_utils/dlg-export-to-flickr.c:601 gthumb/gth-browser.c:877
 #, c-format
 msgid "%d file (%s)"
 msgid_plural "%d files (%s)"
@@ -2761,7 +2775,7 @@ msgid "Hi_de from public searches"
 msgstr "_Ezkutatu bilaketa publikoetatik"
 
 #: extensions/flicker_utils/data/ui/export-to-flickr.ui:426
-#: extensions/webalbums/data/ui/web-album-exporter.ui:422
+#: extensions/webalbums/data/ui/web-album-exporter.ui:329
 msgid "_Resize if larger than:"
 msgstr "_Aldatu tamaina hau baino handiagoei:"
 
@@ -2772,7 +2786,7 @@ msgstr "_Kontua:"
 
 #: extensions/flicker_utils/dlg-export-to-flickr.c:136
 #: extensions/flicker_utils/dlg-export-to-flickr.c:410
-#: extensions/flicker_utils/dlg-import-from-flickr.c:227
+#: extensions/flicker_utils/dlg-import-from-flickr.c:219
 #: extensions/oauth/web-service.c:377
 msgid "Could not connect to the server"
 msgstr "Ezin izan da zerbitzariarekin konektatu"
@@ -2782,7 +2796,7 @@ msgid "Files successfully uploaded to the server."
 msgstr "Fitxategiak ongi igo dira zerbitzarira."
 
 #: extensions/flicker_utils/dlg-export-to-flickr.c:164
-#: extensions/webalbums/gth-web-exporter.c:1826
+#: extensions/webalbums/gth-web-exporter.c:1819
 msgid "_Open in the Browser"
 msgstr "_Ireki arakatzailean"
 
@@ -2796,7 +2810,7 @@ msgid "Could not upload the files"
 msgstr "Ezin izan dira fitxategiak igo"
 
 #: extensions/flicker_utils/dlg-export-to-flickr.c:592
-#: extensions/image_print/gth-image-print-job.c:1740
+#: extensions/image_print/gth-image-print-job.c:1782
 msgid "No valid file selected."
 msgstr "Ez da baliozko fitxategirik hautatu."
 
@@ -2809,7 +2823,7 @@ msgstr "Ezin izan dira fitxategiak esportatu"
 msgid "Export to %s"
 msgstr "Esportatu %s kokalekura"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:320
+#: extensions/flicker_utils/dlg-import-from-flickr.c:312
 #: gthumb/gth-file-selection-info.c:143
 #, c-format
 msgid "%d file"
@@ -2817,21 +2831,21 @@ msgid_plural "%d files"
 msgstr[0] "Fitxategi %d"
 msgstr[1] "%d fitxategi"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:345
+#: extensions/flicker_utils/dlg-import-from-flickr.c:337
 msgid "Could not get the photo list"
 msgstr "Ezin izan da argazkien zerrenda eskuratu"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:382
-#: extensions/flicker_utils/dlg-import-from-flickr.c:561
+#: extensions/flicker_utils/dlg-import-from-flickr.c:374
+#: extensions/flicker_utils/dlg-import-from-flickr.c:553
 msgid "No album selected"
 msgstr "Ez da albumik hautatu"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:521
-#: extensions/photo_importer/dlg-photo-importer.c:584
+#: extensions/flicker_utils/dlg-import-from-flickr.c:513
+#: extensions/photo_importer/dlg-photo-importer.c:575
 msgid "_Import"
 msgstr "_Inportatu"
 
-#: extensions/flicker_utils/dlg-import-from-flickr.c:579
+#: extensions/flicker_utils/dlg-import-from-flickr.c:571
 #, c-format
 msgid "Import from %s"
 msgstr "Inportatu %s kokalekutik"
@@ -3096,11 +3110,11 @@ msgstr "Bideoa erreproduzitzen"
 msgid "Pause"
 msgstr "Pausatu"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1115
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1127
 msgid "Take a screenshot"
 msgstr "Atera pantaila-argazki bat"
 
-#: extensions/gstreamer_tools/gth-media-viewer-page.c:1122
+#: extensions/gstreamer_tools/gth-media-viewer-page.c:1134
 #: extensions/image_viewer/data/ui/image-viewer-preferences.ui:51
 #: extensions/image_viewer/data/ui/toolbar-zoom-menu.ui:71
 msgid "Fit to window"
@@ -3123,7 +3137,7 @@ msgid "Artist"
 msgstr "Artista"
 
 #: extensions/gstreamer_tools/main.c:48
-#: extensions/webalbums/data/ui/web-album-exporter.ui:320
+#: extensions/webalbums/data/ui/web-album-exporter.ui:227
 msgid "Album"
 msgstr "Albuma"
 
@@ -3144,12 +3158,12 @@ msgid "Framerate"
 msgstr "Fotograma-emaria"
 
 #: extensions/gstreamer_tools/main.c:54
-#: extensions/image_print/data/ui/print-layout.ui:723
+#: extensions/image_print/data/ui/print-layout.ui:859
 msgid "Width"
 msgstr "Zabalera"
 
 #: extensions/gstreamer_tools/main.c:55
-#: extensions/image_print/data/ui/print-layout.ui:739
+#: extensions/image_print/data/ui/print-layout.ui:875
 msgid "Height"
 msgstr "Altuera"
 
@@ -3172,9 +3186,9 @@ msgstr "Monoa"
 #. Translators: this is an image size, such as 1024 × 768
 #: extensions/gstreamer_utils/gstreamer-utils.c:402
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
-#: extensions/image_viewer/gth-metadata-provider-image.c:299
-#: extensions/raw_files/gth-metadata-provider-raw.c:96
-#: extensions/webalbums/gth-web-exporter.c:2434 gthumb/gtk-utils.c:963
+#: extensions/image_viewer/gth-metadata-provider-image.c:300
+#: extensions/raw_files/gth-metadata-provider-raw.c:97
+#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:963
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3189,58 +3203,82 @@ msgstr "Ezin izan dira hautatutako fitxategiak inprimatu"
 msgid "Print"
 msgstr "Inprimatu"
 
-#: extensions/image_print/data/ui/print-layout.ui:13
+#: extensions/image_print/data/ui/print-layout.ui:14
 msgid "Centered"
 msgstr "Zentratuta"
 
-#: extensions/image_print/data/ui/print-layout.ui:322
-msgid "The total number of files"
-msgstr "Fitxategien guztirako zenbakia"
+#: extensions/image_print/data/ui/print-layout.ui:18
+msgid "Custom"
+msgstr "Pertsonalizatua"
 
-#: extensions/image_print/data/ui/print-layout.ui:340
-#: extensions/importer/data/ui/import-preferences.ui:258
-msgid "The event description"
-msgstr "Gertaeraren azalpena"
-
-#: extensions/image_print/data/ui/print-layout.ui:478
-msgid "_Rows:"
-msgstr "_Errenkadak:"
-
-#: extensions/image_print/data/ui/print-layout.ui:588
-msgid "Image"
-msgstr "Irudia"
-
-#: extensions/image_print/data/ui/print-layout.ui:630
-msgid "Position:"
-msgstr "Posizioa;"
-
-#: extensions/image_print/data/ui/print-layout.ui:646
-msgid "Left"
-msgstr "Ezkerrera"
-
-#: extensions/image_print/data/ui/print-layout.ui:662
-msgid "Top"
-msgstr "Goian"
-
-#: extensions/image_print/data/ui/print-layout.ui:811
-msgid "Rotation:"
-msgstr "Biraketa:"
-
-#: extensions/image_print/data/ui/print-layout.ui:870
-msgid "Unit:"
-msgstr "Unitatea:"
-
-#: extensions/image_print/data/ui/print-layout.ui:924
-msgid "Preview"
-msgstr "Aurrebista"
-
-#: extensions/image_print/data/ui/print-layout.ui:1125
+#: extensions/image_print/data/ui/print-layout.ui:129
 msgid "millimeters"
 msgstr "milimetro"
 
-#: extensions/image_print/data/ui/print-layout.ui:1128
+#: extensions/image_print/data/ui/print-layout.ui:132
 msgid "inches"
 msgstr "hazbete"
+
+#: extensions/image_print/data/ui/print-layout.ui:234
+msgid "The current page number"
+msgstr "Uneko orriaren zenbakia"
+
+#: extensions/image_print/data/ui/print-layout.ui:252
+msgid "The total number of pages"
+msgstr "Orri kopurua guztira"
+
+#: extensions/image_print/data/ui/print-layout.ui:270
+msgid "Special code"
+msgstr "Kode berezia"
+
+#. translate only the text in the curly brackets
+#: extensions/image_print/data/ui/print-layout.ui:302
+msgid "%D{ format }"
+msgstr "%D{ formatua }"
+
+#: extensions/image_print/data/ui/print-layout.ui:318
+msgid "The current date"
+msgstr "Uneko data"
+
+#: extensions/image_print/data/ui/print-layout.ui:368
+msgid "The total number of files"
+msgstr "Fitxategi kopurua guztira"
+
+#: extensions/image_print/data/ui/print-layout.ui:386
+msgid "The event description"
+msgstr "Gertaeraren azalpena"
+
+#: extensions/image_print/data/ui/print-layout.ui:613
+msgid "_Rows:"
+msgstr "_Errenkadak:"
+
+#: extensions/image_print/data/ui/print-layout.ui:723
+msgid "Image"
+msgstr "Irudia"
+
+#: extensions/image_print/data/ui/print-layout.ui:765
+msgid "Position:"
+msgstr "Posizioa;"
+
+#: extensions/image_print/data/ui/print-layout.ui:782
+msgid "Left"
+msgstr "Ezkerrera"
+
+#: extensions/image_print/data/ui/print-layout.ui:798
+msgid "Top"
+msgstr "Goian"
+
+#: extensions/image_print/data/ui/print-layout.ui:946
+msgid "Rotation:"
+msgstr "Biraketa:"
+
+#: extensions/image_print/data/ui/print-layout.ui:1005
+msgid "Unit:"
+msgstr "Unitatea:"
+
+#: extensions/image_print/data/ui/print-layout.ui:1059
+msgid "Preview"
+msgstr "Aurrebista"
 
 #: extensions/image_print/data/ui/print-preferences.ui:14
 msgid "Fonts"
@@ -3258,24 +3296,33 @@ msgstr "Hautatu goiburuaren letra-tipoa"
 msgid "Select Footer Font"
 msgstr "Hautatu orri-oinaren letra-tipoa"
 
-#: extensions/image_print/gth-image-print-job.c:915
+#: extensions/image_print/gth-image-print-job.c:40
+msgid "Total number of files"
+msgstr "Fitxategi kopurua guztira"
+
+#: extensions/image_print/gth-image-print-job.c:41
+#: extensions/importer/gth-import-preferences-dialog.c:47
+msgid "Event description"
+msgstr "Gertaeraren deskribapena"
+
+#: extensions/image_print/gth-image-print-job.c:924
 #: extensions/webalbums/data/albumthemes/text.h:31
 #, c-format
 msgid "Page %d of %d"
 msgstr "%d / %d orrialdea"
 
-#: extensions/image_print/gth-image-print-job.c:1681
-#: extensions/image_print/gth-image-print-job.c:1846
-#: extensions/image_print/gth-image-print-job.c:1889
+#: extensions/image_print/gth-image-print-job.c:1723
+#: extensions/image_print/gth-image-print-job.c:1888
+#: extensions/image_print/gth-image-print-job.c:1931
 msgid "Could not print"
 msgstr "Ezin izan da inprimatu"
 
-#: extensions/image_print/gth-image-print-job.c:1747
+#: extensions/image_print/gth-image-print-job.c:1789
 msgid "Images"
 msgstr "Irudiak"
 
-#: extensions/image_print/gth-image-print-job.c:1848
-#: gthumb/gth-image-loader.c:251 gthumb/gth-image-loader.c:375
+#: extensions/image_print/gth-image-print-job.c:1890
+#: gthumb/gth-image-loader.c:258 gthumb/gth-image-loader.c:390
 #: gthumb/gth-image-utils.c:117 gthumb/gth-image-utils.c:123
 msgid "No suitable loader available for this file type"
 msgstr "Ez dago kargatzaile egokirik erabilgarri fitxategi mota honentzako"
@@ -3287,7 +3334,7 @@ msgid "Loading “%s”"
 msgstr "“%s” kargatzen"
 
 #: extensions/image_print/gth-load-image-info-task.c:170
-#: extensions/webalbums/gth-web-exporter.c:2714
+#: extensions/webalbums/gth-web-exporter.c:2707
 msgid "Loading images"
 msgstr "Irudiak kargatzen"
 
@@ -3313,8 +3360,8 @@ msgstr "Leheneratu EXIF orientazioa"
 
 #: extensions/image_rotation/gth-reset-orientation-task.c:114
 #: extensions/image_rotation/gth-transform-task.c:146
-#: extensions/webalbums/gth-web-exporter.c:2326
-#: extensions/webalbums/gth-web-exporter.c:2411
+#: extensions/webalbums/gth-web-exporter.c:2319
+#: extensions/webalbums/gth-web-exporter.c:2404
 msgid "Saving images"
 msgstr "Irudiak gordetzen"
 
@@ -3580,11 +3627,11 @@ msgstr "Gorde irudia"
 msgid "Loading the original image"
 msgstr "Jatorrizko irudia kargatzen"
 
-#: extensions/image_viewer/gth-metadata-provider-image.c:212
+#: extensions/image_viewer/gth-metadata-provider-image.c:213
 msgid "JPEG XL container"
 msgstr "JPEG XL edukiontzia"
 
-#: extensions/image_viewer/gth-metadata-provider-image.c:214
+#: extensions/image_viewer/gth-metadata-provider-image.c:215
 msgid "JPEG XL"
 msgstr "JPEG XL"
 
@@ -3601,106 +3648,59 @@ msgstr "Irudi-editorea"
 msgid "Viewer"
 msgstr "Ikustailea"
 
-#: extensions/importer/data/ui/import-preferences.ui:63
+#: extensions/importer/data/ui/import-preferences.ui:21
 msgid "_Destination"
 msgstr "_Helburua"
 
-#: extensions/importer/data/ui/import-preferences.ui:95
+#: extensions/importer/data/ui/import-preferences.ui:59
 msgid "_Automatic subfolder"
 msgstr "_Azpikarpeta automatikoa"
 
-#: extensions/importer/data/ui/import-preferences.ui:160
-msgid "as _single subfolder"
-msgstr "azpikarpeta _bakun bezala"
+#: extensions/importer/data/ui/import-preferences.ui:89
+#: extensions/rename_series/data/ui/rename-series.ui:156
+msgid "_Template:"
+msgstr "_Txantiloia:"
 
-#: extensions/importer/data/ui/import-preferences.ui:393
-msgid "The year"
-msgstr "Urtea"
-
-#: extensions/importer/data/ui/import-preferences.ui:410
-msgid "The month"
-msgstr "Hila"
-
-#: extensions/importer/data/ui/import-preferences.ui:427
-msgid "The day of the month"
-msgstr "Hilaren eguna"
-
-#: extensions/importer/data/ui/import-preferences.ui:444
-msgid "The hour"
-msgstr "Ordua"
-
-#: extensions/importer/data/ui/import-preferences.ui:461
-msgid "The minutes"
-msgstr "Minutuak"
-
-#: extensions/importer/data/ui/import-preferences.ui:478
-msgid "The seconds"
-msgstr "Segundoak"
-
-#: extensions/importer/gth-import-destination-button.c:115
+#: extensions/importer/gth-import-destination-button.c:113
 msgid "Invalid Destination"
 msgstr "Baliogabeko helburua"
 
-#: extensions/importer/gth-import-preferences-dialog.c:199
-#, c-format
-msgid "example: %s"
-msgstr "adibidea: %s"
-
-#. subfolder type
-#: extensions/importer/gth-import-preferences-dialog.c:324
+#: extensions/importer/gth-import-preferences-dialog.c:45
 msgid "File date"
 msgstr "Fitxategi-data"
 
-#. gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), self->priv->subfolder_type_list);
-#. subfolder format
-#: extensions/importer/gth-import-preferences-dialog.c:334
-msgid "year-month-day"
-msgstr "urtea-hilabetea-eguna"
-
-#: extensions/importer/gth-import-preferences-dialog.c:335
-msgid "year-month"
-msgstr "urtea-hilabetea"
-
-#: extensions/importer/gth-import-preferences-dialog.c:336
-msgid "year"
-msgstr "urtea"
-
-#: extensions/importer/gth-import-preferences-dialog.c:337
-msgid "custom format"
-msgstr "formatu pertsonalizatua"
-
-#: extensions/importer/gth-import-task.c:431
-#: extensions/importer/gth-import-task.c:466
-#: extensions/importer/gth-import-task.c:678
+#: extensions/importer/gth-import-task.c:425
+#: extensions/importer/gth-import-task.c:460
+#: extensions/importer/gth-import-task.c:669
 msgid "Importing files"
 msgstr "Fitxategiak inportatzen"
 
-#: extensions/importer/gth-import-task.c:627
+#: extensions/importer/gth-import-task.c:618
 msgid "No file imported"
 msgstr "Ez da fitxategirik inportatu"
 
-#: extensions/importer/gth-import-task.c:628
+#: extensions/importer/gth-import-task.c:619
 msgid "The selected files are already present in the destination."
 msgstr "Hautatutako fitxategiak jadanik helburuan daude."
 
-#: extensions/importer/gth-import-task.c:651 gthumb/gth-file-source-vfs.c:692
+#: extensions/importer/gth-import-task.c:642 gthumb/gth-file-source-vfs.c:776
 msgid "Could not delete the files"
 msgstr "Ezin izan dira fitxategiak ezabatu"
 
-#: extensions/importer/gth-import-task.c:652
+#: extensions/importer/gth-import-task.c:643
 msgid "Delete operation not supported."
 msgstr "Ezabatze-eragiketa ez dago onartua."
 
-#: extensions/importer/gth-import-task.c:739
+#: extensions/importer/gth-import-task.c:730
 msgid "Last imported"
 msgstr "Azken inportatua"
 
-#: extensions/importer/gth-import-task.c:843
+#: extensions/importer/gth-import-task.c:825
 msgid "No file specified."
 msgstr "Ez da fitxategirik zehaztu."
 
 #. Translators: For example: Not enough free space in “/home/user/Images”.\n1.3 GB of space is required but only 300 MB is available.
-#: extensions/importer/gth-import-task.c:880
+#: extensions/importer/gth-import-task.c:862
 #, c-format
 msgid ""
 "Not enough free space in “%s”.\n"
@@ -3734,79 +3734,16 @@ msgstr "_Terminaleko komandoa (shell script-a)"
 msgid "Sh_ortcut:"
 msgstr "_Lasterbidea:"
 
-#: extensions/list_tools/data/ui/script-editor.ui:232
-msgid "The file uri"
-msgstr "Fitxategiaren URIa"
-
-#: extensions/list_tools/data/ui/script-editor.ui:250
-msgid "The file path"
-msgstr "Fitxategiaren bide-izena"
-
-#: extensions/list_tools/data/ui/script-editor.ui:268
-msgid "The file basename"
-msgstr "Fitxategiaren oinarrizko izena"
-
-#: extensions/list_tools/data/ui/script-editor.ui:286
-msgid "The parent folder path"
-msgstr "Guraso karpetaren bide-izena"
-
-#. Translate only 'message' and 'default_value'.
-#: extensions/list_tools/data/ui/script-editor.ui:336
-#, c-format
-msgid "%ask{ message }{ default value }"
-msgstr "%ask{ mezua }{ balio lehenetsia }"
-
-#: extensions/list_tools/data/ui/script-editor.ui:352
-msgid "Ask an input value"
-msgstr "Eskatu sarrerako balioa"
-
-#. Translate only 'attribute name'
-#: extensions/list_tools/data/ui/script-editor.ui:370
-#, c-format
-msgid "%attr{ attribute name }"
-msgstr "%attr{ atributuaren izena }"
-
-#: extensions/list_tools/data/ui/script-editor.ui:386
-#: extensions/rename_series/data/ui/rename-series.ui:379
-msgid "A file attribute"
-msgstr "Fitxategiaren atributua"
-
-#: extensions/list_tools/data/ui/script-editor.ui:404
-msgid "%N"
-msgstr "%N"
-
-#: extensions/list_tools/data/ui/script-editor.ui:420
-msgid "The file basename without extension"
-msgstr "Fitxategiaren oinarrizko izena luzapenik gabe"
-
-#: extensions/list_tools/data/ui/script-editor.ui:438
-#, c-format
-msgid "%E"
-msgstr "%E"
-
-#: extensions/list_tools/data/ui/script-editor.ui:454
-msgid "The file extension"
-msgstr "Fitxategiaren luzapena"
-
-#. Translate only 'text'.
-#: extensions/list_tools/data/ui/script-editor.ui:472
-#, c-format
-msgid "%quote{ text }"
-msgstr "%quote{ testua }"
-
-#: extensions/list_tools/data/ui/script-editor.ui:488
-msgid "Quote the text "
-msgstr "Aipatu testua "
-
-#: extensions/list_tools/data/ui/script-editor.ui:522
-msgid "The current date and time"
-msgstr "Uneko data eta ordua"
-
-#: extensions/list_tools/data/ui/script-editor.ui:568
+#: extensions/list_tools/data/ui/script-editor.ui:137
 msgid "_Command:"
 msgstr "_Komandoa:"
 
-#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:314
+#: extensions/list_tools/data/ui/script-editor.ui:172
+msgid "Edit command"
+msgstr "Editatu komandoa"
+
+#: extensions/list_tools/data/ui/tools-menu.ui:15 gthumb/gth-filterbar.c:556
+#: gthumb/gth-test-aspect-ratio.c:193
 msgid "Personalize…"
 msgstr "Pertsonalizatu…"
 
@@ -3833,6 +3770,7 @@ msgid "New Command"
 msgstr "Komando berria"
 
 #: extensions/list_tools/dlg-personalize-scripts.c:476
+#: extensions/list_tools/gth-script-editor-dialog.c:128
 msgid "Edit Command"
 msgstr "Editatu komandoa"
 
@@ -3844,7 +3782,44 @@ msgstr "Ziur zaude hautatutako komandoa ezabatzea nahi duzula?"
 msgid "Commands"
 msgstr "Komandoak"
 
-#: extensions/list_tools/gth-script-editor-dialog.c:280
+#: extensions/list_tools/gth-script-editor-dialog.c:34
+msgid "Quoted text"
+msgstr "Komatxo arteko testua"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:35
+msgid "File URI"
+msgstr "Fitxategiaren URIa"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:36
+msgid "File path"
+msgstr "Fitxategiaren bide-izena"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:37
+msgid "File name"
+msgstr "Fitxategi-izena"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:38
+msgid "File name, no extension"
+msgstr "Fitxategi-izena luzapenik gabe"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:39
+msgid "File extension"
+msgstr "/Fitxategi-luzapena"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:40
+msgid "Folder path"
+msgstr "Karpetaren bide-izena"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:42
+msgid "Ask a value"
+msgstr "Galdetu balio bat"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:43
+#: extensions/rename_series/dlg-rename-series.c:59
+msgid "File attribute"
+msgstr "Fitxategiaren atributua"
+
+#: extensions/list_tools/gth-script-editor-dialog.c:301
 #, c-format
 msgid "No command specified"
 msgstr "Ez da komandorik zehaztu"
@@ -3854,18 +3829,11 @@ msgstr "Ez da komandorik zehaztu"
 msgid "Command exited abnormally with status %d"
 msgstr "Komandoa ustekabean amaitu da %d egoerarekin"
 
-#: extensions/list_tools/gth-script.c:506
+#: extensions/list_tools/gth-script.c:522
 msgid "Enter a value:"
 msgstr "Sartu balioa:"
 
-#: extensions/list_tools/gth-script.c:760
-#: extensions/webalbums/gth-web-exporter.c:561
-#: extensions/webalbums/gth-web-exporter.c:573
-#: extensions/webalbums/gth-web-exporter.c:581
-msgid "Malformed command"
-msgstr "Gaizki osatutako komandoa"
-
-#: extensions/list_tools/gth-script.c:1069
+#: extensions/list_tools/gth-script.c:984
 msgid "_Skip"
 msgstr "_Saltatu"
 
@@ -3914,8 +3882,9 @@ msgstr "Ikusi argazkiaren posizioa mapan"
 msgid "A_ccounts:"
 msgstr "_Kontuak:"
 
+#. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:577 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "Kargatzen…"
 
@@ -3952,7 +3921,7 @@ msgid "Getting account information"
 msgstr "Kontuaren informazioa eskuratzen"
 
 #: extensions/photo_importer/actions.c:71
-#: extensions/photo_importer/dlg-photo-importer.c:628
+#: extensions/photo_importer/dlg-photo-importer.c:619
 msgid "Choose a folder"
 msgstr "Aukeratu karpeta"
 
@@ -3987,7 +3956,7 @@ msgstr "_Ezabatu inportatutako irudiak iturburutik"
 
 #. view label
 #: extensions/photo_importer/data/ui/photo-importer.ui:54
-#: gthumb/gth-filterbar.c:414
+#: gthumb/gth-filterbar.c:391
 msgid "S_how:"
 msgstr "_Erakutsi:"
 
@@ -3999,39 +3968,29 @@ msgstr "_Gertaera:"
 msgid "_Tags:"
 msgstr "_Etiketak:"
 
-#: extensions/photo_importer/dlg-photo-importer.c:227
+#: extensions/photo_importer/dlg-photo-importer.c:218
 msgid "Could not import the files"
 msgstr "Ezin izan dira fitxategiak inportatu"
 
 #. translators: %d is the number of files, %s the total size
-#: extensions/photo_importer/dlg-photo-importer.c:291
+#: extensions/photo_importer/dlg-photo-importer.c:282
 #, c-format
 msgid "Files to import: %d (%s)"
 msgstr "Fitxategiak inportatzeko: %d (%s)"
 
-#: extensions/photo_importer/dlg-photo-importer.c:331
+#: extensions/photo_importer/dlg-photo-importer.c:322
 msgid "Could not load the folder"
 msgstr "Ezin izan da karpeta kargatu"
 
-#: extensions/photo_importer/dlg-photo-importer.c:356
-#: extensions/photo_importer/dlg-photo-importer.c:396 gthumb/gth-file-list.c:42
-#: gthumb/gth-folder-tree.c:1186
-msgid "(Empty)"
-msgstr "(Hutsa)"
-
-#: extensions/photo_importer/dlg-photo-importer.c:361
+#: extensions/photo_importer/dlg-photo-importer.c:352
 msgid "Getting the folder content…"
 msgstr "Karpetaren zerrenda eskuratzen…"
 
-#: extensions/photo_importer/dlg-photo-importer.c:407
-msgid "Empty"
-msgstr "Hutsa"
-
-#: extensions/photo_importer/dlg-photo-importer.c:594
+#: extensions/photo_importer/dlg-photo-importer.c:585
 msgid "Import from Removable Device"
 msgstr "Inportatu gailu aldagarritik"
 
-#: extensions/photo_importer/dlg-photo-importer.c:626
+#: extensions/photo_importer/dlg-photo-importer.c:617
 msgid "Import from Folder"
 msgstr "Inportatu karpetatik"
 
@@ -4047,7 +4006,7 @@ msgstr "Inportatu argazkiak gailu aldagarrietatik."
 msgid "camera-photo"
 msgstr "argazki kamera"
 
-#: extensions/raw_files/gth-metadata-provider-raw.c:90
+#: extensions/raw_files/gth-metadata-provider-raw.c:91
 msgid "RAW Format"
 msgstr "Formatu gordina (RAW)"
 
@@ -4075,22 +4034,6 @@ msgstr "Begi gorriak kentzea"
 msgid "Tool to remove the red-eye effect from a photo."
 msgstr "Begi gorrien efektua argazkitik kentzeko tresna."
 
-#: extensions/rename_series/data/ui/code-selector.ui:105
-msgid "digits"
-msgstr "digituak"
-
-#: extensions/rename_series/data/ui/code-selector.ui:159
-msgid "format:"
-msgstr "formatua:"
-
-#: extensions/rename_series/data/ui/code-selector.ui:256
-msgid "remove"
-msgstr "kendu"
-
-#: extensions/rename_series/data/ui/code-selector.ui:276
-msgid "add"
-msgstr "gehitu"
-
 #: extensions/rename_series/data/ui/rename-series.ui:42
 msgid "_Sort by:"
 msgstr "_Ordenatu honen arabera:"
@@ -4100,130 +4043,66 @@ msgstr "_Ordenatu honen arabera:"
 msgid "Cas_e:"
 msgstr "_Maiuskulak/minuskulak:"
 
-#: extensions/rename_series/data/ui/rename-series.ui:84
-#: gthumb/gth-browser-actions-entries.h:95
-msgid "Help"
-msgstr "Laguntza"
-
-#: extensions/rename_series/data/ui/rename-series.ui:98
-msgid "Edit template"
-msgstr "Editatu txantiloia"
-
-#: extensions/rename_series/data/ui/rename-series.ui:119
-msgid "Revert to the last used template"
-msgstr "Leheneratu erabilitako azken txantiloira"
-
-#. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:227
-msgid "%M{ format }"
-msgstr "%M{ formatua }"
-
-#. translate only the text in the curly brackets
-#: extensions/rename_series/data/ui/rename-series.ui:257
-#, c-format
-msgid "%A{ identifier }"
-msgstr "%A{ identifikatzailea }"
-
-#: extensions/rename_series/data/ui/rename-series.ui:303
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1106
-msgid "The original filename"
-msgstr "Jatorrizko fitxategi-izena"
-
-#: extensions/rename_series/data/ui/rename-series.ui:318
-msgid "The original extension"
-msgstr "Jatorrizko luzapena"
-
-#: extensions/rename_series/data/ui/rename-series.ui:333
-msgid "The original enumerator"
-msgstr "Jatorrizko enumeratzailea"
-
-#: extensions/rename_series/data/ui/rename-series.ui:348
-msgid "The modification date"
-msgstr "Aldaketaren data"
-
-#: extensions/rename_series/data/ui/rename-series.ui:364
-msgid "The digitalization date"
-msgstr "Digitalizazioaren data"
-
-#: extensions/rename_series/data/ui/rename-series.ui:436
-msgid "1"
-msgstr "1"
-
-#: extensions/rename_series/data/ui/rename-series.ui:473
+#: extensions/rename_series/data/ui/rename-series.ui:110
 msgid "Re_verse Order"
 msgstr "Ald_erantzikatu ordena"
 
-#: extensions/rename_series/data/ui/rename-series.ui:520
-msgid "_Template:"
-msgstr "_Txantiloia:"
+#: extensions/rename_series/data/ui/rename-series.ui:226
+msgid "Revert to the last used template"
+msgstr "Leheneratu erabilitako azken txantiloira"
 
-#: extensions/rename_series/data/ui/rename-series.ui:573
+#: extensions/rename_series/data/ui/rename-series.ui:265
 msgid "_Preview:"
 msgstr "_Aurrebista:"
 
-#: extensions/rename_series/dlg-rename-series.c:58
-msgid "Enumerator"
-msgstr "Zenbakitzailea"
-
-#: extensions/rename_series/dlg-rename-series.c:59
+#: extensions/rename_series/dlg-rename-series.c:54
+#: extensions/webalbums/dlg-web-exporter.c:45
 msgid "Original filename"
 msgstr "Jatorrizko fitxategi-izena"
 
-#: extensions/rename_series/dlg-rename-series.c:60
+#: extensions/rename_series/dlg-rename-series.c:55
 msgid "Original extension"
 msgstr "Jatorrizko luzapena"
 
-#: extensions/rename_series/dlg-rename-series.c:61
+#: extensions/rename_series/dlg-rename-series.c:56
 msgid "Original enumerator"
 msgstr "Jatorrizko zenbakitzailea"
 
-#: extensions/rename_series/dlg-rename-series.c:62
+#: extensions/rename_series/dlg-rename-series.c:57
 msgid "Modification date"
 msgstr "Aldatze-data"
 
-#: extensions/rename_series/dlg-rename-series.c:63
+#: extensions/rename_series/dlg-rename-series.c:58
 msgid "Digitalization date"
 msgstr "Digitalizazio-data"
 
-#: extensions/rename_series/dlg-rename-series.c:64
-msgid "File attribute"
-msgstr "Fitxategiaren atributua"
-
-#: extensions/rename_series/dlg-rename-series.c:558
-#: extensions/rename_series/dlg-rename-series.c:685
+#: extensions/rename_series/dlg-rename-series.c:509
+#: extensions/rename_series/dlg-rename-series.c:636
 msgid "Could not rename the files"
 msgstr "Ezin izan da fitxategien izena aldatu"
 
-#: extensions/rename_series/dlg-rename-series.c:782
-msgid "Could not save the template"
-msgstr "Ezin izan da txantiloia gorde"
-
-#: extensions/rename_series/dlg-rename-series.c:800
-msgid "Edit Template"
-msgstr "Editatu txantiloia"
-
-#: extensions/rename_series/dlg-rename-series.c:869
-#: gthumb/gth-folder-tree.c:1974
+#: extensions/rename_series/dlg-rename-series.c:781
+#: gthumb/gth-folder-tree.c:1975
 msgid "_Rename"
 msgstr "_Aldatu izena"
 
-#: extensions/rename_series/dlg-rename-series.c:886
+#: extensions/rename_series/dlg-rename-series.c:798
 msgid "Old Name"
 msgstr "Izen zaharra"
 
-#: extensions/rename_series/dlg-rename-series.c:897
+#: extensions/rename_series/dlg-rename-series.c:809
 msgid "New Name"
 msgstr "Izen berria"
 
-#: extensions/rename_series/dlg-rename-series.c:975
+#: extensions/rename_series/dlg-rename-series.c:887
 msgid "Keep original case"
 msgstr "Mantendu jatorrizko maiuskulak/minuskulak"
 
-#: extensions/rename_series/dlg-rename-series.c:976
+#: extensions/rename_series/dlg-rename-series.c:888
 msgid "Convert to lower-case"
 msgstr "Bihurtu minuskuletara"
 
-#: extensions/rename_series/dlg-rename-series.c:977
+#: extensions/rename_series/dlg-rename-series.c:889
 msgid "Convert to upper-case"
 msgstr "Bihurtu maiuskuletara"
 
@@ -4321,16 +4200,21 @@ msgstr "honako arauetariko batzuk"
 msgid "Add another location"
 msgstr "Gehitu beste kokaleku bat"
 
-#: extensions/search/gth-search-task.c:189
+#: extensions/search/gth-search-task.c:113
+msgid "No file found"
+msgstr "Ez da fitxategirik aurkitu"
+
+#: extensions/search/gth-search-task.c:191
 #, c-format
 msgid "Files found so far: %s"
 msgstr "Oraingoz aurkitutako fitxategiak: %s"
 
 #: extensions/search/gth-search-task.c:333
+#: extensions/search/gth-search-task.c:337
 msgid "Searching…"
 msgstr "Bilatzen…"
 
-#: extensions/search/gth-search-task.c:340
+#: extensions/search/gth-search-task.c:344
 msgid "Cancel the operation"
 msgstr "Utzi bertan behera eragiketa"
 
@@ -4404,11 +4288,11 @@ msgstr "Amaitu aurkezpena"
 msgid "Pause/Resume presentation"
 msgstr "Pausatu/Berrabiarazi aurkezpena"
 
-#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:121
+#: extensions/slideshow/callbacks.c:43 gthumb/gth-browser-actions-entries.h:124
 msgid "Show next file"
 msgstr "Erakutsi hurrengo fitxategia"
 
-#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:120
+#: extensions/slideshow/callbacks.c:44 gthumb/gth-browser-actions-entries.h:123
 msgid "Show previous file"
 msgstr "Erakutsi aurreko fitxategia"
 
@@ -4581,90 +4465,88 @@ msgstr "Irudi guztiak irudi bakar batean"
 msgid "Adapts to the window width"
 msgstr "Doitu leihoaren zabalerara"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:127
-msgid "%P"
-msgstr "%P"
-
-#: extensions/webalbums/data/ui/web-album-exporter.ui:395
+#: extensions/webalbums/data/ui/web-album-exporter.ui:302
 msgid "_Copy originals to destination"
 msgstr "_Kopiatu jatorrizkoak helburuan"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:706
+#: extensions/webalbums/data/ui/web-album-exporter.ui:605
 msgid "_Adapt to the window width "
 msgstr "_Doitu leihoaren zabalerara "
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:794
-#: extensions/webalbums/data/ui/web-album-exporter.ui:869
+#: extensions/webalbums/data/ui/web-album-exporter.ui:693
+#: extensions/webalbums/data/ui/web-album-exporter.ui:768
 msgid "Index Page"
 msgstr "Indizearen orria"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:844
+#: extensions/webalbums/data/ui/web-album-exporter.ui:743
 msgid "Thumbnail Caption"
 msgstr "Koadro txikiaren epigrafea"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:988
-msgid "The current image number"
-msgstr "Uneko irudiaren zenbakia"
-
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1006
-msgid "The total number of images"
-msgstr "Irudien guztirako kopurua"
-
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1124
-msgid "The file comment"
-msgstr "Fitxategiaren iruzkina"
-
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1207
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1323
+#: extensions/webalbums/data/ui/web-album-exporter.ui:945
+#: extensions/webalbums/data/ui/web-album-exporter.ui:1061
 msgid "Image Page"
 msgstr "Irudiaren orria"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1241
+#: extensions/webalbums/data/ui/web-album-exporter.ui:979
 msgid "Show the description, if available"
 msgstr "Erakutsi azalpena, egonez gero."
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1267
+#: extensions/webalbums/data/ui/web-album-exporter.ui:1005
 msgid "Show the following attributes:"
 msgstr "Erakutsi atributu hauek:"
 
-#: extensions/webalbums/data/ui/web-album-exporter.ui:1301
+#: extensions/webalbums/data/ui/web-album-exporter.ui:1039
 msgid "Image Attributes"
 msgstr "Irudiaren atributuak"
 
-#: extensions/webalbums/dlg-web-exporter.c:379
+#: extensions/webalbums/dlg-web-exporter.c:43
+msgid "Current image number"
+msgstr "Uneko irudiaren zenbakia"
+
+#: extensions/webalbums/dlg-web-exporter.c:44
+msgid "Total number of images"
+msgstr "Irudi kopurua guztira"
+
+#: extensions/webalbums/dlg-web-exporter.c:531
 msgid "Web Album"
 msgstr "Webeko albuma"
 
-#: extensions/webalbums/gth-web-exporter.c:1787
+#: extensions/webalbums/gth-web-exporter.c:563
+#: extensions/webalbums/gth-web-exporter.c:575
+#: extensions/webalbums/gth-web-exporter.c:583
+msgid "Malformed command"
+msgstr "Gaizki osatutako komandoa"
+
+#: extensions/webalbums/gth-web-exporter.c:1780
 msgid "Could not show the destination"
 msgstr "Ezin izan da helburua erakutsi"
 
-#: extensions/webalbums/gth-web-exporter.c:1823
+#: extensions/webalbums/gth-web-exporter.c:1816
 msgid "The album has been created successfully."
 msgstr "Albuma ongi sortu da."
 
-#: extensions/webalbums/gth-web-exporter.c:2092
-#: extensions/webalbums/gth-web-exporter.c:2120
+#: extensions/webalbums/gth-web-exporter.c:2085
+#: extensions/webalbums/gth-web-exporter.c:2113
 msgid "Saving thumbnails"
 msgstr "Koadro txikiak gordetzen"
 
-#: extensions/webalbums/gth-web-exporter.c:2148
+#: extensions/webalbums/gth-web-exporter.c:2141
 msgid "Saving HTML pages: Images"
 msgstr "HTML orriak gordetzen: irudiak"
 
-#: extensions/webalbums/gth-web-exporter.c:2206
+#: extensions/webalbums/gth-web-exporter.c:2199
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML orriak gordetzen: indizeak"
 
-#: extensions/webalbums/gth-web-exporter.c:2491
+#: extensions/webalbums/gth-web-exporter.c:2484
 msgid "Copying original images"
 msgstr "Jatorrizko irudiak kopiatzen"
 
-#: extensions/webalbums/gth-web-exporter.c:2958
+#: extensions/webalbums/gth-web-exporter.c:2955
 msgid "Could not find the style folder"
 msgstr "Ezin izan da estiloaren karpeta aurkitu"
 
-#: extensions/webalbums/gth-web-exporter.c:2996
+#: extensions/webalbums/gth-web-exporter.c:2993
 msgid "Could not create a temporary folder"
 msgstr "Ezin izan da aldi baterako karpeta sortu"
 
@@ -4676,9 +4558,9 @@ msgstr "Webeko albumak"
 msgid "Create static web albums."
 msgstr "Sortu webeko album estatikoak."
 
-#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1174
-#: gthumb/gth-browser.c:6692 gthumb/gth-browser.c:6711
-#: gthumb/gth-browser.c:6735 gthumb/gth-vfs-tree.c:390
+#: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
+#: gthumb/gth-browser.c:6856 gthumb/gth-browser.c:6875
+#: gthumb/gth-browser.c:6899 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Ezin izan da posizio hau kargatu: “%s”"
@@ -4703,7 +4585,7 @@ msgstr "Iragazki berria"
 msgid "Edit Filter"
 msgstr "Editatu iragazkia"
 
-#: gthumb/dlg-personalize-filters.c:519
+#: gthumb/dlg-personalize-filters.c:519 gthumb/gth-main-default-types.c:43
 msgid "Filters"
 msgstr "Iragazkiak"
 
@@ -4898,11 +4780,15 @@ msgstr "Inportatu automatikoki kamera digitaleko argazkiak"
 msgid "Show version"
 msgstr "Erakutsi bertsioa"
 
-#: gthumb/gth-application.c:171
+#: gthumb/gth-application.c:71
+msgid "[FILE…] [DIRECTORY…]"
+msgstr "[FITXATEGIA…] [DIREKTORIOA…]"
+
+#: gthumb/gth-application.c:170
 msgid "— Image browser and viewer"
 msgstr "— Irudien arakatzaile eta ikustailea"
 
-#: gthumb/gth-browser-actions-callbacks.c:100
+#: gthumb/gth-browser-actions-callbacks.c:101
 msgid ""
 "gThumb is free software; you can redistribute it and/or modify it under the "
 "terms of the GNU General Public License as published by the Free Software "
@@ -4910,7 +4796,7 @@ msgid ""
 "version."
 msgstr "gThumb hau software librea da; birbana eta/edo alda dezakezu Software Foundation-ek argitaratutako GNU Hedadura Txikiagoko Lizentzia Publiko Orokorraren 2. bertsioan, edo (nahiago baduzu) beste berriago batean, jasotako baldintzak betez gero."
 
-#: gthumb/gth-browser-actions-callbacks.c:104
+#: gthumb/gth-browser-actions-callbacks.c:105
 msgid ""
 "gThumb is distributed in the hope that it will be useful, but WITHOUT ANY "
 "WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
@@ -4918,203 +4804,207 @@ msgid ""
 "details."
 msgstr "Programa hau erabilgarria izango delakoan banatzen da, baina INOLAKO BERMERIK GABE; era berean, ez da bermatzen beraren EGOKITASUNA MERKATURATZEKO edo HELBURU PARTIKULARRETARAKO ERABILTZEKO. Argibide gehiago nahi izanez gero, ikus GNU Lizentzia Publiko Orokorra."
 
-#: gthumb/gth-browser-actions-callbacks.c:108
+#: gthumb/gth-browser-actions-callbacks.c:109
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "gThumb.  If not, see http://www.gnu.org/licenses/."
 msgstr "Programa honekin batera GNU Lizentzia Publiko Orokorraren kopia bat ere jaso beharko zenuke; horrela ez bada, idatzi helbide honetara: http://www.gnu.org/licenses/."
 
-#: gthumb/gth-browser-actions-callbacks.c:127
+#: gthumb/gth-browser-actions-callbacks.c:128
 msgid "An image viewer and browser for GNOME."
 msgstr "Irudi ikustaile eta arakatzaile bat GNOMErako."
 
-#: gthumb/gth-browser-actions-callbacks.c:130
+#: gthumb/gth-browser-actions-callbacks.c:131
 msgid "translator-credits"
 msgstr "Asier Sarasua Garmendia <asier.sarasua@gmail.com>"
 
-#: gthumb/gth-browser-actions-entries.h:96 gthumb/resources/gears-menu.ui:49
+#: gthumb/gth-browser-actions-entries.h:99 gthumb/resources/gears-menu.ui:49
 msgid "Keyboard Shortcuts"
 msgstr "Laster-teklak"
 
-#: gthumb/gth-browser-actions-entries.h:97
+#: gthumb/gth-browser-actions-entries.h:100
 msgid "Quit"
 msgstr "Irten"
 
-#: gthumb/gth-browser-actions-entries.h:100
+#: gthumb/gth-browser-actions-entries.h:103
 msgid "Show browser"
 msgstr "Erakutsi arakatzailea"
 
-#: gthumb/gth-browser-actions-entries.h:101
+#: gthumb/gth-browser-actions-entries.h:104
 msgid "Close window"
 msgstr "Itxi leihoa"
 
-#: gthumb/gth-browser-actions-entries.h:103
+#: gthumb/gth-browser-actions-entries.h:106
 msgid "Open location"
 msgstr "Ireki kokalekua"
 
-#: gthumb/gth-browser-actions-entries.h:104 gthumb/gth-browser.c:4634
-#: gthumb/gth-browser.c:4652 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4791
+#: gthumb/gth-browser.c:4809 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Pantaila osoa"
 
-#: gthumb/gth-browser-actions-entries.h:105
+#: gthumb/gth-browser-actions-entries.h:108
 msgid "Revert image to saved"
 msgstr "Leheneratu irudia gordetakora"
 
-#: gthumb/gth-browser-actions-entries.h:106
+#: gthumb/gth-browser-actions-entries.h:109
 msgid "Save image"
 msgstr "Gorde irudia"
 
-#: gthumb/gth-browser-actions-entries.h:107
+#: gthumb/gth-browser-actions-entries.h:110
 msgid "Save image as"
 msgstr "Gorde irudia honela"
 
-#: gthumb/gth-browser-actions-entries.h:108
+#: gthumb/gth-browser-actions-entries.h:111
 msgid "Sidebar"
 msgstr "Alboko barra"
 
-#: gthumb/gth-browser-actions-entries.h:109
+#: gthumb/gth-browser-actions-entries.h:112
 msgid "Statusbar"
 msgstr "Egoera-barra"
 
-#: gthumb/gth-browser-actions-entries.h:110
+#: gthumb/gth-browser-actions-entries.h:113
 msgid "Thumbnails list"
 msgstr "Miniaturen zerrenda"
 
-#: gthumb/gth-browser-actions-entries.h:112
+#: gthumb/gth-browser-actions-entries.h:115
 msgid "Load previous location"
 msgstr "Kargatu aurreko kokalekua"
 
-#: gthumb/gth-browser-actions-entries.h:113
+#: gthumb/gth-browser-actions-entries.h:116
 msgid "Load next location"
 msgstr "Kargatu hurrengo kokalekua"
 
-#: gthumb/gth-browser-actions-entries.h:114
+#: gthumb/gth-browser-actions-entries.h:117
 msgid "Load parent folder"
 msgstr "Kargatu karpeta gurasoa"
 
-#: gthumb/gth-browser-actions-entries.h:115
+#: gthumb/gth-browser-actions-entries.h:118
 msgid "Load home"
 msgstr "Kargatu kokaleku nagusia"
 
-#: gthumb/gth-browser-actions-entries.h:116
+#: gthumb/gth-browser-actions-entries.h:119
 msgid "Reload location"
 msgstr "Berriro kargatu kokalekua"
 
-#: gthumb/gth-browser-actions-entries.h:117
+#: gthumb/gth-browser-actions-entries.h:120
 msgid "Show/Hide hidden files"
 msgstr "Erakutsi/Ezkutatu ezkutuko fitxategiak"
 
-#: gthumb/gth-browser-actions-entries.h:118
+#: gthumb/gth-browser-actions-entries.h:121
 msgid "Change sorting order"
 msgstr "Aldatu ordena"
 
-#: gthumb/gth-browser-actions-entries.h:122
+#: gthumb/gth-browser-actions-entries.h:125
 msgid "Show first file"
 msgstr "Erakutsi lehen fitxategia"
 
-#: gthumb/gth-browser-actions-entries.h:123
+#: gthumb/gth-browser-actions-entries.h:126
 msgid "Show last file"
 msgstr "Erakutsi azken fitxategia"
 
-#: gthumb/gth-browser-actions-entries.h:125
+#: gthumb/gth-browser-actions-entries.h:128
 msgid "Image tools"
 msgstr "Irudien tresnak"
 
-#: gthumb/gth-browser-actions-entries.h:126
+#: gthumb/gth-browser-actions-entries.h:129
 msgid "File properties"
 msgstr "Fitxategi-propietateak"
 
-#: gthumb/gth-browser-actions-entries.h:128
+#: gthumb/gth-browser-actions-entries.h:131
 msgid "Select all"
 msgstr "Hautatu dena"
 
-#: gthumb/gth-browser-actions-entries.h:129
+#: gthumb/gth-browser-actions-entries.h:132
 msgid "Select none"
 msgstr "Ez hautatu ezer"
 
-#: gthumb/gth-browser.c:412
+#: gthumb/gth-browser-actions-entries.h:134 gthumb/gth-filterbar.c:526
+msgid "All"
+msgstr "Denak"
+
+#: gthumb/gth-browser.c:413
 msgid "[modified]"
 msgstr "[aldatua]"
 
-#: gthumb/gth-browser.c:877
+#: gthumb/gth-browser.c:878
 #, c-format
 msgid "%d file selected (%s)"
 msgid_plural "%d files selected (%s)"
 msgstr[0] "fitxategi %d hautatu da (%s)"
 msgstr[1] "%d fitxategi hautatu dira (%s)"
 
-#: gthumb/gth-browser.c:912
+#: gthumb/gth-browser.c:913
 #, c-format
 msgid "%s of free space"
 msgstr "Leku librea: %s"
 
-#: gthumb/gth-browser.c:1790 gthumb/gth-browser.c:1806
+#: gthumb/gth-browser.c:1907 gthumb/gth-browser.c:1923
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Ez da %s(r)en modulu egokirik aurkitu"
 
-#: gthumb/gth-browser.c:1911
+#: gthumb/gth-browser.c:2028
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Gorde aldaketak “%s” fitxategian?"
 
-#: gthumb/gth-browser.c:1916
+#: gthumb/gth-browser.c:2033
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Ez baduzu gordetzen, fitxategiaren aldaketak betirako galduko dira."
 
-#: gthumb/gth-browser.c:1917
+#: gthumb/gth-browser.c:2034
 msgid "Do _Not Save"
 msgstr "_Ez gorde"
 
-#: gthumb/gth-browser.c:2405 gthumb/gth-browser.c:4660
+#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4817
 msgid "Accept"
 msgstr "Onartu"
 
-#: gthumb/gth-browser.c:2405 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2524 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "It_xi"
 
-#: gthumb/gth-browser.c:2944
+#: gthumb/gth-browser.c:3063
 msgid "Could not change name"
 msgstr "Ezin izan da izena aldatu"
 
-#: gthumb/gth-browser.c:3447
+#: gthumb/gth-browser.c:3557
 msgid "Modified"
 msgstr "Aldatze-data"
 
-#: gthumb/gth-browser.c:4582
+#: gthumb/gth-browser.c:4739
 msgid "Go to the previous visited location"
 msgstr "Joan bisitatutako aurreko kokapenera"
 
-#: gthumb/gth-browser.c:4588
+#: gthumb/gth-browser.c:4745
 msgid "Go to the next visited location"
 msgstr "Joan bisitatutako hurrengo kokapenera"
 
-#: gthumb/gth-browser.c:4596
+#: gthumb/gth-browser.c:4753
 msgid "History"
 msgstr "Historia"
 
-#: gthumb/gth-browser.c:4610
+#: gthumb/gth-browser.c:4767
 msgid "View the folders"
 msgstr "Ikusi karpetak"
 
-#: gthumb/gth-browser.c:4625
+#: gthumb/gth-browser.c:4782
 msgid "Edit file"
 msgstr "Editatu fitxategia"
 
-#: gthumb/gth-browser.c:4716 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4873 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Eragiketak"
 
-#: gthumb/gth-browser.c:6693
+#: gthumb/gth-browser.c:6857
 #, c-format
 msgid "File type not supported"
 msgstr "Fitxategi mota ez dago onartuta"
 
-#: gthumb/gth-browser.c:6736
+#: gthumb/gth-browser.c:6900
 #, c-format
 msgid "No suitable module found"
 msgstr "Ez da modulu egokirik aurkitu"
@@ -5137,26 +5027,30 @@ msgstr "Onartutako fitxategi denak"
 msgid "_Show Format Options"
 msgstr "Erakutsi formatu aukerak"
 
-#: gthumb/gth-file-source-vfs.c:219
+#: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1186
+msgid "No file"
+msgstr "Fitxategirik ez"
+
+#: gthumb/gth-file-source-vfs.c:288
 msgid "Computer"
 msgstr "Ordenagailua"
 
-#: gthumb/gth-file-source-vfs.c:796
+#: gthumb/gth-file-source-vfs.c:880
 msgid ""
 "The files cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Fitxategiak ezin dira zakarrontzira bota. Betirako ezabatu nahi dituzu?"
 
-#: gthumb/gth-file-source-vfs.c:807
+#: gthumb/gth-file-source-vfs.c:891
 msgid "Could not move the files to the Trash"
 msgstr "Ezin izan dira fitxategiak zakarrontzira bota"
 
-#: gthumb/gth-file-source-vfs.c:852
+#: gthumb/gth-file-source-vfs.c:936
 #, c-format
 msgid "Are you sure you want to permanently delete “%s”?"
 msgstr "Ziur zaude “%s” behin betiko ezabatu nahi duzula?"
 
-#: gthumb/gth-file-source-vfs.c:855
+#: gthumb/gth-file-source-vfs.c:939
 #, c-format
 msgid "Are you sure you want to permanently delete the %'d selected file?"
 msgid_plural ""
@@ -5164,7 +5058,7 @@ msgid_plural ""
 msgstr[0] "Ziur zaude hautatutako fitxategi %'d betirako ezabatzea nahi duzula?"
 msgstr[1] "Ziur zaude hautatutako %'d fitxategi betirako ezabatzea nahi dituzula?"
 
-#: gthumb/gth-file-source-vfs.c:865
+#: gthumb/gth-file-source-vfs.c:949
 msgid "If you delete a file, it will be permanently lost."
 msgstr "Fitxategi bat ezabatzen baduzu, betirako galduko da."
 
@@ -5201,15 +5095,11 @@ msgstr "beherantz"
 msgid "No limit specified"
 msgstr "Ez da mugarik zehaztu"
 
-#: gthumb/gth-filterbar.c:280
-msgid "All"
-msgstr "Denak"
-
-#: gthumb/gth-folder-tree.c:1465
+#: gthumb/gth-folder-tree.c:1466
 msgid "(Open Parent)"
 msgstr "(Ireki gurasoa)"
 
-#: gthumb/gth-folder-tree.c:1972
+#: gthumb/gth-folder-tree.c:1973
 msgid "Enter the new name:"
 msgstr "Idatzi izen berria:"
 
@@ -5243,17 +5133,9 @@ msgstr "Fitxategiaren informazioa irakurtzen"
 msgid "Hidden Files"
 msgstr "Ezkutuko fitxategiak"
 
-#: gthumb/gth-location-chooser.c:274 gthumb/gth-main-default-metadata.c:46
-msgid "Location"
-msgstr "Kokalekua"
-
 #: gthumb/gth-location-chooser.c:572
 msgid "Locations"
 msgstr "Kokalekuak"
-
-#: gthumb/gth-location-chooser.c:617
-msgid "Other…"
-msgstr "Bestelakoa…"
 
 #: gthumb/gth-main-default-metadata.c:39
 msgid "Name"
@@ -5475,6 +5357,36 @@ msgstr "Astronomia"
 msgid "Family"
 msgstr "Familia"
 
+#. Translators: The space character not the Astronomy space.
+#: gthumb/gth-template-editor-dialog.c:424
+msgid "Space"
+msgstr "Lekua"
+
+#: gthumb/gth-template-selector.c:35
+msgid "Year"
+msgstr "Urtea"
+
+#: gthumb/gth-template-selector.c:36
+msgid "Month"
+msgstr "Hilabetea"
+
+#: gthumb/gth-template-selector.c:37
+msgid "Day of the month"
+msgstr "Hilaren eguna"
+
+#: gthumb/gth-template-selector.c:38
+msgid "Hour"
+msgstr "Ordua"
+
+#: gthumb/gth-template-selector.c:39
+msgid "Minute"
+msgstr "Minutua"
+
+#. Translators: the time second, not the second place.
+#: gthumb/gth-template-selector.c:41
+msgid "Second"
+msgstr "Segundoa"
+
 #: gthumb/gth-test-aspect-ratio.c:67 gthumb/gth-test-simple.c:57
 msgid "is lower than"
 msgstr "honen baino baxuagoa"
@@ -5568,25 +5480,25 @@ msgstr "Koloreak"
 msgid "Rotation"
 msgstr "Biraketa"
 
-#: gthumb/gth-window.c:1048
+#: gthumb/gth-window.c:1073
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
 "want to reassign it to this action instead?"
 msgstr "«%s» tekla-konbinazioa «%s» ekintzarekin lotuta dago jadanik. Ekintza honi esleitu nahi al diozu?"
 
-#: gthumb/gth-window.c:1056
+#: gthumb/gth-window.c:1081
 msgid "Reassign"
 msgstr "Esleitu"
 
-#: gthumb/gth-window.c:1074
+#: gthumb/gth-window.c:1099
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
 "be changed."
 msgstr "«%s» tekla-konbinazioa «%s» ekintzarekin lotuta dago jadanik, eta ezin da aldatu."
 
-#: gthumb/gth-window.c:1078
+#: gthumb/gth-window.c:1103
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "«%s» tekla-konbinazioa ekintza bati lotuta dago jadanik, eta ezin da aldatu."
@@ -5666,6 +5578,141 @@ msgstr "gThumb aplikazioari _buruz"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Ezabatu historia"
+
+#~ msgid "48"
+#~ msgstr "48"
+
+#~ msgid "64"
+#~ msgstr "64"
+
+#~ msgid "85"
+#~ msgstr "85"
+
+#~ msgid "95"
+#~ msgstr "95"
+
+#~ msgid "112"
+#~ msgstr "112"
+
+#~ msgid "128"
+#~ msgstr "128"
+
+#~ msgid "164"
+#~ msgstr "164"
+
+#~ msgid "200"
+#~ msgstr "200"
+
+#~ msgid "256"
+#~ msgstr "256"
+
+#~ msgid "New enumerator digit"
+#~ msgstr "Enumeratzailearen digitu berria"
+
+#~ msgid "as _single subfolder"
+#~ msgstr "azpikarpeta _bakun bezala"
+
+#~ msgid "The year"
+#~ msgstr "Urtea"
+
+#~ msgid "The month"
+#~ msgstr "Hila"
+
+#~ msgid "The hour"
+#~ msgstr "Ordua"
+
+#~ msgid "The minutes"
+#~ msgstr "Minutuak"
+
+#~ msgid "The seconds"
+#~ msgstr "Segundoak"
+
+#~ msgid "example: %s"
+#~ msgstr "adibidea: %s"
+
+#~ msgid "year-month-day"
+#~ msgstr "urtea-hilabetea-eguna"
+
+#~ msgid "year-month"
+#~ msgstr "urtea-hilabetea"
+
+#~ msgid "year"
+#~ msgstr "urtea"
+
+#~ msgid "custom format"
+#~ msgstr "formatu pertsonalizatua"
+
+#~ msgid "The file uri"
+#~ msgstr "Fitxategiaren URIa"
+
+#~ msgid "The file path"
+#~ msgstr "Fitxategiaren bide-izena"
+
+#~ msgid "The file basename"
+#~ msgstr "Fitxategiaren oinarrizko izena"
+
+#~ msgid "The parent folder path"
+#~ msgstr "Guraso karpetaren bide-izena"
+
+#~ msgid "%ask{ message }{ default value }"
+#~ msgstr "%ask{ mezua }{ balio lehenetsia }"
+
+#~ msgid "%attr{ attribute name }"
+#~ msgstr "%attr{ atributuaren izena }"
+
+#~ msgid "A file attribute"
+#~ msgstr "Fitxategiaren atributua"
+
+#~ msgid "%N"
+#~ msgstr "%N"
+
+#~ msgid "%E"
+#~ msgstr "%E"
+
+#~ msgid "%quote{ text }"
+#~ msgstr "%quote{ testua }"
+
+#~ msgid "The current date and time"
+#~ msgstr "Uneko data eta ordua"
+
+#~ msgid "(Empty)"
+#~ msgstr "(Hutsa)"
+
+#~ msgid "Empty"
+#~ msgstr "Hutsa"
+
+#~ msgid "format:"
+#~ msgstr "formatua:"
+
+#~ msgid "%M{ format }"
+#~ msgstr "%M{ formatua }"
+
+#~ msgid "%A{ identifier }"
+#~ msgstr "%A{ identifikatzailea }"
+
+#~ msgid "The original filename"
+#~ msgstr "Jatorrizko fitxategi-izena"
+
+#~ msgid "The original extension"
+#~ msgstr "Jatorrizko luzapena"
+
+#~ msgid "The original enumerator"
+#~ msgstr "Jatorrizko enumeratzailea"
+
+#~ msgid "The modification date"
+#~ msgstr "Aldaketaren data"
+
+#~ msgid "The digitalization date"
+#~ msgstr "Digitalizazioaren data"
+
+#~ msgid "Could not save the template"
+#~ msgstr "Ezin izan da txantiloia gorde"
+
+#~ msgid "%P"
+#~ msgstr "%P"
+
+#~ msgid "The file comment"
+#~ msgstr "Fitxategiaren iruzkina"
 
 #~ msgid "720 × 720"
 #~ msgstr "720 x 720"
@@ -6334,9 +6381,6 @@ msgstr "_Ezabatu historia"
 
 #~ msgid "View or hide the sidebar of this window"
 #~ msgstr "Ikusi edo ezkutatu leiho honen alboko barra"
-
-#~ msgid "Edit"
-#~ msgstr "Editatu"
 
 #~ msgid "Open %s"
 #~ msgstr "Ireki %s"
