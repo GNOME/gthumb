@@ -99,3 +99,9 @@ option('libbrasero',
   value : true,
   description : 'Use libbrasero to save images and metadata to discs'
 )
+
+option('tarball-appdata',
+  type : 'boolean',
+  value : false,
+  description: 'Only merge translations, as tarball appdata already has release notes'
+)
