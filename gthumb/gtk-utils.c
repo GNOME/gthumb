@@ -877,6 +877,24 @@ _gtk_menu_ask_drag_drop_action (GtkWidget     *widget,
 }
 
 
+gboolean
+_gtk_drag_drop_modifier_state (GtkWidget *widget)
+{
+	GdkModifierType mask;
+
+        gdk_window_get_device_position (gtk_widget_get_window (widget),
+                                _gtk_widget_get_client_pointer (widget),
+                                NULL,
+                                NULL,
+                                &mask);
+
+        if (mask & (GDK_SHIFT_MASK | GDK_CONTROL_MASK))
+		return TRUE;
+	
+	return FALSE;
+}
+
+
 static gboolean
 _gdk_rgba_shade (GdkRGBA *color,
 		 GdkRGBA *result,

@@ -477,7 +477,12 @@ gth_file_list_drag_motion (GtkWidget      *file_view,
 			}
 		}
 
-		gdk_drag_status (context, source_is_reorderable ? GDK_ACTION_COPY : GDK_ACTION_MOVE, time);
+		if (source_is_reorderable)
+			gdk_drag_status (context, GDK_ACTION_COPY, time);
+		else if (_gtk_drag_drop_modifier_state (file_view))
+			gdk_drag_status (context, GDK_ACTION_COPY, time);
+		else
+			gdk_drag_status (context, GDK_ACTION_MOVE, time);
 	}
 
 	return TRUE;
@@ -878,7 +883,7 @@ fm__gth_browser_load_location_after_cb (GthBrowser   *browser,
 				   G_N_ELEMENTS (non_reorderable_drag_dest_targets),
 				   GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
-		source_actions = GDK_ACTION_MOVE | GDK_ACTION_ASK;
+		source_actions = GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK;
 	}
 
 	/* set the drag source targets */
