@@ -161,6 +161,7 @@ void            _gtk_window_resize_to_fit_screen_height    (GtkWidget        *wi
 void            _gtk_info_bar_clear_action_area            (GtkInfoBar       *info_bar);
 GdkDragAction   _gtk_menu_ask_drag_drop_action             (GtkWidget        *widget,
 					      	      	    GdkDragAction     actions);
+gboolean        _gtk_drag_drop_modifier_state              (GtkWidget        *widget);
 gboolean        _gdk_rgba_darker                           (GdkRGBA          *color,
 		 					    GdkRGBA          *result);
 gboolean        _gdk_rgba_lighter                          (GdkRGBA          *color,

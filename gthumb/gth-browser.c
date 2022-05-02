@@ -2856,7 +2856,11 @@ folder_tree_drag_motion_cb (GtkWidget      *file_view,
 		browser->priv->folder_tree_open_folder_id = g_timeout_add (AUTO_OPEN_FOLDER_DELAY, folder_tree_open_folder_cb, browser);
 	}
 
-	gdk_drag_status (context, GDK_ACTION_MOVE, time);
+	if (_gtk_drag_drop_modifier_state (file_view))
+		gdk_drag_status (context, GDK_ACTION_COPY, time);
+	else
+		gdk_drag_status (context, GDK_ACTION_MOVE, time);
+
 	gtk_tree_path_free (path);
 
 	return TRUE;
