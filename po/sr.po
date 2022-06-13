@@ -1,18 +1,18 @@
 # Serbian translation of gthumb
-# Courtesy of Prevod.org team (http://prevod.org/) -- 2003–2021.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2003–2022.
 # This file is distributed under the same license as the gthumb package.
 # Душан Живојнов <calvin@verat.net>
 # Саша Петровић <salepetronije@gmail.com>, 2013.
 # Марко М. Костић <marko.m.kostic@gmail.com>, 2019.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013–2021.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013–2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-09-16 07:24+0000\n"
-"PO-Revision-Date: 2021-09-20 14:08+0200\n"
+"POT-Creation-Date: 2022-06-05 12:32+0000\n"
+"PO-Revision-Date: 2022-06-13 05:58+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
-"Language-Team: српски <gnome-sr@googlegroups.org>\n"
+"Language-Team: Serbian <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,6 +86,16 @@ msgstr ""
 "метаподатака сликама; сређивање слика по збиркама а збирки по библиотекама; "
 "тражење слика и чување резултата у збирци."
 
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+#| msgid "Browser"
+msgid "Browser mode"
+msgstr "Режим претраживача"
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+#| msgid "Viewer"
+msgid "Viewer mode"
+msgstr "Режим прегледника"
+
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
@@ -131,7 +141,7 @@ msgid "Import the photos on your camera card"
 msgstr "Увези слике из картице фотоапарата"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
+#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:105
 #: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "Гномов сличко"
@@ -183,43 +193,7 @@ msgstr "Друго"
 msgid "Thumbnail _size:"
 msgstr "Величина умањеног _приказа:"
 
-#: data/ui/browser-preferences.ui:206
-msgid "48"
-msgstr "48"
-
-#: data/ui/browser-preferences.ui:207
-msgid "64"
-msgstr "64"
-
-#: data/ui/browser-preferences.ui:208
-msgid "85"
-msgstr "85"
-
-#: data/ui/browser-preferences.ui:209
-msgid "95"
-msgstr "95"
-
-#: data/ui/browser-preferences.ui:210
-msgid "112"
-msgstr "112"
-
-#: data/ui/browser-preferences.ui:211
-msgid "128"
-msgstr "128"
-
-#: data/ui/browser-preferences.ui:212
-msgid "164"
-msgstr "164"
-
-#: data/ui/browser-preferences.ui:213
-msgid "200"
-msgstr "200"
-
-#: data/ui/browser-preferences.ui:214
-msgid "256"
-msgstr "256"
-
-#: data/ui/browser-preferences.ui:239
+#: data/ui/browser-preferences.ui:242
 msgid "D_etermine image type from content (slower)"
 msgstr "Одреди врсту слике из _садржаја (спорије)"
 
@@ -240,7 +214,6 @@ msgid "Description"
 msgstr "Опис"
 
 #: data/ui/code-selector.ui:269
-#| msgid "Edit tags"
 msgid "Edit"
 msgstr "Измена"
 
@@ -473,7 +446,6 @@ msgstr "_Обрнути поредак"
 
 #: data/ui/template-editor-dialog.ui:21
 #: extensions/importer/data/ui/import-preferences.ui:164
-#| msgid "example"
 msgid "Example:"
 msgstr "Пример:"
 
@@ -540,10 +512,6 @@ msgstr "Нарежи ЦД/ДВД"
 #: extensions/burn_disc/burn_disc.extension.desktop.in.in:4
 msgid "Save files to an optical disc."
 msgstr "Сачувајте датотеке на оптички диск."
-
-#: extensions/burn_disc/burn_disc.extension.desktop.in.in:8
-msgid "brasero"
-msgstr "бразеро"
 
 #: extensions/burn_disc/callbacks.c:48
 msgid "_Optical Disc…"
@@ -802,8 +770,8 @@ msgid "Rename"
 msgstr "Промени име"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4762
-#: gthumb/gth-browser.c:4874 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4780
+#: gthumb/gth-browser.c:4892 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Особине"
 
@@ -833,10 +801,6 @@ msgstr "Сам среди датотеке по датуму"
 #: extensions/catalogs/catalogs.extension.desktop.in.in:4
 msgid "Create file collections."
 msgstr "Направите збирке датотека."
-
-#: extensions/catalogs/catalogs.extension.desktop.in.in:8
-msgid "file-catalog-symbolic"
-msgstr "file-catalog-symbolic"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:19
 msgid "C_atalogs:"
@@ -1436,14 +1400,12 @@ msgstr "Текући датум"
 #: extensions/contact_sheet/dlg-contact-sheet.c:40
 #: extensions/image_print/gth-image-print-job.c:37
 #: extensions/webalbums/dlg-web-exporter.c:35
-#| msgid "The current page number"
 msgid "Current page number"
 msgstr "Тренутни број странице"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:41
 #: extensions/image_print/gth-image-print-job.c:38
 #: extensions/webalbums/dlg-web-exporter.c:36
-#| msgid "The total number of pages"
 msgid "Total number of pages"
 msgstr "Укупан број страница"
 
@@ -1575,10 +1537,6 @@ msgstr "Позадина радне површи"
 #: extensions/desktop_background/desktop_background.extension.desktop.in.in:4
 msgid "Set the image as desktop background"
 msgstr "Постави слику за позадину радне површи"
-
-#: extensions/desktop_background/desktop_background.extension.desktop.in.in:8
-msgid "desktop"
-msgstr "радна површ"
 
 #: extensions/edit_metadata/actions.c:75
 msgid ""
@@ -1813,21 +1771,21 @@ msgid "Enter the folder name:"
 msgstr "Унесите име фасцикле:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:551
-#: extensions/file_manager/callbacks.c:989
+#: extensions/file_manager/callbacks.c:566
+#: extensions/file_manager/callbacks.c:996
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5800 gthumb/gth-browser.c:5843
+#: gthumb/gth-browser.c:5818 gthumb/gth-browser.c:5861
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Нисам успео да изведем радњу"
 
 #: extensions/file_manager/actions.c:423
-#: extensions/file_manager/callbacks.c:277
+#: extensions/file_manager/callbacks.c:280
 msgid "Could not move the files"
 msgstr "Нисам успео преместити датотеке"
 
 #: extensions/file_manager/actions.c:424
-#: extensions/file_manager/callbacks.c:278
+#: extensions/file_manager/callbacks.c:281
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1858,7 +1816,7 @@ msgid "Copy To"
 msgstr "Умножи у"
 
 #: extensions/file_manager/actions.c:743
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1035
 msgid "Move"
 msgstr "Премести"
 
@@ -1923,36 +1881,36 @@ msgstr "Трајно обриши"
 msgid "Open with Gimp"
 msgstr "Отвори Гимпом"
 
-#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:295
+#: extensions/file_manager/callbacks.c:740 gthumb/gth-file-source-vfs.c:295
 msgid "Home Folder"
 msgstr "Лична фасцикла"
 
-#: extensions/file_manager/callbacks.c:732
-#: extensions/file_manager/callbacks.c:735
+#: extensions/file_manager/callbacks.c:747
+#: extensions/file_manager/callbacks.c:750
 msgid "Open _With"
 msgstr "_Отвори са"
 
-#: extensions/file_manager/callbacks.c:1009
+#: extensions/file_manager/callbacks.c:1016
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Да ли желите да преместите „%s“ у „%s“?"
 
-#: extensions/file_manager/callbacks.c:1011
+#: extensions/file_manager/callbacks.c:1018
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Да ли желите да умножите „%s“ у „%s“?"
 
-#: extensions/file_manager/callbacks.c:1018
+#: extensions/file_manager/callbacks.c:1025
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Да ли желите да преместите превучене датотеке у „%s“?"
 
-#: extensions/file_manager/callbacks.c:1020
+#: extensions/file_manager/callbacks.c:1027
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Да ли желите да умножите превучене датотеке у „%s“?"
 
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1035
 msgid "_Copy"
 msgstr "_Умножи"
 
@@ -1963,10 +1921,6 @@ msgstr "Управник датотека"
 #: extensions/file_manager/file_manager.extension.desktop.in.in:4
 msgid "File manager operations."
 msgstr "Радње управника датотека."
-
-#: extensions/file_manager/file_manager.extension.desktop.in.in:8
-msgid "system-file-manager"
-msgstr "system-file-manager"
 
 #: extensions/file_tools/callbacks.c:53
 msgid "Adjust contrast"
@@ -2473,7 +2427,7 @@ msgstr "Унесите назив претподешавања:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1970
+#: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "Нисам успео да сачувам датотеку"
 
@@ -3170,10 +3124,6 @@ msgstr "Звучна/видео подршка"
 msgid "Play audio and video files."
 msgstr "Изведи звучне и видео датотеке."
 
-#: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:8
-msgid "video-x-generic"
-msgstr "video-x-generic"
-
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "Извођење видеа"
@@ -3260,7 +3210,7 @@ msgstr "Моно"
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
 #: extensions/image_viewer/gth-metadata-provider-image.c:300
 #: extensions/raw_files/gth-metadata-provider-raw.c:97
-#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:963
+#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:981
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3369,13 +3319,11 @@ msgid "Select Footer Font"
 msgstr "Одаберите словни лик подножја"
 
 #: extensions/image_print/gth-image-print-job.c:40
-#| msgid "The total number of files"
 msgid "Total number of files"
 msgstr "Укупан број датотека"
 
 #: extensions/image_print/gth-image-print-job.c:41
 #: extensions/importer/gth-import-preferences-dialog.c:47
-#| msgid "The event description"
 msgid "Event description"
 msgstr "Опис догађаја"
 
@@ -3419,10 +3367,6 @@ msgstr "Штампање слика"
 #: extensions/image_print/image_print.extension.desktop.in.in:4
 msgid "Allow to print images choosing the page layout."
 msgstr "Дозволи штампање слика користећи распоред стране."
-
-#: extensions/image_print/image_print.extension.desktop.in.in:8
-msgid "document-print"
-msgstr "document-print"
 
 #: extensions/image_rotation/callbacks.c:59
 msgid "Rotate Physically"
@@ -3711,7 +3655,6 @@ msgid "JPEG XL container"
 msgstr "JPEG XL контејнер"
 
 #: extensions/image_viewer/gth-metadata-provider-image.c:215
-#| msgid "JPEG"
 msgid "JPEG XL"
 msgstr "JPEG XL"
 
@@ -3819,7 +3762,6 @@ msgid "_Command:"
 msgstr "_Наредба:"
 
 #: extensions/list_tools/data/ui/script-editor.ui:172
-#| msgid "Edit Command"
 msgid "Edit command"
 msgstr "Измени наредбу"
 
@@ -3864,42 +3806,34 @@ msgid "Commands"
 msgstr "Наредбе"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:34
-#| msgid "Quote the text "
 msgid "Quoted text"
 msgstr "Цитирани текст"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:35
-#| msgid "File"
 msgid "File URI"
 msgstr "ЈРЛ датотеке"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:36
-#| msgid "file path"
 msgid "File path"
 msgstr "Путања датотеке"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:37
-#| msgid "Filename"
 msgid "File name"
 msgstr "Назив датотеке"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:38
-#| msgid "The file basename without extension"
 msgid "File name, no extension"
 msgstr "Назив датотеке без наставка"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:39
-#| msgid "The file extension"
 msgid "File extension"
 msgstr "Проширење датотеке"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:40
-#| msgid "file path"
 msgid "Folder path"
 msgstr "Путања фасцикле"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:42
-#| msgid "Ask an input value"
 msgid "Ask a value"
 msgstr "Затражи вредност"
 
@@ -3933,10 +3867,6 @@ msgstr "Прибори за спискове датотека"
 #: extensions/list_tools/list_tools.extension.desktop.in.in:4
 msgid "Scripting and batch manipulation of files."
 msgstr "Скриптовање и масовна обрада датотека."
-
-#: extensions/list_tools/list_tools.extension.desktop.in.in:8
-msgid "applications-engineering"
-msgstr "applications-engineering"
 
 #: extensions/map_view/gth-map-view.c:128
 msgctxt "Cardinal point"
@@ -3973,7 +3903,7 @@ msgstr "_Налози:"
 
 #. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:575 gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:577 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "Учитавам…"
 
@@ -4090,10 +4020,6 @@ msgstr "Увези слике"
 #: extensions/photo_importer/photo_importer.extension.desktop.in.in:4
 msgid "Import photos from removable devices."
 msgstr "Увези слике са уклоњивих уређаја."
-
-#: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
-msgid "camera-photo"
-msgstr "camera-photo"
 
 #: extensions/raw_files/gth-metadata-provider-raw.c:91
 msgid "RAW Format"
@@ -4290,7 +4216,6 @@ msgid "Add another location"
 msgstr "Додај још једно место"
 
 #: extensions/search/gth-search-task.c:113
-#| msgid "No file imported"
 msgid "No file found"
 msgstr "Нисам нашао датотеку"
 
@@ -4311,10 +4236,6 @@ msgstr "Обустави радњу"
 #: extensions/search/search.extension.desktop.in.in:4
 msgid "File search tool."
 msgstr "Алат претраге."
-
-#: extensions/search/search.extension.desktop.in.in:8
-msgid "edit-find"
-msgstr "edit-find"
 
 #. Not real actions, used in the shorcut window for documentation.
 #: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
@@ -4363,10 +4284,6 @@ msgstr "Избори"
 #: extensions/selections/selections.extension.desktop.in.in:4
 msgid "Advanced file selection."
 msgstr "Напредни одабир датотека."
-
-#: extensions/selections/selections.extension.desktop.in.in:8
-msgid "emblem-flag-gray"
-msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:40
 msgid "Start presentation"
@@ -4486,10 +4403,6 @@ msgstr "Коцкај с лева"
 msgid "Play a presentation of images."
 msgstr "Пустите презентацију слика."
 
-#: extensions/slideshow/slideshow.extension.desktop.in.in:8
-msgid "x-office-presentation"
-msgstr "x-office-presentation"
-
 #: extensions/terminal/actions.c:53
 #: extensions/terminal/terminal.extension.desktop.in.in:3
 msgid "Terminal"
@@ -4502,10 +4415,6 @@ msgstr "Отвори у Терминалу"
 #: extensions/terminal/terminal.extension.desktop.in.in:4
 msgid "Open a folder in a terminal"
 msgstr "Отворите фасциклу у терминалу"
-
-#: extensions/terminal/terminal.extension.desktop.in.in:8
-msgid "utilities-terminal"
-msgstr "utilities-terminal"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -4592,12 +4501,10 @@ msgid "Image Attributes"
 msgstr "Својства слика"
 
 #: extensions/webalbums/dlg-web-exporter.c:43
-#| msgid "The current image number"
 msgid "Current image number"
 msgstr "Тренутни број слике"
 
 #: extensions/webalbums/dlg-web-exporter.c:44
-#| msgid "The total number of images"
 msgid "Total number of images"
 msgstr "Укупан број слика"
 
@@ -4653,8 +4560,8 @@ msgid "Create static web albums."
 msgstr "Направи неизменљиве веб албуме."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
-#: gthumb/gth-browser.c:6842 gthumb/gth-browser.c:6861
-#: gthumb/gth-browser.c:6885 gthumb/gth-vfs-tree.c:393
+#: gthumb/gth-browser.c:6860 gthumb/gth-browser.c:6879
+#: gthumb/gth-browser.c:6903 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Нисам успео да учитам положај „%s“"
@@ -4875,7 +4782,11 @@ msgstr "Сам увези слике са дигиталног фотоапар�
 msgid "Show version"
 msgstr "Приказује издање"
 
-#: gthumb/gth-application.c:171
+#: gthumb/gth-application.c:71
+msgid "[FILE…] [DIRECTORY…]"
+msgstr "[…] [DIRETORY…]РЕКТОРИЈУМ"
+
+#: gthumb/gth-application.c:170
 msgid "— Image browser and viewer"
 msgstr "— Прегледник и претраживач слика"
 
@@ -4944,8 +4855,8 @@ msgstr "Затвори прозор"
 msgid "Open location"
 msgstr "Отвори место"
 
-#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4777
-#: gthumb/gth-browser.c:4795 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4795
+#: gthumb/gth-browser.c:4813 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Преко целог екана"
@@ -5048,71 +4959,71 @@ msgstr[3] "%d означена датотека (%s)"
 msgid "%s of free space"
 msgstr "%s слободног простора"
 
-#: gthumb/gth-browser.c:1893 gthumb/gth-browser.c:1909
+#: gthumb/gth-browser.c:1907 gthumb/gth-browser.c:1923
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "Није пронађена одговарајућа јединица за %s"
 
-#: gthumb/gth-browser.c:2014
+#: gthumb/gth-browser.c:2028
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Да сачувам измене у датотеци „%s“?"
 
-#: gthumb/gth-browser.c:2019
+#: gthumb/gth-browser.c:2033
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Ако не сачувате, измене у датотеци биће заувек изгубљене."
 
-#: gthumb/gth-browser.c:2020
+#: gthumb/gth-browser.c:2034
 msgid "Do _Not Save"
 msgstr "Не _чувај"
 
-#: gthumb/gth-browser.c:2510 gthumb/gth-browser.c:4803
+#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4821
 msgid "Accept"
 msgstr "Прихвати"
 
-#: gthumb/gth-browser.c:2510 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2524 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Затвори"
 
-#: gthumb/gth-browser.c:3049
+#: gthumb/gth-browser.c:3067
 msgid "Could not change name"
 msgstr "Не могу изменити назив"
 
-#: gthumb/gth-browser.c:3543
+#: gthumb/gth-browser.c:3561
 msgid "Modified"
 msgstr "Измењено"
 
-#: gthumb/gth-browser.c:4725
+#: gthumb/gth-browser.c:4743
 msgid "Go to the previous visited location"
 msgstr "Иди на претходно посећено место"
 
-#: gthumb/gth-browser.c:4731
+#: gthumb/gth-browser.c:4749
 msgid "Go to the next visited location"
 msgstr "Иди на следеће посећено место"
 
-#: gthumb/gth-browser.c:4739
+#: gthumb/gth-browser.c:4757
 msgid "History"
 msgstr "Историјат"
 
-#: gthumb/gth-browser.c:4753
+#: gthumb/gth-browser.c:4771
 msgid "View the folders"
 msgstr "Погледај фасцикле"
 
-#: gthumb/gth-browser.c:4768
+#: gthumb/gth-browser.c:4786
 msgid "Edit file"
 msgstr "Уреди датотеку"
 
-#: gthumb/gth-browser.c:4859 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4877 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Операције"
 
-#: gthumb/gth-browser.c:6843
+#: gthumb/gth-browser.c:6861
 #, c-format
 msgid "File type not supported"
 msgstr "Врста датотеке није подржана"
 
-#: gthumb/gth-browser.c:6886
+#: gthumb/gth-browser.c:6904
 #, c-format
 msgid "No suitable module found"
 msgstr "Није пронађен одговарајућа јединица"
@@ -5136,7 +5047,6 @@ msgid "_Show Format Options"
 msgstr "_Прикажи опције формата"
 
 #: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1186
-#| msgid "no file"
 msgid "No file"
 msgstr "Нема датотеке"
 
@@ -5482,7 +5392,6 @@ msgid "Month"
 msgstr "Месец"
 
 #: gthumb/gth-template-selector.c:37
-#| msgid "The day of the month"
 msgid "Day of the month"
 msgstr "Дан у месецу"
 
@@ -5491,13 +5400,11 @@ msgid "Hour"
 msgstr "Сат"
 
 #: gthumb/gth-template-selector.c:39
-#| msgid "minutes"
 msgid "Minute"
 msgstr "Минут"
 
 #. Translators: the time second, not the second place.
 #: gthumb/gth-template-selector.c:41
-#| msgid "seconds"
 msgid "Second"
 msgstr "Секунда"
 
@@ -5594,7 +5501,7 @@ msgstr "Боје"
 msgid "Rotation"
 msgstr "Окренутост"
 
-#: gthumb/gth-window.c:1074
+#: gthumb/gth-window.c:1073
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5603,11 +5510,11 @@ msgstr ""
 "Комбинација тастера „%s“ је већ додељена радњи „%s“.  Да ли ипак желите да "
 "је поново доделите овој радњи?"
 
-#: gthumb/gth-window.c:1082
+#: gthumb/gth-window.c:1081
 msgid "Reassign"
 msgstr "Додели поново"
 
-#: gthumb/gth-window.c:1100
+#: gthumb/gth-window.c:1099
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5615,7 +5522,7 @@ msgid ""
 msgstr ""
 "Комбинација тастера „%s“ је већ додељена радњи „%s“ и не може бити измењена."
 
-#: gthumb/gth-window.c:1104
+#: gthumb/gth-window.c:1103
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "Комбинација тастера „%s“ је већ додељена и не може бити измењена."
@@ -5695,6 +5602,69 @@ msgstr "О _Гномовом сличку"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Обриши историјат"
+
+#~ msgid "48"
+#~ msgstr "48"
+
+#~ msgid "64"
+#~ msgstr "64"
+
+#~ msgid "85"
+#~ msgstr "85"
+
+#~ msgid "95"
+#~ msgstr "95"
+
+#~ msgid "112"
+#~ msgstr "112"
+
+#~ msgid "128"
+#~ msgstr "128"
+
+#~ msgid "164"
+#~ msgstr "164"
+
+#~ msgid "200"
+#~ msgstr "200"
+
+#~ msgid "256"
+#~ msgstr "256"
+
+#~ msgid "brasero"
+#~ msgstr "бразеро"
+
+#~ msgid "file-catalog-symbolic"
+#~ msgstr "file-catalog-symbolic"
+
+#~ msgid "desktop"
+#~ msgstr "радна површ"
+
+#~ msgid "system-file-manager"
+#~ msgstr "system-file-manager"
+
+#~ msgid "video-x-generic"
+#~ msgstr "video-x-generic"
+
+#~ msgid "document-print"
+#~ msgstr "document-print"
+
+#~ msgid "applications-engineering"
+#~ msgstr "applications-engineering"
+
+#~ msgid "camera-photo"
+#~ msgstr "camera-photo"
+
+#~ msgid "edit-find"
+#~ msgstr "edit-find"
+
+#~ msgid "emblem-flag-gray"
+#~ msgstr "emblem-flag-gray"
+
+#~ msgid "x-office-presentation"
+#~ msgstr "x-office-presentation"
+
+#~ msgid "utilities-terminal"
+#~ msgstr "utilities-terminal"
 
 #~ msgid "New enumerator digit"
 #~ msgstr "Нова потписујућа цифра"
