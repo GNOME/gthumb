@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-09-26 12:38+0000\n"
-"PO-Revision-Date: 2022-01-24 21:31+0200\n"
+"POT-Creation-Date: 2022-06-05 12:32+0000\n"
+"PO-Revision-Date: 2022-06-17 12:38+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -82,6 +82,16 @@ msgstr ""
 "כמארגן תמונות, gThumb מאפשר להוסיף הערות ונתוני על נוספים לתמונות; ארגון "
 "תמונות בקטלוגים וקיטלוג בספריות; חיפוש תמונות ושמירת התוצאות בקטלוג."
 
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+#| msgid "Browser"
+msgid "Browser mode"
+msgstr "מצב דפדוף"
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+#| msgid "Viewer"
+msgid "Viewer mode"
+msgstr "מצב תצוגה"
+
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
@@ -127,7 +137,7 @@ msgid "Import the photos on your camera card"
 msgstr "ייבוא התמונות מהמצלמה הדיגיטלית שלך"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
+#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:105
 #: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
@@ -179,43 +189,7 @@ msgstr "אחר"
 msgid "Thumbnail _size:"
 msgstr "_גודל תמונה ממוזערת:"
 
-#: data/ui/browser-preferences.ui:206
-msgid "48"
-msgstr "48"
-
-#: data/ui/browser-preferences.ui:207
-msgid "64"
-msgstr "64"
-
-#: data/ui/browser-preferences.ui:208
-msgid "85"
-msgstr "85"
-
-#: data/ui/browser-preferences.ui:209
-msgid "95"
-msgstr "95"
-
-#: data/ui/browser-preferences.ui:210
-msgid "112"
-msgstr "112"
-
-#: data/ui/browser-preferences.ui:211
-msgid "128"
-msgstr "128"
-
-#: data/ui/browser-preferences.ui:212
-msgid "164"
-msgstr "164"
-
-#: data/ui/browser-preferences.ui:213
-msgid "200"
-msgstr "200"
-
-#: data/ui/browser-preferences.ui:214
-msgid "256"
-msgstr "256"
-
-#: data/ui/browser-preferences.ui:239
+#: data/ui/browser-preferences.ui:242
 msgid "D_etermine image type from content (slower)"
 msgstr "_קביעת סוג הקובץ מהתוכן (אטי יותר)"
 
@@ -236,7 +210,6 @@ msgid "Description"
 msgstr "תיאור"
 
 #: data/ui/code-selector.ui:269
-#| msgid "_Edit"
 msgid "Edit"
 msgstr "עריכה"
 
@@ -469,7 +442,6 @@ msgstr "סדר _הפוך"
 
 #: data/ui/template-editor-dialog.ui:21
 #: extensions/importer/data/ui/import-preferences.ui:164
-#| msgid "example"
 msgid "Example:"
 msgstr "דוגמה:"
 
@@ -536,10 +508,6 @@ msgstr "צריבת CD\\DVD"
 #: extensions/burn_disc/burn_disc.extension.desktop.in.in:4
 msgid "Save files to an optical disc."
 msgstr "שמירת קבצים לתקליט אפשרי."
-
-#: extensions/burn_disc/burn_disc.extension.desktop.in.in:8
-msgid "brasero"
-msgstr "brasero"
 
 #: extensions/burn_disc/callbacks.c:48
 msgid "_Optical Disc…"
@@ -798,8 +766,8 @@ msgid "Rename"
 msgstr "שינוי שם"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4762
-#: gthumb/gth-browser.c:4874 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4780
+#: gthumb/gth-browser.c:4892 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "מאפיינים"
 
@@ -829,10 +797,6 @@ msgstr "ארגון קבצים באופן אוטומטי לפי תאריך"
 #: extensions/catalogs/catalogs.extension.desktop.in.in:4
 msgid "Create file collections."
 msgstr "יצירת אוספים של קבצים."
-
-#: extensions/catalogs/catalogs.extension.desktop.in.in:8
-msgid "file-catalog-symbolic"
-msgstr "file-catalog-symbolic"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:19
 msgid "C_atalogs:"
@@ -1430,14 +1394,12 @@ msgstr "תאריך נוכחי"
 #: extensions/contact_sheet/dlg-contact-sheet.c:40
 #: extensions/image_print/gth-image-print-job.c:37
 #: extensions/webalbums/dlg-web-exporter.c:35
-#| msgid "The current page number"
 msgid "Current page number"
 msgstr "מספר העמוד הנוכחי"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:41
 #: extensions/image_print/gth-image-print-job.c:38
 #: extensions/webalbums/dlg-web-exporter.c:36
-#| msgid "The total number of pages"
 msgid "Total number of pages"
 msgstr "מספר העמודים הכולל"
 
@@ -1569,10 +1531,6 @@ msgstr "רקע שולחן העבודה"
 #: extensions/desktop_background/desktop_background.extension.desktop.in.in:4
 msgid "Set the image as desktop background"
 msgstr "הגדרת התמונה כרקע שולחן העבודה"
-
-#: extensions/desktop_background/desktop_background.extension.desktop.in.in:8
-msgid "desktop"
-msgstr "desktop"
 
 #: extensions/edit_metadata/actions.c:75
 msgid ""
@@ -1806,21 +1764,21 @@ msgid "Enter the folder name:"
 msgstr "יש להזין את שם התיקייה:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:551
-#: extensions/file_manager/callbacks.c:989
+#: extensions/file_manager/callbacks.c:566
+#: extensions/file_manager/callbacks.c:996
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5800 gthumb/gth-browser.c:5843
+#: gthumb/gth-browser.c:5818 gthumb/gth-browser.c:5861
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "לא ניתן לבצע את הפעולה"
 
 #: extensions/file_manager/actions.c:423
-#: extensions/file_manager/callbacks.c:277
+#: extensions/file_manager/callbacks.c:280
 msgid "Could not move the files"
 msgstr "לא ניתן להעביר את הקבצים"
 
 #: extensions/file_manager/actions.c:424
-#: extensions/file_manager/callbacks.c:278
+#: extensions/file_manager/callbacks.c:281
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose "
 "to copy them."
@@ -1850,7 +1808,7 @@ msgid "Copy To"
 msgstr "העתקה אל"
 
 #: extensions/file_manager/actions.c:743
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1035
 msgid "Move"
 msgstr "העברה"
 
@@ -1915,36 +1873,36 @@ msgstr "למחוק לצמיתות"
 msgid "Open with Gimp"
 msgstr "לפתוח עם Gimp"
 
-#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:295
+#: extensions/file_manager/callbacks.c:740 gthumb/gth-file-source-vfs.c:295
 msgid "Home Folder"
 msgstr "תיקיית הבית"
 
-#: extensions/file_manager/callbacks.c:732
-#: extensions/file_manager/callbacks.c:735
+#: extensions/file_manager/callbacks.c:747
+#: extensions/file_manager/callbacks.c:750
 msgid "Open _With"
 msgstr "פתיחה _באמצעות"
 
-#: extensions/file_manager/callbacks.c:1009
+#: extensions/file_manager/callbacks.c:1016
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "להעביר את „%s” אל „%s”?"
 
-#: extensions/file_manager/callbacks.c:1011
+#: extensions/file_manager/callbacks.c:1018
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "להעתיק את „%s” אל „%s”?"
 
-#: extensions/file_manager/callbacks.c:1018
+#: extensions/file_manager/callbacks.c:1025
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "להעביר את הקבצים הנגררים אל „%s”?"
 
-#: extensions/file_manager/callbacks.c:1020
+#: extensions/file_manager/callbacks.c:1027
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "להעתיק את הקבצים הנגררים אל „%s”?"
 
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1035
 msgid "_Copy"
 msgstr "ה_עתקה"
 
@@ -1955,10 +1913,6 @@ msgstr "מנהל קבצים"
 #: extensions/file_manager/file_manager.extension.desktop.in.in:4
 msgid "File manager operations."
 msgstr "פעולות מנהל קבצים."
-
-#: extensions/file_manager/file_manager.extension.desktop.in.in:8
-msgid "system-file-manager"
-msgstr "system-file-manager"
 
 #: extensions/file_tools/callbacks.c:53
 msgid "Adjust contrast"
@@ -2464,7 +2418,7 @@ msgstr "יש להזין שם מוגדר מראש:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1970
+#: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "לא ניתן לשמור את התמונה"
 
@@ -3171,10 +3125,6 @@ msgstr "תמיכת וידאו/שמע"
 msgid "Play audio and video files."
 msgstr "הפעלת קבצי שמע ווידאו."
 
-#: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:8
-msgid "video-x-generic"
-msgstr "video-x-generic"
-
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "מנגן וידאו"
@@ -3261,7 +3211,7 @@ msgstr "מונו"
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
 #: extensions/image_viewer/gth-metadata-provider-image.c:300
 #: extensions/raw_files/gth-metadata-provider-raw.c:97
-#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:963
+#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:981
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3370,13 +3320,11 @@ msgid "Select Footer Font"
 msgstr "בחירת גופן הכותרת התחתונה"
 
 #: extensions/image_print/gth-image-print-job.c:40
-#| msgid "The total number of files"
 msgid "Total number of files"
 msgstr "סך כל הקבצים"
 
 #: extensions/image_print/gth-image-print-job.c:41
 #: extensions/importer/gth-import-preferences-dialog.c:47
-#| msgid "The event description"
 msgid "Event description"
 msgstr "תיאור האירוע"
 
@@ -3420,10 +3368,6 @@ msgstr "הדפסת תמונה"
 #: extensions/image_print/image_print.extension.desktop.in.in:4
 msgid "Allow to print images choosing the page layout."
 msgstr "לאפשר הדפסת תמונות נבחרות בפריסת הדף."
-
-#: extensions/image_print/image_print.extension.desktop.in.in:8
-msgid "document-print"
-msgstr "document-print"
 
 #: extensions/image_rotation/callbacks.c:59
 msgid "Rotate Physically"
@@ -3819,7 +3763,6 @@ msgid "_Command:"
 msgstr "_פקודה:"
 
 #: extensions/list_tools/data/ui/script-editor.ui:172
-#| msgid "Edit Command"
 msgid "Edit command"
 msgstr "עריכת פקודה"
 
@@ -3864,42 +3807,34 @@ msgid "Commands"
 msgstr "פקודות"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:34
-#| msgid "Quote the text "
 msgid "Quoted text"
 msgstr "טקסט מצוטט"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:35
-#| msgid "File"
 msgid "File URI"
 msgstr "כתובת הקובץ"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:36
-#| msgid "file path"
 msgid "File path"
 msgstr "נתיב הקובץ"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:37
-#| msgid "Filename"
 msgid "File name"
 msgstr "שם הקובץ"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:38
-#| msgid "The file basename without extension"
 msgid "File name, no extension"
 msgstr "שם הקובץ, ללא סיומת"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:39
-#| msgid "The file extension"
 msgid "File extension"
 msgstr "סיומת הקובץ"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:40
-#| msgid "file path"
 msgid "Folder path"
 msgstr "תיקיית הקובץ"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:42
-#| msgid "Ask an input value"
 msgid "Ask a value"
 msgstr "לבקש ערך"
 
@@ -3933,10 +3868,6 @@ msgstr "כלי רשימת קבצים"
 #: extensions/list_tools/list_tools.extension.desktop.in.in:4
 msgid "Scripting and batch manipulation of files."
 msgstr "תסריטים ומניפולציית אצווה על קבצים."
-
-#: extensions/list_tools/list_tools.extension.desktop.in.in:8
-msgid "applications-engineering"
-msgstr "applications-engineering"
 
 #: extensions/map_view/gth-map-view.c:128
 msgctxt "Cardinal point"
@@ -3973,7 +3904,7 @@ msgstr "_חשבונות:"
 
 #. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:575 gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:577 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "טוען…"
 
@@ -4090,10 +4021,6 @@ msgstr "ייבוא תמונות"
 #: extensions/photo_importer/photo_importer.extension.desktop.in.in:4
 msgid "Import photos from removable devices."
 msgstr "לייבא תמונות מהתקנים נשלפים."
-
-#: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
-msgid "camera-photo"
-msgstr "camera-photo"
 
 #: extensions/raw_files/gth-metadata-provider-raw.c:91
 msgid "RAW Format"
@@ -4290,7 +4217,6 @@ msgid "Add another location"
 msgstr "להוסיף מקום נוסף"
 
 #: extensions/search/gth-search-task.c:113
-#| msgid "No file imported"
 msgid "No file found"
 msgstr "לא נמצאו קבצים"
 
@@ -4311,10 +4237,6 @@ msgstr "ביטול הפעולה"
 #: extensions/search/search.extension.desktop.in.in:4
 msgid "File search tool."
 msgstr "כלי לחיפוש קובץ."
-
-#: extensions/search/search.extension.desktop.in.in:8
-msgid "edit-find"
-msgstr "edit-find"
 
 #. Not real actions, used in the shorcut window for documentation.
 #: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
@@ -4361,10 +4283,6 @@ msgstr "בחירות"
 #: extensions/selections/selections.extension.desktop.in.in:4
 msgid "Advanced file selection."
 msgstr "בחירת קבצים מתקדמת."
-
-#: extensions/selections/selections.extension.desktop.in.in:8
-msgid "emblem-flag-gray"
-msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:40
 msgid "Start presentation"
@@ -4484,10 +4402,6 @@ msgstr "קובייה מלמטה"
 msgid "Play a presentation of images."
 msgstr "לנגן מצגת של תמונות."
 
-#: extensions/slideshow/slideshow.extension.desktop.in.in:8
-msgid "x-office-presentation"
-msgstr "x-office-presentation"
-
 #: extensions/terminal/actions.c:53
 #: extensions/terminal/terminal.extension.desktop.in.in:3
 msgid "Terminal"
@@ -4500,10 +4414,6 @@ msgstr "לפתוח במסוף"
 #: extensions/terminal/terminal.extension.desktop.in.in:4
 msgid "Open a folder in a terminal"
 msgstr "לפתוח חלון במסוף"
-
-#: extensions/terminal/terminal.extension.desktop.in.in:8
-msgid "utilities-terminal"
-msgstr "utilities-terminal"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -4590,12 +4500,10 @@ msgid "Image Attributes"
 msgstr "תכונות תמונה"
 
 #: extensions/webalbums/dlg-web-exporter.c:43
-#| msgid "The current image number"
 msgid "Current image number"
 msgstr "מספר התמונה הנוכחית"
 
 #: extensions/webalbums/dlg-web-exporter.c:44
-#| msgid "The total number of images"
 msgid "Total number of images"
 msgstr "סך כל התמונות"
 
@@ -4651,8 +4559,8 @@ msgid "Create static web albums."
 msgstr "יצירת אלבומי אינטרנט סטטיים."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
-#: gthumb/gth-browser.c:6842 gthumb/gth-browser.c:6861
-#: gthumb/gth-browser.c:6885 gthumb/gth-vfs-tree.c:393
+#: gthumb/gth-browser.c:6860 gthumb/gth-browser.c:6879
+#: gthumb/gth-browser.c:6903 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "לא ניתן לטעון את המקום „%s”"
@@ -4872,7 +4780,11 @@ msgstr "Automatically import digital camera photos"
 msgid "Show version"
 msgstr "Show version"
 
-#: gthumb/gth-application.c:171
+#: gthumb/gth-application.c:71
+msgid "[FILE…] [DIRECTORY…]"
+msgstr "[FILE…] [DIRECTORY…]"
+
+#: gthumb/gth-application.c:170
 msgid "— Image browser and viewer"
 msgstr "- סייר ומציג קבצים"
 
@@ -4937,8 +4849,8 @@ msgstr "לסגור חלון"
 msgid "Open location"
 msgstr "לפתוח מיקום"
 
-#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4777
-#: gthumb/gth-browser.c:4795 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4795
+#: gthumb/gth-browser.c:4813 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "מסך מלא"
@@ -5041,71 +4953,71 @@ msgstr[3] "‫‫%d קבצים נבחרו (%s)"
 msgid "%s of free space"
 msgstr "‏%s של מקום פנוי"
 
-#: gthumb/gth-browser.c:1893 gthumb/gth-browser.c:1909
+#: gthumb/gth-browser.c:1907 gthumb/gth-browser.c:1923
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "לא נמצא מודול מתאים עבור %s"
 
-#: gthumb/gth-browser.c:2014
+#: gthumb/gth-browser.c:2028
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "לשמור שינויים לקובץ „%s”?"
 
-#: gthumb/gth-browser.c:2019
+#: gthumb/gth-browser.c:2033
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "ללא שמירה, השינויים בקובץ זה יאבדו לצמיתות."
 
-#: gthumb/gth-browser.c:2020
+#: gthumb/gth-browser.c:2034
 msgid "Do _Not Save"
 msgstr "_לא לשמור"
 
-#: gthumb/gth-browser.c:2510 gthumb/gth-browser.c:4803
+#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4821
 msgid "Accept"
 msgstr "החלה"
 
-#: gthumb/gth-browser.c:2510 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2524 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_סגירה"
 
-#: gthumb/gth-browser.c:3049
+#: gthumb/gth-browser.c:3067
 msgid "Could not change name"
 msgstr "לא ניתן לשנות את שם הקובץ"
 
-#: gthumb/gth-browser.c:3543
+#: gthumb/gth-browser.c:3561
 msgid "Modified"
 msgstr "השתנה"
 
-#: gthumb/gth-browser.c:4725
+#: gthumb/gth-browser.c:4743
 msgid "Go to the previous visited location"
 msgstr "מעבר למקום האחרון בו ביקרת"
 
-#: gthumb/gth-browser.c:4731
+#: gthumb/gth-browser.c:4749
 msgid "Go to the next visited location"
 msgstr "מעבר למקום הבא בו ביקרת"
 
-#: gthumb/gth-browser.c:4739
+#: gthumb/gth-browser.c:4757
 msgid "History"
 msgstr "היסטוריה"
 
-#: gthumb/gth-browser.c:4753
+#: gthumb/gth-browser.c:4771
 msgid "View the folders"
 msgstr "צפייה בתיקיות"
 
-#: gthumb/gth-browser.c:4768
+#: gthumb/gth-browser.c:4786
 msgid "Edit file"
 msgstr "עריכת קובץ"
 
-#: gthumb/gth-browser.c:4859 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4877 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "פעולות"
 
-#: gthumb/gth-browser.c:6843
+#: gthumb/gth-browser.c:6861
 #, c-format
 msgid "File type not supported"
 msgstr "סוג הקובץ אינו נתמך"
 
-#: gthumb/gth-browser.c:6886
+#: gthumb/gth-browser.c:6904
 #, c-format
 msgid "No suitable module found"
 msgstr "לא נמצא מודול מתאים"
@@ -5129,7 +5041,6 @@ msgid "_Show Format Options"
 msgstr "להציג אפשרויות _עיצוב"
 
 #: gthumb/gth-file-list.c:41 gthumb/gth-folder-tree.c:1186
-#| msgid "no file"
 msgid "No file"
 msgstr "אין קובץ"
 
@@ -5475,7 +5386,6 @@ msgid "Month"
 msgstr "חודש"
 
 #: gthumb/gth-template-selector.c:37
-#| msgid "The day of the month"
 msgid "Day of the month"
 msgstr "היום בחודש"
 
@@ -5484,13 +5394,11 @@ msgid "Hour"
 msgstr "שעה"
 
 #: gthumb/gth-template-selector.c:39
-#| msgid "minutes"
 msgid "Minute"
 msgstr "דקה"
 
 #. Translators: the time second, not the second place.
 #: gthumb/gth-template-selector.c:41
-#| msgid "seconds"
 msgid "Second"
 msgstr "שניה"
 
@@ -5587,7 +5495,7 @@ msgstr "צבעים"
 msgid "Rotation"
 msgstr "סיבוב"
 
-#: gthumb/gth-window.c:1074
+#: gthumb/gth-window.c:1073
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5595,18 +5503,18 @@ msgid ""
 msgstr ""
 "צירוף המקשים „%s” כבר הוקצה לפעולה „%s”. להקצות אותו מחדש לפעולה זו במקום?"
 
-#: gthumb/gth-window.c:1082
+#: gthumb/gth-window.c:1081
 msgid "Reassign"
 msgstr "להקצות מחדש"
 
-#: gthumb/gth-window.c:1100
+#: gthumb/gth-window.c:1099
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
 "be changed."
 msgstr "‫צירוף המקשים „%s” כבר הוקצה לפעולה „%s” ולא ניתן לשנות אותו."
 
-#: gthumb/gth-window.c:1104
+#: gthumb/gth-window.c:1103
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "‫צירוף המקשים „%s” כבר הוקצה ולא ניתן לשנות אותו."
@@ -5686,6 +5594,69 @@ msgstr "_על gThumb"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_מחיקת היסטוריה"
+
+#~ msgid "48"
+#~ msgstr "48"
+
+#~ msgid "64"
+#~ msgstr "64"
+
+#~ msgid "85"
+#~ msgstr "85"
+
+#~ msgid "95"
+#~ msgstr "95"
+
+#~ msgid "112"
+#~ msgstr "112"
+
+#~ msgid "128"
+#~ msgstr "128"
+
+#~ msgid "164"
+#~ msgstr "164"
+
+#~ msgid "200"
+#~ msgstr "200"
+
+#~ msgid "256"
+#~ msgstr "256"
+
+#~ msgid "brasero"
+#~ msgstr "brasero"
+
+#~ msgid "file-catalog-symbolic"
+#~ msgstr "file-catalog-symbolic"
+
+#~ msgid "desktop"
+#~ msgstr "desktop"
+
+#~ msgid "system-file-manager"
+#~ msgstr "system-file-manager"
+
+#~ msgid "video-x-generic"
+#~ msgstr "video-x-generic"
+
+#~ msgid "document-print"
+#~ msgstr "document-print"
+
+#~ msgid "applications-engineering"
+#~ msgstr "applications-engineering"
+
+#~ msgid "camera-photo"
+#~ msgstr "camera-photo"
+
+#~ msgid "edit-find"
+#~ msgstr "edit-find"
+
+#~ msgid "emblem-flag-gray"
+#~ msgstr "emblem-flag-gray"
+
+#~ msgid "x-office-presentation"
+#~ msgstr "x-office-presentation"
+
+#~ msgid "utilities-terminal"
+#~ msgstr "utilities-terminal"
 
 #~ msgid "New enumerator digit"
 #~ msgstr "ספרה מונה חדשה"
