@@ -54,6 +54,7 @@ static GthTemplateCode Rename_Special_Codes[] = {
 	{ GTH_TEMPLATE_CODE_TYPE_ENUMERATOR, N_("Enumerator") },
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original filename"), 'F', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original extension"), 'E', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("File name, no extension"), 'G', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original enumerator"), 'N', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Modification date"), 'M', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Digitalization date"), 'D', 0 },
@@ -187,6 +188,12 @@ template_eval_cb (TemplateFlags   flags,
 	case 'F':
 		path = g_file_get_path (template_data->file_data->file);
 		text = g_strdup (_g_path_get_basename (path));
+		g_free (path);
+		break;
+
+	case 'G':
+		path = g_file_get_path (template_data->file_data->file);
+		text = _g_path_remove_extension (_g_path_get_basename (path));
 		g_free (path);
 		break;
 
@@ -749,6 +756,16 @@ template_dialog_preview_cb (TemplateFlags   flags,
 		file = g_file_new_for_uri (PREVIEW_URI);
 		path = g_file_get_path (file);
 		g_string_append (result, _g_path_get_basename (path));
+		g_free (path);
+		g_object_unref (file);
+		break;
+
+	case 'G':
+		file = g_file_new_for_uri (PREVIEW_URI);
+		path = g_file_get_path (file);
+		text = _g_path_remove_extension (_g_path_get_basename (path));
+		g_string_append (result, text);
+		g_free (text);
 		g_free (path);
 		g_object_unref (file);
 		break;
