@@ -47,6 +47,7 @@ enum {
 #define DEFAULT_START_AT 1
 #define DEFAULT_CHANGE_CASE GTH_CHANGE_CASE_NONE
 #define UPDATE_DELAY 250
+#define PREVIEW_URI "file:///home/user/images/filename.jpeg"
 
 
 static GthTemplateCode Rename_Special_Codes[] = {
@@ -703,6 +704,81 @@ update_preview_cb (GtkWidget  *widget,
 }
 
 
+static gboolean
+template_dialog_preview_cb (TemplateFlags   flags,
+			    gunichar        parent_code,
+			    gunichar        code,
+			    char          **args,
+			    GString        *result,
+			    gpointer        user_data)
+{
+	char     *text;
+	GFile    *file;
+	char     *path;
+	GTimeVal  timeval;
+
+	if ((parent_code == 'D') || (parent_code == 'M')) {
+		/* strftime code, return the code itself. */
+		_g_string_append_template_code (result, code, args);
+		return FALSE;
+	}
+
+	if (code != 0)
+		g_string_append (result, "<span foreground=\"#4696f8\">");
+
+	switch (code) {
+	case '#':
+		text = _g_template_replace_enumerator (args[0], 1);
+		g_string_append (result, text);
+		g_free (text);
+		break;
+
+	case 'A':
+		g_string_append_printf (result, "{ %s }", args[0]);
+		break;
+
+	case 'E':
+		file = g_file_new_for_uri (PREVIEW_URI);
+		path = g_file_get_path (file);
+		g_string_append (result, _g_path_get_extension (path));
+		g_free (path);
+		g_object_unref (file);
+		break;
+
+	case 'F':
+		file = g_file_new_for_uri (PREVIEW_URI);
+		path = g_file_get_path (file);
+		g_string_append (result, _g_path_get_basename (path));
+		g_free (path);
+		g_object_unref (file);
+		break;
+
+	case 'N':
+		g_string_append (result, "123");
+		break;
+
+	case 'D':
+		g_get_current_time (&timeval);
+		text = _g_time_val_strftime (&timeval, (args[0] != NULL) ? args[0] : DEFAULT_STRFTIME_FORMAT);
+		g_string_append (result, text);
+		g_free (text);
+		break;
+
+	case 'M':
+		g_get_current_time (&timeval);
+		text = _g_time_val_strftime (&timeval, (args[0] != NULL) ? args[0] : DEFAULT_STRFTIME_FORMAT);
+		g_string_append (result, text);
+		g_free (text);
+		break;
+	}
+
+	if (code != 0)
+		g_string_append (result, "</span>");
+
+	return FALSE;
+}
+
+
 static void
 edit_template_button_clicked_cb (GtkWidget  *widget,
 				 DialogData *data)
@@ -714,6 +790,9 @@ edit_template_button_clicked_cb (GtkWidget  *widget,
 						 0,
 						 _("Edit Template"),
 						 GTK_WINDOW (data->dialog));
+	gth_template_editor_dialog_set_preview_cb (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
+						   template_dialog_preview_cb,
+						   data);
 	gth_template_editor_dialog_set_template (GTH_TEMPLATE_EDITOR_DIALOG (dialog),
 						 gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry"))));
 	g_signal_connect (dialog,
