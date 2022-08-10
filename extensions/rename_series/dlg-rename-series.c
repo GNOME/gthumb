@@ -58,6 +58,7 @@ static GthTemplateCode Rename_Special_Codes[] = {
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original enumerator"), 'N', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Modification date"), 'M', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Digitalization date"), 'D', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Current date"), 'T', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_FILE_ATTRIBUTE, N_("File attribute"), 'A', 0 }
 };
 
@@ -164,7 +165,7 @@ template_eval_cb (TemplateFlags   flags,
 	char         *path;
 	GTimeVal      timeval;
 
-	if ((parent_code == 'D') || (parent_code == 'M')) {
+	if ((parent_code == 'D') || (parent_code == 'M') || (parent_code == 'T')) {
 		/* strftime code, return the code itself. */
 		_g_string_append_template_code (result, code, args);
 		return FALSE;
@@ -208,6 +209,11 @@ template_eval_cb (TemplateFlags   flags,
 
 	case 'M':
 		timeval = *gth_file_data_get_modification_time (template_data->file_data);
+		text = _g_time_val_strftime (&timeval, (args[0] != NULL) ? args[0] : DEFAULT_STRFTIME_FORMAT);
+		break;
+
+	case 'T':
+		g_get_current_time (&timeval);
 		text = _g_time_val_strftime (&timeval, (args[0] != NULL) ? args[0] : DEFAULT_STRFTIME_FORMAT);
 		break;
 	}
@@ -724,7 +730,7 @@ template_dialog_preview_cb (TemplateFlags   flags,
 	char     *path;
 	GTimeVal  timeval;
 
-	if ((parent_code == 'D') || (parent_code == 'M')) {
+	if ((parent_code == 'D') || (parent_code == 'M') || (parent_code == 'T')) {
 		/* strftime code, return the code itself. */
 		_g_string_append_template_code (result, code, args);
 		return FALSE;
@@ -782,6 +788,13 @@ template_dialog_preview_cb (TemplateFlags   flags,
 		break;
 
 	case 'M':
+		g_get_current_time (&timeval);
+		text = _g_time_val_strftime (&timeval, (args[0] != NULL) ? args[0] : DEFAULT_STRFTIME_FORMAT);
+		g_string_append (result, text);
+		g_free (text);
+		break;
+
+	case 'T':
 		g_get_current_time (&timeval);
 		text = _g_time_val_strftime (&timeval, (args[0] != NULL) ? args[0] : DEFAULT_STRFTIME_FORMAT);
 		g_string_append (result, text);
