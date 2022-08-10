@@ -379,6 +379,10 @@ ratio_combobox_changed_cb (GtkComboBox       *combobox,
 		w = 185;
 		h = 100;
 		break;
+	case GTH_ASPECT_RATIO_191x100:
+		w = 191;
+		h = 100;
+		break;
 	case GTH_ASPECT_RATIO_239x100:
 		w = 239;
 		h = 100;
@@ -603,6 +607,7 @@ gth_file_tool_resize_get_options (GthFileTool *base)
 				     _("16∶10"),
 				     _("16∶9 (DVD)"),
 				     _("1.85∶1"),
+				     _("1.91∶1"),
 				     _("2.39∶1"),
 				     _("Other…"),
 				     NULL);

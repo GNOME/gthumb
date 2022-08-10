@@ -256,6 +256,10 @@ ratio_combobox_changed_cb (GtkComboBox     *combobox,
 		w = 185;
 		h = 100;
 		break;
+	case GTH_ASPECT_RATIO_191x100:
+		w = 191;
+		h = 100;
+		break;
 	case GTH_ASPECT_RATIO_239x100:
 		w = 239;
 		h = 100;
