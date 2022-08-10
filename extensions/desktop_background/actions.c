@@ -31,6 +31,7 @@
 #define DESKTOP_BACKGROUND_PROPERTIES_UNITY_COMMAND "unity-control-center appearance"
 #define DESKTOP_BACKGROUND_SCHEMA "org.gnome.desktop.background"
 #define DESKTOP_BACKGROUND_FILE_KEY "picture-uri"
+#define DESKTOP_BACKGROUND_FILE_DARK_KEY "picture-uri-dark"
 #define DESKTOP_BACKGROUND_STYLE_KEY "picture-options"
 
 
@@ -47,6 +48,8 @@ typedef enum {
 
 typedef struct {
 	GFile           *file;
+	GFile           *file_light;
+	GFile           *file_dark;
 	BackgroundStyle  background_style;
 } WallpaperStyle;
 
@@ -63,6 +66,8 @@ static void
 wallpaper_style_init (WallpaperStyle *style)
 {
 	style->file = NULL;
+	style->file_light = NULL;
+	style->file_dark = NULL;
 	style->background_style = BACKGROUND_STYLE_WALLPAPER;
 }
 
@@ -74,11 +79,17 @@ wallpaper_style_init_from_current (WallpaperStyle *style)
 	char      *uri;
 
 	settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
+
 	uri = g_settings_get_string (settings, DESKTOP_BACKGROUND_FILE_KEY);
-	style->file = (uri != NULL) ? g_file_new_for_uri (uri) : NULL;
+	style->file_light = (uri != NULL) ? g_file_new_for_uri (uri) : NULL;
+	g_free (uri);
+
+	uri = g_settings_get_string (settings, DESKTOP_BACKGROUND_FILE_DARK_KEY);
+	style->file_dark = (uri != NULL) ? g_file_new_for_uri (uri) : NULL;
+	g_free (uri);
+
 	style->background_style = g_settings_get_enum (settings, DESKTOP_BACKGROUND_STYLE_KEY);
 
-	g_free (uri);
 	g_object_unref (settings);
 }
 
@@ -86,23 +97,26 @@ wallpaper_style_init_from_current (WallpaperStyle *style)
 static void
 wallpaper_style_set_as_current (WallpaperStyle *style)
 {
-	char *uri;
+	GSettings *settings;
+	char      *uri_light;
+	char      *uri_dark;
 
-	if (style->file == NULL)
-		return;
+	settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
 
-	uri = g_file_get_uri (style->file);
-	if (uri != NULL) {
-		GSettings *settings;
+	uri_light = (style->file_light != NULL) ? g_file_get_uri (style->file_light) : NULL;
+	if (uri_light != NULL)
+		g_settings_set_string (settings, DESKTOP_BACKGROUND_FILE_KEY, uri_light);
 
-		settings = g_settings_new (DESKTOP_BACKGROUND_SCHEMA);
-		g_settings_set_string (settings, DESKTOP_BACKGROUND_FILE_KEY, uri);
+	uri_dark = (style->file_dark != NULL) ? g_file_get_uri (style->file_dark) : NULL;
+	if (uri_dark != NULL)
+		g_settings_set_string (settings, DESKTOP_BACKGROUND_FILE_DARK_KEY, uri_dark);
+
+	if ((uri_light != NULL) || (uri_dark != NULL))
 		g_settings_set_enum (settings, DESKTOP_BACKGROUND_STYLE_KEY, style->background_style);
 
-		g_object_unref (settings);
-	}
-
-	g_free (uri);
+	g_free (uri_dark);
+	g_free (uri_light);
+	g_object_unref (settings);
 }
 
 
@@ -110,6 +124,8 @@ static void
 wallpaper_style_free (WallpaperStyle *style)
 {
 	_g_object_unref (style->file);
+	_g_object_unref (style->file_light);
+	_g_object_unref (style->file_dark);
 	wallpaper_style_init (style);
 }
 
@@ -232,6 +248,21 @@ get_new_wallpaper_file_finish (GAsyncResult  *result,
 }
 
 
+static void
+wallpaper_data_set_new_style_file (WallpaperData *wdata,
+				   GFile         *file)
+{
+	_g_object_unref (wdata->new_style.file);
+	wdata->new_style.file = g_object_ref (file);
+
+	_g_object_unref (wdata->new_style.file_dark);
+	wdata->new_style.file_dark = g_object_ref (file);
+
+	_g_object_unref (wdata->new_style.file_light);
+	wdata->new_style.file_light = g_object_ref (file);
+}
+
+
 static WallpaperData *
 wallpaper_data_new (GthBrowser *browser,
 		    GFile      *wallpaper_file)
@@ -242,7 +273,7 @@ wallpaper_data_new (GthBrowser *browser,
 	wdata->browser = browser;
 	wallpaper_style_init_from_current (&wdata->old_style);
 	wallpaper_style_init (&wdata->new_style);
-	wdata->new_style.file = g_object_ref (wallpaper_file);
+	wallpaper_data_set_new_style_file (wdata, wallpaper_file);
 
 	return wdata;
 }
@@ -510,8 +541,7 @@ wallpaper_file_read_cb (GObject      *source_object,
 		return;
 
 	if (g_file_is_native (file_data->file)) {
-		_g_object_unref (wdata->new_style.file);
-		wdata->new_style.file = g_file_dup (file_data->file);
+		wallpaper_data_set_new_style_file (wdata, file_data->file);
 		wallpaper_data_set (wdata);
 	}
 	else
