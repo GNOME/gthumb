@@ -52,9 +52,9 @@ enum {
 
 static GthTemplateCode Rename_Special_Codes[] = {
 	{ GTH_TEMPLATE_CODE_TYPE_ENUMERATOR, N_("Enumerator") },
-	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original filename"), 'F', 0 },
-	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original extension"), 'E', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("File name"), 'F', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("File name, no extension"), 'G', 0 },
+	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("File extension"), 'E', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_SIMPLE, N_("Original enumerator"), 'N', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Modification date"), 'M', 0 },
 	{ GTH_TEMPLATE_CODE_TYPE_DATE, N_("Digitalization date"), 'D', 0 },
