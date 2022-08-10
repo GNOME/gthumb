@@ -1921,7 +1921,9 @@ _g_mime_type_has_transparency (const char *mime_type)
 		|| (strcmp (mime_type, "image/jxl") == 0)
 		|| (strcmp (mime_type, "image/avif") == 0)
 		|| (strcmp (mime_type, "image/heif") == 0)
-		|| (strcmp (mime_type, "image/heic") == 0);
+		|| (strcmp (mime_type, "image/heic") == 0)
+		|| (strcmp (mime_type, "image/tiff") == 0)
+		|| (strcmp (mime_type, "image/x-tga") == 0);
 }
 
 
