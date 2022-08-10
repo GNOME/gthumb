@@ -162,6 +162,12 @@ template_eval_cb (TemplateFlags   flags,
 	char         *path;
 	GTimeVal      timeval;
 
+	if ((parent_code == 'D') || (parent_code == 'M')) {
+		/* strftime code, return the code itself. */
+		_g_string_append_template_code (result, code, args);
+		return FALSE;
+	}
+
 	switch (code) {
 	case '#':
 		text = _g_template_replace_enumerator (args[0], template_data->n);
