@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2022-03-21 18:40+0000\n"
-"PO-Revision-Date: 2022-03-21 19:57+0100\n"
+"POT-Creation-Date: 2022-08-10 10:13+0000\n"
+"PO-Revision-Date: 2022-08-22 17:41+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: data/appdata/org.gnome.gThumb.appdata.xml.in:8
 msgid "gThumb Image Viewer"
@@ -194,43 +194,7 @@ msgstr "Övrigt"
 msgid "Thumbnail _size:"
 msgstr "M_iniatyrbildsstorlek:"
 
-#: data/ui/browser-preferences.ui:206
-msgid "48"
-msgstr "48"
-
-#: data/ui/browser-preferences.ui:207
-msgid "64"
-msgstr "64"
-
-#: data/ui/browser-preferences.ui:208
-msgid "85"
-msgstr "85"
-
-#: data/ui/browser-preferences.ui:209
-msgid "95"
-msgstr "95"
-
-#: data/ui/browser-preferences.ui:210
-msgid "112"
-msgstr "112"
-
-#: data/ui/browser-preferences.ui:211
-msgid "128"
-msgstr "128"
-
-#: data/ui/browser-preferences.ui:212
-msgid "164"
-msgstr "164"
-
-#: data/ui/browser-preferences.ui:213
-msgid "200"
-msgstr "200"
-
-#: data/ui/browser-preferences.ui:214
-msgid "256"
-msgstr "256"
-
-#: data/ui/browser-preferences.ui:239
+#: data/ui/browser-preferences.ui:242
 msgid "D_etermine image type from content (slower)"
 msgstr "Fa_stställ bildtyp från innehåll (långsammare)"
 
@@ -550,10 +514,6 @@ msgstr "Bränn cd/dvd"
 msgid "Save files to an optical disc."
 msgstr "Spara filer till en optisk skiva."
 
-#: extensions/burn_disc/burn_disc.extension.desktop.in.in:8
-msgid "brasero"
-msgstr "brasero"
-
 #: extensions/burn_disc/callbacks.c:48
 msgid "_Optical Disc…"
 msgstr "_Optisk skiva…"
@@ -805,14 +765,14 @@ msgstr "Skapa bibliotek"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:82
 #: extensions/file_manager/callbacks.c:109
 #: extensions/file_manager/callbacks.c:126
-#: extensions/rename_series/dlg-rename-series.c:771
+#: extensions/rename_series/dlg-rename-series.c:886
 #: gthumb/gth-folder-tree.c:1972
 msgid "Rename"
 msgstr "Byt namn"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4776
-#: gthumb/gth-browser.c:4888 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4780
+#: gthumb/gth-browser.c:4892 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Egenskaper"
 
@@ -842,10 +802,6 @@ msgstr "Ordna filer efter datum automatiskt"
 #: extensions/catalogs/catalogs.extension.desktop.in.in:4
 msgid "Create file collections."
 msgstr "Skapa filsamlingar."
-
-#: extensions/catalogs/catalogs.extension.desktop.in.in:8
-msgid "file-catalog-symbolic"
-msgstr "file-catalog-symbolic"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:19
 msgid "C_atalogs:"
@@ -1199,9 +1155,9 @@ msgstr ""
 "Skapa en indexbild som visar miniatyrbilderna för de markerade filerna."
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:12
-#: extensions/file_tools/gth-file-tool-crop.c:439
-#: extensions/file_tools/gth-file-tool-crop.c:469
-#: extensions/file_tools/gth-file-tool-resize.c:589
+#: extensions/file_tools/gth-file-tool-crop.c:443
+#: extensions/file_tools/gth-file-tool-crop.c:473
+#: extensions/file_tools/gth-file-tool-resize.c:593
 #: extensions/file_tools/gth-file-tool-rotate.c:396
 #: extensions/slideshow/main.c:297 gthumb/gth-accel-button.c:201
 msgid "None"
@@ -1426,7 +1382,7 @@ msgstr "Miniatyrbilder"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:35
 #: extensions/contact_sheet/dlg-image-wall.c:34
-#: extensions/rename_series/dlg-rename-series.c:53
+#: extensions/rename_series/dlg-rename-series.c:54
 msgid "Enumerator"
 msgstr "Uppräkningsvärde"
 
@@ -1437,6 +1393,7 @@ msgstr "Uppräkningsvärde"
 #: extensions/image_print/gth-image-print-job.c:39
 #: extensions/importer/gth-import-preferences-dialog.c:46
 #: extensions/list_tools/gth-script-editor-dialog.c:41
+#: extensions/rename_series/dlg-rename-series.c:61
 #: extensions/webalbums/dlg-web-exporter.c:38
 #: extensions/webalbums/dlg-web-exporter.c:47
 msgid "Current date"
@@ -1477,7 +1434,7 @@ msgstr "Kunde inte ta bort temat"
 #: extensions/image_print/gth-image-print-job.c:1278
 #: extensions/image_print/gth-image-print-job.c:1303
 #: extensions/importer/gth-import-preferences-dialog.c:325
-#: extensions/rename_series/dlg-rename-series.c:709
+#: extensions/rename_series/dlg-rename-series.c:821
 #: extensions/webalbums/dlg-web-exporter.c:323
 #: extensions/webalbums/dlg-web-exporter.c:364
 #: gthumb/gth-template-selector.c:357
@@ -1550,23 +1507,23 @@ msgstr "Konverterar bilder"
 msgid "Convert Format"
 msgstr "Konvertera format"
 
-#: extensions/desktop_background/actions.c:288
+#: extensions/desktop_background/actions.c:319
 msgid "Could not show the desktop background properties"
 msgstr "Kunde inte visa egenskaperna för skrivbordsbakgrunden"
 
-#: extensions/desktop_background/actions.c:329
+#: extensions/desktop_background/actions.c:360
 #: gthumb/resources/gears-menu.ui:45
 msgid "_Preferences"
 msgstr "_Inställningar"
 
-#: extensions/desktop_background/actions.c:330
+#: extensions/desktop_background/actions.c:361
 msgid "_Undo"
 msgstr "_Ångra"
 
-#: extensions/desktop_background/actions.c:360
-#: extensions/desktop_background/actions.c:416
-#: extensions/desktop_background/actions.c:435
-#: extensions/desktop_background/actions.c:462
+#: extensions/desktop_background/actions.c:391
+#: extensions/desktop_background/actions.c:447
+#: extensions/desktop_background/actions.c:466
+#: extensions/desktop_background/actions.c:493
 msgid "Could not set the desktop background"
 msgstr "Kunde inte ange skrivbordsbakgrunden"
 
@@ -1582,10 +1539,6 @@ msgstr "Skrivbordsbakgrund"
 #: extensions/desktop_background/desktop_background.extension.desktop.in.in:4
 msgid "Set the image as desktop background"
 msgstr "Ställ in bilden som skrivbordsbakgrund"
-
-#: extensions/desktop_background/desktop_background.extension.desktop.in.in:8
-msgid "desktop"
-msgstr "desktop"
 
 #: extensions/edit_metadata/actions.c:75
 msgid ""
@@ -1743,7 +1696,7 @@ msgid "State/Province:"
 msgstr "Stat/Område:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2091 gthumb/str-utils.c:641
+#: gthumb/glib-utils.c:2093 gthumb/str-utils.c:641
 msgid "(invalid value)"
 msgstr "(ogiltigt värde)"
 
@@ -1820,10 +1773,10 @@ msgid "Enter the folder name:"
 msgstr "Ange mappnamnet:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:561
-#: extensions/file_manager/callbacks.c:991
+#: extensions/file_manager/callbacks.c:566
+#: extensions/file_manager/callbacks.c:996
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5814 gthumb/gth-browser.c:5857
+#: gthumb/gth-browser.c:5818 gthumb/gth-browser.c:5861
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "Kunde inte genomföra åtgärden"
@@ -1865,7 +1818,7 @@ msgid "Copy To"
 msgstr "Kopiera till"
 
 #: extensions/file_manager/actions.c:743
-#: extensions/file_manager/callbacks.c:1030
+#: extensions/file_manager/callbacks.c:1035
 msgid "Move"
 msgstr "Flytta"
 
@@ -1931,36 +1884,36 @@ msgstr "Ta bort permanent"
 msgid "Open with Gimp"
 msgstr "Öppna med GIMP"
 
-#: extensions/file_manager/callbacks.c:735 gthumb/gth-file-source-vfs.c:295
+#: extensions/file_manager/callbacks.c:740 gthumb/gth-file-source-vfs.c:295
 msgid "Home Folder"
 msgstr "Hemmapp"
 
-#: extensions/file_manager/callbacks.c:742
-#: extensions/file_manager/callbacks.c:745
+#: extensions/file_manager/callbacks.c:747
+#: extensions/file_manager/callbacks.c:750
 msgid "Open _With"
 msgstr "Öppna _med"
 
-#: extensions/file_manager/callbacks.c:1011
+#: extensions/file_manager/callbacks.c:1016
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Vill du flytta ”%s” till ”%s”?"
 
-#: extensions/file_manager/callbacks.c:1013
+#: extensions/file_manager/callbacks.c:1018
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Vill du kopiera ”%s” till ”%s”?"
 
-#: extensions/file_manager/callbacks.c:1020
+#: extensions/file_manager/callbacks.c:1025
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Vill du flytta de dragna filerna till ”%s”?"
 
-#: extensions/file_manager/callbacks.c:1022
+#: extensions/file_manager/callbacks.c:1027
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Vill du kopiera de dragna filerna till ”%s”?"
 
-#: extensions/file_manager/callbacks.c:1030
+#: extensions/file_manager/callbacks.c:1035
 msgid "_Copy"
 msgstr "_Kopiera"
 
@@ -1971,10 +1924,6 @@ msgstr "Filhanterare"
 #: extensions/file_manager/file_manager.extension.desktop.in.in:4
 msgid "File manager operations."
 msgstr "Filhanteraråtgärder."
-
-#: extensions/file_manager/file_manager.extension.desktop.in.in:8
-msgid "system-file-manager"
-msgstr "system-file-manager"
 
 #: extensions/file_tools/callbacks.c:53
 msgid "Adjust contrast"
@@ -2001,12 +1950,12 @@ msgid "Rotate left"
 msgstr "Rotera åt vänster"
 
 #: extensions/file_tools/callbacks.c:58
-#: extensions/file_tools/gth-file-tool-crop.c:687
+#: extensions/file_tools/gth-file-tool-crop.c:691
 msgid "Crop"
 msgstr "Beskär"
 
 #: extensions/file_tools/callbacks.c:59
-#: extensions/file_tools/gth-file-tool-resize.c:840
+#: extensions/file_tools/gth-file-tool-resize.c:845
 msgid "Resize"
 msgstr "Ändra storlek"
 
@@ -2071,8 +2020,8 @@ msgstr "Färg"
 #: extensions/file_tools/data/ui/crop-options.ui:31
 #: extensions/file_tools/data/ui/resize-options.ui:9
 #: extensions/file_tools/data/ui/rotate-options.ui:9
-#: extensions/file_tools/gth-file-tool-crop.c:661
-#: extensions/file_tools/gth-file-tool-resize.c:759
+#: extensions/file_tools/gth-file-tool-crop.c:665
+#: extensions/file_tools/gth-file-tool-resize.c:764
 #: extensions/file_tools/gth-file-tool-rotate.c:617
 #: gthumb/gth-file-chooser-dialog.c:258
 msgid "Options"
@@ -2307,7 +2256,7 @@ msgstr "Förval"
 
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:340
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:393
-#: extensions/file_tools/gth-file-tool-crop.c:632
+#: extensions/file_tools/gth-file-tool-crop.c:636
 #: extensions/file_tools/gth-file-tool-curves.c:287
 #: extensions/file_tools/gth-file-tool-effects.c:401
 #: extensions/file_tools/gth-file-tool-effects.c:445
@@ -2357,7 +2306,7 @@ msgid "Equalize the histogram using the square root function"
 msgstr "Histogramutjämna genom att använda kvadratrotsfunktionen"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:547
-#: extensions/file_tools/gth-file-tool-crop.c:473
+#: extensions/file_tools/gth-file-tool-crop.c:477
 #: extensions/file_tools/gth-file-tool-rotate.c:400
 msgid "Uniform"
 msgstr "Jämn"
@@ -2382,90 +2331,90 @@ msgstr "Färgväljare"
 msgid "Pick a color from the image"
 msgstr "Välj en färg från bilden"
 
-#: extensions/file_tools/gth-file-tool-crop.c:439
-#: extensions/file_tools/gth-file-tool-resize.c:589
+#: extensions/file_tools/gth-file-tool-crop.c:443
+#: extensions/file_tools/gth-file-tool-resize.c:593
 #: gthumb/gth-test-aspect-ratio.c:47
 msgid "Square"
 msgstr "Kvadratiskt"
 
-#: extensions/file_tools/gth-file-tool-crop.c:440
-#: extensions/file_tools/gth-file-tool-resize.c:590
+#: extensions/file_tools/gth-file-tool-crop.c:444
+#: extensions/file_tools/gth-file-tool-resize.c:594
 #, c-format
 msgid "%d × %d (Image)"
 msgstr "%d × %d (bild)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:443
-#: extensions/file_tools/gth-file-tool-resize.c:594
+#: extensions/file_tools/gth-file-tool-crop.c:447
+#: extensions/file_tools/gth-file-tool-resize.c:598
 #, c-format
 msgid "%d × %d (Screen)"
 msgstr "%d × %d (skärm)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:447
-#: extensions/file_tools/gth-file-tool-resize.c:599
+#: extensions/file_tools/gth-file-tool-crop.c:451
+#: extensions/file_tools/gth-file-tool-resize.c:603
 #: gthumb/gth-test-aspect-ratio.c:48
 msgid "5∶4"
 msgstr "5∶4"
 
-#: extensions/file_tools/gth-file-tool-crop.c:448
-#: extensions/file_tools/gth-file-tool-resize.c:600
+#: extensions/file_tools/gth-file-tool-crop.c:452
+#: extensions/file_tools/gth-file-tool-resize.c:604
 #: gthumb/gth-test-aspect-ratio.c:49
 msgid "4∶3 (DVD, Book)"
 msgstr "4∶3 (dvd, bok)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:449
-#: extensions/file_tools/gth-file-tool-resize.c:601
+#: extensions/file_tools/gth-file-tool-crop.c:453
+#: extensions/file_tools/gth-file-tool-resize.c:605
 #: gthumb/gth-test-aspect-ratio.c:50
 msgid "7∶5"
 msgstr "7∶5"
 
-#: extensions/file_tools/gth-file-tool-crop.c:450
-#: extensions/file_tools/gth-file-tool-resize.c:602
+#: extensions/file_tools/gth-file-tool-crop.c:454
+#: extensions/file_tools/gth-file-tool-resize.c:606
 #: gthumb/gth-test-aspect-ratio.c:51
 msgid "3∶2 (Postcard)"
 msgstr "3∶2 (vykort)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:451
-#: extensions/file_tools/gth-file-tool-resize.c:603
+#: extensions/file_tools/gth-file-tool-crop.c:455
+#: extensions/file_tools/gth-file-tool-resize.c:607
 #: gthumb/gth-test-aspect-ratio.c:52
 msgid "16∶10"
 msgstr "16∶10"
 
-#: extensions/file_tools/gth-file-tool-crop.c:452
-#: extensions/file_tools/gth-file-tool-resize.c:604
+#: extensions/file_tools/gth-file-tool-crop.c:456
+#: extensions/file_tools/gth-file-tool-resize.c:608
 #: gthumb/gth-test-aspect-ratio.c:53
 msgid "16∶9 (DVD)"
 msgstr "16∶9 (DVD)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:453
-#: extensions/file_tools/gth-file-tool-resize.c:605
+#: extensions/file_tools/gth-file-tool-crop.c:457
+#: extensions/file_tools/gth-file-tool-resize.c:609
 #: gthumb/gth-test-aspect-ratio.c:54
 msgid "1.85∶1"
-msgstr "1.85∶1"
+msgstr "1,85∶1"
 
-#: extensions/file_tools/gth-file-tool-crop.c:454
-#: extensions/file_tools/gth-file-tool-resize.c:606
+#: extensions/file_tools/gth-file-tool-crop.c:458
+#: extensions/file_tools/gth-file-tool-resize.c:611
 #: gthumb/gth-test-aspect-ratio.c:55
 msgid "2.39∶1"
-msgstr "2.39∶1"
+msgstr "2,39∶1"
 
-#: extensions/file_tools/gth-file-tool-crop.c:455
-#: extensions/file_tools/gth-file-tool-resize.c:607
+#: extensions/file_tools/gth-file-tool-crop.c:459
+#: extensions/file_tools/gth-file-tool-resize.c:612
 #: gthumb/gth-location-chooser.c:617 gthumb/gth-template-selector.c:434
 msgid "Other…"
 msgstr "Annat…"
 
 # to-do
-#: extensions/file_tools/gth-file-tool-crop.c:470
+#: extensions/file_tools/gth-file-tool-crop.c:474
 #: extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Rule of Thirds"
 msgstr "Tredelningsregeln"
 
-#: extensions/file_tools/gth-file-tool-crop.c:471
+#: extensions/file_tools/gth-file-tool-crop.c:475
 #: extensions/file_tools/gth-file-tool-rotate.c:398
 msgid "Golden Sections"
 msgstr "Gyllene snitten"
 
-#: extensions/file_tools/gth-file-tool-crop.c:472
+#: extensions/file_tools/gth-file-tool-crop.c:476
 #: extensions/file_tools/gth-file-tool-rotate.c:399
 msgid "Center Lines"
 msgstr "Centrera linjer"
@@ -2599,6 +2548,10 @@ msgstr "Gör om"
 #: gthumb/gth-filter-grid.c:573
 msgid "Resizing images"
 msgstr "Ändrar storlek på bild"
+
+#: extensions/file_tools/gth-file-tool-resize.c:610
+msgid "1.91∶1"
+msgstr "1,91∶1"
 
 #: extensions/file_tools/gth-file-tool-rotate-left.c:90
 #: extensions/image_rotation/callbacks.c:53
@@ -3173,10 +3126,6 @@ msgstr "Stöd för ljud/video"
 msgid "Play audio and video files."
 msgstr "Spela upp ljud- och videofiler."
 
-#: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:8
-msgid "video-x-generic"
-msgstr "video-x-generic"
-
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "Spela upp video"
@@ -3263,7 +3212,7 @@ msgstr "Mono"
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
 #: extensions/image_viewer/gth-metadata-provider-image.c:300
 #: extensions/raw_files/gth-metadata-provider-raw.c:97
-#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:963
+#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:981
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3420,10 +3369,6 @@ msgstr "Bildutskrift"
 #: extensions/image_print/image_print.extension.desktop.in.in:4
 msgid "Allow to print images choosing the page layout."
 msgstr "Gör det möjligt att skriva ut bilder genom att välja sidlayout."
-
-#: extensions/image_print/image_print.extension.desktop.in.in:8
-msgid "document-print"
-msgstr "document-print"
 
 #: extensions/image_rotation/callbacks.c:59
 msgid "Rotate Physically"
@@ -3878,14 +3823,17 @@ msgid "File path"
 msgstr "Filsökväg"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:37
+#: extensions/rename_series/dlg-rename-series.c:55
 msgid "File name"
 msgstr "Filnamn"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:38
+#: extensions/rename_series/dlg-rename-series.c:56
 msgid "File name, no extension"
 msgstr "Filnamn, utan filändelse"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:39
+#: extensions/rename_series/dlg-rename-series.c:57
 msgid "File extension"
 msgstr "Filändelse"
 
@@ -3898,7 +3846,7 @@ msgid "Ask a value"
 msgstr "Fråga efter ett värde"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:43
-#: extensions/rename_series/dlg-rename-series.c:59
+#: extensions/rename_series/dlg-rename-series.c:62
 msgid "File attribute"
 msgstr "Filattribut"
 
@@ -3927,10 +3875,6 @@ msgstr "Fillistverktyg"
 #: extensions/list_tools/list_tools.extension.desktop.in.in:4
 msgid "Scripting and batch manipulation of files."
 msgstr "Skriptning och satsvis manipulering av filer."
-
-#: extensions/list_tools/list_tools.extension.desktop.in.in:8
-msgid "applications-engineering"
-msgstr "applications-engineering"
 
 #: extensions/map_view/gth-map-view.c:128
 msgctxt "Cardinal point"
@@ -4085,10 +4029,6 @@ msgstr "Importera foton"
 msgid "Import photos from removable devices."
 msgstr "Importera foton från flyttbara enheter."
 
-#: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
-msgid "camera-photo"
-msgstr "camera-photo"
-
 #: extensions/raw_files/gth-metadata-provider-raw.c:91
 msgid "RAW Format"
 msgstr "RAW-format"
@@ -4138,54 +4078,45 @@ msgstr "Återställ till den senast använda mallen"
 msgid "_Preview:"
 msgstr "_Förhandsgranska:"
 
-#: extensions/rename_series/dlg-rename-series.c:54
-#: extensions/webalbums/dlg-web-exporter.c:45
-msgid "Original filename"
-msgstr "Ursprungligt filnamn"
-
-#: extensions/rename_series/dlg-rename-series.c:55
-msgid "Original extension"
-msgstr "Ursprunglig filändelse"
-
-#: extensions/rename_series/dlg-rename-series.c:56
+#: extensions/rename_series/dlg-rename-series.c:58
 msgid "Original enumerator"
 msgstr "Ursprunglig uppräknare"
 
-#: extensions/rename_series/dlg-rename-series.c:57
+#: extensions/rename_series/dlg-rename-series.c:59
 msgid "Modification date"
 msgstr "Ändringsdatum"
 
-#: extensions/rename_series/dlg-rename-series.c:58
+#: extensions/rename_series/dlg-rename-series.c:60
 msgid "Digitalization date"
 msgstr "Datum för digitalisering"
 
-#: extensions/rename_series/dlg-rename-series.c:509
-#: extensions/rename_series/dlg-rename-series.c:636
+#: extensions/rename_series/dlg-rename-series.c:529
+#: extensions/rename_series/dlg-rename-series.c:656
 msgid "Could not rename the files"
 msgstr "Kunde inte byta namn på filerna"
 
-#: extensions/rename_series/dlg-rename-series.c:781
+#: extensions/rename_series/dlg-rename-series.c:896
 #: gthumb/gth-folder-tree.c:1975
 msgid "_Rename"
 msgstr "_Byt namn"
 
-#: extensions/rename_series/dlg-rename-series.c:798
+#: extensions/rename_series/dlg-rename-series.c:913
 msgid "Old Name"
 msgstr "Gammalt namn"
 
-#: extensions/rename_series/dlg-rename-series.c:809
+#: extensions/rename_series/dlg-rename-series.c:924
 msgid "New Name"
 msgstr "Nytt namn"
 
-#: extensions/rename_series/dlg-rename-series.c:887
+#: extensions/rename_series/dlg-rename-series.c:1002
 msgid "Keep original case"
 msgstr "Behåll ursprungligt skiftläge"
 
-#: extensions/rename_series/dlg-rename-series.c:888
+#: extensions/rename_series/dlg-rename-series.c:1003
 msgid "Convert to lower-case"
 msgstr "Konvertera till gemener"
 
-#: extensions/rename_series/dlg-rename-series.c:889
+#: extensions/rename_series/dlg-rename-series.c:1004
 msgid "Convert to upper-case"
 msgstr "Konvertera till versaler"
 
@@ -4305,10 +4236,6 @@ msgstr "Avbryt åtgärden"
 msgid "File search tool."
 msgstr "Filsökningsverktyg."
 
-#: extensions/search/search.extension.desktop.in.in:8
-msgid "edit-find"
-msgstr "edit-find"
-
 #. Not real actions, used in the shorcut window for documentation.
 #: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
 #: extensions/selections/callbacks.c:59 extensions/selections/callbacks.c:71
@@ -4356,10 +4283,6 @@ msgstr "Val"
 #: extensions/selections/selections.extension.desktop.in.in:4
 msgid "Advanced file selection."
 msgstr "Avancerat filurval."
-
-#: extensions/selections/selections.extension.desktop.in.in:8
-msgid "emblem-flag-gray"
-msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:40
 msgid "Start presentation"
@@ -4479,10 +4402,6 @@ msgstr "Kub från nederkant"
 msgid "Play a presentation of images."
 msgstr "Spela upp en presentation bestående av bilder."
 
-#: extensions/slideshow/slideshow.extension.desktop.in.in:8
-msgid "x-office-presentation"
-msgstr "x-office-presentation"
-
 #: extensions/terminal/actions.c:53
 #: extensions/terminal/terminal.extension.desktop.in.in:3
 msgid "Terminal"
@@ -4495,10 +4414,6 @@ msgstr "Öppna i terminal"
 #: extensions/terminal/terminal.extension.desktop.in.in:4
 msgid "Open a folder in a terminal"
 msgstr "Öppna en mapp i en terminal"
-
-#: extensions/terminal/terminal.extension.desktop.in.in:8
-msgid "utilities-terminal"
-msgstr "utilities-terminal"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -4592,6 +4507,10 @@ msgstr "Aktuellt bildnummer"
 msgid "Total number of images"
 msgstr "Totalt antal bilder"
 
+#: extensions/webalbums/dlg-web-exporter.c:45
+msgid "Original filename"
+msgstr "Ursprungligt filnamn"
+
 #: extensions/webalbums/dlg-web-exporter.c:531
 msgid "Web Album"
 msgstr "Webbalbum"
@@ -4644,8 +4563,8 @@ msgid "Create static web albums."
 msgstr "Skapa statiska webbalbum."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
-#: gthumb/gth-browser.c:6856 gthumb/gth-browser.c:6875
-#: gthumb/gth-browser.c:6899 gthumb/gth-vfs-tree.c:393
+#: gthumb/gth-browser.c:6860 gthumb/gth-browser.c:6879
+#: gthumb/gth-browser.c:6903 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "Kunde inte läsa in positionen ”%s”"
@@ -4819,7 +4738,7 @@ msgstr "Flyttar filer till papperskorgen"
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2067
+#: gthumb/glib-utils.c:2069
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4831,7 +4750,7 @@ msgstr "%d∶%02d∶%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: gthumb/glib-utils.c:2076
+#: gthumb/glib-utils.c:2078
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -4941,8 +4860,8 @@ msgstr "Stäng fönster"
 msgid "Open location"
 msgstr "Öppna plats"
 
-#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4791
-#: gthumb/gth-browser.c:4809 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4795
+#: gthumb/gth-browser.c:4813 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Helskärm"
@@ -5063,7 +4982,7 @@ msgstr ""
 msgid "Do _Not Save"
 msgstr "Spara _inte"
 
-#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4817
+#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4821
 msgid "Accept"
 msgstr "Acceptera"
 
@@ -5071,45 +4990,45 @@ msgstr "Acceptera"
 msgid "_Close"
 msgstr "_Stäng"
 
-#: gthumb/gth-browser.c:3063
+#: gthumb/gth-browser.c:3067
 msgid "Could not change name"
 msgstr "Kunde inte ändra namnet"
 
-#: gthumb/gth-browser.c:3557
+#: gthumb/gth-browser.c:3561
 msgid "Modified"
 msgstr "Ändrad"
 
-#: gthumb/gth-browser.c:4739
+#: gthumb/gth-browser.c:4743
 msgid "Go to the previous visited location"
 msgstr "Gå till föregående besökta plats"
 
-#: gthumb/gth-browser.c:4745
+#: gthumb/gth-browser.c:4749
 msgid "Go to the next visited location"
 msgstr "Gå till nästa besökta plats"
 
-#: gthumb/gth-browser.c:4753
+#: gthumb/gth-browser.c:4757
 msgid "History"
 msgstr "Historik"
 
-#: gthumb/gth-browser.c:4767
+#: gthumb/gth-browser.c:4771
 msgid "View the folders"
 msgstr "Visa mapparna"
 
-#: gthumb/gth-browser.c:4782
+#: gthumb/gth-browser.c:4786
 msgid "Edit file"
 msgstr "Redigera fil"
 
-#: gthumb/gth-browser.c:4873 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4877 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Åtgärder"
 
-#: gthumb/gth-browser.c:6857
+#: gthumb/gth-browser.c:6861
 #, c-format
 msgid "File type not supported"
 msgstr "Filtypen stöds inte"
 
-#: gthumb/gth-browser.c:6900
+#: gthumb/gth-browser.c:6904
 #, c-format
 msgid "No suitable module found"
 msgstr "Ingen lämplig modul hittades"
@@ -5690,6 +5609,72 @@ msgstr "_Om gThumb"
 #: gthumb/resources/history-menu.ui:9
 msgid "_Delete History"
 msgstr "_Ta bort historik"
+
+#~ msgid "48"
+#~ msgstr "48"
+
+#~ msgid "64"
+#~ msgstr "64"
+
+#~ msgid "85"
+#~ msgstr "85"
+
+#~ msgid "95"
+#~ msgstr "95"
+
+#~ msgid "112"
+#~ msgstr "112"
+
+#~ msgid "128"
+#~ msgstr "128"
+
+#~ msgid "164"
+#~ msgstr "164"
+
+#~ msgid "200"
+#~ msgstr "200"
+
+#~ msgid "256"
+#~ msgstr "256"
+
+#~ msgid "brasero"
+#~ msgstr "brasero"
+
+#~ msgid "file-catalog-symbolic"
+#~ msgstr "file-catalog-symbolic"
+
+#~ msgid "desktop"
+#~ msgstr "desktop"
+
+#~ msgid "system-file-manager"
+#~ msgstr "system-file-manager"
+
+#~ msgid "video-x-generic"
+#~ msgstr "video-x-generic"
+
+#~ msgid "document-print"
+#~ msgstr "document-print"
+
+#~ msgid "applications-engineering"
+#~ msgstr "applications-engineering"
+
+#~ msgid "camera-photo"
+#~ msgstr "camera-photo"
+
+#~ msgid "Original extension"
+#~ msgstr "Ursprunglig filändelse"
+
+#~ msgid "edit-find"
+#~ msgstr "edit-find"
+
+#~ msgid "emblem-flag-gray"
+#~ msgstr "emblem-flag-gray"
+
+#~ msgid "x-office-presentation"
+#~ msgstr "x-office-presentation"
+
+#~ msgid "utilities-terminal"
+#~ msgstr "utilities-terminal"
 
 #~ msgid "New enumerator digit"
 #~ msgstr "Ny uppräkningssiffra"
