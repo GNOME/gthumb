@@ -1,7 +1,7 @@
 project('gthumb', ['c', 'cpp'],
   license : 'GPL2+',
   version : '3.12.8.1',
-  meson_version : '>=0.48'
+  meson_version : '>=0.59'
 )
 
 glib_version = '>=2.54.0'
@@ -54,7 +54,11 @@ else
   webalbum_data_dir = pkgdatadir
 endif
 
-meson.add_install_script('postinstall.py')
+gnome.post_install(
+  glib_compile_schemas: true,
+  gtk_update_icon_cache: true,
+  update_desktop_database: true,
+)
 
 # Dependencies
 
