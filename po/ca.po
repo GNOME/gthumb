@@ -4,15 +4,15 @@
 # Aleix Badia i Bosch <abadia@ica.es>, 2003, 2004, 2006.
 # Maria Soler Climent <maria.soler@eupm.upc.edu>, 2006.
 # Sílvia Miranda <silvia.gnome@gmail.com>, 2007.
-# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2016, 2020-2021
+# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2016, 2020-2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gthumb/issues\n"
-"POT-Creation-Date: 2021-08-30 17:58+0000\n"
-"PO-Revision-Date: 2019-03-17 08:36+0100\n"
-"Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
+"POT-Creation-Date: 2022-09-06 13:18+0000\n"
+"PO-Revision-Date: 2022-09-09 08:36+0100\n"
+"Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: catalan <tradgnome@softcatala.net>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -88,6 +88,14 @@ msgstr ""
 "metadades a les imatges; organitzar les imatges en catàlegs i els catàlegs "
 "en biblioteques; buscar imatges i desar el resultat com un catàleg."
 
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:47
+msgid "Browser mode"
+msgstr "Mode navegador"
+
+#: data/appdata/org.gnome.gThumb.appdata.xml.in:51
+msgid "Viewer mode"
+msgstr "Mode visualitzador"
+
 #: data/gschemas/org.gnome.gthumb.gschema.xml:78
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
@@ -135,7 +143,7 @@ msgid "Import the photos on your camera card"
 msgstr "Importa les fotos de la targeta de la vostra càmera"
 
 #. manually set name and icon
-#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:106
+#: data/org.gnome.gThumb.desktop.in.in:3 gthumb/gth-application.c:105
 #: gthumb/gth-browser.c:428 gthumb/gth-progress-dialog.c:413
 msgid "gThumb"
 msgstr "gThumb"
@@ -188,43 +196,7 @@ msgstr "Altres"
 msgid "Thumbnail _size:"
 msgstr "_Mida de la miniatura:"
 
-#: data/ui/browser-preferences.ui:206
-msgid "48"
-msgstr "48"
-
-#: data/ui/browser-preferences.ui:207
-msgid "64"
-msgstr "64"
-
-#: data/ui/browser-preferences.ui:208
-msgid "85"
-msgstr "85"
-
-#: data/ui/browser-preferences.ui:209
-msgid "95"
-msgstr "95"
-
-#: data/ui/browser-preferences.ui:210
-msgid "112"
-msgstr "112"
-
-#: data/ui/browser-preferences.ui:211
-msgid "128"
-msgstr "128"
-
-#: data/ui/browser-preferences.ui:212
-msgid "164"
-msgstr "164"
-
-#: data/ui/browser-preferences.ui:213
-msgid "200"
-msgstr "200"
-
-#: data/ui/browser-preferences.ui:214
-msgid "256"
-msgstr "256"
-
-#: data/ui/browser-preferences.ui:239
+#: data/ui/browser-preferences.ui:242
 msgid "D_etermine image type from content (slower)"
 msgstr "D_etermina el tipus d'imatge en funció dels continguts (més lent)"
 
@@ -546,10 +518,6 @@ msgstr "Enregistra un CD o DVD"
 msgid "Save files to an optical disc."
 msgstr "Deseu els fitxers en un disc òptic."
 
-#: extensions/burn_disc/burn_disc.extension.desktop.in.in:8
-msgid "brasero"
-msgstr "brasero"
-
 #: extensions/burn_disc/callbacks.c:48
 msgid "_Optical Disc…"
 msgstr "D_isc òptic..."
@@ -802,14 +770,14 @@ msgstr "Crea la biblioteca"
 #: extensions/catalogs/callbacks.c:73 extensions/file_manager/callbacks.c:82
 #: extensions/file_manager/callbacks.c:109
 #: extensions/file_manager/callbacks.c:126
-#: extensions/rename_series/dlg-rename-series.c:771
+#: extensions/rename_series/dlg-rename-series.c:886
 #: gthumb/gth-folder-tree.c:1972
 msgid "Rename"
 msgstr "Canvia el nom"
 
 #: extensions/catalogs/callbacks.c:78
-#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4762
-#: gthumb/gth-browser.c:4874 gthumb/gth-file-properties.c:274
+#: extensions/catalogs/dlg-catalog-properties.c:205 gthumb/gth-browser.c:4780
+#: gthumb/gth-browser.c:4892 gthumb/gth-file-properties.c:274
 msgid "Properties"
 msgstr "Propietats"
 
@@ -839,10 +807,6 @@ msgstr "Organitza automàticament els fitxers amb la data"
 #: extensions/catalogs/catalogs.extension.desktop.in.in:4
 msgid "Create file collections."
 msgstr "Creeu col·leccions de fitxers."
-
-#: extensions/catalogs/catalogs.extension.desktop.in.in:8
-msgid "file-catalog-symbolic"
-msgstr "file-catalog-symbolic"
 
 #: extensions/catalogs/data/ui/add-to-catalog.ui:19
 msgid "C_atalogs:"
@@ -1198,9 +1162,9 @@ msgstr ""
 "seleccionats."
 
 #: extensions/contact_sheet/data/ui/contact-sheet-theme-properties.ui:12
-#: extensions/file_tools/gth-file-tool-crop.c:439
-#: extensions/file_tools/gth-file-tool-crop.c:469
-#: extensions/file_tools/gth-file-tool-resize.c:589
+#: extensions/file_tools/gth-file-tool-crop.c:443
+#: extensions/file_tools/gth-file-tool-crop.c:473
+#: extensions/file_tools/gth-file-tool-resize.c:593
 #: extensions/file_tools/gth-file-tool-rotate.c:396
 #: extensions/slideshow/main.c:297 gthumb/gth-accel-button.c:201
 msgid "None"
@@ -1425,7 +1389,7 @@ msgstr "Miniatures"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:35
 #: extensions/contact_sheet/dlg-image-wall.c:34
-#: extensions/rename_series/dlg-rename-series.c:53
+#: extensions/rename_series/dlg-rename-series.c:54
 msgid "Enumerator"
 msgstr "Numerador"
 
@@ -1436,6 +1400,7 @@ msgstr "Numerador"
 #: extensions/image_print/gth-image-print-job.c:39
 #: extensions/importer/gth-import-preferences-dialog.c:46
 #: extensions/list_tools/gth-script-editor-dialog.c:41
+#: extensions/rename_series/dlg-rename-series.c:61
 #: extensions/webalbums/dlg-web-exporter.c:38
 #: extensions/webalbums/dlg-web-exporter.c:47
 msgid "Current date"
@@ -1443,7 +1408,7 @@ msgstr "La data actual"
 
 #: extensions/contact_sheet/dlg-contact-sheet.c:40
 #: extensions/image_print/gth-image-print-job.c:37
-#: extensions/webalbums/dlg-web-exporter.c:35338
+#: extensions/webalbums/dlg-web-exporter.c:35
 msgid "Current page number"
 msgstr "El número de la pàgina actual"
 
@@ -1476,7 +1441,7 @@ msgstr "No s'ha pogut suprimir el tema"
 #: extensions/image_print/gth-image-print-job.c:1278
 #: extensions/image_print/gth-image-print-job.c:1303
 #: extensions/importer/gth-import-preferences-dialog.c:325
-#: extensions/rename_series/dlg-rename-series.c:709
+#: extensions/rename_series/dlg-rename-series.c:821
 #: extensions/webalbums/dlg-web-exporter.c:323
 #: extensions/webalbums/dlg-web-exporter.c:364
 #: gthumb/gth-template-selector.c:357
@@ -1549,23 +1514,23 @@ msgstr "S'estan convertint les imatges"
 msgid "Convert Format"
 msgstr "Converteix el format"
 
-#: extensions/desktop_background/actions.c:288
+#: extensions/desktop_background/actions.c:319
 msgid "Could not show the desktop background properties"
 msgstr "No s'han pogut mostrar les propietats del fons de l'escriptori"
 
-#: extensions/desktop_background/actions.c:329
+#: extensions/desktop_background/actions.c:360
 #: gthumb/resources/gears-menu.ui:45
 msgid "_Preferences"
 msgstr "_Preferències"
 
-#: extensions/desktop_background/actions.c:330
+#: extensions/desktop_background/actions.c:361
 msgid "_Undo"
 msgstr "_Desfés"
 
-#: extensions/desktop_background/actions.c:360
-#: extensions/desktop_background/actions.c:416
-#: extensions/desktop_background/actions.c:435
-#: extensions/desktop_background/actions.c:462
+#: extensions/desktop_background/actions.c:391
+#: extensions/desktop_background/actions.c:447
+#: extensions/desktop_background/actions.c:466
+#: extensions/desktop_background/actions.c:493
 msgid "Could not set the desktop background"
 msgstr "No s'ha pogut establir la imatge com a fons de l'escriptori"
 
@@ -1581,10 +1546,6 @@ msgstr "Imatge de fons de l'escriptori"
 #: extensions/desktop_background/desktop_background.extension.desktop.in.in:4
 msgid "Set the image as desktop background"
 msgstr "Establiu la imatge com a fons de l'escriptori"
-
-#: extensions/desktop_background/desktop_background.extension.desktop.in.in:8
-msgid "desktop"
-msgstr "desktop"
 
 #: extensions/edit_metadata/actions.c:75
 msgid ""
@@ -1743,7 +1704,7 @@ msgid "State/Province:"
 msgstr "Estat o província:"
 
 #: extensions/exiv2_tools/exiv2-utils.cpp:47 gthumb/glib-utils.c:1114
-#: gthumb/glib-utils.c:2091 gthumb/str-utils.c:641
+#: gthumb/glib-utils.c:2093 gthumb/str-utils.c:641
 msgid "(invalid value)"
 msgstr "(valor no vàlid)"
 
@@ -1820,21 +1781,21 @@ msgid "Enter the folder name:"
 msgstr "Introduïu el nom de la carpeta:"
 
 #: extensions/file_manager/actions.c:410
-#: extensions/file_manager/callbacks.c:551
-#: extensions/file_manager/callbacks.c:989
+#: extensions/file_manager/callbacks.c:566
+#: extensions/file_manager/callbacks.c:996
 #: extensions/find_duplicates/gth-find-duplicates.c:788
-#: gthumb/gth-browser.c:5800 gthumb/gth-browser.c:5843
+#: gthumb/gth-browser.c:5818 gthumb/gth-browser.c:5861
 #: gthumb/gth-progress-dialog.c:429
 msgid "Could not perform the operation"
 msgstr "No s'ha pogut realitzar l'operació"
 
 #: extensions/file_manager/actions.c:423
-#: extensions/file_manager/callbacks.c:277
+#: extensions/file_manager/callbacks.c:280
 msgid "Could not move the files"
 msgstr "No s'han pogut moure els fitxers"
 
 #: extensions/file_manager/actions.c:424
-#: extensions/file_manager/callbacks.c:278
+#: extensions/file_manager/callbacks.c:281
 msgid ""
 "Files cannot be moved to the current location, as alternative you can choose"
 " to copy them."
@@ -1865,7 +1826,7 @@ msgid "Copy To"
 msgstr "Copia a"
 
 #: extensions/file_manager/actions.c:743
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1035
 msgid "Move"
 msgstr "Mou"
 
@@ -1930,36 +1891,36 @@ msgstr "Suprimeix permanentment"
 msgid "Open with Gimp"
 msgstr "Obre amb el Gimp"
 
-#: extensions/file_manager/callbacks.c:725 gthumb/gth-file-source-vfs.c:295
+#: extensions/file_manager/callbacks.c:740 gthumb/gth-file-source-vfs.c:295
 msgid "Home Folder"
 msgstr "Carpeta de l'usuari"
 
-#: extensions/file_manager/callbacks.c:732
-#: extensions/file_manager/callbacks.c:735
+#: extensions/file_manager/callbacks.c:747
+#: extensions/file_manager/callbacks.c:750
 msgid "Open _With"
 msgstr "_Obre amb"
 
-#: extensions/file_manager/callbacks.c:1009
+#: extensions/file_manager/callbacks.c:1016
 #, c-format
 msgid "Do you want to move “%s” to “%s”?"
 msgstr "Voleu moure «%s» a «%s»?"
 
-#: extensions/file_manager/callbacks.c:1011
+#: extensions/file_manager/callbacks.c:1018
 #, c-format
 msgid "Do you want to copy “%s” to “%s”?"
 msgstr "Voleu copiar «%s» a «%s»?"
 
-#: extensions/file_manager/callbacks.c:1018
+#: extensions/file_manager/callbacks.c:1025
 #, c-format
 msgid "Do you want to move the dragged files to “%s”?"
 msgstr "Voleu moure els fitxers arrossegats a «%s»?"
 
-#: extensions/file_manager/callbacks.c:1020
+#: extensions/file_manager/callbacks.c:1027
 #, c-format
 msgid "Do you want to copy the dragged files to “%s”?"
 msgstr "Voleu copiar els fitxers arrossegats a «%s»?"
 
-#: extensions/file_manager/callbacks.c:1028
+#: extensions/file_manager/callbacks.c:1035
 msgid "_Copy"
 msgstr "_Copia"
 
@@ -1970,10 +1931,6 @@ msgstr "Gestor de fitxers"
 #: extensions/file_manager/file_manager.extension.desktop.in.in:4
 msgid "File manager operations."
 msgstr "Les operacions del gestor de fitxers."
-
-#: extensions/file_manager/file_manager.extension.desktop.in.in:8
-msgid "system-file-manager"
-msgstr "system-file-manager"
 
 #: extensions/file_tools/callbacks.c:53
 msgid "Adjust contrast"
@@ -2000,12 +1957,12 @@ msgid "Rotate left"
 msgstr "Gira a l'esquerra"
 
 #: extensions/file_tools/callbacks.c:58
-#: extensions/file_tools/gth-file-tool-crop.c:687
+#: extensions/file_tools/gth-file-tool-crop.c:691
 msgid "Crop"
 msgstr "Escapça"
 
 #: extensions/file_tools/callbacks.c:59
-#: extensions/file_tools/gth-file-tool-resize.c:840
+#: extensions/file_tools/gth-file-tool-resize.c:845
 msgid "Resize"
 msgstr "Redimensiona"
 
@@ -2070,8 +2027,8 @@ msgstr "Colors"
 #: extensions/file_tools/data/ui/crop-options.ui:31
 #: extensions/file_tools/data/ui/resize-options.ui:9
 #: extensions/file_tools/data/ui/rotate-options.ui:9
-#: extensions/file_tools/gth-file-tool-crop.c:661
-#: extensions/file_tools/gth-file-tool-resize.c:759
+#: extensions/file_tools/gth-file-tool-crop.c:665
+#: extensions/file_tools/gth-file-tool-resize.c:764
 #: extensions/file_tools/gth-file-tool-rotate.c:617
 #: gthumb/gth-file-chooser-dialog.c:258
 msgid "Options"
@@ -2313,7 +2270,7 @@ msgstr "Predefinicions"
 
 #: extensions/file_tools/gth-file-tool-adjust-colors.c:340
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:393
-#: extensions/file_tools/gth-file-tool-crop.c:632
+#: extensions/file_tools/gth-file-tool-crop.c:636
 #: extensions/file_tools/gth-file-tool-curves.c:287
 #: extensions/file_tools/gth-file-tool-effects.c:401
 #: extensions/file_tools/gth-file-tool-effects.c:445
@@ -2365,7 +2322,7 @@ msgid "Equalize the histogram using the square root function"
 msgstr "Equalitza l'histograma amb la funció arrel quadrada"
 
 #: extensions/file_tools/gth-file-tool-adjust-contrast.c:547
-#: extensions/file_tools/gth-file-tool-crop.c:473
+#: extensions/file_tools/gth-file-tool-crop.c:477
 #: extensions/file_tools/gth-file-tool-rotate.c:400
 msgid "Uniform"
 msgstr "Uniforma"
@@ -2390,91 +2347,91 @@ msgstr "Selector de color"
 msgid "Pick a color from the image"
 msgstr "Seleccioneu un color de la imatge"
 
-#: extensions/file_tools/gth-file-tool-crop.c:439
-#: extensions/file_tools/gth-file-tool-resize.c:589
+#: extensions/file_tools/gth-file-tool-crop.c:443
+#: extensions/file_tools/gth-file-tool-resize.c:593
 #: gthumb/gth-test-aspect-ratio.c:47
 msgid "Square"
 msgstr "Quadrat"
 
 # c-format
-#: extensions/file_tools/gth-file-tool-crop.c:440
-#: extensions/file_tools/gth-file-tool-resize.c:590
+#: extensions/file_tools/gth-file-tool-crop.c:444
+#: extensions/file_tools/gth-file-tool-resize.c:594
 #, c-format
 msgid "%d × %d (Image)"
 msgstr "%d × %d (imatge)"
 
 # c-format
-#: extensions/file_tools/gth-file-tool-crop.c:443
-#: extensions/file_tools/gth-file-tool-resize.c:594
+#: extensions/file_tools/gth-file-tool-crop.c:447
+#: extensions/file_tools/gth-file-tool-resize.c:598
 #, c-format
 msgid "%d × %d (Screen)"
 msgstr "%d × %d (pantalla)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:447
-#: extensions/file_tools/gth-file-tool-resize.c:599
+#: extensions/file_tools/gth-file-tool-crop.c:451
+#: extensions/file_tools/gth-file-tool-resize.c:603
 #: gthumb/gth-test-aspect-ratio.c:48
 msgid "5∶4"
 msgstr "5∶4"
 
-#: extensions/file_tools/gth-file-tool-crop.c:448
-#: extensions/file_tools/gth-file-tool-resize.c:600
+#: extensions/file_tools/gth-file-tool-crop.c:452
+#: extensions/file_tools/gth-file-tool-resize.c:604
 #: gthumb/gth-test-aspect-ratio.c:49
 msgid "4∶3 (DVD, Book)"
 msgstr "4:3 (DVD, Llibre)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:449
-#: extensions/file_tools/gth-file-tool-resize.c:601
+#: extensions/file_tools/gth-file-tool-crop.c:453
+#: extensions/file_tools/gth-file-tool-resize.c:605
 #: gthumb/gth-test-aspect-ratio.c:50
 msgid "7∶5"
 msgstr "7∶5"
 
-#: extensions/file_tools/gth-file-tool-crop.c:450
-#: extensions/file_tools/gth-file-tool-resize.c:602
+#: extensions/file_tools/gth-file-tool-crop.c:454
+#: extensions/file_tools/gth-file-tool-resize.c:606
 #: gthumb/gth-test-aspect-ratio.c:51
 msgid "3∶2 (Postcard)"
 msgstr "3:2 (postal)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:451
-#: extensions/file_tools/gth-file-tool-resize.c:603
+#: extensions/file_tools/gth-file-tool-crop.c:455
+#: extensions/file_tools/gth-file-tool-resize.c:607
 #: gthumb/gth-test-aspect-ratio.c:52
 msgid "16∶10"
 msgstr "16∶10"
 
-#: extensions/file_tools/gth-file-tool-crop.c:452
-#: extensions/file_tools/gth-file-tool-resize.c:604
+#: extensions/file_tools/gth-file-tool-crop.c:456
+#: extensions/file_tools/gth-file-tool-resize.c:608
 #: gthumb/gth-test-aspect-ratio.c:53
 msgid "16∶9 (DVD)"
 msgstr "16:9 (DVD)"
 
-#: extensions/file_tools/gth-file-tool-crop.c:453
-#: extensions/file_tools/gth-file-tool-resize.c:605
+#: extensions/file_tools/gth-file-tool-crop.c:457
+#: extensions/file_tools/gth-file-tool-resize.c:609
 #: gthumb/gth-test-aspect-ratio.c:54
 msgid "1.85∶1"
 msgstr "1.85:1"
 
-#: extensions/file_tools/gth-file-tool-crop.c:454
-#: extensions/file_tools/gth-file-tool-resize.c:606
+#: extensions/file_tools/gth-file-tool-crop.c:458
+#: extensions/file_tools/gth-file-tool-resize.c:611
 #: gthumb/gth-test-aspect-ratio.c:55
 msgid "2.39∶1"
 msgstr "2.39:1"
 
-#: extensions/file_tools/gth-file-tool-crop.c:455
-#: extensions/file_tools/gth-file-tool-resize.c:607
+#: extensions/file_tools/gth-file-tool-crop.c:459
+#: extensions/file_tools/gth-file-tool-resize.c:612
 #: gthumb/gth-location-chooser.c:617 gthumb/gth-template-selector.c:434
 msgid "Other…"
 msgstr "Altres…"
 
-#: extensions/file_tools/gth-file-tool-crop.c:470
+#: extensions/file_tools/gth-file-tool-crop.c:474
 #: extensions/file_tools/gth-file-tool-rotate.c:397
 msgid "Rule of Thirds"
 msgstr "Regulació de tercers"
 
-#: extensions/file_tools/gth-file-tool-crop.c:471
+#: extensions/file_tools/gth-file-tool-crop.c:475
 #: extensions/file_tools/gth-file-tool-rotate.c:398
 msgid "Golden Sections"
 msgstr "Seccions d'or"
 
-#: extensions/file_tools/gth-file-tool-crop.c:472
+#: extensions/file_tools/gth-file-tool-crop.c:476
 #: extensions/file_tools/gth-file-tool-rotate.c:399
 msgid "Center Lines"
 msgstr "Línies centrals"
@@ -2490,7 +2447,7 @@ msgstr "Introduïu el nom de la predefinició:"
 #: extensions/file_tools/gth-file-tool-curves.c:533
 #: extensions/gstreamer_tools/actions.c:69
 #: extensions/image_viewer/gth-image-viewer-page.c:1632
-#: gthumb/gth-browser.c:1970
+#: gthumb/gth-browser.c:1984
 msgid "Could not save the file"
 msgstr "No s'ha pogut desar el fitxer"
 
@@ -2607,6 +2564,10 @@ msgstr "Refés"
 #: gthumb/gth-filter-grid.c:573
 msgid "Resizing images"
 msgstr "S'estan redimensionant les imatges"
+
+#: extensions/file_tools/gth-file-tool-resize.c:610
+msgid "1.91∶1"
+msgstr "1.91∶1"
 
 #: extensions/file_tools/gth-file-tool-rotate-left.c:90
 #: extensions/image_rotation/callbacks.c:53
@@ -3181,10 +3142,6 @@ msgstr "Compatibilitat amb àudio i vídeo"
 msgid "Play audio and video files."
 msgstr "Reproduïu els fitxers d'àudio i de vídeo."
 
-#: extensions/gstreamer_tools/gstreamer_tools.extension.desktop.in.in:8
-msgid "video-x-generic"
-msgstr "video-x-generic"
-
 #: extensions/gstreamer_tools/gth-media-viewer-page.c:595
 msgid "Playing video"
 msgstr "Reproduint vídeo"
@@ -3271,7 +3228,7 @@ msgstr "Mono"
 #: extensions/image_viewer/gth-image-viewer-page.c:1865
 #: extensions/image_viewer/gth-metadata-provider-image.c:300
 #: extensions/raw_files/gth-metadata-provider-raw.c:97
-#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:963
+#: extensions/webalbums/gth-web-exporter.c:2427 gthumb/gtk-utils.c:981
 #, c-format
 msgid "%d × %d"
 msgstr "%d × %d"
@@ -3430,10 +3387,6 @@ msgstr "Impressió de la imatge"
 msgid "Allow to print images choosing the page layout."
 msgstr ""
 "Permet imprimir imatges amb la selecció de la disposició de la pàgina."
-
-#: extensions/image_print/image_print.extension.desktop.in.in:8
-msgid "document-print"
-msgstr "document-print"
 
 #: extensions/image_rotation/callbacks.c:59
 msgid "Rotate Physically"
@@ -3878,14 +3831,17 @@ msgid "File path"
 msgstr "Camí al fitxer"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:37
+#: extensions/rename_series/dlg-rename-series.c:55
 msgid "File name"
 msgstr "Nom del fitxer"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:38
+#: extensions/rename_series/dlg-rename-series.c:56
 msgid "File name, no extension"
 msgstr "El nom del fitxer, sense l'extensió"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:39
+#: extensions/rename_series/dlg-rename-series.c:57
 msgid "File extension"
 msgstr "Extensió del fitxer"
 
@@ -3898,7 +3854,7 @@ msgid "Ask a value"
 msgstr "Demana'm un valor"
 
 #: extensions/list_tools/gth-script-editor-dialog.c:43
-#: extensions/rename_series/dlg-rename-series.c:59
+#: extensions/rename_series/dlg-rename-series.c:62
 msgid "File attribute"
 msgstr "Atribut del fitxer"
 
@@ -3927,10 +3883,6 @@ msgstr "Eines de llistat dels fitxers"
 #: extensions/list_tools/list_tools.extension.desktop.in.in:4
 msgid "Scripting and batch manipulation of files."
 msgstr "Creació de scripts i manipulació per lots de fitxers."
-
-#: extensions/list_tools/list_tools.extension.desktop.in.in:8
-msgid "applications-engineering"
-msgstr "applications-engineering"
 
 #: extensions/map_view/gth-map-view.c:128
 msgctxt "Cardinal point"
@@ -3967,7 +3919,7 @@ msgstr "_Comptes:"
 
 #. the message pane
 #: extensions/oauth/data/ui/oauth-ask-authorization.ui:54
-#: gthumb/gth-file-list.c:575 gthumb/gth-folder-tree.c:1160
+#: gthumb/gth-file-list.c:577 gthumb/gth-folder-tree.c:1160
 msgid "Loading…"
 msgstr "S'està carregant..."
 
@@ -4085,10 +4037,6 @@ msgstr "Importació de fotos"
 msgid "Import photos from removable devices."
 msgstr "Importeu les fotos dels dispositius extraïbles."
 
-#: extensions/photo_importer/photo_importer.extension.desktop.in.in:8
-msgid "camera-photo"
-msgstr "camera-photo"
-
 #: extensions/raw_files/gth-metadata-provider-raw.c:91
 msgid "RAW Format"
 msgstr "Format RAW"
@@ -4139,54 +4087,45 @@ msgstr "Reverteix a l'última plantilla usada"
 msgid "_Preview:"
 msgstr "_Previsualitza:"
 
-#: extensions/rename_series/dlg-rename-series.c:54
-#: extensions/webalbums/dlg-web-exporter.c:45
-msgid "Original filename"
-msgstr "Nom de fitxer original"
-
-#: extensions/rename_series/dlg-rename-series.c:55
-msgid "Original extension"
-msgstr "Extensió original"
-
-#: extensions/rename_series/dlg-rename-series.c:56
+#: extensions/rename_series/dlg-rename-series.c:58
 msgid "Original enumerator"
 msgstr "Numerador original"
 
-#: extensions/rename_series/dlg-rename-series.c:57
+#: extensions/rename_series/dlg-rename-series.c:59
 msgid "Modification date"
 msgstr "Data de modificació"
 
-#: extensions/rename_series/dlg-rename-series.c:58
+#: extensions/rename_series/dlg-rename-series.c:60
 msgid "Digitalization date"
 msgstr "Data de digitalització"
 
-#: extensions/rename_series/dlg-rename-series.c:509
-#: extensions/rename_series/dlg-rename-series.c:636
+#: extensions/rename_series/dlg-rename-series.c:529
+#: extensions/rename_series/dlg-rename-series.c:656
 msgid "Could not rename the files"
 msgstr "No s'han pogut canviar els noms dels fitxers"
 
-#: extensions/rename_series/dlg-rename-series.c:781
+#: extensions/rename_series/dlg-rename-series.c:896
 #: gthumb/gth-folder-tree.c:1975
 msgid "_Rename"
 msgstr "Canvia el _nom"
 
-#: extensions/rename_series/dlg-rename-series.c:798
+#: extensions/rename_series/dlg-rename-series.c:913
 msgid "Old Name"
 msgstr "Nom antic"
 
-#: extensions/rename_series/dlg-rename-series.c:809
+#: extensions/rename_series/dlg-rename-series.c:924
 msgid "New Name"
 msgstr "Nom nou"
 
-#: extensions/rename_series/dlg-rename-series.c:887
+#: extensions/rename_series/dlg-rename-series.c:1002
 msgid "Keep original case"
 msgstr "Mantén la capitalització original"
 
-#: extensions/rename_series/dlg-rename-series.c:888
+#: extensions/rename_series/dlg-rename-series.c:1003
 msgid "Convert to lower-case"
 msgstr "Converteix a minúscules"
 
-#: extensions/rename_series/dlg-rename-series.c:889
+#: extensions/rename_series/dlg-rename-series.c:1004
 msgid "Convert to upper-case"
 msgstr "Converteix a majúscules"
 
@@ -4306,10 +4245,6 @@ msgstr "Cancel·la l'operació"
 msgid "File search tool."
 msgstr "L'eina de cerca de fitxers."
 
-#: extensions/search/search.extension.desktop.in.in:8
-msgid "edit-find"
-msgstr "edit-find"
-
 #. Not real actions, used in the shorcut window for documentation.
 #: extensions/selections/callbacks.c:57 extensions/selections/callbacks.c:58
 #: extensions/selections/callbacks.c:59 extensions/selections/callbacks.c:71
@@ -4357,10 +4292,6 @@ msgstr "Seleccions"
 #: extensions/selections/selections.extension.desktop.in.in:4
 msgid "Advanced file selection."
 msgstr "Selecció avançada de fitxers."
-
-#: extensions/selections/selections.extension.desktop.in.in:8
-msgid "emblem-flag-gray"
-msgstr "emblem-flag-gray"
 
 #: extensions/slideshow/callbacks.c:40
 msgid "Start presentation"
@@ -4483,10 +4414,6 @@ msgstr "Cub des de la part inferior"
 msgid "Play a presentation of images."
 msgstr "Reprodueix una presentació d'imatges."
 
-#: extensions/slideshow/slideshow.extension.desktop.in.in:8
-msgid "x-office-presentation"
-msgstr "x-office-presentation"
-
 #: extensions/terminal/actions.c:53
 #: extensions/terminal/terminal.extension.desktop.in.in:3
 msgid "Terminal"
@@ -4499,10 +4426,6 @@ msgstr "Obre en un Terminal"
 #: extensions/terminal/terminal.extension.desktop.in.in:4
 msgid "Open a folder in a terminal"
 msgstr "Obre una carpeta en un terminal"
-
-#: extensions/terminal/terminal.extension.desktop.in.in:8
-msgid "utilities-terminal"
-msgstr "utilities-terminal"
 
 #: extensions/webalbums/callbacks.c:48
 msgid "_Web Album…"
@@ -4596,6 +4519,10 @@ msgstr "Número de la imatge actual"
 msgid "Total number of images"
 msgstr "Nombre total d'imatges"
 
+#: extensions/webalbums/dlg-web-exporter.c:45
+msgid "Original filename"
+msgstr "Nom de fitxer original"
+
 #: extensions/webalbums/dlg-web-exporter.c:531
 msgid "Web Album"
 msgstr "Àlbum web"
@@ -4648,8 +4575,8 @@ msgid "Create static web albums."
 msgstr "Creeu àlbums web estàtics."
 
 #: gthumb/dlg-location.c:239 gthumb/gth-browser.c:1175
-#: gthumb/gth-browser.c:6842 gthumb/gth-browser.c:6861
-#: gthumb/gth-browser.c:6885 gthumb/gth-vfs-tree.c:393
+#: gthumb/gth-browser.c:6860 gthumb/gth-browser.c:6879
+#: gthumb/gth-browser.c:6903 gthumb/gth-vfs-tree.c:393
 #, c-format
 msgid "Could not load the position “%s”"
 msgstr "No s'ha pogut carregar la posició «%s»"
@@ -4824,7 +4751,7 @@ msgstr "S'estan movent els fitxers a la paperera"
 #. * hours, 5 minutes, and 2 seconds. You may change "∶" to
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
-#: gthumb/glib-utils.c:2067
+#: gthumb/glib-utils.c:2069
 #, c-format
 msgctxt "long time format"
 msgid "%d∶%02d∶%02d"
@@ -4835,7 +4762,7 @@ msgstr "%d:%02d:%02d"
 #. * minutes and 2 seconds. You may change "∶" to the
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
-#: gthumb/glib-utils.c:2076
+#: gthumb/glib-utils.c:2078
 #, c-format
 msgctxt "short time format"
 msgid "%d∶%02d"
@@ -4869,7 +4796,11 @@ msgstr "Importa automàticament les fotografies de la càmera digital"
 msgid "Show version"
 msgstr "Mostra la versió"
 
-#: gthumb/gth-application.c:171
+#: gthumb/gth-application.c:71
+msgid "[FILE…] [DIRECTORY…]"
+msgstr "[FITXER…] [DIRECTORI…]"
+
+#: gthumb/gth-application.c:170
 msgid "— Image browser and viewer"
 msgstr "— navegador i visualitzador de fitxers"
 
@@ -4940,8 +4871,8 @@ msgstr "Tanca la finestra"
 msgid "Open location"
 msgstr "Obre la ubicació"
 
-#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4777
-#: gthumb/gth-browser.c:4795 gthumb/resources/file-list-menu.ui:7
+#: gthumb/gth-browser-actions-entries.h:107 gthumb/gth-browser.c:4795
+#: gthumb/gth-browser.c:4813 gthumb/resources/file-list-menu.ui:7
 #: gthumb/resources/file-menu.ui:7
 msgid "Fullscreen"
 msgstr "Pantalla completa"
@@ -5042,72 +4973,72 @@ msgstr[1] "%d fitxers seleccionats (%s)"
 msgid "%s of free space"
 msgstr "%s d'espai lliure"
 
-#: gthumb/gth-browser.c:1893 gthumb/gth-browser.c:1909
+#: gthumb/gth-browser.c:1907 gthumb/gth-browser.c:1923
 #, c-format
 msgid "No suitable module found for %s"
 msgstr "No s'ha trobat cap mòdul adequat per %s"
 
 # ,c-format
-#: gthumb/gth-browser.c:2014
+#: gthumb/gth-browser.c:2028
 #, c-format
 msgid "Save changes to file “%s”?"
 msgstr "Voleu desar els canvis al fitxer «%s»?"
 
-#: gthumb/gth-browser.c:2019
+#: gthumb/gth-browser.c:2033
 msgid "If you don’t save, changes to the file will be permanently lost."
 msgstr "Si no deseu, els canvis al fitxer es perdran permanentment."
 
-#: gthumb/gth-browser.c:2020
+#: gthumb/gth-browser.c:2034
 msgid "Do _Not Save"
 msgstr "_No ho desis"
 
-#: gthumb/gth-browser.c:2510 gthumb/gth-browser.c:4803
+#: gthumb/gth-browser.c:2524 gthumb/gth-browser.c:4821
 msgid "Accept"
 msgstr "Accepta"
 
-#: gthumb/gth-browser.c:2510 gthumb/gtk-utils.h:37
+#: gthumb/gth-browser.c:2524 gthumb/gtk-utils.h:37
 msgid "_Close"
 msgstr "_Tanca"
 
-#: gthumb/gth-browser.c:3049
+#: gthumb/gth-browser.c:3067
 msgid "Could not change name"
 msgstr "No s'ha pogut canviar el nom"
 
-#: gthumb/gth-browser.c:3543
+#: gthumb/gth-browser.c:3561
 msgid "Modified"
 msgstr "Modificada"
 
-#: gthumb/gth-browser.c:4725
+#: gthumb/gth-browser.c:4743
 msgid "Go to the previous visited location"
 msgstr "Ves a l'anterior ubicació visitada"
 
-#: gthumb/gth-browser.c:4731
+#: gthumb/gth-browser.c:4749
 msgid "Go to the next visited location"
 msgstr "Ves a la següent ubicació visitada"
 
-#: gthumb/gth-browser.c:4739
+#: gthumb/gth-browser.c:4757
 msgid "History"
 msgstr "Històric"
 
-#: gthumb/gth-browser.c:4753
+#: gthumb/gth-browser.c:4771
 msgid "View the folders"
 msgstr "Visualitza les carpetes"
 
-#: gthumb/gth-browser.c:4768
+#: gthumb/gth-browser.c:4786
 msgid "Edit file"
 msgstr "Edita el fitxer"
 
-#: gthumb/gth-browser.c:4859 gthumb/gth-progress-dialog.c:310
+#: gthumb/gth-browser.c:4877 gthumb/gth-progress-dialog.c:310
 #: gthumb/gth-progress-dialog.c:455
 msgid "Operations"
 msgstr "Operacions"
 
-#: gthumb/gth-browser.c:6843
+#: gthumb/gth-browser.c:6861
 #, c-format
 msgid "File type not supported"
 msgstr "El tipus de fitxer no és compatible"
 
-#: gthumb/gth-browser.c:6886
+#: gthumb/gth-browser.c:6904
 #, c-format
 msgid "No suitable module found"
 msgstr "No s'ha trobat el mòdul adequat"
@@ -5588,7 +5519,7 @@ msgstr "Colors"
 msgid "Rotation"
 msgstr "Rotació"
 
-#: gthumb/gth-window.c:1074
+#: gthumb/gth-window.c:1073
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s».  Do you "
@@ -5597,11 +5528,11 @@ msgstr ""
 "La combinació de tecles «%s» ja està assignada a l'acció «%s». Voleu "
 "reassignar-la a aquesta acció?"
 
-#: gthumb/gth-window.c:1082
+#: gthumb/gth-window.c:1081
 msgid "Reassign"
 msgstr "Reassigna"
 
-#: gthumb/gth-window.c:1100
+#: gthumb/gth-window.c:1099
 #, c-format
 msgid ""
 "The key combination «%s» is already assigned to the action «%s» and cannot "
@@ -5610,7 +5541,7 @@ msgstr ""
 "La combinació de tecles «%s» ja està assignada a l'acció «%s» i no es pot "
 "canviar."
 
-#: gthumb/gth-window.c:1104
+#: gthumb/gth-window.c:1103
 #, c-format
 msgid "The key combination «%s» is already assigned and cannot be changed."
 msgstr "La combinació de tecles «%s» ja està assignada i no es pot canviar."
@@ -5691,110 +5622,3 @@ msgstr "_Quant al gThumb"
 msgid "_Delete History"
 msgstr "_Suprimeix l'historial"
 
-#~ msgid "New enumerator digit"
-#~ msgstr "Dígit numerador nou"
-
-#~ msgid "as _single subfolder"
-#~ msgstr "com una _subcarpeta individual"
-
-#~ msgid "The year"
-#~ msgstr "L'any"
-
-#~ msgid "The month"
-#~ msgstr "El mes"
-
-#~ msgid "The hour"
-#~ msgstr "L'hora"
-
-#~ msgid "The minutes"
-#~ msgstr "Els minuts"
-
-#~ msgid "The seconds"
-#~ msgstr "Els segons"
-
-#~ msgid "example: %s"
-#~ msgstr "exemple: %s"
-
-#~ msgid "year-month-day"
-#~ msgstr "any-mes-dia"
-
-#~ msgid "year-month"
-#~ msgstr "any-mes"
-
-#~ msgid "year"
-#~ msgstr "any"
-
-#~ msgid "custom format"
-#~ msgstr "format personalitzat"
-
-#~ msgid "The file uri"
-#~ msgstr "L'URI del fitxer"
-
-#~ msgid "The file path"
-#~ msgstr "El camí al fitxer"
-
-#~ msgid "The file basename"
-#~ msgstr "El nom base del fitxer"
-
-#~ msgid "The parent folder path"
-#~ msgstr "El camí a la carpeta pare"
-
-#~ msgid "%ask{ message }{ default value }"
-#~ msgstr "%ask{ missatge }{ valor per defecte }"
-
-#~ msgid "%attr{ attribute name }"
-#~ msgstr "%attr{ nom de l'atribut }"
-
-#~ msgid "A file attribute"
-#~ msgstr "Un atribut de fitxer"
-
-#~ msgid "%N"
-#~ msgstr "%N"
-
-#~ msgid "%E"
-#~ msgstr "%E"
-
-#~ msgid "%quote{ text }"
-#~ msgstr "%quote{ text }"
-
-#~ msgid "The current date and time"
-#~ msgstr "La data i hora actuals"
-
-#~ msgid "(Empty)"
-#~ msgstr "(Buit)"
-
-#~ msgid "Empty"
-#~ msgstr "Buida"
-
-#~ msgid "format:"
-#~ msgstr "format:"
-
-#~ msgid "%M{ format }"
-#~ msgstr "%M{ format }"
-
-#~ msgid "%A{ identifier }"
-#~ msgstr "%A{ identificador }"
-
-#~ msgid "The original filename"
-#~ msgstr "El nom de fitxer original"
-
-#~ msgid "The original extension"
-#~ msgstr "L'extensió original"
-
-#~ msgid "The original enumerator"
-#~ msgstr "El numerador original"
-
-#~ msgid "The modification date"
-#~ msgstr "La data de modificació"
-
-#~ msgid "The digitalization date"
-#~ msgstr "La data de digitalització"
-
-#~ msgid "Could not save the template"
-#~ msgstr "No s'ha pogut desar la plantilla"
-
-#~ msgid "%P"
-#~ msgstr "%P"
-
-#~ msgid "The file comment"
-#~ msgstr "El comentari del fitxer"
